@@ -37,6 +37,23 @@
 #include "sysfile.h"
 #include "types.h"
 
+/* patch for 1541 driverom at $EAAF */
+/* skips RAM and ROM check for fast drive reset */
+/*
+static unsigned char rompatch[26]=
+{
+    0x9D, 0x00, 0x01,
+    0x9D, 0x00, 0x02,
+    0x9D, 0x00, 0x03,
+    0x9D, 0x00, 0x04,
+    0x9D, 0x00, 0x05,
+    0x9D, 0x00, 0x06,
+    0x9D, 0x00, 0x07,
+    0xE8,
+    0xD0, 0xE6,
+    0xF0, 0x59
+};
+*/
 
 /* Logging goes here.  */
 static log_t driverom_log;
@@ -63,6 +80,9 @@ int driverom_load_images(void)
 
 void driverom_initialize_traps(drive_t *drive)
 {
+
+    /*int i;*/
+
     if ((drive->type == DRIVE_TYPE_1541) ||
         (drive->type == DRIVE_TYPE_1541II)) {
         /* Save the ROM check.  */
@@ -80,6 +100,12 @@ void driverom_initialize_traps(drive_t *drive)
             drive->rom[0xeae9 - 0x8000] = 0xea;
             drive->rom[0xec9b - 0x8000] = 0x00;
         }
+
+        /* patch ROM for fast drive reset */
+/*
+        for (i = 0; i < sizeof(rompatch); i++)
+            drive->rom[(0xEAAF - 0x8000) + i] = rompatch[i];
+*/
     }
 
     if (drive->type == DRIVE_TYPE_1551) {

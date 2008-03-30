@@ -635,7 +635,7 @@ translate_t string_table[] = {
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU,    "Disable the $DE** ACIA RS232 interface emulation"},
 /* de */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DE, "$DE** ACIA RS232 Schnittstellenemulation deaktivieren"},
-/* fr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_FR, "Désactiver l'émulation de l'interface ACIA $DE** RS232"},
+/* fr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_FR, "Désactiver l'émulation de l'interface $DE** ACIA RS232"},
 /* it */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_IT, "Disattiva l'emulazione dell'interfaccia RS232 su ACIA a $DE**"},
 /* nl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_NL, "De $DE** ACIA RS232 interface emulatie afsluiten"},
 /* pl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_PL, ""},  /* fuzzy */
@@ -3029,7 +3029,7 @@ translate_t string_table[] = {
 /* attach.c */
 /* en */ {IDCLS_ATTACH_READ_ONLY_8,    "Attach disk image for drive #8 read only"},
 /* de */ {IDCLS_ATTACH_READ_ONLY_8_DE, "Disk Image als Laufwerk #8 benutzen (schreibgeschützt)"},
-/* fr */ {IDCLS_ATTACH_READ_ONLY_8_FR, "Insérer une image de disque dans l'unité #8 en lecture seule"},
+/* fr */ {IDCLS_ATTACH_READ_ONLY_8_FR, "Insérer une image de disque dans le lecteur #8 en lecture seule"},
 /* it */ {IDCLS_ATTACH_READ_ONLY_8_IT, "Seleziona l'immagine del disco per il drive #8 in sola lettura"},
 /* nl */ {IDCLS_ATTACH_READ_ONLY_8_NL, "Koppel disk bestand voor station #8 als alleen lezen"},
 /* pl */ {IDCLS_ATTACH_READ_ONLY_8_PL, ""},  /* fuzzy */
@@ -3038,7 +3038,7 @@ translate_t string_table[] = {
 /* attach.c */
 /* en */ {IDCLS_ATTACH_READ_WRITE_8,    "Attach disk image for drive #8 read write (if possible)"},
 /* de */ {IDCLS_ATTACH_READ_WRITE_8_DE, "Disk Image als Laufwerk #8 benutzen (Schreibzugriff, wenn möglich)"},
-/* fr */ {IDCLS_ATTACH_READ_WRITE_8_FR, "Insérer une image de disque dans l'unité #8 en lecture/écriture (si possible)"},
+/* fr */ {IDCLS_ATTACH_READ_WRITE_8_FR, "Insérer une image de disque dans le lecteur #8 en lecture/écriture (si possible)"},
 /* it */ {IDCLS_ATTACH_READ_WRITE_8_IT, "Seleziona l'immagine del disco per il drive #8 in lettura/scrittura (se possibile)"},
 /* nl */ {IDCLS_ATTACH_READ_WRITE_8_NL, "Koppel disk bestand voor station #8 als schrijfbaar (indien mogelijk)"},
 /* pl */ {IDCLS_ATTACH_READ_WRITE_8_PL, ""},  /* fuzzy */
@@ -3047,7 +3047,7 @@ translate_t string_table[] = {
 /* attach.c */
 /* en */ {IDCLS_ATTACH_READ_ONLY_9,    "Attach disk image for drive #9 read only"},
 /* de */ {IDCLS_ATTACH_READ_ONLY_9_DE, "Disk Image als Laufwerk #9 benutzen (schreibgeschützt)"},
-/* fr */ {IDCLS_ATTACH_READ_ONLY_9_FR, "Insérer une image de disque dans l'unité #9 en lecture seule"},
+/* fr */ {IDCLS_ATTACH_READ_ONLY_9_FR, "Insérer une image de disque dans le lecteur #9 en lecture seule"},
 /* it */ {IDCLS_ATTACH_READ_ONLY_9_IT, "Seleziona l'immagine del disco per il drive #9 in sola lettura"},
 /* nl */ {IDCLS_ATTACH_READ_ONLY_9_NL, "Koppel disk bestand voor station #9 als alleen lezen"},
 /* pl */ {IDCLS_ATTACH_READ_ONLY_9_PL, ""},  /* fuzzy */
@@ -3056,7 +3056,7 @@ translate_t string_table[] = {
 /* attach.c */
 /* en */ {IDCLS_ATTACH_READ_WRITE_9,    "Attach disk image for drive #9 read write (if possible)"},
 /* de */ {IDCLS_ATTACH_READ_WRITE_9_DE, "Disk Image als Laufwerk #9 benutzen (Schreibzugriff, wenn möglich)"},
-/* fr */ {IDCLS_ATTACH_READ_WRITE_9_FR, "Insérer une image de disque dans l'unité #9 en lecture/écriture (si possible)"},
+/* fr */ {IDCLS_ATTACH_READ_WRITE_9_FR, "Insérer une image de disque dans le lecteur #9 en lecture/écriture (si possible)"},
 /* it */ {IDCLS_ATTACH_READ_WRITE_9_IT, "Seleziona l'immagine del disco per il drive #9 in lettura/scrittura (se possibile)"},
 /* nl */ {IDCLS_ATTACH_READ_WRITE_9_NL, "Koppel disk bestand voor station #9 als schrijfbaar (indien mogelijk)"},
 /* pl */ {IDCLS_ATTACH_READ_WRITE_9_PL, ""},  /* fuzzy */
@@ -3065,7 +3065,7 @@ translate_t string_table[] = {
 /* attach.c */
 /* en */ {IDCLS_ATTACH_READ_ONLY_10,    "Attach disk image for drive #10 read only"},
 /* de */ {IDCLS_ATTACH_READ_ONLY_10_DE, "Disk Image als Laufwerk #10 benutzen (schreibgeschützt)"},
-/* fr */ {IDCLS_ATTACH_READ_ONLY_10_FR, "Insérer une image de disque dans l'unité #10 en lecture seule"},
+/* fr */ {IDCLS_ATTACH_READ_ONLY_10_FR, "Insérer une image de disque dans le lecteur #10 en lecture seule"},
 /* it */ {IDCLS_ATTACH_READ_ONLY_10_IT, "Seleziona l'immagine del disco per il drive #10 in sola lettura"},
 /* nl */ {IDCLS_ATTACH_READ_ONLY_10_NL, "Koppel disk bestand voor station #10 als alleen lezen"},
 /* pl */ {IDCLS_ATTACH_READ_ONLY_10_PL, ""},  /* fuzzy */
@@ -3074,7 +3074,7 @@ translate_t string_table[] = {
 /* attach.c */
 /* en */ {IDCLS_ATTACH_READ_WRITE_10,    "Attach disk image for drive #10 read write (if possible)"},
 /* de */ {IDCLS_ATTACH_READ_WRITE_10_DE, "Disk Image als Laufwerk #10 benutzen (Schreibzugriff, wenn möglich)"},
-/* fr */ {IDCLS_ATTACH_READ_WRITE_10_FR, "Insérer une image de disque dans l'unité #10 en lecture/écriture (si possible)"},
+/* fr */ {IDCLS_ATTACH_READ_WRITE_10_FR, "Insérer une image de disque dans le lecteur #10 en lecture/écriture (si possible)"},
 /* it */ {IDCLS_ATTACH_READ_WRITE_10_IT, "Seleziona l'immagine del disco per il drive #10 in lettura/scrittura (se possibile)"},
 /* nl */ {IDCLS_ATTACH_READ_WRITE_10_NL, "Koppel disk bestand voor station #10 als schrijfbaar (indien mogelijk)"},
 /* pl */ {IDCLS_ATTACH_READ_WRITE_10_PL, ""},  /* fuzzy */
@@ -3083,7 +3083,7 @@ translate_t string_table[] = {
 /* attach.c */
 /* en */ {IDCLS_ATTACH_READ_ONLY_11,    "Attach disk image for drive #11 read only"},
 /* de */ {IDCLS_ATTACH_READ_ONLY_11_DE, "Disk Image als Laufwerk #11 benutzen (schreibgeschützt)"},
-/* fr */ {IDCLS_ATTACH_READ_ONLY_11_FR, "Insérer une image de disque dans l'unité #11 en lecture seule"},
+/* fr */ {IDCLS_ATTACH_READ_ONLY_11_FR, "Insérer une image de disque dans le lecteur #11 en lecture seule"},
 /* it */ {IDCLS_ATTACH_READ_ONLY_11_IT, "Seleziona l'immagine del disco per il drive #11 in sola lettura"},
 /* nl */ {IDCLS_ATTACH_READ_ONLY_11_NL, "Koppel disk bestand voor station #11 als alleen lezen"},
 /* pl */ {IDCLS_ATTACH_READ_ONLY_11_PL, ""},  /* fuzzy */
@@ -3092,7 +3092,7 @@ translate_t string_table[] = {
 /* attach.c */
 /* en */ {IDCLS_ATTACH_READ_WRITE_11,    "Attach disk image for drive #11 read write (if possible)"},
 /* de */ {IDCLS_ATTACH_READ_WRITE_11_DE, "Disk Image als Laufwerk #11 benutzen (Schreibzugriff, wenn möglich)"},
-/* fr */ {IDCLS_ATTACH_READ_WRITE_11_FR, "Insérer une image de disque dans l'unité #11 en lecture/écriture (si possible)"},
+/* fr */ {IDCLS_ATTACH_READ_WRITE_11_FR, "Insérer une image de disque dans le lecteur #11 en lecture/écriture (si possible)"},
 /* it */ {IDCLS_ATTACH_READ_WRITE_11_IT, "Seleziona l'immagine del disco per il drive #11 in lettura/scrittura (se possibile)"},
 /* nl */ {IDCLS_ATTACH_READ_WRITE_11_NL, "Koppel disk bestand voor station #11 als schrijfbaar (indien mogelijk)"},
 /* pl */ {IDCLS_ATTACH_READ_WRITE_11_PL, ""},  /* fuzzy */
@@ -7180,7 +7180,16 @@ static int translate_text_table[][countof(language_table)] = {
 /* it */  IDCLS_SPECIFY_PLUS60K_NAME_IT,
 /* nl */  IDCLS_SPECIFY_PLUS60K_NAME_NL,
 /* pl */  IDCLS_SPECIFY_PLUS60K_NAME_PL,
-/* sv */  IDCLS_SPECIFY_PLUS60K_NAME_SV}
+/* sv */  IDCLS_SPECIFY_PLUS60K_NAME_SV},
+
+/* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_STB_CART,    "Attach raw Structured Basic cartridge image"},
+/* de */ {IDCLS_ATTACH_RAW_STB_CART_DE, "Structured Basic (raw) Image einlegen"},
+/* fr */ {IDCLS_ATTACH_RAW_STB_CART_FR, "Insérer une cartouche Structured Basic"},
+/* it */ {IDCLS_ATTACH_RAW_STB_CART_IT, "Seleziona l'immagine di una cartuccia Structured Basic"},
+/* nl */ {IDCLS_ATTACH_RAW_STB_CART_NL, "Koppel binair Structured Basic cartridge bestand"},
+/* pl */ {IDCLS_ATTACH_RAW_STB_CART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_STB_CART_SV, "Anslut rå Structured Basic-insticksmodulfil"}
 
 };
 

@@ -1,3 +1,66 @@
+2005-10-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.1.
+
+	* arch/win32/archdep.c (archdep_network_init,
+	archdep_network_shutdown): Moved WSA* functions here.
+
+	* arch/win32/console.c (remember_current_input_and_delete):
+	Fixed warnings.
+
+	* c64/cart/Makefile.am, arch/win32/c64cart.dsp: Added new
+	files.
+
+	* translate.c, translate.h, c64/cart/c64cart.c: Added
+	translation support.
+
+	* arch/win32/resmenu.txt, arch/win32/uic64cart.c,
+	arch/win32/resc64.rc, arch/win32/resc128.rc,
+	arch/win32/resstrings.txt, arch/win32/intl.c,
+	arch/win32/res.rc: Added support for STB cart.
+
+	* c64/cart/c64cart.c: Fixed includes and maked local functions
+	static.
+
+	* c64/cart/stb.c, c64/cart/stb.h: Added new files submitted by
+	Walter Zimmer.
+
+	* arch/unix/uic64cart.c, c64/cart/c64cart.c,
+	c64/cart/c64cartmem.c, cartridge.h
+
+2005-10-09  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/res.rc, translate.c: Updated to the reviewed
+	french translations.
+
+2005-10-09  John Selck  <selck_j@informatik.haw-hamburg.de>
+
+	* vdc.c: (vdc_raster_draw_alarm_handler) Attribute RAM pointer
+	is now updated on first displayed line.
+
+	* vdc-mem.c: (vdc_store) Attribute RAM pointer now isn't
+	update on register 20/21 access. Fixed the force_refresh
+	condition of the register 26 access. Inverted the access to the
+	horizontal soft scroll register in register 25.
+
+2005-10-09  John Selck  <selck_j@informatik.haw-hamburg.de>
+
+	* driverom.c: (driverom_initialize_traps) Added patch for fast
+	drive reset for 1541 drives.
+
+2005-10-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/resdrivepetcbm2.rc,
+	arch/win32/reside64.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resplus60k.rc,
+	arch/win32/resramcart.rc, arch/win32/resreu.rc,
+	arch/win32/resrs232user.rc, arch/win32/ressid.rc,
+	arch/win32/restfe.rc, arch/win32/resvic20.rc,
+	arch/win32/resvicii.rc: Updated with the latest French and
+	Italian translations.
+
 2005-10-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.17.

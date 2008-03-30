@@ -1,3 +1,11 @@
+2005-10-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.1.
+
+	* configure.in: Define `UNSTABLE'.
+
+	* doc/html/index.html: Updated ffmpeg libaray URL.
+
 2005-10-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.17.

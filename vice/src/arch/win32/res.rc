@@ -669,31 +669,31 @@ IDD_DISKDEVICE_DIALOG_FR DIALOG DISCARDABLE  0, 0, 287, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Utiliser IEC périphériques",IDC_TOGGLE_USEIECDEVICE,15,10,100,10,
+    AUTOCHECKBOX    "Utiliser le périphérique IEC",IDC_TOGGLE_USEIECDEVICE,15,10,100,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "l'&image de disque",IDC_SELECTDISK,
+    AUTORADIOBUTTON "&Image de disque",IDC_SELECTDISK,
                     15,30,51,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "&Répertoire",IDC_SELECTDIR,15,75,44,10,BS_AUTORADIOBUTTON
 #ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "périphériques IEC rée&ls",IDC_SELECTREAL,
+    AUTORADIOBUTTON "Périphérique IEC Réel",IDC_SELECTREAL,
                     15,120,70,10,BS_AUTORADIOBUTTON
 #endif
-    AUTORADIOBUTTON "Aucu&n",IDC_SELECTNONE,15,160,33,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "&Aucun",IDC_SELECTNONE,15,160,33,10,BS_AUTORADIOBUTTON
     COMBOBOX        IDC_DISKIMAGE,81,29,190,12,CBS_DROPDOWN | CBS_SORT |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Parcourir...",IDC_BROWSEDISK,81,47,50,14,WS_GROUP
-    PUSHBUTTON      "Démarrage &automatique",IDC_AUTOSTART,141,47,50,14,WS_GROUP
-    AUTOCHECKBOX    "Protéger contre l'écriture",IDC_TOGGLE_ATTACH_READONLY,201,47,80,14,
+    PUSHBUTTON      "&Démarrage automatique",IDC_AUTOSTART,141,47,50,14,WS_GROUP
+    AUTOCHECKBOX    "Insérer en lecture seule",IDC_TOGGLE_ATTACH_READONLY,201,47,80,14,
                     BS_AUTOCHECKBOX | WS_TABSTOP
     COMBOBOX        IDC_DIR,81,74,190,12,CBS_DROPDOWN | CBS_SORT |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Parcou&rir...",IDC_BROWSEDIR,81,92,50,14,WS_GROUP
+    PUSHBUTTON      "Pa&rcourir...",IDC_BROWSEDIR,81,92,50,14,WS_GROUP
     GROUPBOX        "&Options",IDC_STATIC,175,90,95,63
-    AUTOCHECKBOX    "&Read P00 files",IDC_TOGGLE_READP00,185,105,62,10,
+    AUTOCHECKBOX    "&Lire les fichier P00",IDC_TOGGLE_READP00,185,105,62,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Write P00 files",IDC_TOGGLE_WRITEP00,185,120,61,10,
+    AUTOCHECKBOX    "&Écrire sur les fichier P00",IDC_TOGGLE_WRITEP00,185,120,61,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Hide non-P00 files",IDC_TOGGLE_HIDENONP00,185,135,73,10,
+    AUTOCHECKBOX    "&Cacher les fichiers non-P00",IDC_TOGGLE_HIDENONP00,185,135,73,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
@@ -704,31 +704,31 @@ IDD_DISKDEVICE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 287, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Usa IEC periferica",IDC_TOGGLE_USEIECDEVICE,15,10,100,10,
+    AUTOCHECKBOX    "&Usa la periferica IEC",IDC_TOGGLE_USEIECDEVICE,15,10,100,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "l'&immagine del disco",IDC_SELECTDISK,
+    AUTORADIOBUTTON "&Immagine disco",IDC_SELECTDISK,
                     15,30,51,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "&Directory",IDC_SELECTDIR,15,75,44,10,BS_AUTORADIOBUTTON
 #ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "periferica IEC rea&le",IDC_SELECTREAL,
+    AUTORADIOBUTTON "Periferica IEC rea&le",IDC_SELECTREAL,
                     15,120,70,10,BS_AUTORADIOBUTTON
 #endif
     AUTORADIOBUTTON "&Nessuno",IDC_SELECTNONE,15,160,33,10,BS_AUTORADIOBUTTON
     COMBOBOX        IDC_DISKIMAGE,81,29,190,12,CBS_DROPDOWN | CBS_SORT |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Sfoglia...",IDC_BROWSEDISK,81,47,50,14,WS_GROUP
-    PUSHBUTTON      "L'&avvio automatico",IDC_AUTOSTART,141,47,50,14,WS_GROUP
-    AUTOCHECKBOX    "Seleziona la protezione contro la scrittura",IDC_TOGGLE_ATTACH_READONLY,201,47,80,14,
+    PUSHBUTTON      "&Avvio automatico",IDC_AUTOSTART,141,47,50,14,WS_GROUP
+    AUTOCHECKBOX    "Seleziona in sola lettura",IDC_TOGGLE_ATTACH_READONLY,201,47,80,14,
                     BS_AUTOCHECKBOX | WS_TABSTOP
     COMBOBOX        IDC_DIR,81,74,190,12,CBS_DROPDOWN | CBS_SORT |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "S&foglia...",IDC_BROWSEDIR,81,92,50,14,WS_GROUP
+    PUSHBUTTON      "&Sfoglia...",IDC_BROWSEDIR,81,92,50,14,WS_GROUP
     GROUPBOX        "&Opzioni",IDC_STATIC,175,90,95,63
-    AUTOCHECKBOX    "&Read P00 files",IDC_TOGGLE_READP00,185,105,62,10,
+    AUTOCHECKBOX    "&Leggi file P00",IDC_TOGGLE_READP00,185,105,62,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Write P00 files",IDC_TOGGLE_WRITEP00,185,120,61,10,
+    AUTOCHECKBOX    "&Scrivi file P00",IDC_TOGGLE_WRITEP00,185,120,61,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Hide non-P00 files",IDC_TOGGLE_HIDENONP00,185,135,73,10,
+    AUTOCHECKBOX    "&Nascondi i file non P00",IDC_TOGGLE_HIDENONP00,185,135,73,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
@@ -889,17 +889,17 @@ END
 
 IDD_DATASETTE_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Paramètres Datasette"
+CAPTION "Réglages datassette"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Réinitialiser la datassette avec le CPU",IDC_DATASETTE_RESET_WITH_CPU,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Speed of motor while reading",IDC_STATIC,5,25,160,60
-    LTEXT           "Réglage &de la vitesse du datassette",
+    GROUPBOX        "Vitesse du moteur lors de la lecture",IDC_STATIC,5,25,160,60
+    LTEXT           "cycle(s) additionnel(s) &délai après trigger",
                     IDC_STATIC,42,42,120,8
     COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Délai du datassette lors de la lecture des groupes de &zéros",IDC_STATIC,60,62,100,8
+    LTEXT           "cycles délai aux valeurs-&zéro",IDC_STATIC,60,62,100,8
     COMBOBOX        IDC_DATASETTE_ZERO_GAP_DELAY,9,61,48,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
@@ -911,17 +911,17 @@ END
 
 IDD_DATASETTE_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del Datasette"
+CAPTION "Impostazioni del registratore"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Reset del registratore al reset della CPU",IDC_DATASETTE_RESET_WITH_CPU,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Speed of motor while reading",IDC_STATIC,5,25,160,60
-    LTEXT           "Regolazione &della velocità del registratore",
+    GROUPBOX        "VelocitÃ  del motore durante la lettura",IDC_STATIC,5,25,160,60
+    LTEXT           "cycle(s) additional &delay each trigger",
                     IDC_STATIC,42,42,120,8
     COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "cycles delay at &zero-values",IDC_STATIC,60,62,100,8
+    LTEXT           "cicli di ritardo ai valori di &zero",IDC_STATIC,60,62,100,8
     COMBOBOX        IDC_DATASETTE_ZERO_GAP_DELAY,9,61,48,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
@@ -1090,40 +1090,40 @@ END
 
 IDD_JOY_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Paramètres Joystick"
+CAPTION "Paramètres des joysticks"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "le périphique pour le port joystick #&1",IDC_STATIC,7,5,102,113
+    GROUPBOX        "Joystick dans le port #1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Select fire button",IDC_STATIC,12,34,70,8
+    LTEXT           "Sélectionner le bouton de feu",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Auto fire button settings",IDC_STATIC,12,61,93,8
-    LTEXT           "Autofire &speed (1..32)",IDC_STATIC,12,74,70,8
+    LTEXT           "Vitesse tir automatique (1..32)",IDC_STATIC,12,74,70,8
     EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
     COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "le périphique pour le port joystick #&2",IDC_STATIC,117,5,102,113
+    GROUPBOX        "Joystick dans le port #2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Select fire button",IDC_STATIC,122,34,70,8
+    LTEXT           "Sélectionner le bouton de feu",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Auto fire button settings",IDC_STATIC,122,61,93,8
-    LTEXT           "Autofire &speed (1..32)",IDC_STATIC,122,74,70,8
+    LTEXT           "Vitesse tir automatique (1..32)",IDC_STATIC,122,74,70,8
     EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
     COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON      "Config Keyset &A", IDC_JOY_CONFIG_A,
+    PUSHBUTTON      "Configurer &A", IDC_JOY_CONFIG_A,
                     8,120,60,14, WS_TABSTOP
-    PUSHBUTTON      "Config Keyset &B", IDC_JOY_CONFIG_B,
+    PUSHBUTTON      "Configurer &B", IDC_JOY_CONFIG_B,
                     159,120,60,14, WS_TABSTOP
-    PUSHBUTTON      "&Calibrate Joystick(s)", IDC_JOY_CALIBRATE,
+    PUSHBUTTON      "&Calibration des joystick(s)", IDC_JOY_CALIBRATE,
                     78,120,70,14, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
     PUSHBUTTON      "Annuler", IDCANCEL, 129,141,50,14, WS_TABSTOP
@@ -1134,40 +1134,40 @@ END
 
 IDD_JOY_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del Joystick"
+CAPTION "Impostazioni dei joystick"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "il dispositivo per la porta joystick #&1",IDC_STATIC,7,5,102,113
+    GROUPBOX        "Joystick nella porta #&1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Select fire button",IDC_STATIC,12,34,70,8
+    LTEXT           "Seleziona pulsante di fuoco",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Auto fire button settings",IDC_STATIC,12,61,93,8
-    LTEXT           "Autofire &speed (1..32)",IDC_STATIC,12,74,70,8
+    LTEXT           "Impostazioni fuoco automatico",IDC_STATIC,12,61,93,8
+    LTEXT           "&VelocitÃ  del fuoco automatico (1..32)",IDC_STATIC,12,74,70,8
     EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
     COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "il dispositivo per la porta joystick #&1",IDC_STATIC,117,5,102,113
+    GROUPBOX        "Joystick nella porta #&2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Select fire button",IDC_STATIC,122,34,70,8
+    LTEXT           "Seleziona pulsante di fuoco",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Auto fire button settings",IDC_STATIC,122,61,93,8
-    LTEXT           "Autofire &speed (1..32)",IDC_STATIC,122,74,70,8
+    LTEXT           "Impostazioni fuoco automatico",IDC_STATIC,122,61,93,8
+    LTEXT           "&VelocitÃ  del fuoco automatico (1..32)",IDC_STATIC,122,74,70,8
     EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
     COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON      "Config Keyset &A", IDC_JOY_CONFIG_A,
+    PUSHBUTTON      "Configura il keyset &A", IDC_JOY_CONFIG_A,
                     8,120,60,14, WS_TABSTOP
-    PUSHBUTTON      "Config Keyset &B", IDC_JOY_CONFIG_B,
+    PUSHBUTTON      "Configura il keyset &B", IDC_JOY_CONFIG_B,
                     159,120,60,14, WS_TABSTOP
-    PUSHBUTTON      "&Calibrate Joystick(s)", IDC_JOY_CALIBRATE,
+    PUSHBUTTON      "&Calibra Joystick", IDC_JOY_CALIBRATE,
                     78,120,70,14, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 129,141,50,14, WS_TABSTOP
@@ -1373,23 +1373,23 @@ IDD_CONFIG_KEYSET_DIALOG_FR DIALOG DISCARDABLE 0, 0, 130, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    PUSHBUTTON      "&Ouest du sud",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    PUSHBUTTON      "Su&d Ouest",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_SW,80,8,100,8
     PUSHBUTTON      "&Sud",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_S,80,26,100,8
-    PUSHBUTTON      "Est d&u sud",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    PUSHBUTTON      "S&ud Est",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_SE,80,44,100,8
-    PUSHBUTTON      "O&uest",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Ouest",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_W,80,62,100,8
     PUSHBUTTON      "&Est",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_E,80,80,100,8
-    PUSHBUTTON      "Ouest du no&rd",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    PUSHBUTTON      "No&rd Ouest",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_NW,80,98,100,8
-    PUSHBUTTON      "Du &nord",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Nord",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_N,80,116,100,8
-    PUSHBUTTON      "Es&t du nord",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    PUSHBUTTON      "N&ord Est",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_NE,80,134,100,8
-    PUSHBUTTON      "Bouton du &feu",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    PUSHBUTTON      "&Bouton de tir",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
     LTEXT           "",IDC_KEY_FIRE,80,152,100,8
     DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
     PUSHBUTTON      "Annuler", IDCANCEL, 70,170,50,14, WS_TABSTOP
@@ -1402,23 +1402,23 @@ IDD_CONFIG_KEYSET_DIALOG_IT DIALOG DISCARDABLE 0, 0, 130, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    PUSHBUTTON      "&Ovest del sud",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    PUSHBUTTON      "S&ud ovest",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_SW,80,8,100,8
-    PUSHBUTTON      "Del &sud",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Sud",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_S,80,26,100,8
-    PUSHBUTTON      "S&udorientale",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    PUSHBUTTON      "Su&d Est",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_SE,80,44,100,8
-    PUSHBUTTON      "Ad o&vest",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Ovest",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_W,80,62,100,8
-    PUSHBUTTON      "Ori&entale",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Est",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_E,80,80,100,8
-    PUSHBUTTON      "Ovest del no&rd",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    PUSHBUTTON      "No&rd Ovest",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_NW,80,98,100,8
-    PUSHBUTTON      "Del &nord",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Nord",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_N,80,116,100,8
-    PUSHBUTTON      "Es&t del nord",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    PUSHBUTTON      "Nor&d Est",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
     LTEXT           "",IDC_KEY_NE,80,134,100,8
-    PUSHBUTTON      "Tasto del &fuoco",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    PUSHBUTTON      "Pulsante di &Fuoco",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
     LTEXT           "",IDC_KEY_FIRE,80,152,100,8
     DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 70,170,50,14, WS_TABSTOP
@@ -1583,23 +1583,23 @@ END
 
 IDD_SOUND_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Paramètres de son"
+CAPTION "Configurer les paramètres du périphérique son"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTORADIOBUTTON "Pilote DirectX",IDC_SOUND_DIRECTX,10,10,60,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "Pilote WMM",IDC_SOUND_WMM,75,10,60,10,
                             BS_AUTORADIOBUTTON
-    LTEXT           "Tau&x d'échantillonage :",IDC_STATIC,7,25,118,8
+    LTEXT           "Fréquence d'échantillonage :",IDC_STATIC,7,25,118,8
     COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "&Taille du tampon :",IDC_STATIC,7,38,118,8
+    LTEXT           "Taille du &tampon son :",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Rééchantill&onage :",IDC_STATIC,7,51,118,8
+    LTEXT           "Facteur D'&Oversampling :",IDC_STATIC,7,51,118,8
     COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "S&ynchronisation du son :",IDC_STATIC,7,64,118,8
+    LTEXT           "&Méthode de synchronisation :",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
@@ -1611,23 +1611,23 @@ END
 
 IDD_SOUND_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del suono"
+CAPTION "Configura le impostazioni della scheda audio"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTORADIOBUTTON "Driver del DirectX",IDC_SOUND_DIRECTX,10,10,60,10,
+    AUTORADIOBUTTON "Driver DirectX",IDC_SOUND_DIRECTX,10,10,60,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "Driver del WMM",IDC_SOUND_WMM,75,10,60,10,
+    AUTORADIOBUTTON "Driver WMM",IDC_SOUND_WMM,75,10,60,10,
                             BS_AUTORADIOBUTTON
     LTEXT           "&Frequenza di campionamento :",IDC_STATIC,7,25,118,8
     COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Dimen&sione del buffer :",IDC_STATIC,7,38,118,8
+    LTEXT           "Dimensione del buffer del suono :",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "S&ovracampionamento :",IDC_STATIC,7,51,118,8
+    LTEXT           "Fattore di &sovracampionamento :",IDC_STATIC,7,51,118,8
     COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Synchronization &Method :",IDC_STATIC,7,64,118,8
+    LTEXT           "&Metodo di sincronizzazione :",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
@@ -1774,12 +1774,12 @@ IDD_OPEN_TEMPLATE_FR DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Contenu d'Image",IDC_STATIC,3,0,185,138
+    GROUPBOX        "Contenu de l'image ",IDC_STATIC,3,0,185,138
     LISTBOX         IDC_PREVIEW,6,9,178,125,
                     WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Protéger contre l'écriture",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+    AUTOCHECKBOX    "Insérer en lecture seule",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
+    GROUPBOX        "Nouvelle image",IDC_STATIC,190,25,80,90
     LTEXT           "Nom",IDC_STATIC,198,40,20,8
     EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
     LTEXT           "ID",IDC_STATIC,198,63,15,8
@@ -1787,7 +1787,7 @@ BEGIN
     LTEXT           "Type",IDC_STATIC,233,73,20,8
     COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Créer une image de disque", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    PUSHBUTTON      "Création d'image", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
 END
 
 
@@ -1797,12 +1797,12 @@ IDD_OPEN_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Contenuti dell'Immagine ",IDC_STATIC,3,0,185,138
+    GROUPBOX        "Contenuti ",IDC_STATIC,3,0,185,138
     LISTBOX         IDC_PREVIEW,6,9,178,125,
                     WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Seleziona la protezione contro la scrittura",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+    AUTOCHECKBOX    "Seleziona in sola lettura",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
+    GROUPBOX        "Nuova immagine",IDC_STATIC,190,25,80,90
     LTEXT           "Nome",IDC_STATIC,198,40,20,8
     EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
     LTEXT           "ID",IDC_STATIC,198,63,15,8
@@ -1810,7 +1810,7 @@ BEGIN
     LTEXT           "Tipo",IDC_STATIC,233,73,20,8
     COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Crea un disco", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    PUSHBUTTON      "Crea immagine", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
 END
 
 
@@ -1920,11 +1920,11 @@ IDD_OPENTAPE_TEMPLATE_FR DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Contenu d'Image ",IDC_STATIC,3,0,185,138
+    GROUPBOX        "Contenu de l'image ",IDC_STATIC,3,0,185,138
     LISTBOX         IDC_PREVIEW,6,9,178,125,
                     WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "créer l'image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX        "Nouvelle image TAP",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "Création d'image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
 END
 
 
@@ -1934,11 +1934,11 @@ IDD_OPENTAPE_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Contenuti dell'Immagine ",IDC_STATIC,3,0,185,138
+    GROUPBOX        "Contenuti ",IDC_STATIC,3,0,185,138
     LISTBOX         IDC_PREVIEW,6,9,178,125,
                     WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Crea l'immagine", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX        "Nuova immagine TAP",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "Crea immagine", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
 END
 
 
@@ -2023,10 +2023,10 @@ IDD_SNAPSHOT_SAVE_DIALOG_FR DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "Sauvegarder aussi les &disques insérés",
+    AUTOCHECKBOX    "Sauvegarder les &disques présentement insérés",
                     IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Sauvegarder aussi les &ROMs insérés",
+    AUTOCHECKBOX    "Sauvegarder les images &ROM présentement chargés",
                     IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
                     10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
@@ -2038,10 +2038,10 @@ IDD_SNAPSHOT_SAVE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "Salva i &dischi attualmente selezionati",
+    AUTOCHECKBOX    "Salva le immagini dei &dischi attualmente selezionati",
                     IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Salva le &ROM attualmente selezionate",
+    AUTOCHECKBOX    "Salva le immagini delle &ROM attualmente caricate",
                     IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
                     10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
@@ -2125,7 +2125,7 @@ IDD_MEDIAFILE_DIALOG_FR DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Enregistrer",IDC_STATIC,5,0,40,20
+    LTEXT           "Enregistrer sous",IDC_STATIC,5,0,40,20
     COMBOBOX        IDC_SCREENSHOT_DRIVER, 53,0,155,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
 END
@@ -2137,7 +2137,7 @@ IDD_MEDIAFILE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Salva",IDC_STATIC,5,0,40,20
+    LTEXT           "Salva come",IDC_STATIC,5,0,40,20
     COMBOBOX        IDC_SCREENSHOT_DRIVER, 53,0,155,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
 END
@@ -2212,7 +2212,7 @@ IDD_CONSOLE_SAVE_DIALOG_FR DIALOG DISCARDABLE 0,0, 250, 22
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Append log to existing file",
+    AUTOCHECKBOX    "&Ajouter le log au fichier existant",
                     IDC_TOGGLE_CONSOLE_APPEND,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
@@ -2224,7 +2224,7 @@ IDD_CONSOLE_SAVE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 22
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Append log to existing file",
+    AUTOCHECKBOX    "&Accoda i log al file esistente",
                     IDC_TOGGLE_CONSOLE_APPEND,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
@@ -2301,11 +2301,11 @@ END
 
 IDD_TEXTDLG_FR DIALOG DISCARDABLE  0, 0, 279, 242
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
+CAPTION "Dialogue"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
-    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
+    LTEXT           "Lisez bien ceci:",IDC_HEADER,7,7,156,10
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
 //                  ES_MULTILINE
 END
@@ -2315,11 +2315,11 @@ END
 
 IDD_TEXTDLG_IT DIALOG DISCARDABLE  0, 0, 279, 242
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
+CAPTION "Dialogo"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
-    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
+    LTEXT           "Leggi questo:",IDC_HEADER,7,7,156,10
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
 //                  ES_MULTILINE
 END
@@ -2437,18 +2437,18 @@ BEGIN
     LTEXT           "Pilote:",IDC_STATIC,9,2,120,8
     COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Profondeur de couleurs:",IDC_STATIC,9,32,100,8
+    LTEXT           "Bitdepth:",IDC_STATIC,9,32,100,8
     COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "Résolution:",IDC_STATIC,9,47,100,8
     COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Le taux de rafraîchissement:",IDC_STATIC,9,62,100,8
+    LTEXT           "Taux de rafraîchissement:",IDC_STATIC,9,62,100,8
     COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Synchronisation du VBLANK", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+    AUTOCHECKBOX    "Synchronisation VBLANK", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
                     9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+    AUTOCHECKBOX    "Rendu à la surface primaire DX", IDC_TOGGLE_VIDEO_DX_PRIMARY,
                     9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
@@ -2462,16 +2462,16 @@ BEGIN
     LTEXT           "Driver:",IDC_STATIC,9,2,120,8
     COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Profondita:",IDC_STATIC,9,32,100,8
+    LTEXT           "Bit di profonditÃ :",IDC_STATIC,9,32,100,8
     COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Risoluzioni:",IDC_STATIC,9,47,100,8
+    LTEXT           "Risoluzione:",IDC_STATIC,9,47,100,8
     COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "La velocità di aggiornamento:",IDC_STATIC,9,62,100,8
+    LTEXT           "VelocitÃ  di aggiornamento:",IDC_STATIC,9,62,100,8
     COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Sincronizzazione del VBLANK", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+    AUTOCHECKBOX    "Sincronizzazione VBLANK", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
                     9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
     AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
                     9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
@@ -2622,7 +2622,7 @@ BEGIN
     LTEXT           "Contrasto",IDC_STATIC,12,24,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
     EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
-    LTEXT           "Luminosità",IDC_STATIC,12,36,40,8
+    LTEXT           "LuminositÃ ",IDC_STATIC,12,36,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
     EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
 END
@@ -2759,18 +2759,18 @@ BEGIN
     LTEXT           "Phase",IDC_STATIC,12,24,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
     EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
-    LTEXT           "PAL Opacité",IDC_STATIC,12,36+5,40,8
+    LTEXT           "Ombrage PAL",IDC_STATIC,12,36+5,40,8
     LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
     EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
     LTEXT           "Flou PAL",IDC_STATIC,12,48+5,40,8
     LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
     EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
 
-    LTEXT           "Mode de PAL",IDC_STATIC,12,48+12+5,40,8
+    LTEXT           "Mode PAL",IDC_STATIC,12,48+12+5,40,8
     COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
 
-    AUTOCHECKBOX    "Palette de couleurs externe:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+    AUTOCHECKBOX    "Palette externe:", IDC_TOGGLE_VIDEO_EXTPALETTE,
                     12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
     COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
@@ -2787,17 +2787,17 @@ BEGIN
     LTEXT           "Gamma",IDC_STATIC,12,12,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
     EDITTEXT        IDC_VIDEO_COLORS_GAM, 85,10,32,12,WS_TABSTOP
-    LTEXT           "Phase",IDC_STATIC,12,24,40,8
+    LTEXT           "Fase",IDC_STATIC,12,24,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
     EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
-    LTEXT           "Ombra delle PAL",IDC_STATIC,12,36+5,40,8
+    LTEXT           "Ombra PAL",IDC_STATIC,12,36+5,40,8
     LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
     EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
     LTEXT           "Sfuocatura PAL",IDC_STATIC,12,48+5,40,8
     LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
     EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
 
-    LTEXT           "Modalità PAL",IDC_STATIC,12,48+12+5,40,8
+    LTEXT           "ModalitÃ  PAL",IDC_STATIC,12,48+12+5,40,8
     COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
 
@@ -3049,15 +3049,15 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Paramètres de la RAM"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Initialization at powerup",IDC_STATIC,5,5,160,180
-    LTEXT           "Value of first byte",
+    GROUPBOX        "Initialisation au démarrage",IDC_STATIC,5,5,160,180
+    LTEXT           "Valeur du premier octet",
                     IDC_STATIC,55,17,100,8
     COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Length of constant values",IDC_STATIC,55,32,100,8
+    LTEXT           "Longeur des valeurs constantes",IDC_STATIC,55,32,100,8
     COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Length of constant pattern",IDC_STATIC,55,47,100,8
+    LTEXT           "Longeur des contantes pattern",IDC_STATIC,55,47,100,8
     COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
@@ -3074,15 +3074,15 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni delle RAM"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Initialization at powerup",IDC_STATIC,5,5,160,180
-    LTEXT           "Value of first byte",
+    GROUPBOX        "Inizializzazione all'accensione",IDC_STATIC,5,5,160,180
+    LTEXT           "Valore del primo byte",
                     IDC_STATIC,55,17,100,8
     COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Length of constant values",IDC_STATIC,55,32,100,8
+    LTEXT           "Lunghezza dei valori costanti",IDC_STATIC,55,32,100,8
     COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Length of constant pattern",IDC_STATIC,55,47,100,8
+    LTEXT           "Lunghezza dei pattern costanti",IDC_STATIC,55,47,100,8
     COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
@@ -3204,7 +3204,7 @@ END
 
 IDD_CUSTOM_SPEED_DIALOG_FR DIALOG DISCARDABLE  0, 0, 160, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Custom speed"
+CAPTION "Vitesse personnalisée"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "Entrez la vitesse [%]", IDC_STATIC,5,7,80,8
@@ -3219,10 +3219,10 @@ END
 
 IDD_CUSTOM_SPEED_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Custom speed"
+CAPTION "VelocitÃ  personalizzata"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Inserire la velocità [%]", IDC_STATIC,5,7,80,8
+    LTEXT           "Inserire la velocitÃ  [%]", IDC_STATIC,5,7,80,8
     EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
@@ -3349,27 +3349,27 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Paramètres d'imprimante"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Use IEC Device",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+    AUTOCHECKBOX    "Utiliser le périphérique IEC",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "Émulation d'imprimante",IDC_STATIC,15,25,70,8
     COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON      "Send Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
-    GROUPBOX        "File system printer",IDC_STATIC,5,40,275,130
-    LTEXT           "Printer driver",IDC_STATIC,15,52,70,8
+    PUSHBUTTON      "Envoyer 'Form Feed'", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "Imprimante sur système de fichiers",IDC_STATIC,5,40,275,130
+    LTEXT           "Pilote d'imprimante",IDC_STATIC,15,52,70,8
     COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Output",IDC_STATIC,15,72,70,8
+    LTEXT           "Sortie",IDC_STATIC,15,72,70,8
     COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Output to file #",IDC_STATIC,15,92,70,8
+    LTEXT           "Rediriger vers le fichier #",IDC_STATIC,15,92,70,8
     COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Output file #1 name", IDC_STATIC,15,112,70,8
+    LTEXT           "Nom du fichier de sortie #1", IDC_STATIC,15,112,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
-    LTEXT           "Output file #2 name", IDC_STATIC,15,132,70,8
+    LTEXT           "Nom du fichier de sortie #2", IDC_STATIC,15,132,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
-    LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
+    LTEXT           "Nom du fichier de sortie #3", IDC_STATIC,15,152,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
 END
 
@@ -3381,27 +3381,27 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni delle stampanti"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Use IEC Device",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+    AUTOCHECKBOX    "&Usa la periferica IEC",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Stampante emulazione",IDC_STATIC,15,25,70,8
+    LTEXT           "Emulazione della stampante",IDC_STATIC,15,25,70,8
     COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON      "Send Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
-    GROUPBOX        "File system printer",IDC_STATIC,5,40,275,130
-    LTEXT           "Printer driver",IDC_STATIC,15,52,70,8
+    PUSHBUTTON      "Invia Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "Stampante su file system",IDC_STATIC,5,40,275,130
+    LTEXT           "Driver di stampa",IDC_STATIC,15,52,70,8
     COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Output",IDC_STATIC,15,72,70,8
     COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Output to file #",IDC_STATIC,15,92,70,8
+    LTEXT           "Output su file #",IDC_STATIC,15,92,70,8
     COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Output file #1 name", IDC_STATIC,15,112,70,8
+    LTEXT           "Nome del file di output #1", IDC_STATIC,15,112,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
-    LTEXT           "Output file #2 name", IDC_STATIC,15,132,70,8
+    LTEXT           "Nome del file di output #2", IDC_STATIC,15,132,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
-    LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
+    LTEXT           "Nome del file di output #3", IDC_STATIC,15,152,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
 END
 
@@ -3582,24 +3582,24 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Paramètres ROM"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTORADIOBUTTON "le fichier ROM",IDC_ROMSET_SELECT_ARCHIVE,
+    AUTORADIOBUTTON "Archive Romset",IDC_ROMSET_SELECT_ARCHIVE,
                     13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12,WS_TABSTOP
     PUSHBUTTON      "Parcourir", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
-    PUSHBUTTON      "Charger une ROM fichier", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
-    PUSHBUTTON      "sauvegarde une ROM fichier", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    PUSHBUTTON      "Charger archive", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "Sauvegarder archive", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
     GROUPBOX        "&Configuration",IDC_STATIC,13,60,230,60
     COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
                     CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON      "Apply", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "Appliquer", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
     PUSHBUTTON      "Nouveau", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
     PUSHBUTTON      "Supprimer", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
-    AUTORADIOBUTTON "Romset file",IDC_ROMSET_SELECT_FILE,
+    AUTORADIOBUTTON "Fichier Romset",IDC_ROMSET_SELECT_FILE,
                     13,130,60,10,BS_AUTORADIOBUTTON
     EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
     PUSHBUTTON      "Parcourir", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
-    PUSHBUTTON      "Load romset", IDC_ROMSET_FILE_LOAD, 13,165,60,15
-    PUSHBUTTON      "Save romset", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    PUSHBUTTON      "Charger Romset", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "Sauvegarder Romset", IDC_ROMSET_FILE_SAVE, 85,165,60,15
     EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
                     ES_READONLY
     PUSHBUTTON      "Ordinateur", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
@@ -3621,20 +3621,20 @@ BEGIN
                     13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12,WS_TABSTOP
     PUSHBUTTON      "Sfoglia", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
-    PUSHBUTTON      "Load archive", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
-    PUSHBUTTON      "Save archive", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    PUSHBUTTON      "Carica archivio", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "Salva archivio", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
     GROUPBOX        "&Configurazione",IDC_STATIC,13,60,230,60
     COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
                     CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON      "Apply", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "Applica", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
     PUSHBUTTON      "Nuovo", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
     PUSHBUTTON      "Cancella", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
-    AUTORADIOBUTTON "Romset file",IDC_ROMSET_SELECT_FILE,
+    AUTORADIOBUTTON "File del ROM set",IDC_ROMSET_SELECT_FILE,
                     13,130,60,10,BS_AUTORADIOBUTTON
     EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
     PUSHBUTTON      "Sfoglia", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
-    PUSHBUTTON      "Load romset", IDC_ROMSET_FILE_LOAD, 13,165,60,15
-    PUSHBUTTON      "Save romset", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    PUSHBUTTON      "Carica romset", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "Salva romset", IDC_ROMSET_FILE_SAVE, 85,165,60,15
     EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
                     ES_READONLY
     PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
@@ -3787,10 +3787,10 @@ END
 
 IDD_ROMSET_ENTER_NAME_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "New configuration"
+CAPTION "Nouvelle configuration"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Enter configuration name", IDC_STATIC,5,7,80,8
+    LTEXT           "Entrer le nom de la configuration", IDC_STATIC,5,7,80,8
     EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
@@ -3802,10 +3802,10 @@ END
 
 IDD_ROMSET_ENTER_NAME_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "New configuration"
+CAPTION "Nuova configurazione"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Enter configuration name", IDC_STATIC,5,7,80,8
+    LTEXT           "Inserisci il nome della configurazione", IDC_STATIC,5,7,80,8
     EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
@@ -3908,13 +3908,13 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Paramètres RS232"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "RS232 port 1",IDC_STATIC, 9,8,60,8
+    LTEXT           "1er Périphérique RS232",IDC_STATIC, 9,8,60,8
     EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP
-    LTEXT           "RS232 port 2", IDC_STATIC, 9,28,60,8
+    LTEXT           "2e Périphérique RS232", IDC_STATIC, 9,28,60,8
     EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP
-    LTEXT           "RS232 port 3", IDC_STATIC, 9,48,60,8
+    LTEXT           "3e Périphérique RS232", IDC_STATIC, 9,48,60,8
     EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP
-    LTEXT           "RS232 port 4",IDC_STATIC, 9,68,60,8
+    LTEXT           "4e Périphérique RS232",IDC_STATIC, 9,68,60,8
     EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
     PUSHBUTTON      "Annuler", IDCANCEL, 90,100,50,14, WS_TABSTOP
@@ -3928,16 +3928,16 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni della RS232"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "RS232 1",IDC_STATIC, 9,8,60,8
+    LTEXT           "Dispositivo RS232 #1",IDC_STATIC, 9,8,60,8
     EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP
-    LTEXT           "RS232 2", IDC_STATIC, 9,28,60,8
+    LTEXT           "Dispositivo RS232 #2", IDC_STATIC, 9,28,60,8
     EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP
-    LTEXT           "RS232 3", IDC_STATIC, 9,48,60,8
+    LTEXT           "Dispositivo RS232 #3", IDC_STATIC, 9,48,60,8
     EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP
-    LTEXT           "RS232 4",IDC_STATIC, 9,68,60,8
+    LTEXT           "Dispositivo RS232 #4",IDC_STATIC, 9,68,60,8
     EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL, 90,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annula", IDCANCEL, 90,100,50,14, WS_TABSTOP
 END
 
 
@@ -4106,6 +4106,7 @@ BEGIN
   IDS_ATTACH_IDE64_CART_IMAGE     "Attach IDE64 interface cartridge image"
   IDS_ATTACH_SS4_CART_IMAGE       "Attach Super Snapshot 4 cartridge image"
   IDS_ATTACH_SS5_CART_IMAGE       "Attach Super Snapshot 5 cartridge image"
+  IDS_ATTACH_STB_CART_IMAGE       "Attach Structured Basic cartridge image"
   IDS_MODEL                       "Model"
   IDS_DRIVE_SETTINGS              "Drive Settings"
   IDS_SELECT_START_SNAP_EVENT     "Select start snapshot for event history"
@@ -4286,6 +4287,7 @@ BEGIN
   IDS_ATTACH_IDE64_CART_IMAGE_DE     "IDE64 Schnittstellen Erweiterungsmodul Image einlegen"
   IDS_ATTACH_SS4_CART_IMAGE_DE       "Super Snapshot 4 Erweiterungsmodul Image einlegen"
   IDS_ATTACH_SS5_CART_IMAGE_DE       "Super Snapshot 5 Erweiterungsmodul Image einlegen"
+  IDS_ATTACH_STB_CART_IMAGE_DE       "Structured Basic Erweiterungsmodul Image einlegen"
   IDS_MODEL_DE                       "Modell"
   IDS_DRIVE_SETTINGS_DE              "Floppy Einstellungen"
   IDS_SELECT_START_SNAP_EVENT_DE     "Startsnapshot für Ereignishistory festlegen"
@@ -4369,170 +4371,171 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_VICE_ERROR_FR                  "VICE Error!"
-  IDS_VICE_INFORMATION_FR            "VICE Information"
-  IDS_VICE_QUESTION_FR               "VICE question"
-  IDS_FFMPEG_DLL_MISMATCH_FR         "Your ffmpeg dll version doesn't match."
-  IDS_DIRECTDRAW_ERROR_FR            "DirectDraw error: Code:%8x Error:%s"
-  IDS_CANNOT_SAVE_SETTINGS_FR        "Cannot save settings."
-  IDS_CANNOT_LOAD_SETTINGS_FR        "Cannot load settings."
-  IDS_DEFAULT_SETTINGS_RESTORED_FR   "Default settings restored."
-  IDS_CANNOT_ATTACH_FILE_FR          "Cannot attach specified file"
-  IDS_START_MONITOR_FR               "%s\012\012Start monitor?"
-  IDS_VICE_CPU_JAM_FR                "VICE CPU JAM"
-  IDS_EXTEND_TO_40_TRACKS_FR         "Extend image to 40-track format?"
-  IDS_DETACHED_DEVICE_S_FR           "Detached device %s"
-  IDS_ATTACHED_S_TO_DEVICE_S_FR      "Attached %s to device#%s"
-  IDS_DETACHED_TAPE_FR               "Detached tape"
-  IDS_HISTORY_RECORDED_UNKNOWN_FR    "History recorded with unknown release"
-  IDS_HISTORY_RECORDED_VICE_S_FR     "History recorded with VICE-%s"
-  IDS_PAUSED_FR                      "paused"
-  IDS_RESUMED_FR                     "resumed"
-  IDS_REALLY_EXIT_FR                 "Do you really want to exit?\012\012All the data present in the emulated RAM will be lost."
-  IDS_CANNOT_AUTOSTART_FILE_FR       "Cannot autostart specified file."
-  IDS_ATTACHED_TAPE_S_FR             "Attached tape %s"
-  IDS_SETTINGS_SAVED_SUCCESS_FR      "Settings saved successfully."
-  IDS_SETTINGS_LOADED_SUCCESS_FR     "Settings loaded successfully."
-  IDS_ATTACH_DISK_IMAGE_FR           "Attach disk image"
-  IDS_ATTACH_TAPE_IMAGE_FR           "Attach tape image"
-  IDS_AUTOSTART_IMAGE_FR             "Autostart disk/tape image"
-  IDS_INVALID_CARTRIDGE_FR           "Invalid cartridge"
-  IDS_BAD_CARTRIDGE_CONFIG_FR        "Bad cartridge config in UI!"
-  IDS_INVALID_CARTRIDGE_IMAGE_FR     "Invalid cartridge image"
-  IDS_LOG_CONSOLE_OUTPUT_IMAGE_FR    "Logging console output image"
-  IDS_LOG_FILES_TYPE_FR              "VICE console logging files (*.dbg)"
-  IDS_CANNOT_WRITE_LOGFILE_S_FR      "Cannot write log file `%s'."
-  IDS_LOAD_FLIP_LIST_FILE_FR         "Load flip list file"
+  IDS_VICE_ERROR_FR                  "Erreur VICE!"
+  IDS_VICE_INFORMATION_FR            "Information VICE"
+  IDS_VICE_QUESTION_FR               "Question VICE"
+  IDS_FFMPEG_DLL_MISMATCH_FR         "La version du DLL ffmpeg ne correspond pas."
+  IDS_DIRECTDRAW_ERROR_FR            "Erreur DirectDraw: Code:%8x Erreur:%s"
+  IDS_CANNOT_SAVE_SETTINGS_FR        "Impossible d'enregistrer les paramètres."
+  IDS_CANNOT_LOAD_SETTINGS_FR        "Impossible de charger les paramètres."
+  IDS_DEFAULT_SETTINGS_RESTORED_FR   "Paramètres par défaut restaurés."
+  IDS_CANNOT_ATTACH_FILE_FR          "Impossible d'attacher le fichier spécifié"
+  IDS_START_MONITOR_FR               "%s\012\012Activer la trace?"
+  IDS_VICE_CPU_JAM_FR                "ERREUR CPU VICE"
+  IDS_EXTEND_TO_40_TRACKS_FR         "Étendre l'image au format 40 pistes?"
+  IDS_DETACHED_DEVICE_S_FR           "Périphérique détaché %s"
+  IDS_ATTACHED_S_TO_DEVICE_S_FR      "%s attaché au périphérique #%s"
+  IDS_DETACHED_TAPE_FR               "Datassette détaché"
+  IDS_HISTORY_RECORDED_UNKNOWN_FR    "Historique enregistrée avec une release inconnue"
+  IDS_HISTORY_RECORDED_VICE_S_FR     "Historique enregistrée avec VICE-%s"
+  IDS_PAUSED_FR                      "en pause"
+  IDS_RESUMED_FR                     "résumé"
+  IDS_REALLY_EXIT_FR                 "Désirez-vous vraiment quitter?\012\012Toutes les données présentes dans la mémoire de l'émulateur seront perdues."
+  IDS_CANNOT_AUTOSTART_FILE_FR       "Impossible de démarrer automatiquement le fichier spécifié"
+  IDS_ATTACHED_TAPE_S_FR             "Datassette %s attaché"
+  IDS_SETTINGS_SAVED_SUCCESS_FR      "Sauvegarde des paramètres effectuée correctement."
+  IDS_SETTINGS_LOADED_SUCCESS_FR     "Chargement des paramètres réussi."
+  IDS_ATTACH_DISK_IMAGE_FR           "Insérer une image de disque"
+  IDS_ATTACH_TAPE_IMAGE_FR           "Insérer une image de datassette"
+  IDS_AUTOSTART_IMAGE_FR             "Démarrer automatiquement une image de disque/datassette"
+  IDS_INVALID_CARTRIDGE_FR           "Cartouche invalide"
+  IDS_BAD_CARTRIDGE_CONFIG_FR        "Mauvaise configuration de la cartouche dans l'interface utilisateur!"
+  IDS_INVALID_CARTRIDGE_IMAGE_FR     "Image de cartouche invalide"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE_FR    "Log de l'image de sortie console"
+  IDS_LOG_FILES_TYPE_FR              "Fichier de débuggage VICE (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S_FR      "Impossible d'écrire le fichier log `%s'."
+  IDS_LOAD_FLIP_LIST_FILE_FR         "Charger un fichier de groupement de disques"
   IDS_CANNOT_READ_FLIP_LIST_FR       "Cannot read flip list file"
-  IDS_SAVE_FLIP_LIST_FILE_FR         "Save flip list file"
-  IDS_CANNOT_WRITE_FLIP_LIST_FR      "Cannot write flip list file"
-  IDS_SELECT_KEYMAP_FILE_FR          "Select keymap file"
-  IDS_SAVE_KEYMAP_FILE_FR            "Save keymap file"
-  IDS_CANNOT_WRITE_KEYMAP_FILE_FR    "Cannot write keymap file"
-  IDS_MAPPING_FR                     "Mapping"
-  IDS_KEYBOARD_SETTINGS_FR           "Keyboard settings"
-  IDS_ATTACH_FR                      "&Attach"
-  IDS_PLEASE_ENTER_A_FILENAME_FR     "Please enter a filename."
-  IDS_OVERWRITE_EXISTING_IMAGE_FR    "Overwrite existing image?"
-  IDS_CANNOT_CREATE_IMAGE_FR         "Cannot create image"
-  IDS_COMMAND_LINE_OPTIONS_FR        "Command line options"
-  IDS_COMMAND_OPTIONS_AVAIL_FR       "Which command line options are available?"
-  IDS_NO_DRIVER_SELECT_SUPPORT_FR    "No driver selected or selected driver not supported"
-  IDS_CANT_WRITE_SCREENSHOT_S_FR     "Cannot write screenshot file `%s'."
-  IDS_AUTOSTART_DISK_IMAGE_FR        "Autostart disk image"
-  IDS_SELECT_FS_DIRECTORY_FR         "Select file system directory"
-  IDS_PRINTER_USERPORT_FR            "Printer Userport"
-  IDS_PRINTER_4_FR                   "Printer 4"
-  IDS_PRINTER_5_FR                   "Printer 5"
-  IDS_DRIVE_8_FR                     "Drive 8"
-  IDS_DRIVE_9_FR                     "Drive 9"
-  IDS_DRIVE_10_FR                    "Drive 10"
-  IDS_DRIVE_11_FR                    "Drive 11"
-  IDS_PERIPHERAL_SETTINGS_FR         "Peripheral Settings"
-  IDS_CANT_WRITE_SNAPSHOT_FILE_FR    "Can't write snapshot file."
-  IDS_CANNOT_READ_SNAPSHOT_IMG_FR    "Cannot read snapshot image"
-  IDS_LOAD_S_ROM_IMAGE_FR            "Load %s ROM image"
-  IDS_SELECT_ROMSET_ARCHIVE_FR       "Select romset archive"
-  IDS_CANNOT_LOAD_ROMSET_ARCH_FR     "Cannot load romset archive!"
-  IDS_CANNOT_SAVE_ROMSET_ARCH_FR     "Cannot save romset archive!"
-  IDS_CANNOT_LOAD_ROMSET_FILE_FR     "Cannot load romset file!"
-  IDS_CANNOT_SAVE_ROMSET_FILE_FR     "Cannot save romset file!"
-  IDS_SELECT_ROMSET_FILE_FR          "Select romset file"
+  IDS_SAVE_FLIP_LIST_FILE_FR         "Enregistrer le fichier de groupement de disques actuel"
+  IDS_CANNOT_WRITE_FLIP_LIST_FR      "Impossible d'écrire le fichier de groupement de disques"
+  IDS_SELECT_KEYMAP_FILE_FR          "Sélectionner le fichier de mappage clavier"
+  IDS_SAVE_KEYMAP_FILE_FR            "Sauvegarder le fichier de mappage clavier"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_FR    "Impossible d'écrire sur le fichier de mappage clavier"
+  IDS_MAPPING_FR                     "Mappage"
+  IDS_KEYBOARD_SETTINGS_FR           "Paramètres du clavier"
+  IDS_ATTACH_FR                      "&Insérer"
+  IDS_PLEASE_ENTER_A_FILENAME_FR     "Entrer un nom de fichier."
+  IDS_OVERWRITE_EXISTING_IMAGE_FR    "Écraser les images existantes?"
+  IDS_CANNOT_CREATE_IMAGE_FR         "Impossible de créer l'image"
+  IDS_COMMAND_LINE_OPTIONS_FR        "Options de ligne de commande"
+  IDS_COMMAND_OPTIONS_AVAIL_FR       "Quelles sont les lignes de commandes disponibles?"
+  IDS_NO_DRIVER_SELECT_SUPPORT_FR    "Aucun pilote sélectionné, ou le pilote n'est pas supporté"
+  IDS_CANT_WRITE_SCREENSHOT_S_FR     "Impossible d'écrire le fichier de capture `%s'."
+  IDS_AUTOSTART_DISK_IMAGE_FR        "Démarrer automatiquement une image de disque"
+  IDS_SELECT_FS_DIRECTORY_FR         "Sélectionnez le répertoire du système de fichiers"
+  IDS_PRINTER_USERPORT_FR            "Imprimante Userport"
+  IDS_PRINTER_4_FR                   "Imprimante #4"
+  IDS_PRINTER_5_FR                   "Imprimante #5"
+  IDS_DRIVE_8_FR                     "Lecteur #8"
+  IDS_DRIVE_9_FR                     "Lecteur #9"
+  IDS_DRIVE_10_FR                    "Lecteur #10"
+  IDS_DRIVE_11_FR                    "Lecteur #11"
+  IDS_PERIPHERAL_SETTINGS_FR         "Paramètres des périphériques"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_FR    "Impossible d'écrire le fichier de sauvegarde"
+  IDS_CANNOT_READ_SNAPSHOT_IMG_FR    "Impossible de charger le fichier de sauvegarde."
+  IDS_LOAD_S_ROM_IMAGE_FR            "Charger image ROM %s"
+  IDS_SELECT_ROMSET_ARCHIVE_FR       "Sélectionner archive Romset"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_FR     "Impossible de charger l'archive Romset!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_FR     "Impossible d'enregistrer l'archive Romset!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_FR     "Impossible de charger le fichier Romset!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_FR     "Impossible d'enregistrer le fichier Romset!"
+  IDS_SELECT_ROMSET_FILE_FR          "Sélectionner le fichier Romset"
   IDS_ROMSET_FR                      "Romset"
-  IDS_COMPUTER_FR                    "Computer"
-  IDS_DRIVE_FR                       "Drive"
-  IDS_ROM_SETTINGS_FR                "ROM settings"
-  IDS_SAVE_SNAPSHOT_IMAGE_FR         "Save snapshot image"
-  IDS_CANNOT_WRITE_SNAPSHOT_S_FR     "Cannot write snapshot file `%s'."
-  IDS_LOAD_SNAPSHOT_IMAGE_FR         "Load snapshot image"
-  IDS_COULD_NOT_LOAD_PALETTE_FR      "Could not load palette file."
-  IDS_LOAD_VICE_PALETTE_FILE_FR      "Load VICE palette file"
-  IDS_FULLSCREEN_FR                  "Fullscreen"
-  IDS_COLORS_FR                      "Colors"
-  IDS_VIDEO_SETTINGS_FR              "Video settings"
-  IDS_FILE_SYSTEM_FR                 "File system"
+  IDS_COMPUTER_FR                    "Ordinateur"
+  IDS_DRIVE_FR                       "Lecteur"
+  IDS_ROM_SETTINGS_FR                "Paramètres ROM"
+  IDS_SAVE_SNAPSHOT_IMAGE_FR         "Enregistrer le fichier de sauvegarde"
+  IDS_CANNOT_WRITE_SNAPSHOT_S_FR     "Impossible d'écrire le fichier de sauvegarde `%s'."
+  IDS_LOAD_SNAPSHOT_IMAGE_FR         "Charger le fichier de sauvegarde"
+  IDS_COULD_NOT_LOAD_PALETTE_FR      "Impossible de charger le fichier de palette."
+  IDS_LOAD_VICE_PALETTE_FILE_FR      "Charger un fichier de palette VICE"
+  IDS_FULLSCREEN_FR                  "Plein écran"
+  IDS_COLORS_FR                      "Couleurs"
+  IDS_VIDEO_SETTINGS_FR              "Paramètres vidéo"
+  IDS_FILE_SYSTEM_FR                 "Système de fichiers"
 #ifdef HAVE_OPENCBM
-  IDS_REAL_IEC_DEVICE_FR             "Real IEC device"
+  IDS_REAL_IEC_DEVICE_FR             "Périphérique IEC réel"
 #endif
-  IDS_RS232_DEVICE_I_FR              "RS232 device %i"
-  IDS_ATTACH_CRT_CART_IMAGE_FR       "Attach CRT cartridge image"
-  IDS_ATTACH_RAW_8KB_CART_IMAGE_FR   "Attach raw 8KB cartridge image"
-  IDS_ATTACH_RAW_16KB_CART_IMG_FR    "Attach raw 16KB cartridge image"
-  IDS_ATTACH_AR_CART_IMAGE_FR        "Attach Action Replay cartridge image"
-  IDS_ATTACH_ATOMIC_P_CART_IMG_FR    "Attach Atomic Power cartridge image"
-  IDS_ATTACH_EPYX_FL_CART_IMG_FR     "Attach Epyx fastload cartridge image"
-  IDS_ATTACH_IEEE488_CART_IMG_FR     "Attach IEEE interface cartridge image"
-  IDS_ATTACH_RETRO_R_CART_IMG_FR     "Attach Retro Replay cartridge image"
-  IDS_ATTACH_IDE64_CART_IMAGE_FR     "Attach IDE64 interface cartridge image"
-  IDS_ATTACH_SS4_CART_IMAGE_FR       "Attach Super Snapshot 4 cartridge image"
-  IDS_ATTACH_SS5_CART_IMAGE_FR       "Attach Super Snapshot 5 cartridge image"
-  IDS_MODEL_FR                       "Model"
-  IDS_DRIVE_SETTINGS_FR              "Drive Settings"
-  IDS_SELECT_START_SNAP_EVENT_FR     "Select start snapshot for event history"
-  IDS_SELECT_END_SNAP_EVENT_FR       "Select end snapshot for event history"
+  IDS_RS232_DEVICE_I_FR              "Périphérique RS232 #%i"
+  IDS_ATTACH_CRT_CART_IMAGE_FR       "Insérer une cartouche CRT"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE_FR   "Insérer une cartouche 8KO"
+  IDS_ATTACH_RAW_16KB_CART_IMG_FR    "Insérer une cartouche 16KO"
+  IDS_ATTACH_AR_CART_IMAGE_FR        "Insérer une cartouche Action Replay"
+  IDS_ATTACH_ATOMIC_P_CART_IMG_FR    "Insérer une cartouche Atomic Power"
+  IDS_ATTACH_EPYX_FL_CART_IMG_FR     "Insérer une cartouche Epyx FastLoad"
+  IDS_ATTACH_IEEE488_CART_IMG_FR     "Insérer une cartouche interface IEEE"
+  IDS_ATTACH_RETRO_R_CART_IMG_FR     "Insérer une cartouche Retro Replay"
+  IDS_ATTACH_IDE64_CART_IMAGE_FR     "Insérer une cartouche interface IDE64"
+  IDS_ATTACH_SS4_CART_IMAGE_FR       "Insérer une cartouche Super Snapshot 4"
+  IDS_ATTACH_SS5_CART_IMAGE_FR       "Insérer une cartouche Super Snapshot 5"
+  IDS_ATTACH_STB_CART_IMAGE_FR       "Insérer une cartouche Structured Basic"
+  IDS_MODEL_FR                       "Modèle"
+  IDS_DRIVE_SETTINGS_FR              "Paramètres des lecteurs"
+  IDS_SELECT_START_SNAP_EVENT_FR     "Sélectionner la sauvegarde de départ pour l'historique des événements"
+  IDS_SELECT_END_SNAP_EVENT_FR       "Sélectionner la sauvegarde de fin pour l'historique des événements"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE_FR          "Version %s *UNSTABLE*"
+  IDS_VERSION_S_UNSTABLE_FR          "Version %s *INSTABLE*"
 #else
   IDS_VERSION_S_FR                   "Version %s"
 #endif
-  IDS_VICE_CONTRIBUTORS_FR           "VICE contributors"
-  IDS_WHO_MADE_WHAT_FR               "Who made what?"
+  IDS_VICE_CONTRIBUTORS_FR           "Contributeurs à VICE"
+  IDS_WHO_MADE_WHAT_FR               "Qui fait quoi?"
   IDS_LICENSE_FR                     "License"
-  IDS_NO_WARRANTY_FR                 "No warranty!"
-  IDS_VICE_WITHOUT_WARRANTY_FR       "VICE is distributed WITHOUT ANY WARRANTY!"
-  IDS_PRESS_KEY_NORTHWEST_FR         "Press key for NorthWest"
-  IDS_PRESS_KEY_NORTH_FR             "Press key for North"
-  IDS_PRESS_KEY_NORTHEAST_FR         "Press key for NorthEast"
-  IDS_PRESS_KEY_EAST_FR              "Press key for East"
-  IDS_PRESS_KEY_SOUTHEAST_FR         "Press key for SouthEast"
-  IDS_PRESS_KEY_SOUTH_FR             "Press key for South"
-  IDS_PRESS_KEY_SOUTHWEST_FR         "Press key for SouthWest"
-  IDS_PRESS_KEY_WEST_FR              "Press key for West"
-  IDS_PRESS_KEY_FIRE_FR              "Press key for Fire"
-  IDS_NUMPAD_AND_RCTRL_FR            "Numpad + RCtrl"
-  IDS_KEYSET_A_FR                    "Keyset A"
-  IDS_KEYSET_B_FR                    "Keyset B"
-  IDS_ALL_BUTTONS_AS_FIRE_FR         "All buttons used as fire"
-  IDS_NUMERIC_SEE_ABOVE_FR           "numeric (see above)"
-  IDS_NO_BUTTON_NO_AUTOFIRE_FR       "No button - Autofire disabled"
-  IDS_ALL_FILES_FILTER_FR            "All files (*.*)"
-  IDS_PALETTE_FILES_FILTER_FR        "VICE palette files (*.vpl)"
-  IDS_SNAPSHOT_FILES_FILTER_FR       "VICE snapshot files (*.vsf)"
-  IDS_DISK_IMAGE_FILES_FILTER_FR     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
-  IDS_TAPE_IMAGE_FILES_FILTER_FR     "Tape image files (*.t64;*.p00;*.tap;*.prg)"
-  IDS_ZIPPED_FILES_FILTER_FR         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
-  IDS_CRT_FILES_FILTER_FR            "CRT cartridge image files (*.crt)"
-  IDS_RAW_CART_FILES_FILTER_FR       "Raw cartridge image files (*.bin)"
-  IDS_FLIP_LIST_FILES_FILTER_FR      "VICE flip list files (*.vfl)"
-  IDS_ROMSET_FILES_FILTER_FR         "VICE romset files (*.vrs)"
-  IDS_ROMSET_ARCHIVES_FILTER_FR      "VICE romset archives (*.vra)"
-  IDS_KEYMAP_FILES_FILTER_FR         "VICE keymap files (*.vkm)"
+  IDS_NO_WARRANTY_FR                 "Aucune garantie!"
+  IDS_VICE_WITHOUT_WARRANTY_FR       "VICE est distribué SANS AUCUN GARANTIE!"
+  IDS_PRESS_KEY_NORTHWEST_FR         "Appuyer sur la touche pour Nord Ouest"
+  IDS_PRESS_KEY_NORTH_FR             "Appuyer sur la touche pour Nord"
+  IDS_PRESS_KEY_NORTHEAST_FR         "Appuyer sur la touche pour Nord Est"
+  IDS_PRESS_KEY_EAST_FR              "Appuyer sur la touche pour Est"
+  IDS_PRESS_KEY_SOUTHEAST_FR         "Appuyer sur la touche pour Sud Est"
+  IDS_PRESS_KEY_SOUTH_FR             "Appuyer sur la touche pour Sud"
+  IDS_PRESS_KEY_SOUTHWEST_FR         "Appuyer sur la touche pour Sud Ouest"
+  IDS_PRESS_KEY_WEST_FR              "Appuyer sur la touche pour Ouest"
+  IDS_PRESS_KEY_FIRE_FR              "Appuyer sur la touche pour Bouton de tir"
+  IDS_NUMPAD_AND_RCTRL_FR            "Clavier numérique + Ctrl Droite"
+  IDS_KEYSET_A_FR                    "Touches A"
+  IDS_KEYSET_B_FR                    "Touches B"
+  IDS_ALL_BUTTONS_AS_FIRE_FR         "Tous les boutons sont utilisés comme boutons de tir"
+  IDS_NUMERIC_SEE_ABOVE_FR           "numérique (voir ci-dessus)"
+  IDS_NO_BUTTON_NO_AUTOFIRE_FR       "Aucun bouton - Tir automatique désactivé"
+  IDS_ALL_FILES_FILTER_FR            "Tous les fichiers (*.*)"
+  IDS_PALETTE_FILES_FILTER_FR        "Fichiers de palette VICE (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER_FR       "Fichiers de sauvegarde VICE (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER_FR     "Images de disques (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER_FR     "Images de datassette (*.t64;*.p00;*.tap;*.prg)"
+  IDS_ZIPPED_FILES_FILTER_FR         "Fichiers compressés (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER_FR            "Images de cartouches CRT (*.crt)"
+  IDS_RAW_CART_FILES_FILTER_FR       "Images brutes de cartouches (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER_FR      "Fichiers de groupement de disques (*.vfl)"
+  IDS_ROMSET_FILES_FILTER_FR         "Fichiers Romset VICE (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER_FR      "Archives Romset VICE (*.vra)"
+  IDS_KEYMAP_FILES_FILTER_FR         "Fichiers de mappage clavier VICE (*.vkm)"
   IDS_FLEXIBLE_FR                    "Flexible"
-  IDS_ADJUSTING_FR                   "Adjusting"
+  IDS_ADJUSTING_FR                   "Ajusté"
   IDS_EXACT_FR                       "Exact"
-  IDS_SOUND_DRIVER_DIRECTX_FR        "Sound driver: DirectX"
-  IDS_SOUND_DRIVER_WMM_FR            "Sound driver: WMM"
-  IDS_MEDIA_FILES_FILTER_FR          "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_SOUND_DRIVER_DIRECTX_FR        "Pilote son: DirectX"
+  IDS_SOUND_DRIVER_WMM_FR            "Pilote son: WMM"
+  IDS_MEDIA_FILES_FILTER_FR          "Fichiers média (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB_FR                    " kO"
-  IDS_CONFIGURE_KEYSET_A_FR          "Configure Keyset A"
-  IDS_CONFIGURE_KEYSET_B_FR          "Configure Keyset B"
-  IDS_SAVE_MEDIA_IMAGE_FR            "Save media image"
-  IDS_S_AT_D_SPEED_FR                "%s at %d%% speed, %d fps%s"
-  IDS_TAPE_FR                        "Tape:"
+  IDS_CONFIGURE_KEYSET_A_FR          "Configurer Touches A"
+  IDS_CONFIGURE_KEYSET_B_FR          "Configurer Touches B"
+  IDS_SAVE_MEDIA_IMAGE_FR            "Sauvegarder un fichier média"
+  IDS_S_AT_D_SPEED_FR                "%s à une vitesse de %d%%, à %d img/s%s"
+  IDS_TAPE_FR                        "Datassette:"
   IDS_JOYSTICK_FR                    "Joystick:"
-  IDS_RECORDING_FR                   "Recording\n%02d:%02d"
-  IDS_PLAYBACK_FR                    "Playback\n%02d:%02d (%02d:%02d)"
-  IDS_UNKNOWN_FR                     "Unknown"
-  IDS_P_NUMBER_FR                    "<number>"
-  IDS_SET_INPUT_JOYSTICK_1_FR        "Set input device for joystick #1"
-  IDS_SET_INPUT_JOYSTICK_2_FR        "Set input device for joystick #2"
-  IDS_SAVE_SETTINGS_ON_EXIT_FR       "Save settings (resources) on exit"
-  IDS_NO_SAVE_SETTINGS_ON_EXIT_FR    "Never save settings (resources) on exit"
-  IDS_CONFIRM_QUIT_VICE_FR           "Confirm quiting VICE"
-  IDS_NO_CONFIRM_QUIT_VICE_FR        "Never confirm quiting VICE"
-  IDS_USE_ALL_CPU_SMP_FR             "Use all CPU on SMP systems"
-  IDS_USE_FIRST_CPU_SMP_FR           "Use only first CPU on SMP systems"
-  IDS_START_VICE_FULLSCREEN_MODE_FR  "Start VICE in fullscreen mode"
+  IDS_RECORDING_FR                   "Enregistrement\n%02d:%02d"
+  IDS_PLAYBACK_FR                    "Lecture\n%02d:%02d (%02d:%02d)"
+  IDS_UNKNOWN_FR                     "Inconnu"
+  IDS_P_NUMBER_FR                    "<numéro>"
+  IDS_SET_INPUT_JOYSTICK_1_FR        "Sélectionner le périphique branché au port joystick #1"
+  IDS_SET_INPUT_JOYSTICK_2_FR        "Sélectionner le périphique branché au port joystick #2"
+  IDS_SAVE_SETTINGS_ON_EXIT_FR       "Sauvegarder les paramètres à la sortie"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT_FR    "Ne jamais enregistrer les paramètres à la sortie"
+  IDS_CONFIRM_QUIT_VICE_FR           "Demander une confirmation avant de quitter VICE"
+  IDS_NO_CONFIRM_QUIT_VICE_FR        "Ne pas demander de confirmation pour quitter VICE"
+  IDS_USE_ALL_CPU_SMP_FR             "Utiliser tous les processeurs (systèmes SMP)"
+  IDS_USE_FIRST_CPU_SMP_FR           "N'utiliser que le premier processeur (systèmes SMP)"
+  IDS_START_VICE_FULLSCREEN_MODE_FR  "Activer le mode plein écran au démarrage de VICE"
 END
 
 STRINGTABLE
@@ -4549,170 +4552,171 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_VICE_ERROR_IT                  "VICE Error!"
-  IDS_VICE_INFORMATION_IT            "VICE Information"
-  IDS_VICE_QUESTION_IT               "VICE question"
-  IDS_FFMPEG_DLL_MISMATCH_IT         "Your ffmpeg dll version doesn't match."
-  IDS_DIRECTDRAW_ERROR_IT            "DirectDraw error: Code:%8x Error:%s"
-  IDS_CANNOT_SAVE_SETTINGS_IT        "Cannot save settings."
-  IDS_CANNOT_LOAD_SETTINGS_IT        "Cannot load settings."
-  IDS_DEFAULT_SETTINGS_RESTORED_IT   "Default settings restored."
-  IDS_CANNOT_ATTACH_FILE_IT          "Cannot attach specified file"
-  IDS_START_MONITOR_IT               "%s\012\012Start monitor?"
+  IDS_VICE_ERROR_IT                  "Errore di VICE!"
+  IDS_VICE_INFORMATION_IT            "Informazioni su VICE"
+  IDS_VICE_QUESTION_IT               "Domanda di VICE"
+  IDS_FFMPEG_DLL_MISMATCH_IT         "La versione della DLL ffmpeg non corrisponde."
+  IDS_DIRECTDRAW_ERROR_IT            "Errore DirectDraw: Codice:%8x Errore:%s"
+  IDS_CANNOT_SAVE_SETTINGS_IT        "Non Ã¨ possibile salvare le impostazioni."
+  IDS_CANNOT_LOAD_SETTINGS_IT        "Non Ã¨ possibile caricare le impostazioni."
+  IDS_DEFAULT_SETTINGS_RESTORED_IT   "Impostazioni originarie ripristinate."
+  IDS_CANNOT_ATTACH_FILE_IT          "Non Ã¨ possibile seleziona il file specificato"
+  IDS_START_MONITOR_IT               "%s\012\012Avvia il monitor?"
   IDS_VICE_CPU_JAM_IT                "VICE CPU JAM"
-  IDS_EXTEND_TO_40_TRACKS_IT         "Extend image to 40-track format?"
-  IDS_DETACHED_DEVICE_S_IT           "Detached device %s"
-  IDS_ATTACHED_S_TO_DEVICE_S_IT      "Attached %s to device#%s"
-  IDS_DETACHED_TAPE_IT               "Detached tape"
+  IDS_EXTEND_TO_40_TRACKS_IT         "Astendere l'immagine al formato di 40 tracce?"
+  IDS_DETACHED_DEVICE_S_IT           "Rimosso dispositivo %s"
+  IDS_ATTACHED_S_TO_DEVICE_S_IT      "Selezionato %s per la periferica #%s"
+  IDS_DETACHED_TAPE_IT               "Cassetta rimossa"
   IDS_HISTORY_RECORDED_UNKNOWN_IT    "History recorded with unknown release"
   IDS_HISTORY_RECORDED_VICE_S_IT     "History recorded with VICE-%s"
-  IDS_PAUSED_IT                      "paused"
-  IDS_RESUMED_IT                     "resumed"
-  IDS_REALLY_EXIT_IT                 "Do you really want to exit?\012\012All the data present in the emulated RAM will be lost."
-  IDS_CANNOT_AUTOSTART_FILE_IT       "Cannot autostart specified file."
-  IDS_ATTACHED_TAPE_S_IT             "Attached tape %s"
-  IDS_SETTINGS_SAVED_SUCCESS_IT      "Settings saved successfully."
-  IDS_SETTINGS_LOADED_SUCCESS_IT     "Settings loaded successfully."
-  IDS_ATTACH_DISK_IMAGE_IT           "Attach disk image"
-  IDS_ATTACH_TAPE_IMAGE_IT           "Attach tape image"
-  IDS_AUTOSTART_IMAGE_IT             "Autostart disk/tape image"
-  IDS_INVALID_CARTRIDGE_IT           "Invalid cartridge"
-  IDS_BAD_CARTRIDGE_CONFIG_IT        "Bad cartridge config in UI!"
-  IDS_INVALID_CARTRIDGE_IMAGE_IT     "Invalid cartridge image"
-  IDS_LOG_CONSOLE_OUTPUT_IMAGE_IT    "Logging console output image"
-  IDS_LOG_FILES_TYPE_IT              "VICE console logging files (*.dbg)"
-  IDS_CANNOT_WRITE_LOGFILE_S_IT      "Cannot write log file `%s'."
-  IDS_LOAD_FLIP_LIST_FILE_IT         "Load flip list file"
-  IDS_CANNOT_READ_FLIP_LIST_IT       "Cannot read flip list file"
-  IDS_SAVE_FLIP_LIST_FILE_IT         "Save flip list file"
-  IDS_CANNOT_WRITE_FLIP_LIST_IT      "Cannot write flip list file"
-  IDS_SELECT_KEYMAP_FILE_IT          "Select keymap file"
-  IDS_SAVE_KEYMAP_FILE_IT            "Save keymap file"
-  IDS_CANNOT_WRITE_KEYMAP_FILE_IT    "Cannot write keymap file"
+  IDS_PAUSED_IT                      "pausa"
+  IDS_RESUMED_IT                     "ripreso"
+  IDS_REALLY_EXIT_IT                 "Uscire davvero?\012\012Tutti i dati presenti nella RAM emulata saranno persi."
+  IDS_CANNOT_AUTOSTART_FILE_IT       "Non Ã¨ possibile far partire automaticamente il file specificato."
+  IDS_ATTACHED_TAPE_S_IT             "Cassetta %s selezionata"
+  IDS_SETTINGS_SAVED_SUCCESS_IT      "Impostazioni salvate con successo."
+  IDS_SETTINGS_LOADED_SUCCESS_IT     "Impostazioni caricate con successo."
+  IDS_ATTACH_DISK_IMAGE_IT           "Seleziona l'immagine di un disco"
+  IDS_ATTACH_TAPE_IMAGE_IT           "Seleziona l'immagine di una cassetta"
+  IDS_AUTOSTART_IMAGE_IT             "Avvia automaticamente l'immagine del disco/cassetta"
+  IDS_INVALID_CARTRIDGE_IT           "Cartuccia non valida"
+  IDS_BAD_CARTRIDGE_CONFIG_IT        "Configurazione della cartuccia errata nell'IU!"
+  IDS_INVALID_CARTRIDGE_IMAGE_IT     "Immagine della cartuccia non valida"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE_IT    "Immagine dell'output della console di log"
+  IDS_LOG_FILES_TYPE_IT              "File di log (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S_IT      "Non Ã¨ possibile scrivere il file di log `%s'."
+  IDS_LOAD_FLIP_LIST_FILE_IT         "Carica il file della fliplist"
+  IDS_CANNOT_READ_FLIP_LIST_IT       "Non Ã¨ possibile leggere il file della fliplist"
+  IDS_SAVE_FLIP_LIST_FILE_IT         "Salva il file della fliplist"
+  IDS_CANNOT_WRITE_FLIP_LIST_IT      "Non Ã¨ possibile scrivere il file della flip list"
+  IDS_SELECT_KEYMAP_FILE_IT          "Seleziona il file della mappa della tastiera"
+  IDS_SAVE_KEYMAP_FILE_IT            "Salva il file della mappa della tastiera"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_IT    "Non Ã¨ possibile scrivere il file della mappa della tastiera"
   IDS_MAPPING_IT                     "Mapping"
-  IDS_KEYBOARD_SETTINGS_IT           "Keyboard settings"
-  IDS_ATTACH_IT                      "&Attach"
-  IDS_PLEASE_ENTER_A_FILENAME_IT     "Please enter a filename."
-  IDS_OVERWRITE_EXISTING_IMAGE_IT    "Overwrite existing image?"
-  IDS_CANNOT_CREATE_IMAGE_IT         "Cannot create image"
-  IDS_COMMAND_LINE_OPTIONS_IT        "Command line options"
-  IDS_COMMAND_OPTIONS_AVAIL_IT       "Which command line options are available?"
-  IDS_NO_DRIVER_SELECT_SUPPORT_IT    "No driver selected or selected driver not supported"
-  IDS_CANT_WRITE_SCREENSHOT_S_IT     "Cannot write screenshot file `%s'."
-  IDS_AUTOSTART_DISK_IMAGE_IT        "Autostart disk image"
-  IDS_SELECT_FS_DIRECTORY_IT         "Select file system directory"
-  IDS_PRINTER_USERPORT_IT            "Printer Userport"
-  IDS_PRINTER_4_IT                   "Printer 4"
-  IDS_PRINTER_5_IT                   "Printer 5"
+  IDS_KEYBOARD_SETTINGS_IT           "Impostazioni della tastiera"
+  IDS_ATTACH_IT                      "&Seleziona"
+  IDS_PLEASE_ENTER_A_FILENAME_IT     "Specifica il nome del file."
+  IDS_OVERWRITE_EXISTING_IMAGE_IT    "Sovrascrivo l'immagine esistente?"
+  IDS_CANNOT_CREATE_IMAGE_IT         "Non Ã¨ possibile creare l'immagine"
+  IDS_COMMAND_LINE_OPTIONS_IT        "Parametri della riga di comando"
+  IDS_COMMAND_OPTIONS_AVAIL_IT       "Quali parametri della riga di comando sono disponibili?"
+  IDS_NO_DRIVER_SELECT_SUPPORT_IT    "Nessun driver selezionato o driver selezionato non supportato"
+  IDS_CANT_WRITE_SCREENSHOT_S_IT     "Non Ã¨ possibile scrivere il file di snapshot `%s'."
+  IDS_AUTOSTART_DISK_IMAGE_IT        "Avvia automaticamente l'immagine del disco"
+  IDS_SELECT_FS_DIRECTORY_IT         "Seleziona la directory del file system"
+  IDS_PRINTER_USERPORT_IT            "Stampante su userport"
+  IDS_PRINTER_4_IT                   "Stampante 4"
+  IDS_PRINTER_5_IT                   "Stampante 5"
   IDS_DRIVE_8_IT                     "Drive 8"
   IDS_DRIVE_9_IT                     "Drive 9"
   IDS_DRIVE_10_IT                    "Drive 10"
   IDS_DRIVE_11_IT                    "Drive 11"
-  IDS_PERIPHERAL_SETTINGS_IT         "Peripheral Settings"
-  IDS_CANT_WRITE_SNAPSHOT_FILE_IT    "Can't write snapshot file."
-  IDS_CANNOT_READ_SNAPSHOT_IMG_IT    "Cannot read snapshot image"
-  IDS_LOAD_S_ROM_IMAGE_IT            "Load %s ROM image"
-  IDS_SELECT_ROMSET_ARCHIVE_IT       "Select romset archive"
-  IDS_CANNOT_LOAD_ROMSET_ARCH_IT     "Cannot load romset archive!"
-  IDS_CANNOT_SAVE_ROMSET_ARCH_IT     "Cannot save romset archive!"
-  IDS_CANNOT_LOAD_ROMSET_FILE_IT     "Cannot load romset file!"
-  IDS_CANNOT_SAVE_ROMSET_FILE_IT     "Cannot save romset file!"
-  IDS_SELECT_ROMSET_FILE_IT          "Select romset file"
+  IDS_PERIPHERAL_SETTINGS_IT         "Impostazioni delle periferiche"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_IT    "Non Ã¨ possibile scrivere il file di snapshot."
+  IDS_CANNOT_READ_SNAPSHOT_IMG_IT    "Non Ã¨ possibile leggere l'immagine di snapshot"
+  IDS_LOAD_S_ROM_IMAGE_IT            "Carica immagine della ROM %s"
+  IDS_SELECT_ROMSET_ARCHIVE_IT       "Seleziona l'archivio del ROM set"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_IT     "Non Ã¨ possibile caricare l'archivio del ROM set!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_IT     "Non Ã¨ possibile salvare l'archivio del ROM set!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_IT     "Non Ã¨ possibile caricare il file del ROM set!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_IT     "Non Ã¨ possibile salvare il file del ROM set!"
+  IDS_SELECT_ROMSET_FILE_IT          "Seleziona il file del ROM set"
   IDS_ROMSET_IT                      "Romset"
   IDS_COMPUTER_IT                    "Computer"
   IDS_DRIVE_IT                       "Drive"
-  IDS_ROM_SETTINGS_IT                "ROM settings"
-  IDS_SAVE_SNAPSHOT_IMAGE_IT         "Save snapshot image"
-  IDS_CANNOT_WRITE_SNAPSHOT_S_IT     "Cannot write snapshot file `%s'."
-  IDS_LOAD_SNAPSHOT_IMAGE_IT         "Load snapshot image"
-  IDS_COULD_NOT_LOAD_PALETTE_IT      "Could not load palette file."
-  IDS_LOAD_VICE_PALETTE_FILE_IT      "Load VICE palette file"
-  IDS_FULLSCREEN_IT                  "Fullscreen"
-  IDS_COLORS_IT                      "Colors"
-  IDS_VIDEO_SETTINGS_IT              "Video settings"
+  IDS_ROM_SETTINGS_IT                "Impostazioni delle ROM"
+  IDS_SAVE_SNAPSHOT_IMAGE_IT         "Salva l'immagine dello snapshot"
+  IDS_CANNOT_WRITE_SNAPSHOT_S_IT     "Non Ã¨ possibile scrivere il file di snapshot `%s'."
+  IDS_LOAD_SNAPSHOT_IMAGE_IT         "Carica immagine dello snapshot"
+  IDS_COULD_NOT_LOAD_PALETTE_IT      "Non Ã¨ possibile caricare il file di palette."
+  IDS_LOAD_VICE_PALETTE_FILE_IT      "Carica il file di palette di VICE"
+  IDS_FULLSCREEN_IT                  "Schermo intero"
+  IDS_COLORS_IT                      "Colori"
+  IDS_VIDEO_SETTINGS_IT              "Impostazioni video"
   IDS_FILE_SYSTEM_IT                 "File system"
 #ifdef HAVE_OPENCBM
-  IDS_REAL_IEC_DEVICE_IT             "Real IEC device"
+  IDS_REAL_IEC_DEVICE_IT             "Periferica IEC reale"
 #endif
-  IDS_RS232_DEVICE_I_IT              "RS232 device %i"
-  IDS_ATTACH_CRT_CART_IMAGE_IT       "Attach CRT cartridge image"
-  IDS_ATTACH_RAW_8KB_CART_IMAGE_IT   "Attach raw 8KB cartridge image"
-  IDS_ATTACH_RAW_16KB_CART_IMG_IT    "Attach raw 16KB cartridge image"
-  IDS_ATTACH_AR_CART_IMAGE_IT        "Attach Action Replay cartridge image"
-  IDS_ATTACH_ATOMIC_P_CART_IMG_IT    "Attach Atomic Power cartridge image"
-  IDS_ATTACH_EPYX_FL_CART_IMG_IT     "Attach Epyx fastload cartridge image"
-  IDS_ATTACH_IEEE488_CART_IMG_IT     "Attach IEEE interface cartridge image"
-  IDS_ATTACH_RETRO_R_CART_IMG_IT     "Attach Retro Replay cartridge image"
-  IDS_ATTACH_IDE64_CART_IMAGE_IT     "Attach IDE64 interface cartridge image"
-  IDS_ATTACH_SS4_CART_IMAGE_IT       "Attach Super Snapshot 4 cartridge image"
-  IDS_ATTACH_SS5_CART_IMAGE_IT       "Attach Super Snapshot 5 cartridge image"
-  IDS_MODEL_IT                       "Model"
-  IDS_DRIVE_SETTINGS_IT              "Drive Settings"
+  IDS_RS232_DEVICE_I_IT              "Dispositivo RS232 #%i"
+  IDS_ATTACH_CRT_CART_IMAGE_IT       "Seleziona l'immagine di una cartuccia CRT"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE_IT   "Seleziona l'immagine di una cartuccia di 8KB"
+  IDS_ATTACH_RAW_16KB_CART_IMG_IT    "Seleziona l'immagine di una cartuccia di 16KB"
+  IDS_ATTACH_AR_CART_IMAGE_IT        "Seleziona l'immagine di una cartuccia Action Replay"
+  IDS_ATTACH_ATOMIC_P_CART_IMG_IT    "Seleziona l'immagine di una cartuccia Atomic Power"
+  IDS_ATTACH_EPYX_FL_CART_IMG_IT     "Seleziona l'immagine di una cartuccia Epyx fastload"
+  IDS_ATTACH_IEEE488_CART_IMG_IT     "Seleziona l'immagine di una cartuccia di interfaccia IEEE"
+  IDS_ATTACH_RETRO_R_CART_IMG_IT     "Seleziona l'immagine di una cartuccia Retro Replay"
+  IDS_ATTACH_IDE64_CART_IMAGE_IT     "Seleziona l'immagine di una cartuccia di interfaccia IDE64"
+  IDS_ATTACH_SS4_CART_IMAGE_IT       "Seleziona l'immagine di una cartuccia Super Snapshot 4"
+  IDS_ATTACH_SS5_CART_IMAGE_IT       "Seleziona l'immagine di una cartuccia Super Snapshot 5"
+  IDS_ATTACH_STB_CART_IMAGE_IT       "Seleziona l'immagine di una cartuccia Structured Basic"
+  IDS_MODEL_IT                       "Modello"
+  IDS_DRIVE_SETTINGS_IT              "Impostazioni dei drive"
   IDS_SELECT_START_SNAP_EVENT_IT     "Select start snapshot for event history"
   IDS_SELECT_END_SNAP_EVENT_IT       "Select end snapshot for event history"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE_IT          "Version %s *UNSTABLE*"
+  IDS_VERSION_S_UNSTABLE_IT          "Versione %s *INSTABILE*"
 #else
-  IDS_VERSION_S_IT                   "Version %s"
+  IDS_VERSION_S_IT                   "Versione %s"
 #endif
-  IDS_VICE_CONTRIBUTORS_IT           "VICE contributors"
-  IDS_WHO_MADE_WHAT_IT               "Who made what?"
-  IDS_LICENSE_IT                     "License"
-  IDS_NO_WARRANTY_IT                 "No warranty!"
-  IDS_VICE_WITHOUT_WARRANTY_IT       "VICE is distributed WITHOUT ANY WARRANTY!"
-  IDS_PRESS_KEY_NORTHWEST_IT         "Press key for NorthWest"
-  IDS_PRESS_KEY_NORTH_IT             "Press key for North"
-  IDS_PRESS_KEY_NORTHEAST_IT         "Press key for NorthEast"
-  IDS_PRESS_KEY_EAST_IT              "Press key for East"
-  IDS_PRESS_KEY_SOUTHEAST_IT         "Press key for SouthEast"
-  IDS_PRESS_KEY_SOUTH_IT             "Press key for South"
-  IDS_PRESS_KEY_SOUTHWEST_IT         "Press key for SouthWest"
-  IDS_PRESS_KEY_WEST_IT              "Press key for West"
-  IDS_PRESS_KEY_FIRE_IT              "Press key for Fire"
-  IDS_NUMPAD_AND_RCTRL_IT            "Numpad + RCtrl"
+  IDS_VICE_CONTRIBUTORS_IT           "Collaboratori"
+  IDS_WHO_MADE_WHAT_IT               "Chi ha fatto cosa?"
+  IDS_LICENSE_IT                     "Licenza"
+  IDS_NO_WARRANTY_IT                 "Nessuna garanzia!"
+  IDS_VICE_WITHOUT_WARRANTY_IT       "VICE Ã¨ distribuito SENZA NESSUNA GARANZIA!"
+  IDS_PRESS_KEY_NORTHWEST_IT         "Permi il tasto per nord ovest"
+  IDS_PRESS_KEY_NORTH_IT             "Premi il tasto per nord"
+  IDS_PRESS_KEY_NORTHEAST_IT         "Premi il tasto per nord est"
+  IDS_PRESS_KEY_EAST_IT              "Premi il tasto per est"
+  IDS_PRESS_KEY_SOUTHEAST_IT         "Premi il tasto per sud est"
+  IDS_PRESS_KEY_SOUTH_IT             "Premi il tasto per sud"
+  IDS_PRESS_KEY_SOUTHWEST_IT         "Premi il tasto per sud ovest"
+  IDS_PRESS_KEY_WEST_IT              "Premi il tasto per ovest"
+  IDS_PRESS_KEY_FIRE_IT              "Premi il tasto per il fuoco"
+  IDS_NUMPAD_AND_RCTRL_IT            "Tastierino numerico + Ctrl destro"
   IDS_KEYSET_A_IT                    "Keyset A"
   IDS_KEYSET_B_IT                    "Keyset B"
-  IDS_ALL_BUTTONS_AS_FIRE_IT         "All buttons used as fire"
-  IDS_NUMERIC_SEE_ABOVE_IT           "numeric (see above)"
-  IDS_NO_BUTTON_NO_AUTOFIRE_IT       "No button - Autofire disabled"
-  IDS_ALL_FILES_FILTER_IT            "All files (*.*)"
-  IDS_PALETTE_FILES_FILTER_IT        "VICE palette files (*.vpl)"
-  IDS_SNAPSHOT_FILES_FILTER_IT       "VICE snapshot files (*.vsf)"
-  IDS_DISK_IMAGE_FILES_FILTER_IT     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
-  IDS_TAPE_IMAGE_FILES_FILTER_IT     "Tape image files (*.t64;*.p00;*.tap;*.prg)"
-  IDS_ZIPPED_FILES_FILTER_IT         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
-  IDS_CRT_FILES_FILTER_IT            "CRT cartridge image files (*.crt)"
-  IDS_RAW_CART_FILES_FILTER_IT       "Raw cartridge image files (*.bin)"
-  IDS_FLIP_LIST_FILES_FILTER_IT      "VICE flip list files (*.vfl)"
-  IDS_ROMSET_FILES_FILTER_IT         "VICE romset files (*.vrs)"
-  IDS_ROMSET_ARCHIVES_FILTER_IT      "VICE romset archives (*.vra)"
-  IDS_KEYMAP_FILES_FILTER_IT         "VICE keymap files (*.vkm)"
-  IDS_FLEXIBLE_IT                    "Flexible"
-  IDS_ADJUSTING_IT                   "Adjusting"
-  IDS_EXACT_IT                       "Exact"
-  IDS_SOUND_DRIVER_DIRECTX_IT        "Sound driver: DirectX"
-  IDS_SOUND_DRIVER_WMM_IT            "Sound driver: WMM"
-  IDS_MEDIA_FILES_FILTER_IT          "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_ALL_BUTTONS_AS_FIRE_IT         "Tutti i pulsanti usati come fuoco"
+  IDS_NUMERIC_SEE_ABOVE_IT           "numerico (vedi sopra)"
+  IDS_NO_BUTTON_NO_AUTOFIRE_IT       "Nessun pulsante - Fuoco automatico disabilitato"
+  IDS_ALL_FILES_FILTER_IT            "Tutti i file (*.*)"
+  IDS_PALETTE_FILES_FILTER_IT        "Palette di VICE (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER_IT       "Snapshot (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER_IT     "Immagini di dischi (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER_IT     "Immagini di cassette (*.t64;*.p00;*.tap;*.prg)"
+  IDS_ZIPPED_FILES_FILTER_IT         "File compressi (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER_IT            "Immagini delle cartucce CRT (*.crt)"
+  IDS_RAW_CART_FILES_FILTER_IT       "Immagini delle cartucce (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER_IT      "Flip list (*.vfl)"
+  IDS_ROMSET_FILES_FILTER_IT         "ROM set (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER_IT      "Archivi del ROM set (*.vra)"
+  IDS_KEYMAP_FILES_FILTER_IT         "Mappe della tastiera (*.vkm)"
+  IDS_FLEXIBLE_IT                    "Flessibile"
+  IDS_ADJUSTING_IT                   "Adattabile"
+  IDS_EXACT_IT                       "Esatta"
+  IDS_SOUND_DRIVER_DIRECTX_IT        "Driver sonoro: DirectX"
+  IDS_SOUND_DRIVER_WMM_IT            "Driver sonoro: WMM"
+  IDS_MEDIA_FILES_FILTER_IT          "File multimediali (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB_IT                    " kB"
-  IDS_CONFIGURE_KEYSET_A_IT          "Configure Keyset A"
-  IDS_CONFIGURE_KEYSET_B_IT          "Configure Keyset B"
-  IDS_SAVE_MEDIA_IMAGE_IT            "Save media image"
+  IDS_CONFIGURE_KEYSET_A_IT          "Configura Keyset A"
+  IDS_CONFIGURE_KEYSET_B_IT          "Configura Keyset B"
+  IDS_SAVE_MEDIA_IMAGE_IT            "Salva immagine multimediale"
   IDS_S_AT_D_SPEED_IT                "%s at %d%% speed, %d fps%s"
-  IDS_TAPE_IT                        "Tape:"
+  IDS_TAPE_IT                        "Cassetta:"
   IDS_JOYSTICK_IT                    "Joystick:"
-  IDS_RECORDING_IT                   "Recording\n%02d:%02d"
-  IDS_PLAYBACK_IT                    "Playback\n%02d:%02d (%02d:%02d)"
-  IDS_UNKNOWN_IT                     "Unknown"
-  IDS_P_NUMBER_IT                    "<number>"
-  IDS_SET_INPUT_JOYSTICK_1_IT        "Set input device for joystick #1"
-  IDS_SET_INPUT_JOYSTICK_2_IT        "Set input device for joystick #2"
-  IDS_SAVE_SETTINGS_ON_EXIT_IT       "Save settings (resources) on exit"
-  IDS_NO_SAVE_SETTINGS_ON_EXIT_IT    "Never save settings (resources) on exit"
-  IDS_CONFIRM_QUIT_VICE_IT           "Confirm quiting VICE"
-  IDS_NO_CONFIRM_QUIT_VICE_IT        "Never confirm quiting VICE"
-  IDS_USE_ALL_CPU_SMP_IT             "Use all CPU on SMP systems"
-  IDS_USE_FIRST_CPU_SMP_IT           "Use only first CPU on SMP systems"
-  IDS_START_VICE_FULLSCREEN_MODE_IT  "Start VICE in fullscreen mode"
+  IDS_RECORDING_IT                   "Registrazione\n%02d:%02d"
+  IDS_PLAYBACK_IT                    "Riproduzione\n%02d:%02d (%02d:%02d)"
+  IDS_UNKNOWN_IT                     "Sconosciuto"
+  IDS_P_NUMBER_IT                    "<numero>"
+  IDS_SET_INPUT_JOYSTICK_1_IT        "Imposta il dispositivo di input per il joystick 1"
+  IDS_SET_INPUT_JOYSTICK_2_IT        "Imposta il dispositivo di input per il joystick 2"
+  IDS_SAVE_SETTINGS_ON_EXIT_IT       "Salva le impostazioni in uscita"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT_IT    "Non salvare mai le impostazioni in uscita"
+  IDS_CONFIRM_QUIT_VICE_IT           "Conferma l'uscita da VICE"
+  IDS_NO_CONFIRM_QUIT_VICE_IT        "Non confermare mai l'uscita da VICE"
+  IDS_USE_ALL_CPU_SMP_IT             "Usa tutte le CPU sui sistemi SMP"
+  IDS_USE_FIRST_CPU_SMP_IT           "Usa solo la prima CPU sui sistemi SMP"
+  IDS_START_VICE_FULLSCREEN_MODE_IT  "Avvia VICE a tutto schermo"
 END
 
 STRINGTABLE
@@ -4826,6 +4830,7 @@ BEGIN
   IDS_ATTACH_IDE64_CART_IMAGE_NL     "Koppel IDE64 interface cartridge bestand"
   IDS_ATTACH_SS4_CART_IMAGE_NL       "Koppel Super Snapshot 4 cartridge bestand"
   IDS_ATTACH_SS5_CART_IMAGE_NL       "Koppel Super Snapshot 5 cartridge bestand"
+  IDS_ATTACH_STB_CART_IMAGE_NL       "Koppel Structured Basic bestand"
   IDS_MODEL_NL                       "Model"
   IDS_DRIVE_SETTINGS_NL              "Drive Instellingen"
   IDS_SELECT_START_SNAP_EVENT_NL     "Selecteer start momentopname voor gebeurtenis geschiedenis"
@@ -5008,6 +5013,7 @@ BEGIN
   IDS_ATTACH_IDE64_CART_IMAGE_PL     "Attach IDE64 interface cartridge image"
   IDS_ATTACH_SS4_CART_IMAGE_PL       "Attach Super Snapshot 4 cartridge image"
   IDS_ATTACH_SS5_CART_IMAGE_PL       "Attach Super Snapshot 5 cartridge image"
+  IDS_ATTACH_STB_CART_IMAGE_PL       "Attach Structured Basic cartridge image"
   IDS_MODEL_PL                       "Model"
   IDS_DRIVE_SETTINGS_PL              "Drive Settings"
   IDS_SELECT_START_SNAP_EVENT_PL     "Select start snapshot for event history"
@@ -5191,6 +5197,7 @@ BEGIN
   IDS_ATTACH_IDE64_CART_IMAGE_SV     "Anslut IDE64-gränssnittsavbildningsfil"
   IDS_ATTACH_SS4_CART_IMAGE_SV       "Anslut Super Snapshot 4-avbildningsfil"
   IDS_ATTACH_SS5_CART_IMAGE_SV       "Anslut Super Snapshot 5-avbildningsfil"
+  IDS_ATTACH_STB_CART_IMAGE_SV       "Anslut Structured Basic-avbildningsfil"
   IDS_MODEL_SV                       "Modell"
   IDS_DRIVE_SETTINGS_SV              "Diskettenhetsinställningar"
   IDS_SELECT_START_SNAP_EVENT_SV     "Välj startögonblicksmodul för händelsehistorik"
