@@ -432,12 +432,12 @@ void machine_change_timing(int timeval)
     maincpu_trigger_reset();
 
     switch (timeval) {
-      case DRIVE_SYNC_PAL:
+      case MACHINE_SYNC_PAL:
         cycles_per_sec = VIC20_PAL_CYCLES_PER_SEC;
         cycles_per_rfsh = VIC20_PAL_CYCLES_PER_RFSH;
         rfsh_per_sec = VIC20_PAL_RFSH_PER_SEC;
         break;
-      case DRIVE_SYNC_NTSC:
+      case MACHINE_SYNC_NTSC:
         cycles_per_sec = VIC20_NTSC_CYCLES_PER_SEC;
         cycles_per_rfsh = VIC20_NTSC_CYCLES_PER_RFSH;
         rfsh_per_sec = VIC20_NTSC_RFSH_PER_SEC;
