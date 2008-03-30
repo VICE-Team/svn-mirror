@@ -114,12 +114,6 @@
 /* Is a BSD compatible joystick support avaiable?  */
 #undef BSD_JOYSTICK
 
-/* Package name.  */
-#define PACKAGE ""
-
-/* Version number.  */
-#define VERSION ""
-
 /* Define if this version is unstable.  */
 #define UNSTABLE
 
@@ -254,3 +248,10 @@
 
 /* Define if you have the audio library (-laudio).  */
 #undef HAVE_LIBAUDIO
+
+/* Name of package */
+#undef PACKAGE
+
+/* Version number of package */
+#undef VERSION
+
