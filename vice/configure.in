@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=22
-VICE_VERSION_BUILD=5
+VICE_VERSION_BUILD=6
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -205,7 +205,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
   fi
 
   if test x"$host_os" = "xamigaos" -a x"$host_cpu" = "xm68k"; then
-    CFLAGS="$CFLAGS -noixemul"
+    CFLAGS="$CFLAGS -mc68020 -noixemul"
     AC_DEFINE(AMIGA_M68K,,[Should we enable M68K AmigaOS support.])
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
@@ -1542,6 +1542,9 @@ if test x"$is_unix_x11" = "xyes"; then
                  LINK_X_LIBS="-lsocket $LINK_X_LIBS"],,$X_LIBS)
     AC_CHECK_LIB(bsd, gethostbyname,[ X_LIBS="-lbsd $X_LIBS";
                  LINK_X_LIBS="-lbsd $LINK_X_LIBS"],,$X_LIBS)
+    if test x"$ac_cv_lib_ICE_IceConnectionNumber" != "xyes"; then
+      unset ac_cv_lib_ICE_IceConnectionNumber
+    fi
     AC_CHECK_LIB(ICE, IceConnectionNumber,[ X_LIBS="-lICE $X_LIBS";
                  LINK_X_LIBS="-lICE $LINK_X_LIBS"],,$X_LIBS)
     AC_CHECK_LIB(SM, SmFreeProperty,[ X_LIBS="-lSM $X_LIBS";

@@ -93,10 +93,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_C64_256K_CAPTION             "256K Instellingen"
-    IDS_C64_256K_ENABLE              "&Aktiveer 256K"
-    IDS_C64_256K_BASE                "256K basis adres"
-    IDS_C64_256K_FILE                "256K bestand"
+    IDS_C64_256K_CAPTION             "256K-instellingen"
+    IDS_C64_256K_ENABLE              "&Activeer 256K"
+    IDS_C64_256K_BASE                "256K-basisadres"
+    IDS_C64_256K_FILE                "256K-bestand"
     IDS_C64_256K_SELECT_FILE         "Selecteer bestand voor 256K"
 END
 

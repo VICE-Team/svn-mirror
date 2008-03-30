@@ -1085,16 +1085,16 @@ IDR_MENUPET_NL MENU DISCARDABLE
 BEGIN
     POPUP "&Bestand"
     BEGIN
-        MENUITEM "&Autostart disk/tape bestand...", IDM_AUTOSTART
+        MENUITEM "&Autostart disk-/tapebestand...", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Koppel &disk bestand"
+        POPUP "Koppel &schijfbestand aan"
         BEGIN
             MENUITEM "Drive &8\tAlt+8",  IDM_ATTACH_8
             MENUITEM "Drive &9\tAlt+9",  IDM_ATTACH_9
             MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
             MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "Ontkopp&el disk bestand"
+        POPUP "Ontkopp&el schijfbestand"
         BEGIN
             MENUITEM "Drive &8",  IDM_DETACH_8
             MENUITEM "Drive &9",  IDM_DETACH_9
@@ -1110,12 +1110,12 @@ BEGIN
             MENUITEM "Koppel volge&nd bestand\tAlt+N",     IDM_FLIP_NEXT
             MENUITEM "Koppel vori&g bestand\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
-            MENUITEM "&Laad flip lijst", IDM_FLIP_LOAD
-            MENUITEM "Op&slaan flip lijst", IDM_FLIP_SAVE
+            MENUITEM "&Laad fliplijst", IDM_FLIP_LOAD
+            MENUITEM "Op&slaan fliplijst", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Koppel &tape bestand...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Ontkoppe&l tape bestand",           IDM_DETACH_TAPE
+        MENUITEM "Koppel &tapebestand...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Ontkoppe&l tapebestand",           IDM_DETACH_TAPE
         POPUP "Datassette bedie&ning"
         BEGIN
             MENUITEM "S&top",          IDM_DATASETTE_CONTROL_STOP
@@ -1160,13 +1160,13 @@ BEGIN
     END
     POPUP "Momento&pname"
     BEGIN
-        MENUITEM "Laad momentopname best&and...", IDM_SNAPSHOT_LOAD
-        MENUITEM "Opslaan momento&pname bestand...", IDM_SNAPSHOT_SAVE
-        MENUITEM "Snel&laad momentopname bestand\tAlt+L", IDM_LOADQUICK
-        MENUITEM "&Snelopslaan momentopname bestand\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Laad momentopnamebest&and...", IDM_SNAPSHOT_LOAD
+        MENUITEM "Opslaan momento&pnamebestand...", IDM_SNAPSHOT_SAVE
+        MENUITEM "Snel&laad momentopnamebestand\tAlt+L", IDM_LOADQUICK
+        MENUITEM "&Snelopslaan momentopnamebestand\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Sta&rt/Stop Opname Geschiedenis",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Start/Stop &Afspeel Geschiedenis",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Sta&rt/Stop opnamegeschiedenis",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Start/Stop &Afspeelgeschiedenis",        IDM_EVENT_TOGGLE_PLAYBACK
         MENUITEM "Zet Opname Mijlpaal\tAlt+G",  IDM_EVENT_SETMILESTONE
         MENUITEM "Ga terug naar Mijlpaal\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Opname start modus"
@@ -1176,16 +1176,16 @@ BEGIN
             MENUITEM "Start bij &reset",       IDM_EVENT_START_MODE_RESET
             MENUITEM "Overschrijf weer&gave",     IDM_EVENT_START_MODE_PLAYBACK
         END
-        MENUITEM "Selecteer Geschiedenis directory",    IDM_EVENT_DIRECTORY
+        MENUITEM "Selecteer geschiedenisdirectory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Opslaan/stop media bestand...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Opslaan/stop mediabestand...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Geluid Opname...", IDM_SOUND_RECORD_START
-        MENUITEM "Stop Geluid Opname", IDM_SOUND_RECORD_STOP
+        MENUITEM "Geluidsopname...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop geluidsopname", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opties"
     BEGIN
-        POPUP "Ve&rnieuwings snelheid"
+        POPUP "Ve&rversingssnelheid"
         BEGIN
             MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
@@ -1212,9 +1212,9 @@ BEGIN
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "Geen &limiet", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&Eigen", IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&Aangepast", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE
+        MENUITEM "&Warpmodus\tAlt+W", IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Volscherm\tAlt+D", IDM_TOGGLE_FULLSCREEN
@@ -1228,8 +1228,8 @@ BEGIN
 	MENUITEM SEPARATOR
         MENUITEM "Geluid&suitvoer", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "&Hardware drive emulatie", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtuele apparaat traps", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "&Hardwarematige driveemulatie", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        MENUITEM "&Virtuele apparaattraps", IDM_TOGGLE_VIRTUAL_DEVICES
         POPUP "Drive s&ynchronisatie faktor"
         BEGIN
             MENUITEM "&PAL",  IDM_SYNC_FACTOR_PAL
@@ -1240,27 +1240,27 @@ BEGIN
     END
     POPUP "Inst&ellingen"
     BEGIN
-        MENUITEM "&Video instellingen...",     IDM_VIDEO_SETTINGS
+        MENUITEM "&Videoinstellingen...",     IDM_VIDEO_SETTINGS
         MENUITEM "P&ET instellingen...",       IDM_PET_SETTINGS
-        MENUITEM "Rand A&pparaten instellingen...",IDM_DEVICEMANAGER
-        MENUITEM "&Drive instellingen...",     IDM_DRIVE_SETTINGS
-        MENUITEM "D&atasette instellingen...", IDM_DATASETTE_SETTINGS
-        MENUITEM "&Joystick instellingen...",  IDM_JOY_SETTINGS
-        MENUITEM "&Toetsenbord instellingen...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "G&eluid instellingen...",     IDM_SOUND_SETTINGS
-        MENUITEM "&ROM instellingen...",       IDM_ROM_SETTINGS
-        MENUITEM "RA&M instellingen...",       IDM_RAM_SETTINGS
-        MENUITEM "RS&232 instellingen...",     IDM_RS232_SETTINGS
-        POPUP "&Cartridge/IO instellingen"
+        MENUITEM "Randa&pparateninstellingen...",IDM_DEVICEMANAGER
+        MENUITEM "&Drive-instellingen...",     IDM_DRIVE_SETTINGS
+        MENUITEM "D&atasette-instellingen...", IDM_DATASETTE_SETTINGS
+        MENUITEM "&Joystick-instellingen...",  IDM_JOY_SETTINGS
+        MENUITEM "&Toetsenbordinstellingen...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "G&eluidsinstellingen...",     IDM_SOUND_SETTINGS
+        MENUITEM "&ROM-instellingen...",       IDM_ROM_SETTINGS
+        MENUITEM "RA&M-instellingen...",       IDM_RAM_SETTINGS
+        MENUITEM "RS&232-instellingen...",     IDM_RS232_SETTINGS
+        POPUP "&Cartridge/IO-instellingen"
         BEGIN
-            MENUITEM "&ACIA instellingen...",  IDM_ACIA_SETTINGS
-            MENUITEM "PET &REU instellingen...",      IDM_PETREU_SETTINGS
-            MENUITEM "&SID cart instellingen...",     IDM_SIDCART_SETTINGS
+            MENUITEM "&ACIA-instellingen...",  IDM_ACIA_SETTINGS
+            MENUITEM "PET &REU-iinstellingen...",      IDM_PETREU_SETTINGS
+            MENUITEM "&SID-cartinstellingen...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Huidige instellingen op&slaan", IDM_SETTINGS_SAVE
         MENUITEM "Opges&lagen instelling laden",   IDM_SETTINGS_LOAD
-        MENUITEM "Herstel standaar&d instellingen",  IDM_SETTINGS_DEFAULT
+        MENUITEM "Herstel standaar&dinstellingen",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
 	MENUITEM "Sla instellingen op bij afslui&ten", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
 	MENUITEM "Bevestigen bij afsl&uiten",	   IDM_TOGGLE_CONFIRM_ON_EXIT
@@ -1909,7 +1909,7 @@ END
 
 IDD_PETROM_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 240, 150
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "ROM Instellingen"
+CAPTION "ROM-instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "Kernal",IDC_STATIC, 9,8,40,8
@@ -2170,7 +2170,7 @@ END
 
 IDD_PETDRIVEROM_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 240, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "ROM Instellingen"
+CAPTION "ROM-instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "2031",IDC_STATIC,9,8,40,8
@@ -3159,14 +3159,14 @@ BEGIN
     AUTORADIOBUTTON "&80 Kolommen",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
                             BS_AUTORADIOBUTTON
 
-    GROUPBOX        "&IO grootte",IDC_STATIC,5,85,80,60
+    GROUPBOX        "&IO-grootte",IDC_STATIC,5,85,80,60
     AUTORADIOBUTTON "2&56 Byte",IDC_SELECT_PET_IO256,15,100,45,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "&2 kByte", IDC_SELECT_PET_IO2K ,15,115,45,10,
                             BS_AUTORADIOBUTTON
 
     GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "CRTC chip &aktiveren",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
+    AUTOCHECKBOX    "CRTC-chip &activeren",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
                             BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     GROUPBOX        "&Toetsenbord",IDC_STATIC,105,85,90,60
@@ -3317,8 +3317,8 @@ IDD_PET_SETTINGS_SUPER_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&IO Instellingen",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "SuperPET I/O aktiv&eren (zet 8x96 uit)",
+    GROUPBOX        "&IO-instellingen",IDC_STATIC,5,15,160,30
+    AUTOCHECKBOX    "SuperPET-I/O activ&eren (schakelt 8x96 uit)",
                             IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
                             BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
@@ -3431,7 +3431,7 @@ IDD_PET_SETTINGS_8296_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&RAM Instellingen",IDC_STATIC,5,15,90,45
+    GROUPBOX        "&RAM-instellingen",IDC_STATIC,5,15,90,45
     AUTOCHECKBOX "$&9*** als RAM",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
                             BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX "$&A*** als RAM",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
@@ -3823,7 +3823,7 @@ END
 STRINGTABLE
 BEGIN
   IDS_INPUT_OUTPUT_NL   "Invoer/Uitvoer"
-  IDS_PET_SETTINGS_NL   "PET instellingen"
+  IDS_PET_SETTINGS_NL   "PET-instellingen"
 END
 
 

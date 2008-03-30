@@ -49,9 +49,17 @@
 
 #define X_OFFSET vicii.screen_leftborderwidth
 
-#define SPRITE_EXPANDED_REPEAT_PIXELS_START(n) (0x11a + X_OFFSET + n * 0x10)
-#define SPRITE_NORMAL_REPEAT_PIXELS_START(n) (0x132 + X_OFFSET + n * 0x10)
-#define SPRITE_REPEAT_PIXELS_END(n) (0x157 + X_OFFSET + n * 0x10)
+#define SPRITE_EXPANDED_REPEAT_PIXELS_START(n) (vicii.sprite_wrap_x < 0x200 ? \
+                                               (0x11a + X_OFFSET + n * 0x10) :\
+                                               (0x122 + X_OFFSET + n * 0x10))
+
+#define SPRITE_NORMAL_REPEAT_PIXELS_START(n) (vicii.sprite_wrap_x < 0x200 ? \
+                                             (0x132 + X_OFFSET + n * 0x10) :\
+                                             (0x13a + X_OFFSET + n * 0x10))
+
+#define SPRITE_REPEAT_PIXELS_END(n) (vicii.sprite_wrap_x < 0x200 ? \
+                                    (0x157 + X_OFFSET + n * 0x10) :  \
+                                    (0x15f + X_OFFSET + n * 0x10))
 /* where the sprite pixels start repeating */
 #define SPRITE_REPEAT_BEGIN(n) (SPRITE_REPEAT_PIXELS_END(n) - 0xc)
 
@@ -524,14 +532,17 @@ inline static void draw_hires_sprite_expanded(BYTE *data_ptr, int n,
     int must_repeat_pixels = 0;
     DWORD repeat_pixel = 0;
     int i;
+    int spritex_unwrapped = (sprite_status->sprites[n].x + vicii.sprite_wrap_x)
+                            % vicii.sprite_wrap_x;
 
     sprmsk = sprite_doubling_table[(data_ptr[0] << 8) | data_ptr[1]];
 
-    if (sprite_status->sprites[n].x > SPRITE_EXPANDED_REPEAT_PIXELS_START(n)
-        && sprite_status->sprites[n].x < SPRITE_REPEAT_PIXELS_END(n)) {
+    
+    if (spritex_unwrapped > SPRITE_EXPANDED_REPEAT_PIXELS_START(n)
+        && spritex_unwrapped < SPRITE_REPEAT_PIXELS_END(n)) {
         /* sprite #n repeats pixel SPRITE_REPEAT_BEGIN(n)-1 up to SPRITE_REPEAT_BEGIN(n)+6 */ 
         /* no display from SPRITE_REPEAT_BEGIN(n)+7 to SPRITE_REPEAT_BEGIN(n)+11           */
-        size = SPRITE_REPEAT_BEGIN(n) - sprite_status->sprites[n].x;
+        size = SPRITE_REPEAT_BEGIN(n) - spritex_unwrapped;
         must_repeat_pixels = (size > 0);
         if (size1 > size)
             size1 = size;
@@ -629,14 +640,16 @@ inline static void draw_hires_sprite_normal(BYTE *data_ptr, int n,
     int must_repeat_pixels = 0;
     DWORD repeat_pixel;
     int i;
+    int spritex_unwrapped = (sprite_status->sprites[n].x + vicii.sprite_wrap_x)
+                            % vicii.sprite_wrap_x;
 
     sprmsk = (data_ptr[0] << 16) | (data_ptr[1] << 8) | data_ptr[2];
 
-    if (sprite_status->sprites[n].x > SPRITE_NORMAL_REPEAT_PIXELS_START(n)
-        && sprite_status->sprites[n].x < SPRITE_REPEAT_PIXELS_END(n)) {
+    if (spritex_unwrapped > SPRITE_NORMAL_REPEAT_PIXELS_START(n)
+        && spritex_unwrapped < SPRITE_REPEAT_PIXELS_END(n)) {
         /* sprite #n repeats pixel SPRITE_REPEAT_BEGIN(n)-1 up to SPRITE_REPEAT_BEGIN(n)+6 */ 
         /* no display from SPRITE_REPEAT_BEGIN(n)+7 to SPRITE_REPEAT_BEGIN(n)+11           */
-        size = SPRITE_REPEAT_BEGIN(n) - sprite_status->sprites[n].x;
+        size = SPRITE_REPEAT_BEGIN(n) - spritex_unwrapped;
         must_repeat_pixels = (size > 0);
 
         if (must_repeat_pixels) {
@@ -707,6 +720,8 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
     BYTE cmsk = 0, sbit = 1 << n;
     BYTE data0, data1;
     int trim_size;
+    int spritex_unwrapped = (sprite_status->sprites[n].x + vicii.sprite_wrap_x)
+                            % vicii.sprite_wrap_x;
 
     mcsprmsk = (data_ptr[0] << 16) | (data_ptr[1] << 8) | data_ptr[2];
     collmsk = ((((msk_ptr[1] << 24) | (msk_ptr[2] << 16)
@@ -740,11 +755,11 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
         mcsprmsk &= ~(1 << (22 - (sprite_xs >> 1) + delayed_shift));
 
     /* Fixes for the "Repeated pixels" bug */
-    if (sprite_status->sprites[n].x > SPRITE_EXPANDED_REPEAT_PIXELS_START(n)
-        && sprite_status->sprites[n].x < SPRITE_REPEAT_PIXELS_END(n)) {
+    if (spritex_unwrapped > SPRITE_EXPANDED_REPEAT_PIXELS_START(n)
+        && spritex_unwrapped < SPRITE_REPEAT_PIXELS_END(n)) {
         /* sprite #n repeats pixel SPRITE_REPEAT_BEGIN(n)-1 up to SPRITE_REPEAT_BEGIN(n)+6 */ 
         /* no display from SPRITE_REPEAT_BEGIN(n)+7 to SPRITE_REPEAT_BEGIN(n)+11           */
-        size = SPRITE_REPEAT_BEGIN(n) - sprite_status->sprites[n].x;
+        size = SPRITE_REPEAT_BEGIN(n) - spritex_unwrapped;
         if (size < 0)
             size = 0;
         must_repeat_pixels = (size > 0);
@@ -861,6 +876,8 @@ inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
     int delayed_shift;
     BYTE data0, data1, data2;
     int trim_size;
+    int spritex_unwrapped = (sprite_status->sprites[n].x + vicii.sprite_wrap_x)
+                            % vicii.sprite_wrap_x;
 
     mcsprmsk = (data_ptr[0] << 16) | (data_ptr[1] << 8) | data_ptr[2];
     collmsk = ((((msk_ptr[0] << 24) | (msk_ptr[1] << 16)
@@ -891,11 +908,11 @@ inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
              | mcsprtable[data2]);
     }
 
-    if (sprite_status->sprites[n].x > SPRITE_NORMAL_REPEAT_PIXELS_START(n)
-        && sprite_status->sprites[n].x < SPRITE_REPEAT_PIXELS_END(n)) {
+    if (spritex_unwrapped > SPRITE_NORMAL_REPEAT_PIXELS_START(n)
+        && spritex_unwrapped < SPRITE_REPEAT_PIXELS_END(n)) {
         /* sprite #n repeats pixel SPRITE_REPEAT_BEGIN(n)-1 up to SPRITE_REPEAT_BEGIN(n)+6 */ 
         /* no display from SPRITE_REPEAT_BEGIN(n)+7 to SPRITE_REPEAT_BEGIN(n)+11           */
-        size = SPRITE_REPEAT_BEGIN(n) - sprite_status->sprites[n].x;
+        size = SPRITE_REPEAT_BEGIN(n) - spritex_unwrapped;
         if (size < 0)
             size = 0;
         must_repeat_pixels = (size > 0);
@@ -1155,6 +1172,10 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
 
     x_offset = vicii.screen_leftborderwidth - 24;
 
+    /* Handle spritegap in NTSC mode */
+    if (vicii.sprite_wrap_x > 0x200 && (unsigned int)new_x > 0x187)
+        new_x += (vicii.sprite_wrap_x - 0x200);
+
     new_x += x_offset;
 
     /* transfer coordinates to a new timeline starting with memory fetch to
@@ -1173,7 +1194,7 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
     if (new_x >= vicii.sprite_wrap_x + VICII_RASTER_X(0)) {
         /* Sprites in the $1F8 - $1FF range are not visible at all and never
            cause collisions.  */
-        if (new_x >= 0x1f8 + x_offset)
+        if (new_x >= vicii.sprite_wrap_x + x_offset)
             new_x = vicii.sprite_wrap_x;
         else
             new_x -= vicii.sprite_wrap_x;

@@ -125,7 +125,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VICII_CAPTION           "VIC-II Instellingen"
+    IDS_VICII_CAPTION           "VIC-II-instellingen"
     IDS_VICII_BORDERSGROUP      "Borders"
     IDS_VICII_NORMALBORDERS     "&Normaal"
     IDS_VICII_FULLBORDERS       "&Volledig"

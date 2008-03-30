@@ -79,9 +79,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax Instellingen"
-    IDS_DIGIMAX_ENABLE              "&Aktiveer digimax"
-    IDS_DIGIMAX_BASE                "Digimax basis adres"
+    IDS_DIGIMAX_CAPTION             "Digimaxinstellingen"
+    IDS_DIGIMAX_ENABLE              "&Activeer digimax"
+    IDS_DIGIMAX_BASE                "Digimax-basisadres"
 END
 
 // POLISH text

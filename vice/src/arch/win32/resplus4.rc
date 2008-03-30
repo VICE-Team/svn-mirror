@@ -1175,16 +1175,16 @@ IDR_MENUPLUS4_NL MENU DISCARDABLE
 BEGIN
     POPUP "&Bestand"
     BEGIN
-        MENUITEM "&Autostart disk/tape bestand...", IDM_AUTOSTART
+        MENUITEM "&Autostart disk-/tapebestand...", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Koppel &disk bestand"
+        POPUP "Koppel &schijfbestand aan"
         BEGIN
             MENUITEM "Drive &8\tAlt+8",  IDM_ATTACH_8
             MENUITEM "Drive &9\tAlt+9",  IDM_ATTACH_9
             MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
             MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "Ontkopp&el disk bestand"
+        POPUP "Ontkopp&el schijfbestand"
         BEGIN
             MENUITEM "Drive &8",    IDM_DETACH_8
             MENUITEM "Drive &9",    IDM_DETACH_9
@@ -1200,12 +1200,12 @@ BEGIN
             MENUITEM "Koppel volge&nd bestand\tAlt+N",     IDM_FLIP_NEXT
             MENUITEM "Koppel vori&g bestand\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
-            MENUITEM "&Laad flip lijst", IDM_FLIP_LOAD
-            MENUITEM "Op&slaan flip lijst", IDM_FLIP_SAVE
+            MENUITEM "&Laad fliplijst", IDM_FLIP_LOAD
+            MENUITEM "Op&slaan fliplijst", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Gebruik &tape bestand...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Ontkoppe&l tape bestand",           IDM_DETACH_TAPE
+        MENUITEM "Gebruik &tapebestand...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Ontkoppe&l tapebestand",           IDM_DETACH_TAPE
         POPUP "Datassette bedie&ning"
         BEGIN
             MENUITEM "S&top",          IDM_DATASETTE_CONTROL_STOP
@@ -1217,17 +1217,17 @@ BEGIN
             MENUITEM "Reset T&eller", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "Koppel &cartridge bestand..."
+        POPUP "Koppel &cartridgebestand..."
         BEGIN
-            MENUITEM "C1 low  bestand...",	    IDM_CART_ATTACH_C1LO
-            MENUITEM "C1 high bestand...",            IDM_CART_ATTACH_C1HI
-            MENUITEM "C2 low  bestand...",      	    IDM_CART_ATTACH_C2LO
-            MENUITEM "C2 high bestand...",     	    IDM_CART_ATTACH_C2HI
+            MENUITEM "C1 low-bestand...",	    IDM_CART_ATTACH_C1LO
+            MENUITEM "C1 high-bestand...",            IDM_CART_ATTACH_C1HI
+            MENUITEM "C2 low-bestand...",      	    IDM_CART_ATTACH_C2LO
+            MENUITEM "C2 high-bestand...",     	    IDM_CART_ATTACH_C2HI
 	    MENUITEM SEPARATOR
-            MENUITEM "Function low  bestand (3plus1)...",    IDM_CART_ATTACH_FUNCLO
-            MENUITEM "Function high bestand (3plus1)...",    IDM_CART_ATTACH_FUNCHI
+            MENUITEM "Function low-bestand (3plus1)...",    IDM_CART_ATTACH_FUNCLO
+            MENUITEM "Function high-bestand (3plus1)...",    IDM_CART_ATTACH_FUNCHI
         END
-        MENUITEM "Ontkoppel cartridge &bestand",  IDM_CART_DETACH
+        MENUITEM "Ontkoppel cartr&idgebestand",  IDM_CART_DETACH
         MENUITEM SEPARATOR
         MENUITEM "&Pauze\tAlt+Pause", IDM_PAUSE
         , CHECKED
@@ -1262,13 +1262,13 @@ BEGIN
     END
     POPUP "Momento&pname"
     BEGIN
-        MENUITEM "Laad momentopname best&and...", IDM_SNAPSHOT_LOAD
-        MENUITEM "Opslaan momento&pname bestand...", IDM_SNAPSHOT_SAVE
-        MENUITEM "Snel&laad momentopname bestand\tAlt+L", IDM_LOADQUICK
-        MENUITEM "&Snelopslaan momentopname bestand\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Laad momentopnamebest&and...", IDM_SNAPSHOT_LOAD
+        MENUITEM "Opslaan momento&pnamebestand...", IDM_SNAPSHOT_SAVE
+        MENUITEM "Snel&laad momentopnamebestand\tAlt+L", IDM_LOADQUICK
+        MENUITEM "&Snelopslaan momentopnamebestand\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Sta&rt/Stop Opname Geschiedenis",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Start/Stop &Afspeel Geschiedenis",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Sta&rt/Stop opnamegeschiedenis",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Start/Stop &Afspeelgeschiedenis",        IDM_EVENT_TOGGLE_PLAYBACK
         MENUITEM "Zet Opname Mijlpaal\tAlt+G",  IDM_EVENT_SETMILESTONE
         MENUITEM "Ga terug naar Mijlpaal\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Opname start modus"
@@ -1278,16 +1278,16 @@ BEGIN
             MENUITEM "Start bij &reset",       IDM_EVENT_START_MODE_RESET
             MENUITEM "Overschrijf weer&gave",     IDM_EVENT_START_MODE_PLAYBACK
         END
-        MENUITEM "Selecteer Geschiedenis directory",    IDM_EVENT_DIRECTORY
+        MENUITEM "Selecteer geschiedenisdirectory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Opslaan/stop media bestand...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Opslaan/stop mediabestand...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Geluid Opname...", IDM_SOUND_RECORD_START
-        MENUITEM "Stop Geluid Opname", IDM_SOUND_RECORD_STOP
+        MENUITEM "Geluidsopname...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop geluidsopname", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opties"
     BEGIN
-        POPUP "Ve&rnieuwings snelheid"
+        POPUP "Ve&rversingssnelheid"
         BEGIN
             MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
@@ -1314,9 +1314,9 @@ BEGIN
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "Geen &limiet", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&Eigen", IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&Aangepast", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE
+        MENUITEM "&Warpmodus\tAlt+W", IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Volscherm\tAlt+D", IDM_TOGGLE_FULLSCREEN
@@ -1328,7 +1328,7 @@ BEGIN
         , CHECKED
         MENUITEM "Du&bbele scan", IDM_TOGGLE_DOUBLESCAN
         , CHECKED
-        MENUITEM "PAL Emulatie", IDM_TOGGLE_FASTPAL
+        MENUITEM "PAL-emulatie", IDM_TOGGLE_FASTPAL
         , CHECKED
         MENUITEM "Schaal2x", IDM_TOGGLE_SCALE2X
         , CHECKED
@@ -1337,10 +1337,10 @@ BEGIN
 	MENUITEM SEPARATOR
         MENUITEM "Geluid&suitvoer", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "&Hardware drive emulatie", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtuele apparaat traps", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "&Hardwarematige driveemulatie", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        MENUITEM "&Virtuele apparaattraps", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
-        POPUP "Vide&o standaard"
+        POPUP "Vide&ostandaard"
         BEGIN
             MENUITEM "&PAL-G",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC-M", IDM_SYNC_FACTOR_NTSC
@@ -1349,26 +1349,26 @@ BEGIN
     END
     POPUP "Inst&ellingen"
     BEGIN
-        MENUITEM "&Video instellingen...",     IDM_VIDEO_SETTINGS
-        MENUITEM "Rand A&pparaten instellingen...",IDM_DEVICEMANAGER
-        MENUITEM "&Drive instellingen...",     IDM_DRIVE_SETTINGS
-        MENUITEM "D&atasette instellingen...", IDM_DATASETTE_SETTINGS
-        MENUITEM "P&lus4 instellingen...",     IDM_PLUS4_SETTINGS
-        MENUITEM "&Joystick instellingen...",  IDM_JOY_SETTINGS
-        MENUITEM "&Toetsenbord instellingen...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "G&eluid instellingen...",     IDM_SOUND_SETTINGS
-        MENUITEM "&ROM instellingen...",       IDM_ROM_SETTINGS
-        MENUITEM "RA&M instellingen...",       IDM_RAM_SETTINGS
-        MENUITEM "RS&232 instellingen...",     IDM_RS232_SETTINGS
-        POPUP "&Cartridge/IO instellingen"
+        MENUITEM "&Videoinstellingen...",     IDM_VIDEO_SETTINGS
+        MENUITEM "Randa&pparateninstellingen...",IDM_DEVICEMANAGER
+        MENUITEM "&Drive-instellingen...",     IDM_DRIVE_SETTINGS
+        MENUITEM "D&atasette-instellingen...", IDM_DATASETTE_SETTINGS
+        MENUITEM "P&lus4-instellingen...",     IDM_PLUS4_SETTINGS
+        MENUITEM "&Joystick-instellingen...",  IDM_JOY_SETTINGS
+        MENUITEM "&Toetsenbordinstellingen...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "G&eluidsinstellingen...",     IDM_SOUND_SETTINGS
+        MENUITEM "&ROM-instellingen...",       IDM_ROM_SETTINGS
+        MENUITEM "RA&M-instellingen...",       IDM_RAM_SETTINGS
+        MENUITEM "RS&232-instellingen...",     IDM_RS232_SETTINGS
+        POPUP "&Cartridge/IO-instellingen"
         BEGIN
-            MENUITEM "&ACIA instellingen...",  IDM_ACIA_SETTINGS
-            MENUITEM "&SID cart instellingen...",     IDM_SIDCART_SETTINGS
+            MENUITEM "&ACIA-instellingen...",  IDM_ACIA_SETTINGS
+            MENUITEM "&SID-cartinstellingen...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Huidige instellingen op&slaan", IDM_SETTINGS_SAVE
         MENUITEM "Opges&lagen instelling laden",   IDM_SETTINGS_LOAD
-        MENUITEM "Herstel standaar&d instellingen",  IDM_SETTINGS_DEFAULT
+        MENUITEM "Herstel standaar&dinstellingen",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
 	MENUITEM "Sla instellingen op bij afslui&ten", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
 	MENUITEM "Bevestigen bij afsl&uiten",	   IDM_TOGGLE_CONFIRM_ON_EXIT
@@ -1993,7 +1993,7 @@ END
 
 IDD_PLUS4ROM_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 240, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "ROM Instellingen"
+CAPTION "ROM-instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "Kernal",IDC_STATIC, 9,8,40,8
@@ -2238,7 +2238,7 @@ END
 
 IDD_PLUS4DRIVEROM_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 240, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "ROM Instellingen"
+CAPTION "ROM-instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "1541",IDC_STATIC,9,8,40,8
@@ -2888,7 +2888,7 @@ END
 
 IDD_PLUS4_MEMORY_DIALOG_NL DIALOG DISCARDABLE  0, 0, 130, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Plus4 instellingen"
+CAPTION "Plus4-instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "&Geheugen",IDC_STATIC,5,15,100,135
@@ -3204,12 +3204,12 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_NL    "Koppel cartridge bestand voor 'Function Low'"
-  IDS_ATTACH_FUNCTION_HIGH_CART_NL   "Koppel cartridge bestand voor 'Function High'"
-  IDS_ATTACH_CART1_LOW_NL            "Koppel cartridge bestand voor 'Cartridge1 Low'"
-  IDS_ATTACH_CART1_HIGH_NL           "Koppel cartridge bestand voor 'Cartridge1 High'"
-  IDS_ATTACH_CART2_LOW_NL            "Koppel cartridge bestand voor 'Cartridge2 Low'"
-  IDS_ATTACH_CART2_HIGH_NL           "Koppel cartridge bestand voor 'Cartridge2 High'"
+  IDS_ATTACH_FUNCTION_LOW_CART_NL    "Koppel cartridgebestand voor 'Function Low'"
+  IDS_ATTACH_FUNCTION_HIGH_CART_NL   "Koppel cartridgebestand voor 'Function High'"
+  IDS_ATTACH_CART1_LOW_NL            "Koppel cartridgebestand voor 'Cartridge1 Low'"
+  IDS_ATTACH_CART1_HIGH_NL           "Koppel cartridgebestand voor 'Cartridge1 High'"
+  IDS_ATTACH_CART2_LOW_NL            "Koppel cartridgebestand voor 'Cartridge2 Low'"
+  IDS_ATTACH_CART2_HIGH_NL           "Koppel cartridgebestand voor 'Cartridge2 High'"
 END
 
 

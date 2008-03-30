@@ -128,16 +128,16 @@ END
 
 IDD_GEORAM_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "GEORAM Instellingen"
+CAPTION "GEORAM-instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Aktiveer GEORAM",IDC_GEORAM_ENABLE,
+    AUTOCHECKBOX    "&Activeer GEORAM",IDC_GEORAM_ENABLE,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "GEORAM grootte",
+    LTEXT           "GEORAM-grootte",
                     IDC_STATIC,9,24,60,8
     COMBOBOX        IDC_GEORAM_SIZE,75,22,50,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "GEORAM bestand",
+    LTEXT           "GEORAM-bestand",
                     IDC_STATIC,9,44,60,8
     PUSHBUTTON      "&Bladeren...",IDC_GEORAM_BROWSE,75,42,50,14, 0
     EDITTEXT        IDC_GEORAM_FILE, 9,58,160,12,WS_TABSTOP

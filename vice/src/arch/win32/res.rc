@@ -352,7 +352,7 @@ BEGIN
         MENUITEM "Ev&aluatie venster", IDM_MON_WND_EVAL
         MENUITEM "&Register venster", IDM_MON_WND_REG
         MENUITEM "&Geheugen venster", IDM_MON_WND_MEM
-        MENUITEM "&Disassembly venster", IDM_MON_WND_DIS
+        MENUITEM "&Disassemblyvenster", IDM_MON_WND_DIS
         MENUITEM "&Console venster", IDM_MON_WND_CONSOLE
         MENUITEM SEPARATOR
         MENUITEM "&Computer", IDM_MON_COMPUTER
@@ -856,11 +856,11 @@ BEGIN
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "Bla&deren...",IDC_BROWSEDIR,81,92,50,14,WS_GROUP
     GROUPBOX        "&Opties",IDC_STATIC,145,90,125,63
-    AUTOCHECKBOX    "&Lees P00 bestanden",IDC_TOGGLE_READP00,155,105,92,10,
+    AUTOCHECKBOX    "&Lees P00-bestanden",IDC_TOGGLE_READP00,155,105,92,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Schrijf P00 bestanden",IDC_TOGGLE_WRITEP00,155,120,91,10,
+    AUTOCHECKBOX    "&Schrijf P00-bestanden",IDC_TOGGLE_WRITEP00,155,120,91,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Verberg non-P00 bestanden",IDC_TOGGLE_HIDENONP00,155,135,103,10,
+    AUTOCHECKBOX    "&Verberg non-P00-bestanden",IDC_TOGGLE_HIDENONP00,155,135,103,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
@@ -1054,13 +1054,13 @@ END
 
 IDD_DATASETTE_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Datasette Instellingen"
+CAPTION "Datasetteinstellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Reset Datasette met CPU",IDC_DATASETTE_RESET_WITH_CPU,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
     GROUPBOX        "Snelheid van de motor tijdens lezen",IDC_STATIC,5,25,160,60
-    LTEXT           "Snelheids instellingen",
+    LTEXT           "Snelheidsinstellingen",
                     IDC_STATIC,42,42,120,8
     COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
@@ -1345,7 +1345,7 @@ END
 
 IDD_JOY_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystick instellingen"
+CAPTION "Joystickinstellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick in poort #&1",IDC_STATIC,7,5,102,113
@@ -1867,7 +1867,7 @@ END
 
 IDD_SOUND_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 190, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Geluidsapparaat Instellingen"
+CAPTION "Geluidsapparaatinstellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTORADIOBUTTON "DirectX stuurprogramma",IDC_SOUND_DIRECTX,10,10,87,10,
@@ -1877,13 +1877,13 @@ BEGIN
     LTEXT           "Sample &Frequency :",IDC_STATIC,7,25,118,8
     COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Geluid Buffer &Grootte :",IDC_STATIC,7,38,118,8
+    LTEXT           "Geluidsbuffer&grootte :",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "&Oversampling Faktor :",IDC_STATIC,7,51,118,8
     COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Synchronisatie &Methode :",IDC_STATIC,7,64,118,8
+    LTEXT           "Synchronisatie&methode :",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
@@ -2073,7 +2073,7 @@ IDD_OPEN_TEMPLATE_NL DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Bestand Inhoud ",IDC_STATIC,3,0,185,138
+    GROUPBOX        "Bestandsinhoud ",IDC_STATIC,3,0,185,138
     LISTBOX         IDC_PREVIEW,6,9,178,125,
                     WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
     AUTOCHECKBOX    "Alleen lezen",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
@@ -2217,10 +2217,10 @@ IDD_OPENTAPE_TEMPLATE_NL DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Bestand Inhoud ",IDC_STATIC,3,0,185,138
+    GROUPBOX        "Bestandsinhoud ",IDC_STATIC,3,0,185,138
     LISTBOX         IDC_PREVIEW,6,9,178,125,
                     WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Nieuw TAP Bestand",IDC_STATIC,190,0,80,40
+    GROUPBOX        "Nieuw TAP-bestand",IDC_STATIC,190,0,80,40
     PUSHBUTTON      "Maak Bestand", IDC_BLANK_IMAGE, 203,20,52,14, WS_TABSTOP
 END
 
@@ -2339,7 +2339,7 @@ IDD_SNAPSHOT_SAVE_DIALOG_NL DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "Opslaan huidig gekoppelde &disks",
+    AUTOCHECKBOX    "Opslaan huidig gekoppelde &schijfbestanden",
                     IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Opslaan huidig gekoppelde &ROMs",
@@ -2532,7 +2532,7 @@ BEGIN
     LTEXT           "Selecteer Stuurprogramma:",IDC_STATIC,5,0,45,20
     COMBOBOX        IDC_SCREENSHOT_DRIVER, 55,0,155,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    GROUPBOX        "FFMPEG instellingen",IDC_STATIC,5,20,250,75
+    GROUPBOX        "FFMPEG-instellingen",IDC_STATIC,5,20,250,75
     LTEXT           "Formaat:",IDC_STATIC,15,37,40,20
     COMBOBOX        IDC_SCREENSHOT_FFMPEGFORMAT, 50,35,60,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
@@ -3351,18 +3351,18 @@ BEGIN
     LTEXT           "Fase",IDC_STATIC,12,24,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
     EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
-    LTEXT           "PAL Schaduw",IDC_STATIC,12,36+5,40,8
+    LTEXT           "PAL-schaduw",IDC_STATIC,12,36+5,40,8
     LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
     EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
-    LTEXT           "PAL Wazigheid",IDC_STATIC,12,48+5,40,8
+    LTEXT           "PAL-wazigheid",IDC_STATIC,12,48+5,40,8
     LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
     EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
 
-    LTEXT           "PAL Modus",IDC_STATIC,12,48+12+5,40,8
+    LTEXT           "PAL-modus",IDC_STATIC,12,48+12+5,40,8
     COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
 
-    AUTOCHECKBOX    "Extern Palette:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+    AUTOCHECKBOX    "Extern palet:", IDC_TOGGLE_VIDEO_EXTPALETTE,
                     12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
     COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
@@ -3667,7 +3667,7 @@ END
 
 IDD_RAM_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 170, 210
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM Instellingen"
+CAPTION "RAM-instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Initialisatie bij opstarten",IDC_STATIC,5,5,160,180
@@ -3822,7 +3822,7 @@ END
 
 IDD_CUSTOM_SPEED_DIALOG_NL DIALOG DISCARDABLE  0, 0, 160, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Eigen snelheid"
+CAPTION "Aangepaste snelheid"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "Geef snelheid op [%]", IDC_STATIC,5,7,80,8
@@ -4032,7 +4032,7 @@ END
 
 IDD_PRINTER_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 285, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Printer Instellingen"
+CAPTION "Printerinstellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Gebruik IEC Apparaat",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
@@ -4146,7 +4146,7 @@ BEGIN
     PUSHBUTTON      "Apply", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
     PUSHBUTTON      "New", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
     PUSHBUTTON      "Delete", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
-    AUTORADIOBUTTON "Romset file",IDC_ROMSET_SELECT_FILE,
+    AUTORADIOBUTTON "Romsetbestand",IDC_ROMSET_SELECT_FILE,
                     13,130,60,10,BS_AUTORADIOBUTTON
     EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
     PUSHBUTTON      "Browse", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
@@ -4308,7 +4308,7 @@ END
 
 IDD_ROMSET_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 265, 265
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "ROM Instellingen"
+CAPTION "ROM-instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTORADIOBUTTON "Romset archief",IDC_ROMSET_SELECT_ARCHIVE,
@@ -4643,7 +4643,7 @@ END
 
 IDD_RS232_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RS232 Instellingen"
+CAPTION "RS232-instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "RS232 apparaat 1",IDC_STATIC, 9,8,60,8
@@ -4938,14 +4938,14 @@ END
 
 IDD_NETWORK_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 260, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Netplay Instellingen"
+CAPTION "Netplayinstellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "Huidige modus",IDC_STATIC, 9,8,45,8
     EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
     LTEXT           "TCP-Poort",IDC_STATIC, 9,32,30,8
     EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
-    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
+    PUSHBUTTON      "Start server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
     PUSHBUTTON      "Maak verbinding naar", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
     EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,90,12,WS_TABSTOP
     PUSHBUTTON      "Verbreek verbinding", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
@@ -5182,7 +5182,7 @@ BEGIN
                     IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
     COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Geluid Opname Bestand",
+    LTEXT           "&Geluidsopnamebestand",
                     IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
     PUSHBUTTON      "Bladeren...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
     EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
@@ -5378,7 +5378,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER         "VICE romset files (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER      "VICE romset archives (*.vra)"
   IDS_KEYMAP_FILES_FILTER         "VICE keymap files (*.vkm)"
-  IDS_PRGP00_FILES_FILTER         "Commodore emulator files (*.prg;*.p00)"
+  IDS_PRGP00_FILES_FILTER         "Commodore emulator bestanden (*.prg;*.p00)"
   IDS_FLEXIBLE                    "Flexible"
   IDS_ADJUSTING                   "Adjusting"
   IDS_EXACT                       "Exact"
@@ -6236,13 +6236,13 @@ END
 STRINGTABLE
 BEGIN
   IDS_VICE_ERROR_NL                  "VICE Fout!"
-  IDS_VICE_INFORMATION_NL            "VICE Informatie"
+  IDS_VICE_INFORMATION_NL            "VICE-informatie"
   IDS_VICE_QUESTION_NL               "VICE vraag"
   IDS_FFMPEG_DLL_MISMATCH_NL         "Uw ffmpeg dll versie is niet juist."
   IDS_DIRECTDRAW_ERROR_NL            "DirectDraw fout: Code:%8x Fout:%s"
   IDS_CANNOT_SAVE_SETTINGS_NL        "Kan de instellingen niet opslaan."
   IDS_CANNOT_LOAD_SETTINGS_NL        "Kan de instellingen niet laden."
-  IDS_DEFAULT_SETTINGS_RESTORED_NL   "Standaard instellingen hersteld."
+  IDS_DEFAULT_SETTINGS_RESTORED_NL   "Standaardinstellingen hersteld."
   IDS_CANNOT_ATTACH_FILE_NL          "Kan het opgegeven bestand niet koppelen"
   IDS_START_MONITOR_NL               "%s\012\012Monitor starten?"
   IDS_VICE_CPU_JAM_NL                "VICE CPU HANGT"
@@ -6260,24 +6260,24 @@ BEGIN
   IDS_ATTACHED_TAPE_S_NL             "Tape %s gekoppeld"
   IDS_SETTINGS_SAVED_SUCCESS_NL      "Instellingen met succes opgeslagen."
   IDS_SETTINGS_LOADED_SUCCESS_NL     "Instellingen met succes geladen."
-  IDS_ATTACH_DISK_IMAGE_NL           "Koppel disk bestand"
-  IDS_ATTACH_TAPE_IMAGE_NL           "Koppel tape bestand"
-  IDS_AUTOSTART_IMAGE_NL             "Autostart disk/tape bestand"
+  IDS_ATTACH_DISK_IMAGE_NL           "Koppel schijfbestand aan"
+  IDS_ATTACH_TAPE_IMAGE_NL           "Koppel tapebestand aan"
+  IDS_AUTOSTART_IMAGE_NL             "Autostart disk-/tapebestand"
   IDS_INVALID_CARTRIDGE_NL           "Ongeldige cartridge"
   IDS_BAD_CARTRIDGE_CONFIG_NL        "Slechte cartridge configuratie in UI!"
-  IDS_INVALID_CARTRIDGE_IMAGE_NL     "Ongeldig cartridge bestand"
+  IDS_INVALID_CARTRIDGE_IMAGE_NL     "Ongeldig cartridgebestand"
   IDS_LOG_CONSOLE_OUTPUT_IMAGE_NL    "Logboek console uitvoer bestand"
-  IDS_LOG_FILES_TYPE_NL              "VICE console logboek bestanden (*.dbg)"
-  IDS_CANNOT_WRITE_LOGFILE_S_NL      "Kan logboek bestand `%s' niet schrijven."
-  IDS_LOAD_FLIP_LIST_FILE_NL         "Laad flip lijst bestand"
-  IDS_CANNOT_READ_FLIP_LIST_NL       "Kan het flip lijst bestand niet lezen"
-  IDS_SAVE_FLIP_LIST_FILE_NL         "Flip lijst bestand opslaan"
-  IDS_CANNOT_WRITE_FLIP_LIST_NL      "Kan flip lijst bestand niet schrijven"
-  IDS_SELECT_KEYMAP_FILE_NL          "Selecteer keymap bestand"
-  IDS_SAVE_KEYMAP_FILE_NL            "Keymap file opslaan"
-  IDS_CANNOT_WRITE_KEYMAP_FILE_NL    "Kan het keymap bestand niet schrijven"
+  IDS_LOG_FILES_TYPE_NL              "VICE console logboekbestanden (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S_NL      "Kan logboekbestand `%s' niet schrijven."
+  IDS_LOAD_FLIP_LIST_FILE_NL         "Laad fliplijstbestand"
+  IDS_CANNOT_READ_FLIP_LIST_NL       "Kan het fliplijstbestand niet lezen"
+  IDS_SAVE_FLIP_LIST_FILE_NL         "Fliplijstbestand opslaan"
+  IDS_CANNOT_WRITE_FLIP_LIST_NL      "Kan fliplijstbestand niet schrijven"
+  IDS_SELECT_KEYMAP_FILE_NL          "Selecteer keymapbestand"
+  IDS_SAVE_KEYMAP_FILE_NL            "Keymapbestand opslaan"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_NL    "Kan het keymapbestand niet schrijven"
   IDS_MAPPING_NL                     "Mapping"
-  IDS_KEYBOARD_SETTINGS_NL           "Toetsenbord instellingen"
+  IDS_KEYBOARD_SETTINGS_NL           "Toetsenbordinstellingen"
   IDS_ATTACH_NL                      "&Koppel"
   IDS_PLEASE_ENTER_A_FILENAME_NL     "Geef aub een bestandsnaam op."
   IDS_OVERWRITE_EXISTING_IMAGE_NL    "Bestaand bestand overschrijven?"
@@ -6285,9 +6285,9 @@ BEGIN
   IDS_COMMAND_LINE_OPTIONS_NL        "Commando opties"
   IDS_COMMAND_OPTIONS_AVAIL_NL       "Welke commando opties zijn beschikbaar?"
   IDS_NO_DRIVER_SELECT_SUPPORT_NL    "Geen stuurprogramma geselecteerd, of geselecteerd stuurprogramma wordt niet ondersteund"
-  IDS_CANT_WRITE_SCREENSHOT_S_NL     "Kan schermafdruk bestand `%s' niet schrijven."
-  IDS_AUTOSTART_DISK_IMAGE_NL        "Autostart disk bestand"
-  IDS_SELECT_FS_DIRECTORY_NL         "Selecteer bestand systeem directory"
+  IDS_CANT_WRITE_SCREENSHOT_S_NL     "Kan schermafdrukbestand `%s' niet schrijven."
+  IDS_AUTOSTART_DISK_IMAGE_NL        "Autostart schijfbestand"
+  IDS_SELECT_FS_DIRECTORY_NL         "Selecteer bestandssysteemdirectory"
   IDS_PRINTER_USERPORT_NL            "Printer Userport"
   IDS_PRINTER_4_NL                   "Printer 4"
   IDS_PRINTER_5_NL                   "Printer 5"
@@ -6295,48 +6295,48 @@ BEGIN
   IDS_DRIVE_9_NL                     "Drive 9"
   IDS_DRIVE_10_NL                    "Drive 10"
   IDS_DRIVE_11_NL                    "Drive 11"
-  IDS_PERIPHERAL_SETTINGS_NL         "Rand apparaat instellingen"
-  IDS_CANT_WRITE_SNAPSHOT_FILE_NL    "Kan momentopname bestand niet schrijven."
-  IDS_CANNOT_READ_SNAPSHOT_IMG_NL    "Kan momentopname bestand niet lezen"
-  IDS_LOAD_S_ROM_IMAGE_NL            "Laad %s ROM bestand"
-  IDS_SELECT_ROMSET_ARCHIVE_NL       "Selecteer romset archief"
-  IDS_CANNOT_LOAD_ROMSET_ARCH_NL     "Kan romset archief niet laden!"
-  IDS_CANNOT_SAVE_ROMSET_ARCH_NL     "Kan romset archief niet opslaan!"
-  IDS_CANNOT_LOAD_ROMSET_FILE_NL     "Kan romset bestand niet laden!"
-  IDS_CANNOT_SAVE_ROMSET_FILE_NL     "Kan romset bestand niet opslaan!"
-  IDS_SELECT_ROMSET_FILE_NL          "Selecteer romset bestand"
+  IDS_PERIPHERAL_SETTINGS_NL         "Randapparaatinstellingen"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_NL    "Kan momentopnamebestand niet schrijven."
+  IDS_CANNOT_READ_SNAPSHOT_IMG_NL    "Kan momentopnamebestand niet lezen"
+  IDS_LOAD_S_ROM_IMAGE_NL            "Laad %s ROM-bestand"
+  IDS_SELECT_ROMSET_ARCHIVE_NL       "Selecteer romsetarchief"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_NL     "Kan romsetarchief niet laden!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_NL     "Kan romsetarchief niet opslaan!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_NL     "Kan romsetbestand niet laden!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_NL     "Kan romsetbestand niet opslaan!"
+  IDS_SELECT_ROMSET_FILE_NL          "Selecteer romsetbestand"
   IDS_ROMSET_NL                      "Romset"
   IDS_COMPUTER_NL                    "Computer"
   IDS_DRIVE_NL                       "Drive"
-  IDS_ROM_SETTINGS_NL                "ROM instellingen"
-  IDS_SAVE_SNAPSHOT_IMAGE_NL         "Momentopname bestand opslaan"
-  IDS_CANNOT_WRITE_SNAPSHOT_S_NL     "Kan momentopname bestand `%s' niet schrijven."
-  IDS_LOAD_SNAPSHOT_IMAGE_NL         "Laad momentopname bestand"
-  IDS_COULD_NOT_LOAD_PALETTE_NL      "Kon palette bestand niet laden."
-  IDS_LOAD_VICE_PALETTE_FILE_NL      "Laad VICE palette bestand"
+  IDS_ROM_SETTINGS_NL                "ROM-instellingen"
+  IDS_SAVE_SNAPSHOT_IMAGE_NL         "Momentopnamebestand opslaan"
+  IDS_CANNOT_WRITE_SNAPSHOT_S_NL     "Kan momentopnamebestand `%s' niet schrijven."
+  IDS_LOAD_SNAPSHOT_IMAGE_NL         "Laad momentopnamebestand"
+  IDS_COULD_NOT_LOAD_PALETTE_NL      "Kon paletbestand niet laden."
+  IDS_LOAD_VICE_PALETTE_FILE_NL      "Laad VICE paletbestand"
   IDS_FULLSCREEN_NL                  "Volscherm"
   IDS_COLORS_NL                      "Kleuren"
-  IDS_VIDEO_SETTINGS_NL              "Video instellingen"
-  IDS_FILE_SYSTEM_NL                 "Bestand systeem"
+  IDS_VIDEO_SETTINGS_NL              "Videoinstellingen"
+  IDS_FILE_SYSTEM_NL                 "Bestandssysteem"
 #ifdef HAVE_OPENCBM
   IDS_REAL_IEC_DEVICE_NL             "Echt IEC apparaat"
 #endif
   IDS_RS232_DEVICE_I_NL              "RS232 apparaat %i"
-  IDS_ATTACH_CRT_CART_IMAGE_NL       "Koppel CRT cartridge bestand"
-  IDS_ATTACH_RAW_8KB_CART_IMAGE_NL   "Koppel binair 8KB cartridge bestand"
-  IDS_ATTACH_RAW_16KB_CART_IMG_NL    "Koppel binair 16KB cartridge bestand"
-  IDS_ATTACH_AR_CART_IMAGE_NL        "Koppel Action Replay cartridge bestand"
-  IDS_ATTACH_AR3_CART_IMAGE_NL       "Koppel Action Replay III cartridge bestand"
-  IDS_ATTACH_ATOMIC_P_CART_IMG_NL    "Koppel Atomic Power cartridge bestand"
-  IDS_ATTACH_EPYX_FL_CART_IMG_NL     "Koppel Epyx snellaad cartridge bestand"
-  IDS_ATTACH_IEEE488_CART_IMG_NL     "Koppel IEEE interface cartridge bestand"
-  IDS_ATTACH_RETRO_R_CART_IMG_NL     "Koppel Retro Replay cartridge bestand"
-  IDS_ATTACH_IDE64_CART_IMAGE_NL     "Koppel IDE64 interface cartridge bestand"
-  IDS_ATTACH_SS4_CART_IMAGE_NL       "Koppel Super Snapshot 4 cartridge bestand"
-  IDS_ATTACH_SS5_CART_IMAGE_NL       "Koppel Super Snapshot 5 cartridge bestand"
-  IDS_ATTACH_STB_CART_IMAGE_NL       "Koppel Structured Basic bestand"
+  IDS_ATTACH_CRT_CART_IMAGE_NL       "Koppel CRT cartridgebestand"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE_NL   "Koppel binair 8KB cartridgebestand"
+  IDS_ATTACH_RAW_16KB_CART_IMG_NL    "Koppel binair 16KB cartridgebestand"
+  IDS_ATTACH_AR_CART_IMAGE_NL        "Koppel Action Replay cartridgebestand"
+  IDS_ATTACH_AR3_CART_IMAGE_NL       "Koppel Action Replay III cartridgebestand"
+  IDS_ATTACH_ATOMIC_P_CART_IMG_NL    "Koppel Atomic Power cartridgebestand"
+  IDS_ATTACH_EPYX_FL_CART_IMG_NL     "Koppel Epyx snellaad cartridgebestand"
+  IDS_ATTACH_IEEE488_CART_IMG_NL     "Koppel IEEE interface cartridgebestand"
+  IDS_ATTACH_RETRO_R_CART_IMG_NL     "Koppel Retro Replay cartridgebestand"
+  IDS_ATTACH_IDE64_CART_IMAGE_NL     "Koppel IDE64-interfacebestand"
+  IDS_ATTACH_SS4_CART_IMAGE_NL       "Koppel Super Snapshot 4 cartridgebestand"
+  IDS_ATTACH_SS5_CART_IMAGE_NL       "Koppel Super Snapshot 5 cartridgebestand"
+  IDS_ATTACH_STB_CART_IMAGE_NL       "Koppel Structured Basic cartidgebestand"
   IDS_MODEL_NL                       "Model"
-  IDS_DRIVE_SETTINGS_NL              "Drive Instellingen"
+  IDS_DRIVE_SETTINGS_NL              "Drive-instellingen"
   IDS_SELECT_START_SNAP_EVENT_NL     "Selecteer start momentopname voor gebeurtenis geschiedenis"
   IDS_SELECT_END_SNAP_EVENT_NL       "Selecteer eind momentopname voor gebeurtenis geschiedenis"
 #ifdef UNSTABLE
@@ -6346,7 +6346,7 @@ BEGIN
 #endif
   IDS_VICE_CONTRIBUTORS_NL           "VICE medewerkers"
   IDS_WHO_MADE_WHAT_NL               "Wie heeft wat gemaakt?"
-  IDS_LICENSE_NL                     "Licensie"
+  IDS_LICENSE_NL                     "Licentie"
   IDS_NO_WARRANTY_NL                 "Geen garantie!"
   IDS_VICE_WITHOUT_WARRANTY_NL       "VICE heeft ABSOLUUT GEEN GARANTIE!"
   IDS_PRESS_KEY_NORTHWEST_NL         "Druk toets voor NoordWest"
@@ -6365,27 +6365,27 @@ BEGIN
   IDS_NUMERIC_SEE_ABOVE_NL           "numeriek (zie boven)"
   IDS_NO_BUTTON_NO_AUTOFIRE_NL       "Geen knop - Autovuren is uit"
   IDS_ALL_FILES_FILTER_NL            "Alle bestanden (*.*)"
-  IDS_PALETTE_FILES_FILTER_NL        "VICE palette bestanden (*.vpl)"
-  IDS_SNAPSHOT_FILES_FILTER_NL       "VICE momentopname bestanden (*.vsf)"
-  IDS_DISK_IMAGE_FILES_FILTER_NL     "Disk bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
-  IDS_TAPE_IMAGE_FILES_FILTER_NL     "Tape bestanden (*.t64;*.tap)"
+  IDS_PALETTE_FILES_FILTER_NL        "VICE paletbestanden (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER_NL       "VICE momentopnamebestanden (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER_NL     "Schijfbestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER_NL     "Tapebestanden (*.t64;*.tap)"
   IDS_ZIPPED_FILES_FILTER_NL         "Ingepakte bestanden (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
-  IDS_CRT_FILES_FILTER_NL            "CRT cartridge beatanden (*.crt)"
-  IDS_RAW_CART_FILES_FILTER_NL       "Binaire cartridge bestanden (*.bin)"
-  IDS_FLIP_LIST_FILES_FILTER_NL      "VICE flip lijst bestanden (*.vfl)"
-  IDS_ROMSET_FILES_FILTER_NL         "VICE romset bestanden (*.vrs)"
-  IDS_ROMSET_ARCHIVES_FILTER_NL      "VICE romset archieven (*.vra)"
-  IDS_KEYMAP_FILES_FILTER_NL         "VICE keymap bestanden (*.vkm)"
+  IDS_CRT_FILES_FILTER_NL            "CRT cartridgebestanden (*.crt)"
+  IDS_RAW_CART_FILES_FILTER_NL       "Binaire cartridgebestanden (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER_NL      "VICE fliplijstbestanden (*.vfl)"
+  IDS_ROMSET_FILES_FILTER_NL         "VICE romsetbestanden (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER_NL      "VICE romsetarchieven (*.vra)"
+  IDS_KEYMAP_FILES_FILTER_NL         "VICE keymapbestanden (*.vkm)"
   IDS_FLEXIBLE_NL                    "Flexibel"
   IDS_ADJUSTING_NL                   "Aanpassend"
   IDS_EXACT_NL                       "Exact"
   IDS_SOUND_DRIVER_DIRECTX_NL        "Geluid stuurprogramma: DirectX"
   IDS_SOUND_DRIVER_WMM_NL            "Geluid stuurprogramma: WMM"
-  IDS_MEDIA_FILES_FILTER_NL          "Media bestanden (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_MEDIA_FILES_FILTER_NL          "Mediabestanden (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB_NL                    " kB"
   IDS_CONFIGURE_KEYSET_A_NL          "Configureer Keyset A"
   IDS_CONFIGURE_KEYSET_B_NL          "Configureer Keyset B"
-  IDS_SAVE_MEDIA_IMAGE_NL            "Media bestand opslaan"
+  IDS_SAVE_MEDIA_IMAGE_NL            "Mediabestand opslaan"
   IDS_S_AT_D_SPEED_NL                "%s met %d%% snelheid, %d fps%s"
   IDS_TAPE_NL                        "Tape:"
   IDS_JOYSTICK_NL                    "Joystick:"
@@ -6399,9 +6399,9 @@ BEGIN
   IDS_NO_SAVE_SETTINGS_ON_EXIT_NL    "Instellingen (resources) niet opslaan bij afsluiten"
   IDS_CONFIRM_QUIT_VICE_NL           "Bevestigen van het afsluiten van VICE"
   IDS_NO_CONFIRM_QUIT_VICE_NL        "Niet bevestigen van het afsluiten van VICE"
-  IDS_USE_ALL_CPU_SMP_NL             "Gebruik alle CPU's op SMP systemen"
-  IDS_USE_FIRST_CPU_SMP_NL           "Gebruik alleen de eerste CPU op SMP systemen"
-  IDS_START_VICE_FULLSCREEN_MODE_NL  "Start VICE in volscherm modus"
+  IDS_USE_ALL_CPU_SMP_NL             "Gebruik alle CPU's op SMP-systemen"
+  IDS_USE_FIRST_CPU_SMP_NL           "Gebruik alleen de eerste CPU op SMP-systemen"
+  IDS_START_VICE_FULLSCREEN_MODE_NL  "Start VICE in volschermmodus"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S_NL         "Onverwachte fout. Kreeg signaal %d (%s)."
 #else
@@ -6416,8 +6416,8 @@ BEGIN
   IDS_ERROR_STARTING_SERVER_NL       "Een fout is opgetreden bij het starten van de server."
   IDS_ERROR_CONNECTING_CLIENT_NL     "Een fout is opgetreden bij het verbinden."
 #endif
-  IDS_SOUND_RECORDING_STARTED_NL     "Geluid Opname gestart..."
-  IDS_SOUND_RECORDING_STOPPED_NL     "Geluid Opname gestopt..."
+  IDS_SOUND_RECORDING_STARTED_NL     "Geluidsopname gestart..."
+  IDS_SOUND_RECORDING_STOPPED_NL     "Geluidsopname gestopt..."
 END
 
 

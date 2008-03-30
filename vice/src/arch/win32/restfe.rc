@@ -93,7 +93,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ethernet Instellingen"
+    IDS_TFE_CAPTION         "Ethernet-instellingen"
     IDS_TFE_ETHERNET        "&Ethernet"
     IDS_TFE_INTERFACE       "&Interface"
 END

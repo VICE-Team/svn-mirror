@@ -61,7 +61,11 @@ static int set_digimax_enabled(int val, void *param)
 {
   if (sid_sound_machine_cycle_based()==1 && val)
   {
-    ui_error("Digimax cannot be used with ReSID\nPlease switch SID Engine to FastSID");
+#ifdef HAS_TRANSLATION
+    ui_error(translate_text(IDGS_DIGIMAX_NOT_WITH_RESID));
+#else
+    ui_error(_("Digimax cannot be used with ReSID\nPlease switch SID Engine to FastSID"));
+#endif
     return -1;
   }
   digimax_enabled=val;

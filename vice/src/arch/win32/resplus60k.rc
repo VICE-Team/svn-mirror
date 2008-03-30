@@ -96,10 +96,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS60K_CAPTION             "PLUS60K Instellingen"
-    IDS_PLUS60K_ENABLE              "&Aktiveer PLUS60K"
-    IDS_PLUS60K_BASE                "PLUS60K basis adres"
-    IDS_PLUS60K_FILE                "PLUS60K bestand"
+    IDS_PLUS60K_CAPTION             "PLUS60K-instellingen"
+    IDS_PLUS60K_ENABLE              "&Activeer PLUS60K"
+    IDS_PLUS60K_BASE                "PLUS60K-basisadres"
+    IDS_PLUS60K_FILE                "PLUS60K-bestand"
     IDS_PLUS60K_SELECT_FILE         "Selecteer bestand voor PLUS60K"
 END
 

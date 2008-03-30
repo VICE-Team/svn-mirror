@@ -164,7 +164,7 @@ int usb_joystick_init(void)
 	if (fd < 0)
 	    continue;
 
-#ifdef USB_GET_REPORT_ID
+#if defined(USB_GET_REPORT_ID) && !defined(__DragonFly__)
 	if (ioctl(fd, USB_GET_REPORT_ID, &id) < 0) {
 	    log_warning(joystick_log,
 			_("Cannot get report id for joystick device `%s'."),
@@ -187,7 +187,7 @@ int usb_joystick_init(void)
 	found = 0;
 	is_joy = 0;
 #if !defined(HAVE_USBHID_H) && !defined(HAVE_LIBUSB_H) && defined(HAVE_LIBUSBHID)
-        for (d=hid_start_parse(report id);
+        for (d=hid_start_parse(report, id);
 #else
 	for (d=hid_start_parse(report, 1<<hid_input, id);
 #endif

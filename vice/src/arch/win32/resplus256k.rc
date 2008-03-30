@@ -87,9 +87,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS256K_CAPTION             "PLUS256K Instellingen"
-    IDS_PLUS256K_ENABLE              "&Aktiveer PLUS256K"
-    IDS_PLUS256K_FILE                "PLUS256K bestand"
+    IDS_PLUS256K_CAPTION             "PLUS256K-instellingen"
+    IDS_PLUS256K_ENABLE              "&Activeer PLUS256K"
+    IDS_PLUS256K_FILE                "PLUS256K-bestand"
     IDS_PLUS256K_SELECT_FILE         "Selecteer bestand voor PLUS256K"
 END
 

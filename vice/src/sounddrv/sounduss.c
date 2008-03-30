@@ -62,6 +62,9 @@
 #if defined(HAVE_SYS_SOUNDCARD_H)
 #include <sys/soundcard.h>
 #endif
+#if defined(HAVE_SOUNDCARD_H)
+#include <soundcard.h>
+#endif
 
 static int uss_fd = -1;
 static int uss_8bit = 0;

@@ -1,3 +1,55 @@
+2007-12-09  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.22.6.
+
+	* arch/win32/resstrings.txt: Removed stray CR found by Martin.
+
+2007-11-28  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* core/ciatimer.h (ciat_single_step): Only step if the
+	timer is running. This fixes bug in So-phisticated demo.
+	No regression with all known CIA test suites.
+
+	* vicii/vicii-sprites.c: Various fixes for sprites in NTSC
+	mode. This fixes some demos and is validated with data
+	written by a test suite on a NTSC machine.
+
+2007-11-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* sounddrv/sounduss.c: Fixed for OpenBSD.
+
+2007-11-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/c128uires.h, arch/amigaos/c64uires.h,
+	arch/amigaos/cbm2uires.h, arch/amigaos/petuires.h,
+	arch/amigaos/plus4uires.h, arch/amigaos/vic20uires.h: Got rid
+	of some unneeded elements.
+
+	* arch/amigaos/intl.c, arch/amigaos/intl.txt,
+	arch/win32/res.rc, arch/win32/resacia.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/resc64_256k.rc, arch/win32/rescbm2.rc,
+	arch/win32/resdigimax.rc,
+	arch/win32/resdrivec128.rc, arch/win32/resdrivec64.rc,
+	arch/win32/resdrivepetcbm2.rc, arch/win32/resdriveplus4.rc,
+	arch/win32/resdrivevic20.rc, arch/win32/resgeoram.rc,
+	arch/win32/reside64.rc, arch/win32/resmmc64.rc,
+	arch/win32/respet.rc, arch/win32/respetreu.rc,
+	arch/win32/resplus256k.rc, arch/win32/resplus4.rc,
+	arch/win32/resplus60k.rc, arch/win32/resramcart.rc,
+	arch/win32/resreu.rc, arch/win32/resrs232user.rc,
+	arch/win32/ressid.rc, arch/win32/ressidcart.rc,
+	arch/win32/restfe.rc, arch/win32/resvic20.rc,
+	arch/win32/resvicii.rc, translate.c: Updated the dutch
+	translations.
+
+	* arch/unix/joy_usb.c: Fixed some more usb issues.
+
+	* c64/digimax.c: Added a previously untranslated item.
+
+	* vice.h: Added some tested platforms/cpu's for which
+	ALLOW_UNALIGNED_ACCESS winds up in a speedup.
+
 2007-11-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.5.

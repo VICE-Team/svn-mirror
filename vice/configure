@@ -1351,7 +1351,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=22
-VICE_VERSION_BUILD=5
+VICE_VERSION_BUILD=6
 
 
 
@@ -3514,7 +3514,7 @@ _ACEOF
   fi
 
   if test x"$host_os" = "xamigaos" -a x"$host_cpu" = "xm68k"; then
-    CFLAGS="$CFLAGS -noixemul"
+    CFLAGS="$CFLAGS -mc68020 -noixemul"
 
 cat >>confdefs.h <<\_ACEOF
 #define AMIGA_M68K
@@ -24533,6 +24533,9 @@ if test $ac_cv_lib_bsd_gethostbyname = yes; then
                  LINK_X_LIBS="-lbsd $LINK_X_LIBS"
 fi
 
+    if test x"$ac_cv_lib_ICE_IceConnectionNumber" != "xyes"; then
+      unset ac_cv_lib_ICE_IceConnectionNumber
+    fi
     echo "$as_me:$LINENO: checking for IceConnectionNumber in -lICE" >&5
 echo $ECHO_N "checking for IceConnectionNumber in -lICE... $ECHO_C" >&6
 if test "${ac_cv_lib_ICE_IceConnectionNumber+set}" = set; then

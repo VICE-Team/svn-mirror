@@ -385,9 +385,10 @@ _CIAT_FUNC WORD ciat_is_running(ciat_t *state, CLOCK cclk)
 /* single-step a timer. update _must_ have been called before */
 _CIAT_FUNC int ciat_single_step(ciat_t *state, CLOCK cclk)
 {
-    state->state |= CIAT_STEP;
-
-    ciat_set_alarm(state, cclk);
+    if (state->state & CIAT_CR_START) {
+        state->state |= CIAT_STEP;
+        ciat_set_alarm(state, cclk);
+    }
 
     return 0;
 }

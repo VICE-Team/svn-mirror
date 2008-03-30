@@ -101,10 +101,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "PET REU Instellingen"
-    IDS_PETREU_ENABLE              "&Aktiveer PET REU"
-    IDS_PETREU_SIZE                "PET REU grootte"
-    IDS_PETREU_FILE                "PET REU bestand"
+    IDS_PETREU_CAPTION             "PET REU-instellingen"
+    IDS_PETREU_ENABLE              "&Activeer PET REU"
+    IDS_PETREU_SIZE                "PET REU-grootte"
+    IDS_PETREU_FILE                "PET REU-bestand"
     IDS_PETREU_SELECT_FILE         "Selecteer bestand voor PET REU"
 END
 

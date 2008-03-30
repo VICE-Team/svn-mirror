@@ -71,7 +71,7 @@ BEGIN
   IDS_ACIA_DEVICE      "ACIA Gerät"
   IDS_ACIA_LOCATION    "ACIA Adresse"
   IDS_ACIA_INTERRUPT   "ACIA Interrupt"
-  IDS_ACIA_MODE        "ACIA Modus"
+  IDS_ACIA_MODE        "ACIA-modus"
 END
 
 
@@ -144,12 +144,12 @@ BEGIN
   IDS_NORMAL           "Normaal"
   IDS_SWIFTLINK        "Swiftlink"
   IDS_TURBO232         "Turbo232"
-  IDS_ACIA_CAPTION     "ACIA Instellingen"
-  IDS_ACIA_ENABLE      "&Aktiveer ACIA"
-  IDS_ACIA_DEVICE      "ACIA apparaat"
-  IDS_ACIA_LOCATION    "ACIA adres"
-  IDS_ACIA_INTERRUPT   "ACIA interrupt"
-  IDS_ACIA_MODE        "ACIA modus"
+  IDS_ACIA_CAPTION     "ACIA-instellingen"
+  IDS_ACIA_ENABLE      "&Activeer ACIA"
+  IDS_ACIA_DEVICE      "ACIA-apparaat"
+  IDS_ACIA_LOCATION    "ACIA-adres"
+  IDS_ACIA_INTERRUPT   "ACIA-interrupt"
+  IDS_ACIA_MODE        "ACIA-modus"
 END
 
 

@@ -102,10 +102,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_REU_CAPTION             "REU Instellingen"
-    IDS_REU_ENABLE              "&Aktiveer REU"
-    IDS_REU_SIZE                "REU grootte"
-    IDS_REU_FILE                "REU bestand"
+    IDS_REU_CAPTION             "REU-instellingen"
+    IDS_REU_ENABLE              "&Activeer REU"
+    IDS_REU_SIZE                "REU-grootte"
+    IDS_REU_FILE                "REU-bestand"
     IDS_REU_SELECT_FILE         "Selecteer bestand voor REU"
 END
 

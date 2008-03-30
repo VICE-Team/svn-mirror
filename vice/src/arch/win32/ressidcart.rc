@@ -205,29 +205,29 @@ IDD_SIDCART_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Aktiveer SID", IDC_SIDCART_ENABLE,
+    AUTOCHECKBOX    "&Activeer SID", IDC_SIDCART_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Kern",
+    LTEXT           "SID-kern",
                     IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
     COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Model",
+    LTEXT           "SID-model",
                     IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
     COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID Filters", IDC_SIDCART_FILTERS,
+    AUTOCHECKBOX    "SID-filters", IDC_SIDCART_FILTERS,
                     7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Adres",
+    LTEXT           "SID-Adres",
                     IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
     COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID klok",
+    LTEXT           "SID-klok",
                     IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
     COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID apparaat selectie",
+    LTEXT           "HardSID-apparaatselectie",
                     IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Hoofd apparaat",
+    LTEXT           "Hoofdapparaat",
                     IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
     COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP

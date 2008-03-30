@@ -50,10 +50,47 @@
 #endif
 #endif  /* __hpux */
 
-/* FIXME: We currently allow unaligned memory accesses on i386 only, as they
-   allow for some optimizations.  What other architectures could benefit from
-   having this enabled?  (Maybe the PowerPC would?)  */
-#if defined __i386__
+/* currently tested/testing for the following cpu types:
+ *
+ * cpu        4*u_char fetch   1*u_int32 fetch   define(s)
+ * -----      --------------   ---------------   ---------
+ * alpha          faster           slower        __alpha__
+ * arm (gp2x)     slower           faster        GP2X
+ * ppc            slower           faster        __powerpc__ || __ppc__
+ * x86            slower           faster        __i386__
+ * m68020+        slower           faster        __m680[2346]0__
+ *
+ * arm           untested         untested       __arm__ && !GP2X
+ * bfin          untested         untested       BFIN
+ * hppa          untested         untested       ???
+ * ia64          untested         untested       __ia64__
+ * m88k          untested         untested       ???
+ * mips          untested         untested       __mips__
+ * s390          untested         untested       __s390__
+ * s390x         untested         untested       __s390x__
+ * sparc         untested         untested       sparc
+ * sparc64       untested         untested       ???
+ * vax           untested         untested       __vax__
+ * x86_64        untested         untested       ???
+ */
+
+/* Allow unaligned access for i386+ based platforms */
+#ifdef __i386__
+#define ALLOW_UNALIGNED_ACCESS
+#endif
+
+/* Allow unaligned access for gp2x port */
+#ifdef GP2X
+#define ALLOW_UNALIGNED_ACCESS
+#endif
+
+/* Allow unaligned access for m68020+ based platforms */
+#if defined(__m68020__) || defined(__m68030__) || defined(__m68040__) || defined(__m68060__)
+#define ALLOW_UNALIGNED_ACCESS
+#endif
+
+/* Allow unaligned access for PPC based platforms */
+#if defined(__powerpc__) || defined(__ppc__)
 #define ALLOW_UNALIGNED_ACCESS
 #endif
 

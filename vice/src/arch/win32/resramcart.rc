@@ -109,11 +109,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RAMCART_CAPTION         "RAMCART Instellingen"
-    IDS_RAMCART_ENABLE          "&Aktiveer RAMCART"
-    IDS_RAMCART_READONLY        "Alleen &Lezen"
-    IDS_RAMCART_SIZE            "RAMCART grootte"
-    IDS_RAMCART_FILE            "RAMCART bestand"
+    IDS_RAMCART_CAPTION         "RAMCART-instellingen"
+    IDS_RAMCART_ENABLE          "&Activeer RAMCART"
+    IDS_RAMCART_READONLY        "Alleen &lezen"
+    IDS_RAMCART_SIZE            "RAMCART-grootte"
+    IDS_RAMCART_FILE            "RAMCART-bestand"
     IDS_RAMCART_SELECT_FILE     "Selecteer bestand voor RAMCART"
 END
 

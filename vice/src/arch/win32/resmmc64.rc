@@ -170,23 +170,23 @@ IDD_MMC64_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Aktiveer MMC64", IDC_MMC64_ENABLE,
+    AUTOCHECKBOX    "&Activeer MMC64", IDC_MMC64_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS Revisie",
+    LTEXT           "BIOS-revisie",
                     IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
     COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Aktiveer BIOS &Flash Jumper", IDC_MMC64_FLASHJUMPER,
+    AUTOCHECKBOX    "Activeer BIOS &Flash Jumper", IDC_MMC64_FLASHJUMPER,
                     7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "BIOS Op&slaan indien gewijzigd", IDC_MMC64_BIOS_SAVE,
+    AUTOCHECKBOX    "MMC64-BIOS Op&slaan indien gewijzigd", IDC_MMC64_BIOS_SAVE,
                     7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS Bestand",
+    LTEXT           "&BIOS-bestand",
                     IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
     PUSHBUTTON      "Bladeren...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
     EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD Bestand alleen-lezen", IDC_MMC64_IMAGE_RO,
+    AUTOCHECKBOX    "MMC/SD-bestand alleen-lezen", IDC_MMC64_IMAGE_RO,
                     7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD B&estand",
+    LTEXT           "MMC/SD-b&estand",
                     IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
     PUSHBUTTON      "Bladeren...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
     EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP

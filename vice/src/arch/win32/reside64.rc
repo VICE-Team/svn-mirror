@@ -128,15 +128,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "IDE64 Instellingen"
-    IDS_IDE64_IMAGE             "&HD bestand"
-    IDS_IDE64_GEOMETRY          "&Geometry"
+    IDS_IDE64_CAPTION           "IDE64-instellingen"
+    IDS_IDE64_IMAGE             "&HD-bestand"
+    IDS_IDE64_GEOMETRY          "&Geometrie"
     IDS_IDE64_AUTODETECT        "&Autodetectie"
     IDS_IDE64_CYLINDERS         "Cylinders"
     IDS_IDE64_HEADS             "Koppen"
     IDS_IDE64_SECTORS           "Sectors"
     IDS_IDE64_TOTAL_SIZE        "Totale grootte: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Selecteer HD bestand"
+    IDS_IDE64_SELECT_IMAGE      "Selecteer HD-bestand"
 END
 
 // POLISH text
