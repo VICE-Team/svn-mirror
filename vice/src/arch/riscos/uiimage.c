@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 
 #include "wimp.h"
 #include "posix.h"

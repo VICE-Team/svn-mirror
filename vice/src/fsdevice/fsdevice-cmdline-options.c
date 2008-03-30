@@ -36,6 +36,7 @@
 #include "archdep.h"
 #include "cmdline.h"
 #include "fsdevice.h"
+#include "types.h"
 
 
 static int cmdline_fsdirectory(const char *param, void *extra_param)

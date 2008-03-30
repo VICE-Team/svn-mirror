@@ -28,6 +28,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include <wimp.h>
 
 #include "lib.h"

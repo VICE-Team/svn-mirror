@@ -395,11 +395,6 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
     /*log_debug("SF %i VBL %i SUB %i",sf->num,vicii.bad_line,sub);*/
 
-#if 0
-    if (sf->first == 0 && vicii.bad_line != 0)
-        num_cycles--;
-#endif
-
     dma_maincpu_steal_cycles(vicii.fetch_clk, num_cycles - sub, sub);
 
     *write_offset = sub == 0 ? num_cycles : 0;

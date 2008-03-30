@@ -64,5 +64,9 @@ typedef DWORD CLOCK;
 #define REGPARM2
 #define REGPARM3
 
+#ifndef PATH_MAX
+#define PATH_MAX 256
+#endif
+
 #endif  /* _TYPES_H */
 

@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <limits.h>
 
 #include "wimp.h"
 
