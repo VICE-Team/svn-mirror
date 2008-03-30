@@ -144,16 +144,20 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     if (prefix[j] == 0x00) {
         mon_set_mem_val(mem, loc, opcode);
         if (len >= 2)
-            mon_set_mem_val(mem, loc + 1, (BYTE)(operand_value & 0xff));
+            mon_set_mem_val(mem, (ADDRESS)(loc + 1),
+                            (BYTE)(operand_value & 0xff));
         if (len >= 3)
-            mon_set_mem_val(mem, loc + 2, (BYTE)((operand_value >> 8) & 0xff));
+            mon_set_mem_val(mem, (ADDRESS)(loc + 2),
+                            (BYTE)((operand_value >> 8) & 0xff));
     } else {
         mon_set_mem_val(mem, loc, prefix[j]);
-        mon_set_mem_val(mem, loc + 1, opcode);
+        mon_set_mem_val(mem, (ADDRESS)(loc + 1), opcode);
         if (len >= 3)
-            mon_set_mem_val(mem, loc + 2, (BYTE)(operand_value & 0xff));
+            mon_set_mem_val(mem, (ADDRESS)(loc + 2),
+                            (BYTE)(operand_value & 0xff));
         if (len >= 4)
-            mon_set_mem_val(mem, loc + 3, (BYTE)((operand_value >> 8) & 0xff));
+            mon_set_mem_val(mem, (ADDRESS)(loc + 3),
+                            (BYTE)((operand_value >> 8) & 0xff));
     }
 
     if (len >= 0) {
