@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-05 18:46+0200\n"
+"POT-Creation-Date: 2007-06-10 23:51+0200\n"
 "PO-Revision-Date: 2006-10-01 17:43+0200\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -236,35 +236,35 @@ msgid "The recording device doesn't support current sound parameters"
 msgstr ""
 "Le périphérique d'enregistrement ne supporte pas les paramètres son actuels"
 
-#: src/sound.c:868 src/translate.c.po.c:326
+#: src/sound.c:869 src/translate.c.po.c:326
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Erreur de dépassement de limite du tampon son (basé sur les cycles)"
 
-#: src/sound.c:882 src/translate.c.po.c:336
+#: src/sound.c:883 src/translate.c.po.c:336
 msgid "Sound buffer overflow."
 msgstr "Erreur de dépassement de limite du tampon son."
 
-#: src/sound.c:1011 src/translate.c.po.c:346
+#: src/sound.c:1013 src/translate.c.po.c:346
 msgid "cannot flush."
 msgstr "impossible de vider."
 
-#: src/sound.c:1060 src/translate.c.po.c:356
+#: src/sound.c:1062 src/translate.c.po.c:356
 msgid "fragment problems."
 msgstr "problèmes de fragments."
 
-#: src/sound.c:1090
+#: src/sound.c:1092
 msgid "Buffer drained"
 msgstr "Tampon vide"
 
-#: src/sound.c:1129 src/translate.c.po.c:366
+#: src/sound.c:1131 src/translate.c.po.c:366
 msgid "running too slow."
 msgstr "exécution trop lente."
 
-#: src/sound.c:1145 src/sound.c:1155
+#: src/sound.c:1147 src/sound.c:1157
 msgid "write to sounddevice failed."
 msgstr "erreur d'écriture sur le périphérique son."
 
-#: src/sound.c:1413 src/translate.c.po.c:376
+#: src/sound.c:1415 src/translate.c.po.c:376
 msgid "store to sounddevice failed."
 msgstr "erreur d'enregistrement sur le périphérique son."
 
@@ -396,77 +396,77 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Erreur de lecture: %s est différente de la ligne %d du fichier débug%06d"
 
-#: src/network.c:236 src/translate.c.po.c:548
+#: src/network.c:248 src/translate.c.po.c:548
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:461 src/translate.c.po.c:397
+#: src/network.c:473 src/translate.c.po.c:397
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:511 src/translate.c.po.c:407
+#: src/network.c:523 src/translate.c.po.c:407
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:536 src/translate.c.po.c:417
+#: src/network.c:548 src/translate.c.po.c:417
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr "Impossible de charger la sauvegarde."
 
-#: src/network.c:549 src/translate.c.po.c:427
+#: src/network.c:561 src/translate.c.po.c:427
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "E&nregistrer une sauvegarde..."
 
-#: src/network.c:559 src/translate.c.po.c:437
+#: src/network.c:571 src/translate.c.po.c:437
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr "Impossible de charger le fichier de sauvegarde."
 
-#: src/network.c:589 src/translate.c.po.c:447
+#: src/network.c:601 src/translate.c.po.c:447
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Impossible d'écrire le fichier de sauvegarde `%s'."
 
-#: src/network.c:629 src/translate.c.po.c:457
+#: src/network.c:641 src/translate.c.po.c:457
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Impossible d'écrire le fichier de sauvegarde `%s'."
 
-#: src/network.c:779 src/translate.c.po.c:467
+#: src/network.c:791 src/translate.c.po.c:467
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:816 src/translate.c.po.c:477
+#: src/network.c:828 src/translate.c.po.c:477
 #, fuzzy
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr "Impossible d'écrire le fichier de sauvegarde `%s'."
 
-#: src/network.c:835 src/translate.c.po.c:487
+#: src/network.c:847 src/translate.c.po.c:487
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr "Impossible d'écrire le fichier log `%s'."
 
-#: src/network.c:880 src/translate.c.po.c:497
+#: src/network.c:892 src/translate.c.po.c:497
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:894 src/translate.c.po.c:507
+#: src/network.c:906 src/translate.c.po.c:507
 #, fuzzy
 msgid "Receiving snapshot from server..."
 msgstr "Sélectionner la sauvegarde de fin pour l'historique des événements"
 
-#: src/network.c:981 src/network.c:1011 src/translate.c.po.c:527
+#: src/network.c:993 src/network.c:1023 src/translate.c.po.c:527
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:1023 src/translate.c.po.c:537
+#: src/network.c:1035 src/translate.c.po.c:537
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:1067 src/translate.c.po.c:517
+#: src/network.c:1079 src/translate.c.po.c:517
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -11716,6 +11716,10 @@ msgstr "&Fichier"
 #, fuzzy
 msgid "Debug"
 msgstr "&Débug"
+
+#: src/arch/amigaos/intl.c.po.c:4673
+msgid "Volume (0-100%)"
+msgstr ""
 
 #, fuzzy
 #~ msgid "glXChooseVisual() failed"

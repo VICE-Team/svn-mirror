@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-05 18:46+0200\n"
+"POT-Creation-Date: 2007-06-10 23:51+0200\n"
 "PO-Revision-Date: 2007-02-14 16:16+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -228,35 +228,35 @@ msgstr "A `%s' eszköz indítása nem sikerült."
 msgid "The recording device doesn't support current sound parameters"
 msgstr "A felvevõ eszköz nem támogatja az aktuális hangbeállításokat"
 
-#: src/sound.c:868 src/translate.c.po.c:326
+#: src/sound.c:869 src/translate.c.po.c:326
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Hangpuffer túlcsordulás (ciklus alapú)"
 
-#: src/sound.c:882 src/translate.c.po.c:336
+#: src/sound.c:883 src/translate.c.po.c:336
 msgid "Sound buffer overflow."
 msgstr "Hangpuffer túlcsordulás."
 
-#: src/sound.c:1011 src/translate.c.po.c:346
+#: src/sound.c:1013 src/translate.c.po.c:346
 msgid "cannot flush."
 msgstr "nem sikerült üríteni a puffert."
 
-#: src/sound.c:1060 src/translate.c.po.c:356
+#: src/sound.c:1062 src/translate.c.po.c:356
 msgid "fragment problems."
 msgstr "töredékrész problémák."
 
-#: src/sound.c:1090
+#: src/sound.c:1092
 msgid "Buffer drained"
 msgstr "A puffer alulcsordult."
 
-#: src/sound.c:1129 src/translate.c.po.c:366
+#: src/sound.c:1131 src/translate.c.po.c:366
 msgid "running too slow."
 msgstr "túl lassan megy."
 
-#: src/sound.c:1145 src/sound.c:1155
+#: src/sound.c:1147 src/sound.c:1157
 msgid "write to sounddevice failed."
 msgstr "a hangeszközre történõ írás nem sikerült."
 
-#: src/sound.c:1413 src/translate.c.po.c:376
+#: src/sound.c:1415 src/translate.c.po.c:376
 msgid "store to sounddevice failed."
 msgstr "a hangeszközön történõ tárolás nem sikerült."
 
@@ -384,73 +384,73 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Visszajátszási hiba: %s különbözik a %d. sorban a debug%06d fájl esetén"
 
-#: src/network.c:236 src/translate.c.po.c:548
+#: src/network.c:248 src/translate.c.po.c:548
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Nem válthat IPV4/IPV6 között, amíg a hálózati játék aktív"
 
-#: src/network.c:461 src/translate.c.po.c:397
+#: src/network.c:473 src/translate.c.po.c:397
 msgid "Testing best frame delay..."
 msgstr "Legjobb képkocka késleltetés tesztelése..."
 
-#: src/network.c:511 src/translate.c.po.c:407
+#: src/network.c:523 src/translate.c.po.c:407
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d képkocka késleltetés használata."
 
-#: src/network.c:536 src/translate.c.po.c:417
+#: src/network.c:548 src/translate.c.po.c:417
 msgid "Cannot load snapshot file for transfer"
 msgstr "Nem sikerült az átküldendõ pillanatkép fájlt betölteni"
 
-#: src/network.c:549 src/translate.c.po.c:427
+#: src/network.c:561 src/translate.c.po.c:427
 msgid "Sending snapshot to client..."
 msgstr "Pillanatkép küldése a kliensnek..."
 
-#: src/network.c:559 src/translate.c.po.c:437
+#: src/network.c:571 src/translate.c.po.c:437
 msgid "Cannot send snapshot to client"
 msgstr "Nem sikerült pillanatképet elküldeni a klienshez"
 
-#: src/network.c:589 src/translate.c.po.c:447
+#: src/network.c:601 src/translate.c.po.c:447
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Nem sikerült a pillanatképfájlt létrehozni (%s)"
 
-#: src/network.c:629 src/translate.c.po.c:457
+#: src/network.c:641 src/translate.c.po.c:457
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Nem sikerült a pillanatképfájlt megnyitni (%s)"
 
-#: src/network.c:779 src/translate.c.po.c:467
+#: src/network.c:791 src/translate.c.po.c:467
 msgid "Server is waiting for a client..."
 msgstr "A kiszolgáló kliensre vár..."
 
-#: src/network.c:816 src/translate.c.po.c:477
+#: src/network.c:828 src/translate.c.po.c:477
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr ""
 "Nem sikerült pillanatkép fájlt létrehozni. Kérem válasszon más könyvtárat!"
 
-#: src/network.c:835 src/translate.c.po.c:487
+#: src/network.c:847 src/translate.c.po.c:487
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Nem sikerült %s-t feloldani"
 
-#: src/network.c:880 src/translate.c.po.c:497
+#: src/network.c:892 src/translate.c.po.c:497
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "Nem sikerült %s-hez kapcsolódni (a %d porton nem fut kiszolgáló)"
 
-#: src/network.c:894 src/translate.c.po.c:507
+#: src/network.c:906 src/translate.c.po.c:507
 msgid "Receiving snapshot from server..."
 msgstr "Pillanatkép fogadása a szerverrõl..."
 
-#: src/network.c:981 src/network.c:1011 src/translate.c.po.c:527
+#: src/network.c:993 src/network.c:1023 src/translate.c.po.c:527
 msgid "Remote host disconnected."
 msgstr "A távoli számítogép lekapcsolódott."
 
-#: src/network.c:1023 src/translate.c.po.c:537
+#: src/network.c:1035 src/translate.c.po.c:537
 msgid "Remote host suspending..."
 msgstr "A távoli számítógép felfüggesztést kért..."
 
-#: src/network.c:1067 src/translate.c.po.c:517
+#: src/network.c:1079 src/translate.c.po.c:517
 msgid "Network out of sync - disconnecting."
 msgstr "A hálózat kiesett a szinkronból - szétkapcsolódás"
 
@@ -11253,6 +11253,10 @@ msgstr "&Fájl"
 #, fuzzy
 msgid "Debug"
 msgstr "&Nyomkövetés"
+
+#: src/arch/amigaos/intl.c.po.c:4673
+msgid "Volume (0-100%)"
+msgstr ""
 
 #~ msgid "glXWaitVideoSyncSGI() returned %d"
 #~ msgstr "glXWaitVideoSyncSGI() visszatérési értéke %d"

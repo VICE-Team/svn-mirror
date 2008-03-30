@@ -548,6 +548,91 @@ EXTRA_DIST = \
 	msvc/wpcap/pcap-stdinc.h \
 	msvc/wpcap/pcap.h \
 	msvc/wpcap/net/bpf.h \
+	watcom/arch.tgt \
+	watcom/base.tgt \
+	watcom/c128-c64-snapshot.c \
+	watcom/c128-c64acia1.c \
+	watcom/c128-c64bus.c \
+	watcom/c128-c64cia2.c \
+	watcom/c128-c64datasette.c \
+	watcom/c128-c64export.c \
+	watcom/c128-c64iec.c \
+	watcom/c128-c64io.c \
+	watcom/c128-c64keyboard.c \
+	watcom/c128-c64meminit.c \
+	watcom/c128-c64memrom.c \
+	watcom/c128-c64parallel.c \
+	watcom/c128-c64pla.c \
+	watcom/c128-c64printer.c \
+	watcom/c128-c64rsuser.c \
+	watcom/c128-c64sound.c \
+	watcom/c128-c64tpi.c \
+	watcom/c128-digimax.c \
+	watcom/c128-georam.c \
+	watcom/c128-mmc64.c \
+	watcom/c128-patchrom.c \
+	watcom/c128-ramcart.c \
+	watcom/c128-reu.c \
+	watcom/c128-tfe.c \
+	watcom/c128.tgt \
+	watcom/c1541.tgt \
+	watcom/c64.tgt \
+	watcom/c64c128.tgt \
+	watcom/c64cart.tgt \
+	watcom/c64exp.tgt \
+	watcom/cartconv.tgt \
+	watcom/cbm2.tgt \
+	watcom/config.h \
+	watcom/core.tgt \
+	watcom/crtc.tgt \
+	watcom/diskimage.tgt \
+	watcom/drive.tgt \
+	watcom/fileio.tgt \
+	watcom/fsdevice.tgt \
+	watcom/gentranslate.tgt \
+	watcom/genwinres.tgt \
+	watcom/gfxoutputdrv.tgt \
+	watcom/iec.tgt \
+	watcom/iec128dcr.tgt \
+	watcom/iecbus.tgt \
+	watcom/iecieee.tgt \
+	watcom/ieee.tgt \
+	watcom/imagecontents.tgt \
+	watcom/maincpu.tgt \
+	watcom/monitor.tgt \
+	watcom/parallel.tgt \
+	watcom/pet.tgt \
+	watcom/petcat.tgt \
+	watcom/plus4.tgt \
+	watcom/plus4exp.tgt \
+	watcom/printerdrv.tgt \
+	watcom/raster.tgt \
+	watcom/README.txt \
+	watcom/rs232drv.tgt \
+	watcom/serial.tgt \
+	watcom/sid.tgt \
+	watcom/sounddrv.tgt \
+	watcom/system.h \
+	watcom/tape.tgt \
+	watcom/tcbm.tgt \
+	watcom/vdc.tgt \
+	watcom/vdrive.tgt \
+	watcom/vic20.tgt \
+	watcom/vice.wpj \
+	watcom/vicii.tgt \
+	watcom/video.tgt \
+	watcom/x128.tgt \
+	watcom/x128main.c \
+	watcom/x64.tgt \
+	watcom/x64main.c \
+	watcom/xcbm2.tgt \
+	watcom/xcbm2main.c \
+	watcom/xpet.tgt \
+	watcom/xpetmain.c \
+	watcom/xplus4.tgt \
+	watcom/xplus4main.c \
+	watcom/xvic.tgt \
+	watcom/xvicmain.c \
 	arch.dsp \
 	base.dsp \
 	c128.dsp \
@@ -564,7 +649,7 @@ EXTRA_DIST = \
 	drive.dsp \
 	fileio.dsp \
 	fsdevice.dsp \
-        genmsvcver.dsp \
+	genmsvcver.dsp \
 	gentranslate.dsp \
 	genwinres.dsp \
 	genwinres.sh \
@@ -895,7 +980,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/evc $(distdir)/msvc $(distdir)/msvc/wpcap $(distdir)/msvc/wpcap/net
+	$(mkdir_p) $(distdir)/evc $(distdir)/msvc $(distdir)/msvc/wpcap $(distdir)/msvc/wpcap/net $(distdir)/watcom
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

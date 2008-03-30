@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-05 18:46+0200\n"
+"POT-Creation-Date: 2007-06-10 23:51+0200\n"
 "PO-Revision-Date: 2007-02-24 14:42+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -233,35 +233,35 @@ msgstr "Inizializzazione fallita per il device `%s'."
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Il device di registrazione non supporta i parametri attuali"
 
-#: src/sound.c:868 src/translate.c.po.c:326
+#: src/sound.c:869 src/translate.c.po.c:326
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Overflow del buffer audio (cycle based)"
 
-#: src/sound.c:882 src/translate.c.po.c:336
+#: src/sound.c:883 src/translate.c.po.c:336
 msgid "Sound buffer overflow."
 msgstr "Overflow del buffer audio."
 
-#: src/sound.c:1011 src/translate.c.po.c:346
+#: src/sound.c:1013 src/translate.c.po.c:346
 msgid "cannot flush."
 msgstr "non è possibile svuotare."
 
-#: src/sound.c:1060 src/translate.c.po.c:356
+#: src/sound.c:1062 src/translate.c.po.c:356
 msgid "fragment problems."
 msgstr "problemi di frammentazione."
 
-#: src/sound.c:1090
+#: src/sound.c:1092
 msgid "Buffer drained"
 msgstr "Buffer vuoto"
 
-#: src/sound.c:1129 src/translate.c.po.c:366
+#: src/sound.c:1131 src/translate.c.po.c:366
 msgid "running too slow."
 msgstr "esecuzione troppo lenta."
 
-#: src/sound.c:1145 src/sound.c:1155
+#: src/sound.c:1147 src/sound.c:1157
 msgid "write to sounddevice failed."
 msgstr "scrittura sulla scheda audio fallita."
 
-#: src/sound.c:1413 src/translate.c.po.c:376
+#: src/sound.c:1415 src/translate.c.po.c:376
 msgid "store to sounddevice failed."
 msgstr "memorizzazione sulla scheda audio fallita."
 
@@ -390,75 +390,75 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Errore di riproduzione: %s è differente dalla linea %d del file di debug %06d"
 
-#: src/network.c:236 src/translate.c.po.c:548
+#: src/network.c:248 src/translate.c.po.c:548
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Non è possibile commutare tra IPV4 e IPV6 mentre netplay è attivo."
 
-#: src/network.c:461 src/translate.c.po.c:397
+#: src/network.c:473 src/translate.c.po.c:397
 msgid "Testing best frame delay..."
 msgstr "Rileva il miglior ritardo tra frame..."
 
-#: src/network.c:511 src/translate.c.po.c:407
+#: src/network.c:523 src/translate.c.po.c:407
 #, c-format
 msgid "Using %d frames delay."
 msgstr "Utilizzo %d frame di ritardo."
 
-#: src/network.c:536 src/translate.c.po.c:417
+#: src/network.c:548 src/translate.c.po.c:417
 msgid "Cannot load snapshot file for transfer"
 msgstr "Non è possibile caricare il file di snapshot per il trasferimento"
 
-#: src/network.c:549 src/translate.c.po.c:427
+#: src/network.c:561 src/translate.c.po.c:427
 msgid "Sending snapshot to client..."
 msgstr "Invio dell'immagine dello snapshot al client in corso..."
 
-#: src/network.c:559 src/translate.c.po.c:437
+#: src/network.c:571 src/translate.c.po.c:437
 msgid "Cannot send snapshot to client"
 msgstr "Non è possibile inviare lo snapshot al client"
 
-#: src/network.c:589 src/translate.c.po.c:447
+#: src/network.c:601 src/translate.c.po.c:447
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Non è possibile creare il file di snapshot %s"
 
-#: src/network.c:629 src/translate.c.po.c:457
+#: src/network.c:641 src/translate.c.po.c:457
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Non è possibile aprire il file di snapshot %s"
 
-#: src/network.c:779 src/translate.c.po.c:467
+#: src/network.c:791 src/translate.c.po.c:467
 msgid "Server is waiting for a client..."
 msgstr "Il server è in attesa di un client..."
 
-#: src/network.c:816 src/translate.c.po.c:477
+#: src/network.c:828 src/translate.c.po.c:477
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr ""
 "Non è possibile creare il file di snapshot. Seleziona una directory diversa "
 "per la cronologia."
 
-#: src/network.c:835 src/translate.c.po.c:487
+#: src/network.c:847 src/translate.c.po.c:487
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Non è possibile risolvere %s"
 
-#: src/network.c:880 src/translate.c.po.c:497
+#: src/network.c:892 src/translate.c.po.c:497
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Non è possibile connettersi a %s (nessun server è attivo sulla porta %d)."
 
-#: src/network.c:894 src/translate.c.po.c:507
+#: src/network.c:906 src/translate.c.po.c:507
 msgid "Receiving snapshot from server..."
 msgstr "Ricezione dello snapshot dal server in corso..."
 
-#: src/network.c:981 src/network.c:1011 src/translate.c.po.c:527
+#: src/network.c:993 src/network.c:1023 src/translate.c.po.c:527
 msgid "Remote host disconnected."
 msgstr "Disconnesso dall'host remoto."
 
-#: src/network.c:1023 src/translate.c.po.c:537
+#: src/network.c:1035 src/translate.c.po.c:537
 msgid "Remote host suspending..."
 msgstr "Sospesione dell'host remoto in corso..."
 
-#: src/network.c:1067 src/translate.c.po.c:517
+#: src/network.c:1079 src/translate.c.po.c:517
 msgid "Network out of sync - disconnecting."
 msgstr "Rete non sincronizzata - disconnesione in corso."
 
@@ -11306,6 +11306,10 @@ msgstr "&File"
 #, fuzzy
 msgid "Debug"
 msgstr "&Debug"
+
+#: src/arch/amigaos/intl.c.po.c:4673
+msgid "Volume (0-100%)"
+msgstr ""
 
 #~ msgid "glXWaitVideoSyncSGI() returned %d"
 #~ msgstr "glXWaitVideoSyncSGI() ha restituito %d"
