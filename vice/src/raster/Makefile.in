@@ -257,8 +257,8 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 raster-cache.o: raster-cache.c ../../src/vice.h ../../src/config.h \
-	raster-cache.h raster-sprite-cache.h \
-	../../src/arch/unix/types.h ../../src/utils.h
+	../../src/lib.h raster-cache.h raster-sprite-cache.h \
+	../../src/arch/unix/types.h
 raster-canvas.o: raster-canvas.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h raster-canvas.h raster.h raster-changes.h \
 	../../src/arch/unix/types.h ../../src/viewport.h \
@@ -269,7 +269,7 @@ raster-canvas.o: raster-canvas.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
 	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 raster-changes.o: raster-changes.c ../../src/vice.h ../../src/config.h \
-	raster-changes.h ../../src/arch/unix/types.h ../../src/utils.h
+	../../src/lib.h raster-changes.h ../../src/arch/unix/types.h
 raster-cmdline-options.o: raster-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h raster-cmdline-options.h \
 	../../src/utils.h ../../src/arch/unix/types.h ../../src/video.h \
@@ -280,28 +280,27 @@ raster-line.o: raster-line.c ../../src/vice.h ../../src/config.h \
 	raster-modes.h raster-sprite-status.h raster-sprite.h raster.h \
 	raster-changes.h ../../src/viewport.h
 raster-modes.o: raster-modes.c ../../src/vice.h ../../src/config.h \
-	raster-modes.h raster-cache.h raster-sprite-cache.h \
-	../../src/arch/unix/types.h ../../src/utils.h
+	../../src/lib.h raster-modes.h raster-cache.h \
+	raster-sprite-cache.h ../../src/arch/unix/types.h
 raster-resources.o: raster-resources.c ../../src/vice.h \
-	../../src/config.h raster.h raster-changes.h \
+	../../src/config.h ../../src/lib.h raster.h raster-changes.h \
 	../../src/arch/unix/types.h ../../src/viewport.h \
 	../../src/resources.h ../../src/utils.h ../../src/video.h
 raster-sprite-cache.o: raster-sprite-cache.c ../../src/vice.h \
-	../../src/config.h raster-sprite-cache.h \
-	../../src/arch/unix/types.h ../../src/utils.h
+	../../src/config.h ../../src/lib.h raster-sprite-cache.h \
+	../../src/arch/unix/types.h
 raster-sprite-status.o: raster-sprite-status.c ../../src/vice.h \
-	../../src/config.h raster-sprite-status.h \
-	../../src/arch/unix/types.h raster-sprite.h ../../src/utils.h
+	../../src/config.h ../../src/lib.h raster-sprite-status.h \
+	../../src/arch/unix/types.h raster-sprite.h
 raster-sprite.o: raster-sprite.c ../../src/vice.h ../../src/config.h \
 	raster-sprite.h
-raster.o: raster.c ../../src/vice.h ../../src/config.h ../../src/log.h \
-	../../src/machine.h ../../src/palette.h \
+raster.o: raster.c ../../src/vice.h ../../src/config.h ../../src/lib.h \
+	../../src/log.h ../../src/machine.h ../../src/palette.h \
 	../../src/arch/unix/types.h raster-cache.h \
 	raster-sprite-cache.h raster-canvas.h raster-modes.h \
 	raster-sprite-status.h raster-sprite.h raster.h \
 	raster-changes.h ../../src/viewport.h ../../src/screenshot.h \
-	../../src/utils.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \

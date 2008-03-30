@@ -127,7 +127,7 @@ extern int cur_len, last_len;
 %token<i> CMD_HELP CMD_WATCH CMD_DISK CMD_SYSTEM CMD_QUIT CMD_CHDIR CMD_BANK
 %token<i> CMD_LOAD_LABELS CMD_SAVE_LABELS CMD_ADD_LABEL CMD_DEL_LABEL CMD_SHOW_LABELS
 %token<i> CMD_RECORD CMD_STOP CMD_PLAYBACK CMD_CHAR_DISPLAY CMD_SPRITE_DISPLAY
-%token<i> CMD_TEXT_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA
+%token<i> CMD_TEXT_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA CMD_KEYBUF
 %token<i> CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL CMD_CPU
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> REG_B REG_C REG_D REG_E REG_H REG_L
@@ -382,6 +382,8 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_print_convert($2); }
                   | CMD_CHDIR rest_of_line end_cmd
                     { mon_change_dir($2); }
+                  | CMD_KEYBUF rest_of_line end_cmd
+                    { mon_keyboard_feed($2); }
                   ;
 
 disk_rules: CMD_LOAD filename expression opt_address end_cmd

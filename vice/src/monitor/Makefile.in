@@ -286,10 +286,11 @@ mon.o: mon.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/charset.h ../../src/arch/unix/types.h \
 	../../src/console.h ../../src/interrupt.h ../../src/ioutil.h \
-	../../src/log.h ../../src/mem.h mon_breakpoint.h montypes.h \
-	../../src/monitor.h mon_disassemble.h mon_memory.h mon_parse.h \
-	mon_register.h mon_ui.h mon_util.h ../../src/sysfile.h \
-	../../src/uimon.h ../../src/utils.h ../../src/vsync.h
+	../../src/kbdbuf.h ../../src/log.h ../../src/mem.h \
+	mon_breakpoint.h montypes.h ../../src/monitor.h \
+	mon_disassemble.h mon_memory.h mon_parse.h mon_register.h \
+	mon_ui.h mon_util.h ../../src/sysfile.h ../../src/uimon.h \
+	../../src/utils.h ../../src/vsync.h
 mon_assemble6502.o: mon_assemble6502.c ../../src/vice.h \
 	../../src/config.h asm.h ../../src/arch/unix/types.h montypes.h \
 	../../src/monitor.h mon_util.h ../../src/uimon.h

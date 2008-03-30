@@ -284,11 +284,11 @@ serial-trap.o: serial-trap.c ../../src/vice.h ../../src/config.h \
 	../../src/serial.h
 serial.o: serial.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h ../../src/arch/unix/types.h \
-	../../src/drive/drive.h iecbus.h ../../src/log.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
-	../../src/parallel.h ../../src/printer.h realdevice.h \
-	serial-trap.h ../../src/serial.h ../../src/traps.h \
-	../../src/utils.h ../../src/vdrive/vdrive.h
+	../../src/drive/drive.h iecbus.h ../../src/lib.h \
+	../../src/log.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/mos6510.h ../../src/parallel.h ../../src/printer.h \
+	realdevice.h serial-trap.h ../../src/serial.h ../../src/traps.h \
+	../../src/vdrive/vdrive.h
 
 info-am:
 info: info-am

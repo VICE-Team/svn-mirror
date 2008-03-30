@@ -310,11 +310,11 @@ vicii-phi1.o: vicii-phi1.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 vicii-resources.o: vicii-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/fullscreen.h ../../src/raster/raster-resources.h \
-	../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h vicii-color.h vicii-resources.h \
-	viciitypes.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/viewport.h \
+	../../src/fullscreen.h ../../src/lib.h \
+	../../src/raster/raster-resources.h ../../src/resources.h \
+	vicii-color.h vicii-resources.h viciitypes.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/arch/unix/types.h ../../src/viewport.h \
 	../../src/video.h
 vicii-snapshot.o: vicii-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
@@ -325,13 +325,13 @@ vicii-snapshot.o: vicii-snapshot.c ../../src/vice.h ../../src/config.h \
 	viciitypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 vicii-sprites.o: vicii-sprites.c ../../src/vice.h ../../src/config.h \
-	../../src/raster/raster-cache.h \
+	../../src/lib.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/arch/unix/types.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/utils.h \
-	vicii-sprites.h viciitypes.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/viewport.h
+	../../src/raster/raster-sprite.h vicii-sprites.h viciitypes.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h
 vicii-timing.o: vicii-timing.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64.h ../../src/machine.h ../../src/resources.h \
 	vicii-sprites.h viciitypes.h ../../src/raster/raster.h \
@@ -341,9 +341,10 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/c64/c64.h \
 	../../src/cartridge.h ../../src/c64/c64cart.h \
 	../../src/clkguard.h ../../src/dma.h ../../src/interrupt.h \
-	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/raster/raster-line.h \
-	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
+	../../src/lib.h ../../src/log.h ../../src/machine.h \
+	../../src/maincpu.h ../../src/mem.h \
+	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/resources.h \

@@ -204,6 +204,10 @@ static mon_cmds_t mon_cmd_array[] = {
 
    { "io",              "",     CMD_IO,                 STATE_INITIAL },
 
+   { "keybuf",          "",     CMD_KEYBUF,             STATE_ROL,
+     "\"<string>\"",
+     "Put the specified string into the keyboard buffer.\n"},
+
    { "load",            "l",    CMD_LOAD,               STATE_FNAME,
      "\"<filename>\" <device> <address>",
      "Load the specified file into memory at the specified address. Set BASIC\n"

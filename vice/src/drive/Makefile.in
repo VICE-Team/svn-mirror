@@ -341,9 +341,9 @@ drive-snapshot.o: drive-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h ../../src/arch/unix/types.h \
 	../../src/diskconstants.h ../../src/diskimage.h drive.h \
 	drivecpu.h drivemem.h driverom.h ../../src/gcr.h \
-	../../src/iecdrive.h ../../src/log.h ../../src/machine-drive.h \
-	../../src/resources.h rotation.h ../../src/snapshot.h \
-	../../src/utils.h ../../src/vdrive/vdrive-bam.h \
+	../../src/iecdrive.h ../../src/lib.h ../../src/log.h \
+	../../src/machine-drive.h ../../src/resources.h rotation.h \
+	../../src/snapshot.h ../../src/vdrive/vdrive-bam.h \
 	../../src/vdrive/vdrive-snapshot.h viad.h ../../src/zfile.h
 drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
@@ -351,10 +351,10 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	drivecpu.h driveimage.h drivesync.h driverom.h drivetypes.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
 	../../src/gcr.h ../../src/iecdrive.h ../../src/interrupt.h \
-	../../src/log.h ../../src/machine-drive.h ../../src/machine.h \
-	../../src/parallel.h ../../src/resources.h rotation.h \
-	../../src/serial.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/utils.h viad.h
+	../../src/lib.h ../../src/log.h ../../src/machine-drive.h \
+	../../src/machine.h ../../src/parallel.h ../../src/resources.h \
+	rotation.h ../../src/serial.h ../../src/arch/unix/ui.h \
+	../../src/uiapi.h viad.h
 drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \

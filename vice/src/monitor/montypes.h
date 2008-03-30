@@ -209,7 +209,7 @@ extern void mon_print_bin(int val, char on, char off);
 extern BYTE mon_get_mem_val(MEMSPACE mem, WORD mem_addr);
 extern BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, WORD mem_addr);
 extern void mon_jump(MON_ADDR addr);
-
+extern void mon_keyboard_feed(const char *string);
 extern char *mon_symbol_table_lookup_name(MEMSPACE mem, WORD addr);
 extern int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name);
 extern void mon_add_name_to_symbol_table(MON_ADDR addr, char *name);

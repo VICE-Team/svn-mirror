@@ -255,22 +255,22 @@ distdir: $(DISTFILES)
 	done
 t64.o: t64.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/log.h t64.h ../../src/arch/unix/types.h \
-	../../src/utils.h ../../src/zfile.h
+	../../src/lib.h ../../src/log.h t64.h \
+	../../src/arch/unix/types.h ../../src/zfile.h
 tap.o: tap.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/datasette.h ../../src/tap.h \
+	../../src/datasette.h ../../src/lib.h ../../src/tap.h \
 	../../src/arch/unix/types.h ../../src/tape.h ../../src/utils.h \
 	../../src/zfile.h
 tape-internal.o: tape-internal.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h tape-internal.h ../../src/tape.h \
-	../../src/arch/unix/types.h ../../src/utils.h
+	../../src/lib.h ../../src/log.h tape-internal.h \
+	../../src/tape.h ../../src/arch/unix/types.h
 tape.o: tape.c ../../src/vice.h ../../src/config.h ../../src/datasette.h \
-	../../src/log.h ../../src/maincpu.h ../../src/arch/unix/types.h \
-	../../src/mem.h ../../src/mos6510.h ../../src/serial.h t64.h \
-	../../src/tap.h tape-internal.h ../../src/tape.h tapeimage.h \
-	../../src/traps.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/utils.h
+	../../src/lib.h ../../src/log.h ../../src/maincpu.h \
+	../../src/arch/unix/types.h ../../src/mem.h ../../src/mos6510.h \
+	../../src/serial.h t64.h ../../src/tap.h tape-internal.h \
+	../../src/tape.h tapeimage.h ../../src/traps.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h
 tapeimage.o: tapeimage.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h t64.h ../../src/arch/unix/types.h \
 	../../src/tap.h ../../src/tape.h ../../src/utils.h

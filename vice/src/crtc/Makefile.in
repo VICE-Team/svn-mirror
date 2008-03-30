@@ -274,7 +274,7 @@ crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	crtc-resources.h crtctypes.h crtc.h ../../src/arch/unix/types.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/viewport.h ../../src/fullscreen.h \
+	../../src/viewport.h ../../src/fullscreen.h ../../src/lib.h \
 	../../src/raster/raster-resources.h ../../src/resources.h \
 	../../src/utils.h ../../src/video.h
 crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \

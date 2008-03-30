@@ -38,6 +38,7 @@
 #include "console.h"
 #include "drive.h"
 #include "interrupt.h"
+#include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
 #include "machine.h"
@@ -144,6 +145,7 @@ void machine_shutdown(void)
 
     traps_shutdown();
 
+    kbd_buf_shutdown();
     keyboard_shutdown();
 
     monitor_shutdown();

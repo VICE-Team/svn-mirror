@@ -48,6 +48,7 @@
 #include "console.h"
 #include "interrupt.h"
 #include "ioutil.h"
+#include "kbdbuf.h"
 #include "log.h"
 #include "mem.h"
 #include "mon_breakpoint.h"
@@ -486,6 +487,10 @@ void mon_jump(MON_ADDR addr)
     exit_mon = 1;
 }
 
+void mon_keyboard_feed(const char *string)
+{
+    kdb_buf_feed_string(string);
+}
 
 /* *** ULTILITY FUNCTIONS *** */
 

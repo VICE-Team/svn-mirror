@@ -1,3 +1,48 @@
+2003-04-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.23.
+
+	* kbdbuf.c, kbdbuf.h (kdb_buf_feed_string): New function.
+
+	* monitor/mon_command.c, monitor/mon_parse.y,
+	monitor/montypes.h, monitor/mon.c (mon_keyboard_feed): New
+	function.
+
+	* lib.c, lib.h: New files.
+
+	* alarm.c, attach.c, autostart.c, autostart.c, charset.c,
+	clkguard.c, cmdline.c, color.c, event.c, fliplist.c, gcr.c,
+	initcmdline.c, interrupt.c, ioutil.c, keyboard.c, palette.c,
+	resources.c, romset.c, snapshot.c, sound.c, traps.c, utils.c,
+	zfile.c, c1541.c, sounddrv/soundaix.c, sounddrv/soundacorn.c,
+	sounddrv/soundallegro.c, sounddrv/sounddx.c,
+	sounddrv/soundsdl.c, sounddrv/soundwmm.c,
+	drive/drive-snapshot.c, vdrive/vdrive-command.c,
+	vdrive/vdrive-dir.c, vdrive/vdrive-iec.c,
+	vdrive/vdrive-internal.c, vdrive/vdrive-rel.c,
+	vdrive/vdrive.c, diskimage/fsimage-create.c, tape/t64.c,
+	tape/tape-internal.c, imagecontents/diskcontents-block.c,
+	imagecontents/diskcontents-iec.c,
+	imagecontents/imagecontents.c, imagecontents/tapecontents.c,
+	video/video-resources.c, raster/raster-changes.c,
+	raster/raster-modes.c, raster/raster-sprite-status.c,
+	raster/raster-sprite-cache.c, raster/raster.c,
+	vicii/vicii-resources.c, vicii/vicii.c, vdc/vdc-resources.c,
+	crtc/crtc-resources.c, gfxoutputdrv/bmpdrv.c,
+	gfxoutputdrv/gfxoutput.c, gfxoutputdrv/pngdrv.c, sysfile.c,
+	printerdrv/driver-select.c, printerdrv/output-graphics.c,
+	printerdrv/output-select.c, kbdbuf.c, log.c, screenshot.c,
+	sounddrv/sounddart.c, sounddrv/soundmmos2.c, findpath.c,
+	sounddrv/soundmmos2.c, drive/iec/memiec.c, drive/drive.c,
+	diskimage/fsimage-probe.c, diskimage/fsimage.c, 
+	diskimage/rawimage.c, tape/tap.c, tape/tape.c,
+	video/video-canvas.c, raster/raster-cache.c, serial/serial.c,
+	raster/raster-resources.c,  vicii/vicii-sprites.c: Use library
+	functions.
+
+	* Makefile.am, arch/win32/base.dsp, arch/win32/c1541.dsp,
+	arch/win32/petcat.dsp: Added new files.
+
 2003-03-31  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.22.

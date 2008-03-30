@@ -276,11 +276,12 @@ vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/viewport.h
 vdc-resources.o: vdc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/fullscreen.h ../../src/raster/raster-resources.h \
-	../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h vdc-resources.h vdctypes.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/viewport.h ../../src/video.h
+	../../src/fullscreen.h ../../src/lib.h \
+	../../src/raster/raster-resources.h ../../src/resources.h \
+	../../src/utils.h ../../src/arch/unix/types.h vdc-resources.h \
+	vdctypes.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/viewport.h \
+	../../src/video.h
 vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h vdc-snapshot.h vdc.h vdctypes.h \

@@ -276,8 +276,8 @@ fsimage-create.o: fsimage-create.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h fsimage-create.h fsimage.h \
-	../../src/gcr.h ../../src/log.h ../../src/utils.h x64.h \
-	../../src/tap.h
+	../../src/gcr.h ../../src/lib.h ../../src/log.h \
+	../../src/utils.h x64.h ../../src/tap.h
 fsimage-gcr.o: fsimage-gcr.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h fsimage-gcr.h fsimage.h \
@@ -285,17 +285,17 @@ fsimage-gcr.o: fsimage-gcr.c ../../src/vice.h ../../src/config.h \
 fsimage-probe.o: fsimage-probe.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h fsimage-gcr.h fsimage.h \
-	../../src/log.h ../../src/utils.h x64.h
+	../../src/lib.h ../../src/log.h ../../src/utils.h x64.h
 fsimage.o: fsimage.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/diskimage.h ../../src/arch/unix/types.h fsimage-gcr.h \
-	fsimage-probe.h fsimage.h ../../src/log.h ../../src/utils.h \
-	x64.h ../../src/zfile.h
+	fsimage-probe.h fsimage.h ../../src/lib.h ../../src/log.h x64.h \
+	../../src/zfile.h
 rawimage.o: rawimage.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/blockdev.h ../../src/arch/unix/types.h \
-	../../src/diskimage.h ../../src/log.h rawimage.h \
-	../../src/resources.h ../../src/utils.h
+	../../src/diskimage.h ../../src/lib.h ../../src/log.h \
+	rawimage.h ../../src/resources.h ../../src/utils.h
 realimage.o: realimage.c ../../src/vice.h ../../src/config.h \
 	../../src/diskimage.h ../../src/arch/unix/types.h \
 	../../src/log.h realimage.h ../../src/serial.h

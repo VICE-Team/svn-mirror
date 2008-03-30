@@ -257,23 +257,23 @@ distdir: $(DISTFILES)
 diskcontents-block.o: diskcontents-block.c ../../src/vice.h \
 	../../src/config.h diskcontents-block.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h ../../src/imagecontents.h \
-	../../src/utils.h ../../src/vdrive/vdrive-bam.h \
+	../../src/lib.h ../../src/vdrive/vdrive-bam.h \
 	../../src/vdrive/vdrive-dir.h \
 	../../src/vdrive/vdrive-internal.h ../../src/vdrive/vdrive.h
 diskcontents-iec.o: diskcontents-iec.c ../../src/vice.h \
 	../../src/config.h diskcontents-iec.h ../../src/imagecontents.h \
-	../../src/arch/unix/types.h ../../src/serial.h \
-	../../src/utils.h
+	../../src/arch/unix/types.h ../../src/lib.h ../../src/serial.h
 diskcontents.o: diskcontents.c ../../src/vice.h ../../src/config.h \
 	diskcontents-block.h diskcontents-iec.h diskcontents.h \
 	../../src/imagecontents.h ../../src/arch/unix/types.h \
-	../../src/serial.h ../../src/utils.h
+	../../src/lib.h ../../src/serial.h
 imagecontents.o: imagecontents.c ../../src/vice.h ../../src/config.h \
 	../../src/charset.h ../../src/arch/unix/types.h diskcontents.h \
-	../../src/imagecontents.h tapecontents.h ../../src/utils.h
+	../../src/imagecontents.h ../../src/lib.h tapecontents.h \
+	../../src/utils.h
 tapecontents.o: tapecontents.c ../../src/vice.h ../../src/config.h \
 	../../src/imagecontents.h ../../src/arch/unix/types.h \
-	../../src/tape.h ../../src/utils.h
+	../../src/lib.h ../../src/tape.h
 
 info-am:
 info: info-am

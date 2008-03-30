@@ -1,5 +1,5 @@
 /*
- * mon.h - The VICE built-in monitor, external interface.
+ * monitor.h - The VICE built-in monitor, external interface.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _MON_H
-#define _MON_H
+#ifndef _MONITOR_H
+#define _MONITOR_H
 
 #include "types.h"
 
