@@ -161,6 +161,7 @@ extern void vic_ii_set_ram_base(BYTE *base);
 extern void reset_vic_ii(void);
 extern void vic_ii_enable_extended_keyboard_rows(int flag);
 extern void vic_ii_prepare_for_snapshot(void);
+extern void vic_ii_powerup(void);
 
 extern int vbank;
 
