@@ -252,8 +252,8 @@ void interrupt_ack_reset(interrupt_cpu_status_t *cs)
 {
     cs->global_pending_int &= ~IK_RESET;
 
-	if (cs->reset_trap_func)
-		cs->reset_trap_func();
+    if (cs->reset_trap_func)
+        cs->reset_trap_func();
 }
 
 /* Trigger a TRAP.  This is a special condition that can be used for
