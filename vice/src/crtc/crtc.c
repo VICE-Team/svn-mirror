@@ -46,6 +46,7 @@
 #include "palette.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "raster-line.h"
 #include "raster-modes.h"
 #include "screenshot.h"
 #include "types.h"
@@ -670,7 +671,7 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
                 crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT) {
         /* FIXFRAME: crtc.raster.current_line ++; */
     } else {
-        raster_emulate_line(&crtc.raster);
+        raster_line_emulate(&crtc.raster);
     }
 
     /* now add jitter if this is out of phase (sync_diff changes) */

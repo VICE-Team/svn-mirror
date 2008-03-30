@@ -648,13 +648,18 @@ inline static void ted15_store(BYTE value)
     if (ted.regs[0x15] == value)
         return;
 
-    if (!ted.force_black_overscan_background_color)
+    if (!ted.force_black_overscan_background_color) {
         raster_add_int_change_background
             (&ted.raster,
             TED_RASTER_X(TED_RASTER_CYCLE(clk)),
             &ted.raster.overscan_background_color,
             value);
-
+        raster_add_int_change_background
+            (&ted.raster,
+            TED_RASTER_X(TED_RASTER_CYCLE(clk)),
+            &ted.raster.xsmooth_color,
+            value);
+    }
     x_pos = TED_RASTER_X(TED_RASTER_CYCLE(clk));
     raster_add_int_change_background(&ted.raster,
                                      x_pos,

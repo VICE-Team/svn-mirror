@@ -212,6 +212,9 @@ struct raster_s {
     /* Color of the overscan area.  */
     int overscan_background_color;
 
+    /* Color of the xsmooth area.  */
+    int xsmooth_color;
+
     /* If this is != 0, no graphics is drawn and the whole line is painted with
        border_color.  */
     int blank_enabled;
@@ -307,7 +310,6 @@ extern void raster_resize_viewport(raster_t *raster,
                                    unsigned int width, unsigned int height);
 extern void raster_set_pixel_size(raster_t *raster, unsigned int width,
                                   unsigned int height, int videorendermode);
-extern void raster_emulate_line(raster_t *raster);
 extern void raster_force_repaint(raster_t *raster);
 extern int raster_set_palette(raster_t *raster, struct palette_s *palette);
 extern void raster_set_title(raster_t *raster, const char *title);
@@ -324,7 +326,7 @@ extern void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref)
 extern void raster_free(raster_t *raster);
 extern void raster_update_canvas_all(raster_t *raster);
 extern raster_t *raster_get_raster_from_canvas(struct video_canvas_s *canvas);
-
+extern int raster_calc_frame_buffer_width(raster_t *raster);
 
 /* Inlined functions.  These need to be *fast*.  */
 

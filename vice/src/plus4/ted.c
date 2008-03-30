@@ -41,6 +41,7 @@
 #include "palette.h"
 #include "plus4.h"
 #include "plus4mem.h"
+#include "raster-line.h"
 #include "raster-modes.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -701,15 +702,24 @@ void ted_update_video_mode(unsigned int cycle)
                 (&ted.raster, TED_RASTER_X(cycle),
                 &ted.raster.overscan_background_color,
                 0);
+            raster_add_int_change_background
+                (&ted.raster, TED_RASTER_X(cycle),
+                &ted.raster.xsmooth_color,
+                0);
             ted.force_black_overscan_background_color = 1;
         } else {
             /* The overscan background color is given by the background color
                register.  */
-            if (ted.raster.overscan_background_color != ted.regs[0x15])
+            if (ted.raster.overscan_background_color != ted.regs[0x15]) {
                 raster_add_int_change_background
                     (&ted.raster, TED_RASTER_X(cycle),
                     &ted.raster.overscan_background_color,
                     ted.regs[0x15]);
+                raster_add_int_change_background
+                    (&ted.raster, TED_RASTER_X(cycle),
+                    &ted.raster.xsmooth_color,
+                    ted.regs[0x15]);
+            }
             ted.force_black_overscan_background_color = 0;
         }
 
@@ -782,7 +792,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
     in_visible_area = (ted.raster.current_line >= ted.first_displayed_line
                       && ted.raster.current_line <= ted.last_displayed_line);
 
-    raster_emulate_line(&ted.raster);
+    raster_line_emulate(&ted.raster);
 
     if (ted.raster.current_line == 0) {
         raster_skip_frame(&ted.raster,

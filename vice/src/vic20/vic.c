@@ -41,6 +41,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "palette.h"
+#include "raster-line.h"
 #include "raster-modes.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -202,20 +203,20 @@ void vic_raster_draw_alarm_handler(CLOCK offset)
     possible_mem_offset = vic.text_cols;
     
     /* emulate the line */
-    raster_emulate_line (&vic.raster);
+    raster_line_emulate(&vic.raster);
 
     /* xstart may have changed; recalculate xstop */
     vic.raster.display_xstop = vic.raster.display_xstart + vic.text_cols * 8
                                * VIC_PIXEL_WIDTH;
-	if (vic.raster.display_xstop >= vic.screen_width * VIC_PIXEL_WIDTH)
-		vic.raster.display_xstop = (vic.screen_width - 1) * VIC_PIXEL_WIDTH;
+    if (vic.raster.display_xstop >= vic.screen_width * VIC_PIXEL_WIDTH)
+        vic.raster.display_xstop = (vic.screen_width - 1) * VIC_PIXEL_WIDTH;
 
     /* increment ycounter and set offset for memptr */
     if (vic.area == 1 && !blank_this_line) {
         vic.raster.ycounter++;
 
-        if (vic.row_offset != 0 || vic.raster.ycounter == vic.row_increase_line)
-        {
+        if (vic.row_offset != 0
+            || vic.raster.ycounter == vic.row_increase_line) {
             /* this only happens if char_height changes between 8 and 16
                within line 7 */
             pending_mem_offset = 
@@ -280,7 +281,9 @@ static int init_raster(void)
     raster_set_exposure_handler(raster, (void*)vic_exposure_handler);
     raster_enable_cache(raster, vic_resources.video_cache_enabled);
 #ifdef USE_XF86_EXTENSIONS
-    raster_enable_double_scan (raster, fullscreen_is_enabled ? vic_resources.fullscreen_double_scan_enabled : vic_resources.double_scan_enabled);
+    raster_enable_double_scan(raster, fullscreen_is_enabled
+                              ? vic_resources.fullscreen_double_scan_enabled
+                              : vic_resources.double_scan_enabled);
 #else
     raster_enable_double_scan(raster, vic_resources.double_scan_enabled);
 #endif
@@ -341,7 +344,7 @@ raster_t *vic_init(void)
     vic.text_cols = 22;
     vic.text_lines = 23;
 
-    vic_reset ();
+    vic_reset();
 
     vic_draw_init ();
 #ifdef USE_XF86_EXTENSIONS
@@ -371,7 +374,7 @@ void vic_reset(void)
 {
     vic_change_timing();
 
-    raster_reset (&vic.raster);
+    raster_reset(&vic.raster);
 
     vic_set_geometry();
 
@@ -540,3 +543,4 @@ void vic_video_refresh(void)
                               vic_resources.double_scan_enabled);
 #endif
 }
+

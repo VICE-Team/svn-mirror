@@ -68,6 +68,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "palette.h"
+#include "raster-line.h"
 #include "raster-modes.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
@@ -400,15 +401,13 @@ inline void vic_ii_fetch_matrix(int offs, int num)
         memcpy(vic_ii.cbuf + offs + c, vic_ii.color_ram, num - c);
     }
 
-    /* This is kind of a hack to display correct background color in in the
-       xsmooth area in HIRES mode */
+    /* Set correct background color in in the xsmooth area in HIRES mode */
     if (vic_ii.get_background_from_vbuf
-      && (offs+num >= VIC_II_SCREEN_TEXTCOLS)) {
+        && (offs + num >= VIC_II_SCREEN_TEXTCOLS)) {
         raster_add_int_change_background
             (&vic_ii.raster, VIC_II_40COL_STOP_PIXEL,
-            &vic_ii.raster.overscan_background_color,
-            vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS-1] & 0xf);
-
+            &vic_ii.raster.xsmooth_color,
+            vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS - 1] & 0xf);
     }
 }
 
@@ -1000,25 +999,33 @@ void vic_ii_update_video_mode(unsigned int cycle)
             raster_add_int_change_background
                 (&vic_ii.raster, VIC_II_RASTER_X(cycle),
                 &vic_ii.raster.overscan_background_color, 0);
+            raster_add_int_change_background
+                (&vic_ii.raster, VIC_II_RASTER_X(cycle),
+                &vic_ii.raster.xsmooth_color, 0);
             vic_ii.get_background_from_vbuf = 0;
             vic_ii.force_black_overscan_background_color = 1;
         } else {
             if (new_video_mode == VIC_II_HIRES_BITMAP_MODE) {
                 /* Use hack to get the background color from vbuf */
                 vic_ii.get_background_from_vbuf = 1;
-                vic_ii.force_black_overscan_background_color = 0;
-                /* FIXME: idle_state in HIRES_MODE not handled correctly.  */
-                /* Should give a black background; see emufuxxer scroller. */
-                /* Maybe this should be fixed in the raster_mode API.      */
+                vic_ii.force_black_overscan_background_color = 1;
+                raster_add_int_change_background
+                    (&vic_ii.raster, VIC_II_RASTER_X(cycle),
+                    &vic_ii.raster.overscan_background_color, 0);
             } else {
                 /* The overscan background color is given by the background
                    color register.  */
                 if (vic_ii.raster.overscan_background_color
-                    != vic_ii.regs[0x21])
+                    != vic_ii.regs[0x21]) {
                     raster_add_int_change_background
                     (&vic_ii.raster, VIC_II_RASTER_X(cycle),
                     &vic_ii.raster.overscan_background_color,
                     vic_ii.regs[0x21]);
+                    raster_add_int_change_background
+                    (&vic_ii.raster, VIC_II_RASTER_X(cycle),
+                    &vic_ii.raster.xsmooth_color,
+                    vic_ii.regs[0x21]);
+                }
                 vic_ii.get_background_from_vbuf = 0;
                 vic_ii.force_black_overscan_background_color = 0;
             }
@@ -1104,7 +1111,7 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
                       && vic_ii.raster.current_line
                       <= vic_ii.last_displayed_line);
 
-    raster_emulate_line(&vic_ii.raster);
+    raster_line_emulate(&vic_ii.raster);
 
     if (vic_ii.raster.current_line == 0) {
         raster_skip_frame(&vic_ii.raster,

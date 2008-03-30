@@ -38,6 +38,7 @@
 #include "maincpu.h"
 #include "palette.h"
 #include "raster.h"
+#include "raster-line.h"
 #include "raster-modes.h"
 #include "screenshot.h"
 #include "snapshot.h"
@@ -405,7 +406,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset)
         }
     }
 
-    raster_emulate_line(&vdc.raster);
+    raster_line_emulate(&vdc.raster);
 
 #ifdef __MSDOS__
     if (vdc.raster.viewport.update_canvas)
