@@ -209,8 +209,7 @@ int     command;
                     return TRUE;
                 case IDOK:
                     set_keyset();
-				case IDCANCEL:
-                case IDC_CANCEL:
+                case IDCANCEL:
                     EndDialog(hwnd,0);
                     return TRUE;
             }
@@ -272,8 +271,7 @@ int     command;
                 case IDOK:
                     resources_set_value("JoyDevice1",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_DEV1),CB_GETCURSEL,0,0));
                     resources_set_value("JoyDevice2",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_DEV2),CB_GETCURSEL,0,0));
-				case IDCANCEL:
-                case IDC_CANCEL:
+                case IDCANCEL:
                     EndDialog(hwnd,0);
                     return TRUE;
             }

@@ -819,7 +819,7 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
             EndDialog(dialog,0);
             return TRUE;
         case WM_COMMAND:
-            if (wparam == IDOK) {
+            if ((wparam == IDOK) || (wparam == IDCANCEL)) {
                 EndDialog(dialog, 0);
                 return TRUE;
             }

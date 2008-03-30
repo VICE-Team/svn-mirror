@@ -33,6 +33,8 @@
 #include <windows.h>
 #include <mmsystem.h>
 #endif
+
+#define DIRECTSOUND_VERSION 0x0500
 #include <dsound.h>
 
 #include "sound.h"
@@ -397,6 +399,10 @@ int     i;
     } else {
         is16bit=0;
     }
+    DEBUG(("16bit flag: %d",is16bit));
+    DEBUG(("Capabilities %08x",capabilities.dwFlags));
+    DEBUG(("Secondary min Hz: %d",capabilities.dwMinSecondarySampleRate));
+    DEBUG(("Secondary max Hz: %d",capabilities.dwMaxSecondarySampleRate));
 
     memset(&pcmwf, 0, sizeof(PCMWAVEFORMAT));
     pcmwf.wf.wFormatTag = WAVE_FORMAT_PCM;
@@ -418,6 +424,11 @@ int     i;
     buffer_size = *fragsize * *fragnr * (is16bit ? sizeof(SWORD) : 1);
 
     result = IDirectSound_CreateSoundBuffer(ds, &desc, &pbuffer, NULL);
+
+    if (result!=DS_OK) {
+        ui_error("Cannot create Primary DirectSound bufer: %s",ds_error(result));
+        return -1;
+    }
 
     memset(&desc, 0, sizeof(DSBUFFERDESC));
     desc.dwSize = sizeof(DSBUFFERDESC);
@@ -556,7 +567,7 @@ static int dx_bufferstatus(int first)
     }
 
     value=stream_buffer_shadow_last-stream_buffer_shadow_first;
-    DEBUG(("buffer status %d %d %d \n",play_cursor,buffer_offset,value));
+//    DEBUG(("buffer status %d %d %d \n",play_cursor,buffer_offset,value));
     return value;
 }
 

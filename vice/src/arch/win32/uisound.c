@@ -155,8 +155,7 @@ int     command;
                     resources_set_value("SoundBufferSize",(resource_value_t)ui_sound_buffer[SendMessage(GetDlgItem(hwnd,IDC_SOUND_BUFFER),CB_GETCURSEL,0,0)]);
                     resources_set_value("SoundOversample",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_SOUND_OVERSAMPLE),CB_GETCURSEL,0,0));
                     resources_set_value("SoundSpeedAdjustment",(resource_value_t)ui_sound_adjusting[SendMessage(GetDlgItem(hwnd,IDC_SOUND_SYNCH),CB_GETCURSEL,0,0)]);
-				case IDCANCEL:
-                case IDC_CANCEL:
+                case IDCANCEL:
                     EndDialog(hwnd,0);
                     return TRUE;
             }

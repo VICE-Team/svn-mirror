@@ -153,9 +153,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
                     resources_set_value("RAMBlock2", (resource_value_t) block2);
                     resources_set_value("RAMBlock3", (resource_value_t) block3);
                     resources_set_value("RAMBlock5", (resource_value_t) block5);
-
-				case IDCANCEL:
-                case IDC_CANCEL:
+        		case IDCANCEL:
                     EndDialog(hwnd,0);
                     break;
                 case IDC_VIC_NOEXPANSION:

@@ -41,6 +41,11 @@
 #include "winmain.h"
 #include "utils.h"
 
+/* Mingw & pre VC 6 headers doesn't have this definition */
+#ifndef OFN_ENABLESIZING
+#define OFN_ENABLESIZING    0x00800000
+#endif
+
 static int save_roms = 0;
 static int save_disks = 0;
 static char image[100];
@@ -140,7 +145,8 @@ char *ui_save_snapshot(const char *title, const char *filter, HWND hwnd)
                  | OFN_FILEMUSTEXIST
                  | OFN_ENABLEHOOK
                  | OFN_ENABLETEMPLATE
-                 | OFN_SHAREAWARE);
+                 | OFN_SHAREAWARE
+                 | OFN_ENABLESIZING);
     ofn.lpfnHook = hook_save_snapshot;
     ofn.lpTemplateName = MAKEINTRESOURCE(IDD_SNAPSHOT_SAVE_DIALOG);
     ofn.nFileOffset = 0;

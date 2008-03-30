@@ -232,7 +232,7 @@ int     index;
             /*  maybe there's a better font-definition (FIXME) */
             /*  I think it's OK now (Tibor) */
             hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
-                DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,"MS Sans Serif");
+                DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,NULL);
             if (hfont)
                 SendDlgItemMessage(hwnd,IDC_PREVIEW,WM_SETFONT,
                     (WPARAM)hfont,MAKELPARAM(TRUE,0));
@@ -313,7 +313,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
             /* maybe there's a better font-definition (FIXME) */
             /*  I think it's OK now (Tibor) */
             hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
-                DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,"MS Sans Serif");
+                DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,NULL);
             if (hfont) {
                 SendDlgItemMessage(hwnd,IDC_PREVIEW,WM_SETFONT,
                     (WPARAM)hfont,MAKELPARAM(TRUE,0));
@@ -634,7 +634,8 @@ BOOL CALLBACK TextDlgProc(HWND hwndDlg,		// handle to dialog box
             EndDialog(hwndDlg,0);
             return TRUE;
         case WM_COMMAND:
-			switch(LOWORD(wParam)) {
+			switch (LOWORD(wParam)) {
+                case IDCANCEL:
 				case IDOK:
 	                EndDialog(hwndDlg, 0);
 		            return TRUE;
