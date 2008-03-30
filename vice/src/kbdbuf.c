@@ -40,7 +40,7 @@
 #include "utils.h"
 
 /* Maximum number of characters we can queue.  */
-#define QUEUE_SIZE	16384
+#define QUEUE_SIZE      16384
 
 /* First location of the buffer.  */
 static int buffer_location;
@@ -153,7 +153,7 @@ int kbd_buf_feed(const char *s)
     int i, p;
 
     if (num_pending + num > QUEUE_SIZE || !kbd_buf_enabled)
-	return -1;
+        return -1;
 
     for (p = (head_idx + num_pending) % QUEUE_SIZE, i = 0;
          i < num;
@@ -175,16 +175,17 @@ void kbd_buf_flush(void)
 {
     unsigned int i, n;
 
-    if ( (!kbd_buf_enabled)
-	  || num_pending == 0
-	  || clk < kernal_init_cycles
-	  || !kbd_buf_is_empty())
-	return;
+    if ((!kbd_buf_enabled)
+          || num_pending == 0
+          || clk < kernal_init_cycles
+          || !kbd_buf_is_empty())
+        return;
 
     n = num_pending > buffer_size ? buffer_size : num_pending;
     for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++)
-	mem_store((ADDRESS)(buffer_location + i), queue[head_idx]);
+        mem_store((ADDRESS)(buffer_location + i), queue[head_idx]);
 
     mem_store((ADDRESS)(num_pending_location), (BYTE)(n));
     num_pending -= n;
 }
+
