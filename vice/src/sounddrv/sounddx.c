@@ -58,13 +58,13 @@ const GUID IID_IDirectSoundNotify = {0xb0210783, 0x89cd, 0x11d0,
 #ifdef DEBUG_SOUND
 static void sound_debug(const char *format, ...)
 {
-        char tmp[1024];
-        va_list args;
+    char tmp[1024];
+    va_list args;
 
-        va_start(args, format);
-        vsprintf(tmp, format, args);
-        va_end(args);
-        log_debug(tmp);
+    va_start(args, format);
+    vsprintf(tmp, format, args);
+    va_end(args);
+    log_debug(tmp);
 }
 #define DEBUG(x) sound_debug x
 #else
@@ -73,8 +73,7 @@ static void sound_debug(const char *format, ...)
 
 static char *ds_error(HRESULT result)
 {
-    switch (result)
-    {
+    switch (result) {
       case DSERR_ALLOCATED:
         return "Already allocated resource";
       case DSERR_CONTROLUNAVAIL:
@@ -211,8 +210,8 @@ PCMWAVEFORMAT pcmwf;
 DSCAPS  capabilities;
 WAVEFORMATEX    wfex;
 
-static int dx_init(const char *param, int *speed,
-                   int *fragsize, int *fragnr, int *channels)
+static int dx_init(const char *param, int *speed, int *fragsize, int *fragnr,
+                   int *channels)
 {
 HRESULT result;
 
@@ -238,12 +237,12 @@ HRESULT result;
     memset(&capabilities, 0, sizeof(DSCAPS));
     capabilities.dwSize = sizeof(DSCAPS);
 
-    IDirectSound_GetCaps(ds,&capabilities);
+    IDirectSound_GetCaps(ds, &capabilities);
     if ((capabilities.dwFlags & DSCAPS_PRIMARY16BIT)
         || (capabilities.dwFlags & DSCAPS_SECONDARY16BIT)) {
-        is16bit=1;
+        is16bit = 1;
     } else {
-        is16bit=0;
+        is16bit = 0;
     }
     if (!((capabilities.dwFlags & DSCAPS_PRIMARYSTEREO)
         || (capabilities.dwFlags & DSCAPS_SECONDARYSTEREO))) {
@@ -263,7 +262,7 @@ HRESULT result;
     pcmwf.wf.nSamplesPerSec = *speed;
     pcmwf.wBitsPerSample = is16bit ? 16 : 8;
 /* Hack to fix if mmsystem header is bad
-    ((WORD*)&pcmwf)[7]=16;
+    ((WORD*)&pcmwf)[7] = 16;
 */
     pcmwf.wf.nBlockAlign = (is16bit ? 2 : 1) * *channels;
     pcmwf.wf.nAvgBytesPerSec = pcmwf.wf.nSamplesPerSec * pcmwf.wf.nBlockAlign;
@@ -274,7 +273,8 @@ HRESULT result;
 
     fragment_size = *fragsize;
 
-    buffer_size = *fragsize * *fragnr * (is16bit ? sizeof(SWORD) : 1) * *channels;
+    buffer_size = *fragsize * *fragnr * (is16bit ? sizeof(SWORD) : 1)
+                  * *channels;
 
     result = IDirectSound_CreateSoundBuffer(ds, &desc, &pbuffer, NULL);
 
@@ -293,7 +293,7 @@ HRESULT result;
     desc.dwBufferBytes = buffer_size;
     desc.lpwfxFormat = (LPWAVEFORMATEX)&pcmwf;
 
-    stream_buffer_size=fragment_size**fragnr**channels;
+    stream_buffer_size = fragment_size * *fragnr * *channels;
 
     result = IDirectSound_CreateSoundBuffer(ds, &desc, &buffer, NULL);
     if (result != DS_OK) {
@@ -309,14 +309,15 @@ HRESULT result;
     wfex.nBlockAlign = (is16bit ? 2 : 1) * *channels;
     wfex.nAvgBytesPerSec = wfex.nSamplesPerSec * wfex.nBlockAlign;
 
-    result=IDirectSoundBuffer_SetFormat(pbuffer,&wfex);
+    result=IDirectSoundBuffer_SetFormat(pbuffer, &wfex);
     if (result != DS_OK) {
         ui_error("Cannot set Output format for primary sound buffer:\n%s",
                  ds_error(result));
         return -1;
     }
 
-    buffer_offset=*fragsize*(is16bit ? sizeof(SWORD) : 1)*(*fragnr-1)**channels;
+    buffer_offset= *fragsize * (is16bit ? sizeof(SWORD) : 1) * (*fragnr - 1)
+                   * *channels;
     /* Let's go...  */
     result = IDirectSoundBuffer_Play(buffer, 0, 0, DSBPLAY_LOOPING);
     if (result == DSERR_BUFFERLOST) {
@@ -338,7 +339,9 @@ HRESULT result;
 static void dx_close(void)
 {
     /*  Stop buffer play */
-    if (ds==NULL) return;
+    if (ds == NULL)
+        return;
+
     IDirectSoundBuffer_Stop(buffer);
 
     /*  Release buffer */
@@ -356,12 +359,12 @@ static int dx_bufferspace(void)
 
     IDirectSoundBuffer_GetCurrentPosition(buffer, &play_cursor, &write_cursor);
     if (play_cursor <= buffer_offset)
-        free_samples = stream_buffer_size - (buffer_offset - play_cursor) / (is16bit?2:1);
+        free_samples = stream_buffer_size - (buffer_offset - play_cursor)
+                       / (is16bit ? 2 : 1);
     else
-        free_samples = (play_cursor - buffer_offset)/(is16bit?2:1);
+        free_samples = (play_cursor - buffer_offset) / (is16bit ? 2 : 1);
 
     return free_samples / num_of_channels;
-
 }
 
 static int dx_write(SWORD *pbuf, size_t nr)
@@ -381,44 +384,51 @@ static int dx_write(SWORD *pbuf, size_t nr)
     /* Write one fragment at a time.  FIXME: This could be faster.  */
     for (i = 0; i < count; i++) {
         do {
-            result = IDirectSoundBuffer_Lock(buffer, buffer_offset, buffer_lock_size,
-                                     &lpvPtr1, &dwBytes1, &lpvPtr2,
-                                     &dwBytes2, 0);
+            result = IDirectSoundBuffer_Lock(buffer, buffer_offset,
+                                             buffer_lock_size,
+                                             &lpvPtr1, &dwBytes1, &lpvPtr2,
+                                             &dwBytes2, 0);
 
-            if (result==DSERR_BUFFERLOST) {
+            if (result == DSERR_BUFFERLOST) {
                 IDirectSoundBuffer_Restore(buffer);
                 result = IDirectSoundBuffer_Lock(buffer, buffer_offset,
-                                         buffer_lock_size, &lpvPtr1, &dwBytes1,
-                                         &lpvPtr2, &dwBytes2, 0);
+                                                 buffer_lock_size, &lpvPtr1,
+                                                 &dwBytes1,
+                                                 &lpvPtr2, &dwBytes2, 0);
             }
         } while ((dwBytes1 + dwBytes2) < buffer_lock_size);
-        if (is16bit)
-        {
+        if (is16bit) {
             memcpy(lpvPtr1,pbuf,dwBytes1);
             if (lpvPtr2)
-                memcpy(lpvPtr2,(BYTE *)pbuf+dwBytes1,dwBytes2);
+                memcpy(lpvPtr2,(BYTE *)pbuf + dwBytes1, dwBytes2);
         } else {
             SWORD *copyptr = pbuf;
             for (i = 0; i < dwBytes1; i++) {
-                ((BYTE*)lpvPtr1)[i]=(*(copyptr++)>>8)+0x80;
+                ((BYTE *)lpvPtr1)[i]=(*(copyptr++) >> 8) + 0x80;
             }
-            if (lpvPtr2!=NULL) {
+            if (lpvPtr2 != NULL) {
                 for (i = 0; i < dwBytes2; i++) {
-                    ((BYTE*)lpvPtr2)[i]=(*(copyptr++)>>8)+0x80;
+                    ((BYTE *)lpvPtr2)[i]=(*(copyptr++) >> 8) + 0x80;
                 }
             }
         }
 
         result = IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1,
-                                                   lpvPtr2, dwBytes2);
-        buffer_offset+=buffer_lock_size;
-        if (buffer_offset>=buffer_size) buffer_offset=0;
-        pbuf+=fragment_size;
+                                           lpvPtr2, dwBytes2);
+        buffer_offset += buffer_lock_size;
+
+        if (buffer_offset >= buffer_size)
+            buffer_offset = 0;
+
+        pbuf += fragment_size;
     }
-    pbuf-=num_of_channels;
-    for (i=0; i<num_of_channels; i++) {
-        last_buffered_sample[i]=*pbuf++;
+
+    pbuf -= num_of_channels;
+
+    for (i = 0; i < (unsigned int)num_of_channels; i++) {
+        last_buffered_sample[i] = *pbuf++;
     }
+
     return 0;
 }
 
