@@ -20,7 +20,6 @@
 #define HAVE_COMMCTRL_H         1
 #define HAVE_SHLOBJ_H           1
 #define HAVE_DIRENT_H           1
-#define HAVE_SYS_TYPES_H        1
 #define HAVE_WINIOCTL_H         1
 #define HAVE_GUIDLIB            1
 #define DWORD_IS_LONG           1
@@ -37,6 +36,6 @@
 
 #define strcasecmp(s1, s2)      _stricmp(s1, s2)
 
-#define itoa(s)                 _itoa(s)
+#define itoa(s1, s2, s3)        _itoa(s1, s2, s3)
 
 #endif
