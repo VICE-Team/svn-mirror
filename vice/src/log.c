@@ -40,8 +40,7 @@
 static FILE *log_file = NULL;
 
 static char **logs = NULL;
-static unsigned int num_logs = 0;
-static unsigned int num_allocated_logs = 0;
+static log_t num_logs = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -115,29 +114,20 @@ int log_init(void)
     return log_file == NULL ? -1 : 0;
 }
 
-int log_open(const char *id)
+log_t log_open(const char *id)
 {
     log_t new_log = 0;
-    int i;
+    log_t i;
 
-    for (i = 0; i < ((int)num_logs); i++) {
+    for (i = 0; i < num_logs; i++) {
         if (logs[i] == NULL) {
             new_log = i;
             break;
         }
     }
-    if (i == ((int)num_logs)) {
+    if (i == num_logs) {
         new_log = num_logs++;
-        if (num_logs > num_allocated_logs) {
-            if (num_allocated_logs == 0) {
-                num_allocated_logs = 128;
-                logs = (char**)xmalloc(sizeof(*logs) * num_allocated_logs);
-            } else {
-                num_allocated_logs *= 2;
-                logs = (char**)xrealloc(logs,
-                                        sizeof(*logs) * num_allocated_logs);
-            }
-        }
+        logs = (char**)xrealloc(logs, sizeof(*logs) * num_logs);
     }
 
     logs[new_log] = stralloc(id);
