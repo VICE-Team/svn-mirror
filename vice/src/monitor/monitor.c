@@ -1452,7 +1452,18 @@ static void monitor_open(void)
                                       MONITOR_GET_PC(e_disk8_space));
     dot_addr[e_disk9_space] = new_addr(e_disk9_space,
                                       MONITOR_GET_PC(e_disk9_space));
-    mon_out("\n** Monitor\n");
+    mon_out("\n** Monitor");
+
+    if (caller_space == e_comp_space
+        && mon_interfaces[caller_space]->get_line_cycle != NULL) {
+        unsigned int line, cycle;
+
+        mon_interfaces[caller_space]->get_line_cycle(&line, &cycle);
+
+        mon_out(" %03i %03i\n", line, cycle);
+    } else {
+        mon_out("\n");
+    }
 
     if (disassemble_on_entry) {
         mon_disassemble_instr(dot_addr[caller_space]);
