@@ -1,3 +1,15 @@
+if NEED_READLINE
+READLINE = @READLINE@
+else
+READLINE =
+endif
+
+if HAVE_PRINTER
+printer_ldadd = pruser.o prdevice.o
+else
+printer_ldadd =
+endif
+
 ARCH_LIBS = @ARCH_LIBS@
 
 SUBDIRS = sounddrv true1541 c64 c128 vic20 pet arch
@@ -45,8 +57,6 @@ noinst_HEADERS = \
 	op.h \
 	palette.h \
 	parallel.h \
-	prdevice.h \
-	pruser.h \
 	print.h \
 	printer.h \
 	raster.h \
@@ -91,8 +101,6 @@ base_sources = \
 	mshell.c \
 	palette.c \
 	parallel.c \
-	prdevice.c \
-	pruser.c \
 	resources.c \
 	serial.c \
 	sound.c \
@@ -108,6 +116,12 @@ base_sources = \
 maincpu_sources = \
 	maincpu.c
 
+printer_sources = \
+	prdevice.c \
+	prdevice.h \
+	pruser.c \
+	pruser.h
+
 EXTRA_DIST = \
 	6510core.c \
 	ChangeLog \
@@ -117,7 +131,8 @@ EXTRA_DIST = \
 	convio \
 	raster.c \
 	tpi-tmpl.c \
-	via-tmpl.c
+	via-tmpl.c \
+	$(printer_sources)
 
 BUILT_SOURCES = mon_parse.h mon_parse.c
 
@@ -134,9 +149,9 @@ bin_PROGRAMS = x64 x128 xvic xpet c1541 petcat
 
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
-x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
+x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) $(printer_ldadd) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-        @X_LIBS@ @READLINE@ -lm
+        @X_LIBS@ $(READLINE) -lm
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x64-all
@@ -145,8 +160,8 @@ x64-all: libc64 libsounddrv libtrue1541 libarch x64
 # x128
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(true1541_lib) \
-	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-        @X_LIBS@ @READLINE@ -lm
+	$(printer_ldadd) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
+	@SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
 	$(true1541_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x128-all
@@ -154,8 +169,8 @@ x128-all: libc64c128 libsounddrv libtrue1541 libarch x128
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
-xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @READLINE@ -lm
+xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) $(printer_ldadd) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
 xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: xvic-all
@@ -163,8 +178,8 @@ xvic-all: libvic20 libsounddrv libtrue1541 libarch xvic
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(pet_lib) $(sounddrv_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @READLINE@ -lm
+xpet_LDADD = $(pet_lib) $(sounddrv_lib) $(printer_ldadd) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
 xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: xpet-all
@@ -182,7 +197,7 @@ c1541_SOURCES = \
 	zfile.c \
 	zipcode.c
 
-c1541_LDADD = @READLINE@
+c1541_LDADD = $(READLINE)
 
 # petcat
 petcat_SOURCES = \
