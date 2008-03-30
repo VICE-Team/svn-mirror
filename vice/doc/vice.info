@@ -22,7 +22,7 @@ vice.info-2: 50513
 vice.info-3: 100120
 vice.info-4: 149914
 vice.info-5: 195949
-vice.info-6: 245693
+vice.info-6: 245737
 
 Tag Table:
 (Indirect)
@@ -182,14 +182,14 @@ Node: T64 tape record221968
 Node: T64 file record222752
 Node: G64223998
 Node: Acknowledgments237985
-Node: Copyright245693
-Node: Contacts247261
-Node: Home page247767
-Node: Sending feedback248164
-Node: Contributing250507
-Node: Newsgroups251619
-Node: FAQs you should read252251
-Node: Concept Index252566
-Node: Resource Index265375
+Node: Copyright245737
+Node: Contacts247305
+Node: Home page247811
+Node: Sending feedback248208
+Node: Contributing250551
+Node: Newsgroups251663
+Node: FAQs you should read252295
+Node: Concept Index252610
+Node: Resource Index265419
 
 End Tag Table
