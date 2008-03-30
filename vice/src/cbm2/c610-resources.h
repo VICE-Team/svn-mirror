@@ -27,7 +27,7 @@
 #ifndef _C610_RESOURCES_H
 #define _C610_RESOURCES_H
 
-extern int c610_init_resources(void);
+extern int c610_resources_init(void);
 
 extern int cart08_ram;
 extern int cart1_ram;

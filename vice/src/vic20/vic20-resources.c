@@ -162,7 +162,7 @@ static resource_t resources[] =
     {NULL}
 };
 
-int vic20_init_resources(void)
+int vic20_resources_init(void)
 {
     return resources_register(resources);
 }

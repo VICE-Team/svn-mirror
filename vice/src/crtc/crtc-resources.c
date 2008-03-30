@@ -133,7 +133,7 @@ static resource_t resources[] =
   { NULL }
 };
 
-int crtc_init_resources(void)
+int crtc_resources_init(void)
 {
     return resources_register(resources);
 }

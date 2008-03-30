@@ -137,7 +137,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int c64_init_resources(void)
+int c64_resources_init(void)
 {
     return resources_register(resources);
 }

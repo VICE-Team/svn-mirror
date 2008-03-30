@@ -27,7 +27,7 @@
 #ifndef _PET_CMDLINE_OPTIONS_H
 #define _PET_CMDLINE_OPTIONS_H
 
-extern int pet_init_cmdline_options(void);
+extern int pet_cmdline_options_init(void);
 
 #endif
 

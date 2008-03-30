@@ -27,7 +27,7 @@
 #ifndef _C128_RESOURCES_H
 #define _C128_RESOURCES_H
 
-extern int c128_init_resources(void);
+extern int c128_resources_init(void);
 
 extern int emu_id_enabled;
 extern int ieee488_enabled;

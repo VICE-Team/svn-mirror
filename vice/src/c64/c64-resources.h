@@ -27,7 +27,7 @@
 #ifndef _C64_RESOURCES_H
 #define _C64_RESOURCES_H
 
-extern int c64_init_resources(void);
+extern int c64_resources_init(void);
 
 extern int emu_id_enabled;
 extern int acia_de_enabled;

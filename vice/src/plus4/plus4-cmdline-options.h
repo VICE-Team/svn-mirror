@@ -27,7 +27,7 @@
 #ifndef _PLUS4_CMDLINE_OPTIONS_H
 #define _PLUS4_CMDLINE_OPTIONS_H
 
-extern int plus4_init_cmdline_options(void);
+extern int plus4_cmdline_options_init(void);
 
 #endif
 

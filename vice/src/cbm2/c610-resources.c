@@ -284,7 +284,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int c610_init_resources(void)
+int c610_resources_init(void)
 {
     return resources_register(resources);
 }

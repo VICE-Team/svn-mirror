@@ -27,7 +27,7 @@
 #ifndef _PLUS4_RESOURCES_H
 #define _PLUS4_RESOURCES_H
 
-extern int plus4_init_resources(void);
+extern int plus4_resources_init(void);
 
 #endif
 

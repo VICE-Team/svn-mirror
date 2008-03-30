@@ -27,7 +27,7 @@
 #ifndef _C128_CMDLINE_OPTIONS_H
 #define _C128_CMDLINE_OPTIONS_H
 
-extern int c128_init_cmdline_options(void);
+extern int c128_cmdline_options_init(void);
 
 #endif
 

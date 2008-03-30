@@ -45,8 +45,8 @@ extern struct raster_s *crtc_init(void);
 extern struct canvas_s *crtc_get_canvas(void);
 extern void crtc_reset(void);
 
-extern int crtc_init_resources(void);
-extern int crtc_init_cmdline_options(void);
+extern int crtc_resources_init(void);
+extern int crtc_cmdline_options_init(void);
 
 extern int crtc_write_snapshot_module(struct snapshot_s *s);
 extern int crtc_read_snapshot_module(struct snapshot_s *s);

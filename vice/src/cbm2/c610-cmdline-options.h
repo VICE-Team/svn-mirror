@@ -27,7 +27,7 @@
 #ifndef _C610_CMDLINE_OPTIONS_H
 #define _C610_CMDLINE_OPTIONS_H
 
-extern int c610_init_cmdline_options(void);
+extern int c610_cmdline_options_init(void);
 
 #endif
 

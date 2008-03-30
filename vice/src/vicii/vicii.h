@@ -33,22 +33,19 @@
 struct snapshot_s;
 struct screenshot_s;
 
-extern int vic_ii_init_resources(void);
-extern int vic_ii_init_cmdline_options(void);
+extern int vic_ii_resources_init(void);
+extern int vic_ii_cmdline_options_init(void);
 extern struct raster_s *vic_ii_init(void);
 extern struct canvas_s *vic_ii_get_canvas(void);
 
 extern void vic_ii_reset(void);
-extern void vic_ii_exposure_handler(unsigned int width, unsigned int height);
 extern void vic_ii_trigger_light_pen(CLOCK mclk);
 extern void vic_ii_set_vbank(int new_vbank);
 extern void vic_ii_set_ram_base(BYTE *base);
 extern void vic_ii_enable_extended_keyboard_rows(int flag);
 extern void vic_ii_prepare_for_snapshot(void);
 extern void vic_ii_powerup(void);
-extern void vic_ii_resize(void);
-extern void vic_ii_set_set_canvas_refresh(int enable);
-extern void vic_ii_change_timing(void);
+extern void vic_ii_set_canvas_refresh(int enable);
 extern void vic_ii_reset_registers(void);
 extern void vic_ii_update_memory_ptrs_external(void);
 extern void vic_ii_handle_pending_alarms(int num_write_cycles);

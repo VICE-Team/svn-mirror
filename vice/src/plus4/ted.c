@@ -51,6 +51,7 @@
 #include "ted-mem.h"
 #include "ted-resources.h"
 #include "ted-snapshot.h"
+#include "ted-timer.h"
 #include "ted.h"
 #include "tedtypes.h"
 #include "types.h"
@@ -68,19 +69,20 @@
 #define DRIVE_SYNC_NTSCOLD -3
 
 
-vic_ii_t vic_ii;
+ted_t ted;
 
 static void vic_ii_raster_irq_alarm_handler(CLOCK offset);
+static void ted_exposure_handler(unsigned int width, unsigned int height);
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
-  vic_ii.raster_irq_clk -= sub;
-  vic_ii.last_emulate_line_clk -= sub;
-  vic_ii.fetch_clk -= sub;
-  vic_ii.draw_clk -= sub;
+  ted.raster_irq_clk -= sub;
+  ted.last_emulate_line_clk -= sub;
+  ted.fetch_clk -= sub;
+  ted.draw_clk -= sub;
 }
 
-void vic_ii_change_timing(void)
+static void ted_change_timing(void)
 {
     resource_value_t mode;
 
@@ -89,38 +91,38 @@ void vic_ii_change_timing(void)
     switch ((int)mode) {
       case DRIVE_SYNC_NTSC:
         clk_guard_set_clk_base(&maincpu_clk_guard, PLUS4_NTSC_CYCLES_PER_RFSH);
-        vic_ii.screen_height = TED_NTSC_SCREEN_HEIGHT;
-        vic_ii.first_displayed_line = VIC_II_NTSC_FIRST_DISPLAYED_LINE;
-        vic_ii.last_displayed_line = VIC_II_NTSC_LAST_DISPLAYED_LINE;
-        vic_ii.row_25_start_line = VIC_II_NTSC_25ROW_START_LINE;
-        vic_ii.row_25_stop_line = VIC_II_NTSC_25ROW_STOP_LINE;
-        vic_ii.row_24_start_line = VIC_II_NTSC_24ROW_START_LINE;
-        vic_ii.row_24_stop_line = VIC_II_NTSC_24ROW_STOP_LINE;
-        vic_ii.screen_borderwidth = VIC_II_SCREEN_NTSC_BORDERWIDTH;
-        vic_ii.screen_borderheight = VIC_II_SCREEN_NTSC_BORDERHEIGHT;
-        vic_ii.cycles_per_line = VIC_II_NTSC_CYCLES_PER_LINE;
-        vic_ii.draw_cycle = VIC_II_NTSC_DRAW_CYCLE;
-        vic_ii.first_dma_line = VIC_II_NTSC_FIRST_DMA_LINE;
-        vic_ii.last_dma_line = VIC_II_NTSC_LAST_DMA_LINE;
-        vic_ii.offset = VIC_II_NTSC_OFFSET;
+        ted.screen_height = TED_NTSC_SCREEN_HEIGHT;
+        ted.first_displayed_line = TED_NTSC_FIRST_DISPLAYED_LINE;
+        ted.last_displayed_line = TED_NTSC_LAST_DISPLAYED_LINE;
+        ted.row_25_start_line = TED_NTSC_25ROW_START_LINE;
+        ted.row_25_stop_line = TED_NTSC_25ROW_STOP_LINE;
+        ted.row_24_start_line = TED_NTSC_24ROW_START_LINE;
+        ted.row_24_stop_line = TED_NTSC_24ROW_STOP_LINE;
+        ted.screen_borderwidth = VIC_II_SCREEN_NTSC_BORDERWIDTH;
+        ted.screen_borderheight = VIC_II_SCREEN_NTSC_BORDERHEIGHT;
+        ted.cycles_per_line = TED_NTSC_CYCLES_PER_LINE;
+        ted.draw_cycle = TED_NTSC_DRAW_CYCLE;
+        ted.first_dma_line = TED_NTSC_FIRST_DMA_LINE;
+        ted.last_dma_line = TED_NTSC_LAST_DMA_LINE;
+        ted.offset = TED_NTSC_OFFSET;
         break;
       case DRIVE_SYNC_PAL:
       default:
         clk_guard_set_clk_base(&maincpu_clk_guard, PLUS4_PAL_CYCLES_PER_RFSH);
-        vic_ii.screen_height = TED_PAL_SCREEN_HEIGHT;
-        vic_ii.first_displayed_line = VIC_II_PAL_FIRST_DISPLAYED_LINE;
-        vic_ii.last_displayed_line = VIC_II_PAL_LAST_DISPLAYED_LINE;
-        vic_ii.row_25_start_line = VIC_II_PAL_25ROW_START_LINE;
-        vic_ii.row_25_stop_line = VIC_II_PAL_25ROW_STOP_LINE;
-        vic_ii.row_24_start_line = VIC_II_PAL_24ROW_START_LINE;
-        vic_ii.row_24_stop_line = VIC_II_PAL_24ROW_STOP_LINE;
-        vic_ii.screen_borderwidth = VIC_II_SCREEN_PAL_BORDERWIDTH;
-        vic_ii.screen_borderheight = VIC_II_SCREEN_PAL_BORDERHEIGHT;
-        vic_ii.cycles_per_line = VIC_II_PAL_CYCLES_PER_LINE;
-        vic_ii.draw_cycle = VIC_II_PAL_DRAW_CYCLE;
-        vic_ii.first_dma_line = VIC_II_PAL_FIRST_DMA_LINE;
-        vic_ii.last_dma_line = VIC_II_PAL_LAST_DMA_LINE;
-        vic_ii.offset = VIC_II_PAL_OFFSET;
+        ted.screen_height = TED_PAL_SCREEN_HEIGHT;
+        ted.first_displayed_line = TED_PAL_FIRST_DISPLAYED_LINE;
+        ted.last_displayed_line = TED_PAL_LAST_DISPLAYED_LINE;
+        ted.row_25_start_line = TED_PAL_25ROW_START_LINE;
+        ted.row_25_stop_line = TED_PAL_25ROW_STOP_LINE;
+        ted.row_24_start_line = TED_PAL_24ROW_START_LINE;
+        ted.row_24_stop_line = TED_PAL_24ROW_STOP_LINE;
+        ted.screen_borderwidth = VIC_II_SCREEN_PAL_BORDERWIDTH;
+        ted.screen_borderheight = VIC_II_SCREEN_PAL_BORDERHEIGHT;
+        ted.cycles_per_line = TED_PAL_CYCLES_PER_LINE;
+        ted.draw_cycle = TED_PAL_DRAW_CYCLE;
+        ted.first_dma_line = TED_PAL_FIRST_DMA_LINE;
+        ted.last_dma_line = TED_PAL_LAST_DMA_LINE;
+        ted.offset = TED_PAL_OFFSET;
         break;
     }
 }
@@ -145,14 +147,14 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
       do
         {
           f = 0;
-          if (clk > vic_ii.fetch_clk)
+          if (clk > ted.fetch_clk)
             {
               vic_ii_raster_fetch_alarm_handler (0);
               f = 1;
             }
-          if (clk >= vic_ii.draw_clk)
+          if (clk >= ted.draw_clk)
             {
-              vic_ii_raster_draw_alarm_handler((long)(clk - vic_ii.draw_clk));
+              vic_ii_raster_draw_alarm_handler((long)(clk - ted.draw_clk));
               f = 1;
             }
         }
@@ -173,12 +175,12 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
       do
         {
           f = 0;
-          if (clk >= vic_ii.fetch_clk)
+          if (clk >= ted.fetch_clk)
             {
               vic_ii_raster_fetch_alarm_handler (0);
               f = 1;
             }
-          if (clk >= vic_ii.draw_clk)
+          if (clk >= ted.draw_clk)
             {
               vic_ii_raster_draw_alarm_handler (0);
               f = 1;
@@ -189,37 +191,37 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
 }
 
 
-static void vic_ii_set_geometry(void)
+static void ted_set_geometry(void)
 {
   unsigned int width, height;
 
-  width = TED_SCREEN_XPIX + vic_ii.screen_borderwidth * 2;
-  height = vic_ii.last_displayed_line - vic_ii.first_displayed_line + 1;
+  width = TED_SCREEN_XPIX + ted.screen_borderwidth * 2;
+  height = ted.last_displayed_line - ted.first_displayed_line + 1;
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
   if (fullscreen_is_enabled
-      ? vic_ii_resources.fullscreen_double_size_enabled
-      : vic_ii_resources.double_size_enabled)
+      ? ted_resources.fullscreen_double_size_enabled
+      : ted_resources.double_size_enabled)
 #else
-  if (vic_ii_resources.double_size_enabled)
+  if (ted_resources.double_size_enabled)
 #endif
     {
       width *= 2;
       height *= 2;
-      raster_set_pixel_size(&vic_ii.raster, 2, 2);
+      raster_set_pixel_size(&ted.raster, 2, 2);
     }
 #endif
 
-  raster_set_geometry(&vic_ii.raster,
-                      VIC_II_SCREEN_WIDTH, vic_ii.screen_height,
+  raster_set_geometry(&ted.raster,
+                      VIC_II_SCREEN_WIDTH, ted.screen_height,
                       TED_SCREEN_XPIX, TED_SCREEN_YPIX,
                       TED_SCREEN_TEXTCOLS, TED_SCREEN_TEXTLINES,
-                      vic_ii.screen_borderwidth, vic_ii.row_25_start_line,
+                      ted.screen_borderwidth, ted.row_25_start_line,
                       0,
-                      vic_ii.first_displayed_line,
-                      vic_ii.last_displayed_line,
+                      ted.first_displayed_line,
+                      ted.last_displayed_line,
                       2 * VIC_II_MAX_SPRITE_WIDTH);
-  raster_resize_viewport(&vic_ii.raster, width, height);
+  raster_resize_viewport(&ted.raster, width, height);
 
 #ifdef __MSDOS__
   video_ack_vga_mode();
@@ -232,30 +234,30 @@ static int init_raster(void)
     raster_t *raster;
     char *title;
 
-    raster = &vic_ii.raster;
+    raster = &ted.raster;
 
-    if (raster_init(raster, VIC_II_NUM_VMODES, 0) < 0)
+    if (raster_init(raster, TED_NUM_VMODES, 0) < 0)
         return -1;
-    raster_modes_set_idle_mode(raster->modes, VIC_II_IDLE_MODE);
-    raster_set_exposure_handler(raster, (void*)vic_ii_exposure_handler);
-    raster_enable_cache(raster, vic_ii_resources.video_cache_enabled);
+    raster_modes_set_idle_mode(raster->modes, TED_IDLE_MODE);
+    raster_set_exposure_handler(raster, (void*)ted_exposure_handler);
+    raster_enable_cache(raster, ted_resources.video_cache_enabled);
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan(raster, fullscreen_is_enabled
-                              ? vic_ii_resources.fullscreen_double_scan_enabled 
-                              : vic_ii_resources.double_scan_enabled);
+                              ? ted_resources.fullscreen_double_scan_enabled 
+                              : ted_resources.double_scan_enabled);
 #else
-    raster_enable_double_scan(raster, vic_ii_resources.double_scan_enabled);
+    raster_enable_double_scan(raster, ted_resources.double_scan_enabled);
 #endif
 #else
     raster_enable_double_scan(raster, 0);
 #endif
     raster_set_canvas_refresh(raster, 1);
 
-    vic_ii_set_geometry();
+    ted_set_geometry();
 
     if (vic_ii_activate_palette() < 0) {
-        log_error(vic_ii.log, "Cannot load palette.");
+        log_error(ted.log, "Cannot load palette.");
         return -1;
     }
     title = concat("VICE: ", machine_name, " emulator", NULL);
@@ -265,39 +267,51 @@ static int init_raster(void)
     if (raster_realize(raster) < 0)
         return -1;
 
-    raster->display_ystart = vic_ii.row_25_start_line;
-    raster->display_ystop = vic_ii.row_25_stop_line;
-    raster->display_xstart = VIC_II_40COL_START_PIXEL;
-    raster->display_xstop = VIC_II_40COL_STOP_PIXEL;
+    raster->display_ystart = ted.row_25_start_line;
+    raster->display_ystop = ted.row_25_stop_line;
+    raster->display_xstart = TED_40COL_START_PIXEL;
+    raster->display_xstop = TED_40COL_STOP_PIXEL;
 
     return 0;
 }
 
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
    care of the 10-bit counter wraparound.  */
-inline void vic_ii_fetch_matrix(int offs, int num)
+inline void ted_fetch_matrix(int offs, int num)
 {
   BYTE *p;
   int start_char;
-  int c;
+  int c, i;
 
   /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
-  p = vic_ii.screen_ptr;
+  p = ted.screen_ptr;
 
-  start_char = (vic_ii.mem_counter + offs) & 0x3ff;
+  start_char = (ted.mem_counter + offs) & 0x3ff;
   c = 0x3ff - start_char + 1;
 
   if (c >= num)
     {
-      memcpy(vic_ii.vbuf + offs, p + start_char, num);
-      memcpy(vic_ii.cbuf + offs, &ram[0x800] /*color_ram*/ + start_char, num);
+      memcpy(ted.vbuf + offs, p + start_char, num);
+#if 0
+      memcpy(ted.cbuf + offs, ted.color_ptr + start_char, num);
+#else
+      for (i = 0; i < num; i++)
+          ted.cbuf[offs] = (ted.color_ptr)[start_char + i] & 0xf;
+#endif
     }
   else
     {
-      memcpy(vic_ii.vbuf + offs, p + start_char, c);
-      memcpy(vic_ii.vbuf + offs + c, p, num - c);
-      memcpy(vic_ii.cbuf + offs, &ram[0x800] /*color_ram*/ + start_char, c);
-      memcpy(vic_ii.cbuf + offs + c, &ram[0x800] /*color_ram*/, num - c);
+      memcpy(ted.vbuf + offs, p + start_char, c);
+      memcpy(ted.vbuf + offs + c, p, num - c);
+#if 0
+      memcpy(ted.cbuf + offs, ted.color_ptr + start_char, c);
+      memcpy(ted.cbuf + offs + c, ted.color_ptr, num - c);
+#else
+      for (i = 0; i < c; i++)
+          ted.cbuf[offs] = (ted.color_ptr)[start_char + i] & 0xf;
+      for (i = 0; i < num - c; i++)
+          ted.cbuf[offs + c] = (ted.color_ptr)[i] & 0xf;
+#endif
     }
 }
 
@@ -305,34 +319,34 @@ inline void vic_ii_fetch_matrix(int offs, int num)
    stolen.  */
 inline static int do_matrix_fetch(CLOCK sub)
 {
-  if (!vic_ii.memory_fetch_done)
+  if (!ted.memory_fetch_done)
     {
       raster_t *raster;
 
-      raster = &vic_ii.raster;
+      raster = &ted.raster;
 
-      vic_ii.memory_fetch_done = 1;
-      vic_ii.mem_counter = vic_ii.memptr;
+      ted.memory_fetch_done = 1;
+      ted.mem_counter = ted.memptr;
 
       if ((raster->current_line & 7) == (unsigned int) raster->ysmooth
-          && vic_ii.allow_bad_lines
-          && raster->current_line >= vic_ii.first_dma_line
-          && raster->current_line <= vic_ii.last_dma_line)
+          && ted.allow_bad_lines
+          && raster->current_line >= ted.first_dma_line
+          && raster->current_line <= ted.last_dma_line)
         {
-          vic_ii_fetch_matrix (0, TED_SCREEN_TEXTCOLS);
+          ted_fetch_matrix(0, TED_SCREEN_TEXTCOLS);
 
           raster->draw_idle_state = 0;
           raster->ycounter = 0;
 
-          vic_ii.idle_state = 0;
-          vic_ii.idle_data_location = IDLE_NONE;
-          vic_ii.ycounter_reset_checked = 1;
-          vic_ii.memory_fetch_done = 2;
+          ted.idle_state = 0;
+          ted.idle_data_location = IDLE_NONE;
+          ted.ycounter_reset_checked = 1;
+          ted.memory_fetch_done = 2;
 
-          maincpu_steal_cycles(vic_ii.fetch_clk,
+          maincpu_steal_cycles(ted.fetch_clk,
                                TED_SCREEN_TEXTCOLS + 3 - sub);
 
-          vic_ii.bad_line = 1;
+          ted.bad_line = 1;
           return 1;
         }
     }
@@ -340,34 +354,26 @@ inline static int do_matrix_fetch(CLOCK sub)
   return 0;
 }
 
-int ted_init_resources(void)
+/* Initialize the TED emulation.  */
+raster_t *ted_init(void)
 {
-  return ted_resources_init();
-}
+  ted.log = log_open("TED");
 
-int ted_init_cmdline_options(void)
-{
-  return ted_cmdline_options_init();
-}
-
-/* Initialize the VIC-II emulation.  */
-raster_t *vic_ii_init(void)
-{
-  vic_ii.log = log_open("VIC-II");
-
-  alarm_init(&vic_ii.raster_fetch_alarm, maincpu_alarm_context,
+  alarm_init(&ted.raster_fetch_alarm, maincpu_alarm_context,
              "VicIIRasterFetch", vic_ii_raster_fetch_alarm_handler);
-  alarm_init(&vic_ii.raster_draw_alarm, maincpu_alarm_context,
+  alarm_init(&ted.raster_draw_alarm, maincpu_alarm_context,
              "VicIIRasterDraw", vic_ii_raster_draw_alarm_handler);
-  alarm_init(&vic_ii.raster_irq_alarm, maincpu_alarm_context,
+  alarm_init(&ted.raster_irq_alarm, maincpu_alarm_context,
              "VicIIRasterIrq", vic_ii_raster_irq_alarm_handler);
 
-  vic_ii_change_timing();
+  ted_change_timing();
+
+  ted_timer_init();
 
   if (init_raster() < 0)
       return NULL;
 
-  vic_ii_powerup();
+  ted_powerup();
 
   ted_update_video_mode(0);
   ted_update_memory_ptrs(0);
@@ -376,60 +382,62 @@ raster_t *vic_ii_init(void)
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
   vic_ii_draw_set_double_size(fullscreen_is_enabled
-                              ? vic_ii_resources.fullscreen_double_size_enabled
-                              : vic_ii_resources.double_size_enabled);
+                              ? ted_resources.fullscreen_double_size_enabled
+                              : ted_resources.double_size_enabled);
 #else
-  vic_ii_draw_set_double_size(vic_ii_resources.double_size_enabled);
+  vic_ii_draw_set_double_size(ted_resources.double_size_enabled);
 #endif
 #else
   vic_ii_draw_set_double_size(0);
 #endif
 
-  vic_ii.initialized = 1;
+  ted.initialized = 1;
 
   clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
-  return &vic_ii.raster;
+  return &ted.raster;
 }
 
-struct canvas_s *vic_ii_get_canvas(void)
+struct canvas_s *ted_get_canvas(void)
 {
-  return vic_ii.raster.viewport.canvas;
+  return ted.raster.viewport.canvas;
 }
 
-/* Reset the VIC-II chip.  */
+/* Reset the TED chip.  */
 void ted_reset(void)
 {
-  vic_ii_change_timing();
+  ted_change_timing();
 
-  raster_reset(&vic_ii.raster);
+  ted_timer_reset();
 
-  vic_ii_set_geometry();
+  raster_reset(&ted.raster);
 
-  vic_ii.last_emulate_line_clk = 0;
+  ted_set_geometry();
 
-  vic_ii.draw_clk = vic_ii.draw_cycle;
-  alarm_set(&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
+  ted.last_emulate_line_clk = 0;
 
-  vic_ii.fetch_clk = VIC_II_FETCH_CYCLE;
-  alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
-  vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
+  ted.draw_clk = ted.draw_cycle;
+  alarm_set(&ted.raster_draw_alarm, ted.draw_clk);
+
+  ted.fetch_clk = VIC_II_FETCH_CYCLE;
+  alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
+  ted.fetch_idx = VIC_II_FETCH_MATRIX;
 
   /* FIXME: I am not sure this is exact emulation.  */
-  vic_ii.raster_irq_line = 0;
-  vic_ii.raster_irq_clk = 0;
+  ted.raster_irq_line = 0;
+  ted.raster_irq_clk = 0;
 
   /* Setup the raster IRQ alarm.  The value is `1' instead of `0' because we
      are at the first line, which has a +1 clock cycle delay in IRQs.  */
-  alarm_set(&vic_ii.raster_irq_alarm, 1);
+  alarm_set(&ted.raster_irq_alarm, 1);
 
-  vic_ii.force_display_state = 0;
+  ted.force_display_state = 0;
 
   /* Remove all the IRQ sources.  */
-  vic_ii.regs[0x0a] = 0;
+  ted.regs[0x0a] = 0;
 
-  vic_ii.raster.display_ystart = vic_ii.row_25_start_line;
-  vic_ii.raster.display_ystop = vic_ii.row_25_stop_line;
+  ted.raster.display_ystart = ted.row_25_start_line;
+  ted.raster.display_ystop = ted.row_25_stop_line;
 }
 
 void ted_reset_registers(void)
@@ -440,117 +448,114 @@ void ted_reset_registers(void)
         ted_store(i, 0);
 }
 
-/* This /should/ put the VIC-II in the same state as after a powerup, if
-   `reset_vic_ii()' is called afterwards.  But FIXME, as we are not really
-   emulating everything correctly here; just $D011.  */
-void vic_ii_powerup(void)
+void ted_powerup(void)
 {
-  memset(vic_ii.regs, 0, sizeof(vic_ii.regs));
+  memset(ted.regs, 0, sizeof(ted.regs));
 
-  vic_ii.irq_status = 0;
-  vic_ii.raster_irq_line = 0;
-  vic_ii.raster_irq_clk = 1;
+  ted.irq_status = 0;
+  ted.raster_irq_line = 0;
+  ted.raster_irq_clk = 1;
 
-  vic_ii.allow_bad_lines = 0;
-  vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
-  vic_ii.idle_state = 0;
-  vic_ii.force_display_state = 0;
-  vic_ii.memory_fetch_done = 0;
-  vic_ii.memptr = 0;
-  vic_ii.mem_counter = 0;
-  vic_ii.mem_counter_inc = 0;
-  vic_ii.bad_line = 0;
-  vic_ii.ycounter_reset_checked = 0;
-  vic_ii.force_black_overscan_background_color = 0;
-  vic_ii.idle_data = 0;
-  vic_ii.idle_data_location = IDLE_NONE;
-  vic_ii.last_emulate_line_clk = 0;
+  ted.allow_bad_lines = 0;
+  ted.fetch_idx = VIC_II_FETCH_MATRIX;
+  ted.idle_state = 0;
+  ted.force_display_state = 0;
+  ted.memory_fetch_done = 0;
+  ted.memptr = 0;
+  ted.mem_counter = 0;
+  ted.mem_counter_inc = 0;
+  ted.bad_line = 0;
+  ted.ycounter_reset_checked = 0;
+  ted.force_black_overscan_background_color = 0;
+  ted.idle_data = 0;
+  ted.idle_data_location = IDLE_NONE;
+  ted.last_emulate_line_clk = 0;
 
   ted_reset();
 
-  vic_ii.regs[0x11] = 0;
+  ted.regs[0x11] = 0;
 
-  vic_ii.raster_irq_line = 0;
+  ted.raster_irq_line = 0;
 
-  vic_ii.raster.blank = 1;
-  vic_ii.raster.display_ystart = vic_ii.row_24_start_line;
-  vic_ii.raster.display_ystop = vic_ii.row_24_stop_line;
+  ted.raster.blank = 1;
+  ted.raster.display_ystart = ted.row_24_start_line;
+  ted.raster.display_ystop = ted.row_24_stop_line;
 
-  vic_ii.raster.ysmooth = 0;
+  ted.raster.ysmooth = 0;
 }
 
 /* ---------------------------------------------------------------------*/
 
 /* Handle the exposure event.  */
-void vic_ii_exposure_handler(unsigned int width, unsigned int height)
+static void ted_exposure_handler(unsigned int width, unsigned int height)
 {
-  raster_resize_viewport(&vic_ii.raster, width, height);
+  raster_resize_viewport(&ted.raster, width, height);
 
   /* FIXME: Needed?  Maybe this should be triggered by
      `raster_resize_viewport()' automatically.  */
-  raster_force_repaint(&vic_ii.raster);
+  raster_force_repaint(&ted.raster);
 }
 
 /* Make sure all the VIC-II alarms are removed.  This just makes it easier to
    write functions for loading snapshot modules in other video chips without
    caring that the VIC-II alarms are dispatched when they really shouldn't
    be.  */
-void vic_ii_prepare_for_snapshot(void)
+void ted_prepare_for_snapshot(void)
 {
-  vic_ii.fetch_clk = CLOCK_MAX;
-  alarm_unset(&vic_ii.raster_fetch_alarm);
-  vic_ii.draw_clk = CLOCK_MAX;
-  alarm_unset(&vic_ii.raster_draw_alarm);
-  vic_ii.raster_irq_clk = CLOCK_MAX;
-  alarm_unset(&vic_ii.raster_irq_alarm);
+  ted.fetch_clk = CLOCK_MAX;
+  alarm_unset(&ted.raster_fetch_alarm);
+  ted.draw_clk = CLOCK_MAX;
+  alarm_unset(&ted.raster_draw_alarm);
+  ted.raster_irq_clk = CLOCK_MAX;
+  alarm_unset(&ted.raster_irq_alarm);
 }
 
-void vic_ii_set_raster_irq(unsigned int line)
+void ted_set_raster_irq(unsigned int line)
 {
-  if (line == vic_ii.raster_irq_line && vic_ii.raster_irq_clk != CLOCK_MAX)
+  if (line == ted.raster_irq_line && ted.raster_irq_clk != CLOCK_MAX)
     return;
 
-  if (line < vic_ii.screen_height)
+  if (line < ted.screen_height)
     {
-      unsigned int current_line = VIC_II_RASTER_Y(clk);
+      unsigned int current_line = TED_RASTER_Y(clk);
 
-      vic_ii.raster_irq_clk = (VIC_II_LINE_START_CLK(clk)
-                               + VIC_II_RASTER_IRQ_DELAY - INTERRUPT_DELAY
-                               + (vic_ii.cycles_per_line
-                                  * (line - current_line)));
+      ted.raster_irq_clk = (TED_LINE_START_CLK(clk)
+                           + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
+                           + (ted.cycles_per_line
+                           * (line - current_line)));
 
       /* Raster interrupts on line 0 are delayed by 1 cycle.  */
       if (line == 0)
-        vic_ii.raster_irq_clk++;
+        ted.raster_irq_clk++;
 
       if (line <= current_line)
-        vic_ii.raster_irq_clk += (vic_ii.screen_height
-                                  * vic_ii.cycles_per_line);
-      alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+        ted.raster_irq_clk += (ted.screen_height
+                              * ted.cycles_per_line);
+      alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
     }
   else
     {
-      VIC_II_DEBUG_RASTER(("VIC: update_raster_irq(): "
-                          "raster compare out of range ($%04X)!\n",
-                          line));
-      alarm_unset(&vic_ii.raster_irq_alarm);
+      TED_DEBUG_RASTER(("VIC: update_raster_irq(): "
+                       "raster compare out of range ($%04X)!\n",
+                       line));
+      alarm_unset(&ted.raster_irq_alarm);
     }
 
-  VIC_II_DEBUG_RASTER(("VIC: update_raster_irq(): "
-                      "vic_ii.raster_irq_clk = %ul, "
-                      "line = $%04X, "
-                      "vic_ii.regs[0x0a] & 2 = %d\n",
-                      vic_ii.raster_irq_clk,
-                      line,
-                      vic_ii.regs[0x0a] & 2));
+  TED_DEBUG_RASTER(("VIC: update_raster_irq(): "
+                   "ted.raster_irq_clk = %ul, "
+                   "line = $%04X, "
+                   "ted.regs[0x0a] & 2 = %d\n",
+                   ted.raster_irq_clk,
+                   line,
+                   ted.regs[0x0a] & 2));
 
-  vic_ii.raster_irq_line = line;
+  ted.raster_irq_line = line;
 }
 
 void vic_ii_update_memory_ptrs_external(void)
 {
-    if (vic_ii.initialized > 0)
-        ted_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
+    if (ted.initialized > 0)
+        ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
 }
 
 /* Set the memory pointers according to the values in the registers.  */
@@ -558,106 +563,123 @@ void ted_update_memory_ptrs(unsigned int cycle)
 {
   /* FIXME: This is *horrible*!  */
   static BYTE *old_screen_ptr, *old_bitmap_ptr, *old_chargen_ptr;
-  ADDRESS screen_addr, char_addr, bitmap_addr;
+  static BYTE *old_color_ptr;
+  ADDRESS screen_addr, char_addr, bitmap_addr, color_addr;
   BYTE *screen_base;            /* Pointer to screen memory.  */
   BYTE *char_base;              /* Pointer to character memory.  */
   BYTE *bitmap_base;            /* Pointer to bitmap memory.  */
+  BYTE *color_base;             /* Pointer to color memory.  */
   int tmp;
 
-  screen_addr = ((vic_ii.regs[0x14] & 0xf8) << 8) | 0x400;
-
+  screen_addr = ((ted.regs[0x14] & 0xf8) << 8) | 0x400;
   screen_base = ram + screen_addr;
-  VIC_II_DEBUG_REGISTER(("\tVideo memory at $%04X\n", screen_addr));
+  TED_DEBUG_REGISTER(("\tVideo memory at $%04X\n", screen_addr));
 
-  bitmap_addr = (vic_ii.regs[0x12] & 0x1c) << 11;
+  bitmap_addr = (ted.regs[0x12] & 0x1c) << 11;
   bitmap_base = ram + bitmap_addr;
+  TED_DEBUG_REGISTER(("\tBitmap memory at $%04X\n", bitmap_addr));
 
-  VIC_II_DEBUG_REGISTER(("\tBitmap memory at $%04X\n", bitmap_addr));
-
-  char_addr = (vic_ii.regs[0x13] & 0xfc) << 8;
-
+  char_addr = (ted.regs[0x13] & 0xfc) << 8;
   if (char_addr >= 0xc000) {
       char_base = kernal_rom + (char_addr & 0x3fff);
   } else {
       char_base = ram + char_addr;
   }
+  TED_DEBUG_REGISTER(("\tUser-defined character set at $%04X\n", char_addr));
 
-  VIC_II_DEBUG_REGISTER(("\tUser-defined character set at $%04X\n", char_addr));
+  color_addr = ((ted.regs[0x14] & 0xf8) << 8);
+  color_base = ram + color_addr;
+  TED_DEBUG_REGISTER(("\tColor memory at $%04X\n", color_addr));
 
-  tmp = VIC_II_RASTER_CHAR(cycle);
 
-  if (vic_ii.idle_data_location != IDLE_NONE)
+  tmp = TED_RASTER_CHAR(cycle);
+
+  if (ted.idle_data_location != IDLE_NONE)
     {
-      if (vic_ii.idle_data_location == IDLE_39FF)
-        raster_add_int_change_foreground(&vic_ii.raster,
-                                         VIC_II_RASTER_CHAR(cycle),
-                                         &vic_ii.idle_data,
+      if (ted.idle_data_location == IDLE_39FF)
+        raster_add_int_change_foreground(&ted.raster,
+                                         TED_RASTER_CHAR(cycle),
+                                         &ted.idle_data,
                                          ram[0x39ff]);
       else
-        raster_add_int_change_foreground(&vic_ii.raster,
-                                         VIC_II_RASTER_CHAR(cycle),
-                                         &vic_ii.idle_data,
+        raster_add_int_change_foreground(&ted.raster,
+                                         TED_RASTER_CHAR(cycle),
+                                         &ted.idle_data,
                                          ram[0x3fff]);
     }
 
-  if (vic_ii.raster.skip_frame || (tmp <= 0 && clk < vic_ii.draw_clk))
+  if (ted.raster.skip_frame || (tmp <= 0 && clk < ted.draw_clk))
     {
-      old_screen_ptr = vic_ii.screen_ptr = screen_base;
-      old_bitmap_ptr = vic_ii.bitmap_ptr = bitmap_base;
-      old_chargen_ptr = vic_ii.chargen_ptr = char_base;
-      /* vic_ii.vbank_ptr = vic_ii.ram_base + vic_ii.vbank; */
+      old_screen_ptr = ted.screen_ptr = screen_base;
+      old_bitmap_ptr = ted.bitmap_ptr = bitmap_base;
+      old_chargen_ptr = ted.chargen_ptr = char_base;
+      old_color_ptr = ted.color_ptr = color_base;
     }
   else if (tmp < TED_SCREEN_TEXTCOLS)
     {
       if (screen_base != old_screen_ptr)
         {
-          raster_add_ptr_change_foreground(&vic_ii.raster, tmp,
-                                           (void **)&vic_ii.screen_ptr,
+          raster_add_ptr_change_foreground(&ted.raster, tmp,
+                                           (void **)&ted.screen_ptr,
                                            (void *)screen_base);
           old_screen_ptr = screen_base;
         }
 
       if (bitmap_base != old_bitmap_ptr)
         {
-          raster_add_ptr_change_foreground(&vic_ii.raster,
+          raster_add_ptr_change_foreground(&ted.raster,
                                            tmp,
-                                           (void **)&vic_ii.bitmap_ptr,
+                                           (void **)&ted.bitmap_ptr,
                                            (void *)(bitmap_base));
           old_bitmap_ptr = bitmap_base;
         }
 
       if (char_base != old_chargen_ptr)
         {
-          raster_add_ptr_change_foreground(&vic_ii.raster,
+          raster_add_ptr_change_foreground(&ted.raster,
                                            tmp,
-                                           (void **)&vic_ii.chargen_ptr,
+                                           (void **)&ted.chargen_ptr,
                                            (void *)char_base);
           old_chargen_ptr = char_base;
+        }
+      if (color_base != old_color_ptr)
+        {
+          raster_add_ptr_change_foreground(&ted.raster, tmp,
+                                           (void **)&ted.color_ptr,
+                                           (void *)color_base);
+          old_color_ptr = color_base;
         }
     }
   else
     {
       if (screen_base != old_screen_ptr)
         {
-          raster_add_ptr_change_next_line(&vic_ii.raster,
-                                          (void **)&vic_ii.screen_ptr,
+          raster_add_ptr_change_next_line(&ted.raster,
+                                          (void **)&ted.screen_ptr,
                                           (void *)screen_base);
           old_screen_ptr = screen_base;
         }
       if (bitmap_base != old_bitmap_ptr)
         {
-          raster_add_ptr_change_next_line(&vic_ii.raster,
-                                          (void **)&vic_ii.bitmap_ptr,
+          raster_add_ptr_change_next_line(&ted.raster,
+                                          (void **)&ted.bitmap_ptr,
                                           (void *)(bitmap_base));
           old_bitmap_ptr = bitmap_base;
         }
 
       if (char_base != old_chargen_ptr)
         {
-          raster_add_ptr_change_next_line(&vic_ii.raster,
-                                          (void **)&vic_ii.chargen_ptr,
+          raster_add_ptr_change_next_line(&ted.raster,
+                                          (void **)&ted.chargen_ptr,
                                           (void *)char_base);
           old_chargen_ptr = char_base;
+        }
+      if (color_base != old_color_ptr)
+        {
+          raster_add_ptr_change_next_line(&ted.raster,
+                                          (void **)&ted.color_ptr,
+                                          (void *)color_base);
+          old_color_ptr = color_base;
         }
     }
 }
@@ -668,45 +690,45 @@ void ted_update_video_mode(unsigned int cycle)
   static int old_video_mode = -1;
   int new_video_mode;
 
-  new_video_mode = ((vic_ii.regs[0x06] & 0x60)
-                    | (vic_ii.regs[0x07] & 0x10)) >> 4;
+  new_video_mode = ((ted.regs[0x06] & 0x60)
+                    | (ted.regs[0x07] & 0x10)) >> 4;
 
   if (new_video_mode != old_video_mode) {
-      if (VIC_II_IS_ILLEGAL_MODE(new_video_mode)) {
+      if (TED_IS_ILLEGAL_MODE(new_video_mode)) {
           /* Force the overscan color to black.  */
           raster_add_int_change_background
-            (&vic_ii.raster, VIC_II_RASTER_X(cycle),
-             &vic_ii.raster.overscan_background_color,
+            (&ted.raster, TED_RASTER_X(cycle),
+             &ted.raster.overscan_background_color,
              0);
-          vic_ii.force_black_overscan_background_color = 1;
+          ted.force_black_overscan_background_color = 1;
       } else {
           /* The overscan background color is given by the background color
              register.  */
-          if (vic_ii.raster.overscan_background_color != vic_ii.regs[0x15])
+          if (ted.raster.overscan_background_color != ted.regs[0x15])
             raster_add_int_change_background
-              (&vic_ii.raster, VIC_II_RASTER_X(cycle),
-               &vic_ii.raster.overscan_background_color,
-               vic_ii.regs[0x15]);
-          vic_ii.force_black_overscan_background_color = 0;
+              (&ted.raster, TED_RASTER_X(cycle),
+               &ted.raster.overscan_background_color,
+               ted.regs[0x15]);
+          ted.force_black_overscan_background_color = 0;
       }
 
       {
           int pos;
 
-          pos = VIC_II_RASTER_CHAR(cycle);
+          pos = TED_RASTER_CHAR(cycle);
 
-          raster_add_int_change_foreground(&vic_ii.raster, pos,
-                                           &vic_ii.raster.video_mode,
+          raster_add_int_change_foreground(&ted.raster, pos,
+                                           &ted.raster.video_mode,
                                            new_video_mode);
 
-          if (vic_ii.idle_data_location != IDLE_NONE) {
-              if (vic_ii.regs[0x06] & 0x40)
+          if (ted.idle_data_location != IDLE_NONE) {
+              if (ted.regs[0x06] & 0x40)
                   raster_add_int_change_foreground
-                      (&vic_ii.raster, pos, (void *)&vic_ii.idle_data,
+                      (&ted.raster, pos, (void *)&ted.idle_data,
                       ram[0x39ff]);
               else
                   raster_add_int_change_foreground
-                      (&vic_ii.raster, pos, (void *)&vic_ii.idle_data,
+                      (&ted.raster, pos, (void *)&ted.idle_data,
                       ram[0x3fff]);
           }
       }
@@ -714,38 +736,38 @@ void ted_update_video_mode(unsigned int cycle)
       old_video_mode = new_video_mode;
     }
 
-#ifdef VIC_II_VMODE_DEBUG
+#ifdef TED_VMODE_DEBUG
     switch (new_video_mode) {
       case VIC_II_NORMAL_TEXT_MODE:
-        VIC_II_DEBUG_VMODE(("Standard Text"));
+        TED_DEBUG_VMODE(("Standard Text"));
         break;
       case VIC_II_MULTICOLOR_TEXT_MODE:
-        VIC_II_DEBUG_VMODE(("Multicolor Text"));
+        TED_DEBUG_VMODE(("Multicolor Text"));
         break;
       case VIC_II_HIRES_BITMAP_MODE:
-        VIC_II_DEBUG_VMODE(("Hires Bitmap"));
+        TED_DEBUG_VMODE(("Hires Bitmap"));
         break;
       case VIC_II_MULTICOLOR_BITMAP_MODE:
-        VIC_II_DEBUG_VMODE(("Multicolor Bitmap"));
+        TED_DEBUG_VMODE(("Multicolor Bitmap"));
         break;
       case VIC_II_EXTENDED_TEXT_MODE:
-        VIC_II_DEBUG_VMODE(("Extended Text"));
+        TED_DEBUG_VMODE(("Extended Text"));
         break;
       case VIC_II_ILLEGAL_TEXT_MODE:
-        VIC_II_DEBUG_VMODE(("Illegal Text"));
+        TED_DEBUG_VMODE(("Illegal Text"));
         break;
       case VIC_II_ILLEGAL_BITMAP_MODE_1:
-        VIC_II_DEBUG_VMODE(("Invalid Bitmap"));
+        TED_DEBUG_VMODE(("Invalid Bitmap"));
         break;
       case VIC_II_ILLEGAL_BITMAP_MODE_2:
-        VIC_II_DEBUG_VMODE(("Invalid Bitmap"));
+        TED_DEBUG_VMODE(("Invalid Bitmap"));
         break;
       default:                    /* cannot happen */
-        VIC_II_DEBUG_VMODE(("???"));
+        TED_DEBUG_VMODE(("???"));
     }
 
-    VIC_II_DEBUG_VMODE((" Mode enabled at line $%04X, cycle %d.\n",
-                       VIC_II_RASTER_Y(clk), cycle));
+    TED_DEBUG_VMODE((" Mode enabled at line $%04X, cycle %d.\n",
+                    TED_RASTER_Y(clk), cycle));
 #endif
 }
 
@@ -756,80 +778,80 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
   int in_visible_area;
 
 
-  in_visible_area = (vic_ii.raster.current_line >= vic_ii.first_displayed_line
-                 && vic_ii.raster.current_line <= vic_ii.last_displayed_line);
+  in_visible_area = (ted.raster.current_line >= ted.first_displayed_line
+                 && ted.raster.current_line <= ted.last_displayed_line);
 
-  raster_emulate_line(&vic_ii.raster);
+  raster_emulate_line(&ted.raster);
 
-  if (vic_ii.raster.current_line == 0)
+  if (ted.raster.current_line == 0)
     {
-      raster_skip_frame(&vic_ii.raster,
-                        vsync_do_vsync(vic_ii.raster.skip_frame));
-      vic_ii.memptr = 0;
-      vic_ii.mem_counter = 0;
+      raster_skip_frame(&ted.raster,
+                        vsync_do_vsync(ted.raster.skip_frame));
+      ted.memptr = 0;
+      ted.mem_counter = 0;
 
 #ifdef __MSDOS__
-      if (vic_ii.raster.viewport.width <= VIC_II_SCREEN_XPIX
-          && vic_ii.raster.viewport.height <= VIC_II_SCREEN_YPIX
-          && vic_ii.raster.viewport.update_canvas)
-        canvas_set_border_color(vic_ii.raster.viewport.canvas,
-                                vic_ii.raster.border_color);
+      if (ted.raster.viewport.width <= VIC_II_SCREEN_XPIX
+          && ted.raster.viewport.height <= VIC_II_SCREEN_YPIX
+          && ted.raster.viewport.update_canvas)
+        canvas_set_border_color(ted.raster.viewport.canvas,
+                                ted.raster.border_color);
 #endif
     }
 
   if (in_visible_area)
     {
-      if (!vic_ii.idle_state)
-        vic_ii.mem_counter = (vic_ii.mem_counter
-                              + vic_ii.mem_counter_inc) & 0x3ff;
-      vic_ii.mem_counter_inc = TED_SCREEN_TEXTCOLS;
+      if (!ted.idle_state)
+        ted.mem_counter = (ted.mem_counter
+                          + ted.mem_counter_inc) & 0x3ff;
+      ted.mem_counter_inc = TED_SCREEN_TEXTCOLS;
       /* `ycounter' makes the chip go to idle state when it reaches the
          maximum value.  */
-      if (vic_ii.raster.ycounter == 7)
+      if (ted.raster.ycounter == 7)
         {
-          vic_ii.idle_state = 1;
-          vic_ii.memptr = vic_ii.mem_counter;
+          ted.idle_state = 1;
+          ted.memptr = ted.mem_counter;
         }
-      if (!vic_ii.idle_state || vic_ii.bad_line)
+      if (!ted.idle_state || ted.bad_line)
         {
-          vic_ii.raster.ycounter = (vic_ii.raster.ycounter + 1) & 0x7;
-          vic_ii.idle_state = 0;
+          ted.raster.ycounter = (ted.raster.ycounter + 1) & 0x7;
+          ted.idle_state = 0;
         }
-      if (vic_ii.force_display_state)
+      if (ted.force_display_state)
         {
-          vic_ii.idle_state = 0;
-          vic_ii.force_display_state = 0;
+          ted.idle_state = 0;
+          ted.force_display_state = 0;
         }
-      vic_ii.raster.draw_idle_state = vic_ii.idle_state;
-      vic_ii.bad_line = 0;
+      ted.raster.draw_idle_state = ted.idle_state;
+      ted.bad_line = 0;
     }
 
-  vic_ii.ycounter_reset_checked = 0;
-  vic_ii.memory_fetch_done = 0;
+  ted.ycounter_reset_checked = 0;
+  ted.memory_fetch_done = 0;
 
-  if (vic_ii.raster.current_line == vic_ii.first_dma_line)
-    vic_ii.allow_bad_lines = !vic_ii.raster.blank;
+  if (ted.raster.current_line == ted.first_dma_line)
+    ted.allow_bad_lines = !ted.raster.blank;
 
-  if (vic_ii.idle_state)
+  if (ted.idle_state)
     {
-      if (vic_ii.regs[0x11] & 0x40)
+      if (ted.regs[0x11] & 0x40)
         {
-          vic_ii.idle_data_location = IDLE_39FF;
-          vic_ii.idle_data = ram[0x39ff];
+          ted.idle_data_location = IDLE_39FF;
+          ted.idle_data = ram[0x39ff];
         }
       else
         {
-          vic_ii.idle_data_location = IDLE_3FFF;
-          vic_ii.idle_data = ram[0x3fff];
+          ted.idle_data_location = IDLE_3FFF;
+          ted.idle_data = ram[0x3fff];
         }
     }
   else
-    vic_ii.idle_data_location = IDLE_NONE;
+    ted.idle_data_location = IDLE_NONE;
 
   /* Set the next draw event.  */
-  vic_ii.last_emulate_line_clk += vic_ii.cycles_per_line;
-  vic_ii.draw_clk = vic_ii.last_emulate_line_clk + vic_ii.draw_cycle;
-  alarm_set(&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
+  ted.last_emulate_line_clk += ted.cycles_per_line;
+  ted.draw_clk = ted.last_emulate_line_clk + ted.draw_cycle;
+  alarm_set(&ted.raster_draw_alarm, ted.draw_clk);
 }
 
 inline static int handle_fetch_matrix(long offset, CLOCK sub,
@@ -839,7 +861,7 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
 
   *write_offset = 0;
 
-  raster = &vic_ii.raster;
+  raster = &ted.raster;
 
   {
       do_matrix_fetch(sub);
@@ -851,19 +873,19 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
 
       /* This makes sure we only create VIC_II_FETCH_MATRIX events in the bad
          line range.  These checks are (a little) redundant for safety.  */
-      if (raster->current_line < vic_ii.first_dma_line)
-        vic_ii.fetch_clk += ((vic_ii.first_dma_line
-                              - raster->current_line)
-                             * vic_ii.cycles_per_line);
-      else if (raster->current_line >= vic_ii.last_dma_line)
-        vic_ii.fetch_clk += ((vic_ii.screen_height
-                              - raster->current_line
-                              + vic_ii.first_dma_line)
-                             * vic_ii.cycles_per_line);
+      if (raster->current_line < ted.first_dma_line)
+        ted.fetch_clk += ((ted.first_dma_line
+                         - raster->current_line)
+                         * ted.cycles_per_line);
+      else if (raster->current_line >= ted.last_dma_line)
+        ted.fetch_clk += ((ted.screen_height
+                         - raster->current_line
+                         + ted.first_dma_line)
+                         * ted.cycles_per_line);
       else
-        vic_ii.fetch_clk += vic_ii.cycles_per_line;
+        ted.fetch_clk += ted.cycles_per_line;
 
-      alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+      alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
       return 1;
   }
 
@@ -926,13 +948,13 @@ void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
       CLOCK write_offset;
       int leave;
 
-      if (vic_ii.fetch_clk < last_opcode_first_write_clk
-          || vic_ii.fetch_clk > last_opcode_last_write_clk)
+      if (ted.fetch_clk < last_opcode_first_write_clk
+          || ted.fetch_clk > last_opcode_last_write_clk)
         sub = 0;
       else
-        sub = last_opcode_last_write_clk - vic_ii.fetch_clk + 1;
+        sub = last_opcode_last_write_clk - ted.fetch_clk + 1;
 
-      switch (vic_ii.fetch_idx)
+      switch (ted.fetch_idx)
         {
         case VIC_II_FETCH_MATRIX:
           leave = handle_fetch_matrix(offset, sub, &write_offset);
@@ -961,19 +983,19 @@ void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
    line counter matches the value stored in the raster line register.  */
 static void vic_ii_raster_irq_alarm_handler(CLOCK offset)
 {
-  vic_ii.irq_status |= 0x2;
-  if (vic_ii.regs[0x0a] & 0x2)
+  ted.irq_status |= 0x2;
+  if (ted.regs[0x0a] & 0x2)
     {
-      maincpu_set_irq_clk(I_RASTER, 1, vic_ii.raster_irq_clk);
-      vic_ii.irq_status |= 0x80;
-      VIC_II_DEBUG_RASTER(("VIC: *** IRQ requested at line $%04X, "
-                "vic_ii.raster_irq_line=$%04X, offset = %ld, cycle = %d.\n",
-                      VIC_II_RASTER_Y(clk), vic_ii.raster_irq_line, offset,
-                            VIC_II_RASTER_CYCLE(clk)));
+      maincpu_set_irq_clk(I_RASTER, 1, ted.raster_irq_clk);
+      ted.irq_status |= 0x80;
+      TED_DEBUG_RASTER(("VIC: *** IRQ requested at line $%04X, "
+                       "ted.raster_irq_line=$%04X, offset = %ld, cycle = %d.\n",
+                       TED_RASTER_Y(clk), ted.raster_irq_line, offset,
+                       TED_RASTER_CYCLE(clk)));
     }
 
-  vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
-  alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+  ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
+  alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
 }
 
 int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum,int mixedcols)
@@ -981,7 +1003,7 @@ int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum,int mixedcols
   palette_t *palette;
 
   palette = vic_ii_color_calcpalette(VIC_II_COLOR_PALETTE_16,sat,con,bri,gam,newlum);
-  return raster_set_palette(&vic_ii.raster, palette);
+  return raster_set_palette(&ted.raster, palette);
 }
 
 
@@ -998,66 +1020,57 @@ int vic_ii_load_palette(const char *name)
 
   if (!console_mode && !vsid_mode && palette_load(name, palette) < 0)
     {
-      log_message(vic_ii.log, "Cannot load palette file `%s'.", name);
+      log_message(ted.log, "Cannot load palette file `%s'.", name);
       return -1;
     }
 
-  return raster_set_palette(&vic_ii.raster, palette);
+  return raster_set_palette(&ted.raster, palette);
 }
 
 /* Set proper functions and constants for the current video settings.  */
-void vic_ii_resize(void)
+void ted_resize(void)
 {
-  if (!vic_ii.initialized)
+  if (!ted.initialized)
     return;
 
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
   if (fullscreen_is_enabled
-      ? vic_ii_resources.fullscreen_double_size_enabled
-      : vic_ii_resources.double_size_enabled)
+      ? ted_resources.fullscreen_double_size_enabled
+      : ted_resources.double_size_enabled)
 #else
-  if (vic_ii_resources.double_size_enabled)
+  if (ted_resources.double_size_enabled)
 #endif
 #else
   if (0)
 #endif
     {
-      if (vic_ii.raster.viewport.pixel_size.width == 1
-          && vic_ii.raster.viewport.canvas != NULL) {
-        raster_set_pixel_size(&vic_ii.raster, 2, 2);
-        raster_resize_viewport(&vic_ii.raster,
-                               vic_ii.raster.viewport.width * 2,
-                               vic_ii.raster.viewport.height * 2);
+      if (ted.raster.viewport.pixel_size.width == 1
+          && ted.raster.viewport.canvas != NULL) {
+        raster_set_pixel_size(&ted.raster, 2, 2);
+        raster_resize_viewport(&ted.raster,
+                               ted.raster.viewport.width * 2,
+                               ted.raster.viewport.height * 2);
       } else {
-          raster_set_pixel_size(&vic_ii.raster, 2, 2);
+          raster_set_pixel_size(&ted.raster, 2, 2);
       }
 
       vic_ii_draw_set_double_size(1);
     }
   else
     {
-      if (vic_ii.raster.viewport.pixel_size.width == 2
-          && vic_ii.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size(&vic_ii.raster, 1, 1);
-        raster_resize_viewport(&vic_ii.raster,
-                               vic_ii.raster.viewport.width / 2,
-                               vic_ii.raster.viewport.height / 2);
+      if (ted.raster.viewport.pixel_size.width == 2
+          && ted.raster.viewport.canvas != NULL) {
+          raster_set_pixel_size(&ted.raster, 1, 1);
+        raster_resize_viewport(&ted.raster,
+                               ted.raster.viewport.width / 2,
+                               ted.raster.viewport.height / 2);
       } else {
-          raster_set_pixel_size(&vic_ii.raster, 1, 1);
+          raster_set_pixel_size(&ted.raster, 1, 1);
       }
 
       vic_ii_draw_set_double_size(0);
     }
-}
-
-void vic_ii_set_set_canvas_refresh(int enable)
-{
-    raster_t *raster;
-
-    raster = &vic_ii.raster;
-
-    raster_set_canvas_refresh(raster, enable);
 }
 
 int vic_ii_write_snapshot_module(snapshot_t *s)
@@ -1072,23 +1085,23 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
 
 void ted_free(void)
 {
-    raster_free(&vic_ii.raster);
+    raster_free(&ted.raster);
 }
 
-int vic_ii_screenshot(screenshot_t *screenshot)
+int ted_screenshot(screenshot_t *screenshot)
 {
-    return raster_screenshot(&vic_ii.raster, screenshot);
+    return raster_screenshot(&ted.raster, screenshot);
 }
 
-void vic_ii_video_refresh(void)
+void ted_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
 
-  vic_ii_resize();
-  raster_enable_double_scan(&vic_ii.raster,
+  ted_resize();
+  raster_enable_double_scan(&ted.raster,
                             fullscreen_is_enabled ?
-                            vic_ii_resources.fullscreen_double_scan_enabled :
-                            vic_ii_resources.double_scan_enabled);
+                            ted_resources.fullscreen_double_scan_enabled :
+                            ted_resources.double_scan_enabled);
 #endif
 }
 

@@ -41,7 +41,7 @@ static cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-int plus4_init_cmdline_options(void)
+int plus4_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

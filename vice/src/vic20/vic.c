@@ -495,16 +495,6 @@ void vic_update_memory_ptrs (void)
   }
 }
 
-int vic_init_resources (void)
-{
-  return vic_resources_init ();
-}
-
-int vic_init_cmdline_options (void)
-{
-  return vic_cmdline_options_init ();
-}
-
 int vic_write_snapshot_module (snapshot_t *s)
 {
   return vic_snapshot_write_module (s);

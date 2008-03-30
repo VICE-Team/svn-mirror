@@ -65,7 +65,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int plus4_init_resources(void)
+int plus4_resources_init(void)
 {
     return resources_register(resources);
 }

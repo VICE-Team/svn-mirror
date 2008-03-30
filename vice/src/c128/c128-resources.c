@@ -207,7 +207,7 @@ static resource_t resources[] =
     { NULL }
 };
 
-int c128_init_resources(void)
+int c128_resources_init(void)
 {
     return resources_register(resources);
 }

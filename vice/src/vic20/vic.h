@@ -178,8 +178,8 @@ extern struct canvas_s *vic_get_canvas(void);
 extern void vic_reset(void);
 extern void vic_raster_draw_alarm_handler(CLOCK offset);
 
-extern int vic_init_resources(void);
-extern int vic_init_cmdline_options(void);
+extern int vic_resources_init(void);
+extern int vic_cmdline_options_init(void);
 
 extern int vic_write_snapshot_module(struct snapshot_s *s);
 extern int vic_read_snapshot_module(struct snapshot_s *s);

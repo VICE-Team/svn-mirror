@@ -70,7 +70,7 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int c128_init_cmdline_options(void)
+int c128_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

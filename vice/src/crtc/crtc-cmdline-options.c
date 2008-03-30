@@ -33,7 +33,7 @@
 /* CRTC command-line options.  */
 
 static cmdline_option_t cmdline_options[] =
-  {
+{
     { "-crtcvcache", SET_RESOURCE, 0, NULL, NULL,
       "CrtcVideoCache", (resource_value_t) 1,
       NULL, "Enable the video cache" },
@@ -58,10 +58,10 @@ static cmdline_option_t cmdline_options[] =
       NULL, "Disable double scan" },
 #endif
     { NULL }
-  };
+};
 
 
-int crtc_init_cmdline_options (void)
+int crtc_cmdline_options_init(void)
 {
-  return cmdline_register_options (cmdline_options);
+    return cmdline_register_options (cmdline_options);
 }

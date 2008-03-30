@@ -27,7 +27,7 @@
 #ifndef _C64_CMDLINE_OPTIONS_H
 #define _C64_CMDLINE_OPTIONS_H
 
-extern int c64_init_cmdline_options(void);
+extern int c64_cmdline_options_init(void);
 
 #endif
 

@@ -27,7 +27,7 @@
 #ifndef _PET_RESOURCES_H
 #define _PET_RESOURCES_H
 
-extern int pet_init_resources(void);
+extern int pet_resources_init(void);
 
 extern int emu_id_enabled;
 

@@ -144,6 +144,7 @@ void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value)
 vic_ii_t vic_ii;
 
 static void vic_ii_raster_irq_alarm_handler(CLOCK offset);
+static void vic_ii_exposure_handler(unsigned int width, unsigned int height);
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
@@ -153,7 +154,7 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
   vic_ii.draw_clk -= sub;
 }
 
-void vic_ii_change_timing(void)
+static void vic_ii_change_timing(void)
 {
     resource_value_t mode;
 
@@ -497,16 +498,6 @@ inline static void check_sprite_dma(void)
     }
 }
 
-int vic_ii_init_resources(void)
-{
-  return vic_ii_resources_init();
-}
-
-int vic_ii_init_cmdline_options(void)
-{
-  return vic_ii_cmdline_options_init();
-}
-
 /* Initialize the VIC-II emulation.  */
 raster_t *vic_ii_init(void)
 {
@@ -735,7 +726,7 @@ void vic_ii_trigger_light_pen(CLOCK mclk)
 }
 
 /* Handle the exposure event.  */
-void vic_ii_exposure_handler(unsigned int width, unsigned int height)
+static void vic_ii_exposure_handler(unsigned int width, unsigned int height)
 {
   raster_resize_viewport(&vic_ii.raster, width, height);
 
@@ -1613,7 +1604,7 @@ void vic_ii_resize(void)
     }
 }
 
-void vic_ii_set_set_canvas_refresh(int enable)
+void vic_ii_set_canvas_refresh(int enable)
 {
     raster_t *raster;
 

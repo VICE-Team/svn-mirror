@@ -291,7 +291,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int pet_init_resources(void)
+int pet_resources_init(void)
 {
     return resources_register(resources);
 }

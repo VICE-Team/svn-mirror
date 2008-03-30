@@ -182,7 +182,7 @@ static cmdline_option_t cmdline_options[] =
     { NULL}
 };
 
-int vic20_init_cmdline_options(void)
+int vic20_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
