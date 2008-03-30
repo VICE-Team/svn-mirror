@@ -82,17 +82,9 @@ void drive_rom_initialize_traps(drive_t *drive)
     }
 
     if (drive->type == DRIVE_TYPE_1581) {
-        /* Save the ROM check.  */
-        /*drive->rom_checksum[0] = drive->rom[0xeae4 - 0x8000];
-        drive->rom_checksum[1] = drive->rom[0xeae5 - 0x8000];
-        drive->rom_checksum[2] = drive->rom[0xeae8 - 0x8000];
-        drive->rom_checksum[3] = drive->rom[0xeae9 - 0x8000];*/
-        /* Save the idle trap.  */
-        /*drive->rom_idle_trap = drive->rom[0xec9b - 0x8000];*/
         drive->rom[0xaf6f - 0x8000] = 0x4c;
         drive->rom[0xaf70 - 0x8000] = 0xca;
         drive->rom[0xaf71 - 0x8000] = 0xaf;
-        /*drive->rom[0xc0be - 0x8000] = 0x00;*/
         drive->rom[0xdaee - 0x8000] = 0x00;
     }
 }

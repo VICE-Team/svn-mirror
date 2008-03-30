@@ -361,14 +361,7 @@ inline static DWORD drive_trap_handler(drive_context_t *drv)
         }
         return 0;
     }
-    if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == 0xc0be) {
-        /* 1581 job code */
-        MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), 0xc197);
-        machine_drive_handle_job_code(drv->mynumber);
-        return 0;
-    }
     if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == 0xdaee) {
-        /* 1581 job code */
         MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), 0xdaf6);
         return 0;
     }

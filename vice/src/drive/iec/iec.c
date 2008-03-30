@@ -35,9 +35,9 @@
 #include "iec-cmdline-options.h"
 #include "iec-resources.h"
 #include "iec.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "iecrom.h"
-#include "jobcode1581.h"
 #include "lib.h"
 #include "memiec.h"
 #include "resources.h"
@@ -48,7 +48,7 @@
 
 
 /* Pointer to the IEC bus structure.  */
-static iec_info_t *drive_iec_info;
+static iecbus_t *drive_iecbus;
 
 
 int iec_drive_resources_init(void)
@@ -73,7 +73,6 @@ void iec_drive_init(struct drive_context_s *drv)
     cia1571_init(drv);
     cia1581_init(drv);
     wd1770d_init(drv);
-    jobcode1581_init();
 }
 
 void iec_drive_reset(struct drive_context_s *drv)
@@ -131,7 +130,6 @@ void iec_drive_vsync_hook(void)
 
 void iec_drive_handle_job_code(unsigned int dnr)
 {
-    jobcode1581_handle_job_code(drive_context[dnr]);
 }
 
 void iec_drive_rom_load(void)
@@ -230,19 +228,11 @@ int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit)
 
 void iec_drive_port_default(struct drive_context_s *drv)
 {
-    drive_iec_info = iec_get_drive_port();
+    drive_iecbus = iecbus_drive_port();
 
-    if (drive_iec_info != NULL) {
-        switch (drv->mynumber) {
-          case 0:
-            drive_iec_info->drive_bus = 0xff;
-            drive_iec_info->drive_data = 0xff;
-            break;
-          case 1:
-            drive_iec_info->drive2_bus = 0xff;
-            drive_iec_info->drive2_data = 0xff;
-            break;
-        }
+    if (drive_iecbus != NULL) {
+        drive_iecbus->drv_bus[drv->mynumber + 8] = 0xff;
+        drive_iecbus->drv_data[drv->mynumber + 8] = 0xff;
     }
 }
 

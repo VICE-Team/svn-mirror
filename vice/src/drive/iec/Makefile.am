@@ -19,8 +19,6 @@ libdriveiec_a_SOURCES = \
 	iec.c \
 	iecrom.c \
 	iecrom.h \
-	jobcode1581.c \
-	jobcode1581.h \
 	memiec.c \
 	memiec.h \
 	via1d1541.c \
