@@ -33,7 +33,7 @@ typedef struct warn_s warn_t;
  * Init warning -pointer. nrwarnings is the maximum warnid used on warn().
  * name is the name of the module, eg "SID".
  */
-warn_t *warn_init(char *name, int nrwarnings);
+warn_t *warn_init(const char *name, int nrwarnings);
 
 /*
  * Warn every warning with warnid >= 0 only once.

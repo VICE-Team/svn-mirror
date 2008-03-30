@@ -320,7 +320,7 @@ extern void set_brkpt_condition(int brk_num, CONDITIONAL_NODE *cnode);
 extern void set_breakpt_command(int brk_num, char *cmd);
 extern int add_breakpoint(M_ADDR_RANGE range, bool is_trace, bool is_load, bool is_store);
 extern void print_convert(int val);
-extern check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list);
+extern int check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list);
 
 extern unsigned int get_reg_val(MEMSPACE mem, int reg_id);
 extern unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr);
