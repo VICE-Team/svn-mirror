@@ -45,6 +45,7 @@
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
+#include "vsidui.h"
 #include "vsync.h"
 #include "zfile.h"
 
@@ -284,7 +285,7 @@ int psid_ui_set_tune(resource_value_t tune)
   char buf[10];
   psid_tune = (int)tune == -1 ? 0 : (int)tune;
   sprintf(buf, "tune %d\n", (int)tune);
-  ui_proc_write_msg(buf);
+  vsid_set_tune(buf);
   return 0;
 }
 
