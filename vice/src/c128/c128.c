@@ -38,6 +38,7 @@
 #include "autostart.h"
 #include "c128-cmdline-options.h"
 #include "c128-resources.h"
+#include "c128-snapshot.h"
 #include "c128.h"
 #include "c128mem.h"
 #include "c128mmu.h"
@@ -596,7 +597,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         return -1;
 
     if (maincpu_write_snapshot_module(s) < 0
-        || mem_write_snapshot_module(s, save_roms) < 0
+        || c128_snapshot_write_module(s, save_roms) < 0
         || cia1_write_snapshot_module(s) < 0
         || cia2_write_snapshot_module(s) < 0
         || sid_write_snapshot_module(s) < 0
@@ -630,7 +631,7 @@ int machine_read_snapshot(const char *name)
     vic_ii_prepare_for_snapshot();
 
     if (maincpu_read_snapshot_module(s) < 0
-        || mem_read_snapshot_module(s) < 0
+        || c128_snapshot_read_module(s) < 0
         || cia1_read_snapshot_module(s) < 0
         || cia2_read_snapshot_module(s) < 0
         || sid_read_snapshot_module(s) < 0
