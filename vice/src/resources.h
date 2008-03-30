@@ -32,7 +32,7 @@
 
 typedef enum resource_type_s {
      RES_INTEGER,
-     RES_STRING,
+     RES_STRING
 } resource_type_t;
 
 typedef void *resource_value_t;
