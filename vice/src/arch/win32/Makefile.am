@@ -20,15 +20,12 @@ libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
 	c128kbd.c \
-	c128kbd.h \
 	c128ui.c \
 	c128ui.h \
 	c610kbd.c \
-	c610kbd.h \
 	c610ui.c \
 	c610ui.h \
 	c64kbd.c \
-	c64kbd.h \
 	c64ui.c \
 	c64ui.h \
 	dirent.c \
@@ -39,7 +36,6 @@ libarch_a_SOURCES = \
 	kbd.h \
 	lose32.h \
 	petkbd.c \
-	petkbd.h \
 	petui.c \
 	petui.h \
 	print.c \
@@ -58,27 +54,26 @@ libarch_a_SOURCES = \
 	uicbm2set.h \
 	uidrive.c \
 	uidrive.h \
-        uijoystick.c \
-        uijoystick.h \
+	uijoystick.c \
+	uijoystick.h \
 	uilib.c \
 	uilib.h \
 	uipetset.c \
 	uipetset.h \
 	uisnapshot.h \
 	uisnapshot.c \
-        uisound.c \
-        uisound.h \
+	uisound.c \
+	uisound.h \
 	uivicii.h \
 	uivicii.c \
 	vic20kbd.c \
-	vic20kbd.h \
 	vic20ui.c \
 	vic20ui.h \
 	video.c \
 	video.h \
 	vsync.c \
 	vsync.h \
-        winhack.h \
+	winhack.h \
 	winmain.c \
 	winmain.h
 

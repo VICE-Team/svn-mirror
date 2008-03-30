@@ -1,3 +1,85 @@
+1999-03-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.36.
+
+	* vic20/vic20.c (machine_read_snapshot): Read drive snapshot
+	module too.
+
+	* arch/msdos/tuimenu.c (tui_menu_handle): Removed useless define.
+
+	* sid/sid.c, vice.h: Do not define `HAVE_MOUSE' as this is defined
+	in `config.h' now.
+
+	* arch/unix/mouse.c (mouse_init): Added stub.
+
+	* arch/unix/video.c, arch/unix/video.h: Changed `MITSHM' to
+	`USE_MITSHM'.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c, cbm2/c610.c:
+	Removed MSDOS and WIN32 specific keyboard initialization.
+
+	* arch/msdos/c64kbd.h, arch/msdos/c128kbd.h, arch/msdos/vic20kbd.h,
+	arch/msdos/petkbd.h, arch/msdos/c610kbd.h: Use `kbd.h' instead.
+
+	* arch/win32/c64kbd.h, arch/win32/c128kbd.h, arch/win32/vic20kbd.h,
+	arch/win32/petkbd.h, arch/win32/c610kbd.h: Use `kbd.h' instead.
+
+	* arch/unix/kbd.c, arch/unix/kdb.h: Use machine specific keyboard
+	initialization.
+	* arch/riscos/kbd.c, arch/riscos/kdb.h: Changed likewise.
+
+	* arch/unix/mouse.c: #include "ui.h".
+
+	* interrupt.c (cpu_int_status_init): Removed unused variable.
+
+	* main.c: Use `HAVE_MOUSE' instead of testing the OS type.
+
+1998-03-05  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/msdos/archdep.c, arch/msdos/archdep.h,
+	arch/riscos/archdep.c, arch/riscos/archdep.h,
+	arch/win32/archdep.c, arch/win32/archdep.h (archdep_default_logger):
+	new (empty) function & prototype. Can later be used to buffer
+	log output until log window or whatever is needed for display
+	comes up.
+
+	* arch/unix/archdep.c, arch/unix/archdep.h (archdep_default_logger):
+	new function + prototype. Prints log given to stdout (console)
+	when log code has not yet been fully fired up.
+
+	* arch/unix/xaw/ui.c (vidmodeavail,use_fullscreen,
+	use_fullscreen_at_start,timeout): made static (and only defined
+	if USE_VIDMODE_EXTENSION is defined
+	(ui_check_mouse_cursor): surround fullscreen check with 
+	#ifdef USE_VIDMODE_EXTENSION
+	
+	* c128/c128iec.c, c64/c64iec.c (parallel_cable_cpu_write):
+	removed handshake parameter and via*_signal calls.
+	(parallel_cable_cpu_pulse): new function to signal the
+	parallel cable pulse handshake from cpu to drive
+	(parallel_cable_cpu_read): remove via*_signal calls.
+
+	* c64/c64cia2.c (store_ciapb): remove handshake flag from 
+	parameters to parallel_cable_cpu_write().
+	(pulse_ciapc): call parallel_cable_cpu_pulse.
+
+	* c64/c64iec.h (parallel_cable_cpu_write): fix prototype
+	(parallel_cable_cpu_pulse): new prototype
+
+	* log.c (log_helper): if log_file is not yet set and log
+	is default log, then use archdep_default_logger()
+
+1998-03-05  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* resources.c (resources_read_item_from_file): return new 
+	error code -2 when item was parsed correctly, but the resource
+	had not been found.
+	(resources_load): when resources_read_item_from_file returns
+	-2 then do not abort, simply print a warning.
+
+	* romset.c (romset_load): when resources_read_item_from_file returns
+        -2 then do not abort, simply print a warning.
+
 1999-03-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.35.

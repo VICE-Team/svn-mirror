@@ -311,7 +311,8 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/resources.h ../../src/arch/unix/vsync.h \
 	../../src/rs232.h ../../src/c64/c64acia.h ../../src/rsuser.h \
-	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
+	../../src/print.h ../../src/prdevice.h ../../src/pruser.h \
+	../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/config.h ../../src/cia.h ../../src/types.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \

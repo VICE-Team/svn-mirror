@@ -672,10 +672,10 @@ main.o: main.c vice.h config.h arch/unix/archdep.h attach.h types.h \
 	vdrive.h fs_cbm.h serial.h traps.h log.h snapshot.h autostart.h \
 	cartridge.h charsets.h cmdline.h resources.h findpath.h \
 	fsdevice.h interrupt.h vmachine.h 6510core.h mem.h \
-	arch/unix/joystick.h arch/unix/mouse.h arch/unix/kbd.h \
-	machine.h maincpu.h alarm.h mon.h mos6510.h sound.h warn.h \
-	sysfile.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h \
-	utils.h arch/unix/video.h arch/unix/vsync.h
+	arch/unix/joystick.h arch/unix/kbd.h machine.h maincpu.h \
+	alarm.h mon.h mos6510.h sound.h warn.h sysfile.h tape.h \
+	arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h \
+	arch/unix/video.h arch/unix/vsync.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
 	snapshot.h alarm.h log.h mon.h mos6510.h interrupt.h vmachine.h \
 	machine.h resources.h traps.h arch/unix/ui.h arch/unix/xaw/ui.h \

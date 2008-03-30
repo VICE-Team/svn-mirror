@@ -66,10 +66,6 @@
 #include "vic20rsuser.h"
 #endif
 
-#if defined __MSDOS__ || defined WIN32
-#include "vic20kbd.h"
-#endif
-
 static void vsync_hook(void);
 
 const char machine_name[] = "VIC20";
@@ -264,13 +260,8 @@ int machine_init(void)
     via2_init();
  
     /* Load the default keymap file.  */
-#if !defined __MSDOS__ && !defined WIN32
-    if (kbd_init() < 0)
-        return -1;
-#else
     if (vic20_kbd_init() < 0)
         return -1;
-#endif
 
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface,
@@ -433,7 +424,8 @@ int machine_read_snapshot(const char *name)
         || mem_read_snapshot_module(s) < 0
         || vic_read_snapshot_module(s) < 0
         || via1_read_snapshot_module(s) < 0
-        || via2_read_snapshot_module(s) < 0)
+        || via2_read_snapshot_module(s) < 0
+        || drive_read_snapshot_module(s) < 0)
         goto fail;
 
     snapshot_close(s);

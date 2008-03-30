@@ -318,8 +318,9 @@ kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/types.h ../../../src/resources.h \
 	../../../src/cmdline.h ../../../src/utils.h kbd.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h mouse.h \
-	../../../src/types.h kbd.h ../../../src/log.h \
-	../../../src/resources.h ../../../src/cmdline.h
+	../../../src/types.h ../../../src/cmdline.h \
+	../../../src/resources.h kbd.h ../../../src/log.h ui.h xaw/ui.h \
+	../../../src/palette.h
 petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/types.h ../../../src/utils.h \
 	../../../src/resources.h ../../../src/cmdline.h kbd.h

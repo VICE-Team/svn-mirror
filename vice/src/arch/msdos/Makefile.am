@@ -23,21 +23,18 @@ libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
 	c128kbd.c \
-	c128kbd.h \
 	c128ui.c \
 	c128ui.h \
 	c610ui.c \
 	c610ui.h \
 	c610kbd.c \
-	c610kbd.h \
 	c64kbd.c \
-	c64kbd.h \
 	c64ui.c \
 	c64ui.h \
 	cbmcharsets.c \
 	cbmcharsets.h \
-        grabkey.c \
-        grabkey.h \
+	grabkey.c \
+	grabkey.h \
 	joystick.c \
 	joystick.h \
 	kbd.c \
@@ -47,7 +44,6 @@ libarch_a_SOURCES = \
 	menudefs.c \
 	menudefs.h \
 	petkbd.c \
-	petkbd.h \
 	petui.c \
 	petui.h \
 	sidui.c \
@@ -71,7 +67,6 @@ libarch_a_SOURCES = \
 	uisnapshot.c \
 	uisnapshot.h \
 	vic20kbd.c \
-	vic20kbd.h \
 	vic20ui.c \
 	vic20ui.h \
 	video.c \
