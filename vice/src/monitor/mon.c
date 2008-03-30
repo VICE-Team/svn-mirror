@@ -50,7 +50,7 @@
 #endif
 
 #include "archdep.h"
-#include "asm.h"
+/*#include "asm.h"*/
 #include "charsets.h"
 #include "console.h"
 #include "interrupt.h"
@@ -130,9 +130,8 @@ static bool inside_monitor = FALSE;
 static unsigned int instruction_count;
 static bool skip_jsrs;
 static int wait_for_return_level;
-BREAK_LIST *breakpoints[NUM_MEMSPACES];
-BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
-BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
+struct break_list_s *watchpoints_load[NUM_MEMSPACES];
+struct break_list_s *watchpoints_store[NUM_MEMSPACES];
 MEMSPACE caller_space;
 
 const char *_mon_space_strings[] = {
@@ -422,7 +421,9 @@ void mon_bank(MEMSPACE mem, const char *bankname)
     }
 
     if (bankname == NULL) {
-        const char **bnp = mon_interfaces[mem]->mem_bank_list();
+        const char **bnp;
+
+        bnp = mon_interfaces[mem]->mem_bank_list();
         uimon_out("Available banks (some may be equivalent to others):\n");
         while (*bnp) {
             uimon_out("%s\t", *bnp);
@@ -441,7 +442,7 @@ void mon_bank(MEMSPACE mem, const char *bankname)
     }
 }
 
-unsigned char mon_get_mem_val_ex(MEMSPACE mem, int bank, unsigned mem_addr)
+BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, ADDRESS mem_addr)
 {
     if (mem == e_disk8_space) {
         if (!check_drive_emu_level_ok(8))
@@ -455,12 +456,12 @@ unsigned char mon_get_mem_val_ex(MEMSPACE mem, int bank, unsigned mem_addr)
     return mon_interfaces[mem]->mem_bank_read(bank, mem_addr);
 }
 
-unsigned char mon_get_mem_val(MEMSPACE mem, unsigned mem_addr)
+BYTE mon_get_mem_val(MEMSPACE mem, ADDRESS mem_addr)
 {
     return mon_get_mem_val_ex(mem, mon_interfaces[mem]->current_bank, mem_addr);
 }
 
-void mon_set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
+void mon_set_mem_val(MEMSPACE mem, ADDRESS mem_addr, BYTE val)
 {
     int bank;
 
@@ -560,7 +561,7 @@ static void clear_buffer(void)
 }
 
 static void memory_to_string(char *buf, MEMSPACE mem, ADDRESS addr,
-                             unsigned len, bool petscii)
+                             unsigned int len, bool petscii)
 {
     int i, val;
 
@@ -689,7 +690,7 @@ void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
 
 void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
 {
-    unsigned i, cnt = 0, len, max_width, real_width;
+    unsigned int i, cnt = 0, len, max_width, real_width;
     ADDRESS addr = 0;
     char printables[50];
     MEMSPACE mem;
@@ -719,7 +720,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
     addr = addr_location(start_addr);
 
     while (cnt < len) {
-        uimon_out(">%s:%04x ", mon_memspace_string[mem],addr);
+        uimon_out(">%s:%04x ", mon_memspace_string[mem], addr);
         for (i = 0, real_width = 0; i < max_width; i++) {
             switch(radix_type) {
               case 0: /* special case == petscii text */
@@ -730,7 +731,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                 cnt++;
                 break;
               case e_decimal:
-                memset(printables,0,50);
+                memset(printables, 0, 50);
                 if (cnt < len) {
                     uimon_out("%3d ",
                               mon_get_mem_val(mem, ADDR_LIMIT(addr + i)));
@@ -752,7 +753,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                     uimon_out("   ");
                 break;
               case e_octal:
-                memset(printables,0,50);
+                memset(printables, 0, 50);
                 if (cnt < len) {
                     uimon_out("%03o ",
                               mon_get_mem_val(mem, ADDR_LIMIT(addr + i)));
@@ -762,7 +763,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                     uimon_out("    ");
                 break;
               case e_binary:
-                memset(printables,0,50);
+                memset(printables, 0, 50);
                 if (cnt < len) {
                     print_bin(mon_get_mem_val(mem, ADDR_LIMIT(addr + i)), '1',
                               '0');
@@ -812,24 +813,24 @@ void mon_display_screen(void) {
 
 void mon_display_io_regs(void)
 {
+    mem_ioreg_list_t *mem_ioreg_list, *mem_ioreg_list_base;
     MON_ADDR start,end;
 
-    /* FIXME */
-    start = new_addr(e_comp_space, 0xd000);
-    end = new_addr(e_comp_space, 0xd02e);
-    mon_display_memory(e_hexadecimal, start, end);
+    mem_ioreg_list_base
+        = mon_interfaces[default_memspace]->mem_ioreg_list_get();
 
-    start = new_addr(e_comp_space, 0xdc00);
-    end = new_addr(e_comp_space, 0xdc0f);
-    mon_display_memory(e_hexadecimal, start, end);
+    mem_ioreg_list = mem_ioreg_list_base;
 
-    start = new_addr(e_comp_space, 0xdd00);
-    end = new_addr(e_comp_space, 0xdd0f);
-    mon_display_memory(e_hexadecimal, start, end);
+    do {
+        uimon_out("%s:\n", mem_ioreg_list->name);
+        start = new_addr(default_memspace, mem_ioreg_list->start);
+        end = new_addr(default_memspace, mem_ioreg_list->end);
+        mon_display_memory(e_hexadecimal, start, end);
 
-    start = new_addr(e_comp_space, 0xd400);
-    end = new_addr(e_comp_space, 0xd41f);
-    mon_display_memory(e_hexadecimal, start, end);
+        mem_ioreg_list = mem_ioreg_list->next;
+    } while (mem_ioreg_list != NULL);
+
+    free(mem_ioreg_list_base);
 }
 
 
@@ -1375,7 +1376,7 @@ void mon_stack_down(int count)
 /* *** CONDITIONAL EXPRESSIONS *** */
 
 
-void mon_print_conditional(CONDITIONAL_NODE *cnode)
+void mon_print_conditional(cond_node_t *cnode)
 {
     /* Do an in-order traversal of the tree */
     if (cnode->is_parenthized)
@@ -1401,7 +1402,7 @@ void mon_print_conditional(CONDITIONAL_NODE *cnode)
 }
 
 
-int mon_evaluate_conditional(CONDITIONAL_NODE *cnode)
+int mon_evaluate_conditional(cond_node_t *cnode)
 {
     /* Do a post-order traversal of the tree */
     if (cnode->operation != e_INV) {
@@ -1453,7 +1454,7 @@ int mon_evaluate_conditional(CONDITIONAL_NODE *cnode)
 }
 
 
-void mon_delete_conditional(CONDITIONAL_NODE *cnode)
+void mon_delete_conditional(cond_node_t *cnode)
 {
     if (cnode) {
         if (cnode->child1)

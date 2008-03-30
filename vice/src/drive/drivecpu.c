@@ -160,6 +160,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
     mi->mem_bank_read = drive0_bank_read;
     mi->mem_bank_peek = drive0_bank_peek;
     mi->mem_bank_write = drive0_bank_store;
+    mi->mem_ioreg_list_get = drive0_ioreg_list_get;
     mi->toggle_watchpoints_func = drive0_toggle_watchpoints;
     mi->set_bank_base = drive0_set_bank_base;
 
@@ -170,6 +171,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
     mi->mem_bank_read = drive1_bank_read;
     mi->mem_bank_peek = drive1_bank_peek;
     mi->mem_bank_write = drive1_bank_store;
+    mi->mem_ioreg_list_get = drive1_ioreg_list_get;
     mi->toggle_watchpoints_func = drive1_toggle_watchpoints;
     mi->set_bank_base = drive1_set_bank_base;
 
