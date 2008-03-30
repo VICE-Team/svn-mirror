@@ -1,3 +1,30 @@
+2006-07-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.24.
+
+	* doc/html/index.html: Updated.
+
+	* doc/html/amigaos.html, doc/html/solaris.html: New files.
+
+	* doc/html/Makefile.am: Added new files.
+
+	* Makefile.am: Use `ARCH_DIR'.
+
+	* build/mingw32/linux-cross.sh: Added `STRIP' definition.
+
+2006-07-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added the makebindist* for the gp2x port.
+
+2006-07-09  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* Makefile.am, configure.in, src/config.h.in:
+	Added Mac OS X support. Defines MACOSX_SUPPORT in config.h and
+	MACOSX_COMPILE for automake.
+	Mac sound and joystick driver is only probed on Macs.
+
+	* doc/ReadmeMacOSX.txt: Updated to official port.
+
 2006-07-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.23.
