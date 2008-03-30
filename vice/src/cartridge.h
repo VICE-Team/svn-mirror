@@ -62,6 +62,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_SUPER_GAMES        8
 #define CARTRIDGE_ATOMIC_POWER       9
 #define CARTRIDGE_EPYX_FASTLOAD      10
+#define CARTRIDGE_WESTERMANN         11
 
 /* VIC20: &1 -> 0=4k, 1=8k; &16 -> 0= < 16k, 1= 16k 2nd half at $a000 */
 #define	CARTRIDGE_VIC20_DETECT		0
