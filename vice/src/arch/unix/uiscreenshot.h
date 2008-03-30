@@ -27,8 +27,6 @@
 #ifndef UISCREENSHOT_H
 #define UISCREENSHOT_H
 
-#include "uimenu.h"
-
 #define UISS_WINDOW0 (0 * 16)
 #define UISS_WINDOW1 (1 * 16)
 
