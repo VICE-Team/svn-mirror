@@ -48,7 +48,7 @@ unsigned int raster_line_get_real_mode(raster_t *raster)
 }
 
 /* Increase `area' so that it also includes [xs; xe] at line y.  */
-inline static void add_line_to_area(raster_area_t *area, unsigned int y,
+inline static void add_line_to_area(raster_canvas_area_t *area, unsigned int y,
                                     unsigned int xs, unsigned int xe)
 {
     if (area->is_null) {
@@ -89,65 +89,74 @@ inline static void update_sprite_collisions(raster_t *raster)
                                          raster->zero_gfx_msk);
 }
 
+inline static void handle_blank_line_cached(raster_t *raster)
+{
+    if (raster->dont_cache
+        || raster->cache[raster->current_line].is_dirty
+        || raster->border_color
+        != raster->cache[raster->current_line].border_color
+        || !raster->cache[raster->current_line].blank) {
+
+        /* Even when the actual caching is disabled, redraw blank lines
+           only if it is really necessary to do so.  */
+        raster->cache[raster->current_line].border_color
+            = raster->border_color;
+        raster->cache[raster->current_line].blank = 1;
+        raster->cache[raster->current_line].is_dirty = 0;
+
+        raster_line_draw_blank(raster, 0,
+                               raster->geometry->screen_size.width - 1);
+        add_line_to_area(raster->update_area,
+                         raster->current_line,
+                         0, raster->geometry->screen_size.width - 1);
+    }
+}
+
 static void handle_blank_line(raster_t *raster)
 {
-    /* Changes... Should/could be handled better.  */
-    if (raster->changes.have_on_this_line) {
+    if (raster->changes->have_on_this_line) {
         raster_changes_t *border_changes;
         unsigned int i, xs;
 
-        raster_changes_apply_all(&raster->changes.background);
-        raster_changes_apply_all(&raster->changes.foreground);
-        /* FIXME: We probably need to care for sprite drawing here */
-        raster_changes_apply_all(&raster->changes.sprites);
+        raster_changes_apply_all(raster->changes->background);
+        raster_changes_apply_all(raster->changes->foreground);
+        raster_changes_apply_all(raster->changes->sprites);
 
-        border_changes = &raster->changes.border;
+        border_changes = raster->changes->border;
 
-        for (xs = i = 0; i < border_changes->count; i++) {
-            unsigned int xe;
+        /* Only draw a blank line if there are border changes. If there
+           are no border changes just check for dirty cache.  */
+        if (border_changes->count > 0) {
+            for (xs = i = 0; i < border_changes->count; i++) {
+                unsigned int xe;
 
-            xe = border_changes->actions[i].where;
+                xe = border_changes->actions[i].where;
 
-            if (xs < xe) {
-                raster_line_draw_blank(raster, xs, xe);
-                xs = xe;
+                if (xs < xe) {
+                    raster_line_draw_blank(raster, xs, xe);
+                    xs = xe;
+                }
+
+                raster_changes_apply(border_changes, i);
             }
 
-            raster_changes_apply(border_changes, i);
-        }
+            if (xs < raster->geometry->screen_size.width - 1)
+                raster_line_draw_blank(raster, xs,
+                                       raster->geometry->screen_size.width - 1);
 
-        if (xs < raster->geometry->screen_size.width - 1)
-            raster_line_draw_blank(raster, xs,
-                                   raster->geometry->screen_size.width - 1);
-
-        raster_changes_remove_all(border_changes);
-        raster->changes.have_on_this_line = 0;
-
-        raster->cache[raster->current_line].border_color = 0xFF;
-        raster->cache[raster->current_line].blank = 1;
-
-        add_line_to_area(&raster->update_area, raster->current_line,
-                         0, raster->geometry->screen_size.width - 1);
-    } else {
-        if (raster->dont_cache
-            || raster->cache[raster->current_line].is_dirty
-            || raster->border_color
-            != raster->cache[raster->current_line].border_color
-            || !raster->cache[raster->current_line].blank) {
-
-            /* Even when the actual caching is disabled, redraw blank lines
-               only if it is really necessary to do so.  */
-            raster->cache[raster->current_line].border_color
-                = raster->border_color;
+            raster->cache[raster->current_line].border_color = 0xFF;
             raster->cache[raster->current_line].blank = 1;
-            raster->cache[raster->current_line].is_dirty = 0;
 
-            raster_line_draw_blank(raster, 0,
-                                   raster->geometry->screen_size.width - 1);
-            add_line_to_area(&raster->update_area,
-                             raster->current_line,
+            raster_changes_remove_all(border_changes);
+
+            add_line_to_area(raster->update_area, raster->current_line,
                              0, raster->geometry->screen_size.width - 1);
+        } else {
+            handle_blank_line_cached(raster);
         }
+        raster->changes->have_on_this_line = 0;
+    } else {
+        handle_blank_line_cached(raster);
     }
 
     update_sprite_collisions(raster);
@@ -335,7 +344,7 @@ inline static void handle_visible_line_with_cache(raster_t *raster)
     }
 
     if (needs_update) {
-        add_line_to_area(&raster->update_area, raster->current_line,
+        add_line_to_area(raster->update_area, raster->current_line,
                          changed_start, changed_end);
     }
 
@@ -380,12 +389,12 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
         cache->xsmooth_color = raster->xsmooth_color;
         cache->idle_background_color = raster->idle_background_color;
 
-        add_line_to_area(&raster->update_area, raster->current_line,
+        add_line_to_area(raster->update_area, raster->current_line,
                          0, raster->geometry->screen_size.width - 1);
     } else {
         /* Still do some minimal caching anyway.  */
         /* Only update the part between the borders.  */
-        add_line_to_area(&raster->update_area, raster->current_line,
+        add_line_to_area(raster->update_area, raster->current_line,
                          geometry->gfx_position.x,
                          geometry->gfx_position.x
                          + geometry->gfx_size.width - 1);
@@ -397,8 +406,10 @@ static void handle_visible_line_with_changes(raster_t *raster)
     unsigned int i;
     int xs, xstop, old_draw_idle_state, old_video_mode;
     geometry_t *geometry;
+    raster_changes_all_t *changes;
 
     geometry = raster->geometry;
+    changes = raster->changes;
 
     /* Idle state is changed in both background and foreground. As background
        changes may change the value, save the original value and restore it
@@ -407,8 +418,8 @@ static void handle_visible_line_with_changes(raster_t *raster)
     old_video_mode = raster->video_mode;
 
     /* Draw the background.  */
-    for (xs = i = 0; i < raster->changes.background.count; i++) {
-        int xe = raster->changes.background.actions[i].where;
+    for (xs = i = 0; i < changes->background->count; i++) {
+        int xe = changes->background->actions[i].where;
 
         if (xs < xe) {
             raster_modes_draw_background(raster->modes,
@@ -417,7 +428,7 @@ static void handle_visible_line_with_changes(raster_t *raster)
                                          xe - 1);
             xs = xe;
         }
-        raster_changes_apply(&raster->changes.background, i);
+        raster_changes_apply(changes->background, i);
     }
     if (xs <= (int)geometry->screen_size.width - 1)
         raster_modes_draw_background(raster->modes,
@@ -429,8 +440,8 @@ static void handle_visible_line_with_changes(raster_t *raster)
     raster->video_mode = old_video_mode;
 
     /* Draw the foreground graphics.  */
-    for (xs = i = 0; i < raster->changes.foreground.count; i++) {
-        int xe = raster->changes.foreground.actions[i].where;
+    for (xs = i = 0; i < changes->foreground->count; i++) {
+        int xe = changes->foreground->actions[i].where;
 
         if (xs < xe) {
             raster_modes_draw_foreground(raster->modes,
@@ -440,7 +451,7 @@ static void handle_visible_line_with_changes(raster_t *raster)
             xs = xe;
         }
         raster->xsmooth_shift_left = 0;
-        raster_changes_apply(&raster->changes.foreground, i);
+        raster_changes_apply(changes->foreground, i);
     }
     if (xs <= (int)geometry->text_size.width - 1)
         raster_modes_draw_foreground(raster->modes,
@@ -454,15 +465,15 @@ static void handle_visible_line_with_changes(raster_t *raster)
 #if 0
     draw_sprites(raster);
 #else
-    for (xs = 0-geometry->extra_offscreen_border_left, i = 0;
-         i < raster->changes.sprites.count; i++) {
-        int xe = raster->changes.sprites.actions[i].where;
+    for (xs = 0 - geometry->extra_offscreen_border_left, i = 0;
+        i < changes->sprites->count; i++) {
+        int xe = changes->sprites->actions[i].where;
 
         if (xs < xe) {
             draw_sprites_partial(raster, xs, xe - 1);
             xs = xe;
         }
-        raster_changes_apply(&raster->changes.sprites, i);
+        raster_changes_apply(changes->sprites, i);
     }
     if (xs <= (int)(geometry->screen_size.width 
         + geometry->extra_offscreen_border_right) - 1)
@@ -474,69 +485,69 @@ static void handle_visible_line_with_changes(raster_t *raster)
     xstop = raster->display_xstart - 1;
     if (!raster->open_left_border) {
         for (xs = i = 0;
-            (i < raster->changes.border.count
-            && raster->changes.border.actions[i].where <= xstop);
+            (i < changes->border->count
+            && changes->border->actions[i].where <= xstop);
             i++) {
-            int xe = raster->changes.border.actions[i].where;
+            int xe = changes->border->actions[i].where;
 
             if (xs < xe) {
                 raster_line_draw_blank(raster, xs, xe - 1);
                 xs = xe;
             }
-            raster_changes_apply(&raster->changes.border, i);
+            raster_changes_apply(changes->border, i);
         }
         if (xs <= xstop)
             raster_line_draw_blank(raster, xs, xstop);
     } else {
         for (i = 0;
-            (i < raster->changes.border.count
-            && raster->changes.border.actions[i].where <= xstop);
+            (i < changes->border->count
+            && changes->border->actions[i].where <= xstop);
             i++)
-            raster_changes_apply(&raster->changes.border, i);
+            raster_changes_apply(changes->border, i);
     }
 
     /* Draw right border.  */
     if (!raster->open_right_border) {
         for (;
-            (i < raster->changes.border.count
-            && (raster->changes.border.actions[i].where
+            (i < changes->border->count
+            && (changes->border->actions[i].where
             <= raster->display_xstop));
             i++)
-            raster_changes_apply(&raster->changes.border, i);
+            raster_changes_apply(changes->border, i);
         for (xs = raster->display_xstop;
-            i < raster->changes.border.count;
+            i < changes->border->count;
             i++) {
-            int xe = raster->changes.border.actions[i].where;
+            int xe = changes->border->actions[i].where;
 
             if (xs < xe) {
                 raster_line_draw_blank(raster, xs, xe - 1);
                 xs = xe;
             }
-            raster_changes_apply(&raster->changes.border, i);
+            raster_changes_apply(changes->border, i);
         }
         if (xs <= (int)geometry->screen_size.width - 1)
             raster_line_draw_blank(raster, xs, geometry->screen_size.width - 1);
     } else {
-        for (i = 0; i < raster->changes.border.count; i++)
-            raster_changes_apply(&raster->changes.border, i);
+        for (i = 0; i < changes->border->count; i++)
+            raster_changes_apply(changes->border, i);
     }
 
-    raster_changes_remove_all(&raster->changes.foreground);
-    raster_changes_remove_all(&raster->changes.background);
-    raster_changes_remove_all(&raster->changes.border);
-    raster_changes_remove_all(&raster->changes.sprites);
-    raster->changes.have_on_this_line = 0;
+    raster_changes_remove_all(changes->foreground);
+    raster_changes_remove_all(changes->background);
+    raster_changes_remove_all(changes->border);
+    raster_changes_remove_all(changes->sprites);
+    raster->changes->have_on_this_line = 0;
 
     /* Do not cache this line at all.  */
     raster->cache[raster->current_line].is_dirty = 1;
 
-    add_line_to_area(&raster->update_area, raster->current_line,
+    add_line_to_area(raster->update_area, raster->current_line,
                      0, raster->geometry->screen_size.width - 1);
 }
 
 inline static void handle_visible_line(raster_t *raster)
 {
-    if (raster->changes.have_on_this_line) {
+    if (raster->changes->have_on_this_line) {
         handle_visible_line_with_changes(raster);
     } else {
         if (raster->cache_enabled
@@ -589,12 +600,12 @@ void raster_line_emulate(raster_t *raster)
     } else {
         update_sprite_collisions(raster);
 
-        if (raster->changes.have_on_this_line) {
-            raster_changes_apply_all(&raster->changes.background);
-            raster_changes_apply_all(&raster->changes.foreground);
-            raster_changes_apply_all(&raster->changes.border);
-            raster_changes_apply_all(&raster->changes.sprites);
-            raster->changes.have_on_this_line = 0;
+        if (raster->changes->have_on_this_line) {
+            raster_changes_apply_all(raster->changes->background);
+            raster_changes_apply_all(raster->changes->foreground);
+            raster_changes_apply_all(raster->changes->border);
+            raster_changes_apply_all(raster->changes->sprites);
+            raster->changes->have_on_this_line = 0;
         }
     }
 
@@ -605,7 +616,7 @@ void raster_line_emulate(raster_t *raster)
         raster_canvas_handle_end_of_frame(raster);
     }
 
-    raster_changes_apply_all(&raster->changes.next_line);
+    raster_changes_apply_all(raster->changes->next_line);
 
     /* Handle open borders.  */
     raster->open_left_border = raster->open_right_border;
