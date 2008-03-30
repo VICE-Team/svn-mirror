@@ -29,9 +29,11 @@
 #define _VIDEOARCH_H
 
 #include "vice.h"
+
 #include "fullscreen.h"
 #include "raster/raster.h"
 #include "palette.h"
+#include "video.h"
 
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
@@ -52,13 +54,12 @@
 struct video_canvas_s {
     unsigned int width, height;
     ui_window_t emuwindow;
-    DWORD color_tab[256];
+    video_render_config_t videoconfig;
 #ifdef USE_GNOMEUI
     GdkPixmap *drawable;
 #else
     Window drawable;
     Colormap colormap;
-    int videorendermode;
 #endif
 };
 typedef struct video_canvas_s video_canvas_t;
