@@ -109,7 +109,7 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 /* Delay for the raster line interrupt.  This is not due to the VIC-II, since
    it triggers the IRQ line at the beginning of the line, but to the 6510
    that needs at least 2 cycles to detect it.  */
-#define TED_RASTER_IRQ_DELAY        2
+#define TED_RASTER_IRQ_DELAY        2 /* FIXME!!! */
 
 /* Current char being drawn by the raster.  < 0 or >= TED_SCREEN_TEXTCOLS
    if outside the visible range.  */
@@ -276,7 +276,7 @@ struct ted_s {
     /* FIXME: Bad name.  FIXME: Has to be initialized.  */
     CLOCK last_emulate_line_clk;
 
-    /* Geometry and timing parameters of the selected VIC-II emulation.  */
+    /* Geometry and timing parameters of the selected TED emulation.  */
     int screen_height;
     int first_displayed_line;
     int last_displayed_line;
@@ -293,6 +293,9 @@ struct ted_s {
 
     /* Number of lines the whole screen is shifted up.  */
     int offset;
+
+    /* TED clock mode.  */
+    unsigned int fastmode;
 };
 typedef struct ted_s ted_t;
 
@@ -304,6 +307,8 @@ extern void ted_update_memory_ptrs(unsigned int cycle);
 extern void ted_update_video_mode(unsigned int cycle);
 extern void ted_raster_draw_alarm_handler(CLOCK offset);
 extern void ted_resize(void);
+extern void ted_delay_clk(void);
+extern void ted_delay_oldclk(CLOCK num);
 
 /* Debugging options.  */
 
@@ -329,5 +334,5 @@ extern void ted_resize(void);
 #define TED_DEBUG_REGISTER(x)
 #endif
 
-#endif /* _TEDTYPES_H */
+#endif
 
