@@ -31,37 +31,128 @@
 #include <stdio.h>
 
 #include "archdep.h"
+#include "attach.h"
 #include "mem.h"
 #include "montypes.h"
 #include "mon_util.h"
+#include "serial.h"
 #include "uimon.h"
+#include "vdrive-iec.h"
+#include "vdrive.h"
+
 
 #define ADDR_LIMIT(x) ((ADDRESS)(LO16(x)))
 
-void mon_file_load(const char *filename, MON_ADDR start_addr, bool is_bload)
+
+static FILE *fp;
+static vdrive_t *vdrive;
+
+
+static int mon_file_open(const char *filename, unsigned int secondary,
+                         int device)
 {
-    FILE *fp;
+    switch (device) {
+      case 0:
+        if (secondary == 0)
+            fp = fopen(filename, MODE_READ);
+        else
+            fp = fopen(filename, MODE_WRITE);
+        break;
+      case 8:
+      case 9:
+      case 10:
+      case 11:
+        vdrive = file_system_get_vdrive((unsigned int)device);
+        if (vdrive == NULL)
+            return -1;
+
+        if (vdrive_iec_open(vdrive, filename, (int)strlen(filename),
+            secondary) != SERIAL_OK)
+            return -1;
+        break;
+    }
+    return 0;
+}
+
+static int mon_file_read(BYTE *data, unsigned int secondary, int device)
+{
+    switch (device) {
+      case 0:
+        if (fread((char *)data, 1, 1, fp) < 1)
+            return -1;
+        break;
+      case 8:
+      case 9:
+      case 10:
+      case 11:
+        if (vdrive_iec_read(vdrive, data, secondary) != SERIAL_OK)
+            return -1;
+        break;
+    }
+    return 0;
+}
+
+static int mon_file_write(BYTE data, unsigned int secondary, int device)
+{
+    switch (device) {
+      case 0:
+        if (fwrite((char *)&data, 1, 1, fp) < 1)
+            return -1;
+        break;
+      case 8:
+      case 9:
+      case 10:
+      case 11:
+        if (vdrive_iec_write(vdrive, data, secondary) != SERIAL_OK)
+            return -1;
+        break;
+    }
+    return 0;
+}
+
+static int mon_file_close(unsigned int secondary, int device)
+{
+    switch (device) {
+      case 0:
+        if (fclose(fp) != 0)
+            return -1;
+        break;
+      case 8:
+      case 9:
+      case 10:
+      case 11:
+        if (vdrive_iec_close(vdrive, secondary) != SERIAL_OK)
+            return -1;
+        break;
+    }
+    return 0;
+}
+
+
+void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
+                   bool is_bload)
+{
     ADDRESS adr;
-    int b1 = 0, b2 = 0;
+    BYTE b1 = 0, b2 = 0;
     int ch = 0;
     MEMSPACE mem;
 
-    fp = fopen(filename, MODE_READ);
-
-    if (fp == NULL) {
-        mon_out("Loading %s failed.\n", filename);
+    if (mon_file_open(filename, 0, device) < 0) {
+        mon_out("Cannot open %s.\n", filename);
         return;
     }
 
     if (is_bload == FALSE) {
-        b1 = fgetc(fp);
-        b2 = fgetc(fp);
+        mon_file_read(&b1, 0, device);
+        mon_file_read(&b2, 0, device);
     }
 
     mon_evaluate_default_addr(&start_addr);
+
     if (!mon_is_valid_addr(start_addr)) {   /* No Load address given */
         if (is_bload == TRUE) {
             mon_out("No LOAD address given.\n");
+            mon_file_close(0, device);
             return;
         }
 
@@ -81,38 +172,38 @@ void mon_file_load(const char *filename, MON_ADDR start_addr, bool is_bload)
     do {
         BYTE load_byte;
 
-        if (fread((char *)&load_byte, 1, 1, fp) < 1)
+        if (mon_file_read(&load_byte, 0, device) < 0)
             break;
         mon_set_mem_val(mem, ADDR_LIMIT(adr + ch), load_byte);
         ch ++;
     } while(1);
+    
     mon_out("%x bytes\n", ch);
 
-    if (is_bload == FALSE) {
+    if (is_bload == FALSE && (adr & 0xff) == 1) {
         /* set end of load addresses like kernal load */
         mem_set_basic_text(adr, (ADDRESS)(adr + ch));
     }
 
-    fclose(fp);
+    mon_file_close(0, device);
 }
 
-void mon_file_save(const char *filename, MON_ADDR start_addr,
+void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
                    MON_ADDR end_addr, bool is_bsave)
 {
-    FILE *fp;
     ADDRESS adr, end;
     long len;
     int ch = 0;
     MEMSPACE mem;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+
     if (len < 0) {
         mon_out("Invalid range.\n");
         return;
     }
 
     mem = addr_memspace(start_addr);
-
     adr = addr_location(start_addr);
     end = addr_location(end_addr);
 
@@ -121,33 +212,38 @@ void mon_file_save(const char *filename, MON_ADDR start_addr,
         return;
     }
 
-    fp = fopen(filename, MODE_WRITE);
-
-    if (fp == NULL) {
-        mon_out("Saving for `%s' failed.\n", filename);
-    } else {
-        printf("Saving file `%s'...\n", filename);
-
-        if (is_bsave == FALSE) {
-            fputc((BYTE)adr & 0xff, fp);
-            fputc((BYTE)(adr >> 8) & 0xff, fp);
-        }
-        do {
-            unsigned char save_byte;
-
-            save_byte = mon_get_mem_val(mem, (ADDRESS)(adr + ch));
-            if(fwrite((char *)&save_byte, 1, 1, fp) < 1) {
-                mon_out("Saving for `%s' failed.\n", filename);
-                fclose(fp);
-            }
-            ch++;
-        } while ((adr + ch) <= end);
-        fclose(fp);
+    if (mon_file_open(filename, 1, device) < 0) {
+        mon_out("Cannot open %s.\n", filename);
+        return;
     }
+
+    printf("Saving file `%s'...\n", filename);
+
+    if (is_bsave == FALSE) {
+        if (mon_file_write((BYTE)adr & 0xff, 1, device) < 0
+            || mon_file_write((BYTE)(adr >> 8) & 0xff, 1, device) < 0) {
+            mon_out("Saving for `%s' failed.\n", filename);
+            mon_file_close(1, device);
+            return;
+        }
+    }
+
+    do {
+        unsigned char save_byte;
+
+        save_byte = mon_get_mem_val(mem, (ADDRESS)(adr + ch));
+        if (mon_file_write(save_byte, 1, device) < 0) {
+            mon_out("Saving for `%s' failed.\n", filename);
+            break;
+        }
+        ch++;
+    } while ((adr + ch) <= end);
+
+    mon_file_close(1, device);
 }
 
 /* Where is the implementation?  */
-void mon_file_verify(const char *filename, MON_ADDR start_addr)
+void mon_file_verify(const char *filename, int device, MON_ADDR start_addr)
 {
     mon_evaluate_default_addr(&start_addr);
 
