@@ -189,7 +189,7 @@ int realdevice_enable(void)
     }
 
     if (!realdevice_enabled) {
-        if ((*opencbmlib.p_cbm_driver_open)(&realdevice_fd, 0) < 0) {
+        if ((*opencbmlib.p_cbm_driver_open)(&realdevice_fd, 0) != 0) {
             log_message(realdevice_log,
                         "Cannot open %s, realdevice not available!",
                         (*opencbmlib.p_cbm_get_driver_name)(0));
