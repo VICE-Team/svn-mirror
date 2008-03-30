@@ -56,6 +56,8 @@
 #define KBD_INDEX_CBM2_BDEP 5
 
 
+static int romset_firmware[7];
+
 static int sync_factor;
 
 static char *kernal_rom_name = NULL;
@@ -269,6 +271,14 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_romset_firmware(resource_value_t v, void *param)
+{
+    unsigned int num = (unsigned int)param;
+
+    romset_firmware[num] = (int)v;
+
+    return 0;
+}
 
 static const resource_t resources[] = {
     { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
@@ -277,18 +287,32 @@ static const resource_t resources[] = {
       (void *)&ramsize, set_ramsize, NULL },
     { "ChargenName", RES_STRING, (resource_value_t)CBM2_CHARGEN600,
       (void *)&chargen_name, set_chargen_rom_name, NULL },
+    { "RomsetChargenName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
     { "KernalName", RES_STRING, (resource_value_t)"kernal",
       (void *)&kernal_rom_name, set_kernal_rom_name, NULL },
+    { "RomsetKernalName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
     { "BasicName", RES_STRING, (resource_value_t)CBM2_BASIC128,
       (void *)&basic_rom_name, set_basic_rom_name, NULL },
+    { "RomsetBasicName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
     { "Cart1Name", RES_STRING, (resource_value_t)"",
       (void *)&cart_1_name, set_cart1_rom_name, NULL },
+    { "RomsetCart1Name", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[3], set_romset_firmware, (void *)3 },
     { "Cart2Name", RES_STRING, (resource_value_t)"",
       (void *)&cart_2_name, set_cart2_rom_name, NULL },
+    { "RomsetCart2Name", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[4], set_romset_firmware, (void *)4 },
     { "Cart4Name", RES_STRING, (resource_value_t)"",
       (void *)&cart_4_name, set_cart4_rom_name, NULL },
+    { "RomsetCart4Name", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[5], set_romset_firmware, (void *)5 },
     { "Cart6Name", RES_STRING, (resource_value_t)"",
       (void *)&cart_6_name, set_cart6_rom_name, NULL },
+    { "RomsetCart6Name", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[6], set_romset_firmware, (void *)6 },
     { "Ram08", RES_INTEGER, (resource_value_t)0,
       (void *)&cart08_ram, set_cart08_ram, NULL },
     { "Ram1", RES_INTEGER, (resource_value_t)0,

@@ -48,6 +48,8 @@
 #define KBD_INDEX_C128_POS  1
 
 
+static int romset_firmware[15];
+
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -401,7 +403,14 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
-/* ------------------------------------------------------------------------- */
+static int set_romset_firmware(resource_value_t v, void *param)
+{
+    unsigned int num = (unsigned int)param;
+
+    romset_firmware[num] = (int)v;
+
+    return 0;
+}
 
 static const resource_t resources[] =
 {
@@ -411,34 +420,64 @@ static const resource_t resources[] =
       (void *)&machine_type, set_machine_type, NULL },
     { "ChargenIntName", RES_STRING, (resource_value_t)"chargen",
       (void *)&chargen_int_rom_name, set_chargen_int_rom_name, NULL },
+    { "RomsetChargenIntName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
     { "ChargenDEName", RES_STRING, (resource_value_t)"chargde",
       (void *)&chargen_de_rom_name, set_chargen_de_rom_name, NULL },
+    { "RomseChargenDENamet", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
     { "ChargenFRName", RES_STRING, (resource_value_t)"chargfr",
       (void *)&chargen_fr_rom_name, set_chargen_fr_rom_name, NULL },
+    { "RomsetChargenFRName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
     { "ChargenSEName", RES_STRING, (resource_value_t)"chargse",
       (void *)&chargen_se_rom_name, set_chargen_se_rom_name, NULL },
+    { "RomsetChargenSEName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[3], set_romset_firmware, (void *)3 },
     { "KernalIntName", RES_STRING, (resource_value_t)"kernal",
       (void *)&kernal_int_rom_name, set_kernal_int_rom_name, NULL },
+    { "RomsetKernalIntName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[4], set_romset_firmware, (void *)4 },
     { "KernalDEName", RES_STRING, (resource_value_t)"kernalde",
       (void *)&kernal_de_rom_name, set_kernal_de_rom_name, NULL },
+    { "RomsetKernalDEName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[5], set_romset_firmware, (void *)5 },
     { "KernalFIName", RES_STRING, (resource_value_t)"kernalfi",
       (void *)&kernal_fi_rom_name, set_kernal_fi_rom_name, NULL },
+    { "RomsetKernalFIName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[6], set_romset_firmware, (void *)6 },
     { "KernalFRName", RES_STRING, (resource_value_t)"kernalfr",
       (void *)&kernal_fr_rom_name, set_kernal_fr_rom_name, NULL },
+    { "RomsetKernalFRName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[7], set_romset_firmware, (void *)7 },
     { "KernalITName", RES_STRING, (resource_value_t)"kernalit",
       (void *)&kernal_it_rom_name, set_kernal_it_rom_name, NULL },
+    { "RomsetKernalITName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[8], set_romset_firmware, (void *)8 },
     { "KernalNOName", RES_STRING, (resource_value_t)"kernalno",
       (void *)&kernal_no_rom_name, set_kernal_no_rom_name, NULL },
+    { "RomsetKernalNOName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[9], set_romset_firmware, (void *)9 },
     { "KernalSEName", RES_STRING, (resource_value_t)"kernalse",
       (void *)&kernal_se_rom_name, set_kernal_se_rom_name, NULL },
+    { "RomsetKernalSEName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[10], set_romset_firmware, (void *)10 },
     { "BasicLoName", RES_STRING, (resource_value_t)"basiclo",
       (void *)&basiclo_rom_name, set_basiclo_rom_name, NULL },
+    { "RomsetBasicLoName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[11], set_romset_firmware, (void *)11 },
     { "BasicHiName", RES_STRING, (resource_value_t)"basichi",
       (void *)&basichi_rom_name, set_basichi_rom_name, NULL },
+    { "RomsetBasicHiName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[12], set_romset_firmware, (void *)12 },
     { "Kernal64Name", RES_STRING, (resource_value_t)"kernal64",
       (void *)&kernal64_rom_name, set_kernal64_rom_name, NULL },
+    { "RomsetKernal64Name", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[13], set_romset_firmware, (void *)13 },
     { "Basic64Name", RES_STRING, (resource_value_t)"basic64",
       (void *)&basic64_rom_name, set_basic64_rom_name, NULL },
+    { "RomsetBasic64Name", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[14], set_romset_firmware, (void *)14 },
     { "IEEE488", RES_INTEGER, (resource_value_t)0,
       (void *)&ieee488_enabled, set_ieee488_enabled, NULL },
     { "EmuID", RES_INTEGER, (resource_value_t)0,

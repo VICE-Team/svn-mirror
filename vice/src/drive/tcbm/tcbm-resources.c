@@ -35,6 +35,8 @@
 #include "util.h"
 
 
+static int romset_firmware[1];
+
 static char *dos_rom_name_1551 = NULL;
 
 
@@ -46,9 +48,20 @@ static int set_dos_rom_name_1551(resource_value_t v, void *param)
     return tcbmrom_load_1551();
 }
 
+static int set_romset_firmware(resource_value_t v, void *param)
+{
+    unsigned int num = (unsigned int)param;
+
+    romset_firmware[num] = (int)v;
+
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "DosName1551", RES_STRING, (resource_value_t)"dos1551",
       (void *)&dos_rom_name_1551, set_dos_rom_name_1551, NULL },
+    { "RomsetDosName1551", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
     { NULL }
 };
 

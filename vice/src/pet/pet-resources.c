@@ -57,6 +57,8 @@
 int emu_id_enabled;
 
 
+static int romset_firmware[7];
+
 static int sync_factor;
 
 static int set_iosize(resource_value_t v, void *param)
@@ -280,6 +282,14 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_romset_firmware(resource_value_t v, void *param)
+{
+    unsigned int num = (unsigned int)param;
+
+    romset_firmware[num] = (int)v;
+
+    return 0;
+}
 
 static const resource_t resources[] = {
     { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
@@ -306,18 +316,32 @@ static const resource_t resources[] = {
       (void *)&petres.eoiblank, set_eoiblank_enabled, NULL },
     { "ChargenName", RES_STRING, (resource_value_t)"chargen",
       (void *)&petres.chargenName, set_chargen_rom_name, NULL },
+    { "RomsetChargenName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
     { "KernalName", RES_STRING, (resource_value_t)PET_KERNAL4NAME,
       (void *)&petres.kernalName, set_kernal_rom_name, NULL },
+    { "RomsetKernalName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
     { "EditorName", RES_STRING, (resource_value_t)PET_EDITOR4B80NAME,
       (void *)&petres.editorName, set_editor_rom_name, NULL },
+    { "RomsetEditorName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
     { "BasicName", RES_STRING, (resource_value_t)PET_BASIC4NAME,
       (void *)&petres.basicName, set_basic_rom_name, NULL },
+    { "RomsetBasicName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[3], set_romset_firmware, (void *)3 },
     { "RomModule9Name", RES_STRING, (resource_value_t)"",
       (void *)&petres.mem9name, set_rom_module_9_name, NULL },
+    { "RomsetRomModule9Name", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[4], set_romset_firmware, (void *)4 },
     { "RomModuleAName", RES_STRING, (resource_value_t)"",
       (void *)&petres.memAname, set_rom_module_a_name, NULL },
+    { "RomsetRomModuleAName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[5], set_romset_firmware, (void *)5 },
     { "RomModuleBName", RES_STRING, (resource_value_t)"",
       (void *)&petres.memBname, set_rom_module_b_name, NULL },
+    { "RomsetRomModuleBName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[6], set_romset_firmware, (void *)6 },
     { "EmuID", RES_INTEGER, (resource_value_t)0,
       (void *)&emu_id_enabled, set_emu_id_enabled, NULL },
 #ifdef COMMON_KBD

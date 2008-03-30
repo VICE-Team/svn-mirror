@@ -38,6 +38,8 @@
 #include "util.h"
 
 
+static int romset_firmware[5];
+
 static char *dos_rom_name_1541 = NULL;
 static char *dos_rom_name_1541ii = NULL;
 static char *dos_rom_name_1570 = NULL;
@@ -183,17 +185,36 @@ static int set_drive_rama(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_romset_firmware(resource_value_t v, void *param)
+{
+    unsigned int num = (unsigned int)param;
+
+    romset_firmware[num] = (int)v;
+
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "DosName1541", RES_STRING, (resource_value_t)"dos1541",
       (void *)&dos_rom_name_1541, set_dos_rom_name_1541, NULL },
+    { "RomsetDosName1541", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
     { "DosName1541ii", RES_STRING, (resource_value_t)"d1541II",
       (void *)&dos_rom_name_1541ii, set_dos_rom_name_1541ii, NULL },
+    { "RomsetDosName1541ii", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
     { "DosName1570", RES_STRING, (resource_value_t)"dos1570",
       (void *)&dos_rom_name_1570, set_dos_rom_name_1570, NULL },
+    { "RomsetDosName1570", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
     { "DosName1571", RES_STRING, (resource_value_t)"dos1571",
       (void *)&dos_rom_name_1571, set_dos_rom_name_1571, NULL },
+    { "RomsetDosName1571", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[3], set_romset_firmware, (void *)3 },
     { "DosName1581", RES_STRING, (resource_value_t)"dos1581",
       (void *)&dos_rom_name_1581, set_dos_rom_name_1581, NULL },
+    { "RomsetDosName1581", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[4], set_romset_firmware, (void *)4 },
     { NULL }
 };
 

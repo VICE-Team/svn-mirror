@@ -47,6 +47,8 @@
 #define KBD_INDEX_PLUS4_POS 1
 
 
+static int romset_firmware[4];
+
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -174,19 +176,34 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
-/* ------------------------------------------------------------------------- */
+static int set_romset_firmware(resource_value_t v, void *param)
+{
+    unsigned int num = (unsigned int)param;
+
+    romset_firmware[num] = (int)v;
+
+    return 0;
+}
 
 static const resource_t resources[] = {
     { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
       (void *)&sync_factor, set_sync_factor, NULL },
     { "KernalName", RES_STRING, (resource_value_t)"kernal",
       (void *)&kernal_rom_name, set_kernal_rom_name, NULL },
+    { "RomsetKernalName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
     { "BasicName", RES_STRING, (resource_value_t)"basic",
       (void *)&basic_rom_name, set_basic_rom_name, NULL },
+    { "RomsetBasicName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
     { "FunctionLowName", RES_STRING, (resource_value_t)"3plus1lo",
       (void *)&func_lo_rom_name, set_func_lo_rom_name, NULL },
+    { "RomsetFunctionLowName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
     { "FunctionHighName", RES_STRING, (resource_value_t)"3plus1hi",
       (void *)&func_hi_rom_name, set_func_hi_rom_name, NULL },
+    { "RomsetFunctionHighName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[3], set_romset_firmware, (void *)3 },
     { "c1loName", RES_STRING, (resource_value_t)"",
       (void *)&c1lo_rom_name, set_c1lo_rom_name, NULL },
     { "c1hiName", RES_STRING, (resource_value_t)"",
