@@ -88,85 +88,70 @@ static DWORD petreu_size_kb = 0;
 /* Filename of the PET REU image.  */
 static char *petreu_filename = NULL;
 
-static int set_petreu_enabled(resource_value_t v, void *param)
+static int set_petreu_enabled(int val, void *param)
 {
-  if (!(int)v)
-  {
-    if (petreu_enabled)
-    {
-      if (petreu_deactivate() < 0)
-      {
-        return -1;
-      }
+    if (!val) {
+        if (petreu_enabled) {
+            if (petreu_deactivate() < 0) {
+                return -1;
+            }
+        }
+        petreu_enabled = 0;
+        return 0;
+    } else {
+        if (!petreu_enabled) {
+            if (petreu_activate() < 0) {
+                return -1;
+            }
+        }
+        petreu_enabled = 1;
+        return 0;
     }
-    petreu_enabled = 0;
-    return 0;
-  }
-  else
-  { 
-    if (!petreu_enabled)
-    {
-      if (petreu_activate() < 0)
-      {
-        return -1;
-      }
-    }
-    petreu_enabled = 1;
-    return 0;
-  }
 }
 
 /* for now this function is used for only 128kb, but future
    use will be for the 512kb/1mb/2mb versions. */
-static int set_petreu_size(resource_value_t v, void *param)
+static int set_petreu_size(int val, void *param)
 {
-  if ((DWORD)v == petreu_size_kb)
+    if ((DWORD)val == petreu_size_kb)
+        return 0;
+
+    switch ((DWORD)val) {
+      case 128:
+        break;
+      default:
+        log_message(petreu_log, "Unknown PET REU size %ld.", (long)val);
+        return -1;
+    }
+
+    if (petreu_enabled) {
+        petreu_deactivate();
+        petreu_size_kb = (DWORD)val;
+        petreu_size = petreu_size_kb << 10;
+        petreu_activate();
+    } else {
+        petreu_size_kb = (DWORD)val;
+        petreu_size = petreu_size_kb << 10;
+    }
+
     return 0;
-
-  switch ((DWORD)v)
-  {
-    case 128:
-      break;
-    default:
-      log_message(petreu_log, "Unknown PET REU size %ld.", (long)v);
-      return -1;
-  }
-
-  if (petreu_enabled)
-  {
-    petreu_deactivate();
-    petreu_size_kb = (DWORD)v;
-    petreu_size = petreu_size_kb << 10;
-    petreu_activate();
-  }
-  else
-  {
-    petreu_size_kb = (DWORD)v;
-    petreu_size = petreu_size_kb << 10;
-  }
-
-  return 0;
 }
 
-static int set_petreu_filename(resource_value_t v, void *param)
+static int set_petreu_filename(const char *name, void *param)
 {
-  const char *name = (const char *)v;
+    if (petreu_filename != NULL && name != NULL
+        && strcmp(name, petreu_filename) == 0)
+        return 0;
 
-  if (petreu_filename != NULL && name != NULL
-      && strcmp(name, petreu_filename) == 0)
+    if (petreu_enabled) {
+        petreu_deactivate();
+        util_string_set(&petreu_filename, name);
+        petreu_activate();
+    } else {
+        util_string_set(&petreu_filename, name);
+    }
+
     return 0;
-
-  if (petreu_enabled)
-  {
-    petreu_deactivate();
-    util_string_set(&petreu_filename, name);
-    petreu_activate();
-  }
-  else
-  {
-    util_string_set(&petreu_filename, name);
-  }
-  return 0;
 }
 
 static const resource_string_t resources_string[] = {
@@ -193,7 +178,7 @@ int petreu_resources_init(void)
 
 void petreu_resources_shutdown(void)
 {
-  lib_free(petreu_filename);
+    lib_free(petreu_filename);
 }
 
 /* ------------------------------------------------------------------------- */

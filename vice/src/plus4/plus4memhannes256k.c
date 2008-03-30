@@ -46,58 +46,56 @@
 #include "types.h"
 #include "uiapi.h"
 
+
 /* HANNES 256K registers */
-static BYTE h256k_reg=0;
+static BYTE h256k_reg = 0;
 
 static log_t h256k_log = LOG_ERR;
 
 static int h256k_activate(int type);
 static int h256k_deactivate(void);
 
-int h256k_enabled=0;
+int h256k_enabled = 0;
 
-static int h256k_bank=3;
-static int h256k_bound=1;
+static int h256k_bank = 3;
+static int h256k_bound = 1;
 
-BYTE *h256k_ram=NULL;
+BYTE *h256k_ram = NULL;
 
-static int set_h256k_enabled(resource_value_t v, void *param)
+
+static int set_h256k_enabled(int val, void *param)
 {
-  if ((int)v<0 || (int)v>3)
-    return -1;
+    if (val < 0 || val > 3)
+        return -1;
 
-  if (!(int)v)
-  {
-    if (h256k_enabled)
-    {
-      if (h256k_deactivate() < 0)
-      {
-        return -1;
-      }
+    if (!val) {
+        if (h256k_enabled) {
+            if (h256k_deactivate() < 0) {
+                return -1;
+            }
+        }
+        h256k_enabled = 0;
+        return 0;
+    } else {
+        if (!h256k_enabled || h256k_enabled != val) {
+            if (h256k_activate(val) < 0) {
+                return -1;
+            }
+        }
+
+        h256k_enabled = val;
+
+        if (cs256k_enabled)
+            resources_set_value("CS256K", (resource_value_t)0);
+        if (h256k_enabled==1)
+            resources_set_value("RamSize", (resource_value_t)256);
+        if (h256k_enabled==2)
+            resources_set_value("RamSize", (resource_value_t)1024);
+        if (h256k_enabled==3)
+            resources_set_value("RamSize", (resource_value_t)4096);
+
+        return 0;
     }
-    h256k_enabled = 0;
-    return 0;
-  }
-  else
-  { 
-    if (!h256k_enabled || h256k_enabled!=(int)v)
-    {
-      if (h256k_activate((int)v) < 0)
-      {
-        return -1;
-      }
-    }
-    h256k_enabled = (int)v;
-    if (cs256k_enabled)
-      resources_set_value("CS256K", (resource_value_t)0);
-    if (h256k_enabled==1)
-      resources_set_value("RamSize", (resource_value_t)256);
-    if (h256k_enabled==2)
-      resources_set_value("RamSize", (resource_value_t)1024);
-    if (h256k_enabled==3)
-      resources_set_value("RamSize", (resource_value_t)4096);
-    return 0;
-  }
 }
 
 static const resource_int_t resources_int[] = {

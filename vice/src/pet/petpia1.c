@@ -88,9 +88,9 @@ static void my_restore_int(unsigned int pia_int_num, int a)
 /* Flag: is the diagnostic pin enabled?  */
 static int diagnostic_pin_enabled;
 
-static int set_diagnostic_pin_enabled(resource_value_t v, void *param)
+static int set_diagnostic_pin_enabled(int val, void *param)
 {
-    diagnostic_pin_enabled = (int)v;
+    diagnostic_pin_enabled = val;
     return 0;
 }
 
