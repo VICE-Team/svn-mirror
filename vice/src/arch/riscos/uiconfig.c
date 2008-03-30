@@ -253,7 +253,7 @@ static struct MenuSoundOver {
   }
 };
 
-#define Menu_SoundBuffer_Items	8
+#define Menu_SoundBuffer_Items	9
 #define Menu_SoundBuffer_Width	200
 static struct MenuSoundBuffer {
   RO_MenuHead head;
@@ -268,7 +268,8 @@ static struct MenuSoundBuffer {
     MENU_ITEM("\\MenSBf10"),
     MENU_ITEM("\\MenSBf20"),
     MENU_ITEM("\\MenSBf35"),
-    MENU_ITEM_LAST("\\MenSBf50")
+    MENU_ITEM("\\MenSBf50"),
+    MENU_ITEM_LAST("\\MenSBf100")
   }
 };
 
@@ -532,7 +533,7 @@ static struct MenuSerialBaud {
   }
 };
 
-#define Menu_Cartridge_Items	23
+#define Menu_Cartridge_Items	22
 #define Menu_Cartridge_Width	200
 static struct MenuCartridgeType {
   RO_MenuHead head;
@@ -553,7 +554,7 @@ static struct MenuCartridgeType {
     MENU_ITEM("\\MenCrtFin1"),
     MENU_ITEM("\\MenCrtFin3"),
     MENU_ITEM("\\MenCrtOcn"),
-    MENU_ITEM("\\MenCrtOcHg"),
+    /*MENU_ITEM("\\MenCrtOcHg"),*/
     MENU_ITEM("\\MenCrtFun"),
     MENU_ITEM("\\MenCrtSGm"),
     MENU_ITEM("\\MenCrtIEEE"),
@@ -1000,7 +1001,7 @@ static struct MenuDisplayCartridgeType {
   {CARTRIDGE_NONE, CARTRIDGE_GENERIC_8KB, CARTRIDGE_GENERIC_16KB, CARTRIDGE_CRT,
    CARTRIDGE_ACTION_REPLAY, CARTRIDGE_KCS_POWER, CARTRIDGE_SIMONS_BASIC,
    CARTRIDGE_ULTIMAX, CARTRIDGE_SUPER_SNAPSHOT, CARTRIDGE_SUPER_SNAPSHOT_V5,
-   CARTRIDGE_FINAL_I, CARTRIDGE_FINAL_III, CARTRIDGE_OCEAN, CARTRIDGE_OCEAN_HUGE,
+   CARTRIDGE_FINAL_I, CARTRIDGE_FINAL_III, CARTRIDGE_OCEAN, /*CARTRIDGE_OCEAN_HUGE,*/
    CARTRIDGE_FUNPLAY, CARTRIDGE_SUPER_GAMES, CARTRIDGE_IEEE488, CARTRIDGE_ATOMIC_POWER,
    CARTRIDGE_EPYX_FASTLOAD, CARTRIDGE_WESTERMANN, CARTRIDGE_WESTERMANN, CARTRIDGE_REX,
    CARTRIDGE_GS}
@@ -1154,7 +1155,7 @@ static struct MenuDisplaySoundBuffer {
 } MenuDisplaySoundBuffer = {
   {Rsrc_SndBuff, {CONF_WIN_SOUND, Icon_Conf_SoundBuffT},
     (RO_MenuHead*)&MenuSoundBuffer, Menu_SoundBuffer_Items, 0, 0},
-  {20, 40, 60, 80, 100, 200, 350, 500}
+  {20, 40, 60, 80, 100, 200, 350, 500, 1000}
 };
 
 #define DISP_JOYSTICK_DEVICE_MENU(n) \

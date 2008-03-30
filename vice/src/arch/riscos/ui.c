@@ -147,7 +147,7 @@ static const char PRGFileExtension[] = "prg";
 #define Well_Border		12
 
 /* Maximum sound latency (ms) */
-#define Maximum_Latency		500
+#define Maximum_Latency		1000
 
 
 /* Menu definitions */
@@ -270,6 +270,7 @@ static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
 static int DoCoreDump = 0;
 static int DatasetteCounter = -1;
+static int FramesPerSecond = 50;
 static int WimpBlock[64];
 
 static int SnapshotPending = 0;
@@ -484,7 +485,6 @@ int EmuZoom;
 int LastPoll;
 int LastSpeed;
 int LastFrame;
-int FrameCS;
 int NumberOfFrames = 0;
 int RelativeSpeed = 100;
 int EmuPaused;
@@ -839,6 +839,7 @@ static const char Rsrc_DriveF8[] = "DriveFile8";
 static const char Rsrc_DriveF9[] = "DriveFile9";
 static const char Rsrc_DriveF10[] = "DriveFile10";
 static const char Rsrc_DriveF11[] = "DriveFile11";
+static const char Rsrc_TrueSync[] = "VideoStandard";
 static const char Rsrc_TapeFile[] = "TapeFile";
 static const char Rsrc_Conv8P00[] = "FSDevice8ConvertP00";
 static const char Rsrc_Conv9P00[] = "FSDevice9ConvertP00";
@@ -1000,7 +1001,6 @@ static int set_tape_file(resource_value_t v, void *param)
 static int set_speed_limit(resource_value_t v, void *param)
 {
   SpeedLimit = (int)v;
-  FrameCS = (SpeedLimit == 0) ? 0 : 200/SpeedLimit;
 
   return 0;
 }
@@ -1468,77 +1468,89 @@ static void ui_set_menu_display_value(const disp_desc_t *dd, int number)
 
 static int ui_set_drive_image(int number, const char *file)
 {
-  int info[4];
-
-  if ((ReadCatalogueInfo(file, info) & 1) == 0) return -1;
-  file_system_detach_disk(8 + number);
-  if (file_system_attach_disk(8 + number, file) == 0)
+  if (!vsid_mode)
   {
-    string_set(DriveFiles[number], file);
-    *(DriveTypes[number]) = DRIVE_TYPE_DISK;
-    wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], file);
-    return 0;
+    int info[4];
+
+    if ((ReadCatalogueInfo(file, info) & 1) == 0) return -1;
+    file_system_detach_disk(8 + number);
+    if (file_system_attach_disk(8 + number, file) == 0)
+    {
+      string_set(DriveFiles[number], file);
+      *(DriveTypes[number]) = DRIVE_TYPE_DISK;
+      wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], file);
+      return 0;
+    }
+    return -1;
   }
-  return -1;
+  return 0;	/* just ignore, no error */
 }
 
 
 static int ui_set_drive_dir(int number, const char *dir)
 {
-  int info[4];
+  if (!vsid_mode)
+  {
+    int info[4];
 
-  if ((ReadCatalogueInfo(dir, info) & 2) == 0) return -1;
-  file_system_detach_disk(8 + number);
-  fsdevice_set_directory((char*)dir, 8 + number);
-  string_set(DriveFiles[number], dir);
-  *(DriveTypes[number]) = DRIVE_TYPE_FS;
-  wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], dir);
+    if ((ReadCatalogueInfo(dir, info) & 2) == 0) return -1;
+    file_system_detach_disk(8 + number);
+    fsdevice_set_directory((char*)dir, 8 + number);
+    string_set(DriveFiles[number], dir);
+    *(DriveTypes[number]) = DRIVE_TYPE_FS;
+    wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], dir);
+  }
   return 0;
 }
 
 
 static void ui_detach_drive_image(int number)
 {
-  RO_MenuHead *menu;
-  RO_MenuItem *item;
+  if (!vsid_mode)
+  {
+    RO_MenuHead *menu;
+    RO_MenuItem *item;
 
-  menu = ConfigMenus[CONF_MENU_DRIVE8 + number].menu;
-  item = (RO_MenuItem*)(menu + 1);
-  ui_set_drive_dir(number, "@");
-  wimp_menu_set_grey_all(item[Menu_DriveType_Disk].submenu, 1);
-  wimp_menu_set_grey_all(item[Menu_DriveType_FS].submenu, 0);
-  wimp_menu_tick_exclusive(menu, Menu_DriveType_FS);
+    menu = ConfigMenus[CONF_MENU_DRIVE8 + number].menu;
+    item = (RO_MenuItem*)(menu + 1);
+    ui_set_drive_dir(number, "@");
+    wimp_menu_set_grey_all(item[Menu_DriveType_Disk].submenu, 1);
+    wimp_menu_set_grey_all(item[Menu_DriveType_FS].submenu, 0);
+    wimp_menu_tick_exclusive(menu, Menu_DriveType_FS);
+  }
 }
 
 
 static int ui_set_tape_image(const char *name)
 {
-  RO_Window *win;
-  int state;
-
-  win = ConfWindows[CONF_WIN_TAPE];
-
-  if ((name == NULL) || (wimp_strlen(name) == 0))
+  if (!vsid_mode)
   {
-    if (tape_detach_image() != 0)
-      return -1;
+    RO_Window *win;
+    int state;
 
-    string_set(&TapeFile, "");
-    wimp_window_write_icon_text(win, Icon_Conf_TapeFile, TapeFile);
-    state = 0;
+    win = ConfWindows[CONF_WIN_TAPE];
+
+    if ((name == NULL) || (wimp_strlen(name) == 0))
+    {
+      if (tape_detach_image() != 0)
+        return -1;
+
+      string_set(&TapeFile, "");
+      wimp_window_write_icon_text(win, Icon_Conf_TapeFile, TapeFile);
+      state = 0;
+    }
+    else
+    {
+      if (tape_attach_image(name) != 0)
+        return -1;
+
+      string_set(&TapeFile, name);
+      wimp_window_write_icon_text(win, Icon_Conf_TapeFile, name);
+      state = 1;
+    }
+
+    ui_set_icons_grey(NULL, TapeFileDependentIcons, state);
   }
-  else
-  {
-    if (tape_attach_image(name) != 0)
-      return -1;
-
-    string_set(&TapeFile, name);
-    wimp_window_write_icon_text(win, Icon_Conf_TapeFile, name);
-    state = 1;
-  }
-
-  ui_set_icons_grey(NULL, TapeFileDependentIcons, state);
-
   return 0;
 }
 
@@ -2098,6 +2110,9 @@ int ui_init(int *argc, char *argv[])
 
   wimp_read_screen_mode(&ScreenMode);
 
+  if (vsid_mode)
+    WimpTaskName = "Vice VSID";
+
   LastPoll = OS_ReadMonotonicTime(); LastSpeed = LastPoll; LastFrame = LastPoll;
 
   TaskHandle = Wimp_Initialise(310, TASK_WORD, WimpTaskName, (int*)WimpMessages);
@@ -2192,7 +2207,7 @@ int ui_init(int *argc, char *argv[])
 
   wimp_window_write_title(EmuWindow, EmuTitle);
 
-  sprintf(buffer, SymbolStrings[Symbol_Purpose], machine_name);
+  sprintf(buffer, SymbolStrings[Symbol_Purpose], (vsid_mode) ? "SID" : machine_name);
   wimp_window_write_icon_text(InfoWindow, Icon_Info_Purpose, buffer);
   sprintf(buffer, "%s (%s)", VERSION, SymbolStrings[Symbol_Date]);
   wimp_window_write_icon_text(InfoWindow, Icon_Info_Version, buffer);
@@ -2277,7 +2292,6 @@ int ui_init_finish(void)
   if (resources_get_value(Rsrc_Sound, &val) == 0)
     ui_set_sound_enable((int)val);
 
-  FrameCS = (SpeedLimit == 0) ? 0 : 200/SpeedLimit;
   LastSpeedLimit = SpeedLimit;
 
   CMOS_DragType = ReadDragType();
@@ -2318,11 +2332,21 @@ int ui_init_finish(void)
     wimp_menu_set_grey_item(men, Menu_EmuWin_Fliplist, 1);
     wimp_menu_set_grey_item(men, Menu_EmuWin_Snapshot, 1);
     wimp_menu_set_grey_item(men, Menu_EmuWin_Screenshot, 1);
+    wimp_menu_set_grey_item(men, Menu_EmuWin_Freeze, 1);
     wimp_menu_set_grey_item(men, Menu_EmuWin_Pane, 1);
+    wimp_menu_set_grey_item(men, Menu_EmuWin_Active, 1);
     wimp_menu_set_grey_item(men, Menu_EmuWin_TrueDrvEmu, 1);
+    wimp_menu_set_grey_item(men, Menu_EmuWin_Datasette, 1);
 
     men = (RO_MenuHead*)&MenuIconBar;
+    wimp_menu_set_grey_item(men, Menu_IBar_CreateDisc, 1);
     wimp_menu_set_grey_item(men, Menu_IBar_FullScreen, 1);
+
+    men = (RO_MenuHead*)&MenuConfigure;
+    wimp_menu_set_grey_item(men, Menu_Config_Drives, 1);
+    wimp_menu_set_grey_item(men, Menu_Config_Tape, 1);
+    wimp_menu_set_grey_item(men, Menu_Config_Devices, 1);
+    wimp_menu_set_grey_item(men, Menu_Config_Joystick, 1);
   }
 
   ui_set_pane_state(ShowEmuPane);
@@ -2856,168 +2880,389 @@ static int ui_create_new_disc_image(void)
 }
 
 
-static void ui_mouse_click(int *b)
+/*
+ *  Mouse click handlers
+ */
+static void ui_mouse_click_pane(int *b)
 {
-  if (b[MouseB_Window] == EmuPane->Handle)
+  if (b[MouseB_Buttons] != 2)
   {
-    if (b[MouseB_Buttons] != 2)
+    switch (b[MouseB_Icon])
     {
-      switch (b[MouseB_Icon])
-      {
-        case Icon_Pane_Toggle:
-          {
-            RO_Window *win;
-            canvas_t *canvas;
-            int block[WindowB_WFlags+1];
-            int dx, dy;
+      case Icon_Pane_Toggle:
+        {
+          RO_Window *win;
+          canvas_t *canvas;
+          int block[WindowB_WFlags+1];
+          int dx, dy;
 
-            canvas = ActiveCanvas; win = canvas->window;
-            canvas->scale = (canvas->scale == 1) ? 2 : 1;
-            ui_show_emu_scale();
-            ui_set_emu_window_size(win);
-            block[WindowB_Handle] = win->Handle;
-            Wimp_GetWindowState(block);
-            dx = win->wmaxx - win->wminx;
-            dy = win->wmaxy - win->wminy;
-            block[WindowB_VMaxX] = block[WindowB_VMinX] + dx;
-            block[WindowB_VMinY] = block[WindowB_VMaxY] - dy;
-            Wimp_OpenWindow(block);
-            Wimp_GetWindowState(block);
-            ui_open_emu_window(win, block);
-            Wimp_ForceRedraw(win->Handle, 0, -dy, dx, 0);
-          }
-          break;
-        case Icon_Pane_Reset:
-          if (b[MouseB_Buttons] == 1) mem_powerup();	/* adjust ==> hard reset */
-          ui_issue_reset(1);
-          break;
-        case Icon_Pane_Pause:
-          EmuPaused ^= 1;
-          ui_display_paused(EmuPaused);
-          break;
-        case Icon_Pane_Speed:
-          DisplayFPS ^= 1;
-          break;
-        case Icon_Pane_TrkSec:
-          if (TrueDriveEmulation != 0)
-          {
-            DisplayDriveTrack ^= 1;
-            ui_display_drive_track_int(DisplayDriveTrack, DriveTrackNumbers[DisplayDriveTrack]);
-          }
-          break;
-        default:
-          break;
-      }
-    }
-    else
-    {
-      int wblock[WindowB_WFlags+1];
-      int iblock[IconB_Data2+1];
-      int posx, posy;
-
-      wblock[WindowB_Handle] = EmuPane->Handle;
-      Wimp_GetWindowState(wblock);
-      iblock[IconB_Handle] = EmuPane->Handle;
-      iblock[IconB_Number] = Icon_Pane_Drive0;
-      Wimp_GetIconState(iblock);
-      posx = b[MouseB_PosX] - wblock[WindowB_VMinX];
-      posy = b[MouseB_PosY] - wblock[WindowB_VMaxY];
-      if (((posx >= iblock[IconB_MinX]) && (posx <= iblock[IconB_MaxX])) &&
-          ((posy >= iblock[IconB_MinY]) && (posy <= iblock[IconB_MaxY])))
-      {
-        RO_MenuHead *menu;
-
-        menu = MenuFliplist.item[Menu_Fliplist_Images].submenu;
-        Wimp_CreateMenu((int*)menu, b[MouseB_PosX], b[MouseB_PosY]);
-        LastMenu = Menu_Images;
-      }
-    }
-  }
-  else if ((vsid_mode) && (b[MouseB_Window] == VSidWindow->Handle))
-  {
-    if (b[MouseB_Buttons] == 2)
-    {
-      Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
-      LastHandle = VSidWindow->Handle;
-      LastMenu = Menu_Emulator;
-    }
-    else
-    {
-      vsid_ui_mouse_click(b);
+          canvas = ActiveCanvas; win = canvas->window;
+          canvas->scale = (canvas->scale == 1) ? 2 : 1;
+          ui_show_emu_scale();
+          ui_set_emu_window_size(win);
+          block[WindowB_Handle] = win->Handle;
+          Wimp_GetWindowState(block);
+          dx = win->wmaxx - win->wminx;
+          dy = win->wmaxy - win->wminy;
+          block[WindowB_VMaxX] = block[WindowB_VMinX] + dx;
+          block[WindowB_VMinY] = block[WindowB_VMaxY] - dy;
+          Wimp_OpenWindow(block);
+          Wimp_GetWindowState(block);
+          ui_open_emu_window(win, block);
+          Wimp_ForceRedraw(win->Handle, 0, -dy, dx, 0);
+        }
+        break;
+      case Icon_Pane_Reset:
+        if (b[MouseB_Buttons] == 1) mem_powerup();	/* adjust ==> hard reset */
+        ui_issue_reset(1);
+        break;
+      case Icon_Pane_Pause:
+        EmuPaused ^= 1;
+        ui_display_paused(EmuPaused);
+        break;
+      case Icon_Pane_Speed:
+        DisplayFPS ^= 1;
+        break;
+      case Icon_Pane_TrkSec:
+        if (TrueDriveEmulation != 0)
+        {
+          DisplayDriveTrack ^= 1;
+          ui_display_drive_track_int(DisplayDriveTrack, DriveTrackNumbers[DisplayDriveTrack]);
+        }
+        break;
+      default:
+        break;
     }
   }
   else
   {
-    canvas_t *canvas;
+    int wblock[WindowB_WFlags+1];
+    int iblock[IconB_Data2+1];
+    int posx, posy;
 
-    canvas = canvas_for_handle(b[MouseB_Window]);
-
-    if (canvas != NULL)
+    wblock[WindowB_Handle] = EmuPane->Handle;
+    Wimp_GetWindowState(wblock);
+    iblock[IconB_Handle] = EmuPane->Handle;
+    iblock[IconB_Number] = Icon_Pane_Drive0;
+    Wimp_GetIconState(iblock);
+    posx = b[MouseB_PosX] - wblock[WindowB_VMinX];
+    posy = b[MouseB_PosY] - wblock[WindowB_VMaxY];
+    if (((posx >= iblock[IconB_MinX]) && (posx <= iblock[IconB_MaxX])) &&
+        ((posy >= iblock[IconB_MinY]) && (posy <= iblock[IconB_MaxY])))
     {
-      if (b[MouseB_Buttons] == 2)
-      {
-         wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Active, (canvas_get_number() <= 1));
-         wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Screenshot, 0);
-         Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
-         LastHandle = canvas->window->Handle;
-         LastMenu = Menu_Emulator;
-      }
-      else
+      RO_MenuHead *menu;
+
+      menu = MenuFliplist.item[Menu_Fliplist_Images].submenu;
+      Wimp_CreateMenu((int*)menu, b[MouseB_PosX], b[MouseB_PosY]);
+      LastMenu = Menu_Images;
+    }
+  }
+}
+
+static void ui_mouse_click_vsid(int *b)
+{
+  if (b[MouseB_Buttons] == 2)
+  {
+    Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
+    LastHandle = VSidWindow->Handle;
+    LastMenu = Menu_Emulator;
+  }
+  else
+  {
+    vsid_ui_mouse_click(b);
+  }
+}
+
+static void ui_mouse_click_canvas(int *b)
+{
+  canvas_t *canvas;
+
+  canvas = canvas_for_handle(b[MouseB_Window]);
+
+  if (canvas != NULL)
+  {
+    if (b[MouseB_Buttons] == 2)
+    {
+       wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Active, (canvas_get_number() <= 1));
+       wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Screenshot, 0);
+       Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
+       LastHandle = canvas->window->Handle;
+       LastMenu = Menu_Emulator;
+    }
+    else
+    {
+      Wimp_GetCaretPosition(&LastCaret);
+      Wimp_SetCaretPosition(canvas->window->Handle, -1, -100, 100, -1, -1);
+    }
+    return;
+  }
+}
+
+static void ui_mouse_click_ibar(int *b)
+{
+  if (b[MouseB_Buttons] == 2)
+  {
+    Wimp_CreateMenu((int*)(&MenuIconBar), b[MouseB_PosX] - MenuIconBar.head.width / 2, 96 + Menu_Height*Menu_IBar_Items);
+    LastMenu = Menu_IBar;
+  }
+  else if (b[MouseB_Buttons] == 4)
+  {
+    int block[WindowB_WFlags+1];
+
+    if (vsid_mode)
+    {
+      ui_open_vsid_window(block);
+    }
+    else
+    {
+      RO_Window *win;
+      int gainCaret = 0;
+
+      win = (ActiveCanvas == NULL) ? EmuWindow : ActiveCanvas->window;
+      if (ui_open_centered_or_raise_block(win, block) == 0)
+        gainCaret = 1;
+      ui_open_emu_window(win, block);
+      if (gainCaret != 0)
       {
         Wimp_GetCaretPosition(&LastCaret);
-        Wimp_SetCaretPosition(canvas->window->Handle, -1, -100, 100, -1, -1);
+        Wimp_SetCaretPosition(win->Handle, -1, -100, 100, -1, -1);
       }
-      return;
+
+      /* reverse autopause? */
+      if ((AutoPauseEmu != 0) && (WasAutoPaused != 0))
+      {
+        WasAutoPaused = 0;
+        if (EmuPaused != 0)
+        {
+          EmuPaused = 0;
+          ui_display_paused(EmuPaused);
+        }
+      }
     }
+  }
+  else if (b[MouseB_Buttons] == 1)
+  {
+    /* open default config window */
+    ui_open_config_window((vsid_mode) ? CONF_WIN_SOUND : CONF_WIN_DRIVES);
+  }
+}
+
+static int ui_mouse_click_config(int *b, int wnum)
+{
+  RO_Window *win = ConfWindows[wnum];
+  int i;
+
+  for (i=0; ConfigMenus[i].menu != NULL; i++)
+  {
+    if ((ConfigMenus[i].id.win == wnum) && (ConfigMenus[i].id.icon == b[MouseB_Icon]))
+    {
+      RO_MenuHead *menu = ConfigMenus[i].menu;
+      RO_Icon *icon;
+      int wb[WindowB_WFlags+1];
+
+      icon = wimp_window_get_icon(win, ConfigMenus[i].id.icon);
+      wb[WindowB_Handle] = win->Handle;
+      Wimp_GetWindowState(wb);	/* For absolute coordinates of menu item */
+
+      switch (i)
+      {
+        case CONF_MENU_DRIVE8:
+        case CONF_MENU_DRIVE9:
+        case CONF_MENU_DRIVE10:
+        case CONF_MENU_DRIVE11:
+          {
+            serial_t *sd;
+            int number = i-CONF_MENU_DRIVE8;
+            int j = -1;
+            unsigned int flags;
+            int state;
+            RO_MenuItem *item;
+            RO_MenuHead *submenu;
+
+            item = (RO_MenuItem*)(ConfigMenus[i].menu + 1);
+            submenu = item[Menu_DriveType_FS].submenu;
+            sd = serial_get_device(number + 8);
+            if (strstr(sd->name, "Disk Drive") != NULL)
+            {
+              j = Menu_DriveType_Disk;
+              *(DriveTypes[number]) = DRIVE_TYPE_DISK;
+            }
+            else if (strstr(sd->name, "FS Drive") != NULL)
+            {
+              j = Menu_DriveType_FS;
+              *(DriveTypes[number]) = DRIVE_TYPE_FS;
+            }
+            /* Configure submenu */
+            flags = 0;
+            if (resources_get_value(Rsrc_ConvP00[number], (resource_value_t*)&state) == 0)
+            {
+              if (state != 0) flags |= (1<<Menu_DriveFS_ConvP00);
+            }
+            if (resources_get_value(Rsrc_SaveP00[number], (resource_value_t*)&state) == 0)
+            {
+              if (state != 0) flags |= (1<<Menu_DriveFS_SaveP00);
+            }
+            if (resources_get_value(Rsrc_HideCBM[number], (resource_value_t*)&state) == 0)
+            {
+              if (state != 0) flags |= (1<<Menu_DriveFS_HideCBM);
+            }
+            if (j >= 0)
+            {
+              wimp_menu_tick_exclusive(menu, j);
+              wimp_menu_set_grey_all(submenu, (j != Menu_DriveType_FS));
+              wimp_menu_set_grey_all(item[Menu_DriveType_Disk].submenu, (j != Menu_DriveType_Disk));
+              wimp_menu_tick_slct(submenu, flags);
+            }
+          }
+        default:
+          break;
+      }
+      LastMenu = 256 + i;
+      Wimp_CreateMenu((int*)menu, wb[WindowB_VMinX] - wb[WindowB_ScrollX] + icon->maxx, wb[WindowB_VMaxY] - wb[WindowB_ScrollY] + icon->maxy);
+      break;
+    }
+  }
+  return (ConfigMenus[i].menu != NULL);
+}
+
+static int ui_mouse_click_conf_misc(int *b, int wnum)
+{
+  RO_Window *win = ConfWindows[wnum];
+
+  if (b[MouseB_Window] == ConfWindows[CONF_WIN_DEVICES]->Handle)
+  {
+    if (b[MouseB_Icon] == Icon_Conf_FileRsOK)
+    {
+      char *fn;
+
+      if ((fn = wimp_window_read_icon_text(win, Icon_Conf_FileRsPath)) != NULL)
+        ui_set_serial_file(wimp_strterm(fn));
+    }
+    else if (b[MouseB_Icon] == Icon_Conf_FilePrOK)
+    {
+      char *fn;
+
+      if ((fn = wimp_window_read_icon_text(win, Icon_Conf_FilePrPath)) != NULL)
+        ui_set_printer_file(wimp_strterm(fn));
+    }
+  }
+  else if (b[MouseB_Window] == ConfWindows[CONF_WIN_SOUND]->Handle)
+  {
+    if (b[MouseB_Icon] == Icon_Conf_FileSndOK)
+    {
+      char *fn;
+
+      if ((fn = wimp_window_read_icon_text(win, Icon_Conf_FileSndPath)) != NULL)
+        ui_set_sound_file(wimp_strterm(fn));
+    }
+    else if (b[MouseB_Icon] == Icon_Conf_Volume)
+    {
+      ui_drag_sound_volume(b);
+      Sound_Volume(SoundVolume);
+    }
+  }
+  else if (b[MouseB_Window] == ConfWindows[CONF_WIN_JOY]->Handle)
+  {
+    Wimp_GetCaretPosition(&LastCaret);
+    Wimp_SetCaretPosition(ConfWindows[CONF_WIN_JOY]->Handle, -1, -100, 100, -1, -1);
+  }
+  else if (b[MouseB_Window] == ConfWindows[CONF_WIN_TAPE]->Handle)
+  {
+    switch (b[MouseB_Icon])
+    {
+      case Icon_Conf_TapeDetach:
+        ui_set_tape_image(""); break;
+      case Icon_Conf_DataStop:
+        datasette_control(DATASETTE_CONTROL_STOP); break;
+      case Icon_Conf_DataRewind:
+        datasette_control(DATASETTE_CONTROL_REWIND); break;
+      case Icon_Conf_DataPlay:
+        datasette_control(DATASETTE_CONTROL_START); break;
+      case Icon_Conf_DataForward:
+        datasette_control(DATASETTE_CONTROL_FORWARD); break;
+      case Icon_Conf_DataRecord:
+        datasette_control(DATASETTE_CONTROL_RECORD); break;
+      case Icon_Conf_DataDoReset:
+        datasette_control(DATASETTE_CONTROL_RESET); break;
+      default:
+        break;
+    }
+  }
+  else
+    return 0;
+
+  return 1;
+}
+
+static int ui_mouse_click_conf_drag(int *b, int wnum)
+{
+  RO_Window *win = ConfWindows[wnum];
+  int i = DRAG_TYPE_NONE;
+
+  if (b[MouseB_Window] == ConfWindows[CONF_WIN_DEVICES]->Handle)
+  {
+    if (b[MouseB_Icon] == Icon_Conf_FileRsIcon)
+      i = DRAG_TYPE_SERIAL;
+    else if (b[MouseB_Icon] == Icon_Conf_FilePrIcon)
+      i = DRAG_TYPE_PRINTER;
+  }
+  else if (b[MouseB_Window] == ConfWindows[CONF_WIN_SOUND]->Handle)
+  {
+    if (b[MouseB_Icon] == Icon_Conf_FileSndIcon)
+      i = DRAG_TYPE_SOUND;
+    else if (b[MouseB_Icon] == Icon_Conf_Volume)
+    {
+      int wstate[WindowB_WFlags+1];
+      int dblk[DragB_BBMaxY+1];
+      RO_Icon *icon;
+
+      wstate[WindowB_Handle] = ConfWindows[CONF_WIN_SOUND]->Handle;
+      Wimp_GetWindowState(wstate);
+      icon = wimp_window_get_icon(ConfWindows[CONF_WIN_SOUND], Icon_Conf_Volume);
+      dblk[DragB_Handle] = ConfWindows[CONF_WIN_SOUND]->Handle;
+      dblk[DragB_Type] = 7;
+      dblk[DragB_IMinX] = b[MouseB_PosX];
+      dblk[DragB_IMaxX] = b[MouseB_PosX];
+      dblk[DragB_IMinY] = b[MouseB_PosY];
+      dblk[DragB_IMaxY] = b[MouseB_PosY];
+      dblk[DragB_BBMinX] = wstate[WindowB_VMinX] - wstate[WindowB_ScrollX] + icon->minx;
+      dblk[DragB_BBMinY] = wstate[WindowB_VMaxY] - wstate[WindowB_ScrollY] + icon->miny;
+      dblk[DragB_BBMaxX] = dblk[DragB_BBMinX] + (icon->maxx - icon->minx) - (1<<ScreenMode.eigx);
+      dblk[DragB_BBMaxY] = dblk[DragB_BBMinY] + (icon->maxy - icon->miny) - (1<<ScreenMode.eigy);
+      Wimp_DragBox(dblk);
+      i = DRAG_TYPE_VOLUME;
+    }
+  }
+  if (i != DRAG_TYPE_NONE)
+  {
+    LastDrag = i;
+    if (i != DRAG_TYPE_VOLUME)
+      wimp_drag_icon_sprite(win, b[MouseB_Icon], &ScreenMode, CMOS_DragType);
+
+    return 1;
+  }
+  return 0;
+}
+
+
+static void ui_mouse_click(int *b)
+{
+  if (b[MouseB_Window] == EmuPane->Handle)
+  {
+    ui_mouse_click_pane(b);
+  }
+  else if ((vsid_mode) && (b[MouseB_Window] == VSidWindow->Handle))
+  {
+    ui_mouse_click_vsid(b);
+  }
+  else
+  {
+    ui_mouse_click_canvas(b);
   }
 
   if ((b[MouseB_Window] == -2) && (b[MouseB_Icon] == IBarIcon.IconHandle))
   {
-    if (b[MouseB_Buttons] == 2)
-    {
-      Wimp_CreateMenu((int*)(&MenuIconBar), b[MouseB_PosX] - MenuIconBar.head.width / 2, 96 + Menu_Height*Menu_IBar_Items);
-      LastMenu = Menu_IBar;
-    }
-    else if (b[MouseB_Buttons] == 4)
-    {
-      int block[WindowB_WFlags+1];
-
-      if (vsid_mode)
-      {
-        ui_open_vsid_window(block);
-      }
-      else
-      {
-        RO_Window *win;
-        int gainCaret = 0;
-
-        win = (ActiveCanvas == NULL) ? EmuWindow : ActiveCanvas->window;
-        if (ui_open_centered_or_raise_block(win, block) == 0)
-          gainCaret = 1;
-        ui_open_emu_window(win, block);
-        if (gainCaret != 0)
-        {
-          Wimp_GetCaretPosition(&LastCaret);
-          Wimp_SetCaretPosition(win->Handle, -1, -100, 100, -1, -1);
-        }
-
-        /* reverse autopause? */
-        if ((AutoPauseEmu != 0) && (WasAutoPaused != 0))
-        {
-          WasAutoPaused = 0;
-          if (EmuPaused != 0)
-          {
-            EmuPaused = 0;
-            ui_display_paused(EmuPaused);
-          }
-        }
-      }
-    }
-    else if (b[MouseB_Buttons] == 1)
-    {
-      /* open config window */
-      ui_open_config_window(CONF_WIN_DRIVES);
-    }
+    ui_mouse_click_ibar(b);
   }
   else if (b[MouseB_Window] == SnapshotWindow->Handle)
   {
@@ -3108,152 +3353,11 @@ static void ui_mouse_click(int *b)
         /* Select and adjust only */
         else if ((b[MouseB_Buttons] == 1) || (b[MouseB_Buttons] == 4))
         {
-          int i;
-
-          for (i=0; ConfigMenus[i].menu != NULL; i++)
-          {
-            if ((ConfigMenus[i].id.win == wnum) && (ConfigMenus[i].id.icon == b[MouseB_Icon]))
-            {
-              RO_MenuHead *menu = ConfigMenus[i].menu;
-              RO_Icon *icon;
-              int wb[WindowB_WFlags+1];
-
-              icon = wimp_window_get_icon(win, ConfigMenus[i].id.icon);
-              wb[WindowB_Handle] = win->Handle;
-              Wimp_GetWindowState(wb);	/* For absolute coordinates of menu item */
-
-              switch (i)
-              {
-                case CONF_MENU_PRNTDEV:
-                  break;
-                case CONF_MENU_PRUSER:
-                  break;
-                case CONF_MENU_SAMPRATE:
-                  break;
-                case CONF_MENU_SOUNDDEV:
-                  break;
-                case CONF_MENU_SOUNDOVER:
-                  break;
-                case CONF_MENU_SPDADJUST:
-                  break;
-                case CONF_MENU_TRUESYNC:
-                  break;
-                case CONF_MENU_TRUEIDLE8:
-                  break;
-                case CONF_MENU_TRUEEXT8:
-                  break;
-                case CONF_MENU_TRUETYPE8:
-                  break;
-                case CONF_MENU_TRUEIDLE9:
-                  break;
-                case CONF_MENU_TRUEEXT9:
-                  break;
-                case CONF_MENU_TRUETYPE9:
-                  break;
-                case CONF_MENU_DRIVE8:
-                case CONF_MENU_DRIVE9:
-                case CONF_MENU_DRIVE10:
-                case CONF_MENU_DRIVE11:
-                  {
-                    serial_t *sd;
-                    int number = i-CONF_MENU_DRIVE8;
-                    int j = -1;
-                    unsigned int flags;
-                    int state;
-                    RO_MenuItem *item;
-		    RO_MenuHead *submenu;
-
-                    item = (RO_MenuItem*)(ConfigMenus[i].menu + 1);
-                    submenu = item[Menu_DriveType_FS].submenu;
-                    sd = serial_get_device(number + 8);
-                    if (strstr(sd->name, "Disk Drive") != NULL)
-                    {
-                      j = Menu_DriveType_Disk;
-                      *(DriveTypes[number]) = DRIVE_TYPE_DISK;
-                    }
-                    else if (strstr(sd->name, "FS Drive") != NULL)
-                    {
-                      j = Menu_DriveType_FS;
-                      *(DriveTypes[number]) = DRIVE_TYPE_FS;
-                    }
-		    /* Configure submenu */
-		    flags = 0;
-		    if (resources_get_value(Rsrc_ConvP00[number], (resource_value_t*)&state) == 0)
-		    {
-		      if (state != 0) flags |= (1<<Menu_DriveFS_ConvP00);
-		    }
-		    if (resources_get_value(Rsrc_SaveP00[number], (resource_value_t*)&state) == 0)
-		    {
-		      if (state != 0) flags |= (1<<Menu_DriveFS_SaveP00);
-		    }
-		    if (resources_get_value(Rsrc_HideCBM[number], (resource_value_t*)&state) == 0)
-		    {
-		      if (state != 0) flags |= (1<<Menu_DriveFS_HideCBM);
-		    }
-		    if (j >= 0)
-		    {
-		      wimp_menu_tick_exclusive(menu, j);
-		      wimp_menu_set_grey_all(submenu, (j != Menu_DriveType_FS));
-		      wimp_menu_set_grey_all(item[Menu_DriveType_Disk].submenu, (j != Menu_DriveType_Disk));
-		      wimp_menu_tick_slct(submenu, flags);
-		    }
-                  }
-                  break;
-                case CONF_MENU_CARTTYPE:
-                  break;
-                case CONF_MENU_RSUSRDEV:
-                  break;
-                case CONF_MENU_ACIADEV:
-                  break;
-                case CONF_MENU_SERIAL:
-                  break;
-                case CONF_MENU_SIDMODEL:
-                  break;
-                case CONF_MENU_SPEED:
-                  break;
-                case CONF_MENU_REFRESH:
-                  break;
-                case CONF_MENU_PETMEM:
-                  break;
-                case CONF_MENU_PETIO:
-                  break;
-                case CONF_MENU_PETVIDEO:
-                  break;
-                case CONF_MENU_PETMODEL:
-                  break;
-                case CONF_MENU_VICRAM:
-                  break;
-                case CONF_MENU_VICCART:
-                  break;
-                case CONF_MENU_DOSNAME:
-                  break;
-                case CONF_MENU_C2LINE:
-                  break;
-                case CONF_MENU_C2MEM:
-                  break;
-                case CONF_MENU_C2MODEL:
-                  break;
-                case CONF_MENU_C2RAM:
-                  break;
-                case CONF_MENU_C2CART:
-                  break;
-                case CONF_MENU_SNDBUFF:
-                  break;
-                case CONF_MENU_JOYDEV1:
-                  break;
-                case CONF_MENU_JOYDEV2:
-                  break;
-                default:
-                  break;
-              }
-              LastMenu = 256 + i;
-              Wimp_CreateMenu((int*)menu, wb[WindowB_VMinX] - wb[WindowB_ScrollX] + icon->maxx, wb[WindowB_VMaxY] - wb[WindowB_ScrollY] + icon->maxy);
-              break;
-            }
-          }
           /* Haven't found anything? */
-          if (ConfigMenus[i].menu == NULL)
+          if (!ui_mouse_click_config(b, wnum))
           {
+            int i;
+
             for (i=0; Configurations[i].resource != NULL; i++)
             {
               if ((Configurations[i].id.win == wnum) && (Configurations[i].id.icon == b[MouseB_Icon]))
@@ -3279,113 +3383,14 @@ static void ui_mouse_click(int *b)
             /* Haven't found anything there either? */
             if (Configurations[i].resource == NULL)
             {
-              if (b[MouseB_Window] == ConfWindows[CONF_WIN_DEVICES]->Handle)
-              {
-                if (b[MouseB_Icon] == Icon_Conf_FileRsOK)
-                {
-                  char *fn;
-
-                  if ((fn = wimp_window_read_icon_text(win, Icon_Conf_FileRsPath)) != NULL)
-                    ui_set_serial_file(wimp_strterm(fn));
-                }
-                else if (b[MouseB_Icon] == Icon_Conf_FilePrOK)
-                {
-                  char *fn;
-
-                  if ((fn = wimp_window_read_icon_text(win, Icon_Conf_FilePrPath)) != NULL)
-                    ui_set_printer_file(wimp_strterm(fn));
-                }
-              }
-              else if (b[MouseB_Window] == ConfWindows[CONF_WIN_SOUND]->Handle)
-              {
-                if (b[MouseB_Icon] == Icon_Conf_FileSndOK)
-                {
-                  char *fn;
-
-                  if ((fn = wimp_window_read_icon_text(win, Icon_Conf_FileSndPath)) != NULL)
-                  ui_set_sound_file(wimp_strterm(fn));
-                }
-                else if (b[MouseB_Icon] == Icon_Conf_Volume)
-                {
-                  ui_drag_sound_volume(b);
-                  Sound_Volume(SoundVolume);
-                }
-              }
-              else if (b[MouseB_Window] == ConfWindows[CONF_WIN_JOY]->Handle)
-              {
-                Wimp_GetCaretPosition(&LastCaret);
-                Wimp_SetCaretPosition(ConfWindows[CONF_WIN_JOY]->Handle, -1, -100, 100, -1, -1);
-              }
-              else if (b[MouseB_Window] == ConfWindows[CONF_WIN_TAPE]->Handle)
-              {
-                switch (b[MouseB_Icon])
-                {
-                  case Icon_Conf_TapeDetach:
-                    ui_set_tape_image(""); break;
-                  case Icon_Conf_DataStop:
-                    datasette_control(DATASETTE_CONTROL_STOP); break;
-                  case Icon_Conf_DataRewind:
-                    datasette_control(DATASETTE_CONTROL_REWIND); break;
-                  case Icon_Conf_DataPlay:
-                    datasette_control(DATASETTE_CONTROL_START); break;
-                  case Icon_Conf_DataForward:
-                    datasette_control(DATASETTE_CONTROL_FORWARD); break;
-                  case Icon_Conf_DataRecord:
-                    datasette_control(DATASETTE_CONTROL_RECORD); break;
-                  case Icon_Conf_DataDoReset:
-                    datasette_control(DATASETTE_CONTROL_RESET); break;
-                  default:
-                    break;
-                }
-              }
+              ui_mouse_click_conf_misc(b, wnum);
             }
           }
         }
         /* Drag? */
         else if ((b[MouseB_Buttons] == 16) || (b[MouseB_Buttons] == 64))
         {
-          int i = DRAG_TYPE_NONE;
-
-          if (b[MouseB_Window] == ConfWindows[CONF_WIN_DEVICES]->Handle)
-          {
-            if (b[MouseB_Icon] == Icon_Conf_FileRsIcon)
-              i = DRAG_TYPE_SERIAL;
-            else if (b[MouseB_Icon] == Icon_Conf_FilePrIcon)
-              i = DRAG_TYPE_PRINTER;
-          }
-          else if (b[MouseB_Window] == ConfWindows[CONF_WIN_SOUND]->Handle)
-          {
-            if (b[MouseB_Icon] == Icon_Conf_FileSndIcon)
-              i = DRAG_TYPE_SOUND;
-            else if (b[MouseB_Icon] == Icon_Conf_Volume)
-            {
-              int wstate[WindowB_WFlags+1];
-              int dblk[DragB_BBMaxY+1];
-              RO_Icon *icon;
-
-              wstate[WindowB_Handle] = ConfWindows[CONF_WIN_SOUND]->Handle;
-              Wimp_GetWindowState(wstate);
-              icon = wimp_window_get_icon(ConfWindows[CONF_WIN_SOUND], Icon_Conf_Volume);
-              dblk[DragB_Handle] = ConfWindows[CONF_WIN_SOUND]->Handle;
-              dblk[DragB_Type] = 7;
-              dblk[DragB_IMinX] = b[MouseB_PosX];
-              dblk[DragB_IMaxX] = b[MouseB_PosX];
-              dblk[DragB_IMinY] = b[MouseB_PosY];
-              dblk[DragB_IMaxY] = b[MouseB_PosY];
-              dblk[DragB_BBMinX] = wstate[WindowB_VMinX] - wstate[WindowB_ScrollX] + icon->minx;
-              dblk[DragB_BBMinY] = wstate[WindowB_VMaxY] - wstate[WindowB_ScrollY] + icon->miny;
-              dblk[DragB_BBMaxX] = dblk[DragB_BBMinX] + (icon->maxx - icon->minx) - (1<<ScreenMode.eigx);
-              dblk[DragB_BBMaxY] = dblk[DragB_BBMinY] + (icon->maxy - icon->miny) - (1<<ScreenMode.eigy);
-              Wimp_DragBox(dblk);
-              i = DRAG_TYPE_VOLUME;
-            }
-          }
-          if (i != DRAG_TYPE_NONE)
-          {
-            LastDrag = i;
-            if (i != DRAG_TYPE_VOLUME)
-              wimp_drag_icon_sprite(win, b[MouseB_Icon], &ScreenMode, CMOS_DragType);
-          }
+          ui_mouse_click_conf_drag(b, wnum);
         }
         break;
       }
@@ -3561,10 +3566,127 @@ static int ui_poll_joystick_window(int icon)
 }
 
 
+static void ui_key_press_config(int *b)
+{
+  int wnum;
+  int key;
+
+  key = b[KeyPB_Key];
+
+  for (wnum=0; wnum < CONF_WIN_NUMBER; wnum++)
+  {
+    char *data;
+    int i=0;
+
+    if (ConfWindows[wnum] == NULL) break;
+
+    if (b[KeyPB_Window] != ConfWindows[wnum]->Handle) continue;
+
+    if ((data = wimp_window_read_icon_text(ConfWindows[wnum], b[KeyPB_Icon])) == NULL)
+      return;
+    wimp_strterm(data);
+
+    switch (wnum)
+    {
+      case CONF_WIN_DRIVES:
+        switch (b[KeyPB_Icon])
+        {
+          case Icon_Conf_DriveFile11: i++;
+          case Icon_Conf_DriveFile10: i++;
+          case Icon_Conf_DriveFile9: i++;
+          case Icon_Conf_DriveFile8:
+            ui_new_drive_image(i, data, 0);
+            break;
+          default: Wimp_ProcessKey(key); return;
+        }
+        break;
+      case CONF_WIN_TAPE:
+        if (b[KeyPB_Icon] == Icon_Conf_TapeFile)
+        {
+          ui_set_tape_image(data);
+        }
+        else
+        {
+          Wimp_ProcessKey(key);
+        }
+        break;
+      case CONF_WIN_SYSTEM:
+        switch (b[KeyPB_Icon])
+        {
+          case Icon_Conf_PollEvery: PollEvery = atoi(data); break;
+          case Icon_Conf_SpeedEvery: SpeedEvery = atoi(data); break;
+          case Icon_Conf_SoundEvery: SoundPollEvery = atoi(data); break;
+          case Icon_Conf_CharGen:
+            resources_set_value(Rsrc_CharGen, (resource_value_t)data); break;
+          case Icon_Conf_Kernal:
+            resources_set_value(Rsrc_Kernal, (resource_value_t)data); break;
+          case Icon_Conf_Basic:
+            resources_set_value(Rsrc_Basic, (resource_value_t)data); break;
+          case Icon_Conf_Palette:
+            resources_set_value(Rsrc_Palette, (resource_value_t)data); break;
+          case Icon_Conf_CartFile: ui_set_cartridge_file(data); break;
+          case Icon_Conf_DosName:
+            ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_DOSNAME], (resource_value_t)data);
+            break;
+          case Icon_Conf_FullScreen:
+            resources_set_value(Rsrc_FullScr, (resource_value_t)data); break;
+          default: Wimp_ProcessKey(key); return;
+        }
+        break;
+      case CONF_WIN_DEVICES:
+        if (b[KeyPB_Icon] == Icon_Conf_FileRsPath)
+          ui_set_serial_file(data);
+        else if (b[KeyPB_Icon] == Icon_Conf_FilePrPath)
+          ui_set_printer_file(data);
+        else
+        {
+          Wimp_ProcessKey(key); return;
+        }
+        break;
+      case CONF_WIN_SOUND:
+        if (b[KeyPB_Icon] == Icon_Conf_FileSndPath)
+          ui_set_sound_file(data);
+        else
+        {
+          Wimp_ProcessKey(key); return;
+        }
+        break;
+      case CONF_WIN_VIC:
+        if (b[KeyPB_Icon] == Icon_Conf_VICCartF)
+          ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_VICCART], (resource_value_t)data);
+        else
+        {
+          Wimp_ProcessKey(key); return;
+        }
+        break;
+      case CONF_WIN_CBM2:
+        if (b[KeyPB_Icon] == Icon_Conf_CBM2CartF)
+        {
+          ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_C2CART], (resource_value_t)data);
+        }
+        else
+        {
+          Wimp_ProcessKey(key);
+        }
+        break;
+      case CONF_WIN_C128:
+        if (b[KeyPB_Icon] == Icon_Conf_C128Palette)
+        {
+          resources_set_value(Rsrc_VDCpalette, (resource_value_t)data);
+        }
+        else
+        {
+          Wimp_ProcessKey(key);
+        }
+        break;
+      default: Wimp_ProcessKey(key); return;
+    }
+  }
+}
+
 static void ui_key_press(int *b)
 {
   int key;
-  int wnum;
 
   key = b[KeyPB_Key];
 
@@ -3634,115 +3756,8 @@ static void ui_key_press(int *b)
       ui_create_new_disc_image();
     }
 
-    for (wnum=0; wnum < CONF_WIN_NUMBER; wnum++)
-    {
-      char *data;
-      int i=0;
+    ui_key_press_config(b);
 
-      if (ConfWindows[wnum] == NULL) break;
-
-      if (b[KeyPB_Window] != ConfWindows[wnum]->Handle) continue;
-
-      if ((data = wimp_window_read_icon_text(ConfWindows[wnum], b[KeyPB_Icon])) == NULL)
-        return;
-      wimp_strterm(data);
-
-      switch (wnum)
-      {
-        case CONF_WIN_DRIVES:
-          switch (b[KeyPB_Icon])
-          {
-            case Icon_Conf_DriveFile11: i++;
-            case Icon_Conf_DriveFile10: i++;
-            case Icon_Conf_DriveFile9: i++;
-            case Icon_Conf_DriveFile8:
-              ui_new_drive_image(i, data, 0);
-              break;
-            default: Wimp_ProcessKey(key); return;
-          }
-          break;
-        case CONF_WIN_TAPE:
-          if (b[KeyPB_Icon] == Icon_Conf_TapeFile)
-          {
-            ui_set_tape_image(data);
-          }
-          else
-          {
-            Wimp_ProcessKey(key);
-          }
-          break;
-        case CONF_WIN_SYSTEM:
-          switch (b[KeyPB_Icon])
-          {
-            case Icon_Conf_PollEvery: PollEvery = atoi(data); break;
-            case Icon_Conf_SpeedEvery: SpeedEvery = atoi(data); break;
-            case Icon_Conf_SoundEvery: SoundPollEvery = atoi(data); break;
-            case Icon_Conf_CharGen:
-              resources_set_value(Rsrc_CharGen, (resource_value_t)data); break;
-            case Icon_Conf_Kernal:
-              resources_set_value(Rsrc_Kernal, (resource_value_t)data); break;
-            case Icon_Conf_Basic:
-              resources_set_value(Rsrc_Basic, (resource_value_t)data); break;
-            case Icon_Conf_Palette:
-              resources_set_value(Rsrc_Palette, (resource_value_t)data); break;
-            case Icon_Conf_CartFile: ui_set_cartridge_file(data); break;
-            case Icon_Conf_DosName:
-              ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_DOSNAME], (resource_value_t)data);
-              break;
-            case Icon_Conf_FullScreen:
-              resources_set_value(Rsrc_FullScr, (resource_value_t)data); break;
-            default: Wimp_ProcessKey(key); return;
-          }
-          break;
-        case CONF_WIN_DEVICES:
-          if (b[KeyPB_Icon] == Icon_Conf_FileRsPath)
-            ui_set_serial_file(data);
-          else if (b[KeyPB_Icon] == Icon_Conf_FilePrPath)
-            ui_set_printer_file(data);
-          else
-          {
-            Wimp_ProcessKey(key); return;
-          }
-          break;
-        case CONF_WIN_SOUND:
-          if (b[KeyPB_Icon] == Icon_Conf_FileSndPath)
-            ui_set_sound_file(data);
-          else
-          {
-            Wimp_ProcessKey(key); return;
-          }
-          break;
-        case CONF_WIN_VIC:
-          if (b[KeyPB_Icon] == Icon_Conf_VICCartF)
-            ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_VICCART], (resource_value_t)data);
-          else
-          {
-            Wimp_ProcessKey(key); return;
-          }
-          break;
-        case CONF_WIN_CBM2:
-          if (b[KeyPB_Icon] == Icon_Conf_CBM2CartF)
-          {
-            ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_C2CART], (resource_value_t)data);
-          }
-          else
-          {
-            Wimp_ProcessKey(key);
-          }
-          break;
-        case CONF_WIN_C128:
-          if (b[KeyPB_Icon] == Icon_Conf_C128Palette)
-          {
-            resources_set_value(Rsrc_VDCpalette, (resource_value_t)data);
-          }
-          else
-          {
-            Wimp_ProcessKey(key);
-          }
-          break;
-        default: Wimp_ProcessKey(key); return;
-      }
-    }
     return;
   }
 
@@ -3823,6 +3838,325 @@ static void ui_images_menu_selection(int *b)
 }
 
 
+static int ui_menu_select_ibar(int *b, int **menu)
+{
+  int confWindow = -1;
+
+  *menu = (int*)&MenuIconBar;
+  switch (b[0])
+  {
+    int cols;
+
+    case Menu_IBar_License:
+      ui_message_get_dimensions(license_text, &cols, NULL);
+      ui_message_window_open(msg_win_license, SymbolStrings[Symbol_TitLicense], license_text, cols, 0);
+      break;
+    case Menu_IBar_Warranty:
+      ui_message_get_dimensions(warranty_text, &cols, NULL);
+      ui_message_window_open(msg_win_warranty, SymbolStrings[Symbol_TitWarranty], warranty_text, cols, 0);
+      break;
+    case Menu_IBar_Contrib:
+      ui_message_get_dimensions(contrib_text, &cols, NULL);
+      ui_message_window_open(msg_win_contrib, SymbolStrings[Symbol_TitContrib], contrib_text, cols, 0);
+      break;
+    case Menu_IBar_CreateDisc:
+      {
+        int block[WindowB_WFlags+1];
+        int status;
+
+        status = ui_open_centered_or_raise_block(CreateDiscWindow, block);
+        Wimp_OpenWindow(block);
+        if (status == 0)
+        {
+          Wimp_GetCaretPosition(&LastCaret);
+          Wimp_SetCaretPosition(CreateDiscWindow->Handle, -1, -100, 100, -1, -1);
+        }
+      }
+      break;
+    case Menu_IBar_Configure:
+      if (b[1] != -1) confWindow = CONF_WIN_NUMBER;
+      break;
+    case Menu_IBar_FullScreen:
+      {
+        if ((!vsid_mode) && (video_full_screen_on(SpriteArea) != 0))
+        {
+          _kernel_oserror err;
+
+          err.errnum = 0; strcpy(err.errmess, SymbolStrings[Symbol_ErrFullScr]);
+          Wimp_ReportError(&err, 1, WimpTaskName);
+        }
+      }
+      break;
+    case Menu_IBar_Quit: ui_exit(); break;
+    default:
+      break;
+  }
+  return confWindow;
+}
+
+static int ui_menu_select_emuwin(int *b, int **menu)
+{
+  int confWindow = -1;
+
+  *menu = (int*)&MenuEmuWindow;
+  switch (b[0])
+  {
+    case Menu_EmuWin_Configure:
+      if (b[1] != -1) confWindow = CONF_WIN_NUMBER;
+      break;
+    case Menu_EmuWin_Fliplist:
+      switch (b[1])
+      {
+        case Menu_Fliplist_Attach:
+          flip_add_image(FlipListDrive + 8);
+          ui_build_fliplist_menu(1);
+          break;
+        case Menu_Fliplist_Detach:
+          if (DriveFile8 != NULL)
+          {
+            flip_remove(FlipListDrive + 8, DriveFile8);
+            ui_build_fliplist_menu(1);
+          }
+          break;
+        case Menu_Fliplist_Next:
+          ui_flip_iterate_and_attach(+1);
+          break;
+        case Menu_Fliplist_Prev:
+          ui_flip_iterate_and_attach(-1);
+          break;
+        case Menu_Fliplist_Images:
+          if (b[2] >= 0)
+          {
+            ui_images_menu_selection(b+2);
+          }
+          break;
+        default:
+          break;
+      }
+      break;
+    case Menu_EmuWin_Freeze:
+      cartridge_trigger_freeze();
+      break;
+    case Menu_EmuWin_Pane:
+      ShowEmuPane ^= 1;
+      ui_set_pane_state(ShowEmuPane);
+      break;
+    case Menu_EmuWin_Active:
+      canvas_next_active(0);
+      break;
+    case Menu_EmuWin_TrueDrvEmu:
+      ui_set_truedrv_emulation(!wimp_menu_tick_read((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_TrueDrvEmu));
+      break;
+    case Menu_EmuWin_Datasette:
+      switch (b[1])
+      {
+        case Menu_Datasette_Stop: datasette_control(DATASETTE_CONTROL_STOP); break;
+        case Menu_Datasette_Start: datasette_control(DATASETTE_CONTROL_START); break;
+        case Menu_Datasette_Forward: datasette_control(DATASETTE_CONTROL_FORWARD); break;
+        case Menu_Datasette_Rewind: datasette_control(DATASETTE_CONTROL_REWIND); break;
+        case Menu_Datasette_Record: datasette_control(DATASETTE_CONTROL_RECORD); break;
+        case Menu_Datasette_Reset: datasette_control(DATASETTE_CONTROL_RESET); break;
+        default: break;
+      }
+      break;
+    case Menu_EmuWin_Sound:
+      ui_set_sound_enable(!wimp_menu_tick_read((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Sound));
+      break;
+    case Menu_EmuWin_Monitor:
+      ui_activate_monitor();
+      break;
+    default:
+      break;
+  }
+  return confWindow;
+}
+
+static int ui_menu_select_config(int *b, int **menu, int mnum)
+{
+  *menu = (int*)(ConfigMenus[mnum].menu);
+
+  if (ConfigDispDescs[mnum] != NULL)
+    ui_set_menu_display_value(ConfigDispDescs[mnum], b[0]);
+
+  switch (mnum)
+  {
+    case CONF_MENU_DRIVE8:
+    case CONF_MENU_DRIVE9:
+    case CONF_MENU_DRIVE10:
+    case CONF_MENU_DRIVE11:
+      {
+        int number = mnum - CONF_MENU_DRIVE8;
+        RO_MenuHead *dmen = ConfigMenus[CONF_MENU_DRIVE8 + number].menu;
+
+        if (b[0] == Menu_DriveType_Disk)
+        {
+          if (b[1] != -1)
+          {
+            if (b[1] == Menu_DriveDisk_Detach)
+            {
+              ui_detach_drive_image(number);
+            }
+          }
+          else
+          {
+            if (*(DriveTypes[number]) != DRIVE_TYPE_DISK)
+            {
+              char *fn;
+
+              if ((fn = wimp_window_read_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number])) != NULL)
+              {
+                if (ui_set_drive_image(number, wimp_strterm(fn)) == 0)
+                {
+                  RO_MenuItem *item = (RO_MenuItem*)(ConfigMenus[mnum].menu + 1);
+                  wimp_menu_set_grey_all(item[Menu_DriveType_Disk].submenu, 0);
+                  wimp_menu_set_grey_all(item[Menu_DriveType_FS].submenu, 1);
+                  wimp_menu_tick_exclusive((RO_MenuHead*)menu, Menu_DriveType_Disk);
+                }
+              }
+            }
+          }
+        }
+        else if (b[0] == Menu_DriveType_FS)
+        {
+          if (b[1] == -1)
+          {
+            if (*(DriveTypes[number]) != DRIVE_TYPE_FS)
+            {
+              char *fn;
+
+              if ((fn = wimp_window_read_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number])) != NULL)
+              {
+                /* Only allow FS mode in directories or image files */
+                if (ui_set_drive_dir(number, wimp_strterm(fn)) == 0)
+                {
+                  RO_MenuItem *item = (RO_MenuItem*)(ConfigMenus[mnum].menu + 1);
+                  wimp_menu_set_grey_all(item[Menu_DriveType_Disk].submenu, 1);
+                  wimp_menu_set_grey_all(item[Menu_DriveType_FS].submenu, 0);
+                  wimp_menu_tick_exclusive((RO_MenuHead*)menu, Menu_DriveType_FS);
+                }
+              }
+            }
+            /* Change in submenus? */
+          }
+          else
+          {
+            RO_MenuItem *item;
+            RO_MenuHead *submenu;
+
+            item = (RO_MenuItem*)(dmen + 1);
+            submenu = item[Menu_DriveType_FS].submenu;
+            switch (b[1])
+            {
+              case Menu_DriveFS_ConvP00:
+                ui_toggle_resource_menu(Rsrc_ConvP00[number], submenu, Menu_DriveFS_ConvP00);
+                break;
+              case Menu_DriveFS_SaveP00:
+                ui_toggle_resource_menu(Rsrc_SaveP00[number], submenu, Menu_DriveFS_SaveP00);
+                break;
+              case Menu_DriveFS_HideCBM:
+                ui_toggle_resource_menu(Rsrc_HideCBM[number], submenu, Menu_DriveFS_HideCBM);
+                break;
+            }
+          }
+        }
+      }
+    case CONF_MENU_CARTTYPE:
+      if ((b[0] == 0) && !vsid_mode)
+        cartridge_detach_image();
+      break;
+    case CONF_MENU_PETMODEL:
+      {
+        int i;
+
+        ui_set_menu_display_core(ConfigDispDescs[CONF_MENU_PETMODEL], set_pet_model_by_name, b[0]);
+        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETMEM]);
+        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETIO]);
+        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETVIDEO]);
+        wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_Conf_PetKbd, pet_get_keyboard_name());
+        ui_update_rom_names();
+        for (i=0; PETdependconf[i].resource != NULL; i++)
+        {
+          ui_setup_config_item(PETdependconf + i);
+        }
+      }
+      break;
+    case CONF_MENU_C2MODEL:
+      {
+        ui_set_menu_display_core(ConfigDispDescs[CONF_MENU_C2MODEL], set_cbm2_model_by_name, b[0]);
+        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2MEM]);
+        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2RAM]);
+        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2LINE]);
+        wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_Conf_CBM2Kbd, cbm2_get_keyboard_name());
+        ui_update_rom_names();
+      }
+      break;
+    case CONF_MENU_ROMSET:
+      if (MenuDisplayROMSet != NULL)
+      {
+        ui_set_menu_display_core(ConfigDispDescs[CONF_MENU_ROMSET], set_romset_by_name, b[0]);
+        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_DOSNAME]);
+        ui_update_rom_names();
+        /*ui_issue_reset(1);*/
+      }
+      break;
+    case CONF_MENU_ROMACT:
+      switch (b[0])
+      {
+        case Menu_RomAct_Create:
+          if (b[1] != -1)
+          {
+            if (strlen(NewRomSetName) > 0)
+            {
+              romset_create_item(NewRomSetName, mem_romset_resources_list);
+              ui_build_romset_menu();
+              ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
+            }
+          }
+          break;
+        case Menu_RomAct_Delete:
+          romset_delete_item(ROMSetName);
+          ui_build_romset_menu();
+          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
+          break;
+        case Menu_RomAct_Dump:
+          if (ROMSetArchiveFile != NULL)
+          {
+            romset_dump_archive(ROMSetArchiveFile);
+          }
+          break;
+        case Menu_RomAct_Clear:
+          romset_clear_archive();
+          ui_build_romset_menu();
+          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
+          break;
+        case Menu_RomAct_Restore:
+          romset_clear_archive();
+          if (ROMSetArchiveFile != NULL)
+          {
+            romset_load_archive(ROMSetArchiveFile, 0);
+          }
+          ui_build_romset_menu();
+          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
+          break;
+        default: break;
+      }
+      break;
+    case CONF_MENU_SYSKBD:
+      switch (b[0])
+      {
+        case Menu_SysKbd_LoadDef:
+          kbd_load_keymap(NULL, -1);
+          break;
+        default:
+          break;
+      }
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+
 static void ui_menu_selection(int *b)
 {
   int block[MouseB_Icon+1];
@@ -3836,126 +4170,11 @@ static void ui_menu_selection(int *b)
 
     if (LastMenu == Menu_IBar)
     {
-      menu = (int*)&MenuIconBar;
-      switch (b[0])
-      {
-        int cols;
-
-        case Menu_IBar_License:
-          ui_message_get_dimensions(license_text, &cols, NULL);
-          ui_message_window_open(msg_win_license, SymbolStrings[Symbol_TitLicense], license_text, cols, 0);
-          break;
-        case Menu_IBar_Warranty:
-          ui_message_get_dimensions(warranty_text, &cols, NULL);
-          ui_message_window_open(msg_win_warranty, SymbolStrings[Symbol_TitWarranty], warranty_text, cols, 0);
-          break;
-        case Menu_IBar_Contrib:
-          ui_message_get_dimensions(contrib_text, &cols, NULL);
-          ui_message_window_open(msg_win_contrib, SymbolStrings[Symbol_TitContrib], contrib_text, cols, 0);
-          break;
-        case Menu_IBar_CreateDisc:
-          {
-            int block[WindowB_WFlags+1];
-            int status;
-
-            status = ui_open_centered_or_raise_block(CreateDiscWindow, block);
-            Wimp_OpenWindow(block);
-            if (status == 0)
-            {
-              Wimp_GetCaretPosition(&LastCaret);
-              Wimp_SetCaretPosition(CreateDiscWindow->Handle, -1, -100, 100, -1, -1);
-            }
-          }
-          break;
-        case Menu_IBar_Configure:
-          if (b[1] != -1) confWindow = CONF_WIN_NUMBER;
-          break;
-        case Menu_IBar_FullScreen:
-          {
-            if ((!vsid_mode) && (video_full_screen_on(SpriteArea) != 0))
-            {
-              _kernel_oserror err;
-
-              err.errnum = 0; strcpy(err.errmess, SymbolStrings[Symbol_ErrFullScr]);
-              Wimp_ReportError(&err, 1, WimpTaskName);
-            }
-          }
-          break;
-        case Menu_IBar_Quit: ui_exit(); break;
-        default: break;
-      }
+      confWindow = ui_menu_select_ibar(b, &menu);
     }
     else if (LastMenu == Menu_Emulator)
     {
-      menu = (int*)&MenuEmuWindow;
-      switch (b[0])
-      {
-        case Menu_EmuWin_Configure:
-          if (b[1] != -1) confWindow = CONF_WIN_NUMBER;
-          break;
-        case Menu_EmuWin_Fliplist:
-          switch (b[1])
-          {
-            case Menu_Fliplist_Attach:
-              flip_add_image(FlipListDrive + 8);
-              ui_build_fliplist_menu(1);
-              break;
-            case Menu_Fliplist_Detach:
-              if (DriveFile8 != NULL)
-              {
-                flip_remove(FlipListDrive + 8, DriveFile8);
-                ui_build_fliplist_menu(1);
-              }
-              break;
-            case Menu_Fliplist_Next:
-              ui_flip_iterate_and_attach(+1);
-              break;
-            case Menu_Fliplist_Prev:
-              ui_flip_iterate_and_attach(-1);
-              break;
-            case Menu_Fliplist_Images:
-              if (b[2] >= 0)
-              {
-                ui_images_menu_selection(b+2);
-              }
-              break;
-            default:
-              break;
-          }
-          break;
-        case Menu_EmuWin_Freeze:
-          cartridge_trigger_freeze();
-          break;
-        case Menu_EmuWin_Pane:
-          ShowEmuPane ^= 1;
-          ui_set_pane_state(ShowEmuPane);
-          break;
-        case Menu_EmuWin_Active:
-          canvas_next_active(0);
-          break;
-        case Menu_EmuWin_TrueDrvEmu:
-          ui_set_truedrv_emulation(!wimp_menu_tick_read((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_TrueDrvEmu));
-          break;
-        case Menu_EmuWin_Datasette:
-          switch (b[1])
-          {
-            case Menu_Datasette_Stop: datasette_control(DATASETTE_CONTROL_STOP); break;
-            case Menu_Datasette_Start: datasette_control(DATASETTE_CONTROL_START); break;
-            case Menu_Datasette_Forward: datasette_control(DATASETTE_CONTROL_FORWARD); break;
-            case Menu_Datasette_Rewind: datasette_control(DATASETTE_CONTROL_REWIND); break;
-            case Menu_Datasette_Record: datasette_control(DATASETTE_CONTROL_RECORD); break;
-            case Menu_Datasette_Reset: datasette_control(DATASETTE_CONTROL_RESET); break;
-            default: break;
-          }
-          break;
-        case Menu_EmuWin_Sound:
-          ui_set_sound_enable(!wimp_menu_tick_read((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Sound));
-          break;
-        case Menu_EmuWin_Monitor:
-          ui_activate_monitor();
-          break;
-        default: break;
-      }
+      confWindow = ui_menu_select_emuwin(b, &menu);
     }
     else if (LastMenu == Menu_Images)
     {
@@ -4006,186 +4225,7 @@ static void ui_menu_selection(int *b)
   /* Configuration menu? */
   if (LastMenu >= 0x100)
   {
-    menu = (int*)(ConfigMenus[LastMenu - 0x100].menu);
-
-    if (ConfigDispDescs[LastMenu - 0x100] != NULL)
-      ui_set_menu_display_value(ConfigDispDescs[LastMenu - 0x100], b[0]);
-
-    switch (LastMenu - 0x100)
-    {
-      case CONF_MENU_DRIVE8:
-      case CONF_MENU_DRIVE9:
-      case CONF_MENU_DRIVE10:
-      case CONF_MENU_DRIVE11:
-        {
-          int number = LastMenu - (0x100 + CONF_MENU_DRIVE8);
-          RO_MenuHead *dmen = ConfigMenus[CONF_MENU_DRIVE8 + number].menu;
-
-          if (b[0] == Menu_DriveType_Disk)
-          {
-            if (b[1] != -1)
-            {
-              if (b[1] == Menu_DriveDisk_Detach)
-              {
-                ui_detach_drive_image(number);
-              }
-            }
-            else
-            {
-              if (*(DriveTypes[number]) != DRIVE_TYPE_DISK)
-              {
-                char *fn;
-
-                if ((fn = wimp_window_read_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number])) != NULL)
-                {
-                  if (ui_set_drive_image(number, wimp_strterm(fn)) == 0)
-                  {
-                    RO_MenuItem *item = (RO_MenuItem*)(ConfigMenus[LastMenu - 0x100].menu + 1);
-                    wimp_menu_set_grey_all(item[Menu_DriveType_Disk].submenu, 0);
-                    wimp_menu_set_grey_all(item[Menu_DriveType_FS].submenu, 1);
-                    wimp_menu_tick_exclusive((RO_MenuHead*)menu, Menu_DriveType_Disk);
-                  }
-                }
-              }
-            }
-          }
-          else if (b[0] == Menu_DriveType_FS)
-          {
-            if (b[1] == -1)
-            {
-              if (*(DriveTypes[number]) != DRIVE_TYPE_FS)
-              {
-                char *fn;
-
-                if ((fn = wimp_window_read_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number])) != NULL)
-                {
-                  /* Only allow FS mode in directories or image files */
-                  if (ui_set_drive_dir(number, wimp_strterm(fn)) == 0)
-                  {
-                    RO_MenuItem *item = (RO_MenuItem*)(ConfigMenus[LastMenu - 0x100].menu + 1);
-                    wimp_menu_set_grey_all(item[Menu_DriveType_Disk].submenu, 1);
-                    wimp_menu_set_grey_all(item[Menu_DriveType_FS].submenu, 0);
-                    wimp_menu_tick_exclusive((RO_MenuHead*)menu, Menu_DriveType_FS);
-                  }
-                }
-              }
-              /* Change in submenus? */
-            }
-            else
-            {
-              RO_MenuItem *item;
-              RO_MenuHead *submenu;
-
-              item = (RO_MenuItem*)(dmen + 1);
-              submenu = item[Menu_DriveType_FS].submenu;
-              switch (b[1])
-              {
-                case Menu_DriveFS_ConvP00:
-                  ui_toggle_resource_menu(Rsrc_ConvP00[number], submenu, Menu_DriveFS_ConvP00);
-                  break;
-                case Menu_DriveFS_SaveP00:
-                  ui_toggle_resource_menu(Rsrc_SaveP00[number], submenu, Menu_DriveFS_SaveP00);
-                  break;
-                case Menu_DriveFS_HideCBM:
-                  ui_toggle_resource_menu(Rsrc_HideCBM[number], submenu, Menu_DriveFS_HideCBM);
-                  break;
-              }
-            }
-          }
-        }
-      case CONF_MENU_CARTTYPE:
-        if (b[0] == 0)
-          cartridge_detach_image();
-        break;
-      case CONF_MENU_PETMODEL:
-        {
-          int i;
-
-          ui_set_menu_display_core(ConfigDispDescs[CONF_MENU_PETMODEL], set_pet_model_by_name, b[0]);
-          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETMEM]);
-          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETIO]);
-          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETVIDEO]);
-          wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_Conf_PetKbd, pet_get_keyboard_name());
-          ui_update_rom_names();
-          for (i=0; PETdependconf[i].resource != NULL; i++)
-          {
-            ui_setup_config_item(PETdependconf + i);
-          }
-        }
-        break;
-      case CONF_MENU_C2MODEL:
-        {
-          ui_set_menu_display_core(ConfigDispDescs[CONF_MENU_C2MODEL], set_cbm2_model_by_name, b[0]);
-          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2MEM]);
-          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2RAM]);
-          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2LINE]);
-          wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_Conf_CBM2Kbd, cbm2_get_keyboard_name());
-          ui_update_rom_names();
-        }
-        break;
-      case CONF_MENU_ROMSET:
-        if (MenuDisplayROMSet != NULL)
-        {
-          ui_set_menu_display_core(ConfigDispDescs[CONF_MENU_ROMSET], set_romset_by_name, b[0]);
-          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_DOSNAME]);
-          ui_update_rom_names();
-          /*ui_issue_reset(1);*/
-        }
-        break;
-      case CONF_MENU_ROMACT:
-        switch (b[0])
-        {
-          case Menu_RomAct_Create:
-            if (b[1] != -1)
-            {
-              if (strlen(NewRomSetName) > 0)
-              {
-                romset_create_item(NewRomSetName, mem_romset_resources_list);
-                ui_build_romset_menu();
-                ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
-              }
-            }
-            break;
-          case Menu_RomAct_Delete:
-            romset_delete_item(ROMSetName);
-            ui_build_romset_menu();
-            ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
-            break;
-          case Menu_RomAct_Dump:
-            if (ROMSetArchiveFile != NULL)
-            {
-              romset_dump_archive(ROMSetArchiveFile);
-            }
-            break;
-          case Menu_RomAct_Clear:
-            romset_clear_archive();
-            ui_build_romset_menu();
-            ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
-            break;
-          case Menu_RomAct_Restore:
-            romset_clear_archive();
-            if (ROMSetArchiveFile != NULL)
-            {
-              romset_load_archive(ROMSetArchiveFile, 0);
-            }
-            ui_build_romset_menu();
-            ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
-            break;
-          default: break;
-        }
-        break;
-      case CONF_MENU_SYSKBD:
-        switch (b[0])
-        {
-          case Menu_SysKbd_LoadDef:
-            kbd_load_keymap(NULL, -1);
-            break;
-          default:
-            break;
-        }
-      default:
-        break;
-    }
+    ui_menu_select_config(b, &menu, LastMenu - 0x100);
   }
 
   /* Selection with adjust ==> re-open menu */
@@ -4277,60 +4317,334 @@ static const char *ui_get_file_extension(const char *name)
 }
 
 
-static void ui_user_message(int *b)
+static void ui_user_msg_mode_change(int *b)
+{
+  canvas_list_t *clist = CanvasList;
+  int block[WindowB_WFlags+1];
+  RO_Window *win;
+
+  wimp_read_screen_mode(&ScreenMode);
+  /* Extremely annoying mode change code */
+  /* Change in eigen factors might make this necessary */
+  while (clist != NULL)
+  {
+    win = clist->canvas->window;
+    ui_set_emu_window_size(win);
+    clist = clist->next;
+
+    block[WindowB_Handle] = win->Handle;
+    Wimp_GetWindowState(block);
+    if ((block[WindowB_WFlags] & (1<<16)) != 0)	/* window open? */
+    {
+      int d;
+
+      d = block[WindowB_VMaxY] - block[WindowB_VMinY];
+      if (block[WindowB_VMaxY] > ScreenMode.resy - TitleBarHeight)
+      {
+        block[WindowB_VMaxY] = ScreenMode.resy - TitleBarHeight;
+        if ((block[WindowB_VMinY] = block[WindowB_VMaxY] - d) < TitleBarHeight)
+        {
+          block[WindowB_VMinY] = TitleBarHeight;
+        }
+      }
+      d = block[WindowB_VMaxX] - block[WindowB_VMinX];
+      if (block[WindowB_VMaxX] > ScreenMode.resx - TitleBarHeight)
+      {
+        block[WindowB_VMaxX] = ScreenMode.resx - TitleBarHeight;
+        if ((block[WindowB_VMinX] = block[WindowB_VMaxX] - d) < 0)
+        {
+          block[WindowB_VMinX] = 0;
+        }
+      }
+      /* Send myself a message where to open the window */
+      Wimp_SendMessage(2, block, TaskHandle, 0);
+    }
+  }
+}
+
+static void ui_user_msg_data_load(int *b)
 {
   canvas_t *canvas;
   int i;
   int action=0;
   char *name = ((char*)b)+44;
 
+  canvas = canvas_for_handle(b[5]);
+  if (canvas != NULL)
+  {
+    int doprg = 0;
+
+    if (b[10] == FileType_C64File)
+      doprg = 1;
+    else
+    {
+      const char *ext = ui_get_file_extension(name);
+
+      if ((ext != NULL) && (wimp_strcasecmp(ext, PRGFileExtension) == 0))
+        doprg = 1;
+    }
+    if (doprg)
+    {
+      if (ui_load_prg_file(name) == 0)
+        action = 1;
+    }
+    else if (b[10] == FileType_Data)	/* Snapshot? */
+    {
+      wimp_strcpy(((char*)SnapshotMessage)+44, name);
+      maincpu_trigger_trap(ui_load_snapshot_trap, NULL);
+      action = 1; SnapshotPending = 1;
+    }
+  }
+  else if (b[5] == EmuPane->Handle)
+  {
+    switch (b[6])
+    {
+      case Icon_Pane_Drive0:
+      case Icon_Pane_LED0: i = 0; break;
+      case Icon_Pane_Drive1:
+      case Icon_Pane_LED1: i = 1; break;
+      case Icon_Pane_Drive2:
+      case Icon_Pane_LED2: i = 2; break;
+      case Icon_Pane_Drive3:
+      case Icon_Pane_LED3: i = 3; break;
+      default: i = -1; break;
+    }
+    if (i >= 0)
+    {
+      if (ui_new_drive_image(i, name, 1) == 0)
+        action = 1;
+    }
+  }
+  else if (b[5] == ImgContWindow->Handle)
+  {
+    ui_image_contents_generic(name, b[10]); action = 1;
+  }
+  else if (b[5] == ConfWindows[CONF_WIN_DRIVES]->Handle)
+  {
+    for (i=0; i<4; i++)
+    {
+      if (b[6] == DriveToFile[i]) break;
+    }
+    if (i < 4)
+    {
+      if (ui_new_drive_image(i, name, 1) == 0)
+        action = 1;
+    }
+  }
+  else if (b[5] == ConfWindows[CONF_WIN_TAPE]->Handle)
+  {
+    if (b[6] == Icon_Conf_TapeFile)
+    {
+      if (ui_new_tape_image(name, 1) == 0)
+        action = 1;
+    }
+  }
+  else if (b[5] == ConfWindows[CONF_WIN_SYSTEM]->Handle)
+  {
+    if (b[6] == Icon_Conf_CartFile)
+    {
+      ui_set_cartridge_file(name);
+      action = 1;
+    }
+    else if (b[6] == Icon_Conf_DosNameF)
+    {
+      ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_DOSNAME], (resource_value_t)ui_check_for_syspath(name));
+      action = 1;
+    }
+    if ((b[10] == FileType_Data) || (b[10] == FileType_Text))
+    {
+      const char *res = NULL;
+      int rom_changed = 0;
+
+      if (b[10] == FileType_Data)
+      {
+        if (b[6] == Icon_Conf_CharGen) res = Rsrc_CharGen;
+        else if (b[6] == Icon_Conf_Kernal) res = Rsrc_Kernal;
+        else if (b[6] == Icon_Conf_Basic) res = Rsrc_Basic;
+        if (res != NULL) rom_changed = 1;
+      }
+      else if (b[10] == FileType_Text)
+      {
+        if (b[6] == Icon_Conf_Palette) res = Rsrc_Palette;
+        else if ((b[6] == Icon_Conf_Keyboard) || (b[6] == Icon_Conf_KeyboardT))
+        {
+          kbd_load_keymap(name, -1);
+          action = 1;
+        }
+        /* Check extension */
+        else
+        {
+          const char *ext;
+
+          if ((ext = ui_get_file_extension(name)) != NULL)
+          {
+            if (wimp_strcasecmp(ext, RSETARCH_EXT) == 0)
+            {
+              romset_load_archive(name, 0);
+              ui_build_romset_menu();
+              action = 1;
+            }
+            else if (wimp_strcasecmp(ext, KEYMAP_EXT) == 0)
+            {
+              kbd_load_keymap(name, -1);
+              action = 1;
+            }
+          }
+        }
+      }
+      if (res != NULL)
+      {
+        const char *filename;
+
+        filename = ui_check_for_syspath(name);
+        if (resources_set_value(res, (resource_value_t)filename) == 0)
+        {
+          wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], b[6], filename);
+          if (rom_changed != 0)
+          {
+            mem_load(); /*ui_issue_reset(1);*/
+          }
+          action = 1;
+        }
+      }
+    }
+  }
+  else if (b[5] == ConfWindows[CONF_WIN_VIC]->Handle)
+  {
+    if (b[6] == Icon_Conf_VICCartF)
+    {
+      ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_VICCART], (resource_value_t)name);
+      action = 1;
+    }
+  }
+  else if (b[5] == ConfWindows[CONF_WIN_CBM2]->Handle)
+  {
+    if (b[6] == Icon_Conf_CBM2CartF)
+    {
+      ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_C2CART], (resource_value_t)name);
+      action = 1;
+    }
+  }
+  else if (b[5] == ConfWindows[CONF_WIN_C128]->Handle)
+  {
+    if (b[6] == Icon_Conf_C128Palette)
+    {
+      const char *filename;
+
+      filename = ui_check_for_syspath(name);
+      if (resources_set_value(Rsrc_VDCpalette, (resource_value_t)filename) == 0)
+      {
+        wimp_window_write_icon_text(ConfWindows[CONF_WIN_C128], Icon_Conf_C128Palette, filename);
+      }
+      action = 1;
+    }
+  }
+  else if (b[5] == VSidWindow->Handle)
+  {
+    if (vsid_ui_load_file(name) == 0)
+      action = 1;
+  }
+  if (action != 0)
+  {
+    b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoadAck;
+    Wimp_SendMessage(17, b, b[MsgB_Sender], b[6]);
+  }
+  if ((WimpScrapUsed != 0) && (SnapshotPending == 0))
+  {
+    remove(WimpScrapFile);
+    WimpScrapUsed = 0;
+  }
+}
+
+static void ui_user_msg_data_save(int *b)
+{
+  canvas_t *canvas;
+  int action=0;
+  char *name = ((char*)b)+44;
+
+  canvas = canvas_for_handle(b[5]);
+
+  if (canvas != NULL)
+  {
+    if (((b[10] == FileType_C64File) && (machine_class == VICE_MACHINE_C64)) || (b[10] == FileType_Data)) action = 1;
+  }
+  else if (b[5] == ConfWindows[CONF_WIN_SYSTEM]->Handle)
+  {
+    if ((b[10] == FileType_Data) || (b[10] == FileType_Text)) action = 1;
+  }
+  if (action != 0)
+  {
+    wimp_strcpy(name, WimpScrapFile);
+    b[MsgB_Size] = 44 + ((wimp_strlen(name) + 4) & ~3);
+    WimpScrapUsed = 1;
+    b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataSaveAck;
+    Wimp_SendMessage(17, b, b[MsgB_Sender], b[6]);
+  }
+}
+
+static void ui_user_msg_data_save_ack(int *b)
+{
+  char *name = ((char*)b) + 44;
+
+  switch (LastDrag)
+  {
+    case DRAG_TYPE_SOUND:
+      ui_set_sound_file(name); break;
+    case DRAG_TYPE_SERIAL:
+      ui_set_serial_file(name); break;
+    case DRAG_TYPE_PRINTER:
+      ui_set_printer_file(name); break;
+    case DRAG_TYPE_SNAPSHOT:
+      if (ui_make_snapshot(name) == 0)
+      {
+        wimp_window_write_icon_text(SnapshotWindow, Icon_Snap_Path, name);
+        b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
+        Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
+      }
+      break;
+    case DRAG_TYPE_SAVEBOX:
+      if (LastMenu == CONF_MENU_ROMACT + 0x100)
+      {
+        if ((ROMSetName == NULL) || (romset_save_item(name, ROMSetName) != 0)) break;
+        wimp_strcpy(ROMSetItemFile, name);
+      }
+      else if (LastMenu == CONF_MENU_SYSKBD + 0x100)
+      {
+        if (kbd_dump_keymap(name, -1) != 0) break;
+        wimp_strcpy(SystemKeymapFile, name);
+      }
+      else if (LastMenu == Menu_Emulator)
+      {
+        canvas_t *canvas = canvas_for_handle(LastHandle);
+        if (screenshot_canvas_save("Sprite", name, canvas) != 0) break;
+        wimp_strcpy(ViceScreenshotFile, name);
+      }
+      SetFileType(name, b[10]);
+      b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
+      Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
+      Wimp_CreateMenu((int*)-1, 0, 0);
+      break;
+    case DRAG_TYPE_CREATEDISC:
+      wimp_window_write_icon_text(CreateDiscWindow, Icon_Create_File, name);
+      if (ui_create_new_disc_image() == 0)
+      {
+        b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
+        Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
+      }
+      break;
+    default: break;
+  }
+  LastDrag = DRAG_TYPE_NONE;
+}
+
+
+static void ui_user_message(int *b)
+{
   switch (b[MsgB_Action])
   {
     case Message_Quit: ui_exit(); break;
     case Message_ModeChange:
-      {
-        canvas_list_t *clist = CanvasList;
-        int block[WindowB_WFlags+1];
-        RO_Window *win;
-
-        wimp_read_screen_mode(&ScreenMode);
-        /* Extremely annoying mode change code */
-        /* Change in eigen factors might make this necessary */
-        while (clist != NULL)
-        {
-          win = clist->canvas->window;
-          ui_set_emu_window_size(win);
-          clist = clist->next;
-
-          block[WindowB_Handle] = win->Handle;
-          Wimp_GetWindowState(block);
-          if ((block[WindowB_WFlags] & (1<<16)) != 0)	/* window open? */
-          {
-            int d;
-
-            d = block[WindowB_VMaxY] - block[WindowB_VMinY];
-            if (block[WindowB_VMaxY] > ScreenMode.resy - TitleBarHeight)
-            {
-              block[WindowB_VMaxY] = ScreenMode.resy - TitleBarHeight;
-              if ((block[WindowB_VMinY] = block[WindowB_VMaxY] - d) < TitleBarHeight)
-              {
-                block[WindowB_VMinY] = TitleBarHeight;
-              }
-            }
-            d = block[WindowB_VMaxX] - block[WindowB_VMinX];
-            if (block[WindowB_VMaxX] > ScreenMode.resx - TitleBarHeight)
-            {
-              block[WindowB_VMaxX] = ScreenMode.resx - TitleBarHeight;
-              if ((block[WindowB_VMinX] = block[WindowB_VMaxX] - d) < 0)
-              {
-                block[WindowB_VMinX] = 0;
-              }
-            }
-            /* Send myself a message where to open the window */
-            Wimp_SendMessage(2, block, TaskHandle, 0);
-          }
-        }
-      }
+      ui_user_msg_mode_change(b);
       break;
     case Message_PaletteChange:
       wimp_read_screen_mode(&ScreenMode);
@@ -4341,266 +4655,13 @@ static void ui_user_message(int *b)
       ModeChanging = 0;
       break;
     case Message_DataLoad:
-      canvas = canvas_for_handle(b[5]);
-      if (canvas != NULL)
-      {
-        int doprg = 0;
-
-        if (b[10] == FileType_C64File)
-          doprg = 1;
-        else
-        {
-          const char *ext = ui_get_file_extension(name);
-
-          if ((ext != NULL) && (wimp_strcasecmp(ext, PRGFileExtension) == 0))
-            doprg = 1;
-        }
-        if (doprg)
-        {
-          if (ui_load_prg_file(name) == 0)
-            action = 1;
-        }
-        else if (b[10] == FileType_Data)	/* Snapshot? */
-        {
-          wimp_strcpy(((char*)SnapshotMessage)+44, name);
-          maincpu_trigger_trap(ui_load_snapshot_trap, NULL);
-          action = 1; SnapshotPending = 1;
-        }
-      }
-      else if (b[5] == EmuPane->Handle)
-      {
-        switch (b[6])
-        {
-          case Icon_Pane_Drive0:
-          case Icon_Pane_LED0: i = 0; break;
-          case Icon_Pane_Drive1:
-          case Icon_Pane_LED1: i = 1; break;
-          case Icon_Pane_Drive2:
-          case Icon_Pane_LED2: i = 2; break;
-          case Icon_Pane_Drive3:
-          case Icon_Pane_LED3: i = 3; break;
-          default: i = -1; break;
-        }
-        if (i >= 0)
-        {
-          if (ui_new_drive_image(i, name, 1) == 0)
-            action = 1;
-        }
-      }
-      else if (b[5] == ImgContWindow->Handle)
-      {
-        ui_image_contents_generic(name, b[10]); action = 1;
-      }
-      else if (b[5] == ConfWindows[CONF_WIN_DRIVES]->Handle)
-      {
-        for (i=0; i<4; i++)
-        {
-          if (b[6] == DriveToFile[i]) break;
-        }
-        if (i < 4)
-        {
-          if (ui_new_drive_image(i, name, 1) == 0)
-            action = 1;
-        }
-      }
-      else if (b[5] == ConfWindows[CONF_WIN_TAPE]->Handle)
-      {
-        if (b[6] == Icon_Conf_TapeFile)
-        {
-          if (ui_new_tape_image(name, 1) == 0)
-            action = 1;
-        }
-      }
-      else if (b[5] == ConfWindows[CONF_WIN_SYSTEM]->Handle)
-      {
-        if (b[6] == Icon_Conf_CartFile)
-        {
-          ui_set_cartridge_file(name);
-          action = 1;
-        }
-        else if (b[6] == Icon_Conf_DosNameF)
-        {
-          ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_DOSNAME], (resource_value_t)ui_check_for_syspath(name));
-          action = 1;
-        }
-        if ((b[10] == FileType_Data) || (b[10] == FileType_Text))
-        {
-          const char *res = NULL;
-          int rom_changed = 0;
-
-          if (b[10] == FileType_Data)
-          {
-            if (b[6] == Icon_Conf_CharGen) res = Rsrc_CharGen;
-            else if (b[6] == Icon_Conf_Kernal) res = Rsrc_Kernal;
-            else if (b[6] == Icon_Conf_Basic) res = Rsrc_Basic;
-            if (res != NULL) rom_changed = 1;
-          }
-          else if (b[10] == FileType_Text)
-          {
-            if (b[6] == Icon_Conf_Palette) res = Rsrc_Palette;
-            else if ((b[6] == Icon_Conf_Keyboard) || (b[6] == Icon_Conf_KeyboardT))
-            {
-              kbd_load_keymap(name, -1);
-              action = 1;
-            }
-            /* Check extension */
-            else
-            {
-              const char *ext;
-
-              if ((ext = ui_get_file_extension(name)) != NULL)
-              {
-                if (wimp_strcasecmp(ext, RSETARCH_EXT) == 0)
-                {
-                  romset_load_archive(name, 0);
-                  ui_build_romset_menu();
-                  action = 1;
-                }
-                else if (wimp_strcasecmp(ext, KEYMAP_EXT) == 0)
-                {
-                  kbd_load_keymap(name, -1);
-                  action = 1;
-                }
-              }
-            }
-          }
-          if (res != NULL)
-          {
-            const char *filename;
-
-            filename = ui_check_for_syspath(name);
-            if (resources_set_value(res, (resource_value_t)filename) == 0)
-            {
-              wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], b[6], filename);
-              if (rom_changed != 0)
-              {
-                mem_load(); /*ui_issue_reset(1);*/
-              }
-              action = 1;
-            }
-          }
-        }
-      }
-      else if (b[5] == ConfWindows[CONF_WIN_VIC]->Handle)
-      {
-        if (b[6] == Icon_Conf_VICCartF)
-        {
-          ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_VICCART], (resource_value_t)(b + 11));
-          action = 1;
-        }
-      }
-      else if (b[5] == ConfWindows[CONF_WIN_CBM2]->Handle)
-      {
-        if (b[6] == Icon_Conf_CBM2CartF)
-        {
-          ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_C2CART], (resource_value_t)(b + 11));
-          action = 1;
-        }
-      }
-      else if (b[5] == ConfWindows[CONF_WIN_C128]->Handle)
-      {
-        if (b[6] == Icon_Conf_C128Palette)
-        {
-          const char *filename;
-
-          filename = ui_check_for_syspath((char*)(b+11));
-          if (resources_set_value(Rsrc_VDCpalette, (resource_value_t)filename) == 0)
-          {
-            wimp_window_write_icon_text(ConfWindows[CONF_WIN_C128], Icon_Conf_C128Palette, filename);
-          }
-          action = 1;
-        }
-      }
-      else if (b[5] == VSidWindow->Handle)
-      {
-        if (vsid_ui_load_file(name) == 0)
-          action = 1;
-      }
-      if (action != 0)
-      {
-        b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoadAck;
-        Wimp_SendMessage(17, b, b[MsgB_Sender], b[6]);
-      }
-      if ((WimpScrapUsed != 0) && (SnapshotPending == 0))
-      {
-        remove(WimpScrapFile);
-        WimpScrapUsed = 0;
-      }
+      ui_user_msg_data_load(b);
       break;
     case Message_DataSave:
-      {
-        canvas = canvas_for_handle(b[5]);
-
-        if (canvas != NULL)
-        {
-          if (((b[10] == FileType_C64File) && (machine_class == VICE_MACHINE_C64)) || (b[10] == FileType_Data)) action = 1;
-        }
-        else if (b[5] == ConfWindows[CONF_WIN_SYSTEM]->Handle)
-        {
-          if ((b[10] == FileType_Data) || (b[10] == FileType_Text)) action = 1;
-        }
-        if (action != 0)
-        {
-          wimp_strcpy(name, WimpScrapFile);
-          b[MsgB_Size] = 44 + ((wimp_strlen(name) + 4) & ~3);
-          WimpScrapUsed = 1;
-          b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataSaveAck;
-          Wimp_SendMessage(17, b, b[MsgB_Sender], b[6]);
-        }
-      }
+      ui_user_msg_data_save(b);
       break;
     case Message_DataSaveAck:
-      {
-        switch (LastDrag)
-        {
-          case DRAG_TYPE_SOUND:
-            ui_set_sound_file(name); break;
-          case DRAG_TYPE_SERIAL:
-            ui_set_serial_file(name); break;
-          case DRAG_TYPE_PRINTER:
-            ui_set_printer_file(name); break;
-          case DRAG_TYPE_SNAPSHOT:
-            if (ui_make_snapshot(name) == 0)
-            {
-              wimp_window_write_icon_text(SnapshotWindow, Icon_Snap_Path, name);
-              b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
-              Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
-            }
-            break;
-          case DRAG_TYPE_SAVEBOX:
-            if (LastMenu == CONF_MENU_ROMACT + 0x100)
-            {
-              if ((ROMSetName == NULL) || (romset_save_item(name, ROMSetName) != 0)) break;
-              wimp_strcpy(ROMSetItemFile, name);
-            }
-            else if (LastMenu == CONF_MENU_SYSKBD + 0x100)
-            {
-              if (kbd_dump_keymap(name, -1) != 0) break;
-              wimp_strcpy(SystemKeymapFile, name);
-            }
-            else if (LastMenu == Menu_Emulator)
-            {
-              canvas_t *canvas = canvas_for_handle(LastHandle);
-              if (screenshot_canvas_save("Sprite", name, canvas) != 0) break;
-              wimp_strcpy(ViceScreenshotFile, name);
-            }
-            SetFileType(name, b[10]);
-            b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
-            Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
-            Wimp_CreateMenu((int*)-1, 0, 0);
-            break;
-          case DRAG_TYPE_CREATEDISC:
-            wimp_window_write_icon_text(CreateDiscWindow, Icon_Create_File, name);
-            if (ui_create_new_disc_image() == 0)
-            {
-              b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
-              Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
-            }
-            break;
-          default: break;
-        }
-        LastDrag = DRAG_TYPE_NONE;
-      }
+      ui_user_msg_data_save_ack(b);
       break;
     case Message_MenuWarning:
       if (LastMenu == CONF_MENU_ROMACT + 0x100)
@@ -4631,17 +4692,18 @@ static void ui_user_message(int *b)
 static void ui_user_message_ack(int *b)
 {
   _kernel_oserror err;
+  char *name = ((char*)b) + 44;
 
   err.errnum = 0; err.errmess[0] = 0;
 
   /* Data save bounced? */
   if (b[MsgB_Action] == Message_DataSave)
   {
-    sprintf(err.errmess, SymbolStrings[Symbol_ErrSave], ((char*)b)+44);
+    sprintf(err.errmess, SymbolStrings[Symbol_ErrSave], name);
   }
   if (b[MsgB_Action] == Message_DataLoad)
   {
-    sprintf(err.errmess, SymbolStrings[Symbol_ErrLoad], ((char*)b)+44);
+    sprintf(err.errmess, SymbolStrings[Symbol_ErrLoad], name);
   }
 
   if (err.errmess[0] != 0)
@@ -4730,20 +4792,25 @@ void ui_poll(void)
 
   now = OS_ReadMonotonicTime();
 
+  NumberOfFrames++;
+
   /* Speed limiter? Busy wait */
-  if (FrameCS != 0)
+  if (SpeedLimit != 0)
   {
-    while ((now - LastFrame) < FrameCS) now = OS_ReadMonotonicTime();
+    while ((10000*NumberOfFrames) > FramesPerSecond*SpeedLimit*(now-LastSpeed))
+      now = OS_ReadMonotonicTime();
   }
   LastFrame = now;
 
-  NumberOfFrames++;
-
   if ((now - LastSpeed) >= SpeedEvery)
   {
-    RelativeSpeed = (200 * NumberOfFrames) / (now - LastSpeed);
+    resource_value_t val;
+
+    RelativeSpeed = (10000 * NumberOfFrames) / (FramesPerSecond * (now - LastSpeed));
     ui_display_speed(RelativeSpeed, (100 * NumberOfRefreshes) / (now - LastSpeed), 0);
     LastSpeed = now; NumberOfFrames = 0; NumberOfRefreshes = 0;
+    resources_get_value(Rsrc_TrueSync, &val);
+    FramesPerSecond = ((int)val == DRIVE_SYNC_PAL) ? 50 : 60;
   }
 
   if (SingleTasking != 0) return;

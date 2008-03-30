@@ -1,3 +1,51 @@
+2000-09-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.13.
+
+	* vdrive/vdrive-command.c (vdrive_command_execute): Fixed
+	format command call.
+
+	* info.c: Updated.
+
+	* uimon.h: Do not #include "console.h".
+
+	* arch/unix/uimon.c, arch/msdos/uimon.c, arch/win32/uimon.c,
+	arch/riscos/uimon.c, arch/os2/uimon.c, arch/beos/uimon.c:
+	Include "console.h" and <stdio.h> because those files need
+	prototypes or defines from this header files.
+
+	* arch/win32/console.c: #include "console.h".
+	(arch_console_open_mdi): Fixed prototpye to match the
+	function declaration in `uimon.h'.
+
+	* arch/win32/res.rc: Commented out toolbar definition that
+	windres cannot parse.
+
+2000-09-27  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* sounddrv/soundacorn.c: adapt fragsize and fragnr if fragsize
+	exceeds the possible DMA buffer size (fixes problems at >
+	22050Hz).
+
+2000-09-27  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/.../uimon.c: Added handling of console for mon for 
+	all ports
+
+	* arch/win32/uimon.c: Stub for adding a UI for the monitor
+	with win32.
+	To compile with it, define UIMON_EXPERIMENTAL on top of file
+
+	* arch/win32/console.c: Now can be opened as an MDI child
+
+2000-09-26  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/uiconfig.c: changed cartridges and maximum sound
+	buffer size
+
+	* arch/riscos/ui.c: improved vsid mode and PAL/NTSC syncing.
+	Restructured overly large if-then-else-if... blocks.
+
 2000-09-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.12.
