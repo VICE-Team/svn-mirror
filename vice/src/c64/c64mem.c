@@ -35,36 +35,30 @@
 #include <sys/types.h>
 #endif
 
-#include "archdep.h"
+#include "c64-snapshot.h"
 #include "c64-resources.h"
 #include "c64cart.h"
 #include "c64cia.h"
 #include "c64io.h"
 #include "c64mem.h"
 #include "c64memlimit.h"
+#include "c64pla.h"
 #include "cartridge.h"
-#include "cmdline.h"
-#include "datasette.h"
-#include "emuid.h"
 #include "interrupt.h"
 #include "log.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "mon.h"
 #include "parallel.h"
 #include "patchrom.h"
 #include "resources.h"
 #include "reu.h"
 #include "sid.h"
-#include "snapshot.h"
 #include "sysfile.h"
-#include "ui.h"
 #include "utils.h"
 #include "vicii-mem.h"
 #include "vicii.h"
 
-#ifdef HAVE_RS232
-#include "c64acia.h"
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -120,11 +114,6 @@ static read_func_ptr_t mem_read_tab_watch[0x101];
 static store_func_ptr_t mem_write_tab_orig[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab_orig[NUM_CONFIGS][0x101];
 
-/* Processor port.  */
-static struct {
-    BYTE dir, data, data_out;
-} pport;
-
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
@@ -133,12 +122,6 @@ static int mem_config;
 
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
-
-/* Tape motor status.  */
-static BYTE old_port_data_out = 0xff;
-
-/* Tape write line status.  */
-static BYTE old_port_write_bit = 0xff;
 
 /* Logging goes here.  */
 static log_t c64_mem_log = LOG_ERR;
@@ -165,28 +148,7 @@ inline void pla_config_changed(void)
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3)
                   | (export.game << 4));
 
-    pport.data_out = (pport.data_out & ~pport.dir)
-                     | (pport.data & pport.dir);
-
-    ram[1] = ((pport.data | ~pport.dir) & (pport.data_out | 0x17));
-
-    if (!(pport.dir & 0x20))
-      ram[1] &= 0xdf;
-
-    if (tape_sense && !(pport.dir & 0x10))
-      ram[1] &= 0xef;
-
-    if (((pport.dir & pport.data) & 0x20) != old_port_data_out) {
-        old_port_data_out = (pport.dir & pport.data) & 0x20;
-        datasette_set_motor(!old_port_data_out);
-    }
-
-    if (((~pport.dir | pport.data) & 0x8) != old_port_write_bit) {
-        old_port_write_bit = (~pport.dir | pport.data) & 0x8;
-        datasette_toggle_write_bit((~pport.dir | pport.data) & 0x8);
-    }
-
-    ram[0] = pport.dir;
+    c64pla_config_changed(tape_sense, 0);
 
     if (any_watchpoints(e_comp_space)) {
         _mem_read_tab_ptr = mem_read_tab_watch;
@@ -650,7 +612,7 @@ void mem_powerup(void)
     }
 }
 
-static int c64mem_get_kernal_checksum(void)
+int c64mem_get_kernal_checksum(void)
 {
     int i;
     WORD sum;                   /* ROM checksum */
@@ -721,7 +683,7 @@ int mem_load_kernal(const char *rom_name)
     return 0;
 }
 
-static int c64mem_get_basic_checksum(void)
+int c64mem_get_basic_checksum(void)
 {
     int i;
     WORD sum;
@@ -1121,239 +1083,5 @@ void mem_set_exrom(int active)
     export.exrom = active ? 0 : 1;
 
     pla_config_changed();
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Snapshot.  */
-
-#define SNAP_ROM_MAJOR 0
-#define SNAP_ROM_MINOR 0
-static const char snap_rom_module_name[] = "C64ROM";
-
-static int mem_write_rom_snapshot_module(snapshot_t *s)
-{
-    snapshot_module_t *m;
-    int trapfl;
-
-    /* Main memory module.  */
-
-    m = snapshot_module_create(s, snap_rom_module_name,
-                                        SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
-    if (m == NULL)
-        return -1;
-
-    /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
-
-    if (snapshot_module_write_byte_array(m, kernal_rom,
-                                                C64_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, basic_rom,
-                                                C64_BASIC_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, chargen_rom,
-                                                C64_CHARGEN_ROM_SIZE) < 0
-        )
-        goto fail;
-
-    /* FIXME: save cartridge ROM (& RAM?) areas:
-       first write out the configuration, i.e.
-       - type of cartridge (banking scheme type)
-       - state of cartridge (active/which bank, ...)
-       then the ROM/RAM arrays:
-       - cartridge ROM areas
-       - cartridge RAM areas  */
-
-    ui_update_menus();
-
-    if (snapshot_module_close(m) < 0)
-        goto fail;
-
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-
-    return 0;
-
-fail:
-    if (m != NULL)
-        snapshot_module_close(m);
-
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-
-    return -1;
-}
-
-int mem_read_rom_snapshot_module(snapshot_t *s)
-{
-    BYTE major_version, minor_version;
-    snapshot_module_t *m;
-    int trapfl;
-
-    /* Main memory module.  */
-
-    m = snapshot_module_open(s, snap_rom_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL) {
-        /* this module is optional */
-        /* FIXME: reset all cartridge stuff to standard C64 behaviour */
-        return 0;
-    }
-
-    if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
-        log_error(c64_mem_log,
-                  "Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
-        snapshot_module_close(m);
-        return -1;
-    }
-
-    /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
-
-    if (snapshot_module_read_byte_array(m, kernal_rom,
-                                                C64_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, basic_rom,
-                                                C64_BASIC_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, chargen_rom,
-                                                C64_CHARGEN_ROM_SIZE) < 0
-        )
-        goto fail;
-
-    /* FIXME: read cartridge ROM (& RAM?) areas:
-       first read out the configuration, i.e.
-       - type of cartridge (banking scheme type)
-       - state of cartridge (active/which bank, ...)
-       then the ROM/RAM arrays:
-       - cartridge ROM areas
-       - cartridge RAM areas
-    */
-
-    if (snapshot_module_close(m) < 0)
-        goto fail;
-
-    c64mem_get_kernal_checksum();
-    c64mem_get_basic_checksum();
-    /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-
-
-    return 0;
-
-fail:
-    if (m != NULL)
-        snapshot_module_close(m);
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-    return -1;
-}
-
-
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
-static const char snap_mem_module_name[] = "C64MEM";
-
-int mem_write_snapshot_module(snapshot_t *s, int save_roms)
-{
-    snapshot_module_t *m;
-
-    /* Main memory module.  */
-
-    m = snapshot_module_create(s, snap_mem_module_name, SNAP_MAJOR, SNAP_MINOR);    if (m == NULL)
-        return -1;
-
-    if (snapshot_module_write_byte(m, pport.data) < 0
-        || snapshot_module_write_byte(m, pport.dir) < 0
-        || snapshot_module_write_byte(m, export.exrom) < 0
-        || snapshot_module_write_byte(m, export.game) < 0
-        || snapshot_module_write_byte_array(m, ram, C64_RAM_SIZE) < 0)
-        goto fail;
-
-    if (snapshot_module_close(m) < 0)
-        goto fail;
-    m = NULL;
-
-    if (save_roms && mem_write_rom_snapshot_module(s) < 0)
-        goto fail;
-
-    /* REU module.  */
-    if (reu_enabled && reu_write_snapshot_module(s) < 0)
-        goto fail;
-
-#ifdef HAVE_RS232
-    /* ACIA module.  */
-    if (acia_de_enabled && acia1_write_snapshot_module(s) < 0)
-        goto fail;
-#endif
-
-    return 0;
-
-fail:
-    if (m != NULL)
-        snapshot_module_close(m);
-    return -1;
-}
-
-int mem_read_snapshot_module(snapshot_t *s)
-{
-    BYTE major_version, minor_version;
-    snapshot_module_t *m;
-
-    /* Main memory module.  */
-
-    m = snapshot_module_open(s, snap_mem_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL)
-        return -1;
-
-    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        log_error(c64_mem_log,
-                  "Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  SNAP_MAJOR, SNAP_MINOR);
-        goto fail;
-    }
-
-    if (snapshot_module_read_byte(m, &pport.data) < 0
-        || snapshot_module_read_byte(m, &pport.dir) < 0
-        || snapshot_module_read_byte(m, &export.exrom) < 0
-        || snapshot_module_read_byte(m, &export.game) < 0
-        || snapshot_module_read_byte_array(m, ram, C64_RAM_SIZE) < 0)
-        goto fail;
-
-    pla_config_changed();
-
-    if (snapshot_module_close(m) < 0)
-        goto fail;
-    m = NULL;
-
-    if (mem_read_rom_snapshot_module(s) < 0)
-        goto fail;
-
-    /* REU module.  */
-    if (reu_read_snapshot_module(s) < 0) {
-        reu_enabled = 0;
-    } else {
-        reu_enabled = 1;
-    }
-
-#ifdef HAVE_RS232
-    /* ACIA module.  */
-    if (acia1_read_snapshot_module(s) < 0) {
-        acia_de_enabled = 0;
-    } else {
-        /* FIXME: Why do we need to do so???  */
-        acia1_reset();          /* Clear interrupts.  */
-        acia_de_enabled = 1;
-    }
-#endif
-
-    ui_update_menus();
-
-    return 0;
-
-fail:
-    if (m != NULL)
-        snapshot_module_close(m);
-    return -1;
 }
 

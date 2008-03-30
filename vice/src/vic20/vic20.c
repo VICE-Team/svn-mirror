@@ -64,6 +64,7 @@
 #include "vic.h"
 #include "vic20-cmdline-options.h"
 #include "vic20-resources.h"
+#include "vic20-snapshot.h"
 #include "vic20.h"
 #include "vic20ieeevia.h"
 #include "vic20mem.h"
@@ -456,7 +457,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 
     /* FIXME: Missing sound.  */
     if (maincpu_write_snapshot_module(s) < 0
-        || mem_write_snapshot_module(s, save_roms) < 0
+        || vic20_snapshot_write_module(s, save_roms) < 0
         || vic_write_snapshot_module(s) < 0
         || via1_write_snapshot_module(s) < 0
         || via2_write_snapshot_module(s) < 0
@@ -498,7 +499,7 @@ int machine_read_snapshot(const char *name)
 
     /* FIXME: Missing sound.  */
     if (maincpu_read_snapshot_module(s) < 0
-        || mem_read_snapshot_module(s) < 0
+        || vic20_snapshot_read_module(s) < 0
         || vic_read_snapshot_module(s) < 0
         || via1_read_snapshot_module(s) < 0
         || via2_read_snapshot_module(s) < 0

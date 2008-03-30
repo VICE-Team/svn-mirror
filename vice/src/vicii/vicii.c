@@ -60,6 +60,7 @@
 #include "alarm.h"
 #include "c64.h"
 #include "c64cart.h"
+#include "c64mem.h"
 #include "clkguard.h"
 #include "interrupt.h"
 #include "log.h"

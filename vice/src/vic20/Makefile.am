@@ -33,6 +33,8 @@ libvic20_a_SOURCES = \
 	vic20-cmdline-options.h \
 	vic20-resources.c \
 	vic20-resources.h \
+	vic20-snapshot.c \
+	vic20-snapshot.h \
 	vic20.c \
 	vic20.h \
 	vic20cartridge.c \

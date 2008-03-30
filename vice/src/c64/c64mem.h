@@ -28,7 +28,6 @@
 #ifndef _C64MEM_H
 #define _C64MEM_H
 
-#include "mem.h"
 #include "types.h"
 
 #define C64_RAM_SIZE                    0x10000
@@ -45,12 +44,12 @@
 
 extern int c64_mem_init_resources(void);
 extern int c64_mem_init_cmdline_options(void);
+
 extern void mem_set_vbank(int new_vbank);
-extern read_func_t ram_read;
-extern read_func_t roml_read, romh_read;
-extern read_func_t ultimax_a000_bfff_read;
-extern store_func_t ram_store, ram_hi_store;
-extern store_func_t roml_store, ultimax_a000_bfff_store;
+
+extern BYTE REGPARM1 ram_read(ADDRESS addr);
+extern void REGPARM2 ram_store(ADDRESS addr, BYTE value);
+extern void REGPARM2 ram_hi_store(ADDRESS addr, BYTE value);
 
 extern char** mem_get_romsets(void);
 extern int mem_get_numromsets(void);
@@ -66,6 +65,13 @@ extern void mem_set_exrom(int active);
 extern int mem_load_kernal(const char *rom_name);
 extern int mem_load_basic(const char *rom_name);
 extern int mem_load_chargen(const char *rom_name);
+
+extern BYTE basic_rom[C64_BASIC_ROM_SIZE];
+extern BYTE kernal_rom[C64_KERNAL_ROM_SIZE];
+extern BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
+
+extern int c64mem_get_kernal_checksum(void);
+extern int c64mem_get_basic_checksum(void);
 
 #endif /* _C64MEM_H */
 

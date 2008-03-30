@@ -87,41 +87,12 @@ extern void REGPARM2 chargen_store(ADDRESS addr, BYTE value);
 
 extern BYTE *page_zero, *page_one, *ram_bank;
 
-/* ------------------------------------------------------------------------- */
+extern BYTE basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
+extern BYTE kernal_rom[C128_KERNAL_ROM_SIZE];
+extern BYTE chargen_rom[C128_CHARGEN_ROM_SIZE];
 
-#if 0 /* def _C128CPU_C */
-
-extern read_func_ptr_t _mem_read_tab[];
-extern store_func_ptr_t _mem_write_tab[];
-
-/* FIXME: The #undefs are to avoid collisions with the standard CPU code.
-   Well, we should not do this.  */
-
-#undef STORE
-#define STORE(addr, value) \
-    (_mem_write_tab[(addr) >> 8])((addr), (value))
-
-#undef LOAD
-#define LOAD(addr) \
-    (_mem_read_tab[(addr) >> 8])((addr))
-
-#undef STORE_ZERO
-#define STORE_ZERO(addr, value) \
-    page_zero[(addr) & 0xff] = (value);
-
-#undef LOAD_ZERO
-#define LOAD_ZERO(addr) \
-    page_zero[(addr) & 0xff]
-
-#undef LOAD_ADDR
-#define LOAD_ADDR(addr) \
-    ((LOAD((addr) + 1) << 8) | LOAD(addr))
-
-#undef LOAD_ZERO_ADDR
-#define LOAD_ZERO_ADDR(addr) \
-    ((LOAD_ZERO((addr) + 1) << 8) | LOAD_ZERO(addr))
-
-#endif
+extern int mem_basic_checksum(void);
+extern int mem_kernal_checksum(void);
 
 #endif
 
