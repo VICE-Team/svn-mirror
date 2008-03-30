@@ -55,7 +55,10 @@ static WORD reg_iyl = 0;
 static WORD reg_sp = 0;
 static DWORD z80_reg_pc = 0;
 static BYTE reg_i = 0;
-static BYTE reg_iff = 0;
+
+static BYTE iff1 = 0;
+static BYTE iff2 = 0;
+static BYTE im_mode = 0;
 
 static BYTE reg_a2 = 0;
 static BYTE reg_b2 = 0;
@@ -79,6 +82,9 @@ void z80_trigger_dma(void)
 void z80_reset(void)
 {
     z80_reg_pc = 0;
+    iff1 = 0;
+    iff2 = 0;
+    im_mode = 0;
 }
 
 inline static BYTE *z80mem_read_base(int addr)
@@ -352,25 +358,33 @@ static BYTE SZP[256] = {
                                                                              \
         if (ik & (IK_IRQ | IK_NMI)) {                                        \
             if ((ik & IK_NMI) && 0) {                                        \
-            } else if ((ik & IK_IRQ) && (reg_iff & 0x01)                     \
+            } else if ((ik & IK_IRQ) && iff1                                 \
                 && !OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO)) {                 \
                 ADDRESS jumpdst;                                             \
                 /*TRACE_IRQ();*/                                             \
                 if (mon_mask[e_comp_space] & (MI_STEP)) {                    \
                     mon_check_icount_interrupt();                            \
                 }                                                            \
-                reg_iff &= 0xfc;                                             \
                 CLK += 4;                                                    \
                 --reg_sp;                                                    \
                 STORE((reg_sp), ((BYTE)(z80_reg_pc >> 8)));                  \
                 CLK += 4;                                                    \
                 --reg_sp;                                                    \
                 STORE((reg_sp), ((BYTE)(z80_reg_pc & 0xff)));                \
-                jumpdst = (LOAD(reg_i << 8) << 8);                           \
-                CLK += 4;                                                    \
-                jumpdst |= (LOAD((reg_i << 8) + 1));                         \
-                JUMP(jumpdst);                                               \
-                CLK += 3;                                                    \
+                iff1 = 0;                                                    \
+                iff2 = 0;                                                    \
+                if (im_mode == 1) {                                          \
+                    jumpdst = 0x38;                                          \
+                    CLK += 4;                                                \
+                    JUMP(jumpdst);                                           \
+                    CLK += 3;                                                \
+                } else {                                                     \
+                    jumpdst = (LOAD(reg_i << 8) << 8);                       \
+                    CLK += 4;                                                \
+                    jumpdst |= (LOAD((reg_i << 8) + 1));                     \
+                    JUMP(jumpdst);                                           \
+                    CLK += 3;                                                \
+                }                                                            \
             }                                                                \
         }                                                                    \
         if (ik & (IK_TRAP | IK_RESET)) {                                     \
@@ -692,7 +706,8 @@ static BYTE SZP[256] = {
 
 #define DI(clk_inc, pc_inc)   \
   do {                        \
-      reg_iff &= 0xfe;        \
+      iff1 = 0;               \
+      iff2 = 0;               \
       OPCODE_DISABLES_IRQ();  \
       CLK += clk_inc;         \
       INC_PC(pc_inc);         \
@@ -700,7 +715,8 @@ static BYTE SZP[256] = {
 
 #define EI(clk_inc, pc_inc)   \
   do {                        \
-      reg_iff |= 0x01;        \
+      iff1 = 1;               \
+      iff2 = 1;               \
       OPCODE_DISABLES_IRQ();  \
       CLK += clk_inc;         \
       INC_PC(pc_inc);         \
@@ -785,12 +801,11 @@ static BYTE SZP[256] = {
       CLK += 4;  \
   } while (0)
 
-#define IM(value)                          \
-  do {                                     \
-      reg_iff = value | (reg_iff & 0xf9);  \
-      log_message(LOG_DEFAULT, "IM %x.", value); \
-      CLK += 8;                            \
-      INC_PC(2);                           \
+#define IM(value)       \
+  do {                  \
+      im_mode = value;  \
+      CLK += 8;         \
+      INC_PC(2);        \
   } while (0)
 
 #define INA(value, clk_inc1, clk_inc2, pc_inc)  \
@@ -868,7 +883,7 @@ static BYTE SZP[256] = {
       CLK += 6;                            \
       reg_a = reg_val;                     \
       reg_f = SZP[reg_a] | LOCAL_CARRY();  \
-      LOCAL_SET_PARITY(reg_iff & 1);       \
+      LOCAL_SET_PARITY(iff2);              \
       CLK += 3;                            \
       INC_PC(2);                           \
   } while (0)
@@ -960,18 +975,18 @@ static BYTE SZP[256] = {
       INC_PC(pc_inc);                                               \
   } while (0)
 
-#define NEG()                                      \
-  do {                                             \
-      BYTE tmp;                                    \
-                                                   \
-      tmp = 0 - reg_a;                             \
-      reg_f = N_FLAG | SZP[tmp];                   \
-      LOCAL_SET_HALFCARRY((reg_a ^ tmp) & H_FLAG); \
-      LOCAL_SET_PARITY(reg_a & tmp & 0x80);        \
-      LOCAL_SET_CARRY(reg_a > 0);                  \
-      reg_a = tmp;                                 \
-      CLK += 8;                                    \
-      INC_PC(2);                                   \
+#define NEG()                                       \
+  do {                                              \
+      BYTE tmp;                                     \
+                                                    \
+      tmp = 0 - reg_a;                              \
+      reg_f = N_FLAG | SZP[tmp];                    \
+      LOCAL_SET_HALFCARRY((reg_a ^ tmp) & H_FLAG);  \
+      LOCAL_SET_PARITY(reg_a & tmp & 0x80);         \
+      LOCAL_SET_CARRY(reg_a > 0);                   \
+      reg_a = tmp;                                  \
+      CLK += 8;                                     \
+      INC_PC(2);                                    \
   } while (0)
 
 #define NOP(clk_inc, pc_inc)  \
@@ -1088,18 +1103,18 @@ static BYTE SZP[256] = {
       }                                                                 \
   } while (0)
 
-#define RETNI()                                           \
-  do {                                                    \
-      ADDRESS tmp;                                        \
-                                                          \
-      CLK += 4;                                           \
-      tmp = LOAD(reg_sp);                                 \
-      CLK += 4;                                           \
-      tmp |= LOAD((reg_sp + 1)) << 8;                     \
-      reg_sp += 2;                                        \
-      reg_iff = (reg_iff & 0xfe) | ((reg_iff >> 1) & 1);  \
-      JUMP(tmp);                                          \
-      CLK += 2;                                           \
+#define RETNI()                        \
+  do {                                 \
+      ADDRESS tmp;                     \
+                                       \
+      CLK += 4;                        \
+      tmp = LOAD(reg_sp);              \
+      CLK += 4;                        \
+      tmp |= LOAD((reg_sp + 1)) << 8;  \
+      reg_sp += 2;                     \
+      iff1 = iff2;                     \
+      JUMP(tmp);                       \
+      CLK += 2;                        \
   } while (0)
 
 #define RL(reg_val)                              \
@@ -3832,7 +3847,7 @@ inline void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         STW(ip23, reg_d, reg_e, 4, 13, 3, 4);
         break;
       case 0x56: /* IM1 */
-        IM(2);
+        IM(1);
         break;
       case 0x57: /* LD A I */
         LDAIR(reg_i);
@@ -3850,7 +3865,7 @@ inline void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDIND(ip23, reg_d, reg_e, 4, 4, 12, 4);
         break;
       case 0x5e: /* IM2 */
-        IM(4);
+        IM(2);
         break;
       case 0x5f: /* LD A R */
         LDAIR((CLK & 0xff));
