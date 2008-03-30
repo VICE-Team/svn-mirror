@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-12-23 01:08+0100\n"
+"POT-Creation-Date: 2005-12-23 23:32+0100\n"
 "PO-Revision-Date: 2005-09-18 10:57+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -838,34 +838,6 @@ msgstr ""
 msgid "Do not autodetect geometry of formatted images"
 msgstr ""
 
-#: src/c64/cart/ide64.c:782
-#, c-format
-msgid "IDE64: Using imagefile `%s'."
-msgstr ""
-
-#: src/c64/cart/ide64.c:785
-#, c-format
-msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
-msgstr ""
-
-#: src/c64/cart/ide64.c:801
-msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
-msgstr ""
-
-#: src/c64/cart/ide64.c:835
-msgid "IDE64: Disk is not formatted, using default 8MB."
-msgstr ""
-
-#: src/c64/cart/ide64.c:843
-#, c-format
-msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
-msgstr ""
-
-#: src/c64/cart/ide64.c:845
-#, c-format
-msgid "IDE64: LBA geometry, %lu sectors total."
-msgstr ""
-
 #: src/c64/c64_256k.c:247
 #, fuzzy
 msgid "Enable the 256K RAM expansion"
@@ -1299,15 +1271,15 @@ msgstr ""
 msgid "Set bitrate for video stream in media file"
 msgstr ""
 
-#: src/gfxoutputdrv/ffmpegdrv.c:559
+#: src/gfxoutputdrv/ffmpegdrv.c:562
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr ""
 
-#: src/gfxoutputdrv/ffmpegdrv.c:564
+#: src/gfxoutputdrv/ffmpegdrv.c:571
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr ""
 
-#: src/gfxoutputdrv/ffmpegdrv.c:573
+#: src/gfxoutputdrv/ffmpegdrv.c:584
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr ""
@@ -2769,19 +2741,19 @@ msgstr "Napêd #10..."
 msgid "Unit #11..."
 msgstr "Napêd #11..."
 
-#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:403
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:411
 msgid "Unit #8"
 msgstr "Napêd #8"
 
-#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:405
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:413
 msgid "Unit #9"
 msgstr "Napêd #9"
 
-#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:407
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:415
 msgid "Unit #10"
 msgstr "Napêd #10"
 
-#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:409
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:417
 msgid "Unit #11"
 msgstr "Napêd #11"
 
@@ -2956,59 +2928,59 @@ msgstr ""
 "Dostêpne opcje z linii poleceñ:\n"
 "\n"
 
-#: src/arch/unix/uicommands.c:66 src/arch/unix/uicommands.c:323
+#: src/arch/unix/uicommands.c:67 src/arch/unix/uicommands.c:324
 #: src/arch/unix/uikeyboard.c:112
 msgid "VICE setting"
 msgstr "Ustawienia VICE"
 
-#: src/arch/unix/uicommands.c:67
+#: src/arch/unix/uicommands.c:68
 msgid "Change current working directory"
 msgstr "Zmieñ aktualny katalog roboczy"
 
-#: src/arch/unix/uicommands.c:70 src/arch/unix/uicommands.c:328
+#: src/arch/unix/uicommands.c:71 src/arch/unix/uicommands.c:329
 msgid "Directory not found"
 msgstr "Katalog nie znaleziony"
 
-#: src/arch/unix/uicommands.c:102
+#: src/arch/unix/uicommands.c:103
 msgid "Couldn't run /bin/sh???"
 msgstr "Nie mo¿na uruchomiæ /bin/sh???"
 
-#: src/arch/unix/uicommands.c:105
+#: src/arch/unix/uicommands.c:106
 msgid "Couldn't run xterm"
 msgstr "Nie mo¿na uruchomiæ xterm"
 
-#: src/arch/unix/uicommands.c:110
+#: src/arch/unix/uicommands.c:111
 msgid "Unknown error while running c1541"
 msgstr "Nieznany b³±d przy uruchamianiu c1541"
 
-#: src/arch/unix/uicommands.c:140
+#: src/arch/unix/uicommands.c:141
 msgid "No HTML browser is defined."
 msgstr "Brak zdefiniowanej przegl±darki HTML."
 
-#: src/arch/unix/uicommands.c:159 src/arch/unix/uicommands.c:173
-#: src/arch/unix/uicommands.c:186
+#: src/arch/unix/uicommands.c:160 src/arch/unix/uicommands.c:174
+#: src/arch/unix/uicommands.c:187
 msgid "Browser command too long."
 msgstr "Komenda przegl±darki jest zbyt d³uga."
 
-#: src/arch/unix/uicommands.c:199
+#: src/arch/unix/uicommands.c:200
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Wykonywanie `%s'..."
 
-#: src/arch/unix/uicommands.c:201
+#: src/arch/unix/uicommands.c:202
 msgid "Cannot run HTML browser."
 msgstr "Nie mo¿na uruchomiæ przegl±darki HTML"
 
-#: src/arch/unix/uicommands.c:240
+#: src/arch/unix/uicommands.c:241
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Szybkie ³adowanie pliku %s."
 
-#: src/arch/unix/uicommands.c:243
+#: src/arch/unix/uicommands.c:244
 msgid "Load snapshot"
 msgstr "Za³aduj zrzut"
 
-#: src/arch/unix/uicommands.c:257
+#: src/arch/unix/uicommands.c:258
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -3018,12 +2990,12 @@ msgstr ""
 "`%s'"
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:287
+#: src/arch/unix/uicommands.c:288
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Szybkie zapisywanie pliku %s."
 
-#: src/arch/unix/uicommands.c:289 src/arch/unix/x11/gnome/uisnapshot.c:126
+#: src/arch/unix/uicommands.c:290 src/arch/unix/x11/gnome/uisnapshot.c:126
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -3033,124 +3005,128 @@ msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:449
+#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:457
 #, fuzzy
 msgid "Select history directory"
 msgstr "Katalog systemu plików..."
 
-#: src/arch/unix/uicommands.c:380
+#: src/arch/unix/uicommands.c:381
 msgid "Record sound to file"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:396
+#: src/arch/unix/uicommands.c:404
 msgid "Soft"
 msgstr "Miêkki"
 
-#: src/arch/unix/uicommands.c:399
+#: src/arch/unix/uicommands.c:407
 msgid "Hard"
 msgstr "Twardy"
 
-#: src/arch/unix/uicommands.c:415
+#: src/arch/unix/uicommands.c:423
 msgid "Change working directory..."
 msgstr "Zmieñ katalog roboczy..."
 
-#: src/arch/unix/uicommands.c:423
+#: src/arch/unix/uicommands.c:431
 msgid "*Save new snapshot"
 msgstr "Zapisz obraz"
 
-#: src/arch/unix/uicommands.c:425
+#: src/arch/unix/uicommands.c:433
 #, fuzzy
 msgid "*Load existing snapshot"
 msgstr "Za³aduj zrzut"
 
-#: src/arch/unix/uicommands.c:427
+#: src/arch/unix/uicommands.c:435
 msgid "*Start with reset"
 msgstr "*Rozpocznij z restartem"
 
-#: src/arch/unix/uicommands.c:429
+#: src/arch/unix/uicommands.c:437
 msgid "*Overwrite running playback"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:435
+#: src/arch/unix/uicommands.c:443
 msgid "Load snapshot..."
 msgstr "Za³aduj zrzut..."
 
-#: src/arch/unix/uicommands.c:438
+#: src/arch/unix/uicommands.c:446
 msgid "Save snapshot..."
 msgstr "Zapisz zrzut..."
 
-#: src/arch/unix/uicommands.c:442
+#: src/arch/unix/uicommands.c:450
 msgid "Quickload snapshot"
 msgstr "Szybkie za³adowanie zrzutu"
 
-#: src/arch/unix/uicommands.c:445
+#: src/arch/unix/uicommands.c:453
 msgid "Quicksave snapshot"
 msgstr "Szybki zapis zrzutu"
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:459
 msgid "Start recording events"
 msgstr "Rozpocznij zapisywanie wydarzen"
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:461
 msgid "Stop recording events"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/uicommands.c:455
+#: src/arch/unix/uicommands.c:463
 msgid "Start playing back events"
 msgstr "Rozpocznij odtwarzanie wydarzen"
 
-#: src/arch/unix/uicommands.c:457
+#: src/arch/unix/uicommands.c:465
 msgid "Stop playing back events"
 msgstr "Zatrzymaj odtwarzanie wydarzen"
 
-#: src/arch/unix/uicommands.c:459
+#: src/arch/unix/uicommands.c:467
 #, fuzzy
 msgid "Set recording milestone"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/uicommands.c:461
+#: src/arch/unix/uicommands.c:469
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:464
+#: src/arch/unix/uicommands.c:472
 msgid "Recording start mode"
 msgstr "Rozpocznij tryb zapisu"
 
-#: src/arch/unix/uicommands.c:470
-msgid "Snapshot commands"
-msgstr "Komendy zapisywania zrzutu"
-
 #: src/arch/unix/uicommands.c:476
-msgid "Sound record..."
+msgid "Netplay (experimental)"
 msgstr ""
 
 #: src/arch/unix/uicommands.c:483
+msgid "Snapshot commands"
+msgstr "Komendy zapisywania zrzutu"
+
+#: src/arch/unix/uicommands.c:489
+msgid "Sound record..."
+msgstr ""
+
+#: src/arch/unix/uicommands.c:496
 msgid "Activate monitor"
 msgstr "Aktywacja monitora"
 
-#: src/arch/unix/uicommands.c:486
+#: src/arch/unix/uicommands.c:499
 msgid "Run C1541"
 msgstr "Uruchom C1541"
 
-#: src/arch/unix/uicommands.c:494
+#: src/arch/unix/uicommands.c:507
 msgid "Browse manuals"
 msgstr "Przegl±daj podrêcznik"
 
-#: src/arch/unix/uicommands.c:496
+#: src/arch/unix/uicommands.c:509
 msgid "About VICE..."
 msgstr "O VICE..."
 
-#: src/arch/unix/uicommands.c:502 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:515 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:504
+#: src/arch/unix/uicommands.c:517
 msgid "*Pause"
 msgstr "*Pauza"
 
-#: src/arch/unix/uicommands.c:511
+#: src/arch/unix/uicommands.c:524
 msgid "Exit emulator"
 msgstr "Wyjd¼ z emulatora"
 
@@ -5039,6 +5015,64 @@ msgstr "*Szybka emulacja PAL"
 msgid "Exact Emulation"
 msgstr "Emulacja PAL"
 
+#: src/arch/unix/x11/gnome/uinetplay.c:56
+#, fuzzy
+msgid "Invalid Port number"
+msgstr "Z³a nazwa pliku"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:77
+msgid "Idle"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:82
+#, fuzzy
+msgid "Server listening"
+msgstr "Zapisz ustawienia"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:87
+msgid "Connected Server"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:92
+msgid "Connected Client"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:105
+#, c-format
+msgid "Status: %s, Server: %s, Port: %d"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:141
+#: src/arch/unix/x11/gnome/uinetplay.c:145
+#, fuzzy
+msgid "Netplay Settings"
+msgstr "Ustawienia zewnêtrzne"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:150
+#, fuzzy
+msgid "Current mode: "
+msgstr "Ustawienia ROM"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:153
+msgid "<unknonw>"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:160
+msgid "Start Server"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:168
+msgid "TCP-Port: "
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:181
+msgid "Connect to "
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:203
+msgid "Disconnect"
+msgstr ""
+
 #: src/arch/unix/x11/gnome/uiscreenshot.c:82
 #: src/arch/unix/x11/gnome/uiscreenshot.c:93
 #: src/arch/unix/x11/gnome/uiscreenshot.c:207
@@ -5456,16 +5490,16 @@ msgstr "¯±daj formatu YUV FOURCC"
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Wspó³czynnik kszta³tu obrazu (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:272
+#: src/arch/unix/x11/video.c:276
 msgid "The MITSHM extension is not supported on this display."
 msgstr "Rozszerzenie MITSHM nie jest obs³ugiwane przez wy¶wietlacz."
 
-#: src/arch/unix/x11/video.c:276
+#: src/arch/unix/x11/video.c:280
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rozszerzenie wersji MITSHM %d.%d zosta³o wykryte."
 
-#: src/arch/unix/x11/video.c:346
+#: src/arch/unix/x11/video.c:350
 msgid "Cannot release shared memory!"
 msgstr "Nie mo¿na zwolniæ pamiêci dzielonej!"
 
@@ -6085,10 +6119,6 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Drive 11"
 #~ msgstr "Model napêdu #8"
-
-#, fuzzy
-#~ msgid "Peripheral Settings"
-#~ msgstr "Ustawienia zewnêtrzne"
 
 #, fuzzy
 #~ msgid "Can't write snapshot file."

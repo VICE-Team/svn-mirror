@@ -1,3 +1,44 @@
+2005-12-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.7.
+
+	* vicii/vicii-badline.c (line_becomes_bad): Always delay
+	switch to display state as suggested by AndreasM.
+
+2005-12-23  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/uicommands.c: Added Netplay to Snapshot menu.
+
+	* arch/unix/uinetplay.h: New file
+
+	* arch/unix/x11/gnome/uinetplay.c: New file. Implementation Gnome
+	UI for netplay.
+
+2005-12-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/cart/ide64.c: removed the '_()' from some log related
+	translations.
+
+	* gfxoutputdrv/ffmpegdrv.c, translate.c, translate.h: Updated
+	some translations.
+
+2005-12-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/types.h: Fixed a problem with gcc 2.95 on netbsd,
+	patch based on the netbsd package patch by kristerw.
+
+	* arch/unix/x11/video.c: Fixed a static/non-static conflict
+	that prevented building on netbsd when using gcc 4, patch by
+	kristerw.
+
+	* arch/unix/x11/vidmode.c: Fixed a problem with making the
+	emulator work when vidmode extension cannot be used, patch by
+	kristerw.
+
+	* sounddrv/soundsun.c: Improved the netbsd sound driver to
+	support stereo and not to rely on counting of played samples,
+	which can get out of sync, patch by dillo.
+
 2005-12-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.6.

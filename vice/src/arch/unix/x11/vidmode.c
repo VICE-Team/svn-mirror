@@ -75,7 +75,11 @@ int vidmode_init(void)
         &vm_modes)) {
         log_error(vidmode_log, _("Error getting video mode information - disabling vidmode extension."));
         vm_available = 0;
+#if !defined(__NETBSD__)
         return -1;
+#else
+        return 0;
+#endif
     }
 
     for (i = 0; i < vm_mode_count; i++) {

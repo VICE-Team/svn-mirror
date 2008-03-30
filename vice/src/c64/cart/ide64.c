@@ -779,10 +779,10 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 
     if (ide_disk)
         log_message(LOG_DEFAULT,
-                    _("IDE64: Using imagefile `%s'."), ide64_image_file);
+                    "IDE64: Using imagefile `%s'.", ide64_image_file);
     else
         log_message(LOG_DEFAULT,
-                    _("IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"),
+                    "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!",
                     ide64_image_file);
 
     if (!settings_autodetect_size)
@@ -798,7 +798,7 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
         /* read header */
         res = fread(idebuf, 1, 24, ide_disk);
         if (res < 24) {
-            log_message(LOG_DEFAULT, _("IDE64: Couldn't read disk geometry from image, using default 8MB."));
+            log_message(LOG_DEFAULT, "IDE64: Couldn't read disk geometry from image, using default 8MB.");
             return 0;
         }
         /* check signature */
@@ -832,7 +832,7 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 		break;		/* OK */
 	    }
 	    
-            log_message(LOG_DEFAULT, _("IDE64: Disk is not formatted, using default 8MB."));
+            log_message(LOG_DEFAULT, "IDE64: Disk is not formatted, using default 8MB.");
             return 0;
 	}
 
@@ -840,9 +840,9 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 	    cyl++;
 	    heads++;
     	    size = cyl * heads * sectors;
-    	    log_message(LOG_DEFAULT, _("IDE64: using %i/%i/%i CHS geometry, %lu sectors total."), cyl, heads, sectors, size);
+    	    log_message(LOG_DEFAULT, "IDE64: using %i/%i/%i CHS geometry, %lu sectors total.", cyl, heads, sectors, size);
 	} else {
-    	    log_message(LOG_DEFAULT, _("IDE64: LBA geometry, %lu sectors total."), size);
+    	    log_message(LOG_DEFAULT, "IDE64: LBA geometry, %lu sectors total.", size);
 	}
 
         settings_cylinders = cyl;

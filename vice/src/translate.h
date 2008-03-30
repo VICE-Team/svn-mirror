@@ -3699,4 +3699,31 @@ extern int translate_res(int en_resource);
 #define IDGS_NETWORK_OUT_OF_SYNC_SV             0x11a06
 #endif
 
+/* gfxoutputdrv/ffmpegdrv.c */
+#define IDGS_FFMPEG_CANNOT_OPEN_VSTREAM         0x119f2
+#define IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_DE      0x119f3
+#define IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_FR      0x119f4
+#define IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_IT      0x119f5
+#define IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_NL      0x119f6
+#define IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_PL      0x119f7
+#define IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_SV      0x119f8
+
+/* gfxoutputdrv/ffmpegdrv.c */
+#define IDGS_FFMPEG_CANNOT_OPEN_ASTREAM         0x119f9
+#define IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_DE      0x119fa
+#define IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_FR      0x119fb
+#define IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_IT      0x119fc
+#define IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_NL      0x119fd
+#define IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_PL      0x119fe
+#define IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_SV      0x119ff
+
+/* gfxoutputdrv/ffmpegdrv.c */
+#define IDGS_FFMPEG_CANNOT_OPEN_S               0x11a07
+#define IDGS_FFMPEG_CANNOT_OPEN_S_DE            0x11a08
+#define IDGS_FFMPEG_CANNOT_OPEN_S_FR            0x11a09
+#define IDGS_FFMPEG_CANNOT_OPEN_S_IT            0x11a0a
+#define IDGS_FFMPEG_CANNOT_OPEN_S_NL            0x11a0b
+#define IDGS_FFMPEG_CANNOT_OPEN_S_PL            0x11a0c
+#define IDGS_FFMPEG_CANNOT_OPEN_S_SV            0x11a0d
+
 #endif

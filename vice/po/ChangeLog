@@ -1,3 +1,11 @@
+2005-12-23  pottendo  <pottendo@utanet.at>
+
+	* POTFILES.in: added src/arch/unix/x11/gnome/uinetplay.c 
+
+2005-12-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* nl.po: Updated the dutch translations.
+
 2005-12-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* POTFILES.in: Added c64/c64_256.c to the files to be

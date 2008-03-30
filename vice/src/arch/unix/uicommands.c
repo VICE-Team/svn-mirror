@@ -48,6 +48,7 @@
 #include "uicommands.h"
 #include "uimenu.h"
 #include "uisnapshot.h"
+#include "uinetplay.h"
 #include "uidrive.h"
 #include "util.h"
 #include "vsync.h"
@@ -390,6 +391,13 @@ static UI_CALLBACK(sound_record)
     }
 }
 
+#ifdef USE_GNOMEUI
+static UI_CALLBACK(netplay)
+{
+    ui_netplay_dialog();
+}
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t reset_submenu[] = {
@@ -463,6 +471,11 @@ ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { "--" },
     { N_("Recording start mode"),
       NULL, NULL, set_event_start_mode_submenu },
+#ifdef USE_GNOMEUI
+    { "--" },
+    { N_("Netplay (experimental)"),
+      (ui_callback_t)netplay, NULL, NULL },
+#endif
     { NULL }
 };
 

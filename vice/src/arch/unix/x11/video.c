@@ -204,7 +204,11 @@ int video_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
+#if !defined(__NETBSD__)
 static GC _video_gc;
+#else
+GC _video_gc;
+#endif
 static void (*_refresh_func)();
 
 /* This is set to 1 if the Shared Memory Extensions can actually be used. */

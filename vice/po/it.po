@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-12-23 01:08+0100\n"
+"POT-Creation-Date: 2005-12-23 23:32+0100\n"
 "PO-Revision-Date: 2005-10-02 12:18+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -791,38 +791,6 @@ msgstr "Rileva automaticamente la geometria delle immagini formattate"
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Non rilevare automaticamente la geometrica delle immagini formattate"
 
-#: src/c64/cart/ide64.c:782
-#, c-format
-msgid "IDE64: Using imagefile `%s'."
-msgstr "IDE64: usa file immagine `%s'."
-
-#: src/c64/cart/ide64.c:785
-#, c-format
-msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
-msgstr ""
-"IDE64: Non è possibile usare il file immagine `%s'.·NESSUNA EMULAZIONE DEL "
-"DRIVE!"
-
-#: src/c64/cart/ide64.c:801
-msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
-msgstr ""
-"IDE64: Non è possibile leggere la geometria del disco dall'immagine, uso il "
-"valore predefinito di 8MB."
-
-#: src/c64/cart/ide64.c:835
-msgid "IDE64: Disk is not formatted, using default 8MB."
-msgstr "IDE64: Disco no formattato, uso il valore predefinito di 8MB."
-
-#: src/c64/cart/ide64.c:843
-#, c-format
-msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
-msgstr "IDE64: uso %i/%i/%i·CHS·geometria,·%lu·settori·totali."
-
-#: src/c64/cart/ide64.c:845
-#, c-format
-msgid "IDE64: LBA geometry, %lu sectors total."
-msgstr "IDE64: geometria LBA, %lu settori totali."
-
 #: src/c64/c64_256k.c:247
 #, fuzzy
 msgid "Enable the 256K RAM expansion"
@@ -1241,15 +1209,15 @@ msgstr "Imposta il bitrate del flusso audio nel file multimediale"
 msgid "Set bitrate for video stream in media file"
 msgstr "Imposta il bitrate per il flusso video nel file multimediale"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:559
+#: src/gfxoutputdrv/ffmpegdrv.c:562
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr "ffmpegdrv: Non è possibile aprire il flusso video"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:564
+#: src/gfxoutputdrv/ffmpegdrv.c:571
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr "ffmpegdrv: Non è possibile aprire il flusso audio"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:573
+#: src/gfxoutputdrv/ffmpegdrv.c:584
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Non è possibile aprire %s"
@@ -2629,19 +2597,19 @@ msgstr "Unità #10..."
 msgid "Unit #11..."
 msgstr "Unità #11..."
 
-#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:403
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:411
 msgid "Unit #8"
 msgstr "Unità #8"
 
-#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:405
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:413
 msgid "Unit #9"
 msgstr "Unità #9"
 
-#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:407
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:415
 msgid "Unit #10"
 msgstr "Unità #10"
 
-#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:409
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:417
 msgid "Unit #11"
 msgstr "Unità #11"
 
@@ -2815,59 +2783,59 @@ msgstr ""
 "Opzioni disponibili sulla riga di comando:\n"
 "\n"
 
-#: src/arch/unix/uicommands.c:66 src/arch/unix/uicommands.c:323
+#: src/arch/unix/uicommands.c:67 src/arch/unix/uicommands.c:324
 #: src/arch/unix/uikeyboard.c:112
 msgid "VICE setting"
 msgstr "Impostazioni di VICE"
 
-#: src/arch/unix/uicommands.c:67
+#: src/arch/unix/uicommands.c:68
 msgid "Change current working directory"
 msgstr "Cambia la directory di lavoro"
 
-#: src/arch/unix/uicommands.c:70 src/arch/unix/uicommands.c:328
+#: src/arch/unix/uicommands.c:71 src/arch/unix/uicommands.c:329
 msgid "Directory not found"
 msgstr "Directory non trovata"
 
-#: src/arch/unix/uicommands.c:102
+#: src/arch/unix/uicommands.c:103
 msgid "Couldn't run /bin/sh???"
 msgstr "Non è possibile eseguire /bin/sh???"
 
-#: src/arch/unix/uicommands.c:105
+#: src/arch/unix/uicommands.c:106
 msgid "Couldn't run xterm"
 msgstr "Non è possibile eseguire xterm"
 
-#: src/arch/unix/uicommands.c:110
+#: src/arch/unix/uicommands.c:111
 msgid "Unknown error while running c1541"
 msgstr "Errore sconosciuto durante l'esecuzione di c1541"
 
-#: src/arch/unix/uicommands.c:140
+#: src/arch/unix/uicommands.c:141
 msgid "No HTML browser is defined."
 msgstr "Non è specificato nessun browser HTML."
 
-#: src/arch/unix/uicommands.c:159 src/arch/unix/uicommands.c:173
-#: src/arch/unix/uicommands.c:186
+#: src/arch/unix/uicommands.c:160 src/arch/unix/uicommands.c:174
+#: src/arch/unix/uicommands.c:187
 msgid "Browser command too long."
 msgstr "Il comando inviato al browser è troppo lungo."
 
-#: src/arch/unix/uicommands.c:199
+#: src/arch/unix/uicommands.c:200
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Esecuzione di `%s'..."
 
-#: src/arch/unix/uicommands.c:201
+#: src/arch/unix/uicommands.c:202
 msgid "Cannot run HTML browser."
 msgstr "Non è possibile eseguire il browser HTML."
 
-#: src/arch/unix/uicommands.c:240
+#: src/arch/unix/uicommands.c:241
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Caricamento veloce del file %s."
 
-#: src/arch/unix/uicommands.c:243
+#: src/arch/unix/uicommands.c:244
 msgid "Load snapshot"
 msgstr "Carica snapshot"
 
-#: src/arch/unix/uicommands.c:257
+#: src/arch/unix/uicommands.c:258
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -2877,12 +2845,12 @@ msgstr ""
 "`%s'"
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:287
+#: src/arch/unix/uicommands.c:288
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Salvataggio veloce del file %s."
 
-#: src/arch/unix/uicommands.c:289 src/arch/unix/x11/gnome/uisnapshot.c:126
+#: src/arch/unix/uicommands.c:290 src/arch/unix/x11/gnome/uisnapshot.c:126
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -2892,121 +2860,125 @@ msgstr ""
 "Non è possibile scrivere il file di snapshot\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:449
+#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:457
 msgid "Select history directory"
 msgstr "Seleziona la directory della cronologia"
 
-#: src/arch/unix/uicommands.c:380
+#: src/arch/unix/uicommands.c:381
 msgid "Record sound to file"
 msgstr "Registra l'audio su file"
 
-#: src/arch/unix/uicommands.c:396
+#: src/arch/unix/uicommands.c:404
 msgid "Soft"
 msgstr "Soft"
 
-#: src/arch/unix/uicommands.c:399
+#: src/arch/unix/uicommands.c:407
 msgid "Hard"
 msgstr "Hard"
 
-#: src/arch/unix/uicommands.c:415
+#: src/arch/unix/uicommands.c:423
 msgid "Change working directory..."
 msgstr "Cambia la directory di lavoro..."
 
-#: src/arch/unix/uicommands.c:423
+#: src/arch/unix/uicommands.c:431
 msgid "*Save new snapshot"
 msgstr "*Salva nuovo snapshot"
 
-#: src/arch/unix/uicommands.c:425
+#: src/arch/unix/uicommands.c:433
 msgid "*Load existing snapshot"
 msgstr "*Carica snapshot esistente"
 
-#: src/arch/unix/uicommands.c:427
+#: src/arch/unix/uicommands.c:435
 msgid "*Start with reset"
 msgstr "*Inizia con reset"
 
-#: src/arch/unix/uicommands.c:429
+#: src/arch/unix/uicommands.c:437
 msgid "*Overwrite running playback"
 msgstr "*Sovrascrivi la riproduzione in corso"
 
-#: src/arch/unix/uicommands.c:435
+#: src/arch/unix/uicommands.c:443
 msgid "Load snapshot..."
 msgstr "Carica snapshot..."
 
-#: src/arch/unix/uicommands.c:438
+#: src/arch/unix/uicommands.c:446
 msgid "Save snapshot..."
 msgstr "Salva snapshot..."
 
-#: src/arch/unix/uicommands.c:442
+#: src/arch/unix/uicommands.c:450
 msgid "Quickload snapshot"
 msgstr "Caricamento veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:445
+#: src/arch/unix/uicommands.c:453
 msgid "Quicksave snapshot"
 msgstr "Salvataggio veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:459
 msgid "Start recording events"
 msgstr "Inizia la registrazione degli eventi"
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:461
 msgid "Stop recording events"
 msgstr "Termina la registrazione degli eventi"
 
-#: src/arch/unix/uicommands.c:455
+#: src/arch/unix/uicommands.c:463
 msgid "Start playing back events"
 msgstr "Inizia la riproduzione degli eventi"
 
-#: src/arch/unix/uicommands.c:457
+#: src/arch/unix/uicommands.c:465
 msgid "Stop playing back events"
 msgstr "Termina la riproduzione degli eventi"
 
-#: src/arch/unix/uicommands.c:459
+#: src/arch/unix/uicommands.c:467
 msgid "Set recording milestone"
 msgstr "Imposta segnalibro"
 
-#: src/arch/unix/uicommands.c:461
+#: src/arch/unix/uicommands.c:469
 msgid "Return to milestone"
 msgstr "Vai al segnalibro"
 
-#: src/arch/unix/uicommands.c:464
+#: src/arch/unix/uicommands.c:472
 msgid "Recording start mode"
 msgstr "Modalità di inizio registrazione"
 
-#: src/arch/unix/uicommands.c:470
+#: src/arch/unix/uicommands.c:476
+msgid "Netplay (experimental)"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:483
 msgid "Snapshot commands"
 msgstr "Comandi snapshot"
 
-#: src/arch/unix/uicommands.c:476
+#: src/arch/unix/uicommands.c:489
 msgid "Sound record..."
 msgstr "Registra audio..."
 
-#: src/arch/unix/uicommands.c:483
+#: src/arch/unix/uicommands.c:496
 msgid "Activate monitor"
 msgstr "Attiva il monitor"
 
-#: src/arch/unix/uicommands.c:486
+#: src/arch/unix/uicommands.c:499
 msgid "Run C1541"
 msgstr "Esegui C1541"
 
-#: src/arch/unix/uicommands.c:494
+#: src/arch/unix/uicommands.c:507
 msgid "Browse manuals"
 msgstr "Sfoglia i manuali"
 
-#: src/arch/unix/uicommands.c:496
+#: src/arch/unix/uicommands.c:509
 msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
-#: src/arch/unix/uicommands.c:502 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:515 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:504
+#: src/arch/unix/uicommands.c:517
 msgid "*Pause"
 msgstr "*Pausa"
 
-#: src/arch/unix/uicommands.c:511
+#: src/arch/unix/uicommands.c:524
 msgid "Exit emulator"
 msgstr "Esci"
 
@@ -4812,6 +4784,65 @@ msgstr "Emulazione veloce"
 msgid "Exact Emulation"
 msgstr "Emulazione esatta"
 
+#: src/arch/unix/x11/gnome/uinetplay.c:56
+#, fuzzy
+msgid "Invalid Port number"
+msgstr "Nome del file non valido"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:77
+msgid "Idle"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:82
+#, fuzzy
+msgid "Server listening"
+msgstr "Salva le impostazioni"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:87
+msgid "Connected Server"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:92
+msgid "Connected Client"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:105
+#, c-format
+msgid "Status: %s, Server: %s, Port: %d"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:141
+#: src/arch/unix/x11/gnome/uinetplay.c:145
+#, fuzzy
+msgid "Netplay Settings"
+msgstr "Impostazioni delle periferiche"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:150
+#, fuzzy
+msgid "Current mode: "
+msgstr "ROM set attuale"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:153
+#, fuzzy
+msgid "<unknonw>"
+msgstr "Sconosciuto"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:160
+msgid "Start Server"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:168
+msgid "TCP-Port: "
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:181
+msgid "Connect to "
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:203
+msgid "Disconnect"
+msgstr ""
+
 #: src/arch/unix/x11/gnome/uiscreenshot.c:82
 #: src/arch/unix/x11/gnome/uiscreenshot.c:93
 #: src/arch/unix/x11/gnome/uiscreenshot.c:207
@@ -5230,16 +5261,16 @@ msgstr "Richiede il formato YUV FOURCC"
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Imposta il rapporto di formato (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:272
+#: src/arch/unix/x11/video.c:276
 msgid "The MITSHM extension is not supported on this display."
 msgstr "L'estensione MITSHM non è supportata su questo display."
 
-#: src/arch/unix/x11/video.c:276
+#: src/arch/unix/x11/video.c:280
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rilevata la versione %d.%d delle estensioni MITSHM."
 
-#: src/arch/unix/x11/video.c:346
+#: src/arch/unix/x11/video.c:350
 msgid "Cannot release shared memory!"
 msgstr "Non è possibile rilasciare la memoria condivisa!"
 
@@ -5404,6 +5435,28 @@ msgstr "Le prestazioni saranno scarse."
 #: src/arch/unix/x11/xaw/x11video.c:222
 msgid "Successfully initialized without shared memory."
 msgstr "Inizializzato con successo senza memoria condivisa."
+
+#~ msgid "IDE64: Using imagefile `%s'."
+#~ msgstr "IDE64: usa file immagine `%s'."
+
+#~ msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
+#~ msgstr ""
+#~ "IDE64: Non è possibile usare il file immagine `%s'.·NESSUNA EMULAZIONE "
+#~ "DEL DRIVE!"
+
+#~ msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
+#~ msgstr ""
+#~ "IDE64: Non è possibile leggere la geometria del disco dall'immagine, uso "
+#~ "il valore predefinito di 8MB."
+
+#~ msgid "IDE64: Disk is not formatted, using default 8MB."
+#~ msgstr "IDE64: Disco no formattato, uso il valore predefinito di 8MB."
+
+#~ msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
+#~ msgstr "IDE64: uso %i/%i/%i·CHS·geometria,·%lu·settori·totali."
+
+#~ msgid "IDE64: LBA geometry, %lu sectors total."
+#~ msgstr "IDE64: geometria LBA, %lu settori totali."
 
 #, fuzzy
 #~ msgid "Cannot read received snapshot file"
@@ -5968,9 +6021,6 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "Drive 11"
 #~ msgstr "Drive 11"
 
-#~ msgid "Peripheral Settings"
-#~ msgstr "Impostazioni delle periferiche"
-
 #~ msgid "Can't write snapshot file."
 #~ msgstr "Non è possibile scrivere il file di snapshot."
 
@@ -6211,9 +6261,6 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr ""
 #~ "Riproduzione\n"
 #~ "%02d:%02d (%02d:%02d)"
-
-#~ msgid "Unknown"
-#~ msgstr "Sconosciuto"
 
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "Imposta il dispositivo di input per il joystick 1"

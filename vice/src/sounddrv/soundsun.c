@@ -61,8 +61,11 @@ static int sun_bufferspace(void);
 
 static int sun_fd = -1;
 static int sun_8bit = 0;
+static int sun_channels = 1;
 static int sun_bufsize = 0;
+#if !defined(__NETBSD__)
 static int sun_written = 0;
+#endif
 
 static int toulaw8(SWORD data)
 {
@@ -104,8 +107,10 @@ static int sun_init(const char *param, int *speed,
     int	st;
     struct audio_info info;
 
+#if !defined(__NETBSD__)
     /* No stereo capability. */
     *channels = 1;
+#endif
 
     if (!param) {
         if (getenv("AUDIODEV"))
@@ -118,7 +123,7 @@ static int sun_init(const char *param, int *speed,
 	return 1;
     AUDIO_INITINFO(&info);
     info.play.sample_rate = *speed;
-    info.play.channels = 1;
+    info.play.channels = *channels;
     info.play.precision = 16;
     info.play.encoding = AUDIO_ENCODING_LINEAR;
     st = ioctl(sun_fd, AUDIO_SETINFO, &info);
@@ -133,10 +138,14 @@ static int sun_init(const char *param, int *speed,
 	    goto fail;
 	sun_8bit = 1;
 	*speed = 8000;
+        *channels = 1;
 	log_message(LOG_DEFAULT, "Playing 8 bit ulaw at 8000Hz");
     }
     sun_bufsize = (*fragsize)*(*fragnr);
+#if !defined(__NETBSD__)
     sun_written = 0;
+#endif
+    sun_channels = *channels;
     return 0;
 fail:
     close(sun_fd);
@@ -155,14 +164,16 @@ static int sun_write(SWORD *pbuf, size_t nr)
 	total = nr;
     }
     else
-	total = nr*sizeof(SWORD);
+	total = nr*sizeof(SWORD)*sun_channels;
     for (i = 0; i < total; i += now)
     {
 	now = write(sun_fd, (char *)pbuf + i, total - i);
 	if (now <= 0)
 	    return 1;
     }
+#if !defined(__NETBSD__)
     sun_written += nr;
+#endif
 
     while (sun_bufferspace() < 0)
 	usleep(5000);
@@ -172,7 +183,7 @@ static int sun_write(SWORD *pbuf, size_t nr)
 
 static int sun_bufferspace(void)
 {
-    int			st;
+    int	st, size;
     struct audio_info	info;
     /* ioctl(fd, AUDIO_GET_STATUS, &info) yields number of played samples
        in info.play.samples. */
@@ -180,10 +191,11 @@ static int sun_bufferspace(void)
     if (st < 0)
 	return -1;
 #if defined(__NetBSD__)
-    if (!sun_8bit)
-	return sun_bufsize - (sun_written - info.play.samples / sizeof(SWORD));
-#endif
+    size = (sun_8bit ? 1 : 2) * sun_channels;
+    return sun_bufsize - info.play.seek  / size;
+#else
     return sun_bufsize - (sun_written - info.play.samples);
+#endif
 }
 
 static void sun_close(void)
@@ -192,7 +204,10 @@ static void sun_close(void)
     sun_fd = -1;
     sun_8bit = 0;
     sun_bufsize = 0;
+#if !defined(__NETBSD__)
     sun_written = 0;
+#endif
+    sun_channels = 1;
 }
 
 

@@ -435,7 +435,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_FR, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_NL, "Kan het momentopname bestand %s niet maken"},
+/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_NL, "Kan het momentopname bestand %s niet maken. Selecteer een andere geschiedenis folder!"},
 /* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_SV, ""},  /* fuzzy */
 
@@ -493,6 +493,33 @@ translate_t string_table[] = {
 /* pl */ {IDGS_NETWORK_OUT_OF_SYNC_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_NETWORK_OUT_OF_SYNC_SV, ""},  /* fuzzy */
 #endif
+
+/* gfxoutputdrv/ffmpegdrv.c */
+/* en */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM,    "ffmpegdrv: Cannot open video stream"},
+/* de */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_FR, ""},  /* fuzzy */
+/* it */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_NL, "ffmpegdrv: Kan de video stroom niet openen"},
+/* pl */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_SV, ""},  /* fuzzy */
+
+/* gfxoutputdrv/ffmpegdrv.c */
+/* en */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM,    "ffmpegdrv: Cannot open audio stream"},
+/* de */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_FR, ""},  /* fuzzy */
+/* it */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_NL, "ffmpegdrv: Kan de audio stroom niet openen"},
+/* pl */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_SV, ""},  /* fuzzy */
+
+/* gfxoutputdrv/ffmpegdrv.c */
+/* en */ {IDGS_FFMPEG_CANNOT_OPEN_S,    "ffmpegdrv: Cannot open %s"},
+/* de */ {IDGS_FFMPEG_CANNOT_OPEN_S_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_FFMPEG_CANNOT_OPEN_S_FR, ""},  /* fuzzy */
+/* it */ {IDGS_FFMPEG_CANNOT_OPEN_S_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_FFMPEG_CANNOT_OPEN_S_NL, "ffmpegdrv: Kan %s niet openen"},
+/* pl */ {IDGS_FFMPEG_CANNOT_OPEN_S_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_FFMPEG_CANNOT_OPEN_S_SV, ""},  /* fuzzy */
 
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
@@ -4231,6 +4258,33 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDGS_NETWORK_OUT_OF_SYNC_PL,
 /* sv */  IDGS_NETWORK_OUT_OF_SYNC_SV},
 #endif
+
+/* gfxoutputdrv/ffmpegdrv.c */
+/* en */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM,
+/* de */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_DE,
+/* fr */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_FR,
+/* it */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_IT,
+/* nl */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_NL,
+/* pl */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_PL,
+/* sv */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_SV),
+
+/* gfxoutputdrv/ffmpegdrv.c */
+/* en */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM,
+/* de */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_DE,
+/* fr */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_FR,
+/* it */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_IT,
+/* nl */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_NL,
+/* pl */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_PL,
+/* sv */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_SV),
+
+/* gfxoutputdrv/ffmpegdrv.c */
+/* en */ {IDGS_FFMPEG_CANNOT_OPEN_S,
+/* de */  IDGS_FFMPEG_CANNOT_OPEN_S_DE,
+/* fr */  IDGS_FFMPEG_CANNOT_OPEN_S_FR,
+/* it */  IDGS_FFMPEG_CANNOT_OPEN_S_IT,
+/* nl */  IDGS_FFMPEG_CANNOT_OPEN_S_NL,
+/* pl */  IDGS_FFMPEG_CANNOT_OPEN_S_PL,
+/* sv */  IDGS_FFMPEG_CANNOT_OPEN_S_SV),
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,

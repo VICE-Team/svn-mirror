@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-12-23 01:08+0100\n"
+"POT-Creation-Date: 2005-12-23 23:32+0100\n"
 "PO-Revision-Date: 2005-09-28 17:52+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -765,35 +765,6 @@ msgstr "Autodetektera geometri från formaterad avbildningsfil"
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Autodetektera inte geometri från formaterad avbildningsfil"
 
-#: src/c64/cart/ide64.c:782
-#, c-format
-msgid "IDE64: Using imagefile `%s'."
-msgstr "IDE64: Använder avbildningsfil \"%s\"."
-
-#: src/c64/cart/ide64.c:785
-#, c-format
-msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
-msgstr "IDE64: Kan inte använda avbildningsfil \"%s\". INGEN DISKEMULERING!"
-
-#: src/c64/cart/ide64.c:801
-msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
-msgstr ""
-"IDE64: Kunde inte läsa diskgeometri från avbildningsfil, använder normal 8MB."
-
-#: src/c64/cart/ide64.c:835
-msgid "IDE64: Disk is not formatted, using default 8MB."
-msgstr "IDE64: Disken är inte formaterad, använder normal 8MB."
-
-#: src/c64/cart/ide64.c:843
-#, c-format
-msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
-msgstr "IDE64: använder CHS-geometrin %i/%i/%i, totalt %lu sektorer."
-
-#: src/c64/cart/ide64.c:845
-#, c-format
-msgid "IDE64: LBA geometry, %lu sectors total."
-msgstr "IDE64: LBA-geometri, %lu sektorer totalt."
-
 #: src/c64/c64_256k.c:247
 #, fuzzy
 msgid "Enable the 256K RAM expansion"
@@ -1210,15 +1181,15 @@ msgstr "Ange bithastighet för ljudström i mediafil"
 msgid "Set bitrate for video stream in media file"
 msgstr "Ange bithastighet för videoström i mediafil"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:559
+#: src/gfxoutputdrv/ffmpegdrv.c:562
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr "ffmpegdrv: Kan inte öppna videoström"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:564
+#: src/gfxoutputdrv/ffmpegdrv.c:571
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr "ffmpegdrv: Kan inte öppna ljudström"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:573
+#: src/gfxoutputdrv/ffmpegdrv.c:584
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Kan inte öppna %s"
@@ -2588,19 +2559,19 @@ msgstr "Enhet 10..."
 msgid "Unit #11..."
 msgstr "Enhet 11..."
 
-#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:403
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:411
 msgid "Unit #8"
 msgstr "Enhet 8"
 
-#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:405
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:413
 msgid "Unit #9"
 msgstr "Enhet 9"
 
-#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:407
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:415
 msgid "Unit #10"
 msgstr "Enhet 10"
 
-#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:409
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:417
 msgid "Unit #11"
 msgstr "Enhet 11"
 
@@ -2774,59 +2745,59 @@ msgstr ""
 "Tillgängliga kommandoradsflaggor:\n"
 "\n"
 
-#: src/arch/unix/uicommands.c:66 src/arch/unix/uicommands.c:323
+#: src/arch/unix/uicommands.c:67 src/arch/unix/uicommands.c:324
 #: src/arch/unix/uikeyboard.c:112
 msgid "VICE setting"
 msgstr "VICE-inställning"
 
-#: src/arch/unix/uicommands.c:67
+#: src/arch/unix/uicommands.c:68
 msgid "Change current working directory"
 msgstr "Ändra aktuell arbetskatalog"
 
-#: src/arch/unix/uicommands.c:70 src/arch/unix/uicommands.c:328
+#: src/arch/unix/uicommands.c:71 src/arch/unix/uicommands.c:329
 msgid "Directory not found"
 msgstr "Katalogen ej funnen"
 
-#: src/arch/unix/uicommands.c:102
+#: src/arch/unix/uicommands.c:103
 msgid "Couldn't run /bin/sh???"
 msgstr "Kunde inte köra \"/bin/sh\"?"
 
-#: src/arch/unix/uicommands.c:105
+#: src/arch/unix/uicommands.c:106
 msgid "Couldn't run xterm"
 msgstr "Kunde inte köra \"xterm\""
 
-#: src/arch/unix/uicommands.c:110
+#: src/arch/unix/uicommands.c:111
 msgid "Unknown error while running c1541"
 msgstr "Okänt fel vid körning av c1541"
 
-#: src/arch/unix/uicommands.c:140
+#: src/arch/unix/uicommands.c:141
 msgid "No HTML browser is defined."
 msgstr "Ingen HTML-läsare angiven."
 
-#: src/arch/unix/uicommands.c:159 src/arch/unix/uicommands.c:173
-#: src/arch/unix/uicommands.c:186
+#: src/arch/unix/uicommands.c:160 src/arch/unix/uicommands.c:174
+#: src/arch/unix/uicommands.c:187
 msgid "Browser command too long."
 msgstr "Kommandorad för webbläsare för lång."
 
-#: src/arch/unix/uicommands.c:199
+#: src/arch/unix/uicommands.c:200
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Kör \"%s\"..."
 
-#: src/arch/unix/uicommands.c:201
+#: src/arch/unix/uicommands.c:202
 msgid "Cannot run HTML browser."
 msgstr "Kan inte köra HTML-läsare."
 
-#: src/arch/unix/uicommands.c:240
+#: src/arch/unix/uicommands.c:241
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Snabbläser fil %s."
 
-#: src/arch/unix/uicommands.c:243
+#: src/arch/unix/uicommands.c:244
 msgid "Load snapshot"
 msgstr "Läser ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:257
+#: src/arch/unix/uicommands.c:258
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -2836,12 +2807,12 @@ msgstr ""
 "\"%s\""
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:287
+#: src/arch/unix/uicommands.c:288
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Snabbsparar fil %s."
 
-#: src/arch/unix/uicommands.c:289 src/arch/unix/x11/gnome/uisnapshot.c:126
+#: src/arch/unix/uicommands.c:290 src/arch/unix/x11/gnome/uisnapshot.c:126
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -2851,121 +2822,125 @@ msgstr ""
 "Kan inte skriva ögonblicksbildfil\n"
 "\"%s\"\n"
 
-#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:449
+#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:457
 msgid "Select history directory"
 msgstr "Ange historikkatalog"
 
-#: src/arch/unix/uicommands.c:380
+#: src/arch/unix/uicommands.c:381
 msgid "Record sound to file"
 msgstr "Spela in ljud till fil"
 
-#: src/arch/unix/uicommands.c:396
+#: src/arch/unix/uicommands.c:404
 msgid "Soft"
 msgstr "Mjuk"
 
-#: src/arch/unix/uicommands.c:399
+#: src/arch/unix/uicommands.c:407
 msgid "Hard"
 msgstr "Hård"
 
-#: src/arch/unix/uicommands.c:415
+#: src/arch/unix/uicommands.c:423
 msgid "Change working directory..."
 msgstr "Byt arbetskatalog..."
 
-#: src/arch/unix/uicommands.c:423
+#: src/arch/unix/uicommands.c:431
 msgid "*Save new snapshot"
 msgstr "*Spara ny ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:425
+#: src/arch/unix/uicommands.c:433
 msgid "*Load existing snapshot"
 msgstr "*Läs existerande ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:427
+#: src/arch/unix/uicommands.c:435
 msgid "*Start with reset"
 msgstr "*Starta med nollställning"
 
-#: src/arch/unix/uicommands.c:429
+#: src/arch/unix/uicommands.c:437
 msgid "*Overwrite running playback"
 msgstr "*Skriv över aktiv uppspelning"
 
-#: src/arch/unix/uicommands.c:435
+#: src/arch/unix/uicommands.c:443
 msgid "Load snapshot..."
 msgstr "Läs ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:438
+#: src/arch/unix/uicommands.c:446
 msgid "Save snapshot..."
 msgstr "Spara ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:442
+#: src/arch/unix/uicommands.c:450
 msgid "Quickload snapshot"
 msgstr "Snabbläs ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:445
+#: src/arch/unix/uicommands.c:453
 msgid "Quicksave snapshot"
 msgstr "Snabbspara ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:459
 msgid "Start recording events"
 msgstr "Börja spela in händelser"
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:461
 msgid "Stop recording events"
 msgstr "Sluta spela in händelser"
 
-#: src/arch/unix/uicommands.c:455
+#: src/arch/unix/uicommands.c:463
 msgid "Start playing back events"
 msgstr "Börja spela upp händelser"
 
-#: src/arch/unix/uicommands.c:457
+#: src/arch/unix/uicommands.c:465
 msgid "Stop playing back events"
 msgstr "Sluta spela upp händelser"
 
-#: src/arch/unix/uicommands.c:459
+#: src/arch/unix/uicommands.c:467
 msgid "Set recording milestone"
 msgstr "Ange inspelningsbokmärke"
 
-#: src/arch/unix/uicommands.c:461
+#: src/arch/unix/uicommands.c:469
 msgid "Return to milestone"
 msgstr "Återgå till bokmärke"
 
-#: src/arch/unix/uicommands.c:464
+#: src/arch/unix/uicommands.c:472
 msgid "Recording start mode"
 msgstr "Spelar in startläge"
 
-#: src/arch/unix/uicommands.c:470
+#: src/arch/unix/uicommands.c:476
+msgid "Netplay (experimental)"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:483
 msgid "Snapshot commands"
 msgstr "Kommandon för ögonblicksbilder"
 
-#: src/arch/unix/uicommands.c:476
+#: src/arch/unix/uicommands.c:489
 msgid "Sound record..."
 msgstr "Ljudinspelning..."
 
-#: src/arch/unix/uicommands.c:483
+#: src/arch/unix/uicommands.c:496
 msgid "Activate monitor"
 msgstr "Aktivera monitor"
 
-#: src/arch/unix/uicommands.c:486
+#: src/arch/unix/uicommands.c:499
 msgid "Run C1541"
 msgstr "Kör C1541"
 
-#: src/arch/unix/uicommands.c:494
+#: src/arch/unix/uicommands.c:507
 msgid "Browse manuals"
 msgstr "Läs manualer"
 
-#: src/arch/unix/uicommands.c:496
+#: src/arch/unix/uicommands.c:509
 msgid "About VICE..."
 msgstr "Om VICE..."
 
-#: src/arch/unix/uicommands.c:502 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:515 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "Reset"
 msgstr "Återställ"
 
-#: src/arch/unix/uicommands.c:504
+#: src/arch/unix/uicommands.c:517
 msgid "*Pause"
 msgstr "*Paus"
 
-#: src/arch/unix/uicommands.c:511
+#: src/arch/unix/uicommands.c:524
 msgid "Exit emulator"
 msgstr "Avsluta emulator"
 
@@ -4771,6 +4746,65 @@ msgstr "Snabb emulering"
 msgid "Exact Emulation"
 msgstr "Exakt emulering"
 
+#: src/arch/unix/x11/gnome/uinetplay.c:56
+#, fuzzy
+msgid "Invalid Port number"
+msgstr "Ogiltigt filnamn"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:77
+msgid "Idle"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:82
+#, fuzzy
+msgid "Server listening"
+msgstr "Spara inställningar"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:87
+msgid "Connected Server"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:92
+msgid "Connected Client"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:105
+#, c-format
+msgid "Status: %s, Server: %s, Port: %d"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:141
+#: src/arch/unix/x11/gnome/uinetplay.c:145
+#, fuzzy
+msgid "Netplay Settings"
+msgstr "Inställningar för kringutrustning"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:150
+#, fuzzy
+msgid "Current mode: "
+msgstr "Nuvarande ROM-uppsättningar"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:153
+#, fuzzy
+msgid "<unknonw>"
+msgstr "Okänd"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:160
+msgid "Start Server"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:168
+msgid "TCP-Port: "
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:181
+msgid "Connect to "
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:203
+msgid "Disconnect"
+msgstr ""
+
 #: src/arch/unix/x11/gnome/uiscreenshot.c:82
 #: src/arch/unix/x11/gnome/uiscreenshot.c:93
 #: src/arch/unix/x11/gnome/uiscreenshot.c:207
@@ -5181,16 +5215,16 @@ msgstr "Be om YUV FOURCC-format"
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Välj bredd-/höjdförhållande (0,8-1,2)"
 
-#: src/arch/unix/x11/video.c:272
+#: src/arch/unix/x11/video.c:276
 msgid "The MITSHM extension is not supported on this display."
 msgstr "MITSHM-utökningarna stöds inte för denna display."
 
-#: src/arch/unix/x11/video.c:276
+#: src/arch/unix/x11/video.c:280
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/video.c:346
+#: src/arch/unix/x11/video.c:350
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 
@@ -5346,6 +5380,26 @@ msgstr "Prestanda kommer att bli dålig."
 #: src/arch/unix/x11/xaw/x11video.c:222
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
+
+#~ msgid "IDE64: Using imagefile `%s'."
+#~ msgstr "IDE64: Använder avbildningsfil \"%s\"."
+
+#~ msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
+#~ msgstr "IDE64: Kan inte använda avbildningsfil \"%s\". INGEN DISKEMULERING!"
+
+#~ msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
+#~ msgstr ""
+#~ "IDE64: Kunde inte läsa diskgeometri från avbildningsfil, använder normal "
+#~ "8MB."
+
+#~ msgid "IDE64: Disk is not formatted, using default 8MB."
+#~ msgstr "IDE64: Disken är inte formaterad, använder normal 8MB."
+
+#~ msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
+#~ msgstr "IDE64: använder CHS-geometrin %i/%i/%i, totalt %lu sektorer."
+
+#~ msgid "IDE64: LBA geometry, %lu sectors total."
+#~ msgstr "IDE64: LBA-geometri, %lu sektorer totalt."
 
 #, fuzzy
 #~ msgid "Cannot read received snapshot file"
@@ -5925,9 +5979,6 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Drive 11"
 #~ msgstr "Enhet 11"
 
-#~ msgid "Peripheral Settings"
-#~ msgstr "Inställningar för kringutrustning"
-
 #~ msgid "Can't write snapshot file."
 #~ msgstr "Kan inte skriva ögonblicksbildfil."
 
@@ -6174,9 +6225,6 @@ msgstr "Initierade utan delat minne."
 #~ msgstr ""
 #~ "Spelar upp\n"
 #~ "%02d:%02d (%02d:%02d)"
-
-#~ msgid "Unknown"
-#~ msgstr "Okänd"
 
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "Välj indataenhet för spelport 1"

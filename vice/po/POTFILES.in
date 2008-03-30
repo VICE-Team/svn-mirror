@@ -137,6 +137,7 @@ src/arch/unix/x11/gnome/uicolor.c
 src/arch/unix/x11/gnome/uiedisk.c
 src/arch/unix/x11/gnome/uimenu.c
 src/arch/unix/x11/gnome/uipalcontrol.c
+src/arch/unix/x11/gnome/uinetplay.c
 src/arch/unix/x11/gnome/uiscreenshot.c
 src/arch/unix/x11/gnome/uisnapshot.c
 src/arch/unix/x11/gnome/uivsidcontrol.c

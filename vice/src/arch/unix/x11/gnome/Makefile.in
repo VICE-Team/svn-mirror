@@ -254,6 +254,7 @@ libgnomeui_a_SOURCES = \
 	uiedisk.c \
 	uimenu.c \
 	uimenu.h \
+	uinetplay.c \
 	uipalcontrol.c \
 	uiscreenshot.c \
 	uisnapshot.c \
@@ -272,8 +273,9 @@ libgnomeui_a_LIBADD =
 am_libgnomeui_a_OBJECTS = about.$(OBJEXT) dummies.$(OBJEXT) \
 	gnomekbd.$(OBJEXT) gnomevideo.$(OBJEXT) uicartridge.$(OBJEXT) \
 	uicolor.$(OBJEXT) uiedisk.$(OBJEXT) uimenu.$(OBJEXT) \
-	uipalcontrol.$(OBJEXT) uiscreenshot.$(OBJEXT) \
-	uisnapshot.$(OBJEXT) uivsidcontrol.$(OBJEXT) x11ui.$(OBJEXT)
+	uinetplay.$(OBJEXT) uipalcontrol.$(OBJEXT) \
+	uiscreenshot.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uivsidcontrol.$(OBJEXT) x11ui.$(OBJEXT)
 libgnomeui_a_OBJECTS = $(am_libgnomeui_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -283,6 +285,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/gnomekbd.Po ./$(DEPDIR)/gnomevideo.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uicartridge.Po ./$(DEPDIR)/uicolor.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiedisk.Po ./$(DEPDIR)/uimenu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uinetplay.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uipalcontrol.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiscreenshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisnapshot.Po \
@@ -326,6 +329,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicolor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiedisk.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimenu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetplay.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalcontrol.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiscreenshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@

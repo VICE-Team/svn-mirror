@@ -154,7 +154,7 @@ inline static void line_becomes_bad(const int cycle)
             vicii.mem_counter_inc = 0;
 
         /* As we are on a bad line, switch to display state.  */
-        switch_to_display_state(cycle);
+        switch_to_display_state(cycle + 1);
     } else {
         /* Line is now bad, so we must switch to display state.
            Anyway, we cannot do it here as the `ycounter' handling
