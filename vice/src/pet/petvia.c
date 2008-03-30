@@ -726,19 +726,6 @@ void via_prevent_clk_overflow(CLOCK sub)
 }
 
 
-
-int     show_keyarr(void)
-{
-    int     i, j;
-    for (j = 0; j < KBD_ROWS; j++) {
-        printf("%d:", j);
-        for (i = 0x80; i; i >>= 1)
-            printf(" %d", keyarr[j] & i);
-        printf("\n");
-    }
-    return (0);
-}
-
 #ifdef HAVE_PRINTER
 void userport_printer_set_busy(int b)
 {

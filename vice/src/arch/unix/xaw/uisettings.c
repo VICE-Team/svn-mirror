@@ -455,9 +455,6 @@ static UI_CALLBACK(set_rs232_exec_file)
     }
 }
 
-#if 0
-UI_MENU_DEFINE_TOGGLE(AciaD6)
-#endif
 UI_MENU_DEFINE_TOGGLE(AciaDE)
 UI_MENU_DEFINE_TOGGLE(RsUser)
 
@@ -466,13 +463,6 @@ ui_menu_entry_t rs232_submenu[] = {
       (ui_callback_t) toggle_AciaDE, NULL, NULL },
     { "ACIA $DExx device",
       NULL, NULL, acia1_device_submenu },
-#if 0
-    { "--" },
-    { "*ACIA $D6xx RS232 interface emulation",
-      (ui_callback_t) toggle_AciaD6, NULL, NULL },
-    { "ACIA $D6** device",
-      NULL, NULL, acia2_device_submenu },
-#endif
     { "--" },
     { "*Userport 9600 baud RS232 emulation",
       (ui_callback_t) toggle_RsUser, NULL, NULL },
