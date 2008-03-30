@@ -183,6 +183,7 @@ int machine_resources_init(void)
 void machine_resources_shutdown(void)
 {
     pet_resources_shutdown();
+    sound_resources_shutdown();
     printer_resources_shutdown();
     drive_resources_shutdown();
 }

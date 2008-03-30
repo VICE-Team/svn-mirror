@@ -192,6 +192,12 @@ int sound_resources_init(void)
     return resources_register(resources);
 }
 
+void sound_resources_shutdown(void)
+{
+    lib_free(device_name);
+    lib_free(device_arg);
+}
+
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {

@@ -104,6 +104,7 @@ extern void sound_set_warp_mode(int value);
 extern void sound_set_machine_parameter(long clock_rate, long ticks_per_frame);
 
 extern int  sound_resources_init(void);
+extern void sound_resources_shutdown(void);
 extern int  sound_cmdline_options_init(void);
 
 
