@@ -260,7 +260,8 @@ static ui_menu_entry_t palette_submenu[] = {
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "pc64", NULL },
     { "--" },
     { "Load custom",
-      (ui_callback_t) ui_load_palette, NULL, NULL },
+      (ui_callback_t) ui_load_palette,
+      (ui_callback_data_t) "PaletteFile", NULL },
     { NULL }
 };
 

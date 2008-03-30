@@ -360,7 +360,7 @@ UI_CALLBACK(ui_load_palette)
 
     switch (button) {
       case UI_BUTTON_OK:
-        if (resources_set_value("PaletteFile", 
+        if (resources_set_value(UI_MENU_CB_PARAM, 
 		(resource_value_t) filename) < 0)
             ui_error("Could not load palette file\n'%s'",filename);
 	if (last_dir)

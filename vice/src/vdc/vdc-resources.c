@@ -34,7 +34,6 @@
 #include "vdc.h"
 #include "vdctypes.h"
 
-
 
 #ifdef __MSDOS__
 #define DEFAULT_VideoCache_VALUE 0
@@ -42,14 +41,11 @@
 #define DEFAULT_VideoCache_VALUE 1
 #endif
 
-
 
 vdc_resources_t vdc_resources;
 
-
 
-static int 
-set_video_cache_enabled (resource_value_t v)
+static int set_video_cache_enabled (resource_value_t v)
 {
   vdc_resources.video_cache_enabled = (int) v;
   if (vdc.initialized)
@@ -59,8 +55,7 @@ set_video_cache_enabled (resource_value_t v)
   return 0;
 }
 
-static int 
-set_palette_file_name (resource_value_t v)
+static int set_palette_file_name (resource_value_t v)
 {
   string_set (&vdc_resources.palette_file_name, (char *) v);
   if (vdc.initialized)
@@ -91,10 +86,8 @@ static resource_t resources[] =
     { NULL }
   };
 
-
 
-static int 
-set_double_size_enabled (resource_value_t v)
+static int set_double_size_enabled (resource_value_t v)
 {
   vdc_resources.double_size_enabled = (int)v;
 
@@ -104,8 +97,7 @@ set_double_size_enabled (resource_value_t v)
   return 0;
 }
 
-static int 
-set_double_scan_enabled (resource_value_t v)
+static int set_double_scan_enabled (resource_value_t v)
 {
   vdc_resources.double_scan_enabled = (int)v;
 
@@ -125,10 +117,8 @@ static resource_t resources_2x[] =
     { NULL }
   };
 
-
 
-int 
-vdc_resources_init (void)
+int vdc_resources_init (void)
 {
   if (resources_register (resources_2x) < 0)
     return -1;

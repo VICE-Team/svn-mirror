@@ -70,7 +70,8 @@ static ui_menu_entry_t palette_submenu[] = {
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "pc64", NULL },
     { "--" },
     { "Load custom",
-      (ui_callback_t) ui_load_palette, NULL, NULL },
+      (ui_callback_t) ui_load_palette,
+      (ui_callback_data_t) "PaletteFile", NULL },
     { NULL }
 };
 
@@ -93,6 +94,19 @@ static ui_menu_entry_t vic_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_STRING_RADIO(VDC_PaletteFile)
+
+static ui_menu_entry_t vdc_palette_submenu[] = {
+    { "*Default",
+      (ui_callback_t) radio_VDC_PaletteFile,
+      (ui_callback_data_t) "vdc_deft", NULL },
+    { "--" },
+    { "Load custom",
+      (ui_callback_t) ui_load_palette,
+      (ui_callback_data_t) "VDC_PaletteFile", NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(VDC_DoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDC_DoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDC_64KB)
@@ -105,6 +119,9 @@ static ui_menu_entry_t vdc_submenu[] = {
     { "--" },
     { "*64KB display memory",
       (ui_callback_t) toggle_VDC_64KB, NULL, NULL },
+    { "--" },
+    { "Color set",
+      NULL, NULL, vdc_palette_submenu },
     { NULL }
 };
 
