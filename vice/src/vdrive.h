@@ -271,7 +271,6 @@ extern int floppy_parse_name(char *name, int length, char *realname,
 extern void floppy_close_all_channels(DRIVE *);
 extern void set_disk_geometry(DRIVE *floppy, int type);
 extern int compare_filename(char *name, char *pattern);
-char *read_disk_image_contents(const char *fname);
 
 /* BAM related functions.  */
 extern int vdrive_bam_alloc_first_free_sector(DRIVE *floppy, BYTE *bam,
