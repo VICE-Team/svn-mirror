@@ -60,7 +60,7 @@ void render_16_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
     SDWORD *line;
     SDWORD *linepre;
     unsigned int x, y, wfirst, wstart, wfast, wend, wlast, wint, yys;
-    register DWORD color;
+    WORD color;
     SDWORD l, u, v;
     DWORD red, grn, blu, red2, grn2, blu2;
 
@@ -179,9 +179,9 @@ void render_16_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
                     blu2 = ((u + l) >> 8) + 256;
                     grn2 = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-                    *tmptrg++ = gamma_red[(red+red2) >> 1]
+                    *tmptrg++ = (WORD)(gamma_red[(red+red2) >> 1]
                               | gamma_grn[(grn+grn2) >> 1]
-                              | gamma_blu[(blu+blu2) >> 1];
+                              | gamma_blu[(blu+blu2) >> 1]);
 
                     red = red2;
                     blu = blu2;
@@ -198,18 +198,19 @@ void render_16_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
                     blu2 = ((u + l) >> 8) + 256;
                     grn2 = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-                    *tmptrg++ = gamma_red[red] | gamma_grn[grn]
-                              | gamma_blu[blu];
-                    *tmptrg++ = gamma_red[(red+red2) >> 1]
+                    *tmptrg++ = (WORD)(gamma_red[red] | gamma_grn[grn]
+                              | gamma_blu[blu]);
+                    *tmptrg++ = (WORD)(gamma_red[(red+red2) >> 1]
                               | gamma_grn[(grn+grn2) >> 1]
-                              | gamma_blu[(blu+blu2) >> 1];
+                              | gamma_blu[(blu+blu2) >> 1]);
 
                     red = red2;
                     blu = blu2;
                     grn = grn2;
                 }
                 if (wlast) {
-                    *tmptrg = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+                    *tmptrg = (WORD)(gamma_red[red] | gamma_grn[grn]
+                              | gamma_blu[blu]);
                 }
             } else {
                 if (wfirst) {
@@ -223,9 +224,9 @@ void render_16_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
                     blu2 = ((u+l) >> 8) + 256;
                     grn2 = (((l << 8) - 50*u - 130*v) >> 16) + 256;
 
-                    *tmptrg++ = gamma_red_fac[(red+red2) >> 1]
+                    *tmptrg++ = (WORD)(gamma_red_fac[(red+red2) >> 1]
                               | gamma_grn_fac[(grn+grn2) >> 1]
-                              | gamma_blu_fac[(blu+blu2) >> 1];
+                              | gamma_blu_fac[(blu+blu2) >> 1]);
 
                     red = red2;
                     blu = blu2;
@@ -242,25 +243,25 @@ void render_16_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
                     blu2 = ((u + l) >> 8) + 256;
                     grn2 = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-                    *tmptrg++ = gamma_red_fac[red] | gamma_grn_fac[grn]
-                              | gamma_blu_fac[blu];
-                    *tmptrg++ = gamma_red_fac[(red+red2) >> 1]
+                    *tmptrg++ = (WORD)(gamma_red_fac[red] | gamma_grn_fac[grn]
+                              | gamma_blu_fac[blu]);
+                    *tmptrg++ = (WORD)(gamma_red_fac[(red+red2) >> 1]
                               | gamma_grn_fac[(grn+grn2) >> 1]
-                              | gamma_blu_fac[(blu+blu2) >> 1];
+                              | gamma_blu_fac[(blu+blu2) >> 1]);
 
                     red = red2;
                     blu = blu2;
                     grn = grn2;
                 }
                 if (wlast) {
-                    *tmptrg = gamma_red_fac[red] | gamma_grn_fac[grn]
-                            | gamma_blu_fac[blu];
+                    *tmptrg = (WORD)(gamma_red_fac[red] | gamma_grn_fac[grn]
+                            | gamma_blu_fac[blu]);
                 }
             }
             if (y & 1)
                 src += pitchs;
         } else {
-            color = colortab[0];
+            color = (WORD)colortab[0];
             if (wfirst) {
                 *tmptrg++ = color;
             }
@@ -568,7 +569,7 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
     SDWORD *line;
     SDWORD *linepre;
     unsigned int x, y, wfirst, wstart, wfast, wend, wlast, wint, yys;
-    register DWORD color;
+    WORD color;
     SDWORD l, u, v;
     DWORD red, grn, blu, red2, grn2, blu2;
 
@@ -689,9 +690,9 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
                     blu2 = ((u + l) >> 8) + 256;
                     grn2 = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-                    *tmptrg++ = gamma_red[(red+red2) >> 1]
+                    *tmptrg++ = (WORD)(gamma_red[(red+red2) >> 1]
                                 | gamma_grn[(grn+grn2) >> 1]
-                                | gamma_blu[(blu+blu2) >> 1];
+                                | gamma_blu[(blu+blu2) >> 1]);
 
                     red = red2;
                     blu = blu2;
@@ -708,18 +709,19 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
                     blu2 = ((u + l) >> 8) + 256;
                     grn2 = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-                    *tmptrg++ = gamma_red[red] | gamma_grn[grn]
-                              | gamma_blu[blu];
-                    *tmptrg++ = gamma_red[(red+red2) >> 1]
+                    *tmptrg++ = (WORD)(gamma_red[red] | gamma_grn[grn]
+                              | gamma_blu[blu]);
+                    *tmptrg++ = (WORD)(gamma_red[(red+red2) >> 1]
                               | gamma_grn[(grn+grn2) >> 1]
-                              | gamma_blu[(blu+blu2) >> 1];
+                              | gamma_blu[(blu+blu2) >> 1]);
 
                     red = red2;
                     blu = blu2;
                     grn = grn2;
                 }
                 if (wlast) {
-                    *tmptrg = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+                    *tmptrg = (WORD)(gamma_red[red] | gamma_grn[grn]
+                              | gamma_blu[blu]);
                 }
             } else {
                 if (wfirst) {
@@ -733,9 +735,9 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
                     blu2 = ((u+l) >> 8) + 256;
                     grn2 = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-                    *tmptrg++ = gamma_red_fac[(red+red2) >> 1]
+                    *tmptrg++ = (WORD)(gamma_red_fac[(red+red2) >> 1]
                               | gamma_grn_fac[(grn+grn2) >> 1]
-                              | gamma_blu_fac[(blu+blu2) >> 1];
+                              | gamma_blu_fac[(blu+blu2) >> 1]);
 
                     red = red2;
                     blu = blu2;
@@ -752,25 +754,25 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
                     blu2 = ((u + l) >> 8) + 256;
                     grn2 = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-                    *tmptrg++ = gamma_red_fac[red] | gamma_grn_fac[grn]
-                              | gamma_blu_fac[blu];
-                    *tmptrg++ = gamma_red_fac[(red+red2) >> 1]
+                    *tmptrg++ = (WORD)(gamma_red_fac[red] | gamma_grn_fac[grn]
+                              | gamma_blu_fac[blu]);
+                    *tmptrg++ = (WORD)(gamma_red_fac[(red+red2) >> 1]
                               | gamma_grn_fac[(grn+grn2) >> 1]
-                              | gamma_blu_fac[(blu+blu2) >> 1];
+                              | gamma_blu_fac[(blu+blu2) >> 1]);
 
                     red = red2;
                     blu = blu2;
                     grn = grn2;
                 }
                 if (wlast) {
-                    *tmptrg = gamma_red_fac[red] | gamma_grn_fac[grn]
-                            | gamma_blu_fac[blu];
+                    *tmptrg = (WORD)(gamma_red_fac[red] | gamma_grn_fac[grn]
+                            | gamma_blu_fac[blu]);
                 }
             }
             if (y & 1)
                 src += pitchs;
         } else {
-            color = colortab[0];
+            color = (WORD)colortab[0];
             if (wfirst) {
                 *tmptrg++ = color;
             }
