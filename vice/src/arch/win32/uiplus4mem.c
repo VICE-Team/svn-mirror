@@ -36,24 +36,25 @@
 #include "winmain.h"
 
 
-static  int orig_ramsize;
-static  int set_ramsize;
+static int orig_ramsize;
+static int set_ramsize;
 
 static void init_dialog(HWND hwnd)
 {
-int n, res;
+    int n, res;
 
     resources_get_value("RamSize", (resource_value_t *)&res);
     switch (res) {
-        case 16:
-            n = IDC_SELECT_PLUS4_MEM_16;
-            break;
-        case 32:
-            n = IDC_SELECT_PLUS4_MEM_32;
-            break;
-        case 64:
-            n = IDC_SELECT_PLUS4_MEM_64;
-            break;
+      case 16:
+        n = IDC_SELECT_PLUS4_MEM_16;
+        break;
+      case 32:
+        n = IDC_SELECT_PLUS4_MEM_32;
+        break;
+      case 64:
+      default:
+        n = IDC_SELECT_PLUS4_MEM_64;
+        break;
     }
     orig_ramsize = set_ramsize = res;
     CheckRadioButton(hwnd, IDC_SELECT_PLUS4_MEM_16, IDC_SELECT_PLUS4_MEM_64,
@@ -63,33 +64,33 @@ int n, res;
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
-int type;
+    int type;
 
     switch (msg) {
-        case WM_INITDIALOG:
-            init_dialog(hwnd);
-            return TRUE;
-        case WM_COMMAND:
-            type = LOWORD(wparam);
-            switch (type) {
-                case IDC_SELECT_PLUS4_MEM_16:
-                    set_ramsize=16;
-                    break;
-                case IDC_SELECT_PLUS4_MEM_32:
-                    set_ramsize=32;
-                    break;
-                case IDC_SELECT_PLUS4_MEM_64:
-                    set_ramsize=64;
-                    break;
-                case IDOK:
-                    if (orig_ramsize != set_ramsize) {
-                        resources_set_value("RamSize",(resource_value_t)set_ramsize);
-                    }
-                case IDCANCEL:
-                    EndDialog(hwnd,0);
-                    return TRUE;
-            }
+      case WM_INITDIALOG:
+        init_dialog(hwnd);
+        return TRUE;
+      case WM_COMMAND:
+        type = LOWORD(wparam);
+        switch (type) {
+          case IDC_SELECT_PLUS4_MEM_16:
+            set_ramsize=16;
             break;
+          case IDC_SELECT_PLUS4_MEM_32:
+            set_ramsize=32;
+            break;
+          case IDC_SELECT_PLUS4_MEM_64:
+            set_ramsize=64;
+            break;
+          case IDOK:
+            if (orig_ramsize != set_ramsize) {
+                resources_set_value("RamSize",(resource_value_t)set_ramsize);
+            }
+          case IDCANCEL:
+            EndDialog(hwnd,0);
+            return TRUE;
+        }
+        break;
     }
     return FALSE;
 }
