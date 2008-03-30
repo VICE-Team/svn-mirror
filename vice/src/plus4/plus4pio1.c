@@ -26,27 +26,59 @@
 
 #include "vice.h"
 
+#include "drive.h"
+#include "maincpu.h"
+#include "plus4iec.h"
 #include "plus4pio1.h"
+#include "ted.h"
 #include "types.h"
+
 
 static BYTE pio1_data = 0xff;
 
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
 
+
 BYTE REGPARM1 pio1_read(WORD addr)
 {
+    /*  Correct clock */
+    ted_handle_pending_alarms(0);
+
+    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+        pio1_data = parallel_cable_cpu_read();
+
+    if (tape_sense)
+        pio1_data &= ~4;
+
     return pio1_data;
 }
 
 void REGPARM2 pio1_store(WORD addr, BYTE value)
 {
-    pio1_data = (value & ~4) | (BYTE)(tape_sense ? 0 : 4);
+    /*  Correct clock */
+    ted_handle_pending_alarms(maincpu_rmw_flag + 1);
+
+    if (tape_sense)
+        pio1_data &= ~4;
+
+    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+        parallel_cable_cpu_write(pio1_data);
 }
 
 void pio1_set_tape_sense(int sense)
 {
     tape_sense = sense;
-    pio1_data = (BYTE)(pio1_data & ~4) | (BYTE)(sense ? 0 : 4);
+
+    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+        pio1_data = parallel_cable_cpu_read();
+    else
+        pio1_data |= 4;
+
+    if (tape_sense)
+        pio1_data &= ~4;
+
+    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+        parallel_cable_cpu_write(pio1_data);
 }
 
