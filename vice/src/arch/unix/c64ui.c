@@ -84,7 +84,7 @@ static UI_CALLBACK(attach_cartridge)
                     ui_error(_("Invalid cartridge image"));
                 if (last_dir)
                     free(last_dir);
-                fname_split(filename, &last_dir, NULL);
+                util_fname_split(filename, &last_dir, NULL);
                 break;
               default:
                 /* Do nothing special. */

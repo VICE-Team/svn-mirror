@@ -549,7 +549,7 @@ int autostart_prg(const char *file_name)
 
     /* Extract the directory path to allow FS-based drive emulation to
        work.  */
-    fname_split(file_name, &directory, &file);
+    util_fname_split(file_name, &directory, &file);
 
     if (directory) {
         char *tmpdir = concat(directory, FSDEV_DIR_SEP_STR, NULL);
