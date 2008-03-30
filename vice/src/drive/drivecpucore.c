@@ -532,11 +532,30 @@ void mydrive_set_bank_base(void)
 }
 
 /* Inlining this fuction makes no sense and would only bloat the code.  */
-/* FIXME: We should activate the monitor here.  */
 static void drive_jam(void)
 {
     int tmp;
-    tmp = ui_jam_dialog("   " CPU_STR ": JAM at $%04X   ", reg_pc);
+    char *dname = "  Drive";
+
+    switch(drive[mynumber].type) {
+      case DRIVE_TYPE_1541:
+        dname = "  1541";
+        break;
+      case DRIVE_TYPE_1541II:
+        dname = "1541-II";
+        break;
+      case DRIVE_TYPE_1571:
+        dname = "  1571";
+        break;
+      case DRIVE_TYPE_1581:
+        dname = "  1581";
+        break;
+      case DRIVE_TYPE_2031:
+        dname = "  2031";
+        break;
+    }
+
+    tmp = ui_jam_dialog("%s CPU: JAM at $%04X  ", dname, reg_pc);
     switch (tmp) {
       case UI_JAM_RESET:
         reg_pc = 0xeaa0;

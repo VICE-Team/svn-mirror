@@ -44,7 +44,6 @@
 #include "snapshot.h"
 #include "types.h"
 #include "ui.h"
-#include "via.h"
 #include "viad.h"
 #include "wd1770.h"
 
