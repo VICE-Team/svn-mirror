@@ -321,7 +321,8 @@ static int get_hires_bitmap(raster_cache_t *cache, unsigned int *xs,
                                xs, xe,
                                rr);
     r |= raster_cache_data_fill_1fff(cache->foreground_data,
-                                     vicii.bitmap_ptr,
+                                     vicii.bitmap_low_ptr,
+                                     vicii.bitmap_high_ptr,
                                      vicii.memptr * 8 + vicii.raster.ycounter,
                                      VICII_SCREEN_TEXTCOLS,
                                      8,
@@ -333,10 +334,12 @@ static int get_hires_bitmap(raster_cache_t *cache, unsigned int *xs,
 inline static void _draw_hires_bitmap(BYTE *p, unsigned int xs,
                                       unsigned int xe, BYTE *gfx_msk_ptr)
 {
-    BYTE *bmptr, *msk_ptr;
+    BYTE *bmptr_low, *bmptr_high, *msk_ptr;
+    BYTE bmval;
     unsigned int i, j;
 
-    bmptr = vicii.bitmap_ptr;
+    bmptr_low = vicii.bitmap_low_ptr;
+    bmptr_high = vicii.bitmap_high_ptr;
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
 
     for (j = ((vicii.memptr << 3)
@@ -346,7 +349,12 @@ inline static void _draw_hires_bitmap(BYTE *p, unsigned int xs,
         DWORD *ptr = hr_table + (vicii.vbuf[i] << 4);
         int d;
 
-        d = *(msk_ptr + i) = bmptr[j];
+        if (j & 0x1000)
+            bmval = bmptr_high[j & 0xfff];
+        else
+            bmval = bmptr_low[j];
+
+        d = *(msk_ptr + i) = bmval;
         *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
         *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
     }
@@ -389,10 +397,12 @@ inline static void _draw_hires_bitmap_foreground(BYTE *p, unsigned int xs,
                                                  unsigned int xe,
                                                  BYTE *gfx_msk_ptr)
 {
-    BYTE *bmptr, *msk_ptr;
+    BYTE *bmptr_low, *bmptr_high, *msk_ptr;
+    BYTE bmval;
     unsigned int i, j;
 
-    bmptr = vicii.bitmap_ptr;
+    bmptr_low = vicii.bitmap_low_ptr;
+    bmptr_high = vicii.bitmap_high_ptr;
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
 
     for (j = ((vicii.memptr << 3)
@@ -402,7 +412,12 @@ inline static void _draw_hires_bitmap_foreground(BYTE *p, unsigned int xs,
         DWORD *ptr = hr_table + (vicii.vbuf[i - vicii.buf_offset] << 4);
         int d;
 
-        d = *(msk_ptr + i) = bmptr[j];
+        if (j & 0x1000)
+            bmval = bmptr_high[j & 0xfff];
+        else
+            bmval = bmptr_low[j];
+
+        d = *(msk_ptr + i) = bmval;
         *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
         *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
     }
@@ -650,7 +665,8 @@ static int get_mc_bitmap(raster_cache_t *cache, unsigned int *xs,
                                 xs, xe,
                                 rr);
     r |= raster_cache_data_fill_1fff(cache->foreground_data,
-                                     vicii.bitmap_ptr,
+                                     vicii.bitmap_low_ptr,
+                                     vicii.bitmap_high_ptr,
                                      8 * vicii.memptr + vicii.raster.ycounter,
                                      VICII_SCREEN_TEXTCOLS,
                                      8,
@@ -662,12 +678,13 @@ static int get_mc_bitmap(raster_cache_t *cache, unsigned int *xs,
 inline static void _draw_mc_bitmap(BYTE *p, unsigned int xs, unsigned int xe,
                                    BYTE *gfx_msk_ptr)
 {
-    BYTE *colptr, *bmptr, *msk_ptr, *ptmp;
+    BYTE *colptr, *bmptr_low, *bmptr_high, *msk_ptr, *ptmp;
     BYTE c[4];
     unsigned int i, j;
 
     colptr = vicii.cbuf;
-    bmptr = vicii.bitmap_ptr;
+    bmptr_low = vicii.bitmap_low_ptr;
+    bmptr_high = vicii.bitmap_high_ptr;
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
 
     c[0] = vicii.raster.background_color;
@@ -679,7 +696,10 @@ inline static void _draw_mc_bitmap(BYTE *p, unsigned int xs, unsigned int xe,
 
         unsigned int d;
 
-        d = bmptr[j];
+        if (j & 0x1000)
+            d = bmptr_high[j & 0xfff];
+        else
+            d = bmptr_low[j];
 
         *(msk_ptr + i) = mcmsktable[d | 0x100];
 
@@ -748,11 +768,12 @@ static void draw_mc_bitmap_cached(raster_cache_t *cache, unsigned int xs,
 static void draw_mc_bitmap_foreground(unsigned int start_char,
                                       unsigned int end_char)
 {
-    BYTE *p, *bmptr, *msk_ptr;
+    BYTE *p, *bmptr_low, *bmptr_high, *msk_ptr;
     unsigned int i, j;
 
     p = GFX_PTR() + 8 * start_char;
-    bmptr = vicii.bitmap_ptr;
+    bmptr_low = vicii.bitmap_low_ptr;
+    bmptr_high = vicii.bitmap_high_ptr;
     msk_ptr = vicii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
 
     for (j = ((vicii.memptr << 3)
@@ -766,7 +787,11 @@ static void draw_mc_bitmap_foreground(unsigned int start_char,
         c1 = vicii.vbuf[i - vicii.buf_offset] >> 4;
         c2 = vicii.vbuf[i - vicii.buf_offset] & 0xf;
         c3 = vicii.cbuf[i - vicii.buf_offset];
-        b = bmptr[j];
+
+        if (j & 0x1000)
+            b = bmptr_high[j & 0xfff];
+        else
+            b = bmptr_low[j];
 
         *(msk_ptr + i) = mcmsktable[0x100 + b];
         DRAW_MC_BYTE(p, b, c1, c2, c3);
@@ -1048,7 +1073,8 @@ static int get_illegal_bitmap_mode1(raster_cache_t *cache, unsigned int *xs,
                                xs, xe,
                                rr);
     r |= raster_cache_data_fill_39ff(cache->foreground_data,
-                                     vicii.bitmap_ptr,
+                                     vicii.bitmap_low_ptr,
+                                     vicii.bitmap_high_ptr,
                                      vicii.memptr * 8
                                      + vicii.raster.ycounter,
                                      VICII_SCREEN_TEXTCOLS,
@@ -1062,10 +1088,12 @@ inline static void _draw_illegal_bitmap_mode1(BYTE *p, unsigned int xs,
                                               unsigned int xe,
                                               BYTE *gfx_msk_ptr)
 {
-    BYTE *bmptr, *msk_ptr;
+    BYTE *bmptr_low, *bmptr_high, *msk_ptr;
+    BYTE bmval;
     unsigned int i, j;
 
-    bmptr = vicii.bitmap_ptr;
+    bmptr_low = vicii.bitmap_low_ptr;
+    bmptr_high = vicii.bitmap_high_ptr;
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
 
     memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
@@ -1074,7 +1102,12 @@ inline static void _draw_illegal_bitmap_mode1(BYTE *p, unsigned int xs,
         + vicii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
         i <= xe; i++, j = (j + 8) & 0x1fff) {
 
-        *(msk_ptr + i) = bmptr[j & 0x39ff];
+        if (j & 0x1000)
+            bmval = bmptr_low[j & 0x9ff];
+        else
+            bmval = bmptr_high[j & 0x9ff];
+
+        *(msk_ptr + i) = bmval;
     }
 }
 
@@ -1134,7 +1167,8 @@ static int get_illegal_bitmap_mode2(raster_cache_t *cache, unsigned int *xs,
                                 xs, xe,
                                 rr);
     r |= raster_cache_data_fill_39ff(cache->foreground_data,
-                                     vicii.bitmap_ptr,
+                                     vicii.bitmap_low_ptr,
+                                     vicii.bitmap_high_ptr,
                                      vicii.memptr * 8
                                      + vicii.raster.ycounter,
                                      VICII_SCREEN_TEXTCOLS,
@@ -1148,18 +1182,26 @@ inline static void _draw_illegal_bitmap_mode2(BYTE *p, unsigned int xs,
                                               unsigned int xe,
                                               BYTE *gfx_msk_ptr)
 {
-    BYTE *bmptr, *msk_ptr;
+    BYTE *bmptr_low, *bmptr_high, *msk_ptr;
+    BYTE bmval;
     unsigned int i, j;
 
-    bmptr = vicii.bitmap_ptr;
+    bmptr_low = vicii.bitmap_low_ptr;
+    bmptr_high = vicii.bitmap_high_ptr;
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
 
     memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
 
     for (j = ((vicii.memptr << 3)
         + vicii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
-        i <= xe; i++, j = (j + 8) & 0x1fff)
-        *(msk_ptr + i) = mcmsktable[bmptr[j & 0x39ff] | 0x100];
+        i <= xe; i++, j = (j + 8) & 0x1fff) {
+        if (j & 0x1000)
+            bmval = bmptr_high[j & 0x9ff];
+        else
+            bmval = bmptr_low[j & 0x9ff];
+
+        *(msk_ptr + i) = mcmsktable[bmval | 0x100];
+    }
 }
 
 inline static void _draw_illegal_bitmap_mode2_cached(BYTE *p, unsigned int xs,
