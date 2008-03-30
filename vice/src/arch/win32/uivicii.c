@@ -29,20 +29,10 @@
 #include "vice.h"
 
 #include <windows.h>
-#include <prsht.h>
-
-#ifdef HAVE_SHLOBJ_H
-#include <shlobj.h>
-#endif
-
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
-#endif
 
 #include "res.h"
 #include "resources.h"
 #include "system.h"
-#include "ui.h"
 #include "uilib.h"
 #include "winmain.h"
 
@@ -51,7 +41,7 @@ static void enable_controls_for_vicii_settings(HWND hwnd, int type)
 {
 }
 
-static void init_dialog(HWND hwnd)
+static void init_vicii_dialog(HWND hwnd)
 {
     int n;
 
@@ -68,6 +58,21 @@ static void init_dialog(HWND hwnd)
                    n ? BST_CHECKED : BST_UNCHECKED);
 }
 
+static void end_vicii_dialog(HWND hwnd)
+{
+    resources_set_value("VICIICheckSsColl", (resource_value_t)
+                        (IsDlgButtonChecked
+                        (hwnd, IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
+
+    resources_set_value("VICIICheckSbColl", (resource_value_t)
+                        (IsDlgButtonChecked
+                        (hwnd, IDC_TOGGLE_VICII_SBC) == BST_CHECKED ? 1 : 0 ));
+
+    resources_set_value("VICIINewLuminances", (resource_value_t)
+                        (IsDlgButtonChecked
+                        (hwnd, IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
+}
+
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
@@ -79,7 +84,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
         return TRUE;
       case WM_INITDIALOG:
         system_init_dialog(hwnd);
-        init_dialog(hwnd);
+        init_vicii_dialog(hwnd);
         return TRUE;
       case WM_COMMAND:
         type = LOWORD(wparam);
@@ -91,17 +96,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
           case IDC_TOGGLE_VICII_NEWLUM:
             break;
           case IDOK:
-            resources_set_value("VICIICheckSsColl", (resource_value_t)
-                (IsDlgButtonChecked
-                (hwnd,IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
-
-            resources_set_value("VICIICheckSbColl", (resource_value_t)
-                (IsDlgButtonChecked
-                (hwnd,IDC_TOGGLE_VICII_SBC) == BST_CHECKED ? 1 : 0 ));
-
-            resources_set_value("VICIINewLuminances", (resource_value_t)
-                (IsDlgButtonChecked
-                (hwnd,IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
+            end_vicii_dialog(hwnd);
           case IDCANCEL:
             EndDialog(hwnd,0);
             return TRUE;
