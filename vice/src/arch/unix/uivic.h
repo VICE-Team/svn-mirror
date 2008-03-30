@@ -28,7 +28,8 @@
 #define _UIVIC_H
 
 extern struct ui_menu_entry_s vic_submenu[];
-extern void uivic_create_menus(void);
+extern void uivic_menu_create(void);
+extern void uivic_menu_shutdown(void);
 
 #endif
 

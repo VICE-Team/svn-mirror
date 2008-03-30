@@ -29,7 +29,8 @@
 #define _UICRTC_H
 
 extern struct ui_menu_entry_s crtc_submenu[];
-extern void uicrtc_create_menus(void);
+extern void uicrtc_menu_create(void);
+extern void uicrtc_menu_shutdown(void);
 
 #endif
 

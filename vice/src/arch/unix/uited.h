@@ -28,7 +28,8 @@
 #define _UITED_H
 
 extern struct ui_menu_entry_s ted_submenu[];
-extern void uited_create_menus(void);
+extern void uited_menu_create(void);
+extern void uited_menu_shutdown(void);
 
 #endif
 

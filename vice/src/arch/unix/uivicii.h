@@ -28,7 +28,8 @@
 #define _UIVICII_H
 
 extern struct ui_menu_entry_s vicii_submenu[];
-extern void uivicii_create_menus(void);
+extern void uivicii_menu_create(void);
+extern void uivicii_menu_shutdown(void);
 
 #endif
 

@@ -28,7 +28,8 @@
 #define _UIVDC_H
 
 extern struct ui_menu_entry_s vdc_submenu[];
-extern void uivdc_create_menus(void);
+extern void uivdc_menu_create(void);
+extern void uivdc_menu_shutdown(void);
 
 #endif
 
