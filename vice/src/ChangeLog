@@ -1,3 +1,23 @@
+2003-01-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.45.
+
+	* printerdrv/drv-mps803.c, sid/fastsid.c, vicii/vicii.c,
+	vicii/vicii-badline.c, vicii/vicii-snapshot.c, maincpu.c,
+	raster/raster.h, video/renderyuv.c, vdc/vdc-draw.c,
+	plus4/ted-badline.c, plus4/ted-snapshot.c, plus4/ted.c:
+	Removed warnings.
+
+2003-01-13  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: When in mark mode, all locations are
+	now stored in text coordinates, not in window coordinates
+	(exception: pcp->(x/y)MarkOrigin). This eliminates a bug where
+	copying to the clipboard made VICE bugcheck sometimes.
+
+	* arch/win32/console.c: Now shows the cursor correctly even
+	when this position is marked; pcp->bBlinkOn is initialized.
+
 2003-01-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.44.

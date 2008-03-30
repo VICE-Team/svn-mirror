@@ -43,9 +43,9 @@ void ted_badline_check_state(BYTE value, int cycle, unsigned int line)
 
     /* Check whether bad line state has changed.  */
     was_bad_line = (ted.allow_bad_lines
-                    && (ted.raster.ysmooth == (line & 7)));
+                    && (ted.raster.ysmooth == (int)(line & 7)));
     now_bad_line = (ted.allow_bad_lines
-                    && ((value & 7) == (line & 7)));
+                    && ((int)(value & 7) == (int)(line & 7)));
 
     if (was_bad_line && !now_bad_line) {
 

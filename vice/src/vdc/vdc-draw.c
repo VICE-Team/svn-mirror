@@ -294,7 +294,7 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     } else {
         r = cache_data_fill_attr_text_const(cache->foreground_data,
                                 vdc.ram + vdc.screen_adr + vdc.mem_counter,
-                                vdc.regs[26] & 0x0f,
+                                (BYTE)(vdc.regs[26] & 0x0f),
                                 vdc.ram + vdc.chargen_adr,
                                 vdc.bytes_per_char,
                                 (int)vdc.screen_text_cols,
@@ -305,7 +305,7 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 (vdc.regs[24] & VDC_REVERSE_ATTR) ? 0x0 : 0xff,
                                 cursor_pos);
         r |= raster_cache_data_fill_const(cache->color_data_1,
-                                vdc.regs[26] >> 4,
+                                (BYTE)(vdc.regs[26] >> 4),
                                 (int)vdc.screen_text_cols,
                                 1,
                                 xs, xe,
@@ -415,7 +415,7 @@ static int get_std_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
                                     rr);
     else
         r |= raster_cache_data_fill_const(cache->color_data_1,
-                                          vdc.regs[26] >> 4,
+                                          (BYTE)(vdc.regs[26] >> 4),
                                           (int)vdc.screen_text_cols,
                                           1,
                                           xs, xe,

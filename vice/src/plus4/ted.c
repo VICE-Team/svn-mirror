@@ -687,9 +687,9 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
 
 
     in_visible_area = (ted.raster.current_line
-                      >= (int)ted.first_displayed_line
+                      >= (unsigned int)ted.first_displayed_line
                       && ted.raster.current_line
-                      <= (int)ted.last_displayed_line);
+                      <= (unsigned int)ted.last_displayed_line);
 
     raster_line_emulate(&ted.raster);
 
