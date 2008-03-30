@@ -129,9 +129,9 @@
     } while(0)
 #endif
 
-/* 
- * scheduling int_cia1t[ab] calls - 
- * warning: int_cia1ta uses maincpu_* stuff! 
+/*
+ * scheduling int_cia1t[ab] calls -
+ * warning: int_cia1ta uses maincpu_* stuff!
  */
 
 #define	my_set_tai_clk(clk) 						\
@@ -932,7 +932,7 @@ BYTE read_cia1_(ADDRESS addr)
 			rclk, maincpu_int_status.alarm_clk[A_CIA1TA],
 			maincpu_int_status.alarm_clk[A_CIA1TB]);
 #endif
-	
+
 	    cia1rdi = rclk;
             t = cia1int;	/* we clean cia1int anyway, so make int_* */
 	    cia1int = 0;	/* believe it is already */
@@ -951,7 +951,7 @@ BYTE read_cia1_(ADDRESS addr)
 	    if (cia1_debugFlag)
 		printf("CIA1 read intfl gives cia1int=%02x -> %02x @"
 		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
-		       cia1int, t, cia1sr_bits, clk, 
+		       cia1int, t, cia1sr_bits, clk,
 			(cia1_tac ? cia1_tac : cia1_tal),
 			cia1_tbc);
 #endif
@@ -1012,7 +1012,7 @@ BYTE REGPARM1 peek_cia1(ADDRESS addr)
 			rclk, maincpu_int_status.alarm_clk[A_CIA1TA],
 			maincpu_int_status.alarm_clk[A_CIA1TB]);
 #endif
-	
+
 	    cia1rdi = rclk;
             t = cia1int;	/* we clean cia1int anyway, so make int_* */
 	    cia1int = 0;	/* believe it is already */
@@ -1031,7 +1031,7 @@ BYTE REGPARM1 peek_cia1(ADDRESS addr)
 	    if (cia1_debugFlag)
 		printf("CIA1 read intfl gives cia1int=%02x -> %02x @"
 		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
-		       cia1int, t, cia1sr_bits, clk, 
+		       cia1int, t, cia1sr_bits, clk,
 			(cia1_tac ? cia1_tac : cia1_tal),
 			cia1_tbc);
 #endif
@@ -1067,7 +1067,7 @@ int int_cia1ta(long offset)
     if ((cia1_tas == CIAT_RUNNING) && !(cia1[CIA_CRA] & 8)) {
 	/* if we do not need alarm, no PB6, no shift register, and not timer B
 	   counting timer A, then we can savely skip alarms... */
-	if ( ( (cia1ier & CIA_IM_TA) && 
+	if ( ( (cia1ier & CIA_IM_TA) &&
 		(!(cia1int & 0x80)) )
 	    || (cia1[CIA_CRA] & 0x42)
 	    || (cia1_tbs == CIAT_COUNTTA)) {
@@ -1170,7 +1170,7 @@ int int_cia1tb(long offset)
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (cia1ier & CIA_IM_TB) {
 		if(offset > cia1_tbl+1) {
-		    my_set_tbi_clk( 
+		    my_set_tbi_clk(
 			clk - (offset % (cia1_tbl+1)) + cia1_tbl + 1);
 		} else {
 		    my_set_tbi_clk(rclk + cia1_tbl + 1);

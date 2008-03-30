@@ -115,9 +115,9 @@ INCLUDES
     } while(0)
 #endif
 
-/* 
- * scheduling int_myciat[ab] calls - 
- * warning: int_myciata uses mycpu_* stuff! 
+/*
+ * scheduling int_myciat[ab] calls -
+ * warning: int_myciata uses mycpu_* stuff!
  */
 
 #define	my_set_tai_clk(clk) 						\
@@ -426,7 +426,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
     PRE_STORE_CIA
 
-    rclk = clk - STORE_OFFSET;
+    rclk = myclk - STORE_OFFSET;
 
 #ifdef MYCIA_TIMER_DEBUG
     if (mycia_debugFlag)
@@ -742,7 +742,7 @@ BYTE REGPARM1 read_mycia(ADDRESS addr)
 
     if (mycia_debugFlag)
 	printf("read mycia[%x] returns %02x @ clk=%d, pc=\n",
-	       addr, tmp, clk - READ_OFFSET);
+	       addr, tmp, myclk - READ_OFFSET);
     return tmp;
 }
 
@@ -758,7 +758,7 @@ BYTE read_mycia_(ADDRESS addr)
 
     PRE_READ_CIA
 
-    rclk = clk - READ_OFFSET;
+    rclk = myclk - READ_OFFSET;
 
 
     switch (addr) {
@@ -850,7 +850,7 @@ BYTE read_mycia_(ADDRESS addr)
 			rclk, mycpu_int_status.alarm_clk[A_MYCIATA],
 			mycpu_int_status.alarm_clk[A_MYCIATB]);
 #endif
-	
+
 	    myciardi = rclk;
             t = myciaint;	/* we clean myciaint anyway, so make int_* */
 	    myciaint = 0;	/* believe it is already */
@@ -869,7 +869,7 @@ BYTE read_mycia_(ADDRESS addr)
 	    if (mycia_debugFlag)
 		printf("MYCIA read intfl gives myciaint=%02x -> %02x @"
 		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
-		       myciaint, t, myciasr_bits, clk, 
+		       myciaint, t, myciasr_bits, clk,
 			(mycia_tac ? mycia_tac : mycia_tal),
 			mycia_tbc);
 #endif
@@ -898,7 +898,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 
     PRE_PEEK_CIA
 
-    rclk = clk - READ_OFFSET;
+    rclk = myclk - READ_OFFSET;
 
     switch (addr) {
 
@@ -929,7 +929,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 			rclk, mycpu_int_status.alarm_clk[A_MYCIATA],
 			mycpu_int_status.alarm_clk[A_MYCIATB]);
 #endif
-	
+
 	    myciardi = rclk;
             t = myciaint;	/* we clean myciaint anyway, so make int_* */
 	    myciaint = 0;	/* believe it is already */
@@ -948,7 +948,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 	    if (mycia_debugFlag)
 		printf("MYCIA read intfl gives myciaint=%02x -> %02x @"
 		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
-		       myciaint, t, myciasr_bits, clk, 
+		       myciaint, t, myciasr_bits, clk,
 			(mycia_tac ? mycia_tac : mycia_tal),
 			mycia_tbc);
 #endif
@@ -971,7 +971,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 
 int int_myciata(long offset)
 {
-    CLOCK rclk = clk - offset;
+    CLOCK rclk = myclk - offset;
 
 #if defined(MYCIA_TIMER_DEBUG)
     if (mycia_debugFlag)
@@ -984,20 +984,20 @@ int int_myciata(long offset)
     if ((mycia_tas == CIAT_RUNNING) && !(mycia[CIA_CRA] & 8)) {
 	/* if we do not need alarm, no PB6, no shift register, and not timer B
 	   counting timer A, then we can savely skip alarms... */
-	if ( ( (myciaier & CIA_IM_TA) && 
+	if ( ( (myciaier & CIA_IM_TA) &&
 		(!(myciaint & 0x80)) )
 	    || (mycia[CIA_CRA] & 0x42)
 	    || (mycia_tbs == CIAT_COUNTTA)) {
 	    if(offset > mycia_tal+1) {
 	        my_set_tai_clk(
-			clk - (offset % (mycia_tal+1)) + mycia_tal + 1 );
+			myclk - (offset % (mycia_tal+1)) + mycia_tal + 1 );
 	    } else {
 	        my_set_tai_clk(rclk + mycia_tal + 1 );
 	    }
 	} else {
 	    /* mycia_tai = rclk + mycia_tal +1; - now keeps tai */
 	    /* printf("mycia unset alarm: clk=%d, rclk=%d, rdi=%d -> tai=%d\n",
-			clk, rclk, myciardi, mycia_tai); */
+			myclk, rclk, myciardi, mycia_tai); */
 	    mycpu_unset_alarm(A_MYCIATA);	/* do _not_ clear mycia_tai */
 	}
     } else {
@@ -1063,7 +1063,7 @@ int int_myciata(long offset)
 
 int int_myciatb(long offset)
 {
-    CLOCK rclk = clk - offset;
+    CLOCK rclk = myclk - offset;
 
 #if defined(MYCIA_TIMER_DEBUG)
     if (mycia_debugFlag)
@@ -1082,8 +1082,8 @@ int int_myciatb(long offset)
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (myciaier & CIA_IM_TB) {
 		if(offset > mycia_tbl+1) {
-		    my_set_tbi_clk( 
-			clk - (offset % (mycia_tbl+1)) + mycia_tbl + 1);
+		    my_set_tbi_clk(
+			myclk - (offset % (mycia_tbl+1)) + mycia_tbl + 1);
 		} else {
 		    my_set_tbi_clk(rclk + mycia_tbl + 1);
 		}
@@ -1135,7 +1135,7 @@ void mycia_set_flag(void)
 {
     myciaint |= CIA_IM_FLG;
     if (mycia[CIA_ICR] & CIA_IM_FLG) {
-        my_set_int(I_MYCIAFL, MYCIA_INT, clk);
+        my_set_int(I_MYCIAFL, MYCIA_INT, myclk);
     }
 }
 
@@ -1144,7 +1144,7 @@ void mycia_set_sdr(BYTE data)
     mycia[CIA_SDR] = data;
     myciaint |= CIA_IM_SDR;
     if (mycia[CIA_ICR] & CIA_IM_SDR) {
-        my_set_int(I_MYCIAFL, MYCIA_INT, clk);
+        my_set_int(I_MYCIAFL, MYCIA_INT, myclk);
     }
 }
 
@@ -1153,7 +1153,7 @@ void mycia_set_sdr(BYTE data)
 int int_myciatod(long offset)
 {
     int t, pm;
-    CLOCK rclk = clk - offset;
+    CLOCK rclk = myclk - offset;
 
 #ifdef DEBUG
     if (mycia_debugFlag)
@@ -1207,10 +1207,10 @@ int int_myciatod(long offset)
 void mycia_prevent_clk_overflow(CLOCK sub)
 {
 
-    update_tai(clk);
-    update_tbi(clk);
+    update_tai(myclk);
+    update_tbi(myclk);
 
-    update_mycia(clk);
+    update_mycia(myclk);
 
     if(mycia_tai && (mycia_tai != -1))
         mycia_tai -= sub;
@@ -1232,7 +1232,7 @@ void mycia_prevent_clk_overflow(CLOCK sub)
 void mycia_dump(FILE * fp)
 {
 
-    update_mycia(clk);
+    update_mycia(myclk);
     fprintf(fp, "[MYCIA]\n");
     fprintf(fp, "PA %d %d\n", mycia[CIA_PRA], mycia[CIA_DDRA]);
     fprintf(fp, "PB %d %d\n", mycia[CIA_PRB], mycia[CIA_DDRB]);
@@ -1295,7 +1295,7 @@ void mycia_undump_line(char *s)
 	sscanf(s + 2, "%u %u %u", &mycia_tac, &mycia_tal, &d1);
 	mycia[CIA_CRA] = d1;
 	if ((mycia[CIA_CRA] & 0x21) == 0x01) {
-	    mycia_tau = clk + mycia_tac;
+	    mycia_tau = myclk + mycia_tac;
 	    mycia_tas = CIAT_RUNNING;
 	    my_set_tai_clk(mycia_tau + 1);
 	} else {
@@ -1306,7 +1306,7 @@ void mycia_undump_line(char *s)
 	sscanf(s + 2, "%u %u %u", &mycia_tbc, &mycia_tbl, &d1);
 	mycia[CIA_CRB] = d1;
 	if ((mycia[CIA_CRB] & 0x61) == 0x01) {
-	    mycia_tbu = clk + mycia_tbc;
+	    mycia_tbu = myclk + mycia_tbc;
 	    mycia_tbs = CIAT_RUNNING;
 	    my_set_tbi_clk(mycia_tbu + 1);
 	} else {

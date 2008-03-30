@@ -1,7 +1,7 @@
 
 /*
- * ../../src/drive/cia1581drive1.c
- * This file is generated from ../../src/cia-tmpl.c and ../../src/drive/cia1581drive1.def,
+ * ../../../src/drive/cia1581drive1.c
+ * This file is generated from ../../../src/cia-tmpl.c and ../../../src/drive/cia1581drive1.def,
  * Do not edit!
  */
 /*
@@ -124,9 +124,9 @@
     } while(0)
 #endif
 
-/* 
- * scheduling int_cia1581d1t[ab] calls - 
- * warning: int_cia1581d1ta uses drive1_* stuff! 
+/*
+ * scheduling int_cia1581d1t[ab] calls -
+ * warning: int_cia1581d1ta uses drive1_* stuff!
  */
 
 #define	my_set_tai_clk(clk) 						\
@@ -437,7 +437,7 @@ void REGPARM2 store_cia1581d1(ADDRESS addr, BYTE byte)
 
     
 
-    rclk = clk - STORE_OFFSET;
+    rclk = drive_clk[1] - STORE_OFFSET;
 
 #ifdef CIA1581D1_TIMER_DEBUG
     if (cia1581d1_debugFlag)
@@ -777,7 +777,7 @@ BYTE REGPARM1 read_cia1581d1(ADDRESS addr)
 
     if (cia1581d1_debugFlag)
 	printf("read cia1581d1[%x] returns %02x @ clk=%d, pc=\n",
-	       addr, tmp, clk - READ_OFFSET);
+	       addr, tmp, drive_clk[1] - READ_OFFSET);
     return tmp;
 }
 
@@ -793,7 +793,7 @@ BYTE read_cia1581d1_(ADDRESS addr)
 
     
 
-    rclk = clk - READ_OFFSET;
+    rclk = drive_clk[1] - READ_OFFSET;
 
 
     switch (addr) {
@@ -891,7 +891,7 @@ BYTE read_cia1581d1_(ADDRESS addr)
 			rclk, drive1_int_status.alarm_clk[A_CIA1581D1TA],
 			drive1_int_status.alarm_clk[A_CIA1581D1TB]);
 #endif
-	
+
 	    cia1581d1rdi = rclk;
             t = cia1581d1int;	/* we clean cia1581d1int anyway, so make int_* */
 	    cia1581d1int = 0;	/* believe it is already */
@@ -910,7 +910,7 @@ BYTE read_cia1581d1_(ADDRESS addr)
 	    if (cia1581d1_debugFlag)
 		printf("CIA1581D1 read intfl gives cia1581d1int=%02x -> %02x @"
 		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
-		       cia1581d1int, t, cia1581d1sr_bits, clk, 
+		       cia1581d1int, t, cia1581d1sr_bits, clk,
 			(cia1581d1_tac ? cia1581d1_tac : cia1581d1_tal),
 			cia1581d1_tbc);
 #endif
@@ -939,7 +939,7 @@ BYTE REGPARM1 peek_cia1581d1(ADDRESS addr)
 
     
 
-    rclk = clk - READ_OFFSET;
+    rclk = drive_clk[1] - READ_OFFSET;
 
     switch (addr) {
 
@@ -971,7 +971,7 @@ BYTE REGPARM1 peek_cia1581d1(ADDRESS addr)
 			rclk, drive1_int_status.alarm_clk[A_CIA1581D1TA],
 			drive1_int_status.alarm_clk[A_CIA1581D1TB]);
 #endif
-	
+
 	    cia1581d1rdi = rclk;
             t = cia1581d1int;	/* we clean cia1581d1int anyway, so make int_* */
 	    cia1581d1int = 0;	/* believe it is already */
@@ -990,7 +990,7 @@ BYTE REGPARM1 peek_cia1581d1(ADDRESS addr)
 	    if (cia1581d1_debugFlag)
 		printf("CIA1581D1 read intfl gives cia1581d1int=%02x -> %02x @"
 		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
-		       cia1581d1int, t, cia1581d1sr_bits, clk, 
+		       cia1581d1int, t, cia1581d1sr_bits, clk,
 			(cia1581d1_tac ? cia1581d1_tac : cia1581d1_tal),
 			cia1581d1_tbc);
 #endif
@@ -1013,7 +1013,7 @@ BYTE REGPARM1 peek_cia1581d1(ADDRESS addr)
 
 int int_cia1581d1ta(long offset)
 {
-    CLOCK rclk = clk - offset;
+    CLOCK rclk = drive_clk[1] - offset;
 
 #if defined(CIA1581D1_TIMER_DEBUG)
     if (cia1581d1_debugFlag)
@@ -1026,20 +1026,20 @@ int int_cia1581d1ta(long offset)
     if ((cia1581d1_tas == CIAT_RUNNING) && !(cia1581d1[CIA_CRA] & 8)) {
 	/* if we do not need alarm, no PB6, no shift register, and not timer B
 	   counting timer A, then we can savely skip alarms... */
-	if ( ( (cia1581d1ier & CIA_IM_TA) && 
+	if ( ( (cia1581d1ier & CIA_IM_TA) &&
 		(!(cia1581d1int & 0x80)) )
 	    || (cia1581d1[CIA_CRA] & 0x42)
 	    || (cia1581d1_tbs == CIAT_COUNTTA)) {
 	    if(offset > cia1581d1_tal+1) {
 	        my_set_tai_clk(
-			clk - (offset % (cia1581d1_tal+1)) + cia1581d1_tal + 1 );
+			drive_clk[1] - (offset % (cia1581d1_tal+1)) + cia1581d1_tal + 1 );
 	    } else {
 	        my_set_tai_clk(rclk + cia1581d1_tal + 1 );
 	    }
 	} else {
 	    /* cia1581d1_tai = rclk + cia1581d1_tal +1; - now keeps tai */
 	    /* printf("cia1581d1 unset alarm: clk=%d, rclk=%d, rdi=%d -> tai=%d\n",
-			clk, rclk, cia1581d1rdi, cia1581d1_tai); */
+			drive_clk[1], rclk, cia1581d1rdi, cia1581d1_tai); */
 	    drive1_unset_alarm(A_CIA1581D1TA);	/* do _not_ clear cia1581d1_tai */
 	}
     } else {
@@ -1105,7 +1105,7 @@ int int_cia1581d1ta(long offset)
 
 int int_cia1581d1tb(long offset)
 {
-    CLOCK rclk = clk - offset;
+    CLOCK rclk = drive_clk[1] - offset;
 
 #if defined(CIA1581D1_TIMER_DEBUG)
     if (cia1581d1_debugFlag)
@@ -1124,8 +1124,8 @@ int int_cia1581d1tb(long offset)
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (cia1581d1ier & CIA_IM_TB) {
 		if(offset > cia1581d1_tbl+1) {
-		    my_set_tbi_clk( 
-			clk - (offset % (cia1581d1_tbl+1)) + cia1581d1_tbl + 1);
+		    my_set_tbi_clk(
+			drive_clk[1] - (offset % (cia1581d1_tbl+1)) + cia1581d1_tbl + 1);
 		} else {
 		    my_set_tbi_clk(rclk + cia1581d1_tbl + 1);
 		}
@@ -1177,7 +1177,7 @@ void cia1581d1_set_flag(void)
 {
     cia1581d1int |= CIA_IM_FLG;
     if (cia1581d1[CIA_ICR] & CIA_IM_FLG) {
-        my_set_int(I_CIA1581D1FL, IK_IRQ, clk);
+        my_set_int(I_CIA1581D1FL, IK_IRQ, drive_clk[1]);
     }
 }
 
@@ -1186,7 +1186,7 @@ void cia1581d1_set_sdr(BYTE data)
     cia1581d1[CIA_SDR] = data;
     cia1581d1int |= CIA_IM_SDR;
     if (cia1581d1[CIA_ICR] & CIA_IM_SDR) {
-        my_set_int(I_CIA1581D1FL, IK_IRQ, clk);
+        my_set_int(I_CIA1581D1FL, IK_IRQ, drive_clk[1]);
     }
 }
 
@@ -1195,7 +1195,7 @@ void cia1581d1_set_sdr(BYTE data)
 int int_cia1581d1tod(long offset)
 {
     int t, pm;
-    CLOCK rclk = clk - offset;
+    CLOCK rclk = drive_clk[1] - offset;
 
 #ifdef DEBUG
     if (cia1581d1_debugFlag)
@@ -1249,10 +1249,10 @@ int int_cia1581d1tod(long offset)
 void cia1581d1_prevent_clk_overflow(CLOCK sub)
 {
 
-    update_tai(clk);
-    update_tbi(clk);
+    update_tai(drive_clk[1]);
+    update_tbi(drive_clk[1]);
 
-    update_cia1581d1(clk);
+    update_cia1581d1(drive_clk[1]);
 
     if(cia1581d1_tai && (cia1581d1_tai != -1))
         cia1581d1_tai -= sub;
@@ -1274,7 +1274,7 @@ void cia1581d1_prevent_clk_overflow(CLOCK sub)
 void cia1581d1_dump(FILE * fp)
 {
 
-    update_cia1581d1(clk);
+    update_cia1581d1(drive_clk[1]);
     fprintf(fp, "[CIA1581D1]\n");
     fprintf(fp, "PA %d %d\n", cia1581d1[CIA_PRA], cia1581d1[CIA_DDRA]);
     fprintf(fp, "PB %d %d\n", cia1581d1[CIA_PRB], cia1581d1[CIA_DDRB]);
@@ -1337,7 +1337,7 @@ void cia1581d1_undump_line(char *s)
 	sscanf(s + 2, "%u %u %u", &cia1581d1_tac, &cia1581d1_tal, &d1);
 	cia1581d1[CIA_CRA] = d1;
 	if ((cia1581d1[CIA_CRA] & 0x21) == 0x01) {
-	    cia1581d1_tau = clk + cia1581d1_tac;
+	    cia1581d1_tau = drive_clk[1] + cia1581d1_tac;
 	    cia1581d1_tas = CIAT_RUNNING;
 	    my_set_tai_clk(cia1581d1_tau + 1);
 	} else {
@@ -1348,7 +1348,7 @@ void cia1581d1_undump_line(char *s)
 	sscanf(s + 2, "%u %u %u", &cia1581d1_tbc, &cia1581d1_tbl, &d1);
 	cia1581d1[CIA_CRB] = d1;
 	if ((cia1581d1[CIA_CRB] & 0x61) == 0x01) {
-	    cia1581d1_tbu = clk + cia1581d1_tbc;
+	    cia1581d1_tbu = drive_clk[1] + cia1581d1_tbc;
 	    cia1581d1_tbs = CIAT_RUNNING;
 	    my_set_tbi_clk(cia1581d1_tbu + 1);
 	} else {
