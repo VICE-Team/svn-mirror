@@ -146,6 +146,12 @@
 
 #define IDD_CONFIG_KEY_DIALOG           1229
 
+#define IDD_SOUND_SETTINGS_DIALOG       1240
+#define IDC_SOUND_FREQ                  1241
+#define IDC_SOUND_BUFFER                1242
+#define IDC_SOUND_OVERSAMPLE            1243
+#define IDC_SOUND_SYNCH                 1244
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
@@ -215,6 +221,7 @@
 #define IDM_SYNC_FACTOR_PAL             40140
 #define IDM_SYNC_FACTOR_NTSC            40141
 #define IDM_JOY_SETTINGS                40142
+#define IDM_SOUND_SETTINGS              40143
 
 // Next default values for new objects
 //

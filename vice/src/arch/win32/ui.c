@@ -48,6 +48,7 @@
 #include "uijoystick.h"
 #include "uilib.h"
 #include "uisnapshot.h"
+#include "uisound.h"
 #include "utils.h"
 #include "vsync.h"
 #include "winmain.h"
@@ -632,6 +633,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         break;
         case IDM_JOY_SETTINGS:
             ui_joystick_settings_dialog(main_hwnd);
+            break;
+        case IDM_SOUND_SETTINGS:
+            ui_sound_settings_dialog(main_hwnd);
             break;
       case IDM_SYNC_FACTOR_PAL:
         resources_set_value("DriveSyncFactor",

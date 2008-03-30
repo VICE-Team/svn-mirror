@@ -1193,9 +1193,17 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
 };
 
 #ifdef USE_VIDMODE_EXTENSION
+
+static UI_CALLBACK(FullscreenMenu)
+{
+    if (call_data) {
+        ui_menu_set_sensitive(w, ui_is_fullscreen_available());
+    }
+}
+
 ui_menu_entry_t ui_fullscreen_settings_menu[] = {
-    { "Fullscreen settings",
-      NULL, NULL, ui_fullscreen_settings_submenu },
+    { "*Fullscreen settings",
+      (ui_callback_t) FullscreenMenu, NULL, ui_fullscreen_settings_submenu },
     { NULL }
 };
 #endif 

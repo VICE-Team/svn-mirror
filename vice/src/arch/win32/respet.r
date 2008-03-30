@@ -104,6 +104,7 @@ BEGIN
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
+        MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
@@ -196,4 +197,3 @@ BEGIN
     AUTOCHECKBOX "$A*** as RAM",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
                             BS_AUTOCHECKBOX
 END
-

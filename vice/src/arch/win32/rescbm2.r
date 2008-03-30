@@ -104,6 +104,7 @@ BEGIN
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
+        MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
@@ -167,4 +168,3 @@ BEGIN
     AUTOCHECKBOX    "Bank 15 $C000-$CFFF RAM",IDC_TOGGLE_CBMII_RAMC,
                     105,105,115,10, BS_AUTOCHECKBOX
 END
-

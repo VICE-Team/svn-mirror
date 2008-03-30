@@ -1028,7 +1028,7 @@ int mem_load_romset_file(const char *name)
 {
     FILE *fp = NULL;
     char *complete_path;
-    char romsetname[101], romsetpath[101];
+    char romsetname[101], romsetpath[MAXPATHLEN];
     char *c;
     
     /* Fixme: Only 20 different RomSets at the moment */
@@ -1048,7 +1048,7 @@ int mem_load_romset_file(const char *name)
     number_romsets = 1;
 
     while (! feof(fp) && number_romsets < 20) {      
-      if(!fgets(romsetpath,100,fp) || !fgets(romsetname,100,fp)) {
+      if(!fgets(romsetpath, MAXPATHLEN,fp) || !fgets(romsetname, 100,fp)) {
 	break;
       }
       for(c=romsetpath; *c != '\0'; c++)
@@ -1158,39 +1158,39 @@ int mem_romset_loader()
 
 int mem_set_romset(char *name) {
   int num_romsets;
-  char path[256];
+  char path[MAXPATHLEN];
   char *tmppath;
 
   if(strcmp(name,"Default")) {
     for(num_romsets = 0; num_romsets < number_romsets ; num_romsets++) {
       if (!strcmp(romsets[num_romsets]->name,name)) {
 	romset_name = romsets[num_romsets]->name;
-	strncpy(path,romsets[num_romsets]->path,255);
-	strncat(path,"char.rom", 256 - strlen(path) - 1);
+	strncpy(path,romsets[num_romsets]->path,MAXPATHLEN - 1);
+	strncat(path,"char.rom", MAXPATHLEN - strlen(path) - 1);
 	if ( sysfile_locate(path, &tmppath) ) {
 	  set_chargen_rom_name((resource_value_t) "chargen");
 	} else {
 	  set_chargen_rom_name((resource_value_t) path);
 	}
 
-	strncpy(path,romsets[num_romsets]->path,255);
-	strncat(path,"kernal.rom",256 - strlen(path) - 1);
+	strncpy(path,romsets[num_romsets]->path, MAXPATHLEN - 1);
+	strncat(path,"kernal.rom",MAXPATHLEN - strlen(path) - 1);
 	if ( sysfile_locate(path, &tmppath) ) {
 	  set_kernal_rom_name((resource_value_t) "kernal");
 	} else {
 	  set_kernal_rom_name((resource_value_t) path);
 	}
 
-	strncpy(path,romsets[num_romsets]->path,255);
-	strncat(path,"basic.rom",256 - strlen(path) - 1);
+	strncpy(path,romsets[num_romsets]->path, MAXPATHLEN - 1);
+	strncat(path,"basic.rom",MAXPATHLEN - strlen(path) - 1);
 	if ( sysfile_locate(path, &tmppath) ) {
 	  set_basic_rom_name((resource_value_t) "basic");
 	} else {
 	  set_basic_rom_name((resource_value_t) path);
 	}
 
-	strncpy(path,romsets[num_romsets]->path,255);
-	strncat(path,"c1541.rom",256 - strlen(path) - 1);
+	strncpy(path,romsets[num_romsets]->path, MAXPATHLEN - 1);
+	strncat(path,"c1541.rom",MAXPATHLEN - strlen(path) - 1);
 	if ( sysfile_locate(path, &tmppath) ) {
 	  reload_rom_1541("dos1541");
 	} else {

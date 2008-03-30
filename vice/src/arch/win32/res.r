@@ -233,6 +233,28 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
 END
+
+IDD_SOUND_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 80
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Configure Sound Device Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sample Frequency :",IDC_STATIC,7,5,118,8
+    LTEXT           "Sound Buffer Size :",IDC_STATIC,7,18,118,8
+    LTEXT           "Oversampling Factor :",IDC_STATIC,7,31,118,8
+    LTEXT           "Synchronization Method :",IDC_STATIC,7,44,118,8
+    COMBOBOX        IDC_SOUND_FREQ,100,2,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    COMBOBOX        IDC_SOUND_BUFFER,100,15,70,76,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,28,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    COMBOBOX        IDC_SOUND_SYNCH,100,41,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 40,60,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDC_CANCEL, 95,60,50,14, WS_TABSTOP
+END
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO

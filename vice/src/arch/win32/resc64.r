@@ -33,7 +33,7 @@ BEGIN
         MENUITEM "Attach &tape image...",           IDM_ATTACH_TAPE
         MENUITEM "Detac&h tape image",              IDM_DETACH_TAPE
         MENUITEM SEPARATOR
-        POPUP "Attach &cartridge image..."          
+        POPUP "Attach &cartridge image..."
         BEGIN
             MENUITEM "&CRT image...",               IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
@@ -121,6 +121,7 @@ BEGIN
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
         MENUITEM "&VIC-II settings...",             IDM_VICII_SETTINGS
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
+        MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
@@ -170,4 +171,3 @@ BEGIN
     AUTOCHECKBOX    "Sprite-&background collisions", IDC_TOGGLE_VICII_SBC,
                     15,25,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
-

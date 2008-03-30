@@ -66,6 +66,8 @@ libarch_a_SOURCES = \
 	uipetset.h \
 	uisnapshot.h \
 	uisnapshot.c \
+        uisound.c \
+        uisound.h \
 	uivicii.h \
 	uivicii.c \
 	vic20kbd.c \
@@ -100,4 +102,3 @@ respet.o : respet.r res.r res.h
 resvic.o : resvic.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-

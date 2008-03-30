@@ -108,6 +108,7 @@ BEGIN
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
         MENUITEM "&VIC-II settings...",             IDM_VICII_SETTINGS
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
+        MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
@@ -156,4 +157,3 @@ BEGIN
     AUTOCHECKBOX    "Sprite-&background collisions", IDC_TOGGLE_VICII_SBC,
                     15,25,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
-
