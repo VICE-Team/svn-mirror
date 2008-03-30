@@ -230,9 +230,6 @@ struct vic_ii_s {
     /* Line for raster compare IRQ.  */
     unsigned int raster_irq_line;
 
-    /* Internal color memory.  */
-    BYTE color_ram[0x400];
-
     /* Pointer to the base of RAM seen by the VIC-II.  */
     /* address is base of 64k bank. vbank adds 0/16k/32k/48k to get actual
        video address */
