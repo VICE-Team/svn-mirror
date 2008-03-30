@@ -66,6 +66,7 @@ struct video_canvas_s {
     ui_window_t emuwindow;
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
+    struct viewport_s *viewport;
 #ifdef USE_GNOMEUI
     GdkPixmap *drawable;
 #else
@@ -129,7 +130,6 @@ extern int shmmajor;          /* major number of MITSHM error codes */
 #endif /* USE_MITSHM */
 
 struct palette_s;
-struct raster_s;
 
 extern void video_add_handlers(video_canvas_t *canvas);
 extern void ui_finish_canvas(video_canvas_t *c);
@@ -138,8 +138,6 @@ extern void video_convert_restore_pixel(void);
 extern void video_refresh_func(void (*rfunc)(void));
 extern int video_convert_func(video_canvas_t *canvas, unsigned int width,
                               unsigned int height);
-extern void video_register_raster(struct raster_s *raster);
-
 extern void video_convert_color_table(unsigned int i, BYTE *data,
                                       unsigned int dither, long col,
                                       video_canvas_t *c);
