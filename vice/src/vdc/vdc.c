@@ -113,6 +113,8 @@ static void init_raster(void)
     raster->display_ystop = VDC_25ROW_STOP_LINE;
     raster->display_xstart = VDC_80COL_START_PIXEL;
     raster->display_xstop = VDC_80COL_STOP_PIXEL;
+
+    raster->border_color = 0;
 }
 
 
@@ -205,6 +207,12 @@ int vdc_raster_draw_alarm_handler(long offset)
         vdc.bitmap_counter = 0 - vdc.mem_counter_inc;
         vdc.raster.ycounter = 0 - 1;
     }
+
+#ifdef __MSDOS__
+    if (vdc.raster.viewport.update_canvas)
+        canvas_set_border_color (vdc.raster.viewport.canvas,
+                                 vdc.raster.border_color);
+#endif
 
     if (in_visible_area)
     {

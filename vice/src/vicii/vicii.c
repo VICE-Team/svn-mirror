@@ -833,6 +833,14 @@ vic_ii_raster_draw_alarm_handler (long offset)
       vic_ii.memptr = 0;
       vic_ii.mem_counter = 0;
       vic_ii.light_pen.triggered = 0;
+
+#ifdef __MSDOS__
+      if (vic_ii.raster.viewport.width <= VIC_II_SCREEN_XPIX
+	  && vic_ii.raster.viewport.height <= VIC_II_SCREEN_YPIX
+          && vic_ii.raster.viewport.update_canvas)
+	canvas_set_border_color (vic_ii.raster.viewport.canvas,
+                                 vic_ii.raster.border_color);
+#endif
     }
 
   if (in_visible_area)
