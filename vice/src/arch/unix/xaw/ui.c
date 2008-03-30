@@ -41,6 +41,11 @@
 #include <errno.h>
 #include <signal.h>
 
+#ifdef HAVE_PTHREAD_H
+#define _MIT_POSIX_THREADS
+#include <pthread.h>
+#endif
+
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/Shell.h>
@@ -78,6 +83,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mouse.h"
+#include "psid.h"
 #include "resources.h"
 #include "uihotkey.h"
 #include "uimenu.h"
@@ -903,6 +909,75 @@ typedef struct {
     int class;
 } namedvisual_t;
 
+
+/* ------------------------------------------------------------------------- */
+/* Thread for the user interface */
+ui_thread_op_t ui_thread_op = PSID_NOOP;
+static pthread_t ui_thread;
+
+int ui_exit_thread(void)
+{
+  ui_thread_op = PSID_EXIT;
+  pthread_exit(NULL);
+  return 0;
+}
+
+void* ui_thread_start(void* arg)
+{
+    int rc;
+    sigset_t set;
+
+    sigfillset(&set);
+    
+    if ((rc = pthread_sigmask(SIG_SETMASK, &set, NULL)) != 0) {
+        log_error(ui_log, "Cannot set signal mask for UI thread: %s", strerror(rc));
+	ui_exit_thread();
+    }
+
+    if ((rc = pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL)) != 0) {
+        log_error(ui_log, "Cannot set cancel type for UI thread: %s", strerror(rc));
+	ui_exit_thread();
+    }
+
+    XtAppMainLoop(app_context);
+
+    return NULL;
+}
+
+int ui_create_thread(void)
+{
+    int rc;
+
+    XSync(display, False);
+
+    if ((rc = pthread_create(&ui_thread, NULL, ui_thread_start, NULL)) != 0) {
+        log_error(ui_log, "Cannot create UI thread: %s", strerror(rc));
+        return -1;
+    }
+
+    return 0;
+}
+
+int ui_join_thread(void)
+{
+    int rc;
+
+    if (ui_thread_op != PSID_EXIT) {
+	if ((rc = pthread_cancel(ui_thread)) != 0) {
+	    log_error(ui_log, "Cannot cancel UI thread: %s", strerror(rc));
+	    return -1;
+	}
+    }
+
+    if ((rc = pthread_join(ui_thread, NULL)) != 0) {
+        log_error(ui_log, "Cannot join UI thread: %s", strerror(rc));
+	return -1;
+    }
+
+    return 0;
+}
+
+
 /* Continue GUI initialization after resources are set. */
 int ui_init_finish(void)
 {
@@ -1467,7 +1542,12 @@ void ui_exit(void)
 #ifdef USE_VIDMODE_EXTENSION
 	ui_set_windowmode();
 #endif
-	exit(0);
+	if (psid_mode) {
+	    ui_exit_thread();
+	}
+	else {
+	   exit(0);
+	}
     }
 
     free(s);
@@ -1894,6 +1974,29 @@ void ui_dispatch_next_event(void)
 /* Dispatch all the pending Xt events. */
 void ui_dispatch_events(void)
 {
+    if (console_mode) {
+        return;
+    }
+
+    if (psid_mode) {
+        switch (ui_thread_op) {
+	case PSID_EXIT:
+	    /* exit64() in main.c will join the thread */
+	  exit(0);
+	case PSID_LOAD:
+	  suspend_speed_eval();
+	  maincpu_trigger_reset();
+	  break;
+	default:
+	case PSID_NOOP:
+	  break;
+	}
+
+	ui_thread_op = PSID_NOOP;
+
+        return;
+    }
+
     while (XtAppPending(app_context) || ui_menu_any_open())
 	ui_dispatch_next_event();
 }
@@ -2040,6 +2143,11 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     static ui_button_t button;
 
     va_start(ap, format);
+
+    if (console_mode) {
+        vfprintf(stderr, format, ap);
+        exit(0);
+    }
 
     shell = ui_create_transient_shell(_ui_top_level, "jamDialogShell");
     jam_dialog = XtVaCreateManagedWidget
