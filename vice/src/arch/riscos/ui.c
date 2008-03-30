@@ -50,6 +50,7 @@
 #include "log.h"
 #include "joystick.h"
 #include "tape.h"
+#include "c64mem.h"
 
 
 
@@ -60,8 +61,9 @@ extern int pet_set_model(const char *name, void *extra);
 extern int cbm2_set_model(const char *name, void *extra);
 
 /* Defined in soundacorn.c. Important for timer handling! */
-extern void sound_wimp_poll_prologue(void);
-extern void sound_wimp_poll_epilogue(void);
+extern int  sound_wimp_poll_prologue(void);
+extern int  sound_wimp_poll_epilogue(int install);
+extern void sound_wimp_safe_exit(void);
 
 /* Defined in raster.c, but raster.h is a mess, so delare it here... */
 extern int handle_mode_change(void);
@@ -258,6 +260,8 @@ static char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceSnap";
 #define Icon_Conf_DosNameT	38
 #define Icon_Conf_DosNameF	39
 #define Icon_Conf_AutoPause	40
+#define Icon_Conf_ROMSet	43
+#define Icon_Conf_ROMSetT	44
 
 /* Joystick conf */
 #define Icon_Conf_JoyPort1	2
@@ -289,6 +293,7 @@ static char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceSnap";
 #define Icon_Conf_PetRAM9	13
 #define Icon_Conf_PetRAMA	14
 #define Icon_Conf_PetDiagPin	15
+#define Icon_Conf_PetSuper	16
 
 /* VIC config */
 #define Icon_Conf_VICCart	2
@@ -491,6 +496,9 @@ static conf_icon_id SidDependentIcons[] = {
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9T},\
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar9},
 
+#define ICON_LIST_ROMSET \
+ {CONF_WIN_SYSTEM, Icon_Conf_ROMSet}, {CONF_WIN_SYSTEM, Icon_Conf_ROMSetT},
+
 
 /* Config icons that are greyed out in some CBM machines */
 static conf_icon_id conf_grey_x64[] = {
@@ -504,6 +512,7 @@ static conf_icon_id conf_grey_x128[] = {
   ICON_LIST_CART64
   ICON_LIST_PET
   ICON_LIST_VIC
+  ICON_LIST_ROMSET
   {0xff, 0xff}
 };
 
@@ -513,6 +522,7 @@ static conf_icon_id conf_grey_xvic[] = {
   ICON_LIST_SID
   ICON_LIST_DEVICES
   ICON_LIST_PET
+  ICON_LIST_ROMSET
   {0xff, 0xff}
 };
 
@@ -524,6 +534,7 @@ static conf_icon_id conf_grey_xpet[] = {
   ICON_LIST_DEVICES
   ICON_LIST_SID
   ICON_LIST_TRUE
+  ICON_LIST_ROMSET
   {0xff, 0xff}
 };
 
@@ -534,6 +545,7 @@ static conf_icon_id conf_grey_xcbm2[] = {
   ICON_LIST_PET
   ICON_LIST_VIC
   ICON_LIST_DEVRSUSR
+  ICON_LIST_ROMSET
   {0xff, 0xff}
 };
 
@@ -579,6 +591,7 @@ int EmuPaused;
 int SingleTasking = 0;
 char *PetModelName = NULL;
 char *CBM2ModelName = NULL;
+char *ROMSetName = "Default";
 
 
 /* The screen */
@@ -898,6 +911,7 @@ static char Rsrc_PetCrt[] = "Crtc";
 static char Rsrc_PetRAM9[] = "Ram9";
 static char Rsrc_PetRAMA[] = "RamA";
 static char Rsrc_PetDiag[] = "DiagPin";
+static char Rsrc_PetSuper[] = "SuperPET";
 static char Rsrc_VicCart2[] = "CartridgeFile2000";
 static char Rsrc_VicCart6[] = "CartridgeFile6000";
 static char Rsrc_VicCartA[] = "CartridgeFileA000";
@@ -1305,7 +1319,7 @@ static struct MenuSerialBaud {
   }
 };
 
-#define Menu_Cartridge_Items	7
+#define Menu_Cartridge_Items	13
 #define Menu_Cartridge_Width	200
 static struct MenuCartridgeType {
   RO_MenuHead head;
@@ -1319,7 +1333,13 @@ static struct MenuCartridgeType {
     MENU_ITEM("\\MenCrtCRT"),
     MENU_ITEM("\\MenCrtAct"),
     MENU_ITEM("\\MenCrtKCS"),
-    MENU_ITEM_LAST("\\MenCrtSim")
+    MENU_ITEM("\\MenCrtSim"),
+    MENU_ITEM("\\MenCrtUlt"),
+    MENU_ITEM("\\MenCrtSSn"),
+    MENU_ITEM("\\MenCrtFin"),
+    MENU_ITEM("\\MenCrtOcn"),
+    MENU_ITEM("\\MenCrtFun"),
+    MENU_ITEM_LAST("\\MenCrtSGm")
   }
 };
 
@@ -1367,7 +1387,7 @@ static struct MenuPetVideo {
   }
 };
 
-#define Menu_PetModel_Items	11
+#define Menu_PetModel_Items	12
 #define Menu_PetModel_Width	200
 static struct MenuPetModel {
   RO_MenuHead head;
@@ -1385,7 +1405,8 @@ static struct MenuPetModel {
     MENU_ITEM("\\MenPMd432B"),
     MENU_ITEM("\\MenPMd832"),
     MENU_ITEM("\\MenPMd896"),
-    MENU_ITEM_LAST("\\MenPMd8296")
+    MENU_ITEM("\\MenPMd8296"),
+    MENU_ITEM_LAST("\\MenPMdSup")
   }
 };
 
@@ -1536,6 +1557,20 @@ JOYSTICK_DEVICE_MENU(MenuJoyDevice1, "\\MenJoyTit1")
 JOYSTICK_DEVICE_MENU(MenuJoyDevice2, "\\MenJoyTit2")
 
 
+#define Menu_ROMSet_Width	200
+RO_MenuHead *MenuROMSet = NULL;
+
+static struct MenuROMSetTmpl {
+  RO_MenuHead head;
+  RO_MenuItem item[1];
+} MenuROMSetTmpl = {
+  MENU_HEADER("\\MenRSTit", Menu_ROMSet_Width),
+  {
+    MENU_ITEM_LAST("\\MenRSDef")
+  }
+};
+
+
 
 #define CONF_MENU_PRNTDEV	0
 #define CONF_MENU_PRUSER	1
@@ -1575,6 +1610,7 @@ JOYSTICK_DEVICE_MENU(MenuJoyDevice2, "\\MenJoyTit2")
 #define CONF_MENU_SNDBUFF	35
 #define CONF_MENU_JOYDEV1	36
 #define CONF_MENU_JOYDEV2	37
+#define CONF_MENU_ROMSET	38
 
 /* Config Menus */
 static menu_icon ConfigMenus[] = {
@@ -1654,6 +1690,8 @@ static menu_icon ConfigMenus[] = {
     {CONF_WIN_JOY, Icon_Conf_JoyPort1}},		/* 36 */
   {(RO_MenuHead*)&MenuJoyDevice2, NULL,
     {CONF_WIN_JOY, Icon_Conf_JoyPort2}},		/* 37 */
+  {(RO_MenuHead*)&MenuROMSetTmpl, NULL,
+    {CONF_WIN_SYSTEM, Icon_Conf_ROMSet}},			/* 38 */
   {NULL, NULL, {0, 0}}
 };
 
@@ -1698,7 +1736,8 @@ static config_item Configurations[] = {
   {Rsrc_PetCrt, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetCrt}},
   {Rsrc_PetRAM9, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetRAM9}},
   {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetRAMA}},
-  {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_CBM2, Icon_Conf_PetDiagPin}},
+  {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetDiagPin}},
+  {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetSuper}},
   {NULL, 0, {0, 0}}
 };
 
@@ -1883,7 +1922,9 @@ static struct MenuDisplayCartridgeType {
   {Rsrc_CartT, {CONF_WIN_SYSTEM, Icon_Conf_CartTypeT},
     (RO_MenuHead*)&MenuCartridgeType, Menu_Cartridge_Items, 0, 0},
   {CARTRIDGE_NONE, CARTRIDGE_GENERIC_8KB, CARTRIDGE_GENERIC_16KB, CARTRIDGE_CRT,
-   CARTRIDGE_ACTION_REPLAY, CARTRIDGE_KCS_POWER, CARTRIDGE_SIMONS_BASIC}
+   CARTRIDGE_ACTION_REPLAY, CARTRIDGE_KCS_POWER, CARTRIDGE_SIMONS_BASIC,
+   CARTRIDGE_ULTIMAX, CARTRIDGE_SUPER_SNAPSHOT, CARTRIDGE_FINAL_III, CARTRIDGE_OCEAN,
+   CARTRIDGE_FUNPLAY, CARTRIDGE_SUPER_GAMES}
 };
 
 static struct MenuDisplayPetMemory {
@@ -1924,6 +1965,7 @@ static char PetModel7[] = "4032B";
 static char PetModel8[] = "8032";
 static char PetModel9[] = "8096";
 static char PetModel10[] = "8296";
+static char PetModel11[] = "SuperPET";
 
 static struct MenuDisplayPetModel {
   disp_desc_t dd;
@@ -1933,7 +1975,7 @@ static struct MenuDisplayPetModel {
     (RO_MenuHead*)&MenuPetModel, Menu_PetModel_Items, DISP_DESC_STRING, 0},
   {(int)PetModel0, (int)PetModel1, (int)PetModel2, (int)PetModel3, (int)PetModel4,
    (int)PetModel5, (int)PetModel6, (int)PetModel7, (int)PetModel8, (int)PetModel9,
-   (int)PetModel10}
+   (int)PetModel10, (int)PetModel11}
 };
 
 static struct MenuDisplayVicRam {
@@ -2048,6 +2090,17 @@ static struct MenuDisplaySoundBuffer {
 
 DISP_JOYSTICK_DEVICE_MENU(1)
 DISP_JOYSTICK_DEVICE_MENU(2)
+
+static disp_desc_t *MenuDisplayROMSet = NULL;
+
+static struct MenuDisplayROMSetTmpl {
+  disp_desc_t dd;
+  int values[1];
+} MenuDisplayROMSetTmpl = {
+  {NULL, {CONF_WIN_SYSTEM, Icon_Conf_ROMSetT},
+    (RO_MenuHead*)&MenuROMSetTmpl, 1, DISP_DESC_STRING, 0},
+  {0}
+};
 
 
 
@@ -2218,7 +2271,7 @@ static int ui_load_template(const char *tempname, RO_Window **wptr, wimp_msg_des
 {
   if ((*wptr = wimp_load_template(tempname)) == NULL)
   {
-    log_error(roui_log, SymbolStrings[Symbol_ErrTemp], tempname); log_error(roui_log, "\n");
+    log_error(roui_log, SymbolStrings[Symbol_ErrTemp], tempname);
     exit(-1);
   }
   else
@@ -2473,6 +2526,7 @@ static void ui_setup_menu_disp_core(const disp_desc_t *dd, resource_value_t val)
     {
       if ((dd->flags & DISP_DESC_STRING) != 0)
       {
+        if (val == (resource_value_t)0) continue;
         if (strcmp((char*)(values[i]), (char*)val) == 0) break;
       }
       else
@@ -2533,13 +2587,22 @@ static void ui_setup_menu_display(const disp_desc_t *dd)
 /* Special set-functions */
 int set_pet_model_by_name(const char *name, resource_value_t val)
 {
+  PetModelName = (char*)val;
   return pet_set_model((const char*)val, NULL);
 }
 
 int set_cbm2_model_by_name(const char *name, resource_value_t val)
 {
+  CBM2ModelName = (char*)val;
   return cbm2_set_model((const char*)val, NULL);
 }
+
+int set_romset_by_name(const char *name, resource_value_t val)
+{
+  ROMSetName = (char*)val;
+  return mem_set_romset((char*)val);
+}
+
 
 static void ui_set_menu_display_core(const disp_desc_t *dd, set_var_function func, int number)
 {
@@ -2799,6 +2862,55 @@ void ui_set_sound_volume(void)
 }
 
 
+static int ui_build_romset_menu(void)
+{
+  int number;
+
+  if (MenuROMSet != NULL) free(MenuROMSet);
+  if (MenuDisplayROMSet != NULL) free(MenuDisplayROMSet);
+  MenuROMSet = NULL; MenuDisplayROMSet = NULL;
+  ConfigMenus[CONF_MENU_ROMSET].menu = (RO_MenuHead*)&MenuROMSetTmpl;
+
+  number = mem_get_numromsets();
+  if (number <= 0) return -1;
+  MenuROMSet = (RO_MenuHead*)malloc(sizeof(RO_MenuHead) + number * sizeof(RO_MenuItem));
+  MenuDisplayROMSet = (disp_desc_t*)malloc(sizeof(disp_desc_t) + number * sizeof(int));
+
+  if ((MenuROMSet != NULL) && (MenuDisplayROMSet != NULL))
+  {
+    RO_MenuItem *item;
+    char **names;
+    int *values;
+    int i;
+
+    memcpy(MenuROMSet, &MenuROMSetTmpl, sizeof(RO_MenuHead));
+    memcpy(MenuDisplayROMSet, &MenuDisplayROMSetTmpl, sizeof(disp_desc_t));
+    item = (RO_MenuItem*)(MenuROMSet + 1);
+    values = (int*)(MenuDisplayROMSet + 1);
+
+    names = mem_get_romsets();
+    for (i=0; i<number; i++)
+    {
+      item[i].mflags = 0; item[i].submenu = (RO_MenuHead*)-1; item[i].iflags = Menu_Flags;
+      strncpy(item[i].dat.strg, names[i], 12);
+      values[i] = (int)(names[i]);
+    }
+    item[number-1].mflags = MFlg_LastItem;
+    ConfigMenus[CONF_MENU_ROMSET].menu = MenuROMSet;
+    MenuDisplayROMSet->menu = MenuROMSet;
+    MenuDisplayROMSet->items = number;
+    return 0;
+  }
+  return -1;
+}
+
+
+
+/* Make absolutely sure the sound timer is killed when the app terminates */
+static void ui_safe_exit(void)
+{
+  sound_wimp_safe_exit();
+}
 
 
 /* Shared by all uis for installing the icon bar icon */
@@ -2810,7 +2922,7 @@ int ui_init(int *argc, char *argv[])
   char *iname;
   wimp_msg_desc *msg;
 
-  PollMask = 0x00000830;
+  PollMask = 0x01000830;	/* save/restore FP regs */
   LastMenu = 0; LastClick = 0; LastDrag = 0; MenuType = 0; DragType = 0;
   EmuZoom = 1;
 
@@ -3045,6 +3157,8 @@ int ui_init_finish(void)
     }
   }
 
+  atexit(ui_safe_exit);
+
   return 0;
 }
 
@@ -3125,6 +3239,11 @@ static void ui_setup_config_window(int wnum)
       ui_setup_menu_display((disp_desc_t*)&MenuDisplaySpeedLimit);
       ui_setup_menu_display((disp_desc_t*)&MenuDisplayRefresh);
       ui_setup_menu_display((disp_desc_t*)&MenuDisplayDosName);
+      if (MenuDisplayROMSet == NULL) ui_build_romset_menu();
+      if (MenuDisplayROMSet != NULL)
+      {
+        ui_setup_menu_disp_core((disp_desc_t*)MenuDisplayROMSet, ROMSetName);
+      }
       if (machine_class == VICE_MACHINE_C64)
       {
         ui_setup_menu_display((disp_desc_t*)&MenuDisplayCartridgeType);
@@ -3916,8 +4035,6 @@ static void ui_drag_snapshot_trap(ADDRESS unused_address, void *unused_data)
   WithinUiPoll++;
 
   /* Get ready for polling. Except for the loop this is identical to ui_poll */
-  ui_poll_prologue();
-
   ui_poll_core(block);
 
   WithinUiPoll--;
@@ -4237,6 +4354,7 @@ static config_item PETdependconf[] = {
   {Rsrc_PetRAM9, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetRAM9}},
   {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetRAMA}},
   {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetDiagPin}},
+  {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetSuper}},
   {NULL, 0, {0, 0}}
 };
 
@@ -4513,7 +4631,6 @@ static void ui_menu_selection(int *b)
           int i;
 
           ui_set_menu_display_core((disp_desc_t*)&MenuDisplayPetModel, set_pet_model_by_name, b[0]);
-          PetModelName = (char*)(MenuDisplayPetModel.values[b[0]]);
           ui_setup_menu_display((disp_desc_t*)&MenuDisplayPetMemory);
           ui_setup_menu_display((disp_desc_t*)&MenuDisplayPetIO);
           ui_setup_menu_display((disp_desc_t*)&MenuDisplayPetVideo);
@@ -4543,7 +4660,6 @@ static void ui_menu_selection(int *b)
       case CONF_MENU_C2MODEL:
         {
           ui_set_menu_display_core((disp_desc_t*)&MenuDisplayCBM2Model, set_cbm2_model_by_name, b[0]);
-          CBM2ModelName = (char*)(MenuDisplayCBM2Model.values[b[0]]);
           ui_setup_menu_display((disp_desc_t*)&MenuDisplayCBM2Memory);
           ui_setup_menu_display((disp_desc_t*)&MenuDisplayCBM2RAM);
           ui_setup_menu_display((disp_desc_t*)&MenuDisplayCBM2Line);
@@ -4565,6 +4681,16 @@ static void ui_menu_selection(int *b)
         break;
       case CONF_MENU_JOYDEV2:
         ui_set_menu_display_value((disp_desc_t*)&MenuDisplayJoyDevice2, b[0]);
+        break;
+      case CONF_MENU_ROMSET:
+        if (MenuDisplayROMSet != NULL)
+        {
+          ui_set_menu_display_core((disp_desc_t*)MenuDisplayROMSet, set_romset_by_name, b[0]);
+          mem_romset_loader();
+          ui_setup_menu_display((disp_desc_t*)&MenuDisplayDosName);
+          ui_update_rom_names();
+          maincpu_trigger_reset();
+        }
         break;
       default:
         break;
@@ -4778,6 +4904,13 @@ static void ui_user_message(int *b)
           action = 1;
         }
       }
+      if (b[10] == FileType_Text)
+      {
+        if ((b[5] == ConfWindows[CONF_WIN_SYSTEM]->Handle) && (b[6] == Icon_Conf_Palette))
+        {
+          resources_set_value(Rsrc_Palette, (resource_value_t)(((char*)b)+44));
+        }
+      }
       if (action != 0)
       {
         b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoadAck;
@@ -4885,7 +5018,7 @@ static void ui_poll_prologue(void)
 
 static void ui_poll_epilogue(void)
 {
-  sound_wimp_poll_epilogue();
+  sound_wimp_poll_epilogue((WithinUiPoll == 0));
 }
 
 /* Core polling function */
@@ -4898,6 +5031,7 @@ static int ui_poll_core(int *block)
   else
     PollMask |= 1;
 
+  ui_poll_prologue();
   event = Wimp_Poll(PollMask, block, NULL);
 
   switch (event)
@@ -4956,8 +5090,6 @@ void ui_poll(void)
 
     LastPoll = now;
 
-    ui_poll_prologue();
-
     do
     {
       ui_poll_core(WimpBlock);
@@ -4965,10 +5097,10 @@ void ui_poll(void)
     /* A pending snapshot must unpause the emulator for a little */
     while ((EmuPaused != 0) && (SnapshotPending == 0));
 
-    WithinUiPoll--;
-
-    if ((WithinUiPoll == 0) && (SoundSuspended != 0)) sound_resume();
-
+    if (--WithinUiPoll == 0)
+    {
+      if (SoundSuspended != 0) sound_resume();
+    }
     ui_poll_epilogue();
   }
 }
@@ -5005,12 +5137,11 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
   /* This shouldn't be necessary, but just to be on the safe side */
   WithinUiPoll++;
 
-  ui_poll_prologue();
-
   button = -1;
 
   while (button < 0)
   {
+    ui_poll_prologue();
     event = Wimp_Poll(PollMask & ~1, block, NULL);
 
     switch (event)
@@ -5047,9 +5178,9 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
   Wimp_SetCaretPosition(activeCaret.WHandle, activeCaret.IHandle, activeCaret.offx, activeCaret.offy, activeCaret.height, activeCaret.index);
   Wimp_CloseWindow((int*)CpuJamWindow);
 
-  ui_poll_epilogue();
-
   WithinUiPoll--;
+
+  ui_poll_epilogue();
 
   switch (button)
   {
@@ -5112,8 +5243,6 @@ void ui_exit(void)
   log_message(roui_log, SymbolStrings[Symbol_MachDown]); log_message(roui_log, "\n");
   wimp_icon_delete(&IBarIcon);
   Wimp_CloseDown(TaskHandle, TASK_WORD);
-  /* Avoid suicide... */
-  sound_wimp_poll_prologue();
   exit(0);
 }
 

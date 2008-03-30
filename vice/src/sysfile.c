@@ -108,7 +108,22 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
     FILE *f;
 
 #ifdef __riscos
-    f = NULL;
+    p = (char*)name;
+    while (*p != '\0')
+    {
+      if ((*p == ':') || (*p == '$')) break;
+      p++;
+    }
+    if (*p != '\0')
+    {
+        p = (char*)malloc(strlen(name) + 1); strcpy(p, name);
+        *complete_path_return = p;
+        return fopen(p, "r");
+    }
+
+    f = archdep_open_romset_file(name, complete_path_return);
+    if (f != NULL)
+        return f;
 
     p = (char*)malloc(strlen(default_path) + strlen(name) + 1);
     sprintf(p, "%s%s", default_path, name);

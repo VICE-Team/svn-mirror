@@ -35,9 +35,6 @@
 char *WimpTaskName = "Vice CBM-II";
 
 
-extern char *CBM2ModelName;
-
-
 static unsigned char CBM2keys[] = {
   0x84, 0x85, 0xff, 0x84,	/* 0 */
   0x85, 0xff, 0x83, 0x41,	/* 4 */
@@ -100,6 +97,10 @@ int c610_ui_init(void)
   return ui_init_named_app("ViceCBM2", "!vicecbm2");
 }
 
+
+
+/* FIXME; should be defined in c610mem */
+int *mem_read_limit_tab_ptr;
 
 
 char *pet_get_keyboard_name(void)

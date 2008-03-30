@@ -16,6 +16,43 @@ this manual under the conditions for verbatim copying, provided that
 the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
+
+File: vice.info,  Node: Module framework,  Next: CPU 6502 module,  Prev: Module Terminology,  Up: Module formats
+
+Module framework
+................
+
+   The VICE snapshot file starts with the magic string and includes the
+fileformat version number.
+
+Type    Name                          Description                          
+19 BYTE MAGIC                         "VICE Snapshot File\032", padded     
+                                      with 0                               
+BYTE    VMAJOR                        fileformat major version number      
+BYTE    VMINOR                        fileformat minor version number      
+16 BYTE MACHINENAME                   Name of emulated machine, like       
+                                      "PET", "CBM-II", "VIC20", "C64" or   
+                                      "C128". zerobyte-padded.             
+
+   The file header is followed by a number of different snapshot
+modules.
+
+   Each module has a header with the information given in the table
+below.  The header includes two version numbers, VMAJOR and VMINOR.
+Modules with the same VMAJOR should be able to be exchanged.  I.e.
+higher VMINOR numbers only append to the data for lower VMINOR.  This
+additional data is ignored by older restore routines.  The other way
+around newer restore routines must accept the fewer info from lower
+VMINOR dumps.  Changes in VMAJOR might introduce any incompatibility
+you like, but that's what VMAJOR is for after all :-)
+
+Type    Name                          Description                          
+16 BYTE MODULENAME                    The name of the module in ASCII,     
+                                      padded with 0 to 16 byte.            
+BYTE    VMAJOR                        major version number                 
+BYTE    VMINOR                        minor version number                 
+DWORD   SIZE                          size of the module, not including    
+                                      this header                          
 
 
 File: vice.info,  Node: CPU 6502 module,  Next: CIA 6526 module,  Prev: Module framework,  Up: Module formats
@@ -1138,40 +1175,3 @@ Offset                 Size                   Description
 38                     2                      free                          
 40                     24                     user description as           
                                               displayed in tape menu        
-
-
-File: vice.info,  Node: T64 file record,  Prev: T64 tape record,  Up: T64
-
-File record
------------
-
-Offset                 Size                   Description                   
-0                      1                      entry type (see below)        
-1                      1                      C64 file type                 
-2                      2                      start address                 
-4                      2                      end address                   
-6                      2                      free                          
-8                      4                      offset of file contents       
-                                              start within T64 file         
-12                     4                      free                          
-16                     16                     C64 file name                 
-
-   Valid entry types are:
-
-Code                   Explanation                                        
-`0'                    free entry                                         
-`1'                    normal tape file                                   
-`2'                    tape file with header: header is saved just        
-                       before file data                                   
-`3'                    memory snapshot v0.9, uncompressed                 
-`4'                    tape block                                         
-`5'                    digitized stream                                   
-`6' ... `255'          reserved                                           
-
-   Notes:
-
-   * VICE only supports file type `1'.
-
-   * Types `3', `4' and `5' are subject to change (and are rarely
-     used).
-

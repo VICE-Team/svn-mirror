@@ -34,6 +34,7 @@
 #include "sound.h"
 #include "ui.h"
 #include "kbd.h"
+#include "joystick.h"
 
 
 
@@ -124,6 +125,8 @@ int do_vsync(int been_skipped)
   EmuWindowHasInputFocus = wimp_window_has_input_focus(EmuWindow);
 
   vsync_hook();
+
+  joystick();
 
   ui_poll();
 

@@ -16,6 +16,43 @@ this manual under the conditions for verbatim copying, provided that
 the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
+
+
+File: vice.info,  Node: T64 file record,  Prev: T64 tape record,  Up: T64
+
+File record
+-----------
+
+Offset                 Size                   Description                   
+0                      1                      entry type (see below)        
+1                      1                      C64 file type                 
+2                      2                      start address                 
+4                      2                      end address                   
+6                      2                      free                          
+8                      4                      offset of file contents       
+                                              start within T64 file         
+12                     4                      free                          
+16                     16                     C64 file name                 
+
+   Valid entry types are:
+
+Code                   Explanation                                        
+`0'                    free entry                                         
+`1'                    normal tape file                                   
+`2'                    tape file with header: header is saved just        
+                       before file data                                   
+`3'                    memory snapshot v0.9, uncompressed                 
+`4'                    tape block                                         
+`5'                    digitized stream                                   
+`6' ... `255'          reserved                                           
+
+   Notes:
+
+   * VICE only supports file type `1'.
+
+   * Types `3', `4' and `5' are subject to change (and are rarely
+     used).
+
 
 File: vice.info,  Node: G64,  Prev: T64,  Up: File formats
 

@@ -17,7 +17,7 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
-File: vice.info,  Node: Palette files,  Prev: Keymap files,  Up: System files
+File: vice.info,  Node: Palette files,  Next: Romset files,  Prev: Keymap files,  Up: System files
 
 Palette files
 =============
@@ -57,6 +57,31 @@ following:
      
      # Foreground
      00 FF 00 F
+
+
+File: vice.info,  Node: Romset files,  Prev: Palette files,  Up: System files
+
+Romset files
+============
+
+   The Romset files are not used by default on all emulators.  You
+might have recognized that the names of the ROM images are saved in
+resources. Loading a Romset file now just means a `shortcut' to
+changing all the resources with ROM image names and reloading the ROMs.
+
+   The PET and CBM-II emulators use this feature to change between the
+different ROM versions available for those machines. E.g. the Romset
+file for the PET 2001 is
+
+     KernalName="pet2001"
+     EditorName=
+     ChargenName="chargen"
+     RomModule9Name=
+     RomModuleAName=
+     RomModuleBName=
+
+   As you can see, the file even uses the same syntax as the resource
+file, it is just a bit stripped down.
 
 
 File: vice.info,  Node: Basics,  Next: Settings and resources,  Prev: System files,  Up: Top
@@ -381,12 +406,13 @@ any other value for "true".
 "settings" menu), via command-line options or via the "resource file".
 
    The "resource file" is a human-readable file containing resource
-values: it is called `.vicerc' and is stored in the user's home
-directory.  It is possible to dump the current values of the resources
-into that file or load the values stored into that file as the current
-values, at any time.  This is achieved with the "Save settings" and
-"Load settings" right menu items.  A third menu item, "Restore Default
-Settings", can be used to reset all the values to the factory defaults.
+values: it is called `vicerc' and is stored in the directory `.vice/'
+in the user's home directory.  It is possible to dump the current
+values of the resources into that file or load the values stored into
+that file as the current values, at any time.  This is achieved with
+the "Save settings" and "Load settings" right menu items.  A third menu
+item, "Restore Default Settings", can be used to reset all the values
+to the factory defaults.
 
    A special resource, `SaveResourcesOnExit', if set to a non zero
 value, causes the emulator to ask you if you want to save the current
@@ -434,7 +460,7 @@ are either strings or integers.  Strings must start and end with a
 double quote character (`"'), while integers must be given in decimal
 notation.
 
-   Here is an example of a stripped-down `.vicerc' file:
+   Here is an example of a stripped-down `.vice/vicerc' file:
 
      [VIC20]
      HTMLBrowserCommand="netscape %s"
@@ -464,11 +490,12 @@ Using command-line options to change resources
 
    Resources can also be changed via command-line options.
 
-   Command-line options always override the defaults from `.vicerc',
-and their assignments last for the whole session.  So, if you specify a
-certain command-line option that changes a certain resource from its
-default value and then use "Save Settings", the value specified with
-the command-line option will be saved back to the resource file.
+   Command-line options always override the defaults from
+`.vice/vicerc', and their assignments last for the whole session.  So,
+if you specify a certain command-line option that changes a certain
+resource from its default value and then use "Save Settings", the value
+specified with the command-line option will be saved back to the
+resource file.
 
    Command-line options can begin with with a minus sign (`-') or with
 a plus sign (`+').  Options beginning with a minus sign may require an

@@ -423,6 +423,28 @@ UI_CALLBACK(ui_dump_romset)
     }
 }
 
+UI_CALLBACK(ui_load_rom_file)
+{
+    char *filename;
+    char title[1024];
+    ui_button_t button;
+
+    suspend_speed_eval();
+    sprintf(title, "Load ROM file");
+    filename = ui_select_file(title, NULL, False, NULL, "*", &button);
+
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (resources_set_value(client_data, (resource_value_t)filename) < 0)
+            ui_error("Could not load ROM file\n'%s'",filename);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+    ui_update_menus();
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* RS232 stuff */

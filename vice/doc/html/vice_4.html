@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 18 January 1999 -->
+     from ../vice.texi on 3 Febuary 1999 -->
 
 <TITLE>VICE Manual - 4  System files</TITLE>
 </HEAD>
@@ -34,6 +34,10 @@ the <EM>keyboard maps</EM>, text files describing the keyboard layout;
 the <EM>palette files</EM>, text files describing the colors of the machine you
 are emulating.
 
+<P> <LI>
+
+the <EM>romset files</EM>, text files describing the different ROMs to load.
+
 </UL> </P>
 
 <P>
@@ -45,7 +49,7 @@ default value is
 </P>
 
 <PRE>
-PREFIX/lib/vice/EMU:BOOTPATH/EMU
+PREFIX/lib/vice/EMU:$HOME/.vice/EMU:BOOTPATH/EMU
 </PRE>
 
 <P>
@@ -54,7 +58,7 @@ Where <CODE>PREFIX</CODE> is the installation prefix (usually
 (<CODE>C64</CODE>, <CODE>C128</CODE>, <CODE>PET</CODE>, <CODE>CBM-II</CODE> or <CODE>VIC20</CODE>) and
 <CODE>BOOTPATH</CODE> is the directory where the executable resides.
 The disk drive ROMs are looked for in a directory with <CODE>EMU</CODE> set to 
-<CODE>DRIVES</CODE>.
+<CODE>DRIVES</CODE>. <CODE>$HOME</CODE> is the user's home directory.
 
 </P>
 <P>
@@ -72,7 +76,7 @@ then the value will be
 </P>
 
 <PRE>
-/usr/local/lib/VICE/C64;/usr/local/bin/C64
+/usr/local/lib/vice/C64:$HOME/.vice/C64:/usr/local/bin/C64
 </PRE>
 
 <P>
@@ -87,6 +91,9 @@ in the specified order:
 <CODE>/usr/local/lib/VICE/C64</CODE>
 <P> <LI>
 
+<CODE>$HOME/.vice/C64</CODE>
+<P> <LI>
+
 <CODE>/usr/local/bin/C64</CODE>
 </OL> </P>
 
@@ -95,7 +102,7 @@ System files can still be installed in a different directory if you
 specify a complete path instead of just a file name.  For example, if
 you specify <TT>`./kernal'</TT> as the kernal image name, the kernal image
 will be loaded from the current directory.  This can be done by using
-command-line options or by modifying resource values (see section <A HREF="vice_6.html#SEC37">6.1  Format of resource files</A>).
+command-line options or by modifying resource values (see section <A HREF="vice_6.html#SEC38">6.1  Format of resource files</A>).
 
 </P>
 
@@ -487,6 +494,39 @@ background and 1 for foreground), looks like the following:
 00 FF 00 F
 </PRE>
 
+
+
+<H2><A NAME="SEC25" HREF="vice_toc.html#TOC25">4.4  Romset files</A></H2>
+
+<P>
+The Romset files are not used by default on all emulators. 
+You might have recognized that the names of the ROM images are 
+saved in resources. Loading a Romset file now just means a `shortcut'
+to changing all the resources with ROM image names and reloading
+the ROMs. 
+
+</P>
+<P>
+The PET and CBM-II emulators use this feature to change between the
+different ROM versions available for those machines. E.g. the 
+Romset file for the PET 2001 is
+
+</P>
+
+<PRE>
+KernalName="pet2001"
+EditorName=
+ChargenName="chargen"
+RomModule9Name=
+RomModuleAName=
+RomModuleBName=
+</PRE>
+
+<P>
+As you can see, the file even uses the same syntax as the 
+resource file, it is just a bit stripped down.
+
+</P>
 <P><HR><P>
 Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_3.html">previous</A>, <A HREF="vice_5.html">next</A>, <A HREF="vice_16.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 </BODY>

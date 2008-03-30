@@ -230,7 +230,7 @@ Miscellaneous resources
      stands for the default search path, which is initialized at
      startup to the following value:
 
-          LIBDIR/EMUID:BOOTPATH/EMUID
+          LIBDIR/EMUID:$HOME/.vice/EMUID:BOOTPATH/EMUID:LIBDIR/DRIVES:$HOME/.vice/DRIVES:BOOTPATH/DRIVES
 
      where:
 
@@ -242,6 +242,14 @@ Miscellaneous resources
 
         * `BOOTPATH' is the directory where the binary lies (usually
           `/usr/local/bin', `/usr/bin' or `/opt/vice/bin').
+
+        * `DRIVES' is the directory called "DRIVES", where the disk
+          drive ROMs are.  (The disk drive ROMs are used by all
+          emulators, so there is an extra directory for them.)
+
+     Notice that the middle entry points to a default location in the
+     user's home directory. Here private ROM versions (e.g.  speeddos
+     or JiffyDos) can be stored for example.
 
      *Note System files:: for a description of the method used to load
      the emulator's system files.
@@ -1426,40 +1434,3 @@ the data saved in the snapshot.
 description of the data saved in the modules.  The data is saved in the
 order it is in the tables, so no offset is given.
 
-
-File: vice.info,  Node: Module framework,  Next: CPU 6502 module,  Prev: Module Terminology,  Up: Module formats
-
-Module framework
-................
-
-   The VICE snapshot file starts with the magic string and includes the
-fileformat version number.
-
-Type    Name                          Description                          
-19 BYTE MAGIC                         "VICE Snapshot File\032", padded     
-                                      with 0                               
-BYTE    VMAJOR                        fileformat major version number      
-BYTE    VMINOR                        fileformat minor version number      
-16 BYTE MACHINENAME                   Name of emulated machine, like       
-                                      "PET", "CBM-II", "VIC20", "C64" or   
-                                      "C128". zerobyte-padded.             
-
-   The file header is followed by a number of different snapshot
-modules.
-
-   Each module has a header with the information given in the table
-below.  The header includes two version numbers, VMAJOR and VMINOR.
-Modules with the same VMAJOR should be able to be exchanged.  I.e.
-higher VMINOR numbers only append to the data for lower VMINOR.  This
-additional data is ignored by older restore routines.  The other way
-around newer restore routines must accept the fewer info from lower
-VMINOR dumps.  Changes in VMAJOR might introduce any incompatibility
-you like, but that's what VMAJOR is for after all :-)
-
-Type    Name                          Description                          
-16 BYTE MODULENAME                    The name of the module in ASCII,     
-                                      padded with 0 to 16 byte.            
-BYTE    VMAJOR                        major version number                 
-BYTE    VMINOR                        minor version number                 
-DWORD   SIZE                          size of the module, not including    
-                                      this header                          

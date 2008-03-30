@@ -44,6 +44,7 @@ extern ui_menu_entry_t ui_settings_settings_menu[];
 extern ui_menu_entry_t rs232_submenu[];
 extern UI_CALLBACK(ui_set_romset);
 extern UI_CALLBACK(ui_load_romset);
+extern UI_CALLBACK(ui_load_rom_file);
 extern UI_CALLBACK(ui_dump_romset);
 extern UI_CALLBACK(ui_load_palette);
 

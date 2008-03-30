@@ -96,7 +96,7 @@ static int init_vidc_device(warn_t *w, const char *device, int *speed, int *frag
     return 1;
   }
 
-  SoundMachineReady = 0;
+  SoundMachineReady = 0; SndTimerActive = 0;
   /* SoundPollEvery == 0 ==> auto, calculate value from buffersize and frequency */
   if (SoundPollEvery <= 0)
   {
@@ -219,27 +219,38 @@ void sound_poll(void)
 
 
 /* Called before Wimp_Poll */
-void sound_wimp_poll_prologue(void)
+int sound_wimp_poll_prologue(void)
 {
   if ((SoundTimer.f != NULL) && ((SoundTimer.flags & 3) != 0))
   {
     SndTimerActive = 1;
     timer_callback_remove(&SoundTimer);
+    return 0;
   }
-  else
-  {
-    SndTimerActive = 0;
-  }
+  return -1;
 }
 
 /* Called after Wimp_Poll */
-void sound_wimp_poll_epilogue(void)
+int sound_wimp_poll_epilogue(int install)
 {
-  if ((SoundTimer.f != NULL) && (SndTimerActive != 0))
+  if ((SoundTimer.f != NULL) && (SndTimerActive != 0) && (install != 0))
   {
     timer_callback_resume(&SoundTimer);
+    SndTimerActive = 0; return 0;
+  }
+  SndTimerActive = 0; return -1;
+}
+
+/* Called on exit (hopefully abnormal exit too) */
+void sound_wimp_safe_exit(void)
+{
+  if ((SoundTimer.f != NULL) && ((SoundTimer.flags & 3) != 0))
+  {
+    timer_callback_remove(&SoundTimer);
+    DigitalRenderer_Deactivate();
   }
 }
+
 
 
 int sound_init_vidc_device(void)

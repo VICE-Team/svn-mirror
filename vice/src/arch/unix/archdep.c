@@ -28,8 +28,10 @@
 
 #include <pwd.h>
 #include <string.h>
-#include <unistd.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #include "archdep.h"
 
@@ -123,7 +125,7 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
 const char *archdep_default_resource_file_name(void)
 {
     static char *fname;
-    char *home;
+    const char *home;
 
     if (fname != NULL)
         free(fname);
@@ -138,7 +140,7 @@ const char *archdep_default_resource_file_name(void)
 const char *archdep_default_save_resource_file_name(void)
 {
     static char *fname;
-    char *home;
+    const char *home;
     char *viceuserdir;
 
     if (fname != NULL)
@@ -152,7 +154,7 @@ const char *archdep_default_save_resource_file_name(void)
 	mkdir(viceuserdir,0700);
     }
 
-    fname = concat(viceuserdir, "/vicerc");
+    fname = concat(viceuserdir, "/vicerc", NULL);
 
     free(viceuserdir);
 

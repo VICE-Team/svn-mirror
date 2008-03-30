@@ -1055,6 +1055,9 @@ the @dfn{keyboard maps}, text files describing the keyboard layout;
 the @dfn{palette files}, text files describing the colors of the machine you
 are emulating.
 
+@item
+the @dfn{romset files}, text files describing the different ROMs to load.
+
 @end itemize
 
 The place where they will be searched for depends on the value of the
@@ -1063,7 +1066,7 @@ path list, like the @sc{unix} @code{PATH} environment variable.  The
 default value is
 
 @example
-PREFIX/lib/vice/EMU:BOOTPATH/EMU
+PREFIX/lib/vice/EMU:$HOME/.vice/EMU:BOOTPATH/EMU
 @end example
 
 Where @code{PREFIX} is the installation prefix (usually
@@ -1071,7 +1074,7 @@ Where @code{PREFIX} is the installation prefix (usually
 (@code{C64}, @code{C128}, @code{PET}, @code{CBM-II} or @code{VIC20}) and
 @code{BOOTPATH} is the directory where the executable resides.
 The disk drive ROMs are looked for in a directory with @code{EMU} set to 
-@code{DRIVES}.
+@code{DRIVES}. @code{$HOME} is the user's home directory.
 
 For example, if you have the C64 emulator installed in
 
@@ -1082,7 +1085,7 @@ For example, if you have the C64 emulator installed in
 then the value will be
 
 @example
-/usr/local/lib/VICE/C64;/usr/local/bin/C64
+/usr/local/lib/vice/C64:$HOME/.vice/C64:/usr/local/bin/C64
 @end example
 
 And system files will be searched for under the following directories,
@@ -1091,6 +1094,8 @@ in the specified order:
 @enumerate 1
 @item
 @code{/usr/local/lib/VICE/C64}
+@item
+@code{$HOME/.vice/C64}
 @item
 @code{/usr/local/bin/C64}
 @end enumerate
@@ -1106,6 +1111,7 @@ files}).
 * ROM files::                   Files containing dumps of the original ROMs.
 * Keymap files::                Files describing the keyboard layout.
 * Palette files::               Files defining the machine's colors.
+* Romset files::                Files defining the machine's ROM set.
 @end menu
 
 @node ROM files, Keymap files, System files, System files
@@ -1357,7 +1363,7 @@ emulator comes with a default positional mapping and a default symbolic
 mapping.
 
 
-@node Palette files,  , Keymap files, System files
+@node Palette files, Romset files, Keymap files, System files
 @section Palette files
 
 @dfn{Palette files} are used to specify the colors used in the
@@ -1399,6 +1405,30 @@ background and 1 for foreground), looks like the following:
 00 FF 00 F
 @end example
 
+@node Romset files, , Palette files, System files
+@section Romset files
+
+The Romset files are not used by default on all emulators. 
+You might have recognized that the names of the ROM images are 
+saved in resources. Loading a Romset file now just means a `shortcut'
+to changing all the resources with ROM image names and reloading
+the ROMs. 
+
+The PET and CBM-II emulators use this feature to change between the
+different ROM versions available for those machines. E.g. the 
+Romset file for the PET 2001 is
+
+@example
+KernalName="pet2001"
+EditorName=
+ChargenName="chargen"
+RomModule9Name=
+RomModuleAName=
+RomModuleBName=
+@end example
+
+As you can see, the file even uses the same syntax as the 
+resource file, it is just a bit stripped down.
 
 @node Basics, Settings and resources, System files, Top
 @chapter Basic operation
@@ -1710,7 +1740,8 @@ Resource values can be changed via the right-button menu (the
 file}.
 
 The @dfn{resource file} is a human-readable file containing resource
-values: it is called @file{.vicerc} and is stored in the user's home
+values: it is called @file{vicerc} and is stored in the directory 
+@file{.vice/} in the user's home
 directory.  It is possible to dump the current values of the resources
 into that file or load the values stored into that file as the current
 values, at any time.  This is achieved with the ``Save settings'' and
@@ -1763,7 +1794,7 @@ are either strings or integers.  Strings must start and end with a
 double quote character (@code{"}), while integers must be given in
 decimal notation.
 
-Here is an example of a stripped-down @file{.vicerc} file:
+Here is an example of a stripped-down @file{.vice/vicerc} file:
 
 @example
 [VIC20]
@@ -1792,7 +1823,7 @@ emulator only modifies its own section, leaving the others unchanged.
 
 Resources can also be changed via command-line options.
 
-Command-line options always override the defaults from @code{.vicerc},
+Command-line options always override the defaults from @code{.vice/vicerc},
 and their assignments last for the whole session.  So, if you specify a
 certain command-line option that changes a certain resource from its
 default value and then use ``Save Settings'', the value specified with
@@ -3090,7 +3121,7 @@ stands for the default search path, which is initialized at startup to
 the following value:
 
 @example
-LIBDIR/EMUID:BOOTPATH/EMUID
+LIBDIR/EMUID:$HOME/.vice/EMUID:BOOTPATH/EMUID:LIBDIR/DRIVES:$HOME/.vice/DRIVES:BOOTPATH/DRIVES
 @end example
 
 where:
@@ -3106,7 +3137,15 @@ string (@code{C64}, @code{C128}, @code{VIC20} or @code{PET});
 @item
 @code{BOOTPATH} is the directory where the binary lies (usually
 @file{/usr/local/bin}, @file{/usr/bin} or @code{/opt/vice/bin}).
+@item
+@code{DRIVES} is the directory called "DRIVES", where the disk drive ROMs are.
+(The disk drive ROMs are used by all emulators, so there is an extra
+directory for them.)
 @end itemize
+
+Notice that the middle entry points to a default location in
+the user's home directory. Here private ROM versions (e.g. 
+speeddos or JiffyDos) can be stored for example.
 
 @xref{System files} for a description of the method used to load the
 emulator's system files.

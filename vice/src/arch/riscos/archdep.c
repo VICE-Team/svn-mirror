@@ -26,13 +26,19 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "config.h"
 #include "types.h"
 #include "ROlib.h"
 #include "archdep.h"
 #include "machine.h"
+#include "utils.h"
 
+
+
+/* Used by c64romset handling */
+static char *romset_path = NULL;
 
 
 int archdep_startup(int *argc, char **argv)
@@ -85,6 +91,12 @@ char *archdep_default_resource_file_name(void)
 }
 
 
+char *archdep_default_save_resource_file_name(void)
+{
+  return archdep_default_resource_file_name();
+}
+
+
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
   char *name;
@@ -93,6 +105,48 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     sprintf(name, "Vice:%s.", emu_id);
 
   return name;
+}
+
+
+char *archdep_default_romset_path(const char *emu_id)
+{
+  char *name;
+
+  if ((name = getenv("ViceROM$Dir")) != NULL)
+  {
+    romset_path = (char*)malloc(strlen(name));
+    strcpy(romset_path, name);
+    return romset_path;
+  }
+  return NULL;
+}
+
+
+FILE *archdep_open_romset_file(const char *name, char **path_return)
+{
+  int length = 0;
+
+  if (romset_path == NULL) return NULL;
+
+  if (strncmp(name, "chargen-", 8) == 0) length = 8;
+  else if (strncmp(name, "kernal-", 7) == 0) length = 7;
+  else if (strncmp(name, "basic-", 6) == 0) length = 6;
+  else if (strncmp(name, "dos1541-", 8) == 0) length = 8;
+
+  if (length != 0)
+  {
+    char buffer[256];
+    char *b;
+    FILE *fp;
+
+    b = buffer + sprintf(buffer, "%s.%s.", romset_path, name + length);
+    b = strncpy(b, name, length-1); b[length-1] = '\0';
+    fp = fopen(buffer, "rb");
+    if (fp == NULL) return fp;
+    *path_return = stralloc(buffer);
+    return fp;
+  }
+  return NULL;
 }
 
 

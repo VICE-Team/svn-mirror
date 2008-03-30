@@ -72,6 +72,15 @@ int ram_size = C610_RAM_SIZE;		/* FIXME: referenced in mon.c */
 static int bank_exec = -1;
 static int bank_ind = -1;
 
+/* ROM load functions */
+static int mem_load_chargen(void);
+static int mem_load_kernal(void);
+static int mem_load_basic(void);
+static int mem_load_cart_1(void);
+static int mem_load_cart_2(void);
+static int mem_load_cart_4(void);
+static int mem_load_cart_6(void);
+
 /* Memory read and write tables - banked. */
 static read_func_ptr_t _mem_read_tab[16][0x101];
 static store_func_ptr_t _mem_write_tab[16][0x101];
@@ -197,7 +206,6 @@ static int set_cbm2_model_line(resource_value_t v)
     return 0;
 }
 
-/* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -207,10 +215,10 @@ static int set_chargen_rom_name(resource_value_t v)
         return 0;
 
     string_set(&chargen_name, name);
-    return 0;
+
+    return mem_load_chargen();	/* only does something after mem_load() */
 }
 
-/* FIXME: Should load the new Kernal ROM.  */
 static int set_kernal_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -220,10 +228,10 @@ static int set_kernal_rom_name(resource_value_t v)
         return 0;
 
     string_set(&kernal_rom_name, name);
-    return 0;
+
+    return mem_load_kernal();	/* only does something after mem_load() */
 }
 
-/* FIXME: Should load the new BASIC ROM.  */
 static int set_basic_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -234,10 +242,10 @@ static int set_basic_rom_name(resource_value_t v)
         return 0;
 
     string_set(&basic_rom_name, name);
-    return 0;
+
+    return mem_load_basic();	/* only does something after mem_load() */
 }
 
-/* FIXME: Should load the new Cartridge ROM.  */
 static int set_cart1_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -248,10 +256,10 @@ static int set_cart1_rom_name(resource_value_t v)
         return 0;
 
     string_set(&cart_1_name, name);
-    return 0;
+
+    return mem_load_cart_1();	/* only does something after mem_load() */
 }
 
-/* FIXME: Should load the new Cartridge ROM.  */
 static int set_cart2_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -262,10 +270,10 @@ static int set_cart2_rom_name(resource_value_t v)
         return 0;
 
     string_set(&cart_2_name, name);
-    return 0;
+
+    return mem_load_cart_2();	/* only does something after mem_load() */
 }
 
-/* FIXME: Should load the new Cartridge ROM.  */
 static int set_cart4_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -276,10 +284,10 @@ static int set_cart4_rom_name(resource_value_t v)
         return 0;
 
     string_set(&cart_4_name, name);
-    return 0;
+
+    return mem_load_cart_4();	/* only does something after mem_load() */
 }
 
-/* FIXME: Should load the new Cartridge ROM.  */
 static int set_cart6_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -290,7 +298,8 @@ static int set_cart6_rom_name(resource_value_t v)
         return 0;
 
     string_set(&cart_6_name, name);
-    return 0;
+
+    return mem_load_cart_6();	/* only does something after mem_load() */
 }
 
 static int set_cart08_ram(resource_value_t v)
@@ -1031,6 +1040,7 @@ void initialize_memory(void)
     }
 }
 
+
 void mem_powerup(void)
 {
     int i;
@@ -1054,21 +1064,16 @@ void mem_powerup(void)
     set_bank_ind(15);
 }
 
-/* Load memory image files. */
-int mem_load(void)
+/*************************************************************************
+ * Load all the ROMs.
+ * Called from mem_load() and from setting the resources.
+ */
+
+static int mem_load_chargen(void) 
 {
-    WORD sum;                   /* ROM checksum */
     int i;
-    int rsize, krsize;
 
-    if (c610_mem_log == LOG_ERR)
-        c610_mem_log = log_open("CBM2MEM");
-
-    /* De-initialize kbd-buf, autostart and tape stuff here before
-       reloading the ROM the traps are installed in.  */
-    kbd_buf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0, NULL);
-    tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
+    if(!rom_loaded) return 0;  /* init not far enough */
 
     /* Load chargen ROM
      * we load 4k of 16-byte-per-char Charrom.
@@ -1076,7 +1081,7 @@ int mem_load(void)
 
     memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
 
-    if ((krsize=mem_load_sys_file(chargen_name, chargen_rom, 4096, 4096)) < 0) {
+    if (mem_load_sys_file(chargen_name, chargen_rom, 4096, 4096) < 0) {
         log_error(c610_mem_log, "Couldn't load character ROM '%s'.",
                   chargen_name);
         return -1;
@@ -1089,64 +1094,137 @@ int mem_load(void)
         chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
         chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
     }
+    return 0;
+}
+
+static int mem_load_kernal(void) 
+{
+    int i;
+    WORD sum;
+
+    if(!rom_loaded) return 0;  /* init not far enough */
+
+    /* De-initialize kbd-buf, autostart and tape stuff here before
+       reloading the ROM the traps are installed in.  */
+    kbd_buf_init(0, 0, 0, 0);
+    autostart_init(0, 0, 0, 0, 0, 0, NULL);
+    tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
+ 
+    /* Load Kernal ROM.  */
+    if (!IS_NULL(kernal_rom_name)
+        && (mem_load_sys_file(kernal_rom_name,
+                                        rom + 0xe000, 0x2000, 0x2000) < 0)) {
+        log_error(c610_mem_log, "Couldn't load ROM `%s'.", kernal_rom_name);
+        return -1;
+    }
+
+    /* Checksum over top 8 kByte kernal.  */
+    for (i = 0xe000, sum = 0; i < 0x10000; i++)
+        sum += rom[i];
+
+    log_message(c610_mem_log, "Loaded ROM, kernal checksum is %d ($%04X).",
+                sum, sum);
+    return 0;
+}
+
+static int mem_load_basic(void) 
+{
+    if(!rom_loaded) return 0;  /* init not far enough */
+
+    /* Load BASIC ROM.  */
+    if (!IS_NULL(basic_rom_name)
+        && (mem_load_sys_file(basic_rom_name,
+                                       rom + 0x8000, 0x4000, 0x4000) < 0)) {
+        log_error(c610_mem_log, "Couldn't load BASIC ROM `%s'.",
+                  basic_rom_name);
+        return -1;
+    }
+    return 0;
+}
+
+static int mem_load_cart_1(void) 
+{
+    if(!rom_loaded) return 0;  /* init not far enough */
+
+    if (!IS_NULL(cart_1_name)
+        && (mem_load_sys_file(cart_1_name,
+                                       rom + 0x1000, 0x1000, 0x1000) < 0)) {
+        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
+                  cart_1_name);
+    }
+    return 0;
+}
+
+static int mem_load_cart_2(void) 
+{
+    if(!rom_loaded) return 0;  /* init not far enough */
+
+    if (!IS_NULL(cart_2_name)
+        && (mem_load_sys_file(cart_2_name,
+                                       rom + 0x2000, 0x2000, 0x2000) < 0)) {
+        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
+                  cart_2_name);
+    }
+    return 0;
+}
+
+static int mem_load_cart_4(void) 
+{
+    if(!rom_loaded) return 0;  /* init not far enough */
+
+    if (!IS_NULL(cart_4_name)
+        && (mem_load_sys_file(cart_4_name,
+                                       rom + 0x4000, 0x2000, 0x2000) < 0)) {
+        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
+                  cart_4_name);
+    }
+    return 0;
+}
+
+static int mem_load_cart_6(void) 
+{
+    if(!rom_loaded) return 0;  /* init not far enough */
+
+    if (!IS_NULL(cart_6_name)
+        && (mem_load_sys_file(cart_6_name,
+                                       rom + 0x6000, 0x2000, 0x2000) < 0)) {
+        log_error(c610_mem_log, "Couldn't load ROM `%s'.", cart_6_name);
+    }
+    return 0;
+}
+ 
+/* Load memory image files. */
+int mem_load(void)
+{
+    int i;
+
+    if (c610_mem_log == LOG_ERR)
+        c610_mem_log = log_open("CBM2MEM");
+
+    rom_loaded = 1;
+
+    mem_load_chargen();
 
     /* Init Disk/Cartridge ROM with 'unused address' values.  */
     for (i = 0x1000; i < 0x8000; i++) {
         rom[i] = ((i >> 8) & 0xff);
     }
 
-    /* Load Kernal ROM.  */
-    if (!IS_NULL(kernal_rom_name)
-        && ((krsize = mem_load_sys_file(kernal_rom_name,
-                                        rom + 0xe000, 0x2000, 0x2000)) < 0)) {
-        log_error(c610_mem_log, "Couldn't load ROM `%s'.", kernal_rom_name);
-        return -1;
-    }
+    mem_load_kernal();
 
-    /* Load BASIC ROM.  */
-    if (!IS_NULL(basic_rom_name)
-        && ((rsize = mem_load_sys_file(basic_rom_name,
-                                       rom + 0x8000, 0x4000, 0x4000)) < 0)) {
-        log_error(c610_mem_log, "Couldn't load BASIC ROM `%s'.",
-                  basic_rom_name);
-        return -1;
-    }
+    mem_load_basic();
 
     /* Load extension ROMs.  */
-    if (!IS_NULL(cart_1_name)
-        && ((rsize = mem_load_sys_file(cart_1_name,
-                                       rom + 0x1000, 0x1000, 0x1000)) < 0)) {
-        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                  cart_1_name);
-    }
-    if (!IS_NULL(cart_2_name)
-        && ((rsize = mem_load_sys_file(cart_2_name,
-                                       rom + 0x2000, 0x2000, 0x2000)) < 0)) {
-        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                  cart_2_name);
-    }
-    if (!IS_NULL(cart_4_name)
-        && ((rsize = mem_load_sys_file(cart_4_name,
-                                       rom + 0x4000, 0x2000, 0x2000)) < 0)) {
-        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                  cart_4_name);
-    }
-    if (!IS_NULL(cart_6_name)
-        && ((rsize = mem_load_sys_file(cart_6_name,
-                                       rom + 0x6000, 0x2000, 0x2000)) < 0)) {
-        log_error(c610_mem_log, "Couldn't load ROM `%s'.", cart_6_name);
-    }
 
-    /* Checksum over top 8 kByte PET kernal.  */
-    for (i = 0xe000, sum = 0; i < 0x10000; i++)
-        sum += rom[i];
+    mem_load_cart_1();
 
-    log_message(c610_mem_log, "Loaded ROM, checksum is %d ($%04X).",
-                sum, sum);
+    mem_load_cart_2();
+
+    mem_load_cart_4();
+
+    mem_load_cart_6();
 
     crtc_set_screen_mode(rom + 0xd000, 0x7ff, 80, 1);
-
-    rom_loaded = 1;
 
     return 0;
 }

@@ -45,6 +45,7 @@
 
 #include "memutils.h"
 
+#include "archdep.h"
 #include "file.h"
 #include "log.h"
 #include "resources.h"
@@ -128,9 +129,9 @@ static int acia_de_enabled;
 
 static void cartridge_config_changed(BYTE mode);
 
-static char **romsets; 
+static char **romsets;
 
-static int number_romsets; 
+static int number_romsets;
 
 static char *romset_name = 0;
 
@@ -668,7 +669,7 @@ void REGPARM2 store_io1(ADDRESS addr, BYTE value)
             }
             pla_config_changed();
             ultimax = 0;
-        }            
+        }
     }
 #ifdef HAVE_RS232
     if (acia_de_enabled)
@@ -835,7 +836,7 @@ void initialize_memory(void)
 /*
     if (c64_mem_log == LOG_ERR)
         c64_mem_log = log_open("C64MEM");
-*/        
+*/
     /* Default is RAM.  */
     for (i = 0; i <= 0x100; i++) {
         mem_read_tab_watch[i] = read_watch;
@@ -1096,19 +1097,19 @@ void mem_powerup(void)
 /* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
    `memory.c'.  */
 
-char* mem_get_romset_name() {
+char* mem_get_romset_name(void) {
     return(romset_name);
 }
 
-char** mem_get_romsets()
+char** mem_get_romsets(void)
 {
     return romsets;
-} 
+}
 
-int mem_get_numromsets()
+int mem_get_numromsets(void)
 {
     return number_romsets;
-} 
+}
 
 int mem_add_romset(char *name)
 {
@@ -1140,7 +1141,7 @@ int mem_load_romset_file(const char *name)
     return number_romsets;  /* return ok */
 }
 
-int mem_romset_loader()
+int mem_romset_loader(void)
 {
     WORD sum;                   /* ROM checksum */
     int id;                     /* ROM identification number */
@@ -1260,10 +1261,10 @@ int mem_set_romset(char *name) {
 	  basic_rom_name = stralloc(romsetnamebuffer);
 	}
 
-	reload_rom_1541(romsetnamebuffer);
+	reload_rom_1541(romset_name);
 
 	log_message(LOG_DEFAULT, "Changing to RomSet %s",name);
-      }      
+      }
     }
   } else {
     romset_name = romsets[0];
@@ -1276,7 +1277,7 @@ int mem_set_romset(char *name) {
   return(0);
 }
 
-int isRomInRomSet(char *rom, char *romset) 
+int isRomInRomSet(char *rom, char *romset)
 {
     if(!romset || !rom || strlen(romset) > strlen(rom)) return 0;
     return !strcmp(rom + strlen(rom) - strlen(romset), romset)?1:0;
@@ -1291,7 +1292,7 @@ int mem_load(void)
     if (c64_mem_log == LOG_ERR)
         c64_mem_log = log_open("C64MEM");
 
-    mem_load_romset_file("rom.cfg");
+    mem_load_romset_file("rom"FSDEV_EXT_SEP_STR"cfg");
     back = mem_romset_loader();
     for(num_romsets = 1; num_romsets < number_romsets ; num_romsets++) {
         temp = romsets[num_romsets];

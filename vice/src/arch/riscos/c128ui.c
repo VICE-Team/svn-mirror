@@ -44,9 +44,6 @@ int c128_ui_init(void)
 
 
 
-BYTE **_mem_read_base_tab_ptr=NULL;
-
 void cartridge_detach_image(void)
 {
 }
-

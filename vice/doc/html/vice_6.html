@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 18 January 1999 -->
+     from ../vice.texi on 3 Febuary 1999 -->
 
 <TITLE>VICE Manual - 6  Settings and resources</TITLE>
 </HEAD>
@@ -10,7 +10,7 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_5.html">previous</A>, <
 <P><HR><P>
 
 
-<H1><A NAME="SEC36" HREF="vice_toc.html#TOC36">6  Settings and resources</A></H1>
+<H1><A NAME="SEC37" HREF="vice_toc.html#TOC37">6  Settings and resources</A></H1>
 
 <P>
 In the VICE emulators, all the settings are stored in entities known as
@@ -28,7 +28,8 @@ file</EM>.
 </P>
 <P>
 The <EM>resource file</EM> is a human-readable file containing resource
-values: it is called <TT>`.vicerc'</TT> and is stored in the user's home
+values: it is called <TT>`vicerc'</TT> and is stored in the directory 
+<TT>`.vice/'</TT> in the user's home
 directory.  It is possible to dump the current values of the resources
 into that file or load the values stored into that file as the current
 values, at any time.  This is achieved with the "Save settings" and
@@ -53,7 +54,7 @@ using command-line options.
 
 
 
-<H2><A NAME="SEC37" HREF="vice_toc.html#TOC37">6.1  Format of resource files</A></H2>
+<H2><A NAME="SEC38" HREF="vice_toc.html#TOC38">6.1  Format of resource files</A></H2>
 
 <P>
 A resource file is made up of several sections; sections have the
@@ -81,7 +82,7 @@ decimal notation.
 
 </P>
 <P>
-Here is an example of a stripped-down <TT>`.vicerc'</TT> file:
+Here is an example of a stripped-down <TT>`.vice/vicerc'</TT> file:
 
 </P>
 
@@ -111,14 +112,14 @@ emulator only modifies its own section, leaving the others unchanged.
 </P>
 
 
-<H2><A NAME="SEC38" HREF="vice_toc.html#TOC38">6.2  Using command-line options to change resources</A></H2>
+<H2><A NAME="SEC39" HREF="vice_toc.html#TOC39">6.2  Using command-line options to change resources</A></H2>
 
 <P>
 Resources can also be changed via command-line options.
 
 </P>
 <P>
-Command-line options always override the defaults from <CODE>.vicerc</CODE>,
+Command-line options always override the defaults from <CODE>.vice/vicerc</CODE>,
 and their assignments last for the whole session.  So, if you specify a
 certain command-line option that changes a certain resource from its
 default value and then use "Save Settings", the value specified with
@@ -145,7 +146,7 @@ disables it.
 
 
 
-<H2><A NAME="SEC39" HREF="vice_toc.html#TOC39">6.3  Performance settings</A></H2>
+<H2><A NAME="SEC40" HREF="vice_toc.html#TOC40">6.3  Performance settings</A></H2>
 
 <P>
 <A NAME="IDX16"></A>
@@ -187,7 +188,7 @@ possible speed.
 
 
 
-<H3><A NAME="SEC40" HREF="vice_toc.html#TOC40">6.3.1  Performance resources</A></H3>
+<H3><A NAME="SEC41" HREF="vice_toc.html#TOC41">6.3.1  Performance resources</A></H3>
 
 <DL COMPACT>
 
@@ -214,7 +215,7 @@ Booolean specifying whether "warp mode" is turned on or not.
 
 
 
-<H3><A NAME="SEC41" HREF="vice_toc.html#TOC41">6.3.2  Performance command-line options</A></H3>
+<H3><A NAME="SEC42" HREF="vice_toc.html#TOC42">6.3.2  Performance command-line options</A></H3>
 
 <DL COMPACT>
 
@@ -243,7 +244,7 @@ Enables/disables warp mode (<CODE>WarpMode=1</CODE>, <CODE>WarpMode=1</CODE>).
 
 
 
-<H2><A NAME="SEC42" HREF="vice_toc.html#TOC42">6.4  Video settings</A></H2>
+<H2><A NAME="SEC43" HREF="vice_toc.html#TOC43">6.4  Video settings</A></H2>
 
 <P>
 The following right-button menu items control the video output:
@@ -293,7 +294,7 @@ resources that it becomes impossible for the user to interact with it.
 
 
 
-<H3><A NAME="SEC43" HREF="vice_toc.html#TOC43">6.4.1  Video resources</A></H3>
+<H3><A NAME="SEC44" HREF="vice_toc.html#TOC44">6.4.1  Video resources</A></H3>
 
 <P>
 The following resources affect the screen emulation:
@@ -353,7 +354,7 @@ Integer specifying the depth of the host display.  The value <SAMP>`0'</SAMP>
 
 
 
-<H3><A NAME="SEC44" HREF="vice_toc.html#TOC44">6.4.2  Video command-line options</A></H3>
+<H3><A NAME="SEC45" HREF="vice_toc.html#TOC45">6.4.2  Video command-line options</A></H3>
 
 <DL COMPACT>
 
@@ -419,7 +420,7 @@ Specify the display depth (<CODE>DisplayDepth</CODE>).
 
 
 
-<H2><A NAME="SEC45" HREF="vice_toc.html#TOC45">6.5  Keyboard settings</A></H2>
+<H2><A NAME="SEC46" HREF="vice_toc.html#TOC46">6.5  Keyboard settings</A></H2>
 
 <P>
 It is possible to specify whether the "positional" or "symbolic"
@@ -446,7 +447,7 @@ file").
 
 
 
-<H3><A NAME="SEC46" HREF="vice_toc.html#TOC46">6.5.1  Keyboard resources</A></H3>
+<H3><A NAME="SEC47" HREF="vice_toc.html#TOC47">6.5.1  Keyboard resources</A></H3>
 
 <DL COMPACT>
 
@@ -493,7 +494,7 @@ positional mapping for the graphics keyboard
 
 
 
-<H3><A NAME="SEC47" HREF="vice_toc.html#TOC47">6.5.2  Keyboard command-line options</A></H3>
+<H3><A NAME="SEC48" HREF="vice_toc.html#TOC48">6.5.2  Keyboard command-line options</A></H3>
 
 <DL COMPACT>
 
@@ -537,7 +538,7 @@ graphics keyboard
 
 
 
-<H2><A NAME="SEC48" HREF="vice_toc.html#TOC48">6.6  Sound settings</A></H2>
+<H2><A NAME="SEC49" HREF="vice_toc.html#TOC49">6.6  Sound settings</A></H2>
 
 <P>
 The following menu items control sound output:
@@ -610,7 +611,7 @@ going" is selected, no pausing is done.
 
 
 
-<H3><A NAME="SEC49" HREF="vice_toc.html#TOC49">6.6.1  Sound resources</A></H3>
+<H3><A NAME="SEC50" HREF="vice_toc.html#TOC50">6.6.1  Sound resources</A></H3>
 
 <DL COMPACT>
 
@@ -727,7 +728,7 @@ String specifying an additional parameter for the audio driver (see
 
 
 
-<H3><A NAME="SEC50" HREF="vice_toc.html#TOC50">6.6.2  Sound command-line options</A></H3>
+<H3><A NAME="SEC51" HREF="vice_toc.html#TOC51">6.6.2  Sound command-line options</A></H3>
 
 <DL COMPACT>
 
@@ -771,7 +772,7 @@ Specifies an additional parameter for the audio device
 
 
 
-<H2><A NAME="SEC51" HREF="vice_toc.html#TOC51">6.7  Drive settings</A></H2>
+<H2><A NAME="SEC52" HREF="vice_toc.html#TOC52">6.7  Drive settings</A></H2>
 
 <P>
 These settings are used to control the hardware-level emulation of the
@@ -903,7 +904,7 @@ needs it, without prompting the user.
 
 
 
-<H3><A NAME="SEC52" HREF="vice_toc.html#TOC52">6.7.1  Drive resources</A></H3>
+<H3><A NAME="SEC53" HREF="vice_toc.html#TOC53">6.7.1  Drive resources</A></H3>
 
 <DL COMPACT>
 
@@ -949,12 +950,12 @@ Possible values are <CODE>0</CODE> (never extend), <CODE>1</CODE> (ask on extend
 <DD>
 Integers specifying the idling method for the drive CPU.  Possible values
 are <CODE>0</CODE> (none), <CODE>1</CODE> (skip cycles), <CODE>2</CODE> (trap idle).
-See section <A HREF="vice_6.html#SEC51">6.7  Drive settings</A>.
+See section <A HREF="vice_6.html#SEC52">6.7  Drive settings</A>.
 
 <A NAME="IDX86"></A>
 <P><DT><CODE>DriveSyncFactor</CODE>
 <DD>
-Integer specifying the drive's clock sync factor (see section <A HREF="vice_6.html#SEC51">6.7  Drive settings</A>).  Special values <CODE>-1</CODE> and <CODE>-2</CODE> mean PAL and NTSC,
+Integer specifying the drive's clock sync factor (see section <A HREF="vice_6.html#SEC52">6.7  Drive settings</A>).  Special values <CODE>-1</CODE> and <CODE>-2</CODE> mean PAL and NTSC,
 respectively.
 
 <A NAME="IDX87"></A>
@@ -975,7 +976,7 @@ Strings specifying the names of the ROM images for the drive emulation.
 
 
 
-<H3><A NAME="SEC53" HREF="vice_toc.html#TOC53">6.7.2  Drive command-line options</A></H3>
+<H3><A NAME="SEC54" HREF="vice_toc.html#TOC54">6.7.2  Drive command-line options</A></H3>
 
 <DL COMPACT>
 
@@ -1056,7 +1057,7 @@ respectively.
 
 
 
-<H2><A NAME="SEC54" HREF="vice_toc.html#TOC54">6.8  Peripheral settings</A></H2>
+<H2><A NAME="SEC55" HREF="vice_toc.html#TOC55">6.8  Peripheral settings</A></H2>
 
 <P>
 VICE is able to support some special peripherals:
@@ -1081,7 +1082,7 @@ custom-made C routines.
 
 
 
-<H3><A NAME="SEC55" HREF="vice_toc.html#TOC55">6.8.1  Settings for file system devices</A></H3>
+<H3><A NAME="SEC56" HREF="vice_toc.html#TOC56">6.8.1  Settings for file system devices</A></H3>
 
 <P>
 These settings deal with the drive-like peripherals connected to the bus
@@ -1119,7 +1120,7 @@ while drive 11 creates Unix files.
 
 
 
-<H4><A NAME="SEC56" HREF="vice_toc.html#TOC56">6.8.1.1  Resources for file system devices</A></H4>
+<H4><A NAME="SEC57" HREF="vice_toc.html#TOC57">6.8.1.1  Resources for file system devices</A></H4>
 
 <DL COMPACT>
 
@@ -1188,7 +1189,7 @@ have access.
 
 
 
-<H4><A NAME="SEC57" HREF="vice_toc.html#TOC57">6.8.1.2  Command-line options for file system devices</A></H4>
+<H4><A NAME="SEC58" HREF="vice_toc.html#TOC58">6.8.1.2  Command-line options for file system devices</A></H4>
 
 <DL COMPACT>
 
@@ -1213,7 +1214,7 @@ respectively (<CODE>FSDevice8Dir</CODE>, <CODE>FSDevice9Dir</CODE>,
 
 
 
-<H3><A NAME="SEC58" HREF="vice_toc.html#TOC58">6.8.2  Printer settings</A></H3>
+<H3><A NAME="SEC59" HREF="vice_toc.html#TOC59">6.8.2  Printer settings</A></H3>
 
 <P>
 The VICE emulators can emulate printers connected to either the IEC
@@ -1261,7 +1262,7 @@ device 3 will print it with <CODE>lpr</CODE>.
 
 
 
-<H4><A NAME="SEC59" HREF="vice_toc.html#TOC59">6.8.2.1  Printer resources</A></H4>
+<H4><A NAME="SEC60" HREF="vice_toc.html#TOC60">6.8.2.1  Printer resources</A></H4>
 
 <DL COMPACT>
 
@@ -1275,7 +1276,7 @@ device 3 will print it with <CODE>lpr</CODE>.
 <A NAME="IDX125"></A>
 <DT><CODE>PrDevice3</CODE>
 <DD>
-Strings specifying the printer devices (see section <A HREF="vice_6.html#SEC58">6.8.2  Printer settings</A>).
+Strings specifying the printer devices (see section <A HREF="vice_6.html#SEC59">6.8.2  Printer settings</A>).
 
 <A NAME="IDX126"></A>
 <P><DT><CODE>Printer4</CODE>
@@ -1286,7 +1287,7 @@ Boolean specifying if the IEC printer (device 4) is being emulated.
 <P><DT><CODE>Printer4Dev</CODE>
 <DD>
 Integer (ranging from 0 to 2, for device 1-3) specifying what printer device 
-(see section <A HREF="vice_6.html#SEC58">6.8.2  Printer settings</A>) the IEC printer is using.
+(see section <A HREF="vice_6.html#SEC59">6.8.2  Printer settings</A>) the IEC printer is using.
 
 <A NAME="IDX128"></A>
 <P><DT><CODE>PrUser</CODE>
@@ -1303,7 +1304,7 @@ device the user-port printer is using.
 
 
 
-<H4><A NAME="SEC60" HREF="vice_toc.html#TOC60">6.8.2.2  Printer command-line options</A></H4>
+<H4><A NAME="SEC61" HREF="vice_toc.html#TOC61">6.8.2.2  Printer command-line options</A></H4>
 
 <DL COMPACT>
 
@@ -1350,7 +1351,7 @@ Specify device for the IEC printer (<CODE>PrUserDev</CODE>).
 
 
 
-<H3><A NAME="SEC61" HREF="vice_toc.html#TOC61">6.8.3  Disabling kernal traps</A></H3>
+<H3><A NAME="SEC62" HREF="vice_toc.html#TOC62">6.8.3  Disabling kernal traps</A></H3>
 
 <P>
 If you have compatibility problems, you can completely disable Kernal
@@ -1363,7 +1364,7 @@ to be able to read or write disk images) and tape support.
 
 
 
-<H4><A NAME="SEC62" HREF="vice_toc.html#TOC62">6.8.3.1  Resources to control Kernal traps</A></H4>
+<H4><A NAME="SEC63" HREF="vice_toc.html#TOC63">6.8.3.1  Resources to control Kernal traps</A></H4>
 
 <DL COMPACT>
 
@@ -1377,7 +1378,7 @@ Boolean specifying whether all the Kernal trap should be disabled.
 
 
 
-<H4><A NAME="SEC63" HREF="vice_toc.html#TOC63">6.8.3.2  Command-line options to control Kernal traps</A></H4>
+<H4><A NAME="SEC64" HREF="vice_toc.html#TOC64">6.8.3.2  Command-line options to control Kernal traps</A></H4>
 
 <DL COMPACT>
 
@@ -1393,7 +1394,7 @@ Enable (<CODE>NoTraps=0</CODE>) or disable (<CODE>NoTraps=1</CODE>) kernal traps
 
 
 
-<H2><A NAME="SEC64" HREF="vice_toc.html#TOC64">6.9  RS232 settings</A></H2>
+<H2><A NAME="SEC65" HREF="vice_toc.html#TOC65">6.9  RS232 settings</A></H2>
 
 <P>
 The VICE emulators can emulate the RS232 device most of the machines
@@ -1489,7 +1490,7 @@ actually expects).
 
 
 
-<H3><A NAME="SEC65" HREF="vice_toc.html#TOC65">6.9.1  RS232 resources</A></H3>
+<H3><A NAME="SEC66" HREF="vice_toc.html#TOC66">6.9.1  RS232 resources</A></H3>
 
 <DL COMPACT>
 
@@ -1506,7 +1507,7 @@ actually expects).
 <A NAME="IDX142"></A>
 <DT><CODE>RsDevice4</CODE>
 <DD>
-Strings specifying the RS232 devices (see section <A HREF="vice_6.html#SEC64">6.9  RS232 settings</A>).
+Strings specifying the RS232 devices (see section <A HREF="vice_6.html#SEC65">6.9  RS232 settings</A>).
 
 <A NAME="IDX143"></A>
 <P><DT><CODE>RsDevice1Baud</CODE>
@@ -1521,7 +1522,7 @@ Strings specifying the RS232 devices (see section <A HREF="vice_6.html#SEC64">6.
 <DT><CODE>RsDevice4Baud</CODE>
 <DD>
 Integer specifying the RS232 baudrate devices if the device file points
-to a special device (like <TT>`/dev/ttyS0'</TT>; see section <A HREF="vice_6.html#SEC64">6.9  RS232 settings</A>).
+to a special device (like <TT>`/dev/ttyS0'</TT>; see section <A HREF="vice_6.html#SEC65">6.9  RS232 settings</A>).
 
 <A NAME="IDX147"></A>
 <P><DT><CODE>AciaDE</CODE>
@@ -1533,7 +1534,7 @@ I/O 1, at <CODE>$de**</CODE>.
 <P><DT><CODE>Acia1Dev</CODE>
 <DD>
 Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
-(see section <A HREF="vice_6.html#SEC64">6.9  RS232 settings</A>) the ACIA is using (all except VIC20).
+(see section <A HREF="vice_6.html#SEC65">6.9  RS232 settings</A>) the ACIA is using (all except VIC20).
 
 <A NAME="IDX149"></A>
 <P><DT><CODE>Acia1Irq</CODE>
@@ -1558,7 +1559,7 @@ the user-port printer is using (C64, C128 and VIC20).
 
 
 
-<H3><A NAME="SEC66" HREF="vice_toc.html#TOC66">6.9.2  RS232 command-line options</A></H3>
+<H3><A NAME="SEC67" HREF="vice_toc.html#TOC67">6.9.2  RS232 command-line options</A></H3>
 
 <DL COMPACT>
 
@@ -1592,7 +1593,7 @@ Specify <CODE>NAME</CODE> as RS232 devices 1, 2, 3 and 4, respectively
 <DD>
 Specify <CODE>BAUDRATE</CODE> as baudrate for the RS232 devices if the device name
 specifies a special device (like <TT>`/dev/ttyS0'</TT> for example, 
-see section <A HREF="vice_6.html#SEC64">6.9  RS232 settings</A>;
+see section <A HREF="vice_6.html#SEC65">6.9  RS232 settings</A>;
 <CODE>RsDevice1Baud</CODE>, <CODE>RsDevice2Baud</CODE> <CODE>RsDevice3Baud</CODE> and 
 <CODE>RsDevice4Baud</CODE>).
 
@@ -1617,7 +1618,7 @@ C64, C128 and VIC20).
 
 
 
-<H3><A NAME="SEC67" HREF="vice_toc.html#TOC67">6.9.3  RS232 usage example</A></H3>
+<H3><A NAME="SEC68" HREF="vice_toc.html#TOC68">6.9.3  RS232 usage example</A></H3>
 
 <P>
 Here we give you a simple example how to set up an emulated C64 using
@@ -1665,7 +1666,7 @@ If it is able to detect an
 
 
 
-<H2><A NAME="SEC68" HREF="vice_toc.html#TOC68">6.10  Miscellaneous settings</A></H2>
+<H2><A NAME="SEC69" HREF="vice_toc.html#TOC69">6.10  Miscellaneous settings</A></H2>
 
 <P>
 This section lists generic resources that do not fit in the other
@@ -1675,7 +1676,7 @@ categories.
 
 
 
-<H3><A NAME="SEC69" HREF="vice_toc.html#TOC69">6.10.1  Miscellaneous resources</A></H3>
+<H3><A NAME="SEC70" HREF="vice_toc.html#TOC70">6.10.1  Miscellaneous resources</A></H3>
 
 <DL COMPACT>
 
@@ -1691,7 +1692,7 @@ the following value:
 
 
 <PRE>
-LIBDIR/EMUID:BOOTPATH/EMUID
+LIBDIR/EMUID:$HOME/.vice/EMUID:BOOTPATH/EMUID:LIBDIR/DRIVES:$HOME/.vice/DRIVES:BOOTPATH/DRIVES
 </PRE>
 
 where:
@@ -1711,7 +1712,16 @@ string (<CODE>C64</CODE>, <CODE>C128</CODE>, <CODE>VIC20</CODE> or <CODE>PET</CO
 
 <CODE>BOOTPATH</CODE> is the directory where the binary lies (usually
 <TT>`/usr/local/bin'</TT>, <TT>`/usr/bin'</TT> or <CODE>/opt/vice/bin</CODE>).
+<P> <LI>
+
+<CODE>DRIVES</CODE> is the directory called "DRIVES", where the disk drive ROMs are.
+(The disk drive ROMs are used by all emulators, so there is an extra
+directory for them.)
 </UL> </P>
+
+Notice that the middle entry points to a default location in
+the user's home directory. Here private ROM versions (e.g. 
+speeddos or JiffyDos) can be stored for example.
 
 See section <A HREF="vice_4.html#SEC21">4  System files</A> for a description of the method used to load the
 emulator's system files.
@@ -1741,7 +1751,7 @@ signal.
 
 
 
-<H3><A NAME="SEC70" HREF="vice_toc.html#TOC70">6.10.2  Miscellaneous command-line options</A></H3>
+<H3><A NAME="SEC71" HREF="vice_toc.html#TOC71">6.10.2  Miscellaneous command-line options</A></H3>
 
 <DL COMPACT>
 

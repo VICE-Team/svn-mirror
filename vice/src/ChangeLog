@@ -1,3 +1,60 @@
+1999-02-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.19.
+
+1998-02-02  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/c610ui.c (cbm2_romset_submenu): add entries to
+	load single ROM files
+
+	* arch/unix/xaw/uisettings.c (ui_load_rom_file): new callback
+	to select a ROM file and save it to a resource.
+
+	* arch/unix/xaw/uisettings.h (ui_load_rom_file): new prototype
+
+	* cbm2/c610mem.c (mem_load_chargen, mem_load_kernal, mem_load_basic,
+	mem_load_cart_1, mem_load_cart_2, mem_load_cart_4, mem_load_cart_6):
+	new functions. Each one loads a different ROM. The function is 
+	called when setting the resources. To avoid startup trouble,
+	the ROM is only loaded when "rom_loaded" is set, which is done
+	in mem_load, that also calls those routines after setting
+	rom_loaded.
+	(set_chargen_rom_name, set_kernal_rom_name, set_basic_rom_name,
+	set_cart1_rom_name, set_cart2_rom_name, set_cart4_rom_name, 
+	set_cart6_rom_name): call appropriate mem_load_*() 
+	routine to replace ROM when the resource is changed.
+	(mem_load): remove all ROM loading (moved to mem_load_*()) and
+	call mem_load_* instead, after enabling the ROM loading by
+	setting rom_loaded.
+
+1999-02-02  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: some bugfixes, Romset support, updated cartridges,
+	added SuperPET.
+
+	* c64/c64mem.c: proper ANSI signatures, fixed 1541 romset bug.
+
+	* sounddrv/soundacorn.c: some restructuring for more stability.
+
+1998-02-01  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi: Add a romset file description; Fix that the
+	path contains the $HOME/.vice/EMU directory; Move the .vicerc
+	file to .vice/vicerc in the docs as well.
+
+	* arch/unix/archdep.c (archdep_default_resource_file_name):
+	add "const" to a variable.
+	(archdep_default_save_resource_file_name):
+	add "const" to a variable; give concat an end marker for the 
+	variably sized argument list...
+
+1999-02-01  Tibor Biczo  <crown@mail.matav.hu>
+
+	* serial.c (serial_select_file): Added #ifdef HAVE_PRINTER to
+	prdevice initialization.
+	(serial_remove_file): Added #ifdef HAVE_PRINTER to prdevice
+	detaching.
+
 1999-01-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.18.

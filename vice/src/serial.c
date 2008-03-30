@@ -333,7 +333,7 @@ static int parallelcommand(void)
     int channel;
     int i, st = 0;
 
-    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable) 
+    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable)
 	|| ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
 	return 0x83;	/* device not present */
     }
@@ -458,7 +458,7 @@ int parallelsendbyte(int data)
     int st = 0;
     serial_t *p;
 
-    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable) 
+    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable)
 	|| ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
 	return 0x83;	/* device not present */
     }
@@ -490,7 +490,7 @@ int parallelreceivebyte(BYTE * data, int fake)
     int st = 0, secadr = TrapSecondary & 0x0f;
     serial_t *p;
 
-    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable) 
+    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable)
 	|| ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
 	return 0x83;	/* device not present */
     }
@@ -670,9 +670,11 @@ int serial_select_file(int type, int number, const char *file)
     /* should be based on p -> info.type */
 
     switch (number) {
+#ifdef HAVE_PRINTER
       case 4:
       case 5:
 	  return attach_prdevice((PRINTER *) p->info, file, 0);
+#endif
 
       case 8:
       case 9:
@@ -720,10 +722,12 @@ int serial_remove_file(int number)
 	    log_error(serial_log, "Attempting to remove empty device #%d.", number);
 	} else
 	    switch (number) {	/* should be based on actual type ... */
-	      case 4:
+#ifdef HAVE_PRINTER
+          case 4:
 	      case 5:
 		  detach_prdevice((PRINTER *) p->info);
 		  break;
+#endif
 	      case 8:
 	      case 9:
 	      case 10:
