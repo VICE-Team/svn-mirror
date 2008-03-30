@@ -513,7 +513,8 @@ int resources_save(const char *fname)
 	    if (get_line(buf, 1024, in_file) < 0)
 		break;
 
-	    if (check_emu_id(buf)) {
+            /* Check if another emulation section starts.  */
+	    if (*buf == '[') {
 		fprintf(out_file, "%s\n", buf);
 		break;
 	    }
