@@ -380,7 +380,7 @@ int machine_cmdline_options_init(void)
     return 0;
 }
 
-void c128_monitor_init(void)
+static void c128_monitor_init(void)
 {
     monitor_cpu_type_t asm6502, asmz80;
     monitor_cpu_type_t *asmarray[3];

@@ -66,7 +66,7 @@ static void iecrom_new_image_loaded(unsigned int dtype)
         iecrom_setup_image(1);
 }
 
-int iecrom_do_1541_checksum(void)
+static int iecrom_do_1541_checksum(void)
 {
     int i;
     unsigned long s;

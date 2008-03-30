@@ -36,6 +36,7 @@
 #include "log.h"
 #include "serial.h"
 #include "vdrive-dir.h"
+#include "vdrive-rel.h"
 #include "vdrive.h"
 
 

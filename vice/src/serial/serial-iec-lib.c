@@ -32,6 +32,7 @@
 
 #include "lib.h"
 #include "serial-iec.h"
+#include "serial.h"
 #include "types.h"
 #include "utils.h"
 

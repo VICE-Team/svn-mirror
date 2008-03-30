@@ -304,7 +304,7 @@ void raster_new_cache(raster_t *raster, unsigned int screen_height)
         raster_cache_new(&(raster->cache)[i], raster->sprite_status);
 }
 
-void raster_destroy_cache(raster_t *raster, unsigned int screen_height)
+static void raster_destroy_cache(raster_t *raster, unsigned int screen_height)
 {
     unsigned int i;
 

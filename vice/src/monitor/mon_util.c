@@ -90,7 +90,7 @@ char *mon_disassemble_with_label(MEMSPACE memspace, WORD loc, int hex,
 }
 
 #ifndef __OS2__
-char *pchCommandLine = NULL;
+static char *pchCommandLine = NULL;
 
 void mon_set_command(console_t *console_log, char *command,
                      void (*pAfter)(void))

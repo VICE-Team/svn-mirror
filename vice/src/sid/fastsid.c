@@ -33,6 +33,7 @@
 #include <string.h>
 #include <math.h>
 
+#include "fastsid.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -444,7 +445,7 @@ static void print_voice(char *buf, voice_t *pv)
 	);
 }
 
-char *fastsid_dump_state(sound_t *psid)
+static char *fastsid_dump_state(sound_t *psid)
 {
     int i;
     char buf[1024];
@@ -636,11 +637,11 @@ inline static void setup_voice(voice_t *pv)
     pv->gateflip = 0;
 }
 
-int fastsid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-			      int interleave, int *delta_t)
+static int fastsid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+                                     int interleave, int *delta_t)
 {
-    register DWORD o0, o1, o2;
-    register int dosync1, dosync2, i;
+    DWORD o0, o1, o2;
+    int dosync1, dosync2, i;
     voice_t *v0, *v1, *v2;
 
     setup_sid(psid);
@@ -792,7 +793,7 @@ static void init_filter(sound_t *psid, int freq)
 }
 
 /* SID initialization routine */
-sound_t *fastsid_open(BYTE *sidstate)
+static sound_t *fastsid_open(BYTE *sidstate)
 {
     sound_t *psid;
 
@@ -803,7 +804,7 @@ sound_t *fastsid_open(BYTE *sidstate)
     return psid;
 }
 
-int fastsid_init(sound_t *psid, int speed, int cycles_per_sec)
+static int fastsid_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     DWORD i;
     int sid_model;
@@ -870,13 +871,13 @@ int fastsid_init(sound_t *psid, int speed, int cycles_per_sec)
     return 1;
 }
 
-void fastsid_close(sound_t *psid)
+static void fastsid_close(sound_t *psid)
 {
     lib_free(psid);
 }
 
 
-BYTE fastsid_read(sound_t *psid, WORD addr)
+static BYTE fastsid_read(sound_t *psid, WORD addr)
 {
     BYTE ret;
     WORD ffix;
@@ -925,7 +926,7 @@ BYTE fastsid_read(sound_t *psid, WORD addr)
     return ret;
 }
 
-void fastsid_store(sound_t *psid, WORD addr, BYTE byte)
+static void fastsid_store(sound_t *psid, WORD addr, BYTE byte)
 {
     switch (addr) {
       case 4:
@@ -971,7 +972,7 @@ void fastsid_store(sound_t *psid, WORD addr, BYTE byte)
     psid->laststoreclk = maincpu_clk;
 }
 
-void fastsid_reset(sound_t *psid, CLOCK cpu_clk)
+static void fastsid_reset(sound_t *psid, CLOCK cpu_clk)
 {
     WORD addr;
 
@@ -981,16 +982,16 @@ void fastsid_reset(sound_t *psid, CLOCK cpu_clk)
     psid->laststoreclk = cpu_clk;
 }
 
-void fastsid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
+static void fastsid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
     psid->laststoreclk -= sub;
 }
 
-void fastsid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
+static void fastsid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
 }
 
-void fastsid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
+static void fastsid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
 }
 

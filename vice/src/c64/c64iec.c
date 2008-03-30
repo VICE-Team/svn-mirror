@@ -245,6 +245,7 @@ void iec_cpu_undump(BYTE data)
     iec_old_atn = iec_info.cpu_bus & 0x10;
 }
 
+#if 0
 BYTE iec_cpu_read(void)
 {
     if (!drive[0].enable && !drive[1].enable)
@@ -256,6 +257,7 @@ BYTE iec_cpu_read(void)
 	drive1_cpu_execute(maincpu_clk);
     return iec_info.cpu_port;
 }
+#endif
 
 iec_info_t *iec_get_drive_port(void)
 {

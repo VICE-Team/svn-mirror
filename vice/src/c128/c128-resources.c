@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "c128-resources.h"
 #include "c128.h"
 #include "c128mem.h"
 #include "c128rom.h"

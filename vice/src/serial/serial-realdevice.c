@@ -27,11 +27,12 @@
 #include "vice.h"
 
 #include "realdevice.h"
+#include "serial.h"
 
 
 int serial_realdevice_enable(void)
 {
-#if HAVE_OPENCBM
+#ifdef HAVE_OPENCBM
     return realdevice_enable();
 #else
     return -1;
@@ -40,7 +41,7 @@ int serial_realdevice_enable(void)
 
 void serial_realdevice_disable(void)
 {
-#if HAVE_OPENCBM
+#ifdef HAVE_OPENCBM
     realdevice_disable();
 #endif
 }

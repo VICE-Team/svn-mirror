@@ -115,7 +115,7 @@ inline static int mem_read_limit(int addr)
     return mem_read_limit_tab_ptr[addr >> 8];
 }
 
-void maincpu_generic_dma(void)
+static void maincpu_generic_dma(void)
 {
     /* Generic DMA hosts can be implemented here.
        For example a very accurate REU emulation. */

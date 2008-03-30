@@ -35,6 +35,7 @@
 #include "t64.h"
 #include "tap.h"
 #include "tape.h"
+#include "tapeimage.h"
 
 
 int tape_image_close(tape_image_t *tape_image)

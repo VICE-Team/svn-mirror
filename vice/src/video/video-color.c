@@ -264,7 +264,7 @@ static void video_calc_ycbcrtable(const video_cbm_palette_t *p)
         crtable[i] = (SDWORD)(primary.cr * sat);
 
         /* YCbCr to YUV, scale [0, 256] to [0, 255] */
-        yuv_table[i] = ((BYTE)(primary.y*255/256 + 0.5) << 16)
+        yuv_table[i] = ((BYTE)(primary.y * 255 / 256 + 0.5) << 16)
             | ((BYTE)(0.493111 * primary.cb * 255 / 256 + 128.5) << 8)
             | (BYTE)(0.877283 * primary.cr * 255 / 256 + 128.5);
     }

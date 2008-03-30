@@ -96,7 +96,7 @@ BYTE *mem_color_ram_cpu, *mem_color_ram_vicii;
 BYTE *mem_chargen_rom_ptr;
 
 /* Size of RAM...  */
-int ram_size = C64_RAM_SIZE;
+static int ram_size = C64_RAM_SIZE;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
@@ -124,13 +124,13 @@ static int tape_sense = 0;
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_watch(WORD addr)
+static BYTE REGPARM1 read_watch(WORD addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
-void REGPARM2 store_watch(WORD addr, BYTE value)
+static void REGPARM2 store_watch(WORD addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[vbank][mem_config][addr >> 8](addr, value);
@@ -495,11 +495,13 @@ void mem_toggle_reu(int flag)
 }
 */
 
+#if 0
 /* Enable/disable the Emulator ID.  */
 void mem_toggle_emu_id(int flag)
 {
     emu_id_enabled = flag;
 }
+#endif
 
 void mem_set_bank_pointer(BYTE **base, int *limit)
 {

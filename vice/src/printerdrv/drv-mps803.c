@@ -33,6 +33,7 @@
 
 #include "archdep.h"
 #include "driver-select.h"
+#include "drv-mps803.h"
 #include "log.h"
 #include "output-select.h"
 #include "output.h"

@@ -28,6 +28,8 @@
 
 #include "mem1551.h"
 #include "glue1551.h"
+/* FIXME */
+#include "ieee.h"
 #include "tcbm-cmdline-options.h"
 #include "tcbm-resources.h"
 #include "tcbm.h"

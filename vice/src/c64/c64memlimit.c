@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include "c64memlimit.h"
+
 
 #define NUM_SEGMENTS 8
 #define NUM_CONFIGS 32

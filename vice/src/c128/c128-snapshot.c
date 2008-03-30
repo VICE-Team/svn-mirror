@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "c128-resources.h"
+#include "c128-snapshot.h"
 #include "c128mem.h"
 #include "c128mmu.h"
 #include "c128rom.h"
@@ -52,7 +53,7 @@ static char snap_rom_module_name[] = "C128ROM";
 #define SNAP_ROM_MAJOR 0
 #define SNAP_ROM_MINOR 0
 
-int mem_write_rom_snapshot_module(snapshot_t *s)
+static int mem_write_rom_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
     int trapfl;
@@ -102,7 +103,7 @@ int mem_write_rom_snapshot_module(snapshot_t *s)
     return -1;
 }
 
-int mem_read_rom_snapshot_module(snapshot_t *s)
+static int mem_read_rom_snapshot_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;

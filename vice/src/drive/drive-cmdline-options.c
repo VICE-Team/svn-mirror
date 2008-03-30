@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "drive-cmdline-options.h"
 #include "drive.h"
 #include "machine-drive.h"
 

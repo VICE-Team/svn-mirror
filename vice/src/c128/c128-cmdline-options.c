@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "c128-cmdline-options.h"
 #include "cmdline.h"
 #include "machine.h"
 

@@ -34,6 +34,7 @@
 #include "atomicpower.h"
 #include "alarm.h"
 #include "archdep.h"
+#include "c64cart.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
@@ -103,7 +104,7 @@ static int set_cartridge_mode(resource_value_t v, void *param)
     return 0;
 }
 
-int set_ide64_config(resource_value_t v, void *param)
+static int set_ide64_config(resource_value_t v, void *param)
 {
     const char *cfg = (const char *)v;
     int i;

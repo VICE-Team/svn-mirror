@@ -76,7 +76,7 @@ BYTE *sid_get_siddata(unsigned int channel)
 
 /* ------------------------------------------------------------------------- */
 
-int sid_read_off(WORD addr, int chipno)
+static int sid_read_off(WORD addr, int chipno)
 {
     BYTE val;
 
@@ -93,7 +93,7 @@ int sid_read_off(WORD addr, int chipno)
     return (int)val;
 }
 
-void sid_write_off(WORD addr, BYTE val, int chipno)
+static void sid_write_off(WORD addr, BYTE val, int chipno)
 {
 }
 
@@ -285,7 +285,7 @@ int sound_machine_channels(void)
     return stereo ? 2 : 1;
 }
 
-void set_sound_func(void)
+static void set_sound_func(void)
 {
     if (sid_enable) {
         if (sid_engine_type == SID_ENGINE_FASTSID) {

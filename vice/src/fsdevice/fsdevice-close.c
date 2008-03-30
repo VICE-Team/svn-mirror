@@ -52,6 +52,7 @@
 #include <sys/stat.h>
 #endif
 
+#include "fsdevice-close.h"
 #include "fsdevicetypes.h"
 #include "vdrive-command.h"
 #include "vdrive.h"

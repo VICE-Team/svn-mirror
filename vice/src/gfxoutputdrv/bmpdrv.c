@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include "archdep.h"
+#include "bmpdrv.h"
 #include "lib.h"
 #include "log.h"
 #include "gfxoutput.h"
@@ -140,7 +141,7 @@ static int bmpdrv_write_bitmap_info(screenshot_t *screenshot)
     return 0;
 }
 
-int bmpdrv_open(screenshot_t *screenshot, const char *filename)
+static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
 {
     gfxoutputdrv_data_t *sdata;
 
@@ -197,7 +198,7 @@ int bmpdrv_open(screenshot_t *screenshot, const char *filename)
     return 0;
 }
 
-int bmpdrv_write(screenshot_t *screenshot)
+static int bmpdrv_write(screenshot_t *screenshot)
 {
     unsigned int row;
     gfxoutputdrv_data_t *sdata;
@@ -227,7 +228,7 @@ int bmpdrv_write(screenshot_t *screenshot)
     return 0;
 }
 
-int bmpdrv_close(screenshot_t *screenshot)
+static int bmpdrv_close(screenshot_t *screenshot)
 {
     switch (screenshot->gfxoutputdrv_data->bpp) {
       case 4:
@@ -248,7 +249,7 @@ int bmpdrv_close(screenshot_t *screenshot)
     return 0;
 }
 
-int bmpdrv_save(screenshot_t *screenshot, const char *filename)
+static int bmpdrv_save(screenshot_t *screenshot, const char *filename)
 {
     unsigned int i;
 

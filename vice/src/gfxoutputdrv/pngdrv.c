@@ -34,6 +34,7 @@
 #include "archdep.h"
 #include "gfxoutput.h"
 #include "lib.h"
+#include "pngdrv.h"
 #include "screenshot.h"
 #include "types.h"
 #include "utils.h"
@@ -50,7 +51,7 @@ typedef struct gfxoutputdrv_data_s {
 
 static gfxoutputdrv_t png_drv;
 
-int pngdrv_open(screenshot_t *screenshot, const char *filename)
+static int pngdrv_open(screenshot_t *screenshot, const char *filename)
 {
     gfxoutputdrv_data_t *sdata;
 
@@ -108,7 +109,7 @@ int pngdrv_open(screenshot_t *screenshot, const char *filename)
     return 0;
 }
 
-int pngdrv_write(screenshot_t *screenshot)
+static int pngdrv_write(screenshot_t *screenshot)
 {
     gfxoutputdrv_data_t *sdata;
 
@@ -121,7 +122,7 @@ int pngdrv_write(screenshot_t *screenshot)
     return 0;
 }
 
-int pngdrv_close(screenshot_t *screenshot)
+static int pngdrv_close(screenshot_t *screenshot)
 {
     gfxoutputdrv_data_t *sdata;
 
@@ -139,7 +140,7 @@ int pngdrv_close(screenshot_t *screenshot)
     return 0;
 }
 
-int pngdrv_save(screenshot_t *screenshot, const char *filename)
+static int pngdrv_save(screenshot_t *screenshot, const char *filename)
 {
     if (pngdrv_open(screenshot, filename) < 0)
         return -1;

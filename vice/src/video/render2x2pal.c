@@ -1,5 +1,5 @@
 /*
- * render2x2.c - 2x2 renderers
+ * render2x2pal.c - 2x2 PAL renderers
  *
  * Written by
  *  John Selck <graham@cruise.de>
@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "render2x2.h"
+#include "render2x2pal.h"
 #include "types.h"
 
 

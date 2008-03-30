@@ -34,6 +34,7 @@
 #include "attach.h"
 #include "diskimage.h"
 #include "montypes.h"
+#include "mon_drive.h"
 #include "mon_util.h"
 #include "types.h"
 #include "uimon.h"

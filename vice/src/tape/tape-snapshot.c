@@ -37,6 +37,7 @@
 #include "snapshot.h"
 #include "t64.h"
 #include "tap.h"
+#include "tape-snapshot.h"
 #include "tape.h"
 #include "types.h"
 #include "utils.h"
@@ -301,8 +302,8 @@ int tape_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
-        || SMR_B_INT(m, &tape_image_dev1->read_only) < 0 
-        || SMR_B_INT(m, &snap_type) < 0) 
+        || SMR_B_INT(m, (int *)&tape_image_dev1->read_only) < 0 
+        || SMR_B_INT(m, (int *)&snap_type) < 0) 
     {
         snapshot_module_close(m);
         return -1;

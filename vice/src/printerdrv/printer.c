@@ -34,6 +34,7 @@
 #include "output-graphics.h"
 #include "output-select.h"
 #include "output-text.h"
+#include "printer.h"
 
 
 int printer_resources_init(void)

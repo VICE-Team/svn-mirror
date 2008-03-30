@@ -34,6 +34,7 @@
 #include "imagecontents.h"
 #include "lib.h"
 #include "tape.h"
+#include "tapecontents.h"
 
 
 static void tape_read_contents(tape_image_t *tape_image, image_contents_t *new)

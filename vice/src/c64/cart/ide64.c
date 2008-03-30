@@ -98,7 +98,7 @@ static unsigned int ide_bufp;
 static BYTE ide_cmd;
 
 /* image file */
-FILE *ide_disk;
+static FILE *ide_disk;
 char *ide64_image_file = NULL;
 
 /* config ram */
@@ -117,7 +117,7 @@ static BYTE ide_identify[128]=
 };
 
 /* drive reset response */
-void ide64_reset(void)
+static void ide64_reset(void)
 {
     ide_error=1;
     ide_sector_count=1;
@@ -131,7 +131,7 @@ void ide64_reset(void)
 }
 
 /* seek to a sector */
-int ide_seek_sector(void)
+static int ide_seek_sector(void)
 {
     if (ide_sector==0 ||
         ide_sector>ide_identify[112] ||

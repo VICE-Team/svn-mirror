@@ -102,13 +102,13 @@ static unsigned int reu_int_num;
 int reu_enabled;
 
 /* Size of the REU.  */
-DWORD reu_size = 0;
+static DWORD reu_size = 0;
 
 /* Size of the REU in KB.  */
-DWORD reu_size_kb = 0;
+static DWORD reu_size_kb = 0;
 
 /* Filename of the REU image.  */
-char *reu_filename = NULL;
+static char *reu_filename = NULL;
 
 /*
  * Some cartridges can coexist with the REU.

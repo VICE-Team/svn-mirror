@@ -32,9 +32,11 @@
 
 #include "asm.h"
 #include "montypes.h"
+#include "mon_assemble.h"
 #include "mon_util.h"
 #include "types.h"
 #include "uimon.h"
+
 
 static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
 {

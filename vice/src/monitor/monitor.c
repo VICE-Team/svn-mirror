@@ -1262,7 +1262,7 @@ void mon_watch_push_store_addr(WORD addr, MEMSPACE mem)
     watch_store_count[mem]++;
 }
 
-bool watchpoints_check_loads(MEMSPACE mem)
+static bool watchpoints_check_loads(MEMSPACE mem)
 {
     bool trap = FALSE;
     unsigned count;
@@ -1279,7 +1279,7 @@ bool watchpoints_check_loads(MEMSPACE mem)
     return trap;
 }
 
-bool watchpoints_check_stores(MEMSPACE mem)
+static bool watchpoints_check_stores(MEMSPACE mem)
 {
     bool trap = FALSE;
     unsigned count;

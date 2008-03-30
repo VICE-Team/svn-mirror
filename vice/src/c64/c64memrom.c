@@ -36,7 +36,7 @@ BYTE REGPARM1 basic64_read(WORD addr)
     return mem_basic64_rom[addr & 0x1fff];
 }
 
-void REGPARM2 basic64_store(WORD addr, BYTE value)
+static void REGPARM2 basic64_store(WORD addr, BYTE value)
 {
     mem_basic64_rom[addr & 0x1fff] = value;
 }
@@ -46,7 +46,7 @@ BYTE REGPARM1 kernal64_read(WORD addr)
     return mem_kernal64_rom[addr & 0x1fff];
 }
 
-void REGPARM2 kernal64_store(WORD addr, BYTE value)
+static void REGPARM2 kernal64_store(WORD addr, BYTE value)
 {
     mem_kernal64_rom[addr & 0x1fff] = value;
 }

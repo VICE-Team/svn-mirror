@@ -31,6 +31,7 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "jobcode1581.h"
 #include "log.h"
 #include "types.h"
 #include "wd1770.h"

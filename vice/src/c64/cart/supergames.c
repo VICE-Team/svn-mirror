@@ -33,6 +33,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64mem.h"
+#include "supergames.h"
 #include "types.h"
 #include "utils.h"
 

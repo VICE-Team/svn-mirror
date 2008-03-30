@@ -47,6 +47,7 @@ extern void via1d_signal(struct drive_context_s *ctxptr, int line, int edge);
 extern void REGPARM3 via1d_store(struct drive_context_s *ctxptr, WORD addr,
                                  BYTE byte);
 extern BYTE REGPARM2 via1d_read(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE REGPARM2 via1d_peek(struct drive_context_s *ctxptr, WORD addr);
 extern int via1d_snapshot_write_module(struct drive_context_s *ctxptr,
                                        struct snapshot_s *p);
 extern int via1d_snapshot_read_module(struct drive_context_s *ctxptr,
@@ -58,6 +59,7 @@ extern void via2d_signal(struct drive_context_s *ctxptr, int line, int edge);
 extern void REGPARM3 via2d_store(struct drive_context_s *ctxptr, WORD addr,
                                  BYTE byte);
 extern BYTE REGPARM2 via2d_read(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE REGPARM2 via2d_peek(struct drive_context_s *ctxptr, WORD addr);
 extern int via2d_snapshot_write_module(struct drive_context_s *ctxptr,
                                        struct snapshot_s *p);
 extern int via2d_snapshot_read_module(struct drive_context_s *ctxptr,

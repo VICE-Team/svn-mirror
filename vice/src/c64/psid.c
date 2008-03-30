@@ -82,7 +82,7 @@ static psid_t* psid = NULL;
 static int psid_tune = 0;
 static int keepenv = 0;
 
-int set_keepenv(resource_value_t val, void *param)
+static int set_keepenv(resource_value_t val, void *param)
 {
     keepenv = (int)val;
 
@@ -321,7 +321,7 @@ fail:
 /* Use CBM80 vector to start PSID driver. This is a simple method to
    transfer control to the PSID driver while running in a pure C64
    environment. */
-int psid_set_cbm80(WORD vec, WORD addr)
+static int psid_set_cbm80(WORD vec, WORD addr)
 {
     unsigned int i;
     BYTE cbm80[] = { 0x00, 0x00, 0x00, 0x00, 0xc3, 0xc2, 0xcd, 0x38, 0x30 };

@@ -36,6 +36,7 @@
 #include "log.h"
 #include "types.h"
 #include "vdrive-command.h"
+#include "vdrive-internal.h"
 #include "vdrive.h"
 
 
@@ -138,8 +139,8 @@ int vdrive_internal_close_disk_image(vdrive_t *vdrive)
     return 0;
 }
 
-int vdrive_internal_format_disk_image(const char *filename,
-                                      const char *disk_name)
+static int vdrive_internal_format_disk_image(const char *filename,
+                                             const char *disk_name)
 {
     vdrive_t *vdrive;
     const char *format_name;

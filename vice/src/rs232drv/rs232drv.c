@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "rs232.h"
+#include "rs232drv.h"
 #include "types.h"
 
 

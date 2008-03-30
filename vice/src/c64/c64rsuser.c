@@ -38,13 +38,14 @@
 #include <stdio.h>
 
 #include "c64.h"
+#include "c64rsuser.h"
 #include "c64cia.h"
 #include "machine.h"
 #include "rsuser.h"
 
+
 void c64_rsuser_init(void)
 {
-    rsuser_init(machine_get_cycles_per_second(),
-                cia2_set_flag, cia2_set_sdr);
+    rsuser_init(machine_get_cycles_per_second(), cia2_set_flag, cia2_set_sdr);
 }
 

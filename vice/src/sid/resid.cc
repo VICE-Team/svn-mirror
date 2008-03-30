@@ -35,6 +35,7 @@ extern "C" {
 #include "sid/sid.h" /* sid_engine_t */
 #include "lib.h"
 #include "log.h"
+#include "resid.h"
 #include "resources.h"
 #include "sid-snapshot.h"
 #include "sound.h"
@@ -47,7 +48,7 @@ struct sound_s
 };
 
 
-sound_t *resid_open(BYTE *sidstate)
+static sound_t *resid_open(BYTE *sidstate)
 {
     sound_t *psid;
     int	i;
@@ -61,7 +62,7 @@ sound_t *resid_open(BYTE *sidstate)
     return psid;
 }
 
-int resid_init(sound_t *psid, int speed, int cycles_per_sec)
+static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     sampling_method method;
     char method_text[100];
@@ -122,42 +123,42 @@ int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     return 1;
 }
 
-void resid_close(sound_t *psid)
+static void resid_close(sound_t *psid)
 {
     delete psid;
 }
 
-BYTE resid_read(sound_t *psid, WORD addr)
+static BYTE resid_read(sound_t *psid, WORD addr)
 {
     return psid->sid.read(addr);
 }
 
-void resid_store(sound_t *psid, WORD addr, BYTE byte)
+static void resid_store(sound_t *psid, WORD addr, BYTE byte)
 {
     psid->sid.write(addr, byte);
 }
 
-void resid_reset(sound_t *psid, CLOCK cpu_clk)
+static void resid_reset(sound_t *psid, CLOCK cpu_clk)
 {
     psid->sid.reset();
 }
 
-int resid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-			    int interleave, int *delta_t)
+static int resid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+                                   int interleave, int *delta_t)
 {
     return psid->sid.clock(*delta_t, pbuf, nr, interleave);
 }
 
-void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
+static void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
 }
 
-char *resid_dump_state(sound_t *psid)
+static char *resid_dump_state(sound_t *psid)
 {
     return lib_stralloc("");
 }
 
-void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
+static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
     SID::State state;
     unsigned int i;
@@ -181,7 +182,7 @@ void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
     }
 }
 
-void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
+static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
     SID::State state;
     unsigned int i;

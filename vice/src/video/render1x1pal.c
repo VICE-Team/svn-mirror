@@ -1,5 +1,5 @@
 /*
- * render1x1.c - 1x1 renderers
+ * render1x1pal.c - 1x1 PAL renderers
  *
  * Written by
  *  John Selck <graham@cruise.de>
@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "render1x1.h"
+#include "render1x1pal.h"
 #include "types.h"
 
 

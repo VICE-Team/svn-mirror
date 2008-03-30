@@ -37,7 +37,7 @@ static unsigned int listen = 0;
 static unsigned int talk = 0;
 
 
-void serial_iec_set_st(BYTE st)
+static void serial_iec_set_st(BYTE st)
 {
     serial_iec_st = (int)st;
 }

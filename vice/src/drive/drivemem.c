@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "drive.h"
+#include "drivemem.h"
 #include "driverom.h"
 #include "drivetypes.h"
 #include "log.h"

@@ -30,6 +30,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "vicii-sprites.h"
+#include "vicii-timing.h"
 #include "viciitypes.h"
 
 

@@ -30,6 +30,7 @@
 
 #include "lib.h"
 #include "raster.h"
+#include "raster-resources.h"
 #include "resources.h"
 #include "types.h"
 #include "utils.h"

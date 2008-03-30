@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "c64-resources.h"
 #include "c64cart.h"
 #include "c64rom.h"
 #include "cartridge.h"

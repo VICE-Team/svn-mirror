@@ -57,7 +57,7 @@ typedef struct
   unsigned int Y0, Y1, U, V;
 } YUV_avg;
 
-YUV_avg yuv_lines[2][1024];
+static YUV_avg yuv_lines[2][1024];
 
 
 /* Render packed YUV 4:2:2 formats. */

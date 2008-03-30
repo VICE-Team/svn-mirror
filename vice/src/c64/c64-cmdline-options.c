@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "c64-cmdline-options.h"
 #include "cmdline.h"
 #include "machine.h"
 

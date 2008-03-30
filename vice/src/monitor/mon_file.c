@@ -35,6 +35,7 @@
 #include "attach.h"
 #include "mem.h"
 #include "montypes.h"
+#include "mon_file.h"
 #include "mon_util.h"
 #include "serial.h"
 #include "uimon.h"
