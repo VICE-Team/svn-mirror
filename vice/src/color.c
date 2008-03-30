@@ -41,7 +41,6 @@ struct color_rgb_s {
     unsigned int red;
     unsigned int green;
     unsigned int blue;
-    unsigned int dither;
 };
 typedef struct color_rgb_s color_rgb_t;
 
@@ -175,7 +174,6 @@ static void color_palette_to_list(color_list_t *color_list, void *c,
         current->color_rgb_req.red = palette->entries[i].red;
         current->color_rgb_req.green = palette->entries[i].green;
         current->color_rgb_req.blue = palette->entries[i].blue;
-        current->color_rgb_req.dither = palette->entries[i].dither;
         current->color_pixel = 0;
         current->pixel_data = 0;
         color_owner_add(current->owner, c);
@@ -192,7 +190,6 @@ static void color_copy_entry(color_list_t *dest, color_list_t *src)
     dest->color_rgb_req.red = src->color_rgb_req.red;
     dest->color_rgb_req.green = src->color_rgb_req.green;
     dest->color_rgb_req.blue = src->color_rgb_req.blue;
-    dest->color_rgb_req.dither = src->color_rgb_req.dither;
     dest->color_pixel = src->color_pixel;
     dest->pixel_data = src->pixel_data;
     color_owner_copy(dest->owner, src->owner);
@@ -301,7 +298,6 @@ static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
                         == cdest->color_rgb_req.blue) {
                         uicolor_convert_color_table(colnr,
                                                     &(cdest->pixel_data),
-                                                    cdest->color_rgb_req.dither,
                                                     cdest->color_pixel, c);
                         if (col_return != NULL)
                             col_return[colnr] = cdest->color_pixel;
@@ -329,11 +325,10 @@ static void color_print_list(const char *name, color_list_t *list)
     while (list->next != NULL) {
         owner_list_t *owner_list = list->owner;
         log_message(color_log,
-                    "R %02x G %02x B %02x D %02x XCOL %08lx PIXEL %02x.",
+                    "R %02x G %02x B %02x XCOL %08lx PIXEL %02x.",
                     list->color_rgb_req.red,
                     list->color_rgb_req.green,
                     list->color_rgb_req.blue,
-                    list->color_rgb_req.dither,
                     list->color_pixel,
                     list->pixel_data);
 

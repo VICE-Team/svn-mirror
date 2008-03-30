@@ -187,13 +187,12 @@ void uicolor_free_color(unsigned int red, unsigned int green,
 }
 
 void uicolor_convert_color_table(unsigned int colnr, BYTE *data,
-                                 unsigned int dither, long color_pixel,
-                                 void *c)
+                                 long color_pixel, void *c)
 {
     if (c == NULL)
         return;
 
-    video_convert_color_table(colnr, data, dither,
+    video_convert_color_table(colnr, data,
                               (long)(((GdkColor *)(color_pixel))->pixel),
                               (video_canvas_t *)c);
 }

@@ -136,11 +136,8 @@ extern void ui_finish_canvas(video_canvas_t *c);
 extern void video_convert_save_pixel(void);
 extern void video_convert_restore_pixel(void);
 extern void video_refresh_func(void (*rfunc)(void));
-extern int video_convert_func(video_canvas_t *canvas, unsigned int width,
-                              unsigned int height);
 extern void video_convert_color_table(unsigned int i, BYTE *data,
-                                      unsigned int dither, long col,
-                                      video_canvas_t *c);
+                                      long col, video_canvas_t *c);
 extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
                                          unsigned int width,
                                          unsigned int height);
