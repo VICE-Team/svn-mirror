@@ -1,3 +1,34 @@
+1999-04-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.
+
+	* arch/msdos/menudefs.c (attach_disk_callback): Also show
+	compressed files.
+	(attach_tape_callback): Likewise.
+
+1998-04-24  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* rsuser.h (rsuser_enabled): make the variable prototype "extern"...
+
+1999-04-22	Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: fixed some full screen problems.
+
+	* arch/riscos/petdummy.c: removed some dummy functions now
+	provided by standard source tree.
+
+1999-04-22  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/xaw/uicommands.c: Replaced `#ifdef USE_RESID' with `#ifdef
+ 	HAVE_RESID'.
+	* arch/msdos/menudefs.c: Likewise.
+
+1999-04-22  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/ui.c: Include <commctrl.h> only when compiling
+	  with MSVC. This is only needed because of some buggy
+	  outdated Mingw headers are still in use. :)
+
 1999-04-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.62.
