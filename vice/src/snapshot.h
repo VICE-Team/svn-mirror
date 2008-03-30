@@ -42,14 +42,23 @@ extern int snapshot_module_write_padded_string(snapshot_module_t *m,
                                                const char *s, BYTE pad_char,
                                                int len);
 extern int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *data,
-                                            int len);
+                                            unsigned int len);
+extern int snapshot_module_write_word_array(snapshot_module_t *m, WORD *data,
+                                            unsigned int len);
+extern int snapshot_module_write_dword_array(snapshot_module_t *m, DWORD *data,
+                                             unsigned int len);
 extern int snapshot_module_write_string(snapshot_module_t *m, const char *s);
 
 extern int snapshot_module_read_byte(snapshot_module_t *m, BYTE *b_return);
 extern int snapshot_module_read_word(snapshot_module_t *m, WORD *w_return);
 extern int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return);
 extern int snapshot_module_read_byte_array(snapshot_module_t *m,
-                                           BYTE *b_return, int size);
+                                           BYTE *b_return, unsigned int size);
+extern int snapshot_module_read_word_array(snapshot_module_t *m,
+                                           WORD *w_return, unsigned int size);
+extern int snapshot_module_read_dword_array(snapshot_module_t *m,
+                                            DWORD *dw_return,
+                                            unsigned int size);
 extern int snapshot_module_read_string(snapshot_module_t *m, char **s);
 extern int snapshot_module_read_byte_into_int(snapshot_module_t *m,
                                               int *value_return);
@@ -65,11 +74,15 @@ extern int snapshot_module_read_dword_into_int(snapshot_module_t *m,
 #define SMW_DW     snapshot_module_write_dword
 #define SMW_PSTR   snapshot_module_write_padded_string
 #define SMW_BA     snapshot_module_write_byte_array
+#define SMW_WA     snapshot_module_write_word_array
+#define SMW_DWA    snapshot_module_write_dword_array
 #define SMW_STR    snapshot_module_write_string
 #define SMR_B      snapshot_module_read_byte
 #define SMR_W      snapshot_module_read_word
 #define SMR_DW     snapshot_module_read_dword
 #define SMR_BA     snapshot_module_read_byte_array
+#define SMR_WA     snapshot_module_read_word_array
+#define SMR_DWA    snapshot_module_read_dword_array
 #define SMR_STR    snapshot_module_read_string
 #define SMR_B_INT  snapshot_module_read_byte_into_int
 #define SMR_W_INT  snapshot_module_read_word_into_int
