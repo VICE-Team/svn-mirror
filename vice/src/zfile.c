@@ -171,7 +171,7 @@ static char *try_uncompress_with_gzip(const char *name)
 {
 #ifdef HAVE_ZLIB
     FILE *fdsrc, *fddest;
-    char *tmp_name;
+    char *tmp_name = NULL;
     int len;
 
     if (!archdep_file_is_gzip(name))
@@ -179,11 +179,10 @@ static char *try_uncompress_with_gzip(const char *name)
 
     tmp_name = archdep_tmpnam();
 
-    fddest = fopen(tmp_name, MODE_WRITE);
-    if (fddest == NULL) {
-        lib_free(tmp_name);
+    fddest = archdep_mkstemp_fd(&tmp_name, MODE_WRITE);
+
+    if (fddest == NULL)
         return NULL;
-    }
 
     fdsrc = gzopen(name, MODE_READ);
     if (fdsrc == NULL) {

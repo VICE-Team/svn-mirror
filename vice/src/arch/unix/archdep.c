@@ -373,7 +373,7 @@ char *archdep_quote_parameter(const char *name)
 }
 
 char *archdep_tmpnam(void)
- {
+{
 #ifdef GP2X
     static unsigned int tmp_string_counter=0;
     char tmp_string[32];
@@ -394,15 +394,83 @@ char *archdep_tmpnam(void)
     else
         strcpy(tmpName, "/tmp" );
     strcat(tmpName, mkstempTemplate );
-    if ((fd = mkstemp(tmpName)) < 0 ) 
+    if ((fd = mkstemp(tmpName)) < 0 )
         tmpName[0] = '\0';
     else
         close(fd);
-    
+
     lib_free(tmpName);
     return lib_stralloc(tmpName);
 #else
     return lib_stralloc(tmpnam(NULL));
+#endif
+}
+
+FILE *archdep_mkstemp_fd(char **filename, const char *mode)
+ {
+#ifdef GP2X
+    static unsigned int tmp_string_counter = 0;
+    char *tmp;
+
+    tmp = lib_msprintf("vice%d.tmp", tmp_string_counter++);
+
+    fd = fopen(tmp, mode);
+
+    if (fd == NULL) {
+        lib_free(tmp);
+        return NULL;
+    }
+
+    *filename = tmp;
+
+    return fd;
+#elif defined HAVE_MKSTEMP
+    char *tmp;
+    const char template[] = "/vice.XXXXXX";
+    int fildes;
+    FILE *fd;
+    char *tmpdir;
+
+    tmpdir = getenv("TMPDIR");
+
+    if (tmpdir != NULL ) 
+        tmp = util_concat(tmpdir, template, NULL);
+    else
+        tmp = util_concat("/tmp", template, NULL);
+
+    fildes = mkstemp(tmp);
+
+    if (fildes < 0 ) {
+        lib_free(tmp);
+        return NULL;
+    }
+
+    fd = fdopen(fildes, mode);
+
+    if (fd == NULL) {
+        lib_free(tmp);
+        return NULL;
+    }
+
+    *filename = tmp;
+
+    return fd;
+#else
+    char *tmp;
+
+    tmp = tmpnam(NULL);
+
+    if (tmp == NULL)
+        return NULL;
+
+    fd = fopen(tmp, mode);
+
+    if (fd == NULL)
+        return NULL;
+
+    *filename = lib_stralloc(tmp);
+
+    return fd;
 #endif
 }
 

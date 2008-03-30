@@ -263,6 +263,22 @@ char *archdep_tmpnam(void)
     return lib_stralloc(tmpnam(NULL));
 }
 
+FILE *archdep_mkstemp_fd(char **filename, const char *mode)
+{
+    char *tmp;
+    FILE *fd;
+
+    tmp = lib_stralloc(tmpnam(NULL));
+
+    fd = fopen(tmp, mode);
+
+    if (fd == NULL)
+        return NULL;
+
+    *filename = tmp;
+
+    return fd;
+}
 
 const char *archdep_extract_dir_and_leaf(const char *path)
 {

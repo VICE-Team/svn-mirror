@@ -252,6 +252,23 @@ char *archdep_tmpnam(void)
   return lib_stralloc(tmpnam(NULL));
 }
 
+FILE *archdep_mkstemp_fd(char **filename, const char *mode)
+{
+    char *tmp;
+    FILE *fd;
+
+    tmp = lib_stralloc(tmpnam(NULL));
+
+    fd = fopen(tmp, mode);
+
+    if (fd == NULL)
+        return NULL;
+
+    *filename = tmp;
+
+    return fd;
+}
+
 int archdep_file_is_gzip(const char *name)
 {
   size_t l = strlen(name);
