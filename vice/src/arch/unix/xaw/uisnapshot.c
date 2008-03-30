@@ -74,6 +74,7 @@ static Widget cancel_button;
 UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
+
     char *f = ui_select_file("Save snapshot file", NULL, False, NULL, "*",
                              &button);
 
