@@ -54,6 +54,9 @@
 #include "x11/x11ui.h"
 
 
+extern struct ui_menu_entry_s sid_submenu[];
+
+
 static log_t vsid_log = LOG_ERR;
 static void vsid_create_menus(void);
 
