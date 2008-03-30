@@ -45,6 +45,7 @@
 #include "resources.h"
 #include "stdlib.h"
 #include "sysfile.h"
+#include "ui.h"
 #include "utils.h"
 #include "vic.h"
 #include "vic20ieeevia.h"
