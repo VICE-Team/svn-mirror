@@ -105,7 +105,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
     /* $d600 sets the internal vdc address pointer */
     if ((addr & 1) == 0) {
 #ifdef REG_DEBUG
-        log_message(vdc.log, "STORE $D600 %02x", value);
+        /*log_message(vdc.log, "STORE $D600 %02x", value);*/
 #endif
         vdc.update_reg = value & 0x3f;
         return;
@@ -123,21 +123,24 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
     switch (vdc.update_reg)
     {
       case 0:                   /* R00  Horizontal total (characters + 1) */
-        if (vdc.regs[0] >= 120 && vdc.regs[0] <= 127) {
-            vdc.xchars_total = vdc.regs[0] + 1;
-            vdc_calculate_xsync();
+        if (vdc.regs[0] != oldval) {
+            if (vdc.regs[0] >= 120 && vdc.regs[0] <= 127) {
+                vdc.xchars_total = vdc.regs[0] + 1;
+                vdc_calculate_xsync();
+            }
         }
-        break;
 #ifdef REG_DEBUG
         log_message(vdc.log, "Horizontal Total %i", vdc.xchars_total);
 #endif
-
+        break;
       case 1:                   /* R01  Horizontal characters displayed */
-        if (vdc.regs[1] >= 8 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS) {
-            if (vdc.screen_text_cols != vdc.regs[1]) {
-                vdc.force_cache_flush = 1;
-                vdc.force_repaint = 1;
-                vdc.screen_text_cols = vdc.regs[1];
+        if (vdc.regs[1] != oldval) {
+            if (vdc.regs[1] >= 8 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS) {
+                if (vdc.screen_text_cols != vdc.regs[1]) {
+                    vdc.force_cache_flush = 1;
+                    vdc.force_repaint = 1;
+                    vdc.screen_text_cols = vdc.regs[1];
+                }
             }
         }
 #ifdef REG_DEBUG
@@ -174,9 +177,10 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 6:                   /* R06  Number of display lines on screen */
-/*        new_vdc_screen_textlines = vdc[6] & 0x7f; */
+        if (vdc.regs[6] != oldval)
+            vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 6 unsupported!");
+        log_message(vdc.log, "Vertical Displayed %i.", vdc.regs[6]);
 #endif
         break;
 

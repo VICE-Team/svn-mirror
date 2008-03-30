@@ -80,8 +80,8 @@ static void vdc_set_geometry(void)
     border_width = vdc.border_width;
     border_height = vdc.border_height;
 
-    vdc_25row_start_line = vdc.row25_start_line;
-    vdc_25row_stop_line = vdc.row25_stop_line;
+    vdc_25row_start_line = border_height;
+    vdc_25row_stop_line = vdc_25row_start_line + screen_ypix;
 
     if (vdc_resources.double_size_enabled) {
         screen_height *= 2;
@@ -108,8 +108,8 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
     raster_set_geometry(raster,
                         screen_width, screen_height,
                         screen_xpix, screen_ypix,
-                        VDC_SCREEN_MAX_TEXTCOLS, VDC_SCREEN_TEXTLINES,
-                        border_width, border_height,
+                        VDC_SCREEN_MAX_TEXTCOLS, vdc.screen_textlines,
+                        border_width, vdc_25row_start_line,
                         0,
                         first_displayed_line,
                         last_displayed_line,
@@ -227,6 +227,13 @@ static void vdc_update_geometry(void)
 {
     vdc.screen_height = (vdc.regs[4] + 1) * ((vdc.regs[9] & 0x1f) + 1)
                         + (vdc.regs[5] & 0x1f);
+
+    vdc.screen_textlines = vdc.regs[6];
+
+    vdc.screen_ypix = vdc.regs[6] * ((vdc.regs[9] & 0x1f) + 1);
+
+    vdc.raster_ycounter_max = vdc.regs[9] & 0x1f;
+
     vdc.update_geometry = 0;
 }
 
@@ -264,13 +271,10 @@ void vdc_powerup(void)
     vdc.mem_counter_inc = 0;
 
     vdc.screen_xpix = VDC_SCREEN_XPIX;
-    vdc.screen_ypix = VDC_SCREEN_YPIX_SMALL;
     vdc.first_displayed_line = VDC_FIRST_DISPLAYED_LINE;
-    vdc.last_displayed_line = VDC_LAST_DISPLAYED_LINE_SMALL;
-    vdc.row25_start_line = VDC_25ROW_START_LINE;
-    vdc.row25_stop_line = VDC_25ROW_STOP_LINE_SMALL;
-    vdc.border_height = VDC_SCREEN_BORDERWIDTH;
-    vdc.border_width = VDC_SCREEN_BORDERHEIGHT;
+    vdc.last_displayed_line = VDC_LAST_DISPLAYED_LINE;
+    vdc.border_width = VDC_SCREEN_BORDERWIDTH;
+    vdc.border_height = VDC_SCREEN_BORDERHEIGHT;
 
     vdc_reset();
 }
@@ -295,30 +299,34 @@ static void vdc_increment_memory_pointer(void)
     if (vdc.raster.ycounter >= vdc.raster_ycounter_max)
         vdc.mem_counter += vdc.mem_counter_inc + vdc.regs[27];
 
-    vdc.raster.ycounter = (vdc.raster.ycounter + 1) & vdc.raster_ycounter_max;
+    vdc.raster.ycounter = (vdc.raster.ycounter + 1)
+                          % (vdc.raster_ycounter_max + 1);
 
-    if (!(vdc.raster.ycounter & 1)) {
-        /* Don't increment on odd raster scanlines.  */
-        vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
-    }
+    vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
 }
 
 /* Redraw the current raster line. */
 static void vdc_raster_draw_alarm_handler(CLOCK offset)
 {
-    int in_visible_area;
+    int in_visible_area, in_idle_state;
 
-    if (vdc_resources.double_size_enabled)
+    if (vdc_resources.double_size_enabled) {
         in_visible_area = (vdc.raster.current_line
                           >= (vdc.first_displayed_line * 2 + 1)
                           && vdc.raster.current_line
                           <= vdc.last_displayed_line * 2);
-
-    else
+        in_idle_state = (vdc.raster.current_line < vdc.border_height * 2)
+                        || (vdc.raster.current_line >
+                        (vdc.border_height + vdc.screen_ypix) * 2);
+    } else {
         in_visible_area = (vdc.raster.current_line
                           >= vdc.first_displayed_line
                           && vdc.raster.current_line
                           <= vdc.last_displayed_line);
+        in_idle_state = (vdc.raster.current_line < vdc.border_height)
+                        || (vdc.raster.current_line >
+                        (vdc.border_height + vdc.screen_ypix));
+    }
 
     if (vdc.raster.current_line == 0) {
         vdc.mem_counter = 0;
@@ -377,7 +385,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset)
                                     vdc.raster.border_color);
 #endif
 
-        if (in_visible_area)
+        if (in_visible_area && !in_idle_state)
             vdc_increment_memory_pointer();
 
         vdc_set_next_alarm(offset);
@@ -432,13 +440,7 @@ int vdc_load_palette(const char *name)
 /* Set proper functions and constants for the current video settings. */
 void vdc_resize(void)
 {
-    if (vdc_resources.double_size_enabled) {
-        vdc.raster_ycounter_max = VDC_SCREEN_CHARHEIGHT_SMALL - 1;
-        vdc.raster_ycounter_divide = 1;
-    } else {
-        vdc.raster_ycounter_max = VDC_SCREEN_CHARHEIGHT_SMALL - 1;
-        vdc.raster_ycounter_divide = 1;
-    }
+    vdc.raster_ycounter_divide = 1;
 
     if (!vdc.initialized)
         return;

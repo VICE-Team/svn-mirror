@@ -277,12 +277,12 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/reu.h ../../src/screenshot.h ../../src/serial.h \
 	../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
-	../../src/sid/sid.h ../../src/sid/sid-engine.h \
-	../../src/sound.h ../../src/tape.h ../../src/traps.h \
-	../../src/mem.h ../../src/utils.h ../../src/vicii/vicii.h \
-	../../src/video.h ../../src/vdc/vdc.h ../../src/vsync.h z80.h \
-	z80mem.h ../../src/rs232.h ../../src/c64/c64acia.h \
-	../../src/rsuser.h ../../src/arch/unix/mouse.h
+	../../src/sid/sid.h ../../src/sound.h ../../src/tape.h \
+	../../src/traps.h ../../src/mem.h ../../src/utils.h \
+	../../src/vicii/vicii.h ../../src/video.h ../../src/vdc/vdc.h \
+	../../src/vsync.h z80.h z80mem.h ../../src/rs232.h \
+	../../src/c64/c64acia.h ../../src/rsuser.h \
+	../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/c64/c64cia.h \
@@ -313,9 +313,9 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/monitor/mon.h ../../src/parallel.h \
 	../../src/c64/reu.h ../../src/rs232.h ../../src/sid/sid.h \
-	../../src/sid/sid-engine.h ../../src/sound.h \
-	../../src/sid/sid-resources.h ../../src/snapshot.h \
-	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/sound.h ../../src/sid/sid-resources.h \
+	../../src/snapshot.h ../../src/sysfile.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
 	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h \
@@ -342,10 +342,10 @@ z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cia.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/log.h \
-	../../src/mem.h ../../src/sid/sid.h ../../src/sid/sid-engine.h \
-	../../src/sound.h ../../src/sysfile.h ../../src/utils.h \
-	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
-	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h
+	../../src/mem.h ../../src/sid/sid.h ../../src/sound.h \
+	../../src/sysfile.h ../../src/utils.h ../../src/vdc/vdc-mem.h \
+	../../src/vdc/vdc.h ../../src/vicii/vicii-mem.h \
+	../../src/vicii/vicii.h z80mem.h
 
 info-am:
 info: info-am

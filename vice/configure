@@ -721,7 +721,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.7.12
+VERSION=1.7.13
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -2043,7 +2043,7 @@ fi
 
         echo using x86-specific optimizing options
 
-                                CFLAGS="-g -O5 -fomit-frame-pointer -funroll-loops -DNO_REGPARM $warnings"
+                                CFLAGS="-g -O5 -funroll-loops -DNO_REGPARM $warnings"
 
       else
 
