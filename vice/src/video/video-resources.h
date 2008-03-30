@@ -37,10 +37,6 @@ struct video_resources_s
     int color_contrast;
     int color_brightness;
     int color_gamma;
-
-    int ext_palette;		/* external palette used? */
-    char *palette_file_name;
-
     int delayloop_emulation;	/* fake PAL emu */
     int pal_scanlineshade;
     int pal_mode;
