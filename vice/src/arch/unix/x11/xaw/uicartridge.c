@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -68,11 +70,17 @@ static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
 
-    char *f = ui_select_file(_("Save cartridge image file"), NULL, False, NULL, "*.[cC][rR][tT]",
-                             &button, 0);
+    char *filename;
+
+    filename = ui_select_file(_("Save cartridge image file"),
+                              NULL, False, NULL, "*.[cC][rR][tT]",
+                              &button, 0);
 
     if (button == UI_BUTTON_OK)
-        XtVaSetValues(file_name_field, XtNstring, f, NULL);
+        XtVaSetValues(file_name_field, XtNstring, filename, NULL);
+
+    if (filename != NULL)
+        free(filename);
 }
 
 static UI_CALLBACK(cancel_callback)

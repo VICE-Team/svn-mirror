@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -74,12 +76,16 @@ static Widget cancel_button;
 static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
+    char *filename;
 
-    char *f = ui_select_file(_("Save snapshot file"), NULL, False, NULL, "*",
-                             &button, 0);
+    filename = ui_select_file(_("Save snapshot file"), NULL, False, NULL, "*",
+                              &button, 0);
 
     if (button == UI_BUTTON_OK)
-        XtVaSetValues(file_name_field, XtNstring, f, NULL);
+        XtVaSetValues(file_name_field, XtNstring, filename, NULL);
+
+    if (filename != NULL)
+       free(filename);
 }
 
 static UI_CALLBACK(cancel_callback)

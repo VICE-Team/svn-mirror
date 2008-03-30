@@ -85,12 +85,16 @@ static char *edisk_file_name;
 static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
+    char *filename;
 
-    char *f = ui_select_file(_("Save emptydisk file"), NULL, False, NULL, "*",
-                             &button, 0);
+    filename = ui_select_file(_("Save emptydisk file"), NULL, False, NULL, "*",
+                              &button, 0);
 
     if (button == UI_BUTTON_OK)
-        XtVaSetValues(file_name_field, XtNstring, f, NULL);
+        XtVaSetValues(file_name_field, XtNstring, filename, NULL);
+
+    if (filename != NULL)
+        free(filename);
 }
 
 static UI_CALLBACK(cancel_callback)

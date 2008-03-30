@@ -300,20 +300,21 @@ static UI_CALLBACK(select_user_keymap)
 
     suspend_speed_eval();
     filename = ui_select_file(_("Read Keymap File"), NULL, False, last_dir,
-							"*.vkm", &button, 
-			      False);
+                              "*.vkm", &button, False);
 
     switch (button) {
       case UI_BUTTON_OK:
-	resources_set_value(resname, (resource_value_t)filename);
-	if (last_dir)
-	    free(last_dir);
-	fname_split(filename, &last_dir, NULL);
+        resources_set_value(resname, (resource_value_t)filename);
+        if (last_dir)
+            free(last_dir);
+        fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
         break;
     }
+    if (filename != NULL)
+        free(filename);
 }
 
 static UI_CALLBACK(dump_keymap)
@@ -372,6 +373,8 @@ UI_CALLBACK(ui_load_palette)
         break;
     }
     ui_update_menus();
+    if (filename != NULL)
+        free(filename);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -409,6 +412,8 @@ UI_CALLBACK(ui_load_romset)
         break;
     }
     ui_update_menus();
+    if (filename != NULL)
+        free(filename);
 }
 
 UI_CALLBACK(ui_dump_romset)
@@ -446,7 +451,8 @@ UI_CALLBACK(ui_load_rom_file)
 
     switch (button) {
       case UI_BUTTON_OK:
-        if (resources_set_value(UI_MENU_CB_PARAM, (resource_value_t)filename) < 0)
+        if (resources_set_value(UI_MENU_CB_PARAM,
+            (resource_value_t)filename) < 0)
             ui_error(_("Could not load ROM file\n'%s'"),filename);
 	if (last_dir)
 	    free(last_dir);
@@ -457,6 +463,8 @@ UI_CALLBACK(ui_load_rom_file)
         break;
     }
     ui_update_menus();
+    if (filename != NULL)
+        free(filename);
 }
 
 UI_CALLBACK(ui_unload_rom_file)
@@ -559,6 +567,8 @@ UI_CALLBACK(set_rs232_device_file)
         /* Do nothing special.  */
         break;
     }
+    if (filename != NULL)
+        free(filename);
 }
 
 UI_CALLBACK(set_rs232_exec_file)
@@ -1094,6 +1104,8 @@ static UI_CALLBACK(set_printer_dump_file)
         /* Do nothing special.  */
         break;
     }
+    if (filename != NULL)
+        free(filename);
 }
 #endif
 
