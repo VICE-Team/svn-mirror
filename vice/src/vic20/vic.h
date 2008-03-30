@@ -161,7 +161,6 @@ int vic_read_snapshot_module (snapshot_t *s);
 
 /* Private function calls, used by the other VIC modules.  FIXME:
    Prepend names with `_'?  */
-void vic_exposure_handler (unsigned int width, unsigned int height);
 void vic_update_memory_ptrs (void);
 int vic_load_palette (const char *name);
 void vic_resize (void);
