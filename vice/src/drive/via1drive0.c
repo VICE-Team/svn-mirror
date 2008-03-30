@@ -1,5 +1,4 @@
 /*
- *
  * via1drive0.c - VIA1 emulation in the 1541 disk drive.
  *
  * Written by
@@ -47,6 +46,7 @@
 #define read_myvia read_via1d0
 #define peek_myvia peek_via1d0
 
+#define myvia_log via1d0_log
 #define myvia_signal via1d0_signal
 #define myvia_prevent_clk_overflow via1d0_prevent_clk_overflow
 #define myvia_read_snapshot_module via1d0_read_snapshot_module
@@ -207,7 +207,6 @@ inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
 
 static void undump_pcr(BYTE byte)
 {
-    drive_update_viad2_pcr(byte, &drive[0]);
 }
 
 inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
@@ -215,12 +214,23 @@ inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
     return byte;
 }
 
-#define	STORE_ACR
-#define	UNDUMP_ACR
-#define	STORE_SR
-#define	STORE_T2L
+static void undump_acr(BYTE byte)
+{
+}
 
-static void reset_via(void)
+inline void static store_acr(BYTE byte)
+{
+}
+
+inline void static store_sr(BYTE byte)
+{
+}
+
+inline void static store_t2l(BYTE byte)
+{
+}
+
+static void res_via(void)
 {
     parallel_drv0_set_ndac(0);
     parallel_drv0_set_nrfd(0);

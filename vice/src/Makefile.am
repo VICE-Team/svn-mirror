@@ -158,7 +158,6 @@ EXTRA_DIST = \
 	pia-tmpl.c \
 	raster.c \
 	tpi-tmpl.c \
-	via-tmpl.c \
 	viacore.c \
 	$(printer_sources) \
 	$(rs232_sources)

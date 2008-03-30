@@ -1,5 +1,4 @@
 /*
- *
  * via2drive0.c - VIA2 emulation in the 1541 disk drive.
  *
  * Written by
@@ -47,6 +46,7 @@
 #define read_myvia read_via2d0
 #define peek_myvia peek_via2d0
 
+#define myvia_log via2d0_log
 #define myvia_signal via2d0_signal
 #define myvia_prevent_clk_overflow via2d0_prevent_clk_overflow
 #define myvia_read_snapshot_module via2d0_read_snapshot_module
@@ -135,12 +135,23 @@ static void undump_pcr(BYTE byte)
     drive_update_viad2_pcr(byte, &drive[0]);
 }
 
-#define	STORE_ACR
-#define	UNDUMP_ACR
-#define	STORE_SR
-#define	STORE_T2L
+static void undump_acr(BYTE byte)
+{
+}
 
-static void reset_via(void)
+inline void static store_acr(BYTE byte)
+{
+}
+
+inline void static store_sr(BYTE byte)
+{
+}
+
+inline void static store_t2l(BYTE byte)
+{
+}
+
+static void res_via(void)
 {
     drive[0].led_status = 8;
     drive_update_ui_status();

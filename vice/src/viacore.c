@@ -229,7 +229,7 @@ void reset_myvia(void)
     VIA_SET_CA2( ca2_state )	/* input = high */
     VIA_SET_CB2( cb2_state )	/* input = high */
 
-    reset_via();
+    res_via();
 }
 
 void myvia_signal(int line, int edge)
@@ -342,8 +342,8 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
 
       case VIA_SR:		/* Serial Port output buffer */
         myvia[addr] = byte;
-        STORE_SR
-            break;
+        store_sr(byte);
+        break;
 
         /* Timers */
 
@@ -382,8 +382,8 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
       case VIA_T2LL:		/* Write timer 2 low latch */
         myvia[VIA_T2LL] = byte;
         update_myviatbl();
-        STORE_T2L
-            break;
+        store_t2l(byte);
+        break;
 
       case VIA_T2CH:		/* Write timer 2 high */
         myvia[VIA_T2CH] = byte;
@@ -454,8 +454,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
 #endif
 
         myvia[addr] = byte;
-
-        STORE_ACR
+        store_acr(byte);
 
         /* bit 5 timer 2 count mode */
         if (byte & 32) {
@@ -921,7 +920,7 @@ int myvia_read_snapshot_module(snapshot_t * p)
     ca2_state = byte & 0x80;
     cb2_state = byte & 0x40;
 
-    /* UNDUMP_PCR also restores the ca2_state/cb2_state effects if necessary;
+    /* undump_pcr also restores the ca2_state/cb2_state effects if necessary;
        i.e. calls VIA_SET_C*2( c*2_state ) if necessary */
     {
 	addr = VIA_PCR;
@@ -931,12 +930,12 @@ int myvia_read_snapshot_module(snapshot_t * p)
     {
 	addr = VIA_SR;
 	byte = myvia[addr];
-	STORE_SR
+	store_sr(byte);
     }
     {
 	addr = VIA_ACR;
 	byte = myvia[addr];
-	UNDUMP_ACR
+	undump_acr(byte);
     }
 
     snapshot_module_read_byte(m, &myvia_ila);
