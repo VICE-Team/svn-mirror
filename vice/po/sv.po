@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2000-11-08 23:13+0100\n"
+"POT-Creation-Date: 2000-11-26 15:38+0100\n"
 "PO-Revision-Date: 2000-08-13 23:39+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: svenska <sv@li.org>\n"
@@ -293,10 +293,12 @@ msgid "Exit emulator"
 msgstr "Avsluta emulator"
 
 #: src/arch/unix/c128ui.c:49 src/arch/unix/c64ui.c:241
+#: src/arch/unix/vsidui.c:116
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:51 src/arch/unix/c64ui.c:243
+#: src/arch/unix/vsidui.c:118
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -325,6 +327,7 @@ msgstr "Ladda egen"
 
 #: src/arch/unix/c128ui.c:82 src/arch/unix/c128ui.c:98
 #: src/arch/unix/c64ui.c:276 src/arch/unix/c64ui.c:292
+#: src/arch/unix/vsidui.c:163
 msgid "Video standard"
 msgstr "Grafikstandard"
 
@@ -379,7 +382,7 @@ msgid "*Use reSID emulation"
 msgstr "*Använd reSID-emulering"
 
 #: src/arch/unix/c128ui.c:168 src/arch/unix/c64ui.c:330
-#: src/arch/unix/uisettings.c:1051 src/arch/unix/vsidui.c:130
+#: src/arch/unix/uisettings.c:1051 src/arch/unix/vsidui.c:142
 msgid "*Enable sound playback"
 msgstr "*Aktivera ljudåtergivning"
 
@@ -552,7 +555,7 @@ msgstr "VDC-inställningar"
 
 #: src/arch/unix/c128ui.c:406 src/arch/unix/c128ui.c:422
 #: src/arch/unix/c64ui.c:537 src/arch/unix/c64ui.c:551
-#: src/arch/unix/vsidui.c:149
+#: src/arch/unix/vsidui.c:161
 msgid "SID settings"
 msgstr "SID-inställningar"
 
@@ -889,7 +892,7 @@ msgstr "Insticksmodulens frysfunktion"
 msgid "*Cartridge control"
 msgstr "*Kontroll av insticksmodul"
 
-#: src/arch/unix/c64ui.c:245
+#: src/arch/unix/c64ui.c:245 src/arch/unix/vsidui.c:120
 msgid "*Old NTSC-M"
 msgstr "*Gammal NTSC-M"
 
@@ -1174,7 +1177,7 @@ msgstr "*Hoppa över cykler"
 msgid "*Trap idle"
 msgstr "*Fånga inaktiva cykler"
 
-#: src/arch/unix/uisettings.c:990 src/arch/unix/vsidui.c:118
+#: src/arch/unix/uisettings.c:990 src/arch/unix/vsidui.c:130
 msgid "*1.00 sec"
 msgstr "*1,00 s"
 
@@ -1182,7 +1185,7 @@ msgstr "*1,00 s"
 msgid "*0.75 sec"
 msgstr "*0,75 s"
 
-#: src/arch/unix/uisettings.c:994 src/arch/unix/vsidui.c:120
+#: src/arch/unix/uisettings.c:994 src/arch/unix/vsidui.c:132
 msgid "*0.50 sec"
 msgstr "*0,50 s"
 
@@ -1206,7 +1209,7 @@ msgstr "*0,20 s"
 msgid "*0.15 sec"
 msgstr "*0,15 s"
 
-#: src/arch/unix/uisettings.c:1006 src/arch/unix/vsidui.c:122
+#: src/arch/unix/uisettings.c:1006 src/arch/unix/vsidui.c:134
 msgid "*0.10 sec"
 msgstr "*0,10 s"
 
@@ -1246,11 +1249,11 @@ msgstr "*Exakt"
 msgid "Sound synchronization"
 msgstr "Ljudsynkronisering"
 
-#: src/arch/unix/uisettings.c:1057 src/arch/unix/vsidui.c:133
+#: src/arch/unix/uisettings.c:1057 src/arch/unix/vsidui.c:145
 msgid "Sample rate"
 msgstr "Samplingshastighet"
 
-#: src/arch/unix/uisettings.c:1059 src/arch/unix/vsidui.c:135
+#: src/arch/unix/uisettings.c:1059 src/arch/unix/vsidui.c:147
 msgid "Buffer size"
 msgstr "Buffertstorlek"
 
@@ -1258,7 +1261,7 @@ msgstr "Buffertstorlek"
 msgid "Suspend time"
 msgstr "Paustid"
 
-#: src/arch/unix/uisettings.c:1063 src/arch/unix/vsidui.c:137
+#: src/arch/unix/uisettings.c:1063 src/arch/unix/vsidui.c:149
 msgid "Oversample"
 msgstr "Översampling"
 
@@ -1456,7 +1459,7 @@ msgstr "*Fullskärmsinställningar"
 msgid "Keyboard settings"
 msgstr "Tangentbordsinställningar"
 
-#: src/arch/unix/uisettings.c:1434 src/arch/unix/vsidui.c:143
+#: src/arch/unix/uisettings.c:1434 src/arch/unix/vsidui.c:155
 msgid "Sound settings"
 msgstr "Ljudinställningar"
 
@@ -1826,15 +1829,15 @@ msgstr "\"%s\" är inte en giltig PSID-fil."
 msgid "Load PSID file..."
 msgstr "Ladda PSID-fil..."
 
-#: src/arch/unix/vsidui.c:116
+#: src/arch/unix/vsidui.c:128
 msgid "*3.00 sec"
 msgstr "*3,00 s"
 
-#: src/arch/unix/vsidui.c:168
+#: src/arch/unix/vsidui.c:182
 msgid "*Default Tune"
 msgstr "*Förvald låt"
 
-#: src/arch/unix/vsidui.c:191
+#: src/arch/unix/vsidui.c:205
 #, c-format
 msgid "*Tune %d"
 msgstr "*Låt %d"

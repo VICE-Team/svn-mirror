@@ -269,8 +269,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-asm.o: asm.c ../../src/vice.h ../../src/config.h asm.h \
-	../../src/arch/unix/types.h
 asm6502.o: asm6502.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h
 asmz80.o: asmz80.c ../../src/vice.h ../../src/config.h asm.h \
