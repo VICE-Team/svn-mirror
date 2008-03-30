@@ -26,16 +26,90 @@
 
 #include "vice.h"
 
+#include "log.h"
 #include "machine.h"
 #include "screenshot.h"
+#include "utils.h"
 
-int screenshot_save(const char *filename, unsigned int window_number,
-                    unsigned int format)
+struct screendrv_list_s {
+    struct screendrv_s *drv;
+    struct screendrv_list_s *next;
+};
+typedef struct screendrv_list_s screendrv_list_t;
+
+static screendrv_list_t *screendrv_list;
+
+static log_t screenshot_log = LOG_ERR;
+
+int screenshot_init(void)
 {
-    screenshot_t screenshot;
+    /* Setup logging system.  */
+    screenshot_log = log_open("Screenshot");
 
-    if (machine_screenshot(&screenshot, window_number) < 0)
-        return -1;
+    /* Initialize screen driver list.  */
+    screendrv_list = (screendrv_list_t *)xmalloc(sizeof(screendrv_list_t));
+    screendrv_list->drv = NULL;
+    screendrv_list->next = NULL;
+
+#if 1
+    screenshot_init_bmp();
+#endif
+#if HAVE_PNG
+    screenshot_init_png();
+#endif
+    return 0;
+}
+
+int screenshot_register(screendrv_t *drv)
+{
+    screendrv_list_t *current;
+
+    current = screendrv_list;
+
+    /* Warp to end of list.  */
+    while (current->next != NULL)
+        current = current->next;
+
+    /* Fill in entry.  */
+    current->drv = drv;
+    current->next = (screendrv_list_t *)xmalloc(sizeof(screendrv_list_t));
+    current->next->drv = NULL;
+    current->next->next = NULL;
 
     return 0;
 }
+
+int screenshot_save(const char *drvname, const char *filename,
+                    unsigned int window_number)
+{
+    screenshot_t screenshot;
+    screendrv_list_t *current;
+
+    current = screendrv_list;
+
+    while (current->next != NULL) {
+       if (strcmp(drvname, current->drv->name) == 0)
+           break;
+    }
+
+    /* Requested screenshot driver is not registered.  */
+    if (current->next == NULL) {
+        log_error(screenshot_log, "Request screenshot driver %s not found.",
+                  drvname);
+        return -1;
+    }
+
+    /* Retrive framebuffer and screen geometry.  */
+    if (machine_screenshot(&screenshot, window_number) < 0) {
+        log_error(screenshot_log, "Retriving screen geometry failed.");
+        return -1;
+    }
+
+    if ((current->drv->save)(&screenshot, filename) < 0) {
+        log_error(screenshot_log, "Saving failed...");
+        return -1;
+    }
+
+    return 0;
+}
+

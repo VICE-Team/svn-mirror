@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-06-01 18:30+0200\n"
+"POT-Creation-Date: 2000-06-03 18:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,82 +14,82 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
-#: src/arch/unix/uicommands.c:95
+#: src/arch/unix/uicommands.c:96
 #, c-format
 msgid "Attach Disk Image as unit #%d"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:103
+#: src/arch/unix/uicommands.c:104
 msgid "Invalid Disk Image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:110
+#: src/arch/unix/uicommands.c:111
 msgid "Invalid Disk Image or Filename"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:173
+#: src/arch/unix/uicommands.c:174
 msgid "Attach a tape image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:179 src/arch/unix/uicommands.c:188
+#: src/arch/unix/uicommands.c:180 src/arch/unix/uicommands.c:189
 msgid "Invalid Tape Image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:226
+#: src/arch/unix/uicommands.c:227
 msgid "Smart-attach a file"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:234 src/arch/unix/uicommands.c:242
+#: src/arch/unix/uicommands.c:235 src/arch/unix/uicommands.c:243
 msgid "Unknown image type"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:262
+#: src/arch/unix/uicommands.c:263
 msgid "VICE setting"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:262
+#: src/arch/unix/uicommands.c:263
 msgid "Change current working directory"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:266
+#: src/arch/unix/uicommands.c:267
 msgid "Directory not found"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:305
+#: src/arch/unix/uicommands.c:306
 msgid "Couldn't run /bin/sh???"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:308
+#: src/arch/unix/uicommands.c:309
 msgid "Couldn't run xterm"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:313
+#: src/arch/unix/uicommands.c:314
 msgid "Unknown error while running c1541"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:333
+#: src/arch/unix/uicommands.c:334
 msgid "No HTML browser is defined."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:352 src/arch/unix/uicommands.c:379
+#: src/arch/unix/uicommands.c:353 src/arch/unix/uicommands.c:380
 msgid "Browser command too long."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:392
+#: src/arch/unix/uicommands.c:393
 #, c-format
 msgid "Executing `%s'..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:394
+#: src/arch/unix/uicommands.c:395
 msgid "Cannot run HTML browser."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:430
+#: src/arch/unix/uicommands.c:431
 #, c-format
 msgid "Quickloading file %s."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:443
+#: src/arch/unix/uicommands.c:444
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -97,143 +97,143 @@ msgid ""
 msgstr ""
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:472
+#: src/arch/unix/uicommands.c:473
 #, c-format
 msgid "Quicksaving file %s."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:474
+#: src/arch/unix/uicommands.c:475
 #, c-format
 msgid ""
 "Cannot write snapshot file\n"
 "`%s'\n"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:575
+#: src/arch/unix/uicommands.c:581
 #, c-format
 msgid "Attach #%d"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:583
+#: src/arch/unix/uicommands.c:589
 #, c-format
 msgid "Detach #%d"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:612
+#: src/arch/unix/uicommands.c:618
 msgid "Next: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:612 src/arch/unix/uicommands.c:623
+#: src/arch/unix/uicommands.c:618 src/arch/unix/uicommands.c:629
 #: src/arch/unix/x11/gnome/ui.c:1227 src/arch/unix/x11/gnome/ui.c:1237
 #: src/arch/unix/x11/gnome/ui.c:2058
 msgid "<empty>"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:623
+#: src/arch/unix/uicommands.c:629
 msgid "Previous: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:634
+#: src/arch/unix/uicommands.c:640
 msgid "Add: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:645
+#: src/arch/unix/uicommands.c:651
 msgid "Remove: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:703 src/arch/unix/uicommands.c:715
+#: src/arch/unix/uicommands.c:709 src/arch/unix/uicommands.c:721
 msgid "Unit #8..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:705 src/arch/unix/uicommands.c:718
+#: src/arch/unix/uicommands.c:711 src/arch/unix/uicommands.c:724
 msgid "Unit #9..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:707 src/arch/unix/uicommands.c:721
+#: src/arch/unix/uicommands.c:713 src/arch/unix/uicommands.c:727
 msgid "Unit #10..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:709 src/arch/unix/uicommands.c:724
+#: src/arch/unix/uicommands.c:715 src/arch/unix/uicommands.c:730
 msgid "Unit #11..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:731
+#: src/arch/unix/uicommands.c:737
 msgid "Unit #8"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:733
+#: src/arch/unix/uicommands.c:739
 msgid "Unit #9"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:735
+#: src/arch/unix/uicommands.c:741
 msgid "Unit #10"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:737
+#: src/arch/unix/uicommands.c:743
 msgid "Unit #11"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:740
+#: src/arch/unix/uicommands.c:746
 msgid "All"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:746
+#: src/arch/unix/uicommands.c:752
 msgid "Soft"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:749
+#: src/arch/unix/uicommands.c:755
 msgid "Hard"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:756
+#: src/arch/unix/uicommands.c:762
 msgid "Add current image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:759
+#: src/arch/unix/uicommands.c:765
 msgid "Remove current image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:762
+#: src/arch/unix/uicommands.c:768
 msgid "Attach next image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:765
+#: src/arch/unix/uicommands.c:771
 msgid "Attach previous image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:772
+#: src/arch/unix/uicommands.c:778
 msgid "Attach a disk image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:774
+#: src/arch/unix/uicommands.c:780
 msgid "Create and attach an empty disk"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:776
+#: src/arch/unix/uicommands.c:782
 msgid "Detach disk image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:778
+#: src/arch/unix/uicommands.c:784
 msgid "Fliplist for drive #8"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:784
+#: src/arch/unix/uicommands.c:790
 msgid "Attach a tape image..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:787
+#: src/arch/unix/uicommands.c:793
 msgid "Detach tape image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:793
+#: src/arch/unix/uicommands.c:799
 msgid "Smart-attach disk/tape..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:800
+#: src/arch/unix/uicommands.c:806
 msgid "Change working directory..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:806
+#: src/arch/unix/uicommands.c:812
 msgid "Load snapshot..."
 msgstr ""
 

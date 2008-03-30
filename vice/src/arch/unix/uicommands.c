@@ -47,6 +47,7 @@
 #include "mon.h"
 #include "mos6510.h"
 #include "resources.h"
+#include "screenshot.h"
 #include "sound.h"
 #include "tape.h"
 #include "types.h"
@@ -492,6 +493,11 @@ static UI_CALLBACK(save_quicksnap)
     maincpu_trigger_trap(save_snapshot_trap, (void *) fname);
 }
 
+static UI_CALLBACK(save_screenshot)
+{
+    screenshot_save("BMP", "otto.bmp", 0);
+}
+
 /*  fliplist commands */
 extern char last_attached_images[NUM_DRIVES][256];
 extern ui_drive_enable_t enabled_drives;
@@ -822,6 +828,12 @@ static ui_menu_entry_t ui_snapshot_commands_submenu[] = {
 ui_menu_entry_t ui_snapshot_commands_menu[] = {
     { "Snapshot commands",
       NULL,  NULL, ui_snapshot_commands_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t ui_screenshot_commands_menu[] = {
+    { "Screenshot",
+      (ui_callback_t) save_screenshot, NULL, NULL },
     { NULL }
 };
 
