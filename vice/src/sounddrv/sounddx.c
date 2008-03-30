@@ -117,7 +117,7 @@ static DWORD buffer_size;
 static int fragment_size;
 
 /* Flag: are we in exclusive mode?  */
-static int is_exclusive;
+/* static int is_exclusive; */
 
 /*  DirectSoundNotify Interface, if present */
 static LPDIRECTSOUNDNOTIFY      notify;
@@ -511,7 +511,10 @@ DWORD   result;
             CloseHandle(notifyevent);
             IDirectSoundNotify_Release(notify);
             free(notifypositions);
-            notifyThreadHandle=notifyevent=notify=notifypositions=NULL;
+            notifyThreadHandle = NULL;
+            notifyevent = NULL;
+            notify = NULL;
+            notifypositions = NULL;
             break;
         case STREAM_TIMER:
             timeKillEvent(timer_id);
@@ -527,13 +530,13 @@ DWORD   result;
     IDirectSoundBuffer_Release(buffer);
     /*  Release DirectSoundObject */
     IDirectSound_Release(ds);
-    buffer=ds=NULL;
+    buffer = NULL;
+    ds = NULL;
 }
 
 static int dx_bufferstatus(warn_t *s, int first)
 {
-    DWORD play_cursor, write_cursor;
-    HRESULT result;
+    /* DWORD play_cursor, write_cursor; */
     int value;
 
     if (first) {
@@ -551,12 +554,12 @@ static int dx_bufferstatus(warn_t *s, int first)
 
 static int dx_write(warn_t *w, SWORD *pbuf, int nr)
 {
-    LPVOID lpvPtr1;
+    /* LPVOID lpvPtr1;
     DWORD dwBytes1;
     LPVOID lpvPtr2;
     DWORD dwBytes2;
-    HRESULT result;
-    DWORD buffer_lock_size, buffer_lock_end;
+    HRESULT result; */
+    DWORD buffer_lock_size; /* buffer_lock_end; */
     int i, count;
     int     t;
 
