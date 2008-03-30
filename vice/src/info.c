@@ -306,7 +306,7 @@ const char license_text[] =
 "Software Foundation; we sometimes make exceptions for this.  Our\n"
 "decision will be guided by the two goals of preserving the free\n"
 "status of all derivatives of our free software and of promoting\n"
-"the sharing and reuse of software generally.";
+"the sharing and reuse of software generally.\n";
 
 
 const char warranty_text[] =
@@ -337,7 +337,7 @@ const char warranty_text[] =
 "LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE\n"
 "OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS),\n"
 "EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF\n"
-"THE POSSIBILITY OF SUCH DAMAGES.  ";
+"THE POSSIBILITY OF SUCH DAMAGES.\n";
 
 const char contrib_text[] =
 "VICE derives from X64, the first Commodore 64 emulator for the X\n"
@@ -516,7 +516,7 @@ const char contrib_text[] =
 "Last but not least, a very special thank to Andreas Arens, Lutz\n"
 "Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha\n"
 "Peternel and Per H^akan Sundell for writing cool emulators to\n"
-"compete with.  :-)";
+"compete with.  :-)\n";
 
 /*
 Local Variables:
