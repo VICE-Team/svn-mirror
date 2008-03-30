@@ -33,16 +33,13 @@
 
 typedef int (*alarm_callback_t) (CLOCK offset);
 
-typedef struct _alarm alarm_t;
-typedef struct _alarm_context alarm_context_t;
-
 /* An alarm.  */
-struct _alarm {
+struct alarm_s {
     /* Descriptive name of the alarm.  */
     char *name;
 
     /* Alarm context this alarm is in.  */
-    alarm_context_t *context;
+    struct alarm_context_s *context;
 
     /* Callback to be called when the alarm is dispatched.  */
     alarm_callback_t callback;
@@ -52,22 +49,22 @@ struct _alarm {
     int pending_idx;
 
     /* Link to the next and previous alarms in the list.  */
-    struct _alarm *next, *prev;
+    struct alarm_s *next, *prev;
 };
 
 /* An alarm context.  */
-struct _alarm_context {
+struct alarm_context_s {
     /* Descriptive name of the alarm context.  */
     char *name;
 
     /* Alarm list.  */
-    alarm_t *alarms;
+    struct alarm_s *alarms;
 
     /* Pending alarm array.  Statically allocated because it's slightly
        faster this way.  */
     struct {
         /* The alarm.  */
-        alarm_t *alarm;
+        struct alarm_s *alarm;
 
         /* Clock tick at which this alarm should be activated.  */
         CLOCK clk;
@@ -80,6 +77,9 @@ struct _alarm_context {
     /* Pending alarm number.  */
     int next_pending_alarm_idx;
 };
+
+typedef struct alarm_s alarm_t;
+typedef struct alarm_context_s alarm_context_t;
 
 /* ------------------------------------------------------------------------ */
 
