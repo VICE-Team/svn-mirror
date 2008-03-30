@@ -41,7 +41,6 @@ struct video_canvas_s {
     video_render_config_t videoconfig;
     canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
-    DWORD physical_colors[256];
 	
 	/* Pointer to the canvas' ViceWindow */
 #ifdef EXACT_TYPE_NEEDED
@@ -60,11 +59,10 @@ typedef struct video_frame_buffer_s {
     PIXEL   *buffer;
     int     width;
     int     height;
-    int     real_width;
 } video_frame_buffer_t;
 
-#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->real_width
-#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer+(n)*(f)->real_width)
+#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->width
+#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer+(n)*(f)->width)
 #define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
 
 /* ------------------------------------------------------------------------- */

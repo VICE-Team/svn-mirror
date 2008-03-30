@@ -31,6 +31,7 @@
 #include <windows.h>
 #include <ddraw.h>
 #include <mmsystem.h>
+#include <prsht.h>
 #include "res.h"
 #include "ui.h"
 #include "winmain.h"

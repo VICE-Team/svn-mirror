@@ -31,36 +31,26 @@
 #include <pc.h>			/* inportb(), outportb() */
 #include <allegro.h>
 
-typedef struct video_frame_buffer_s /* a bitmap structure */
-{
-   int w, h;                     /* width and height in pixels */
-   int clip;                     /* flag if clipping is turned on */
-   int cl, cr, ct, cb;           /* clip left, right, top and bottom values */
-   GFX_VTABLE *vtable;           /* drawing functions */
-   void (*write_bank)();         /* write bank selector, see bank.s */
-   void (*read_bank)();          /* read bank selector, see bank.s */
-   void *dat;                    /* the memory we allocated for the bitmap */
-   int bitmap_id;                /* for identifying sub-bitmaps */
-   void *extra;                  /* points to a structure with more info */
-#if (ALLEGRO_SUB_VERSION > 0)
-   int x_ofs;                    /* horizontal offset (for sub-bitmaps) */
-   int y_ofs;                    /* vertical offset (for sub-bitmaps) */
-#else
-   int line_ofs;                 /* line offset (for screen sub-bitmaps) */
-#endif
-   int seg;                      /* bitmap segment */
-   unsigned char *line[0];       /* pointers to the start of each line */
-} video_frame_buffer_t;
-
+#include "palette.h"
 #include "types.h"
 #include "statusbar.h"
+#include "video.h"
 
 #define NUM_AVAILABLE_COLORS	0x100
+
+typedef struct video_frame_buffer_s /* a bitmap structure */
+{
+    PIXEL   *buffer;
+    int     width;
+    int     height;
+} video_frame_buffer_t;
+
 
 typedef void (*canvas_redraw_t)();
 
 struct video_canvas_s {
-    unsigned int width, height;
+    unsigned int width, height, depth, bytes_per_line;
+    video_render_config_t videoconfig;
     RGB colors[NUM_AVAILABLE_COLORS];
     canvas_redraw_t exposure_handler;
 
@@ -72,8 +62,14 @@ struct video_canvas_s {
        buffer).  */
     BITMAP *pages[2];
 
+    /* Bitmap for the video renderer */
+    BITMAP *render_bitmap;
+
     /* Currently invisible page.  */
     int back_page;
+
+    /* remember palette for change of color depth */
+    palette_t *palette;
 };
 typedef struct video_canvas_s video_canvas_t;
 
@@ -81,10 +77,9 @@ typedef struct video_canvas_s video_canvas_t;
 
 /* ------------------------------------------------------------------------- */
 
-#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     ((f)->w)
-#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->line[(n)])
+#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->width
+#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer+(n)*(f)->width)
 #define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
-
 /* ------------------------------------------------------------------------- */
 
 struct _color_def {
@@ -98,7 +93,7 @@ typedef struct _color_def color_def_t;
 /* ------------------------------------------------------------------------- */
 
 struct _vga_mode {
-    int width, height;
+    int width, height, depth;
     char *description;
 };
 typedef struct _vga_mode vga_mode_t;
@@ -106,15 +101,25 @@ typedef struct _vga_mode vga_mode_t;
 extern vga_mode_t vga_modes[];
 
 enum vga_mode_id {
-    VGA_320x200,
-    VGA_360x240,
-    VGA_360x270,
-    VGA_376x282,
-    VGA_400x300,
-    VGA_640x480
+    VGA_320x200x8,
+    VGA_360x240x8,
+    VGA_360x270x8,
+    VGA_376x282x8,
+    VGA_400x300x8,
+    VGA_640x480x8,
+    VGA_800x600x8,
+    VGA_1024x768x8,
+    VGA_320x200x16,
+    VGA_400x300x16,
+    VGA_640x480x16,
+    VGA_800x600x16,
+    VGA_1024x768x16,
+    VGA_640x480x32,
+    VGA_800x600x32,
+    VGA_1024x768x32
 };
 
-#define NUM_VGA_MODES ((int)VGA_640x480 + 1)
+#define NUM_VGA_MODES ((int)VGA_1024x768x32 + 1)
 
 /* ------------------------------------------------------------------------- */
 
@@ -124,60 +129,6 @@ extern void disable_text(void);
 extern void video_ack_vga_mode(void);
 extern int video_in_gfx_mode(void);
 
-/* ------------------------------------------------------------------------- */
-
-inline static void video_canvas_refresh(video_canvas_t *c,
-                                        video_frame_buffer_t *f,
-                                        unsigned int xs, unsigned int ys,
-                                        unsigned int xi, unsigned int yi,
-                                        unsigned int w, unsigned int h)
-{
-    int y_diff;
-
-    /* Just to be sure...  */
-    if (screen == NULL)
-        return;
-
-    /* don't overwrite statusbar */
-    if (statusbar_enabled() && (yi < STATUSBAR_HEIGHT)) {
-        y_diff = STATUSBAR_HEIGHT - yi;
-        ys += y_diff;
-        yi += y_diff;
-        h -= y_diff;
-    }
-    if (statusbar_enabled() && (c->use_triple_buffering)
-        && (yi >= c->height) && (yi < c->height + STATUSBAR_HEIGHT)) {
-        y_diff = STATUSBAR_HEIGHT + c->height - yi;
-        ys += y_diff;
-        yi += y_diff;
-        h -= y_diff;
-    }
-
-    if (c->use_triple_buffering) {
-#if 0
-        /* (This should be theoretically correct, but in practice it makes us
-           loose time, and sometimes click.  So it's better to just discard
-           the frame if this happens, as we do in the #else case.  */
-        while (poll_modex_scroll())
-            /* Make sure we have finished flipping the previous frame.  */ ;
-#else
-        if (poll_modex_scroll())
-            return;
-#endif
-        blit((BITMAP *)f, c->pages[c->back_page], xs, ys, xi, yi, w, h);
-        request_modex_scroll(0, c->back_page * c->height);
-        c->back_page = 1 - c->back_page;
-    } else {
-        blit((BITMAP *)f, screen, xs, ys, xi, yi, w, h);
-    }
-}
-
-inline static void canvas_set_border_color(video_canvas_t *canvas, BYTE color)
-{
-    inportb(0x3da);
-    outportb(0x3c0, 0x31);
-    outportb(0x3c0, color);
-}
 
 #endif
 

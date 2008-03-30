@@ -1,3 +1,72 @@
+2001-12-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.51.
+
+	* utils.c, utils.h (util_file_load): Fill up memory with
+	mirrors if the file is short and `UTIL_FILE_LOAD_FILL' is
+	defined.
+
+	* c64/cart/retroreplay.c, c128/functionrom.c: Use new file
+	load feature instead of doing mirroring by hand.
+
+	* plus4/ted-mem.c (read_ted1e): New function.
+
+	* plus4/plus4mem.c (mem_config_ram_set, mem_config_rom_set,
+	extromlo1_read, extromlo2_read, extromlo3_read,
+	extromhi1_read, extromhi2_read, extromhi3_read):
+	New functions.  Increased number of configs to 32.
+
+	* plus4/plus4memlimit.c: Added new memory configs.
+
+	* plus4/ted.c (ted_set_geometry): Extra border is not needed
+	anymore.
+
+	* plus4/ted-draw.c (_draw_hires_bitmap, _draw_hires_bitmap_2x,
+	get_mc_text, get_mc_bitmap, _draw_mc_bitmap,
+	_draw_mc_bitmap_2x, draw_mc_bitmap_foreground,
+	draw_mc_bitmap_foreground_2x, get_ext_text): Fixed video
+	modes.
+
+2001-12-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/video.c, videoarch.h: Removed obsolete stuff.
+
+	* arch/msdos/c128ui.c, c64ui.c, vic20ui.c: Added menuitem for
+	Fast PAL emulation.
+
+	* arch/msdos/menudefs.c: Small change in the VGA submenu.
+
+	* arch/msdos/statusbar.{c|h}: Added struct for the colors in
+	the statusbar and functions statusbar_register_colors and
+	statusbar_get_color.
+
+	* arch/msdos/ui.c: Removed every use of STATUSBAR_COLOR_* with
+	the a call of statusbar_get_color.
+
+	* arch/msdos/videoarch.h: Changed video_frame_buffer to a
+	simple PIXEL array. Added videorender BITMAP, depth and
+	videoconfig to video_canvas. Moved video_canvas_refresh to
+	video.c. Include video.h and palette.h.
+
+	* arch/msdos/video.c: Added more VGA modes with variable color
+	depth. Added an array canvaslist[] for correct handling of
+	multi-canvas machines. video_frame_buffer_alloc and .._free
+	handle the new frame_buffer type.
+	New functions canvas_free_bitmaps, canvas_update_colors.
+	(video_canvas_create) falls back to standard VGA if selected
+	mode fails. Implemented video_canvas_destroy.
+	New function canvas_change_palette. Removed statusbar color
+	stuff from video_canvas_set_palette. disable_text handles
+	every registered canvas to make changes in the VGA mode
+	visible.
+	(video_canvas_refresh) updates colors and clears screen if
+	active canvas has changed; uses video_render_main before
+	blitting to screen.
+
+	* arch/win32/fullscreen.c: Include <prsht.h>.
+
+	* vice.h: Define VIDEO_REMOVE_2X for MSDOS.
+
 2001-12-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.50.

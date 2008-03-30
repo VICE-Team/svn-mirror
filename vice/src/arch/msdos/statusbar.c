@@ -51,6 +51,52 @@ int vga_width = 0;
 /* for auto mode */
 int statusbar_possible = 0;
 
+/* colors for the statusbar */
+struct statusbar_color_s statusbar_color[] =
+{
+    { {00, 00, 00}, 0 }, /* STATUSBAR_COLOR_BLACK    */
+    { {55, 55, 55}, 0 }, /* STATUSBAR_COLOR_WHITE    */
+    { {31, 31, 31}, 0 }, /* STATUSBAR_COLOR_GREY     */
+    { {15, 15, 15}, 0 }, /* STATUSBAR_COLOR_DARKGREY */
+    { {10, 10, 50}, 0 }, /* STATUSBAR_COLOR_BLUE     */
+    { {63, 63, 00}, 0 }, /* STATUSBAR_COLOR_YELLOW   */
+    { {63, 00, 00}, 0 }, /* STATUSBAR_COLOR_RED      */
+    { {00, 63, 00}, 0 }, /* STATUSBAR_COLOR_GREEN    */
+    { {00, 00, 00},-1 }
+};
+
+
+void statusbar_register_colors(int next_avail, RGB *colors)
+{
+    int i;
+
+    for (i=0; statusbar_color[i].index >= 0; i++)
+    {
+        if (next_avail < NUM_AVAILABLE_COLORS)
+        {
+            /* there is an entry available in the palette */
+            colors[next_avail] = statusbar_color[i].rgb_color;
+            set_color(next_avail, &colors[next_avail]);
+            statusbar_color[i].index = next_avail;
+            next_avail++;
+        } else {
+            /* the palette is full; use the nearest one */
+            statusbar_color[i].index = makecol8(
+                statusbar_color[i].rgb_color.r,
+                statusbar_color[i].rgb_color.g,
+                statusbar_color[i].rgb_color.b);
+
+        }
+
+    }
+}
+
+
+int statusbar_get_color(int num)
+{
+    return statusbar_color[num].index;
+}
+
 
 int statusbar_enabled(void) {
     int val;
@@ -72,7 +118,7 @@ int statusbar_init(void)
         clear(behind_status_bitmap);
         clear(status_bitmap);
         rect(status_bitmap,0,0,STATUSBAR_WIDTH-1,
-            STATUSBAR_HEIGHT-1,STATUSBAR_COLOR_WHITE);
+            STATUSBAR_HEIGHT-1,statusbar_get_color(STATUSBAR_COLOR_WHITE));
     }
     return 0;
 

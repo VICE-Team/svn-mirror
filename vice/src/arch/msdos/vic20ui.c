@@ -72,12 +72,18 @@ static TUI_MENU_CALLBACK(toggle_VideoStandard_callback)
 }
 
 TUI_MENU_DEFINE_TOGGLE(VideoCache)
+TUI_MENU_DEFINE_TOGGLE(DelayLoopEmulation)
 
 static tui_menu_item_def_t vic_menu_items[] = {
     { "Video _Cache:",
       "Enable screen cache (disabled when using triple buffering)",
       toggle_VideoCache_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Fast _PAL Emulation:",
+      "Enable fast PAL emulation",
+      toggle_DelayLoopEmulation_callback, NULL, 3,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "--" },
     { "V_ideo Standard:",
       "Select machine clock ratio",
       toggle_VideoStandard_callback, NULL, 11,

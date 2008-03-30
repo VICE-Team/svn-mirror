@@ -39,8 +39,14 @@
     drive 2:        250 - 310
 */
 
+struct statusbar_color_s
+{
+    RGB rgb_color;
+    int index;
+};
+
 enum {
-    STATUSBAR_COLOR_BLACK  = 230, /* this should be free */
+    STATUSBAR_COLOR_BLACK = 0, 
     STATUSBAR_COLOR_WHITE,
     STATUSBAR_COLOR_GREY,
     STATUSBAR_COLOR_DARKGREY,
@@ -68,5 +74,7 @@ extern void statusbar_append_bitmap_to_update(BITMAP *b);
 extern void statusbar_set_width(int w);
 extern void statusbar_set_height(int h);
 extern void statusbar_prepare(void);
+extern void statusbar_register_colors(int next_avail, RGB *colors);
+extern int statusbar_get_color(int num);
 
 #endif

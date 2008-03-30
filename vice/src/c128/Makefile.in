@@ -345,9 +345,9 @@ c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	z80.h z80mem.h
 daa.o: daa.c ../../src/arch/unix/types.h ../../src/vice.h \
 	../../src/config.h
-functionrom.o: functionrom.c ../../src/arch/unix/archdep.h \
-	../../src/archapi.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/utils.h ../../src/vice.h ../../src/config.h \
+functionrom.o: functionrom.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/utils.h \
 	../../src/arch/unix/types.h
 z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h daa.h ../../src/interrupt.h \

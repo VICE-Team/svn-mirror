@@ -82,7 +82,7 @@
 /* ------------------------------------------------------------------------- */
 
 /* Do we need 2x video support?  */
-#if defined(__riscos) || defined(__MSDOS__) || (VIDEO_DISPLAY_DEPTH != 0)
+#if defined(__riscos) || (VIDEO_DISPLAY_DEPTH != 0)
 /* Use chip specific 2x code.  */
 #else
 #define VIDEO_REMOVE_2X 1

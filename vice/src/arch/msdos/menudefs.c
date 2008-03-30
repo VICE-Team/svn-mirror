@@ -1345,7 +1345,7 @@ automagically",
         char *s1, *s2;
 
         /* FIXME: hotkeys work only for less than 11 elements. */
-        s1 = xmsprintf("Mode _%d: %s", i, vga_modes[i].description);
+        s1 = xmsprintf("Mode %s%d: %s",(i<10?" _":""), i, vga_modes[i].description);
         s2 = xmsprintf("Set VGA resolution to %s", vga_modes[i].description);
         tui_menu_add_item(vga_mode_submenu, s1, s2,
                           radio_VGAMode_callback, (void *)i, 0,
@@ -1359,7 +1359,7 @@ automagically",
     tui_menu_add_submenu(ui_video_submenu,"_VGA Resolution:",
                          "Choose screen resolution for video emulation",
                          vga_mode_submenu,
-                         resolution_submenu_callback, NULL, 8);
+                         resolution_submenu_callback, NULL, 15);
 
     tui_menu_add_submenu(ui_video_submenu, "_Refresh Rate:",
                          "Choose frequency of screen refresh",

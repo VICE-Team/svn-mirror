@@ -48,6 +48,7 @@
 TUI_MENU_DEFINE_TOGGLE(VideoCache)
 TUI_MENU_DEFINE_TOGGLE(CheckSsColl)
 TUI_MENU_DEFINE_TOGGLE(CheckSbColl)
+TUI_MENU_DEFINE_TOGGLE(DelayLoopEmulation)
 
 static TUI_MENU_CALLBACK(toggle_VideoStandard_callback)
 {
@@ -79,6 +80,10 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
       "Enable screen cache (disabled when using triple buffering)",
       toggle_VideoCache_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Fast _PAL Emulation:",
+      "Enable fast PAL emulation",
+      toggle_DelayLoopEmulation_callback, NULL, 3,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
     { "--" },
     { "Sprite-_Background Collisions:",
       "Emulate sprite-background collision register",

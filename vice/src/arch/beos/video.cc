@@ -96,7 +96,6 @@ int video_frame_buffer_alloc(video_frame_buffer_t **f,
 	*f = (video_frame_buffer_t *) xmalloc(sizeof(video_frame_buffer_t));
 	(*f)->width = width;
 	(*f)->height = height;
-	(*f)->real_width = width;
 	(*f)->buffer = (PIXEL*) xmalloc(width*height);
 	DEBUG(("video_frame_buffer_alloc: %dx%d at %x",width,height,(*f)->buffer)); 
 	  	
