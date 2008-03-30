@@ -66,6 +66,7 @@
 #include "interrupt.h"
 #include "mem.h"
 #include "mon.h"
+#include "mon_disassemble.h"
 #include "mon_parse.h"
 #include "mos6510.h"
 #include "resources.h"
@@ -80,7 +81,7 @@
 /* May be called different things on various platforms... */
 typedef void (*signal_handler_t)(int);
 
-static int stop_output;
+int mon_stop_output;
 
 /* Defines */
 
@@ -157,12 +158,12 @@ static bool force_array[NUM_MEMSPACES];
 static symbol_table_t monitor_labels[NUM_MEMSPACES];
 static monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 
-static MON_ADDR dot_addr[NUM_MEMSPACES];
+MON_ADDR dot_addr[NUM_MEMSPACES];
 static int breakpoint_count;
 static unsigned char data_buf[256];
 static unsigned int data_buf_len;
 bool asm_mode;
-static MON_ADDR asm_mode_addr;
+MON_ADDR asm_mode_addr;
 static unsigned int next_or_step_stop;
 unsigned mon_mask[NUM_MEMSPACES];
 
@@ -179,7 +180,7 @@ static void playback_commands(char *filename);
 /* Disassemble the current opcode on entry.  Used for single step.  */
 static int disassemble_on_entry = 0;
 
-static monitor_cpu_type_t monitor_cpu_type;
+monitor_cpu_type_t monitor_cpu_type;
 
 struct monitor_cpu_type_list_s {
     monitor_cpu_type_t monitor_cpu_type;
@@ -516,7 +517,7 @@ static int radix_chars_per_byte[] = { 2, /* default = hex */
                                       };
 
 
-static const char *memspace_string[] = {"default", "C", "8", "9" };
+const char *mon_memspace_string[] = {"default", "C", "8", "9" };
 
 static const char *register_string[] = { "A",
                                          "X",
@@ -529,125 +530,127 @@ static const char *register_string[] = { "A",
 /* *** ADDRESS FUNCTIONS *** */
 
 
-static void set_addr_memspace(MON_ADDR *a, MEMSPACE m) { *a = LO16(*a) | LO16_TO_HI16(m); }
-static void set_addr_location(MON_ADDR *a, unsigned l) { *a = HI16(*a) | LO16(l); }
-static bool is_valid_addr(MON_ADDR a) { return HI16_TO_LO16(a) != e_invalid_space; }
+static void set_addr_memspace(MON_ADDR *a, MEMSPACE m)
+                              { *a = LO16(*a) | LO16_TO_HI16(m); }
+static void set_addr_location(MON_ADDR *a, unsigned l)
+                              { *a = HI16(*a) | LO16(l); }
+static bool is_valid_addr(MON_ADDR a)
+                              { return HI16_TO_LO16(a) != e_invalid_space; }
 
-static bool inc_addr_location(MON_ADDR *a, unsigned inc)
+bool mon_inc_addr_location(MON_ADDR *a, unsigned inc)
 {
-   unsigned new_loc = LO16(*a) + inc;
-   *a = HI16(*a) | LO16(new_loc);
+    unsigned new_loc = LO16(*a) + inc;
+    *a = HI16(*a) | LO16(new_loc);
 
-   return !(new_loc == LO16(new_loc));
+    return !(new_loc == LO16(new_loc));
 }
 
-static void evaluate_default_addr(MON_ADDR *a)
+void mon_evaluate_default_addr(MON_ADDR *a)
 {
-   if (addr_memspace(*a) == e_default_space)
-      set_addr_memspace(a,default_memspace);
+    if (addr_memspace(*a) == e_default_space)
+        set_addr_memspace(a,default_memspace);
 }
 
 static bool is_in_range(MON_ADDR start_addr, MON_ADDR end_addr, unsigned loc)
 {
-   unsigned start, end;
+    unsigned start, end;
 
-   start = addr_location(start_addr);
+    start = addr_location(start_addr);
 
-   if (!is_valid_addr(end_addr))
-      return (loc == start);
+    if (!is_valid_addr(end_addr))
+        return (loc == start);
 
-   end = addr_location(end_addr);
+    end = addr_location(end_addr);
 
-   if (end < start)
-      return ((loc>=start) || (loc<=end));
+    if (end < start)
+        return ((loc >= start) || (loc <= end));
 
-   return ((loc>=start) && (loc<=end));
+    return ((loc >= start) && (loc<=end));
 }
 
 static bool is_valid_addr_range(MON_ADDR start_addr, MON_ADDR end_addr)
 {
-   if (addr_memspace(start_addr) == e_invalid_space)
-      return FALSE;
+    if (addr_memspace(start_addr) == e_invalid_space)
+        return FALSE;
 
-   if ((addr_memspace(start_addr) != addr_memspace(end_addr)) &&
-       ((addr_memspace(start_addr) != e_default_space) ||
-        (addr_memspace(end_addr) != e_default_space))) {
-      return FALSE;
-   }
-   return TRUE;
+    if ((addr_memspace(start_addr) != addr_memspace(end_addr)) &&
+         ((addr_memspace(start_addr) != e_default_space) ||
+         (addr_memspace(end_addr) != e_default_space))) {
+        return FALSE;
+    }
+    return TRUE;
 }
 
 static unsigned get_range_len(MON_ADDR addr1, MON_ADDR addr2)
 {
-   ADDRESS start, end;
-   unsigned len = 0;
+    ADDRESS start, end;
+    unsigned len = 0;
 
-   start = addr_location(addr1);
-   end  = addr_location(addr2);
+    start = addr_location(addr1);
+    end  = addr_location(addr2);
 
-   if (start <= end) {
-      len = end - start + 1;
-   } else {
-      len = (0xffff - start) + end + 1;
-   }
+    if (start <= end) {
+       len = end - start + 1;
+    } else {
+       len = (0xffff - start) + end + 1;
+    }
 
-   return len;
+    return len;
 }
 
-static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, bool must_be_range,
-                                   WORD default_len)
+long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
+                                bool must_be_range, WORD default_len)
 {
-   long len = default_len;
+    long len = default_len;
 
-   /* Check if we DEFINITELY need a range. */
-   if (!is_valid_addr_range(*start_addr, *end_addr) && must_be_range)
-      return -1;
+    /* Check if we DEFINITELY need a range. */
+    if (!is_valid_addr_range(*start_addr, *end_addr) && must_be_range)
+        return -1;
 
-   if (is_valid_addr_range(*start_addr, *end_addr)) {
-      MEMSPACE mem1, mem2;
-      /* Resolve any default memory spaces. We wait until now because we
-       * need both addresses - if only 1 is a default, use the other to
-       * resolve the memory space.
-       */
-      mem1 = addr_memspace(*start_addr);
-      mem2 = addr_memspace(*end_addr);
+    if (is_valid_addr_range(*start_addr, *end_addr)) {
+        MEMSPACE mem1, mem2;
+        /* Resolve any default memory spaces. We wait until now because we
+         * need both addresses - if only 1 is a default, use the other to
+         * resolve the memory space.
+         */
+        mem1 = addr_memspace(*start_addr);
+        mem2 = addr_memspace(*end_addr);
 
-      if (mem1 == e_default_space) {
-         if (mem2 == e_default_space) {
-            set_addr_memspace(start_addr,default_memspace);
-            set_addr_memspace(end_addr,default_memspace);
-         } else if (mem2 != e_invalid_space) {
-            set_addr_memspace(start_addr,mem2);
-         } else {
-            set_addr_memspace(start_addr,default_memspace);
-         }
-      } else {
-         if (mem2 == e_default_space) {
-            set_addr_memspace(end_addr,mem1);
-         } else if (mem2 != e_invalid_space) {
-            assert(mem1 == mem2);
-         } else
-            assert(FALSE);
-      }
+        if (mem1 == e_default_space) {
+            if (mem2 == e_default_space) {
+                set_addr_memspace(start_addr, default_memspace);
+                set_addr_memspace(end_addr, default_memspace);
+            } else if (mem2 != e_invalid_space) {
+                set_addr_memspace(start_addr, mem2);
+            } else {
+                set_addr_memspace(start_addr, default_memspace);
+            }
+        } else {
+            if (mem2 == e_default_space) {
+                set_addr_memspace(end_addr, mem1);
+            } else if (mem2 != e_invalid_space) {
+                assert(mem1 == mem2);
+            } else
+                assert(FALSE);
+        }
 
-      len = get_range_len(*start_addr, *end_addr);
-   } else {
-      if (!is_valid_addr(*start_addr))
-        *start_addr = dot_addr[(int) default_memspace];
-      else 
-        evaluate_default_addr(start_addr);
-
-      if (!is_valid_addr(*end_addr)) {
-        *end_addr = *start_addr;
-        inc_addr_location(end_addr, len);
-      }
-      else {
-        set_addr_memspace(end_addr,addr_memspace(*start_addr));
         len = get_range_len(*start_addr, *end_addr);
-      }
-   }
+    } else {
+        if (!is_valid_addr(*start_addr))
+            *start_addr = dot_addr[(int)default_memspace];
+        else 
+            mon_evaluate_default_addr(start_addr);
 
-   return len;
+        if (!is_valid_addr(*end_addr)) {
+            *end_addr = *start_addr;
+            mon_inc_addr_location(end_addr, len);
+        } else {
+            set_addr_memspace(end_addr,addr_memspace(*start_addr));
+            len = get_range_len(*start_addr, *end_addr);
+        }
+    }
+
+    return len;
 }
 
 
@@ -657,13 +660,11 @@ static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, boo
 static bool check_drive_emu_level_ok(int drive_num)
 {
     if (drive_num == 8 && mon_interfaces[e_disk8_space] == NULL) {
-        uimon_out(
-                    "True drive emulation not supported for this machine.\n");
+        uimon_out("True drive emulation not supported for this machine.\n");
         return FALSE;
     }
     if (drive_num == 9 && mon_interfaces[e_disk8_space] == NULL) {
-        uimon_out(
-                    "True drive emulation not supported for this machine.\n");
+        uimon_out("True drive emulation not supported for this machine.\n");
         return FALSE;
     }
 
@@ -674,7 +675,7 @@ static bool check_drive_emu_level_ok(int drive_num)
 */
 #if 0
     else if (!app_resources.true1541) {
-        uimon_out( "True drive emulation is not turned on.\n");
+        uimon_out("True drive emulation is not turned on.\n");
         return FALSE;
     }
 #endif
@@ -722,22 +723,22 @@ void mon_bank(MEMSPACE mem, char *bankname)
        mem = default_memspace;
 
     if(!mon_interfaces[mem]->mem_bank_list) {
-	uimon_out( "Banks not available in this memspace\n");
+	uimon_out("Banks not available in this memspace\n");
 	return;
     }
 
     if(bankname==NULL) {
 	const char **bnp = mon_interfaces[mem]->mem_bank_list();
-	uimon_out( "Available banks (some may be equivalent to others):\n");
+	uimon_out("Available banks (some may be equivalent to others):\n");
 	while(*bnp) {
-	    uimon_out( "%s\t",*bnp);
+	    uimon_out("%s\t",*bnp);
 	    bnp++;
 	}
-	uimon_out( "\n");
+	uimon_out("\n");
     } else {
 	int newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
 	if(newbank < 0) {
-	    uimon_out( "Unknown bank name `%s'\n", bankname);
+	    uimon_out("Unknown bank name `%s'\n", bankname);
 	    return;
 	}
 	mon_interfaces[mem]->current_bank = newbank;
@@ -746,38 +747,38 @@ void mon_bank(MEMSPACE mem, char *bankname)
 
 unsigned char mon_get_mem_val_ex(MEMSPACE mem, int bank, unsigned mem_addr)
 {
-   if (mem == e_disk8_space) {
-       if (!check_drive_emu_level_ok(8))
-           return 0;
-   }
-   if (mem == e_disk9_space) {
-       if (!check_drive_emu_level_ok(9))
-           return 0;
-   }
+    if (mem == e_disk8_space) {
+        if (!check_drive_emu_level_ok(8))
+            return 0;
+    }
+    if (mem == e_disk9_space) {
+        if (!check_drive_emu_level_ok(9))
+            return 0;
+    }
 
-   return mon_interfaces[mem]->mem_bank_read(bank, mem_addr);
+    return mon_interfaces[mem]->mem_bank_read(bank, mem_addr);
 }
 
 unsigned char mon_get_mem_val(MEMSPACE mem, unsigned mem_addr)
 {
-   return mon_get_mem_val_ex( mem, mon_interfaces[mem]->current_bank, mem_addr );
+    return mon_get_mem_val_ex(mem, mon_interfaces[mem]->current_bank, mem_addr);
 }
 
-static void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
+void mon_set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
 {
-   int bank = mon_interfaces[mem]->current_bank;
+    int bank = mon_interfaces[mem]->current_bank;
 
-   if (mem == e_comp_space) {
-   } else if (mem == e_disk8_space) {
-       if (!check_drive_emu_level_ok(8))
-           return;
-   } else if (mem == e_disk9_space) {
-       if (!check_drive_emu_level_ok(9))
-           return;
-   } else
-       assert(FALSE);
+    if (mem == e_comp_space) {
+    } else if (mem == e_disk8_space) {
+        if (!check_drive_emu_level_ok(8))
+            return;
+    } else if (mem == e_disk9_space) {
+        if (!check_drive_emu_level_ok(9))
+            return;
+    } else
+        assert(FALSE);
 
-   mon_interfaces[mem]->mem_bank_write(bank,mem_addr, val);
+    mon_interfaces[mem]->mem_bank_write(bank,mem_addr, val);
 }
 
 unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id)
@@ -873,30 +874,29 @@ void mon_print_registers(MEMSPACE mem)
         assert(FALSE);
 
     regs = mon_interfaces[mem]->cpu_regs;
-    uimon_out( "  ADDR AC XR YR SP 01 NV-BDIZC\n");
-    uimon_out(
-                ".;%04x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
-                mon_get_reg_val(mem, e_PC),
-                mon_get_reg_val(mem, e_A),
-                mon_get_reg_val(mem, e_X),
-                mon_get_reg_val(mem, e_Y),
-                mon_get_reg_val(mem, e_SP),
-                mon_get_mem_val(mem, 1),
-                TEST(MOS6510_REGS_GET_SIGN(regs)),
-                TEST(MOS6510_REGS_GET_OVERFLOW(regs)),
-                '1',
-                TEST(MOS6510_REGS_GET_BREAK(regs)),
-                TEST(MOS6510_REGS_GET_DECIMAL(regs)),
-                TEST(MOS6510_REGS_GET_INTERRUPT(regs)),
-                TEST(MOS6510_REGS_GET_ZERO(regs)),
-                TEST(MOS6510_REGS_GET_CARRY(regs)));
+    uimon_out("  ADDR AC XR YR SP 01 NV-BDIZC\n");
+    uimon_out(".;%04x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
+              mon_get_reg_val(mem, e_PC),
+              mon_get_reg_val(mem, e_A),
+              mon_get_reg_val(mem, e_X),
+              mon_get_reg_val(mem, e_Y),
+              mon_get_reg_val(mem, e_SP),
+              mon_get_mem_val(mem, 1),
+              TEST(MOS6510_REGS_GET_SIGN(regs)),
+              TEST(MOS6510_REGS_GET_OVERFLOW(regs)),
+              '1',
+              TEST(MOS6510_REGS_GET_BREAK(regs)),
+              TEST(MOS6510_REGS_GET_DECIMAL(regs)),
+              TEST(MOS6510_REGS_GET_INTERRUPT(regs)),
+              TEST(MOS6510_REGS_GET_ZERO(regs)),
+              TEST(MOS6510_REGS_GET_CARRY(regs)));
 }
 
 void mon_jump(MON_ADDR addr)
 {
-   evaluate_default_addr(&addr);
-   mon_set_reg_val(addr_memspace(addr), e_PC, addr_location(addr));
-   exit_mon = 1;
+    mon_evaluate_default_addr(&addr);
+    mon_set_reg_val(addr_memspace(addr), e_PC, addr_location(addr));
+    exit_mon = 1;
 }
 
 
@@ -904,81 +904,82 @@ void mon_jump(MON_ADDR addr)
 
 static void print_bin(int val, char on, char off)
 {
-   int divisor;
-   char digit;
+    int divisor;
+    char digit;
 
-   if (val > 0xfff)
-      divisor = 0x8000;
-   else if (val > 0xff)
-      divisor = 0x800;
-   else
-      divisor = 0x80;
+    if (val > 0xfff)
+        divisor = 0x8000;
+    else if (val > 0xff)
+        divisor = 0x800;
+    else
+        divisor = 0x80;
 
-   while (divisor) {
-      digit = (val & divisor) ? on : off;
-      uimon_out( "%c",digit);
-      if (divisor == 0x100)
-         uimon_out( " ");
-      divisor /= 2;
-   }
+    while (divisor) {
+        digit = (val & divisor) ? on : off;
+        uimon_out("%c",digit);
+        if (divisor == 0x100)
+            uimon_out(" ");
+        divisor /= 2;
+    }
 }
 
 static void print_hex(int val)
 {
-    uimon_out(val>0xff ? "$%04x\n" : "$%02x\n", val);
+    uimon_out(val > 0xff ? "$%04x\n" : "$%02x\n", val);
 }
 
 static void print_octal(int val)
 {
-    uimon_out(val>0777 ? "0%06o\n" : "0%03o\n", val);
+    uimon_out(val > 0777 ? "0%06o\n" : "0%03o\n", val);
 }
 
 
 void mon_print_convert(int val)
 {
-   uimon_out( "+%d\n", val);
-   print_hex(val);
-   print_octal(val);
-   print_bin(val,'1','0');
-   uimon_out( "\n");
+    uimon_out("+%d\n", val);
+    print_hex(val);
+    print_octal(val);
+    print_bin(val,'1','0');
+    uimon_out("\n");
 }
 
 void mon_add_number_to_buffer(int number)
 {
-   data_buf[data_buf_len++] = (number & 0xff);
-   if (number > 0xff)
-      data_buf[data_buf_len++] = ( (number>>8) & 0xff);
-   data_buf[data_buf_len] = '\0';
+    data_buf[data_buf_len++] = (number & 0xff);
+    if (number > 0xff)
+        data_buf[data_buf_len++] = ( (number>>8) & 0xff);
+    data_buf[data_buf_len] = '\0';
 }
 
 void mon_add_string_to_buffer(char *str)
 {
-   strcpy((char *) &(data_buf[data_buf_len]), str);
-   data_buf_len += strlen(str);
-   data_buf[data_buf_len] = '\0';
-   free(str);
+    strcpy((char *) &(data_buf[data_buf_len]), str);
+    data_buf_len += strlen(str);
+    data_buf[data_buf_len] = '\0';
+    free(str);
 }
 
 static void clear_buffer(void)
 {
-   data_buf_len = 0;
+    data_buf_len = 0;
 }
 
-static void memory_to_string(char *buf, MEMSPACE mem, ADDRESS addr, unsigned len, bool petscii)
+static void memory_to_string(char *buf, MEMSPACE mem, ADDRESS addr,
+                             unsigned len, bool petscii)
 {
     int i, val;
 
     for (i=0;i<len;i++) {
-       val = mon_get_mem_val(mem, addr);
+        val = mon_get_mem_val(mem, addr);
 
-       if (petscii)
-          buf[i] = p_toascii(val,0);
-       if (isprint(val))
-          buf[i] = val;
-       else
-          buf[i] = '.';
+        if (petscii)
+            buf[i] = p_toascii(val,0);
+        if (isprint(val))
+            buf[i] = val;
+        else
+            buf[i] = '.';
 
-       addr++;
+        addr++;
     }
 }
 
@@ -991,543 +992,155 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
                   monitor_interface_t *drive9_interface_init,
                   monitor_cpu_type_t **asmarray)
 {
-   int i, j;
-   monitor_cpu_type_list_t *monitor_cpu_type_list_ptr;
+    int i, j;
+    monitor_cpu_type_list_t *monitor_cpu_type_list_ptr;
 
-   yydebug = 0;
-   sidefx = e_OFF;
-   default_radix = e_hexadecimal;
-   default_memspace = e_comp_space;
-   instruction_count = 0;
-   skip_jsrs = FALSE;
-   wait_for_return_level = 0;
-   breakpoint_count = 1;
-   data_buf_len = 0;
-   asm_mode = 0;
-   next_or_step_stop = 0;
-   recording = FALSE;
-   playback = FALSE;
+    yydebug = 0;
+    sidefx = e_OFF;
+    default_radix = e_hexadecimal;
+    default_memspace = e_comp_space;
+    instruction_count = 0;
+    skip_jsrs = FALSE;
+    wait_for_return_level = 0;
+    breakpoint_count = 1;
+    data_buf_len = 0;
+    asm_mode = 0;
+    next_or_step_stop = 0;
+    recording = FALSE;
+    playback = FALSE;
 
-   monitor_cpu_type_list = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
-   monitor_cpu_type_list_ptr = monitor_cpu_type_list; 
+    monitor_cpu_type_list = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
+    monitor_cpu_type_list_ptr = monitor_cpu_type_list; 
 
-   i = 0;
-   while(asmarray[i] != NULL) {
-       monitor_cpu_type_list_ptr->monitor_cpu_type.cpu_type
-           = asmarray[i]->cpu_type;
-       monitor_cpu_type_list_ptr->monitor_cpu_type.asm_addr_mode_get_size
-           = asmarray[i]->asm_addr_mode_get_size;
-       monitor_cpu_type_list_ptr->monitor_cpu_type.asm_opcode_info_get
-           = asmarray[i]->asm_opcode_info_get;
-       monitor_cpu_type_list_ptr->next_monitor_cpu_type 
-           = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
-       monitor_cpu_type_list_ptr 
-           = monitor_cpu_type_list_ptr->next_monitor_cpu_type;
-       monitor_cpu_type_list_ptr->next_monitor_cpu_type = NULL;
-       i++;
-   }
+    i = 0;
+    while(asmarray[i] != NULL) {
+        monitor_cpu_type_list_ptr->monitor_cpu_type.cpu_type
+            = asmarray[i]->cpu_type;
+        monitor_cpu_type_list_ptr->monitor_cpu_type.asm_addr_mode_get_size
+            = asmarray[i]->asm_addr_mode_get_size;
+        monitor_cpu_type_list_ptr->monitor_cpu_type.asm_opcode_info_get
+            = asmarray[i]->asm_opcode_info_get;
+        monitor_cpu_type_list_ptr->next_monitor_cpu_type 
+            = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
+        monitor_cpu_type_list_ptr 
+            = monitor_cpu_type_list_ptr->next_monitor_cpu_type;
+        monitor_cpu_type_list_ptr->next_monitor_cpu_type = NULL;
+        i++;
+    }
 
-   monitor_cpu_type.cpu_type = asmarray[0]->cpu_type;
-   monitor_cpu_type.asm_addr_mode_get_size = asmarray[0]->asm_addr_mode_get_size;
-   monitor_cpu_type.asm_opcode_info_get = asmarray[0]->asm_opcode_info_get;
+    monitor_cpu_type.cpu_type = asmarray[0]->cpu_type;
+    monitor_cpu_type.asm_addr_mode_get_size = asmarray[0]->asm_addr_mode_get_size;
+    monitor_cpu_type.asm_opcode_info_get = asmarray[0]->asm_opcode_info_get;
 
-   watch_load_occurred = FALSE;
-   watch_store_occurred = FALSE;
+    watch_load_occurred = FALSE;
+    watch_store_occurred = FALSE;
 
-   for (i=1;i<NUM_MEMSPACES;i++) {
-      dot_addr[i] = new_addr(e_default_space + i, 0);
-      watch_load_count[i] = 0;
-      watch_store_count[i] = 0;
-      mon_mask[i] = MI_NONE;
-      monitor_labels[i].name_list = NULL;
-      for (j=0;j<HASH_ARRAY_SIZE;j++)
-         monitor_labels[i].addr_hash_table[j] = NULL;
-   }
+    for (i = 1; i < NUM_MEMSPACES; i++) {
+        dot_addr[i] = new_addr(e_default_space + i, 0);
+        watch_load_count[i] = 0;
+        watch_store_count[i] = 0;
+        mon_mask[i] = MI_NONE;
+        monitor_labels[i].name_list = NULL;
+        for (j = 0; j < HASH_ARRAY_SIZE; j++)
+            monitor_labels[i].addr_hash_table[j] = NULL;
+    }
 
-   caller_space = e_comp_space;
+    caller_space = e_comp_space;
 
-   asm_mode_addr = BAD_ADDR;
+    asm_mode_addr = BAD_ADDR;
 
-   mon_interfaces[e_comp_space] = maincpu_interface_init;
-   mon_interfaces[e_disk8_space] = drive8_interface_init;
-   mon_interfaces[e_disk9_space] = drive9_interface_init;
+    mon_interfaces[e_comp_space] = maincpu_interface_init;
+    mon_interfaces[e_disk8_space] = drive8_interface_init;
+    mon_interfaces[e_disk9_space] = drive9_interface_init;
 }
 
 int mon_cmd_lookup_index(char *str, int *push_back)
 {
-   int num = 0, partial = -1;
+    int num = 0, partial = -1;
 
-   if (str == NULL)
-      return -1;
+    if (str == NULL)
+        return -1;
 
-   do {
-      if ((strcasecmp(str, mon_cmd_array[num].str) == 0) ||
-          (strcasecmp(str, mon_cmd_array[num].abbrev) == 0)) {
-         *push_back = 0;
-         return num;
-      }
-      else if (strlen(mon_cmd_array[num].abbrev) &&
-               strncasecmp(str, mon_cmd_array[num].abbrev, strlen(mon_cmd_array[num].abbrev)) == 0) {
-         *push_back = strlen(mon_cmd_array[num].abbrev);
-         partial = num;
-      }
-      num++;
-   } while(mon_cmd_array[num].token > 0);
+    do {
+        if ((strcasecmp(str, mon_cmd_array[num].str) == 0) ||
+            (strcasecmp(str, mon_cmd_array[num].abbrev) == 0)) {
+           *push_back = 0;
+           return num;
+        }
+        else if (strlen(mon_cmd_array[num].abbrev) &&
+                strncasecmp(str, mon_cmd_array[num].abbrev, strlen(mon_cmd_array[num].abbrev)) == 0) {
+           *push_back = strlen(mon_cmd_array[num].abbrev);
+           partial = num;
+        }
+        num++;
+    } while(mon_cmd_array[num].token > 0);
 
-   return partial;
+    return partial;
 }
 
 int mon_cmd_get_token(int mon_index)
 {
-   return mon_cmd_array[mon_index].token;
+    return mon_cmd_array[mon_index].token;
 }
 
 int mon_cmd_get_next_state(int mon_index)
 {
-   return mon_cmd_array[mon_index].next_state;
+    return mon_cmd_array[mon_index].next_state;
 }
 
 void mon_print_help(char *cmd)
 {
-   if (cmd == NULL) {
-       struct mon_cmds *c;
-       int column = 0;
+    if (cmd == NULL) {
+        struct mon_cmds *c;
+        int column = 0;
 
-       /* Print on two columns.  This could be a lot nicer, but I am lazy.  */
-       uimon_out( "\nAvailable commands are:\n\n");
-       for (c = mon_cmd_array; c->token != -1; c++) {
-           int tot = 0;
+        /* Print on two columns.  This could be a lot nicer, but I am lazy.  */
+        uimon_out("\nAvailable commands are:\n\n");
+        for (c = mon_cmd_array; c->token != -1; c++) {
+            int tot = 0;
 
-           tot += strlen(c->str);
-           if (tot == 0)        /* "Empty" command?  */
-               continue;
-           uimon_out( "%s", c->str);
+            tot += strlen(c->str);
+            if (tot == 0)        /* "Empty" command?  */
+                continue;
+            uimon_out("%s", c->str);
 
-           if (c->abbrev != NULL && c->abbrev[0] != '\0') {
-               uimon_out( " (%s)", c->abbrev);
-               tot += 3 + strlen(c->abbrev);
-           }
-
-           if (tot > 40 || column == 1) {
-               uimon_out( "\n");
-               column = 0;
-           } else {
-               for (; tot < 40; tot++)
-                   uimon_out( " ");
-               column = 1;
-           }
-           if (stop_output != 0) break;
-       }
-       uimon_out( "\n\n");
-   } else {
-       int push_back;
-       int cmd_num = mon_cmd_lookup_index(cmd, &push_back);
-
-       if (cmd_num == -1 || push_back)
-           uimon_out( "Command `%s' unknown.\n", cmd);
-       else if (mon_cmd_array[cmd_num].description == NULL)
-           uimon_out( "No help available for `%s'\n", cmd);
-       else {
-           struct mon_cmds *c = &mon_cmd_array[cmd_num];
-
-           uimon_out( "\nSyntax: %s %s\n",
-                       c->str,
-                       c->param_names != NULL ? c->param_names : "");
-           if (c->abbrev != NULL && c->abbrev[0] != '\0')
-               uimon_out( "Abbreviation: %s\n", c->abbrev);
-           uimon_out( "\n%s\n\n", c->description);
-       }
-   }
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Assembler.  */
-
-void mon_start_assemble_mode(MON_ADDR addr, char *asm_line)
-{
-   asm_mode = 1;
-
-   evaluate_default_addr(&addr);
-   asm_mode_addr = addr;
-}
-
-int mon_assemble_instr(char *opcode_name, unsigned operand)
-{
-   WORD operand_value = LO16(operand);
-   WORD operand_mode = HI16_TO_LO16(operand);
-   BYTE opcode = 0;
-   int i, len, branch_offset;
-   bool found = FALSE;
-   MEMSPACE mem;
-   unsigned loc;
-
-   mem = addr_memspace(asm_mode_addr);
-   loc = addr_location(asm_mode_addr);
-
-   /* FIXME (???) : It is impossible to specify absolute mode if the
-    * address < 0x100 and there is a zero page mode available.
-    */
-   for (i = 0; i <= 0xff; i++) {
-      asm_opcode_info_t *opinfo;
-
-      opinfo = (monitor_cpu_type.asm_opcode_info_get)(i, 0, 0);
-      if (!strcasecmp(opinfo->mnemonic, opcode_name)) {
-         if (opinfo->addr_mode == operand_mode) {
-            opcode = i;
-            found = TRUE;
-            break;
-         }
-
-         /* Special case: Register A not specified for ACCUMULATOR mode. */
-         if (operand_mode == ASM_ADDR_MODE_IMPLIED
-             && opinfo->addr_mode == ASM_ADDR_MODE_ACCUMULATOR) {
-            opcode = i;
-            operand_mode = ASM_ADDR_MODE_ACCUMULATOR;
-            found = TRUE;
-            break;
-         }
-
-         /* Special case: RELATIVE mode looks like ZERO_PAGE or ABSOLUTE
-            modes.  */
-         if ((operand_mode == ASM_ADDR_MODE_ZERO_PAGE
-              || operand_mode == ASM_ADDR_MODE_ABSOLUTE)
-             && opinfo->addr_mode == ASM_ADDR_MODE_RELATIVE) {
-            branch_offset = operand_value - loc - 2;
-            if (branch_offset > 127 || branch_offset < -128) {
-               uimon_out( "Branch offset too large.\n");
-               return -1;
+            if (c->abbrev != NULL && c->abbrev[0] != '\0') {
+                uimon_out(" (%s)", c->abbrev);
+                tot += 3 + strlen(c->abbrev);
             }
-            operand_value = (branch_offset & 0xff);
-            operand_mode = ASM_ADDR_MODE_RELATIVE;
-            opcode = i;
-            found = TRUE;
-            break;
-         }
 
-         /* Special case: opcode A - is A a register or $A? */
-         /*   If second case, is it zero page or absolute?  */
-         if (operand_mode == ASM_ADDR_MODE_ACCUMULATOR
-             && opinfo->addr_mode == ASM_ADDR_MODE_ZERO_PAGE) {
-            opcode = i;
-            operand_mode = ASM_ADDR_MODE_ZERO_PAGE;
-            operand_value = 0x000a;
-            found = TRUE;
-            break;
-         }
-         /* It's safe to assume ABSOULTE if ZERO_PAGE not yet found since ZERO_PAGE
-          * versions always precede ABSOLUTE versions if they exist.
-          */
-         if (operand_mode == ASM_ADDR_MODE_ACCUMULATOR
-             && opinfo->addr_mode == ASM_ADDR_MODE_ABSOLUTE) {
-            opcode = i;
-            operand_mode = ASM_ADDR_MODE_ABSOLUTE;
-            operand_value = 0x000a;
-            found = TRUE;
-            break;
-         }
-
-      }
-   }
-
-   if (!found) {
-      uimon_out( "Instruction not valid.\n");
-      return -1;
-   }
-
-   len = (monitor_cpu_type.asm_addr_mode_get_size)(operand_mode, 0, 0);
-
-   /* EP 98.08.23 use correct memspace for assembling.  */
-   set_mem_val(mem, loc, opcode);
-   if (len >= 2)
-      set_mem_val(mem, loc + 1, operand_value & 0xff);
-   if (len >= 3)
-      set_mem_val(mem, loc + 2, (operand_value >> 8) & 0xff);
-
-   if (len >= 0) {
-      inc_addr_location(&asm_mode_addr, len);
-      dot_addr[mem] = asm_mode_addr;
-   } else {
-      uimon_out( "Assemble error: %d\n",len);
-   }
-   return len;
-}
-
-/* ------------------------------------------------------------------------- */
-
-const char *mon_disassemble_to_string(MEMSPACE memspace, ADDRESS addr,
-                                      BYTE x, BYTE p1, BYTE p2, int hex_mode)
-{
-    return mon_disassemble_to_string_ex(memspace,addr,x,p1,p2,hex_mode,NULL);
-}
-
-const char *mon_disassemble_to_string_ex(MEMSPACE memspace,
-                                         ADDRESS addr, BYTE x, BYTE p1, BYTE p2,
-                                         int hex_mode, unsigned *opc_size_p)
-{
-    static char buff[256];
-    const char *string;
-    char *buffp, *addr_name;
-    int addr_mode;
-    unsigned opc_size;
-    int ival;
-    asm_opcode_info_t *opinfo;
-
-    ival = p1 & 0xFF;
-
-    buffp = buff;
-
-    opinfo = (monitor_cpu_type.asm_opcode_info_get)(x, p1, p2);
-    string = opinfo->mnemonic;
-    addr_mode = opinfo->addr_mode;
-    opc_size = (monitor_cpu_type.asm_addr_mode_get_size)(addr_mode, x, p1);
-
-    if (opc_size_p)
-        *opc_size_p = opc_size;
-
-    switch (opc_size) {
-      case 1:
-	sprintf(buff, "%02X         %s", x, string);
-	break;
-      case 2:
-	sprintf(buff, "%02X %02X      %s", x, p1 & 0xFF, string);
-	break;
-      case 3:
-	sprintf(buff, "%02X %02X %02X   %s", x, p1 & 0xFF, p2 & 0xFF, string);
-	break;
-      default:
-	uimon_out( "Invalid opcode length: %d\n", opc_size);
-	sprintf (buff, "            %s", string);
-    }
-
-    while (*++buffp);
-
-    switch (addr_mode) {
-
-	/* Print arguments of the machine instruction. */
-
-      case ASM_ADDR_MODE_IMPLIED:
-        break;
-
-      case ASM_ADDR_MODE_ACCUMULATOR:
-        sprintf(buffp, " A");
-        break;
-
-      case ASM_ADDR_MODE_REG_B:
-        sprintf(buffp, " B");
-        break;
-
-      case ASM_ADDR_MODE_REG_C:
-        sprintf(buffp, " C");
-        break;
-
-      case ASM_ADDR_MODE_REG_D:
-        sprintf(buffp, " D");
-        break;
-
-      case ASM_ADDR_MODE_REG_E:
-        sprintf(buffp, " E");
-        break;
-
-      case ASM_ADDR_MODE_REG_H:
-        sprintf(buffp, " H");
-        break;
-
-      case ASM_ADDR_MODE_REG_L:
-        sprintf(buffp, " L");
-        break;
-
-      case ASM_ADDR_MODE_REG_AF:
-        sprintf(buffp, " AF");
-        break;
-
-      case ASM_ADDR_MODE_REG_BC:
-        sprintf(buffp, " BC");
-        break;
-
-      case ASM_ADDR_MODE_REG_DE:
-        sprintf(buffp, " DE");
-        break;
-
-      case ASM_ADDR_MODE_REG_HL:
-        sprintf(buffp, " HL");
-        break;
-
-      case ASM_ADDR_MODE_REG_SP:
-        sprintf(buffp, " HL");
-        break;
-
-      case ASM_ADDR_MODE_REG_IND_HL:
-        sprintf(buffp, " (HL)");
-        break;
-
-      case ASM_ADDR_MODE_IMMEDIATE:
-        sprintf(buffp, (hex_mode ? " #$%02X" : " %3d"), ival);
-        break;
-
-      case ASM_ADDR_MODE_ZERO_PAGE:
-        sprintf(buffp, (hex_mode ? " $%02X" : " %3d"), ival);
-        break;
-
-      case ASM_ADDR_MODE_ZERO_PAGE_X:
-        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
-            sprintf(buffp, (hex_mode ? " $%02X,X" : " %3d,X"), ival);
-        else
-		    sprintf(buffp, " %s,X", addr_name);
-        break;
-
-      case ASM_ADDR_MODE_ZERO_PAGE_Y:
-        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
-            sprintf(buffp, (hex_mode ? " $%02X,Y" : " %3d,Y"), ival);
-        else
-            sprintf(buffp, " %s,Y", addr_name);
-        break;
-
-      case ASM_ADDR_MODE_ABSOLUTE:
-	ival |= ((p2 & 0xFF) << 8);
-        if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
- 	   sprintf(buffp, " %s", addr_name);
-        else if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival-1)) )
- 	   sprintf(buffp, " %s+1", addr_name);
- 	else
-	   sprintf(buffp, (hex_mode ? " $%04X" : " %5d"), ival);
-	break;
-
-      case ASM_ADDR_MODE_ABSOLUTE_X:
-	ival |= ((p2 & 0xFF) << 8);
-        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
-	   sprintf(buffp, (hex_mode ? " $%04X,X" : " %5d,X"), ival);
-        else
-	   sprintf(buffp, " %s,X", addr_name);
-	break;
-
-      case ASM_ADDR_MODE_ABSOLUTE_Y:
-	ival |= ((p2 & 0xFF) << 8);
-        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
-	   sprintf(buffp, (hex_mode ? " $%04X,Y" : " %5d,Y"), ival);
-        else
-	   sprintf(buffp, " %s,Y", addr_name);
-	break;
-
-      case ASM_ADDR_MODE_INDIRECT_X:
-        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
-	   sprintf(buffp, (hex_mode ? " ($%02X,X)" : " (%3d,X)"), ival);
-        else
-	   sprintf(buffp, " (%s,X)", addr_name);
-	break;
-
-      case ASM_ADDR_MODE_INDIRECT_Y:
-        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
-	   sprintf(buffp, (hex_mode ? " ($%02X),Y" : " (%3d),Y"), ival);
-        else
-	   sprintf(buffp, " (%s),Y", addr_name);
-	break;
-
-      case ASM_ADDR_MODE_ABS_INDIRECT:
-	ival |= ((p2 & 0xFF) << 8);
-        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
-	   sprintf(buffp, (hex_mode ? " ($%04X)" : " (%5d)"), ival);
-        else
-	   sprintf(buffp, " (%s)", addr_name);
-	break;
-
-      case ASM_ADDR_MODE_RELATIVE:
-	if (0x80 & ival)
-	    ival -= 256;
-	ival += addr;
-	ival += 2;
-        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
-	   sprintf(buffp, (hex_mode ? " $%04X" : " %5d"), ival);
-        else
-	   sprintf(buffp, " %s", addr_name);
-	break;
-
-      case ASM_ADDR_MODE_ABSOLUTE_A:
-        ival |= ((p2 & 0xFF) << 8);
-        if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
-           sprintf(buffp, " (%s),A", addr_name);
-        else if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival-1)) )
-           sprintf(buffp, " (%s+1),A", addr_name);
-        else {
-           if (hex_mode)
-               sprintf(buffp, " ($%04X),A", ival);
-           else
-               sprintf(buffp, " (%5d),A", ival);
+            if (tot > 40 || column == 1) {
+                uimon_out("\n");
+                column = 0;
+            } else {
+                for (; tot < 40; tot++)
+                    uimon_out(" ");
+                column = 1;
+            }
+            if (mon_stop_output != 0) break;
         }
-        break;
-      case ASM_ADDR_MODE_ABSOLUTE_HL:
-        ival |= ((p2 & 0xFF) << 8);
-        if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
-           sprintf(buffp, " (%s),HL", addr_name);
-        else if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival-1)) )
-           sprintf(buffp, " (%s+1),HL", addr_name);
+        uimon_out("\n\n");
+    } else {
+        int push_back;
+        int cmd_num = mon_cmd_lookup_index(cmd, &push_back);
+
+        if (cmd_num == -1 || push_back)
+            uimon_out("Command `%s' unknown.\n", cmd);
+        else if (mon_cmd_array[cmd_num].description == NULL)
+            uimon_out("No help available for `%s'\n", cmd);
         else {
-           if (hex_mode)
-               sprintf(buffp, " ($%04X),HL", ival);
-           else
-               sprintf(buffp, " (%5d),HL", ival);
+            struct mon_cmds *c = &mon_cmd_array[cmd_num];
+
+            uimon_out("\nSyntax: %s %s\n",
+                      c->str,
+                      c->param_names != NULL ? c->param_names : "");
+            if (c->abbrev != NULL && c->abbrev[0] != '\0')
+                uimon_out("Abbreviation: %s\n", c->abbrev);
+            uimon_out("\n%s\n\n", c->description);
         }
-        break;
-
-      case ASM_ADDR_MODE_IMMEDIATE_16:
-        ival |= ((p2 & 0xFF) << 8);
-        sprintf(buffp, (hex_mode ? " #$%04X" : " %5d"), ival);
-        break;
-
     }
-
-    return buff;
 }
 
-static unsigned disassemble_instr(MON_ADDR addr)
-{
-   BYTE op, p1, p2;
-   MEMSPACE mem;
-   unsigned loc;
-   int hex_mode = 1;
-   char *label;
-   unsigned opc_size;
-
-   mem = addr_memspace(addr);
-   loc = addr_location(addr);
-
-   op = mon_get_mem_val(mem, loc);
-   p1 = mon_get_mem_val(mem, loc+1);
-   p2 = mon_get_mem_val(mem, loc+2);
-
-   /* Print the label for this location - if we have one */
-   label = mon_symbol_table_lookup_name(mem, loc);
-   if (label)
-      uimon_out(".%s:%04x   %s:\n",memspace_string[mem],loc,label);
-
-   /* Print the disassembled instruction */
-   uimon_out( ".%s:%04x   %s\n",memspace_string[mem],loc,
-              mon_disassemble_to_string_ex(mem, loc, op, p1, p2, hex_mode,&opc_size));
-
-   return opc_size; /* asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode); */
-}
-
-void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
-{
-   MEMSPACE mem;
-   unsigned end_loc;
-   long len, i, bytes;
-
-   len = evaluate_address_range(&start_addr, &end_addr, FALSE, DEFAULT_DISASSEMBLY_SIZE);
-   assert(len >= 0);
-
-   mem = addr_memspace(start_addr);
-   dot_addr[mem] = start_addr;
-   end_loc = addr_location(end_addr);
-
-   i = 0;
-   while (i <= len) {
-      bytes = disassemble_instr(dot_addr[mem]);
-      i += bytes;
-      inc_addr_location(&(dot_addr[mem]), bytes);
-      if (stop_output != 0) break;
-   }
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -1535,306 +1148,312 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 
 void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
 {
-   unsigned i,j,len,cnt=0;
-   ADDRESS addr=0;
-   MEMSPACE mem;
+    unsigned i,j,len,cnt=0;
+    ADDRESS addr=0;
+    MEMSPACE mem;
 
-   len = evaluate_address_range(&start_addr, &end_addr, FALSE, (x*y)/8);
-   mem = addr_memspace(start_addr);
-   addr = addr_location(start_addr);
+    len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE,
+                                     (x * y) / 8);
+    mem = addr_memspace(start_addr);
+    addr = addr_location(start_addr);
 
-   while (cnt < len) {
-      for(i=0;i<y;i++) {
-         uimon_out( ">%s:%04x ",memspace_string[mem],addr);
-         for(j=0; j < (x / 8); j++) {
-            print_bin(mon_get_mem_val(mem,ADDR_LIMIT(addr+j)),'.','*');
-            cnt++;
-         }
-         uimon_out( "\n");
-         addr = ADDR_LIMIT(addr + (x/8));
-         if (stop_output != 0) break;
-      }
+    while (cnt < len) {
+        for (i = 0; i < y; i++) {
+            uimon_out(">%s:%04x ", mon_memspace_string[mem], addr);
+            for(j = 0; j < (x / 8); j++) {
+                print_bin(mon_get_mem_val(mem, ADDR_LIMIT(addr + j)), '.', '*');
+                cnt++;
+            }
+           uimon_out("\n");
+           addr = ADDR_LIMIT(addr + (x / 8));
+           if (mon_stop_output != 0)
+               break;
+        }
 
-      uimon_out( "\n");
-      if (stop_output != 0) break;
-   }
+        uimon_out("\n");
+        if (mon_stop_output != 0)
+            break;
+    }
 
-   set_addr_location(&(dot_addr[mem]),addr);
+    set_addr_location(&(dot_addr[mem]), addr);
 }
 
 void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
 {
-   unsigned i, cnt=0, len, max_width, real_width;
-   ADDRESS addr=0;
-   char printables[50];
-   MEMSPACE mem;
-   int display_number;
+    unsigned i, cnt = 0, len, max_width, real_width;
+    ADDRESS addr = 0;
+    char printables[50];
+    MEMSPACE mem;
+    int display_number;
 
-   if (radix_type)
-   {
-      if (radix_type != e_hexadecimal)
-          max_width = (console_log->console_xres-12) / (radix_chars_per_byte[radix_type]+2);
-      else
-          max_width = (4*(console_log->console_xres-12)) / (4*(radix_chars_per_byte[radix_type]+2)+1);
+    if (radix_type) {
+        if (radix_type != e_hexadecimal)
+            max_width = (console_log->console_xres - 12)
+                        / (radix_chars_per_byte[radix_type] + 2);
+        else
+            max_width = (4 * (console_log->console_xres - 12))
+                        / (4*(radix_chars_per_byte[radix_type] + 2) + 1);
 
-      max_width &= ~3;
+        max_width &= ~3;
 
-      display_number = max_width * ((console_log->console_yres-6)/2);
-   }
-   else
-   {
-      max_width = 40;
-      display_number = 128;
-   }
+        display_number = max_width * ((console_log->console_yres - 6) / 2);
+    }
+    else
+    {
+        max_width = 40;
+        display_number = 128;
+    }
 
-   len = evaluate_address_range(&start_addr, &end_addr, FALSE, display_number);
-   mem = addr_memspace(start_addr);
-   addr = addr_location(start_addr);
+    len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE,
+                                     display_number);
+    mem = addr_memspace(start_addr);
+    addr = addr_location(start_addr);
 
-   while (cnt < len) {
-      uimon_out( ">%s:%04x ",memspace_string[mem],addr);
-      for (i=0,real_width=0;i<max_width;i++) {
-         switch(radix_type) {
-            case 0: /* special case == petscii text */
-               uimon_out( "%c",
-                          p_toascii(mon_get_mem_val(mem, ADDR_LIMIT(addr+i)), 1));
-               real_width++;
-               cnt++;
-               break;
-            case e_decimal:
-               memset(printables,0,50);
-               if (cnt < len) {
-                  uimon_out( "%3d ",
-                              mon_get_mem_val(mem, ADDR_LIMIT(addr+i)));
-                  real_width++;
-                  cnt++;
-               }
-               else
-                  uimon_out( "    ");
-               break;
-            case e_hexadecimal:
-               memset(printables,0,50);
-               if (cnt < len) {
-                  if(!(cnt%4))
-                      uimon_out( " ");
-                  uimon_out( "%02x ",
-                              mon_get_mem_val(mem, ADDR_LIMIT(addr+i)));
-                  real_width++;
-                  cnt++;
-               }
-               else
-                  uimon_out( "   ");
-               break;
-            case e_octal:
-               memset(printables,0,50);
-               if (cnt < len) {
-                  uimon_out( "%03o ",
-                              mon_get_mem_val(mem, ADDR_LIMIT(addr+i)));
-                  real_width++;
-                  cnt++;
-               }
-               else
-                  uimon_out( "    ");
-               break;
-            case e_binary:
-               memset(printables,0,50);
-               if (cnt < len) {
-                  print_bin(mon_get_mem_val(mem, ADDR_LIMIT(addr+i)),'1','0');
-                  uimon_out( " ");
-                  real_width++;
-                  cnt++;
-               }
-               else
-                  uimon_out( "         ");
-               break;
-            default:
-               assert(FALSE);
-         }
+    while (cnt < len) {
+        uimon_out(">%s:%04x ", mon_memspace_string[mem],addr);
+        for (i = 0, real_width = 0; i < max_width; i++) {
+            switch(radix_type) {
+              case 0: /* special case == petscii text */
+                uimon_out("%c",
+                          p_toascii(mon_get_mem_val(mem, ADDR_LIMIT(addr + i)),
+                                    1));
+                real_width++;
+                cnt++;
+                break;
+              case e_decimal:
+                memset(printables,0,50);
+                if (cnt < len) {
+                    uimon_out("%3d ",
+                              mon_get_mem_val(mem, ADDR_LIMIT(addr + i)));
+                    real_width++;
+                    cnt++;
+                } else
+                    uimon_out("    ");
+                break;
+              case e_hexadecimal:
+                memset(printables, 0, 50);
+                if (cnt < len) {
+                    if(!(cnt % 4))
+                        uimon_out(" ");
+                    uimon_out("%02x ",
+                              mon_get_mem_val(mem, ADDR_LIMIT(addr + i)));
+                    real_width++;
+                    cnt++;
+                } else
+                    uimon_out("   ");
+                break;
+              case e_octal:
+                memset(printables,0,50);
+                if (cnt < len) {
+                    uimon_out("%03o ",
+                              mon_get_mem_val(mem, ADDR_LIMIT(addr + i)));
+                    real_width++;
+                    cnt++;
+                } else
+                    uimon_out("    ");
+                break;
+              case e_binary:
+                memset(printables,0,50);
+                if (cnt < len) {
+                    print_bin(mon_get_mem_val(mem, ADDR_LIMIT(addr + i)), '1',
+                              '0');
+                    uimon_out(" ");
+                    real_width++;
+                    cnt++;
+                }
+                else
+                    uimon_out("         ");
+                break;
+              default:
+                assert(FALSE);
+            }
+  
+        }
 
-      }
+        if (radix_type != 0) {
+            memory_to_string(printables, mem, addr, real_width, FALSE);
+            uimon_out("  %s", printables);
+        }
+        uimon_out("\n");
+        addr = ADDR_LIMIT(addr + real_width);
+        if (mon_stop_output != 0)
+            break;
+    }
 
-      if (radix_type != 0) {
-         memory_to_string(printables, mem, addr, real_width, FALSE);
-         uimon_out( "  %s",printables);
-      }
-      uimon_out( "\n");
-      addr = ADDR_LIMIT(addr+real_width);
-      if (stop_output != 0) break;
-   }
-
-   set_addr_location(&(dot_addr[mem]),addr);
+    set_addr_location(&(dot_addr[mem]), addr);
 }
 
 
 void mon_display_screen(void) {
-   ADDRESS base;
-   BYTE rows, cols;
-   unsigned int r, c;
+    ADDRESS base;
+    BYTE rows, cols;
+    unsigned int r, c;
 
-   mem_get_screen_parameter(&base, &rows, &cols);
-   for (r=0;r<rows;r++) {
-      for (c=0;c<cols;c++) {
-         uimon_out( "%c",p_toascii(mon_get_mem_val(e_comp_space,
-                 ADDR_LIMIT(base++)),1));
-      }
-      uimon_out( "\n");
-   }
+    mem_get_screen_parameter(&base, &rows, &cols);
+    for (r = 0; r < rows; r++) {
+        for (c = 0; c < cols; c++) {
+            uimon_out("%c",p_toascii(mon_get_mem_val(e_comp_space,
+                      ADDR_LIMIT(base++)), 1));
+        }
+        uimon_out("\n");
+    }
 }
 
 
 void mon_display_io_regs(void)
 {
-   MON_ADDR start,end;
+    MON_ADDR start,end;
 
-   /* FIXME */
-   start = new_addr(e_comp_space, 0xd000);
-   end   = new_addr(e_comp_space, 0xd02e);
-   mon_display_memory(e_hexadecimal, start, end);
+    /* FIXME */
+    start = new_addr(e_comp_space, 0xd000);
+    end = new_addr(e_comp_space, 0xd02e);
+    mon_display_memory(e_hexadecimal, start, end);
 
-   start = new_addr(e_comp_space, 0xdc00);
-   end   = new_addr(e_comp_space, 0xdc0f);
-   mon_display_memory(e_hexadecimal, start, end);
+    start = new_addr(e_comp_space, 0xdc00);
+    end = new_addr(e_comp_space, 0xdc0f);
+    mon_display_memory(e_hexadecimal, start, end);
 
-   start = new_addr(e_comp_space, 0xdd00);
-   end   = new_addr(e_comp_space, 0xdd0f);
-   mon_display_memory(e_hexadecimal, start, end);
+    start = new_addr(e_comp_space, 0xdd00);
+    end = new_addr(e_comp_space, 0xdd0f);
+    mon_display_memory(e_hexadecimal, start, end);
 
-   start = new_addr(e_comp_space, 0xd400);
-   end   = new_addr(e_comp_space, 0xd41f);
-   mon_display_memory(e_hexadecimal, start, end);
+    start = new_addr(e_comp_space, 0xd400);
+    end = new_addr(e_comp_space, 0xd41f);
+    mon_display_memory(e_hexadecimal, start, end);
 }
 
 
 void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 {
-  unsigned int i, dst;
-  int len;
-  ADDRESS start;
-  MEMSPACE src_mem, dest_mem;
-  BYTE *buf;
+    unsigned int i, dst;
+    int len;
+    ADDRESS start;
+    MEMSPACE src_mem, dest_mem;
+    BYTE *buf;
 
-  len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
-  if (len < 0) {
-     uimon_out( "Invalid range.\n");
-     return;
-  }
-  src_mem = addr_memspace(start_addr);
-  start = addr_location(start_addr);
+    len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+    if (len < 0) {
+        uimon_out("Invalid range.\n");
+        return;
+    }
+    src_mem = addr_memspace(start_addr);
+    start = addr_location(start_addr);
 
-  evaluate_default_addr(&dest);
-  dst = addr_location(dest);
-  dest_mem = addr_memspace(dest);
+    mon_evaluate_default_addr(&dest);
+    dst = addr_location(dest);
+    dest_mem = addr_memspace(dest);
 
-  buf = (BYTE *) xmalloc(sizeof(BYTE) * len);
+    buf = (BYTE *)xmalloc(sizeof(BYTE) * len);
 
-  for (i=0; i<len; i++)
-     buf[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(start+i));
+    for (i = 0; i < len; i++)
+        buf[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(start + i));
 
-  for (i=0; i<len; i++)
-     set_mem_val(dest_mem, ADDR_LIMIT(dst+i), buf[i]);
+    for (i = 0; i < len; i++)
+        mon_set_mem_val(dest_mem, ADDR_LIMIT(dst + i), buf[i]);
 }
 
 
 void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 {
-  ADDRESS start;
-  MEMSPACE src_mem, dest_mem;
-  BYTE byte1, byte2;
-  unsigned int i, dst;
-  int len;
+    ADDRESS start;
+    MEMSPACE src_mem, dest_mem;
+    BYTE byte1, byte2;
+    unsigned int i, dst;
+    int len;
 
-  len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
-  if (len < 0) {
-     uimon_out( "Invalid range.\n");
-     return;
-  }
-  src_mem = addr_memspace(start_addr);
-  start   = addr_location(start_addr);
+    len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+    if (len < 0) {
+        uimon_out("Invalid range.\n");
+        return;
+    }
+    src_mem = addr_memspace(start_addr);
+    start = addr_location(start_addr);
 
-  evaluate_default_addr(&dest);
-  dst      = addr_location(dest);
-  dest_mem = addr_memspace(dest);
+    mon_evaluate_default_addr(&dest);
+    dst = addr_location(dest);
+    dest_mem = addr_memspace(dest);
 
-  for (i=0; i<len; i++) {
-     byte1 = mon_get_mem_val(src_mem,  ADDR_LIMIT(start+i));
-     byte2 = mon_get_mem_val(dest_mem, ADDR_LIMIT(dst+i));
+    for (i = 0; i < len; i++) {
+        byte1 = mon_get_mem_val(src_mem, ADDR_LIMIT(start + i));
+        byte2 = mon_get_mem_val(dest_mem, ADDR_LIMIT(dst + i));
 
-     if (byte1 != byte2)
-        uimon_out( "$%04x $%04x: %02x %02x\n",
-                    ADDR_LIMIT(start+i), ADDR_LIMIT(dst+i), byte1, byte2);
-  }
+        if (byte1 != byte2)
+            uimon_out("$%04x $%04x: %02x %02x\n",
+                      ADDR_LIMIT(start + i), ADDR_LIMIT(dst+i), byte1, byte2);
+    }
 }
 
 
 void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
 {
-  ADDRESS start;
-  MEMSPACE dest_mem;
-  unsigned int i, mon_index;
-  int len;
+    ADDRESS start;
+    MEMSPACE dest_mem;
+    unsigned int i, mon_index;
+    int len;
 
-  len = evaluate_address_range(&start_addr, &end_addr, FALSE, data_buf_len);
-  if (len < 0) {
-     uimon_out( "Invalid range.\n");
-     return;
-  }
-  start = addr_location(start_addr);
+    len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE,
+                                     data_buf_len);
+    if (len < 0) {
+        uimon_out("Invalid range.\n");
+        return;
+    }
+    start = addr_location(start_addr);
 
-  if (!is_valid_addr(start_addr)) {
-     uimon_out( "Invalid start address\n");
-     return;
-  }
+    if (!is_valid_addr(start_addr)) {
+        uimon_out("Invalid start address\n");
+        return;
+    }
 
-  dest_mem = addr_memspace(start_addr);
+    dest_mem = addr_memspace(start_addr);
 
-  i = 0;
-  mon_index = 0;
-  while (i < len) {
-     set_mem_val(dest_mem, ADDR_LIMIT(start+i), data_buf[mon_index++]);
-     if (mon_index >= data_buf_len)
-         mon_index = 0;
-     i++;
-  }
+    i = 0;
+    mon_index = 0;
+    while (i < len) {
+        mon_set_mem_val(dest_mem, ADDR_LIMIT(start + i), data_buf[mon_index++]);
+        if (mon_index >= data_buf_len)
+            mon_index = 0;
+        i++;
+    }
 
-  clear_buffer();
+    clear_buffer();
 }
 
 
 void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
 {
-  BYTE *buf;
-  ADDRESS start;
-  MEMSPACE mem;
-  unsigned int i, next_read;
-  int len;
+    BYTE *buf;
+    ADDRESS start;
+    MEMSPACE mem;
+    unsigned int i, next_read;
+    int len;
 
-  len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
-  if (len < 0 || len < data_buf_len) {
-     uimon_out( "Invalid range.\n");
-     return;
-  }
-  mem   = addr_memspace(start_addr);
-  start = addr_location(start_addr);
+    len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+    if (len < 0 || len < data_buf_len) {
+        uimon_out("Invalid range.\n");
+        return;
+    }
+    mem   = addr_memspace(start_addr);
+    start = addr_location(start_addr);
 
-  buf = (BYTE *) xmalloc(sizeof(BYTE) * data_buf_len);
+    buf = (BYTE *)xmalloc(sizeof(BYTE) * data_buf_len);
 
-  /* Fill buffer */
-  for (i = 0; i < data_buf_len; i++)
-     buf[i] = mon_get_mem_val(mem, ADDR_LIMIT(start+i));
+    /* Fill buffer */
+    for (i = 0; i < data_buf_len; i++)
+        buf[i] = mon_get_mem_val(mem, ADDR_LIMIT(start + i));
 
-  /* Do compares */
-  next_read = start + data_buf_len;
+    /* Do compares */
+    next_read = start + data_buf_len;
 
-  for (i = 0; i < (len-data_buf_len); i++, next_read++) {
-     if (memcmp(buf,data_buf,data_buf_len) == 0)
-        uimon_out( "%04x\n",ADDR_LIMIT(start+i));
+    for (i = 0; i < (len-data_buf_len); i++, next_read++) {
+        if (memcmp(buf,data_buf,data_buf_len) == 0)
+           uimon_out("%04x\n",ADDR_LIMIT(start + i));
 
-     if (data_buf_len > 1)
-        memmove(&(buf[0]), &(buf[1]), data_buf_len - 1);
-     buf[data_buf_len-1] = mon_get_mem_val(mem, next_read);
-   }
+        if (data_buf_len > 1)
+           memmove(&(buf[0]), &(buf[1]), data_buf_len - 1);
+        buf[data_buf_len-1] = mon_get_mem_val(mem, next_read);
+    }
 
-  clear_buffer();
+    clear_buffer();
 }
 
 
@@ -1844,25 +1463,24 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 void mon_change_dir(char *path)
 {
     if (chdir(path) < 0)
-        uimon_out(
-                    "Cannot change to directory `%s':\n%s",
-                    path, strerror(errno));
+        uimon_out("Cannot change to directory `%s':\n%s",
+                  path, strerror(errno));
 
-    uimon_out( "Changing to directory: `%s'\n", path);
+    uimon_out("Changing to directory: `%s'\n", path);
 }
 
 
 void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
 {
-    FILE   *fp;
+    FILE *fp;
     ADDRESS adr;
-    int     b1=0, b2=0;
-    int     ch = 0;
+    int b1=0, b2=0;
+    int ch = 0;
     MEMSPACE mem;
 
     if (NULL == (fp = fopen(filename, MODE_READ))) {
         perror(filename);
-        uimon_out( "Loading failed.\n");
+        uimon_out("Loading failed.\n");
         return;
     }
 
@@ -1871,10 +1489,10 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
         b2 = fgetc(fp);
     }
 
-    evaluate_default_addr(&start_addr);
+    mon_evaluate_default_addr(&start_addr);
     if (!is_valid_addr(start_addr)) {	/* No Load address given */
         if (is_bload == TRUE) {
-            uimon_out( "No LOAD address given.\n");
+            uimon_out("No LOAD address given.\n");
             return;
         }
 
@@ -1888,19 +1506,19 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
         mem = addr_memspace(start_addr);
     }
 
-    uimon_out( "Loading %s", filename);
-    uimon_out( " from %04X\n", adr);
+    uimon_out("Loading %s", filename);
+    uimon_out(" from %04X\n", adr);
 
     do {
         unsigned char load_byte;
 
         if (fread((char *)&load_byte, 1, 1, fp) < 1)
             break;
-        set_mem_val(mem, ADDR_LIMIT(adr + ch), load_byte);
+        mon_set_mem_val(mem, ADDR_LIMIT(adr + ch), load_byte);
         ch ++;
     } while(1);
 
-    uimon_out( "%x bytes\n", ch);
+    uimon_out("%x bytes\n", ch);
 
     if (is_bload == FALSE) {
         /* set end of load addresses like kernal load */
@@ -1918,9 +1536,9 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
     int ch = 0;
     MEMSPACE mem;
 
-    len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+    len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
     if (len < 0) {
-        uimon_out( "Invalid range.\n");
+        uimon_out("Invalid range.\n");
         return;
     }
 
@@ -1930,14 +1548,13 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
     end = addr_location(end_addr);
 
     if (end < adr) {
-        uimon_out(
-                    "Start address must be below end address.\n");
+        uimon_out("Start address must be below end address.\n");
         return;
     }
 
     if (NULL == (fp = fopen(filename, MODE_WRITE))) {
-        uimon_out( "Saving for `%s' failed: %s.\n",
-                    filename, strerror(errno));
+        uimon_out("Saving for `%s' failed: %s.\n",
+                   filename, strerror(errno));
     } else {
         printf("Saving file `%s'...\n", filename);
 
@@ -1951,7 +1568,7 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
 
             save_byte = mon_get_mem_val(mem, adr + ch);
             if(fwrite((char *)&save_byte, 1, 1, fp) < 1) {
-                uimon_out( "Saving for `%s' failed: %s.\n",
+                uimon_out("Saving for `%s' failed: %s.\n",
                             filename, strerror(errno));
                 fclose(fp);
             }
@@ -1963,10 +1580,10 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
 
 void mon_verify_file(char *filename, MON_ADDR start_addr)
 {
-   evaluate_default_addr(&start_addr);
+    mon_evaluate_default_addr(&start_addr);
 
-   uimon_out( "Verify file %s at address $%04x\n",
-               filename, addr_location(start_addr));
+    uimon_out("Verify file %s at address $%04x\n",
+              filename, addr_location(start_addr));
 }
 
 void mon_load_symbols(MEMSPACE mem, char *filename)
@@ -1986,45 +1603,45 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     int rc, line_num = 2;
 
     if (NULL == (fp = fopen(filename, MODE_READ))) {
-	uimon_out( "Loading for `%s' failed: %s.\n",
+	uimon_out("Loading for `%s' failed: %s.\n",
                     filename, strerror(errno));
 	return;
     }
 
-    uimon_out( "Loading symbol table from `%s'...\n", filename);
+    uimon_out("Loading symbol table from `%s'...\n", filename);
 
     if (mem == e_default_space) {
-       if (fscanf(fp, "%10s\n", name) == 1) {
-          for (mem = FIRST_SPACE; mem <= LAST_SPACE; mem++) {
-             if (strcmp(name,memspace_string[mem]) == 0) {
-                found = TRUE;
-                break;
-             }
-          }
-       }
-       if (!found) {
-          uimon_out(
+        if (fscanf(fp, "%10s\n", name) == 1) {
+            for (mem = FIRST_SPACE; mem <= LAST_SPACE; mem++) {
+                if (strcmp(name, mon_memspace_string[mem]) == 0) {
+                    found = TRUE;
+                    break;
+                }
+            }
+        }
+        if (!found) {
+            uimon_out(
                       "Bad label file : expecting a memory space in the first line but found %s\n",
                       name);
-          return;
-       }
+            return;
+        }
     }
 
     while (!feof(fp)) {
-       rc = fscanf(fp, "%6x %255s\n", (int *) &adr, name);
-       if (rc != 2) {
-          uimon_out(
+        rc = fscanf(fp, "%6x %255s\n", (int *) &adr, name);
+        if (rc != 2) {
+            uimon_out(
                       "Bad label file: (line %d) cannot parse argument %d.\n",
                       line_num, rc + 1);
-          break;
-       }
-       /* FIXME: Check name is a valid label name */
-       name_ptr = (char *) xmalloc((strlen(name)+1) * sizeof(char));
-       strcpy(name_ptr, name);
-       uimon_out( "Read ($%x:%s)\n", adr, name_ptr);
-       mon_add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
+            break;
+        }
+        /* FIXME: Check name is a valid label name */
+        name_ptr = (char *) xmalloc((strlen(name)+1) * sizeof(char));
+        strcpy(name_ptr, name);
+        uimon_out("Read ($%x:%s)\n", adr, name_ptr);
+        mon_add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
 
-       line_num++;
+        line_num++;
     }
 
     fclose(fp);
@@ -2033,16 +1650,16 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
 
 void mon_save_symbols(MEMSPACE mem, char *filename)
 {
-    FILE   *fp;
+    FILE *fp;
     symbol_entry_t *sym_ptr;
 
     if (NULL == (fp = fopen(filename, MODE_WRITE))) {
-	uimon_out( "Saving for `%s' failed: %s.\n",
-                    filename, strerror(errno));
+	uimon_out("Saving for `%s' failed: %s.\n",
+                  filename, strerror(errno));
 	return;
     }
 
-    uimon_out( "Saving symbol table to `%s'...\n", filename);
+    uimon_out("Saving symbol table to `%s'...\n", filename);
 
     /* FIXME: Write out all memspaces? */
     if (mem == e_default_space)
@@ -2051,9 +1668,9 @@ void mon_save_symbols(MEMSPACE mem, char *filename)
     sym_ptr = monitor_labels[mem].name_list;
 
     while (sym_ptr) {
-       fprintf(fp, "al %s:%04x %s\n", memspace_string[mem], sym_ptr->addr,
-               sym_ptr->name);
-       sym_ptr = sym_ptr->next;
+        fprintf(fp, "al %s:%04x %s\n", mon_memspace_string[mem], sym_ptr->addr,
+                sym_ptr->name);
+        sym_ptr = sym_ptr->next;
     }
 
     fclose(fp);
@@ -2065,63 +1682,62 @@ void mon_save_symbols(MEMSPACE mem, char *filename)
 
 void mon_record_commands(char *filename)
 {
-   if (recording) {
-       uimon_out(
-                   "Recording already in progress. Use 'stop' to end recording.\n");
-       return;
-   }
+    if (recording) {
+        uimon_out("Recording already in progress. Use 'stop' to end recording.\n");
+        return;
+    }
 
-   recording_name = filename;
+    recording_name = filename;
 
-   if (NULL == (recording_fp = fopen(recording_name, MODE_WRITE))) {
-       uimon_out( "Cannot create `%s': %s.\n",
-                   recording_name, strerror(errno));
-       return;
-   }
+    if (NULL == (recording_fp = fopen(recording_name, MODE_WRITE))) {
+        uimon_out("Cannot create `%s': %s.\n",
+                  recording_name, strerror(errno));
+        return;
+    }
 
-   setbuf(recording_fp, NULL);
+    setbuf(recording_fp, NULL);
 
-   recording = TRUE;
+    recording = TRUE;
 }
 
 void mon_end_recording(void)
 {
-   if (!recording) {
-       uimon_out( "No file is currently being recorded.\n");
-       return;
-   }
+    if (!recording) {
+        uimon_out("No file is currently being recorded.\n");
+        return;
+    }
 
-   fclose(recording_fp);
-   uimon_out( "Closed file %s.\n",recording_name);
-   recording = FALSE;
+    fclose(recording_fp);
+    uimon_out("Closed file %s.\n",recording_name);
+    recording = FALSE;
 }
 
 static void playback_commands(char *filename)
 {
-   FILE *fp;
-   char string[256], *rc;
+    FILE *fp;
+    char string[256], *rc;
 
-   if (NULL == (fp = fopen(filename, MODE_READ_TEXT))
-           && NULL == (fp = sysfile_open(filename, NULL, MODE_READ_TEXT))) {
-       uimon_out( "Playback for `%s' failed: %s.\n",
-                   filename, strerror(errno));
-       return;
-   }
+    if (NULL == (fp = fopen(filename, MODE_READ_TEXT))
+        && NULL == (fp = sysfile_open(filename, NULL, MODE_READ_TEXT))) {
+        uimon_out("Playback for `%s' failed: %s.\n",
+                  filename, strerror(errno));
+        return;
+    }
 
-   while (1) {
-      rc = fgets(string, 255, fp);
-      if (rc != NULL) {
-         if (strcmp(string, "stop\n") == 0)
+    while (1) {
+        rc = fgets(string, 255, fp);
+        if (rc != NULL) {
+            if (strcmp(string, "stop\n") == 0)
+                break;
+            string[strlen(string) - 1] = '\0';
+            parse_and_execute_line(string);
+        } else {
             break;
-         string[strlen(string)-1] = '\0';
-         parse_and_execute_line(string);
-      } else {
-         break;
-      }
-   }
+        }
+    }
 
-   fclose(fp);
-   playback = FALSE;
+    fclose(fp);
+    playback = FALSE;
 }
 
 
@@ -2130,181 +1746,177 @@ static void playback_commands(char *filename)
 
 static void free_symbol_table(MEMSPACE mem)
 {
-   symbol_entry_t *sym_ptr, *temp;
-   int i;
+    symbol_entry_t *sym_ptr, *temp;
+    int i;
 
-   /* Remove name list */
-   sym_ptr = monitor_labels[mem].name_list;
-   while (sym_ptr) {
-      /* Name memory is freed below. */
-      temp = sym_ptr;
-      sym_ptr = sym_ptr->next;
-      free(temp);
-   }
+    /* Remove name list */
+    sym_ptr = monitor_labels[mem].name_list;
+    while (sym_ptr) {
+        /* Name memory is freed below. */
+        temp = sym_ptr;
+        sym_ptr = sym_ptr->next;
+        free(temp);
+    }
 
-   /* Remove address hash table */
-   for (i=0;i<HASH_ARRAY_SIZE;i++) {
-      sym_ptr = monitor_labels[mem].addr_hash_table[i];
-      while (sym_ptr) {
-         free (sym_ptr->name);
-         temp = sym_ptr;
-         sym_ptr = sym_ptr->next;
-         free(temp);
-      }
-   }
+    /* Remove address hash table */
+    for (i = 0; i < HASH_ARRAY_SIZE; i++) {
+        sym_ptr = monitor_labels[mem].addr_hash_table[i];
+        while (sym_ptr) {
+            free (sym_ptr->name);
+            temp = sym_ptr;
+            sym_ptr = sym_ptr->next;
+            free(temp);
+        }
+    }
 }
 
 char *mon_symbol_table_lookup_name(MEMSPACE mem, ADDRESS addr)
 {
-   symbol_entry_t *sym_ptr;
+    symbol_entry_t *sym_ptr;
 
-   if (mem == e_default_space)
-      mem = default_memspace;
+    if (mem == e_default_space)
+        mem = default_memspace;
 
-   sym_ptr = monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)];
-   while (sym_ptr) {
-      if (addr == sym_ptr->addr)
-         return sym_ptr->name;
-      sym_ptr = sym_ptr->next;
-   }
+    sym_ptr = monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)];
+    while (sym_ptr) {
+        if (addr == sym_ptr->addr)
+            return sym_ptr->name;
+        sym_ptr = sym_ptr->next;
+    }
 
-   return NULL;
+    return NULL;
 }
 
 int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
 {
-   symbol_entry_t *sym_ptr;
+    symbol_entry_t *sym_ptr;
 
-   if (mem == e_default_space)
-      mem = default_memspace;
+    if (mem == e_default_space)
+       mem = default_memspace;
 
-   if (strcmp(name, ".PC") == 0) {
-      return mon_get_reg_val(mem, e_PC);
-   }
+    if (strcmp(name, ".PC") == 0) {
+       return mon_get_reg_val(mem, e_PC);
+    }
 
-   sym_ptr = monitor_labels[mem].name_list;
-   while (sym_ptr) {
-      if (strcmp(sym_ptr->name, name) == 0)
-         return sym_ptr->addr;
-      sym_ptr = sym_ptr->next;
-   }
+    sym_ptr = monitor_labels[mem].name_list;
+    while (sym_ptr) {
+        if (strcmp(sym_ptr->name, name) == 0)
+            return sym_ptr->addr;
+        sym_ptr = sym_ptr->next;
+    }
 
-   return -1;
+    return -1;
 }
 
 void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
 {
-   symbol_entry_t *sym_ptr;
-   char *old_name;
-   int old_addr;
-   MEMSPACE mem = addr_memspace(addr);
-   ADDRESS loc = addr_location(addr);
+    symbol_entry_t *sym_ptr;
+    char *old_name;
+    int old_addr;
+    MEMSPACE mem = addr_memspace(addr);
+    ADDRESS loc = addr_location(addr);
 
-   if (strcmp(name, ".PC") == 0) {
-      uimon_out( "Error: .PC is a reserved label.\n");
-      return;
-   }
+    if (strcmp(name, ".PC") == 0) {
+        uimon_out("Error: .PC is a reserved label.\n");
+        return;
+    }
 
-   if (mem == e_default_space)
-      mem = default_memspace;
+    if (mem == e_default_space)
+        mem = default_memspace;
 
-   old_name = mon_symbol_table_lookup_name(mem, loc);
-   old_addr = mon_symbol_table_lookup_addr(mem, name);
-   if (old_name && old_addr != addr ) {
-      uimon_out(
-                  "Warning: label(s) for address $%04x already exist.\n",
+    old_name = mon_symbol_table_lookup_name(mem, loc);
+    old_addr = mon_symbol_table_lookup_addr(mem, name);
+    if (old_name && old_addr != addr ) {
+        uimon_out("Warning: label(s) for address $%04x already exist.\n",
                   loc);
-   }
-   if (old_addr >= 0 && old_addr != loc) {
-      uimon_out(
-                  "Changing address of label %s from $%04x to $%04x\n",
+    }
+    if (old_addr >= 0 && old_addr != loc) {
+        uimon_out("Changing address of label %s from $%04x to $%04x\n",
                   name, old_addr, loc);
-   }
+    }
 
-   /* Add name to name list */
-   sym_ptr = (symbol_entry_t *) xmalloc(sizeof(symbol_entry_t));
-   sym_ptr->name = name;
-   sym_ptr->addr = loc;
+    /* Add name to name list */
+    sym_ptr = (symbol_entry_t *)xmalloc(sizeof(symbol_entry_t));
+    sym_ptr->name = name;
+    sym_ptr->addr = loc;
 
-   sym_ptr->next = monitor_labels[mem].name_list;
-   monitor_labels[mem].name_list = sym_ptr;
+    sym_ptr->next = monitor_labels[mem].name_list;
+    monitor_labels[mem].name_list = sym_ptr;
 
-   /* Add address to hash table */
-   sym_ptr = (symbol_entry_t *) xmalloc(sizeof(symbol_entry_t));
-   sym_ptr->name = name;
-   sym_ptr->addr = addr;
+    /* Add address to hash table */
+    sym_ptr = (symbol_entry_t *)xmalloc(sizeof(symbol_entry_t));
+    sym_ptr->name = name;
+    sym_ptr->addr = addr;
 
-   sym_ptr->next = monitor_labels[mem].addr_hash_table[HASH_ADDR(loc)];
-   monitor_labels[mem].addr_hash_table[HASH_ADDR(loc)] = sym_ptr;
+    sym_ptr->next = monitor_labels[mem].addr_hash_table[HASH_ADDR(loc)];
+    monitor_labels[mem].addr_hash_table[HASH_ADDR(loc)] = sym_ptr;
 }
 
 void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
 {
-   int addr;
-   symbol_entry_t *sym_ptr, *prev_ptr;
+    int addr;
+    symbol_entry_t *sym_ptr, *prev_ptr;
 
-   if (mem == e_default_space)
-      mem = default_memspace;
+    if (mem == e_default_space)
+        mem = default_memspace;
 
-   if (name == NULL) {
-      /* FIXME - prompt user */
-      free_symbol_table(mem);
-      return;
-   } else if ( (addr = mon_symbol_table_lookup_addr(mem, name)) < 0) {
-      uimon_out( "Symbol %s not found.\n", name);
-      return;
-   }
+    if (name == NULL) {
+        /* FIXME - prompt user */
+        free_symbol_table(mem);
+        return;
+    } else if ( (addr = mon_symbol_table_lookup_addr(mem, name)) < 0) {
+        uimon_out("Symbol %s not found.\n", name);
+        return;
+    }
 
-   /* Remove entry in name list */
-   sym_ptr = monitor_labels[mem].name_list;
-   prev_ptr = NULL;
-   while (sym_ptr) {
-      if (strcmp(sym_ptr->name, name) == 0) {
-         /* Name memory is freed below. */
-         addr = sym_ptr->addr;
-         if (prev_ptr)
-            prev_ptr->next = sym_ptr->next;
-         else
-            monitor_labels[mem].name_list = NULL;
+    /* Remove entry in name list */
+    sym_ptr = monitor_labels[mem].name_list;
+    prev_ptr = NULL;
+    while (sym_ptr) {
+        if (strcmp(sym_ptr->name, name) == 0) {
+            /* Name memory is freed below. */
+            addr = sym_ptr->addr;
+            if (prev_ptr)
+                prev_ptr->next = sym_ptr->next;
+            else
+                monitor_labels[mem].name_list = NULL;
+            free(sym_ptr);
+            break;
+        }
+        prev_ptr = sym_ptr;
+        sym_ptr = sym_ptr->next;
+    }
 
-         free(sym_ptr);
-         break;
-      }
-      prev_ptr = sym_ptr;
-      sym_ptr = sym_ptr->next;
-   }
-
-   /* Remove entry in address hash table */
-   sym_ptr = monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)];
-   prev_ptr = NULL;
-   while (sym_ptr) {
-      if (addr == sym_ptr->addr) {
-         free (sym_ptr->name);
-         if (prev_ptr)
-            prev_ptr->next = sym_ptr->next;
-         else
-            monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)] = NULL;
-
-         free(sym_ptr);
-         return;
-      }
-      prev_ptr = sym_ptr;
-      sym_ptr = sym_ptr->next;
-   }
+    /* Remove entry in address hash table */
+    sym_ptr = monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)];
+    prev_ptr = NULL;
+    while (sym_ptr) {
+        if (addr == sym_ptr->addr) {
+            free (sym_ptr->name);
+            if (prev_ptr)
+                prev_ptr->next = sym_ptr->next;
+            else
+                monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)] = NULL;
+            free(sym_ptr);
+            return;
+        }
+        prev_ptr = sym_ptr;
+        sym_ptr = sym_ptr->next;
+    }
 }
 
 void mon_print_symbol_table(MEMSPACE mem)
 {
-   symbol_entry_t *sym_ptr;
+    symbol_entry_t *sym_ptr;
 
-   if (mem == e_default_space)
-      mem = default_memspace;
+    if (mem == e_default_space)
+        mem = default_memspace;
 
-   sym_ptr = monitor_labels[mem].name_list;
-   while (sym_ptr) {
-      uimon_out( "$%04x %s\n",sym_ptr->addr, sym_ptr->name);
-      sym_ptr = sym_ptr->next;
-   }
+    sym_ptr = monitor_labels[mem].name_list;
+    while (sym_ptr) {
+        uimon_out("$%04x %s\n",sym_ptr->addr, sym_ptr->name);
+        sym_ptr = sym_ptr->next;
+    }
 }
 
 
@@ -2313,63 +1925,61 @@ void mon_print_symbol_table(MEMSPACE mem)
 
 void mon_instructions_step(int count)
 {
-   if (count >= 0)
-       uimon_out(
-                   "Stepping through the next %d instruction(s).\n",
-                   count);
-   instruction_count = (count >= 0) ? count : 1;
-   wait_for_return_level = 0;
-   skip_jsrs = FALSE;
-   exit_mon = 1;
+    if (count >= 0)
+        uimon_out("Stepping through the next %d instruction(s).\n",
+                  count);
+    instruction_count = (count >= 0) ? count : 1;
+    wait_for_return_level = 0;
+    skip_jsrs = FALSE;
+    exit_mon = 1;
 
-   if (instruction_count == 1)
-	   mon_console_close_on_leaving = 0;
+    if (instruction_count == 1)
+        mon_console_close_on_leaving = 0;
 
-   mon_mask[caller_space] |= MI_STEP;
-   interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
+    mon_mask[caller_space] |= MI_STEP;
+    interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
 void mon_instructions_next(int count)
 {
-   if (count >= 0)
-       uimon_out(
-                   "Nexting through the next %d instruction(s).\n",
+    if (count >= 0)
+        uimon_out("Nexting through the next %d instruction(s).\n",
                    count);
-   instruction_count = (count >= 0) ? count : 1;
-   wait_for_return_level = (GET_OPCODE(caller_space) == OP_JSR) ? 1 : 0;
-   skip_jsrs = TRUE;
-   exit_mon = 1;
+    instruction_count = (count >= 0) ? count : 1;
+    wait_for_return_level = (GET_OPCODE(caller_space) == OP_JSR) ? 1 : 0;
+    skip_jsrs = TRUE;
+    exit_mon = 1;
 
-   if (instruction_count==1)
-	   mon_console_close_on_leaving = 0;
+    if (instruction_count==1)
+        mon_console_close_on_leaving = 0;
 
-   mon_mask[caller_space] |= MI_STEP;
-   interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
+    mon_mask[caller_space] |= MI_STEP;
+    interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
 void mon_instruction_return(void)
 {
-   instruction_count = 1;
-   wait_for_return_level = (GET_OPCODE(caller_space) == OP_RTS)
-                           ? 0
-                           : (GET_OPCODE(caller_space) == OP_JSR) ? 2 : 1;
-   skip_jsrs = TRUE;
-   exit_mon = 1;
+    instruction_count = 1;
+    wait_for_return_level = (GET_OPCODE(caller_space) == OP_RTS)
+                            ? 0
+                            : (GET_OPCODE(caller_space) == OP_JSR) ? 2 : 1;
+    skip_jsrs = TRUE;
+    exit_mon = 1;
 
-   mon_mask[caller_space] |= MI_STEP;
-   interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
+    mon_mask[caller_space] |= MI_STEP;
+    interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
 void mon_stack_up(int count)
 {
-   uimon_out( "Going up %d stack frame(s).\n",
-          (count>=0)?count:1);
+    uimon_out("Going up %d stack frame(s).\n",
+              (count>=0)?count:1);
 }
 
 void mon_stack_down(int count)
 {
-   uimon_out( "Going down %d stack frame(s).\n",
-               (count>=0)?count:1);
+    uimon_out("Going down %d stack frame(s).\n",
+              (count>=0)?count:1);
 }
 
 
@@ -2380,17 +1990,16 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
 {
     vdrive_t *floppy;
 
-    evaluate_default_addr(&addr);
+    mon_evaluate_default_addr(&addr);
 
     floppy = (vdrive_t *)file_system_get_vdrive(8);
 
     if (!floppy || floppy->image == NULL) {
-        uimon_out( "No disk attached\n");
+        uimon_out("No disk attached\n");
         return;
     }
 
-    if (!op)
-    {
+    if (!op) {
         BYTE readdata[256];
         int i,j, dst;
         MEMSPACE dest_mem;
@@ -2398,8 +2007,8 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
         /* We ignore disk error codes here.  */
         if (disk_image_read_sector(floppy->image, readdata, track, sector)
             < 0) {
-            uimon_out( "Error reading track %d sector %d\n",
-                        track, sector);
+            uimon_out("Error reading track %d sector %d\n",
+                      track, sector);
             return;
         }
 
@@ -2408,20 +2017,19 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
             dest_mem = addr_memspace(addr);
 
             for (i = 0; i < 256; i++)
-                set_mem_val(dest_mem, ADDR_LIMIT(dst+i), readdata[i]);
+                mon_set_mem_val(dest_mem, ADDR_LIMIT(dst+i), readdata[i]);
 
-            uimon_out(
-                        "Read track %d sector %d into address $%04x\n",
-                        track, sector, dst);
+            uimon_out("Read track %d sector %d into address $%04x\n",
+                      track, sector, dst);
         } else {
             for (i = 0; i < 16; i++) {
-                uimon_out( ">%04x", i * 16);
+                uimon_out(">%04x", i * 16);
                 for (j = 0; j < 16; j++) {
                     if ((j & 3) == 0)
-                        uimon_out( " ");
-                    uimon_out( " %02x", readdata[i * 16 + j]);
+                        uimon_out(" ");
+                    uimon_out(" %02x", readdata[i * 16 + j]);
                 }
-                uimon_out( "\n");
+                uimon_out("\n");
             }
         }
     } else {
@@ -2436,28 +2044,27 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
             writedata[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(src+i));
 
         if (disk_image_write_sector(floppy->image, writedata, track, sector)) {
-            uimon_out( "Error writing track %d sector %d\n",
-                    track, sector);
+            uimon_out("Error writing track %d sector %d\n",
+                      track, sector);
             return;
         }
 
-        uimon_out(
-                    "Write data from address $%04x to track %d sector %d\n",
-                    src, track, sector);
+        uimon_out("Write data from address $%04x to track %d sector %d\n",
+                  src, track, sector);
     }
 }
 
 
 void mon_execute_disk_command(char *cmd)
 {
-   int len, rc;
-   vdrive_t *floppy;
+    int len, rc;
+    vdrive_t *floppy;
 
-   /* FIXME */
-   floppy = (vdrive_t *)file_system_get_vdrive(8);
+    /* FIXME */
+    floppy = (vdrive_t *)file_system_get_vdrive(8);
 
-   len = strlen(cmd);
-   rc = vdrive_command_execute(floppy, (BYTE*)cmd, len);
+    len = strlen(cmd);
+    rc = vdrive_command_execute(floppy, (BYTE*)cmd, len);
 }
 
 
@@ -2466,91 +2073,84 @@ void mon_execute_disk_command(char *cmd)
 
 static void print_conditional(CONDITIONAL_NODE *cnode)
 {
-   /* Do an in-order traversal of the tree */
-   if (cnode->is_parenthized)
-      uimon_out( "( ");
+    /* Do an in-order traversal of the tree */
+    if (cnode->is_parenthized)
+        uimon_out("( ");
 
-   if (cnode->operation != e_INV)
-   {
-      assert(cnode->child1 && cnode->child2);
-      print_conditional(cnode->child1);
-      uimon_out( " %s ",cond_op_string[cnode->operation]);
-      print_conditional(cnode->child2);
-   }
-   else
-   {
-      if (cnode->is_reg)
-         uimon_out(
-                     ".%s",register_string[reg_regid(cnode->reg_num)]);
-      else
-         uimon_out( "%d", cnode->value);
-   }
+    if (cnode->operation != e_INV) {
+        assert(cnode->child1 && cnode->child2);
+        print_conditional(cnode->child1);
+        uimon_out(" %s ",cond_op_string[cnode->operation]);
+        print_conditional(cnode->child2);
+    } else {
+        if (cnode->is_reg)
+            uimon_out(".%s", register_string[reg_regid(cnode->reg_num)]);
+        else
+            uimon_out("%d", cnode->value);
+    }
 
-   if (cnode->is_parenthized)
-      uimon_out( " )");
+    if (cnode->is_parenthized)
+        uimon_out(" )");
 }
 
 
 static int evaluate_conditional(CONDITIONAL_NODE *cnode)
 {
-   /* Do a post-order traversal of the tree */
-   if (cnode->operation != e_INV)
-   {
-      assert(cnode->child1 && cnode->child2);
-      evaluate_conditional(cnode->child1);
-      evaluate_conditional(cnode->child2);
+    /* Do a post-order traversal of the tree */
+    if (cnode->operation != e_INV) {
+        assert(cnode->child1 && cnode->child2);
+        evaluate_conditional(cnode->child1);
+        evaluate_conditional(cnode->child2);
 
-      switch(cnode->operation) {
-         case e_EQU:
+        switch(cnode->operation) {
+          case e_EQU:
             cnode->value = ((cnode->child1->value) == (cnode->child2->value));
             break;
-         case e_NEQ:
+          case e_NEQ:
             cnode->value = ((cnode->child1->value) != (cnode->child2->value));
             break;
-         case e_GT :
+          case e_GT :
             cnode->value = ((cnode->child1->value) > (cnode->child2->value));
             break;
-         case e_LT :
+          case e_LT :
             cnode->value = ((cnode->child1->value) < (cnode->child2->value));
             break;
-         case e_GTE:
+          case e_GTE:
             cnode->value = ((cnode->child1->value) >= (cnode->child2->value));
             break;
-         case e_LTE:
+          case e_LTE:
             cnode->value = ((cnode->child1->value) <= (cnode->child2->value));
             break;
-         case e_AND:
+          case e_AND:
             cnode->value = ((cnode->child1->value) && (cnode->child2->value));
             break;
-         case e_OR :
+          case e_OR :
             cnode->value = ((cnode->child1->value) || (cnode->child2->value));
             break;
-         default:
-            uimon_out(
-                        "Unexpected conditional operator: %d\n",
-                        cnode->operation);
+          default:
+            uimon_out("Unexpected conditional operator: %d\n",
+                      cnode->operation);
             assert(0);
-      }
-   }
-   else
-   {
-      if (cnode->is_reg)
-         cnode->value = mon_get_reg_val(reg_memspace(cnode->reg_num), reg_regid(cnode->reg_num));
-   }
+        }
+    } else {
+        if (cnode->is_reg)
+            cnode->value = mon_get_reg_val(reg_memspace(cnode->reg_num),
+                                           reg_regid(cnode->reg_num));
+    }
 
-   return cnode->value;
+    return cnode->value;
 }
 
 
 static void delete_conditional(CONDITIONAL_NODE *cnode)
 {
-   if (cnode) {
-      if (cnode->child1)
-         delete_conditional(cnode->child1);
-      if (cnode->child2)
-         delete_conditional(cnode->child2);
-      free(cnode);
-   }
+    if (cnode) {
+        if (cnode->child1)
+            delete_conditional(cnode->child1);
+        if (cnode->child2)
+            delete_conditional(cnode->child2);
+        free(cnode);
+    }
 }
 
 
@@ -2559,422 +2159,405 @@ static void delete_conditional(CONDITIONAL_NODE *cnode)
 
 static void remove_checkpoint_from_list(BREAK_LIST **head, breakpoint *bp)
 {
-   BREAK_LIST *cur_entry, *prev_entry;
+    BREAK_LIST *cur_entry, *prev_entry;
 
-   cur_entry = *head;
-   prev_entry = NULL;
+    cur_entry = *head;
+    prev_entry = NULL;
 
-   while (cur_entry) {
-      if (cur_entry->brkpt == bp)
-         break;
+    while (cur_entry) {
+        if (cur_entry->brkpt == bp)
+            break;
+ 
+        prev_entry = cur_entry;
+        cur_entry = cur_entry->next;
+    }
 
-      prev_entry = cur_entry;
-      cur_entry = cur_entry->next;
-   }
-
-   if (!cur_entry) {
-      assert(FALSE);
-   } else {
-     if (!prev_entry) {
-        *head = cur_entry->next;
-     } else {
-         prev_entry->next = cur_entry->next;
-     }
-
-     free(cur_entry);
-   }
+    if (!cur_entry) {
+        assert(FALSE);
+    } else {
+        if (!prev_entry) {
+            *head = cur_entry->next;
+        } else {
+             prev_entry->next = cur_entry->next;
+        }
+        free(cur_entry);
+    }
 }
 
 static breakpoint *find_checkpoint(int brknum)
 {
-   BREAK_LIST *ptr;
-   int i;
+    BREAK_LIST *ptr;
+    int i;
 
-   for (i=e_comp_space;i<LAST_SPACE;i++) {
-      ptr = breakpoints[i];
-      while (ptr) {
-         if (ptr->brkpt->brknum == brknum)
-            return ptr->brkpt;
-         ptr = ptr->next;
-      }
+    for (i = e_comp_space; i < LAST_SPACE; i++) {
+        ptr = breakpoints[i];
+        while (ptr) {
+            if (ptr->brkpt->brknum == brknum)
+                return ptr->brkpt;
+            ptr = ptr->next;
+        }
 
-      ptr = watchpoints_load[i];
-      while (ptr) {
-         if (ptr->brkpt->brknum == brknum)
-            return ptr->brkpt;
-         ptr = ptr->next;
-      }
+        ptr = watchpoints_load[i];
+        while (ptr) {
+            if (ptr->brkpt->brknum == brknum)
+                return ptr->brkpt;
+            ptr = ptr->next;
+        }
 
-      ptr = watchpoints_store[i];
-      while (ptr) {
-         if (ptr->brkpt->brknum == brknum)
-            return ptr->brkpt;
-         ptr = ptr->next;
-      }
-   }
+        ptr = watchpoints_store[i];
+        while (ptr) {
+            if (ptr->brkpt->brknum == brknum)
+                return ptr->brkpt;
+            ptr = ptr->next;
+        }
+    }
 
-   return NULL;
+    return NULL;
 }
 
 void mon_switch_checkpoint(int op, int breakpt_num)
 {
-   breakpoint *bp;
-   bp = find_checkpoint(breakpt_num);
+    breakpoint *bp;
+    bp = find_checkpoint(breakpt_num);
 
-   if (!bp) {
-      uimon_out( "#%d not a valid breakpoint\n", breakpt_num);
-   } else {
-      bp->enabled = op;
-      uimon_out( "Set breakpoint #%d to state: %s\n",
-              breakpt_num, (op == e_ON) ? "enabled" : "disabled");
-   }
+    if (!bp) {
+        uimon_out("#%d not a valid breakpoint\n", breakpt_num);
+    } else {
+        bp->enabled = op;
+        uimon_out("Set breakpoint #%d to state: %s\n",
+                  breakpt_num, (op == e_ON) ? "enabled" : "disabled");
+    }
 }
 
 void mon_set_ignore_count(int breakpt_num, int count)
 {
-   breakpoint *bp;
-   bp = find_checkpoint(breakpt_num);
+    breakpoint *bp;
+    bp = find_checkpoint(breakpt_num);
 
-   if (!bp)
-   {
-      uimon_out( "#%d not a valid breakpoint\n", breakpt_num);
-   }
-   else
-   {
-      bp->ignore_count = count;
-      uimon_out(
-                  "Ignoring the next %d crossings of breakpoint #%d\n",
+    if (!bp)
+    {
+        uimon_out("#%d not a valid breakpoint\n", breakpt_num);
+    } else {
+        bp->ignore_count = count;
+        uimon_out("Ignoring the next %d crossings of breakpoint #%d\n",
                   count, breakpt_num);
-   }
+    }
 }
 
 static void print_checkpoint_info(breakpoint *bp)
 {
-   if (bp->trace) {
-      uimon_out( "TRACE: ");
-   } else if (bp->watch_load || bp->watch_store) {
-      uimon_out( "WATCH: ");
-   } else {
-      if (bp->temporary)
-         uimon_out( "UNTIL: ");
-      else
-         uimon_out( "BREAK: ");
-   }
-   uimon_out(
-               "%d A:$%04x",bp->brknum,addr_location(bp->start_addr));
-   if (is_valid_addr(bp->end_addr) && (bp->start_addr != bp->end_addr))
-      uimon_out( "-$%04x",addr_location(bp->end_addr));
+    if (bp->trace) {
+        uimon_out("TRACE: ");
+    } else if (bp->watch_load || bp->watch_store) {
+        uimon_out("WATCH: ");
+    } else {
+        if (bp->temporary)
+            uimon_out("UNTIL: ");
+        else
+            uimon_out("BREAK: ");
+    }
+    uimon_out("%d A:$%04x",bp->brknum,addr_location(bp->start_addr));
+    if (is_valid_addr(bp->end_addr) && (bp->start_addr != bp->end_addr))
+        uimon_out("-$%04x",addr_location(bp->end_addr));
 
-   if (bp->watch_load)
-      uimon_out( " load");
-   if (bp->watch_store)
-      uimon_out( " store");
+    if (bp->watch_load)
+        uimon_out(" load");
+    if (bp->watch_store)
+        uimon_out(" store");
 
-   uimon_out( "   %s\n",
-               (bp->enabled==e_ON) ? "enabled" : "disabled");
+    uimon_out("   %s\n", (bp->enabled==e_ON) ? "enabled" : "disabled");
 
-   if (bp->condition) {
-      uimon_out( "\tCondition: ");
-      print_conditional(bp->condition);
-      uimon_out( "\n");
-   }
-   if (bp->command)
-      uimon_out( "\tCommand: %s\n", bp->command);
+    if (bp->condition) {
+        uimon_out("\tCondition: ");
+        print_conditional(bp->condition);
+        uimon_out("\n");
+    }
+    if (bp->command)
+        uimon_out("\tCommand: %s\n", bp->command);
 }
 
 void mon_print_checkpoints(void)
 {
-   int i, any_set=0;
-   breakpoint *bp;
+    int i, any_set = 0;
+    breakpoint *bp;
 
-   for (i=1;i<breakpoint_count;i++)
-   {
-      if ( (bp = find_checkpoint(i)) )
-      {
-         print_checkpoint_info(bp);
-         any_set = 1;
-      }
-   }
+    for (i = 1; i < breakpoint_count; i++) {
+        if ((bp = find_checkpoint(i))) {
+            print_checkpoint_info(bp);
+            any_set = 1;
+        }
+    }
 
-   if (!any_set)
-      uimon_out( "No breakpoints are set\n");
+    if (!any_set)
+        uimon_out("No breakpoints are set\n");
 }
 
 void mon_delete_checkpoint(int brknum)
 {
-   int i;
-   breakpoint *bp = NULL;
-   MEMSPACE mem;
+    int i;
+    breakpoint *bp = NULL;
+    MEMSPACE mem;
 
-   if (brknum == -1)
-   {
-      /* Add user confirmation here. */
-      uimon_out( "Deleting all breakpoints\n");
-      for (i=1;i<breakpoint_count;i++)
-      {
-         bp = find_checkpoint(i);
-         if (bp)
-            mon_delete_checkpoint(i);
-      }
-   }
-   else if ( !(bp = find_checkpoint(brknum)) )
-   {
-      uimon_out( "#%d not a valid breakpoint\n",brknum);
-      return;
-   }
-   else
-   {
-      mem = addr_memspace(bp->start_addr);
+    if (brknum == -1) {
+        /* Add user confirmation here. */
+        uimon_out("Deleting all breakpoints\n");
+        for (i = 1; i < breakpoint_count; i++) {
+            bp = find_checkpoint(i);
+            if (bp)
+                mon_delete_checkpoint(i);
+        }
+    }
+    else if ( !(bp = find_checkpoint(brknum)) )
+    {
+        uimon_out("#%d not a valid breakpoint\n", brknum);
+        return;
+    } else {
+        mem = addr_memspace(bp->start_addr);
+ 
+        if (!(bp->watch_load) && !(bp->watch_store)) {
+            remove_checkpoint_from_list(&(breakpoints[mem]), bp);
+ 
+            if (!any_breakpoints(mem)) {
+                mon_mask[mem] &= ~MI_BREAK;
+                if (!mon_mask[mem])
+                    interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
+            }
+        } else {
+            if (bp->watch_load)
+                remove_checkpoint_from_list(&(watchpoints_load[mem]), bp);
+            if (bp->watch_store)
+                remove_checkpoint_from_list(&(watchpoints_store[mem]), bp);
 
-      if ( !(bp->watch_load) && !(bp->watch_store) ) {
-         remove_checkpoint_from_list(&(breakpoints[mem]), bp);
+            if (!any_watchpoints(mem)) {
+                mon_mask[mem] &= ~MI_WATCH;
+                mon_interfaces[mem]->toggle_watchpoints_func(0);
+   
+                if (!mon_mask[mem])
+                    interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
+            }
+       }
+    }
 
-         if (!any_breakpoints(mem)) {
-            mon_mask[mem] &= ~MI_BREAK;
-
-            if (!mon_mask[mem])
-               interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
-         }
-      } else {
-         if ( bp->watch_load )
-            remove_checkpoint_from_list(&(watchpoints_load[mem]), bp);
-         if ( bp->watch_store )
-            remove_checkpoint_from_list(&(watchpoints_store[mem]), bp);
-
-         if (!any_watchpoints(mem)) {
-            mon_mask[mem] &= ~MI_WATCH;
-            mon_interfaces[mem]->toggle_watchpoints_func(0);
-
-            if (!mon_mask[mem])
-               interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
-         }
-      }
-   }
-
-   if (bp != NULL) {
-      delete_conditional(bp->condition);
-      if (bp->command)
-         free(bp->command);
-   }
+    if (bp != NULL) {
+        delete_conditional(bp->condition);
+        if (bp->command)
+            free(bp->command);
+    }
 }
 
 void mon_set_checkpoint_condition(int brk_num, CONDITIONAL_NODE *cnode)
 {
-   breakpoint *bp;
-   bp = find_checkpoint(brk_num);
+    breakpoint *bp;
+    bp = find_checkpoint(brk_num);
 
-   if (!bp)
-   {
-      uimon_out( "#%d not a valid breakpoint\n", brk_num);
-   }
-   else
-   {
-      bp->condition = cnode;
+    if (!bp) {
+        uimon_out("#%d not a valid breakpoint\n", brk_num);
+    } else {
+        bp->condition = cnode;
 
-      uimon_out( "Setting breakpoint %d condition to: ", brk_num);
-      print_conditional(cnode);
-      uimon_out( "\n");
-   }
+        uimon_out("Setting breakpoint %d condition to: ", brk_num);
+        print_conditional(cnode);
+        uimon_out("\n");
+    }
 }
 
 
 void mon_set_checkpoint_command(int brk_num, char *cmd)
 {
-   breakpoint *bp;
-   bp = find_checkpoint(brk_num);
+    breakpoint *bp;
+    bp = find_checkpoint(brk_num);
 
-   if (!bp)
-   {
-      uimon_out( "#%d not a valid breakpoint\n", brk_num);
-   }
-   else
-   {
-      bp->command = cmd;
-      uimon_out( "Setting breakpoint %d command to: %s\n",
+    if (!bp) {
+        uimon_out("#%d not a valid breakpoint\n", brk_num);
+    } else {
+        bp->command = cmd;
+        uimon_out("Setting breakpoint %d command to: %s\n",
                   brk_num, cmd);
-   }
+    }
 }
 
 
 static BREAK_LIST *search_checkpoint_list(BREAK_LIST *head, unsigned loc)
 {
-   BREAK_LIST *cur_entry;
+    BREAK_LIST *cur_entry;
 
-   cur_entry = head;
+    cur_entry = head;
 
-   /* The list should be sorted in increasing order. If the current entry
-      is > than the search item, we can drop out early.
-   */
-   while (cur_entry) {
-      if (is_in_range(cur_entry->brkpt->start_addr, cur_entry->brkpt->end_addr, loc))
-         return cur_entry;
+    /* The list should be sorted in increasing order. If the current entry
+       is > than the search item, we can drop out early.
+    */
+    while (cur_entry) {
+        if (is_in_range(cur_entry->brkpt->start_addr,
+            cur_entry->brkpt->end_addr, loc))
+            return cur_entry;
 
-      cur_entry = cur_entry->next;
-   }
+        cur_entry = cur_entry->next;
+    }
 
-   return NULL;
+    return NULL;
 }
 
 static int compare_checkpoints(breakpoint *bp1, breakpoint *bp2)
 {
-   unsigned addr1, addr2;
-   /* Returns < 0 if bp1 < bp2
-              = 0 if bp1 = bp2
-              > 0 if bp1 > bp2
-   */
+    unsigned addr1, addr2;
+    /* Returns < 0 if bp1 < bp2
+               = 0 if bp1 = bp2
+               > 0 if bp1 > bp2
+    */
 
-   addr1 = addr_location(bp1->start_addr);
-   addr2 = addr_location(bp2->end_addr);
+    addr1 = addr_location(bp1->start_addr);
+    addr2 = addr_location(bp2->end_addr);
 
-   if ( addr1 < addr2 )
-      return -1;
+    if ( addr1 < addr2 )
+        return -1;
 
-   if ( addr1 > addr2 )
-      return 1;
+    if ( addr1 > addr2 )
+        return 1;
 
-   return 0;
+    return 0;
 }
 
 bool mon_check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list)
 {
-   BREAK_LIST *ptr;
-   breakpoint *bp;
-   bool result = FALSE;
-   MON_ADDR temp;
-   const char *type;
+    BREAK_LIST *ptr;
+    breakpoint *bp;
+    bool result = FALSE;
+    MON_ADDR temp;
+    const char *type;
 
-   ptr = search_checkpoint_list(list,addr);
+    ptr = search_checkpoint_list(list,addr);
 
-   while (ptr && is_in_range(ptr->brkpt->start_addr,
-          ptr->brkpt->end_addr, addr)) {
-      bp = ptr->brkpt;
-      ptr = ptr->next;
-      if (bp && bp->enabled==e_ON) {
-         /* If condition test fails, skip this checkpoint */
-         if (bp->condition) {
-            if (!evaluate_conditional(bp->condition)) {
-               continue;
+    while (ptr && is_in_range(ptr->brkpt->start_addr,
+           ptr->brkpt->end_addr, addr)) {
+        bp = ptr->brkpt;
+        ptr = ptr->next;
+        if (bp && bp->enabled==e_ON) {
+            /* If condition test fails, skip this checkpoint */
+            if (bp->condition) {
+                if (!evaluate_conditional(bp->condition)) {
+                    continue;
+                }
             }
-         }
 
-         /* Check if the user specified some ignores */
-         if (bp->ignore_count) {
-            bp->ignore_count--;
-            continue;
-         }
+            /* Check if the user specified some ignores */
+            if (bp->ignore_count) {
+                bp->ignore_count--;
+                continue;
+            }
+ 
+            bp->hit_count++;
 
-         bp->hit_count++;
+            result = TRUE;
 
-         result = TRUE;
+            temp = new_addr(mem, mon_get_reg_val(mem, e_PC));
+            if (bp->trace) {
+                type = "Trace";
+                result = FALSE;
+            }
+            else if (bp->watch_load)
+                type = "Watch-load";
+            else if (bp->watch_store)
+                type = "Watch-store";
+            else
+                type = "Break";
 
-         temp = new_addr(mem, mon_get_reg_val(mem, e_PC));
-         if (bp->trace) {
-            type = "Trace";
-            result = FALSE;
-         }
-         else if (bp->watch_load)
-            type = "Watch-load";
-         else if (bp->watch_store)
-            type = "Watch-store";
-         else
-            type = "Break";
+            /*archdep_open_monitor_console(&mon_input, &mon_output);*/
 
-         /*archdep_open_monitor_console(&mon_input, &mon_output);*/
+            uimon_out("#%d (%s) ", bp->brknum, type);
+            mon_disassemble_instr(temp);
 
-         uimon_out( "#%d (%s) ", bp->brknum, type);
-         disassemble_instr(temp);
+            if (bp->command) {
+                uimon_out("Executing: %s\n", bp->command);
+                parse_and_execute_line(bp->command);
+            }
 
-         if (bp->command) {
-            uimon_out( "Executing: %s\n", bp->command);
-            parse_and_execute_line(bp->command);
-         }
-
-         if (bp->temporary)
-            mon_delete_checkpoint(bp->brknum);
-      }
-   }
-   return result;
+            if (bp->temporary)
+                mon_delete_checkpoint(bp->brknum);
+        }
+    }
+    return result;
 }
 
 static void add_to_checkpoint_list(BREAK_LIST **head, breakpoint *bp)
 {
-   BREAK_LIST *new_entry, *cur_entry, *prev_entry;
+    BREAK_LIST *new_entry, *cur_entry, *prev_entry;
 
-   new_entry = (BREAK_LIST *) xmalloc(sizeof(BREAK_LIST));
-   new_entry->brkpt = bp;
+    new_entry = (BREAK_LIST *) xmalloc(sizeof(BREAK_LIST));
+    new_entry->brkpt = bp;
 
-   cur_entry = *head;
-   prev_entry = NULL;
+    cur_entry = *head;
+    prev_entry = NULL;
 
-   /* Make sure the list is in increasing order. (Ranges are entered
-      based on the lower bound) This way if the searched for address is
-      less than the current ptr, we can skip the rest of the list. Note
-      that ranges that wrap around 0xffff aren't handled in this scheme.
-      Suggestion: Split the range and create two entries.
-   */
-   while (cur_entry && (compare_checkpoints(cur_entry->brkpt, bp) <= 0) ) {
-      prev_entry = cur_entry;
-      cur_entry = cur_entry->next;
-   }
+    /* Make sure the list is in increasing order. (Ranges are entered
+       based on the lower bound) This way if the searched for address is
+       less than the current ptr, we can skip the rest of the list. Note
+       that ranges that wrap around 0xffff aren't handled in this scheme.
+       Suggestion: Split the range and create two entries.
+    */
+    while (cur_entry && (compare_checkpoints(cur_entry->brkpt, bp) <= 0) ) {
+        prev_entry = cur_entry;
+        cur_entry = cur_entry->next;
+    }
 
-   if (!prev_entry) {
-      *head = new_entry;
-      new_entry->next = cur_entry;
-      return;
-   }
+    if (!prev_entry) {
+        *head = new_entry;
+        new_entry->next = cur_entry;
+        return;
+    }
 
-   prev_entry->next = new_entry;
-   new_entry->next = cur_entry;
+    prev_entry->next = new_entry;
+    new_entry->next = cur_entry;
 }
 
-int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace, bool is_load, bool is_store, bool is_temp)
+int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace,
+                       bool is_load, bool is_store, bool is_temp)
 {
-   breakpoint *new_bp;
-   MEMSPACE mem;
-   long len;
+    breakpoint *new_bp;
+    MEMSPACE mem;
+    long len;
+ 
+    len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE, 0);
+    new_bp = (breakpoint *) xmalloc(sizeof(breakpoint));
 
-   len = evaluate_address_range(&start_addr, &end_addr, FALSE, 0);
-   new_bp = (breakpoint *) xmalloc(sizeof(breakpoint));
+    new_bp->brknum = breakpoint_count++;
+    new_bp->start_addr = start_addr;
+    new_bp->end_addr = end_addr;
+    new_bp->trace = is_trace;
+    new_bp->enabled = e_ON;
+    new_bp->hit_count = 0;
+    new_bp->ignore_count = 0;
+    new_bp->condition = NULL;
+    new_bp->command = NULL;
+    new_bp->watch_load = is_load;
+    new_bp->watch_store = is_store;
+    new_bp->temporary = is_temp;
 
-   new_bp->brknum = breakpoint_count++;
-   new_bp->start_addr = start_addr;
-   new_bp->end_addr = end_addr;
-   new_bp->trace = is_trace;
-   new_bp->enabled = e_ON;
-   new_bp->hit_count = 0;
-   new_bp->ignore_count = 0;
-   new_bp->condition = NULL;
-   new_bp->command = NULL;
-   new_bp->watch_load = is_load;
-   new_bp->watch_store = is_store;
-   new_bp->temporary = is_temp;
+    mem = addr_memspace(start_addr);
+    if (!is_load && !is_store) {
+        if (!any_breakpoints(mem)) {
+            mon_mask[mem] |= MI_BREAK;
+            interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
+        }
 
-   mem = addr_memspace(start_addr);
-   if (!is_load && !is_store) {
-      if (!any_breakpoints(mem)) {
-         mon_mask[mem] |= MI_BREAK;
-         interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
-      }
+        add_to_checkpoint_list(&(breakpoints[mem]), new_bp);
+    } else {
+        if (!any_watchpoints(mem)) {
+            mon_mask[mem] |= MI_WATCH;
+            mon_interfaces[mem]->toggle_watchpoints_func(1);
+            interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
+        }
 
-      add_to_checkpoint_list(&(breakpoints[mem]), new_bp);
-   } else {
-      if (!any_watchpoints(mem)) {
-         mon_mask[mem] |= MI_WATCH;
-         mon_interfaces[mem]->toggle_watchpoints_func(1);
-         interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
-      }
+        if (is_load)
+            add_to_checkpoint_list(&(watchpoints_load[mem]), new_bp);
+        if (is_store)
+            add_to_checkpoint_list(&(watchpoints_store[mem]), new_bp);
+    }
 
-      if (is_load)
-         add_to_checkpoint_list(&(watchpoints_load[mem]), new_bp);
-      if (is_store)
-         add_to_checkpoint_list(&(watchpoints_store[mem]), new_bp);
-   }
+    if (is_temp)
+        exit_mon = 1;
 
-   if (is_temp)
-      exit_mon = 1;
-
-   print_checkpoint_info(new_bp);
-   return new_bp->brknum;
+    print_checkpoint_info(new_bp);
+    return new_bp->brknum;
 }
 
 
@@ -2983,63 +2566,63 @@ int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace, bo
 
 void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem)
 {
-   if (inside_monitor)
-      return;
+    if (inside_monitor)
+        return;
 
-   if (watch_load_count[mem] == 9)
-       return;
+    if (watch_load_count[mem] == 9)
+         return;
 
-   watch_load_occurred = TRUE;
-   watch_load_array[watch_load_count[mem]][mem] = addr;
-   watch_load_count[mem]++;
+    watch_load_occurred = TRUE;
+    watch_load_array[watch_load_count[mem]][mem] = addr;
+    watch_load_count[mem]++;
 }
 
 void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem)
 {
-   if (inside_monitor)
-      return;
+    if (inside_monitor)
+        return;
 
-   if (watch_store_count[mem] == 9)
-       return;
+    if (watch_store_count[mem] == 9)
+        return;
 
-   watch_store_occurred = TRUE;
-   watch_store_array[watch_store_count[mem]][mem] = addr;
-   watch_store_count[mem]++;
+    watch_store_occurred = TRUE;
+    watch_store_array[watch_store_count[mem]][mem] = addr;
+    watch_store_count[mem]++;
 }
 
 bool watchpoints_check_loads(MEMSPACE mem)
 {
-   bool trap = FALSE;
-   unsigned count;
-   ADDRESS addr = 0;
+    bool trap = FALSE;
+    unsigned count;
+    ADDRESS addr = 0;
 
-   count = watch_load_count[mem];
-   watch_load_count[mem] = 0;
-   while (count) {
-      count--;
-      addr = watch_load_array[count][mem];
-      if (mon_check_checkpoint(mem, addr, watchpoints_load[mem]))
-         trap = TRUE;
-   }
-   return trap;
+    count = watch_load_count[mem];
+    watch_load_count[mem] = 0;
+    while (count) {
+        count--;
+        addr = watch_load_array[count][mem];
+        if (mon_check_checkpoint(mem, addr, watchpoints_load[mem]))
+            trap = TRUE;
+    }
+    return trap;
 }
 
 bool watchpoints_check_stores(MEMSPACE mem)
 {
-   bool trap = FALSE;
-   unsigned count;
-   ADDRESS addr = 0;
+    bool trap = FALSE;
+    unsigned count;
+    ADDRESS addr = 0;
 
-   count = watch_store_count[mem];
-   watch_store_count[mem] = 0;
+    count = watch_store_count[mem];
+    watch_store_count[mem] = 0;
 
-   while (count) {
-      count--;
-      addr = watch_store_array[count][mem];
-      if (mon_check_checkpoint(mem, addr, watchpoints_store[mem]))
-         trap = TRUE;
-   }
-   return trap;
+    while (count) {
+        count--;
+        addr = watch_store_array[count][mem];
+        if (mon_check_checkpoint(mem, addr, watchpoints_store[mem]))
+            trap = TRUE;
+    }
+    return trap;
 }
 
 
@@ -3048,12 +2631,12 @@ bool watchpoints_check_stores(MEMSPACE mem)
 
 bool mon_force_import(MEMSPACE mem)
 {
-   bool result;
+    bool result;
 
-   result = force_array[mem];
-   force_array[mem] = FALSE;
+    result = force_array[mem];
+    force_array[mem] = FALSE;
 
-   return result;
+    return result;
 }
 
 void mon_check_icount(ADDRESS a)
@@ -3064,41 +2647,40 @@ void mon_check_icount(ADDRESS a)
 
         if (skip_jsrs == TRUE) {
             if (GET_OPCODE(caller_space) == OP_JSR)
-               wait_for_return_level++;
+                wait_for_return_level++;
 
             if (GET_OPCODE(caller_space) == OP_RTS)
-               wait_for_return_level--;
+                wait_for_return_level--;
 
             if (GET_OPCODE(caller_space) == OP_RTI)
-               wait_for_return_level--;
+                wait_for_return_level--;
 
-            if (wait_for_return_level < 0)
-            {
-               wait_for_return_level = 0;
+            if (wait_for_return_level < 0) {
+                wait_for_return_level = 0;
 
-               /* FIXME: [SRT], 01-24-2000: this is only a workaround.
-               this occurs when the commands 'n' or  'ret' are executed
-               out of an active IRQ or NMI processing routine.
+                /* FIXME: [SRT], 01-24-2000: this is only a workaround.
+                this occurs when the commands 'n' or  'ret' are executed
+                out of an active IRQ or NMI processing routine.
 
-               the following command immediately stops executing when used
-               with 'n' and parameter > 1, but it's necessary because else,
-               it can occur that the monitor will not come back at all.
-               Don't know so far how this can be avoided. The only
-               solution I see is to keep track of every IRQ and NMI
-               invocation and every RTI. */
-               instruction_count = 0;
+                the following command immediately stops executing when used
+                with 'n' and parameter > 1, but it's necessary because else,
+                it can occur that the monitor will not come back at all.
+                Don't know so far how this can be avoided. The only
+                solution I see is to keep track of every IRQ and NMI
+                invocation and every RTI. */
+                instruction_count = 0;
             }
         }
 
         if (instruction_count == 0) {
-           if (mon_mask[caller_space] & MI_STEP) {
-              mon_mask[caller_space] &= ~MI_STEP;
-              disassemble_on_entry = 1;
-           }
-           if (!mon_mask[caller_space])
-              interrupt_monitor_trap_off(mon_interfaces[caller_space]->int_status);
+            if (mon_mask[caller_space] & MI_STEP) {
+                mon_mask[caller_space] &= ~MI_STEP;
+                disassemble_on_entry = 1;
+            }
+            if (!mon_mask[caller_space])
+                interrupt_monitor_trap_off(mon_interfaces[caller_space]->int_status);
 
-           mon(a);
+            mon(a);
         }
     }
 }
@@ -3153,7 +2735,7 @@ void mon_check_watchpoints(ADDRESS a)
 static void make_prompt(char *str)
 {
     sprintf(str, "(%s:$%04x) ",
-            memspace_string[default_memspace],
+            mon_memspace_string[default_memspace],
             addr_location(dot_addr[default_memspace]));
 }
 
@@ -3161,21 +2743,18 @@ static signal_handler_t old_handler;
 
 static void handle_abort(int signo)
 {
-  stop_output = 1;
-  signal(SIGINT, (signal_handler_t) handle_abort);
+    mon_stop_output = 1;
+    signal(SIGINT, (signal_handler_t) handle_abort);
 }
 
 void mon_open(ADDRESS a)
 {
     char prompt[40];
 
-    if (mon_console_close_on_leaving)
-    {
+    if (mon_console_close_on_leaving) {
         console_log = uimon_window_open();
         uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
-    }
-    else
-    {
+    } else {
         console_log = uimon_window_resume();
         mon_console_close_on_leaving = 1;
     }
@@ -3190,10 +2769,10 @@ void mon_open(ADDRESS a)
 
     dot_addr[caller_space] = new_addr(caller_space, a);
 
-    uimon_out( "\n** Monitor\n");
+    uimon_out("\n** Monitor\n");
 
     if (disassemble_on_entry) {
-        disassemble_instr(new_addr(caller_space, a));
+        mon_disassemble_instr(new_addr(caller_space, a));
         disassemble_on_entry = 0;
     }
 
@@ -3203,16 +2782,16 @@ void mon_open(ADDRESS a)
         sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
     }
 
-    uimon_out( prompt);
+    uimon_out(prompt);
 }
 
 int mon_process(char *cmd)
 {
     char prompt[40];
 
-    stop_output = 0;
+    mon_stop_output = 0;
     if (cmd == NULL) {
-        uimon_out( "\n");
+        uimon_out("\n");
     } else {
         if (!cmd[0]) {
             if (!asm_mode) {
@@ -3237,9 +2816,8 @@ int mon_process(char *cmd)
         if (cmd) {
             if (recording) {
                 if (fprintf(recording_fp, "%s\n", cmd) < 0) {
-                   uimon_out(
-                               "Error while recording commands. "
-                               "Output file closed.\n");
+                   uimon_out("Error while recording commands. "
+                             "Output file closed.\n");
                    fclose(recording_fp);
                    recording_fp = NULL;
                    recording    = FALSE;
@@ -3304,3 +2882,4 @@ void mon(ADDRESS a)
     }
     mon_close(1);
 }
+
