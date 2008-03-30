@@ -913,7 +913,7 @@ case 3:
 #line 64 "mon_cli.y"
 { yyval.i = 0; 
                                if (yyvsp[-1].str) {
-                                  assemble_line(yyvsp[-1].str); 
+                                  assemble_line(yyvsp[-1].str);
                                } else {
                                   new_cmd = 1;
                                   end_assemble_mode();
