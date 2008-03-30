@@ -282,9 +282,9 @@ c64cartmem.o: c64cartmem.c ../../../src/vice.h ../../../src/config.h \
 crt.o: crt.c ../../../src/vice.h ../../../src/config.h actionreplay.h \
 	../../../src/arch/unix/types.h atomicpower.h \
 	../../../src/arch/unix/archdep.h ../../../src/archapi.h \
-	c64cartmem.h ../../../src/cartridge.h crt.h epyxfastload.h \
-	expert.h final.h generic.h kcs.h ../../../src/resources.h \
-	supergames.h zaxxon.h
+	../../../src/c64/c64cart.h c64cartmem.h \
+	../../../src/cartridge.h crt.h epyxfastload.h expert.h final.h \
+	generic.h kcs.h ../../../src/resources.h supergames.h zaxxon.h
 epyxfastload.o: epyxfastload.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h epyxfastload.h ../../../src/utils.h
