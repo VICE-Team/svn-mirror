@@ -29,9 +29,9 @@
 
 #include "types.h"
 
-extern int parallelattention(int b);
-extern int parallelsendbyte(BYTE data);
-extern int parallelreceivebyte(BYTE *data, int fake);
+extern int parallel_trap_attention(int b);
+extern int parallel_trap_sendbyte(BYTE data);
+extern int parallel_trap_receivebyte(BYTE *data, int fake);
 
 #endif
 

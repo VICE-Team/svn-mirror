@@ -32,7 +32,7 @@
 struct drive_context_s;
 struct mem_ioreg_list_s;
 
-extern void drive_mem_init(struct drive_context_s *drv, unsigned int type);
+extern void drivemem_init(struct drive_context_s *drv, unsigned int type);
 
 extern struct mem_ioreg_list_s *drivemem_ioreg_list_get(void *context);
 

@@ -255,9 +255,9 @@ static void In1_davlo(int tr)
     parallel_emu_set_ndac(0);
 
     if (parallel_atn) {
-        par_status = parallelattention(b ^ 0xff);
+        par_status = parallel_trap_attention(b ^ 0xff);
     } else {
-        par_status = parallelsendbyte((BYTE)(b ^ 0xff));
+        par_status = parallel_trap_sendbyte((BYTE)(b ^ 0xff));
     }
     if (parallel_debug)
         log_warning(LOG_DEFAULT,
@@ -336,7 +336,7 @@ static void Out1_nrfdhi(int tr)
 {
     static BYTE b;
 
-    par_status = parallelreceivebyte(&b, 1);
+    par_status = parallel_trap_receivebyte(&b, 1);
     parallel_emu_set_bus((BYTE)(b ^ 0xff));
 
     if(par_status & 0x40) {
@@ -373,7 +373,7 @@ static void Out2_ndachi(int tr)
     parallel_emu_set_eoi(0);
     parallel_emu_set_bus(0xff);
 
-    par_status = parallelreceivebyte(&b, 0);
+    par_status = parallel_trap_receivebyte(&b, 0);
 
     if (par_status & 0xff) {
         ResetBus();

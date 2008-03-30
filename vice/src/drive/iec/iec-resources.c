@@ -154,7 +154,7 @@ static void set_drive_ram(unsigned int dnr)
     if (drive->type == DRIVE_TYPE_NONE)
         return;
 
-    drive_mem_init(drive_context[dnr], drive->type);
+    drivemem_init(drive_context[dnr], drive->type);
 
     return;
 }

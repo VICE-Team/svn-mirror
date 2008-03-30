@@ -99,7 +99,7 @@ static int parallelcommand(void)
 
         if ((!st) && ((TrapDevice & 0xf0) == 0x40)) {
             /* any error, except eof */
-            st = parallelreceivebyte(&b, 1) & 0xbf;
+            st = parallel_trap_receivebyte(&b, 1) & 0xbf;
         }
         break;
       case 0xE0:
@@ -134,7 +134,7 @@ static int parallelcommand(void)
     return (st);
 }
 
-int parallelattention(int b)
+int parallel_trap_attention(int b)
 {
     int st = 0;
     serial_t *p;
@@ -202,7 +202,7 @@ int parallelattention(int b)
     return st;
 }
 
-int parallelsendbyte(BYTE data)
+int parallel_trap_sendbyte(BYTE data)
 {
     int st = 0;
     serial_t *p;
@@ -238,7 +238,7 @@ int parallelsendbyte(BYTE data)
     return st + (TrapDevice << 8);
 }
 
-int parallelreceivebyte(BYTE * data, int fake)
+int parallel_trap_receivebyte(BYTE * data, int fake)
 {
     int st = 0, secadr = TrapSecondary & 0x0f;
     serial_t *p;
