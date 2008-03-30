@@ -37,9 +37,10 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type(c)
             "maincpu.c"
         source type(c)
-            "rs232.c",
+            "rs232.c", // ???
             "mouse.c",
-            "kbd-plus4.c"
+            "kbd-plus4.c",
+            "dialogs\\dlg-color.c"
 
         include "../incl/resources.icc"
         include "../incl/archdep.icc"

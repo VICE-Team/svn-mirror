@@ -48,95 +48,6 @@
 
 ted_resources_t ted_resources;
 
-int vic_ii_activate_palette(void)
-{
-    if (ted_resources.ext_palette) {
-        /* external palette file */
-        return vic_ii_load_palette (ted_resources.palette_file_name);
-    } else {
-        /* calculated palette */
-        vic_ii_calc_palette(ted_resources.color_saturation,
-                            ted_resources.color_contrast,
-                            ted_resources.color_brightness,
-                            ted_resources.color_gamma,
-                            ted_resources.new_luminances,
-                            ted_resources.fast_delayloop_emulation);
-    }
-    return 0;
-}
-
-static int set_color_saturation(resource_value_t v, void *param)
-{
-    int val;
-    val = (int)v;
-    if (val < 0)
-        val = 0;
-    if (val > 2000)
-        val = 2000;
-    ted_resources.color_saturation = val;
-    return vic_ii_activate_palette();
-}
-
-static int set_color_contrast(resource_value_t v, void *param)
-{
-    int val;
-    val = (int)v;
-    if (val < 0)
-        val = 0;
-    if (val > 2000)
-        val = 2000;
-    ted_resources.color_contrast = val;
-    return vic_ii_activate_palette();
-}
-
-static int set_color_brightness(resource_value_t v, void *param)
-{
-    int val;
-    val = (int)v;
-    if (val < 0)
-        val = 0;
-    if (val > 2000)
-        val = 2000;
-    ted_resources.color_brightness = val;
-    return vic_ii_activate_palette();
-}
-
-static int set_color_gamma(resource_value_t v, void *param)
-{
-    int val;
-    val = (int)v;
-    if (val < 0)
-        val=0;
-    if (val > 2000)
-        val=2000;
-    ted_resources.color_gamma = val;
-    return vic_ii_activate_palette();
-}
-
-static int set_new_luminances(resource_value_t v, void *param)
-{
-    ted_resources.new_luminances = (int)v;
-    return vic_ii_activate_palette();
-}
-
-static int set_ext_palette(resource_value_t v, void *param)
-{
-    ted_resources.ext_palette = (int)v;
-    return vic_ii_activate_palette();
-}
-
-static int set_fast_delayloop_emulation(resource_value_t v, void *param)
-{
-    ted_resources.fast_delayloop_emulation = (int)v;
-    return vic_ii_activate_palette();
-}
-
-static int set_pal_emulation(resource_value_t v, void *param)
-{
-    ted_resources.pal_emulation = (int)v;
-    return vic_ii_activate_palette();
-}
-
 static int set_video_cache_enabled(resource_value_t v, void *param)
 {
     ted_resources.video_cache_enabled = (int)v;
@@ -147,41 +58,8 @@ static int set_video_cache_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_palette_file_name(resource_value_t v, void *param)
-{
-    util_string_set(&ted_resources.palette_file_name, (char *)v);
-    return vic_ii_activate_palette();
-}
-
 static resource_t resources[] =
 {
-    { "ColorSaturation", RES_INTEGER, (resource_value_t)1000,
-      (resource_value_t *)&ted_resources.color_saturation,
-      set_color_saturation, NULL },
-    { "ColorContrast", RES_INTEGER, (resource_value_t)1100,
-      (resource_value_t *)&ted_resources.color_contrast,
-      set_color_contrast, NULL },
-    { "ColorBrightness", RES_INTEGER, (resource_value_t)1100,
-      (resource_value_t *)&ted_resources.color_brightness,
-      set_color_brightness, NULL },
-    { "ColorGamma", RES_INTEGER, (resource_value_t)900,
-      (resource_value_t *)&ted_resources.color_gamma,
-      set_color_gamma, NULL },
-    { "NewLuminances", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&ted_resources.new_luminances,
-      set_new_luminances, NULL },
-    { "ExternalPalette", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ted_resources.ext_palette,
-      set_ext_palette, NULL },
-    { "DelayLoopEmulation", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ted_resources.fast_delayloop_emulation,
-      set_fast_delayloop_emulation, NULL },
-    { "PALEmulation", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ted_resources.pal_emulation,
-      set_pal_emulation, NULL },
-    { "PaletteFile", RES_STRING, (resource_value_t)"default",
-      (resource_value_t *)&ted_resources.palette_file_name,
-      set_palette_file_name, NULL },
     { "VideoCache", RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
       (resource_value_t *)&ted_resources.video_cache_enabled,
       set_video_cache_enabled, NULL },
@@ -241,7 +119,7 @@ static resource_t resources_2x[] =
     { "DoubleSize", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&ted_resources.double_size_enabled,
       set_double_size_enabled, NULL },
-    { "DoubleScan", RES_INTEGER, (resource_value_t)0,
+    { "DoubleScan", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&ted_resources.double_scan_enabled,
       set_double_scan_enabled, NULL },
 #ifdef USE_XF86_EXTENSIONS

@@ -33,6 +33,7 @@
 #include <windowsx.h>
 
 #include "ui.h"
+#include "uivideo.h"
 
 #include "plus4ui.h"
 #include "res.h"
@@ -53,6 +54,11 @@ ui_res_value_list plus4_ui_res_values[] = {
 
 static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
 {
+    switch (wparam) {
+      case IDM_VIDEO_SETTINGS:
+        ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
+        break;
+    }
 }
 
 int plus4_ui_init(void)

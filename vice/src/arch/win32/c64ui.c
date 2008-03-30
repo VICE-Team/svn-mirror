@@ -181,7 +181,7 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         ui_reu_settings_dialog(hwnd);
         break;
       case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd);
+        ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
         break;
     }
 }

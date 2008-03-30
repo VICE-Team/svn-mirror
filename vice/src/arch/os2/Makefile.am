@@ -80,6 +80,7 @@ EXTRA_DIST = \
 	icons/x64.ico \
 	icons/xcbm2.ico \
 	icons/xpet.ico \
+        icons/xplus4.ico \
         icons/xvic.ico \
 	texi2ipf/readme \
 	texi2ipf/texi2ipf.exe \

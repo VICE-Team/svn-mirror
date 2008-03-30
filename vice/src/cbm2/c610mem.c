@@ -248,12 +248,13 @@ static int cbm2_model = 1;
 int cbm2_set_model(const char *model, void *extra)
 {
     int i;
+
+    vsync_suspend_speed_eval();
+
     for(i=0; modtab[i].model; i++)
     {
         if (strcmp(modtab[i].model, model))
             continue;
-
-        vsync_suspend_speed_eval();
 
         resources_set_value("UseVicII",
                             (resource_value_t)(modtab[i].usevicii));
@@ -272,7 +273,7 @@ int cbm2_set_model(const char *model, void *extra)
 
         /* we have to wait until we did enough initialization */
         if (!cbm2_init_ok)
-            continue;
+            return 0; 
 
         mem_powerup();
         mem_load();

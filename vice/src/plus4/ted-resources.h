@@ -35,21 +35,6 @@
 /* VIC-II resources.  */
 struct ted_resources_s
 {
-    /* fixed point values */
-    int color_saturation;
-    int color_contrast;
-    int color_brightness;
-    int color_gamma;
-
-    /* Flag: New or old luminances? */
-    int new_luminances;
-
-    /* Flag: External palette used? */
-    int ext_palette;
-
-    /* Name of palette file.  */
-    char *palette_file_name;
-
 #ifdef VIC_II_NEED_2X
     /* Flag: Do we use double size?  */
     int double_size_enabled;
@@ -57,12 +42,6 @@ struct ted_resources_s
     /* Flag: Do we copy lines in double size mode?  */
     int double_scan_enabled;
 #endif
-
-    /* Flag: Fast palette based delay loop emulation? (fake pal emu) */
-    int fast_delayloop_emulation;
-
-    /* Flag: Slow but real PAL emulation? */
-    int pal_emulation;
 
     /* Flag: Do we enable the video cache?  */
     int video_cache_enabled;
@@ -80,7 +59,6 @@ typedef struct ted_resources_s ted_resources_t;
 extern ted_resources_t ted_resources;
 
 extern int ted_resources_init(void);
-extern int vic_ii_activate_palette(void);
 
 #endif
 

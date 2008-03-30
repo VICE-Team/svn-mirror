@@ -28,8 +28,6 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-
 #include "resources.h"
 #include "utils.h"
 #include "vdc-resources.h"

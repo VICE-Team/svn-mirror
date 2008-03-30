@@ -500,7 +500,7 @@ ValueList               *value;
 }
 
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 int notifycode;
 int item;
@@ -509,6 +509,18 @@ int value;
 int command;
 
     switch (msg) {
+        case WM_NOTIFY:
+            if (((NMHDR FAR *)lparam)->code==PSN_APPLY) {
+                resources_set_value("FullScreenDevice",(resource_value_t)fullscreen_device);
+                resources_set_value("FullScreenBitdepth",(resource_value_t)fullscreen_bitdepth);
+                resources_set_value("FullScreenWidth",(resource_value_t)fullscreen_width);
+                resources_set_value("FullScreenHeight",(resource_value_t)fullscreen_height);
+                resources_set_value("FullScreenRefreshRate",(resource_value_t)fullscreen_refreshrate);
+
+				SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
+                return TRUE;
+            }
+            return FALSE;
         case WM_COMMAND:
             notifycode=HIWORD(wparam);
             item=LOWORD(wparam);
@@ -556,11 +568,6 @@ int command;
             return TRUE;
     }
     return FALSE;
-}
-
-void ui_fullscreen_settings_dialog(HWND hwnd)
-{
-    DialogBox(winmain_instance,(LPCTSTR)IDD_FULLSCREEN_SETTINGS_DIALOG,hwnd,dialog_proc);
 }
 
 void ui_fullscreen_init(void)

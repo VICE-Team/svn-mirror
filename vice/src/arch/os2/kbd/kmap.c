@@ -51,7 +51,7 @@ static char *keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
 
 static int set_keymap_file(int myindex, const char *name)
 {
-    int kindex;
+    long kindex;
 
     if (myindex >= NUM_KEYBOARD_MAPPINGS)
 	return -1;

@@ -251,11 +251,6 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
                     &vic_ii.raster.draw_idle_state,
                     0);
               vic_ii.idle_state = 0;
-              raster_add_int_change_foreground
-                   (&vic_ii.raster,
-                    VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk)),
-                    &vic_ii.idle_state,
-                    0);
 #endif
             vic_ii.idle_data_location = IDLE_NONE;
             if (cycle > VIC_II_FETCH_CYCLE + 2
@@ -368,11 +363,6 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
                     &vic_ii.raster.draw_idle_state,
                     0);
               vic_ii.idle_state = 0;
-              raster_add_int_change_foreground
-                   (&vic_ii.raster,
-                    VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk)),
-                    &vic_ii.idle_state,
-                    0);
 #endif
 
             vic_ii.idle_data_location = IDLE_NONE;

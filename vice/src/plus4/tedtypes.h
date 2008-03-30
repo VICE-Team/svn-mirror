@@ -73,7 +73,7 @@
 #define TED_38COL_STOP_PIXEL            0x157
 
 #define VIC_II_MAX_SPRITE_WIDTH         48
-#define VIC_II_NUM_COLORS               16
+#define TED_NUM_COLORS               16
 
 
 /* Available video modes.  The number is given by TED registers.  */
@@ -294,10 +294,6 @@ typedef struct ted_s ted_t;
 extern ted_t ted;
 
 /* Private function calls, used by the other TED modules.  */
-extern int vic_ii_activate_palette(void);
-extern int vic_ii_calc_palette(int sat, int con, int bri, int gam, int newlum,
-                               int mixedcols);
-extern int vic_ii_load_palette(const char *name);
 extern void ted_fetch_matrix(int offs, int num);
 extern void ted_set_raster_irq(unsigned int line);
 extern void ted_update_memory_ptrs(unsigned int cycle);

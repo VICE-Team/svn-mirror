@@ -31,11 +31,12 @@ void GetCurrentModeParameters(int *width, int *height, int *bitdepth, int *refre
 GUID *GetGUIDForActualDevice();
 void ui_fullscreen_init(void);
 int IsFullscreenEnabled(void);
-void ui_fullscreen_settings_dialog(HWND hwnd);
 void SuspendFullscreenMode(HWND hwnd);
 void ResumeFullscreenMode(HWND hwnd);
 void SwitchFullscreenMode(HWND hwnd);
 void SwitchToFullscreenMode(HWND hwnd);
+extern void init_fullscreen_dialog(HWND hwnd);
+extern BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 #endif
 

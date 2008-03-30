@@ -62,6 +62,9 @@ typedef struct screenshot_s {
     unsigned int size_width;
     unsigned int size_height;
 
+    /* Upper left corner of viewport.  */
+    unsigned int first_displayed_col;
+
     /* Line data convert function.  */
     void (*convert_line)(struct screenshot_s *screenshot, BYTE *data,
                          unsigned int line, unsigned int mode);

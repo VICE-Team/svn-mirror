@@ -29,13 +29,11 @@
 #define INCL_WINDIALOGS    // WinMessageBox
 #define INCL_WINWINDOWMGR  // QWL_USER
 #include "videoarch.h"     // video_canvas_*
-//#include "video.h"         // video_canvas_*
 #include "dialogs.h"
 #include "menubar.h"
 #include "dlg-color.h"
 #include "dlg-drive.h"
 #include "dlg-monitor.h"
-//#include "dlg-emulator.h"
 #include "dlg-joystick.h"
 #include "dlg-datasette.h"
 
@@ -182,7 +180,7 @@ void ChangeSpeed(HWND hwnd, int idm)
 
     char *txt;
 
-    int speed;
+    long speed;
     resources_get_value("Speed", (resource_value_t*) &speed);
 
     if ((signed long)(time-tm) < vsyncarch_frequency())
@@ -287,7 +285,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
     case IDM_CRTEXPERT:
         {
-            int val;
+            long val;
             resources_get_value("CartridgeType", (resource_value_t*) &val);
             if (val!=CARTRIDGE_EXPERT)
             {
@@ -352,7 +350,32 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         softreset_dialog(hwnd);
         return;
 
-#ifdef __X128__
+#ifdef HAVE_PAL
+    case IDM_COLOR:
+        color_dialog(hwnd);
+        return;
+
+    case IDM_INTERNALPAL:
+        toggle("ExternalPalette");
+        return;
+
+    case IDM_LUMINANCES:
+        toggle("NewLuminances");
+        return;
+
+    case IDM_FAKEPAL:
+        toggle("DelayLoopEmulation");
+        return;
+
+    case IDM_DSIZE:
+        maincpu_trigger_trap(toggle_async, "DoubleSize");
+        return;
+
+    case IDM_DSCAN:
+        maincpu_trigger_trap(toggle_async, "DoubleScan");
+        return;
+#endif
+#ifdef HAVE_VDC
     case IDM_VDC16K:
     case IDM_VDC64K:
         resources_set_value("VDC_64KB", (resource_value_t*)(idm&1));
@@ -364,38 +387,21 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_EXTFUNCROM:
         toggle("ExternalFunctionROM");
         return;
-#endif
 
-    case IDM_FAKEPAL:
-        log_debug("Setting delayloop.");
-        maincpu_trigger_trap(toggle_async, "DelayLoopEmulation");
-        log_debug("Setting delayloop... done.");
+    case IDM_VDCDSIZE:
+        maincpu_trigger_trap(toggle_async, "VDC_DoubleSize");
         return;
-
-//#if defined VIC_II_NEED_2X || defined VIC_NEED_2X
-#if defined HAVE_VIC_II || HAVE_VIC
-    case IDM_VICDSIZE:
-        maincpu_trigger_trap(toggle_async, "DoubleSize");
-        return;
-
-    case IDM_VICDSCAN:
-        maincpu_trigger_trap(toggle_async, "DoubleScan");
+    case IDM_VDCDSCAN:
+        maincpu_trigger_trap(toggle_async, "VDC_DoubleScan");
         return;
 #endif
+
 #ifdef HAVE_CRTC
     case IDM_CRTCDSIZE:
-        toggle("CrtcDoubleSize");
+        maincpu_trigger_trap(toggle_async, "CrtcDoubleSize");
         return;
     case IDM_CRTCDSCAN:
-        toggle("CrtcDoubleScan");
-        return;
-#endif
-#ifdef VDC_NEED_2X
-    case IDM_CRTCDSIZE:
-        toggle("VDC_DoubleSize");
-        return;
-    case IDM_CRTCDSCAN:
-        toggle("VDC_DoubleScan");
+        maincpu_trigger_trap(toggle_async, "CrtcDoubleScan");
         return;
 #endif
 
@@ -506,7 +512,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_VCACHE:
 #ifdef __XCBM__
         {
-            int val;
+            long val;
             resources_get_value("UseVicII", (resource_value_t*) &val);
             toggle(val?"VideoCache":"CrtcVideoCache");
         }
@@ -519,10 +525,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle("VDC_VideoCache");
         return;
 #endif
-
+#ifndef __XPLUS4__
     case IDM_EMUID:
         toggle("EmuID");
         return;
+#endif
 
     case IDM_REFRATEAUTO:
     case IDM_REFRATE1:
@@ -579,19 +586,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         drive_dialog(hwnd);
         return;
 
-#if defined __X64__ || defined __X128__ || defined __XCBM__
-    case IDM_COLOR:
-        color_dialog(hwnd);
-        return;
-
-    case IDM_INTERNALPAL:
-        toggle("ExternalPalette");
-        return;
-
-    case IDM_LUMINANCES:
-        toggle("NewLuminances");
-        return;
-#endif
 /*
     case IDM_EMULATOR:
         emulator_dialog(hwnd);
@@ -903,7 +897,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
 static void WinCheckRes(HWND hwnd, USHORT id, const char *name)
 {
-    int val;
+    long val;
     resources_get_value(name, (resource_value_t*) &val);
     WinCheckMenuItem(hwnd, id, val);
 }
@@ -970,7 +964,7 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 #ifdef __XCBM__
         {
-            int val1, val2;
+            long val1, val2;
             resources_get_value("ExternalPalette", (resource_value_t*) &val1);
             resources_get_value("UseVicII",        (resource_value_t*) &val2);
             WinEnableMenuItem(hwnd, IDM_COLOR, !val && val2);
@@ -1002,20 +996,44 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
     case IDM_SETUP:
-        WinCheckRes(hwnd, IDM_FAKEPAL, "DelayLoopEmulation");
+#ifdef __XCBM__
+        {
+            long val1, val2;
 
-#if defined HAVE_VIC_II || defined HAVE_VIC
-        WinCheckRes(hwnd, IDM_VICDSIZE, "DoubleSize");
-        WinCheckRes(hwnd, IDM_VICDSCAN, "DoubleScan");
+            resources_get_value("UseVicII",       (resource_value_t*)&val1);
+            resources_get_value("CrtcDoubleSize", (resource_value_t*)&val2);
+
+            WinEnableMenuItem(hwnd, IDM_DSIZE,      val1);
+            WinEnableMenuItem(hwnd, IDM_DSCAN,      val1);
+            WinEnableMenuItem(hwnd, IDM_PALCONTROL, val1);
+            WinEnableMenuItem(hwnd, IDM_CRTCDSIZE, !val1);
+            WinEnableMenuItem(hwnd, IDM_CRTCDSCAN, !val1 && val2);
+
+            WinCheckMenuItem(hwnd,  IDM_CRTCDSIZE, val);
+            WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
+
+            WinCheckRes(hwnd, IDM_VCACHE, val?"VideoCache":"CrtcVideoCache");
+        }
+#else
+        WinCheckRes(hwnd, IDM_VCACHE, VIDEO_CACHE);
 #endif
-#ifdef VDC_NEED_2X
-        log_debug("Switching...");
-        WinCheckRes(hwnd, IDM_VDCDSIZE, "VDC_DoubleSize");
-        WinCheckRes(hwnd, IDM_VDCDSCAN, "VDC_DoubleScan");
-#endif
-#ifdef HAVE_CRTC
-        WinCheckRes(hwnd, IDM_CRTCDSIZE, "CrtcDoubleSize");
+#if defined HAVE_CRTC && !defined __XCBM__
+        resources_get_value("CrtcDoubleSize", (resource_value_t*)&val);
+        WinEnableMenuItem(hwnd, IDM_CRTCDSCAN, val);
+        WinCheckMenuItem(hwnd,  IDM_CRTCDSIZE, val);
         WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
+#endif
+#ifdef HAVE_PAL
+        resources_get_value("DoubleSize", (resource_value_t*)&val);
+        WinEnableMenuItem(hwnd, IDM_DSCAN, val);
+        WinCheckMenuItem(hwnd,  IDM_DSIZE, val);
+        WinCheckRes(hwnd, IDM_DSCAN, "DoubleScan");
+#endif
+#ifdef HAVE_VDC
+        resources_get_value("VDC_DoubleSize", (resource_value_t*)&val);
+        WinEnableMenuItem(hwnd, IDM_VDCDSCAN, val);
+        WinCheckMenuItem(hwnd,  IDM_VDCDSIZE, val);
+        WinCheckRes(hwnd, IDM_VDCDSCAN, "VDC_DoubleScan");
 #endif
 #ifdef HAVE_MOUSE
         WinCheckRes(hwnd, IDM_MOUSE,     "Mouse");
@@ -1023,15 +1041,10 @@ void menu_select(HWND hwnd, USHORT item)
 #endif // HAVE_MOUSE
         //WinCheckRes(hwnd, IDM_PRTIEC,    "Printer4");
         //WinCheckRes(hwnd, IDM_PRTUPORT,  "PrUser");
+#ifndef __XPLUS4__
         WinCheckRes(hwnd, IDM_EMUID,     "EmuID");
-#ifdef __XCBM__
-        resources_get_value("UseVicII", (resource_value_t*)&val);
-        WinEnableMenuItem(hwnd, IDM_PALCONTROL, val);
-        WinCheckRes(hwnd, IDM_VCACHE, val?"VideoCache":"CrtcVideoCache");
-#else
-        WinCheckRes(hwnd, IDM_VCACHE,    VIDEO_CACHE);
 #endif
-#ifdef __X128__
+#ifdef HAVE_VDC
         WinCheckRes(hwnd, IDM_VDCVCACHE, "VDC_VideoCache");
 #endif
         WinCheckMenuItem(hwnd, IDM_PAUSE, isEmulatorPaused());
@@ -1227,16 +1240,27 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_VOL10,  val== 10);
         return;
 
-#if defined __X64__ || defined __X128__ || defined __XCBM__
+#ifdef HAVE_PAL
     case IDM_PALCONTROL:
-        resources_get_value("ExternalPalette", (resource_value_t*)&val);
-        WinCheckMenuItem(hwnd, IDM_INTERNALPAL, !val);
-        WinCheckRes(hwnd, IDM_LUMINANCES, "NewLuminances");
-        WinEnableMenuItem(hwnd, IDM_LUMINANCES, !val);
+        {
+            long val1, val2;
+
+            resources_get_value("DelayLoopEmulation", (resource_value_t*)&val1);
+            resources_get_value("ExternalPalette",    (resource_value_t*)&val2);
+
+            WinEnableMenuItem(hwnd, IDM_FAKEPAL,     !val2);
+            WinEnableMenuItem(hwnd, IDM_INTERNALPAL, !val1);
+            WinEnableMenuItem(hwnd, IDM_LUMINANCES, val1 || !val2);
+
+            WinCheckMenuItem(hwnd,  IDM_FAKEPAL,      val1);
+            WinCheckMenuItem(hwnd,  IDM_INTERNALPAL, !val2);
+
+            WinCheckRes(hwnd, IDM_LUMINANCES, "NewLuminances");
+        }
         return;
 #endif
 
-#ifdef __X128__
+#ifdef HAVE_VDC
     case IDM_VDCMEMORY:
         resources_get_value("VDC_64KB", (resource_value_t*)&val);
         WinCheckMenuItem(hwnd, IDM_VDC16K, val==0);

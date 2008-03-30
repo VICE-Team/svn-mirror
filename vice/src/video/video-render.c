@@ -96,9 +96,10 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 	rendermode=config->rendermode;
 	doublescan=config->doublescan;
 	colortab=config->physical_colors;
+#ifdef VIDEO_REMOVE_2X
 	delayloop=video_resources.delayloop_emulation;
-
-#ifndef VIDEO_REMOVE_2X
+	if (video_resources.ext_palette) delayloop = 0;
+#else
 	delayloop=0;
 #endif /* VIDEO_REMOVE_2X */
 

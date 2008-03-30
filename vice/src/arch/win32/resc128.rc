@@ -168,6 +168,7 @@ BEGIN
     END
     POPUP "S&ettings"
     BEGIN
+        MENUITEM "Video settings...",             IDM_VIDEO_SETTINGS
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
         MENUITEM "D&atasette settings...",          IDM_DATASETTE_SETTINGS
@@ -175,7 +176,6 @@ BEGIN
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
         MENUITEM "S&ID settings...",                IDM_SID_SETTINGS
-	    MENUITEM "F&ullscreen settings...",	        IDM_FULLSCREEN_SETTINGS
         MENUITEM "R&EU settings...",                IDM_REU_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE

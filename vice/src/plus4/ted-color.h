@@ -1,5 +1,5 @@
 /*
- * vicii-color.h - Colors for the MOS 6569 (VIC-II) emulation.
+ * ted-color.h - Colors for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
  *  John Selck <graham@cruise.de>
@@ -28,17 +28,10 @@
  *
  */
 
-#ifndef _VIC_II_COLOR_H
-#define _VIC_II_COLOR_H
+#ifndef _TED_COLOR_H
+#define _TED_COLOR_H
 
-#include "palette.h"
-
-#define VIC_II_COLOR_PALETTE_16     1
-#define VIC_II_COLOR_PALETTE_256    2
-#define VIC_II_COLOR_PALETTE_LOOKUP 3
-
-extern const char *vic_ii_color_names[16];
-extern palette_t *vic_ii_color_calcpalette(int type,int saturation,int contrast,int brightness,int gamma,int newlum);
+extern int ted_update_palette(void);
 
 #endif
 

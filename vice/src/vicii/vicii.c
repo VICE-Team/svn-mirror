@@ -316,7 +316,7 @@ static void vic_ii_set_geometry(void)
                       0,
                       vic_ii.first_displayed_line,
                       vic_ii.last_displayed_line,
-                      2 * VIC_II_MAX_SPRITE_WIDTH + 0x58 * 2);
+                      vic_ii.sprite_wrap_x - width);
 #ifdef USE_XF86_EXTENSIONS
   if (!fullscreen_is_enabled)
 #endif
@@ -403,6 +403,17 @@ inline void vic_ii_fetch_matrix(int offs, int num)
       memcpy(vic_ii.cbuf + offs, vic_ii.color_ram + start_char, c);
       memcpy(vic_ii.cbuf + offs + c, vic_ii.color_ram, num - c);
     }
+
+  /* This is kind of a hack to display correct background color in in the
+     xsmooth area in HIRES mode */
+  if (vic_ii.get_background_from_vbuf && (offs+num >= VIC_II_SCREEN_TEXTCOLS))
+  {
+      raster_add_int_change_background
+          (&vic_ii.raster, VIC_II_40COL_STOP_PIXEL,
+          &vic_ii.raster.overscan_background_color,
+          vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS-1] & 0xf);
+
+  }
 }
 
 /* If we are on a bad line, do the DMA.  Return nonzero if cycles have been
@@ -1035,9 +1046,18 @@ void vic_ii_update_video_mode(unsigned int cycle)
           /* Force the overscan color to black.  */
           raster_add_int_change_background
             (&vic_ii.raster, VIC_II_RASTER_X(cycle),
-             &vic_ii.raster.overscan_background_color,
-             0);
+             &vic_ii.raster.overscan_background_color, 0);
+          vic_ii.get_background_from_vbuf = 0;
           vic_ii.force_black_overscan_background_color = 1;
+        }
+      else if (new_video_mode == VIC_II_HIRES_BITMAP_MODE)
+        {
+          /* Use hack to get the background color from vbuf */
+          vic_ii.get_background_from_vbuf = 1;
+          vic_ii.force_black_overscan_background_color = 0;
+          /* FIXME: idle_state in HIRES_MODE not handled correctly.  */
+          /* Should give a black background; see emufuxxer scroller. */
+          /* Maybe this should be fixed in the raster_mode API.      */
         }
       else
         {
@@ -1048,6 +1068,7 @@ void vic_ii_update_video_mode(unsigned int cycle)
               (&vic_ii.raster, VIC_II_RASTER_X(cycle),
                &vic_ii.raster.overscan_background_color,
                vic_ii.regs[0x21]);
+          vic_ii.get_background_from_vbuf = 0;
           vic_ii.force_black_overscan_background_color = 0;
         }
 
@@ -1125,23 +1146,6 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
 
   in_visible_area = (vic_ii.raster.current_line >= vic_ii.first_displayed_line
                  && vic_ii.raster.current_line <= vic_ii.last_displayed_line);
-
-  /* Hack for overscan background color in HIRES mode                    */
-  /* This may not 100% correct and probably there's a better solution... */
-  /* AM,081201: It isn't! End Part of Krestology is broken!              */
-  /* Other demos to test this: Action, emufuxxer, nutrasweet/mirinda     */
-  if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE)
-  {
-     if (vic_ii.idle_state)
-         vic_ii.raster.overscan_background_color = 0;
-     else
-       raster_add_int_change_background
-                (&vic_ii.raster, VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth,
-                &vic_ii.raster.overscan_background_color,
-                vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS - 1] & 0xf);
-
-     vic_ii.force_black_overscan_background_color = 1;
-  }
 
   raster_emulate_line(&vic_ii.raster);
 

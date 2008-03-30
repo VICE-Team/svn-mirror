@@ -78,6 +78,24 @@ list of all the changes in the code.
 
 - renamed c1541 to x1541
 
+- added stereo support
+
+- added support for 'Fast PAL Emu'
+
+- added a color dialog (like a TV set)
+
+- added support for cartridges in x128
+
+- changed the video/dive support internally (in case of problems please
+  report!)
+
+- added support for Double Size / Double Scan
+
+- fixed a bug which made the emulator crash if you press '1' in the
+  file pop-up menu
+
+- fixed a bug in the asynchronous update of the xvic window
+
 ** Unix changes
 ---------------
 

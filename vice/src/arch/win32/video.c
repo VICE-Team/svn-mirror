@@ -58,7 +58,7 @@ extern const GUID IID_IDirectDraw2;
 
 /* ------------------------------------------------------------------------ */
 
-//#define DEBUG_VIDEO
+#define DEBUG_VIDEO
 
 /* Debugging stuff.  */
 #ifdef DEBUG_VIDEO
@@ -1102,11 +1102,8 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     int yi;   //  upperleft y in client space
     int window_index;
     RECT rect;
-    int safex;
-    int safey;
-    int safey2;
-    int cut_bottomline;
-    int cut_rightline;
+    int safex, safey, safey2;
+    int cut_rightline, cut_bottomline;
 
     c = canvas_find_canvas_for_hwnd(hwnd);
     if (c) {
@@ -1123,6 +1120,19 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
             rect.right = c->client_width;
             rect.bottom = c->client_height;
         }
+
+/*
+    DEBUG(("hey: xo-%i yo-%i xf-%i yf-%i xw-%i yh-%i xe-%i",
+		r->viewport.x_offset,
+		r->viewport.y_offset,
+		r->viewport.first_x,
+		r->viewport.first_line,
+		r->viewport.pixel_size.width,
+		r->viewport.pixel_size.height,
+		r->geometry.extra_offscreen_border
+		));
+*/
+
         //  Calculate upperleft point's framebuffer coords
 #ifndef VIDEO_REMOVE_2X
         xs = xclient - ((rect.right - window_canvas_xsize[window_index]) / 2)
@@ -1158,6 +1168,7 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 
         if (r->frame_buffer) {
 
+#ifndef VIDEO_REMOVE_2X
             cut_rightline=safex+r->viewport.width;
             cut_bottomline=safey+r->viewport.height;
             if (cut_rightline>r->frame_buffer->width) {
@@ -1166,6 +1177,16 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
             if (cut_bottomline>r->frame_buffer->height) {
                 cut_bottomline=r->frame_buffer->height;
             }
+#else /* VIDEO_REMOVE_2X */
+            cut_rightline=safex+r->viewport.width * r->viewport.pixel_size.width;
+            cut_bottomline=safey+r->viewport.height * r->viewport.pixel_size.height;
+            if (cut_rightline>r->frame_buffer->width * r->viewport.pixel_size.width) {
+                cut_rightline=r->frame_buffer->width * r->viewport.pixel_size.width;
+            }
+            if (cut_bottomline>r->frame_buffer->height * r->viewport.pixel_size.height) {
+                cut_bottomline=r->frame_buffer->height * r->viewport.pixel_size.height;
+            }
+#endif /* VIDEO_REMOVE_2X */
 
             //  Check if it's out
             if ((xs + w <= safex) || (xs >= cut_rightline) ||
@@ -1260,16 +1281,18 @@ static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
     int depth, pitch;
 
     DWORD starttime;
+/*
     DWORD difftime;
+*/
     int bytesmoved;
     DWORD clipsize;
     int regioncount,j;
 
     int px,py,ph,pw;
-
+/*
     DEBUG(("Entering canvas_render : xs=%d ys=%d xi=%d yi=%d w=%d h=%d",
           xs, ys, xi, yi, w, h));
-
+*/
     if (IsIconic(c->hwnd))
         return;
 
@@ -1369,10 +1392,10 @@ static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
     depth = desc.ddpfPixelFormat.u1.dwRGBBitCount;
     pitch = desc.u1.lPitch;
 #endif
-
+/*
     DEBUG(("Original rect: %d %d %d %d", rect.left, rect.top, rect.right,
           rect.bottom));
-
+*/
     result = IDirectDrawClipper_SetHWnd(c->clipper, 0, c->hwnd);
     if (result != DD_OK) {
         ui_error("Cannot set HWND for primary surface clipper:\n%s",
@@ -1443,8 +1466,10 @@ static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
             }
         }
     }
+/*
     difftime = timeGetTime() - starttime;
     DEBUG(("screen update took %d msec, moved %d bytes, width %d, height %d",
           difftime, bytesmoved, w, h));
+*/
 }
 

@@ -236,13 +236,13 @@ static int realize_frame_buffer(raster_t *raster)
 
 #ifndef VIDEO_REMOVE_2X
     fb_width = ((raster->geometry.screen_size.width
-               + raster->geometry.extra_offscreen_border)
+               + raster->geometry.extra_offscreen_border * 2)
                * raster->viewport.pixel_size.width);
     fb_height = (raster->geometry.screen_size.height
                 * raster->viewport.pixel_size.height);
 #else /* VIDEO_REMOVE_2X */
     fb_width = ((raster->geometry.screen_size.width
-               + raster->geometry.extra_offscreen_border));
+               + raster->geometry.extra_offscreen_border * 2));
     fb_height = (raster->geometry.screen_size.height);
 #endif /* VIDEO_REMOVE_2X */
 
@@ -1839,6 +1839,8 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
     screenshot->size_height = raster->viewport.pixel_size.height;
     screenshot->first_displayed_line = raster->geometry.first_displayed_line;
     screenshot->last_displayed_line = raster->geometry.last_displayed_line;
+    screenshot->first_displayed_col = raster->geometry.extra_offscreen_border
+        +raster->viewport.first_x;
     return 0;
 }
 

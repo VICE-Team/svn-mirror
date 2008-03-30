@@ -64,7 +64,7 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     {
     case WM_INITDLG:
         {
-            int val;
+            long val;
             SetSliderTxt(hwnd, ID_SATURATION, 0, "0");
             SetSliderTxt(hwnd, ID_SATURATION, 100, "1.0");
             SetSliderTxt(hwnd, ID_SATURATION, 200, "2.0");

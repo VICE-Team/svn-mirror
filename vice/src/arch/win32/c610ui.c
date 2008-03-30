@@ -35,6 +35,7 @@
 #include "res.h"
 #include "ui.h"
 #include "uicbm2set.h"
+#include "uivideo.h"
 #include "winmain.h"
 
 ui_menu_toggle  cbm2_ui_menu_toggles[]={
@@ -53,6 +54,10 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
     switch (wparam) {
       case IDM_CBM2_SETTINGS:
         ui_cbm2_settings_dialog(hwnd);
+		break;
+      case IDM_VIDEO_SETTINGS:
+        ui_video_settings_dialog(hwnd, UI_VIDEO_RGB);
+        break;
     }
 }
 

@@ -62,7 +62,7 @@ static int toggle_drive_res(char *format, int drive)
 
 static int get_drive_res(char *format, int drive)
 {
-    int val;
+    long val;
     resources_get_sprintf(format, (resource_value_t*) &val, drive+8);
     return val;
 }
@@ -107,7 +107,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     {
     case WM_INITDLG:
         {
-            int val, i=0;
+            long val, i=0;
 
             HWND ihwnd = WinWindowFromID(hwnd, CBS_IMAGE);
 
@@ -317,7 +317,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
             int i;
             int type=0;
-            int val;
+            long val;
             int res;
             int drive89=(drive==0 || drive==1);
             resources_get_value("DriveTrueEmulation", (resource_value_t*) &val);

@@ -119,8 +119,8 @@ BEGIN
    BEGIN
 //      MENUITEM "~Emulator Setup\tAlt-E",    IDM_EMULATOR,  MIS_TEXT
       MENUITEM "~Drive Setup\tAlt-D",           IDM_DRIVE,     MIS_TEXT
-#if defined __X64__ || defined __X128__ || defined __XCBM__
-      MENUITEM "~VIC-II Color Settings\tAlt-I", IDM_COLOR,     MIS_TEXT
+#if defined HAVE_PAL
+      MENUITEM "~Video Color Settings\tAlt-I",  IDM_COLOR,     MIS_TEXT
 #endif
       MENUITEM "~Joystick Setup\tAlt-J",        IDM_JOYSTICK,  MIS_TEXT
       MENUITEM "Datasette ~Control\tAlt-C",     IDM_DATASETTE, MIS_TEXT
@@ -130,27 +130,27 @@ BEGIN
    SUBMENU "Set~up",                   IDM_SETUP,        MIS_TEXT
    BEGIN
       MENUITEM "Video ~Cache",         IDM_VCACHE,       MIS_TEXT
-#ifdef __X128__      
-      MENUITEM "VDC Video Cache",      IDM_VDCVCACHE,    MIS_TEXT
-#endif 
-#ifdef HAVE_VIC
-      MENUITEM "VIC Double Size",      IDM_VICDSIZE,     MIS_TEXT
-      MENUITEM "VIC Double Scan",      IDM_VICDSCAN,     MIS_TEXT
+#if defined HAVE_PAL
+      MENUITEM "Double Size",          IDM_DSIZE,        MIS_TEXT
+      MENUITEM "Double Scan",          IDM_DSCAN,        MIS_TEXT
 #endif
-#if defined HAVE_CRTC
+#ifdef HAVE_CRTC
       MENUITEM "Crtc Double Size",     IDM_CRTCDSIZE,    MIS_TEXT
       MENUITEM "Crtc Double Scan",     IDM_CRTCDSCAN,    MIS_TEXT
 #endif
-//#ifdef VIC_II_NEED_2X
-#ifdef HAVE_VIC_II
-      MENUITEM "VIC-II Double Size",   IDM_VICDSIZE,     MIS_TEXT
-      MENUITEM "VIC-II Double Scan",   IDM_VICDSCAN,     MIS_TEXT
-#endif
-#ifdef VDC_NEED_2X
+#ifdef HAVE_VDC
+      MENUITEM "VDC Video Cache",      IDM_VDCVCACHE,    MIS_TEXT
       MENUITEM "VDC Double Size",      IDM_VDCDSIZE,     MIS_TEXT
       MENUITEM "VDC Double Scan",      IDM_VDCDSCAN,     MIS_TEXT
 #endif
-      MENUITEM "Fast PAL Emulation",   IDM_FAKEPAL,      MIS_TEXT
+#ifdef HAVE_PAL
+      SUBMENU "PAL Control",           IDM_PALCONTROL,   MIS_TEXT
+      BEGIN
+        MENUITEM "Fast PAL Emulation", IDM_FAKEPAL,      MIS_TEXT
+        MENUITEM "Internal Palette",   IDM_INTERNALPAL,  MIS_TEXT
+        MENUITEM "New Luminacees",     IDM_LUMINANCES,   MIS_TEXT
+      END
+#endif
       SUBMENU "~Refresh Rate Ratio",   IDM_REFRATE,      MIS_TEXT
       BEGIN
          MENUITEM "1/~1",              IDM_REFRATE1,     MIS_TEXT
@@ -205,13 +205,6 @@ BEGIN
       END
       */
 #endif // __X64__ || __X128__
-#if defined __X64__ || defined __X128__ || defined __XCBM__
-      SUBMENU "V~IC-II Palette Control",      IDM_PALCONTROL,  MIS_TEXT
-      BEGIN
-        MENUITEM "Internal Palette",          IDM_INTERNALPAL, MIS_TEXT
-        MENUITEM "New Luminacees",            IDM_LUMINANCES,  MIS_TEXT
-      END
-#endif
       MENUITEM SEPARATOR
       SUBMENU  "Printer ~Emulation",   IDM_PRINTER,     MIS_TEXT
       BEGIN
@@ -358,7 +351,9 @@ BEGIN
       MENUITEM "~Userport diagnostic pin",         IDM_DIAGPIN,    MIS_TEXT
       MENUITEM "S~witch upper/lower case charset", IDM_CHARSET,    MIS_TEXT
 #endif
+#ifndef __XPLUS4__
       MENUITEM "Emulator ~Identification",      IDM_EMUID,     MIS_TEXT
+#endif
 #if defined __X64__ || defined __X128__
       MENUITEM "R~EU - Memory Extension", IDM_REU,       MIS_TEXT
       SUBMENU  "REU Memory ~Size",         IDM_REUSIZE,   MIS_TEXT
@@ -373,7 +368,9 @@ BEGIN
         MENUITEM "16~384kB",              IDM_REU16384,  MIS_TEXT
       END
 #endif // __X64__ || __X128__
+#ifndef __XPLUS4__
       MENUITEM SEPARATOR
+#endif
       MENUITEM "Show Menu ~Bar\tAlt-B",    IDM_MENUBAR,   MIS_TEXT
 //      MENUITEM "Show Status ~Line\tAlt-L", IDM_STATUSBAR, MIS_TEXT
       MENUITEM "~Pause Emulation\tAlt-P", IDM_PAUSE,   MIS_TEXT

@@ -1,6 +1,6 @@
 option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     link(pmtype, "pm"),     gen(arch, "pentium"),
-    link(debug, "yes"),      gen(debug, "yes"),
+    link(debug, "no"),      gen(debug, "yes"),
     opt(level, "2"),        opt(tune, "pentium"),
     opt(autoinline, "yes"), opt(inline, "yes"),
     info(cnd, "no"),        info(ppc, "no"),
@@ -36,6 +36,9 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "..\\..\\..\\..\\..\\data\\vice2.lib"
         source type (dll)
             "..\\..\\..\\..\\..\\data\\vice2.dll"
+
+        source type(c)
+            "dialogs/dlg-color.c"
 
         include "../incl/resources.icc"
         include "../incl/mainsrc.icc"

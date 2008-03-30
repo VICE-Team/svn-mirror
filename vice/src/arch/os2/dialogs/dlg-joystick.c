@@ -68,7 +68,7 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
     {
     case WM_INITDLG:
         {
-            int joy1, joy2;
+            long joy1, joy2;
             //
             // disable controls of non existing joysticks
             // remark: I think this cannot change while runtime
@@ -118,7 +118,7 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
 
         case ID_SWAP:
             {
-                int joy1, joy2;
+                long joy1, joy2;
 
                 resources_get_value("JoyDevice1", (resource_value_t*) &joy1);
                 resources_get_value("JoyDevice2", (resource_value_t*) &joy2);
@@ -142,7 +142,7 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             int button =SHORT1FROMMP(mp1);
             int state=WinQueryButtonCheckstate(hwnd, button);
             int port = button & JOY_PORT1;
-            int joya, joyb;
+            long joya, joyb;
             resources_get_value(port?"JoyDevice1":"JoyDevice2",
                                 (resource_value_t*) &joya);
             resources_get_value(port?"JoyDevice2":"JoyDevice1",
@@ -202,7 +202,7 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
     {
     case WM_INITDLG:
         {
-            int j1, j2;
+            long j1, j2;
 
             resources_get_value("JoyDevice1", (resource_value_t*) &j1);
             resources_get_value("JoyDevice2", (resource_value_t*) &j2);
@@ -290,7 +290,7 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         return FALSE;
     case WM_FILLSPB:
         {
-            int val;
+            long val;
             resources_get_value(joy1?"JoyAup":"JoyBup", (resource_value_t *) &val);
             WinSetDlgSpinVal(hwnd, SPB_UP, val);
             resources_get_value(joy1?"JoyAdown":"JoyBdown", (resource_value_t *) &val);
@@ -333,7 +333,7 @@ static const char *GetDirection(USHORT id)
 
 static int ResGetKeyVal(int num, USHORT id)
 {
-    int val;
+    long val;
 
     char *res=xmsprintf("KeySet%d%s", num?1:2, GetDirection(id));
     resources_get_value(res, (resource_value_t*) &val);
@@ -384,7 +384,7 @@ static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     {
     case WM_INITDLG:
         {
-            int j1, j2;
+            long j1, j2;
 
             resources_get_value("JoyDevice1", (resource_value_t*) &j1);
             resources_get_value("JoyDevice2", (resource_value_t*) &j2);

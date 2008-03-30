@@ -40,7 +40,7 @@ struct video_frame_buffer_s;
 /* RGB is for anything which doesn't need any color filtering  */
 /* for display, like monochrome or rgbi (CRTC and VDC)         */
 
-#define VIDEO_RENDER_NULL		0
+#define VIDEO_RENDER_NULL	0
 #define VIDEO_RENDER_PAL_1X1	1
 #define VIDEO_RENDER_PAL_2X2	2
 #define VIDEO_RENDER_RGB_1X1	3

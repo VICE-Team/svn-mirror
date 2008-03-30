@@ -371,6 +371,9 @@ struct vic_ii_s {
 
     /* Number of lines the whole screen is shifted up.  */
     int offset;
+    
+    /* flag backgroundcolor in HIRES mode */
+    int get_background_from_vbuf;
 };
 typedef struct vic_ii_s vic_ii_t;
 

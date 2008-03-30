@@ -35,6 +35,7 @@
 #include "res.h"
 #include "ui.h"
 #include "uipetset.h"
+#include "uivideo.h"
 #include "winmain.h"
 
 ui_menu_toggle  pet_ui_menu_toggles[]={
@@ -49,6 +50,10 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
     switch (wparam) {
       case IDM_PET_SETTINGS:
         ui_pet_settings_dialog(hwnd);
+		break;
+      case IDM_VIDEO_SETTINGS:
+        ui_video_settings_dialog(hwnd, UI_VIDEO_RGB);
+        break;
     }
 }
 

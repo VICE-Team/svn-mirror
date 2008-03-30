@@ -55,7 +55,7 @@ ICON    IDM_VICE2 "..\\..\\icons\\xvic.ico"
 #endif
 
 #ifdef __XPLUS4__
-ICON    IDM_VICE2 "..\\..\\icons\\xvic.ico"
+ICON    IDM_VICE2 "..\\..\\icons\\xplus4.ico"
 #endif
 
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE

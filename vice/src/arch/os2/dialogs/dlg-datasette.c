@@ -47,7 +47,7 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
     {
     case WM_INITDLG:
         {
-            int val;
+            long val;
 
             WinSendMsg(hwnd, WM_COUNTER,  (void*)ui_status.lastTapeCounter, 0);
             WinSendMsg(hwnd, WM_TAPESTAT,

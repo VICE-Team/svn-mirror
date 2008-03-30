@@ -43,11 +43,25 @@
 #include "resources.h"
 #include "ui.h"
 #include "uilib.h"
+#include "uivideo.h"
+#include "fullscreen.h"
 #include "utils.h"
 #include "winmain.h"
 
 static char *palette_file=NULL;
 static int  res_extpalette;
+
+static char *palettes[8]=
+{
+	"default",
+	"c64s",
+	"ccs64",
+	"frodo",
+	"godot",
+	"pc64",
+	"vice",
+	NULL
+};
 
 static void enable_controls_for_video_settings(HWND hwnd, int type)
 {
@@ -86,20 +100,28 @@ static void init_advanced_dialog(HWND hwnd)
 	double fval;
 	char newval[64];
 	char *path;
+	HWND filename_hwnd;
 
     resources_get_value("ColorGamma", (resource_value_t *) &val);
 	fval=((double)val)/1000.0;
 	sprintf(newval,"%.3f",(float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, newval);
 
-    resources_get_value("PaletteFile", (resource_value_t *) &path);
-    palette_file = stralloc(path);
-    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, path);
-
     resources_get_value("ExternalPalette", (resource_value_t *) &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, n ? BST_CHECKED : BST_UNCHECKED);
     res_extpalette=n;
 
+    filename_hwnd=GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME);
+    SendMessage(filename_hwnd,CB_RESETCONTENT,0,0);
+	n=0;
+	while (palettes[n] != NULL)
+	{
+        SendMessage(filename_hwnd,CB_ADDSTRING,0,(LPARAM)palettes[n]);
+		n++;
+	}
+    resources_get_value("PaletteFile", (resource_value_t *) &path);
+    palette_file = stralloc(path);
+    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, path);
 }
 
 static void update_palettename(char *name)
@@ -201,6 +223,8 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
                             update_palettename(s);
                             SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, s);
                             free(s);
+							res_extpalette = 1;
+							CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, BST_CHECKED);
                         }
                     }
                     break;
@@ -209,6 +233,10 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
                     char s[100];
                         GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, (LPSTR)s, 100);
                         update_palettename(s);
+/*
+						res_extpalette = 1;
+						CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, BST_CHECKED);
+*/
                         break;
                     }
             }
@@ -217,13 +245,13 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
     return FALSE;
 }
 
-void ui_video_settings_dialog(HWND hwnd)
+void ui_video_settings_dialog(HWND hwnd, int videosettings)
 {
-PROPSHEETPAGE       psp[2];
+PROPSHEETPAGE       psp[3];
 PROPSHEETHEADER     psh;
 int                 i;
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < 3; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -236,25 +264,44 @@ int                 i;
         psp[i].pfnCallback = NULL;
     }
 
-    psp[0].pfnDlgProc = dialog_color_proc;
-    psp[0].pszTitle = "Colors";
-    psp[1].pfnDlgProc = dialog_advanced_proc;
-    psp[1].pszTitle = "Advanced";
+	if (videosettings == UI_VIDEO_PAL)
+	{
+	    psp[0].pfnDlgProc = dialog_color_proc;
+	    psp[0].pszTitle = "Colors";
+	    psp[1].pfnDlgProc = dialog_fullscreen_proc;
+	    psp[1].pszTitle = "Fullscreen";
+	    psp[2].pfnDlgProc = dialog_advanced_proc;
+	    psp[2].pszTitle = "Advanced";
 
 #ifdef HAVE_UNNAMED_UNIONS
-    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
-    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
+	    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+	    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+	    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
-    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
+	    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+	    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+	    psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
 #endif
+	    psh.nPages = 3;
+	}
+	else
+	{
+	    psp[0].pfnDlgProc = dialog_fullscreen_proc;
+	    psp[0].pszTitle = "Fullscreen";
+
+#ifdef HAVE_UNNAMED_UNIONS
+	    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+#else
+	    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+#endif
+	    psh.nPages = 1;
+	}
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
     psh.pszCaption = "Video settings";
-    psh.nPages = 2;
 #ifdef HAVE_UNNAMED_UNIONS
     psh.pszIcon = NULL;
     psh.nStartPage = 0;

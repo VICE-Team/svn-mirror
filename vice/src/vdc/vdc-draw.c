@@ -176,6 +176,13 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     return r;
 }
 
+static int drawline_is_even(void)
+{
+    return (vdc.raster.ycounter & 1) &&
+        vdc_resources.double_size_enabled &&
+        !vdc_resources.double_scan_enabled;
+}
+
 static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
 {
     PIXEL *p;
@@ -184,7 +191,7 @@ static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
     unsigned int i;
 
     /* Only draw even rasterlines.  */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+    if (drawline_is_even())
         return;
 
     p = vdc.raster.frame_buffer_ptr + vdc.border_width
@@ -210,7 +217,7 @@ static void draw_std_text(void)
     unsigned int cpos = 0xffff;
 
     /* Only draw even rasterlines.  */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+    if (drawline_is_even())
         return;
 
     if (vdc.cursor_visible) {
@@ -301,7 +308,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
     unsigned int i;
 
     /* only draw even rasterlines */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+    if (drawline_is_even())
         return;
 
     p = vdc.raster.frame_buffer_ptr + vdc.border_width
@@ -340,7 +347,7 @@ static void draw_std_bitmap(void)
     unsigned int i;
 
     /* only draw even rasterlines */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled);
+    if (drawline_is_even())
         return;
 
     p = vdc.raster.frame_buffer_ptr + vdc.border_width
@@ -389,7 +396,7 @@ static void draw_idle_cached(raster_cache_t *cache, int xs, int xe)
     unsigned int i;
 
     /* only draw even rasterlines */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+    if (drawline_is_even())
         return;
 
     p = vdc.raster.frame_buffer_ptr + vdc.border_width
@@ -411,7 +418,7 @@ static void draw_idle(void)
     unsigned int i;
 
     /* only draw even rasterlines */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled);
+    if (drawline_is_even())
         return;
 
     p = vdc.raster.frame_buffer_ptr + vdc.border_width

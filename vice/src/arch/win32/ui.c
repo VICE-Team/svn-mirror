@@ -1396,9 +1396,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_SID_SETTINGS:
         ui_sid_settings_dialog(hwnd);
         break;
-      case IDM_FULLSCREEN_SETTINGS:
-        ui_fullscreen_settings_dialog(hwnd);
-        break;
       case IDM_TOGGLE_FULLSCREEN|0x00010000:
       case IDM_TOGGLE_FULLSCREEN:
         SwitchFullscreenMode(hwnd);

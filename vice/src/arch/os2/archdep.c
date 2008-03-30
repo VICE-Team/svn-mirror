@@ -234,7 +234,7 @@ int archdep_default_logger(const char *lvl, const char *txt)
 
 FILE *archdep_open_default_log_file()
 {
-    int val;
+    long val;
 
     char *fname = concat (archdep_boot_path(), "\\vice2.log", NULL);
     fLog = fopen(fname, "w");

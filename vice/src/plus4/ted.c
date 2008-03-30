@@ -238,6 +238,7 @@ static int init_raster(void)
     char *title;
 
     raster = &ted.raster;
+    video_color_set_raster(raster);
 
     if (raster_init(raster, TED_NUM_VMODES, 0) < 0)
         return -1;
@@ -259,7 +260,7 @@ static int init_raster(void)
 
     ted_set_geometry();
 
-    if (vic_ii_activate_palette() < 0) {
+    if (ted_update_palette() < 0) {
         log_error(ted.log, "Cannot load palette.");
         return -1;
     }
@@ -397,6 +398,8 @@ raster_t *ted_init(void)
   ted.initialized = 1;
 
   clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+
+  ted_resize();
 
   return &ted.raster;
 }
@@ -1001,34 +1004,6 @@ static void ted_raster_irq_alarm_handler(CLOCK offset)
   alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
 }
 
-int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum,int mixedcols)
-{
-  palette_t *palette;
-
-  palette = vic_ii_color_calcpalette(VIC_II_COLOR_PALETTE_16,sat,con,bri,gam,newlum);
-  return raster_set_palette(&ted.raster, palette);
-}
-
-
-/* WARNING: This does not change the resource value.  External modules are
-   expected to set the resource value to change the VIC-II palette instead of
-   calling this function directly.  */
-int vic_ii_load_palette(const char *name)
-{
-  palette_t *palette;
-
-  palette = palette_create(VIC_II_NUM_COLORS, vic_ii_color_names);
-  if (palette == NULL)
-    return -1;
-
-  if (!console_mode && !vsid_mode && palette_load(name, palette) < 0)
-    {
-      log_message(ted.log, "Cannot load palette file `%s'.", name);
-      return -1;
-    }
-
-  return raster_set_palette(&ted.raster, palette);
-}
 
 /* Set proper functions and constants for the current video settings.  */
 void ted_resize(void)
@@ -1074,6 +1049,15 @@ void ted_resize(void)
 
       ted_draw_set_double_size(0);
     }
+
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+	    raster_enable_double_scan(&ted.raster,
+	                              ted_resources.fullscreen_double_scan_enabled);
+	else
+#endif
+	    raster_enable_double_scan(&ted.raster,
+	                              ted_resources.double_scan_enabled);
 }
 
 int vic_ii_write_snapshot_module(snapshot_t *s)

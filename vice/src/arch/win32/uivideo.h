@@ -29,6 +29,9 @@
 
 #include <windows.h>
 
-void ui_video_settings_dialog(HWND hwnd);
+#define UI_VIDEO_PAL	0
+#define UI_VIDEO_RGB	1
+
+void ui_video_settings_dialog(HWND hwnd, int videosettings);
 
 #endif

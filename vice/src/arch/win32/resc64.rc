@@ -164,7 +164,6 @@ BEGIN
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
         MENUITEM "S&ID settings...",                IDM_SID_SETTINGS
-    	MENUITEM "F&ullscreen settings...",	        IDM_FULLSCREEN_SETTINGS
         MENUITEM "R&EU settings...",                IDM_REU_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE

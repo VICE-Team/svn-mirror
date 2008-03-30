@@ -143,7 +143,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
     {
     case WM_INITDLG:
         {
-            int val=0;
+            long val=0;
 /*
             while (val<10 && screenshotHist[val][0])
                 WinLboxInsertItem(hwnd, CBS_SSNAME, screenshotHist[val++]);

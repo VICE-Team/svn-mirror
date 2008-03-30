@@ -36,7 +36,7 @@
 
 /* base saturation of all colors except the grey tones */
 
-#define VIC_SATURATION	40.0f
+#define VIC_SATURATION	48.0f
 
 /* phase shift of all colors */
 
