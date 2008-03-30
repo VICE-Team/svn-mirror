@@ -13,5 +13,3 @@ libpm_a_SOURCES = \
 	pbar.h \
 	scrollbars.c \
 	scrollbars.h
-
-SUBDIRS = .

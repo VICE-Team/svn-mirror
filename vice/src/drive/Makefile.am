@@ -34,5 +34,3 @@ libdrive_a_SOURCES = \
 
 EXTRA_DIST = \
 	drivecpucore.c 
-
-SUBDIRS = .

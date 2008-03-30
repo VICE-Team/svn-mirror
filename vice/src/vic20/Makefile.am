@@ -46,5 +46,3 @@ libvic20_a_SOURCES = \
 	vic20ieeevia2.c 
 
 libvic20_a_LIBADD = $(rs232_libadd)
-
-SUBDIRS = .

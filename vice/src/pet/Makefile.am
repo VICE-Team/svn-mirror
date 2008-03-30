@@ -25,5 +25,3 @@ libpet_a_SOURCES = \
 	petsound.h \
 	petvia.c \
 	petvia.h
-
-SUBDIRS = .

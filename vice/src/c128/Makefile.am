@@ -25,5 +25,3 @@ libc128_a_SOURCES = \
 	z80.h \
 	z80mem.c \
 	z80mem.h
-
-SUBDIRS = .

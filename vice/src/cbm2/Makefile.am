@@ -25,5 +25,3 @@ libcbm2_a_SOURCES = \
 	c610tpi.h \
 	c610tpi1.c \
 	c610tpi2.c
-
-SUBDIRS = .

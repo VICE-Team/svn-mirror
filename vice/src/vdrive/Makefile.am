@@ -15,5 +15,3 @@ libvdrive_a_SOURCES = \
 	vdrive-iec.h \
 	vdrive.c \
 	vdrive.h
-
-SUBDIRS = .

@@ -209,6 +209,7 @@ static inline BYTE read_ciapa(void)
 	drive0_cpu_execute(clk);
     if (drive[1].enable)
 	drive1_cpu_execute(clk);
+
     byte = ( (cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) | iec_info->cpu_port;
     return byte;
 }

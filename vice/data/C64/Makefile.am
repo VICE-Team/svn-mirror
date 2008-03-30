@@ -15,5 +15,3 @@ c64_DATA = \
 	position.vkm
 
 EXTRA_DIST = $(c64_DATA)
-
-SUBDIRS = .

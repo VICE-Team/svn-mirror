@@ -23,5 +23,3 @@ libvdc_a_SOURCES = \
 EXTRA_DIST =
 
 vdcdir = $(top_srcdir)/src/vdc
-
-SUBDIRS = .

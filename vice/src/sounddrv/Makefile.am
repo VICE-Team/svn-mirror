@@ -42,5 +42,3 @@ libsounddrv_a_LIBADD = \
 	@SOUND_DRIVERS@
 
 EXTRA_DIST =
-
-SUBDIRS = .

@@ -22,5 +22,3 @@ libreadline_a_SOURCES = \
 	version.c
 
 EXTRA_DIST = README testit.c
-
-SUBDIRS = .

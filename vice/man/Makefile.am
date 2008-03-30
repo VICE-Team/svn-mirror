@@ -4,5 +4,3 @@ man_MANS = \
 	vice.1
 
 EXTRA_DIST = $(man_MANS)
-
-SUBDIRS = .

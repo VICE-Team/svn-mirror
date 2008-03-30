@@ -11,5 +11,3 @@ vic20_DATA = \
 	default.vrs
 
 EXTRA_DIST = $(vic20_DATA)
-
-SUBDIRS = .

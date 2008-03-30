@@ -38,6 +38,7 @@
 #include "vdc.h"
 #include "vicii.h"
 #include "z80.h"
+#include "z80mem.h"
 
 /* #define MMU_DEBUG */
 
@@ -123,6 +124,9 @@ static void mmu_set_ram_bank(BYTE value)
 {
     /* (We handle only 128K here.)  */
     ram_bank = ram + (((long) value & 0x40) << 10);
+#ifdef MMU_DEBUG
+    log_message(mmu_log, "Set RAM bank %i.", (value & 0x40) ? 1 : 0);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -164,26 +168,20 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
         switch (address) {
           case 0:
             /* Configuration register (CR).  */
-            {
-                io_in = !(value & 0x1);
-                basic_lo_in = !(value & 0x2);
-                basic_hi_in = !(value & 0xc);
-                kernal_in = chargen_in = editor_in = !(value & 0x30);
-                mmu_set_ram_bank(value);
-            }
-            break;
-          case 6:
-            /* RAM configuration register (RCR).  */
-            mem_set_ram_config(value);
+            io_in = !(value & 0x1);
+            basic_lo_in = !(value & 0x2);
+            basic_hi_in = !(value & 0xc);
+            kernal_in = chargen_in = editor_in = !(value & 0x30);
+            mmu_set_ram_bank(value);
             break;
           case 5:
             value = (value & 0x7f) | 0x30;
             if ((value & 1) ^ (oldvalue & 1))
                 mmu_switch_cpu(value & 1);
-            if ((value & 0x41) != 0x01)
-                log_error(mmu_log,
-                          "MMU: Attempted accessing unimplemented mode: $D505 <- $%02X.",
-                          value);
+            break;
+          case 6:
+            /* RAM configuration register (RCR).  */
+            mem_set_ram_config(value);
             break;
           case 7:
           case 8:
@@ -193,12 +191,18 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
                          + (mmu[0x7] << 8));
             page_one = (ram + (mmu[0xa] & 0x1 ? 0x10000 : 0x00000)
                         + (mmu[0x9] << 8));
+#ifdef MMU_DEBUG
+            log_message(mmu_log, "PAGE ZERO %05x PAGE ONE %05x",
+                (mmu[0x8] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x7] << 8),
+                (mmu[0xa] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x9] << 8));
+#endif
             break;
         }
 
         mem_update_config(((basic_lo_in) ? 1 : 0) | ((basic_hi_in) ? 2 : 0)
                           | ((kernal_in) ? 4 : 0) | ((mmu[0] & 0x40) ? 8 : 0)
                           | ((io_in) ? 16 : 0));
+        z80mem_update_config(((io_in) ? 1 : 0) | ((mmu[0] & 0x40) ? 2 : 0));
     }
 }
 

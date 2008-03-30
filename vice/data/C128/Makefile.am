@@ -17,5 +17,3 @@ c128_DATA = \
 	z80bios
 
 EXTRA_DIST = $(c128_DATA)
-
-SUBDIRS = .

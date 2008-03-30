@@ -39,5 +39,3 @@ petdir = $(prefix)/lib/vice/PET
 pet_DATA = $(keymaps) $(roms) $(palettes) $(romsets)
 
 EXTRA_DIST = $(pet_DATA)
-
-SUBDIRS = .

@@ -36,6 +36,7 @@ extern int z80mem_init_resources(void);
 extern int z80mem_init_cmdline_options(void);
 
 extern void z80mem_set_bank_pointer(BYTE **base, int *limit);
+extern void z80mem_update_config(int config);
 
 extern int z80mem_load(void);
 
@@ -52,6 +53,8 @@ extern void REGPARM2 store_bios(ADDRESS addr, BYTE value);
 
 extern store_func_ptr_t io_write_tab[];
 extern read_func_ptr_t io_read_tab[];
+
+extern unsigned int z80_old_reg_pc;
 
 #endif
 

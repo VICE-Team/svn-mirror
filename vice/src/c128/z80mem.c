@@ -54,7 +54,7 @@ static log_t z80mem_log = LOG_ERR;
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
 static int *bank_limit = NULL;
-unsigned int old_reg_pc;
+unsigned int z80_old_reg_pc;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_z80mem_read_tab_ptr;
@@ -62,7 +62,7 @@ store_func_ptr_t *_z80mem_write_tab_ptr;
 BYTE **_z80mem_read_base_tab_ptr;
 int *z80mem_read_limit_tab_ptr;
 
-#define NUM_CONFIGS 2
+#define NUM_CONFIGS 4
 
 /* Memory read and write tables.  */
 #ifdef AVOID_STATIC_ARRAYS
@@ -154,6 +154,16 @@ static void REGPARM2 store_ram(ADDRESS addr, BYTE value)
     ram_bank[addr] = value;
 }
 
+static BYTE REGPARM1 read_ram0(ADDRESS addr)
+{
+    return ram[addr];
+}
+
+static void REGPARM2 store_ram0(ADDRESS addr, BYTE value)
+{
+    ram[addr] = value;
+}
+
 BYTE REGPARM1 read_bios(ADDRESS addr)
 {
     return z80bios_rom[addr & 0x0fff];
@@ -173,30 +183,102 @@ void z80mem_initialize(void)
     for (j = 0; j < NUM_CONFIGS; j++) {
         for (i = 0; i <= 0x100; i++) {
             mem_read_base_tab[j][i] = NULL;
+            mem_read_limit_tab[j][i] = -1;
         }
     }
 
     for (i = 0; i < 0x10; i++) {
         mem_read_tab[0][i] = read_bios;
         mem_write_tab[0][i] = store_ram;
-        mem_read_tab[1][i] = read_ram;
+        mem_read_tab[1][i] = read_bios;
         mem_write_tab[1][i] = store_ram;
+        mem_read_tab[2][i] = read_ram;
+        mem_write_tab[2][i] = store_ram;
+        mem_read_tab[3][i] = read_ram;
+        mem_write_tab[3][i] = store_ram;
     }
 
     for (j = 0; j < NUM_CONFIGS; j++) {
-        for (i = 0x10; i <= 0x100; i++) {
+        for (i = 0x10; i <= 0xbf; i++) {
             mem_read_tab[j][i] = read_ram;
             mem_write_tab[j][i] = store_ram;
         }
+    }
 
+    for (i = 0xc0; i <= 0xcf; i++) {
+        mem_read_tab[0][i] = read_ram;
+        mem_write_tab[0][i] = store_ram;
+        mem_read_tab[1][i] = read_ram;
+        mem_write_tab[1][i] = store_ram;
+        mem_read_tab[2][i] = read_top_shared;
+        mem_write_tab[2][i] = store_top_shared;
+        mem_read_tab[3][i] = read_top_shared;
+        mem_write_tab[3][i] = store_top_shared;
+    }
+
+
+    for (j = 0; j <= 3; j += 2) {
+        for (i = 0xd0; i <= 0xdf; i++) {
+            mem_read_tab[j][i] = read_ram;
+            mem_write_tab[j][i] = store_ram;
+        }
+    }
+
+    for (j = 1; j <= 3; j += 2) {
+        for (i = 0xd0; i <= 0xdf; i++) {
+            mem_read_tab[j][i] = NULL;
+            mem_write_tab[j][i] = NULL;
+        }
+/*
+        for (i = 0xd0; i <= 0xd3; i++) {
+            mem_read_tab[j][i] = read_vic;
+            mem_write_tab[j][i] = store_vic;
+        }
+        mem_read_tab[j][0xd4] = read_sid;
+        mem_write_tab[j][0xd4] = store_sid;
+        mem_read_tab[j][0xd5] = mmu_read;
+        mem_write_tab[j][0xd5] = mmu_store;
+        mem_read_tab[j][0xd6] = read_vdc;
+        mem_write_tab[j][0xd6] = store_vdc;
+
+        mem_read_tab[j][0xd7] = read_d7xx;
+        mem_write_tab[j][0xd7] = store_d7xx;
+
+        mem_read_tab[j][0xd8] = mem_read_tab[j][0xd9] = read_colorram;
+        mem_read_tab[j][0xda] = mem_read_tab[j][0xdb] = read_colorram;
+        mem_write_tab[j][0xd8] = mem_write_tab[j][0xd9] = store_colorram;
+        mem_write_tab[j][0xda] = mem_write_tab[j][0xdb] = store_colorram;
+
+        mem_read_tab[j][0xdc] = read_cia1;
+        mem_write_tab[j][0xdc] = store_cia1;
+        mem_read_tab[j][0xdd] = read_cia2;
+        mem_write_tab[j][0xdd] = store_cia2;
+
+        mem_read_tab[j][0xde] = read_io1;
+        mem_write_tab[j][0xde] = store_io1;
+
+        mem_read_tab[j][0xdf] = read_io2;
+        mem_write_tab[j][0xdf] = store_io2;
+*/
+    }
+
+    for (i = 0xe0; i <= 0xfe; i++) {
+        mem_read_tab[0][i] = read_ram;
+        mem_write_tab[0][i] = store_ram;
+        mem_read_tab[1][i] = read_ram;
+        mem_write_tab[1][i] = store_ram;
+        mem_read_tab[2][i] = read_top_shared;
+        mem_write_tab[2][i] = store_top_shared;
+        mem_read_tab[3][i] = read_top_shared;
+        mem_write_tab[3][i] = store_top_shared;
+    }
+
+    for (j = 0; j < NUM_CONFIGS; j++) {
         mem_read_tab[j][0xff] = mmu_ffxx_read;
         mem_write_tab[j][0xff] = mmu_ffxx_store;
 
         mem_read_tab[j][0x100] = mem_read_tab[j][0x0];
         mem_write_tab[j][0x100] = mem_write_tab[j][0x0];
-
-        mem_read_base_tab[j][0x100] = NULL;
-        mem_read_limit_tab[j][0x100] = -1;
     }
 
     _z80mem_read_tab_ptr = mem_read_tab[0];
@@ -251,6 +333,23 @@ void z80mem_set_bank_pointer(BYTE **base, int *limit)
 {
     bank_base = base;
     bank_limit = limit;
+}
+
+void z80mem_update_config(int config)
+{
+    _z80mem_read_tab_ptr = mem_read_tab[config];
+    _z80mem_write_tab_ptr = mem_write_tab[config];
+    _z80mem_read_base_tab_ptr = mem_read_base_tab[config];
+    z80mem_read_limit_tab_ptr = mem_read_limit_tab[config];
+/*
+    if (bank_limit != NULL) {
+        *bank_base = _z80mem_read_base_tab_ptr[z80_old_reg_pc >> 8];
+        if (*bank_base != 0)
+            *bank_base = _z80mem_read_base_tab_ptr[z80_old_reg_pc >> 8]
+                         - (z80_old_reg_pc & 0xff00);
+        *bank_limit = z80mem_read_limit_tab_ptr[z80_old_reg_pc >> 8];
+    }
+*/
 }
 
 int z80mem_load(void)

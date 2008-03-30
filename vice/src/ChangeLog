@@ -1,3 +1,38 @@
+1999-09-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.5.
+
+	* c128/z80.c: Fixed SBCHLREG and SBCHLSP.
+	(LDSPHL, LD(HL)#, CPIR, CCF, LDIFFA, LDAIFF, IM0, IM1, IM2,
+	CPI, FDPREFIX, LDxx(WORD), LD(WORD)xx, SFC, BIT, INC(HL),
+	DEC(HL)): New opcodes.
+	(opcode_fd): New function.
+	Added some debugging stuff.
+
+	* c128/c128mem.c (z80mem_update_config): New function.
+
+	* c128/c128mmu.c (mmu_store): Update Z80 memory pointers.
+
+	* maincpu.c (mainloop): Trigger a reset instead of calling
+	some reset functions.
+
+	* c128/c128cpu.c: Changed `DMA_ON_RESET' to invoke Z80.
+
+	* vdc/vdc-mem.c (store_vdc): Only bits 5..7 of register 28 set
+	the chargen address.
+
+1999-09-12  Dag Lem  <resid@nimrod.no>
+
+	* Removed all SUBDIRS = . in Makefile.am files
+
+1999-09-10  Markus Brenner  <markus@brenner.de>
+
+	* vdc/vdc-draw.c: fixed draw_std_text(), added draw_std_bitmap()
+
+1999-09-10  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* Replaced C++ commentaries in z80.c with C ones.
+
 1999-09-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.4.

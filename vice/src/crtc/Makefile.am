@@ -20,5 +20,3 @@ libcrtc_a_SOURCES = \
 	crtc-snapshot.c 
 
 EXTRA_DIST =
-
-SUBDIRS = .
