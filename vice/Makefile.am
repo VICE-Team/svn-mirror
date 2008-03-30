@@ -19,7 +19,3 @@ xpet:
 
 xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
-
-vsid:
-	(cd src; $(MAKE) vsid-all)
-

@@ -1,3 +1,12 @@
+1999-05-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.12.
+
+1999-05-13  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Removed target vsid.
+	* Makefile.am: Likewise.
+
 1999-05-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.11.

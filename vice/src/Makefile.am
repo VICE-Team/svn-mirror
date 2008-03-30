@@ -18,7 +18,7 @@ endif
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = @RESID_DIR@ @VSID_DIR@ sounddrv drive c64 c128 vic20 pet cbm2 sid vicii arch
+SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet cbm2 sid vicii arch
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -145,25 +145,6 @@ base_sources = \
 	zfile.c \
 	zipcode.c
 
-vsid_sources = \
-	alarm.c \
-	ciatimer.c \
-	clkguard.c \
-	cmdline.c \
-	emuid.c \
-	findpath.c \
-	interrupt.c \
-	kbdbuf.c \
-	log.c \
-	memutils.c \
-	palette.c \
-	resources.c \
-	sound.c \
-	sysfile.c \
-	traps.c \
-	utils.c \
-	warn.c
-
 cpucore_sources = \
 	6510core.c
 
@@ -206,15 +187,13 @@ sid_lib = $(top_builddir)/src/sid/libsid.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
-c64vsid_lib = $(top_builddir)/src/c64/libc64vsid.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
-vsid_lib = $(top_builddir)/src/vsidlib/libvsid.a
 
-bin_PROGRAMS = x64 x128 @VSID@ xvic xpet xcbm2 c1541 petcat
-EXTRA_PROGRAMS = vsid
+bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
+EXTRA_PROGRAMS =
 
 
 # x64
@@ -276,19 +255,6 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 .PHONY: xcbm2-all
 xcbm2-all: libcbm2 libsounddrv libarch libsid @RESID_DEP@ libdrive xcbm2
 
-# vsid
-vsid_SOURCES = $(vsid_sources) $(maincpu_sources)
-vsid_LDADD = $(vsid_lib) $(c64vsid_lib) $(sounddrv_lib) \
-	$(sid_lib) @RESID_LIBS@ $(vicii_lib) @ALLOCA@ \
-	@LIBOBJS@ @ARCH_DIR@/archdep.o @SOUND_LIBS@ @READLINE@
-vsid_DEPENDENCIES = $(vsid_lib) $(c64vsid_lib) $(sounddrv_lib) \
-	$(sid_lib) @RESID_LIBS@ @ALLOCA@ \
-	@LIBOBJS@ @ARCH_LIBS@
-vsid_LDFLAGS = @vsid_LDFLAGS@ 
-.PHONY: vsid-all
-vsid-all: libvsid libc64vsid libsounddrv libarch libsid \
-	libvicii @RESID_DEP@ vsid
-
 # c1541
 c1541_SOURCES = \
 	c1541.c \
@@ -330,7 +296,7 @@ petcat_LDADD = @ARCH_DIR@/archdep.o
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch \
-	libvicii libsid @RESID_DEP@ libvsid
+	libvicii libsid @RESID_DEP@
 
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
@@ -356,5 +322,3 @@ libresid:
 	(cd resid && $(MAKE))
 libvicii:
 	(cd vicii && $(MAKE))
-libvsid:
-	(cd vsidlib && $(MAKE))

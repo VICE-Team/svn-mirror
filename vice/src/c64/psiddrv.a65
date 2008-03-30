@@ -1,0 +1,121 @@
+; 
+; psiddrv.a65 - PSID player.
+;
+; Written by
+;  Dag Lem  <resid@nimrod.no>
+;
+; This file is part of VICE, the Versatile Commodore Emulator.
+; See README for copyright notice.
+;
+;  This program is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU General Public License as published by
+;  the Free Software Foundation; either version 2 of the License, or
+;  (at your option) any later version.
+;
+;  This program is distributed in the hope that it will be useful,
+;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;  GNU General Public License for more details.
+;
+;  You should have received a copy of the GNU General Public License
+;  along with this program; if not, write to the Free Software
+;  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+;  02111-1307  USA.
+;
+
+	*=$0300
+
+	; 6510 vectors
+nmivec	.word nmi
+coldvec	.word cold
+irqvec	.word irq
+
+	; parameters
+initvec	.word 0
+playvec	.word 0
+playnum	.byte 0
+volume	.byte 0
+portval	.byte 0
+
+	.byte 0, 0, 0, 0, 0, 0, 0
+	
+	; user interrupt vectors
+	; *=$0314
+cinv	.word irqjob
+cbinv	.word brkjob
+nminv	.word nmijob
+
+	; cold start
+brkjob
+cold	sei
+	ldx #$ff
+	txs
+	cld
+	; turn interrupts off
+	lda #$7f
+	sta $dc0d
+	sta $dd0d
+	lda $dc0d
+	lda $dd0d
+	lda #$00
+	sta $d01a
+	lda $d019
+	sta $d019
+
+	; init psid
+	lda #$2f
+	sta $00
+	lda portval
+	sta $01
+	lda volume
+	sta $d418
+	lda playnum
+	jsr init
+	; check vbi vector
+	lda playvec+1
+	beq run
+	
+	; Set up VBI
+vbiinit	ldx #$9b
+	ldy #$00
+	stx $d011
+	sty $d012
+	lda #$81
+	sta $d01a
+	lda $d019
+	sta $d019
+run	cli
+vbiidle	jmp vbiidle
+
+	; Init/play PSID
+init	jmp (initvec)
+play	jmp (playvec)
+
+	; IRQ handler
+irq	pha
+	txa
+	pha
+	tya
+	pha
+	tsx
+	lda $0104,x
+	and #$10
+	beq irqjmp
+	jmp (cbinv)
+irqjmp	jmp (cinv)
+irqjob	lda playvec+1
+	beq noplay
+	jsr play
+	lda $d019
+	sta $d019
+noplay	pla
+	tay
+	pla
+	tax
+	pla
+	rti
+
+	; NMI handler
+nmi	sei
+	jmp (nminv)
+nmijob	rti

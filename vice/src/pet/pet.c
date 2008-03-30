@@ -439,3 +439,10 @@ int machine_read_snapshot(const char *name)
     }
     return ef;
 }
+
+
+/* ------------------------------------------------------------------------- */
+int machine_autodetect_psid(const char *name)
+{
+  return -1;
+}

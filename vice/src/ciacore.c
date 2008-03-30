@@ -237,7 +237,7 @@ void mycia_init(void)
                int_ciata);
     alarm_init(&cia_tb_alarm, &mycpu_alarm_context, MYCIA_NAME "_TB",
                int_ciatb);
-    alarm_init(&cia_tod_alarm, &mycpu_alarm_context, "ciaTimeOfDay",
+    alarm_init(&cia_tod_alarm, &mycpu_alarm_context, MYCIA_NAME "_TOD",
                int_ciatod);
 
     clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);

@@ -1828,7 +1828,7 @@ static int vdrive_get_max_sectors(int type, int track)
       case 8050:
         return pet_sector_map[track];
       case 8250:
-	if (track < NUM_TRACKS_8250 / 2) {
+	if (track <= NUM_TRACKS_8250 / 2) {
             return pet_sector_map[track];
 	} else {
             return pet_sector_map[track - (NUM_TRACKS_8250 / 2)];
@@ -2078,6 +2078,27 @@ static void vdrive_bam_clear_all(int type, BYTE *bam)
         break;
     }
 }
+
+int vdrive_bam_get_disk_id(DRIVE *floppy, BYTE *id)
+{
+    if (floppy == NULL || id == NULL) 
+	return -1;
+
+    memcpy(id, floppy->bam + floppy->bam_id, 2);
+
+    return 0;
+}
+
+int vdrive_bam_set_disk_id(DRIVE *floppy, BYTE *id)
+{
+    if (floppy == NULL || id == NULL) 
+	return -1;
+
+    memcpy(floppy->bam + floppy->bam_id, id, 2);
+
+    return 0;
+}
+
 
 /* ------------------------------------------------------------------------- */
 

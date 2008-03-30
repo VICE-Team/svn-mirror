@@ -191,6 +191,7 @@
 #define IDM_CART_VIC20_8KB_A000         40062
 #define IDM_CART_VIC20_4KB_B000         40063
 #define IDM_CART_VIC20_16KB             40064
+#define IDM_CART_VIC20_16KB_4000        40065
 #define IDM_SNAPSHOT_LOAD               40080
 #define IDM_SNAPSHOT_SAVE               40081
 #define IDM_SETTINGS_SAVE               40090

@@ -93,6 +93,7 @@
 static void exit64(void);
 #endif
 
+int psid_mode = 0;
 static int init_done;
 
 /* ------------------------------------------------------------------------- */
@@ -448,6 +449,42 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     archdep_setup_signals(do_core_dumps);
 
+    /* Check for PSID here since we don't want to allow autodetection
+       in autostart.c. ROM image loading should also be skipped. */
+    if (machine_autodetect_psid(autostart_string) == 0) {
+        int tune;
+
+        psid_mode = 1;
+
+	/* FIXME: Find a way respecting command line arguments for
+	   sound while discarding all other arguments. */
+        resources_get_value("PSIDTune",
+                            (resource_value_t)&tune);
+	resources_set_defaults();
+	resources_set_value("PSIDTune", (resource_value_t)tune);
+
+	resources_set_value("Sound", (resource_value_t)1);
+#ifdef HAVE_RESID
+	resources_set_value("SidUseResid", (resource_value_t)1);
+#endif
+	resources_set_value("SidModel", (resource_value_t)0);
+	resources_set_value("SidFilters", (resource_value_t)1);
+	resources_set_value("SoundSampleRate", (resource_value_t)44100);
+	resources_set_value("SoundSpeedAdjustment", (resource_value_t)2);
+	
+	if (video_init() < 0)
+	    return -1;
+
+	if (machine_init() < 0) {
+	    log_error(LOG_DEFAULT, "Machine initialization failed.");
+	    return -1;
+	}
+
+	keyboard_init();
+
+	goto run;
+    }
+
     /* Initialize real joystick.  */
 #ifdef HAS_JOYSTICK
     joystick_init();
@@ -518,6 +555,7 @@ int MAIN_PROGRAM(int argc, char **argv)
         log_error(LOG_DEFAULT, "Cannot attach tape image `%s'.",
                   startup_tape_image);
 
+ run:
     init_done = 1;
 
     /* Let's go...  */

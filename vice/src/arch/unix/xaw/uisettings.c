@@ -821,7 +821,7 @@ static UI_CALLBACK(radio_Drive8Type)
         } 
     } else {
         ui_menu_set_tick(w, current_value == (int) client_data);
-	if (drive_match_bus((int) client_data, iec_available_busses())) {
+	if (drive_match_bus((int) client_data, 0, iec_available_busses())) {
             ui_menu_set_sensitive(w, True);
 	} else {
             ui_menu_set_sensitive(w, False);
@@ -842,7 +842,7 @@ static UI_CALLBACK(radio_Drive9Type)
         } 
     } else {
         ui_menu_set_tick(w, current_value == (int) client_data);
-	if (drive_match_bus((int) client_data, iec_available_busses())) {
+	if (drive_match_bus((int) client_data, 1, iec_available_busses())) {
             ui_menu_set_sensitive(w, True);
 	} else {
             ui_menu_set_sensitive(w, False);

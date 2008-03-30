@@ -122,7 +122,7 @@ struct _DRIVE {
     int Bam_Track;
     int Bam_Sector;
     int bam_name;       /* Offset from start of BAM to disk name.  */
-    int bam_id;         /* Offset from start of BAM to disk name.  */
+    int bam_id;         /* Offset from start of BAM to disk ID.  */
     int Dir_Track;
     int Dir_Sector;
 
@@ -289,6 +289,8 @@ extern int vdrive_bam_allocate_sector(int type, BYTE *bam, int track,
 extern int vdrive_bam_free_sector(int type, BYTE *bam, int track, int sector);
 extern int vdrive_bam_read_bam(DRIVE *floppy);
 extern int vdrive_bam_write_bam(DRIVE *floppy);
+extern int vdrive_bam_get_disk_id(DRIVE *floppy, BYTE *id);
+extern int vdrive_bam_set_disk_id(DRIVE *floppy, BYTE *id);
 
 /* Directory related functions.  */
 extern void  vdrive_dir_find_first_slot(DRIVE *floppy, const char *name,

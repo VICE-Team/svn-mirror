@@ -33,7 +33,11 @@ libc64_a_SOURCES = \
 	reu.c \
 	reu.h \
 	c64tpi.c \
-	c64tpi.h
+	c64tpi.h \
+	psid.c \
+	psid.h \
+	psiddrv.a65 \
+	psiddrv.h
 
 libc64c128_a_SOURCES = \
 	c64cia.h \
@@ -65,9 +69,15 @@ EXTRA_libc64c128_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h
 
+BUILT_SOURCES = psiddrv.h
+
 EXTRA_DIST =
 
 libc64_a_LIBADD = $(acia_libadd)
 libc64c128_a_LIBADD = $(acia_libadd)
 
+SUFFIXES = .a65
 
+%.h : %.a65
+	xa $< -o $(srcdir)/$*.o65
+	od -v -An -w8 -tx1 $(srcdir)/$*.o65 | sed 's/\w\w/0x&,/g' > $(srcdir)/$@

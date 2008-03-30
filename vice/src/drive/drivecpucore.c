@@ -479,7 +479,7 @@ void mydrive_cpu_early_init(void)
     mywd1770_init();
     myriot1_init();
     myriot2_init();
-    fdc_init(mynumber, drive_ram + 0x100);
+    fdc_init(mynumber, drive_ram + 0x100, &drive[mynumber].rom[0x4000]);
 }
 
 void mydrive_cpu_init(int type)

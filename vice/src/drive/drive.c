@@ -156,8 +156,17 @@ static int set_drive_true_emulation(resource_value_t v)
             iec_calculate_callback_index();
         }
     } else {
-            drive_disable(0);
-            drive_disable(1);
+        drive_disable(0);
+        drive_disable(1);
+
+	/* update BAM after true drive emulation having probably
+	   changed the BAM on disk (14May1999) */
+	if (drive[0].drive_floppy != NULL) {
+	    vdrive_bam_read_bam(drive[0].drive_floppy);
+	}
+	if (drive[1].drive_floppy != NULL) {
+	    vdrive_bam_read_bam(drive[1].drive_floppy);
+	}
     }
     return 0;
 }
@@ -168,7 +177,7 @@ static int set_drive0_type(resource_value_t v)
     int busses = iec_available_busses();
 
     /* if bus for drive type is not allowed, set to default value for bus */
-    if (!drive_match_bus(type, busses)) {
+    if (!drive_match_bus(type, 0, busses)) {
 	if (busses & IEC_BUS_IEC) {
 	    type = DRIVE_TYPE_1541;
 	} else
@@ -210,7 +219,7 @@ static int set_drive1_type(resource_value_t v)
     int busses = iec_available_busses();
 
     /* if bus for drive type is not allowed, set to default value for bus */
-    if (!drive_match_bus(type, busses)) {
+    if (!drive_match_bus(type, 1, busses)) {
 	if (busses & IEC_BUS_IEC) {
 	    type = DRIVE_TYPE_1541;
 	} else
@@ -2124,12 +2133,12 @@ void drive_cpu_execute(CLOCK clk_value)
         drive1_cpu_execute(clk_value);
 }
 
-int drive_match_bus(int drive_type, int bus_map)
+int drive_match_bus(int drive_type, int unit, int bus_map)
 {
     if ( (drive_type == DRIVE_TYPE_NONE)
-    || ((drive_type == DRIVE_TYPE_2031 || drive_type == DRIVE_TYPE_1001) 
+      || ((drive_type == DRIVE_TYPE_2031 || drive_type == DRIVE_TYPE_1001) 
 	&& (bus_map & IEC_BUS_IEEE))
-    || ((drive_type != DRIVE_TYPE_2031 && drive_type != DRIVE_TYPE_1001) 
+      || ((drive_type != DRIVE_TYPE_2031 && drive_type != DRIVE_TYPE_1001) 
 	&& (bus_map & IEC_BUS_IEC))
     ) {
         return 1;
@@ -2894,5 +2903,13 @@ void drive1_parallel_set_atn(int state)
 {
     drive1_via_set_atn(state);
     drive1_riot_set_atn(state);
+}
+
+int drive_num_leds(int dnr) 
+{
+    if (drive[dnr].type == DRIVE_TYPE_1001) {
+	return 2;
+    }
+    return 1;
 }
 

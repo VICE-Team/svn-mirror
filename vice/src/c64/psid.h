@@ -1,8 +1,8 @@
 /*
- * fdc.h - 1001/8x50 FDC definitions
+ * psid.h - PSID file handling.
  *
  * Written by
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Dag Lem <resid@nimrod.no>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,37 +24,15 @@
  *
  */
 
-#ifndef _FDC_H
-#define _FDC_H
+#ifndef _PSID_H
+#define _PSID_H
 
-/* FDC states */
-#define	FDC_UNUSED	0
-#define	FDC_RESET0	1
-#define	FDC_RESET1	2
-#define	FDC_RESET2	3
-#define	FDC_RUN		10
+#include "types.h"
 
-/* fdc error codes to return to drive CPU */
-#define	FDC_ERR_OK	1
-#define	FDC_ERR_HEADER	2
-#define	FDC_ERR_SYNC	3
-#define	FDC_ERR_NOBLOCK	4
-#define	FDC_ERR_DCHECK	5
-#define	FDC_ERR_VERIFY	7
-#define	FDC_ERR_WPROT	8
-#define	FDC_ERR_HCHECK	9
-#define	FDC_ERR_BLENGTH	10
-#define	FDC_ERR_ID	11
-#define	FDC_ERR_FSPEED	12
-#define	FDC_ERR_DRIVE	15
-#define	FDC_ERR_DECODE	16
-
-#include "vice.h"
-#include "log.h"
-#include "alarm.h"
-
-void fdc_init(int fnum, BYTE *buffer_memory, BYTE *ipromp);
-void fdc_reset(int fnum, int enabled);
+int psid_init_resources(void);
+int psid_init_cmdline_options(void);
+int psid_load_file(const char* filename);
+void psid_init_tune(void);
+void psid_init_driver(void);
 
 #endif
-

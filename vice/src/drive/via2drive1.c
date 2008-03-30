@@ -82,7 +82,7 @@ static void undump_pra(BYTE byte)
 
 inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
 {
-    drive[1].led_status = byte & 8;
+    drive[1].led_status = (byte & 8) ? 1 : 0;
     if (((oldpb ^ byte) & 0x3) && (byte & 0x4)) {
         /* Stepper motor */
         if ((oldpb & 0x3) == ((byte + 1) & 0x3))
@@ -99,7 +99,7 @@ inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
 
 static void undump_prb(BYTE byte)
 {
-    drive[1].led_status = byte & 8;
+    drive[1].led_status = (byte & 8) ? 1 : 0;
     drive[1].rotation_table_ptr = drive[1].rotation_table[(byte >> 5) & 0x3];
     drive[1].byte_ready_active = (drive[1].byte_ready_active & ~0x04)
                                  | (byte & 0x04);
@@ -152,7 +152,7 @@ inline void static store_t2l(BYTE byte)
 
 static void res_via(void)
 {
-    drive[1].led_status = 8;
+    drive[1].led_status = 1;
     drive_update_ui_status();
 }
 

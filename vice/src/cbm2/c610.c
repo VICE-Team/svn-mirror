@@ -397,3 +397,10 @@ fail:
     maincpu_trigger_reset();
     return -1;
 }
+
+
+/* ------------------------------------------------------------------------- */
+int machine_autodetect_psid(const char *name)
+{
+  return -1;
+}

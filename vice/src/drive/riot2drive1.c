@@ -136,7 +136,8 @@ _RIOT_FUNC void undump_prb(BYTE byte)
     /* bit 4 Act LED 0 */
     /* bit 5 Error LED */
 
-    drive[1].led_status = byte & 0x30;
+    /* 1001 only needs LED 0 and Error LED */
+    drive[1].led_status = (byte >> 4) & 0x03;
 }
 
 _RIOT_FUNC void store_prb(BYTE byte)
@@ -145,7 +146,8 @@ _RIOT_FUNC void store_prb(BYTE byte)
     /* bit 4 Act LED 0 */
     /* bit 5 Error LED */
 
-    drive[1].led_status = byte & 0x30;
+    /* 1001 only needs LED 0 and Error LED */
+    drive[1].led_status = (byte >> 4) & 0x03;
 }
 
 _RIOT_FUNC void riot_reset(void)
@@ -157,6 +159,9 @@ _RIOT_FUNC void riot_reset(void)
     parallel_drv1_set_eoi(0);
 
     set_handshake(oldpa);
+
+    /* 1001 only needs LED 0 and Error LED */
+    drive[1].led_status = 3;
 }
 
 _RIOT_FUNC BYTE read_pra(void)

@@ -43,6 +43,7 @@ extern const char machine_name[];
 #define VICE_MACHINE_CBM2      5
 
 extern int machine_class;
+extern int psid_mode;
 
 /* Initialize the machine's resources.  */
 int machine_init_resources(void);
@@ -80,5 +81,8 @@ int machine_read_snapshot(const char *name);
 
 /* handle pending interrupts - needed by libsid.a */
 void machine_handle_pending_alarms(int num_write_cycles);
+
+/* Autodetect PSID file. */
+int machine_autodetect_psid(const char *name);
 
 #endif /* _MACHINE_H */

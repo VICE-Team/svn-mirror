@@ -81,6 +81,8 @@ static iec_info_t *iec_info;
 static inline void do_reset_cia(void)
 {
     iec_info = iec_get_drive_port();
+
+    drive[0].led_status = 1;
 }
 
 static inline void pulse_ciapc(CLOCK rclk) { }
@@ -96,7 +98,7 @@ static inline void store_sdr(BYTE byte)
 
 static inline void undump_ciapa(CLOCK rclk, BYTE b)
 {
-    drive[0].led_status = b & 0x40;
+    drive[0].led_status = (b & 0x40) ? 1 : 0;
 }
 
 static inline void undump_ciapb(CLOCK rclk, BYTE b)
@@ -106,7 +108,7 @@ static inline void undump_ciapb(CLOCK rclk, BYTE b)
 
 static inline void store_ciapa(CLOCK rclk, BYTE byte)
 {
-    drive[0].led_status = byte & 0x40;
+    drive[0].led_status = (byte & 0x40) ? 1 : 0;
 }
 
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
