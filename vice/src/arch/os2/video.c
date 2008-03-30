@@ -733,7 +733,7 @@ static void VideoInitRenderer(video_canvas_t *c)
     int i;
 
     /* FIXME: Move this to video_canvas_init()!  */
-    video_render_initconfig(&c->videoconfig);
+    video_render_initconfig(c->videoconfig);
 
     // video_render_setrawrgb: index, r, g, b
     for (i=0; i<0x100; i++)
@@ -981,8 +981,8 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
     ULONG scanlinesize = 0;
     BYTE *targetbuffer = NULL;
 
-    const int dsx = c->videoconfig.doublesizex + 1;
-    const int dsy = c->videoconfig.doublesizey + 1;
+    const int dsx = c->videoconfig->doublesizex + 1;
+    const int dsy = c->videoconfig->doublesizey + 1;
 
     //
     // xs, xy is double sized
@@ -1093,7 +1093,7 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
         log_error(vidlog, "Call to DiveBeginImageBufferAccess failed, rc = 0x%x", rc);
         return;
     }
-    video_render_main(&c->videoconfig,   // color table
+    video_render_main(c->videoconfig,    // color table
                       buf,               // bitmap source  (vice)
                       targetbuffer,      // c->bitmaptrg,        // bitmap target (screen/dive)
                       w, h,              // f->width, f->height, // bitmap width, height (2copy)
@@ -1706,11 +1706,13 @@ void CanvasMainLoop(VOID *arg)
 
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
-video_canvas_t *video_canvas_init(void)
+video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
 {
     video_canvas_t *canvas;
 
     canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
+
+    canvas->videoconfig = videoconfig;
 
     return canvas;
 }
@@ -1740,10 +1742,10 @@ int video_canvas_create(video_canvas_t *canvas, const char *title,
     canvini.expose  = (canvas_redraw_t)exposure_handler;
     canvini.canvas  =  NULL;
 
-    if (canvas->videoconfig.doublesizex)
+    if (canvas->videoconfig->doublesizex)
         canvini.width *= 2;
 
-    if (canvas->videoconfig.doublesizey)
+    if (canvas->videoconfig->doublesizey)
         canvini.height *= 2;
 
     _beginthread(CanvasMainLoop, NULL, 0x4000, &canvini);
@@ -1847,10 +1849,10 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
     SWP swp;
     ULONG rc;
 
-    if (canvas->videoconfig.doublesizex)
+    if (canvas->videoconfig->doublesizex)
         wnew *= 2;
 
-    if (canvas->videoconfig.doublesizey)
+    if (canvas->videoconfig->doublesizey)
         hnew *= 2;
 
     UINT wold = c->width;
@@ -1932,7 +1934,7 @@ void VideoConvertPalette8(video_canvas_t *c, int num)
 {
     int i;
     for (i=0; i<num; i++)
-        video_render_setphysicalcolor(&c->videoconfig, i, i, 8);
+        video_render_setphysicalcolor(c->videoconfig, i, i, 8);
 }
 
 void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, RGB2 *trg)
@@ -2016,7 +2018,7 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, R
                         for (b=0; b<bytes; b++)
                             color |= (ULONG)target[i*bytes+b] << (b*8);
 
-                        video_render_setphysicalcolor(&c->videoconfig, i, color,
+                        video_render_setphysicalcolor(c->videoconfig, i, color,
                                                       c->bDepth);
                     }
                 }
@@ -2108,13 +2110,13 @@ void video_canvas_refresh(video_canvas_t *c,
     if (DosRequestMutexSem(c->hmtx, SEM_INDEFINITE_WAIT))
         return;
 
-    if (c->videoconfig.doublesizex) {
+    if (c->videoconfig->doublesizex) {
         xs *= 2;
         xi *= 2;
         w *= 2;
     }
 
-    if (c->videoconfig.doublesizey) {
+    if (c->videoconfig->doublesizey) {
         ys *= 2;
         yi *= 2;
         h *= 2;

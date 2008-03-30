@@ -85,7 +85,8 @@ extern int video_canvas_create(struct video_canvas_s *canvas,
                                unsigned int *height, int mapped,
                                void_t exposure_handler,
                                const struct palette_s *palette);
-extern struct video_canvas_s *video_canvas_init(void);
+extern struct video_canvas_s *video_canvas_init(struct video_render_config_s
+                                                *videoconfig);
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  BYTE *draw_buffer,
                                  unsigned int draw_buffer_line_size,

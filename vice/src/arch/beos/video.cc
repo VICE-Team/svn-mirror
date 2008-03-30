@@ -131,7 +131,7 @@ static void canvas_create_bitmap(video_canvas_t *c,
 			use_colorspace,false,true);
 }    
 
-video_canvas_t *video_canvas_init(void)
+video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
 {
     video_canvas_t *canvas;
 
@@ -139,7 +139,7 @@ video_canvas_t *video_canvas_init(void)
 
     canvas->video_draw_buffer_callback = NULL;
 
-    video_render_initconfig(&canvas->videoconfig);
+    canvas->videoconfig = videoconfig;
 
     return canvas;
 }
@@ -170,10 +170,10 @@ int video_canvas_create(struct video_canvas_s *canvas, const char *title,
     canvas->height = *height;
     canvas->palette = palette;
 
-    if (canvas->videoconfig.doublesizex)
+    if (canvas->videoconfig->doublesizex)
         canvas->width *= 2;
 
-    if (canvas->videoconfig.doublesizey)
+    if (canvas->videoconfig->doublesizey)
         canvas->height *= 2;
 
     canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
@@ -210,10 +210,10 @@ void video_canvas_destroy(video_canvas_t *c)
 void video_canvas_resize(video_canvas_t *c, unsigned int width,
                          unsigned int height)
 {
-    if (canvas->videoconfig.doublesizex)
+    if (canvas->videoconfig->doublesizex)
         width *= 2;
 
-    if (canvas->videoconfig.doublesizey)
+    if (canvas->videoconfig->doublesizey)
         height *= 2;
 
 	if (c->width == width && c->height == height)
@@ -273,7 +273,7 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p)
 							|	p->entries[i].green << 8
 							|	p->entries[i].blue;
 		}
-		video_render_setphysicalcolor(&c->videoconfig, i, col, c->depth);
+		video_render_setphysicalcolor(c->videoconfig, i, col, c->depth);
 	}
 	if (c->depth > 8)
 	{
@@ -302,13 +302,13 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 	clipping_rect *clip;
 	ViceWindow *vw = c->vicewindow;
 
-    if (c->videoconfig.doublesizex) {
+    if (c->videoconfig->doublesizex) {
         xs *= 2;
         xi *= 2;
         w *= 2;
     }
 
-    if (c->videoconfig.doublesizey) {
+    if (c->videoconfig->doublesizey) {
         ys *= 2;
         yi *= 2;
         h *= 2;
@@ -319,7 +319,7 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 		w = MIN(w, c->width - xi);
 		h = MIN(h, c->height - yi);
 
-		video_render_main(&c->videoconfig,
+		video_render_main(c->videoconfig,
                           draw_buffer,
                           (BYTE *)(c->vicewindow->bitmap->Bits()),
                           w, h,
@@ -378,7 +378,7 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 				}
 		
 				if (ww > 0 && hh > 0)
-					video_render_main(&c->videoconfig,
+					video_render_main(c->videoconfig,
                           draw_buffer,
                           p,
                           ww, hh,

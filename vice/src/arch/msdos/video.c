@@ -280,7 +280,7 @@ static int canvas_set_vga_mode(struct video_canvas_s *c)
     return 0;
 }
 
-video_canvas_t *video_canvas_init(void)
+video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
 {
     video_canvas_t *canvas;
 
@@ -288,7 +288,7 @@ video_canvas_t *video_canvas_init(void)
 
     canvas->video_draw_buffer_callback = NULL;
 
-    video_render_initconfig(&canvas->videoconfig);
+    canvas->videoconfig = videoconfig;
 
     return canvas;
 }
@@ -384,7 +384,7 @@ static void canvas_change_palette(video_canvas_t *c)
 
         DEBUG(("canvas_change_palette: videoconfig col %d: %d", i, col));
 
-        video_render_setphysicalcolor(&c->videoconfig, i, col, c->depth);
+        video_render_setphysicalcolor(c->videoconfig, i, col, c->depth);
     }
 
     if (c->depth > 8) {
@@ -430,10 +430,10 @@ void video_canvas_unmap(video_canvas_t *canvas)
 void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
                          unsigned int height)
 {
-    if (canvas->videoconfig.doublesizex)
+    if (canvas->videoconfig->doublesizex)
         width *= 2;
 
-    if (canvas->videoconfig.doublesizey)
+    if (canvas->videoconfig->doublesizey)
         height *= 2;
 
     /*
@@ -521,13 +521,13 @@ inline void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
     if (screen == NULL)
         return;
 
-    if (c->videoconfig.doublesizex) {
+    if (c->videoconfig->doublesizex) {
         xs *= 2;
         xi *= 2;
         w *= 2;
     }
 
-    if (c->videoconfig.doublesizey) {
+    if (c->videoconfig->doublesizey) {
         ys *= 2;
         yi *= 2;
         h *= 2;
@@ -558,7 +558,7 @@ inline void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
         h -= y_diff;
     }
 
-    video_render_main(&c->videoconfig,
+    video_render_main(c->videoconfig,
                       draw_buffer,
                       (BYTE *)(c->render_bitmap->line[0]),
                       w, h,

@@ -449,10 +449,10 @@ int set_physical_colors(video_canvas_t *c)
                 (((c->palette->entries[i].blue&(bmask<<bbits))>>bbits)
                 << bshift);
         }
-        video_render_setphysicalcolor(&c->videoconfig, i, p, c->depth);
+        video_render_setphysicalcolor(c->videoconfig, i, p, c->depth);
 
         DEBUG(("Physical color for %d is 0x%04X", i,
-              c->videoconfig.physical_colors[i]));
+              c->videoconfig->physical_colors[i]));
         if (c->depth == 8) {
             if (IDirectDrawSurface_Unlock(c->primary_surface, NULL)
                 == DDERR_SURFACELOST) {
@@ -472,7 +472,7 @@ video_canvas_t *video_canvases[2];
 extern int fullscreen_active;
 extern int fullscreen_transition;
 
-video_canvas_t *video_canvas_init(void)
+video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
 {
     video_canvas_t *canvas;
 
@@ -480,7 +480,7 @@ video_canvas_t *video_canvas_init(void)
 
     canvas->video_draw_buffer_callback = NULL;
 
-    video_render_initconfig(&canvas->videoconfig);
+    canvas->videoconfig = videoconfig;
 
     return canvas;
 }
@@ -509,10 +509,10 @@ int video_canvas_create(video_canvas_t *canvas, const char *title,
     canvas->width = *width;
     canvas->height = *height;
 
-    if (canvas->videoconfig.doublesizex)
+    if (canvas->videoconfig->doublesizex)
         canvas->width *= 2;
 
-    if (canvas->videoconfig.doublesizey)
+    if (canvas->videoconfig->doublesizey)
         canvas->height *= 2;
 
     canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
@@ -710,10 +710,10 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     int bitdepth;
     int refreshrate;
 
-    if (canvas->videoconfig.doublesizex)
+    if (canvas->videoconfig->doublesizex)
         width *= 2;
 
-    if (canvas->videoconfig.doublesizey)
+    if (canvas->videoconfig->doublesizey)
         height *= 2;
 
     canvas->width = width;
@@ -939,12 +939,14 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
                      - r->viewport.y_offset * r->viewport.pixel_size.height;
 
             if (r->draw_buffer) {
-                cut_rightline=safex + r->viewport.width;
-                cut_bottomline=safey + r->viewport.height;
+                cut_rightline = safex + r->viewport.width
+                                * r->viewport.pixel_size.width;
+                cut_bottomline = safey + r->viewport.height
+                                 * r->viewport.pixel_size.height;
                 if (cut_rightline > r->draw_buffer_width
                     * r->viewport.pixel_size.width) {
                     cut_rightline = r->draw_buffer_width
-                    *r->viewport.pixel_size.width;
+                    * r->viewport.pixel_size.width;
                 }
                 if (cut_bottomline > r->draw_buffer_height
                     * r->viewport.pixel_size.height) {
@@ -1009,13 +1011,13 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
     unsigned int client_y;
     RECT rect;
 
-    if (canvas->videoconfig.doublesizex) {
+    if (canvas->videoconfig->doublesizex) {
         xs *= 2;
         xi *= 2;
         w *= 2;
     }
 
-    if (canvas->videoconfig.doublesizey) {
+    if (canvas->videoconfig->doublesizey) {
         ys *= 2;
         yi *= 2;
         h *= 2;
@@ -1201,7 +1203,7 @@ static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
         pw = trect.right - trect.left;
         ph = trect.bottom - trect.top;
 
-        video_render_main(&c->videoconfig,
+        video_render_main(c->videoconfig,
                           draw_buffer,
                           (BYTE *)(desc.lpSurface),
                           pw, ph,
