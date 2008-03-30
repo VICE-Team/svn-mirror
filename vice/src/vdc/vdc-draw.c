@@ -55,7 +55,7 @@ static PIXEL4 hr_table_2x[16 * 16 * 2 * 16];
 static void draw_std_background(unsigned int start_pixel,
                                 unsigned int end_pixel)
 {
-    vid_memset(vdc.raster.frame_buffer_ptr + start_pixel,
+    vid_memset(vdc.raster.draw_buffer_ptr + start_pixel,
                RASTER_PIXEL(&vdc.raster,
                vdc.raster.overscan_background_color),
                end_pixel - start_pixel + 1);
@@ -65,7 +65,7 @@ static void draw_std_background(unsigned int start_pixel,
 static void draw_std_background_2x(unsigned int start_pixel,
                                    unsigned int end_pixel)
 {
-    vid_memset(vdc.raster.frame_buffer_ptr + 2 * start_pixel,
+    vid_memset(vdc.raster.draw_buffer_ptr + 2 * start_pixel,
                RASTER_PIXEL(&vdc.raster,
                vdc.raster.overscan_background_color),
                2 * (end_pixel - start_pixel + 1));
@@ -355,7 +355,7 @@ static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
     if (drawline_is_even())
         return;
 
-    p = vdc.raster.frame_buffer_ptr + vdc.border_width
+    p = vdc.raster.draw_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth + xs * 8;
     table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
@@ -390,7 +390,7 @@ static void draw_std_text(void)
             cpos = crsrpos;
     }
 
-    p = vdc.raster.frame_buffer_ptr + vdc.border_width
+    p = vdc.raster.draw_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth;
     table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
@@ -471,7 +471,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
     if (drawline_is_even())
         return;
 
-    p = vdc.raster.frame_buffer_ptr + vdc.border_width
+    p = vdc.raster.draw_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth + xs * 8;
 
     if (vdc.regs[25] & 0x40) {
@@ -510,7 +510,7 @@ static void draw_std_bitmap(void)
     if (drawline_is_even())
         return;
 
-    p = vdc.raster.frame_buffer_ptr + vdc.border_width
+    p = vdc.raster.draw_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth;
 
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
@@ -562,7 +562,7 @@ static void draw_idle_cached(raster_cache_t *cache, int xs, int xe)
     if (drawline_is_even())
         return;
 
-    p = vdc.raster.frame_buffer_ptr + vdc.border_width
+    p = vdc.raster.draw_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth + xs * 8;
 
     idleval = *(hr_table + ((cache->color_data_1[0] & 0x0f) << 8));
@@ -584,7 +584,7 @@ static void draw_idle(void)
     if (drawline_is_even())
         return;
 
-    p = vdc.raster.frame_buffer_ptr + vdc.border_width
+    p = vdc.raster.draw_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth;
 
     idleval = *(hr_table + ((vdc.regs[26] & 0xf0) << 4));

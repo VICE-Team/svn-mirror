@@ -45,7 +45,6 @@ struct video_frame_buffer_s {
 
 typedef struct video_frame_buffer_s video_frame_buffer_t;
 
-typedef PIXEL *frame_buffer_ptr_t;
 typedef ui_exposure_handler_t canvas_redraw_t;
 
 struct video_canvas_s {

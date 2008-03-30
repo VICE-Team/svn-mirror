@@ -51,7 +51,7 @@ static WORD mcmsktable[512];
 
 static void draw_std_background(int start_pixel, int end_pixel)
 {
-    vid_memset(ted.raster.frame_buffer_ptr + start_pixel,
+    vid_memset(ted.raster.draw_buffer_ptr + start_pixel,
                RASTER_PIXEL(&ted.raster,
                ted.raster.overscan_background_color),
                end_pixel - start_pixel + 1);
@@ -71,8 +71,8 @@ static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
 static raster_cache_t *rcache;
 
 /* Pointer to the start of the graphics area on the frame buffer.  */
-#define GFX_PTR()                \
-    (ted.raster.frame_buffer_ptr \
+#define GFX_PTR()               \
+    (ted.raster.draw_buffer_ptr \
     + (ted.screen_borderwidth + ted.raster.xsmooth))
 
 #ifdef ALLOW_UNALIGNED_ACCESS
@@ -315,7 +315,7 @@ static void draw_std_text_foreground(int start_char, int end_char)
     int cursor_pos = -1;
 
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
-    p = (ted.raster.frame_buffer_ptr + ted.screen_borderwidth
+    p = (ted.raster.draw_buffer_ptr + ted.screen_borderwidth
         + ted.raster.xsmooth + 8 * start_char);
 
     if (ted.cursor_visible) {
@@ -570,7 +570,7 @@ static void draw_mc_text_foreground(int start_char, int end_char)
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
     c1 = RASTER_PIXEL(&ted.raster, ted.ext_background_color[0]);
     c2 = RASTER_PIXEL(&ted.raster, ted.ext_background_color[1]);
-    p = (ted.raster.frame_buffer_ptr + ted.screen_borderwidth
+    p = (ted.raster.draw_buffer_ptr + ted.screen_borderwidth
         + ted.raster.xsmooth + 8 * start_char);
 
     for (i = start_char; i <= end_char; i++, p += 8) {
@@ -681,7 +681,7 @@ static void draw_mc_bitmap_foreground(int start_char, int end_char)
     BYTE *bmptr;
     unsigned int i, j;
 
-    p = (ted.raster.frame_buffer_ptr + ted.screen_borderwidth
+    p = (ted.raster.draw_buffer_ptr + ted.screen_borderwidth
         + ted.raster.xsmooth + 8 * start_char);
     bmptr = ted.bitmap_ptr;
 
@@ -790,7 +790,7 @@ static void draw_ext_text_foreground(int start_char, int end_char)
     PIXEL *p;
 
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
-    p = (ted.raster.frame_buffer_ptr + ted.screen_borderwidth
+    p = (ted.raster.draw_buffer_ptr + ted.screen_borderwidth
         + ted.raster.xsmooth + 8 * start_char);
 
     for (i = start_char; i <= end_char; i++, p += 8) {
@@ -838,7 +838,7 @@ static void draw_black(void)
 {
     PIXEL *p;
 
-    p = (ted.raster.frame_buffer_ptr
+    p = (ted.raster.draw_buffer_ptr
         + ted.screen_borderwidth + ted.raster.xsmooth);
 
     vid_memset(p, RASTER_PIXEL(&ted.raster, 0),
@@ -853,7 +853,7 @@ static void draw_black_cached(raster_cache_t *cache, int xs, int xe)
 {
     PIXEL *p;
 
-    p = (ted.raster.frame_buffer_ptr
+    p = (ted.raster.draw_buffer_ptr
         + ted.screen_borderwidth + ted.raster.xsmooth);
 
     vid_memset(p, RASTER_PIXEL(&ted.raster, 0),
@@ -867,7 +867,7 @@ static void draw_black_foreground(int start_char, int end_char)
 {
     PIXEL *p;
 
-    p = (ted.raster.frame_buffer_ptr
+    p = (ted.raster.draw_buffer_ptr
         + (ted.screen_borderwidth + ted.raster.xsmooth +
         8 * start_char));
 
@@ -904,7 +904,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
     d = (BYTE)ted.idle_data;
 
 #ifdef ALLOW_UNALIGNED_ACCESS
-    p = (ted.raster.frame_buffer_ptr
+    p = (ted.raster.draw_buffer_ptr
         + ted.screen_borderwidth + ted.raster.xsmooth);
 #else
     p = aligned_line_buffer;
@@ -929,7 +929,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
     }
 
 #ifndef ALLOW_UNALIGNED_ACCESS
-    vid_memcpy(ted.raster.frame_buffer_ptr + (ted.screen_borderwidth
+    vid_memcpy(ted.raster.draw_buffer_ptr + (ted.screen_borderwidth
                + ted.raster.xsmooth),
                aligned_line_buffer + xs * 8,
                (xe - xs + 1) * 8);
@@ -955,7 +955,7 @@ static void draw_idle_foreground(int start_char, int end_char)
     BYTE d;
     unsigned int i;
 
-    p = (ted.raster.frame_buffer_ptr + ted.screen_borderwidth
+    p = (ted.raster.draw_buffer_ptr + ted.screen_borderwidth
         + ted.raster.xsmooth);
     c = RASTER_PIXEL(&ted.raster, 0);
     d = (BYTE)ted.idle_data;

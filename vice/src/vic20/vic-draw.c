@@ -147,7 +147,7 @@ static void draw_line(void)
 {
     PIXEL *p;
 
-    p = (vic.raster.frame_buffer_ptr
+    p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
 
     draw(p, 0, vic.text_cols - 1, 0, 0);
@@ -157,7 +157,7 @@ static void draw_reverse_line(void)
 {
     PIXEL *p;
 
-    p = (vic.raster.frame_buffer_ptr
+    p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
 
     draw(p, 0, vic.text_cols - 1, 1, 0);
@@ -167,7 +167,7 @@ static void draw_line_cached(raster_cache_t *cache, int xs, int xe)
 {
     PIXEL *p;
 
-    p = (vic.raster.frame_buffer_ptr
+    p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
 
     /* Scale back xs and xe from 8 pixel units to text_cols.  */
@@ -179,7 +179,7 @@ static void draw_reverse_line_cached(raster_cache_t *cache, int xs, int xe)
 {
     PIXEL *p;
 
-    p = (vic.raster.frame_buffer_ptr
+    p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
 
     draw(p, xs >> VIC_PIXEL_WIDTH_SHIFT,
@@ -188,7 +188,7 @@ static void draw_reverse_line_cached(raster_cache_t *cache, int xs, int xe)
 
 static void draw_std_background(int start_pixel, int end_pixel)
 {
-    vid_memset(vic.raster.frame_buffer_ptr + start_pixel * VIC_PIXEL_WIDTH,
+    vid_memset(vic.raster.draw_buffer_ptr + start_pixel * VIC_PIXEL_WIDTH,
                RASTER_PIXEL(&vic.raster,
                vic.raster.background_color),
                (end_pixel - start_pixel + 1) * VIC_PIXEL_WIDTH);
@@ -198,7 +198,7 @@ static void draw_std_foreground(int start_char, int end_char)
 {
     PIXEL *p;
 
-    p = (vic.raster.frame_buffer_ptr
+    p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
 
     draw(p, start_char, end_char, 0, 1);
@@ -208,7 +208,7 @@ static void draw_rev_foreground(int start_char, int end_char)
 {
     PIXEL *p;
 
-    p = (vic.raster.frame_buffer_ptr
+    p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
 
     draw(p, start_char, end_char, 1, 1);

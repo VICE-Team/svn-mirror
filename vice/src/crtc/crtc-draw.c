@@ -91,7 +91,7 @@ static void init_drawing_tables(void)
 
 static void draw_standard_background (int start_pixel, int end_pixel)
 {
-    vid_memset(crtc.raster.frame_buffer_ptr + start_pixel,
+    vid_memset(crtc.raster.draw_buffer_ptr + start_pixel,
                RASTER_PIXEL(&crtc.raster, 0),
                end_pixel - start_pixel + 1);
 }
@@ -104,7 +104,7 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
 {
     /* FIXME: `p' has to be aligned on a 4 byte boundary!
               Is there a better way than masking `offset'?  */
-    PIXEL *p = crtc.raster.frame_buffer_ptr + (offset & ~3);
+    PIXEL *p = crtc.raster.draw_buffer_ptr + (offset & ~3);
     BYTE *chargen_ptr, *screen_ptr;
     int screen_rel;
     int i, d;
@@ -217,7 +217,7 @@ static void draw_reverse_line(void)
 
 #define DRAW_CACHED(l, xs, xe, reverse_flag)                               \
     do {                                                                   \
-        PIXEL *p = frame_buffer_ptr + SCREEN_BORDERWIDTH + (xs) * 8;       \
+        PIXEL *p = draw_buffer_ptr + SCREEN_BORDERWIDTH + (xs) * 8;        \
         register int i;                                                    \
         register int mempos = ((l->n+1) / screen_charheight) * memptr_inc; \
         register int ypos = (l->n+1) % screen_charheight;                  \
@@ -254,7 +254,7 @@ static void draw_reverse_line_cached(raster_cache_t *l, int xs, int xe)
 
 #define DRAW_CACHED_2x(l, xs, xe, reverse_flag)                \
     do {                                                       \
-        PIXEL *p = (frame_buffer_ptr                           \
+        PIXEL *p = (draw_buffer_ptr                            \
                     + 2 * (SCREEN_BORDERWIDTH + (xs) * 8));    \
         register int i;                                        \
         register int mempos = ((l->n + 1) / screen_charheight) \
