@@ -95,7 +95,7 @@
 
 #ifdef HAVE_TFE
 #include "tfe.h"
-#endif /* #ifdef HAVE_TFE */
+#endif
 
 
 machine_context_t machine_context;
@@ -241,7 +241,7 @@ int machine_resources_init(void)
         || reu_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
-#endif /* #ifdef HAVE_TFE */
+#endif
         || vicii_resources_init() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
@@ -298,7 +298,7 @@ int machine_cmdline_options_init(void)
         || reu_cmdline_options_init() < 0
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
-#endif /* #ifdef HAVE_TFE */
+#endif
         || vicii_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sid_cmdline_options_init() < 0
@@ -442,7 +442,7 @@ int machine_init(void)
 #ifdef HAVE_TFE
         /* Initialize the TFE.  */
         tfe_init();
-#endif /* #ifdef HAVE_TFE */
+#endif
 
 #ifdef HAVE_MOUSE
         /* Initialize mouse support (if present).  */

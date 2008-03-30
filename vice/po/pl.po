@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.12\n"
-"POT-Creation-Date: 2003-09-06 22:31+0200\n"
-"PO-Revision-Date: 2003-05-30 18:25+0200\n"
+"Project-Id-Version: VICE 1.13\n"
+"POT-Creation-Date: 2003-09-07 19:30+0200\n"
+"PO-Revision-Date: 2003-09-07 19:08+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1133,7 +1133,7 @@ msgstr "Zapisz obraz"
 
 #: src/arch/unix/uicommands.c:965
 #, fuzzy
-msgid "*Load existing snapsot"
+msgid "*Load existing snapshot"
 msgstr "Za³aduj zrzut"
 
 #: src/arch/unix/uicommands.c:967

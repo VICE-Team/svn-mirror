@@ -1,3 +1,135 @@
+2003-09-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.32.
+
+	* drive/drivecpu.c (drive_trap_handler): Limit the number of
+	cycles to steal.
+	(drivex_cpu_execute): Store stop clock into drive struct.
+
+	* drive/drivetypes.h: Added stop clock to drive struct.
+
+	* c128/c128.c: Initialize TFE.
+
+2003-09-09  Spiro Trikaliotis
+
+	* arch/win32/{res.h,restfe.rc,tfarch.c,uitfe.c}: If the rights
+	are not enough for enumerating the adapters, TFE is disabled
+	now.
+
+	* arch/c64/tfe.c: Removed some unnecessary (internal)
+	warnings. Corrected a severe bug in the processing of
+	TFE_PP_ADDR_CC_RXCTL where the bits were interpreted
+	completely wrong.
+
+	* arch/win32/uitfe.c: If TFE cannot be activated, give a
+	message box pointing to http://www.vicekb.de.vu/13-005.htm.
+
+2003-09-09  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/config.h:
+	- added HAVE_TFE <experimental>
+
+	* arch/os2/dialogs/dialogs.rc:
+	- changed zlib/lpng version
+
+	* arch/os2/dialogs/menubar.[h,c,rc]:
+	- added support for '*Scale2X'
+	- added support for 'ETHERNET_ACTIVE'
+
+	* arch/os2/Makefile.am:
+	- added tfearch.c
+
+	* arch/os2/tfearch.c:
+	- added
+
+	* arch/os2/vac++/incl/c64.icc:
+	- added c64memsnapshot
+	- added tfe
+	- added tfearch
+
+	* arch/os2/vac++/incl/core.icc:
+	- added
+
+	* arch/os2/vac++/incl/iec.icc:
+	- added via1d1541.c
+
+	* arch/os2/vac++/incl/iecieee.icc:
+	- removed via1d
+
+	* arch/os2/vac++/incl/ieee.icc:
+	- added via1d2031
+
+	* arch/os2/vac++/incl/mainsrc.icc:
+	- removed ciatimer
+	- removed parallel
+
+	* arch/os2/vac++/incl/parallel.icc:
+	- added
+
+	* arch/os2/vac++/incl/plus4.icc:
+	- added plus4memsnapshot
+
+	* arch/os2/vac++/incl/raster.icc:
+	- added raster-line-changes
+	- added raster-line-changes-sprite
+
+	* arch/os2/vac++/incl/video.icc:
+	- added renderscale2x
+
+	* arch/os2/vac++/Makefile.am:
+	- added core.icc
+	- added parallel.icc
+
+	* arch/os2/vac++/x64/X64.ICC,
+	arch/os2/vac++/xplus4/Xplus4.ICC:
+	- updated
+
+	* arch/os2/video.[h,c]:
+	- removed exposure stuff
+
+	* core/viacore.c:
+	- added a if-condition (sanity check) which should not
+	be necessary, but without I get a seg fault (might be a
+	problem of VAC++4.0)
+
+	* raster/raster-line.c:
+	- removed an unnecessary if-condition. With it I get a seg
+	fault (might be a problem of VAC++4.0) The condition is
+	obsolete anyhow, because the check is done twice (once in the
+	calling function and once outside)
+
+2003-09-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/unix/uicommands.c: Fixed typo.
+
+	* arch/win32/c128ui.c, c64ui.c, cbm2ui.c, petui.c, plus4ui.c,
+	vicui.c: Fixed ui_res_value_lists and removed their command
+	code.
+
+	* arch/win32/res.h: New ids for event start mode.
+
+	* arch/win32/resc128.rc, res64.rc, rescbm2.rc, respet.rc,
+	resplus4.rc, resvic.rc: Added menu items for event recording
+	and playback.
+
+	* arch/win32/ui.c: Menu commands correspondig to a
+	ui_res_value_list item (common and machine specific) are now
+	handled in a loop.
+
+	* arch/win32/ui.h: Added default_item_id to ui_res_value_list.
+
+	* cia.h: Added irq_enabled to cia_context_t.
+
+	* core/ciacore.c (my_set_int): Remember interrupt in
+	irq_enabled.
+	(ciacore_reset): Reset irq_enabled.
+	(ciacore_snapshot_write_module): Write irq_enabled to
+	snapshot (currently disabled, will be reviewed after 1.13).
+	(ciacore_snapshot_read_module): Try to read irq_enabled from
+	snapshot and restore interrupt with this value.
+
+	* event.c: Removed redundand defines.
+
 2003-09-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.31.

@@ -96,6 +96,9 @@
 #include "mouse.h"
 #endif
 
+#ifdef HAVE_TFE
+#include "tfe.h"
+#endif
 
 machine_context_t machine_context;
 
@@ -310,6 +313,9 @@ int machine_resources_init(void)
         || video_resources_init() < 0
         || c128_resources_init() < 0
         || reu_resources_init() < 0
+#ifdef HAVE_TFE
+        || tfe_resources_init() < 0
+#endif
         || vicii_resources_init() < 0
         || vdc_init_resources() < 0
         || sound_resources_init() < 0
@@ -354,6 +360,9 @@ int machine_cmdline_options_init(void)
         || video_init_cmdline_options() < 0
         || c128_cmdline_options_init() < 0
         || reu_cmdline_options_init() < 0
+#ifdef HAVE_TFE
+        || tfe_cmdline_options_init() < 0
+#endif
         || vicii_cmdline_options_init() < 0
         || vdc_init_cmdline_options() < 0
         || sound_cmdline_options_init() < 0
@@ -488,6 +497,11 @@ int machine_init(void)
 
     /* Initialize the REU.  */
     reu_init();
+
+#ifdef HAVE_TFE
+    /* Initialize the TFE.  */
+    tfe_init();
+#endif
 
 #ifdef HAVE_MOUSE
     /* Initialize mouse support (if present).  */

@@ -375,6 +375,10 @@ inline static DWORD drive_trap_handler(drive_context_t *drv)
             CLOCK next_clk;
 
             next_clk = alarm_context_next_pending_clk(drv->cpu.alarm_context);
+
+            if (next_clk > drv->cpu.stop_clk)
+                next_clk = drv->cpu.stop_clk;
+
             *(drv->clk_ptr) = next_clk;
         }
         return 0;
@@ -464,26 +468,26 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
         cycles = 0;
 
     while (cycles > 0) {
-        CLOCK stop_clk;
-
         if (cycles > MAX_TICKS) {
-            stop_clk = (*(drv->clk_ptr) + drv->cpud.clk_conv_table[MAX_TICKS]
-                        - drv->cpu.last_exc_cycles);
+            drv->cpu.stop_clk = (*(drv->clk_ptr)
+                                + drv->cpud.clk_conv_table[MAX_TICKS]
+                                - drv->cpu.last_exc_cycles);
             drv->cpu.cycle_accum += drv->cpud.clk_mod_table[MAX_TICKS];
             cycles -= MAX_TICKS;
         } else {
-            stop_clk = (*(drv->clk_ptr) + drv->cpud.clk_conv_table[cycles]
-                        - drv->cpu.last_exc_cycles);
+            drv->cpu.stop_clk = (*(drv->clk_ptr)
+                                + drv->cpud.clk_conv_table[cycles]
+                                - drv->cpu.last_exc_cycles);
             drv->cpu.cycle_accum += drv->cpud.clk_mod_table[cycles];
             cycles = 0;
         }
 
         if (drv->cpu.cycle_accum >= 0x10000) {
             drv->cpu.cycle_accum -= 0x10000;
-            stop_clk++;
+            (drv->cpu.stop_clk)++;
         }
 
-        while (*(drv->clk_ptr) < stop_clk) {
+        while (*(drv->clk_ptr) < drv->cpu.stop_clk) {
 
 /* Include the 6502/6510 CPU emulation core.  */
 
@@ -528,7 +532,7 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
 
         }
 
-        drv->cpu.last_exc_cycles = *(drv->clk_ptr) - stop_clk;
+        drv->cpu.last_exc_cycles = *(drv->clk_ptr) - drv->cpu.stop_clk;
     }
 
     drv->cpu.last_clk = clk_value;

@@ -1,3 +1,15 @@
+2003-09-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.32.
+
+	* doc/html/plain/NEWS: Updated.
+
+2003-09-09  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* doc/html/index.html:
+	- changes Vice/2 site (old link is not existing anymore since
+	ages)
+
 2003-09-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.31.

@@ -24,6 +24,10 @@ list of all the changes in the code.
 
 - Added SS5 CRT support and fixed the SS5 screen distortion bug.
 
+- Added support for the "The Final Ethernet" and the "RR-Net"
+  (Retroreplay-Net) ethernet cartridges for the C64 (MS-Windows port
+  only).
+
 ** C128 changes
 ---------------
 
@@ -35,6 +39,8 @@ list of all the changes in the code.
 ----------------
 
 - Many TED fixes.
+
+- User port parallel cable.
 
 ** VIC-II
 ---------
