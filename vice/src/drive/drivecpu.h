@@ -37,11 +37,7 @@
 
 /* drive0, device #8.  */
 
-extern mos6510_regs_t drive0_cpu_regs;
-
-extern CLOCK drive0_clk;
 extern int drive0_traceflg;
-extern int drive0_cpu_running;
 extern alarm_context_t drive0_alarm_context;
 
 extern monitor_interface_t drive0_monitor_interface;
@@ -56,9 +52,6 @@ extern void drive0_cpu_set_sync_factor(unsigned int factor);
 extern void REGPARM2 drive0_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 drive0_read(ADDRESS addr);
 extern void drive0_toggle_watchpoints(int flag);
-extern BYTE drive0_bank_read(int bank, ADDRESS addr);
-extern BYTE drive0_bank_peek(int bank, ADDRESS addr);
-extern void drive0_bank_store(int bank, ADDRESS addr, BYTE val);
 extern void drive0_cpu_execute(void);
 extern void drive0_set_bank_base(void);
 extern int drive0_cpu_write_snapshot_module(snapshot_t *s);
@@ -66,11 +59,7 @@ extern int drive0_cpu_read_snapshot_module(snapshot_t *s);
 
 /* drive1, device #9.  */
 
-extern mos6510_regs_t drive1_cpu_regs;
-
-extern CLOCK drive1_clk;
 extern int drive1_traceflg;
-extern int drive1_cpu_running;
 extern alarm_context_t drive1_alarm_context;
 
 extern monitor_interface_t drive1_monitor_interface;
@@ -85,9 +74,6 @@ extern void drive1_cpu_set_sync_factor(unsigned int factor);
 extern void REGPARM2 drive1_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 drive1_read(ADDRESS addr);
 extern void drive1_toggle_watchpoints(int flag);
-extern BYTE drive1_bank_read(int bank, ADDRESS addr);
-extern BYTE drive1_bank_peek(int bank, ADDRESS addr);
-extern void drive1_bank_store(int bank, ADDRESS addr, BYTE val);
 extern void drive1_cpu_execute(void);
 extern void drive1_set_bank_base(void);
 extern int drive1_cpu_write_snapshot_module(snapshot_t *s);
