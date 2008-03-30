@@ -34,10 +34,11 @@ extern void romset_resources_shutdown(void);
 
 extern int romset_file_load(const char *filename);
 extern int romset_file_save(const char *filename, const char **resource_list);
-extern char *romset_file_list(const char **resource_list, const char *delim);
+extern char *romset_file_list(const char **resource_list);
 
 extern int romset_archive_load(const char *filename, int autostart);
 extern int romset_archive_save(const char *filename);
+extern char *romset_archive_list(void);
 extern int romset_archive_item_save(const char *filename,
                                     const char *romset_name);
 extern int romset_archive_item_select(const char *romset_name);

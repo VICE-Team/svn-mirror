@@ -133,7 +133,7 @@ static UI_CALLBACK(uiromset_archive_save)
     new_value = lib_malloc(len + 1);
     strcpy(new_value, "");
 
-    button = ui_input_string(_("File to dump ROM set archive to"),
+    button = ui_input_string(_("File to save ROM set archive to"),
                              _("ROM set archive:"), new_value, len);
 
     if (button == UI_BUTTON_OK)
@@ -144,6 +144,13 @@ static UI_CALLBACK(uiromset_archive_save)
 
 static UI_CALLBACK(uiromset_archive_list)
 {
+    char *list;
+
+    list = romset_archive_list();
+
+    ui_show_text(_("Current ROM set archive"), list, -1, -1);
+
+    lib_free(list);
 }
 
 static UI_CALLBACK(uiromset_archive_item_create)
@@ -166,18 +173,65 @@ static UI_CALLBACK(uiromset_archive_item_create)
     lib_free(new_value);
 }
 
+static UI_CALLBACK(uiromset_archive_item_delete)
+{
+    static char input_string[32];
+    ui_button_t button;
+
+    if (!CHECK_MENUS) {
+        vsync_suspend_speed_eval();
+        button = ui_input_string(_("Delete configuration"), _("Enter name"),
+                                 input_string, 32);
+        if (button == UI_BUTTON_OK) {
+            romset_archive_item_delete(input_string);
+            ui_update_menus();
+        }
+    }
+}
+
+static UI_CALLBACK(uiromset_archive_item_select)
+{
+    static char input_string[32];
+    ui_button_t button;
+    char *active;
+
+    if (!CHECK_MENUS) {
+        resources_get_value("RomsetArchiveActive", (void *)&active);
+
+        if (!*input_string)
+            sprintf(input_string, "%s", active);
+
+        vsync_suspend_speed_eval();
+        button = ui_input_string(_("Active configuration"), _("Enter name"),
+                                 input_string, 32);
+        if (button == UI_BUTTON_OK) {
+            resources_set_value("RomsetArchiveActive",
+                                (resource_value_t)input_string);
+            ui_update_menus();
+        }
+    }
+}
+
 ui_menu_entry_t uiromset_archive_submenu[] = {
-    { N_("Load custom ROM set from file"),
+    { N_("Load ROM set archive"),
       (ui_callback_t)uiromset_archive_load, NULL, NULL },
-    { N_("Dump ROM set definition to file"),
+    { N_("Save ROM set archive"),
       (ui_callback_t)uiromset_archive_save, NULL, NULL },
-    { N_("List current ROM set"),
+    { N_("List current ROM set archive"),
       (ui_callback_t)uiromset_archive_list, NULL, NULL },
     { "--" },
     { N_("Create ROM set item"),
       (ui_callback_t)uiromset_archive_item_create, NULL, NULL },
+    { N_("Delete ROM set item"),
+      (ui_callback_t)uiromset_archive_item_delete, NULL, NULL },
+    { N_("Select ROM set item"),
+      (ui_callback_t)uiromset_archive_item_select, NULL, NULL },
     { NULL }
 };
+
+void uiromset_menu_init(void)
+{
+}
 
 static UI_CALLBACK(uiromset_file_load)
 {
@@ -221,7 +275,7 @@ static UI_CALLBACK(uiromset_file_save)
     new_value = lib_malloc(len + 1);
     strcpy(new_value, "");
 
-    button = ui_input_string(_("File to dump ROM set definition to"),
+    button = ui_input_string(_("File to save ROM set definition to"),
                              _("ROM set file:"), new_value, len);
 
     if (button == UI_BUTTON_OK)
@@ -234,7 +288,7 @@ static UI_CALLBACK(uiromset_file_list)
 {
     char *list;
 
-    list = machine_romset_file_list("\n");
+    list = machine_romset_file_list();
 
     ui_show_text(_("Current ROM set"), list, -1, -1);
 
