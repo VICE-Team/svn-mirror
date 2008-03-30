@@ -41,18 +41,16 @@ struct canvas_s {
     canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
 	
-	/* Pointer for the ViceWindows for BWindow, BView and BBitmap for the canvas */
+	/* Pointer to the canvas' ViceWindow */
 #ifdef EXACT_TYPE_NEEDED
     ViceWindow *vicewindow;
 #else
     void *vicewindow;
 #endif
- 
-    int use_triple_buffering;
 };
 typedef struct canvas_s canvas_t;
 
-#define CANVAS_USES_TRIPLE_BUFFERING(c) (c->use_triple_buffering)
+#define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
 /* ------------------------------------------------------------------------- */
 

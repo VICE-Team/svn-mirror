@@ -822,10 +822,9 @@ void crtc_exposure_handler (unsigned int width,
   raster_force_repaint (&crtc.raster);
 }
 
-/* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
-void video_free(void)
+void crtc_free(void)
 {
-  video_frame_buffer_free (crtc.raster.frame_buffer);
+  raster_free(&crtc.raster);
 }
 
 void video_setfullscreen (int v, int width, int height)

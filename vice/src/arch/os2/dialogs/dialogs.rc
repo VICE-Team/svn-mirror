@@ -472,17 +472,28 @@ END
 
 DLGTEMPLATE DLG_VSID 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Vice/2 SID Player", DLG_VSID, 162, 122, 135, 88, STY_DIALOG | FCF_SYSMENU | FCF_TASKLIST
+    DIALOG "Vice/2 SID Player", DLG_VSID, 162, 122, 140, 88, STY_DIALOG | 
+    					       FCF_SYSMENU | FCF_TASKLIST
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
-	TEXT("Playing Tune Nr.", 14, 30, 70, 8)
-	TEXT("Nr of Tunes",      14, 40, 60, 8)
-        CONTROL "",          SPB_TUNENO, 90, 30, 15, 11,  STY_STATUSDLG
+	TEXT("Nr of Tunes",      14, 75, 60, 8)
+        CONTROL "",          SPB_TUNES,  80, 75, 15, 11,  STY_STATUSDLG
                 CTLDATA 24, 0, 2, 0, 1, 0, 99, 0, 0, 0, 0, 0
-        CONTROL "",          SPB_TUNES,  70, 40, 15, 11,  STY_STATUSDLG
+	TEXT("Playing Tune Nr.", 14, 65, 70, 8)
+        CONTROL "",          SPB_TUNENO, 90, 65, 15, 11,  STY_STATUSDLG
                 CTLDATA 24, 0, 2, 0, 1, 0, 99, 0, 0, 0, 0, 0
-        CONTROL "Close",        DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
-                                WS_GROUP 
+        CONTROL "",          SPB_SETTUNE, 108, 64, 23, 12, STY_SPINBUTTON
+                CTLDATA 24, 0, 2, 0, 1, 0, 99, 0, 0, 0, 0, 0
+ //       CONTROL "Default",   PB_DEFTUNE, 45, 5,  38, 12, STY_CLOSEBUTTON | WS_GROUP 
+        CONTROL "Name",      ID_TNAME,      14, 48, 135-28, 9, WC_STATIC, SS_TEXT | 
+        				      	   DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "Author",    ID_TAUTHOR,    14, 39, 135-28, 9, WC_STATIC, SS_TEXT | 
+                                                   DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "Copyright", ID_TCOPYRIGHT, 14, 30, 135-28, 9, WC_STATIC, SS_TEXT | 
+        					   DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "",          ID_TSYNC,      14, 21, 135-28, 9, WC_STATIC, SS_TEXT | 
+        					   DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "Close",     DID_CLOSE,   5,  5,  38, 12, STY_CLOSEBUTTON | WS_GROUP 
     END
 END
 

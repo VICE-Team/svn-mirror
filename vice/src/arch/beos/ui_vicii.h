@@ -1,5 +1,8 @@
 /*
- * main_exit.c - VICE shutdown.
+ * ui_vicii.h - VIC-II settings
+ *
+ * Written by
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -21,35 +24,13 @@
  *
  */
 
-#include "vice.h"
+#ifndef __UI_VICII_H__
+#define __UI_VICII_H__
 
-#include <stdio.h>
-#include <signal.h>
+const uint32 MESSAGE_VICII_PALETTE			= 'MVI1';
+const uint32 MESSAGE_VICII_SSCOLL			= 'MVI2';
+const uint32 MESSAGE_VICII_SBCOLL			= 'MVI3';
 
-#include "joystick.h"
-#include "log.h"
-#include "machine.h"
-#include "main_exit.h"
-#include "sound.h"
-#include "video.h"
+extern void ui_vicii(void);
 
-void main_exit(void)
-{
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-       pressed and thus breaking the cleanup process, which might be
-       dangerous.  */
-    signal(SIGINT, SIG_IGN);
-
-    log_message(LOG_DEFAULT, _("\nExiting..."));
-
-    machine_shutdown();
-
-    sound_close();
-
-#ifdef HAS_JOYSTICK
-    joystick_close();
 #endif
-
-    putchar ('\n');
-}
-

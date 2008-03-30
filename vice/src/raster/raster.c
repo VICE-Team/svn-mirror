@@ -1759,3 +1759,16 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
     return 0;
 }
 
+void raster_free (raster_t *raster)
+{
+    canvas_destroy(raster->viewport.canvas);
+    video_frame_buffer_free (raster->frame_buffer);
+    free (raster->viewport.title);
+    free (raster->modes);
+    free (raster->sprite_status);
+    free (raster->cache);
+    free (raster->palette);
+    free (raster->fake_frame_buffer_line);
+    /* FIXME: there may be more stuff to be freed */
+}
+

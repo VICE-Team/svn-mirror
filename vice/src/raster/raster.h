@@ -310,6 +310,7 @@ extern void raster_rebuild_tables(raster_t *raster);
 extern void raster_handle_end_of_frame(raster_t *raster);
 extern void raster_set_canvas_refresh(raster_t *raster, int enable);
 extern int raster_screenshot(raster_t *raster, struct screenshot_s *screenshot);
+extern void raster_free (raster_t *raster);
 
 
 /* Inlined functions.  These need to be *fast*.  */

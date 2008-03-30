@@ -1,0 +1,53 @@
+option ProjectOptions =
+   gen(arch, "pentium"),
+   link(pmtype, "vio"),
+   opt(level, "2"),
+   opt(tune, "pentium"),
+   opt(autoinline, "yes"),
+   incl(searchpath, "..\\..\\..\\..\\..\\ctools\\src"),
+   incl(searchpath, "..\\..\\..\\..\\..\\ctools\\src\\getopt"),
+   define("MSDOS", ),
+   define("VERSION", "\"0.4\"")
+{
+   target "..\\..\\..\\..\\..\\ctools\\bin\\biosdump.exe"
+   {
+      option macros('global', 'yes')
+      {
+         source type('cpp') 'stdlib.h'
+         source type('cpp') 'stdio.h'
+      }
+      source type(cpp) "bios.cc"
+      source type(cpp) "d64.cc"
+      option macros('global', 'yes')
+      {
+         source type('cpp') 'ctype.h'
+      }
+      source type(cpp) "dump.cc"
+      option macros('global', 'yes')
+      {
+         source type('cpp') 'getopt.h'
+         source type('cpp') 'setjmp.h'
+         source type('cpp') 'err.h'
+         source type('cpp') 'global.h'
+      }
+      source type('cpp') 'd64.h'
+      source type('cpp') 'dump.h'
+      source type(cpp) "biosdump.cc"
+      option macros('global', 'yes')
+      {
+         source type('cpp') 'stdarg.h'
+         source type('cpp') 'string.h'
+         source type('cpp') 'new.h'
+      }
+      source type('cpp') 'errno.h'
+      source type(cpp) "err.cc"
+      option macros('global', 'yes')
+      {
+         source type('cpp') 'sys/stat.h'
+      }
+      source type('cpp') 'misc.h'
+      source type(cpp) "misc.cc"
+      source type(c) "getopt.c"
+      source type(c) "getopt1.c"
+   }
+}

@@ -41,8 +41,6 @@ typedef struct _vic_ii_sprites_fetch vic_ii_sprites_fetch_t;
 extern const vic_ii_sprites_fetch_t vic_ii_sprites_fetch_table[256][4];
 extern const int vic_ii_sprites_crunch_table[64];
 
-
-
 void vic_ii_sprites_init (void);
 void vic_ii_sprites_set_double_size (int enabled);
 void vic_ii_sprites_set_x_position (unsigned int num,

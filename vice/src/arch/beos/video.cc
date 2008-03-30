@@ -32,9 +32,7 @@
 #include <stdlib.h>
 
 extern "C" {
-
 #include "vice.h"
-
 #include "cmdline.h"
 #include "log.h"
 #include "palette.h"

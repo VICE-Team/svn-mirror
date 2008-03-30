@@ -43,7 +43,7 @@ void main_exit(void)
     log_message(LOG_DEFAULT, "\nExiting...");
 
     machine_shutdown();
-    video_free();
+
     sound_close();
 
 #ifdef HAS_JOYSTICK

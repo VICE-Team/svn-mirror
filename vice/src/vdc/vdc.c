@@ -362,9 +362,8 @@ int vdc_screenshot(screenshot_t *screenshot)
     return raster_screenshot(&vdc.raster, screenshot);
 }
 
-/* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
 void vdc_free (void)
 {
-    video_frame_buffer_free (vdc.raster.frame_buffer);
+    raster_free(&vdc.raster);
 }
 

@@ -176,13 +176,24 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_TOGGLE_DOUBLESIZE),'D'));
 		menu->AddItem(new BMenuItem("Double Scan", 
 			new BMessage(MENU_TOGGLE_DOUBLESCAN)));
-	menu->AddSeparatorItem();
 	}
-		
+
+	if (machine_class == VICE_MACHINE_C128) {
+		menu->AddItem(submenu = new BMenu("VDC"));
+		submenu->AddItem(new BMenuItem("Double Size",
+			new BMessage(MENU_TOGGLE_VDC_DOUBLESIZE)));
+		submenu->AddItem(new BMenuItem("Double Scan",
+			new BMessage(MENU_TOGGLE_VDC_DOUBLESCAN)));
+		submenu->AddSeparatorItem();
+		submenu->AddItem(new BMenuItem("64KB",
+			new BMessage(MENU_TOGGLE_VDC_64KB)));
+	}
+			
 	/* sound options */
+	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem("Sound", 
 		new BMessage(MENU_TOGGLE_SOUND)));
-	/* C64 */
+	/* SID */
 	if (machine_class == VICE_MACHINE_C64
 		|| machine_class == VICE_MACHINE_C128) {
 #ifdef HAVE_RESID
@@ -233,7 +244,7 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_TOGGLE_EMUID)));
 		menu->AddItem(new BMenuItem("REU emulation",
 			new BMessage(MENU_TOGGLE_REU)));
-		menu->AddItem(new BMenuItem("1351 mouse",
+		menu->AddItem(new BMenuItem("1351 mouse (not yet)",
 			new BMessage(MENU_TOGGLE_MOUSE)));
 			
 	}
@@ -258,7 +269,7 @@ BMenuBar *menu_create(int machine_class) {
 		new BMessage(MENU_DATASETTE_SETTINGS)));
 	if (machine_class == VICE_MACHINE_C64
 		|| machine_class == VICE_MACHINE_C128) {
-		menu->AddItem(new BMenuItem("VIC-II ... (not yet)", 
+		menu->AddItem(new BMenuItem("VIC-II ...", 
 			new BMessage(MENU_VICII_SETTINGS)));
 	}
 	menu->AddItem(new BMenuItem("Joystick ...", 

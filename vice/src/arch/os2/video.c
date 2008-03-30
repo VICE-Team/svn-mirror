@@ -249,9 +249,11 @@ void video_close(void)
     //
     APIRET rc;
 
+#if 0
     video_free();
 #ifdef __X128__
     vdc_free();
+#endif
 #endif
 
     if (rc=DiveClose(hDiveInst))
@@ -676,6 +678,12 @@ canvas_t *canvas_create(const char *title, UINT *width,
 
     return canvas_new;
 }
+
+void canvas_destroy(canvas_t *c)
+{
+	/* FIXME: Just a dummy so far */
+}
+
 
 void canvas_map(canvas_t *c)
 {   /* Make `s' visible.  */

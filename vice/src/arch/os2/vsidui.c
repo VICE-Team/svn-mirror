@@ -35,8 +35,11 @@
 
 #include <stdlib.h>
 
-#include "log.h"
 #include "dialogs.h"
+
+#include "log.h"
+#include "utils.h"
+#include "drive.h"      // DRIVE_SYNC_PAL
 #include "resources.h"
 
 extern int trigger_shutdown;
@@ -82,9 +85,37 @@ int vsid_ui_init(void)
     return 0;
 }
 
-void vsid_set_tune(int tune)
+void vsid_ui_display_name(const char *name)
 {
-    WinSetSpinVal(hwndVsid, SPB_TUNENO, tune);
-    log_message(LOG_DEFAULT, "vsid_set_tune %d", tune);
+    WinSetDlgItemText(hwndVsid, ID_TNAME, (char*)name);
 }
 
+void vsid_ui_display_author(const char *author)
+{
+    WinSetDlgItemText(hwndVsid, ID_TAUTHOR, (char*)author);
+}
+
+void vsid_ui_display_copyright(const char *copyright)
+{
+    WinSetDlgItemText(hwndVsid, ID_TCOPYRIGHT, (char*)copyright);
+}
+
+void vsid_ui_display_sync(int sync)
+{
+    WinSetDlgItemText(hwndVsid, ID_TSYNC, sync==DRIVE_SYNC_PAL?"using PAL":"using NTSC");
+}
+
+void vsid_ui_set_default_tune(int nr)
+{
+}
+
+void vsid_ui_display_tune_nr(int nr)
+{
+    WinSetSpinVal(hwndVsid, SPB_TUNENO, nr);
+    WinSetSpinVal(hwndVsid, SPB_SETTUNE, nr);
+}
+
+void vsid_ui_display_nr_of_tunes(int count)
+{
+    WinSetSpinVal(hwndVsid, SPB_TUNES, count);
+}

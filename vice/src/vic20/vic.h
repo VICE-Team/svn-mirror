@@ -148,6 +148,7 @@ extern int vic_write_snapshot_module(struct snapshot_s *s);
 extern int vic_read_snapshot_module(struct snapshot_s *s);
 
 extern int vic_screenshot(struct screenshot_s *screenshot);
+extern void vic_free(void);
 
 /* Private function calls, used by the other VIC modules.  FIXME:
    Prepend names with `_'?  */

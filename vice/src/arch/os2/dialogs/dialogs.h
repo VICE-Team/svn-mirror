@@ -231,6 +231,12 @@
 #define DLG_VSID       0x10f0
 #define SPB_TUNENO     0x10f1
 #define SPB_TUNES      0x10f2
+#define SPB_SETTUNE    0x10f3
+#define PB_DEFTUNE     0x10f4
+#define ID_TNAME       0x10f5
+#define ID_TAUTHOR     0x10f6
+#define ID_TCOPYRIGHT  0x10f7
+#define ID_TSYNC       0x10f8
 
 /* WinPM-Macros                                                     */
 /*----------------------------------------------------------------- */

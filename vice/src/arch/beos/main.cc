@@ -27,6 +27,7 @@
 #include <Application.h>
 #include <Message.h>
 #include <string.h>
+#include <stdio.h>
 
 extern "C" {
 #include "beos.h"
@@ -53,10 +54,6 @@ int32 vice_start_main(void* data) {
 void ViceApp::ReadyToRun() {
 	vicethread = spawn_thread(vice_start_main,"vicethread",B_NORMAL_PRIORITY,NULL);
 	resume_thread(vicethread);
-}
-
-void ViceApp::KillThread() {
-	kill_thread(vicethread);
 }
 
 void ViceApp::MessageReceived(BMessage *message) {

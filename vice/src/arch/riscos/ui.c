@@ -4863,7 +4863,6 @@ void ui_show_text(const char *title, const char *text, int width, int height)
 void ui_exit(void)
 {
   machine_shutdown();
-  video_free();
   sound_close();
   ui_image_contents_exit();
   ui_message_exit();

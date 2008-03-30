@@ -313,6 +313,9 @@ void machine_shutdown(void)
     tape_detach_image();
 
     console_close_all();
+    
+    /* close the video chip(s) */
+    crtc_free();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

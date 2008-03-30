@@ -34,7 +34,6 @@ class ViceApp : public BApplication {
 						ViceApp();
 		void	ReadyToRun();
 		void	MessageReceived(BMessage *message);
-		void	KillThread();		
 	private:
 		thread_id		vicethread;
 };

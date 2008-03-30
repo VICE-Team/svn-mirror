@@ -50,8 +50,6 @@ extern int vdc_write_snapshot_module(struct snapshot_s *s);
 extern int vdc_read_snapshot_module(struct snapshot_s *s);
 
 extern void vdc_set_canvas_refresh(int enable);
-
-/*extern void video_free (void);*/
 extern void vdc_free (void);
 
 #endif

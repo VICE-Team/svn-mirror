@@ -30,6 +30,7 @@
 #include "dialogs.h"
 
 #include "psid.h"
+#include "resources.h"
 
 static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
@@ -40,14 +41,7 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     {
     case WM_PAINT:
         if (first)
-        {
-            int tunes;
-            int default_tune;
-            tunes = psid_tunes(&default_tune);
-            WinSetSpinVal(hwnd, SPB_TUNENO, default_tune);
-            WinSetSpinVal(hwnd, SPB_TUNES, tunes);
             first = FALSE;
-        }
         break;
     case WM_CLOSE:
         trigger_shutdown = 1;
@@ -58,7 +52,29 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         case DID_CLOSE:
             trigger_shutdown = 1;
             break;
+/*        case PB_DEFTUNE:
+            psid_set_tune(0);
+            return FALSE;*/
         }
+        break;
+
+    case WM_CONTROL:
+        {
+            int ctrl=SHORT1FROMMP(mp1);
+            switch (ctrl)
+            {
+            case SPB_SETTUNE:
+                if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN)
+                {
+                    ULONG val;
+                    WinGetSpinVal(hwnd, ctrl, &val);
+                    resources_set_value("PSIDTune", (resource_value_t)val);
+                }
+                break;
+            }
+        }
+        break;
+
     }
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }

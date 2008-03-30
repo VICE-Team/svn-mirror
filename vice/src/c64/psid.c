@@ -149,7 +149,7 @@ int psid_load_file(const char* filename)
     goto fail;
   }
 
-  length = (unsigned int)((psid->version == 1 
+  length = (unsigned int)((psid->version == 1
            ? PSID_V1_DATA_OFFSET : PSID_V2_DATA_OFFSET) - 6);
 
   if (fread(ptr, 1, length, f) != length) {
@@ -206,12 +206,12 @@ int psid_load_file(const char* filename)
     log_message(LOG_DEFAULT, "PSID: Error reading data.");
     goto fail;
   }
-    
+
   if (!feof(f)) {
     log_message(LOG_DEFAULT, "PSID: More than 64K data.");
     goto fail;
   }
-    
+
   zfclose(f);
   return 0;
 
@@ -228,18 +228,21 @@ void psid_init_tune(void)
   BYTE volume = 0x0f;
   BYTE portval = 0x35;
   int start_song = psid_tune;
+  const int sync = psid->speed == 0 ? DRIVE_SYNC_PAL : DRIVE_SYNC_NTSC;
   int i;
 
   if (!psid) {
     return;
   }
 
-  log_message(LOG_DEFAULT, "\n%s\n%s\n%s\n",
-	      psid->name, psid->author, psid->copyright);
+  vsid_ui_display_name(psid->name);
+  vsid_ui_display_author(psid->author);
+  vsid_ui_display_copyright(psid->copyright);
 
   /* PAL/NTSC. */
-  resources_set_value("VideoStandard", (resource_value_t)
-  		      (psid->speed == 0 ? DRIVE_SYNC_PAL : DRIVE_SYNC_NTSC));
+  resources_set_value("VideoStandard", (resource_value_t) sync);
+
+  vsid_ui_display_sync(sync);
 
   /* Check tune number. */
   if (start_song == 0) {
@@ -251,8 +254,9 @@ void psid_init_tune(void)
     start_song = psid->start_song;
   }
 
-  log_message(LOG_DEFAULT, "Playing tune %i of %i (%s).\n",
-	      start_song, (int)psid->songs, psid->speed == 0 ? "PAL" : "NTSC");
+  vsid_ui_display_tune_nr(start_song);
+  vsid_ui_set_default_tune(psid->start_song);
+  vsid_ui_display_nr_of_tunes(psid->songs);
 
   /* Store parameters for psid player. */
   ram_store(0x0306, (BYTE)(psid->init_addr & 0xff));
@@ -284,7 +288,11 @@ void psid_set_tune(int tune)
 int psid_ui_set_tune(resource_value_t tune, void *param)
 {
   psid_tune = (int)tune == -1 ? 0 : (int)tune;
-  vsid_set_tune(psid_tune);
+
+  machine_play_psid(psid_tune);
+  suspend_speed_eval();
+  maincpu_trigger_reset();
+
   return 0;
 }
 
@@ -313,3 +321,4 @@ void psid_init_driver(void) {
     ram_store(addr + i, (BYTE)(psid_driver[i]));
   }
 }
+

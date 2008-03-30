@@ -64,6 +64,8 @@ libarch_a_SOURCES = \
 	ui_joystick.h \
 	ui_sound.cc \
 	ui_sound.h \
+	ui_vicii.cc \
+	ui_vicii.h \
 	uicmdline.c \
 	uicmdline.h \
 	vic20kbd.c \

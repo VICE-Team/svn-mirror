@@ -72,6 +72,7 @@ extern "C" {
 #include "ui_file.h"
 #include "ui_joystick.h"
 #include "ui_sound.h"
+#include "ui_vicii.h"
 #include "utils.h"
 #include "version.h"
 #include "vsync.h"
@@ -356,7 +357,7 @@ void ui_dispatch_events(void)
 					BMessenger messenger(APP_SIGNATURE);
 					BMessage message(WINDOW_CLOSED);
 					messenger.SendMessage(&message, be_app);
-					exit(0);
+					exit_thread(0);
 				}
 				break;
 			}
@@ -532,6 +533,9 @@ void ui_dispatch_events(void)
 				break;
 			case MENU_SOUND_SETTINGS:
 				ui_sound();
+				break;
+			case MENU_VICII_SETTINGS:
+				ui_vicii();
 				break;
 			case MENU_SETTINGS_LOAD:
 	        	if (resources_load(NULL) < 0) {

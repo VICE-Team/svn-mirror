@@ -52,6 +52,7 @@ extern void vic_ii_change_timing(void);
 extern void vic_ii_reset_registers(void);
 extern void vic_ii_update_memory_ptrs_external(void);
 extern int vic_ii_screenshot(struct screenshot_s *screenshot);
+extern void vic_ii_free(void);
 
 extern int vic_ii_write_snapshot_module(struct snapshot_s *s);
 extern int vic_ii_read_snapshot_module(struct snapshot_s *s);

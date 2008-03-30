@@ -36,3 +36,37 @@ void vsid_set_tune(int tune)
 
 }
 
+void vsid_ui_display_name(const char *name)
+{
+    log_message(LOG_DEFAULT, "Name: %s", name);
+}
+
+void vsid_ui_display_author(const char *author)
+{
+    log_message(LOG_DEFAULT, "Author: %s", author);
+}
+
+void vsid_ui_display_copyright(const char *copyright)
+{
+    log_message(LOG_DEFAULT, "Copyright by: %s", copyright);
+}
+
+void vsid_ui_display_sync(int sync)
+{
+    log_message(LOG_DEFAULT, "Using %s sync", sync==DRIVE_SYNC_PAL?"PAL":"NTSC");
+}
+
+void vsid_ui_set_default_tune(int nr)
+{
+    log_message(LOG_DEFAULT, "Default Tune: %i", nr);
+}
+
+void vsid_ui_display_tune_nr(int nr)
+{
+    log_message(LOG_DEFAULT, "Playing Tune: %i", nr);
+}
+
+void vsid_ui_display_nr_of_tunes(int count)
+{
+    log_message(LOG_DEFAULT, "Number of Tunes: %i", count);
+}
