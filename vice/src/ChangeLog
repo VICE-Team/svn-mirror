@@ -1,3 +1,23 @@
+1999-09-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.11.
+
+	* c64/c64.h, c128/c128.h, drive/drive.h: New constants for old
+	NTSC timing.
+
+	* drive/drive.c (set_sync_factor): Call
+	`machine_change_timing' when the user has changed timing.
+
+	* machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c (machine_change_timing): New function.
+
+	* arch/unix/xaw/uisettings.c (set_custom_drive_sync_factor):
+	Allow second NTSC setting.
+
+	* vicii/vicii.c, vicii/vicii.h, vicii/vicii-mem.c,
+	vicii/vicii-snapshot.c, vicii/vicii-draw.c, vicii-sprites.c:
+	Added some NTSC timing support.
+
 1999-09-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.10.

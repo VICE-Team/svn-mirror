@@ -868,14 +868,14 @@ vic_ii_sprites_set_x_position (unsigned int num,
 
   new_x += 8;
 
-  if (new_x > VIC_II_SPRITE_WRAP_X - VIC_II_MAX_SPRITE_WIDTH)
+  if (new_x > vic_ii.sprite_wrap_x - VIC_II_MAX_SPRITE_WIDTH)
     {
       /* Sprites in the $1F8 - $1FF range are not visible at all and never
          cause collisions.  */
       if (new_x >= 0x1f8 + 8)
         new_x = VIC_II_SCREEN_WIDTH;
       else
-        new_x -= VIC_II_SPRITE_WRAP_X;
+        new_x -= vic_ii.sprite_wrap_x;
     }
 
   if (new_x < sprite->x)

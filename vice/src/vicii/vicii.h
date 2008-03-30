@@ -39,7 +39,9 @@
 
 /* Screen constants.  */
 
-#define VIC_II_SCREEN_HEIGHT	        312
+#define VIC_II_PAL_SCREEN_HEIGHT        312
+#define VIC_II_NTSC_SCREEN_HEIGHT	262
+#define VIC_II_NTSCOLD_SCREEN_HEIGHT	263
 
 #if 0
 #define VIC_II_SCREEN_WIDTH		411
@@ -51,29 +53,51 @@
 
 /* FIXME: Provide NTSC versions.  */
 
-#define VIC_II_SCREEN_XPIX		320
-#define VIC_II_SCREEN_YPIX		200
-#define VIC_II_SCREEN_TEXTCOLS		40
-#define VIC_II_SCREEN_TEXTLINES        	25
-#define VIC_II_SCREEN_BORDERWIDTH	32
-#define VIC_II_SCREEN_BORDERHEIGHT     	51
-#define VIC_II_SCREEN_CHARHEIGHT	8
+#define VIC_II_SCREEN_XPIX			320
+#define VIC_II_SCREEN_YPIX			200
+#define VIC_II_SCREEN_TEXTCOLS			40
+#define VIC_II_SCREEN_TEXTLINES 	       	25
+#define VIC_II_SCREEN_PAL_BORDERWIDTH		32
+#define VIC_II_SCREEN_PAL_BORDERHEIGHT     	51
+#define VIC_II_SCREEN_NTSC_BORDERWIDTH		32
+#define VIC_II_SCREEN_NTSC_BORDERHEIGHT		27
+#define VIC_II_SCREEN_NTSCOLD_BORDERWIDTH	32
+#define VIC_II_SCREEN_NTSCOLD_BORDERHEIGHT	27
+#define VIC_II_SCREEN_CHARHEIGHT		8
 
-#define VIC_II_FIRST_DISPLAYED_LINE	0x10
-#define VIC_II_LAST_DISPLAYED_LINE	0x11f
-#define VIC_II_25ROW_START_LINE		0x33
-#define VIC_II_25ROW_STOP_LINE		0xfb
-#define VIC_II_24ROW_START_LINE		0x37
-#define VIC_II_24ROW_STOP_LINE		0xf7
-#define VIC_II_40COL_START_PIXEL	0x20
-#define VIC_II_40COL_STOP_PIXEL		0x160
-#define VIC_II_38COL_START_PIXEL	0x27
-#define VIC_II_38COL_STOP_PIXEL		0x157
+#define VIC_II_PAL_FIRST_DISPLAYED_LINE		0x10
+#define VIC_II_PAL_LAST_DISPLAYED_LINE		0x11f
+#define VIC_II_PAL_25ROW_START_LINE		0x33
+#define VIC_II_PAL_25ROW_STOP_LINE		0xfb
+#define VIC_II_PAL_24ROW_START_LINE		0x37
+#define VIC_II_PAL_24ROW_STOP_LINE		0xf7
+
+#define VIC_II_NTSC_FIRST_DISPLAYED_LINE	0x2a
+#define VIC_II_NTSC_LAST_DISPLAYED_LINE		0x104
+#define VIC_II_NTSC_25ROW_START_LINE		0x33
+#define VIC_II_NTSC_25ROW_STOP_LINE		0xfb
+#define VIC_II_NTSC_24ROW_START_LINE		0x37
+#define VIC_II_NTSC_24ROW_STOP_LINE		0xf7
+
+#define VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE	0x2a
+#define VIC_II_NTSCOLD_LAST_DISPLAYED_LINE	0x104
+#define VIC_II_NTSCOLD_25ROW_START_LINE		0x33
+#define VIC_II_NTSCOLD_25ROW_STOP_LINE		0xfb
+#define VIC_II_NTSCOLD_24ROW_START_LINE		0x37
+#define VIC_II_NTSCOLD_24ROW_STOP_LINE		0xf7
+
+#define VIC_II_40COL_START_PIXEL		0x20
+#define VIC_II_40COL_STOP_PIXEL			0x160
+#define VIC_II_38COL_START_PIXEL		0x27
+#define VIC_II_38COL_STOP_PIXEL			0x157
 
 #define VIC_II_NUM_SPRITES		8
 #define VIC_II_MAX_SPRITE_WIDTH		48
-#define VIC_II_SPRITE_WRAP_X		504
 #define VIC_II_NUM_COLORS	        16
+
+#define VIC_II_PAL_SPRITE_WRAP_X	504
+#define VIC_II_NTSC_SPRITE_WRAP_X	520
+#define VIC_II_NTSCOLD_SPRITE_WRAP_X	512
 
 
 
@@ -113,18 +137,24 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
    Note: we measure cycles from 0 to 62, not from 1 to 63 as he does.  */
 
 /* Number of cycles per line.  */
-#define VIC_II_CYCLES_PER_LINE      C64_PAL_CYCLES_PER_LINE
+#define VIC_II_PAL_CYCLES_PER_LINE      C64_PAL_CYCLES_PER_LINE
+#define VIC_II_NTSC_CYCLES_PER_LINE     C64_NTSC_CYCLES_PER_LINE
+#define VIC_II_NTSCOLD_CYCLES_PER_LINE  C64_NTSCOLD_CYCLES_PER_LINE
 
 /* Cycle # at which the VIC takes the bus in a bad line (BA goes low).  */
 #define	VIC_II_FETCH_CYCLE          11
 
 /* Cycle # at which sprite DMA is set.  */
-#define VIC_II_SPRITE_FETCH_CYCLE   54
+#define VIC_II_PAL_SPRITE_FETCH_CYCLE       54
+#define VIC_II_NTSC_SPRITE_FETCH_CYCLE      56
+#define VIC_II_NTSCOLD_SPRITE_FETCH_CYCLE   55
 
 /* Cycle # at which the current raster line is re-drawn.  It is set to
    `VIC_II_CYCLES_PER_LINE', so this actually happens at the very beginning
    (i.e. cycle 0) of the next line.  */
-#define VIC_II_DRAW_CYCLE           VIC_II_CYCLES_PER_LINE
+#define VIC_II_PAL_DRAW_CYCLE       VIC_II_PAL_CYCLES_PER_LINE
+#define VIC_II_NTSC_DRAW_CYCLE      VIC_II_NTSC_CYCLES_PER_LINE
+#define VIC_II_NTSCOLD_DRAW_CYCLE   VIC_II_NTSCOLD_CYCLES_PER_LINE
 
 /* Delay for the raster line interrupt.  This is not due to the VIC-II, since
    it triggers the IRQ line at the beginning of the line, but to the 6510
@@ -143,21 +173,21 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
    only accurate if a pending drawing event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
 #define VIC_II_RASTER_Y(clk)        ((unsigned int)((clk) \
-                                                    / VIC_II_CYCLES_PER_LINE) \
-                                     % VIC_II_SCREEN_HEIGHT)
+                                     / vic_ii.cycles_per_line) \
+                                     % vic_ii.screen_height)
 
 /* Cycle # within the current line.  */
 #define VIC_II_RASTER_CYCLE(clk)    ((unsigned int)((clk) \
-                                                    % VIC_II_CYCLES_PER_LINE))
+                                                    % vic_ii.cycles_per_line))
 
 /* `clk' value for the beginning of the current line.  */
-#define VIC_II_LINE_START_CLK(clk)  (((clk) / VIC_II_CYCLES_PER_LINE) \
-                                     * VIC_II_CYCLES_PER_LINE)
+#define VIC_II_LINE_START_CLK(clk)  (((clk) / vic_ii.cycles_per_line) \
+                                     * vic_ii.cycles_per_line)
 
 /* # of the previous and next raster line.  Handles wrap over.  */
 #define VIC_II_PREVIOUS_LINE(line)  (((line) > 0) \
-                                     ? (line) - 1 : VIC_II_SCREEN_HEIGHT - 1)
-#define VIC_II_NEXT_LINE(line)      (((line) + 1) % VIC_II_SCREEN_HEIGHT)
+                                     ? (line) - 1 : vic_ii.screen_height - 1)
+#define VIC_II_NEXT_LINE(line)      (((line) + 1) % vic_ii.screen_height)
 
 /* Bad line range.  */
 #define VIC_II_FIRST_DMA_LINE       0x30
@@ -315,6 +345,21 @@ struct _vic_ii
 
     /* Clock cycle for the next sprite fetch.  */
     CLOCK sprite_fetch_clk;
+
+    /* Geometry and timing parameters of the selected VIC-II emulation.  */
+    int screen_height;
+    int first_displayed_line;
+    int last_displayed_line;
+    int row_25_start_line;
+    int row_25_stop_line;
+    int row_24_start_line;
+    int row_24_stop_line;
+    int screen_borderwidth;
+    int screen_borderheight;
+    int cycles_per_line;
+    int draw_cycle;
+    int sprite_fetch_cycle;
+    int sprite_wrap_x;
   };
 typedef struct _vic_ii vic_ii_t;
 
@@ -335,6 +380,7 @@ void vic_ii_prepare_for_snapshot (void);
 void vic_ii_powerup (void);
 void vic_ii_resize (void);
 void vic_ii_set_set_canvas_refresh(int enable);
+void vic_ii_change_timing(void);
 
 int vic_ii_write_snapshot_module (snapshot_t *s);
 int vic_ii_read_snapshot_module (snapshot_t *s);

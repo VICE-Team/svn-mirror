@@ -173,12 +173,12 @@ store_sprite_y_position (ADDRESS addr, BYTE value)
 
   cycle = VIC_II_RASTER_CYCLE (clk);
 
-  if (cycle == VIC_II_SPRITE_FETCH_CYCLE + 1
+  if (cycle == vic_ii.sprite_fetch_cycle + 1
       && value == (vic_ii.raster.current_line & 0xff))
     {
       vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
       vic_ii.fetch_clk = (VIC_II_LINE_START_CLK (clk)
-			  + VIC_II_SPRITE_FETCH_CYCLE + 1);
+			  + vic_ii.sprite_fetch_cycle + 1);
       alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
     }
 
@@ -408,17 +408,17 @@ store_d011 (ADDRESS addr, BYTE value)
 
 	  /* 24 -> 25 row mode switch.  */
 
-	  vic_ii.raster.display_ystart = VIC_II_25ROW_START_LINE;
-	  vic_ii.raster.display_ystop = VIC_II_25ROW_STOP_LINE;
+	  vic_ii.raster.display_ystart = vic_ii.row_25_start_line;
+	  vic_ii.raster.display_ystop = vic_ii.row_25_stop_line;
 
-	  if (line == VIC_II_24ROW_STOP_LINE && cycle > 0)
+	  if (line == vic_ii.row_24_stop_line && cycle > 0)
 	    {
 	      /* If on the first line of the 24-line border, we
 	         still see the 25-line (lowmost) border because the
 	         border flip flop has already been turned on.  */
 	      vic_ii.raster.blank_enabled = 1;
 	    }
-	  else if (!vic_ii.raster.blank && line == VIC_II_24ROW_START_LINE
+	  else if (!vic_ii.raster.blank && line == vic_ii.row_24_start_line
 		   && cycle > 0)
 	    {
 	      /* A 24 -> 25 switch somewhere on the first line of
@@ -435,17 +435,17 @@ store_d011 (ADDRESS addr, BYTE value)
 
 	  /* 25 -> 24 row mode switch.  */
 
-	  vic_ii.raster.display_ystart = VIC_II_24ROW_START_LINE;
-	  vic_ii.raster.display_ystop = VIC_II_24ROW_STOP_LINE;
+	  vic_ii.raster.display_ystart = vic_ii.row_24_start_line;
+	  vic_ii.raster.display_ystop = vic_ii.row_24_stop_line;
 
 	  /* If on the last line of the 25-line border, we still see the
 	     24-line (upmost) border because the border flip flop has
 	     already been turned off.  */
 	  if (!vic_ii.raster.blank
-              && line == VIC_II_25ROW_START_LINE
+              && line == vic_ii.row_25_start_line
               && cycle > 0)
             vic_ii.raster.blank_enabled = 0;
-	  else if (line == VIC_II_25ROW_STOP_LINE && cycle > 0)
+	  else if (line == vic_ii.row_25_stop_line && cycle > 0)
             vic_ii.raster.blank_enabled = 1;
 
 	  VIC_II_DEBUG_REGISTER (("\t24 line mode enabled\n"));
@@ -529,12 +529,12 @@ store_d015 (ADDRESS addr, BYTE value)
      1'.  In the average case, one DMA check is OK and there is no need to
      emulate both, but we have to kludge things a bit in case sprites are
      activated at cycle `VIC_II_SPRITE_FETCH_CYCLE + 1'.  */
-  if (cycle == VIC_II_SPRITE_FETCH_CYCLE + 1
+  if (cycle == vic_ii.sprite_fetch_cycle + 1
       && ((value ^ vic_ii.regs[addr]) & value) != 0)
     {
       vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
       vic_ii.fetch_clk = (VIC_II_LINE_START_CLK (clk)
-			  + VIC_II_SPRITE_FETCH_CYCLE + 1);
+			  + vic_ii.sprite_fetch_cycle + 1);
       alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
     }
 
@@ -546,16 +546,16 @@ store_d015 (ADDRESS addr, BYTE value)
       if ((vic_ii.fetch_idx == VIC_II_FETCH_MATRIX
 	   && vic_ii.fetch_clk > clk
 	   && cycle > VIC_II_FETCH_CYCLE
-	   && cycle <= VIC_II_SPRITE_FETCH_CYCLE)
+	   && cycle <= vic_ii.sprite_fetch_cycle)
 	  || vic_ii.raster.current_line < VIC_II_FIRST_DMA_LINE
 	  || vic_ii.raster.current_line > VIC_II_LAST_DMA_LINE)
 	{
 	  CLOCK new_fetch_clk;
 
 	  new_fetch_clk = (VIC_II_LINE_START_CLK (clk)
-			   + VIC_II_SPRITE_FETCH_CYCLE);
-	  if (cycle > VIC_II_SPRITE_FETCH_CYCLE)
-	    new_fetch_clk += VIC_II_CYCLES_PER_LINE;
+			   + vic_ii.sprite_fetch_cycle);
+	  if (cycle > vic_ii.sprite_fetch_cycle)
+	    new_fetch_clk += vic_ii.cycles_per_line;
 	  if (new_fetch_clk < vic_ii.fetch_clk)
 	    {
 	      vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
@@ -928,7 +928,7 @@ store_d025 (ADDRESS addr, BYTE value)
   sprite_status = &vic_ii.raster.sprite_status;
 
   /* FIXME: this is approximated.  */
-  if (VIC_II_RASTER_CYCLE (clk) > VIC_II_CYCLES_PER_LINE / 2)
+  if (VIC_II_RASTER_CYCLE (clk) > vic_ii.cycles_per_line / 2)
     raster_add_int_change_next_line (&vic_ii.raster,
 				     (int *)&sprite_status->mc_sprite_color_1,
 				     (int)value);
@@ -953,7 +953,7 @@ store_d026 (ADDRESS addr, BYTE value)
   sprite_status = &vic_ii.raster.sprite_status;
 
   /* FIXME: this is approximated.  */
-  if (VIC_II_RASTER_CYCLE (clk) > VIC_II_CYCLES_PER_LINE / 2)
+  if (VIC_II_RASTER_CYCLE (clk) > vic_ii.cycles_per_line / 2)
     raster_add_int_change_next_line (&vic_ii.raster,
 				     (int *)&sprite_status->mc_sprite_color_2,
 				     (int)value);
@@ -1182,7 +1182,7 @@ read_raster_y (void)
      cycles long.  As a result, the counter is incremented one
      cycle later on line 0.  */
   if (raster_y == 0 && VIC_II_RASTER_CYCLE (clk) == 0)
-    raster_y = VIC_II_SCREEN_HEIGHT - 1;
+    raster_y = vic_ii.screen_height - 1;
 
   return raster_y;
 }

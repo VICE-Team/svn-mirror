@@ -52,9 +52,16 @@
 
  */
 
-#define _VICII_C
-
 #include "vice.h"
+
+#ifdef STDC_HEADERS
+#include <stdlib.h>
+#include <stdio.h>
+#endif
+
+#ifdef __riscos
+#include "ROlib.h"
+#endif
 
 #include "alarm.h"
 #include "c64cart.h"
@@ -76,15 +83,6 @@
 
 #include "vicii.h"
 
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#include <stdio.h>
-#endif
-
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 
 
 vic_ii_t vic_ii;
@@ -98,6 +96,59 @@ clk_overflow_callback (CLOCK sub, void *unused_data)
   vic_ii.last_emulate_line_clk -= sub;
   vic_ii.fetch_clk -= sub;
   vic_ii.draw_clk -= sub;
+}
+
+void vic_ii_change_timing(void)
+{
+    resource_value_t mode;
+    resources_get_value("DriveSyncFactor", &mode);
+    switch ((int)mode) {
+      case -2:
+        vic_ii.screen_height = VIC_II_NTSC_SCREEN_HEIGHT;
+        vic_ii.first_displayed_line = VIC_II_NTSC_FIRST_DISPLAYED_LINE;
+        vic_ii.last_displayed_line = VIC_II_NTSC_LAST_DISPLAYED_LINE;
+        vic_ii.row_25_start_line = VIC_II_NTSC_25ROW_START_LINE;
+        vic_ii.row_25_stop_line = VIC_II_NTSC_25ROW_STOP_LINE;
+        vic_ii.row_24_start_line = VIC_II_NTSC_24ROW_START_LINE;
+        vic_ii.row_24_stop_line = VIC_II_NTSC_24ROW_STOP_LINE;
+        vic_ii.screen_borderwidth = VIC_II_SCREEN_NTSC_BORDERWIDTH;
+        vic_ii.screen_borderheight = VIC_II_SCREEN_NTSC_BORDERHEIGHT;
+        vic_ii.cycles_per_line = VIC_II_NTSC_CYCLES_PER_LINE;
+        vic_ii.draw_cycle = VIC_II_NTSC_DRAW_CYCLE;
+        vic_ii.sprite_fetch_cycle = VIC_II_NTSC_SPRITE_FETCH_CYCLE;
+        vic_ii.sprite_wrap_x = VIC_II_NTSC_SPRITE_WRAP_X;
+        break;
+      case -3:
+        vic_ii.screen_height = VIC_II_NTSCOLD_SCREEN_HEIGHT;
+        vic_ii.first_displayed_line = VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE;
+        vic_ii.last_displayed_line = VIC_II_NTSCOLD_LAST_DISPLAYED_LINE;
+        vic_ii.row_25_start_line = VIC_II_NTSCOLD_25ROW_START_LINE;
+        vic_ii.row_25_stop_line = VIC_II_NTSCOLD_25ROW_STOP_LINE;
+        vic_ii.row_24_start_line = VIC_II_NTSCOLD_24ROW_START_LINE;
+        vic_ii.row_24_stop_line = VIC_II_NTSCOLD_24ROW_STOP_LINE;
+        vic_ii.screen_borderwidth = VIC_II_SCREEN_NTSCOLD_BORDERWIDTH;
+        vic_ii.screen_borderheight = VIC_II_SCREEN_NTSCOLD_BORDERHEIGHT;
+        vic_ii.cycles_per_line = VIC_II_NTSCOLD_CYCLES_PER_LINE;
+        vic_ii.draw_cycle = VIC_II_NTSCOLD_DRAW_CYCLE;
+        vic_ii.sprite_fetch_cycle = VIC_II_NTSCOLD_SPRITE_FETCH_CYCLE;
+        vic_ii.sprite_wrap_x = VIC_II_NTSCOLD_SPRITE_WRAP_X;
+        break;
+      default:
+        vic_ii.screen_height = VIC_II_PAL_SCREEN_HEIGHT;
+        vic_ii.first_displayed_line = VIC_II_PAL_FIRST_DISPLAYED_LINE;
+        vic_ii.last_displayed_line = VIC_II_PAL_LAST_DISPLAYED_LINE;
+        vic_ii.row_25_start_line = VIC_II_PAL_25ROW_START_LINE;
+        vic_ii.row_25_stop_line = VIC_II_PAL_25ROW_STOP_LINE;
+        vic_ii.row_24_start_line = VIC_II_PAL_24ROW_START_LINE;
+        vic_ii.row_24_stop_line = VIC_II_PAL_24ROW_STOP_LINE;
+        vic_ii.screen_borderwidth = VIC_II_SCREEN_PAL_BORDERWIDTH;
+        vic_ii.screen_borderheight = VIC_II_SCREEN_PAL_BORDERHEIGHT;
+        vic_ii.cycles_per_line = VIC_II_PAL_CYCLES_PER_LINE;
+        vic_ii.draw_cycle = VIC_II_PAL_DRAW_CYCLE;
+        vic_ii.sprite_fetch_cycle = VIC_II_PAL_SPRITE_FETCH_CYCLE;
+        vic_ii.sprite_wrap_x = VIC_II_PAL_SPRITE_WRAP_X;
+        break;
+    }
 }
 
 static void 
@@ -116,8 +167,8 @@ init_raster (void)
   raster_enable_double_scan (raster, vic_ii_resources.double_scan_enabled);
   raster_set_canvas_refresh(raster, 1);
 
-  width = VIC_II_SCREEN_XPIX + VIC_II_SCREEN_BORDERWIDTH * 2;
-  height = VIC_II_LAST_DISPLAYED_LINE - VIC_II_FIRST_DISPLAYED_LINE;
+  width = VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth * 2;
+  height = vic_ii.last_displayed_line - vic_ii.first_displayed_line;
   if (vic_ii_resources.double_size_enabled)
     {
       width *= 2;
@@ -126,13 +177,13 @@ init_raster (void)
     }
 
   raster_set_geometry (raster,
-                       VIC_II_SCREEN_WIDTH, VIC_II_SCREEN_HEIGHT,
+                       VIC_II_SCREEN_WIDTH, vic_ii.screen_height,
                        VIC_II_SCREEN_XPIX, VIC_II_SCREEN_YPIX,
                        VIC_II_SCREEN_TEXTCOLS, VIC_II_SCREEN_TEXTLINES,
-                       VIC_II_SCREEN_BORDERWIDTH, VIC_II_SCREEN_BORDERHEIGHT,
+                       vic_ii.screen_borderwidth, vic_ii.screen_borderheight,
                        FALSE,
-                       VIC_II_FIRST_DISPLAYED_LINE,
-                       VIC_II_LAST_DISPLAYED_LINE,
+                       vic_ii.first_displayed_line,
+                       vic_ii.last_displayed_line,
                        2 * VIC_II_MAX_SPRITE_WIDTH);
   raster_resize_viewport (raster, width, height);
 
@@ -145,8 +196,8 @@ init_raster (void)
 
   raster_realize (raster);
 
-  raster->display_ystart = VIC_II_25ROW_START_LINE;
-  raster->display_ystop = VIC_II_25ROW_STOP_LINE;
+  raster->display_ystart = vic_ii.row_25_start_line;
+  raster->display_ystop = vic_ii.row_25_stop_line;
   raster->display_xstart = VIC_II_40COL_START_PIXEL;
   raster->display_xstop = VIC_II_40COL_STOP_PIXEL;
 }
@@ -312,6 +363,8 @@ vic_ii_init (void)
   alarm_init (&vic_ii.raster_irq_alarm, &maincpu_alarm_context,
               "VicIIRasterIrq", vic_ii_raster_irq_alarm_handler);
 
+  vic_ii_change_timing();
+
   init_raster ();
 
   vic_ii_powerup ();
@@ -346,7 +399,7 @@ vic_ii_reset (void)
 
   vic_ii.last_emulate_line_clk = 0;
 
-  vic_ii.draw_clk = VIC_II_DRAW_CYCLE;
+  vic_ii.draw_clk = vic_ii.draw_cycle;
   alarm_set (&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
 
   vic_ii.fetch_clk = VIC_II_FETCH_CYCLE;
@@ -412,8 +465,8 @@ vic_ii_powerup (void)
   vic_ii.raster_irq_line = 0;
 
   vic_ii.raster.blank = 1;
-  vic_ii.raster.display_ystart = VIC_II_24ROW_START_LINE;
-  vic_ii.raster.display_ystop = VIC_II_24ROW_STOP_LINE;
+  vic_ii.raster.display_ystart = vic_ii.row_24_start_line;
+  vic_ii.raster.display_ystop = vic_ii.row_24_stop_line;
 
   vic_ii.raster.ysmooth = 0;
 }
@@ -441,9 +494,9 @@ vic_ii_trigger_light_pen (CLOCK mclk)
   if (!vic_ii.light_pen.triggered)
     {
       vic_ii.light_pen.triggered = 1;
-      vic_ii.light_pen.x = VIC_II_RASTER_X (mclk % VIC_II_CYCLES_PER_LINE);
+      vic_ii.light_pen.x = VIC_II_RASTER_X (mclk % vic_ii.cycles_per_line);
       if (vic_ii.light_pen.x < 0)
-        vic_ii.light_pen.x = VIC_II_SPRITE_WRAP_X + vic_ii.light_pen.x;
+        vic_ii.light_pen.x = vic_ii.sprite_wrap_x + vic_ii.light_pen.x;
 
       /* FIXME: why `+2'? */
       vic_ii.light_pen.x = vic_ii.light_pen.x / 2 + 2;
@@ -499,13 +552,13 @@ vic_ii_set_raster_irq (unsigned int line)
   if (line == vic_ii.raster_irq_line && vic_ii.raster_irq_clk != CLOCK_MAX)
     return;
 
-  if (line < VIC_II_SCREEN_HEIGHT)
+  if (line < vic_ii.screen_height)
     {
       unsigned int current_line = VIC_II_RASTER_Y (clk);
 
       vic_ii.raster_irq_clk = (VIC_II_LINE_START_CLK (clk)
                                + VIC_II_RASTER_IRQ_DELAY - INTERRUPT_DELAY
-                               + (VIC_II_CYCLES_PER_LINE
+                               + (vic_ii.cycles_per_line
                                   * (line - current_line)));
 
       /* Raster interrupts on line 0 are delayed by 1 cycle.  */
@@ -513,8 +566,8 @@ vic_ii_set_raster_irq (unsigned int line)
         vic_ii.raster_irq_clk++;
 
       if (line <= current_line)
-        vic_ii.raster_irq_clk += (VIC_II_SCREEN_HEIGHT
-                                  * VIC_II_CYCLES_PER_LINE);
+        vic_ii.raster_irq_clk += (vic_ii.screen_height
+                                  * vic_ii.cycles_per_line);
       alarm_set (&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
     }
   else
@@ -822,8 +875,8 @@ vic_ii_raster_draw_alarm_handler (long offset)
   prev_sprite_sprite_collisions = vic_ii.sprite_sprite_collisions;
   prev_sprite_background_collisions = vic_ii.sprite_background_collisions;
 
-  in_visible_area = (vic_ii.raster.current_line >= VIC_II_FIRST_DISPLAYED_LINE
-                 && vic_ii.raster.current_line <= VIC_II_LAST_DISPLAYED_LINE);
+  in_visible_area = (vic_ii.raster.current_line >= vic_ii.first_displayed_line
+                 && vic_ii.raster.current_line <= vic_ii.last_displayed_line);
 
   raster_emulate_line (&vic_ii.raster);
 
@@ -920,8 +973,8 @@ vic_ii_raster_draw_alarm_handler (long offset)
     vic_ii.idle_data_location = IDLE_NONE;
 
   /* Set the next draw event.  */
-  vic_ii.last_emulate_line_clk += VIC_II_CYCLES_PER_LINE;
-  vic_ii.draw_clk = vic_ii.last_emulate_line_clk + VIC_II_DRAW_CYCLE;
+  vic_ii.last_emulate_line_clk += vic_ii.cycles_per_line;
+  vic_ii.draw_clk = vic_ii.last_emulate_line_clk + vic_ii.draw_cycle;
   alarm_set (&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
 
   return 0;
@@ -956,14 +1009,14 @@ handle_fetch_matrix(long offset,
       if (raster->current_line < VIC_II_FIRST_DMA_LINE)
         vic_ii.fetch_clk += ((VIC_II_FIRST_DMA_LINE
                               - raster->current_line)
-                             * VIC_II_CYCLES_PER_LINE);
+                             * vic_ii.cycles_per_line);
       else if (raster->current_line >= VIC_II_LAST_DMA_LINE)
-        vic_ii.fetch_clk += ((VIC_II_SCREEN_HEIGHT
+        vic_ii.fetch_clk += ((vic_ii.screen_height
                               - raster->current_line
                               + VIC_II_FIRST_DMA_LINE)
-                             * VIC_II_CYCLES_PER_LINE);
+                             * vic_ii.cycles_per_line);
       else
-        vic_ii.fetch_clk += VIC_II_CYCLES_PER_LINE;
+        vic_ii.fetch_clk += vic_ii.cycles_per_line;
 
       alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
       return 1;
@@ -980,7 +1033,7 @@ handle_fetch_matrix(long offset,
 
       /* Calculate time for next event.  */
       vic_ii.fetch_clk = (VIC_II_LINE_START_CLK (clk)
-                          + VIC_II_SPRITE_FETCH_CYCLE);
+                          + vic_ii.sprite_fetch_cycle);
 
       if (vic_ii.fetch_clk > clk || offset == 0)
         {
@@ -1019,7 +1072,7 @@ handle_check_sprite_dma (long offset,
 
   /* FIXME?  Slow!  */
   vic_ii.sprite_fetch_clk = (VIC_II_LINE_START_CLK (clk)
-                             + VIC_II_SPRITE_FETCH_CYCLE);
+                             + vic_ii.sprite_fetch_cycle);
   vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status.new_dma_msk;
 
   if (vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][0].cycle == -1)
@@ -1029,15 +1082,15 @@ handle_check_sprite_dma (long offset,
         {
           vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
           vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
-                              - VIC_II_SPRITE_FETCH_CYCLE
+                              -vic_ii.sprite_fetch_cycle 
                               + VIC_II_FETCH_CYCLE
-                              + VIC_II_CYCLES_PER_LINE);
+                              + vic_ii.cycles_per_line);
         }
       else
         {
           vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
           vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
-                              + VIC_II_CYCLES_PER_LINE);
+                              + vic_ii.cycles_per_line);
         }
     }
   else
@@ -1120,15 +1173,15 @@ handle_fetch_sprite (long offset,
         {
           vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
           vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
-                              - VIC_II_SPRITE_FETCH_CYCLE
+                              - vic_ii.sprite_fetch_cycle
                               + VIC_II_FETCH_CYCLE
-                              + VIC_II_CYCLES_PER_LINE);
+                              + vic_ii.cycles_per_line);
         }
       else
         {
           vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
           vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
-                              + VIC_II_CYCLES_PER_LINE);
+                              + vic_ii.cycles_per_line);
         }
     }
   else
@@ -1258,7 +1311,7 @@ vic_ii_raster_irq_alarm_handler (long offset)
                             VIC_II_RASTER_CYCLE (clk)));
     }
 
-  vic_ii.raster_irq_clk += VIC_II_SCREEN_HEIGHT * VIC_II_CYCLES_PER_LINE;
+  vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
   alarm_set (&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
 
   return 0;
