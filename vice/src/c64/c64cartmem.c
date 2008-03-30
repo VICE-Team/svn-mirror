@@ -62,6 +62,9 @@ int ultimax = 0;
 /* Super Snapshot configuration flags.  */
 static BYTE ramconfig = 0xff, romconfig = 9;
 
+/* Atomic Power RAM hack.  */
+static int export_ram_at_a000 = 0;
+
 /* Type of the cartridge attached.  */
 int mem_cartridge_type = CARTRIDGE_NONE;
 
@@ -81,6 +84,7 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
+      case CARTRIDGE_ATOMIC_POWER:
         return rand();
       case CARTRIDGE_KCS_POWER:
         cartridge_config_changed(0);
@@ -100,6 +104,15 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
+        cartridge_config_changed(value);
+        break;
+      case CARTRIDGE_ATOMIC_POWER:
+        if (value == 0x22) {
+            value = 0x03;
+            export_ram_at_a000 = 1;
+        } else {
+            export_ram_at_a000 = 0;
+        }
         cartridge_config_changed(value);
         break;
       case CARTRIDGE_KCS_POWER:
@@ -138,12 +151,14 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
+      case CARTRIDGE_ATOMIC_POWER:
       case CARTRIDGE_SUPER_SNAPSHOT:
       case CARTRIDGE_FINAL_III:
         if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT
                                && (addr & 0xff) == 1)
             return ramconfig;
-        if (export_ram && mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
+        if (export_ram && (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY
+            || mem_cartridge_type == CARTRIDGE_ATOMIC_POWER))
             return export_ram0[0x1f00 + (addr & 0xff)];
         switch (roml_bank) {
           case 0:
@@ -166,6 +181,7 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
+      case CARTRIDGE_ATOMIC_POWER:
         if (export_ram)
             export_ram0[0x1f00 + (addr & 0xff)] = value;
         break;
@@ -239,6 +255,8 @@ BYTE REGPARM1 read_roml(ADDRESS addr)
 
 BYTE REGPARM1 read_romh(ADDRESS addr)
 {
+    if (export_ram_at_a000)
+        return export_ram0[addr & 0x1fff];
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
@@ -249,10 +267,26 @@ void REGPARM2 store_roml(ADDRESS addr, BYTE value)
     return;
 }
 
+BYTE REGPARM1 read_ultimax_a000_bfff(ADDRESS addr)
+{
+    if (export_ram_at_a000)
+        return export_ram0[addr & 0x1fff];
+    return 0x55;
+}
+
+void REGPARM2 store_ultimax_a000_bfff(ADDRESS addr, BYTE value)
+{
+    if (export_ram_at_a000)
+        export_ram0[addr & 0x1fff] = value;
+    return;
+}
+
 void cartridge_init_config(void)
 {
+    export_ram_at_a000 = 0;
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
+      case CARTRIDGE_ATOMIC_POWER:
       case CARTRIDGE_KCS_POWER:
       case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_SUPER_GAMES:
@@ -293,6 +327,7 @@ void cartridge_attach(int type, BYTE *rawcart)
         cartridge_config_changed(1);
         break;
       case CARTRIDGE_ACTION_REPLAY:
+      case CARTRIDGE_ATOMIC_POWER:
         memcpy(roml_banks, rawcart, 0x8000);
         memcpy(romh_banks, rawcart, 0x8000);
         cartridge_config_changed(0);
@@ -356,7 +391,8 @@ void cartridge_detach(int type)
 
 void cartridge_freeze(int type)
 {
-    if (type == CARTRIDGE_ACTION_REPLAY || type == CARTRIDGE_SUPER_SNAPSHOT)
+    if (type == CARTRIDGE_ACTION_REPLAY || type == CARTRIDGE_ATOMIC_POWER
+        || type == CARTRIDGE_SUPER_SNAPSHOT)
         cartridge_config_changed(35);
     if (type == CARTRIDGE_KCS_POWER || type == CARTRIDGE_FINAL_III)
         cartridge_config_changed(3);
