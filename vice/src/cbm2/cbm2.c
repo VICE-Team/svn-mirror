@@ -79,6 +79,8 @@
 #include "vsync.h"
 
 
+machine_context_t machine_context;
+
 #define NUM_KEYBOARD_MAPPINGS 6
 
 const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
@@ -236,6 +238,7 @@ static void cbm2_monitor_init(void)
 
 void machine_setup_context(void)
 {
+    cia1_setup_context(&(machine_context.cia1));
 }
 
 /* CBM-II-specific initialization.  */
@@ -291,7 +294,7 @@ int machine_init(void)
     }
 
     ciat_init_table();
-    cia1_init();
+    cia1_init(&(machine_context.cia1));
     acia1_init();
     tpi1_init();
     tpi2_init();
@@ -335,7 +338,7 @@ void machine_specific_reset(void)
     serial_reset();
 
     acia1_reset();
-    cia1_reset();
+    cia1_reset(&(machine_context.cia1));
     tpi1_reset();
     tpi2_reset();
 

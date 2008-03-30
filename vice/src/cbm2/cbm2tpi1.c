@@ -24,6 +24,9 @@
  *
  */
 
+#include "vice.h"
+
+#include "cbm2.h"
 #include "cbm2cia.h"
 #include "cbm2mem.h"
 #include "crtc.h"
@@ -97,7 +100,7 @@ _TPI_FUNC void _tpi_reset(void)
     parallel_cpu_set_dav(0);
     parallel_cpu_set_eoi(0);
     parallel_cpu_set_bus(0xff);
-    cia1_set_ieee_dir(0);
+    cia1_set_ieee_dir(&(machine_context.cia1), 0);
 }
 
 _TPI_FUNC void store_pa(BYTE byte)
@@ -105,7 +108,7 @@ _TPI_FUNC void store_pa(BYTE byte)
     if (byte != oldpa)
     {
         BYTE tmp = ~byte;
-        cia1_set_ieee_dir(byte & 2);
+        cia1_set_ieee_dir(&(machine_context.cia1), byte & 2);
         if (byte & 2) {
             parallel_cpu_set_ndac(0);
             parallel_cpu_set_nrfd(0);
@@ -126,7 +129,7 @@ _TPI_FUNC void store_pa(BYTE byte)
 _TPI_FUNC void undump_pa(BYTE byte)
 {
     BYTE tmp = ~byte;
-    cia1_set_ieee_dir(byte & 2);
+    cia1_set_ieee_dir(&(machine_context.cia1), byte & 2);
     if (byte & 2) {
         parallel_cpu_set_ndac(0);
         parallel_cpu_set_nrfd(0);

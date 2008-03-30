@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "cbm2.h"
 #include "cbm2cia.h"
 #include "cbm2tpi.h"
 #include "datasette.h"
@@ -33,7 +34,7 @@
 
 void datasette_trigger_flux_change(unsigned int on)
 {
-    cia1_set_flag();
+    cia1_set_flag(&(machine_context.cia1));
 }
 
 void datasette_set_tape_sense(int sense)
