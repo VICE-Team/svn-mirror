@@ -33,9 +33,10 @@
 
 #include "types.h"
 
-
 /* Define the number of cycles needed by the CPU to detect the NMI or IRQ.  */
 #define INTERRUPT_DELAY 2
+
+#define INTRRUPT_MAX_DMA_PER_OPCODE 7
 
 /* These are the available types of interrupt lines.  */
 enum cpu_int {
@@ -48,8 +49,6 @@ enum cpu_int {
     IK_DMA     = 1 << 5
 };
 
-/* We not care about wasted space here, and make fixed-length large enough
-   arrays since static allocation can be handled more easily...  */
 struct interrupt_cpu_status_s {
     /* Number of interrupt lines.  */
     unsigned int num_ints;
@@ -72,6 +71,13 @@ struct interrupt_cpu_status_s {
 
     /* Tick when the NMI was triggered.  */
     CLOCK nmi_clk;
+
+    /* If an opcode is intercepted by a DMA, save the number of cycles
+       left at the start of this particular DMA (needed by *_set_irq() to
+       calculate irq_clk).  */
+    unsigned int num_dma_per_opcode;
+    unsigned int num_cycles_left[INTRRUPT_MAX_DMA_PER_OPCODE];
+    CLOCK dma_start_clk[INTRRUPT_MAX_DMA_PER_OPCODE];
 
     /* If 1, do a RESET.  */
     int reset;
@@ -112,6 +118,8 @@ extern void interrupt_log_wrong_nnmi(void);
 
 extern void interrupt_trigger_dma(interrupt_cpu_status_t *cs, CLOCK cpu_clk);
 extern void interrupt_ack_dma(interrupt_cpu_status_t *cs);
+extern void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
+                                    CLOCK *int_clk);
 
 /* Set the IRQ line state.  */
 inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
@@ -127,15 +135,18 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
             cs->global_pending_int = (cs->global_pending_int
                                      | (unsigned int)IK_IRQ);
             cs->pending_int[int_num] = (cs->pending_int[int_num]
-                                     | (unsigned int)IK_IRQ);
+                                       | (unsigned int)IK_IRQ);
 
             /* This makes sure that IRQ delay is correctly emulated when
                cycles are stolen from the CPU.  */
-            if (cs->last_stolen_cycles_clk <= cpu_clk) {
+            if (cs->last_stolen_cycles_clk <= cpu_clk)
                 cs->irq_clk = cpu_clk;
-            } else {
+            else
+#if 0
+                interrupt_fixup_int_clk(cs, cpu_clk, &(cs->irq_clk));
+#else
                 cs->irq_clk = cs->last_stolen_cycles_clk - 1;
-            }
+#endif
         }
     } else {                    /* Remove the IRQ condition.  */
         if (cs->pending_int[int_num] & IK_IRQ) {
@@ -167,11 +178,14 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs,
 
                 /* This makes sure that NMI delay is correctly emulated when
                    cycles are stolen from the CPU.  */
-                if (cs->last_stolen_cycles_clk <= cpu_clk) {
+                if (cs->last_stolen_cycles_clk <= cpu_clk)
                     cs->nmi_clk = cpu_clk;
-                } else {
+                else
+#if 0
+                    interrupt_fixup_int_clk(cs, cpu_clk, &(cs->nmi_clk));
+#else
                     cs->nmi_clk = cs->last_stolen_cycles_clk - 1;
-                }
+#endif
             }
             cs->nnmi++;
             cs->pending_int[int_num] = (cs->pending_int[int_num] | IK_NMI);
