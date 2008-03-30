@@ -1,5 +1,5 @@
 /*
- * vicii-color.h - Colors for the MOS 6569 (VIC-II) emulation.
+ * vic-color.h - Colors for the VIC-I emulation.
  *
  * Written by
  *  John Selck <graham@cruise.de>
@@ -31,7 +31,7 @@
 #ifndef _VIC_II_COLOR_H
 #define _VIC_II_COLOR_H
 
-extern int vic_ii_update_palette(void);
+extern int vic_update_palette(void);
 
 #endif
 

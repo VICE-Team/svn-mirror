@@ -1,12 +1,8 @@
 /*
- * vicii-color.h - Colors for the MOS 6569 (VIC-II) emulation.
+ * plus4ui.c - C64-specific user interface.
  *
  * Written by
- *  John Selck <graham@cruise.de>
- *
- * Research about the YUV values by
- *  Philip Timmermann <pepto@pepto.de>
- *  John Selck <graham@cruise.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,10 +24,37 @@
  *
  */
 
-#ifndef _VIC_II_COLOR_H
-#define _VIC_II_COLOR_H
+#include "vice.h"
 
-extern int vic_ii_update_palette(void);
+#include <stdio.h>
 
-#endif
+extern "C" {
+#include "constants.h" 
+#include "plus4ui.h"
+#include "resources.h"
+#include "ui.h"
+}
+
+ui_menu_toggle  plus4_ui_menu_toggles[] = {
+    { "DoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "DoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "VideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { NULL, 0 }
+};
+
+ui_res_value_list plus4_ui_res_values[] = {
+    { NULL, NULL }
+};
+
+static void plus4_ui_specific(void *msg, void *window)
+{
+}
+
+int plus4_ui_init(void)
+{
+    ui_register_machine_specific(plus4_ui_specific);
+    ui_register_menu_toggles(plus4_ui_menu_toggles);
+    ui_register_res_values(plus4_ui_res_values);
+    return 0;
+}
 

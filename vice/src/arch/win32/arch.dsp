@@ -198,6 +198,10 @@ SOURCE=.\uireu.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uisid.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uisnapshot.c
 # End Source File
 # Begin Source File

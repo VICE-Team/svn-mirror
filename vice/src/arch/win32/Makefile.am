@@ -84,6 +84,8 @@ libarch_a_SOURCES = \
 	uipetset.h \
 	uireu.c \
 	uireu.h \
+	uisid.c \
+	uisid.h \
 	uisnapshot.h \
 	uisnapshot.c \
 	uisound.c \

@@ -46,6 +46,9 @@ libarch_a_SOURCES = \
 	petkbd.c \
 	petui.cc \
 	petui.h \
+	plus4kbd.c \
+	plus4ui.cc \
+	plus4ui.h \
 	statusbar.cc \
 	statusbar.h \
 	types.h \

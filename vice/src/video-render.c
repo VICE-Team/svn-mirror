@@ -28,6 +28,12 @@
 
 #include "types.h"
 #include "video-render.h"
+#include "video-resources.h"
+
+BYTE gammatable[1024+256+1024];
+SDWORD  ytable[128];
+SDWORD cbtable[128];
+SDWORD crtable[128];
 
 /*********************************************************************************/
 /*********************************************************************************/
@@ -1304,11 +1310,10 @@ static void render_32_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 
 int double_size_bad = 0; /* these two variables need to be removed */
 int double_scan_bad = 0; /* dont forget to change vicii-resources.c when removing them */
-int delay_loop_emu_bad = 0;
 
 int video_get_fake_pal_state(void)
 {
-	return delay_loop_emu_bad;
+	return video_resources.delayloop_emulation || video_resources.pal_emulation;
 }
 
 void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
@@ -1324,7 +1329,7 @@ void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
 #else /* VIDEO_REMOVE_2X */
 	doublesize=double_size_bad;
 	doublescan=double_scan_bad;
-	delayloop=delay_loop_emu_bad;
+	delayloop=video_resources.delayloop_emulation;
 #endif /* VIDEO_REMOVE_2X */
 
 	if (width <= 0) return; /* some render routines don't like invalid width */

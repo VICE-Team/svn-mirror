@@ -51,20 +51,8 @@ static int set_video_cache_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_palette_file_name(resource_value_t v, void *param)
-{
-    util_string_set(&vic_resources.palette_file_name, (char *)v);
-    if (vic.initialized)
-        return vic_load_palette(vic_resources.palette_file_name);
-
-    return 0;
-}
-
 static resource_t resources[] =
 {
-    { "PaletteFile", RES_STRING, (resource_value_t)"default",
-      (resource_value_t *)&vic_resources.palette_file_name,
-      set_palette_file_name, NULL },
     { "VideoCache", RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
       (resource_value_t *)&vic_resources.video_cache_enabled,
       set_video_cache_enabled, NULL },

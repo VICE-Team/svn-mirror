@@ -65,6 +65,7 @@
 #include "uidatasette.h"
 #include "uijoystick.h"
 #include "uilib.h"
+#include "uisid.h"
 #include "uisnapshot.h"
 #include "uisound.h"
 #include "utils.h"
@@ -1376,12 +1377,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_MAXIMUM_SPEED_NO_LIMIT:
         resources_set_value("Speed", (resource_value_t)0);
         break;
-      case IDM_SIDTYPE_6581:
-        resources_set_value("SidModel", (resource_value_t)0);
-        break;
-      case IDM_SIDTYPE_8580:
-        resources_set_value("SidModel", (resource_value_t)1);
-        break;
       case IDM_DRIVE_SETTINGS:
         ui_drive_settings_dialog(hwnd);
         break;
@@ -1397,6 +1392,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_SOUND_SETTINGS:
         ui_sound_settings_dialog(hwnd);
+        break;
+      case IDM_SID_SETTINGS:
+        ui_sid_settings_dialog(hwnd);
         break;
       case IDM_FULLSCREEN_SETTINGS:
         ui_fullscreen_settings_dialog(hwnd);

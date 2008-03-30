@@ -382,9 +382,6 @@ static void draw_hires_bitmap(void)
                     vic_ii.raster.gfx_msk);
 #endif /* VIDEO_REMOVE_2X */
 
-    /* Overscan color in HIRES is determined by last char of previous line */
-    vic_ii.raster.overscan_background_color = 
-        vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS - 1] & 0xf;
 }
 
 static void draw_hires_bitmap_cached(raster_cache_t *cache, int xs, int xe)
@@ -395,10 +392,6 @@ static void draw_hires_bitmap_cached(raster_cache_t *cache, int xs, int xe)
     ALIGN_DRAW_FUNC(_draw_hires_bitmap, xs, xe, cache->gfx_msk);
 #endif /* VIDEO_REMOVE_2X */
 
-    /* Overscan color in HIRES is determined by last char of previous line */
-    if (xe == VIC_II_SCREEN_TEXTCOLS - 1)
-        vic_ii.raster.overscan_background_color = 
-            vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS - 1] & 0xf;
 }
 
 #ifndef VIDEO_REMOVE_2X

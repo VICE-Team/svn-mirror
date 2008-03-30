@@ -1,25 +1,25 @@
 # Microsoft Developer Studio Project File - Name="x64" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** DO NOT EDIT **
+# ** NICHT BEARBEITEN **
 
 # TARGTYPE "Win32 (x86) Application" 0x0101
 
 CFG=x64 - Win32 Debug
-!MESSAGE This is not a valid makefile. To build this project using NMAKE,
-!MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
+!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
+!MESSAGE 
 !MESSAGE NMAKE /f "x64.mak".
-!MESSAGE
-!MESSAGE You can specify a configuration when running NMAKE
-!MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
+!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
+!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
+!MESSAGE 
 !MESSAGE NMAKE /f "x64.mak" CFG="x64 - Win32 Debug"
-!MESSAGE
-!MESSAGE Possible choices for configuration are:
-!MESSAGE
-!MESSAGE "x64 - Win32 Release" (based on "Win32 (x86) Application")
-!MESSAGE "x64 - Win32 Debug" (based on "Win32 (x86) Application")
-!MESSAGE
+!MESSAGE 
+!MESSAGE Für die Konfiguration stehen zur Auswahl:
+!MESSAGE 
+!MESSAGE "x64 - Win32 Release" (basierend auf  "Win32 (x86) Application")
+!MESSAGE "x64 - Win32 Debug" (basierend auf  "Win32 (x86) Application")
+!MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -81,7 +81,7 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 # ADD LINK32 dxguid.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib shell32.lib comctl32.lib winmm.lib ddraw.lib dsound.lib dinput.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 
-!ENDIF
+!ENDIF 
 
 # Begin Target
 
@@ -245,7 +245,15 @@ SOURCE=..\..\utils.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\video-render.c
+SOURCE="..\..\video-color.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\video-render.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\video-resources.c"
 # End Source File
 # Begin Source File
 

@@ -54,6 +54,8 @@
 #include "vic-mem.h"
 #include "vic-resources.h"
 #include "vic-snapshot.h"
+#include "vic-color.h"
+#include "video-color.h"
 #include "vsync.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
@@ -279,11 +281,10 @@ static int init_raster(void)
     raster_set_canvas_refresh(raster, 1);
 
     vic_set_geometry();
-    
-    if (vic_load_palette (vic_resources.palette_file_name) < 0) {
-        log_error (vic.log, "Cannot load palette.");
-        return -1;
-    }
+
+	video_set_raster(&vic.raster);
+
+	vic_update_palette();
 
     title = concat ("VICE: ", machine_name, " emulator", NULL);
     raster_set_title (raster, title);
@@ -377,32 +378,6 @@ void vic_reset (void)
   vic.row_offset = -1;
   vic.area = 0;
 
-}
-
-/* WARNING: This does not change the resource value.  External modules are
-   expected to set the resource value to change the VIC-II palette instead of
-   calling this function directly.  */
-int vic_load_palette (const char *name)
-{
-  static const char *color_names[] =
-    {
-      "Black", "White", "Red", "Cyan", "Purple", "Green", "Blue",
-      "Yellow", "Orange", "Light Orange", "Pink", "Light Cyan",
-      "Light Purple", "Light Green", "Light Blue", "Light Yellow"
-    };
-  palette_t *palette;
-
-  palette = palette_create (VIC_NUM_COLORS, color_names);
-  if (palette == NULL)
-    return -1;
-
-  if (palette_load (name, palette) < 0)
-    {
-      log_message (vic.log, "Cannot load palette file `%s'.", name);
-      return -1;
-    }
-
-  return raster_set_palette (&vic.raster, palette);
 }
 
 /* This hook is called whenever the screen parameters (eg. window size) are

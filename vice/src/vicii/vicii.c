@@ -350,7 +350,7 @@ static int init_raster(void)
 
     vic_ii_set_geometry();
 
-    if (vic_ii_activate_palette() < 0) {
+    if (vic_ii_update_palette() < 0) {
         log_error(vic_ii.log, "Cannot load palette.");
         return -1;
     }
@@ -1126,6 +1126,21 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
   in_visible_area = (vic_ii.raster.current_line >= vic_ii.first_displayed_line
                  && vic_ii.raster.current_line <= vic_ii.last_displayed_line);
 
+  /* Hack for overscan background color in HIRES mode                    */
+  /* This may not 100% correct and probably there's a better solution... */
+  if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE)
+  {
+     if (vic_ii.idle_state)
+         vic_ii.raster.overscan_background_color = 0;
+     else
+       raster_add_int_change_background
+                (&vic_ii.raster, VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth,
+                &vic_ii.raster.overscan_background_color,
+                vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS - 1] & 0xf);
+
+     vic_ii.force_black_overscan_background_color = 1;
+  }
+
   raster_emulate_line(&vic_ii.raster);
 
   if (vic_ii.raster.current_line == 0)
@@ -1548,38 +1563,6 @@ static void vic_ii_raster_irq_alarm_handler(CLOCK offset)
 
   vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
   alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
-}
-
-int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum,int mixedcols)
-{
-  palette_t *palette;
-  int type;
-
-  if (vic_ii_resources.fast_delayloop_emulation) type=VIC_II_COLOR_PALETTE_256;
-  else type=VIC_II_COLOR_PALETTE_16;
-  palette = vic_ii_color_calcpalette(type,sat,con,bri,gam,newlum);
-  return raster_set_palette(&vic_ii.raster, palette);
-}
-
-
-/* WARNING: This does not change the resource value.  External modules are
-   expected to set the resource value to change the VIC-II palette instead of
-   calling this function directly.  */
-int vic_ii_load_palette(const char *name)
-{
-  palette_t *palette;
-
-  palette = palette_create(VIC_II_NUM_COLORS, vic_ii_color_names);
-  if (palette == NULL)
-    return -1;
-
-  if (!console_mode && !vsid_mode && palette_load(name, palette) < 0)
-    {
-      log_message(vic_ii.log, "Cannot load palette file `%s'.", name);
-      return -1;
-    }
-
-  return raster_set_palette(&vic_ii.raster, palette);
 }
 
 /* Set proper functions and constants for the current video settings.  */

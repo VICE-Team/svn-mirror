@@ -41,21 +41,10 @@ ui_menu_toggle  cbm2_ui_menu_toggles[]={
     { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
     { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
-    { "SidFilters", IDM_TOGGLE_SIDFILTERS },
-#ifdef HAVE_RESID
-    { "SidUseResid", IDM_TOGGLE_SOUND_RESID },
-#endif
     { NULL, 0 }
 };
 
-static ui_res_possible_values SidType[] = {
-    { 0, IDM_SIDTYPE_6581 },
-    { 1, IDM_SIDTYPE_8580 },
-    { -1, 0 }
-};
-
 ui_res_value_list cbm2_ui_res_values[] = {
-    { "SidModel", SidType},
     { NULL, NULL }
 };
 

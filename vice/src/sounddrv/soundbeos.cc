@@ -91,8 +91,6 @@ static int beos_init(const char *param, int *speed,
 	game_sound->StartPlaying();
 	
 	write_position = game_sound->CurrentPosition();
-	log_debug("fragsize=%d, fragnr=%d, channels=%d results in bufferlength=%d",
-		*fragsize, *fragnr, *channels, bufferlength);
 
     return 0;
 }
@@ -105,11 +103,11 @@ static int beos_write(SWORD *pbuf, size_t nr)
 	SWORD *p;
 	
 	count = nr / fragment_size;
-	while (write_position == game_sound->CurrentPosition());
+	while (game_sound->CurrentPosition()*num_of_channels == write_position);
 	for (i=0; i<count; i++) {
 		p = (SWORD*) (soundbuffer+write_position);
 		memcpy(p,pbuf,fragment_size*2);
-		write_position += fragment_size);
+		write_position += fragment_size;
 		if (write_position*2 >= bufferlength)
 			write_position = 0;
 		pbuf+=fragment_size;

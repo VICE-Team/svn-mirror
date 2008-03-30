@@ -249,6 +249,15 @@
 #define IDC_REU_FILE                    1333
 #define IDC_REU_BROWSE                  1334
 
+#define IDD_SID_SETTINGS_DIALOG         1340
+#define IDC_SID_FILTERS                 1341
+#define IDC_SID_6581                    1342
+#define IDC_SID_8580                    1343
+#define IDC_SID_STEREO                  1344
+#define IDC_SID_RESID                   1345
+#define IDC_SID_RESID_SAMPLING          1346
+#define IDC_SID_RESID_PASSBAND          1347
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
@@ -273,8 +282,6 @@
 #define IDM_TOGGLE_DOUBLESCAN           40021
 #define IDM_TOGGLE_DRIVE_TRUE_EMULATION 40022
 #define IDM_TOGGLE_VIDEOCACHE           40023
-#define IDM_TOGGLE_SIDFILTERS           40024
-#define IDM_TOGGLE_SOUND_RESID          40025
 #define IDM_DRIVE_SETTINGS              40030
 #define IDM_CART_ATTACH_CRT             40040
 #define IDM_CART_ATTACH_8KB             40041
@@ -332,8 +339,6 @@
 #define IDM_SOUND_SETTINGS              40144
 #define IDM_STATUS_WINDOW               40145
 #define IDM_MONITOR                     40146
-#define IDM_SIDTYPE_6581                40147
-#define IDM_SIDTYPE_8580                40148
 #define IDM_CART_FREEZE                 40149
 #define IDM_SAVEQUICK                   40150
 #define IDM_LOADQUICK                   40151
@@ -371,14 +376,12 @@
 #define IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT 40199
 #define IDM_TOGGLE_FULLSCREEN           40200
 #define IDM_TOGGLE_CONFIRM_ON_EXIT      40201
-#define IDM_RESID_SAMPLE_FAST           40202
-#define IDM_RESID_SAMPLE_INTERPOLATE    40203
-#define IDM_RESID_SAMPLE_RESAMPLE       40204
+#define IDM_SID_SETTINGS                40202
 #define IDM_TOGGLE_IFUNCTIONROM         40205
 #define IDM_IFUNCTIONROM_NAME           40206
 #define IDM_TOGGLE_EFUNCTIONROM         40207
 #define IDM_EFUNCTIONROM_NAME           40208
-#define IDM_TOGGLE_FASTPAL                 40209
+#define IDM_TOGGLE_FASTPAL              40209
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001

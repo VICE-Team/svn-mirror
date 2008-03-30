@@ -53,33 +53,10 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "Mouse", IDM_MOUSE },
     { "Mouse", IDM_MOUSE|0x00010000 },
-    { "SidFilters", IDM_TOGGLE_SIDFILTERS },
-#ifdef HAVE_RESID
-    { "SidUseResid", IDM_TOGGLE_SOUND_RESID },
-#endif
     { NULL, 0 }
 };
 
-static ui_res_possible_values SidType[] = {
-    { 0, IDM_SIDTYPE_6581 },
-    { 1, IDM_SIDTYPE_8580 },
-    { -1, 0}
-};
-
-#ifdef HAVE_RESID
-static ui_res_possible_values SidResidSampling[] = {
-    { 0, IDM_RESID_SAMPLE_FAST },
-    { 1, IDM_RESID_SAMPLE_INTERPOLATE },
-    { 2, IDM_RESID_SAMPLE_RESAMPLE },
-    { -1, 0}
-};
-#endif
-
 ui_res_value_list c64_ui_res_values[] = {
-    { "SidModel", SidType },
-#ifdef HAVE_RESID
-    { "SidResidSampling", SidResidSampling },
-#endif
     { NULL, NULL }
 };
 
@@ -195,18 +172,6 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_CART_FREEZE:
         keyboard_clear_keymatrix();
         cartridge_trigger_freeze();
-        break;
-      case IDM_RESID_SAMPLE_FAST:
-        resources_set_value("SidResidSampling", (resource_value_t)0);
-        vsync_suspend_speed_eval();
-        break;
-      case IDM_RESID_SAMPLE_INTERPOLATE:
-        resources_set_value("SidResidSampling", (resource_value_t)1);
-        vsync_suspend_speed_eval();
-        break;
-      case IDM_RESID_SAMPLE_RESAMPLE:
-        resources_set_value("SidResidSampling", (resource_value_t)2);
-        vsync_suspend_speed_eval();
         break;
       case IDM_VICII_SETTINGS:
         ui_vicii_settings_dialog(hwnd);

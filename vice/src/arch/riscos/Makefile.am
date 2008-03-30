@@ -35,6 +35,8 @@ libarch_a_SOURCES = \
 	petdummy.c \
 	petui.c \
 	petui.h \
+	plus4ui.c \
+	plus4ui.h \
 	rs232.c \
 	spritedrv.c \
 	types.h \

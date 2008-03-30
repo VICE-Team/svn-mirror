@@ -35,7 +35,7 @@
 
 #include "alarm.h"
 #include "log.h"
-#include "raster.h"
+#include "raster/raster.h"
 #include "types.h"
 #include "vic-mem.h"
 #include "vic20.h"
@@ -190,7 +190,6 @@ extern void vic_free(void);
 /* Private function calls, used by the other VIC modules.  FIXME:
    Prepend names with `_'?  */
 extern void vic_update_memory_ptrs(void);
-extern int vic_load_palette(const char *name);
 extern void vic_resize(void);
 
 extern void vic_video_refresh(void);

@@ -1,12 +1,8 @@
 /*
- * vicii-color.h - Colors for the MOS 6569 (VIC-II) emulation.
+ * plus4ui.h - Implementation of the Plus4-specific part of the UI.
  *
  * Written by
- *  John Selck <graham@cruise.de>
- *
- * Research about the YUV values by
- *  Philip Timmermann <pepto@pepto.de>
- *  John Selck <graham@cruise.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,10 +24,10 @@
  *
  */
 
-#ifndef _VIC_II_COLOR_H
-#define _VIC_II_COLOR_H
+#ifndef _PLUS4UI_H
+#define _PLUS4UI_H
 
-extern int vic_ii_update_palette(void);
+extern int plus4_ui_init(void);
 
 #endif
 

@@ -1,12 +1,8 @@
 /*
- * vicii-color.h - Colors for the MOS 6569 (VIC-II) emulation.
+ * uisid.h - Implementation of the SID settings dialog box.
  *
  * Written by
- *  John Selck <graham@cruise.de>
- *
- * Research about the YUV values by
- *  Philip Timmermann <pepto@pepto.de>
- *  John Selck <graham@cruise.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,10 +24,10 @@
  *
  */
 
-#ifndef _VIC_II_COLOR_H
-#define _VIC_II_COLOR_H
+#ifndef _UISID_H
+#define _UISID_H
 
-extern int vic_ii_update_palette(void);
+void ui_sid_settings_dialog(HWND hwnd);
 
 #endif
 
