@@ -39,7 +39,7 @@
 #include "z80.h"
 #include "z80mem.h"
 
-/* #define TRACE */
+#define TRACE
 
 static BYTE reg_a = 0;
 static BYTE reg_b = 0;
@@ -3429,7 +3429,7 @@ void opcode_dd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0x64: /* LD IXH IXH */
         LDREG(reg_ixh, reg_ixh, 0, 4, 2);
         break;
-      case 0x65: /* LD H IXL */
+      case 0x65: /* LD IXH IXL */
         LDREG(reg_ixh, reg_ixl, 0, 4, 2);
         break;
       case 0x66: /* LD H (IX+d) */
@@ -4704,7 +4704,7 @@ void opcode_fd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0x19: /* ADD IY DE */
         ADDXXREG(reg_iyh, reg_iyl, reg_d, reg_e, 15, 2);
         break;
-      case 0x1a: /* LD A DE */
+      case 0x1a: /* LD A (DE) */
         LDREG(reg_a, LOAD(DE_WORD()), 8, 3, 2);
         break;
       case 0x1b: /* DEC DE */
@@ -5395,7 +5395,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
           case 0x19: /* ADD HL DE */
             ADDXXREG(reg_h, reg_l, reg_d, reg_e, 11, 1);
             break;
-          case 0x1a: /* LD A DE */
+          case 0x1a: /* LD A (DE) */
             LDREG(reg_a, LOAD(DE_WORD()), 4, 3, 1);
             break;
           case 0x1b: /* DEC DE */
