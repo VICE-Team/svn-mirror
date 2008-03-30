@@ -1724,11 +1724,11 @@ Cardinal *num_params;
 
  *---------------------------------------------------------------------------*/
 
-void XfwfFileSelectorChangeDirectory(fsw,dir)
+void XfwfFileSelectorChangeDirectory(fsw, dir)
 XfwfFileSelectorWidget fsw;
-char *dir;
+const char *dir;
 {
-	strcpy(FSCurrentDirectory(fsw),dir);
+	strcpy(FSCurrentDirectory(fsw), dir);
 	Chdir(fsw);
 } /* End XfwfFileSelectorChangeDirectory */
 
@@ -1736,7 +1736,7 @@ char *dir;
 void XfwfFileSelectorRefresh(fsw)
 XfwfFileSelectorWidget fsw;
 {
-	XfwfFileSelectorChangeDirectory(fsw,".");
+	XfwfFileSelectorChangeDirectory(fsw, ".");
 } /* End XfwfFileSelectorRefresh */
 
 

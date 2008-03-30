@@ -318,7 +318,7 @@ extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);
 extern BYTE drive_read_viad2_prb(drive_t *dptr);
 extern void drive_prevent_clk_overflow(CLOCK sub, int dnr);
 extern void drive_vsync_hook(void);
-extern void drive_set_1571_sync_factor(int sync, int dnr);
+extern void drive_set_1571_sync_factor(int new_sync, int dnr);
 extern void drive_set_1571_side(int side, int dnr);
 extern void drive_update_ui_status(void);
 extern void drive_cpu_execute(void);

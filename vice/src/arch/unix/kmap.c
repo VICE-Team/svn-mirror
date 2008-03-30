@@ -46,7 +46,7 @@
 
 /* array of resource names for keyboard - for kbd.c
  * by convention even indexes are symbol mappings, odd are positional */
-static char *my_keymap_res_name_list[] = {
+static const char *my_keymap_res_name_list[] = {
 	"KeymapSymFile", "KeymapPosFile"
 };
 

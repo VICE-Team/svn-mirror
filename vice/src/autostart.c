@@ -49,8 +49,8 @@
 #include "vmachine.h"
 #include "machine.h"
 #include "snapshot.h"
+#include "tape.h"
 #include "warn.h"
-
 
 /* Kernal addresses.  Set by `autostart_init()'.  */
 
@@ -145,7 +145,7 @@ static int get_true1541_state(void)
 static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
     if (autostart_program_name
-        && machine_read_snapshot(autostart_program_name) < 0)
+        && machine_read_snapshot((char *)autostart_program_name) < 0)
         ui_error("Cannot load snapshot file.");
     ui_update_menus();
 }
@@ -291,7 +291,7 @@ void autostart_advance(void)
                     no_traps = 0;
 
                 if (autostart_program_name) {
-                    tmp = malloc(strlen(autostart_program_name) + 20);
+                    tmp = malloc(strlen((char *)(autostart_program_name) + 20));
                     sprintf(tmp, "LOAD\"%s\",8,1\r",
                             autostart_program_name);
                     kbd_buf_feed(tmp);
@@ -346,7 +346,7 @@ static void reboot_for_autostart(const char *program_name)
     maincpu_trigger_reset();
     deallocate_program_name();
     if (program_name)
-	autostart_program_name = stralloc(program_name);
+	autostart_program_name = (BYTE *)stralloc(program_name);
 }
 
 /* ------------------------------------------------------------------------- */

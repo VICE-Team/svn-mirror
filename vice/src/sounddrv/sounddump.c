@@ -31,14 +31,15 @@
 #endif
 
 #include "sound.h"
+#include "utils.h"
 
 static FILE *dump_fd = NULL;
 
-static int dump_init(warn_t *w, char *param, int *speed,
+static int dump_init(warn_t *w, const char *param, int *speed,
 		     int *fragsize, int *fragnr, double bufsize)
 {
     if (!param)
-	param = "vicesnd.sid";
+        param = "vicesnd.sid";
     dump_fd = fopen(param, "w");
     if (!dump_fd)
 	return 1;

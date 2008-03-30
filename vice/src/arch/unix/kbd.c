@@ -419,7 +419,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 /* Handling of different keyboard mappings.  */
 
 /* list with resource names for different keymap filenames */
-char **keymap_res_name_list;
+const char **keymap_res_name_list;
 
 /* Memory size of array in sizeof(keyconv), 0 = static.  */
 static int keyc_mem = 0;

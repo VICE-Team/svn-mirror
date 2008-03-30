@@ -93,7 +93,7 @@ static int allegro_startup(unsigned int freq)
 }
 
 /* (`allegro_init()' is already defined by Allegro itself.)  */
-static int allegro_init_sound(warn_t *w, char *param, int *speed,
+static int allegro_init_sound(warn_t *w, const char *param, int *speed,
                               int *fragsize, int *fragnr, double bufsize)
 {
     int i;

@@ -41,7 +41,7 @@
 
 /* array of resource names for keyboard - for kbd.c
  * by convention even indexes are symbol mappings, odd are positional */
-static char *my_keymap_res_name_list[] = {
+static const char *my_keymap_res_name_list[] = {
 	"KeymapBusinessUKSymFile", "KeymapBusinessUKPosFile",
 	"KeymapGraphicsSymFile", "KeymapGraphicsPosFile"
 };
@@ -54,20 +54,20 @@ static char *keymap_file_list[] = {
 
 static int set_keymap_file(int myindex, const char *name)
 {
-    int index;
+    int kmap_index;
 
     if (keymap_file_list[myindex] != NULL && name != NULL
         && strcmp(name, keymap_file_list[myindex]) == 0)
         return 0;
 
-    if(resources_get_value("KeymapIndex", (resource_value_t*) &index) < 0)
+    if(resources_get_value("KeymapIndex", (resource_value_t*) &kmap_index) < 0)
 	return -1;
 
     string_set(&keymap_file_list[myindex], name);
 
     /* reset index -> reload keymap file if this keymap is active */
-    if(index == myindex) {
-      resources_set_value("KeymapIndex", (resource_value_t) index);
+    if(kmap_index == myindex) {
+      resources_set_value("KeymapIndex", (resource_value_t) kmap_index);
     }
     return 0;
 }

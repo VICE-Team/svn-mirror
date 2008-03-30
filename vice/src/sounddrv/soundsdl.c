@@ -71,7 +71,7 @@ static void sdl_callback(void *userdata, Uint8 *stream, Uint16 len,
     }
 }
 
-static int sdl_init(warn_t *w, char *param, int *speed,
+static int sdl_init(warn_t *w, const char *param, int *speed,
 		    int *fragsize, int *fragnr, double bufsize)
 {
     SDL_AudioSpec		spec;

@@ -1770,29 +1770,29 @@ static void drive_set_sync_factor(unsigned int factor)
 static void drive_set_pal_sync_factor(void)
 {
     if (pal_cycles_per_sec != 0.0) {
-        int sync_factor = (int) floor(65536.0 * (1000000.0 /
+        int new_sync_factor = (int) floor(65536.0 * (1000000.0 /
                                          ((double)pal_cycles_per_sec)));
-        drive_set_sync_factor(sync_factor);
+        drive_set_sync_factor(new_sync_factor);
     }
 }
 
 static void drive_set_ntsc_sync_factor(void)
 {
     if (ntsc_cycles_per_sec != 0.0) {
-        int sync_factor = (int) floor(65536.0 * (1000000.0 /
+        int new_sync_factor = (int) floor(65536.0 * (1000000.0 /
                                          ((double)ntsc_cycles_per_sec)));
 
-        drive_set_sync_factor(sync_factor);
+        drive_set_sync_factor(new_sync_factor);
     }
 }
 
-void drive_set_1571_sync_factor(int sync, int dnr)
+void drive_set_1571_sync_factor(int new_sync, int dnr)
 {
     if (rom_loaded) {
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
-        initialize_rotation(sync ? 1 : 0, dnr);
-        drive[dnr].clock_frequency = (sync) ? 2 : 1;
+        initialize_rotation(new_sync ? 1 : 0, dnr);
+        drive[dnr].clock_frequency = (new_sync) ? 2 : 1;
         set_sync_factor((resource_value_t) sync_factor);
     }
 }

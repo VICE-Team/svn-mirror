@@ -39,7 +39,7 @@ warn_t *warn_init(const char *name, int nrwarnings);
  * Warn every warning with warnid >= 0 only once.
  * Warn other warnings always.
  */
-void warn(warn_t *pwarn, int warnid, char *msg, ...);
+void warn(warn_t *pwarn, int warnid, const char *msg, ...);
 
 /*
  * This resets warning-information for one module or all modules

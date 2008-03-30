@@ -361,7 +361,6 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
     snapshot_module_t *m;
     char n[SNAPSHOT_MODULE_NAME_LEN];
     unsigned int name_len = strlen(name);
-    off_t start_pos;
 
     if (fseek(s->file, s->first_module_offset, SEEK_SET) < 0)
         return NULL;
@@ -421,7 +420,7 @@ int snapshot_module_close(snapshot_module_t *m)
 
 snapshot_t *snapshot_create(const char *filename,
                             BYTE major_version, BYTE minor_version,
-                            const char *machine_name)
+                            const char *snapshot_machine_name)
 {
     FILE *f;
     snapshot_t *s;
@@ -441,7 +440,7 @@ snapshot_t *snapshot_create(const char *filename,
         goto fail;
 
     /* Machine.  */
-    if (snapshot_write_padded_string(f, machine_name, 0,
+    if (snapshot_write_padded_string(f, snapshot_machine_name, 0,
                                      SNAPSHOT_MACHINE_NAME_LEN) < 0)
         goto fail;
 
@@ -461,7 +460,7 @@ fail:
 snapshot_t *snapshot_open(const char *filename,
                           BYTE *major_version_return,
                           BYTE *minor_version_return,
-                          const char *machine_name)
+                          const char *snapshot_machine_name)
 {
     FILE *f;
     char magic[SNAPSHOT_MAGIC_LEN];
@@ -489,8 +488,8 @@ snapshot_t *snapshot_open(const char *filename,
         goto fail;
 
     /* Check machine name.  */
-    machine_name_len = strlen(machine_name);
-    if (memcmp(read_name, machine_name, machine_name_len) != 0
+    machine_name_len = strlen(snapshot_machine_name);
+    if (memcmp(read_name, snapshot_machine_name, machine_name_len) != 0
         || (machine_name_len != SNAPSHOT_MODULE_NAME_LEN
             && read_name[machine_name_len] != 0)) {
         log_error(LOG_DEFAULT, "SNAPSHOT: Wrong machine type.");

@@ -291,7 +291,8 @@ static ui_menu_entry_t keyboard_maptype_submenu[] = {
 
 static UI_CALLBACK(select_user_keymap)
 {
-    char *filename, *resname;
+    char *filename;
+    const char *resname;
     ui_button_t button;
     int kindex;
 
@@ -645,8 +646,6 @@ UI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
 UI_MENU_DEFINE_RADIO(SoundSampleRate)
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 UI_MENU_DEFINE_RADIO(SoundSuspendTime)
-UI_MENU_DEFINE_TOGGLE(SidFilters)
-UI_MENU_DEFINE_RADIO(SidModel)
 UI_MENU_DEFINE_RADIO(SoundOversample)
 
 /* ------------------------------------------------------------------------- */

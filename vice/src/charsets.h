@@ -46,13 +46,13 @@
 
 #define NUM_LANGUAGES	14
 
-extern char *ctrl1[], *ctrl2[], *cbmkeys[];
+extern const char *ctrl1[], *ctrl2[], *cbmkeys[];
 
 extern void petconvstring(char *c, int dir);
 extern int p_toascii(int c, int cs);
 extern int p_topetcii(int c);
-extern char *ctrl_to_str(int clean, BYTE c);
-extern char *cbm_to_str(BYTE c);
+extern const char *ctrl_to_str(int clean, BYTE c);
+extern const char *cbm_to_str(BYTE c);
 extern void unix_filename(char *p);
 
 extern int set_locale(char *localename);

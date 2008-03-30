@@ -234,13 +234,11 @@ SWORD       *copyptr;
     }
 }
 
-
-
 DSBUFFERDESC desc;
 PCMWAVEFORMAT pcmwf;
 DSCAPS  capabilities;
 
-static int dx_init(warn_t *w, char *param, int *speed,
+static int dx_init(warn_t *w, const char *param, int *speed,
                    int *fragsize, int *fragnr, double bufsize)
 {
 HRESULT result;

@@ -139,7 +139,7 @@ void joystick_init(void)
     /* open analog device files */
     for (i = 0; i < 2; i++) {
 
-	char *dev;
+	const char *dev;
 #ifdef LINUX_JOYSTICK
 	dev = (i == 0) ? "/dev/js0" : "/dev/js1";
 #elif defined(BSD_JOYSTICK)

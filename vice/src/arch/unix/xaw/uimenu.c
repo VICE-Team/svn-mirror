@@ -255,13 +255,13 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
 
     checkmark_bitmap = XCreateBitmapFromData(my_display,
                                              DefaultRootWindow(my_display),
-                                             checkmark_bits,
+                                             (char *)checkmark_bits,
                                              checkmark_width,
                                              checkmark_height);
 
     right_arrow_bitmap = XCreateBitmapFromData(my_display,
                                                DefaultRootWindow(my_display),
-                                               right_arrow_bits,
+                                               (char *)right_arrow_bits,
                                                right_arrow_width,
                                                right_arrow_height);
 

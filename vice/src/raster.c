@@ -355,7 +355,7 @@ static void resize(unsigned int width, unsigned int height)
 }
 
 /* Open the emulation window.  */
-static int open_output_window(char *win_name, unsigned int width,
+static int open_output_window(const char *win_name, unsigned int width,
 			      unsigned int height, palette_t *palette,
 			      canvas_redraw_t exposure_handler)
 {

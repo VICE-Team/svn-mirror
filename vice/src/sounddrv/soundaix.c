@@ -51,10 +51,11 @@ long out_rate;
 long left_gain, right_gain;
 
 
-static int aix_init(warn_t *w, char *param, int *speed,
+static int aix_init(warn_t *w, const char *param, int *speed,
 		    int *fragsize, int *fragnr, double bufsize)
 {
     int	st, tmp, i;
+
     /* open device */
     ev = somGetGlobalEnvironment();
     audio_device = UMSBAUDDeviceNew();

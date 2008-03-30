@@ -104,6 +104,8 @@ void wd1770d0_prevent_clk_overflow(CLOCK sub)
         wd1770[0].motor_spinup_clk -= sub;
     if (wd1770[0].led_delay_clk > (CLOCK) 0)
         wd1770[0].led_delay_clk -= sub;
+    if (wd1770[0].set_drq > (CLOCK) 0)
+        wd1770[0].set_drq -= sub;
 }
 
 void wd1770d1_prevent_clk_overflow(CLOCK sub)
@@ -114,6 +116,8 @@ void wd1770d1_prevent_clk_overflow(CLOCK sub)
         wd1770[1].motor_spinup_clk -= sub;
     if (wd1770[1].led_delay_clk > (CLOCK) 0)
         wd1770[1].led_delay_clk -= sub;
+    if (wd1770[1].set_drq > (CLOCK) 0)
+        wd1770[1].set_drq -= sub;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -122,7 +126,7 @@ void wd1770d1_prevent_clk_overflow(CLOCK sub)
 static void store_wd1770(ADDRESS addr, BYTE byte, int dnr)
 {
 #ifdef WD_DEBUG
-    fprintf(logfile, "WD WRITE ADDR: %i DATA:%x\n",addr,byte);
+    log_debug("WD READ ADDR: %i DATA:%x CLK:%i\n", addr, byte, drive_clk[dnr]);
 #endif
     wd1770[dnr].busy_clk = drive_clk[dnr];
 
@@ -195,6 +199,12 @@ static BYTE read_wd1770(ADDRESS addr, int dnr)
                 wd1770[dnr].motor_spinup_clk = (CLOCK)0;
             }
         }
+        if (wd1770[dnr].set_drq != (CLOCK)0) {
+            if (drive_clk[dnr] - wd1770[dnr].set_drq > 5000) {
+                wd1770[dnr].reg[WD1770_STATUS] |= 2;
+                wd1770[dnr].set_drq = (CLOCK)0;
+            }
+        }
         tmp = wd1770[dnr].reg[WD1770_STATUS];
         break; 
       case 1:
@@ -210,7 +220,7 @@ static BYTE read_wd1770(ADDRESS addr, int dnr)
     }
     /*drive0_traceflg = 1;*/
 #ifdef WD_DEBUG
-    fprintf(logfile, "WD READ ADDR: %i DATA:%x\n",addr,tmp);
+    log_debug("WD READ ADDR: %i DATA:%x CLK:%i\n", addr, tmp, drive_clk[dnr]);
 #endif
     return tmp;
 }
@@ -222,6 +232,7 @@ static void reset_wd1770(int dnr)
     wd1770[dnr].busy_clk = (CLOCK)0;
     wd1770[dnr].motor_spinup_clk = (CLOCK)0;
     wd1770[dnr].led_delay_clk = (CLOCK)0;
+    wd1770[dnr].set_drq = (CLOCK)0;
     wd1770[dnr].current_track = 20;
     wd1770[dnr].data_buffer_index = -1;
 
@@ -266,7 +277,7 @@ static void wd1770_command_restore(BYTE command, int dnr)
 
 static void wd1770_command_seek(BYTE command, int dnr)
 {
-
+    wd1770[dnr].set_drq = drive_clk[dnr];
 }
 
 static void wd1770_command_step(BYTE command, int dnr)
@@ -331,7 +342,7 @@ static void wd1770_command_writetrack(BYTE command, int dnr)
 /*-----------------------------------------------------------------------*/
 /* WD1770 job code emulation.  */
 
-int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
+static int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
 {
     int rc, i, base;
     BYTE sector_data[256];
@@ -356,7 +367,7 @@ int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
     return 0;
 }
 
-int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
+static int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
 {
     int rc, i, base;
     BYTE sector_data[256];
@@ -399,8 +410,8 @@ void wd1770_handle_job_code(int dnr)
         }
         if (command & 0x80) {
 #ifdef WD_DEBUG
-            fprintf(logfile, "WD1770 Buffer:%i Command:%x T:%i S:%i\n",
-            buffer, command, track, sector);
+            log_debug("WD1770 Buffer:%i Command:%x T:%i S:%i\n",
+                      buffer, command, track, sector);
 #endif
             if (drive[dnr].drive_floppy != NULL
                 && drive[dnr].drive_floppy->ImageFormat == 1581) {

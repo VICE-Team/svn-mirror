@@ -39,7 +39,7 @@ static MIDASstreamHandle midas_stream = NULL;
 static int midas_bufsize = -1;
 static int midas_maxsize = -1;
 
-static int midas_init(warn_t *w, char *param, int *speed,
+static int midas_init(warn_t *w, const char *param, int *speed,
 		      int *fragsize, int *fragnr, double bufsize)
 {
     BOOL		st;

@@ -475,16 +475,16 @@ struct mon_cmds mon_cmd_array[] = {
 
 };
 
-static char *cond_op_string[] = { "",
-                                  "==",
-                                  "!=",
-                                  ">",
-                                  "<",
-                                  ">=",
-                                  "<=",
-                                  "&&",
-                                  "||"
-                                 };
+static const char *cond_op_string[] = { "",
+                                        "==",
+                                        "!=",
+                                        ">",
+                                        "<",
+                                        ">=",
+                                        "<=",
+                                        "&&",
+                                        "||"
+                                       };
 
 
 static int default_display_number[] = {128, /* default = hex */
@@ -501,14 +501,14 @@ static int default_display_per_line[] = { 16, /* default = hex */
                                           3, /* binary */
                                         };
 
-static char *memspace_string[] = {"default", "C", "8", "9" };
+static const char *memspace_string[] = {"default", "C", "8", "9" };
 
-static char *register_string[] = { "A",
-                                   "X",
-                                   "Y",
-                                   "PC",
-                                   "SP"
-                                 };
+static const char *register_string[] = { "A",
+                                         "X",
+                                         "Y",
+                                         "PC",
+                                         "SP"
+                                       };
 
 
 /* *** ADDRESS FUNCTIONS *** */
@@ -990,14 +990,14 @@ int mon_cmd_lookup_index(char *str)
    return -1;
 }
 
-int mon_cmd_get_token(int index)
+int mon_cmd_get_token(int mon_index)
 {
-   return mon_cmd_array[index].token;
+   return mon_cmd_array[mon_index].token;
 }
 
-int mon_cmd_get_next_state(int index)
+int mon_cmd_get_next_state(int mon_index)
 {
-   return mon_cmd_array[index].next_state;
+   return mon_cmd_array[mon_index].next_state;
 }
 
 void mon_print_help(char *cmd)
@@ -1511,7 +1511,7 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 
 void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
 {
-  unsigned i, index, len = 0;
+  unsigned i, mon_index, len = 0;
   ADDRESS start;
   MEMSPACE dest_mem;
 
@@ -1530,11 +1530,11 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
   dest_mem = addr_memspace(start_addr);
 
   i = 0;
-  index = 0;
+  mon_index = 0;
   while (i < len) {
-     set_mem_val(dest_mem, ADDR_LIMIT(start+i), data_buf[index++]);
-     if (index >= data_buf_len)
-         index = 0;
+     set_mem_val(dest_mem, ADDR_LIMIT(start+i), data_buf[mon_index++]);
+     if (mon_index >= data_buf_len)
+         mon_index = 0;
      i++;
   }
 
@@ -2489,7 +2489,7 @@ bool mon_check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list)
    breakpoint *bp;
    bool result = FALSE;
    MON_ADDR temp;
-   char *type;
+   const char *type;
 
    ptr = search_checkpoint_list(list,addr);
 

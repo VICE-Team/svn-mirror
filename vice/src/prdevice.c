@@ -176,7 +176,7 @@ static void flush_pr(void *var, int secondary)
     print_flush(currfd);
 }
 
-static int  fn()
+static int fn(void)
 {
     return 0x80;
 }

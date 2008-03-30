@@ -330,7 +330,7 @@ static int write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
  * directory slot.
  */
 
-int vdrive_open(void *flp, char *name, int length, int secondary)
+int vdrive_open(void *flp, const char *name, int length, int secondary)
 {
     DRIVE *floppy = (DRIVE *)flp;
     bufferinfo_t *p = &(floppy->buffers[secondary]);

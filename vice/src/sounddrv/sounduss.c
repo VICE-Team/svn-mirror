@@ -49,7 +49,7 @@ static int uss_fragsize = 0;
 
 static int uss_bufferstatus(warn_t *s, int first);
 
-static int uss_init(warn_t *w, char *param, int *speed,
+static int uss_init(warn_t *w, const char *param, int *speed,
 		    int *fragsize, int *fragnr, double bufsize)
 {
     int			 st, tmp, orig;

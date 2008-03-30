@@ -495,11 +495,11 @@ static void trigger_adsr(voice_t *pv)
 
 static void print_voice(char *buf, voice_t *pv)
 {
-    char *m = "ADSRI";
+    const char *m = "ADSRI";
 #ifdef WAVETABLES
-    char *w = "0123456789abcdef";
+    const char *w = "0123456789abcdef";
 #else
-    char *w = "TPSTN-R5";
+    const char *w = "TPSTN-R5";
 #endif
     sprintf(buf,
 	    "#SID: V%d: e=%5.1f%%(%c) w=%6.1fHz(%c) f=%5.1f%% p=%5.1f%%\n",

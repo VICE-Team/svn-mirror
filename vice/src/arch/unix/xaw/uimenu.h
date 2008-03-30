@@ -34,7 +34,7 @@
 #include "uihotkey.h"
 
 typedef struct _ui_menu_entry {
-    char *string;
+    const char *string;
     ui_callback_t callback;
     ui_callback_data_t callback_data;
     struct _ui_menu_entry *sub_menu;

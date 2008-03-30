@@ -59,6 +59,6 @@ extern int kbd_init_resources(void);
 extern int pet_kbd_init_cmdline_options(void);
 extern int pet_kbd_init_resources(void);
 
-extern char **keymap_res_name_list;
+extern const char **keymap_res_name_list;
 
 #endif

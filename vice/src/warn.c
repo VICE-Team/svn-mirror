@@ -71,7 +71,7 @@ warn_t *warn_init(const char *name, int nrwarnings)
     return p;
 }
 
-void warn(warn_t *pwarn, int warnid, char *msg, ...)
+void warn(warn_t *pwarn, int warnid, const char *msg, ...)
 {
     char                        tmp[1024];
     char			*p;

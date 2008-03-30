@@ -43,7 +43,7 @@ int rsuser_init_cmdline_options(void);
 
 void rsuser_tx_byte(BYTE);
 void rsuser_write_ctrl(BYTE);
-BYTE rsuser_read_ctrl();
+BYTE rsuser_read_ctrl(void);
 
 int int_rsuser(long offset);
 void rsuser_reset(void);

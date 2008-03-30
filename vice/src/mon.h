@@ -257,8 +257,8 @@ extern void mon(ADDRESS a);
 extern void mon_add_number_to_buffer(int number);
 extern void mon_add_string_to_buffer(char *str);
 extern int mon_cmd_lookup_index(char *str);
-extern int mon_cmd_get_token(int index);
-extern int mon_cmd_get_next_state(int index);
+extern int mon_cmd_get_token(int mon_index);
+extern int mon_cmd_get_next_state(int mon_index);
 
 extern void mon_start_assemble_mode(MON_ADDR addr, char *asm_line);
 extern void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr);

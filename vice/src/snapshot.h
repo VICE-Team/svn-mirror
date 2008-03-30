@@ -64,11 +64,11 @@ extern int snapshot_module_close(snapshot_module_t *m);
 
 extern snapshot_t *snapshot_create(const char *filename,
                                    BYTE major_version, BYTE minor_version,
-                                   const char *machine_name);
+                                   const char *snapshot_machine_name);
 extern snapshot_t *snapshot_open(const char *filename,
                                  BYTE *major_version_return,
                                  BYTE *minor_version_return,
-                                 const char *machine_name);
+                                 const char *snapshot_machine_name);
 extern int snapshot_close(snapshot_t *s);
 
 #endif

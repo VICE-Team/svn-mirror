@@ -132,7 +132,7 @@ static void lock_mem(void)
     _go32_dpmi_lock_data((void *) &is_16bit, sizeof(is_16bit));
 }
 
-static int sb_init(warn_t *w, char *param, int *speed,
+static int sb_init(warn_t *w, const char *param, int *speed,
                    int *fragsize, int *fragnr, double bufsize)
 {
     int tmp_fragsize = *fragsize;

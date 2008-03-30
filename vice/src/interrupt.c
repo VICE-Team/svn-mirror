@@ -157,9 +157,9 @@ enum cpu_int get_int(cpu_int_status_t *cs, int int_num)
 
 int interrupt_write_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
 {
+#if 0
     int i;
 
-#if 0
     for (i = 0; i < cs->num_ints; i++) {
         if (snapshot_module_write_byte(m, cs->pending_int[i]) < 0)
             return -1;
@@ -180,7 +180,6 @@ int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
 {
     int i;
     DWORD dw;
-    BYTE b;
 
     /* Reset the status.  */
     for (i = 0; i < cs->num_alarms; i++)

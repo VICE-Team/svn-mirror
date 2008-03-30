@@ -34,11 +34,13 @@
 typedef struct
 {
     /* name of the device */
-    char			 *name;
+    const char			 *name;
     /* init -routine to be called at device initialization. Should use
        suggested values if possible or return new values if they cannot be
        used */
-    int				(*init)(warn_t *w, char *device, int *speed,
+    int				(*init)(warn_t *w,
+                                        const char *param,
+                                        int *speed,
 					int *fragsize, int *fragnr,
 					double bufsize);
     /* send number of bytes to the soundcard. it is assumed to block if kernel

@@ -298,8 +298,8 @@ void cartridge_detach_image(void)
 void cartridge_set_default(void)
 {
     set_cartridge_type((resource_value_t) carttype);
-    set_cartridge_file((resource_value_t) (carttype == CARTRIDGE_NONE) ?
-                       "" : cartfile);
+    set_cartridge_file((resource_value_t) ((carttype == CARTRIDGE_NONE) ?
+                       "" : cartfile));
 }
 
 void cartridge_trigger_freeze(void)

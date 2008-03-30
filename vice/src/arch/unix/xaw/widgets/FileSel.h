@@ -94,7 +94,8 @@ void	XfwfFileSelectorGetStatus();
 
 #else
 
-void	XfwfFileSelectorChangeDirectory(XfwfFileSelectorWidget fsw, char *dir);
+void	XfwfFileSelectorChangeDirectory(XfwfFileSelectorWidget fsw, 
+                                        const char *dir);
 void	XfwfFileSelectorRefresh(XfwfFileSelectorWidget fsw);
 void	XfwfFileSelectorGetStatus(XfwfFileSelectorWidget fsw,
 				  XfwfFileSelectorStatusStruct *ssp);

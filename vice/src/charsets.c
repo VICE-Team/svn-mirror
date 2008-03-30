@@ -129,14 +129,14 @@ int   p_topetcii(int c)
   * Printer's control code symbols
   */
 
-char   *ctrl1[] = {
+const char *ctrl1[] = {
     "",  "", "", "", "", "wht", "", "",
     "dish", "ensh", "\n", "", "\f", "\n", "swlc", "",
     "",  "down", "rvon", "home", "del", "", "", "",
     "",  "",  "", "esc", "red", "rght", "grn", "blu"
 };
 
-char   *ctrl2[] = {
+const char *ctrl2[] = {
     "", "orng",  "",  "",  "",  "F1",  "F3",  "F5",
     "F7",  "F2", "F4",   "F6",   "F8",  "sret", "swuc", "",
     "blk",  "up", "rvof", "clr",  "inst", "brn",  "lred", "gry1",
@@ -144,7 +144,7 @@ char   *ctrl2[] = {
 };
 
 
-char   *cbmkeys[] = {
+const char *cbmkeys[] = {
     "SHIFT-SPACE", "CBM-K", "CBM-I", "CBM-T", "CBM-@", "CBM-G", "CBM-+",
     "CBM-M", "CBM-POUND",
     "SHIFT-POUND", "CBM-N", "CBM-Q", "CBM-D", "CBM-Z", "CBM-S", "CBM-P",
@@ -153,10 +153,9 @@ char   *cbmkeys[] = {
 };
 
 
-char *ctrl_to_str(int clean, BYTE c)
+const char *ctrl_to_str(int clean, BYTE c)
 {
-    static char  buf[16];
-
+    static char buf[16];
 
     if (c == 0x0a || c == 0xc || c == 0xd)
 	return (ctrl1[c]);
@@ -178,7 +177,7 @@ char *ctrl_to_str(int clean, BYTE c)
 }
 
 
-char *cbm_to_str(BYTE c)
+const char *cbm_to_str(BYTE c)
 {
     static char  buf[16];
 

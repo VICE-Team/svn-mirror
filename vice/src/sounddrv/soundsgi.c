@@ -45,7 +45,7 @@ static void sgi_errorhandler(long err, const char *msg, ...)
     printf("sgierrorhandler: %d, %s\n", (int)err, msg);
 }
 
-static int sgi_init(warn_t *w, char *param, int *speed,
+static int sgi_init(warn_t *w, const char *param, int *speed,
 		    int *fragsize, int *fragnr, double bufsize)
 {
     long	chpars[] = {AL_OUTPUT_RATE, 0};

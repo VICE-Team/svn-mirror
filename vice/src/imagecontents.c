@@ -80,12 +80,12 @@ char *image_contents_to_string(image_contents_t *contents)
     buf_size = 0;
 
     BUFCAT("0 \"", 3);
-    BUFCAT(contents->name, strlen(contents->name));
+    BUFCAT((char *)contents->name, strlen((char *)contents->name));
     BUFCAT("\" ", 2);
-    BUFCAT(contents->id, strlen(contents->id));
+    BUFCAT((char *)contents->id, strlen((char *)contents->id));
 
     if (contents->file_list == NULL) {
-        char *s = "\n(eMPTY IMAGE.)";
+        const char *s = "\n(eMPTY IMAGE.)";
 
         BUFCAT(s, strlen(s));
     }
@@ -96,10 +96,11 @@ char *image_contents_to_string(image_contents_t *contents)
         len = sprintf(line_buf, "\n%-5d \"%s\" ", p->size, p->name);
         BUFCAT(line_buf, len);
 
-        name_len = strlen(p->name);
+        name_len = strlen((char *)p->name);
         if (name_len < IMAGE_CONTENTS_FILE_NAME_LEN)
-            BUFCAT(filler, IMAGE_CONTENTS_FILE_NAME_LEN - strlen(p->name));
-        BUFCAT(p->type, strlen(p->type));
+            BUFCAT(filler, IMAGE_CONTENTS_FILE_NAME_LEN 
+                           - strlen((char *)p->name));
+        BUFCAT((char *)p->type, strlen((char *)p->type));
     }
 
     if (contents->blocks_free >= 0) {
@@ -172,7 +173,6 @@ static DRIVE *open_image(const char *name)
 {
     static BYTE fake_command_buffer[256];
     DRIVE *floppy;
-    char *buf;
     hdrinfo hdr;
     file_desc_t fd;
     int image_format;
@@ -293,7 +293,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
                 }
                 new_list->name[i] = 0;
                 
-                sprintf (new_list->type, "%c%s%c",
+                sprintf ((char *)new_list->type, "%c%s%c",
                          (p[SLOT_TYPE_OFFSET] & FT_CLOSED ? ' ' : '*'),
                          slot_type[p[SLOT_TYPE_OFFSET] & 0x07],
                          (p[SLOT_TYPE_OFFSET] & FT_LOCKED ? '<' : ' '));
@@ -361,7 +361,7 @@ image_contents_t *image_contents_read_tape(const char *file_name)
 
             /* XXX: Not quite true, but this is what the tape emulation
                will do anyway.  */
-            strcpy(new_list->type, " PRG ");
+            strcpy((char *)new_list->type, " PRG ");
 
             new_list->size = (rec->end_addr - rec->start_addr) / 254;
             new_list->next = NULL;

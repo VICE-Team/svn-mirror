@@ -31,10 +31,11 @@
 #endif
 
 #include "sound.h"
+#include "utils.h"
 
 static FILE *fs_fd = NULL;
 
-static int fs_init(warn_t *w, char *param, int *speed,
+static int fs_init(warn_t *w, const char *param, int *speed,
 		   int *fragsize, int *fragnr, double bufsize)
 {
     if (!param)

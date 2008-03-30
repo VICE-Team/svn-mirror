@@ -94,7 +94,7 @@ int kbd_buf_is_empty(void)
 }
 
 /* Feed `s' into the queue.  */
-int kbd_buf_feed(const BYTE *s)
+int kbd_buf_feed(const char *s)
 {
     int num = strlen(s);
     int i, p;

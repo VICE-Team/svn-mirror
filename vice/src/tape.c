@@ -75,8 +75,6 @@
 #define CAS_TYPE_DATA	4	/* Data Record */
 #define CAS_TYPE_EOF	5	/* End of Tape marker */
 
-static int fn(void);
-
 /* CPU addresses for tape routine variables.  */
 static int buffer_pointer_addr;
 static int st_addr;

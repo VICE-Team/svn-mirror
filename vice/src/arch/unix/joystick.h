@@ -37,9 +37,6 @@ extern void joystick(void);
 extern int  joystick_init_resources(void);
 extern int  joystick_init_cmdline_options(void);
 
-extern int ajoyfd[2];
-extern int djoyfd[2];
-
 extern int joystick_port_map[2];
 
 #define JOYDEV_NONE         0

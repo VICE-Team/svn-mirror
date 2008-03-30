@@ -240,9 +240,9 @@ struct _DRIVE {
  */
 
 typedef struct errortext_s {
-    int     nr;
-    char   *text;
-}     errortext_t;
+    int nr;
+    const char *text;
+} errortext_t;
 
 /* ------------------------------------------------------------------------- */
 
@@ -265,7 +265,7 @@ extern int check_header(file_desc_t fd, hdrinfo *hdr);
 extern int get_diskformat(int devtype);
 extern int num_blocks(int format, int tracks);
 extern char *floppy_read_directory(DRIVE *floppy, const char *pattern);
-extern int floppy_parse_name(char *name, int length, char *realname,
+extern int floppy_parse_name(const char *name, int length, char *realname,
                              int *reallength, int *readmode,
                              int *filetype, int *rl );
 extern void floppy_close_all_channels(DRIVE *);

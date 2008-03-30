@@ -133,7 +133,7 @@ typedef struct State_t {
 	void	(*m[NTRANS])(int);
 } State_t;
 
-static char *Trans[NTRANS] = {
+static const char *Trans[NTRANS] = {
 	"ATN low", "ATN high", "DAV low", "DAV high",
 	"NDAC low", "NDAC high", "NRFD low", "NRFD high"
 };
