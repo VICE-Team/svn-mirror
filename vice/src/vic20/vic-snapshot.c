@@ -55,19 +55,19 @@ int vic_snapshot_write_module(snapshot_t *s)
     if (m == NULL)
         return -1;
 
-    if (snapshot_module_write_byte(m, (BYTE)VIC_RASTER_CYCLE(maincpu_clk)) < 0
-        || snapshot_module_write_word(m, (WORD)VIC_RASTER_Y(maincpu_clk)) < 0)
+    if (SMW_B(m, (BYTE)VIC_RASTER_CYCLE(maincpu_clk)) < 0
+        || SMW_W(m, (WORD)VIC_RASTER_Y(maincpu_clk)) < 0)
         goto fail;
 
-    if (snapshot_module_write_word(m, (WORD)vic.memptr) < 0)
+    if (SMW_W(m, (WORD)vic.memptr) < 0)
         goto fail;
 
     /* Color RAM.  */
-    if (snapshot_module_write_byte_array(m, mem_ram + 0x9400, 0x800) < 0)
+    if (SMW_BA(m, mem_ram + 0x9400, 0x800) < 0)
         goto fail;
 
     for (i = 0; i < 0x10; i++)
-        if (snapshot_module_write_byte(m, (BYTE)vic.regs[i]) < 0)
+        if (SMW_B(m, (BYTE)vic.regs[i]) < 0)
             goto fail;
 
     return snapshot_module_close(m);
@@ -101,7 +101,7 @@ int vic_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    if (snapshot_module_read_byte(m, &b) < 0)
+    if (SMR_B(m, &b) < 0)
         goto fail;
     if (b != VIC_RASTER_CYCLE(maincpu_clk)) {
         log_error(vic.log, "Cycle value (%d) incorrect; should be %d.",
@@ -109,7 +109,7 @@ int vic_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    if (snapshot_module_read_word(m, &w) < 0)
+    if (SMR_W(m, &w) < 0)
         goto fail;
 
     if (w != VIC_RASTER_Y(maincpu_clk)) {
@@ -118,20 +118,20 @@ int vic_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    if (snapshot_module_read_word(m, &w) < 0)
+    if (SMR_W(m, &w) < 0)
         goto fail;
 
     vic.memptr = w;
 
     /* Color RAM.  */
-    if (snapshot_module_read_byte_array(m, mem_ram + 0x9400, 0x800) < 0)
+    if (SMR_BA(m, mem_ram + 0x9400, 0x800) < 0)
         goto fail;
 
     vic.last_emulate_line_clk = maincpu_clk - VIC_RASTER_CYCLE(maincpu_clk);
     vic.draw_clk = vic.last_emulate_line_clk + vic.cycles_per_line;
 
     for (i = 0; i < 0x10; i++) {
-        if (snapshot_module_read_byte(m, &b) < 0)
+        if (SMR_B(m, &b) < 0)
             goto fail;
 
         /* XXX: This assumes that there are no side effects.  */

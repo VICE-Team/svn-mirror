@@ -69,13 +69,9 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
     resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
-    if (snapshot_module_write_byte_array(m, mem_kernal_rom,
-                                         C64_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, mem_basic_rom,
-                                            C64_BASIC_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, mem_chargen_rom,
-                                            C64_CHARGEN_ROM_SIZE) < 0
-        )
+    if (SMW_BA(m, mem_kernal_rom, C64_KERNAL_ROM_SIZE) < 0
+        || SMW_BA(m, mem_basic_rom, C64_BASIC_ROM_SIZE) < 0
+        || SMW_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0)
         goto fail;
 
     /* FIXME: save cartridge ROM (& RAM?) areas:
@@ -133,13 +129,9 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
-    if (snapshot_module_read_byte_array(m, mem_kernal_rom,
-                                        C64_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, mem_basic_rom,
-                                           C64_BASIC_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, mem_chargen_rom,
-                                           C64_CHARGEN_ROM_SIZE) < 0
-        )
+    if (SMR_BA(m, mem_kernal_rom, C64_KERNAL_ROM_SIZE) < 0
+        || SMR_BA(m, mem_basic_rom, C64_BASIC_ROM_SIZE) < 0
+        || SMR_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0)
         goto fail;
 
     /* FIXME: read cartridge ROM (& RAM?) areas:
@@ -184,11 +176,11 @@ int c64_snapshot_write_module(snapshot_t *s, int save_roms)
     if (m == NULL)
         return -1;
 
-    if (snapshot_module_write_byte(m, pport.data) < 0
-        || snapshot_module_write_byte(m, pport.dir) < 0
-        || snapshot_module_write_byte(m, export.exrom) < 0
-        || snapshot_module_write_byte(m, export.game) < 0
-        || snapshot_module_write_byte_array(m, mem_ram, C64_RAM_SIZE) < 0)
+    if (SMW_B(m, pport.data) < 0
+        || SMW_B(m, pport.dir) < 0
+        || SMW_B(m, export.exrom) < 0
+        || SMW_B(m, export.game) < 0
+        || SMW_BA(m, mem_ram, C64_RAM_SIZE) < 0)
         goto fail;
 
     if (snapshot_module_close(m) < 0)
@@ -236,11 +228,11 @@ int c64_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    if (snapshot_module_read_byte(m, &pport.data) < 0
-        || snapshot_module_read_byte(m, &pport.dir) < 0
-        || snapshot_module_read_byte(m, &export.exrom) < 0
-        || snapshot_module_read_byte(m, &export.game) < 0
-        || snapshot_module_read_byte_array(m, mem_ram, C64_RAM_SIZE) < 0)
+    if (SMR_B(m, &pport.data) < 0
+        || SMR_B(m, &pport.dir) < 0
+        || SMR_B(m, &export.exrom) < 0
+        || SMR_B(m, &export.game) < 0
+        || SMR_BA(m, mem_ram, C64_RAM_SIZE) < 0)
         goto fail;
 
     mem_pla_config_changed();

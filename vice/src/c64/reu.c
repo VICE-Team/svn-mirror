@@ -669,9 +669,9 @@ int reu_write_snapshot_module(snapshot_t *s)
     if (m == NULL)
         return -1;
 
-    if (snapshot_module_write_dword(m, (reu_size >> 10)) < 0
-        || snapshot_module_write_byte_array(m, reu, sizeof(reu)) < 0
-        || snapshot_module_write_byte_array(m, reu_ram, reu_size) < 0) {
+    if (SMW_DW(m, (reu_size >> 10)) < 0
+        || SMW_BA(m, reu, sizeof(reu)) < 0
+        || SMW_BA(m, reu_ram, reu_size) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -698,7 +698,7 @@ int reu_read_snapshot_module(snapshot_t *s)
     }
 
     /* Read RAM size.  */
-    if (snapshot_module_read_dword(m, &size) < 0)
+    if (SMR_DW(m, &size) < 0)
         goto fail;
 
     if (size > 16384) {
@@ -711,8 +711,7 @@ int reu_read_snapshot_module(snapshot_t *s)
     if (!reu_enabled)
         set_reu_enabled((resource_value_t)1, NULL);
 
-    if (snapshot_module_read_byte_array(m, reu, sizeof(reu)) < 0
-        || snapshot_module_read_byte_array(m, reu_ram, reu_size) < 0)
+    if (SMR_BA(m, reu, sizeof(reu)) < 0 || SMR_BA(m, reu_ram, reu_size) < 0)
         goto fail;
 
     if (reu[REU_REG_R_STATUS] & 0x80)
