@@ -121,6 +121,7 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
     ram[addr] = value;
 }
 
+#if 0
 /* Encapsulate inlined function for other modules */
 void REGPARM2 vicii_mem_vbank_store(ADDRESS addr, BYTE value)
 {
@@ -152,6 +153,7 @@ void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
             &ted.idle_data,
             value);
 }
+#endif
 
 inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
                                                         int line)
@@ -386,7 +388,7 @@ inline static void store_ted07(ADDRESS addr, BYTE value)
                                             value & 0x7);
 #else
         raster_add_int_change_foreground(raster,
-                                         TED_RASTER_CHAR (cycle),
+                                         TED_RASTER_CHAR(cycle),
                                          &raster->xsmooth,
                                          value & 7);
 #endif
@@ -483,10 +485,10 @@ inline static void store_ted0a(ADDRESS addr, BYTE value)
 {
     int new_irq_line;
 
-    new_irq_line = ((ted.raster_irq_line & 0xff) | ((value & 0x80) << 1));
+    new_irq_line = ((ted.raster_irq_line & 0xff) | ((value & 1) << 8));
     ted_set_raster_irq(new_irq_line);
 
-    ted.regs[addr] = value & 0x5e;
+    ted.regs[addr] = value & 0x5f;
 
     if (ted.regs[addr] & ted.irq_status) {
         ted.irq_status |= 0x80;
@@ -583,7 +585,7 @@ inline static void store_ted15(ADDRESS addr, BYTE value)
 {
     int x_pos;
 
-    value &= 0xf;
+    value &= 0x7f;
 
     TED_DEBUG_REGISTER(("\tBackground #0 color register: $%02X\n",
                           value));
@@ -610,7 +612,7 @@ inline static void store_ted19(ADDRESS addr, BYTE value)
 {
     TED_DEBUG_REGISTER(("\tBorder color register: $%02X\n", value));
 
-    value &= 0xf;
+    value &= 0x7f;
 
     if (ted.regs[addr] != value) {
         ted.regs[addr] = value;
@@ -643,7 +645,7 @@ inline static void store_ext_background(ADDRESS addr, BYTE value)
     ted.regs[addr] = value;
 }
 
-/* Store a value in a VIC-II register.  */
+/* Store a value in a TED register.  */
 void REGPARM2 ted_store(ADDRESS addr, BYTE value)
 {
     addr &= 0x3f;
@@ -657,7 +659,6 @@ void REGPARM2 ted_store(ADDRESS addr, BYTE value)
        changes for the previous one.  */
     if (clk >= ted.draw_clk)
         ted_raster_draw_alarm_handler(clk - ted.draw_clk);
-
 
     switch (addr) {
       case 0x00:
@@ -711,7 +712,6 @@ void REGPARM2 ted_store(ADDRESS addr, BYTE value)
 }
 
 
-/* Helper function for reading from $D011/$D012.  */
 inline static unsigned int read_raster_y(void)
 {
     int raster_y;
@@ -745,15 +745,19 @@ inline static BYTE read_ted09(void)
         return ted.irq_status | 0x22;
 }
 
-inline static BYTE read_ted0a0b(ADDRESS addr)
+inline static BYTE read_ted0a(void)
+{
+    return ted.regs[0x0a] & 0x5f;
+
+}
+
+inline static BYTE read_ted1c1d(ADDRESS addr)
 {
     unsigned int tmp = (ted.screen_height + read_raster_y()
                        - ted.offset) % ted.screen_height;
 
-    TED_DEBUG_REGISTER(("\tRaster Line register %s value = $%04X\n",
-                          (addr == 0x0a ? "(highest bit) " : ""), tmp));
-    if (addr == 0x0a)
-        return (ted.regs[addr] & 0x7f) | ((tmp & 0x100) >> 1);
+    if (addr == 0x1c)
+        return (tmp & 0x100) >> 8;
     else
         return tmp & 0xff;
 
@@ -780,8 +784,10 @@ BYTE REGPARM1 ted_read(ADDRESS addr)
       case 0x09:
         return read_ted09();
       case 0x0a:
-      case 0x0b:
-        return read_ted0a0b(addr);
+        return read_ted0a();
+      case 0x1c:
+      case 0x1d:
+        return read_ted1c1d(addr);
     }
 
     return ted.regs[addr] | unused_bits_in_registers[addr];
@@ -794,6 +800,9 @@ BYTE REGPARM1 ted_peek(ADDRESS addr)
     switch (addr) {
       case 0x09:
         return read_ted09();
+      case 0x1c:
+      case 0x1d:
+        return read_ted1c1d(addr);
       default:
         return ted.regs[addr] | unused_bits_in_registers[addr];
     }
