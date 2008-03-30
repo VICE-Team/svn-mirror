@@ -675,10 +675,8 @@ double sound_flush(int relative_speed)
 		prev = now;
 	    }
 
-	    /* Calculate unused space in buffer. Leave two fragments since
-	       sound_suspend called from vsync_suspend_speed_eval below fills
-	       one fragment. */
-	    j = snddata.bufsize - 2*snddata.fragsize;
+	    /* Calculate unused space in buffer. Leave one fragment. */
+	    j = snddata.bufsize - snddata.fragsize;
 
 	    /* Fill up sound hardware buffer. */
 	    if (j > 0)
@@ -699,8 +697,8 @@ double sound_flush(int relative_speed)
 	    snddata.prevfill = j;
 
 	    /* Fresh start for vsync. */
-	    log_warning(LOG_DEFAULT, _("SOUND: Buffer drained - your machine is too slow for current settings!"));
-	    vsync_suspend_speed_eval();
+	    log_warning(LOG_DEFAULT, _("SOUND: Buffer drained"));
+	    vsync_sync_reset();
 	    return 0;
 	}
 	if (cycle_based || speed_adjustment_setting != SOUND_ADJUST_ADJUSTING) {

@@ -149,12 +149,14 @@ static long frame_ticks, frame_ticks_orig;
 
 static int timer_speed = 0;
 static int speed_eval_suspended = 1;
+static int sync_reset = 1;
 static CLOCK speed_eval_prev_clk;
 
 /* Initialize vsync timers and set relative speed of emulation in percent. */
 static int set_timer_speed(int speed)
 {
     speed_eval_suspended = 1;
+    vsync_sync_reset();
 
     if (speed > 0 && refresh_frequency > 0) {
         timer_speed = speed;
@@ -230,7 +232,15 @@ int vsync_disable_timer(void)
 void vsync_suspend_speed_eval(void)
 {
     sound_suspend();
+    vsync_sync_reset();
     speed_eval_suspended = 1;
+}
+
+/* This resets sync calculation after a "too slow" or "sound buffer
+   drained" case. */
+void vsync_sync_reset(void)
+{
+    sync_reset = 1;
 }
 
 /* This is called at the end of each screen frame. It flushes the
@@ -307,12 +317,8 @@ int vsync_do_vsync(int been_skipped)
     /* Start afresh after pause in frame output. */
     if (speed_eval_suspended) {
         speed_eval_suspended = 0;
-        speed_eval_prev_clk = clk;
 
-        adjust_start = now;
-        frames_adjust = 0;
-        min_sdelay = LONG_MAX;
-        prev_sdelay = 0;
+        speed_eval_prev_clk = clk;
 
         display_start = now;
         frame_counter = 0;
@@ -320,6 +326,16 @@ int vsync_do_vsync(int been_skipped)
 
         next_frame_start = now;
         skipped_redraw = 0;
+    }
+
+    /* Start afresh after "out of sync" cases. */
+    if (sync_reset) {
+        sync_reset = 0;
+
+	adjust_start = now;
+	frames_adjust = 0;
+	min_sdelay = LONG_MAX;
+	prev_sdelay = 0;
 
 	frame_ticks = frame_ticks_orig;
     }
@@ -382,7 +398,7 @@ int vsync_do_vsync(int been_skipped)
             log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
         }
 #endif
-	vsync_suspend_speed_eval();
+	vsync_sync_reset();
     }
 
     /* Adjust frame output frequency to match sound speed.
@@ -391,7 +407,7 @@ int vsync_do_vsync(int been_skipped)
         frames_adjust++;
     }
 
-    if ((signed long)(now - adjust_start) >= 3*vsyncarch_freq)
+    if ((signed long)(now - adjust_start) >= vsyncarch_freq)
     {
         if (min_sdelay != LONG_MAX) { 
 	    /* Account for both relative and absolute delay. */

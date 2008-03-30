@@ -255,6 +255,11 @@ void vsync_suspend_speed_eval(void)
     speed_eval_suspended = 1;
 }
 
+void vsync_sync_reset(void)
+{
+    speed_eval_suspended = 1;
+}
+
 static void calc_avg_performance(int num_frames)
 {
     static double prev_time;

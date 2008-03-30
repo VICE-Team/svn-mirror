@@ -28,6 +28,7 @@
 #define _VSYNC_H
 
 extern void vsync_suspend_speed_eval(void);
+extern void vsync_sync_reset(void);
 extern int vsync_init_resources(void);
 extern int vsync_init_cmdline_options(void);
 extern void vsync_init(void (*hook)(void));

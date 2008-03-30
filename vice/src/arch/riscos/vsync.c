@@ -127,6 +127,11 @@ void vsync_suspend_speed_eval(void)
   speed_eval_suspended = 1;
 }
 
+void vsync_sync_reset(void)
+{
+  speed_eval_suspended = 1;
+}
+
 
 static resource_t resources[] = {
   {"RefreshRate", RES_INTEGER, (resource_value_t)0,
