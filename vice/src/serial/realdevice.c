@@ -38,7 +38,7 @@
 #include <opencbm.h>
 
 
-static log_t realdevice_log = LOG_ERR;
+static log_t realdevice_log = LOG_DEFAULT;
 
 static unsigned int realdevice_enabled = 0;
 
@@ -131,8 +131,8 @@ int realdevice_enable(void)
     if (!realdevice_enabled) {
         if (cbm_driver_open(&realdevice_fd, 0) < 0) {
             log_warning(realdevice_log,
-                   "Cannot open %s, realdevice not available",
-                   cbm_get_driver_name(0));
+                        "Cannot open %s, realdevice not available",
+                        cbm_get_driver_name(0));
             return -1;
         }
 
