@@ -32,12 +32,11 @@
 #include "cbm2iec.h"
 #include "drive.h"
 #include "iecdrive.h"
-#include "log.h"
 #include "types.h"
+
 
 void cbm2iec_init(void)
 {
-
 }
 
 void iec_update_ports(void)
@@ -50,35 +49,9 @@ void iec_update_ports_embedded(void)
     iec_update_ports();
 }
 
-void iec_drive0_write(BYTE data)
-{
-    log_error(LOG_DEFAULT, "BUG: iec_drive0_write(%02x).", data);
-}
-
-void iec_drive1_write(BYTE data)
-{
-    log_error(LOG_DEFAULT, "BUG: iec_drive1_write(%02x).", data);
-}
-
-BYTE iec_drive0_read(void)
-{
-    log_error(LOG_DEFAULT, "BUG: iec_drive0_read().");
-    return 0;
-}
-
-BYTE iec_drive1_read(void)
-{
-    log_error(LOG_DEFAULT, "BUG: iec_drive1_read().");
-    return 0;
-}
-
 iec_info_t *iec_get_drive_port(void)
 {
     return NULL;
-}
-
-void iec_fast_drive_direction(int direction, unsigned int dnr)
-{
 }
 
 void parallel_cable_drive0_write(BYTE data, int handshake)
@@ -87,11 +60,6 @@ void parallel_cable_drive0_write(BYTE data, int handshake)
 
 void parallel_cable_drive1_write(BYTE data, int handshake)
 {
-}
-
-BYTE parallel_cable_drive_read(int handshake)
-{
-    return 0;
 }
 
 int iec_available_busses(void)

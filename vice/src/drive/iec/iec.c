@@ -34,12 +34,14 @@
 #include "iec-cmdline-options.h"
 #include "iec-resources.h"
 #include "iec.h"
+#include "iecdrive.h"
 #include "iecrom.h"
 #include "jobcode1581.h"
 #include "lib.h"
 #include "memiec.h"
 #include "resources.h"
 #include "types.h"
+#include "viad.h"
 #include "wd1770.h"
 
 
@@ -61,6 +63,7 @@ int iec_drive_cmdline_options_init(void)
 void iec_drive_init(struct drive_context_s *drv)
 {
     iecrom_init();
+    via1d1541_init(drv);
     cia1571_init(drv);
     cia1581_init(drv);
     wd1770d_init(drv);
@@ -69,6 +72,7 @@ void iec_drive_init(struct drive_context_s *drv)
 
 void iec_drive_reset(struct drive_context_s *drv)
 {
+    viacore_reset(&(drv->via1d1541));
     ciacore_reset(&(drv->cia1571));
     ciacore_reset(&(drv->cia1581));
     wd1770d_reset(drv);
@@ -81,6 +85,17 @@ void iec_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 
 void iec_drive_setup_context(struct drive_context_s *drv)
 {
+    if (drv->mynumber == 0) {
+        drv->func.iec_write = iec_drive0_write;
+        drv->func.iec_read = iec_drive0_read;
+        drv->func.parallel_cable_write = parallel_cable_drive0_write;
+    } else {
+        drv->func.iec_write = iec_drive1_write;
+        drv->func.iec_read = iec_drive1_read;
+        drv->func.parallel_cable_write = parallel_cable_drive1_write;
+    }
+
+    via1d1541_setup_context(drv);
     cia1571_setup_context(drv);
     cia1581_setup_context(drv);
 }
@@ -137,6 +152,13 @@ void iec_drive_rom_do_checksum(unsigned int dnr)
 int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
                             struct snapshot_s *s)
 {
+    if (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
+        || ctxptr->drive_ptr->type == DRIVE_TYPE_1541II
+        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
+        if (viacore_snapshot_read_module(&(ctxptr->via1d1541), s) < 0)
+            return -1;
+    }
+
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
         if (ciacore_snapshot_read_module(&(ctxptr->cia1571), s) < 0)
             return -1;
@@ -153,6 +175,13 @@ int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
 int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
                              struct snapshot_s *s)
 {
+    if (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
+        || ctxptr->drive_ptr->type == DRIVE_TYPE_1541II
+        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
+        if (viacore_snapshot_write_module(&(ctxptr->via1d1541), s) < 0)
+            return -1;
+    }
+
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
         if (ciacore_snapshot_write_module(&(ctxptr->cia1571), s) < 0)
             return -1;

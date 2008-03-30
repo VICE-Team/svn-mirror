@@ -34,6 +34,7 @@
 #include "ieee.h"
 #include "ieeerom.h"
 #include "memieee.h"
+#include "parallel.h"
 #include "riotd.h"
 #include "types.h"
 #include "viad.h"
@@ -57,6 +58,7 @@ int ieee_drive_cmdline_options_init(void)
 void ieee_drive_init(struct drive_context_s *drv)
 {
     ieeerom_init();
+    via1d2031_init(drv);
     fdc_init(drv);
     riot1_init(drv);
     riot2_init(drv);
@@ -64,6 +66,7 @@ void ieee_drive_init(struct drive_context_s *drv)
 
 void ieee_drive_reset(struct drive_context_s *drv)
 {
+    viacore_reset(&(drv->via1d2031));
     fdc_reset(drv->mynumber, drv->drive_ptr->type);
     riot1_reset(drv);
     riot2_reset(drv);
@@ -76,6 +79,21 @@ void ieee_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 
 void ieee_drive_setup_context(struct drive_context_s *drv)
 {
+    if (drv->mynumber == 0) {
+        drv->func.parallel_set_bus = parallel_drv0_set_bus;
+        drv->func.parallel_set_eoi = parallel_drv0_set_eoi;
+        drv->func.parallel_set_dav = parallel_drv0_set_dav;
+        drv->func.parallel_set_ndac = parallel_drv0_set_ndac;
+        drv->func.parallel_set_nrfd = parallel_drv0_set_nrfd;
+    } else {
+        drv->func.parallel_set_bus = parallel_drv1_set_bus;
+        drv->func.parallel_set_eoi = parallel_drv1_set_eoi;
+        drv->func.parallel_set_dav = parallel_drv1_set_dav;
+        drv->func.parallel_set_ndac = parallel_drv1_set_ndac;
+        drv->func.parallel_set_nrfd = parallel_drv1_set_nrfd;
+    }
+
+    via1d2031_setup_context(drv);
     riot1_setup_context(drv);
     riot2_setup_context(drv);
 }
@@ -111,6 +129,11 @@ void ieee_drive_rom_do_checksum(unsigned int dnr)
 int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
                              struct snapshot_s *s)
 {
+    if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
+        if (viacore_snapshot_read_module(&(ctxptr->via1d2031), s) < 0)
+            return -1;
+    }
+
     if (DRIVE_IS_OLDTYPE(ctxptr->drive_ptr->type)) {
         if (riot1_snapshot_read_module(ctxptr, s) < 0
             || riot2_snapshot_read_module(ctxptr, s) < 0
@@ -124,6 +147,11 @@ int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
 int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
                               struct snapshot_s *s)
 {
+    if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
+        if (viacore_snapshot_write_module(&(ctxptr->via1d2031), s) < 0)
+            return -1;
+    }
+
     if (DRIVE_IS_OLDTYPE(ctxptr->drive_ptr->type)) {
         if (riot1_snapshot_write_module(ctxptr, s) < 0
             || riot2_snapshot_write_module(ctxptr, s) < 0
@@ -146,13 +174,13 @@ int ieee_drive_image_detach(struct disk_image_s *image, unsigned int unit)
 
 void ieee_drive0_parallel_set_atn(int state)
 {
-    drive_via_set_atn(&(drive0_context.via1), state);
+    via1d2031_set_atn(&(drive0_context.via1d2031), state);
     drive0_riot_set_atn(state);
 }
 
 void ieee_drive1_parallel_set_atn(int state)
 {
-    drive_via_set_atn(&(drive1_context.via1), state);
+    via1d2031_set_atn(&(drive1_context.via1d2031), state);
     drive1_riot_set_atn(state);
 }
 

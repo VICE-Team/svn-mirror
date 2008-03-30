@@ -900,27 +900,6 @@ static void drive_setup_context_for_drive(drive_context_t *drv, int number)
     drv->clk_ptr = &drive_clk[number];
     drv->drive_ptr = &drive[number];
 
-    /* setup shared function pointers */
-    if (number == 0) {
-        drv->func.iec_write = iec_drive0_write;
-        drv->func.iec_read = iec_drive0_read;
-        drv->func.parallel_cable_write = parallel_cable_drive0_write;
-        drv->func.parallel_set_bus = parallel_drv0_set_bus;
-        drv->func.parallel_set_eoi = parallel_drv0_set_eoi;
-        drv->func.parallel_set_dav = parallel_drv0_set_dav;
-        drv->func.parallel_set_ndac = parallel_drv0_set_ndac;
-        drv->func.parallel_set_nrfd = parallel_drv0_set_nrfd;
-    } else {
-        drv->func.iec_write = iec_drive1_write;
-        drv->func.iec_read = iec_drive1_read;
-        drv->func.parallel_cable_write = parallel_cable_drive1_write;
-        drv->func.parallel_set_bus = parallel_drv1_set_bus;
-        drv->func.parallel_set_eoi = parallel_drv1_set_eoi;
-        drv->func.parallel_set_dav = parallel_drv1_set_dav;
-        drv->func.parallel_set_ndac = parallel_drv1_set_ndac;
-        drv->func.parallel_set_nrfd = parallel_drv1_set_nrfd;
-    }
-
     drive_cpu_setup_context(drv);
     machine_drive_setup_context(drv);
 }
