@@ -211,7 +211,7 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
     DWORD *table_ptr;
     BYTE *char_ptr;
     unsigned int i;
-    int cursor_pos=-1;
+    int cursor_pos = -1;
 
     table_ptr = hr_table + (ted.raster.background_color << 4);
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
@@ -233,7 +233,7 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
                 d = *(char_ptr + ted.vbuf[i] * 8);
             }
 
-            if (i == cursor_pos)
+            if (i == (int)cursor_pos)
                 d ^= 0xff;
 
             *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
@@ -247,10 +247,10 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
             if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
                 d = 0;
             } else {
-                d = *(char_ptr + (ted.vbuf[i]&0x7f) * 8)
+                d = *(char_ptr + (ted.vbuf[i] & 0x7f) * 8)
                     ^ (ted.vbuf[i] & 0x80 ? 0xff : 0x00);
             }
-            if (i == cursor_pos)
+            if (i == (int)cursor_pos)
                 d ^= 0xff;
 
             *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
@@ -329,15 +329,14 @@ static void draw_std_text_foreground(unsigned int start_char,
 
     if (ted.reverse_mode) {
         for (i = start_char; i <= end_char; i++, p += 8) {
-            BYTE b;
-            BYTE f;
+            BYTE b, f;
 
             if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
                 b = 0;
             } else {
                 b = char_ptr[ted.vbuf[i] * 8];
             }
-            if (i == cursor_pos)
+            if (i == (int)cursor_pos)
                 b ^= 0xff;
             f = ted.cbuf[i] & 0x7f;
 
@@ -345,16 +344,15 @@ static void draw_std_text_foreground(unsigned int start_char,
         }
     } else {
         for (i = start_char; i <= end_char; i++, p += 8) {
-            BYTE b;
-            BYTE f;
+            BYTE b, f;
 
             if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
                 b=0;
             } else {
                 b = char_ptr[(ted.vbuf[i] & 0x7f) * 8]
-                    ^ (ted.vbuf[i]&0x80 ? 0xff : 0x00);
+                    ^ (ted.vbuf[i] & 0x80 ? 0xff : 0x00);
             }
-            if (i == cursor_pos)
+            if (i == (int)cursor_pos)
                 b ^= 0xff;
             f = ted.cbuf[i] & 0x7f;
 

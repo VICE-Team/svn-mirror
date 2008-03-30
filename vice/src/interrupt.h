@@ -104,7 +104,7 @@ struct cpu_int_status_s {
     void *trap_data;
 
     /* Pointer to the last executed opcode information.  */
-    DWORD *last_opcode_info_ptr;
+    unsigned int *last_opcode_info_ptr;
 
     /* Number of cycles we have stolen to the processor last time.  */
     int num_last_stolen_cycles;
@@ -251,7 +251,7 @@ extern void interrupt_monitor_trap_on(cpu_int_status_t *cs);
 extern void interrupt_monitor_trap_off(cpu_int_status_t *cs);
 
 extern void interrupt_cpu_status_init(cpu_int_status_t *cs, int num_ints,
-                                      DWORD *last_opcode_info_ptr);
+                                      unsigned int *last_opcode_info_ptr);
 extern void interrupt_cpu_status_time_warp(cpu_int_status_t *cs,
                                            CLOCK warp_amount,
                                            int warp_direction);

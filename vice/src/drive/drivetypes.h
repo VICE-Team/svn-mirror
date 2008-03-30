@@ -88,7 +88,7 @@ typedef struct drivecpu_context_s {
     int d_bank_limit;     /* init to -1 */
 
     /* Information about the last executed opcode.  */
-    DWORD last_opcode_info;
+    unsigned int last_opcode_info;
 
     /* Public copy of the registers.  */
     mos6510_regs_t cpu_regs;

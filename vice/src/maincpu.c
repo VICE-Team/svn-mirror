@@ -167,7 +167,7 @@ int maincpu_rmw_flag = 0;
    number of write cycles in the last executed opcode and to delay interrupts
    by one more cycle if necessary, as happens with conditional branch opcodes
    when the branch is taken.  */
-DWORD last_opcode_info;
+unsigned int last_opcode_info;
 
 /* Number of write cycles for each 6510 opcode.  */
 CLOCK _maincpu_opcode_write_cycles[] = {
@@ -403,7 +403,7 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
         || SMW_W(m, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
         || SMW_B(m, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
-        || SMW_DW(m, last_opcode_info) < 0)
+        || SMW_DW(m, (DWORD)last_opcode_info) < 0)
         goto fail;
 
     if (interrupt_write_snapshot(&maincpu_int_status, m) < 0)
@@ -441,7 +441,7 @@ int maincpu_snapshot_read_module(snapshot_t *s)
         || SMR_B(m, &sp) < 0
         || SMR_W(m, &pc) < 0
         || SMR_B(m, &status) < 0
-        || SMR_DW(m, &last_opcode_info) < 0)
+        || SMR_DW(m, (DWORD *)&last_opcode_info) < 0)
         goto fail;
 
     MOS6510_REGS_SET_A(&maincpu_regs, a);

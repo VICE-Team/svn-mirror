@@ -147,7 +147,7 @@ inline static int z80mem_read_limit(int addr)
 
 /* ------------------------------------------------------------------------- */
 
-static DWORD z80_last_opcode_info;
+static unsigned int z80_last_opcode_info;
 
 #define LAST_OPCODE_INFO z80_last_opcode_info
 
