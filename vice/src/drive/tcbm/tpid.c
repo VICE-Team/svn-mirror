@@ -31,6 +31,8 @@ struct drive_context_s;
 #define TPICONTEXT struct drive_context_s
 
 #include "drivetypes.h"
+#include "iecdrive.h"
+#include "interrupt.h"
 #include "tpi.h"
 #include "tpicore.h"
 #include "tpid.h"
@@ -58,6 +60,15 @@ struct drive_context_s;
 #define tpi_last_read   (ctxptr->tpid.tpi_last_read)
 #define tpi_int_num     (ctxptr->tpid.tpi_int_num)
 
+#define oldpa (ctxptr->tpid.oldpa)
+#define oldpb (ctxptr->tpid.oldpb)
+#define oldpc (ctxptr->tpid.oldpc)
+
+#define ca_state (ctxptr->tpid.ca_state)
+#define cb_state (ctxptr->tpid.cb_state)
+
+#define mytpi_log       (ctxptr->tpid.log)
+
 
 /*----------------------------------------------------------------------*/
 /* CPU binding */
@@ -68,6 +79,16 @@ struct drive_context_s;
 #define mycpu_rmw_flag (ctxptr->cpu.rmw_flag)
 #define myclk (*(ctxptr->clk_ptr))
 #define mycpu_int_status (ctxptr->cpu.int_status)
+
+void tpid_setup_context(drive_context_t *ctxptr)
+{
+    sprintf(ctxptr->tpid.myname, "Drive%dTPI", ctxptr->mynumber);
+    irq_previous = 0;
+    irq_stack = 0;
+    tpi_last_read = 0;
+    tpi_int_num = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+                                               ctxptr->tpid.myname);
+}
 
 /*----------------------------------------------------------------------*/
 /* I/O */
@@ -82,14 +103,19 @@ _TPI_FUNC void tpi_set_cb(TPI_CONTEXT_PARAM int a)
 
 _TPI_FUNC void _tpi_reset(TPI_CONTEXT_PARVOID)
 {
+    plus4tcbm_update_pa(0xff, ctxptr->mynumber);
+    plus4tcbm_update_pb(0xff, ctxptr->mynumber);
+    plus4tcbm_update_pc(0xff, ctxptr->mynumber);
 }
 
 _TPI_FUNC void store_pa(TPI_CONTEXT_PARAM BYTE byte)
 {
+    plus4tcbm_update_pa(byte, ctxptr->mynumber);
 }
 
 _TPI_FUNC void store_pb(TPI_CONTEXT_PARAM BYTE byte)
 {
+    plus4tcbm_update_pb(byte, ctxptr->mynumber);
 }
 
 _TPI_FUNC void undump_pa(TPI_CONTEXT_PARAM BYTE byte)
@@ -102,6 +128,7 @@ _TPI_FUNC void undump_pb(TPI_CONTEXT_PARAM BYTE byte)
 
 _TPI_FUNC void store_pc(TPI_CONTEXT_PARAM BYTE byte)
 {
+    plus4tcbm_update_pc(byte, ctxptr->mynumber);
 }
 
 _TPI_FUNC void undump_pc(TPI_CONTEXT_PARAM BYTE byte)
@@ -110,29 +137,49 @@ _TPI_FUNC void undump_pc(TPI_CONTEXT_PARAM BYTE byte)
 
 _TPI_FUNC BYTE read_pa(TPI_CONTEXT_PARVOID)
 {
+    /* TCBM data port */
     BYTE byte;
 
-    byte = (0xff & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
+#if 0
+    log_debug("TPI READ DATA %02x DDR %02x TCBM %02x",
+              tpi[TPI_PA], tpi[TPI_DDPA], plus4tcbm_outputa[ctxptr->mynumber]);
+#endif
+    byte = (tpi[TPI_PA] | ~tpi[TPI_DDPA]) & plus4tcbm_outputa[ctxptr->mynumber];
 
     return byte;
 }
 
 _TPI_FUNC BYTE read_pb(TPI_CONTEXT_PARVOID)
 {
+    /* GCR data port */
     BYTE byte;
 
-    byte = (0xff & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
+    byte = (tpi[TPI_PB] | ~tpi[TPI_DDPB]);
 
     return byte;
 }
 
 _TPI_FUNC BYTE read_pc(TPI_CONTEXT_PARVOID)
 {
+    /* TCBM control / GCR data control */
     BYTE byte;
 
-    byte = (0xff & ~tpi[TPI_DDPC]) | (tpi[TPI_PC] & tpi[TPI_DDPC]);
+    byte = (tpi[TPI_PC] | ~tpi[TPI_DDPC])
+           /* Bit 0, 1 */
+           & (plus4tcbm_outputb[ctxptr->mynumber] | ~0x03)
+           /* Bit 3 */
+           & ((plus4tcbm_outputc[ctxptr->mynumber] >> 4) | ~0x08)
+           /* Bit 5 */
+           & (ctxptr->mynumber ? 0xff : ~0x20)
+           /* Bit 7 */
+           & ((plus4tcbm_outputc[ctxptr->mynumber] << 1) | ~0x80);
 
     return byte;
+}
+
+void tpid_init(drive_context_t *ctxptr)
+{
+    mytpi_log = log_open(MYTPI_NAME);
 }
 
 #include "tpicore.c"

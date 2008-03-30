@@ -1,3 +1,37 @@
+2003-05-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.43.
+
+	* drive/tcbm/tia1551.h, drive/tcbm/tia1551.h: Removed.
+
+	* drive/tcbm/Makefile.am, arch/win32/tcbm.dsp: Updated.
+
+	* drive/drivemem.c (drive_ioreg_list_get): Changed TIA to TPI.
+
+	* drive/tcbm.h, iecdrive.h, plus4/plus4tcbm.c: Changed to TPI
+	interface.
+
+	* tpicore.c (mytpi_read): Mask address.
+
+	* drive/tcbm/glue1551.c (glue1551d0_timer, glue1551d1_timer):
+	Subtract offset.
+
+2003-05-06  John Selck  <selck_j@informatik.haw-hamburg.de>
+
+	* arch/win32/videoarch.h: Added render_surface to
+	video_canvas_t. Added create_single_surface() and
+	create_triple_surface() prototypes.
+
+	* arch/win32/video.c: Added new function attach_clipper(),
+	create_temporary_surface(), create_single_surface() and
+	create_triple_surface().
+	video_canvas_create() now uses create_single_surface()
+	instead of own surface and clipper code.
+
+	* arch/win32/fullscreen.c: SwitchToFullscreenMode() and
+	SwitchToWindowedMode() now use create_single_surface()
+	instead of own surface and clipper code.
+
 2003-05-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.42.
