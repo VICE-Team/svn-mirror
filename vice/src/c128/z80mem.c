@@ -165,22 +165,22 @@ void REGPARM2 bios_store(ADDRESS addr, BYTE value)
 
 static BYTE REGPARM1 z80_read_zero(ADDRESS addr)
 {
-    return page_zero[addr];
+    return mem_page_zero[addr];
 }
 
 static void REGPARM2 z80_store_zero(ADDRESS addr, BYTE value)
 {
-    page_zero[addr] = value;
+    mem_page_zero[addr] = value;
 }
 
 static BYTE REGPARM1 read_one(ADDRESS addr)
 {
-    return page_one[addr - 0x100];
+    return mem_page_one[addr - 0x100];
 }
 
 static void REGPARM2 store_one(ADDRESS addr, BYTE value)
 {
-    page_one[addr - 0x100] = value;
+    mem_page_one[addr - 0x100] = value;
 }
 
 static BYTE REGPARM1 read_unconnected_io(ADDRESS addr)

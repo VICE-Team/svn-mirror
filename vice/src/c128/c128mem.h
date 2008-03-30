@@ -85,7 +85,7 @@ extern void REGPARM2 kernal_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 chargen_read(ADDRESS addr);
 extern void REGPARM2 chargen_store(ADDRESS addr, BYTE value);
 
-extern BYTE *page_zero, *page_one, *ram_bank;
+extern BYTE *ram_bank;
 
 extern BYTE basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
 extern BYTE kernal_rom[C128_KERNAL_ROM_SIZE];
