@@ -131,7 +131,6 @@ libcbm2_a_SOURCES = \
 	c610cia1.c \
 	c610cia1.def \
 	c610cpu.c \
-	c610cpu.def \
 	c610iec.c \
 	c610mem.c \
 	c610mem.h \
@@ -141,7 +140,7 @@ libcbm2_a_SOURCES = \
 	c610tpi2.c \
 	c610tpi2.def
 
-BUILT_SOURCES = c610acia1.c c610tpi1.c c610tpi2.c c610cia1.c crtc.c c610cpu.c
+BUILT_SOURCES = c610acia1.c c610tpi1.c c610tpi2.c c610cia1.c crtc.c 
 
 c610dir = $(top_srcdir)/src/cbm2
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -334,14 +333,13 @@ c610cia1.o: c610cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
 	c610cia.h c610tpi.h
 c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
-	../../src/types.h ../../src/snapshot.h ../../src/mon.h \
-	../../src/mos6510.h ../../src/interrupt.h ../../src/vmachine.h \
-	../../src/log.h ../../src/machine.h ../../src/resources.h \
-	../../src/traps.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
-	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
-	../../src/6510core.c
+	../../src/types.h ../../src/mem.h ../../src/snapshot.h \
+	../maincpu.c ../vice.h ../maincpu.h ../6510core.h ../mem.h \
+	../types.h ../mon.h ../mos6510.h ../interrupt.h ../vmachine.h \
+	../snapshot.h ../log.h ../machine.h ../resources.h ../traps.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h ../vdrive.h ../fs_cbm.h ../serial.h \
+	../6510core.c
 c610iec.o: c610iec.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/drive/drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
@@ -500,14 +498,6 @@ crtc.c: crtc.def $(top_srcdir)/src/crtc-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	           $(top_srcdir)/src/crtc-tmpl.c \
 	           $(c610dir)/crtc.def $(c610dir)/crtc.c; \
-	   fi )
-
-c610cpu.c: c610cpu.def $(top_srcdir)/src/cpu-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c610cpu.c'..."; \
-	   if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/cpu-tmpl.c \
-	           $(c610dir)/c610cpu.def $(c610dir)/c610cpu.c; \
 	   fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

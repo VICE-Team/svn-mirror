@@ -1,3 +1,87 @@
+1999-02-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.21.
+
+1998-02-05  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* data/C128/Makefile.am [c128_DATA]: added file default.vrs
+
+	* data/C128/default.vrs: new file
+
+	* Makefile.am (maincpu_sources): remove maincpu.def
+	(EXTRA_DIST): remove cpu-tmpl.c
+	(BUILT_SOURCES): remove maincpu.c
+
+	* arch/unix/xaw/c128ui.c (c128_romset_submenu): new submenu to 
+	load ROMs/romsets
+	(c128_menu): add "Memory settings" submenu for romsets
+
+	* c128/Makefile.am (libc128_a_SOURCES): remove c128cpu.def
+	(BUILT_SOURCES): remove c128cpu.c
+
+	* c128/c128cpu.c: Only a few lines left and an include of maincpu.c
+
+	* c128/c128mem.c (mem_load_kernal, mem_load_basic, mem_load_chargen):
+	new functions to load ROMs from resource names.
+	(set_chargen_rom_name, set_kernal_rom_name, set_basic_rom_name):
+	call mem_load_*() functions to load ROMs when resources change.
+	(mem_load): call mem_load_*() functions to actually load the ROMs.
+
+	* cbm2/c610mem.c, pet/petmem.c, vic20/vic20mem.c (mem_load): return 
+	with error when any of the mem_load_*() functions fail.
+
+	* cpu-tmpl.c, maincpu.def: removed files
+
+	* maincpu.c: define INSTRUCTION_FETCH_HACK only if "Veto" define
+	NO_INSTRUCTION_FETCH_HACK is not defined (needed in x128)
+
+	* romset.c (romset_load): do not call mem_load() anymore - setting
+	the resources does the trick already.
+
+	* TODO: Added a wishlist for future development (not in the works,
+	no promises, after 1.0 anyway.)
+
+1998-02-04  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/msdos/menudefs.c (quit_callback): change serial_remove to
+	serial_remove_file.
+
+	* cbm2/Makefile.am (libcbm2_a_SOURCES, BUILT_SOURCES): 
+	remove c610cpu.def. Also 
+	(c610cpu.c): not built anymore
+
+	* cbm2/c610cpu.def: removed file
+
+	* cbm2/c610cpu.c: not the generated file anymore; now just defined
+	what's different in cbm-II and includes maincpu.c
+
+	* cbm2/c610mem.c (bank_base, bank_limit, old_reg_pc): new variables 
+	for bank change handling.
+	(set_bank_exec): set bank_limit and bank_base when execution bank
+	changes.
+	(mem_load): fill $f0800-$f1000 with $ff as well.
+	(mem_set_bank_pointer): new function to set addresses to bank_base 
+	and bank_limit.
+
+	* romset.c (rosmet_dump): change s to const char, removing some
+	compile warnings.
+
+1998-02-04  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/vic20ui.c (vic20_romset_submenu): new entries to
+	load system ROMs
+
+	* vic20/vic20mem.c (mem_romset_resources_list): add cartridge
+	resources
+	(mem_load_kernal, mem_load_basic, mem_load_chargen):
+	new functions to load the appropriate ROM image
+	loads only when roms_loaded has been set in mem_load, after init.
+	(set_chargen_rom_name, int set_kernal_rom_name, set_basic_rom_name):
+	call functions to actually load ROMs when the resource is 
+	changed
+	(mem_load): call mem_load_{kernal|basic|chargen} instead of
+	loading the ROMs itself.
+
 1999-02-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.20.
