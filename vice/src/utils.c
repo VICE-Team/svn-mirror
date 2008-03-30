@@ -26,15 +26,16 @@
 
 #include "vice.h"
 
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
+#include <ctype.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <stdarg.h>
-#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #ifdef HAVE_VFORK_H
 #include <vfork.h>
@@ -57,7 +58,7 @@ void *xmalloc(size_t size)
 
     if (p == NULL) {
 	fprintf(stderr,
-		"Virtual memory exhausted: cannot allocate %lud bytes.\n",
+		"Virtual memory exhausted: cannot allocate %lu bytes.\n",
 		(unsigned long)size);
 	exit(-1);
     }
@@ -72,7 +73,7 @@ void *xrealloc(void *p, size_t size)
 
     if (new_p == NULL) {
 	fprintf(stderr,
-		"Virtual memory exhausted: cannot allocate %lud bytes.\n",
+		"Virtual memory exhausted: cannot allocate %lu bytes.\n",
 		(unsigned long)size);
 	exit(-1);
     }
@@ -193,7 +194,7 @@ int string_to_long(const char *str, const char **endptr, int base,
     const char *sp, *ep;
     long weight, value;
     long sign;
-    char last_letter;
+    char last_letter = 0;       /* Initialize to make compiler happy.  */
     char c;
 
     if (base > 10)
@@ -343,8 +344,11 @@ char *get_current_dir(void)
     char *p = (char *) xmalloc(len);
 
     while (getcwd(p, len) == NULL) {
-	len *= 2;
-	p = (char *) xrealloc(p, len);
+        if (errno == ERANGE) {
+            len *= 2;
+            p = (char *) xrealloc(p, len);
+        } else
+            return NULL;
     }
 
     return p;
