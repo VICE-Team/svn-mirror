@@ -230,7 +230,12 @@ struct vicii_s {
     /* Video memory pointers.  Changed for drawing.  */
     BYTE *screen_ptr;
     BYTE *chargen_ptr;
-    BYTE *bitmap_ptr;
+
+    /* Pointer to the bitmap (lower part)  */
+    BYTE *bitmap_low_ptr;
+
+    /* Pointer to the bitmap (higher part)  */
+    BYTE *bitmap_high_ptr;
 
     /* Video memory pointers.  Changed immediately.  */
     BYTE *screen_base;
