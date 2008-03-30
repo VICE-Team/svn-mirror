@@ -99,23 +99,28 @@ static int set_ram_a_enabled(resource_value_t v, void *param)
 static int set_ramsize(resource_value_t v, void *param)
 {
     int size = (int) v;
-    int i, sizes[] = { 4, 8, 16, 32, 96, 128 };
+    int i;
+    const int sizes[] = { 4, 8, 16, 32, 96, 128 };
 
     for (i = 0; i < 6; i++) {
         if (size <= sizes[i])
             break;
     }
+
     if (i > 5)
         i = 5;
+
     size = sizes[i];
 
     petres.ramSize = size;
     petres.map = 0;
+
     if (size == 96) {
         petres.map = 1;         /* 8096 mapping */
     } else if (size == 128) {
         petres.map = 2;         /* 8296 mapping */
     }
+
     petmem_check_info(&petres);
     mem_initialize_memory();
 

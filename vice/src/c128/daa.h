@@ -29,8 +29,8 @@
 
 #include "types.h"
 
-extern BYTE daa_reg_a[];
-extern BYTE daa_reg_f[];
+extern const BYTE daa_reg_a[];
+extern const BYTE daa_reg_f[];
 
 #endif
 

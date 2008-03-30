@@ -45,14 +45,14 @@ typedef struct {
 } file65;
 
 
-int read_options(unsigned char *f);
-int read_undef(unsigned char *f);
-unsigned char *reloc_seg(unsigned char *f, int len, unsigned char *rtab,
-                         file65 *fp);
-unsigned char *reloc_globals(unsigned char *, file65 *fp);
+static int read_options(unsigned char *f);
+static int read_undef(unsigned char *f);
+static unsigned char *reloc_seg(unsigned char *f, int len, unsigned char *rtab,
+                                file65 *fp);
+static unsigned char *reloc_globals(unsigned char *, file65 *fp);
 
-file65 file;
-unsigned char cmp[] = { 1, 0, 'o', '6', '5' };
+static file65 file;
+static const unsigned char cmp[] = { 1, 0, 'o', '6', '5' };
 
 int reloc65(char **buf, int *fsize, int addr)
 {
@@ -139,7 +139,7 @@ int reloc65(char **buf, int *fsize, int addr)
 }
 
 
-int read_options(unsigned char *buf)
+static int read_options(unsigned char *buf)
 {
     int c, l = 0;
 
@@ -152,7 +152,7 @@ int read_options(unsigned char *buf)
     return ++l;
 }
 
-int read_undef(unsigned char *buf)
+static int read_undef(unsigned char *buf)
 {
     int n, l = 2;
 
@@ -168,8 +168,8 @@ int read_undef(unsigned char *buf)
     (((s) == 2) ? fp->tdiff : (((s) == 3) ? fp->ddiff : (((s) == 4) \
     ? fp->bdiff : (((s) == 5) ? fp->zdiff : 0))))
 
-unsigned char *reloc_seg(unsigned char *buf, int len, unsigned char *rtab,
-                         file65 *fp)
+static unsigned char *reloc_seg(unsigned char *buf, int len,
+                                unsigned char *rtab, file65 *fp)
 {
     int adr = -1;
     int type, seg, old, new;
@@ -220,7 +220,7 @@ unsigned char *reloc_seg(unsigned char *buf, int len, unsigned char *rtab,
     return ++rtab;
 }
 
-unsigned char *reloc_globals(unsigned char *buf, file65 *fp)
+static unsigned char *reloc_globals(unsigned char *buf, file65 *fp)
 {
     int n, old, new, seg;
 
