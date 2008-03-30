@@ -583,8 +583,8 @@ void sound_suspend(void)
 	    v = snddata.lastsample;
 	    for (i = 0; i < snddata.fragsize; i++)
 		p[i] = v - (float)v*i/snddata.fragsize;
-	    free(p);
 	    i = snddata.pdev->write(snddata.pwarndev, p, snddata.fragsize);
+	    free(p);
 	    if (i)
 		return;
 	}
