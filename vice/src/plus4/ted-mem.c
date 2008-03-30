@@ -38,6 +38,7 @@
 #include "mem.h"
 #include "plus4mem.h"
 #include "plus4pio2.h"
+#include "ted-badline.h"
 #include "ted-fetch.h"
 #include "ted-resources.h"
 #include "ted-mem.h"
@@ -235,169 +236,8 @@ void REGPARM2 ted_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
 }
 #endif
 
-inline static void check_bad_line_state_change(BYTE value, int cycle, int line)
+inline static void check_lower_upper_border(BYTE value, int line, int cycle)
 {
-    int was_bad_line, now_bad_line;
-
-    /* Check whether bad line state has changed.  */
-    was_bad_line = (ted.allow_bad_lines
-                    && (ted.raster.ysmooth == (line & 7)));
-    now_bad_line = (ted.allow_bad_lines
-                    && ((value & 7) == (line & 7)));
-
-    if (was_bad_line && !now_bad_line) {
-
-        /* Bad line becomes good.  */
-        ted.bad_line = 0;
-
-        /* By changing the values in the registers, one can make the TED 
-           switch from idle to display state, but not from display to
-           idle state.  So we are always in display state if this
-           happens.  This is only true if the value changes in some
-           cycle > 0, though; otherwise, the line never becomes bad.  */
-        if (cycle > 0) {
-            ted.raster.draw_idle_state = ted.idle_state = 0;
-            ted.idle_data_location = IDLE_NONE;
-            if (cycle > TED_FETCH_CYCLE + 2
-                && !ted.ycounter_reset_checked) {
-                ted.raster.ycounter = 0;
-                ted.ycounter_reset_checked = 1;
-            }
-        }
-
-    } else if (!was_bad_line && now_bad_line) {
-        if (cycle >= TED_FETCH_CYCLE
-            && cycle <= TED_FETCH_CYCLE + TED_SCREEN_TEXTCOLS + 3) {
-            int pos;            /* Value of line counter when this happens.  */
-            int inc;            /* Total increment for the line counter.  */
-            int num_chars;      /* Total number of characters to fetch.  */
-            int num_0xff_fetches; /* Number of 0xff fetches to do.  */
-
-            ted.bad_line = 1;
-
-            if (cycle <= TED_FETCH_CYCLE + 2)
-                ted.raster.ycounter = 0;
-
-            ted.ycounter_reset_checked = 1;
-
-            num_chars = (TED_SCREEN_TEXTCOLS
-                         - (cycle - (TED_FETCH_CYCLE + 3)));
-
-            /* Take over the bus until the memory fetch is done.  */
-            maincpu_steal_cycles(maincpu_clk, num_chars, 0);
-            ted_delay_oldclk(num_chars);
-
-            if (num_chars <= TED_SCREEN_TEXTCOLS) {
-                /* Matrix fetches starts immediately, but the TED needs
-                   at least 3 cycles to become the bus master.  Before
-                   this happens, it fetches 0xff.  */
-                num_0xff_fetches = 3;
-
-                /* If we were in idle state before creating the bad
-                   line, the counters have not been incremented.  */
-                if (ted.idle_state) {
-                    pos = 0;
-                    inc = num_chars;
-                    if (inc < 0)
-                        inc = 0;
-                } else {
-                    pos = cycle - (TED_FETCH_CYCLE + 3);
-                    if (pos > TED_SCREEN_TEXTCOLS - 1)
-                        pos = TED_SCREEN_TEXTCOLS - 1;
-                    inc = TED_SCREEN_TEXTCOLS;
-                }
-            } else {
-                pos = 0;
-                num_chars = inc = TED_SCREEN_TEXTCOLS;
-                num_0xff_fetches = cycle - TED_FETCH_CYCLE;
-            }
-
-            /* This is normally done at cycle `TED_FETCH_CYCLE + 2'.  */
-            ted.mem_counter = ted.memptr;
-
-            /* Force the DMA.  */
-            /* Note that `ted.cbuf' is loaded from the value of
-               the next opcode as the VIC-II is not the bus master yet.  */
-            if (num_chars <= num_0xff_fetches) {
-                memset(ted.vbuf + pos, 0xff, num_chars);
-                memset(ted.cbuf + pos, mem_ram[reg_pc] & 0xf,
-                       num_chars);
-            } else {
-                memset(ted.vbuf + pos, 0xff, num_0xff_fetches);
-                memset(ted.cbuf + pos, mem_ram[reg_pc] & 0xf,
-                       num_0xff_fetches);
-                ted_fetch_matrix(pos + num_0xff_fetches,
-                                 num_chars - num_0xff_fetches);
-                ted_fetch_color(pos + num_0xff_fetches,
-                                num_chars - num_0xff_fetches);
-            }
-
-            /* Set the value by which `ted.mem_counter' is incremented on
-               this line.  */
-            ted.mem_counter_inc = inc;
-
-            /* Remember we have done a DMA.  */
-            ted.memory_fetch_done = 2;
-
-            /* As we are on a bad line, switch to display state.  */
-            ted.idle_state = 0;
-
-            /* Try to display things correctly.  This is not exact,
-               but should be OK for most cases (FIXME?).  */
-            if (inc == TED_SCREEN_TEXTCOLS) {
-                ted.raster.draw_idle_state = 0;
-                ted.idle_data_location = IDLE_NONE;
-            }
-        } else if (cycle <= TED_FETCH_CYCLE + TED_SCREEN_TEXTCOLS + 6) {
-            /* Bad line has been generated after fetch interval, but
-               before `ted.raster.ycounter' is incremented.  */
-
-            ted.bad_line = 1;
-
-            /* If in idle state, counter is not incremented.  */
-            if (ted.idle_state)
-                ted.mem_counter_inc = 0;
-
-            /* We are not in idle state anymore.  */
-            /* This is not 100% correct, but should be OK for most cases.
-               (FIXME?)  */
-            ted.raster.draw_idle_state = ted.idle_state = 0;
-            ted.idle_data_location = IDLE_NONE;
-
-        } else {
-            /* Line is now bad, so we must switch to display state.
-               Anyway, we cannot do it here as the `ycounter' handling
-               must happen in as in idle state.  */
-            ted.force_display_state = 1;
-        }
-    }
-}
-
-inline static void ted06_store(BYTE value)
-{
-    int cycle;
-    int line;
-
-    cycle = TED_RASTER_CYCLE(maincpu_clk);
-    line = TED_RASTER_Y(maincpu_clk);
-
-    TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
-    TED_DEBUG_REGISTER(("$FF06 tricks at cycle %d, line $%04X, "
-                       "value $%02X\n", cycle, line, value));
-
-    /* This is the funniest part... handle bad line tricks.  */
-
-    if (line == ted.first_dma_line && (value & 0x10) != 0)
-        ted.allow_bad_lines = 1;
-
-    if (ted.raster.ysmooth != (value & 7)
-        && line >= ted.first_dma_line
-        && line <= ted.last_dma_line)
-        check_bad_line_state_change(value, cycle, line);
-
-    ted.raster.ysmooth = value & 0x7;
-
-    /* Check for 24 <-> 25 line mode switch.  */
     if ((value ^ ted.regs[0x06]) & 8) {
         if (value & 0x8) {
             /* 24 -> 25 row mode switch.  */
@@ -439,6 +279,34 @@ inline static void ted06_store(BYTE value)
             TED_DEBUG_REGISTER(("\t24 line mode enabled\n"));
         }
     }
+}
+
+inline static void ted06_store(BYTE value)
+{
+    int cycle;
+    int line;
+
+    cycle = TED_RASTER_CYCLE(maincpu_clk);
+    line = TED_RASTER_Y(maincpu_clk);
+
+    TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
+    TED_DEBUG_REGISTER(("$FF06 tricks at cycle %d, line $%04X, "
+                       "value $%02X\n", cycle, line, value));
+
+    /* This is the funniest part... handle bad line tricks.  */
+
+    if (line == ted.first_dma_line && (value & 0x10) != 0)
+        ted.allow_bad_lines = 1;
+
+    if (ted.raster.ysmooth != (value & 7)
+        && line >= ted.first_dma_line
+        && line <= ted.last_dma_line)
+        ted_badline_check_state(value, cycle, line);
+
+    ted.raster.ysmooth = value & 0x7;
+
+    /* Check for 24 <-> 25 line mode switch.  */
+    check_lower_upper_border(value, line, cycle);
 
     ted.raster.blank = !(value & 0x10);        /* `DEN' bit.  */
 
@@ -448,34 +316,9 @@ inline static void ted06_store(BYTE value)
     ted_update_video_mode(cycle);
 }
 
-inline static void ted07_store(BYTE value)
+inline static void check_lateral_border(BYTE value, int cycle,
+                                        raster_t *raster)
 {
-    raster_t *raster;
-    int cycle;
-
-    TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
-
-    raster = &ted.raster;
-    cycle = TED_RASTER_CYCLE(maincpu_clk);
-
-    /* FIXME: Line-based emulation!  */
-    if ((value & 7) != (ted.regs[0x07] & 7)) {
-#if 1
-        if (raster->skip_frame || TED_RASTER_CHAR(cycle) <= 1)
-            raster->xsmooth = value & 0x7;
-        else
-            raster_add_int_change_next_line(raster,
-                                            &raster->xsmooth,
-                                            value & 0x7);
-#else
-        raster_add_int_change_foreground(raster,
-                                         TED_RASTER_CHAR(cycle),
-                                         &raster->xsmooth,
-                                         value & 7);
-#endif
-    }
-
-    /* Bit 4 (CSEL) selects 38/40 column mode.  */
     if ((value & 0x8) != (ted.regs[0x07] & 0x8)) {
         if (value & 0x8) {
             /* 40 column mode.  */
@@ -520,6 +363,37 @@ inline static void ted07_store(BYTE value)
                 raster->open_right_border = 1;
         }
     }
+}
+
+inline static void ted07_store(BYTE value)
+{
+    raster_t *raster;
+    int cycle;
+
+    TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
+
+    raster = &ted.raster;
+    cycle = TED_RASTER_CYCLE(maincpu_clk);
+
+    /* FIXME: Line-based emulation!  */
+    if ((value & 7) != (ted.regs[0x07] & 7)) {
+#if 1
+        if (raster->skip_frame || TED_RASTER_CHAR(cycle) <= 1)
+            raster->xsmooth = value & 0x7;
+        else
+            raster_add_int_change_next_line(raster,
+                                            &raster->xsmooth,
+                                            value & 0x7);
+#else
+        raster_add_int_change_foreground(raster,
+                                         TED_RASTER_CHAR(cycle),
+                                         &raster->xsmooth,
+                                         value & 7);
+#endif
+    }
+
+    /* Bit 4 (CSEL) selects 38/40 column mode.  */
+    check_lateral_border(value, cycle, raster);
 
     ted.reverse_mode = value & 0x80;
 

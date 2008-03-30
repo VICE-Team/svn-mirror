@@ -39,6 +39,8 @@ libplus4_a_SOURCES = \
 	plus4rom.h \
 	tcbm.c \
 	tcbm.h \
+	ted-badline.c \
+	ted-badline.h \
 	ted-cmdline-options.c \
 	ted-cmdline-options.h \
 	ted-color.c \

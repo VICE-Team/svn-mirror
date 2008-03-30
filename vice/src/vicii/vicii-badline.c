@@ -28,7 +28,6 @@
 #include "vice.h"
 
 #include "interrupt.h"
-#include "maincpu.h"
 #include "raster.h"
 #include "types.h"
 #include "vicii-badline.h"

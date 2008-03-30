@@ -1,3 +1,26 @@
+2002-09-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.8.
+
+	* sysfile.c, findpath.c, arch/unix/archdep.c, ioutil.c,
+	ioutil.h, arch/os2/archdep.c, arch/unix/uicommands.c,
+	arch/unix/uisettings.c, arch/unix/uisettings.c, c64/psid.c,
+	c1541.c, gcr.c, fsdevice/fsdevice.c: Moved non ISO 9899
+	file IO functions to `ioutil.c'.
+
+	* vicii/vicii-mem.c (check_horizontal_border,
+	check_lateral_border): New functions.
+
+	* plus4/ted-mem.c: Changed likewise.
+
+	* plus4/ted-badline.c, plus4/ted-badline.h: New files.
+
+	* plus4/Makefile.am: Added new files.
+
+2002-09-24  Dag Lem  <resid@nimrod.no>
+
+	* sounddrv/sounduss.c: Reset uss_duplicate on close.
+
 2002-09-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.7.
