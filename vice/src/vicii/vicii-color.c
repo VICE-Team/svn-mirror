@@ -145,7 +145,7 @@ static video_cbm_palette_t vicii_palette =
     VICII_PHASE
 };
 
-int vicii_color_update_palette(void)
+int vicii_color_update_palette(struct video_canvas_s *canvas)
 {
     video_cbm_palette_t *cp;
 
@@ -154,8 +154,8 @@ int vicii_color_update_palette(void)
     else
         cp = &vicii_palette_old;
 
-    video_color_set_palette(cp);
+    video_color_palette_internal(canvas, cp);
 
-    return video_color_update_palette();
+    return video_color_update_palette(canvas);
 }
 

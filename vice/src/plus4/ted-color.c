@@ -1,5 +1,5 @@
 /*
- * ted-color.c - Colors for the MOS 6569 (VIC-II) emulation.
+ * ted-color.c - Colors for the TED emulation.
  *
  * Written by
  *  John Selck <graham@cruise.de>
@@ -105,7 +105,7 @@ static video_cbm_palette_t ted_palette =
     TED_PHASE
 };
 
-int ted_color_update_palette(void)
+int ted_color_update_palette(struct video_canvas_s *canvas)
 {
     int col,lum,cl;
     float tedlum;
@@ -127,7 +127,7 @@ int ted_color_update_palette(void)
         }
     }
 
-    video_color_set_palette(&ted_palette);
-    return video_color_update_palette();
+    video_color_palette_internal(canvas, &ted_palette);
+    return video_color_update_palette(canvas);
 }
 
