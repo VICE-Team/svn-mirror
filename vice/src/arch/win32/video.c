@@ -313,7 +313,7 @@ void init_palette(const palette_t *p, PALETTEENTRY *ape)
 
 
 /* Set the palettes for canvas `c'.  */
-int set_palette(video_canvas_t *c)
+int video_set_palette(video_canvas_t *c)
 {
     if (c->depth == 8) {
         HRESULT result;
@@ -335,7 +335,7 @@ int set_palette(video_canvas_t *c)
     return 0;
 }
 
-int set_physical_colors(video_canvas_t *c)
+int video_set_physical_colors(video_canvas_t *c)
 {
     HDC hdc;
     DDSURFACEDESC ddsd;
@@ -577,51 +577,54 @@ static int create_temporary_surface(video_canvas_t *canvas, int width, int heigh
 	return TRUE;
 }
 
-/* try to allocate a triple buffer and a temporary buffer in video memory */
+#if 0
+/* Try to allocate a triple buffer and a temporary buffer in video memory.   */
 
-int create_triple_surface(video_canvas_t *canvas, int width, int height)
+int video_create_triple_surface(video_canvas_t *canvas, int width, int height)
 {
     HRESULT ddresult;
     DDSURFACEDESC desc;
-	DDSCAPS ddscaps;
+    DDSCAPS ddscaps;
 
     memset(&desc, 0, sizeof(desc));
     desc.dwSize = sizeof(desc);
     desc.dwFlags = DDSD_CAPS | DDSD_BACKBUFFERCOUNT;
     desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE | DDSCAPS_FLIP | DDSCAPS_COMPLEX;
-	desc.dwBackBufferCount = 2;
+    desc.dwBackBufferCount = 2;
 
     ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
                                           &canvas->primary_surface, NULL);
-    if (ddresult != DD_OK) return FALSE;
+    if (ddresult != DD_OK)
+        return FALSE;
 
-	ddscaps.dwCaps = DDSCAPS_BACKBUFFER;
+    ddscaps.dwCaps = DDSCAPS_BACKBUFFER;
     ddresult = IDirectDrawSurface_GetAttachedSurface(canvas->primary_surface, &ddscaps, &canvas->back_surface);
-	if (ddresult != DD_OK) {
+        if (ddresult != DD_OK) {
         ui_error("Cannot get attached surface for primary surface:\n%s",
                  dd_error(ddresult));
     }
 
-	attach_clipper(canvas);
+    attach_clipper(canvas);
 
-	if (!create_temporary_surface(canvas, width, height, TRUE))
-	{
-		/* triple buffering needs a temporary surface... */
-	    IDirectDrawSurface_Release(canvas->primary_surface);
-		canvas->render_surface = NULL;
-		canvas->primary_surface = NULL;
-		canvas->back_surface = NULL;
-		canvas->temporary_surface = NULL;
-		return FALSE;
+    if (!create_temporary_surface(canvas, width, height, TRUE)) {
+        /* triple buffering needs a temporary surface... */
+        IDirectDrawSurface_Release(canvas->primary_surface);
+        canvas->render_surface = NULL;
+        canvas->primary_surface = NULL;
+        canvas->back_surface = NULL;
+        canvas->temporary_surface = NULL;
+        return FALSE;
     }
-	canvas->render_surface = canvas->temporary_surface;
+    canvas->render_surface = canvas->temporary_surface;
 
-	return TRUE;
+    return TRUE;
 }
+#endif
 
-/* try to allocate a single buffer and a temporary buffer in video or system memory */
+/* Try to allocate a single buffer and a temporary buffer in video or system
+   memory.   */
 
-int create_single_surface(video_canvas_t *canvas, int width, int height)
+int video_create_single_surface(video_canvas_t *canvas, int width, int height)
 {
     HRESULT ddresult;
     DDSURFACEDESC desc;
@@ -634,19 +637,18 @@ int create_single_surface(video_canvas_t *canvas, int width, int height)
 
     ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
                                           &canvas->primary_surface, NULL);
-    if (ddresult != DD_OK) return FALSE;
+    if (ddresult != DD_OK)
+        return FALSE;
 
-	attach_clipper(canvas);
+    attach_clipper(canvas);
 
-	if (!create_temporary_surface(canvas, width, height, FALSE))
-		canvas->render_surface = canvas->primary_surface;
-	else
-		canvas->render_surface = canvas->temporary_surface;
+    if (!create_temporary_surface(canvas, width, height, FALSE))
+        canvas->render_surface = canvas->primary_surface;
+    else
+        canvas->render_surface = canvas->temporary_surface;
 
-	return TRUE;
+    return TRUE;
 }
-
-
 
 
 int video_number_of_canvases;
@@ -765,7 +767,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     desc2.dwSize = sizeof(desc2);
     ddresult = IDirectDraw2_GetDisplayMode(canvas->dd_object2, &desc2);
 
-    create_single_surface(canvas, desc2.dwWidth, desc2.dwHeight);
+    video_create_single_surface(canvas, desc2.dwWidth, desc2.dwHeight);
 
     /* Create the temporary surface.  */
  /*   memset(&desc, 0, sizeof(desc));
@@ -814,10 +816,10 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         }
     }
 
-    if (set_palette(canvas) < 0)
+    if (video_set_palette(canvas) < 0)
         goto error;
 
-    if (set_physical_colors(canvas) < 0)
+    if (video_set_physical_colors(canvas) < 0)
         goto error;
 
     video_canvases[video_number_of_canvases++] = canvas;
@@ -900,8 +902,8 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, palette_t *p)
         result = IDirectDraw2_CreatePalette(canvas->dd_object2, DDPCAPS_8BIT,
                                             ape, &canvas->dd_palette, NULL);
     }
-    set_palette(canvas);
-    set_physical_colors(canvas);
+    video_set_palette(canvas);
+    video_set_physical_colors(canvas);
     return 0;
 }
 
@@ -984,7 +986,8 @@ extern int window_canvas_xsize[2];
 extern int window_canvas_ysize[2];
 //extern int status_height;
 
-void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
+void video_canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w,
+                         int h)
 {
     video_canvas_t *c;
     int xs;   //  upperleft x in framebuffer

@@ -77,18 +77,18 @@ typedef struct video_canvas_s {
 
 const char *dd_error(HRESULT ddrval);
 
-extern int set_palette(video_canvas_t *c);
-extern int set_physical_colors(video_canvas_t *c);
+extern int video_set_palette(video_canvas_t *c);
+extern int video_set_physical_colors(video_canvas_t *c);
 
-extern int create_triple_surface(struct video_canvas_s *canvas, int width, int height);
-extern int create_single_surface(struct video_canvas_s *canvas, int width, int height);
+extern int video_create_triple_surface(struct video_canvas_s *canvas,
+                                       int width, int height);
+extern int video_create_single_surface(struct video_canvas_s *canvas,
+                                       int width, int height);
 
 extern video_canvas_t *video_canvas_for_hwnd(HWND hwnd);
 
-extern void canvas_set_border_color(video_canvas_t *canvas, BYTE color);
-
-extern void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w,
-                          int h);
+extern void video_canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient,
+                                int w, int h);
 
 extern float video_refresh_rate(video_canvas_t *c);
 
