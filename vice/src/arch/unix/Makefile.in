@@ -298,6 +298,8 @@ libarch_a_SOURCES = \
 	uijoystick2.h \
 	uikeyboard.c \
 	uikeyboard.h \
+	uilib.c \
+	uilib.h \
 	uimenu.h \
 	uimon.c \
 	uipalemu.c \
@@ -330,6 +332,8 @@ libarch_a_SOURCES = \
 	uisound.h \
 	uited.c \
 	uited.h \
+	uitfe.c \
+	uitfe.h \
 	uivdc.c \
 	uivdc.h \
 	uivic.c \
@@ -367,13 +371,13 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uidrivec64vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
 	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
 	uifliplist.$(OBJEXT) uiide64.$(OBJEXT) uijoystick2.$(OBJEXT) \
-	uikeyboard.$(OBJEXT) uimon.$(OBJEXT) uipalemu.$(OBJEXT) \
-	uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
+	uikeyboard.$(OBJEXT) uilib.$(OBJEXT) uimon.$(OBJEXT) \
+	uipalemu.$(OBJEXT) uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
 	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
 	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
 	uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) uirs232.$(OBJEXT) \
 	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
-	uited.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
+	uited.$(OBJEXT) uitfe.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
 	uivicii.$(OBJEXT) unixmain.$(OBJEXT) vic20ui.$(OBJEXT) \
 	vsyncarch.$(OBJEXT) vsidui.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
@@ -402,8 +406,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uiide64.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uijoystick2.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uikeyboard.Po ./$(DEPDIR)/uimon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uipalemu.Po ./$(DEPDIR)/uipalette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uikeyboard.Po ./$(DEPDIR)/uilib.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uipalemu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uipalette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheraliec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheralieee.Po \
@@ -412,10 +417,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinterieee.Po ./$(DEPDIR)/uireu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uirs232.Po ./$(DEPDIR)/uisettings.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisound.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uited.Po ./$(DEPDIR)/uivdc.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uivic.Po ./$(DEPDIR)/uivicii.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/unixmain.Po ./$(DEPDIR)/vic20ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsyncarch.Po
+@AMDEP_TRUE@	./$(DEPDIR)/uited.Po ./$(DEPDIR)/uitfe.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uivdc.Po ./$(DEPDIR)/uivic.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uivicii.Po ./$(DEPDIR)/unixmain.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/vsidui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsyncarch.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -507,6 +513,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiide64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uikeyboard.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uilib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalemu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalette.Po@am__quote@
@@ -522,6 +529,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uited.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uitfe.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivdc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivicii.Po@am__quote@

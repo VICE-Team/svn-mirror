@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-03-21 15:42+0100\n"
+"POT-Creation-Date: 2004-03-21 21:58+0100\n"
 "PO-Revision-Date: 2004-01-21 23:15+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -147,68 +147,68 @@ msgstr "Kann Sektion in Ende Snapshotdatei nicht finden."
 msgid "Error reading end snapshot file."
 msgstr "Kann Ende Snapshot Datei nicht lesen."
 
-#: src/arch/unix/c128ui.c:64 src/arch/unix/c64ui.c:63
+#: src/arch/unix/c128ui.c:65 src/arch/unix/c64ui.c:64
 #: src/arch/unix/cbm2ui.c:63 src/arch/unix/uited.c:52 src/arch/unix/uivic.c:41
 #: src/arch/unix/vsidui.c:125
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
-#: src/arch/unix/c128ui.c:66 src/arch/unix/c64ui.c:65
+#: src/arch/unix/c128ui.c:67 src/arch/unix/c64ui.c:66
 #: src/arch/unix/cbm2ui.c:65 src/arch/unix/uited.c:54 src/arch/unix/uivic.c:43
 #: src/arch/unix/vsidui.c:127
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
-#: src/arch/unix/c128ui.c:147 src/arch/unix/c128ui.c:172
-#: src/arch/unix/c64ui.c:214 src/arch/unix/c64ui.c:239
+#: src/arch/unix/c128ui.c:148 src/arch/unix/c128ui.c:173
+#: src/arch/unix/c64ui.c:215 src/arch/unix/c64ui.c:240
 #: src/arch/unix/cbm2ui.c:286 src/arch/unix/cbm2ui.c:311
 msgid "SID engine"
 msgstr "SID Engine"
 
-#: src/arch/unix/c128ui.c:150 src/arch/unix/c128ui.c:176
-#: src/arch/unix/c64ui.c:217 src/arch/unix/c64ui.c:243
+#: src/arch/unix/c128ui.c:151 src/arch/unix/c128ui.c:177
+#: src/arch/unix/c64ui.c:218 src/arch/unix/c64ui.c:244
 #: src/arch/unix/cbm2ui.c:289 src/arch/unix/cbm2ui.c:315
 msgid "*Second SID"
 msgstr "*Zweiter SID"
 
-#: src/arch/unix/c128ui.c:152 src/arch/unix/c128ui.c:178
-#: src/arch/unix/c64ui.c:219 src/arch/unix/c64ui.c:245
+#: src/arch/unix/c128ui.c:153 src/arch/unix/c128ui.c:179
+#: src/arch/unix/c64ui.c:220 src/arch/unix/c64ui.c:246
 #: src/arch/unix/cbm2ui.c:291 src/arch/unix/cbm2ui.c:317
 msgid "*Second SID base address"
 msgstr "*Zweiter SID Chip, Basisadresse auf $DE00"
 
-#: src/arch/unix/c128ui.c:155 src/arch/unix/c128ui.c:180
-#: src/arch/unix/c64ui.c:222 src/arch/unix/c64ui.c:247
+#: src/arch/unix/c128ui.c:156 src/arch/unix/c128ui.c:181
+#: src/arch/unix/c64ui.c:223 src/arch/unix/c64ui.c:248
 #: src/arch/unix/cbm2ui.c:294 src/arch/unix/cbm2ui.c:320
 msgid "*Emulate filters"
 msgstr "*Filter Emulation"
 
-#: src/arch/unix/c128ui.c:157 src/arch/unix/c128ui.c:182
-#: src/arch/unix/c64ui.c:224 src/arch/unix/c64ui.c:249
+#: src/arch/unix/c128ui.c:158 src/arch/unix/c128ui.c:183
+#: src/arch/unix/c64ui.c:225 src/arch/unix/c64ui.c:250
 #: src/arch/unix/cbm2ui.c:296 src/arch/unix/cbm2ui.c:322
 msgid "Chip model"
 msgstr "Chip Modell"
 
-#: src/arch/unix/c128ui.c:161 src/arch/unix/c64ui.c:228
+#: src/arch/unix/c128ui.c:162 src/arch/unix/c64ui.c:229
 #: src/arch/unix/cbm2ui.c:300
 msgid "reSID sampling method"
 msgstr "reSID Sampling Methode"
 
-#: src/arch/unix/c128ui.c:163 src/arch/unix/c64ui.c:230
+#: src/arch/unix/c128ui.c:164 src/arch/unix/c64ui.c:231
 #: src/arch/unix/cbm2ui.c:302
 msgid "reSID resampling passband..."
 msgstr "reSID resampling Passband"
 
-#: src/arch/unix/c128ui.c:174 src/arch/unix/c64ui.c:241
-#: src/arch/unix/cbm2ui.c:313 src/arch/unix/uisound.c:120
+#: src/arch/unix/c128ui.c:175 src/arch/unix/c64ui.c:242
+#: src/arch/unix/cbm2ui.c:313 src/arch/unix/uisound.c:119
 msgid "*Enable sound playback"
 msgstr "*Sound Einschalten"
 
-#: src/arch/unix/c128ui.c:206
+#: src/arch/unix/c128ui.c:207
 msgid "Function ROM image"
 msgstr "Function ROM Image Datei"
 
-#: src/arch/unix/c128ui.c:211
+#: src/arch/unix/c128ui.c:212
 #, c-format
 msgid ""
 "Could not load function ROM image\n"
@@ -217,157 +217,162 @@ msgstr ""
 "Kann Function ROM Datei nicht laden\n"
 "'%s'"
 
-#: src/arch/unix/c128ui.c:216
+#: src/arch/unix/c128ui.c:217
 msgid "*Enable internal Function ROM"
 msgstr "*Aktivieren des internen Function ROM"
 
-#: src/arch/unix/c128ui.c:218
+#: src/arch/unix/c128ui.c:219
 msgid "Internal Function ROM name..."
 msgstr "Name des internen Function Roms..."
 
-#: src/arch/unix/c128ui.c:222
+#: src/arch/unix/c128ui.c:223
 msgid "*Enable external Function ROM"
 msgstr "*Aktivieren des externen Function ROM"
 
-#: src/arch/unix/c128ui.c:224
+#: src/arch/unix/c128ui.c:225
 msgid "External Function ROM name..."
 msgstr "Name des externen Function ROMs..."
 
-#: src/arch/unix/c128ui.c:231
+#: src/arch/unix/c128ui.c:232
 msgid "Function ROM"
 msgstr "Functino ROM"
 
-#: src/arch/unix/c128ui.c:234 src/arch/unix/c64ui.c:262
+#: src/arch/unix/c128ui.c:235 src/arch/unix/c64ui.c:263
 msgid "RAM Expansion Unit"
 msgstr "RAM Speichererweiterung"
 
-#: src/arch/unix/c128ui.c:236 src/arch/unix/c64ui.c:264
+#: src/arch/unix/c128ui.c:237 src/arch/unix/c64ui.c:265
 #, fuzzy
-msgid "IDE64 Emulation"
+msgid "IDE64 emulation"
 msgstr "Exakte Emulation"
 
-#: src/arch/unix/c128ui.c:238 src/arch/unix/c64ui.c:266
+#: src/arch/unix/c128ui.c:240 src/arch/unix/c64ui.c:268
+#, fuzzy
+msgid "Ethernet emulation"
+msgstr "*Benutze reSID Emulation"
+
+#: src/arch/unix/c128ui.c:243 src/arch/unix/c64ui.c:271
 #: src/arch/unix/petui.c:288 src/arch/unix/vic20ui.c:184
 msgid "*Emulator identification"
 msgstr "*Emulator Identifikation"
 
-#: src/arch/unix/c128ui.c:240
+#: src/arch/unix/c128ui.c:245
 msgid "*IEEE488 interface emulation"
 msgstr "*IEEE488 Schnittstellen-Emulation"
 
-#: src/arch/unix/c128ui.c:243 src/arch/unix/c64ui.c:269
+#: src/arch/unix/c128ui.c:248 src/arch/unix/c64ui.c:274
 msgid "*1351 Mouse Emulation"
 msgstr "*1351 Mausemulation"
 
-#: src/arch/unix/c128ui.c:252 src/arch/unix/c64ui.c:278
+#: src/arch/unix/c128ui.c:257 src/arch/unix/c64ui.c:283
 #: src/arch/unix/vic20ui.c:117
 msgid "Load default ROMs"
 msgstr "Standard ROMs Laden"
 
-#: src/arch/unix/c128ui.c:256
+#: src/arch/unix/c128ui.c:261
 msgid "Load new Int. Kernal ROM"
 msgstr "Int. Kernal ROM Laden"
 
-#: src/arch/unix/c128ui.c:259
+#: src/arch/unix/c128ui.c:264
 msgid "Load new German Kernal ROM"
 msgstr "Deutsches Kernal ROM Laden"
 
-#: src/arch/unix/c128ui.c:262
+#: src/arch/unix/c128ui.c:267
 msgid "Load new Basic Lo ROM"
 msgstr "Basic Lo ROM Laden"
 
-#: src/arch/unix/c128ui.c:265
+#: src/arch/unix/c128ui.c:270
 msgid "Load new Basic Hi ROM"
 msgstr "Basic Hi ROM Laden"
 
-#: src/arch/unix/c128ui.c:268
+#: src/arch/unix/c128ui.c:273
 msgid "Load new Chargen ROM"
 msgstr "Zeichensatz ROM Laden"
 
-#: src/arch/unix/c128ui.c:272 src/arch/unix/c64ui.c:292
+#: src/arch/unix/c128ui.c:277 src/arch/unix/c64ui.c:297
 #: src/arch/unix/vic20ui.c:130
 msgid "Load new drive ROM"
 msgstr "Floppy ROM Laden"
 
-#: src/arch/unix/c128ui.c:275 src/arch/unix/c64ui.c:295
+#: src/arch/unix/c128ui.c:280 src/arch/unix/c64ui.c:300
 #: src/arch/unix/cbm2ui.c:124 src/arch/unix/petui.c:227
 #: src/arch/unix/vic20ui.c:133
 msgid "Load custom ROM set from file"
 msgstr "Benutzerdefinierten ROM Satz Laden"
 
-#: src/arch/unix/c128ui.c:277 src/arch/unix/c64ui.c:297
+#: src/arch/unix/c128ui.c:282 src/arch/unix/c64ui.c:302
 #: src/arch/unix/cbm2ui.c:126 src/arch/unix/petui.c:229
 #: src/arch/unix/vic20ui.c:135
 msgid "Dump ROM set definition to file"
 msgstr "Aktuellen Rom Satz speichern"
 
-#: src/arch/unix/c128ui.c:300
+#: src/arch/unix/c128ui.c:305
 msgid "VIC II Screenshot"
 msgstr "VIC II Screenshot"
 
-#: src/arch/unix/c128ui.c:302
+#: src/arch/unix/c128ui.c:307
 msgid "VDC Screenshot"
 msgstr "VDC Screenshot"
 
-#: src/arch/unix/c128ui.c:308
+#: src/arch/unix/c128ui.c:313
 msgid "Screenshots..."
 msgstr "Screenshots..."
 
-#: src/arch/unix/c128ui.c:337
+#: src/arch/unix/c128ui.c:342
 msgid "Machine type"
 msgstr "Maschinen Typ"
 
-#: src/arch/unix/c128ui.c:339 src/arch/unix/cbm2ui.c:232
+#: src/arch/unix/c128ui.c:344 src/arch/unix/cbm2ui.c:232
 #: src/arch/unix/petui.c:263 src/arch/unix/vic20ui.c:170
 msgid "ROM sets"
 msgstr "ROM Satz"
 
-#: src/arch/unix/c128ui.c:347 src/arch/unix/c64ui.c:330
+#: src/arch/unix/c128ui.c:352 src/arch/unix/c64ui.c:335
 msgid "VIC-II settings"
 msgstr "VIC-II Einstellungen"
 
-#: src/arch/unix/c128ui.c:349
+#: src/arch/unix/c128ui.c:354
 msgid "VDC settings"
 msgstr "VDC Einstellungen"
 
-#: src/arch/unix/c128ui.c:351 src/arch/unix/c64ui.c:332
+#: src/arch/unix/c128ui.c:356 src/arch/unix/c64ui.c:337
 #: src/arch/unix/cbm2ui.c:378 src/arch/unix/vsidui.c:175
 msgid "SID settings"
 msgstr "SID Einstellungen"
 
-#: src/arch/unix/c128ui.c:353
+#: src/arch/unix/c128ui.c:358
 msgid "Memory and I/O extensions"
 msgstr "Speicher und I/O Erweiterungen"
 
-#: src/arch/unix/c128ui.c:355 src/arch/unix/c64ui.c:336
+#: src/arch/unix/c128ui.c:360 src/arch/unix/c64ui.c:341
 #: src/arch/unix/cbm2ui.c:371 src/arch/unix/vic20ui.c:357
 msgid "RS232 settings"
 msgstr "RS232 Einstellungen"
 
-#: src/arch/unix/c128ui.c:357
+#: src/arch/unix/c128ui.c:362
 msgid "Model settings"
 msgstr "Modell Einstellungen"
 
-#: src/arch/unix/c128ui.c:422 src/arch/unix/c64ui.c:399
+#: src/arch/unix/c128ui.c:427 src/arch/unix/c64ui.c:404
 #: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:388
 #: src/arch/unix/plus4ui.c:155 src/arch/unix/vic20ui.c:478
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Datei"
 
-#: src/arch/unix/c128ui.c:441 src/arch/unix/c64ui.c:418
+#: src/arch/unix/c128ui.c:446 src/arch/unix/c64ui.c:423
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:405
 #: src/arch/unix/plus4ui.c:172 src/arch/unix/vic20ui.c:497
 msgid "Snapshot"
 msgstr "Snapshot"
 
-#: src/arch/unix/c128ui.c:448 src/arch/unix/c64ui.c:425
+#: src/arch/unix/c128ui.c:453 src/arch/unix/c64ui.c:430
 #: src/arch/unix/cbm2ui.c:491 src/arch/unix/petui.c:412
 #: src/arch/unix/plus4ui.c:179 src/arch/unix/vic20ui.c:504
 msgid "Options"
 msgstr "Optionen"
 
-#: src/arch/unix/c128ui.c:460 src/arch/unix/c64ui.c:437
+#: src/arch/unix/c128ui.c:465 src/arch/unix/c64ui.c:442
 #: src/arch/unix/cbm2ui.c:501 src/arch/unix/petui.c:420
 #: src/arch/unix/plus4ui.c:187 src/arch/unix/vic20ui.c:510
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1195
@@ -377,39 +382,39 @@ msgstr "Einstellungen"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:474 src/arch/unix/c64ui.c:451
+#: src/arch/unix/c128ui.c:479 src/arch/unix/c64ui.c:456
 #: src/arch/unix/cbm2ui.c:515 src/arch/unix/petui.c:434
 #: src/arch/unix/plus4ui.c:201 src/arch/unix/vic20ui.c:525
 msgid "RJHelp"
 msgstr "RJHilfe"
 
-#: src/arch/unix/c64ui.c:67 src/arch/unix/vsidui.c:129
+#: src/arch/unix/c64ui.c:68 src/arch/unix/vsidui.c:129
 msgid "*Old NTSC-M"
 msgstr "*NTSC-M alt"
 
-#: src/arch/unix/c64ui.c:282 src/arch/unix/petui.c:186
+#: src/arch/unix/c64ui.c:287 src/arch/unix/petui.c:186
 msgid "Load new kernal ROM"
 msgstr "Kernal ROM Laden"
 
-#: src/arch/unix/c64ui.c:285 src/arch/unix/petui.c:192
+#: src/arch/unix/c64ui.c:290 src/arch/unix/petui.c:192
 msgid "Load new BASIC ROM"
 msgstr "Basic ROM Laden"
 
-#: src/arch/unix/c64ui.c:288 src/arch/unix/petui.c:196
+#: src/arch/unix/c64ui.c:293 src/arch/unix/petui.c:196
 msgid "Load new character ROM"
 msgstr "Zeichensatz ROM Laden"
 
-#: src/arch/unix/c64ui.c:320 src/arch/unix/cbm2ui.c:401
+#: src/arch/unix/c64ui.c:325 src/arch/unix/cbm2ui.c:401
 #: src/arch/unix/petui.c:322 src/arch/unix/plus4ui.c:70
 #: src/arch/unix/vic20ui.c:398
 msgid "Screenshot..."
 msgstr "Screenshot..."
 
-#: src/arch/unix/c64ui.c:328
+#: src/arch/unix/c64ui.c:333
 msgid "ROM settings"
 msgstr "ROM Einstellungen"
 
-#: src/arch/unix/c64ui.c:334
+#: src/arch/unix/c64ui.c:339
 #, fuzzy
 msgid "I/O extensions"
 msgstr "I/O Erweiterungen bei $DFxx"
@@ -531,12 +536,12 @@ msgid "ACIA device"
 msgstr "ACIA Gerät"
 
 #: src/arch/unix/cbm2ui.c:333 src/arch/unix/petui.c:241
-#: src/arch/unix/uirs232.c:217 src/arch/unix/vic20ui.c:338
+#: src/arch/unix/uirs232.c:172 src/arch/unix/vic20ui.c:338
 msgid "Serial 1 device..."
 msgstr "Serielles Gerät 1..."
 
 #: src/arch/unix/cbm2ui.c:335 src/arch/unix/petui.c:243
-#: src/arch/unix/uirs232.c:219 src/arch/unix/vic20ui.c:340
+#: src/arch/unix/uirs232.c:174 src/arch/unix/vic20ui.c:340
 msgid "Serial 1 baudrate"
 msgstr "Seriell 1 Baudrate"
 
@@ -546,17 +551,17 @@ msgid "Serial 2 device..."
 msgstr "Serielles Geräte 2..."
 
 #: src/arch/unix/cbm2ui.c:340 src/arch/unix/petui.c:248
-#: src/arch/unix/uirs232.c:224 src/arch/unix/vic20ui.c:345
+#: src/arch/unix/uirs232.c:179 src/arch/unix/vic20ui.c:345
 msgid "Serial 2 baudrate"
 msgstr "Seriell 2 Baudrate"
 
 #: src/arch/unix/cbm2ui.c:343 src/arch/unix/petui.c:251
-#: src/arch/unix/uirs232.c:227 src/arch/unix/vic20ui.c:348
+#: src/arch/unix/uirs232.c:182 src/arch/unix/vic20ui.c:348
 msgid "Dump filename..."
 msgstr "Dump Dateiname"
 
 #: src/arch/unix/cbm2ui.c:346 src/arch/unix/petui.c:254
-#: src/arch/unix/uirs232.c:230 src/arch/unix/vic20ui.c:351
+#: src/arch/unix/uirs232.c:185 src/arch/unix/vic20ui.c:351
 msgid "Program name to exec..."
 msgstr "Auszuführendes Programm..."
 
@@ -1376,9 +1381,9 @@ msgstr "*Präzise Floppy Emulation"
 #: src/arch/unix/uidriveplus4.c:46 src/arch/unix/uidriveplus4.c:64
 #: src/arch/unix/uidriveplus4.c:82 src/arch/unix/uidriveplus4.c:100
 #: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:107
-#: src/arch/unix/uiperipheral.c:81 src/arch/unix/uiperipheral.c:95
-#: src/arch/unix/uiperipheral.c:109 src/arch/unix/uiperipheral.c:123
-#: src/arch/unix/uiprinter.c:179 src/arch/unix/uiprinter.c:191
+#: src/arch/unix/uiperipheral.c:60 src/arch/unix/uiperipheral.c:74
+#: src/arch/unix/uiperipheral.c:88 src/arch/unix/uiperipheral.c:102
+#: src/arch/unix/uiprinter.c:158 src/arch/unix/uiprinter.c:170
 #: src/arch/unix/vic20ui.c:290
 msgid "*None"
 msgstr "*Kein"
@@ -1682,57 +1687,58 @@ msgstr "Hinzufügen: "
 msgid "Remove: "
 msgstr "Entfernen: "
 
-#: src/arch/unix/uiide64.c:49
+#: src/arch/unix/uiide64.c:42
 #, fuzzy
 msgid "IDE64 image name"
 msgstr "REU Image Name"
 
-#: src/arch/unix/uiide64.c:63 src/arch/unix/uireu.c:66
+#: src/arch/unix/uiide64.c:43 src/arch/unix/uireu.c:42
+#: src/arch/unix/uitfe.c:44
 msgid "Name:"
 msgstr "Name:"
 
-#: src/arch/unix/uiide64.c:99
+#: src/arch/unix/uiide64.c:73
 msgid "Enter number of cylinders"
 msgstr ""
 
-#: src/arch/unix/uiide64.c:100
+#: src/arch/unix/uiide64.c:74
 msgid "IDE64 cylinders"
 msgstr ""
 
-#: src/arch/unix/uiide64.c:138
+#: src/arch/unix/uiide64.c:112
 msgid "Enter number of heads"
 msgstr ""
 
-#: src/arch/unix/uiide64.c:139
+#: src/arch/unix/uiide64.c:113
 msgid "IDE64 heads"
 msgstr ""
 
-#: src/arch/unix/uiide64.c:177
+#: src/arch/unix/uiide64.c:151
 msgid "Enter number of sectors"
 msgstr ""
 
-#: src/arch/unix/uiide64.c:178
+#: src/arch/unix/uiide64.c:152
 msgid "IDE64 sectors"
 msgstr ""
 
-#: src/arch/unix/uiide64.c:192
+#: src/arch/unix/uiide64.c:166
 #, fuzzy
 msgid "IDE64 image name..."
 msgstr "REU Image Name..."
 
-#: src/arch/unix/uiide64.c:195
+#: src/arch/unix/uiide64.c:169
 msgid "*Autodetect image size"
 msgstr ""
 
-#: src/arch/unix/uiide64.c:197
+#: src/arch/unix/uiide64.c:171
 msgid "*Cylinders..."
 msgstr ""
 
-#: src/arch/unix/uiide64.c:199
+#: src/arch/unix/uiide64.c:173
 msgid "*Heads..."
 msgstr ""
 
-#: src/arch/unix/uiide64.c:201
+#: src/arch/unix/uiide64.c:175
 #, fuzzy
 msgid "*Sectors..."
 msgstr "Tonaufnahme..."
@@ -1862,24 +1868,24 @@ msgid ""
 "'%s'"
 msgstr "Kann Paletten Datei `%s' nicht laden."
 
-#: src/arch/unix/uiperipheral.c:70
+#: src/arch/unix/uiperipheral.c:53
 msgid "Path:"
 msgstr "Pfad:"
 
-#: src/arch/unix/uiperipheral.c:83 src/arch/unix/uiperipheral.c:97
-#: src/arch/unix/uiperipheral.c:111 src/arch/unix/uiperipheral.c:125
-#: src/arch/unix/uiprinter.c:181 src/arch/unix/uiprinter.c:193
+#: src/arch/unix/uiperipheral.c:62 src/arch/unix/uiperipheral.c:76
+#: src/arch/unix/uiperipheral.c:90 src/arch/unix/uiperipheral.c:104
+#: src/arch/unix/uiprinter.c:160 src/arch/unix/uiprinter.c:172
 msgid "*File system access"
 msgstr "*Dateisystem Zugriff"
 
-#: src/arch/unix/uiperipheral.c:86 src/arch/unix/uiperipheral.c:100
-#: src/arch/unix/uiperipheral.c:114 src/arch/unix/uiperipheral.c:128
-#: src/arch/unix/uiprinter.c:184 src/arch/unix/uiprinter.c:196
+#: src/arch/unix/uiperipheral.c:65 src/arch/unix/uiperipheral.c:79
+#: src/arch/unix/uiperipheral.c:93 src/arch/unix/uiperipheral.c:107
+#: src/arch/unix/uiprinter.c:163 src/arch/unix/uiprinter.c:175
 msgid "*Real device access"
 msgstr "*Echter Geräte Zugriff"
 
-#: src/arch/unix/uiperipheral.c:89 src/arch/unix/uiperipheral.c:103
-#: src/arch/unix/uiperipheral.c:117 src/arch/unix/uiperipheral.c:131
+#: src/arch/unix/uiperipheral.c:68 src/arch/unix/uiperipheral.c:82
+#: src/arch/unix/uiperipheral.c:96 src/arch/unix/uiperipheral.c:110
 msgid "*Raw device access"
 msgstr "*Echter Geräte Zugriff"
 
@@ -1958,31 +1964,31 @@ msgstr "*Virtuelle Geräte aktivieren"
 msgid "Peripheral settings"
 msgstr "Peripherie Einstellungen"
 
-#: src/arch/unix/uiprinter.c:79 src/arch/unix/uiprinter.c:94
-#: src/arch/unix/uiprinter.c:106
+#: src/arch/unix/uiprinter.c:80 src/arch/unix/uiprinter.c:95
+#: src/arch/unix/uiprinter.c:107
 msgid "*Printer 1 (file dump)"
 msgstr "*Drucker 1 (auf Datei)"
 
-#: src/arch/unix/uiprinter.c:82 src/arch/unix/uiprinter.c:96
-#: src/arch/unix/uiprinter.c:108
+#: src/arch/unix/uiprinter.c:83 src/arch/unix/uiprinter.c:97
+#: src/arch/unix/uiprinter.c:109
 msgid "*Printer 2 (exec)"
 msgstr "*Drucker 2 (Ausführung)"
 
-#: src/arch/unix/uiprinter.c:85 src/arch/unix/uiprinter.c:98
-#: src/arch/unix/uiprinter.c:110
+#: src/arch/unix/uiprinter.c:86 src/arch/unix/uiprinter.c:99
+#: src/arch/unix/uiprinter.c:111
 msgid "*Printer 3 (exec)"
 msgstr "*Drucker 3 (Ausführung)"
 
-#: src/arch/unix/uiprinter.c:126
+#: src/arch/unix/uiprinter.c:127
 msgid "Select printer dump file"
 msgstr "Drucker Ausgabedatei definieren"
 
-#: src/arch/unix/uiprinter.c:154
+#: src/arch/unix/uiprinter.c:148
 msgid "Command to execute for printing (preceed with '|')"
 msgstr "Kommand für Druckerausgabe definieren ('|' voranstellen!)"
 
-#: src/arch/unix/uiprinter.c:164 src/arch/unix/uirs232.c:156
-#: src/arch/unix/uirs232.c:185
+#: src/arch/unix/uiprinter.c:149 src/arch/unix/uirs232.c:140
+#: src/arch/unix/uirs232.c:146
 msgid "Command:"
 msgstr "Kommando:"
 
@@ -2054,91 +2060,91 @@ msgstr "Drucker Text Gerät 2..."
 msgid "Printer text device 3..."
 msgstr "Drucker Text Gerät 3..."
 
-#: src/arch/unix/uireu.c:52
+#: src/arch/unix/uireu.c:41
 msgid "REU image name"
 msgstr "REU Image Name"
 
-#: src/arch/unix/uireu.c:96
+#: src/arch/unix/uireu.c:66
 msgid "*Enable REU"
 msgstr "*Aktivieren der REU"
 
-#: src/arch/unix/uireu.c:98
+#: src/arch/unix/uireu.c:68
 msgid "REU size"
 msgstr "REU Größe"
 
-#: src/arch/unix/uireu.c:100
+#: src/arch/unix/uireu.c:70
 msgid "REU image name..."
 msgstr "REU Image Name..."
 
-#: src/arch/unix/uirs232.c:43 src/arch/unix/uirs232.c:57
+#: src/arch/unix/uirs232.c:44 src/arch/unix/uirs232.c:58
 msgid "*Serial 1"
 msgstr "*Seriell 1 Baudrate"
 
-#: src/arch/unix/uirs232.c:45 src/arch/unix/uirs232.c:59
+#: src/arch/unix/uirs232.c:46 src/arch/unix/uirs232.c:60
 msgid "*Serial 2"
 msgstr "*Seriell 2 Baudrate"
 
-#: src/arch/unix/uirs232.c:47 src/arch/unix/uirs232.c:61
+#: src/arch/unix/uirs232.c:48 src/arch/unix/uirs232.c:62
 msgid "*Dump to file"
 msgstr "*Dump Dateiname"
 
-#: src/arch/unix/uirs232.c:49 src/arch/unix/uirs232.c:63
+#: src/arch/unix/uirs232.c:50 src/arch/unix/uirs232.c:64
 msgid "*Exec process"
 msgstr "*Prozess ausführen"
 
-#: src/arch/unix/uirs232.c:71
+#: src/arch/unix/uirs232.c:72
 msgid "*No IRQ/NMI"
 msgstr "*Kein IRQ/NMI"
 
-#: src/arch/unix/uirs232.c:73
+#: src/arch/unix/uirs232.c:74
 msgid "*IRQ"
 msgstr "*IRQ"
 
-#: src/arch/unix/uirs232.c:75
+#: src/arch/unix/uirs232.c:76
 msgid "*NMI"
 msgstr "*NMI"
 
-#: src/arch/unix/uirs232.c:120
+#: src/arch/unix/uirs232.c:121
 msgid "Select RS232 device file"
 msgstr "RS232 Gerät Datei selektieren"
 
-#: src/arch/unix/uirs232.c:145
+#: src/arch/unix/uirs232.c:139
 msgid "Command to execute for RS232 (preceed with '|')"
 msgstr "Kommando zur Ausführung für RS232 Geräte ('|' voranstellen!)"
 
-#: src/arch/unix/uirs232.c:175
+#: src/arch/unix/uirs232.c:145
 msgid "File to dump RS232 to"
 msgstr "Datei für RS232 Ausgabe"
 
-#: src/arch/unix/uirs232.c:199
+#: src/arch/unix/uirs232.c:154
 msgid "*ACIA $DExx RS232 interface emulation"
 msgstr "*ACIA $DExx RS232 Schnittstellen-Emulation"
 
-#: src/arch/unix/uirs232.c:201
+#: src/arch/unix/uirs232.c:156
 msgid "ACIA $DExx device"
 msgstr "ACIA $DExx Gerät"
 
-#: src/arch/unix/uirs232.c:203
+#: src/arch/unix/uirs232.c:158
 msgid "ACIA $DExx Interrupt"
 msgstr "ACIA $DExx Interrupt"
 
-#: src/arch/unix/uirs232.c:206 src/arch/unix/vic20ui.c:329
+#: src/arch/unix/uirs232.c:161 src/arch/unix/vic20ui.c:329
 msgid "*No Userport RS232 emulation"
 msgstr "*Keine Userport RS232 Emulation"
 
-#: src/arch/unix/uirs232.c:208 src/arch/unix/vic20ui.c:331
+#: src/arch/unix/uirs232.c:163 src/arch/unix/vic20ui.c:331
 msgid "*Userport 300 baud RS232 emulation"
 msgstr "*Userport 300 Baud RS232 Emulation"
 
-#: src/arch/unix/uirs232.c:210 src/arch/unix/vic20ui.c:333
+#: src/arch/unix/uirs232.c:165 src/arch/unix/vic20ui.c:333
 msgid "*Userport 1200 baud RS232 emulation"
 msgstr "*Userport 1200 Baud RS232 Emulation"
 
-#: src/arch/unix/uirs232.c:212
+#: src/arch/unix/uirs232.c:167
 msgid "*CIA 9600 baud RS232 emulation"
 msgstr "*CIA 9600 Baud RS232 Emulation"
 
-#: src/arch/unix/uirs232.c:214 src/arch/unix/vic20ui.c:335
+#: src/arch/unix/uirs232.c:169 src/arch/unix/vic20ui.c:335
 msgid "Userport RS232 device"
 msgstr "Userport RS232 Gerät"
 
@@ -2309,95 +2315,95 @@ msgstr ""
 msgid "Passband percentage"
 msgstr "Passband Prozent"
 
-#: src/arch/unix/uisound.c:59
+#: src/arch/unix/uisound.c:58
 msgid "*1.00 sec"
 msgstr "*1.00 sec"
 
-#: src/arch/unix/uisound.c:61
+#: src/arch/unix/uisound.c:60
 msgid "*0.75 sec"
 msgstr "*0.75 sec"
 
-#: src/arch/unix/uisound.c:63
+#: src/arch/unix/uisound.c:62
 msgid "*0.50 sec"
 msgstr "*0.50 sec"
 
-#: src/arch/unix/uisound.c:65
+#: src/arch/unix/uisound.c:64
 msgid "*0.35 sec"
 msgstr "*0.35 sec"
 
-#: src/arch/unix/uisound.c:67
+#: src/arch/unix/uisound.c:66
 msgid "*0.30 sec"
 msgstr "*0.30 sec"
 
-#: src/arch/unix/uisound.c:69
+#: src/arch/unix/uisound.c:68
 msgid "*0.25 sec"
 msgstr "*0.25 sec"
 
-#: src/arch/unix/uisound.c:71
+#: src/arch/unix/uisound.c:70
 msgid "*0.20 sec"
 msgstr "*0.20 sec"
 
-#: src/arch/unix/uisound.c:73
+#: src/arch/unix/uisound.c:72
 msgid "*0.15 sec"
 msgstr "*0.15 sec"
 
-#: src/arch/unix/uisound.c:75
+#: src/arch/unix/uisound.c:74
 msgid "*0.10 sec"
 msgstr "*0.10 sec"
 
-#: src/arch/unix/uisound.c:81
+#: src/arch/unix/uisound.c:80
 msgid "*Keep going"
 msgstr "*Weiter Ausführen"
 
-#: src/arch/unix/uisound.c:83
+#: src/arch/unix/uisound.c:82
 msgid "*1 sec suspend"
 msgstr "*1 sec Unterbrechung"
 
-#: src/arch/unix/uisound.c:85
+#: src/arch/unix/uisound.c:84
 msgid "*2 sec suspend"
 msgstr "*2 sec Unterbrechung"
 
-#: src/arch/unix/uisound.c:87
+#: src/arch/unix/uisound.c:86
 msgid "*5 sec suspend"
 msgstr "*5 sec Unterbrechung"
 
-#: src/arch/unix/uisound.c:89
+#: src/arch/unix/uisound.c:88
 msgid "*10 sec suspend"
 msgstr "*10 sec Unterbrechung"
 
-#: src/arch/unix/uisound.c:107
+#: src/arch/unix/uisound.c:106
 msgid "*Flexible"
 msgstr "*Flexibel"
 
-#: src/arch/unix/uisound.c:110
+#: src/arch/unix/uisound.c:109
 msgid "*Adjusting"
 msgstr "*Anpassend"
 
-#: src/arch/unix/uisound.c:113
+#: src/arch/unix/uisound.c:112
 msgid "*Exact"
 msgstr "*Exakt"
 
-#: src/arch/unix/uisound.c:123
+#: src/arch/unix/uisound.c:122
 msgid "Sound synchronization"
 msgstr "Sound Synchronisation"
 
-#: src/arch/unix/uisound.c:126
+#: src/arch/unix/uisound.c:125
 msgid "Sample rate"
 msgstr "Sample Rate"
 
-#: src/arch/unix/uisound.c:128
+#: src/arch/unix/uisound.c:127
 msgid "Buffer size"
 msgstr "Puffergröße"
 
-#: src/arch/unix/uisound.c:130
+#: src/arch/unix/uisound.c:129
 msgid "Suspend time"
 msgstr "Unterbrechungs Zeit"
 
-#: src/arch/unix/uisound.c:132
+#: src/arch/unix/uisound.c:131
 msgid "Oversample"
 msgstr "Oversample"
 
-#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:165
+#: src/arch/unix/uisound.c:137 src/arch/unix/vsidui.c:165
 msgid "Sound settings"
 msgstr "Sound Einstellungen"
 
@@ -2417,6 +2423,23 @@ msgstr "*Schnelle PAL Emulation"
 #: src/arch/unix/uited.c:116 src/arch/unix/uivicii.c:125
 msgid "PAL Emulation"
 msgstr "PAL Emulation"
+
+#: src/arch/unix/uitfe.c:43
+msgid "Ethernet interface"
+msgstr ""
+
+#: src/arch/unix/uitfe.c:48
+#, fuzzy
+msgid "*Enable Ethernet"
+msgstr "*Aktivieren der REU"
+
+#: src/arch/unix/uitfe.c:50
+msgid "*RR-NET compatibity mode"
+msgstr ""
+
+#: src/arch/unix/uitfe.c:52
+msgid "Interface..."
+msgstr ""
 
 #: src/arch/unix/uivdc.c:40 src/arch/unix/uivic.c:51
 #: src/arch/unix/uivicii.c:47
@@ -3400,9 +3423,6 @@ msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
 
 #~ msgid "*Blurry PAL Emulation (Composite Input)"
 #~ msgstr "*Unscharfe PAL Emulation (Composite Eingang)"
-
-#~ msgid "*Use reSID emulation"
-#~ msgstr "*Benutze reSID Emulation"
 
 #~ msgid "Memory settings"
 #~ msgstr "Speicher Einstellungen"
