@@ -42,6 +42,7 @@ typedef struct _ui_status
 {
     HPS   hps;
     RECTL rectl;
+    UINT  step;
     BOOL  init;
     //    float maxSpeed;
     //    float maxFps;
@@ -49,6 +50,7 @@ typedef struct _ui_status
     float lastFps;
     int   lastSec;
     float lastTrack[4];
+    CHAR  lastImage[4][255];
     ui_drive_enable_t lastDriveState;
 
 } ui_status_t;

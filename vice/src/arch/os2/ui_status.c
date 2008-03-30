@@ -32,46 +32,12 @@
 
 #include "vice.h"*/
 
-/*#include <fcntl.h>
-#include <io.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdarg.h>*/
-//#include <unistd.h>
-//#ifdef __EMX__
-//#include <sys/hw.h>
-//#endif
-//#include "cmdline.h"
-//#ifdef __EMX__
-//#include "dos.h"
-//#endif
-//#include "machine.h"
-//#include "menudefs.h"
-//#include "mon.h"
-//#include "resources.h"
-//#include "sound.h"
-//#include "tui.h"
-//#include "tuicharset.h"
-//#include "tuimenu.h"
-//#include "types.h"
-//#include "utils.h"
-//#include "vsync.h"
-//#include "archdep.h"
-
 #include "ui_status.h"
 
 #include <stdlib.h>
 
 #include "pm/pbar.h"
-
-/*-------------------------------------------------------------------------*/
-
-static void uilog(char *s, int i)
-{
-    FILE *fl=fopen("output","a");
-    fprintf(fl,"%s %i\n",s,i);
-    fclose(fl);
-}
+#include "log.h"
 
 /* ------------------------ VICE/2 Status Window ------------------------ */
 
@@ -103,8 +69,8 @@ void ui_display_speed(float spd, float fps, int sec)
     //    if (spd>ui_status.maxSpeed) ui_status.maxSpeed=spd;
     //    if (fps>ui_status.maxFps)   ui_status.maxFps  =fps;
 
-    rectl.xLeft   +=2; rectl.xRight =rectl.xLeft+50;
-    rectl.yBottom +=2; rectl.yTop  -=2;
+    rectl.xLeft  +=2;                rectl.xRight =rectl.xLeft+50;
+    rectl.yBottom =rectl.yTop-ui_status.step+2; rectl.yTop  -=2;
     sprintf(str,"%3.0f%%", spd);
     drawBar(ui_status.hps, rectl, spd, 100, str); // 100%
 
@@ -147,7 +113,11 @@ MRESULT EXPENTRY PM_statProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             if (!ui_status.init) break;
             ui_draw_status_window(hwnd);
             ui_display_speed(ui_status.lastSpeed, ui_status.lastFps, ui_status.lastSec);
-            ui_enable_drive_status(ui_status.lastDriveState,0);
+            ui_enable_drive_status(ui_status.lastDriveState, 0);
+            ui_display_drive_current_image(0, ui_status.lastImage[0]);
+            ui_display_drive_current_image(1, ui_status.lastImage[1]);
+            ui_display_drive_current_image(2, ui_status.lastImage[2]);
+            ui_display_drive_current_image(3, ui_status.lastImage[3]);
             break;
         case WM_QUIT:
             if (!ui_status.init) break;
@@ -170,6 +140,7 @@ void PM_status(void *unused)
     QMSG qmsg;  // Msg Queue Event
     HWND hwndFrame, hwndClient;
 
+    //    archdep_setup_signals(0);
     //    ui_status.maxSpeed =0.01;
     //    ui_status.maxFps   =0.01;
     ui_status.lastSpeed=0;
@@ -184,21 +155,25 @@ void PM_status(void *unused)
     WinRegisterClass(hab, szStatusClntClass, PM_statProc,
                      CS_SIZEREDRAW, 0);
 
+    // maybe HWND_DESKTOP should be canvas->hwndFrame?
     hwndFrame = WinCreateStdWindow(HWND_DESKTOP, 0, &flStatusFrameFlags,
                                    szStatusClntClass, szStatusBarTitle,
                                    0L, 0, 0, &hwndClient);
-    uilog("StatusWindowOpened",0);
-    WinSetWindowPos(hwndFrame, HWND_TOP, 0, 0, 160,
-                    2*WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR)+2,
+    ui_status.step = WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
+    WinSetWindowPos(hwndFrame, HWND_TOP, 0, 0,
+                    20*ui_status.step+2, 6*ui_status.step+2,
                     SWP_SIZE|SWP_SHOW|SWP_ZORDER); // Make visible, resize, top window
 
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
         WinDispatchMsg (hab, &qmsg) ;
 
+    log_message(LOG_DEFAULT, "ui_status.c: closing");
     WinDestroyWindow (hwndFrame);
+    log_message(LOG_DEFAULT, "ui_status.c: window destroyed");
     WinDestroyMsgQueue(hmq);      // Destroy Msg Queue
+    log_message(LOG_DEFAULT, "ui_status.c: msg queue sestroyed");
     WinTerminate (hab);           // Release Anchor to PM
-    ui_status.hps=0;  // used to indicate end of destroy
-    uilog("StatusWindowClosed",0);
+    log_message(LOG_DEFAULT, "ui_status.c: PM anchor released");
+    ui_status.hps=FALSE;  // used to indicate end of destroy
 }
 

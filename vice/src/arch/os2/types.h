@@ -1,13 +1,8 @@
 /*
- * types.h - Generic type definitions for VICE.
+ * types.h - Generic type definitions for VICE/2.
  *
  * Written by
- *  Jarkko Sonninen  (sonninen@lut.fi)
- *  Jouko Valta      (jopi@stekt.oulu.fi)
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat     (a.fachat@physik.tu-chemnitz.de)
- *  Teemu Rantanen   (tvr@cs.hut.fi)
- *
+ *  Thomas Bretz (tbretz@gsi.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,7 +27,7 @@
 #ifndef _VICE_TYPES_H
 #define _VICE_TYPES_H
 
-#include "vice.h"
+#include <limits.h>
 
 #undef VERSION
 
@@ -56,10 +51,10 @@
 
 typedef signed char SIGNED_CHAR;
 
-typedef unsigned short  WORD;
-typedef   signed short SWORD;
-typedef   signed int  SDWORD;
-typedef unsigned long  DWORD;
+typedef unsigned short   WORD;
+typedef   signed short  SWORD;
+typedef   signed int   SDWORD;
+typedef unsigned long   DWORD;
 
 #undef ADDRESS
 typedef WORD ADDRESS;

@@ -29,11 +29,10 @@
 #define INCL_DOSDEVIOCTL        // include needed for DosDevIOCtl call
 #include "vice.h"
 
-//#include <os2.h>  // Why do I need this?
-
 #include "cmdline.h"
 #include "joystick.h"
 
+#include "log.h"
 #include "resources.h"
 //#include "kbd.h"              /* FIXME: Maybe we should move `joystick_value[]'
 //                                 here...  */
@@ -208,13 +207,6 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
 
 /* ------------------------------------------------------------------------- */
 
-void joylog (char *c, int i)
-{
-    FILE *fl=fopen("output","a");
-    fprintf(fl,"%s %i\n",c,i);
-    fclose(fl);
-}
-
 static HFILE SWhGame = NULL;
 
 /* Initialize joystick support.  */
@@ -231,7 +223,7 @@ void joystick_init(void)
     else
         number_joysticks = 0;
 
-    joylog("DosOpen:",rc);
+    log_message(LOG_DEFAULT, "joystick.c: DosOpen");
 }
 
 /* Update the `joystick_value' variables according to the joystick status.  */
@@ -240,6 +232,7 @@ void joystick_update(void)
     static GAME_STATUS_STRUCT gameStatus;      // joystick readings
     static ULONG dataLen = sizeof(gameStatus); // length of gameStatus
 
+    // calibration data!
     static int joyA_up    = 200; // value < 200
     static int joyA_down  = 600; // value > 600
     static int joyA_left  = 200; // value < 200
@@ -284,11 +277,12 @@ void joystick_update(void)
     }
 }
 
+/* Strange! If video_init fails this is called without calling DosOpen before! */
 void joystick_close(void)
 {
     APIRET rc = \
         /* return */ DosClose(SWhGame);
-    joylog("DosClose:",rc);
+    log_message(LOG_DEFAULT, "joystick.c: DosClose");
 }
 
 /* Handle keys to emulate the joystick.  Warning: this is called within the
