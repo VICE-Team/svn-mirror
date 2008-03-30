@@ -1,3 +1,31 @@
+2006-09-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.8.
+
+	* c64/c64parallel.c, drive/iec/cia1571d.c: Added support for
+	1571 style parallel cable.
+
+	* drive/iec/memiec.c: Added support for 1571 style 8KB memory
+	expansion.
+
+2006-09-28  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* arch/unix/gui/c128ui.c, arch/unix/gui/c64ui.c,
+	arch/unix/gui/cbm2ui.c, arch/unix/gui/petui.c,
+	arch/unix/gui/plus4ui.c, arch/unix/gui/uifliplist.c,
+	arch/unix/gui/vic20ui.c, arch/unix/gui/vsidui.c,
+	arch/unix/ui.h, arch/unix/x11/gnome/gnomekbd.c,
+	arch/unix/x11/gnome/uiarch.h, arch/unix/x11/gnome/uimenu.c,
+	arch/unix/x11/gnome/uimenu.h, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/x11/x11menu.c, arch/unix/x11/x11menu.h,
+	arch/unix/x11/xaw/uiarch.h, arch/unix/x11/xaw/uimenu.c,
+	arch/unix/x11/xaw/x11ui.c: Added GTK accelerators.
+
+2006-09-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/cart/c64cart.c, c64/tfe.c, translate.c: Corrected some
+	text elements.
+
 2006-09-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.7.
