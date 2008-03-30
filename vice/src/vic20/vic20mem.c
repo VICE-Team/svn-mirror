@@ -428,17 +428,17 @@ static void REGPARM2 store_wrap(ADDRESS addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_basic(ADDRESS addr)
+BYTE REGPARM1 basic_read(ADDRESS addr)
 {
     return basic_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 read_kernal(ADDRESS addr)
+BYTE REGPARM1 kernal_read(ADDRESS addr)
 {
     return kernal_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 read_chargen(ADDRESS addr)
+BYTE REGPARM1 chargen_read(ADDRESS addr)
 {
     return chargen_rom[0x400 + (addr & 0xfff)];
 }
@@ -453,12 +453,12 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
     ram[addr & 0xff] = value;
 }
 
-static BYTE REGPARM1 read_ram(ADDRESS addr)
+static BYTE REGPARM1 ram_read(ADDRESS addr)
 {
     return ram[addr];
 }
 
-static void REGPARM2 store_ram(ADDRESS addr, BYTE value)
+static void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 {
     ram[addr & (VIC20_RAM_SIZE - 1)] = value;
 }
@@ -468,23 +468,23 @@ static BYTE REGPARM1 read_cartrom(ADDRESS addr)
     return cartrom[addr & 0xffff];
 }
 
-BYTE REGPARM1 read_rom(ADDRESS addr)
+BYTE REGPARM1 rom_read(ADDRESS addr)
 {
     switch (addr & 0xf000) {
       case 0x8000:
-        return read_chargen(addr);
+        return chargen_read(addr);
       case 0xc000:
       case 0xd000:
-        return read_basic(addr);
+        return basic_read(addr);
       case 0xe000:
       case 0xf000:
-        return read_kernal(addr);
+        return kernal_read(addr);
     }
 
     return 0;
 }
 
-void REGPARM2 store_rom(ADDRESS addr, BYTE value)
+void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0x8000:
@@ -501,22 +501,22 @@ void REGPARM2 store_rom(ADDRESS addr, BYTE value)
     }
 }
 
-void REGPARM2 store_via(ADDRESS addr, BYTE value)
+void REGPARM2 via_store(ADDRESS addr, BYTE value)
 {
     if (addr & 0x10)		/* $911x (VIA2) */
-	store_via2(addr, value);
+	via2_store(addr, value);
     if (addr & 0x20)		/* $912x (VIA1) */
-	store_via1(addr, value);
+	via1_store(addr, value);
 }
 
-BYTE REGPARM1 read_via(ADDRESS addr)
+BYTE REGPARM1 via_read(ADDRESS addr)
 {
     BYTE ret = 0xff;
 
     if (addr & 0x10)		/* $911x (VIA2) */
-	ret &= read_via2(addr);
+	ret &= via2_read(addr);
     if (addr & 0x20)		/* $912x (VIA1) */
-	ret &= read_via1(addr);
+	ret &= via1_read(addr);
 
     return ret;
 }
@@ -541,39 +541,39 @@ static void REGPARM2 store_emuid(ADDRESS addr, BYTE value)
 
 /*-------------------------------------------------------------------*/
 
-static BYTE REGPARM1 read_io3(ADDRESS addr)
+static BYTE REGPARM1 io3_read(ADDRESS addr)
 {
     if (emu_id_enabled && (addr & 0xff00) == 0x9f00) 
 	return read_emuid(addr);
     return 0xff;
 }
 
-static void REGPARM2 store_io3(ADDRESS addr, BYTE value)
+static void REGPARM2 io3_store(ADDRESS addr, BYTE value)
 {
     if (emu_id_enabled && (addr & 0xff00) == 0x9f00) 
 	store_emuid(addr, value);
     return;
 }
 
-static BYTE REGPARM1 read_io2(ADDRESS addr)
+static BYTE REGPARM1 io2_read(ADDRESS addr)
 {
     if (ieee488_enabled) {
 	if (addr & 0x10) {
-	    return read_ieeevia2(addr);
+	    return ieeevia2_read(addr);
 	} else {
-	    return read_ieeevia1(addr);
+	    return ieeevia1_read(addr);
 	}
     }
     return 0xff;
 }
 
-static void REGPARM2 store_io2(ADDRESS addr, BYTE value)
+static void REGPARM2 io2_store(ADDRESS addr, BYTE value)
 {
     if (ieee488_enabled) {
 	if (addr & 0x10) {
-	    store_ieeevia2(addr, value);
+	    ieeevia2_store(addr, value);
 	} else {
-	    store_ieeevia1(addr, value);
+	    ieeevia1_store(addr, value);
 	}
     }
     return;
@@ -667,12 +667,12 @@ int vic20_mem_enable_ram_block(int num)
 {
     if (num == 0) {
 	set_mem(0x04, 0x0f,
-		read_ram, store_ram,
+		ram_read, ram_store,
 		ram, 0xffff);
 	return 0;
     } else if (num > 0 && num != 4 && num <= 5) {
 	set_mem(num * 0x20, num * 0x20 + 0x1f,
-		read_ram, store_ram,
+		ram_read, ram_store,
 		ram, 0xffff);
 	return 0;
     } else
@@ -702,15 +702,15 @@ void initialize_memory(void)
 
     /* Setup low standard RAM at $0000-$0300. */
     set_mem(0x00, 0x03,
-	    read_ram, store_ram,
+	    ram_read, ram_store,
 	    ram, 0xffff);
 
     /* Setup more low RAM at $1000-$1FFF.  */
     set_mem(0x10, 0x1b,
-	    read_ram, store_ram,
+	    ram_read, ram_store,
 	    ram, 0xffff);
     set_mem(0x1c, 0x1f,
-	    read_ram, store_wrap,
+	    ram_read, store_wrap,
 	    ram, 0xffff);
 
     /* Setup RAM at $0400-$0FFF.  */
@@ -761,17 +761,17 @@ void initialize_memory(void)
 
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
-	    read_chargen, store_dummy,
+	    chargen_read, store_dummy,
 	    chargen_rom + 0x400, 0x0fff);
 
     /* Setup VIC-I at $9000-$90FF. */
     set_mem(0x90, 0x90,
-	    read_vic, store_vic,
+	    vic_read, vic_store,
 	    NULL, 0);
 
     /* Setup VIAs at $9100-$93FF. */
     set_mem(0x91, 0x93,
-	    read_via, store_via,
+	    via_read, via_store,
 	    NULL, 0);
 
     /* Setup color memory at $9400-$97FF.
@@ -779,27 +779,27 @@ void initialize_memory(void)
        separately, we map it directly in the corresponding RAM address
        space. */
     set_mem(0x94, 0x97,
-	    read_ram, store_ram,
+	    ram_read, ram_store,
 	    ram, 0xffff);
 
     /* Setup I/O2 at the expansion port */
     set_mem(0x98, 0x9b,
-	    read_io2, store_io2,
+	    io2_read, io2_store,
 	    NULL, 0);
 
     /* Setup I/O3 at the expansion port (includes emulator ID) */
     set_mem(0x9c, 0x9f,
-	    read_io3, store_io3,
+	    io3_read, io3_store,
 	    NULL, 0);
 
     /* Setup BASIC ROM at $C000-$DFFF. */
     set_mem(0xc0, 0xdf,
-	    read_basic, store_dummy,
+	    basic_read, store_dummy,
 	    basic_rom, 0x1fff);
 
     /* Setup Kernal ROM at $E000-$FFFF. */
     set_mem(0xe0, 0xff,
-	    read_kernal, store_dummy,
+	    kernal_read, store_dummy,
 	    kernal_rom, 0x1fff);
 
     _mem_read_tab_nowatch[0x100] = _mem_read_tab_nowatch[0];
@@ -1179,6 +1179,14 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
         mem_store(addr, byte);
         return;
     }
+}
+
+void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
+{
+    /* FIXME */
+    *base = 0x1000;
+    *rows = 23;
+    *columns = 22;
 }
 
 /************************************************************************/

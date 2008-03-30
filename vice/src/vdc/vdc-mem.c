@@ -81,7 +81,7 @@ static void vdc_perform_fillcopy(void)
 /* VDC interface functions. */
 
 /* Store a value in a VDC register. */
-void REGPARM2 store_vdc(ADDRESS addr, BYTE value)
+void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 {
 
 /*
@@ -249,7 +249,7 @@ void REGPARM2 store_vdc(ADDRESS addr, BYTE value)
 
 
 
-BYTE REGPARM1 read_vdc(ADDRESS addr)
+BYTE REGPARM1 vdc_read(ADDRESS addr)
 {
     if (addr & 1) {
 /*

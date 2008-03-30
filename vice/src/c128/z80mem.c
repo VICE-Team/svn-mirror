@@ -235,16 +235,16 @@ void z80mem_initialize(void)
         mem_write_tab[0][i] = store_ram;
     }
     for (i = 0x10; i <= 0x13; i++) {
-        mem_read_tab[1][i] = read_colorram;
-        mem_write_tab[1][i] = store_colorram;
+        mem_read_tab[1][i] = colorram_read;
+        mem_write_tab[1][i] = colorram_store;
     }
     for (i = 0x10; i <= 0x13; i++) {
         mem_read_tab[2][i] = read_ram;
         mem_write_tab[2][i] = store_ram;
     }
     for (i = 0x10; i <= 0x13; i++) {
-        mem_read_tab[3][i] = read_colorram;
-        mem_write_tab[3][i] = store_colorram;
+        mem_read_tab[3][i] = colorram_read;
+        mem_write_tab[3][i] = colorram_store;
     }
 
     for (j = 0; j < NUM_CONFIGS; j++) {
@@ -312,48 +312,48 @@ void z80mem_initialize(void)
     io_read_tab[0x0] = mmu_read;
     io_write_tab[0x0] = mmu_store;
 
-    io_read_tab[0x10] = read_colorram;
-    io_write_tab[0x10] = store_colorram;
-    io_read_tab[0x11] = read_colorram;
-    io_write_tab[0x11] = store_colorram;
-    io_read_tab[0x12] = read_colorram;
-    io_write_tab[0x12] = store_colorram;
-    io_read_tab[0x13] = read_colorram;
-    io_write_tab[0x13] = store_colorram;
+    io_read_tab[0x10] = colorram_read;
+    io_write_tab[0x10] = colorram_store;
+    io_read_tab[0x11] = colorram_read;
+    io_write_tab[0x11] = colorram_store;
+    io_read_tab[0x12] = colorram_read;
+    io_write_tab[0x12] = colorram_store;
+    io_read_tab[0x13] = colorram_read;
+    io_write_tab[0x13] = colorram_store;
 
-    io_read_tab[0xd0] = read_vic;
-    io_write_tab[0xd0] = store_vic;
-    io_read_tab[0xd1] = read_vic;
-    io_write_tab[0xd1] = store_vic;
-    io_read_tab[0xd2] = read_vic;
-    io_write_tab[0xd2] = store_vic;
-    io_read_tab[0xd3] = read_vic;
-    io_write_tab[0xd3] = store_vic;
+    io_read_tab[0xd0] = vic_read;
+    io_write_tab[0xd0] = vic_store;
+    io_read_tab[0xd1] = vic_read;
+    io_write_tab[0xd1] = vic_store;
+    io_read_tab[0xd2] = vic_read;
+    io_write_tab[0xd2] = vic_store;
+    io_read_tab[0xd3] = vic_read;
+    io_write_tab[0xd3] = vic_store;
 
-    io_read_tab[0xd4] = read_sid;
-    io_write_tab[0xd4] = store_sid;
+    io_read_tab[0xd4] = sid_read;
+    io_write_tab[0xd4] = sid_store;
 
     io_read_tab[0xd5] = mmu_read;
     io_write_tab[0xd5] = mmu_store;
 
-    io_read_tab[0xd6] = read_vdc;
-    io_write_tab[0xd6] = store_vdc;
+    io_read_tab[0xd6] = vdc_read;
+    io_write_tab[0xd6] = vdc_store;
     io_read_tab[0xd7] = read_d7xx;
     io_write_tab[0xd7] = store_d7xx;
 
-    io_read_tab[0xd8] = read_colorram;
-    io_write_tab[0xd8] = store_colorram;
-    io_read_tab[0xd9] = read_colorram;
-    io_write_tab[0xd9] = store_colorram;
-    io_read_tab[0xda] = read_colorram;
-    io_write_tab[0xda] = store_colorram;
-    io_read_tab[0xdb] = read_colorram;
-    io_write_tab[0xdb] = store_colorram;
+    io_read_tab[0xd8] = colorram_read;
+    io_write_tab[0xd8] = colorram_store;
+    io_read_tab[0xd9] = colorram_read;
+    io_write_tab[0xd9] = colorram_store;
+    io_read_tab[0xda] = colorram_read;
+    io_write_tab[0xda] = colorram_store;
+    io_read_tab[0xdb] = colorram_read;
+    io_write_tab[0xdb] = colorram_store;
 
-    io_read_tab[0xdc] = read_cia1;
-    io_write_tab[0xdc] = store_cia1;
-    io_read_tab[0xdd] = read_cia2;
-    io_write_tab[0xdd] = store_cia2;
+    io_read_tab[0xdc] = cia1_read;
+    io_write_tab[0xdc] = cia1_store;
+    io_read_tab[0xdd] = cia2_read;
+    io_write_tab[0xdd] = cia2_store;
 }
 
 #ifdef _MSC_VER

@@ -28,12 +28,6 @@
  *
  */
 
-/* This is just a quick hack!  */
-
-/* TODO:
-   - cartridge support;
-   - maybe C64 mode?  */
-
 #include "vice.h"
 
 #include <stdio.h>
@@ -194,7 +188,7 @@ static int set_reu_enabled(resource_value_t v)
         return 0;
     } else if (!ieee488_enabled) {
         reu_enabled = 1;
-        activate_reu();
+        reu_activate();
         return 0;
     } else {
         /* The REU and the IEEE488 interface share the same address space, so
@@ -456,7 +450,7 @@ BYTE REGPARM1 read_chargen(ADDRESS addr)
     return chargen_rom[addr & 0x0fff];
 }
 
-BYTE REGPARM1 read_rom(ADDRESS addr)
+BYTE REGPARM1 rom_read(ADDRESS addr)
 {
     switch (addr & 0xf000) {
       case 0x0000:
@@ -478,7 +472,7 @@ BYTE REGPARM1 read_rom(ADDRESS addr)
     return 0;
 }
 
-void REGPARM2 store_rom(ADDRESS addr, BYTE value)
+void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0x0000:
@@ -629,7 +623,7 @@ BYTE REGPARM1 read_d7xx(ADDRESS addr)
 {
 #if 0                           /*def HAVE_RS232 */
     if (acia_d7_enabled)
-        return read_acia2(addr);
+        return acia2_read(addr);
 #endif
     return 0xff;
 }
@@ -638,7 +632,7 @@ void REGPARM2 store_d7xx(ADDRESS addr, BYTE value)
 {
 #if 0                           /*def HAVE_RS232 */
         if (acia_d7_enabled)
-            store_acia2(addr, value);
+            acia2_read(addr, value);
 #endif
 }
 
@@ -668,35 +662,35 @@ void REGPARM2 store_top_shared(ADDRESS addr, BYTE value)
  * they leave out the cartridge support
  */
 
-void REGPARM2 store_io1(ADDRESS addr, BYTE value)
+static void REGPARM2 io1_store(ADDRESS addr, BYTE value)
 {
 #ifdef HAVE_RS232
         if (acia_de_enabled)
-            store_acia1(addr & 0x03, value);
+            acia1_store(addr & 0x03, value);
 #endif
     return;
 }
 
-BYTE REGPARM1 read_io1(ADDRESS addr)
+static BYTE REGPARM1 io1_read(ADDRESS addr)
 {
 #ifdef HAVE_RS232
         if (acia_de_enabled)
-            return read_acia1(addr & 0x03);
+            return acia1_read(addr & 0x03);
 #endif
         return 0xff;  /* rand(); - C64 has rand(), which is correct? */
 }
 
-void REGPARM2 store_io2(ADDRESS addr, BYTE value)
+static void REGPARM2 io2_store(ADDRESS addr, BYTE value)
 {
     if (reu_enabled)
-        store_reu(addr & 0x0f, value);
+        reu_store(addr & 0x0f, value);
     if (ieee488_enabled) {
-        store_tpi(addr & 0x07, value);
+        tpi_store(addr & 0x07, value);
     }
     return;
 }
 
-BYTE REGPARM1 read_io2(ADDRESS addr)
+static BYTE REGPARM1 io2_read(ADDRESS addr)
 {
     if (emu_id_enabled && addr >= 0xdfa0) {
         addr &= 0xff;
@@ -705,9 +699,9 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
         return emulator_id[addr - 0xa0];
     }
     if (reu_enabled)
-        return read_reu(addr & 0x0f);
+        return reu_read(addr & 0x0f);
     if (ieee488_enabled) {
-        return read_tpi(addr & 0x07);
+        return tpi_read(addr & 0x07);
     }
     return 0xff;  /* rand(); - C64 has rand(), which is correct? */
 }
@@ -1073,35 +1067,35 @@ void initialize_memory(void)
 
     for (j = (NUM_CONFIGS / 2); j < NUM_CONFIGS; j++) {
         for (i = 0xd0; i <= 0xd3; i++) {
-            mem_read_tab[j][i] = read_vic;
-            mem_write_tab[j][i] = store_vic;
+            mem_read_tab[j][i] = vic_read;
+            mem_write_tab[j][i] = vic_store;
         }
 
-        mem_read_tab[j][0xd4] = read_sid;
-        mem_write_tab[j][0xd4] = store_sid;
+        mem_read_tab[j][0xd4] = sid_read;
+        mem_write_tab[j][0xd4] = sid_store;
         mem_read_tab[j][0xd5] = mmu_read;
         mem_write_tab[j][0xd5] = mmu_store;
-        mem_read_tab[j][0xd6] = read_vdc;
-        mem_write_tab[j][0xd6] = store_vdc;
+        mem_read_tab[j][0xd6] = vdc_read;
+        mem_write_tab[j][0xd6] = vdc_store;
 
         mem_read_tab[j][0xd7] = read_d7xx;    /* read_empty_io; */
         mem_write_tab[j][0xd7] = store_d7xx;  /* store_empty_io; */
 
-        mem_read_tab[j][0xd8] = mem_read_tab[j][0xd9] = read_colorram;
-        mem_read_tab[j][0xda] = mem_read_tab[j][0xdb] = read_colorram;
-        mem_write_tab[j][0xd8] = mem_write_tab[j][0xd9] = store_colorram;
-        mem_write_tab[j][0xda] = mem_write_tab[j][0xdb] = store_colorram;
+        mem_read_tab[j][0xd8] = mem_read_tab[j][0xd9] = colorram_read;
+        mem_read_tab[j][0xda] = mem_read_tab[j][0xdb] = colorram_read;
+        mem_write_tab[j][0xd8] = mem_write_tab[j][0xd9] = colorram_store;
+        mem_write_tab[j][0xda] = mem_write_tab[j][0xdb] = colorram_store;
 
-        mem_read_tab[j][0xdc] = read_cia1;
-        mem_write_tab[j][0xdc] = store_cia1;
-        mem_read_tab[j][0xdd] = read_cia2;
-        mem_write_tab[j][0xdd] = store_cia2;
+        mem_read_tab[j][0xdc] = cia1_read;
+        mem_write_tab[j][0xdc] = cia1_store;
+        mem_read_tab[j][0xdd] = cia2_read;
+        mem_write_tab[j][0xdd] = cia2_store;
 
-        mem_read_tab[j][0xde] = read_io1;
-        mem_write_tab[j][0xde] = store_io1;
+        mem_read_tab[j][0xde] = io1_read;
+        mem_write_tab[j][0xde] = io1_store;
 
-        mem_read_tab[j][0xdf] = read_io2;
-        mem_write_tab[j][0xdf] = store_io2;
+        mem_read_tab[j][0xdf] = io2_read;
+        mem_write_tab[j][0xdf] = io2_store;
     }
 
     for (j = 0; j < 32; j += 16) {
@@ -1208,7 +1202,7 @@ static int mem_kernal_checksum(void)
     for (i = 0, sum = 0; i < C128_KERNAL_ROM_SIZE; i++)
         sum += kernal_rom[i];
 
-    id = read_rom(0xff80);
+    id = rom_read(0xff80);
 
     log_message(c128_mem_log, "Kernal rev #%d.", id);
     if (id == 1
@@ -1269,7 +1263,7 @@ static int mem_basic_checksum(void)
          i++)
         sum += basic_rom[i];
 
-    id = read_rom(0xff80);
+    id = rom_read(0xff80);
     if (id == 01
         && sum != C128_EDITOR_CHECKSUM_R01
         && sum != C128_EDITOR_CHECKSUM_R01SWE
@@ -1420,16 +1414,16 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        store_vic(addr, byte);
+        vic_store(addr, byte);
         break;
       case 0xd400:
-        store_sid(addr, byte);
+        sid_store(addr, byte);
         break;
       case 0xd500:
         mmu_store(addr, byte);
         break;
       case 0xd600:
-        store_vdc(addr, byte);
+        vdc_store(addr, byte);
         break;
       case 0xd700:
         store_d7xx(addr, byte);
@@ -1438,19 +1432,19 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
       case 0xd900:
       case 0xda00:
       case 0xdb00:
-        store_colorram(addr, byte);
+        colorram_store(addr, byte);
         break;
       case 0xdc00:
-        store_cia1(addr, byte);
+        cia1_store(addr, byte);
         break;
       case 0xdd00:
-        store_cia2(addr, byte);
+        cia2_store(addr, byte);
         break;
       case 0xde00:
-        store_io1(addr, byte);
+        io1_store(addr, byte);
         break;
       case 0xdf00:
-        store_io2(addr, byte);
+        io2_store(addr, byte);
         break;
     }
     return;
@@ -1463,28 +1457,28 @@ static BYTE read_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return read_vic(addr);
+        return vic_read(addr);
       case 0xd400:
-        return read_sid(addr);
+        return sid_read(addr);
       case 0xd500:
         return mmu_read(addr);
       case 0xd600:
-        return read_vdc(addr);
+        return vdc_read(addr);
       case 0xd700:
         return read_d7xx(addr);
       case 0xd800:
       case 0xd900:
       case 0xda00:
       case 0xdb00:
-        return read_colorram(addr);
+        return colorram_read(addr);
       case 0xdc00:
-        return read_cia1(addr);
+        return cia1_read(addr);
       case 0xdd00:
-        return read_cia2(addr);
+        return cia2_read(addr);
       case 0xde00:
-        return read_io1(addr);
+        return io1_read(addr);
       case 0xdf00:
-        return read_io2(addr);
+        return io2_read(addr);
     }
     return 0xff;
 }
@@ -1496,28 +1490,28 @@ static BYTE peek_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return read_vic(addr); /* FIXME */
+        return vic_peek(addr);
       case 0xd400:
-        return read_sid(addr); /* FIXME */
+        return sid_read(addr); /* FIXME */
       case 0xd500:
-        return mmu_read(addr); /* FIXME */
+        return mmu_read(addr);
       case 0xd600:
-        return read_vdc(addr); /* FIXME */
+        return vdc_read(addr); /* FIXME */
       case 0xd700:
         return read_d7xx(addr); /* FIXME */
       case 0xd800:
       case 0xd900:
       case 0xda00:
       case 0xdb00:
-        return read_colorram(addr);
+        return colorram_read(addr);
       case 0xdc00:
-        return peek_cia1(addr);
+        return cia1_peek(addr);
       case 0xdd00:
-        return peek_cia2(addr);
+        return cia2_peek(addr);
       case 0xde00:
-        return read_io1(addr);  /* FIXME */
+        return io1_read(addr);  /* FIXME */
       case 0xdf00:
-        return read_io2(addr);  /* FIXME */
+        return io2_read(addr);  /* FIXME */
     }
     return 0xff;
 }
@@ -1622,6 +1616,13 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
     ram[addr] = byte;
 }
 
+void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
+{
+    *base = ((vic_peek(0xd018) & 0xf0) << 6)
+            | ((cia2_peek(0xdd00) & 0x03) << 14);
+    *rows = 25;
+    *columns = 40;
+}
 
 /* ------------------------------------------------------------------------- */
 
