@@ -29,8 +29,8 @@
 
 extern void vsync_suspend_speed_eval(void);
 extern void vsync_sync_reset(void);
-extern int vsync_init_resources(void);
-extern int vsync_init_cmdline_options(void);
+extern int vsync_resources_init(void);
+extern int vsync_cmdline_options_init(void);
 extern void vsync_init(void (*hook)(void));
 extern void vsync_set_machine_parameter(double refresh_rate, long cycles);
 extern int vsync_do_vsync(int been_skipped);

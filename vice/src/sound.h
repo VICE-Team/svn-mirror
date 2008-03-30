@@ -101,8 +101,8 @@ extern void sound_set_relative_speed(int value);
 extern void sound_set_warp_mode(int value);
 extern void sound_set_machine_parameter(long clock_rate, long ticks_per_frame);
 
-extern int  sound_init_resources(void);
-extern int  sound_init_cmdline_options(void);
+extern int  sound_resources_init(void);
+extern int  sound_cmdline_options_init(void);
 
 
 /* device initialization prototypes */
