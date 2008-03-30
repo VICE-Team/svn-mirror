@@ -58,6 +58,7 @@ noinst_HEADERS = \
 	info.h \
 	interrupt.h \
 	kbdbuf.h \
+	keyboard.h \
 	log.h \
 	machine.h \
 	maincpu.h \
@@ -117,6 +118,7 @@ base_sources = \
 	interrupt.c \
 	imagecontents.c \
 	kbdbuf.c \
+	keyboard.c \
 	log.c \
 	main.c \
 	memutils.c \
