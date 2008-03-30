@@ -200,7 +200,8 @@ typedef struct drive_s {
     BYTE rom_checksum[4];
 
     /* Byte ready line.  */
-    int byte_ready;
+    unsigned int byte_ready_level;
+    unsigned int byte_ready_edge;
 
     /* Disk ID.  */
     BYTE diskID1, diskID2;
