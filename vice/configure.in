@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.11.10)
+AM_INIT_AUTOMAKE(vice, 1.11.11)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -96,14 +96,18 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xmingw32"; then
 
   AC_DEFINE(HAS_JOYSTICK)
   AC_DEFINE(HAVE_MOUSE)
-  AC_DEFINE(HAVE_CATWEASELMKIII)
   AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
-  AC_TRY_LINK([#include <windows.h>], [LARGE_INTEGER li; return (int) li.QuadPart],
-  	 AC_DEFINE(HAS_LONGLONG_INTEGER),)
-  AC_TRY_LINK([#include <windows.h>], [HGLOBAL hGlobal; UnlockResource(hGlobal); return 0],
-         AC_DEFINE(HAS_UNLOCKRESOURCE),)
+  AC_TRY_LINK([#include <windows.h>],
+              [LARGE_INTEGER li; return (int) li.QuadPart],
+              AC_DEFINE(HAS_LONGLONG_INTEGER),)
+  AC_TRY_LINK([#include <windows.h>],
+              [HGLOBAL hGlobal; UnlockResource(hGlobal); return 0],
+              AC_DEFINE(HAS_UNLOCKRESOURCE),)
+  AC_TRY_LINK([#include <windows.h>],
+              [return FILE_DEVICE_SOUND | METHOD_BUFFERED | FILE_ANY_ACCESS],
+              AC_DEFINE(HAVE_CATWEASELMKIII),)
 
 elif test x"$host_vendor" = "xbeos"; then
 

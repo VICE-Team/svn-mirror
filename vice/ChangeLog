@@ -1,3 +1,10 @@
+2003-03-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.11.
+
+	* configure.in: Check for some win32 defines to enable
+	Catweasel support.
+
 2003-02-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.10.
