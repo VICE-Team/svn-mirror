@@ -734,6 +734,7 @@ petcat_LDADD = \
 
 # cartconv
 cartconv_SOURCES = cartconv.c
+cartconv_LDADD = @INTLLIBS@
 
 # Special targets to build libraries in subdirectories.
 

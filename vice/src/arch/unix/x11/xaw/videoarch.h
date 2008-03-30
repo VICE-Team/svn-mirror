@@ -62,7 +62,6 @@ typedef void (*video_refresh_func_t)(struct video_canvas_s *,
 struct fullscreenconfig_s;
 struct palette_s;
 struct video_draw_buffer_callback_s;
-struct video_resource_chip_s;
 
 struct video_canvas_s {
     unsigned int initialized;
@@ -74,7 +73,6 @@ struct video_canvas_s {
     struct viewport_s *viewport;
     struct geometry_s *geometry;
     struct palette_s *palette;
-    struct video_resource_chip_s *video_resource_chip;
     Window drawable;
     Colormap colormap;
     XImage *x_image;

@@ -80,15 +80,15 @@ static uilib_filefilter_t uilib_filefilter[] = {
     { IDS_ZIPPED_FILES_FILTER, TEXT("*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z") },
     { IDS_PALETTE_FILES_FILTER, TEXT("*.vpl") },
     { IDS_SNAPSHOT_FILES_FILTER, TEXT("*.vsf") },
-    { IDS_DISK_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64") },
+    { IDS_PRGP00_FILES_FILTER, TEXT("*.prg;*.p00") },
     { IDS_TAPE_IMAGE_FILES_FILTER, TEXT("*.t64;*.tap") },
+    { IDS_DISK_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64") },
     { IDS_CRT_FILES_FILTER, TEXT("*.crt") },
     { IDS_RAW_CART_FILES_FILTER, TEXT("*.bin") },
     { IDS_FLIP_LIST_FILES_FILTER, TEXT("*.vfl") },
     { IDS_ROMSET_FILES_FILTER, TEXT("*.vrs") },
     { IDS_ROMSET_ARCHIVES_FILTER, TEXT("*.vra") },
     { IDS_KEYMAP_FILES_FILTER, TEXT("*.vkm") },
-    { IDS_PRGP00_FILES_FILTER, TEXT("*.prg;*.p00") },
     { 0, NULL }
 };
 
@@ -581,7 +581,7 @@ static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
             name_len = (_tcslen(translate_text(uilib_filefilter[i].name)) + 1) * sizeof(TCHAR);
             pattern_len = (_tcslen(uilib_filefilter[i].pattern) + 1) * sizeof(TCHAR);
             filter = lib_realloc(filter, current_len + name_len + pattern_len);
-            memcpy(filter + name_len + pattern_len, filter, current_len);
+            memmove(filter + name_len + pattern_len, filter, current_len);
             memcpy(filter, translate_text(uilib_filefilter[i].name), name_len);
             memcpy(filter + name_len, uilib_filefilter[i].pattern, pattern_len);
             current_len += name_len + pattern_len;

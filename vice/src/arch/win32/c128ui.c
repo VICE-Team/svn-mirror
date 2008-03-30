@@ -72,7 +72,6 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },
-    { "Mouse", IDM_MOUSE | 0x00010000 },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
     { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },

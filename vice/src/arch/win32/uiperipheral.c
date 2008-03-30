@@ -761,14 +761,14 @@ static void uiperipheral_dialog(HWND hwnd)
 
 void uiperipheral_command(HWND hwnd, WPARAM wparam)
 {
-    switch (wparam) {
+    switch (wparam & 0xffff) {
       case IDM_DEVICEMANAGER:
         uiperipheral_dialog(hwnd);
         break;
-      case IDM_FORMFEED_PRINTERIEC4 | 0x00010000:
+      case IDM_FORMFEED_PRINTERIEC4:
         printer_formfeed(0);
         break;
-      case IDM_FORMFEED_PRINTERIEC5 | 0x00010000:
+      case IDM_FORMFEED_PRINTERIEC5:
         printer_formfeed(1);
         break;
     }

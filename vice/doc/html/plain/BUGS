@@ -34,8 +34,6 @@
 - As CRTC/VDC HW scaling is not supported (yet) Gnome 2 fullscreen for
   CRTC and VDC is broken.
 
-- The Image preview does not make use of CBM font in the Gnome2 port.
-
 - The custom TextField widget is buggy and can cause crashes on
   DEC/Alpha machines, and possibly on other systems too.  If you get
   weird X protocol errors or the file selector makes the emulator die

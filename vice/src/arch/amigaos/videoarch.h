@@ -35,7 +35,6 @@
 
 struct palette_s;
 struct video_draw_buffer_callback_s;
-struct video_resource_chip_s;
 
 struct video_canvas_s {
     struct video_canvas_s *next; /* linked list */
@@ -48,7 +47,6 @@ struct video_canvas_s {
     struct viewport_s *viewport;
     struct geometry_s *geometry;
     struct palette_s *palette;
-    struct video_resource_chip_s *video_resource_chip;
     struct os_s *os; /* AmigaOS specific */
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
     int current_fullscreen;

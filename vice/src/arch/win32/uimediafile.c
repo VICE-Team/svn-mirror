@@ -57,6 +57,7 @@
 #define OFN_ENABLESIZING    0x00800000
 #endif
 
+#define DEFAULT_DRIVER "PNG"
 #define MAXSCRNDRVLEN 256
 static char screendrivername[MAXSCRNDRVLEN];
 static OPENFILENAME ofn;
@@ -145,6 +146,9 @@ static void init_mediafile_dialog(HWND hwnd)
             if (strcmp(driver->name, "FFMPEG") == 0)
                 enable_ffmpeg = 1;
         }
+        if (selected_driver == NULL && strcmp(driver->name, DEFAULT_DRIVER) == 0)
+            SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
+
         driver = gfxoutput_drivers_iter_next();
     }
 

@@ -157,6 +157,28 @@ inline static void raster_changes_add_int(raster_changes_t *changes,
     action->value.integer.newone = new_value;
 }
 
+/* Add an int change in correct order.  */
+inline static void raster_changes_add_sorted_int(raster_changes_t *changes,
+                                                 const int where,
+                                                 int *ptr,
+                                                 const int new_value)
+{
+    raster_changes_action_t *action;
+    int j, i = changes->count - 1;
+
+    while (i >=0 && changes->actions[i].where > where) i --;
+    for (j = changes->count - 1; j > i; j--)
+        changes->actions[j + 1] = changes->actions[j];
+
+    changes->count++;
+    action = changes->actions + i + 1;
+
+    action->where = where;
+    action->type = RASTER_CHANGES_TYPE_INT;
+    action->value.integer.oldp = ptr;
+    action->value.integer.newone = new_value;
+}
+
 /* Add a pointer (`void *') change.  */
 inline static void raster_changes_add_ptr(raster_changes_t *changes,
                                           const int where,

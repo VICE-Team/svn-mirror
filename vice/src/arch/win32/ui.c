@@ -70,6 +70,7 @@
 #include "uifliplist.h"
 #include "uihelp.h"
 #include "uijoystick.h"
+#include "uikeyboard.h"
 #include "uilib.h"
 #include "uimediafile.h"
 #include "uinetwork.h"
@@ -124,7 +125,6 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
     { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
-    { "WarpMode", IDM_TOGGLE_WARP_MODE|0x00010000 },
     { "VirtualDevices", IDM_TOGGLE_VIRTUAL_DEVICES },
     { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
     { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
@@ -132,11 +132,8 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "AlwaysOnTop", IDM_TOGGLE_ALWAYSONTOP },
 #ifdef DEBUG
     { "MainCPU_TRACE", IDM_TOGGLE_MAINCPU_TRACE },
-    { "MainCPU_TRACE", IDM_TOGGLE_MAINCPU_TRACE|0x00010000 },
     { "Drive0CPU_TRACE", IDM_TOGGLE_DRIVE0CPU_TRACE },
-    { "Drive0CPU_TRACE", IDM_TOGGLE_DRIVE0CPU_TRACE|0x00010000 },
     { "Drive1CPU_TRACE", IDM_TOGGLE_DRIVE1CPU_TRACE },
-    { "Drive1CPU_TRACE", IDM_TOGGLE_DRIVE1CPU_TRACE|0x00010000 },
 #endif
     { NULL, 0 }
 };
@@ -288,16 +285,11 @@ static ACCEL pet_accel[] = {
 };
 
 static ACCEL plus4_accel[] = {
+    { FVIRTKEY | FALT | FNOINVERT, 'Q', IDM_MOUSE },
     UI_DEBUG_HOTKEYS
     UI_COMMON_HOTKEYS
 };
 
-/*static HBRUSH led_red;
-static HBRUSH led_green;
-static HBRUSH led_black;
-static HBRUSH tape_motor_on_brush;
-static HBRUSH tape_motor_off_brush;
-*/
 static HWND main_hwnd;
 static HWND slider_hwnd;
 
@@ -313,8 +305,7 @@ int ui_init(int *argc, char **argv)
     switch (machine_class) {
       case VICE_MACHINE_C64:
         emu_menu = IDR_MENUC64;
-        ui_accelerator = CreateAcceleratorTable(c64_accel, 
-            sizeof(c64_accel) / sizeof(ACCEL));
+        ui_accelerator = uikeyboard_create_accelerator_table();
         break;
       case VICE_MACHINE_C128:
         emu_menu = IDR_MENUC128;
@@ -1081,7 +1072,7 @@ static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
     int i, j, command_found = 0;
 
     for (i = 0; toggle_list[i].name != NULL && !command_found; i++) {
-        if (toggle_list[i].item_id == wparam) {
+        if (toggle_list[i].item_id == (wparam & 0xffff)) {
             resources_toggle(toggle_list[i].name, NULL);
             command_found = 1;
         }
@@ -1090,7 +1081,7 @@ static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
     if (machine_specific_toggles) {
         for (i = 0; machine_specific_toggles[i].name != NULL
             && !command_found; i++) {
-            if (machine_specific_toggles[i].item_id == wparam) {
+            if (machine_specific_toggles[i].item_id == (wparam & 0xffff)) {
                 resources_toggle(machine_specific_toggles[i].name, NULL);
                 command_found = 1;
             }
@@ -1129,13 +1120,12 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
     if (ui_machine_specific)
         ui_machine_specific(wparam, hwnd);
 
-    switch (wparam) {
+    switch (wparam & 0xffff) {
       case IDM_DEVICEMANAGER:
-      case IDM_FORMFEED_PRINTERIEC4 | 0x00010000:
-      case IDM_FORMFEED_PRINTERIEC5 | 0x00010000:
+      case IDM_FORMFEED_PRINTERIEC4:
+      case IDM_FORMFEED_PRINTERIEC5:
         uiperipheral_command(hwnd, wparam);
         break;
-      case IDM_EXIT | 0x00010000:
       case IDM_EXIT:
         PostMessage(hwnd, WM_CLOSE, wparam, lparam);
         break;
@@ -1147,10 +1137,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_CMDLINE:
         uihelp_dialog(hwnd, wparam);
         break;
-      case IDM_ATTACH_8 | 0x00010000:
-      case IDM_ATTACH_9 | 0x00010000:
-      case IDM_ATTACH_10 | 0x00010000:
-      case IDM_ATTACH_11 | 0x00010000:
       case IDM_ATTACH_8:
       case IDM_ATTACH_9:
       case IDM_ATTACH_10:
@@ -1159,21 +1145,15 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_DETACH_9:
       case IDM_DETACH_10:
       case IDM_DETACH_11:
-      case IDM_DETACH_ALL | 0x00010000:
       case IDM_DETACH_ALL:
-      case IDM_ATTACH_TAPE | 0x00010000:
       case IDM_ATTACH_TAPE:
       case IDM_DETACH_TAPE:
       case IDM_AUTOSTART:
         uiattach_command(hwnd, wparam);
         break;
-      case IDM_FLIP_ADD | 0x00010000:
       case IDM_FLIP_ADD:
-      case IDM_FLIP_REMOVE | 0x00010000:
       case IDM_FLIP_REMOVE:
-      case IDM_FLIP_NEXT | 0x00010000:
       case IDM_FLIP_NEXT:
-      case IDM_FLIP_PREVIOUS | 0x00010000:
       case IDM_FLIP_PREVIOUS:
       case IDM_FLIP_LOAD:
       case IDM_FLIP_SAVE:
@@ -1189,40 +1169,32 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_DATASETTE_RESET_COUNTER:
         uidatasette_command(hwnd, wparam);
         break;
-      case IDM_SNAPSHOT_LOAD | 0x00010000:
       case IDM_SNAPSHOT_LOAD:
         ui_snapshot_load(hwnd);
         break;
-      case IDM_SNAPSHOT_SAVE | 0x00010000:
       case IDM_SNAPSHOT_SAVE:
         ui_snapshot_save(hwnd);
         break;
-      case IDM_SAVEQUICK | 0x00010000:
       case IDM_SAVEQUICK:
         ui_quicksnapshot_save(hwnd);
         break;
-      case IDM_LOADQUICK | 0x00010000:
       case IDM_LOADQUICK:
         ui_quicksnapshot_load(hwnd);
         break;
-      case IDM_MEDIAFILE | 0x00010000:
       case IDM_MEDIAFILE:
         SuspendFullscreenModeKeep(hwnd);
         ui_mediafile_save_dialog(hwnd);
         ResumeFullscreenModeKeep(hwnd);
         break;
       case IDM_SINGLE_FRAME_ADVANCE:
-      case IDM_SINGLE_FRAME_ADVANCE | 0x00010000:
         pause_pending = 1;
         if (!is_paused) {
             break;
         }
         // fall through
       case IDM_PAUSE:
-      case IDM_PAUSE | 0x00010000:
         ui_pause_emulation();
         break;
-      case IDM_MONITOR | 0x00010000:
       case IDM_MONITOR:
         if (!ui_emulation_is_paused())
             monitor_startup_trap();
@@ -1231,8 +1203,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             monitor_startup();
 */
         break;
-      case IDM_RESET_HARD + 0x00010000:
-      case IDM_RESET_SOFT + 0x00010000:
       case IDM_RESET_HARD:
       case IDM_RESET_SOFT:
         reset_dialog_proc(wparam);
@@ -1259,7 +1229,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_JOY_SETTINGS:
         ui_joystick_settings_dialog(hwnd);
         break;
-      case IDM_SWAP_JOYSTICK | 0x00010000:
       case IDM_SWAP_JOYSTICK:
         ui_joystick_swap_joystick();
         break;
@@ -1269,7 +1238,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_RAM_SETTINGS:
         ui_ram_settings_dialog(hwnd);
         break;
-      case IDM_TOGGLE_FULLSCREEN | 0x00010000:
       case IDM_TOGGLE_FULLSCREEN:
         vsync_suspend_speed_eval();
         SwitchFullscreenMode(hwnd);
@@ -1296,9 +1264,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_EVENT_TOGGLE_RECORD:
       case IDM_EVENT_TOGGLE_PLAYBACK:
       case IDM_EVENT_SETMILESTONE:
-      case IDM_EVENT_SETMILESTONE | 0x00010000:
       case IDM_EVENT_RESETMILESTONE:
-      case IDM_EVENT_RESETMILESTONE | 0x00010000:
         uievent_command(hwnd, wparam);
         break;
       case IDM_NETWORK_SETTINGS:

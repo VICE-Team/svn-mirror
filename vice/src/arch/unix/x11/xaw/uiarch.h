@@ -79,7 +79,7 @@ enum ui_keysym_s {
   KEYSYM_F9  = XK_F9 ,
   KEYSYM_F10 = XK_F10,
   KEYSYM_F11 = XK_F11,
-  KEYSYM_F12 = XK_F12,
+  KEYSYM_F12 = XK_F12
 };
 typedef enum ui_keysym_s ui_keysym_t;
 

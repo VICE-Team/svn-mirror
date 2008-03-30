@@ -35,10 +35,12 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#include "archdep.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
+#include "sysfile.h"
 #include "system.h"
 #include "translate.h"
 #include "ui.h"
@@ -47,6 +49,9 @@
 #include "util.h"
 #include "winmain.h"
 
+#include "menuid.h"
+
+#define MAXACCEL 1000
 
 static int uikeyboard_mapping_num;
 static const uikeyboard_mapping_entry_t *mapping_entry;
@@ -228,3 +233,68 @@ void uikeyboard_settings_dialog(HWND hwnd,
     PropertySheet(&psh);
 }
 
+HACCEL uikeyboard_create_accelerator_table(void)
+{
+    FILE *fshortcuts;
+    char *complete_path;
+    char buffer[1000];
+    char *p, *menustr, *metastr, *keystr;
+    int i;
+
+    ACCEL accellist[MAXACCEL];
+    int accelnum = 0;
+
+    fshortcuts = sysfile_open("win_shortcuts.vsc", &complete_path, MODE_READ_TEXT);
+    lib_free(complete_path);
+    if (fshortcuts == NULL)
+        return NULL;
+
+    /* read the shortcut table */
+    do {
+        buffer[0] = 0;
+        if (fgets(buffer, 999, fshortcuts)) {
+
+            if (strlen(buffer) == 0)
+                break;
+
+            buffer[strlen(buffer) - 1] = 0; /* remove newline */
+	        /* remove comments */
+	        if((p = strchr(buffer, '#')))
+	            *p=0;
+
+            metastr = strtok(buffer, " \t:");
+            keystr = strtok(NULL, " \t:");
+            menustr = strtok(NULL, " \t:");
+
+            if (metastr && keystr && menustr) {
+                for (i = 0; idmlist[i].str; i++) {
+                    if (strcmp(idmlist[i].str, menustr) == 0)
+                        break;
+                }
+
+                if (idmlist[i].str) {
+                    ACCEL accel;
+
+                    accel.fVirt = FVIRTKEY | FNOINVERT;
+                    if (strstr(strlwr(metastr), "ctrl") != NULL)
+                        accel.fVirt |= FCONTROL;
+                    if (strstr(strlwr(metastr), "alt") != NULL)
+                        accel.fVirt |= FALT;
+
+                    if (keystr[0] == '\'' && keystr[2] == '\'')
+                        accel.key = keystr[1];
+                    else
+                        accel.key = (unsigned short)strtol(keystr, NULL, 0);
+
+                    accel.cmd = idmlist[i].cmd;
+
+                    if (accel.key > 0 && accel.cmd > 0 && accelnum < MAXACCEL)
+                        accellist[accelnum++] = accel;
+                }
+            }
+        }
+    } while (!feof(fshortcuts));
+    fclose(fshortcuts);
+
+    return CreateAcceleratorTable(accellist, accelnum);
+}

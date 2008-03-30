@@ -21,6 +21,8 @@ parse_args () {
     echo "Missing base dir!"
     exit 1
   fi
+  # normalize base dir
+  BASE_DIR="`cd \"$BASE_DIR\" && pwd`"
 
   # check arguments
   if [ "$ARCH" = "ppc" ]; then
@@ -153,12 +155,16 @@ set_compiler_env () {
   # setup SDK paths
   local PPC_SDK=/Developer/SDKs/MacOSX10.3.9.sdk
   local I386_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-
+  local PPC_SDK_VERSION=10.3
+  local I386_SDK_VERSION=10.4
+  
   # choose SDK
   if [ "$ARCH" = "ppc" ]; then
     SDK="$PPC_SDK"
+    SDK_VERSION="$PPC_SDK_VERSION"
   else
     SDK="$I386_SDK"
+    SDK_VERSION="$I386_SDK_VERSION"
   fi
     
   # set common flags
@@ -167,14 +173,11 @@ set_compiler_env () {
   export PATH="$INSTALL_DIR/bin:$PATH"
 
   # do cross-compile?
-  if [ "`uname -p`" != "$ARCH" ]; then
-    #EXTRA_OPT="--host=$ARCH-apple-darwin`uname -r`"
-    export CC="gcc -arch $ARCH -isysroot $SDK"
-    export CXX="g++ -arch $ARCH -isysroot $SDK"
-    export LD="gcc -arch $ARCH -isysroot $SDK"
-  else
-    export CC="gcc"
-    export CXX="g++"
-    export LD="gcc"
-  fi
+  #if [ "`uname -p`" != "$ARCH" ]; then
+  #  EXTRA_OPT="--host=$ARCH-apple-darwin`uname -r`"
+  #fi
+  
+  export CC="gcc -arch $ARCH -isysroot $SDK -mmacosx-version-min=$SDK_VERSION"
+  export CXX="g++ -arch $ARCH -isysroot $SDK -mmacosx-version-min=$SDK_VERSION"
+  export LD="gcc -arch $ARCH -isysroot $SDK -mmacosx-version-min=$SDK_VERSION"
 }

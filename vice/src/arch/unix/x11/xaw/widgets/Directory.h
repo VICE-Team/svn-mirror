@@ -33,7 +33,11 @@
 
 #include <stdio.h>
 #include <string.h>
+
+#ifndef VMS
 #include <sys/param.h>
+#endif
+
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -53,11 +57,46 @@
 #define getwd(path) getcwd(path, MAXPATHLEN)
 #endif
 
+#ifdef VMS
+struct __dirdesc {
+  unsigned long dd_fd;
+  long dd_loc;
+  long dd_size;
+  long dd_bsize;
+  long dd_off;
+  char *dd_buf;
+  char d_name[256];
+};
+
+typedef struct __dirdesc DIR;
+
+struct dirent {
+  long d_off;
+  unsigned long d_fileno;
+  unsigned short d_reclen;
+  unsigned short d_namlen;
+  char d_name[255+1];
+};
+
+extern DIR *opendir(char *dirname);
+extern int closedir(DIR *dirp);
+extern long telldir(DIR *dirp);
+extern void seekdir(DIR *dirp, int loc);
+extern struct dirent *readdir(DIR *dirp);
+#else
 #ifndef	NO_DIRENT
 #include <dirent.h>
 #else
 #include <sys/dir.h>
 #define	dirent direct
+#endif
+#endif
+
+#ifdef __NeXT__
+#ifdef HAVE_SYS_DIR_H
+#include <sys/dir.h>
+#endif
+#define dirent direct
 #endif
 
 #define NeedFunctionPrototypes 1

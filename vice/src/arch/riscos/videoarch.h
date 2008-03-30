@@ -36,7 +36,6 @@
 
 
 struct video_draw_buffer_callback_s;
-struct video_resource_chip_s;
 struct video_render_config_s;
 struct draw_buffer_s;
 struct geometry_s;
@@ -81,7 +80,6 @@ struct video_canvas_s {
   struct geometry_s *geometry;
   struct video_draw_buffer_callback_s *video_draw_buffer_callback;
   struct palette_s *palette;
-  struct video_resource_chip_s *video_resource_chip;
 };
 
 typedef struct video_canvas_s video_canvas_t;

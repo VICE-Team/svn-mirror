@@ -51,3 +51,4 @@ libc128_a_SOURCES = \
 	z80mem.c \
 	z80mem.h
 
+EXTRA_DIST = z80vms.c

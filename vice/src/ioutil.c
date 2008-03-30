@@ -59,6 +59,11 @@
 #include "snippets/dirport.h"
 #endif
 
+#ifdef __NeXT__
+#include <sys/dir.h>
+#define dirent direct
+#endif
+
 #include "archdep.h"
 #include "ioutil.h"
 #include "lib.h"
@@ -122,6 +127,36 @@ int ioutil_errno(unsigned int check)
     return 0;
 }
 
+#ifndef PATH_MAX
+#  ifdef MAX_PATH
+#    define PATH_MAX MAX_PATH
+#  else
+#    define PATH_MAX 1024
+#  endif
+#endif
+
+#if !defined(VMS) && !defined(__VAX)
+#ifndef HAVE_GETCWD
+char *getcwd (char *buf, size_t len)
+{
+  char ourbuf[PATH_MAX];
+  char *result;
+
+  result = getwd (ourbuf);
+  if (result)
+  {
+    if (strlen (ourbuf) >= len)
+    {
+      errno = ERANGE;
+      return 0;
+    }
+    strcpy (buf, ourbuf);
+  }
+  return buf;
+}
+#endif
+#endif
+
 char *ioutil_getcwd(char *buf, int size)
 {
     return getcwd(buf, (size_t)size);
@@ -131,14 +166,6 @@ int ioutil_isatty(int desc)
 {
     return isatty(desc);
 }
-
-#ifndef PATH_MAX
-#  ifdef MAX_PATH
-#    define PATH_MAX MAX_PATH
-#  else
-#    define PATH_MAX 1024
-#  endif
-#endif
 
 unsigned int ioutil_maxpathlen(void)
 {

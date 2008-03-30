@@ -11,7 +11,6 @@
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
 struct video_draw_buffer_callback_s;
-struct video_resource_chip_s;
 
 typedef struct video_frame_buffer_s {
     int   width;
@@ -37,7 +36,6 @@ typedef struct video_canvas_s
     struct viewport_s            *viewport;
     struct geometry_s            *geometry;
     struct palette_s             *palette;
-    struct video_resource_chip_s *video_resource_chip;
     HWND   hwndFrame;        // Handle to Frame of Window = WinQueryWindow(hwndClient, QW_PARENT)
     HWND   hwndClient;       // Handle to Paint Area of Window
     HWND   hwndMenu;         // Handle to menu bar

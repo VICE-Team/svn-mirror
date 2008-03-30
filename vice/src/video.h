@@ -128,8 +128,9 @@ typedef struct video_render_color_tables_s video_render_color_tables_t;
 struct video_render_config_s {
     video_chip_cap_t *cap;         /* Which renders are allowed?  */
     int rendermode;                /* What render is active?  */
-    int doublesizex;               /* Doublesizex enabled?  */
-    int doublesizey;               /* Doublesizey enabled?  */
+    int double_size_enabled;       /* Double size enabled?  */
+    int doublesizex;               /* Doublesizex enabled? (true if double size is enabled and screen is large enough in x direction) */
+    int doublesizey;               /* Doublesizey enabled? (true if double size is enabled and screen is large enough in y direction) */
     int doublescan;                /* Doublescan enabled?  */
     int hwscale;                   /* Hardware scaling enabled? */
     int scale2x;                   /* Scale2x enabled?  */
@@ -138,6 +139,13 @@ struct video_render_config_s {
     int double_buffer;             /* Double buffering enabled? */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
     struct video_render_color_tables_s color_tables;
+    int fullscreen_enabled;
+    int fullscreen_statusbar_enabled;
+    char *fullscreen_device;
+    int fullscreen_device_num;
+    int fullscreen_double_size_enabled;
+    int fullscreen_double_scan_enabled;
+    int fullscreen_mode[FULLSCREEN_MAXDEV];
 };
 typedef struct video_render_config_s video_render_config_t;
 

@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=22
-VICE_VERSION_BUILD=8
+VICE_VERSION_BUILD=9
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -1362,7 +1362,7 @@ AC_CHECK_TYPES(u_short)
 dnl some platforms have some of the functions in libbsd,
 dnl so we check it out first.
 AC_CHECK_LIB(bsd,gettimeofday,,,$LIBS)
-AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir mkstemp swab)
+AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir rewinddir mkstemp swab getcwd)
 
 AC_SUBST(LIBS)
 
@@ -1527,8 +1527,11 @@ if test x"$is_unix_x11" = "xyes"; then
 
   if [[ x"${enable_gnomeui}" = "xyes" ]] ; then
 
-    PKG_CHECK_MODULES(GTK, [gtk+-2.0], ,AC_ERROR([No GTK+ development environment found]))
-    PKG_CHECK_MODULES(GTKGL, [gtkglext-1.0], AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]))
+    PKG_CHECK_MODULES(GTK, [gtk+-2.0])
+    PKG_CHECK_MODULES(GTKGL, [gtkglext-1.0],
+        AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]),
+        AC_MSG_RESULT(no)
+      )
     X_LIBS="$GTK_LIBS $GTKGL_LIBS $X_LIBS"
     LINK_X_LIBS="$GTK_LIBS $GTKGL_LIBS $LINK_X_LIBS"
   else
@@ -1854,7 +1857,12 @@ if test x"$is_unix" = "xyes"; then
   qnx6compile=no
   solariscompile=no
   hpuxcompile=no
+  skyoscompile=no
   case "$host_os" in
+    skyos*)
+      skyoscompile=yes
+      AM_CONDITIONAL(UNIX_SKYOS_COMPILE, true)
+      ;;
     qnx*)
       qnx4compile=yes
       AM_CONDITIONAL(UNIX_QNX4_COMPILE, true)
@@ -1889,6 +1897,10 @@ if test x"$is_unix" = "xyes"; then
     *)
       ;;  
   esac
+
+  if test x"$skyoscompile" = "xno"; then
+    AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
+  fi
 
   if test x"$qnx4compile" = "xno"; then
     AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
@@ -1947,6 +1959,7 @@ elif test x"$is_win32" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
@@ -1970,6 +1983,7 @@ elif test x"$is_amiga" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
@@ -1997,6 +2011,7 @@ elif test x"$is_dos" = "xyes"; then
   fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
@@ -2020,6 +2035,7 @@ elif test x"$is_os2" = "xyes"; then
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
@@ -2043,6 +2059,7 @@ elif test x"$is_beos" = "xyes"; then
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
@@ -2066,6 +2083,7 @@ elif test x"$is_riscos" = "xyes"; then
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)

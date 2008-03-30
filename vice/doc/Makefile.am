@@ -14,6 +14,7 @@ doc_DATA = \
 	ReadmeMacOSX.txt \
 	Win32-Cygwin-HOWTO.txt \
 	Win32-Howto.txt \
+	OpenVMS-Howto.txt \
 	cartconv.txt \
 	iec-bus.txt \
 	mon.txt \

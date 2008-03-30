@@ -42,7 +42,6 @@
 
 struct palette_s;
 struct video_draw_buffer_callback_s;
-struct video_resource_chip_s;
 
 typedef struct video_canvas_s {
     unsigned int initialized;
@@ -57,7 +56,6 @@ typedef struct video_canvas_s {
     struct viewport_s *viewport;
     struct geometry_s *geometry;
     struct palette_s *palette;
-    struct video_resource_chip_s *video_resource_chip;
     BYTE *pixels;
     HWND hwnd;
     LPDIRECTDRAW        dd_object;

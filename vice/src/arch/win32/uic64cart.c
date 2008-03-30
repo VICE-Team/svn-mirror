@@ -152,7 +152,7 @@ static void uic64cart_attach(WPARAM wparam, HWND hwnd,
 
 void uic64cart_proc(WPARAM wparam, HWND hwnd)
 {
-    switch (wparam) {
+    switch (wparam & 0xffff) {
       case IDM_CART_ATTACH_CRT:
       case IDM_CART_ATTACH_8KB:
       case IDM_CART_ATTACH_16KB:
@@ -175,7 +175,6 @@ void uic64cart_proc(WPARAM wparam, HWND hwnd)
       case IDM_CART_DETACH:
         cartridge_detach_image();
         break;
-      case IDM_CART_FREEZE|0x00010000:
       case IDM_CART_FREEZE:
         keyboard_clear_keymatrix();
         cartridge_trigger_freeze();

@@ -128,6 +128,7 @@ create_info_plist () {
       ADDLINE="<dict><key>CFBundleTypeExtensions</key><array><string>$type</string></array>"
       ADDLINE="$ADDLINE <key>CFBundleTypeIconFile</key><string>VICEFile</string>"
       ADDLINE="$ADDLINE <key>CFBundleTypeName</key><string>$type VICE File</string></dict>"
+      ADDLINE="$ADDLINE <key>CFBundleTypeRole</key><string>Editor</string></dict>"
       ADDON="$ADDON $ADDLINE"
     done
     ADDON="$ADDON </array></dict>"

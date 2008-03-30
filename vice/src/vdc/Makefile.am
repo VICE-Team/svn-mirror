@@ -17,7 +17,7 @@ libvdc_a_SOURCES = \
 	vdc-resources.h \
 	vdc-snapshot.c \
 	vdc-snapshot.h \
-        vdc.c \
-        vdc.h \
+	vdc.c \
+	vdc.h \
 	vdctypes.h
 

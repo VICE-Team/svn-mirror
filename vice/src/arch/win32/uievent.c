@@ -42,7 +42,7 @@ void uievent_command(HWND hwnd, WPARAM wparam)
 {
     char *fname;
 
-    switch (wparam) {
+    switch (wparam & 0xffff) {
       case IDM_EVENT_DIRECTORY:
         fname = uilib_select_file(hwnd,
                           translate_text(IDS_SELECT_START_SNAP_EVENT),
@@ -78,11 +78,9 @@ void uievent_command(HWND hwnd, WPARAM wparam)
         }
         break;
       case IDM_EVENT_SETMILESTONE:
-      case IDM_EVENT_SETMILESTONE | 0x00010000:
         event_record_set_milestone();
         break;
       case IDM_EVENT_RESETMILESTONE:
-      case IDM_EVENT_RESETMILESTONE | 0x00010000:
         event_record_reset_milestone();
         break;
     }

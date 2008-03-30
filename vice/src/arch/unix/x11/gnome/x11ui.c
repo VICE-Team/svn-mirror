@@ -102,6 +102,20 @@ int screen;
 static int depth;
 #endif
 
+#if !GTK_CHECK_VERSION(2, 12, 0)
+static void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text)
+{
+	static GtkTooltips * tooltips = NULL;
+
+	if(tooltips == NULL)
+	{
+		tooltips = gtk_tooltips_new();
+		gtk_tooltips_enable(tooltips);
+	}
+	gtk_tooltips_set_tip(tooltips, widget, text, NULL);
+}
+#endif
+
 /* UI logging goes here.  */
 static log_t ui_log = LOG_ERR;
 
@@ -128,41 +142,16 @@ static GdkCursor *blankCursor;
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 static GtkWidget *pal_ctrl_widget, *pal_ctrl_checkbox, *pal_tb;
 static char *(*current_image_contents_func)(const char *, unsigned int unit);
-/* static GdkFont *fixedfont, *textfont; */
-/* FIXME, ask Xresources here */
-/*
-  static char *textfontname="-*-lucidatypewriter-medium-r-*-*-12-*";
-  static char *fixedfontname="-freetype-VICE CBM-medium-r-normal-medium-12-120-100-72-m-104-symbol-0";
-*/
-static char *textfontname="Lucida Typewriter 8";
-static char *fixedfontname="fxd 8";
-/* static char *fixedfontname="Adolescence 12"; */
-
-
+static char *fixedfontname="CBM 10";
+static PangoFontDescription *fixed_font_desc;
 static int have_cbm_font = 0;
 static int cursor_is_blank = 0;
 static video_canvas_t *ui_cached_video_canvas;
 static int statustext_display_time = 0;
-
-static PangoFontDescription *text_font_desc;
-static PangoFontDescription *fixed_font_desc;
-
-/* ------------------------------------------------------------------------- */
-
 static int popped_up_count = 0;
 
 /* Left-button and right-button menu.  */
-
 static GtkWidget *left_menu, *right_menu;
-
-/* Translations for the left and right menus.  */
-/*
-  static XtTranslations left_menu_translations, right_menu_translations;
-*/
-/* Application context. */
-/*
-  static XtAppContext app_context;
-*/
 
 /* Toplevel widget. */
 GtkWidget * _ui_top_level;
@@ -261,79 +250,6 @@ static GtkWidget* rebuild_contents_menu(int unit, const char *image_name);
 extern GtkWidget* build_pal_ctrl_widget(video_canvas_t *canvas);
 
 /* ------------------------------------------------------------------------- */
-#if 0
-static String fallback_resources[] = {
-    "*font:					   -*-lucida-bold-r-*-*-12-*",
-    "*Command.font:			           -*-lucida-bold-r-*-*-12-*",
-    "*fileSelector.width:			     380",
-    "*fileSelector.height:			     300",
-    "*inputDialog.inputForm.borderWidth:	     0",
-    "*inputDialog.inputForm.field.width:	     300",
-    "*inputDialog.inputForm.field.scrollHorizontal:  True",
-    "*inputDialog.inputForm.label.width:	     250",
-    "*inputDialog.inputForm.label.borderWidth:	     0",
-    "*inputDialog.inputForm.label.internalWidth:     0",
-    "*inputDialog.buttonBox.borderWidth:	     0",
-    "*errorDialog.messageForm.borderWidth:	     0",
-    "*errorDialog.buttonBox.borderWidth:	     0",
-    "*errorDialog.messageForm.label.borderWidth:     0",
-    "*jamDialog.messageForm.borderWidth:	     0",
-    "*jamDialog.buttonBox.borderWidth:		     0",
-    "*jamDialog.messageForm.label.borderWidth:       0",
-    "*infoDialogShell.width:			     380",
-    "*infoDialogShell.height:			     290",
-    "*infoDialog.textForm.infoString.borderWidth:    0",
-    "*infoDialog.textForm.borderWidth:		     0",
-    "*infoDialog.textForm.defaultDistance:	     0",
-    "*infoDialog.buttonBox.borderWidth:		     0",
-    "*infoDialog.buttonBox.internalWidth:	     5",
-    "*infoDialog.textForm.infoString.internalHeight: 0",
-    "*confirmDialogShell.width:			     300",
-    "*confirmDialog.messageForm.message.borderWidth: 0",
-    "*confirmDialog.messageForm.message.height:      20",
-    "*showText.textBox.text.width:		     480",
-    "*showText.textBox.text.height:		     305",
-    "*showText.textBox.text*font:       -*-lucidatypewriter-medium-r-*-*-12-*",
-    "*okButton.label:				     Confirm",
-    "*cancelButton.label:			     Cancel",
-    "*closeButton.label:			     Dismiss",
-    "*yesButton.label:				     Yes",
-    "*resetButton.label:			     Reset",
-    "*hardResetButton.label:                         Hard Reset",
-    "*monButton.label:			   	     Monitor",
-    "*debugButton.label:		   	     XDebugger",
-    "*noButton.label:				     No",
-    "*licenseButton.label:			     License...",
-    "*noWarrantyButton.label:			     No warranty!",
-    "*contribButton.label:			     Contributors...",
-    "*Text.translations:			     #override \\n"
-    "                                                <Key>Return: no-op()\\n"
-    "						     <Key>Linefeed: no-op()\\n"
-    "						     Ctrl<Key>J: no-op() \\n",
-
-    /* Default color settings (suggestions are welcome...) */
-    "*foreground:				     black",
-    "*background:				     gray80",
-    "*borderColor:				     black",
-    "*internalBorderColor:			     black",
-    "*TransientShell*Dialog.background:		     gray80",
-    "*TransientShell*Label.background:		     gray80",
-    "*TransientShell*Box.background:		     gray80",
-    "*fileSelector.background:			     gray80",
-    "*Command.background:			     gray90",
-    "*Menubutton.background:		             gray80",
-    "*Scrollbar.background:		             gray80",
-    "*Form.background:				     gray80",
-    "*Label.background:				     gray80",
-    "*Canvas.background:                             black",
-    "*driveTrack1.font:                          -*-helvetica-medium-r-*-*-12-*",
-    "*driveTrack2.font:                          -*-helvetica-medium-r-*-*-12-*",
-    "*speedStatus.font:                         -*-helvetica-medium-r-*-*-12-*",
-
-    NULL
-};
-#endif
-/* ------------------------------------------------------------------------- */
 
 void ui_check_mouse_cursor()
 {
@@ -424,19 +340,9 @@ void archdep_ui_init(int argc, char *argv[])
     fake_argv[1] = NULL;
     gtk_init(&fake_argc, &fake_args);
 #ifdef HAVE_HWSCALE
-    gtk_gl_init(&fake_argc, &fake_args);
+    gtk_gl_init_check(&fake_argc, &fake_args);
 #endif
 
-    /* set X11 fontpath */
-    if (access(PREFIX "/lib/vice/fonts/fonts.dir", R_OK) == 0)
-    {
-	const char *cmd = "xset fp+ " PREFIX "/lib/vice/fonts";
-	
-	if (system(cmd) != 0)
-	    fprintf(stderr, _("Can't add fontpath `%s'.\n"), cmd);
-	else
-	    fprintf(stdout, _("Set fontpath: `%s'.\n"), cmd);
-    }
 }
 
 /* Initialize the GUI and parse the command line. */
@@ -622,56 +528,21 @@ static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 int ui_init_finish(void)
 {
     ui_log = log_open("X11");
-
-	
-#if 0
-        int j, done;
-	int sdepth;
-
-	sdepth = DefaultDepth(display, screen);
-
-	done = 0;
-	for (j = 0; classes[j].name != NULL; j++) {
-	    if ( (visual = gdk_visual_get_best_with_both(sdepth,
-							 classes[j].class)) ||
-		 (visual = gdk_visual_get_best_with_type(classes[j].class)) )
-	    {
-	        depth = visual->depth;
-		log_message(ui_log, _("Found %dbit/%s visual."),
-			    depth, classes[j].name);
-		have_truecolor = (classes[j].class == GDK_VISUAL_TRUE_COLOR);
-		done = 1;
-		break;
-	    }
-	}
-	if (!done) {
-	    log_error(ui_log, _("Cannot autodetect a proper visual."));
-	    return -1;
-	}
-#endif
-
-    text_font_desc = pango_font_description_from_string(textfontname);
-    if (!text_font_desc)
-	log_error(ui_log, _("Cannot load text font %s."), textfontname);
-
+    
+    
+    have_cbm_font = TRUE;
     fixed_font_desc = pango_font_description_from_string(fixedfontname);
-    if (fixed_font_desc)
-	have_cbm_font = TRUE;
-    else
+    if (!fixed_font_desc)
     {
 	log_warning(ui_log, _("Cannot load CBM font %s."), fixedfontname);
-	fixed_font_desc = text_font_desc;
 	have_cbm_font = FALSE;
     }
-    have_cbm_font = FALSE;	/* XXX Fixme once CBM font is working */
-	
-/*     printf ("to String: %s\nto FN: %s\n", pango_font_description_to_string(fixed_font_desc),   pango_font_description_to_filename(fixed_font_desc)); */
-
+    
 #ifdef HAVE_FULLSCREEN
     if (fullscreen_init() < 0)
-        return -1;
+	return -1;
 #endif
-
+    
     return ui_menu_init();
 }
 
@@ -1095,15 +966,19 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title,
 #ifdef HAVE_HWSCALE
         GdkGLConfig *gl_config = gdk_gl_config_new_by_mode (GDK_GL_MODE_RGB | GDK_GL_MODE_DOUBLE);
 
-        if (gl_config == NULL) 
-            g_critical ("Failed to setup a double-buffered RGB visual");
-
-        if (! gtk_widget_set_gl_capability (GTK_WIDGET (new_canvas), 
+        if (gl_config == NULL) {
+            log_warning (ui_log, "HW scaling will not be available");
+            c->videoconfig->hwscale = 0;
+            resources_set_int("HwScalePossible", 0);
+        }
+        else {
+            if (! gtk_widget_set_gl_capability (GTK_WIDGET (new_canvas), 
                                         gl_config,
                                         NULL,
                                         TRUE,
                                         GDK_GL_RGBA_TYPE))
-            g_critical ("Failed to add gl capability");
+                g_critical ("Failed to add gl capability");
+        }
 #endif
     }
     
@@ -1340,9 +1215,6 @@ void ui_exit(void)
         fullscreen_suspend(0);
 #endif
 	ui_dispatch_events();
-
-	/* remove fontpath, Don't care about result */
-	system("xset fp- " PREFIX "/lib/vice/fonts");
 
         lib_free(s);	
 	exit(0);
@@ -2038,11 +1910,42 @@ static void menu_set_style(GtkWidget *w, gpointer data)
 	gtk_widget_set_style(w, (GtkStyle *) data);
 }
 
+
+static unsigned char *
+convert_utf8(unsigned char *s)
+{
+    unsigned char *d, *r;
+    
+    r = d = (unsigned char *)lib_malloc((size_t) (strlen((char *)s) * 2 + 1));
+    while (*s)
+    {
+	if (*s < 0x80)
+	    *d = *s;
+	else
+	{
+	    /* special latin1 character handling */
+	    if (*s == 0xa0)
+		*d = 0x20;
+	    else 
+	    {
+		if (*s == 0xad)
+		    *s = 0xed;
+		*d++ = 0xc0 | (*s >> 6);
+		*d = (*s & ~0xc0) | 0x80;
+	    }
+	}
+	s++;
+	d++;
+    }
+    *d = '\0';
+    return r;
+}
+
 static GtkWidget *rebuild_contents_menu(int unit, const char *name)
 {
     ui_menu_entry_t *menu;
     int limit = 16;
-    int fno = 0, mask;
+    int fno = 0, mask, i;
     char *title, *tmp, *s, *tmp1, *tmp2;
     GtkWidget *menu_widget;
     GtkStyle *menu_entry_style;
@@ -2065,14 +1968,14 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     util_fname_split(name, NULL, &title);
     for (tmp = title; *tmp; tmp++)
 	*tmp = toupper(*tmp);
-    menu[fno].string = title;
+    menu[fno].string = lib_stralloc(title);
     menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
     menu[fno].callback_data = (ui_callback_data_t) (fno | mask);
     menu[fno].sub_menu = NULL;
     menu[fno].hotkey_keysym = 0;
     menu[fno].hotkey_modifier = 0;
     fno++;
-    menu[fno].string = "--";
+    menu[fno].string = lib_stralloc("--");
     fno++;
     
     tmp1 = tmp2 = s;
@@ -2089,9 +1992,9 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
 	if (!have_cbm_font)
 	    tmp2 = (char *)charset_petconvstring((BYTE *)tmp2, 1);
 
-	menu[fno].string = tmp2;
-	if (menu[fno].string[0] == '-')
-	    menu[fno].string[0] = ' ';	    /* Arg, this is the line magic */
+	if (tmp2[0] == '-')
+	    tmp2[0] = ' ';	    /* Arg, this is the line magic */ 
+	menu[fno].string = (char *)convert_utf8((unsigned char *)tmp2);
 	menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
 	menu[fno].callback_data = (ui_callback_data_t) ((fno - 2) | mask);
 	menu[fno].sub_menu = NULL;
@@ -2104,9 +2007,9 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     }
     if (strcmp(tmp2, "") != 0)	/* last line may be without newline */
     {
-	menu[fno].string = tmp2;
-	if (menu[fno].string[0] == '-')
-	    menu[fno].string[0] = ' ';	    /* Arg, this is the line magic */
+	if (tmp2[0] == '-')
+	    tmp2[0] = ' ';	    /* Arg, this is the line magic */ 
+	menu[fno].string = (char *)convert_utf8((unsigned char *)tmp2);
 	menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
 	menu[fno].callback_data = (ui_callback_data_t) ((fno - 1) | mask);
 	menu[fno].sub_menu = NULL;
@@ -2129,6 +2032,8 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     }
 
     /* Cleanup */
+    for (i = 0; i < fno; i++)
+	lib_free(menu[i].string);
     lib_free(title);
     g_free(menu);
     lib_free(s);
@@ -2140,7 +2045,6 @@ static void ui_fill_preview(GtkFileChooser *fs, gpointer data)
 {
     char *tmp1, *tmp2, *contents = NULL;
     gchar *fname;
-    GtkStyle *style;
     char *text[2];
     GtkListStore *store;
     GtkTreeIter iter;
@@ -2151,26 +2055,17 @@ static void ui_fill_preview(GtkFileChooser *fs, gpointer data)
 
     fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fs));
     if (!fname || !current_image_contents_func)
-	contents = lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
+	contents = (char *)lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
     else
     {
 	struct stat st;
 	if (stat(fname, &st) == 0)
 	    if (S_ISREG(st.st_mode))
 		contents = current_image_contents_func(fname, 0);
-	lib_free(fname);
+	g_free(fname);
     }
     if (!contents)
-	contents = lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
-
-    if (fixed_font_desc)
-    {
-	style = gtk_style_new();
-	pango_font_description_free(style->font_desc);
-	style->font_desc = fixed_font_desc;
-	gtk_widget_set_style(image_preview_list, style);
-/*	g_object_unref(style);*/
-    }
+	contents = (char *)lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
 
     tmp1 = tmp2 = contents;
     text[1] = NULL;
@@ -2184,26 +2079,33 @@ static void ui_fill_preview(GtkFileChooser *fs, gpointer data)
     {
 	*(tmp1 - 1) = '\0';
 	if (!have_cbm_font)
-	    tmp2 = (char *) charset_petconvstring((BYTE *) tmp2, 1);
-	text[0] = tmp2;
-
-	text[0]= g_strescape(text[0], NULL);
-
+	    tmp2 = (char *)charset_petconvstring((BYTE *) tmp2, 1);
+	
+	text[0] = (char *)convert_utf8((unsigned char *)tmp2);
+#if 0
+	{
+	    gchar *e;
+	    if (g_utf8_validate(text[0], -1, &e) == FALSE)
+		printf("UTF8 Problem: %s - %s: %s\n", tmp2, text[0], e);
+	}
+#endif
 	gtk_list_store_append(store, &iter);
 	gtk_list_store_set(store, &iter, 0, text[0], 1, row, -1);
-
+	
 	row++;
 	tmp2 = tmp1;
 	tmp1 = util_find_next_line(tmp2);
+	lib_free(text[0]);
     }
 
     /* Last Line might be without newline char*/
     if (strcmp(tmp2, "") != 0)
     {
-	text[0] = tmp2;
+	text[0] = (char *)convert_utf8((unsigned char *)tmp2);
 
 	gtk_list_store_append(store, &iter);
 	gtk_list_store_set(store, &iter, 0, text[0], 1, row, -1);
+	lib_free(text[0]);
     }
 
     lib_free(contents);
@@ -2299,7 +2201,7 @@ char *ui_select_file(const char *title,
     if (filename)
     {
         ret = lib_stralloc(filename);
-	lib_free(filename);
+	g_free(filename);
     }
     else
 	ret = lib_stralloc("");
@@ -2610,17 +2512,24 @@ static GtkWidget *build_file_selector(const char *title,
     /* Contents preview */
     if (show_preview)
     {
+	char *cbm_font = have_cbm_font ? fixedfontname : "monospace 10";
+	
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
 	image_preview_list = gtk_tree_view_new_with_model(
 	    GTK_TREE_MODEL (store));
 	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer,
+		      "font", cbm_font,
+		      "ypad", 0,
+		      NULL);
 	column = gtk_tree_view_column_new_with_attributes (_("Contents"),
 							   renderer,
 							   "text", 0,
 							   NULL);
+	
 	gtk_tree_view_append_column (GTK_TREE_VIEW(image_preview_list), column);
 	
-	gtk_widget_set_size_request(image_preview_list, 180, 180);
+	gtk_widget_set_size_request(image_preview_list, 350, 180);
 	gtk_tree_view_set_headers_clickable (GTK_TREE_VIEW(image_preview_list),
 					     FALSE);
     
@@ -2795,11 +2704,13 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
     GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
     GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
 
-    gdk_gl_drawable_gl_begin (gl_drawable, gl_context);
+    if (gl_context != NULL && gl_drawable != NULL) {
+        gdk_gl_drawable_gl_begin (gl_drawable, gl_context);
 
-    glViewport(0, 0, e->width, e->height);
+        glViewport(0, 0, e->width, e->height);
 
-    gdk_gl_drawable_gl_end (gl_drawable);
+        gdk_gl_drawable_gl_end (gl_drawable);
+    }
 #endif
 
     return 0;
@@ -2812,7 +2723,9 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e,
     
     if (canvas) {
 #ifdef HAVE_HWSCALE
+#ifndef MACOSX_SUPPORT
         if (canvas->videoconfig->hwscale) {
+#endif
             GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
             GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
 
@@ -2847,14 +2760,18 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e,
 
             gdk_gl_drawable_swap_buffers (gl_drawable);
             gdk_gl_drawable_gl_end (gl_drawable);
+#ifndef MACOSX_SUPPORT
         }
         else
 #endif
+#endif
+#if !defined(MACOSX_SUPPORT) || !defined(HAVE_HWSCALE)
         {
             gdk_draw_rgb_image(w->window, app_gc,
                 e->area.x, e->area.y, e->area.width, e->area.height, GDK_RGB_DITHER_NONE,
                 canvas->gdk_image+canvas->gdk_image_size.width*3*e->area.y+3*e->area.x, canvas->gdk_image_size.width*3);
         }
+#endif
     }
     
     return 0;

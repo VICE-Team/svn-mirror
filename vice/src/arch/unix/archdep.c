@@ -53,6 +53,9 @@
 #include "ui.h"
 #include "util.h"
 
+#ifdef __NeXT__
+#define waitpid(p, s, o)  wait3((union wait *)(s), (o), (struct rusage *) 0)
+#endif
 
 static char *argv0 = NULL;
 static char *boot_path = NULL;
@@ -399,7 +402,8 @@ char *archdep_tmpnam(void)
 
     sprintf(tmp_string,"vice%d.tmp",tmp_string_counter++);
     return lib_stralloc(tmp_string);
-#elif HAVE_MKSTEMP
+#else
+#ifdef HAVE_MKSTEMP
     char *tmpName;
     const char mkstempTemplate[] = "/vice.XXXXXX";
     int fd;
@@ -422,6 +426,7 @@ char *archdep_tmpnam(void)
     return lib_stralloc(tmpName);
 #else
     return lib_stralloc(tmpnam(NULL));
+#endif
 #endif
 }
 
@@ -512,7 +517,11 @@ int archdep_file_set_gzip(const char *name)
 
 int archdep_mkdir(const char *pathname, int mode)
 {
+#ifndef __NeXT__
     return mkdir(pathname, (mode_t)mode);
+#else
+    return mkdir(pathname, mode);
+#endif
 }
 
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)

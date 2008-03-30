@@ -33,8 +33,13 @@
 #include "ui.h"
 #include "uiarch.h"
 
+#ifdef VMS
+#include "x11menu.h"
+#else
+
 /* The ".." will go away once the UI stuff is separated.  */
 #include "../x11menu.h"
+#endif
 
 extern struct ui_menu_entry_s ui_menu_separator[];
 

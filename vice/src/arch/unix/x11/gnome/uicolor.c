@@ -30,7 +30,6 @@
 
 #include <stdlib.h>
 
-#include <gdk/gdkx.h>
 #ifdef ENABLE_NLS
 #include <locale.h>
 #endif
@@ -43,7 +42,6 @@
 #include "uicolor.h"
 #include "video.h"
 #include "videoarch.h"
-#include "x11ui.h"
 
 
 extern int screen;

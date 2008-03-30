@@ -66,6 +66,7 @@ libarch_a_SOURCES = \
 	uimenu.h \
 	unixmain.c \
 	videoarch.h \
+	vmstermios.h \
 	vsyncarch.c \
 	vsiduiunix.h
 
@@ -84,6 +85,14 @@ EXTRA_DIST = \
 	qnx6/make-bindist.sh \
 	sco_sol/convertprototype.c \
 	sco_sol/make-bindist.sh \
+	skyos/icons/x64.ico \
+	skyos/icons/x128.ico \
+	skyos/icons/xcbm2.ico \
+	skyos/icons/xpet.ico \
+	skyos/icons/xplus4.ico \
+	skyos/icons/xvic.ico \
+	skyos/make-bindist.sh \
+	vms/config.h \
 	vsid
 
 .PHONY: x11

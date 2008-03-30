@@ -182,6 +182,11 @@ fi
 export PATH=/usr/X11R6/bin:$PATH
 COMMON_CFLAGS="-O3"
 
+# extra flags
+if [ "$UI_TYPE" = "gtk" ]; then
+  LDFLAGS_EXTRA="-dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib"
+fi
+
 build_vice () {
   local BUILD_ARCH="$1"
   local BUILD_SDK="$2"
@@ -208,7 +213,7 @@ build_vice () {
     PATH="$EXTLIB_DIR/$BUILD_ARCH/bin:$PATH" \
     CPPFLAGS="-I$EXTLIB_DIR/$BUILD_ARCH/include" \
     CFLAGS="$COMMON_CFLAGS" \
-    LDFLAGS="-L$EXTLIB_DIR/$BUILD_ARCH/lib" \
+    LDFLAGS="-L$EXTLIB_DIR/$BUILD_ARCH/lib $LDFLAGS_EXTRA" \
     CC="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
     CXX="g++ -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
     LD="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
@@ -230,7 +235,7 @@ copy_dylib_rec () {
   
   # get external libs
   echo 1>&2 "  checking binary '$FILE' for dylibs"
-  local EXTLIB="`otool -L \"$FILE\" | grep dylib | grep -v /usr | grep -v "$FILE" | cut -f1 -d ' '`"
+  local EXTLIB="`otool -L \"$FILE\" | grep dylib | grep -v /usr | grep -v /System | grep -v "$FILE" | cut -f1 -d ' '`"
   for lib in $EXTLIB ; do
     echo "$GOTLIB" | grep -q "$lib"
     if [ $? = 1 ]; then

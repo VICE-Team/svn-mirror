@@ -35,7 +35,11 @@
 #ifdef USE_GNOMEUI
 #include "gnome/uiarch.h"
 #else
+#ifdef VMS
+#include "xawuiarch.h"
+#else
 #include "xaw/uiarch.h"
+#endif
 #endif
 
 typedef struct ui_menu_entry_s {

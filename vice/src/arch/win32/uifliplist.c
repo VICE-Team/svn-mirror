@@ -88,20 +88,16 @@ void uifliplist_save_settings(void)
 
 void uifliplist_command(HWND hwnd, WPARAM wparam)
 {
-    switch (wparam) {
-      case IDM_FLIP_ADD | 0x00010000:
+    switch (wparam & 0xffff) {
       case IDM_FLIP_ADD:
         fliplist_add_image(8);
         break;
-      case IDM_FLIP_REMOVE | 0x00010000:
       case IDM_FLIP_REMOVE:
         fliplist_remove(8, NULL);
         break;
-      case IDM_FLIP_NEXT | 0x00010000:
       case IDM_FLIP_NEXT:
         fliplist_attach_head(8, 1);
         break;
-      case IDM_FLIP_PREVIOUS | 0x00010000:
       case IDM_FLIP_PREVIOUS:
         fliplist_attach_head(8, 0);
         break;

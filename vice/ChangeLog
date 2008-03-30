@@ -1,3 +1,51 @@
+2008-03-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.9.
+
+2008-02-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* build/vms/build.sh, doc/OpenVMS-Howto.txt: Updated to
+	include the building for vax, alpha and ia64 vms.
+
+2008-02-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* build/Makefile.am, build/vms/build.sh, doc/Makefile.am,
+	doc/OpenVMS-Howto.txt: Added preliminary OpenVMS support.
+
+2008-02-11  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* data/c64/Makefile.am, win_shortcuts.vsc: Added new file.
+
+2008-02-10  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* configure.in: fix to make gtkglext query handle missing lib
+
+2008-02-10  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* build/macosx/build-*: updated to recent library versions
+
+2008-02-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added initial nextstep/openstep support.
+
+2008-02-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in: Added support for SkyOS.
+
+2008-02-02  pottendo  <pottendo@utanet.at>
+
+	* data/fonts/Makefile.am (install): Create directory ~/.fonts
+	if not existing before installing.
+
+2008-01-31  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* configure.in: Do not fail if gtkglext is not present.
+
+2008-01-31  pottendo  <pottendo@utanet.at>
+
+	* data/fonts/Makefile.am (install): Install CBM font in
+	${HOME}/.fonts and run `fc-cache'.
+
 2008-01-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.8.

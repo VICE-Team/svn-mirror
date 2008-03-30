@@ -1203,7 +1203,6 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
     if (next_pos < last_pos) {
         if (change_pos <= next_pos)
         {
-            /* use new_pos immediately */
             sprite->x = new_x;
         } else {
             if (change_pos <= last_pos) {
@@ -1212,9 +1211,13 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
                 sprite->x = vicii.sprite_wrap_x;
             } else {
                 /* display already started on last_pos, change on next fetch */
-                raster_changes_sprites_add_int(&vicii.raster,
-                    SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num),
-                    &sprite->x, new_x);
+                if (raster_x + 8  < new_x && sprite->x > raster_x + 8)
+                    /* last line was already drawn */
+                    sprite->x = new_x;
+                else
+                    raster_changes_sprites_add_int(&vicii.raster,
+                        SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num),
+                        &sprite->x, new_x);
             }
         }
     } else {
@@ -1224,12 +1227,18 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
             /* display not started yet, use next_pos */
             sprite->x = new_x;
         } else {
-            /* display already started on last_pos, change on next fetch */
-            raster_changes_sprites_add_int(&vicii.raster,
+            if (change_pos >= next_pos)
+                if (raster_x + 8  < sprite->x && new_x > raster_x + 8)
+                    /* last line was already drawn */
+                    sprite->x = new_x;
+            else
+                /* display already started on last_pos, change on next fetch */
+                raster_changes_sprites_add_int(&vicii.raster,
                     SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num), &sprite->x, new_x);
         }
     }
-    raster_changes_next_line_add_int(&vicii.raster, &sprite->x, new_x);
+    raster_changes_sprites_add_int(&vicii.raster,
+        SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num), &sprite->x, new_x);
 }
 
 void vicii_sprites_reset_xshift(void)

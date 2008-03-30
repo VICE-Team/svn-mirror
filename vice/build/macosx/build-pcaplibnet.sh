@@ -20,7 +20,7 @@ set_compiler_env
 
 echo "===== pcaplibnet build for $ARCH ====="
 
-configure_make_install libpcap-0.9.5.tar.gz libpcap-0.9.5 lib/libpcap.a install \
+configure_make_install libpcap-0.9.8.tar.gz libpcap-0.9.8 lib/libpcap.a install \
                        "http://www.tcpdump.org/"
 
 # need to patch libnet

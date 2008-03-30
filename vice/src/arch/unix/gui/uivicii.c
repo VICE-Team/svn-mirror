@@ -79,13 +79,15 @@ static ui_menu_entry_t bordermode_submenu[] = {
     { NULL }
 };
 
+#define NOTHING(x) x
+
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
 #ifdef HAVE_HWSCALE
-UI_MENU_DEFINE_TOGGLE(VICIIHwScale)
+UI_MENU_DEFINE_TOGGLE_COND(VICIIHwScale, HwScalePossible, NOTHING)
 #endif
 UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
 #ifdef HAVE_OPENGL_SYNC

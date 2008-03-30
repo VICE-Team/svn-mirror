@@ -50,7 +50,13 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#ifndef VMS
 #include <termios.h>
+#else
+#include "vmstermios.h"
+#endif
+
 #include <unistd.h>
 
 #if defined(MINIX_SUPPORT) || defined(OPENSERVER6_COMPILE)
@@ -74,6 +80,48 @@ struct timeval {
   long tv_sec;
   long tv_usec;
 };
+#endif
+
+#ifdef __NeXT__
+int cfsetispeed(struct termios *t, int speed)
+{ 
+  t->c_ispeed = speed; 
+  return 0; 
+}
+
+int cfsetospeed(struct termios *t, int speed)
+{
+  t->c_ispeed = speed;
+  return 0;
+}
+
+int tcgetattr(int fildes, struct termios *tp)
+{
+  return ioctl(fildes, TIOCGETA, tp);
+}
+
+int tcsetattr(int fd, int opt, const struct termios *t)
+{
+  int st;
+
+  switch(opt)
+  {
+    case TCSANOW:
+      st = ioctl(fd, TIOCSETA, t);
+      break;
+    case TCSADRAIN:
+      st = ioctl(fd, TIOCSETAW, t);
+      break;
+    case TCSAFLUSH:
+      st = ioctl(fd, TIOCSETAF, t);
+      break;
+    default:
+      st = -1;
+      errno = EINVAL;
+      break;
+  }
+  return st;
+}
 #endif
 
 /* ------------------------------------------------------------------------- */

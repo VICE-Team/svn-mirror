@@ -47,5 +47,6 @@ typedef struct uikeyboard_config_s uikeyboard_config_t;
 extern void uikeyboard_settings_dialog(HWND hwnd,
                                        uikeyboard_config_t *uikeyboard_config);
 
+extern HACCEL uikeyboard_create_accelerator_table(void);
 #endif
 

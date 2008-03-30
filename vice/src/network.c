@@ -92,7 +92,7 @@ typedef struct timeval TIMEVAL;
 #include <netdb.h>
 #ifndef __MSDOS__
 #include <sys/time.h>
-#ifndef AMIGA_SUPPORT
+#if !defined(AMIGA_SUPPORT) && !defined(VMS)
 #include <sys/select.h>
 #endif
 #if !defined(AMIGA_M68K) && !defined(AMIGA_AROS)

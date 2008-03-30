@@ -66,6 +66,14 @@ bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) zip @UNIX_MACOSX_UITYPE@
 endif
 
+if UNIX_SKYOS_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/skyos/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) nozip $(top_srcdir)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/skyos/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) zip $(top_srcdir)
+endif
+
 if UNIX_QNX6_COMPILE
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip $(top_srcdir)

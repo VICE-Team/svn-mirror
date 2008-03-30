@@ -32,6 +32,10 @@
 #include "Directory.h"
 #include "RegExp.h"
 
+#if defined(VMS) && defined(__VAX)
+#define lstat stat
+#endif
+
 #ifndef HAVE_TELLDIR
 long telldir(DIR *dirp)
 {
@@ -62,6 +66,14 @@ void seekdir(DIR *dirp,long loc)
   while(dirp->dd_loc<offset)
   if (readdir(dirp)==NULL)
     return;
+}
+#endif
+
+#ifndef HAVE_REWINDDIR
+void rewinddir(DIR *dir)
+{
+  lseek(dir->dd_fd, 0, SEEK_SET);
+  dir->dd_size = 0;
 }
 #endif
 

@@ -493,9 +493,6 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
 #endif
 
-        if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format))
-            return -1;
-
         canvas->xv_image = create_yuv_image(display, canvas->xv_port,
                                             canvas->xv_format, width, height,
                                             shminfo);
@@ -690,6 +687,15 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     /* Request specified video format. */
     canvas->xv_format.id = fourcc;
 #endif
+
+    if (!find_yuv_port(x11ui_get_display_ptr(), &canvas->xv_port, &canvas->xv_format))
+    {
+        if (canvas->videoconfig->hwscale) {
+            log_message(x11video_log, _("HW scaling not available"));
+            canvas->videoconfig->hwscale = 0;
+        }
+        resources_set_int("HwScalePossible", 0);
+    }
 
     if (video_arch_frame_buffer_alloc(canvas, new_width, new_height) < 0) {
         return NULL;

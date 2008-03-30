@@ -40,7 +40,7 @@ struct rawfile_info_s {
     FILE *fd;
     char *name;
     char *path;
-    unsigned int readonly;
+    unsigned int read_only;
 };
 typedef struct rawfile_info_s rawfile_info_t;
 
@@ -86,7 +86,7 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
 
     info->fd = fd;
     util_fname_split(complete, &(info->path), &(info->name));
-    info->readonly = 0;
+    info->read_only = 0;
 
     lib_free(complete);
 

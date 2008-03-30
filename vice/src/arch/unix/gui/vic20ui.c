@@ -136,7 +136,7 @@ static ui_menu_entry_t sidcart_clock_submenu[] = {
     { NULL }
 };
 
-ui_menu_entry_t sidcart_submenu[] = {
+static ui_menu_entry_t sidcart_submenu[] = {
     { N_("*Enable SID cart"),
       (ui_callback_t)toggle_SidCart, NULL, NULL },
     { N_("SID engine"),
