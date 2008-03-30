@@ -35,6 +35,7 @@
 
 #include "charsets.h"
 #include "cmdline.h"
+#include "log.h"
 #include "prdevice.h"
 #include "print.h"
 #include "resources.h"
