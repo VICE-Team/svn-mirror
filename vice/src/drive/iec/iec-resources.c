@@ -62,7 +62,7 @@ static int set_drive_idling_method(resource_value_t v, void *param)
     dnr = (unsigned int)param;
     drive = drive_context[(unsigned int)param]->drive;
 
-    /* FIXME: Maybe we should call `drive[01]_cpu_execute()' here?  */
+    /* FIXME: Maybe we should call `drive_cpu_execute()' here?  */
     if ((int)v != DRIVE_IDLE_SKIP_CYCLES
         && (int)v != DRIVE_IDLE_TRAP_IDLE
         && (int)v != DRIVE_IDLE_NO_IDLE)
@@ -70,7 +70,7 @@ static int set_drive_idling_method(resource_value_t v, void *param)
 
     drive->idling_method = (int)v;
 
-    if (rom_loaded && drive[dnr].type == DRIVE_TYPE_1541) {
+    if (rom_loaded && drive->type == DRIVE_TYPE_1541) {
         if (drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             drive->rom[0xeae4 - 0x8000] = 0xea;
             drive->rom[0xeae5 - 0x8000] = 0xea;

@@ -391,7 +391,7 @@ static void wd1770_update_track_register(BYTE command, int dnr)
     if (command & 0x10)
         wd1770[dnr].reg[WD1770_TRACK] = wd1770[dnr].track;
 
-    drive[dnr].current_half_track = (wd1770[dnr].track + 1) * 2;
+    drive->current_half_track = (wd1770[dnr].track + 1) * 2;
 }
 
 static void wd1770_motor_control(BYTE command, unsigned int dnr)
@@ -778,9 +778,9 @@ static void wd1770_command_readaddress(BYTE command, unsigned int dnr)
     wd1770[dnr].busy_clk = drive_clk[dnr];
     wd1770_clear_errors(dnr);
 
-    if (drive[dnr].type == DRIVE_TYPE_1570
-        || drive[dnr].type == DRIVE_TYPE_1571
-        || drive[dnr].type == DRIVE_TYPE_1571CR) {
+    if (drive->type == DRIVE_TYPE_1570
+        || drive->type == DRIVE_TYPE_1571
+        || drive->type == DRIVE_TYPE_1571CR) {
         /* 1571 MFM disk images are not supported.  */
         wd1770[dnr].record_not_found = 1;
     } else {
@@ -866,7 +866,7 @@ void wd1770_vsync_hook(void)
             if (wd1770[dnr].led_delay_clk != (CLOCK)0)
                 if (drive_clk[dnr] - wd1770[dnr].led_delay_clk > 1000000)
                     wd1770[dnr].led_delay_clk = (CLOCK)0;
-/*drive[0].led_status = (wd1770[dnr].led_delay_clk == (CLOCK)0) ? 0 : 1;*/
+/*drive->led_status = (wd1770[dnr].led_delay_clk == (CLOCK)0) ? 0 : 1;*/
             wd1770[dnr].index_count++;
             if (wd1770[dnr].index_count > 10)
                 wd1770[dnr].index_count = 0;

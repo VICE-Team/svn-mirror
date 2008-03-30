@@ -126,7 +126,8 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     rotation_table_get(rotation_table_ptr);
 
     for (i = 0; i < 2; i++) {
-        GCR_image[i] = (drive[i].GCR_image_loaded == 0
+        drive = drive_context[i]->drive;
+        GCR_image[i] = (drive->GCR_image_loaded == 0
                        || !save_disks) ? 0 : 1;
     }
 

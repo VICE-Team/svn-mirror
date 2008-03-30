@@ -263,7 +263,8 @@ void iec_cpu_undump(BYTE data)
 #if 0
 BYTE iec_cpu_read(void)
 {
-    if (!drive[0].enable && !drive[1].enable)
+    if (!(drive_context[0]->drive->enable)
+        && !(drive_context[1]->drive->enable))
         return (iec_info.iec_fast_1541 & 0x30) << 2;
 
     drivecpu_execute_all(maincpu_clk);

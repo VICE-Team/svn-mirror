@@ -228,7 +228,7 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
         break;
       case DISK_IMAGE_TYPE_D80:
       case DISK_IMAGE_TYPE_D82:
-        if ((drive[dnr].type != DRIVE_TYPE_1001)
+        if ((drive->type != DRIVE_TYPE_1001)
             && (drive->type != DRIVE_TYPE_8050)
             && (drive->type != DRIVE_TYPE_8250))
             return -1;
@@ -335,7 +335,7 @@ int drive_image_detach(disk_image_t *image, unsigned int unit)
             return -1;
         }
 
-        drive_gcr_data_writeback(&drive[dnr]);
+        drive_gcr_data_writeback(drive);
         memset(drive->gcr->data, 0, MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK);
         drive->detach_clk = drive_clk[dnr];
         drive->GCR_image_loaded = 0;
