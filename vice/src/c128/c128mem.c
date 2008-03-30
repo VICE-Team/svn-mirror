@@ -98,6 +98,7 @@ BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 
 BYTE mem_basic64_rom[C128_BASIC64_ROM_SIZE];
 BYTE mem_kernal64_rom[C128_KERNAL64_ROM_SIZE];
+BYTE mem_kernal64_trap_rom[C128_KERNAL64_ROM_SIZE];
 
 /* Internal color memory.  */
 static BYTE mem_color_ram[0x800];
@@ -388,26 +389,6 @@ void REGPARM2 chargen_store(WORD addr, BYTE value)
     mem_chargen_rom_ptr[addr & 0x0fff] = value;
 }
 
-BYTE REGPARM1 basic64_read(WORD addr)
-{
-    return mem_basic64_rom[addr & 0x1fff];
-}
-
-void REGPARM2 basic64_store(WORD addr, BYTE value)
-{
-    mem_basic64_rom[addr & 0x1fff] = value;
-}
-
-BYTE REGPARM1 kernal64_read(WORD addr)
-{
-    return mem_kernal64_rom[addr & 0x1fff];
-}
-
-void REGPARM2 kernal64_store(WORD addr, BYTE value)
-{
-    mem_kernal64_rom[addr & 0x1fff] = value;
-}
-
 BYTE REGPARM1 rom_read(WORD addr)
 {
     switch (addr & 0xf000) {
@@ -449,39 +430,6 @@ void REGPARM2 rom_store(WORD addr, BYTE value)
       case 0xe000:
       case 0xf000:
         kernal_store(addr, value);
-        break;
-    }
-}
-
-BYTE REGPARM1 rom64_read(WORD addr)
-{
-    switch (addr & 0xf000) {
-      case 0xa000:
-      case 0xb000:
-        return basic64_read(addr);
-      case 0xd000:
-        return chargen_read(addr);
-      case 0xe000:
-      case 0xf000:
-        return kernal64_read(addr);
-    }
-
-    return 0;
-}
-
-void REGPARM2 rom64_store(WORD addr, BYTE value)
-{
-    switch (addr & 0xf000) {
-      case 0xa000:
-      case 0xb000:
-        basic64_store(addr, value);
-        break;
-      case 0xd000:
-        chargen_store(addr, value);
-        break;
-      case 0xe000:
-      case 0xf000:
-        kernal64_store(addr, value);
         break;
     }
 }
@@ -653,6 +601,11 @@ BYTE REGPARM1 colorram_read(WORD addr)
 }
 
 /* ------------------------------------------------------------------------- */
+
+void mem_set_write_hook(int config, int page, store_func_t *f)
+{
+    mem_write_tab[config][page] = f;
+}
 
 void mem_read_tab_set(unsigned int base, unsigned int index,
                       read_func_ptr_t read_func)
@@ -1947,50 +1900,21 @@ void mem_initialize_memory(void)
         mem_read_base_tab[128+27][i] = NULL;
     }
 
-    /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
+    c64meminit(128);
+
+    /* Setup C128 specific I/O at $D000-$DFFF.  */
     for (j = 0; j < 32; j++) {
-        /* IO is enabled at memory configs 5, 6, 7 and Ultimax.  */
-        const int io_config[32] = { 0, 0, 0, 0, 0, 1, 1, 1,
-                                    0, 0, 0, 0, 0, 1, 1, 1,
-                                    1, 1, 1, 1, 1, 1, 1, 1,
-                                    0, 0, 0, 0, 0, 1, 1, 1 };
-
-        if (io_config[j]) {
-            for (i = 0xd0; i <= 0xd3; i++) {
-                mem_read_tab[128+j][i] = vicii_read;
-                mem_write_tab[128+j][i] = vicii_store;
-            }
-
-                mem_read_tab[128+j][0xd4] = sid_read;
-                mem_write_tab[128+j][0xd4] = sid_store;
-                mem_read_tab[128+j][0xd5] = d5xx_read;
-                mem_write_tab[128+j][0xd5] = d5xx_store;
-                mem_read_tab[128+j][0xd6] = vdc_read;
-                mem_write_tab[128+j][0xd6] = vdc_store;
-                mem_read_tab[128+j][0xd7] = d7xx_read;
-                mem_write_tab[128+j][0xd7] = d7xx_store;
-
-            for (i = 0xd8; i <= 0xdb; i++) {
-                mem_read_tab[128+j][i] = colorram_read;
-                mem_write_tab[128+j][i] = colorram_store;
-            }
-
-            mem_read_tab[128+j][0xdc] = cia1_read;
-            mem_write_tab[128+j][0xdc] = cia1_store;
-            mem_read_tab[128+j][0xdd] = cia2_read;
-            mem_write_tab[128+j][0xdd] = cia2_store;
-
-            mem_read_tab[128+j][0xde] = io1_read;
-            mem_write_tab[128+j][0xde] = io1_store;
-            mem_read_tab[128+j][0xdf] = io2_read;
-            mem_write_tab[128+j][0xdf] = io2_store;
-
-            for (i = 0xd0; i <= 0xdf; i++)
-                mem_read_base_tab[128+j][i] = NULL;
+        if (c64meminit_io_config[j]) {
+            mem_read_tab[128+j][0xd4] = sid_read;
+            mem_write_tab[128+j][0xd4] = sid_store;
+            mem_read_tab[128+j][0xd5] = d5xx_read;
+            mem_write_tab[128+j][0xd5] = d5xx_store;
+            mem_read_tab[128+j][0xd6] = vdc_read;
+            mem_write_tab[128+j][0xd6] = vdc_store;
+            mem_read_tab[128+j][0xd7] = d7xx_read;
+            mem_write_tab[128+j][0xd7] = d7xx_store;
         }
     }
-
-    c64meminit(128);
 
     /* Setup ROML at $8000-$9FFF.  */
     for (i = 0x80; i <= 0x9f; i++) {
