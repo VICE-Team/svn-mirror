@@ -320,7 +320,7 @@ static void wd1770_update_track_register(BYTE command, int dnr)
         wd1770[dnr].reg[WD1770_TRACK] = wd1770[dnr].current_track;
 }
 
-static void wd1770_motor_control(BYTE command, int dnr)
+static void wd1770_motor_control(BYTE command, unsigned int dnr)
 {
     if (command & 0x08) {
         if ((wd1770[dnr].reg[WD1770_STATUS] & 0x80) == 0)
@@ -333,6 +333,14 @@ static void wd1770_motor_control(BYTE command, int dnr)
     }
 }
 
+static void wd1770_wpstatus_set(unsigned int dnr)
+{
+    if (wd1770[dnr].image != NULL)
+        wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
+    else
+        wd1770[dnr].wp_status = 0;
+}
+
 /*-----------------------------------------------------------------------*/
 /* WD1770 commands.  */
 
@@ -341,18 +349,18 @@ static void wd1770_command_restore(BYTE command, unsigned int dnr)
     wd1770[dnr].current_track = 0;
     wd1770_update_track_register(0x10, dnr);
     wd1770_motor_control(command, dnr);
-    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
+    wd1770_wpstatus_set(dnr);
 }
 
 static void wd1770_command_seek(BYTE command, unsigned int dnr)
 {
     wd1770[dnr].set_drq = drive_clk[dnr];
-    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
+    wd1770_wpstatus_set(dnr);
 }
 
 static void wd1770_command_step(BYTE command, unsigned int dnr)
 {
-    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
+    wd1770_wpstatus_set(dnr);
 }
 
 static void wd1770_command_stepin(BYTE command, unsigned int dnr)
@@ -361,7 +369,7 @@ static void wd1770_command_stepin(BYTE command, unsigned int dnr)
         wd1770[dnr].current_track++;
     wd1770_update_track_register(command, dnr);
     wd1770_motor_control(command, dnr);
-    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
+    wd1770_wpstatus_set(dnr);
 }
 
 static void wd1770_command_stepout(BYTE command, unsigned int dnr)
@@ -370,7 +378,7 @@ static void wd1770_command_stepout(BYTE command, unsigned int dnr)
         wd1770[dnr].current_track--;
     wd1770_update_track_register(command, dnr);
     wd1770_motor_control(command, dnr);
-    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
+    wd1770_wpstatus_set(dnr);
 }
 
 static void wd1770_command_readsector(BYTE command, unsigned int dnr)
@@ -380,7 +388,7 @@ static void wd1770_command_readsector(BYTE command, unsigned int dnr)
 
 static void wd1770_command_writesector(BYTE command, unsigned int dnr)
 {
-    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
+    wd1770_wpstatus_set(dnr);
 }
 
 static void wd1770_command_readaddress(BYTE command, unsigned int dnr)
@@ -410,47 +418,57 @@ static void wd1770_command_readtrack(BYTE command, unsigned int dnr)
 
 static void wd1770_command_writetrack(BYTE command, unsigned int dnr)
 {
-    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
+    wd1770_wpstatus_set(dnr);
 }
 
 /*-----------------------------------------------------------------------*/
 /* WD1770 job code emulation.  */
 
-static int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
+static int wd1770_job_code_read(unsigned int dnr, unsigned int track,
+                                unsigned int sector, unsigned int buffer)
 {
-    int rc, i, base;
+    ADDRESS base;
+    int rc, i;
     BYTE sector_data[256];
 
     rc = disk_image_read_sector(wd1770[dnr].image, sector_data, track, sector);
+
     if (rc < 0) {
         log_error(wd1770_log,
                   "Cannot read T:%d S:%d from disk image.",
                   track, sector);
         return 2;
     }
-    base = (buffer << 8) + 0x300;
+
+    base = (ADDRESS)((buffer << 8) + 0x300);
+
     for (i = 0; i < 256; i++) {
         if (dnr == 0)
-            drive_store(&drive0_context, (ADDRESS) (base + i), sector_data[i]);
+            drive_store(&drive0_context, (ADDRESS)(base + i), sector_data[i]);
         else
-            drive_store(&drive1_context, (ADDRESS) (base + i), sector_data[i]);
+            drive_store(&drive1_context, (ADDRESS)(base + i), sector_data[i]);
     }
     return 0;
 }
 
-static int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
+static int wd1770_job_code_write(unsigned int dnr, unsigned int track,
+                                 unsigned int sector, unsigned int buffer)
 {
-    int rc, i, base;
+    ADDRESS base;
+    int rc, i;
     BYTE sector_data[256];
 
-    base = (buffer << 8) + 0x300;
+    base = (ADDRESS)((buffer << 8) + 0x300);
+
     for (i = 0; i < 256; i++) {
         if (dnr == 0)
-            sector_data[i] = drive_read(&drive0_context, (ADDRESS) (base + i));
+            sector_data[i] = drive_read(&drive0_context, (ADDRESS)(base + i));
         else
-            sector_data[i] = drive_read(&drive1_context, (ADDRESS) (base + i));
+            sector_data[i] = drive_read(&drive1_context, (ADDRESS)(base + i));
     }
+
     rc = disk_image_write_sector(wd1770[dnr].image, sector_data, track, sector);
+
     if (rc < 0) {
         log_error(wd1770_log,
                   "Could not update T:%d S:%d on disk image.",
@@ -462,19 +480,19 @@ static int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
 
 void wd1770_handle_job_code(unsigned int dnr)
 {
-    int buffer;
+    unsigned int buffer;
     BYTE command, track, sector;
     BYTE rcode = 0;
 
     for (buffer = 0; buffer <= 8; buffer++) {
         if (dnr == 0) {
-            command = drive_read(&drive0_context, (ADDRESS) (0x02 + buffer));
-            track = drive_read(&drive0_context, (ADDRESS) (0x0b + (buffer << 1)));
-            sector = drive_read(&drive0_context, (ADDRESS) (0x0c + (buffer << 1)));
+            command = drive_read(&drive0_context, (ADDRESS)(0x02 + buffer));
+            track = drive_read(&drive0_context, (ADDRESS)(0x0b + (buffer << 1)));
+            sector = drive_read(&drive0_context, (ADDRESS)(0x0c + (buffer << 1)));
         } else {
-            command = drive_read(&drive1_context, (ADDRESS) (0x02 + buffer));
-            track = drive_read(&drive1_context, (ADDRESS) (0x0b + (buffer << 1)));
-            sector = drive_read(&drive1_context, (ADDRESS) (0x0c + (buffer << 1)));
+            command = drive_read(&drive1_context, (ADDRESS)(0x02 + buffer));
+            track = drive_read(&drive1_context, (ADDRESS)(0x0b + (buffer << 1)));
+            sector = drive_read(&drive1_context, (ADDRESS)(0x0c + (buffer << 1)));
         }
         if (command & 0x80) {
 #ifdef WD_DEBUG
@@ -500,9 +518,9 @@ void wd1770_handle_job_code(unsigned int dnr)
                 rcode = 2;
 
             if (dnr == 0)
-                drive_store(&drive0_context, (ADDRESS) (2 + buffer), rcode);
+                drive_store(&drive0_context, (ADDRESS)(2 + buffer), rcode);
             else
-                drive_store(&drive1_context, (ADDRESS) (2 + buffer), rcode);
+                drive_store(&drive1_context, (ADDRESS)(2 + buffer), rcode);
         }
     }
 }
@@ -513,13 +531,13 @@ void wd1770_vsync_hook(void)
         if (wd1770[0].led_delay_clk != (CLOCK)0)
             if (drive_clk[0] - wd1770[0].led_delay_clk > 1000000)
                 wd1770[0].led_delay_clk = (CLOCK)0;
-        drive[0].led_status = (wd1770[0].led_delay_clk == (CLOCK) 0) ? 0 : 1;
+        drive[0].led_status = (wd1770[0].led_delay_clk == (CLOCK)0) ? 0 : 1;
     }
     if (drive[1].type == DRIVE_TYPE_1581) {
         if (wd1770[1].led_delay_clk != (CLOCK)0)
             if (drive_clk[1] - wd1770[1].led_delay_clk > 1000000)
                 wd1770[1].led_delay_clk = (CLOCK)0;
-        drive[1].led_status = (wd1770[1].led_delay_clk == (CLOCK) 0) ? 0 : 1;
+        drive[1].led_status = (wd1770[1].led_delay_clk == (CLOCK)0) ? 0 : 1;
     }
 }
 
