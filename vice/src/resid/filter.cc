@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2002  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -137,50 +137,24 @@ void Filter::enable_filter(bool enable)
 void Filter::set_chip_model(chip_model model)
 {
   if (model == MOS6581) {
-    // The DC offset of each voice is approximately -1/3 of the dynamic
-    // range of one voice. This is calculated as follows from results
-    // in C= Hacking Issue #20:
+    // The mixer has a small input DC offset. This is found as follows:
     //
-    // * The "zero" output level of the mixer at full volume is 5.39V.
-    // * Routing one voice to the mixer at full volume yields
-    //     5.29V at maximum voice output
-    //     5.69V at "zero" voice output
-    //     6.34V at minimum voice output
-    //   This confirms that the mixer output is inverted.
-    // * The DC offset of one voice is -(5.69V - 5.39V) = -0.30V
-    // * The dynamic range of one voice is |5.29V - 6.34V| = 1.05V
-    // * The DC offset is thus -0.30V/1.05V ~ -1/3 of the dynamic range.
+    // The "zero" output level of the mixer measured on the SID audio
+    // output pin is 5.50V at zero volume, and 5.44 at full
+    // volume. This yields a DC offset of (5.44V - 5.50V) = -0.06V.
     //
-    // Note that by removing the DC offset, we get the following ranges for
-    // one voice:
-    //     y > 0: -(5.29V - 5.39V) - (-0.30V) =  0.40V
-    //     y < 0: -(6.34V - 5.39V) - (-0.30V) = -0.65V
-    // The scaling of the voice amplitude is thus not symmetric about y = 0.
-    // The asymmetric scaling happens either in the envelope multiplying
-    // D/A converters, in the mixer, or both.
-    // NB! This is not modeled.
+    // The DC offset is thus -0.06V/1.05V ~ -1/18 of the dynamic range
+    // of one voice. See voice.cc for measurement of the dynamic
+    // range.
 
-    voice_DC = -4095*255/3 >> 7;
-
-    // The mixer also has a small input DC offset, approximately 1/25
-    // of the dynamic range of one voice. This is calculated as
-    // follows:
-    //
-    // The "zero" output level of the mixer is 5.43V at zero volume,
-    // and 5.39V at full volume. This yields an input DC offset of
-    // -(5.39V - 5.43V) = 0.04V.
-    // The DC offset is thus 0.04V/1.05V ~ 1/25 of the dynamic range
-    // of one voice.
-
-    mixer_DC = 4095*255/25 >> 7;
+    mixer_DC = -0xfff*0xff/18 >> 7;
 
     f0 = f0_6581;
     f0_points = f0_points_6581;
     f0_count = sizeof(f0_points_6581)/sizeof(*f0_points_6581);
   }
   else {
-    // No DC offsets in MOS8580.
-    voice_DC = 0;
+    // No DC offsets in the MOS8580.
     mixer_DC = 0;
 
     f0 = f0_8580;

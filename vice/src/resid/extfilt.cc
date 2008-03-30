@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2002  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -56,11 +56,12 @@ void ExternalFilter::set_chip_model(chip_model model)
 {
   if (model == MOS6581) {
     // Maximum mixer DC output level; to be removed if the external
-    // filter is turned off.
-    mixer_DC = ((4095*255/3*3 - 4095*255/25) >> 7)*0x0f;
+    // filter is turned off: ((wave DC + voice DC)*voices + mixer DC)*volume
+    // See voice.cc and filter.cc for an explanation of the values.
+    mixer_DC = ((((0x800 - 0x380) + 0x800)*0xff*3 - 0xfff*0xff/18) >> 7)*0x0f;
   }
   else {
-    // No DC offsets in MOS8580.
+    // No DC offsets in the MOS8580.
     mixer_DC = 0;
   }
 }

@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2002  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -227,12 +227,12 @@ void WaveformGenerator::synchronize()
 // ----------------------------------------------------------------------------
 
 // No waveform:
-// Full output.
+// Zero output.
 //
 RESID_INLINE
 reg12 WaveformGenerator::output____()
 {
-  return 0xfff;
+  return 0x000;
 }
 
 // Triangle:

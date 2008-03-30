@@ -57,11 +57,11 @@ audio resampling with his "Digital Audio Resampling Home Page":
 http://www-ccrma.stanford.edu/~jos/resample/
 
 Hársfalvi, Levente has made a thorough investigation of the DC levels
-in the MOS6581 chip. His results are available in C= Hacking Issue
-#20, and form the basis of two DC corrections in reSID. Levente found
-that each voice independently contributes to the DC level in the
-mixer. He also found that if no waveform is selected, the waveform
-output is at maximum level, not at minimum level.
+in the MOS6581 chip. His results are available in C= Hacking Issue #20,
+and form the basis of DC corrections in reSID. Levente found that each
+voice independently contributes to the DC level in the mixer. Note
+that some of the conclusions in the article are incorrect, as the
+maximum and minimum voice output levels are interchanged.
 
 The author of SIDPLAY2, Simon White, has given a lot of feedback on
 reSID. Most importantly he found and fixed a bug in the fast clock

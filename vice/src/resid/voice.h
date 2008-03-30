@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2002  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ class Voice
 public:
   Voice();
 
+  void set_chip_model(chip_model model);
   void set_sync_source(Voice*);
   void reset();
 
@@ -41,6 +42,10 @@ public:
 protected:
   WaveformGenerator wave;
   EnvelopeGenerator envelope;
+
+  // Waveform D/A and envelope multiplying D/A DC offsets.
+  sound_sample wave_DC;
+  sound_sample voice_DC;
 
 friend class SID;
 };
@@ -56,13 +61,13 @@ friend class SID;
 
 // ----------------------------------------------------------------------------
 // Amplitude modulated waveform output.
-// Range [-2048*255, 2047*255].
+// Ideal range [-2048*255, 2047*255].
 // ----------------------------------------------------------------------------
 RESID_INLINE
 sound_sample Voice::output()
 {
   // Multiply oscillator output with envelope output.
-  return (wave.output() - 2048)*envelope.output();
+  return (wave.output() + wave_DC)*envelope.output() + voice_DC;
 }
 
 #endif // RESID_INLINING || defined(__VOICE_CC__)

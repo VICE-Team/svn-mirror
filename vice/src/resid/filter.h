@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2002  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -175,8 +175,7 @@ protected:
   // Output master volume.
   reg4 vol;
 
-  // Voice and mixer DC offsets.
-  sound_sample voice_DC;
+  // Mixer DC offset.
   sound_sample mixer_DC;
 
   // State of filter.
@@ -221,16 +220,16 @@ void Filter::clock(sound_sample voice1,
 {
   // Add separate DC offset to each voice.
   // Scale each voice down from 20 to 13 bits.
-  voice1 = (voice1 >> 7) + voice_DC;
-  voice2 = (voice2 >> 7) + voice_DC;
+  voice1 = voice1 >> 7;
+  voice2 = voice2 >> 7;
 
-  // NB! Voice 3 is only silenced by voice3off if it is not routed through
+  // NB! Voice 3 is not silenced by voice3off if it is routed through
   // the filter.
   if (voice3off && !(filt3_filt2_filt1 & 0x04)) {
     voice3 = 0;
   }
   else {
-    voice3 = (voice3 >> 7) + voice_DC;
+    voice3 = voice3 >> 7;
   }
 
   // This is handy for testing.
@@ -310,16 +309,16 @@ void Filter::clock(cycle_count delta_t,
 {
   // Add separate DC offset to each voice.
   // Scale each voice down from 20 to 13 bits.
-  voice1 = (voice1 >> 7) + voice_DC;
-  voice2 = (voice2 >> 7) + voice_DC;
+  voice1 = voice1 >> 7;
+  voice2 = voice2 >> 7;
 
-  // NB! Voice 3 is only silenced by voice3off if it is not routed through
+  // NB! Voice 3 is not silenced by voice3off if it is routed through
   // the filter.
   if (voice3off && !(filt3_filt2_filt1 & 0x04)) {
     voice3 = 0;
   }
   else {
-    voice3 = (voice3 >> 7) + voice_DC;
+    voice3 = voice3 >> 7;
   }
 
   // Enable filter on/off.
@@ -419,7 +418,7 @@ sound_sample Filter::output()
 {
   // This is handy for testing.
   if (!enabled) {
-    return -(Vnf + mixer_DC)*static_cast<sound_sample>(vol);
+    return (Vnf + mixer_DC)*static_cast<sound_sample>(vol);
   }
 
   // Mix highpass, bandpass, and lowpass outputs. The sum is not
@@ -463,9 +462,7 @@ sound_sample Filter::output()
 
   // Sum non-filtered and filtered output.
   // Multiply the sum with volume.
-  // The output is inverted. This should not make any audible difference,
-  // but is included for correctness.
-  return -(Vnf + Vf + mixer_DC)*static_cast<sound_sample>(vol);
+  return (Vnf + Vf + mixer_DC)*static_cast<sound_sample>(vol);
 }
 
 #endif // RESID_INLINING || defined(__FILTER_CC__)

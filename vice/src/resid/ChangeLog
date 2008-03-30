@@ -1,8 +1,33 @@
-	* configure.in: Added return type int to main() in compiler check.
+2002-01-19  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.13 released.
+
+	* configure.in: Replaced AC_TRY_COMPILER with AC_TRY_COMPILE,
+	removed AC_PROG_RANLIB.
 
 	* envelope.h (clock): Reset rate_step on state change.
 
-	* extfilt.cc, filter.cc: Increased voice DC level.
+	* extfilt.cc (set_chip_model): New calculation of maximum mixer DC
+	level.
+
+	* filter.cc (set_chip_model): Moved calculation of voice_DC to
+	voice.cc, corrected calculation of mixer_DC.
+
+	* filter.h (Filter::output): Mixer output is not inverted.
+
+	* sid.cc (set_chip_model): Call voice.set_chip_model instead of
+	voice.wave.set_chip_model.
+	
+	* voice.cc (Voice::Voice): Call set_chip_model.
+	(Voice::set_chip_model): New function; model both waveform D/A
+	converter and envelope multiplying D/A converter DC offsets.
+	
+	* voice.h (Voice::output): Add both waveform D/A converter and
+	envelope multiplying D/A converter DC offsets.
+	
+	* wave.h (WaveformGenerator::output____): Reverted to output
+	minimum wave level when no waveform is selected. The maximum and
+	minimum wave output levels are interchanged in C= Hacking Issue	#20.
 
 2001-10-20  Dag Lem  <resid@nimrod.no>
 

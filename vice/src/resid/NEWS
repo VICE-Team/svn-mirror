@@ -1,3 +1,17 @@
+Changes in reSID version 0.13
+-----------------------------
+
+The internal DC levels of the MOS6581 have been double checked and
+corrected. The reason for the asymmetric scaling of the voice output
+has been found; there is a DC offset from the waveform D/A converter
+in addition to the DC offset from the envelope multiplying D/A
+converter. No selected waveform (N=P=S=T=0) yields minimum wave output
+level again.
+
+A bug in the fast version of the envelope clocking has been corrected.
+This bug could incorrectly invoke the ADSR delay emulation.
+
+
 Changes in reSID version 0.12
 -----------------------------
 
