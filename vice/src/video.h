@@ -42,25 +42,25 @@ extern int video_frame_buffer_alloc(video_frame_buffer_t **i,
 extern void video_frame_buffer_free(video_frame_buffer_t *i);
 extern void video_frame_buffer_clear(video_frame_buffer_t *i, PIXEL value);
 
-extern canvas_t canvas_create(const char *win_name, unsigned int *width,
-                              unsigned int *height, int mapped,
-                              canvas_redraw_t exposure_handler,
-                              const struct palette_s *palette,
-                              PIXEL *pixel_return
+extern canvas_t *canvas_create(const char *win_name, unsigned int *width,
+                               unsigned int *height, int mapped,
+                               canvas_redraw_t exposure_handler,
+                               const struct palette_s *palette,
+                               PIXEL *pixel_return
 #ifdef USE_GNOMEUI
 			      ,video_frame_buffer_t *fb
 #endif
     );
-extern void canvas_refresh(canvas_t canvas, video_frame_buffer_t *frame_buffer,
+extern void canvas_refresh(canvas_t *canvas, video_frame_buffer_t *frame_buffer,
                            unsigned int xs, unsigned int ys,
                            unsigned int xi, unsigned int yi,
                            unsigned int w, unsigned int h);
-extern int canvas_set_palette(canvas_t c, const struct palette_s *palette,
+extern int canvas_set_palette(canvas_t *c, const struct palette_s *palette,
                               PIXEL *pixel_return);
-extern void canvas_destroy(canvas_t s);
-extern void canvas_map(canvas_t s);
-extern void canvas_unmap(canvas_t s);
-extern void canvas_resize(canvas_t s, unsigned int width, unsigned int height);
+extern void canvas_destroy(canvas_t *s);
+extern void canvas_map(canvas_t *s);
+extern void canvas_unmap(canvas_t *s);
+extern void canvas_resize(canvas_t *s, unsigned int width, unsigned int height);
 
 #endif
 

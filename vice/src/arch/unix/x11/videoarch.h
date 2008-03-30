@@ -44,7 +44,7 @@
 #include <gdk/gdk.h>		
 #endif
 
-struct _canvas {
+struct canvas_s {
     unsigned int width, height;
     ui_window_t emuwindow;
 #ifdef USE_GNOMEUI
@@ -54,7 +54,7 @@ struct _canvas {
 #endif
 
 };
-typedef struct _canvas *canvas_t;
+typedef struct canvas_s canvas_t;
 
 /* Triple buffering is never available on X11.  */
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
@@ -63,7 +63,7 @@ struct video_frame_buffer_s {
     XImage *x_image;
 #ifdef USE_GNOMEUI
     GdkImage *gdk_image;
-    canvas_t canvas;
+    canvas_t *canvas;
 #endif
 
 #ifdef USE_MITSHM
@@ -124,7 +124,7 @@ extern int shmmajor;          /* major number of MITSHM error codes */
 struct palette_s;
 
 extern void video_add_handlers(ui_window_t w);
-extern void ui_finish_canvas(canvas_t c);
+extern void ui_finish_canvas(canvas_t *c);
 extern void video_convert_save_pixel(void);
 extern void video_convert_restore_pixel(void);
 extern void video_refresh_func(void (*rfunc)(void));
