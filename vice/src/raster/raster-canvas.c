@@ -32,38 +32,39 @@
 #include "machine.h"
 #include "raster-canvas.h"
 #include "raster.h"
+#include "video.h"
 #include "videoarch.h"
 
 void raster_canvas_update_all(raster_t *raster)
 {
-    raster_viewport_t *viewport;
+    viewport_t *viewport;
 
-    viewport = &raster->viewport;
+    viewport = raster->canvas->viewport;
 
-    if (viewport->canvas->draw_buffer == NULL)
+    if (raster->canvas->draw_buffer == NULL)
         return;
 
-    video_canvas_refresh(viewport->canvas,
+    video_canvas_refresh(raster->canvas,
                          viewport->first_x
-                                + raster->geometry.extra_offscreen_border_left,
+                                + viewport->extra_offscreen_border_left,
                          viewport->first_line,
                          viewport->x_offset,
                          viewport->y_offset,
-                         MIN(viewport->width,
-                             raster->geometry.screen_size.width),
-                         MIN(viewport->height,
-                             raster->geometry.screen_size.height));
+                         MIN(raster->canvas->draw_buffer->canvas_width,
+                             viewport->screen_width),
+                         MIN(raster->canvas->draw_buffer->canvas_height,
+                             viewport->screen_height));
 }
 
 inline static void update_canvas(raster_t *raster)
 {
     raster_area_t *update_area;
-    raster_viewport_t *viewport;
+    viewport_t *viewport;
     int x, y, xx, yy;
     int w, h;
 
     update_area = &raster->update_area;
-    viewport = &raster->viewport;
+    viewport = raster->canvas->viewport;
 
     if (update_area->is_null)
         return;
@@ -94,14 +95,14 @@ inline static void update_canvas(raster_t *raster)
         h += yy;
         yy = 0;
     }
-    x += raster->geometry.extra_offscreen_border_left;
+    x += viewport->extra_offscreen_border_left;
 
     xx += viewport->x_offset;
     yy += viewport->y_offset;
 
-    video_canvas_refresh(viewport->canvas, x, y, xx, yy,
-                         MIN(w, viewport->width - xx),
-                         MIN(h, viewport->height - yy));
+    video_canvas_refresh(raster->canvas, x, y, xx, yy,
+        MIN(w, raster->canvas->draw_buffer->canvas_width - xx),
+        MIN(h, raster->canvas->draw_buffer->canvas_height - yy));
     update_area->is_null = 1;
 }
 
@@ -113,7 +114,7 @@ void raster_canvas_handle_end_of_frame(raster_t *raster)
     if (raster->skip_frame)
         return;
 
-    if (!raster->viewport.update_canvas)
+    if (!raster->canvas->viewport->update_canvas)
         return;
 
     if (raster->dont_cache)

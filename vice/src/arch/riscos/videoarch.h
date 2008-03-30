@@ -80,6 +80,7 @@ struct video_canvas_s {
   video_redraw_core_func *redraw_full;
   struct video_render_config_s *videoconfig;
   struct draw_buffer_s *draw_buffer;
+  struct viewport_s *viewport;
   struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
 

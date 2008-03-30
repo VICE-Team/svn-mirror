@@ -96,7 +96,7 @@ inline static void update_sprite_collisions(raster_t *raster)
         return;
 
     fake_draw_buffer_ptr = raster->fake_draw_buffer_line
-                           + raster->geometry.extra_offscreen_border_left;
+         + raster->geometry.extra_offscreen_border_left;
 
     raster->sprite_status->draw_function(fake_draw_buffer_ptr,
                                          raster->zero_gfx_msk);
@@ -141,7 +141,7 @@ inline static void handle_blank_line(raster_t *raster)
 
         add_line_to_area(&raster->update_area, raster->current_line,
                          0, raster->geometry.screen_size.width - 1);
-    } else if (CANVAS_USES_TRIPLE_BUFFERING(raster->viewport.canvas)
+    } else if (CANVAS_USES_TRIPLE_BUFFERING(raster->canvas)
         || raster->dont_cache
         || raster->cache[raster->current_line].is_dirty
         || (raster->border_color
@@ -647,7 +647,7 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
 
     cache = &raster->cache[raster->current_line];
 
-    if (CANVAS_USES_TRIPLE_BUFFERING(raster->viewport.canvas)
+    if (CANVAS_USES_TRIPLE_BUFFERING(raster->canvas)
         || raster->dont_cache
         || raster->sprite_status->dma_msk != 0
         || cache->is_dirty
@@ -800,7 +800,7 @@ inline static void handle_visible_line(raster_t *raster)
 
     if (raster->changes.have_on_this_line)
         handle_visible_line_with_changes(raster);
-    else if (!CANVAS_USES_TRIPLE_BUFFERING(raster->viewport.canvas)
+    else if (!CANVAS_USES_TRIPLE_BUFFERING(raster->canvas)
         && raster->cache_enabled
         && !raster->open_left_border
         && !raster->open_right_border)       /* FIXME: shortcut! */
@@ -811,9 +811,9 @@ inline static void handle_visible_line(raster_t *raster)
 
 void raster_line_emulate(raster_t *raster)
 {
-    raster_viewport_t *viewport;
+    viewport_t *viewport;
 
-    viewport = &raster->viewport;
+    viewport = raster->canvas->viewport;
 
     raster_draw_buffer_ptr_update(raster);
 

@@ -41,6 +41,7 @@ video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
 
     canvas->videoconfig = videoconfig;
     canvas->draw_buffer = (draw_buffer_t *)xcalloc(1, sizeof(draw_buffer_t));
+    canvas->viewport = (viewport_t *)xcalloc(1, sizeof(viewport_t));
 
     video_arch_canvas_init(canvas);
 
