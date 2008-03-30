@@ -2,7 +2,8 @@
  * kbd.c - MS-DOS keyboard driver.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -58,7 +59,6 @@
 BYTE joystick_value[3] = { 0, 0, 0 };
 
 /* 40/80 column key.  */
-static unsinged int key_ctrl_column4080 = 0;
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
 /* ------------------------------------------------------------------------- */
@@ -348,6 +348,12 @@ static void my_kbd_interrupt_handler(void)
           case K_SCROLLOCK:     /* Warp mode on/off */
             queue_command(KCMD_TOGGLE_WARP, (kbd_command_data_t) 0);
             break;
+          case K_F7: /* 40/80 column screen switch */
+            if (key_ctrl_column4080_func != NULL) {
+                key_ctrl_column4080_func();
+                break;
+            } 
+            /* Fall through */
           default:
             if (modifiers.left_alt || modifiers.right_alt) {
                 /* Handle Alt-... hotkeys.  */
