@@ -1,4 +1,4 @@
-These are the most important known problems with VICE 1.6:
+These are the most important known problems with VICE 1.7:
 
 - Some basic features of the VDC are missing. In the MS-DOS port you
   have to save the configuration and restart the emulator when

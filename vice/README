@@ -1,5 +1,5 @@
 
-  VICE  1.6 							December 2000
+  VICE  1.7 							December 2000
 
 
 		 _______________
@@ -103,16 +103,18 @@
 
  VICE, the Versatile Commodore Emulator
 
-    Copyright © 1996-1999 Ettore Perazzoli
-    Copyright © 1997-2000 Daniel Sladic
-    Copyright © 1998-2000 Andreas Boose
-    Copyright C 1998-2000 Dag Lem
-    Copyright C 1998-2000 Tibor Biczo
-    Copyright C 1999-2000 Andreas Dehmel
-    Copyright C 1999-2000 Thomas Bretz
-    Copyright C 1999-2000 Andreas Matthies
-    Copyright C 1999-2000 Martin Pottendorfer
+    Copyright © 1997-2001 Daniel Sladic
+    Copyright © 1998-2001 Andreas Boose
+    Copyright C 1998-2001 Dag Lem
+    Copyright C 1998-2001 Tibor Biczo
+    Copyright C 1999-2001 Andreas Dehmel
+    Copyright C 1999-2001 Thomas Bretz
+    Copyright C 1999-2001 Andreas Matthies
+    Copyright C 1999-2001 Martin Pottendorfer
+    Copyright C 2000-2001 Markus Brenner
+    Copyright C 2000-2001 Spiro Trikaliotis
 
+    Copyright C 1996-1999 Ettore Perazzoli
     Copyright C 1996-1999 André Fachat
     Copyright C 1993-1994, 1997-1999 Teemu Rantanen
     Copyright © 1993-1996 Jouko Valta
