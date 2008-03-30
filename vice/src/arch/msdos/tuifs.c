@@ -125,7 +125,7 @@ static int file_list_sort_func(const void *e1, const void *e2)
 	if (f2->type == FT_DIR)
 	    return +1;
     }
-    return strcmp(f1->name, f2->name);
+    return strcasecmp(f1->name, f2->name);
 }
 
 static void file_list_sort(struct file_list *fl)
@@ -189,7 +189,7 @@ static struct file_list *file_list_read_lfn(const char *path,
 
                     element = strtok(p, ";");
                     do {
-                        if (fnmatch(element, d->d_name, 0) == 0)
+                        if (fnmatch(element, d->d_name, FNM_NOCASE) == 0)
                             file_list_add_item(fl, d->d_name, type);
                         element = strtok(NULL, ";");
                     } while (element != NULL);
@@ -241,7 +241,7 @@ static struct file_list *file_list_read_nolfn(const char *path,
 
             element = strtok(p, ";");
             do {
-                if (fnmatch(element, f.name, 0) == 0)
+                if (fnmatch(element, f.name, FNM_NOCASE) == 0)
                     file_list_add_item(fl, f.name,
                                   (f.attrib & _A_SUBDIR) ? FT_DIR : FT_NORMAL);
                 element = strtok(NULL, ";");
