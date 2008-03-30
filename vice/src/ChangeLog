@@ -1,3 +1,62 @@
+2001-08-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.4.
+
+	* gfxoutputdrv/gfxoutput.c, gfxoutputdrv/bmpdrv.h,
+	gfxoutputdrv/pngdrv.h: New files.
+
+	* screendrv/*: Moved to `gfxoutputdrv' and made more modular.
+
+	* main.c (MAIN_PROGRAM): Initialize gfx output driver.
+
+	* Makefile.am: Added new files.
+
+	* arch/unix/x11/xaw/uiscreenshot.c, arch/win32/uisnapshot.c,
+	arch/unix/x11/gnome/uiscreenshot.c, arch/riscos/spritedrv.c:
+	Adopted to new naming.
+
+	* gfxoutputdrv/bmpdrv.c (bmpdrv_save): Add default extension.
+	Changed to handle multiple instances and separated into open,
+	write and close functions.
+
+	* gfxoutputdrv/pngdrv.c (pngdrv_save): Changed likewise.
+
+	* utils.c, utils.h (util_add_extension_const): New function.
+
+2001-08-17  John Selck  <graham@cruise.de>
+
+	* vicii/vicii-color.c: Reorganised code. Now there is just one
+	function which can be called externally:
+	vic_ii_color_calcpalette. Also a new parameter is introduced:
+	The palette type. It is now possible to calculate different
+	palettes to allow fake pal emulation (delay loop emulation).
+
+	* vicii/vicii-color.h: Removed old prototypes and added
+	prototype for vic_ii_color_calcpalette and a few defines for
+	different palette types.
+
+	* vicii/vicii.c: color_names table removed.
+	vic_ii_load_palette now uses vic_ii_color_names from
+	vicii-color.c. vic_ii_calc_palette code adapted to call
+	vic_ii_color_calcpalette.
+	Added new parameter for vic_ii_calc_palette: mixedcols. If
+	true, the delay loop emulation is activated and a palette with
+	mixed colors is needed. Currently this parameter is ignored,
+	but soon it will force a new palette.
+
+	* vicii/viciitypes.h: Added new parameter to the prototype of
+	vic_ii_calc_palette.
+
+	* vicii/vicii-resources.h: Added two new resource variables to
+	the vic_ii_resources: fast_delayloop_emulation for palette
+	based delay loop emu (fake PAL emu) and pal_emulation for true
+	PAL emulation.
+
+	* vicii/vicii-resources.c: Added setter functions for the two
+	new resource variables. vic_ii_activate_palette now requests
+	an extended palette with mixed colors if
+	fast_delayloop_emulation is set.
+
 2001-08-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.3.
