@@ -63,7 +63,7 @@ list of all the changes in the code.
 - A simple printer emulation which dumps the data to some file is
   available now.
 
-- The virtual device resource did not worked like shown.
+- The virtual device resource did not work like shown.
 
 - The attach image dialog is case insensitive now.
 

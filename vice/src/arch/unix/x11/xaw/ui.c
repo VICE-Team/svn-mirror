@@ -2234,7 +2234,8 @@ int ui_extend_image_dialog(void)
 char *ui_select_file(const char *title,
                      char *(*read_contents_func)(const char *),
                      int allow_autostart, const char *default_dir,
-                     const char *default_pattern, ui_button_t *button_return)
+                     const char *default_pattern, ui_button_t *button_return,
+                     int show_preview)
 {
     static ui_button_t button;
     static char *ret = NULL;
