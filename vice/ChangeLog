@@ -1,3 +1,9 @@
+2001-08-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.4.
+
+	* configure.in: Renamed `screendrv' to `gfxoutputdrv'.
+
 2001-08-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.3.
