@@ -25,8 +25,7 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
-	-DPREFIX=\"@prefix@\" \
-	@JOYSTICK@
+	-DPREFIX=\"@prefix@\"
 
 YFLAGS = -dt
 

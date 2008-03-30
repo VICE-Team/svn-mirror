@@ -10,8 +10,7 @@ INCLUDES = \
 	-DPREFIX=\"@prefix@\" \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-        @JOYSTICK@
+	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarch.a
 

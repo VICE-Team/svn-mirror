@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.16.1.4)
+AM_INIT_AUTOMAKE(vice, 0.16.1.5)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -306,21 +306,21 @@ dnl Check for system-specific header files.
 
 if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos" -a x"$host_os" != "xcygwin32" -a x"$host_vendor" != "xmingw32"; then
   AC_CHECK_HEADER(linux/joystick.h,
-                  [ JOYSTICK="-DHAS_JOYSTICK -DLINUX_JOYSTICK";
-		    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
+                  [ AC_DEFINE(HAS_JOYSTICK)
+                    AC_DEFINE(LINUX_JOYSTICK)
+                    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
   if test x"$ac_cv_header_linux_joystick_h" = "xyes" ; then
     AC_MSG_CHECKING(whether linux/joystick.h supports digital joysticks)
     AC_TRY_COMPILE([ #include <linux/joystick.h> ],
-		   [ struct DJS_DATA_TYPE djs; ],
-		   [ JOYSTICK="$JOYSTICK -DHAS_DIGITAL_JOYSTICK"
-		     AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
+                   [ struct DJS_DATA_TYPE djs; ],
+                   [ AC_DEFINE(HAS_DIGITAL_JOYSTICK)
+                     AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
   fi
   AC_CHECK_HEADER(machine/joystick.h,
-                  [ JOYSTICK="$JOYSTICK -DHAS_JOYSTICK -DBSD_JOYSTICK";
-		    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
-  AC_SUBST(JOYSTICK)
+                  [ AC_DEFINE(HAS_JOYSTICK)
+                    AC_DEFINE(BSD_JOYSTICK)
+                    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
   AC_SUBST(JOY_OBJS)
-
 fi
 
 dnl Configure sound drivers
