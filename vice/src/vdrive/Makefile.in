@@ -254,9 +254,9 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vdrive-bam.o: vdrive-bam.c ../../src/vice.h ../../src/config.h \
-	../../src/attach.h ../../src/diskconstants.h \
-	../../src/diskimage.h ../../src/arch/unix/types.h \
-	../../src/log.h vdrive-bam.h vdrive-command.h vdrive.h
+	../../src/attach.h ../../src/arch/unix/types.h \
+	../../src/diskconstants.h ../../src/diskimage.h ../../src/log.h \
+	vdrive-bam.h vdrive-command.h vdrive.h
 vdrive-command.o: vdrive-command.c ../../src/vice.h ../../src/config.h \
 	../../src/diskimage.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/serial.h ../../src/utils.h \
@@ -272,20 +272,20 @@ vdrive-iec.o: vdrive-iec.c ../../src/vice.h ../../src/config.h \
 	vdrive-bam.h vdrive-command.h vdrive-dir.h vdrive-iec.h \
 	vdrive-rel.h vdrive.h
 vdrive-internal.o: vdrive-internal.c ../../src/vice.h ../../src/config.h \
-	../../src/attach.h ../../src/diskimage.h \
-	../../src/arch/unix/types.h ../../src/log.h ../../src/utils.h \
+	../../src/attach.h ../../src/arch/unix/types.h \
+	../../src/diskimage.h ../../src/log.h ../../src/utils.h \
 	vdrive-command.h vdrive.h
 vdrive-rel.o: vdrive-rel.c ../../src/vice.h ../../src/config.h \
 	../../src/diskimage.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/serial.h ../../src/utils.h \
 	vdrive-dir.h vdrive.h
 vdrive-snapshot.o: vdrive-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/attach.h ../../src/log.h ../../src/snapshot.h \
-	../../src/arch/unix/types.h vdrive-snapshot.h vdrive.h
+	../../src/attach.h ../../src/arch/unix/types.h ../../src/log.h \
+	../../src/snapshot.h vdrive-snapshot.h vdrive.h
 vdrive.o: vdrive.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/attach.h ../../src/diskconstants.h \
-	../../src/diskimage.h ../../src/arch/unix/types.h \
+	../../src/attach.h ../../src/arch/unix/types.h \
+	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/fsdevice.h ../../src/log.h ../../src/serial.h \
 	../../src/utils.h vdrive-bam.h vdrive-command.h vdrive-dir.h \
 	vdrive-iec.h vdrive-internal.h vdrive-rel.h vdrive-snapshot.h \

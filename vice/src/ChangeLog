@@ -1,3 +1,38 @@
+2002-12-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.34.
+
+	* machine-drive.h, c64/c64drive.c, vic20/vic20drive.c,
+	pet/petdrive.c, plus4/plus4drive.c, cbm2/cbm2drive.c,
+	drive/iec.h, drive/iec/iec.c, drive/drive-snapshot.c,
+	drive/drivemem.c, drive/drivecpu.c, attach.c, attach.h,
+	drive/ieee/ieee.c, drive/ieee.h, drive/wd1770.c,
+	drive/wd1770.h, drive/fdc.c, drive/fdc.h: Moved WD1770 and FDC
+	specific code to specific drive code.
+
+	* drive/iec/iec-resources.c, drive/iec/iec-resources.h,
+	drive/ieee/ieee-resources.c, drive/ieee/ieee-resources.h,
+	drive/tcbm/tcbm-resources.c, drive/tcbm/tcbm-resources.h,
+	drive/iec/iecrom.c, drive/iec/iecrom.h, drive/ieee/ieeerom.c,
+	drive/ieee/ieeerom.h, drive/tcbm/tcbmrom.c,
+	drive/tcbm/tcbmrom.h: New files.
+
+	* Makefile.am, drive/Makefile.am, drive/iec/Makefile.am,
+	drive/ieee/Makefile.am, drive/tcbm/Makefile.am: Updated.
+
+	* video/video-resources.c: Use `xmalloc'.
+
+	* sysfile.c (sysfile_open): Return `NULL' if no filename is
+	given.
+
+2002-12-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/drive.dsp, vice.dsw: Updated.
+
+	* arch/win32/iec.dsp, ieee.dsp: New files.
+
+	* arch/win32/Makefile.am: Added new files.
+
 2002-12-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.33.

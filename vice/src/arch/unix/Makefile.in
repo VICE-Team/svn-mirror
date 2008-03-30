@@ -427,8 +427,8 @@ uic64cart.o: uic64cart.c ../../../src/vice.h ../../../src/config.h \
 uicmdline.o: uicmdline.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h
 uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
-	archdep.h ../../../src/archapi.h ../../../src/attach.h \
-	../../../src/autostart.h types.h ../../../src/fliplist.h \
+	archdep.h ../../../src/archapi.h ../../../src/attach.h types.h \
+	../../../src/autostart.h ../../../src/fliplist.h \
 	fullscreenarch.h ../../../src/imagecontents.h \
 	../../../src/interrupt.h ../../../src/ioutil.h \
 	../../../src/log.h ../../../src/machine.h \
@@ -472,11 +472,10 @@ uipalette.o: uipalette.c ../../../src/vice.h ../../../src/config.h \
 	uihotkey.h x11/xaw/../xaw/uiarch.h ../../../src/utils.h \
 	../../../src/vsync.h
 uiperipheral.o: uiperipheral.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/attach.h ../../../src/resources.h uimenu.h \
-	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
-	x11/xaw/../xaw/uiarch.h uiprinter.h ../../../src/utils.h \
-	../../../src/vsync.h
+	../../../src/attach.h types.h ../../../src/resources.h uimenu.h \
+	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \
+	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h \
+	uiprinter.h ../../../src/utils.h ../../../src/vsync.h
 uiprinter.o: uiprinter.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/printer.h types.h ../../../src/resources.h \
 	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
@@ -545,7 +544,7 @@ vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	uisettings.h uisound.h uivic.h ../../../src/utils.h \
 	../../../src/vsync.h
 vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/attach.h ../../../src/c64/c64mem.h types.h c64ui.h \
+	../../../src/attach.h types.h ../../../src/c64/c64mem.h c64ui.h \
 	icon.h ../../../src/interrupt.h ../../../src/log.h \
 	../../../src/machine.h ../../../src/c64/psid.h \
 	../../../src/resources.h uicommands.h uimenu.h x11/xaw/uimenu.h \

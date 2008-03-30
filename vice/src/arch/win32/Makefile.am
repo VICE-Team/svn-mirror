@@ -120,6 +120,8 @@ EXTRA_DIST = \
 	crtc.dsp \
 	diskimage.dsp \
 	drive.dsp \
+	iec.dsp \
+	ieee.dsp \
 	fsdevice.dsp \
 	gfxoutputdrv.dsp \
 	imagecontents.dsp \

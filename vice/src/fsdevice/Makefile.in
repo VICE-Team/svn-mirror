@@ -287,14 +287,13 @@ fsdevice-write.o: fsdevice-write.c ../../src/vice.h ../../src/config.h \
 	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h
 fsdevice.o: fsdevice.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/attach.h ../../src/charset.h \
-	../../src/arch/unix/types.h ../../src/cmdline.h \
-	fsdevice-close.h fsdevice-flush.h fsdevice-open.h \
-	fsdevice-read.h fsdevice-resources.h fsdevice-write.h \
-	../../src/fsdevice.h fsdevicetypes.h ../../src/log.h \
-	../../src/p00.h ../../src/resources.h ../../src/serial.h \
-	../../src/utils.h ../../src/vdrive/vdrive-command.h \
-	../../src/vdrive/vdrive.h
+	../../src/attach.h ../../src/arch/unix/types.h \
+	../../src/charset.h ../../src/cmdline.h fsdevice-close.h \
+	fsdevice-flush.h fsdevice-open.h fsdevice-read.h \
+	fsdevice-resources.h fsdevice-write.h ../../src/fsdevice.h \
+	fsdevicetypes.h ../../src/log.h ../../src/p00.h \
+	../../src/resources.h ../../src/serial.h ../../src/utils.h \
+	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h
 
 info-am:
 info: info-am
