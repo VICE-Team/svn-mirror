@@ -293,7 +293,8 @@ c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/6510core.h \
 	../../src/clkguard.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/interrupt.h ../../src/log.h ../../src/machine.h \
 	../../src/rs232.h ../../src/snapshot.h
-c64cartmem.o: c64cartmem.c ../../src/vice.h ../../src/config.h c64cart.h \
+c64cartmem.o: c64cartmem.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h c64cart.h \
 	../../src/arch/unix/types.h c64mem.h ../../src/mem.h c64tpi.h \
 	../../src/cartridge.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/log.h ../../src/vicii/vicii.h

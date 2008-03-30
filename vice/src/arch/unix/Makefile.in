@@ -117,7 +117,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/drive 	
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui.c 	c64ui.h 	c64ui.c 	console.c 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	petui.c 	print.c 	rs232.c 	types.h 	ui.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c         uiedisk.h 	uimenu.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	uihotkey.h 	vic20ui.h 	vic20ui.c 	videoarch.h 	vsync.c 	vsidproc.h 	vsidproc.c 	vsidui.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui.c 	c64ui.h 	c64ui.c 	console.c 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	petui.c 	print.c 	rs232.c 	types.h 	ui.h 	uicartridge.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c         uiedisk.h 	uimenu.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	uihotkey.h 	vic20ui.h 	vic20ui.c 	videoarch.h 	vsync.c 	vsidproc.h 	vsidproc.c 	vsidui.c
 
 
 bin_SCRIPTS = vsid
@@ -355,9 +355,10 @@ c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/videoarch.h ui.h types.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../videoarch.h x11/xaw/../c64icon.xpm \
 	../../../src/c64/c64mem.h ../../../src/mem.h \
-	../../../src/cartridge.h ../../../src/datasette.h \
-	../../../src/drive/drive.h ../../../src/log.h joystick.h \
-	../../../src/resources.h uicommands.h uimenu.h x11/xaw/uimenu.h \
+	../../../src/c64/c64cart.h ../../../src/cartridge.h \
+	../../../src/datasette.h ../../../src/drive/drive.h \
+	../../../src/log.h joystick.h ../../../src/resources.h \
+	uicartridge.h uicommands.h uimenu.h x11/xaw/uimenu.h \
 	x11/xaw/uihotkey.h uisettings.h ../../../src/utils.h \
 	../../../src/vsync.h
 console.o: console.c ../../../src/vice.h ../../../src/config.h \

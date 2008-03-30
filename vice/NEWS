@@ -24,7 +24,7 @@ list of all the changes in the code.
 - Expert cartridge is emulated now.
 
 - Some NTSC fixes. Now the border looks a bit small, but most NTSC
-  programs should work now.
+  programs should work.
 
 - Fixed CIA TOD initialization.
 
