@@ -11,6 +11,7 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
@@ -39,8 +40,8 @@ libarch_a_SOURCES = \
 	joystick.h \
 	kbd.c \
 	kbd.h \
-        main_exit.c \
-        main_exit.h \
+	main_exit.c \
+	main_exit.h \
 	mouse.c \
 	mouse.h \
 	menudefs.c \
@@ -68,8 +69,10 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.c \
 	ui.h \
-        uicmdline.c \
-        uicmdline.h \
+	uiattach.h \
+	uiattach.c \
+	uicmdline.c \
+	uicmdline.h \
 	uisnapshot.c \
 	uisnapshot.h \
 	vic20kbd.c \
