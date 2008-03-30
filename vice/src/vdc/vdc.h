@@ -149,6 +149,18 @@ struct _vdc
 
     /* Memory address mask.  */
     int vdc_address_mask;
+
+    /* Cursor position.  */
+    int crsrpos;
+
+    /* Is the cursor visible?  */
+    int cursor_visible;
+
+    /* Cursor blinking frequency.  */
+    int cursor_freqency;
+
+    /* Cursor frame counter.  */
+    int cursor_counter;
   };
 typedef struct _vdc vdc_t;
 
