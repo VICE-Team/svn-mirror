@@ -107,6 +107,9 @@ static CLOCK int_raster_clk;
 /* Internal color memory.  */
 static BYTE color_ram[0x400];
 
+/* Pointer to the base of RAM seen by the VIC-II.  */
+static BYTE *ram_base = ram;
+
 /* Video memory pointers.  */
 static BYTE *screen_ptr;
 static BYTE *chargen_ptr;
@@ -212,9 +215,12 @@ static int set_video_cache_enabled(resource_value_t v)
 
 static int set_palette_file_name(resource_value_t v)
 {
-#ifdef __MSDOS__
-    if (palette == NULL)
+    /* If called before initialization, just set the resource value.  The
+       palette file will be loaded afterwards.  */
+    if (palette == NULL) {
+        string_set(&palette_file_name, (char *) v);
         return 0;
+    }
 
     if (palette_load((char *) v, palette) < 0)
         return -1;
@@ -222,7 +228,6 @@ static int set_palette_file_name(resource_value_t v)
 
     /* Make sure the pixel tables are recalculated properly.  */
     video_resize();
-#endif
 
     string_set(&palette_file_name, (char *) v);
     return 0;
@@ -433,10 +438,10 @@ inline static void set_video_mode(int cycle)
             if (idle_data_location != IDLE_NONE) {
                 if (vic[0x11] & 0x40)
                     add_int_change_foreground(pos, (void *) &idle_data,
-                                              ram[vbank + 0x39ff]);
+                                              ram_base[vbank + 0x39ff]);
                 else
                     add_int_change_foreground(pos, (void *) &idle_data,
-                                              ram[vbank + 0x3fff]);
+                                              ram_base[vbank + 0x3fff]);
             }
         }
 
@@ -491,7 +496,7 @@ static void set_memory_ptrs(int cycle)
     scraddr = vbank + ((vic[0x18] & 0xf0) << 6);
 
     if ((scraddr & 0x7000) != 0x1000) {
-	screenbase = ram + scraddr;
+	screenbase = ram_base + scraddr;
 	DEBUG_REGISTER(("\tVideo memory at $%04X\n", scraddr));
     } else {
 	screenbase = chargen_rom + (scraddr & 0x800);
@@ -500,13 +505,13 @@ static void set_memory_ptrs(int cycle)
     }
 
     tmp = (vic[0x18] & 0xe) << 10;
-    bitmapbase = ram + (tmp & 0xe000);
+    bitmapbase = ram_base + (tmp & 0xe000);
     tmp += vbank;
 
-    DEBUG_REGISTER(("\tBitmap memory at $%04X\n", bitmapbase - ram + vbank));
+    DEBUG_REGISTER(("\tBitmap memory at $%04X\n", bitmapbase - ram_base + vbank));
 
     if ((tmp & 0x7000) != 0x1000) {
-	charbase = ram + tmp;
+	charbase = ram_base + tmp;
 	DEBUG_REGISTER(("\tUser-defined character set at $%04X\n", tmp));
     } else {
 	charbase = chargen_rom + (tmp & 0x0800);
@@ -519,10 +524,10 @@ static void set_memory_ptrs(int cycle)
     if (idle_data_location != IDLE_NONE && old_vbank != vbank) {
         if (idle_data_location == IDLE_39FF)
             add_int_change_foreground(RASTER_CHAR(cycle), &idle_data,
-                                      ram[vbank + 0x39ff]);
+                                      ram_base[vbank + 0x39ff]);
         else
             add_int_change_foreground(RASTER_CHAR(cycle), &idle_data,
-                                      ram[vbank + 0x3fff]);
+                                      ram_base[vbank + 0x3fff]);
     }
 
     if (skip_next_frame || (tmp <= 0 && clk < vic_ii_draw_clk)) {
@@ -530,7 +535,7 @@ static void set_memory_ptrs(int cycle)
         old_bitmap_ptr = bitmap_ptr = bitmapbase + vbank;
         old_chargen_ptr = chargen_ptr = charbase;
 	old_vbank = vbank;
-        vbank_ptr = ram + vbank;
+        vbank_ptr = ram_base + vbank;
         sprite_ptr_base = screenbase + 0x3f8;
     } else if (tmp < SCREEN_TEXTCOLS) {
 	if (screenbase != old_screen_ptr) {
@@ -552,7 +557,7 @@ static void set_memory_ptrs(int cycle)
 	}
 	if (vbank != old_vbank) {
 	    add_ptr_change_foreground(tmp, (void **)&vbank_ptr,
-				      (void *)(ram + vbank));
+				      (void *)(ram_base + vbank));
 	    old_vbank = vbank;
 	}
     } else {
@@ -575,7 +580,7 @@ static void set_memory_ptrs(int cycle)
 	}
 	if (vbank != old_vbank) {
 	    add_ptr_change_next_line((void **)&vbank_ptr,
-				     (void *)(ram + vbank));
+				     (void *)(ram_base + vbank));
 	    old_vbank = vbank;
 	}
     }
@@ -692,6 +697,12 @@ void vic_ii_set_vbank(int num_vbank)
     set_memory_ptrs(RASTER_CYCLE);
 }
 
+/* Change the base of RAM seen by the VIC-II.  */
+void vic_ii_set_ram_base(BYTE *base)
+{
+    ram_base = base;
+}
+
 /* Trigger the light pen. */
 void vic_ii_trigger_light_pen(CLOCK mclk)
 {
@@ -733,7 +744,7 @@ void video_free(void)
    care of the 10-bit counter wraparound.  */
 inline static void fetch_matrix(int offs, int num)
 {
-    BYTE *p = ram + vbank + ((vic[0x18] & 0xf0) << 6);
+    BYTE *p = ram_base + vbank + ((vic[0x18] & 0xf0) << 6);
     int start_char = (mem_counter + offs) & 0x3ff;
     int c = 0x3ff - start_char + 1;
 
@@ -857,10 +868,10 @@ inline static void store_d011(BYTE value)
 		   we force 0xf instead. */
 		if (num_chars <= num_0xff_fetches) {
 		    memset(vbuf + pos, 0xff, num_chars);
-		    memset(cbuf + pos, ram[reg_pc] & 0xf, num_chars);
+		    memset(cbuf + pos, ram_base[reg_pc] & 0xf, num_chars);
 		} else {
 		    memset(vbuf + pos, 0xff, num_0xff_fetches);
-		    memset(cbuf + pos, ram[reg_pc] & 0xf, num_0xff_fetches);
+		    memset(cbuf + pos, ram_base[reg_pc] & 0xf, num_0xff_fetches);
 		    fetch_matrix(pos + num_0xff_fetches,
 				 num_chars - num_0xff_fetches);
 		}
@@ -998,7 +1009,7 @@ inline void REGPARM2 store_vbank(ADDRESS addr, BYTE value)
 	} while (f);
     }
 
-    ram[addr] = value;
+    ram_base[addr] = value;
 }
 
 /* As `store_vbank()', but for the $3900...$39FF address range.  */
@@ -1876,9 +1887,9 @@ int int_rasterdraw(long offset)
     if (idle_state) {
         idle_data_location = (vic[0x11] & 0x40) ? IDLE_39FF : IDLE_3FFF;
         if (idle_data_location == IDLE_39FF)
-            idle_data = ram[vbank + 0x39ff];
+            idle_data = ram_base[vbank + 0x39ff];
         else
-            idle_data = ram[vbank + 0x3fff];
+            idle_data = ram_base[vbank + 0x3fff];
     } else {
         idle_data_location = IDLE_NONE;
     }
@@ -2053,7 +2064,7 @@ int int_rasterfetch(long offset)
 		sf = &sprite_fetch_tab[fetch_msk][sprite_fetch_idx];
 
 		if (!skip_next_frame) {
-		    BYTE *bank = ram + vbank;
+		    BYTE *bank = ram_base + vbank;
 		    BYTE *spr_base = (bank + 0x3f8 +
 				      + ((vic[0x18] & 0xf0) << 6)
 				      + sf->first);

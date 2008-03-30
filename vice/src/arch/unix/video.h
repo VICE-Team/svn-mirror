@@ -114,6 +114,8 @@ extern canvas_t canvas_create(const char *win_name, unsigned int *width,
 			      unsigned int *height, int mapped,
 			      canvas_redraw_t exposure_handler,
 			      const palette_t *palette, PIXEL *pixel_return);
+extern int canvas_set_palette(canvas_t c, const palette_t *palette,
+                              PIXEL *pixel_return);
 extern void canvas_destroy(canvas_t s);
 extern void canvas_map(canvas_t s);
 extern void canvas_unmap(canvas_t s);

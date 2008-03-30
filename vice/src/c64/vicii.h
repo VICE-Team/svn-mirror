@@ -155,6 +155,7 @@ extern int int_raster(long offset);
 extern void vic_ii_prevent_clk_overflow(CLOCK sub);
 extern void vic_ii_trigger_light_pen(CLOCK mclk);
 extern void vic_ii_set_vbank(int new_vbank);
+extern void vic_ii_set_ram_base(BYTE *base);
 extern void reset_vic_ii(void);
 extern int vbank;
 

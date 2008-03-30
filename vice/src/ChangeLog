@@ -1,3 +1,75 @@
+Sun Jun  7 11:40:41 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c128/c128mem.c (store_mmu): Set the VIC-II video-bank base
+	according to bits 7 and 6 stored to $D506.
+
+	* c64/vicii.c: New variable `ram_base'.  All the functions in this
+	file use that one instead of `ram'.
+	(vic_ii_set_ram_base): New function.
+
+	* arch/unix/xaw/uicommands.c (do_exit): Just call `ui_exit()'.
+
+	* arch/unix/xaw/ui.c (ui_exit): New function.
+	(close_action): Call it.
+
+	* drive.c (open_1541): Do not try to open the file on the file
+	system if no disk is attached.  Generate an `IPE_NOT_READY' error
+	and return `SERIAL_ERROR' instead of `SERIAL_NO_DEVICE'.
+
+	* arch/unix/xaw/ui.c (ui_popup): Make sure the widget is fully
+	visible when positioning it.
+
+	* arch/unix/xaw/uimenu.c: New variable `top_menu'.
+	(menu_popup_callback): If this is the top menu, set `top_menu' to
+ 	this widget.
+	(popdown_submenus_action): Popdown the top menu too.
+
+	* arch/unix/xaw/uimenu.c (popdown_submenus_action): Popdown the
+	two main menus.
+
+	* arch/unix/xaw/c64ui.c, arch/unix/xaw/c128ui.c: Added palette
+	setting submenu.
+	* arch/unix/xaw/petui.c: Likewise.
+
+	* pet/crtc.c (set_palette_file_name): Load the new palette file if
+	the name changes.
+
+	* c64/vicii.c (set_palette_file_name): Always physically load the
+ 	new palette, even if not on MS-DOS.
+	(set_palette_file_name): If `palette' is NULL, only set the value
+ 	of `PaletteName' without trying to load the palette file.
+
+	* arch/unix/xaw/uimenu.h (UI_MENU_DEFINE_STRING_RADIO): New macro.
+
+	* arch/unix/xaw/ui.c (ui_canvas_set_palette): New function.
+
+	* arch/unix/video.c (canvas_set_palette): New function.
+
+	* arch/msdos/video.c (canvas_set_palette): Return type changed to
+	`int'.  Return 0.
+
+	* arch/unix/xaw/ui.c: New variable `have_truecolor'.
+	(ui_init_finish): If using a TrueColor visual, set
+	`have_truecolor' to 1, otherwise to 0.
+	(alloc_colormap): Always install a private colormap if using a
+	TrueColor visual (`have_truecolor' != 0).
+
+Sat Jun  6 11:11:11 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c128/c128mem.c (read_basic_lo, store_basic_lo): Do not check for
+ 	shared memory, because these addresses cannot be shared.
+	(read_basic_hi, store_basic_hi): Likewise.
+	(store_ddxx, read_ddxx, store_dcxx, read_dcxx): Handle shared
+ 	memory.
+	(store_d8xx, read_d8xx, store_d6xx, read_d6xx): Likewise.
+	(store_d5xx, read_d5xx, store_d4xx, read_d4xx): Likewise.
+	(store_d0xx, read_d0xx, store_empty_io, read_empty_io): Likewise.
+	(store_editor): Always store in RAM.
+	(store_mmu): Print out messages only if `DEBUG_MMU' is #defined.
+	(store_rom): Added missing `break' statement.
+
+	* cmdline.c (cmdline_show_help): Output to `stdout', not `stderr'.
+
 Thu Jun  4 00:51:18 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.33.
