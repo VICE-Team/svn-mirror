@@ -149,9 +149,6 @@ typedef struct drive_s {
     /* Current half track on which the R/W head is positioned.  */
     int current_half_track;
 
-    /* Current ROM image.  */
-    BYTE rom[DRIVE_ROM_SIZE];
-
     /* Is this drive enabled?  */
     int enable;
 
@@ -265,6 +262,13 @@ typedef struct drive_s {
     /* Which RAM expansion is enabled?  */
     int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
         drive_ram8_enabled, drive_rama_enabled;
+
+    /* Drive ROM starts here.  */
+    ADDRESS rom_start;
+
+    /* Current ROM image.  */
+    BYTE rom[DRIVE_ROM_SIZE];
+
 } drive_t;
 
 extern drive_t drive[2];
