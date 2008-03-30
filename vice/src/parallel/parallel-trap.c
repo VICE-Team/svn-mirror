@@ -58,10 +58,12 @@ static int parallelcommand(void)
     int channel;
     int i, st = 0;
     void *vdrive;
+    unsigned int dnr;
 
-    if (((TrapDevice & 0x0f) == 8 && drive_context[0]->drive->enable)
-        || ((TrapDevice & 0x0f) == 9 && drive_context[1]->drive->enable)) {
-        return 0x83;    /* device not present */
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
+            && drive_context[dnr]->drive->enable)
+            return 0x83;    /* device not present */
     }
 
     /* which device ? */
@@ -185,10 +187,12 @@ int parallelsendbyte(BYTE data)
     int st = 0;
     serial_t *p;
     void *vdrive;
+    unsigned int dnr;
 
-    if (((TrapDevice & 0x0f) == 8 && drive_context[0]->drive->enable)
-        || ((TrapDevice & 0x0f) == 9 && drive_context[1]->drive->enable)) {
-        return 0x83;    /* device not present */
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
+            && drive_context[dnr]->drive->enable)
+            return 0x83;    /* device not present */
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
@@ -219,10 +223,12 @@ int parallelreceivebyte(BYTE * data, int fake)
     int st = 0, secadr = TrapSecondary & 0x0f;
     serial_t *p;
     void *vdrive;
+    unsigned int dnr;
 
-    if (((TrapDevice & 0x0f) == 8 && drive_context[0]->drive->enable)
-        || ((TrapDevice & 0x0f) == 9 && drive_context[1]->drive->enable)) {
-        return 0x83;    /* device not present */
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
+            && drive_context[dnr]->drive->enable)
+            return 0x83;    /* device not present */
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
