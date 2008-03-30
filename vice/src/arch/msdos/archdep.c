@@ -36,6 +36,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 #include "fcntl.h"
 #include "findpath.h"
@@ -276,7 +277,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     /* MS-DOS version.  */
     *return_path = _truename(orig_name, NULL);
     if (*return_path == NULL) {
-        log_error(zlog,
+        log_error(LOG_ERR,
                   "zfile_list_add: warning, illegal file name `%s'.",
                   orig_name);
         *return_path = stralloc(orig_name);

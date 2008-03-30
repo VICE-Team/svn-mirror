@@ -570,7 +570,9 @@ int serial_init(const trap_t * trap_list)
 	p->flushf = (void (*)(void *, int)) NULL;
     }
 
+#ifdef HAVE_PRINTER
     prdevice_late_init();
+#endif
 
     return 0;
 }

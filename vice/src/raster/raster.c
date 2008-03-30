@@ -365,7 +365,7 @@ handle_blank_line (raster_t *raster)
       add_line_and_double_scan (raster,
                                 0, raster->geometry.screen_size.width - 1);
     }
-  else if (CANVAS_USES_TRIPLE_BUFFERING (canvas)
+  else if (CANVAS_USES_TRIPLE_BUFFERING (raster->viewport.canvas)
            || raster->dont_cache
            || raster->cache[raster->current_line].is_dirty
            || (raster->border_color
