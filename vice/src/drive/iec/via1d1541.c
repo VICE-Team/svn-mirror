@@ -1,5 +1,5 @@
 /*
- * via1d15xx.c - VIA1 emulation in the 1541, 1541II and 1571 disk drive.
+ * via1d15xx.c - VIA1 emulation in the 1541, 1541II, 1570 and 1571 disk drive.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -35,6 +35,7 @@
 #include "drivecpu.h"
 #include "drivesync.h"
 #include "drivetypes.h"
+#include "glue1571.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "lib.h"
@@ -108,15 +109,17 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
 static void undump_pra(via_context_t *via_context, BYTE byte)
 {
     drivevia1_context_t *via1p;
+    drive_context_t *drive_context;
 
     via1p = (drivevia1_context_t *)(via_context->prv);
+    drive_context = (drive_context_t *)(via_context->context);
 
     iec_info = iec_get_drive_port();
     if (via1p->drive_ptr->type == DRIVE_TYPE_1570
         || via1p->drive_ptr->type == DRIVE_TYPE_1571
         || via1p->drive_ptr->type == DRIVE_TYPE_1571CR) {
-        drive_sync_set_1571(byte & 0x20, via1p->number);
-        drive_set_1571_side((byte >> 2) & 1, via1p->number);
+        drive_sync_set_1571(byte & 0x20, drive_context);
+        glue1571_side_set((byte >> 2) & 1, via1p->number);
     } else
 
     if (via1p->drive_ptr->parallel_cable_enabled
@@ -129,16 +132,18 @@ inline static void store_pra(via_context_t *via_context, BYTE byte,
                              BYTE oldpa_value, WORD addr)
 {
     drivevia1_context_t *via1p;
+    drive_context_t *drive_context;
 
     via1p = (drivevia1_context_t *)(via_context->prv);
+    drive_context = (drive_context_t *)(via_context->context);
 
     if (via1p->drive_ptr->type == DRIVE_TYPE_1570
         || via1p->drive_ptr->type == DRIVE_TYPE_1571
         || via1p->drive_ptr->type == DRIVE_TYPE_1571CR) {
         if ((oldpa_value ^ byte) & 0x20)
-            drive_sync_set_1571(byte & 0x20, via1p->number);
+            drive_sync_set_1571(byte & 0x20, drive_context);
         if ((oldpa_value ^ byte) & 0x04)
-            drive_set_1571_side((byte >> 2) & 1, via1p->number);
+            glue1571_side_set((byte >> 2) & 1, via1p->number);
         if ((oldpa_value ^ byte) & 0x02)
             iec_fast_drive_direction(byte & 2, via1p->number);
     } else {

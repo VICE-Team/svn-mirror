@@ -27,8 +27,10 @@
 #ifndef _DRIVESYNC_H
 #define _DRIVESYNC_H
 
-extern void drive_sync_factor(void);
-extern void drive_sync_set_1571(int new_sync, unsigned int dnr);
+struct drive_context_s;
+
+extern void drive_sync_factor(struct drive_context_s *drv);
+extern void drive_sync_set_1571(int new_sync, struct drive_context_s *drv);
 extern void drive_sync_clock_frequency(unsigned int type, unsigned int dnr);
 
 #endif

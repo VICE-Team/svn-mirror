@@ -51,12 +51,10 @@ static void drive_sync_cpu_set_factor(drive_context_t *drv,
     }
 }
 
-void drive_sync_factor(void)
+void drive_sync_factor(struct drive_context_s *drv)
 {
-    drive_sync_cpu_set_factor(&drive0_context,
-                              drive[0].clock_frequency * sync_factor);
-    drive_sync_cpu_set_factor(&drive1_context,
-                              drive[1].clock_frequency * sync_factor);
+    drive_sync_cpu_set_factor(drv, drive[drv->mynumber].clock_frequency
+                              * sync_factor);
 }
 
 void drive_set_machine_parameter(long cycles_per_sec)
@@ -64,17 +62,22 @@ void drive_set_machine_parameter(long cycles_per_sec)
     sync_factor = (unsigned int)floor(65536.0 * (1000000.0
                   / ((double)cycles_per_sec)));
 
-    drive_sync_factor();
+    drive_sync_factor(&drive0_context);
+    drive_sync_factor(&drive1_context);
 }
 
-void drive_sync_set_1571(int new_sync, unsigned int dnr)
+void drive_sync_set_1571(int new_sync, struct drive_context_s *drv)
 {
+    unsigned int dnr;
+
+    dnr = drv->mynumber;
+
     if (rom_loaded) {
         if (drive[dnr].byte_ready_active == 0x06)
             rotation_rotate_disk(&drive[dnr]);
         rotation_init(new_sync ? 1 : 0, dnr);
         drive[dnr].clock_frequency = (new_sync) ? 2 : 1;
-        drive_sync_factor();
+        drive_sync_factor(drv);
     }
 }
 

@@ -47,11 +47,10 @@
 #include <io.h>
 #endif
 
-#include "alarm.h"
 #include "attach.h"
-#include "clkguard.h"
 #include "diskconstants.h"
 #include "diskimage.h"
+#include "drive-overflow.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "driveimage.h"
@@ -60,11 +59,11 @@
 #include "drivetypes.h"
 #include "gcr.h"
 #include "iecdrive.h"
-#include "interrupt.h"
 #include "lib.h"
 #include "log.h"
 #include "machine-drive.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "rotation.h"
 #include "serial.h"
@@ -81,9 +80,6 @@ drive_context_t drive1_context;
 /* Generic drive logging goes here.  */
 static log_t drive_log = LOG_ERR;
 
-/* Pointer to the IEC bus structure.  */
-static iec_info_t *drive_iec_info;
-
 /* If nonzero, at least one vaild drive ROM has already been loaded.  */
 int rom_loaded = 0;
 
@@ -92,41 +88,38 @@ int rom_loaded = 0;
 static int drive_led_color[2];
 
 static void drive_extend_disk_image(unsigned int dnr);
-static void drive_clk_overflow_callback(CLOCK sub, void *data);
 
 /* ------------------------------------------------------------------------- */
 
-void drive_set_disk_memory(unsigned int dnr, BYTE *id, unsigned int track,
-                           unsigned int sector)
+void drive_set_disk_memory(BYTE *id, unsigned int track, unsigned int sector,
+                           struct drive_context_s *drv)
 {
+    unsigned int dnr;
+
+    dnr = drv->mynumber;
+
     if (drive[dnr].type == DRIVE_TYPE_1541
         || drive[dnr].type == DRIVE_TYPE_1541II
         || drive[dnr].type == DRIVE_TYPE_1570
         || drive[dnr].type == DRIVE_TYPE_1571
         || drive[dnr].type == DRIVE_TYPE_1571CR) {
-        if (dnr == 0) {
-            drive0_context.cpud->drive_ram[0x12] = id[0];
-            drive0_context.cpud->drive_ram[0x13] = id[1];
-            drive0_context.cpud->drive_ram[0x16] = id[0];
-            drive0_context.cpud->drive_ram[0x17] = id[1];
-            drive0_context.cpud->drive_ram[0x18] = track;
-            drive0_context.cpud->drive_ram[0x19] = sector;
-            drive0_context.cpud->drive_ram[0x22] = track;
-        } else {
-            drive1_context.cpud->drive_ram[0x12] = id[0];
-            drive1_context.cpud->drive_ram[0x13] = id[1];
-            drive1_context.cpud->drive_ram[0x16] = id[0];
-            drive1_context.cpud->drive_ram[0x17] = id[1];
-            drive1_context.cpud->drive_ram[0x18] = track;
-            drive1_context.cpud->drive_ram[0x19] = sector;
-            drive1_context.cpud->drive_ram[0x22] = track;
-        }
+        drv->cpud->drive_ram[0x12] = id[0];
+        drv->cpud->drive_ram[0x13] = id[1];
+        drv->cpud->drive_ram[0x16] = id[0];
+        drv->cpud->drive_ram[0x17] = id[1];
+        drv->cpud->drive_ram[0x18] = track;
+        drv->cpud->drive_ram[0x19] = sector;
+        drv->cpud->drive_ram[0x22] = track;
     }
 }
 
-void drive_set_last_read(unsigned int dnr, unsigned int track,
-                         unsigned int sector, BYTE *buffer)
+void drive_set_last_read(unsigned int track, unsigned int sector, BYTE *buffer,
+                         struct drive_context_s *drv)
 {
+    unsigned int dnr;
+
+    dnr = drv->mynumber;
+
     drive_gcr_data_writeback(dnr);
     drive_set_half_track(track * 2, &drive[dnr]);
 
@@ -135,11 +128,7 @@ void drive_set_last_read(unsigned int dnr, unsigned int track,
         || drive[dnr].type == DRIVE_TYPE_1570
         || drive[dnr].type == DRIVE_TYPE_1571
         || drive[dnr].type == DRIVE_TYPE_1571CR) {
-        if (dnr == 0) {
-            memcpy(&(drive0_context.cpud->drive_ram[0x0400]), buffer, 256);
-        } else {
-            memcpy(&(drive1_context.cpud->drive_ram[0x0400]), buffer, 256);
-        }
+        memcpy(&(drv->cpud->drive_ram[0x0400]), buffer, 256);
     }
 }
 
@@ -188,14 +177,8 @@ int drive_init(void)
     drive[1].drive_ram_expand8 = NULL;
     drive[1].drive_ram_expanda = NULL;
 
-    drive_iec_info = iec_get_drive_port();
-    /* Set IEC lines of disabled drives to `1'.  */
-    if (drive_iec_info != NULL) {
-        drive_iec_info->drive_bus = 0xff;
-        drive_iec_info->drive_data = 0xff;
-        drive_iec_info->drive2_bus = 0xff;
-        drive_iec_info->drive2_data = 0xff;
-    }
+    machine_drive_port_default(&drive0_context);
+    machine_drive_port_default(&drive1_context);
 
     log_message(drive_log, "Finished loading ROM images.");
     rom_loaded = 1;
@@ -208,10 +191,7 @@ int drive_init(void)
     machine_drive_rom_setup_image(0);
     machine_drive_rom_setup_image(1);
 
-    clk_guard_add_callback(drive0_context.cpu->clk_guard,
-                           drive_clk_overflow_callback, (void *)0);
-    clk_guard_add_callback(drive1_context.cpu->clk_guard,
-                           drive_clk_overflow_callback, (void *)1);
+    drive_overflow_init();
 
     for (i = 0; i < 2; i++) {
         drive[i].gcr = gcr_create_image();
@@ -253,13 +233,14 @@ int drive_init(void)
     drive_cpu_init(&drive1_context, drive[1].type);
 
     /* Make sure the sync factor is acknowledged correctly.  */
-    drive_sync_factor();
+    drive_sync_factor(&drive0_context);
+    drive_sync_factor(&drive1_context);
 
     /* Make sure the traps are moved as needed.  */
     if (drive[0].enable)
-        drive_enable(0);
+        drive_enable(&drive0_context);
     if (drive[1].enable)
-        drive_enable(1);
+        drive_enable(&drive1_context);
 
     return 0;
 }
@@ -301,8 +282,12 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
     }
 }
 
-int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
+int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
 {
+    unsigned int dnr;
+
+    dnr = drv->mynumber;
+
     if (machine_drive_rom_check_loaded(type) < 0)
         return -1;
 
@@ -315,22 +300,22 @@ int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
     drive[dnr].type = type;
     drive[dnr].side = 0;
     machine_drive_rom_setup_image(dnr);
-    drive_sync_factor();
+    drive_sync_factor(drv);
     drive_set_active_led_color(type, dnr);
 
-    if (dnr == 0)
-        drive_cpu_init(&drive0_context, type);
-    if (dnr == 1)
-        drive_cpu_init(&drive1_context, type);
+    drive_cpu_init(drv, type);
 
     return 0;
 }
 
 
 /* Activate full drive emulation. */
-int drive_enable(unsigned int dnr)
+int drive_enable(drive_context_t *drv)
 {
     int i, drive_true_emulation = 0;
+    unsigned int dnr;
+
+    dnr = drv->mynumber;
 
     /* This must come first, because this might be called before the drive
        initialization.  */
@@ -352,10 +337,7 @@ int drive_enable(unsigned int dnr)
     if (drive[dnr].image != NULL)
         drive_image_attach(drive[dnr].image, dnr + 8);
 
-    if (dnr == 0)
-        drive_cpu_wake_up(&drive0_context);
-    if (dnr == 1)
-        drive_cpu_wake_up(&drive1_context);
+    drive_cpu_wake_up(drv);
 
     /* Make sure the UI is updated.  */
     for (i = 0; i < 2; i++) {
@@ -376,9 +358,12 @@ int drive_enable(unsigned int dnr)
 }
 
 /* Disable full drive emulation.  */
-void drive_disable(unsigned int dnr)
+void drive_disable(drive_context_t *drv)
 {
     int i, drive_true_emulation = 0;
+    unsigned int dnr;
+
+    dnr = drv->mynumber;
 
     /* This must come first, because this might be called before the true
        drive initialization.  */
@@ -391,19 +376,8 @@ void drive_disable(unsigned int dnr)
         serial_set_truedrive(0);
 
     if (rom_loaded) {
-        if (dnr == 0)
-            drive_cpu_sleep(&drive0_context);
-        if (dnr == 1)
-            drive_cpu_sleep(&drive1_context);
-        /* Set IEC lines of disabled drives to `1'.  */
-        if (dnr == 0 && drive_iec_info != NULL) {
-            drive_iec_info->drive_bus = 0xff;
-            drive_iec_info->drive_data = 0xff;
-        }
-        if (dnr == 1 && drive_iec_info != NULL) {
-            drive_iec_info->drive2_bus = 0xff;
-            drive_iec_info->drive2_data = 0xff;
-        }
+        drive_cpu_sleep(drv);
+        machine_drive_port_default(drv);
 
         drive_gcr_data_writeback(dnr);
     }
@@ -432,64 +406,6 @@ void drive_reset(void)
 {
     drive_cpu_reset(&drive0_context);
     drive_cpu_reset(&drive1_context);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Clock overflow handing.  */
-
-static void drive_clk_overflow_callback(CLOCK sub, void *data)
-{
-    unsigned int dnr;
-    drive_t *d;
-
-    dnr = (unsigned int)data;
-    d = &drive[dnr];
-
-    if (d->byte_ready_active == 0x06)
-        rotation_rotate_disk(&drive[dnr]);
-
-    rotation_overflow_callback(sub, dnr);
-
-    if (d->attach_clk > (CLOCK) 0)
-        d->attach_clk -= sub;
-    if (d->detach_clk > (CLOCK) 0)
-        d->detach_clk -= sub;
-    if (d->attach_detach_clk > (CLOCK) 0)
-        d->attach_detach_clk -= sub;
-
-    /* FIXME: Having to do this by hand sucks *big time*!  These should be in
-       `drive_t'.  */
-    switch (dnr) {
-      case 0:
-        alarm_context_time_warp(drive0_context.cpu->alarm_context, sub, -1);
-        interrupt_cpu_status_time_warp(drive0_context.cpu->int_status, sub, -1);
-        break;
-      case 1:
-        alarm_context_time_warp(drive1_context.cpu->alarm_context, sub, -1);
-        interrupt_cpu_status_time_warp(drive1_context.cpu->int_status, sub, -1);
-        break;
-      default:
-        log_error(drive_log,
-                  "Unexpected drive number %d in drive_clk_overflow_callback",
-                  dnr);
-    }
-}
-
-CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr)
-{
-    /* FIXME: Having to do this by hand sucks *big time*!  */
-    switch (dnr) {
-      case 0:
-        return drive_cpu_prevent_clk_overflow(&drive0_context, sub);
-      case 1:
-        return drive_cpu_prevent_clk_overflow(&drive1_context, sub);
-      default:
-        log_error(drive_log,
-                  "Unexpected drive number %d in `drive_prevent_clk_overflow()'",
-                  dnr);
-        return 0;
-    }
 }
 
 /*-------------------------------------------------------------------------- */
@@ -537,14 +453,14 @@ inline BYTE drive_write_protect_sense(drive_t *dptr)
     /* Set the write protection bit for the time the disk is pulled out on
        detach.  */
     if (dptr->detach_clk != (CLOCK)0) {
-        if ((*(dptr->clk)) - dptr->detach_clk < DRIVE_DETACH_DELAY)
+        if (*(dptr->clk) - dptr->detach_clk < DRIVE_DETACH_DELAY)
             return 0x10;
         dptr->detach_clk = (CLOCK)0;
     }
     /* Clear the write protection bit for the minimum time until a new disk
        can be inserted.  */
     if (dptr->attach_detach_clk != (CLOCK)0) {
-        if ((*(dptr->clk)) - dptr->attach_detach_clk
+        if (*(dptr->clk) - dptr->attach_detach_clk
             < DRIVE_ATTACH_DETACH_DELAY)
             return 0x0;
         dptr->attach_detach_clk = (CLOCK)0;
@@ -552,7 +468,7 @@ inline BYTE drive_write_protect_sense(drive_t *dptr)
     /* Set the write protection bit for the time the disk is put in on
        attach.  */
     if (dptr->attach_clk != (CLOCK)0) {
-        if (((*(dptr->clk)) - dptr->attach_clk < DRIVE_ATTACH_DELAY))
+        if (*(dptr->clk) - dptr->attach_clk < DRIVE_ATTACH_DELAY)
             return 0x10;
         dptr->attach_clk = (CLOCK)0;
     }
@@ -572,25 +488,6 @@ inline BYTE drive_write_protect_sense(drive_t *dptr)
 
 /* End of time critical functions.  */
 /*-------------------------------------------------------------------------- */
-
-void drive_set_1571_side(int side, unsigned int dnr)
-{
-    unsigned int num;
-
-    num  = drive[dnr].current_half_track;
-
-    if (drive[dnr].byte_ready_active == 0x06)
-        rotation_rotate_disk(&drive[dnr]);
-
-    drive_gcr_data_writeback(dnr);
-
-    drive[dnr].side = side;
-    if (num > 70)
-        num -= 70;
-    num += side * 70;
-
-    drive_set_half_track(num, &drive[dnr]);
-}
 
 /* Increment the head position by `step' half-tracks. Valid values
    for `step' are `+1' and `-1'.  */
@@ -864,31 +761,6 @@ void drive_vsync_hook(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-/*
-int reload_rom_1541(char *name) {
-    char romsetnamebuffer[MAXPATHLEN];
-    char *tmppath;
-
-    if(dos_rom_name_1541)
-        lib_free(dos_rom_name_1541);
-    if(name == NULL) {
-        dos_rom_name_1541 = default_dos_rom_name_1541;
-        drive_load_rom_images();
-        return 1;
-    }
-    strcpy(romsetnamebuffer,"dos1541-");
-    strncat(romsetnamebuffer,name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
-    if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
-        dos_rom_name_1541 = default_dos_rom_name_1541;
-    } else {
-        dos_rom_name_1541 = lib_stralloc(romsetnamebuffer);
-    }
-
-    drive_load_rom_images();
-    return 1;
-}
-*/
 
 int drive_num_leds(unsigned int dnr)
 {
