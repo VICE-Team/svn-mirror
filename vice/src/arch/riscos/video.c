@@ -1107,7 +1107,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
   wlsprite_plot_init(&(canvas->fb.palplot));
 }
 
-int video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped, const palette_t *palette)
+video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped, const palette_t *palette)
 {
   canvas_list_t *newCanvas;
 
@@ -1136,7 +1136,7 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned in
   if ((newCanvas = (canvas_list_t*)malloc(sizeof(canvas_list_t))) == NULL)
   {
     free(canvas);
-    return -1;
+    return NULL;
   }
 
   newCanvas->next = NULL; newCanvas->canvas = canvas;
@@ -1153,7 +1153,7 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned in
     if ((canvas->window = wimp_window_clone(EmuWindow)) == NULL)
     {
       free(canvas); free(newCanvas);
-      return -1;
+      return NULL;
     }
     canvas->window->Handle = Wimp_CreateWindow(((int*)(canvas->window)) + 1);
     while (list->next != NULL) list = list->next;
@@ -1169,7 +1169,7 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned in
 
   NumberOfCanvases++;
 
-  return 0;
+  return canvas;
 }
 
 

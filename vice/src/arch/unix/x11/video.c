@@ -441,9 +441,9 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 #endif
 }
 
-int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
-                        unsigned int *height, int mapped,
-                        const struct palette_s *palette)
+video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
+                                    unsigned int *height, int mapped,
+                                    const struct palette_s *palette)
 {
     int res;
     unsigned int new_width, new_height;
@@ -463,7 +463,7 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
     if (video_arch_frame_buffer_alloc(canvas, new_width, new_height) < 0) {
         free(canvas);
-        return -1;
+        return NULL;
     }
 
     res = x11ui_open_canvas_window(canvas, canvas->viewport->title,
@@ -474,7 +474,7 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
     if (res < 0) {
         free(canvas);
-        return -1;
+        return NULL;
     }
 
     canvas->width = new_width;
@@ -492,7 +492,7 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_set_palette(canvas, palette);
 #endif
-    return 0;
+    return canvas;
 }
 
 void video_canvas_destroy(video_canvas_t *c)

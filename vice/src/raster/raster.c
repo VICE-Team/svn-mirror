@@ -123,15 +123,21 @@ static void update_pixel_tables(raster_t *raster)
 static int realize_canvas(raster_t *raster)
 {
     viewport_t *viewport;
+    video_canvas_t *new_canvas;
 
     viewport = raster->canvas->viewport;
 
     raster->intialized = 1;
 
-    if (video_canvas_create(raster->canvas,
-        &raster->canvas->draw_buffer->canvas_width,
-        &raster->canvas->draw_buffer->canvas_height, 1, raster->palette) < 0)
+    new_canvas = video_canvas_create(raster->canvas,
+                                     &raster->canvas->draw_buffer->canvas_width,
+                                     &raster->canvas->draw_buffer->canvas_height,
+                                     1, raster->palette);
+
+    if (new_canvas == NULL)
         return -1;
+
+    raster->canvas = new_canvas;
 
     if (raster_realize_frame_buffer(raster) < 0)
         return -1;

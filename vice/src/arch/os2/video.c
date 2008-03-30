@@ -732,7 +732,6 @@ static void VideoInitRenderer(video_canvas_t *c)
 
     int i;
 
-    /* FIXME: This is done in video_canvas_init()!  */
     video_render_initconfig(c->videoconfig);
 
     // video_render_setrawrgb: index, r, g, b
@@ -749,7 +748,8 @@ MRESULT WmCreate(HWND hwnd)
 {
     ULONG rc;
 
-    video_canvas_t *canvas_new = (video_canvas_t *)calloc(1, sizeof(video_canvas_t));
+    /*video_canvas_t *canvas_new = (video_canvas_t *)calloc(1, sizeof(video_canvas_t));*/
+    video_canvas_t *canvas_new = video_canvas_init();
 
     archdep_create_mutex_sem(&canvas_new->hmtx, "Video", FALSE);
 
@@ -1521,6 +1521,11 @@ struct canvas_init_s
     char *title;
     video_canvas_t *canvas;
     canvas_redraw_t expose;
+    video_render_config_t *videoconfig;
+    draw_buffer_t *draw_buffer;
+    viewport_t *viewport;
+    geometry_t *geometry;
+    const palette_t *palette;
 };
 
 typedef struct canvas_init_s canvas_init_t;
@@ -1580,6 +1585,11 @@ void CanvasMainLoop(VOID *arg)
     c->height     = ini->height;
     c->stretch    = ini->stretch;
     c->exposure   = ini->expose;
+    c->videoconfig = ini->videoconfig;
+    c->draw_buffer = ini->draw_buffer;
+    c->viewport = ini->viewport;
+    c->geometry = ini->geometry;
+    c->palette = ini->palette;
 
     VideoBufferAlloc(c);
 
@@ -1702,15 +1712,9 @@ void CanvasMainLoop(VOID *arg)
 
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
-video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
+void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    video_canvas_t *canvas;
-
-    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
-
-    canvas->videoconfig = videoconfig;
-
-    return canvas;
+    canvas->video_draw_buffer_callback = NULL;
 }
 
 /* Create a `video_canvas_t' with tile `win_name', of widht `*width' x `*height'
@@ -1719,9 +1723,9 @@ video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
 
-int video_canvas_create(video_canvas_t *canvas, UINT *width,
-                        UINT *height, int mapped,
-                        const struct palette_s *palette);
+video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width,
+                                    UINT *height, int mapped,
+                                    const struct palette_s *palette);
 {
     canvas_init_t canvini;
 
@@ -1738,6 +1742,11 @@ int video_canvas_create(video_canvas_t *canvas, UINT *width,
     canvini.stretch =  stretch;
     canvini.expose  = (canvas_redraw_t)canvas->viewport->exposure_handler;
     canvini.canvas  =  NULL;
+    canvini.videoconfig = canvas->videoconfig;
+    canvini.draw_buffer = canvas->draw_buffer;
+    canvini.viewport = canvas->viewport;
+    canvini.geometry = canvas->geometry;
+    canvini.palette = canvas->palette;
 
     if (canvas->videoconfig->doublesizex)
         canvini.width *= 2;
@@ -1767,7 +1776,7 @@ int video_canvas_create(video_canvas_t *canvas, UINT *width,
 
     video_canvas_set_palette(canvini.canvas, palette);
 
-    return 0;
+    canvini.canvas;
 }
 
 void video_canvas_destroy(video_canvas_t *c)

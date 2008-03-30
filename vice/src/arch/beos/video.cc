@@ -136,9 +136,10 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     canvas->video_draw_buffer_callback = NULL;
 }
 
-int video_canvas_create(struct video_canvas_s *canvas, unsigned int *width,
-                        unsigned int *height, int mapped,
-                        const struct palette_s *palette)
+video_canvas_t *video_canvas_create(struct video_canvas_s *canvas,
+                                    unsigned int *width,
+                                    unsigned int *height, int mapped,
+                                    const struct palette_s *palette)
 {
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
 
@@ -181,7 +182,7 @@ int video_canvas_create(struct video_canvas_s *canvas, unsigned int *width,
 	number_of_canvas++;
 	canvas->vicewindow->MoveTo(number_of_canvas*30,number_of_canvas*30);
 
-    return 0;
+    return canvas;
 }
 
 
