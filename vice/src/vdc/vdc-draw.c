@@ -292,13 +292,20 @@ get_std_bitmap(raster_cache_t *cache,
                                xs, xe,
                                rr);
 
-    r |= raster_cache_data_fill(cache->color_data_1,
-                                vdc.ram+vdc.attribute_adr+vdc.mem_counter,
-                                VDC_SCREEN_TEXTCOLS,
-                                1,
-                                xs, xe,
-                                rr);
-
+    if (vdc.regs[25] & 0x40)
+        r |= raster_cache_data_fill(cache->color_data_1,
+                                    vdc.ram+vdc.attribute_adr+vdc.mem_counter,
+                                    VDC_SCREEN_TEXTCOLS,
+                                    1,
+                                    xs, xe,
+                                    rr);
+    else
+        r |= raster_cache_data_fill_const(cache->color_data_1,
+                                    vdc.regs[26] >> 4,
+                                    VDC_SCREEN_TEXTCOLS,
+                                    1,
+                                    xs, xe,
+                                    rr);
     return r;
 }
 
