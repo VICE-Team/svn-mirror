@@ -110,15 +110,12 @@ int ted_snapshot_write_module(snapshot_t *s)
 {
     int i;
     snapshot_module_t *m;
-    unsigned int current_line;
 
     /* FIXME: Dispatch all events?  */
 
     m = snapshot_module_create (s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
         return -1;
-
-    current_line = TED_RASTER_Y(maincpu_clk);
 
     if (0
         /* AllowBadLines */
@@ -130,7 +127,7 @@ int ted_snapshot_write_module(snapshot_t *s)
         /* ColorBuf */
         || SMW_BA(m, ted.cbuf, 40) < 0
         /* IdleState */
-        || SMW_B(m, ted.idle_state) < 0
+        || SMW_B(m, (BYTE)ted.idle_state) < 0
         /* MatrixBuf */
         || SMW_BA(m, ted.vbuf, 40) < 0
         /* NewSpriteDmaMask */
@@ -138,7 +135,7 @@ int ted_snapshot_write_module(snapshot_t *s)
         /* RasterCycle */
         || SMW_B(m, (BYTE)TED_RASTER_CYCLE(maincpu_clk)) < 0
         /* RasterLine */
-        || SMW_W(m, (WORD)(current_line)) < 0
+        || SMW_W(m, (WORD)(TED_RASTER_Y(maincpu_clk))) < 0
         )
         goto fail;
 

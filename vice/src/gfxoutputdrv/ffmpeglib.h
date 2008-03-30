@@ -27,6 +27,10 @@
 #ifndef _FFMPEGLIB_H
 #define _FFMPEGLIB_H
 
+#if defined (WIN32) && !defined(__GNUC__)
+#undef inline
+#endif
+
 #include "ffmpeg/avformat.h"
 
 /* avcodec fucntions */

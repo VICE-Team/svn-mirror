@@ -41,11 +41,17 @@
 #ifdef HAVE_DIR_H
 #include <dir.h>
 #endif
+#ifdef HAVE_DIRECT_H
+#include <direct.h>
+#endif
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
+#endif
+#ifdef HAVE_IO_H
+#include <io.h>
 #endif
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
@@ -62,6 +68,11 @@
 #include "log.h"
 #include "machine.h"
 #include "util.h"
+
+
+#define STDIN_FILENO        0
+#define STDOUT_FILENO       1
+#define STDERR_FILENO       2
 
 
 static char *orig_workdir;

@@ -152,7 +152,7 @@ struct raster_s {
     int draw_idle_state;
 
     /* Count character lines (i.e. RC on the VIC-II).  */
-    int ycounter;
+    unsigned int ycounter;
 
     /* Current video mode.  */
     int video_mode;

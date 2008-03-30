@@ -113,7 +113,6 @@ int vicii_snapshot_write_module(snapshot_t *s)
     int i;
     snapshot_module_t *m;
     BYTE color_ram[0x400];
-    unsigned int current_line;
 
     /* FIXME: Dispatch all events?  */
 
@@ -122,8 +121,6 @@ int vicii_snapshot_write_module(snapshot_t *s)
         return -1;
 
     mem_color_ram_to_snapshot(color_ram);
-
-    current_line = VICII_RASTER_Y(maincpu_clk);
 
     if (0
         /* AllowBadLines */
@@ -137,7 +134,7 @@ int vicii_snapshot_write_module(snapshot_t *s)
         /* ColorRam */
         || SMW_BA(m, color_ram, 1024) < 0
         /* IdleState */
-        || SMW_B(m, vicii.idle_state) < 0
+        || SMW_B(m, (BYTE)vicii.idle_state) < 0
         /* LPTrigger */
         || SMW_B(m, (BYTE)vicii.light_pen.triggered) < 0
         /* LPX */
@@ -153,7 +150,7 @@ int vicii_snapshot_write_module(snapshot_t *s)
         /* RasterCycle */
         || SMW_B(m, (BYTE)(VICII_RASTER_CYCLE(maincpu_clk))) < 0
         /* RasterLine */
-        || SMW_W(m, (WORD)current_line) < 0)
+        || SMW_W(m, (WORD)(VICII_RASTER_Y(maincpu_clk))) < 0)
         goto fail;
 
     for (i = 0; i < 0x40; i++)

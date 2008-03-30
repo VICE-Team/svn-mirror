@@ -32,13 +32,6 @@
 
 #include "vice.h"
 
-#include <direct.h>
-#include <process.h>
-
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
-
 /* This is used to query `struct stat'.  */
 /*#define S_ISDIR(p)          (p & _S_IFDIR)*/
 
@@ -47,10 +40,6 @@
 
 /* Can anybody please explain me why M$ does not #define them and would like
    us to use the hardcoded values instead?...  !$@#$%  */
-
-#define STDIN_FILENO        0
-#define STDOUT_FILENO       1
-#define STDERR_FILENO       2
 
 #define R_OK                4
 #define W_OK                2

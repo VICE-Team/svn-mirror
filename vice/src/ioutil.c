@@ -29,6 +29,9 @@
 
 #include <stdio.h>
 
+#ifdef HAVE_DIRECT_H
+#include <direct.h>
+#endif
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif

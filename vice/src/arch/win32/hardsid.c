@@ -103,7 +103,7 @@ int hardsid_close(void)
 int hardsid_read(WORD addr, int chipno)
 {
     if (dll != NULL)
-        return ReadFromHardSID(device_map[chipno], (UCHAR)(addr & 0x1f));
+        return ReadFromHardSID((BYTE)device_map[chipno], (UCHAR)(addr & 0x1f));
 
     return 0;
 }
@@ -111,7 +111,7 @@ int hardsid_read(WORD addr, int chipno)
 void hardsid_store(WORD addr, BYTE val, int chipno)
 {
     if (dll != NULL)
-        WriteToHardSID(device_map[chipno], (UCHAR)(addr & 0x1f), val);
+        WriteToHardSID((BYTE)device_map[chipno], (UCHAR)(addr & 0x1f), val);
 }
 
 void hardsid_set_machine_parameter(long cycles_per_sec)

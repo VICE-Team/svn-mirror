@@ -623,10 +623,11 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                     new_vsync ++; /* compensate for the first decrease below */
                 }
             }
-            if (crtc.raster.ycounter == (crtc.regs[10] & 0x1f)) {
+            if (crtc.raster.ycounter == (unsigned int)(crtc.regs[10] & 0x1f)) {
                 crtc.cursor_lines = 1;
             } else
-            if (crtc.raster.ycounter == ((crtc.regs[11] + 1) & 0x1f)) {
+            if (crtc.raster.ycounter
+                == (unsigned int)((crtc.regs[11] + 1) & 0x1f)) {
                 crtc.cursor_lines = 0;
             }
 

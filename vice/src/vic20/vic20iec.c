@@ -78,9 +78,14 @@ static inline void resolve_bus_signals(void)
 #endif
 }
 
-static void iec_update_ports(void)
+void iec_update_ports(void)
 {
     /* Not used for now.  */
+}
+
+void iec_update_cpu_bus(BYTE data)
+{
+
 }
 
 void iec_update_ports_embedded(void)
@@ -274,10 +279,5 @@ int iec_available_busses(void)
     resources_get_value("IEEE488", (void *)&ieee488_enabled);
 
     return IEC_BUS_IEC | (ieee488_enabled ? IEC_BUS_IEEE : 0);
-}
-
-void iec_calculate_callback_index(void)
-{
-    /* This callback can be used for optimization.  */
 }
 
