@@ -1,3 +1,19 @@
+1999-11-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.26.
+
+	* Makefile.am: Link PET and CBM2 libraries before linking with
+	the drive library.
+
+	* pet/petiec.c, cbm2/c610iec.c, pet/pet.c, cbm2/c610.c,
+	iecdrive.h (iec_init): Added missing function.
+
+	* drive/drive-snapshot.c, drive/drive-snapshot.h,
+	drive/drive-resources.c, drive/drive-resources.h: New files.
+
+	* drive/drive.c, drive/drive.h: Moved out snapshot and
+	resource specifiy code.
+
 1999-11-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.25.

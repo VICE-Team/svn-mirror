@@ -308,7 +308,7 @@ distdir: $(DISTFILES)
 c128ui.o: c128ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/drive/drive.h ../../../../../src/diskimage.h \
 	../../../../../src/gcr.h ../../../../../src/arch/unix/types.h \
-	../../../../../src/log.h ../../../../../src/snapshot.h \
+	../../../../../src/log.h \
 	../../../../../src/arch/unix/joystick.h \
 	../../../../../src/resources.h uicommands.h ui.h \
 	../../../../../src/palette.h ../../../../../src/uiapi.h \
@@ -354,10 +354,10 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/resources.h ../../../../../src/drive/drive.h \
 	../../../../../src/diskimage.h ../../../../../src/gcr.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/log.h \
-	../../../../../src/snapshot.h ../../../../../src/machine.h \
-	../../../../../src/maincpu.h ../../../../../src/6510core.h \
-	../../../../../src/alarm.h ../../../../../src/clkguard.h \
-	../../../../../src/mon.h ../../../../../src/interrupt.h \
+	../../../../../src/machine.h ../../../../../src/maincpu.h \
+	../../../../../src/6510core.h ../../../../../src/alarm.h \
+	../../../../../src/clkguard.h ../../../../../src/mon.h \
+	../../../../../src/interrupt.h ../../../../../src/snapshot.h \
 	../../../../../src/mos6510.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/c64/psid.h ui.h ../../../../../src/palette.h \
@@ -405,13 +405,12 @@ uisettings.o: uisettings.c ../../../../../src/vice.h \
 	../../../../../src/palette.h ../../../../../src/uiapi.h \
 	uimenu.h uihotkey.h ../../../../../src/drive/drive.h \
 	../../../../../src/diskimage.h ../../../../../src/gcr.h \
-	../../../../../src/log.h ../../../../../src/snapshot.h \
-	../../../../../src/fsdevice.h \
+	../../../../../src/log.h ../../../../../src/fsdevice.h \
 	../../../../../src/arch/unix/kbd.h ../../../../../src/mem.h \
-	../../../../../src/prdevice.h ../../../../../src/resources.h \
-	../../../../../src/romset.h ../../../../../src/sound.h \
-	../../../../../src/warn.h ../../../../../src/utils.h \
-	../../../../../src/vsync.h
+	../../../../../src/snapshot.h ../../../../../src/prdevice.h \
+	../../../../../src/resources.h ../../../../../src/romset.h \
+	../../../../../src/sound.h ../../../../../src/warn.h \
+	../../../../../src/utils.h ../../../../../src/vsync.h
 uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h uisnapshot.h \
 	../../../../../src/machine.h ui.h \

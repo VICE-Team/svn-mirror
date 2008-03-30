@@ -248,9 +248,9 @@ vdrive.o: vdrive.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/charsets.h ../../src/arch/unix/types.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/log.h ../../src/snapshot.h ../../src/fsdevice.h \
-	../../src/serial.h ../../src/traps.h ../../src/utils.h \
-	vdrive-bam.h vdrive.h ../../src/attach.h vdrive-dir.h \
+	../../src/log.h ../../src/fsdevice.h ../../src/serial.h \
+	../../src/traps.h ../../src/utils.h vdrive-bam.h vdrive.h \
+	../../src/attach.h ../../src/snapshot.h vdrive-dir.h \
 	vdrive-iec.h
 
 info-am:

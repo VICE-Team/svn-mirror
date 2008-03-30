@@ -238,7 +238,9 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/c128ui.h ../../src/c64/c64cia.h \
 	../../src/c64/c64rsuser.h ../../src/c64/c64tpi.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/datasette.h ../../src/tap.h ../../src/drive/drive.h \
+	../../src/datasette.h ../../src/tap.h \
+	../../src/drive/drive-resources.h \
+	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
@@ -312,13 +314,12 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/resources.h ../../src/emuid.h ../../src/maincpu.h \
 	../../src/6510core.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/interrupt.h ../../src/mos6510.h \
-	../../src/parallel.h ../../src/drive/drive.h \
-	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
-	../../src/c64/reu.h ../../src/rs232.h ../../src/sid/sid.h \
-	../../src/sysfile.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/palette.h \
-	../../src/uiapi.h ../../src/utils.h ../../src/vdc/vdc.h \
-	../../src/raster/raster.h ../../src/raster/raster-cache.h \
+	../../src/parallel.h ../../src/c64/reu.h ../../src/rs232.h \
+	../../src/sid/sid.h ../../src/sysfile.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
+	../../src/palette.h ../../src/uiapi.h ../../src/utils.h \
+	../../src/vdc/vdc.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
