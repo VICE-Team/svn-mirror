@@ -95,6 +95,9 @@ static void joystick_latch_handler(CLOCK offset, void *data)
 
 void joystick_set_value_absolute(unsigned int joyport, BYTE value)
 {
+    if (event_playback_active())
+        return;
+
     latch_joystick_value[joyport] = value;
     alarm_set(joystick_alarm, maincpu_clk + JOYSTICK_RAND());
 }
@@ -106,6 +109,9 @@ BYTE joystick_get_value_absolute(unsigned int joyport)
 
 void joystick_set_value_or(unsigned int joyport, BYTE value)
 {
+    if (event_playback_active())
+        return;
+
     latch_joystick_value[joyport] |= value;
     latch_joystick_value[joyport] &= ~joystick_opposite_direction[value & 0xf];
     alarm_set(joystick_alarm, maincpu_clk + JOYSTICK_RAND());
@@ -113,6 +119,9 @@ void joystick_set_value_or(unsigned int joyport, BYTE value)
 
 void joystick_set_value_and(unsigned int joyport, BYTE value)
 {
+    if (event_playback_active())
+        return;
+
     latch_joystick_value[joyport] &= value;
     alarm_set(joystick_alarm, maincpu_clk + JOYSTICK_RAND());
 }

@@ -620,6 +620,7 @@ int sound_open(void)
 
     /* now the playback sound device is open */
     sdev_open = TRUE;
+    sound_state_changed = FALSE;
 
     for (i = 0; (rdev = sound_devices[i]); i++) {
         if (recname && rdev->name && !strcasecmp(recname, rdev->name))
