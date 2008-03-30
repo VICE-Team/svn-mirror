@@ -344,13 +344,14 @@ uicartridge.o: uicartridge.c ../../../../../src/vice.h \
 	../../../../../src/uiapi.h uiarch.h
 uicolor.o: uicolor.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/color.h \
-	../../../../../src/arch/unix/types.h ../../../../../src/log.h \
-	../../../../../src/palette.h ../../../../../src/uicolor.h \
-	../../../../../src/utils.h ../../../../../src/video.h \
-	videoarch.h ../../../../../src/arch/unix/ui.h \
-	../../../../../src/uiapi.h uiarch.h ../videoarch.h \
-	../../../../../src/fullscreen.h ../xaw/uiarch.h \
-	../../../../../src/arch/unix/x11/x11ui.h uiarch.h
+	../../../../../src/log.h ../../../../../src/palette.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/uicolor.h ../../../../../src/utils.h \
+	../../../../../src/video.h videoarch.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
+	uiarch.h ../videoarch.h ../../../../../src/fullscreen.h \
+	../xaw/uiarch.h ../../../../../src/arch/unix/x11/x11ui.h \
+	uiarch.h
 uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/diskimage.h \

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-06-09 21:50+0200\n"
+"POT-Creation-Date: 2002-06-11 17:57+0200\n"
 "PO-Revision-Date: 2001-12-02 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -313,8 +313,8 @@ msgstr "Opzioni"
 #: src/arch/unix/c128ui.c:491 src/arch/unix/c64ui.c:456
 #: src/arch/unix/cbm2ui.c:495 src/arch/unix/petui.c:420
 #: src/arch/unix/plus4ui.c:219 src/arch/unix/vic20ui.c:535
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1108
-#: src/arch/unix/x11/gnome/x11ui.c:1200
+#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1107
+#: src/arch/unix/x11/gnome/x11ui.c:1199
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -1086,7 +1086,7 @@ msgstr "Prossimo: "
 
 #: src/arch/unix/uicommands.c:716 src/arch/unix/uicommands.c:731
 #: src/arch/unix/x11/gnome/x11ui.c:772 src/arch/unix/x11/gnome/x11ui.c:782
-#: src/arch/unix/x11/gnome/x11ui.c:1455
+#: src/arch/unix/x11/gnome/x11ui.c:1454
 msgid "<empty>"
 msgstr "<vuoto>"
 
@@ -1239,7 +1239,7 @@ msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
 #: src/arch/unix/uicommands.c:1005 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1840
+#: src/arch/unix/x11/gnome/x11ui.c:1839
 msgid "Reset"
 msgstr "Reset"
 
@@ -1736,8 +1736,8 @@ msgstr "Velocità di esecuzione massima"
 msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
-#: src/arch/unix/uisettings.c:227 src/arch/unix/x11/gnome/x11ui.c:1247
-#: src/arch/unix/x11/xaw/x11ui.c:1026
+#: src/arch/unix/uisettings.c:227 src/arch/unix/x11/gnome/x11ui.c:1246
+#: src/arch/unix/x11/xaw/x11ui.c:1025
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
 
@@ -2297,14 +2297,14 @@ msgstr ""
 msgid "Successfully wrote `%s'\n"
 msgstr "Scrittura di `%s' riuscita\n"
 
-#: src/arch/unix/x11/gnome/uicolor.c:153 src/arch/unix/x11/xaw/uicolor.c:129
+#: src/arch/unix/x11/gnome/uicolor.c:150 src/arch/unix/x11/xaw/uicolor.c:126
 msgid "XCreateImage failed."
 msgstr "XCreateImage fallita."
 
-#: src/arch/unix/x11/gnome/uicolor.c:162 src/arch/unix/x11/gnome/uicolor.c:225
-#: src/arch/unix/x11/gnome/uicolor.c:230 src/arch/unix/x11/gnome/uicolor.c:235
-#: src/arch/unix/x11/xaw/uicolor.c:139 src/arch/unix/x11/xaw/uicolor.c:197
-#: src/arch/unix/x11/xaw/uicolor.c:202 src/arch/unix/x11/xaw/uicolor.c:207
+#: src/arch/unix/x11/gnome/uicolor.c:159 src/arch/unix/x11/gnome/uicolor.c:221
+#: src/arch/unix/x11/gnome/uicolor.c:226 src/arch/unix/x11/gnome/uicolor.c:231
+#: src/arch/unix/x11/xaw/uicolor.c:136 src/arch/unix/x11/xaw/uicolor.c:194
+#: src/arch/unix/x11/xaw/uicolor.c:199 src/arch/unix/x11/xaw/uicolor.c:204
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr "Non è possibile allocare il colore \"#%04X%04X%04X\"."
@@ -2466,98 +2466,98 @@ msgstr "Drive %d: "
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:940 src/arch/unix/x11/xaw/x11ui.c:579
+#: src/arch/unix/x11/gnome/x11ui.c:939 src/arch/unix/x11/xaw/x11ui.c:578
 msgid "Maximum number of toplevel windows reached."
 msgstr "E' stato raggiunto il numero massimo di finestre di toplevel."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1106 src/arch/unix/x11/gnome/x11ui.c:1189
+#: src/arch/unix/x11/gnome/x11ui.c:1105 src/arch/unix/x11/gnome/x11ui.c:1188
 msgid "Commands"
 msgstr "Comandi"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1112
+#: src/arch/unix/x11/gnome/x11ui.c:1111
 msgid "Help"
 msgstr "Aiuto"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1011
+#: src/arch/unix/x11/gnome/x11ui.c:1230 src/arch/unix/x11/xaw/x11ui.c:1010
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1233 src/arch/unix/x11/xaw/x11ui.c:1016
+#: src/arch/unix/x11/gnome/x11ui.c:1232 src/arch/unix/x11/xaw/x11ui.c:1015
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1243 src/arch/unix/x11/xaw/x11ui.c:1023
+#: src/arch/unix/x11/gnome/x11ui.c:1242 src/arch/unix/x11/xaw/x11ui.c:1022
 msgid "Save the current settings?"
 msgstr "Salva le impostazioni attuali?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1293 src/arch/unix/x11/xaw/x11ui.c:1063
+#: src/arch/unix/x11/gnome/x11ui.c:1292 src/arch/unix/x11/xaw/x11ui.c:1062
 msgid "Using private colormap."
 msgstr "Uso una palette privata."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1313 src/arch/unix/x11/gnome/x11ui.c:1316
-#: src/arch/unix/x11/xaw/x11ui.c:1084 src/arch/unix/x11/xaw/x11ui.c:1090
+#: src/arch/unix/x11/gnome/x11ui.c:1312 src/arch/unix/x11/gnome/x11ui.c:1315
+#: src/arch/unix/x11/xaw/x11ui.c:1083 src/arch/unix/x11/xaw/x11ui.c:1089
 msgid "(warp)"
 msgstr "(turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1607
+#: src/arch/unix/x11/gnome/x11ui.c:1606
 #, c-format
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1644 src/arch/unix/x11/xaw/x11ui.c:1300
+#: src/arch/unix/x11/gnome/x11ui.c:1643 src/arch/unix/x11/xaw/x11ui.c:1299
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1799
+#: src/arch/unix/x11/gnome/x11ui.c:1798
 msgid "VICE Message"
 msgstr "Messaggio di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1814
+#: src/arch/unix/x11/gnome/x11ui.c:1813
 msgid "VICE Error"
 msgstr "Errore di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1840
+#: src/arch/unix/x11/gnome/x11ui.c:1839
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1840
+#: src/arch/unix/x11/gnome/x11ui.c:1839
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1884 src/arch/unix/x11/xaw/x11ui.c:1575
+#: src/arch/unix/x11/gnome/x11ui.c:1883 src/arch/unix/x11/xaw/x11ui.c:1574
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1885
+#: src/arch/unix/x11/gnome/x11ui.c:1884
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vuoi estendere l'immagine del disco a 40 tracce?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1898
+#: src/arch/unix/x11/gnome/x11ui.c:1897
 msgid "Autostart not possible for unit 9"
 msgstr "L'avvio automatico non è possibile per l'unità 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1906 src/arch/unix/x11/gnome/x11ui.c:1915
+#: src/arch/unix/x11/gnome/x11ui.c:1905 src/arch/unix/x11/gnome/x11ui.c:1914
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 "Non è possibile far partire automaticamente la selezione %d nell'immagine %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2043 src/arch/unix/x11/gnome/x11ui.c:2048
+#: src/arch/unix/x11/gnome/x11ui.c:2042 src/arch/unix/x11/gnome/x11ui.c:2047
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2506
+#: src/arch/unix/x11/gnome/x11ui.c:2505
 msgid "Contents"
 msgstr "Contenuti"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2553
+#: src/arch/unix/x11/gnome/x11ui.c:2552
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2579
+#: src/arch/unix/x11/gnome/x11ui.c:2578
 msgid "Autostart"
 msgstr "Avvio automatico"
 
@@ -2619,7 +2619,7 @@ msgstr ""
 msgid "Problems with DGA - disabling fullscreen."
 msgstr "Problemi con la DGA - schermo intero disabilitato."
 
-#: src/arch/unix/x11/dga2.c:458 src/arch/unix/x11/fullscreen.c:384
+#: src/arch/unix/x11/dga2.c:457 src/arch/unix/x11/fullscreen.c:384
 #: src/arch/unix/x11/fullscreen.c:413
 #, c-format
 msgid "Switch to fullscreen %ix%i"
@@ -2638,7 +2638,7 @@ msgstr ""
 "Estensioni DGA: ind:%p, profondità %d, dimensione del banco %d dimensione "
 "della memoria %d\n"
 
-#: src/arch/unix/x11/dga2.c:642 src/arch/unix/x11/fullscreen.c:481
+#: src/arch/unix/x11/dga2.c:641 src/arch/unix/x11/fullscreen.c:481
 msgid "Switch to windowmode"
 msgstr "Commutazione alla modalità a finestre"
 
@@ -2659,37 +2659,37 @@ msgstr "Fork della DGA riuscito"
 msgid "Found suitable mode for fullscreen."
 msgstr "Trovata una modalità adatta allo schermo intero."
 
-#: src/arch/unix/x11/dga2.c:394
+#: src/arch/unix/x11/dga2.c:393
 msgid "Couldn't allocate pixel value cache."
 msgstr "Non è possibile allocare la cache coi valori dei pixel."
 
-#: src/arch/unix/x11/dga2.c:465
+#: src/arch/unix/x11/dga2.c:464
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr "Servono i privilegi di root per lo schermo intero DGA2"
 
-#: src/arch/unix/x11/dga2.c:475
+#: src/arch/unix/x11/dga2.c:474
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "Errore durante la commutazione a schermo intero (SetMode) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:485
+#: src/arch/unix/x11/dga2.c:484
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "Errore durante la commutazione a schermo intero (pixmap) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:519
+#: src/arch/unix/x11/dga2.c:518
 #, fuzzy, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 "Non si sono abbastanza pagine di memoria video nella modalità %s, schermo "
 "intero disabilitato."
 
-#: src/arch/unix/x11/dga2.c:531
+#: src/arch/unix/x11/dga2.c:530
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "Errore durante la commutazione a schermo intero (CreateGC) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:575
+#: src/arch/unix/x11/dga2.c:574
 msgid "Couldn't allocate color cache"
 msgstr "Non è possibile allocare la cache dei colori"
 
@@ -2753,16 +2753,16 @@ msgstr "Usa il rendering software"
 msgid "Request YUV FOURCC format"
 msgstr "Richiede il formato YUV FOURCC"
 
-#: src/arch/unix/x11/video.c:358
+#: src/arch/unix/x11/video.c:354
 msgid "The MITSHM extension is not supported on this display."
 msgstr "L'estensione MITSHM non è supportata su questo display."
 
-#: src/arch/unix/x11/video.c:362
+#: src/arch/unix/x11/video.c:358
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rilevata la versione %d.%d delle estensioni MITSHM."
 
-#: src/arch/unix/x11/video.c:423
+#: src/arch/unix/x11/video.c:419
 msgid "Cannot release shared memory!"
 msgstr "Non è possibile rilasciare la memoria condivisa!"
 
@@ -2796,11 +2796,11 @@ msgstr "Annulla"
 msgid "Save cartridge image"
 msgstr "Salva l'immagine della cartuccia"
 
-#: src/arch/unix/x11/xaw/uicolor.c:97
+#: src/arch/unix/x11/xaw/uicolor.c:95
 msgid "Automatically using a private colormap."
 msgstr "Utilizzo automatico di una palette privata."
 
-#: src/arch/unix/x11/xaw/uicolor.c:158
+#: src/arch/unix/x11/xaw/uicolor.c:155
 msgid "XFreeColors failed."
 msgstr "XFreeColors fallita."
 
@@ -2862,16 +2862,16 @@ msgstr "Salva le ROM attualmente caricate:"
 msgid "Save snapshot"
 msgstr "Salva snapshot"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1173
+#: src/arch/unix/x11/xaw/x11ui.c:1172
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Traccia %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1463
+#: src/arch/unix/x11/xaw/x11ui.c:1462
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1643
+#: src/arch/unix/x11/xaw/x11ui.c:1642
 msgid "Unknown image type."
 msgstr "Tipo di immagine sconosciuto."
 

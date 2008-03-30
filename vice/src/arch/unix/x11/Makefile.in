@@ -361,9 +361,9 @@ uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/utils.h
 vic20icon.o: vic20icon.c
 video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/color.h ../../../../src/arch/unix/types.h \
-	../../../../src/cmdline.h ../../../../src/log.h \
-	../../../../src/machine.h ../../../../src/resources.h \
+	../../../../src/color.h ../../../../src/cmdline.h \
+	../../../../src/log.h ../../../../src/machine.h \
+	../../../../src/resources.h ../../../../src/arch/unix/types.h \
 	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
 	../../../../src/uicolor.h ../../../../src/utils.h \
 	../../../../src/video.h videoarch.h \
