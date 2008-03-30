@@ -29,6 +29,7 @@
 #define _C128_H
 
 #include "cia.h"
+#include "tpi.h"
 
 #define C128_PAL_CYCLES_PER_SEC  985248
 #define C128_PAL_CYCLES_PER_LINE 63
@@ -57,6 +58,7 @@
 typedef struct machine_context_s {
     cia_context_t cia1;
     cia_context_t cia2;
+    tpi_context_t tpi1;
 } machine_context_t;
 
 extern machine_context_t machine_context;

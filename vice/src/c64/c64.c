@@ -336,6 +336,7 @@ void machine_setup_context(void)
 {
     cia1_setup_context(&machine_context);
     cia2_setup_context(&machine_context);
+    tpi_setup_context(&machine_context);
 }
 
 /* C64-specific initialization.  */
@@ -392,7 +393,7 @@ int machine_init(void)
     cia2_init(&(machine_context.cia2));
 
     if (!vsid_mode) {
-        tpi_init();
+        tpi_init(&(machine_context.tpi1));
 
         acia1_init();
 
@@ -464,7 +465,7 @@ void machine_specific_reset(void)
     sid_reset();
 
     if (!vsid_mode) {
-        tpi_reset();
+        tpi_reset(&(machine_context.tpi1));
 
         acia1_reset();
         rs232drv_reset();

@@ -22,7 +22,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
+ *  along with this program; if not, wrie to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
@@ -395,6 +395,7 @@ void machine_setup_context(void)
 {
     cia1_setup_context(&machine_context);
     cia2_setup_context(&machine_context);
+    tpi_setup_context(&machine_context);
 }
 
 /* C128-specific initialization.  */
@@ -451,7 +452,7 @@ int machine_init(void)
     cia1_init(&(machine_context.cia1));
     cia2_init(&(machine_context.cia2));
 
-    tpi_init();
+    tpi_init(&(machine_context.tpi1));
 
     acia1_init();
 
@@ -508,7 +509,7 @@ void machine_specific_reset(void)
     ciacore_reset(&(machine_context.cia1));
     ciacore_reset(&(machine_context.cia2));
     sid_reset();
-    tpi_reset();
+    tpi_reset(&(machine_context.tpi1));
 
     acia1_reset();
     rs232drv_reset();
