@@ -23,10 +23,11 @@
  *  02111-1307  USA.
  *
  */
+
+#include "vice.h"
+
 #include <stdio.h>
 
-#include "ROlib.h"
-#include "config.h"
 #include "types.h"
 #include "print.h"
 #include "resources.h"

@@ -41,7 +41,6 @@
 #include <string.h>
 
 #ifdef __riscos
-#include "ROlib.h"
 #include "ui.h"
 #else
 #ifndef __IBMC__

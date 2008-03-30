@@ -3,7 +3,7 @@
  * crtc.def - Definitions for CRTC emulation in the CBM-II
  *
  * Written by
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,13 +31,13 @@
 
 #include "vice.h"
 
-#include "types.h"
-#include "snapshot.h"
 #include "c610tpi.h"
+#include "snapshot.h"
+#include "types.h"
 
 /* #include "crtc.h" */
 
-static inline void do_update_memory_ptrs(void);
+/* static inline void do_update_memory_ptrs(void); */
 
 #define	SIGNAL_VERT_BLANK_OFF	tpi1_set_int(0, 1);
 

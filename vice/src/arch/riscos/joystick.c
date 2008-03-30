@@ -24,10 +24,10 @@
  *
  */
 
-#include "ROlib.h"
+#include "vice.h"
+
 #include "joystick.h"
 #include "kbd.h"
-#include "config.h"
 #include "types.h"
 #include "resources.h"
 #include "vsyncarch.h"

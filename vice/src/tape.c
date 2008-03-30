@@ -40,10 +40,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 #include "datasette.h"
 #include "log.h"
 #include "maincpu.h"

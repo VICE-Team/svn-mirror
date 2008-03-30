@@ -2,15 +2,15 @@
  * vdrive.c - Virtual disk-drive implementation.
  *
  * Written by
- *  Andreas Boose       <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * Based on old code by
- *  Teemu Rantanen      <tvr@cs.hut.fi>
- *  Jarkko Sonninen     <sonninen@lut.fi>
- *  Jouko Valta         <jopi@stekt.oulu.fi>
- *  Olaf Seibert        <rhialto@mbfys.kun.nl>
- *  André Fachat        <a.fachat@physik.tu-chemnitz.de>
- *  Ettore Perazzoli    <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Jarkko Sonninen <sonninen@lut.fi>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Olaf Seibert <rhialto@mbfys.kun.nl>
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -42,7 +42,6 @@
 #include <ctype.h>
 
 #ifdef __riscos
-#include "ROlib.h"
 #include "ui.h"
 #endif
 

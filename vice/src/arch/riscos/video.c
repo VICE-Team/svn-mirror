@@ -24,12 +24,12 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdlib.h>
 #include <string.h>
 
-#include "ROlib.h"
 #include "wimp.h"
-#include "config.h"
 #include "raster.h"
 #include "resources.h"
 #include "types.h"

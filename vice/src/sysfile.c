@@ -44,14 +44,10 @@
 #include "cmdline.h"
 #include "findpath.h"
 #include "log.h"
+#include "machine.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "utils.h"
-
-#ifdef __riscos
-#include "ROlib.h"
-#include "machine.h"
-#endif
 
 /* ------------------------------------------------------------------------- */
 

@@ -24,11 +24,10 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 
-
-#include "ROlib.h"
-#include "config.h"
 #include "types.h"
 #include "rs232.h"
 #include "resources.h"

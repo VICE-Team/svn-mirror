@@ -57,10 +57,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 #include "alarm.h"
 #include "c64cart.h"
 #include "interrupt.h"

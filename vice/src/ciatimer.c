@@ -3,9 +3,7 @@
  * ciatimer.c - MOS6526 (CIA) timer emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
- *
- * Patches and improvements by
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,9 +37,7 @@
 #if 1 /* def CIAT_NEED_LOG */
 
 #include <stdarg.h>
-#ifdef __riscos
-#include "ROlib.h"
-#endif
+#include <string.h>
 
 static int ciat_logfl = 0;
 static int logtab=0;

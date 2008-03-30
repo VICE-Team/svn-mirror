@@ -35,10 +35,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 #include "log.h"
 #include "mem.h"
 #include "patchrom.h"

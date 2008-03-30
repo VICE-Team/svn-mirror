@@ -24,9 +24,9 @@
  *
  */
 
-#include "ROlib.h"
+#include "vice.h"
+
 #include "wimp.h"
-#include "config.h"
 #include "types.h"
 #include "vsync.h"
 #include "vsyncarch.h"

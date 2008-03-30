@@ -24,13 +24,13 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "config.h"
 #include "types.h"
-#include "ROlib.h"
 #include "archdep.h"
 #include "machine.h"
 #include "utils.h"

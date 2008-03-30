@@ -24,9 +24,10 @@
  *
  */
 
+#include "vice.h"
+
 #include <string.h>
 
-#include "ROlib.h"
 #include "ui.h"
 #include "c64ui.h"
 #include "kbd.h"

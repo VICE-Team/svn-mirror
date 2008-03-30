@@ -74,6 +74,11 @@
 #include "ce32.h"
 #endif
 
+/* RISC OS specific stuff */
+#ifdef __riscos
+#include "ROlib.h"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* This code comes from GNU make:

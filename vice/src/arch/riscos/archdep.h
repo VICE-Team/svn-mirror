@@ -27,7 +27,7 @@
 #ifndef _ARCHDEFS_H
 #define _ARCHDEFS_H
 
-#include "ROlib.h"
+#include "vice.h"
 
 #include <stdarg.h>
 

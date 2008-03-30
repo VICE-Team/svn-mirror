@@ -24,15 +24,14 @@
  *
  */
 
+#include "vice.h"
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 
-#include "ROlib.h"
 #include "wimp.h"
-
-#include "vice.h"
 
 #include "attach.h"
 #include "c610ui.h"
@@ -60,6 +59,7 @@
 #include "utils.h"
 #include "vicii.h"
 #include "vsync.h"
+#include "vsyncarch.h"
 
 
 
@@ -202,6 +202,8 @@ static const char ResourceDriveDir[] = "DRIVES";
 #define Icon_Conf_DriveFile11	12
 #define Icon_Conf_TapeFile	26
 #define Icon_Conf_TapeDetach	36
+#define Icon_Conf_DataReset	37
+#define Icon_Conf_DataCounter	39
 
 /* Device config */
 #define Icon_Conf_ACIAIrq	2
@@ -337,6 +339,7 @@ static const char ResourceDriveDir[] = "DRIVES";
 #define Icon_Conf_C128Cache	4
 #define Icon_Conf_C128Size	5
 #define Icon_Conf_C1284080	6
+#define Icon_Conf_C128z80bios	8
 
 
 
@@ -418,10 +421,14 @@ static int WimpScrapUsed = 0;
 static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
 static int DoCoreDump = 0;
+static int DatasetteCounter = -1;
 static int WimpBlock[64];
 
 static int SnapshotPending = 0;
 static int SnapshotMessage[64];
+
+static const int default_screen_width = 384;
+static const int default_screen_height = 312;
 
 
 /* Window title */
@@ -436,8 +443,8 @@ static const char DriveToFile[4] = {Icon_Conf_DriveFile8, Icon_Conf_DriveFile9, 
 
 /* Config icons affected by True Drive Emulation state */
 static conf_icon_id TrueDependentIcons[] = {
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvSync},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvSyncT},
+  /*{CONF_WIN_DRIVES, Icon_Conf_TrueDrvSync},
+  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvSyncT},*/
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar8},
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt8},
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt8T},
@@ -911,6 +918,7 @@ static const char Rsrc_DriveF9[] = "DriveFile9";
 static const char Rsrc_DriveF10[] = "DriveFile10";
 static const char Rsrc_DriveF11[] = "DriveFile11";
 static const char Rsrc_TapeFile[] = "TapeFile";
+static const char Rsrc_DataReset[] = "DatasetteResetWithCPU";
 static const char Rsrc_Conv8P00[] = "FSDevice8ConvertP00";
 static const char Rsrc_Conv9P00[] = "FSDevice9ConvertP00";
 static const char Rsrc_Conv10P00[] = "FSDevice10ConvertP00";
@@ -987,6 +995,7 @@ static const char Rsrc_Key8040[] = "40/80ColumnKey";
 static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
 static const char Rsrc_VDCcache[] = "VDC_VideoCache";
 static const char Rsrc_VDCsize[] = "VDC_64KB";
+static const char Rsrc_Z80Bios[] = "Z80BiosName";
 
 /*static const char Rsrc_PetKeymap[] = "KeymapIndex";*/
 
@@ -1387,7 +1396,7 @@ static struct MenuSerialBaud {
   }
 };
 
-#define Menu_Cartridge_Items	13
+#define Menu_Cartridge_Items	17
 #define Menu_Cartridge_Width	200
 static struct MenuCartridgeType {
   RO_MenuHead head;
@@ -1407,7 +1416,11 @@ static struct MenuCartridgeType {
     MENU_ITEM("\\MenCrtFin"),
     MENU_ITEM("\\MenCrtOcn"),
     MENU_ITEM("\\MenCrtFun"),
-    MENU_ITEM_LAST("\\MenCrtSGm")
+    MENU_ITEM("\\MenCrtSGm"),
+    MENU_ITEM("\\MenCrtIEEE"),
+    MENU_ITEM("\\MenCrtAtom"),
+    MENU_ITEM("\\MenCrtEpyx"),
+    MENU_ITEM_LAST("\\MenCrtWest")
   }
 };
 
@@ -1841,6 +1854,7 @@ static config_item Configurations[] = {
   {Rsrc_DriveF9, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile9}},
   {Rsrc_DriveF10, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile10}},
   {Rsrc_DriveF11, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile11}},
+  {Rsrc_DataReset, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DataReset}},
   {Rsrc_WarpMode, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_WarpMode}},
   {Rsrc_VideoCache, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_VideoCache}},
   {Rsrc_CharGen, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_CharGen}},	/* c64mem.c */
@@ -1871,6 +1885,7 @@ static config_item Configurations[] = {
   {Rsrc_VDCpalette, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf_C128Palette}},
   {Rsrc_VDCcache, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128Cache}},
   {Rsrc_VDCsize, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128Size}},
+  {Rsrc_Z80Bios, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf_C128z80bios}},
   {NULL, 0, {0, 0}}
 };
 
@@ -2058,7 +2073,8 @@ static struct MenuDisplayCartridgeType {
   {CARTRIDGE_NONE, CARTRIDGE_GENERIC_8KB, CARTRIDGE_GENERIC_16KB, CARTRIDGE_CRT,
    CARTRIDGE_ACTION_REPLAY, CARTRIDGE_KCS_POWER, CARTRIDGE_SIMONS_BASIC,
    CARTRIDGE_ULTIMAX, CARTRIDGE_SUPER_SNAPSHOT, CARTRIDGE_FINAL_III, CARTRIDGE_OCEAN,
-   CARTRIDGE_FUNPLAY, CARTRIDGE_SUPER_GAMES}
+   CARTRIDGE_FUNPLAY, CARTRIDGE_SUPER_GAMES, CARTRIDGE_IEEE488, CARTRIDGE_ATOMIC_POWER,
+   CARTRIDGE_EPYX_FASTLOAD, CARTRIDGE_WESTERMANN}
 };
 
 static struct MenuDisplayPetMemory {
@@ -2410,8 +2426,8 @@ static int ui_load_template(const char *tempname, RO_Window **wptr, wimp_msg_des
       int dx, dy;
 
       UseEigen = (ScreenMode.eigx < ScreenMode.eigy) ? ScreenMode.eigx : ScreenMode.eigy;
-      dx = (VIC_II_SCREEN_WIDTH << UseEigen) * EmuZoom;
-      dy = (VIC_II_SCREEN_HEIGHT << UseEigen) * EmuZoom;
+      dx = (default_screen_width << UseEigen) * EmuZoom;
+      dy = (default_screen_height << UseEigen) * EmuZoom;
       w->vminx = (ScreenMode.resx - dx) / 2; w->vmaxx = w->vminx + dx;
       w->vminy = (ScreenMode.resy - dy) / 2; w->vmaxy = w->vminy + dy;
       w->wmaxx = dx; w->wminy = -dy;
@@ -3824,8 +3840,8 @@ static void ui_set_emu_window_size(RO_Window *win)
 
   if (canvas == NULL)
   {
-    dx = (VIC_II_SCREEN_WIDTH << UseEigen) * EmuZoom;
-    dy = (VIC_II_SCREEN_HEIGHT << UseEigen) * EmuZoom;
+    dx = (default_screen_width << UseEigen) * EmuZoom;
+    dy = (default_screen_height << UseEigen) * EmuZoom;
   }
   else
   {
@@ -5936,6 +5952,11 @@ void ui_display_tape_control_status(int control)
 
 void ui_display_tape_counter(int counter)
 {
+  if (counter != DatasetteCounter)
+  {
+    DatasetteCounter = counter;
+    wimp_window_write_icon_number_u(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_DataCounter, counter);
+  }
 }
 
 

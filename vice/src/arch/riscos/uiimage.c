@@ -24,14 +24,12 @@
  *
  */
 
-#include <limits.h>
+#include "vice.h"
+
 #include <stdio.h>
 #include <string.h>
 
-#include "ROlib.h"
 #include "wimp.h"
-
-#include "vice.h"
 
 #include "autostart.h"
 #include "imagecontents.h"

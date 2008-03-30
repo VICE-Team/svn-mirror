@@ -3,7 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose    <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,10 +32,6 @@
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
-#endif
-
-#ifdef __riscos
-#include "ROlib.h"
 #endif
 
 #include "archdep.h"
@@ -78,7 +74,7 @@ void image_contents_destroy(image_contents_t *contents)
 
 char *image_contents_to_string(image_contents_t *contents)
 {
-    static char filler[IMAGE_CONTENTS_FILE_NAME_LEN+1] = "                "; // 16 spaces are a 17byte string. is this ok with '+1' ?
+    static char filler[IMAGE_CONTENTS_FILE_NAME_LEN+1] = "                "; /* 16 spaces are a 17byte string. is this ok with '+1' ? */
     image_contents_file_list_t *p;
     char line_buf[256];
     char *buf;

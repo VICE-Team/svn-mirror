@@ -27,8 +27,8 @@
 #ifndef _UI_RO_H
 #define _UI_RO_H
 
-#include "ROlib.h"
-#include "config.h"
+#include "vice.h"
+
 #include "types.h"
 #include "palette.h"
 #include "uiapi.h"

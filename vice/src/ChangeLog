@@ -1,3 +1,111 @@
+1999-10-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.18.
+
+	* datasette.c (datasette_move_buffer_back): Return `1'.
+
+	* arch/unix/main_exit.h, arch/win32/main_exit.h,
+	arch/msdos/main_exit.h, arch/os2/main_exit.h: Removed includes
+	that do not belong to those header files.
+
+	* arch/unix/main_exit.c, arch/msdos/main_exit.c,
+	arch/win32/main_exit.c, arch/os2/main_exit.c: Removed
+	inclusion of `vicii.h'. Included `vice.h', `video.h' and
+	`joystick.h' instead.
+
+	* arch/unix/video.h, arch/msdos/video.h, arch/win32/video.h,
+	arch/os2/video.h: Provide prototype for `video_free'.
+
+	* arch/riscos/main_exit.h: Stub file.
+
+	* cbm2/crtc.c: Commented out `do_update_memory_ptrs'
+	prototype.
+
+	* main.c: Do not #include "sound.h", "interrupt.h",
+	"serial.h" and "vsync.h".
+
+	* p00.c: Removed `//' comment.
+
+	* arch/msdos/menudefs.c: #include <string.h> and "mem.h".
+
+	* arch/msdos/ui.c: #include "vsync.h".
+
+	* arch/msdos/c128ui.c, arch/msdos/c64ui.c, arch/msdos/c610ui.c,
+	arch/msdos/menudefs.c, arch/msdos/tui.c, arch/msdos/petui.c,
+	arch/msdos/uisnapshot.c: #include "tuifs.h".
+
+	* arch/msdos/menudefs.c, arch/msdos/tui.c,
+	arch/msdos/tui_backend.c, arch/msdos/tuiimagebrowser.c,
+	arch/msdos/tuifs.c, arch/msdos/tuimenu.c, arch/msdos/ui.c,
+	arch/msdos/tuiview.c, arch/msdos/video.c: #include
+	"tui_backend.h" and #include <conio.h>.
+
+	* arch/msdos/ui.c: #include <stdarg.h>.
+
+	* sounddrv/soundacorn.c, ciatimer.c, fsdevice.c, log.c, mon.c,
+	imagecontents.c, main.c, zfile.c, c1541.c, petcat.c,
+	drive/drive.c, vdrive/vdrive-iec.c, vdrive/vdrive.c,
+	vicii/vicii.c, vdc/vdc.c, c64/c64mem.c, c64/patchrom.c,
+	arch/riscos/archdep.c, arch/riscos/archdep.h,
+	arch/riscos/c128ui.c, arch/riscos/c610ui.c, arch/riscos/ui.h,
+	arch/riscos/c64c128ui.c, arch/riscos/c64ui.c,
+	arch/riscos/joystick.c, arch/riscos/kbd.c, arch/riscos/ui.c,
+	arch/riscos/kbd.h, arch/riscos/petui.c, arch/riscos/print.c,
+	arch/riscos/rs232.c, arch/riscos/uiimage.c,
+	arch/riscos/vic20ui.c, arch/riscos/video.c,
+	arch/riscos/vsync.c, arch/riscos/petdummy.c,
+	arch/riscos/uimsgwin.c: Include "vice.h" instead of including
+	<ROlib.h>, <limits.h> and "config.h" manually.
+
+1999-10-20  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c: archdep_spawn implemented.
+
+	* sounddrv/soundmmos2.c: some changes for better synchronisation.
+
+1999-10-20  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: compiles again after latest changes.
+
+	* arch/riscos/ui.c: Added support for Datasette configurations
+	and counter, Z80 Bios and the 4 new cartridge types.
+
+	* arch/riscos/config.h: changed version, added HAVE_*_H macros
+	for ANSI headers.
+
+	* imagecontents.c: replaced C++ comment.
+
+1999-10-20  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* datasette.h: deleted definition TAPV0_ZERO_GAP (now a resource)
+	new definition DATASETTE_MAX_GAP to bound the gap of two alarms
+
+	* tap.h: new flag has_changed in tap_t to notice if the size of
+	the tap may need a correction.
+
+	* datasette.c: new variable datasette_long_gap_pending, used
+	when a long gap in the tap is splitted for a smooth counter
+	new resources datasette_zero_gap_delay, datasette_speed_tuning,
+	corresponding init-functions and cmd-options -dszerogapdelay,
+	-dsspeedtuning
+	(datasette_move_buffer_forward),(datasette_move_buffer_back)
+	now check the io-calls and return a success-value
+	(datasette_read_tap): handles problems with tap-buffer; uses
+	resources datasette_zero_gap_delay and datasette_speed_tuning
+	for calculation
+	(datasette_read_bit): renamed v to speed_of_tape; changed type
+	of gap from CLOCK to long; handles gaps longer than
+	DATASETTE_MAX_GAP, splits them for a smooth datasette-counter
+	(datasette_set_tape_image): added initialization of
+	cycle_counter_total
+	(datasette_reset): datasette_long_gap_pending is resetted
+	(datasette_toggle_write_bit): sets current_image->has_changed
+
+	* tap.c: (tap_open) initializes has_changed; size is now the
+	size of the datablock (filesize - tap-header)
+	(tap_close) writes new size to tap-header, if the tap
+	has_changed
+
 1999-10-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.18.

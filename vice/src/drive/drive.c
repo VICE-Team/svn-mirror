@@ -43,10 +43,6 @@
 #include <string.h>
 #include <math.h>
 
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif

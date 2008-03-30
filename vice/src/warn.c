@@ -31,13 +31,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 #include "log.h"
-#include "warn.h"
 #include "utils.h"
+#include "warn.h"
 
 struct warn_s
 {

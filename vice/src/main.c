@@ -41,10 +41,6 @@
 #include <signal.h>
 #endif
 
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 #include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
@@ -54,7 +50,6 @@
 #include "diskimage.h"
 #include "drivecpu.h"
 #include "fsdevice.h"
-#include "interrupt.h"
 #include "joystick.h"
 #include "kbd.h"
 #include "kbdbuf.h"
@@ -62,26 +57,20 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "main_exit.h"
 #include "mon.h"
 #include "resources.h"
-#include "serial.h"
-#include "sound.h"
 #include "sysfile.h"
 #include "tape.h"
 #include "ui.h"
 #include "utils.h"
 #include "video.h"
-#include "vsync.h"
 
 #ifdef HAVE_MOUSE
 #include "mouse.h"
 #endif
 
 /* ------------------------------------------------------------------------- */
-
-#ifndef __riscos
-static void exit64(void);
-#endif
 
 int psid_mode = 0;
 int console_mode = 0;
@@ -286,7 +275,7 @@ static int init_cmdline_options(void)
         return -1;
     }
 
-#ifdef HAVE_MOUSE 
+#ifdef HAVE_MOUSE
     if (mouse_init_cmdline_options() < 0) {
         fprintf(stderr, "Cannot initialize mouse-specific command-line options.\n");
         return -1;
@@ -371,7 +360,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     archdep_startup(&argc, argv);
 
 #ifndef __riscos
-    if (atexit (exit64) < 0) {
+    if (atexit (main_exit) < 0) {
 	perror ("atexit");
 	return -1;
     }
@@ -571,30 +560,3 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     return 0;
 }
-
-#ifndef __riscos
-
-void video_free(void);
-
-static void exit64(void)
-{
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-       pressed and thus breaking the cleanup process, which might be
-       dangerous.  */
-    signal(SIGINT, SIG_IGN);
-
-    log_message(LOG_DEFAULT, "\nExiting...");
-
-    machine_shutdown();
-    video_free();
-    sound_close();
-
-#ifdef HAS_JOYSTICK
-    joystick_close();
-#endif
-
-    putchar ('\n');
-}
-
-#endif
-

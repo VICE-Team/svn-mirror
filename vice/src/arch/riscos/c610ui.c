@@ -24,7 +24,8 @@
  *
  */
 
-#include "ROlib.h"
+#include "vice.h"
+
 #include "ui.h"
 #include "c610ui.h"
 #include "kbd.h"

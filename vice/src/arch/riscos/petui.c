@@ -24,10 +24,11 @@
  *
  */
 
+#includ "vice.h"
+
 #include <string.h>
 
 
-#include "ROlib.h"
 #include "ui.h"
 #include "petui.h"
 #include "resources.h"

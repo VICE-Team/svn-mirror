@@ -32,10 +32,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 #include "alarm.h"
 #include "log.h"
 #include "machine.h"

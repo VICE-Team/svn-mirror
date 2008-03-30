@@ -45,10 +45,6 @@
 #include <string.h>
 #include <memory.h>
 
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif

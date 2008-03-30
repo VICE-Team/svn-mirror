@@ -24,7 +24,8 @@
  *
  */
 
-#include "config.h"
+#include "vice.h"
+
 #include "types.h"
 #include "iecdrive.h"
 

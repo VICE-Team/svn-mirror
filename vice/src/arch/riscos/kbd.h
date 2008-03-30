@@ -27,10 +27,9 @@
 #ifndef _KBD_RO_H
 #define _KBD_RO_H
 
-#include "config.h"
-#include "types.h"
-#include "ROlib.h"
+#include "vice.h"
 
+#include "types.h"
 
 #define KEYMAP_ENTRIES	128
 

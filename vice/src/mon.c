@@ -33,9 +33,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef __riscos
-#include "ROlib.h"
-#endif
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>

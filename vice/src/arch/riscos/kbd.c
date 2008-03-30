@@ -24,12 +24,14 @@
  *
  */
 
+#include "vice.h"
+
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 #include "kbd.h"
 #include "vsyncarch.h"
-#include "ROlib.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
@@ -111,7 +113,6 @@ Joy_Keys JoystickKeys[2] = {
 };
 
 /* 40/80 column key.  */
-static int key_ctrl_column4080 = 0 /* NoSymbol */;
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
 static unsigned char last_keys[32];

@@ -37,10 +37,6 @@
 #include "resources.h"
 #include "utils.h"
 
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 static FILE *log_file = NULL;
 
 static char **logs = NULL;

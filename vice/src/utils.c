@@ -38,9 +38,6 @@
 #ifdef __IBMC__
 #include <direct.h>
 #endif
-#ifdef __riscos
-#include "ROlib.h"
-#endif
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>

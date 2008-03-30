@@ -24,19 +24,17 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdlib.h>
 #include <string.h>
 
 #include "config.h"
-#include "types.h"
-#include "warn.h"
-#include "sound.h"
-
-#include "vice.h"
 #include "log.h"
-
+#include "sound.h"
+#include "types.h"
 #include "ui.h"
-#include "ROlib.h"
+#include "warn.h"
 
 
 
