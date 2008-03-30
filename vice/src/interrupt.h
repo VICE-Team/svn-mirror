@@ -145,11 +145,7 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
             if (cs->last_stolen_cycles_clk <= cpu_clk)
                 cs->irq_clk = cpu_clk;
             else
-#ifdef NEW_INTERUPT
                 interrupt_fixup_int_clk(cs, cpu_clk, &(cs->irq_clk));
-#else
-                cs->irq_clk = cs->last_stolen_cycles_clk - 1;
-#endif
         }
     } else {                    /* Remove the IRQ condition.  */
         if (cs->pending_int[int_num] & IK_IRQ) {
@@ -184,11 +180,7 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs,
                 if (cs->last_stolen_cycles_clk <= cpu_clk)
                     cs->nmi_clk = cpu_clk;
                 else
-#ifdef NEW_INTERUPT
                     interrupt_fixup_int_clk(cs, cpu_clk, &(cs->nmi_clk));
-#else
-                    cs->nmi_clk = cs->last_stolen_cycles_clk - 1;
-#endif
             }
             cs->nnmi++;
             cs->pending_int[int_num] = (cs->pending_int[int_num] | IK_NMI);

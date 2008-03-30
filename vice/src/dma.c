@@ -37,11 +37,9 @@
    `start_clk'.  */
 void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
 {
-#ifdef NEW_INTERUPT
     CLOCK irq_sub = 0;
     CLOCK nmi_sub = 0;
     unsigned int cycles_left_to_trigger_irq;
-#endif
     interrupt_cpu_status_t *cs = maincpu_int_status;
     CLOCK dma_start;
 
@@ -58,13 +56,8 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
     /*log_debug("START %i NUM %i SUB %i MAIN %i DMAST %i",
               start_clk, num, sub, maincpu_clk, dma_start);*/
 
-#ifdef NEW_INTERUPT
     cs->num_cycles_left[cs->num_dma_per_opcode] = maincpu_clk - dma_start;
     cs->dma_start_clk[cs->num_dma_per_opcode] = dma_start;
-#else
-    cs->num_cycles_left[cs->num_dma_per_opcode] = maincpu_clk - start_clk;
-    cs->dma_start_clk[cs->num_dma_per_opcode] = start_clk;
-#endif
     (cs->num_dma_per_opcode)++;
 
 #ifdef DEBUG
@@ -72,7 +65,6 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
         debug_dma("VICII", start_clk, num);
 #endif
 
-#ifdef NEW_INTERUPT
     cycles_left_to_trigger_irq = 
         (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr) ? 2 : 1);
     if (cs->irq_clk >= start_clk
@@ -87,19 +79,13 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
         /*log_debug("DECR");*/
         nmi_sub = 1;
     }
-#endif
 
     maincpu_clk += num;
 
-#ifdef NEW_INTERUPT
     cs->last_stolen_cycles_clk = dma_start + num;
-#else
-    cs->last_stolen_cycles_clk = start_clk + num + sub;
-#endif
     /*log_debug("IRQCLK %i LASTSTOLEN %i",
               cs->irq_clk, cs->last_stolen_cycles_clk);*/
 
-#ifdef NEW_INTERUPT
     if (cs->irq_clk > dma_start)
         cs->irq_clk = cs->last_stolen_cycles_clk;
     else
@@ -112,10 +98,6 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
 
     cs->irq_clk -= irq_sub;
     cs->nmi_clk -= nmi_sub;
-#else
-    cs->irq_clk += num;
-    cs->nmi_clk += num;
-#endif
    
     /*log_debug("NEWIRQCLK %i", cs->irq_clk);*/
 }

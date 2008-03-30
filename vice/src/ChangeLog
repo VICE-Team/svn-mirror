@@ -1,3 +1,54 @@
+2004-10-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.8.
+
+	* arch/win32/uikeyboard.c, arch/win32/uikeyboard.h,
+	arch/win32/c64ui.c, arch/win32/c128ui.c, arch/win32/vic20ui.c,
+	arch/win32/petui.c, arch/win32/plus4ui.c, arch/win32/cbm2ui.c,
+	arch/win32/uilib.c, arch/win32/uilib.h: More keyboard UI.
+
+	* arch/win32/uifliplist.c (uifliplist_save_dialog): Fixed wide
+	char bug.
+
+	* arch/win32/uireu.c, arch/win32/uisound.c,
+	arch/win32/uic128.c, arch/win32/uirom.c, arch/win32/uisid.c,
+	arch/win32/uiperipheral.c, arch/win32/ui.c,
+	arch/win32/video.c, arch/win32/videoarch.h,
+	arch/win32/fullscrn.c, arch/win32/uisnapshot.c: Minor changes.
+
+	* serial/serial-iec-bus.c, serial/serial-iec-bus.h,
+	serial/serial-trap.c, serial/serial-iec-device.c,
+	serial/serial-iec.c, serial/realdevice.c, serial/realdevice.h:
+	Separated listen and talk functions.
+
+	* dma.c, vicii/vicii-fetch.c, interrupt.h, vice.h: New
+	interrupt routines are standard now.
+
+2004-10-16  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/ui.c: Size of Accelerator tables are calculated
+	compile time, no need to update #define values anymore.
+
+	* drive/drive-check.c (drive_check_idle_method): Added 1551
+	drive.
+
+	* drive/drive.h: (rom_idle_trap): Increased size to accomodote
+	1551 ROM patch bytes.
+
+	* drive/drivecpu.c (drive_trap_handler): Added support for
+	1551 drive.
+
+	* drive/driverom.c (drive_rom_initialize_traps): Added 1551
+	and 1541-II drives.
+
+	* drive/iec/iec-resources.c (set_drive_idling_method): Added
+	1551 and 1541-II drives.
+
+2004-10-12  Tibor Biczo <crown@axelero.hu>
+
+	* vicii/vicii-timing.c (vicii_timing_set): Set screen_height
+	when selecting OLD NTSC-M. This was missing.
+
 2004-10-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.7.
