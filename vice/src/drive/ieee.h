@@ -1,5 +1,5 @@
 /*
- * tcbm.c
+ * ieee.h
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,53 +24,24 @@
  *
  */
 
-#include "vice.h"
+#ifndef _IEEE_H
+#define _IEEE_H
 
-#include "mem1551.h"
-#include "glue1551.h"
-#include "tcbm.h"
-#include "tia1551.h"
+struct drive_context_s;
+struct snapshot_s;
 
+extern void ieee_drive_init(struct drive_context_s *drv);
+extern void ieee_drive_reset(struct drive_context_s *drv);
+extern void ieee_drive_mem_init(struct drive_context_s *drv, unsigned int type);
+extern void ieee_drive_setup_context(struct drive_context_s *drv);
 
-void tcbm_drive_init(struct drive_context_s *drv)
-{
-    tia1551_init(drv);
-    glue1551_init(drv);
-}
+extern int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
+                                    struct snapshot_s *s);
+extern int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
+                                     struct snapshot_s *s);
 
-void tcbm_drive_reset(struct drive_context_s *drv)
-{
-    tia1551_reset(drv);
-    glue1551_reset(drv);
-}
+extern void ieee_drive0_parallel_set_atn(int state);
+extern void ieee_drive1_parallel_set_atn(int state);
 
-void tcbm_drive_mem_init(struct drive_context_s *drv, unsigned int type)
-{
-    mem1551_init(drv, type);
-}
-
-void tcbm_drive_setup_context(struct drive_context_s *drv)
-{
-}
-
-int tcbm_drive_snapshot_read(struct drive_context_s *ctxptr,
-                             struct snapshot_s *s)
-{
-    return 0;
-}
-
-int tcbm_drive_snapshot_write(struct drive_context_s *ctxptr,
-                              struct snapshot_s *s)
-{
-    return 0;
-}
-
-/* FIXME */
-void ieee_drive0_parallel_set_atn(int state)
-{
-}
-
-void ieee_drive1_parallel_set_atn(int state)
-{
-}
+#endif
 
