@@ -324,8 +324,6 @@ plus4pio1.o: plus4pio1.c ../../src/vice.h ../../src/config.h plus4pio1.h \
 	../../src/arch/unix/types.h
 plus4pio2.o: plus4pio2.c ../../src/vice.h ../../src/config.h plus4pio2.h \
 	../../src/arch/unix/types.h
-plus4tia1.o: plus4tia1.c ../../src/vice.h ../../src/config.h plus4tia1.h \
-	../../src/arch/unix/types.h
 ted-cmdline-options.o: ted-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
 	ted-cmdline-options.h ted.h ../../src/arch/unix/types.h \
