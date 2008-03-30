@@ -52,6 +52,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "magicformel.h"
+#include "mikroass.h"
 #include "resources.h"
 #include "retroreplay.h"
 #include "rexep256.h"
@@ -105,7 +106,7 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2,
     if (mode_phi2 & 0x40)
         cartridge_release_freeze();
     cart_ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
-    cart_ultimax_phi2 = export.game & (export.exrom ^ 1);
+    cart_ultimax_phi2 = export.game & (export.exrom ^ 1) & ((~mode_phi1 >> 2) & 1);
     machine_update_memory_ptrs();
 }
 
@@ -129,6 +130,8 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
         return final_v3_io1_read(addr);
       case CARTRIDGE_FINAL_I:
         return final_v1_io1_read(addr);
+      case CARTRIDGE_MIKRO_ASSEMBLER:
+        return mikroass_io1_read(addr);
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GS:
         cartridge_config_changed(0, 0, CMODE_READ);
@@ -277,6 +280,8 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
         return tpi_read((WORD)(addr & 0x07));
       case CARTRIDGE_EPYX_FASTLOAD:
         return epyxfastload_io2_read(addr);
+      case CARTRIDGE_MIKRO_ASSEMBLER:
+        return mikroass_io2_read(addr);
       case CARTRIDGE_WESTERMANN:
         cartridge_config_changed(0, 0, CMODE_READ);
         return vicii_read_phi1();
@@ -574,6 +579,9 @@ void cartridge_init_config(void)
       case CARTRIDGE_EPYX_FASTLOAD:
         epyxfastload_config_init();
         break;
+      case CARTRIDGE_MIKRO_ASSEMBLER:
+        mikroass_config_init();
+        break;
       case CARTRIDGE_FINAL_I:
         final_v1_config_init();
         break;
@@ -675,6 +683,9 @@ void cartridge_attach(int type, BYTE *rawcart)
         break;
       case CARTRIDGE_EPYX_FASTLOAD:
         epyxfastload_config_setup(rawcart);
+        break;
+      case CARTRIDGE_MIKRO_ASSEMBLER:
+        mikroass_config_setup(rawcart);
         break;
       case CARTRIDGE_GENERIC_16KB:
       case CARTRIDGE_SIMONS_BASIC:
@@ -785,6 +796,9 @@ void cartridge_detach(int type)
         break;
       case CARTRIDGE_EPYX_FASTLOAD:
         epyxfastload_detach();
+        break;
+      case CARTRIDGE_MIKRO_ASSEMBLER:
+        mikroass_detach();
         break;
       case CARTRIDGE_REX:
         rex_detach();

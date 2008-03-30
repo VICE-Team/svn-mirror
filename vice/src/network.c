@@ -129,6 +129,34 @@ static char *snapshotfilename;
 static int netplay_ipv6=0;
 #endif
 
+#ifndef HAVE_HTONL
+static unsigned int htonl(unsigned int ip)
+{
+#ifdef WORDS_BIGENDIAN
+    return ip;
+#else
+    unsigned int ip2;
+
+    ip2=((ip>>24)&0xff)+(((ip>>16)&0xff)<<8)+(((ip>>8)&0xff)<<16)+((ip&0xff)<<24);
+    return ip2;
+#endif
+}
+#endif
+
+#ifndef HAVE_HTONS
+static unsigned short htons(unsigned short ip)
+{
+#ifdef WORDS_BIGENDIAN
+    return ip;
+#else
+    unsigned short ip2;
+
+    ip2=((ip>>8)&0xff)+((ip&0xff)<<8);
+    return ip2;
+#endif
+}
+#endif
+
 static int set_server_name(resource_value_t v, void *param)
 {
     util_string_set(&server_name, (const char *)v);

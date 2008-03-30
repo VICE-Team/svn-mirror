@@ -110,7 +110,7 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
     if (rr_active) {
         switch (addr & 0xff) {
           case 0:
-            cartridge_config_changed((BYTE)(value & 0xfc), value, CMODE_WRITE);
+            cartridge_config_changed(0, value, CMODE_WRITE);
             cartridge_romhbank_set(((value >> 3) & 3) | ((value >> 5) & 4));
             cartridge_romlbank_set(((value >> 3) & 3) | ((value >> 5) & 4));
             if (value & 4)

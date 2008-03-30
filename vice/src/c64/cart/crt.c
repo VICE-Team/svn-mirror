@@ -46,6 +46,7 @@
 #include "generic.h"
 #include "kcs.h"
 #include "magicformel.h"
+#include "mikroass.h"
 #include "resources.h"
 #include "rexep256.h"
 #include "ross.h"
@@ -200,6 +201,12 @@ int crt_attach(const char *filename, BYTE *rawcart)
         break;
       case CARTRIDGE_EPYX_FASTLOAD:
         rc = epyxfastload_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_MIKRO_ASSEMBLER:
+        rc = mikroass_crt_attach(fd, rawcart);
         fclose(fd);
         if (rc < 0)
             return -1;
@@ -401,4 +408,3 @@ int crt_save_expert(const char *filename)
 
     return 0;
 }
-

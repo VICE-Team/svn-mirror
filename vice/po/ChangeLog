@@ -1,3 +1,7 @@
+2006-04-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c: Fixed a dutch translation.
+
 2006-04-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* POTFILES.in: Added c64/c64io.c to the list.

@@ -1,3 +1,27 @@
+2006-04-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.10.
+
+2006-04-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in: Added binary distribution making
+	functionality.
+
+	* doc/MSDOS-Ethernet-Howto.txt, doc/MSDOS-Howto.txt,
+	doc/Readme.beos, doc/Win32-Howto.txt: Changed the
+	documentation to include the new binary distribution making
+	functionality.
+
+2006-04-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added a fix for the optionally missing 
+	htons/htonl functions.
+
+2006-04-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/cartconv.txt: Added support for the Mikro Assembler
+	cartridge.
+
 2006-04-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.9.

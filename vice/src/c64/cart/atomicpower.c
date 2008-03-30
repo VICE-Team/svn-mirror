@@ -59,7 +59,7 @@ void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
     } else {
         export_ram_at_a000 = 0;
     }
-    cartridge_config_changed(value, value, CMODE_WRITE);
+    cartridge_config_changed(value & 3, value, CMODE_WRITE);
 }
 
 BYTE REGPARM1 atomicpower_io2_read(WORD addr)

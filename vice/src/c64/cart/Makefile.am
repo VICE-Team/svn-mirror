@@ -39,6 +39,8 @@ libc64cart_a_SOURCES = \
 	kcs.h \
 	magicformel.c \
 	magicformel.h \
+	mikroass.c \
+	mikroass.h \
 	retroreplay.c \
 	retroreplay.h \
 	rexep256.c \

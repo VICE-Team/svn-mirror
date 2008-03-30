@@ -22,3 +22,28 @@ xplus4:
 
 xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
+
+if MSDOS_COMPILE
+bindist:
+	$(srcdir)/src/arch/msdos/make-bindist.sh $(STRIP)
+endif
+
+if WIN32_COMPILE
+bindist:
+	$(srcdir)/src/arch/win32/make-bindist.sh $(STRIP) $(VICE_VERSION)
+endif
+
+if BEOS_COMPILE
+bindist:
+	$(srcdir)/src/arch/beos/make-bindist.sh $(STRIP) $(VICE_VERSION)
+endif
+
+if QNX_COMPILE
+bindist:
+	$(srcdir)/src/arch/unix/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+endif
+
+if SOLARIS_COMPILE
+bindist:
+	$(srcdir)/src/arch/unix/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+endif

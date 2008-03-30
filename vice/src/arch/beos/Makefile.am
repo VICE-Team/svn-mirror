@@ -82,3 +82,6 @@ libarch_a_SOURCES = \
 	videoarch.h \
 	vsidui.cc \
 	vsyncarch.c
+
+EXTRA_DIST = \
+	make-bindist.sh

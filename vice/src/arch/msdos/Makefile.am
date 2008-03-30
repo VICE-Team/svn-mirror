@@ -116,4 +116,5 @@ libarch_a_SOURCES = \
 
 EXTRA_DIST = \
 	vmidas.c \
-	vmidas.h
+	vmidas.h \
+	make-bindist.sh

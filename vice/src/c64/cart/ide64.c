@@ -726,14 +726,14 @@ aborted_command:
       default:
         return;
     }
-    cartridge_config_changed(1, (BYTE)(current_cfg | (current_bank << 3)),
+    cartridge_config_changed(4, (BYTE)(current_cfg | (current_bank << 3)),
                              CMODE_READ);
 }
 
 
 void ide64_config_init(void)
 {
-    cartridge_config_changed(1, 0, CMODE_READ);
+    cartridge_config_changed(4, 0, CMODE_READ);
     current_bank = 0;
     current_cfg = 0;
     kill_port = 0;
@@ -753,7 +753,7 @@ void ide64_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x10000);
     memcpy(romh_banks, rawcart, 0x10000);
-    cartridge_config_changed(1, 0, CMODE_READ);
+    cartridge_config_changed(4, 0, CMODE_READ);
 }
 
 void ide64_detach(void)

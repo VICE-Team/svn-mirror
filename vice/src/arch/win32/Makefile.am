@@ -262,9 +262,10 @@ EXTRA_DIST = \
 	xvic.dsp \
 	zlib.dsp \
 	vice.dsw \
-        vice.manifest \
-        montb.bmp \
-        c64.ico 
+	vice.manifest \
+	montb.bmp \
+	make-bindist.sh \
+	c64.ico 
 
 BUILT_SOURCES = res.h
 
@@ -358,4 +359,3 @@ resvic20.o : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 .PHONY: utils
 utils:
 	(cd utils; $(MAKE))
-

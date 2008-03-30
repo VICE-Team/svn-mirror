@@ -51,6 +51,7 @@
 #define IO_SOURCE_SS5                19
 #define IO_SOURCE_WARPSPEED          20
 #define IO_SOURCE_EMUID              21
+#define IO_SOURCE_MIKRO_ASSEMBLER    22
 
 #define IO_DETACH_CART       0
 #define IO_DETACH_RESOURCE   1

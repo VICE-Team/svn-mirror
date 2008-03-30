@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=9
+VICE_VERSION_BUILD=10
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -269,7 +269,8 @@ dnl Check for needed external programs.
 
 AC_PROG_CPP
 AC_CHECK_PROG(AR, ar, ar, ar)
-AC_PROG_RANLIB
+AC_CHECK_TOOL(RANLIB, ranlib, :)
+AC_CHECK_TOOL(STRIP, strip, :)
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_YACC
@@ -555,7 +556,13 @@ else
   echo "                  sizeof(unsigned long) == 4"
 fi
 
-AM_CONDITIONAL(CROSS, test x"$cross_compiling" = "xyes")
+if test x"$cross_compiling" = "xyes"; then
+  AM_CONDITIONAL(CROSS, true)
+  CROSS=true
+else
+  AM_CONDITIONAL(CROSS, false)
+  CROSS=false
+fi
 AC_SUBST(CROSS)
 
 AC_CHECK_SIZEOF(unsigned short, 2)
@@ -681,11 +688,12 @@ if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xye
 
     UNIX_NETWORK_FUNCS_PRESENT=yes
 
-    AC_CHECK_FUNCS(socket send htons htonl bind listen gethostbyname connect recv accept,,
+    AC_CHECK_FUNCS(socket send bind listen gethostbyname connect recv accept,,
                    [UNIX_NETWORK_FUNCS_PRESENT=no],)
 
     if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
       AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+      AC_CHECK_FUNCS(htons htonl)
       AC_CHECK_FUNCS(getdtablesize getrlimit)
     fi
   fi
@@ -1477,6 +1485,30 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AC_DEFINE(HAVE_READLINE,,[Are we using the readline library replacement?])
+  qnxcompile=no
+  solariscompile=no
+  case "$host_os" in
+    nto*)
+      qnxcompile=yes
+      AM_CONDITIONAL(QNX_COMPILE, true)
+      ;;
+    solaris*)
+      solariscompile=yes
+      AM_CONDITIONAL(SOLARIS_COMPILE, true)
+      ;;
+    *)
+      ;;  
+  esac
+
+  if test x"$qnxcompile" = "xno"; then
+    AM_CONDITIONAL(QNX_COMPILE, false)
+  fi
+
+  if test x"$solariscompile" = "xno"; then
+    AM_CONDITIONAL(SOLARIS_COMPILE, false)
+  fi
+
+
 elif [[ x"$is_win32" != "xno" ]]; then
   ARCH_DIR="\$(top_builddir)/src/arch/win32"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
@@ -1487,6 +1519,8 @@ elif [[ x"$is_win32" != "xno" ]]; then
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(QNX_COMPILE, false)
+  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif [[ x"$is_dos" != "xno" ]]; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
@@ -1501,6 +1535,8 @@ elif [[ x"$is_dos" != "xno" ]]; then
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(QNX_COMPILE, false)
+  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif [[ x"$is_os2" != "xno" ]]; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
   ARCH_DIR="\$(top_builddir)/src/arch/os2"
@@ -1511,6 +1547,8 @@ elif [[ x"$is_os2" != "xno" ]]; then
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, true)
   AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(QNX_COMPILE, false)
+  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif [[ x"$is_beos" != "xno" ]]; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos"
   ARCH_DIR="\$(top_builddir)/src/arch/beos"
@@ -1521,6 +1559,8 @@ elif [[ x"$is_beos" != "xno" ]]; then
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
+  AM_CONDITIONAL(QNX_COMPILE, false)
+  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 else
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos"
   ARCH_DIR="\$(top_builddir)/src/arch/riscos"
@@ -1531,6 +1571,8 @@ else
   AM_CONDITIONAL(RISCOS_COMPILE, true)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(QNX_COMPILE, false)
+  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 fi
 
 dnl Check wether we have gcc and solaris /usr/openwin stuff.

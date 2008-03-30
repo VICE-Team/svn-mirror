@@ -54,7 +54,7 @@ BYTE REGPARM1 actionreplay_io1_read(WORD addr)
 void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
 {
     if (ar_active) {
-        cartridge_config_changed(value, value, CMODE_WRITE);
+        cartridge_config_changed(value & 3, value, CMODE_WRITE);
 
         if (value & 4)
             ar_active = 0;

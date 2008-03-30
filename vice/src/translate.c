@@ -582,7 +582,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_ALL_DEVICES_DETACHED_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_ALL_DEVICES_DETACHED_FR, ""},  /* fuzzy */
 /* it */ {IDGS_ALL_DEVICES_DETACHED_IT, ""},  /* fuzzy */
-/* nl */ {IDGS_ALL_DEVICES_DETACHED_NL, ".\nAll genoemde apparaten zullen worden ontkoppeld."},
+/* nl */ {IDGS_ALL_DEVICES_DETACHED_NL, ".\nAlle genoemde apparaten zullen worden ontkoppelt."},
 /* pl */ {IDGS_ALL_DEVICES_DETACHED_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_ALL_DEVICES_DETACHED_SV, ""},  /* fuzzy */
 

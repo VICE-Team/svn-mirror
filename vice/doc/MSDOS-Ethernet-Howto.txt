@@ -71,10 +71,12 @@ VICE: the simplest way is to type
 
 ./configure --enable-ethernet
 make
-make install
+make bindist
 
+After that, you will have a binary distribution from which you can run
+VICE.
 
-Note for the more advanced users : libpcap uses the dma.o module from trhe allegro
+Note for the more advanced users : libpcap uses the dma.o module from the allegro
 library therefor compiling a program and linking in libpcap and allegro would result
 in a collision between the two modules. The makefile generated when ethernet is
 enabled will take care of this problem by generating a libpcap_nodma.a without the
@@ -84,27 +86,9 @@ Before starting VICE make sure you have setup the msdos ethernet package driver
 for your ethernet card and make sure you have setup the watt32 configuration
 files correctly, instructions for how to do this are in the watt32 package.
 
+You can run the compiled VICE either from windows or on native MS-DOS.
+
 Note that to run the compiled emulator on native MS-DOS mode you need to download
 the file csdpmi5b.zip (older version should be OK, too) from subdir v2misc of
 DJGPP website  and unzip the file CWSDPMI.EXE in the same directory as the
 VICE .EXE files, or in a directory in the path.
-
-After that, you have VICE binaries and accompanying files in the
-installation directory, which will be called VICEDIR form now on
-(C:\usr\local by default, you can change that by passing the
-option --prefix=a_different_installation_directory to the configure script,
-where a_different_installation_directory has to be replaced with the full
-path of the installation directory of your choice). The only missing thing
-is a configuration file. From an MS-DOS prompt window (no need to be
-inside bash), go to the directory VICEDIR\bin and type
-
-x64 -directory VICEDIR\lib\vice\c64;VICEDIR\lib\vice\drives
-
-(replace x64 and c64 with the name of the emulator and the emulated machine,
-if you want to run an emulator other than the C64 one). VICEDIR should be in
-MS-DOS format, i.e. <drive_letter>:\<path with \ as dir separator> .
-
-If everything went well, you should have your emulator up and running. Press
-ESC, choose the option "Configuration commands" then "Write configuration",
-and a configuration file will be created, so from now on jou can just type
-"x64".

@@ -65,6 +65,7 @@
 #define DELA_EP7x8_CRT         25
 #define DELA_EP256_CRT         26
 #define REX_EP256_CRT          27
+#define MIKRO_ASSEMBLER_CRT    28
 
 #define SIZE_4KB     0x1000
 #define SIZE_8KB     0x2000
@@ -139,7 +140,8 @@ static const cart_t cart_info[] = {
   {1, 0, SIZE_8KB, 0, 0x8000, 0, "Dela EP64"},
   {1, 0, SIZE_8KB, 0x2000, 0x8000, 0, "Dela EP7x8"},
   {1, 0, SIZE_8KB, 0x2000, 0x8000, 0, "Dela EP256"},
-  {1, 0, SIZE_8KB, 0, 0x8000, 0, "Rex EP256"}
+  {1, 0, SIZE_8KB, 0, 0x8000, 0, "Rex EP256"},
+  {1, 0, SIZE_8KB, 0x2000, 0x8000, 1, "Mikro Assembler"}
 };
 
 #ifndef HAVE_STRNCASECMP
@@ -243,6 +245,7 @@ static void usage(void)
   printf("comal    Comal-80 .crt file\n");
   printf("sb       Structured Basic .crt file\n");
   printf("ross     Ross .crt file\n");
+  printf("mikro    Mikro Assembler .crt file\n");
   printf("dep64    Dela EP64 .crt file, extra files can be inserted\n");
   printf("dep7x8   Dela EP7x8 .crt file, extra files can be inserted\n");
   printf("dep256   Dela EP256 .crt file, extra files can be inserted\n");
@@ -354,6 +357,8 @@ static void checkflag(char *flg, char *arg)
               cart_type=MAGIC_DESK_CRT;
             if (!strncasecmp(arg,"magicf",6))
               cart_type=MAGIC_FORMEL_CRT;
+            if (tolower(arg[1])=='i')
+              cart_type=MIKRO_ASSEMBLER_CRT;
             if (cart_type==-1)
               usage();
             break;
@@ -1430,6 +1435,7 @@ int main(int argc, char *argv[])
       case SUPER_GAMES_CRT:
       case ATOMIC_POWER_CRT:
       case EPYX_CRT:
+      case MIKRO_ASSEMBLER_CRT:
       case WESTERMANN_CRT:
       case REX_UTILITY_CRT:
       case FINAL_CARTRIDGE_1_CRT:
