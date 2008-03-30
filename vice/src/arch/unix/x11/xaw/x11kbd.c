@@ -38,8 +38,6 @@
 #include <X11/keysym.h>
 
 #include "kbd.h"
-#include "kbdef.h"
-#include "x11kbd.h"
 #include "keyboard.h"
 #include "machine.h"
 #include "ui.h"
@@ -51,30 +49,26 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
     KeySym key;
     XComposeStatus compose;
     int count;
-    
+
     count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
-    
+
     switch (report->type) {
-
-    case KeyPress:
-	x11kbd_press((ui_keysym_t) key);
-	break;
-
-    case KeyRelease:
-	x11kbd_release((ui_keysym_t) key);
-	break;
-
-    case EnterNotify:
-    case LeaveNotify:
-	x11kbd_enter_leave();
-	break;			/* LeaveNotify */
-
-    case FocusOut:
-    case FocusIn:
-	x11kbd_focus_change();
-	break;
-
-    default:
-	break;
-    }				/* switch */
+      case KeyPress:
+        x11kbd_press((ui_keysym_t)key);
+        break;
+      case KeyRelease:
+        x11kbd_release((ui_keysym_t)key);
+        break;
+      case EnterNotify:
+      case LeaveNotify:
+        x11kbd_enter_leave();
+        break;                  /* LeaveNotify */
+      case FocusOut:
+      case FocusIn:
+        x11kbd_focus_change();
+        break;
+      default:
+        break;
+    }                           /* switch */
 }
+

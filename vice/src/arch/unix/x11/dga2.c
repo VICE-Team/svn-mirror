@@ -50,6 +50,7 @@ void dump_fb(char *wo);
 #define DGA_MINMAJOR 2
 #define DGA_MINMINOR 0
 
+#include "kbd.h"
 #include "machine.h"
 #include "mouse.h"
 #include "resources.h"
@@ -60,7 +61,6 @@ void dump_fb(char *wo);
 #include "vsyncapi.h"
 #include "utils.h"
 #include "videoarch.h"
-#include "x11kbd.h"
 #include "video.h"
 #include "uimenu.h"
 #include "uisettings.h"

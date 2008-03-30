@@ -58,6 +58,7 @@
 #define VidMode_MINMAJOR 0
 #define VidMode_MINMINOR 0
 
+#include "kbd.h"
 #include "machine.h"
 #include "mouse.h"
 #include "resources.h"
@@ -66,7 +67,6 @@
 #include "vsyncapi.h"
 #include "utils.h"
 #include "videoarch.h"
-#include "x11kbd.h"
 
 typedef struct {
   int modeindex;

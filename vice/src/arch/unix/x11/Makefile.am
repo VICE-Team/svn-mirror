@@ -26,7 +26,6 @@ libx11ui_a_SOURCES = \
 	c610icon.c \
 	c64icon.c \
 	kbd.c \
-	kbdef.h \
 	peticon.c \
 	plus4icon.c \
 	renderxv.c \
@@ -37,8 +36,6 @@ libx11ui_a_SOURCES = \
 	vic20icon.c \
 	video.c \
 	videoarch.h \
-	x11kbd.c \
-	x11kbd.h \
 	x11menu.c \
 	x11menu.h
 

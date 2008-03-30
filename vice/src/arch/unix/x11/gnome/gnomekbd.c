@@ -35,12 +35,9 @@
 #include <string.h>		/* memset() */
 #include <gtk/gtk.h>
 
+#include "kbd.h"
 #include "keyboard.h"
 #include "machine.h"
-#include "kbd.h"
-#include "kbdef.h"
-
-#include "x11kbd.h"
 
 
 void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
