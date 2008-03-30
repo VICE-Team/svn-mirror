@@ -1552,11 +1552,9 @@ static int drive_check_image_format(int format, int dnr)
 }
 
 /* Attach a disk image to the true drive emulation. */
-int drive_attach_image(disk_image_t *image, int unit, void *flp)
+int drive_attach_image(disk_image_t *image, int unit)
 {
     int dnr;
-
-    fdc_attach_disk(flp);
 
     if (unit != 8 && unit != 9)
         return -1;
@@ -1575,15 +1573,15 @@ int drive_attach_image(disk_image_t *image, int unit, void *flp)
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
-        log_message(drive_log, "Unit %d: D64 disk image attached: %s.",
+        log_message(drive_log, "Unit %d: D64 disk image attached: %s",
                     unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D71:
-        log_message(drive_log, "Unit %d: D71 disk image attached: %s.",
+        log_message(drive_log, "Unit %d: D71 disk image attached: %s",
                     unit, image->name);
         break;
       case DISK_IMAGE_TYPE_GCR:
-        log_message(drive_log, "Unit %d: GCR disk image attached: %s.",
+        log_message(drive_log, "Unit %d: GCR disk image attached: %s",
                     unit, image->name);
         break;
       default:
@@ -1610,11 +1608,9 @@ int drive_attach_image(disk_image_t *image, int unit, void *flp)
 }
 
 /* Detach a disk image from the true drive emulation. */
-int drive_detach_image(disk_image_t *image, int unit, void *flp)
+int drive_detach_image(disk_image_t *image, int unit)
 {
     int dnr;
-
-    fdc_detach_disk(flp);
 
     if (unit != 8 && unit != 9)
         return -1;
@@ -1624,15 +1620,15 @@ int drive_detach_image(disk_image_t *image, int unit, void *flp)
     if (drive[dnr].image != NULL) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
-            log_message(drive_log, "Unit %d: D64 disk image detached: %s.",
+            log_message(drive_log, "Unit %d: D64 disk image detached: %s",
                         unit, image->name);
             break;
           case DISK_IMAGE_TYPE_D71:
-            log_message(drive_log, "Unit %d: D71 disk image detached: %s.",
+            log_message(drive_log, "Unit %d: D71 disk image detached: %s",
                         unit, image->name);
             break;
           case DISK_IMAGE_TYPE_GCR:
-            log_message(drive_log, "Unit %d: D81 disk image detached: %s.",
+            log_message(drive_log, "Unit %d: D81 disk image detached: %s",
                         unit, image->name);
             break;
           default:

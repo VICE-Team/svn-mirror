@@ -473,7 +473,7 @@ int wd1770_attach_image(disk_image_t *image, int unit)
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D81:
-        log_message(wd1770_log, "Unit %d: D81 disk image attached: %s.",
+        log_message(wd1770_log, "Unit %d: D81 disk image attached: %s",
                     unit, image->name);
         break;
       default:
@@ -491,7 +491,7 @@ int wd1770_detach_image(disk_image_t *image, int unit)
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D81:
-        log_message(wd1770_log, "Unit %d: D81 disk image detached: %s.",
+        log_message(wd1770_log, "Unit %d: D81 disk image detached: %s",
                     unit, image->name);
         break;
       default:

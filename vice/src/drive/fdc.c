@@ -26,12 +26,14 @@
  */
 
 #include "vice.h"
-#include "types.h"
-#include "log.h"
+
 #include "alarm.h"
-#include "fdc.h"
+#include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "fdc.h"
+#include "log.h"
+#include "types.h"
 #include "vdrive-bam.h"
 #include "vdrive.h"
 
@@ -67,17 +69,17 @@ static int int_fdc1(long offset)
 static log_t fdc_log = LOG_ERR;
 
 typedef struct fdc_t {
-	int	fdc_state;
-	alarm_t	fdc_alarm;
-	CLOCK	alarm_clk;
-	BYTE 	*buffer;
-	BYTE 	*iprom;
-	int	last_track;
-	int	last_sector;
+    int	fdc_state;
+    alarm_t	fdc_alarm;
+    CLOCK	alarm_clk;
+    BYTE 	*buffer;
+    BYTE 	*iprom;
+    int	last_track;
+    int	last_sector;
+    disk_image_t *image;
 } fdc_t;
 	
 static fdc_t fdc[NUM_FDC];
-static DRIVE *vdrive[2];
 
 void fdc_reset(int fnum, int enabled)
 {
@@ -119,18 +121,18 @@ static BYTE fdc_do_job(int fnum, int buf,
     log_message(fdc_log, "do job %02x, buffer %d ($%04x): d%d t%d s%d, "
 		"image=%p, type=%04d\n",
 		job, buf, (buf + 1) << 8, dnr, track, sector,
-		vdrive[dnr],
-		vdrive[dnr] ? vdrive[dnr]->ImageFormat : 0);
+		fdc[dnr].image,
+		fdc[dnr].image ? fdc[dnr].image->type : 0);
 #endif
 
-    if (vdrive[dnr] == NULL
-           || (vdrive[dnr]->ImageFormat != 8050
-		&& vdrive[dnr]->ImageFormat != 8250)
+    if (fdc[dnr].image == NULL
+           || (fdc[dnr].image->type != DISK_IMAGE_TYPE_D80
+		&& fdc[dnr].image->type != DISK_IMAGE_TYPE_D82)
 	) {
 	return FDC_ERR_SYNC;
     }
 
-    vdrive_bam_get_disk_id(vdrive[dnr], disk_id);
+    vdrive_bam_get_disk_id(dnr + 8, disk_id);
 
     switch (job) {
     case 0x80:		/* read */
@@ -138,12 +140,7 @@ static BYTE fdc_do_job(int fnum, int buf,
 	    rc = FDC_ERR_ID;
 	    break;
 	}
-	rc = floppy_read_block(vdrive[dnr]->ActiveFd,
-                           vdrive[dnr]->ImageFormat,
-                           sector_data, track, sector,
-                           vdrive[dnr]->D64_Header,
-                           vdrive[dnr]->GCR_Header,
-                           vdrive[dnr]->unit);
+	rc = disk_image_read_sector(fdc[dnr].image, sector_data, track, sector);
         if (rc < 0) {
             log_error(drive[dnr].log,
                   "Cannot read T:%d S:%d from disk image.",
@@ -159,17 +156,13 @@ static BYTE fdc_do_job(int fnum, int buf,
 	    rc = FDC_ERR_ID;
 	    break;
 	}
-	if (vdrive[dnr]->ReadOnly) {
+	if (fdc[dnr].image->read_only) {
 	    rc = FDC_ERR_WPROT;
 	    break;
 	}
 	memcpy(sector_data, base, 256);
-        rc = floppy_write_block(vdrive[dnr]->ActiveFd,
-                           vdrive[dnr]->ImageFormat,
-                           sector_data, track, sector,
-                           vdrive[dnr]->D64_Header,
-                           vdrive[dnr]->GCR_Header,
-                           vdrive[dnr]->unit);
+        rc = disk_image_write_sector(fdc[dnr].image, sector_data, track,
+                                     sector);
         if (rc < 0) {
             log_error(drive[dnr].log,
                   "Could not update T:%d S:%d on disk image.",
@@ -184,12 +177,8 @@ static BYTE fdc_do_job(int fnum, int buf,
 	    rc = FDC_ERR_ID;
 	    break;
 	}
-        rc = floppy_read_block(vdrive[dnr]->ActiveFd,
-                           vdrive[dnr]->ImageFormat,
-                           sector_data, track, sector,
-                           vdrive[dnr]->D64_Header,
-                           vdrive[dnr]->GCR_Header,
-                           vdrive[dnr]->unit);
+        rc = disk_image_read_sector(fdc[dnr].image, sector_data, track,
+                                    sector);
         if (rc < 0) {
             log_error(drive[dnr].log,
                   "Cannot read T:%d S:%d from disk image.",
@@ -250,7 +239,7 @@ static BYTE fdc_do_job(int fnum, int buf,
 	    log_message(fdc_log, "     sides=%d\n", 
 		fdc[fnum].buffer[0xac]);
 #endif
-	    if (vdrive[dnr]->ReadOnly) {
+	    if (fdc[dnr].image->read_only) {
 	        rc = FDC_ERR_WPROT;
 	        break;
 	    }
@@ -275,12 +264,8 @@ static BYTE fdc_do_job(int fnum, int buf,
 		    }
 		}
 		for (sector = 0; sector < nsectors; sector ++) {
-                    rc = floppy_write_block(vdrive[dnr]->ActiveFd,
-                           vdrive[dnr]->ImageFormat,
-                           sector_data, track, sector,
-                           vdrive[dnr]->D64_Header,
-                           vdrive[dnr]->GCR_Header,
-                           vdrive[dnr]->unit);
+                    rc = disk_image_write_sector(fdc[dnr].image, sector_data,
+                                                 track, sector);
                     if (rc < 0) {
                         log_error(drive[dnr].log,
                   		"Could not update T:%d S:%d on disk image.",
@@ -291,7 +276,7 @@ static BYTE fdc_do_job(int fnum, int buf,
 		}
 	    }
 
-            vdrive_bam_set_disk_id(vdrive[dnr], header);
+            vdrive_bam_set_disk_id(dnr + 8, header);
 
 	    if (!rc) 
 	        rc = FDC_ERR_OK;
@@ -441,27 +426,47 @@ void fdc_init(int fnum, BYTE *buffermem, BYTE *ipromp)
 
 /************************************************************************/
 
-int fdc_attach_disk(void *flp)
+int fdc_attach_image(disk_image_t *image, int unit)
 {
-    DRIVE *floppy = (DRIVE *)flp;
-
-    if (floppy->unit != 8 && floppy->unit != 9)
+    if (unit != 8 && unit != 9)
         return -1;
 
-    vdrive[floppy->unit - 8] = floppy;
+    switch(image->type) {
+      case DISK_IMAGE_TYPE_D80:
+        log_message(fdc_log, "Unit %d: D80 disk image attached: %s",
+                    unit, image->name);
+        break;
+      case DISK_IMAGE_TYPE_D82:
+        log_message(fdc_log, "Unit %d: D82 disk image attached: %s",
+                    unit, image->name);
+        break;
+      default:
+        return -1;
+    }
 
+    fdc[unit - 8].image = image;
     return 0;
 }
 
-int fdc_detach_disk(void *flp)
+int fdc_detach_image(disk_image_t *image, int unit)
 {
-    DRIVE *floppy = (DRIVE *)flp;
-
-    if (floppy->unit != 8 && floppy->unit != 9)
+    if (unit != 8 && unit != 9)
         return -1;
 
-    vdrive[floppy->unit] = NULL;
+    switch(image->type) {
+      case DISK_IMAGE_TYPE_D80:
+        log_message(fdc_log, "Unit %d: D80 disk image detached: %s",
+                    unit, image->name);
+        break;
+      case DISK_IMAGE_TYPE_D82:
+        log_message(fdc_log, "Unit %d: D82 disk image detached: %s",
+                    unit, image->name);
+        break;
+      default:
+        return -1;
+    }
 
+    fdc[unit - 8].image = NULL;
     return 0;
 }
 
@@ -579,5 +584,4 @@ int fdc_read_snapshot_module(snapshot_t *p, int fnum)
 
     return 0;
 }
-
  

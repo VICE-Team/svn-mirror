@@ -523,7 +523,7 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, int track,
         fseek(image->fd, offset, SEEK_SET);
 
         if (fwrite((char *)buf, 256, 1, image->fd) < 1) {
-            log_error(vdrive_log, "Error writing T:%d S:%d: to disk image",
+            log_error(disk_image_log, "Error writing T:%d S:%d: to disk image",
                       track, sector);
             return -1;
         }
