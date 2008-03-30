@@ -846,6 +846,7 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
                                          xe - 1);
             xs = xe;
         }
+        raster->xsmooth_shift_left = 0;
         raster_changes_apply(&raster->changes.foreground, i);
     }
     if (xs <= (int)geometry->text_size.width - 1)
@@ -854,6 +855,7 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
                                      xs,
                                      geometry->text_size.width - 1);
 
+    raster->xsmooth_shift_left = 0;
     draw_sprites(raster);
 
     /* Draw left border.  */
