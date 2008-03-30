@@ -49,6 +49,8 @@ inline void vic_ii_fetch_matrix(int offs, int num, int num_0xff)
     int start_char;
     int c;
 
+    /*log_debug("OFF %02i NUM %02i NFF %02i",offs,num,num_0xff);*/
+
     if (num_0xff > 0) {
         if (num <= num_0xff) {
             memset(vic_ii.vbuf + offs, 0xff, num);
@@ -78,7 +80,8 @@ inline void vic_ii_fetch_matrix(int offs, int num, int num_0xff)
             memcpy(vic_ii.cbuf + offs, mem_color_ram_ptr + start_char, c);
             memcpy(vic_ii.cbuf + offs + c, mem_color_ram_ptr, num - c);
         }
-        vic_ii.background_color_source = vic_ii.vbuf[offs + num - 1];
+        vic_ii.background_color_source = vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS
+                                         - 1 /*- vic_ii.buf_offset*/];
     }
 
     /* Set correct background color in in the xsmooth area.

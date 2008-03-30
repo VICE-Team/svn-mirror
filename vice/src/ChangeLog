@@ -1,5 +1,25 @@
 2002-07-28  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.9.64.
+
+	* vicii/viciitypes.h: Added `buf_offset' to `struct vic_ii_s'.
+
+	* vicii/vicii-badline.c (line_becomes_bad): Set `buf_offset'
+	if DMA is forced from idle state and deactivate idle state via
+	foreground and background change.
+	(switch_to_display_state): New function.
+	(line_becomes_good): Use `switch_to_display_state()' too.
+
+	* vicii/vicii.c (vic_ii_init): Clear `buf_offset'.
+	(vic_ii_raster_draw_alarm_handler): Likewise.
+
+	* vicii/vicii-draw.c (draw_std_text_foreground,
+	draw_mc_text_foreground, draw_mc_bitmap_foreground,
+	draw_ext_text_foreground): Use `buf_offset'.
+	(draw_illegal_text_foreground): New function.
+
+2002-07-28  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.9.63.
 
 	* vicii/vicii-badline.c, vicii/vicii-badline.h: New files.

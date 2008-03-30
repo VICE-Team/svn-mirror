@@ -36,6 +36,17 @@
 #include "viciitypes.h"
 
 
+inline static void switch_to_display_state(int cycle)
+{
+    raster_add_int_change_foreground(&vic_ii.raster, VIC_II_RASTER_CHAR(cycle),
+                                     &vic_ii.raster.draw_idle_state, 0);
+    raster_add_int_change_background(&vic_ii.raster, VIC_II_RASTER_X(cycle),
+                                     &vic_ii.raster.draw_idle_state, 0);
+
+    vic_ii.idle_state = 0;
+    vic_ii.idle_data_location = IDLE_NONE;
+}
+
 inline static void line_becomes_good(int cycle)
 {
     if (cycle < VIC_II_FETCH_CYCLE)
@@ -47,13 +58,8 @@ inline static void line_becomes_good(int cycle)
        is only true if the value changes in some cycle > 0, though;
        otherwise, the line never becomes bad.  */
     if (cycle > 0) {
-        raster_add_int_change_foreground(&vic_ii.raster,
-            VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(maincpu_clk)),
-            &vic_ii.raster.draw_idle_state,
-            0);
-        vic_ii.idle_state = 0;
+        switch_to_display_state(cycle);
 
-        vic_ii.idle_data_location = IDLE_NONE;
         if (cycle > VIC_II_FETCH_CYCLE + 2
             && !vic_ii.ycounter_reset_checked) {
             vic_ii.raster.ycounter = 0;
@@ -66,6 +72,7 @@ inline static void line_becomes_bad(int cycle)
 {
     if (cycle >= VIC_II_FETCH_CYCLE
         && cycle < VIC_II_FETCH_CYCLE + VIC_II_SCREEN_TEXTCOLS + 3) {
+        int xpos;           /* Current X position */
         int pos;            /* Value of line counter when this happens.  */
         int inc;            /* Total increment for the line counter.  */
         int num_chars;      /* Total number of characters to fetch.  */
@@ -78,11 +85,12 @@ inline static void line_becomes_bad(int cycle)
 
         vic_ii.ycounter_reset_checked = 1;
 
-        num_chars = (VIC_II_SCREEN_TEXTCOLS
-                     - (cycle - (VIC_II_FETCH_CYCLE + 3)));
+        xpos = cycle - (VIC_II_FETCH_CYCLE + 3);
+
+        num_chars = VIC_II_SCREEN_TEXTCOLS - xpos;
 
         /* Take over the bus until the memory fetch is done.  */
-           maincpu_steal_cycles(maincpu_clk, num_chars, 0);
+        maincpu_steal_cycles(maincpu_clk, num_chars, 0);
 
         if (num_chars <= VIC_II_SCREEN_TEXTCOLS) {
             /* Matrix fetches starts immediately, but the VICII needs
@@ -98,7 +106,7 @@ inline static void line_becomes_bad(int cycle)
                 if (inc < 0)
                     inc = 0;
             } else {
-                pos = cycle - (VIC_II_FETCH_CYCLE + 3);
+                pos = xpos;
                 if (pos > VIC_II_SCREEN_TEXTCOLS - 1)
                     pos = VIC_II_SCREEN_TEXTCOLS - 1;
                 inc = VIC_II_SCREEN_TEXTCOLS;
@@ -112,6 +120,12 @@ inline static void line_becomes_bad(int cycle)
         /* This is normally done at cycle `VIC_II_FETCH_CYCLE + 2'.  */
         vic_ii.mem_counter = vic_ii.memptr;
 
+        if (vic_ii.idle_state && xpos > 0)
+            vic_ii.buf_offset = xpos;
+
+        /* As we are on a bad line, switch to display state.  */
+        switch_to_display_state(cycle);
+
         /* Force the DMA.  */
         if (num_chars > 0)
             vic_ii_fetch_matrix(pos, num_chars, num_0xff_fetches);
@@ -123,19 +137,9 @@ inline static void line_becomes_bad(int cycle)
         /* Remember we have done a DMA.  */
         vic_ii.memory_fetch_done = 2;
 
-        /* As we are on a bad line, switch to display state.  */
-        vic_ii.idle_state = 0;
-
         /* Force screen on even if the store that triggered the DMA has
            set the blank bit.  */
         vic_ii.raster.blank_off = 1;
-
-        /* Try to display things correctly.  This is not exact,
-           but should be OK for most cases (FIXME?).  */
-        if (inc == VIC_II_SCREEN_TEXTCOLS) {
-            vic_ii.raster.draw_idle_state = 0;
-            vic_ii.idle_data_location = IDLE_NONE;
-        }
     } else if (cycle <= VIC_II_FETCH_CYCLE + VIC_II_SCREEN_TEXTCOLS + 6) {
         /* Bad line has been generated after fetch interval, but
            before `vic_ii.raster.ycounter' is incremented.  */
@@ -146,21 +150,8 @@ inline static void line_becomes_bad(int cycle)
         if (vic_ii.idle_state)
             vic_ii.mem_counter_inc = 0;
 
-        /* We are not in idle state anymore.  */
-        /* This is not 100% correct, but should be OK for most cases.
-           (FIXME?)  */
-#if 0
-        vic_ii.raster.draw_idle_state = vic_ii.idle_state = 0;
-#else
-        raster_add_int_change_foreground
-               (&vic_ii.raster,
-                VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(maincpu_clk)),
-                &vic_ii.raster.draw_idle_state,
-                0);
-        vic_ii.idle_state = 0;
-#endif
-
-        vic_ii.idle_data_location = IDLE_NONE;
+        /* As we are on a bad line, switch to display state.  */
+        switch_to_display_state(cycle);
     } else {
         /* Line is now bad, so we must switch to display state.
            Anyway, we cannot do it here as the `ycounter' handling
