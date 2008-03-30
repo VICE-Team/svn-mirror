@@ -72,6 +72,9 @@ static char *read_disk_image_contents(const char *name)
         return NULL;
 
     s = image_contents_to_string(contents);
+
+    image_contents_destroy(contents);
+
     return s;
 }
 
@@ -123,6 +126,9 @@ static char *read_tape_image_contents(const char *name)
         return NULL;
 
     s = image_contents_to_string(contents);
+
+    image_contents_destroy(contents);
+
     return s;
 }
 

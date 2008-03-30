@@ -397,9 +397,6 @@ inline void mydrive_cpu_sleep(void)
 CLOCK mydrive_cpu_prevent_clk_overflow(CLOCK sub)
 {
     if (sub != 0) {
-        printf("drive%d_cpu_prevent_clk_overflow last_clk %u\n",
-               mynumber, last_clk);
-
         /* First, get in sync with what the main CPU has done.  Notice that
            `clk' has already been decremented at this point.  */
         if (drive[mynumber].enable) {
