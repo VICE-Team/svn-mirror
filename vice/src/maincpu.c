@@ -40,6 +40,7 @@
 
 #include "6510core.h"
 #include "interrupt.h"
+#include "log.h"
 #include "machine.h"
 #include "mem.h"
 #include "misc.h"
@@ -87,17 +88,17 @@
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
    trace all the opcodes being executed.  This is mainly useful for
    debugging, and also makes things a bit slower.  */
-#define TRACE
+/* #define TRACE */
 
 /* Print a message whenever a program attempts to execute instructions fetched
    from the I/O area.  */
-#  undef IO_AREA_WARNING
+#undef IO_AREA_WARNING
 
 /* Run without interpreting opcodes (just fetch them from memory).  */
-# undef NO_OPCODES
+#undef NO_OPCODES
 
 /* Do not handle CPU alarms, but measure speed instead.  */
-#  undef EVALUATE_SPEED
+#undef EVALUATE_SPEED
 
 /* Use a global variable for Program Counter.  This makes it slower, but also
    makes debugging easier.  This is needed by the VIC-II emulation, so avoid
@@ -302,10 +303,11 @@ inline static void evaluate_speed(unsigned long clk)
         diff_time=current_time-old_time;
         diff_sec=diff_time/1000.0;
 	if (old_clk)
-	    fprintf (logfile, "%ld cycles in %f seconds: %f%% speed\n",
-		    clk - old_clk, diff_sec,
-		    100.0 * (((double)(clk - old_clk)
-			      / diff_sec) / 1108405.0));
+	    log_message (LOG_DEFAULT,
+                         "%ld cycles in %f seconds: %f%% speed.",
+                         clk - old_clk, diff_sec,
+                         100.0 * (((double)(clk - old_clk)
+                                   / diff_sec) / 1108405.0));
 	old_clk = clk;
 	next_clk = old_clk + EVALUATE_INTERVAL;
 	old_time = current_time;
@@ -324,10 +326,11 @@ inline static void evaluate_speed(unsigned long clk)
 	current_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
 
 	if (old_clk)
-	    fprintf (logfile, "%ld cycles in %f seconds: %f%% speed\n",
-		    clk - old_clk, current_time - old_time,
-		    100.0 * (((double)(clk - old_clk)
-			      / (current_time - old_time)) / 1108405.0));
+	    log_message (LOG_DEFAULT,
+                         "%ld cycles in %f seconds: %f%% speed.",
+                         clk - old_clk, current_time - old_time,
+                         100.0 * (((double)(clk - old_clk)
+                                   / (current_time - old_time)) / 1108405.0));
 
 	old_clk = clk;
 	next_clk = old_clk + EVALUATE_INTERVAL;
@@ -349,7 +352,7 @@ static void reset(void)
 
     preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
 
-    fprintf(logfile, "Main CPU: RESET\n");
+    log_message(LOG_DEFAULT, "Main CPU: RESET.");
 
     serial_reset();
 
@@ -402,7 +405,7 @@ void mainloop(ADDRESS start_address)
     else
 	JUMP(LOAD_ADDR(0xfffc));
 
-    fprintf(logfile, "Main CPU: starting at $%04X.\n", reg_pc);
+    log_message(LOG_DEFAULT, "Main CPU: starting at $%04X.", reg_pc);
 
     while (1) {
 
@@ -414,8 +417,10 @@ void mainloop(ADDRESS start_address)
 
 #ifdef IO_AREA_WARNING
 	if (!bank_base)
-	    fprintf (logfile, "Executing from I/O area at $%04X: "
-		    "$%02X $%02X $%04X at clk %ld\n", reg_pc, p0, p1, p2, clk);
+	    log_warning (LOG_DEFAULT,
+                         "Executing from I/O area at $%04X: "
+                         "$%02X $%02X $%04X at clk %ld.",
+                         reg_pc, p0, p1, p2, clk);
 #endif
 
 

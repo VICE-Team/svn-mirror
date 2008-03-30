@@ -147,7 +147,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
     if (autostart_program_name
         && machine_read_snapshot(autostart_program_name) < 0)
-        ui_error("Cannot load snapshot file\n");
+        ui_error("Cannot load snapshot file.");
     ui_update_menus();
 }
 
@@ -423,7 +423,7 @@ int autostart_autodetect(const char *file_name, const char *program_name)
 	return -1;
 
     if (!autostart_enabled) {
-	fprintf(errfile, "Couldn't autostart - unknown kernal!");
+	warn(pwarn, -1, "Couldn't autostart - unknown kernal!");
 	return -1;
     }
     if (autostart_disk(file_name, program_name) == 0)

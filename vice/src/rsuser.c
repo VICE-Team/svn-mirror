@@ -29,6 +29,8 @@
  * machine and does not try to catch rogue attempts...
  */
 
+/* FIXME: Should keep its own log.  */
+
 #include "vice.h"
 
 #ifdef STDC_HEADERS
@@ -36,11 +38,13 @@
 #endif
 
 #include "types.h"
+
 #include "cmdline.h"
+#include "interrupt.h"
+#include "log.h"
 #include "resources.h"
 #include "rs232.h"
 #include "rsuser.h"
-#include "interrupt.h"
 #include "vmachine.h"
 
 static file_desc_t fd = ILLEGAL_FILE_DESC;
@@ -101,8 +105,8 @@ static int set_up_enabled(resource_value_t v) {
     }
     bit_clk_ticks = char_clk_ticks / 10.0;
 #ifdef DEBUG
-    fprintf(logfile, "RS232: %d cycles per char (cycles_per_sec=%ld)\n",
-           char_clk_ticks, cycles_per_sec);
+    log_debug("RS232: %d cycles per char (cycles_per_sec=%ld).",
+              char_clk_ticks, cycles_per_sec);
 #endif
     return 0;
 }
@@ -197,10 +201,6 @@ void rsuser_reset(void) {
 
 static void rsuser_setup(void)
 {
-    /* switch rs232 on */
-#ifdef DEBUG
-    fprintf(logfile, "switch rs232 on\n");
-#endif
     rxstate = 0;
     clk_start_rx = 0;
     clk_start_tx = 0;
@@ -213,10 +213,6 @@ void rsuser_write_ctrl(BYTE b) {
     int new_dtr = b & DTR_OUT;	/* = 0 is active, != 0 is inactive */
     int new_rts = b & RTS_OUT;	/* = 0 is active, != 0 is inactive */
 
-#ifdef DEBUG
-fprintf(logfile, "userport_serial_write_ctrl(b=%02x (dtr=%02x, rts=%02x)\n",
-		b, new_dtr, new_rts);
-#endif
     if(rsuser_enabled) {
         if(dtr && !new_dtr) {
 	    rsuser_setup();
@@ -224,7 +220,7 @@ fprintf(logfile, "userport_serial_write_ctrl(b=%02x (dtr=%02x, rts=%02x)\n",
         if(new_dtr && !dtr && fd != ILLEGAL_FILE_DESC) {
 #if 0	/* This is a bug in the X-line handshake of the C64... */
 #ifdef DEBUG
-            fprintf(logfile, "switch rs232 off\n");
+            log_message(LOG_DEBUG, "switch rs232 off.");
 #endif
 	    maincpu_unset_alarm(A_RSUSER);
             rs232_close(fd);
@@ -242,18 +238,14 @@ static void check_tx_buffer(void) {
 
     while(valid >= 10 && (buf & masks[valid-1])) valid--;
 
-    /* fprintf(logfile, "rsuser_write_sr(%02x), buf=%x, valid=%d\n",b, buf, valid); */
-
     if(valid>=10) {	/* (valid-1)-th bit is not set = start bit! */
 	if(!(buf & masks[valid-10])) {
-	    fprintf(errfile, "frame error!\n");
+	    log_error(LOG_DEFAULT, "Frame error!");
 	} else {
 	    c = (buf >> (valid-9)) & 0xff;
-	    /*fprintf(logfile, "rsuser_send %c (%02x), buf=%x, valid=%d\n",
-						code[c],code[c], buf, valid);*/
 	    if(fd != ILLEGAL_FILE_DESC) {
 #ifdef DEBUG
-		fprintf(logfile, "\"%c\" (%02x)\n", code[c], code[c]);
+		log_debug("\"%c\" (%02x).", code[c], code[c]);
 #endif
 		rs232_putc(fd, code[c]);
 	    }
@@ -265,14 +257,12 @@ static void check_tx_buffer(void) {
 static void keepup_tx_buffer(void) {
 
     if((!clk_start_bit) || clk < clk_start_bit) return;
-/*
-fprintf(logfile, "keepup: clk=%d, _bit=%d, tx=%d, tx+char=%d\n",
-		clk, clk_start_bit, clk_start_tx, clk_start_tx + char_clk_ticks);
-*/
+
     while(clk_start_bit < (clk_start_tx + char_clk_ticks)) {
 #ifdef DEBUG
-	fprintf(logfile, "keepup: clk=%d, _bit=%d (%d), _tx=%d\n",
-		clk, clk_start_bit-clk_start_tx, clk_start_bit, clk_start_tx);
+	log_debug("keepup: clk=%d, _bit=%d (%d), _tx=%d.",
+                  clk, clk_start_bit-clk_start_tx, clk_start_bit,
+                  clk_start_tx);
 #endif
 	buf= buf<< 1;
 	if(txbit) buf|= 1;
@@ -291,8 +281,8 @@ fprintf(logfile, "keepup: clk=%d, _bit=%d, tx=%d, tx+char=%d\n",
 
 void rsuser_set_tx_bit(int b) {
 #ifdef DEBUG
-    fprintf(logfile, "rsuser_set_tx(clk=%d, clk_start_tx=%d, b=%d)\n",
-		clk, clk_start_tx, b);
+    log_debug("rsuser_set_tx(clk=%d, clk_start_tx=%d, b=%d).",
+              clk, clk_start_tx, b);
 #endif
 
     if(fd<0 || rsuser_enabled > 2400) {
@@ -309,9 +299,6 @@ void rsuser_set_tx_bit(int b) {
 	clk_start_tx = clk + (bit_clk_ticks / 2) ;
 	clk_start_bit = clk_start_tx;
 	txdata = 0;
-#ifdef DEBUG
-fprintf(logfile, "\n");
-#endif
     }
 }
 
@@ -321,8 +308,8 @@ BYTE rsuser_get_rx_bit(void) {
 	byte = 0;
 	bit = (clk - clk_start_rx)/(bit_clk_ticks);
 #ifdef DEBUG
-	fprintf(logfile, "read ctrl(_rx=%d, clk-start_rx=%d -> bit=%d)\n",
-		clk_start_rx, clk-clk_start_rx, bit);
+	log_debug("read ctrl(_rx=%d, clk-start_rx=%d -> bit=%d)",
+                  clk_start_rx, clk-clk_start_rx, bit);
 #endif
 	if(!bit) {
 	    byte = 0;	/* start bit */
@@ -353,9 +340,6 @@ void rsuser_tx_byte(BYTE b) {
 
 int int_rsuser(long offset) {
 	CLOCK rclk = clk - offset;
-#if 0 /* def DEBUG */
-        fprintf(logfile, "int_rsuser(clk=%d, rclk=%ld)\n",clk, clk-offset);
-#endif
 
         keepup_tx_buffer();
 

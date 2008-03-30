@@ -388,13 +388,14 @@ static int open_output_window(char *win_name, unsigned int width,
 
 /* ------------------------------------------------------------------------- */
 
-/* handle mode changes (needed on RISC OS) */
+/* Handle mode changes (needed on RISC OS).  */
 
 int handle_mode_change(void)
 {
     int i;
 
-    if (palette == NULL) return 0;
+    if (palette == NULL)
+        return 0;
 
     canvas_set_palette(canvas, palette, pixel_table);
 
@@ -416,7 +417,7 @@ int handle_mode_change(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* set a new palette */
+/* Set a new palette. */
 
 static int set_palette_file_name(resource_value_t v)
 {
@@ -430,7 +431,7 @@ static int set_palette_file_name(resource_value_t v)
     }
 
     if (palette_load((char *) v, palette) < 0) {
-        fprintf(errfile, "Couldn't load palette `%s'\n", (char *) v);
+        log_error(LOG_DEFAULT, "Couldn't load palette `%s'.", (char *) v);
         return -1;
     }
     canvas_set_palette(canvas, palette, pixel_table);
@@ -678,7 +679,8 @@ inline static int _fill_sprite_cache(struct line_cache *ll, int *xs, int *xe)
 inline static void add_line(int y, int xs, int xe)
 {
 #ifdef RASTER_DEBUG_PUTIMAGE_CALLS 
-    fprintf(logfile, "add_line(): y = %d, xs = %d, xe = %d\n", y, xs, xe);
+    log_message(LOG_DEFAULT, "add_line(): y = %d, xs = %d, xe = %d.",
+                y, xs, xe);
 #endif
 
     if (changed_area.is_null) {
@@ -693,9 +695,11 @@ inline static void add_line(int y, int xs, int xe)
     }
 
 #ifdef RASTER_DEBUG_PUTIMAGE_CALLS 
-    fprintf(logfile, "add_line(): current changed_area has "
-	   "ys = %d, ye = %d, xs = %d, xe = %d\n",
-     changed_area.ys, changed_area.ye, changed_area.xs, changed_area.xe);
+    log_message(LOG_DEFAULT,
+                "add_line(): current changed_area has "
+                "ys = %d, ye = %d, xs = %d, xe = %d.",
+                changed_area.ys, changed_area.ye,
+                changed_area.xs, changed_area.xe);
 #endif
 }
 
@@ -735,12 +739,12 @@ inline static void refresh_changed(void)
     h *= pixel_height;
 
 #if defined (RASTER_DEBUG_PUTIMAGE_CALLS)
-    fprintf(logfile, "Refresh x=%d y=%d xx=%d yy=%d w=%d h=%d scrw=%d scrh=%d\n",
-		 x, y, xx, yy, w, h, SCREEN_WIDTH, SCREEN_HEIGHT);
-    fprintf(logfile, "        changed: xs=%d ys=%d xe=%d ye=%d\n", 
-		changed_area.xs, changed_area.ys, changed_area.xe, changed_area.ye); 
-    fprintf(logfile, "    window: x=%d y=%d w=%d h=%d\n", 
-		window_first_x, window_first_line, window_width, window_height);
+    log_message(LOG_DEFAULT, "Refresh x=%d y=%d xx=%d yy=%d w=%d h=%d scrw=%d scrh=%d.",
+           x, y, xx, yy, w, h, SCREEN_WIDTH, SCREEN_HEIGHT);
+    log_message(LOG_DEFAULT, "        changed: xs=%d ys=%d xe=%d ye=%d.", 
+           changed_area.xs, changed_area.ys, changed_area.xe, changed_area.ye); 
+    log_message(LOG_DEFAULT, "    window: x=%d y=%d w=%d h=%d.", 
+           window_first_x, window_first_line, window_width, window_height);
 #endif
 
     x += 2 * SCREEN_MAX_SPRITE_WIDTH;
@@ -756,12 +760,12 @@ inline static void refresh_changed(void)
 inline static void refresh_all(void)
 {
 #if defined (RASTER_DEBUG_PUTIMAGE_CALLS)
-    fprintf(logfile, "Global refresh %d %d %d %d %d %d\n",
-	   window_first_x * pixel_width + 2 * SCREEN_MAX_SPRITE_WIDTH,
-	   window_first_line * pixel_height,
-	   window_x_offset, window_y_offset,
-	   MIN(window_width, SCREEN_WIDTH * pixel_width),
-	   MIN(window_height, SCREEN_HEIGHT * pixel_height));
+    log_message(LOG_DEFAULT, "Global refresh %d %d %d %d %d %d.",
+                window_first_x * pixel_width + 2 * SCREEN_MAX_SPRITE_WIDTH,
+                window_first_line * pixel_height,
+                window_x_offset, window_y_offset,
+                MIN(window_width, SCREEN_WIDTH * pixel_width),
+                MIN(window_height, SCREEN_HEIGHT * pixel_height));
 #endif
     canvas_refresh(canvas, frame_buffer,
 		   window_first_x * pixel_width + 2 * SCREEN_MAX_SPRITE_WIDTH,

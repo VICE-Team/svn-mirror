@@ -24,6 +24,7 @@
  *
  */
 
+/* FIXME: Should keep its own logging.  */
 
 #include "vice.h"
 
@@ -125,7 +126,7 @@ static int write_pr(void *var, BYTE byte, int secondary)
     /* FIXME: switch(secondary) for code conversion */
 
     if(!inuse) {
-	fprintf(errfile,"prdevice: printing while printer not open!\n");
+	log_error(LOG_DEFAULT, "Printing while printer not open!");
 	return -1;
     }
 
@@ -135,13 +136,13 @@ static int write_pr(void *var, BYTE byte, int secondary)
 static int open_pr(void *var, char *name, int length, int secondary)
 {
     if(inuse) {
-	fprintf(errfile, "prdevice: open printer while still open - ignoring\n");
+	log_error(LOG_DEFAULT, "Open printer while still open - ignoring.");
 	return 0;
     }
 
     currfd = print_open(pr4_device);
     if(currfd == ILLEGAL_FILE_DESC) {
-	fprintf(errfile, "prdevice: Couldn't open device %d\n", pr4_device);
+	log_error(LOG_DEFAULT, "Couldn't open device %d.", pr4_device);
 	return -1;
     }
 
@@ -154,7 +155,7 @@ static int open_pr(void *var, char *name, int length, int secondary)
 static int close_pr(void *var, int secondary)
 {
     if(!inuse) {
-	fprintf(errfile, "prdevice: close printer while being closed - ignoring\n");
+	log_error(LOG_DEFAULT, "Close printer while being closed - ignoring.");
 	return 0;
     }
 
@@ -168,7 +169,7 @@ static int close_pr(void *var, int secondary)
 static void flush_pr(void *var, int secondary)
 {
     if(!inuse) {
-	fprintf(errfile, "prdevice: flush printer while being closed - ignoring\n");
+	log_error(LOG_DEFAULT, "Flush printer while being closed - ignoring.");
 	return;
     }
 
@@ -197,6 +198,6 @@ static int prdevice_attach(int device)
 
 static int prdevice_detach(int device)
 {
-    fprintf(errfile, "Printer device #4: Don't know how to detach (yet)\n");
+    log_error(LOG_DEFAULT, "Device 4: Don't know how to detach (yet).");
     return 0;
 }

@@ -50,22 +50,24 @@
 #include "ROlib.h"
 #else
 #include <unistd.h>
+#include <errno.h>
 #endif
 #endif
 
-#include "tapeunit.h"
-#include "maincpu.h"
-#include "serial.h"
-#include "file.h"
-#include "vdrive.h"
-#include "tape.h"
 #include "c1541.h"
-#include "traps.h"
-#include "zfile.h"
-#include "tape.h"
-#include "utils.h"
-#include "resources.h"
 #include "charsets.h"
+#include "file.h"
+#include "log.h"
+#include "maincpu.h"
+#include "resources.h"
+#include "serial.h"
+#include "tape.h"
+#include "tape.h"
+#include "tapeunit.h"
+#include "traps.h"
+#include "utils.h"
+#include "vdrive.h"
+#include "zfile.h"
 
 /* #define  DEBUG_TAPE */
 
@@ -95,6 +97,8 @@ static char *typenames[] = {
     "P00", "T64 Image", "X64 Disk Image"
 };
 
+static log_t tapeunit_log = LOG_ERR;
+
 /* ------------------------------------------------------------------------- */
 
 /* Initialize the tape emulation, using the traps in `trap_list'.  */
@@ -103,6 +107,9 @@ int tape_init(int _bufpaddr, int _status, int _verfl, int _irqtmp,
 	      int _kbdbuf, int _nkeys)
 {
     const trap_t *p;
+
+    if (tapeunit_log == LOG_ERR)
+        tapeunit_log = log_open("TAPE");
 
     /* Set addresses of tape routine variables.  */
     status = _status;
@@ -140,7 +147,7 @@ int tape_init(int _bufpaddr, int _status, int _verfl, int _irqtmp,
 			     (int (*)(void *, char *, int, int)) fn,
 			     (int (*)(void *, int)) fn,
 			     (void (*)(void *, int)) fn)) {
-	fprintf(logfile, "could not initialize Cassette ????\n");
+	log_error(tapeunit_log, "Could not initialize tape.");
 	return -1;
     }
     return 0;
@@ -156,7 +163,8 @@ void tape_detach_image(TAPE *tape)
 	return;
 
     if (tape->FileDs != NULL) {
-	fprintf(logfile, "Detaching tape image %s\n", tape->ActiveName);
+	log_message(tapeunit_log,
+                    "Detaching tape image `%s'.", tape->ActiveName);
 	zfclose(tape->FileDs);
 	tape->FileDs = NULL;
 	tape->ActiveName[0] = 0;	/* Name is used as flag */
@@ -206,50 +214,19 @@ int tape_attach_image(TAPE *tape, const char *name, int mode)
 
     tape_detach_image(tape);
 
-    if (!name || !*name) {
-	fprintf(logfile, "No name, detaching image.\n");
+    if (!name || !*name)
 	return -1;
-    }
-    tape->FileDs = zfopen(name, mode ? "rwb" : "rb");
-    if ((tape->FileDs == NULL) || ((flen = file_length(fileno(tape->FileDs))) < 0)) {
-	perror(name);
 
-	fprintf(logfile, "Tape: cannot open file `%s'.\n", name);
+    tape->FileDs = zfopen(name, mode ? "rwb" : "rb");
+    if (tape->FileDs == NULL
+        || (flen = file_length(fileno(tape->FileDs))) < 0) {
+	log_error(tapeunit_log, "Cannot open file `%s': %s",
+                  name, strerror(errno));
 	return FD_NOTRD;
     }
 
     /* Create new file for writing ?  If so, write image header.  IF no
        format is specified, try to figure it out of the extension.  */
-
-    if (flen == 0) {
-	if (!mode) {
-	    fprintf(logfile, "Tape: Cannot open file `%s'.\n", name);
-	    return FD_BADIMAGE;
-	}
-	/* Writing: Try to get format out of filename ... */
-
-	if (format < 0) {
-	    if (is_pc64name(name) >= 0)
-		format = TFF_P00;
-	    else if (is_t64name(name) > 0)
-		format = TFF_TAPE;
-	}
-	switch (format) {
-
-	  case TFF_CBM:	/* Do nothing */
-            break;
-
-	  case TFF_P00:	/* Write P00 image header */
-
-	  default:
-            fprintf(errfile, "cannot create tape %s: %s format specified.\n",
-                    name, (format < 0) ? "No" : "Illegal");
-
-            return FD_BADIMAGE;
-	}			/* switch */
-
-	return FD_OK;
-    }
 
     /* Define the format of Image File attached.  */
     if (read_pc64header(tape->FileDs, realname, &reclen) == FD_OK) {
@@ -271,13 +248,10 @@ int tape_attach_image(TAPE *tape, const char *name, int mode)
     }
     if (format < 0) {		/* There is no header.  */
 	if (is_valid_prgfile(tape->FileDs)) {
-	    fprintf(errfile, "Tape: Not Relocatable Program File.\n");
+	    log_warning(tapeunit_log, "Not Relocatable Program File.");
 	    format = TFF_CBM;
 	} else {
-#ifdef DEBUG_TAPE
-	    fprintf(logfile, "Tape: realtype %d  entries %d.\n", format, entries);
-#endif
-	    fprintf(errfile, "Tape: Invalid fileformat.\n");
+	    log_error(tapeunit_log, "Invalid file format.");
 	    return -1;
 	}
     }
@@ -285,13 +259,10 @@ int tape_attach_image(TAPE *tape, const char *name, int mode)
     tape->entries = entries;
     strcpy(tape->ActiveName, name);
 
-#ifdef DEBUG_TAPE
-    fprintf(logfile, "Tape: realtype %d  entries %d.\n", format, entries);
-#endif
+    log_message(tapeunit_log, "Tape file '%s' [%s] attached.",
+                name, typenames[format]);
 
-    fprintf(logfile, "Tape file '%s' [%s] attached.\n", name, typenames[format]);
-
-    /* Tape attached: press play. */
+    /* Tape attached: press play.  */
     mem_set_tape_sense(1);
 
     return 0;
@@ -340,13 +311,8 @@ void findheader(void)
     int sense = 0;
     int err = 0;
 
-    if (tape->FileDs == NULL) {
-	fprintf(errfile, "No Tape.\n");
+    if (tape->FileDs == NULL)
 	err++;
-    }
-#ifdef DEBUG_TAPE
-    fprintf(errfile, "findheader\n");
-#endif
 
     /*
      * Load next filename record
@@ -404,23 +370,13 @@ void findheader(void)
             break;
 
 	  default:
-            fprintf(errfile, "Tape: Invalid fileformat.\n");
+            log_error(tapeunit_log, "Invalid file format.");
 
 	}			/* switch */
     }
     if (err) {
 	s[CAS_TYPE_OFFSET] = CAS_TYPE_EOF;
     }
-#ifdef DEBUG_TAPE
-    fprintf(errfile, "Tape: find next header (type %d).\n",
-	    s[CAS_TYPE_OFFSET]);
-
-    fprintf(logfile, " BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
-\t\t    STAL c1/c2 %02X%02X  MEMUSS c3/c4 %02X%02X\n",
-	   CAS_BUFFER_OFFSET,
-	   ram[0xad], ram[0xac], ram[eal + 1], ram[eal],
-	   ram[stal + 1], ram[stal], ram[0xc4], ram[0xc3]);
-#endif
 
     mem_store(status, 0);	/* Clear the STATUS word */
 
@@ -444,105 +400,6 @@ void findheader(void)
 
     MOS6510_REGS_SET_ZERO(&maincpu_regs, 1);
 }
-
-
-/* Write the Tape Header onto the Tape Buffer and pad the buffer with $20's.
-   Then send it to tape along with a 10-second sync leader (short pulses).
-   We only need to trap the Tape-Write-Block routine.  For details on the
-   Entry format see the description above.
-
-   Always confirm the file to save onto.  */
-
-void writeheader(void)
-{
-    BYTE *s;
-    int sense = 0;
-#ifdef DEBUG_TAPE
-    fprintf(errfile, "writeheader\n");
-#endif
-
-    if (tape->FileDs == NULL) {
-	fprintf(errfile, "No Tape.\n");
-    }
-    /* Write the filename record on tape */
-
-    s = ram + CAS_BUFFER_OFFSET;
-
-    if (tape->FileDs != NULL) {
-	++sense;
-
-	switch (tape->ImageFormat) {
-
-	  case TFF_CBM:	/* Plain file - Write Load Address */
-            fwrite(s + CAS_STAD_OFFSET, 1, 2, tape->FileDs);	/* Load Addr */
-            break;
-
-
-	  case TFF_P00:	/* Write P00 image header */
-            write_pc64header(tape->FileDs, (char *) (s + CAS_NAME_OFFSET), 0);
-            fwrite(s + CAS_STAD_OFFSET, 1, 2, tape->FileDs);	/* Load Addr */
-            break;
-
-
-	  case TFF_INDEX:
-            sense = 0;
-            break;
-
-
-            /*case FS: */
-	  case TFF_SFX:
-	  case TFF_LYNX:
-	  case TFF_TAPE:
-            fprintf(errfile, "Tape: No writing allowed on format specified.\n");
-            sense = 0;
-            break;
-
-	  case TFF_DISK:
-            sense = 0;
-            break;
-
-	  default:
-            fprintf(errfile, "Tape: Invalid fileformat.\n");
-
-	}			/* switch */
-    }
-#ifdef DEBUG_TAPE
-    fprintf(errfile, "Tape: write file header.\n");
-
-    fprintf(logfile, " BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
-\t\t    STAL c1/c2 %02X%02X  MEMUSS c3/c4 %02X%02X\n",
-	   CAS_BUFFER_OFFSET,
-	   ram[0xad], ram[0xac], ram[eal + 1], ram[eal],
-	   ram[stal + 1], ram[stal], ram[0xc4], ram[0xc3]);
-#endif
-
-
-    if (irqtmp) {
-	mem_store(irqtmp, irqval & 0xff);
-	mem_store(irqtmp + 1, (irqval >> 8) & 0xff);
-    }
-
-    /* Carry flag sets BREAK error */
-    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
-    MOS6510_REGS_SET_ZERO(&maincpu_regs, 1);
-}
-
-
-/* This function is unreliable (open/close) and thus not used. It's easier
-   to just check for any transitions on the Motor Control line.  */
-
-#if 0
-void checkplay(void)
-{
-
-#ifdef DEBUG_TAPE
-    fprintf(errfile, "Tape: check play on tape.\n");
-#endif
-
-}
-
-#endif
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -569,46 +426,9 @@ void tapereceive(void)
     start = (mem_read(stal) | (mem_read(stal + 1) << 8));	/* C64: STAL */
     end = (mem_read(eal) | (mem_read(eal + 1) << 8));	/* C64: EAL */
 
-#ifdef DEBUG_TAPE
-    fprintf(errfile, "TapeReceive: start %04X  end %04X\n",
-	    start, end);
+    if (MOS6510_REGS_GET_X(&maincpu_regs) == 0x0e) {
 
-    fprintf(logfile, " BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
-\t\t    STAL c1/c2 %02X%02X  MEMUSS c3/c4 %02X%02X\n",
-	   CAS_BUFFER_OFFSET,
-	   ram[0xad], ram[0xac], ram[eal + 1], ram[eal],
-	   ram[stal + 1], ram[stal], ram[0xc4], ram[0xc3]);
-#endif
-
-
-    switch (MOS6510_REGS_GET_X(&maincpu_regs)) {
-      case 0x0a:		/* Write Leader */
-        break;
-
-
-      case 0x08:		/* Write Block */
-
-#ifdef DEBUG_TAPE
-        fprintf(errfile, "Tape: send next block.\n");
-#endif
-
-        len = end - start;
-
-        if (fwrite(ram + start, len, 1, tape->FileDs) == 1) {
-            st |= 0x40;	/* EOF */
-        } else {
-            st |= 0xB4;	/* All possible errors... */
-
-            fprintf(errfile, "Error: Tape write failed.\n");
-        }
-        break;
-
-
-      case 0x0e:		/* Read Block */
-
-#ifdef DEBUG_TAPE
-        fprintf(errfile, "Tape: get next block.\n");
-#endif
+        /* Read block.  */
 
         len = end - start;
 
@@ -617,17 +437,13 @@ void tapereceive(void)
         } else {
             st |= 0x10;
 
-            fprintf(errfile,
-                    "Error: Unexpected end of tape. File may be truncated.\n");
+            log_error(tapeunit_log,
+                      "Unexpected end of tape.  File may be truncated.");
         }
-
-        break;
-
-      default:
-        fprintf(errfile, "Tape: unknown command.\n");
-
-    }				/* switch */
-
+    } else {
+        log_error(tapeunit_log, "Unknown command $02X.",
+                  MOS6510_REGS_GET_X(&maincpu_regs));
+    }
 
     /*
      * Set registers and flags like the ML routine does

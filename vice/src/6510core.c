@@ -31,7 +31,8 @@
 #endif
 
 #if 0
-#define UNDOC_WARNING() fprintf(logfile, CPU_STR " Warning: undocumented $%02X\n", p0);
+#define UNDOC_WARNING() \
+    log_warning(LOG_DEFAULT, CPU_STR " Warning: undocumented $%02X.", p0);
 #else
 #define UNDOC_WARNING()
 #endif
@@ -90,17 +91,6 @@
 #define LOCAL_ZERO()             (!flag_z)
 #define LOCAL_STATUS()           (reg_p | (flag_n & 0x80) | P_UNUSED    \
                                   | (LOCAL_ZERO() ? P_ZERO : 0))
-
-/* Additional debugging.  */
-#if 1 /* def __1541__ */
-#define DO_DEBUG(ab)    while(0)
-#else
-#define DO_DEBUG(ab)                                                    \
-    do {                                                                \
-        if (app_resources.debugFlag)                                    \
-            fprintf(logfile, "CPU " ab " at clk=%d, PC=%04x\n", clk, reg_pc);     \
-    } while(0)
-#endif
 
 #ifdef LAST_OPCODE_INFO
 
@@ -1521,9 +1511,9 @@
             BYTE lo = p1;
             BYTE hi = p2 >> 8;
 
-            fprintf(logfile, "DRIVE: .%04X\t%ld\t%s\n",
-                   reg_pc, (long)drive_clk[0],
-                   sprint_disassembled(reg_pc, op, lo, hi, 1));
+            log_debug("DRIVE: .%04X\t%ld\t%s.",
+                      reg_pc, (long)drive_clk[0],
+                      sprint_disassembled(reg_pc, op, lo, hi, 1));
         }
 #else
         if (TRACEFLG) {
@@ -1531,10 +1521,10 @@
             BYTE lo = p1;
             BYTE hi = p2 >> 8;
 
-            fprintf(logfile, ".%04X %02x %02x %02x\t%ld\t%s\tA=$%02X X=$%02X Y=$%02X\n",
-                  reg_pc, op, lo, hi,
-                  (long)clk, sprint_opcode(reg_pc, 1),
-                  reg_a, reg_x, reg_y);
+            log_debug(".%04X %02x %02x %02x\t%ld\t%s\tA=$%02X X=$%02X Y=$%02X.",
+                      reg_pc, op, lo, hi,
+                      (long)clk, sprint_opcode(reg_pc, 1),
+                      reg_a, reg_x, reg_y);
        }
 #endif
 #endif
