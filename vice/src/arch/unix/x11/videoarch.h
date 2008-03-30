@@ -59,7 +59,7 @@ typedef struct _canvas *canvas_t;
 /* Triple buffering is never available on X11.  */
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
-struct frame_buffer_s {
+struct video_frame_buffer_s {
     XImage *x_image;
 #ifdef USE_GNOMEUI
     GdkImage *gdk_image;
@@ -76,7 +76,7 @@ struct frame_buffer_s {
 #endif
     GC gc;
 };
-typedef struct frame_buffer_s frame_buffer_t;
+typedef struct video_frame_buffer_s video_frame_buffer_t;
 
 typedef PIXEL *frame_buffer_ptr_t;
 typedef ui_exposure_handler_t canvas_redraw_t;
@@ -84,17 +84,18 @@ typedef ui_exposure_handler_t canvas_redraw_t;
 extern GC _video_gc;
 extern int _video_use_xsync;
 
-#define FRAME_BUFFER_POINTER_FIXUP(x)   ((*x))
+#define VIDEO_FRAME_BUFFER_POINTER_FIXUP(x) ((x))
 #if X_DISPLAY_DEPTH == 0
-#define FRAME_BUFFER_START(i)		((i).tmpframebuffer)
-#define FRAME_BUFFER_LINE_SIZE(i)	((i).tmpframebufferlinesize)
-#define FRAME_BUFFER_LINE_START(i, n)	((i).tmpframebuffer \
-					 + (n) * (i).tmpframebufferlinesize)
+#define VIDEO_FRAME_BUFFER_START(i)         ((i)->tmpframebuffer)
+#define VIDEO_FRAME_BUFFER_LINE_SIZE(i)     ((i)->tmpframebufferlinesize)
+#define VIDEO_FRAME_BUFFER_LINE_START(i, n) ((i)->tmpframebuffer \
+                                            + (n) * (i)->tmpframebufferlinesize)
 #else
-#define FRAME_BUFFER_START(i)		((PIXEL *)((i).x_image->data))
-#define FRAME_BUFFER_LINE_SIZE(i)	((i).x_image->bytes_per_line/sizeof(PIXEL))
-#define FRAME_BUFFER_LINE_START(i, n)	(PIXEL *)((i).x_image->data \
-					 + (n) * (i).x_image->bytes_per_line)
+#define VIDEO_FRAME_BUFFER_START(i)         ((PIXEL *)((i)->x_image->data))
+#define VIDEO_FRAME_BUFFER_LINE_SIZE(i)     ((i)->x_image->bytes_per_line \
+                                            / sizeof(PIXEL))
+#define VIDEO_FRAME_BUFFER_LINE_START(i, n) (PIXEL *)((i)->x_image->data \
+					    + (n) * (i)->x_image->bytes_per_line)
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -127,8 +128,8 @@ extern void ui_finish_canvas(canvas_t c);
 extern void video_convert_save_pixel(void);
 extern void video_convert_restore_pixel(void);
 extern void video_refresh_func(void (*rfunc)(void));
-extern int video_convert_func(frame_buffer_t *i, int depth, unsigned int width,
-                              unsigned int height);
+extern int video_convert_func(video_frame_buffer_t *i, int depth,
+                              unsigned int width, unsigned int height);
 extern void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
                                       XImage *im,
                                       const struct palette_s *palette,
