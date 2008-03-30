@@ -39,7 +39,7 @@
 #define SLOT_NR_BLOCKS        30
 
 extern int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
-                                       int length, int filetype, int secondary,
+                                       int length, int filetype,
                                        BYTE *outputptr);
 extern void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
                                        int length, int type);
