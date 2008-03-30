@@ -68,7 +68,7 @@ typedef struct mps_s mps_t;
 /* We will make this dynamic later.  */
 static BYTE charset[512][7];
 static mps_t drv_mps803[3];
-static palette_t *palette;
+static palette_t *palette = NULL;
 
 /* Logging goes here.  */
 static log_t drv803_log = LOG_ERR;
@@ -402,10 +402,16 @@ int drv_mps803_init(void)
         return -1;
 
     if (palette_load("mps803" FSDEV_EXT_SEP_STR "vpl", palette) < 0) {
-        log_error(drv803_log, "Cannot load palette file `%s'.", "mps803" FSDEV_EXT_SEP_STR "vpl");
+        log_error(drv803_log, "Cannot load palette file `%s'.",
+                  "mps803" FSDEV_EXT_SEP_STR "vpl");
         return -1;
     }
 
     return 0;
+}
+
+void drv_mps803_shutdown(void)
+{
+    palette_free(palette);
 }
 

@@ -51,6 +51,7 @@
 
 #include "cmdline.h"
 #include "coproc.h"
+#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "types.h"
@@ -64,7 +65,7 @@
 
 #define NUM_DEVICES 4
 
-static char *devfile[NUM_DEVICES];
+static char *devfile[NUM_DEVICES] = { NULL, NULL, NULL, NULL };
 static int devbaud[NUM_DEVICES];
 
 static int set_devfile(resource_value_t v, void *param)
@@ -112,6 +113,14 @@ static const resource_t resources[] = {
 int rs232_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void rs232_resources_shutdown(void)
+{
+    lib_free(devfile[0]);
+    lib_free(devfile[1]);
+    lib_free(devfile[2]);
+    lib_free(devfile[3]);
 }
 
 static const cmdline_option_t cmdline_options[] = {

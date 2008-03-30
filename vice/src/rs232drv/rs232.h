@@ -59,6 +59,7 @@ extern int rs232_putc(int fd, BYTE b);
 extern int rs232_getc(int fd, BYTE *b);
 
 extern int rs232_resources_init(void);
+extern void rs232_resources_shutdown(void);
 extern int rs232_cmdline_options_init(void);
 
 #endif

@@ -67,6 +67,11 @@ int rs232drv_resources_init(void)
     return rs232_resources_init();
 }
 
+void rs232drv_resources_shutdown(void)
+{
+    rs232_resources_shutdown();
+}
+
 int rs232drv_cmdline_options_init(void)
 {
     return rs232_cmdline_options_init();
@@ -106,6 +111,10 @@ int rs232drv_getc(int fd, BYTE *b)
 int rs232drv_resources_init(void)
 {
     return 0;
+}
+
+void rs232drv_resources_shutdown(void)
+{
 }
 
 int rs232drv_cmdline_options_init(void)

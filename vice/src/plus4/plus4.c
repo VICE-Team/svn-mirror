@@ -256,6 +256,7 @@ void machine_resources_shutdown(void)
 {
     plus4_resources_shutdown();
     sound_resources_shutdown();
+    rs232drv_resources_shutdown();
     printer_resources_shutdown();
     drive_resources_shutdown();
 }

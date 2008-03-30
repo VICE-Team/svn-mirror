@@ -157,6 +157,7 @@ void machine_resources_shutdown(void)
 {
     cbm2_resources_shutdown();
     sound_resources_shutdown();
+    rs232drv_resources_shutdown();
     printer_resources_shutdown();
     drive_resources_shutdown();
 }
