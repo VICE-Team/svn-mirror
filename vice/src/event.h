@@ -29,6 +29,7 @@
 
 #define EVENT_LIST_END        0
 #define EVENT_KEYBOARD_MATRIX 1
+#define EVENT_JOYSTICK_VALUE  2
 
 struct snapshot_s;
 
