@@ -343,9 +343,12 @@ int archdep_expand_path(char **return_path, const char *filename)
         *return_path = stralloc(filename);
     else
     {
-        char *cwd = util_get_current_dir();
-        *return_path = concat(cwd, "\\", filename, NULL);
-        free(cwd);
+        char *p = (char *)malloc(512);
+        while (getcwd(p, 512) == NULL)
+            return 0;
+
+        *return_path = concat(p, "\\", filename, NULL);
+        free(p);
     }
     return 0;
 }
@@ -530,38 +533,12 @@ int archdep_file_is_gzip(const char *name)
 
 int archdep_file_set_gzip(const char *name)
 {
-  return 0;
-}
-
-// --------------------------------------------------------------------
-/*
-static int    argc;
-static char **argv;
-
-void ViceMain(void *arg)
-{
-    extern int Main(int ac, char **av);
-    Main(ac, av);
-}
-
-int main(int ac, char **av)
-{
-    TID tid;
-
-    argc = ac;
-    argv = av;
-
-    tid = _beginthread(ViceMain, NULL, 0x100000, NULL);
-
-    DosWaitThread(&tid, 0);  // * DCWW_WAIT *
-
     return 0;
 }
-*/
 
 int archdep_mkdir(const char *pathname, int mode)
 {
-    return mkdir(pathname, (mode_t)mode);
+    return mkdir((char*)pathname);
 }
 
 int archdep_file_is_blockdev(const char *name)

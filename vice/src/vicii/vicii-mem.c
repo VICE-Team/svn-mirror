@@ -614,7 +614,7 @@ inline static void store_d01c(BYTE value)
 
         sprite = vic_ii.raster.sprite_status->sprites + i;
 
-#if 0        
+#if 0
         if (sprite->x < raster_x)
             raster_add_int_change_next_line(&vic_ii.raster,
                                             &sprite->multicolor,
@@ -678,7 +678,7 @@ inline static void store_d01d(BYTE value)
                     actual_shift = (raster_x - sprite->x) / 2;
 
                 sprite->x_shift_sum += actual_shift;
-                
+
                 raster_add_int_change_sprites
                     (&vic_ii.raster,
                     raster_x,
@@ -709,7 +709,7 @@ inline static void store_d020(BYTE value)
     vic_ii.regs[0x20] = value;
     raster_add_int_change_border(&vic_ii.raster,
         VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
-        &vic_ii.raster.border_color,
+        (int*)&vic_ii.raster.border_color,
         value);
 }
 
@@ -737,7 +737,7 @@ inline static void store_d021(BYTE value)
     }
 
     raster_add_int_change_background(&vic_ii.raster, x_pos,
-                                     &vic_ii.raster.background_color, value);
+                                     (int*)&vic_ii.raster.background_color, value);
 
     vic_ii.regs[0x21] = value;
 }
@@ -802,7 +802,7 @@ inline static void store_d025(BYTE value)
     raster_add_int_change_sprites
         (&vic_ii.raster,
         VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 1,
-        &sprite_status->mc_sprite_color_1, (int)value);
+        (int*)&sprite_status->mc_sprite_color_1, (int)value);
 #endif
 
     vic_ii.regs[0x25] = value;
@@ -833,7 +833,7 @@ inline static void store_d026(BYTE value)
     raster_add_int_change_sprites
         (&vic_ii.raster,
         VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 1,
-        &sprite_status->mc_sprite_color_2, (int)value);
+        (int*)&sprite_status->mc_sprite_color_2, (int)value);
 #endif
 
     vic_ii.regs[0x26] = value;
@@ -867,9 +867,9 @@ inline static void store_sprite_color(ADDRESS addr, BYTE value)
         raster_add_int_change_sprites
             (&vic_ii.raster,
             VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 1,
-            &sprite->color, value);
+            (int*)&sprite->color, value);
 #endif
-        
+
     vic_ii.regs[addr] = value;
 }
 

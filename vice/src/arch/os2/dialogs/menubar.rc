@@ -131,8 +131,8 @@ BEGIN
    SUBMENU "Set~up",                   IDM_SETUP,        MIS_TEXT
    BEGIN
       MENUITEM "Video ~Cache",         IDM_VCACHE,       MIS_TEXT
-#if defined HAVE_PAL
-      MENUITEM "Double Size",          IDM_DSIZE,        MIS_TEXT
+#ifdef HAVE_PAL
+      MENUITEM "Double Size\tAlt-2",   IDM_DSIZE,        MIS_TEXT
       MENUITEM "Double Scan",          IDM_DSCAN,        MIS_TEXT
 #endif
 #ifdef HAVE_CRTC
@@ -147,15 +147,15 @@ BEGIN
 #ifdef HAVE_PAL
       SUBMENU "PAL Control",           IDM_PALCONTROL,   MIS_TEXT
       BEGIN
-#ifndef HAVE_TED
         SUBMENU "PAL Emulation",       IDM_PALEMU,       MIS_TEXT
         BEGIN
  	   MENUITEM "Off",             IDM_PALOFF,       MIS_TEXT
+#ifndef HAVE_TED
  	   MENUITEM "Fast",            IDM_PALFAST,      MIS_TEXT
+#endif
  	   MENUITEM "Sharp",           IDM_PALSHARP,     MIS_TEXT
  	   MENUITEM "Blur",            IDM_PALBLUR,      MIS_TEXT
         END
-#endif
         MENUITEM "Internal Palette",   IDM_INTERNALPAL,  MIS_TEXT
 #ifdef HAVE_VIC_II
         MENUITEM "New Luminances",     IDM_LUMINANCES,   MIS_TEXT

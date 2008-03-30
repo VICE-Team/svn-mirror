@@ -13,19 +13,20 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\dialogs"),
     incl(searchpath, "..\\..\\..\\.."),
     incl(searchpath, "..\\..\\..\\..\\c64"),
-    incl(searchpath, "..\\..\\..\\..\\sid"),
-    incl(searchpath, "..\\..\\..\\..\\tape"),
-    incl(searchpath, "..\\..\\..\\..\\resid"),
+    incl(searchpath, "..\\..\\..\\..\\diskimage"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
-    incl(searchpath, "..\\..\\..\\..\\vdrive"),
-    incl(searchpath, "..\\..\\..\\..\\raster"),
-    incl(searchpath, "..\\..\\..\\..\\monitor"),
-    incl(searchpath, "..\\..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\..\\fsdevice"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
-    incl(searchpath, "..\\..\\..\\..\\diskimage"),
+    incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
+    incl(searchpath, "..\\..\\..\\..\\raster"),
+    incl(searchpath, "..\\..\\..\\..\\rs232drv"),
+    incl(searchpath, "..\\..\\..\\..\\serial"),
+    incl(searchpath, "..\\..\\..\\..\\sid"),
+    incl(searchpath, "..\\..\\..\\..\\sounddrv"),
+    incl(searchpath, "..\\..\\..\\..\\tape"),
+    incl(searchpath, "..\\..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\vicii"),
     incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
@@ -41,35 +42,38 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "..\\..\\..\\..\\..\\data\\vice2.lib"
         source type (dll)
             "..\\..\\..\\..\\..\\data\\vice2.dll"
+
         source type(c)
-            "maincpu.c"
-        source type(c)
+            "maincpu.c",
             "mouse.c",
             "kbd-c64.c",
             "c64memlimit.c",
             "dialogs\\dlg-color.c"
 
-        include "../incl/resources.icc"
         include "../incl/archdep.icc"
-        include "../incl/mainsrc.icc"
         include "../incl/c64.icc"
         include "../incl/c64cart.icc"
-        include "../incl/kbd.icc"
         include "../incl/dialogs.icc"
-        include "../incl/monitor.icc"
+        include "../incl/diskimage.icc"
         include "../incl/drive.icc"
-        include "../incl/raster.icc"
-        include "../incl/vdrive.icc"
-        include "../incl/sounddrv.icc"
+        include "../incl/fsdevice.icc"
         include "../incl/gfxoutputdrv.icc"
+        include "../incl/ieee.icc"
+        include "../incl/imagecontents.icc"
+        include "../incl/kbd.icc"
+        include "../incl/mainsrc.icc"
+        include "../incl/monitor.icc"
         include "../incl/printerdrv.icc"
+        include "../incl/resid.icc"
+        include "../incl/serial.icc"
+        include "../incl/tape.icc"
+        include "../incl/resources.icc"
+        include "../incl/raster.icc"
+        include "../incl/rs232drv.icc"
+        include "../incl/sounddrv.icc"
+        include "../incl/vdrive.icc"
         include "../incl/vicii.icc"
         include "../incl/video.icc"
         include "../incl/vsid.icc"
-        include "../incl/resid.icc"
-        include "../incl/tape.icc"
-        include "../incl/imagecontents.icc"
-        include "../incl/fsdevice.icc"
-        include "../incl/diskimage.icc"
     }
 }

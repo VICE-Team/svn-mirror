@@ -1,8 +1,8 @@
 /*
- * resid.h - reSID interface code.
+ * blockdev.c
  *
  * Written by
- *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,12 +24,57 @@
  *
  */
 
-#ifndef _RESID_H
-#define _RESID_H
+#include "vice.h"
 
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#include "blockdev.h"
+#include "log.h"
 #include "types.h"
 
-extern sid_engine_t resid_hooks;
 
-#endif
+/*static log_t blockdev_log = LOG_DEFAULT;*/
+
+static int device;
+
+
+int blockdev_open(const char *name, unsigned int *read_only)
+{
+    return -1;
+}
+
+int blockdev_close(void)
+{
+    return -1;
+}
+
+/*-----------------------------------------------------------------------*/
+
+int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
+{
+    return -1;
+}
+
+int blockdev_write_sector(BYTE *buf, unsigned int track, unsigned int sector)
+{
+    return -1;
+}
+
+/*-----------------------------------------------------------------------*/
+
+void blockdev_init(void)
+{
+}
+
+int blockdev_resources_init()
+{
+    return 0;
+}
+
+int blockdev_cmdline_options_init()
+{
+    return 0;
+}
 

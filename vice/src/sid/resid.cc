@@ -30,9 +30,10 @@
 extern "C" {
 
 #include <string.h>
+
+#include "sid/sid.h" /* sid_engine_t */
 #include "log.h"
 #include "utils.h"
-#include "resid.h"
 #include "resources.h"
 #include "sound.h"
 #include "types.h"

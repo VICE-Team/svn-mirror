@@ -6,6 +6,7 @@ source type(c)
     "c128cia1.c",
     "c128cpu.c",
     "c128iec.c",
+    "c128io.c",
     "c128mem.c",
     "c128memlimit.c",
     "c128mmu.c",

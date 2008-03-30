@@ -1,4 +1,6 @@
 source type(c)
+    "diskcontents-block.c",
+    "diskcontents-iec.c",
     "diskcontents.c",
     "imagecontents.c",
     "tapecontents.c"

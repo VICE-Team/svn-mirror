@@ -12,19 +12,21 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\kbd"),
     incl(searchpath, "..\\..\\dialogs"),
     incl(searchpath, "..\\..\\..\\.."),
-    incl(searchpath, "..\\..\\..\\..\\plus4"),
-    incl(searchpath, "..\\..\\..\\..\\drive"),
-    incl(searchpath, "..\\..\\..\\..\\vdrive"),
-    incl(searchpath, "..\\..\\..\\..\\raster"),
-    incl(searchpath, "..\\..\\..\\..\\video"),
-    incl(searchpath, "..\\..\\..\\..\\monitor"),
-    incl(searchpath, "..\\..\\..\\..\\sounddrv"),
-    incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
-    incl(searchpath, "..\\..\\..\\..\\printerdrv"),
-    incl(searchpath, "..\\..\\..\\..\\tape"),
-    incl(searchpath, "..\\..\\..\\..\\fsdevice"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
+    incl(searchpath, "..\\..\\..\\..\\drive"),
+    incl(searchpath, "..\\..\\..\\..\\fsdevice"),
+    incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
+    incl(searchpath, "..\\..\\..\\..\\plus4"),
+    incl(searchpath, "..\\..\\..\\..\\printerdrv"),
+    incl(searchpath, "..\\..\\..\\..\\monitor"),
+    incl(searchpath, "..\\..\\..\\..\\rs232drv"),
+    incl(searchpath, "..\\..\\..\\..\\serial"),
+    incl(searchpath, "..\\..\\..\\..\\sounddrv"),
+    incl(searchpath, "..\\..\\..\\..\\tape"),
+    incl(searchpath, "..\\..\\..\\..\\raster"),
+    incl(searchpath, "..\\..\\..\\..\\vdrive"),
+    incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
     incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng"),
     incl(searchpathfirst, "yes"),
@@ -38,31 +40,33 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "..\\..\\..\\..\\..\\data\\vice2.lib"
         source type (dll)
             "..\\..\\..\\..\\..\\data\\vice2.dll"
-        source type(c)
-            "maincpu.c"
+
         source type(c)
             "rs232.c", // ???
             "mouse.c",
             "kbd-plus4.c",
             "dialogs\\dlg-color.c"
 
-        include "../incl/resources.icc"
         include "../incl/archdep.icc"
-        include "../incl/mainsrc.icc"
-        include "../incl/plus4.icc"
-        include "../incl/kbd.icc"
         include "../incl/dialogs.icc"
-        include "../incl/monitor.icc"
+        include "../incl/diskimage.icc"
         include "../incl/drive.icc"
+        include "../incl/fsdevice.icc"
+        include "../incl/gfxoutputdrv.icc"
+        include "../incl/imagecontents.icc"
+        include "../incl/kbd.icc"
+        include "../incl/mainsrc.icc"
+        include "../incl/monitor.icc"
+        include "../incl/plus4.icc"
+        include "../incl/printerdrv.icc"
         include "../incl/raster.icc"
+        include "../incl/rs232drv.icc"
+        include "../incl/tape.icc"
+        include "../incl/resources.icc"
+        include "../incl/serial.icc"
+        include "../incl/sounddrv.icc"
+        include "../incl/tcbm.icc"
         include "../incl/vdrive.icc"
         include "../incl/video.icc"
-        include "../incl/sounddrv.icc"
-        include "../incl/gfxoutputdrv.icc"
-        include "../incl/printerdrv.icc"
-        include "../incl/tape.icc"
-        include "../incl/imagecontents.icc"
-        include "../incl/fsdevice.icc"
-        include "../incl/diskimage.icc"
     }
 }

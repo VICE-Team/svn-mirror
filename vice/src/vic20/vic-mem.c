@@ -88,7 +88,7 @@ vic_store(ADDRESS addr, BYTE value)
                 vic.raster.geometry->gfx_position.x = xstart;
 
                 /* the line may not start, if new xstart is already passed */
-                vic.raster.blank_this_line = 
+                vic.raster.blank_this_line =
                     (value < VIC_RASTER_CYCLE(maincpu_clk) && xstart != xstop);
             }
             return;
@@ -220,7 +220,7 @@ vic_store(ADDRESS addr, BYTE value)
                 if (vic.raster.ycounter == 7 && !vic.raster.blank_this_line) {
                     if (old_char_height == 8 && new_char_height == 16) {
                         vic.row_offset = (int)(VIC_RASTER_CYCLE(maincpu_clk)
-                             - vic.raster.display_xstart / 
+                             - vic.raster.display_xstart /
                              (4 * VIC_PIXEL_WIDTH) - 3) / 2;
                     } else {
                         vic.row_offset = -1; /* use vic.text_cols for offset */
@@ -305,7 +305,7 @@ vic_store(ADDRESS addr, BYTE value)
             if (new_background_color != old_background_color) {
                 raster_add_int_change_background(&vic.raster,
                     VIC_RASTER_X(VIC_RASTER_CYCLE(maincpu_clk)),
-                    &vic.raster.background_color,
+                    (int*)&vic.raster.background_color,
                     new_background_color);
 
                 old_background_color = new_background_color;
@@ -314,7 +314,7 @@ vic_store(ADDRESS addr, BYTE value)
             if (new_border_color != old_border_color) {
                 raster_add_int_change_border(&vic.raster,
                     VIC_RASTER_X(VIC_RASTER_CYCLE(maincpu_clk)),
-                    &vic.raster.border_color,
+                    (int*)&vic.raster.border_color,
                     new_border_color);
 
                 /* we also need the border color in multicolor mode,

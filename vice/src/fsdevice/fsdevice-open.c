@@ -62,7 +62,6 @@
 #include "fsdevice-write.h"
 #include "fsdevicetypes.h"
 #include "serial.h"
-#include "types.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 

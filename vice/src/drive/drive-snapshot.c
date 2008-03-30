@@ -259,7 +259,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             || SMR_DW_UL(m, &drive[i].accum) < 0
             || SMR_DW(m, &drive[i].attach_clk) < 0
             || SMR_DW_UL(m, &drive[i].bits_moved) < 0
-            || SMR_B_INT(m, &drive[i].byte_ready_level) < 0
+            || SMR_B_INT(m, (int*)&drive[i].byte_ready_level) < 0
             || SMR_B_INT(m, &drive[i].clock_frequency) < 0
             || SMR_W_INT(m, &drive[i].current_half_track) < 0
             || SMR_DW(m, &drive[i].detach_clk) < 0

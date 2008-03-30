@@ -55,7 +55,7 @@
 #include "fliplist.h"        // flip_attach_head
 #include "cartridge.h"       // CARTRIDGE_*
 #include "resources.h"       // resource_value_t
-#include "interrupt.h"       // interrupt_maincpu_trigger_trap
+#include "interrupt.h"       // interrupt_interrupt_maincpu_trigger_trap
 #include "screenshot.h"      // screenshot_canvas_save
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
@@ -84,25 +84,25 @@ static void set_pet_model(ADDRESS addr, void *model)
 
 #ifdef HAVE_VIC_II
 static const char *VIDEO_CACHE="ViciiVideoCache";
-static const char *DOUBLE_SIZE="DoubleSize";
+static const char *DOUBLE_SIZE="ViciiDoubleSize";
 static const char *DOUBLE_SCAN="ViciiDoubleScan";
 #endif
 
 #ifdef HAVE_VIC
 static const char *VIDEO_CACHE="VicVideoCache";
-static const char *DOUBLE_SIZE="DoubleSize";
+static const char *DOUBLE_SIZE="VicDoubleSize";
 static const char *DOUBLE_SCAN="VicDoubleScan";
 #endif
 
 #ifdef HAVE_TED
 static const char *VIDEO_CACHE="TedVideoCache";
-static const char *DOUBLE_SIZE="DoubleSize";
+static const char *DOUBLE_SIZE="TedDoubleSize";
 static const char *DOUBLE_SCAN="TedDoubleScan";
 #endif
 
 #if defined HAVE_CRTC && !defined __XCBM__
 static const char *VIDEO_CACHE="CrtcVideoCache";
-static const char *DOUBLE_SIZE="DoubleSize";
+static const char *DOUBLE_SIZE="CrtcDoubleSize";
 static const char *DOUBLE_SCAN="CrtcDoubleScan";
 #endif
 /*
@@ -131,7 +131,7 @@ static void toggle_async(ADDRESS addr, void *name)
 static void load_snapshot(ADDRESS addr, void *hwnd)
 {
     char *name = concat(archdep_boot_path(), "\\vice2.vsf", NULL);
-    if (machine_read_snapshot(name, 0) < 0)
+    if (machine_read_snapshot(name,0) < 0)
         WinMessageBox(HWND_DESKTOP, (HWND)hwnd,
                       "Unable to load snapshot - sorry!",
                       "Load Snapshot", 0, MB_OK);
@@ -397,17 +397,23 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             resources_get_value("PALMode", (resource_value_t*)&val2);
             if (!val1)
             {
+#ifdef HAVE_TED
+                resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_SHARP);
+#else
                 resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
+#endif
                 resources_set_value("PALEmulation", (resource_value_t*)1);
                 return;
             }
 
             switch (val2)
             {
+#ifndef HAVE_TED
             case VIDEO_RESOURCE_PAL_MODE_FAST:
                 resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_SHARP);
                 resources_set_value("PALEmulation", (resource_value_t*)1);
                 return;
+#endif
             case VIDEO_RESOURCE_PAL_MODE_SHARP:
                 resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_BLUR);
                 resources_set_value("PALEmulation", (resource_value_t*)1);
@@ -421,10 +427,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PALOFF:
         resources_set_value("PALEmulation", (resource_value_t*)0);
         return;
+#ifndef HAVE_TED
     case IDM_PALFAST:
         resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
         resources_set_value("PALEmulation", (resource_value_t*)1);
         return;
+#endif
     case IDM_PALSHARP:
         resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_SHARP);
         resources_set_value("PALEmulation", (resource_value_t*)1);
@@ -439,13 +447,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
      */
     case IDM_DSIZE:
-        interrupt_maincpu_trigger_trap(toggle_async,
-                                       (resource_value_t*)DOUBLE_SIZE);
+        interrupt_maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SIZE);
         return;
 
     case IDM_DSCAN:
-        interrupt_maincpu_trigger_trap(toggle_async,
-                                       (resource_value_t*)DOUBLE_SCAN);
+        interrupt_maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SCAN);
         return;
 #endif
 #ifdef HAVE_VDC
@@ -795,8 +801,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_CBM710:
     case IDM_CBM720:
     case IDM_CBM720P:
-        interrupt_maincpu_trigger_trap(set_cbm_model,
-                                       (void*)cbm_models[(idm&0xf)-1]);
+        interrupt_maincpu_trigger_trap(set_cbm_model, (void*)cbm_models[(idm&0xf)-1]);
         return;
 
     case IDM_MODEL750:
@@ -846,8 +851,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PET8096:
     case IDM_PET8296:
     case IDM_PETSUPER:
-         interrupt_maincpu_trigger_trap(set_pet_model,
-                                        (void*)pet_models[(idm&0xf)-1]);
+         interrupt_maincpu_trigger_trap(set_pet_model, (void*)pet_models[(idm&0xf)-1]);
          return;
 
     case IDM_CHARSET:
@@ -1106,7 +1110,7 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_DSCAN, DOUBLE_SCAN);
 #endif
 #ifdef HAVE_VDC
-        resources_get_value("VDC_DoubleSize", (resource_value_t*)&val);
+        resources_get_value("VDCDoubleSize", (resource_value_t*)&val);
         WinEnableMenuItem(hwnd, IDM_VDCDSCAN, val);
         WinCheckMenuItem(hwnd,  IDM_VDCDSIZE, val);
         WinCheckRes(hwnd, IDM_VDCDSCAN,  "VDCDoubleScan");
@@ -1325,7 +1329,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_INTERNALPAL, !val1);
             WinEnableMenuItem(hwnd, IDM_LUMINANCES,  !val2 || val1);
             WinCheckMenuItem(hwnd,  IDM_INTERNALPAL, !val2);
-#ifndef HAVE_TED
+#ifdef HAVE_VIC_II
             WinCheckRes(hwnd, IDM_LUMINANCES, "VICIINewLuminances");
 #endif
         }
@@ -1339,7 +1343,9 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_value("PALMode", (resource_value_t*)&val2);
 
         WinCheckMenuItem(hwnd, IDM_PALOFF,   !val1);
+#ifndef HAVE_TED
         WinCheckMenuItem(hwnd, IDM_PALFAST,  val1 && val2==VIDEO_RESOURCE_PAL_MODE_FAST);
+#endif
         WinCheckMenuItem(hwnd, IDM_PALSHARP, val1 && val2==VIDEO_RESOURCE_PAL_MODE_SHARP);
         WinCheckMenuItem(hwnd, IDM_PALBLUR,  val1 && val2==VIDEO_RESOURCE_PAL_MODE_BLUR);
     }

@@ -972,8 +972,7 @@ void WmVrnDisabled(HWND hwnd)
     DEBUG("WM VRN DISABLED 1");
 }
 
-void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
-                     unsigned int linesz, unsigned int bufh,
+void VideoCanvasBlit(video_canvas_t *c,
                      UINT xs, UINT ys, UINT xi, UINT yi, UINT w, UINT h)
 {
     ULONG rc;
@@ -983,6 +982,10 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
 
     const int dsx = c->videoconfig->doublesizex + 1;
     const int dsy = c->videoconfig->doublesizey + 1;
+
+    //BYTE *buf    = c->draw_buffer->draw_buffer;
+    UINT  linesz = c->draw_buffer->draw_buffer_width;
+    UINT  bufh   = c->draw_buffer->draw_buffer_height;
 
     //
     // xs, xy is double sized
@@ -1210,8 +1213,7 @@ void WmPaint(HWND hwnd)
         //
         // blit to canvas (canvas_refresh should be thread safe by itself)
         //
-        VideoCanvasBlit(c, ref.draw_buffer, ref.draw_buffer_line_size, ref.bufh,
-                        ref.x, ref.y, 0, 0, c->width, c->height);
+        VideoCanvasBlit(c, ref.x, ref.y, 0, 0, c->width, c->height);
     }
 /*
 #else
@@ -1515,17 +1517,17 @@ void VideoBufferAlloc(video_canvas_t *c)
 
 struct canvas_init_s
 {
-    UINT  width;
-    UINT  height;
-    UINT  stretch;
-    char *title;
-    video_canvas_t *canvas;
-    canvas_redraw_t expose;
+    UINT                   width;
+    UINT                   height;
+    UINT                   stretch;
+    char                  *title;
+    video_canvas_t        *canvas;
+    canvas_redraw_t        expose;
     video_render_config_t *videoconfig;
-    draw_buffer_t *draw_buffer;
-    viewport_t *viewport;
-    geometry_t *geometry;
-    const palette_t *palette;
+    draw_buffer_t         *draw_buffer;
+    viewport_t            *viewport;
+    geometry_t            *geometry;
+    const palette_t       *palette;
 };
 
 typedef struct canvas_init_s canvas_init_t;
@@ -1578,18 +1580,18 @@ void CanvasMainLoop(VOID *arg)
         return;
     }
 
-    c->hwndFrame  = hwndFrame;
-    c->hwndClient = hwndClient;
-    c->title      = ini->title;
-    c->width      = ini->width;
-    c->height     = ini->height;
-    c->stretch    = ini->stretch;
-    c->exposure   = ini->expose;
+    c->hwndFrame   = hwndFrame;
+    c->hwndClient  = hwndClient;
+    c->title       = ini->title;
+    c->width       = ini->width;
+    c->height      = ini->height;
+    c->stretch     = ini->stretch;
+    c->exposure    = ini->expose;
     c->videoconfig = ini->videoconfig;
     c->draw_buffer = ini->draw_buffer;
-    c->viewport = ini->viewport;
-    c->geometry = ini->geometry;
-    c->palette = ini->palette;
+    c->viewport    = ini->viewport;
+    c->geometry    = ini->geometry;
+    c->palette     = ini->palette;
 
     VideoBufferAlloc(c);
 
@@ -1725,7 +1727,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width,
                                     UINT *height, int mapped,
-                                    const struct palette_s *palette);
+                                    const struct palette_s *palette)
 {
     canvas_init_t canvini;
 
@@ -1735,18 +1737,18 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width,
 
     *strrchr(canvas->viewport->title, ' ') = 0; // FIXME?
 
-    canvini.title   =  concat(szTitleBarText, " - ",
-                       canvas->viewport->title + 6, NULL);
-    canvini.width   = *width;
-    canvini.height  = *height;
-    canvini.stretch =  stretch;
-    canvini.expose  = (canvas_redraw_t)canvas->viewport->exposure_handler;
-    canvini.canvas  =  NULL;
+    canvini.title       =  concat(szTitleBarText, " - ",
+                                  canvas->viewport->title + 6, NULL);
+    canvini.width       = *width;
+    canvini.height      = *height;
+    canvini.stretch     =  stretch;
+    canvini.expose      = (canvas_redraw_t)canvas->viewport->exposure_handler;
+    canvini.canvas      =  NULL;
     canvini.videoconfig = canvas->videoconfig;
     canvini.draw_buffer = canvas->draw_buffer;
-    canvini.viewport = canvas->viewport;
-    canvini.geometry = canvas->geometry;
-    canvini.palette = canvas->palette;
+    canvini.viewport    = canvas->viewport;
+    canvini.geometry    = canvas->geometry;
+    canvini.palette     = canvas->palette;
 
     if (canvas->videoconfig->doublesizex)
         canvini.width *= 2;
@@ -1776,7 +1778,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width,
 
     video_canvas_set_palette(canvini.canvas, palette);
 
-    canvini.canvas;
+    canvini.canvas->initialized = 1;
+
+    return canvini.canvas;
 }
 
 void video_canvas_destroy(video_canvas_t *c)
@@ -1856,15 +1860,15 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
     SWP swp;
     ULONG rc;
 
-    if (canvas->videoconfig->doublesizex)
-        wnew *= 2;
-
-    if (canvas->videoconfig->doublesizey)
-        hnew *= 2;
-
     UINT wold = c->width;
     UINT hold = c->height;
     UINT sold = c->stretch;
+
+    if (c->videoconfig->doublesizex)
+        wnew *= 2;
+
+    if (c->videoconfig->doublesizey)
+        hnew *= 2;
 
     //
     // if nothing has changed do nothing
@@ -2114,16 +2118,18 @@ void video_canvas_refresh(video_canvas_t *c,
     if (DosRequestMutexSem(c->hmtx, SEM_INDEFINITE_WAIT))
         return;
 
-    if (c->videoconfig->doublesizex) {
+    if (c->videoconfig->doublesizex)
+    {
         xs *= 2;
         xi *= 2;
-        w *= 2;
+        w  *= 2;
     }
 
-    if (c->videoconfig->doublesizey) {
+    if (c->videoconfig->doublesizey)
+    {
         ys *= 2;
         yi *= 2;
-        h *= 2;
+        h  *= 2;
     }
 
     DEBUG("CANVAS REFRESH 0");
@@ -2133,10 +2139,7 @@ void video_canvas_refresh(video_canvas_t *c,
     // changed, but it doesn't speed up anything
     //
     if (c->vrenabled)
-        VideoCanvasBlit(c, c->draw_buffer->draw_buffer,
-                        c->draw_buffer->draw_buffer_width,
-                        c->draw_buffer->draw_buffer_height,
-                        xs, ys, xi, yi, w, h);
+        VideoCanvasBlit(c, xs, ys, xi, yi, w, h);
     //else log_debug("drawing skipped");
 
     DosReleaseMutexSem(c->hmtx);

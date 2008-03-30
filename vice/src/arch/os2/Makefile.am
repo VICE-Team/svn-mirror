@@ -14,6 +14,7 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
+        blockdev.c \
 	config.h \
 	console.c \
 	joy.c \

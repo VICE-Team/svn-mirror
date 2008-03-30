@@ -1,4 +1,5 @@
-option reSid = opt(level, "0")
+option reSid = opt(level, "0"),incl(searchpath, "..\\..\\..\\..\\resid")
+
 {
    source type(cpp) "resid.cc"
 }

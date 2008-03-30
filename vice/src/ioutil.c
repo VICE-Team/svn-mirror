@@ -31,8 +31,14 @@
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
+#ifdef HAVE_IO_H
+#include <io.h>
+#endif
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
+#endif
+#ifdef HAVE_DIRECT_H
+#include <direct.h>
 #endif
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
@@ -69,7 +75,7 @@ int ioutil_access(const char *pathname, int mode)
 
 int ioutil_chdir(const char *path)
 {
-    return chdir(path);
+    return chdir((char*)path);
 }
 
 char *ioutil_getcwd(char *buf, int size)

@@ -7,6 +7,7 @@ source type(c)
 	"cbm2cia1.c",
 	"cbm2cpu.c",
 	"cbm2datasette.c",
+        "cbm2drive.c",
 	"cbm2iec.c",
 	"cbm2mem.c",
 	"cbm2rom.c",

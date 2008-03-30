@@ -1,5 +1,6 @@
 source type(c)
     "t64.c",
     "tap.c",
+    "tape-internal.c",
     "tape.c",
     "tapeimage.c"

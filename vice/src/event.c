@@ -156,7 +156,7 @@ static void destroy_list(void)
         free(c1->data);
         free(c1);
         c1 = c2;
-    } 
+    }
 
     event_list_base = NULL;
     event_list_current = NULL;
@@ -307,7 +307,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
     curr = event_list_base;
 
     while (1) {
-        if (SMR_DW_INT(m, &(curr->type)) < 0) {
+        if (SMR_DW_INT(m, (int*)&(curr->type)) < 0) {
             snapshot_module_close(m);
             return -1;
         }
@@ -320,7 +320,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
             return -1;
         }
 
-        if (SMR_DW_INT(m, &(curr->size)) < 0) {
+        if (SMR_DW_INT(m, (int*)&(curr->size)) < 0) {
             snapshot_module_close(m);
             return -1;
         }
@@ -331,7 +331,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
                 snapshot_module_close(m);
                 return -1;
             }
-        }         
+        }
 
         curr->next = (event_list_t *)xcalloc(1, sizeof(event_list_t));
         curr = curr->next;
@@ -351,7 +351,7 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
         return 0;
 
     m = snapshot_module_create(s, "EVENT", 0, 0);
- 
+
     if (m == NULL)
         return -1;
 
@@ -365,7 +365,7 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
             || SMW_BA(m, curr->data, curr->size)) {
             snapshot_module_close(m);
             return -1;
-        } 
+        }
         curr = curr->next;
     }
 

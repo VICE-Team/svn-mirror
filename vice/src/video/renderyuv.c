@@ -35,6 +35,9 @@
 #include "renderyuv.h"
 #include "video-resources.h"
 
+#ifdef __OS2__
+#define inline
+#endif
 
 /* Extract YUV components. */
 inline static unsigned int Y(unsigned int YUV)
@@ -463,7 +466,7 @@ void render2x_4_2_2_pal(image_t* image,
 
     /* Render 2x1 blocks, YUV 4:2:2 */
     for (x = 0; x < src_w; x++) {
-      unsigned int color = 
+      unsigned int color =
 	(((line->U + linepre->U) >> 3) << shift_u)
 	| (((line->V + linepre->V) >> 3) << shift_v);
       unsigned int pixel2 =
@@ -899,7 +902,7 @@ void render2x_4_1_1_pal(image_t* image,
 
     /* Render 2x1 blocks, YUV 4:1:1 */
     for (x = 0; x < src_w; x++) {
-      unsigned int Y0 = line->Y0; 
+      unsigned int Y0 = line->Y0;
       *Yptr = Y0;
       *(Yptr + 1) = Y0;
       if (!double_scan) {

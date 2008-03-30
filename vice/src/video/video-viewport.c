@@ -28,6 +28,7 @@
 
 #include "video.h"
 #include "videoarch.h"
+#include "machine.h"
 
 
 void video_viewport_get(video_canvas_t *canvas, viewport_t **viewport,
@@ -103,7 +104,8 @@ void video_viewport_resize(video_canvas_t *canvas)
         viewport->last_line = (viewport->first_line + height) - 1;
     }
 
-    video_canvas_resize(canvas, width, height);
+    if (!vsid_mode && !console_mode)
+        video_canvas_resize(canvas, width, height);
 
     /* Make sure we don't waste space showing unused lines.  */
     if ((viewport->first_line < geometry->first_displayed_line

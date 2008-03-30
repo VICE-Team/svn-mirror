@@ -25,6 +25,7 @@ EXTRA_DIST = \
         incl/drive.icc \
         incl/fsdevice.icc \
         incl/gfxoutputdrv.icc \
+        incl/ieee.icc \
         incl/imagecontents.icc \
         incl/kbd.icc \
         incl/mainsrc.icc \
@@ -36,8 +37,11 @@ EXTRA_DIST = \
         incl/raster.icc \
         incl/resid.icc \
         incl/resources.icc \
+        incl/rs232drv.icc \
+        incl/serial.icc \
         incl/sounddrv.icc \
         incl/tape.icc \
+        incl/tcbm.icc \
         incl/vdc.icc \
         incl/vdrive.icc \
         incl/vic20.icc \

@@ -118,6 +118,8 @@
 #define HAVE_ZLIB             1
 #define NAME_NEED_QM          1
 
+#define HAVE_OPENCBM          0
+
 /* This seems to be needed to prevent the emulator from FPEs */
 #define FIXPOINT_ARITHMETIC   1
 
@@ -138,6 +140,7 @@
 
 #define HAVE_IO_H             1   /* Define if you have the <io.h> header file        */
 #define HAVE_SIGNAL_H         1   /* Define if you have the <signal.h> header file    */
+#define HAVE_DIRECT_H         1   /* Define if you have the <direct.h> header file    */
 #define HAVE_ERRNO_H          1   /* Define if you have the <errno.h> header file     */
 #define HAVE_FCNTL_H          1   /* Define if you have the <fcntl.h> header file.    */
 #define HAVE_LIMITS_H         1   /* Define if you have the <limits.h> header file.   */

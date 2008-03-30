@@ -622,7 +622,7 @@ inline static void ted15_store(BYTE value)
     x_pos = TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk));
     raster_add_int_change_background(&ted.raster,
                                      x_pos,
-                                     &ted.raster.background_color,
+                                     (int*)&ted.raster.background_color,
                                      value);
     ted.regs[0x15] = value;
 }
@@ -658,8 +658,8 @@ inline static void ted19_store(BYTE value)
     if (ted.regs[0x19] != value) {
         ted.regs[0x19] = value;
         raster_add_int_change_border(&ted.raster,
-            TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk)), 
-            &ted.raster.border_color,
+            TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk)),
+            (int*)&ted.raster.border_color,
             value);
     }
 }
@@ -855,7 +855,7 @@ BYTE REGPARM1 ted_read(ADDRESS addr)
       case 0x04:
       case 0x05:
         return ted_timer_read(addr);
-      case 0x08: 
+      case 0x08:
         return ted08_read();
       case 0x09:
         return ted09_read();

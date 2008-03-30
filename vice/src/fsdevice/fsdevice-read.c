@@ -32,12 +32,15 @@
  *  02111-1307  USA.
  *
  */
-
+#include "types.h"
 #include "vice.h"
 
 #include <stdio.h>
 #include <string.h>
 
+#ifdef HAVE_IO_H
+#include <io.h>
+#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -48,10 +51,8 @@
 #include "fsdevice-resources.h"
 #include "fsdevicetypes.h"
 #include "serial.h"
-#include "types.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
-
 
 int fsdevice_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 {

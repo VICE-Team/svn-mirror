@@ -1,6 +1,8 @@
 source type(h)
     "config.h"
+    
 source type(c)
+    "blockdev.c",
     "ui.c",
     "kbd.c",
     "joy.c",
@@ -10,7 +12,7 @@ source type(c)
     "archdep.c",
     "joystick.c",
     "dialogs.c",
-    "main_exit.c",
+    "os2main.c",
     "uicmdline.c",
     "sounddrv.c",
     "vsyncarch.c",

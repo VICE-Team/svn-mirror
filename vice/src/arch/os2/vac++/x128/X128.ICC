@@ -12,24 +12,25 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\kbd"),
     incl(searchpath, "..\\..\\dialogs"),
     incl(searchpath, "..\\..\\..\\.."),
-    incl(searchpath, "..\\..\\..\\..\\c64"),
     incl(searchpath, "..\\..\\..\\..\\c128"),
-    incl(searchpath, "..\\..\\..\\..\\vdc"),
-    incl(searchpath, "..\\..\\..\\..\\sid"),
-    incl(searchpath, "..\\..\\..\\..\\resid"),
-    incl(searchpath, "..\\..\\..\\..\\drive"),
-    incl(searchpath, "..\\..\\..\\..\\vdrive"),
-    incl(searchpath, "..\\..\\..\\..\\raster"),
-    incl(searchpath, "..\\..\\..\\..\\video"),
-    incl(searchpath, "..\\..\\..\\..\\monitor"),
-    incl(searchpath, "..\\..\\..\\..\\sounddrv"),
-    incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
-    incl(searchpath, "..\\..\\..\\..\\printerdrv"),
-    incl(searchpath, "..\\..\\..\\..\\tape"),
-    incl(searchpath, "..\\..\\..\\..\\fsdevice"),
+    incl(searchpath, "..\\..\\..\\..\\c64"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
+    incl(searchpath, "..\\..\\..\\..\\drive"),
+    incl(searchpath, "..\\..\\..\\..\\fsdevice"),
+    incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
+    incl(searchpath, "..\\..\\..\\..\\monitor"),
+    incl(searchpath, "..\\..\\..\\..\\printerdrv"),
+    incl(searchpath, "..\\..\\..\\..\\raster"),
+    incl(searchpath, "..\\..\\..\\..\\rs232drv"),
+    incl(searchpath, "..\\..\\..\\..\\serial"),
+    incl(searchpath, "..\\..\\..\\..\\sid"),
+    incl(searchpath, "..\\..\\..\\..\\sounddrv"),
+    incl(searchpath, "..\\..\\..\\..\\tape"),
+    incl(searchpath, "..\\..\\..\\..\\vdc"),
+    incl(searchpath, "..\\..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\vicii"),
+    incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
     incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng"),
     incl(searchpathfirst, "yes"),
@@ -53,35 +54,41 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
 
         source type(c)
             "reu.c",
-            "c64io.c",
-            "c64tpi.c",
-	    "c64pla.c",
+            "c64acia1.c",
             "c64cia2.c",
-            "c64datasette.c"
+            "c64datasette.c",
+            "c64drive.c",
+            "c64keyboard.c",
+	    "c64pla.c",
+            "c64rsuser.c",
+            "c64tpi.c"
 
-        include "../incl/resources.icc"
-        include "../incl/mainsrc.icc"
         include "../incl/archdep.icc"
-        include "../incl/monitor.icc"
-        include "../incl/monz80.icc"
-        include "../incl/dialogs.icc"
         include "../incl/c128.icc"
         include "../incl/c64cart.icc"
-        include "../incl/kbd.icc"
-        include "../incl/vdc.icc"
-        include "../incl/drive.icc"
-        include "../incl/raster.icc"
-        include "../incl/video.icc"
-        include "../incl/vdrive.icc"
-        include "../incl/sounddrv.icc"
-        include "../incl/gfxoutputdrv.icc"
-        include "../incl/printerdrv.icc"
-        include "../incl/vicii.icc"
-        include "../incl/resid.icc"
-        include "../incl/tape.icc"
-        include "../incl/imagecontents.icc"
-        include "../incl/fsdevice.icc"
+        include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"
+        include "../incl/drive.icc"
+        include "../incl/fsdevice.icc"
+        include "../incl/gfxoutputdrv.icc"
+        include "../incl/ieee.icc"
+        include "../incl/imagecontents.icc"
+        include "../incl/kbd.icc"
+        include "../incl/mainsrc.icc"
+        include "../incl/monitor.icc"
+        include "../incl/monz80.icc"
+        include "../incl/printerdrv.icc"
+        include "../incl/raster.icc"
+        include "../incl/resid.icc"
+        include "../incl/resources.icc"
+        include "../incl/rs232drv.icc"
+        include "../incl/serial.icc"
+        include "../incl/sounddrv.icc"
+        include "../incl/tape.icc"
+        include "../incl/vdc.icc"
+        include "../incl/vdrive.icc"
+        include "../incl/vicii.icc"
+        include "../incl/video.icc"
     }
 }
 
