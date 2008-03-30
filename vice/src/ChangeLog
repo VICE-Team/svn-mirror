@@ -1,5 +1,45 @@
 2001-05-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.6.26.
+
+	* reu.c, reu.h: Rewritten to support different REU sizes and
+	REU images.
+
+	* c64/c64-resources.c, c128/c128-resources.c: Moved REU
+	specific resources to `reu.c'.
+
+	* c64/c64-cmdline-options.c, c128/c128-cmdline-options.c:
+	Moved REU specific command line options to `reu.c'.
+
+	* c64/Makefile.am: Added `c64cart.h', `c64cartridge.c' and
+	`c64cartmem.c' to C128 library.
+
+	* c64/c64.c, c128/c128.c (machine_specific_reset): Reset REU.
+	(machine_shutdown): Call `reu_shutdown()'.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c: Added new REU menu
+	entries.
+
+	* c128/c128mem.c: Removed cartridge stubs.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c, serial.c, arch/unix/rs232.c, datasette.c,
+	drive/drive.c: Unconditionally open log.
+
+	* utils.c (util_string_set): Skip copy if src and dest are
+	already the same.
+
+	* fsdevice.c, print.c, drive/drive-resources.c,
+	c64/c64-resources.c, c128/c128-resources.c, c128/z80mem.c,
+	c128/functionrom.c, vic20/vic20-resources.c,
+	pet/pet-resources.c, cbm2/c610-resources.c, arch/unix/kmap.c,
+	arch/unix/petkmap.c, arch/unix/rs232.c, arch/riscos/rs232.c,
+	arch/riscos/ui.c, arch/os2/rs232.c, arch/os2/kbd/kmap-pet.c,
+	arch/os2/kbd/kmap.c: `util_string_set()' now checks if both
+	strings are the same.
+
+2001-05-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.6.25.
 
 	* drive/cia1581d.c (read_ciapb): Added support for read only
@@ -77,7 +117,7 @@
 	pet/petmem.c, cbm2/c610mem.c: Moved resource code to separate
 	files.
 
-	* c64/c64.c, c128/c128.c, vic20/vic20mem.c, pet/pet.c,
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
 	cbm2/c610.c (machine_init_resources): Init machine resources.
 
 	* c128/c128mem.c (mem_load_kernal64, mem_load_basic64,

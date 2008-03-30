@@ -31,10 +31,10 @@
  */
 
 /* TODO:
-	- more accurate emulation of disk rotation.
-	- different speeds within one track.
-	- check for byte ready *within* `BVC', `BVS' and `PHP'.
-	- serial bus handling might be faster.  */
+        - more accurate emulation of disk rotation.
+        - different speeds within one track.
+        - check for byte ready *within* `BVC', `BVS' and `PHP'.
+        - serial bus handling might be faster.  */
 
 #include "vice.h"
 
@@ -135,7 +135,7 @@ static CLOCK ntsc_cycles_per_sec;
 static int drive_led_color[2];
 
 #define GCR_OFFSET(track, sector)  ((track - 1) * NUM_MAX_BYTES_TRACK \
-				    + sector * NUM_BYTES_SECTOR_GCR)
+                                    + sector * NUM_BYTES_SECTOR_GCR)
 
 static void initialize_rotation(int freq, unsigned int dnr);
 static void drive_extend_disk_image(unsigned int dnr);
@@ -164,7 +164,7 @@ static void drive_read_image_d64_d71(unsigned int dnr)
     /* Since the D64/D71 format does not provide the actual track sizes or
        speed zones, we set them to standard values.  */
     if ((drive[dnr].image->type == DISK_IMAGE_TYPE_D64
-	|| drive[dnr].image->type == DISK_IMAGE_TYPE_D67
+        || drive[dnr].image->type == DISK_IMAGE_TYPE_D67
         || drive[dnr].image->type == DISK_IMAGE_TYPE_X64)
         && (drive[dnr].type == DRIVE_TYPE_1541
         || drive[dnr].type == DRIVE_TYPE_1541II
@@ -172,8 +172,7 @@ static void drive_read_image_d64_d71(unsigned int dnr)
         for (track = 0; track < MAX_TRACKS_1541; track++) {
             drive[dnr].gcr->track_size[track] =
                 raw_track_size[disk_image_speed_map_1541(track)];
-            memset(drive[dnr].gcr->speed_zone, disk_image_speed_map_1541(track),
-                   NUM_MAX_BYTES_TRACK);
+            memset(drive[dnr].gcr->speed_zone, disk_image_speed_map_1541(track),                   NUM_MAX_BYTES_TRACK);
         }
     }
     if (drive[dnr].image->type == DISK_IMAGE_TYPE_D71
@@ -280,9 +279,6 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive[0].log = log_open("Drive 8");
     drive[1].log = log_open("Drive 9");
     drive_log = log_open("Drive");
-    if (drive[0].log == LOG_ERR || drive[1].log == LOG_ERR
-        || drive_log == LOG_ERR)
-        return -1;
 
     drive_clk[0] = 0L;
     drive_clk[1] = 0L;
@@ -326,10 +322,10 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive_setup_rom_image(0);
     drive_setup_rom_image(1);
 
-    clk_guard_add_callback(&drive0_context.cpu.clk_guard, drive_clk_overflow_callback,
-                           (void *) 0);
-    clk_guard_add_callback(&drive1_context.cpu.clk_guard, drive_clk_overflow_callback,
-                           (void *) 1);
+    clk_guard_add_callback(&drive0_context.cpu.clk_guard,
+                           drive_clk_overflow_callback, (void *)0);
+    clk_guard_add_callback(&drive1_context.cpu.clk_guard,
+                           drive_clk_overflow_callback, (void *) 1);
 
     for (i = 0; i < 2; i++) {
         drive[i].gcr = gcr_create_image();
@@ -410,7 +406,7 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
       case DRIVE_TYPE_3040:
       case DRIVE_TYPE_4040:
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
-	break;
+        break;
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
@@ -798,19 +794,19 @@ void drive_setup_rom_image(unsigned int dnr)
           case DRIVE_TYPE_2031:
             memcpy(&(drive[dnr].rom[0x4000]), drive_rom2031,
                    DRIVE_ROM2031_SIZE);
-	    break;
+            break;
           case DRIVE_TYPE_2040:
-            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]), 
-		   drive_rom2040, DRIVE_ROM2040_SIZE);
-	    break;
+            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]),
+                   drive_rom2040, DRIVE_ROM2040_SIZE);
+            break;
           case DRIVE_TYPE_3040:
-            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]), 
-	 	   drive_rom3040, DRIVE_ROM3040_SIZE);
-	    break;
+            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]),
+                   drive_rom3040, DRIVE_ROM3040_SIZE);
+            break;
           case DRIVE_TYPE_4040:
-            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]), 
-		   drive_rom4040, DRIVE_ROM4040_SIZE);
-	    break;
+            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]),
+                   drive_rom4040, DRIVE_ROM4040_SIZE);
+            break;
           case DRIVE_TYPE_1001:
           case DRIVE_TYPE_8050:
           case DRIVE_TYPE_8250:
@@ -897,10 +893,10 @@ int drive_enable(unsigned int dnr)
 
     drive_set_active_led_color(drive[dnr].type, dnr);
     ui_enable_drive_status(
-	  (drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
+          (drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
             | ((drive[1].enable
-		|| (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
-	      ) ? UI_DRIVE_ENABLE_1 : 0),
+                || (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
+              ) ? UI_DRIVE_ENABLE_1 : 0),
           drive_led_color);
 
     return 0;
@@ -920,22 +916,22 @@ void drive_disable(unsigned int dnr)
                         (resource_value_t *)&drive_true_emulation);
 
     if (rom_loaded && !drive_true_emulation)
-	serial_install_traps();
+        serial_install_traps();
 
     if (rom_loaded){
-  	if (dnr == 0)
-	    drive_cpu_sleep(&drive0_context);
-	if (dnr == 1)
-	    drive_cpu_sleep(&drive1_context);
-	/* Set IEC lines of disabled drives to `1'.  */
-	if (dnr == 0 && iec_info != NULL) {
-	    iec_info->drive_bus = 0xff;
-	    iec_info->drive_data = 0xff;
-	}
-	if (dnr == 1 && iec_info != NULL) {
-	    iec_info->drive2_bus = 0xff;
-	    iec_info->drive2_data = 0xff;
-	}
+        if (dnr == 0)
+            drive_cpu_sleep(&drive0_context);
+        if (dnr == 1)
+            drive_cpu_sleep(&drive1_context);
+        /* Set IEC lines of disabled drives to `1'.  */
+        if (dnr == 0 && iec_info != NULL) {
+            iec_info->drive_bus = 0xff;
+            iec_info->drive_data = 0xff;
+        }
+        if (dnr == 1 && iec_info != NULL) {
+            iec_info->drive2_bus = 0xff;
+            iec_info->drive2_data = 0xff;
+        }
     if (dnr == 0)
         drive_gcr_data_writeback(0);
     if (dnr == 1)
@@ -951,10 +947,10 @@ void drive_disable(unsigned int dnr)
     }
 
     ui_enable_drive_status(
-	  (drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
+          (drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
             | ((drive[1].enable
-		|| (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
-	      ) ? UI_DRIVE_ENABLE_1 : 0),
+                || (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
+              ) ? UI_DRIVE_ENABLE_1 : 0),
           drive_led_color);
 /*
     ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
@@ -1007,10 +1003,10 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
       case DISK_IMAGE_TYPE_D80:
       case DISK_IMAGE_TYPE_D82:
         if ((drive[dnr].type != DRIVE_TYPE_1001)
-	    && (drive[dnr].type != DRIVE_TYPE_8050)
-	    && (drive[dnr].type != DRIVE_TYPE_8250))
+            && (drive[dnr].type != DRIVE_TYPE_8050)
+            && (drive[dnr].type != DRIVE_TYPE_8250))
             return -1;
-	break;
+        break;
       default:
         return -1;
     }
@@ -1289,54 +1285,54 @@ void drive_rotate_disk(drive_t *dptr)
 
     if (dptr->shifter >= 8) {
 
-	dptr->bits_moved += new_bits;
-	dptr->rotation_last_clk = *(dptr->clk);
+        dptr->bits_moved += new_bits;
+        dptr->rotation_last_clk = *(dptr->clk);
 
-	if (dptr->finish_byte) {
-	    if (dptr->last_mode == 0) { /* write */
-		dptr->GCR_dirty_track = 1;
-		if (dptr->bits_moved >= 8) {
-		    dptr->GCR_track_start_ptr[dptr->GCR_head_offset]
-		        = dptr->GCR_write_value;
-		    dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1) %
+        if (dptr->finish_byte) {
+            if (dptr->last_mode == 0) { /* write */
+                dptr->GCR_dirty_track = 1;
+                if (dptr->bits_moved >= 8) {
+                    dptr->GCR_track_start_ptr[dptr->GCR_head_offset]
+                        = dptr->GCR_write_value;
+                    dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1) %
                                              dptr->GCR_current_track_size);
-		    dptr->bits_moved -= 8;
-		}
-	    } else {		/* read */
-		if (dptr->bits_moved >= 8) {
-		    dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1) %
+                    dptr->bits_moved -= 8;
+                }
+            } else {            /* read */
+                if (dptr->bits_moved >= 8) {
+                    dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1) %
                                              dptr->GCR_current_track_size);
-		    dptr->bits_moved -= 8;
-		    dptr->GCR_read = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
-		}
-	    }
+                    dptr->bits_moved -= 8;
+                    dptr->GCR_read = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
+                }
+            }
 
-	    dptr->finish_byte = 0;
-	    dptr->last_mode = dptr->read_write_mode;
-	}
+            dptr->finish_byte = 0;
+            dptr->last_mode = dptr->read_write_mode;
+        }
 
-	if (dptr->last_mode == 0) {	/* write */
-	    dptr->GCR_dirty_track = 1;
-	    while (dptr->bits_moved >= 8) {
-		dptr->GCR_track_start_ptr[dptr->GCR_head_offset]
-		    = dptr->GCR_write_value;
-		dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1)
+        if (dptr->last_mode == 0) {     /* write */
+            dptr->GCR_dirty_track = 1;
+            while (dptr->bits_moved >= 8) {
+                dptr->GCR_track_start_ptr[dptr->GCR_head_offset]
+                    = dptr->GCR_write_value;
+                dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1)
                                          % dptr->GCR_current_track_size);
-		dptr->bits_moved -= 8;
-	    }
-	} else {		/* read */
-	    dptr->GCR_head_offset = ((dptr->GCR_head_offset
+                dptr->bits_moved -= 8;
+            }
+        } else {                /* read */
+            dptr->GCR_head_offset = ((dptr->GCR_head_offset
                                       + dptr->bits_moved / 8)
                                      % dptr->GCR_current_track_size);
-	    dptr->bits_moved %= 8;
-	    dptr->GCR_read = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
-	}
+            dptr->bits_moved %= 8;
+            dptr->GCR_read = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
+        }
 
         dptr->shifter = dptr->bits_moved;
 
         /* The byte ready line is only set when no sync is found.  */
-	if (drive_sync_found(dptr))
-	    dptr->byte_ready = 1;
+        if (drive_sync_found(dptr))
+            dptr->byte_ready = 1;
     } /* if (dptr->shifter >= 8) */
 }
 
@@ -1358,8 +1354,7 @@ static void drive_set_half_track(int num, drive_t *dptr)
                                 * NUM_MAX_BYTES_TRACK));
 
     if (dptr->GCR_current_track_size != 0)
-        dptr->GCR_head_offset *= (dptr->gcr->track_size[dptr->current_half_track
-                                 / 2 - 1]) / dptr->GCR_current_track_size;
+        dptr->GCR_head_offset *= (dptr->gcr->track_size[dptr->current_half_track                                 / 2 - 1]) / dptr->GCR_current_track_size;
     else
         dptr->GCR_head_offset = 0;
 
@@ -1637,11 +1632,11 @@ int drive_check_type(unsigned int drive_type, unsigned int dnr)
       case DRIVE_TYPE_2031:
         return rom2031_loaded;
       case DRIVE_TYPE_2040:
-	return rom2040_loaded;
+        return rom2040_loaded;
       case DRIVE_TYPE_3040:
-	return rom3040_loaded;
+        return rom3040_loaded;
       case DRIVE_TYPE_4040:
-	return rom4040_loaded;
+        return rom4040_loaded;
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
@@ -1658,8 +1653,10 @@ int drive_check_type(unsigned int drive_type, unsigned int dnr)
 
 void drive_set_sync_factor(unsigned int factor)
 {
-    drive_cpu_set_sync_factor(&drive0_context, drive[0].clock_frequency * factor);
-    drive_cpu_set_sync_factor(&drive1_context, drive[1].clock_frequency * factor);
+    drive_cpu_set_sync_factor(&drive0_context,
+                              drive[0].clock_frequency * factor);
+    drive_cpu_set_sync_factor(&drive1_context,
+                              drive[1].clock_frequency * factor);
 }
 
 void drive_set_pal_sync_factor(void)
@@ -1711,7 +1708,7 @@ void drive_update_ui_status(void)
     /* Update the LEDs and the track indicators.  */
     for (i = 0; i < 2; i++) {
         if (drive[i].enable
-	    || ((i==1) && drive[0].enable && DRIVE_IS_DUAL(drive[0].type))) {
+            || ((i==1) && drive[0].enable && DRIVE_IS_DUAL(drive[0].type))) {
             int my_led_status = 0;
 
             /* Actually update the LED status only if the `trap idle'
@@ -1732,8 +1729,8 @@ void drive_update_ui_status(void)
                 ui_display_drive_track_int(i, drive[i].current_half_track);
 #else
                 ui_display_drive_track(i, (i < 2 && drive[0].enable
-			               && DRIVE_IS_DUAL(drive[0].type))
-			               ? 0 : 8,
+                                       && DRIVE_IS_DUAL(drive[0].type))
+                                       ? 0 : 8,
                                        ((float)drive[i].current_half_track
                                        / 2.0));
 #endif
@@ -1795,11 +1792,11 @@ void drive1_parallel_set_atn(int state)
 int drive_num_leds(unsigned int dnr)
 {
     if (DRIVE_IS_OLDTYPE(drive[dnr].type)) {
-	return 2;
+        return 2;
     }
 
     if ((dnr == 1) && DRIVE_IS_DUAL(drive[0].type)) {
-	return 2;
+        return 2;
     }
 
     return 1;
@@ -1808,45 +1805,43 @@ int drive_num_leds(unsigned int dnr)
 
 static void drive_setup_context_for_drive(drive_context_t *drv, int number)
 {
-  drv->mynumber = number;
-  drv->clk_ptr = &drive_clk[number];
-  drv->drive_ptr = &drive[number];
+    drv->mynumber = number;
+    drv->clk_ptr = &drive_clk[number];
+    drv->drive_ptr = &drive[number];
 
-  /* setup shared function pointers */
-  if (number == 0)
-  {
-    drv->func.iec_write = iec_drive0_write;
-    drv->func.iec_read = iec_drive0_read;
-    drv->func.parallel_cable_write = parallel_cable_drive0_write;
-    drv->func.parallel_set_bus = parallel_drv0_set_bus;
-    drv->func.parallel_set_eoi = parallel_drv0_set_eoi;
-    drv->func.parallel_set_dav = parallel_drv0_set_dav;
-    drv->func.parallel_set_ndac = parallel_drv0_set_ndac;
-    drv->func.parallel_set_nrfd = parallel_drv0_set_nrfd;
-  }
-  else
-  {
-    drv->func.iec_write = iec_drive1_write;
-    drv->func.iec_read = iec_drive1_read;
-    drv->func.parallel_cable_write = parallel_cable_drive1_write;
-    drv->func.parallel_set_bus = parallel_drv1_set_bus;
-    drv->func.parallel_set_eoi = parallel_drv1_set_eoi;
-    drv->func.parallel_set_dav = parallel_drv1_set_dav;
-    drv->func.parallel_set_ndac = parallel_drv1_set_ndac;
-    drv->func.parallel_set_nrfd = parallel_drv1_set_nrfd;
-  }
+    /* setup shared function pointers */
+    if (number == 0) {
+        drv->func.iec_write = iec_drive0_write;
+        drv->func.iec_read = iec_drive0_read;
+        drv->func.parallel_cable_write = parallel_cable_drive0_write;
+        drv->func.parallel_set_bus = parallel_drv0_set_bus;
+        drv->func.parallel_set_eoi = parallel_drv0_set_eoi;
+        drv->func.parallel_set_dav = parallel_drv0_set_dav;
+        drv->func.parallel_set_ndac = parallel_drv0_set_ndac;
+        drv->func.parallel_set_nrfd = parallel_drv0_set_nrfd;
+    } else {
+        drv->func.iec_write = iec_drive1_write;
+        drv->func.iec_read = iec_drive1_read;
+        drv->func.parallel_cable_write = parallel_cable_drive1_write;
+        drv->func.parallel_set_bus = parallel_drv1_set_bus;
+        drv->func.parallel_set_eoi = parallel_drv1_set_eoi;
+        drv->func.parallel_set_dav = parallel_drv1_set_dav;
+        drv->func.parallel_set_ndac = parallel_drv1_set_ndac;
+        drv->func.parallel_set_nrfd = parallel_drv1_set_nrfd;
+    }
 
-  drive_cpu_setup_context(drv);
-  drive_via1_setup_context(drv);
-  drive_via2_setup_context(drv);
-  cia1571_setup_context(drv);
-  cia1581_setup_context(drv);
-  riot1_setup_context(drv);
-  riot2_setup_context(drv);
+    drive_cpu_setup_context(drv);
+    drive_via1_setup_context(drv);
+    drive_via2_setup_context(drv);
+    cia1571_setup_context(drv);
+    cia1581_setup_context(drv);
+    riot1_setup_context(drv);
+    riot2_setup_context(drv);
 }
 
 void drive_setup_context(void)
 {
-  drive_setup_context_for_drive(&drive0_context, 0);
-  drive_setup_context_for_drive(&drive1_context, 1);
+    drive_setup_context_for_drive(&drive0_context, 0);
+    drive_setup_context_for_drive(&drive1_context, 1);
 }
+
