@@ -77,6 +77,7 @@
 #include "joystick.h"
 #include "attach.h"
 #include "cmdline.h"
+#include "fsdevice.h"
 
 #ifdef __MSDOS__
 #include "vmidas.h"
@@ -282,6 +283,13 @@ int main(int argc, char **argv)
     }
     if (file_system_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize file system-specific resources.\n");
+        exit(-1);
+    }
+
+    /* Initialize file system device-specific resources.  */
+    if (fsdevice_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize file system device-specific
+                        resources.\n");
         exit(-1);
     }
     if (machine_init_resources() < 0) {
