@@ -1,0 +1,7 @@
+option  link(pmtype, vio), opt(level, "2")
+{
+   target "mps2chargen.exe"
+   {
+       source type(cpp) "mps2chargen.cc"
+   }
+}

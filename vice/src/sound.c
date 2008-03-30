@@ -502,7 +502,7 @@ static int sound_run_sound(void)
 					nr, &delta_t);
 	snddata.fclk   += nr*snddata.clkstep;
     }
-      
+
     snddata.bufptr += nr;
     snddata.lastclk = clk;
 
@@ -544,7 +544,7 @@ void sound_synthesize(SWORD *buffer, int length)
     }
     /* Handling of sample based sound engines. */
     else {
-        delta_t = 0;
+        int delta_t = 0;
         sound_machine_calculate_samples(snddata.psid, buffer, length,
 					&delta_t);
 	snddata.fclk += length * snddata.clkstep;

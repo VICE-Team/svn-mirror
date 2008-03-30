@@ -64,30 +64,31 @@ POINTER IDM_VICE2 "..\\icons\\xvic.ico"
 
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE
 BEGIN
-  DIALOG "About Vice...", DLG_ABOUT, 162, 122, 240, 260, STY_DIALOG
+  DIALOG "About Vice...", DLG_ABOUT, 162, 122, 240, 240, STY_DIALOG
   PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
   BEGIN
     CONTROL "OK",  DID_CLOSE, 101,  5,  38,  12, STY_CLOSEBUTTON
-    CONTROL "",    ID_NONE,     7, 22, 226, 236, STY_GROUPBOX
-    ICON IDM_VICE2, ID_NONE, 27, 206, 0, 0
-    TEXT("V I C E",                                         17, 240, 210, 8)
-    TEXT("the Versatile Commodore Emulator",                17, 230, 210, 8)
-    TEXT("Version "VERSION,                                 65, 210,  90, 8)
-    TEXT("Copyright ¸ 1996-1999 Ettore Perazzoli",          17, 190, 210, 8)
-    TEXT("Copyright ¸ 1996-1999 Andr‚ Fachat",              17, 180, 210, 8)
-    TEXT("Copyright ¸ 1993-1994, 1997-1999 Teemu Rantanen", 17, 170, 210, 8)
-    TEXT("Copyright ¸ 1997-2001 Daniel Sladic",             17, 160, 210, 8)
-    TEXT("Copyright ¸ 1998-2001 Andreas Boose",             17, 150, 210, 8)
-    TEXT("Copyright ¸ 1998-2001 Tibor Biczo",               17, 140, 210, 8)
-    TEXT("Copyright ¸ 1993-1996 Jouko Valta",               17, 130, 210, 8)
-    TEXT("Copyright ¸ 1993-1994 Jarkko Sonninen",           17, 120, 210, 8)
+    CONTROL "",    ID_NONE,     7, 22, 226, 216, STY_GROUPBOX
+    ICON IDM_VICE2, ID_NONE, 27, 186, 0, 0
+    TEXT("V I C E",                                         17, 219, 210, 8)
+    TEXT("the Versatile Commodore Emulator",                17, 210, 210, 8)
+    TEXT("Version ",                                        65, 192,  35, 8)
+    TEXT(VERSION,                                          100, 192,  25, 8)
+    TEXT("Copyright ¸ 1996-1999 Ettore Perazzoli",          17, 174, 210, 8)
+    TEXT("Copyright ¸ 1996-1999 Andr‚ Fachat",              17, 165, 210, 8)
+    TEXT("Copyright ¸ 1993-1994, 1997-1999 Teemu Rantanen", 17, 156, 210, 8)
+    TEXT("Copyright ¸ 1997-2001 Daniel Sladic",             17, 147, 210, 8)
+    TEXT("Copyright ¸ 1998-2001 Andreas Boose",             17, 138, 210, 8)
+    TEXT("Copyright ¸ 1998-2001 Tibor Biczo",               17, 129, 210, 8)
+    TEXT("Copyright ¸ 1993-1996 Jouko Valta",               17, 120, 210, 8)
+    TEXT("Copyright ¸ 1993-1994 Jarkko Sonninen",           17, 111, 210, 8)
     //    Copyright C 1999-2000 Andreas Dehmel
     //    Copyright C 1999-2000 Andreas Matthies
-    TEXT("Vice/2 - Vice for OS/2",                          17, 100, 210, 8)
-    TEXT("Copyright ¸ 1999-2001 Thomas Bretz",              17,  90, 210, 8)
-    TEXT("reSID engine",                                    17,  70, 210, 8)
-    TEXT("Copyright ¸ 1999-2001 Dag Lem",                   17,  60, 210, 8)
-    TEXT("Official VICE homepage:",                         17,  40, 210, 8)
+    TEXT("Vice/2 - Vice for OS/2",                          17,  93, 210, 8)
+    TEXT("Copyright ¸ 1999-2001 Thomas Bretz",              17,  84, 210, 8)
+    TEXT("reSID engine",                                    17,  66, 210, 8)
+    TEXT("Copyright ¸ 1999-2001 Dag Lem",                   17,  57, 210, 8)
+    TEXT("Official VICE homepage:",                         17,  39, 210, 8)
     TEXT("http://www.cs.cmu.edu/~dsladic/vice/vice.html",   17,  30, 210, 8)
     //
     // USING zlib 1.1.3

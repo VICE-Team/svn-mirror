@@ -751,29 +751,28 @@ static int compress_with_gzip(const char *src, const char *dest)
     FILE *fdsrc, *fddest;
     int len;
 
-    fdsrc = fopen(src, MODE_READ);
-    if (fdsrc == NULL)
+    fdsrc = fopen(dest, MODE_READ);
+    if (!fdsrc)
         return -1;
 
-    fddest = gzopen(dest, MODE_WRITE);
-    if (fddest == NULL) {
+    fddest = gzopen(src, MODE_WRITE"9");
+    if (!fddest)
+    {
         fclose(fdsrc);
         return -1;
     }
 
     do {
-       char buf[256];
-
-       len = fread((void *)buf, 1, 256, fdsrc);
-       if (len > 0) {
-         gzwrite(fddest, (void *)buf, len);
-       }
+        char buf[256];
+        len = fread((void *)buf, 256, 1, fdsrc);
+        if (len > 0)
+            gzwrite(fddest, (void *)buf, (size_t)len);
     } while (len > 0);
 
     gzclose(fddest);
     fclose(fdsrc);
 
-    archdep_file_set_gzip(dest);
+    ZDEBUG(("compress with zlib: OK."));
 
     return 0;
 #else
@@ -806,6 +805,34 @@ static int compress_with_gzip(const char *src, const char *dest)
 /* Compress `src' into `dest' using bzip.  */
 static int compress_with_bzip(const char *src, const char *dest)
 {
+#ifdef HAVE_ZLIB
+    FILE *fdsrc, *fddest;
+    int len;
+
+    fdsrc = fopen(src, MODE_READ);
+    if (fdsrc == NULL)
+        return -1;
+
+    fddest = gzopen(dest, MODE_WRITE);
+    if (fddest == NULL) {
+        fclose(fdsrc);
+        return -1;
+    }
+
+    do {
+       char buf[256];
+
+       len = fread((void *)buf, 1, 256, fdsrc);
+       if (len > 0) {
+         gzwrite(fddest, (void *)buf, len);
+       }
+    } while (len > 0);
+
+    gzclose(fddest);
+    fclose(fdsrc);
+
+    return 0;
+#else
     static char *argv[4];
     int exit_status;
 
@@ -829,6 +856,7 @@ static int compress_with_bzip(const char *src, const char *dest)
         ZDEBUG(("compress_with_bzip: failed."));
         return -1;
     }
+#endif
 }
 
 /* Compress `src' into `dest' using algorithm `type'.  */

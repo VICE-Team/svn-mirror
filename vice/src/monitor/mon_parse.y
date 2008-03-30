@@ -251,7 +251,7 @@ checkpoint_control_rules: CMD_CHECKPT_ON breakpt_num end_cmd          { mon_swit
                         ;
 
 monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd                { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
-                   | CMD_SIDEFX end_cmd                { arch_mon_out("I/O side effects are %s\n", sidefx ? "enabled" : "disabled"); }
+                   | CMD_SIDEFX end_cmd                { uimon_out("I/O side effects are %s\n", sidefx ? "enabled" : "disabled"); }
                    | CMD_RADIX RADIX_TYPE end_cmd      { default_radix = $2; }
                    | CMD_RADIX end_cmd
                      {
@@ -268,17 +268,17 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd                { sidefx = (($2==e
                          else
                              p = "Unknown";
 
-                         arch_mon_out("Default radix is %s\n", p);
+                         uimon_out("Default radix is %s\n", p);
                      }
 
-                   | CMD_DEVICE memspace end_cmd       { arch_mon_out("Setting default device to `%s'\n",
+                   | CMD_DEVICE memspace end_cmd       { uimon_out("Setting default device to `%s'\n",
                                                          _mon_space_strings[(int) $2]); default_memspace = $2; }
                    | CMD_QUIT end_cmd                        { exit_mon = 2; YYACCEPT; }
                    | CMD_EXIT end_cmd                        { exit_mon = 1; YYACCEPT; }
                    ;
 
 monitor_misc_rules: CMD_DISK rest_of_line end_cmd         { mon_execute_disk_command($2); }
-                  | CMD_PRINT expression end_cmd         { arch_mon_out("\t%d\n",$2); }
+                  | CMD_PRINT expression end_cmd         { uimon_out("\t%d\n",$2); }
                   | CMD_HELP end_cmd                         { mon_print_help(NULL); }
                   | CMD_HELP rest_of_line end_cmd         { mon_print_help($2); }
                   | CMD_SYSTEM rest_of_line end_cmd         { printf("SYSTEM COMMAND: %s\n",$2); }
@@ -502,52 +502,52 @@ void parse_and_execute_line(char *input)
 
    make_buffer(temp_buf);
    if ( (rc =yyparse()) != 0) {
-       arch_mon_out("ERROR -- ");
+       uimon_out("ERROR -- ");
        switch(rc) {
            case ERR_BAD_CMD:
-               arch_mon_out("Bad command:\n");
+               uimon_out("Bad command:\n");
                break;
            case ERR_RANGE_BAD_START:
-               arch_mon_out("Bad first address in range:\n");
+               uimon_out("Bad first address in range:\n");
                break;
            case ERR_RANGE_BAD_END:
-               arch_mon_out("Bad second address in range:\n");
+               uimon_out("Bad second address in range:\n");
                break;
            case ERR_EXPECT_BRKNUM:
-               arch_mon_out("Checkpoint number expected:\n");
+               uimon_out("Checkpoint number expected:\n");
                break;
            case ERR_EXPECT_END_CMD:
-               arch_mon_out("Unexpected token:\n");
+               uimon_out("Unexpected token:\n");
                break;
            case ERR_MISSING_CLOSE_PAREN:
-               arch_mon_out("')' expected:\n");
+               uimon_out("')' expected:\n");
                break;
            case ERR_INCOMPLETE_COMPARE_OP:
-               arch_mon_out("Compare operation missing an operand:\n");
+               uimon_out("Compare operation missing an operand:\n");
                break;
            case ERR_EXPECT_FILENAME:
-               arch_mon_out("Expecting a filename:\n");
+               uimon_out("Expecting a filename:\n");
                break;
            case ERR_ADDR_TOO_BIG:
-               arch_mon_out("Address too large:\n");
+               uimon_out("Address too large:\n");
                break;
            case ERR_IMM_TOO_BIG:
-               arch_mon_out("Immediate argument too large:\n");
+               uimon_out("Immediate argument too large:\n");
                break;
            case ERR_EXPECT_STRING:
-               arch_mon_out("Expecting a string.\n");
+               uimon_out("Expecting a string.\n");
                break;
            case ERR_UNDEFINED_LABEL:
-               arch_mon_out("Found an undefined label.\n");
+               uimon_out("Found an undefined label.\n");
                break;
            case ERR_ILLEGAL_INPUT:
            default:
-               arch_mon_out("Wrong syntax:\n");
+               uimon_out("Wrong syntax:\n");
        }
-       arch_mon_out("  %s\n", input);
+       uimon_out("  %s\n", input);
        for (i = 0; i < last_len; i++)
-           arch_mon_out(" ");
-       arch_mon_out("  ^\n");
+           uimon_out(" ");
+       uimon_out("  ^\n");
        asm_mode = 0;
        new_cmd = 1;
    }

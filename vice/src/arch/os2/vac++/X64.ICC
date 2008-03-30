@@ -1,5 +1,4 @@
 option ProjectOptions = link(linkwithmultithreadlib, "yes"),
-    link(linkwithsharedlib, "no"),
     link(pmtype, "pm"),     gen(arch, "pentium"),
     link(debug, "no"),      gen(debug, "yes"),
     opt(level, "2"),        opt(tune, "pentium"),

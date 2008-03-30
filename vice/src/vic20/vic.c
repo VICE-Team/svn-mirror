@@ -93,6 +93,8 @@ int vic_raster_draw_alarm_handler (CLOCK offset)
 
     /* xstart may have changed; recalculate xstop */
     vic.raster.display_xstop = vic.raster.display_xstart + vic.text_cols * 8;
+	if (vic.raster.display_xstop >= VIC_SCREEN_WIDTH)
+		vic.raster.display_xstop = VIC_SCREEN_WIDTH - 1;
 
     if (vic.area == 1)
     {

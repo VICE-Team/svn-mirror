@@ -44,6 +44,7 @@
 
 #include "utils.h"
 #include "winmain.h"
+#include "mos6510.h"
 
 
 #define DEBUG_UIMON
@@ -76,20 +77,40 @@ static void uimon_debug(const char *format, ...)
 
 #ifdef UIMON_EXPERIMENTAL
 
+// #define OPEN_DISASSEMBLY_AS_POPUP
+// #define OPEN_REGISTRY_AS_POPUP
+
 static HWND hwndConsole   = NULL;
 static HWND hwndMdiClient = NULL;
 static HWND hwndToolbar = NULL;
 
 static console_t *console_log = NULL;
 static console_t  console_log_for_mon;
-static char *pRetValue        = NULL;
+static char *pchCommandLine   = NULL;
 
 #define REG_CLASS MONITOR_CLASS ":Reg"
 #define DIS_CLASS MONITOR_CLASS ":Dis"
 
 static HWND hwndParent = NULL;
+static HWND hwndActive = NULL;
 
-static HWND hwndMdiActive = NULL;
+
+
+static monitor_interface_t **monitor_interface;
+static int                   count_monitor_interface;
+
+#endif // #ifdef UIMON_EXPERIMENTAL
+
+
+void uimon_set_interface(monitor_interface_t *monitor_interface_init[], int count)
+{
+#ifdef UIMON_EXPERIMENTAL
+    monitor_interface = monitor_interface_init;
+    count_monitor_interface = count;
+#endif // #ifdef UIMON_EXPERIMENTAL
+}
+
+#ifdef UIMON_EXPERIMENTAL
 
 
 #define WM_OWNCOMMAND (WM_USER+0x100)
@@ -193,9 +214,30 @@ quit:
 }
 
 
+
 static
 HWND iOpenDisassembly( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 {
+#ifdef OPEN_DISASSEMBLY_AS_POPUP
+    #define DEF_DIS_PROG DefWindowProc
+    HWND hwndReg = CreateWindowEx(
+        WS_EX_TOOLWINDOW,
+        DIS_CLASS,
+        "Disassembly",
+        WS_CAPTION|WS_POPUPWINDOW|dwStyle,
+        x,
+        y,
+        dx,
+        dy,
+        hwndMdiClient,
+        NULL,
+        winmain_instance,
+        NULL);
+
+    ShowWindow( hwndReg, SW_SHOW );
+    return hwndReg;
+#else /* #ifdef OPEN_DISASSEMBLY_AS_POPUP */
+    #define DEF_DIS_PROG DefMDIChildProc
     return CreateMDIWindow(DIS_CLASS,
         "Disassembly",
         dwStyle,
@@ -206,6 +248,7 @@ HWND iOpenDisassembly( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
         hwndMdiClient,
         winmain_instance,
         0);
+#endif /* #ifdef OPEN_DISASSEMBLY_AS_POPUP */
 }
 
 static
@@ -226,7 +269,7 @@ HWND iOpenConsole( HWND hwnd, BOOLEAN bOpen, DWORD dwStyle, int x, int y, int dx
 {
     if (bOpen)
     {
-        console_log = arch_console_open_mdi("Monitor",
+        console_log = uimon_console_open_mdi("Monitor",
             &hwndConsole,&hwndParent,&hwndMdiClient,dwStyle,x,y,dx,dy);
     }
     else
@@ -248,7 +291,7 @@ HWND OpenConsole( HWND hwnd, BOOLEAN bOpen )
 static
 HWND iOpenRegistry( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 {
-#if 0
+#ifdef OPEN_REGISTRY_AS_POPUP
     #define DEF_REG_PROG DefWindowProc
     HWND hwndReg = CreateWindowEx(
         WS_EX_TOOLWINDOW,
@@ -266,7 +309,7 @@ HWND iOpenRegistry( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 
     ShowWindow( hwndReg, SW_SHOW );
     return hwndReg;
-#else
+#else /* #ifdef OPEN_REGISTRY_AS_POPUP */
     #define DEF_REG_PROG DefMDIChildProc
     return CreateMDIWindow(REG_CLASS,
         "Register",
@@ -278,7 +321,7 @@ HWND iOpenRegistry( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
         hwndMdiClient,
         winmain_instance,
         0);
-#endif
+#endif /* #ifdef OPEN_REGISTRY_AS_POPUP */
 }
 
 static
@@ -731,7 +774,7 @@ void EnableCommands( HMENU hmnu, HWND hwndToolbar )
 }
 
 static
-void SetMemspace( HWND hwnd, enum t_memspace memspace )
+void SetMemspace( HWND hwnd, MEMSPACE memspace )
 {
 	BOOL bComputer = FALSE;
 	BOOL bDrive8   = FALSE;
@@ -798,12 +841,15 @@ void ClearMemspace( HWND hwnd )
     CHECK ( IDM_MON_DRIVE9,   FALSE );
 }
 
+
+void uimon_after_set_command(void)
+{
+    if (hwndConsole) 
+        SendMessage(hwndConsole,WM_CONSOLE_INSERTLINE,0,0 );
+}
+
 #define SET_COMMAND( _cmd ) \
-    pRetValue = _cmd; \
-    if (console_log) \
-        console_out(console_log,"%s\n",_cmd); \
-    if (hwndConsole) \
-        SendMessage(hwndConsole,WM_CONSOLE_INSERTLINE,0,0 )
+    mon_set_command(console_log,_cmd,uimon_after_set_command)
 
 static
 void ResizeMdiClient(HWND hwnd)
@@ -827,29 +873,6 @@ void ResizeMdiClient(HWND hwnd)
             rect.top+wHeightToolbar,
             rect.right-rect.left,
             rect.bottom-rect.top-wHeightToolbar,
-            TRUE);
-    }
-}
-
-static
-void ResizeToolbar(HWND hwnd)
-{
-    RECT rect;
-
-    if (hwndToolbar)
-    {
-        WORD wHeightToolbar;
-
-        GetWindowRect(hwndToolbar, &rect);
-        wHeightToolbar = (WORD) (rect.bottom-rect.top);
-
-        GetClientRect(hwnd, &rect);
-
-        MoveWindow(hwndToolbar,
-            rect.left,
-            rect.top,
-            rect.right-rect.left,
-            wHeightToolbar,
             TRUE);
     }
 }
@@ -921,8 +944,8 @@ void OnCommand( HWND hwnd, WORD wNotifyCode, WORD wID, HWND hwndCtrl )
 		/* FALL THROUGH */
 
 	case IDM_MON_DRIVE9:
-		if (hwndMdiActive)
-			SendMessage( hwndMdiActive, WM_CHANGECOMPUTERDRIVE, wID, 0 );
+		if (hwndActive)
+			SendMessage( hwndActive, WM_CHANGECOMPUTERDRIVE, wID, 0 );
 		break;
     }
 }
@@ -948,6 +971,11 @@ long CALLBACK mon_window_proc(HWND hwnd,
         OnConsoleResize();
         return 0;
 
+    case WM_CONSOLE_ACTIVATED:
+		hwndActive = NULL;
+        ClearMemspace( hwnd );
+        return 0;
+
     case WM_CONSOLE_CLOSED:
         console_log = NULL;
         hwndConsole = NULL;
@@ -958,7 +986,10 @@ long CALLBACK mon_window_proc(HWND hwnd,
         {
     	    if (wParam != SIZE_MINIMIZED)
             {
-                ResizeToolbar(hwnd);
+                // Tell the toolbar to resize itself to fill the top of the window.
+                if (hwndToolbar)
+                   SendMessage(hwndToolbar, TB_AUTOSIZE, 0L, 0L);
+
                 ResizeMdiClient(hwnd);
             }
         }
@@ -1007,19 +1038,21 @@ long CALLBACK mon_window_proc(HWND hwnd,
 }
 
 static
-void ActivateMdiChild( HWND hwndDeactivated, HWND hwndOwn, enum t_memspace memspace )
+void ActivateChild( BOOL bActivated, HWND hwndOwn, MEMSPACE memspace )
 {
-	if (hwndDeactivated == hwndOwn)
+	if (bActivated)
 	{
-		// we are deactivated
-		hwndMdiActive = NULL;
-        ClearMemspace( hwndOwn );
+		// we are activated
+		hwndActive = hwndOwn;
+        SetMemspace( hwndOwn, memspace );
 	}
 	else
 	{
-		// we are activated
-		hwndMdiActive = hwndOwn;
-        SetMemspace( hwndOwn, memspace );
+/**/
+		// we are deactivated
+		hwndActive = NULL;
+        ClearMemspace( hwndOwn );
+/**/
 	}
 }
 
@@ -1028,7 +1061,7 @@ struct reg_private
 {
     int charwidth;
     int charheight;
-	enum t_memspace memspace;
+	MEMSPACE memspace;
 	int LastShownRegs[16];
 } reg_private_t;
 
@@ -1042,9 +1075,6 @@ long CALLBACK reg_window_proc(HWND hwnd,
 
 	switch (msg)
 	{
-//	case WM_CLOSE:
-		/* FALL THROUGH */
-
 	case WM_DESTROY:
 		// clear the dis_private info 
 		free(prp);
@@ -1052,8 +1082,12 @@ long CALLBACK reg_window_proc(HWND hwnd,
 
 	    return DEF_REG_PROG(hwnd, msg, wParam, lParam);
 
+    case WM_ACTIVATE:
+        ActivateChild( (LOWORD(wParam)!=WA_INACTIVE) ? TRUE:FALSE, hwnd, prp->memspace );
+        break;
+
 	case WM_MDIACTIVATE:
-		ActivateMdiChild( (HWND) wParam, hwnd, prp->memspace );
+        ActivateChild( ((HWND) wParam==hwnd)?FALSE:TRUE, hwnd, prp->memspace );
 		break;
 
     case WM_GETWINDOWTYPE:
@@ -1182,8 +1216,15 @@ long CALLBACK reg_window_proc(HWND hwnd,
             DO_OUT_REG(12, 23, e_Y,  2 );
             DO_OUT_REG(13, 26, e_SP, 2 );
 
-            DO_OUT_MEM(14, 29, 0x00 );
-            DO_OUT_MEM(15, 32, 0x01 );
+            if (prp->memspace == e_comp_space)
+            {
+                DO_OUT_MEM(14, 29, 0x00 );
+                DO_OUT_MEM(15, 32, 0x01 );
+            }
+            else
+            {
+                DO_OUT( FALSE, 29, "     ", 5 );
+            }
 
 #undef DO_OUT
 #undef DO_OUT_REG
@@ -1205,7 +1246,7 @@ struct dis_private
 {
     int charwidth;
     int charheight;
-	enum t_memspace memspace;
+	MEMSPACE memspace;
     UINT StartAddress;
     UINT EndAddress;
 
@@ -1223,13 +1264,17 @@ long CALLBACK dis_window_proc(HWND hwnd,
 	{
 	case WM_DESTROY:
 		// clear the dis_private info 
-		free(pdp);
 		SetWindowLong( hwnd, GWL_USERDATA, 0 );
+		free(pdp);
 
-		return DefMDIChildProc(hwnd, msg, wParam, lParam);
+		return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
+
+    case WM_ACTIVATE:
+        ActivateChild( (LOWORD(wParam)!=WA_INACTIVE) ? TRUE:FALSE, hwnd, pdp->memspace );
+        break;
 
 	case WM_MDIACTIVATE:
-		ActivateMdiChild( (HWND) wParam, hwnd, pdp->memspace );
+        ActivateChild( ((HWND) wParam==hwnd)?FALSE:TRUE, hwnd, pdp->memspace );
 		break;
 
     case WM_GETWINDOWTYPE:
@@ -1291,9 +1336,9 @@ long CALLBACK dis_window_proc(HWND hwnd,
             ADDRESS loc;
             unsigned int size;
             char *buffer;
-            const char *p;
-            char *label;
             int  i;
+            int  have_label = 0; /* this *must* be initialized with zero! */
+
             int  nHeightToPrint, nHeightToNextPage;
 
             if ((uAddress < pdp->StartAddress) || (uAddress > pdp->EndAddress))
@@ -1311,38 +1356,19 @@ long CALLBACK dis_window_proc(HWND hwnd,
 
 			hdc = BeginPaint(hwnd,&ps);
 
-
-#define DO_OUT(_y,_addr) \
-    SetTextColor(hdc,RGB((_addr)==uAddress?0xFF:0,0,0)); \
-    TextOut( hdc,  0, _y*pdp->charheight, buffer, strlen(buffer) ); \
-    free(buffer)
-
-            for (i=0; i*pdp->charheight<nHeightToPrint; i++)
+            for (i=0; i<nHeightToPrint; i += pdp->charheight)
             {
-               if (i*pdp->charheight < nHeightToNextPage)
+               if (i < nHeightToNextPage)
                    pdp->EndAddress = loc;
 
-               label = mon_symbol_table_lookup_name(pdp->memspace, loc);
-               if (label)
-               {
-                  buffer = xmsprintf( "%s:",label);
-                  DO_OUT(i++,loc);
-               }
+			   buffer = mon_disassemble_with_label(pdp->memspace, loc, 1, &size, &have_label );
 
-               p = mon_disassemble_to_string_ex( loc,
-                       mon_get_mem_val(pdp->memspace,loc),
-                       mon_get_mem_val(pdp->memspace,loc+1),
-                       mon_get_mem_val(pdp->memspace,loc+2),
-                       1,
-                       &size );
-
-               buffer = xmsprintf( "%04X: %s%10s", loc, p, "");
-
-               DO_OUT( i, loc );
+               SetTextColor(hdc,RGB(loc==uAddress?0xFF:0,0,0));
+               TextOut( hdc, 0, i, buffer, strlen(buffer) );
+               free(buffer);
 
                loc += size;
             }
-#undef DO_OUT
 
 			EndPaint(hwnd,&ps);
 
@@ -1350,12 +1376,12 @@ long CALLBACK dis_window_proc(HWND hwnd,
 		}
 	}
 
-	return DefMDIChildProc(hwnd, msg, wParam, lParam);
+	return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
 }
 
 
 static 
-void arch_mon_init( void )
+void uimon_init( void )
 {
     static BOOLEAN bFirstTime = TRUE;
 
@@ -1429,8 +1455,16 @@ void UpdateAll(void)
 
 #endif // #ifdef UIMON_EXPERIMENTAL
 
+void uimon_notify_change()
+{
+#ifdef UIMON_EXPERIMENTAL
+	UpdateAll();
+#endif // #ifdef UIMON_EXPERIMENTAL
+}
 
-void arch_mon_window_close( void )
+
+
+void uimon_window_close( void )
 {
 #ifdef UIMON_EXPERIMENTAL
 
@@ -1449,7 +1483,7 @@ void arch_mon_window_close( void )
 }
 
 
-console_t *arch_mon_window_open( void )
+console_t *uimon_window_open( void )
 {
 
 #ifdef UIMON_EXPERIMENTAL
@@ -1464,7 +1498,7 @@ console_t *arch_mon_window_open( void )
 
 	SuspendFullscreenMode( hwndParent );
 
-    arch_mon_init();
+    uimon_init();
 
     hwnd = CreateWindow(MONITOR_CLASS,
 		"VICE monitor",
@@ -1506,36 +1540,35 @@ console_t *arch_mon_window_open( void )
 #endif // #ifdef UIMON_EXPERIMENTAL
 }
 
-void arch_mon_window_suspend( void )
+void uimon_window_suspend( void )
 {
 #ifdef UIMON_EXPERIMENTAL
 
 #else // #ifdef UIMON_EXPERIMENTAL
 
-    arch_mon_window_close();
+    uimon_window_close();
 
 #endif // #ifdef UIMON_EXPERIMENTAL
 }
 
-console_t *arch_mon_window_resume( void )
+console_t *uimon_window_resume( void )
 {
 #ifdef UIMON_EXPERIMENTAL
 
-	pRetValue = NULL;
+	pchCommandLine = NULL;
 
-	UpdateAll();
     return &console_log_for_mon;
 
 #else // #ifdef UIMON_EXPERIMENTAL
 
-    return arch_mon_window_open();
+    return uimon_window_open();
 
 #endif // #ifdef UIMON_EXPERIMENTAL
 }
 
 #define MAX_OUTPUT_LENGTH 2000
 
-int arch_mon_out(const char *format, ...)
+int uimon_out(const char *format, ...)
 {
     va_list ap;
     char *buffer;
@@ -1551,47 +1584,48 @@ int arch_mon_out(const char *format, ...)
     return rc;
 }
 
-char *arch_mon_in()
+/*
+char *uimon_in()
 {
 #ifdef UIMON_EXPERIMENTAL
 
     char *p = NULL;
 
-	while (!p && !pRetValue)
+	while (!p && !pchCommandLine)
 	{
+        /* as long as we don't have any return value... *
+
 		if (console_log)
 		{
+            /* we have a console, so try to input data from there... *
 	        p = console_in(console_log);
-/*
-			if (p)
-			{
-				if (*p==0)
-				{
-					free(p);
-					p = NULL;
-				}
-			}
-*/
 		}
 		else
 		{
-	        while (!pRetValue && !console_log)
+            /* we don't have a console, make sure we can do something useful
+               by dispatching the events
+            *
+	        while (!pchCommandLine && !console_log)
 		    {
 			    ui_dispatch_next_event();
 			}
 		}
     }
 
-    if (pRetValue)
+    if (pchCommandLine)
     {
+        /* we have an "artificially" generated command line *
+
         if (p)
 		{
             free(p);
 		}
-        p = stralloc(pRetValue);
-        pRetValue = NULL;
+
+        p = stralloc(pchCommandLine);
+        pchCommandLine = NULL;
     }
 
+    /* return the command (the one or other way...) *
     return p;
 
 #else // #ifdef UIMON_EXPERIMENTAL
@@ -1600,3 +1634,30 @@ char *arch_mon_in()
 
 #endif // #ifdef UIMON_EXPERIMENTAL
 }
+/**/
+char *uimon_get_in(char **ppchCommandLine)
+{
+#ifdef UIMON_EXPERIMENTAL
+    char *p = NULL;
+
+    if (console_log)
+    {
+        /* we have a console, so try to input data from there... */
+        p = console_in(console_log);
+    }
+    else
+    {
+        /* we don't have a console, make sure we can do something useful
+           by dispatching the events
+        */
+        while (!*ppchCommandLine && !console_log)
+        {
+            ui_dispatch_next_event();
+        }
+    }
+    return p;
+#else // #ifdef UIMON_EXPERIMENTAL
+    return console_in(console_log);
+#endif // #ifdef UIMON_EXPERIMENTAL
+}
+

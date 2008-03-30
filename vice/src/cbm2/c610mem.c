@@ -620,6 +620,8 @@ static struct {
     { NULL }
 };
 
+static int cbm2_model = 1;
+
 int cbm2_set_model(const char *model, void *extra)
 {
     int i;
@@ -629,21 +631,27 @@ int cbm2_set_model(const char *model, void *extra)
 
 	    set_use_vicii((resource_value_t)modtab[i].usevicii, NULL);
 	    set_ramsize((resource_value_t)modtab[i].ramsize, NULL);
-	    set_basic_rom_name((resource_value_t)modtab[i].basic, NULL);
+            set_basic_rom_name((resource_value_t)modtab[i].basic, NULL);
 	    set_chargen_rom_name((resource_value_t)modtab[i].charrom, NULL);
 	    set_kernal_rom_name((resource_value_t)modtab[i].kernal, NULL);
-	    set_cbm2_model_line((resource_value_t)modtab[i].line, NULL);
+            set_cbm2_model_line((resource_value_t)modtab[i].line, NULL);
 
 	    /* we have to wait until we did enough initialization */
 	    if(cbm2_init_ok) {
                 mem_powerup();
 	        mem_load();
                 maincpu_trigger_reset();
-	    }
+                cbm2_model = i;
+            }
 	    return 0;
 	}
     }
     return -1;
+}
+
+const char *cbm2_get_model()
+{
+    return modtab[cbm2_model].model;
 }
 
 /* ------------------------------------------------------------------------- */

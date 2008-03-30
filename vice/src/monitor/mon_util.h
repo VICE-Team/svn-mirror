@@ -1,8 +1,8 @@
 /*
- * c610mem.h - CBM-II memory handling.
+ * mon_util.h - Utilities for the VICE built-in monitor.
  *
  * Written by
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,33 +24,23 @@
  *
  */
 
-#ifndef _C610MEM_H
-#define _C610MEM_H
+#ifndef _MON_UTIL_H
+#define _MON_UTIL_H
 
 #include "types.h"
 
-#define C610_RAM_SIZE		0x100000	/* maximum 1M */
-#define C610_ROM_SIZE		0x10000		/* complete bank 15 */
-#define C610_CHARGEN_ROM_SIZE	0x2000
+extern 
+char *mon_disassemble_with_label(
+          MEMSPACE  memspace, 
+          ADDRESS   loc, 
+          int       hex, 
+          unsigned *opc_size_p, 
+          unsigned *label_p );
 
-extern int c610_mem_init_resources(void);
-extern int c610_mem_init_cmdline_options(void);
+extern
+void mon_set_command( console_t *console_log, char *command, void (*)(void) );
 
-extern void set_bank_exec(int val);
-extern void set_bank_ind(int val);
-extern int cbm2_set_model(const char *model, void *extra);
-extern const char *cbm2_get_model(void);
+extern monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 
-extern int cbm2_init_ok;
 
-extern void mem_reset(void);
-
-extern void cbm2_set_tpi1ca(int);
-extern void cbm2_set_tpi1cb(int);
-extern void cbm2_set_tpi2pc(BYTE);
-
-extern void c500_set_phi1_bank(int b);
-extern void c500_set_phi2_bank(int b);
-
-#endif
-
+#endif /* #ifndef _MON_UTIL_H */

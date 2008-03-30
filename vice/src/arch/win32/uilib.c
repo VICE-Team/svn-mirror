@@ -639,7 +639,10 @@ BOOL CALLBACK TextDlgProc(HWND hwndDlg,		// handle to dialog box
 				LPARAM lParam)	// second message parameter
 {
     switch (uMsg) {
-        case WM_INITDIALOG:
+
+    
+    
+    case WM_INITDIALOG:
 		{
 			struct TEXTDLGDATA* pInfo = (struct TEXTDLGDATA*) lParam;
 			SetWindowText(hwndDlg,pInfo->szCaption);

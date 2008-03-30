@@ -180,12 +180,14 @@ static CLOCK c500_powerline_clk = 0;
 int c500_powerline_clk_alarm_handler (CLOCK offset) {
 
     c500_powerline_clk += C500_POWERLINE_CYCLES_PER_IRQ;
-    
+
     SIGNAL_VERT_BLANK_OFF
 
     alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
 
     SIGNAL_VERT_BLANK_ON
+
+    return 0;
 }
 
 static void c500_powerline_clk_overflow_callback(CLOCK sub, void *data)
@@ -244,7 +246,7 @@ int machine_init(void)
         crtc_set_hw_options( 1, 0x7ff, 0x1000, 512, -0x2000);
     } else {
         /* Initialize the VIC-II emulation.  */
-        if (vic_ii_init() == NULL) 
+        if (vic_ii_init() == NULL)
 	    return -1;
 
 	/*
@@ -254,7 +256,7 @@ int machine_init(void)
 
         alarm_init (&c500_powerline_clk_alarm, &maincpu_alarm_context,
                 "C500PowerlineClk", c500_powerline_clk_alarm_handler);
-        clk_guard_add_callback(&maincpu_clk_guard, 
+        clk_guard_add_callback(&maincpu_clk_guard,
 				c500_powerline_clk_overflow_callback, NULL);
 
  	cbm2_cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
@@ -347,7 +349,7 @@ void machine_shutdown(void)
     tape_detach_image();
 
     console_close_all();
-    
+
     /* close the video chip(s) */
     if (isC500) {
         vic_ii_free();
@@ -565,7 +567,7 @@ static int c500_read_snapshot_module(snapshot_t *p)
 
     snapshot_module_read_dword(m, &dword);
     c500_powerline_clk = clk + dword;
-    alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk); 
+    alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
 
     snapshot_module_close(m);
 

@@ -54,6 +54,28 @@
 
 // --------------------------------------------------------------------------
 
+#ifdef __XCBM__
+#include "c610mem.h"     // cbm2_set_model
+
+const char cbm_models[][5] = { "510", "610", "620", "620+", "710", "720", "720+" };
+
+static void set_cbm_model(ADDRESS addr, void *model)
+{
+    cbm2_set_model((char*)model, NULL);
+}
+#endif
+#ifdef __XPET__
+#include "pets.h"
+
+const char pet_models[][10] = { "2001", "3008", "3016", "3032", "3032B", "4016",
+                                "4032", "4032B", "8032", "8096", "8296", "SuperPET" };
+
+static void set_pet_model(ADDRESS addr, void *model)
+{
+    pet_set_model((char*)model, NULL);
+}
+#endif
+
 #if defined __X64__ || defined __X128__ || defined __XVIC__
 static const char *VIDEO_CACHE="VideoCache";
 #else
@@ -105,6 +127,7 @@ void save_screenshot(HWND hwnd)
         log_debug("proc.c: Screenshot successfully saved as %s (%s)", name, type);
 }
 */
+
 // --------------------------------------------------------------------------
 
 void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
@@ -406,12 +429,8 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         set_volume(10*(idm&0xf));
         return;
 
-#ifndef __X128__
     case IDM_MENUBAR:
-        {
-            extern void toggle_menubar(HWND hwnd);
-            toggle_menubar(hwnd);
-        }
+        toggle("Menubar");
         return;
 /*
     case IDM_STATUSBAR:
@@ -420,49 +439,23 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
             toggle_statusbar(hwnd);
         }
         return;
-*/
-        //
-        // FIXME: we get only the Handle for one canvas here
-        //
+        */
     case IDM_STRETCH1:
     case IDM_STRETCH2:
     case IDM_STRETCH3:
-        {
-            extern void wmVrnDisabled(HWND hwnd);
-            extern void wmVrnEnabled(HWND hwnd);
-
-            canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
-            //
-            // disable visible region (stop blitting to display)
-            //
-            wmVrnDisabled(hwnd);
-
-            //
-            // set new stretch factor
-            //
-            resources_set_value("WindowStretchFactor", (resource_value_t)(idm&0xf));
-
-            //
-            // resize canvas
-            //
-            canvas_resize(c, c->width, c->height);
-
-            //
-            // set visible region (start blitting again)
-            //
-            wmVrnEnabled(hwnd);
-        }
+        resources_set_value("WindowStretchFactor", (resource_value_t)(idm&0xf));
         return;
-#endif
+
 #ifdef __XCBM__
-        /*
-         case IDM_CBM610:
-         case IDM_CBM620:
-         case IDM_CBM620P:
-         case IDM_CBM710:
-         case IDM_CBM720:
-         case IDM_CBM720P:
-         */
+    case IDM_CBM510:
+    case IDM_CBM610:
+    case IDM_CBM620:
+    case IDM_CBM620P:
+    case IDM_CBM710:
+    case IDM_CBM720:
+    case IDM_CBM720P:
+        maincpu_trigger_trap(set_cbm_model, (void*)cbm_models[(idm&0xf)-1]);
+        return;
 
     case IDM_MODEL750:
     case IDM_MODEL660:
@@ -502,55 +495,21 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         return;
 #endif // __XCBM__
 #ifdef __XPET__
-        /*
-         case IDM_PET2001:
-        resources_set_value("Model", (resource_value_t)"2001");
-        return;
-
+    case IDM_PET2001:
     case IDM_PET3008:
-        resources_set_value("Model", (resource_value_t)"3008");
-        return;
-
     case IDM_PET3016:
-        resources_set_value("Model", (resource_value_t)"3016");
-        return;
-
     case IDM_PET3032:
-        resources_set_value("Model", (resource_value_t)"3032");
-        return;
-
     case IDM_PET3032B:
-        resources_set_value("Model", (resource_value_t)"3032B");
-        return;
-
     case IDM_PET4016:
-        resources_set_value("Model", (resource_value_t)"4016");
-        return;
-
     case IDM_PET4032:
-        resources_set_value("Model", (resource_value_t)"4032");
-        return;
-
     case IDM_PET4032B:
-        resources_set_value("Model", (resource_value_t)"4032B");
-        return;
-
     case IDM_PET8032:
-        resources_set_value("Model", (resource_value_t)"8032");
-        return;
-
     case IDM_PET8096:
-        resources_set_value("Model", (resource_value_t)"8096");
-        return;
-
     case IDM_PET8296:
-        resources_set_value("Model", (resource_value_t)"8296");
-        return;
-
     case IDM_PETSUPER:
-        resources_set_value("Model", (resource_value_t)"SuperPET");
-        return;
-*/
+         maincpu_trigger_trap(set_pet_model, (void*)pet_models[(idm&0xf)-1]);
+         return;
+
     case IDM_CHARSET:
         toggle("Basic1Chars");
         return;
@@ -732,8 +691,8 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_EMUID,     "EmuID");
         WinCheckRes(hwnd, IDM_VCACHE,    VIDEO_CACHE);
         WinCheckMenuItem(hwnd, IDM_PAUSE, isEmulatorPaused());
-#ifndef __X128__
         WinCheckRes(hwnd, IDM_MENUBAR,   "Menubar");
+#ifndef __X128__
         WinCheckRes(hwnd, IDM_MENUBAR,   "Statusbar");
 #endif
 #if defined __X128__ || defined __XVIC__
@@ -831,15 +790,24 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_VDC16K, val==0);
         WinCheckMenuItem(hwnd, IDM_VDC64K, val==1);
         return;
-#else
+#endif // __X128__
     case IDM_STRETCH:
         resources_get_value("WindowStretchFactor", (resource_value_t*)&val);
         WinCheckMenuItem(hwnd, IDM_STRETCH1, val==1);
         WinCheckMenuItem(hwnd, IDM_STRETCH2, val==2);
         WinCheckMenuItem(hwnd, IDM_STRETCH3, val==3);
         return;
-#endif // __X128__
+
 #ifdef __XCBM__
+    case IDM_MODEL:
+        {
+            int i;
+            for (i=0; i<7; i++)
+                WinCheckMenuItem(hwnd, IDM_MODEL|(i+1),
+                                 !strcmp(cbm2_get_model(), cbm_models[i]));
+        }
+        return;
+
     case IDM_MODELLINE:
         resources_get_value("ModelLine", (resource_value_t*)&val);
         WinCheckMenuItem(hwnd, IDM_MODEL750, val==0);
@@ -865,25 +833,15 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 #endif // __XCBM__
 #ifdef __XPET__
-/*    case IDM_PETMODEL:
+    case IDM_PETMODEL:
         {
-            char *c;
-            resources_get_value("Model", (resource_value_t*)&c);
-            WinCheckMenuItem(hwnd, IDM_PET2001,   strcmp(c, "2001"));
-            WinCheckMenuItem(hwnd, IDM_PET3008,   strcmp(c, "3008"));
-            WinCheckMenuItem(hwnd, IDM_PET3016,   strcmp(c, "3016"));
-            WinCheckMenuItem(hwnd, IDM_PET3032,   strcmp(c, "3032"));
-            WinCheckMenuItem(hwnd, IDM_PET3032B,  strcmp(c, "3032B"));
-            WinCheckMenuItem(hwnd, IDM_PET4016,   strcmp(c, "4016"));
-            WinCheckMenuItem(hwnd, IDM_PET4032,   strcmp(c, "4032"));
-            WinCheckMenuItem(hwnd, IDM_PET4032B,  strcmp(c, "4032B"));
-            WinCheckMenuItem(hwnd, IDM_PET8032,   strcmp(c, "8032"));
-            WinCheckMenuItem(hwnd, IDM_PET8096,   strcmp(c, "8096"));
-            WinCheckMenuItem(hwnd, IDM_PET8296,   strcmp(c, "8296"));
-            WinCheckMenuItem(hwnd, IDM_PETSUPER,  strcmp(c, "SuperPET"));
+            int i;
+            for (i=0; i<12; i++)
+                WinCheckMenuItem(hwnd, IDM_PETMODEL|(i+1),
+                                 !strcmp(get_pet_model(), pet_models[i]));
         }
         return;
-        */
+
     case IDM_IOMEM:
         resources_get_value("IOSize", (resource_value_t*)&val);
         WinCheckMenuItem(hwnd, IDM_IOMEM256, val==0x100);

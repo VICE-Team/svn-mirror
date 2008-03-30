@@ -460,19 +460,19 @@ static const conf_icon_id conf_grey_xcbm2[] = {
 
 
 /* Configuration options */
-int PollEvery;
-int SpeedEvery;
-int SpeedLimit;
-int AutoPauseEmu;
-int DriveType8;
-int DriveType9;
-int DriveType10;
-int DriveType11;
-char *DriveFile8 = NULL;
-char *DriveFile9 = NULL;
-char *DriveFile10 = NULL;
-char *DriveFile11 = NULL;
-char *TapeFile = NULL;
+int CurrentSpeedLimit;
+static int PollEvery;
+static int SpeedEvery;
+static int AutoPauseEmu;
+static int DriveType8;
+static int DriveType9;
+static int DriveType10;
+static int DriveType11;
+static char *DriveFile8 = NULL;
+static char *DriveFile9 = NULL;
+static char *DriveFile10 = NULL;
+static char *DriveFile11 = NULL;
+static char *TapeFile = NULL;
 
 static int *DriveTypes[] = {
   &DriveType8, &DriveType9, &DriveType10, &DriveType11
@@ -486,21 +486,22 @@ static char **DriveFiles[] = {
 
 
 /* Logging */
-log_t roui_log = LOG_ERR;
+static log_t roui_log = LOG_ERR;
+
+static int NumberOfFrames = 0;
+static int LastFrame;
+static int ShowEmuPane = 1;
+static char *ROMSetName = NULL;
+static char *ROMSetArchiveFile = NULL;
 
 int EmuZoom;
 int LastPoll;
 int LastSpeed;
-int LastFrame;
-int NumberOfFrames = 0;
 int RelativeSpeed = 100;
 int EmuPaused;
 int SingleTasking = 0;
-int ShowEmuPane = 1;
 char *PetModelName = NULL;
 char *CBM2ModelName = NULL;
-char *ROMSetName = NULL;
-char *ROMSetArchiveFile = NULL;
 
 static char ROMSetItemFile[256];
 static char SystemKeymapFile[256];
@@ -883,6 +884,7 @@ static const char Rsrc_PetSuper[] = "SuperPET";
 static const char Rsrc_FullScr[] = "ScreenMode";
 static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
 static const char Rsrc_CoreDump[] = "DoCoreDump";
+static const char Rsrc_Z80Bios[] = "Z80BiosName";
 
 static const char *Rsrc_ConvP00[4] = {
   Rsrc_Conv8P00, Rsrc_Conv9P00, Rsrc_Conv10P00, Rsrc_Conv11P00
@@ -1043,12 +1045,12 @@ static help_icon_t Help_ConfigTape[] = {
 static help_icon_t Help_ConfigDevices[] = {
   {-1, "\\HelpConfDevice"},
   {Icon_Conf_ACIAIrq, "\\HelpConfDevACIAIrq"},
-  {Icon_Conf_ACIADev, "\\HelpConfDevACIADev"},
+  {Icon_Conf_ACIADev, "\\HelpConfDevACIADev|M\\HelpConfDeviceDev"},
   {Icon_Conf_ACIADevT, "\\HelpConfDevACIADevT"},
   {Icon_Conf_ACIADE, "\\HelpConfDevACIADE"},
   {Icon_Conf_ACIAD67, "\\HelpConfDevACIA67"},
   {Icon_Conf_RsUsr, "\\HelpConfDevRsUsr"},
-  {Icon_Conf_RsUsrDev, "\\HelpConfDevRsUsrDev"},
+  {Icon_Conf_RsUsrDev, "\\HelpConfDevRsUsrDev|M\\HelpConfDeviceDev"},
   {Icon_Conf_RsUsrDevT, "\\HelpConfDevRsUsrDevT"},
   {Icon_Conf_Serial, "\\HelpConfDevSerial"},
   {Icon_Conf_SerialT, "\\HelpConfDevSerialT"},
@@ -1059,10 +1061,10 @@ static help_icon_t Help_ConfigDevices[] = {
   {Icon_Conf_FileRsIcon, "\\HelpConfDevIcon"},
   {Icon_Conf_FilePrIcon, NULL},
   {Icon_Conf_PrntOn, "\\HelpConfDevPrntOn"},
-  {Icon_Conf_PrntDev, "\\HelpConfDevPrntDev"},
+  {Icon_Conf_PrntDev, "\\HelpConfDevPrntDev|M\\HelpConfDeviceDev"},
   {Icon_Conf_PrntDevT, "\\HelpConfDevPrntDevT"},
   {Icon_Conf_PrntUsrOn, "\\HelpConfDevPrntUsrOn"},
-  {Icon_Conf_PrntUsrDev, "\\HelpConfDevPrntUsrDev"},
+  {Icon_Conf_PrntUsrDev, "\\HelpConfDevPrntUsrDev|M\\HelpConfDeviceDev"},
   {Icon_Conf_PrntUsrDevT, "\\HelpConfDevPrntUsrDevT"},
   {Help_Icon_End, NULL}
 };
@@ -1096,10 +1098,10 @@ static help_icon_t Help_ConfigSound[] = {
 
 static help_icon_t Help_ConfigSystem[] = {
   {-1, "\\HelpConfSystem"},
-  {Icon_Conf_CharGen, "\\HelpConfSysCharGen"},
-  {Icon_Conf_Kernal, "\\HelConfSysKernal"},
-  {Icon_Conf_Basic, "\\HelpConfSysBasic"},
-  {Icon_Conf_Palette, "\\HelpConfSysPal"},
+  {Icon_Conf_CharGen, "\\HelpConfSysCharGen|M\\HelpConfSystemPath"},
+  {Icon_Conf_Kernal, "\\HelpConfSysKernal|M\\HelpConfSystemPath"},
+  {Icon_Conf_Basic, "\\HelpConfSysBasic|M\\HelpConfSystemPath"},
+  {Icon_Conf_Palette, "\\HelpConfSysPal|M\\HelpConfSystemPath"},
   {Icon_Conf_REU, "\\HelpConfSysREU"},
   {Icon_Conf_IEEE488, "\\HelpConfSysIEEE"},
   {Icon_Conf_EmuID, "\\HelpConfSysID"},
@@ -1113,14 +1115,14 @@ static help_icon_t Help_ConfigSystem[] = {
   {Icon_Conf_Refresh, "\\HelpConfSysRefresh"},
   {Icon_Conf_RefreshT, "\\HelpConfSysRefreshT"},
   {Icon_Conf_WarpMode, "\\HelpConfSysWarpMode"},
-  {Icon_Conf_CartType, "\\HelpConfSysCrtType"},
+  {Icon_Conf_CartType, "\\HelpConfSysCrtType|M\\HelpConfSystemCart"},
   {Icon_Conf_CartTypeT, "\\HelpConfSysCrtTypeT"},
-  {Icon_Conf_CartFile, "\\HelpConfSysCrtFile"},
+  {Icon_Conf_CartFile, "\\HelpConfSysCrtFile|M\\HelpConfSystemCart"},
   {Icon_Conf_CheckSScoll, "\\HelpConfSysSScl"},
-  {Icon_Conf_CheckSBcoll, "\\HelpConfSysSbcl"},
+  {Icon_Conf_CheckSBcoll, "\\HelpConfSysSBcl"},
   {Icon_Conf_DosName, "\\HelpConfSysDosName"},
   {Icon_Conf_DosNameT, "\\HelpConfSysDosNameT"},
-  {Icon_Conf_DosNameF, "\\HelpConfSysDosNameF"},
+  {Icon_Conf_DosNameF, "\\HelpConfSysDosNameF|M\\HelpConfSystemPath"},
   {Icon_Conf_AutoPause, "\\HelpConfSysAutoPs"},
   {Icon_Conf_ROMSet, "\\HelpConfSysROMSet"},
   {Icon_Conf_ROMSetT, "\\HelpConfSysROMSetT"},
@@ -1199,10 +1201,11 @@ static help_icon_t Help_ConfigMachineCBM2[] = {
 
 static help_icon_t Help_ConfigMachineC128[] = {
   {-1, "\\HelpConfC128"},
-  {Icon_Conf_C128Palette, "\\HelpConf128Pal"},
+  {Icon_Conf_C128Palette, "\\HelpConf128Pal|M\\HelpConfC128Path"},
   {Icon_Conf_C128Cache, "\\HelpConf128Cache"},
   {Icon_Conf_C128Size, "\\HelpConf128Size"},
   {Icon_Conf_C1284080, "\\HelpConf1284080"},
+  {Icon_Conf_C128z80bios, "\\HelpConf128z80bios|M\\HelpConfC128Path"},
   {Icon_Conf_C128dblsize, "\\HelpConf128dsize"},
   {Icon_Conf_C128dblscan, "\\HelpConf128dscan"},
   {Help_Icon_End, NULL}
@@ -1368,7 +1371,7 @@ static int set_tape_file(resource_value_t v, void *param)
 
 static int set_speed_limit(resource_value_t v, void *param)
 {
-  SpeedLimit = (int)v;
+  CurrentSpeedLimit = (int)v;
 
   return 0;
 }
@@ -1409,7 +1412,7 @@ static resource_t resources[] = {
   {Rsrc_TapeFile, RES_STRING, (resource_value_t)"",
     (resource_value_t*)&TapeFile, set_tape_file, NULL },
   {Rsrc_SpeedLimit, RES_INTEGER, (resource_value_t)100,
-    (resource_value_t*)&SpeedLimit, set_speed_limit, NULL },
+    (resource_value_t*)&CurrentSpeedLimit, set_speed_limit, NULL },
   {NULL}
 };
 
@@ -2669,7 +2672,7 @@ int ui_init_finish(void)
   if (resources_get_value(Rsrc_Sound, &val) == 0)
     ui_set_sound_enable((int)val);
 
-  LastSpeedLimit = SpeedLimit;
+  LastSpeedLimit = CurrentSpeedLimit;
 
   CMOS_DragType = ReadDragType();
 
@@ -4928,14 +4931,19 @@ static void ui_user_msg_data_load(int *b)
   }
   else if (b[5] == ConfWindows[CONF_WIN_C128]->Handle)
   {
-    if (b[6] == Icon_Conf_C128Palette)
+    if ((b[6] == Icon_Conf_C128Palette) || (b[6] == Icon_Conf_C128z80bios))
     {
-      const char *filename;
+      const char *filename, *rsrc;
+
+      if (b[6] == Icon_Conf_C128Palette)
+        rsrc = Rsrc_VDCpalette;
+      else
+        rsrc = Rsrc_Z80Bios;
 
       filename = ui_check_for_syspath(name);
-      if (resources_set_value(Rsrc_VDCpalette, (resource_value_t)filename) == 0)
+      if (resources_set_value(rsrc, (resource_value_t)filename) == 0)
       {
-        wimp_window_write_icon_text(ConfWindows[CONF_WIN_C128], Icon_Conf_C128Palette, filename);
+        wimp_window_write_icon_text(ConfWindows[CONF_WIN_C128], b[6], filename);
       }
       action = 1;
     }
@@ -5327,9 +5335,9 @@ void ui_poll(void)
   NumberOfFrames++;
 
   /* Speed limiter? Busy wait */
-  if (SpeedLimit != 0)
+  if (CurrentSpeedLimit != 0)
   {
-    while ((10000*NumberOfFrames) > FramesPerSecond*SpeedLimit*(now-LastSpeed))
+    while ((10000*NumberOfFrames) > FramesPerSecond*CurrentSpeedLimit*(now-LastSpeed))
       now = OS_ReadMonotonicTime();
   }
   LastFrame = now;

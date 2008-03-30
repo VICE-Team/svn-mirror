@@ -50,4 +50,3 @@ typedef struct canvas_s
 typedef struct canvas_s canvas_t;
 
 #endif
-

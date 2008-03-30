@@ -26,8 +26,6 @@
 
 #include "vice.h"
 
-#include "uimon.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -35,32 +33,34 @@
 #include "utils.h"
 #include "console.h"
 
+#include "uimon.h"
+
 static console_t *console_log = NULL;
 
-void arch_mon_window_close()
+void uimon_window_close()
 {
     console_close(console_log);
     console_log = NULL;
 }
 
 
-console_t *arch_mon_window_open()
+console_t *uimon_window_open()
 {
     console_log = console_open("Monitor");
     return console_log;
 }
 
-void arch_mon_window_suspend()
+void uimon_window_suspend()
 {
-    arch_mon_window_close();
+    uimon_window_close();
 }
 
-console_t *arch_mon_window_resume()
+console_t *uimon_window_resume()
 {
-    return arch_mon_window_open();
+    return uimon_window_open();
 }
 
-int arch_mon_out(const char *format, ...)
+int uimon_out(const char *format, ...)
 {
     va_list ap;
     char *buffer;
@@ -77,7 +77,15 @@ int arch_mon_out(const char *format, ...)
     return rc;
 }
 
-char *arch_mon_in()
+char *uimon_get_in( char **ppchCommandLine )
 {
     return console_in(console_log);
+}
+
+void uimon_notify_change()
+{
+}
+
+void uimon_set_interface( monitor_interface_t *monitor_interface_init[], int count )
+{
 }

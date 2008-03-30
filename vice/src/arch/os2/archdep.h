@@ -59,6 +59,7 @@
 #define PRINTER_DEFAULT_DEV2 "LPT1:"
 #define PRINTER_DEFAULT_DEV3 "LPT2:"
 
+#define MPS803_DEFAULT_OUTPUT_NAME "mps803.bmp"
 /* ------------------------------------------------------------------------- */
 
 

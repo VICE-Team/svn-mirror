@@ -35,32 +35,32 @@
 
 static console_t *console_log = NULL;
 
-void arch_mon_window_close( void )
+void uimon_window_close( void )
 {
     console_close(console_log);
     console_log = NULL;
 }
 
 
-console_t *arch_mon_window_open( void )
+console_t *uimon_window_open( void )
 {
     console_log = console_open("Monitor");
     return console_log;
 }
 
-void arch_mon_window_suspend( void )
+void uimon_window_suspend( void )
 {
-    arch_mon_window_close();
+    uimon_window_close();
 }
 
-console_t *arch_mon_window_resume( void )
+console_t *uimon_window_resume( void )
 {
-    return arch_mon_window_open();
+    return uimon_window_open();
 }
 
 #define MAX_OUTPUT_LENGTH 2000
 
-int arch_mon_out(const char *format, ...)
+int uimon_out(const char *format, ...)
 {
     va_list ap;
     char buffer[MAX_OUTPUT_LENGTH];
@@ -74,7 +74,15 @@ int arch_mon_out(const char *format, ...)
     return 0;
 }
 
-char *arch_mon_in()
+char *uimon_get_in( char **ppchCommandLine )
 {
     return console_in(console_log);
+}
+
+void uimon_notify_change( void )
+{
+}
+
+void uimon_set_interface( monitor_interface_t *monitor_interface_init[], int count )
+{
 }

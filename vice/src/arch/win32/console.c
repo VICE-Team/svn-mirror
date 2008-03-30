@@ -671,8 +671,11 @@ static void replace_current_input( console_private_t *pcp, const char *p )
 
 static void external_resize_window( console_private_t *pcp, int nWidth, int nHeight )
 {
-	unsigned xDim = nWidth  / pcp->xCharDimension;
-	unsigned yDim = nHeight / pcp->yCharDimension;
+    /*
+	 the "+ ..." force a rounding up.
+	*/
+	unsigned xDim = (nWidth  + pcp->xCharDimension-1) / pcp->xCharDimension;
+	unsigned yDim = (nHeight + pcp->xCharDimension-1) / pcp->yCharDimension;
 
 	/* @SRT TODO: if a multi-line-input is given, make sure that the
 	   x dimension is not changed OR that the input is correctly redrawn!
@@ -1032,16 +1035,11 @@ static long CALLBACK console_window_proc(HWND hwnd,
 
 	case WM_MDIACTIVATE:
 		if ((HWND)wParam==hwnd)
-		{
 			// we are deactivated
 			UnregisterHotKey( hwnd, IDHOT_SNAPWINDOW );
-		}
-		if ((HWND)lParam==hwnd)
-		{
-			// we are activated
 
+		if ((HWND)lParam==hwnd)
 			RegisterHotKey( hwnd, IDHOT_SNAPWINDOW, MOD_ALT, VK_SNAPSHOT );
-		}
 		break;
 
 	case WM_ACTIVATE:
@@ -1226,9 +1224,9 @@ console_t *console_open(const char *id)
     return console_open_internal(id,GetActiveWindow(),NULL,0,0,0,0,0);
 }
 
-console_t *arch_console_open_mdi(const char *id, void *hw, void *hwndParent,
-                                 void *hwMdiClient, 
-								 DWORD dwStyle, int x, int y, int dx, int dy )
+console_t *uimon_console_open_mdi(const char *id, void *hw, void *hwndParent,
+                                  void *hwMdiClient, 
+				  				  DWORD dwStyle, int x, int y, int dx, int dy )
 {
     console_t *console_log;
 

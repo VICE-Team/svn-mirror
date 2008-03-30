@@ -87,6 +87,7 @@ extern int UseEigen;
 extern int EmuPaused;
 extern int SingleTasking;
 extern int RelativeSpeed;
+extern int CurrentSpeedLimit;
 
 extern char *PetModelName;
 extern char *CBM2ModelName;

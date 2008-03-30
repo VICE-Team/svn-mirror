@@ -134,14 +134,12 @@ BEGIN
          MENUITEM SEPARATOR
          MENUITEM "~Auto",             IDM_REFRATEAUTO,  MIS_TEXT
       END
-#ifndef __X128__
       SUBMENU "DIVE Stretch ~Factor",  IDM_STRETCH,      MIS_TEXT
       BEGIN
          MENUITEM "~1:1",              IDM_STRETCH1,     MIS_TEXT
          MENUITEM "~2:1",              IDM_STRETCH2,     MIS_TEXT
          MENUITEM "~3:1",              IDM_STRETCH3,     MIS_TEXT
       END
-#endif // __X128__      
 #ifdef __X128__
       SUBMENU "V~DC Memory Size",      IDM_VDCMEMORY,    MIS_TEXT
       BEGIN
@@ -181,9 +179,9 @@ BEGIN
 #endif
 #endif // __X128__ || __XVIC__      
 #ifdef __XCBM__
-      /*
       SUBMENU "Model",          IDM_MODEL,      MIS_TEXT
       BEGIN
+        MENUITEM "CBM 510",     IDM_CBM510,     MIS_TEXT
         MENUITEM "CBM 610",     IDM_CBM610,     MIS_TEXT
         MENUITEM "CBM 620",     IDM_CBM620,     MIS_TEXT
         MENUITEM "CBM 620+",    IDM_CBM620P,    MIS_TEXT
@@ -191,7 +189,6 @@ BEGIN
         MENUITEM "CBM 720",     IDM_CBM720,     MIS_TEXT
         MENUITEM "CBM 720+",    IDM_CBM720P,    MIS_TEXT
       END
-      */
       SUBMENU "Model ~Line",     IDM_MODELLINE,  MIS_TEXT
       BEGIN
         MENUITEM "~7x0 (50Hz)",  IDM_MODEL750,   MIS_TEXT
@@ -216,7 +213,7 @@ BEGIN
       END
 #endif //__XCBM__
 #ifdef __XPET__
-/*      SUBMENU "PE~T Model",  IDM_PETMODEL, MIS_TEXT
+      SUBMENU "PE~T Model",  IDM_PETMODEL, MIS_TEXT
       BEGIN
         MENUITEM "2001-8N",  IDM_PET2001,  MIS_TEXT
         MENUITEM "3008",     IDM_PET3008,  MIS_TEXT
@@ -230,7 +227,7 @@ BEGIN
         MENUITEM "8096",     IDM_PET8096,  MIS_TEXT
         MENUITEM "8296",     IDM_PET8296,  MIS_TEXT
         MENUITEM "SuperPET", IDM_PETSUPER, MIS_TEXT
-      END*/
+      END
       SUBMENU "RAM Si~ze",                         IDM_RAMSIZE,    MIS_TEXT
       BEGIN
         MENUITEM "~4kB",                           IDM_PETRAM4,    MIS_TEXT
@@ -269,10 +266,8 @@ BEGIN
       MENUITEM "R~EU - 512kB Memory Extension", IDM_REU,       MIS_TEXT
 #endif // __X64__ || __X128__
       MENUITEM SEPARATOR
-#ifndef __X128__
       MENUITEM "Show Menu ~Bar\tAlt-B",    IDM_MENUBAR,   MIS_TEXT
 //      MENUITEM "Show Status ~Line\tAlt-L", IDM_STATUSBAR, MIS_TEXT
-#endif // __X128__
       MENUITEM "~Pause Emulation\tAlt-P", IDM_PAUSE,   MIS_TEXT
    END
    SUBMENU "~Sound",                IDM_SOUND,        MIS_TEXT

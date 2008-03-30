@@ -44,13 +44,16 @@
 #include <direct.h>            // chdir
 
 #include "log.h"
+#include "mem.h"               // mem_romset_resource_list
 #include "tape.h"              // tape_attach_image
 #include "utils.h"             // xmsprintf
 #include "video.h"             // canvas_t
 #include "attach.h"            // file_system_attach_disk
+#include "romset.h"            // romset_*
 #include "machine.h"           // machine_read/write_snapshot
 #include "dialogs.h"           // WinLbox*
 #include "archdep.h"           // archdep_boot_path
+#include "fliplist.h"          // flip_*
 #include "charsets.h"          // a2p, p2a
 #include "resources.h"         // resources_set_value
 #include "autostart.h"         // autostart_autodetect
@@ -62,19 +65,12 @@
 #include "dlg-fileio.h"
 #include "snippets\pmwin2.h"
 
-#define DLG_FILEIO       0x2000
-#define DID_CONTENTS_LB  0x2001
-#define DID_CONTENTS_CB  0x2003
-#define DID_CBMFONT_CB   0x2004
-#define DID_AUTOSTART_PB 0x2005
-#define DID_DIRUP        0x2002
-#define DID_DIR_SELECTED 0x2006
-#define DID_FFILTER_CB   0x2007
-#define DID_ACTION_CB    0x2018
-#define DID_SUBACTION_CB 0x2019
-#define DID_FONTNAME_CB  0x2020
-
-#include "log.h"
+#if defined __X64__ || defined __X128__ || defined __XVIC__
+static const char *VIDEO_PALETTE="PaletteFile";
+#else
+//#if defined __XPET__ || defined __XCBM__
+static const char *VIDEO_PALETTE="CrtcPaletteFile";
+#endif
 
 struct _filter
 {
@@ -101,7 +97,7 @@ struct _action
 
 typedef struct _action action_t;
 
-filter_t FilterDisk[] = {
+static filter_t FilterDisk[] = {
     {"*.d64*; *.d71*; *.d80*; *.d81.*; *.d82*; *.g64*; *.x64*", "All Disk Images"          },
     {"*.d64*; *.g64*; *.x64*",                                  "All 1541 Images"          },
     {"*.d64*",         "1541"               },
@@ -114,41 +110,43 @@ filter_t FilterDisk[] = {
     {NULL}
 };
 
-filter_t FilterTape[] = {
+static filter_t FilterTape[] = {
     {"*.t64*; *.tap*", "All Tape Images"    },
     {"*.t64*",         "T64"                },
     {"*.tap*",         "Raw 1531 Tape File" },
     {NULL}
 };
 
-filter_t FilterCart[] = {
+static filter_t FilterCart[] = {
     {"*.crt; *.bin",   "All Cartridge Images" },
     {"*.crt",          "CRT"                  },
     {"*.bin",          "BIN"                  },
     {NULL}
 };
 
-filter_t FilterPal[]     = {{"*.vpl", "Vice/2 Color Palette"     }, {NULL}};
-filter_t FilterVsf[]     = {{"*.vsf", "Vice/2 Snapshot File"     }, {NULL}};
-filter_t FilterKbd[]     = {{"*.vkm", "Vice/2 Keyboard Map"      }, {NULL}};
-filter_t FilterPng[]     = {{"*.png", "Portable Network Graphic" }, {NULL}};
-filter_t FilterBmp[]     = {{"*.bmp", "Bitmap"                   }, {NULL}};
-filter_t FilterCfg[]     = {{"*.cfg", "Vice/2 Configuration"     }, {NULL}};
-filter_t FilterKernal[]  = {{"kernal*",  "Kernal ROM"            }, {NULL}};
-filter_t FilterBasic[]   = {{"basic*",   "Basic ROM"             }, {NULL}};
-filter_t FilterChargen[] = {{"chargen*", "Character ROM"         }, {NULL}};
-filter_t FilterZ80[]     = {{"z80bios*", "Z80 BIOS"              }, {NULL}};
-filter_t Filter1541[]    = {{"dos1541*", "1541 ROM"              }, {NULL}};
-filter_t Filter15412[]   = {{"d1541II*", "1541-II ROM"           }, {NULL}};
-filter_t Filter1571[]    = {{"dos1571*", "1571 ROM"              }, {NULL}};
-filter_t Filter1581[]    = {{"dos1581*", "1581 ROM"              }, {NULL}};
-filter_t Filter2031[]    = {{"dos2031*", "2031 ROM"              }, {NULL}};
-filter_t Filter1001[]    = {{"dos1001*", "1001 ROM"              }, {NULL}};
-filter_t Filter2040[]    = {{"dos2040*", "2040 ROM"              }, {NULL}};
-filter_t Filter3040[]    = {{"dos3040*", "3040 ROM"              }, {NULL}};
-filter_t Filter4040[]    = {{"dos4040*", "4040 ROM"              }, {NULL}};
+static filter_t FilterPal[]     = {{"*.vpl", "Vice/2 Color Palette"     }, {NULL}};
+static filter_t FilterVsf[]     = {{"*.vsf", "Vice/2 Snapshot File"     }, {NULL}};
+static filter_t FilterKbd[]     = {{"*.vkm", "Vice/2 Keyboard Map"      }, {NULL}};
+static filter_t FilterRomSet[]  = {{"*.vrs", "Vice/2 Rom Set"           }, {NULL}};
+static filter_t FilterPng[]     = {{"*.png", "Portable Network Graphic" }, {NULL}};
+static filter_t FilterBmp[]     = {{"*.bmp", "Bitmap"                   }, {NULL}};
+static filter_t FilterCfg[]     = {{"*.cfg", "Vice/2 Configuration"     }, {NULL}};
+static filter_t FilterFlip[]    = {{"*.vfl",    "Vice/2 Fliplist"       }, {NULL}};
+static filter_t FilterKernal[]  = {{"kernal*",  "Kernal ROM"            }, {NULL}};
+static filter_t FilterBasic[]   = {{"basic*",   "Basic ROM"             }, {NULL}};
+static filter_t FilterChargen[] = {{"chargen*", "Character ROM"         }, {NULL}};
+static filter_t FilterZ80[]     = {{"z80bios*", "Z80 BIOS"              }, {NULL}};
+static filter_t Filter1541[]    = {{"dos1541*", "1541 ROM"              }, {NULL}};
+static filter_t Filter15412[]   = {{"d1541II*", "1541-II ROM"           }, {NULL}};
+static filter_t Filter1571[]    = {{"dos1571*", "1571 ROM"              }, {NULL}};
+static filter_t Filter1581[]    = {{"dos1581*", "1581 ROM"              }, {NULL}};
+static filter_t Filter2031[]    = {{"dos2031*", "2031 ROM"              }, {NULL}};
+static filter_t Filter1001[]    = {{"dos1001*", "1001 ROM"              }, {NULL}};
+static filter_t Filter2040[]    = {{"dos2040*", "2040 ROM"              }, {NULL}};
+static filter_t Filter3040[]    = {{"dos3040*", "3040 ROM"              }, {NULL}};
+static filter_t Filter4040[]    = {{"dos4040*", "4040 ROM"              }, {NULL}};
 
-subaction_t SubDisk[] = {
+static subaction_t SubDisk[] = {
     { "as Diskette in Drive #8",  FilterDisk },
     { "as Diskette in Drive #9",  FilterDisk },
     { "as Diskette in Drive #10", FilterDisk },
@@ -156,20 +154,28 @@ subaction_t SubDisk[] = {
     { NULL }
 };
 
-subaction_t SubTape[]  = {{ "as Tape to Datasette",    FilterTape }, {NULL}};
-subaction_t SubPal[]   = {{ "as new color palette",    FilterPal },  {NULL}};
-subaction_t SubKbd[]   = {{ "as new keyboard mapping", FilterKbd },  {NULL}};
-subaction_t SubCfg[]   = {{ "as new configuration",    FilterCfg },  {NULL}};
-subaction_t SubCart2[] = {{ "as cartridge image",      FilterCart }, {NULL}};
-subaction_t SubVsf[]   = {{ "as Vice/2 snapshot file", FilterVsf },  {NULL}};
+static subaction_t SubFlip[] = {
+    { "of Drive #8",  FilterFlip },
+    { "of Drive #9",  FilterFlip },
+    { NULL }
+};
 
-subaction_t SubScr[] = {
+static subaction_t SubTape[]   = {{ "as Tape to Datasette",    FilterTape }, {NULL}};
+static subaction_t SubPal[]    = {{ "as new color palette",    FilterPal },  {NULL}};
+static subaction_t SubKbd[]    = {{ "as new keyboard mapping", FilterKbd },  {NULL}};
+static subaction_t SubCfg[]    = {{ "as new configuration",    FilterCfg },  {NULL}};
+static subaction_t SubCart2[]  = {{ "as cartridge image",      FilterCart }, {NULL}};
+static subaction_t SubVsf[]    = {{ "as Vice/2 snapshot file", FilterVsf },  {NULL}};
+static subaction_t SubRomSet[] = {{ "as Vice/2 rom set",       FilterRomSet},{NULL}};
+
+static subaction_t SubScr[] = {
     { "as Portable Network Graphic (PiNG)", FilterPng },
     { "as Native Bitmap (BMP)",             FilterBmp },
     {NULL}
 };
 
-subaction_t SubCart[] = {
+#ifdef __X64__
+static subaction_t SubCart[] = {
     { "as Generic Cartridge",                  FilterCart },
     { "as Generic 8kB Cartridge",              FilterCart },
     { "as Generic 16kB Cartridge",             FilterCart },
@@ -182,8 +188,26 @@ subaction_t SubCart[] = {
     { "as CBM IEEE488 Cartridge",              FilterCart },
     { NULL }
 };
+#endif
+#ifdef __XPET__
+static subaction_t SubExtRom[] = {
+    { "to memory address $9000", FilterCart },
+    { "to memory address $A000", FilterCart },
+    { "to memory address $B000", FilterCart },
+    { NULL }
+};
+#endif
+#ifdef __XCBM__
+static subaction_t SubCbmCart[] = {
+    { "to memory address $1000", FilterCart },
+    { "to memory address $2000", FilterCart },
+    { "to memory address $4000", FilterCart },
+    { "to memory address $6000", FilterCart },
+    { NULL }
+};
+#endif
 
-subaction_t SubRom[] = {
+static subaction_t SubRom[] = {
     { "as Kernal ROM",    FilterKernal  },
     { "as Basic ROM",     FilterBasic   },
     { "as Character ROM", FilterChargen },
@@ -211,7 +235,7 @@ struct _trapaction
 
 typedef struct _trapaction trapaction_t;
 
-void check_extension(char path[CCHMAXPATH], const char *ext)
+static void check_extension(char path[CCHMAXPATH], const char *ext)
 {
     const int plen = strlen(path);
     const int pext = strlen(ext);
@@ -279,15 +303,26 @@ static int trap(const HWND hwnd, int (*func)(trapaction_t*), const char *path)
     return handle.rc;
 }
 
-action_t LoadAction[] = {
-    { "Attach Disk Image",       SubDisk,  TRUE  },
-    { "Attache Tape Image",      SubTape,  FALSE },
-    { "Attach Cartridge Image",  SubCart,  TRUE  },
-    { "Load Snapshot",           SubVsf,   FALSE },
-    { "Load Color Palette",      SubPal,   FALSE },
-    { "Load Keyboard Map",       SubKbd,   FALSE },
-    { "Load ROM Image",          SubRom,   TRUE  },
-//    { "Load Configuration File", SubCfg,   FALSE },
+static action_t LoadAction[] = {
+    { "Attach Disk Image",         SubDisk,    TRUE  },
+    { "Attache Tape Image",        SubTape,    FALSE },
+    { "Load Fliplist",             SubFlip,    TRUE  },
+    { "Load and Attach Fliplist",  SubFlip,    TRUE  },
+    { "Load Snapshot",             SubVsf,     FALSE },
+    { "Load Color Palette",        SubPal,     FALSE },
+    { "Load Keyboard Map",         SubKbd,     FALSE },
+    { "Load ROM Image",            SubRom,     TRUE  },
+    { "Load ROM Set",              SubRomSet,  FALSE },
+//    { "Load Configuration File", SubCfg,    FALSE },
+#ifdef __X64__
+    { "Attach Cartridge Image",    SubCart,    TRUE  },
+#endif
+#ifdef __XPET__
+    { "Load 4kB extension Rom",    SubExtRom,  TRUE  },
+#endif
+#ifdef __XCBM__
+    { "Load 4kB Cartridge image",  SubCbmCart, TRUE },
+#endif
     { NULL }
 };
 
@@ -300,37 +335,16 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
     case 1:
         return tape_attach_image(szpath);
     case 2:
-        switch (sact)
-        {
-        case 0:
-            return cartridge_attach_image(CARTRIDGE_CRT, szpath);
-        case 1:
-            return cartridge_attach_image(CARTRIDGE_GENERIC_8KB, szpath);
-        case 2:
-            return cartridge_attach_image(CARTRIDGE_GENERIC_16KB, szpath);
-        case 3:
-            return cartridge_attach_image(CARTRIDGE_ACTION_REPLAY, szpath);
-        case 4:
-            return cartridge_attach_image(CARTRIDGE_ATOMIC_POWER, szpath);
-        case 5:
-            return cartridge_attach_image(CARTRIDGE_EPYX_FASTLOAD, szpath);
-        case 6:
-            return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT, szpath);
-        case 7:
-            return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT_V5, szpath);
-        case 8:
-            return cartridge_attach_image(CARTRIDGE_WESTERMANN, szpath);
-        case 9:
-            return cartridge_attach_image(CARTRIDGE_IEEE488, szpath);
-        }
-        return -1;
+        return flip_load_list(sact+8, szpath, FALSE);
     case 3:
-        return trap(hwnd, load_snapshot, szpath);
+        return flip_load_list(sact+8, szpath, TRUE);
     case 4:
-        return resources_set_value("PaletteFile", (resource_value_t)szpath);
-    case 5: // rom img
+        return trap(hwnd, load_snapshot, szpath);
+    case 5:
+        return resources_set_value(VIDEO_PALETTE, (resource_value_t)szpath);
+    case 6: // rom img
         return resources_set_value("KeymapFile", (resource_value_t)szpath);
-    case 6:
+    case 7:
         switch (sact)
         {
         case 0:
@@ -361,19 +375,80 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
             return resources_set_value("DosName4040",  (resource_value_t)szpath);
         }
         return -1;
-    case 7:
+    case 8:
+        return romset_load(szpath);
+#ifdef __X64__
+    case 9:
+        switch (sact)
+        {
+        case 0:
+            return cartridge_attach_image(CARTRIDGE_CRT, szpath);
+        case 1:
+            return cartridge_attach_image(CARTRIDGE_GENERIC_8KB, szpath);
+        case 2:
+            return cartridge_attach_image(CARTRIDGE_GENERIC_16KB, szpath);
+        case 3:
+            return cartridge_attach_image(CARTRIDGE_ACTION_REPLAY, szpath);
+        case 4:
+            return cartridge_attach_image(CARTRIDGE_ATOMIC_POWER, szpath);
+        case 5:
+            return cartridge_attach_image(CARTRIDGE_EPYX_FASTLOAD, szpath);
+        case 6:
+            return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT, szpath);
+        case 7:
+            return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT_V5, szpath);
+        case 8:
+            return cartridge_attach_image(CARTRIDGE_WESTERMANN, szpath);
+        case 9:
+            return cartridge_attach_image(CARTRIDGE_IEEE488, szpath);
+        }
+        return -1;
+#endif
+#ifdef __XPET__
+    case 9:
+        switch (sact)
+        {
+        case 0:
+            return resources_set_value("RomModule9Name", (resource_value_t)szpath);
+        case 1:
+            return resources_set_value("RomModuleAName", (resource_value_t)szpath);
+        case 2:
+            return resources_set_value("RomModuleBName", (resource_value_t)szpath);
+        }
+        return -1;
+#endif
+#ifdef __XCBM__
+    case 9:
+        switch (sact)
+        {
+        case 0:
+            return resources_set_value("Cart1Name", (resource_value_t)szpath);
+        case 1:
+            return resources_set_value("Cart2Name", (resource_value_t)szpath);
+        case 2:
+            return resources_set_value("Cart4Name", (resource_value_t)szpath);
+        case 3:
+            return resources_set_value("Cart6Name", (resource_value_t)szpath);
+        }
+        return -1;
+#endif
+    case 10:
         return -1; //resources_load(szpath);
     }
     return -1;
 }
 
-action_t SaveAction[] = {
+static action_t SaveAction[] = {
     { "Save Configuration File", SubCfg,   FALSE },
-    { "Save Expert Cardridge",   SubCart2, FALSE },
     { "Save Snapshot File",      SubVsf,   FALSE },
     { "Save Screenshot",         SubScr,   FALSE },
+    { "Save Fliplist",           SubFlip,  TRUE  },
     // { "Save Color Palette",      SubPal,   FALSE },
     // { "Save Keyboard Map",       SubKbd,   FALSE },
+    { "Save ROM Set",       SubRomSet,   FALSE },
+#ifdef __X64__
+    { "Save Expert Cardridge",   SubCart2, FALSE },
+#endif
     { NULL }
 };
 
@@ -382,13 +457,12 @@ static BOOL FdmDoSaveAction(HWND hwnd, char *szpath, int act, int sact)
     switch (act)
     {
     case 0:
+        check_extension(szpath, ".cfg");
         return resources_save(szpath);
     case 1:
-        return cartridge_save_image(szpath);
-    case 2: // snapshot
         check_extension(szpath, ".vsf");
         return trap(hwnd, save_snapshot, szpath);
-    case 3:
+    case 2:
         switch (sact)
         {
         case 0:
@@ -399,12 +473,18 @@ static BOOL FdmDoSaveAction(HWND hwnd, char *szpath, int act, int sact)
             break;
         }
         return trap(hwnd, save_screenshot, szpath);
+    case 3:
+        check_extension(szpath, ".vfl");
+        return flip_save_list(sact+8, szpath);
+    case 4:
+        return romset_dump(szpath, mem_romset_resources_list);
+#ifdef __X64__
+    case 5:
+        return cartridge_save_image(szpath);
+#endif
     }
     return -1;
 }
-
-const char *cbmfont="8.CBM Fixed";
-const char *stdfont="6.System VIO";
 
 static void ShowContents(HWND hwnd, char *image_name)
 {
@@ -535,7 +615,7 @@ static void FillFBox(HWND hwnd)
         free(txt);
         i++;
     }
-    WinInsertLboxItem(fbox, LIT_END, "<All Files>");
+    WinInsertLboxItem(fbox, LIT_END, "<All Files> ");
     WinSendMsg(fbox, LM_SELECTITEM, 0, (void*)TRUE);
 }
 
@@ -583,7 +663,7 @@ static void NewFilter(HWND hwnd)
     // Get new selection
     //
     const int item = WinQueryLboxSelectedItem(ebox);
-    const int len  = WinQueryLboxItemTextLength(ebox, item);
+    const int len  = WinQueryLboxItemTextLength(ebox, item)+1;
 
     //
     // set corresponding text in entry field

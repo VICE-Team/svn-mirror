@@ -1,5 +1,4 @@
 option ProjectOptions = link(linkwithmultithreadlib, "yes"),
-    link(linkwithsharedlib, "yes"),
     link(pmtype, "pm"),     gen(arch, "pentium"),
     link(debug, "no"),      gen(debug, "yes"),
     opt(level, "2"),        opt(tune, "pentium"),
@@ -13,9 +12,11 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\kbd"),
     incl(searchpath, "..\\dialogs"),
     incl(searchpath, "..\\..\\.."),
+    incl(searchpath, "..\\..\\..\\c64"),
     incl(searchpath, "..\\..\\..\\sid"),
     incl(searchpath, "..\\..\\..\\cbm2"),
     incl(searchpath, "..\\..\\..\\crtc"),
+    incl(searchpath, "..\\..\\..\\vicii"),
     incl(searchpath, "..\\..\\..\\resid"),
     incl(searchpath, "..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\vdrive"),
@@ -41,6 +42,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "incl/kbd.icc"
         include "incl/cbm2.icc"
         include "incl/crtc.icc"
+        include "incl/vicii.icc"
         include "incl/mainsrc.icc"
         include "incl/archdep.icc"
         include "incl/dialogs.icc"

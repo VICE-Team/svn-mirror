@@ -85,16 +85,9 @@ static HMTX  hmtx;
 static CHAR  szClientClass [] = "VICE/2 Grafic Area";
 static CHAR  szTitleBarText[] = "VICE/2 " VERSION;
 static ULONG flFrameFlags =
-    FCF_ICON | FCF_TITLEBAR | FCF_SHELLPOSITION | FCF_SYSMENU | FCF_TASKLIST;
-
-/* ------------------------------------------------------------------------ */
-/* Xvic workaround  */
-
-#ifdef __XVIC__
-const int FBMULT = 3;
-#else
-const int FBMULT = 0;
-#endif
+    FCF_ICON | FCF_MENU | FCF_TITLEBAR | FCF_ACCELTABLE |
+    FCF_SHELLPOSITION | FCF_SYSMENU | FCF_TASKLIST |
+    FCF_AUTOICON | FCF_MINBUTTON | FCF_CLOSEBUTTON;
 
 /* ------------------------------------------------------------------------ */
 /* Video-related resources.  */
@@ -103,10 +96,91 @@ int stretch;            // Strech factor for window (1,2,3,...)
 static int border;      // PM Border Type
 static int menu;        // flag if menu should be enabled
 static int status=0;    // flag if status should be enabled
+static HWND *hwndlist = NULL;
+
+extern void wmVrnDisabled(HWND hwnd);
+extern void wmVrnEnabled(HWND hwnd);
+
+void AddToWindowList(HWND hwnd)
+{
+    int i=0;
+
+    HWND *newlist;
+
+    if (!hwndlist)
+    {
+        //
+        // If no list exists yet, creat an empty one
+        //
+        hwndlist = malloc(sizeof(HWND));
+        hwndlist[0] = NULLHANDLE;
+    }
+
+    //
+    // Count valid entries in list
+    //
+    while (hwndlist[i])
+        i++;
+
+    //
+    // create new list
+    //
+    newlist = malloc(sizeof(HWND)*(i+2));
+
+    //
+    // copy old list to new list an delete old list
+    //
+    memcpy(newlist, hwndlist, sizeof(HWND)*i);
+    free (hwndlist);
+
+    hwndlist = newlist;
+
+    //
+    // add new entry to list
+    //
+    hwndlist[i]   = hwnd;
+    hwndlist[i+1] = NULLHANDLE;
+}
 
 static int set_stretch_factor(resource_value_t v, void *param)
 {
+    int i=0;
+
+    if (!hwndlist || stretch==(int)v)
+    {
+        stretch=(int)v;
+        return 0;
+    }
+
+
+    //
+    // disable visible region (stop blitting to display)
+    //
+    i = 0;
+    while (hwndlist[i])
+        wmVrnDisabled(hwndlist[i++]);
+
+    //
+    // set new stretch factor
+    //
     stretch=(int)v;
+
+    i = 0;
+    while (hwndlist[i])
+    {
+        canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwndlist[i], QWL_USER);
+        //
+        // resize canvas
+        //
+        canvas_resize(c, c->width, c->height);
+
+        //
+        // set visible region (start blitting again)
+        //
+        wmVrnEnabled(hwndlist[i]);
+        i++;
+    }
+
     return 0;
 }
 
@@ -258,54 +332,46 @@ static int set_status(resource_value_t v, void *hwnd)
     return 0;
 }
 */
-static int set_menu(resource_value_t v, void *hwnd)
+static int set_menu(resource_value_t v, void *param)
 {
-    canvas_t *c = (canvas_t *)WinQueryWindowPtr((HWND)hwnd, QWL_USER);
+    int i=0;
 
     menu = (int)v;
 
-    if (!hwnd || !c)
+    if (!hwndlist)
         return 0;
 
-    //
-    // correct window size
-    //
-    WinSetWindowPos(c->hwndFrame, 0, 0, 0,
-                    canvas_fullwidth (c->width),
-                    canvas_fullheight(c->height),
-                    SWP_SIZE|SWP_MINIMIZE);
+    while (hwndlist[i])
+    {
+        canvas_t *c = (canvas_t *)WinQueryWindowPtr((HWND)hwndlist[i++], QWL_USER);
+        //
+        // correct window size
+        //
+        WinSetWindowPos(c->hwndFrame, 0, 0, 0,
+                        canvas_fullwidth (c->width),
+                        canvas_fullheight(c->height),
+                        SWP_SIZE|SWP_MINIMIZE);
 
-    //
-    // show or hide the menu bar
-    //
-    WinSetParent(c->hwndMenu, menu?c->hwndFrame:HWND_OBJECT, FALSE);
+        //
+        // show or hide the menu bar
+        //
+        WinSetParent(c->hwndMenu, menu?c->hwndFrame:HWND_OBJECT, FALSE);
 
-    //
-    // update frame (show or hide menubar physically)
-    //
-    // REMARK: instead of updating the frame I minimaze the
-    // window and maximize it again. This makes sure that
-    // the menubar is shown and not only activated. I don't know
-    // why, but it seems to work well. (I don't use HIDE and
-    // SHOW because this two functions are animated)
-    //
-    // WinSendMsg(c->hwndFrame, WM_UPDATEFRAME, (void*)FCF_MENU, NULL);
+        //
+        // update frame (show or hide menubar physically)
+        //
+        // REMARK: instead of updating the frame I minimaze the
+        // window and maximize it again. This makes sure that
+        // the menubar is shown and not only activated. I don't know
+        // why, but it seems to work well. (I don't use HIDE and
+        // SHOW because this two functions are animated)
+        //
+        // WinSendMsg(c->hwndFrame, WM_UPDATEFRAME, (void*)FCF_MENU, NULL);
 
-    WinSetWindowPos(c->hwndFrame, 0, 0, 0, 0, 0, SWP_RESTORE);
-
+        WinSetWindowPos(c->hwndFrame, 0, 0, 0, 0, 0, SWP_RESTORE);
+    }
     return 0;
 }
-
-void toggle_menubar(HWND hwnd)
-{
-    set_menu((void*)!menu, (void*)hwnd);
-}
-/*
-void toggle_statusbar(HWND hwnd)
-{
-    set_status((void*)!status, (void*)hwnd);
-}
-*/
 
 static int set_border_type(resource_value_t v, void *param)
 {
@@ -423,7 +489,7 @@ int video_init(void) // initialize Dive
         //
         // we are in a different process (eg. second instance of x64)
         //
-        rc=DosOpenMutexSem("\\SEM32\\ViceKey", &hmtxKey);
+        rc=DosOpenMutexSem("\\SEM32\\Vice2\\Keyboard", &hmtxKey);
         if (rc)
             log_debug("video.c: DosOpenMutexSem (rc=%li)", rc);
     }
@@ -463,16 +529,29 @@ int video_frame_buffer_alloc(video_frame_buffer_t **f, UINT width, UINT height)
 {
     APIRET rc;
 
+    if (width<sizeof(ULONG))
+        width=sizeof(ULONG); // Sizeline Boundary, Workaround
+
     (*f) = (video_frame_buffer_t*) xcalloc(1, sizeof(video_frame_buffer_t));
     (*f)->bitmap = (char*) xcalloc(width*height, sizeof(BYTE));
     (*f)->width  = width;
     (*f)->height = height;
 
-    if (rc=DiveAllocImageBuffer(hDiveInst, &((*f)->ulBuffer), FOURCC_LUT8,
-                                width, height, 0, (*f)->bitmap))
+    //
+    // allocate image buffer, I might be faster to specify 0 for
+    // the scanlinesize, but then we need a correction for
+    // every time we have a line size which is not
+    // devidable by 4
+    //
+    rc=DiveAllocImageBuffer(hDiveInst, &((*f)->ulBuffer), FOURCC_LUT8,
+                            width, height, width, (*f)->bitmap);
+    //
+    // check for errors
+    //
+    if (rc)
         log_message(LOG_DEFAULT,"video.c: Error DiveAllocImageBuffer (rc=0x%x).", rc);
     else
-        log_message(LOG_DEFAULT,"video.c: Frame buffer allocated (%lix%li)", width, height);
+        log_message(LOG_DEFAULT,"video.c: Frame buffer #%d allocated (%lix%li)", (*f)->ulBuffer, width, height);
 
     return 0;
 }
@@ -904,11 +983,11 @@ void InitStatusBar(canvas_t *c)
                               border_size_x(), border_size_y(), // Position
                               c->width,
                               statusbar_height(), // Size (width,height)
-                              NULLHANDLE,         // Owner window    
-                              HWND_TOP,           // Sibling window  
-                              FID_STATUS,         // Window id       
-                              NULL,               // Control data    
-                              NULL);              // Pres parameters 
+                              NULLHANDLE,         // Owner window
+                              HWND_TOP,           // Sibling window
+                              FID_STATUS,         // Window id
+                              NULL,               // Control data
+                              NULL);              // Pres parameters
 
     HWND fhwnd = AddStatusFrame(hwnd, 0, 55, TRUE);
     HWND stat  = AddStatusFrame(hwnd, c->width-110, 110, FALSE);
@@ -954,6 +1033,8 @@ void PM_mainloop(VOID *arg)
                                       &flFrameFlags, szClientClass,
                                       c->title, 0L, 0, IDM_VICE2,
                                       &(c->hwndClient));
+
+    AddToWindowList(c->hwndClient);
 
     //
     // get actual window size and position

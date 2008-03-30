@@ -386,6 +386,7 @@
 #define WM_CONSOLE_INSERTLINE           (WM_USER)
 #define WM_CONSOLE_CLOSED               (WM_USER+1)
 #define WM_CONSOLE_RESIZED              (WM_USER+2)
+#define WM_CONSOLE_ACTIVATED            (WM_USER+3)
 
 #endif
 

@@ -164,7 +164,7 @@ int do_vsync(int been_skipped)
     } else {
       skip_counter = 0;
     }
-    sound_flush(RelativeSpeed);
+    sound_flush(CurrentSpeedLimit);
   } else {
     if (skip_counter >= NumberOfRefreshes) {
       NumberOfRefreshes = -1;
@@ -177,7 +177,7 @@ int do_vsync(int been_skipped)
         skip_counter = 0;
       }
     }
-    sound_flush(RelativeSpeed);
+    sound_flush(CurrentSpeedLimit);
   }
 
   if (frame_counter >= refresh_frequency * 2) {

@@ -49,8 +49,6 @@
 #define CRTC_NEED_2X 1
 #endif
 
-
-
 enum _crtc_video_mode
   {
     CRTC_STANDARD_MODE,
@@ -62,8 +60,6 @@ typedef enum _crtc_video_mode crtc_video_mode_t;
 #define CRTC_IDLE_MODE CRTC_STANDARD_MODE
 
 #define	CRTC_NUM_COLORS	2
-
-
 
 struct _crtc
   {
@@ -172,7 +168,8 @@ struct _crtc
 
     /* Alarm to update a raster line.  */
     alarm_t raster_draw_alarm;
-  };
+};
+
 typedef struct _crtc crtc_t;
 
 extern crtc_t crtc;
@@ -185,8 +182,6 @@ extern crtc_t crtc;
    to allow effects like open borders etc. */
 #define	CRTC_EXTRA_COLS		6
 #define	CRTC_EXTRA_RASTERLINES	16
-
-
 
 /* Private function calls, used by the other VIC-II modules.  FIXME:
    Prepend names with `_'?  */

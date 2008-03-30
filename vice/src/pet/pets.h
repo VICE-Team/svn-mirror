@@ -110,6 +110,7 @@ typedef struct PetRes {
 extern PetRes petres;
 
 extern int pet_set_model(const char *model_name, void *extra);
+extern const char *get_pet_model(void);
 extern int pet_set_ramsize(int v);
 
 extern int pet_init_resources(void);

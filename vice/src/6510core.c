@@ -1491,7 +1491,7 @@
             log_debug("Drive: .%04X\t%ld\t%s\tA=$%02x.",
                       reg_pc,
                       (long)drive_clk[0],
-                      mon_disassemble_to_string(reg_pc, op, lo, hi, 1),
+                      mon_disassemble_to_string(e_disk8_space, reg_pc, op, lo, hi, 1),
 		      reg_a);
         }
 #else
@@ -1503,7 +1503,7 @@
             log_debug(".%04X %02x %02x %02x\t%ld\t%s\tA=$%02X X=$%02X Y=$%02X.",
                       reg_pc, op, lo, hi,
                       (long)clk,
-                      mon_disassemble_to_string(reg_pc, op, lo, hi, 1),
+                      mon_disassemble_to_string(e_comp_space, reg_pc, op, lo, hi, 1),
                       reg_a, reg_x, reg_y);
        }
 #endif

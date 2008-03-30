@@ -304,6 +304,7 @@ extern void mon_display_io_regs(void);
 extern unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id);
 extern void mon_set_reg_val(MEMSPACE mem, REG_ID reg_id, WORD val);
 unsigned char mon_get_mem_val(MEMSPACE mem, unsigned mem_addr);
+unsigned char mon_get_mem_val_ex(MEMSPACE mem, int bank, unsigned mem_addr);
 extern void mon_print_registers(MEMSPACE mem);
 extern void mon_jump(MON_ADDR addr);
 
@@ -330,9 +331,9 @@ extern void mon_set_checkpoint_command(int brk_num, char *cmd);
 extern void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
 extern void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
 
-extern const char *mon_disassemble_to_string(ADDRESS addr, BYTE x, BYTE p1,
+extern const char *mon_disassemble_to_string(MEMSPACE, ADDRESS addr, BYTE x, BYTE p1,
                                              BYTE p2, int hex_mode);
-extern const char *mon_disassemble_to_string_ex(ADDRESS addr, BYTE x, BYTE p1,
+extern const char *mon_disassemble_to_string_ex(MEMSPACE, ADDRESS addr, BYTE x, BYTE p1,
                                              BYTE p2, int hex_mode, unsigned *len);
 
 #endif

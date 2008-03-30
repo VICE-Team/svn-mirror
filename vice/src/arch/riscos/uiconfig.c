@@ -66,7 +66,12 @@ static const char Rsrc_Dos15412[] = "DosName1541ii";
 static const char Rsrc_Dos1571[] = "DosName1571";
 static const char Rsrc_Dos1581[] = "DosName1581";
 static const char Rsrc_Dos2031[] = "DosName2031";
+static const char Rsrc_Dos2040[] = "DosName2040";
+static const char Rsrc_Dos3040[] = "DosName3040";
+static const char Rsrc_Dos4040[] = "DosName4040";
 static const char Rsrc_Dos1001[] = "DosName1001";
+static const char Rsrc_Dos8050[] = "DosName8050";
+static const char Rsrc_Dos8250[] = "DosName8250";
 static const char Rsrc_Poll[] = "PollEvery";
 static const char Rsrc_Speed[] = "SpeedEvery";
 static const char Rsrc_SndEvery[] = "SoundEvery";
@@ -692,7 +697,7 @@ static struct MenuVicCartridge {
   }
 };
 
-#define Menu_DosName_Items	6
+#define Menu_DosName_Items	11
 #define Menu_DosName_Width	200
 static struct MenuDosName {
   RO_MenuHead head;
@@ -705,7 +710,12 @@ static struct MenuDosName {
     MENU_ITEM("\\MenDOS1571"),
     MENU_ITEM("\\MenDOS1581"),
     MENU_ITEM("\\MenDOS2031"),
-    MENU_ITEM_LAST("\\MenDOS1001")
+    MENU_ITEM("\\MenDOS2040"),
+    MENU_ITEM("\\MenDOS3040"),
+    MENU_ITEM("\\MenDOS4040"),
+    MENU_ITEM("\\MenDOS1001"),
+    MENU_ITEM("\\MenDOS8050"),
+    MENU_ITEM_LAST("\\MenDOS8250")
   }
 };
 
@@ -1129,7 +1139,9 @@ static struct MenuDisplayDosName {
 } MenuDisplayDosName = {
   {(char*)&DosNameDesc, {CONF_WIN_SYSTEM, Icon_Conf_DosNameT},
     (RO_MenuHead*)&MenuDosName, Menu_DosName_Items, DISP_DESC_STRSHOW, 0},
-  {(int)Rsrc_Dos1541, (int)Rsrc_Dos15412, (int)Rsrc_Dos1571, (int)Rsrc_Dos1581, (int)Rsrc_Dos2031, (int)Rsrc_Dos1001}
+  {(int)Rsrc_Dos1541, (int)Rsrc_Dos15412, (int)Rsrc_Dos1571, (int)Rsrc_Dos1581,
+   (int)Rsrc_Dos2031, (int)Rsrc_Dos2040, (int)Rsrc_Dos3040, (int)Rsrc_Dos4040,
+   (int)(int)Rsrc_Dos1001, (int)Rsrc_Dos8050, (int)Rsrc_Dos8250}
 };
 
 static struct MenuDisplayCBM2Line {

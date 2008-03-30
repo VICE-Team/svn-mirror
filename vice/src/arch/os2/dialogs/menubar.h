@@ -165,13 +165,14 @@
 #define IDM_IEEE         0x22b
 
 #define IDM_MODEL        0x230
-      
-#define IDM_CBM610       0x231
-#define IDM_CBM620       0x232
-#define IDM_CBM620P      0x233
-#define IDM_CBM710       0x234
-#define IDM_CBM720       0x235
-#define IDM_CBM720P      0x236
+
+#define IDM_CBM510       0x231
+#define IDM_CBM610       0x232
+#define IDM_CBM620       0x233
+#define IDM_CBM620P      0x234
+#define IDM_CBM710       0x235
+#define IDM_CBM720       0x236
+#define IDM_CBM720P      0x237
       
 #define IDM_MODELLINE    0x23f
       

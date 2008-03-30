@@ -27,33 +27,7 @@
 #ifndef DIALOGS_H
 #define DIALOGS_H
 
-#include "config.h" // HAS_*
-
-//
-//  ------------- My Styles -------------
-//
-#define STY_STD               WS_TABSTOP | WS_VISIBLE
-
-#define STY_CLOSEBUTTON       WC_BUTTON, BS_PUSHBUTTON      | STY_STD | BS_DEFAULT
-#define STY_GROUPBOX          WC_STATIC, SS_GROUPBOX        | WS_GROUP | WS_VISIBLE
-#define STY_PUSHBUTTON        WC_BUTTON, BS_PUSHBUTTON      | STY_STD
-#define STY_AUTORADIOBUTTON   WC_BUTTON, BS_AUTORADIOBUTTON | STY_STD
-#define STY_AUTOCHECKBOX      WC_BUTTON, BS_AUTOCHECKBOX    | STY_STD
-#define STY_SPINBUTTON        WC_SPINBUTTON, SPBS_MASTER | SPBS_JUSTRIGHT | \
-                              SPBS_NUMERICONLY | SPBS_FASTSPIN | \
-                              SPBS_PADWITHZEROS | STY_STD
-#define STY_DIALOG            FS_NOBYTEALIGN | FS_SCREENALIGN | FS_DLGBORDER | \
-                              WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE, \
-                              FCF_TITLEBAR | FCF_SYSMENU
-#define STY_STATUSDLG         WC_SPINBUTTON, SPBS_JUSTCENTER  | SPBS_NOBORDER | \
-                              SPBS_NUMERICONLY | SPBS_READONLY | \
-                              SPBS_PADWITHZEROS  | WS_VISIBLE
-#define STY_DISPVAL           WC_SPINBUTTON, SPBS_JUSTCENTER  | \
-                              SPBS_PADWITHZEROS  | WS_VISIBLE
-#define STY_TEXT              WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
-#define TEXT(txt,x,y,w,h) CONTROL txt, ID_NONE, x, y, w, h, WC_STATIC, \
-                                       SS_AUTOSIZE | SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
-                                       // DT_LEFT?0, specify DT_RIGHT, DT_CENTER
+#include "../config.h" // HAVE_*
 
 //
 //  --------------- Resource Definitions ----------------
@@ -87,6 +61,32 @@
 // Commandline option Dialog
 #define DLG_CMDOPT     0x10d0
 #define LB_CMDOPT      0x10d1
+
+//
+//  ------------- My Styles -------------
+//
+#define STY_STD               WS_TABSTOP | WS_VISIBLE
+
+#define STY_CLOSEBUTTON       WC_BUTTON, BS_PUSHBUTTON      | STY_STD | BS_DEFAULT
+#define STY_GROUPBOX          WC_STATIC, SS_GROUPBOX        | WS_GROUP | WS_VISIBLE
+#define STY_PUSHBUTTON        WC_BUTTON, BS_PUSHBUTTON      | STY_STD
+#define STY_AUTORADIOBUTTON   WC_BUTTON, BS_AUTORADIOBUTTON | STY_STD
+#define STY_AUTOCHECKBOX      WC_BUTTON, BS_AUTOCHECKBOX    | STY_STD
+#define STY_SPINBUTTON        WC_SPINBUTTON, SPBS_MASTER | SPBS_JUSTRIGHT | \
+                              SPBS_NUMERICONLY | SPBS_FASTSPIN | \
+                              SPBS_PADWITHZEROS | STY_STD
+#define STY_DIALOG            FS_NOBYTEALIGN | FS_SCREENALIGN | FS_DLGBORDER | \
+                              WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE, \
+                              FCF_TITLEBAR | FCF_SYSMENU
+#define STY_STATUSDLG         WC_SPINBUTTON, SPBS_JUSTCENTER  | SPBS_NOBORDER | \
+                              SPBS_NUMERICONLY | SPBS_READONLY | \
+                              SPBS_PADWITHZEROS  | WS_VISIBLE
+#define STY_DISPVAL           WC_SPINBUTTON, SPBS_JUSTCENTER  | \
+                              SPBS_PADWITHZEROS  | WS_VISIBLE
+#define STY_TEXT              WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+#define TEXT(txt,x,y,w,h) CONTROL txt, ID_NONE, x, y, w, h, WC_STATIC, \
+                                       SS_AUTOSIZE | SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+                                       // DT_LEFT?0, specify DT_RIGHT, DT_CENTER
 
 //
 // ----------------- Win*-Macros -----------------------                                                    */

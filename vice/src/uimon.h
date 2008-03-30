@@ -27,19 +27,33 @@
 #ifndef _UIMON_H
 #define _UIMON_H
 
+#include "mon.h"
+#include "mon_util.h"
+
 struct console_s;
 
-extern struct console_s *arch_mon_window_open(void);
-extern void arch_mon_window_suspend(void);
-extern struct console_s *arch_mon_window_resume(void);
-extern void arch_mon_window_close(void);
+extern struct console_s *uimon_window_open    (void);
+extern void              uimon_window_suspend (void);
+extern struct console_s *uimon_window_resume  (void);
+extern void              uimon_window_close   (void);
 
-extern int arch_mon_out(const char *format, ...);
-extern char *arch_mon_in(void);
+extern int               uimon_out            (const char *format, ...);
+extern char *            uimon_in             (void);
 
-extern struct console_s *arch_console_open_mdi(const char *id, void *,
-                                               void *, void *,
-                                               unsigned long int dwStyle,
-                                               int x, int y, int dx, int dy );
+extern void              uimon_notify_change  (void);
+extern void              uimon_set_interface  (monitor_interface_t *[], int );
+extern char *            uimon_get_in         (char **);
+
+#ifdef WIN32
+
+/*
+ For the time being, this internal interface remains here...
+*/
+extern struct console_s *uimon_console_open_mdi(const char *id, void *,
+                                                void *, void *,
+                                                unsigned long int dwStyle,
+                                                int x, int y, int dx, int dy );
+#endif /* #ifdef WIN32 */
+
 
 #endif

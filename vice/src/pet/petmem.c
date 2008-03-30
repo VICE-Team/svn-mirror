@@ -2453,6 +2453,8 @@ int pet_set_model_info(PetInfo *pi)
     return 0;
 }
 
+static int pet_model = 8;
+
 int pet_set_model(const char *model_name, void *extra)
 {
     int i;
@@ -2468,13 +2470,19 @@ int pet_set_model(const char *model_name, void *extra)
 	        /* mem_load(); - not needed as resources now load */
 	        suspend_speed_eval();
 	        maincpu_trigger_reset();
-	    }
+                pet_model = i;
+            }
 	    return 0;
 	}
 	i++;
     }
 
     return -1;
+}
+
+const char *get_pet_model()
+{
+    return pet_table[pet_model].model;
 }
 
 /************************** PET resource handling ************************/
