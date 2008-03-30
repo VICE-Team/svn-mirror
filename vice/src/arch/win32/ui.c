@@ -90,7 +90,7 @@
 
 //int status_height;
 
-static char *hwnd_titles[2];
+static TCHAR *hwnd_titles[2];
 
 /* Exposure handler.  */
 HWND window_handles[2];
@@ -414,9 +414,9 @@ int ui_cmdline_options_init(void)
 #ifdef DEBUG
 #define NUM_OF_DEBUG_HOTKEYS 3
 #define UI_DEBUG_HOTKEYS                                                \
-    { FVIRTKEY | FALT | FNOINVERT, 'F', IDM_TOGGLE_MAINCPU_TRACE },     \
-    { FVIRTKEY | FALT | FNOINVERT, 'G', IDM_TOGGLE_DRIVE0CPU_TRACE },   \
-    { FVIRTKEY | FALT | FNOINVERT, 'H', IDM_TOGGLE_DRIVE1CPU_TRACE },
+    { FVIRTKEY | FALT | FNOINVERT, VK_F10, IDM_TOGGLE_MAINCPU_TRACE },     \
+    { FVIRTKEY | FALT | FNOINVERT, VK_F11, IDM_TOGGLE_DRIVE0CPU_TRACE },   \
+    { FVIRTKEY | FALT | FNOINVERT, VK_F12, IDM_TOGGLE_DRIVE1CPU_TRACE },
 #else
 #define NUM_OF_DEBUG_HOTKEYS 0
 #define UI_DEBUG_HOTKEYS
@@ -445,8 +445,8 @@ int ui_cmdline_options_init(void)
     { FVIRTKEY | FALT | FNOINVERT, 'B', IDM_FLIP_PREVIOUS },            \
     { FVIRTKEY | FALT | FNOINVERT, 'J', IDM_SWAP_JOYSTICK },            \
     { FVIRTKEY | FALT | FNOINVERT, 'C', IDM_MEDIAFILE },                \
-    { FVIRTKEY | FALT | FNOINVERT, 'E', IDM_EVENT_SETMILESTONE },       \
-    { FVIRTKEY | FALT | FNOINVERT, 'U', IDM_EVENT_RESETMILESTONE },     \
+    { FVIRTKEY | FALT | FNOINVERT, 'G', IDM_EVENT_SETMILESTONE },       \
+    { FVIRTKEY | FALT | FNOINVERT, 'H', IDM_EVENT_RESETMILESTONE },     \
     { FVIRTKEY | FALT | FNOINVERT, 'D', IDM_TOGGLE_FULLSCREEN },        \
     { FVIRTKEY | FALT | FNOINVERT, VK_RETURN, IDM_TOGGLE_FULLSCREEN },  \
     { FVIRTKEY | FALT | FNOINVERT, VK_PAUSE, IDM_PAUSE }
@@ -568,7 +568,7 @@ int ui_init(int *argc, char **argv)
        in the future.  */
 #if 1
     main_hwnd = CreateWindow(APPLICATION_CLASS_MAIN,
-                             "No title", /* (for now) */
+                             TEXT("No title"), /* (for now) */
                              WS_OVERLAPPED | WS_CLIPCHILDREN | WS_BORDER
                              | WS_DLGFRAME| WS_SYSMENU | WS_MINIMIZEBOX
                              | WS_MAXIMIZEBOX,
@@ -627,7 +627,7 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
 {
     HWND hwnd;
 
-    hwnd_titles[number_of_windows] = lib_stralloc(title);
+    hwnd_titles[number_of_windows] = system_mbstowcs_alloc(title);
 /*    if (fullscreen) {
         hwnd = CreateWindow(APPLICATION_CLASS,
                             hwnd_titles[number_of_windows],
@@ -945,15 +945,22 @@ static int ui_emulation_is_paused(void)
 /* Dispay the current emulation speed.  */
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
-    char *buf;
+    char *buf, *title;
+    TCHAR *st_buf;
     int index;
 
     for (index = 0; index < number_of_windows; index++) {
+        title = system_wcstombs_alloc(hwnd_titles[index]);
+
         buf = lib_msprintf("%s at %d%% speed, %d fps%s",
-                           hwnd_titles[index], (int)(percent + .5),
+                           title, (int)(percent + .5),
                            (int)(framerate + .5),
                            warp_flag ? " (warp)" : "");
-        SetWindowText(window_handles[index], buf);
+        system_wcstombs_free(title);
+        st_buf = system_mbstowcs_alloc(buf);
+        SetWindowText(window_handles[index], st_buf);
+        system_mbstowcs_free(st_buf);
+
         lib_free(buf);
     }
 
@@ -1069,12 +1076,16 @@ void ui_display_playback(int playback_status)
 void ui_display_paused(int flag)
 {
     int index;
-    char *buf;
+    char *buf, *title;
+    TCHAR *st_buf;
 
     for (index = 0; index < number_of_windows; index++) {
-        buf = lib_msprintf("%s (%s)", hwnd_titles[index],
-            flag ? "paused" : "resumed");
-        SetWindowText(window_handles[index], buf);
+        title = system_wcstombs_alloc(hwnd_titles[index]);
+        buf = lib_msprintf("%s (%s)", title, flag ? "paused" : "resumed");
+        system_wcstombs_free(title);
+        st_buf = system_mbstowcs_alloc(buf);
+        SetWindowText(window_handles[index], st_buf);
+        system_wcstombs_free(st_buf);
         lib_free(buf);
     }
 }
@@ -1110,8 +1121,8 @@ static int snapcounter;
 static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
 {
     int i,j;
-    char *fullname;
-    char *fullname2;
+    char *fullname, *fullname2;
+    TCHAR *st_fullname, *st_fullname2;
 
     if (lastindex == -1) {
         lastindex = 0;
@@ -1121,7 +1132,9 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
             if (snapcounter == 10) {
                 fullname = util_concat(archdep_boot_path(), "\\", machine_name,
                                        "\\", files[0].name, NULL);
-                DeleteFile(fullname);
+                st_fullname = system_mbstowcs_alloc(fullname);
+                DeleteFile(st_fullname);
+                system_mbstowcs_free(st_fullname);
                 lib_free(fullname);
                 for (i = 1; i < 10; i++) {
                     fullname = util_concat(archdep_boot_path(), "\\",
@@ -1130,7 +1143,11 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
                     fullname2 = util_concat(archdep_boot_path(), "\\",
                                             machine_name,
                                             "\\", files[i-1].name, NULL);
-                    MoveFile(fullname, fullname2);
+                    st_fullname = system_mbstowcs_alloc(fullname);
+                    st_fullname2 = system_mbstowcs_alloc(fullname2);
+                    MoveFile(st_fullname, st_fullname2);
+                    system_mbstowcs_free(st_fullname);
+                    system_mbstowcs_free(st_fullname2);
                     lib_free(fullname);
                     lib_free(fullname2);
                 }
@@ -1148,7 +1165,11 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
                         fullname2 = util_concat(archdep_boot_path(), "\\",
                                                 machine_name, "\\",
                                                 files[i].name, NULL);
-                        MoveFile(fullname, fullname2);
+                        st_fullname = system_mbstowcs_alloc(fullname);
+                        st_fullname2 = system_mbstowcs_alloc(fullname2);
+                        MoveFile(st_fullname, st_fullname2);
+                        system_mbstowcs_free(st_fullname);
+                        system_mbstowcs_free(st_fullname2);
                         lib_free(fullname);
                         lib_free(fullname2);
                         i++;
@@ -1205,7 +1226,7 @@ void ui_dispatch_next_event(void)
     if (!GetMessage(&msg, NULL, 0, 0))
         exit(msg.wParam);
     if (ui_accelerator) {
-        if (!TranslateAccelerator(msg.hwnd,ui_accelerator, &msg)) {
+        if (!TranslateAccelerator(msg.hwnd, ui_accelerator, &msg)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
@@ -1231,6 +1252,7 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
                                UINT wparam, LONG lparam)
 {
     char *version;
+    TCHAR *st_version;
 
     switch (msg) {
       case WM_INITDIALOG:
@@ -1239,7 +1261,9 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
 #else /* #ifdef UNSTABLE */
         version = lib_msprintf("Version %s", VERSION);
 #endif /* #ifdef UNSTABLE */
-        SetDlgItemText(dialog, IDC_ABOUT_VERSION, version);
+        st_version = system_mbstowcs_alloc(version);
+        SetDlgItemText(dialog, IDC_ABOUT_VERSION, st_version);
+        system_mbstowcs_free(st_version);
         lib_free(version);
         return TRUE;
       case WM_CLOSE:
@@ -1364,16 +1388,19 @@ static void scan_files(void)
     HANDLE search_handle;
     int i;
     char *dirname;
+    TCHAR *st_dirname;
 
     dirname = util_concat(archdep_boot_path(), "\\", machine_name,
                           "\\quicksnap?.vsf", NULL);
-    search_handle = FindFirstFile(dirname, &file_info);
+    st_dirname = system_mbstowcs_alloc(dirname);
+    search_handle = FindFirstFile(st_dirname, &file_info);
+    system_mbstowcs_free(st_dirname);
     snapcounter = 0;
     lastindex = -1;
     for (i = 0; i < 10; i++) {
         files[i].valid = 0;
     }
-    if (search_handle!=INVALID_HANDLE_VALUE) {
+    if (search_handle != INVALID_HANDLE_VALUE) {
         do {
             char c;
             c = file_info.cFileName[strlen(file_info.cFileName) - 5];
@@ -1943,7 +1970,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
       case WM_ERASEBKGND:
         return 1;
       case WM_DROPFILES:
-        hDrop = (HDROP) wparam;
+        hDrop = (HDROP)wparam;
         DragQueryFile(hDrop, 0, (char *)&szFile, 256);
         if (GetAsyncKeyState(VK_SHIFT) & 0x8000) {
             if (file_system_attach_disk(8, szFile) < 0)

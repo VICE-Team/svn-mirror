@@ -32,10 +32,10 @@ BEGIN
         END
         POPUP "&Flip list"
         BEGIN
-            MENUITEM "&Add current image\tAlt-I",     IDM_FLIP_ADD
-            MENUITEM "&Remove current image\tAlt-K",  IDM_FLIP_REMOVE
-            MENUITEM "Attach &next image\tAlt-N",     IDM_FLIP_NEXT
-            MENUITEM "Attach &previous image\tAlt-B", IDM_FLIP_PREVIOUS
+            MENUITEM "&Add current image\tAlt+I",     IDM_FLIP_ADD
+            MENUITEM "&Remove current image\tAlt+K",  IDM_FLIP_REMOVE
+            MENUITEM "Attach &next image\tAlt+N",     IDM_FLIP_NEXT
+            MENUITEM "Attach &previous image\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Load flip list", IDM_FLIP_LOAD
             MENUITEM "&Save flip list", IDM_FLIP_SAVE
@@ -70,9 +70,9 @@ BEGIN
 #ifdef DEBUG
 		POPUP "&Debug"
         BEGIN
-            MENUITEM "&Main CPU Trace\tAlt+F", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+G", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+H", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
        MENUITEM SEPARATOR
@@ -87,8 +87,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Start/Stop &Recording History",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "Start/Stop Pl&ayback History",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Set Recording Milestone\tAlt-E",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Return to Milestone\tALt-U",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Set Recording Milestone\tAlt+G",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Return to Milestone\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Recording start mode"
         BEGIN
             MENUITEM "&Save new snapshot",      IDM_EVENT_RECORDMODE_SAVE
