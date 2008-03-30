@@ -34,10 +34,8 @@
 #include "tedtypes.h"
 #include "types.h"
 
-#define GFX_MSK_LEFTBORDER_SIZE   ((VIC_II_MAX_SPRITE_WIDTH +         \
-                                  ted.screen_borderwidth) / 8 + 1)
-#define GFX_MSK_SIZE              ((VIC_II_SCREEN_WIDTH               \
-                                  + VIC_II_MAX_SPRITE_WIDTH) / 8 + 1)
+#define GFX_MSK_LEFTBORDER_SIZE   (ted.screen_borderwidth / 8 + 1)
+#define GFX_MSK_SIZE              (VIC_II_SCREEN_WIDTH / 8 + 1)
 
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */
