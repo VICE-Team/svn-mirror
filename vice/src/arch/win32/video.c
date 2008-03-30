@@ -384,9 +384,7 @@ int frame_buffer_alloc(frame_buffer_t *f,
     *f = (frame_buffer_t) xmalloc(sizeof(struct _frame_buffer));
     (*f)->width = width;
     (*f)->height = height;
-    (*f)->lines = (PIXEL **) xmalloc(height * sizeof(PIXEL *));
-    for (i = 0; i < height; i++)
-        (*f)->lines[i] = (PIXEL *) xmalloc(width * sizeof(PIXEL));
+    (*f)->buffer = xmalloc(width*height*sizeof(PIXEL));
 
     DEBUG(("Allocated frame buffer, %d x %d pixels.", width, height));
 
@@ -397,12 +395,14 @@ int frame_buffer_alloc(frame_buffer_t *f,
 
 void frame_buffer_free(frame_buffer_t *f)
 {
-    int i;
+int             i;
+frame_buffer_t  tempf;
 
     if (!f || !*f) return;
-    for (i = 0; i < (*f)->height; i++)
-        free((*f)->lines[i]);
-    free(*f);
+    tempf=*f;
+    *f=NULL;
+    free(tempf->buffer);
+    free(tempf);
 
 }
 
@@ -410,8 +410,7 @@ void frame_buffer_clear(frame_buffer_t *f, BYTE value)
 {
     int i;
 
-    for (i = 0; i < (*f)->height; i++)
-        memset((*f)->lines[i], value, (*f)->width);
+    memset((*f)->buffer,value,(*f)->height*(*f)->width);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -692,8 +691,6 @@ canvas_t canvas_create(const char *title, unsigned int *width,
     if (set_physical_colors(c) < 0)
         goto error;
 
-//    c->frame_buffer=NULL;
-
     video_canvases[video_number_of_canvases++]=c;
 
     return c;
@@ -884,10 +881,7 @@ int         yi;     //  upperleft y in client space
 
             //  Update remaining area from framebuffer....
 
-//            xs+=r->geometry.extra_offscreen_border;
-
             if ((w>0) && (h>0)) {
-//                canvas_refresh(c, c->frame_buffer, xs, ys, xi, yi, w, h);
                 canvas_refresh(c, r->frame_buffer, xs, ys, xi, yi, w, h);
             }
         }
@@ -941,13 +935,6 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     int     i;
 
     DEBUG(("Entering canvas_render : xs=%d ys=%d xi=%d yi=%d w=%d h=%d",xs,ys,xi,yi,w,h));
-
-/*    for (i=0; i<video_number_of_canvases; i++) {
-        if (video_canvases[i]==c) {
-            c->frame_buffer=f;
-            break;
-        }
-    }*/
 
     if (IsIconic(c->hwnd))
         return;
@@ -1079,7 +1066,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
                 dp = (BYTE *) desc.lpSurface + pitch * trect.top + trect.left;
                 for (y = 0; y < ph; y++, dp += pitch) {
                     BYTE *p = dp;
-                    BYTE *sp=(BYTE*)(f->lines[y+py]+px);
+                    BYTE *sp=(BYTE*)(FRAME_BUFFER_LINE_START(f,y+py)+px);
 
                     {
                         int j=0;
@@ -1120,7 +1107,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
                 dp = ((BYTE *) desc.lpSurface + pitch * trect.top
                     + 2 * trect.left);
                 for (y = py; y < py + ph; y++, dp += pitch) {
-                    BYTE *sp = f->lines[y] + px;
+                    BYTE *sp = FRAME_BUFFER_LINE_START(f,y) + px;
                     int i;
                     WORD    *p;
 
@@ -1152,7 +1139,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
                 dp = ((BYTE *) desc.lpSurface + pitch * trect.top
                     + 3 * trect.left);
                 for (y = py; y < py + ph; y++, dp += pitch) {
-                    BYTE *sp = f->lines[y] + px;
+                    BYTE *sp = FRAME_BUFFER_LINE_START(f,y) + px;
                     BYTE *p = dp;
                     BYTE *s;
                     int i;
@@ -1237,7 +1224,7 @@ offs1:
                 dp = ((BYTE *) desc.lpSurface + pitch * trect.top
                     + 4 * trect.left);
                 for (y = py; y < py + ph; y++, dp += pitch) {
-                    BYTE *sp = f->lines[y] + px;
+                    BYTE *sp = FRAME_BUFFER_LINE_START(f,y) + px;
                     int i;
 
                     for (i = 0; i < pw; i++)

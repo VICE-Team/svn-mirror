@@ -55,13 +55,13 @@ typedef struct _frame_buffer {
 #else
 
 typedef struct _frame_buffer {
-    int width;
-    int height;
-    PIXEL **lines;
+    int     width;
+    int     height;
+    PIXEL   *buffer;
 } *frame_buffer_t;
 
 #define FRAME_BUFFER_LINE_SIZE(f)        (f)->width
-#define FRAME_BUFFER_LINE_START(f, n)    (f)->lines[n]
+#define FRAME_BUFFER_LINE_START(f, n)    ((f)->buffer+(n)*(f)->width)
 #define FRAME_BUFFER_START(f)            (FRAME_BUFFER_LINE_START(f, 0))
 #endif
 

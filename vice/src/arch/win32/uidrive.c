@@ -71,6 +71,23 @@ static void init_dialog(HWND hwnd, int num)
     int drive_type, drive_extend_image_policy, drive_idle_method, n;
     char tmp[256];
 
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541),
+                 drive_check_type(DRIVE_TYPE_1541,num));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541II),
+                 drive_check_type(DRIVE_TYPE_1541II,num));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1571),
+                 drive_check_type(DRIVE_TYPE_1571,num));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1581),
+                 drive_check_type(DRIVE_TYPE_1581,num));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2031),
+                 drive_check_type(DRIVE_TYPE_2031,num));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1001),
+                 drive_check_type(DRIVE_TYPE_1001,num));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8050),
+                 drive_check_type(DRIVE_TYPE_8050,num));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8250),
+                 drive_check_type(DRIVE_TYPE_8250,num));
+
     sprintf(tmp, "Drive%dType", num);
     resources_get_value(tmp, (resource_value_t *) &drive_type);
     sprintf(tmp, "Drive%dExtendImagePolicy", num);
@@ -96,6 +113,15 @@ static void init_dialog(HWND hwnd, int num)
         break;
       case DRIVE_TYPE_2031:
         n = IDC_SELECT_DRIVE_TYPE_2031;
+        break;
+      case DRIVE_TYPE_1001:
+        n = IDC_SELECT_DRIVE_TYPE_1001;
+        break;
+      case DRIVE_TYPE_8050:
+        n = IDC_SELECT_DRIVE_TYPE_8050;
+        break;
+      case DRIVE_TYPE_8250:
+        n = IDC_SELECT_DRIVE_TYPE_8250;
         break;
     }
 
@@ -170,6 +196,18 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
             break;
           case IDC_SELECT_DRIVE_TYPE_2031:
             ui_set_res_num("Drive%dType", DRIVE_TYPE_2031, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_1001:
+            ui_set_res_num("Drive%dType", DRIVE_TYPE_1001, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_8050:
+            ui_set_res_num("Drive%dType", DRIVE_TYPE_8050, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_8250:
+            ui_set_res_num("Drive%dType", DRIVE_TYPE_8250, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_EXTEND_NEVER:
