@@ -34,8 +34,6 @@
 #include "types.h"
 #include "video.h"
 
-typedef void (*canvas_redraw_t)();
-
 struct video_draw_buffer_callback_s;
 
 struct video_canvas_s {
@@ -46,7 +44,6 @@ struct video_canvas_s {
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
     struct geometry_s *geometry;
-    canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
 	
     /* Pointer to the canvas' ViceWindow */

@@ -172,9 +172,6 @@ video_canvas_t *video_canvas_create(struct video_canvas_s *canvas,
     if (canvas->videoconfig->doublesizey)
         canvas->height *= 2;
 
-    canvas->exposure_handler
-        = (canvas_redraw_t)canvas->viewport->exposure_handler;
-	
 	canvas->vicewindow = 
 		new ViceWindow(BRect(0, 0, canvas->width - 1,
                                canvas->height - 1), canvas->viewport->title);

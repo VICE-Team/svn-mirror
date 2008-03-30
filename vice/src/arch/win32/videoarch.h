@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,8 +40,6 @@
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
-typedef void (*canvas_redraw_t)(unsigned int width, unsigned int height);
-
 struct palette_s;
 struct video_draw_buffer_callback_s;
 
@@ -55,7 +54,6 @@ typedef struct video_canvas_s {
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
     struct geometry_s *geometry;
-    canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
     BYTE *pixels;
     HWND hwnd;
