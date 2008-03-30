@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -45,6 +46,7 @@
 #include "uikeyboard.h"
 #include "uimenu.h"
 #include "uiperipheraliec.h"
+#include "uiromset.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
@@ -113,10 +115,7 @@ static UI_CALLBACK(set_common_memory_configuration)
     vsync_suspend_speed_eval();
 }
 
-static ui_menu_entry_t vic20_romset_submenu[] = {
-    { N_("Load default ROMs"),
-      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
-    { "--" },
+static ui_menu_entry_t vic20ui_main_romset_submenu[] = {
     { N_("Load new Kernal ROM"),
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"KernalName", NULL },
@@ -126,7 +125,15 @@ static ui_menu_entry_t vic20_romset_submenu[] = {
     { N_("Load new Character ROM"),
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_romset_submenu[] = {
+    { N_("Load default ROMs"),
+      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
+    { N_("Load new computer ROM"),
+      NULL, NULL, vic20ui_main_romset_submenu },
     { N_("Load new drive ROM"),
       NULL, NULL, ui_drivec64vic20_romset_submenu },
     { "--" },

@@ -48,6 +48,7 @@
 #include "uimenu.h"
 #include "uiperipheraliec.h"
 #include "uireu.h"
+#include "uiromset.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
@@ -279,11 +280,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static ui_menu_entry_t c64_romset_submenu[] = {
-    { N_("Load default ROMs"),
-      (ui_callback_t)ui_set_romset,
-      (ui_callback_data_t)"default.vrs", NULL },
-    { "--" },
+static ui_menu_entry_t c64ui_main_romset_submenu[] = {
     { N_("Load new kernal ROM"),
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"KernalName", NULL },
@@ -293,7 +290,16 @@ static ui_menu_entry_t c64_romset_submenu[] = {
     { N_("Load new character ROM"),
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t c64_romset_submenu[] = {
+    { N_("Load default ROMs"),
+      (ui_callback_t)ui_set_romset,
+      (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
+    { N_("Load new computer ROM"),
+      NULL, NULL, c64ui_main_romset_submenu },
     { N_("Load new drive ROM"),
       NULL, NULL, ui_drivec64vic20_romset_submenu },
     { "--" },
@@ -301,6 +307,8 @@ static ui_menu_entry_t c64_romset_submenu[] = {
       (ui_callback_t)ui_load_romset, NULL, NULL },
     { N_("Dump ROM set definition to file"),
       (ui_callback_t)ui_dump_romset, NULL, NULL },
+    { N_("List current ROM set"),
+      (ui_callback_t)ui_list_romset, NULL, NULL },
     { NULL }
 };
 

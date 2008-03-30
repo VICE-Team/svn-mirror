@@ -48,9 +48,10 @@
 #include "uimenu.h"
 #include "uiperipheraliec.h"
 #include "uiscreenshot.h"
-#include "uireu.h"
-#include "uirs232.h"
 #include "uisettings.h"
+#include "uireu.h"
+#include "uiromset.h"
+#include "uirs232.h"
 #include "uisid.h"
 #include "uisound.h"
 #include "uitfe.h"
@@ -253,11 +254,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static ui_menu_entry_t c128_romset_submenu[] = {
-    { N_("Load default ROMs"),
-      (ui_callback_t)ui_set_romset,
-      (ui_callback_data_t)"default.vrs", NULL },
-    { "--" },
+static ui_menu_entry_t c128ui_main_romset_submenu[] = {
     { N_("Load new Int. Kernal ROM"),
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"KernalIntName", NULL },
@@ -273,7 +270,16 @@ static ui_menu_entry_t c128_romset_submenu[] = {
     { N_("Load new Chargen ROM"),
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t c128_romset_submenu[] = {
+    { N_("Load default ROMs"),
+      (ui_callback_t)ui_set_romset,
+      (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
+    { N_("Load new computer ROM"),
+      NULL, NULL, c128ui_main_romset_submenu },
     { N_("Load new drive ROM"),
       NULL, NULL, ui_drivec128_romset_submenu },
     { "--" },
