@@ -36,9 +36,9 @@
 #include "attach.h"
 #include "autostart.h"
 #include "imagecontents.h"
+#include "lib.h"
 #include "ui.h"
 #include "uiimage.h"
-#include "utils.h"
 #include "vsync.h"
 
 
@@ -107,7 +107,7 @@ static image_contents_t *ui_image_contents_read_dir(const char *dir_name)
   {
     image_contents_file_list_t *new_list;
 
-    new_list = (image_contents_file_list_t*)xmalloc(sizeof(image_contents_file_list_t));
+    new_list = (image_contents_file_list_t*)lib_malloc(sizeof(image_contents_file_list_t));
     new_list->size = (de->d_reclen) / 254;
     strncpy(new_list->name, de->d_name, maxlen);
     (new_list->name)[maxlen] = '\0';

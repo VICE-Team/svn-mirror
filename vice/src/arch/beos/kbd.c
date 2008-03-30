@@ -33,10 +33,10 @@
 #include "cmdline.h"
 #include "joy.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "resources.h"
 #include "machine.h"
 #include "types.h"
-#include "utils.h"
 
 /* ------------------------------------------------------------------------ */
 
@@ -80,7 +80,7 @@ int kbd_init(int num, ...)
     va_list p;
     int i;
 
-    keyconvmaps=(struct _convmap*)xmalloc(num*sizeof(struct _convmap));
+    keyconvmaps=(struct _convmap*)lib_malloc(num*sizeof(struct _convmap));
     num_keyconvmaps=num;
 
     va_start(p,num);
