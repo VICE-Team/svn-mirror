@@ -70,27 +70,26 @@ static piareg mypia;
 
 _PIA_FUNC void pia_set_ca2(int a)
 {
-    parallel_cpu_set_ndac((a)?0:1);
+    parallel_cpu_set_ndac((BYTE)((a) ? 0 : 1));
 }
 
 _PIA_FUNC void pia_set_cb2(int a)
 {
-    parallel_cpu_set_dav((a)?0:1);
+    parallel_cpu_set_dav((BYTE)((a) ? 0 : 1));
 }
 
 _PIA_FUNC void pia_reset(void)
 {
-    parallel_cpu_set_bus(0xff);	/* all data lines high, because of input mode */
-}
+    parallel_cpu_set_bus(0xff); /* all data lines high, because of input mode */}
 
 
 /*
-E820	PORT A	    Input buffer for IEEE data lines
-E821	CA2	    IEEE NDAC out
-	CA1	    IEEE ATN in
-E822	PORT B	    Output buffer for IEEE data lines
-E823	CB2	    IEEE DAV out
-	CB1	    IEEE SRQ in
+E820    PORT A      Input buffer for IEEE data lines
+E821    CA2         IEEE NDAC out
+        CA1         IEEE ATN in
+E822    PORT B      Output buffer for IEEE data lines
+E823    CB2         IEEE DAV out
+        CB1         IEEE SRQ in
 */
 
 _PIA_FUNC void store_pa(BYTE byte)
@@ -122,7 +121,7 @@ _PIA_FUNC BYTE read_pa(void)
         drive1_cpu_execute(clk);
 
     if (parallel_debug)
-	log_message(mypia_log,
+        log_message(mypia_log,
                 "read pia2 port A %x, parallel_bus=%x, gives %x.",
                 mypia.port_a, parallel_bus,
                 ((parallel_bus & ~mypia.ddr_a)

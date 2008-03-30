@@ -31,11 +31,11 @@
 
 #define I_MYVIAFL I_VIAFL
 #define MYVIA_INT VIA_INT
-#define	MYVIA_NAME "Via"
+#define MYVIA_NAME "Via"
 
 #define mycpu_rmw_flag rmw_flag
 #define mycpu_int_status maincpu_int_status
-#define	mycpu_alarm_context maincpu_alarm_context
+#define mycpu_alarm_context maincpu_alarm_context
 #define mycpu_clk_guard maincpu_clk_guard
 
 #define myvia_reset via_reset
@@ -67,16 +67,14 @@
 
 void myvia_signal(int line, int edge);
 
-		/* switching PET charrom with CA2 */
-#define VIA_SET_CA2(byte)       \
-          crtc_set_chargen_offset( byte ? 256 : 0); 
+                /* switching PET charrom with CA2 */
+#define VIA_SET_CA2(byte) crtc_set_chargen_offset(byte ? 256 : 0); 
 
                 /* switching userport strobe with CB2 */
-#define VIA_SET_CB2(byte)       \
-          pruser_write_strobe( byte );
+#define VIA_SET_CB2(byte) pruser_write_strobe(byte);
 
-#define	via_set_int		maincpu_set_irq
-#define	VIA_INT			IK_IRQ
+#define via_set_int             maincpu_set_irq
+#define VIA_INT                 IK_IRQ
 
 /* #define VIA_TIMER_DEBUG */
 
@@ -89,22 +87,22 @@ static void undump_pra(BYTE byte)
 
 inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
 {
-	pruser_write_data(byte);
+        pruser_write_data(byte);
 }
 
 static void undump_prb(BYTE byte)
 {
-    parallel_cpu_set_nrfd(!(byte & 0x02));
-    parallel_cpu_restore_atn(!(byte & 0x04));
+    parallel_cpu_set_nrfd((BYTE)(!(byte & 0x02)));
+    parallel_cpu_restore_atn((BYTE)(!(byte & 0x04)));
 }
 
 inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
 {
-    if((addr==VIA_DDRB) && (via[addr] & 0x20)) {
-        log_warning(via_log,"PET: Killer POKE! might kill a real PET!\n");
+    if ((addr==VIA_DDRB) && (via[addr] & 0x20)) {
+        log_warning(via_log, "PET: Killer POKE! might kill a real PET!\n");
     }
-    parallel_cpu_set_nrfd(!(byte & 0x02));
-    parallel_cpu_set_atn(!(byte & 0x04));
+    parallel_cpu_set_nrfd((BYTE)(!(byte & 0x02)));
+    parallel_cpu_set_atn((BYTE)(!(byte & 0x04)));
     if ((byte ^ myoldpb) & 0x8)
         datasette_toggle_write_bit((~via[VIA_DDRB] | byte) & 0x8);
 }
@@ -114,47 +112,51 @@ static void undump_pcr(BYTE byte)
 #if 0
     register BYTE tmp = byte;
     /* first set bit 1 and 5 to the real output values */
-    if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
-    if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-    crtc_set_char( byte & 2 ); /* switching PET charrom with CA2 */
-			     /* switching userport strobe with CB2 */
+    if ((tmp & 0x0c) != 0x0c)
+        tmp |= 0x02;
+    if ((tmp & 0xc0) != 0xc0)
+        tmp |= 0x20;
+    crtc_set_char(byte & 2); /* switching PET charrom with CA2 */
+                             /* switching userport strobe with CB2 */
 #endif
 }
 
 inline static void store_pcr(BYTE byte, ADDRESS addr)
 {
 #if 0
-        if(byte != via[VIA_PCR]) {
-          register BYTE tmp = byte;
-          /* first set bit 1 and 5 to the real output values */
-          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
-          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-          crtc_set_char( byte & 2 ); /* switching PET charrom with CA2 */
-				     /* switching userport strobe with CB2 */
-          pruser_write_strobe( byte & 0x20 );
-	}
+    if (byte != via[VIA_PCR]) {
+        register BYTE tmp = byte;
+        /* first set bit 1 and 5 to the real output values */
+        if((tmp & 0x0c) != 0x0c)
+            tmp |= 0x02;
+        if((tmp & 0xc0) != 0xc0)
+            tmp |= 0x20;
+        crtc_set_char(byte & 2); /* switching PET charrom with CA2 */
+                                 /* switching userport strobe with CB2 */
+        pruser_write_strobe(byte & 0x20);
+    }
 #endif
 }
 
 static void undump_acr(BYTE byte)
 {
-	store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
+        store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
 }
 
 inline void static store_acr(BYTE byte)
 {
-	store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
+        store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
 }
 
 inline void static store_sr(BYTE byte)
 {
-	store_petsnd_sample(byte);
+        store_petsnd_sample(byte);
 }
 
 inline void static store_t2l(BYTE byte)
 {
     store_petsnd_rate(2*byte+4);
-    if(!byte) {
+    if (!byte) {
         store_petsnd_onoff(0);
     } else {
         store_petsnd_onoff(((via[VIA_ACR] & 0x1c)==0x10)?1:0);
@@ -203,9 +205,9 @@ inline static BYTE read_prb(void)
         drive1_cpu_execute(clk);
 
     /* read parallel IEC interface line states */
-    byte = 255 
-           - (parallel_nrfd ? 64:0) 
-           - (parallel_ndac ? 1:0) 
+    byte = 255
+           - (parallel_nrfd ? 64:0)
+           - (parallel_ndac ? 1:0)
            - (parallel_dav ? 128:0);
     /* vertical retrace */
     byte -= crtc_offscreen() ? 32:0;

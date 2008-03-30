@@ -39,27 +39,27 @@
 
 /* ------------------------------------------------------------------------- */
 
-#define	IS_CA2_HANDSHAKE()	((mypia.ctrl_a & 0x30) == 0x20)
-#define	IS_CA2_PULSE_MODE()	((mypia.ctrl_a & 0x38) == 0x28)
-#define	IS_CA2_TOGGLE_MODE()	((mypia.ctrl_a & 0x38) == 0x20)
+#define IS_CA2_HANDSHAKE()      ((mypia.ctrl_a & 0x30) == 0x20)
+#define IS_CA2_PULSE_MODE()     ((mypia.ctrl_a & 0x38) == 0x28)
+#define IS_CA2_TOGGLE_MODE()    ((mypia.ctrl_a & 0x38) == 0x20)
 
-#define	IS_CB2_HANDSHAKE()	((mypia.ctrl_b & 0x30) == 0x20)
-#define	IS_CB2_PULSE_MODE()	((mypia.ctrl_b & 0x38) == 0x28)
-#define	IS_CB2_TOGGLE_MODE()	((mypia.ctrl_b & 0x38) == 0x20)
+#define IS_CB2_HANDSHAKE()      ((mypia.ctrl_b & 0x30) == 0x20)
+#define IS_CB2_PULSE_MODE()     ((mypia.ctrl_b & 0x38) == 0x28)
+#define IS_CB2_TOGGLE_MODE()    ((mypia.ctrl_b & 0x38) == 0x20)
 
-#define P_PORT_A	0
-#define P_CTRL_A	1
-#define P_PORT_B	2
-#define P_CTRL_B	3
+#define P_PORT_A        0
+#define P_CTRL_A        1
+#define P_PORT_B        2
+#define P_CTRL_B        3
 
 typedef struct {
-    BYTE  port_a;	/* output register, i.e. what has been written by
-			   the CPU. input is assembled at read time */
-    BYTE  ddr_a;	/* PIA Port A DDR */
+    BYTE  port_a;       /* output register, i.e. what has been written by
+                           the CPU. input is assembled at read time */
+    BYTE  ddr_a;        /* PIA Port A DDR */
     BYTE  ctrl_a;
 
     BYTE  port_b;
-    BYTE  ddr_b;	/* PIA Port B DDR */
+    BYTE  ddr_b;        /* PIA Port B DDR */
     BYTE  ctrl_b;
 
     int ca_state;
