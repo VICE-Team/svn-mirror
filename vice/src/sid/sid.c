@@ -52,6 +52,7 @@
 
 #ifdef HAVE_CATWEASELMKIII
 #include "catweaselmkiii.h"
+static unsigned int catweaselmkiii_initialized = 0;
 #endif
 
 
@@ -222,7 +223,10 @@ sound_t *sound_machine_open(int chipno)
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
 #ifdef HAVE_CATWEASELMKIII
-    catweaselmkiii_init();
+    if (!catweaselmkiii_initialized) {
+        catweaselmkiii_init();
+        catweaselmkiii_initialized = 1;
+    }
 #endif
 
     return sid_engine.init(psid, speed, cycles_per_sec);

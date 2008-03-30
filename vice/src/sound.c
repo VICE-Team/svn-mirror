@@ -401,7 +401,7 @@ static int sid_init(void)
         int speed_factor = speed_percent ? speed_percent : 100;
         snddata.oversampleshift = 0;
         snddata.oversamplenr = 1;
-        speed = sample_rate*100/speed_factor;
+        speed = sample_rate * 100 / speed_factor;
     }
     /* For sample based sound engines, both simple average filtering
        and sample rate conversion is handled here. */
@@ -1069,7 +1069,7 @@ long sound_sample_position(void)
         / snddata.clkstep);
 }
 
-int sound_read(ADDRESS addr, int chipno)
+int sound_read(WORD addr, int chipno)
 {
     if (sound_run_sound())
         return -1;
@@ -1081,7 +1081,7 @@ int sound_read(ADDRESS addr, int chipno)
     return sound_machine_read(snddata.psid[chipno], addr);
 }
 
-void sound_store(ADDRESS addr, BYTE val, int chipno)
+void sound_store(WORD addr, BYTE val, int chipno)
 {
     int i;
 
