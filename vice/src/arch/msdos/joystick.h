@@ -29,9 +29,9 @@
 
 typedef enum {
     JOYDEV_NONE,
+    JOYDEV_NUMPAD,
     JOYDEV_HW1,
-    JOYDEV_HW2,
-    JOYDEV_NUMPAD
+    JOYDEV_HW2
 } joystick_device_t;
 
 extern void joystick_init(void);
