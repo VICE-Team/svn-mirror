@@ -54,7 +54,6 @@
 
 static char *(*read_content_func)(const char *);
 static int *autostart_result;
-static char *(*get_filename_from_content)(char *, int);
 
 static struct { char *name; char *pattern; } uilib_filefilter[] = {
     { "All files (*.*)", "*.*" },
