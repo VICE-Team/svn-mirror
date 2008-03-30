@@ -36,6 +36,7 @@ extern BYTE REGPARM1 zaxxon_roml_read(WORD addr);
 extern void zaxxon_config_init(void);
 extern void zaxxon_config_setup(BYTE *rawcart);
 extern int zaxxon_crt_attach(FILE *fd, BYTE *rawcart);
+extern void zaxxon_detach(void);
 
 #endif
 
