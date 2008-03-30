@@ -34,12 +34,11 @@
 #include <unistd.h>
 #endif
 
-#include "psid.h"
-
 #include "c64mem.h"
 #include "cmdline.h"
 #include "log.h"
 #include "machine.h"
+#include "psid.h"
 #include "resources.h"
 #include "utils.h"
 #include "zfile.h"
@@ -235,17 +234,17 @@ void psid_init_tune(void)
 	      start_song, (int)psid->songs);
 
   /* Store parameters for psid player. */
-  store_ram(0x0306, psid->init_addr & 0xff);
-  store_ram(0x0307, psid->init_addr >> 8);
-  store_ram(0x0308, psid->play_addr & 0xff);
-  store_ram(0x0309, psid->play_addr >> 8);
-  store_ram(0x030a, start_song - 1);
-  store_ram(0x030b, volume);
-  store_ram(0x030c, portval);
+  ram_store(0x0306, psid->init_addr & 0xff);
+  ram_store(0x0307, psid->init_addr >> 8);
+  ram_store(0x0308, psid->play_addr & 0xff);
+  ram_store(0x0309, psid->play_addr >> 8);
+  ram_store(0x030a, start_song - 1);
+  ram_store(0x030b, volume);
+  ram_store(0x030c, portval);
 
   /* Store binary C64 data. */
   for (i = 0; i < psid->data_size; i++) {
-    store_ram(psid->load_addr + i, psid->data[i]);
+    ram_store(psid->load_addr + i, psid->data[i]);
   }
 }
 
@@ -260,12 +259,13 @@ void psid_init_driver(void) {
 
   /* 6510 vectors stored in both ROM and RAM. */
   for (addr = 0xfffa, i = 0; i < 6; i++) {
-    store_rom(addr + i, psid_driver[i]);
-    store_ram(addr + i, psid_driver[i]);
+    rom_store(addr + i, psid_driver[i]);
+    ram_store(addr + i, psid_driver[i]);
   }
 
   /* Driver code. */
   for (addr = 0x0300, i = 0x14; i < sizeof(psid_driver); i++) {
-    store_ram(addr + i, psid_driver[i]);
+    ram_store(addr + i, psid_driver[i]);
   }
 }
+
