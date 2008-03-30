@@ -507,7 +507,10 @@ void video_free(void)
 static void crtc_arrange_window(int width, int height)
 {
 #ifdef USE_VIDMODE_EXTENSION
-    if(fullscreen) return;
+    if(fullscreen) {
+      frame_buffer_clear(&frame_buffer, PIXEL(0));
+      return;
+    }
 #endif
     resize(width, height);
     refresh_changed();

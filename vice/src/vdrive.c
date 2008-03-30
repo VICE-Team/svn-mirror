@@ -2026,8 +2026,7 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
     }
 
     if (fd == ILLEGAL_FILE_DESC) {
-        log_error(vdrive_log, "Unit %d: Cannot open file `%s': %s.", 
-                  floppy->unit, name);
+        log_error(vdrive_log, "Cannot open file `%s'.", name);
         return -1;
     } else{
         if (check_header(fd, &hdr)) {

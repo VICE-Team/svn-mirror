@@ -81,6 +81,10 @@
 #include "c64acia.h"
 #endif
 
+#if !defined __MSDOS && ! defined WIN32
+#include "c64romset.h"
+#endif
+
 #ifdef __riscos
 #include "ROlib.h"
 #endif
@@ -120,7 +124,7 @@ static int acia_de_enabled;
 
 static void cartridge_config_changed(BYTE mode);
 
-static mem_romset_t **romsets; 
+static char **romsets; 
 
 static int number_romsets; 
 
@@ -514,18 +518,18 @@ void REGPARM2 store_ram_hi(ADDRESS addr, BYTE value)
 void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 {
     if ((addr & 0xff00) == 0xdf00) {
-	if (reu_enabled)
-	    store_reu(addr & 0x0f, value);
-	if (ieee488_enabled)
-	    store_tpi(addr & 0x07, value);
+        if (reu_enabled)
+            store_reu(addr & 0x0f, value);
+        if (ieee488_enabled)
+            store_tpi(addr & 0x07, value);
     }
     if ((mem_cartridge_type == CARTRIDGE_ACTION_REPLAY) && export_ram)
-	export_ram0[0x1f00 + (addr & 0xff)] = value;
+        export_ram0[0x1f00 + (addr & 0xff)] = value;
     if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
-	export_ram0[0x1f00 + (addr & 0xff)] = value;
+        export_ram0[0x1f00 + (addr & 0xff)] = value;
     if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT && (addr & 0xff) == 0) {
-	romconfig = (value == 2) ? 1 : 9;
-	romconfig = (romconfig & 0xdf) | ((ramconfig == 0) ? 0x20 : 0);
+        romconfig = (value == 2) ? 1 : 9;
+        romconfig = (romconfig & 0xdf) | ((ramconfig == 0) ? 0x20 : 0);
 	if ((value & 0x7f) == 0)
 	    romconfig = 35;
 	if ((value & 0x7f) == 1 || (value & 0x7f) == 3)
@@ -536,7 +540,7 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 	}
 	if ((value & 0x7f) == 9)
 	    romconfig = 6;
-	cartridge_config_changed(romconfig);
+        cartridge_config_changed(romconfig);
     }
     if (mem_cartridge_type == CARTRIDGE_FINAL_III) {
         if ((addr & 0xff) == 0xff)  {
@@ -553,15 +557,28 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
         }
     }
     if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT && (addr & 0xff) == 1) {
-	if(((ramconfig - 1) & 0xff) == value) {
-	    ramconfig = value;
-	    romconfig |= 35;
-	}
-	if(((ramconfig + 1) & 0xff) == value) {
-	    ramconfig = value;
-	    romconfig &= 0xdd;
-	}
-	cartridge_config_changed(romconfig);
+        if(((ramconfig - 1) & 0xff) == value) {
+            ramconfig = value;
+            romconfig |= 35;
+        }
+        if(((ramconfig + 1) & 0xff) == value) {
+            ramconfig = value;
+            romconfig &= 0xdd;
+        }
+        cartridge_config_changed(romconfig);
+    }
+    if (mem_cartridge_type == CARTRIDGE_SUPER_GAMES) {
+printf("VAL %x\n",value);
+        romh_bank = roml_bank = value & 3;
+        if (value & 0x4) {
+            export.game = 0;
+            export.exrom = 1;
+        } else {
+            export.game = export.exrom = 1;
+        }
+        if (value == 0xc)
+            export.game = export.exrom = 0;
+        pla_config_changed();
     }
     return;
 }
@@ -616,8 +633,16 @@ void REGPARM2 store_io1(ADDRESS addr, BYTE value)
             cartridge_config_changed(1);
         if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT)
             export_ram0[0x1e00 + (addr & 0xff)] = value;
-        if (mem_cartridge_type == CARTRIDGE_OCEAN) {
-            romh_bank = roml_bank = value & 15;
+        if (mem_cartridge_type == CARTRIDGE_OCEAN ||
+            mem_cartridge_type == CARTRIDGE_FUNPLAY) {
+            switch (mem_cartridge_type) {
+              case CARTRIDGE_OCEAN:
+                romh_bank = roml_bank = value & 15;
+                break;
+              case CARTRIDGE_FUNPLAY:
+                romh_bank = roml_bank = ((value >> 2) | (value & 1)) & 15;
+                break;
+            }
             if (value & 0x80) {
                 export.game = (value >> 4) & 1;
                 export.exrom = 1;
@@ -952,6 +977,7 @@ void initialize_memory(void)
       case CARTRIDGE_ACTION_REPLAY:
       case CARTRIDGE_KCS_POWER:
       case CARTRIDGE_GENERIC_8KB:
+      case CARTRIDGE_SUPER_GAMES:
         cartridge_config_changed(0);
         break;
       case CARTRIDGE_FINAL_III:
@@ -966,6 +992,7 @@ void initialize_memory(void)
         cartridge_config_changed(9);
         break;
       case CARTRIDGE_OCEAN:
+      case CARTRIDGE_FUNPLAY:
         cartridge_config_changed(1);
         store_io1((ADDRESS) 0xde00, 0);
         break;
@@ -1013,7 +1040,7 @@ char* mem_get_romset_name() {
     return(romset_name);
 }
 
-mem_romset_t** mem_get_romsets()
+char** mem_get_romsets()
 {
     return romsets;
 } 
@@ -1023,54 +1050,39 @@ int mem_get_numromsets()
     return number_romsets;
 } 
 
+int mem_add_romset(char *name)
+{
+    int i;
+    if(number_romsets > 20) return 0;
+    for(i = 1 ; i < number_romsets ; i ++) {
+      if(!strcmp(name,romsets[i])) {
+	  return 0;
+      }
+    }
+    romsets[number_romsets++] = stralloc(name);
+    log_message(LOG_DEFAULT, "Adding RomSet `%s'.", name);
+    return 1;
+}
 
 int mem_load_romset_file(const char *name)
 {
     FILE *fp = NULL;
     char *complete_path;
-    char romsetname[101], romsetpath[MAXPATHLEN];
+    char romsetname[101];
     char *c;
     
     /* Fixme: Only 20 different RomSets at the moment */
-    romsets = xcalloc(sizeof(mem_romset_t*), 20);
+    romsets = xcalloc(sizeof(char*), 20);
 
-    fp = sysfile_open(name, &complete_path);
-    if (fp == NULL)
-        goto fail;
-
-    log_message(LOG_DEFAULT, "Loading RomSets `%s'.", complete_path);
-
-    romsets[0] = (mem_romset_t*) xmalloc(sizeof(mem_romset_t));
-    romsets[0]->name = stralloc("Default");
-    romsets[0]->path = 0;
+    romsets[0] = stralloc("Default");
     log_message(LOG_DEFAULT, "Adding Default RomSet");
 
     number_romsets = 1;
 
-    while (! feof(fp) && number_romsets < 20) {      
-      if(!fgets(romsetpath, MAXPATHLEN,fp) || !fgets(romsetname, 100,fp)) {
-	break;
-      }
-      for(c=romsetpath; *c != '\0'; c++)
-	  if( *c=='\n'|| *c=='\r')
-	      *c='\0';
-      for(c=romsetname; *c != '\0'; c++)
-	  if( *c=='\n'|| *c=='\r')
-	      *c='\0';
-      romsets[number_romsets] = (mem_romset_t*) xmalloc(sizeof(mem_romset_t));
-      romsets[number_romsets]->name = stralloc(romsetname);
-      romsets[number_romsets]->path = stralloc(romsetpath);
-      log_message(LOG_DEFAULT, "Adding RomSet `%s'.", romsetname);
-      number_romsets++;
-    }
-
-    (void) fclose(fp);
-    free(complete_path);
+#if !defined __MSDOS && ! defined WIN32
+    c64romset_load();
+#endif
     return number_romsets;  /* return ok */
-
-fail:
-    free(complete_path);
-    return -1;
 }
 
 int mem_romset_loader()
@@ -1158,59 +1170,64 @@ int mem_romset_loader()
 
 int mem_set_romset(char *name) {
   int num_romsets;
-  char path[MAXPATHLEN];
+  char romsetnamebuffer[MAXPATHLEN];
   char *tmppath;
 
   if(strcmp(name,"Default")) {
     for(num_romsets = 0; num_romsets < number_romsets ; num_romsets++) {
-      if (!strcmp(romsets[num_romsets]->name,name)) {
-	romset_name = romsets[num_romsets]->name;
-	strncpy(path,romsets[num_romsets]->path,MAXPATHLEN - 1);
-	strncat(path,"char.rom", MAXPATHLEN - strlen(path) - 1);
-	if ( sysfile_locate(path, &tmppath) ) {
+      if (!strcmp(romsets[num_romsets],name)) {
+	romset_name = romsets[num_romsets];
+	strcpy(romsetnamebuffer,"chargen-");
+	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
+	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
 	  set_chargen_rom_name((resource_value_t) "chargen");
 	} else {
-	  set_chargen_rom_name((resource_value_t) path);
+	  set_chargen_rom_name((resource_value_t) romsetnamebuffer);
 	}
 
-	strncpy(path,romsets[num_romsets]->path, MAXPATHLEN - 1);
-	strncat(path,"kernal.rom",MAXPATHLEN - strlen(path) - 1);
-	if ( sysfile_locate(path, &tmppath) ) {
+	strcpy(romsetnamebuffer,"kernal-");
+	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
+	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
 	  set_kernal_rom_name((resource_value_t) "kernal");
 	} else {
-	  set_kernal_rom_name((resource_value_t) path);
+	  set_kernal_rom_name((resource_value_t) romsetnamebuffer);
 	}
 
-	strncpy(path,romsets[num_romsets]->path, MAXPATHLEN - 1);
-	strncat(path,"basic.rom",MAXPATHLEN - strlen(path) - 1);
-	if ( sysfile_locate(path, &tmppath) ) {
+	strcpy(romsetnamebuffer,"basic-");
+	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
+	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
 	  set_basic_rom_name((resource_value_t) "basic");
 	} else {
-	  set_basic_rom_name((resource_value_t) path);
+	  set_basic_rom_name((resource_value_t) romsetnamebuffer);
 	}
 
-	strncpy(path,romsets[num_romsets]->path, MAXPATHLEN - 1);
-	strncat(path,"c1541.rom",MAXPATHLEN - strlen(path) - 1);
-	if ( sysfile_locate(path, &tmppath) ) {
+	strcpy(romsetnamebuffer,"dos1541-");
+	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
+	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
 	  reload_rom_1541("dos1541");
 	} else {
-	  reload_rom_1541(path);
+	  reload_rom_1541(romsetnamebuffer);
 	}
 
 	log_message(LOG_DEFAULT, "Changing to RomSet %s",name);
       }      
     }
   } else {
-    romset_name = romsets[0]->name;
+    romset_name = romsets[0];
     set_chargen_rom_name((resource_value_t) "chargen");
     set_kernal_rom_name((resource_value_t) "kernal");
     set_basic_rom_name((resource_value_t) "basic");    
     reload_rom_1541("dos1541");
-    log_message(LOG_DEFAULT, "Changing to Default RomSet",name);
+    log_message(LOG_DEFAULT, "Changing to Default RomSet");
   }
   return(0);
 }
 
+int isRomInRomSet(char *rom, char *romset) 
+{
+    if(!romset || !rom || strlen(romset) > strlen(rom)) return 0;
+    return !strcmp(rom + strlen(rom) - strlen(romset), romset)?1:0;
+}
 
 int mem_load(void)
 {
@@ -1221,16 +1238,16 @@ int mem_load(void)
     mem_load_romset_file("rom.cfg");
     back = mem_romset_loader();
     for(num_romsets = 1; num_romsets < number_romsets ; num_romsets++) {
-        temp = romsets[num_romsets]->path;
-	if((chargen_rom_name && !strncmp(temp,chargen_rom_name,strlen(temp)))||
-	   (basic_rom_name && !strncmp(temp,basic_rom_name,strlen(temp)))||
-	   (kernal_rom_name && !strncmp(temp,kernal_rom_name,strlen(temp))) ) {
-            romset_name = romsets[num_romsets]->name;
+        temp = romsets[num_romsets];
+	if( isRomInRomSet(chargen_rom_name,temp) ||
+	    isRomInRomSet(basic_rom_name,temp) ||
+	    isRomInRomSet(kernal_rom_name,temp) ) {
+            romset_name = romsets[num_romsets];
 	    break;
       }
     }
     if(num_romsets == number_romsets) {
-      romset_name = romsets[0]->name;
+      romset_name = romsets[0];
     }
     return back;
 }
@@ -1279,6 +1296,7 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         cartridge_config_changed(9);
         break;
       case CARTRIDGE_OCEAN:
+      case CARTRIDGE_FUNPLAY:
         memcpy(roml_banks, rawcart, 0x2000 * 16);
         memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
         break;
@@ -1286,6 +1304,17 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
         memcpy(&romh_banks[0x0000], &rawcart[0x0000], 0x2000);
         cartridge_config_changed(3);
+        break;
+      case CARTRIDGE_SUPER_GAMES:
+        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
+        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
+        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
+        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
+        memcpy(&roml_banks[0x4000], &rawcart[0x8000], 0x2000);
+        memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
+        memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
+        memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
+        cartridge_config_changed(0);
         break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;

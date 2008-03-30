@@ -1,3 +1,41 @@
+1999-01-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.12.
+
+	* drive/drive.c (GCR_data_writeback2): Fixed wrong number of
+	parameters given to `log_error'.
+	* c64/c64mem.c (mem_set_romset): Likewise.
+	* tape.c (tape_receive_trap): Likewise.
+	* vdrive.c (attach_floppy_image): Likewise.
+
+	* c64/cartridge.c, c64/c64mem.c, cartridge.h: Added support for
+	Funplay and Super Games cartridges.
+
+	* arch/msdos/c64ui.c, arch/msdos/c128ui.c: Mouse is called "1351".
+
+	* snapshot.c (snapshot_open): Do not `fclose()' a NULL pointer!
+
+1999-01-23  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* arch/unix/c64romset.h, arch/unix/c64romset.c: New files.
+	Implements searching for RomSets in vice-paths.
+
+	* arch/unix/Makefile.am: Added c64romset.h and c64romset.c.
+
+	* arch/unix/xaw/c64ui.c, c64/c64.c, c64/c64mem.c,
+	c64/c64mem.h: More work on RomSet loading.
+
+	* arch/unix/xaw/ui.c: Fixes for fullscreen-mode.
+
+	* crtc-tmpl.c: Clear framebuffer in fullscreen-modes.
+
+	* findpath.c: Removed the NEWSEMATIC-stuff
+
+1999-01-23  Michael Klein  <100.251394@germanynet.de>
+
+	* log.h: GCC Minor version number is called `__GNUC_MINOR__'.
+	Corrected `log_*' prototypes.
+
 1999-01-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.11 and 0.16.1a.

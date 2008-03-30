@@ -1634,8 +1634,7 @@ static void GCR_data_writeback2(BYTE *buffer, BYTE *offset, int dnr, int track, 
                                 drive[dnr].drive_floppy->D64_Header);
         if (rc < 0)
             log_error(drive[dnr].log,
-                      "DRIVE#%i: Could not update T:%d S:%d.",
-                      track, sector);
+                      "Could not update T:%d S:%d.", track, sector);
     }
 }
 

@@ -303,7 +303,7 @@ void tape_receive_trap(void)
         }
         break;
       default:
-        log_error(tape_log, "Kernal command $02X not supported.",
+        log_error(tape_log, "Kernal command %x not supported.",
                   MOS6510_REGS_GET_X(&maincpu_regs));
         st = 0x40;
         break;

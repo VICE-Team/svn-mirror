@@ -399,17 +399,17 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     /* VICE boot sequence.  */
     log_message(LOG_DEFAULT, "*** VICE Version %s ***", VERSION);
-    log_message(LOG_DEFAULT, "");
+    log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Welcome to %s, the free portable Commodore %s Emulator.",
                 archdep_program_name(), machine_name);
-    log_message(LOG_DEFAULT, "");
+    log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Written by");
     log_message(LOG_DEFAULT, "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,");
     log_message(LOG_DEFAULT, "A. Boose, J. Valta and J. Sonninen.");
-    log_message(LOG_DEFAULT, "");
+    log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
     log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");
-    log_message(LOG_DEFAULT, "");
+    log_message(LOG_DEFAULT, " ");
 
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */
