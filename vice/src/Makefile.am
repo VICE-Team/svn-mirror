@@ -43,6 +43,7 @@ noinst_HEADERS = \
 	cmdline.h \
 	config.h.in \
 	crtc.h \
+	datasette.h \
 	emuid.h \
 	file.h \
 	fixpoint.h \
@@ -76,6 +77,7 @@ noinst_HEADERS = \
 	sound.h \
 	sysfile.h \
 	t64.h \
+	tap.h \
 	tape.h \
 	tpi.h \
 	traps.h \
@@ -98,6 +100,7 @@ base_sources = \
 	autostart.c \
 	charsets.c \
 	cmdline.c \
+	datasette.c \
 	emuid.c \
 	findpath.c \
 	fsdevice.c \
@@ -122,6 +125,7 @@ base_sources = \
 	sound.c \
 	sysfile.c \
 	t64.c \
+	tap.c \
 	tape.c \
 	traps.c \
 	utils.c \
