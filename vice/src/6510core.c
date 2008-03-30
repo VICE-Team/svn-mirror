@@ -62,22 +62,53 @@
     do {                                      \
         if (!(val))                           \
             drivecpu_byte_ready_egde_clear(); \
-        ((val) ? (reg_p |= P_OVERFLOW)        \
-         : (reg_p &= ~P_OVERFLOW));           \
+        if (val)                              \
+            reg_p |= P_OVERFLOW;              \
+        else                                  \
+            reg_p &= ~P_OVERFLOW;             \
     } while (0)
 #else
-#define LOCAL_SET_OVERFLOW(val)  ((val) ? (reg_p |= P_OVERFLOW)    \
-                                        : (reg_p &= ~P_OVERFLOW))
+#define LOCAL_SET_OVERFLOW(val)   \
+    do {                          \
+        if (val)                  \
+            reg_p |= P_OVERFLOW;  \
+        else                      \
+            reg_p &= ~P_OVERFLOW; \
+    } while (0)
 #endif
 
-#define LOCAL_SET_BREAK(val)     ((val) ? (reg_p |= P_BREAK)       \
-                                        : (reg_p &= ~P_BREAK))
-#define LOCAL_SET_DECIMAL(val)   ((val) ? (reg_p |= P_DECIMAL)     \
-                                        : (reg_p &= ~P_DECIMAL))
-#define LOCAL_SET_INTERRUPT(val) ((val) ? (reg_p |= P_INTERRUPT)   \
-                                        : (reg_p &= ~P_INTERRUPT))
-#define LOCAL_SET_CARRY(val)     ((val) ? (reg_p |= P_CARRY)       \
-                                        : (reg_p &= ~P_CARRY))
+#define LOCAL_SET_BREAK(val)   \
+    do {                       \
+        if (val)               \
+            reg_p |= P_BREAK;  \
+        else                   \
+            reg_p &= ~P_BREAK; \
+    } while (0)
+
+#define LOCAL_SET_DECIMAL(val)   \
+    do {                         \
+        if (val)                 \
+            reg_p |= P_DECIMAL;  \
+        else                     \
+            reg_p &= ~P_DECIMAL; \
+    } while (0)
+
+#define LOCAL_SET_INTERRUPT(val)   \
+    do {                           \
+        if (val)                   \
+            reg_p |= P_INTERRUPT;  \
+        else                       \
+            reg_p &= ~P_INTERRUPT; \
+    } while (0)
+
+#define LOCAL_SET_CARRY(val)   \
+    do {                       \
+        if (val)               \
+            reg_p |= P_CARRY;  \
+        else                   \
+            reg_p &= ~P_CARRY; \
+    } while (0)
+
 #define LOCAL_SET_SIGN(val)      (flag_n = (val) ? 0x80 : 0)
 #define LOCAL_SET_ZERO(val)      (flag_z = !(val))
 #define LOCAL_SET_STATUS(val)    (reg_p = ((val) & ~(P_ZERO | P_SIGN)), \
