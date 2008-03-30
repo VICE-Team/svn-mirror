@@ -114,10 +114,13 @@ static int sid_snapshot_read_module_simple(snapshot_t *s)
             memcpy(sid_get_siddata(0), &tmp[0], 32);
         }
     } else {
+        int res_sound = (int)(tmp[0]);
+        int res_engine = (int)(tmp[1]);
+
         sound_close();
-        resources_set_value("Sound", (resource_value_t)(tmp[0]));
-        if (tmp[0]) {
-            resources_set_value("SidEngine", (resource_value_t)(tmp[1]));
+        resources_set_value("Sound", (resource_value_t)res_sound);
+        if (res_sound) {
+            resources_set_value("SidEngine", (resource_value_t)res_engine);
             /* FIXME: Only data for first SID read. */
             memcpy(sid_get_siddata(0), &tmp[2], 32);
             sound_open();
