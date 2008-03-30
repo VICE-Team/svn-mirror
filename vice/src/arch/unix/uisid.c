@@ -50,6 +50,10 @@ ui_menu_entry_t sid_engine_submenu[] = {
     { N_("*Catweasel MKIII"), (ui_callback_t)radio_SidEngine,
       (ui_callback_data_t)SID_ENGINE_CATWEASELMKIII, NULL },
 #endif
+#ifdef HAVE_HARDSID
+    { N_("*HardSID"), (ui_callback_t)radio_SidEngine,
+      (ui_callback_data_t)SID_ENGINE_HARDSID, NULL },
+#endif
     { NULL }
 };
 

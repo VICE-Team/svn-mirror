@@ -80,6 +80,10 @@ static int init_interface(void)
     return 0;
 }
 
+void hardsid_reset(void)
+{
+}
+
 int hardsid_open(void)
 {
     return init_interface();
