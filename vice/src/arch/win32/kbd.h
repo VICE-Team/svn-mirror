@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,6 +34,7 @@ extern void kbd_arch_init(void);
 
 extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
+extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
 #define KBD_C64_SYM_US  "win_sym_us.vkm"
 #define KBD_C64_SYM_DE  "win_sym_de.vkm"

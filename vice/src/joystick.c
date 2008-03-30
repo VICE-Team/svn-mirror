@@ -40,6 +40,7 @@
 #include "keyboard.h"
 #include "joy.h"
 #include "joystick.h"
+#include "kbd.h"
 #include "maincpu.h"
 #include "network.h"
 #include "snapshot.h"
@@ -329,7 +330,6 @@ void joystick_joypad_clear(void)
 {
     memset(joypad_status, 0, sizeof(joypad_status));
 }
-#endif
 
 /*-----------------------------------------------------------------------*/
 
@@ -339,13 +339,16 @@ int joystick_init_resources(void)
 
     return joystick_arch_init_resources();
 }
+#endif
 
 int joystick_init(void)
 {
     joystick_alarm = alarm_new(maincpu_alarm_context, "Joystick",
                                joystick_latch_handler, NULL);
 
+#ifdef COMMON_KBD
     kbd_initialize_numpad_joykeys(joykeys[0]);
+#endif
 
     return joy_arch_init();
 }
