@@ -86,48 +86,44 @@ static int unused_bits_in_registers[64] =
 /* Store a value in the video bank (it is assumed to be in RAM).  */
 inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
 {
-    /* This can only cause "aesthetical" errors, so let's save some time if
-       the current frame will not be visible.  */
-    if (!vic_ii.raster.skip_frame) {
-        int f;
+    int f;
 
-        /* Argh... this is a dirty kludge!  We should probably find a cleaner
-           solution.  */
-        do {
-            CLOCK mclk;
+    /* Argh... this is a dirty kludge!  We should probably find a cleaner
+       solution.  */
+    do {
+        CLOCK mclk;
 
+        /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
+        mclk = clk - rmw_flag - 1;
+        f = 0;
+
+        if (mclk >= vic_ii.fetch_clk) {
+            /* If the fetch starts here, the sprite fetch routine should
+               get the new value, not the old one.  */
+            if (mclk == vic_ii.fetch_clk)
+                vic_ii.ram_base_phi2[addr] = value;
+
+            /* The sprite DMA check can be followed by a real fetch.
+               Save the location to execute the store if a real
+               fetch actually happens.  */
+            if (vic_ii.fetch_idx == VIC_II_CHECK_SPRITE_DMA) {
+                vic_ii.store_clk = mclk;
+                vic_ii.store_value = value;
+                vic_ii.store_addr = addr;
+            }
+
+            vic_ii_raster_fetch_alarm_handler(clk - vic_ii.fetch_clk);
+            f = 1;
             /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
             mclk = clk - rmw_flag - 1;
-            f = 0;
+            vic_ii.store_clk = CLOCK_MAX;
+        }
 
-            if (mclk >= vic_ii.fetch_clk) {
-                /* If the fetch starts here, the sprite fetch routine should
-                   get the new value, not the old one.  */
-                if (mclk == vic_ii.fetch_clk)
-                    vic_ii.ram_base_phi2[addr] = value;
-
-                /* The sprite DMA check can be followed by a real fetch.
-                   Save the location to execute the store if a real
-                   fetch actually happens.  */
-                if (vic_ii.fetch_idx == VIC_II_CHECK_SPRITE_DMA) {
-                    vic_ii.store_clk = mclk;
-                    vic_ii.store_value = value;
-                    vic_ii.store_addr = addr;
-                }
-
-                vic_ii_raster_fetch_alarm_handler(clk - vic_ii.fetch_clk);
-                f = 1;
-                /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
-                mclk = clk - rmw_flag - 1;
-                vic_ii.store_clk = CLOCK_MAX;
-            }
-
-            if (mclk >= vic_ii.draw_clk) {
-                vic_ii_raster_draw_alarm_handler(0);
-                f = 1;
-            }
-        } while (f);
-    }
+        if (mclk >= vic_ii.draw_clk) {
+            vic_ii_raster_draw_alarm_handler(0);
+            f = 1;
+        }
+    } while (f);
 
     vic_ii.ram_base_phi2[addr] = value;
 }
