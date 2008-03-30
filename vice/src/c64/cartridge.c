@@ -204,6 +204,16 @@ int cartridge_attach_image(int type, const char *filename)
         }
         fclose(fd);
         break;
+      case CARTRIDGE_IEEE488:
+        fd = fopen(filename, MODE_READ);
+        if (!fd)
+            goto done;
+        if (fread(rawcart, 0x1000, 1, fd) < 1) {
+            fclose(fd);
+            goto done;
+        }
+        fclose(fd);
+        break;
       case CARTRIDGE_CRT:
         fd = fopen(filename, MODE_READ);
         if (!fd)
