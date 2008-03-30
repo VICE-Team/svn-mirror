@@ -690,7 +690,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
            aren't updated when a menu is destroyed, as the flipmenu is
            dynamically regenerated; The Gnome code is already fixed. */
         memcpy(&flipmenu[drive][i], (const char *)ui_drive_settings_menu,
-               sizeof (ui_menu_entry_t));
+               sizeof(ui_menu_entry_t));
         i++;
         /* Write protext UI controll */
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
@@ -707,7 +707,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         /* don't update menu deeply when drive has not been enabled
            or nothing has been attached */
         if (true_emu) {
-            if (! ((1 << drive) & enabled_drives))
+            if (!((1 << drive) & enabled_drives))
                 goto update_menu;
         } else {
             if (strcmp(last_attached_images[drive], "") == 0)
