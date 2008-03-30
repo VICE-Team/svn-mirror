@@ -2,7 +2,7 @@
  * vicii-mem.c - Memory interface for the MOS6569 (VIC-II) emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -1006,7 +1006,7 @@ store_d02f (ADDRESS addr, BYTE value)
 
 /* Store a value in a VIC-II register.  */
 void REGPARM2 
-store_vic (ADDRESS addr, BYTE value)
+vic_store(ADDRESS addr, BYTE value)
 {
   addr &= 0x3f;
 
@@ -1202,7 +1202,7 @@ read_d019 (void)
 
 /* Read a value from a VIC-II register.  */
 BYTE REGPARM1 
-read_vic (ADDRESS addr)
+vic_read (ADDRESS addr)
 {
   addr &= 0x3f;
 
@@ -1454,7 +1454,7 @@ read_vic (ADDRESS addr)
 
 
 BYTE REGPARM1 
-peek_vic (ADDRESS addr)
+vic_peek(ADDRESS addr)
 {
   addr &= 0x3f;
   switch (addr)
@@ -1487,13 +1487,14 @@ peek_vic (ADDRESS addr)
 
 
 void REGPARM2 
-store_colorram (ADDRESS addr, BYTE value)
+colorram_store(ADDRESS addr, BYTE value)
 {
   vic_ii.color_ram[addr & 0x3ff] = value & 0xf;
 }
 
 BYTE REGPARM1 
-read_colorram (ADDRESS addr)
+colorram_read(ADDRESS addr)
 {
   return vic_ii.color_ram[addr & 0x3ff] | (rand () & 0xf0);
 }
+
