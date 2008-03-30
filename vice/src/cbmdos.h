@@ -83,7 +83,6 @@
 /* CBM DOS directory definitions.  */
 #define CBMDOS_SLOT_NAME_LENGTH 16
 
-
 struct cbmdos_cmd_parse_s {
     const char *cmd;
     unsigned int cmdlength;
