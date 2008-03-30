@@ -44,14 +44,14 @@
 #include "fullscreen.h"
 
 ui_menu_toggle  c128_ui_menu_toggles[] = {
-    { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },
     { "Mouse", IDM_MOUSE|0x00010000 },
-    { "VDC_DoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
+    { "VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
     { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },

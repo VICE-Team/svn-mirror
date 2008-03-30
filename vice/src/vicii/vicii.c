@@ -137,9 +137,7 @@ vic_ii_t vic_ii;
 /* Handle the exposure event.  */
 static void vic_ii_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&vic_ii.raster,
-                           width / vic_ii.raster.viewport.pixel_size.width,
-                           height / vic_ii.raster.viewport.pixel_size.height);
+    raster_resize_viewport(&vic_ii.raster, width, height);
 }
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
@@ -335,12 +333,11 @@ static void vic_ii_set_geometry(void)
                         vic_ii.screen_borderwidth * 2,
                         vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX -
                         vic_ii.screen_borderwidth * 2);
-#if 1
+
 #ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)
 #endif
         raster_resize_viewport(&vic_ii.raster, width, height);
-#endif
 
 #ifdef __MSDOS__
     video_ack_vga_mode();
@@ -363,7 +360,7 @@ static int init_raster(void)
     resources_touch("VICIIVideoCache");
     raster_set_canvas_refresh(raster, 1);
 
-    resources_touch("DoubleSize");
+    resources_touch("VICIIDoubleSize");
     vic_ii_set_geometry();
 
     if (vic_ii_update_palette() < 0) {
@@ -428,7 +425,8 @@ raster_t *vic_ii_init(void)
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
-    vic_ii_resize();
+    /*vic_ii_resize();*/
+    resources_touch("VICIIDoubleSize");
 
     return &vic_ii.raster;
 }
@@ -1116,43 +1114,6 @@ void vic_ii_raster_irq_alarm_handler(CLOCK offset)
 
     vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
     alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
-}
-
-/* Set proper functions and constants for the current video settings.  */
-void vic_ii_resize(void)
-{
-#if ARCHDEP_VICII_DSIZE == 1
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled
-        ? vic_ii_resources.fullscreen_double_size_enabled
-        : vic_ii_resources.double_size_enabled)
-#else
-    if (vic_ii_resources.double_size_enabled)
-#endif
-#else
-    if (0)
-#endif
-    {
-        if (vic_ii.raster.viewport.pixel_size.width == 1
-            && vic_ii.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size(&vic_ii.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
-            raster_resize_viewport(&vic_ii.raster,
-                                   vic_ii.raster.viewport.width,
-                                   vic_ii.raster.viewport.height);
-        } else {
-            raster_set_pixel_size(&vic_ii.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
-        }
-    } else {
-        if (vic_ii.raster.viewport.pixel_size.width == 2
-            && vic_ii.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size(&vic_ii.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
-            raster_resize_viewport(&vic_ii.raster,
-                                   vic_ii.raster.viewport.width / 2,
-                                   vic_ii.raster.viewport.height / 2);
-        } else {
-            raster_set_pixel_size(&vic_ii.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
-        }
-    }
 }
 
 void vic_ii_set_canvas_refresh(int enable)

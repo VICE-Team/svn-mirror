@@ -41,7 +41,7 @@ extern "C" {
 
 
 ui_menu_toggle  vic20_ui_menu_toggles[]={
-    { "DoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "VICDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },

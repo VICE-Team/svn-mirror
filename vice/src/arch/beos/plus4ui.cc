@@ -36,7 +36,7 @@ extern "C" {
 }
 
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
-    { "DoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { NULL, 0 }

@@ -35,9 +35,6 @@ struct vdc_resources_s
     /* Name of palette file.  */
     char *palette_file_name;
 
-    /* Flag: Do we use double size?  */
-    int double_size_enabled;
-
     /* Flag: VDC memory size.  */
     int vdc_64kb_expansion;
 

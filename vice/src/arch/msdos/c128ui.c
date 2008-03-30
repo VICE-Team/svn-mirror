@@ -128,7 +128,7 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-TUI_MENU_DEFINE_TOGGLE(VDC_DoubleSize)
+TUI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 TUI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 TUI_MENU_DEFINE_TOGGLE(VDC64KB)
 
@@ -136,7 +136,7 @@ static tui_menu_item_def_t vcd_menu_items[] = {
     { "--" },
     { "VDC _Double size",
       "Double the screen in vertical direction (BUG: Save settings and restart!)",
-      toggle_VDC_DoubleSize_callback, NULL, 3,
+      toggle_VDCDoubleSize_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "VDC Double _scan",
       "Display any scanline twice",

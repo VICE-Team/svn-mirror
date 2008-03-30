@@ -43,10 +43,6 @@ struct vic_ii_resources_s
        IRQ?  */
     int sprite_background_collisions_enabled;
 
-    /* Will be removed soon!  */
-    /* Flag: Do we use double size?  */
-    int double_size_enabled;
-
 #ifdef USE_XF86_EXTENSIONS
     /* Flag: Do we use double size?  */
     int fullscreen_double_size_enabled;

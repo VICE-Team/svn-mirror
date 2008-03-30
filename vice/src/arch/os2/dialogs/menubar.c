@@ -434,7 +434,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 
     case IDM_VDCDSIZE:
-        maincpu_trigger_trap(toggle_async, "VDC_DoubleSize");
+        maincpu_trigger_trap(toggle_async, "VDCDoubleSize");
         return;
     case IDM_VDCDSCAN:
         maincpu_trigger_trap(toggle_async, "VDCDoubleScan");

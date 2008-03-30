@@ -43,7 +43,7 @@
 #include "uiplus4mem.h"
 
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
-    { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },

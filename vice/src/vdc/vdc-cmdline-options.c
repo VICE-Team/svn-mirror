@@ -58,9 +58,9 @@ static cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t cmdline_options_2x[] =
 {
-    { "-VDC_dsize", SET_RESOURCE, 0, NULL, NULL, "VDC_DoubleSize",
+    { "-VDC_dsize", SET_RESOURCE, 0, NULL, NULL, "VDCDoubleSize",
       (void *)1, NULL, "Enable double size" },
-    { "+VDC_dsize", SET_RESOURCE, 0, NULL, NULL, "VDC_DoubleSize",
+    { "+VDC_dsize", SET_RESOURCE, 0, NULL, NULL, "VDCDoubleSize",
       (void *)0, NULL, "Disable double size" },
     { "-VDC_dscan", SET_RESOURCE, 0, NULL, NULL, "VDCDoubleScan",
       (void *)1, NULL, "Enable double scan" },

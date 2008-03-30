@@ -48,7 +48,7 @@
 #include "winmain.h"
 
 ui_menu_toggle  c64_ui_menu_toggles[] = {
-    { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },

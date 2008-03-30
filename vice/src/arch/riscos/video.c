@@ -117,7 +117,7 @@ static void canvas_redraw_all(void);
 
 static void video_canvas_get_full_scale(const video_canvas_t *canvas, int *sx, int *sy)
 {
-  const video_render_config_t *vc = &(canvas->videoconfig);
+  const video_render_config_t *vc = canvas->videoconfig;
 
   *sx = 1; *sy = 1;
   if ((ActualPALDepth != 0)
@@ -249,7 +249,7 @@ static void video_init_pal_double(void)
 
   while (cl != NULL)
   {
-    if (video_init_pal_videoconfig(&(cl->canvas->videoconfig)) != 0)
+    if (video_init_pal_videoconfig(cl->canvas->videoconfig) != 0)
     {
       video_canvas_update_size(cl->canvas);
     }
@@ -602,8 +602,8 @@ static int video_ensure_pal_sprite(video_canvas_t *canvas, int *pitchs, int *pit
     sprite_area_t *sarea;
     int width, height;
 
-    width  = (canvas->videoconfig.doublesizex == 0) ? canvas->width  : 2*canvas->width;
-    height = (canvas->videoconfig.doublesizey == 0) ? canvas->height : 2*canvas->height;
+    width  = (canvas->videoconfig->doublesizex == 0) ? canvas->width  : 2*canvas->width;
+    height = (canvas->videoconfig->doublesizey == 0) ? canvas->height : 2*canvas->height;
 
     if (ActualPALDepth == 8)
     {
@@ -639,7 +639,7 @@ static void video_ensure_pal_colours(video_canvas_t *canvas)
 {
   if (canvas->last_video_render_depth != ActualPALDepth)
   {
-    video_render_config_t *config = &(canvas->videoconfig);
+    video_render_config_t *config = canvas->videoconfig;
     unsigned int *ct;
     unsigned int i;
 
@@ -774,7 +774,7 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
   if (yt < 0) yt = 0;
   if (yt + h > ph) h = ph - yt;
   /*log_message(LOG_DEFAULT, "s(%d,%d), t(%d,%d), d(%d,%d)", vrd->xs, vrd->ys, xt, yt, w, h);*/
-  video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, w, h,
+  video_render_main(canvas->videoconfig, fb->framedata, fb->paldata, w, h,
                     vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitchs, pitcht, ActualPALDepth);
 
   video_canvas_get_soft_scale(canvas, &softx, &softy);
@@ -860,7 +860,7 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
   if (yt < 0) yt = 0;
   if (yt + h > ph) h = ph - yt;
 
-  video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, w, h,
+  video_render_main(canvas->videoconfig, fb->framedata, fb->paldata, w, h,
                     vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitchs, pitcht, ActualPALDepth);
 
   px = vrd->ge.x - (canvas->shiftx << FullScrDesc.eigx);
@@ -899,7 +899,7 @@ static const char *video_get_palemu_name(int depth)
 
 static void video_get_redraw_wimp(video_canvas_t *canvas)
 {
-  int rendermode = canvas->videoconfig.rendermode;
+  int rendermode = canvas->videoconfig->rendermode;
   const char *corename = NULL;
 
   if (wlsprite_plot_get_sarea(&(canvas->fb.normplot)) == NULL)
@@ -939,7 +939,7 @@ static void video_get_redraw_wimp(video_canvas_t *canvas)
 
 static void video_get_redraw_full(video_canvas_t *canvas)
 {
-  int rendermode = canvas->videoconfig.rendermode;
+  int rendermode = canvas->videoconfig->rendermode;
   const char *corename = NULL;
 
   if (wlsprite_plot_get_sarea(&(canvas->fb.normplot)) == NULL)
@@ -1080,26 +1080,28 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette)
 }
 
 
-video_canvas_t *video_canvas_init(void)
+video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
 {
-    video_canvas_t *canvas;
+  video_canvas_t *canvas;
 
-    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
+  canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
 
-    canvas->video_draw_buffer_callback
+  canvas->video_draw_buffer_callback
         = xmalloc(sizeof(video_draw_buffer_callback_t));
-    canvas->video_draw_buffer_callback->draw_buffer_alloc
+  canvas->video_draw_buffer_callback->draw_buffer_alloc
         = video_frame_buffer_alloc;
-    canvas->video_draw_buffer_callback->draw_buffer_free
+  canvas->video_draw_buffer_callback->draw_buffer_free
         = video_frame_buffer_free;
-    canvas->video_draw_buffer_callback->draw_buffer_clear
+  canvas->video_draw_buffer_callback->draw_buffer_clear
         = video_frame_buffer_clear;
 
-    canvas->videoconfig.doublesizex = 0;
-    canvas->videoconfig.doublesizey = 0;
-    video_render_initconfig(&(canvas->videoconfig));
+  canvas->videoconfig = videoconfig;
 
-    return canvas;
+  memset(&(canvas->fb), 0, sizeof(video_frame_buffer_t));
+  wlsprite_plot_init(&(canvas->fb.normplot));
+  wlsprite_plot_init(&(canvas->fb.palplot));
+
+  return canvas;
 }
 
 int video_canvas_create(video_canvas_t *canvas, const char *win_name, unsigned int *width, unsigned int *height, int mapped, void_t exposure_handler, const palette_t *palette)
@@ -1110,11 +1112,11 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name, unsigned i
 
   canvas->width = *width; canvas->height = *height;
 
-    if (canvas->videoconfig.doublesizex)
-        canvas->width *= 2;
+  if (canvas->videoconfig->doublesizex)
+    canvas->width *= 2;
 
-    if (canvas->videoconfig.doublesizey)
-        canvas->height *= 2;
+  if (canvas->videoconfig->doublesizey)
+    canvas->height *= 2;
 
   canvas->num_colours = (palette == NULL) ? 16 : palette->num_entries;
   canvas->current_palette = NULL;
@@ -1122,13 +1124,9 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name, unsigned i
   canvas->redraw_wimp = NULL;
   canvas->redraw_full = NULL;
   canvas->last_video_render_depth = -1;
-  memset(&(canvas->fb), 0, sizeof(video_frame_buffer_t));
   canvas->fb.transdirty = 1;
 
-  wlsprite_plot_init(&(canvas->fb.normplot));
-  wlsprite_plot_init(&(canvas->fb.palplot));
-
-  video_init_pal_videoconfig(&(canvas->videoconfig));
+  video_init_pal_videoconfig(canvas->videoconfig);
 
   video_canvas_set_palette(canvas, palette);
 
@@ -1223,30 +1221,30 @@ void video_canvas_unmap(video_canvas_t *s)
 }
 
 
-void video_canvas_resize(video_canvas_t *s, unsigned int width, unsigned int height)
+void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
-    if (canvas->videoconfig.doublesizex)
-        width *= 2;
+  if (canvas->videoconfig->doublesizex)
+    width *= 2;
 
-    if (canvas->videoconfig.doublesizey)
-        height *= 2;
+  if (canvas->videoconfig->doublesizey)
+    height *= 2;
 
   /* Make a note of the resize, too */
-  s->width = width; s->height = height;
+  canvas->width = width; canvas->height = height;
   if (FullScreenMode == 0)
   {
     int scalex, scaley;
     int w, h;
 
-    video_canvas_get_scale(s, &scalex, &scaley);
+    video_canvas_get_scale(canvas, &scalex, &scaley);
 
     w = (scalex * width) << UseEigen; h = (scaley * height) << UseEigen;
-    wimp_window_set_extent(s->window, 0, -h, w, 0);
-    Wimp_GetWindowState((int*)(s->window));
+    wimp_window_set_extent(canvas->window, 0, -h, w, 0);
+    Wimp_GetWindowState((int*)(canvas->window));
     /* Only open window if it was open to begin with */
-    if ((s->window->wflags & (1<<16)) != 0)
+    if ((canvas->window->wflags & (1<<16)) != 0)
     {
-      Wimp_OpenWindow((int*)(s->window));
+      Wimp_OpenWindow((int*)(canvas->window));
     }
   }
 }
@@ -1259,26 +1257,24 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
 			  unsigned int w, unsigned int h)
 {
   video_redraw_desc_t vrd;
+  int rendermode;
 
   if (ModeChanging != 0) return;
 
   if (canvas->fb.framedata == NULL) return;
 
-    if (canvas->videoconfig.doublesizex) {
-        xs *= 2;
-        xi *= 2;
-        w *= 2;
+  rendermode = canvas->videoconfig->rendermode;
+  if ((rendermode != VIDEO_RENDER_PAL_1X1) && (rendermode != VIDEO_RENDER_PAL_2X2))
+  {
+    if (canvas->videoconfig->doublesizey)
+    {
+      ys *= 2; yi *= 2; h *= 2;
     }
-
-    if (canvas->videoconfig.doublesizey) {
-        ys *= 2;
-        yi *= 2;
-        h *= 2;
-    }
+  }
 
   FrameBufferUpdate = 0;
-  vrd.ge.dimx = canvas->fb.pitch; vrd.ge.dimy = canvas->fb.height;
   canvas->shiftx = (xi - xs); canvas->shifty = - (yi - ys);
+  vrd.ge.dimx = canvas->fb.pitch; vrd.ge.dimy = canvas->fb.height;
 
   vrd.xs = xs; vrd.ys = ys; vrd.w = w; vrd.h = h;
 
@@ -1586,7 +1582,7 @@ int video_full_screen_on(int *sprites)
   }
   else
   {
-    if (ActiveCanvas->videoconfig.rendermode == VIDEO_RENDER_PAL_2X2)
+    if (ActiveCanvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2)
     {
       if (newScreenValidDouble != 0)
         usemode = &newScreenModeDouble;
@@ -1814,7 +1810,7 @@ void video_register_callbacks(void)
   resources_register_callback("PALEmuDepth", callback_canvas_modified, NULL);
   resources_register_callback("PALEmuDouble", callback_canvas_modified, NULL);
   resources_register_callback("UseBPlot", callback_canvas_modified, NULL);
-  resources_register_callback("VDC_DoubleSize", callback_canvas_modified, NULL);
+  resources_register_callback("VDCDoubleSize", callback_canvas_modified, NULL);
   resources_register_callback("VDCDoubleScan", callback_canvas_modified, NULL);
   resources_register_callback("ScreenSetPalette", callback_canvas_modified, NULL);
 }

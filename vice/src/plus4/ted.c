@@ -220,19 +220,6 @@ static void ted_set_geometry(void)
     width = TED_SCREEN_XPIX + ted.screen_borderwidth * 2;
     height = ted.last_displayed_line - ted.first_displayed_line + 1;
 
-#if ARCHDEP_TED_DSIZE == 1
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled
-        ? ted_resources.fullscreen_double_size_enabled
-        : ted_resources.double_size_enabled)
-#else
-    if (ted_resources.double_size_enabled)
-#endif
-    {
-        raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
-    }
-#endif
-
     raster_set_geometry(&ted.raster,
                         TED_SCREEN_WIDTH, ted.screen_height,
                         TED_SCREEN_XPIX, TED_SCREEN_YPIX,
@@ -265,6 +252,7 @@ static int init_raster(void)
     resources_touch("TEDVideoCache");
     raster_set_canvas_refresh(raster, 1);
 
+    resources_touch("TEDDoubleSize");
     ted_set_geometry();
 
     if (ted_update_palette() < 0) {
@@ -324,7 +312,8 @@ raster_t *ted_init(void)
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
-    ted_resize();
+    /*ted_resize();*/
+    resources_touch("TEDDoubleSize");
 
     return &ted.raster;
 }
@@ -425,9 +414,7 @@ void ted_powerup(void)
 /* Handle the exposure event.  */
 static void ted_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&ted.raster,
-                           width / ted.raster.viewport.pixel_size.width,
-                           height / ted.raster.viewport.pixel_size.width);
+    raster_resize_viewport(&ted.raster, width, height);
 }
 
 /* Make sure all the TED alarms are removed.  This just makes it easier to
@@ -795,47 +782,6 @@ static void ted_raster_irq_alarm_handler(CLOCK offset)
 
     ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
     alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
-}
-
-
-/* Set proper functions and constants for the current video settings.  */
-void ted_resize(void)
-{
-    if (!ted.initialized)
-        return;
-
-#if ARCHDEP_TED_DSIZE == 1
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled
-        ? ted_resources.fullscreen_double_size_enabled
-        : ted_resources.double_size_enabled)
-#else
-    if (ted_resources.double_size_enabled)
-#endif
-#else
-    if (0)
-#endif
-    {
-        if (ted.raster.viewport.pixel_size.width == 1
-            && ted.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
-            raster_resize_viewport(&ted.raster,
-                                   ted.raster.viewport.width,
-                                   ted.raster.viewport.height);
-        } else {
-            raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
-        }
-    } else {
-        if (ted.raster.viewport.pixel_size.width == 2
-            && ted.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size(&ted.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
-            raster_resize_viewport(&ted.raster,
-                                   ted.raster.viewport.width / 2,
-                                   ted.raster.viewport.height / 2);
-        } else {
-            raster_set_pixel_size(&ted.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
-        }
-    }
 }
 
 void ted_free(void)

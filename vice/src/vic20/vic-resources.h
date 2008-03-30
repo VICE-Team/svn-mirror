@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,9 +32,6 @@
 
 struct vic_resources_s
 {
-    /* Flag: Do we use double size?  */
-    int double_size_enabled;
-
 #ifdef USE_XF86_EXTENSIONS
     /* Flag: Do we use double size?  */
     int fullscreen_double_size_enabled;

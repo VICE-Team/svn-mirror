@@ -29,8 +29,6 @@
  *
  */
 
-#define _CRTC_C
-
 #include "vice.h"
 
 #include <stdio.h>
@@ -295,7 +293,7 @@ void crtc_set_screen_options(int num_cols, int rasterlines)
 /* printf("crtc_set_screen_options: cols=%d, rl=%d -> w=%d, h=%d\n",
         num_cols, rasterlines, crtc.screen_width, crtc.screen_height); */
 
-    crtc_resize();
+    resources_touch("CrtcDoubleSize");
     crtc_update_window();
 }
 
@@ -418,7 +416,7 @@ raster_t *crtc_init(void)
     raster->display_xstart = CRTC_SCREEN_BORDERWIDTH;
     raster->display_xstop = crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH;
 */
-    crtc_resize();
+    resources_touch("CrtcDoubleSize");
 
     return &crtc.raster;
 }
@@ -478,108 +476,6 @@ int crtc_load_palette (const char *name)
     }
 
     return raster_set_palette(&crtc.raster, palette);
-}
-
-
-
-/* Set proper functions and constants for the current video settings. */
-void crtc_resize(void)
-{
-    int double_w, double_h, mode;
-
-    /* if crtc.screen_width <= 400 double size width and height,
-       if > 400 double size the height only */
-
-#if 0
-#ifdef USE_XF86_EXTENSIONS
-    double_w = (crtc.screen_width <= 400)
-               ? (fullscreen_is_enabled
-               ? crtc_resources.fullscreen_double_size_enabled
-               : crtc_resources.double_size_enabled) : 0;
-    double_h = (crtc.screen_height <= 350)
-               ? (fullscreen_is_enabled
-               ? crtc_resources.fullscreen_double_size_enabled
-               : crtc_resources.double_size_enabled) : 0;
-#else
-    double_w = (crtc.screen_width <= 400)
-               ? crtc_resources.double_size_enabled : 0;
-    double_h = (crtc.screen_height <= 350)
-               ? crtc_resources.double_size_enabled : 0;
-#endif
-#endif
-
-    if (crtc_resources.double_size_enabled)
-        double_w = 1;
-    else
-        double_w = 0;
-
-    if (crtc_resources.double_size_enabled)
-        double_h = 1;
-    else
-        double_h = 0;
-
-    if (double_h) {
-        if (double_w)
-            mode = VIDEO_RENDER_RGB_2X2;
-        else
-            mode = VIDEO_RENDER_RGB_1X2;
-    } else
-        mode = VIDEO_RENDER_RGB_1X1;
-
-    if (!crtc.initialized)
-        return;
-
-    if (double_h) {
-        if (crtc.raster.viewport.pixel_size.height == 1
-            && crtc.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size(&crtc.raster,
-                                  crtc.raster.viewport.pixel_size.width, 2, mode);
-            raster_resize_viewport(&crtc.raster,
-                                   crtc.raster.viewport.width,
-                                   crtc.raster.viewport.height);
-        } else {
-            raster_set_pixel_size(&crtc.raster,
-                                  crtc.raster.viewport.pixel_size.width, 2, mode);
-        }
-    } else {
-        if (crtc.raster.viewport.pixel_size.height == 2
-            && crtc.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size(&crtc.raster,
-                                  crtc.raster.viewport.pixel_size.width, 1, mode);
-            raster_resize_viewport(&crtc.raster,
-                                   crtc.raster.viewport.width,
-                                   crtc.raster.viewport.height / 2);
-        } else {
-            raster_set_pixel_size(&crtc.raster,
-                                  crtc.raster.viewport.pixel_size.width, 1, mode);
-        }
-    }
-
-    if (double_w) {
-        if (crtc.raster.viewport.pixel_size.width == 1
-            && crtc.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size(&crtc.raster,
-                                  2, crtc.raster.viewport.pixel_size.height, mode);
-            raster_resize_viewport(&crtc.raster,
-                                   crtc.screen_width,
-                                   crtc.raster.viewport.height);
-        } else {
-            raster_set_pixel_size(&crtc.raster,
-                                  2, crtc.raster.viewport.pixel_size.height, mode);
-        }
-    } else {
-        if (crtc.raster.viewport.pixel_size.width == 2
-            && crtc.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size(&crtc.raster,
-                                  1, crtc.raster.viewport.pixel_size.height, mode);
-            raster_resize_viewport(&crtc.raster,
-                                   crtc.screen_width,
-                                   crtc.raster.viewport.height);
-        } else {
-            raster_set_pixel_size(&crtc.raster,
-                                  1, crtc.raster.viewport.pixel_size.height, mode);
-        }
-    }
 }
 
 
@@ -839,9 +735,7 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
 
 static void crtc_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&crtc.raster,
-                           width / crtc.raster.viewport.pixel_size.width,
-                           height / crtc.raster.viewport.pixel_size.height);
+    raster_resize_viewport(&crtc.raster, width, height);
 }
 
 void crtc_free(void)

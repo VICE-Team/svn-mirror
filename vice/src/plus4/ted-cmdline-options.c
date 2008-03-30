@@ -58,9 +58,9 @@ static cmdline_option_t cmdline_options[] =
 static cmdline_option_t cmdline_options_2x[] =
 {
 #if ARCHDEP_TED_DSIZE == 1
-    { "-dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
+    { "-dsize", SET_RESOURCE, 0, NULL, NULL, "TEDDoubleSize",
       (void *)1, NULL, "Enable double size" },
-    { "+dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
+    { "+dsize", SET_RESOURCE, 0, NULL, NULL, "TEDDoubleSize",
       (void *)0, NULL, "Disable double size" },
 #endif
 #if ARCHDEP_TED_DSCAN == 1

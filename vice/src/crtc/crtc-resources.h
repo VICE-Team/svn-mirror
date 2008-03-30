@@ -4,10 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
- *
- * 16/24bpp support added by
- *  Steven Tieu <stieu@physics.ubc.ca>
- *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,23 +35,18 @@ struct crtc_resources_s;
 
 /* CRTC resources.  */
 struct crtc_resources_s
-  {
+{
     /* Name of palette file.  */
     char *palette_file_name;
 
-    /* Flag: Do we use double size?  */
-    int double_size_enabled;
-
 #ifdef USE_XF86_EXTENSIONS
-
     /* Flag: Do we use double size?  */
     int fullscreen_double_size_enabled;
 
     /* Flag: Do we copy lines in double size mode?  */
     int fullscreen_double_scan_enabled;
-
-#endif                          /* USE_XF86_EXTENSIONS */
-  };
+#endif
+};
 
 typedef struct crtc_resources_s crtc_resources_t;
 

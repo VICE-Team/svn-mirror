@@ -48,7 +48,7 @@ extern "C" {
 }
 
 ui_menu_toggle  c64_ui_menu_toggles[]={
-    { "DoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "REU", MENU_TOGGLE_REU },

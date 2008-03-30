@@ -43,7 +43,7 @@
 #include "uivicset.h"
 
 ui_menu_toggle  vic20_ui_menu_toggles[]={
-    { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },

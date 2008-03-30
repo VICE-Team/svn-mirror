@@ -83,11 +83,14 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
 UI_MENU_DEFINE_TOGGLE(ExternalPalette)
 
 ui_menu_entry_t ted_submenu[] = {
+    { N_("*Double size"),
+      (ui_callback_t)toggle_TEDDoubleSize, NULL, NULL },
     { N_("*Double scan"),
       (ui_callback_t)toggle_TEDDoubleScan, NULL, NULL },
     { N_("*Video cache"),

@@ -163,7 +163,7 @@ static const char Rsrc_Key8040[] = "40/80ColumnKey";
 static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
 static const char Rsrc_VDCsize[] = "VDC64KB";
 static const char Rsrc_Z80Bios[] = "Z80BiosName";
-static const char Rsrc_VDCdblsze[] = "VDC_DoubleSize";
+static const char Rsrc_VDCdblsze[] = "VDCDoubleSize";
 static const char Rsrc_VDCdblscn[] = "VDCDoubleScan";
 static const char Rsrc_ReadOnly8[] = "AttachDevice8Readonly";
 static const char Rsrc_ReadOnly9[] = "AttachDevice9Readonly";
@@ -638,7 +638,7 @@ static struct MenuSerialBaud {
   }
 };
 
-#define Menu_Cartridge_Items	26
+#define Menu_Cartridge_Items	28
 #define Menu_Cartridge_Width	200
 static struct MenuCartridgeType {
   RO_MenuHead head;
@@ -647,28 +647,29 @@ static struct MenuCartridgeType {
   MENU_HEADER("\\MenCrtTit", Menu_Cartridge_Width),
   {
     MENU_ITEM("\\MenCrtNone"),
+    MENU_ITEM("\\MenCrtSS5"),
+    MENU_ITEM("\\MenCrtIEEE"),
+    MENU_ITEM("\\MenCrtIDE"),
+    MENU_ITEM("\\MenCrtUlt"),
+    MENU_ITEM("\\MenCrtRetr"),
+    MENU_ITEM("\\MenCrtSSn"),
     MENU_ITEM("\\MenCrtG8"),
     MENU_ITEM("\\MenCrtG16"),
     MENU_ITEM("\\MenCrtCRT"),
     MENU_ITEM("\\MenCrtAct"),
     MENU_ITEM("\\MenCrtKCS"),
-    MENU_ITEM("\\MenCrtSim"),
-    MENU_ITEM("\\MenCrtUlt"),
-    MENU_ITEM("\\MenCrtSSn"),
-    MENU_ITEM("\\MenCrtSS5"),
-    MENU_ITEM("\\MenCrtFin1"),
     MENU_ITEM("\\MenCrtFin3"),
+    MENU_ITEM("\\MenCrtSim"),
     MENU_ITEM("\\MenCrtOcn"),
-    /*MENU_ITEM("\\MenCrtOcHg"),*/
+    MENU_ITEM("\\MenCrtExpt"),
     MENU_ITEM("\\MenCrtFun"),
     MENU_ITEM("\\MenCrtSGm"),
-    MENU_ITEM("\\MenCrtIEEE"),
-    MENU_ITEM("\\MenCrtIDE"),
     MENU_ITEM("\\MenCrtAtom"),
     MENU_ITEM("\\MenCrtEpyx"),
     MENU_ITEM("\\MenCrtWest"),
-    MENU_ITEM("\\MenCrtExpt"),
     MENU_ITEM("\\MenCrtRex"),
+    MENU_ITEM("\\MenCrtFin1"),
+    MENU_ITEM("\\MenCrtMagc"),
     MENU_ITEM("\\MenCrtGS"),
     MENU_ITEM("\\MenCrtWrp"),
     MENU_ITEM("\\MenCrtDin"),
@@ -1168,12 +1169,12 @@ static struct MenuDisplayCartridgeType {
 } MenuDisplayCartridgeType = {
   {Rsrc_CartT, {CONF_WIN_SYSTEM, Icon_ConfSys_CartTypeT},
     (RO_MenuHead*)&MenuCartridgeType, Menu_Cartridge_Items, 0, 0},
-  {CARTRIDGE_NONE, CARTRIDGE_GENERIC_8KB, CARTRIDGE_GENERIC_16KB, CARTRIDGE_CRT,
-   CARTRIDGE_ACTION_REPLAY, CARTRIDGE_KCS_POWER, CARTRIDGE_SIMONS_BASIC,
-   CARTRIDGE_ULTIMAX, CARTRIDGE_SUPER_SNAPSHOT, CARTRIDGE_SUPER_SNAPSHOT_V5,
-   CARTRIDGE_FINAL_I, CARTRIDGE_FINAL_III, CARTRIDGE_OCEAN, /*CARTRIDGE_OCEAN_HUGE,*/
-   CARTRIDGE_FUNPLAY, CARTRIDGE_SUPER_GAMES, CARTRIDGE_IEEE488, CARTRIDGE_IDE64, CARTRIDGE_ATOMIC_POWER,
-   CARTRIDGE_EPYX_FASTLOAD, CARTRIDGE_WESTERMANN, CARTRIDGE_WESTERMANN, CARTRIDGE_REX,
+  {CARTRIDGE_NONE, CARTRIDGE_SUPER_SNAPSHOT_V5, CARTRIDGE_IEEE488, CARTRIDGE_IDE64,
+   CARTRIDGE_ULTIMAX, CARTRIDGE_RETRO_REPLAY, CARTRIDGE_SUPER_SNAPSHOT, CARTRIDGE_GENERIC_8KB,
+   CARTRIDGE_GENERIC_16KB, CARTRIDGE_CRT, CARTRIDGE_ACTION_REPLAY, CARTRIDGE_KCS_POWER,
+   CARTRIDGE_FINAL_III, CARTRIDGE_SIMONS_BASIC, CARTRIDGE_OCEAN, CARTRIDGE_EXPERT,
+   CARTRIDGE_FUNPLAY, CARTRIDGE_SUPER_GAMES, CARTRIDGE_ATOMIC_POWER, CARTRIDGE_EPYX_FASTLOAD,
+   CARTRIDGE_WESTERMANN, CARTRIDGE_REX, CARTRIDGE_FINAL_I, CARTRIDGE_MAGIC_FORMEL,
    CARTRIDGE_GS, CARTRIDGE_WARPSPEED, CARTRIDGE_DINAMIC, CARTRIDGE_ZAXXON}
 };
 
