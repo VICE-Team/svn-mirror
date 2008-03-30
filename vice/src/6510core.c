@@ -1511,9 +1511,10 @@
             BYTE lo = p1;
             BYTE hi = p2 >> 8;
 
-            log_debug("DRIVE: .%04X\t%ld\t%s.",
-                      reg_pc, (long)drive_clk[0],
-                      sprint_disassembled(reg_pc, op, lo, hi, 1));
+            log_debug("Drive: .%04X\t%ld\t%s.",
+                      reg_pc,
+                      (long)drive_clk[0],
+                      mon_disassemble_to_string(reg_pc, op, lo, hi, 1));
         }
 #else
         if (TRACEFLG) {
@@ -1523,7 +1524,8 @@
 
             log_debug(".%04X %02x %02x %02x\t%ld\t%s\tA=$%02X X=$%02X Y=$%02X.",
                       reg_pc, op, lo, hi,
-                      (long)clk, sprint_opcode(reg_pc, 1),
+                      (long)clk,
+                      mon_disassemble_to_string(reg_pc, op, lo, hi, 1),
                       reg_a, reg_x, reg_y);
        }
 #endif

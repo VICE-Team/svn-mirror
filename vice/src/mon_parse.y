@@ -388,27 +388,27 @@ post_assemble: assembly_instruction
              ;
 
 asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) return ERR_IMM_TOO_BIG;
-                                         $$ = join_ints(IMMEDIATE,$2); }
+                                         $$ = join_ints(ASM_ADDR_MODE_IMMEDIATE,$2); }
                 | number { if ($1 < 0x100)
-                              $$ = join_ints(ZERO_PAGE,$1);
+                              $$ = join_ints(ASM_ADDR_MODE_ZERO_PAGE,$1);
                            else
-                              $$ = join_ints(ABSOLUTE,$1);
+                              $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE,$1);
                          }
                 | number COMMA REG_X  { if ($1 < 0x100)
-                                           $$ = join_ints(ZERO_PAGE_X,$1);
+                                           $$ = join_ints(ASM_ADDR_MODE_ZERO_PAGE_X,$1);
                                         else
-                                           $$ = join_ints(ABSOLUTE_X,$1);
+                                           $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_X,$1);
                                       }
                 | number COMMA REG_Y  { if ($1 < 0x100)
-                                           $$ = join_ints(ZERO_PAGE_Y,$1);
+                                           $$ = join_ints(ASM_ADDR_MODE_ZERO_PAGE_Y,$1);
                                         else
-                                           $$ = join_ints(ABSOLUTE_Y,$1);
+                                           $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_Y,$1);
                                       }
-                | L_PAREN number R_PAREN  { $$ = join_ints(ABS_INDIRECT,$2); }
-                | L_PAREN number COMMA REG_X R_PAREN { $$ = join_ints(INDIRECT_X,$2); }
-                | L_PAREN number R_PAREN COMMA REG_Y { $$ = join_ints(INDIRECT_Y,$2); }
-                | { $$ = join_ints(IMPLIED,0); }
-                | REG_A { $$ = join_ints(ACCUMULATOR,0); }
+                | L_PAREN number R_PAREN  { $$ = join_ints(ASM_ADDR_MODE_ABS_INDIRECT,$2); }
+                | L_PAREN number COMMA REG_X R_PAREN { $$ = join_ints(ASM_ADDR_MODE_INDIRECT_X,$2); }
+                | L_PAREN number R_PAREN COMMA REG_Y { $$ = join_ints(ASM_ADDR_MODE_INDIRECT_Y,$2); }
+                | { $$ = join_ints(ASM_ADDR_MODE_IMPLIED,0); }
+                | REG_A { $$ = join_ints(ASM_ADDR_MODE_ACCUMULATOR,0); }
                 ;
 
 
