@@ -1,5 +1,5 @@
 /*
- * menudefs.h - Definition of menu commands.
+ * menudefs.h - Definition of menu commands and settings.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)

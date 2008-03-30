@@ -78,6 +78,17 @@ static char *readline(const char *prompt)
     fputs(prompt, stdout);
     fgets(p, 1024, stdin);
 
+    /* Remove trailing newlines.  */
+    {
+        int len;
+
+        for (len = strlen(p);
+             len > 0 && (p[len - 1] == '\r'
+                         || p[len - 1] == '\n');
+             len--)
+            p[len - 1] = '\0';
+    }
+
     return p;
 }
 
@@ -156,10 +167,10 @@ bool playback;
 char *playback_name;
 
 struct mon_cmds mon_cmd_array[] = {
-   { "",		"",	BAD_CMD,		STATE_INITIAL }, 
+   { "",		"",	BAD_CMD,		STATE_INITIAL },
    { "add_label", 	"al", 	CMD_ADD_LABEL, 		STATE_INITIAL },
    { "a", 		"", 	CMD_ASSEMBLE, 		STATE_INITIAL },
-   { "bank",		"",	CMD_BANK,		STATE_INITIAL }, 
+   { "bank",		"",	CMD_BANK,		STATE_INITIAL },
    { "br", 		"", 	CMD_BLOCK_READ, 	STATE_INITIAL },
    { "bw", 		"", 	CMD_BLOCK_WRITE, 	STATE_INITIAL },
    { "break", 		"", 	CMD_BREAK, 		STATE_INITIAL },
@@ -334,11 +345,11 @@ static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, boo
    if (is_valid_addr_range(*start_addr, *end_addr)) {
       /* Resolve any default memory spaces. We wait until now because we
        * need both addresses - if only 1 is a default, use the other to
-       * resolve the memory space. 
-       */ 
+       * resolve the memory space.
+       */
       mem1 = addr_memspace(*start_addr);
       mem2 = addr_memspace(*end_addr);
-  
+
       if (mem1 == e_default_space) {
          if (mem2 == e_default_space) {
             set_addr_memspace(start_addr,default_memspace);
@@ -356,7 +367,7 @@ static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, boo
          } else
             assert(FALSE);
       }
- 
+
       len = get_range_len(*start_addr, *end_addr);
    } else {
       if (!is_valid_addr(*start_addr))
@@ -2042,7 +2053,7 @@ int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace, bo
          mon_interfaces[mem]->toggle_watchpoints_func(1);
          monitor_trap_on(mon_interfaces[mem]->int_status);
       }
-         
+
       if (is_load)
          add_to_checkpoint_list(&(watchpoints_load[mem]), new_bp);
       if (is_store)

@@ -1,5 +1,5 @@
 /*
- * menudefs.c - Definition of menu commands.
+ * menudefs.c - Definition of menu commands and settings.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -34,7 +34,9 @@
 
 #include "menudefs.h"
 
+#include "grabkey.h"
 #include "joystick.h"
+#include "kbd.h"
 #include "log.h"
 #include "tui.h"
 #include "tuiview.h"
@@ -534,6 +536,10 @@ static TUI_MENU_CALLBACK(get_joystick_device_callback)
         return "None";
       case JOYDEV_NUMPAD:
         return "Numpad + Right Ctrl";
+      case JOYDEV_KEYSET1:
+        return "Keyset A";
+      case JOYDEV_KEYSET2:
+        return "Keyset B";
       case JOYDEV_HW1:
         return "Joystick #1";
       case JOYDEV_HW2:
@@ -588,16 +594,26 @@ static tui_menu_item_def_t joy_device_1_submenu[] = {
       "No joystick device attached",
       set_joy_device_callback, (void *) (0x100 | JOYDEV_NONE), 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "--" },
     { "_Numpad + Right Ctrl",
       "Use numeric keypad for movement and right Ctrl for fire",
       set_joy_device_callback, (void *) (0x100 | JOYDEV_NUMPAD), 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Joystick #_1",
-      "Use real joystick #1",
+    { "Keyset _A",
+      "Use keyset A",
+      set_joy_device_callback, (void *) (0x100 | JOYDEV_KEYSET1), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Keyset _B",
+      "Use keyset B",
+      set_joy_device_callback, (void *) (0x100 | JOYDEV_KEYSET2), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "--" },
+    { "PC Joystick #_1",
+      "Use real PC joystick #1",
       set_joy_device_callback, (void *) (0x100 | JOYDEV_HW1), 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Joystick #_2",
-      "Use real joystick #2",
+    { "PC Joystick #_2",
+      "Use real PC joystick #2",
       set_joy_device_callback, (void *) (0x100 | JOYDEV_HW2), 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
@@ -608,10 +624,20 @@ static tui_menu_item_def_t joy_device_2_submenu[] = {
       "No joystick device attached",
       set_joy_device_callback, (void *) (0x200 | JOYDEV_NONE), 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "--" },
     { "_Numpad + Right Ctrl",
       "Use numeric keypad for movement and right Ctrl for fire",
       set_joy_device_callback, (void *) (0x200 | JOYDEV_NUMPAD), 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Keyset _A",
+      "Use keyset A",
+      set_joy_device_callback, (void *) (0x200 | JOYDEV_KEYSET1), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Keyset _B",
+      "Use keyset B",
+      set_joy_device_callback, (void *) (0x200 | JOYDEV_KEYSET2), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "--" },
     { "Joystick #_1",
       "Use real joystick #1",
       set_joy_device_callback, (void *) (0x200 | JOYDEV_HW1), 0,
@@ -623,11 +649,106 @@ static tui_menu_item_def_t joy_device_2_submenu[] = {
     { NULL }
 };
 
+static TUI_MENU_CALLBACK(keyset_callback)
+{
+    int direction, number;
+    int value;
+    char s[256];
+
+    number = (int) param >> 8;
+    direction = (int) param & 0xff;
+    sprintf(s, "KeySet%d%s", number, joystick_direction_to_string(direction));
+
+    if (been_activated) {
+        kbd_code_t key;
+        int width = 60, height = 5;
+        int x = CENTER_X(width), y = CENTER_Y(height);
+        tui_area_t backing_store = NULL;
+        char msg[80];
+
+        sprintf(msg, "Press key for %s%s (Esc for none)...",
+                direction == KEYSET_FIRE ? "" : "direction ",
+                joystick_direction_to_string(direction));
+        tui_display_window(x, y, width, height, MESSAGE_BORDER, MESSAGE_BACK,
+                           NULL, &backing_store);
+        tui_set_attr(MESSAGE_FORE, MESSAGE_BACK, 0);
+        tui_display(CENTER_X(strlen(msg)), y + 2, 0, msg);
+
+        /* Do not allow Alt as we need it for hotkeys.  */
+        do
+            key = grab_key();
+        while (key == K_LEFTALT || key == K_RIGHTALT);
+
+        tui_area_put(backing_store, x, y);
+        tui_area_free(backing_store);
+
+        if (key == K_ESC)
+            key = K_NONE;
+        resources_set_value(s, (resource_value_t) key);
+    }
+
+    resources_get_value(s, (resource_value_t *) &value);
+    return kbd_code_to_string((kbd_code_t) value);
+}
+
+#define DEFINE_KEYSET_MENU(num)                                         \
+    static tui_menu_item_def_t keyset_##num##_submenu[] = {             \
+        { "_1: South West:",                                            \
+          "Specify key for diagonal down-left direction",               \
+          keyset_callback, (void *) ((num << 8) | KEYSET_SW), 12,       \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_2: South:",                                                 \
+          "Specify key for the down direction",                         \
+          keyset_callback, (void *) ((num << 8) | KEYSET_S), 12,        \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_3: South East:",                                            \
+          "Specify key for the diagonal down-right direction",          \
+          keyset_callback, (void *) ((num << 8) | KEYSET_SE), 12,       \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_4: West:",                                                  \
+          "Specify key for the left direction",                         \
+          keyset_callback, (void *) ((num << 8) | KEYSET_W), 12,        \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_6: East:",                                                  \
+          "Specify key for the right direction",                        \
+          keyset_callback, (void *) ((num << 8) | KEYSET_E), 12,        \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_7: North West:",                                            \
+          "Specify key for the diagonal up-left direction",             \
+          keyset_callback, (void *) ((num << 8) | KEYSET_NW), 12,       \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_8: North:",                                                 \
+          "Specify key for the up direction",                           \
+          keyset_callback, (void *) ((num << 8) | KEYSET_N), 12,        \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_9: North East:",                                            \
+          "Specify key for the diagonal up-right direction",            \
+          keyset_callback, (void *) ((num << 8) | KEYSET_NE), 12,       \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_0: Fire",                                                   \
+          "Specify key for the fire button",                            \
+          keyset_callback, (void *) ((num << 8) | KEYSET_FIRE), 12,     \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { NULL }                                                        \
+    };
+
+DEFINE_KEYSET_MENU(1)
+DEFINE_KEYSET_MENU(2)
+
 static tui_menu_item_def_t single_joystick_submenu[] = {
     { "Joystick _Device:",
-      "Specify device for joystick emulation.",
+      "Specify device for joystick emulation",
       get_joystick_device_callback, (void *) 1, 19,
       TUI_MENU_BEH_CONTINUE, joy_device_1_submenu, "Joystick" },
+    { "--" },
+    { "Configure Keyset _A...",
+      "Configure keyboard set A for joystick emulation",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, keyset_1_submenu, "Keyset A" },
+    { "Configure Keyset _B...",
+      "Configure keyboard set B for joystick emulation",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, keyset_2_submenu, "Keyset B" },
     { NULL }
 };
 
@@ -645,6 +766,15 @@ static tui_menu_item_def_t double_joystick_submenu[] = {
       "Specify device for emulation of joystick in port #2",
       get_joystick_device_callback, (void *) 2, 19,
       TUI_MENU_BEH_CONTINUE, joy_device_2_submenu, "Joystick #2" },
+    { "--" },
+    { "Configure Keyset _A...",
+      "Configure keyboard set A for joystick emulation",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, keyset_1_submenu, "Keyset A" },
+    { "Configure Keyset _B...",
+      "Configure keyboard set B for joystick emulation",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, keyset_2_submenu, "Keyset B" },
     { NULL }
 };
 
