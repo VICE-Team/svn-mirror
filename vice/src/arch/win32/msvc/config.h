@@ -64,7 +64,5 @@
 
 #define snprintf _snprintf
 
-/* Temporary kludge.  */
-#define PATH_MAX                256
-
 #endif
+

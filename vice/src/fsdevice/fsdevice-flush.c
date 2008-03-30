@@ -54,20 +54,6 @@
 #include "vdrive.h"
 
 
-/* Will disapper */
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
-
-#ifndef PATH_MAX
-#  ifdef MAX_PATH
-#    define PATH_MAX MAX_PATH
-#  else
-#    define PATH_MAX 1024
-#  endif
-#endif
-
-
 static int fsdevice_flush_mr(vdrive_t *vdrive)
 {
     unsigned int dnr;
@@ -311,7 +297,7 @@ int fsdevice_flush_write_byte(vdrive_t *vdrive, BYTE data)
     rc = SERIAL_OK;
 
     /* FIXME: Consider the real size of the input buffer. */
-    if (fsdevice_dev[dnr].cptr < PATH_MAX - 1) {
+    if (fsdevice_dev[dnr].cptr < ioutil_maxpathlen() - 1) {
         fsdevice_dev[dnr].cmdbuf[(fsdevice_dev[dnr].cptr)++] = data;
         rc = SERIAL_OK;
     } else {
