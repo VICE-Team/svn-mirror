@@ -29,28 +29,42 @@
 
 #include "types.h"
 
+struct cia_context_s;
+struct machine_context_s;
 struct snapshot_s;
 
-extern void cia1_init(void);
-extern void cia1_reset(void);
+void cia1_setup_context(struct machine_context_s *machine_context);
+void cia2_setup_context(struct machine_context_s *machine_context);
+
+extern void cia1_init(struct cia_context_s *cia_context);
+extern void cia1_reset(struct cia_context_s *cia_context);
 extern void REGPARM2 cia1_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 cia1_read(WORD addr);
 extern BYTE REGPARM1 cia1_peek(WORD addr);
-extern void cia1_set_flag(void);
-extern void cia1_set_sdr(BYTE received_byte);
+extern void cia1_set_flag(struct cia_context_s *cia_context);
+extern void cia1_set_sdr(struct cia_context_s *cia_context,
+                         BYTE received_byte);
 extern void cia1_set_extended_keyboard_rows_mask(BYTE value);
-extern int cia1_snapshot_write_module(struct snapshot_s *p);
-extern int cia1_snapshot_read_module(struct snapshot_s *p);
+extern int cia1_snapshot_write_module(struct cia_context_s *cia_context,
+                                      struct snapshot_s *p);
+extern int cia1_snapshot_read_module(struct cia_context_s *cia_context,
+                                     struct snapshot_s *p);
 
-extern void cia2_init(void);
-extern void cia2_reset(void);
+extern void cia2_init(struct cia_context_s *cia_context);
+extern void cia2_reset(struct cia_context_s *cia_context);
 extern void REGPARM2 cia2_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 cia2_read(WORD addr);
 extern BYTE REGPARM1 cia2_peek(WORD addr);
-extern void cia2_set_flag(void);
-extern void cia2_set_sdr(BYTE received_byte);
-extern int cia2_snapshot_write_module(struct snapshot_s *p);
-extern int cia2_snapshot_read_module(struct snapshot_s *p);
+extern void cia2_set_flag(struct cia_context_s *cia_context);
+extern void cia2_set_sdr(struct cia_context_s *cia_context,
+                         BYTE received_byte);
+extern int cia2_snapshot_write_module(struct cia_context_s *cia_context,
+                                      struct snapshot_s *p);
+extern int cia2_snapshot_read_module(struct cia_context_s *cia_context,
+                                     struct snapshot_s *p);
+
+extern void cia2_set_flagx(void);
+extern void cia2_set_sdrx(BYTE received_byte);
 
 #endif
 
