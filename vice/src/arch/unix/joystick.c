@@ -276,7 +276,7 @@ void old_joystick(void)
 		    log_error(joystick_log,
                               "Error reading digital joystick device.");
 		} else {
-		    joy[2 - i] = ((joy[2 - i] & 0xe0)
+		    joystick_value[2 - i] = ((joystick_value[2 - i] & 0xe0)
 				  | ((~(djs.switches >> 3)) & 0x1f));
 		}
 	    }
@@ -292,22 +292,22 @@ void old_joystick(void)
 		if (status != JS_RETURN) {
 		    log_error(joystick_log, "Error reading joystick device.");
 		} else {
-		    joy[i] = 0;
+		    joystick_value[i] = 0;
 
 		    if (js.y < joyymin[ajoyport])
-			joy[i] |= 1;
+			joystick_value[i] |= 1;
 		    if (js.y > joyymax[ajoyport])
-			joy[i] |= 2;
+			joystick_value[i] |= 2;
 		    if (js.x < joyxmin[ajoyport])
-			joy[i] |= 4;
+			joystick_value[i] |= 4;
 		    if (js.x > joyxmax[ajoyport])
-			joy[i] |= 8;
+			joystick_value[i] |= 8;
 #ifdef LINUX_JOYSTICK
 		    if (js.buttons)
-			joy[i] |= 16;
+			joystick_value[i] |= 16;
 #elif defined(BSD_JOYSTICK)
 		    if (js.b1 || js.b2)
-			joy[i] |= 16;
+			joystick_value[i] |= 16;
 #endif
 		}
 	    }
@@ -409,27 +409,27 @@ void new_joystick (void)
       switch (e.type & ~JS_EVENT_INIT)
 	{
 	case JS_EVENT_BUTTON:
-	  joy[i] &= ~16; // reset fire bit
+	  joystick_value[i] &= ~16; // reset fire bit
 	  if (e.value)
-	    joy[i] |= 16;
+	    joystick_value[i] |= 16;
 	  break;
 
 	case JS_EVENT_AXIS:
 	  if (e.number == 0)
 	    {
-	      joy[i] &= 19; // reset 2 bit
+	      joystick_value[i] &= 19; // reset 2 bit
 	      if (e.value > 16384)
-		joy[i] |= 8;
+		joystick_value[i] |= 8;
 	      else if (e.value < -16384)
-		joy[i] |= 4;
+		joystick_value[i] |= 4;
 	    }
 	  if (e.number == 1)
 	    {
-	      joy[i] &= 28; // reset 2 bit
+	      joystick_value[i] &= 28; // reset 2 bit
 	      if (e.value > 16384)
-		joy[i] |= 2;
+		joystick_value[i] |= 2;
 	      else if (e.value < -16384)
-		joy[i] |= 1;
+		joystick_value[i] |= 1;
 	    }
 	  break;
 	}// switch

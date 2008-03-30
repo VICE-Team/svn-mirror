@@ -158,8 +158,8 @@ inline static BYTE read_prb(void)
             val &= ~keyarr[i];
 
     /* Bit 7 is mapped to the right direction of the joystick (bit
-       3 in `joy[]'). */
-    if ((joy[1] | joy[2]) & 0x8)
+       3 in `joystick_value[]'). */
+    if ((joystick_value[1] | joystick_value[2]) & 0x8)
         val &= 0x7f;
 
     byte = val | (via1[VIA_PRB] & via1[VIA_DDRB]) ;

@@ -179,16 +179,16 @@ inline static BYTE read_pra(ADDRESS addr)
     BYTE byte;
     byte = 255;
     /* VIA PA is connected to the userport pins C-L */
-    byte &= (joy[1] & 1) ? ~0x80 : 0xff;
-    byte &= (joy[1] & 2) ? ~0x40 : 0xff;
-    byte &= (joy[1] & 4) ? ~0x20 : 0xff;
-    byte &= (joy[1] & 8) ? ~0x10 : 0xff;
-    byte &= (joy[1] & 16)? ~0xc0 : 0xff;
-    byte &= (joy[2] & 1) ? ~0x08 : 0xff;
-    byte &= (joy[2] & 2) ? ~0x04 : 0xff;
-    byte &= (joy[2] & 4) ? ~0x02 : 0xff;
-    byte &= (joy[2] & 8) ? ~0x01 : 0xff;
-    byte &= (joy[2] & 16)? ~0x0c : 0xff;
+    byte &= (joystick_value[1] & 1) ? ~0x80 : 0xff;
+    byte &= (joystick_value[1] & 2) ? ~0x40 : 0xff;
+    byte &= (joystick_value[1] & 4) ? ~0x20 : 0xff;
+    byte &= (joystick_value[1] & 8) ? ~0x10 : 0xff;
+    byte &= (joystick_value[1] & 16)? ~0xc0 : 0xff;
+    byte &= (joystick_value[2] & 1) ? ~0x08 : 0xff;
+    byte &= (joystick_value[2] & 2) ? ~0x04 : 0xff;
+    byte &= (joystick_value[2] & 4) ? ~0x02 : 0xff;
+    byte &= (joystick_value[2] & 8) ? ~0x01 : 0xff;
+    byte &= (joystick_value[2] & 16)? ~0x0c : 0xff;
 
     /* joystick always pulls low, even if high output, so no
        masking with DDRA */

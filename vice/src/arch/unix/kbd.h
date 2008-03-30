@@ -42,7 +42,7 @@
 #define KBD_COLS	8
 
 extern int keyarr[KBD_ROWS], rev_keyarr[KBD_COLS];
-extern BYTE joy[3];
+extern BYTE joystick_value[3];
 
 extern void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 			      Boolean *ctd);

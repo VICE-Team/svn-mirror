@@ -194,7 +194,7 @@ inline static BYTE read_pra(ADDRESS addr)
        of both joysticks so that it works with every joystick
        setting.  This is a bit slow... we might think of a
        faster method.  */
-    joy_bits = ~(joy[1] | joy[2]);
+    joy_bits = ~(joystick_value[1] | joystick_value[2]);
     joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
 
     joy_bits |= tape_sense ? 0 : 0x40;

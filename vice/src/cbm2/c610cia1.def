@@ -126,14 +126,14 @@ READ_CIAPA()
                     parallel_bus, cia1[CIA_PRA], cia1[CIA_DDRA], byte);
     }
     byte = ((byte & ~cia1[CIA_DDRA]) | (cia1[CIA_PRA] & cia1[CIA_DDRA]))
-		& ~( ((joy[1] & 0x10) ? 0x40 : 0) 
-		| ((joy[2] & 0x10) ? 0x80 : 0) );
+		& ~( ((joystick_value[1] & 0x10) ? 0x40 : 0) 
+		| ((joystick_value[2] & 0x10) ? 0x80 : 0) );
 }
 
 READ_CIAPB()
 {
     byte = ((0xff & ~cia1[CIA_DDRB]) | (cia1[CIA_PRB] & cia1[CIA_DDRB]))
-		& ~( (joy[1] & 0x0f) | ((joy[2] & 0x0f) << 4) );
+		& ~( (joystick_value[1] & 0x0f) | ((joystick_value[2] & 0x0f) << 4) );
 }
 
 #define READ_CIAICR
