@@ -2,8 +2,9 @@
  * c64.c
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -473,6 +474,11 @@ int machine_set_restore_key(int v)
 long machine_get_cycles_per_second(void)
 {
     return C64_PAL_CYCLES_PER_SEC;
+}
+
+void machine_change_timing(int timeval)
+{
+    maincpu_trigger_reset();
 }
 
 /* ------------------------------------------------------------------------- */
