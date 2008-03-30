@@ -49,6 +49,7 @@
 #include <string.h>
 
 #include "alarm.h"
+#include "archdep.h"
 #include "c64.h"
 #include "cartridge.h"
 #include "c64cart.h"
@@ -77,6 +78,7 @@
 #include "vicii-resources.h"
 #include "vicii-snapshot.h"
 #include "vicii.h"
+#include "viciitypes.h"
 #include "vsync.h"
 #ifdef __MSDOS__
 #include "videoarch.h"
@@ -282,7 +284,7 @@ static void vic_ii_set_geometry(void)
 
     width = VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth * 2;
     height = vic_ii.last_displayed_line - vic_ii.first_displayed_line + 1;
-#ifdef VIC_II_NEED_2X
+#if ARCHDEP_VICII_DSIZE == 1
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled
         ? vic_ii_resources.fullscreen_double_size_enabled
@@ -335,7 +337,7 @@ static int init_raster(void)
     raster_modes_set_idle_mode(raster->modes, VIC_II_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)vic_ii_exposure_handler);
     resources_touch("VICIIVideoCache");
-#ifdef VIC_II_NEED_2X
+#if ARCHDEP_VICII_DSCAN == 1
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan(raster, fullscreen_is_enabled
                               ? vic_ii_resources.fullscreen_double_scan_enabled
@@ -1104,7 +1106,7 @@ void vic_ii_resize(void)
     if (!vic_ii.initialized)
         return;
 
-#ifdef VIC_II_NEED_2X
+#if ARCHDEP_VICII_DSIZE == 1
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled
         ? vic_ii_resources.fullscreen_double_size_enabled
@@ -1137,7 +1139,7 @@ void vic_ii_resize(void)
         }
     }
 
-#ifdef VIC_II_NEED_2X
+#if ARCHDEP_VICII_DSCAN == 1
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
         raster_enable_double_scan(&vic_ii.raster,

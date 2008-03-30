@@ -30,8 +30,6 @@
 
 #include "vice.h"
 
-#include "viciitypes.h"
-
 /* VIC-II resources.  */
 struct vic_ii_resources_s
 {
@@ -45,13 +43,13 @@ struct vic_ii_resources_s
        IRQ?  */
     int sprite_background_collisions_enabled;
 
-#ifdef VIC_II_NEED_2X
+    /* Will be removed soon!  */
     /* Flag: Do we use double size?  */
     int double_size_enabled;
 
+    /* Will be removed soon!  */
     /* Flag: Do we copy lines in double size mode?  */
     int double_scan_enabled;
-#endif
 
 #ifdef USE_XF86_EXTENSIONS
     /* Flag: Do we use double size?  */
