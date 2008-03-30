@@ -4,9 +4,6 @@
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
  *
- * Patch by
- *  Nathan Huizinga (nathan@chess.nl)
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -33,7 +30,10 @@
 
 #include "vice.h"
 
+#include <fcntl.h>
+#include <io.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include "log.h"
 
@@ -41,29 +41,39 @@
 
 /* ------------------------------------------------------------------------- */
 
+static int log_fd;
+
 void log_enable(int new)
 {
     char *path = concat(boot_path, "/", "vice.log", NULL);
 
     printf("Writing log to `%s'\n", path);
 
-    if (new) {
-        freopen(path, "wt", stdout);
-        freopen(path, "wt", stderr);
-    } else {
-        freopen(path, "at", stdout);
-        freopen(path, "at", stderr);
+    if (new)
+	log_fd = open(path, O_TEXT | O_WRONLY | O_CREAT | O_TRUNC, 0666);
+    else
+	log_fd = open(path, O_TEXT | O_WRONLY | O_APPEND);
+    if (log_fd == -1) {
+	perror(path);
+	exit(-1);
     }
 
     free(path);
 
     setvbuf(stdout, NULL, _IONBF, 0);
     setvbuf(stderr, NULL, _IONBF, 0);
+
+    dup2(log_fd, STDOUT_FILENO);
+    dup2(log_fd, STDERR_FILENO);
+    close(log_fd);
 }
 
 void log_disable(void)
 {
-    freopen("CON", "wt", stdout);
-    freopen("CON", "wt", stderr);
+    if (log_fd != -1) {
+	close(log_fd);
+	freopen("CON", "wt", stdout);
+	freopen("CON", "wt", stderr);
+    }
 }
 
