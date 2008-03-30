@@ -1,3 +1,24 @@
+2004-04-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.21.
+
+2004-04-19  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/tfe.c: tfe_deactive() now calls tfe_deactive_i() if
+	should_activate is not 1; there was an "else" missing, causing
+	VICE to bugcheck whenever TFE was activated afterwards. The
+	c64export functions are moved from TFE/RR selection to the
+	enabling/disabling of the whole cartridge itself. As both
+	cards use the same memory area, this makes more sense than the
+	behaviour before. Don't disable tfe_as_rr_net when the TFE
+	cartridge is disabled.  Depending on the UI selection code, it
+	might be the tfe_as_rr_net is not restored when the card is
+	selected again.
+
+	* arch/unix/tfearch.c: new implementation, now uses libpcap
+	and libnet to access the network. This should be more portable
+	for other platforms than Linux.
+
 2004-04-18  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.20.

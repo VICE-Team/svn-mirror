@@ -1568,7 +1568,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.14.20
+ VERSION=1.14.21
 
 
 cat >>confdefs.h <<_ACEOF
@@ -9420,10 +9420,128 @@ _ACEOF
 fi
 
 if test x"$enable_ethernet" = "xyes"; then
+  echo "$as_me:$LINENO: checking for pcap_open_live in -lpcap" >&5
+echo $ECHO_N "checking for pcap_open_live in -lpcap... $ECHO_C" >&6
+if test "${ac_cv_lib_pcap_pcap_open_live+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lpcap $LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char pcap_open_live ();
+int
+main ()
+{
+pcap_open_live ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_pcap_pcap_open_live=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_pcap_pcap_open_live=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_pcap_pcap_open_live" >&5
+echo "${ECHO_T}$ac_cv_lib_pcap_pcap_open_live" >&6
+if test $ac_cv_lib_pcap_pcap_open_live = yes; then
+  echo "$as_me:$LINENO: checking for libnet_write_link_layer in -lnet" >&5
+echo $ECHO_N "checking for libnet_write_link_layer in -lnet... $ECHO_C" >&6
+if test "${ac_cv_lib_net_libnet_write_link_layer+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lnet $LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char libnet_write_link_layer ();
+int
+main ()
+{
+libnet_write_link_layer ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_net_libnet_write_link_layer=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_net_libnet_write_link_layer=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_net_libnet_write_link_layer" >&5
+echo "${ECHO_T}$ac_cv_lib_net_libnet_write_link_layer" >&6
+if test $ac_cv_lib_net_libnet_write_link_layer = yes; then
+
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_TFE
 _ACEOF
+
+    LIBS="$LIBS -lpcap `libnet-config --libs`"
+    CFLAGS="$CFLAGS `libnet-config --defines`"
+
+fi
+
+fi
 
 fi
 

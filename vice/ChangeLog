@@ -1,3 +1,12 @@
+2004-04-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.21.
+
+2004-04-19  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* configure.in: Now checks for libnet and libpcap when using
+	the option --enable-ethernet
+
 2004-04-18  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.20.
