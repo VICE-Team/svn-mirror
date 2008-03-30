@@ -272,7 +272,6 @@ static void color_copy_list_without_owner(color_list_t *dest, color_list_t *src)
 }
 
 static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
-                                    BYTE pixel_return[],
                                     unsigned long *col_return, void *c)
 {
     unsigned int colnr, dest_colnr;
@@ -296,7 +295,6 @@ static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
                         && src->color_rgb_req.blue
                         == cdest->color_rgb_req.blue) {
                         uicolor_convert_color_table(colnr,
-                                                    &(pixel_return[colnr]),
                                                     &(cdest->pixel_data),
                                                     cdest->color_rgb_req.dither,
                                                     cdest->color_pixel, c);
@@ -396,7 +394,7 @@ void color_init(void)
 }
 
 int color_alloc_colors(void *c, const palette_t *palette,
-                       BYTE pixel_return[], unsigned long *col_return)
+                       unsigned long *col_return)
 {
     color_list_t *color_new, *color_to_alloc, *color_no_alloc,
                  *color_alloced_owner, *color_without_owner;
@@ -431,8 +429,8 @@ int color_alloc_colors(void *c, const palette_t *palette,
     /* Copy valid colors (with owner) to new list.  */
     color_create_empty_entry(&color_alloced_owner);
     color_copy_list_with_owner(color_alloced_owner, color_alloced);
-    color_fill_pixel_return(color_alloced_owner, color_new, pixel_return,
-                            col_return, c);
+
+    color_fill_pixel_return(color_alloced_owner, color_new, col_return, c);
 
     /* Copy invalid colors (without owner) to new list.  */
     color_create_empty_entry(&color_without_owner);

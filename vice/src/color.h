@@ -27,14 +27,12 @@
 #ifndef _COLOR_H
 #define _COLOR_H
 
-#include "types.h"
-
 struct palette_s;
 
 extern void color_init(void);
 
 extern int color_alloc_colors(void *c, const struct palette_s *palette,
-                              BYTE pixel_return[], unsigned long *col_return);
+                              unsigned long *col_return);
 
 #endif
 
