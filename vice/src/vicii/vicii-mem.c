@@ -704,12 +704,6 @@ inline static void store_d019(ADDRESS addr, BYTE value)
         }
     }
 
-    if (clk >= vic_ii.raster_irq_clk) {
-        vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
-        alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
-    }
-
-
     /* Update the IRQ line accordingly...
        The external VIC IRQ line is an AND of the internal collision and
        vic_ii.raster IRQ lines.  */

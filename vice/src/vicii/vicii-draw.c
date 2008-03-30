@@ -333,7 +333,7 @@ inline static void _draw_mc_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 #else
         c[3] = RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7);
         *(((BYTE *)c) + 9) = *(((BYTE *)c) + 10)
-            = (PIXEL)(RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7));
+            = (BYTE)(RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7));
 #endif
 
         *((WORD *)p + 4 * i) = c[mc_table[k | d]];
