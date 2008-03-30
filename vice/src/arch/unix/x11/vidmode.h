@@ -35,9 +35,12 @@ extern int vm_is_enabled;
 
 extern int vidmode_init(void);
 extern int vidmode_available(void);
-
 extern int vidmode_enable(struct video_canvas_s *canvas, int enable);
 extern int vidmode_mode(struct video_canvas_s *canvas, int mode);
+extern void vidmode_shutdown(void);
+extern void vidmode_suspend(int level);
+extern void vidmode_resume(void);
+extern void vidmode_set_mouse_timeout(void);
 extern void vidmode_mode_callback(void *callback);
 extern void vidmode_create_menus(struct ui_menu_entry_s menu[]);
 

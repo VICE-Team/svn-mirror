@@ -1,6 +1,9 @@
 /*
  * main_exit.c - VICE shutdown.
  *
+ * Written by
+ *  Andreas Boose <viceteam@t-online.de>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -26,15 +29,13 @@
 #include <stdio.h>
 #include <signal.h>
 
+#include "fullscreenarch.h"
 #include "joy.h"
 #include "log.h"
 #include "machine.h"
 #include "main_exit.h"
 #include "sound.h"
 #include "video.h"
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
 
 
 void main_exit(void)
@@ -54,10 +55,10 @@ void main_exit(void)
     joystick_close();
 #endif
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_exit();
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_shutdown();
 #endif
 
-    putchar ('\n');
+    putchar('\n');
 }
 
