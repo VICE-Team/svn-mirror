@@ -90,64 +90,40 @@ int cartridge_init_resources(void)
     return resources_register(resources);
 }
 
-static int attach_crt(const char *param, void *extra_param)
+static int attach_cartridge_cmdline(const char *param, void *extra_param)
 {
-    return cartridge_attach_image(CARTRIDGE_CRT, param);
-}
-
-static int attach_8(const char *param, void *extra_param)
-{
-    return cartridge_attach_image(CARTRIDGE_GENERIC_8KB, param);
-}
-
-static int attach_16(const char *param, void *extra_param)
-{
-    return cartridge_attach_image(CARTRIDGE_GENERIC_16KB, param);
-}
-
-static int attach_action(const char *param, void *extra_param)
-{
-    return cartridge_attach_image(CARTRIDGE_ACTION_REPLAY, param);
-}
-
-static int attach_atomic(const char *param, void *extra_param)
-{
-    return cartridge_attach_image(CARTRIDGE_ATOMIC_POWER, param);
-}
-
-static int attach_epyx(const char *param, void *extra_param)
-{
-    return cartridge_attach_image(CARTRIDGE_EPYX_FASTLOAD, param);
-}
-
-static int attach_ss(const char *param, void *extra_param)
-{
-    return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT, param);
-}
-
-static int attach_ieee488(const char *param, void *extra_param)
-{
-    return cartridge_attach_image(CARTRIDGE_IEEE488, param);
+    return cartridge_attach_image((int)extra_param, param);
 }
 
 static cmdline_option_t cmdline_options[] =
 {
-    {"-cartcrt", CALL_FUNCTION, 1, attach_crt, NULL, NULL, NULL,
+    {"-cartcrt", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_CRT, NULL, NULL,
      "<name>", "Attach CRT cartridge image"},
-    {"-cart8", CALL_FUNCTION, 1, attach_8, NULL, NULL, NULL,
+    {"-cart8", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_GENERIC_8KB, NULL, NULL,
      "<name>", "Attach generic 8KB cartridge image"},
-    {"-cart16", CALL_FUNCTION, 1, attach_16, NULL, NULL, NULL,
+    {"-cart16", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_GENERIC_16KB, NULL, NULL,
      "<name>", "Attach generic 16KB cartridge image"},
-    {"-cartar", CALL_FUNCTION, 1, attach_action, NULL, NULL, NULL,
+    {"-cartar", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
      "<name>", "Attach raw 32KB Action Replay cartridge image"},
-    {"-cartap", CALL_FUNCTION, 1, attach_atomic, NULL, NULL, NULL,
+    {"-cartap", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_ATOMIC_POWER, NULL, NULL,
      "<name>", "Attach raw 32KB Atomic Power cartridge image"},
-    {"-cartepyx", CALL_FUNCTION, 1, attach_epyx, NULL, NULL, NULL,
+    {"-cartepyx", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_EPYX_FASTLOAD, NULL, NULL,
      "<name>", "Attach raw 8KB Epyx fastload cartridge image"},
-    {"-cartss4", CALL_FUNCTION, 1, attach_ss, NULL, NULL, NULL,
+    {"-cartss4", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_SUPER_SNAPSHOT, NULL, NULL,
      "<name>", "Attach raw 64KB Super Snapshot cartridge image"},
-    {"-cartieee488", CALL_FUNCTION, 1, attach_ieee488, NULL, NULL, NULL,
+    {"-cartieee488", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_IEEE488, NULL, NULL,
      "<name>", "Attach CBM IEEE488 cartridge image"},
+    {"-cartwestermann", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
+     "<name>", "Attach raw 16KB Westermann learning cartridge image"},
     {NULL}
 };
 
@@ -191,6 +167,7 @@ int cartridge_attach_image(int type, const char *filename)
         fclose(fd);
         break;
       case CARTRIDGE_GENERIC_16KB:
+      case CARTRIDGE_WESTERMANN:
         fd = fopen(filename, MODE_READ);
         if (!fd)
             goto done;
@@ -249,6 +226,7 @@ int cartridge_attach_image(int type, const char *filename)
         crttype = header[0x17] + header[0x16] * 256;
         switch (crttype) {
           case 0:
+          case 11:
             if (fread(chipheader, 0x10, 1, fd) < 1) {
                 fclose(fd);
                 goto done;
@@ -259,8 +237,9 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
-                          : CARTRIDGE_GENERIC_16KB;
+                if (crttype != 11)
+                    crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
+                              : CARTRIDGE_GENERIC_16KB;
                 fclose(fd);
                 break;
             }
