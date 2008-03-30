@@ -459,16 +459,17 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     if (argc > 1)
     {
-        int len=0, i;
+        int len = 0, j;
 
-        for (i = 1; i<argc; i++)
-            len += strlen(argv[i]);
+        for (j = 1; j < argc; j++)
+            len += strlen(argv[j]);
 
         {
-            char *txt = xcalloc(1, len+argc+1);
-            for (i = 1; i < argc; i++)
-                strcat(strcat(txt, " "),argv[i]);
-            archdep_startup_log_error("Extra arguments on command-line: %s\n", txt);
+            char *txt = xcalloc(1, len + argc + 1);
+            for (j = 1; j < argc; j++)
+                strcat(strcat(txt, " "),argv[j]);
+            archdep_startup_log_error("Extra arguments on command-line: %s\n",
+                                      txt);
             free(txt);
         }
         return -1;
@@ -552,7 +553,7 @@ int MAIN_PROGRAM(int argc, char **argv)
         /* `-autostart' */
         if (autostart_string != NULL) {
             FILE *autostart_fd;
-            char *autostart_prg;
+            char *autostart_prg_name;
             char *autostart_file;
             char *tmp;
 
@@ -560,16 +561,16 @@ int MAIN_PROGRAM(int argc, char **argv)
             tmp = strrchr(autostart_string, ':');
             if (tmp) {
                 autostart_file = stralloc(autostart_string);
-                autostart_prg = strrchr(autostart_file, ':');
-                *autostart_prg++ = '\0';
+                autostart_prg_name = strrchr(autostart_file, ':');
+                *autostart_prg_name++ = '\0';
                 autostart_fd = fopen(autostart_file, MODE_READ);
                 /* Does the image exist?  */
                 if (autostart_fd) {
                     char *name;
 
                     fclose(autostart_fd);
-                    petconvstring(autostart_prg, 0);
-                    name = replace_hexcodes(autostart_prg);
+                    petconvstring(autostart_prg_name, 0);
+                    name = replace_hexcodes(autostart_prg_name);
                     autostart_autodetect(autostart_file, name, 0);
                     free(name);
                 } else
@@ -582,11 +583,10 @@ int MAIN_PROGRAM(int argc, char **argv)
 
         /* `-8', `-9', `-10' and `-11': Attach specified disk image.  */
         {
-            int i;
-
             for (i = 0; i < 4; i++) {
                 if (startup_disk_images[i] != NULL
-                    && file_system_attach_disk(i + 8, startup_disk_images[i]) < 0)
+                    && file_system_attach_disk(i + 8, startup_disk_images[i])
+                    < 0)
                     log_error(LOG_DEFAULT,
                               "Cannot attach disk image `%s' to unit %d.",
                               startup_disk_images[i], i + 8);
