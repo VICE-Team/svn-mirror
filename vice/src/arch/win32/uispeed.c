@@ -35,6 +35,7 @@
 #include "resources.h"
 #include "system.h"
 #include "ui.h"
+#include "uilib.h"
 #include "uispeed.h"
 #include "winmain.h"
 
@@ -47,7 +48,7 @@ int ui_speed_current(void)
 
     return res_value;
 }
-
+#if 0
 static void init_speed_dialog(HWND hwnd)
 {
     int res_value;
@@ -85,7 +86,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         }
         return FALSE;
       case WM_CLOSE:
-        EndDialog(hwnd,0);
+        EndDialog(hwnd, 0);
         return TRUE;
       case WM_INITDIALOG:
         init_speed_dialog(hwnd);
@@ -93,11 +94,31 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     }
     return FALSE;
 }
-
+#endif
 
 void ui_speed_settings_dialog(HWND hwnd)
 {
+/*
     DialogBox(winmain_instance, (LPCTSTR)IDD_CUSTOM_SPEED_DIALOG, hwnd,
               dialog_proc);
+*/
+    uilib_dialogbox_param_t param;
+    int speed;
+
+    resources_get_value("Speed", (void *)&speed);
+
+    param.hwnd = hwnd;
+    param.idd_dialog = IDD_CUSTOM_SPEED_DIALOG;
+    param.idc_dialog = IDC_CUSTOM_SPEED;
+    _itot(speed, param.string, 10);
+
+    uilib_dialogbox(&param);
+
+    if (param.updated > 0) {
+        speed = _ttoi(param.string);
+        if (speed > 0 && speed < 1000000)
+            resources_set_value("Speed", (resource_value_t)speed);
+
+    }
 }
 
