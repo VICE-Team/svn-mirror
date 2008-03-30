@@ -58,7 +58,7 @@ int carttype = CARTRIDGE_NONE;
 int cartmode = CARTRIDGE_MODE_OFF;
 static char *cartfile;
 
-static alarm_t cartridge_alarm;
+static alarm_t *cartridge_alarm = NULL;
 
 static int set_cartridge_type(resource_value_t v, void *param)
 {
@@ -321,15 +321,15 @@ void cartridge_set_default(void)
 
 static void cartridge_change_mapping(CLOCK offset)
 {
-    alarm_unset(&cartridge_alarm);
+    alarm_unset(cartridge_alarm);
 
     cartridge_freeze((carttype == CARTRIDGE_CRT) ? crttype : carttype);
 }
 
 void cartridge_init(void)
 {
-    alarm_init(&cartridge_alarm, maincpu_alarm_context,
-               "Cartridge", cartridge_change_mapping);
+    cartridge_alarm = alarm_new(maincpu_alarm_context, "Cartridge",
+                                cartridge_change_mapping);
 }
 
 void cartridge_trigger_freeze(void)
@@ -345,12 +345,12 @@ void cartridge_trigger_freeze(void)
       case CARTRIDGE_ATOMIC_POWER:
       case CARTRIDGE_FINAL_I:
         maincpu_set_nmi(I_FREEZE, IK_NMI);
-        alarm_set(&cartridge_alarm, maincpu_clk + 3);
+        alarm_set(cartridge_alarm, maincpu_clk + 3);
         break;
       case CARTRIDGE_RETRO_REPLAY:
         if (retroreplay_freeze_allowed()) {
             maincpu_set_nmi(I_FREEZE, IK_NMI);
-            alarm_set(&cartridge_alarm, maincpu_clk + 3);
+            alarm_set(cartridge_alarm, maincpu_clk + 3);
         }
         break;
     }
