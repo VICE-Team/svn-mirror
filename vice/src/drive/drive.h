@@ -31,6 +31,7 @@
 
 #include "types.h"
 
+#if 0
 /* VIA 1 drive 0 interrupts.  */
 #define I_VIA1D0FL      0
 /* VIA 2 drive 0 interrupts.  */
@@ -58,6 +59,7 @@
 #define I_GLUE1551D1FL  4
 
 #define DRIVE_NUMOFINT  5
+#endif
 
 #define DRIVE_ROM_SIZE              0x8000
 #define DRIVE_RAM_SIZE              0x2000
