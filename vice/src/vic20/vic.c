@@ -128,7 +128,7 @@ init_raster (void)
 
   raster_set_geometry (raster,
                        VIC_SCREEN_WIDTH, VIC_SCREEN_HEIGHT,
-                       1, 1,
+                       VIC_SCREEN_WIDTH, 1,
                        0, 0,
                        0, 4 * 8, /* Border shift.  */
                        1,

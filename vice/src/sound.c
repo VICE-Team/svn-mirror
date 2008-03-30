@@ -48,6 +48,16 @@
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 /* Resource handling -- Added by Ettore 98-04-26.  */
 
 /* FIXME: We need sanity checks!  And do we really need all of these
