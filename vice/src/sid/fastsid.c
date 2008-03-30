@@ -250,47 +250,45 @@ static signed char ampMod1x8[256];
 
 inline static void dofilter(voice_t *pVoice)
 {
-    if (!pVoice->filter) return;
-    if (pVoice->s->filterType)
-    {
-        if ( pVoice->s->filterType == 0x20 )
-        {
-            pVoice->filtLow += REAL_MULT( pVoice->filtRef, pVoice->s->filterDy );
+    if (!pVoice->filter)
+        return;
+
+    if (pVoice->s->filterType) {
+        if (pVoice->s->filterType == 0x20) {
+            pVoice->filtLow += REAL_MULT(pVoice->filtRef, pVoice->s->filterDy);
             pVoice->filtRef +=
                 REAL_MULT(REAL_VALUE(pVoice->filtIO) - pVoice->filtLow -
                           REAL_MULT(pVoice->filtRef, pVoice->s->filterResDy),
                           pVoice->s->filterDy );
             pVoice->filtIO = (signed char)
                              (REAL_TO_INT(pVoice->filtRef-pVoice->filtLow / 4));
-        }
-        else
-            if ( pVoice->s->filterType == 0x40 )
-            {
+        } else 
+            if (pVoice->s->filterType == 0x40) {
                 vreal_t sample;
                 pVoice->filtLow +=
                     REAL_MULT(REAL_MULT(pVoice->filtRef, pVoice->s->filterDy),
                               REAL_VALUE(0.1));
                 pVoice->filtRef +=
                     REAL_MULT(REAL_VALUE(pVoice->filtIO) - pVoice->filtLow -
-                              REAL_MULT(pVoice->filtRef, pVoice->s->filterResDy),
+                              REAL_MULT(pVoice->filtRef,
+                              pVoice->s->filterResDy),
                               pVoice->s->filterDy );
-                sample = pVoice->filtRef - REAL_VALUE(pVoice->filtIO/8);
+                sample = pVoice->filtRef - REAL_VALUE(pVoice->filtIO / 8);
                 if (sample < REAL_VALUE(-128))
                     sample = REAL_VALUE(-128);
                 if (sample > REAL_VALUE(127))
                     sample = REAL_VALUE(127);
                 pVoice->filtIO = (signed char)(REAL_TO_INT(sample));
-            }
-            else
-            {
+            } else {
                 int tmp;
                 vreal_t sample, sample2;
-                pVoice->filtLow += REAL_MULT( pVoice->filtRef, pVoice->s->filterDy );
+                pVoice->filtLow += REAL_MULT(pVoice->filtRef,
+                                   pVoice->s->filterDy );
                 sample = REAL_VALUE(pVoice->filtIO);
                 sample2 = sample - pVoice->filtLow;
                 tmp = (int)(REAL_TO_INT(sample2));
                 sample2 -= REAL_MULT(pVoice->filtRef, pVoice->s->filterResDy);
-                pVoice->filtRef += REAL_MULT( sample2, pVoice->s->filterDy );
+                pVoice->filtRef += REAL_MULT(sample2, pVoice->s->filterDy);
 
                 pVoice->filtIO = pVoice->s->filterType == 0x10
                                  ? (signed char)
@@ -324,31 +322,31 @@ inline static DWORD doosc(voice_t *pv)
 #else
 static DWORD doosc(voice_t *pv)
 {
-    DWORD		f = pv->f;
-    switch (pv->fm)
-    {
-    case PULSESAWTOOTHWAVE:
-	if (f <= pv->pw)
-	    return 0x0000;
-    case SAWTOOTHWAVE:
-	return f >> 17;
-    case RINGWAVE:
-	f ^= pv->vprev->f & 0x80000000;
-    case TRIANGLEWAVE:
-	if (f < 0x80000000)
-	    return f >> 16;
-	return 0xffff - (f >> 16);
-    case PULSETRIANGLEWAVE:
-	if (f <= pv->pw)
-	    return 0x0000;
-	if (f < 0x80000000)
-	    return f >> 16;
-	return 0xffff - (f >> 16);
-    case NOISEWAVE:
-	return ((DWORD)NVALUE(NSHIFT(pv->rv, pv->f >> 28))) << 7;
-    case PULSEWAVE:
-	if (f >= pv->pw)
-	    return 0x7fff;
+    DWORD f = pv->f;
+
+    switch (pv->fm) {
+      case PULSESAWTOOTHWAVE:
+        if (f <= pv->pw)
+            return 0x0000;
+      case SAWTOOTHWAVE:
+        return f >> 17;
+      case RINGWAVE:
+        f ^= pv->vprev->f & 0x80000000;
+      case TRIANGLEWAVE:
+        if (f < 0x80000000)
+            return f >> 16;
+        return 0xffff - (f >> 16);
+      case PULSETRIANGLEWAVE:
+        if (f <= pv->pw)
+            return 0x0000;
+        if (f < 0x80000000)
+            return f >> 16;
+        return 0xffff - (f >> 16);
+      case NOISEWAVE:
+        return ((DWORD)NVALUE(NSHIFT(pv->rv, pv->f >> 28))) << 7;
+      case PULSEWAVE:
+        if (f >= pv->pw)
+            return 0x7fff;
     }
     return 0x0000;
 }
@@ -357,49 +355,46 @@ static DWORD doosc(voice_t *pv)
 /* change ADSR state and all related variables */
 static void set_adsr(voice_t *pv, BYTE fm)
 {
-    int				i;
-    switch (fm)
-    {
-    case ATTACK:
-	pv->adsrs = pv->s->adrs[pv->attack];
-	pv->adsrz = 0;
-	break;
-    case DECAY:
+    int i;
+    switch (fm) {
+      case ATTACK:
+        pv->adsrs = pv->s->adrs[pv->attack];
+        pv->adsrz = 0;
+        break;
+      case DECAY:
         /* XXX: fix this */
-	if (pv->adsr <= pv->s->sz[pv->sustain])
-	{
-	    set_adsr(pv, SUSTAIN);
-	    return;
-	}
-	for (i = 0; pv->adsr < exptable[i]; i++);
-	pv->adsrs = -pv->s->adrs[pv->decay] >> i;
-	pv->adsrz = pv->s->sz[pv->sustain];
-	if (exptable[i] > pv->adsrz)
-	    pv->adsrz = exptable[i];
-	break;
-    case SUSTAIN:
-	if (pv->adsr > pv->s->sz[pv->sustain])
-	{
-	    set_adsr(pv, DECAY);
-	    return;
-	}
-	pv->adsrs = 0;
-	pv->adsrz = 0;
-	break;
-    case RELEASE:
-	if (!pv->adsr)
-	{
-	    set_adsr(pv, IDLE);
-	    return;
-	}
-	for (i = 0; pv->adsr < exptable[i]; i++);
-	pv->adsrs = -pv->s->adrs[pv->release] >> i;
-	pv->adsrz = exptable[i];
-	break;
-    case IDLE:
-	pv->adsrs = 0;
-	pv->adsrz = 0;
-	break;
+        if (pv->adsr <= pv->s->sz[pv->sustain]) {
+            set_adsr(pv, SUSTAIN);
+            return;
+        }
+        for (i = 0; pv->adsr < exptable[i]; i++);
+        pv->adsrs = -pv->s->adrs[pv->decay] >> i;
+        pv->adsrz = pv->s->sz[pv->sustain];
+        if (exptable[i] > pv->adsrz)
+            pv->adsrz = exptable[i];
+        break;
+      case SUSTAIN:
+        if (pv->adsr > pv->s->sz[pv->sustain]) {
+            set_adsr(pv, DECAY);
+            return;
+        }
+        pv->adsrs = 0;
+        pv->adsrz = 0;
+        break;
+      case RELEASE:
+        if (!pv->adsr)
+        {
+            set_adsr(pv, IDLE);
+            return;
+        }
+        for (i = 0; pv->adsr < exptable[i]; i++);
+        pv->adsrs = -pv->s->adrs[pv->release] >> i;
+        pv->adsrz = exptable[i];
+        break;
+      case IDLE:
+        pv->adsrs = 0;
+        pv->adsrz = 0;
+        break;
     }
     pv->adsrm = fm;
 }
@@ -407,18 +402,17 @@ static void set_adsr(voice_t *pv, BYTE fm)
 /* ADSR counter triggered state change */
 static void trigger_adsr(voice_t *pv)
 {
-    switch (pv->adsrm)
-    {
-    case ATTACK:
-	pv->adsr = 0x7fffffff;
-	set_adsr(pv, DECAY);
-	break;
-    case DECAY:
-    case RELEASE:
-	if (pv->adsr >= 0x80000000)
-	    pv->adsr = 0;
-	set_adsr(pv, pv->adsrm);
-	break;
+    switch (pv->adsrm) {
+      case ATTACK:
+        pv->adsr = 0x7fffffff;
+        set_adsr(pv, DECAY);
+        break;
+      case DECAY:
+      case RELEASE:
+        if (pv->adsr >= 0x80000000)
+            pv->adsr = 0;
+        set_adsr(pv, pv->adsrm);
+        break;
     }
 }
 
@@ -451,13 +445,15 @@ static void print_voice(char *buf, voice_t *pv)
 
 char *fastsid_dump_state(sound_t *psid)
 {
-    int			i;
-    char		buf[1024];
+    int i;
+    char buf[1024];
 
     sprintf(buf, "#SID: clk=%ld v=%d s3=%d\n",
             (long)maincpu_clk, psid->vol, psid->has3);
+
     for (i = 0; i < 3; i++)
-	print_voice(buf + strlen(buf), &psid->v[i]);
+        print_voice(buf + strlen(buf), &psid->v[i]);
+
     return stralloc(buf);
 }
 
@@ -465,41 +461,39 @@ char *fastsid_dump_state(sound_t *psid)
 inline static void setup_sid(sound_t *psid)
 {
     if (!psid->update)
-	return;
+        return;
 
     psid->vol = psid->d[0x18] & 0x0f;
     psid->has3 = ((psid->d[0x18] & 0x80) && !(psid->d[0x17] & 0x04)) ? 0 : 1;
-    if (psid->emulatefilter)
-    {
-	psid->v[0].filter = psid->d[0x17] & 0x01 ? 1 : 0;
-	psid->v[1].filter = psid->d[0x17] & 0x02 ? 1 : 0;
-	psid->v[2].filter = psid->d[0x17] & 0x04 ? 1 : 0;
-	psid->filterType = psid->d[0x18]&0x70;
-	if (psid->filterType != psid->filterCurType)
-	{
-	    psid->filterCurType = psid->filterType;
-	    psid->v[0].filtLow = 0;
-	    psid->v[0].filtRef = 0;
-	    psid->v[1].filtLow = 0;
-	    psid->v[1].filtRef = 0;
-	    psid->v[2].filtLow = 0;
-	    psid->v[2].filtRef = 0;
-	}
-	psid->filterValue = 0x7ff & ((psid->d[0x15] & 7)
+
+    if (psid->emulatefilter) {
+        psid->v[0].filter = psid->d[0x17] & 0x01 ? 1 : 0;
+        psid->v[1].filter = psid->d[0x17] & 0x02 ? 1 : 0;
+        psid->v[2].filter = psid->d[0x17] & 0x04 ? 1 : 0;
+        psid->filterType = psid->d[0x18] & 0x70;
+        if (psid->filterType != psid->filterCurType) {
+            psid->filterCurType = psid->filterType;
+            psid->v[0].filtLow = 0;
+            psid->v[0].filtRef = 0;
+            psid->v[1].filtLow = 0;
+            psid->v[1].filtRef = 0;
+            psid->v[2].filtLow = 0;
+            psid->v[2].filtRef = 0;
+        }
+        psid->filterValue = 0x7ff & ((psid->d[0x15] & 7)
                       | ((WORD)psid->d[0x16]) << 3);
-	if (psid->filterType == 0x20)
-	    psid->filterDy = bandPassParam[psid->filterValue];
-	else
-	    psid->filterDy = lowPassParam[psid->filterValue];
-	psid->filterResDy = filterResTable[psid->d[0x17] >> 4] - psid->filterDy;
+        if (psid->filterType == 0x20)
+            psid->filterDy = bandPassParam[psid->filterValue];
+        else
+            psid->filterDy = lowPassParam[psid->filterValue];
+        psid->filterResDy = filterResTable[psid->d[0x17] >> 4]
+                            - psid->filterDy;
         if (psid->filterResDy < REAL_VALUE(1.0))
             psid->filterResDy = REAL_VALUE(1.0);
-    }
-    else
-    {
-	psid->v[0].filter = 0;
-	psid->v[1].filter = 0;
-	psid->v[2].filter = 0;
+    } else {
+        psid->v[0].filter = 0;
+        psid->v[1].filter = 0;
+        psid->v[2].filter = 0;
     }
     psid->update = 0;
 }
@@ -508,7 +502,8 @@ inline static void setup_sid(sound_t *psid)
 inline static void setup_voice(voice_t *pv)
 {
     if (!pv->update)
-	return;
+        return;
+
     pv->attack = pv->d[5] / 0x10;
     pv->decay = pv->d[5] & 0x0f;
     pv->sustain = pv->d[6] / 0x10;
@@ -521,125 +516,121 @@ inline static void setup_voice(voice_t *pv)
 #ifdef WAVETABLES
     if (pv->d[4] & 0x08)
     {
-	pv->f = pv->fs = 0;
-	pv->rv = NSEED;
+        pv->f = pv->fs = 0;
+        pv->rv = NSEED;
     }
     pv->noise = 0;
     pv->wtl = 20;
     pv->wtpf = 0;
     pv->wtr[1] = 0;
-    switch ((pv->d[4] & 0xf0) >> 4)
-    {
-    case 0:
-	pv->wt = wavetable00;
-	pv->wtl = 31;
-	break;
-    case 1:
-	pv->wt = wavetable10;
-	if (pv->d[4] & 0x04)
-	    pv->wtr[1] = 0x7fff;
-	break;
-    case 2:
-	pv->wt = wavetable20;
-	break;
-    case 3:
-	pv->wt = wavetable30;
-	if (pv->d[4] & 0x04)
-	    pv->wtr[1] = 0x7fff;
-	break;
-    case 4:
-	if (pv->d[4] & 0x08)
-	    pv->wt = &wavetable40[4096];
-	else
-	    pv->wt = &wavetable40[4096 - (pv->d[2]
+
+    switch ((pv->d[4] & 0xf0) >> 4) {
+      case 0:
+        pv->wt = wavetable00;
+        pv->wtl = 31;
+        break;
+      case 1:
+        pv->wt = wavetable10;
+        if (pv->d[4] & 0x04)
+            pv->wtr[1] = 0x7fff;
+        break;
+      case 2:
+        pv->wt = wavetable20;
+        break;
+      case 3:
+        pv->wt = wavetable30;
+        if (pv->d[4] & 0x04)
+            pv->wtr[1] = 0x7fff;
+        break;
+      case 4:
+        if (pv->d[4] & 0x08)
+            pv->wt = &wavetable40[4096];
+        else
+            pv->wt = &wavetable40[4096 - (pv->d[2]
                      + (pv->d[3] & 0x0f) * 0x100)];
-	break;
-    case 5:
-	pv->wt = &wavetable50[pv->wtpf = 4096 - (pv->d[2]
+        break;
+      case 5:
+        pv->wt = &wavetable50[pv->wtpf = 4096 - (pv->d[2]
                                          + (pv->d[3] & 0x0f) * 0x100)];
-	pv->wtpf <<= 20;
-	if (pv->d[4] & 0x04)
-	    pv->wtr[1] = 0x7fff;
-	break;
-    case 6:
-	pv->wt = &wavetable60[pv->wtpf = 4096 - (pv->d[2]
+        pv->wtpf <<= 20;
+        if (pv->d[4] & 0x04)
+            pv->wtr[1] = 0x7fff;
+        break;
+      case 6:
+        pv->wt = &wavetable60[pv->wtpf = 4096 - (pv->d[2]
                                          + (pv->d[3] & 0x0f) * 0x100)];
-	pv->wtpf <<= 20;
-	break;
-    case 7:
-	pv->wt = &wavetable70[pv->wtpf = 4096 - (pv->d[2]
+        pv->wtpf <<= 20;
+        break;
+      case 7:
+        pv->wt = &wavetable70[pv->wtpf = 4096 - (pv->d[2]
                                          + (pv->d[3] & 0x0f) * 0x100)];
-	pv->wtpf <<= 20;
-	if (pv->d[4] & 0x04 && pv->s->newsid)
-	    pv->wtr[1] = 0x7fff;
-	break;
+        pv->wtpf <<= 20;
+        if (pv->d[4] & 0x04 && pv->s->newsid)
+            pv->wtr[1] = 0x7fff;
+        break;
     case 8:
-	pv->noise = 1;
-	pv->wt = NULL;
-	pv->wtl = 0;
-	break;
+        pv->noise = 1;
+        pv->wt = NULL;
+        pv->wtl = 0;
+        break;
     default:
-	/* XXX: noise locking correct? */
-	pv->rv = 0;
-	pv->wt = wavetable00;
-	pv->wtl = 31;
+        /* XXX: noise locking correct? */
+        pv->rv = 0;
+        pv->wt = wavetable00;
+        pv->wtl = 31;
     }
 #else
-    if (pv->d[4] & 0x08)
-    {
-	pv->fm = TESTWAVE;
-	pv->pw = pv->f = pv->fs = 0;
-	pv->rv = NSEED;
-    }
-    else switch ((pv->d[4] & 0xf0) >> 4)
-    {
-    case 4:
-	pv->fm = PULSEWAVE;
-	break;
-    case 2:
-	pv->fm = SAWTOOTHWAVE;
-	break;
-    case 1:
-	if (pv->d[4] & 0x04)
-	{
-	    pv->fm = RINGWAVE;
-	}
-	else
-	    pv->fm = TRIANGLEWAVE;
-	break;
-    case 8:
-	pv->fm = NOISEWAVE;
-	break;
-    case 0:
-	pv->fm = NOWAVE;
-	break;
-    case 5:
-	pv->fm = PULSETRIANGLEWAVE;
-	break;
-    case 6:
-	pv->fm = PULSESAWTOOTHWAVE;
-	break;
-    default:
-	pv->fm = NOWAVE;
+    if (pv->d[4] & 0x08) {
+        pv->fm = TESTWAVE;
+        pv->pw = pv->f = pv->fs = 0;
+        pv->rv = NSEED;
+    } else switch ((pv->d[4] & 0xf0) >> 4) {
+      case 4:
+        pv->fm = PULSEWAVE;
+        break;
+      case 2:
+        pv->fm = SAWTOOTHWAVE;
+        break;
+      case 1:
+        if (pv->d[4] & 0x04)
+        {
+            pv->fm = RINGWAVE;
+        }
+        else
+            pv->fm = TRIANGLEWAVE;
+        break;
+      case 8:
+        pv->fm = NOISEWAVE;
+        break;
+      case 0:
+        pv->fm = NOWAVE;
+        break;
+      case 5:
+        pv->fm = PULSETRIANGLEWAVE;
+        break;
+      case 6:
+        pv->fm = PULSESAWTOOTHWAVE;
+        break;
+      default:
+        pv->fm = NOWAVE;
     }
 #endif
-    switch (pv->adsrm)
-    {
-    case ATTACK:
-    case DECAY:
-    case SUSTAIN:
-	if (pv->d[4] & 0x01)
-	    set_adsr(pv, (BYTE)(pv->gateflip ? ATTACK : pv->adsrm));
-	else
-	    set_adsr(pv, RELEASE);
-	break;
-    case RELEASE:
-    case IDLE:
-	if (pv->d[4] & 0x01)
-	    set_adsr(pv, ATTACK);
-	else
-	    set_adsr(pv, pv->adsrm);
-	break;
+    switch (pv->adsrm) {
+      case ATTACK:
+      case DECAY:
+      case SUSTAIN:
+        if (pv->d[4] & 0x01)
+            set_adsr(pv, (BYTE)(pv->gateflip ? ATTACK : pv->adsrm));
+        else
+            set_adsr(pv, RELEASE);
+        break;
+      case RELEASE:
+      case IDLE:
+        if (pv->d[4] & 0x01)
+            set_adsr(pv, ATTACK);
+        else
+            set_adsr(pv, pv->adsrm);
+        break;
     }
     pv->update = 0;
     pv->gateflip = 0;
@@ -648,9 +639,9 @@ inline static void setup_voice(voice_t *pv)
 int fastsid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 			      int interleave, int *delta_t)
 {
-    register DWORD		o0, o1, o2;
-    register int		dosync1, dosync2, i;
-    voice_t                     *v0, *v1, *v2;
+    register DWORD o0, o1, o2;
+    register int dosync1, dosync2, i;
+    voice_t *v0, *v1, *v2;
 
     setup_sid(psid);
     v0 = &psid->v[0];
@@ -660,83 +651,76 @@ int fastsid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
     v2 = &psid->v[2];
     setup_voice(v2);
 
-    for (i = 0; i < nr; i++)
-    {
-	/* addfptrs, noise & hard sync test */
-	dosync1 = 0;
-	if ((v0->f += v0->fs) < v0->fs)
-	{
-	    v0->rv = NSHIFT(v0->rv, 16);
-	    if (v1->sync)
-		dosync1 = 1;
-	}
-	dosync2 = 0;
-	if ((v1->f += v1->fs) < v1->fs)
-	{
-	    v1->rv = NSHIFT(v1->rv, 16);
-	    if (v2->sync)
-		dosync2 = 1;
-	}
-	if ((v2->f += v2->fs) < v2->fs)
-	{
-	    v2->rv = NSHIFT(v2->rv, 16);
-	    if (v0->sync)
-	    {
-		/* hard sync */
-		v0->rv = NSHIFT(v0->rv, v0->f >> 28);
-		v0->f = 0;
-	    }
-	}
-	/* hard sync */
-	if (dosync2)
-	{
-	    v2->rv = NSHIFT(v2->rv, v2->f >> 28);
-	    v2->f = 0;
-	}
-	if (dosync1)
-	{
-	    v1->rv = NSHIFT(v1->rv, v1->f >> 28);
-	    v1->f = 0;
-	}
-	/* do adsr */
-	if ((v0->adsr += v0->adsrs) + 0x80000000 <
-	    v0->adsrz + 0x80000000)
-	    trigger_adsr(v0);
-	if ((v1->adsr += v1->adsrs) + 0x80000000 <
-	    v1->adsrz + 0x80000000)
-	    trigger_adsr(v1);
-	if ((v2->adsr += v2->adsrs) + 0x80000000 <
-	    v2->adsrz + 0x80000000)
-	    trigger_adsr(v2);
-	/* oscillators */
-	o0 = v0->adsr >> 16;
-	o1 = v1->adsr >> 16;
-	o2 = v2->adsr >> 16;
-	if (o0)
-	    o0 *= doosc(v0);
-	if (o1)
-	    o1 *= doosc(v1);
-	if (psid->has3 && o2)
-	    o2 *= doosc(v2);
-	else
-	    o2 = 0;
-	/* sample */
-	if (psid->emulatefilter)
-	{
-	    v0->filtIO = ampMod1x8[(o0 >> 22)];
-	    dofilter(v0);
-	    o0 = ((DWORD)(v0->filtIO) + 0x80) << (7 + 15);
-	    v1->filtIO = ampMod1x8[(o1 >> 22)];
-	    dofilter(v1);
-	    o1 = ((DWORD)(v1->filtIO) + 0x80) << (7 + 15);
-	    v2->filtIO = ampMod1x8[(o2 >> 22)];
-	    dofilter(v2);
-	    o2 = ((DWORD)(v2->filtIO) + 0x80) << (7 + 15);
-	}
+    for (i = 0; i < nr; i++) {
+        /* addfptrs, noise & hard sync test */
+        dosync1 = 0;
+        if ((v0->f += v0->fs) < v0->fs) {
+            v0->rv = NSHIFT(v0->rv, 16);
+            if (v1->sync)
+                dosync1 = 1;
+        }
+        dosync2 = 0;
+        if ((v1->f += v1->fs) < v1->fs) {
+            v1->rv = NSHIFT(v1->rv, 16);
+            if (v2->sync)
+                dosync2 = 1;
+        }
+        if ((v2->f += v2->fs) < v2->fs) {
+            v2->rv = NSHIFT(v2->rv, 16);
+            if (v0->sync) {
+                /* hard sync */
+                v0->rv = NSHIFT(v0->rv, v0->f >> 28);
+                v0->f = 0;
+            }
+        }
 
-        pbuf[i*interleave] =
-	  ((SDWORD)((o0 + o1 + o2) >> 20) - 0x600) * psid->vol;
+        /* hard sync */
+        if (dosync2) {
+            v2->rv = NSHIFT(v2->rv, v2->f >> 28);
+            v2->f = 0;
+        }
+        if (dosync1) {
+            v1->rv = NSHIFT(v1->rv, v1->f >> 28);
+            v1->f = 0;
+        }
+
+        /* do adsr */
+        if ((v0->adsr += v0->adsrs) + 0x80000000 < v0->adsrz + 0x80000000)
+            trigger_adsr(v0);
+        if ((v1->adsr += v1->adsrs) + 0x80000000 < v1->adsrz + 0x80000000)
+            trigger_adsr(v1);
+        if ((v2->adsr += v2->adsrs) + 0x80000000 < v2->adsrz + 0x80000000)
+            trigger_adsr(v2);
+
+        /* oscillators */
+        o0 = v0->adsr >> 16;
+        o1 = v1->adsr >> 16;
+        o2 = v2->adsr >> 16;
+        if (o0)
+            o0 *= doosc(v0);
+        if (o1)
+            o1 *= doosc(v1);
+        if (psid->has3 && o2)
+            o2 *= doosc(v2);
+        else
+            o2 = 0;
+        /* sample */
+        if (psid->emulatefilter) {
+            v0->filtIO = ampMod1x8[(o0 >> 22)];
+            dofilter(v0);
+            o0 = ((DWORD)(v0->filtIO) + 0x80) << (7 + 15);
+            v1->filtIO = ampMod1x8[(o1 >> 22)];
+            dofilter(v1);
+            o1 = ((DWORD)(v1->filtIO) + 0x80) << (7 + 15);
+            v2->filtIO = ampMod1x8[(o2 >> 22)];
+            dofilter(v2);
+            o2 = ((DWORD)(v2->filtIO) + 0x80) << (7 + 15);
+        }
+
+        pbuf[i * interleave] = ((SDWORD)((o0 + o1 + o2) >> 20) - 0x600)
+                               * psid->vol;
     }
+
     return nr;
 }
 
@@ -767,44 +751,44 @@ static void init_filter(sound_t *psid, int freq)
     psid->filterDy = 0;
     psid->filterResDy = 0;
 
-    for (uk = 0, rk = 0; rk < 0x800; rk++, uk++)
-    {
+    for (uk = 0, rk = 0; rk < 0x800; rk++, uk++) {
         float h;
 
-        h = (((exp(rk / 2048 * log(filterFs)) / filterFm) + filterFt)
-            * filterRefFreq) / freq;
-        if ( h < yMin )
+        h = (float)((((exp(rk / 2048 * log(filterFs)) / filterFm) + filterFt)
+            * filterRefFreq) / freq);
+        if (h < yMin)
             h = yMin;
-        if ( h > yMax )
+        if (h > yMax)
             h = yMax;
         lowPassParam[uk] = REAL_VALUE(h);
     }
 
-    yMax = 0.22;
-    yMin = 0.002;
-    yAdd = (yMax-yMin)/2048.0;
+    yMax = (float)0.22;
+    yMin = (float)0.002;
+    yAdd = (float)((yMax - yMin) / 2048.0);
     yTmp = yMin;
-    for ( uk = 0, rk = 0; rk < 0x800; rk++, uk++ )
-    {
+
+    for (uk = 0, rk = 0; rk < 0x800; rk++, uk++) {
         bandPassParam[uk] = REAL_VALUE((yTmp * filterRefFreq) / freq);
-	yTmp += yAdd;
+        yTmp += yAdd;
     }
 
-    for ( uk = 0; uk < 16; uk++ )
-    {
-	filterResTable[uk] = REAL_VALUE(resDy);
-	resDy -= ((resDyMin - resDyMax ) / 15);
+    for (uk = 0; uk < 16; uk++) {
+        filterResTable[uk] = REAL_VALUE(resDy);
+        resDy -= ((resDyMin - resDyMax ) / 15);
     }
+
     filterResTable[0] = REAL_VALUE(resDyMin);
     filterResTable[15] = REAL_VALUE(resDyMax);
 
     /* XXX: if psid->emulatefilter = 0, ampMod1x8 is never referenced */
     if (psid->emulatefilter)
-	filterAmpl = 0.7;
+        filterAmpl = (float)0.7;
     else
-	filterAmpl = 1.0;
-    for ( uk = 0, si = 0; si < 256; si++, uk++ )
-	ampMod1x8[uk] = (signed char)((si - 0x80) * filterAmpl);
+        filterAmpl = (float)1.0;
+
+    for (uk = 0, si = 0; si < 256; si++, uk++)
+        ampMod1x8[uk] = (signed char)((si - 0x80) * filterAmpl);
 }
 
 /* SID initialization routine */
@@ -825,55 +809,52 @@ int fastsid_init(sound_t *psid, int speed, int cycles_per_sec)
     int sid_model;
 
     psid->speed1 = (cycles_per_sec << 8) / speed;
-    for (i = 0; i < 16; i++)
-    {
-	psid->adrs[i] = 500 * 8 * psid->speed1 / adrtable[i];
-	psid->sz[i] = 0x8888888 * i;
+    for (i = 0; i < 16; i++) {
+        psid->adrs[i] = 500 * 8 * psid->speed1 / adrtable[i];
+        psid->sz[i] = 0x8888888 * i;
     }
     psid->update = 1;
 
     if (resources_get_value("SidFilters",
-        (resource_value_t *)&(psid->emulatefilter)) < 0)
-    {
-	return 0;
+        (resource_value_t *)&(psid->emulatefilter)) < 0) {
+        return 0;
     }
 
     init_filter(psid, speed);
     setup_sid(psid);
-    for (i = 0; i < 3; i++)
-    {
-	psid->v[i].vprev = &psid->v[(i + 2) % 3];
-	psid->v[i].vnext = &psid->v[(i + 1) % 3];
-	psid->v[i].nr = i;
-	psid->v[i].d = psid->d + i * 7;
-	psid->v[i].s = psid;
-	psid->v[i].rv = NSEED;
-	psid->v[i].filtLow = 0;
-	psid->v[i].filtRef = 0;
-	psid->v[i].filtIO = 0;
-	psid->v[i].update = 1;
-	setup_voice(&psid->v[i]);
+    for (i = 0; i < 3; i++) {
+        psid->v[i].vprev = &psid->v[(i + 2) % 3];
+        psid->v[i].vnext = &psid->v[(i + 1) % 3];
+        psid->v[i].nr = i;
+        psid->v[i].d = psid->d + i * 7;
+        psid->v[i].s = psid;
+        psid->v[i].rv = NSEED;
+        psid->v[i].filtLow = 0;
+        psid->v[i].filtRef = 0;
+        psid->v[i].filtIO = 0;
+        psid->v[i].update = 1;
+        setup_voice(&psid->v[i]);
     }
 #ifdef WAVETABLES
     if (resources_get_value("SidModel", (resource_value_t *)&sid_model) < 0) {
-	return 0;
+        return 0;
     }
 
     psid->newsid = sid_model == 1;
     for (i = 0; i < 4096; i++) {
-	wavetable10[i] = (WORD)(i < 2048 ? i << 4 : 0xffff - (i << 4));
-	wavetable20[i] = (WORD)(i << 3);
-	wavetable30[i] = waveform30_8580[i] << 7;
-	wavetable40[i + 4096] = 0x7fff;
-	if (psid->newsid) {
-	    wavetable50[i + 4096] = waveform50_8580[i] << 7;
-	    wavetable60[i + 4096] = waveform60_8580[i] << 7;
-	    wavetable70[i + 4096] = waveform70_8580[i] << 7;
-	} else {
-	    wavetable50[i + 4096] = waveform50_6581[i >> 3] << 7;
-	    wavetable60[i + 4096] = 0;
-	    wavetable70[i + 4096] = 0;
-	}
+        wavetable10[i] = (WORD)(i < 2048 ? i << 4 : 0xffff - (i << 4));
+        wavetable20[i] = (WORD)(i << 3);
+        wavetable30[i] = waveform30_8580[i] << 7;
+        wavetable40[i + 4096] = 0x7fff;
+        if (psid->newsid) {
+            wavetable50[i + 4096] = waveform50_8580[i] << 7;
+            wavetable60[i + 4096] = waveform60_8580[i] << 7;
+            wavetable70[i + 4096] = waveform70_8580[i] << 7;
+        } else {
+            wavetable50[i + 4096] = waveform50_6581[i >> 3] << 7;
+            wavetable60[i + 4096] = 0;
+            wavetable70[i + 4096] = 0;
+        }
     }
 #endif
     for (i = 0; i < NOISETABLESIZE; i++) {
@@ -899,50 +880,47 @@ void fastsid_close(sound_t *psid)
 
 BYTE fastsid_read(sound_t *psid, ADDRESS addr)
 {
-    BYTE		ret;
-    WORD		ffix;
-    register DWORD	rvstore;
-    register CLOCK	tmp;
+    BYTE ret;
+    WORD ffix;
+    register DWORD rvstore;
+    register CLOCK tmp;
 
-    switch (addr)
-    {
-    case 0x19:
-	/* pot/x */
+    switch (addr) {
+      case 0x19:
+        /* pot/x */
         ret = 0xff;
-	break;
-    case 0x1a:
-	/* pot/y */
+        break;
+      case 0x1a:
+        /* pot/y */
         ret = 0xff;
-	break;
-    case 0x1b:
-	/* osc3 / random */
-	ffix = (WORD)(sound_sample_position() * psid->v[2].fs);
-	rvstore = psid->v[2].rv;
-	if (
+        break;
+      case 0x1b:
+        /* osc3 / random */
+        ffix = (WORD)(sound_sample_position() * psid->v[2].fs);
+        rvstore = psid->v[2].rv;
+        if (
 #ifdef WAVETABLES
-	    psid->v[2].noise
+            psid->v[2].noise
 #else
-	    psid->v[2].fm == NOISEWAVE
+            psid->v[2].fm == NOISEWAVE
 #endif
-	    && psid->v[2].f + ffix < psid->v[2].f)
-	{
-	    psid->v[2].rv = NSHIFT(psid->v[2].rv, 16);
-	}
-	psid->v[2].f += ffix;
-	ret = (BYTE)(doosc(&psid->v[2]) >> 7);
-	psid->v[2].f -= ffix;
-	psid->v[2].rv = rvstore;
-	break;
-    case 0x1c:
-	ret = (BYTE)(psid->v[2].adsr >> 23);
-	break;
-    default:
-	while ((tmp = psid->laststorebit) &&
-	       (tmp = psid->laststoreclk + sidreadclocks[tmp]) < maincpu_clk)
-	{
-	    psid->laststoreclk = tmp;
-	    psid->laststore &= 0xfeff >> psid->laststorebit--;
-	}
+            && psid->v[2].f + ffix < psid->v[2].f) {
+            psid->v[2].rv = NSHIFT(psid->v[2].rv, 16);
+        }
+        psid->v[2].f += ffix;
+        ret = (BYTE)(doosc(&psid->v[2]) >> 7);
+        psid->v[2].f -= ffix;
+        psid->v[2].rv = rvstore;
+        break;
+      case 0x1c:
+        ret = (BYTE)(psid->v[2].adsr >> 23);
+        break;
+      default:
+        while ((tmp = psid->laststorebit) &&
+               (tmp = psid->laststoreclk + sidreadclocks[tmp]) < maincpu_clk) {
+            psid->laststoreclk = tmp;
+            psid->laststore &= 0xfeff >> psid->laststorebit--;
+        }
         ret = psid->laststore;
     }
 
@@ -951,44 +929,44 @@ BYTE fastsid_read(sound_t *psid, ADDRESS addr)
 
 void fastsid_store(sound_t *psid, ADDRESS addr, BYTE byte)
 {
-    switch (addr)
-    {
+    switch (addr) {
       case 4:
-	if ((psid->d[addr] ^ byte) & 1)
-	    psid->v[0].gateflip = 1;
+        if ((psid->d[addr] ^ byte) & 1)
+            psid->v[0].gateflip = 1;
       case 0:
       case 1:
       case 2:
       case 3:
       case 5:
       case 6:
-	psid->v[0].update = 1;
-	break;
+        psid->v[0].update = 1;
+        break;
       case 11:
-	if ((psid->d[addr] ^ byte) & 1)
-	    psid->v[1].gateflip = 1;
+        if ((psid->d[addr] ^ byte) & 1)
+            psid->v[1].gateflip = 1;
       case 7:
       case 8:
       case 9:
       case 10:
       case 12:
       case 13:
-	psid->v[1].update = 1;
-	break;
+        psid->v[1].update = 1;
+        break;
       case 18:
-	if ((psid->d[addr] ^ byte) & 1)
-	    psid->v[2].gateflip = 1;
+        if ((psid->d[addr] ^ byte) & 1)
+            psid->v[2].gateflip = 1;
       case 14:
       case 15:
       case 16:
       case 17:
       case 19:
       case 20:
-	psid->v[2].update = 1;
-	break;
+        psid->v[2].update = 1;
+        break;
       default:
-	psid->update = 1;
+        psid->update = 1;
     }
+
     psid->d[addr] = byte;
     psid->laststore = byte;
     psid->laststorebit = 8;
@@ -998,9 +976,10 @@ void fastsid_store(sound_t *psid, ADDRESS addr, BYTE byte)
 void fastsid_reset(sound_t *psid, CLOCK cpu_clk)
 {
     ADDRESS addr;
-    for (addr = 0; addr < 32; addr++) {
+
+    for (addr = 0; addr < 32; addr++)
         fastsid_store(psid, addr, 0);
-    }
+
     psid->laststoreclk = cpu_clk;
 }
 
@@ -1022,3 +1001,4 @@ sid_engine_t fastsid_hooks =
     fastsid_prevent_clk_overflow,
     fastsid_dump_state
 };
+
