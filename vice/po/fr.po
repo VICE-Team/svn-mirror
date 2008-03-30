@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.15\n"
-"POT-Creation-Date: 2004-06-19 22:25+0200\n"
+"POT-Creation-Date: 2004-06-24 01:03+0200\n"
 "PO-Revision-Date: 2004-05-04 21:13+0200\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -409,8 +409,8 @@ msgstr "Options"
 #: src/arch/unix/c128ui.c:474 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:509 src/arch/unix/petui.c:432
 #: src/arch/unix/plus4ui.c:228 src/arch/unix/vic20ui.c:520
-#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1196
-#: src/arch/unix/x11/gnome/x11ui.c:1288
+#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1209
+#: src/arch/unix/x11/gnome/x11ui.c:1301
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -1276,7 +1276,7 @@ msgstr "À propos de VICE..."
 
 #: src/arch/unix/uicommands.c:500 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1929
+#: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "Reset"
 msgstr "Réinitialiser"
 
@@ -1748,8 +1748,8 @@ msgid "Next: "
 msgstr "Suivant: "
 
 #: src/arch/unix/uifliplist.c:243 src/arch/unix/uifliplist.c:258
-#: src/arch/unix/x11/gnome/x11ui.c:848 src/arch/unix/x11/gnome/x11ui.c:858
-#: src/arch/unix/x11/gnome/x11ui.c:1534
+#: src/arch/unix/x11/gnome/x11ui.c:861 src/arch/unix/x11/gnome/x11ui.c:871
+#: src/arch/unix/x11/gnome/x11ui.c:1547
 msgid "<empty>"
 msgstr "<vide>"
 
@@ -2068,7 +2068,6 @@ msgid "Command to execute for printing (preceed with '|')"
 msgstr "Commande à exécuter pour imprimer (précédé de '|')"
 
 #: src/arch/unix/uiprinter.c:149 src/arch/unix/uirs232.c:140
-#: src/arch/unix/uirs232.c:146
 msgid "Command:"
 msgstr "Commande:"
 
@@ -2332,6 +2331,11 @@ msgstr "Commande à exécuter pour le port RS232 (précédé de '|')"
 msgid "File to dump RS232 to"
 msgstr "Fichier de sortie du port RS232"
 
+#: src/arch/unix/uirs232.c:146
+#, fuzzy
+msgid "Dump file:"
+msgstr "*Rediriger vers un fichier"
+
 #: src/arch/unix/uirs232.c:154
 msgid "*ACIA $DExx RS232 interface emulation"
 msgstr "*Émulation d'interface ACIA $DExx RS232"
@@ -2384,7 +2388,7 @@ msgstr "Vitesse maximale d'exécution"
 msgid "Invalid speed value"
 msgstr "Valeur de vitesse invalide"
 
-#: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1337
+#: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1350
 #: src/arch/unix/x11/xaw/x11ui.c:1039
 msgid "Cannot save settings."
 msgstr "Impossible d'enregistrer les paramètres."
@@ -3049,180 +3053,180 @@ msgstr ""
 "Modèle: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:400
+#: src/arch/unix/x11/gnome/x11ui.c:409
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Impossible d'ajouter le \"fontpath\" `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:402
+#: src/arch/unix/x11/gnome/x11ui.c:411
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Définir le \"fontpath\": `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:611 src/arch/unix/x11/xaw/x11ui.c:487
+#: src/arch/unix/x11/gnome/x11ui.c:624 src/arch/unix/x11/xaw/x11ui.c:487
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Cet affichage ne supporte pas de mode visuel utilisable %dbits."
 
-#: src/arch/unix/x11/gnome/x11ui.c:614 src/arch/unix/x11/xaw/x11ui.c:490
+#: src/arch/unix/x11/gnome/x11ui.c:627 src/arch/unix/x11/xaw/x11ui.c:490
 msgid "Please select a bit depth supported by your display."
 msgstr ""
 "SVP, veuillez sélectionner une profondeur de couleurs supportée par votre "
 "affichage."
 
-#: src/arch/unix/x11/gnome/x11ui.c:617 src/arch/unix/x11/gnome/x11ui.c:641
+#: src/arch/unix/x11/gnome/x11ui.c:630 src/arch/unix/x11/gnome/x11ui.c:654
 #: src/arch/unix/x11/xaw/x11ui.c:493 src/arch/unix/x11/xaw/x11ui.c:510
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Détecté une capacité visuelle de %dbits/%s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:626
+#: src/arch/unix/x11/gnome/x11ui.c:639
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Détecté une capacité visuelle de %dbits."
 
-#: src/arch/unix/x11/gnome/x11ui.c:649 src/arch/unix/x11/xaw/x11ui.c:518
+#: src/arch/unix/x11/gnome/x11ui.c:662 src/arch/unix/x11/xaw/x11ui.c:518
 msgid "Cannot autodetect a proper visual."
 msgstr ""
 "Impossible de détecter automatiquement une configuration visuelle "
 "fonctionnelle."
 
-#: src/arch/unix/x11/gnome/x11ui.c:657
+#: src/arch/unix/x11/gnome/x11ui.c:670
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Impossible de charger la police de caractères %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:664
+#: src/arch/unix/x11/gnome/x11ui.c:677
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Impossible de charger la police de caractères CBM %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:750
+#: src/arch/unix/x11/gnome/x11ui.c:763
 msgid "PAL Controls"
 msgstr "Contrôles PAL"
 
-#: src/arch/unix/x11/gnome/x11ui.c:769
+#: src/arch/unix/x11/gnome/x11ui.c:782
 msgid "audio/video recording"
 msgstr "enregistrement Audio/Vidéo"
 
-#: src/arch/unix/x11/gnome/x11ui.c:783 src/arch/unix/x11/gnome/x11ui.c:802
+#: src/arch/unix/x11/gnome/x11ui.c:796 src/arch/unix/x11/gnome/x11ui.c:815
 msgid "click to stop recording"
 msgstr "cliquez pour arrêter l'enregistrement"
 
-#: src/arch/unix/x11/gnome/x11ui.c:788
+#: src/arch/unix/x11/gnome/x11ui.c:801
 msgid "event recording"
 msgstr "enregistrement d'événements"
 
-#: src/arch/unix/x11/gnome/x11ui.c:808
+#: src/arch/unix/x11/gnome/x11ui.c:821
 msgid "event playback"
 msgstr "lecture d'événements"
 
-#: src/arch/unix/x11/gnome/x11ui.c:822
+#: src/arch/unix/x11/gnome/x11ui.c:835
 msgid "click to stop playback"
 msgstr "cliquez pour arrêter la lecture"
 
-#: src/arch/unix/x11/gnome/x11ui.c:834
+#: src/arch/unix/x11/gnome/x11ui.c:847
 #, c-format
 msgid "Drive %d: "
 msgstr "Lecteur %d:"
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:944
+#: src/arch/unix/x11/gnome/x11ui.c:957
 msgid "Tape 000"
 msgstr "Datassette 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1013 src/arch/unix/x11/xaw/x11ui.c:599
+#: src/arch/unix/x11/gnome/x11ui.c:1026 src/arch/unix/x11/xaw/x11ui.c:599
 msgid "Maximum number of toplevel windows reached."
 msgstr "Nombre maximal de fenêtres \"toplevel\" atteint."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1194 src/arch/unix/x11/gnome/x11ui.c:1277
+#: src/arch/unix/x11/gnome/x11ui.c:1207 src/arch/unix/x11/gnome/x11ui.c:1290
 msgid "Commands"
 msgstr "Commandes"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1200
+#: src/arch/unix/x11/gnome/x11ui.c:1213
 msgid "Help"
 msgstr "Aide"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1320 src/arch/unix/x11/xaw/x11ui.c:1024
+#: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1024
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1327 src/arch/unix/x11/xaw/x11ui.c:1028
+#: src/arch/unix/x11/gnome/x11ui.c:1340 src/arch/unix/x11/xaw/x11ui.c:1028
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1036
+#: src/arch/unix/x11/gnome/x11ui.c:1347 src/arch/unix/x11/xaw/x11ui.c:1036
 msgid "Save the current settings?"
 msgstr "Enregistrer les paramètres courants?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1379 src/arch/unix/x11/xaw/x11ui.c:1077
+#: src/arch/unix/x11/gnome/x11ui.c:1392 src/arch/unix/x11/xaw/x11ui.c:1077
 msgid "Using private colormap."
 msgstr "Utilisation d'un \"colormap\" privé."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1399 src/arch/unix/x11/gnome/x11ui.c:1402
+#: src/arch/unix/x11/gnome/x11ui.c:1412 src/arch/unix/x11/gnome/x11ui.c:1415
 #: src/arch/unix/x11/xaw/x11ui.c:1098 src/arch/unix/x11/xaw/x11ui.c:1104
 msgid "(warp)"
 msgstr "(Turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1686
+#: src/arch/unix/x11/gnome/x11ui.c:1699
 #, c-format
 msgid "Tape %03d"
 msgstr "Datassette %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1738 src/arch/unix/x11/xaw/x11ui.c:1325
+#: src/arch/unix/x11/gnome/x11ui.c:1751 src/arch/unix/x11/xaw/x11ui.c:1325
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausé)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1892
+#: src/arch/unix/x11/gnome/x11ui.c:1905
 msgid "VICE Message"
 msgstr "Message VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1903
+#: src/arch/unix/x11/gnome/x11ui.c:1916
 msgid "VICE Error"
 msgstr "Erreur VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1929
+#: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "Hard Reset"
 msgstr "Mettre hors tension, puis sous tension (OFF, ON)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1930
+#: src/arch/unix/x11/gnome/x11ui.c:1943
 msgid "Monitor"
 msgstr "Moniteur"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1974 src/arch/unix/x11/xaw/x11ui.c:1603
+#: src/arch/unix/x11/gnome/x11ui.c:1987 src/arch/unix/x11/xaw/x11ui.c:1603
 msgid "Extend disk image"
 msgstr "Étendre l'image de disque"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1975
+#: src/arch/unix/x11/gnome/x11ui.c:1988
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Désirez vous étendre l'image de disque à 40 pistes?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1988
+#: src/arch/unix/x11/gnome/x11ui.c:2001
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Démarrage automatique impossible pour le lecteur #%d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1996 src/arch/unix/x11/gnome/x11ui.c:2005
+#: src/arch/unix/x11/gnome/x11ui.c:2009 src/arch/unix/x11/gnome/x11ui.c:2018
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Impossible de démarrer automatiquement la sélection %d de l'image %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2132 src/arch/unix/x11/gnome/x11ui.c:2137
+#: src/arch/unix/x11/gnome/x11ui.c:2145 src/arch/unix/x11/gnome/x11ui.c:2150
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "AUCUN CONTENU D'IMAGE DISPONIBLE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2602
+#: src/arch/unix/x11/gnome/x11ui.c:2615
 msgid "Contents"
 msgstr "Contenu"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2649
+#: src/arch/unix/x11/gnome/x11ui.c:2662
 msgid "Attach write protected"
 msgstr "Protéger contre l'écriture"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2675
+#: src/arch/unix/x11/gnome/x11ui.c:2688
 msgid "Autostart"
 msgstr "Démarrage automatique"
 

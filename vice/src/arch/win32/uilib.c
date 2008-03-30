@@ -85,6 +85,8 @@ static uilib_filefilter_t uilib_filefilter[] = {
     { TEXT("CRT cartridge image files (*.crt)"), TEXT("*.crt") },
     { TEXT("Raw cartridge image files (*.bin)"), TEXT("*.bin") },
     { TEXT("Flip list files (*.vfl)"), TEXT("*.vfl") },
+    { TEXT("VICE romset files (*.vrs)"), TEXT("*.vrs") },
+    { TEXT("VICE romset archives (*.vra)"), TEXT("*.vra") },
     { NULL, NULL }
 };
 
@@ -97,10 +99,10 @@ struct uilib_fs_style_type_s {
 };
 typedef struct uilib_fs_style_type_s uilib_fs_style_type_t;
 
-static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
-                                    LPARAM lparam);
-static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
-                               LPARAM lparam);
+static UINT APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
+                                                 WPARAM wparam, LPARAM lparam);
+static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
+                                            WPARAM wparam, LPARAM lparam);
 
 static char *read_disk_image_contents(const char *name);
 static char *read_tape_image_contents(const char *name);
@@ -112,13 +114,14 @@ static uilib_fs_style_type_t styles[UILIB_SELECTOR_STYLES_NUM + 1] = {
       NULL, 0, "InitialDefaultDir", NULL },
     /* UILIB_SELECTOR_STYLE_TAPE */
     { read_tape_image_contents,
-      tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir", NULL },
+      uilib_select_tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir",
+      NULL },
     /* UILIB_SELECTOR_STYLE_DISK */
     { read_disk_image_contents,
-      hook_proc, IDD_OPEN_TEMPLATE, "InitialDiskDir", NULL },
+      uilib_select_hook_proc, IDD_OPEN_TEMPLATE, "InitialDiskDir", NULL },
     /* UILIB_SELECTOR_STYLE_DISK_AND_TAPE */
     { read_disk_or_tape_image_contents,
-      hook_proc, IDD_OPEN_TEMPLATE, "InitialAutostartDir", NULL },
+      uilib_select_hook_proc, IDD_OPEN_TEMPLATE, "InitialAutostartDir", NULL },
     /* UILIB_SELECTOR_STYLE_CART */
     { NULL,
       NULL, 0, "InitialCartDir", NULL },
@@ -185,8 +188,8 @@ static void create_content_list(char *text, HWND list)
 
 static HFONT hfont;
 
-static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
-                                    LPARAM lparam)
+static UINT APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
+                                                 WPARAM wparam, LPARAM lparam)
 {
     HWND preview;
     char *contents;
@@ -312,8 +315,8 @@ static int image_type[] = {
     DISK_IMAGE_TYPE_X64
 };
 
-static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
-                               LPARAM lparam)
+static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
+                                            WPARAM wparam, LPARAM lparam)
 {
     HWND preview;
     HWND image_type_list;
@@ -358,7 +361,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
         SetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, TEXT("1a"));
         break;
       case WM_NOTIFY:
-        if (((OFNOTIFY*)lparam)->hdr.code == CDN_SELCHANGE) {
+        if (((OFNOTIFY *)lparam)->hdr.code == CDN_SELCHANGE) {
             SendMessage(preview, LB_RESETCONTENT, 0, 0);
             if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
                 CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
@@ -371,7 +374,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                              lib_free(contents);
                          }
                      }
-            } else if (((OFNOTIFY*)lparam)->hdr.code == CDN_FOLDERCHANGE) {
+            } else if (((OFNOTIFY *)lparam)->hdr.code == CDN_FOLDERCHANGE) {
                 SendMessage(preview, LB_RESETCONTENT, 0, 0);
                 SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), "");
             }
@@ -514,7 +517,7 @@ static DWORD get_index_from_filterbit(DWORD filterbit, DWORD filterlist)
     DWORD b;
     int j = 0;
 
-    for (b = 1; b <= filterbit; b <<=1) {
+    for (b = 1; b <= filterbit; b <<= 1) {
         if (filterlist & b)
             j++;
         if (b == filterbit)
@@ -598,8 +601,8 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
                                    DWORD filterlist, unsigned int type,
                                    int style, int *autostart)
 {
-    TCHAR st_name[1024];
-    char name[1024];
+    TCHAR st_name[MAX_PATH];
+    char name[MAX_PATH];
     char *initialdir = NULL;
     char *initialfile;
     TCHAR *filter;
@@ -709,12 +712,12 @@ TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist,
                                        NULL);
 }
 
-void uilib_select_browse(HWND hwnd, const TCHAR *title, unsigned int type,
-                         int idc)
+void uilib_select_browse(HWND hwnd, const TCHAR *title, DWORD filterlist,
+                         unsigned int type, int idc)
 {
     TCHAR *st_name;
 
-    st_name = uilib_select_file(hwnd, title, UILIB_FILTER_ALL, type,
+    st_name = uilib_select_file(hwnd, title, filterlist, type,
                                 UILIB_SELECTOR_STYLE_DEFAULT);
     if (st_name != NULL) {
         SetDlgItemText(hwnd, idc, st_name);
@@ -886,3 +889,42 @@ void uilib_shutdown(void)
 
     lib_free(fontfile);
 }
+
+static uilib_dialogbox_param_t *uilib_dialogbox_param;
+
+static BOOL CALLBACK uilib_dialogbox_dialog_proc(HWND hwnd, UINT msg,
+                                                 WPARAM wparam, LPARAM lparam)
+{
+    switch (msg) {
+      case WM_COMMAND:
+        switch (LOWORD(wparam)) {
+          case IDOK:
+            GetDlgItemText(hwnd, uilib_dialogbox_param->idc_dialog,
+                           uilib_dialogbox_param->string, UILIB_DIALOGBOX_MAX);
+            uilib_dialogbox_param->updated = 1;
+          case IDCANCEL:
+            EndDialog(hwnd, 0);
+            return TRUE;
+        }
+        return FALSE;
+      case WM_CLOSE:
+        EndDialog(hwnd, 0);
+        return TRUE;
+      case WM_INITDIALOG:
+        SetDlgItemText(hwnd, uilib_dialogbox_param->idc_dialog,
+                       uilib_dialogbox_param->string);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+
+void uilib_dialogbox(uilib_dialogbox_param_t *param)
+{
+    uilib_dialogbox_param = param;
+    uilib_dialogbox_param->updated = 0;
+    DialogBox(winmain_instance, (LPCTSTR)(uilib_dialogbox_param->idd_dialog),
+              uilib_dialogbox_param->hwnd, uilib_dialogbox_dialog_proc);
+
+}
+
