@@ -29,7 +29,6 @@
 #define _VIDEOARCH_H
 
 #include "vice.h"
-#include "palette.h"
 
 #include <X11/Xlib.h>
 #ifdef USE_MITSHM
@@ -38,10 +37,10 @@
 #include <sys/shm.h>
 #endif
 
-#include "log.h"
+#include "palette.h"
+#include "resources.h"
 #include "types.h"
 #include "ui.h"
-#include "resources.h"		/* app_resources.useXSync */
 
 #ifdef USE_GNOMEUI
 #include <gdk/gdk.h>		
@@ -99,13 +98,11 @@ extern int _video_use_xsync;
 
 /* ------------------------------------------------------------------------- */
 
-extern void text_enable(void);
-extern void text_disable(void);
-extern int num_text_lines(void);
 extern void enable_text(void);
 extern void disable_text(void);
 
-extern log_t video_log;
+extern void video_init_arch(void);
+
 extern int use_mitshm;
 
 #ifdef USE_MITSHM

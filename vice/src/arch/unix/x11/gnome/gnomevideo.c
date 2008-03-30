@@ -35,6 +35,14 @@
 
 extern void (*_refresh_func) ();
 
+static log_t gnomevideo_log = LOG_ERR;
+
+void video_init_arch(void)
+{
+    if (gnomevideo_log == LOG_ERR)
+        gnomevideo_log = log_open("GnomeVideo");
+}
+
 static GdkPixmap *pixmap;
 static GdkImage *im;
 extern GtkWidget *canvas;
@@ -61,7 +69,7 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 
     if (sizeof(PIXEL2) != sizeof(PIXEL) * 2 ||
 	sizeof(PIXEL4) != sizeof(PIXEL) * 4) {
-	log_error(video_log, "PIXEL2 / PIXEL4 typedefs have wrong size.");
+	log_error(gnomevideo_log, "PIXEL2 / PIXEL4 typedefs have wrong size.");
 	return -1;
     }
     /* Round up to 32-bit boundary. */
@@ -116,12 +124,13 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
     }
 
 #ifdef USE_MITSHM
-    log_message(video_log, "Successfully initialized%s shared memory.",
+    log_message(gnomevideo_log, "Successfully initialized%s shared memory.",
                 use_mitshm ? ", using" : " without");
     if (!use_mitshm)
-	log_warning(video_log, "Performance will be poor.");
+	log_warning(gnomevideo_log, "Performance will be poor.");
 #else
-    log_message(video_log, "Successfully initialized without shared memory.");
+    log_message(gnomevideo_log,
+                "Successfully initialized without shared memory.");
 #endif
 
 #if X_DISPLAY_DEPTH == 0

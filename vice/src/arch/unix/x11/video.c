@@ -283,6 +283,8 @@ int video_init(void)
     use_mitshm = 0;
 #endif
 
+    video_init_arch();
+
     return 0;
 }
 
@@ -393,17 +395,6 @@ void enable_text(void)
 
 void disable_text(void)
 {
-}
-
-int num_text_lines(void)
-{
-    char *s;
-
-    s = getenv("LINES");
-    if (s != NULL)
-	return atoi(s);
-    else
-	return 24;
 }
 
 /* ------------------------------------------------------------------------- */

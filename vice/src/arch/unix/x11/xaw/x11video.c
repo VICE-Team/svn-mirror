@@ -35,11 +35,20 @@
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 
+#include "log.h"
 #include "utils.h"
 #include "videoarch.h"
 #include "video.h"
 
 extern void (*_refresh_func) ();
+
+static log_t x11video_log = LOG_ERR;
+
+void video_init_arch(void)
+{
+    if (x11video_log == LOG_ERR)
+        x11video_log = log_open("X11Video");
+}
 
 /* Allocate a frame buffer. */
 int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
@@ -54,7 +63,7 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 
     if (sizeof(PIXEL2) != sizeof(PIXEL) * 2 ||
 	sizeof(PIXEL4) != sizeof(PIXEL) * 4) {
-	log_error(video_log, "PIXEL2 / PIXEL4 typedefs have wrong size.");
+	log_error(x11video_log, "PIXEL2 / PIXEL4 typedefs have wrong size.");
 	return -1;
     }
     /* Round up to 32-bit boundary. */
@@ -77,7 +86,8 @@ tryagain:
 	i->x_image = XShmCreateImage(display, visual, depth, ZPixmap,
 				   NULL, &(i->xshm_info), width, height);
 	if (!i->x_image) {
-	    log_warning(video_log, "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode.");
+	    log_warning(x11video_log,
+                        "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode.");
 	    i->using_mitshm=0;
 	    goto tryagain;
 	}
@@ -87,7 +97,8 @@ tryagain:
 	i->xshm_info.shmid = shmget(IPC_PRIVATE, i->x_image->bytes_per_line *
 				    i->x_image->height, IPC_CREAT | 0604);
 	if (i->xshm_info.shmid == -1) {
-	    log_warning(video_log, "Cannot get shared memory; falling back to non MITSHM extension mode.");
+	    log_warning(x11video_log,
+                        "Cannot get shared memory; falling back to non MITSHM extension mode.");
 	    XDestroyImage(i->x_image);
 	    i->using_mitshm=0;
 	    goto tryagain;
@@ -97,7 +108,8 @@ tryagain:
 	i->xshm_info.shmaddr = shmat(i->xshm_info.shmid, 0, 0);
         i->x_image->data = i->xshm_info.shmaddr;
         if (i->xshm_info.shmaddr == (char *) -1) {
-	    log_warning(video_log, "Cannot get shared memory address; falling back to non MITSHM extension mode.");
+	    log_warning(x11video_log,
+                       "Cannot get shared memory address; falling back to non MITSHM extension mode.");
 	    shmctl(i->xshm_info.shmid,IPC_RMID,0);
 	    XDestroyImage(i->x_image);
 	    i->using_mitshm=0;
@@ -111,7 +123,8 @@ tryagain:
 	olderrorhandler = XSetErrorHandler(shmhandler);
 
 	if (!XShmAttach(display, &(i->xshm_info))) {
-	    log_warning(video_log, "Cannot attach shared memory; falling back to non MITSHM extension mode.");
+	    log_warning(x11video_log,
+                        "Cannot attach shared memory; falling back to non MITSHM extension mode.");
 	    shmdt(i->xshm_info.shmaddr);
 	    shmctl(i->xshm_info.shmid,IPC_RMID,0);
 	    XDestroyImage(i->x_image);
@@ -127,7 +140,8 @@ tryagain:
 	shmctl(i->xshm_info.shmid, IPC_RMID, 0);
 
 	if (mitshm_failed) {
-	    log_warning(video_log, "Cannot attach shared memory; falling back to non MITSHM extension mode.");
+	    log_warning(x11video_log,
+                        "Cannot attach shared memory; falling back to non MITSHM extension mode.");
 	    shmdt(i->xshm_info.shmaddr);
 	    XDestroyImage(i->x_image);
 	    i->using_mitshm=0;
@@ -152,13 +166,14 @@ tryagain:
     }
 
 #ifdef USE_MITSHM
-    log_message(video_log, "Successfully initialized%s shared memory.",
+    log_message(x11video_log, "Successfully initialized%s shared memory.",
                 (i->using_mitshm) ? ", using" : " without");
 
     if (!(i->using_mitshm))
-	log_warning(video_log, "Performance will be poor.");
+	log_warning(x11video_log, "Performance will be poor.");
 #else
-    log_message(video_log, "Successfully initialized without shared memory.");
+    log_message(x11video_log,
+                "Successfully initialized without shared memory.");
 #endif 
 
 #if X_DISPLAY_DEPTH == 0
