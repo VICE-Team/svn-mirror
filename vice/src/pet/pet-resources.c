@@ -251,23 +251,16 @@ static int set_sync_factor(resource_value_t v, void *param)
     switch ((int)v) {
       case MACHINE_SYNC_PAL:
         sync_factor = (int) v;
-        drive_set_pal_sync_factor();
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_PAL);
         break;
       case MACHINE_SYNC_NTSC:
         sync_factor = (int)v;
-        drive_set_ntsc_sync_factor();
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_NTSC);
         break;
       default:
-        if ((int)v > 0) {
-            sync_factor = (int)v;
-            drive_set_sync_factor((unsigned int)v);
-        } else {
-            return -1;
-        }
+        return -1;
     }
     return 0;
 }
