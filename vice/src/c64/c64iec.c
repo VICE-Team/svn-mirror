@@ -35,7 +35,8 @@
 #include "iecdrive.h"
 #include "true1541.h"
 
-static BYTE drive_bus, drive_data, cpu_bus; /* FIXME: ugly name `drive_data'. */
+/* FIXME: ugly name `drive_data'.  */
+static BYTE drive_bus, drive_data, cpu_bus;
 
 /* This is the IEC line status as seen by the CIA and VIA ports.  */
 static BYTE drive_port, cpu_port;
@@ -53,9 +54,6 @@ inline static void update_ports(void)
 
 void iec_drive_write(BYTE data)
 {
-    if (!app_resources.true1541)
-	return;
-
     drive_bus = (((data << 3) & 0x40)
 		 | ((data << 6) & ((~data ^ cpu_bus) << 3) & 0x80));
     drive_data = data;
@@ -64,20 +62,17 @@ void iec_drive_write(BYTE data)
 
 BYTE iec_drive_read(void)
 {
-    if (!app_resources.true1541)
-	return 0;
-
     return drive_port;
 }
 
 
 /* The C64 has all bus lines in one I/O byte in a CIA.  If this byte is read
-   or modified, these routines are called. */
+   or modified, these routines are called.  */
 
 void iec_cpu_write(BYTE data)
 {
-    if (!app_resources.true1541)
-	return;
+    if (!true1541_enabled)
+        return;
 
     true1541_cpu_execute();
 
@@ -86,7 +81,6 @@ void iec_cpu_write(BYTE data)
 	       | ((data << 1) & 0x10));
 
     /* FIXME: this is slow, we should avoid doing it when not necessary.  */
-
     set_atn(!(cpu_bus & 0x10));
 
     drive_bus = (((drive_data << 3) & 0x40)
@@ -99,28 +93,13 @@ void iec_cpu_write(BYTE data)
 
 BYTE iec_cpu_read(void)
 {
-    if (!app_resources.true1541)
+    if (!true1541_enabled)
 	return 0;
 
     true1541_cpu_execute();
     return cpu_port;
 }
 
-
-void parallel_cable_cpu_write(BYTE data, int handshake)
-{
-    true1541_cpu_execute();
-    if (handshake)
-	viaD1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-    parallel_cable_cpu_value = data;
-}
-
-BYTE parallel_cable_cpu_read(void)
-{
-    true1541_cpu_execute();
-    viaD1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-    return parallel_cable_cpu_value & parallel_cable_drive_value;
-}
 
 void parallel_cable_drive_write(BYTE data, int handshake)
 {
@@ -135,4 +114,26 @@ BYTE parallel_cable_drive_read(int handshake)
 	cia2_set_flag();
     return parallel_cable_cpu_value & parallel_cable_drive_value;
 }
+
+void parallel_cable_cpu_write(BYTE data, int handshake)
+{
+    if (!true1541_enabled)
+        return;
+
+    true1541_cpu_execute();
+    if (handshake)
+	viaD1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    parallel_cable_cpu_value = data;
+}
+
+BYTE parallel_cable_cpu_read(void)
+{
+    if (!true1541_enabled)
+        return 0;
+
+    true1541_cpu_execute();
+    viaD1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    return parallel_cable_cpu_value & parallel_cable_drive_value;
+}
+
 
