@@ -142,7 +142,7 @@ libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	cbm2ui.c 	cbm2ui
 libarch_a_DEPENDENCIES =  	resc128.o resc64.o rescbm2.o respet.o resplus4.o resvic.o
 
 
-EXTRA_DIST =  	msvc/config.h 	arch.dsp 	base.dsp 	c128.dsp 	c1541.dsp 	c64.dsp 	c64c128.dsp 	c64cart.dsp 	cbm2.dsp 	crtc.dsp 	diskimage.dsp 	drive.dsp 	fsdevice.dsp 	gfxoutputdrv.dsp 	imagecontents.dsp 	monitor.dsp 	pet.dsp 	petcat.dsp 	plus4.dsp 	printerdrv.dsp 	raster.dsp 	resid.dsp 	rs232drv.dsp 	sid.dsp 	sounddrv.dsp 	tape.dsp 	vdc.dsp 	vdrive.dsp 	vic20.dsp 	vice.dsp 	vicii.dsp 	video.dsp 	x128.dsp 	x64.dsp 	xcbm2.dsp 	xpet.dsp 	xplus4.dsp 	xvic.dsp 	vice.dsw         montb.bmp         c64.ico 
+EXTRA_DIST =  	msvc/config.h 	arch.dsp 	base.dsp 	c128.dsp 	c1541.dsp 	c64.dsp 	c64c128.dsp 	c64cart.dsp 	cbm2.dsp 	crtc.dsp 	diskimage.dsp 	drive.dsp 	fsdevice.dsp 	gfxoutputdrv.dsp 	imagecontents.dsp 	monitor.dsp 	pet.dsp 	petcat.dsp 	plus4.dsp 	printerdrv.dsp 	raster.dsp 	resid.dsp 	rs232drv.dsp 	serial.dsp 	sid.dsp 	sounddrv.dsp 	tape.dsp 	vdc.dsp 	vdrive.dsp 	vic20.dsp 	vice.dsp 	vicii.dsp 	video.dsp 	x128.dsp 	x64.dsp 	xcbm2.dsp 	xpet.dsp 	xplus4.dsp 	xvic.dsp 	vice.dsw         montb.bmp         c64.ico 
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
