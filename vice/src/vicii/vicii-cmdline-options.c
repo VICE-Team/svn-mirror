@@ -29,22 +29,22 @@
 
 #include <stdio.h>
 
-#include "archdep.h"
 #include "cmdline.h"
 #include "raster-cmdline-options.h"
 #include "vicii-cmdline-options.h"
+#include "viciitypes.h"
 
 
 /* VIC-II command-line options.  */
 static cmdline_option_t cmdline_options[] =
 {
-    { "-checksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
+    { "-VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
       (void *)1, NULL, "Enable sprite-background collision registers" },
-    { "+checksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
+    { "+VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
       (void *)0, NULL, "Disable sprite-background collision registers" },
-    { "-checkss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
+    { "-VICIIcheckss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
       (void *)1, NULL, "Enable sprite-sprite collision registers" },
-    { "+checkss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
+    { "+VICIIcheckss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
       (void *)0, NULL, "Disable sprite-sprite collision registers" },
     { "-newluminance", SET_RESOURCE, 0, NULL, NULL, "VICIINewLuminances",
       (void *)1, NULL, "Use new luminances" },
@@ -67,32 +67,9 @@ static cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-
-/* VIC-II double-size-specific command-line options.  */
-static cmdline_option_t cmdline_options_2x[] =
-{
-#if ARCHDEP_VICII_DSIZE == 1
-    { "-dsize", SET_RESOURCE, 0, NULL, NULL, "VICIIDoubleSize",
-      (void *)1, NULL, "Enable double size" },
-    { "+dsize", SET_RESOURCE, 0, NULL, NULL, "VICIIDoubleSize",
-      (void *)0, NULL, "Disable double size" },
-#endif
-#if ARCHDEP_VICII_DSCAN == 1
-    { "-dscan", SET_RESOURCE, 0, NULL, NULL, "VICIIDoubleScan",
-      (void *)1, NULL, "Enable double scan" },
-    { "+dscan", SET_RESOURCE, 0, NULL, NULL, "VICIIDoubleScan",
-      (void *)0, NULL, "Disable double scan" },
-#endif
-    { NULL }
-};
-
 int vic_ii_cmdline_options_init(void)
 {
-#if (ARCHDEP_VICII_DSIZE == 1) || (ARCHDEP_VICII_DSCAN == 1)
-    if (cmdline_register_options(cmdline_options_2x) < 0)
-        return -1;
-#endif
-    if (raster_cmdline_options_chip_init("VICII") < 0)
+    if (raster_cmdline_options_chip_init("VICII", vic_ii.video_chip_cap) < 0)
         return -1;
 
     return cmdline_register_options(cmdline_options);
