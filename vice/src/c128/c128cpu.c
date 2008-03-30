@@ -45,6 +45,7 @@
  - STORE_IND
  - LOAD_IND
  - DMA_FUNC
+ - DMA_ON_RESET
 
 */
 
@@ -68,7 +69,11 @@ extern store_func_ptr_t _mem_write_tab[];
 #define LOAD_ZERO(addr) \
     page_zero[(addr) & 0xff]
 
-#define DMA_FUNC z80_mainloop
+#define DMA_FUNC \
+    z80_mainloop
+
+#define DMA_ON_RESET \
+    maincpu_trigger_dma()
 
 #include "../maincpu.c"
 
