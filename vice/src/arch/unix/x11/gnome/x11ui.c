@@ -277,7 +277,8 @@ static GtkWidget* build_file_selector(ui_button_t *button_return,
 static GtkWidget* build_show_text(const String text, int width, int height);
 static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 UI_CALLBACK(enter_window_callback);
-UI_CALLBACK(exposure_callback);
+UI_CALLBACK(exposure_callback_app);
+UI_CALLBACK(exposure_callback_canvas);
 static GtkWidget* rebuild_contents_menu(int unit, const char *image_name);
 extern GtkWidget* build_pal_ctrl_widget(void);
 
@@ -988,10 +989,10 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 
     /* XVideo must be refreshed when the application window is moved. */
     gtk_signal_connect(GTK_OBJECT(new_window), "configure-event",
-		       GTK_SIGNAL_FUNC(exposure_callback),
+		       GTK_SIGNAL_FUNC(exposure_callback_app),
 		       (void*) c);
     gtk_signal_connect(GTK_OBJECT(new_canvas),"expose-event",
-		       GTK_SIGNAL_FUNC(exposure_callback),
+		       GTK_SIGNAL_FUNC(exposure_callback_canvas),
 		       (void*) c);
     gtk_signal_connect(GTK_OBJECT(new_canvas),"enter-notify-event",
 		       GTK_SIGNAL_FUNC(enter_window_callback),
@@ -2616,21 +2617,42 @@ UI_CALLBACK(enter_window_callback)
     _ui_top_level = gtk_widget_get_toplevel(w);
 }
 
-UI_CALLBACK(exposure_callback)
+UI_CALLBACK(exposure_callback_app)
 {
-    GtkRequisition req;
-    static int oldw, oldh;
+    video_canvas_t *canvas = (video_canvas_t *)client_data;
 
-    gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
-    if (oldw != req.width || oldh != req.height) {
-        oldw = req.width;
-        oldh = req.height;
-        gdk_window_resize(gdk_window_get_toplevel(w->window),
-                          req.width, req.height);
+    /* XVideo must be refreshed when the shell window is moved. */
+    if (canvas && use_xvideo
+	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
+	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
+    {
+        video_canvas_refresh_all(canvas);
     }
-    if (client_data)
-        video_canvas_refresh_all((struct video_canvas_s *)client_data);
+}
 
+UI_CALLBACK(exposure_callback_canvas)
+{
+    video_canvas_t *canvas = (video_canvas_t *)client_data;
+
+    if (!canvas) {
+        return;
+    }
+
+    /* No resize for XVideo. */
+    if (use_xvideo
+	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
+	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
+    {
+        video_canvas_refresh_all(canvas);
+    }
+    else {
+        GtkRequisition req;
+
+        gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
+        video_canvas_refresh_all(canvas);
+	/* FIXME: This makes the canvas grow uncontrolled. */
+        /* video_canvas_redraw_size(canvas, req.width, req.height); */
+    }
 }
 
 /* ------------------------------------------------------------------------- */

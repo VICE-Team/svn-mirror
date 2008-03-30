@@ -39,6 +39,7 @@
 #include "ui.h"
 #include "uiarch.h"
 #include "utils.h"
+#include "x11ui.h"
 #ifdef HAVE_XVIDEO
 #include "renderxv.h"
 #endif
@@ -71,10 +72,13 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     GdkImageType typ;
 
 #ifdef HAVE_XVIDEO
-    if (use_xvideo) {
-        Display *display = ui_get_display_ptr();
+    if (use_xvideo
+	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
+	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
+    {
+        Display *display = x11ui_get_display_ptr();
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
-
+	
 	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format)) {
 	  return -1;
 	}

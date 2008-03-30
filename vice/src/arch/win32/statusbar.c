@@ -241,7 +241,11 @@ char    text[256];
         if (((DRAWITEMSTRUCT*)lparam)->itemID==0) {
             /* it's the status info */
             led=((DRAWITEMSTRUCT*)lparam)->rcItem;
-            SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
+            led.left += 2;
+            led.right += 2;
+            led.top += 2;
+            led.bottom += 2;
+            SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_3DFACE));
             SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
             DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,emu_status_text,-1,&led,0);
         }
@@ -254,7 +258,7 @@ char    text[256];
             led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
             led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
             led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+34;
-            SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
+            SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_3DFACE));
             SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
             DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,"Tape:",-1,&led,0);
 
@@ -322,7 +326,7 @@ char    text[256];
             led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
             led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+84;
             sprintf(text,"%d: Track: %.1f",status_map[index]+8,status_track[status_map[index]]);
-            SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
+            SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_3DFACE));
             SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
             DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
 

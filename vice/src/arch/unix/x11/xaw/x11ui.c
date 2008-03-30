@@ -2001,19 +2001,39 @@ UI_CALLBACK(enter_window_callback)
 
 UI_CALLBACK(exposure_callback_shell)
 {
-    /*log_debug("Shell");*/
+    video_canvas_t *canvas = (video_canvas_t *)client_data;
+
+    /* XVideo must be refreshed when the shell window is moved. */
+    if (canvas && use_xvideo
+	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
+	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
+    {
+        video_canvas_refresh_all(canvas);
+    }
 }
 
 UI_CALLBACK(exposure_callback_canvas)
 {
-    Dimension width, height;
+    video_canvas_t *canvas = (video_canvas_t *)client_data;
 
-    XtVaGetValues(w, XtNwidth, (XtPointer)&width,
-                  XtNheight, (XtPointer)&height, NULL);
+    if (!canvas) {
+        return;
+    }
 
-    if (client_data) {
-        video_canvas_redraw_size((struct video_canvas_s *)client_data,
-                                 (unsigned int)width, (unsigned int)height);
+    /* No resize for XVideo. */
+    if (use_xvideo
+	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
+	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
+    {
+        video_canvas_refresh_all(canvas);
+    }
+    else {
+        Dimension width, height;
+
+	XtVaGetValues(w, XtNwidth, (XtPointer)&width,
+		      XtNheight, (XtPointer)&height, NULL);
+        video_canvas_redraw_size(canvas,
+				 (unsigned int)width, (unsigned int)height);
     }
 }
 

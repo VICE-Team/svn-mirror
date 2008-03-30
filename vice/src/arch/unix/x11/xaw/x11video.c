@@ -67,11 +67,6 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 
     display = x11ui_get_display_ptr();
 
-    if (!use_xvideo) {
-        /* Round up to 32-bit boundary (used in XCreateImage). */
-        width = (width + 3) & ~0x3;
-    }
-
     /* sizeof(PIXEL) is not always what we are using. I guess this should
        be checked from the XImage but I'm lazy... */
     if (canvas->depth > 8)
@@ -80,7 +75,10 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
         sizeofpixel *= 2;
 
 #ifdef HAVE_XVIDEO
-    if (use_xvideo) {
+    if (use_xvideo
+	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
+	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
+    {
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
 
         if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format))
@@ -99,6 +97,10 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
         return 0;
     }
 #endif
+
+    /* Round up to 32-bit boundary (used in XCreateImage). */
+    width = (width + 3) & ~0x3;
+
 #ifdef USE_MITSHM
 tryagain:
     if (canvas->using_mitshm) {

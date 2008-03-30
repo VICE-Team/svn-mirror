@@ -184,9 +184,7 @@ int init_main(void)
     keyboard_init();
 
     if (!vsid_mode) {
-#ifdef HAS_JOYSTICK
         joystick_init();
-#endif
         disk_image_init();
         vdrive_init();
     }

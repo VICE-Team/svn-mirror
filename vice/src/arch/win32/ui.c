@@ -818,7 +818,23 @@ void ui_display_drive_led(int drivenum, int status)
 /* display current image */
 void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 {
-    /* just a dummy so far */
+    char *directory_name, *image_name, *text;
+    char device_str[4];
+
+    if (image == NULL || image[0] == 0)
+    {
+        text = concat("Detached device ", 
+            itoa(drivenum+8, device_str, 10), NULL);
+    } else {
+       	util_fname_split(image, &directory_name, &image_name);
+        text = concat("Attached ", image_name, " to device ", 
+            itoa(drivenum+8, device_str, 10), NULL);
+        free(image_name);
+        free(directory_name);
+    }
+
+    ui_display_statustext(text);
+    free(text);
 }
 
 /* tape-status on*/
@@ -845,6 +861,20 @@ extern void ui_display_tape_counter(int counter)
 /* display the attched tape image */
 void ui_display_tape_current_image(const char *image)
 {
+    char *directory_name, *image_name, *text;
+
+    if (image == NULL || image[0] == 0)
+    {
+        text = stralloc("Detached tape");
+    } else {
+       	util_fname_split(image, &directory_name, &image_name);
+        text = concat("Attached tape ", image_name, NULL);
+        free(image_name);
+        free(directory_name);
+    }
+
+    ui_display_statustext(text);
+    free(text);
 }
 
 /* Toggle displaying of paused state.  */

@@ -212,8 +212,12 @@ void video_convert_color_table(unsigned int i, BYTE *data, unsigned int dither,
                                long col, video_canvas_t *canvas)
 {
 #ifdef HAVE_XVIDEO
-    if (use_xvideo)
+    if (use_xvideo
+	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
+	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
+    {
         return;
+    }
 #endif
 
     switch (canvas->x_image->bits_per_pixel) {
@@ -384,7 +388,10 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
         return;
 
 #ifdef HAVE_XVIDEO
-    if (use_xvideo) {
+    if (use_xvideo
+	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
+	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
+    {
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
 
         display = x11ui_get_display_ptr();
@@ -577,7 +584,10 @@ void video_canvas_refresh(video_canvas_t *canvas,
               canvas->draw_buffer->draw_buffer_width);*/
 
 #ifdef HAVE_XVIDEO
-    if (use_xvideo) {
+    if (use_xvideo
+	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
+	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
+    {
         int doublesize = canvas->videoconfig->doublesizex
 	  && canvas->videoconfig->doublesizey;
 
