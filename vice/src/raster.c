@@ -247,7 +247,7 @@ static void reset_raster(void)
     asleep = 0;
 
     changed_area.is_null = 1;
-    for (i = 0; i < SCREEN_HEIGHT; i++) {
+    for (i = 0; i < SCREEN_MAX_HEIGHT; i++) {
 #if SCREEN_NUM_SPRITES > 0
 	int j;
 	for (j = 0; j < SCREEN_NUM_SPRITES; j++)
@@ -273,7 +273,7 @@ static int init_raster(int active, int max_pixel_width, int max_pixel_height)
     if (frame_buffer_alloc(&frame_buffer,
 			   ((SCREEN_WIDTH + 2 * 2 * SCREEN_MAX_SPRITE_WIDTH)
 			    * max_pixel_width),
-			   (SCREEN_HEIGHT + 1) * max_pixel_height))
+			   (SCREEN_MAX_HEIGHT + 1) * max_pixel_height))
 	return -1;
 
     reset_raster();
@@ -373,6 +373,7 @@ static int open_output_window(char *win_name, unsigned int width,
 static int set_palette_file_name(resource_value_t v)
 {
     int i;
+
     /* If called before initialization, just set the resource value.  The
        palette file will be loaded afterwards.  */
     if (palette == NULL) {

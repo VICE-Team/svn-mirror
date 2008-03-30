@@ -242,29 +242,6 @@ static int set_video_cache_enabled(resource_value_t v)
 
 /* prototype for resources - moved to raster.c */
 static int set_palette_file_name(resource_value_t v);
-#if 0
-static int set_palette_file_name(resource_value_t v)
-{
-    /* If called before initialization, just set the resource value.  The
-       palette file will be loaded afterwards.  */
-    if (palette == NULL) {
-        string_set(&palette_file_name, (char *) v);
-        return 0;
-    }
-
-    if (palette_load((char *) v, palette) < 0) {
-        fprintf(stderr, "Couldn't load palette `%s'\n", (char *) v);
-        return -1;
-    }
-    canvas_set_palette(canvas, palette, pixel_table);
-
-    /* Make sure the pixel tables are recalculated properly.  */
-    video_resize();
-
-    string_set(&palette_file_name, (char *) v);
-    return 0;
-}
-#endif
 
 static int set_double_size_enabled(resource_value_t v)
 {
@@ -703,6 +680,9 @@ canvas_t vic_ii_init(void)
     set_memory_ptrs(0);
     init_drawing_tables();
     refresh_all();
+
+    vic_ii_powerup();
+    
     return canvas;
 }
 
@@ -737,6 +717,19 @@ void reset_vic_ii(void)
 
     /* Remove all the IRQ sources.  */
     vic[0x1a] = 0;
+}
+
+/* This /should/ put the VIC-II in the same state as after a powerup, if
+   `reset_vic_ii()' is called afterwards.  But FIXME, as we are not really
+   emulating everything correctly here; just $D011.  */
+void vic_ii_powerup(void)
+{
+    vic[0x11] = 0;
+    int_raster_line = 0;
+    blank = 1;
+    display_ystart = VIC_II_24ROW_START_LINE;
+    display_ystop = VIC_II_24ROW_STOP_LINE;
+    ysmooth = 0;
 }
 
 /* This hook is called whenever video bank must be changed.  */

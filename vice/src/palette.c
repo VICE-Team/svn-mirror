@@ -116,13 +116,13 @@ int palette_load(const char *file_name, palette_t *palette_return)
     char *complete_path;
     FILE *f;
 
-
     f = sysfile_open(file_name, &complete_path);
     if (f == NULL) {
         /* Try to add the extension.  */
         char *tmp = concat(file_name, PALETTE_FILE_EXTENSION, NULL);
 
         f = sysfile_open(tmp, &complete_path);
+        free(tmp);
         if (f == NULL)
             return -1;
     }
