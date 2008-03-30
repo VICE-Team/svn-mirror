@@ -89,5 +89,8 @@ extern char *image_contents_filename_by_number(unsigned int type,
                                                const char *filename,
                                                unsigned int unit,
                                                unsigned int file_index);
+
+extern image_contents_t *diskcontents_iec_read(unsigned int unit);
+
 #endif
 

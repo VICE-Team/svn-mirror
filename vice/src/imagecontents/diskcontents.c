@@ -35,6 +35,7 @@
 #include "diskcontents.h"
 #include "imagecontents.h"
 #include "lib.h"
+#include "machine.h"
 #include "serial.h"
 
 
@@ -51,7 +52,7 @@ image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
       case 10:
       case 11:
         if (serial_device_get_realdevice_state(unit))
-            contents = diskcontents_iec_read(unit);
+            contents = machine_diskcontents_bus_read(unit);
         else
             contents = diskcontents_block_read(file_name, unit);
         break;
