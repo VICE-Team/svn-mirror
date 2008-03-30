@@ -1,3 +1,9 @@
+2002-10-13  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.10.11.
+
+	* configure.in: Added `src/rs232drv'.
+
 2002-10-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.10.

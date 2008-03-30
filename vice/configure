@@ -713,7 +713,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.10.10
+VERSION=1.10.11
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -7966,7 +7966,9 @@ if false ; then
     mkdir -p pet
     mkdir -p plus4
     mkdir -p printerdrv
+    mkdir -p raster
     mkdir -p resid
+    mkdir -p rs232drv
     mkdir -p sid
     mkdir -p sounddrv
     mkdir -p tape
@@ -8138,6 +8140,7 @@ trap 'rm -fr `echo "Makefile
            src/plus4/Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
+           src/rs232drv/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/tape/Makefile
@@ -8382,6 +8385,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/plus4/Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
+           src/rs232drv/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/tape/Makefile

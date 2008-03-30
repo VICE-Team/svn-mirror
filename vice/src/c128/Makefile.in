@@ -274,11 +274,12 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/monitor/asm.h ../../src/arch/unix/types.h \
 	../../src/attach.h ../../src/autostart.h c128-cmdline-options.h \
 	c128-resources.h c128-snapshot.h c128.h c128mem.h c128mmu.h \
-	../../src/arch/unix/c128ui.h ../../src/c64/c64cia.h \
-	../../src/c64/c64rsuser.h ../../src/c64/c64tpi.h \
-	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/console.h ../../src/datasette.h \
-	../../src/debug.h ../../src/drive/drive-cmdline-options.h \
+	../../src/arch/unix/c128ui.h ../../src/c64/c64acia.h \
+	../../src/c64/c64cia.h ../../src/c64/c64rsuser.h \
+	../../src/c64/c64tpi.h ../../src/cartridge.h \
+	../../src/ciatimer.h ../../src/alarm.h ../../src/clkguard.h \
+	../../src/console.h ../../src/datasette.h ../../src/debug.h \
+	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h functionrom.h \
@@ -286,14 +287,14 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/kbdbuf.h ../../src/keyboard.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/monitor/mon.h \
 	../../src/c64/patchrom.h ../../src/printer.h \
-	../../src/c64/reu.h ../../src/screenshot.h ../../src/serial.h \
+	../../src/c64/reu.h ../../src/rs232drv.h ../../src/rsuser.h \
+	../../src/screenshot.h ../../src/serial.h \
 	../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/snapshot.h \
 	../../src/tape.h ../../src/traps.h ../../src/mem.h \
 	../../src/vicii/vicii.h ../../src/video.h ../../src/viewport.h \
 	../../src/vdc/vdc.h ../../src/vsync.h z80.h z80mem.h \
-	../../src/rs232.h ../../src/c64/c64acia.h ../../src/rsuser.h \
 	../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \

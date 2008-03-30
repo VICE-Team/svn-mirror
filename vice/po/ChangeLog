@@ -1,3 +1,7 @@
+2002-10-13  Andreas Boose  <viceteam@t-online.de>
+
+	* POTFILES.in: Changed `main_exit.c' into `unixmain.c'.
+
 2002-08-31  pottendo  <pottendo@utanet.at>
 
 	* it.po: Updated by Andrea.

@@ -283,16 +283,16 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/mem.h ../../src/monitor/mon.h pet-cmdline-options.h \
 	pet-resources.h pet-snapshot.h pet.h petmem.h pets.h petsound.h \
 	../../src/arch/unix/petui.h petvia.h petacia.h petpia.h \
-	../../src/printer.h ../../src/resources.h \
+	../../src/printer.h ../../src/resources.h ../../src/rs232drv.h \
 	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
 	../../src/sound.h ../../src/tape.h ../../src/traps.h \
 	../../src/utils.h ../../src/via.h ../../src/video.h \
-	../../src/viewport.h ../../src/vsync.h ../../src/rs232.h
+	../../src/viewport.h ../../src/vsync.h
 petacia1.o: petacia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/cmdline.h ../../src/interrupt.h ../../src/log.h \
-	../../src/machine.h ../../src/resources.h ../../src/rs232.h \
+	../../src/machine.h ../../src/resources.h ../../src/rs232drv.h \
 	../../src/snapshot.h
 petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
 	petpia.h ../../src/arch/unix/types.h

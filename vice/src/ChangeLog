@@ -1,3 +1,70 @@
+2002-10-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.11.
+
+	* rs232drv/Makefile.am, rs232drv/rs232drv.c, rs232drv.h,
+	main.h, arch/unix/unixmain.c, arch/msdos/msdosmain.c,
+	arch/riscos/riscosmain.c, arch/os2/os2main.c,
+	arch/beos/beosmain.c: New files.
+
+	* rs232drv/rsuser.c, rs232drv/rs232.h: Moved here.
+
+	* aciacore.c, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, plus4/plus4.c, cbm2/cbm2.c, arch/unix/rs232.c,
+	arch/riscos/rs232.c, arch/os2/rs232.c: Use new RS232 API.
+
+	* Makefile.am, c64/Makefile.am, vic20/Makefile.am,
+	plus4/Makefile.am, arch/unixMakefile.am,
+	arch/win32/Makefile.am, arch/msdos/Makefile.am: Updated.
+
+	* printer.h, c64/c64cia2.c, plus4/plus4.c, cbm2/cbm2cia1.c
+	(printer_interface_userport_set_busy): Fixed prototype.
+
+	* interrupt.c, arch/unix/vic20ui.c, arch/unix/plus4ui.c:
+	Removed unused code.
+
+	* vice.h: Only include `lose32.h' for environments that really
+	lose.  Removed `main()' hack and inclusion of `beos.h'.
+
+	* arch/win32/archdep.c: #include <process.h>.
+
+	* ioutil.c, archapi.h, arch/unix/archdep.c,
+	arch/win32/archdep.c, arch/msdos/archdep.c,
+	arch/riscos/archdep.c, arch/os2/archdep.c,
+	arch/beos/archdep.c (archdep_mkdir): New function.
+
+	* arch/win32/lose32.h: Removed mkdir define and `main()' hack.
+
+	* arch/win32/video.c: #include "fullscrn.h".
+
+	* arch/win32/winmain.c: Adopted to new startup code.
+
+	* arch/unix/main_exit.c, arch/unix/main_exit.h,
+	arch/win32/main_exit.c, arch/win32/main_exit.h,
+	arch/msdos/main_exit.c, arch/msdos/main_exit.h,
+	arch/riscos/main_exit.h, arch/os2/main_exit.c,
+	arch/os2/main_exit.h, arch/beos/main_exit.c,
+	arch/beos/main_exit.h, arch/beos/beos.h: Removed.
+
+2002-10-13  Dag Lem  <resid@nimrod.no>
+
+	* sounddrv/soundarts.c (artsdrv_write): Fix for big endian
+	machines by Steffen Reith.
+
+2002-10-13  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/base.dsp, c1541.dsp, petcat.dsp: Added missing
+	files.
+
+	* c1541.c: Include fcntl.h.
+
+	* datasette.c: Added constant MOTOR_DELAY and variable
+	motor_stop_clk.
+	(datasette_set_motor): Reset last_write_clk when motor is
+	started, set motor_stop_clk when motor is stopped.
+	(datasette_toggle_write_bit): Also write a bit if
+	motor_stop_clk isn'r reached.
+
 2002-10-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.10.

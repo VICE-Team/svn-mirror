@@ -129,21 +129,14 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
-@HAVE_RS232_TRUE@acia_libadd = plus4acia.o
-@HAVE_RS232_FALSE@acia_libadd = 
 
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/raster 	-I$(top_srcdir)/src/monitor
 
 
 noinst_LIBRARIES = libplus4.a
 
-libplus4_a_SOURCES =  	plus4-cmdline-options.c 	plus4-cmdline-options.h 	plus4-resources.c 	plus4-resources.h 	plus4-snapshot.c 	plus4-snapshot.h 	plus4.c 	plus4.h 	plus4cpu.c 	plus4datasette.c 	plus4iec.c 	plus4iec.h 	plus4mem.c 	plus4mem.h 	plus4memlimit.c 	plus4memlimit.h 	plus4pio1.c 	plus4pio1.h 	plus4pio2.c 	plus4pio2.h 	plus4rom.c 	plus4rom.h 	tcbm.c 	tcbm.h 	ted-badline.c 	ted-badline.h 	ted-cmdline-options.c 	ted-cmdline-options.h 	ted-color.c 	ted-color.h 	ted-draw.c 	ted-draw.h 	ted-fetch.c 	ted-fetch.h 	ted-mem.c 	ted-mem.h 	ted-resources.c 	ted-resources.h 	ted-snapshot.c 	ted-snapshot.h 	ted-sound.c 	ted-sound.h 	ted-timer.c 	ted-timer.h 	ted.c 	ted.h 	tedtypes.h
+libplus4_a_SOURCES =  	plus4-cmdline-options.c 	plus4-cmdline-options.h 	plus4-resources.c 	plus4-resources.h 	plus4-snapshot.c 	plus4-snapshot.h 	plus4.c 	plus4.h         plus4acia.c         plus4acia.h 	plus4cpu.c 	plus4datasette.c 	plus4iec.c 	plus4iec.h 	plus4mem.c 	plus4mem.h 	plus4memlimit.c 	plus4memlimit.h 	plus4pio1.c 	plus4pio1.h 	plus4pio2.c 	plus4pio2.h 	plus4rom.c 	plus4rom.h 	tcbm.c 	tcbm.h 	ted-badline.c 	ted-badline.h 	ted-cmdline-options.c 	ted-cmdline-options.h 	ted-color.c 	ted-color.h 	ted-draw.c 	ted-draw.h 	ted-fetch.c 	ted-fetch.h 	ted-mem.c 	ted-mem.h 	ted-resources.c 	ted-resources.h 	ted-snapshot.c 	ted-snapshot.h 	ted-sound.c 	ted-sound.h 	ted-timer.c 	ted-timer.h 	ted.c 	ted.h 	tedtypes.h
 
-
-EXTRA_libplus4_a_SOURCES =          plus4acia.h         plus4acia.c
-
-
-libplus4_a_LIBADD = $(acia_libadd)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -156,13 +149,13 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-@HAVE_RS232_FALSE@libplus4_a_DEPENDENCIES = 
-@HAVE_RS232_TRUE@libplus4_a_DEPENDENCIES =  plus4acia.o
+libplus4_a_LIBADD = 
 libplus4_a_OBJECTS =  plus4-cmdline-options.o plus4-resources.o \
-plus4-snapshot.o plus4.o plus4cpu.o plus4datasette.o plus4iec.o \
-plus4mem.o plus4memlimit.o plus4pio1.o plus4pio2.o plus4rom.o tcbm.o \
-ted-badline.o ted-cmdline-options.o ted-color.o ted-draw.o ted-fetch.o \
-ted-mem.o ted-resources.o ted-snapshot.o ted-sound.o ted-timer.o ted.o
+plus4-snapshot.o plus4.o plus4acia.o plus4cpu.o plus4datasette.o \
+plus4iec.o plus4mem.o plus4memlimit.o plus4pio1.o plus4pio2.o \
+plus4rom.o tcbm.o ted-badline.o ted-cmdline-options.o ted-color.o \
+ted-draw.o ted-fetch.o ted-mem.o ted-resources.o ted-snapshot.o \
+ted-sound.o ted-timer.o ted.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -174,7 +167,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libplus4_a_SOURCES) $(EXTRA_libplus4_a_SOURCES)
+SOURCES = $(libplus4_a_SOURCES)
 OBJECTS = $(libplus4_a_OBJECTS)
 
 all: all-redirect
@@ -288,16 +281,16 @@ plus4.o: plus4.c ../../src/vice.h ../../src/config.h \
 	../../src/monitor/mon.h plus4-cmdline-options.h \
 	plus4-resources.h plus4-snapshot.h plus4.h plus4acia.h \
 	plus4mem.h ../../src/arch/unix/plus4ui.h ../../src/printer.h \
-	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
-	../../src/sound.h ../../src/tape.h ted-cmdline-options.h \
-	ted-resources.h ted.h ../../src/traps.h ../../src/mem.h \
-	../../src/video.h ../../src/viewport.h ../../src/vsync.h \
-	../../src/rs232.h
+	../../src/rs232drv.h ../../src/screenshot.h ../../src/serial.h \
+	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
+	ted-cmdline-options.h ted-resources.h ted.h ../../src/traps.h \
+	../../src/mem.h ../../src/video.h ../../src/viewport.h \
+	../../src/vsync.h
 plus4acia.o: plus4acia.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/cmdline.h ../../src/interrupt.h ../../src/log.h \
-	../../src/machine.h ../../src/resources.h ../../src/rs232.h \
+	../../src/machine.h ../../src/resources.h ../../src/rs232drv.h \
 	../../src/snapshot.h
 plus4cpu.o: plus4cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/arch/unix/types.h ../maincpu.c \

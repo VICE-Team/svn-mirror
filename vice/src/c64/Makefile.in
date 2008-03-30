@@ -131,32 +131,21 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 SUBDIRS = cart
-@HAVE_RS232_TRUE@acia_libadd = c64acia1.o c64rsuser.o
-@HAVE_RS232_FALSE@acia_libadd = 
 
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/vicii 	-I$(top_srcdir)/src/monitor
 
 
 noinst_LIBRARIES = libc64.a libc64c128.a
 
-libc64_a_SOURCES =  	c64-cmdline-options.c 	c64-cmdline-options.h 	c64-resources.c 	c64-resources.h 	c64-snapshot.c 	c64-snapshot.h 	c64.c 	c64.h 	c64cart.h 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64iec.c 	c64iec.h 	c64io.c 	c64io.h 	c64mem.c 	c64mem.h 	c64memlimit.c 	c64memlimit.h 	c64pla.c 	c64pla.h 	c64rom.c 	c64rom.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	c64tpi.c 	c64tpi.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h 	reloc65.c
+libc64_a_SOURCES =  	c64-cmdline-options.c 	c64-cmdline-options.h 	c64-resources.c 	c64-resources.h 	c64-snapshot.c 	c64-snapshot.h 	c64.c 	c64.h 	c64acia.h 	c64acia1.c 	c64cart.h 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64iec.c 	c64iec.h 	c64io.c 	c64io.h 	c64mem.c 	c64mem.h 	c64memlimit.c 	c64memlimit.h 	c64pla.c 	c64pla.h 	c64rom.c 	c64rom.h 	c64rsuser.c 	c64rsuser.h 	c64tpi.c 	c64tpi.h 	patchrom.c 	patchrom.h         psid.c         psid.h         psiddrv.a65         psiddrv.h         reloc65.c 	reu.c 	reu.h
 
 
-libc64c128_a_SOURCES =  	c64cart.h 	c64cia.h 	c64cia2.c 	c64datasette.c 	c64pla.c 	c64pla.h 	c64tpi.c 	c64tpi.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h
-
-
-EXTRA_libc64_a_SOURCES =  	c64acia.h 	c64acia1.c 	c64rsuser.c 	c64rsuser.h
-
-
-EXTRA_libc64c128_a_SOURCES =  	c64acia.h 	c64acia1.c 	c64rsuser.c 	c64rsuser.h
+libc64c128_a_SOURCES =  	c64acia.h 	c64acia1.c 	c64cart.h 	c64cia.h 	c64cia2.c 	c64datasette.c 	c64pla.c 	c64pla.h 	c64rsuser.c 	c64rsuser.h 	c64tpi.c 	c64tpi.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h
 
 
 BUILT_SOURCES = psiddrv.h
 
 EXTRA_DIST = 
-
-libc64_a_LIBADD = $(acia_libadd)
-libc64c128_a_LIBADD = $(acia_libadd)
 
 SUFFIXES = .a65
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -171,16 +160,14 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-@HAVE_RS232_FALSE@libc64_a_DEPENDENCIES = 
-@HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
+libc64_a_LIBADD = 
 libc64_a_OBJECTS =  c64-cmdline-options.o c64-resources.o c64-snapshot.o \
-c64.o c64cia1.o c64cia2.o c64datasette.o c64iec.o c64io.o c64mem.o \
-c64memlimit.o c64pla.o c64rom.o patchrom.o reu.o c64tpi.o psid.o \
-reloc65.o
-@HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
-@HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
-libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o c64pla.o c64tpi.o \
-patchrom.o reu.o
+c64.o c64acia1.o c64cia1.o c64cia2.o c64datasette.o c64iec.o c64io.o \
+c64mem.o c64memlimit.o c64pla.o c64rom.o c64rsuser.o c64tpi.o \
+patchrom.o psid.o reloc65.o reu.o
+libc64c128_a_LIBADD = 
+libc64c128_a_OBJECTS =  c64acia1.o c64cia2.o c64datasette.o c64pla.o \
+c64rsuser.o c64tpi.o patchrom.o reu.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -192,7 +179,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libc64_a_SOURCES) $(EXTRA_libc64_a_SOURCES) $(libc64c128_a_SOURCES) $(EXTRA_libc64c128_a_SOURCES)
+SOURCES = $(libc64_a_SOURCES) $(libc64c128_a_SOURCES)
 OBJECTS = $(libc64_a_OBJECTS) $(libc64c128_a_OBJECTS)
 
 all: all-redirect
@@ -375,11 +362,11 @@ c64-snapshot.o: c64-snapshot.c ../../src/vice.h ../../src/config.h \
 c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/arch/unix/types.h ../../src/attach.h \
 	../../src/autostart.h c64-cmdline-options.h c64-resources.h \
-	c64-snapshot.h c64.h c64cart.h c64cia.h c64mem.h c64tpi.h \
-	../../src/arch/unix/c64ui.h ../../src/cartridge.h \
-	../../src/ciatimer.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/console.h ../../src/datasette.h ../../src/debug.h \
-	../../src/drive/drive-cmdline-options.h \
+	c64-snapshot.h c64.h c64acia.h c64cart.h c64cia.h c64mem.h \
+	c64rsuser.h c64tpi.h ../../src/arch/unix/c64ui.h \
+	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
+	../../src/clkguard.h ../../src/console.h ../../src/datasette.h \
+	../../src/debug.h ../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
@@ -387,19 +374,18 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/monitor/mon.h patchrom.h \
 	../../src/printer.h psid.h ../../src/resources.h reu.h \
-	../../src/screenshot.h ../../src/serial.h \
-	../../src/sid/sid-cmdline-options.h \
+	../../src/rs232drv.h ../../src/rsuser.h ../../src/screenshot.h \
+	../../src/serial.h ../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/snapshot.h \
 	../../src/tape.h ../../src/traps.h ../../src/vicii/vicii.h \
 	../../src/video.h ../../src/viewport.h ../../src/vsidui.h \
-	../../src/vsync.h c64acia.h c64rsuser.h ../../src/rs232.h \
-	../../src/rsuser.h ../../src/arch/unix/mouse.h
+	../../src/vsync.h ../../src/arch/unix/mouse.h
 c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/cmdline.h ../../src/interrupt.h ../../src/log.h \
-	../../src/machine.h ../../src/resources.h ../../src/rs232.h \
+	../../src/machine.h ../../src/resources.h ../../src/rs232drv.h \
 	../../src/snapshot.h
 c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \

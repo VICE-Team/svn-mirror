@@ -129,8 +129,6 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
-@HAVE_RS232_TRUE@rs232_libadd = vic20rsuser.o
-@HAVE_RS232_FALSE@rs232_libadd = 
 
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/raster 	-I$(top_srcdir)/src/monitor
 
@@ -139,8 +137,6 @@ noinst_LIBRARIES = libvic20.a
 
 libvic20_a_SOURCES =  	vic-cmdline-options.c 	vic-cmdline-options.h 	vic-color.c 	vic-color.h 	vic-draw.c 	vic-draw.h 	vic-mem.c 	vic-mem.h 	vic-resources.c 	vic-resources.h 	vic-snapshot.c 	vic-snapshot.h 	vic.c 	vic.h 	vic20-cmdline-options.c 	vic20-cmdline-options.h 	vic20-resources.c 	vic20-resources.h 	vic20-snapshot.c 	vic20-snapshot.h 	vic20.c 	vic20.h 	vic20cartridge.c 	vic20datasette.c 	vic20iec.c 	vic20iec.h 	vic20mem.c 	vic20mem.h 	vic20rom.c 	vic20rom.h 	vic20rsuser.c 	vic20rsuser.h 	vic20sound.c 	vic20sound.h 	vic20via.h 	vic20via1.c 	vic20via2.c 	vic20ieeevia.h 	vic20ieeevia1.c 	vic20ieeevia2.c 
 
-
-libvic20_a_LIBADD = $(rs232_libadd)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -153,8 +149,7 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-@HAVE_RS232_FALSE@libvic20_a_DEPENDENCIES = 
-@HAVE_RS232_TRUE@libvic20_a_DEPENDENCIES =  vic20rsuser.o
+libvic20_a_LIBADD = 
 libvic20_a_OBJECTS =  vic-cmdline-options.o vic-color.o vic-draw.o \
 vic-mem.o vic-resources.o vic-snapshot.o vic.o vic20-cmdline-options.o \
 vic20-resources.o vic20-snapshot.o vic20.o vic20cartridge.o \
@@ -346,15 +341,15 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/ioutil.h ../../src/kbdbuf.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/monitor/mon.h ../../src/printer.h \
-	../../src/resources.h ../../src/screenshot.h ../../src/serial.h \
-	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
-	../../src/traps.h ../../src/mem.h ../../src/via.h vic.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/viewport.h vic-mem.h vic20.h ../../src/video.h \
-	vic20-cmdline-options.h vic20-resources.h vic20-snapshot.h \
-	vic20ieeevia.h vic20mem.h vic20sound.h \
-	../../src/arch/unix/vic20ui.h vic20via.h ../../src/vsync.h \
-	../../src/rs232.h ../../src/rsuser.h vic20rsuser.h
+	../../src/resources.h ../../src/rs232drv.h ../../src/rsuser.h \
+	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
+	../../src/sound.h ../../src/tape.h ../../src/traps.h \
+	../../src/mem.h ../../src/via.h vic.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/viewport.h \
+	vic-mem.h vic20.h ../../src/video.h vic20-cmdline-options.h \
+	vic20-resources.h vic20-snapshot.h vic20ieeevia.h vic20mem.h \
+	vic20sound.h vic20rsuser.h ../../src/arch/unix/vic20ui.h \
+	vic20via.h ../../src/vsync.h
 vic20cartridge.o: vic20cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/cartridge.h ../../src/arch/unix/types.h \

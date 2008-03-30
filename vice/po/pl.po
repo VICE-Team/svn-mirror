@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-10-12 19:35+0200\n"
+"POT-Creation-Date: 2002-10-13 21:48+0200\n"
 "PO-Revision-Date: 2002-08-31 19:18+02:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -241,26 +241,26 @@ msgstr "Ustawienia pamiêci"
 
 #: src/arch/unix/c128ui.c:390 src/arch/unix/c64ui.c:406
 #: src/arch/unix/cbm2ui.c:460 src/arch/unix/petui.c:385
-#: src/arch/unix/plus4ui.c:150 src/arch/unix/vic20ui.c:464
+#: src/arch/unix/plus4ui.c:146 src/arch/unix/vic20ui.c:464
 #: src/arch/unix/vsidui.c:255
 msgid "File"
 msgstr "Plik"
 
 #: src/arch/unix/c128ui.c:409 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:477 src/arch/unix/petui.c:402
-#: src/arch/unix/plus4ui.c:167 src/arch/unix/vic20ui.c:483
+#: src/arch/unix/plus4ui.c:163 src/arch/unix/vic20ui.c:483
 msgid "Snapshot"
 msgstr "Migawka"
 
 #: src/arch/unix/c128ui.c:415 src/arch/unix/c64ui.c:431
 #: src/arch/unix/cbm2ui.c:483 src/arch/unix/petui.c:408
-#: src/arch/unix/plus4ui.c:173 src/arch/unix/vic20ui.c:489
+#: src/arch/unix/plus4ui.c:169 src/arch/unix/vic20ui.c:489
 msgid "Options"
 msgstr "Opcje"
 
 #: src/arch/unix/c128ui.c:427 src/arch/unix/c64ui.c:443
 #: src/arch/unix/cbm2ui.c:493 src/arch/unix/petui.c:416
-#: src/arch/unix/plus4ui.c:181 src/arch/unix/vic20ui.c:495
+#: src/arch/unix/plus4ui.c:177 src/arch/unix/vic20ui.c:495
 #: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1099
 #: src/arch/unix/x11/gnome/x11ui.c:1191
 msgid "Settings"
@@ -270,7 +270,7 @@ msgstr "Ustawienia"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:458
 #: src/arch/unix/cbm2ui.c:508 src/arch/unix/petui.c:430
-#: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:511
+#: src/arch/unix/plus4ui.c:192 src/arch/unix/vic20ui.c:511
 msgid "RJHelp"
 msgstr "RJPomoc"
 
@@ -530,14 +530,6 @@ msgstr "Powrót do starej obs³ugi api"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Wersja sterownika j±dra : %d.%d.%d"
 
-#: src/arch/unix/main_exit.c:48
-msgid ""
-"\n"
-"Exiting..."
-msgstr ""
-"\n"
-"Zakoñczanie..."
-
 #: src/arch/unix/mouse.c:69
 msgid "Enable emulation of the 1351 proportional mouse"
 msgstr "W³±cz emulacjê myszki 1351"
@@ -686,83 +678,83 @@ msgstr "Ustawienia RAM"
 msgid "TED settings"
 msgstr "Ustawienia TED"
 
-#: src/arch/unix/rs232.c:120
+#: src/arch/unix/rs232.c:119
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
 msgstr "Okre¶l nazwê 1 urz±dzenia RS232 (/dev/ttyS0)"
 
-#: src/arch/unix/rs232.c:122
+#: src/arch/unix/rs232.c:121
 msgid "Specify baudrate of first RS232 device"
 msgstr "Okre¶l szybko¶æ transmisji urz±dzenia "
 
-#: src/arch/unix/rs232.c:124
+#: src/arch/unix/rs232.c:123
 msgid "Specify name of second RS232 device (/dev/ttyS1)"
 msgstr "Okre¶l nazwê drugorzêdnego urz±dzenia RS232 (/dev/ttyS1)"
 
-#: src/arch/unix/rs232.c:126
+#: src/arch/unix/rs232.c:125
 msgid "Specify baudrate of second RS232 device"
 msgstr "Okre¶l szybko¶æ transmisju drugorzêdnego urz±dzenia RS232"
 
-#: src/arch/unix/rs232.c:128
+#: src/arch/unix/rs232.c:127
 msgid "Specify name of third RS232 device (rs232.dump)"
 msgstr "Okre¶l nazwê 3 urz±dzenia RS232 (rs232.dump)"
 
-#: src/arch/unix/rs232.c:130
+#: src/arch/unix/rs232.c:129
 msgid "Specify baudrate of third RS232 device"
 msgstr "Okre¶l szybko¶æ transmisji 3 urz±dzenia RS232"
 
-#: src/arch/unix/rs232.c:132
+#: src/arch/unix/rs232.c:131
 msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 msgstr "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 
-#: src/arch/unix/rs232.c:134
+#: src/arch/unix/rs232.c:133
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Okre¶l szybko¶æ transmisji 4 urz±dzenia RS232"
 
-#: src/arch/unix/rs232.c:263
+#: src/arch/unix/rs232.c:264
 msgid "No more devices available."
 msgstr "Brak dodatkowych dostêpnych urz±dzeñ."
 
-#: src/arch/unix/rs232.c:268
+#: src/arch/unix/rs232.c:269
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "rs232_open(device=%d)."
 
-#: src/arch/unix/rs232.c:283
+#: src/arch/unix/rs232.c:284
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Nie mo¿na otworzyæ pliku \"%s\": %s "
 
-#: src/arch/unix/rs232.c:310
+#: src/arch/unix/rs232.c:311
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Próbuj zamkn±æ uszkodzony fd %d."
 
-#: src/arch/unix/rs232.c:314
+#: src/arch/unix/rs232.c:315
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Próbuj zamkn±æ nie otwarty fd %d."
 
-#: src/arch/unix/rs232.c:334
+#: src/arch/unix/rs232.c:335
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Próbuj zapisaæ do uszkodzonego fd %d."
 
-#: src/arch/unix/rs232.c:338
+#: src/arch/unix/rs232.c:339
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Próbuj zapisaæ do nie otwartego fd %d."
 
-#: src/arch/unix/rs232.c:350
+#: src/arch/unix/rs232.c:351
 #, c-format
 msgid "Error writing: %s."
 msgstr "B³±d czytania: %s."
 
-#: src/arch/unix/rs232.c:365
+#: src/arch/unix/rs232.c:366
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Próbuj odczytaæ z uszkodzonego fd %d."
 
-#: src/arch/unix/rs232.c:369
+#: src/arch/unix/rs232.c:370
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Próbuj odczytaæ z nie otwartego fd %d."
@@ -2122,6 +2114,14 @@ msgstr "*Kolizje duszków z t³em"
 #: src/arch/unix/uivicii.c:144
 msgid "*New Luminances"
 msgstr "*Nowa jaskrawo¶æ"
+
+#: src/arch/unix/unixmain.c:53
+msgid ""
+"\n"
+"Exiting..."
+msgstr ""
+"\n"
+"Zakoñczanie..."
 
 #. Shouldn't happen.
 #: src/arch/unix/vic20ui.c:94

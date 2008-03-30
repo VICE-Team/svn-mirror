@@ -127,18 +127,16 @@ cxx = @cxx@
 sdl_config = @sdl_config@
 
 LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
-@HAVE_RS232_TRUE@rs232_ldadd = rsuser.o
-@HAVE_RS232_FALSE@rs232_ldadd = 
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	fsdevice 	diskimage 	tape 	imagecontents 	video 	raster 	vicii         vdc 	crtc 	gfxoutputdrv 	printerdrv 	sid 	monitor 	c64 	c128 	vic20 	pet 	plus4 	cbm2 	arch
+SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	fsdevice 	diskimage 	tape 	imagecontents 	video 	raster 	vicii         vdc 	crtc 	gfxoutputdrv 	printerdrv 	rs232drv 	sid 	monitor 	c64 	c128 	vic20 	pet 	plus4 	cbm2 	arch
 
 
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor 
 
 
-noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	cartridge.h 	charset.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	debug.h 	diskconstants.h 	diskimage.h 	dma.h 	emuid.h 	findpath.h 	fixpoint.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	gfxoutput.h 	iecdrive.h 	imagecontents.h 	info.h 	init.h 	initcmdline.h 	interrupt.h 	ioutil.h 	joystick.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	printer.h 	ram.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	uicolor.h 	uimon.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	viewport.h 	vsidui.h 	vsync.h 	vsyncapi.h 	z80regs.h 	zfile.h 	zipcode.h
+noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	cartridge.h 	charset.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	debug.h 	diskconstants.h 	diskimage.h 	dma.h 	emuid.h 	findpath.h 	fixpoint.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	gfxoutput.h 	iecdrive.h 	imagecontents.h 	info.h 	init.h 	initcmdline.h 	interrupt.h 	ioutil.h 	joystick.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	main.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	printer.h 	ram.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rsuser.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	uicolor.h 	uimon.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	viewport.h 	vsidui.h 	vsync.h 	vsyncapi.h 	z80regs.h 	zfile.h 	zipcode.h
 
 
 base_sources =  	alarm.c 	attach.c 	autostart.c 	charset.c 	ciatimer.c 	clkguard.c 	cmdline.c 	color.c 	datasette.c 	debug.c 	dma.c 	emuid.c 	findpath.c 	fliplist.c 	gcr.c 	info.c 	init.c 	initcmdline.c 	interrupt.c 	ioutil.c 	joystick.c 	kbdbuf.c 	keyboard.c 	log.c 	machine.c 	main.c 	p00.c 	palette.c 	parallel.c 	ram.c 	resources.c 	romset.c 	screenshot.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	traps.c 	utils.c 	vsync.c 	zfile.c 	zipcode.c
@@ -150,10 +148,7 @@ cpucore_sources =  	6510core.c
 maincpu_sources =  	maincpu.c
 
 
-rs232_sources =  	rsuser.c 	rsuser.h
-
-
-EXTRA_DIST =  	6510core.c 	ChangeLog 	ChangeLog.1 	ChangeLog.2 	ChangeLog.3 	aciacore.c 	ciacore.c 	fixpoint.c 	piacore.c 	riotcore.c 	tpicore.c 	viacore.c 	$(rs232_sources)
+EXTRA_DIST =  	6510core.c 	ChangeLog 	ChangeLog.1 	ChangeLog.2 	ChangeLog.3 	aciacore.c 	ciacore.c 	fixpoint.c 	piacore.c 	riotcore.c 	tpicore.c 	viacore.c
 
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
@@ -170,6 +165,7 @@ monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
+rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
@@ -181,14 +177,16 @@ vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = $(rs232_ldadd) @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
+
+driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib)
 
 bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat
 
 EXTRA_PROGRAMS = 
 
 # x64
-x64_libs =  	@X64_WINRES@ 	$(c64_lib) 	$(c64cart_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib) 	$(gfxoutputdrv_lib) 	$(printerdrv_lib) 	$(vicii_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
+x64_libs =  	@X64_WINRES@ 	$(c64_lib) 	$(c64cart_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(driver_libs) 	$(vicii_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
 
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
@@ -197,7 +195,7 @@ x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
 # x128
-x128_libs =  	@X128_WINRES@ 	$(c128_lib) 	$(c64c128_lib) 	$(c64cart_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib) 	$(gfxoutputdrv_lib) 	$(printerdrv_lib) 	$(vicii_lib) 	$(vdc_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
+x128_libs =  	@X128_WINRES@ 	$(c128_lib) 	$(c64c128_lib) 	$(c64cart_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(driver_libs) 	$(vicii_lib) 	$(vdc_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
 
 
 x128_SOURCES = $(base_sources)
@@ -206,7 +204,7 @@ x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
 # xvic
-xvic_libs =  	@XVIC_WINRES@ 	$(vic20_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(gfxoutputdrv_lib) 	$(printerdrv_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
+xvic_libs =  	@XVIC_WINRES@ 	$(vic20_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
 
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -215,7 +213,7 @@ xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 # xpet
-xpet_libs =  	@XPET_WINRES@ 	$(pet_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib)         $(gfxoutputdrv_lib) 	$(printerdrv_lib) 	$(crtc_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
+xpet_libs =  	@XPET_WINRES@ 	$(pet_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(crtc_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
 
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -224,7 +222,7 @@ xpet_DEPENDENCIES = $(xpet_libs)
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
 # xplus4
-xplus4_libs =  	@XPLUS4_WINRES@ 	$(plus4_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(gfxoutputdrv_lib) 	$(printerdrv_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
+xplus4_libs =  	@XPLUS4_WINRES@ 	$(plus4_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
 
 
 xplus4_SOURCES = $(base_sources)
@@ -233,7 +231,7 @@ xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
 # xcbm2
-xcbm2_libs =  	@XCBM2_WINRES@ 	$(xcbm2_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(gfxoutputdrv_lib) 	$(printerdrv_lib) 	$(sid_lib) 	$(crtc_lib) 	$(vicii_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
+xcbm2_libs =  	@XCBM2_WINRES@ 	$(xcbm2_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(sid_lib) 	$(crtc_lib) 	$(vicii_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
 
 
 xcbm2_SOURCES = $(base_sources)
@@ -619,7 +617,8 @@ initcmdline.o: initcmdline.c vice.h config.h arch/unix/archdep.h \
 	utils.h
 interrupt.o: interrupt.c vice.h config.h interrupt.h arch/unix/types.h \
 	log.h snapshot.h
-ioutil.o: ioutil.c vice.h config.h ioutil.h utils.h arch/unix/types.h
+ioutil.o: ioutil.c vice.h config.h arch/unix/archdep.h archapi.h \
+	ioutil.h utils.h arch/unix/types.h
 joystick.o: joystick.c vice.h config.h alarm.h arch/unix/types.h \
 	keyboard.h arch/unix/joy.h joystick.h maincpu.h
 kbdbuf.o: kbdbuf.c vice.h config.h cmdline.h maincpu.h arch/unix/types.h \
@@ -635,9 +634,8 @@ machine.o: machine.c autostart.h arch/unix/types.h vice.h config.h \
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	console.h debug.h arch/unix/types.h drive/drive.h log.h \
 	fullscreen.h init.h initcmdline.h interrupt.h machine.h \
-	maincpu.h arch/unix/main_exit.h resources.h sysfile.h \
-	arch/unix/ui.h uiapi.h utils.h version.h video.h viewport.h \
-	fliplist.h
+	maincpu.h main.h resources.h sysfile.h arch/unix/ui.h uiapi.h \
+	utils.h version.h video.h viewport.h fliplist.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h alarm.h \
 	arch/unix/types.h clkguard.h debug.h interrupt.h log.h \
 	machine.h maincpu.h mem.h monitor/mon.h mos6510.h snapshot.h \
@@ -782,6 +780,7 @@ x64-all: \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
+	librs232drv \
 	libvicii \
 	libvideo \
 	libarch \
@@ -800,6 +799,7 @@ x128-all: \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
+	librs232drv \
 	libdrive \
 	libvdrive \
 	libarch \
@@ -824,6 +824,7 @@ xvic-all: \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
+	librs232drv \
 	libvic20 \
 	libvideo \
 	libarch \
@@ -843,6 +844,7 @@ xpet-all: \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
+	librs232drv \
 	libpet \
 	libvideo \
 	libarch \
@@ -861,6 +863,7 @@ xplus4-all: \
         libsounddrv \
         libgfxoutputdrv \
         libprinterdrv \
+	librs232drv \
         libplus4 \
 	libvideo \
         libarch \
@@ -877,6 +880,7 @@ xcbm2-all: \
 	libsounddrv \
         libgfxoutputdrv \
 	libprinterdrv \
+	librs232drv \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
@@ -896,8 +900,9 @@ xcbm2-all: \
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
-	libprinterdrv libgfxoutputdrv libsounddrv libdiskimage libfsdevice
-	libtape libarch libvicii libvdc libsid libcrtc libvideo @RESID_DEP@
+	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
+	libfsdevice libtape libarch libvicii libvdc libsid libcrtc
+	libvideo @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -931,6 +936,8 @@ libplus4:
 	(cd plus4 && $(MAKE))
 libprinterdrv:
 	(cd printerdrv && $(MAKE))
+librs232drv:
+	(cd rs232drv && $(MAKE))
 libraster:
 	(cd raster && $(MAKE))
 libresid:
