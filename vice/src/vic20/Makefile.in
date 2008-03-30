@@ -305,12 +305,13 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/via.h ../../src/arch/unix/vsync.h ../../src/print.h \
 	../../src/prdevice.h ../../src/pruser.h
 vic20iec.o: vic20iec.c ../../src/vice.h ../../src/config.h \
-	../../src/types.h ../../src/resources.h ../../src/iecdrive.h \
+	../../src/types.h ../../src/iecdrive.h ../../src/resources.h \
 	../../src/true1541/true1541.h ../../src/drive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
 	../../src/true1541/1541cpu.h ../../src/mos6510.h \
 	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
-	../../src/vmachine.h ../../src/6510core.h
+	../../src/vmachine.h ../../src/6510core.h \
+	../../src/true1541/viad.h ../../src/via.h
 vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h vic20mem.h \
 	../../src/types.h ../../src/mem.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/interrupt.h \

@@ -1,12 +1,8 @@
-
-
 /*
- * pruser.h - Printer device for userport.
+ * rsuser.h - Daniel Dallmann's 9600 baud RS232 userport interface
  *
  * Written by
  *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
- *
- * Patches by
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -50,6 +46,7 @@ void userport_serial_write_ctrl(int);
 BYTE userport_serial_read_ctrl();
 
 int int_rsuser(long offset);
+void rsuser_reset(void);
 
 #endif
 

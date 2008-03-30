@@ -1,12 +1,8 @@
-
 /*
  * rsuser.h - Daniel Dallmann's 9600 baud RS232 userport interface
  *
- *
  * Written by
  *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
- *
- * Patches by
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -217,7 +213,7 @@ int int_rsuser(long offset) {
 #endif
 
 	switch(rxstate) {
-	case 0: 
+	case 0:
         	if( fd>=0 && rs232_getc(fd, &rxdata)) {
 
 		  /* byte received, signal startbit on flag */

@@ -28,9 +28,10 @@
 #include "vice.h"
 
 #include "types.h"
-#include "resources.h"
 #include "iecdrive.h"
+#include "resources.h"
 #include "true1541.h"
+#include "viad.h"
 
 #define NOT(x) ((x)^1)
 

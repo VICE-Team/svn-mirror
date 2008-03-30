@@ -61,13 +61,16 @@ static int prdevice_detach(int);
 static int pr4_device;
 static int pr4_enabled;
 
-static int set_pr4_device(resource_value_t v) {
+static int set_pr4_device(resource_value_t v)
+{
     pr4_device = (int) v;
     return 0;
 }
 
-static int set_pr4_enabled(resource_value_t v) {
+static int set_pr4_enabled(resource_value_t v)
+{
     int flag = ((int) v) ? 1 : 0;
+
     if(pr4_enabled && !flag) {
 	prdevice_detach(4);
     }
@@ -87,7 +90,8 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int prdevice_init_resources(void) {
+int prdevice_init_resources(void)
+{
     return resources_register(resources);
 }
 
@@ -103,7 +107,8 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int prdevice_init_cmdline_options(void) {
+int prdevice_init_cmdline_options(void)
+{
     return cmdline_register_options(cmdline_options);
 }
 
@@ -112,8 +117,8 @@ int prdevice_init_cmdline_options(void) {
 static int currfd;
 static int inuse;
 
-static int write_pr(void *var, BYTE byte, int secondary) {
-
+static int write_pr(void *var, BYTE byte, int secondary)
+{
     /* FIXME: switch(secondary) for code conversion */
 
     if(!inuse) {
@@ -124,8 +129,8 @@ static int write_pr(void *var, BYTE byte, int secondary) {
     return print_putc(currfd, byte);
 }
 
-static int open_pr(void *var, char *name, int length, int secondary) {
-
+static int open_pr(void *var, char *name, int length, int secondary)
+{
     if(inuse) {
 	fprintf(stderr, "prdevice: open printer while still open - ignoring\n");
 	return 0;
@@ -143,8 +148,8 @@ static int open_pr(void *var, char *name, int length, int secondary) {
 }
 
 
-static int close_pr(void *var, int secondary) {
-
+static int close_pr(void *var, int secondary)
+{
     if(!inuse) {
 	fprintf(stderr, "prdevice: close printer while being closed - ignoring\n");
 	return 0;
@@ -157,23 +162,20 @@ static int close_pr(void *var, int secondary) {
 }
 
 
-static int flush_pr(void *var, int secondary) {
-
+static void flush_pr(void *var, int secondary)
+{
     if(!inuse) {
 	fprintf(stderr, "prdevice: flush printer while being closed - ignoring\n");
-	return 0;
+	return;
     }
 
     print_flush(currfd);
-
-    return 0;
 }
 
 static int  fn()
 {
     return 0x80;
 }
-
 
 static int prdevice_attach(int device)
 {
@@ -195,4 +197,3 @@ static int prdevice_detach(int device)
     fprintf(stderr,"Printer device #4: Don't know how to detach (yet)\n");
     return 0;
 }
-

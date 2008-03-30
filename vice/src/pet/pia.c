@@ -25,6 +25,7 @@
  *
  */
 
+#include "vice.h"
 
 #include <stdio.h>
 #include <time.h>
@@ -36,17 +37,17 @@
 			   xpet only...! */
 #endif
 
-#include "vice.h"
-
 #include "types.h"
-#include "pia.h"
-#include "vmachine.h"
-#include "parallel.h"
-#include "kbd.h"
-#include "interrupt.h"
-#include "pets.h"
-#include "resources.h"
+
 #include "cmdline.h"
+#include "crtc.h"
+#include "interrupt.h"
+#include "kbd.h"
+#include "parallel.h"
+#include "pets.h"
+#include "pia.h"
+#include "resources.h"
+#include "vmachine.h"
 
 /* ------------------------------------------------------------------------- */
 

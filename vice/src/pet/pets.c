@@ -32,11 +32,12 @@
 
 #include <stdio.h>
 
-#include "resources.h"
-#include "interrupt.h"
 #include "cmdline.h"
-#include "utils.h"
+#include "interrupt.h"
 #include "pets.h"
+#include "resources.h"
+#include "utils.h"
+#include "vsync.h"
 
 #define	DEBUG
 

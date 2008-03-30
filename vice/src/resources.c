@@ -131,7 +131,7 @@ int resources_set_value_string(const char *name, const char *value)
     resource_t *r = lookup(name);
 
     if (r == NULL) {
-        fprintf(stderr, "%s: Warning: Trying to assign value to unknown resource `%s'\n",
+        fprintf(stderr, "Warning: Trying to assign value to unknown resource `%s'\n",
                 name);
         return -1;
     }

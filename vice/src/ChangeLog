@@ -1,3 +1,34 @@
+Mon Jun 29 18:33:27 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* pet/pia.c: #include "crtc.h".  #include "vice.h" *before* the
+ 	system headers, not afterwards.
+
+	* vic20/vic20iec.c: #include "viad.h".
+
+	* pet/pets.c: #include "vsync.h".
+
+	* prdevice.c (flush_pr): Return value changed to `void'.
+
+	* resources.c (resources_set_value_string): Fixed bogus `%s' in
+	`fprintf()' call.
+
+	* c64/rsuser.h (rsuser_reset): Added prototype.
+
+	* arch/unix/xaw/widgets/RegExp.h: Do not disable regexps on GNU
+	libc 2.0.x anymore.
+
+Mon Jun 29 00:00:29 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* c1541.c (disk_gcrformat): Added high-level format support.
+
+	* drive.c (allocate_sector, free_sector): Made extern.
+	* drive.h: Changed likewise.
+
+	* c1541.c (disk_gcrformat): Added high-level format support.
+
+	* drive.c (allocate_sector, free_sector): Made extern.
+	* drive.h: Changed likewise.
+
 Sun Jun 28 12:21:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* main.c [WIN32]: #include <fcntl.h> as on MS-DOS.
