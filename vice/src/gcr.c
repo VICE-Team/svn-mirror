@@ -2,8 +2,8 @@
  * gcr.c - GCR handling.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,6 +37,7 @@
 #endif
 
 #include "gcr.h"
+#include "utils.h"
 
 /* GCR handling.  */
 
@@ -155,13 +156,170 @@ void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
     int i, j;
 
     for (i = 0; i < 65; i++) {
-	for (j = 0; j < 5; j++) {
-	    GCR_header[j] = *(offset++);
-	    if (offset >= GCR_track_end)
-		offset = GCR_track_start_ptr;
-	}
-	convert_GCR_to_4bytes(GCR_header, buffer);
-	buffer += 4;
+        for (j = 0; j < 5; j++) {
+            GCR_header[j] = *(offset++);
+            if (offset >= GCR_track_end)
+                offset = GCR_track_start_ptr;
+        }
+        convert_GCR_to_4bytes(GCR_header, buffer);
+        buffer += 4;
     }
+}
+
+BYTE *gcr_find_sector_header(int track, int sector,
+                             BYTE *gcr_track_start_ptr,
+                             int gcr_current_track_size)
+{
+    BYTE *offset = gcr_track_start_ptr;
+    BYTE *GCR_track_end = gcr_track_start_ptr + gcr_current_track_size;
+    BYTE GCR_header[5], header_data[4];
+    int i, sync_count = 0, wrap_over = 0;
+
+    while ((offset < GCR_track_end) && !wrap_over) {
+        while (*offset != 0xff) {
+            offset++;
+            if (offset >= GCR_track_end)
+                return NULL;
+        }
+
+        while (*offset == 0xff) {
+            offset++;
+            if (offset == GCR_track_end) {
+                offset = gcr_track_start_ptr;
+                wrap_over = 1;
+            }
+            /* Check for killer tracks.  */
+            if((++sync_count) >= gcr_current_track_size)
+                return NULL;
+        }
+
+        for (i = 0; i < 5; i++) {
+            GCR_header[i] = *(offset++);
+            if (offset >= GCR_track_end) {
+                offset = gcr_track_start_ptr;
+                wrap_over = 1;
+            }
+        }
+
+        convert_GCR_to_4bytes(GCR_header, header_data);
+
+        if (header_data[0] == 0x08) {
+            /* FIXME: Add some sanity checks here.  */
+            if (header_data[2] == sector && header_data[3] == track)
+                return offset;
+        }
+    }
+    return NULL;
+}
+
+BYTE *gcr_find_sector_data(BYTE *offset,
+                           BYTE *gcr_track_start_ptr,
+                           int gcr_current_track_size)
+{
+    BYTE *GCR_track_end = gcr_track_start_ptr + gcr_current_track_size;
+    int header = 0;
+
+    while (*offset != 0xff) {
+        offset++;
+        if (offset >= GCR_track_end)
+            offset = gcr_track_start_ptr;
+        header++;
+        if (header >= 500)
+            return NULL;
+    }
+
+    while (*offset == 0xff) {
+        offset++;
+        if (offset == GCR_track_end)
+            offset = gcr_track_start_ptr;
+    }
+    return offset;
+}
+
+int gcr_read_sector(gcr_t *gcr, BYTE *readdata, int track, int sector)
+{
+    BYTE buffer[260], *offset;
+    BYTE *GCR_track_start_ptr;
+    int GCR_current_track_size;
+
+    GCR_track_start_ptr = gcr->data
+                           + ((track - 1) * NUM_MAX_BYTES_TRACK);
+    GCR_current_track_size = gcr->track_size[track - 1];
+
+    offset = gcr_find_sector_header(track, sector,
+                                    GCR_track_start_ptr,
+                                    GCR_current_track_size);
+    if (offset == NULL)
+        return -1;
+    offset = gcr_find_sector_data(offset, GCR_track_start_ptr,
+                                  GCR_current_track_size);
+    if (offset == NULL)
+        return -1;
+
+    convert_GCR_to_sector(buffer, offset, GCR_track_start_ptr,
+                          GCR_current_track_size);
+    if (buffer[0] != 0x7)
+        return -1;
+
+    memcpy(readdata, &buffer[1], 256);
+    return 0;
+}
+
+int gcr_write_sector(gcr_t *gcr, BYTE *writedata, int track, int sector)
+{
+    BYTE buffer[260], gcr_buffer[325], *offset, *buf, *gcr_data;
+    BYTE chksum;
+    BYTE *GCR_track_start_ptr;
+    int GCR_current_track_size;
+    int i;
+
+    GCR_track_start_ptr = gcr->data
+                          + ((track - 1) * NUM_MAX_BYTES_TRACK);
+    GCR_current_track_size = gcr->track_size[track - 1];
+
+    offset = gcr_find_sector_header(track, sector,
+                                    GCR_track_start_ptr,
+                                    GCR_current_track_size);
+    if (offset == NULL)
+        return -1;
+    offset = gcr_find_sector_data(offset, GCR_track_start_ptr,
+                                  GCR_current_track_size);
+    if (offset == NULL)
+        return -1;
+    buffer[0] = 0x7;
+    memcpy(&buffer[1], writedata, 256);
+    chksum = buffer[1];
+    for (i = 2; i < 257; i++)
+        chksum ^= buffer[i];
+    buffer[257] = chksum;
+    buffer[258] = buffer[259] = 0;
+
+    buf = buffer;
+    gcr_data = gcr_buffer;
+
+    for (i = 0; i < 65; i++) {
+        convert_4bytes_to_GCR(buf, gcr_data);
+        buf += 4;
+        gcr_data += 5;
+    }
+
+    for (i = 0; i < 325; i++) {
+        *offset = gcr_buffer[i];
+        offset++;
+        if (offset == GCR_track_start_ptr + GCR_current_track_size)
+            offset = GCR_track_start_ptr;
+    }
+    return 0;
+}
+
+gcr_t *gcr_create_image(void)
+{
+    return (gcr_t *)xmalloc(sizeof(gcr_t));
+}
+
+void gcr_destroy_image(gcr_t *gcr)
+{
+    free(gcr);
+    return;
 }
 
