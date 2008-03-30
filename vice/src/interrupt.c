@@ -40,12 +40,24 @@
 
 
 /* Initialization.  */
-void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs, int num_ints,
-                                unsigned int *last_opcode_info_ptr)
+void interrupt_cpu_status_init(interrupt_cpu_status_t *cs,
+                               unsigned int num_ints,
+                               unsigned int *last_opcode_info_ptr)
 {
+    cs->num_ints = num_ints;
+    cs->last_opcode_info_ptr = last_opcode_info_ptr;
+}
+
+void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs)
+{
+    unsigned int num_ints, *last_opcode_info_ptr;
+
+    num_ints = cs->num_ints;
+    last_opcode_info_ptr = cs->last_opcode_info_ptr;
     memset(cs, 0, sizeof(interrupt_cpu_status_t));
     cs->num_ints = num_ints;
     cs->last_opcode_info_ptr = last_opcode_info_ptr;
+
     cs->num_last_stolen_cycles = 0;
     cs->last_stolen_cycles_clk = (CLOCK)0;
     cs->global_pending_int = IK_NONE;
@@ -222,7 +234,7 @@ void interrupt_ack_reset(interrupt_cpu_status_t *cs)
 void interrupt_maincpu_trigger_trap(void (*trap_func)(WORD, void *data),
                                     void *data)
 {
-    interrupt_cpu_status_t *cs = &maincpu_int_status;
+    interrupt_cpu_status_t *cs = maincpu_int_status;
 
     cs->global_pending_int |= IK_TRAP;
     cs->trap_func = trap_func;

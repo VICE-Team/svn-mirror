@@ -69,6 +69,8 @@ inline static CLOCK maincpu_num_write_cycles(void)
 }
 
 extern void maincpu_init(void);
+extern void maincpu_early_init(void);
+extern void maincpu_shutdown(void);
 extern void maincpu_reset(void);
 extern void maincpu_mainloop(void);
 extern struct monitor_interface_s *maincpu_monitor_interface_get(void);

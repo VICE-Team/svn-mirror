@@ -150,7 +150,7 @@ void maincpu_generic_dma(void)
 
 /* ------------------------------------------------------------------------- */
 
-struct interrupt_cpu_status_s maincpu_int_status;
+struct interrupt_cpu_status_s *maincpu_int_status = NULL;
 alarm_context_t *maincpu_alarm_context = NULL;
 clk_guard_t *maincpu_clk_guard = NULL;
 monitor_interface_t *maincpu_monitor_interface = NULL;
@@ -209,7 +209,7 @@ monitor_interface_t *maincpu_monitor_interface_get(void)
     maincpu_monitor_interface->z80_cpu_regs = NULL;
 #endif
 
-    maincpu_monitor_interface->int_status = &maincpu_int_status;
+    maincpu_monitor_interface->int_status = maincpu_int_status;
 
     maincpu_monitor_interface->clk = &maincpu_clk;
 
@@ -231,16 +231,32 @@ monitor_interface_t *maincpu_monitor_interface_get(void)
 
 /* ------------------------------------------------------------------------- */
 
+void maincpu_early_init(void)
+{
+    maincpu_int_status = interrupt_cpu_status_new();
+}
+
+void maincpu_init(void)
+{
+    interrupt_cpu_status_init(maincpu_int_status, NUMOFINT,
+                              &last_opcode_info);
+}
+
+void maincpu_shutdown(void)
+{
+    interrupt_cpu_status_destroy(maincpu_int_status);
+}
+
 static void cpu_reset(void)
 {
     int preserve_monitor;
 
-    preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
+    preserve_monitor = maincpu_int_status->global_pending_int & IK_MONITOR;
 
-    interrupt_cpu_status_reset(&maincpu_int_status, NUMOFINT,
-                               &last_opcode_info);
+    interrupt_cpu_status_reset(maincpu_int_status);
+
     if (preserve_monitor)
-        interrupt_monitor_trap_on(&maincpu_int_status);
+        interrupt_monitor_trap_on(maincpu_int_status);
 
     maincpu_clk = 6; /* # of clock cycles needed for RESET.  */
 
@@ -330,18 +346,18 @@ void maincpu_mainloop(void)
 #define LAST_OPCODE_INFO last_opcode_info
 #define TRACEFLG debug.maincpu_traceflg
 
-#define CPU_INT_STATUS &maincpu_int_status
+#define CPU_INT_STATUS maincpu_int_status
 
 #define ALARM_CONTEXT maincpu_alarm_context
 
 #define CHECK_PENDING_ALARM() \
-   (clk >= next_alarm_clk(&maincpu_int_status))
+   (clk >= next_alarm_clk(maincpu_int_status))
 
 #define CHECK_PENDING_INTERRUPT() \
-   check_pending_interrupt(&maincpu_int_status)
+   check_pending_interrupt(maincpu_int_status)
 
 #define TRAP(addr) \
-   maincpu_int_status.trap_func(addr);
+   maincpu_int_status->trap_func(addr);
 
 #define ROM_TRAP_HANDLER() \
    traps_handler()
@@ -407,7 +423,7 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         || SMW_DW(m, (DWORD)last_opcode_info) < 0)
         goto fail;
 
-    if (interrupt_write_snapshot(&maincpu_int_status, m) < 0)
+    if (interrupt_write_snapshot(maincpu_int_status, m) < 0)
         goto fail;
 
     return snapshot_module_close(m);
@@ -452,7 +468,7 @@ int maincpu_snapshot_read_module(snapshot_t *s)
     MOS6510_REGS_SET_PC(&maincpu_regs, pc);
     MOS6510_REGS_SET_STATUS(&maincpu_regs, status);
 
-    if (interrupt_read_snapshot(&maincpu_int_status, m) < 0)
+    if (interrupt_read_snapshot(maincpu_int_status, m) < 0)
         goto fail;
 
     return snapshot_module_close(m);
