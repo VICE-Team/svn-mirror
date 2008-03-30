@@ -118,8 +118,8 @@ int resources_set_value(const char *name, resource_value_t value)
     resource_t *r = lookup(name);
 
     if (r == NULL) {
-        fprintf(stderr, "%s: Warning: unknown resource `%s'\n",
-                __FUNCTION__, name);
+        fprintf(stderr, "Warning: Trying to assign value to unknown resource `%s'\n",
+                name);
         return -1;
     }
 
@@ -131,8 +131,8 @@ int resources_set_value_string(const char *name, const char *value)
     resource_t *r = lookup(name);
 
     if (r == NULL) {
-        fprintf(stderr, "%s: Warning: unknown resource `%s'\n",
-                __FUNCTION__, name);
+        fprintf(stderr, "%s: Warning: Trying to assign value to unknown resource `%s'\n",
+                name);
         return -1;
     }
 
@@ -142,8 +142,8 @@ int resources_set_value_string(const char *name, const char *value)
       case RES_STRING:
         return r->set_func((resource_value_t) value);
       default:
-        fprintf(stderr, "%s: Warning: unknown resource type for `%s'\n",
-                __FUNCTION__, name);
+        fprintf(stderr, "Warning: unknown resource type for `%s'\n",
+                name);
         return -1;
     }
 
@@ -155,8 +155,8 @@ int resources_get_value(const char *name, resource_value_t *value_return)
     resource_t *r = lookup(name);
 
     if (r == NULL) {
-        fprintf(stderr, "%s: Warning: unknown resource `%s'\n",
-                __FUNCTION__, name);
+        fprintf(stderr, "Warning: Trying to read value from unknown resource `%s'\n",
+                name);
         return -1;
     }
 
@@ -168,8 +168,8 @@ int resources_get_value(const char *name, resource_value_t *value_return)
         *(char **)value_return = *(char **)r->value_ptr;
         break;
       default:
-        fprintf(stderr, "%s: Warning: unknown resource type for `%s'\n",
-                __FUNCTION__, name);
+        fprintf(stderr, "Warning: unknown resource type for `%s'\n",
+                name);
         return -1;
     }
 
@@ -192,8 +192,8 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
     int value;
 
     if (r == NULL) {
-        fprintf(stderr, "%s: Warning: unknown resource `%s'\n",
-                __FUNCTION__, name);
+        fprintf(stderr, "Warning: Trying to toggle boolean value of unknown resource `%s'\n",
+                name);
         return -1;
     }
 
@@ -264,10 +264,10 @@ static const char *default_resource_file(void)
     static char *fname = NULL;
 
     if (fname == NULL) {
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
 	/* On MS-DOS, always boot from the directory in which the binary is
 	   stored.  */
-	fname = concat(boot_path, "/", RESOURCE_FILE_NAME, NULL);
+	fname = concat(boot_path, "\\", RESOURCE_FILE_NAME, NULL);
 #else
 	fname = concat(getenv("HOME"), "/", RESOURCE_FILE_NAME, NULL);
 #endif

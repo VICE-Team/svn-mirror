@@ -32,6 +32,10 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+#ifdef WIN32
+typedef int mode_t;
+#endif
+
 int zopen(const char *name, mode_t mode, int flags);
 int zclose(int fd);
 FILE *zfopen(const char *name, const char *mode);

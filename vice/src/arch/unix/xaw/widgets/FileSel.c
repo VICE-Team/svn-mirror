@@ -28,6 +28,7 @@
 #define VICE
 
 #include "config.h"		/* [EP] 04/07/97 */
+#include "../../../utils.h"	/* [AF] 26jun98 */
 
 #include <stdio.h>
 #include <stdlib.h>		/* [EP] 10/15/96 */
@@ -633,8 +634,8 @@ XfwfFileSelectorWidget fsw;
 #ifndef VICE
 
 		/* (here was the) Title
-		   I have removed this since we need a little window
-		   (the emulation window can be quite little itself).
+		   I have removed this since we need a small window
+		   (the emulation window can be quite small itself).
 		   [EP] 8/25/96 */
 
 	XtSetArg(args[0],XtNlabel,FSTitle(fsw));
@@ -725,7 +726,7 @@ XfwfFileSelectorWidget fsw;
 
 		/* Goto Button */
 
-	XtSetArg(args[0],XtNlabel,"Goto");
+	XtSetArg(args[0],XtNlabel,"Show" /* "Goto" */);
 	XtSetArg(args[1],XtNborderWidth,1);
 	FSNthWidget(fsw,FS_I_GOTO_BUTTON) =
 		XtCreateManagedWidget("goto_button",
@@ -1161,11 +1162,42 @@ XtPointer call_data;
 	Widget cur_dir_text;
 	Arg args[10];
 	String path;
+	char *fpath, *fpattern;
 
+	/* what is this actually needed for? */
 	XtSetArg(args[0],XtNstring,(XtArgVal)(&path));
 	cur_dir_text = FSNthWidget(fsw,FS_I_CUR_DIR_TEXT);
 	XtGetValues(cur_dir_text,args,1);
+
+#ifdef VICE
+	/* added separation of path and pattern */
+	/* path is allocated once, while FSPattern is handled dynamically...*/
+	fname_split(path, &fpath, &fpattern);
+	if(fpath) {
+	  if(strlen(fpath)) {
+	    strcpy(FSCurrentDirectory(fsw), fpath);
+	  } else {
+	    strcpy(FSCurrentDirectory(fsw), "/");
+	  }
+	  free(fpath);
+	} else {
+	  strcpy(FSCurrentDirectory(fsw), "/");
+	}
+	XtFree(FSPattern(fsw));
+	if(fpattern) {
+	  if(strlen(fpattern)) {
+	    FSPattern(fsw) = StrCopy(fpattern);
+	  } else {
+	    FSPattern(fsw) = StrCopy("*");
+	  }
+	  free(fpattern);
+	} else {
+	  FSPattern(fsw) = StrCopy("*");
+	}
+#else
 	strcpy(FSCurrentDirectory(fsw),path);
+#endif
+
 	Chdir(fsw);
 } /* End ButtonGoto */
 
@@ -1562,7 +1594,7 @@ static void UpdateTextLines(fsw)
 XfwfFileSelectorWidget fsw;
 {
         /* [EP] 10/31/96: display '~' for $HOME */
-        char tmpstr[MAXPATHLEN + 1], *home;
+        char tmpstr[2*MAXPATHLEN + 1], *home;
 	int l;
 
 	home = getenv ("HOME");
@@ -1575,8 +1607,18 @@ XfwfFileSelectorWidget fsw;
 			       tmpstr);
 	  }
 	else
-	  TextWidgetSetText(FSNthWidget(fsw,FS_I_CUR_DIR_TEXT),
-			    FSCurrentDirectory(fsw));
+          {
+	    sprintf (tmpstr, "%s", FSCurrentDirectory(fsw) );
+	  }
+	/* AF 26jun98 - add pattern to be able to edit it */
+	if((!strlen(tmpstr)) || tmpstr[strlen(tmpstr)-1]!='/') {
+	  strcat(tmpstr, "/");
+	}
+	strcat(tmpstr, FSPattern(fsw));
+
+	TextWidgetSetText (FSNthWidget (fsw, FS_I_CUR_DIR_TEXT),
+			       tmpstr);
+
 	TextWidgetSetText(FSNthWidget(fsw,FS_I_CUR_FILE_TEXT),
 			  FSCurrentFile(fsw));
 } /* End UpdateTextLines */

@@ -666,6 +666,8 @@ static ui_menu_entry_t set_refresh_rate_submenu[] = {
 };
 
 static ui_menu_entry_t set_maximum_speed_submenu[] = {
+    { "*200%",
+      (ui_callback_t) set_maximum_speed, (ui_callback_data_t) 200, NULL },
     { "*100%",
       (ui_callback_t) set_maximum_speed, (ui_callback_data_t) 100, NULL },
     { "*50%",

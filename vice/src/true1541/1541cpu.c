@@ -30,7 +30,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <sys/time.h>
 
 #include "types.h"
 #include "true1541.h"
@@ -119,25 +118,11 @@ static true1541_store_func_t *store_func_watch[0x41];
 static true1541_read_func_t *read_func_nowatch[0x41];
 static true1541_store_func_t *store_func_nowatch[0x41];
 
-/* This big hack is to overload the maincpu macros.  We need a better way!
-   FIXME!  */
-
-#undef LOAD
-#define LOAD(a)		  (read_func[(a) >> 10](a))
-
-#undef LOAD_ZERO
+#define LOAD(a)		  (read_func[(a) >> 10]((ADDRESS)(a)))
 #define LOAD_ZERO(a)	  (true1541_ram[(a) & 0xff])
-
-#undef LOAD_ADDR
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
-
-#undef LOAD_ZERO_ADDR
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
-
-#undef STORE
-#define STORE(a, b)	  (store_func[(a) >> 10]((a), (b)))
-
-#undef STORE_ZERO
+#define STORE(a, b)	  (store_func[(a) >> 10]((ADDRESS)(a), (BYTE)(b)))
 #define STORE_ZERO(a, b)  (true1541_ram[(a) & 0xff] = (b))
 
 
@@ -207,7 +192,7 @@ BYTE REGPARM1 true1541_read(ADDRESS address)
 
 void REGPARM2 true1541_store(ADDRESS address, BYTE value)
 {
-    return store_func[address >> 10](address, value);
+    store_func[address >> 10](address, value);
 }
 
 /* ------------------------------------------------------------------------- */

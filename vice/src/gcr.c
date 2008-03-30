@@ -30,8 +30,6 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <ctype.h>
-#include <unistd.h>
-#include <assert.h>
 #include <string.h>
 
 #include "gcr.h"

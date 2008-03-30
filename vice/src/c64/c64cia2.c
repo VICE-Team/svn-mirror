@@ -88,7 +88,9 @@
     #include "c64iec.h"
     #include "c64cia.h"
     #include "pruser.h"
+#ifdef HAVE_RS232
     #include "rsuser.h"
+#endif
 
 #include "interrupt.h"
 
@@ -422,9 +424,11 @@ void reset_cia2(void)
     cia2int = 0;
 
 
+#ifdef HAVE_RS232
     userport_printer_write_strobe(1);
     userport_printer_write_data(0xff);
     userport_serial_write_ctrl(0xff);
+#endif
 }
 
 
@@ -480,8 +484,10 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
     byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
     if (true1541_parallel_cable_enabled)
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
+#ifdef HAVE_RS232
     userport_printer_write_data(byte);
     userport_serial_write_ctrl(byte);
+#endif
 	break;
 
 	/* This handles the timer latches.  The kludgy stuff is an attempt
@@ -800,12 +806,17 @@ BYTE read_cia2_(ADDRESS addr)
 
       case CIA_PRB:		/* port B */
 
+#ifdef HAVE_RS232
     byte = (true1541_parallel_cable_enabled
             ? parallel_cable_cpu_read()
-            : (rsuser_enabled 
+            : (rsuser_enabled
 		? userport_serial_read_ctrl()
 		: cia2[CIA_PRB] | ~cia2[CIA_DDRB]));
-
+#else
+    byte = (true1541_parallel_cable_enabled
+            ? parallel_cable_cpu_read()
+            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]));
+#endif
         if ((cia2[CIA_CRA] | cia2[CIA_CRB]) & 0x02) {
 	    update_cia2(rclk);
 	    if (cia2[CIA_CRA] & 0x02) {

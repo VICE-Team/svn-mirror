@@ -105,6 +105,11 @@
 #define ALLOW_UNALIGNED_ACCESS
 #endif
 
+/* Windows portability cruft.  */
+#ifdef WIN32
+#include "lose32.h"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* This code comes from GNU make:
@@ -149,8 +154,8 @@ extern unsigned int get_path_max();
 #ifdef	__GNUC__
 #undef	alloca
 #define	alloca(n)	__builtin_alloca (n)
-#else	/* Not GCC.  */
-#ifdef	HAVE_ALLOCA_H
+#else
+#ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #else	/* Not HAVE_ALLOCA_H.  */
 #ifndef	_AIX
@@ -158,6 +163,15 @@ extern char *alloca ();
 #endif	/* Not AIX.  */
 #endif	/* HAVE_ALLOCA_H.  */
 #endif	/* GCC.  */
+
+/* ------------------------------------------------------------------------- */
+
+/* Some platforms (most notably BeOS and Windows), do not call `main()' as
+   the first function.  If this has not been decided so far, fall back to the
+   standard way.  */
+#ifndef MAIN_PROGRAM
+#define MAIN_PROGRAM(argc, argv)        main(argc, argv)
+#endif
 
 /* ------------------------------------------------------------------------- */
 

@@ -40,6 +40,7 @@
 
 #include "vice.h"
 
+#include <sys/types.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <ctype.h>
@@ -425,8 +426,7 @@ static int read_image_gcr(void)
 	    track_len = len[0] + len[1] * 256;
 
 	    if (track_len < 5000 || track_len > 7928) {
-		fprintf(stderr, "1541: Track field length %i is not
-			supported.\n", track_len);
+		fprintf(stderr, "1541: Track field length %i is not supported.\n", track_len);
 		return 0;
 	    }
 

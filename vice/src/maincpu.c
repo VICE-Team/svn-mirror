@@ -27,7 +27,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <sys/time.h>
 
 #define _MAINCPU_C
 
@@ -179,6 +178,8 @@ monitor_interface_t maincpu_monitor_interface = {
 /* ------------------------------------------------------------------------- */
 
 #ifdef EVALUATE_SPEED
+
+#include <sys/time.h>
 
 #define EVALUATE_INTERVAL	10000000L
 

@@ -88,7 +88,7 @@
  */
 
 /* timer values do not depend on a certain value here, but PB7 does... */
-#define	TAUOFFSET	-1
+#define	TAUOFFSET	(-1)
 
 #define update_via2irq() \
         maincpu_set_nmi(I_VIA2FL, (via2ifr & via2ier & 0x7f) ? IK_NMI : 0)

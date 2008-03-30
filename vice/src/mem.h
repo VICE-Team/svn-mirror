@@ -73,13 +73,13 @@ extern store_func_t mem_store;
 #ifdef _MAINCPU_C
 
 #define STORE(addr, value) \
-    (*_mem_write_tab_ptr[(addr) >> 8])((addr), (value))
+    (*_mem_write_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
 
 #define LOAD(addr) \
-    (*_mem_read_tab_ptr[(addr) >> 8])((addr))
+    (*_mem_read_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
 
 #define STORE_ZERO(addr, value) \
-    store_zero((addr), (value))
+    store_zero((ADDRESS)(addr), (BYTE)(value))
 
 #define LOAD_ZERO(addr) \
     ram[(addr) & 0xff]

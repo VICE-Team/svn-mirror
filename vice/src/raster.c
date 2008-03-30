@@ -31,13 +31,6 @@
 
 #define _RASTER_C
 
-#if defined( __hpux)
-#define _INCLUDE_HPUX_SOURCE
-#endif
-#include <sys/time.h>
-#if defined( __hpux)
-#undef _INCLUDE_HPUX_SOURCE
-#endif
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>

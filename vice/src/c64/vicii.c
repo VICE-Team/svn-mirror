@@ -72,6 +72,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "palette.h"
 #include "resources.h"
 #include "utils.h"
 #include "vmachine.h"

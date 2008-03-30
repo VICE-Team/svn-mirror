@@ -82,7 +82,7 @@
  */
 
 /* timer values do not depend on a certain value here, but PB7 does... */
-#define	TAUOFFSET	-1
+#define	TAUOFFSET	(-1)
 
 #define update_myviairq() \
         via_set_int(I_MYVIAFL, (myviaifr & myviaier & 0x7f) ? MYVIA_INT : 0)

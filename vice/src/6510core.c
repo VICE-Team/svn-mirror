@@ -221,7 +221,7 @@
             if (ik & IK_TRAP) {                                         \
                 ack_trap(&CPU_INT_STATUS);                              \
                 EXPORT_REGISTERS();                                     \
-                CPU_INT_STATUS.trap_func(reg_pc);                       \
+                CPU_INT_STATUS.trap_func((ADDRESS) reg_pc);             \
                 IMPORT_REGISTERS();                                     \
             }                                                           \
             if (ik & IK_RESET) {                                        \
@@ -237,17 +237,17 @@
            if (mon_mask[CALLER])					\
               EXPORT_REGISTERS();					\
            if (mon_mask[CALLER] & (MI_BREAK)) {				\
-              if (check_breakpoints(CALLER, reg_pc)) {			\
-                 mon(reg_pc);						\
+              if (check_breakpoints(CALLER, (ADDRESS) reg_pc)) {	\
+                 mon((ADDRESS) reg_pc);					\
                  IMPORT_REGISTERS();					\
               }								\
            }								\
            if (mon_mask[CALLER] & (MI_STEP)) {				\
-              mon_check_icount(reg_pc);					\
+              mon_check_icount((ADDRESS) reg_pc);		        \
               IMPORT_REGISTERS();					\
            }								\
            if (mon_mask[CALLER] & (MI_WATCH)) {				\
-              mon_check_watchpoints(reg_pc);				\
+              mon_check_watchpoints((ADDRESS) reg_pc);   		\
               IMPORT_REGISTERS();					\
            }								\
         }								\
@@ -1067,10 +1067,10 @@
       WORD tmp;                                 \
                                                 \
       CLK += 6;                                 \
-      tmp = PULL();                             \
-      LOCAL_SET_STATUS(tmp);                    \
-      tmp = PULL();                             \
-      tmp |= PULL() << 8;                       \
+      tmp = (WORD) PULL();                      \
+      LOCAL_SET_STATUS((BYTE) tmp);             \
+      tmp = (WORD) PULL();                      \
+      tmp |= (WORD) PULL() << 8;                \
       JUMP(tmp);                                \
   } while (0)
 
@@ -1127,13 +1127,13 @@
           LOCAL_SET_NZ(tmp & 0xff);                                          \
           LOCAL_SET_OVERFLOW(((reg_a ^ tmp) & 0x80)                          \
                              && ((reg_a ^ src) & 0x80));                     \
-          reg_a = tmp_a;                                                     \
+          reg_a = (BYTE) tmp_a;                                              \
       } else {                                                               \
           LOCAL_SET_NZ(tmp & 0xff);                                          \
           LOCAL_SET_CARRY(tmp < 0x100);                                      \
           LOCAL_SET_OVERFLOW(((reg_a ^ tmp) & 0x80)                          \
                              && ((reg_a ^ src) & 0x80));                     \
-          reg_a = tmp;                                                       \
+          reg_a = (BYTE) tmp;                                                \
       }                                                                      \
       INC_PC(pc_inc);                                                        \
     }                                                                        \
@@ -1433,7 +1433,6 @@
 #  if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 
 #    define opcode_t DWORD
-
 #    define FETCH_OPCODE(o) ((o) = (bank_base                              \
                                     ? (*((DWORD *)(bank_base + reg_pc))    \
                                        & 0xffffff)                         \

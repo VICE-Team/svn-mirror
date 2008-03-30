@@ -60,24 +60,6 @@
 
 #define HEX 1
 
-
-/*
- * Base conversions.
- * (+) -%&#$
- */
-
-void    show_bases(char *line, int mode)
-{
-    char buf[20];
-    int temparg = sconv(line, 0, mode);
-
-    strcpy(buf, sprint_binary((temparg >> 8) & 0xff) );
-    printf("\n %17x x\n %17d d\n %17o o\n %s %s b\n\n",
-	   temparg, temparg, temparg, buf,
-	   sprint_binary(temparg & 0xff));
-}
-
-
 /*
  * show prints PSW and contents of registers.
  */

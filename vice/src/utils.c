@@ -454,6 +454,11 @@ void fname_split(const char *path, char **directory_return, char **name_return)
     }
 
     p = strrchr(path, '/');
+#if defined __MSDOS__ || defined WIN32
+    if (p == NULL)
+        p = strrchr(path, '\\');
+#endif
+
     if (p == NULL) {
 	if (directory_return != NULL)
 	    *directory_return = NULL;

@@ -44,7 +44,9 @@ INCLUDES()
 {
 #include "kbd.h"
 #include "c64cia.h"
+#ifdef HAVE_RS232
 #include "rsuser.h"
+#endif
 }
 
 #define PRE_CIA_FUNCS
@@ -58,9 +60,11 @@ INCLUDES()
 
 STORE_SDR()
 {
+#ifdef HAVE_RS232
     if(rsuser_enabled) {
 	userport_serial_write_sr(byte);
     }
+#endif
 }
 
 

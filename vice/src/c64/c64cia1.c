@@ -85,7 +85,9 @@
 
 #include "kbd.h"
 #include "c64cia.h"
+#ifdef HAVE_RS232
 #include "rsuser.h"
+#endif
 
 #include "interrupt.h"
 
@@ -274,9 +276,11 @@ static int update_cia1(CLOCK rclk)
 		    if(cia1sr_bits==16) {
 		        BYTE byte = cia1[CIA_SDR];
 
+#ifdef HAVE_RS232
     if(rsuser_enabled) {
 	userport_serial_write_sr(byte);
     }
+#endif
 		    }
 		    if (!cia1sr_bits) {
 			cia1int |= CIA_IM_SDR;
@@ -564,9 +568,11 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
 	    if (cia1sr_bits <= 16) {
 		if(!cia1sr_bits) {
 
+#ifdef HAVE_RS232
     if(rsuser_enabled) {
 	userport_serial_write_sr(byte);
     }
+#endif
 		}
 		if(cia1sr_bits < 16) {
 	            /* switch timer A alarm on again, if necessary */
@@ -986,9 +992,11 @@ int int_cia1ta(long offset)
 	    if(cia1sr_bits == 16) {
 	        BYTE byte = cia1[CIA_SDR];
 
+#ifdef HAVE_RS232
     if(rsuser_enabled) {
 	userport_serial_write_sr(byte);
     }
+#endif
 	    }
 	}
     }

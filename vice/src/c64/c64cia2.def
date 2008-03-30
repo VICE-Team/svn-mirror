@@ -54,16 +54,20 @@ INCLUDES()
     #include "c64iec.h"
     #include "c64cia.h"
     #include "pruser.h"
+#ifdef HAVE_RS232
     #include "rsuser.h"
+#endif
 }
 
 #define	PRE_CIA_FUNCS
 
 RESET_CIA()
 {
+#ifdef HAVE_RS232
     userport_printer_write_strobe(1);
     userport_printer_write_data(0xff);
     userport_serial_write_ctrl(0xff);
+#endif
 }
 
 STORE_CIAPA()
@@ -85,8 +89,10 @@ STORE_CIAPB()
     byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
     if (true1541_parallel_cable_enabled)
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
+#ifdef HAVE_RS232
     userport_printer_write_data(byte);
     userport_serial_write_ctrl(byte);
+#endif
 }
 
 READ_CIAPA()
@@ -100,12 +106,17 @@ READ_CIAPA()
 
 READ_CIAPB()
 {
+#ifdef HAVE_RS232
     byte = (true1541_parallel_cable_enabled
             ? parallel_cable_cpu_read()
-            : (rsuser_enabled 
+            : (rsuser_enabled
 		? userport_serial_read_ctrl()
 		: cia2[CIA_PRB] | ~cia2[CIA_DDRB]));
-
+#else
+    byte = (true1541_parallel_cable_enabled
+            ? parallel_cable_cpu_read()
+            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]));
+#endif
 }
 
 READ_CIAICR()

@@ -54,7 +54,7 @@
 #include <limits.h>
 #endif
 
-#ifdef __GO32__
+#if defined __MSDOS__ || defined WIN32
 #include <fcntl.h>
 #endif
 
@@ -89,9 +89,11 @@ static void exit64(void);
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
 
+#ifdef __MSDOS__
 #include <dir.h>
+#endif
 
 static char *orig_workdir;
 
@@ -204,17 +206,18 @@ static cmdline_option_t cmdline_options[] = {
 
 /* ------------------------------------------------------------------------- */
 
-int main(int argc, char **argv)
+int MAIN_PROGRAM(int argc, char **argv)
 {
     if (atexit (exit64) < 0) {
 	perror ("atexit");
 	return -1;
     }
 
-#ifdef __GO32__
+#if defined __MSDOS__ || defined WIN32
     /* Set the default file mode.  */
     _fmode = O_BINARY;
 #endif
+
 #ifdef __MSDOS__
     /* Avoid exiting to a different directory than the one we were called
        from.  */
@@ -278,8 +281,7 @@ int main(int argc, char **argv)
 
     /* Initialize file system device-specific resources.  */
     if (fsdevice_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize file system device-specific
-                        resources.\n");
+        fprintf(stderr, "Cannot initialize file system device-specific resources.\n");
         exit(-1);
     }
     if (machine_init_resources() < 0) {
@@ -367,11 +369,15 @@ int main(int argc, char **argv)
 #endif
 
     signal(SIGSEGV,  break64);
-    signal(SIGHUP,   break64);
-    signal(SIGQUIT,  break64);
     signal(SIGILL,   break64);
     signal(SIGTERM,  break64);
+
+#ifndef WIN32
+    /* Windows does not have these ones.  */
     signal(SIGPIPE,  break64);
+    signal(SIGHUP,   break64);
+    signal(SIGQUIT,  break64);
+#endif
 
     /* Initialize real joystick.  */
     joystick_init();

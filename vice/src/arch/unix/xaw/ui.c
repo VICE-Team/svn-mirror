@@ -1188,10 +1188,8 @@ char *ui_select_file(const char *title,
     XtVaSetValues(file_selector, XtNshowContentsButton,  
 					read_contents_func ? 1 : 0,  NULL);
 
-/* we cannot change the pattern interactively, so we don't use it here now 
     XtVaSetValues(file_selector, XtNpattern, 
 		default_pattern ? default_pattern : "*", NULL);
-*/
 
     curdir = get_current_dir();
     newdir = stralloc(default_dir ? default_dir : curdir);

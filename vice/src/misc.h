@@ -32,7 +32,6 @@
 #include "types.h"
 
 
-extern void    show_bases ( char *line, int mode );
 extern void    show ( void );
 extern void    print_stack ( BYTE sp );
 extern char   *sprint_binary ( BYTE code );

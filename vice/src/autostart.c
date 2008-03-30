@@ -105,11 +105,11 @@ static enum {YES, NO, NOT_YET} check(const char *s)
     addr = screen_addr - line_length;
     for (i = 0; s[i] != '\0'; i++)
     {
-        if (mem_read(addr + i) != s[i] % 64)
+        if (mem_read((ADDRESS)(addr + i)) != s[i] % 64)
         {
-            if (mem_read(addr + i) != 32
-                && mem_read(addr + i) != 0
-                && mem_read(addr + i) != 255)
+            if (mem_read((ADDRESS)(addr + i)) != (BYTE) 32
+                && mem_read((ADDRESS)(addr + i)) != (BYTE) 0
+                && mem_read((ADDRESS)(addr + i)) != (BYTE) 255)
                 return NO;
             return NOT_YET;
         }

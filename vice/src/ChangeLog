@@ -1,3 +1,112 @@
+Sun Jun 28 12:21:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* main.c [WIN32]: #include <fcntl.h> as on MS-DOS.
+
+	* main.c (MAIN_PROGRAM) [WIN32]: Set the default file mode to
+ 	`O_BINARY' as on MS-DOS.
+
+	* resources.c (default_resource_file) [WIN32]: Always boot from
+ 	the directory where the binary lies, as in the MS-DOS version.
+	(default_resource_file) [__MSDOS__ || WIN32]: Use `\' as the
+ 	pathname separator.
+
+	* utils.c (fname_split) [__MSDOS__ || WIN32]: Handle `\' as a
+	pathname separator too.
+
+	* c64/c64cia1.def, c64/c64cia2.def [!HAVE_RS232]: Do not compile
+ 	RS-232 support in.
+
+	* misc.c (show_bases): Removed.
+
+	* main.c (main): Renamed to `MAIN_PROGRAM'.
+
+	* vice.h: #define `MAIN_PROGRAM(argc, argv)' at the end of the
+	file to `main(argc, argv)' if not already #defined.
+
+	* main.c (main) [WIN32]: Do not assign signal handlers for
+ 	`SIGPIPE', `SIGHUP' and `SIGQUIT'.
+
+	* c64/vicii.c: #include "palette.h".
+
+	* raster.c: Do not #include <sys/time.h> anymore.
+
+	* main.c: Extended `#ifdef __MSDOS__'s to WIN32 too.
+	(main): Removed newline in constant.
+
+	* via-tmpl.c: Added parenthesis in #definition of `TAUOFFSET'.
+
+	* sysfile.c (sysfile_init) [WIN32]: Initialize like with
+ 	`__MSDOS__'.
+
+	* c64/sid.c (sound_machine_open): Copy `siddata' into `psid->d'
+ 	using `memcpy()', not `memset()'.
+
+	* resources.c: Removed usage of `__FUNCTION__'.
+
+	* true1541/true1541.c: #include <sys/types.h>
+ 	(read_image_gcr): Removed newline within string.
+
+	* autostart.c (check): Added a few casts to make some compilers
+ 	happier.
+
+	* zfile.c (try_uncompress_zipcode): Call `open' with 3 parameters.
+	(try_uncompress_lynx): Likewise.
+	* utils.c (load_file): Likewise.
+
+	* vice.h [WIN32]: #include "lose32.h".
+
+	* true1541/1541cpu.c: Removed #undef hack for memory access
+	macros.
+	(LOAD, STORE): Added some casts to make some compilers happier.
+
+	* mem.h (STORE, LOAD, LOAD_ZERO): Added some casts to make some
+ 	compilers happier.
+
+	* 6510core.c (RTI, SBC, DO_INTERRUPT): Added some casts to make
+ 	some compilers happier.
+
+	* true1541/1541cpu.c (true1541_store): Removed useless `return'
+ 	statement.
+
+	* utils.c [!__MSDOS__ && !WIN32]: Do not #include <sys/wait.h>.
+
+	* memutils.c (mem_load_sys_file): Type of `rsize' changed to
+ 	`int'.
+
+	* maincpu.c [!EVALUATE_SPEED]: Do not #include <sys/time.h>.
+
+	* gcr.c: Do not #include <unistd.h> and <assert.h>.
+
+	* fsdevice.c: Do not #include <sys/param.h>.
+
+	* true1541/1541cpu.c: Do not #include <sys/time.h>.
+
+Fri Jun 26 17:32:01 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* zfile.h [WIN32]: Typedef `mode_t' to `int'.
+
+	* drive.c: Do not include <sys/param.h>.
+
+	* cartridge.c: Do not #include <dirent.h> and <unistd.h>.
+
+Fri Jun 26 13:08:45 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/ui.c (ui_select_file): Enable file pattern.
+
+	* arch/unix/xaw/uisettings.c: New entry for 200% in
+ 	`set_maximum_speed_submenu'.
+
+	* arch/unix/xaw/widgets/FilSel.c (ChildrenCreate): Changed text on
+ 	Goto button from "Goto" to "Show".
+	(ButtonGoto): Separate path & pattern and set both in Widget.
+	(UpdateTextLines): Concat path & pattern to display in former
+ 	directory field.
+
+Sat Jun 27 19:05:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* true1541/1541cpu.c (true1541_store): Removed useless `return'
+ 	statement.
+
 Thu Jun 25 10:37:23 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Makefile.am (x64-all, x128-all, xvic-all, xpet-all): New
