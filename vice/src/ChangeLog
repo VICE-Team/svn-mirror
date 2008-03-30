@@ -1,3 +1,32 @@
+1999-01-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.6.
+
+	* arch/win32/res.h, arch/win32/resc128.r, arch/win32/resc64.r,
+	arch/win32/rescbm2.r, arch/win32/respet.r, arch/win32/resvic.r:
+	Added menu entries for drive sync settings.
+	
+	* arch/win32/ui.c: #include "drive.h".  (handle_wm_command):
+	Handle drive settings too.  (ui_update_menus): Use the item id to
+	check for end of struct instead of the value as drive sync
+	settings allow negative values too.
+
+	* arch/win32/video.c, sounddrv/sounddx.c: Removed or commented out
+	some unused variables.
+
+	* crtc-tmpl.c, vic20/vic.c: Added missing `NEED_2x' to make MSDOS
+	and MS Windows port compile again.
+
+1999-01-17  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* utils.c, utils.h: (xcalloc): New function (like calloc).
+
+	* arch/unix/xaw/ui.c, atch/unix/xaw/c64ui.c:
+	Replaced all `calloc' with `xcalloc'.
+
+	* arch/unix/xaw/ui.c: (set_fullscreen): Consider
+ 	`window-DoubleSize` changes in fullscreen-mode.
+	
 1999-01-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.5.
