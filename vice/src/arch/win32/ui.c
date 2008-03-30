@@ -491,6 +491,7 @@ static int                  status_led[2];
 static int                  status_map[2];
 static double               status_track[2];
 static int                  status_unit[2];
+static int                 *drive_active_led;
 
 static void SetStatusWindowParts(void)
 {
@@ -526,9 +527,10 @@ int     i;
     }
 }
 
-void ui_enable_drive_status(ui_drive_enable_t enable)
+void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
     status_enabled=enable;
+    drive_active_led = drive_led_color;
     SetStatusWindowParts();
 }
 

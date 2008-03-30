@@ -148,9 +148,9 @@
 #define DRIVE_EXTEND_ACCESS		2
 
 /* Drive idling methods.  */
-#define DRIVE_IDLE_NO_IDLE		0
-#define DRIVE_IDLE_SKIP_CYCLES	1
-#define DRIVE_IDLE_TRAP_IDLE		2
+#define DRIVE_IDLE_NO_IDLE     0
+#define DRIVE_IDLE_SKIP_CYCLES 1
+#define DRIVE_IDLE_TRAP_IDLE   2
 
 /* Drive type.  */
 #define DRIVE_TYPE_NONE 0
@@ -158,6 +158,10 @@
 #define DRIVE_TYPE_1571	1571
 #define DRIVE_TYPE_1581 1581
 #define DRIVE_TYPE_2031 2031
+
+/* Possible colors of the drive active LED.  */
+#define DRIVE_ACTIVE_RED      0
+#define DRIVE_ACTIVE_GREEN    1
 
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
@@ -306,6 +310,7 @@ typedef struct drive_s {
 
     /* Drive-specific logging goes here.  */
     log_t log;
+
 } drive_t;
 
 extern drive_t drive[2];

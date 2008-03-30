@@ -58,7 +58,8 @@ extern int ui_init(int *argc, char **argv);
 extern int ui_init_finish(void);
 extern void ui_exit(void);
 extern void ui_display_speed(float percent, float framerate, int warp_flag);
-extern void ui_enable_drive_status(ui_drive_enable_t enable);
+extern void ui_enable_drive_status(ui_drive_enable_t enable,
+                                   int *drive_led_color);
 extern void ui_display_drive_track(int drivenum, double track_number);
 extern void ui_display_drive_led(int drivenum, int status);
 extern void ui_display_paused(int flag);
