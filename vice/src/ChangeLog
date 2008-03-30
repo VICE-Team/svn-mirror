@@ -1,3 +1,87 @@
+2001-12-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.35.
+
+	* arch/unix/x11/videoarch.h: Added `videorendermode' to
+	canvas.
+
+	* arch/unix/x11/video.c: Fixed call to `video_render_main()'.
+
+	* plus4/ted.c (ted_set_geometry, ted_resize): Fixed call to
+	`raster_set_pixel_size()'.
+
+	* c128/c128mmu.c (mmu_ffxx_read, mmu_ffxx_read_z80): Return
+	contents of MMU registers on $FF01-$FF04 read access.
+	(mmu_reset): Clear MMU registers.
+
+2001-12-08  John Selck  <graham@cruise.de>
+
+	* arch/win32/videoarch.h: Added "videorendermode"
+	variable to the canvas definition.
+
+	* arch/win32/video.c: real_refresh() now hands
+	canvas->videorendermode to the video_render_main()
+	function.
+
+	* video/video-render.c: Finally removed double_size_bad.
+	video_render_main() now has another argument which
+	selects the "rendermode", so the video layer can decide
+	on it's own what is allowed for certain rendering and what
+	is not.
+
+	* video/video.h: Changed video_render_main() prototype.
+	Changed rendermode constants so they define a bit more
+	precisely what renderers may be called.
+
+	* raster/raster.c: raster_set_pixel_size() got a new
+	argument which sets the rendermode of the canvas.
+
+	* raster/raster.h: Changed prototype of
+	raster_set_pixel_size().
+
+	* vicii/vicii-resources.c: set_double_size_enabled()
+	no longer hands the state of DoubleSize to the video layer.
+
+	* vicii/vicii.c: vic_ii_set_geometry() and vic_ii_resize()
+	now also set the rendermodes when calling
+	raster_set_pixel_size().
+
+	* vic/vic-resources.c: set_double_size_enabled()
+	no longer hands the state of DoubleSize to the video layer.
+
+	* vic/vic.c: vic_set_geometry() and vic_resize()
+	now also set the rendermodes when calling
+	raster_set_pixel_size().
+
+	* crtc/crtc-resources.c: set_double_size_enabled()
+	no longer hands the state of DoubleSize to the video layer.
+
+	* crtc/crtc.c: crtc_set_geometry() and crtc_resize()
+	now also set the rendermodes when calling
+	raster_set_pixel_size().
+
+2001-12-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-mem.c (check_bad_line_state_change_for_d011):
+	Delay vic_ii.idle_state via raster_add_int_change_forground()
+	This solves problems with garbage in first line in some demos.
+
+2001-12-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/resplus4.rc: Fixed settings dialog to make it
+	compile again.
+
+2001-12-07  John Selck  <graham@cruise.de>
+
+	* video/render1x1.c: Fixed <8 pixel rendering.
+
+	* video/render1x2.c: Fixed <8 pixel rendering.
+
+	* video/render2x2.c: Fixed <8 pixel rendering.
+
+	* arch/win32/uivicii.c: Removed implementation of Palette and
+	Color options.
+
 2001-12-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.34.
