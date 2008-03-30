@@ -1806,7 +1806,7 @@ void video_register_callbacks(void)
   resources_register_callback("ScreenSetPalette", callback_canvas_modified, NULL);
 }
 
-void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen)
+void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     cap_fullscreen->device_num = 0;
 }

@@ -392,7 +392,7 @@ void video_canvas_refresh(video_canvas_t *c,
 	}
 }
 
-void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen)
+void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     cap_fullscreen->device_num = 0;
 }

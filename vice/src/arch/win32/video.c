@@ -887,7 +887,7 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 
     if (c->draw_buffer->draw_buffer) {
         cut_rightline = safex + c->geometry->screen_size.width * pixel_width;
-        cut_bottomline = safey + c->geometry->screen_size_height * pixel_height;
+        cut_bottomline = safey + c->geometry->screen_size.height * pixel_height;
         if (cut_rightline > c->draw_buffer->draw_buffer_width * pixel_width) {
             cut_rightline = c->draw_buffer->draw_buffer_width * pixel_width;
         }
@@ -942,8 +942,6 @@ void video_canvas_refresh(video_canvas_t *canvas,
                           unsigned int w, unsigned int h)
 {
     int window_index;
-    unsigned int frame_buffer_x;
-    unsigned int frame_buffer_y;
     unsigned int client_x;
     unsigned int client_y;
     RECT rect;
@@ -968,8 +966,6 @@ void video_canvas_refresh(video_canvas_t *canvas,
         DEBUG(("PANIC: can't find window"));
         return;
     }
-    frame_buffer_x = xs;
-    frame_buffer_y = ys;
     client_x = xi;
     client_y = yi;
 
@@ -982,8 +978,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
     client_y += (rect.bottom - statusbar_get_status_height()
                 - window_canvas_ysize[window_index]) / 2;
 
-    real_refresh(canvas, frame_buffer_x, frame_buffer_y,
-                 client_x, client_y, w, h);
+    real_refresh(canvas, xs, ys, client_x, client_y, w, h);
 }
 
 static void real_refresh(video_canvas_t *c,
@@ -1138,6 +1133,12 @@ static void real_refresh(video_canvas_t *c,
         py = ys + trect.top - rect.top;
         pw = trect.right - trect.left;
         ph = trect.bottom - trect.top;
+
+        if (c->videoconfig->doublesizex)
+            px /= 2;
+
+        if (c->videoconfig->doublesizey)
+            py /= 2;
 
         video_canvas_render(c,
                             (BYTE *)(desc.lpSurface),
@@ -1303,7 +1304,7 @@ float video_refresh_rate(video_canvas_t *c)
     return 0.0f;
 }
 
-void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen)
+void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     cap_fullscreen->device_num = 0;
 }
