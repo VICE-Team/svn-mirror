@@ -43,7 +43,6 @@
 #include "crtctypes.h"
 #include "lib.h"
 #include "log.h"
-#include "palette.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "raster-canvas.h"
@@ -55,7 +54,6 @@
 #include "utils.h"
 #include "vsync.h"
 #include "video.h"
-#include "videoarch.h"
 
 
 #define crtc_min(a,b)   (((a)<(b))?(a):(b))
@@ -322,6 +320,14 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 
 /*--------------------------------------------------------------------*/
 
+static video_cbm_palette_t crtc_palette =
+{
+    CRTC_NUM_COLORS,
+    NULL,
+    0,
+    0    
+};
+
 raster_t *crtc_init(void)
 {
     raster_t *raster;
@@ -375,8 +381,9 @@ raster_t *crtc_init(void)
 
     crtc_update_window();
 
-    if (crtc_load_palette (crtc_resources.palette_file_name) < 0) {
-        log_error (crtc.log, "Cannot load palette.");
+    video_color_palette_internal(crtc.raster.canvas, &crtc_palette);
+    if (video_color_update_palette(crtc.raster.canvas) < 0) {
+        log_error(crtc.log, "Cannot load palette.");
         return NULL;
     }
 
@@ -437,31 +444,6 @@ void crtc_reset(void)
                   + crtc.regs[5];
 
 }
-
-
-
-/* WARNING: This does not change the resource value.  External modules are
-   expected to set the resource value to change the CRTC palette instead of
-   calling this function directly.  */
-int crtc_load_palette(const char *name)
-{
-    static const char *color_names[CRTC_NUM_COLORS] = {
-      "Background", "Foreground"
-    };
-    palette_t *palette;
-
-    palette = palette_create(CRTC_NUM_COLORS, color_names);
-    if (palette == NULL)
-        return -1;
-
-    if (palette_load(name, palette) < 0) {
-        log_message(crtc.log, "Cannot load palette file `%s'.", name);
-        return -1;
-    }
-
-    return video_canvas_palette_set(crtc.raster.canvas, palette);
-}
-
 
 /* Redraw the current raster line.  This happens at the last
    cycle of each line.  */

@@ -37,7 +37,6 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "palette.h"
 #include "raster.h"
 #include "raster-line.h"
 #include "raster-modes.h"
@@ -51,7 +50,6 @@
 #include "vdc-snapshot.h"
 #include "vdc.h"
 #include "vdctypes.h"
-#include "videoarch.h"
 #include "video.h"
 
 
@@ -124,6 +122,14 @@ static void vdc_invalidate_cache(raster_t *raster, unsigned int screen_height)
     raster_new_cache(raster, screen_height);
 }
 
+static video_cbm_palette_t vdc_palette =
+{
+    VDC_NUM_COLORS,
+    NULL,
+    0,
+    0
+};
+
 static int init_raster(void)
 {
     raster_t *raster;
@@ -142,7 +148,8 @@ static int init_raster(void)
 
     vdc_set_geometry();
 
-    if (vdc_load_palette(vdc_resources.palette_file_name) < 0) {
+    video_color_palette_internal(vdc.raster.canvas, &vdc_palette);
+    if (video_color_update_palette(vdc.raster.canvas) < 0) {
         log_error(vdc.log, "Cannot load palette.");
         return -1;
     }
@@ -416,35 +423,6 @@ void vdc_calculate_xsync(void)
                           * host_cycles_per_second / VDC_DOT_CLOCK;
 
     vdc.xsync_increment = (unsigned int)(vdc_cycles_per_line * 65536);
-}
-
-
-/* WARNING: This does not change the resource value. External modules are
-   expected to set the resource value to change the VDC palette instead of
-   calling this function directly. */
-
-int vdc_load_palette(const char *name)
-{
-    static const char *color_names[VDC_NUM_COLORS] =
-    {
-        "Black",    "Medium Gray", "Blue",        "Light Blue",
-        "Green",    "Light Green", "Dark Cyan",   "Light Cyan",
-        "Dark Red", "Light Red",   "Dark Purple", "Light Purple",
-        "Brown",    "Yellow",      "Light Gray",  "White"
-    };
-    palette_t *palette;
-
-    palette = palette_create(VDC_NUM_COLORS, color_names);
-    if (palette == NULL)
-        return -1;
-
-    if (palette_load(name, palette) < 0) {
-        log_message(vdc.log, "Cannot load palette file '%s'.", name);
-        return -1;
-    }
-
-    video_canvas_palette_set(vdc.raster.canvas, palette);
-    return 0;
 }
 
 void vdc_set_canvas_refresh(int enable)
