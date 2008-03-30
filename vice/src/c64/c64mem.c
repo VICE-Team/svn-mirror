@@ -648,7 +648,7 @@ void initialize_memory(void)
     /* a000-bfff */
     { 0xfffd, 0xcffd, 0xcffd, 0xbffd, 0xfffd, 0xcffd, 0xcffd, 0xbffd,
       0xfffd, 0xcffd,     -1,     -1, 0xfffd, 0xcffd,     -1,     -1,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
+          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
       0xfffd, 0xcffd,     -1,     -1, 0xfffd, 0xcffd,     -1,     -1 },
     /* c000-cfff */
     { 0xfffd, 0xcffd, 0xcffd, 0xcffd, 0xfffd, 0xcffd, 0xcffd, 0xcffd,
@@ -821,9 +821,14 @@ void initialize_memory(void)
             }
         }
     }
-    for (j = 16; j < 24; j++)
+    for (j = 16; j < 24; j++) {
         for (i = 0x80; i <= 0x9f; i++)
             set_write_hook(j, i, store_roml);
+        for (i = 0xa0; i <= 0xbf; i++) {
+            mem_read_tab[j][i] = read_ultimax_a000_bfff;
+            set_write_hook(j, i, store_ultimax_a000_bfff);
+        }
+    }
 
     /* Setup ROMH at $A000-$BFFF and $E000-$FFFF.  */
     for (j = 0; j < NUM_CONFIGS; j++) {
