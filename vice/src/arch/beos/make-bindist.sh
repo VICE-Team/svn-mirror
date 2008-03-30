@@ -6,6 +6,12 @@
 # make-bindist.sh <strip> <vice-version> <zip|nozip> <top-srcdir>
 #                 $1      $2             $3         $4
 
+if [ ! -e src/x64 -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+then
+  echo Error: executable file\(s\) not found, do a \"make\" first
+  exit 1
+fi
+
 echo Generating BEOS port binary distribution.
 rm -f -r BeVICE-$2
 mkdir BeVICE-$2

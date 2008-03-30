@@ -40,7 +40,6 @@
 #include "cmdline.h"
 #include "intl.h"
 #include "lib.h"
-/* #include "res.h" */
 #include "resources.h"
 #include "translate.h"
 #include "util.h"
@@ -6146,7 +6145,7 @@ char *intl_convert_cp(char *text, int cp)
   if (len==0)
     return NULL;
 
-  buffer=strdup(text);
+  buffer=lib_stralloc(text);
 
   return buffer;
 }

@@ -1,3 +1,20 @@
+2006-08-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.28.
+
+2006-08-21  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* build/macosx/make-ub.sh: Added support to cross-compile on a
+	PowerPC platform
+
+2006-08-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Updated.
+
+2006-08-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS: Cosmetic fix.
+
 2006-08-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.27.

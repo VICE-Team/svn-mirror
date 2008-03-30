@@ -53,6 +53,8 @@
 #include "intl.h"
 #include "translate.h"
 
+#include "lib.h"
+
 #ifndef MAKE_ID
 #define MAKE_ID(a,b,c,d) ((ULONG) (a)<<24 | (ULONG) (b)<<16 | (ULONG) (c)<<8 | (ULONG) (d))
 #endif
@@ -556,13 +558,13 @@ static void update_inputs(ULONG ID)
 
   for (i=0; i<inputs.count; i++) {
     if (inputs.names[i] != NULL) {
-      free(inputs.names[i]);
+      lib_free(inputs.names[i]);
     }
   }
   memset(&inputs, 0, sizeof(inputs));
 
   inputs.offsets[0] = 0;
-  inputs.names[0] = strdup("-");
+  inputs.names[0] = lib_stralloc("-");
   inputs.types[0] = TYPE_NONE;
   inputs.count++;
 
@@ -578,7 +580,7 @@ static void update_inputs(ULONG ID)
     AIN_Query(CTX, ID, AINQ_BUTTONNAME, i, name, sizeof(name));
     if (name[0] != '\0') {
       inputs.offsets[inputs.count] = offset + i;
-      inputs.names[inputs.count] = strdup(name);
+      inputs.names[inputs.count] = lib_stralloc(name);
       inputs.types[inputs.count] = TYPE_BUTTON;
       inputs.count++;
     }
@@ -592,7 +594,7 @@ static void update_inputs(ULONG ID)
     AIN_Query(CTX, ID, AINQ_AXISNAME, i, name, sizeof(name));
     if (name[0] != '\0') {
       inputs.offsets[inputs.count] = offset + i;
-      inputs.names[inputs.count] = strdup(name);
+      inputs.names[inputs.count] = lib_stralloc(name);
       inputs.types[inputs.count] = TYPE_AXES;
       inputs.count++;
     }
@@ -606,7 +608,7 @@ static void update_inputs(ULONG ID)
     AIN_Query(CTX, ID, AINQ_HATNAME, i, name, sizeof(name));
     if (name[0] != '\0') {
       inputs.offsets[inputs.count] = offset + i;
-      inputs.names[inputs.count] = strdup(name);
+      inputs.names[inputs.count] = lib_stralloc(name);
       inputs.types[inputs.count] = TYPE_HAT;
       inputs.count++;
     }
@@ -627,7 +629,7 @@ static int offset_to_index(int offset)
 BOOL enumfunc(AIN_Device *device, void *UserData)
 {
   devices.ids[devices.count] = device->DeviceID;
-  devices.names[devices.count] = strdup(device->DeviceName);
+  devices.names[devices.count] = lib_stralloc(device->DeviceName);
 
   if (default_id != -1) {
     if (default_id == device->DeviceID) {
@@ -682,7 +684,7 @@ int joyai_config(int joy)
   }
 
   devices.ids[devices.count] = -1;
-  devices.names[devices.count] = strdup("-");
+  devices.names[devices.count] = lib_stralloc("-");
   devices.count++;
 
   default_id = joy_id[joy-1];

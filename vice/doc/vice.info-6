@@ -258,8 +258,11 @@ involved in the development of X64 and VICE:
 
    * Johan Samuelsson provided the swedish Amiga translations.
 
-   * Harry Sintonen provided lots of fixes and improvements for the
-     Amiga ports.
+   * Harry "Piru" Sintonen provided lots of fixes and improvements for
+     the Amiga ports.
+
+   * Ilkka "itix" Lehtoranta provided the routines for the cybergraphics
+     support for the Amiga ports.
 
    * Wolfgang Moser provided small optimization fixes to the GCR code.
 

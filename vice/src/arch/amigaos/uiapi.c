@@ -268,7 +268,7 @@ int ui_requester(char *title, char *msg, char *buttons, int defval)
   struct EasyStruct *uiRequester = NULL;
   int retval;
 
-  uiRequester = (struct EasyStruct *)AllocMem(sizeof(struct EasyStruct), MEMF_ANY);
+  uiRequester = (struct EasyStruct *)lib_AllocMem(sizeof(struct EasyStruct), MEMF_ANY);
   if (uiRequester)
   {
     uiRequester->es_StructSize = sizeof(struct EasyStruct);
@@ -284,7 +284,7 @@ int ui_requester(char *title, char *msg, char *buttons, int defval)
     fprintf(stderr,"%s : %s\n",title, msg);
     return defval;
   }
-  FreeMem(uiRequester, sizeof(struct EasyStruct));
+  lib_FreeMem(uiRequester, sizeof(struct EasyStruct));
   return retval;
 }
 

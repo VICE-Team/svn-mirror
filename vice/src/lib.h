@@ -27,8 +27,13 @@
 #ifndef _LIB_H
 #define _LIB_H
 
+#include "vice.h"
+
 #include <stdarg.h>
 #include <stdio.h>
+
+/* memory leak pinpointing, don't forget to enable in lib.c */
+/* #define LIB_DEBUG_PINPOINT */
 
 extern void *lib_malloc(size_t size);
 extern void *lib_calloc(size_t nmemb, size_t size);
@@ -41,5 +46,30 @@ extern char *lib_mvsprintf(const char *fmt, va_list args);
 
 extern void lib_debug_check(void);
 
+extern void *lib_AllocVec(unsigned long size, unsigned long attributes);
+extern void lib_FreeVec(void *ptr);
+extern void *lib_AllocMem(unsigned long size, unsigned long attributes);
+extern void lib_FreeMem(void *ptr, unsigned long size);
+
+#ifdef LIB_DEBUG_PINPOINT
+extern void *lib_malloc_pinpoint(size_t size, char *name, unsigned int line);
+extern void *lib_calloc_pinpoint(size_t nmemb, size_t size, char *name, unsigned int line);
+extern void *lib_realloc_pinpoint(void *p, size_t size, char *name, unsigned int line);
+extern char *lib_stralloc_pinpoint(const char *str, char *name, unsigned int line);
+
+extern void *lib_AllocVec_pinpoint(unsigned long size, unsigned long attributes, char *name, unsigned int line);
+extern void lib_FreeVec_pinpoint(void *ptr, char *name, unsigned int line);
+extern void *lib_AllocMem_pinpoint(unsigned long size, unsigned long attributes, char *name, unsigned int line);
+extern void lib_FreeMem_pinpoint(void *ptr, unsigned long size, char *name, unsigned int line);
+
+#define lib_malloc(x) lib_malloc_pinpoint(x,__FILE__,__LINE__)
+#define lib_calloc(x,y) lib_calloc_pinpoint(x,y,__FILE__,__LINE__)
+#define lib_realloc(x,y) lib_realloc_pinpoint(x,y,__FILE__,__LINE__)
+#define lib_stralloc(x) lib_stralloc_pinpoint(x,__FILE__,__LINE__)
+#define lib_AllocVec(x,y) lib_AllocVec_pinpoint(x,y,__FILE__,__LINE__)
+#define lib_FreeVec(x) lib_FreeVec_pinpoint(x,__FILE__,__LINE__)
+#define lib_AllocMem(x,y) lib_AllocMem_pinpoint(x,y,__FILE__,__LINE__)
+#define lib_FreeMem(x,y) lib_FreeMem_pinpoint(x,y,__FILE__,__LINE__)
 #endif
 
+#endif

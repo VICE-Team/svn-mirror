@@ -171,10 +171,10 @@ copy  ..\..\..\FEEDBACK               Vice2\doc\readme
 copy  ..\..\..\doc\html\plain\NEWS    Vice2\doc\readme
 copy  ..\..\..\README                 Vice2\doc\readme
 copy  ..\..\..\doc\html\plain\TODO    Vice2\doc\readme
-
 md Vice2\doc\txt
 REM copy  ..\..\..\doc\Evaluation   Vice2\doc\txt\Evaluation
 copy  ..\..\..\doc\mon.txt          Vice2\doc\txt
+copy  ..\..\..\doc\cartconv.txt     Vice2\doc\txt
 xcopy ..\..\..\doc\html\plain\*.txt Vice2\doc\txt
 
 md Vice2\doc\html

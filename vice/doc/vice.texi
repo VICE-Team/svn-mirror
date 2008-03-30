@@ -7666,7 +7666,12 @@ AmigaOS ports.
 @b{Johan Samuelsson} provided the swedish Amiga translations.
 
 @item
-@b{Harry Sintonen} provided lots of fixes and improvements for the Amiga ports.
+@b{Harry "Piru" Sintonen} provided lots of fixes and improvements for
+the Amiga ports.
+
+@item
+@b{Ilkka "itix" Lehtoranta} provided the routines for the cybergraphics
+support for the Amiga ports.
 
 @item
 @b{Wolfgang Moser} provided small optimization fixes

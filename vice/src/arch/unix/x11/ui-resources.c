@@ -88,7 +88,12 @@ static int set_confirm_on_exit(resource_value_t v, void *param)
 }
 
 static const resource_t resources[] = {
-    { "HTMLBrowserCommand", RES_STRING, (resource_value_t)"netscape %s",
+    { "HTMLBrowserCommand", RES_STRING, 
+#ifdef MACOSX_SUPPORT    
+      (resource_value_t)"/usr/bin/open %s",
+#else
+      (resource_value_t)"netscape %s",
+#endif
       RES_EVENT_NO, NULL,                                   \
       (void *)&ui_resources.html_browser_command,
       set_html_browser_command, NULL },

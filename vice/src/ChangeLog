@@ -1,3 +1,71 @@
+2006-08-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.28.
+
+	* keyboard.c (keyboard_parse_keymap): Added parser fix written
+	by Dirk Jagdmann.
+
+2006-08-26  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* monitor/mon_breakpoint.c: Output the memspace if the user
+	requests to see all breakpoints ("break" command without
+	arguments in the monitor).
+
+2006-08-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/make-bindist.sh, arch/beos/make-bindist.sh,
+	arch/msdos/make-bindist.sh, arch/unix/qnx/make-bindist.sh,
+	arch/unix/solaris/make-bindist.sh,
+	arch/win32/make-bindist.sh: Added executable files checking.
+
+2006-08-24  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: Fixed a type conflict in console_out()
+	which prevented compiling the Windows platform with MingW.
+
+2006-08-21  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/make-bindist.sh,
+	arch/unix/gui/uicommands.c, arch/unix/x11/ui-resources.c:
+	HTTPBrowserCommand changed to open(1) on Macs. HTML docs are
+	searched in application bundle on Macs. bindist embeds HTML
+	docs in each app bundle.
+
+2006-08-21  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/make-bindist.sh: Added support to
+	cross-compile on a PowerPC platform
+
+	* arch/unix/joy.c: Fixed joystick define.
+
+2006-08-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/archdep.c, arch/amigaos/video.c: Debugged.
+
+	* arch/amigaos/ahi.c, arch/amigaos/intl.c,
+	arch/amigaos/joyai.c, arch/amigaos/mousedrv.c,
+	arch/amigaos/mui/filereq.c, arch/amigaos/timer.c,
+	arch/amigaos/uiapi.c, c64/c64io.c: Changed some calls to use
+	the functions provided in the lib.c source file.
+
+	* lib.c, lib.h: Enhanced to show the file and line of the
+	leaking allocation.
+
+2006-08-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/make-bindist.sh,
+	arch/amigaos/x128ns.c, arch/amigaos/x64ns.c,
+	arch/amigaos/xcbm2ns.c, arch/amigaos/xpetns.c,
+	arch/amigaos/xplus4ns.c, arch/amigaos/xvicns.c: Added 'no
+	sound' launchers.
+
+	* info.c: Updated.
+
+2006-08-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/make-bindist.sh, arch/os2/makedist.cmd: Updated
+	to put cartconv.txt in the binary distribution.
+
 2006-08-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.27.

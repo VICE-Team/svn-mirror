@@ -125,7 +125,7 @@ struct Library *P96Base = NULL;
 #ifndef AMIGA_AROS
 struct RastPort *CreateRastPort(void)
 {
-  return AllocVec(sizeof(struct RastPort),MEMF_ANY|MEMF_PUBLIC);
+  return lib_AllocVec(sizeof(struct RastPort),MEMF_ANY|MEMF_PUBLIC);
 }
 
 struct RastPort *CloneRastPort(struct RastPort *friend_rastport)
@@ -231,7 +231,6 @@ void video_shutdown(void)
 
     video_canvas_destroy(canvas);
   }
-
 #ifndef AMIGA_OS4
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
 #ifdef HAVE_XVIDEO
@@ -388,7 +387,7 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
 #ifdef AMIGA_AROS
   if (unlockable_buffer!=NULL)
   {
-    free(unlockable_buffer);
+    lib_free(unlockable_buffer);
     unlockable_buffer=NULL;
   }
 
@@ -1185,7 +1184,7 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
 #ifdef AMIGA_AROS
     if (unlockable_buffer!=NULL)
     {
-      free(unlockable_buffer);
+      lib_free(unlockable_buffer);
       unlockable_buffer=NULL;
     }
 
@@ -1212,6 +1211,7 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
 
     lib_free(canvas->os);
     canvas->os = NULL;
+    video_canvas_shutdown(canvas);
   }
 }
 

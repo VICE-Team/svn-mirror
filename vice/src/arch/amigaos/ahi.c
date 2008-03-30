@@ -47,6 +47,8 @@
 #include "ahi.h"
 #include "timer.h"
 
+#include "lib.h"
+
 #define PRINTF(a...)
 #define DEBUG(a...)
 
@@ -369,12 +371,12 @@ s32 ahi_open(s32 frequency, u32 mode, s32 fragsize, s32 frags, void (*callback)(
 DEBUG("alloc buffers\n");
 
   /* allocate buffers */
-  audio.audio_buffers = AllocVec(audio.frags * sizeof(audio_buffer_t), MEMF_PUBLIC | MEMF_CLEAR);
+  audio.audio_buffers = lib_AllocVec(audio.frags * sizeof(audio_buffer_t), MEMF_PUBLIC | MEMF_CLEAR);
   if (audio.audio_buffers == NULL) {
     goto fail;
   }
   for (i=0; i<audio.frags; i++) {
-    audio.audio_buffers[i].buffer = AllocVec(fragsize, MEMF_PUBLIC | MEMF_CLEAR);
+    audio.audio_buffers[i].buffer = lib_AllocVec(fragsize, MEMF_PUBLIC | MEMF_CLEAR);
     if (audio.audio_buffers[i].buffer == NULL) {
       goto fail;
     }
@@ -394,7 +396,7 @@ DEBUG("remove signals\n");
 DEBUG("allocate semaphore\n");
 
   /* allocate semaphore */
-  audio.semaphore = (struct SignalSemaphore *)AllocVec(sizeof(struct SignalSemaphore), MEMF_PUBLIC | MEMF_CLEAR);
+  audio.semaphore = (struct SignalSemaphore *)lib_AllocVec(sizeof(struct SignalSemaphore), MEMF_PUBLIC | MEMF_CLEAR);
   if (audio.semaphore == NULL) {
     goto fail;
   }
@@ -638,15 +640,15 @@ DEBUG("wait for signal\n");
 DEBUG("free semaphore\n");
   /* free semaphore */
   if (audio.semaphore != NULL) {
-    FreeVec(audio.semaphore);
+    lib_FreeVec(audio.semaphore);
   }
 
 DEBUG("free buffers\n");
   if (audio.audio_buffers != NULL) {
     for (i=0; i<audio.frags; i++) {
-      FreeVec(audio.audio_buffers[i].buffer);
+      lib_FreeVec(audio.audio_buffers[i].buffer);
     }
-    FreeVec(audio.audio_buffers);
+    lib_FreeVec(audio.audio_buffers);
   }
 
 DEBUG("free timer\n");

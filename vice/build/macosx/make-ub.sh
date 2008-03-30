@@ -33,11 +33,11 @@ INTEL_SDK=/Developer/SDKs/MacOSX10.4u.sdk
 
 # -- fetch real paths --
 if [ ! -d $READLINE_SRC ]; then
-	echo "ERROR missing readline source!"
+	echo "ERROR missing readline source! ($READLINE_SRC)"
 	exit 1
 fi
 if [ ! -d $HIDUTIL_SRC ]; then
-	echo "ERROR missing HIDUtil source!"
+	echo "ERROR missing HIDUtil source! ($HIDUTIL_SRC)"
 	exit 1
 fi
 echo "readline: $READLINE_SRC"
@@ -98,7 +98,7 @@ if [ ! -e $BUILD_INTEL/lib/libHIDUtilities.a ]; then
 	rm -rf *
 	echo "-- HIDUtilities (intel) --"
 	for src in $HIDUTIL_SRC_FILES ; do
-		echo "compiling $src (ppc)"
+		echo "compiling $src (intel)"
 		gcc -arch i386 -isysroot $INTEL_SDK -O3 -W -c $HIDUTIL_SRC/$src
 	done
 	ar cr  $BUILD_INTEL/lib/libHIDUtilities.a *.o
@@ -120,7 +120,7 @@ if [ ! -e $BUILD_PPC/bin/x64 ]; then
 		CC="gcc -arch ppc -isysroot $PPC_SDK" \
 		CXX="g++ -arch ppc -isysroot $PPC_SDK" \
 		LD="gcc -arch ppc -isysroot $PPC_SDK" \
-		$VICE_SRC/configure --prefix=$BUILD_PPC
+		$VICE_SRC/configure --prefix=$BUILD_PPC --host=powerpc-apple-darwin
 	set +x
 	make
 	make install
@@ -136,7 +136,7 @@ if [ ! -e $BUILD_INTEL/bin/x64 ]; then
 		CC="gcc -arch i386 -isysroot $INTEL_SDK" \
 		CXX="g++ -arch i386 -isysroot $INTEL_SDK" \
 		LD="gcc -arch i386 -isysroot $INTEL_SDK" \
-		$VICE_SRC/configure --prefix=$BUILD_INTEL
+		$VICE_SRC/configure --prefix=$BUILD_INTEL --host=i386-apple-darwin
 	set +x
 	make
 	make install

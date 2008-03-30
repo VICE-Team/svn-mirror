@@ -16,9 +16,10 @@ if test x"$4" = "xtrue"; then
   exit 1
 fi
 
-if [ ! -e /usr/local/bin/x64 ]
+if [ ! -e /usr/local/bin/x64 -o ! -e /usr/local/bin/x128 -o ! -e /usr/local/bin/xvic -o ! -e /usr/local/bin/xpet -o ! -e /usr/local/bin/xplus4 -o ! -e /usr/local/bin/xcbm2 -o ! -e /usr/local/bin/c1541 -o ! -e /usr/local/bin/petcat -o ! -e /usr/local/bin/cartconv ]
 then
-  echo Error: make install needs to be done first
+  echo Error: \"make install\" needs to be done first
+  exit 1
 fi
 
 echo Generating SOLARIS port binary distribution.

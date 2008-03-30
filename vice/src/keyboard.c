@@ -749,14 +749,18 @@ static int keyboard_parse_keymap(const char *filename)
     do {
         buffer[0] = 0;
         if (fgets(buffer, 999, fp)) {
+  	    char *p;
+
             if (strlen(buffer) == 0)
                 break;
 
-            buffer[strlen(buffer) - 1] = 0;
+            buffer[strlen(buffer) - 1] = 0; /* remove newline */
+	    /* remove comments */
+	    if((p=strchr(buffer, '#')))
+	      *p=0;
 
             switch(*buffer) {
               case 0:
-              case '#':
                 break;
               case '!':
                 /* keyword handling */

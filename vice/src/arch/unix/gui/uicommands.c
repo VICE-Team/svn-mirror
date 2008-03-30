@@ -152,7 +152,17 @@ static UI_CALLBACK(browse_manual)
         /* FIXME: Argh.  Ugly!  */
 #define BROWSE_CMD_BUF_MAX 16384
         char buf[BROWSE_CMD_BUF_MAX];
+
+#ifdef MACOSX_SUPPORT
+        /* On Macs the manual path is relative to the bundle. */
+        const char *boot_path;
+        boot_path = archdep_boot_path();
+        char *manual_path;
+        manual_path = util_concat(boot_path,"/../Resources/doc/vice_toc.html",NULL);
+#else
         static const char manual_path[] = DOCDIR "/vice_toc.html";
+#endif
+        
         char *res_ptr;
         int manual_path_len, cmd_len;
 
@@ -209,6 +219,10 @@ static UI_CALLBACK(browse_manual)
         log_debug(_("Executing `%s'..."), buf);
         if (system(buf) != 0)
             ui_error(_("Cannot run HTML browser."));
+            
+#ifdef MACOSX_SUPPORT
+        lib_free(manual_path);
+#endif
     }
 }
 

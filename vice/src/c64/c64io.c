@@ -175,9 +175,9 @@ static void io_source_msg_detach(int addr)
             if (i==io_source_start)
             {
 #ifdef HAS_TRANSLATION
-                old_msg=strdup(translate_text(IDGS_IO_READ_COLL_AT_X_FROM));
+                old_msg=lib_stralloc(translate_text(IDGS_IO_READ_COLL_AT_X_FROM));
 #else
-                old_msg=strdup(_("I/O read collision at %X from "));
+                old_msg=lib_stralloc(_("I/O read collision at %X from "));
 #endif
                 new_msg=util_concat(old_msg,get_io_source_name(io_source_return[i]),NULL);
                 lib_free(old_msg);

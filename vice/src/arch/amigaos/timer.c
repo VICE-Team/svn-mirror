@@ -43,6 +43,8 @@
 
 #include "timer.h"
 
+#include "lib.h"
+
 struct timer_s {
   struct MsgPort     TimerMP;
   struct timerequest TimerIO;
@@ -53,7 +55,7 @@ void *timer_init(void)
 {
   struct timer_s *timer;
 
-  timer = AllocMem(sizeof(*timer), MEMF_PUBLIC);
+  timer = lib_AllocMem(sizeof(*timer), MEMF_PUBLIC);
   if (timer) {
     timer->TimerBase         = NULL;
     timer->TimerMP.mp_SigBit = AllocSignal(-1);
@@ -88,7 +90,7 @@ void timer_exit(void *t)
       }
       FreeSignal(timer->TimerMP.mp_SigBit);
     }
-    FreeMem(timer, sizeof(*timer));
+    lib_FreeMem(timer, sizeof(*timer));
   }
 }
 
@@ -186,7 +188,7 @@ void dotimer(ULONG unit,ULONG timercmd,struct timeval *t)
     struct MsgPort port;
   } *portio;
 
-  if ((portio=(struct PortIO *)AllocMem(sizeof(*portio),MEMF_CLEAR|MEMF_PUBLIC))) {
+  if ((portio=(struct PortIO *)lib_AllocMem(sizeof(*portio),MEMF_CLEAR|MEMF_PUBLIC))) {
     portio->port.mp_Node.ln_Type=NT_MSGPORT;
     if ((BYTE)(portio->port.mp_SigBit=AllocSignal(-1))>=0) {
       portio->port.mp_SigTask=FindTask(NULL);
@@ -205,7 +207,7 @@ void dotimer(ULONG unit,ULONG timercmd,struct timeval *t)
       }
       FreeSignal(portio->port.mp_SigBit);
     }
-    FreeMem(portio,sizeof(struct PortIO));
+    lib_FreeMem(portio,sizeof(struct PortIO));
   }
 }
 

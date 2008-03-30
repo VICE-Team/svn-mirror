@@ -175,7 +175,8 @@ static void print_checkpoint_info(breakpoint_t *bp)
         else
             mon_out("BREAK: ");
     }
-    mon_out("%d A:$%04x",bp->brknum,addr_location(bp->start_addr));
+    mon_out("%d %s:$%04x",bp->brknum,
+        mon_memspace_string[addr_memspace(bp->start_addr)],addr_location(bp->start_addr));
     if (mon_is_valid_addr(bp->end_addr) && (bp->start_addr != bp->end_addr))
         mon_out("-$%04x",addr_location(bp->end_addr));
 

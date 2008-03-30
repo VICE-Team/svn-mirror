@@ -6,6 +6,12 @@
 # make-bindist.sh <strip> <vice-version> <zip|nozip> <top-srcdir>
 #                 $1      $2             $3          $4
 
+if [ ! -e src/x64.exe -o ! -e src/x128.exe -o ! -e src/xvic.exe -o ! -e src/xpet.exe -o ! -e src/xplus4.exe -o ! -e src/xcbm2.exe -o ! -e src/c1541.exe -o ! -e src/petcat.exe -o ! -e src/cartconv.exe ]
+then
+  echo Error: executable file\(s\) not found, do a \"make\" first
+  exit 1
+fi
+
 echo Generating WIN32 port binary distribution.
 rm -f -r WinVICE-$2
 mkdir WinVICE-$2

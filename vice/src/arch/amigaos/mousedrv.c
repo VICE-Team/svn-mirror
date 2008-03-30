@@ -31,6 +31,8 @@
 #include "mouse.h"
 #include "pointer.h"
 
+#include "lib.h"
+
 static int g_mx = 0, g_my = 0, g_mb = 0;
 
 #include <devices/input.h>
@@ -142,7 +144,7 @@ void rem_inputhandler(void)
   }
 
   if (inputHandler) {
-    FreeMem(inputHandler, sizeof(struct Interrupt));
+    lib_FreeMem(inputHandler, sizeof(struct Interrupt));
     inputHandler = NULL;
   }
 
@@ -155,7 +157,7 @@ void rem_inputhandler(void)
 int add_inputhandler(void)
 {
   if ((inputPort = CreateMsgPort())) {
-    if ((inputHandler = (struct Interrupt *)AllocMem(sizeof(struct Interrupt), MEMF_PUBLIC|MEMF_CLEAR))) {
+    if ((inputHandler = (struct Interrupt *)lib_AllocMem(sizeof(struct Interrupt), MEMF_PUBLIC|MEMF_CLEAR))) {
       if ((inputReqBlk = (struct IOStdReq *)CreateIORequest(inputPort, sizeof(struct IOStdReq)))) {
         if (!(input_error = OpenDevice("input.device", 0, (struct IORequest *)inputReqBlk, 0))) {
           inputHandler->is_Code         = (void *)MyInputHandler;

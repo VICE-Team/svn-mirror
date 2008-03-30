@@ -299,4 +299,5 @@ int archdep_file_is_chardev(const char *name)
 
 void archdep_shutdown(void)
 {
+  lib_free(boot_path);
 }

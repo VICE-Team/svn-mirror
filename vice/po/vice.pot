@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-08-06 18:12+0200\n"
+"POT-Creation-Date: 2006-08-26 19:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1884,11 +1884,11 @@ msgstr ""
 msgid "Select fullscreen mode"
 msgstr ""
 
-#: src/arch/unix/joy.c:87
+#: src/arch/unix/joy.c:86
 msgid "Set device for joystick port 1"
 msgstr ""
 
-#: src/arch/unix/joy.c:89
+#: src/arch/unix/joy.c:88
 msgid "Set device for joystick port 2"
 msgstr ""
 
@@ -2663,19 +2663,19 @@ msgstr ""
 msgid "Unit #11..."
 msgstr ""
 
-#: src/arch/unix/gui/uiattach.c:167 src/arch/unix/gui/uicommands.c:413
+#: src/arch/unix/gui/uiattach.c:167 src/arch/unix/gui/uicommands.c:427
 msgid "Unit #8"
 msgstr ""
 
-#: src/arch/unix/gui/uiattach.c:169 src/arch/unix/gui/uicommands.c:415
+#: src/arch/unix/gui/uiattach.c:169 src/arch/unix/gui/uicommands.c:429
 msgid "Unit #9"
 msgstr ""
 
-#: src/arch/unix/gui/uiattach.c:171 src/arch/unix/gui/uicommands.c:417
+#: src/arch/unix/gui/uiattach.c:171 src/arch/unix/gui/uicommands.c:431
 msgid "Unit #10"
 msgstr ""
 
-#: src/arch/unix/gui/uiattach.c:173 src/arch/unix/gui/uicommands.c:419
+#: src/arch/unix/gui/uiattach.c:173 src/arch/unix/gui/uicommands.c:433
 msgid "Unit #11"
 msgstr ""
 
@@ -2844,7 +2844,7 @@ msgid ""
 msgstr ""
 
 #: src/arch/unix/gui/uicommands.c:68 src/arch/unix/gui/uicommands.c:75
-#: src/arch/unix/gui/uicommands.c:333 src/arch/unix/gui/uikeyboard.c:112
+#: src/arch/unix/gui/uicommands.c:347 src/arch/unix/gui/uikeyboard.c:112
 msgid "VICE setting"
 msgstr ""
 
@@ -2853,7 +2853,7 @@ msgid "Change current working directory"
 msgstr ""
 
 #: src/arch/unix/gui/uicommands.c:72 src/arch/unix/gui/uicommands.c:79
-#: src/arch/unix/gui/uicommands.c:338
+#: src/arch/unix/gui/uicommands.c:352
 msgid "Directory not found"
 msgstr ""
 
@@ -2873,30 +2873,30 @@ msgstr ""
 msgid "No HTML browser is defined."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:169 src/arch/unix/gui/uicommands.c:183
-#: src/arch/unix/gui/uicommands.c:196
+#: src/arch/unix/gui/uicommands.c:179 src/arch/unix/gui/uicommands.c:193
+#: src/arch/unix/gui/uicommands.c:206
 msgid "Browser command too long."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:209
+#: src/arch/unix/gui/uicommands.c:219
 #, c-format
 msgid "Executing `%s'..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:211
+#: src/arch/unix/gui/uicommands.c:221
 msgid "Cannot run HTML browser."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:250
+#: src/arch/unix/gui/uicommands.c:264
 #, c-format
 msgid "Quickloading file %s."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:253
+#: src/arch/unix/gui/uicommands.c:267
 msgid "Load snapshot"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:267
+#: src/arch/unix/gui/uicommands.c:281
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -2904,12 +2904,12 @@ msgid ""
 msgstr ""
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/gui/uicommands.c:297
+#: src/arch/unix/gui/uicommands.c:311
 #, c-format
 msgid "Quicksaving file %s."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:299 src/arch/unix/x11/gnome/uisnapshot.c:122
+#: src/arch/unix/gui/uicommands.c:313 src/arch/unix/x11/gnome/uisnapshot.c:122
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -2917,125 +2917,125 @@ msgid ""
 "`%s'\n"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:334 src/arch/unix/gui/uicommands.c:459
+#: src/arch/unix/gui/uicommands.c:348 src/arch/unix/gui/uicommands.c:473
 msgid "Select history directory"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:390
+#: src/arch/unix/gui/uicommands.c:404
 msgid "Record sound to file"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:406
+#: src/arch/unix/gui/uicommands.c:420
 msgid "Soft"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:409
+#: src/arch/unix/gui/uicommands.c:423
 msgid "Hard"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:425
+#: src/arch/unix/gui/uicommands.c:439
 msgid "Change working directory..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:433
+#: src/arch/unix/gui/uicommands.c:447
 msgid "*Save new snapshot"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:435
+#: src/arch/unix/gui/uicommands.c:449
 msgid "*Load existing snapshot"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:437
+#: src/arch/unix/gui/uicommands.c:451
 msgid "*Start with reset"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:439
+#: src/arch/unix/gui/uicommands.c:453
 msgid "*Overwrite running playback"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:445
+#: src/arch/unix/gui/uicommands.c:459
 msgid "Load snapshot..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:448
+#: src/arch/unix/gui/uicommands.c:462
 msgid "Save snapshot..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:452
+#: src/arch/unix/gui/uicommands.c:466
 msgid "Quickload snapshot"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:455
+#: src/arch/unix/gui/uicommands.c:469
 msgid "Quicksave snapshot"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:461
+#: src/arch/unix/gui/uicommands.c:475
 msgid "Start recording events"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:463
+#: src/arch/unix/gui/uicommands.c:477
 msgid "Stop recording events"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:465
+#: src/arch/unix/gui/uicommands.c:479
 msgid "Start playing back events"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:467
+#: src/arch/unix/gui/uicommands.c:481
 msgid "Stop playing back events"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:469
+#: src/arch/unix/gui/uicommands.c:483
 msgid "Set recording milestone"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:471
+#: src/arch/unix/gui/uicommands.c:485
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:474
+#: src/arch/unix/gui/uicommands.c:488
 msgid "Recording start mode"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:478 src/arch/unix/gui/uinetplay.c:116
+#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:116
 msgid "Netplay (experimental)"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:485
+#: src/arch/unix/gui/uicommands.c:499
 msgid "Snapshot commands"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:491
+#: src/arch/unix/gui/uicommands.c:505
 msgid "Sound record..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:498
+#: src/arch/unix/gui/uicommands.c:512
 msgid "Activate monitor"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:501
+#: src/arch/unix/gui/uicommands.c:515
 msgid "Run C1541"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:509
+#: src/arch/unix/gui/uicommands.c:523
 msgid "Browse manuals"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:511
+#: src/arch/unix/gui/uicommands.c:525
 msgid "About VICE..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:517 src/arch/unix/gui/uidatasette.c:98
+#: src/arch/unix/gui/uicommands.c:531 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:2032
 msgid "Reset"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:519
+#: src/arch/unix/gui/uicommands.c:533
 msgid "*Pause"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:526
+#: src/arch/unix/gui/uicommands.c:540
 msgid "Exit emulator"
 msgstr ""
 

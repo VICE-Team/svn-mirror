@@ -1,5 +1,19 @@
 # Makefile.am for the AMIGAOS version of `libarch.a'.
 
+bin_PROGRAMS = x64ns x128ns xvicns xplus4ns xcbm2ns xpetns
+
+x64ns_SOURCES = x64ns.c
+
+x128ns_SOURCES = x128ns.c
+
+xvicns_SOURCES = xvicns.c
+
+xplus4ns_SOURCES = xplus4ns.c
+
+xcbm2ns_SOURCES = xcbm2ns.c
+
+xpetns_SOURCES = xpetns.c
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \

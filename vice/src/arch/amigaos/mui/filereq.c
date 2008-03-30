@@ -102,7 +102,7 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 	char *new_tap_image_text;
 	char *image_contents_text;
 
-	if (!(Object_ok = AllocVec(sizeof(struct ObjApp), MEMF_PUBLIC|MEMF_CLEAR)))
+	if (!(Object_ok = lib_AllocVec(sizeof(struct ObjApp), MEMF_PUBLIC|MEMF_CLEAR)))
 		return(NULL);
 
 	LA_FILEREQ = Label(translate_text(IDMS_FILE));
@@ -291,7 +291,7 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 
 	if (!Object_ok->App)
 	{
-		FreeVec(Object_ok);
+		lib_FreeVec(Object_ok);
 		return(NULL);
 	}
 
@@ -333,7 +333,7 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 static void DisposeApp(struct ObjApp * Object_ok)
 {
 	MUI_DisposeObject(Object_ok->App);
-	FreeVec(Object_ok);
+	lib_FreeVec(Object_ok);
 }
 
 static struct ObjApp *app = NULL;

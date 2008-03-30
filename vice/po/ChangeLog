@@ -1,3 +1,12 @@
+2006-08-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* nl.po: Updated.
+
+2006-08-25  pottendo  <pottendo@utanet.at>
+
+	* *.po: Converted to sane ISO-8859-1 and -2. All translations
+	should work now.
+
 2006-07-30  pottendo  <pottendo@utanet.at>
 
 	* sv.po: Fixed Swedish translation - special chars should work now

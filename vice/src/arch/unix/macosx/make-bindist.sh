@@ -22,6 +22,8 @@ fi
 BIN_TYPE=`file $TEST_BIN | grep "$TEST_BIN:" | cut -f3,4 -d" "`
 if [ x"$BIN_TYPE" = "xuniversal binary" ]; then
 	BIN_FORMAT=ub
+elif [ x"$BIN_TYPE" = "xfat file" ]; then
+  BIN_FORMAT=ub
 elif [ x"$BIN_TYPE" = "xexecutable i386" ]; then
 	BIN_FORMAT=i386
 elif [ x"$BIN_TYPE" = "xexecutable ppc" ]; then
@@ -57,6 +59,7 @@ ROM_xplus4=PLUS4
 ROM_xvic=VIC20
 # files to remove from ROM directory
 ROM_REMOVE="Makefile* {beos,amiga,dos,os2,win}*.vkm"
+DOC_REMOVE="Makefile* texi2html *.tex *.texi MSDOS* Minix* *.beos *.dos Win32*"
 
 # --- create each bundle ---
 for bundle in $BUNDLES ; do
@@ -67,6 +70,7 @@ for bundle in $BUNDLES ; do
   APP_MACOS=$APP_CONTENTS/MacOS
   APP_RESOURCES=$APP_CONTENTS/Resources
   APP_ROMS=$APP_RESOURCES/ROM
+  APP_DOCS=$APP_RESOURCES/doc
   
   # create directory structure
 	echo -n "[app dirs] "
@@ -74,6 +78,7 @@ for bundle in $BUNDLES ; do
 	mkdir -p $APP_MACOS
 	mkdir -p $APP_RESOURCES
 	mkdir -p $APP_ROMS
+	mkdir -p $APP_DOCS
 
 	# copy icons
 	echo -n "[icons] "
@@ -130,13 +135,18 @@ for bundle in $BUNDLES ; do
 		(cd $APP_ROMS/$rom && eval "rm -f $ROM_REMOVE")
   done
   eval "ROM=\${ROM_$bundle}"
-  echo -n "[ROM=$ROM]"
+  echo -n "[ROM=$ROM] "
 	if [ ! -d $TOP_DIR/data/$ROM ]; then
 		echo "ERROR: missing ROM: $TOP_DIR/data/$ROM"
 		exit 1
 	fi
   cp -r $TOP_DIR/data/$ROM $APP_ROMS/
 	(cd $APP_ROMS/$ROM && eval "rm -f $ROM_REMOVE")
+  
+  # copy html docs into bundle
+  echo -n "[docs] "
+  cp -r $TOP_DIR/doc/html/* $APP_DOCS/
+	(cd $APP_DOCS && eval "rm -f $DOC_REMOVE")
   
   # ready
   echo
@@ -170,6 +180,7 @@ cp $TOP_DIR/FEEDBACK $BUILD_DIR/
 cp $TOP_DIR/README $BUILD_DIR/
 cp -r $TOP_DIR/doc $BUILD_DIR/
 find $BUILD_DIR/doc -name "Makefile*" -exec rm {} \;
+(cd $BUILD_DIR/doc && eval "rm -f $DOC_REMOVE")
 
 # --- make dmg? ---
 if [ x"$ZIP" = "xnozip" ]; then

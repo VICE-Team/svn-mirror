@@ -12,13 +12,14 @@ if test x"$3" != "x/opt"; then
 fi
 
 if test x"$4" = "xtrue"; then
-  echo Error: make bindist for QNX can only be done on QNX
+  echo Error: \"make bindist\" for QNX can only be done on QNX
   exit 1
 fi
 
-if [ ! -e /opt/bin/x64 ]
+if [ ! -e /opt/bin/x64 -o ! -e /opt/bin/x128 -o ! -e /opt/bin/xvic -o ! -e /opt/bin/xpet -o ! -e /opt/bin/xplus4 -o ! -e /opt/bin/xcbm2 -o ! -e /opt/bin/c1541 -o ! -e /opt/bin/petcat -o ! -e /opt/bin/cartconv ]
 then
-  echo Error: make install needs to be done first
+  echo Error: \"make install\" needs to be done first
+  exit 1
 fi
 
 echo Generating QNX port binary distribution.

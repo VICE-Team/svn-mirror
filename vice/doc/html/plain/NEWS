@@ -64,6 +64,7 @@ list of all the changes in the code.
   CBM font should work.
 
 - Gnome 2 port supports dimmable drive LED now.
+
 - Added experimental ParSID support.
 
 - Added support for minix3.

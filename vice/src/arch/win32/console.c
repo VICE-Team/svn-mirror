@@ -880,7 +880,7 @@ int console_out(console_t *log, const char *format, ...)
      */
     while (*pBuffer)
     {
-        unsigned char *p = pBuffer;
+        char *p = pBuffer;
 
         /* advance p to the first non-printable char (< 32) */
         while (*p >= 32)
