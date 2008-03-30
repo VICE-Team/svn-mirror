@@ -109,7 +109,7 @@ int tape_init(int _bufpaddr, int _status, int _verfl, int _irqtmp,
     const trap_t *p;
 
     if (tapeunit_log == LOG_ERR)
-        tapeunit_log = log_open("TAPE");
+        tapeunit_log = log_open("Tape");
 
     /* Set addresses of tape routine variables.  */
     status = _status;
@@ -252,6 +252,7 @@ int tape_attach_image(TAPE *tape, const char *name, int mode)
 	    format = TFF_CBM;
 	} else {
 	    log_error(tapeunit_log, "Invalid file format.");
+            tape_detach_image(tape);
 	    return -1;
 	}
     }
@@ -521,7 +522,7 @@ static int t64_find_next(TAPE *tape, char *pattern, int type, BYTE *cbuf)
 	    memcpy(cbuf + CAS_NAME_OFFSET, dirp + 16, 16);
 
 	    loc = (dirp[8] | (dirp[9] << 8) | (dirp[10] << 16)
-		   | (dirp[11] << 24));
+                   | (dirp[11] << 24));
 	    fseek(tape->FileDs, loc, 0);
 	    break;		/* Found a match */
 
