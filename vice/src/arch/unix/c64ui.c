@@ -227,6 +227,8 @@ static ui_menu_entry_t sid_model_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(SidStereo)
+
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 #ifdef HAVE_RESID
@@ -276,6 +278,9 @@ static UI_CALLBACK(set_sid_resid_passband)
 #endif
 
 ui_menu_entry_t sid_submenu[] = {
+    { N_("*Second SID at $DE00"),
+      (ui_callback_t)toggle_SidStereo, NULL, NULL },
+    { "--" },
     { N_("*Emulate filters"),
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("Chip model"),
@@ -297,6 +302,8 @@ UI_MENU_DEFINE_TOGGLE(Sound)
 static ui_menu_entry_t sid_options_submenu[] = {
     { N_("*Enable sound playback"),
       (ui_callback_t)toggle_Sound, NULL, NULL },
+    { N_("*Second SID at $DE00"),
+      (ui_callback_t)toggle_SidStereo, NULL, NULL },
 #ifdef HAVE_RESID
     { N_("*Use reSID emulation"),
       (ui_callback_t)toggle_SidUseResid, NULL, NULL },

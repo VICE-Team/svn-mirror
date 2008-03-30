@@ -123,7 +123,7 @@ static int inactivity_timer;
 
 /* Prototypes */
 static int wmm_init(const char *param, int *speed,
-                   int *fragsize, int *fragnr, double bufsize);
+                   int *fragsize, int *fragnr, int *stereo);
 static void wmm_close(void);
 static int wmm_bufferspace(void);
 static int wmm_write(SWORD *pbuf, size_t nr);
@@ -157,12 +157,15 @@ static void CALLBACK wmm_timercallback(UINT uTimerID, UINT uMsg, DWORD dwUser, D
     }
 }
 
-static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, double bufsize)
+static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, int *stereo)
 {
     DWORD dwVersion;
 
-    DEBUG(("Windows Multimedia sound driver initialization: speed = %d, fragsize = %d, fragnr = %d, bufsize = %.4f\n",
-           *speed, *fragsize, *fragnr, bufsize));
+    DEBUG(("Windows Multimedia sound driver initialization: speed = %d, fragsize = %d, fragnr = %d\n",
+           *speed, *fragsize, *fragnr));
+
+    /* No stereo capability. */
+    *stereo = 0;
 
     /* If wanted to re-initialize, shutdown first */
     wmm_close();

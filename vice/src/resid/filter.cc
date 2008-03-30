@@ -105,9 +105,9 @@ fc_point Filter::f0_8580[] =
 // ----------------------------------------------------------------------------
 Filter::Filter()
 {
-  reset();
   enable_filter(true);
   set_chip_model(MOS6581);
+  reset();
 }
 
 

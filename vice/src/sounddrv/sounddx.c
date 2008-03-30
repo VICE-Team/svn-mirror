@@ -397,13 +397,16 @@ DSCAPS  capabilities;
 WAVEFORMATEX    wfex;
 
 static int dx_init(const char *param, int *speed,
-                   int *fragsize, int *fragnr, double bufsize)
+                   int *fragsize, int *fragnr, int *stereo)
 {
 HRESULT result;
 /* int     i; */
 
-    DEBUG(("DirectSound driver initialization: speed = %d, fragsize = %d, fragnr = %d, bufsize = %.4f\n",
-           *speed, *fragsize, *fragnr, bufsize));
+    DEBUG(("DirectSound driver initialization: speed = %d, fragsize = %d, fragnr = %d\n",
+           *speed, *fragsize, *fragnr));
+
+    /* No stereo capability. */
+    *stereo = 0;
 
     if (ds == NULL) {
         result = DirectSoundCreate(NULL, &ds, NULL);

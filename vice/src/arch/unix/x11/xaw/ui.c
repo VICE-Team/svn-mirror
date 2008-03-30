@@ -1424,7 +1424,7 @@ void ui_autorepeat_off(void)
 /* Button callbacks.  */
 
 #define DEFINE_BUTTON_CALLBACK(button)          \
-    static UI_CALLBACK(##button##_callback)     \
+    static UI_CALLBACK(button##_callback)       \
     {                                           \
         *((ui_button_t *)client_data) = button; \
     }

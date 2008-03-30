@@ -86,6 +86,9 @@ int sound_state_changed;
 /* Sample based or cycle based sound engine. */
 static int cycle_based;
 
+/* Second SID. */
+static int stereo;
+
 static int set_playback_enabled(resource_value_t v, void *param)
 {
     if ((int)v) vsync_disable_timer();
@@ -228,6 +231,8 @@ typedef struct
 {
     /* sid itself */
     sound_t		*psid;
+    /* second sid */
+    sound_t		*psid2;
     /* number of clocks between each sample. used value */
     soundclk_t		 clkstep;
     /* number of clocks between each sample. original value */
@@ -242,6 +247,9 @@ typedef struct
     CLOCK		 lastclk;
     /* sample buffer */
     SWORD		 buffer[BUFSIZE];
+    /* sample buffer for second sid */
+    SWORD		 buffer2[BUFSIZE];
+    SWORD		 buffer_stereo[BUFSIZE*2];
     /* sample buffer pointer */
     int			 bufptr;
     /* pointer to device structure in use */
@@ -258,6 +266,7 @@ typedef struct
     /* is the device suspended? */
     int			 issuspended;
     SWORD		 lastsample;
+    SWORD		 lastsample2;
     /* nr of samples to oversame / real sample */
     DWORD		 oversamplenr;
     /* number of shift needed on oversampling */
@@ -292,6 +301,12 @@ static int closesound(const char *msg)
     {
 	sound_machine_close(snddata.psid);
 	snddata.psid = NULL;
+    }
+    /* Second SID. */
+    if (snddata.psid2)
+    {
+	sound_machine_close(snddata.psid2);
+	snddata.psid2 = NULL;
     }
 
     /* Closing the sound device might take some time, and the UI
@@ -336,11 +351,41 @@ static void enablesound(void)
     }
 }
 
+/* Fill buffer, attenuating last sample. */
+static void fill_buffer(int size)
+{
+    int i;
+    SWORD *p, v, v2;
+    int stereo_factor = snddata.psid2 ? 2 : 1;
+    p = (SWORD *)xmalloc(size*sizeof(SWORD)*stereo_factor);
+    if (!p)
+        return;
+    v = snddata.lastsample;
+    v2 = snddata.lastsample2;
+    /* Second SID. */
+    if (snddata.psid2) {
+        for (i = 0; i < size; i++) {
+	    p[i*2] = v - (float)v * i / size;
+	    p[i*2 + 1] = v2 - (float)v2 * i / size;
+	}
+    }
+    else {
+        for (i = 0; i < size; i++)
+	    p[i] = v - (float)v * i / size;
+    }
+    i = snddata.pdev->write(p, size*stereo_factor);
+    free(p);
+    snddata.lastsample = 0;
+    snddata.lastsample2 = 0;
+    if (i) {
+        closesound("Audio: write to sound device failed.");
+    }
+}
+
 /* open sound device */
 static int initsid(void)
 {
     int i, j;
-    SWORD *p;
     sound_device_t *pdev;
     char *name;
     char *param;
@@ -356,11 +401,15 @@ static int initsid(void)
        might take some time. */
     vsync_suspend_speed_eval();
 
+    /* Second SID. */
+    resources_get_value("SidStereo", (resource_value_t*)&stereo);
+
     /* Special handling for cycle based as opposed to sample based sound
        engines. reSID is cycle based. */
     resources_get_value("SidUseResid", (resource_value_t*)&cycle_based);
     log_message(slog, cycle_based ?
-		"Cycle based engine" : "Sample based engine");
+		"Cycle based engine%s" : "Sample based engine%s",
+		stereo ? " (stereo)" : "");
 
     name = device_name;
 /*
@@ -396,16 +445,22 @@ static int initsid(void)
             continue;
 
         if (pdev->init) {
-            if (pdev->init(param, &speed, &fragsize, &fragnr, bufsize)) {
+	    int stereo_cap = stereo;
+            if (pdev->init(param, &speed, &fragsize, &fragnr, &stereo_cap)) {
                 char *err = xmsprintf("Audio: initialization failed for device `%s'.",
                                       pdev->name);
                 int rc = closesound(err);
                 free (err);
                 return rc;
             }
+	    if (stereo_cap != stereo) {
+	        log_warning(slog, _("Audio: sound device lacks stereo capability"));
+		stereo = 0;
+	    }
         }
         snddata.issuspended = 0;
         snddata.lastsample = 0;
+        snddata.lastsample2 = 0;
         snddata.pdev = pdev;
         snddata.fragsize = fragsize;
         snddata.fragnr = fragnr;
@@ -427,7 +482,14 @@ static int initsid(void)
             snddata.oversamplenr = 1;
             snddata.psid = sound_machine_open((int)
                                               (speed*100/speed_factor),
-                                              cycles_per_sec);
+                                              cycles_per_sec, 0);
+	    /* Second SID. */
+	    if (stereo) {
+	        snddata.psid2 = sound_machine_open((int)
+						   (speed*100/speed_factor),
+						   cycles_per_sec, 1);
+	    }
+
         }
         /* For sample based sound engines, both simple average filtering
          and sample rate conversion is handled here. */
@@ -436,10 +498,15 @@ static int initsid(void)
             snddata.oversamplenr = 1 << snddata.oversampleshift;
             snddata.psid = sound_machine_open((int)
                                               (speed * snddata.oversamplenr),
-                                              cycles_per_sec);
+                                              cycles_per_sec, 0);
+	    /* Second SID. */
+	    if (stereo) {
+	        snddata.psid2 = sound_machine_open((int)
+						   (speed * snddata.oversamplenr),
+						   cycles_per_sec, 1);
+	    }
         }
-        if (!snddata.psid)
-        {
+        if (!snddata.psid || (stereo && !snddata.psid2)) {
             return closesound("Audio: Cannot initialize sound module");
         }
         snddata.clkstep = SOUNDCLK_CONSTANT(cycles_per_sec) / speed;
@@ -456,7 +523,9 @@ static int initsid(void)
         snddata.lastclk = clk;
 
         /* Set warp mode for non-realtime sound devices in vsid mode. */
-        resources_set_value("WarpMode", (resource_value_t)(vsid_mode && !pdev->bufferspace));
+	if (vsid_mode && !pdev->bufferspace) {
+	    resources_set_value("WarpMode", (resource_value_t)1);
+	}
 
         /* Fill up the sound hardware buffer. */
 	if (pdev->bufferspace) {
@@ -468,10 +537,9 @@ static int initsid(void)
 	    /* Whole fragments. */
 	    j -= j%snddata.fragsize;
 
-	    p = (SWORD *)xmalloc(j*sizeof(SWORD));
-	    memset(p, 0, j*sizeof(SWORD));
-	    snddata.pdev->write(p, j);
-	    free(p);
+	    snddata.lastsample = 0;
+	    snddata.lastsample2 = 0;
+	    fill_buffer(j);
 	}
 
         return 0;
@@ -516,6 +584,17 @@ static int sound_run_sound(void)
 	if (delta_t) {
 	    return closesound("Audio: sound buffer overflow.");
 	}
+	/* Second SID. */
+	if (snddata.psid2) {
+ 	    delta_t = clk - snddata.lastclk;
+	    nr = sound_machine_calculate_samples(snddata.psid2,
+						 snddata.buffer2 + snddata.bufptr,
+						 BUFSIZE - snddata.bufptr,
+						 &delta_t);
+	    if (delta_t) {
+	        return closesound("Audio: sound buffer overflow.");
+	    }
+	}
     }
     /* Handling of sample based sound engines. */
     else {
@@ -528,6 +607,12 @@ static int sound_run_sound(void)
 	sound_machine_calculate_samples(snddata.psid,
 					snddata.buffer + snddata.bufptr,
 					nr, &delta_t);
+	/* Second SID. */
+	if (snddata.psid2) {
+	    sound_machine_calculate_samples(snddata.psid2,
+					    snddata.buffer2 + snddata.bufptr,
+					    nr, &delta_t);
+	}
 	snddata.fclk   += nr*snddata.clkstep;
     }
 
@@ -546,6 +631,9 @@ void sound_reset(void)
     snddata.bufptr = 0;		/* ugly hack! */
     if (snddata.psid)
 	sound_machine_reset(snddata.psid, clk);
+    /* Second SID. */
+    if (snddata.psid2)
+	sound_machine_reset(snddata.psid2, clk);
 }
 
 static void prevent_clk_overflow_callback(CLOCK sub, void *data)
@@ -555,6 +643,9 @@ static void prevent_clk_overflow_callback(CLOCK sub, void *data)
     snddata.wclk -= sub;
     if (snddata.psid)
 	sound_machine_prevent_clk_overflow(snddata.psid, sub);
+    /* Second SID. */
+    if (snddata.psid2)
+	sound_machine_prevent_clk_overflow(snddata.psid2, sub);
 }
 
 #ifdef __riscos
@@ -670,7 +761,6 @@ double sound_flush(int relative_speed)
 	/* buffer empty */
 	if (used <= snddata.fragsize)
 	{
-	    SWORD		*p, v;
 	    int			 j;
 	    static int		 prev;
 	    int			 now;
@@ -691,18 +781,7 @@ double sound_flush(int relative_speed)
 	    /* Fill up sound hardware buffer. */
 	    if (j > 0)
 	    {
-	        p = (SWORD *)xmalloc(j*sizeof(SWORD));
-		v = snddata.bufptr > 0 ? snddata.buffer[0] : 0;
-		for (i = 0; i < j; i++)
-		    p[i] = (float)v*i/j;
-		if (snddata.pdev->write(p, j))
-		{
-		    closesound("Audio: write to sound device failed.");
-                    free(p);
-		    return 0;
-		}
-		snddata.lastsample = v;
-                free(p);
+	        fill_buffer(j);
 	    }
 	    snddata.prevfill = j;
 
@@ -745,16 +824,37 @@ double sound_flush(int relative_speed)
 	if (nr > space && nr < used)
 	    nr = space;
     }
-    if (snddata.pdev->write(snddata.buffer, nr))
-    {
-	closesound("Audio: write to sounddevice failed.");
-	return 0;
+    /* Second SID; mix buffers into stereo buffer. */
+    if (snddata.psid2) {
+        int i;
+	for (i = 0; i < nr; i++) {
+	    snddata.buffer_stereo[i*2] = snddata.buffer[i];
+	    snddata.buffer_stereo[i*2 + 1] = snddata.buffer2[i];
+	}
+        if (snddata.pdev->write(snddata.buffer_stereo, nr*2))
+	{
+	    closesound("Audio: write to sounddevice failed.");
+	    return 0;
+	}
+    }
+    else {
+        if (snddata.pdev->write(snddata.buffer, nr))
+	{
+	    closesound("Audio: write to sounddevice failed.");
+	    return 0;
+	}
     }
     snddata.lastsample = snddata.buffer[nr-1];
+    snddata.lastsample2 = snddata.buffer2[nr-1];
     snddata.bufptr -= nr;
 
     for (i = 0; i < snddata.bufptr; i++)
         snddata.buffer[i] = snddata.buffer[i + nr];
+    /* Second SID. */
+    if (snddata.psid2) {
+        for (i = 0; i < snddata.bufptr; i++)
+	    snddata.buffer2[i] = snddata.buffer2[i + nr];
+    }
 
     if (snddata.pdev->bufferspace
 	&& (cycle_based || speed_adjustment_setting == SOUND_ADJUST_EXACT))
@@ -803,23 +903,12 @@ void sound_close(void)
 /* suspend sid (eg. before pause) */
 void sound_suspend(void)
 {
-    int	i;
-    SWORD *p, v;
     if (!snddata.pdev)
         return;
 
     if (snddata.pdev->write && !snddata.issuspended)
     {
-        p = (SWORD *)xmalloc(snddata.fragsize*sizeof(SWORD));
-        if (!p)
-            return;
-        v = snddata.lastsample;
-        for (i = 0; i < snddata.fragsize; i++)
-            p[i] = v - (float)v * i / (int)snddata.fragsize;
-        i = snddata.pdev->write(p, snddata.fragsize);
-        free(p);
-        if (i)
-            return;
+        fill_buffer(snddata.fragsize);
     }
     if (snddata.pdev->suspend && !snddata.issuspended)
     {
@@ -934,22 +1023,36 @@ long sound_sample_position(void)
         ? 0 : (long)(SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep;
 }
 
-int sound_read(ADDRESS addr)
+int sound_read(ADDRESS addr, int chipno)
 {
     if (sound_run_sound())
         return -1;
 
-    return sound_machine_read(snddata.psid, addr);
+    if (chipno == 0) {
+        return sound_machine_read(snddata.psid, addr);
+    }
+
+    if (stereo) {
+        return sound_machine_read(snddata.psid2, addr);
+    }
+
+    return -1;
 }
 
-void sound_store(ADDRESS addr, BYTE val)
+void sound_store(ADDRESS addr, BYTE val, int chipno)
 {
     int	i;
 
     if (sound_run_sound())
         return;
 
-    sound_machine_store(snddata.psid, addr, val);
+    if (chipno == 0) {
+        sound_machine_store(snddata.psid, addr, val);
+    }
+    else if (stereo) {
+        sound_machine_store(snddata.psid2, addr, val);
+    }
+
     if (!snddata.pdev->dump)
         return;
 

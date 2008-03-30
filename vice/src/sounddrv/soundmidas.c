@@ -40,9 +40,12 @@ static int midas_bufsize = -1;
 static int midas_maxsize = -1;
 
 static int midas_init(const char *param, int *speed,
-		      int *fragsize, int *fragnr, double bufsize)
+		      int *fragsize, int *fragnr, int *stereo)
 {
     BOOL		st;
+
+    /* No stereo capability. */
+    *stereo = 0;
 
     st = vmidas_startup();
     if (st != TRUE)
@@ -80,7 +83,7 @@ static int midas_init(const char *param, int *speed,
 	return 1;
     }
     midas_stream = MIDASplayStreamPolling(MIDAS_SAMPLE_16BIT_MONO, *speed,
-					  (int)(bufsize*1000));
+					  (int)(*fragsize**fragnr*1000));
     if (!midas_stream)
     {
 	st = MIDAScloseChannels();

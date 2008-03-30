@@ -205,7 +205,7 @@ static int   written; // number of totaly written samples
 static int rest;
 
 static int dart_init(const char *param, int *speed,
-                     int *fragsize, int *fragnr, double bufsize)
+                     int *fragsize, int *fragnr, int *stereo)
 {
 
 /* The application sends the MCI_MIX_SETUP message to the amp mixer to
@@ -226,6 +226,9 @@ static int dart_init(const char *param, int *speed,
 
     ULONG i, rc;
     MCI_AMP_OPEN_PARMS AmpOpenParms;
+
+    /* No stereo capability. */
+    *stereo = 0;
 
     if (DosRequestMutexSem(hmtxOC, SEM_IMMEDIATE_RETURN))
         return TRUE;

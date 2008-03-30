@@ -66,8 +66,11 @@ static int artsdrv_suspended=0;
 static int artsdrv_bufferspace(void);
 
 static int artsdrv_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, double bufsize)
+		    int *fragsize, int *fragnr, int *stereo)
 {
+    /* No stereo capability. */
+    *stereo = 0;
+
     /*
     ** Connect to ARTS
     */
@@ -92,7 +95,7 @@ static int artsdrv_init(const char *param, int *speed,
     /*
     ** Try to get correct buffer size.
     */
-    arts_stream_set(arts_st,ARTS_P_BUFFER_SIZE,bufsize*sizeof(SWORD));
+    arts_stream_set(arts_st,ARTS_P_BUFFER_SIZE,*fragnr**fragsize*sizeof(SWORD));
     arts_stream_set(arts_st,ARTS_P_BLOCKING,1);
 
     *fragsize=arts_stream_get(arts_st,ARTS_P_PACKET_SIZE);

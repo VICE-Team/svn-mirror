@@ -35,6 +35,9 @@
 #include "sid-cmdline-options.h"
 
 static cmdline_option_t cmdline_options[] = {
+    { "-sidstereo", SET_RESOURCE, 0, NULL, NULL, "SidStereo",
+      (resource_value_t)1,
+      NULL, "Second SID at $DE00" },
     { "-sidmodel", SET_RESOURCE, 1, NULL, NULL, "SidModel", NULL,
       "<model>", "Specify SID model (1: 8580, 0: 6581)" },
     { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",

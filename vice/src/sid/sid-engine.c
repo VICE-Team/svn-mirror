@@ -50,12 +50,13 @@ static sid_engine_t sid_engine;
 static BYTE lastsidread;
 /* register data */
 BYTE siddata[32];
+BYTE siddata2[32];
 
-BYTE REGPARM1 sid_read(ADDRESS addr)
+BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
 {
     int	val;
+    addr &= 0x1f;
     machine_handle_pending_alarms(0);
-    addr = addr & 0x1f;
 #ifdef HAVE_MOUSE
     if (addr == 0x19 && _mouse_enabled)
         val = mouse_get_x();
@@ -63,7 +64,7 @@ BYTE REGPARM1 sid_read(ADDRESS addr)
         val = mouse_get_y();
     else
 #endif
-    val = sound_read(addr);
+    val = sound_read(addr, chipno);
 
     /* Fallback when sound is switched off. */
     if (val < 0)
@@ -83,31 +84,50 @@ BYTE REGPARM1 sid_read(ADDRESS addr)
     return val;
 }
 
-/* write register value to sid */
-void REGPARM2 sid_store(ADDRESS addr, BYTE byte)
+BYTE REGPARM1 sid_read(ADDRESS addr)
 {
+    return sid_read_chip(addr, 0);
+}
+
+BYTE REGPARM1 sid2_read(ADDRESS addr)
+{
+    return sid_read_chip(addr, 1);
+}
+
+
+/* write register value to sid */
+void REGPARM3 sid_store_chip(ADDRESS addr, BYTE byte, int chipno)
+{
+    BYTE *state = chipno ? siddata2 : siddata;
     addr &= 0x1f;
-    siddata[addr] = byte;
+    state[addr] = byte;
 
     machine_handle_pending_alarms(rmw_flag + 1);
     if (rmw_flag)
     {
 	clk--;
-	sound_store(addr, lastsidread);
+	sound_store(addr, lastsidread, chipno);
 	clk++;
     }
-    sound_store(addr, byte);
+    sound_store(addr, byte, chipno);
+}
+
+void REGPARM2 sid_store(ADDRESS addr, BYTE byte)
+{
+    sid_store_chip(addr, byte, 0);
+}
+
+void REGPARM2 sid2_store(ADDRESS addr, BYTE byte)
+{
+    sid_store_chip(addr, byte, 1);
 }
 
 void sid_reset(void)
 {
-    ADDRESS i;
-
     sound_reset();
 
     memset(siddata, 0, 32);
-    for (i = 0; i < 32; i++)
-        sound_store(i, 0);
+    memset(siddata2, 0, 32);
 }
 
 
@@ -116,7 +136,7 @@ void sound_machine_init(void)
 {
 }
 
-sound_t *sound_machine_open(int speed, int cycles_per_sec)
+sound_t *sound_machine_open(int speed, int cycles_per_sec, int chipno)
 {
 #ifdef HAVE_RESID
     int useresid;
@@ -128,7 +148,7 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     else
 #endif
         sid_engine = fastsid_hooks;
-    return sid_engine.open(speed, cycles_per_sec, siddata);
+    return sid_engine.open(speed, cycles_per_sec, chipno ? siddata2 : siddata);
 }
 
 void sound_machine_close(sound_t *psid)
@@ -138,14 +158,7 @@ void sound_machine_close(sound_t *psid)
 
 BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 {
-#ifdef HAVE_MOUSE
-    if (addr == 0x19 && _mouse_enabled)
-        return mouse_get_x();
-    else if (addr == 0x1a && _mouse_enabled)
-        return mouse_get_y();
-    else
-#endif
-	return sid_engine.read(psid, addr);
+    return sid_engine.read(psid, addr);
 }
 
 void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)

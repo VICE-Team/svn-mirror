@@ -93,9 +93,12 @@ static int allegro_startup(unsigned int freq)
 
 /* (`allegro_init()' is already defined by Allegro itself.)  */
 static int allegro_init_sound(const char *param, int *speed,
-                              int *fragsize, int *fragnr, double bufsize)
+                              int *fragsize, int *fragnr, int *stereo)
 {
     int i;
+
+    /* No stereo capability. */
+    *stereo = 0;
 
     if (allegro_startup(*speed) < 0)
         return 1;

@@ -107,7 +107,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 
 
 /* SID initialization routine */
-sound_t *sound_machine_open(int speed, int cycles_per_sec)
+sound_t *sound_machine_open(int speed, int cycles_per_sec, int chipno)
 {
     DWORD i;
     sound_t *psid;
@@ -157,7 +157,7 @@ void store_vic_sound(ADDRESS addr, BYTE value)
 {
     addr &= 0x0f;
     siddata[addr] = value;
-    sound_store(addr, value);
+    sound_store(addr, value, 0);
 }
 
 void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)

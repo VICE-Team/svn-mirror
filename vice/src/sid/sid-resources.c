@@ -44,10 +44,18 @@ static int sid_model;                 /* app_resources.sidModel */
 static int sid_useresid;
 static int sid_resid_sampling;
 static int sid_resid_passband;
+int sid_stereo;
 
 static int set_sid_filters_enabled(resource_value_t v, void *param)
 {
     sid_filters_enabled = (int)v;
+    sound_state_changed = 1;
+    return 0;
+}
+
+static int set_sid_stereo(resource_value_t v, void *param)
+{
+    sid_stereo = (int)v;
     sound_state_changed = 1;
     return 0;
 }
@@ -96,6 +104,9 @@ static resource_t resources[] = {
     { "SidModel", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&sid_model,
       set_sid_model, NULL },
+    { "SidStereo", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&sid_stereo,
+      set_sid_stereo, NULL },
     { "SidUseResid", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&sid_useresid,
       set_sid_useresid, NULL },

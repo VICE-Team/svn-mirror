@@ -824,7 +824,10 @@ sound_t *fastsid_open(int speed, int cycles_per_sec, BYTE *sidstate)
 
     if (resources_get_value("SidFilters",
         (resource_value_t *)&(psid->emulatefilter)) < 0)
-        return NULL;
+    {
+	free(psid);
+	return NULL;
+    }
 
     init_filter(psid, speed);
     setup_sid(psid);
@@ -843,8 +846,10 @@ sound_t *fastsid_open(int speed, int cycles_per_sec, BYTE *sidstate)
 	setup_voice(&psid->v[i]);
     }
 #ifdef WAVETABLES
-    if (resources_get_value("SidModel", (resource_value_t *)&sid_model) < 0)
-        return NULL;
+    if (resources_get_value("SidModel", (resource_value_t *)&sid_model) < 0) {
+	free(psid);
+	return NULL;
+    }
 
     psid->newsid = sid_model == 1;
     for (i = 0; i < 4096; i++) {
@@ -983,6 +988,10 @@ void fastsid_store(sound_t *psid, ADDRESS addr, BYTE byte)
 
 void fastsid_reset(sound_t *psid, CLOCK cpu_clk)
 {
+    ADDRESS addr;
+    for (addr = 0; addr < 32; addr++) {
+        fastsid_store(psid, addr, 0);
+    }
     psid->laststoreclk = cpu_clk;
 }
 

@@ -63,8 +63,11 @@ static unsigned int fragment_size;
 /* ------------------------------------------------------------------------- */
 
 static int beos_init(const char *param, int *speed,
-                              int *fragsize, int *fragnr, double bufsize)
+                              int *fragsize, int *fragnr, int *stereo)
 {
+	/* No stereo capability. */
+	*stereo = 0;
+
 	gs_audio_format audio_format;
 
 	fragment_size = *fragsize;

@@ -94,7 +94,7 @@ void sound_machine_init(void)
 {
 }
 
-sound_t *sound_machine_open(int speed, int cycles_per_sec)
+sound_t *sound_machine_open(int speed, int cycles_per_sec, int chipno)
 {
     sound_t *psid;
     ADDRESS i;
@@ -127,21 +127,21 @@ void sound_machine_close(sound_t *psid)
 void store_petsnd_onoff(int value)
 {
     snddata[0] = value;
-    sound_store(0, snddata[0]);
+    sound_store(0, snddata[0], 0);
 }
 
 void store_petsnd_rate(CLOCK t)
 {
     snddata[2] = (BYTE)(t & 0xff);
     snddata[3] = (BYTE)((t >> 8) & 0xff);
-    sound_store(2, snddata[2]);
-    sound_store(3, snddata[3]);
+    sound_store(2, snddata[2], 0);
+    sound_store(3, snddata[3], 0);
 }
 
 void store_petsnd_sample(BYTE sample)
 {
     snddata[1] = sample;
-    sound_store(1, snddata[1]);
+    sound_store(1, snddata[1], 0);
 }
 
 void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val)

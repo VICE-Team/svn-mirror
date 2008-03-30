@@ -128,6 +128,7 @@ void resid_store(sound_t *psid, ADDRESS addr, BYTE byte)
 
 void resid_reset(sound_t *psid, CLOCK cpu_clk)
 {
+    psid->sid.reset();
 }
 
 int resid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,

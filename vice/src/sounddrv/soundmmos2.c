@@ -82,11 +82,14 @@ int pos, frag_size, frag_numbers;
 MCI_OPEN_PARMS mciOpen;
 
 static int mmos2_init(const char *param, int *speed,
-                      int *fragsize, int *fragnr, double bufsize)
+                      int *fragsize, int *fragnr, int *stereo)
 {
     int rc, i;
     QWORD qwTmrTime1, qwTmrTime2;
     MCI_WAVE_SET_PARMS mciSet; // fragnr = refreshs / buffer; (gerundet)
+
+    /* No stereo capability. */
+    *stereo = 0;
 
     if (usSoundDevID) return 1;
 
@@ -119,7 +122,7 @@ static int mmos2_init(const char *param, int *speed,
     frag_size    = *fragsize;
     frag_numbers = *fragnr;//*3; //(*speed)/(*fragsize)*bufsize;  // entspricht 0.349s
     log_message(LOG_DEFAULT, "soundmmos2.c: speed %i Hz", *speed);
-    log_message(LOG_DEFAULT, "soundmmos2.c: bufsize %1.4f s", bufsize);
+//    log_message(LOG_DEFAULT, "soundmmos2.c: bufsize %1.4f s", bufsize);
     log_message(LOG_DEFAULT, "soundmmos2.c: fragsize %i byte", *fragsize);
     log_message(LOG_DEFAULT, "soundmmos2.c: fragnumbers %i", frag_numbers);
     dataBuf=(short*)xcalloc(1,*fragsize*frag_numbers*sizeof(SWORD)*2);

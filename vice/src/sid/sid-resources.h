@@ -29,5 +29,7 @@
 
 extern int sid_init_resources(void);
 
+extern int sid_stereo;
+
 #endif
 

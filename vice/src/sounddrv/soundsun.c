@@ -95,10 +95,13 @@ static int toulaw8(SWORD data)
 
 
 static int sun_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, double bufsize)
+		    int *fragsize, int *fragnr, int *stereo)
 {
     int			st;
     struct audio_info	info;
+
+    /* No stereo capability. */
+    *stereo = 0;
 
     if (!param)
 	param = "/dev/audio";

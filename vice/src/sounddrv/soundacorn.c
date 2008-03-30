@@ -144,8 +144,11 @@ static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int sync
 /*
  *  Asynchronous sound device code
  */
-static int init_vidc_device(const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
+static int init_vidc_device(const char *device, int *speed, int *fragsize, int *fragnr, int *stereo)
 {
+  /* No stereo capability. */
+  *stereo = 0;
+
   if ((DigitalRenderer_ReadState() & DRState_Active) != 0)
     return 1;
 
@@ -332,8 +335,11 @@ void sound_wimp_safe_exit(void)
 /*
  *  Synchronous sound device interface
  */
-static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
+static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, int *fragnr, int *stereo)
 {
+  /* No stereo capability. */
+  *stereo = 0;
+
   if ((DigitalRenderer_ReadState() &DRState_Active) != 0)
     return 1;
 

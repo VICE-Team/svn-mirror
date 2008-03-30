@@ -54,6 +54,7 @@
 #include "resources.h"
 #include "reu.h"
 #include "sid.h"
+#include "sid-resources.h"
 #include "snapshot.h"
 #include "sysfile.h"
 #include "ui.h"
@@ -304,6 +305,8 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
 
 void REGPARM2 io1_store(ADDRESS addr, BYTE value)
 {
+    if (sid_stereo)
+        return sid2_store(addr, value);
     if (mem_cartridge_type != CARTRIDGE_NONE)
         cartridge_store_io1(addr, value);
 #ifdef HAVE_RS232
@@ -315,6 +318,8 @@ void REGPARM2 io1_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 io1_read(ADDRESS addr)
 {
+    if (sid_stereo)
+        return sid2_read(addr);
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io1(addr);
 #ifdef HAVE_RS232
