@@ -37,9 +37,9 @@
 #undef DWORD
 #include <ddraw.h>
 
-#define APPLICATION_CLASS "VICE"
-#define APPLICATION_CLASS_MAIN "VICE:Main"
-#define APPLICATION_FULLSCREEN_CLASS "VICE:Fullscreen"
+#define APPLICATION_CLASS TEXT("VICE")
+#define APPLICATION_CLASS_MAIN TEXT("VICE:Main")
+#define APPLICATION_FULLSCREEN_CLASS TEXT("VICE:Fullscreen")
 #define CONSOLE_CLASS "VICE:Console"
 #define MONITOR_CLASS "VICE:Monitor"
 
