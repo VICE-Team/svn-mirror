@@ -1,5 +1,5 @@
 typedef union {
-	MON_ADDR a;
+        MON_ADDR a;
         int i;
         REG_ID reg;
         CONDITIONAL cond_op;
@@ -87,9 +87,6 @@ typedef union {
 #define	CMD_BSAVE	334
 #define	CMD_SCREEN	335
 #define	CMD_UNTIL	336
-
-
-
 #define	CMD_CPU	337
 #define	L_PAREN	338
 #define	R_PAREN	339
@@ -109,23 +106,25 @@ typedef union {
 #define	REG_BC	353
 #define	REG_DE	354
 #define	REG_HL	355
-#define	REG_SP	356
-#define	CPUTYPE_6502	357
-#define	CPUTYPE_Z80	358
-#define	STRING	359
-#define	FILENAME	360
-#define	R_O_L	361
-#define	OPCODE	362
-#define	LABEL	363
-#define	BANKNAME	364
-#define	CPUTYPE	365
-#define	REGISTER	366
-#define	COMPARE_OP	367
-#define	RADIX_TYPE	368
-#define	INPUT_SPEC	369
-#define	CMD_CHECKPT_ON	370
-#define	CMD_CHECKPT_OFF	371
-#define	TOGGLE	372
+#define	REG_IX	356
+#define	REG_IY	357
+#define	REG_SP	358
+#define	CPUTYPE_6502	359
+#define	CPUTYPE_Z80	360
+#define	STRING	361
+#define	FILENAME	362
+#define	R_O_L	363
+#define	OPCODE	364
+#define	LABEL	365
+#define	BANKNAME	366
+#define	CPUTYPE	367
+#define	REGISTER	368
+#define	COMPARE_OP	369
+#define	RADIX_TYPE	370
+#define	INPUT_SPEC	371
+#define	CMD_CHECKPT_ON	372
+#define	CMD_CHECKPT_OFF	373
+#define	TOGGLE	374
 
 
 extern YYSTYPE yylval;

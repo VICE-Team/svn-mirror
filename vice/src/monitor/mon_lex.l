@@ -214,6 +214,8 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ASM_MODE>bc|BC         { return REG_BC; }
 <ASM_MODE>de|DE         { return REG_DE; }
 <ASM_MODE>hl|HL         { return REG_HL; }
+<ASM_MODE>ix|IX         { return REG_IX; }
+<ASM_MODE>iy|IY         { return REG_IY; }
 <ASM_MODE>[a-zA-Z]{2,4}                           { yylval.str = stralloc(yytext); return OPCODE; }
 <ASM_MODE,INITIAL>\.[_a-zA-Z][_a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
 <ASM_MODE,INITIAL>\.[_@\?:a-zA-Z][_@\?:a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
