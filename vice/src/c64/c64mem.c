@@ -356,7 +356,7 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-static void set_write_hook(int config, int page, store_func_t * f)
+static void set_write_hook(int config, int page, store_func_t *f)
 {
     int i;
 
@@ -843,7 +843,7 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 
 /* FIXME: this part needs to be checked.  */
 
-void mem_get_basic_text(ADDRESS * start, ADDRESS * end)
+void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
 {
     if (start != NULL)
         *start = ram[0x2b] | (ram[0x2c] << 8);

@@ -802,7 +802,7 @@ void mem_detach_cartridge(int type)
 
 /* FIXME: this part needs to be checked. */
 
-void mem_get_basic_text(ADDRESS * start, ADDRESS * end)
+void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
 {
     if (start != NULL)
         *start = ram[0x2b] | (ram[0x2c] << 8);
