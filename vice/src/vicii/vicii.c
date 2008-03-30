@@ -242,7 +242,7 @@ inline void vic_ii_handle_pending_alarms(int num_write_cycles)
         do {
             f = 0;
             if (clk > vic_ii.fetch_clk) {
-                vic_ii_raster_fetch_alarm_handler (0);
+                vic_ii_raster_fetch_alarm_handler(0);
                 f = 1;
             }
             if (clk >= vic_ii.draw_clk) {
@@ -265,11 +265,11 @@ inline void vic_ii_handle_pending_alarms(int num_write_cycles)
         do {
             f = 0;
             if (clk >= vic_ii.fetch_clk) {
-                vic_ii_raster_fetch_alarm_handler (0);
+                vic_ii_raster_fetch_alarm_handler(0);
                 f = 1;
             }
             if (clk >= vic_ii.draw_clk) {
-                vic_ii_raster_draw_alarm_handler (0);
+                vic_ii_raster_draw_alarm_handler(0);
                 f = 1;
             }
         }
