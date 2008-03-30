@@ -59,11 +59,13 @@
 
 /* The PET memory. */
 
-#define RAM_ARRAY 0x20000       /* this includes 8x96 expansion RAM */
+#define RAM_ARRAY 0x20000 /* this includes 8x96 expansion RAM */
 
-BYTE ram[RAM_ARRAY];            /* 128K to make things easier. Real size is 4-128K. */
+BYTE ram[RAM_ARRAY];      /* 128K to make things easier. Real size is 4-128K. */
 BYTE rom[PET_ROM_SIZE];
 BYTE chargen_rom[PET_CHARGEN_ROM_SIZE];
+
+BYTE *page_zero = ram;
 
 int ram_size = RAM_ARRAY;       /* FIXME? */
 
@@ -972,7 +974,7 @@ void set_screen(void)
     }
 
     printf("Setting screen width to %d columns (vmask=%04x).\n", cols, vmask);
-    crtc_set_screen_mode(ram + 0x8000, vmask, cols);
+    crtc_set_screen_mode(ram + 0x8000, vmask, cols, 0);
 }
 
 /* ------------------------------------------------------------------------- */

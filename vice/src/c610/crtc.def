@@ -1,9 +1,9 @@
 /* -*- C -*-
  *
- * petacia.def - Definitions for a 6551 ACIA interface
+ * crtc.def - Definitions for CRTC emulation in the CBM-II
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,19 +25,22 @@
  *
  */
 
-#define mycpu maincpu
+INCLUDES()
+{
+#include "c610tpi.h"
+}
 
-#define myclk maincpu_clk
+MEMORY_PTRS()
+{
+    if (!(scraddr & 0x1000)) {
+        video_mode = CRTC_STANDARD_MODE;
+    } else {
+        video_mode = CRTC_REVERSE_MODE;
+    }
+    chargen_rel = (chargen_rel & ~0x1000) | ((scraddr & 0x800) ? 0x1000 : 0);
+}
 
-#define myacia acia1
+#define	SIGNAL_VERT_BLANK_OFF	tpi1_set_int(0, 1);
 
-#define	INCLUDES
-
-#define MYACIA ACIA1
-
-/* resource defaults */
-#define	MyAcia		Acia1
-#define	MyDevice	0
-#define	MyIrq		IK_IRQ
-
+#define	SIGNAL_VERT_BLANK_ON	tpi1_set_int(0, 0);
 

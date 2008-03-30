@@ -286,7 +286,7 @@ static ui_menu_entry_t pet_rs232_submenu[] = {
     { "Serial 2 baudrate",
       NULL, NULL, ser2_baud_submenu },
     { "--" },
-    { "Dump filename...", (ui_callback_t) set_rs232_device_file,
+    { "Dump filename...", (ui_callback_t) set_rs232_dump_file,
       (ui_callback_data_t) "RsDevice3", NULL },
     { "--" },
     { "Program name to exec...", (ui_callback_t) set_rs232_exec_file,

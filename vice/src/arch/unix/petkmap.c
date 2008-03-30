@@ -1,5 +1,5 @@
 /*
- * c64kbd.c -- C64 keyboard resources handling.
+ * petkmap.c -- PET keyboard resources handling.
  *
  * Written by
  *  Andre Fachat (a.fachat@physik.tu-chemnitz.de)

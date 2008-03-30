@@ -428,7 +428,7 @@ UI_CALLBACK(set_rs232_device_file)
 
     suspend_speed_eval();
 
-    filename = ui_select_file("Select RS232 device or dump file",
+    filename = ui_select_file("Select RS232 device file",
                               NULL, False, "/dev", "ttyS*", &button);
     switch (button) {
       case UI_BUTTON_OK:
@@ -466,6 +466,33 @@ UI_CALLBACK(set_rs232_exec_file)
     }
 }
 
+UI_CALLBACK(set_rs232_dump_file)
+{
+    char *resname = (char*) client_data;
+    char title[1024];
+
+    suspend_speed_eval();
+    sprintf(title, "File to dump RS232 to");
+    {
+        char *value;
+        char *new_value;
+        int len;
+
+        resources_get_value(resname, (resource_value_t *) &value);
+        len = strlen(value) * 2;
+        if (len < 255)
+            len = 255;
+        new_value = alloca(len + 1);
+        strcpy(new_value, value);
+
+        if (ui_input_string(title, "Command:", new_value, len) != UI_BUTTON_OK)
+            return;
+
+        resources_set_value(resname, (resource_value_t) new_value);
+    }
+}
+
+
 UI_MENU_DEFINE_TOGGLE(AciaDE)
 UI_MENU_DEFINE_RADIO(RsUser)
 
@@ -496,7 +523,7 @@ ui_menu_entry_t rs232_submenu[] = {
     { "Serial 2 baudrate",
       NULL, NULL, ser2_baud_submenu },
     { "--" },
-    { "Dump filename...", (ui_callback_t) set_rs232_device_file,
+    { "Dump filename...", (ui_callback_t) set_rs232_dump_file,
       (ui_callback_data_t) "RsDevice3", NULL },
     { "--" },
     { "Program name to exec...", (ui_callback_t) set_rs232_exec_file,

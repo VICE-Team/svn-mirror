@@ -61,6 +61,12 @@
 #define	A_VIAT1		A_CIA1TA	/* pet via t1 */
 #define	A_VIAT2		A_CIA1TB	/* pet via t2 */
 
+/* CBM-II IRQs */
+#ifndef HAVE_RS232
+#define A_ACIA1         A_CIA2TA
+#endif
+
+
 /* ------------------------------------------------------------------------- */
 
 /* Interrupts.  */
@@ -102,6 +108,9 @@
 #define	I_VIAFL		I_CIA1FL	/* pet via flag */
 #define	I_PIA1		7	/* I_CIA1TA */	/* pet pia1 flag */
 #define	I_PIA2		8	/* I_CIA1TB */	/* pet pia2 flag */
+
+/* CBM-II IRQs */
+#define        I_TPI1          I_CIA2FL
 
 /* SPECIAL */
 #define I_SPECX		16	/* Special "interrupt" for x_loop */

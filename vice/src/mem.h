@@ -45,6 +45,8 @@ extern BYTE ram[];
 extern int ram_size;
 extern BYTE chargen_rom[];
 extern int rom_loaded;		/* FIXME: ugly! */
+extern BYTE *page_zero;
+extern BYTE *page_one;
 
 extern void initialize_memory(void);
 extern void mem_powerup(void);
@@ -76,45 +78,5 @@ extern void mem_bank_write(int bank, ADDRESS addr, BYTE byte);
 
 extern int mem_write_snapshot_module(FILE *f);
 extern int mem_read_snapshot_module(FILE *f);
-
-/* ------------------------------------------------------------------------- */
-
-/* Memory access macros.  */
-
-/* We don't want "normal" modules to use them: they should use the
-   higher-level function instead.  The CPU code does need them for speed,
-   though.  */
-
-#ifdef _MAINCPU_C
-
-#define STORE(addr, value) \
-    (*_mem_write_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
-
-#define LOAD(addr) \
-    (*_mem_read_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
-
-#define STORE_ZERO(addr, value) \
-    store_zero((ADDRESS)(addr), (BYTE)(value))
-
-#define LOAD_ZERO(addr) \
-    ram[(addr) & 0xff]
-
-#define LOAD_ADDR(addr) \
-    ((LOAD((addr) + 1) << 8) | LOAD(addr))
-
-#define LOAD_ZERO_ADDR(addr) \
-    ((LOAD_ZERO((addr) + 1) << 8) | LOAD_ZERO(addr))
-
-inline static BYTE *mem_read_base(int addr)
-{
-    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
-
-    if (p == 0)
-	return p;
-
-    return p - (addr & 0xff00);
-}
-
-#endif
 
 #endif

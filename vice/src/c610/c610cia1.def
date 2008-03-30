@@ -1,0 +1,130 @@
+/* -*- C -*-
+ *
+ * cia1.def - Definitions for the first MOS6526 (CIA) chip in the CBM-II
+ *
+ * Written by
+ *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ * */
+
+#define mycpu maincpu
+
+#define myclk clk
+
+#define mycia cia1
+
+#define MYCIA CIA1
+
+#define	CIA1_INT			IK_IRQ
+
+/* #define CIA1_TIMER_DEBUG */
+
+INCLUDES()
+{
+#include "pruser.h"
+#include "parallel.h"
+#include "c610cia.h"
+#include "c610tpi.h"
+
+#define cia1_set_int_clk(a,b,c)      tpi1_set_int(2,(b))
+
+}
+
+#define	PRE_STORE_CIA
+#define	PRE_READ_CIA
+#define	PRE_PEEK_CIA
+
+PRE_CIA_FUNCS()
+{
+
+static int cia1_ieee_is_output;
+
+void cia1_set_ieee_dir(int isout)
+{
+    cia1_ieee_is_output = isout;
+    if(isout) {
+	par_set_bus(0xff & ((~cia1[CIA_PRA]) | ~cia1[CIA_DDRA]));
+    } else {
+	par_set_bus(0);
+    }
+}
+
+}
+
+RESET_CIA()
+{
+#ifdef HAVE_PRINTER
+    userport_printer_write_strobe(1);
+    userport_printer_write_data(0xff);
+#endif
+}
+
+#define	READ_SDR
+
+STORE_CIAPA()
+{
+	cia1[addr] = byte;
+	par_set_bus( cia1_ieee_is_output
+		? (0xff & ((~cia1[CIA_PRA]) | ~cia1[CIA_DDRA]))
+		: 0 );
+}
+
+STORE_SDR()
+{
+}
+
+
+STORE_CIAPB()
+{
+#ifdef HAVE_PRINTER
+    userport_printer_write_data(byte);
+    userport_printer_write_strobe(0);
+    userport_printer_write_strobe(1);
+#endif
+}
+
+READ_CIAPA()
+{
+    byte = (par_bus & ~cia1[CIA_DDRA]) | (cia1[CIA_DDRA] & cia1[CIA_PRA]);
+    if(pardebug) printf("read: par_bus=%02x, pra=%02x, ddra=%02x -> %02x\n",
+		par_bus, cia1[CIA_PRA], cia1[CIA_DDRA], byte);
+}
+
+READ_CIAPB()
+{
+}
+
+#define READ_CIAICR
+
+POST_CIA_FUNCS()
+{
+
+#ifdef HAVE_PRINTER
+void userport_printer_set_busy(int flank)
+{
+    if(!flank) {
+        cia1_set_flag();
+    }
+}
+#endif
+
+}
+
+

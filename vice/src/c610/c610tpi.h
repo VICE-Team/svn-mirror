@@ -1,9 +1,8 @@
-/* -*- C -*-
- *
- * petacia.def - Definitions for a 6551 ACIA interface
+/*
+ * tpi.h - IEEE488 and keyboard interface for the C610
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *   Andre' Fachat (a.fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,19 +24,19 @@
  *
  */
 
-#define mycpu maincpu
+#ifndef _C610TPI_H
+#define _C610TPI_H
 
-#define myclk maincpu_clk
+extern void reset_tpi1(void);
+extern void store_tpi1(ADDRESS addr, BYTE byte);
+extern BYTE read_tpi1(ADDRESS addr);
+extern BYTE peek_tpi1(ADDRESS addr);
+extern void tpi1_set_int(int bit, int state);
 
-#define myacia acia1
+extern void reset_tpi2(void);
+extern void store_tpi2(ADDRESS addr, BYTE byte);
+extern BYTE read_tpi2(ADDRESS addr);
+extern BYTE peek_tpi2(ADDRESS addr);
+extern void tpi2_set_int(int bit, int state);
 
-#define	INCLUDES
-
-#define MYACIA ACIA1
-
-/* resource defaults */
-#define	MyAcia		Acia1
-#define	MyDevice	0
-#define	MyIrq		IK_IRQ
-
-
+#endif /* _C610TPI_H */

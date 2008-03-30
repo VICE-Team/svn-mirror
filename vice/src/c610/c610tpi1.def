@@ -1,5 +1,5 @@
 /*
- * c64tpi.def - IEEE488 interface for the C64.
+ * c610tpi1.def - TPI 1 for CBM-II
  *
  * Written by
  *   André Fachat (a.fachat@physik.tu-chemnitz.de)
@@ -24,76 +24,76 @@
  *
  */
 
-#define	mytpi	tpi
+#define	mytpi 	tpi1
+
+#define	MYIRQ	IK_IRQ
+
+#define	MYTPI	TPI1
 
 INCLUDES()
 {
 #include "parallel.h"
-#include "tpi.h"
+#include "c610cia.h"
+#include "crtc.h"
 
-#define	mycpu_set_int(a,b)
+#define	mycpu_set_int(a,b)	maincpu_set_irq((a),(b))
 
-#define	TPI_SET_CA(a)
+#define	TPI_SET_CA(a)		crtc_set_char((a))
 #define	TPI_SET_CB(a)
+
 }
 
 RESET()
 {
-	/* assuming input after reset */
-	par_set_atn(0);
-	par_set_ndac(0);
-	par_set_nrfd(0);
-	par_set_dav(0);
-	par_set_eoi(0);
-	par_set_bus(0);
+        /* assuming input after reset */
+        par_set_atn(0);
+        par_set_ndac(0);
+        par_set_nrfd(0);
+        par_set_dav(0);
+        par_set_eoi(0);
+        par_set_bus(0);
+	cia1_set_ieee_dir(0);
 }
 
 STORE_PA()
 {
-	{ BYTE tmp = ~byte;
-	    par_set_atn( tmp & 0x08 );
-	    par_set_dav( tmp & 0x10 );
-	    par_set_eoi( tmp & 0x20 );
-	    par_set_ndac( tmp & 0x40 );
-	    par_set_nrfd( tmp & 0x80 );
+	{
+	    BYTE tmp = ~byte;
+	    cia1_set_ieee_dir(tmp & 2);
+	    if (byte & 2) {
+		par_set_ndac(0);
+		par_set_nrfd(0);
+                par_set_atn( tmp & 0x08 );
+                par_set_dav( tmp & 0x10 );
+                par_set_eoi( tmp & 0x20 );
+	    } else {
+		/* order is important */
+                par_set_nrfd( tmp & 0x80 );
+                par_set_ndac( tmp & 0x40 );
+		par_set_atn(0);
+		par_set_dav(0);
+		par_set_eoi(0);
+	    }
 	}
 }
 
 STORE_PB()
 {
-	par_set_bus( ~byte );
-}
-
-UNDUMP_PA()
-{
-	{ BYTE tmp = ~byte;
-	    par_set_atn( tmp & 0x08 );
-	    par_set_dav( tmp & 0x10 );
-	    par_set_eoi( tmp & 0x20 );
-	    par_set_ndac( tmp & 0x40 );
-	    par_set_nrfd( tmp & 0x80 );
-	}
-}
-
-UNDUMP_PB()
-{
-	par_set_bus( ~byte );
 }
 
 #define	STORE_PC
 
 READ_PA()
 {
-	byte = par_atn ? 0 : 8;
-	byte += par_dav ? 0 : 16;
-	byte += par_eoi ? 0 : 32;
-	byte += par_ndac ? 0 : 64;
-	byte += par_nrfd ? 0 : 128;
+                byte = par_atn ? 0 : 8;
+                byte += par_dav ? 0 : 16;
+                byte += par_eoi ? 0 : 32;
+                byte += par_ndac ? 0 : 64;
+                byte += par_nrfd ? 0 : 128;
 }
 
 READ_PB()
 {
-	byte = par_bus;
 }
 
 #define	READ_PC

@@ -59,4 +59,7 @@ int machine_write_snapshot(const char *name);
 /* Read a snapshot.  */
 int machine_read_snapshot(const char *name);
 
+/* handle pending interrupts - needed by libsid.a */
+void machine_handle_pending_alarms(int num_write_cycles);
+
 #endif /* _MACHINE_H */

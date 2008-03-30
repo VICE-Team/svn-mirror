@@ -1,9 +1,10 @@
-/* -*- C -*-
- *
- * petacia.def - Definitions for a 6551 ACIA interface
+
+/*
+ * cia.h - Definitions for MOS6526 (CIA) chip emulation.
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Jouko Valta (jopi@stekt.oulu.fi)
+ *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,19 +26,23 @@
  *
  */
 
-#define mycpu maincpu
+#ifndef _C610_CIA_H
+#define _C610_CIA_H
 
-#define myclk maincpu_clk
+#include "types.h"
+#include "cia.h"
 
-#define myacia acia1
+extern void reset_cia1(void);
+extern void REGPARM2 store_cia1(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 read_cia1(ADDRESS addr);
+extern BYTE REGPARM1 peek_cia1(ADDRESS addr);
+extern int int_cia1ta(long offset);
+extern int int_cia1tb(long offset);
+extern int int_cia1tod(long offset);
+extern void cia1_prevent_clk_overflow(CLOCK sub);
+extern void cia1_set_flag(void);
+extern void cia1_set_sdr(BYTE received_byte);
 
-#define	INCLUDES
+void cia1_set_ieee_dir(int);
 
-#define MYACIA ACIA1
-
-/* resource defaults */
-#define	MyAcia		Acia1
-#define	MyDevice	0
-#define	MyIrq		IK_IRQ
-
-
+#endif	/* _C610_CIA_H */

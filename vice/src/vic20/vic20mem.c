@@ -329,6 +329,8 @@ BYTE rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
 #define kernal_rom (rom + VIC20_BASIC_ROM_SIZE)
 #define basic_rom (rom)
 
+BYTE *page_zero = ram;
+
 BYTE cartrom[0x10000];
 
 /* The second 0x400 handles a possible segfault by a wraparound of the

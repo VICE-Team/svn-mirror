@@ -707,7 +707,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=0.15.0.5
+VERSION=0.15.0.6
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6315,10 +6315,12 @@ trap 'rm -fr `echo "Makefile
           src/arch/unix/xaw/widgets/Makefile \
           src/arch/unix/readline/Makefile \
           src/drive/Makefile \
+          src/sid/Makefile \
           src/c64/Makefile \
           src/c128/Makefile \
           src/vic20/Makefile \
           src/pet/Makefile \
+          src/c610/Makefile \
           doc/Makefile \
           doc/html/Makefile \
           man/Makefile \
@@ -6326,7 +6328,8 @@ trap 'rm -fr `echo "Makefile
           data/C64/Makefile \
           data/C128/Makefile \
           data/VIC20/Makefile \
-          data/PET/Makefile src/config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+          data/PET/Makefile \
+          data/C610/Makefile src/config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -6478,10 +6481,12 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
           src/arch/unix/xaw/widgets/Makefile \
           src/arch/unix/readline/Makefile \
           src/drive/Makefile \
+          src/sid/Makefile \
           src/c64/Makefile \
           src/c128/Makefile \
           src/vic20/Makefile \
           src/pet/Makefile \
+          src/c610/Makefile \
           doc/Makefile \
           doc/html/Makefile \
           man/Makefile \
@@ -6489,7 +6494,8 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
           data/C64/Makefile \
           data/C128/Makefile \
           data/VIC20/Makefile \
-          data/PET/Makefile"}
+          data/PET/Makefile \
+          data/C610/Makefile"}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then

@@ -358,6 +358,11 @@ void machine_shutdown(void)
     serial_remove(-1);
 }
 
+void machine_handle_pending_alarms(int num_write_cycles)
+{
+     vic_ii_handle_pending_alarms(num_write_cycles);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* This hook is called at the end of every frame.  */

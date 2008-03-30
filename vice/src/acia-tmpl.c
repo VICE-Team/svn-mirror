@@ -22,6 +22,7 @@
 #include "rs232.h"
 #include "acia.h"
 
+INCLUDES
 
 #undef	DEBUG
 
@@ -207,7 +208,7 @@ BYTE read_myacia_(ADDRESS a) {
 	return 0;
 }
 
-BYTE peek_myacia_(ADDRESS a) {
+BYTE peek_myacia(ADDRESS a) {
 
 	switch(a & 3) {
 	case ACIA_DR:

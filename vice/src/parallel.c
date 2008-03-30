@@ -88,7 +88,18 @@ static BYTE par_bus_dev = 0;	/* data lines */
 #define	set_nrfd_dev(a)	par_nrfd_dev=(a);par_nrfd=par_nrfd_dev|par_nrfd_out
 #define	set_dav_dev(a)	par_dav_dev=(a);par_dav=par_dav_dev|par_dav_out
 #define	set_eoi_dev(a)	par_eoi_dev=(a);par_eoi=par_eoi_dev|par_eoi_out
+
+#if 1
 #define	set_bus_dev(a)	par_bus_dev=(a);par_bus=par_bus_dev|par_bus_out
+#else
+void set_bus_dev(int a)
+{
+    par_bus_dev=(a);
+    par_bus=par_bus_dev|par_bus_out;
+printf("set_bus_dev: bus_dev = %02x, bus_out = %02x -> bus = %02x\n",
+	par_bus_dev, par_bus_out, par_bus);
+}
+#endif
 
 
 /***************************************************************************
@@ -176,8 +187,19 @@ static int state = WaitATN;
 
 /*#define	DoTrans(a)	State[state].m[(a)](a)}*/
 static void DoTrans(int tr) {
+/*
+    	if(pardebug) {
+	    printf("DoTrans(%s).%s\n",State[state].name, Trans[tr]);
+	    fflush(stdout);
+	}
+*/
 	State[state].m[tr](tr);
-	fflush(stdout);
+/*
+    	if(pardebug) {
+	    printf(" -> %s\n",State[state].name);
+	    fflush(stdout);
+	}
+*/
 }
 
 static void ResetBus(void) {
@@ -278,6 +300,8 @@ static void In2_davhi(int tr) {
  	Go(In1);
 }
 
+/* OldPET fixed PET2*** and PET3*** IEEE, as well as CBM610 */
+
 #define	OPet_atnlo	WATN_atnlo
 
 static void OPet_ndaclo(int tr) {
@@ -287,6 +311,13 @@ static void OPet_ndaclo(int tr) {
 	} else {
 	  Go(Out1);
 	}
+}
+
+/* this is for CBM 610 only */
+
+static void OPet_nrfdlo(int tr) {
+	if(pardebug) printf("OPet_nrfdlo()\n");
+	State[Out1].m[NRFDhi](tr);
 }
 
 #define	Out1_atnlo	WATN_atnlo
@@ -351,7 +382,7 @@ static State_t State[NSTATE] = {
 	{ "WaitATN", 	{ WATN_atnlo,  ignore, 	   ignore,     ignore,     ignore,      ignore,       ignore,       ignore } },
 	{ "In1", 	{ In1_atnlo,   In1_atnhi,  In1_davlo,  unexpected, In1_ndaclo,  unexpected,   In1_nrfdlo,   In1_nrfdhi } },
 	{ "In2", 	{ In2_atnlo,   In2_atnhi,  unexpected, In2_davhi,  unexpected,  unexpected,   unexpected,   unexpected } },
-	{ "OldPet", 	{ OPet_atnlo,  unexpected, unexpected, unexpected, OPet_ndaclo, unexpected,   unexpected,   unexpected } },
+	{ "OldPet", 	{ OPet_atnlo,  unexpected, unexpected, unexpected, OPet_ndaclo, unexpected,   OPet_nrfdlo,   unexpected } },
 	{ "Out1", 	{ Out1_atnlo,  unexpected, unexpected, unexpected, ignore,      unexpected,   unexpected,   Out1_nrfdhi } },
 	{ "Out1a", 	{ Out1a_atnlo, unexpected, unexpected, unexpected, unexpected,  Out1a_ndachi, Out1a_nrfdlo, unexpected } },
 	{ "Out2", 	{ Out2_atnlo,  unexpected, unexpected, unexpected, unexpected,  Out2_ndachi,  unexpected,   unexpected } }
@@ -370,11 +401,13 @@ void par_set_atn( char b ) {
 
 void par_set_ndac( char b ) {
 	if(b==par_ndac_out) return; set_ndac_out(b);
+	if(pardebug) printf("par_set_ndac(%d)\n",b);
 	if(b) DoTrans(NDAClo); else DoTrans(NDAChi); return;
 }
 
 void par_set_nrfd( char b ) {
 	if(b==par_nrfd_out) return; set_nrfd_out(b);
+	if(pardebug) printf("par_set_nrfd(%d)\n",b);
 	if(b) DoTrans(NRFDlo); else DoTrans(NRFDhi); return;
 }
 

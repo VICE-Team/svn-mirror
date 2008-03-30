@@ -10,6 +10,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/c610 \
 	@JOYSTICK@
 
 noinst_LIBRARIES = libxawui.a
@@ -18,6 +19,9 @@ libxawui_a_SOURCES = \
 	c128icon.xpm \
 	c128ui.c \
 	c128ui.h \
+	c610icon.xpm \
+	c610ui.c \
+	c610ui.h \
 	c64icon.xpm \
 	c64ui.c \
 	c64ui.h \

@@ -34,7 +34,7 @@
 #define	TPI_DDPA	3
 #define	TPI_DDPB	4
 #define	TPI_DDPC	5
-#define	TPI_MIR		5
+#define	TPI_IMR		5
 #define	TPI_CREG	6
 #define	TPI_AIR		7
 

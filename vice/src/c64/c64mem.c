@@ -290,6 +290,9 @@ BYTE basic_rom[C64_BASIC_ROM_SIZE];
 BYTE kernal_rom[C64_KERNAL_ROM_SIZE];
 BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
 
+/* Zeropage pointer for fast access */
+BYTE *page_zero = ram;
+
 /* Size of RAM...  */
 int ram_size = C64_RAM_SIZE;
 

@@ -33,10 +33,12 @@
 
 #include <X11/Intrinsic.h>
 
-/* Maximum of keyboard array (C128 values).  */
-#define	KBD_ROWS	11
+/* Maximum of keyboard array (CBM-II values
+ * (8 for C64/VIC20, 10 for PET, 11 for C128; we need max).  */
+#define	KBD_ROWS	16
 
 /* (This is actually the same for all the machines.) */
+/* (All have 8, except CBM-II that has 6) */
 #define KBD_COLS	8
 
 extern int keyarr[KBD_ROWS], rev_keyarr[KBD_COLS];

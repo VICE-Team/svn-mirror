@@ -1,9 +1,8 @@
-/* -*- C -*-
- *
- * petacia.def - Definitions for a 6551 ACIA interface
+/*
+ * c610ui.c - Implementation of the CBM-II-specific part of the UI.
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,19 +24,9 @@
  *
  */
 
-#define mycpu maincpu
+#ifndef _C610_UI_H
+#define _C610_UI_H
 
-#define myclk maincpu_clk
+extern int c610_ui_init(void);
 
-#define myacia acia1
-
-#define	INCLUDES
-
-#define MYACIA ACIA1
-
-/* resource defaults */
-#define	MyAcia		Acia1
-#define	MyDevice	0
-#define	MyIrq		IK_IRQ
-
-
+#endif /* _C610_UI_H */

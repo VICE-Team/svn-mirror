@@ -31,6 +31,8 @@
 
 #define myacia acia1
 
+#define	INCLUDES
+
 #define MYACIA ACIA1
 
 /* resource defaults */

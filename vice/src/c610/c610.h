@@ -1,9 +1,8 @@
-/* -*- C -*-
- *
- * petacia.def - Definitions for a 6551 ACIA interface
+/*
+ * c610.h
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,19 +24,23 @@
  *
  */
 
-#define mycpu maincpu
+#ifndef _C610_H
+#define _C610_H
 
-#define myclk maincpu_clk
+/* TODO: PAL/NTSC  2 MHz  adjust */
 
-#define myacia acia1
+#define C610_PAL_CYCLES_PER_SEC		2000000
+#define C610_PAL_CYCLES_PER_LINE 	128
+#define C610_PAL_SCREEN_LINES    	312
+#define C610_PAL_CYCLES_PER_RFSH (C610_PAL_SCREEN_LINES \
+                                 * C610_PAL_CYCLES_PER_LINE)
+#define C610_PAL_RFSH_PER_SEC    (1.0 / ((double)C610_PAL_CYCLES_PER_RFSH    \
+                                        / (double)C610_PAL_CYCLES_PER_SEC))
 
-#define	INCLUDES
+#define C610_NTSC_CYCLES_PER_SEC  	C610_PAL_CYCLES_PER_SEC
+#define C610_NTSC_CYCLES_PER_LINE 	C610_PAL_CYCLES_PER_LINE
+#define C610_NTSC_SCREEN_LINES	 	C610_PAL_SCREEN_LINES
+#define C610_NTSC_CYCLES_PER_RFSH 	C610_PAL_CYCLES_PER_RFSH
+#define C610_NTSC_RFSH_PER_SEC		C610_PAL_RFSH_PER_SEC
 
-#define MYACIA ACIA1
-
-/* resource defaults */
-#define	MyAcia		Acia1
-#define	MyDevice	0
-#define	MyIrq		IK_IRQ
-
-
+#endif

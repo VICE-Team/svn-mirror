@@ -1,9 +1,9 @@
 /* -*- C -*-
  *
- * petacia.def - Definitions for a 6551 ACIA interface
+ * crtc.def - Definitions for CRTC emulation in the PET.
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,19 +25,26 @@
  *
  */
 
-#define mycpu maincpu
+INCLUDES()
+{
+#include "pia.h"
+}
 
-#define myclk maincpu_clk
+MEMORY_PTRS()
+{
+    if ((addr_mask & 0x1000) || (scraddr & 0x1000)) {
+        video_mode = CRTC_STANDARD_MODE;
+    } else {
+        video_mode = CRTC_REVERSE_MODE;
+    }
+    if(crtc_cols == 80) {
+	scraddr *= 2;
+    }
 
-#define myacia acia1
+    chargen_rel = (chargen_rel & ~0x1000) | ((scraddr & 0x800) ? 0x1000 : 0);
+}
 
-#define	INCLUDES
+#define	SIGNAL_VERT_BLANK_OFF	signal_pia1(PIA_SIG_CB1, PIA_SIG_RISE);
 
-#define MYACIA ACIA1
-
-/* resource defaults */
-#define	MyAcia		Acia1
-#define	MyDevice	0
-#define	MyIrq		IK_IRQ
-
+#define	SIGNAL_VERT_BLANK_ON	signal_pia1(PIA_SIG_CB1, PIA_SIG_FALL);
 

@@ -1,9 +1,8 @@
-/* -*- C -*-
- *
- * petacia.def - Definitions for a 6551 ACIA interface
+/*
+ * resid.h - reSID interface code
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Teemu Rantanen (tvr@cs.hut.fi)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,19 +24,19 @@
  *
  */
 
-#define mycpu maincpu
+#ifndef _RESID_H
+#define _RESID_H
 
-#define myclk maincpu_clk
+sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
+				  int filters_enabled, BYTE *sidstate,
+				  int model, CLOCK clk);
+void resid_sound_machine_close(sound_t *psid);
+BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr, CLOCK clk);
+void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte,
+			       CLOCK clk);
+int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr);
+void resid_sound_machine_init(void);
+void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
+char *resid_sound_machine_dump_state(sound_t *psid);
 
-#define myacia acia1
-
-#define	INCLUDES
-
-#define MYACIA ACIA1
-
-/* resource defaults */
-#define	MyAcia		Acia1
-#define	MyDevice	0
-#define	MyIrq		IK_IRQ
-
-
+#endif

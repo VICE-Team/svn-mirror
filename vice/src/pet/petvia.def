@@ -44,7 +44,6 @@ INCLUDES()
 {
 #include "petvia.h"
 
-#include "../c64/sid.h"
 #include "crtc.h"
 #include "kbd.h"
 #include "parallel.h"
@@ -75,7 +74,7 @@ UNDUMP_PRA()
 
 STORE_PRB()
 {
-	if((addr==VIA_DDRB) && (byte & 0x20)) {
+	if((addr==VIA_DDRB) && (via[addr] & 0x20)) {
 	    fprintf(stderr,"PET: Killer POKE! might kill a real PET!\n");
 	}
         par_set_nrfd(!(byte & 0x02));
