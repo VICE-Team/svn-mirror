@@ -134,7 +134,7 @@ static void output_graphics_line_data(screenshot_t *screenshot, BYTE *data,
 static int output_graphics_open(unsigned int prnr,
                                 output_parameter_t *output_parameter)
 {
-    char *filename;
+    const char *filename;
     int device = 0;
     output_gfx[prnr].gfxoutputdrv = gfxoutput_get_driver("BMP");
 
@@ -148,8 +148,11 @@ static int output_graphics_open(unsigned int prnr,
       case 2: resources_get_value("PrinterUserportTextDevice", (void *)&device); break;
       }
 
-    resources_get_sprintf("PrinterTextDevice%d", (void *)&filename, device+1);
-    if( filename==NULL ) filename = "prngfx";
+    resources_get_string_sprintf("PrinterTextDevice%d", &filename, device + 1);
+
+    if (filename == NULL)
+        filename = "prngfx";
+
     output_gfx[prnr].filename = lib_malloc(strlen(filename)+3);
     sprintf(output_gfx[prnr].filename, "%s00", filename);
 
