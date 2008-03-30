@@ -89,7 +89,9 @@ SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
-EXTRA_DIST = \
+c64dir = $(prefix)/lib/C64
+
+c64_DATA = \
 	basic \
 	chargen \
 	ccs64.vpl \
@@ -98,9 +100,13 @@ EXTRA_DIST = \
 	dos1541 \
 	kernal \
 	vice.vkm
+
+EXTRA_DIST = $(c64_DATA)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
+DATA =  $(c64_DATA)
+
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -118,6 +124,25 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
+
+install-c64DATA: $(c64_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(c64dir)
+	@list='$(c64_DATA)'; for p in $$list; do \
+	  if test -f $(srcdir)/$$p; then \
+	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(c64dir)/$$p"; \
+	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(c64dir)/$$p; \
+	  else if test -f $$p; then \
+	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(c64dir)/$$p"; \
+	    $(INSTALL_DATA) $$p $(DESTDIR)$(c64dir)/$$p; \
+	  fi; fi; \
+	done
+
+uninstall-c64DATA:
+	@$(NORMAL_UNINSTALL)
+	list='$(c64_DATA)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(c64dir)/$$p; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -208,22 +233,27 @@ dvi: dvi-recursive
 check: all-am
 	$(MAKE) check-recursive
 installcheck: installcheck-recursive
-all-am: Makefile
+all-am: Makefile $(DATA)
+
+install-data-am: install-c64DATA
+
+uninstall-am: uninstall-c64DATA
 
 install-exec: install-exec-recursive
 	@$(NORMAL_INSTALL)
 
-install-data: install-data-recursive
+install-data: install-data-recursive install-data-am
 	@$(NORMAL_INSTALL)
 
-install: install-recursive
+install: install-recursive install-data-am
 	@:
 
-uninstall: uninstall-recursive
+uninstall: uninstall-recursive uninstall-am
 
 install-strip:
 	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
 installdirs: installdirs-recursive
+	$(mkinstalldirs)  $(DATADIR)$(c64dir)
 
 
 mostlyclean-generic:
@@ -260,16 +290,17 @@ maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
-.PHONY: install-data-recursive uninstall-data-recursive \
-install-exec-recursive uninstall-exec-recursive installdirs-recursive \
-uninstalldirs-recursive all-recursive check-recursive \
-installcheck-recursive info-recursive dvi-recursive \
-mostlyclean-recursive distclean-recursive clean-recursive \
+.PHONY: uninstall-c64DATA install-c64DATA install-data-recursive \
+uninstall-data-recursive install-exec-recursive \
+uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
+all-recursive check-recursive installcheck-recursive info-recursive \
+dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
 maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
 distclean-tags clean-tags maintainer-clean-tags distdir info dvi \
-installcheck all-am install-exec install-data install uninstall all \
-installdirs mostlyclean-generic distclean-generic clean-generic \
-maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+installcheck all-am install-data-am uninstall-am install-exec \
+install-data install uninstall all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

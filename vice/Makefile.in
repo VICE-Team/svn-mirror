@@ -92,7 +92,7 @@ YACC = @YACC@
 
 SUBDIRS = src doc man data
 
-EXTRA_DIST = TODO BUGS acconfig.h
+EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ./src/config.h
@@ -308,6 +308,19 @@ installcheck all-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+.PHONY: x64 x128 vic20 pet
+x64:
+	(cd src; $(MAKE) x64)
+
+x128:
+	(cd src; $(MAKE) x128)
+
+vic20:
+	(cd src; $(MAKE) xvic)
+
+pet:
+	(cd src; $(MAKE) xpet)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
