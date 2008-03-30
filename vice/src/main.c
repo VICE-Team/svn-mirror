@@ -78,7 +78,7 @@
 #include "serial.h"
 #include "sound.h"
 #include "sysfile.h"
-#include "sysdep.h"
+#include "archdep.h"
 #include "ui.h"
 #include "utils.h"
 #include "video.h"
@@ -285,7 +285,7 @@ static int init_cmdline_options(void)
    different because the standard entry point is `WinMain()' there.  */
 int MAIN_PROGRAM(int argc, char **argv)
 {
-    sysdep_startup(&argc, argv);
+    archdep_startup(&argc, argv);
 
     if (atexit (exit64) < 0) {
 	perror ("atexit");
@@ -316,7 +316,7 @@ int MAIN_PROGRAM(int argc, char **argv)
         if (retval < 0) {
             fprintf(stderr,
                     "Couldn't load user's configuration file: "
-                    "using default settings.\n");
+                    "using default settings.\n\n");
             /* The resource file might contain errors, and thus certain
                resources might have been initialized anyway.  */
             resources_set_defaults();
@@ -357,19 +357,18 @@ int MAIN_PROGRAM(int argc, char **argv)
     }
 
     /* VICE boot sequence.  */
-    log_message(LOG_DEFAULT,
-                "\n*** VICE Version %s ***\n", VERSION);
-    log_message(LOG_DEFAULT,
-                "Welcome to %s, the free portable Commodore %s Emulator.\n",
-                argv[0], machine_name);
-    log_message(LOG_DEFAULT,
-                "Written by\n"
-                "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,\n"
-                "A. Boose, J. Valta and J. Sonninen.\n");
-    log_message(LOG_DEFAULT,
-                "This is free software with ABSOLUTELY NO WARRANTY.");
-    log_message(LOG_DEFAULT,
-                "See the \"About VICE\" command for more info.\n");
+    log_message(LOG_DEFAULT, "*** VICE Version %s ***", VERSION);
+    log_message(LOG_DEFAULT, "");
+    log_message(LOG_DEFAULT, "Welcome to %s, the free portable Commodore %s Emulator.",
+                archdep_program_name(), machine_name);
+    log_message(LOG_DEFAULT, "");
+    log_message(LOG_DEFAULT, "Written by");
+    log_message(LOG_DEFAULT, "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,");
+    log_message(LOG_DEFAULT, "A. Boose, J. Valta and J. Sonninen.");
+    log_message(LOG_DEFAULT, "");
+    log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
+    log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");
+    log_message(LOG_DEFAULT, "");
 
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */

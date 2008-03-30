@@ -1,5 +1,151 @@
 1998-11-29  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* main.c (MAIN_PROGRAM): Use `archdep_program_name()' to put the
+ 	program name into the log intro.
+
+	* arch/msdos/archdep.c (archdep_program_name): New function.
+
+	* arch/unix/archdep.c (archdep_program_name): New function.
+
+	* main.c (MAIN_PROGRAM): Do not embed newlines in the log intro.
+
+1998-11-29  Tibor Biczo <crown@mail.matav.hu>
+
+	* arch/win32/ui.c (res_possible_values): New struct typedef.
+        (RefreshRateValues, SpeedValues, value_list): New static arrays.
+	(ui_update_menus): Added support for mutual exclusive menu
+ 	entries.
+        (ui_dispatch_next_event): Replaced ExitProcess call with exit, so
+ 	atexit functions work now correctly.
+        (about_dialog_box): Handles WM_CLOSE command.
+        (handle_wm_command): Corrected RefreshRate resource settings.
+  	Removed ui_update_menus call.
+        (window_proc): Added ui_update_menus call to WM_ENTERMENULOOP
+ 	handling, now menu entries will reflect the correct state of
+ 	resources if they are handled in ui_update_menus.  Removed
+ 	vsync_cleanup call from WM_DESTROY handling.
+
+	* arch/win32/video.c: Include <mmsystem.h>, don't include
+ 	<windowsx.h>.
+        (video_debug): Removed OutputDebugString call, debug string goes
+ 	to logfile now.
+        (canvas_refresh): Added support variables, and code sequence to
+ 	measure canvas_refresh performance and number of moved bytes.
+
+	* arch/win32/vsync.c (vsync_debug): Removed OutputDebugString
+ 	call, debug string goes to logfile now.
+	(do_vsync): Doesn't try to start timer Thread when relative_speed
+ 	is zero.
+        (vsync_disable_timer): Implemented missing functionality.
+
+	* sounddrv/sounddx.c: Added support for 8bit soundcards.
+
+1998-11-24  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* zfile.h: added `#ifndef _MODE_T_' around the typedef to make my
+ 	win32 build environment work. (This is needed when Mumit Khan's
+ 	version of Mingw32 headers are used.)
+
+1998-11-29  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* log.h [__GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR > 4)]: Use
+ 	`__attribute__' for printf-style function prototypes.
+
+	* petcat.c: Removed `logfile' and `errfile'.
+	(main): Do not init `logfile' and `errfile'.
+
+	* arch/win32/ui.c (handle_wm_command): On `IDM_SETTINGS_LOAD' and
+ 	`IDM_SETTINGS_DEFAULT' update menus.
+
+	* arch/msdos/menudefs.c (load_settings_callback): If successful,
+ 	update menus.
+ 	(restore_default_settings_callback): Update menus.
+	
+	* resources.c: Do not #include "ui.h" anymore.
+	(resources_set_defaults): Do not call `ui_update_menus()' anymore.
+	(resources_load): Likewise.
+
+	* Makefile.am: Replaced occurences of `$(READLINE)' with
+	`@READLINE@' for consistency.
+
+	* arch/unix/sysdep.c: Renamed to `archdep.c'.  All `sysdep_*'
+	functions renamed to `archdep_*'.  All callers updated.
+	* arch/msdos/sysdep.c: Likewise.
+
+	* c1541.c: Removed `errfile' and `logfile'.
+	(main): Do not initialize `errfile' and `logfile' anymore.  Call
+	`log_init_with_fd' with `stdout' as the argument instead.
+
+	* Makefile.am (c1541_SOURCES, petcat_SOURCES): Added `log.c',
+ 	`cmdline.c' and `resources.c'.
+	(c1541_LDADD, petcat_LDADD): Added `@ARCH_DIR@/archdep.o'.
+
+	* fsdevice.c: #include "log.h".
+	* imagecontents.c: Likewise.
+
+	* log.c (log_init_with_fd): New function.
+
+1998-11-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* configure.in: Use separate resource files for any machine.
+	* arch/win32/Makefile.am: Changed likewise.
+
+	* doc/Makefile.am: Added `g64.txt' to `doc_DATA'.
+
+	* doc/g64.txt: New file written by Peter Schepers
+	<schepers@ist.uwaterloo.ca>.
+
+	* arch/win32/c128ui.c: Include `res.h' instead of `resc64.h'.
+	* arch/win32/c64ui.c: Likewise.
+	* arch/win32/ui.c: Likewise.
+	* arch/win32/uiattach.c: Likewise.
+	* arch/win32/uidrive.c: Likewise.
+	* arch/win32/uisnapshot.c: Likewise.
+	* arch/win32/uivicii.c: Likewise.
+	* arch/win32/vic20ui.c: Likewise.
+
+	* arch/win32/print.c (print_open, print_putc, print_flush): Return
+	a value.
+
+	* arch/win32/res.h: Former named `resc64.h'.
+
+	* arch/win32/res.r, arch/win32/resc128.r, arch/win32/resc64.r,
+	arch/win32/rescbm2.r, arch/win32/respet.r, arch/win32/resvic.r:
+	Split `resc64.r' into common and machine specific files.
+
+	* c1541.c, mon.c, vdrive-iec.c, vdrive.c, vdrive.h: Renamed lots
+	of function to unified `vdrive_' name space.
+
+	* fs_cbm.h: Define `BAM_VERSION_1541' and `BAM_VERSION_1581'.
+
+	* info.c: Added Peter Schepers to list of contributors.
+
+	* vdrive.c (vdrive_command_validate, vdrive_command_format): Added
+	1571 and 1581 disk drive support.
+
+	* c1541.c (disk_validate): Call `vdrive_command_validate'.
+
+	* vdrive-iec.c, vdrive.c: Changed `do_initialize', `do_format',
+	`do_copy' and `do_rename' to some better naming and made these
+	functions 1571 and 1581 aware.
+	(ip_execute): Made scratch command 1571 and 1581 aware.
+	(vdrive_bam_clear_all): New function.
+	(vdrive_get_max_sectors): New function.
+
+	* vdrive.h, vdrive-iec.c, vdrive.c: Changed `find_next_slot',
+	`remove_slot' and `set_find_first_slot' to new naming.
+
+	* arch/unix/xaw/c64ui.c (attach_cartridge_image_submenu): Added
+	stub to attach Ocean cartridge image.
+
+	* c64/c64mem.c: Added support for Ocean cartridges.
+	(read_roml, read_romh): Allow more than 4 banks.
+
+	* c64/cartridge.c: Added support for Ocean cartridges.
+	* cartridge.h: Likewise.
+
+1998-11-29  Ettore Perazzoli  <ettore@comm2000.it>
+
 	* Version 0.15.0.32.
 
 	* arch/msdos/vicesb.c (vicesb_detect): SB Pro maximum frequency
@@ -652,7 +798,7 @@
 	* c128/c128.c: Added tempoary stubs `cartridge_detach_image' and
 	`pet_set_model' to compile the RISC OS port.
 	* c64/c64.c: Likewise.
-	* pet/pet.c: Likswise.
+	* pet/pet.c: Likewise.
 	* vic20/vic20.c: Likewise.
 
 	* c1541.c: Set drive LEDs in virtual drive emulation when compiled

@@ -707,7 +707,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=0.15.0.32
+VERSION=0.15.0.33
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6325,10 +6325,10 @@ elif [ x"$is_win32" != "xno" ]; then
   xcbm2_LDFLAGS="-mwindows"
 
   X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
-  X128_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
-  XVIC_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
-  XPET_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
-  XCBM2_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
+  X128_WINRES="\$(top_builddir)/src/arch/win32/resc128.o"
+  XVIC_WINRES="\$(top_builddir)/src/arch/win32/resvic.o"
+  XPET_WINRES="\$(top_builddir)/src/arch/win32/respet.o"
+  XCBM2_WINRES="\$(top_builddir)/src/arch/win32/rescbm2.o"
 
   
 
@@ -6348,8 +6348,9 @@ fi
 
 
 if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
+  ARCH_DIR="\$(top_builddir)/src/arch/unix"
+  ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/xaw/libxawui.a $ARCH_DIR/xaw/widgets/libwidgets.a"
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix/ -I\$(top_srcdir)/src/arch/unix/xaw"
-  ARCH_LIBS="\$(top_builddir)/src/arch/unix/libarch.a \$(top_builddir)/src/arch/unix/xaw/libxawui.a \$(top_builddir)/src/arch/unix/xaw/widgets/libwidgets.a"
   
 
 if true; then
@@ -6382,8 +6383,9 @@ fi
 EOF
 
 elif [ x"$is_win32" != "xno" ]; then
+  ARCH_DIR="\$(top_builddir)/src/arch/win32"
+  ARCH_LIBS="$ARCH_DIR/libarch.a"
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32/"
-  ARCH_LIBS="\$(top_builddir)/src/arch/win32/libarch.a"
   
 
 if false; then
@@ -6413,7 +6415,8 @@ else
 fi
 else
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos/"
-  ARCH_LIBS="\$(top_builddir)/src/arch/msdos/libarch.a"
+  ARCH_DIR="\$(top_builddir)/src/arch/msdos"
+  ARCH_LIBS="$ARCH_DIR/libarch.a"
   
 
 if false; then
@@ -6442,6 +6445,7 @@ else
   MSDOS_COMPILE_FALSE=
 fi
 fi
+
 
 
 
@@ -6712,6 +6716,7 @@ s%@MSDOS_COMPILE_FALSE@%$MSDOS_COMPILE_FALSE%g
 s%@HAVE_READLINE@%$HAVE_READLINE%g
 s%@ARCH_INCLUDES@%$ARCH_INCLUDES%g
 s%@ARCH_LIBS@%$ARCH_LIBS%g
+s%@ARCH_DIR@%$ARCH_DIR%g
 s%@SUBDIRS@%$SUBDIRS%g
 s%@SOUND_USS_OBJ@%$SOUND_USS_OBJ%g
 s%@SOUND_SGI_OBJ@%$SOUND_SGI_OBJ%g
