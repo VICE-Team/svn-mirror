@@ -1,3 +1,7 @@
+1998-10-30  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.24.
+
 1998-10-27  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.23.
@@ -8,9 +12,11 @@
 
 1998-10-20  Ettore Perazzoli  <ettore@comm2000.it>
 
-	* Version 0.15.0.20.
+	* Version 0.15.0.22.
 
 1998-10-14  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.21.
 
 	* data/C128/Makefile.am (c128_DATA): Added `position.vkm'.
 

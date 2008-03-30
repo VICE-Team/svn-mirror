@@ -318,12 +318,46 @@ static String fallback_resources[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static unsigned int wm_command_size;
+static char *wm_command_data;
+static Atom wm_command_atom;
+static Atom wm_command_type_atom;
+
+static void prepare_wm_command_data(int argc, char **argv)
+{
+    unsigned int offset, i;
+
+    wm_command_size = 0;
+    for (i = 0; i < argc; i++)
+        wm_command_size += strlen(argv[i]) + 1;
+
+    wm_command_data = xmalloc(wm_command_size);
+
+    offset = 0;
+    for (i = 0; i < argc; i++) {
+        unsigned int len;
+
+        len = strlen(argv[i]);
+        memcpy(wm_command_data + offset, argv[i], len);
+        wm_command_data[offset + len] = 0;
+        offset += len + 1;
+    }
+}
+
+static void finish_prepare_wm_command(void)
+{
+    wm_command_atom = XInternAtom(display, "WM_COMMAND", False);
+    wm_command_type_atom = XInternAtom(display, "STRING", False);
+}
+
 /* Initialize the GUI and parse the command line. */
 int ui_init(int *argc, char **argv)
 {
     static XtActionsRec actions[] = {
 	{ "Close", close_action },
     };
+
+    prepare_wm_command_data(*argc, argv);
 
     /* Create the toplevel. */
     _ui_top_level = XtAppInitialize(&app_context, "VICE", NULL, 0, argc, argv,
@@ -341,6 +375,8 @@ int ui_init(int *argc, char **argv)
     ui_hotkey_init();
 
     enabled_drives = UI_DRIVE_ENABLE_NONE;
+
+    finish_prepare_wm_command();
 
     return 0;
 }
@@ -414,70 +450,32 @@ int ui_init_finish(void)
     /* Allocate the colormap. */
     alloc_colormap();
 
-    /* Recreate _ui_top_level to support non-default display depths.  We also
-       copy the WM_COMMAND' property for a minimal session-management support
-       (WindowMaker loves that).  FIXME: correct way to do so?  This looks like
-       a big dirty kludge... I cannot believe there is not a cleaner
-       method.  */
-    {
-	Atom wm_command_atom = XInternAtom(display, "WM_COMMAND", False);
-	Atom wm_command_type;
-	int wm_command_format;
-	unsigned long wm_command_nitems;
-	unsigned char *wm_command_data;
-	int wm_command_present = 0;
+    /* Recreate _ui_top_level to support non-default display depths.  */
 
-	/* Realize the old toplevel.  This ugliness is required to create the
-           window we retrieve the `WM_COMMAND' property from. */
-	XtVaSetValues(_ui_top_level,
-		      XtNwidth, 1,
-		      XtNheight, 1,
-		      XtNmappedWhenManaged, False,
-		      NULL);
-	XtRealizeWidget(_ui_top_level);
+    /* Goodbye...  */
+    XtDestroyWidget(_ui_top_level);
 
-	/* Retrieve the `WM_COMMAND' property. */
-	if (wm_command_atom != None) {
-	    unsigned long dummy;
+    /* Create the new `_ui_top_level'.  */
+    _ui_top_level = XtVaAppCreateShell(machine_name, "VICE",
+                                       applicationShellWidgetClass, display,
+                                       XtNvisual, visual,
+                                       XtNdepth, depth,
+                                       XtNcolormap, colormap,
+                                       XtNmappedWhenManaged, False,
+                                       XtNwidth, 1,
+                                       XtNheight, 1,
+                                       NULL);
+    XtRealizeWidget(_ui_top_level);
 
-	    if (Success == XGetWindowProperty(display,
-					      XtWindow(_ui_top_level),
-					      wm_command_atom,
-					      0, (unsigned long)-1,
-					      False,
-					      AnyPropertyType,
-					      &wm_command_type,
-					      &wm_command_format,
-					      &wm_command_nitems,
-					      &dummy,
-					      &wm_command_data))
-		wm_command_present = 1;
-	}
-
-	/* Goodbye...  */
-	XtDestroyWidget(_ui_top_level);
-
-	/* Create the new `_ui_top_level'.  */
-	_ui_top_level = XtVaAppCreateShell(machine_name, "VICE",
-                                           applicationShellWidgetClass, display,
-                                           XtNvisual, visual,
-                                           XtNdepth, depth,
-                                           XtNcolormap, colormap,
-                                           XtNmappedWhenManaged, False,
-                                           XtNwidth, 1,
-                                           XtNheight, 1,
-                                           NULL);
-	XtRealizeWidget(_ui_top_level);
-
-	/* Set the `WM_COMMAND' property in the new _ui_top_level. */
-	if (wm_command_present) {
-	    XChangeProperty(display, XtWindow(_ui_top_level), wm_command_atom,
-			    wm_command_type,
-			    wm_command_format, PropModeReplace,
-			    (char *)wm_command_data, wm_command_nitems);
-	    XtFree(wm_command_data);
-	}
-    }
+    /* Set the `WM_COMMAND' property in the new _ui_top_level. */
+    XChangeProperty(display,
+                    XtWindow(_ui_top_level),
+                    wm_command_atom,
+                    wm_command_type_atom,
+                    8,
+                    PropModeReplace,
+                    wm_command_data,
+                    wm_command_size);
 
     return ui_menu_init(app_context, display, screen);
 }
@@ -512,6 +510,19 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
         (title, applicationShellWidgetClass,
          _ui_top_level, XtNinput, True, XtNtitle, title,
          XtNiconName, title, NULL);
+
+    /* Xt only allows you to change the visual of a shell widget, so the
+       visual and colormap must be created before the shell widget is
+       created. When creating another shell widget, the new widget inherits
+       the colormap and depth from the parent widget, but it inherits the
+       visual from the parent window (the root window). Thus on every shell
+       you create you must specify visual, colormap, and depth. Note that
+       popup dialogs and menus are also shells. */
+    XtVaSetValues(shell,
+		  XtNvisual, visual,
+		  XtNdepth, depth,
+		  XtNcolormap, colormap,
+		  NULL);
 
     pane = XtVaCreateManagedWidget
         ("Form", formWidgetClass, shell,
@@ -1425,6 +1436,12 @@ Widget ui_create_transient_shell(Widget parent, const char *name)
 
     w = XtVaCreatePopupShell
 	(name, transientShellWidgetClass, parent, XtNinput, True, NULL);
+
+    XtVaSetValues(w,
+		  XtNvisual, visual,
+		  XtNdepth, depth,
+		  XtNcolormap, colormap,
+		  NULL);
 
     return w;
 }

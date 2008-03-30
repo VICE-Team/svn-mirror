@@ -1,3 +1,43 @@
+1998-10-30  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.24.
+
+	* arch/unix/video.c (ui_init): Prepare the data for the WM_COMMAND
+ 	property.
+	(ui_init_finish): Set the WM_COMMAND data prepared by `ui_init()'
+	instead of creating a toplevel and copying the data from it.
+
+	* arch/unix/video.c (video_init): Do not set any GC values.
+	Create the GC from the toplevel window, not from the root window.
+	* arch/unix/xaw/ui.c (ui_open_canvas_window): XtVaSetValues for
+ 	visual and depth for the new shell.
+	(ui_create_transient_shell): Ditto.
+	[Adapted from a patch by Mattias Engdegård <f91-men@nada.kth.se>
+	to make non-default display depths actually work.]
+
+1998-10-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c64/c64iec.c (parallel_cable_cpu_undump): New function.
+	
+	* c128/c128iec.c (parallel_cable_cpu_undump): New function.
+
+	* c64/c64cia2.def (UNDUMP_CIAPB): Undump parallel port value.
+
+	* drive/drive.c (drive_write_snapshot_module,
+	drive_read_snapshot_module): Do not put `have_new_disk' into
+	snapshot image.
+
+	* drive/drivecpu-tmpl.c (mydrive_jam): New function.
+	(mydrive_cpu_execute): Do not save the old PC value and do not
+	change `bank_base' everytime the drive CPU is executed.
+	Calculate `stop_clk' before emulating the drive CPU.
+	Calculate `last_exc_cycles' once after the drive is emulated.
+	(JAM): Removed old `JAM()' macro.
+	(mydrive_set_bank_base): New function.
+
+	* mon.c (mon_set_reg_val): Call `drive0_set_bank_base' to
+	update the `bank_base' of the drive CPU emulation.
+
 1998-10-27  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.23.
