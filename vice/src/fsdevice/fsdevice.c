@@ -153,6 +153,13 @@ int fsdevice_error_get_byte(vdrive_t *vdrive, BYTE *data)
     if (!fs_elen[dnr])
         fsdevice_error(vdrive, CBMDOS_IPE_OK);
 
+    *data = (BYTE)fs_errorl[dnr][fs_eptr[dnr]++];
+    if (fs_eptr[dnr] >= fs_elen[dnr]) {
+        fsdevice_error(vdrive, CBMDOS_IPE_OK);
+        rc = SERIAL_EOF;
+    }
+
+#if 0
     if (fs_eptr[dnr] < fs_elen[dnr]) {
         *data = (BYTE)fs_errorl[dnr][fs_eptr[dnr]++];
         rc = SERIAL_OK;
@@ -161,6 +168,7 @@ int fsdevice_error_get_byte(vdrive_t *vdrive, BYTE *data)
         *data = 0xc7;
         rc = SERIAL_EOF;
     }
+#endif
 
     return rc;
 }
@@ -173,7 +181,7 @@ int fsdevice_attach(unsigned int device, const char *name)
 
     if (machine_bus_device_attach(device, name, fsdevice_read, fsdevice_write,
                                   fsdevice_open, fsdevice_close,
-                                  fsdevice_flush))
+                                  fsdevice_flush, NULL))
         return 1;
 
     vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;

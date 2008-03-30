@@ -54,6 +54,7 @@ typedef struct serial_s
     int (*openf)(struct vdrive_s *, const BYTE *, unsigned int, unsigned int);
     int (*closef)(struct vdrive_s *, unsigned int);
     void (*flushf)(struct vdrive_s *, unsigned int);
+    void (*listenf)(struct vdrive_s *, unsigned int);
     BYTE nextbyte[16]; /* next byte to send, per sec. addr. */
     char nextok[16]; /* flag if nextbyte is valid */
 

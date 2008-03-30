@@ -37,7 +37,19 @@
 #define SLOT_SIDE_TRACK       21
 #define SLOT_SIDE_SECTOR      22
 #define SLOT_RECORD_LENGTH    23 /* for relative files */
+#define SLOT_REPLACE_TRACK    28
+#define SLOT_REPLACE_SECTOR   29
 #define SLOT_NR_BLOCKS        30
+
+#define SLOT_GEOS_ITRACK      21
+#define SLOT_GEOS_ISECTOR     22
+#define SLOT_GEOS_STRUCT      23
+#define SLOT_GEOS_TYPE        24
+#define SLOT_GEOS_YEAR        25 /* same on CMD (year to minute) */
+#define SLOT_GEOS_MONTH       26
+#define SLOT_GEOS_DATE        27
+#define SLOT_GEOS_HOUR        28
+#define SLOT_GEOS_MINUTE      29
 
 struct vdrive_s;
 struct bufferinfo_s;
@@ -55,6 +67,7 @@ extern void vdrive_dir_no_a0_pads(BYTE *ptr, int l);
 extern void vdrive_dir_remove_slot(struct vdrive_s *vdrive, BYTE *slot);
 extern void vdrive_dir_create_slot(struct bufferinfo_s *p, char *realname,
                                    int reallength, int filetype);
+extern void vdrive_dir_free_chain(struct vdrive_s *vdrive, int t, int s);
 
 #endif
 

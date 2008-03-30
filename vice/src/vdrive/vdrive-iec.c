@@ -67,6 +67,9 @@
 
 static log_t vdrive_iec_log = LOG_ERR;
 
+#define OFFSET_SUPER_POINTER 3
+#define SIDE_SECTORS_MAX 6
+#define OFFSET_RECORD_LEN  3
 
 void vdrive_iec_init(void)
 {
@@ -156,48 +159,143 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
                           cbmdos_cmd_parse_t *cmd_parse, const char *name)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
-    BYTE *slot = p->slot;
+    unsigned int track, sector;
+    BYTE *slot = p->slot, *e;
 
     if (vdrive->image->read_only) {
         vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }
 
+    /* set flag for overwrite mode */
+    p->needsupdate = 0;
+
     if (slot) {
-        if (*name == '@')
-            vdrive_dir_remove_slot(vdrive, slot);
+        /* file exists */
+        if (*name == '@') {
+            /* replace mode: we don't want the dirent updated at all until
+                close */
+            /* allocate buffers */
+            p->buffer = (BYTE *)lib_malloc(256);
+            p->mode = BUFFER_SEQUENTIAL;
+            p->bufptr = 2;
+
+            /* Create our own slot, since the one passed is static */
+            p->slot = (BYTE *)lib_calloc(1, 32);
+
+            /* Copy the static on to the new one. */
+            memcpy(p->slot, slot, 32);
+            slot = p->slot;
+
+            /* set flag for replace mode */
+            p->needsupdate = 1;
+
+            /* find a new track and sector when writing */
+            p->track = p->sector = 0;
+        }
         else {
-            vdrive_iec_close(vdrive, secondary);
-            vdrive_command_set_error(vdrive, CBMDOS_IPE_FILE_EXISTS, 0, 0);
+            if (p->readmode == CBMDOS_FAM_APPEND) {
+                /* append mode */
+                /* allocate buffers */
+                p->buffer = (BYTE *)lib_malloc(256);
+                p->mode = BUFFER_SEQUENTIAL;
+
+                /* Create our own slot, since the one passed is static */
+                p->slot = (BYTE *)lib_calloc(1, 32);
+
+                /* Copy the static on to the new one. */
+                memcpy(p->slot, slot, 32);
+                slot = p->slot;
+
+                /* set file unclosed */
+                p->slot[SLOT_TYPE_OFFSET] &= 0x7f;
+
+                /* get the starting track and sector */
+                p->track = track = slot[SLOT_FIRST_TRACK];
+                p->sector = sector = slot[SLOT_FIRST_SECTOR];
+
+                /* scan to the end of the file */
+                while (track) {
+                    p->track = track;
+                    p->sector = sector;
+                    if (disk_image_read_sector(vdrive->image, p->buffer,
+                        p->track, p->sector)) {
+                        /* couldn't read sector, report error and leave */
+                        p->mode = BUFFER_NOT_IN_USE;
+                        lib_free((char *)p->buffer);
+                        p->buffer = NULL;
+                        vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR, p->track, p->sector);
+                        return SERIAL_ERROR;
+                    }
+                    /* setup next link */
+                    track = p->buffer[0];
+                    sector = p->buffer[1];
+                }
+                /* compensate if the link is 0 (rare possibility) */
+                if (!p->track) {
+                    /* set buffer pointer to 2 */
+                    sector = 1;
+                }
+                /* set the buffer pointer */
+                p->bufptr = sector + 1;
+            } else {
+                /* can't overwrite an existing file */
+                vdrive_iec_close(vdrive, secondary);
+                vdrive_command_set_error(vdrive, CBMDOS_IPE_FILE_EXISTS, 0, 0);
+                return SERIAL_ERROR;
+            }
+        }
+    } else {
+        /* new file... */
+        /* create a slot based on the opening name */
+        vdrive_dir_create_slot(p, cmd_parse->parsecmd, cmd_parse->parselength,
+                               cmd_parse->filetype);
+
+        /* Write the directory entry to disk as an UNCLOSED file. */
+
+        vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
+        e = vdrive_dir_find_next_slot(vdrive);
+
+        /* If there is not space for the slot, disk is full */
+        if (!e) {
+            p->mode = BUFFER_NOT_IN_USE;
+            lib_free((char *)p->buffer);
+            p->buffer = NULL;
+            vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
             return SERIAL_ERROR;
         }
+
+        /* find a new track and sector when writing */
+        p->track = p->sector = 0;
+
     }
 
-    vdrive_dir_create_slot(p, cmd_parse->parsecmd, cmd_parse->parselength,
-                           cmd_parse->filetype);
+    if (!p->needsupdate) {
+        /* copy the slot information into the sector. */
+        memcpy(&vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2],
+               p->slot + 2, 30);
 
-#if 0
-    /* XXX keeping entry until close not implemented */
-    /* Write the directory entry to disk as an UNCLOSED file. */
-
-    vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
-    e = vdrive_dir_find_next_slot(vdrive);
-
-    if (!e) {
-        p->mode = BUFFER_NOT_IN_USE;
-        lib_free((char *)p->buffer);
-        p->buffer = NULL;
-        vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
-        status = SERIAL_ERROR;
-        goto out;
+        /* Write the sector. */
+        disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+                                vdrive->Curr_track, vdrive->Curr_sector);
     }
-    memcpy(&vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2],
-           p->slot + 2, 30);
 
-    disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
-    v                        vdrive->Curr_track, vdrive->Curr_sector);
-    /*vdrive_bam_write_bam(vdrive);*/
-#endif  /* BAM write */
+    /* Remember the directory information for close. */
+    p->dir_track = vdrive->Curr_track;
+    p->dir_sector = vdrive->Curr_sector;
+    p->dir_slot = vdrive->SlotNumber;
+
+    /* reduce block count by 1 for append mode after the dirent is
+       updated */
+    /* the real drives actually don't do this, so each time you
+        append to a file, the block count increases by 1.  I think it
+        is safer to correct the block count. */
+    if (p->readmode == CBMDOS_FAM_APPEND) {
+        /* Decrement block count by 1, write routine will increment
+            by 1. */
+        if (!(slot[SLOT_NR_BLOCKS]--))
+            slot[SLOT_NR_BLOCKS + 1]--;
+    }
 
     return SERIAL_OK;
 }
@@ -300,10 +398,21 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     if (*name == '#') {
         p->mode = BUFFER_MEMORY_BUFFER;
         p->buffer = (BYTE *)lib_malloc(256);
-        p->bufptr = 0;
+        /* clear out buffer */
+        memset(p->buffer, 0, 256);
+        /* the pointer is actually 1 on the real drives. */
+        /* this probably relates to the B-R and B-W commands. */
+        /* 1541 firmware: $cb84 - open channel, $cc0f bp = 1 */
+        p->bufptr = 1;
+        /* we need a length to support the original B-R and B-W
+           commands. */
+        p->length = 256;
         status = SERIAL_OK;
         goto out;
     }
+
+    /* Clear update flag */
+    p->needsupdate = 0;
 
     /*
      * Directory read
@@ -352,8 +461,8 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
        }
        /* At this point the record lengths are the same (or will be), so set
            them equal. */
-       cmd_parse.recordlength = slot[SLOT_RECORD_LENGTH];
-       status = vdrive_rel_open(vdrive, secondary, cmd_parse.recordlength);
+       if (slot) cmd_parse.recordlength = slot[SLOT_RECORD_LENGTH];
+       status = vdrive_rel_open(vdrive, secondary, &cmd_parse, name);
        goto out;
     }
 
@@ -379,14 +488,30 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
     /*
      * First block of a file ?
      */
-    if (slot[SLOT_FIRST_TRACK] == 0) {
-        retval = vdrive_bam_alloc_first_free_sector(vdrive, vdrive->bam, &t_new,                                                    &s_new);
+    if (bi->track == 0) {
+        /* allocate the first sector */
+        retval = vdrive_bam_alloc_first_free_sector(vdrive, vdrive->bam, &t_new,
+                                                    &s_new);
         if (retval < 0) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
             return -1;
         }
-        slot[SLOT_FIRST_TRACK] = bi->track = t_new;
-        slot[SLOT_FIRST_SECTOR] = bi->sector = s_new;
+        /* remember track and sector */
+        bi->track = t_new;
+        bi->sector = s_new;
+        /* use update flag to indicate replace mode */
+        if (bi->needsupdate) {
+            /* save and replace */
+            slot[SLOT_REPLACE_TRACK] = t_new;
+            slot[SLOT_REPLACE_SECTOR] = s_new;
+        } else {
+            /* new file */
+            slot[SLOT_FIRST_TRACK] = t_new;
+            slot[SLOT_FIRST_SECTOR] = s_new;
+        }
+        /* reset block counter */
+        slot[SLOT_NR_BLOCKS] = 0;
+        slot[SLOT_NR_BLOCKS + 1] = 0;
     }
 
     if (length == WRITE_BLOCK) {
@@ -418,6 +543,7 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
         disk_image_write_sector(vdrive->image, buf, bi->track, bi->sector);
     }
 
+    /* Increment block count. */
     if (!(++slot[SLOT_NR_BLOCKS]))
         ++slot[SLOT_NR_BLOCKS + 1];
 
@@ -426,8 +552,8 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
 
 static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
 {
-    BYTE *slot;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
+    unsigned int track = 0, sector;
 
     if (p->readmode & (CBMDOS_FAM_WRITE | CBMDOS_FAM_APPEND)) {
         /*
@@ -442,35 +568,41 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
 #ifdef DEBUG_DRIVE
         log_debug("DEBUG: flush.");
 #endif
+        /* Flush remained of file */
         iec_write_sequential(vdrive, p, p->bufptr);
 
-#ifdef DEBUG_DRIVE
-        log_debug("DEBUG: find empty DIR slot.");
-#endif
-        vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
-        slot = vdrive_dir_find_next_slot(vdrive);
-
-        if (!slot) {
-            p->mode = BUFFER_NOT_IN_USE;
-            lib_free((char *)p->buffer);
-            p->buffer = NULL;
-
-            vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
-            return SERIAL_ERROR;
-        }
+        /* Set the file as closed */
         p->slot[SLOT_TYPE_OFFSET] |= 0x80; /* Closed */
 
-        memcpy(&vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2],
-               p->slot + 2, 30);
+        /* is this a save and replace? */
+        if (p->needsupdate) {
+            /* remember the original track and sector */
+            track = p->slot[SLOT_FIRST_TRACK];
+            sector = p->slot[SLOT_FIRST_SECTOR];
+            /* move over the replacement track and sector */
+            p->slot[SLOT_FIRST_TRACK] = p->slot[SLOT_REPLACE_TRACK];
+            p->slot[SLOT_FIRST_SECTOR] = p->slot[SLOT_REPLACE_SECTOR];
+            /* set replacement track and sector to 0 */
+            p->slot[SLOT_REPLACE_TRACK] = 0;
+            p->slot[SLOT_REPLACE_SECTOR] = 0;
+        }
 
-#ifdef DEBUG_DRIVE
-        log_debug("DEBUG: closing, write DIR slot (%d %d) and BAM.",
-                  vdrive->Curr_track, vdrive->Curr_sector);
-#endif
-        disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
-                                vdrive->Curr_track, vdrive->Curr_sector);
+        /* Update the directory entry (block count, closed) */
+        vdrive_iec_update_dirent(vdrive, secondary);
+
+        /* if we have a track and sector saved */
+        if (track) {
+            /* remove the original file */
+            vdrive_dir_free_chain(vdrive, track, sector);
+        }
+
+        /* Update BAM */
         vdrive_bam_write_bam(vdrive);
+
+        /* Free up the slot */
+        lib_free(p->slot);
     }
+    /* Release buffers */
     p->mode = BUFFER_NOT_IN_USE;
     lib_free((char *)p->buffer);
     p->buffer = NULL;
@@ -502,31 +634,7 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
         status = iec_close_sequential(vdrive, secondary);
         break;
       case BUFFER_RELATIVE:
-        p->mode = BUFFER_NOT_IN_USE;
-        lib_free((char *)p->buffer);
-        p->buffer = NULL;
-        lib_free((char *)p->buffer_next);
-        p->buffer_next = NULL;
-        if (p->side_sector) {
-            /* remove side sectors */
-            lib_free(p->side_sector);
-        }
-        p->side_sector = NULL;
-        if (p->side_sector_track) {
-            /* remove side sector tracks */
-            lib_free(p->side_sector_track);
-        }
-        p->side_sector_track = NULL;
-        if (p->side_sector_sector) {
-            /* remove side sector sectors */
-            lib_free(p->side_sector_sector);
-        }
-        p->side_sector_sector = NULL;
-        if (p->super_side_sector) {
-            /* remove super side sector too */
-            lib_free(p->super_side_sector);
-        }
-        p->super_side_sector = NULL;
+        status = vdrive_rel_close(vdrive, secondary);
         break;
       case BUFFER_COMMAND_CHANNEL:
         /* I'm not sure if this is correct, but really closing the buffer
@@ -599,126 +707,6 @@ static int iec_read_sequential(vdrive_t *vdrive, BYTE *data,
     return SERIAL_OK;
 }
 
-static int iec_read_relative(vdrive_t *vdrive, BYTE *data,
-                               unsigned int secondary)
-{
-    bufferinfo_t *p = &(vdrive->buffers[secondary]);
-
-    /*
-     * Read next block if needed
-     */
-    if (p->buffer[0]) {
-        if (p->bufptr >= 256) {
-            int status;
-            unsigned int track, sector;
-
-            track = (unsigned int)p->buffer[0];
-            sector = (unsigned int)p->buffer[1];
-
-            /* FIXME: check for writes here to commit the buffers */
-
-            /* Check to see if the next record is in the buffered sector */
-            if (p->track_next == track && p->sector_next == sector) {
-                /* Swap the two buffers */
-                BYTE *tmp;
-                tmp = p->buffer;
-                p->buffer = p->buffer_next;
-                p->buffer_next = tmp;
-                p->track_next = p->track;
-                p->sector_next = p->sector;
-                p->track = track;
-                p->sector = sector;
-                status = 0;
-            } else if (p->track!=track || p->sector != sector ) {
-                /* load in the sector to memory */
-                status = disk_image_read_sector(vdrive->image, p->buffer, track, sector);
-            }
-
-            if (status == 0) {
-                p->track = track;
-                p->sector = sector;
-                p->bufptr = p->bufptr - 254;
-                p->length = p->length - 254;
-                p->record_next = p->record_next - 254;
-                /* keep buffered sector where ever it is */
-                /* we won't read in the next sector unless we have to */
-            } else {
-                log_debug("Cannot read track %i sector %i.", track, sector);
-                *data = 0xc7;
-                return SERIAL_EOF;
-            }
-        }
-    } else {
-        if (p->bufptr >= (unsigned int)( p->buffer[1] + 2 ) ) {
-            *data = 0x0d;
-#ifdef DEBUG_DRIVE
-            if (p->mode == BUFFER_COMMAND_CHANNEL)
-                log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
-                          p->mode, 0, 0, *data, (isprint(*data)
-                          ? *data : '.'));
-#endif
-            vdrive_command_set_error(vdrive, CBMDOS_IPE_NO_RECORD, 0, 0);
-            return SERIAL_EOF;
-        }
-    }
-
-    *data = p->buffer[p->bufptr];
-    p->bufptr++;
-
-    if (p->bufptr > p->length) {
-        /* set up the buffer pointer to the next record */
-        p->bufptr = p->record_next;
-        /* add the record length to the next record pointer */
-        p->record_next += p->side_sector[3]; /* should be OFFSET_RECORD_LEN */
-        /* calculate the maximum length (for read, for write we should use
-            record_next - 1 */
-        p->length = p->record_next - 1;
-        /* increment the record reference */
-        p->record++;
-        /* Find the length of the record starting from the end until no zeros
-            are found */
-        if ( p->length < 256) {
-            /* If the maximum length of the record is in this sector, just
-            check for where the zeros end */
-            for (;p->length >= p->bufptr && p->buffer[p->length] == 0 ; p->length-- );
-        }
-        else {
-            int status=1;
-
-            /* Get the next sector */
-            /* If it doesn't exist, we will use the max length calculated above */
-            if (p->buffer[0] != 0) {
-                /* Read in the sector if it has not been buffered */
-                if (p->buffer[0] != p->track_next || p->buffer[1] != p->sector_next) {
-                    status = disk_image_read_sector(vdrive->image, p->buffer_next, p->buffer[0],
-                    p->buffer[1]);
-                }
-                else {
-                    status = 0;
-                }
-            }
-            /* If all is good, calculate the length now */
-            if (!status) {
-                /* update references, if the sector read in */
-                p->track_next = p->buffer[0];
-                p->sector_next = p->buffer[1];
-                /* Start looking in the buffered sector */
-                for (;p->length >= 256 && p->buffer_next[p->length-256+2] == 0 ; p->length-- );
-                /* If we crossed into the current sector, look there too */
-                if (p->length<256) {
-                    for (;p->length >= p->bufptr && p->buffer[p->length] == 0 ; p->length-- );
-                }
-            }
-
-        }
-        /* FIXME: check for going over max records here */
-
-        return SERIAL_EOF;
-    }
-
-    return SERIAL_OK;
-}
-
 int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
@@ -747,13 +735,11 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         break;
 
       case BUFFER_MEMORY_BUFFER:
-        if (p->bufptr >= 256) {
-            *data = 0xc7;
-            return SERIAL_EOF;
-        }
         *data = p->buffer[p->bufptr];
         p->bufptr++;
-        if (p->bufptr >= 256) {
+        if (p->bufptr >= p->length) {
+            /* Buffer pointer resets to 1, not 0. */
+            p->bufptr = 1;
             status = SERIAL_EOF;
         }
         break;
@@ -786,7 +772,7 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         break;
 
       case BUFFER_RELATIVE:
-        status = iec_read_relative(vdrive, data, secondary);
+        status = vdrive_rel_read(vdrive, data, secondary);
         break;
 
       default:
@@ -826,10 +812,13 @@ int vdrive_iec_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
         vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_WRITE, 0, 0);
         return SERIAL_ERROR;
       case BUFFER_MEMORY_BUFFER:
-        if (p->bufptr >= 256)
-            return SERIAL_ERROR;
         p->buffer[p->bufptr] = data;
         p->bufptr++;
+        if (p->bufptr >= p->length)
+        {
+            /* On writes, buffer pointer resets to 0. */
+            p->bufptr = 0;
+        }
         return SERIAL_OK;
       case BUFFER_SEQUENTIAL:
         if (p->readmode == CBMDOS_FAM_READ)
@@ -852,6 +841,9 @@ int vdrive_iec_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
             return SERIAL_ERROR;
         p->buffer[p->bufptr] = data;
         p->bufptr++;
+        break;
+      case BUFFER_RELATIVE:
+        return vdrive_rel_write(vdrive, data, secondary);
         break;
       default:
         log_error(vdrive_iec_log, "Fatal: Unknown write mode.");
@@ -900,6 +892,45 @@ int vdrive_iec_attach(unsigned int unit, const char *name)
 {
     return machine_bus_device_attach(unit, name, vdrive_iec_read,
                                      vdrive_iec_write, vdrive_iec_open,
-                                     vdrive_iec_close, vdrive_iec_flush);
+                                     vdrive_iec_close, vdrive_iec_flush,
+                                     vdrive_iec_listen);
 }
 
+void vdrive_iec_listen(vdrive_t *vdrive, unsigned int secondary)
+{
+   bufferinfo_t *p = &(vdrive->buffers[secondary]);
+
+    /* Only move to next record if the sector is dirty (indicates
+        we just wrote something) and if this is a REL file. */
+    /* All "overflows" are handled in the write routine. */
+    if (p->mode == BUFFER_RELATIVE) {
+        vdrive_rel_listen(vdrive, secondary);
+    }
+
+    return;
+}
+
+int vdrive_iec_update_dirent(vdrive_t *vdrive, unsigned int channel)
+{
+    bufferinfo_t *p = &(vdrive->buffers[channel]);
+
+    /* Update directory information - no error checks, everything
+       should be safe at this point. */
+
+    vdrive->Curr_track = p->dir_track;
+    vdrive->Curr_sector = p->dir_sector;
+    vdrive->SlotNumber = p->dir_slot;
+
+    /* Read in the track/sector where the directory entry lies. */
+    disk_image_read_sector(vdrive->image, vdrive->Dir_buffer,
+                           vdrive->Curr_track, vdrive->Curr_sector);
+ 
+    /* Copy over our new slot. */
+    memcpy(&(vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2]), p->slot + 2, 30);
+
+    /* Write it back. */
+    disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+                            vdrive->Curr_track, vdrive->Curr_sector);
+
+    return 0;
+}

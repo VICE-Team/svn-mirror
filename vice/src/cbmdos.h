@@ -46,6 +46,7 @@
 
 #define CBMDOS_IPE_NO_RECORD               50
 #define CBMDOS_IPE_OVERFLOW                51
+#define CBMDOS_IPE_TOOLARGE                52  /* 1581 */
 
 #define CBMDOS_IPE_NOT_WRITE               60
 #define CBMDOS_IPE_NOT_OPEN                61

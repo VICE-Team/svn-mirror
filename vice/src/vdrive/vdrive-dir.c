@@ -77,7 +77,7 @@ static unsigned int vdrive_dir_name_match(BYTE *slot, BYTE *nslot, int length,
     return cbmdos_parse_wildcard_compare(nslot, &slot[SLOT_NAME_OFFSET]);
 }
 
-static void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
+void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
 {
     BYTE buf[256];
 

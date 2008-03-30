@@ -62,6 +62,8 @@ extern int machine_bus_device_attach(unsigned int unit, const char *name,
                                     int (*closef)(struct vdrive_s *,
                                     unsigned int),
                                     void (*flushf)(struct vdrive_s *,
+                                    unsigned int),
+                                    void (*listenf)(struct vdrive_s *,
                                     unsigned int));
 extern int machine_bus_device_detach(unsigned int unit);
 

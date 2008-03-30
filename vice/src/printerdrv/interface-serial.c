@@ -289,12 +289,12 @@ static int interface_serial_attach(unsigned int prnr)
       case 0:
         err = machine_bus_device_attach(4, "Printer #4 device", read_pr4,
                                         write_pr4, open_pr4, close_pr4,
-                                        flush_pr4);
+                                        flush_pr4, NULL);
         break;
       case 1:
         err = machine_bus_device_attach(5, "Printer #5 device", read_pr5,
                                         write_pr5, open_pr5, close_pr5,
-                                        flush_pr5);
+                                        flush_pr5, NULL);
         break;
       default:
         err = -1;

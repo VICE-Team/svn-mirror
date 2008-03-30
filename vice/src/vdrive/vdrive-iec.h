@@ -46,5 +46,10 @@ extern void vdrive_iec_flush(struct vdrive_s *vdrive, unsigned int secondary);
 
 extern int vdrive_iec_attach(unsigned int unit, const char *name);
 
+extern void vdrive_iec_listen(struct vdrive_s *vdrive, unsigned int secondary);
+
+extern int vdrive_iec_update_dirent(struct vdrive_s *vdrive,
+                                    unsigned int channel);
+
 #endif
 

@@ -83,7 +83,6 @@ typedef struct bufferinfo_s {
         one open */
     BYTE *side_sector;
     /* location of the side sectors */
-    /* this should be SIDE_SECTORS_MAX instead of 6 */
     BYTE *side_sector_track;
     BYTE *side_sector_sector;
 
@@ -92,12 +91,20 @@ typedef struct bufferinfo_s {
     BYTE super_side_sector_track;
     BYTE super_side_sector_sector;
 
-    BYTE *buffer_next;          /* next record for rel file */
+    BYTE *buffer_next;          /* next buffer for rel file */
     unsigned int track_next;    /* track for the next sector */
     unsigned int sector_next;   /* sector for the next sector */
 
     unsigned int record_max;  /* Max rel file record, inclusive */
     unsigned int record_next; /* Buffer pointer to beginning of next record */
+    BYTE needsupdate;         /* true if the current sector needs to be
+                                  written (from REL write) */
+    BYTE super_side_sector_needsupdate; /* similar to above */
+    BYTE *side_sector_needsupdate;
+
+    BYTE dir_track;           /* track, sector and slot of REL file */
+    BYTE dir_sector;          /*  directory entry */
+    BYTE dir_slot;
 
 } bufferinfo_t;
 

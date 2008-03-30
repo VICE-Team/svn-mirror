@@ -57,6 +57,7 @@ void machine_bus_init(void)
                    unsigned int))fn;
         p->closef = (int (*)(struct vdrive_s *, unsigned int))fn;
         p->flushf = (void (*)(struct vdrive_s *, unsigned int))NULL;
+        p->listenf = (void (*)(struct vdrive_s *, unsigned int))NULL;
     }
 
     machine_bus_init_machine();
@@ -70,7 +71,8 @@ int machine_bus_device_attach(unsigned int unit, const char *name,
                               int (*openf)(struct vdrive_s *, const BYTE *,
                               unsigned int, unsigned int),
                               int (*closef)(struct vdrive_s *, unsigned int),
-                              void (*flushf)(struct vdrive_s *, unsigned int))
+                              void (*flushf)(struct vdrive_s *, unsigned int),
+                              void (*listenf)(struct vdrive_s *, unsigned int))
 {
     serial_t *p;
     int i;
@@ -88,6 +90,7 @@ int machine_bus_device_attach(unsigned int unit, const char *name,
     p->openf = openf;
     p->closef = closef;
     p->flushf = flushf;
+    p->listenf = listenf;
 
     p->inuse = 1;
 

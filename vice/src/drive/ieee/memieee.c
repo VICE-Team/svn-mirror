@@ -164,7 +164,7 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
 
         drv->cpu->pageone = cpud->drive_ram;
 
-        for (i = 0; i <= 0x10; i += 4) {
+        for (i = 0; i < 0x10; i += 4) {
             cpud->read_func_nowatch[i] = drive_read_1001zero_ram;
             cpud->store_func_nowatch[i] = drive_store_1001zero_ram;
             cpud->read_func_nowatch[i + 1] = drive_read_1001zero_ram;
@@ -175,7 +175,7 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
             cpud->store_func_nowatch[i + 3] = drive_store_1001_io;
         }
 
-        for (i = 0x10; i <= 0x50; i ++) {
+        for (i = 0x10; i < 0x50; i ++) {
             cpud->read_func_nowatch[i] = drive_read_1001buffer_ram;
             cpud->store_func_nowatch[i] = drive_store_1001buffer_ram;
         }
