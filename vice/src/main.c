@@ -234,9 +234,6 @@ int MAIN_PROGRAM(int argc, char **argv)
 	progname++;
 
     set_boot_path(argv[0]);
-#ifdef __MSDOS__
-    printf("boot_path = `%s'\n", boot_path);
-#endif
 
     /* Initialize system file locator.  */
     sysfile_init(boot_path, machine_name);
