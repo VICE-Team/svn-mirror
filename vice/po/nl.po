@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.20\n"
-"POT-Creation-Date: 2006-08-06 18:12+0200\n"
+"POT-Creation-Date: 2006-08-26 19:24+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -1933,11 +1933,11 @@ msgstr "<modus>"
 msgid "Select fullscreen mode"
 msgstr "Aktiveer volscherm modus"
 
-#: src/arch/unix/joy.c:87
+#: src/arch/unix/joy.c:86
 msgid "Set device for joystick port 1"
 msgstr "Zet apparaat voor joystick poort 1"
 
-#: src/arch/unix/joy.c:89
+#: src/arch/unix/joy.c:88
 msgid "Set device for joystick port 2"
 msgstr "Zet apparaat voor joystick poort 2"
 
@@ -2716,19 +2716,19 @@ msgstr "Drive #10..."
 msgid "Unit #11..."
 msgstr "Drive #11..."
 
-#: src/arch/unix/gui/uiattach.c:167 src/arch/unix/gui/uicommands.c:413
+#: src/arch/unix/gui/uiattach.c:167 src/arch/unix/gui/uicommands.c:427
 msgid "Unit #8"
 msgstr "Drive #8"
 
-#: src/arch/unix/gui/uiattach.c:169 src/arch/unix/gui/uicommands.c:415
+#: src/arch/unix/gui/uiattach.c:169 src/arch/unix/gui/uicommands.c:429
 msgid "Unit #9"
 msgstr "Drive #9"
 
-#: src/arch/unix/gui/uiattach.c:171 src/arch/unix/gui/uicommands.c:417
+#: src/arch/unix/gui/uiattach.c:171 src/arch/unix/gui/uicommands.c:431
 msgid "Unit #10"
 msgstr "Drive #10"
 
-#: src/arch/unix/gui/uiattach.c:173 src/arch/unix/gui/uicommands.c:419
+#: src/arch/unix/gui/uiattach.c:173 src/arch/unix/gui/uicommands.c:433
 msgid "Unit #11"
 msgstr "Drive #11"
 
@@ -2900,7 +2900,7 @@ msgstr ""
 "\n"
 
 #: src/arch/unix/gui/uicommands.c:68 src/arch/unix/gui/uicommands.c:75
-#: src/arch/unix/gui/uicommands.c:333 src/arch/unix/gui/uikeyboard.c:112
+#: src/arch/unix/gui/uicommands.c:347 src/arch/unix/gui/uikeyboard.c:112
 msgid "VICE setting"
 msgstr "VICE instelling"
 
@@ -2909,7 +2909,7 @@ msgid "Change current working directory"
 msgstr "Verander de huidige werk directory"
 
 #: src/arch/unix/gui/uicommands.c:72 src/arch/unix/gui/uicommands.c:79
-#: src/arch/unix/gui/uicommands.c:338
+#: src/arch/unix/gui/uicommands.c:352
 msgid "Directory not found"
 msgstr "Directory niet gevonden"
 
@@ -2929,30 +2929,30 @@ msgstr "Onbekende fout tijdens het uitvoeren van c1541"
 msgid "No HTML browser is defined."
 msgstr "Er is geen HTML browser opgegeven"
 
-#: src/arch/unix/gui/uicommands.c:169 src/arch/unix/gui/uicommands.c:183
-#: src/arch/unix/gui/uicommands.c:196
+#: src/arch/unix/gui/uicommands.c:179 src/arch/unix/gui/uicommands.c:193
+#: src/arch/unix/gui/uicommands.c:206
 msgid "Browser command too long."
 msgstr "Browser commando te lang."
 
-#: src/arch/unix/gui/uicommands.c:209
+#: src/arch/unix/gui/uicommands.c:219
 #, c-format
 msgid "Executing `%s'..."
 msgstr "`%s' aan het uitvoeren..."
 
-#: src/arch/unix/gui/uicommands.c:211
+#: src/arch/unix/gui/uicommands.c:221
 msgid "Cannot run HTML browser."
 msgstr "Kan de HTML browser niet uitvoeren."
 
-#: src/arch/unix/gui/uicommands.c:250
+#: src/arch/unix/gui/uicommands.c:264
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Snelladen bestand %s."
 
-#: src/arch/unix/gui/uicommands.c:253
+#: src/arch/unix/gui/uicommands.c:267
 msgid "Load snapshot"
 msgstr "Laad momentopname"
 
-#: src/arch/unix/gui/uicommands.c:267
+#: src/arch/unix/gui/uicommands.c:281
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -2962,12 +2962,12 @@ msgstr ""
 "`%s'"
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/gui/uicommands.c:297
+#: src/arch/unix/gui/uicommands.c:311
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Snelopslaan bestand %s."
 
-#: src/arch/unix/gui/uicommands.c:299 src/arch/unix/x11/gnome/uisnapshot.c:122
+#: src/arch/unix/gui/uicommands.c:313 src/arch/unix/x11/gnome/uisnapshot.c:122
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -2977,125 +2977,125 @@ msgstr ""
 "Kan momentopname bestand niet schrijven\n"
 "`%s'\n"
 
-#: src/arch/unix/gui/uicommands.c:334 src/arch/unix/gui/uicommands.c:459
+#: src/arch/unix/gui/uicommands.c:348 src/arch/unix/gui/uicommands.c:473
 msgid "Select history directory"
 msgstr "Selecteer geschiedenis directory"
 
-#: src/arch/unix/gui/uicommands.c:390
+#: src/arch/unix/gui/uicommands.c:404
 msgid "Record sound to file"
 msgstr "Opname van geluid naar bestand"
 
-#: src/arch/unix/gui/uicommands.c:406
+#: src/arch/unix/gui/uicommands.c:420
 msgid "Soft"
 msgstr "Zacht"
 
-#: src/arch/unix/gui/uicommands.c:409
+#: src/arch/unix/gui/uicommands.c:423
 msgid "Hard"
 msgstr "Hard"
 
-#: src/arch/unix/gui/uicommands.c:425
+#: src/arch/unix/gui/uicommands.c:439
 msgid "Change working directory..."
 msgstr "Verander werk directory..."
 
-#: src/arch/unix/gui/uicommands.c:433
+#: src/arch/unix/gui/uicommands.c:447
 msgid "*Save new snapshot"
 msgstr "*Opslaan nieuw momentopname"
 
-#: src/arch/unix/gui/uicommands.c:435
+#: src/arch/unix/gui/uicommands.c:449
 msgid "*Load existing snapshot"
 msgstr "*Laad bestaand momentopname"
 
-#: src/arch/unix/gui/uicommands.c:437
+#: src/arch/unix/gui/uicommands.c:451
 msgid "*Start with reset"
 msgstr "*start met reset"
 
-#: src/arch/unix/gui/uicommands.c:439
+#: src/arch/unix/gui/uicommands.c:453
 msgid "*Overwrite running playback"
 msgstr "*Overschrijf huidige weergave"
 
-#: src/arch/unix/gui/uicommands.c:445
+#: src/arch/unix/gui/uicommands.c:459
 msgid "Load snapshot..."
 msgstr "Laad momentopname..."
 
-#: src/arch/unix/gui/uicommands.c:448
+#: src/arch/unix/gui/uicommands.c:462
 msgid "Save snapshot..."
 msgstr "Opslaan momentopname..."
 
-#: src/arch/unix/gui/uicommands.c:452
+#: src/arch/unix/gui/uicommands.c:466
 msgid "Quickload snapshot"
 msgstr "Snellaad momentopname"
 
-#: src/arch/unix/gui/uicommands.c:455
+#: src/arch/unix/gui/uicommands.c:469
 msgid "Quicksave snapshot"
 msgstr "Snelopslaan momentopname"
 
-#: src/arch/unix/gui/uicommands.c:461
+#: src/arch/unix/gui/uicommands.c:475
 msgid "Start recording events"
 msgstr "Start opname gebeurtenissen"
 
-#: src/arch/unix/gui/uicommands.c:463
+#: src/arch/unix/gui/uicommands.c:477
 msgid "Stop recording events"
 msgstr "Stop opname gebeurtenissen"
 
-#: src/arch/unix/gui/uicommands.c:465
+#: src/arch/unix/gui/uicommands.c:479
 msgid "Start playing back events"
 msgstr "Start weergave gebeurtenissen"
 
-#: src/arch/unix/gui/uicommands.c:467
+#: src/arch/unix/gui/uicommands.c:481
 msgid "Stop playing back events"
 msgstr "Stop weergave gebeurtenissen"
 
-#: src/arch/unix/gui/uicommands.c:469
+#: src/arch/unix/gui/uicommands.c:483
 msgid "Set recording milestone"
 msgstr "Zet opname mijlpaal"
 
-#: src/arch/unix/gui/uicommands.c:471
+#: src/arch/unix/gui/uicommands.c:485
 msgid "Return to milestone"
 msgstr "Ga terug naar mijlpaal"
 
-#: src/arch/unix/gui/uicommands.c:474
+#: src/arch/unix/gui/uicommands.c:488
 msgid "Recording start mode"
 msgstr "Opname start modus"
 
-#: src/arch/unix/gui/uicommands.c:478 src/arch/unix/gui/uinetplay.c:116
+#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:116
 msgid "Netplay (experimental)"
 msgstr "Netplay (experimenteel)"
 
-#: src/arch/unix/gui/uicommands.c:485
+#: src/arch/unix/gui/uicommands.c:499
 msgid "Snapshot commands"
 msgstr "Momentopname commandos"
 
-#: src/arch/unix/gui/uicommands.c:491
+#: src/arch/unix/gui/uicommands.c:505
 msgid "Sound record..."
 msgstr "Geluid opname..."
 
-#: src/arch/unix/gui/uicommands.c:498
+#: src/arch/unix/gui/uicommands.c:512
 msgid "Activate monitor"
 msgstr "Aktiveer monitor"
 
-#: src/arch/unix/gui/uicommands.c:501
+#: src/arch/unix/gui/uicommands.c:515
 msgid "Run C1541"
 msgstr "Start C1541"
 
-#: src/arch/unix/gui/uicommands.c:509
+#: src/arch/unix/gui/uicommands.c:523
 msgid "Browse manuals"
 msgstr "Blader handboeken"
 
-#: src/arch/unix/gui/uicommands.c:511
+#: src/arch/unix/gui/uicommands.c:525
 msgid "About VICE..."
 msgstr "Over VICE..."
 
-#: src/arch/unix/gui/uicommands.c:517 src/arch/unix/gui/uidatasette.c:98
+#: src/arch/unix/gui/uicommands.c:531 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:2032
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/gui/uicommands.c:519
+#: src/arch/unix/gui/uicommands.c:533
 msgid "*Pause"
 msgstr "*Pauze"
 
-#: src/arch/unix/gui/uicommands.c:526
+#: src/arch/unix/gui/uicommands.c:540
 msgid "Exit emulator"
 msgstr "Emulator afsluiten"
 

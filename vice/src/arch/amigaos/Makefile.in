@@ -248,6 +248,20 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
+bin_PROGRAMS = x64ns x128ns xvicns xplus4ns xcbm2ns xpetns
+
+x64ns_SOURCES = x64ns.c
+
+x128ns_SOURCES = x128ns.c
+
+xvicns_SOURCES = xvicns.c
+
+xplus4ns_SOURCES = xplus4ns.c
+
+xcbm2ns_SOURCES = xcbm2ns.c
+
+xpetns_SOURCES = xpetns.c
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -427,6 +441,40 @@ am_libarch_a_OBJECTS = ahi.$(OBJEXT) amigamain.$(OBJEXT) \
 	uireu.$(OBJEXT) uirs232user.$(OBJEXT) uisid.$(OBJEXT) \
 	uisound.$(OBJEXT) uivic20mem.$(OBJEXT) uivicii.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
+bin_PROGRAMS = x64ns$(EXEEXT) x128ns$(EXEEXT) xvicns$(EXEEXT) \
+	xplus4ns$(EXEEXT) xcbm2ns$(EXEEXT) xpetns$(EXEEXT)
+PROGRAMS = $(bin_PROGRAMS)
+
+am_x128ns_OBJECTS = x128ns.$(OBJEXT)
+x128ns_OBJECTS = $(am_x128ns_OBJECTS)
+x128ns_LDADD = $(LDADD)
+x128ns_DEPENDENCIES =
+x128ns_LDFLAGS =
+am_x64ns_OBJECTS = x64ns.$(OBJEXT)
+x64ns_OBJECTS = $(am_x64ns_OBJECTS)
+x64ns_LDADD = $(LDADD)
+x64ns_DEPENDENCIES =
+x64ns_LDFLAGS =
+am_xcbm2ns_OBJECTS = xcbm2ns.$(OBJEXT)
+xcbm2ns_OBJECTS = $(am_xcbm2ns_OBJECTS)
+xcbm2ns_LDADD = $(LDADD)
+xcbm2ns_DEPENDENCIES =
+xcbm2ns_LDFLAGS =
+am_xpetns_OBJECTS = xpetns.$(OBJEXT)
+xpetns_OBJECTS = $(am_xpetns_OBJECTS)
+xpetns_LDADD = $(LDADD)
+xpetns_DEPENDENCIES =
+xpetns_LDFLAGS =
+am_xplus4ns_OBJECTS = xplus4ns.$(OBJEXT)
+xplus4ns_OBJECTS = $(am_xplus4ns_OBJECTS)
+xplus4ns_LDADD = $(LDADD)
+xplus4ns_DEPENDENCIES =
+xplus4ns_LDFLAGS =
+am_xvicns_OBJECTS = xvicns.$(OBJEXT)
+xvicns_OBJECTS = $(am_xvicns_OBJECTS)
+xvicns_LDADD = $(LDADD)
+xvicns_DEPENDENCIES =
+xvicns_LDFLAGS =
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -465,14 +513,19 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uisound.Po ./$(DEPDIR)/uivic20mem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uivicii.Po ./$(DEPDIR)/vic20ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsyncapi.Po
+@AMDEP_TRUE@	./$(DEPDIR)/vsyncapi.Po ./$(DEPDIR)/x128ns.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/x64ns.Po ./$(DEPDIR)/xcbm2ns.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/xpetns.Po ./$(DEPDIR)/xplus4ns.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/xvicns.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libarch_a_SOURCES)
+DIST_SOURCES = $(libarch_a_SOURCES) $(x128ns_SOURCES) $(x64ns_SOURCES) \
+	$(xcbm2ns_SOURCES) $(xpetns_SOURCES) $(xplus4ns_SOURCES) \
+	$(xvicns_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(libarch_a_SOURCES)
+SOURCES = $(libarch_a_SOURCES) $(x128ns_SOURCES) $(x64ns_SOURCES) $(xcbm2ns_SOURCES) $(xpetns_SOURCES) $(xplus4ns_SOURCES) $(xvicns_SOURCES)
 
 all: all-am
 
@@ -490,6 +543,48 @@ libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
 	-rm -f libarch.a
 	$(libarch_a_AR) libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
 	$(RANLIB) libarch.a
+binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  if test -f $$p \
+	  ; then \
+	    f=`echo "$$p1" | sed 's,^.*/,,;$(transform);s/$$/$(EXEEXT)/'`; \
+	   echo " $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) $$p $(DESTDIR)$(bindir)/$$f"; \
+	   $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) $$p $(DESTDIR)$(bindir)/$$f || exit 1; \
+	  else :; fi; \
+	done
+
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+x128ns$(EXEEXT): $(x128ns_OBJECTS) $(x128ns_DEPENDENCIES) 
+	@rm -f x128ns$(EXEEXT)
+	$(LINK) $(x128ns_LDFLAGS) $(x128ns_OBJECTS) $(x128ns_LDADD) $(LIBS)
+x64ns$(EXEEXT): $(x64ns_OBJECTS) $(x64ns_DEPENDENCIES) 
+	@rm -f x64ns$(EXEEXT)
+	$(LINK) $(x64ns_LDFLAGS) $(x64ns_OBJECTS) $(x64ns_LDADD) $(LIBS)
+xcbm2ns$(EXEEXT): $(xcbm2ns_OBJECTS) $(xcbm2ns_DEPENDENCIES) 
+	@rm -f xcbm2ns$(EXEEXT)
+	$(LINK) $(xcbm2ns_LDFLAGS) $(xcbm2ns_OBJECTS) $(xcbm2ns_LDADD) $(LIBS)
+xpetns$(EXEEXT): $(xpetns_OBJECTS) $(xpetns_DEPENDENCIES) 
+	@rm -f xpetns$(EXEEXT)
+	$(LINK) $(xpetns_LDFLAGS) $(xpetns_OBJECTS) $(xpetns_LDADD) $(LIBS)
+xplus4ns$(EXEEXT): $(xplus4ns_OBJECTS) $(xplus4ns_DEPENDENCIES) 
+	@rm -f xplus4ns$(EXEEXT)
+	$(LINK) $(xplus4ns_LDFLAGS) $(xplus4ns_OBJECTS) $(xplus4ns_LDADD) $(LIBS)
+xvicns$(EXEEXT): $(xvicns_OBJECTS) $(xvicns_DEPENDENCIES) 
+	@rm -f xvicns$(EXEEXT)
+	$(LINK) $(xvicns_LDFLAGS) $(xvicns_OBJECTS) $(xvicns_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -561,6 +656,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsidui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsyncapi.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/x128ns.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/x64ns.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xcbm2ns.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xpetns.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xplus4ns.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xvicns.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -1226,9 +1327,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(LIBRARIES) $(PROGRAMS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
 
 install: install-am
 install-exec: install-exec-am
@@ -1256,7 +1358,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-noinstLIBRARIES mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
+	mostlyclean-am
 
 distclean: distclean-am
 
@@ -1273,7 +1376,7 @@ info-am:
 
 install-data-am:
 
-install-exec-am:
+install-exec-am: install-binPROGRAMS
 
 install-info: install-info-am
 
@@ -1297,18 +1400,19 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
-.PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-noinstLIBRARIES ctags distclean distclean-compile \
-	distclean-depend distclean-generic distclean-tags distdir dvi \
-	dvi-am info info-am install install-am install-data \
-	install-data-am install-exec install-exec-am install-info \
-	install-info-am install-man install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-info-am
+.PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
+	clean-generic clean-noinstLIBRARIES ctags distclean \
+	distclean-compile distclean-depend distclean-generic \
+	distclean-tags distdir dvi dvi-am info info-am install \
+	install-am install-binPROGRAMS install-data install-data-am \
+	install-exec install-exec-am install-info install-info-am \
+	install-man install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
+	ps ps-am tags uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-info-am
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
