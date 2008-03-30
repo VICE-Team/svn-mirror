@@ -256,12 +256,13 @@ int vdrive_write_snapshot_module(snapshot_t *s, int start)
         if (floppy->ActiveFd > 0) {
             sprintf(snap_module_name, "VDRIVEIMAGE%i", i);
             m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR,
-                                   SNAP_MINOR);
+                                       SNAP_MINOR);
             if (m == NULL)
                 return -1;
 
-            if (snapshot_module_write_byte_array(m, (BYTE *)floppy->ActiveName,
-                    sizeof(floppy->ActiveName)) < 0) {
+            if (snapshot_module_write_byte_array(m,
+                                                 (BYTE *)floppy->ActiveName,
+                                                 sizeof(floppy->ActiveName)) < 0) {
                 if (m != NULL)
                     snapshot_module_close(m);
                 return -1;
@@ -283,22 +284,15 @@ int vdrive_read_snapshot_module(snapshot_t *s, int start)
 
         sprintf(snap_module_name, "VDRIVEIMAGE%i", i);
         m = snapshot_module_open(s, snap_module_name,
-                             &major_version, &minor_version);
+                                 &major_version, &minor_version);
         if (m == NULL)
             return 0;
 
         if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-            fprintf(errfile,
-                "VDRIVE: Snapshot module version (%d.%d) newer than %d.%d.\n",
-                major_version, minor_version, SNAP_MAJOR, SNAP_MINOR);
+            log_message(vdrive_log,
+                        "Snapshot module version (%d.%d) newer than %d.%d.",
+                        major_version, minor_version, SNAP_MAJOR, SNAP_MINOR);
         }
-/*
-        if (snapshot_module_read_byte_array(m, floppy->ActiveName,
-                sizeof(floppy->ActiveName)) < 0) {
-            if (m != NULL)
-                snapshot_module_close(m);
-            return -1;
-        }*/
         snapshot_module_close(m);
     }
     return 0;

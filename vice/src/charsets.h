@@ -56,7 +56,6 @@ extern char *cbm_to_str(BYTE c);
 extern void unix_filename(char *p);
 
 extern int set_locale(char *localename);
-extern int p_toichar(int lang, int lwcase, BYTE c);
 extern int str_to_lang(char *name);
 
 #endif  /* _CHARSETS_H */

@@ -29,6 +29,8 @@
 #ifndef _CBM_TAPE_H_
 #define _CBM_TAPE_H_
 
+#include <stdio.h>              /* FILE */
+
 #include "types.h"
 
 /* Image File Formats */

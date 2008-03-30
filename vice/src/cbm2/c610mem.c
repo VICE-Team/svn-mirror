@@ -32,26 +32,27 @@
 
 #include <stdio.h>
 
-#include "types.h"
-#include "memutils.h"
-#include "kbd.h"
-#include "kbdbuf.h"
 #include "autostart.h"
-#include "resources.h"
-#include "cmdline.h"
-#include "interrupt.h"
-#include "vmachine.h"
-#include "maincpu.h"
-#include "emuid.h"
-#include "utils.h"
-#include "snapshot.h"
-#include "crtc.h"
-#include "c610mem.h"
-#include "c610tpi.h"
 #include "c610acia.h"
 #include "c610cia.h"
+#include "c610mem.h"
+#include "c610tpi.h"
+#include "cmdline.h"
+#include "crtc.h"
+#include "emuid.h"
+#include "interrupt.h"
+#include "kbd.h"
+#include "kbdbuf.h"
+#include "log.h"
+#include "maincpu.h"
+#include "memutils.h"
+#include "resources.h"
 #include "sid.h"
+#include "snapshot.h"
 #include "tapeunit.h"
+#include "types.h"
+#include "utils.h"
+#include "vmachine.h"
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
@@ -96,6 +97,8 @@ static int rom_loaded = 0;
 static BYTE crtc_ptr = 0;
 
 #define IS_NULL(s)  (s == NULL || *s == '\0')
+
+static log_t c610_mem_log = LOG_ERR;
 
 /* prototype */
 void set_screen(void);
@@ -468,17 +471,10 @@ int cbm2_set_model(const char *model, void *extra)
 void set_bank_exec(int val) {
     int i;
 
-    /* fprintf(logfile, "set_bank_exec(%d)\n",val); */
-
     val &= 0x0f;
     if(val != bank_exec) {
 
-        /*if(val == 1) traceflg=1; else traceflg=0;*/
-
-        /*fprintf(logfile, "bank_exec=%d, ptr=%p, base_ptr=%p\n",bank_exec, _mem_read_tab_ptr, _mem_read_base_tab_ptr);*/
-
     	bank_exec = val;
-
 
     	_mem_read_tab_ptr      = _mem_read_tab[bank_exec];
     	_mem_write_tab_ptr     = _mem_write_tab[bank_exec];
@@ -498,11 +494,12 @@ void set_bank_exec(int val) {
     }
 }
 
-void set_bank_ind(int val) {
+void set_bank_ind(int val)
+{
     int i;
     val &= 0x0f;
-    if(val != bank_ind) {
-/* fprintf(logfile, "set_bank_ind(%d)\n",val); */
+
+    if (val != bank_ind) {
     	bank_ind = val;
     	_mem_read_ind_tab_ptr      = _mem_read_tab[bank_ind];
     	_mem_write_ind_tab_ptr     = _mem_write_tab[bank_ind];
@@ -820,6 +817,9 @@ void initialize_memory(void)
 {
     int i, j;
 
+    if (c610_mem_log == LOG_ERR)
+        c610_mem_log = log_open("CBM2MEM");
+
     /* first the tables that hold the predefined bank mappings */
 
     for (i=0;i<16;i++) {		/* 16 banks possible */
@@ -978,9 +978,6 @@ void mem_powerup(void)
 {
     int i;
 
-#ifndef __MSDOS__
-    fprintf(logfile, "Initializing RAM for power-up...\n");
-#endif
     for (i = 0; i < C610_RAM_SIZE; i += 0x80) {
         memset(ram + i, 0, 0x40);
         memset(ram + i + 0x40, 0xff, 0x40);
@@ -1020,7 +1017,8 @@ int mem_load(void)
     memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
 
     if ((krsize=mem_load_sys_file(chargen_name, chargen_rom, 4096, 4096)) < 0) {
-        fprintf(errfile, "Couldn't load character ROM '%s'.\n", chargen_name);
+        log_error(c610_mem_log, "Couldn't load character ROM '%s'.",
+                  chargen_name);
         return -1;
     }
 
@@ -1041,7 +1039,7 @@ int mem_load(void)
     if (!IS_NULL(kernal_rom_name)
         && ((krsize = mem_load_sys_file(kernal_rom_name,
                                         rom + 0xe000, 0x2000, 0x2000)) < 0)) {
-        fprintf(errfile, "Couldn't load ROM `%s'.\n\n", kernal_rom_name);
+        log_error(c610_mem_log, "Couldn't load ROM `%s'.", kernal_rom_name);
         return -1;
     }
 
@@ -1049,42 +1047,42 @@ int mem_load(void)
     if (!IS_NULL(basic_rom_name)
         && ((rsize = mem_load_sys_file(basic_rom_name,
                                        rom + 0x8000, 0x4000, 0x4000)) < 0)) {
-        fprintf(errfile, "Couldn't load BASIC ROM `%s'.\n\n",
-                basic_rom_name);
+        log_error(c610_mem_log, "Couldn't load BASIC ROM `%s'.",
+                  basic_rom_name);
         return -1;
     }
 
     /* Load extension ROMs.  */
     if (!IS_NULL(cart_1_name)
         && ((rsize = mem_load_sys_file(cart_1_name,
-                                   rom + 0x1000, 0x1000, 0x1000)) < 0)) {
-        fprintf(errfile, "Couldn't load ROM `%s'.\n",
-                cart_1_name);
+                                       rom + 0x1000, 0x1000, 0x1000)) < 0)) {
+        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
+                  cart_1_name);
     }
     if (!IS_NULL(cart_2_name)
         && ((rsize = mem_load_sys_file(cart_2_name,
-                                   rom + 0x2000, 0x2000, 0x2000)) < 0)) {
-        fprintf(errfile, "Couldn't load ROM `%s'.\n",
-                cart_2_name);
+                                       rom + 0x2000, 0x2000, 0x2000)) < 0)) {
+        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
+                  cart_2_name);
     }
     if (!IS_NULL(cart_4_name)
         && ((rsize = mem_load_sys_file(cart_4_name,
-                                   rom + 0x4000, 0x2000, 0x2000)) < 0)) {
-        fprintf(errfile, "Couldn't load ROM `%s'.\n",
-                cart_4_name);
+                                       rom + 0x4000, 0x2000, 0x2000)) < 0)) {
+        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
+                  cart_4_name);
     }
     if (!IS_NULL(cart_6_name)
-         && ((rsize = mem_load_sys_file(cart_6_name,
-				   rom + 0x6000, 0x2000, 0x2000)) < 0)) {
-        fprintf(errfile, "Couldn't load ROM `%s'.\n",
-                cart_6_name);
+        && ((rsize = mem_load_sys_file(cart_6_name,
+                                       rom + 0x6000, 0x2000, 0x2000)) < 0)) {
+        log_error(c610_mem_log, "Couldn't load ROM `%s'.", cart_6_name);
     }
 
     /* Checksum over top 8 kByte PET kernal.  */
     for (i = 0xe000, sum = 0; i < 0x10000; i++)
         sum += rom[i];
 
-    fprintf(logfile, "CBM-II: Loaded ROM, checksum is %d ($%04X).\n", sum, sum);
+    log_message(c610_mem_log, "Loaded ROM, checksum is %d ($%04X).",
+                sum, sum);
 
     crtc_set_screen_mode(rom + 0xd000, 0x7ff, 80, 1);
 
@@ -1095,24 +1093,14 @@ int mem_load(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: this does not work at all */
+/* FIXME: To do!  */
 
 void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
 {
-    if (start != NULL)
-        *start = ram[0x28] | (ram[0x29] << 8);
-    if (end != NULL)
-        *end = ram[0x2a] | (ram[0x2b] << 8);
 }
 
 void mem_set_basic_text(ADDRESS start, ADDRESS end)
 {
-/*
-    ram[0x28] = ram[0xc7] = start & 0xff;
-    ram[0x29] = ram[0xc8] = start >> 8;
-    ram[0x2a] = ram[0x2c] = ram[0x2e] = ram[0xc9] = end & 0xff;
-    ram[0x2b] = ram[0x2d] = ram[0x2f] = ram[0xca] = end >> 8;
-*/
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1132,15 +1120,6 @@ void mem_set_tape_sense(int value)
 
 static BYTE peek_bank_io(ADDRESS addr)
 {
-/*
-    if (emu_id_enabled && addr >= 0xE8A0) {
-        addr &= 0xff;
-        if (addr == 0xff)
-            emulator_id[addr - 0xa0] ^= 0xff;
-        return emulator_id[addr - 0xa0];
-    }
-*/
-
     switch (addr & 0xf800) {
     case 0xc000:
     case 0xc800:
@@ -1521,13 +1500,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 
     if (vmajor != CBM2ROM_DUMP_VER_MAJOR)
         return -1;
-/*
-    snapshot_module_read_byte(m, &byte);
-    flag = ((int)byte) & 0xff;
-*/
-    snapshot_module_read_byte(m, &config);
 
-    /* fprintf(logfile, "CBM-II: config=%x\n",config); */
+    snapshot_module_read_byte(m, &config);
 
 #if 0
     if (flag & 1) {	/* Save ROM filenames */
@@ -1546,33 +1520,31 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 #endif
 
-    /* if (flag & 2) */ {	/* read images */
-	/* kernal */
-        snapshot_module_read_byte_array(m, rom + 0xe000, 0x2000);
-	/* basic */
-        snapshot_module_read_byte_array(m, rom + 0x8000, 0x4000);
+    /* kernal */
+    snapshot_module_read_byte_array(m, rom + 0xe000, 0x2000);
+    /* basic */
+    snapshot_module_read_byte_array(m, rom + 0x8000, 0x4000);
 
-	/* chargen FIXME: $c*** for C500 */
-        snapshot_module_read_byte_array(m, chargen_rom, 0x0800);
-        snapshot_module_read_byte_array(m, chargen_rom + 0x1000, 0x0800);
-        /* Inverted chargen into second half. This is a hardware feature.  */
-        for (i = 0; i < 2048; i++) {
-            chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
-            chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
-        }
+    /* chargen FIXME: $c*** for C500 */
+    snapshot_module_read_byte_array(m, chargen_rom, 0x0800);
+    snapshot_module_read_byte_array(m, chargen_rom + 0x1000, 0x0800);
+    /* Inverted chargen into second half. This is a hardware feature.  */
+    for (i = 0; i < 2048; i++) {
+        chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
+        chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
+    }
 	
-	if(config & 2) {
-    	    snapshot_module_read_byte_array(m, rom + 0x1000, 0x1000);
-	}
-	if(config & 4) {
-    	    snapshot_module_read_byte_array(m, rom + 0x2000, 0x2000);
-	}
-	if(config & 8) {
-    	    snapshot_module_read_byte_array(m, rom + 0x4000, 0x2000);
-	}
-	if(config & 16) {
-    	    snapshot_module_read_byte_array(m, rom + 0x6000, 0x2000);
-	}
+    if(config & 2) {
+        snapshot_module_read_byte_array(m, rom + 0x1000, 0x1000);
+    }
+    if(config & 4) {
+        snapshot_module_read_byte_array(m, rom + 0x2000, 0x2000);
+    }
+    if(config & 8) {
+        snapshot_module_read_byte_array(m, rom + 0x4000, 0x2000);
+    }
+    if(config & 16) {
+        snapshot_module_read_byte_array(m, rom + 0x6000, 0x2000);
     }
 
     snapshot_module_close(m);

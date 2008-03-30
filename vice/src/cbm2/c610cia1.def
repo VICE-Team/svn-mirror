@@ -121,8 +121,9 @@ READ_CIAPA()
        can pull down inputs pa6 and pa7 resp. */
     byte = parallel_bus;
     if(parallel_debug) {
-        fprintf(logfile, "read: parallel_bus=%02x, pra=%02x, ddra=%02x -> %02x\n",
-		parallel_bus, cia1[CIA_PRA], cia1[CIA_DDRA], byte);
+        log_message(LOG_DEFAULT,
+                    "read: parallel_bus=%02x, pra=%02x, ddra=%02x -> %02x\n",
+                    parallel_bus, cia1[CIA_PRA], cia1[CIA_DDRA], byte);
     }
     byte = ((byte & ~cia1[CIA_DDRA]) | (cia1[CIA_PRA] & cia1[CIA_DDRA]))
 		& ~( ((joy[1] & 0x10) ? 0x40 : 0) 
