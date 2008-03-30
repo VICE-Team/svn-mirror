@@ -1,3 +1,57 @@
+2004-12-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.13.
+
+	* vicii/vicii.c (vicii_update_memory_ptrs): Fixed char ROM
+	display bug.
+
+	* plus4/plus4.c, tape/tap.c: Removed C++ style comments.
+
+	* vic20/vic20rom.c, vic20/vic20mem.c, vic20/vic20.c,
+	vic20/vic.c, vic20/vic20memsnapshot.c: Added support for
+	separate trap ROM.
+
+	* c128/c128rom.c, c128/c128mem.c, c128/c128.c, c128/c128mmu.c,
+	c128/c128memsnapshot.c, c128/c128meminit.c: Added support for
+	separate trap ROM.
+
+	* vic20/vic20memrom.c, vic20/vic20memrom.h,
+	c128/c128memrom.c, c128/c128memrom.h: New files.
+
+	* vic20/Makefile.am, arch/win32/vic20.dsp, c128/Makefile.am,
+	arch/win32/c128.dsp: Updated.
+
+	* c64/c64memrom.c, c64/c64memrom.h, c64/c64rom.c,
+	c64/patchrom.c, c64/c64mem.c, c64/c64mem.h, c128/c128mem.c,
+	c64/c64meminit.c, c128/c128rom.c: Renamed some variables.
+
+2004-12-23  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/imagecontents.dsp: Removed unnecessary file
+	grouping from project file.
+
+	* plus4/plus4.c (tapeinit): Set proper tape pulse widths.
+
+	* tape/tap.c: Added support for C16 tapes, half and whole
+	waves as well. Moved debug logging from stderr to log file.
+
+2004-12-21  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.rc: Added "read only" checkbox to the
+	attach template.
+
+	* arch/win32/uilib.h, uilib.c (uilib_select_file_autostart)
+	Added parameter for "read only" resource name.
+	(uilib_select_hook_proc) uses this to toggle the resource.
+	(uilib_select_file): Call uilib_select_file_autostart with
+	NULL resource name.
+
+	* arch/win32/uiattach.c (uiattach_disk_dialog): Call
+	uilib_select_file_autostart with corresponding read only
+	resource name.
+	(uiattach_tape_dialog, uiattach_autostart_dialog): No resource
+	so the parameter is NULL.
+
 2004-12-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.12.

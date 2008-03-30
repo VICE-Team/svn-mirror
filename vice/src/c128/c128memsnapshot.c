@@ -28,10 +28,12 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "c128.h"
 #include "c128-resources.h"
 #include "c128mem.h"
+#include "c128memrom.h"
 #include "c128memsnapshot.h"
 #include "c128mmu.h"
 #include "c128rom.h"
@@ -71,9 +73,9 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
     resources_set_value("VirtualDevices", (resource_value_t)0);
 
     if (0
-        || SMW_BA(m, mem_kernal_rom,  C128_KERNAL_ROM_SIZE) < 0
-        || SMW_BA(m, mem_basic_rom, C128_BASIC_ROM_SIZE) < 0
-        || SMW_BA(m, mem_basic_rom + C128_BASIC_ROM_SIZE,
+        || SMW_BA(m, c128memrom_kernal_rom,  C128_KERNAL_ROM_SIZE) < 0
+        || SMW_BA(m, c128memrom_basic_rom, C128_BASIC_ROM_SIZE) < 0
+        || SMW_BA(m, c128memrom_basic_rom + C128_BASIC_ROM_SIZE,
         C128_EDITOR_ROM_SIZE) < 0
         || SMW_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0)
         goto fail;
@@ -131,14 +133,17 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
     }
 
     if (0
-        || SMR_BA(m, mem_kernal_rom, C128_KERNAL_ROM_SIZE) < 0
-        || SMR_BA(m, mem_basic_rom, C128_BASIC_ROM_SIZE) < 0
-        || SMR_BA(m, mem_basic_rom + C128_BASIC_ROM_SIZE,
+        || SMR_BA(m, c128memrom_kernal_rom, C128_KERNAL_ROM_SIZE) < 0
+        || SMR_BA(m, c128memrom_basic_rom, C128_BASIC_ROM_SIZE) < 0
+        || SMR_BA(m, c128memrom_basic_rom + C128_BASIC_ROM_SIZE,
         C128_EDITOR_ROM_SIZE) < 0
         || SMR_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0)
         goto fail;
 
     log_warning(c128_snapshot_log,"Dumped Romset files and saved settings will "                "represent\nthe state before loading the snapshot!");
+
+    memcpy(c128memrom_kernal_trap_rom, c128memrom_kernal_rom,
+           C128_KERNAL_ROM_SIZE);
 
     c128rom_basic_checksum();
     c128rom_kernal_checksum();

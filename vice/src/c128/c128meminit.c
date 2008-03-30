@@ -30,6 +30,7 @@
 
 #include "c128mem.h"
 #include "c128meminit.h"
+#include "c128memrom.h"
 #include "c128mmu.h"
 #include "c64cia.h"
 #include "c64io.h"
@@ -381,69 +382,101 @@ void c128meminit(void)
             mem_set_write_hook(62+j, i, ram_store);
             mem_set_write_hook(63+j, i, basic_lo_store);
             mem_read_base_set(0+j, i, mem_ram + (i << 8));
-            mem_read_base_set(1+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(1+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(2+j, i, mem_ram + (i << 8));
-            mem_read_base_set(3+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(3+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(4+j, i, mem_ram + (i << 8));
-            mem_read_base_set(5+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(5+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(6+j, i, mem_ram + (i << 8));
-            mem_read_base_set(7+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(7+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(8+j, i, mem_ram + (i << 8));
-            mem_read_base_set(9+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(9+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(10+j, i, mem_ram + (i << 8));
-            mem_read_base_set(11+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(11+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(12+j, i, mem_ram + (i << 8));
-            mem_read_base_set(13+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(13+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(14+j, i, mem_ram + (i << 8));
-            mem_read_base_set(15+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(15+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(16+j, i, mem_ram + (i << 8));
-            mem_read_base_set(17+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(17+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(18+j, i, mem_ram + (i << 8));
-            mem_read_base_set(19+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(19+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(20+j, i, mem_ram + (i << 8));
-            mem_read_base_set(21+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(21+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(22+j, i, mem_ram + (i << 8));
-            mem_read_base_set(23+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(23+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(24+j, i, mem_ram + (i << 8));
-            mem_read_base_set(25+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(25+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(26+j, i, mem_ram + (i << 8));
-            mem_read_base_set(27+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(27+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(28+j, i, mem_ram + (i << 8));
-            mem_read_base_set(29+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(29+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(30+j, i, mem_ram + (i << 8));
-            mem_read_base_set(31+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(31+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(32+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(33+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(33+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(34+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(35+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(35+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(36+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(37+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(37+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(38+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(39+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(39+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(40+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(41+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(41+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(42+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(43+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(43+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(44+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(45+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(45+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(46+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(47+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(47+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(48+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(49+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(49+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(50+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(51+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(51+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(52+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(53+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(53+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(54+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(55+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(55+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(56+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(57+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(57+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(58+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(59+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(59+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(60+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(61+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(61+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
             mem_read_base_set(62+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(63+j, i, mem_basic_rom + ((i & 0x3f) << 8));
+            mem_read_base_set(63+j, i,
+                              c128memrom_basic_rom + ((i & 0x3f) << 8));
         }
 
         for (i = 0x80; i <= 0xbf; i++) {
@@ -575,64 +608,80 @@ void c128meminit(void)
             mem_set_write_hook(61+j, i, ram_store);
             mem_set_write_hook(62+j, i, ram_store);
             mem_set_write_hook(63+j, i, ram_store);
-            mem_read_base_set(0+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
-            mem_read_base_set(1+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(0+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(1+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
             mem_read_base_set(2+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(3+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(4+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(5+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(6+j, i, mem_ram + (i << 8));
             mem_read_base_set(7+j, i, mem_ram + (i << 8));
-            mem_read_base_set(8+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
-            mem_read_base_set(9+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(8+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(9+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
             mem_read_base_set(10+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(11+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(12+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(13+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(14+j, i, mem_ram + (i << 8));
             mem_read_base_set(15+j, i, mem_ram + (i << 8));
-            mem_read_base_set(16+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
-            mem_read_base_set(17+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(16+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(17+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
             mem_read_base_set(18+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(19+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(20+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(21+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(22+j, i, mem_ram + (i << 8));
             mem_read_base_set(23+j, i, mem_ram + (i << 8));
-            mem_read_base_set(24+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
-            mem_read_base_set(25+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(24+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(25+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
             mem_read_base_set(26+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(27+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(28+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(29+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(30+j, i, mem_ram + (i << 8));
             mem_read_base_set(31+j, i, mem_ram + (i << 8));
-            mem_read_base_set(32+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
-            mem_read_base_set(33+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(32+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(33+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
             mem_read_base_set(34+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(35+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(36+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(37+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(38+j, i, mem_ram + 0x10000 + (i << 8));
             mem_read_base_set(39+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(40+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
-            mem_read_base_set(41+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(40+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(41+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
             mem_read_base_set(42+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(43+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(44+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(45+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(46+j, i, mem_ram + 0x10000 + (i << 8));
             mem_read_base_set(47+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(48+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
-            mem_read_base_set(49+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(48+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(49+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
             mem_read_base_set(50+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(51+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(52+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(53+j, i, ext_function_rom + ((i & 0x3f) << 8));
             mem_read_base_set(54+j, i, mem_ram + 0x10000 + (i << 8));
             mem_read_base_set(55+j, i, mem_ram + 0x10000 + (i << 8));
-            mem_read_base_set(56+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
-            mem_read_base_set(57+j, i, mem_basic_rom + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(56+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
+            mem_read_base_set(57+j, i, c128memrom_basic_rom
+                              + 0x4000 + ((i & 0x3f) << 8));
             mem_read_base_set(58+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(59+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(60+j, i, ext_function_rom + ((i & 0x3f) << 8));
@@ -770,14 +819,22 @@ void c128meminit(void)
             mem_set_write_hook(61+j, i, top_shared_store);
             mem_set_write_hook(62+j, i, top_shared_store);
             mem_set_write_hook(63+j, i, top_shared_store);
-            mem_read_base_set(0+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(1+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(2+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(3+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(4+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(5+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(6+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(7+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(0+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(1+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(2+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(3+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(4+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(5+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(6+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(7+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
             mem_read_base_set(8+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(9+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(10+j, i, int_function_rom + ((i & 0x7f) << 8));
@@ -802,14 +859,22 @@ void c128meminit(void)
             mem_read_base_set(29+j, i, mem_ram + (i << 8));
             mem_read_base_set(30+j, i, mem_ram + (i << 8));
             mem_read_base_set(31+j, i, mem_ram + (i << 8));
-            mem_read_base_set(32+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(33+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(34+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(35+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(36+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(37+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(38+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
-            mem_read_base_set(39+j, i, mem_basic_rom + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(32+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(33+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(34+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(35+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(36+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(37+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(38+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
+            mem_read_base_set(39+j, i, c128memrom_basic_rom
+                              + 0x8000 + ((i & 0xf) << 8));
             mem_read_base_set(40+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(41+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(42+j, i, int_function_rom + ((i & 0x7f) << 8));
@@ -1197,14 +1262,22 @@ void c128meminit(void)
             mem_set_write_hook(61+j, i, top_shared_store);
             mem_set_write_hook(62+j, i, top_shared_store);
             mem_set_write_hook(63+j, i, top_shared_store);
-            mem_read_base_set(0+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(1+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(2+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(3+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(4+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(5+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(6+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(7+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(0+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(1+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(2+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(3+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(4+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(5+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(6+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(7+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
             mem_read_base_set(8+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(9+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(10+j, i, int_function_rom + ((i & 0x7f) << 8));
@@ -1229,14 +1302,22 @@ void c128meminit(void)
             mem_read_base_set(29+j, i, mem_ram + (i << 8));
             mem_read_base_set(30+j, i, mem_ram + (i << 8));
             mem_read_base_set(31+j, i, mem_ram + (i << 8));
-            mem_read_base_set(32+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(33+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(34+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(35+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(36+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(37+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(38+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
-            mem_read_base_set(39+j, i, mem_kernal_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(32+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(33+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(34+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(35+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(36+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(37+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(38+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
+            mem_read_base_set(39+j, i,
+                              c128memrom_kernal_trap_rom + ((i & 0x1f) << 8));
             mem_read_base_set(40+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(41+j, i, int_function_rom + ((i & 0x7f) << 8));
             mem_read_base_set(42+j, i, int_function_rom + ((i & 0x7f) << 8));

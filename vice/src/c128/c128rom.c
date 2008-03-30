@@ -31,7 +31,9 @@
 
 #include "c128.h"
 #include "c128mem.h"
+#include "c128memrom.h"
 #include "c128rom.h"
+#include "c64memrom.h"
 #include "mem.h"
 #include "log.h"
 #include "resources.h"
@@ -69,9 +71,9 @@ int c128rom_kernal_checksum(void)
 
     /* Check Kernal ROM.  */
     for (i = 0, sum = 0; i < C128_KERNAL_ROM_SIZE; i++)
-        sum += mem_kernal_rom[i];
+        sum += c128memrom_kernal_rom[i];
 
-    id = rom_read(0xff80);
+    id = c128memrom_rom_read(0xff80);
 
     log_message(c128rom_log, "Kernal rev #%d.", id);
     if (id == 1
@@ -243,12 +245,14 @@ int c128rom_kernal_setup(void)
     resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
-    memcpy(&mem_basic_rom[C128_BASIC_ROM_SIZE], kernal,
+    memcpy(&c128memrom_basic_rom[C128_BASIC_ROM_SIZE], kernal,
            C128_EDITOR_ROM_SIZE);
     memcpy(z80bios_rom, &kernal[C128_EDITOR_ROM_SIZE],
            C128_Z80BIOS_ROM_SIZE);
-    memcpy(mem_kernal_rom, &kernal[C128_EDITOR_ROM_SIZE
+    memcpy(c128memrom_kernal_rom, &kernal[C128_EDITOR_ROM_SIZE
            + C128_Z80BIOS_ROM_SIZE], C128_KERNAL_ROM_SIZE);
+    memcpy(c128memrom_kernal_trap_rom, c128memrom_kernal_rom,
+           C128_KERNAL_ROM_SIZE);
 
     c128rom_kernal_checksum();
 
@@ -264,7 +268,7 @@ int c128rom_basic_checksum(void)
 
     /* Check Basic ROM.  */
     for (i = 0, sum = 0; i < C128_BASIC_ROM_SIZE; i++)
-        sum += mem_basic_rom[i];
+        sum += c128memrom_basic_rom[i];
 
     if (sum != C128_BASIC_CHECKSUM_85 && sum != C128_BASIC_CHECKSUM_86)
         log_error(c128rom_log,
@@ -275,9 +279,9 @@ int c128rom_basic_checksum(void)
     for (i = C128_BASIC_ROM_SIZE, sum = 0;
          i < C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE;
          i++)
-        sum += mem_basic_rom[i];
+        sum += c128memrom_basic_rom[i];
 
-    id = rom_read(0xff80);
+    id = c128memrom_rom_read(0xff80);
     if (id == 01
         && sum != C128_EDITOR_CHECKSUM_R01
         && sum != C128_EDITOR_CHECKSUM_R01SWE
@@ -297,7 +301,7 @@ int c128rom_load_basiclo(const char *rom_name)
     if (!util_check_null_string(rom_name)) {
         /* Load Basic ROM.  */
         if (sysfile_load(rom_name,
-            mem_basic_rom, C128_BASIC_ROM_IMAGELO_SIZE,
+            c128memrom_basic_rom, C128_BASIC_ROM_IMAGELO_SIZE,
             C128_BASIC_ROM_IMAGELO_SIZE) < 0) {
             log_error(c128rom_log, "Couldn't load basic ROM `%s'.",
                       rom_name);
@@ -315,7 +319,7 @@ int c128rom_load_basichi(const char *rom_name)
     if (!util_check_null_string(rom_name)) {
         /* Load Basic ROM.  */
         if (sysfile_load(rom_name,
-            &mem_basic_rom[C128_BASIC_ROM_IMAGELO_SIZE],
+            &c128memrom_basic_rom[C128_BASIC_ROM_IMAGELO_SIZE],
             C128_BASIC_ROM_IMAGEHI_SIZE, C128_BASIC_ROM_IMAGEHI_SIZE) < 0) {
             log_error(c128rom_log, "Couldn't load basic ROM `%s'.",
                       rom_name);
@@ -438,14 +442,15 @@ int c128rom_load_kernal64(const char *rom_name)
     if (!util_check_null_string(rom_name)) {
         /* Load C64 kernal ROM.  */
         if (sysfile_load(rom_name,
-            mem_kernal64_rom, C128_KERNAL64_ROM_SIZE,
+            c64memrom_kernal64_rom, C128_KERNAL64_ROM_SIZE,
             C128_KERNAL64_ROM_SIZE) < 0) {
             log_error(c128rom_log, "Couldn't load C64 kernal ROM `%s'.",
                       rom_name);
             return -1;
         }
     }
-    memcpy(mem_kernal64_trap_rom, mem_kernal64_rom, C128_KERNAL64_ROM_SIZE);
+    memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom,
+           C128_KERNAL64_ROM_SIZE);
     return 0;
 }
 
@@ -457,7 +462,7 @@ int c128rom_load_basic64(const char *rom_name)
     if (!util_check_null_string(rom_name)) {
         /* Load basic ROM.  */
         if (sysfile_load(rom_name,
-            mem_basic64_rom, C128_BASIC64_ROM_SIZE,
+            c64memrom_basic64_rom, C128_BASIC64_ROM_SIZE,
             C128_BASIC64_ROM_SIZE) < 0) {
             log_error(c128rom_log, "Couldn't load C64 basic ROM `%s'.",
                       rom_name);
