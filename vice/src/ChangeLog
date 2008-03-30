@@ -1,3 +1,39 @@
+2003-02-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.6.
+
+	* arch/unix/catweaselmkiii.c (catweaselmkiii_close): Fixed
+	type of atexit function.
+	(catweaselmkiii_set_machine_parameter): New function.
+
+	* sound.c (sound_set_machine_parameter): Set cycles per frame
+	for Catweasel MKIII.
+
+	* catweaselmkiii.h: Moved here.
+
+	* Makefile.am, arch/unix/Makefile.am: Updated.
+
+	* sounddrv/soundsid.c, resources.h, fsdevice/fsdevice-flush.c,
+	fsdevice/fsdevice-open.c, iimagecontents/imagecontents.c,
+	utils.c, utils.h, video/renderyuv.c, video/renderyuv.h,
+	raster/raster-modes.h, raster/raster-line.c, c64/psid.c,
+	c64/reloc65.c, arch/unix/vsidui.c, autostart.c,initcmdline.c,
+	log.c, c1541.c, vicii/vicii-sprites.c, arch/unix/x11/video.c,
+	arch/unix/x11/xaw/x11ui.c, printerdrv/drv-mps803.c,
+	monitor/mon_parse.y, sounddrv/soundwav.c: Fixed warnings.
+
+2003-02-03  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/video.c, vice.h:
+	- fixed double size stuff
+	- removed VIDEO_SCALE_SOURCE for OS/2
+
+	* arch/os2/fonts/vice-cbm.cmd, arch/os2/makedist.cmd,
+	arch/os2/vac++/incl/diskimage.icc,
+	arch/os2/vac++/incl/serial.icc, arch/os2/vac++/RESID.ICC,
+	arch/os2/vac++/X1541.ICC:
+	- updated
+
 2003-02-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.5.

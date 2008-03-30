@@ -30,7 +30,6 @@ libarch_a_SOURCES = \
 	c64ui.c \
 	c64ui.h \
 	catweaselmkiii.c \
-	catweaselmkiii.h \
 	cbm2ui.c \
 	cbm2ui.h \
 	console.c \

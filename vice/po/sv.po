@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-01-26 14:41+0100\n"
+"POT-Creation-Date: 2003-02-08 19:07+0100\n"
 "PO-Revision-Date: 2001-08-15 18:33+0100\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\\n\n"
@@ -103,7 +103,6 @@ msgstr "reSID-omsamplingspassband..."
 
 #: src/arch/unix/c128ui.c:174 src/arch/unix/c64ui.c:242
 #: src/arch/unix/cbm2ui.c:312 src/arch/unix/uisound.c:120
-#: src/arch/unix/vsidui.c:148
 msgid "*Enable sound playback"
 msgstr "*Aktivera ljudåtergivning"
 
@@ -227,7 +226,7 @@ msgid "VDC settings"
 msgstr "VDC-inställningar"
 
 #: src/arch/unix/c128ui.c:329 src/arch/unix/c64ui.c:348
-#: src/arch/unix/cbm2ui.c:381 src/arch/unix/vsidui.c:171
+#: src/arch/unix/cbm2ui.c:381 src/arch/unix/vsidui.c:172
 msgid "SID settings"
 msgstr "SID-inställningar"
 
@@ -247,7 +246,7 @@ msgstr "Minnesinställningar"
 #: src/arch/unix/c128ui.c:393 src/arch/unix/c64ui.c:409
 #: src/arch/unix/cbm2ui.c:463 src/arch/unix/petui.c:379
 #: src/arch/unix/plus4ui.c:146 src/arch/unix/vic20ui.c:465
-#: src/arch/unix/vsidui.c:255
+#: src/arch/unix/vsidui.c:256
 msgid "File"
 msgstr "Arkiv"
 
@@ -266,7 +265,7 @@ msgstr "Alternativ"
 #: src/arch/unix/c128ui.c:430 src/arch/unix/c64ui.c:446
 #: src/arch/unix/cbm2ui.c:496 src/arch/unix/petui.c:410
 #: src/arch/unix/plus4ui.c:177 src/arch/unix/vic20ui.c:496
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1106
+#: src/arch/unix/vsidui.c:269 src/arch/unix/x11/gnome/x11ui.c:1106
 #: src/arch/unix/x11/gnome/x11ui.c:1198
 msgid "Settings"
 msgstr "Inställningar"
@@ -1973,7 +1972,7 @@ msgstr ""
 msgid "Passband percentage"
 msgstr "Passbandsprocent"
 
-#: src/arch/unix/uisound.c:59 src/arch/unix/vsidui.c:136
+#: src/arch/unix/uisound.c:59
 msgid "*1.00 sec"
 msgstr "*1,00 s"
 
@@ -1981,7 +1980,7 @@ msgstr "*1,00 s"
 msgid "*0.75 sec"
 msgstr "*0,75 s"
 
-#: src/arch/unix/uisound.c:63 src/arch/unix/vsidui.c:138
+#: src/arch/unix/uisound.c:63
 msgid "*0.50 sec"
 msgstr "*0,50 s"
 
@@ -2005,7 +2004,7 @@ msgstr "*0,20 s"
 msgid "*0.15 sec"
 msgstr "*0,15 s"
 
-#: src/arch/unix/uisound.c:75 src/arch/unix/vsidui.c:140
+#: src/arch/unix/uisound.c:75
 msgid "*0.10 sec"
 msgstr "*0,10 s"
 
@@ -2045,11 +2044,11 @@ msgstr "*Exakt"
 msgid "Sound synchronization"
 msgstr "Ljudsynkronisering"
 
-#: src/arch/unix/uisound.c:126 src/arch/unix/vsidui.c:151
+#: src/arch/unix/uisound.c:126
 msgid "Sample rate"
 msgstr "Samplingshastighet"
 
-#: src/arch/unix/uisound.c:128 src/arch/unix/vsidui.c:153
+#: src/arch/unix/uisound.c:128
 msgid "Buffer size"
 msgstr "Buffertstorlek"
 
@@ -2057,11 +2056,11 @@ msgstr "Buffertstorlek"
 msgid "Suspend time"
 msgstr "Paustid"
 
-#: src/arch/unix/uisound.c:132 src/arch/unix/vsidui.c:155
+#: src/arch/unix/uisound.c:132
 msgid "Oversample"
 msgstr "Översampling"
 
-#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:161
+#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:162
 msgid "Sound settings"
 msgstr "Ljudinställningar"
 
@@ -2108,7 +2107,7 @@ msgid "Revision"
 msgstr "Utgåva"
 
 #: src/arch/unix/uivic.c:131 src/arch/unix/uivicii.c:140
-#: src/arch/unix/vsidui.c:173
+#: src/arch/unix/vsidui.c:174
 msgid "Video standard"
 msgstr "Grafikstandard"
 
@@ -2258,24 +2257,20 @@ msgstr "\"%s\" är inte en giltig PSID-fil."
 msgid "Load PSID file..."
 msgstr "Ladda PSID-fil..."
 
-#: src/arch/unix/vsidui.c:134
-msgid "*3.00 sec"
-msgstr "*3,00 s"
-
-#: src/arch/unix/vsidui.c:169
+#: src/arch/unix/vsidui.c:170
 msgid "*Override PSID settings"
 msgstr "*Överskugga PSID-inställningar"
 
-#: src/arch/unix/vsidui.c:192
+#: src/arch/unix/vsidui.c:193
 msgid "*Default Tune"
 msgstr "*Förvald låt"
 
-#: src/arch/unix/vsidui.c:215
+#: src/arch/unix/vsidui.c:216
 #, c-format
 msgid "*Tune %d"
 msgstr "*Låt %d"
 
-#: src/arch/unix/vsidui.c:285
+#: src/arch/unix/vsidui.c:286
 msgid "VSID: The SID Emulator"
 msgstr "VSID: SID-emulatorn"
 
@@ -2969,6 +2964,9 @@ msgstr "Prestanda kommer att bli dålig."
 #: src/arch/unix/x11/xaw/x11video.c:216
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
+
+#~ msgid "*3.00 sec"
+#~ msgstr "*3,00 s"
 
 #~ msgid "VIC-II Video settings"
 #~ msgstr "VIC-II-grafikinställningar"

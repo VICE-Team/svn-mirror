@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-01-26 14:41+0100\n"
+"POT-Creation-Date: 2003-02-08 19:07+0100\n"
 "PO-Revision-Date: 2002-08-31 19:18+02:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -104,7 +104,6 @@ msgstr "reSID resampling passband..."
 
 #: src/arch/unix/c128ui.c:174 src/arch/unix/c64ui.c:242
 #: src/arch/unix/cbm2ui.c:312 src/arch/unix/uisound.c:120
-#: src/arch/unix/vsidui.c:148
 msgid "*Enable sound playback"
 msgstr "*W³±cz d¼wiêk"
 
@@ -228,7 +227,7 @@ msgid "VDC settings"
 msgstr "Ustawienia VDC"
 
 #: src/arch/unix/c128ui.c:329 src/arch/unix/c64ui.c:348
-#: src/arch/unix/cbm2ui.c:381 src/arch/unix/vsidui.c:171
+#: src/arch/unix/cbm2ui.c:381 src/arch/unix/vsidui.c:172
 msgid "SID settings"
 msgstr "Ustawienia uk³adu SID"
 
@@ -248,7 +247,7 @@ msgstr "Ustawienia pamiêci"
 #: src/arch/unix/c128ui.c:393 src/arch/unix/c64ui.c:409
 #: src/arch/unix/cbm2ui.c:463 src/arch/unix/petui.c:379
 #: src/arch/unix/plus4ui.c:146 src/arch/unix/vic20ui.c:465
-#: src/arch/unix/vsidui.c:255
+#: src/arch/unix/vsidui.c:256
 msgid "File"
 msgstr "Plik"
 
@@ -267,7 +266,7 @@ msgstr "Opcje"
 #: src/arch/unix/c128ui.c:430 src/arch/unix/c64ui.c:446
 #: src/arch/unix/cbm2ui.c:496 src/arch/unix/petui.c:410
 #: src/arch/unix/plus4ui.c:177 src/arch/unix/vic20ui.c:496
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1106
+#: src/arch/unix/vsidui.c:269 src/arch/unix/x11/gnome/x11ui.c:1106
 #: src/arch/unix/x11/gnome/x11ui.c:1198
 msgid "Settings"
 msgstr "Ustawienia"
@@ -2003,7 +2002,7 @@ msgstr ""
 msgid "Passband percentage"
 msgstr "Procent pomijanego przedzia³u"
 
-#: src/arch/unix/uisound.c:59 src/arch/unix/vsidui.c:136
+#: src/arch/unix/uisound.c:59
 msgid "*1.00 sec"
 msgstr "*1.00 sek"
 
@@ -2011,7 +2010,7 @@ msgstr "*1.00 sek"
 msgid "*0.75 sec"
 msgstr "*0.75 sek"
 
-#: src/arch/unix/uisound.c:63 src/arch/unix/vsidui.c:138
+#: src/arch/unix/uisound.c:63
 msgid "*0.50 sec"
 msgstr "*0.50 sek"
 
@@ -2035,7 +2034,7 @@ msgstr "*0.20 sek "
 msgid "*0.15 sec"
 msgstr "*0.15 sek "
 
-#: src/arch/unix/uisound.c:75 src/arch/unix/vsidui.c:140
+#: src/arch/unix/uisound.c:75
 msgid "*0.10 sec"
 msgstr "*0.10 sek "
 
@@ -2075,11 +2074,11 @@ msgstr "*Wymu¶"
 msgid "Sound synchronization"
 msgstr "Synchronizacja d¼wiêku"
 
-#: src/arch/unix/uisound.c:126 src/arch/unix/vsidui.c:151
+#: src/arch/unix/uisound.c:126
 msgid "Sample rate"
 msgstr "Prêdko¶æ sampli"
 
-#: src/arch/unix/uisound.c:128 src/arch/unix/vsidui.c:153
+#: src/arch/unix/uisound.c:128
 msgid "Buffer size"
 msgstr "Rozmiar buffora"
 
@@ -2087,11 +2086,11 @@ msgstr "Rozmiar buffora"
 msgid "Suspend time"
 msgstr "Czas u¶pienia"
 
-#: src/arch/unix/uisound.c:132 src/arch/unix/vsidui.c:155
+#: src/arch/unix/uisound.c:132
 msgid "Oversample"
 msgstr "Przesamplowanie"
 
-#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:161
+#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:162
 msgid "Sound settings"
 msgstr "Ustawienia d¼wiêku"
 
@@ -2138,7 +2137,7 @@ msgid "Revision"
 msgstr "Revision"
 
 #: src/arch/unix/uivic.c:131 src/arch/unix/uivicii.c:140
-#: src/arch/unix/vsidui.c:173
+#: src/arch/unix/vsidui.c:174
 msgid "Video standard"
 msgstr "Standard video"
 
@@ -2288,24 +2287,20 @@ msgstr "`%s' nie jest poprawnym plikiem PSID"
 msgid "Load PSID file..."
 msgstr "Za³aduj plik PSID..."
 
-#: src/arch/unix/vsidui.c:134
-msgid "*3.00 sec"
-msgstr "*3.00 sek"
-
-#: src/arch/unix/vsidui.c:169
+#: src/arch/unix/vsidui.c:170
 msgid "*Override PSID settings"
 msgstr "*Resetuj ustawienia PSID"
 
-#: src/arch/unix/vsidui.c:192
+#: src/arch/unix/vsidui.c:193
 msgid "*Default Tune"
 msgstr "*Domy¶lny ton"
 
-#: src/arch/unix/vsidui.c:215
+#: src/arch/unix/vsidui.c:216
 #, c-format
 msgid "*Tune %d"
 msgstr "*Ton %d"
 
-#: src/arch/unix/vsidui.c:285
+#: src/arch/unix/vsidui.c:286
 msgid "VSID: The SID Emulator"
 msgstr "VSID: Emulator SID"
 
@@ -3008,6 +3003,9 @@ msgstr "Wydajno¶æ bêdzie niska"
 #: src/arch/unix/x11/xaw/x11video.c:216
 msgid "Successfully initialized without shared memory."
 msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
+
+#~ msgid "*3.00 sec"
+#~ msgstr "*3.00 sek"
 
 #~ msgid "VIC-II Video settings"
 #~ msgstr "Ustawienia video VIC-II"

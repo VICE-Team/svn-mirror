@@ -299,7 +299,7 @@ sid.o: sid.c ../../src/vice.h ../../src/config.h fastsid.h \
 	../../src/arch/unix/types.h sid.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/resources.h sid-resources.h \
 	sid-snapshot.h ../../src/sound.h ../../src/arch/unix/mouse.h \
-	resid.h ../../src/arch/unix/catweaselmkiii.h
+	resid.h ../../src/catweaselmkiii.h
 
 info-am:
 info: info-am

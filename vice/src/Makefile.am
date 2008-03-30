@@ -49,6 +49,7 @@ noinst_HEADERS = \
 	autostart.h \
 	blockdev.h \
 	cartridge.h \
+	catweaselmkiii.h \
 	charset.h \
 	cia.h \
 	ciacore.h \

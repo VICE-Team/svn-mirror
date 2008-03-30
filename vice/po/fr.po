@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.11\n"
-"POT-Creation-Date: 2003-01-26 14:41+0100\n"
+"POT-Creation-Date: 2003-02-08 19:07+0100\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -103,7 +103,6 @@ msgstr "Bande passante du rééchantillonnage reSID"
 
 #: src/arch/unix/c128ui.c:174 src/arch/unix/c64ui.c:242
 #: src/arch/unix/cbm2ui.c:312 src/arch/unix/uisound.c:120
-#: src/arch/unix/vsidui.c:148
 msgid "*Enable sound playback"
 msgstr "*Aciver la lecture des sons"
 
@@ -227,7 +226,7 @@ msgid "VDC settings"
 msgstr "Paramètres VDC"
 
 #: src/arch/unix/c128ui.c:329 src/arch/unix/c64ui.c:348
-#: src/arch/unix/cbm2ui.c:381 src/arch/unix/vsidui.c:171
+#: src/arch/unix/cbm2ui.c:381 src/arch/unix/vsidui.c:172
 msgid "SID settings"
 msgstr "Paramètre SID"
 
@@ -247,7 +246,7 @@ msgstr "Paramètres Mémoire"
 #: src/arch/unix/c128ui.c:393 src/arch/unix/c64ui.c:409
 #: src/arch/unix/cbm2ui.c:463 src/arch/unix/petui.c:379
 #: src/arch/unix/plus4ui.c:146 src/arch/unix/vic20ui.c:465
-#: src/arch/unix/vsidui.c:255
+#: src/arch/unix/vsidui.c:256
 msgid "File"
 msgstr "Fichier"
 
@@ -266,7 +265,7 @@ msgstr "Options"
 #: src/arch/unix/c128ui.c:430 src/arch/unix/c64ui.c:446
 #: src/arch/unix/cbm2ui.c:496 src/arch/unix/petui.c:410
 #: src/arch/unix/plus4ui.c:177 src/arch/unix/vic20ui.c:496
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1106
+#: src/arch/unix/vsidui.c:269 src/arch/unix/x11/gnome/x11ui.c:1106
 #: src/arch/unix/x11/gnome/x11ui.c:1198
 msgid "Settings"
 msgstr "Paramètres"
@@ -2000,7 +1999,7 @@ msgstr ""
 msgid "Passband percentage"
 msgstr "Pourcentage de bande passante"
 
-#: src/arch/unix/uisound.c:59 src/arch/unix/vsidui.c:136
+#: src/arch/unix/uisound.c:59
 msgid "*1.00 sec"
 msgstr ""
 
@@ -2008,7 +2007,7 @@ msgstr ""
 msgid "*0.75 sec"
 msgstr ""
 
-#: src/arch/unix/uisound.c:63 src/arch/unix/vsidui.c:138
+#: src/arch/unix/uisound.c:63
 msgid "*0.50 sec"
 msgstr ""
 
@@ -2032,7 +2031,7 @@ msgstr ""
 msgid "*0.15 sec"
 msgstr ""
 
-#: src/arch/unix/uisound.c:75 src/arch/unix/vsidui.c:140
+#: src/arch/unix/uisound.c:75
 msgid "*0.10 sec"
 msgstr ""
 
@@ -2073,11 +2072,11 @@ msgstr ""
 msgid "Sound synchronization"
 msgstr ""
 
-#: src/arch/unix/uisound.c:126 src/arch/unix/vsidui.c:151
+#: src/arch/unix/uisound.c:126
 msgid "Sample rate"
 msgstr ""
 
-#: src/arch/unix/uisound.c:128 src/arch/unix/vsidui.c:153
+#: src/arch/unix/uisound.c:128
 msgid "Buffer size"
 msgstr ""
 
@@ -2085,11 +2084,11 @@ msgstr ""
 msgid "Suspend time"
 msgstr ""
 
-#: src/arch/unix/uisound.c:132 src/arch/unix/vsidui.c:155
+#: src/arch/unix/uisound.c:132
 msgid "Oversample"
 msgstr ""
 
-#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:161
+#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:162
 msgid "Sound settings"
 msgstr ""
 
@@ -2138,7 +2137,7 @@ msgid "Revision"
 msgstr ""
 
 #: src/arch/unix/uivic.c:131 src/arch/unix/uivicii.c:140
-#: src/arch/unix/vsidui.c:173
+#: src/arch/unix/vsidui.c:174
 msgid "Video standard"
 msgstr ""
 
@@ -2289,25 +2288,21 @@ msgstr ""
 msgid "Load PSID file..."
 msgstr ""
 
-#: src/arch/unix/vsidui.c:134
-msgid "*3.00 sec"
-msgstr ""
-
-#: src/arch/unix/vsidui.c:169
+#: src/arch/unix/vsidui.c:170
 #, fuzzy
 msgid "*Override PSID settings"
 msgstr "Paramètre SID"
 
-#: src/arch/unix/vsidui.c:192
+#: src/arch/unix/vsidui.c:193
 msgid "*Default Tune"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:215
+#: src/arch/unix/vsidui.c:216
 #, c-format
 msgid "*Tune %d"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:285
+#: src/arch/unix/vsidui.c:286
 msgid "VSID: The SID Emulator"
 msgstr ""
 
