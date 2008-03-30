@@ -338,27 +338,32 @@ static ui_menu_entry_t c128_romset_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static ui_menu_entry_t ui_screenshot_commands_submenu[] = {
-    { "Save VIC-IIe to BMP...",
-      (ui_callback_t)save_screenshot,
-      (ui_callback_data_t) (UISS_WINDOW0 | UISS_BMP), NULL },
-    { "Save VDC to BMP...",
-      (ui_callback_t)save_screenshot,
-      (ui_callback_data_t) (UISS_WINDOW1 | UISS_BMP), NULL },
-#ifdef HAVE_PNG
-    { "Save VIC-IIe to PNG...",
-      (ui_callback_t)save_screenshot,
-      (ui_callback_data_t) (UISS_WINDOW0 | UISS_PNG), NULL },
-    { "Save VDC to PNG...",
-      (ui_callback_t)save_screenshot,
-      (ui_callback_data_t) (UISS_WINDOW1 | UISS_PNG), NULL },
-#endif
+static UI_CALLBACK(save_screenshot)
+{
+    /* Where does the 1024 come from?  */
+    char filename[1024];
+    int wid = (int) UI_MENU_CB_PARAM;
+
+    suspend_speed_eval();
+
+    /* The following code depends on a zeroed filename.  */
+    memset(filename, 0, 1024);
+
+    if (ui_screenshot_dialog(filename, wid) < 0) 
+	return;
+}
+
+static ui_menu_entry_t screenshot_submenu[] = {
+    { "VIC II Screenshot",
+      (ui_callback_t)save_screenshot, (ui_callback_data_t) 0, NULL },
+    { "VDC Screenshot",
+      (ui_callback_t)save_screenshot, (ui_callback_data_t) 1, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { "Screenshot",
-      NULL,  NULL, ui_screenshot_commands_submenu },
+    { "Screenshots...",
+      NULL, NULL, screenshot_submenu },
     { NULL }
 };
 
