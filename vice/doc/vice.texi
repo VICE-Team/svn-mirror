@@ -2369,7 +2369,7 @@ images.
 
 @end itemize
 
-The following settings, instead, are specific each drive:
+The following settings, instead, are specific of each drive:
 
 @itemize @bullet
 
@@ -2862,7 +2862,8 @@ running as a SuperPET, and the CBM-II has such an ACIA by default.  The
 C64 and C128 emulators can emulate an ACIA 6551 (also known as Datapump
 for example) as extension at @code{$de**}.
 
-Emulation can be achieved by 
+Emulation can be achieved by either:
+
 @itemize @bullet
 @item
 connecting a real UNIX serial device;
@@ -5635,7 +5636,9 @@ Display the specified number in decimal, hex, octal and binary.
 @chapter c1541
 
 VICE is provided with a complete stand-alone disk image maintenance
-utility, called @code{c1541}.  You can either invoke it from the command
+utility, called @code{c1541}.
+
+You can either invoke it from the command
 line or from within one of the VICE emulators, using the ``Run c1541''
 command which will open a new @code{xterm} window with a running
 @code{c1541} in it.
@@ -5643,149 +5646,206 @@ command which will open a new @code{xterm} window with a running
 The syntax is:
 
 @example
-c1541 OPTIONS IMAGE
+c1541 [IMAGE1 [IMAGE2]] [COMMAND1 COMMAND2 ... COMMANDN]
 @end example
 
-If some @code{OPTIONS} but no @code{IMAGE} are specified, @code{c1541}
-runs in batch mode; otherwise, it attaches the @code{IMAGE} if present
-and enters interactive mode, where you can type commands that are
-executed when you press Enter (abbreviations are allowed).  As with the
-monitor, file name completion and command line editing with history are
-provided via GNU @code{readline}.  Use the command @samp{quit} to exit.
+@code{IMAGE1} and @code{IMAGE2} are disk image names that can be
+attached before @code{c1541} starts.  @code{c1541} can handle up to two
+disk images at the same time by using two virtual built-in drives,
+numbered @code{8} and @code{9}; @code{IMAGE1} (if present) is always
+attached to drive @code{8}, while @code{IMAGE2} is attached to drive
+@code{9}.
 
-Notice that @code{c1541} always creates @code{X64} files, but can read
-and write @code{D64} and @code{T64} files automatically, without the
-need for any special options.
+@code{COMMAND}s specified on the command-line all begin with the minus
+sign (@code{-}); if present, @code{c1541} executes them in the same
+order as they are on the command line and returns a zero error code if
+they were successful.  If any of the @code{COMMAND}s fails, @code{c1541}
+stops and returns a nonzero error code.
+
+If no @code{COMMAND}s are specified at all, @code{c1541} enters
+interactive mode, where you can type commands manually.  Commands in
+interactive mode are the same as commands in batch mode, but do not
+require a leading @code{-}.  As with the monitor, file name completion
+and command line editing with history are provided via GNU
+@code{readline}.  Use the command @samp{quit} or press @kbd{C-d} to
+exit.
 
 @menu
+* c1541 file specification::    
+* c1541 quoting::               
 * c1541 commands and options::  
+* c1541 executing shell commands::  
 @end menu
 
-@node c1541 commands and options,  , c1541, c1541
+@node c1541 file specification, c1541 quoting, c1541, c1541
+@section Specifying files in c1541
+
+When accessing CBM DOS files (i.e. files that reside on disk images),
+c1541 uses a special syntax that lets you access files on both drive 8
+and 9.  If you prepend the file name with @code{@@8:} or @code{@@9:}, you
+will specified that file is to be found or created on drive 8 and 9,
+respectively.
+
+For instance,
+
+@example
+@@8:somefile
+@end example
+
+will name file named @code{somefile} on unit 8, while
+
+@example
+@@9:somefile
+@end example
+
+will name file named @code{somefile} on unit 9.
+
+@node c1541 quoting, c1541 commands and options, c1541 file specification, c1541
+@section Using quotes and backslashes
+
+You can use quotes (@code{"}) in a command to embed spaces into file
+names.  For instance,
+
+@example
+read some file
+@end example
+
+will read file @code{some} from the disk image and write it into the
+file system as @code{file}, while
+
+@example
+read "some file"
+@end example
+
+will copy @code{some file} into the file system, with the name
+@code{some file}.
+
+The backslash character (@code{\}) has a special meaning too: it lets
+you literally insert the following character no matter what it is.  For
+example,
+
+@example
+read some\ file
+@end example
+
+will copy file @code{some file} into the file system, while
+
+@example
+read some\ file this\"file
+@end example
+
+will copy @code{some file} into the file system with name
+@code{this"file} (with an embedded quote).
+
+
+@node c1541 commands and options, c1541 executing shell commands, c1541 quoting, c1541
 @section c1541 commands and options
 
-Each command-line option has an interactive-mode counterpart, that is
-shown after it.  @samp{-} as a file name stands for standard input or
-standard output, depending on the context.
+This is a list of the @code{c1541} commands.  They are shown in their
+interactive form, without the leading @code{-}.
 
 @table @code
 
-@cindex -attach
-@item -attach  IMAGE
-@cindex attach
-@item attach  IMAGE
-Attach the disk image @code{IMAGE} for use.  All the following commands
-will refer to this image.
+@item @ [<command>]
+Execute specified CBM DOS command and print the current status of the
+drive.  If no @code{command} is specified, just print the status.
 
-@cindex -detach
-@item -detach
-@cindex detach
-@item detach
-Detach the currently attached disk image.
+@item ? [<command>]
+Explain specified command.  If no command is specified, list available
+ones.
 
-@cindex -format
-@item -format  IMAGE 'NAME,ID'
-@cindex format
-@item format  IMAGE 'NAME,ID'
-Format the D64 disk image @code{IMAGE}, giving the specified label.  If
-@code{IMAGE} does not exist, create it.
+@item attach <diskimage> [<unit>]
+Attach @code{diskimage} to @code{unit} (default unit is 8).
 
-@cindex -gcr
-@item -gcr  IMAGENAME ['NAME,ID']
-@cindex gcrformat
-@item gcrformat  IMAGE 'NAME,ID'
-Create a GCR disk image; if @code{NAME,ID} is specified, format it.
+@item block <track> <sector> <disp> [<drive>]
+Show specified disk block in hex form.
 
-@cindex -delete
-@item -delete  IMAGE FILES...
-@cindex delete
-@item delete  FILES...
-Delete  FILES  from @code{IMAGE}.
+@item create <x64name> <d64name>
+Create an X64 disk image out of a D64 disk image.
 
-@cindex -list
-@item -list  IMAGE
-@cindex list
-@item list
-List files in @code{IMAGE}.
+@item copy <source1> [<source2> ... <sourceN>] <destination>
+Copy @code{source1} ... @code{sourceN} into destination.  If N > 1,
+@code{destination} must be a simple drive specifier (@code{@@n:}).
 
-@cindex -validate
-@item -validate  IMAGE
-@cindex validate
-@item validate
-Validate the disk.
+@item delete <file1> [<file2> ... <fileN>]
+Delete the specified files.
 
-@cindex -copy
-@item -copy  IMAGE OLDNAME1 [OLDNAME2...] NEWNAME
-@cindex copy
-@item copy  OLDNAME1 [OLDNAME2...] NEWNAME
-Concatenate @code{OLDNAME1}, @code{OLDNAME2}.. into
-@code{NEWNAME} on @code{IMAGE} (can be used to copy files).
+@item exit
+Exit (same as @code{quit}).
 
-@cindex -create
-@item -create  IMAGE DUMP ['DESCR']
-@cindex create
-@item create  IMAGE DUMP ['DESCR']
-Build @code{IMAGE} from raw dump file @code{DUMP} (i.e., convert
-from @code{D64} to @code{X64} file).
-
-@cindex -tape
-@item -tape  IMAGE TAPEIMAGE [FILES...]
-@cindex tape
-@item tape  IMAGE TAPEIMAGE [FILES...]
-Transfer @code{FILES} from @code{TAPEIMAGE} to @code{IMAGE}
-(default is copy all files).
-
-@cindex -read
-@item -read  IMAGE 1541NAME [FSNAME]
-@cindex read
-@item read  1541NAME [FSNAME]
-Extract @code{1541NAME} from the disk image into @code{FSNAME}
-(1541NAME by default) from @code{IMAGE}.
-
-@cindex -extract
-@item -extract  IMAGE
-@cindex extract
 @item extract
-Extract all files from @code{IMAGE}.
+Extract all the files to the file system.
 
-@cindex -write
-@item -write  IMAGE FSNAME [1541NAME]
-@cindex write
-@item write  FSNAME [1541NAME]
-Write @code{FSNAME} to @code{IMAGE} as @code{1541NAME}
-(@code{FSNAME} by default). (works with @code{P00} files as well)
+@item format <diskname,id> [<type> <imagename>] [<unit>]
+If @code{unit} is specified, format the disk in unit @code{unit}.  If
+@code{type} and @code{imagename} are specified, create a new image named
+@code{imagename}, attach it to unit 8 and format it.  @code{type} is a
+disk image type, and must be either @code{x64}, @code{d64}, @code{d71}
+or @code{d81}.  Otherwise, format the disk in the current unit, if any.
 
-@cindex -block
-@item -block  [DRIVE:] [TRACK] [SECTOR] [DISP]
-@cindex block
-@item block  [DRIVE:] [TRACK] [SECTOR] [DISP]
-Show disk blocks in hex format.
+@item gcrformat <diskname,id> <imagename>
+Create and format a G64 disk image named @code{imagename}.
 
-@cindex -info
-@item -info  IMAGE ['DESCRIPTION']
-@cindex info
-@item info  ['DESCRIPTION']
-Show version information about @code{IMAGE}.
+@item help [<command>]
+Explain specified command.  If no command is specified, list available
+ones.
 
-@cindex -unlynx
-@item -unlynx IMAGE LYNXFILE
-@cindex unlynx
-@item unlynx LYNXFILE
-Unlynx @file{LYNXFILE} into the image.
+@item info [<unit>]
+Display information about unit @code{unit} (if unspecified, use the current
+one).
 
-@cindex -zcreate
-@item -zcreate  IMAGE DUMP ['DESCR']
-@cindex zcreate
-@item zcreate IMAGE DUMP ['DESCR']
-Build @code{IMAGE} from a Zipcoded image made up of files called
-@file{1!DUMP}, @file{2!DUMP}, @file{3!DUMP}, @file{4!DUMP}.
+@item list [<pattern>]
+List files matching @code{pattern} (default is all files).
+
+@item quit
+Exit (same as @code{exit}).
+
+@item read <source> [<destination>]
+Read @code{source} from the disk image and copy it into @code{destination} in
+the file system.  If @code{destination} is not specified, copy it into a
+file with the same name as @code{source}.", 
+
+@item rename <oldname> <newname>
+Rename @code{oldname} into @code{newname}.  The files must be on the
+same drive.
+
+@item tape <t64name> [<file1> ... <fileN>]
+Extract files from a T64 image.
+
+@item unit <number>
+Make unit @code{number} the current unit.
+
+@item unlynx <lynxname> [<unit>]
+Extract the specified Lynx image file into the specified unit (default
+is the current unit).
+
+@item validate [<unit>]
+Validate the disk in unit @code{unit}.  If @code{unit} is not specified,
+validate the disk in the current unit.
+
+@item write <source> [<destination>]
+Write @code{source} from the file system into @code{destination} on a
+disk image.
+
+@item zcreate <x64name> <zipname> [<label,id>]
+Create an X64 disk image out of a set of four Zipcoded files named
+@code{1!zipname}, @code{2!zipname}, @code{3!zipname} and
+@code{4!zipname}.
 
 @end table
 
-When more than one command is specified in batch mode, all of
-them are executed in the same order they have on the command
-line.
+@node c1541 executing shell commands,  , c1541 commands and options, c1541
+@section Executing shell commands
 
+If you want to execute a shell command from withing @code{c1541}, just
+prepend it with an exclamation mark (@code{!}).  For example,
+
+@example
+!ls -la
+@end example
+
+will execute the command @code{ls -la}, which will show you all the
+files in the current directory.
 
 @c This would be nice!
 @c @node Examples,  , Commands, c1541
@@ -5857,7 +5917,7 @@ the C64S emulator.  It is easy to use and allows future extensions.
 @tab 2
 @tab free
 @item 40
-@tab 4
+@tab 24
 @tab user description as displayed in tape menu
 @end multitable
 
@@ -5894,7 +5954,7 @@ the C64S emulator.  It is easy to use and allows future extensions.
 @tab C64 file name
 @end multitable
 
-Valid file types are:
+Valid entry types are:
 
 @multitable @columnfractions .3 .7
 @item @b{Code}
@@ -6669,10 +6729,10 @@ sources for an example).
 This is very important, and makes adding patches much smoother and
 safer.
 
-People willing to port VICE to other platforms are always welcome.  A
-Windows and a MacOS port are in the works, so if you are interested in
-those platforms, please let us know.  There is plenty of work to do and
-any sort of help can be very useful.
+People willing to port VICE to other platforms are always welcome.
+Windows, MacOS and Acorn RISC-OS ports are in the works, so if you are
+interested in those platforms, please let us know.  There is plenty of
+work to do and any sort of help can be very useful.
 
 
 @node Newsgroups, FAQs you should read, Contributing, Contacts
