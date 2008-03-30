@@ -183,11 +183,10 @@ typedef struct drivefunc_context_s {
   void (*iec_write)(BYTE);
   BYTE (*iec_read)(void);
   void (*parallel_set_bus)(BYTE);
-  void (*parallel_set_eoi)(char);       /* we may be able to eleminate these...
-*/
-  void (*parallel_set_dav)(char);
-  void (*parallel_set_ndac)(char);
-  void (*parallel_set_nrfd)(char);
+  void (*parallel_set_eoi)(BYTE); /* we may be able to eleminate these... */
+  void (*parallel_set_dav)(BYTE);
+  void (*parallel_set_ndac)(BYTE);
+  void (*parallel_set_nrfd)(BYTE);
   void (*parallel_cable_write)(BYTE, int);
 
 } drivefunc_context_t;
@@ -222,7 +221,7 @@ typedef struct drivecia_context_s {
   unsigned int tat;
   unsigned int tbt;
   CLOCK todclk;
-  int sr_bits;
+  unsigned int sr_bits;
   int sdr_valid;
   BYTE shifter;
   BYTE old_pa;

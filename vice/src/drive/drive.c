@@ -1587,7 +1587,7 @@ static void drive_extend_disk_image(unsigned int dnr)
     }
 }
 
-int drive_match_bus(int drive_type, int unit, int bus_map)
+int drive_match_bus(unsigned int drive_type, unsigned int drv, int bus_map)
 {
     if ( (drive_type == DRIVE_TYPE_NONE)
       || (DRIVE_IS_IEEE(drive_type) && (bus_map & IEC_BUS_IEEE))

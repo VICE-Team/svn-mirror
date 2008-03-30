@@ -35,7 +35,7 @@
 #define D64_FILE_SIZE_35E 175531        /* D64 image, 35 tracks with errors */
 #define D64_FILE_SIZE_40  196608        /* D64 image, 40 tracks */
 #define D64_FILE_SIZE_40E 197376        /* D64 image, 40 tracks with errors */
-#define D67_FILE_SIZE     176640	/* D67 image, 35 tracks DOS1 */
+#define D67_FILE_SIZE     176640        /* D67 image, 35 tracks DOS1 */
 #define D71_FILE_SIZE     349696        /* D71 image, 70 tracks */
 #define D81_FILE_SIZE     819200        /* D81 image, 80 tracks */
 #define D80_FILE_SIZE     533248        /* D80 image, 77 tracks */
@@ -75,8 +75,8 @@ extern int disk_image_write_sector(disk_image_t *image, BYTE *buf,
                                    unsigned int track, unsigned int sector);
 extern int disk_image_check_sector(unsigned int format, unsigned int track,
                                    unsigned int sector);
-extern int disk_image_sector_per_track(unsigned int format, unsigned int track);
-
+extern unsigned int disk_image_sector_per_track(unsigned int format,
+                                                unsigned int track);
 extern int disk_image_read_gcr_image(disk_image_t *image);
 extern int disk_image_write_track(disk_image_t *image, unsigned int track,
                                   int gcr_track_size,

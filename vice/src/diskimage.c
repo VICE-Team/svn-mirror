@@ -837,28 +837,29 @@ static char sector_map_d80[78] =
     23, 23, 23, 23, 23, 23, 23          /* 71 - 77 */
 };
 
-int disk_image_sector_per_track(unsigned int format, unsigned int track)
+unsigned int disk_image_sector_per_track(unsigned int format,
+                                         unsigned int track)
 {
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
       case DISK_IMAGE_TYPE_X64:
         if (track >= sizeof(sector_map_d64)) {
             log_message(disk_image_log, "Track %i exceeds sector map.", track);
-            return -1;
+            return 0;
         }        
         return sector_map_d64[track];
         break;
       case DISK_IMAGE_TYPE_D67:
         if (track >= sizeof(sector_map_d67)) {
             log_message(disk_image_log, "Track %i exceeds sector map.", track);
-            return -1;
+            return 0;
         }        
         return sector_map_d67[track];
         break;
       case DISK_IMAGE_TYPE_D71:
         if (track >= sizeof(sector_map_d71)) {
             log_message(disk_image_log, "Track %i exceeds sector map.", track);
-            return -1;
+            return 0;
         }
         return sector_map_d71[track];
         break;
@@ -866,7 +867,7 @@ int disk_image_sector_per_track(unsigned int format, unsigned int track)
       case DISK_IMAGE_TYPE_D82:
         if (track >= sizeof(sector_map_d80)) {
             log_message(disk_image_log, "Track %i exceeds sector map.", track);
-            return -1;
+            return 0;
         }
         return sector_map_d80[track];
         break;
@@ -875,7 +876,7 @@ int disk_image_sector_per_track(unsigned int format, unsigned int track)
                     "Unknown disk type %i.  Cannot calculate sectors per track",
                     format);
     }
-    return -1;
+    return 0;
 }
 
 int disk_image_check_sector(unsigned int format, unsigned int track,
