@@ -124,16 +124,12 @@ extern void serial_set_attention_callback(void (*func)(void));
 extern int serial_realdevice_enable(void);
 extern void serial_realdevice_disable(void);
 
-extern int serial_iec_open(unsigned int unit, unsigned int secondary,
-                           const char *name, unsigned int length);
-extern int serial_iec_close(unsigned int unit, unsigned int secondary);
-extern int serial_iec_read(unsigned int unit, unsigned int secondary,
-                           BYTE *data);
-extern int serial_iec_write(unsigned int unit, unsigned int secondary,
-                            BYTE data);
-extern int serial_iec_flush(unsigned int unit, unsigned int secondary);
-extern int serial_iec_directory(unsigned int unit, const char *pattern,
-                                BYTE **buf);
+extern int serial_iec_lib_directory(unsigned int unit, const char *pattern,
+                                    BYTE **buf);
+extern int serial_iec_lib_read_sector(unsigned int unit, unsigned int track,
+                                      unsigned int sector, BYTE *buf);
+extern int serial_iec_lib_write_sector(unsigned int unit, unsigned int track,
+                                       unsigned int sector, BYTE *buf);
 
 extern unsigned int serial_device_get_fsimage_state(unsigned int unit);
 extern unsigned int serial_device_get_realdevice_state(unsigned int unit);
