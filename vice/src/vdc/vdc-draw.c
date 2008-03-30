@@ -249,15 +249,19 @@ draw_std_text(void)
     PIXEL *p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH;
     PIXEL4 *table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
+    BYTE* attr_ptr = vdc.ram+vdc.attribute_adr+vdc.mem_counter;
+    BYTE* screen_ptr = vdc.ram+vdc.screen_adr+vdc.mem_counter;
+    BYTE* char_ptr = vdc.ram+vdc.chargen_adr + vdc.raster.ycounter;
+
     unsigned int i;
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8)
     {
-        PIXEL4 *ptr = table_ptr + (((vdc.ram+vdc.attribute_adr+vdc.mem_counter)[i] & 0x0f) << 8);
+        PIXEL4 *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
 
-        int d = *(vdc.ram+vdc.chargen_adr
-                + (vdc.ram+vdc.screen_adr+vdc.mem_counter)[i] * 16
-                + vdc.raster.ycounter);
+	int d = *(char_ptr
+            + ((*(attr_ptr + i) & 0x80) ? 0x1000 : 0)
+            + (*(screen_ptr + i) * 16));
 
         *((PIXEL4 *) p)     = *(ptr + (d >> 4));
         *((PIXEL4 *) p + 1) = *(ptr + (d & 0x0f));
@@ -327,6 +331,34 @@ draw_std_bitmap_cached(raster_cache_t *cache,
     }
 }
 
+static void
+draw_std_bitmap(void)
+{
+    PIXEL *p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH;
+    PIXEL4 *table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
+
+    BYTE* attr_ptr = vdc.ram+vdc.attribute_adr+vdc.mem_counter;
+    BYTE* bitmap_ptr = vdc.ram+vdc.screen_adr+vdc.bitmap_counter;
+
+    unsigned int i;
+
+    for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8)
+    {
+        PIXEL4 *ptr;
+	int d;
+
+	if (vdc.regs[25] & 0x40)
+            ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
+	else
+            ptr = table_ptr + ((vdc.regs[26] & 0xf0) << 4);
+
+	d = *(bitmap_ptr + i);
+
+        *((PIXEL4 *) p)     = *(ptr + (d >> 4));
+        *((PIXEL4 *) p + 1) = *(ptr + (d & 0x0f));
+    }
+}
+
 
 static void setup_single_size_modes(void)
 {
@@ -340,7 +372,7 @@ static void setup_single_size_modes(void)
     raster_modes_set(&vdc.raster.modes, VDC_BITMAP_MODE,
                      get_std_bitmap,
                      draw_std_bitmap_cached,
-                     NULL, /* draw_std_bitmap */
+                     draw_std_bitmap,
                      NULL, /* draw_std_background */
                      NULL); /* draw_std_text_foreground */
 
