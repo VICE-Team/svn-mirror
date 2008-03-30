@@ -43,6 +43,7 @@
 #include "tfe.h"
 #include "tfearch.h"
 #include "snapshot.h"
+#include "util.h"
 
 
 /**/
