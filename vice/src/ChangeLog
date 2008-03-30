@@ -1,3 +1,63 @@
+2000-08-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.6.
+
+	* arch/win32/fullscreen.c, arch/win32/video.c: Define
+	`IID_IDirectDraw2' if there is not GUIDLIB.
+
+	* drive/drive.c (drive_check_type): Mask out dual drives for
+	second drive and other invalid combinations.
+
+	* attach.c, attach.h: Added support for opening disks read
+	only.
+
+	* main.c (init_cmdline_options): Initialize attach specific
+	command line options.
+
+	* vdrive/vdrive.c, vdrive/vdrive.h
+	(vdrive_internal_open_disk_image): Set `read_only' before
+	`disk_image_open' is called.
+
+	* c1541.c (open_disk_image): Changed likewise.
+
+	* diskimage.c (disk_image_open): Get the open mode from the
+	`read_only' flag of the image struct.
+
+	* imagecontents.c (image_contents_read_disk): Open disk read
+	only.
+
+	* resources.c, resources.h: Added support for a parameter to
+	the resource set function.
+
+	* attach.c, datasette.c, fsdevice.c, log.c, main.c, sound.c,
+	sysfile.c, traps.c, vsync.c, vdc/vdc-resources.c, aciacore.c,
+	prdevice.c, pruser.c, rsuser.c, drive/drive-resources.c,
+	vicii/vicii-resources.c, crtc/crtc-resources.c, sid/sid.c,
+	c64/c64cartridge.c, c64/c64mem.c, c64/psid.c, c128/c128mem.c,
+	c128/c128mmu.c, c128/z80mem.c, vic20/vic-resources.c,
+	vic20/vic20cartridge.c, vic20/vic20mem.c, pet/pet.c,
+	pet/petmem.c, pet/petpia1.c, cbm2/c610mem.c,
+	arch/unix/joystick.c, arch/unix/kmap.c, arch/unix/mouse.c,
+	arch/unix/petkmap.c, arch/unix/print.c, arch/unix/rs232.c,
+	arch/unix/vsync.c, arch/unix/x11/kbd.c, arch/unix/x11/video.c,
+	arch/unix/x11/ui-resources.c, arch/win32/joystick.c,
+	arch/win32/kbd.c, arch/win32/mouse.c, arch/win32/print.c,
+	arch/win32/ui.c, arch/msdos/joystick.c, arch/msdos/kbd.c,
+	arch/msdos/mouse.c, arch/msdos/print.c, arch/msdos/ui.c,
+	arch/msdos/video.c, arch/msdos/vsync.c, arch/riscos/kbd.c,
+	arch/riscos/joystick.c, arch/riscos/print.c,
+	arch/riscos/rs232.c, arch/riscos/ui.c, arch/riscos/video.c,
+	arch/riscos/vsync.c, arch/os2/unused/video_gpi.c,
+	arch/os2/unused/vsync.c, arch/os2/joystick.c, arch/os2/kbd.c,
+	arch/os2/mouse.c, arch/os2/rs232.c, arch/os2/video.c,
+	arch/os2/ui.c,, arch/os2/kbd/kmap-pet.c, arch/os2/kbd/kmap.c,
+	arch/beos/kbd.c, arch/beos/mouse.c, arch/beos/print.c,
+	arch/beos/vsync.c: Added parameter to resource tables.
+
+2000-08-06  pottendo  <pottendo@utanet.at>
+
+	* info.c: Updated contribution.
+
 2000-08-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.5.

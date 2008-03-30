@@ -1,3 +1,11 @@
+2000-08-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.6.
+
+2000-08-06  pottendo  <pottendo@utanet.at>
+
+	* configure.in (ALL_LINGUAS): Added `sv'.
+
 2000-08-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.5.
