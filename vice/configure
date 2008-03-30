@@ -1307,7 +1307,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=16
-VICE_VERSION_BUILD=16
+VICE_VERSION_BUILD=17
 
 
 
@@ -15155,13 +15155,73 @@ fi
   PATH_X_LIBS=$X_LIBS
   LINK_X_LIBS=""
 
+
+  echo "$as_me:$LINENO: checking for gethostbyname in -lnsl" >&5
+echo $ECHO_N "checking for gethostbyname in -lnsl... $ECHO_C" >&6
+if test "${ac_cv_lib_nsl_gethostbyname+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lnsl $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char gethostbyname ();
+int
+main ()
+{
+gethostbyname ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_nsl_gethostbyname=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_nsl_gethostbyname=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_nsl_gethostbyname" >&5
+echo "${ECHO_T}$ac_cv_lib_nsl_gethostbyname" >&6
+if test $ac_cv_lib_nsl_gethostbyname = yes; then
+   X_LIBS="-lnsl $X_LIBS";
+                                    LINK_X_LIBS="-lnsl $LINK_X_LIBS"
+fi
+
   echo "$as_me:$LINENO: checking for gethostbyname in -lsocket" >&5
 echo $ECHO_N "checking for gethostbyname in -lsocket... $ECHO_C" >&6
 if test "${ac_cv_lib_socket_gethostbyname+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lsocket -lnsl $LIBS"
+LIBS="-lsocket $X_LIBS $LIBS"
 cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
@@ -15940,9 +16000,9 @@ echo "${ECHO_T}$ac_cv_header_X11_extensions_XShm_h" >&6
 
 
   if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
-    echo "$as_me:$LINENO: checking for XShmPutImage in -lXext" >&5
-echo $ECHO_N "checking for XShmPutImage in -lXext... $ECHO_C" >&6
-if test "${ac_cv_lib_Xext_XShmPutImage+set}" = set; then
+    echo "$as_me:$LINENO: checking for XShmAttach in -lXext" >&5
+echo $ECHO_N "checking for XShmAttach in -lXext... $ECHO_C" >&6
+if test "${ac_cv_lib_Xext_XShmAttach+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -15961,11 +16021,11 @@ extern "C"
 #endif
 /* We use char because int might match the return type of a gcc2
    builtin and then its argument prototype would still apply.  */
-char XShmPutImage ();
+char XShmAttach ();
 int
 main ()
 {
-XShmPutImage ();
+XShmAttach ();
   ;
   return 0;
 }
@@ -15982,19 +16042,19 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_cv_lib_Xext_XShmPutImage=yes
+  ac_cv_lib_Xext_XShmAttach=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_cv_lib_Xext_XShmPutImage=no
+ac_cv_lib_Xext_XShmAttach=no
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_Xext_XShmPutImage" >&5
-echo "${ECHO_T}$ac_cv_lib_Xext_XShmPutImage" >&6
-if test $ac_cv_lib_Xext_XShmPutImage = yes; then
+echo "$as_me:$LINENO: result: $ac_cv_lib_Xext_XShmAttach" >&5
+echo "${ECHO_T}$ac_cv_lib_Xext_XShmAttach" >&6
+if test $ac_cv_lib_Xext_XShmAttach = yes; then
 
 cat >>confdefs.h <<\_ACEOF
 #define USE_MITSHM

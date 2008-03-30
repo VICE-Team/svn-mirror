@@ -1,3 +1,12 @@
+2005-07-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.17.
+
+2005-07-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed libnsl libsocket combination assumption,
+	and changed the libXext function check to XShmAttach.
+
 2005-07-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.16.

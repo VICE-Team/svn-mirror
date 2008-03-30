@@ -257,6 +257,9 @@ libx11ui_a_SOURCES = \
 	kbd.c \
 	peticon.c \
 	plus4icon.c \
+	qnxipc.h \
+	qnxshm.c \
+	qnxshm.h \
 	renderxv.c \
 	renderxv.h \
 	ui-cmdline-options.c \
@@ -282,10 +285,10 @@ LIBRARIES = $(noinst_LIBRARIES)
 libx11ui_a_AR = $(AR) cru
 am_libx11ui_a_OBJECTS = c128icon.$(OBJEXT) c64icon.$(OBJEXT) \
 	cbm2icon.$(OBJEXT) fullscreen.$(OBJEXT) kbd.$(OBJEXT) \
-	peticon.$(OBJEXT) plus4icon.$(OBJEXT) renderxv.$(OBJEXT) \
-	ui-cmdline-options.$(OBJEXT) ui-resources.$(OBJEXT) \
-	uihotkey.$(OBJEXT) vic20icon.$(OBJEXT) video.$(OBJEXT) \
-	x11menu.$(OBJEXT)
+	peticon.$(OBJEXT) plus4icon.$(OBJEXT) qnxshm.$(OBJEXT) \
+	renderxv.$(OBJEXT) ui-cmdline-options.$(OBJEXT) \
+	ui-resources.$(OBJEXT) uihotkey.$(OBJEXT) vic20icon.$(OBJEXT) \
+	video.$(OBJEXT) x11menu.$(OBJEXT)
 libx11ui_a_OBJECTS = $(am_libx11ui_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -295,7 +298,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/cbm2icon.Po ./$(DEPDIR)/dga1.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/dga2.Po ./$(DEPDIR)/fullscreen.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/peticon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/plus4icon.Po ./$(DEPDIR)/renderxv.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4icon.Po ./$(DEPDIR)/qnxshm.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/renderxv.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui-resources.Po ./$(DEPDIR)/uihotkey.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20icon.Po ./$(DEPDIR)/video.Po \
@@ -347,6 +351,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/peticon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4icon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qnxshm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/renderxv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui-cmdline-options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui-resources.Po@am__quote@

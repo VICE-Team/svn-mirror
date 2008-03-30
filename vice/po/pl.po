@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-07-10 23:56+0200\n"
+"POT-Creation-Date: 2005-07-24 23:19+0200\n"
 "PO-Revision-Date: 2005-01-11 23:04+0100\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -124,7 +124,7 @@ msgstr ""
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1344
+#: src/sound.c:1346
 msgid "store to sounddevice failed."
 msgstr ""
 
@@ -3056,7 +3056,7 @@ msgid "Contributors"
 msgstr "Wspó³pracownicy"
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:101
-#: src/arch/unix/x11/xaw/x11video.c:107
+#: src/arch/unix/x11/xaw/x11video.c:111
 #, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Inicjalizacji przy u¿yciu XVideo zakoñczona pomy¶lnie (%dx%d %.4s)."
@@ -3604,7 +3604,7 @@ msgstr "Rozszerzenie MITSHM nie jest obs³ugiwane przez wy¶wietlacz."
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rozszerzenie wersji MITSHM %d.%d zosta³o wykryte."
 
-#: src/arch/unix/x11/video.c:342
+#: src/arch/unix/x11/video.c:346
 msgid "Cannot release shared memory!"
 msgstr "Nie mo¿na zwolniæ pamiêci dzielonej!"
 
@@ -3719,51 +3719,51 @@ msgstr "%d: ¦cie¿ka %.1f "
 msgid "VICE Error!"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/xaw/x11video.c:127
+#: src/arch/unix/x11/xaw/x11video.c:131
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr ""
 "Nie mo¿na ulokowaæ Ximage z XShm; cofniêcie bez trybu rozszerzonego MITSHM"
 
-#: src/arch/unix/x11/xaw/x11video.c:140
+#: src/arch/unix/x11/xaw/x11video.c:144
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Nie mo¿na dostaæ pamiêci dzielonej; cofniêcie bez trybu rozszerzonego MITSHM"
 
-#: src/arch/unix/x11/xaw/x11video.c:151
+#: src/arch/unix/x11/xaw/x11video.c:155
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Nie mo¿na dostaæ adresu pamiêci dzielonej; cofniêcie bez trybu rozszerzonego "
 "MITSHM"
 
-#: src/arch/unix/x11/xaw/x11video.c:166 src/arch/unix/x11/xaw/x11video.c:183
+#: src/arch/unix/x11/xaw/x11video.c:170 src/arch/unix/x11/xaw/x11video.c:187
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Nie mo¿na w³o¿yæ pamiêci dzielonej; cofniêcie bez trybu rozszerzonego MITSHM"
 
-#: src/arch/unix/x11/xaw/x11video.c:190
+#: src/arch/unix/x11/xaw/x11video.c:194
 msgid "MITSHM initialization succeed.\n"
 msgstr "Inicjalizacja MITSHM zakonczona pomy¶lnie.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:211
+#: src/arch/unix/x11/xaw/x11video.c:215
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Zainicjowano pomy¶lnie pamiêæ %s dzielon±."
 
-#: src/arch/unix/x11/xaw/x11video.c:212
+#: src/arch/unix/x11/xaw/x11video.c:216
 msgid ", using"
 msgstr " u¿ywaj±c"
 
-#: src/arch/unix/x11/xaw/x11video.c:212
+#: src/arch/unix/x11/xaw/x11video.c:216
 msgid " without"
 msgstr " bez"
 
-#: src/arch/unix/x11/xaw/x11video.c:215
+#: src/arch/unix/x11/xaw/x11video.c:219
 msgid "Performance will be poor."
 msgstr "Wydajno¶æ bêdzie niska"
 
-#: src/arch/unix/x11/xaw/x11video.c:218
+#: src/arch/unix/x11/xaw/x11video.c:222
 msgid "Successfully initialized without shared memory."
 msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 

@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.16\n"
-"POT-Creation-Date: 2005-07-10 23:56+0200\n"
+"POT-Creation-Date: 2005-07-24 23:19+0200\n"
 "PO-Revision-Date: 2005-01-18 21:38+0100\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -131,7 +131,7 @@ msgstr "l'exécution est trop lente."
 msgid "write to sounddevice failed."
 msgstr "erreur d'écriture sur le périphérique de son."
 
-#: src/sound.c:1344
+#: src/sound.c:1346
 msgid "store to sounddevice failed."
 msgstr "erreur d'enregistrement sur le périphérique de son."
 
@@ -2967,7 +2967,7 @@ msgid "Contributors"
 msgstr "Contributeurs"
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:101
-#: src/arch/unix/x11/xaw/x11video.c:107
+#: src/arch/unix/x11/xaw/x11video.c:111
 #, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Initialisation réussie avec XVideo (%dx%d %.4s)."
@@ -3508,7 +3508,7 @@ msgstr "L'extension MITSHM n'est pas supportée sur cet affichage."
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Détecté extensions MITSHM version %d.%d."
 
-#: src/arch/unix/x11/video.c:342
+#: src/arch/unix/x11/video.c:346
 msgid "Cannot release shared memory!"
 msgstr "Impossible de relâcher la mémoire partagée!"
 
@@ -3621,53 +3621,53 @@ msgstr "%d: Piste %.1f"
 msgid "VICE Error!"
 msgstr "Erreur VICE!"
 
-#: src/arch/unix/x11/xaw/x11video.c:127
+#: src/arch/unix/x11/xaw/x11video.c:131
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'allouer XImage avec XShm; retour au mode sans extension MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:140
+#: src/arch/unix/x11/xaw/x11video.c:144
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'accéder à la mémoire partagée; retour au mode sans extension "
 "MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:151
+#: src/arch/unix/x11/xaw/x11video.c:155
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'obtenir l'adresse de la mémoire partagée; retour au mode sans "
 "extension MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:166 src/arch/unix/x11/xaw/x11video.c:183
+#: src/arch/unix/x11/xaw/x11video.c:170 src/arch/unix/x11/xaw/x11video.c:187
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'attacher la mémoire partagée; retour au mode sans extension "
 "MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:190
+#: src/arch/unix/x11/xaw/x11video.c:194
 msgid "MITSHM initialization succeed.\n"
 msgstr "Initialisation MITSHM réussie.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:211
+#: src/arch/unix/x11/xaw/x11video.c:215
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Initialisation réussie%s mémoire partagée."
 
-#: src/arch/unix/x11/xaw/x11video.c:212
+#: src/arch/unix/x11/xaw/x11video.c:216
 msgid ", using"
 msgstr ", avec"
 
-#: src/arch/unix/x11/xaw/x11video.c:212
+#: src/arch/unix/x11/xaw/x11video.c:216
 msgid " without"
 msgstr ", sans"
 
-#: src/arch/unix/x11/xaw/x11video.c:215
+#: src/arch/unix/x11/xaw/x11video.c:219
 msgid "Performance will be poor."
 msgstr "Les performances vont être médiocres."
 
-#: src/arch/unix/x11/xaw/x11video.c:218
+#: src/arch/unix/x11/xaw/x11video.c:222
 msgid "Successfully initialized without shared memory."
 msgstr "Initialisation réussie sans mémoire partagée."
 

@@ -1,3 +1,39 @@
+2005-07-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.17.
+
+2005-07-17  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/archdep.c, arch/riscos/kbd.c, arch/riscos/ui.c,
+	arch/riscos/uiimage.c: some minor issues with signed
+	characters and filing system properties.
+
+	* sid/resid.cc, sid/sid-cmdline-options.c,
+	sid/sid-resources.c: resource and command line option for
+	reSID gain
+
+	* translate.h, translate.c: macros etc. for reSID gain option
+	(this system is really weak, dude)
+
+2005-07-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/x11/Makefile.am, arch/unix/x11/qnxipc.h,
+	arch/unix/x11/qnxshm.c, arch/unix/x11/qnxshm.h,
+	arch/unix/x11/renderxv.h: Added qnx specific files for shared
+	memory emulation.
+
+	* arch/unix/x11/renderxv.c: Added dummy shared memory
+	functions.
+
+	* arch/unix/x11/xaw/x11video.c, : Made qnx not use mitshm.
+
+	* sid/resid.cc: Fixed an include problem with qnx.
+
+2005-07-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* sound.c, sounddrv/soundsun.c: Fixed so that OpenBSD doesn't
+	use this sound driver.
+
 2005-07-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.16.

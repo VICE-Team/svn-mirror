@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.16\n"
-"POT-Creation-Date: 2005-07-10 23:56+0200\n"
+"POT-Creation-Date: 2005-07-24 23:19+0200\n"
 "PO-Revision-Date: 2005-05-12 21:33+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -119,7 +119,7 @@ msgstr "draait te langzaam."
 msgid "write to sounddevice failed."
 msgstr "schrijf actie naar geluidsapparaat faalt."
 
-#: src/sound.c:1344
+#: src/sound.c:1346
 msgid "store to sounddevice failed."
 msgstr "opslag naar geluidsapparaat faalt."
 
@@ -2941,7 +2941,7 @@ msgid "Contributors"
 msgstr "Medewerkers"
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:101
-#: src/arch/unix/x11/xaw/x11video.c:107
+#: src/arch/unix/x11/xaw/x11video.c:111
 #, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Met succes geinitialiseerd met gebruik van XVideo (%dx%d %.4s)."
@@ -3479,7 +3479,7 @@ msgstr "De MITSHM extensie wordt niet ondersteunt door Uw monitor"
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM extensies versie %d.%d gevonden."
 
-#: src/arch/unix/x11/video.c:342
+#: src/arch/unix/x11/video.c:346
 msgid "Cannot release shared memory!"
 msgstr "Kan het gedeelde geheugen niet vrij geven!"
 
@@ -3594,53 +3594,53 @@ msgstr "%d: Spoor %.1f"
 msgid "VICE Error!"
 msgstr "VICE Fout!"
 
-#: src/arch/unix/x11/xaw/x11video.c:127
+#: src/arch/unix/x11/xaw/x11video.c:131
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr ""
 "Kan XImage met XShm niet toewijzen; terug vallen op niet-MITSHM extensie "
 "modus."
 
-#: src/arch/unix/x11/xaw/x11video.c:140
+#: src/arch/unix/x11/xaw/x11video.c:144
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Kan geen gedeeld geheugen krijgen; terug vallen op niet-MITSHM extensie "
 "modus."
 
-#: src/arch/unix/x11/xaw/x11video.c:151
+#: src/arch/unix/x11/xaw/x11video.c:155
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Kan geen gedeeld geheugen adres krijgen; terug vallen op niet-MITSHM "
 "extensie modus."
 
-#: src/arch/unix/x11/xaw/x11video.c:166 src/arch/unix/x11/xaw/x11video.c:183
+#: src/arch/unix/x11/xaw/x11video.c:170 src/arch/unix/x11/xaw/x11video.c:187
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Kan gedeeld geheugen niet koppelen; terug vallen op niet-MITSHM extensie "
 "modus."
 
-#: src/arch/unix/x11/xaw/x11video.c:190
+#: src/arch/unix/x11/xaw/x11video.c:194
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM initialisatie voltooid.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:211
+#: src/arch/unix/x11/xaw/x11video.c:215
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "%s gedeeld geheugen met succes geinitialiseerd."
 
-#: src/arch/unix/x11/xaw/x11video.c:212
+#: src/arch/unix/x11/xaw/x11video.c:216
 msgid ", using"
 msgstr ", gebruikt"
 
-#: src/arch/unix/x11/xaw/x11video.c:212
+#: src/arch/unix/x11/xaw/x11video.c:216
 msgid " without"
 msgstr " zonder"
 
-#: src/arch/unix/x11/xaw/x11video.c:215
+#: src/arch/unix/x11/xaw/x11video.c:219
 msgid "Performance will be poor."
 msgstr "Prestatie zal slecht zijn."
 
-#: src/arch/unix/x11/xaw/x11video.c:218
+#: src/arch/unix/x11/xaw/x11video.c:222
 msgid "Successfully initialized without shared memory."
 msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
