@@ -45,7 +45,6 @@ noinst_HEADERS = \
 	crtc.h \
 	datasette.h \
 	emuid.h \
-	file.h \
 	fixpoint.h \
 	findpath.h \
 	fs_cbm.h \
