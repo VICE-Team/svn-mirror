@@ -701,7 +701,7 @@ static void external_resize_window( console_private_t *pcp, int nWidth, int nHei
 }
 
 
-static bIsMdiChild = FALSE;
+static BOOLEAN  bIsMdiChild = FALSE;
 
 /* window procedure */
 static long CALLBACK console_window_proc(HWND hwnd, 

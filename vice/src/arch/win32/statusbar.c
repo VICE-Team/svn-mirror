@@ -142,7 +142,7 @@ int statusbar_get_status_height(void)
     return status_height;
 }
 
-void statusbar_setstatustext(char *text)
+void statusbar_setstatustext(const char *text)
 {
 int i;
 

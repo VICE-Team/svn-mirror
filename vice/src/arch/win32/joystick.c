@@ -284,8 +284,7 @@ MMRESULT    result;
                     value|=16;
                 }
                 if (joystick_device_1==JOYDEV_HW2) {
-                    
-					(1,value);
+                    joystick_set_value_absolute(1,value);
                 }
                 if (joystick_device_2==JOYDEV_HW2) {
                     joystick_set_value_absolute(2,value);

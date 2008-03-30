@@ -52,10 +52,6 @@ const GUID IID_IDirectDraw2={0xB3A6F3E0,0x2B43,0x11CF,
 {0xA2,0xDE,0x00,0xAA,0x00,0xB9,0x33,0x56}};
 #endif
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
-#endif
-
 typedef struct _DDL {
     struct _DDL *next;
     int         isNullGUID;
@@ -145,7 +141,7 @@ DirectDrawModeList  *search_mode;
 #ifdef HAVE_UNNAMED_UNIONS
         new_mode->bitdepth=desc->ddpfPixelFormat.dwRGBBitCount;
 #else
-        new_mode->bitdepth=desc->ddpfPixelFormat.DUMMYUNIONNAME.dwRGBBitCount;
+        new_mode->bitdepth=desc->ddpfPixelFormat.u1.dwRGBBitCount;
 #endif
     }
     if (desc->dwFlags&(DDSD_REFRESHRATE)) {
@@ -193,7 +189,7 @@ int                     i;
         ddresult = IDirectDraw_SetCooperativeLevel(DirectDrawObject, ui_get_main_hwnd(), DDSCL_EXCLUSIVE|DDSCL_FULLSCREEN);
         CHECK_DDRESULT(ddresult);
 //        log_debug("MODEPROBE_ObtainDirectDraw2");
-        ddresult=IDirectDraw_QueryInterface(DirectDrawObject,&IID_IDirectDraw2,(LPVOID *)&DirectDrawObject2);
+        ddresult=IDirectDraw_QueryInterface(DirectDrawObject,(GUID *)&IID_IDirectDraw2,(LPVOID *)&DirectDrawObject2);
         CHECK_DDRESULT(ddresult);
 //        log_debug("MODEPROBE_EnumDisplayModes");
         ddresult=IDirectDraw2_EnumDisplayModes(DirectDrawObject2,DDEDM_REFRESHRATES,NULL,&i,ModeCallBack);
@@ -629,7 +625,7 @@ raster_t        *r;
 #ifdef HAVE_UNNAMED_UNIONS
     old_bitdepth=desc2.ddpfPixelFormat.dwRGBBitCount;;
 #else
-    old_bitdepth=desc2.ddpfPixelFormat.DUMMYUNIONNAME.dwRGBBitCount;;
+    old_bitdepth=desc2.ddpfPixelFormat.u1.dwRGBBitCount;;
 #endif
 
     IDirectDrawSurface_Release(c->temporary_surface);
@@ -657,7 +653,7 @@ raster_t        *r;
     device_guid=GetGUIDForActualDevice();
     ddresult=DirectDrawCreate(device_guid, &c->dd_object, NULL);
     ddresult=IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE|DDSCL_FULLSCREEN);
-    ddresult=IDirectDraw_QueryInterface(c->dd_object,&IID_IDirectDraw2,(LPVOID *)&c->dd_object2);
+    ddresult=IDirectDraw_QueryInterface(c->dd_object,(GUID *)&IID_IDirectDraw2,(LPVOID *)&c->dd_object2);
 
     //  Set cooperative level
     ddresult=IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE|DDSCL_FULLSCREEN);
@@ -784,7 +780,7 @@ raster_t        *r;
 
     ddresult=DirectDrawCreate(NULL, &c->dd_object, NULL);
     ddresult=IDirectDraw_SetCooperativeLevel(c->dd_object, NULL, DDSCL_NORMAL);
-    ddresult=IDirectDraw_QueryInterface(c->dd_object,&IID_IDirectDraw2,(LPVOID *)&c->dd_object2);
+    ddresult=IDirectDraw_QueryInterface(c->dd_object,(GUID *)&IID_IDirectDraw2,(LPVOID *)&c->dd_object2);
 
     /*  Create Primary surface */
     memset(&desc, 0, sizeof(desc));

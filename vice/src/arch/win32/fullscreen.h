@@ -35,8 +35,7 @@ void ui_fullscreen_settings_dialog(HWND hwnd);
 void SuspendFullscreenMode(HWND hwnd);
 void ResumeFullscreenMode(HWND hwnd);
 void SwitchFullscreenMode(HWND hwnd);
-
-
+void SwitchToFullscreenMode(HWND hwnd);
 
 #endif
 

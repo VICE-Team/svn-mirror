@@ -53,10 +53,6 @@ raster_t *video_find_raster_for_canvas(canvas_t *canvas);
 extern const GUID IID_IDirectDraw2;
 #endif
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
-#endif
-
 #define EXIT_REASON(reason) {log_debug("Error %08x",reason);return -1;}
 
 /* ------------------------------------------------------------------------ */
@@ -434,10 +430,6 @@ DDSURFACEDESC   desc2;
 canvas_t        *c;
 int             i;
 GUID            *device_guid;
-int             fullscreen_width;
-int             fullscreen_height;
-int             bitdepth;
-int             refreshrate;
 
     fullscreen_transition=1;
 
@@ -457,18 +449,18 @@ int             refreshrate;
     device_guid=NULL;
     ddresult = DirectDrawCreate(device_guid, &c->dd_object, NULL);
 
-    if (ddresult != DD_OK) return -1;
+    if (ddresult != DD_OK) return NULL;
 
     {
         ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, NULL, DDSCL_NORMAL);
         if (ddresult != DD_OK) {
             ui_error("Cannot set DirectDraw cooperative level:\n%s",
                      dd_error(ddresult));
-            return -1;
+            return NULL;
         }
     }
 
-    ddresult=IDirectDraw_QueryInterface(c->dd_object,&IID_IDirectDraw2,(LPVOID *)&c->dd_object2);
+    ddresult=IDirectDraw_QueryInterface(c->dd_object,(GUID *)&IID_IDirectDraw2,(LPVOID *)&c->dd_object2);
     if (ddresult!=DD_OK) {
         log_debug("Can't get DirectDraw2 interface");
     }
@@ -488,20 +480,20 @@ int             refreshrate;
     ddresult = IDirectDraw2_CreateSurface(c->dd_object2, &desc, &c->primary_surface, NULL);
     if (ddresult != DD_OK) {
         DEBUG(("Cannot create primary surface: %s", dd_error(ddresult)));
-        return -1;
+        return NULL;
     }
 
     ddresult = IDirectDraw2_CreateClipper(c->dd_object2, 0, &c->clipper, NULL);
     if (ddresult != DD_OK) {
         ui_error("Cannot create clipper for primary surface:\n%s",
                  dd_error(ddresult));
-        return -1;
+        return NULL;
     }
     ddresult = IDirectDrawSurface_SetClipper(c->primary_surface, c->clipper);
     if (ddresult != DD_OK) {
         ui_error("Cannot set clipper for primary surface:\n%s",
                  dd_error(ddresult));
-        return -1;
+        return NULL;
     }
 
     memset(&desc, 0, sizeof(desc));
@@ -545,7 +537,7 @@ int             refreshrate;
 #ifdef HAVE_UNNAMED_UNIONS
     c->depth=desc2.ddpfPixelFormat.dwRGBBitCount;
 #else
-    c->depth=desc2.ddpfPixelFormat.DUMMYUNIONNAME.dwRGBBitCount;
+    c->depth=desc2.ddpfPixelFormat.u1.dwRGBBitCount;
 #endif
 
 
@@ -736,7 +728,7 @@ error:
 #ifdef HAVE_UNNAMED_UNIONS
     c->depth=desc2.ddpfPixelFormat.dwRGBBitCount;
 #else
-    c->depth=desc2.ddpfPixelFormat.DUMMYUNIONNAME.dwRGBBitCount;
+    c->depth=desc2.ddpfPixelFormat.u1.dwRGBBitCount;
 #endif
 
 
@@ -1206,7 +1198,7 @@ static void real_refresh(canvas_t *c, video_frame_buffer_t *f,
     depth = desc.ddpfPixelFormat.dwRGBBitCount;
     pitch = desc.lPitch;
 #else
-    depth = desc.ddpfPixelFormat.DUMMYUNIONNAME.dwRGBBitCount;
+    depth = desc.ddpfPixelFormat.u1.dwRGBBitCount;
     pitch = desc.u1.lPitch;
 #endif
 

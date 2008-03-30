@@ -1,3 +1,43 @@
+2000-12-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.
+
+2000-12-11  Tibor Biczo  <crown@matavnet.hu>
+
+	* arch/win32/fullscreen.c, arch/win32/video.c: Reverted
+	DUMMYUNIONNAME patch, as the DirectX headers doesn't have a
+	mixup problems of naming the first unnamed union differenly
+	between different header versions...
+
+2000-12-10  Tibor Biczo <crown@matavnet.hu>
+
+	* arch/win32/console.c (bIsMdiChild): Define as BOOLEAN.
+
+	* arch/win32/fullscreen.c: Added casts for IID_IDirectDraw2
+	references.
+
+	* arch/win32/fullscreen.h: Define SwitchToFullscreenMode
+	function.
+
+	* arch/win32/joystick.c: Reinstituted misteriously
+	dissappeared code segment.
+
+	* arch/win32/statusbar.c (statusbar_setstatustext): Define
+	input parameter as const.
+
+	* arch/win32/statusbar.h (statusbar_setstatustext): Define
+	input parameter as const.
+
+	* arch/win32/ui.c: Removed some unused local variables.
+
+	* arch/win32/video.c: Removed some unused local variables.
+	Corrected some return values in error cases.
+	Added cast when referencing IID_IDirectDraw2.
+
+	* sounddrv/sounddx.c: Setupo and use wfex variable instead of
+	pcmwf when setting the format of the primary buffer, as that
+	variable has the correct type.
+
 2000-12-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.23.

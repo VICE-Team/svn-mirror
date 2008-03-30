@@ -452,7 +452,6 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
                            int fullscreen)
 {
 HWND    hwnd;
-RECT    rect;
 
     hwnd_titles[number_of_windows] = stralloc(title);
 /*    if (fullscreen) {
@@ -1528,9 +1527,6 @@ extern int fullscreen_transition;
 static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
-RECT    led;
-char    text[256];
-RECT    client_rect;
 int     window_index;
 
     for (window_index=0; window_index<number_of_windows; window_index++) {

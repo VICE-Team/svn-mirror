@@ -449,7 +449,16 @@ int     i;
         ui_error("Cannot create DirectSound buffer:\n%s", ds_error(result));
         return -1;
     }
-    result=IDirectSoundBuffer_SetFormat(pbuffer,&pcmwf);
+
+    memset(&wfex, 0, sizeof(WAVEFORMATEX));
+    wfex.wFormatTag = WAVE_FORMAT_PCM;
+    wfex.nChannels = 1;
+    wfex.nSamplesPerSec = *speed;
+    wfex.wBitsPerSample = is16bit ? 16 : 8;
+    wfex.nBlockAlign = is16bit ? 2 : 1;
+    wfex.nAvgBytesPerSec = wfex.nSamplesPerSec * wfex.nBlockAlign;
+    
+    result=IDirectSoundBuffer_SetFormat(pbuffer,&wfex);
     if (result!=DS_OK) {
         ui_error("Cannot set Output format for primary sound buffer:\n%s",ds_error(result));
         return -1;

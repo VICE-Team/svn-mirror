@@ -31,7 +31,7 @@ void statusbar_create(HWND hwnd);
 void statusbar_destroy(void);
 void statusbar_create_brushes(void);
 int statusbar_get_status_height(void);
-void statusbar_setstatustext(char *text);
+void statusbar_setstatustext(const char *text);
 void statusbar_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color);
 void statusbar_display_drive_track(int drivenum, int drive_base, double track_number);
 void statusbar_display_drive_led(int drivenum, int status);
