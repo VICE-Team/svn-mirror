@@ -32,37 +32,27 @@
 #include "diskimage.h"
 #include "gcr.h"
 #include "log.h"
-#include "snapshot.h"
 #include "types.h"
 
 /* VIA 1 drive 0 interrupts.  */
 #define	I_VIA1D0FL	0
-
 /* VIA 2 drive 0 interrupts.  */
 #define	I_VIA2D0FL	1
-
 /* CIA 1571 drive 0 interrupts.  */
 #define I_CIA1571D0FL	2
-
 /* CIA 1581 drive 0 interrupts.  */
 #define I_CIA1581D0FL   3
-
 /* RIOT 1001 drive 0 interrupts. */
 #define	I_RIOTD0FL	4
 
-
 /* VIA 1 drive 1 interrupts. */
 #define I_VIA1D1FL  	0
-
 /* VIA 2 drive 1 interrupts. */
 #define I_VIA2D1FL  	1
-
 /* CIA 1571 drive 1 interrupts.  */
 #define I_CIA1571D1FL	2
-
 /* CIA 1581 drive 1 interrupts.  */
 #define I_CIA1581D1FL   3
-
 /* RIOT 1001 drive 1 interrupts. */
 #define	I_RIOTD1FL	4
 
@@ -271,9 +261,12 @@ typedef struct drive_s {
 
 extern drive_t drive[2];
 
-extern int drive_init_resources(void);
+extern int rom_loaded;
+
 extern int drive_init_cmdline_options(void);
 extern int drive_init(CLOCK pal_hz, CLOCK ntsc_hz);
+extern int drive_enable(int dnr);
+extern void drive_disable(int dnr);
 extern void serial_bus_drive_write(BYTE data);
 extern BYTE serial_bus_drive_read(void);
 extern void drive0_mem_init(int type);
@@ -292,20 +285,26 @@ extern void drive_set_1571_side(int side, int dnr);
 extern void drive_update_ui_status(void);
 extern void drive_cpu_execute(CLOCK clk_value);
 extern void drive_GCR_data_writeback(int dnr);
+extern void drive_setup_rom_image(int dnr);
+extern void drive_initialize_rom_traps(int dnr);
+extern void drive_set_active_led_color(int type, int dnr);
+extern void drive_initialize_rotation_table(int freq, int dnr);
+extern int drive_do_1541_checksum(void);
 extern int drive_read_block(int track, int sector, BYTE *readdata, int dnr);
 extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
-
+extern int drive_set_disk_drive_type(int drive_type, int dnr);
 extern int reload_rom_1541(char *name);
+extern int drive_load_1541(void);
+extern int drive_load_1541ii(void);
+extern int drive_load_1571(void);
+extern int drive_load_1581(void);
+extern int drive_load_2031(void);
+extern int drive_load_1001(void);
+extern void drive_set_sync_factor(unsigned int factor);
+extern void drive_set_ntsc_sync_factor(void);
+extern void drive_set_pal_sync_factor(void);
 
-extern int drive_write_snapshot_module(snapshot_t *s, int save_disks,
-                                       int save_roms);
-extern int drive_read_snapshot_module(snapshot_t *s);
-
-#ifdef AVOID_STATIC_ARRAYS
-extern BYTE *drive_rom;
-#else
 extern BYTE drive_rom[DRIVE_ROM_SIZE];
-#endif
 
 extern void drive0_parallel_set_atn(int);
 extern void drive1_parallel_set_atn(int);
@@ -321,5 +320,5 @@ extern int drive_num_leds(int drv);
 
 extern void drive_setup_context(void);
 
-#endif /* !_DRIVE_H */
+#endif
 

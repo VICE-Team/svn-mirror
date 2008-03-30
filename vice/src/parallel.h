@@ -37,7 +37,6 @@
 #ifndef _PARALLEL_H
 #define _PARALLEL_H
 
-#include "drive.h"
 #include "types.h"
 
 /* debug variable - set to 1 to generate output */
@@ -54,6 +53,8 @@ extern char parallel_dav;
 extern char parallel_atn;
 
 extern BYTE parallel_bus;	/* data lines */
+
+extern void parallel_drive_cpu_execute(CLOCK clk);
 
 /* Each device has a mask bit in the parallel_* handshake lines */
 #define	PARALLEL_EMU	0x01
@@ -92,7 +93,7 @@ extern void parallel_restore_clr_atn(char mask);
 #define	PARALLEL_CPU_SET_LINE(line,dev,mask)				\
     static inline void parallel_##dev##_set_##line##( char val ) 	\
     {									\
-	drive_cpu_execute(clk);						\
+	parallel_drive_cpu_execute(clk);				\
     	if (val) {							\
 	    parallel_set_##line##(PARALLEL_##mask##);			\
         } else {							\

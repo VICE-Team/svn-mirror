@@ -31,8 +31,8 @@
 #ifndef _C64IEC_H
 #define _C64IEC_H
 
-#include "types.h"
 #include "iecdrive.h"
+#include "types.h"
 
 extern void iec_cpu_write(BYTE data);
 extern void iec_cpu_write_conf0(BYTE data);

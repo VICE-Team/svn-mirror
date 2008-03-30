@@ -553,4 +553,8 @@ void parallel_drv1_set_bus( BYTE b )
     parallel_bus = par_emu_bus & par_cpu_bus & par_drv0_bus & par_drv1_bus;
 }
 
+void parallel_drive_cpu_execute(CLOCK clk)
+{
+    drive_cpu_execute(clk);
+}
 
