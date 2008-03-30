@@ -34,12 +34,6 @@
 
 extern unsigned short *gp2x_memregs;
 
-unsigned char *c64_icon_data=NULL;
-unsigned char *c128_icon_data=NULL;
-unsigned char *vic20_icon_data=NULL;
-unsigned char *pet_icon_data=NULL;
-unsigned char *plus4_icon_data=NULL;
-unsigned char *cbm2_icon_data=NULL;
 int num_checkmark_menu_items;
 char *last_attached_images[8];
 int enabled_drives;
@@ -53,7 +47,8 @@ float emu_speed, emu_fps;
 
 int machine_type=UNKNOWN;
 
-void ui_error(const char *text) {
+void ui_error(const char *text)
+{
 	fprintf(stderr, "ui_error: %s\n", text);
 }
 

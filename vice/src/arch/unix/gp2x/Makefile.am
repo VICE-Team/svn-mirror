@@ -23,7 +23,6 @@ libarchgp2x_a_SOURCES = \
 	cbm2ui.c \
 	fullscreenarch.h \
 	gp2xui.h \
-	icon.h \
 	input_gp2x.c \
 	input_gp2x.h \
 	minimal.c \
