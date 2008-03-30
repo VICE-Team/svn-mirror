@@ -36,12 +36,18 @@
 #include "menudefs.h"
 
 #include "attach.h"
+#include "autostart.h"
 #include "datasette.h"
+#include "drive.h"
 #include "grabkey.h"
+#include "fliplist.h"
+#include "fsdevice.h"
 #include "imagecontents.h"
+#include "info.h"
 #include "joystick.h"
 #include "kbd.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "romset.h"
 #include "sound.h"
@@ -50,15 +56,6 @@
 #include "tuiview.h"
 #include "ui.h"
 #include "uisnapshot.h"
-
-#include "attach.h"
-#include "autostart.h"
-#include "fliplist.h"
-#include "fsdevice.h"
-#include "info.h"
-#include "machine.h"
-#include "serial.h"
-#include "drive.h"
 #include "utils.h"
 #include "video.h"
 
@@ -1080,11 +1077,11 @@ static TUI_MENU_CALLBACK(restore_default_settings_callback)
 static TUI_MENU_CALLBACK(quit_callback)
 {
     if (been_activated) {
-	_setcursortype(_NORMALCURSOR);
-	normvideo();
-	clrscr();
-        serial_remove_file(-1);
-	exit(0);
+        _setcursortype(_NORMALCURSOR);
+        normvideo();
+        clrscr();
+        file_system_detach_disk(-1);
+        exit(0);
     }
 
     return NULL;

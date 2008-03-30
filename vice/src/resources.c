@@ -38,12 +38,9 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#endif
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
-#endif
-#endif
-#ifdef HAVE_DIR_H
-#include <dir.h>
 #endif
 
 #include "archdep.h"
@@ -450,7 +447,7 @@ int resources_save(const char *fname)
 	fname = archdep_default_save_resource_file_name();
 
     /* Make a backup copy of the existing configuration file.  */
-    backup_name = make_backup_filename(fname);
+    backup_name = archdep_make_backup_filename(fname);
     if (rename(fname, backup_name) == 0)
 	have_old = 1;
     else

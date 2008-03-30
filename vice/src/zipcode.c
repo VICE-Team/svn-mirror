@@ -28,11 +28,9 @@
 
 #ifdef STDC_HEADERS
 #include <stdio.h>
-#ifdef __riscos
-#include "types.h"
-#endif
 #endif
 
+#include "types.h"
 #include "zipcode.h"
 
 int zipcode_read_sector(FILE *zip_fd, int track, int *sector, char *buf)

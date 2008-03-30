@@ -807,7 +807,7 @@ static int compress(const char *src, const char *dest,
         dest_backup_name = NULL;
     } else {
 	/* If `dest' exists, make a backup first.  */
-	dest_backup_name = make_backup_filename(dest);
+	dest_backup_name = archdep_make_backup_filename(dest);
 	if (dest_backup_name != NULL)
 	    ZDEBUG(("compress: making backup %s... ", dest_backup_name));
 	if (dest_backup_name != NULL && rename(dest, dest_backup_name) < 0) {
@@ -821,13 +821,13 @@ static int compress(const char *src, const char *dest,
 
     switch (type) {
       case COMPR_GZIP:
-	retval = compress_with_gzip(src, dest);
-	break;
+        retval = compress_with_gzip(src, dest);
+        break;
       case COMPR_BZIP:
-	retval = compress_with_bzip(src, dest);
-	break;
+        retval = compress_with_bzip(src, dest);
+        break;
       default:
-	retval = -1;
+        retval = -1;
     }
 
     if (retval == -1) {
