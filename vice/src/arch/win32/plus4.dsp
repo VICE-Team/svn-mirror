@@ -142,6 +142,10 @@ SOURCE=..\..\plus4\plus4pio2.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\plus4\plus4printer.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\plus4\plus4rom.c
 # End Source File
 # Begin Source File
