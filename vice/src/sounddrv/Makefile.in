@@ -313,11 +313,6 @@ sounddummy.o: sounddummy.c ../../src/vice.h ../../src/config.h \
 sounddump.o: sounddump.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
 	../../src/utils.h
-sounddx.o: sounddx.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/sound.h \
-	../../src/arch/win32/types.h ../../src/warn.h \
-	../../src/arch/win32/ui.h ../../src/arch/win32/video.h \
-	../../src/palette.h
 soundfs.o: soundfs.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
 	../../src/utils.h
