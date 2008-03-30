@@ -60,7 +60,6 @@
 #include "drivecpu.h"
 #include "file.h"
 #include "misc.h"
-#include "mshell.h"
 #include "interrupt.h"
 #include "resources.h"
 #include "vsync.h"
@@ -1164,7 +1163,7 @@ static unsigned disassemble_instr(MON_ADDR addr)
 {
    BYTE op, p1, p2;
    MEMSPACE mem;
-   unsigned loc, mode;
+   unsigned loc, hex_mode;
    char *label;
 
    mem = addr_memspace(addr);
@@ -1178,10 +1177,10 @@ static unsigned disassemble_instr(MON_ADDR addr)
     * Unless the default radix is decimal, we default
     * to hex.
     */
-   mode = (default_radix == e_decimal) ? 0 : MODE_HEX;
+   hex_mode = (default_radix == e_decimal);
 
    fprintf(mon_output, ".%s:%04x   %s",memspace_string[mem],loc,
-           sprint_disassembled(loc, op, p1, p2, mode));
+           sprint_disassembled(loc, op, p1, p2, hex_mode));
 
    label = mon_symbol_table_lookup_name(mem, loc);
    if (label)

@@ -1,4 +1,20 @@
+1998-12-02  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* misc.c (sprint_binary): Removed `HEX' constant.
+	(sprint_disassembled): Parameter `base' renamed to `hex_mode'.  If 
+	nonzero, it causes hex output to be produced.
+
+	* mon.c (disassemble_instr): Renamed `mode' to `hex_mode'.  Do not 
+	use the `MODE_HEX' constant anymore.
+
+	* asm.c: Do not #include "mshell.h" anymore.
+	* mon.c: Likewise.
+
+	* misc.c: Likewise.
+
 1998-12-01  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.34.
 
 	* arch/unix/xaw/c64ui.c: "Freeze" command renamed to "Cartridge
  	freeze".
