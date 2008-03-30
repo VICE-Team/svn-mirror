@@ -35,6 +35,7 @@
 #include "res.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiplus4cart.h"
 #include "uidriveplus4.h"
 #include "uilib.h"
 #include "uiplus4mem.h"
@@ -70,6 +71,8 @@ static const ui_res_value_list_t plus4_ui_res_values[] = {
 
 static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
 {
+    uiplus4cart_proc(wparam, hwnd);
+
     switch (wparam) {
       case IDM_PLUS4_SETTINGS:
         ui_plus4_memory_dialog(hwnd);
@@ -89,6 +92,8 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
 
 int plus4ui_init(void)
 {
+    uiplus4cart_init();
+
     ui_register_machine_specific(plus4_ui_specific);
     ui_register_menu_toggles(plus4_ui_menu_toggles);
     ui_register_res_values(plus4_ui_res_values);

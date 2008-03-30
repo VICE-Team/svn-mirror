@@ -37,6 +37,7 @@
 #include "plus4-resources.h"
 #include "plus4mem.h"
 #include "plus4rom.h"
+#include "plus4cart.h"
 #include "resources.h"
 #include "util.h"
 #include "vsync.h"
@@ -58,9 +59,15 @@ static char *basic_rom_name = NULL;
 /* Name of the Kernal ROM.  */
 static char *kernal_rom_name = NULL;
 
-/* Name of the 3plus1 ROMs.  */
-static char *tplus1lo_rom_name = NULL;
-static char *tplus1hi_rom_name = NULL;
+/* Name of the Function (3plus1) ROMs.  */
+static char *func_lo_rom_name = NULL;
+static char *func_hi_rom_name = NULL;
+
+/* Name of the external cartridge ROMs.  */
+static char *c1lo_rom_name = NULL;
+static char *c1hi_rom_name = NULL;
+static char *c2lo_rom_name = NULL;
+static char *c2hi_rom_name = NULL;
 
 /* Size of RAM installed in kbytes */
 static int ram_size_plus4 = 64;
@@ -81,20 +88,52 @@ static int set_basic_rom_name(resource_value_t v, void *param)
     return plus4rom_load_basic(basic_rom_name);
 }
 
-static int set_3plus1lo_rom_name(resource_value_t v, void *param)
+static int set_func_lo_rom_name(resource_value_t v, void *param)
 {
-    if (util_string_set(&tplus1lo_rom_name, (const char *)v))
+    if (util_string_set(&func_lo_rom_name, (const char *)v))
         return 0;
 
-    return plus4rom_load_3plus1lo(tplus1lo_rom_name);
+    return plus4rom_load_3plus1lo(func_lo_rom_name);
 }
 
-static int set_3plus1hi_rom_name(resource_value_t v, void *param)
+static int set_func_hi_rom_name(resource_value_t v, void *param)
 {
-    if (util_string_set(&tplus1hi_rom_name, (const char *)v))
+    if (util_string_set(&func_hi_rom_name, (const char *)v))
         return 0;
 
-    return plus4rom_load_3plus1hi(tplus1hi_rom_name);
+    return plus4rom_load_3plus1hi(func_hi_rom_name);
+}
+
+static int set_c1lo_rom_name(resource_value_t v, void *param)
+{
+    if (util_string_set(&c1lo_rom_name, (const char *)v))
+        return 0;
+
+    return plus4cart_load_c1lo(c1lo_rom_name);
+}
+
+static int set_c1hi_rom_name(resource_value_t v, void *param)
+{
+    if (util_string_set(&c1hi_rom_name, (const char *)v))
+        return 0;
+
+    return plus4cart_load_c1hi(c1hi_rom_name);
+}
+
+static int set_c2lo_rom_name(resource_value_t v, void *param)
+{
+    if (util_string_set(&c2lo_rom_name, (const char *)v))
+        return 0;
+
+    return plus4cart_load_c2lo(c2lo_rom_name);
+}
+
+static int set_c2hi_rom_name(resource_value_t v, void *param)
+{
+    if (util_string_set(&c2hi_rom_name, (const char *)v))
+        return 0;
+
+    return plus4cart_load_c2hi(c2hi_rom_name);
 }
 
 static int set_ram_size_plus4(resource_value_t v, void *param)
@@ -144,10 +183,18 @@ static const resource_t resources[] = {
       (void *)&kernal_rom_name, set_kernal_rom_name, NULL },
     { "BasicName", RES_STRING, (resource_value_t)"basic",
       (void *)&basic_rom_name, set_basic_rom_name, NULL },
-    { "3plus1loName", RES_STRING, (resource_value_t)"3plus1lo",
-      (void *)&tplus1lo_rom_name, set_3plus1lo_rom_name, NULL },
-    { "3plus1hiName", RES_STRING, (resource_value_t)"3plus1hi",
-      (void *)&tplus1hi_rom_name, set_3plus1hi_rom_name, NULL },
+    { "FunctionLowName", RES_STRING, (resource_value_t)"3plus1lo",
+      (void *)&func_lo_rom_name, set_func_lo_rom_name, NULL },
+    { "FunctionHighName", RES_STRING, (resource_value_t)"3plus1hi",
+      (void *)&func_hi_rom_name, set_func_hi_rom_name, NULL },
+    { "c1loName", RES_STRING, (resource_value_t)"",
+      (void *)&c1lo_rom_name, set_c1lo_rom_name, NULL },
+    { "c1hiName", RES_STRING, (resource_value_t)"",
+      (void *)&c1hi_rom_name, set_c1hi_rom_name, NULL },
+    { "c2loName", RES_STRING, (resource_value_t)"",
+      (void *)&c2lo_rom_name, set_c2lo_rom_name, NULL },
+    { "c2hiName", RES_STRING, (resource_value_t)"",
+      (void *)&c2hi_rom_name, set_c2hi_rom_name, NULL },
     { "RamSize", RES_INTEGER, (resource_value_t)64,
       (void *)&ram_size_plus4, set_ram_size_plus4, NULL },
 #ifdef COMMON_KBD
@@ -172,8 +219,12 @@ void plus4_resources_shutdown(void)
 {
     lib_free(basic_rom_name);
     lib_free(kernal_rom_name);
-    lib_free(tplus1lo_rom_name);
-    lib_free(tplus1hi_rom_name);
+    lib_free(func_lo_rom_name);
+    lib_free(func_hi_rom_name);
+    lib_free(c1lo_rom_name);
+    lib_free(c1hi_rom_name);
+    lib_free(c2lo_rom_name);
+    lib_free(c2hi_rom_name);
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
 }

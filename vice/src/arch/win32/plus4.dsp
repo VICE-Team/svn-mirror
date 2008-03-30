@@ -106,6 +106,10 @@ SOURCE=..\..\plus4\plus4bus.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\plus4\plus4cart.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\plus4\plus4cpu.c
 # End Source File
 # Begin Source File

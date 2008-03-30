@@ -76,10 +76,8 @@ gfxoutputdrv_t *gfxoutput_drivers_iter_next(void)
     return NULL;
 }
 
-int gfxoutput_init(void)
+int gfxoutput_early_init(void)
 {
-    gfxoutput_log = log_open("Graphics Output");
-
     /* Initialize graphics output driver list.  */
     gfxoutputdrv_list
         = (gfxoutputdrv_list_t *)lib_malloc(sizeof(gfxoutputdrv_list_t));
@@ -95,6 +93,14 @@ int gfxoutput_init(void)
 #ifdef HAVE_FFMPEG
     gfxoutput_init_ffmpeg();
 #endif
+
+    return 0;
+}
+
+int gfxoutput_init(void)
+{
+    gfxoutput_log = log_open("Graphics Output");
+
     return 0;
 }
 

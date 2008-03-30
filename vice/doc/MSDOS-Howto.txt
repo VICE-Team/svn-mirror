@@ -12,14 +12,14 @@ unpacking VICE sources, often two different filenames become identical after
 8+3 truncation, and it is impossible to distinguish between them. Luckily,
 DJGPP supports long filenames when run in a Windows environment.
 
-First of all, download the required DJGPP files form Simtel
-(http://www.simtel.net/pub/djgpp/) or a mirror. These are the files for a
+First of all, download the required DJGPP files from the official site
+(http://www.delorie.com/pub/djgpp/current/) or a mirror. These are the files for a
 minimum installation, newer version of the files should be fine:
 * from directory v2, djdev203.zip
 * from directory v2gnu, bnu214b.zip, bsh204b.zip, dif28b.zip, fil41b.zip,
-flx254b.zip, gcc332b.zip, gpp332b.zip, grep24b.zip, mak3791b.zip,
-sed407b.zip, shl2011b.zip, txt20b.zip
-* from directory v2tk/allegro, alleg403.zip . Actually, any Allegro from 3.1
+gcc332b.zip, gpp332b.zip, grep24b.zip, mak3791b.zip, sed407b.zip, shl2011b.zip,
+txt20b.zip
+* from directory v2tk/allegro, all403.zip . Actually, any Allegro from 3.1
 on will do. Note that Allegro is distributed as source only, so you will have
 to compile it.
 Follow the instructions to install DJGPP. In short, unpack all the DJGPP ZIP

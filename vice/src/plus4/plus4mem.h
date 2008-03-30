@@ -32,6 +32,8 @@
 #define PLUS4_RAM_SIZE        0x10000
 #define PLUS4_BASIC_ROM_SIZE  0x4000
 #define PLUS4_KERNAL_ROM_SIZE 0x4000
+#define PLUS4_CART8K_SIZE     0x2000
+#define PLUS4_CART16K_SIZE    0x4000
 
 extern BYTE mem_basic_rom[];
 extern BYTE mem_kernal_rom[];

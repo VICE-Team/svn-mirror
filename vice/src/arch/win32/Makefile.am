@@ -99,6 +99,8 @@ libarch_a_SOURCES = \
 	uimon.c \
 	uipetset.c \
 	uipetset.h \
+        uiplus4cart.c \
+	uiplus4cart.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
 	uiram.c \

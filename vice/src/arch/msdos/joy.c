@@ -54,16 +54,55 @@ static joystick_device_t joystick_device_1, joystick_device_2;
 static int set_joystick_device_1(resource_value_t v, void *param)
 {
     joystick_device_t dev = (joystick_device_t)v;
+    joystick_device_t old_joystick_device_1 = joystick_device_1;
 
     joystick_device_1 = dev;
+    if (dev == JOYDEV_NONE && old_joystick_device_1 != JOYDEV_NONE)
+        joystick_set_value_absolute(1, 0);
     return 0;
 }
 
 static int set_joystick_device_2(resource_value_t v, void *param)
 {
     joystick_device_t dev = (joystick_device_t)v;
+    joystick_device_t old_joystick_device_2 = joystick_device_2;
 
     joystick_device_2 = dev;
+    if (dev == JOYDEV_NONE && old_joystick_device_2 != JOYDEV_NONE)
+        joystick_set_value_absolute(2, 0);
+    return 0;
+}
+
+static int joystick_hw_type;
+
+static int set_joystick_hw_type(resource_value_t v, void *param)
+{
+    if (joystick_hw_type != (int)v){
+        int old_joystick_hw_type = joystick_hw_type;
+        int old_num_joysticks = num_joysticks;
+        
+    	joystick_hw_type = (int)v;
+        remove_joystick();
+        if (joystick_hw_type != 0){
+            if(install_joystick(joystick_hw_type)){
+                tui_error("Initialization of joystick device failed");
+                joystick_hw_type = 0;
+            }
+            else if (num_joysticks < 2 && old_num_joysticks >= 2){
+                if (joystick_device_1 == JOYDEV_HW2)
+                    joystick_set_value_absolute(1, 0);
+                if (joystick_device_2 == JOYDEV_HW2)
+                    joystick_set_value_absolute(2, 0);
+            }
+        }
+        if (joystick_hw_type == 0 && old_joystick_hw_type != 0){
+            if (joystick_device_1 == JOYDEV_HW1 || joystick_device_1 == JOYDEV_HW2)
+                joystick_set_value_absolute(1, 0);
+            if (joystick_device_2 == JOYDEV_HW1 || joystick_device_2 == JOYDEV_HW2)
+                joystick_set_value_absolute(2, 0);
+        }
+    }
+    
     return 0;
 }
 
@@ -136,6 +175,8 @@ static const resource_t resources[] = {
       (void *)&keyset2[KEYSET_W], set_keyset2_W, NULL },
     { "KeySet2Fire", RES_INTEGER, (resource_value_t)K_NONE,
       (void *)&keyset2[KEYSET_FIRE], set_keyset2_FIRE, NULL },
+    { "HwJoyType", RES_INTEGER, (resource_value_t)0,
+      (void *)&joystick_hw_type, set_joystick_hw_type, NULL },
     { NULL }
 };
 
@@ -160,14 +201,6 @@ int joystick_init_cmdline_options(void)
 {
     return cmdline_register_options(cmdline_options);
 }
-
-/* ------------------------------------------------------------------------- */
-
-/* Flag: is joystick present?  */
-int number_joysticks = 0;
-
-/* Flag: have we initialized the Allegro joystick driver?  */
-static int joystick_init_done = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -220,27 +253,6 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
 /* Initialize joystick support.  */
 int joy_arch_init(void)
 {
-    if (joystick_init_done)
-        return 0;
-
-    cprintf("Checking for joysticks...");
-
-    if (!install_joystick(JOY_TYPE_2PADS)) {
-	cprintf(" Two joysticks found.");
-	number_joysticks = 2;
-    } else {
-	if (!install_joystick(JOY_TYPE_STANDARD)) {
-            cprintf(" One joystick found.\r\n");
-            number_joysticks = 1;
-        } else {
-            number_joysticks = 0;
-            cprintf(" No joysticks found.\r\n");
-        }
-    }
-
-    joystick_init_done = 1;
-
-
 #ifdef COMMON_KBD
     joystick_port_map[0] = 1;
     joystick_port_map[1] = 2;
@@ -251,7 +263,7 @@ int joy_arch_init(void)
 /* Update the `joystick_value' variables according to the joystick status.  */
 void joystick_update(void)
 {
-    if (number_joysticks == 0)
+    if (num_joysticks == 0)
 	return;
 
     poll_joystick();
@@ -275,7 +287,7 @@ void joystick_update(void)
             joystick_set_value_absolute(2, value);
     }
 
-    if (number_joysticks >= 2
+    if (num_joysticks >= 2
         && (joystick_device_1 == JOYDEV_HW2
             || joystick_device_2 == JOYDEV_HW2)) {
         int value = 0;
@@ -345,7 +357,7 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
             value = 16;
             break;
           default:
-            /* (make compiler happy) */
+            ; /* (make compiler happy) */
         }
 
         if (pressed) {

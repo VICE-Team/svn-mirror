@@ -45,6 +45,7 @@
 #include "debug.h"
 #include "drive.h"
 #include "fullscreen.h"
+#include "gfxoutput.h"
 #include "init.h"
 #include "initcmdline.h"
 #include "lib.h"
@@ -146,7 +147,11 @@ int main_program(int argc, char **argv)
         resources_set_value("SoundBufferSize", (resource_value_t)1000);
         resources_set_value("SoundSuspendTime", (resource_value_t)0);
     } else {
-        int retval = resources_load(NULL);
+        int retval;
+
+        gfxoutput_early_init();
+
+        retval = resources_load(NULL);
 
         if (retval < 0) {
             /* The resource file might contain errors, and thus certain

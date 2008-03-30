@@ -3,6 +3,7 @@
  *
  * Written by
  *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Daniel Aarno <macbishop@users.sourceforge.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,6 +36,7 @@
 #include "sound.h"
 
 
+#warning using ints for pointers, might not be compatible
 static SWORD *sdl_buf = NULL;
 static SDL_AudioSpec sdl_spec;
 static volatile int sdl_inptr = 0;
@@ -106,27 +108,37 @@ static int sdl_write(SWORD *pbuf, size_t nr)
 {
     int			total, amount;
     total = 0;
-    while (total < nr)
-    {
+    
+#ifdef WORDS_BIGENDIAN
+     /* Swap bytes if we're on a big-endian machine, like the Macintosh */
+     swab(pbuf, pbuf, sizeof(SWORD)*nr);
+#endif
+    
+     while (total < nr) {
 	amount = sdl_outptr - sdl_inptr;
+          
 	if (amount <= 0)
 	    amount = sdl_len - sdl_inptr;
+               
 	if ((sdl_inptr + amount)%sdl_len == sdl_outptr)
 	    amount--;
-	if (amount <= 0)
-	{
-/*	    Sleep(5); */
+          
+          if (amount <= 0) {
             usleep(5000);
 	    continue;
 	}
+          
 	if (total + amount > nr)
 	    amount = nr - total;
+          
 	memcpy(sdl_buf + sdl_inptr, pbuf + total, amount*sizeof(SWORD));
 	sdl_inptr += amount;
 	total += amount;
+          
 	if (sdl_inptr == sdl_len)
 	    sdl_inptr = 0;
     }
+     
     return 0;
 }
 

@@ -271,6 +271,7 @@ inline static void ted06_store(const BYTE value)
 {
     int cycle;
     unsigned int line;
+    int old_value;
 
 /*    log_debug("FF06 %03x, %02x",ted.ted_raster_counter, value);*/
 
@@ -298,7 +299,11 @@ inline static void ted06_store(const BYTE value)
 
     ted.raster.blank = !(value & 0x10);        /* `DEN' bit.  */
 
+    old_value = ted.regs[0x06];
     ted.regs[0x06] = value;
+
+    if ((old_value & 0x40) != (value & 0x40))
+        ted_update_memory_ptrs(cycle);
 
     /* FIXME: save time.  */
     ted_update_video_mode(cycle);
@@ -357,6 +362,7 @@ inline static void ted07_store(BYTE value)
 {
     raster_t *raster;
     int cycle;
+    int old_value;
 
     TED_DEBUG_REGISTER(("Control register: $%02X", value));
 
@@ -385,7 +391,12 @@ inline static void ted07_store(BYTE value)
 
     ted.reverse_mode = value & 0x80;
 
+    old_value = ted.regs[0x07];
+
     ted.regs[0x07] = value;
+
+    if ((old_value & 0x90) != (value & 0x90))
+        ted_update_memory_ptrs(cycle);
 
     ted_update_video_mode(cycle);
 }

@@ -234,6 +234,10 @@ SOURCE=.\uipetset.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiplus4cart.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uiplus4mem.c
 # End Source File
 # Begin Source File
