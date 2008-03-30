@@ -44,8 +44,10 @@
 #ifdef __IBMC__
  #define inline _Inline  // This means only a possible inline. See doku.
  #define getcwd _getcwd
- #define R_OK   4
+ #define F_OK   0
  #define W_OK   2
+ #define R_OK   4
+ #define X_OK   6
  typedef int pid_t;
  #ifndef __EXTENDED__
  typedef long off_t;

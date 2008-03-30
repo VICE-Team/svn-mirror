@@ -55,8 +55,10 @@
 #define STDOUT_FILENO       1
 #define STDERR_FILENO       2
 
-#define W_OK                2
 #define R_OK                4
+#define W_OK                2
+#define X_OK                1
+#define F_OK                0
 
 /* This is necessary because on Windows the first function to be called is
    `WinMain()' and not `main()'.  */

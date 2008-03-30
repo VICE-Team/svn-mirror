@@ -122,6 +122,10 @@ SOURCE="..\..\vicii\vicii-sprites.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\vicii\vicii-timing.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\vicii\vicii.c
 # End Source File
 # End Target

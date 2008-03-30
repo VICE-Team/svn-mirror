@@ -154,11 +154,7 @@ SOURCE="..\..\interrupt.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\ioutil.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\ioutil.h
+SOURCE="..\..\ioutil.c"
 # End Source File
 # Begin Source File
 

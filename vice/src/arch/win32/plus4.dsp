@@ -17,8 +17,8 @@ CFG=plus4 - Win32 Debug
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "plus4 - Win32 Release" (basierend auf  "Win32 (x86) Static Library")
-!MESSAGE "plus4 - Win32 Debug" (basierend auf  "Win32 (x86) Static Library")
+!MESSAGE "plus4 - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "plus4 - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -127,6 +127,14 @@ SOURCE=..\..\plus4\plus4rom.c
 # Begin Source File
 
 SOURCE=..\..\plus4\tcbm.c
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\plus4\ted-badline.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\plus4\ted-badline.h"
 # End Source File
 # Begin Source File
 
