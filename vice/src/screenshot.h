@@ -49,6 +49,10 @@ typedef struct screenshot_s {
     /* Offset to the overall screen.  */
     unsigned int x_offset;
     unsigned int y_offset;
+
+    /* Pixel size.  */
+    unsigned int size_width;
+    unsigned int size_height;
 } screenshot_t;
 
 typedef struct screendrv_s {
