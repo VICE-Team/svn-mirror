@@ -287,6 +287,87 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
+	../../src/types.h c64.h ../../src/arch/unix/xaw/c64ui.h \
+	c64cia.h ../../src/cia.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	vicii.h ../../src/maincpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/arch/unix/xaw/xdebug.h ../../src/resources.h \
+	../../src/kbdbuf.h sid.h ../../src/sound.h ../../src/warn.h \
+	reu.h tpi.h ../../src/true1541/true1541.h ../../src/drive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/true1541/1541cpu.h ../../src/tapeunit.h \
+	../../src/tape.h patchrom.h ../../src/utils.h \
+	../../src/arch/unix/kbd.h ../../src/arch/unix/vsync.h c64mem.h \
+	../../src/attach.h ../../src/autostart.h
+c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h \
+	../../src/vmachine.h ../../src/cia.h ../../src/types.h vicii.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
+	../../src/6510core.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/arch/unix/xaw/xdebug.h ../../src/resources.h \
+	../../src/arch/unix/kbd.h
+c64cia2.o: c64cia2.c ../../src/vice.h ../../src/config.h \
+	../../src/vmachine.h ../../src/cia.h ../../src/types.h vicii.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
+	../../src/6510core.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/arch/unix/xaw/xdebug.h ../../src/resources.h \
+	../../src/true1541/true1541.h ../../src/drive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/true1541/1541cpu.h c64mem.h c64iec.h \
+	../../src/iecdrive.h c64cia.h
+c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/true1541/viad.h \
+	../../src/types.h ../../src/via.h ../../src/iecdrive.h \
+	../../src/true1541/true1541.h ../../src/drive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/true1541/1541cpu.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h c64cia.h \
+	../../src/cia.h
+c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
+	../../src/vmachine.h ../../src/interrupt.h ../../src/types.h \
+	../../src/6510core.h ../../src/mem.h \
+	../../src/true1541/true1541.h ../../src/drive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/true1541/1541cpu.h ../../src/mos6510.h \
+	../../src/mon.h c64mem.h c64cia.h ../../src/cia.h \
+	../../src/resources.h ../../src/cmdline.h vicii.h \
+	../../src/maincpu.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/arch/unix/xaw/xdebug.h \
+	sid.h ../../src/sound.h ../../src/warn.h ../../src/memutils.h \
+	../../src/parallel.h tpi.h reu.h ../../src/tapeunit.h \
+	../../src/tape.h ../../src/utils.h patchrom.h
+patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
+	../../src/mem.h ../../src/types.h patchrom.h
+reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h ../../src/types.h \
+	../../src/resources.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/utils.h
+sid.o: sid.c ../../src/vice.h ../../src/config.h sid.h ../../src/sound.h \
+	../../src/types.h ../../src/warn.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/utils.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/mos6510.h ../../src/6510core.h \
+	../../src/mon.h ../../src/interrupt.h ../../src/vmachine.h \
+	wave6581.h wave8580.h
+tpi.o: tpi.c ../../src/vice.h ../../src/config.h ../../src/types.h \
+	../../src/parallel.h tpi.h
+vicii.o: vicii.c ../../src/vice.h ../../src/config.h vicii.h \
+	../../src/maincpu.h ../../src/types.h ../../src/mem.h \
+	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/vmachine.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/arch/unix/xaw/xdebug.h ../../src/resources.h c64.h \
+	../../src/cmdline.h ../../src/utils.h ../../src/raster.h \
+	sprites.h sprcycles.h sprcrunch.h ../../src/raster.c \
+	../../src/arch/unix/vsync.h
 
 info: info-recursive
 dvi: dvi-recursive
