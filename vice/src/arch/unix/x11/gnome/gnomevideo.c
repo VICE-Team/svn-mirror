@@ -115,10 +115,10 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 
 GC video_get_gc(void *not_used)
 {
-    return (GC) app_gc;
+    return (GC)app_gc;
 }
 
-void video_add_handlers(ui_window_t w) 
+void video_add_handlers(video_canvas_t *canvas) 
 {
 }
 
