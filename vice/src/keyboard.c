@@ -207,29 +207,32 @@ static void keyboard_key_deshift(void)
     keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
 }
 
+static void keyboard_key_shift(void)
+{
+    if (left_shift_down > 0
+        || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
+        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+    if (right_shift_down > 0
+        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
+        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+}
+
 static int keyboard_key_pressed_matrix(int row, int column, int shift)
 {
     if (row >= 0) {
         key_latch_row = row;
         key_latch_column = column;
 
-        if (shift == NO_SHIFT) {
+        if (shift == NO_SHIFT || shift & DESHIFT_SHIFT) {
             keyboard_key_deshift();
         } else {
             if (shift & VIRTUAL_SHIFT)
                 virtual_shift_down = 1;
             if (shift & LEFT_SHIFT)
                 left_shift_down = 1;
-            if (left_shift_down > 0
-                || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
-                keyboard_set_latch_keyarr(kbd_lshiftrow,
-                                          kbd_lshiftcol, 1);
             if (shift & RIGHT_SHIFT)
                 right_shift_down = 1;
-            if (right_shift_down > 0
-                || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
-                keyboard_set_latch_keyarr(kbd_rshiftrow,
-                                          kbd_rshiftcol, 1);
+            keyboard_key_shift();
         }
 
         return 1;

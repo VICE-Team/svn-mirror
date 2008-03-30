@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "archdep.h"
+#include "lib.h"
 #include "resources.h"
 #include "utils.h"
 
