@@ -52,7 +52,7 @@ static BYTE From_GCR_conv_data[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
 				       0, 0, 2, 3, 0,15, 6, 7,
 				       0, 9,10,11, 0,13,14, 0 };
 
-void convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr)
+void gcr_convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr)
 {
     *ptr = GCR_conv_data[(*buffer) >> 4] << 3;
     *ptr |= GCR_conv_data[(*buffer) & 0x0f] >> 2;
@@ -79,7 +79,7 @@ void convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr)
     *ptr |= GCR_conv_data[(*buffer) & 0x0f];
 }
 
-void convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr)
+void gcr_convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr)
 {
     BYTE gcr_bytes[8];
     int i;
@@ -107,8 +107,9 @@ void convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr)
     }
 }
 
-void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track, int sector,
-                           BYTE diskID1, BYTE diskID2, BYTE error_code)
+void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, unsigned int track,
+                               unsigned int sector, BYTE diskID1, BYTE diskID2,
+                               BYTE error_code)
 {
     int i;
     BYTE buf[4], header_id1;
@@ -126,13 +127,13 @@ void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track, int sector,
     if (error_code == 27)
         buf[1] ^= 0xff;
 
-    convert_4bytes_to_GCR(buf, ptr);
+    gcr_convert_4bytes_to_GCR(buf, ptr);
     ptr += 5;
 
     buf[0] = diskID2;
     buf[1] = header_id1;
     buf[2] = buf[3] = 0x0f;
-    convert_4bytes_to_GCR(buf, ptr);
+    gcr_convert_4bytes_to_GCR(buf, ptr);
     ptr += 5;
 
     memset(ptr, 0x55, 9);	/* Header Gap */
@@ -142,7 +143,7 @@ void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track, int sector,
     ptr += 5;
 
     for (i = 0; i < 65; i++) {
-	convert_4bytes_to_GCR(buffer, ptr);
+	gcr_convert_4bytes_to_GCR(buffer, ptr);
 	buffer += 4;
 	ptr += 5;
     }
@@ -153,9 +154,9 @@ void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track, int sector,
 
 }
 
-void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
-                           BYTE *GCR_track_start_ptr,
-                           int GCR_current_track_size)
+void gcr_convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
+                               BYTE *GCR_track_start_ptr,
+                               unsigned int GCR_current_track_size)
 {
     BYTE *offset = ptr;
     BYTE *GCR_track_end = GCR_track_start_ptr + GCR_current_track_size;
@@ -168,14 +169,14 @@ void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
             if (offset >= GCR_track_end)
                 offset = GCR_track_start_ptr;
         }
-        convert_GCR_to_4bytes(GCR_header, buffer);
+        gcr_convert_GCR_to_4bytes(GCR_header, buffer);
         buffer += 4;
     }
 }
 
-BYTE *gcr_find_sector_header(int track, int sector,
+BYTE *gcr_find_sector_header(unsigned int track, unsigned int sector,
                              BYTE *gcr_track_start_ptr,
-                             int gcr_current_track_size)
+                             unsigned int gcr_current_track_size)
 {
     BYTE *offset = gcr_track_start_ptr;
     BYTE *GCR_track_end = gcr_track_start_ptr + gcr_current_track_size;
@@ -208,7 +209,7 @@ BYTE *gcr_find_sector_header(int track, int sector,
             }
         }
 
-        convert_GCR_to_4bytes(GCR_header, header_data);
+        gcr_convert_GCR_to_4bytes(GCR_header, header_data);
 
         if (header_data[0] == 0x08) {
             /* FIXME: Add some sanity checks here.  */
@@ -221,7 +222,7 @@ BYTE *gcr_find_sector_header(int track, int sector,
 
 BYTE *gcr_find_sector_data(BYTE *offset,
                            BYTE *gcr_track_start_ptr,
-                           int gcr_current_track_size)
+                           unsigned int gcr_current_track_size)
 {
     BYTE *GCR_track_end = gcr_track_start_ptr + gcr_current_track_size;
     int header = 0;
@@ -243,8 +244,9 @@ BYTE *gcr_find_sector_data(BYTE *offset,
     return offset;
 }
 
-int gcr_read_sector(BYTE *gcr_track_start_ptr, int gcr_current_track_size,
-                    BYTE *readdata, int track, int sector)
+int gcr_read_sector(BYTE *gcr_track_start_ptr,
+                    unsigned int gcr_current_track_size, BYTE *readdata,
+                    unsigned int track, unsigned int sector)
 {
     BYTE buffer[260], *offset;
 
@@ -259,8 +261,8 @@ int gcr_read_sector(BYTE *gcr_track_start_ptr, int gcr_current_track_size,
     if (offset == NULL)
         return -1;
 
-    convert_GCR_to_sector(buffer, offset, gcr_track_start_ptr,
-                          gcr_current_track_size);
+    gcr_convert_GCR_to_sector(buffer, offset, gcr_track_start_ptr,
+                              gcr_current_track_size);
     if (buffer[0] != 0x7)
         return -1;
 
@@ -268,8 +270,9 @@ int gcr_read_sector(BYTE *gcr_track_start_ptr, int gcr_current_track_size,
     return 0;
 }
 
-int gcr_write_sector(BYTE *gcr_track_start_ptr, int gcr_current_track_size,
-                     BYTE *writedata, int track, int sector)
+int gcr_write_sector(BYTE *gcr_track_start_ptr,
+                     unsigned int gcr_current_track_size, BYTE *writedata,
+                     unsigned int track, unsigned int sector)
 {
     BYTE buffer[260], gcr_buffer[325], *offset, *buf, *gcr_data;
     BYTE chksum;
@@ -296,7 +299,7 @@ int gcr_write_sector(BYTE *gcr_track_start_ptr, int gcr_current_track_size,
     gcr_data = gcr_buffer;
 
     for (i = 0; i < 65; i++) {
-        convert_4bytes_to_GCR(buf, gcr_data);
+        gcr_convert_4bytes_to_GCR(buf, gcr_data);
         buf += 4;
         gcr_data += 5;
     }

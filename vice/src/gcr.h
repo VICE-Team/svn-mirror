@@ -44,31 +44,33 @@ typedef struct gcr_s {
     BYTE speed_zone[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
 
     /* Size of the GCR data of each track.  */
-    int track_size[MAX_GCR_TRACKS];
+    unsigned int track_size[MAX_GCR_TRACKS];
 
 } gcr_t;
 
-extern void convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr);
-extern void convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr);
-extern void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr,
-				  int track, int sector,
-				  BYTE diskID1, BYTE diskID2, BYTE error_code);
-extern void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
-				  BYTE *GCR_track_start_ptr,
-				  int GCR_current_track_size);
+extern void gcr_convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr);
+extern void gcr_convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr);
+extern void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr,
+                                      unsigned int track, unsigned int sector,
+                                      BYTE diskID1, BYTE diskID2,
+                                      BYTE error_code);
+extern void gcr_convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
+                                      BYTE *GCR_track_start_ptr,
+                                      unsigned int GCR_current_track_size);
 
-extern BYTE *gcr_find_sector_header(int track, int sector,
+extern BYTE *gcr_find_sector_header(unsigned int track, unsigned int sector,
                                     BYTE *gcr_track_start_ptr,
-                                    int gcr_current_track_size);
+                                    unsigned int gcr_current_track_size);
 extern BYTE *gcr_find_sector_data(BYTE *offset,
                                   BYTE *gcr_track_start_ptr,
-                                  int gcr_current_track_size);
+                                  unsigned int gcr_current_track_size);
 extern int gcr_read_sector(BYTE *gcr_track_start_ptr,
-                           int gcr_current_track_size,
-                           BYTE *readdata, int track, int sector);
+                           unsigned int gcr_current_track_size, BYTE *readdata,
+                           unsigned int track, unsigned int sector);
 extern int gcr_write_sector(BYTE *gcr_track_start_ptr,
-                            int gcr_current_track_size, BYTE *writedata,
-                            int track, int sector);
+                            unsigned int gcr_current_track_size,
+                            BYTE *writedata,
+                            unsigned int track, unsigned int sector);
 
 extern gcr_t *gcr_create_image(void);
 extern void gcr_destroy_image(gcr_t *gcr);
