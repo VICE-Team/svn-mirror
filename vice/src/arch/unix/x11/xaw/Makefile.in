@@ -73,6 +73,7 @@ CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
 FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
+GFXOUTPUT_DRIVERS = @GFXOUTPUT_DRIVERS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 HAVE_READLINE = @HAVE_READLINE@
@@ -100,7 +101,6 @@ RESID_DEP = @RESID_DEP@
 RESID_DIR = @RESID_DIR@
 RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
-SCREENSHOT_DRIVERS = @SCREENSHOT_DRIVERS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -376,7 +376,7 @@ uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/x11/x11menu.h
 uiscreenshot.o: uiscreenshot.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
-	../../../../../src/screenshot.h \
+	../../../../../src/gfxoutput.h ../../../../../src/screenshot.h \
 	../../../../../src/arch/unix/types.h uimenu.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
 	uiarch.h ../../../../../src/arch/unix/uihotkey.h ../x11menu.h \

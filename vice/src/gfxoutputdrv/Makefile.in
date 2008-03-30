@@ -10,7 +10,7 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# Makefile.am for the OS2 version of `libui.a'.
+# Makefile.am for `libgfxoutputdrv.a'.
 
 
 SHELL = @SHELL@
@@ -40,7 +40,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../../..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -130,24 +130,37 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-noinst_LIBRARIES = libui.a
+INCLUDES =  	@ARCH_INCLUDES@         -I$(top_builddir)/src 	-I$(top_srcdir)/src
 
-libui_a_SOURCES =          c128ui.c         c128ui.h 	c64ui.c 	c64ui.h         c610ui.c         c610ui.h         vic20ui.c         vic20ui.h 	petui.c 	petui.h 
 
+noinst_LIBRARIES = libgfxoutputdrv.a
+
+# These sources are linked only under certain circumstances.
+EXTRA_libgfxoutputdrv_a_SOURCES =  	pngdrv.c 	pngdrv.h
+
+
+# These sources are always built.
+libgfxoutputdrv_a_SOURCES =  	bmpdrv.c 	bmpdrv.h 	gfxoutput.c
+
+
+libgfxoutputdrv_a_DEPENDENCIES = @GFXOUTPUT_DRIVERS@
+
+libgfxoutputdrv_a_LIBADD = @GFXOUTPUT_DRIVERS@
+
+EXTRA_DIST = 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../../src/config.h
+CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libui_a_LIBADD = 
-libui_a_OBJECTS =  c128ui.o c64ui.o c610ui.o vic20ui.o petui.o
+libgfxoutputdrv_a_OBJECTS =  bmpdrv.o gfxoutput.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -159,14 +172,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libui_a_SOURCES)
-OBJECTS = $(libui_a_OBJECTS)
+SOURCES = $(libgfxoutputdrv_a_SOURCES) $(EXTRA_libgfxoutputdrv_a_SOURCES)
+OBJECTS = $(libgfxoutputdrv_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/os2/ui/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/gfxoutputdrv/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -201,10 +214,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libui.a: $(libui_a_OBJECTS) $(libui_a_DEPENDENCIES)
-	-rm -f libui.a
-	$(AR) cru libui.a $(libui_a_OBJECTS) $(libui_a_LIBADD)
-	$(RANLIB) libui.a
+libgfxoutputdrv.a: $(libgfxoutputdrv_a_OBJECTS) $(libgfxoutputdrv_a_DEPENDENCIES)
+	-rm -f libgfxoutputdrv.a
+	$(AR) cru libgfxoutputdrv.a $(libgfxoutputdrv_a_OBJECTS) $(libgfxoutputdrv_a_LIBADD)
+	$(RANLIB) libgfxoutputdrv.a
 
 tags: TAGS
 
@@ -237,7 +250,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/os2/ui
+subdir = src/gfxoutputdrv
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -250,6 +263,27 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+bmp.o: bmp.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/log.h ../../src/gfxoutput.h ../../src/palette.h \
+	../../src/arch/unix/types.h ../../src/screenshot.h \
+	../../src/utils.h
+bmpdrv.o: bmpdrv.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/log.h ../../src/gfxoutput.h ../../src/palette.h \
+	../../src/arch/unix/types.h ../../src/screenshot.h \
+	../../src/utils.h
+gfxoutput.o: gfxoutput.c ../../src/vice.h ../../src/config.h bmpdrv.h \
+	../../src/gfxoutput.h pngdrv.h ../../src/log.h \
+	../../src/utils.h ../../src/arch/unix/types.h
+png.o: png.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/gfxoutput.h ../../src/screenshot.h \
+	../../src/arch/unix/types.h ../../src/utils.h
+pngdrv.o: pngdrv.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/gfxoutput.h ../../src/screenshot.h \
+	../../src/arch/unix/types.h ../../src/utils.h
 
 info-am:
 info: info-am

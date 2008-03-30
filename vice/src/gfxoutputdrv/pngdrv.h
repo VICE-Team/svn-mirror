@@ -1,5 +1,5 @@
 /*
- * version.h
+ * pngdrv.h - Create a PNG file.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
@@ -24,15 +24,10 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _PNGDRV_H
+#define _PNGDRV_H
 
-#ifndef VERSION
-#define VERSION "1.7.4"
-#endif
-
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+extern void gfxoutput_init_png(void);
 
 #endif
+

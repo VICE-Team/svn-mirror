@@ -721,7 +721,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.7.3
+VERSION=1.7.4
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6060,7 +6060,7 @@ fi
 fi
 
 
-SCREENSHOT_DRIVERS=""
+GFXOUTPUT_DRIVERS=""
 
 if test x"$is_dos" != "xyes" -a x"$is_beos" != "xyes"; then
     ac_safe=`echo "png.h" | sed 'y%./+-%__p_%'`
@@ -6134,7 +6134,7 @@ fi
 if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
   echo "$ac_t""yes" 1>&6
    LIBS="-lpng $LIBS";
-                   SCREENSHOT_DRIVERS="$SCREENSHOT_DRIVERS png.o";
+                   GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
                    cat >> confdefs.h <<\EOF
 #define HAVE_PNG 1
 EOF
@@ -6181,7 +6181,7 @@ fi
 if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
   echo "$ac_t""yes" 1>&6
    LIBS="-lpng -lz $LIBS";
-                     SCREENSHOT_DRIVERS="$SCREENSHOT_DRIVERS png.o";
+                     GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
                      cat >> confdefs.h <<\EOF
 #define HAVE_PNG 1
 EOF
@@ -8423,11 +8423,11 @@ if false ; then
     mkdir -p cbm2
     mkdir -p crtc
     mkdir -p drive
+    mkdir -p gfxoutputdrv
     mkdir -p monitor
     mkdir -p pet
     mkdir -p printerdrv
     mkdir -p resid
-    mkdir -p screendrv
     mkdir -p sid
     mkdir -p sounddrv
     mkdir -p vdc
@@ -8586,11 +8586,11 @@ trap 'rm -fr `echo "Makefile
            src/cbm2/Makefile
            src/crtc/Makefile
            src/drive/Makefile
+           src/gfxoutputdrv/Makefile
            src/monitor/Makefile
            src/pet/Makefile
-           src/raster/Makefile
-           src/screendrv/Makefile
            src/printerdrv/Makefile
+           src/raster/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/vdc/Makefile
@@ -8703,7 +8703,7 @@ s%@LIBOBJS@%$LIBOBJS%g
 s%@NEED_READLINE_TRUE@%$NEED_READLINE_TRUE%g
 s%@NEED_READLINE_FALSE@%$NEED_READLINE_FALSE%g
 s%@READLINE@%$READLINE%g
-s%@SCREENSHOT_DRIVERS@%$SCREENSHOT_DRIVERS%g
+s%@GFXOUTPUT_DRIVERS@%$GFXOUTPUT_DRIVERS%g
 s%@X_CFLAGS@%$X_CFLAGS%g
 s%@X_PRE_LIBS@%$X_PRE_LIBS%g
 s%@X_LIBS@%$X_LIBS%g
@@ -8820,11 +8820,11 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/cbm2/Makefile
            src/crtc/Makefile
            src/drive/Makefile
+           src/gfxoutputdrv/Makefile
            src/monitor/Makefile
            src/pet/Makefile
-           src/raster/Makefile
-           src/screendrv/Makefile
            src/printerdrv/Makefile
+           src/raster/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/vdc/Makefile

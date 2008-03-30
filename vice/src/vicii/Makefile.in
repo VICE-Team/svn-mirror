@@ -73,6 +73,7 @@ CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
 FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
+GFXOUTPUT_DRIVERS = @GFXOUTPUT_DRIVERS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 HAVE_READLINE = @HAVE_READLINE@
@@ -100,7 +101,6 @@ RESID_DEP = @RESID_DEP@
 RESID_DIR = @RESID_DIR@
 RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
-SCREENSHOT_DRIVERS = @SCREENSHOT_DRIVERS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -258,7 +258,7 @@ vicii-cmdline-options.o: vicii-cmdline-options.c ../../src/vice.h \
 	viciitypes.h ../../src/alarm.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	vicii-mem.h
-vicii-color.o: vicii-color.c ../../src/palette.h \
+vicii-color.o: vicii-color.c vicii-color.h ../../src/palette.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h
 vicii-draw.o: vicii-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-cache.h \
