@@ -1456,12 +1456,10 @@ struct dis_private
 } dis_private_t;
 
 /* window procedure */
-static 
-long CALLBACK dis_window_proc(HWND hwnd, 
-	UINT msg, WPARAM wParam, LPARAM lParam)
-
+static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
+                                     LPARAM lParam)
 {
-	dis_private_t *pdp = (dis_private_t*) GetWindowLong( hwnd, GWL_USERDATA );
+	dis_private_t *pdp = (dis_private_t*)GetWindowLong(hwnd, GWL_USERDATA);
 
 	switch (msg)
 	{
@@ -1568,7 +1566,7 @@ long CALLBACK dis_window_proc(HWND hwnd,
     case WM_VSCROLL:
         {
             SCROLLINFO ScrollInfo;
-            BOOLEAN    changed;
+            BOOLEAN    changed = FALSE;
 
             ScrollInfo.cbSize = sizeof(ScrollInfo);
             ScrollInfo.fMask  = SIF_POS|SIF_TRACKPOS;
