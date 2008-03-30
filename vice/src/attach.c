@@ -57,10 +57,9 @@ typedef struct {
 
 static file_system_t file_system[4];
 
-static log_t attach_log = LOG_ERR;
+static log_t attach_log = LOG_DEFAULT;
 
 static unsigned int attach_device_readonly_enabled[4];
-static unsigned int attach_device_raw_enabled[4];
 static unsigned int file_system_device_enabled[4];
 
 static int set_attach_device_readonly(resource_value_t v, void *param);
@@ -215,6 +214,8 @@ void *file_system_get_vdrive(unsigned int unit)
 const char *file_system_get_disk_name(unsigned int unit)
 {
     vdrive_t *vdrive;
+    fsimage_t *fsimage;
+
     vdrive = file_system_get_vdrive(unit);
 
     if (vdrive == NULL)
@@ -222,7 +223,9 @@ const char *file_system_get_disk_name(unsigned int unit)
     if (vdrive->image == NULL)
         return NULL;
 
-    return vdrive->image->name;
+    fsimage = (fsimage_t *)(vdrive->image->media);
+
+    return fsimage->name;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -294,8 +297,11 @@ static int set_file_system_device(resource_value_t v, void *param)
         break;
 #if HAVE_OPENCBM
       case ATTACH_DEVICE_REAL:
-        if (serial_realdevice_enable() < 0)
-            return -1;
+        if (serial_realdevice_enable() < 0) {
+            log_warning(attach_log, "Falling back to fs device.");
+            return set_file_system_device((resource_value_t)ATTACH_DEVICE_FS,
+                                          param);
+        }
         if (vdrive != NULL && vdrive->image != NULL) {
             detach_disk_image_and_free(vdrive->image, vdrive, unit);
             ui_display_drive_current_image(unit - 8, "");
@@ -370,19 +376,25 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     disk_image_t *image;
     disk_image_t new_image;
     int err = -1;
+    fsimage_t *fsimage;
 
     if (filename == NULL) {
         log_error(attach_log, "No name, cannot attach floppy image.");
         return -1;
     }
 
-    new_image.name = stralloc(filename);
+    fsimage = (fsimage_t *)xmalloc(sizeof(fsimage_t));
+
     new_image.gcr = NULL;
     new_image.read_only = attach_device_readonly_enabled[unit - 8];
-    new_image.raw = attach_device_raw_enabled[unit - 8];
+    new_image.device = DISK_IMAGE_DEVICE_FS;
+    new_image.media = fsimage;
+
+    fsimage->name = stralloc(filename);
 
     if (disk_image_open(&new_image) < 0) {
-        free(new_image.name);
+        free(fsimage->name);
+        free(fsimage);
         return -1;
     }
 
@@ -414,7 +426,8 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
         break;
     }
     if (err) {
-        free(image->name);
+        free(fsimage->name);
+        free(fsimage);
         free(image);
         *imgptr = NULL;
     }

@@ -601,14 +601,23 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
                            unsigned int unit)
 {
     disk_image_t *image;
+    fsimage_t *fsimage;
 
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
-    image->name = stralloc(name);
+    fsimage = (fsimage_t *)xmalloc(sizeof(fsimage_t));
+
+    image->media = fsimage;
+    image->device = DISK_IMAGE_DEVICE_FS;
+
     image->gcr = gcr_create_image();
     image->read_only = 0;
 
+    fsimage->name = stralloc(name);
+
     if (disk_image_open(image) < 0) {
-        free(image->name);
+        free(fsimage->name);
+        free(fsimage);
+        free(image);
         fprintf(stderr, "Cannot open file `%s'", name);
         return -1;
     }
@@ -630,6 +639,7 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
         vdrive_detach_image(image, unit, vdrive);
         gcr_destroy_image(image->gcr);
         disk_image_close(image);
+        free(image->media);
         free(image);
     }
 }

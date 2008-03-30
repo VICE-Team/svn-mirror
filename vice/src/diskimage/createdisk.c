@@ -52,6 +52,9 @@ static int disk_image_create_gcr(disk_image_t *image)
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
     unsigned int track, sector;
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
 
     strcpy((char *)gcr_header, "GCR-1541");
 
@@ -60,7 +63,7 @@ static int disk_image_create_gcr(disk_image_t *image)
     gcr_header[10] = 7928 % 256;
     gcr_header[11] = 7928 / 256;
 
-    if (fwrite((char *)gcr_header, sizeof(gcr_header), 1, image->fd) < 1) {
+    if (fwrite((char *)gcr_header, sizeof(gcr_header), 1, fsimage->fd) < 1) {
         log_error(createdisk_log, "Cannot write GCR header.");
         return -1;
     }
@@ -72,11 +75,11 @@ static int disk_image_create_gcr(disk_image_t *image)
         gcr_speed_p[track * 2 + 1] = 0;
     }
 
-    if (util_dword_write(image->fd, gcr_track_p, sizeof(gcr_track_p)) < 0) {
+    if (util_dword_write(fsimage->fd, gcr_track_p, sizeof(gcr_track_p)) < 0) {
         log_error(createdisk_log, "Cannot write track header.");
         return -1;
     }
-    if (util_dword_write(image->fd, gcr_speed_p, sizeof(gcr_speed_p)) < 0) {
+    if (util_dword_write(fsimage->fd, gcr_speed_p, sizeof(gcr_speed_p)) < 0) {
         log_error(createdisk_log, "Cannot write speed header.");
         return -1;
     }
@@ -106,7 +109,7 @@ static int disk_image_create_gcr(disk_image_t *image)
                                       id[0], id[1], 0);
             gcrptr += 360;
         }
-        if (fwrite((char *)gcr_track, sizeof(gcr_track), 1, image->fd) < 1 ) {
+        if (fwrite((char *)gcr_track, sizeof(gcr_track), 1, fsimage->fd) < 1 ) {
             log_error(createdisk_log, "Cannot write track data.");
             return -1;
         }
@@ -123,6 +126,7 @@ int disk_image_create(const char *name, unsigned int type)
     disk_image_t *image;
     unsigned int size, i;
     BYTE block[256];
+    fsimage_t *fsimage;
 
     size = 0;
 
@@ -157,13 +161,21 @@ int disk_image_create(const char *name, unsigned int type)
     }
 
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
-    image->name = stralloc(name);
+    fsimage = (fsimage_t *)xmalloc(sizeof(fsimage_t));
 
-    image->fd = fopen(image->name, MODE_WRITE);
 
-    if (image->fd == NULL) {
+    image->media = fsimage;
+    image->device = DISK_IMAGE_DEVICE_FS;
+
+    fsimage->name = stralloc(name);
+    fsimage->fd = fopen(name, MODE_WRITE);
+
+    if (fsimage->fd == NULL) {
         log_error(createdisk_log, "Cannot create disk image `%s'.",
-                  image->name);
+                  fsimage->name);
+        free(fsimage->name);
+        free(fsimage);
+        free(image);
         return -1;
     }
 
@@ -186,10 +198,10 @@ int disk_image_create(const char *name, unsigned int type)
             header[X64_HEADER_FLAGS_OFFSET + 1] = NUM_TRACKS_1541;
             header[X64_HEADER_FLAGS_OFFSET + 2] = 1;
             header[X64_HEADER_FLAGS_OFFSET + 3] = 0;
-            if (fwrite(header, X64_HEADER_LENGTH, 1, image->fd) < 1) {
+            if (fwrite(header, X64_HEADER_LENGTH, 1, fsimage->fd) < 1) {
                 log_error(createdisk_log,
                           "Cannot write X64 header to disk image `%s'.",
-                          image->name);
+                          fsimage->name);
             }
 
         }
@@ -201,12 +213,13 @@ int disk_image_create(const char *name, unsigned int type)
       case DISK_IMAGE_TYPE_D80:
       case DISK_IMAGE_TYPE_D82:
         for (i = 0; i < (size / 256); i++) {
-            if (fwrite(block, 256, 1, image->fd) < 1) {
+            if (fwrite(block, 256, 1, fsimage->fd) < 1) {
                 log_error(createdisk_log,
                           "Cannot seek to end of disk image `%s'.",
-                          image->name);
-                fclose(image->fd);
-                free(image->name);
+                          fsimage->name);
+                fclose(fsimage->fd);
+                free(fsimage->name);
+                free(fsimage);
                 free(image);
                 return -1;
             }
@@ -214,8 +227,9 @@ int disk_image_create(const char *name, unsigned int type)
         break;
       case DISK_IMAGE_TYPE_G64:
         if (disk_image_create_gcr(image) < 0) {
-            fclose(image->fd);
-            free(image->name);
+            fclose(fsimage->fd);
+            free(fsimage->name);
+            free(fsimage);
             free(image);
             return -1;
         }
@@ -225,17 +239,19 @@ int disk_image_create(const char *name, unsigned int type)
         strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C64-TAPE-RAW");
         block[TAP_HDR_VERSION] = 1;
         util_dword_to_le_buf(&block[TAP_HDR_LEN], 4);
-        if (fwrite(block, 24, 1, image->fd) < 1) {
-            fclose(image->fd);
-            free(image->name);
+        if (fwrite(block, 24, 1, fsimage->fd) < 1) {
+            fclose(fsimage->fd);
+            free(fsimage->name);
+            free(fsimage);
             free(image);
             return -1;
         }
 
     }
 
-    fclose(image->fd);
-    free(image->name);
+    fclose(fsimage->fd);
+    free(fsimage->name);
+    free(fsimage);
     free(image);
     return 0;
 }

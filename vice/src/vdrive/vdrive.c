@@ -47,6 +47,7 @@
 #endif
 
 #include "archdep.h"
+#include "attach.h"
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "fsdevice.h"
@@ -300,8 +301,12 @@ int vdrive_get_max_sectors(unsigned int type, unsigned int track)
 static void vdrive_detach_image_log(unsigned int unit, const char *type,
                                     disk_image_t *image)
 {
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
+
     log_message(vdrive_log, "Unit %d: %s disk image detached: %s.",
-                unit, type, image->name);
+                unit, type, fsimage->name);
 }
 
 void vdrive_detach_image(disk_image_t *image, unsigned int unit,
@@ -342,8 +347,12 @@ void vdrive_detach_image(disk_image_t *image, unsigned int unit,
 static void vdrive_attach_image_log(unsigned int unit, const char *type,
                                     disk_image_t *image)
 {
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
+
     log_message(vdrive_log, "Unit %d: %s disk image attached: %s.",
-                unit, type, image->name);
+                unit, type, fsimage->name);
 }
 
 int vdrive_attach_image(disk_image_t *image, unsigned int unit,
@@ -538,14 +547,22 @@ vdrive_t *vdrive_internal_open_disk_image(const char *name,
 {
     vdrive_t *vdrive;
     disk_image_t *image;
+    fsimage_t *fsimage;
 
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
-    image->name = stralloc(name);
+    fsimage = (fsimage_t *)xmalloc(sizeof(fsimage_t));
+
+    image->media = fsimage;
+    image->device = DISK_IMAGE_DEVICE_FS;
     image->gcr = NULL;
     image->read_only = read_only;
 
+    fsimage->name = stralloc(name);
+
     if (disk_image_open(image) < 0) {
-        free(image->name);
+        free(fsimage->name);
+        free(fsimage);
+        free(image);
         log_error(LOG_ERR, "Cannot open file `%s'", name);
         return NULL;
     }
