@@ -1,3 +1,42 @@
+1999-06-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.37.
+
+	* drive/drive.c (drive_read_image_gcr): Use disk image access
+	function instead.
+	(drive_detach_image): Clear the read only bit if no disk is
+	inserted.
+
+	* c1541.c: Adapted to new attach routines.
+
+	* attach.c (file_system_attach_disk): Only change type of drive if
+	the disk image could be attached successfully.
+	(detach_disk_image): Only detach disk if there is a disk to
+	detach.
+
+	* vdrive/vdrive.h, vdrive/vdrive-iec.c, vdrive/vdrive.c: Changed
+	`ReadOnly' to `read_only'.
+
+1998-06-13  Markus Brenner  <brenner@biochem.mpg.de>
+
+	* vdc/*: Moved VDC implementation here.
+
+1998-06-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* cbm2/c610mem.c (crtc_ptr): removed
+	(store_io, read_io): do not use saved crtc register index
+	* pet/petmem.c: likewise
+
+	* crtc/crtc-draw.c (DRAW): fix ycounter
+	(draw_standard_line, draw_reverse_line): use disp_char instead of 
+	memptr_inc
+
+	* crtc/crtc-mem.c (store_crtc): adapt to new crtc code
+	* crtc/crtc.c: fixes
+	(crtc_raster_draw_alarm_handler): adapt to new crtc code
+
+	* crtc/crtc.h (crtc_t): new entries
+
 1999-06-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.36.
