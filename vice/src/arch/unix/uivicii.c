@@ -54,6 +54,8 @@ static ui_menu_entry_t palette_submenu[] = {
       (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"godot", NULL },
     { "*PC64",
       (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"pc64", NULL },
+    { "*C64HQ",
+      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"c64hq", NULL },
     { "--" },
     { N_("Load custom"),
       (ui_callback_t)ui_load_palette,
