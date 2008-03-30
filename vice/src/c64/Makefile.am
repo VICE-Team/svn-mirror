@@ -29,6 +29,8 @@ libc64_a_SOURCES = \
 	c64cia2.c \
 	c64datasette.c \
 	c64drive.c \
+	c64export.c \
+	c64export.h \
 	c64fastiec.c \
 	c64fastiec.h \
 	c64iec.c \
@@ -80,6 +82,8 @@ libc64c128_a_SOURCES = \
 	c64cia.h \
 	c64cia2.c \
 	c64datasette.c \
+	c64export.c \
+	c64export.h \
 	c64iec.c \
 	c64iec.h \
 	c64io.c \
