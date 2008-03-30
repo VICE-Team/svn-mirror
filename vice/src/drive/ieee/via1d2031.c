@@ -52,7 +52,6 @@ typedef struct drivevia1_context_s {
     struct drive_s *drive;
     int parallel_id;
     int v_parieee_is_out;         /* init to 1 */
-    struct iec_info_s *v_iec_info;
 } drivevia1_context_t;
 
 
@@ -248,15 +247,6 @@ static void reset(via_context_t *via_context)
     parallel_drivex_set_bus(0xff);
 
     parieee_is_out = 1;
-
-#if 0
-    iec_info = iec_get_drive_port();
-    if (iec_info) {
-        iec_info->drive_bus = 0xff;
-        iec_info->drive_data = 0xff;
-        iec_info = NULL;
-    }
-#endif
 }
 
 inline static BYTE read_pra(via_context_t *via_context, WORD addr)

@@ -50,20 +50,6 @@ extern BYTE parallel_cable_drive_read(int handshake);
 extern void iec_update_cpu_bus(BYTE data);
 extern void iec_update_ports(void);
 
-typedef struct iec_info_s {
-    BYTE drive_bus;
-    BYTE drive_port;
-    BYTE drive_data;
-    BYTE drive2_bus;
-    BYTE drive2_port;
-    BYTE drive2_data;
-    BYTE cpu_bus;
-    BYTE cpu_port;
-    BYTE iec_fast_1541;
-} iec_info_t;
-
-extern iec_info_t *iec_get_drive_port(void);
-
 /* return value for iec_available_busses() (can be ored) */
 #define IEC_BUS_IEC     0x01    /* serial IEC bus */
 #define IEC_BUS_IEEE    0x02    /* parallel IEEE bus */
