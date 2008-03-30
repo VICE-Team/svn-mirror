@@ -41,11 +41,12 @@ void render_08_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 {
 	const BYTE *tmpsrc;
 	BYTE *tmptrg;
-	unsigned int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend,yys;
 	BYTE color;
 
-	src += pitchs*(ys >> 1) + xs;
+	src += pitchs * ys + xs;
 	trg += pitcht*yt + xt;
+        yys = ys << 1;
 	if (width < 8)
 	{
 		wstart=width;
@@ -58,7 +59,7 @@ void render_08_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=trg;
@@ -125,11 +126,12 @@ void render_16_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 {
 	const BYTE *tmpsrc;
 	WORD *tmptrg;
-	unsigned int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend,yys;
 	WORD color;
 
-	src=src + pitchs*(ys >> 1) + xs;
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt << 1);
+        yys = ys << 1;
 	if (width < 8)
 	{
 		wstart=width;
@@ -142,7 +144,7 @@ void render_16_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=(WORD *)trg;
@@ -209,12 +211,13 @@ void render_24_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 {
 	const BYTE *tmpsrc;
 	BYTE *tmptrg;
-	unsigned int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend,yys;
 	register DWORD color;
 	DWORD tcolor;
 
-	src=src + pitchs*(ys >> 1) + xs;
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt * 3);
+        yys = ys << 1;
 	if (width < 4)
 	{
 		wstart=width;
@@ -227,7 +230,7 @@ void render_24_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
 		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=trg;
@@ -350,11 +353,12 @@ void render_32_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 {
 	const BYTE *tmpsrc;
 	DWORD *tmptrg;
-	unsigned int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend,yys;
 	DWORD color;
 
-	src=src + pitchs*(ys >> 1) + xs;
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt << 2);
+        yys = ys << 1;
 	if (width < 8)
 	{
 		wstart=width;
@@ -367,7 +371,7 @@ void render_32_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=(DWORD *)trg;

@@ -59,14 +59,15 @@ void render_16_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	SDWORD *lineptr1;
 	SDWORD *line;
 	SDWORD *linepre;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,wint;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,wint,yys;
 	register DWORD color;
 	SDWORD l,u,v;
 	DWORD red,grn,blu,red2,grn2,blu2;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1) - 2;
+	src=src + pitchs * ys + xs - 2;
 	trg=trg + pitcht*yt + (xt << 1);
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -103,7 +104,7 @@ void render_16_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		line += 3;
 	}
 
-	if (ys & 1)
+	if (yys & 1)
 	{
 		line = lineptr0;
 		lineptr0 = lineptr1;
@@ -128,7 +129,7 @@ void render_16_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	}
 	line = lineptr1;
 
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=(WORD *)trg;
@@ -322,14 +323,15 @@ void render_32_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	SDWORD *lineptr1;
 	SDWORD *line;
 	SDWORD *linepre;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,wint;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,wint,yys;
 	register DWORD color;
 	SDWORD l,u,v;
 	DWORD red,grn,blu,red2,grn2,blu2;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1) - 2;
+	src=src + pitchs * ys + xs - 2;
 	trg=trg + pitcht*yt + (xt << 2);
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -366,7 +368,7 @@ void render_32_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		line += 3;
 	}
 
-	if (ys & 1)
+	if (yys & 1)
 	{
 		line = lineptr0;
 		lineptr0 = lineptr1;
@@ -391,7 +393,7 @@ void render_32_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	}
 	line = lineptr1;
 
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=(DWORD *)trg;
@@ -585,14 +587,15 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	SDWORD *lineptr1;
 	SDWORD *line;
 	SDWORD *linepre;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,wint;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,wint,yys;
 	register DWORD color;
 	SDWORD l,u,v;
 	DWORD red,grn,blu,red2,grn2,blu2;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1) - 2;
+	src=src + pitchs * ys + xs - 2;
 	trg=trg + pitcht*yt + (xt << 1);
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -629,7 +632,7 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		line += 3;
 	}
 
-	if (ys & 1)
+	if (yys & 1)
 	{
 		line = lineptr0;
 		lineptr0 = lineptr1;
@@ -654,7 +657,7 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	}
 	line = lineptr1;
 
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=(WORD *)trg;
@@ -848,14 +851,15 @@ void render_32_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	SDWORD *lineptr1;
 	SDWORD *line;
 	SDWORD *linepre;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,wint;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,wint,yys;
 	register DWORD color;
 	SDWORD l,u,v;
 	DWORD red,grn,blu,red2,grn2,blu2;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1) - 2;
+	src=src + pitchs * ys + xs - 2;
 	trg=trg + pitcht*yt + (xt << 2);
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -892,7 +896,7 @@ void render_32_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		line += 3;
 	}
 
-	if (ys & 1)
+	if (yys & 1)
 	{
 		line = lineptr0;
 		lineptr0 = lineptr1;
@@ -917,7 +921,7 @@ void render_32_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	}
 	line = lineptr1;
 
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=(DWORD *)trg;

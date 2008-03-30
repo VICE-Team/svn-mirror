@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "log.h"
 #include "raster-canvas.h"
 #include "raster.h"
 #include "render1x1.h"
@@ -90,6 +89,7 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
 {
     DWORD *colortab;
     int doublescan, delayloop, rendermode, palmode;
+    
 
 #if 0
 printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",

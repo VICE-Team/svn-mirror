@@ -41,12 +41,13 @@ void render_08_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 {
 	const BYTE *tmpsrc;
 	WORD *tmptrg;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,yys;
 	WORD color;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1);
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + xt;
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -62,7 +63,7 @@ void render_08_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=(WORD *)trg;
@@ -146,12 +147,13 @@ void render_16_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 {
 	const BYTE *tmpsrc;
 	DWORD *tmptrg;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,yys;
 	DWORD color;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1);
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt << 1);
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -167,7 +169,7 @@ void render_16_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=(DWORD *)trg;
@@ -251,13 +253,14 @@ void render_24_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 {
 	const BYTE *tmpsrc;
 	BYTE *tmptrg;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,yys;
 	register DWORD color;
 	register DWORD tcolor;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1);
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt * 3);
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -273,7 +276,7 @@ void render_24_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
 		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=trg;
@@ -460,12 +463,13 @@ void render_32_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 {
 	const BYTE *tmpsrc;
 	DWORD *tmptrg;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,yys;
 	register DWORD color;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1);
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt << 2);
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -481,7 +485,7 @@ void render_32_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmpsrc=src;
 		tmptrg=(DWORD *)trg;
@@ -600,12 +604,13 @@ void render_08_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	const BYTE *tmppre;
 	const BYTE *tmpsrc;
 	WORD *tmptrg;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,yys;
 	register WORD color;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1);
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + xt;
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -622,7 +627,7 @@ void render_08_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
 	pre = src-pitchs-1;
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmppre=pre;
 		tmpsrc=src;
@@ -714,12 +719,13 @@ void render_16_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	const BYTE *tmppre;
 	const BYTE *tmpsrc;
 	DWORD *tmptrg;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,yys;
 	register DWORD color;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1);
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt << 1);
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -736,7 +742,7 @@ void render_16_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
 	pre = src-pitchs-1;
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmppre=pre;
 		tmpsrc=src;
@@ -828,13 +834,14 @@ void render_24_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	const BYTE *tmppre;
 	const BYTE *tmpsrc;
 	BYTE *tmptrg;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,yys;
 	register DWORD color;
 	register DWORD tcolor;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1);
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt * 3);
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -851,7 +858,7 @@ void render_24_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	pre = src-pitchs-1;
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmppre=pre;
 		tmpsrc=src;
@@ -1046,12 +1053,13 @@ void render_32_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
 	const BYTE *tmppre;
 	const BYTE *tmpsrc;
 	DWORD *tmptrg;
-	unsigned int x,y,wfirst,wstart,wfast,wend,wlast;
+	unsigned int x,y,wfirst,wstart,wfast,wend,wlast,yys;
 	register DWORD color;
 
-	src=src + pitchs*(ys >> 1) + (xs >> 1);
+	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt << 2);
-	wfirst = xs & 1;
+        yys = ys << 1;
+	wfirst = 0 /*xs & 1*/;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -1068,7 +1076,7 @@ void render_32_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	pre = src-pitchs-1;
-	for (y=ys;y<(ys+height);y++)
+	for (y=yys;y<(yys+height);y++)
 	{
 		tmppre=pre;
 		tmpsrc=src;
