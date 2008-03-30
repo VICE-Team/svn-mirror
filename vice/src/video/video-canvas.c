@@ -87,15 +87,15 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
     geometry = canvas->geometry;
 
     video_canvas_refresh(canvas,
-                         viewport->first_x
-                         + geometry->extra_offscreen_border_left,
-                         viewport->first_line,
-                         viewport->x_offset,
-                         viewport->y_offset,
-                         MIN(canvas->draw_buffer->canvas_width,
-                             geometry->screen_size.width),
-                         MIN(canvas->draw_buffer->canvas_height,
-                             geometry->screen_size.height));
+                 viewport->first_x
+                 + geometry->extra_offscreen_border_left,
+                 viewport->first_line,
+                 viewport->x_offset,
+                 viewport->y_offset,
+                 MIN(canvas->draw_buffer->canvas_width,
+                     geometry->screen_size.width - viewport->first_x),
+                 MIN(canvas->draw_buffer->canvas_height,
+                     geometry->screen_size.height - viewport->first_line));
 }
 
 void video_canvas_redraw_size(video_canvas_t *canvas, unsigned int width,

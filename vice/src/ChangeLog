@@ -1,3 +1,78 @@
+2003-03-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.15.
+
+	* raster/raster-canvas.c (refresh_canvas): Skip refresh if
+	update area is not visible.
+
+	* video/video-canvas.c (video_canvas_refresh_all): Fixed
+	update area calculation.
+
+2003-02-20  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* sid/sid-cmdline-options.c:
+	- don't display unexisting resource values
+
+	* arch/os2/dialogs/dlg-fileio.c:
+	- added new C128 ROMs
+	- added new C128 chargens
+
+	* arch/os2/dialogs/menubar.[h,c,rc]:
+	- added C128 machine type
+	- fixed SidUseResid
+
+	* arch/os2/fonts/chargen2fnt.cc:
+	- changed to convert hi part of C128 chargens
+
+	* arch/os2/fonts/vice-cbm.cmd, arch/os2/fonts/vice2.rc:
+	- added new C128 chargens
+
+	* arch/os2/fullscr.[h,c], arch/os2/fullscros2.h,
+	arch/os2/gradd.h:
+	- added
+
+	* arch/os2/makedist.cmd:
+	- added new C128 stuff
+
+	* arch/os2/mouse.c:
+	- adopted to fullscreen support
+
+	* arch/os2/vac++/fonts[1,2].icc:
+	- added
+
+	* arch/os2/vac++/incl/drive.icc:
+	- rotation.c added
+
+	* arch/os2/vac++/incl/mainsrc.icc:
+	- fullscreen stuff added
+
+	* arch/os2/vac++/Makefile.am:
+	- remove Fonts.icc
+	- added fonts[1,2].icc
+
+	* arch/os2/video.c:
+	- added fullscreen support
+
+	* vice.h:
+	- added a declaration for OS/2 to get rid of some warnings
+
+	* video/renderyuv.c:
+	- removed OS/2 specific define of inline
+
+2003-03-18  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-sprites.c: Include stdlib.h.
+	Replaced VIC_II_SCREEN_WIDTH with vic_ii.sprite_wrap_x.
+	sprline is dynamically allocated now by the new function
+	vic_ii_sprites_init_sprline.
+
+	* vicii/vicii-sprites.h: Added prototype.
+
+	* vicii/vicii-timing.c (vicii_timing_set): Calls
+	vic_ii_sprites_init_sprline.
+
+	* /vicii/viciitypes.h: Removed VIC_II_SCREEN_WIDTH.
+
 2003-03-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.14.
