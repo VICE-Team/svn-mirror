@@ -1,3 +1,10 @@
+2004-10-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.7.
+
+	* configure.in: Removed trailing slash in arch include path
+	definition.
+
 2004-10-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.6.
