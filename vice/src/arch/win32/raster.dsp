@@ -98,6 +98,14 @@ SOURCE="..\..\raster\raster-cmdline-options.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\raster\raster-line-changes-sprite.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\raster\raster-line-changes.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\raster\raster-line.c"
 # End Source File
 # Begin Source File

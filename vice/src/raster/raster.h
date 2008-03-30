@@ -184,6 +184,12 @@ struct raster_s {
        filled with zeroes.  */
     BYTE zero_gfx_msk[RASTER_GFX_MSK_SIZE];
 
+    int (*line_changes)(struct raster_s *, unsigned int *, unsigned int *);
+    void (*draw_sprites_when_cache_enabled)(struct raster_s *,
+                                            struct raster_cache_s *);
+    int (*fill_sprite_cache)(struct raster_s *, struct raster_cache_s *,
+                             unsigned int *, unsigned int *);
+
     int intialized;
 };
 typedef struct raster_s raster_t;
@@ -228,6 +234,8 @@ extern void raster_screenshot(raster_t *raster,
 extern void raster_async_refresh(raster_t *raster,
                                  struct canvas_refresh_s *ref);
 extern int raster_calc_frame_buffer_width(raster_t *raster);
+extern void raster_line_changes_init(raster_t *raster);
+extern void raster_line_changes_sprite_init(raster_t *raster);
 
 /* Inlined functions.  These need to be *fast*.  */
 
