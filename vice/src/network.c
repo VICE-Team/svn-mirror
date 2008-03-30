@@ -203,10 +203,11 @@ static void network_prepare_next_frame(void)
     interrupt_maincpu_trigger_trap(network_event_record_sync_test, (void *)0);
 }
 
-static unsigned int network_create_event_buffer(char **buf, event_list_state_t *list)
+static unsigned int network_create_event_buffer(BYTE **buf,
+                                                event_list_state_t *list)
 {
     int size;
-    char *bufptr;
+    BYTE *bufptr;
     event_list_t *current_event, *last_event;
     int data_len = 0;
     int num_of_events;
@@ -224,7 +225,7 @@ static unsigned int network_create_event_buffer(char **buf, event_list_state_t *
         current_event = current_event->next;
     } while (last_event->type != EVENT_LIST_END);
 
-    size = num_of_events * (2 * sizeof(unsigned int) + sizeof(CLOCK)) + data_len;
+    size = num_of_events * 3 * sizeof(DWORD) + data_len;
     
     *buf = lib_malloc(size);
     
@@ -232,11 +233,11 @@ static unsigned int network_create_event_buffer(char **buf, event_list_state_t *
     current_event = list->base;
     bufptr = *buf;
     do {
-        *((unsigned int*)bufptr)++ = current_event->type;
-        *((CLOCK*)bufptr)++ = current_event->clk;
-        *((unsigned int*)bufptr)++ = current_event->size;
-        memcpy(bufptr, current_event->data, current_event->size);
-        bufptr += current_event->size;
+        util_dword_to_le_buf(&bufptr[0], (DWORD)(current_event->type));
+        util_dword_to_le_buf(&bufptr[4], (DWORD)(current_event->clk));
+        util_dword_to_le_buf(&bufptr[8], (DWORD)(current_event->size));
+        memcpy(&bufptr[12], current_event->data, current_event->size);
+        bufptr += 12 + current_event->size;
         last_event = current_event;
         current_event = current_event->next;
     } while (last_event->type != EVENT_LIST_END);
@@ -244,23 +245,23 @@ static unsigned int network_create_event_buffer(char **buf, event_list_state_t *
     return size;
 }
 
-static event_list_state_t *network_create_event_list(char *remote_event_buffer)
+static event_list_state_t *network_create_event_list(BYTE *remote_event_buffer)
 {
     event_list_state_t *list;
     unsigned int type, size;
     CLOCK clk;
-    char *data;
-    char *bufptr = remote_event_buffer;
+    BYTE *data;
+    BYTE *bufptr = remote_event_buffer;
 
     list = lib_malloc(sizeof(event_list_state_t));
     event_register_event_list(list);
 
     do {
-        type = *((unsigned int*)bufptr)++;
-        clk = *((CLOCK*)bufptr)++;
-        size = *((unsigned int*)bufptr)++;
-        data = bufptr;
-        bufptr += size;
+        type = util_le_buf_to_dword(&bufptr[0]);
+        clk = util_le_buf_to_dword(&bufptr[4]);
+        size = util_le_buf_to_dword(&bufptr[8]);
+        data = &bufptr[12];
+        bufptr += 12 + size;
         event_record_in_list(list, type, data, size);
     } while (type != EVENT_LIST_END);
 
@@ -286,8 +287,10 @@ static void network_test_delay(void)
     if (network_mode == NETWORK_SERVER_CONNECTED) {
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
             *((unsigned long*)buf) = vsyncarch_gettime();
-            if (send(network_socket, buf, sizeof(buf), 0) < sizeof(buf)
-                || recv(network_socket, buf, sizeof(buf), 0) < sizeof(buf))
+            if ((int)send(network_socket, buf, sizeof(buf), 0)
+                < (int)sizeof(buf)
+                || (int)recv(network_socket, buf, sizeof(buf), 0)
+                < (int)sizeof(buf))
                 return;
             packet_delay[i] = vsyncarch_gettime() - *((unsigned long*)buf);
         }
@@ -311,8 +314,10 @@ static void network_test_delay(void)
         send(network_socket, &new_frame_delta, sizeof(new_frame_delta), 0);
     } else {
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
-            if (recv(network_socket, buf, sizeof(buf), 0) < sizeof(buf)
-                || send(network_socket, buf, sizeof(buf), 0) < sizeof(buf))
+            if ((int)recv(network_socket, buf, sizeof(buf), 0)
+                < (int)sizeof(buf)
+                || (int)send(network_socket, buf, sizeof(buf), 0)
+                < (int)sizeof(buf))
                 return;
         }
         recv(network_socket, &new_frame_delta, sizeof(new_frame_delta), 0);
@@ -493,9 +498,8 @@ int network_connect_client(void)
         return -1;
     }
 
-    if(connect(network_socket, (struct sockaddr *)&server_addr, 
-        sizeof(server_addr)) == SOCKET_ERROR)
-    {
+    if (connect(network_socket, (struct sockaddr *)&server_addr, 
+        sizeof(server_addr)) == SOCKET_ERROR) {
         closesocket(network_socket);
         ui_error("Cannot connect to %s (no server running on port %d).",
                     server_name, server_port);
@@ -504,8 +508,8 @@ int network_connect_client(void)
     }
 
     ui_display_statustext("Receiving snapshot from server...", 0);
-    if (recv(network_socket, (char*)&buf_size, sizeof(long), 0) != sizeof(long))
-    {
+    if (recv(network_socket, (char*)&buf_size, sizeof(long), 0)
+        != sizeof(long)) {
         lib_free(filename);
         return -1;
     }
@@ -545,7 +549,7 @@ void network_disconnect(void)
 void network_hook(void)
 {
 #ifdef HAVE_NETWORK
-    const TIMEVAL time_out = {0, 0};
+    TIMEVAL time_out = {0, 0};
 
     if (network_mode == NETWORK_IDLE)
         return;
@@ -558,7 +562,8 @@ void network_hook(void)
             network_socket = accept(listen_socket, NULL, NULL);
         
             if (network_socket != INVALID_SOCKET)
-                interrupt_maincpu_trigger_trap(network_server_connect_trap, (void *)0);
+                interrupt_maincpu_trigger_trap(network_server_connect_trap,
+                                               (void *)0);
         }
     }
 
@@ -566,7 +571,7 @@ void network_hook(void)
         || network_mode == NETWORK_CLIENT) 
     {
         unsigned int temp;
-        char *local_event_buf, *remote_event_buf;
+        BYTE *local_event_buf = NULL, *remote_event_buf = NULL;
         unsigned int local_buf_len, remote_buf_len;
         event_list_state_t *remote_event_list;
         event_list_state_t *client_event_list, *server_event_list;
@@ -589,7 +594,8 @@ void network_hook(void)
             temp = 0;
             while(temp < sizeof(unsigned int)) {
                 int t;
-                t = recv(network_socket, (char*)&remote_buf_len, sizeof(unsigned int), 0);
+                t = recv(network_socket, (char*)&remote_buf_len,
+                         sizeof(unsigned int), 0);
                 /* log_debug("hook nach recv: %d",vsyncarch_gettime()); */
                 if (t < 0) {
                     ui_display_statustext("Remote host disconnected.", 1);
@@ -605,7 +611,8 @@ void network_hook(void)
             while (temp < remote_buf_len) {
                 int t;
 
-                t = recv(network_socket, remote_event_buf + temp, remote_buf_len, 0);
+                t = recv(network_socket, remote_event_buf + temp,
+                         remote_buf_len, 0);
                 if (t < 0)
                     return;
 
