@@ -1,6 +1,10 @@
 
 READLINE = @READLINE@
 
+# We have to override the automake default, because we need to use
+# $(CXX) instead of $(CC) when compiling with reSID.
+LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
+
 if HAVE_RS232
 if HAVE_PRINTER
 rs232_printer_ldadd = pruser.o prdevice.o rsuser.o
