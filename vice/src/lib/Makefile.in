@@ -77,6 +77,7 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+FFMPEG_INCLUDES = @FFMPEG_INCLUDES@
 FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
 GFXOUTPUT_DRIVERS = @GFXOUTPUT_DRIVERS@
@@ -235,6 +236,17 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 SUBDIRS = lpng zlib
+
+EXTRA_DIST = \
+	libffmpeg/ffmpeg/avcodec.h \
+	libffmpeg/ffmpeg/avformat.h \
+	libffmpeg/ffmpeg/avio.h \
+	libffmpeg/ffmpeg/common.h \
+	libffmpeg/ffmpeg/rational.h \
+	libffmpeg/ffmpeg/rtp.h \
+	libffmpeg/ffmpeg/rtsp.h \
+	libffmpeg/ffmpeg/rtspcodes.h
+
 subdir = src/lib
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
@@ -381,6 +393,7 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/libffmpeg/ffmpeg
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

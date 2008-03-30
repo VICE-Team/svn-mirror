@@ -77,6 +77,7 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+FFMPEG_INCLUDES = @FFMPEG_INCLUDES@
 FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
 GFXOUTPUT_DRIVERS = @GFXOUTPUT_DRIVERS@
@@ -278,6 +279,8 @@ libc64cart_a_SOURCES = \
 	magicformel.h \
 	retroreplay.c \
 	retroreplay.h \
+	rexep256.c \
+	rexep256.h \
 	ross.c \
 	ross.h \
 	stb.c \
@@ -302,9 +305,9 @@ am_libc64cart_a_OBJECTS = actionreplay.$(OBJEXT) atomicpower.$(OBJEXT) \
 	crt.$(OBJEXT) delaep256.$(OBJEXT) delaep64.$(OBJEXT) \
 	delaep7x8.$(OBJEXT) epyxfastload.$(OBJEXT) expert.$(OBJEXT) \
 	final.$(OBJEXT) generic.$(OBJEXT) ide64.$(OBJEXT) kcs.$(OBJEXT) \
-	magicformel.$(OBJEXT) retroreplay.$(OBJEXT) ross.$(OBJEXT) \
-	stb.$(OBJEXT) supergames.$(OBJEXT) supersnapshot.$(OBJEXT) \
-	zaxxon.$(OBJEXT)
+	magicformel.$(OBJEXT) retroreplay.$(OBJEXT) rexep256.$(OBJEXT) \
+	ross.$(OBJEXT) stb.$(OBJEXT) supergames.$(OBJEXT) \
+	supersnapshot.$(OBJEXT) zaxxon.$(OBJEXT)
 libc64cart_a_OBJECTS = $(am_libc64cart_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -319,8 +322,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/final.Po ./$(DEPDIR)/generic.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ide64.Po ./$(DEPDIR)/kcs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/magicformel.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/retroreplay.Po ./$(DEPDIR)/ross.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/stb.Po ./$(DEPDIR)/supergames.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/retroreplay.Po ./$(DEPDIR)/rexep256.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ross.Po ./$(DEPDIR)/stb.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/supergames.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/supersnapshot.Po ./$(DEPDIR)/zaxxon.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -370,6 +374,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/magicformel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/retroreplay.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rexep256.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ross.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/supergames.Po@am__quote@

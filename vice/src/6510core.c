@@ -345,6 +345,19 @@
       STORE((addr) + reg_x, (value));      \
   } while (0)                              \
 
+#define STORE_ABS_SH_X(addr, value, inc)                    \
+  do {                                                      \
+      unsigned int tmp;                                     \
+                                                            \
+      CLK += (inc) - 2;                                     \
+      LOAD((((addr) + reg_x) & 0xff) | ((addr) & 0xff00));  \
+      CLK += 2;                                             \
+      tmp = (addr) + reg_x;                                 \
+      if (((addr) & 0xff) + reg_x > 0xff)                   \
+          tmp = (tmp & 0xff) | ((value) << 8);              \
+      STORE(tmp, (value));                                  \
+  } while (0)
+
 #define STORE_ABS_Y(addr, value, inc)                       \
   do {                                                      \
       CLK += (inc) - 2;                                     \
@@ -357,6 +370,19 @@
   do {                                     \
       CLK += (inc);                        \
       STORE((addr) + reg_y, (value));      \
+  } while (0)
+
+#define STORE_ABS_SH_Y(addr, value, inc)                    \
+  do {                                                      \
+      unsigned int tmp;                                     \
+                                                            \
+      CLK += (inc) - 2;                                     \
+      LOAD((((addr) + reg_y) & 0xff) | ((addr) & 0xff00));  \
+      CLK += 2;                                             \
+      tmp = (addr) + reg_y;                                 \
+      if (((addr) & 0xff) + reg_y > 0xff)                   \
+          tmp = (tmp & 0xff) | ((value) << 8);              \
+      STORE(tmp, (value));                                  \
   } while (0)
 
 #define INC_PC(value)   (reg_pc += (value))
@@ -1209,53 +1235,58 @@
       INC_PC(1);                  \
   } while (0)
 
-#define SHA_ABS_Y(addr)                                                 \
-  do {                                                                  \
-      unsigned int tmp;                                                 \
-                                                                        \
-      tmp = (addr);                                                     \
-      INC_PC(3);                                                        \
-      STORE_ABS_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
+#define SHA_ABS_Y(addr)                                                   \
+  do {                                                                    \
+      unsigned int tmp;                                                   \
+                                                                          \
+      tmp = (addr);                                                       \
+      INC_PC(3);                                                          \
+      STORE_ABS_SH_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
   } while (0)
 
 #define SHA_IND_Y(addr)                               \
   do {                                                \
       unsigned int tmp;                               \
+      BYTE val;                                       \
                                                       \
       CLK += 4;                                       \
       tmp = LOAD_ZERO_ADDR(addr);                     \
       LOAD((tmp & 0xff00) | ((tmp + reg_y) & 0xff));  \
       CLK += 2;                                       \
-      tmp += reg_y;                                   \
+      val = reg_a & reg_x & ((tmp >> 8) + 1);         \
+      if ((tmp & 0xff) + reg_y > 0xff)                \
+          tmp = ((tmp + reg_y) & 0xff) | (val << 8);  \
+      else                                            \
+          tmp += reg_y;                               \
       INC_PC(2);                                      \
-      STORE(tmp, reg_a & reg_x & ((tmp >> 8) + 1));   \
+      STORE(tmp, val);                                \
   } while (0)
 
-#define SHX_ABS_Y(addr)                                         \
-  do {                                                          \
-      unsigned int tmp;                                         \
-                                                                \
-      tmp = (addr);                                             \
-      INC_PC(3);                                                \
-      STORE_ABS_Y(tmp, reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
+#define SHX_ABS_Y(addr)                                            \
+  do {                                                             \
+      unsigned int tmp;                                            \
+                                                                   \
+      tmp = (addr);                                                \
+      INC_PC(3);                                                   \
+      STORE_ABS_SH_Y(tmp, reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
   } while (0)
 
-#define SHY_ABS_X(addr)                                         \
-  do {                                                          \
-      unsigned int tmp;                                         \
-                                                                \
-      tmp = (addr);                                             \
-      INC_PC(3);                                                \
-      STORE_ABS_X(tmp, reg_y & (((tmp + reg_x) >> 8) + 1), 5);  \
+#define SHY_ABS_X(addr)                                            \
+  do {                                                             \
+      unsigned int tmp;                                            \
+                                                                   \
+      tmp = (addr);                                                \
+      INC_PC(3);                                                   \
+      STORE_ABS_SH_X(tmp, reg_y & (((tmp + reg_x) >> 8) + 1), 5);  \
   } while (0)
 
-#define SHS_ABS_Y(addr)                                                 \
-  do {                                                                  \
-      int tmp = (addr);                                                 \
-                                                                        \
-      INC_PC(3);                                                        \
-      STORE_ABS_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
-      reg_sp = reg_a & reg_x;                                           \
+#define SHS_ABS_Y(addr)                                                    \
+  do {                                                                     \
+      int tmp = (addr);                                                    \
+                                                                           \
+      INC_PC(3);                                                           \
+      STORE_ABS_SH_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
+      reg_sp = reg_a & reg_x;                                              \
   } while (0)
 
 #define SLO(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \

@@ -1,3 +1,48 @@
+2006-01-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.3.
+
+	* lib/libffmpeg/*: Moved ffmpeg header files to here.
+
+	* lib/Makefile.am: Added ffmpeg header files.
+
+	* gfxoutputdrv/Makefile.am: Removed ffmpeg header files.
+
+	* gfxoutputdrv/Makefile.am, arch/unix/Makefile.am,
+	arch/win32/Makefile.am, arch/win32/gfxoutputdrv.dsp,
+	arch/win32/arch.dsp: Added new ffmpeg include path.
+
+	* c64/cart/rexep256.c: #include "c64mem.h".
+	(rexep256_io2_store, rexep256_io2_read): Fixed warnings.
+
+	* 6510core.c: Fixed some unusual opcodes.
+
+2006-01-22  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/c64rom.c: Make sure the c64memrom_kernal64_trap_rom is
+	set *after* c64rom_get_kernal_checksum() is called, as this
+	function can change the ROM (for example, when -kernalrev is
+	used). This fixes the problem with the sx kernal rom.
+
+2006-01-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* pet/petreu.c: Fixed the behaviour of this to match the
+	actual module.
+
+2006-01-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/c64cart.dsp, c64/cart/Makefile.am,
+	c64/cart/c64cartmem.c, c64/cart/crt.c, c64/cart/rexep256.c,
+	c64/cart/rexep256.h, cartridge.h: Added REX EP256 cartridge
+	support.
+
+2006-01-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/constants.h: Corrected a duplicate definition.
+
+	* arch/win32/c64cart.dsp: Corrected a duplicate source file
+	entry.
+
 2006-01-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.2.

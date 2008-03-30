@@ -79,6 +79,7 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+FFMPEG_INCLUDES = @FFMPEG_INCLUDES@
 FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
 GFXOUTPUT_DRIVERS = @GFXOUTPUT_DRIVERS@
@@ -241,6 +242,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	@VICE_LIBPNG_INCLUDES@ \
 	@VICE_ZLIB_INCLUDES@ \
+	@FFMPEG_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src
 
@@ -275,17 +277,6 @@ libgfxoutputdrv_a_SOURCES = \
 
 libgfxoutputdrv_a_DEPENDENCIES = @GFXOUTPUT_DRIVERS@
 libgfxoutputdrv_a_LIBADD = @GFXOUTPUT_DRIVERS@
-
-EXTRA_DIST = \
-    ffmpeg/avcodec.h \
-    ffmpeg/avformat.h \
-    ffmpeg/avio.h \
-    ffmpeg/common.h \
-    ffmpeg/rational.h \
-    ffmpeg/rtp.h \
-    ffmpeg/rtsp.h \
-    ffmpeg/rtspcodes.h
-
 subdir = src/gfxoutputdrv
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
@@ -432,7 +423,6 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/ffmpeg
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
