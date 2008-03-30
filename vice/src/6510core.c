@@ -2,7 +2,8 @@
  * 6510core.c - MOS6510 emulation core.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,8 +25,8 @@
  *
  */
 
-#ifdef __1541__
-#define CPU_STR "1541 CPU"
+#ifdef DRIVE_CPU
+#define CPU_STR "Drive CPU"
 #else
 #define CPU_STR "Main CPU"
 #endif
@@ -56,7 +57,7 @@
 
 #define LOCAL_SET_NZ(val)        (flag_z = flag_n = (val))
 
-#if defined __1541__
+#if defined DRIVE_CPU
 #define LOCAL_SET_OVERFLOW(val)			\
     do {					\
         if (!(val)) _drive_set_byte_ready(0);	\
@@ -126,7 +127,7 @@
 
 #endif
 
-#ifndef __1541__
+#ifndef DRIVE_CPU
 /* Export the local version of the registers.  */
 #define EXPORT_REGISTERS()                      \
   do {                                          \
@@ -152,10 +153,10 @@
       flag_z = GLOBAL_REGS.flag_z;              \
       JUMP(GLOBAL_REGS.reg_pc);                 \
   } while (0)
-#else  /* __1541__ */
+#else  /* DRIVE_CPU */
 #define IMPORT_REGISTERS()
 #define EXPORT_REGISTERS()
-#endif /* !__1541__ */
+#endif /* !DRIVE_CPU */
 
 /* Stack operations. */
 
@@ -1505,7 +1506,7 @@
         FETCH_OPCODE(opcode);
 
 #if defined(TRACE)
-#ifdef __1541__
+#ifdef DRIVE_CPU
         if (TRACEFLG) {
             BYTE op = p0;
             BYTE lo = p1;
@@ -1581,7 +1582,7 @@
             break;
 
         case 0x08:                      /* PHP */
-#ifdef __1541__
+#ifdef DRIVE_CPU
             if (_drive_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
 #endif
@@ -1856,7 +1857,7 @@
             break;
 
         case 0x50:                      /* BVC $nnnn */
-#ifndef __1541__
+#ifndef DRIVE_CPU
             BRANCH(!LOCAL_OVERFLOW(), p1);
 #else
             if (_drive_byte_ready())
@@ -1968,7 +1969,7 @@
             break;
 
         case 0x70:                      /* BVS $nnnn */
-#ifndef __1541__
+#ifndef DRIVE_CPU
             BRANCH(LOCAL_OVERFLOW(), p1);
 #else
             if (_drive_byte_ready())
