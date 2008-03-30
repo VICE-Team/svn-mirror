@@ -50,6 +50,13 @@
 #define TPI_SET_CA(a)
 #define TPI_SET_CB(a)
 
+    static BYTE cbm2_model_port_mask = 0xc0;
+
+    void set_cbm2_model_port_mask(BYTE val) 
+    {
+        cbm2_model_port_mask = val & 0xc0;
+    }
+
 
 int tpi2_debug = 0;
 
@@ -290,7 +297,7 @@ BYTE read_tpi2 ( ADDRESS addr ) {
 if(val) printf("mask=%04x, val=%02x (pa=%02x/%02x, pb=%02x/%02x)\n",
 		msk, b, tpi[TPI_PA], tpi[TPI_DDPA], tpi[TPI_PB], tpi[TPI_DDPB]);
 */
-            byte = val;
+            byte = (val & 0x3f) | cbm2_model_port_mask;
         }
 		return byte;
 	    }
