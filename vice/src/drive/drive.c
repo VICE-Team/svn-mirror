@@ -71,6 +71,7 @@
 #include "sysfile.h"
 #include "ui.h"
 #include "utils.h"
+#include "vdrive-bam.h"
 #include "vdrive.h"
 #include "viad.h"
 #include "wd1770.h"
@@ -80,6 +81,8 @@
 
 /* Drive specific variables.  */
 drive_t drive[2];
+
+static DRIVE *vdrive[2];
 
 /* Prototypes of functions called by resource management.  */
 static int drive_enable(int dnr);
@@ -155,14 +158,14 @@ static int set_drive_true_emulation(resource_value_t v)
         drive_disable(0);
         drive_disable(1);
 
-	/* update BAM after true drive emulation having probably
-	   changed the BAM on disk (14May1999) */
-	if (drive[0].drive_floppy != NULL) {
-	    vdrive_bam_read_bam(drive[0].drive_floppy);
-	}
-	if (drive[1].drive_floppy != NULL) {
-	    vdrive_bam_read_bam(drive[1].drive_floppy);
-	}
+        /* update BAM after true drive emulation having probably
+           changed the BAM on disk (14May1999) */
+        if (vdrive[0] != NULL) {
+            vdrive_bam_read_bam(vdrive[0]);
+        }
+        if (vdrive[1] != NULL) {
+            vdrive_bam_read_bam(vdrive[1]);
+        }
     }
     return 0;
 }
@@ -647,15 +650,15 @@ static void drive_read_image_d64_d71(int dnr)
     int rc, i;
     int track, sector;
 
-    if (!drive[dnr].drive_floppy)
-	return;
+    if (!vdrive[dnr])
+        return;
 
     buffer[0] = 0x07;
     buffer[258] = buffer[259] = 0;
 
     /* Since the D64/D71 format does not provide the actual track sizes or
        speed zones, we set them to standard values.  */
-    if (drive[dnr].drive_floppy->ImageFormat == 1541
+    if (vdrive[dnr]->ImageFormat == 1541
         && (drive[dnr].type == DRIVE_TYPE_1541
         || drive[dnr].type == DRIVE_TYPE_1541II
         || drive[dnr].type == DRIVE_TYPE_2031)) {
@@ -666,7 +669,7 @@ static void drive_read_image_d64_d71(int dnr)
                 NUM_MAX_BYTES_TRACK);
         }
     }
-    if (drive[dnr].drive_floppy->ImageFormat == 1571
+    if (vdrive[dnr]->ImageFormat == 1571
         || drive[dnr].type == DRIVE_TYPE_1571
         || drive[dnr].type == DRIVE_TYPE_2031) {
         for (track = 0; track < MAX_TRACKS_1571; track++) {
@@ -679,13 +682,13 @@ static void drive_read_image_d64_d71(int dnr)
 
     drive_set_half_track(drive[dnr].current_half_track, &drive[dnr]);
 
-    for (track = 1; track <= drive[dnr].drive_floppy->NumTracks; track++) {
+    for (track = 1; track <= vdrive[dnr]->NumTracks; track++) {
 	int max_sector = 0;
 
 	ptr = drive[dnr].GCR_data + GCR_OFFSET(track, 0);
-        if (drive[dnr].drive_floppy->ImageFormat == 1541)
+        if (vdrive[dnr]->ImageFormat == 1541)
             max_sector = sector_map_1541[track];
-        if (drive[dnr].drive_floppy->ImageFormat == 1571)
+        if (vdrive[dnr]->ImageFormat == 1571)
             max_sector = sector_map_1571[track];
 
 	/* Clear track to avoid read errors.  */
@@ -694,26 +697,26 @@ static void drive_read_image_d64_d71(int dnr)
 	for (sector = 0; sector < max_sector; sector++) {
 	    ptr = drive[dnr].GCR_data + GCR_OFFSET(track, sector);
 
-	    rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
-				   drive[dnr].drive_floppy->ImageFormat,
-				   buffer + 1, track, sector,
-				   drive[dnr].drive_floppy->D64_Header,
-                                   drive[dnr].drive_floppy->GCR_Header,
-                                   drive[dnr].drive_floppy->unit);
-	    if (rc < 0) {
-		log_error(drive[dnr].log,
+            rc = floppy_read_block(vdrive[dnr]->ActiveFd,
+                                   vdrive[dnr]->ImageFormat,
+                                   buffer + 1, track, sector,
+                                   vdrive[dnr]->D64_Header,
+                                   vdrive[dnr]->GCR_Header,
+                                   vdrive[dnr]->unit);
+            if (rc < 0) {
+                log_error(drive[dnr].log,
                           "Cannot read T:%d S:%d from disk image.",
                           track, sector);
-		/* FIXME: could be handled better. */
-	    } else {
-		chksum = buffer[1];
-		for (i = 2; i < 257; i++)
-		    chksum ^= buffer[i];
-		buffer[257] = chksum;
-		convert_sector_to_GCR(buffer, ptr, track, sector,
-            drive[dnr].diskID1, drive[dnr].diskID2);
-	    }
-	}
+                /* FIXME: could be handled better. */
+            } else {
+                chksum = buffer[1];
+                for (i = 2; i < 257; i++)
+                    chksum ^= buffer[i];
+                buffer[257] = chksum;
+                convert_sector_to_GCR(buffer, ptr, track, sector,
+                                      drive[dnr].diskID1, drive[dnr].diskID2);
+            }
+        }
     }
 }
 
@@ -726,17 +729,17 @@ static int drive_read_image_gcr(int dnr)
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
     off_t offset;
 
-    NumTracks = drive[dnr].drive_floppy->NumTracks;
+    NumTracks = vdrive[dnr]->NumTracks;
 
-    fseek(drive[dnr].drive_floppy->ActiveFd, 12, SEEK_SET);
-    if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_track_p,
+    fseek(vdrive[dnr]->ActiveFd, 12, SEEK_SET);
+    if (read_dword(vdrive[dnr]->ActiveFd, gcr_track_p,
                    NumTracks * 8) < 0) {
 	log_error(drive[dnr].log, "Could not read GCR disk image.");
 	return 0;
     }
 
-    fseek(drive[dnr].drive_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
-    if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_speed_p,
+    fseek(vdrive[dnr]->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
+    if (read_dword(vdrive[dnr]->ActiveFd, gcr_speed_p,
                    NumTracks * 8) < 0) {
 	log_error(drive[dnr].log, "Could not read GCR disk image.");
 	return 0;
@@ -754,8 +757,8 @@ static int drive_read_image_gcr(int dnr)
 
 	    offset = gcr_track_p[track * 2];
 
-	    fseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET);
-	    if (fread((char *)len, 2, 1, drive[dnr].drive_floppy->ActiveFd) < 1) {
+	    fseek(vdrive[dnr]->ActiveFd, offset, SEEK_SET);
+	    if (fread((char *)len, 2, 1, vdrive[dnr]->ActiveFd) < 1) {
 		log_error(drive[dnr].log, "Could not read GCR disk image.");
 		return 0;
 	    }
@@ -771,9 +774,9 @@ static int drive_read_image_gcr(int dnr)
 
 	    drive[dnr].GCR_track_size[track] = track_len;
 
-	    fseek(drive[dnr].drive_floppy->ActiveFd, offset + 2, SEEK_SET);
+	    fseek(vdrive[dnr]->ActiveFd, offset + 2, SEEK_SET);
 	    if (fread((char *)track_data, track_len, 1,
-                drive[dnr].drive_floppy->ActiveFd) < 1) {
+                vdrive[dnr]->ActiveFd) < 1) {
 		log_error(drive[dnr].log, "Could not read GCR disk image.");
 		return 0;
 	    }
@@ -784,9 +787,9 @@ static int drive_read_image_gcr(int dnr)
 
 		offset = gcr_speed_p[track * 2];
 
-		fseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET);
+		fseek(vdrive[dnr]->ActiveFd, offset, SEEK_SET);
 		if (fread((char *)comp_speed, zone_len, 1,
-                drive[dnr].drive_floppy->ActiveFd) < 1) {
+                vdrive[dnr]->ActiveFd) < 1) {
 		    log_error(drive[dnr].log,
                               "Could not read GCR disk image.");
 		    return 0;
@@ -814,24 +817,24 @@ static void write_track_gcr(int track, int dnr)
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
     off_t offset;
 
-    NumTracks = drive[dnr].drive_floppy->NumTracks;
+    NumTracks = vdrive[dnr]->NumTracks;
 
-    fseek(drive[dnr].drive_floppy->ActiveFd, 12, SEEK_SET);
-    if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_track_p,
+    fseek(vdrive[dnr]->ActiveFd, 12, SEEK_SET);
+    if (read_dword(vdrive[dnr]->ActiveFd, gcr_track_p,
                    NumTracks * 8) < 0) {
 	log_error(drive[dnr].log, "Could not read GCR disk image header.");
 	return;
     }
 
-    fseek(drive[dnr].drive_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
-    if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_speed_p,
+    fseek(vdrive[dnr]->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
+    if (read_dword(vdrive[dnr]->ActiveFd, gcr_speed_p,
                    NumTracks * 8) < 0) {
 	log_error(drive[dnr].log, "Could not read GCR disk image header.");
 	return;
     }
 
     if (gcr_track_p[(track - 1) * 2] == 0) {
-	offset = fseek(drive[dnr].drive_floppy->ActiveFd, 0, SEEK_END);
+	offset = fseek(vdrive[dnr]->ActiveFd, 0, SEEK_END);
 	if (offset < 0) {
 	    log_error(drive[dnr].log, "Could not extend GCR disk image.");
 	    return;
@@ -844,8 +847,8 @@ static void write_track_gcr(int track, int dnr)
     len[0] = drive[dnr].GCR_track_size[track - 1] % 256;
     len[1] = drive[dnr].GCR_track_size[track - 1] / 256;
 
-    if (fseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
-        || fwrite((char *)len, 2, 1, drive[dnr].drive_floppy->ActiveFd) < 1) {
+    if (fseek(vdrive[dnr]->ActiveFd, offset, SEEK_SET) < 0
+        || fwrite((char *)len, 2, 1, vdrive[dnr]->ActiveFd) < 1) {
 	log_error(drive[dnr].log, "Could not write GCR disk image.");
 	return;
     }
@@ -856,9 +859,9 @@ static void write_track_gcr(int track, int dnr)
     if (gap > 0)
 	memset(drive[dnr].GCR_track_start_ptr + drive[dnr].GCR_track_size[track - 1], 0, gap);
 
-    if (fseek(drive[dnr].drive_floppy->ActiveFd, offset + 2, SEEK_SET) < 0
+    if (fseek(vdrive[dnr]->ActiveFd, offset + 2, SEEK_SET) < 0
         || fwrite((char *)drive[dnr].GCR_track_start_ptr, NUM_MAX_BYTES_TRACK,
-        1, drive[dnr].drive_floppy->ActiveFd) < 1) {
+        1, vdrive[dnr]->ActiveFd) < 1) {
 	log_error(drive[dnr].log, "Could not write GCR disk image.");
 	return;
     }
@@ -882,8 +885,8 @@ static void write_track_gcr(int track, int dnr)
     }
 
     offset = 12 + NumTracks * 8 + (track - 1) * 8;
-    if (fseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
-        || write_dword(drive[dnr].drive_floppy->ActiveFd,
+    if (fseek(vdrive[dnr]->ActiveFd, offset, SEEK_SET) < 0
+        || write_dword(vdrive[dnr]->ActiveFd,
                        &gcr_speed_p[(track - 1) * 2], 4) < 0) {
         log_error(drive[dnr].log, "Could not write GCR disk image.");
         return;
@@ -903,9 +906,9 @@ static void write_track_gcr(int track, int dnr)
                          | (zone_data[i * 4 + 2] << 4)
                          | (zone_data[i * 4 + 3] << 6));
 
-    if (fseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
+    if (fseek(vdrive[dnr]->ActiveFd, offset, SEEK_SET) < 0
         || fwrite((char *)comp_speed, NUM_MAX_BYTES_TRACK / 4, 1
-        drive[dnr].drive_floppy->ActiveFd) < 1) {
+        vdrive[dnr]->ActiveFd) < 1) {
         log_error(drive[dnr].log, "Could not write GCR disk image");
         return;
     }
@@ -917,14 +920,14 @@ static int setID(int dnr)
     BYTE buffer[256];
     int rc;
 
-    if (!drive[dnr].drive_floppy)
+    if (!vdrive[dnr])
 	return -1;
 
-    rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
-			   drive[dnr].drive_floppy->ImageFormat,
-			   buffer, 18, 0, drive[dnr].drive_floppy->D64_Header,
-               drive[dnr].drive_floppy->GCR_Header,
-               drive[dnr].drive_floppy->unit);
+    rc = floppy_read_block(vdrive[dnr]->ActiveFd,
+			   vdrive[dnr]->ImageFormat,
+			   buffer, 18, 0, vdrive[dnr]->D64_Header,
+               vdrive[dnr]->GCR_Header,
+               vdrive[dnr]->unit);
     if (rc >= 0) {
 	drive[dnr].diskID1 = buffer[0xa2];
 	drive[dnr].diskID2 = buffer[0xa3];
@@ -1456,13 +1459,13 @@ static int drive_enable(int dnr)
     if (drive[dnr].type == DRIVE_TYPE_NONE)
         return 0;
 
-    if (drive[dnr].drive_floppy != NULL)
-	drive_attach_floppy(drive[dnr].drive_floppy);
+    if (vdrive[dnr] != NULL)
+        drive_attach_floppy(vdrive[dnr]);
 
     if (dnr == 0)
-	drive0_cpu_wake_up();
+        drive0_cpu_wake_up();
     if (dnr == 1)
-	drive1_cpu_wake_up();
+        drive1_cpu_wake_up();
 
     /* Make sure the UI is updated.  */
     for (i = 0; i < 2; i++) {
@@ -1564,21 +1567,25 @@ static int drive_check_image_format(int format, int dnr)
 }
 
 /* Attach a disk image to the true drive emulation. */
-int drive_attach_floppy(DRIVE *floppy)
+int drive_attach_floppy(void *flp)
 {
     int dnr;
+    DRIVE *floppy = (DRIVE *)flp;
+
+    fdc_attach_disk(flp);
+    wd1770_attach_disk(flp);
 
     if (floppy->unit != 8 && floppy->unit != 9)
         return -1;
 
     dnr = floppy->unit - 8;
 
-    drive[dnr].drive_floppy = floppy;
+    vdrive[dnr] = floppy;
 
     if (drive_check_image_format(floppy->ImageFormat, dnr) < 0)
         return 0;
 
-    drive[dnr].read_only = drive[dnr].drive_floppy->ReadOnly;
+    drive[dnr].read_only = vdrive[dnr]->ReadOnly;
     drive[dnr].have_new_disk = 1;
     drive[dnr].attach_clk = drive_clk[dnr];
     if (drive[dnr].detach_clk > (CLOCK) 0)
@@ -1586,9 +1593,9 @@ int drive_attach_floppy(DRIVE *floppy)
     drive[dnr].ask_extend_disk_image = 1;
 
     if (floppy->ImageFormat != 1581
-	&& floppy->ImageFormat != 8050
-	&& floppy->ImageFormat != 8250) {
-        if (drive[dnr].drive_floppy->GCR_Header != 0) {
+        && floppy->ImageFormat != 8050
+        && floppy->ImageFormat != 8250) {
+        if (vdrive[dnr]->GCR_Header != 0) {
             if (!drive_read_image_gcr(dnr))
                 return -1;
         } else {
@@ -1606,27 +1613,31 @@ int drive_attach_floppy(DRIVE *floppy)
 }
 
 /* Detach a disk image from the true drive emulation. */
-int drive_detach_floppy(DRIVE *floppy)
+int drive_detach_floppy(void *flp)
 {
     int dnr;
+    DRIVE *floppy = (DRIVE *)flp;
+
+    fdc_detach_disk(flp);
+    wd1770_detach_disk(flp);
 
     if (floppy->unit != 8 && floppy->unit != 9)
         return -1;
 
     dnr = floppy->unit - 8;
 
-    if (floppy != drive[dnr].drive_floppy) {
+    if (floppy != vdrive[dnr]) {
         /* Shouldn't happen.  */
         log_error(drive_log, "Whaaat?  Attempt for bogus drive detachment!");
         return -1;
     } else {
-        if (drive[dnr].drive_floppy != NULL) {
+        if (vdrive[dnr] != NULL) {
             if (floppy->ImageFormat == 1541 || floppy->ImageFormat == 1571) {
                 drive_GCR_data_writeback(dnr);
                 memset(drive[dnr].GCR_data, 0, sizeof(drive[dnr].GCR_data));
             }
             drive[dnr].detach_clk = drive_clk[dnr];
-            drive[dnr].drive_floppy = NULL;
+            vdrive[dnr] = NULL;
             drive[dnr].GCR_image_loaded = 0;
         }
     }
@@ -1956,12 +1967,12 @@ static void GCR_data_writeback2(BYTE *buffer, BYTE *offset, int dnr, int track, 
                   "Could not find data block id of T:%d S:%d.",
                   track, sector);
     } else {
-        rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
-                                drive[dnr].drive_floppy->ImageFormat,
+        rc = floppy_write_block(vdrive[dnr]->ActiveFd,
+                                vdrive[dnr]->ImageFormat,
                                 buffer + 1, track, sector,
-                                drive[dnr].drive_floppy->D64_Header,
-                                drive[dnr].drive_floppy->GCR_Header,
-                                drive[dnr].drive_floppy->unit);
+                                vdrive[dnr]->D64_Header,
+                                vdrive[dnr]->GCR_Header,
+                                vdrive[dnr]->unit);
         if (rc < 0)
             log_error(drive[dnr].log,
                       "Could not update T:%d S:%d.", track, sector);
@@ -1973,7 +1984,7 @@ void drive_GCR_data_writeback(int dnr)
     int extend, track, sector, max_sector = 0;
     BYTE buffer[260], *offset;
 
-    if (drive[dnr].drive_floppy == NULL)
+    if (vdrive[dnr] == NULL)
         return;
 
     track = drive[dnr].current_half_track / 2;
@@ -1981,17 +1992,17 @@ void drive_GCR_data_writeback(int dnr)
     if (!drive[dnr].GCR_dirty_track)
 	return;
 
-    if (drive[dnr].drive_floppy->GCR_Header != 0) {
+    if (vdrive[dnr]->GCR_Header != 0) {
 	write_track_gcr(track, dnr);
 	drive[dnr].GCR_dirty_track = 0;
 	return;
     }
 
-    if (drive[dnr].drive_floppy->ImageFormat == 1541) {
+    if (vdrive[dnr]->ImageFormat == 1541) {
         if (track > EXT_TRACKS_1541)
             return;
         max_sector = sector_map_1541[track];
-        if (track > drive[dnr].drive_floppy->NumTracks) {
+        if (track > vdrive[dnr]->NumTracks) {
             switch (drive[dnr].extend_image_policy) {
               case DRIVE_EXTEND_NEVER:
                 drive[dnr].ask_extend_disk_image = 1;
@@ -2017,7 +2028,7 @@ void drive_GCR_data_writeback(int dnr)
         }
     }
 
-    if (drive[dnr].drive_floppy->ImageFormat == 1571) {
+    if (vdrive[dnr]->ImageFormat == 1571) {
         if (track > MAX_TRACKS_1571)
             return;
         max_sector = sector_map_1571[track];
@@ -2055,7 +2066,7 @@ int drive_read_block(int track, int sector, BYTE *readdata, int dnr)
     BYTE *GCR_track_start_ptr;
     int GCR_current_track_size;
 
-    if (track > drive[dnr].drive_floppy->NumTracks)
+    if (track > vdrive[dnr]->NumTracks)
         return -1;
 
     /* Make sure data is flushed to the file before reading.  */
@@ -2092,7 +2103,7 @@ int drive_write_block(int track, int sector, BYTE *writedata, int dnr)
     int GCR_current_track_size;
     int i;
 
-    if (track > drive[dnr].drive_floppy->NumTracks)
+    if (track > vdrive[dnr]->NumTracks)
         return -1;
 
     GCR_track_start_ptr = drive[dnr].GCR_data
@@ -2142,17 +2153,17 @@ static void drive_extend_disk_image(int dnr)
     int rc, track, sector;
     BYTE buffer[256];
 
-    drive[dnr].drive_floppy->NumTracks = EXT_TRACKS_1541;
-    drive[dnr].drive_floppy->NumBlocks = EXT_BLOCKS_1541;
+    vdrive[dnr]->NumTracks = EXT_TRACKS_1541;
+    vdrive[dnr]->NumBlocks = EXT_BLOCKS_1541;
     memset(buffer, 0, 256);
     for (track = NUM_TRACKS_1541 + 1; track <= EXT_TRACKS_1541; track++) {
 	for (sector = 0; sector < sector_map_1541[track]; sector++) {
-	    rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
-                            drive[dnr].drive_floppy->ImageFormat,
+	    rc = floppy_write_block(vdrive[dnr]->ActiveFd,
+                            vdrive[dnr]->ImageFormat,
                             buffer, track, sector,
-                            drive[dnr].drive_floppy->D64_Header,
-                            drive[dnr].drive_floppy->GCR_Header,
-                            drive[dnr].drive_floppy->unit);
+                            vdrive[dnr]->D64_Header,
+                            vdrive[dnr]->GCR_Header,
+                            vdrive[dnr]->unit);
 	if (rc < 0)
 	    log_error(drive[dnr].log,
                       "Could not update T:%d S:%d.", track, sector);
@@ -2732,8 +2743,8 @@ static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
     int track, sector;
     int rc;
 
-    if (drive[dnr].drive_floppy == NULL) {
-	return 0;
+    if (vdrive[dnr] == NULL) {
+        return 0;
     }
 
     sprintf(snap_module_name, "IMAGE%i", dnr);
@@ -2743,7 +2754,7 @@ static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
     if (m == NULL)
        return -1;
 
-    word = drive[dnr].drive_floppy->ImageFormat;
+    word = vdrive[dnr]->ImageFormat;
     snapshot_module_write_word(m, word);
 
     /* we use the return code to step through the tracks. So we do not
@@ -2751,12 +2762,12 @@ static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
     for (track = 1; ; track++) {
 	rc = 0;
 	for (sector = 0; ; sector++) {
-	    rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
-				   drive[dnr].drive_floppy->ImageFormat,
+	    rc = floppy_read_block(vdrive[dnr]->ActiveFd,
+				   vdrive[dnr]->ImageFormat,
 				   sector_data, track, sector,
-				   drive[dnr].drive_floppy->D64_Header,
-                                   drive[dnr].drive_floppy->GCR_Header,
-                                   drive[dnr].drive_floppy->unit);
+				   vdrive[dnr]->D64_Header,
+                                   vdrive[dnr]->GCR_Header,
+                                   vdrive[dnr]->unit);
 	    if (rc == 0) {
 		snapshot_module_write_byte_array(m, sector_data, 0x100);
 	    } else {
@@ -2862,12 +2873,12 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
     for (track = 1; ; track++) {
 	rc = 0;
 	for (sector = 0; ; sector++) {
-	    rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
-				   drive[dnr].drive_floppy->ImageFormat,
+	    rc = floppy_write_block(vdrive[dnr]->ActiveFd,
+				   vdrive[dnr]->ImageFormat,
 				   sector_data, track, sector,
-				   drive[dnr].drive_floppy->D64_Header,
-                                   drive[dnr].drive_floppy->GCR_Header,
-                                   drive[dnr].drive_floppy->unit);
+				   vdrive[dnr]->D64_Header,
+                                   vdrive[dnr]->GCR_Header,
+                                   vdrive[dnr]->unit);
 	    if (rc == 0) {
 		snapshot_module_read_byte_array(m, sector_data, 0x100);
 	    } else {
@@ -2879,7 +2890,7 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
 	}
     }
 
-    vdrive_bam_read_bam(drive[dnr].drive_floppy);
+    vdrive_bam_read_bam(vdrive[dnr]);
 
     snapshot_module_close(m);
     m = NULL;
@@ -2980,7 +2991,7 @@ static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr)
 
     free(tmpbuf);
     drive[dnr].GCR_image_loaded = 1;
-    drive[dnr].drive_floppy = NULL;
+    vdrive[dnr] = NULL;
     return 0;
 }
 
