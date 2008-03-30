@@ -54,12 +54,12 @@
 #include "log.h"
 #include "maincpu.h"
 #include "parallel.h"
+#include "prdevice.h"
 #include "serial.h"
 #include "tape.h"
 #include "traps.h"
 #include "utils.h"
 #include "vdrive.h"
-#include "prdevice.h"
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */
@@ -170,9 +170,7 @@ static int serialcommand(void)
                 p->isopen[channel] = 0;
                 (*(p->closef)) (vdrive, channel);
 
-                log_error(serial_log,
-                          "Cannot open file. Status $%02x.",
-                          st);
+                log_error(serial_log, "Cannot open file. Status $%02x.", st);
             }
         }
         if (p->flushf)
@@ -205,24 +203,24 @@ void serialattention(void)
 
     /* do a flush if unlisten for close and command channel */
     if (b == 0x3f && (((TrapSecondary & 0xf0) == 0xf0)
-		      || ((TrapSecondary & 0x0f) == 0x0f))) {
-	st = serialcommand();
-	SET_ST(st);
+        || ((TrapSecondary & 0x0f) == 0x0f))) {
+        st = serialcommand();
+        SET_ST(st);
     } else {
-	switch (b & 0xf0) {
-	  case 0x20:
-	  case 0x40:
+        switch (b & 0xf0) {
+          case 0x20:
+          case 0x40:
             TrapDevice = b;
             break;
 
-	  case 0x60:		/* secondary address */
-	  case 0xe0:		/* close a file */
+          case 0x60:            /* secondary address */
+          case 0xe0:            /* close a file */
             TrapSecondary = b;
             st = serialcommand();
             SET_ST(st);
             break;
 
-	  case 0xf0:		/* Open File needs the filename first */
+          case 0xf0:            /* Open File needs the filename first */
             TrapSecondary = b;
             p = &(serialdevices[TrapDevice & 0x0f]);
             if (p->isopen[b & 0x0f] == 2) {
