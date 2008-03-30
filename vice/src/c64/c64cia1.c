@@ -479,7 +479,7 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
     {
         static int old_lp = 0x10;
         int new_lp;
-      
+
         cia1[addr] = byte;
 
 	/* Handle software-triggered light pen. */
@@ -823,7 +823,7 @@ BYTE read_cia1_(ADDRESS addr)
 	    BYTE msk = (cia1[CIA_PRA] | ~cia1[CIA_DDRA]) & ~joy[2];
 	    BYTE m;
 	    int i;
-	    
+
 	    for (m = 0x1, i = 0; i < KBD_ROWS; m <<= 1, i++)
 		if (!(msk & m))
 		    val &= ~keyarr[i];

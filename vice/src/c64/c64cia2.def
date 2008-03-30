@@ -1,6 +1,7 @@
 /* -*- C -*-
  *
- * cia2.def - Definitions for the second MOS6526 (CIA) chip in the C64 ($DD00).
+ * cia2.def - Definitions for the second MOS6526 (CIA) chip in the C64
+ * ($DD00).
  *
  * Written by
  *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
@@ -23,8 +24,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
- */
+ * */
 
 /* Header for building cia2.c (CIA #2 emulation in the C64). */
 
@@ -53,7 +53,9 @@ INCLUDES()
     #include "c64mem.h"
     #include "c64iec.h"
     #include "c64cia.h"
+#ifdef HAVE_PRINTER
     #include "pruser.h"
+#endif
 #ifdef HAVE_RS232
     #include "rsuser.h"
 #endif
@@ -66,9 +68,11 @@ PRE_CIA_FUNCS()
 
 RESET_CIA()
 {
-#ifdef HAVE_RS232
+#ifdef HAVE_PRINTER
     userport_printer_write_strobe(1);
     userport_printer_write_data(0xff);
+#endif
+#ifdef HAVE_RS232
     userport_serial_write_ctrl(0xff);
 #endif
     iec_info = iec_get_drive_port();
@@ -83,7 +87,9 @@ STORE_CIAPA()
 	 tmp = ~cia2[CIA_PRA] & cia2[CIA_DDRA];
 	 mem_set_vbank(tmp & 3);
 	 iec_cpu_write(tmp);
+#ifdef HAVE_PRINTER
 	 userport_printer_write_strobe(tmp & 0x04);
+#endif
     }
 }
 
@@ -93,8 +99,10 @@ STORE_CIAPB()
     byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
     if (true1541_parallel_cable_enabled)
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
-#ifdef HAVE_RS232
+#ifdef HAVE_PRINTER
     userport_printer_write_data(byte);
+#endif
+#ifdef HAVE_RS232
     userport_serial_write_ctrl(byte);
 #endif
 }
@@ -119,7 +127,7 @@ READ_CIAPB()
 #else
     byte = (true1541_parallel_cable_enabled
             ? parallel_cable_cpu_read()
-            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]));
+            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]);
 #endif
 }
 
@@ -132,13 +140,13 @@ READ_CIAICR()
 POST_CIA_FUNCS()
 {
 
+#ifdef HAVE_PRINTER
 void userport_printer_set_busy(int flank)
 {
     if(!flank) {
 	cia2_set_flag();
     }
 }
+#endif
 
 }
-
-

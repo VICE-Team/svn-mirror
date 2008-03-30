@@ -1,6 +1,7 @@
 /* -*- C -*-
  *
- * cia1.def - Definitions for the first MOS6526 (CIA) chip in the C64 ($DC00).
+ * cia1.def - Definitions for the first MOS6526 (CIA) chip in the C64
+ * ($DC00).
  *
  * Written by
  *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
@@ -23,8 +24,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
- */
+ * */
 
 #define mycpu maincpu
 
@@ -73,7 +73,7 @@ STORE_CIAPB()
     {
         static int old_lp = 0x10;
         int new_lp;
-      
+
         cia1[addr] = byte;
 
 	/* Handle software-triggered light pen. */
@@ -107,7 +107,7 @@ READ_CIAPB()
 	    BYTE msk = (cia1[CIA_PRA] | ~cia1[CIA_DDRA]) & ~joy[2];
 	    BYTE m;
 	    int i;
-	    
+
 	    for (m = 0x1, i = 0; i < KBD_ROWS; m <<= 1, i++)
 		if (!(msk & m))
 		    val &= ~keyarr[i];

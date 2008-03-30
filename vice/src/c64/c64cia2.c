@@ -96,7 +96,9 @@
     #include "c64mem.h"
     #include "c64iec.h"
     #include "c64cia.h"
+#ifdef HAVE_PRINTER
     #include "pruser.h"
+#endif
 #ifdef HAVE_RS232
     #include "rsuser.h"
 #endif
@@ -433,9 +435,11 @@ void reset_cia2(void)
     cia2int = 0;
 
 
-#ifdef HAVE_RS232
+#ifdef HAVE_PRINTER
     userport_printer_write_strobe(1);
     userport_printer_write_data(0xff);
+#endif
+#ifdef HAVE_RS232
     userport_serial_write_ctrl(0xff);
 #endif
     iec_info = iec_get_drive_port();
@@ -470,7 +474,9 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	 tmp = ~cia2[CIA_PRA] & cia2[CIA_DDRA];
 	 mem_set_vbank(tmp & 3);
 	 iec_cpu_write(tmp);
+#ifdef HAVE_PRINTER
 	 userport_printer_write_strobe(tmp & 0x04);
+#endif
     }
 	break;
 
@@ -494,8 +500,10 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
     byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
     if (true1541_parallel_cable_enabled)
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
-#ifdef HAVE_RS232
+#ifdef HAVE_PRINTER
     userport_printer_write_data(byte);
+#endif
+#ifdef HAVE_RS232
     userport_serial_write_ctrl(byte);
 #endif
 	break;
@@ -825,7 +833,7 @@ BYTE read_cia2_(ADDRESS addr)
 #else
     byte = (true1541_parallel_cable_enabled
             ? parallel_cable_cpu_read()
-            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]));
+            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]);
 #endif
         if ((cia2[CIA_CRA] | cia2[CIA_CRB]) & 0x02) {
 	    update_cia2(rclk);
@@ -1405,11 +1413,13 @@ void cia2_undump_line(char *s)
 
 
 
+#ifdef HAVE_PRINTER
 void userport_printer_set_busy(int flank)
 {
     if(!flank) {
 	cia2_set_flag();
     }
 }
+#endif
 
 
