@@ -1,5 +1,26 @@
 2004-07-17  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.14.37.
+
+	* opencbmlib.h, arch/unix/opencbmlib.c,
+	arch/win32/opencbmlib.c, arch/win32/opencbm.h: New files.
+
+	* Makefile.am, arch/unix/Makefile.am, arch/win32/Makefile.am,
+	arch/win32/arch.dsp: Added new files.
+
+	* arch/win32/serial.dsp: Added `realdevice.c'.
+
+	* serial/serial-trap.c, serial.h, c64/c64.c, c128/c128.c,
+	vic20/vic20.c, plus4/plus4.c, c1541.c: Moved initialization of
+	`serial_iec_bus_init()'.
+
+	* arch/win32/archdep.c (archdep_file_is_chardev): Added dummy
+	char device `/dev/cbm'.
+
+	* arch/win32/msvc/config.h: Define `HAVE_OPENCBM'.
+
+2004-07-17  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.14.36.
 
 2004-07-12  Rami Rasanen  <raipe@neutech.fi>
