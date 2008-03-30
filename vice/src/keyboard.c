@@ -914,8 +914,8 @@ int keyboard_snapshot_write_module(snapshot_t *s)
        return -1;
 
     if (0
-        || SMW_DWA(m, keyarr, KBD_ROWS) < 0
-        || SMW_DWA(m, rev_keyarr, KBD_COLS) < 0)
+        || SMW_DWA(m, (DWORD *)keyarr, KBD_ROWS) < 0
+        || SMW_DWA(m, (DWORD *)rev_keyarr, KBD_COLS) < 0)
     {
         snapshot_module_close(m);
         return -1;
@@ -939,8 +939,8 @@ int keyboard_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
-        || SMR_DWA(m, keyarr, KBD_ROWS) < 0
-        || SMR_DWA(m, rev_keyarr, KBD_COLS) < 0)
+        || SMR_DWA(m, (DWORD *)keyarr, KBD_ROWS) < 0
+        || SMR_DWA(m, (DWORD *)rev_keyarr, KBD_COLS) < 0)
     {
         snapshot_module_close(m);
         return -1;
