@@ -655,7 +655,7 @@ Performance command-line options
 
 `-warp'
 `+warp'
-     Enables/disables warp mode (`WarpMode=1', `WarpMode=1').
+     Enables/disables warp mode (`WarpMode=1', `WarpMode=0').
 
 
 File: vice.info,  Node: Video settings,  Next: Keyboard settings,  Prev: Performance settings,  Up: Settings and resources
@@ -1190,8 +1190,6 @@ Drive command-line options
      Specifies the drive types for units 8 and 9, respectively.
      Possible values for `TYPE' are `1541', `1571', `1581' and `2031'.
 
-`-parallel'
-`+parallel'
 `-parallel'
 `+parallel'
      Turns emulation of the SpeedDOS-compatible parallel cable on

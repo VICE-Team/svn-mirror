@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 9 April 1999 -->
+     from ../vice.texi on 25 April 1999 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -325,7 +325,7 @@ and <KBD>space</KBD> for the fire button instead.
 <P>
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541 drives in one of two ways:
+Commodore 1541, 1571, 1581 and 2031 drives in one of two ways:
 
 </P>
 
@@ -345,8 +345,8 @@ read and write files in the <CODE>P00</CODE> format (again, consult the
 </UL> </P>
 
 <P>
-When using disk images there are two available types of 1541 emulation.
-One of them the <EM>DOS level</EM> drive emulation.  It
+When using disk images there are two available types of drive
+emulation.  One of them the <EM>DOS level</EM> drive emulation.  It
 does <EM>not</EM> really emulate the serial line, but patches the kernal
 ROM (with the so-called <EM>kernal traps</EM>) so that serial line
 operations can be emulated via C language routines.  This emulation is
@@ -356,8 +356,8 @@ all of them).
 </P>
 <P>
 The other alternative is a <EM>hardware level</EM> drive emulation.  The
-Commodore 1541 disk drive was provided with its own CPU (a 6502 as the
-VIC20 and the PETs) and its own RAM and ROM.  So, in order to more
+Commodore disk drives are provided with their own CPU (a 6502 as the
+VIC20 and the PETs) and their own RAM and ROM.  So, in order to more
 closely emulate its features, a complete emulation of this hardware must
 be provided and that is what the <EM>hardware level</EM> emulation does.
 When the <EM>hardware level</EM> emulation is used, the kernal routines are
@@ -367,10 +367,9 @@ because the emulator has to emulate two CPUs instead of one.
 
 </P>
 <P>
-The <EM>hardware level</EM> emulation is only available on the VIC20 and
-C64 emulators, and can only be used to emulate one drive at a time.  As
-a consequence, it is only available for unit 8 and disables all the
-other drives when activated.
+As of 0.14.0 the <EM>hardware level</EM> emulation is available on all
+emulators.  It can only be used to emulate drive unit #8 or #9.  Other
+units are disabled if <EM>hardware level</EM> drive emulation is enabled.
 
 </P>
 <P>

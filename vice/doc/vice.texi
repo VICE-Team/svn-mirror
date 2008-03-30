@@ -769,7 +769,7 @@ and @key{space} for the fire button instead.
 
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541 drives in one of two ways:
+Commodore 1541, 1571, 1581 and 2031 drives in one of two ways:
 
 @itemize @bullet
 @item
@@ -784,8 +784,8 @@ read and write files in the @code{P00} format (again, consult the
 @code{comp.emulators.cbm} FAQ for more info).
 @end itemize
 
-When using disk images there are two available types of 1541 emulation.
-One of them the @dfn{DOS level} drive emulation.  It
+When using disk images there are two available types of drive
+emulation.  One of them the @dfn{DOS level} drive emulation.  It
 does @emph{not} really emulate the serial line, but patches the kernal
 ROM (with the so-called @dfn{kernal traps}) so that serial line
 operations can be emulated via C language routines.  This emulation is
@@ -793,8 +793,8 @@ very fast, but only allows use of standard DOS functions (and not even
 all of them).
 
 The other alternative is a @dfn{hardware level} drive emulation.  The
-Commodore 1541 disk drive was provided with its own CPU (a 6502 as the
-VIC20 and the PETs) and its own RAM and ROM.  So, in order to more
+Commodore disk drives are provided with their own CPU (a 6502 as the
+VIC20 and the PETs) and their own RAM and ROM.  So, in order to more
 closely emulate its features, a complete emulation of this hardware must
 be provided and that is what the @dfn{hardware level} emulation does.
 When the @dfn{hardware level} emulation is used, the kernal routines are
@@ -802,10 +802,9 @@ remain unpatched and the serial line is fully emulated.  The problem
 with this emulation is that it needs a lot of processing power, mainly
 because the emulator has to emulate two CPUs instead of one.
 
-The @dfn{hardware level} emulation is only available on the VIC20 and
-C64 emulators, and can only be used to emulate one drive at a time.  As
-a consequence, it is only available for unit 8 and disables all the
-other drives when activated.
+As of 0.14.0 the @dfn{hardware level} emulation is available on all
+emulators.  It can only be used to emulate drive unit #8 or #9.  Other
+units are disabled if @dfn{hardware level} drive emulation is enabled.
 
 However, the PETs do not use a serial IEC bus to communicate with the
 floppy drive but instead use the parallel IEEE488 bus.  This does
@@ -1980,7 +1979,7 @@ Specifies refresh rate; a value of @code{n} specifies a refresh rate of
 @cindex -warp, +warp
 @item -warp
 @itemx +warp
-Enables/disables warp mode (@code{WarpMode=1}, @code{WarpMode=1}).
+Enables/disables warp mode (@code{WarpMode=1}, @code{WarpMode=0}).
 
 @end table
 
@@ -2633,9 +2632,6 @@ values for @code{TYPE} are @code{1541}, @code{1571}, @code{1581} and
 
 @cindex -parallel8, +parallel8
 @item -parallel
-@itemx +parallel
-@cindex -parallel9, +parallel9
-@itemx -parallel
 @itemx +parallel
 Turns emulation of the SpeedDOS-compatible parallel cable on
 (@code{DriveXParallelCable=1}) and off (@code{DriveXParallelCable=0}),

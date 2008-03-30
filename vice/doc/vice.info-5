@@ -850,7 +850,6 @@ Concept Index
 * -ntscdrive:                            Drive options.
 * -paldrive:                             Drive options.
 * -parallel8, +parallel8:                Drive options.
-* -parallel9, +parallel9:                Drive options.
 * -petramA:                              PET commandline options.
 * -petramB:                              PET commandline options.
 * -poskeymap:                            Keyboard options.
