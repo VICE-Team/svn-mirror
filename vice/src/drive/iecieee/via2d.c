@@ -40,6 +40,7 @@
 #include "via.h"
 #include "viad.h"
 
+
 #define VIA_SET_CA2(a)
 #define VIA_SET_CB2(a)
 
@@ -123,12 +124,19 @@ void via2d_setup_context(drive_context_t *ctxptr)
                                        ctxptr->via2.myname);
 }
 
+void viad2_update_pcr(int pcrval, drive_t *dptr)
+{
+    dptr->read_write_mode = pcrval & 0x20;
+    dptr->byte_ready_active = (dptr->byte_ready_active & ~0x02)
+                              | (pcrval & 0x02);
+}
 
 inline static void store_pra(drive_context_t *ctxptr, BYTE byte,
                              BYTE oldpa_value, WORD addr)
 {
     if (ctxptr->drive_ptr->byte_ready_active == 0x06)
         rotation_rotate_disk(ctxptr->drive_ptr);
+
     ctxptr->drive_ptr->GCR_write_value = byte;
 }
 
@@ -177,7 +185,7 @@ inline static BYTE store_pcr(drive_context_t *ctxptr, BYTE byte, WORD addr)
         /* insert_your_favourite_drive_function_here(tmp);
         bit 5 is the write output to the analog circuitry:
         0 = writing, 0x20 = reading */
-        drive_update_viad2_pcr(tmp, ctxptr->drive_ptr);
+        viad2_update_pcr(tmp, ctxptr->drive_ptr);
         if ((byte & 0x20) != (myvia[addr] & 0x20)) {
             if (ctxptr->drive_ptr->byte_ready_active == 0x06)
                 rotation_rotate_disk(ctxptr->drive_ptr);
@@ -189,7 +197,7 @@ inline static BYTE store_pcr(drive_context_t *ctxptr, BYTE byte, WORD addr)
 
 static void undump_pcr(drive_context_t *ctxptr, BYTE byte)
 {
-    drive_update_viad2_pcr(byte, ctxptr->drive_ptr);
+    viad2_update_pcr(byte, ctxptr->drive_ptr);
 }
 
 static void undump_acr(drive_context_t *ctxptr, BYTE byte)
@@ -218,25 +226,10 @@ inline static BYTE read_pra(drive_context_t *ctxptr, WORD addr)
 {
     BYTE byte;
 
-    if (ctxptr->drive_ptr->attach_clk != (CLOCK)0) {
-        if (*(ctxptr->clk_ptr) - ctxptr->drive_ptr->attach_clk
-            < DRIVE_ATTACH_DELAY)
-            ctxptr->drive_ptr->GCR_read = 0;
-        else
-            ctxptr->drive_ptr->attach_clk = (CLOCK)0;
-    } else if (ctxptr->drive_ptr->attach_detach_clk != (CLOCK)0) {
-        if (*(ctxptr->clk_ptr) - ctxptr->drive_ptr->attach_detach_clk
-            < DRIVE_ATTACH_DETACH_DELAY)
-            ctxptr->drive_ptr->GCR_read = 0;
-        else
-            ctxptr->drive_ptr->attach_detach_clk = (CLOCK)0;
-    } else {
-        if (ctxptr->drive_ptr->byte_ready_active == 0x06)
-            rotation_rotate_disk(ctxptr->drive_ptr);
-    }
+    rotation_byte_read(ctxptr->drive_ptr);
 
     byte = ((ctxptr->drive_ptr->GCR_read & ~myvia[VIA_DDRA])
-           | (myvia[VIA_PRA] & myvia[VIA_DDRA] ));
+           | (myvia[VIA_PRA] & myvia[VIA_DDRA]));
 
     ctxptr->drive_ptr->byte_ready_level = 0;
 
@@ -247,8 +240,12 @@ inline static BYTE read_prb(drive_context_t *ctxptr)
 {
     BYTE byte;
 
-    byte = (drive_read_viad2_prb(ctxptr->drive_ptr) & ~myvia[VIA_DDRB])
-           | (myvia[VIA_PRB] & myvia[VIA_DDRB] );
+    if (ctxptr->drive_ptr->byte_ready_active == 0x06)
+        rotation_rotate_disk(ctxptr->drive_ptr);
+
+    byte = ((rotation_sync_found(ctxptr->drive_ptr)
+           | drive_write_protect_sense(ctxptr->drive_ptr)) & ~myvia[VIA_DDRB])
+           | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
 
     return byte;
 }
