@@ -99,22 +99,26 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data);
 void drive_set_disk_memory(unsigned int dnr, BYTE *id, unsigned int track,
                            unsigned int sector)
 {
-    if (dnr == 0) {
-        drive0_context.cpud.drive_ram[0x12] = id[0];
-        drive0_context.cpud.drive_ram[0x13] = id[1];
-        drive0_context.cpud.drive_ram[0x16] = id[0];
-        drive0_context.cpud.drive_ram[0x17] = id[1];
-        drive0_context.cpud.drive_ram[0x18] = track;
-        drive0_context.cpud.drive_ram[0x19] = sector;
-        drive0_context.cpud.drive_ram[0x22] = track;
-    } else {
-        drive1_context.cpud.drive_ram[0x12] = id[0];
-        drive1_context.cpud.drive_ram[0x13] = id[1];
-        drive1_context.cpud.drive_ram[0x16] = id[0];
-        drive1_context.cpud.drive_ram[0x17] = id[1];
-        drive1_context.cpud.drive_ram[0x18] = track;
-        drive1_context.cpud.drive_ram[0x19] = sector;
-        drive1_context.cpud.drive_ram[0x22] = track;
+    if (drive[dnr].type == DRIVE_TYPE_1541
+        || drive[dnr].type == DRIVE_TYPE_1541II
+        || drive[dnr].type == DRIVE_TYPE_1571) {
+        if (dnr == 0) {
+            drive0_context.cpud.drive_ram[0x12] = id[0];
+            drive0_context.cpud.drive_ram[0x13] = id[1];
+            drive0_context.cpud.drive_ram[0x16] = id[0];
+            drive0_context.cpud.drive_ram[0x17] = id[1];
+            drive0_context.cpud.drive_ram[0x18] = track;
+            drive0_context.cpud.drive_ram[0x19] = sector;
+            drive0_context.cpud.drive_ram[0x22] = track;
+        } else {
+            drive1_context.cpud.drive_ram[0x12] = id[0];
+            drive1_context.cpud.drive_ram[0x13] = id[1];
+            drive1_context.cpud.drive_ram[0x16] = id[0];
+            drive1_context.cpud.drive_ram[0x17] = id[1];
+            drive1_context.cpud.drive_ram[0x18] = track;
+            drive1_context.cpud.drive_ram[0x19] = sector;
+            drive1_context.cpud.drive_ram[0x22] = track;
+        }
     }
 }
 
@@ -476,7 +480,7 @@ CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr)
         return drive_cpu_prevent_clk_overflow(&drive1_context, sub);
       default:
         log_error(drive_log,
-                  "Unexpected drive number %d in `drive_prevent_clk_overflow()'\n",
+                  "Unexpected drive number %d in `drive_prevent_clk_overflow()'",
                   dnr);
         return 0;
     }
