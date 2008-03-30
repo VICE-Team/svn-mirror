@@ -28,12 +28,12 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-#include <allegro.h>            /* Must come after <stdio.h>.  */
 #include <go32.h>
 #include <dpmi.h>
 #include <dos.h>
 #include <sys/farptr.h>
+
+#include <allegro.h>            /* Must come after everything else.  */
 
 #include "sound.h"
 
@@ -141,7 +141,6 @@ static int sb_init(warn_t *w, char *param, int *speed,
         if (!vicesb_detect(&is_16bit))
             return -1;
         detect_done = 1;
-        printf("SB Detected; using %s bits\n", is_16bit ? "16" : "8");
     }
 
     if (is_16bit)
@@ -160,11 +159,8 @@ static int sb_init(warn_t *w, char *param, int *speed,
         int new_fragnr = (int) ((double) *fragnr * ((double) *fragsize
                                                     / (double) *tmp_fragsize));
 
-        if (new_fragnr > 0) {
-            printf("%s(): Adjusting fragnr from %d to %d\n",
-                   *fragnr, new_fragnr);
+        if (new_fragnr > 0)
             *fragnr = new_fragnr;
-        }
     }
 #endif
 
@@ -175,8 +171,6 @@ static int sb_init(warn_t *w, char *param, int *speed,
 
     fragment_size = tmp_fragsize;
     audio_buffer_size = *fragnr * fragment_size;
-    printf("%s(): fragment_size = %d, *fragnr = %d, audio_buffer_size = %d\n",
-           __FUNCTION__, fragment_size, *fragnr, audio_buffer_size);
 
     /* FIXME: Check for audio buffer size.  */
 
@@ -233,7 +227,7 @@ static int sb_write(warn_t *w, SWORD *pbuf, int nr)
         }
         num_bytes_in_buffer += fragment_size;
 
-        /* Done writing the fragment.  Enable interrupts.  */
+        /* Done writing the fragment.  Enable interrupts again.  */
         asm volatile("sti");
 
         next_sample += fragment_size;
@@ -305,6 +299,5 @@ static sound_device_t sb_device =
 
 int sound_init_sb_device(void)
 {
-    printf("Initializing SB sound device.\n");
     return sound_register_device(&sb_device);
 }

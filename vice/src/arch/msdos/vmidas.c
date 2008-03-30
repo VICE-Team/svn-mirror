@@ -32,6 +32,7 @@
 #include <string.h>
 #include <dir.h>
 
+#include "log.h"
 #include "utils.h"
 
 #define MIDAS_ERRMSG()	MIDASgetErrorMessage(MIDASgetLastError())
@@ -49,7 +50,15 @@ static struct {
 
 static char *config_fname;
 
+static log_t vmidas_log = LOG_ERR;
+
 /* ------------------------------------------------------------------------- */
+
+static void open_log(void)
+{
+    if (vmidas_log == LOG_ERR)
+        vmidas_log = log_open("VMidas");
+}
 
 void vmidas_close(void)
 {
@@ -67,8 +76,10 @@ static void vmidas_set_config_fname(void)
 BOOL vmidas_startup(void)
 {
     if (!MIDASstartup_called) {
+        open_log();
+
         if (!MIDASstartup()) {
-            fprintf(stderr, "MIDASstartup: %s\n", MIDAS_ERRMSG());
+            log_error(vmidas_log, "MIDASstartup: %s.", MIDAS_ERRMSG());
             return FALSE;
         }
 	MIDASstartup_called = 1;
@@ -76,12 +87,14 @@ BOOL vmidas_startup(void)
 	memset(&midas_timer_status, 0, sizeof(midas_timer_status));
 	vmidas_set_config_fname();
 	if (MIDASloadConfig(config_fname)) {
-	    printf("Loaded MIDAS configuration file `%s'\n", config_fname);
+	    log_message(vmidas_log,
+                        "Loaded MIDAS configuration file `%s'.", config_fname);
 	} else {
-	    fprintf(stderr, "MIDASloadConfig(\"%s\"): %s\n",
-		    config_fname, MIDAS_ERRMSG());
-	    fprintf(stderr, "Couldn't load MIDAS configuration file `%s'\n",
-		    config_fname);
+	    log_error(vmidas_log, "MIDASloadConfig(\"%s\"): %s.",
+                      config_fname, MIDAS_ERRMSG());
+	    log_error(vmidas_log,
+                      "Couldn't load MIDAS configuration file `%s'.",
+                      config_fname);
 	}
 	atexit(vmidas_close);
 	return TRUE;
@@ -98,7 +111,8 @@ BOOL vmidas_remove_timer_callbacks(void)
 	midas_timer_status.rate = 0;
 	return TRUE;
     } else {
-        fprintf(stderr, "MIDASremoveTimerCallbacks: %s\n", MIDAS_ERRMSG());
+        log_error(vmidas_log, "MIDASremoveTimerCallbacks: %s.",
+                  MIDAS_ERRMSG());
 	return FALSE;
     }
 }
@@ -118,7 +132,7 @@ BOOL vmidas_set_timer_callbacks(DWORD rate, BOOL displaySync,
 	midas_timer_status.inVR = inVR;
 	return TRUE;
     } else {
-        fprintf(stderr, "MIDASsetTimerCallbacks: %s\n", MIDAS_ERRMSG());
+        log_error(vmidas_log, "MIDASsetTimerCallbacks: %s.", MIDAS_ERRMSG());
 	return FALSE;
     }
 }
@@ -127,12 +141,15 @@ BOOL vmidas_init(void)
 {
     if (!_midas_available)
 	return FALSE;
+
+    open_log();
+
     if (!MIDASclose()) {
-	fprintf(stderr, "MIDASclose: %s\n", MIDAS_ERRMSG());
+	log_error(vmidas_log, "MIDASclose: %s\n", MIDAS_ERRMSG());
 	return FALSE;
     }
     if (!MIDASinit()) {
-	fprintf(stderr, "MIDASinit: %s\n", MIDAS_ERRMSG());
+	log_error(vmidas_log, "MIDASinit: %s\n", MIDAS_ERRMSG());
 	return FALSE;
     }
     if (midas_timer_status.rate != 0) {
@@ -142,13 +159,12 @@ BOOL vmidas_init(void)
 				          midas_timer_status.immVR,
 				          midas_timer_status.inVR);
 	if (!ret) {
-	    fprintf(stderr, "%s: Aaargh! Cannot set timer callbacks!\n",
-	    	    __FUNCTION__);
-	    fprintf(stderr,
-		    "MIDASsetTimerCallbacks(rate = %d, displaySync = %d): %s\n",
-		    midas_timer_status.rate,
-		    midas_timer_status.displaySync,
-		    MIDAS_ERRMSG());
+	    log_error(vmidas_log, "Cannot set MIDAS timer callbacks.");
+	    log_error(vmidas_log,
+                      "MIDASsetTimerCallbacks(rate = %d, displaySync = %d): %s.",
+                      midas_timer_status.rate,
+                      midas_timer_status.displaySync,
+                      MIDAS_ERRMSG());
 	    exit(EXIT_FAILURE);
 	}
 	return ret;
@@ -159,25 +175,28 @@ BOOL vmidas_init(void)
 
 BOOL vmidas_config(void)
 {
+    open_log();
+
     if (!MIDASconfig()) {
-        fprintf(stderr, "MIDASconfig(): %s\n", MIDAS_ERRMSG());
+        log_error(vmidas_log, "MIDASconfig(): %s.", MIDAS_ERRMSG());
     	return FALSE;
     }
 
     if (!vmidas_init()) {
-        fprintf(stderr, "Cannot reinitialize MIDAS?!\n");
+        log_error(vmidas_log, "Cannot reinitialize MIDAS.");
         exit(EXIT_FAILURE);
     }
 
     /* FIXME: `MIDASsaveConfig()' return value? */
     if (!MIDASsaveConfig(config_fname)) {
-        printf("Saved MIDAS configuration in `%s'\n", config_fname);
+        log_message(vmidas_log,
+                    "Saved MIDAS configuration in `%s'.", config_fname);
 	return TRUE;
     } else {
-    	fprintf(stderr, "MIDASsaveConfig(\"%s\"): %s\n",
-	        config_fname, MIDAS_ERRMSG());
-        fprintf(stderr, "Couldn't save MIDAS configuration in `%s'\n",
-                config_fname);
+    	log_error(vmidas_log, "MIDASsaveConfig(\"%s\"): %s.",
+                  config_fname, MIDAS_ERRMSG());
+        log_error(vmidas_log, "Couldn't save MIDAS configuration in `%s'.",
+                  config_fname);
 	return FALSE;
     }
 }

@@ -169,16 +169,17 @@ inline static void register_timer_callback(void)
     printf("Installing MIDAS timer...\n");
     if (timer_speed == 0) {
 	if (!vmidas_remove_timer_callbacks())
-	    fprintf(stderr, "%s: Warning: Could not remove timer callbacks.\n",
-		    __FUNCTION__);
+	    log_error(LOG_DEFAULT,
+                      "%s: Warning: Could not remove timer callbacks.\n",
+                      __FUNCTION__);
     } else {
 	DWORD rate = refresh_frequency * timer_speed * 10;
 
-	/* printf("%s: setting MIDAS timer at %d\n", __FUNCTION__, rate); */
 	if (vmidas_set_timer_callbacks(rate, FALSE,
 				       my_timer_callback, NULL, NULL) < 0) {
-	    fprintf(stderr, "%s: cannot set timer callback at %.2f Hz\n",
-		    __FUNCTION__, (double)rate / 1000.0);
+	    log_error(LOG_DEFAULT,
+                      "%s: cannot set timer callback at %.2f Hz\n",
+                      __FUNCTION__, (double)rate / 1000.0);
 	    /* FIXME: is this necessary? */
 	    vmidas_remove_timer_callbacks();
 	    relative_speed = timer_speed = 0;

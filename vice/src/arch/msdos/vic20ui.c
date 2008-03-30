@@ -32,6 +32,7 @@
 #include "vic20ui.h"
 
 #include "cartridge.h"
+#include "log.h"
 #include "menudefs.h"
 #include "tui.h"
 #include "tuimenu.h"
@@ -180,7 +181,7 @@ static TUI_MENU_CALLBACK(set_common_memory_configuration_callback)
             break;
           default:
             /* Shouldn't happen.  */
-            fprintf(stderr, "What?!\n");
+            log_debug("What?!");
             blocks = 0;         /* Make compiler happy.  */
         }
         resources_set_value("RamBlock0",

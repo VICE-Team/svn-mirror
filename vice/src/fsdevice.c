@@ -36,9 +36,6 @@
  *
  */
 
-/*#define DEBUG_FS*/
-/*#define DEBUG_FSDRIVE*/
-
 #include "vice.h"
 
 #ifdef STDC_HEADERS
@@ -60,16 +57,16 @@
 #include <errno.h>
 #endif
 
-#include "archdefs.h"
-#include "resources.h"
-#include "vdrive.h"
-#include "file.h"
-#include "charsets.h"
-#include "tape.h"
-#include "utils.h"
-#include "cmdline.h"
 #include "fsdevice.h"
 
+#include "charsets.h"
+#include "cmdline.h"
+#include "file.h"
+#include "resources.h"
+#include "sysdep.h"
+#include "tape.h"
+#include "utils.h"
+#include "vdrive.h"
 
 enum fsmode {
     Write, Read, Append, Directory
@@ -327,8 +324,7 @@ static int cmdline_fsdirectory(const char *param, void *extra_param)
 	set_fsdevice_11_dir((resource_value_t) directory);
 	break;
       default:
-	fprintf(errfile, "cmdline_fsdirectory(): unexpected unit number %d?!\n",
-		unit);
+	fprintf(stdout, "Invalid unit number %d.\n", unit);
     }
 
     return 0;
@@ -438,7 +434,7 @@ void fs_error(int code)
     fs_eptr = 0;
 
     if (code && code != IPE_DOS_VERSION)
-	fprintf(errfile, "UnixFS: ERR = %02d, %s\n", code, message);
+	log_message(LOG_DEFAULT, "FSDEVICE: ERR = %02d, %s\n", code, message);
 }
 
 void flush_fs(void *flp, int secondary)
@@ -471,9 +467,7 @@ void flush_fs(void *flp, int secondary)
     if (realarg) {
 	*realarg++ = '\0';
     }
-#ifdef DEBUG_FS
-    fprintf(logfile, "Flush_FS: command='%s', cmd='%s'\n", cmd, arg);
-#endif
+
     if (!strcmp(cmd, "cd")) {
 	er = IPE_OK;
 	if (chdir(arg)) {
@@ -601,9 +595,6 @@ void flush_fs(void *flp, int secondary)
 int write_fs(void *flp, BYTE data, int secondary)
 {
     if (secondary == 15) {
-#ifdef DEBUG_FS_
-	fprintf(logfile, "Write_FS(secadr=15, data=%02x, '%c')\n", data, data);
-#endif
 	if (fs_cptr < MAXPATHLEN - 1) {		/* keep place for nullbyte */
 	    fs_cmdbuf[fs_cptr++] = data;
 	    return SERIAL_OK;
@@ -644,9 +635,6 @@ int read_fs(void *flp, BYTE * data, int secondary)
 	    fs_error(IPE_OK);
 	if (fs_eptr < fs_elen) {
 	    *data = fs_errorl[fs_eptr++];
-#ifdef DEBUG_FS
-	    fprintf(logfile, "Read_FS(secadr=15) reads '%c'\n", *data);
-#endif
 	    return SERIAL_OK;
 	} else {
 	    fs_error(IPE_OK);
@@ -678,10 +666,6 @@ int read_fs(void *flp, BYTE * data, int secondary)
 	      if (info->buflen <= 0) {
 		  char buf[MAXPATHLEN];
 
-#ifdef DEBUG_FSDRIVE
-		  fprintf(logfile, "reading\n");
-#endif
-
 		  info->bufp = info->name;
 
 		  if (info->eof) {
@@ -695,18 +679,12 @@ int read_fs(void *flp, BYTE * data, int secondary)
 
 		  /* first test if dirmask is needed - maybe this should be
 		     replaced by some regex functions... */
-#ifdef DEBUG_FS
-		  fprintf(logfile, "FS_ReadDir: mask ='%s'\n", fs_dirmask);
-#endif
 		  f = 1;
 		  do {
 		      char *p;
 		      dirp = readdir(info->dp);
 		      if (!dirp)
 			  break;
-#ifdef DEBUG_FS
-		      fprintf(logfile, "FS_ReadDir: testing file '%s'\n", dirp->d_name);
-#endif
 		      fs_info[secondary].type = FT_PRG;
 		      strcpy(rname, dirp->d_name);
 		      if (fsdevice_convert_p00_enabled[(floppy->unit) - 8])
@@ -737,13 +715,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 			      break;
 			  }
 		      }
-		  }
-		  while (f);
-
-#ifdef DEBUG_FS
-		  fprintf(logfile, "FS_ReadDir: printing file '%s'\n",
-			 dirp ? rname : NULL);
-#endif
+		  } while (f);
 
 		  if (dirp != NULL) {
 		      BYTE *p = info->name;
@@ -853,11 +825,6 @@ int read_fs(void *flp, BYTE * data, int secondary)
 
 		      info->buflen = (int) (p - info->name);
 
-#ifdef DEBUG_FSDRIVE
-		      fprintf(logfile, "found %4d>%s< (%d)  buf:>%s< (%d)\n",
-			     blocks, dirp->d_name, i,
-			     info->name + 4, info->buflen);
-#endif
 		  } else {
 
 		      /* EOF => End file */
@@ -896,12 +863,8 @@ int open_fs(void *flp, char *name, int length, int secondary)
     fsname2[length] = 0;
 
     if (secondary == 15) {
-#ifdef DEBUG_FS
-	fprintf(logfile, "Open_FS(secadr=15, name='%s'\n", fsname2);
-#endif
-	for (i = 0; i < length; i++) {
+	for (i = 0; i < length; i++)
 	    status = write_fs(flp, name[i], 15);
-	}
 	return status;
     }
 
@@ -957,9 +920,6 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	    if (!*fsname)
 		strcpy(fsname, fsdevice_get_path(floppy->unit));
 	}
-#ifdef DEBUG_FS
-	fprintf(logfile, "Opening Dir with dir='%s', mask='%s')\n", fsname, fs_dirmask);
-#endif
 	/* trying to open */
 	if (!(dp = opendir((char *) fsname))) {
 	    for (p = (BYTE *) fsname; *p; p++)
@@ -1019,11 +979,6 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	fs_info[secondary].eof = 0;
 	fs_info[secondary].dirmpos = i;		/* start address of next line */
 
-#ifdef DEBUG_FSDRIVE
-	fprintf(logfile, "opened directory\n");
-#endif
-
-
     } else {			/* Normal file, not directory ("$") */
 
 	/* Override access mode if secondary address is 0 or 1.  */
@@ -1055,10 +1010,6 @@ int open_fs(void *flp, char *name, int length, int secondary)
         strcat(fsname, FSDEV_DIR_SEP_STR);
         strcat(fsname, fsname2);
 
-#ifdef DEBUG_FSDRIVE
-    fprintf(logfile, "Open file name '%s' (before wildcard expansion).\n", fsname);
-#endif
-
 	/* Test on wildcards.  */
 	if (strchr(fsname2, '*') || strchr(fsname2, '?')) {
 	    if (fs_info[secondary].mode == Write
@@ -1069,10 +1020,6 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		fsdevice_compare_file_name(flp, fsname2, fsname, secondary);
 	    }
 	}
-
-#ifdef DEBUG_FSDRIVE
-    fprintf(logfile, "Open file name '%s' (after wildcard expansion).\n", fsname);
-#endif
 
 	/* Open file for write mode access.  */
 	if (fs_info[secondary].mode == Write) {
@@ -1184,9 +1131,6 @@ int close_fs(void *flp, int secondary)
 #endif
 
     if (secondary == 15) {
-#ifdef DEBUG_FS
-	fprintf(logfile, "Close_FS(secadr=15)\n");
-#endif
 	fs_error(IPE_OK);
 	return FLOPPY_COMMAND_OK;
     }

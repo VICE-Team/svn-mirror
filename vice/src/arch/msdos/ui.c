@@ -38,7 +38,6 @@
 
 #include "cmdline.h"
 #include "dos.h"
-#include "log.h"
 #include "machine.h"
 #include "menudefs.h"
 #include "mon.h"
@@ -138,7 +137,6 @@ int ui_init(int *argc, char **argv)
 
 int ui_init_finish(void)
 {
-    log_enable(1);
     tui_init();
     atexit(ui_exit);
     return 0;

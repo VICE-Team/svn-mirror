@@ -33,6 +33,7 @@
 #include "mouse.h"
 
 #include "kbd.h"  /* for joy[]... (this is ugly and should be fixed) */
+#include "log.h"
 #include "resources.h"
 #include "cmdline.h"
 
@@ -99,13 +100,14 @@ static void my_mouse_callback(int flags)
 
 int mouse_init(void)
 {
-    printf("Attempting to initialize the mouse driver... ");
+    log_message (LOG_DEFAULT, "Attempting to initialize the mouse driver... ");
+
     if (install_mouse() == -1) {
-        printf("Failed!\r\n");
+        log_error(LOG_DEFAULT, "Mouse initialization failed!");
 	_mouse_available = 0;
         return -1;
     }
-    printf("OK.  Mouse is available.\r\n");
+    log_message(LOG_DEFAULT, "Mouse is available.");
     _mouse_available = 1;
 
     set_mouse_range(0, 0, ~0, ~0); /* This should not really be important... */

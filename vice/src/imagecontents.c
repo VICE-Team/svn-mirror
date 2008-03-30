@@ -26,6 +26,9 @@
 
 #include "vice.h"
 
+#include <string.h>
+#include <errno.h>
+
 #include "imagecontents.h"
 
 #include "tape.h"
@@ -117,17 +120,12 @@ static DRIVE *open_image(const char *name)
     if (hdr.v_major > HEADER_VERSION_MAJOR
 	|| (hdr.v_major == HEADER_VERSION_MAJOR
 	    && hdr.v_minor > HEADER_VERSION_MINOR)) {
-	fprintf(logfile, "Disk image file %s (V %d.%02d) version higher than emulator (V %d.%02d)\n",
-	       name, hdr.v_major, hdr.v_minor,
-	       HEADER_VERSION_MAJOR, HEADER_VERSION_MINOR);
-
 	zclose(fd);
 	return 0;
     }
 
     image_format = get_diskformat(hdr.devtype);
     if (image_format < 0) {
-	fprintf(errfile, "Error: unknown image format.\n");
 	zclose(fd);
 	return NULL;
     }
@@ -292,7 +290,6 @@ image_contents_t *image_contents_read_tape(const char *file_name)
 
     /* Check a little bit...  */
     if (num_entries > max_entries) {
-	fprintf(errfile, "Tape inconsistency, giving up!\n");
 	zfclose(fd);
 	return NULL;
     }
@@ -303,7 +300,8 @@ image_contents_t *image_contents_read_tape(const char *file_name)
 
     /* Seek to start of file records.  */
     if (fseek (fd, 64, SEEK_SET) < 0) {
-	perror("lseek to file records failed");
+	log_error(LOG_DEFAULT, "lseek to file records failed: %s",
+                  strerror(errno));
 	zfclose(fd);
 	return NULL;
     }

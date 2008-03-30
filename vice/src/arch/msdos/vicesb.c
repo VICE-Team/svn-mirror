@@ -53,6 +53,8 @@
 
 #include <allegro.h>
 
+#include "log.h"
+
 /* Extern declarations for internal Allegro stuff.  */
 extern int _sb_port;
 extern int _sb_dma;
@@ -92,7 +94,7 @@ static int vicesb_digi_vol;
 
 static void vicesb_lock_mem();
 
-
+static log_t vicesb_log = LOG_ERR;
 
 /* vicesb_read_dsp:
  *  Reads a byte from the VICESB DSP chip. Returns -1 if it times out.
@@ -454,7 +456,7 @@ int vicesb_detect(int *is_16bit)
 	vicesb_max_freq = 45454;
     } else if (vicesb_dsp_ver >= 0x300) {
 	msg = "SB Pro";
-	vicesb_max_freq = 22727;
+	vicesb_max_freq = 45454;
     } else if (vicesb_dsp_ver >= 0x201) {
 	msg = "SB 2.0";
 	vicesb_max_freq = 45454;
@@ -505,6 +507,9 @@ int vicesb_detect(int *is_16bit)
 int vicesb_init(int *frequency, int *dma_size,
                 void (*interrupt_func)(unsigned long))
 {
+    if (vicesb_log == LOG_ERR)
+        vicesb_log = log_open("SB");
+
     /* XXX: Do we really need this?  */
     if ((digi_card == DIGI_SB) || (digi_card == DIGI_AUTODETECT)) {
 	if (vicesb_dsp_ver <= 0x100)
@@ -527,8 +532,7 @@ int vicesb_init(int *frequency, int *dma_size,
     {
         int min_factor;
 
-        printf("%s(): Fixing DMA size; requested %d\n",
-               __FUNCTION__, *dma_size);
+        log_message(vicesb_log, "Fixing DMA size; requested %d.", *dma_size);
         if (vicesb_dsp_ver <= 0x200)
             min_factor = 4;
         else
@@ -544,7 +548,7 @@ int vicesb_init(int *frequency, int *dma_size,
                 *dma_size = 512 * min_factor;
         }
         vicesb_dma_size = *dma_size;
-        printf("%s(): Fixing DMA size; given %d\n", __FUNCTION__, *dma_size);
+        log_message(vicesb_log, "Fixing DMA size; given %d.", *dma_size);
     }
 
     if (vicesb_dsp_ver <= 0x200) {	/* two conventional mem buffers */
@@ -591,7 +595,7 @@ int vicesb_init(int *frequency, int *dma_size,
 	outportb(0x21, vicesb_default_pic1 & (~(1 << _sb_irq)));
 
     if (_install_irq(vicesb_int, vicesb_interrupt) < 0) {
-        fprintf(stderr, "Cannot install IRQ %d handler for SB!\n", vicesb_int);
+        log_error(vicesb_log, "Cannot install IRQ %d.", vicesb_int);
         return FALSE;
     }
 

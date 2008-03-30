@@ -39,6 +39,8 @@
 #ifndef _FSDEVICE_H
 #define _FSDEVICE_H
 
+#include "types.h"
+
 extern int fsdevice_init_resources(void);
 extern int fsdevice_init_cmdline_options(void);
 

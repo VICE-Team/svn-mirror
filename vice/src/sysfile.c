@@ -30,11 +30,14 @@
 #include <stdio.h>
 #endif
 
-#include "resources.h"
+#include "sysfile.h"
+
 #include "cmdline.h"
 #include "findpath.h"
-#include "sysfile.h"
+#include "resources.h"
+#include "sysdep.h"
 #include "utils.h"
+
 #ifdef __riscos
 #include "ROlib.h"
 #include "machine.h"
@@ -77,29 +80,10 @@ static cmdline_option_t cmdline_options[] = {
 
 /* ------------------------------------------------------------------------- */
 
-int sysfile_init(const char *boot_path, const char *emu_id)
+int sysfile_init(const char *emu_id)
 {
-#if defined __MSDOS__ || defined WIN32
-    /* On MS-DOS and Windows, always search in the directory in which the
-       binary is stored. */
-    default_path = concat(boot_path, "/", emu_id, FINDPATH_SEPARATOR_STRING,
-                          boot_path, "/DRIVES", NULL);
-#else
-#ifdef __riscos
-    /* On RISCOS we look in Vice$Path */
-    if ((default_path = (char*)malloc(strlen("Vice:") + strlen(machine_name) + 2)) == NULL)
-      return -1;
-    sprintf(default_path, "Vice:%s.", machine_name);
-#else
-    /* On Unix, first search in the `LIBDIR' and then in the `boot_path'.  */
-    default_path = concat(LIBDIR, "/", emu_id, FINDPATH_SEPARATOR_STRING,
-                          boot_path, "/", emu_id, FINDPATH_SEPARATOR_STRING,
-			  LIBDIR, "/DRIVES", FINDPATH_SEPARATOR_STRING,
-			  boot_path, "/DRIVES", NULL);
-#endif
-#endif
+    default_path = stralloc(sysdep_default_sysfile_pathlist(emu_id));
 
-    /* printf("Default path set to `%s'\n", default_path); */
     return 0;
 }
 
