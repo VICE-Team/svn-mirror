@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-03-26 18:59+0100\n"
+"POT-Creation-Date: 2003-03-31 01:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2644,76 +2644,76 @@ msgstr ""
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr ""
 
-#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:773
+#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:777
 msgid "Switch to windowmode"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:190
+#: src/arch/unix/x11/dga2.c:194
 #, c-format
 msgid "Selected mode: %s"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:309
+#: src/arch/unix/x11/dga2.c:313
 #, c-format
 msgid "Attach debugger to pid %d..."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:345
+#: src/arch/unix/x11/dga2.c:349
 msgid "refresh, not ready, skipping frame"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:414
+#: src/arch/unix/x11/dga2.c:418
 msgid "Successfully forked DGA"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:419
+#: src/arch/unix/x11/dga2.c:423
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:424
+#: src/arch/unix/x11/dga2.c:428
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:433
+#: src/arch/unix/x11/dga2.c:437
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:436
+#: src/arch/unix/x11/dga2.c:440
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:567
+#: src/arch/unix/x11/dga2.c:571
 #, c-format
 msgid "Switch to fullscreen%s"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:573
+#: src/arch/unix/x11/dga2.c:577
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:587
+#: src/arch/unix/x11/dga2.c:591
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:597
+#: src/arch/unix/x11/dga2.c:601
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:631
+#: src/arch/unix/x11/dga2.c:635
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:645
+#: src/arch/unix/x11/dga2.c:649
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:700
+#: src/arch/unix/x11/dga2.c:704
 msgid "Couldn't allocate color cache"
 msgstr ""
 

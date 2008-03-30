@@ -168,6 +168,10 @@ int dga2_init_alloc_hooks(struct video_canvas_s *canvas)
     return 0;
 }
 
+void dga2_shutdown_alloc_hooks(struct video_canvas_s *canvas)
+{
+    free(canvas->video_draw_buffer_callback);
+}
 
 int dga2_available(void)
 {

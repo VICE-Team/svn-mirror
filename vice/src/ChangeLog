@@ -1,3 +1,60 @@
+2003-03-31  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.22.
+
+	* drive/drivemem.c (drive_ioreg_list_get): Use new API.
+
+	* vicii/vicii-sprites.c, vicii/vicii-sprites.h
+	(vic_ii_sprites_shutdown): New function.
+
+	* vicii/vicii.c (vicii_shutdown): Call
+	`vic_ii_sprites_shutdown()'.
+
+	* video/video-canvas.c, video.h (video_canvas_shutdown): New
+	function.
+
+	* arch/unix/x11/video.c, arch/win32/video.c,
+	arch/msdos/video.c, arch/os2/video.c, arch/riscos/video.c,
+	arch/beos/video.cc (video_canvas_destroy): Call
+	`video_canvas_shutdown()'.
+
+	* raster/raster.c (raster_free): Free palette.
+
+	* arch/unix/x11/video.c (video_canvas_destroy): Free
+	fullscreen configuration.
+
+	* arch/unix/x11/fullscreen.c, arch/unix/fullscreenarch.h
+	(fullscreen_shutdown_alloc_hooks): New function.
+
+	* arch/unix/x11/dga2.c, arch/unix/x11/dga2.h
+	(dga2_init_alloc_hooks): New function.
+
+	* monitor/mon.h: Moved up and renamed.
+
+	* Makefile.am, monitor/Makefile.am: Updated.
+
+	* machine.c, maincpu.c, drive/drivecpu.c, drive/drivemem.c,
+	monitor/mon.c, monitor/mon_drive.h, monitor/mon_file.h,
+	monitor/mon_ui.c, monitor/mon_ui.h, monitor/mon_util.c,
+	monitor/mon_util.h, monitor/montypes.h, c64/c64.c,
+	c64/c64mem.c, c128/c128.c, c128/c128mem.c, c128/z80.c,
+	vic20/vic20.c, vic20/vic20mem.c, pet/pet.c, pet/petmem.c,
+	plus4/plus4.c, plus4/plus4mem.c, cbm2/cbm2.c, cbm2/cbm2mem.c,
+	arch/unix/uicommands.c, arch/unix/uimon.c, arch/win32/ui.c,
+	arch/msdos/menudefs.c, arch/msdos/ui.c, arch/msdos/uimon.c,
+	arch/riscos/ui.c, arch/riscos/uimon.c, arch/riscos/uimsgwin.c,
+	arch/os2/dialogs/menubar.c, arch/os2/dialogs/dlg-monitor.c,
+	arch/beos/uimon.c: Include `monitor.h' instead of `mon.h'.
+
+	* arch/unix/catweaselmkiii.c, arch/unix/types.h,
+	arch/unix/ui.c, arch/unix/uicommands.c,
+	arch/win32/catweaselmkiii.c, arch/win32/types.h,
+	arch/win32/ui.c, arch/win32/uimon.c, arch/msdos/c64ui.c,
+	arch/msdos/kbd.c, arch/msdos/types.h, arch/msdos/vic20ui.c,
+	arch/riscos/types.h, arch/riscos/ui.c, arch/beos/types.h,
+	arch/beos/ui.h, arch/beos/ui_sid.h, arch/beos/ui.cc: Use
+	`WORD' instead of `ADDRESS'.
+
 2003-03-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.21.

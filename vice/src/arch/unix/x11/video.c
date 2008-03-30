@@ -563,9 +563,16 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     return canvas;
 }
 
-void video_canvas_destroy(video_canvas_t *c)
+void video_canvas_destroy(video_canvas_t *canvas)
 {
-        /* FIXME: Just a dummy so far */
+#ifdef USE_XF86_EXTENSIONS
+    if (canvas != NULL) {
+        fullscreen_shutdown_alloc_hooks(canvas);
+        free(canvas->fullscreenconfig);
+    }
+#endif
+
+    video_canvas_shutdown(canvas);
 }
 
 
