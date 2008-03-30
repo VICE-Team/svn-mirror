@@ -59,6 +59,7 @@ static const ui_menu_toggle c128_ui_menu_toggles[] = {
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },
     { "Mouse", IDM_MOUSE | 0x00010000 },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
     { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
     { "VDC64KB", IDM_TOGGLE_VDC64KB },

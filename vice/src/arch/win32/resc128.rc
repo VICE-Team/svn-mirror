@@ -75,6 +75,7 @@ BEGIN
             END
             MENUITEM SEPARATOR
             MENUITEM "Set cartridge as &default", IDM_CART_SET_DEFAULT
+            MENUITEM "Reset &on cart change", IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Detach cartridge &image",  IDM_CART_DETACH
         MENUITEM "Cartridge free&ze\tAlt+Z", IDM_CART_FREEZE

@@ -56,7 +56,8 @@ static const ui_menu_toggle c64_ui_menu_toggles[] = {
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "Mouse", IDM_MOUSE },
-    { "Mouse", IDM_MOUSE|0x00010000 },
+    { "Mouse", IDM_MOUSE | 0x00010000 },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { NULL, 0 }
 };
 

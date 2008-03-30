@@ -342,6 +342,7 @@
 #define IDM_CART_MODE_OFF               40067
 #define IDM_CART_MODE_PRG               40068
 #define IDM_CART_MODE_ON                40069
+#define IDM_TOGGLE_CART_RESET           40070
 #define IDM_SNAPSHOT_LOAD               40080
 #define IDM_SNAPSHOT_SAVE               40081
 #define IDM_SCREENSHOT                  40082
