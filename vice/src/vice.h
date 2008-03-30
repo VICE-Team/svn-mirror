@@ -191,19 +191,4 @@ extern char *alloca ();
 #define MAIN_PROGRAM(argc, argv)        main(argc, argv)
 #endif
 
-/* ------------------------------------------------------------------------- */
-
-/* Generic globals. */
-
-extern char *progname;
-
-/* Path to the directory of our executable.  */
-extern char *boot_path;
-
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#endif
-/* Filepointers for log and error messages */
-extern FILE *logfile, *errfile;
-
 #endif  /* _VICE_H */
