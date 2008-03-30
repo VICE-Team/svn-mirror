@@ -1659,15 +1659,9 @@ static int video_check_enable_mouse(void)
   {
     if ((int)val != 0)
     {
-      short block[5];
-
-      block[0] = 0x0100;
-      block[1] = 0; block[2] = 0;
-      block[3] = (short)FullScrDesc.resx; block[4] = FullScrDesc.resy;
-
-      MouseBoundingBox(((unsigned char*)block)+1);
+      SetMouseBoundingBox(-32767, -32767, 32767, 32767);
       PutMouseAt(FullScrDesc.resx / 2, FullScrDesc.resy / 2);
-      log_message(LOG_DEFAULT, "Full screen mouse enabled");
+      /*log_message(LOG_DEFAULT, "Full screen mouse enabled");*/
       return 1;
     }
   }
@@ -1883,19 +1877,14 @@ void video_full_screen_display_image(unsigned int num, const char *img)
 }
 
 
-void video_full_screen_mousepos(int *x, int *y, int *buttons)
+void video_full_screen_mousepos(int mx, int my, int *x, int *y)
 {
-  mouse_desc mdesc;
   int scalex, scaley;
 
-  ReadMouseState(&mdesc);
   video_canvas_get_full_scale(ActiveCanvas, &scalex, &scaley);
 
-  /* y direction inverted */
-  *x = ((mdesc.x >> FullScrDesc.eigx) - ((FullScrDesc.resx >> FullScrDesc.eigx) - scalex * ActiveCanvas->width) / 2) / scalex;
-  *y = (((FullScrDesc.resy >> FullScrDesc.eigy) + scaley * ActiveCanvas->height) / 2 - (mdesc.y >> FullScrDesc.eigy)) / scaley;
-
-  *buttons = mdesc.buttons;
+  *x = ((mx >> FullScrDesc.eigx) - ((FullScrDesc.resx >> FullScrDesc.eigx) - scalex * ActiveCanvas->width) / 2) / scalex;
+  *y = ((my >> FullScrDesc.eigy) - ((FullScrDesc.resy >> FullScrDesc.eigy) - scaley * ActiveCanvas->height) / 2) / scaley;
 }
 
 

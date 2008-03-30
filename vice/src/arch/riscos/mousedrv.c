@@ -40,27 +40,26 @@ void mousedrv_sync(void)
 {
   if (ActiveCanvas != NULL)
   {
-    int newX, newY, newButtons;
+    int mx, my, newX, newY, newButtons;
+
+    ReadMouseUnbuffered(&mx, &my, &newButtons);
 
     if (FullScreenMode != 0)
     {
-      video_full_screen_mousepos(&newX, &newY, &newButtons);
+      video_full_screen_mousepos(mx, my, &newX, &newY);
+      if ((newX < 0) || (newX >= ActiveCanvas->width)) newX %= ActiveCanvas->width;
+      if ((newY < 0) || (newY >= ActiveCanvas->height)) newY %= ActiveCanvas->height;
     }
     else
     {
-      int mblock[MouseB_Icon+1];
       int block[WindowB_WFlags+1];
-      int mx, my, sx, sy;
+      int sx, sy;
 
-      Wimp_GetPointerInfo(mblock);
-      mx = mblock[MouseB_PosX]; my = mblock[MouseB_PosY];
-      newButtons = mblock[MouseB_Buttons];
       video_canvas_get_scale(ActiveCanvas, &sx, &sy);
       block[WindowB_Handle] = ActiveCanvas->window->Handle;
       Wimp_GetWindowState(block);
-      /* y direction inverted */
       newX = ((mx - (block[WindowB_VMinX] - block[WindowB_ScrollX])) >> ScreenMode.eigx) / sx;
-      newY = (((block[WindowB_VMaxY] - block[WindowB_ScrollY]) - my) >> ScreenMode.eigy) / sy;
+      newY = ((my - (block[WindowB_VMinY] - block[WindowB_ScrollY])) >> ScreenMode.eigy) / sy;
     }
 
     if ((newX >= 0) && (newX < ActiveCanvas->width) &&

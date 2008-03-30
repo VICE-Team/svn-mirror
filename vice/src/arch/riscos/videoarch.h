@@ -118,7 +118,7 @@ extern void video_full_screen_drive_leds(unsigned int drive);
 extern void video_full_screen_init_status(void);
 extern void video_full_screen_plot_status(void);
 extern void video_full_screen_display_image(unsigned int num, const char *img);
-extern void video_full_screen_mousepos(int *x, int *y, int *buttons);
+extern void video_full_screen_mousepos(int mx, int my, int *x, int *y);
 
 extern void video_register_callbacks(void);
 extern void video_pos_screen_to_canvas(video_canvas_t *canvas, int *block, int x, int y, int *cx, int *cy);
