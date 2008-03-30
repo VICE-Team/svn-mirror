@@ -141,7 +141,7 @@ static void d1_clk_overflow_callback(CLOCK sub, void *data)
         wd1770[1].set_drq -= sub;
 }
 
-void wd1770d0_init(void)
+static void wd1770d0_init(void)
 {
     clk_guard_add_callback(drive0_context.cpu.clk_guard,
                            d0_clk_overflow_callback, NULL);
@@ -150,7 +150,7 @@ void wd1770d0_init(void)
         wd1770_log = log_open("WD1770");
 }
 
-void wd1770d1_init(void)
+static void wd1770d1_init(void)
 {
     clk_guard_add_callback(drive1_context.cpu.clk_guard,
                            d1_clk_overflow_callback, NULL);
