@@ -35,6 +35,9 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
+#include "fileio.h"
 #include "fsdevice-flush.h"
 #include "fsdevice-write.h"
 #include "fsdevicetypes.h"
@@ -48,13 +51,19 @@ int fsdevice_write(struct vdrive_s *vdrive, BYTE data, unsigned int secondary)
         return fsdevice_flush_write_byte(vdrive, data);
 
     if (fs_info[secondary].mode != Write && fs_info[secondary].mode != Append)
-        return FLOPPY_ERROR;
+        return SERIAL_ERROR;
 
-    if (fs_info[secondary].fd) {
-        fputc(data, fs_info[secondary].fd);
-        return FLOPPY_COMMAND_OK;
-    };
+    if (fs_info[secondary].info != NULL) {
+        unsigned int len;
 
-    return FLOPPY_ERROR;
+        len = fileio_write(fs_info[secondary].info, &data, 1);
+
+        if (len == 0)
+            return SERIAL_ERROR;
+
+        return SERIAL_OK;
+    }
+
+    return SERIAL_ERROR;
 }
 

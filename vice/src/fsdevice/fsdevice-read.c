@@ -41,11 +41,18 @@
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
 #include "archdep.h"
+#include "cbmdos.h"
 #include "fileio.h"
 #include "fsdevice-read.h"
 #include "fsdevice-resources.h"
@@ -57,30 +64,33 @@
 
 static int command_read(fs_buffer_info_t *info, BYTE *data)
 {
-    int i;
-
     if (info->tape.name) {
         if (info->buflen > 0) {
             *data = *info->bufp++;
             info->buflen--;
+        } else {
+            if (tape_read(&(info->tape), data, 1) != 1) {
+                *data = 0xc7;
+                return SERIAL_EOF;
+            }
         }
-        else if (tape_read(&(info->tape), data, 1) != 1) {
-            *data = 0xc7;
-            return SERIAL_EOF;
-        }
+        return SERIAL_OK;
+    } else {
+        if (info->info) {
+            unsigned int len;
 
-        return SERIAL_OK;
-    }
-    else if (info->fd) {
-        i = fgetc(info->fd);
-        if (ferror(info->fd))
-            return FLOPPY_ERROR;
-        if (feof(info->fd)) {
-            *data = 0xc7;
-            return SERIAL_EOF;
+            len = fileio_read(info->info, data, 1);
+
+            if (fileio_ferror(info->info))
+                return SERIAL_ERROR;
+ 
+            if (len == 0) {
+                *data = 0xc7;
+                return SERIAL_EOF;
+            }
+
+            return SERIAL_OK;
         }
-        *data = (BYTE)i;
-        return SERIAL_OK;
     }
 
     return FLOPPY_ERROR;
@@ -224,27 +234,27 @@ static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
             else
                 *p++ = '*'; /* splat file */
             switch(fs_info[secondary].type) {
-              case FT_DEL:
+              case CBMDOS_FT_DEL:
                 *p++ = 'D';
                 *p++ = 'E';
                 *p++ = 'L';
                 break;
-              case FT_SEQ:
+              case CBMDOS_FT_SEQ:
                 *p++ = 'S';
                 *p++ = 'E';
                 *p++ = 'Q';
                 break;
-              case FT_PRG:
+              case CBMDOS_FT_PRG:
                 *p++ = 'P';
                 *p++ = 'R';
                 *p++ = 'G';
                 break;
-              case FT_USR:
+              case CBMDOS_FT_USR:
                 *p++ = 'U';
                 *p++ = 'S';
                 *p++ = 'R';
                 break;
-              case FT_REL:
+              case CBMDOS_FT_REL:
                 *p++ = 'R';
                 *p++ = 'E';
                 *p++ = 'L';

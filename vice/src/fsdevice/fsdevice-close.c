@@ -37,11 +37,11 @@
 
 #include <stdio.h>
 
+#include "cbmdos.h"
 #include "fileio.h"
 #include "fsdevice-close.h"
 #include "fsdevicetypes.h"
 #include "ioutil.h"
-#include "vdrive-command.h"
 #include "vdrive.h"
 
 
@@ -52,7 +52,7 @@ int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
 #endif
 
     if (secondary == 15) {
-        fsdevice_error(vdrive, IPE_OK);
+        fsdevice_error(vdrive, CBMDOS_IPE_OK);
         return FLOPPY_COMMAND_OK;
     }
 
@@ -66,14 +66,8 @@ int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
             if (fs_info[secondary].info != NULL) {
                 fileio_close(fs_info[secondary].info);
                 fs_info[secondary].info = NULL;
-                fs_info[secondary].fd = NULL;
             } else {
-                if (fs_info[secondary].fd) {
-                    fclose(fs_info[secondary].fd);
-                    fs_info[secondary].fd = NULL;
-                } else {
-                    return FLOPPY_ERROR;
-                }
+                return FLOPPY_ERROR;
             }
         }
         break;

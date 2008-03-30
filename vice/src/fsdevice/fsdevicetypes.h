@@ -27,37 +27,19 @@
 #ifndef _FSDEVICETYPES_H
 #define _FSDEVICETYPES_H
 
-#include "vice.h"
 #include "tape.h"
-
-#include <stdio.h>
-
-#ifdef __riscos
-#include "archdep.h"
-#else
-#ifdef __IBMC__
-#include <direct.h>
-#include "snippets/dirport.h"
-#else
-#include <dirent.h>
-#endif
-#endif
-
-#ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
-#endif
-
 #include "types.h"
 
 enum fsmode {
     Write, Read, Append, Directory
 };
 
+struct fileio_info_s;
+struct ioutil_dir_s;
+
 struct fs_buffer_info_s {
-    FILE *fd;
     struct fileio_info_s *info;
     struct ioutil_dir_s *ioutil_dir;
-    DIR  *dp;
     tape_image_t tape;
     enum fsmode mode;
     char dir[MAXPATHLEN];
