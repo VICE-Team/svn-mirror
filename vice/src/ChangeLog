@@ -1,3 +1,120 @@
+1999-02-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.20.
+
+	* maincpu.def (mainloop) [INSTRUCTION_FETCH_HACK]: Call
+	`mem_set_bank_pointer'.  (JUMP): Update `old_reg_pc' too.
+
+	* mem.h, c64/c64mem.c, vic20/vic20mem.c, pet/petmem.c
+	(mem_set_bank_pointer): New function.
+
+	* c64/c64mem.c (pla_config_changed): Adjust bank base and limit.
+
+1999-02-04  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/res.h (IDM_SIDTYPE_6581, IDM_SIDTYPE_8580):
+	  Added identifier's for SidModel menu entries.
+
+	* arch/win32/resc128.r, arch/win32/resc64.r: Added menuitems for
+	  SidModel selection.
+
+	* arch/win32/rescbm2.r: Added Resid enabler menu item.
+	  Added SidModel selection menu items.
+
+	* arch/win32/respet.r, arch/win32/resvic.r: Removed SidFilter
+	  toggle from menu.
+
+	* arch/win32/ui.c (SidType): Added new struct for possible elements
+	  of SidModel resource, to link them to the appropriate menu entries.
+	  (value_list): Added SidModel resource into list of checked resources
+	  when displaying the menu.
+	  (ui_update_menus): Check if queried resource exists or not, and
+	  only update menu entries if it does.
+	  (handle_wm_command): Add handlers for SidModel selection menu entries.
+
+1998-02-04  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* pet/petmem.c (petres): default startup with sensible values
+	(set_video): allow cols=0 again for autodetection from ROM.
+	(set_chargen_rom_name, set_editor_rom_name, set_rom_module_9_name,
+	set_rom_module_a_name, set_rom_module_b_name): load new ROM
+	only when new name is different from old.
+	(set_std_9tof): use petres.rompatch to enable PET2001 ROM patch
+	mapping.
+	(petmem_patch_2001): set petres.rompatch
+	(petmem_checksum): do not print messages when same checksum 
+	occured (but install traps etc)
+	(petmem_convert_chargen_2k): fixed
+	(mem_load_kernal): clear petres.rompatch after loading.
+	Call initialize_memory() to enable/disable PET2k patch mapping.
+	(mem_load): call tape_deinstall before overwriting ROM area
+	with emtpy values.
+
+	* pet/pets.h (PetInfo): add rompatch to struct.
+
+1998-02-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/c610ui.c (cbm2_romset_submenu): new entries to
+	unload Basic and Cartridge ROMs.
+
+	* arch/unix/xaw/petui.c (toggle_Basic1, toggle_Basic1Chars): 
+	new callbacks for resources Basic1 and Basic1Chars
+	(pet_romset_submenu): new entries to load/unload the ROMs.
+	Also enable/disable Pet2k patches.
+
+	* arch/unix/xaw/uisettings.c, arch/unix/xaw/uisettings.h 
+	(ui_unload_rom_file): new function
+
+	* cbm2/c610mem.c (mem_load_basic, mem_load_cart_1, mem_load_cart_2,
+	mem_load_cart_4, mem_load_cart_6): if ROM is not loaded, fill
+	area with $ff instead.
+
+	* pet/Makefile.am (libpet_a_SOURCES): remove pets.c
+
+	* pet/pet.c (machine_init_resources, machine_init_cmdline_options):
+	remove calls to pet_*
+
+	* pet/pet.c, pet/petmem.c, pet/petpia1.def, pet/pets.h: 
+	renamed all occurances of (PetInfo) pet to petres. removed
+	petres->pet define.
+
+	* pet/petmem.c (mem_load_chargen, mem_load_kernal, mem_load_editor,
+	mem_load_rom9, mem_load_romA, mem_load_romB): new functions to
+	load appropriate ROMs or fill the area with empty values.
+	handle petres.basic_start to not overwrite overlapping ROMs.
+
+	* pet/pets.c, pet/petmem.c (set_iosize, set_crtc_enabled,
+	set_superpet_enabled,  set_ram_9_enabled, set_ram_a_enabled,
+	set_ramsize, set_video, set_chargen_rom_name, 
+	set_kernal_rom_name, set_editor_rom_name, set_rom_module_9_name,
+	set_rom_module_a_name, set_rom_module_b_name, resources,
+	cmdline_options, pet_table, pet_set_model_info, pet_set_model,
+	pet_check_info):
+	moved from pets.c to petmem.c. Setting ROM name esource 
+	also loads the ROM now.
+	(set_pet2k_enabled, set_pet2kchar_enabled): new functions for
+	Basic1 and Basic1Chars resource.
+	(patch_2001, petmem_patch_2001): renamed from former to latter
+	(petmem_checksum): new function to handle traps etc depending
+	on ROM checksums
+	(petmem_convert_chargen_2k): new function to convert Pet2k
+	chargen and convert back.
+	(mem_load): moved all load stuff into 
+	
+	* pet/pets.h (PetInfo): added pet2kchar flag, rom_video
+	(former screen_width), basic_start, kernal_checksum and
+	editor_checksum
+
+	* tape.c, tape.h (tape_deinstall): new function to deinstall tape
+	traps.
+
+1999-02-03  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/archdep.c, sysfile.c: complete_path_return may be NULL
+ 
+	* romset.c, romset.h: Added functions to handle files containing
+	multiple romset definitions. romset_select() still incomplete.
+
 1999-02-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.19.

@@ -694,7 +694,7 @@ pruser.o: pruser.c vice.h config.h types.h print.h pruser.h resources.h \
 resources.o: resources.c vice.h config.h log.h resources.h \
 	arch/unix/archdep.h utils.h types.h
 romset.o: romset.c config.h types.h mem.h snapshot.h resources.h \
-	sysfile.h log.h
+	sysfile.h log.h utils.h
 rsuser.o: rsuser.c vice.h config.h types.h cmdline.h resources.h \
 	interrupt.h vmachine.h 6510core.h mem.h snapshot.h log.h \
 	rs232.h rsuser.h
