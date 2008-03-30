@@ -26,7 +26,7 @@
  *
  */
 
-#define __1541__
+#define DRIVE_CPU
 
 #include "vice.h"
 
