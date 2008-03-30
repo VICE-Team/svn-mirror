@@ -343,7 +343,7 @@ static void force_line_redraw(int line)
 
 void ui_image_contents_redraw(int *block)
 {
-  int more, lineadd;
+  int more, lineadd = 0;
 
   if ((more = Wimp_RedrawWindow(block)) != 0)
   {

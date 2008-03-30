@@ -59,6 +59,10 @@ static DWORD bmpdrv_bmp_size(screenshot_t *screenshot)
     DWORD size = 0;
 
     switch (screenshot->gfxoutputdrv_data->bpp) {
+      case 1:
+        size = (DWORD)(BMP_HDR_OFFSET
+               + (screenshot->width / 8 * screenshot->height));
+        break;
       case 4:
         size = (DWORD)(BMP_HDR_OFFSET
                + (screenshot->width / 2 * screenshot->height));
@@ -154,7 +158,9 @@ static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
 
     screenshot->gfxoutputdrv_data = sdata;
 
-    if (screenshot->palette->num_entries <= 16)
+    if (screenshot->palette->num_entries <= 2)
+        sdata->bpp = 1;
+    else if (screenshot->palette->num_entries <= 16)
         sdata->bpp = 4;
     else
         sdata->bpp = 8;
@@ -187,7 +193,11 @@ static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
     }
 
     sdata->data = (BYTE *)lib_malloc(screenshot->width);
-    if (sdata->bpp == 4) {
+    if (sdata->bpp == 1) {
+        sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+                                             * screenshot->width / 8);
+    }
+    else if (sdata->bpp == 4) {
         sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
                                              * screenshot->width / 2);
     } else {
@@ -209,6 +219,21 @@ static int bmpdrv_write(screenshot_t *screenshot)
                                SCREENSHOT_MODE_PALETTE);
 
     switch (sdata->bpp) {
+      case 1:
+        {
+          int i,j;
+          memset(sdata->bmp_data + (screenshot->height - 1 - sdata->line)
+                 * screenshot->width/8, 0, screenshot->width/8);
+
+          for (i = 0; i < screenshot->width/8; i++)
+            {
+              BYTE b=0;
+              for (j = 0; j < 8; j++) b |= sdata->data[i*8+j] ? (1<<(7-j)) : 0;
+              sdata->bmp_data[((screenshot->height - 1 - sdata->line)
+                               * screenshot->width / 8) + i] = b;
+            }
+        }
+        break;
       case 4:
         for (row = 0; row < screenshot->width / 2; row++) {
             sdata->bmp_data[((screenshot->height - 1 - sdata->line)
@@ -231,6 +256,11 @@ static int bmpdrv_write(screenshot_t *screenshot)
 static int bmpdrv_close(screenshot_t *screenshot)
 {
     switch (screenshot->gfxoutputdrv_data->bpp) {
+      case 1:
+        fwrite(screenshot->gfxoutputdrv_data->bmp_data, screenshot->height
+               * screenshot->width / 8, 1,
+               screenshot->gfxoutputdrv_data->fd);
+        break;
       case 4:
         fwrite(screenshot->gfxoutputdrv_data->bmp_data, screenshot->height
                * screenshot->width / 2, 1,

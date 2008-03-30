@@ -28,5 +28,6 @@
 #define _C64C128UI_H
 
 extern void c64c128_ui_init_keyboard(const char *filename);
+extern void c64c128_ui_cartridge_callbacks(void);
 
 #endif

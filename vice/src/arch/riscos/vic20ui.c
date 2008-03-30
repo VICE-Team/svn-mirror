@@ -29,15 +29,12 @@
 #include <wimp.h>
 #include <string.h>
 
-#include "c64ui.h"
 #include "kbd.h"
 #include "types.h"
 #include "ui.h"
 #include "uisharedef.h"
 
 
-
-const char *WimpTaskName = "Vice VIC20";
 
 
 static unsigned char VICnorm[KEYMAP_ENTRIES] = {
@@ -122,9 +119,38 @@ static struct MenuDisplayVideoCache {
 };
 
 
+static void vic20ui_grey_out_machine_icons(void)
+{
+  ui_set_icons_grey(NULL, conf_grey_xvic, 0);
+}
+
+static void vic20ui_bind_video_cache_menu(void)
+{
+  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
+  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
+}
+
+static const char *vic20ui_get_machine_ibar_icon(void)
+{
+  return IBarIconName;
+}
+
+
 int vic20ui_init(void)
 {
-  return ui_init_named_app("ViceVIC", IBarIconName);
+  wimp_msg_desc *msg;
+
+  WimpTaskName = "Vice VIC20";
+  vic20ui_bind_video_cache_menu();
+  msg = ui_emulator_init_prologue(vic20ui_get_machine_ibar_icon());
+  if (msg != NULL)
+  {
+    ui_load_template("VicConfig", ConfWindows + CONF_WIN_VIC, msg);
+    ui_emulator_init_epilogue(msg);
+    vic20ui_grey_out_machine_icons();
+    return 0;
+  }
+  return -1;
 }
 
 void vic20ui_shutdown(void)
@@ -138,64 +164,4 @@ int vic20_kbd_init(void)
   kbd_add_keymap(&VIC20keys, 0); kbd_add_keymap(&VIC20keys, 1);
   kbd_load_keymap(NULL, 0);
   return kbd_init();
-}
-
-void ui_grey_out_machine_icons(void)
-{
-  ui_set_icons_grey(NULL, conf_grey_xvic, 0);
-}
-
-void ui_bind_video_cache_menu(void)
-{
-  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
-  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
-}
-
-const char *ui_get_machine_ibar_icon(void)
-{
-  return IBarIconName;
-}
-
-
-
-/* Dummies */
-const char *pet_get_keyboard_name(void)
-{
-  return NULL;
-}
-
-
-int pet_set_model(const char *name, void *extra)
-{
-  return 0;
-}
-
-const char *cbm2_get_keyboard_name(void)
-{
-  return NULL;
-}
-
-
-int cbm2_set_model(const char *name, void *extra)
-{
-  return 0;
-}
-
-CLOCK vic_ii_fetch_clk, vic_ii_draw_clk;
-/* This is really of type vic_ii_t */
-int vic_ii;
-
-int vic_ii_raster_draw_alarm_handler(long offset)
-{
-  return 0;
-}
-
-int vic_ii_raster_fetch_alarm_handler(long offset)
-{
-  return 0;
-}
-
-
-void cartridge_trigger_freeze(void)
-{
 }

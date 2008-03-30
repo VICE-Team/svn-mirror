@@ -34,11 +34,18 @@
 #include "resources.h"
 #include "kbd.h"
 #include "uisharedef.h"
+#include "utils.h"
+
+#include "pet/pets.h"
 
 
 
 
-const char *WimpTaskName = "Vice PET";
+static const char Rsrc_PetCrt[] = "Crtc";
+static const char Rsrc_PetRAM9[] = "Ram9";
+static const char Rsrc_PetRAMA[] = "RamA";
+static const char Rsrc_PetDiag[] = "DiagPin";
+static const char Rsrc_PetSuper[] = "SuperPET";
 
 
 /* Modified PET keymap */
@@ -174,11 +181,39 @@ static struct MenuDisplayVideoCache {
 };
 
 
+static config_item_t PETdependconf[] = {
+  {Rsrc_PetCrt, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetCrt}},
+  {Rsrc_PetRAM9, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetRAM9}},
+  {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetRAMA}},
+  {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetDiagPin}},
+  {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetSuper}},
+  {NULL, 0, {0, 0}}
+};
+
+
 /* PET keyboard names */
 static char PETkeyBusinessName[] = "Business";
 static char PETkeyGraphicName[] = "Graphic";
+static char *PetModelName = NULL;
 
-const char *pet_get_keyboard_name(void)
+
+static void petui_grey_out_machine_icons(void)
+{
+  ui_set_icons_grey(NULL, conf_grey_xpet, 0);
+}
+
+static void petui_bind_video_cache_menu(void)
+{
+  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
+  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
+}
+
+static const char *petui_get_machine_ibar_icon(void)
+{
+  return IBarIconName;
+}
+
+static const char *pet_get_keyboard_name(void)
 {
   resource_value_t val;
   int idx;
@@ -189,11 +224,67 @@ const char *pet_get_keyboard_name(void)
   return PETkeyGraphicName;
 }
 
+static int set_pet_model_by_name(const char *name, resource_value_t val)
+{
+  util_string_set(&PetModelName, (char*)val);
+  return pet_set_model(PetModelName, NULL);
+}
+
+
+static int petui_setup_config_window(int wnum)
+{
+  if (wnum == CONF_WIN_PET)
+  {
+    wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_ConfPET_PetKbd, pet_get_keyboard_name());
+    return 0;
+  }
+  return -1;
+}
+
+static int petui_menu_select_config(int *block, int wnum)
+{
+  if (wnum == CONF_MENU_PETMODEL)
+  {
+    int i;
+
+    ui_set_menu_display_core(ConfigMenus[CONF_MENU_PETMODEL].desc, set_pet_model_by_name, block[0]);
+    ui_setup_menu_display(ConfigMenus[CONF_MENU_PETMEM].desc);
+    ui_setup_menu_display(ConfigMenus[CONF_MENU_PETIO].desc);
+    ui_setup_menu_display(ConfigMenus[CONF_MENU_PETVIDEO].desc);
+    wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_ConfPET_PetKbd, pet_get_keyboard_name());
+    ui_update_rom_names();
+    for (i=0; PETdependconf[i].resource != NULL; i++)
+    {
+      ui_setup_config_item(PETdependconf + i);
+    }
+    return 0;
+  }
+  return -1;
+}
+
+static void pet_init_callbacks(void)
+{
+  ViceMachineCallbacks.setup_config_window = petui_setup_config_window;
+  ViceMachineCallbacks.menu_select_config_main = petui_menu_select_config;
+}
+
 int petui_init(void)
 {
-  PetModelName = "8032";
+  wimp_msg_desc *msg;
 
-  return ui_init_named_app("VicePET", IBarIconName);
+  WimpTaskName = "Vice PET";
+  pet_init_callbacks();
+  petui_bind_video_cache_menu();
+  msg = ui_emulator_init_prologue(petui_get_machine_ibar_icon());
+  if (msg != NULL)
+  {
+    util_string_set(&PetModelName, "8032");
+    ui_load_template("PetConfig", ConfWindows + CONF_WIN_PET, msg);
+    ui_emulator_init_epilogue(msg);
+    petui_grey_out_machine_icons();
+    return 0;
+  }
+  return -1;
 }
 
 void petui_shutdown(void)
@@ -210,33 +301,4 @@ int pet_kbd_init(void)
   kbd_load_keymap(NULL, 0);
   kbd_load_keymap(NULL, 2);
   return kbd_init();
-}
-
-void ui_grey_out_machine_icons(void)
-{
-  ui_set_icons_grey(NULL, conf_grey_xpet, 0);
-}
-
-void ui_bind_video_cache_menu(void)
-{
-  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
-  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
-}
-
-const char *ui_get_machine_ibar_icon(void)
-{
-  return IBarIconName;
-}
-
-
-
-/* Dummies */
-const char *cbm2_get_keyboard_name(void)
-{
-  return NULL;
-}
-
-int cbm2_set_model(const char *name, void *extra)
-{
-  return 0;
 }

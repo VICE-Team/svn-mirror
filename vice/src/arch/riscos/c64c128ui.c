@@ -28,8 +28,10 @@
 
 #include "ui.h"
 #include "c64ui.h"
+#include "cartridge.h"
 #include "kbd.h"
-
+#include "machine.h"
+#include "uisharedef.h"
 
 
 
@@ -82,6 +84,28 @@ static kbd_keymap_t C64C128keys = {
 };
 
 
+static int c64c128ui_menu_select_emuwin(int *block)
+{
+  if (block[0] == Menu_EmuWin_Freeze)
+  {
+    cartridge_trigger_freeze();
+    return 0;
+  }
+  return -1;
+}
+
+static int c64c128ui_menu_select_config_pre(int *block, int mnum)
+{
+  if (!vsid_mode && (block[0] == 0) && (mnum == CONF_MENU_CARTTYPE))
+  {
+    /* must execute cartridge detach before calling ui_set_menu_display_value() */
+    cartridge_detach_image();
+    return 0;
+  }
+  return -1;
+}
+
+
 void c64c128_ui_init_keyboard(const char *filename)
 {
   C64C128keys.default_file = filename;
@@ -91,23 +115,8 @@ void c64c128_ui_init_keyboard(const char *filename)
 }
 
 
-/* Dummies */
-const char *pet_get_keyboard_name(void)
+void c64c128_ui_cartridge_callbacks(void)
 {
-  return NULL;
-}
-
-int pet_set_model(const char *name, void *extra)
-{
-  return 0;
-}
-
-const char *cbm2_get_keyboard_name(void)
-{
-  return NULL;
-}
-
-int cbm2_set_model(const char *name, void *extra)
-{
-  return 0;
+  ViceMachineCallbacks.menu_select_emuwin = c64c128ui_menu_select_emuwin;
+  ViceMachineCallbacks.menu_select_config_pre = c64c128ui_menu_select_config_pre;
 }

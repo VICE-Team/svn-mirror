@@ -39,8 +39,6 @@
 
 
 
-const char *WimpTaskName = "Vice C128";
-
 static const char IBarIconName[] = "!vice128";
 static const char C128keyfile[] = "Vice:C128.ROdflt/vkm";
 
@@ -75,9 +73,39 @@ static struct MenuDisplayVideoCache {
 };
 
 
+static void c128ui_grey_out_machine_icons(void)
+{
+  ui_set_icons_grey(NULL, conf_grey_x128, 0);
+}
+
+static void c128ui_bind_video_cache_menu(void)
+{
+  c64c128_ui_cartridge_callbacks();
+  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
+  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
+}
+
+static const char *c128ui_get_machine_ibar_icon(void)
+{
+  return IBarIconName;
+}
+
+
 int c128ui_init(void)
 {
-  return ui_init_named_app("Vice128", IBarIconName);
+  wimp_msg_desc *msg;
+
+  WimpTaskName = "Vice C128";
+  c128ui_bind_video_cache_menu();
+  msg = ui_emulator_init_prologue(c128ui_get_machine_ibar_icon());
+  if (msg != NULL)
+  {
+    ui_load_template("C128Config", ConfWindows + CONF_WIN_C128, msg);
+    ui_emulator_init_epilogue(msg);
+    c128ui_grey_out_machine_icons();
+    return 0;
+  }
+  return -1;
 }
 
 void c128ui_shutdown(void)
@@ -89,20 +117,4 @@ int c128_kbd_init(void)
   c64c128_ui_init_keyboard(C128keyfile);
   kbd_load_keymap(NULL, 0);
   return kbd_init();
-}
-
-void ui_grey_out_machine_icons(void)
-{
-  ui_set_icons_grey(NULL, conf_grey_x128, 0);
-}
-
-void ui_bind_video_cache_menu(void)
-{
-  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
-  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
-}
-
-const char *ui_get_machine_ibar_icon(void)
-{
-  return IBarIconName;
 }

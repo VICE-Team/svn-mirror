@@ -29,12 +29,20 @@
 
 #include "vice.h"
 
+#include "resources.h"
 #include "types.h"
 #include "uiapi.h"
 
+
 struct conf_iconid_s;
+struct conf_item_s;
+struct wimp_msg_desc_s;
+struct disp_desc_s;
 
 typedef unsigned int ui_window_t;
+
+/* Function type for setting a value */
+typedef int (*set_var_function)(const char *name, resource_value_t val);
 
 extern int ui_init_named_app(const char *appname, const char *iconname);
 
@@ -66,17 +74,22 @@ extern void ui_set_sound_volume(void);
 
 extern int  ui_flip_iterate_and_attach(int dir);
 
-extern void ui_open_vsid_window(int *block);
-
 extern int  ui_make_last_screenshot(void);
 extern int  ui_save_last_snapshot(void);
 extern void ui_trigger_snapshot_load(void);
 
-extern const char *ui_get_machine_ibar_icon(void);
 extern void ui_set_icons_grey(RO_Window *win, const struct conf_iconid_s *desc, int state);
-extern void ui_grey_out_machine_icons(void);
-extern void ui_bind_video_cache_menu(void);
 
+
+extern struct wimp_msg_desc_s *ui_emulator_init_prologue(const char *icon);
+extern int  ui_emulator_init_epilogue(struct wimp_msg_desc_s *msg);
+extern int  ui_load_template(const char *tempname, RO_Window **wptr, struct wimp_msg_desc_s *msg);
+extern void ui_create_emulator_menu(int *block);
+extern int  ui_open_centered_or_raise_block(RO_Window *win, int *block);
+extern void ui_setup_menu_display(const struct disp_desc_s *dd);
+extern void ui_set_menu_display_core(const struct disp_desc_s *dd, set_var_function func, int number);
+extern void ui_setup_config_item(struct conf_item_s *ci);
+extern void ui_update_rom_names(void);
 
 extern RO_Screen ScreenMode;
 
@@ -84,7 +97,6 @@ extern RO_Window *EmuWindow;
 extern RO_Window *EmuPane;
 extern RO_Window *ImgContWindow;
 extern RO_Window *MessageWindow;
-extern RO_Window *VSidWindow;
 extern RO_Window *InfoWindow;
 extern RO_Window *CreateDiscWindow;
 
@@ -98,10 +110,9 @@ extern int EmuPaused;
 extern int SingleTasking;
 extern int CycleBasedSound;
 
-extern char *PetModelName;
-extern char *CBM2ModelName;
-
 extern int DriveLEDStates[4];
 extern int DriveTrackNumbers[2];
+
+extern struct ui_machine_callback_s ViceMachineCallbacks;
 
 #endif

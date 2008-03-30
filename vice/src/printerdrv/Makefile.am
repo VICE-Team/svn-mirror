@@ -12,6 +12,8 @@ libprinterdrv_a_SOURCES = \
 	drv-ascii.h \
 	drv-mps803.c \
 	drv-mps803.h \
+	drv-nl10.c \
+	drv-nl10.h \
 	interface-serial.c \
 	interface-serial.h \
 	interface-userport.c \

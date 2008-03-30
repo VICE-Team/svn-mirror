@@ -29,6 +29,7 @@
 #include "driver-select.h"
 #include "drv-ascii.h"
 #include "drv-mps803.h"
+#include "drv-nl10.h"
 #include "interface-serial.h"
 #include "interface-userport.h"
 #include "output-graphics.h"
@@ -44,6 +45,7 @@ int printer_resources_init(void)
         || output_select_init_resources() < 0
         || drv_ascii_init_resources() < 0
         || drv_mps803_init_resources() < 0
+        || drv_nl10_init_resources() < 0
         || driver_select_init_resources() < 0
         || interface_serial_init_resources() < 0
         || interface_userport_init_resources() < 0)
@@ -77,6 +79,7 @@ void printer_init(void)
     output_select_init();
     drv_ascii_init();
     drv_mps803_init();
+    drv_nl10_init();
     driver_select_init();
     interface_serial_init();
 }
@@ -85,13 +88,14 @@ void printer_reset(void)
 {
     output_graphics_reset();
     output_text_reset();
+    drv_nl10_reset();
 }
 
 void printer_shutdown(void)
 {
     output_select_shutdown();
     drv_mps803_shutdown();
+    drv_nl10_shutdown();
     driver_select_shutdown();
     interface_serial_shutdown();
 }
-

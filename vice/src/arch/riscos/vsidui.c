@@ -40,6 +40,8 @@
 
 
 
+RO_Window *VSidWindow = NULL;
+
 static int NumTunes = 0;
 static int VSidPaused = 0;
 static int VSidStopped = 0;
@@ -142,7 +144,8 @@ int vsid_ui_init(void)
 
   resources_load(NULL);
 
-  ui_open_vsid_window(block);
+  ui_open_centered_or_raise_block(VSidWindow, block);
+  Wimp_OpenWindow(block);
 
   vsid_ui_set_ready(0);
 

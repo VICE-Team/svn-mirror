@@ -133,4 +133,41 @@
   {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar9},
 
 
+
+/* Emulator menu entries */
+#define Menu_EmuWin_Items	11
+#define Menu_EmuWin_Width	200
+#define Menu_EmuWin_Configure	0
+#define Menu_EmuWin_Fliplist	1
+#define Menu_EmuWin_Snapshot	2
+#define Menu_EmuWin_Screenshot	3
+#define Menu_EmuWin_Freeze	4
+#define Menu_EmuWin_Pane	5
+#define Menu_EmuWin_Active	6
+#define Menu_EmuWin_TrueDrvEmu	7
+#define Menu_EmuWin_Datasette	8
+#define Menu_EmuWin_Sound	9
+#define Menu_EmuWin_Monitor	10
+
+
+
+struct wimp_msg_desc_s;
+struct help_icon_s;
+
+struct ui_machine_callback_s {
+  int (*setup_config_window)(int);
+  int (*mouse_click_event)(int *);
+  int (*mouse_click_ibar)(int *);
+  int (*key_pressed_event)(int *);
+  int (*menu_select_emuwin)(int *);
+  int (*menu_select_config_pre)(int *, int);
+  int (*menu_select_config_main)(int *, int);
+  int (*usr_msg_data_load)(int *);
+  int (*usr_msg_data_open)(int *);
+  int (*load_prg_file)(const char *);
+  int (*display_speed)(int, int, int);
+  struct help_icon_s *(*help_for_window_icon)(int, int);
+};
+
+
 #endif

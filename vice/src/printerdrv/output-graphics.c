@@ -191,7 +191,7 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
             output_gfx[prnr].line_no = 0;
             filename[7]++;
             if (filename[7] > '9') {
-                filename[7] = 0;
+                filename[7] = '0';
                 filename[6]++;
             }
             output_gfx[prnr].gfxoutputdrv->open(&output_gfx[prnr].screenshot,

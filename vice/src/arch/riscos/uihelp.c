@@ -39,16 +39,6 @@
 #include "vsidarch.h"
 
 
-/* help structure */
-typedef struct help_icon_s {
-  int icon;
-  const char *sym;
-  char *msg;
-} help_icon_t;
-
-
-/* Note: -1 must still legal for help on entire windows, so just use something very big */
-#define Help_Icon_End	0x10000
 
 /*
  *  Help text. sym is the symbol to look up; if sym is NULL, it's the same as the
@@ -97,19 +87,6 @@ static help_icon_t Help_CreateWindow[] = {
   {Icon_Create_Sprite, "\\HelpCreateSprite"},
   {Icon_Create_OK, "\\HelpCreateOK"},
   {Icon_Create_File, "\\HelpCreateFile"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_VSidWindow[] = {
-  {-1, "\\HelpVSidWindow"},
-  {Icon_VSid_TotalTunes, "\\HelpVSidTotal"},
-  {Icon_VSid_Tune, "\\HelpVSidTune"},
-  {Icon_VSid_NextTune, "\\HelpVSidNext"},
-  {Icon_VSid_PrevTune, "\\HelpVSidPrev"},
-  {Icon_VSid_StopTune, "\\HelpVSidStop"},
-  {Icon_VSid_Default, "\\HelpVSidDefault"},
-  {Icon_VSid_PlayTime, "\\HelpVSidTime"},
-  {Icon_VSid_Pause, "\\HelpVSidPause"},
   {Help_Icon_End, NULL}
 };
 
@@ -379,7 +356,7 @@ static help_icon_t *Help_ConfigWindows[CONF_WIN_NUMBER] = {
 
 #define HELPBUFFSIZE	512
 
-static void ui_translate_icon_help_msgs(const wimp_msg_desc *msg, help_icon_t *hi)
+void ui_translate_icon_help_msgs(const wimp_msg_desc *msg, help_icon_t *hi)
 {
   char buffer[HELPBUFFSIZE];
   unsigned int i;
@@ -409,7 +386,6 @@ void ui_translate_help_messages(const wimp_msg_desc *msg)
   ui_translate_icon_help_msgs(msg, Help_InfoWindow);
   ui_translate_icon_help_msgs(msg, Help_ImgContWindow);
   ui_translate_icon_help_msgs(msg, Help_CreateWindow);
-  ui_translate_icon_help_msgs(msg, Help_VSidWindow);
   ui_translate_icon_help_msgs(msg, Help_MonitorWindow);
 
   for (i=0; i<CONF_WIN_NUMBER; i++)
@@ -443,15 +419,16 @@ const char *ui_get_help_for_window_icon(int handle, int icon)
   {
     hi = Help_CreateWindow;
   }
-  else if ((vsid_mode) && (handle == VSidWindow->Handle))
-  {
-    hi = Help_VSidWindow;
-  }
   else if (ui_message_window_for_handle(handle) == msg_win_monitor)
   {
     hi = Help_MonitorWindow;
   }
-  else
+  else if (ViceMachineCallbacks.help_for_window_icon != NULL)
+  {
+    hi = ViceMachineCallbacks.help_for_window_icon(handle, icon);
+  }
+
+  if (hi == NULL)
   {
     unsigned int i;
 

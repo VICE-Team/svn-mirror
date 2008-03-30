@@ -29,8 +29,19 @@
 #ifndef _UIHELP_RO_H
 #define _UIHELP_RO_H
 
+/* Note: -1 must still legal for help on entire windows, so just use something very big */
+#define Help_Icon_End	0x10000
+
+/* help structure */
+typedef struct help_icon_s {
+  int icon;
+  const char *sym;
+  char *msg;
+} help_icon_t;
+
 struct wimp_msg_desc_s;
 
+extern void ui_translate_icon_help_msgs(const struct wimp_msg_desc_s *msg, struct help_icon_s *hi);
 extern void ui_translate_help_messages(const struct wimp_msg_desc_s *msg);
 extern const char *ui_get_help_for_window_icon(int handle, int icon);
 

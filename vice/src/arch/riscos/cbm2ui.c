@@ -33,10 +33,11 @@
 #include "kbd.h"
 #include "resources.h"
 #include "uisharedef.h"
+#include "utils.h"
+
+#include "cbm2/cbm2mem.h"
 
 
-
-const char *WimpTaskName = "Vice CBM-II";
 
 
 static unsigned char CBM2norm[KEYMAP_ENTRIES] = {
@@ -127,8 +128,25 @@ static struct MenuDisplayVideoCache {
 /* CBM2 keyboard names */
 static char CBM2keyBusinessName[] = "Business";
 static char CBM2keyGraphicName[] = "Graphic";
+static char *CBM2ModelName = NULL;
 
-const char *cbm2_get_keyboard_name(void)
+static void cbm2ui_grey_out_machine_icons(void)
+{
+  ui_set_icons_grey(NULL, conf_grey_xcbm2, 0);
+}
+
+static void cbm2ui_bind_video_cache_menu(void)
+{
+  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
+  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
+}
+
+static const char *cbm2ui_get_machine_ibar_icon(void)
+{
+  return IBarIconName;
+}
+
+static const char *cbm2_get_keyboard_name(void)
 {
   resource_value_t val;
   int idx;
@@ -139,11 +157,60 @@ const char *cbm2_get_keyboard_name(void)
   return CBM2keyGraphicName;
 }
 
+static int set_cbm2_model_by_name(const char *name, resource_value_t val)
+{
+  util_string_set(&CBM2ModelName, (char*)val);
+  return cbm2_set_model(CBM2ModelName, NULL);
+}
+
+static int cbm2ui_setup_config_window(int wnum)
+{
+  if (wnum == CONF_WIN_CBM2)
+  {
+    wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_ConfCBM_CBM2Kbd, cbm2_get_keyboard_name());
+    return 0;
+  }
+  return -1;
+}
+
+static int cbm2ui_menu_select_config(int *block, int wnum)
+{
+  if (wnum == CONF_MENU_C2MODEL)
+  {
+    ui_set_menu_display_core(ConfigMenus[CONF_MENU_C2MODEL].desc, set_cbm2_model_by_name, block[0]);
+    ui_setup_menu_display(ConfigMenus[CONF_MENU_C2MEM].desc);
+    ui_setup_menu_display(ConfigMenus[CONF_MENU_C2RAM].desc);
+    ui_setup_menu_display(ConfigMenus[CONF_MENU_C2LINE].desc);
+    wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_ConfCBM_CBM2Kbd, cbm2_get_keyboard_name());
+    ui_update_rom_names();
+    return 0;
+  }
+  return -1;
+}
+
+static void cbm2ui_init_callbacks(void)
+{
+  ViceMachineCallbacks.setup_config_window = cbm2ui_setup_config_window;
+  ViceMachineCallbacks.menu_select_config_main = cbm2ui_menu_select_config;
+}
+
 int cbm2ui_init(void)
 {
-  CBM2ModelName = "610";
+  wimp_msg_desc *msg;
 
-  return ui_init_named_app("ViceCBM2", IBarIconName);
+  WimpTaskName = "Vice CBM-II";
+  cbm2ui_init_callbacks();
+  cbm2ui_bind_video_cache_menu();
+  msg = ui_emulator_init_prologue(cbm2ui_get_machine_ibar_icon());
+  if (msg != NULL)
+  {
+    util_string_set(&CBM2ModelName, "610");
+    ui_load_template("CBM2Config", ConfWindows + CONF_WIN_CBM2, msg);
+    ui_emulator_init_epilogue(msg);
+    cbm2ui_grey_out_machine_icons();
+    return 0;
+  }
+  return -1;
 }
 
 void cbm2ui_shutdown(void)
@@ -157,37 +224,4 @@ int cbm2_kbd_init(void)
   kbd_add_keymap(&CBM2keys, 0); kbd_add_keymap(&CBM2keys, 1);
   kbd_load_keymap(NULL, 0);
   return kbd_init();
-}
-
-void ui_grey_out_machine_icons(void)
-{
-  ui_set_icons_grey(NULL, conf_grey_xcbm2, 0);
-}
-
-void ui_bind_video_cache_menu(void)
-{
-  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
-  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
-}
-
-const char *ui_get_machine_ibar_icon(void)
-{
-  return IBarIconName;
-}
-
-
-
-/* FIXME; should be defined in c610mem */
-int *mem_read_limit_tab_ptr;
-
-
-const char *pet_get_keyboard_name(void)
-{
-  return NULL;
-}
-
-
-int pet_set_model(const char *name, void *extra)
-{
-  return 0;
 }

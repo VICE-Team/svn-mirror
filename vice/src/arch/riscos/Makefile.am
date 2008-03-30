@@ -12,18 +12,17 @@ INCLUDES = \
 
 noinst_LIBRARIES = \
 	libarch.a \
-	libarch64.a \
-	libarch128.a \
-	libarchcbm2.a \
-	libarchpet.a \
-	libarchplus4.a \
-	libarchvic20.a \
 	libarchdummy.a
 
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
 	blockdev.c \
+	c128ui.c \
+	c64ui.c \
+	c64c128ui.c \
+	c64c128ui.h \
+	cbm2ui.c \
 	config.h \
 	console.c \
 	joy.c \
@@ -32,6 +31,8 @@ libarch_a_SOURCES = \
 	kbd.h \
 	mousedrv.c \
 	mousedrv.h \
+	petui.c \
+	plus4ui.c \
 	rs232.c \
 	riscosmain.c \
 	spritedrv.c \
@@ -49,42 +50,13 @@ libarch_a_SOURCES = \
 	uimsgwin.c \
 	uimsgwin.h \
 	uisharedef.h \
+	vic20ui.c \
 	video.c \
 	videoarch.h \
 	vsidarch.h \
+	vsidui.c \
 	vsync.c \
 	vsyncarch.h
-
-libarch64_a_SOURCES = \
-	c64ui.c \
-	c64c128ui.c \
-	c64c128ui.h \
-	vsidui.c
-
-libarch128_a_SOURCES = \
-	c128ui.c \
-	c64c128ui.c \
-	c64c128ui.h \
-	vsiddummy.c
-
-libarchcbm2_a_SOURCES = \
-	cbm2ui.c \
-	cbm2dummy.c \
-	vsiddummy.c
-
-libarchpet_a_SOURCES = \
-	petui.c \
-	petdummy.c \
-	vsiddummy.c
-
-libarchplus4_a_SOURCES = \
-	plus4ui.c \
-	vsiddummy.c \
-	cbm2dummy.c
-
-libarchvic20_a_SOURCES = \
-	vic20ui.c \
-	vsiddummy.c
 
 libarchdummy_a_SOURCES = \
 	uidummy.c

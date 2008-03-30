@@ -36,8 +36,6 @@
 
 
 
-const char *WimpTaskName = "Vice Plus4";
-
 
 static unsigned char Plus4norm[KEYMAP_ENTRIES] = {
   0x17, 0x72, 0x75, 0x17,	/* 0 */
@@ -121,9 +119,37 @@ static struct MenuDisplayVideoCache {
 };
 
 
+static void plus4ui_grey_out_machine_icons(void)
+{
+  ui_set_icons_grey(NULL, conf_grey_xplus4, 0);
+}
+
+static void plus4ui_bind_video_cache_menu(void)
+{
+  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
+  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
+}
+
+static const char *plus4ui_get_machine_ibar_icon(void)
+{
+  return IBarIconName;
+}
+
+
 int plus4ui_init(void)
 {
-  return ui_init_named_app("VicePlus4", IBarIconName);
+  wimp_msg_desc *msg;
+
+  WimpTaskName = "Vice Plus4";
+  plus4ui_bind_video_cache_menu();
+  msg = ui_emulator_init_prologue(plus4ui_get_machine_ibar_icon());
+  if (msg != NULL)
+  {
+    ui_emulator_init_epilogue(msg);
+    plus4ui_grey_out_machine_icons();
+    return 0;
+  }
+  return -1;
 }
 
 void plus4ui_shutdown(void)
@@ -137,43 +163,4 @@ int plus4_kbd_init(void)
   kbd_add_keymap(&Plus4keys, 0); kbd_add_keymap(&Plus4keys, 1);
   kbd_load_keymap(NULL, 0);
   return kbd_init();
-}
-
-void ui_grey_out_machine_icons(void)
-{
-  ui_set_icons_grey(NULL, conf_grey_xplus4, 0);
-}
-
-void ui_bind_video_cache_menu(void)
-{
-  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
-  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
-}
-
-const char *ui_get_machine_ibar_icon(void)
-{
-  return IBarIconName;
-}
-
-
-
-/* dummy stubs for linker */
-const char *pet_get_keyboard_name(void)
-{
-  return NULL;
-}
-
-int pet_set_model(const char *name, void *extra)
-{
-  return 0;
-}
-
-const char *cbm2_get_keyboard_name(void)
-{
-  return NULL;
-}
-
-int cbm2_set_model(const char *name, void *extra)
-{
-  return 0;
 }

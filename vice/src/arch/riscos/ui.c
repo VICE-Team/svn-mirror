@@ -37,8 +37,6 @@
 #include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
-#include "cbm2ui.h"
-#include "cartridge.h"
 #include "console.h"
 #include "datasette.h"
 #include "diskimage.h"
@@ -53,7 +51,6 @@
 #include "machine.h"
 #include "mem.h"
 #include "monitor.h"
-#include "petui.h"
 #include "resources.h"
 #include "romset.h"
 #include "serial.h"
@@ -76,22 +73,16 @@
 #include "vsyncarch.h"
 
 /* module includes */
-#include "c64/c64mem.h"
 #include "drive/drive.h"
 #include "raster/raster.h"
 #include "sid/sid.h"
 #include "vdrive/vdrive-internal.h"
-#include "vicii/vicii.h"
 
 
 
 
 
-extern int  pet_set_model(const char *name, void *extra);
-extern int  cbm2_set_model(const char *name, void *extra);
 extern void screenshot_init_sprite(void);
-extern const char *pet_get_keyboard_name(void);
-extern const char *cbm2_get_keyboard_name(void);
 
 /* Defined in soundacorn.c. Important for timer handling! */
 extern int  sound_wimp_poll_prologue(void);
@@ -107,7 +98,6 @@ static void ui_poll_epilogue(void);
 static void ui_temp_suspend_sound(void);
 static void ui_temp_resume_sound(void);
 static void ui_issue_reset(int doreset);
-static int  ui_open_centered_or_raise_block(RO_Window *win, int *block);
 
 
 
@@ -142,7 +132,6 @@ static const char PRGFileExtension[] = "prg";
 #define FileType_Sprite		0xff9
 #define FileType_C64File	0x064
 #define FileType_D64Image	0x164
-#define FileType_SIDMusic	0x063
 
 
 /* Start scanning for internal keynumbers from here */
@@ -195,11 +184,6 @@ static const char PRGFileExtension[] = "prg";
 
 
 
-
-
-
-/* Function type for setting a value */
-typedef int (*set_var_function)(const char *name, resource_value_t val);
 
 
 
@@ -362,8 +346,6 @@ int EmuZoom;
 int EmuPaused;
 int SingleTasking = 0;
 int CycleBasedSound;
-char *PetModelName = NULL;
-char *CBM2ModelName = NULL;
 
 static char ROMSetItemFile[256];
 static char SystemKeymapFile[256];
@@ -402,10 +384,28 @@ RO_Window *ImgContWindow;
 RO_Window *MessageWindow;
 RO_Window *CreateDiscWindow;
 RO_Window *ConfWindows[CONF_WIN_NUMBER];
-RO_Window *VSidWindow = NULL;
+
 
 #define TitleBarOffset	40
 RO_Window *ConfWinPositions[CONF_WIN_NUMBER];
+
+
+
+const char *WimpTaskName = "Undefined";
+
+struct ui_machine_callback_s ViceMachineCallbacks = {
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL
+};
 
 
 
@@ -607,19 +607,6 @@ static struct MenuIconBar {
 };
 
 /* Emu window menu */
-#define Menu_EmuWin_Items	11
-#define Menu_EmuWin_Width	200
-#define Menu_EmuWin_Configure	0
-#define Menu_EmuWin_Fliplist	1
-#define Menu_EmuWin_Snapshot	2
-#define Menu_EmuWin_Screenshot	3
-#define Menu_EmuWin_Freeze	4
-#define Menu_EmuWin_Pane	5
-#define Menu_EmuWin_Active	6
-#define Menu_EmuWin_TrueDrvEmu	7
-#define Menu_EmuWin_Datasette	8
-#define Menu_EmuWin_Sound	9
-#define Menu_EmuWin_Monitor	10
 static struct MenuEmuWindow {
   RO_MenuHead head;
   RO_MenuItem item[Menu_EmuWin_Items];
@@ -745,11 +732,6 @@ static const char Rsrc_Palette[] = "PaletteFile";
 static const char Rsrc_SoundFile[] = "SoundDeviceArg";
 static const char Rsrc_SerialFile[] = "SerialFile";
 static const char Rsrc_PrinterFile[] = "PrinterTextDevice1";
-static const char Rsrc_PetCrt[] = "Crtc";
-static const char Rsrc_PetRAM9[] = "Ram9";
-static const char Rsrc_PetRAMA[] = "RamA";
-static const char Rsrc_PetDiag[] = "DiagPin";
-static const char Rsrc_PetSuper[] = "SuperPET";
 static const char Rsrc_FullScrNorm[] = "ScreenMode";
 static const char Rsrc_FullScrPal[] = "ScreenModePAL";
 static const char Rsrc_FullScrPal2[] = "ScreenModeDouble";
@@ -898,7 +880,7 @@ static const resource_t resources[] = {
 
 
 
-static int ui_load_template(const char *tempname, RO_Window **wptr, wimp_msg_desc *msg)
+int ui_load_template(const char *tempname, RO_Window **wptr, wimp_msg_desc *msg)
 {
   if ((*wptr = wimp_load_template(tempname)) == NULL)
   {
@@ -1212,7 +1194,7 @@ static void ui_setup_menu_disp_core(const disp_desc_t *dd, resource_value_t val)
 }
 
 
-static void ui_setup_menu_display(const disp_desc_t *dd)
+void ui_setup_menu_display(const disp_desc_t *dd)
 {
   resource_value_t val;
 
@@ -1263,18 +1245,6 @@ static void ui_setup_menu_display(const disp_desc_t *dd)
 
 
 /* Special set-functions */
-int set_pet_model_by_name(const char *name, resource_value_t val)
-{
-  PetModelName = (char*)val;
-  return pet_set_model((const char*)val, NULL);
-}
-
-int set_cbm2_model_by_name(const char *name, resource_value_t val)
-{
-  CBM2ModelName = (char*)val;
-  return cbm2_set_model((const char*)val, NULL);
-}
-
 int set_romset_by_name(const char *name, resource_value_t val)
 {
   if (val == (resource_value_t)0) return -1;
@@ -1284,7 +1254,7 @@ int set_romset_by_name(const char *name, resource_value_t val)
 }
 
 
-static void ui_set_menu_display_core(const disp_desc_t *dd, set_var_function func, int number)
+void ui_set_menu_display_core(const disp_desc_t *dd, set_var_function func, int number)
 {
   RO_MenuHead *menu;
   RO_MenuItem *item;
@@ -1763,6 +1733,14 @@ static void ui_drag_sound_volume(int *b)
 }
 
 
+void ui_create_emulator_menu(int *b)
+{
+  Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
+  LastHandle = b[MouseB_Window];
+  LastMenu = Menu_Emulator;  
+}
+
+
 void ui_set_sound_volume(void)
 {
   Sound_Volume(SoundVolume);
@@ -2018,28 +1996,30 @@ static void ui_open_log_window(void)
 /* Shared by all uis for installing the icon bar icon */
 int ui_init(int *argc, char *argv[])
 {
-  int block[4];
-  int x, y, mode;
-  char buffer[64];
-  char *msgpool;
-  const char *iname;
-  wimp_msg_desc *msg;
-  WIdatI *dat;
-  RO_MenuItem *item;
-
   PollMask = 0x01000830;	/* save/restore FP regs */
   LastMenu = 0; LastClick = 0; LastDrag = 0; LastSubDrag = 0; MenuType = 0; DragType = 0;
   EmuZoom = 1;
 
-  /* make sure all config menus are defined, if only temporarily */
-  ConfigMenus[CONF_MENU_ROMSET].menu = (RO_MenuHead*)&MenuROMSetTmpl;
-  ui_bind_video_cache_menu();
+  wimp_read_screen_mode(&ScreenMode);
+
+  return 0;
+}
+
+wimp_msg_desc *ui_emulator_init_prologue(const char *iname)
+{
+  int block[4];
+  int x, y, mode;
+  char *msgpool;
+  wimp_msg_desc *msg;
 
   if ((msg = wimp_message_init(MessagesFile)) == NULL)
   {
     log_error(roui_log, "Unable to open messages file!\n");
     exit(-1);
   }
+
+  /* make sure all config menus are defined, if only temporarily */
+  ConfigMenus[CONF_MENU_ROMSET].menu = (RO_MenuHead*)&MenuROMSetTmpl;
 
   /* Init internal messages of wimp.c */
   wimp_init_messages(msg);
@@ -2074,18 +2054,11 @@ int ui_init(int *argc, char *argv[])
     exit(-1);
   }
 
-  wimp_read_screen_mode(&ScreenMode);
-
-  if (vsid_mode)
-    WimpTaskName = "Vice VSID";
-
   TaskHandle = Wimp_Initialise(310, TASK_WORD, WimpTaskName, (int*)WimpMessages);
   strncpy(MenuIconBar.head.title, WimpTaskName, 12);
   strncpy(MenuEmuWindow.head.title, WimpTaskName, 12);
 
-  iname = ui_get_machine_ibar_icon();
-
-  if (Wimp_SpriteInfo(iname, &x, &y, &mode) == NULL)
+  if ((iname != NULL) && (Wimp_SpriteInfo(iname, &x, &y, &mode) == NULL))
   {
     strncpy((char*)(&IBarIcon.dat), iname, 12);
     IBarIcon.maxx = x << OS_ReadModeVariable(mode, 4);
@@ -2096,7 +2069,7 @@ int ui_init(int *argc, char *argv[])
     _kernel_oserror err;
 
     err.errnum = Error_IconSprite;
-    sprintf(err.errmess, SymbolStrings[Symbol_ErrIcon], iname);
+    sprintf(err.errmess, SymbolStrings[Symbol_ErrIcon], (iname == NULL) ? "" : iname);
     /*Wimp_ReportError(&err, 1, WimpTaskName);*/
     strncpy((char*)(&IBarIcon.dat), "file_fff", 12);
   }
@@ -2121,21 +2094,12 @@ int ui_init(int *argc, char *argv[])
     ui_load_template("SysConfig", ConfWindows + CONF_WIN_SYSTEM, msg);
     ui_load_template("VideoConfig", ConfWindows + CONF_WIN_VIDEO, msg);
     ui_load_template("JoyConfig", ConfWindows + CONF_WIN_JOY, msg);
-    ui_load_template("PetConfig", ConfWindows + CONF_WIN_PET, msg);
-    ui_load_template("VicConfig", ConfWindows + CONF_WIN_VIC, msg);
-    ui_load_template("CBM2Config", ConfWindows + CONF_WIN_CBM2, msg);
-    ui_load_template("C128Config", ConfWindows + CONF_WIN_C128, msg);
     ui_load_template("Snapshot", &SnapshotWindow, msg);
     ui_load_template("CPUJamBox", &CpuJamWindow, msg);
     ui_load_template("SaveBox", &SaveBox, msg);
     ui_load_template("ImageCont", &ImgContWindow, msg);
     ui_load_template("MsgWindow", &MessageWindow, msg);
     ui_load_template("CreateDisc", &CreateDiscWindow, msg);
-
-    if (vsid_mode)
-      ui_load_template("VSidWindow", &VSidWindow, msg);
-
-    Wimp_CloseTemplate();
   }
   else
   {
@@ -2148,6 +2112,18 @@ int ui_init(int *argc, char *argv[])
     exit(-1);
   }
 
+  return msg;
+}
+
+int ui_emulator_init_epilogue(wimp_msg_desc *msg)
+{
+  char buffer[64];
+  WIdatI *dat;
+  RO_MenuItem *item;
+  int x;
+
+  Wimp_CloseTemplate();
+
   /* Menus */
   wimp_message_translate_menu_indirect(msg, (RO_MenuHead*)&MenuIconBar, MenuIndirectSize);
   wimp_message_translate_menu_indirect(msg, (RO_MenuHead*)&MenuEmuWindow, MenuIndirectSize);
@@ -2157,11 +2133,8 @@ int ui_init(int *argc, char *argv[])
   {
     wimp_message_translate_menu_indirect(msg, ConfigMenus[x].menu, MenuIndirectSize);
   }
-  if (vsid_mode)
-    vsid_ui_message_hook(msg);
 
   /* Misc */
-
   sprintf(EmuTitle, "%s (%s)", WimpTaskName, VERSION);
 
   wimp_window_write_title(EmuWindow, EmuTitle);
@@ -2259,8 +2232,6 @@ int ui_init_finish(void)
 
   CMOS_DragType = ReadDragType();
 
-  ui_grey_out_machine_icons();
-
   if ((machine_class != VICE_MACHINE_PET) && (machine_class != VICE_MACHINE_VIC20) && (machine_class != VICE_MACHINE_CBM2) && (machine_class != VICE_MACHINE_C128))
   {
     wimp_menu_set_grey_item((RO_MenuHead*)&MenuConfigure, Menu_Config_Machine, 1);
@@ -2350,7 +2321,7 @@ int ui_init_finalize(void)
 }
 
 
-static void ui_setup_config_item(config_item_t *ci)
+void ui_setup_config_item(config_item_t *ci)
 {
   resource_value_t val;
 
@@ -2422,23 +2393,14 @@ static void ui_setup_config_window(int wnum)
     case CONF_WIN_SOUND:
       ui_sound_set_best_sample_rate();
       break;
-    case CONF_WIN_PET:
-      if (machine_class == VICE_MACHINE_PET)
-      {
-        wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_ConfPET_PetKbd, pet_get_keyboard_name());
-      }
-      break;
-    case CONF_WIN_CBM2:
-      if (machine_class == VICE_MACHINE_CBM2)
-      {
-        wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_ConfCBM_CBM2Kbd, cbm2_get_keyboard_name());
-      }
-      break;
     case CONF_WIN_C128:
       /* no menus yet, nothing to do */
       break;
     default: break;
   }
+
+  if (ViceMachineCallbacks.setup_config_window != NULL)
+    ViceMachineCallbacks.setup_config_window(wnum);
 }
 
 
@@ -2533,13 +2495,6 @@ void ui_open_emu_window(RO_Window *win, int *b)
     block[WindowB_Stackpos] = EmuPane->Handle;
   }
 
-  Wimp_OpenWindow(block);
-}
-
-
-void ui_open_vsid_window(int *block)
-{
-  ui_open_centered_or_raise_block(VSidWindow, block);
   Wimp_OpenWindow(block);
 }
 
@@ -2701,7 +2656,7 @@ void ui_show_emu_scale(void)
 
 
 /* returns 0 if window was closed */
-static int ui_open_centered_or_raise_block(RO_Window *win, int *block)
+int ui_open_centered_or_raise_block(RO_Window *win, int *block)
 {
   int status;
 
@@ -2852,20 +2807,6 @@ static void ui_mouse_click_pane(int *b)
   }
 }
 
-static void ui_mouse_click_vsid(int *b)
-{
-  if (b[MouseB_Buttons] == 2)
-  {
-    Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
-    LastHandle = VSidWindow->Handle;
-    LastMenu = Menu_Emulator;
-  }
-  else
-  {
-    vsid_ui_mouse_click(b);
-  }
-}
-
 static void ui_mouse_click_canvas(int *b)
 {
   struct video_canvas_s *canvas;
@@ -2878,9 +2819,7 @@ static void ui_mouse_click_canvas(int *b)
     {
        wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Active, (canvas_get_number() <= 1));
        wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Screenshot, 0);
-       Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
-       LastHandle = canvas->window->Handle;
-       LastMenu = Menu_Emulator;
+       ui_create_emulator_menu(b);
     }
     else
     {
@@ -2902,11 +2841,7 @@ static void ui_mouse_click_ibar(int *b)
   {
     int block[WindowB_WFlags+1];
 
-    if (vsid_mode)
-    {
-      ui_open_vsid_window(block);
-    }
-    else
+    if ((ViceMachineCallbacks.mouse_click_ibar == NULL) || (ViceMachineCallbacks.mouse_click_ibar(b) != 0))
     {
       RO_Window *win;
       int gainCaret = 0;
@@ -3141,17 +3076,16 @@ static int ui_mouse_click_conf_drag(int *b, int wnum)
 
 static void ui_mouse_click(int *b)
 {
-  if (b[MouseB_Window] == EmuPane->Handle)
+  if ((ViceMachineCallbacks.mouse_click_event == NULL) || (ViceMachineCallbacks.mouse_click_event(b) != 0))
   {
-    ui_mouse_click_pane(b);
-  }
-  else if ((vsid_mode) && (b[MouseB_Window] == VSidWindow->Handle))
-  {
-    ui_mouse_click_vsid(b);
-  }
-  else
-  {
-    ui_mouse_click_canvas(b);
+    if (b[MouseB_Window] == EmuPane->Handle)
+    {
+      ui_mouse_click_pane(b);
+    }
+    else
+    {
+      ui_mouse_click_canvas(b);
+    }
   }
 
   if ((b[MouseB_Window] == -2) && (b[MouseB_Icon] == IBarIcon.IconHandle))
@@ -3674,10 +3608,11 @@ static void ui_key_press(int *b)
         ui_check_save_snapshot(fn);
     }
   }
-  else if (b[KeyPB_Window] == VSidWindow->Handle)
+  else if (ViceMachineCallbacks.key_pressed_event != NULL)
   {
-    vsid_ui_key_press(b);
+    ViceMachineCallbacks.key_pressed_event(b);
   }
+
   if (b[KeyPB_Window] == ConfWindows[CONF_WIN_JOY]->Handle)
   {
     int mpos[MouseB_Icon+1];
@@ -3729,15 +3664,6 @@ static void ui_toggle_resource_menu(const char *name, RO_MenuHead *menu, int num
 }
 
 
-static config_item_t PETdependconf[] = {
-  {Rsrc_PetCrt, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetCrt}},
-  {Rsrc_PetRAM9, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetRAM9}},
-  {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetRAMA}},
-  {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetDiagPin}},
-  {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetSuper}},
-  {NULL, 0, {0, 0}}
-};
-
 static config_item_t SystemROMconf[] = {
   {Rsrc_CharGen, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_CharGen}},
   {Rsrc_Kernal, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Kernal}},
@@ -3764,7 +3690,7 @@ static void ui_update_config_windows(void)
 
 
 /* Update the system ROM names */
-static void ui_update_rom_names(void)
+void ui_update_rom_names(void)
 {
   int i;
 
@@ -3895,9 +3821,6 @@ static int ui_menu_select_emuwin(int *b, int **menu)
           break;
       }
       break;
-    case Menu_EmuWin_Freeze:
-      cartridge_trigger_freeze();
-      break;
     case Menu_EmuWin_Pane:
       ShowEmuPane ^= 1;
       ui_set_pane_state(ShowEmuPane);
@@ -3929,6 +3852,10 @@ static int ui_menu_select_emuwin(int *b, int **menu)
     default:
       break;
   }
+
+  if (ViceMachineCallbacks.menu_select_emuwin != NULL)
+    ViceMachineCallbacks.menu_select_emuwin(b);
+
   return confWindow;
 }
 
@@ -3936,12 +3863,17 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
 {
   *menu = (int*)(ConfigMenus[mnum].menu);
 
-  /* must execute cartridge detach before calling ui_set_menu_display_value() */
-  if ((mnum == CONF_MENU_CARTTYPE) && (b[0] == 0) && !vsid_mode)
-    cartridge_detach_image();
+  if (ViceMachineCallbacks.menu_select_config_pre != NULL)
+    ViceMachineCallbacks.menu_select_config_pre(b, mnum);
 
   if (ConfigMenus[mnum].desc != NULL)
     ui_set_menu_display_value(ConfigMenus[mnum].desc, b[0]);
+
+  if (ViceMachineCallbacks.menu_select_config_main != NULL)
+  {
+    if (ViceMachineCallbacks.menu_select_config_main(b, mnum) == 0)
+      return 1;
+  }
 
   switch (mnum)
   {
@@ -4025,32 +3957,6 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
           }
         }
       }
-    case CONF_MENU_PETMODEL:
-      {
-        int i;
-
-        ui_set_menu_display_core(ConfigMenus[CONF_MENU_PETMODEL].desc, set_pet_model_by_name, b[0]);
-        ui_setup_menu_display(ConfigMenus[CONF_MENU_PETMEM].desc);
-        ui_setup_menu_display(ConfigMenus[CONF_MENU_PETIO].desc);
-        ui_setup_menu_display(ConfigMenus[CONF_MENU_PETVIDEO].desc);
-        wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_ConfPET_PetKbd, pet_get_keyboard_name());
-        ui_update_rom_names();
-        for (i=0; PETdependconf[i].resource != NULL; i++)
-        {
-          ui_setup_config_item(PETdependconf + i);
-        }
-      }
-      break;
-    case CONF_MENU_C2MODEL:
-      {
-        ui_set_menu_display_core(ConfigMenus[CONF_MENU_C2MODEL].desc, set_cbm2_model_by_name, b[0]);
-        ui_setup_menu_display(ConfigMenus[CONF_MENU_C2MEM].desc);
-        ui_setup_menu_display(ConfigMenus[CONF_MENU_C2RAM].desc);
-        ui_setup_menu_display(ConfigMenus[CONF_MENU_C2LINE].desc);
-        wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_ConfCBM_CBM2Kbd, cbm2_get_keyboard_name());
-        ui_update_rom_names();
-      }
-      break;
     case CONF_MENU_ROMSET:
       if (MenuDisplayROMSet != NULL)
       {
@@ -4118,6 +4024,7 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
     default:
       return 0;
   }
+
   return 1;
 }
 
@@ -4302,27 +4209,8 @@ static int ui_load_prg_file(const char *name)
   }
   else
   {
-    if (machine_class == VICE_MACHINE_C64)
-    {
-      FILE *fp;
-
-      vsync_suspend_speed_eval();
-
-      if ((fp = fopen(name, "rb")) != NULL)
-      {
-        BYTE lo, hi;
-        int length;
-
-        lo = fgetc(fp); hi = fgetc(fp); length = lo + (hi << 8);
-        length += fread(mem_ram + length, 1, C64_RAM_SIZE - length, fp);
-        fclose(fp);
-        mem_ram[0xc3] = lo; mem_ram[0xc4] = hi;
-        lo = length & 0xff; hi = (length >> 8) & 0xff;
-        mem_ram[0xae] = lo; mem_ram[0x2d] = lo; mem_ram[0x2f] = lo; mem_ram[0x31] = lo; mem_ram[0x33] = lo;
-        mem_ram[0xaf] = hi; mem_ram[0x2e] = hi; mem_ram[0x30] = hi; mem_ram[0x32] = hi; mem_ram[0x34] = hi;
-        return 0;
-      }
-    }
+    if (ViceMachineCallbacks.load_prg_file != NULL)
+      return ViceMachineCallbacks.load_prg_file(name);
   }
 
   return -1;
@@ -4607,11 +4495,12 @@ static void ui_user_msg_data_load(int *b)
       action = 1;
     }
   }
-  else if (b[5] == VSidWindow->Handle)
+  else if (ViceMachineCallbacks.usr_msg_data_load != NULL)
   {
-    if (vsid_ui_load_file(name) == 0)
+    if (ViceMachineCallbacks.usr_msg_data_load(b) == 0)
       action = 1;
   }
+
   if (action != 0)
   {
     b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoadAck;
@@ -4736,14 +4625,8 @@ static void ui_user_msg_data_save_ack(int *b)
 
 static void ui_user_msg_data_open(int *b)
 {
-  if ((vsid_mode) && (b[10] == FileType_SIDMusic))
-  {
-    if (vsid_ui_load_file(((char*)b)+44) == 0)
-    {
-      b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoadAck;
-      Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
-    }
-  }
+  if (ViceMachineCallbacks.usr_msg_data_open != NULL)
+    ViceMachineCallbacks.usr_msg_data_open(b);
 }
 
 
@@ -5147,7 +5030,8 @@ void ui_display_speed(int percent, int framerate, int warp_flag)
 {
   if (FullScreenMode == 0)
   {
-    if (vsid_mode == 0)
+    if ((ViceMachineCallbacks.display_speed == NULL) ||
+	(ViceMachineCallbacks.display_speed(percent, framerate, warp_flag) != 0))
     {
       char buffer[32];
 
@@ -5157,10 +5041,6 @@ void ui_display_speed(int percent, int framerate, int warp_flag)
         sprintf(buffer, SymbolStrings[Symbol_PaneFPS], framerate);
 
       wimp_window_write_icon_text_u(EmuPane, Icon_Pane_Speed, buffer);
-    }
-    else
-    {
-      vsid_ui_display_speed(percent);
     }
   }
   else
