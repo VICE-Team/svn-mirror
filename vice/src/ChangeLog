@@ -1,3 +1,111 @@
+2003-05-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.46.
+
+	* arch/win32/fullscrn.c: Fixed warnings.
+
+	* arch/win32/uidrivec64c128vic20.c,
+	arch/win32/uidrivepetcbm2.c, arch/win32/uidriveplus4.c: Added
+	include files.
+
+	* resid/config.guess, resid/config.sub, resid/depcomp,
+	resid/install-sh, resid/missing, resid/mkinstalldirs: Updated
+	from automake share.
+
+	* sounddrv/soundsun.c: #include <stdlib.h>.
+
+2003-05-25  Sven Oliver Moll  <svolli@svolli.de>
+
+	* sounddrv/soundsun.c (sun_init): Check `AUDIODEV' environment
+	variable.
+
+2003-05-25  Dag Lem  <resid@nimrod.no>
+
+	* resid/: SID::State corrections.
+
+	* sid/resid.cc (resid_state_read, resid_state_write): Include
+	envelope state.
+
+	* sid/sid-snapshot.cc (sid_snapshot_write_module_extended,
+	sid_snapshot_read_module_extended): Likewise.
+
+	* sid/sid-snapshot.h (sid_snapshot_state_s): Likewise.
+
+2003-05-24  Tibor Biczo <crown@axelero.hu>
+
+	* arch/win32/Makefile.am: New files added.
+
+	* arch/win32/arch.dsp: New files added.
+
+	* arch/win32/cbm2ui.c (cbm2_ui_specific): Call petcbm2 drive
+	settings.
+
+	* arch/win32/peui.c (pet_ui_specific): Call petcbm2 drive
+	settings.
+
+	* arch/win32/plus4ui.c (plus4_ui_specific): Call plus4 drive
+	settings.
+
+	* arch/win32/res.h: Added new values for new drives, drive
+	setting dialogs.
+
+	* arch/win32/res.rc: Added new drives, added separate petcbm2
+	drive setting dialog.
+
+	* arch/win32/resplus4.rc: Added drive setting dialog.
+
+	* arch/win32/uidrivec64c128vic20.c: Added new drives, updated
+	to use drive_check_* functions to dinamically enable/disable
+	drive options.
+
+	* arch/win32/uidrivepetcbm2.c: New file.
+
+	* arch/win32/uidrivepetcbm2.h: New file.
+
+	* arch/win32/uidriveplus4.c: New file.
+
+	* arch/win32/uidriveplus4.h: New file.
+
+	* cbm2/cbm2drive.c (machine_drive_resources_init): Register
+	drive type resources.
+
+	* drive/drive-cmdline-options.c: Moved drive extend policy
+	command line options here.
+
+	* drive/drive-resources.c (set_drive_extend_image_policy):
+	Moved function here, with drive extend policy resources.
+
+	* drive/drive.c (drive_check_extend_policy,
+	drive_check_idle_method, drive_check_parallel_cable): New
+	functions, support for UI.
+
+	* drive/drive.h (drive_check_extend_policy,
+	drive_check_idle_method, drive_check_parallel_cable): New
+	prototypes.
+
+	* drive/iec/iec-cmdline-options.c: Removed drive extend
+	policy.
+
+	* drive/iec/iec-resources.d (set_drive_extend_image_policy):
+	Removed.  Drive extend policy resources removed.
+
+	* sounddrv/sounddx.c (dx_clear): New function, clear buffer at
+	startup.  Seems DX9, doesn't do that anymore.
+
+2003-05-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/Makefile.am: Added sid to include directories.
+
+	* arch/beos/ui_sid.cc: Fixed SidEngine resource.
+
+	* arch/beos/vicewindow.cc: Use lib functions for malloc/free.
+
+	* Makefile.am, arch/win32/base.dsp, arch/win32/c1541.dsp,
+	arch/win32/uilib.c, c1541.c, cbmimage.c, cbmimage.h,
+	vdrive/vdrive-internal.c: Renamed image.h, image.c and
+	image_create_image to cbmimage* to avoid header conflict in
+	BeOS.
+
 2003-05-18  Andreas Boose  <viceteam@t-online.de>
 
         * Version 1.11.45.

@@ -30,6 +30,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/uio.h>
 #include <unistd.h>
 
@@ -97,14 +98,18 @@ static int toulaw8(SWORD data)
 static int sun_init(const char *param, int *speed,
 		    int *fragsize, int *fragnr, int *channels)
 {
-    int			st;
-    struct audio_info	info;
+    int	st;
+    struct audio_info info;
 
     /* No stereo capability. */
     *channels = 1;
 
-    if (!param)
-	param = "/dev/audio";
+    if (!param) {
+        if (getenv("AUDIODEV"))
+            param = (const char *)getenv("AUDIODEV");
+        else
+            param = "/dev/audio";
+    }
     sun_fd = open(param, O_WRONLY, 0777);
     if (sun_fd < 0)
 	return 1;
@@ -114,8 +119,7 @@ static int sun_init(const char *param, int *speed,
     info.play.precision = 16;
     info.play.encoding = AUDIO_ENCODING_LINEAR;
     st = ioctl(sun_fd, AUDIO_SETINFO, &info);
-    if (st < 0)
-    {
+    if (st < 0) {
 	AUDIO_INITINFO(&info);
 	info.play.sample_rate = 8000;
 	info.play.channels = 1;
