@@ -17,6 +17,80 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Sending feedback,  Next: Contributing,  Prev: Home page,  Up: Contacts
+
+How to send feedback
+====================
+
+   If you want to report bugs, make suggestions or contribute to the
+project, please email one of the following people:
+
+   * Teemu Rantanen (<tvr@cs.hut.fi>) for the SID stuff;
+
+   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) for the 1541 disk
+     drive;
+
+   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs and
+     CBM-II;
+
+   * Ettore Perazzoli (<ettore@comm2000.it>), the current maintainer,
+     for everything else.
+
+   It's always nice to receive feedback and/or bugreports about VICE,
+but please read these few notes before sending mail to anybody in the
+team.
+
+   * Please put the word `VICE' *in all capitals* in your subject line
+     (e.g., `VICE fails to run game XXX').  This helps mail splitting
+     and reduces chances that your message is unintentionally deleted,
+     forgotten or lost.
+
+   * Please don't send any HTML mail (we really hate that!).  If you use
+     M$ Outlook or Netscape Communicator, make sure you turn off the
+     "rich text" (HTML) feature.
+
+   * Please don't send *any* binaries without asking first.
+
+   * Please read the following documents carefully before reporting a
+     bug or a problem you cannot solve:
+
+        * the VICE documentation (you are reading it!);
+
+        * the VICE FAQ (it is available on the Internet, and reachable
+          from the VICE home page:
+          http://www.cs.cmu.edu/~dsladic/vice/vice.html);
+
+        * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (*note FAQs
+          you should read::.).
+
+   * When you report a bug, please try to be as accurate as possible and
+     describe how it can be reproduced to the very detail.  You should
+     also tell us what machine you are running on, what operating
+     system you are using as well as the version of it.
+
+   * Please don't ask us how to transfer original C64 disk or tapes to
+     your PC; this has been asked a gazillion times through email.  To
+     transfer disks, you can use the Star Commander
+     (http://ludens.elte.hu/~sta/sc.html).  And no, you cannot read C64
+     disks with your old 5"1/4 PC drive.
+
+   * Please don't ask us where to find games for the emulator on the
+     Internet.
+
+   * Please don't ask us when the next version will be out, because we
+     really don't know.
+
+   * Please write in English, or in the language of the person you are
+     writing to (Ettore is Italian, Andr'e and Andreas are German,
+     Teemu is Finnish, Daniel is from Canada).
+
+   In any case, we would be *really* glad to receive your comments
+about VICE.  We cannot always answer all the email, but we surely read
+all of it.
+
+   Thanks!
+
+
 File: vice.info,  Node: Contributing,  Next: Newsgroups,  Prev: Sending feedback,  Up: Contacts
 
 How to contribute
@@ -211,6 +285,7 @@ Concept Index
 * -virtualdev, +virtualdev:              No traps options.
 * -warp, +warp:                          Performance options.
 * -xsync, +xsync:                        Video options.
+* 1351 Mouse emulation:                  C64 I/O extension settings.
 * Audio buffer size:                     Sound settings.
 * Basic1:                                PET model.
 * Basic1Chars:                           PET model.
@@ -237,7 +312,6 @@ Concept Index
 * EmuID:                                 PET model.
 * EoiBlank:                              PET model.
 * HP-UX and Solaris audio problems:      Sound problems.
-* IEEE488 interface emulation:           C64 I/O extension settings.
 * IOSize:                                PET model.
 * KernalName <1>:                        PET model.
 * KernalName <2>:                        VIC20 system ROM resources.

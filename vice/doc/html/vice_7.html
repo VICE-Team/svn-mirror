@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 2 August 1999 -->
+     from ../vice.texi on 23 November 1999 -->
 
 <TITLE>VICE Manual - 7  Machine-specific features</TITLE>
 </HEAD>
@@ -47,6 +47,10 @@ generic raw dumps of 8K and 16K images;
 <P> <LI>
 
 Action Replay images.
+<P> <LI>
+
+The Commodore IEEE488 interface cartridge
+(<CODE>http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin</CODE>)
 </UL> </P>
 
 <P>
@@ -62,7 +66,11 @@ If you are using an Action Replay cartridge, you can emulate the
 cartridge's freeze button with the "Cartridge freeze" command.
 
 </P>
+<P>
+Attaching the IEEE488 cartridge automatically enables the IEEE488
+interface emulation on the <CODE>$DF**</CODE> I/O ports.
 
+</P>
 
 
 <H3><A NAME="SEC77" HREF="vice_toc.html#TOC77">7.1.2  VIC-II settings</A></H3>
@@ -291,17 +299,13 @@ virtually no way to realize they are running on an emulator.
 <A NAME="IDX199"></A>
 <P> <LI>
 
-The "IEEE488 interface emulation" extension emulates a standard
-Commodore IEEE488 interface connected to the IEC bus; one possible use
-for this is Andr&eacute; Fachat's OS/A65 multitasking operating system.
-
-<A NAME="IDX200"></A>
-<P> <LI>
-
 The "512K RAM Expansion Unit" extension emulates a standard 512K
 Commodore RAM Expansion Unit; this can be used with GEOS and other
 programs that are designed to take advantage of it.  This currently
 works only in the C64 emulator.
+
+<A NAME="IDX200"></A>
+<P> <LI>FIXME
 
 </UL> </P>
 

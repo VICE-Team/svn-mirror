@@ -107,9 +107,10 @@ listen to the bus lines to translates them to the filesystem code. Thus
 the PET will always detect a drive for example, but it can also use
 drives 10 and 11 even together with true disk drive emulation.
 
-   * "Enable FS access via IEEE488", enables the peripheral access via
-     the IEEE488 interface. Both, filesystem and disk image access via
-     fast drive emulation, are affected.
+   * "Enable virtual devices", enables the peripheral access via the
+     fast disk emulation (either kernal traps or IEEE488 interface).
+     Both, filesystem and disk image access via fast drive emulation,
+     are affected.
 
    Four peripherals, numbered from 8 to 11, are accessible; each of
 them provides the following settings:
@@ -665,6 +666,18 @@ supported on the C128 emulator.
 
    * Action Replay images.
 
+   * The Commodore IEEE488 interface cartridge
+
+
+
+
+
+
+
+
+
+     (`http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin')
+
    Each of these kinds has a specific command in the "Attach a cartridge
 image" submenu.  When you have successfully attached a cartridge image,
 you should then reset the machine to make sure the cartridge initializes
@@ -673,6 +686,9 @@ cartridge image ("Detach cartridge image").
 
    If you are using an Action Replay cartridge, you can emulate the
 cartridge's freeze button with the "Cartridge freeze" command.
+
+   Attaching the IEEE488 cartridge automatically enables the IEEE488
+interface emulation on the `$DF**' I/O ports.
 
 
 File: vice.info,  Node: VIC-II settings,  Next: SID settings,  Prev: C64 cartridges,  Up: C64/128-specific
@@ -831,15 +847,12 @@ might cause compatibility problems.
      disabled, programs will have virtually no way to realize they are
      running on an emulator.
 
-   * The "IEEE488 interface emulation" extension emulates a standard
-     Commodore IEEE488 interface connected to the IEC bus; one possible
-     use for this is Andr'e Fachat's OS/A65 multitasking operating
-     system.
-
    * The "512K RAM Expansion Unit" extension emulates a standard 512K
      Commodore RAM Expansion Unit; this can be used with GEOS and other
      programs that are designed to take advantage of it.  This currently
      works only in the C64 emulator.
+
+   * FIXME
 
 * Menu:
 
@@ -1565,19 +1578,4 @@ loaded.
 
    A quick snapshot can now be made by pressing the `M-F11' key and
 reloaded by pressing the `M-F10' key.
-
-
-File: vice.info,  Node: Snapshot format,  Prev: Snapshot usage,  Up: Snapshots
-
-Snapshot format
-===============
-
-   A snapshot file consists of several modules of mostly different
-types.  Each module has a name and saves the state of an entity like a
-CIA, the CPU, or the memory.
-
-* Menu:
-
-* Emulator modules::
-* Module formats::
 

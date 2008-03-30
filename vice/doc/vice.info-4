@@ -17,6 +17,21 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Snapshot format,  Prev: Snapshot usage,  Up: Snapshots
+
+Snapshot format
+===============
+
+   A snapshot file consists of several modules of mostly different
+types.  Each module has a name and saves the state of an entity like a
+CIA, the CPU, or the memory.
+
+* Menu:
+
+* Emulator modules::
+* Module formats::
+
+
 File: vice.info,  Node: Emulator modules,  Next: Module formats,  Prev: Snapshot format,  Up: Snapshot format
 
 Emulator modules

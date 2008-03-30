@@ -58,6 +58,13 @@ Terminology
      processor, the disk drive's processor or a specific memory
      configuration of one of the mentioned processors.
 
+`bankname'
+     The CPU can only see 64k of memory at any one time, due to its 16
+     bit address bus. The C64 and other computers have more than this
+     amount, and this is handled by banking: a memory address can have
+     different contents, depending on the active memory bank.  A
+     bankname names a specific bank in the current address_space.
+
 `register'
      One of the following: program counter (PC), stack pointer (SP),
      accumulator (A), X register (X), or Y register (Y).
@@ -139,11 +146,22 @@ File: vice.info,  Node: Memory commands,  Next: Assembly commands,  Prev: Machin
 Memory commands
 ===============
 
+`bank [<bankname>]'
+     Without a bankname, display all available banks for the current
+     address_space. With a bankname given, switch to the specified
+     bank. If a bank is not completely filled (ROM banks for example)
+     normally the `ram' bank is used where the bank has holes.  The
+     `cpu' bank uses the bank currently used by the CPU.
+
 `compare <address_range> <address>'
      Compare memory from the source specified by the address range to
      the destination specified by the address.  The regions may
      overlap.  Any values that miscompare are displayed using the
      default displaytype.
+
+`device [c:|8:|9:]'
+     Set the default address space to either the computer `c:' or the
+     specified drive `8:' or `9:'
 
 `fill <address_range> <data_list>'
      Fill memory in the specified address range with the data in
@@ -178,6 +196,14 @@ Memory commands
 `move <address_range> <address>'
      Move memory from the source specified by the address range to the
      destination specified by the address.  The regions may overlap.
+
+`sidefx [on|off|toggle]'
+     Control how monitor generated reads affect memory locations that
+     have read side-effects, like CIA interrupt registers for example.
+     If the argument is 'on' then reads may cause side-effects.  If the
+     argument is 'off' then reads don't cause side-effects.  If the
+     argument is 'toggle' then the current mode is switched.  No
+     argument displays the current state.
 
 `> [<address>] <data_list>'
      Write the specified data at `address'.
@@ -491,9 +517,6 @@ according to CBM DOS, like "i0" for example.
 `block <track> <sector> <disp> [<drive>]'
      Show specified disk block in hex form.
 
-`create <x64name> <d64name>'
-     Create an X64 disk image out of a D64 disk image.
-
 `copy <source1> [<source2> ... <sourceN>] <destination>'
      Copy `source1' ... `sourceN' into destination.  If N > 1,
      `destination' must be a simple drive specifier (`@n:').
@@ -511,8 +534,10 @@ according to CBM DOS, like "i0" for example.
      If `unit' is specified, format the disk in unit `unit'.  If `type'
      and `imagename' are specified, create a new image named
      `imagename', attach it to unit 8 and format it.  `type' is a disk
-     image type, and must be either `x64', `d64', `d71' or `d81'.
-     Otherwise, format the disk in the current unit, if any.
+     image type, and must be either `x64', `d64' (both VC1541/2031),
+     `g64' (VC1541/2031 but in GCR coding), `d71' (VC1571), `d81'
+     (VC1581), `d80' (CBM8050) or `d82' (CBM8250/1001).  Otherwise,
+     format the disk in the current unit, if any.
 
 `gcrformat <diskname,id> <imagename>'
      Create and format a G64 disk image named `imagename'.
@@ -1207,78 +1232,4 @@ well, so you might want to have a look at it periodically.  If you are
 going to report a bug, please check those pages *first*; it is possible
 that the problem you encountered has already been fixed with a newer
 version.
-
-
-File: vice.info,  Node: Sending feedback,  Next: Contributing,  Prev: Home page,  Up: Contacts
-
-How to send feedback
-====================
-
-   If you want to report bugs, make suggestions or contribute to the
-project, please email one of the following people:
-
-   * Teemu Rantanen (<tvr@cs.hut.fi>) for the SID stuff;
-
-   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) for the 1541 disk
-     drive;
-
-   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs and
-     CBM-II;
-
-   * Ettore Perazzoli (<ettore@comm2000.it>), the current maintainer,
-     for everything else.
-
-   It's always nice to receive feedback and/or bugreports about VICE,
-but please read these few notes before sending mail to anybody in the
-team.
-
-   * Please put the word `VICE' *in all capitals* in your subject line
-     (e.g., `VICE fails to run game XXX').  This helps mail splitting
-     and reduces chances that your message is unintentionally deleted,
-     forgotten or lost.
-
-   * Please don't send any HTML mail (we really hate that!).  If you use
-     M$ Outlook or Netscape Communicator, make sure you turn off the
-     "rich text" (HTML) feature.
-
-   * Please don't send *any* binaries without asking first.
-
-   * Please read the following documents carefully before reporting a
-     bug or a problem you cannot solve:
-
-        * the VICE documentation (you are reading it!);
-
-        * the VICE FAQ (it is available on the Internet, and reachable
-          from the VICE home page:
-          http://www.cs.cmu.edu/~dsladic/vice/vice.html);
-
-        * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (*note FAQs
-          you should read::.).
-
-   * When you report a bug, please try to be as accurate as possible and
-     describe how it can be reproduced to the very detail.  You should
-     also tell us what machine you are running on, what operating
-     system you are using as well as the version of it.
-
-   * Please don't ask us how to transfer original C64 disk or tapes to
-     your PC; this has been asked a gazillion times through email.  To
-     transfer disks, you can use the Star Commander
-     (http://ludens.elte.hu/~sta/sc.html).  And no, you cannot read C64
-     disks with your old 5"1/4 PC drive.
-
-   * Please don't ask us where to find games for the emulator on the
-     Internet.
-
-   * Please don't ask us when the next version will be out, because we
-     really don't know.
-
-   * Please write in English, or in the language of the person you are
-     writing to (Ettore is Italian, Andr'e and Andreas are German,
-     Teemu is Finnish, Daniel is from Canada).
-
-   In any case, we would be *really* glad to receive your comments
-about VICE.  We cannot always answer all the email, but we surely read
-all of it.
-
-   Thanks!
 

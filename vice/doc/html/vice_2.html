@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 2 August 1999 -->
+     from ../vice.texi on 23 November 1999 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -394,8 +394,8 @@ parallel line completely while emulating the drive at DOS level only.
 The IEEE488 line interpreter maps the drives 8-11 (as described above)
 to the IEEE488 disk units, and no kernal traps are needed.  The same
 emulation of the Commodore IEEE488 bus interface is available for the
-C64. With IEEE488 drives you can have true 2031 emulation at unit
-#8, and still have filesystem access at units #10 or #11, because
+C64 and the VIC20. With IEEE488 drives you can have true 2031 emulation 
+at unit #8, and still have filesystem access at units #10 or #11, because
 monitoring the IEEE488 lines does not interfere with the true drive
 emulation.
 
@@ -450,6 +450,22 @@ VICE supports the most popular Commodore file formats:
 <P> <LI>
 
 <CODE>G64</CODE> GCR-encoded 1541 disk image files;
+
+<P> <LI>
+
+<CODE>D71</CODE> VC1571 disk image format
+
+<P> <LI>
+
+<CODE>D81</CODE> VC1581 disk image format
+
+<P> <LI>
+
+<CODE>D80</CODE> CBM8050 disk image format
+
+<P> <LI>
+
+<CODE>D82</CODE> CBM8250/1001 disk image format
 
 <P> <LI>
 

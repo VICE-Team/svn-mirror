@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 2 August 1999 -->
+     from ../vice.texi on 23 November 1999 -->
 
 <TITLE>VICE Manual - 10  c1541</TITLE>
 </HEAD>
@@ -181,10 +181,6 @@ Attach <CODE>diskimage</CODE> to <CODE>unit</CODE> (default unit is 8).
 <DD>
 Show specified disk block in hex form.
 
-<P><DT><CODE>create &#60;x64name&#62; &#60;d64name&#62;</CODE>
-<DD>
-Create an X64 disk image out of a D64 disk image.
-
 <P><DT><CODE>copy &#60;source1&#62; [&#60;source2&#62; ... &#60;sourceN&#62;] &#60;destination&#62;</CODE>
 <DD>
 Copy <CODE>source1</CODE> ... <CODE>sourceN</CODE> into destination.  If N &#62; 1,
@@ -207,8 +203,10 @@ Extract all the files to the file system.
 If <CODE>unit</CODE> is specified, format the disk in unit <CODE>unit</CODE>.  If
 <CODE>type</CODE> and <CODE>imagename</CODE> are specified, create a new image named
 <CODE>imagename</CODE>, attach it to unit 8 and format it.  <CODE>type</CODE> is a
-disk image type, and must be either <CODE>x64</CODE>, <CODE>d64</CODE>, <CODE>d71</CODE>
-or <CODE>d81</CODE>.  Otherwise, format the disk in the current unit, if any.
+disk image type, and must be either <CODE>x64</CODE>, <CODE>d64</CODE> (both VC1541/2031), 
+<CODE>g64</CODE> (VC1541/2031 but in GCR coding), <CODE>d71</CODE> (VC1571), <CODE>d81</CODE>
+(VC1581), <CODE>d80</CODE> (CBM8050) or <CODE>d82</CODE> (CBM8250/1001). 
+Otherwise, format the disk in the current unit, if any.
 
 <P><DT><CODE>gcrformat &#60;diskname,id&#62; &#60;imagename&#62;</CODE>
 <DD>

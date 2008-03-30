@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 2 August 1999 -->
+     from ../vice.texi on 23 November 1999 -->
 
 <TITLE>VICE Manual - 9  Monitor</TITLE>
 </HEAD>
@@ -39,6 +39,14 @@ This refers to the range of memory locations and a set of registers.
 This can be the addresses available to the computer's processor, the
 disk drive's processor or a specific memory configuration of one of the
 mentioned processors.
+
+<P><DT><SAMP>`bankname'</SAMP>
+<DD>
+The CPU can only see 64k of memory at any one time, due to its 16 bit
+address bus. The C64 and other computers have more than this amount,
+and this is handled by banking: a memory address can have different
+contents, depending on the active memory bank. 
+A bankname names a specific bank in the current address_space.
 
 <P><DT><SAMP>`register'</SAMP>
 <DD>
@@ -142,12 +150,24 @@ than a single instruction at a time.
 
 <DL COMPACT>
 
+<P><DT><CODE>bank [&#60;bankname&#62;]</CODE>
+<DD>
+Without a bankname, display all available banks for the current
+address_space. With a bankname given, switch to the specified
+bank. If a bank is not completely filled (ROM banks for example)
+normally the <CODE>ram</CODE> bank is used where the bank has holes.
+The <CODE>cpu</CODE> bank uses the bank currently used by the CPU.
+
 <P><DT><CODE>compare &#60;address_range&#62; &#60;address&#62;</CODE>
 <DD>
 Compare memory from the source specified by the address range to the
 destination specified by the address.  The regions may overlap.  Any
 values that miscompare are displayed using the default displaytype.
 
+<P><DT><CODE>device [c:|8:|9:]</CODE>
+<DD>
+Set the default address space to either the computer `c:' or the
+specified drive `8:' or `9:'
 <P><DT><CODE>fill &#60;address_range&#62; &#60;data_list&#62;</CODE>
 <DD>
 Fill memory in the specified address range with the data in
@@ -187,6 +207,15 @@ specified, only one sprite is displayed.  If no addresses are given, the
 <DD>
 Move memory from the source specified by the address range to
 the destination specified by the address.  The regions may overlap.
+
+<P><DT><CODE>sidefx [on|off|toggle]</CODE>
+<DD>
+Control how monitor generated reads affect memory locations that have
+read side-effects, like CIA interrupt registers for example.  
+If the argument is 'on' then reads may cause
+side-effects.  If the argument is 'off' then reads don't cause
+side-effects.  If the argument is 'toggle' then the current mode is
+switched.  No argument displays the current state.
 
 <P><DT><CODE>&#62; [&#60;address&#62;] &#60;data_list&#62;</CODE>
 <DD>
