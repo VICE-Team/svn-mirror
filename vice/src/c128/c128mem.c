@@ -45,13 +45,13 @@
 #include "cmdline.h"
 #include "emuid.h"
 #include "maincpu.h"
-#include "memutils.h"
 #include "mon.h"
 #include "parallel.h"
 #include "resources.h"
 #include "rs232.h"
 #include "sid.h"
 #include "snapshot.h"
+#include "sysfile.h"
 #include "utils.h"
 #include "vdc.h"
 #include "ui.h"
@@ -1330,9 +1330,9 @@ static int mem_load_kernal(void)
 
     if(!IS_NULL(kernal_rom_name)) {
         /* Load Kernal ROM.  */
-        if (mem_load_sys_file(kernal_rom_name,
-                          kernal_rom, C128_KERNAL_ROM_SIZE,
-                          C128_KERNAL_ROM_SIZE) < 0) {
+        if (sysfile_load(kernal_rom_name,
+            kernal_rom, C128_KERNAL_ROM_SIZE,
+            C128_KERNAL_ROM_SIZE) < 0) {
             log_error(c128_mem_log, "Couldn't load kernal ROM `%s'.", 
 			  kernal_rom_name);
 	    resources_set_value("NoTraps", (resource_value_t) trapfl);
@@ -1385,9 +1385,9 @@ static int mem_load_basic(void)
 
     if(!IS_NULL(basic_rom_name)) {
         /* Load Basic ROM.  */
-        if (mem_load_sys_file(basic_rom_name,
-                          basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
-                          C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
+        if (sysfile_load(basic_rom_name,
+            basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
+            C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
             log_error(c128_mem_log, "Couldn't load basic ROM `%s'.",
                   basic_rom_name);
             return -1;
@@ -1402,9 +1402,9 @@ static int mem_load_chargen(void)
 
     if(!IS_NULL(chargen_rom_name)) {
         /* Load chargen ROM.  */
-        if (mem_load_sys_file(chargen_rom_name,
-                          chargen_rom, C128_CHARGEN_ROM_SIZE,
-                          C128_CHARGEN_ROM_SIZE) < 0) {
+        if (sysfile_load(chargen_rom_name,
+            chargen_rom, C128_CHARGEN_ROM_SIZE,
+            C128_CHARGEN_ROM_SIZE) < 0) {
             log_error(c128_mem_log, "Couldn't load character ROM `%s'.",
                   chargen_rom_name);
             return -1;

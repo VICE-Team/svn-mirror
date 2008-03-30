@@ -43,7 +43,6 @@
 #include "kbdbuf.h"
 #include "log.h"
 #include "maincpu.h"
-#include "memutils.h"
 #include "pet.h"
 #include "petacia.h"
 #include "petmem.h"
@@ -52,6 +51,7 @@
 #include "petvia.h"
 #include "resources.h"
 #include "snapshot.h"
+#include "sysfile.h"
 #include "tape.h"
 #include "types.h"
 #include "utils.h"
@@ -1431,7 +1431,7 @@ static int mem_load_chargen(void)
        the inverted 2k. Then we expand the chars to 16 bytes/char
        for the CRTC, filling the rest with zeros */
 
-    if (mem_load_sys_file(petres.chargenName, chargen_rom, 0x800, 0x800) < 0) {
+    if (sysfile_load(petres.chargenName, chargen_rom, 0x800, 0x800) < 0) {
         log_error(pet_mem_log, "Couldn't load character ROM.");
         return -1;
     }
@@ -1459,8 +1459,7 @@ static int mem_load_basic(void)
     {
         const char *name = petres.basicName;
 
-        if ((krsize = mem_load_sys_file(name,
-                                        rom + 0x3000, 0x2000, 0x3000)) < 0) {
+        if ((krsize = sysfile_load(name, rom + 0x3000, 0x2000, 0x3000)) < 0) {
             log_error(pet_mem_log, "Couldn't load ROM `%s'.", name);
             return -1;
         }
@@ -1506,8 +1505,7 @@ static int mem_load_kernal(void)
     {
         const char *name = petres.kernalName;
 
-        if ((krsize = mem_load_sys_file(name,
-                                        rom + 0x7000, 0x1000, 0x1000)) < 0) {
+        if ((krsize = sysfile_load(name, rom + 0x7000, 0x1000, 0x1000)) < 0) {
             log_error(pet_mem_log, "Couldn't load ROM `%s'.", name);
             return -1;
         }
@@ -1538,8 +1536,7 @@ static int mem_load_editor(void)
     {
         const char *name = petres.editorName;
 
-        if ( (rsize = mem_load_sys_file(name, 
-					rom + 0x6000, 0x0800, 0x1000)) < 0) {
+        if ((rsize = sysfile_load(name, rom + 0x6000, 0x0800, 0x1000)) < 0) {
             log_error(pet_mem_log, "Couldn't load ROM `%s'.", name);
             return -1;
         }
@@ -1562,8 +1559,8 @@ static int mem_load_rom9(void)
     if(!rom_loaded) return 0;
 
     if (!IS_NULL(petres.mem9name)) {
-        if ((rsize = mem_load_sys_file(petres.mem9name,
-                                   rom + 0x1000, 0x0800, 0x1000)) < 0) {
+        if ((rsize = sysfile_load(petres.mem9name, 
+            rom + 0x1000, 0x0800, 0x1000)) < 0) {
             log_error(pet_mem_log, "Couldn't load ROM `%s'.", petres.mem9name);
             return -1;
 	}
@@ -1592,8 +1589,8 @@ static int mem_load_romA(void)
     if(!rom_loaded) return 0;
 
     if (!IS_NULL(petres.memAname)) {
-        if ((rsize = mem_load_sys_file(petres.memAname,
-                                   rom + 0x2000, 0x0800, 0x1000)) < 0) {
+        if ((rsize = sysfile_load(petres.memAname,
+            rom + 0x2000, 0x0800, 0x1000)) < 0) {
             log_error(pet_mem_log, "Couldn't load ROM `%s'.", petres.memAname);
             return -1;
 	}
@@ -1622,8 +1619,8 @@ static int mem_load_romB(void)
     if(!rom_loaded) return 0;
 
     if (!IS_NULL(petres.memBname)) {
-        if ((rsize = mem_load_sys_file(petres.memBname, rom + 0x3000,
-                                           0x0800, 0x1000)) < 0) {
+        if ((rsize = sysfile_load(petres.memBname, rom + 0x3000,
+            0x0800, 0x1000)) < 0) {
             log_error(pet_mem_log, "Couldn't load ROM `%s'.",
                       petres.memBname);
             return -1;

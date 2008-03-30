@@ -54,7 +54,6 @@
 #include "interrupt.h"
 #include "log.h"
 #include "maincpu.h"
-#include "memutils.h"
 #include "mon.h"
 #include "parallel.h"
 #include "patchrom.h"
@@ -963,9 +962,9 @@ static int mem_load_kernal(void)
     resources_set_value("NoTraps", (resource_value_t) 1);
 
     /* Load Kernal ROM.  */
-    if (mem_load_sys_file(kernal_rom_name,
-                          kernal_rom, C64_KERNAL_ROM_SIZE,
-                          C64_KERNAL_ROM_SIZE) < 0) {
+    if (sysfile_load(kernal_rom_name,
+        kernal_rom, C64_KERNAL_ROM_SIZE,
+        C64_KERNAL_ROM_SIZE) < 0) {
         log_error(c64_mem_log, "Couldn't load kernal ROM `%s'.",
                   kernal_rom_name);
         resources_set_value("NoTraps", (resource_value_t) trapfl);
@@ -1001,9 +1000,9 @@ static int mem_load_basic(void)
     if(!rom_loaded) return 0;
 
     /* Load Basic ROM.  */
-    if (mem_load_sys_file(basic_rom_name,
-                          basic_rom, C64_BASIC_ROM_SIZE,
-                          C64_BASIC_ROM_SIZE) < 0) {
+    if (sysfile_load(basic_rom_name,
+        basic_rom, C64_BASIC_ROM_SIZE,
+        C64_BASIC_ROM_SIZE) < 0) {
         log_error(c64_mem_log,
                   "Couldn't load basic ROM `%s'.",
                   basic_rom_name);
@@ -1019,9 +1018,9 @@ static int mem_load_chargen(void)
     
     /* Load chargen ROM.  */
 
-    if (mem_load_sys_file(chargen_rom_name,
-                          chargen_rom, C64_CHARGEN_ROM_SIZE,
-                          C64_CHARGEN_ROM_SIZE) < 0) {
+    if (sysfile_load(chargen_rom_name,
+        chargen_rom, C64_CHARGEN_ROM_SIZE,
+        C64_CHARGEN_ROM_SIZE) < 0) {
         log_error(c64_mem_log, "Couldn't load character ROM `%s'.",
                   chargen_rom_name);
         return -1;

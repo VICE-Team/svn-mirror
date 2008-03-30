@@ -45,10 +45,10 @@
 #include "kbdbuf.h"
 #include "log.h"
 #include "maincpu.h"
-#include "memutils.h"
 #include "resources.h"
 #include "sid.h"
 #include "snapshot.h"
+#include "sysfile.h"
 #include "tape.h"
 #include "types.h"
 #include "utils.h"
@@ -1095,7 +1095,7 @@ static int mem_load_chargen(void)
     if(!IS_NULL(chargen_name)) {
         memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
 
-        if (mem_load_sys_file(chargen_name, chargen_rom, 4096, 4096) < 0) {
+        if (sysfile_load(chargen_name, chargen_rom, 4096, 4096) < 0) {
             log_error(c610_mem_log, "Couldn't load character ROM '%s'.",
                   chargen_name);
             return -1;
@@ -1141,8 +1141,7 @@ static int mem_load_kernal(void)
  
     /* Load Kernal ROM.  */
     if (!IS_NULL(kernal_rom_name)) {
-        if (mem_load_sys_file(kernal_rom_name,
-                              rom + 0xe000, 0x2000, 0x2000) < 0) {
+        if (sysfile_load(kernal_rom_name, rom + 0xe000, 0x2000, 0x2000) < 0) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.", kernal_rom_name);
             return -1;
 	}
@@ -1158,8 +1157,7 @@ static int mem_load_basic(void)
 
     /* Load BASIC ROM.  */
     if (!IS_NULL(basic_rom_name)) {
-        if ((mem_load_sys_file(basic_rom_name,
-                               rom + 0x8000, 0x4000, 0x4000) < 0)) {
+        if ((sysfile_load(basic_rom_name, rom + 0x8000, 0x4000, 0x4000) < 0)) {
             log_error(c610_mem_log, "Couldn't load BASIC ROM `%s'.",
                   basic_rom_name);
             return -1;
@@ -1176,8 +1174,7 @@ static int mem_load_cart_1(void)
     if(!rom_loaded) return 0;  /* init not far enough */
 
     if (!IS_NULL(cart_1_name)) {
-        if ((mem_load_sys_file(cart_1_name,
-                               rom + 0x1000, 0x1000, 0x1000) < 0)) {
+        if ((sysfile_load(cart_1_name, rom + 0x1000, 0x1000, 0x1000) < 0)) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.",
                   cart_1_name);
 	}
@@ -1192,8 +1189,7 @@ static int mem_load_cart_2(void)
     if(!rom_loaded) return 0;  /* init not far enough */
 
     if (!IS_NULL(cart_2_name)) {
-        if ((mem_load_sys_file(cart_2_name,
-                               rom + 0x2000, 0x2000, 0x2000) < 0)) {
+        if ((sysfile_load(cart_2_name, rom + 0x2000, 0x2000, 0x2000) < 0)) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.",
                       cart_2_name);
 	}
@@ -1208,8 +1204,7 @@ static int mem_load_cart_4(void)
     if(!rom_loaded) return 0;  /* init not far enough */
 
     if (!IS_NULL(cart_4_name)) {
-        if ((mem_load_sys_file(cart_4_name,
-                               rom + 0x4000, 0x2000, 0x2000) < 0)) {
+        if ((sysfile_load(cart_4_name, rom + 0x4000, 0x2000, 0x2000) < 0)) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.",
                       cart_4_name);
 	}
@@ -1224,8 +1219,7 @@ static int mem_load_cart_6(void)
     if(!rom_loaded) return 0;  /* init not far enough */
 
     if (!IS_NULL(cart_6_name)) {
-        if ((mem_load_sys_file(cart_6_name,
-                                       rom + 0x6000, 0x2000, 0x2000) < 0)) {
+        if ((sysfile_load(cart_6_name, rom + 0x6000, 0x2000, 0x2000) < 0)) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.", cart_6_name);
 	}
     } else {

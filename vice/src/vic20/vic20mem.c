@@ -28,10 +28,6 @@
  *
  */
 
-#ifndef VIC20
-#define	VIC20			/* for mkdep */
-#endif
-
 #include "vice.h"
 
 #include <stdio.h>
@@ -39,19 +35,19 @@
 
 #include "vic20mem.h"
 
+#include "cartridge.h"
 #include "cmdline.h"
+#include "emuid.h"
 #include "interrupt.h"
 #include "log.h"
 #include "maincpu.h"
-#include "memutils.h"
 #include "mon.h"
 #include "resources.h"
 #include "stdlib.h"
+#include "sysfile.h"
 #include "utils.h"
-#include "emuid.h"
 #include "vic.h"
 #include "vic20via.h"
-#include "cartridge.h"
 
 #define IS_NULL(s)  (s == NULL || *s == '\0')
 
@@ -815,9 +811,9 @@ static int mem_load_kernal(void)
 
     if(!IS_NULL(kernal_rom_name)) {
         /* Load Kernal ROM. */
-        if (mem_load_sys_file(kernal_rom_name,
-			  kernal_rom, VIC20_KERNAL_ROM_SIZE,
-			  VIC20_KERNAL_ROM_SIZE) < 0) {
+        if (sysfile_load(kernal_rom_name,
+            kernal_rom, VIC20_KERNAL_ROM_SIZE,
+            VIC20_KERNAL_ROM_SIZE) < 0) {
 	    log_error(vic20_mem_log, "Couldn't load kernal ROM.");
     	    resources_set_value("NoTraps", (resource_value_t) trapfl);
 	    return -1;
@@ -853,9 +849,9 @@ static int mem_load_basic(void)
 
     if(!IS_NULL(basic_rom_name)) {
         /* Load Basic ROM. */
-        if (mem_load_sys_file(basic_rom_name,
-			  basic_rom, VIC20_BASIC_ROM_SIZE,
-			  VIC20_BASIC_ROM_SIZE) < 0) {
+        if (sysfile_load(basic_rom_name,
+            basic_rom, VIC20_BASIC_ROM_SIZE,
+            VIC20_BASIC_ROM_SIZE) < 0) {
 	    log_error(vic20_mem_log, "Couldn't load basic ROM.");
 	    return -1;
 	}
@@ -869,9 +865,9 @@ static int mem_load_chargen(void)
 
     if(!IS_NULL(chargen_rom_name)) {
         /* Load chargen ROM. */
-        if (mem_load_sys_file(chargen_rom_name,
-			  chargen_rom + 0x400, VIC20_CHARGEN_ROM_SIZE,
-			  VIC20_CHARGEN_ROM_SIZE) < 0) {
+        if (sysfile_load(chargen_rom_name,
+            chargen_rom + 0x400, VIC20_CHARGEN_ROM_SIZE,
+            VIC20_CHARGEN_ROM_SIZE) < 0) {
 	    log_error(vic20_mem_log, "Couldn't load character ROM.");
 	    return -1;
 	}

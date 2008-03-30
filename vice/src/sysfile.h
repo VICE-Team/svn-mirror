@@ -31,10 +31,14 @@
 #include <stdio.h>
 #endif
 
-int sysfile_init(const char *emu_id);
-int sysfile_init_resources(void);
-int sysfile_init_cmdline_options(void);
-FILE *sysfile_open(const char *name, char **complete_path_return);
-int sysfile_locate(const char *name, char **complete_path_return);
+#include "types.h"
+
+extern int sysfile_init(const char *emu_id);
+extern int sysfile_init_resources(void);
+extern int sysfile_init_cmdline_options(void);
+extern FILE *sysfile_open(const char *name, char **complete_path_return);
+extern int sysfile_locate(const char *name, char **complete_path_return);
+extern int sysfile_load(const char *name, BYTE *dest,
+                        int minsize, int maxsize);
 
 #endif /* _SYSFILE_H */
