@@ -17,6 +17,7 @@ copy ..\..\..\data\petcat.exe Vice2
 md "Vice2\Icons"
 copy icons\folder1.ico Vice2\Icons
 copy icons\folder2.ico Vice2\Icons
+copy icons\c1541.ico   Vice2
 
 md Vice2\C64
 copy ..\..\..\data\C64\basic        Vice2\C64

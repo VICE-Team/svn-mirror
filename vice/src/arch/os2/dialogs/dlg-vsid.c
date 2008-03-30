@@ -24,8 +24,10 @@
  *
  */
 
-#define INCL_WINSTDSPIN // WinSetSpinVal
-#define INCL_WINDIALOGS // WinSendDlgItemMsg
+#define INCL_WINSTDSPIN   // WinSetSpinVal
+#define INCL_WINDIALOGS   // WinSendDlgItemMsg
+#define INCL_WINPOINTERS  // WinLoadPointer
+#define INCL_WINFRAMEMGR  // WM_SETICON
 #include "vice.h"
 #include "dialogs.h"
 
@@ -34,15 +36,18 @@
 
 static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    static int first=TRUE;
     extern int trigger_shutdown;
 
     switch (msg)
     {
-    case WM_PAINT:
-        if (first)
-            first = FALSE;
-        break;
+    case WM_INITDLG:
+        {
+            HPOINTER hicon=WinLoadPointer(HWND_DESKTOP, NULLHANDLE, IDM_VICE2);
+            if (hicon)
+                WinSendMsg(hwnd, WM_SETICON, MPFROMLONG(hicon), MPVOID);
+        }
+        return FALSE;
+
     case WM_CLOSE:
         trigger_shutdown = 1;
         break;
@@ -79,10 +84,8 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
 
-HWND hwndVsid;
-
-void vsid_dialog()
+HWND vsid_dialog()
 {
-    hwndVsid = WinLoadDlg(HWND_DESKTOP, HWND_DESKTOP, pm_vsid, NULLHANDLE,
-                          DLG_VSID, NULL);
+    return WinLoadDlg(HWND_DESKTOP, HWND_DESKTOP, pm_vsid, NULLHANDLE,
+                      DLG_VSID, NULL);
 }

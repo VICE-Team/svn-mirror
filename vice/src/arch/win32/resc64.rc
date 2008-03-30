@@ -159,7 +159,7 @@ BEGIN
         MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
         MENUITEM "RE&U emulation",                  IDM_TOGGLE_REU
-	MENUITEM "&1351 mouse emulation",	    IDM_MOUSE
+	MENUITEM "&1351 mouse emulation\tAlt+Q",    IDM_MOUSE
     END
     POPUP "S&ettings"
     BEGIN

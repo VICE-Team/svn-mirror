@@ -1,5 +1,5 @@
 /*
- * petui.cc - PET-specific user interface.
+ * ui_pet.h - PET settings
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -24,41 +24,19 @@
  *
  */
 
-#include "vice.h"
+#ifndef __UI_PET_H__
+#define __UI_PET_H__
 
-#include <Message.h>
-#include <stdio.h>
+const uint32 MESSAGE_PET_MODEL		= 'MP01';
+const uint32 MESSAGE_PET_MEMORY		= 'MP02';
+const uint32 MESSAGE_PET_VIDEO 		= 'MP03';
+const uint32 MESSAGE_PET_IOSIZE		= 'MP04';
+const uint32 MESSAGE_PET_KEYBOARD	= 'MP05';
+const uint32 MESSAGE_PET_CRTC		= 'MP06';
+const uint32 MESSAGE_PET_SUPERPET	= 'MP07';
+const uint32 MESSAGE_PET_RAM9		= 'MP08';
+const uint32 MESSAGE_PET_RAMA		= 'MP09';
 
-extern "C" {
-#include "constants.h"
-#include "petui.h"
-#include "ui.h"
-#include "ui_pet.h"
-}
+extern void ui_pet(void);
 
-ui_menu_toggle  pet_ui_menu_toggles[]={
-    { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
-    { NULL, 0 }
-};
-
-void pet_ui_specific(void *msg, void *window)
-{
-    switch (((BMessage*)msg)->what) {
-      case MENU_PET_SETTINGS:
-        ui_pet();
-        break;
-      default: ;
-    }
-}
-
-
-int pet_ui_init(void)
-{
-    ui_register_machine_specific(pet_ui_specific);
-    ui_register_menu_toggles(pet_ui_menu_toggles);
-    ui_update_menus();
-    return 0;
-}
-
+#endif

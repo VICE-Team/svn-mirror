@@ -24,9 +24,11 @@
  *
  */
 
-#define INCL_WINSYS // font
+#define INCL_WINSYS        // font
 #define INCL_WININPUT
 #define INCL_WINDIALOGS
+#define INCL_WINPOINTERS   // WinLoadPointer
+#define INCL_WINFRAMEMGR   // WM_SETICON
 #define INCL_WINLISTBOXES
 
 #include "vice.h"
@@ -35,38 +37,31 @@
 #include <stdio.h>
 #include <string.h>
 
-HWND hwndCmdopt;
-
 static MRESULT EXPENTRY pm_cmdopt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    static int first = TRUE;
-
     switch (msg)
     {
     case WM_INITDLG:
-        setDlgOpen(DLGO_CMDOPT);
-        first = TRUE;
-        break;
-    case WM_CLOSE:
-        delDlgOpen(DLGO_CMDOPT);
-        break;
-    case WM_PAINT:
         {
-            if (first)
-            {
-                CHAR achFont[] = "11.System VIO";
-                WinSetDlgFont(hwnd, LB_CMDOPT, achFont);
-
-                first=FALSE;
-            }
+            HPOINTER hicon=WinLoadPointer(HWND_DESKTOP, NULLHANDLE, IDM_VICE2);
+            if (hicon)
+                WinSendMsg(hwnd, WM_SETICON, MPFROMLONG(hicon), MPVOID);
         }
-        break;
+        return FALSE;
+
     case WM_INSERT:
+        //
+        // insert a new line to the text
+        //
         WinLboxInsertItem(hwnd, LB_CMDOPT, (char*)mp1);
         WinSendDlgMsg(hwnd, LB_CMDOPT, LM_SETTOPINDEX,
                       WinLboxQueryCount(hwnd, LB_CMDOPT),0);
         return FALSE;
+
     case WM_ADJUSTWINDOWPOS:
+        //
+        // resize dialog
+        //
         {
             SWP *swp=(SWP*)mp1;
             if (swp->fl&SWP_SIZE)
@@ -87,10 +82,9 @@ static MRESULT EXPENTRY pm_cmdopt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
 /*----------------------------------------------------------------- */
 
-void cmdopt_dialog(HWND hwnd)
+HWND cmdopt_dialog(HWND hwnd)
 {
-    if (dlgOpen(DLGO_CMDOPT)) return;
-    WinLoadDlg(HWND_DESKTOP, hwnd, pm_cmdopt, NULLHANDLE,
-               DLG_CMDOPT, NULL);
+    return WinLoadDlg(HWND_DESKTOP, hwnd, pm_cmdopt, NULLHANDLE,
+                      DLG_CMDOPT, NULL);
 }
 

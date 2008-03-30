@@ -34,6 +34,7 @@ extern "C" {
 #include "constants.h"
 #include "petui.h"
 #include "ui.h"
+#include "ui_cbm2.h"
 }
 
 ui_menu_toggle  cbm2_ui_menu_toggles[]={
@@ -47,7 +48,7 @@ void cbm2_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
       case MENU_CBM2_SETTINGS:
-        //ui_cbm2_settings_dialog(); /* later */
+        ui_cbm2();
         break;
       default: ;
     }

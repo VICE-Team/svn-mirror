@@ -314,7 +314,6 @@ extern int toggle(const char *resource_name);
 /*----------------------------------------------------------------- */
 extern HWND hwndVsid;
 extern HWND hwndDrive;
-extern HWND hwndCmdopt;
 extern HWND hwndMonitor;
 extern HWND hwndEmulator;
 extern HWND hwndDatasette;
@@ -328,7 +327,7 @@ extern void  monitor_dialog   (HWND hwnd);
 extern void  contents_dialog  (HWND hwnd, char *szFullFile);
 extern void  attach_dialog    (HWND hwnd, int drive);
 extern void  create_dialog    (HWND hwnd);
-extern void  cmdopt_dialog    (HWND hwnd);
+extern HWND  cmdopt_dialog    (HWND hwnd);
 extern char* screenshot_dialog(HWND hwnd);
 extern char* snapshot_dialog  (HWND hwnd);
 extern void  hardware_dialog  (HWND hwnd);
@@ -342,13 +341,13 @@ extern void calibrate_dialog (HWND hwnd);
 extern void keyset_dialog    (HWND hwnd);
 #endif
 
-extern void vsid_dialog(void);
+extern HWND vsid_dialog(void);
 
 /*----------------------------------------------------------------- */
 /*                           Menubar                                */
 /*----------------------------------------------------------------- */
 
-#define IDM_MAINMENU     0x100
+#define IDM_VICE2        0x001
 
 #define IDM_FILE         0x101
 #define IDM_ATTACH       0x102
@@ -373,7 +372,9 @@ extern void vsid_dialog(void);
 #define IDM_BUFFER       0x114
 #define IDM_STRETCH      0x115
 #define IDM_MONITOR      0x116
-#define IDM_ABOUT        0x117
+#define IDM_HELP         0x117
+#define IDM_CMDLINE      0x118
+#define IDM_ABOUT        0x119
 
 #define IDM_ATTACHTAPE   0x120
 #define IDM_ATTACH8      0x128

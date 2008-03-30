@@ -126,7 +126,7 @@ int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
     for (i = 1; i < nr; i++)
     {
 	psid->clk += psid->clkstep;
-	delta = (int)SOUNDCLK_LONG(psid->clk - SOUNDCLK_CONSTANT(psid->sidclk));
+	delta = (int)SOUNDCLK_LONG_RAW(psid->clk - SOUNDCLK_CONSTANT(psid->sidclk));
 	psid->sid.clock(delta);
 	psid->sidclk += delta;
 	pbuf[i] = psid->sid.output();

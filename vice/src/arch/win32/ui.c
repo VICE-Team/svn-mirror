@@ -71,10 +71,11 @@
 #include "version.h"
 #include "vsync.h"
 #include "winmain.h"
+#include "statusbar.h"
 
-static HWND status_hwnd[2];
+//static HWND status_hwnd[2];
 
-int status_height;
+//int status_height;
 
 static char *hwnd_titles[2];
 
@@ -88,6 +89,8 @@ int             window_canvas_ysize[2];
 static HACCEL   ui_accelerator;
 
 /* Forward prototypes.  */
+static long CALLBACK dummywindowproc(HWND window, UINT msg,
+                                 WPARAM wparam, LPARAM lparam);
 static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam);
 
@@ -298,10 +301,12 @@ int ui_init_cmdline_options(void)
 
 static ACCEL c64_accel[] = {
     {FVIRTKEY|FALT|FNOINVERT,'Z',IDM_CART_FREEZE},
+    {FVIRTKEY|FALT|FNOINVERT,'Q',IDM_MOUSE},
     UI_COMMON_HOTKEYS
 };
 
 static ACCEL c128_accel[] = {
+    {FVIRTKEY|FALT|FNOINVERT,'Q',IDM_MOUSE},
     UI_COMMON_HOTKEYS
 };
 
@@ -317,12 +322,12 @@ static ACCEL pet_accel[] = {
     UI_COMMON_HOTKEYS
 };
 
-static HBRUSH   led_red;
+/*static HBRUSH   led_red;
 static HBRUSH   led_green;
 static HBRUSH   led_black;
 static HBRUSH   tape_motor_on_brush;
 static HBRUSH   tape_motor_off_brush;
-
+*/
 HWND    main_hwnd;
 
 /* Initialize the UI before setting all the resource values.  */
@@ -334,11 +339,11 @@ WORD        menu;
     switch (machine_class) {
         case VICE_MACHINE_C64:
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,24);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,25);
             break;
         case VICE_MACHINE_C128:
             menu = IDR_MENUC128;
-            ui_accelerator=CreateAcceleratorTable(c128_accel,23);
+            ui_accelerator=CreateAcceleratorTable(c128_accel,24);
             break;
         case VICE_MACHINE_VIC20:
             menu = IDR_MENUVIC;
@@ -373,13 +378,28 @@ WORD        menu;
     window_class.lpszClassName = APPLICATION_CLASS;
     RegisterClass(&window_class);
 
+
+    window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    window_class.lpfnWndProc = dummywindowproc;
+    window_class.cbClsExtra = 0;
+    window_class.cbWndExtra = 0;
+    window_class.hInstance = winmain_instance;
+    window_class.hIcon = LoadIcon(winmain_instance,
+                                  MAKEINTRESOURCE(IDI_ICON1));
+    window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
+    window_class.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0) + 1);
+    window_class.lpszMenuName = NULL;
+    window_class.lpszClassName = APPLICATION_CLASS_MAIN;
+    RegisterClass(&window_class);
+
     /* Create the main window.  Notice that we are not going to
        `ShowWindow()' it yet; this will be done as soon as the video module
        requires us to do so.  This is needed both because the video module
        needs an application window to be created to initialize itself, and
        because this might allow us to support more than one emulation window
        in the future.  */
-    main_hwnd = CreateWindow(APPLICATION_CLASS,
+#if 1
+    main_hwnd = CreateWindow(APPLICATION_CLASS_MAIN,
                              "No title", /* (for now) */
                              WS_OVERLAPPED|WS_CLIPCHILDREN|WS_BORDER|WS_DLGFRAME|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX,
                              CW_USEDEFAULT,
@@ -390,16 +410,17 @@ WORD        menu;
                              NULL,
                              winmain_instance,
                              NULL);
-
+#endif
     InitCommonControls();
 
     number_of_windows=0;
 
-    led_green=CreateSolidBrush(0xff00);
+    statusbar_create_brushes();
+/*    led_green=CreateSolidBrush(0xff00);
     led_red=CreateSolidBrush(0xff);
     led_black=CreateSolidBrush(0x00);
     tape_motor_on_brush=CreateSolidBrush(0xffff);
-    tape_motor_off_brush=CreateSolidBrush(0x808080);
+    tape_motor_off_brush=CreateSolidBrush(0x808080);*/
 
     return 0;
 }
@@ -434,7 +455,7 @@ HWND    hwnd;
 RECT    rect;
 
     hwnd_titles[number_of_windows] = stralloc(title);
-    if (fullscreen) {
+/*    if (fullscreen) {
         hwnd = CreateWindow(APPLICATION_CLASS,
                             hwnd_titles[number_of_windows],
                             WS_VISIBLE|WS_POPUP,
@@ -447,7 +468,7 @@ RECT    rect;
                             winmain_instance,
                             NULL);
         SetWindowPos(hwnd,HWND_TOPMOST,0,0,GetSystemMetrics(SM_CXSCREEN),GetSystemMetrics(SM_CYSCREEN),SWP_NOCOPYBITS);
-    } else {
+    } else */{
         hwnd = CreateWindow(APPLICATION_CLASS,
                             hwnd_titles[number_of_windows],
                             WS_OVERLAPPED|WS_CLIPCHILDREN|WS_BORDER|WS_DLGFRAME|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX,
@@ -462,21 +483,22 @@ RECT    rect;
     }
     if (hwnd==NULL) log_debug("Window creation failed");
 
-    if (!fullscreen) {
-        status_hwnd[number_of_windows]=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",hwnd,IDM_STATUS_WINDOW);
-        GetClientRect(status_hwnd[number_of_windows],&rect);
-        status_height=rect.bottom-rect.top;
-    }
-
-    ui_resize_canvas_window(hwnd, width, height);
-
-    ShowWindow(hwnd, winmain_cmd_show);
-
     window_handles[number_of_windows]=hwnd;
     exposure_handler[number_of_windows] = exp_handler;
     window_canvas_xsize[number_of_windows]=width;
     window_canvas_ysize[number_of_windows]=height;
     number_of_windows++;
+
+    if (!fullscreen) {
+        statusbar_create(hwnd);
+//        status_hwnd[number_of_windows]=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",hwnd,IDM_STATUS_WINDOW);
+//        GetClientRect(status_hwnd[number_of_windows],&rect);
+//        status_height=rect.bottom-rect.top;
+    }
+
+    ui_resize_canvas_window(hwnd, width, height);
+
+    ShowWindow(hwnd, winmain_cmd_show);
 
     return hwnd;
 
@@ -489,7 +511,14 @@ RECT            wrect;
 int             window_index;
 WINDOWPLACEMENT place;
 
-    if (IsFullscreenEnabled()) return;
+/*  TODO:
+    We should store the windowplacement when the window is
+    maximized and we switch to fullscreen, and resume it when
+    we are switching back to windowed mode... If the canvas
+    size should be changed while in fullscreen (mode changes whatever)
+    then this cached data should be updated....
+*/
+//    if (IsFullscreenEnabled()) return;
 
     for (window_index=0; window_index<number_of_windows; window_index++) {
         if (window_handles[window_index]==w) break;
@@ -504,7 +533,7 @@ WINDOWPLACEMENT place;
     ClientToScreen(w, (LPPOINT) &wrect);
     ClientToScreen(w, ((LPPOINT) &wrect) + 1);
     wrect.right = wrect.left + width;
-    wrect.bottom = wrect.top + height + status_height;
+    wrect.bottom = wrect.top + height + statusbar_get_status_height();//status_height;
     AdjustWindowRect(&wrect, WS_OVERLAPPED|WS_BORDER|WS_DLGFRAME, TRUE);
     if (place.showCmd==SW_SHOWNORMAL) {
         MoveWindow(w,
@@ -685,7 +714,7 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     }
 
 }
-
+/*
 static ui_drive_enable_t    status_enabled;
 static int                  status_led[2];
 static int                  status_map[2];          //  Translate from window index -> drive index
@@ -740,26 +769,29 @@ int     i;
         SendMessage(hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
     }
 }
-
+*/
 void ui_display_statustext(const char *text)
 {
-int i;
-    strcpy(emu_status_text,text);
+//int i;
+
+    statusbar_setstatustext(text);
+/*    strcpy(emu_status_text,text);
     for (i=0; i<number_of_windows; i++) {
         SendMessage(status_hwnd[i],SB_SETTEXT,0|SBT_OWNERDRAW,0);
-    }
+    }*/
 }
 
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
-int i;
+//int i;
 
-    status_enabled = enable;
+    statusbar_enable_drive_status(enable,drive_led_color);
+/*    status_enabled = enable;
     drive_active_led = drive_led_color;
     for (i=0; i<number_of_windows; i++) {
         SetStatusWindowParts(status_hwnd[i]);
-    }
+    }*/
 }
 
 /* Toggle displaying of the drive track.  */
@@ -767,23 +799,27 @@ int i;
    Dual drives display drive 0: and 1: instead of unit 8: and 9: */
 void ui_display_drive_track(int drivenum, int drive_base, double track_number)
 {
-int i;
+//int i;
 
-    status_track[drivenum]=track_number;
+    statusbar_display_drive_track(drivenum,drive_base,track_number);
+
+/*    status_track[drivenum]=track_number;
     for (i=0; i<number_of_windows; i++) {
         SendMessage(status_hwnd[i],SB_SETTEXT,(status_partindex[drivenum]+1)|SBT_OWNERDRAW,0);
-    }
+    }*/
 }
 
 /* Toggle displaying of the drive LED.  */
 void ui_display_drive_led(int drivenum, int status)
 {
-int i;
+//int i;
 
-    status_led[drivenum]=status;
+    statusbar_display_drive_led(drivenum,status);
+
+/*    status_led[drivenum]=status;
     for (i=0; i<number_of_windows; i++) {
         SendMessage(status_hwnd[i],SB_SETTEXT,(status_partindex[drivenum]+1)|SBT_OWNERDRAW,0);
-    }
+    }*/
 }
 
 /* display current image */
@@ -795,44 +831,52 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 /* tape-status on*/
 void ui_set_tape_status(int tape_status)
 {
-int i;
+//int i;
 
-    tape_enabled = tape_status;
+    statusbar_set_tape_status(tape_status);
+
+/*    tape_enabled = tape_status;
     for (i=0; i<number_of_windows; i++) {
         SetStatusWindowParts(status_hwnd[i]);
-    }
+    }*/
 }
 
 void ui_display_tape_motor_status(int motor)
 {   
-int i;
+//int i;
 
-    tape_motor = motor;
+    statusbar_display_tape_motor_status(motor);
+
+/*    tape_motor = motor;
     for (i=0; i<number_of_windows; i++) {
         SendMessage(status_hwnd[i],SB_SETTEXT,1|SBT_OWNERDRAW,0);
-    }
+    }*/
 }
 
 void ui_display_tape_control_status(int control)
 {
-int i;
+//int i;
 
-    tape_control = control;
+    statusbar_display_tape_control_status(control);
+
+/*    tape_control = control;
     for (i=0; i<number_of_windows; i++) {
         SendMessage(status_hwnd[i],SB_SETTEXT,1|SBT_OWNERDRAW,0);
-    }
+    }*/
 }
 
 extern void ui_display_tape_counter(int counter)
 {
-int i;
+//int i;
 
-    if (counter!=tape_counter) {
+    statusbar_display_tape_counter(counter);
+
+/*    if (counter!=tape_counter) {
         tape_counter = counter;
         for (i=0; i<number_of_windows; i++) {
             SendMessage(status_hwnd[i],SB_SETTEXT,1|SBT_OWNERDRAW,0);
         }
-    }
+    }*/
 }
 
 /* display the attched tape image */
@@ -1449,6 +1493,37 @@ RECT            clear_rect;
 int     ui_active=FALSE;
 HWND    ui_active_window;
 
+
+
+/* Window procedure.  All messages are handled here.  */
+static long CALLBACK dummywindowproc(HWND window, UINT msg,
+                                 WPARAM wparam, LPARAM lparam)
+{
+    switch (msg) {
+        case WM_ENABLE:
+//            log_debug("DUMMY WM_ENABLE %s",wparam==TRUE ? "TRUE":"FALSE");
+            break;
+        case WM_ACTIVATEAPP:
+//            log_debug("DUMMY WM_ACTIVATEAPP %s",wparam==TRUE ? "ACTIVATE":"DEACTIVATE");
+            break;
+        case WM_ACTIVATE:
+//            log_debug("DUMMY WM_ACTIVATE %s",wparam==WA_ACTIVE ? "ACTIVATE":wparam==WA_INACTIVE ?"DEACTIVATE":"MOUSECLICK");
+            break;
+        case WM_KILLFOCUS:
+//            log_debug("DUMMY WM_KILLFOCUS");
+            break;
+        case WM_SETFOCUS:
+//            log_debug("DUMMY WM_SETFOCUS");
+            break;
+        case WM_SETREDRAW:
+//            log_debug("DUMMY WM_SETREDRAW %s",wparam==TRUE? "TRUE":"FALSE");
+            break;
+    }
+    return DefWindowProc(window, msg, wparam, lparam);
+}
+
+extern int fullscreen_transition;
+
 /* Window procedure.  All messages are handled here.  */
 static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
@@ -1463,32 +1538,50 @@ int     window_index;
     }
 
     switch (msg) {
+        case WM_SETREDRAW:
+//            log_debug("WM_SETREDRAW %s",wparam==TRUE? "TRUE":"FALSE");
+            break;
+        case WM_KILLFOCUS:
+//            log_debug("WM_KILLFOCUS");
+            break;
+        case WM_SETFOCUS:
+//            log_debug("WM_SETFOCUS");
+            break;
+        case WM_ENABLE:
+//            log_debug("WM_ENABLE %s %d %08x",wparam==TRUE ? "TRUE":"FALSE",window_index,window);
+            break;
         case WM_ACTIVATEAPP:
-            if (wparam==WA_INACTIVE) {
-//                log_debug("WM_ACTIVATEAPP inactive %d %08x",window_index,window);
+            if (wparam==TRUE) {
+//                log_debug("WM_ACTIVATEAPP activate %d %08x",window_index,window);
             } else {
-//                log_debug("WM_ACTIVATEAPP active %d %08x",window_index,window);
+//                log_debug("WM_ACTIVATEAPP deactivate %d %08x",window_index,window);
             }
+//            return 0;
             break;
         case WM_ACTIVATE:
             if (wparam==WA_INACTIVE) {
-//                log_debug("WM_ACTIVATE inactive %d %08x",window_index,window);
+//              log_debug("WM_ACTIVATE inactive %d %08x",window_index,window);
                 ui_active=FALSE;
-                SuspendFullscreenMode(window);
+//              if (!fullscreen_transition) SuspendFullscreenMode(window);
             } else {
-//                log_debug("WM_ACTIVATE active %d %08x",window_index,window);
+//              log_debug("WM_ACTIVATE active %d %08x",window_index,window);
                 ui_active=TRUE;
                 ui_active_window=window;
-                ResumeFullscreenMode(window);
+//              if (!fullscreen_transition) ResumeFullscreenMode(window);
             }
             mouse_update_mouse_acquire();
             break;
         case WM_SIZE:
-            SendMessage(status_hwnd[window_index],msg,wparam,lparam);
+            if (window_index<number_of_windows) {
+                statusbar_handle_WMSIZE(msg,wparam,lparam,window_index);
+            }
+/*            SendMessage(status_hwnd[window_index],msg,wparam,lparam);
             SetStatusWindowParts(status_hwnd[window_index]);
-            GetClientRect(window, &client_rect);
+            GetClientRect(window, &client_rect);*/
             return 0;
         case WM_DRAWITEM:
+            statusbar_handle_WMDRAWITEM(wparam,lparam);
+#if 0
             if (wparam==IDM_STATUS_WINDOW) {
                 if (((DRAWITEMSTRUCT*)lparam)->itemID==0) {
                     /* it's the status info */
@@ -1585,6 +1678,7 @@ int     window_index;
                     FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,status_led[status_map[index]] ? (drive_active_led[status_map[index]] ? led_green : led_red ) : led_black);
                 }
             }
+#endif
             return 0;
         case WM_COMMAND:
             handle_wm_command(wparam, lparam, window);
@@ -1612,6 +1706,7 @@ int     window_index;
             }
             break;
         case WM_KEYDOWN:
+            if (wparam==VK_PAUSE) log_debug("WM_KEYDOWN PAUSE!!!");
             kbd_handle_keydown(wparam, lparam);
             return 0;
         case WM_SYSKEYUP:
@@ -1627,6 +1722,7 @@ int     window_index;
             syscolorchanged = 1;
             break;
         case WM_DISPLAYCHANGE:
+//            log_debug("Display changed %d %d %d",LOWORD(lparam),HIWORD(lparam),wparam);
             displaychanged = 1;
             break;
         case WM_QUERYNEWPALETTE:
@@ -1644,6 +1740,7 @@ int     window_index;
             suspend_speed_eval();
             if (ui_resources.confirm_on_exit)
             {
+//                log_debug("Asking exit confirmation");
                 if (MessageBox(window,
                        "Do you really want to exit?\n\n"
                        "All the data present in the emulated RAM will be lost.",

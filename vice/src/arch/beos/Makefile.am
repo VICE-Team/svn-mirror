@@ -51,6 +51,8 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.cc \
 	ui.h \
+	ui_cbm2.cc \
+	ui_cbm2.h \
 	ui_datasette.cc \
 	ui_datasette.h \
 	ui_drive.cc \
@@ -61,8 +63,12 @@ libarch_a_SOURCES = \
 	ui_file.h \
 	ui_joystick.cc \
 	ui_joystick.h \
+	ui_pet.cc \
+	ui_pet.h \
 	ui_sound.cc \
 	ui_sound.h \
+	ui_vic20.cc \
+	ui_vic20.h \
 	ui_vicii.cc \
 	ui_vicii.h \
 	uicmdline.c \

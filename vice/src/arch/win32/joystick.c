@@ -30,6 +30,7 @@
 #include "cmdline.h"
 #include "resources.h"
 
+#define DIRECTINPUT_VERSION     0x0500
 #include <winerror.h>
 #include <ddraw.h>
 #include <dinput.h>

@@ -45,11 +45,12 @@ class ViceFilePanel;
 
 class VicePreview : public BWindow {
 	public :
-		VicePreview(BPoint origin);
+		VicePreview(BPoint origin, ViceFilePanel *f);
 		void DisplayContent(char *content);
 		void MessageReceived(BMessage *msg);
 		BListView *contentlist;
 		char image_name[256];
+		ViceFilePanel *father;
 };
 
 class ViceFilePanel : public BFilePanel {

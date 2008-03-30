@@ -65,7 +65,7 @@ static text_window_t MsgWinDescs[msg_win_number] = {
 
   /* monitor window */
   {
-    "corpus.medium", TWIN_FLAG_LINEEDIT, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0, {&(MsgWinDescs[msg_win_monitor]), ui_monitor_enter}
+    "corpus.medium", TWIN_FLAG_LINEEDIT, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 4096, {&(MsgWinDescs[msg_win_monitor]), ui_monitor_enter}
   },
 
   /* license window */

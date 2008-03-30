@@ -54,6 +54,8 @@ libarch_a_SOURCES = \
 	rescbm2.rc \
 	respet.rc \
 	resvic.rc \
+	statusbar.c \
+	statusbar.h \
 	types.h \
 	ui.c \
 	ui.h \

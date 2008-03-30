@@ -32,6 +32,7 @@
 #include <stdio.h>
 
 #define APPLICATION_CLASS "VICE"
+#define APPLICATION_CLASS_MAIN "VICE:Main"
 #define APPLICATION_FULLSCREEN_CLASS "VICE:Fullscreen"
 #define CONSOLE_CLASS "VICE:Console"
 #define MONITOR_CLASS "VICE:Monitor"

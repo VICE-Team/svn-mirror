@@ -106,8 +106,8 @@ BEGIN
         END
         MENUITEM "&Warp mode\tAlt+W",               IDM_TOGGLE_WARP_MODE
             , CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "Fullscreen\tAlt+D",               IDM_TOGGLE_FULLSCREEN
+//        MENUITEM SEPARATOR
+//        MENUITEM "Fullscreen\tAlt+D",               IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "Video &cache",                    IDM_TOGGLE_VIDEOCACHE
         , CHECKED
@@ -150,7 +150,7 @@ BEGIN
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
         MENUITEM "RE&U emulation",                  IDM_TOGGLE_REU
         MENUITEM "IEEE&488 Interface emulation",    IDM_IEEE488
-	MENUITEM "&1351 mouse emulation",	    IDM_MOUSE
+	MENUITEM "&1351 mouse emulation\tAlt+Q",    IDM_MOUSE
     END
     POPUP "S&ettings"
     BEGIN

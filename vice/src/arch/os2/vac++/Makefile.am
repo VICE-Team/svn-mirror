@@ -9,6 +9,7 @@ EXTRA_DIST = \
         PETcat.ICC \
         RESID.ICC \
         VICE_INF.ICC \
+        VICE_HLP.ICC \
         lzlib.icc \
         lpng.icc \
         incl/archdep.icc \

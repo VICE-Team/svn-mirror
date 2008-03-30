@@ -302,12 +302,16 @@ BMenuBar *menu_create(int machine_class) {
 	/* create the SETTINGS menu */
 	menu = new BMenu("Settings");
 	if (machine_class == VICE_MACHINE_CBM2) {
-		menu->AddItem(new BMenuItem("CBM 2 ... (not yet)", 
+		menu->AddItem(new BMenuItem("CBM 2 ...", 
 			new BMessage(MENU_CBM2_SETTINGS)));
 	}
 	if (machine_class == VICE_MACHINE_PET) {
-		menu->AddItem(new BMenuItem("PET ... (not yet)", 
-			new BMessage(MENU_CBM2_SETTINGS)));
+		menu->AddItem(new BMenuItem("PET ...", 
+			new BMessage(MENU_PET_SETTINGS)));
+	}
+	if (machine_class == VICE_MACHINE_VIC20) {
+		menu->AddItem(new BMenuItem("VIC20 ...", 
+			new BMessage(MENU_VIC20_SETTINGS)));
 	}
 	
 	menu->AddItem(new BMenuItem("Device ...", 

@@ -1,5 +1,5 @@
 /*
- * petui.cc - PET-specific user interface.
+ * ui_cbm2.h - CBM2 settings
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -24,41 +24,14 @@
  *
  */
 
-#include "vice.h"
+#ifndef __UI_CBM2_H__
+#define __UI_CBM2_H__
 
-#include <Message.h>
-#include <stdio.h>
+const uint32 MESSAGE_CBM2_MODEL		= 'MCB1';
+const uint32 MESSAGE_CBM2_MODELLINE	= 'MCB2';
+const uint32 MESSAGE_CBM2_MEMORY	= 'MCB3';
+const uint32 MESSAGE_CBM2_RAMBANK	= 'MCB4';
 
-extern "C" {
-#include "constants.h"
-#include "petui.h"
-#include "ui.h"
-#include "ui_pet.h"
-}
+extern void ui_cbm2(void);
 
-ui_menu_toggle  pet_ui_menu_toggles[]={
-    { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
-    { NULL, 0 }
-};
-
-void pet_ui_specific(void *msg, void *window)
-{
-    switch (((BMessage*)msg)->what) {
-      case MENU_PET_SETTINGS:
-        ui_pet();
-        break;
-      default: ;
-    }
-}
-
-
-int pet_ui_init(void)
-{
-    ui_register_machine_specific(pet_ui_specific);
-    ui_register_menu_toggles(pet_ui_menu_toggles);
-    ui_update_menus();
-    return 0;
-}
-
+#endif

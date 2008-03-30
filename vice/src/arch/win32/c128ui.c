@@ -39,6 +39,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "REU", IDM_TOGGLE_REU },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },
+    { "Mouse", IDM_MOUSE|0x00010000 },
     { "SidFilters", IDM_TOGGLE_SIDFILTERS },
 #ifdef HAVE_RESID
     { "SidUseResid", IDM_TOGGLE_SOUND_RESID },

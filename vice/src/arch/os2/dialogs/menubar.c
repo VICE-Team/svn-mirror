@@ -36,8 +36,9 @@
 #include "tape.h"       // tape_detach_image
 #include "drive.h"      // DRIVE_SYNC_*
 #include "attach.h"     // file_system_detach_disk
+#include "cmdline.h"    // cmdline_show_help, include resources.h
 #include "interrupt.h"  // maincpu_trigger_trap
-#include "resources.h"  // resources_save
+//#include "resources.h"  // resources_save
 
 // --------------------------------------------------------------------------
 
@@ -227,22 +228,24 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         sound_dialog(hwnd);
         return;
 
-    case IDM_SC6581:
-    case IDM_SC8580:
-        resources_set_value("SidModel", (resource_value_t)(idm&1));
-        return;
-
     case IDM_SOUNDON:
         toggle("Sound");
-        return;
-
-    case IDM_SIDFILTER:
-        toggle("SidFilters");
         return;
 
     case IDM_RESID:
         toggle("SidUseResid");
         return;
+
+#if defined __X64__ || defined __X128__ || defined __XCBM__
+    case IDM_SIDFILTER:
+        toggle("SidFilters");
+        return;
+
+    case IDM_SC6581:
+    case IDM_SC8580:
+        resources_set_value("SidModel", (resource_value_t)(idm&1));
+        return;
+#endif // __X64__ || __X128__ || __XCBM__
 
     case IDM_OSOFF:
     case IDM_OS2X:
@@ -326,6 +329,10 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         return;
 #endif
 
+    case IDM_CMDLINE:
+        cmdline_show_help();
+        return;
+
     case IDM_ABOUT:
         about_dialog(hwnd);
         return;
@@ -393,15 +400,19 @@ void menu_select(HWND hwnd, USHORT item)
 
     case IDM_SOUND:
         WinCheckRes(hwnd, IDM_SOUNDON,   "Sound");
-        WinCheckRes(hwnd, IDM_SIDFILTER, "SidFilters");
         WinCheckRes(hwnd, IDM_RESID,     "SidUseResid");
+#if defined __X64__ || defined __X128__ || defined __XCBM__
+        WinCheckRes(hwnd, IDM_SIDFILTER, "SidFilters");
+#endif // __X64__ || __X128__ || __XCBM__
         return;
 
+#if defined __X64__ || defined __X128__ || defined __XCBM__
     case IDM_SIDCHIP:
         resources_get_value("SidModel", (resource_value_t*)&val);
         WinCheckMenuItem(hwnd, IDM_SC6581, !val);
         WinCheckMenuItem(hwnd, IDM_SC8580, val);
         return;
+#endif // __X64__ || __X128__ || __XCBM__
 
     case IDM_OVERSAMPLING:
         resources_get_value("SoundOversample", (resource_value_t*)&val);
@@ -429,6 +440,7 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_BUF085, val==850);
         WinCheckMenuItem(hwnd, IDM_BUF100, val==1000);
         return;
+
 #ifndef __X128__
     case IDM_STRETCH:
         resources_get_value("WindowStretchFactor", (resource_value_t*)&val);

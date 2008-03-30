@@ -62,23 +62,28 @@
                                        // DT_LEFT?0, specify DT_RIGHT, DT_CENTER
 
 #ifdef __X64__
-DEFAULTICON "..\\icons\\x64.ico"
+//DEFAULTICON "..\\icons\\x64.ico"
+ICON IDM_VICE2 "..\\icons\\x64.ico"
 #endif
 
 #ifdef __XPET__
-DEFAULTICON "..\\icons\\xpet.ico"
+//DEFAULTICON "..\\icons\\xpet.ico"
+ICON IDM_VICE2 "..\\icons\\xpet.ico"
 #endif
 
 #ifdef __XCBM__
-DEFAULTICON "..\\icons\\xcbm2.ico"
+//DEFAULTICON "..\\icons\\xcbm2.ico"
+ICON IDM_VICE2 "..\\icons\\xcbm2.ico"
 #endif
 
 #ifdef __X128__
-DEFAULTICON "..\\icons\\x128.ico"
+//DEFAULTICON "..\\icons\\x128.ico"
+ICON IDM_VICE2 "..\\icons\\x128.ico"
 #endif
 
 #ifdef __XVIC__
-DEFAULTICON "..\\icons\\xvic.ico"
+//DEFAULTICON "..\\icons\\xvic.ico"
+ICON IDM_VICE2 "..\\icons\\xvic.ico"
 #endif
 
 DLGTEMPLATE DLG_JOYSTICK 850 MOVEABLE DISCARDABLE
@@ -485,7 +490,7 @@ END
 DLGTEMPLATE DLG_CMDOPT 850 MOVEABLE DISCARDABLE 
 BEGIN
     DIALOG  "Commandline Options", DLG_CMDOPT, 141, 95, 152+150, 88+200, FS_SIZEBORDER|FS_TASKLIST|STY_DIALOG
-    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+    PRESPARAMS PP_FONTNAMESIZE, "11.System VIO"
     BEGIN
         LISTBOX  LB_CMDOPT, 0, 0, 152+150, 87+200, LS_NOADJUSTPOS|LS_HORZSCROLL
     END
@@ -514,7 +519,7 @@ BEGIN
     END
 END
 
-MENU IDM_MAINMENU
+MENU IDM_VICE2
 BEGIN
    SUBMENU "~File",                    IDM_FILE,         MIS_TEXT
    BEGIN
@@ -571,15 +576,17 @@ BEGIN
       SUBMENU "~Sound",                IDM_SOUND,        MIS_TEXT
       BEGIN
       	MENUITEM "~Enabled",           IDM_SOUNDON,      MIS_TEXT
-        MENUITEM SEPARATOR
-        MENUITEM "SID ~Filter",        IDM_SIDFILTER,    MIS_TEXT
         MENUITEM "~reSID (HiFi)",      IDM_RESID,        MIS_TEXT
         MENUITEM SEPARATOR
+#if defined __X64__ || defined __X128__ || defined __XCBM__
         SUBMENU "SID ~Chip",           IDM_SIDCHIP,      MIS_TEXT
         BEGIN
           MENUITEM "~6581",            IDM_SC6581,       MIS_TEXT
           MENUITEM "~8680",            IDM_SC8580,       MIS_TEXT
         END
+        MENUITEM "SID ~Filter",        IDM_SIDFILTER,    MIS_TEXT
+        MENUITEM SEPARATOR
+#endif // __X64__ || __X128__ || __XCBM__
         SUBMENU "~Oversampling",       IDM_OVERSAMPLING, MIS_TEXT
         BEGIN
           MENUITEM "~2x",              IDM_OS2X,         MIS_TEXT
@@ -668,5 +675,44 @@ BEGIN
       MENUITEM "~Pause Emulation\tAlt-P",       IDM_PAUSE,     MIS_TEXT
    END
    MENUITEM "~Monitor",                IDM_MONITOR,      MIS_TEXT
-   MENUITEM "~About",                  IDM_ABOUT,        MIS_TEXT|MIS_BUTTONSEPARATOR
+   SUBMENU "~Help",                    IDM_HELP,         MIS_TEXT|MIS_BUTTONSEPARATOR
+   BEGIN
+   /*
+      MENUITEM "Help ~index",    IDM_HELPINDEX,       MIS_TEXT
+      MENUITEM "~General help",  IDM_HELPGENERAL,     MIS_TEXT
+      MENUITEM "~Using help",    IDM_HELPUSINGHELP,   MIS_TEXT
+      MENUITEM "~Tutorial",      IDM_HELPTUTORIAL,    MIS_TEXT
+      MENUITEM SEPARATOR
+      MENUITEM "~About...",      IDM_HELPPRODUCTINFO, MIS_TEXT
+     */
+      MENUITEM "~Commandline Options", IDM_CMDLINE,      MIS_TEXT
+      MENUITEM SEPARATOR
+      MENUITEM "~About Vice/2...",     IDM_ABOUT,        MIS_TEXT
+   END
 END
+
+HELPTABLE IDM_VICE2
+BEGIN
+    HELPITEM IDM_VICE2, IDM_FILE, IDM_FILE
+END
+
+
+HELPSUBTABLE IDM_FILE
+BEGIN
+    HELPSUBITEM IDM_ATTACH,  IDM_ATTACH
+    HELPSUBITEM IDM_ATTACH8, IDM_ATTACH8
+END
+
+/*
+
+#define TEMPLATE_HELP_TABLE                 1000
+#define SUBTABLE_MAIN                       2000
+
+#define PANEL_MAIN                          2100
+#define PANEL_ATTACH                        2210
+#define PANEL_ATTACH8                       2220
+
+
+vice2.ipf:   
+
+*/

@@ -78,7 +78,7 @@ static HMTX  hmtx;
 static CHAR  szClientClass [] = "VICE/2 Grafic Area";
 static CHAR  szTitleBarText[] = "VICE/2 " VERSION;
 static ULONG flFrameFlags =
-    FCF_TITLEBAR | FCF_SHELLPOSITION | FCF_SYSMENU | FCF_TASKLIST;
+    FCF_ICON | FCF_TITLEBAR | FCF_SHELLPOSITION | FCF_SYSMENU | FCF_TASKLIST;
 
 /* ------------------------------------------------------------------------ */
 /* Xvic workaround  */
@@ -598,6 +598,43 @@ UINT canvas_fullwidth(UINT width)
 
 extern int trigger_shutdown;
 
+/*
+static void InitHelp(HWND hwndFrame, int id, PSZ title, PSZ libname)
+{
+    HAB = WInQueryAnchorBlock(hwndFrame);
+
+    HELPINIT hini;
+
+    //
+    // initialize help init structure
+    //
+    memset(&hini, 0, sizeof(hini));
+    hini.cb                       = sizeof(HELPINIT);
+    hini.phtHelpTable             = (PHELPTABLE)MAKELONG(id, 0xFFFF);
+    hini.pszHelpWindowTitle       = (PSZ)title;
+    hini.pszHelpLibraryName       = (PSZ)libname;
+#ifdef DEBUG
+    hini.fShowPanelId             = CMIC_SHOW_PANEL_ID;
+#else
+    hini.fShowPanelId             = CMIC_HIDE_PANEL_ID;
+#endif
+
+    //
+    // creating help instance
+    //
+    hwndHelp = WinCreateHelpInstance(hab, &hini);
+
+    if (hwndHelp == NULLHANDLE || hini.ulReturnCode)
+        return; // error
+
+    //
+    // associate help instance with main frame
+    //
+    if (!WinAssociateHelpInstance(hwndHelp, hwndFrame))
+        return; // error
+}
+*/
+
 void PM_mainloop(VOID *arg)
 {
     APIRET rc;
@@ -631,8 +668,10 @@ void PM_mainloop(VOID *arg)
     //
     c->hwndFrame = WinCreateStdWindow(HWND_DESKTOP, WS_ANIMATE|WS_VISIBLE,
                                       &flFrameFlags, szClientClass,
-                                      c->title, 0L, 0, menu?IDM_MAINMENU:0,
+                                      c->title, 0L, 0, menu?IDM_VICE2:0,
                                       &(c->hwndClient));
+
+    // InitHelp(c->hwndFrame, IDM_VICE2, "Vice/2 Help", "vice2.hlp");
 
     //
     // bring window to top, set size and position, set focus

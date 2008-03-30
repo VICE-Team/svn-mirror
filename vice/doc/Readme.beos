@@ -1,11 +1,11 @@
-BeVICE ALPHA-Release
-==================
+BeVICE
+======
 
 REQUIREMENTS
 ---------------------------
 BeVICE was developed and so far tested under BeOS 5 Personal Edition
 on a quite fast machine (Pentium II 400MHz) with Soundblaster 64 PCI
-and standard analog Joystick.
+and two standard analog joysticks on a Y-cable.
 I'm highly interested in experiences with other hardware and BeOS
 releases (see FEEDBACK)
 
@@ -46,11 +46,10 @@ BUGS (only the known;)
 
 TODO
 ----------
-- Some user interfaces for the settings are missing; many machine
+- Some user interfaces for the settings are missing; some machine
   specific setting are missing; use commandline options or
   edit the vice.ini.
 - Fullsrceen mode is needed.
-- Preview for disk/t64 images is missing.
 - No binaries for PPC so far.
 
 FEEDBACK

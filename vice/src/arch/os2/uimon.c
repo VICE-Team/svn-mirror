@@ -29,6 +29,7 @@
 #include "uimon.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 
 #include "utils.h"
@@ -63,12 +64,17 @@ int arch_mon_out(const char *format, ...)
 {
     va_list ap;
     char *buffer;
+    int   rc;
 
     if (!console_log)
         return 0;
 
     va_start(ap, format);
-    return console_out(console_log, xmvsprintf(format, ap));
+
+    buffer = xmvsprintf(format, ap);
+    rc = console_out(console_log, buffer);
+    free(buffer);
+    return rc;
 }
 
 char *arch_mon_in()

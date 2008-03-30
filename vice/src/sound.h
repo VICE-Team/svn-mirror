@@ -146,20 +146,5 @@ extern void sound_poll(void);
 extern void sound_synthesize(SWORD *buffer, int length);
 #endif
 
-#ifdef FIXPOINT_ARITHMETIC
-/* shared by sound.c and sid/resid.cc */
-typedef unsigned long soundclk_t;
-extern soundclk_t soundclk_mult(soundclk_t a, soundclk_t b);
-#define SOUNDCLK_PREC		10
-#define SOUNDCLK_CONSTANT(x)	((soundclk_t)(x*(1<<SOUNDCLK_PREC)))
-#define SOUNDCLK_MULT(a,b)	soundclk_mult(a,b)
-#define SOUNDCLK_LONG(a)	((long)((a)>>SOUNDCLK_PREC))
-#else
-typedef double soundclk_t;
-#define SOUNDCLK_CONSTANT(x)	((soundclk_t)(x))
-#define SOUNDCLK_MULT(a,b)	(a)*(b)
-#define SOUNDCLK_LONG(a)	((long)(a))
-#endif
-
 #endif /* !defined (_SOUND_H) */
 

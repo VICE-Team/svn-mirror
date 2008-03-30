@@ -35,6 +35,7 @@ extern "C" {
 #include "constants.h"
 #include "ui.h"
 #include "ui_file.h"
+#include "ui_vic20.h"
 #include "vic20ui.h"
 }
 
@@ -127,7 +128,7 @@ void vic20_ui_specific(void *msg, void *window)
 			break;
 		}
 		case MENU_VIC20_SETTINGS:
-        	// ui_vic20();
+        	ui_vic20();
         break;
 
     	default: ;

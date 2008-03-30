@@ -25,6 +25,7 @@
  */
 
 #define INCL_DOSPROCESS
+#define INCL_WINDIALOGS // WinProcessDlg
 #include "vice.h"
 
 #include <string.h>
@@ -35,57 +36,63 @@
 #include "dialogs.h"
 #include "utils.h"
 
-extern HAB habMain;
-
-#include "archdep.h"
-
-void ui_cmdline_show_help(int num_options, cmdline_option_t *options)
+void ui_cmdline_show_help(int num_options, cmdline_option_t *opt)
 {
-    int i, j;
-    int jmax=0;
-    char *ui_cmdline_text;
-    char *ui_cmdline_textopt;
-    int ui_cmdline_chars;   // maximum area could be shown
-    char optFormat[13];
-    CHAR szClientClass [] = "VICE/2 Cmdline";
-    ULONG flFrameFlags    = 0;
+    int   i, j, jmax;
+    int   chars;   // maximum area could be shown
+    char  format[13];
 
-    //    ui_cmdline_lines=num_options;
-    for (i=0; i<num_options; i++) {
-        j    =strlen(options[i].name)+1;
-        j   +=strlen((options[i].need_arg && options[i].param_name)?
-                     options[i].param_name:"")+1;
-        jmax = j>jmax ? j : jmax;
-        j   += strlen(options[i].description)+1;
-        ui_cmdline_chars = j>ui_cmdline_chars ? j : ui_cmdline_chars;
-    }
-    sprintf(optFormat,"%%-%ds%%s",jmax);
+    HWND hwnd;
 
-    cmdopt_dialog(HWND_DESKTOP);
-
-    ui_cmdline_text   =(char*)xcalloc(1,ui_cmdline_chars+1);
-
+    //
+    // calculate maximum width of text
+    //
+    jmax = 0;
     for (i=0; i<num_options; i++)
     {
-        ui_cmdline_textopt = xmsprintf("%s %s", options[i].name,
-                                       (options[i].need_arg && options[i].param_name)?
-                                       options[i].param_name:"");
-        ui_cmdline_text = xmsprintf(optFormat, ui_cmdline_textopt,
-                                    options[i].description);
-        free(ui_cmdline_textopt);
+        j     =strlen(opt[i].name)+1;
 
-        WinSendMsg(hwndCmdopt, WM_INSERT, ui_cmdline_text, 0);
+        j    +=strlen((opt[i].need_arg && opt[i].param_name)?
+                      opt[i].param_name:"")+1;
+
+        jmax  = j>jmax ? j : jmax;
+
+        j    += strlen(opt[i].description)+1;
+
+        chars = j>chars ? j : chars;
     }
 
-    free(ui_cmdline_text);
+    sprintf(format, "%%-%ds%%s", jmax);
 
+    //
+    // open dialog
+    //
+    hwnd = cmdopt_dialog(HWND_DESKTOP);
+
+    //
+    // fill dialog with text
+    //
+    for (i=0; i<num_options; i++)
     {
-        QMSG qmsg;
-        while (dlgOpen(DLGO_CMDOPT))
-        {
-            WinPeekMsg (habMain, &qmsg, NULLHANDLE, 0, 0, PM_REMOVE);
-            WinDispatchMsg (habMain, &qmsg);
-        }
+        char *textopt = xmsprintf("%s %s", opt[i].name,
+                                  (opt[i].need_arg && opt[i].param_name)?
+                                  opt[i].param_name:"");
+        char *text = xmsprintf(format, textopt, opt[i].description);
+        free(textopt);
+
+        WinSendMsg(hwnd, WM_INSERT, text, 0);
+        free(text);
     }
 
+    //
+    // MAINLOOP
+    //
+    WinProcessDlg(hwnd);
+
+    //
+    // WinProcessDlg() does NOT destroy the window on return! Do it here,
+    // otherwise the window procedure won't ever get a WM_DESTROY,
+    // which we may want :-)
+    //
+    WinDestroyWindow(hwnd);
 }

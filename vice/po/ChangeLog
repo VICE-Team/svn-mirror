@@ -1,3 +1,7 @@
+2000-12-07  pottendo  <pottendo@utanet.at>
+
+	* Introduced Peter Karlssons sv.po update.
+
 2000-12-01  pottendo  <pottendo@utanet.at>
 
 	* POTFILES.in: Added `src/print.c'.
@@ -9,7 +13,7 @@
 
 2000-08-16  pottendo  <pottendo@utanet.at>
 
-	* sv.po: Introduced Peter Karssons upgrade to the swedish
+	* sv.po: Introduced Peter Karlssons upgrade to the swedish
 	translation.
 
 2000-08-06  pottendo  <pottendo@utanet.at>

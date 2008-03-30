@@ -189,6 +189,10 @@ SOURCE=..\..\prdevice.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\print.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\pruser.c
 # End Source File
 # Begin Source File

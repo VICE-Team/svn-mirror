@@ -146,7 +146,7 @@ SOURCE=.\petui.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\print.c
+SOURCE=.\statusbar.c
 # End Source File
 # Begin Source File
 

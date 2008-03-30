@@ -40,6 +40,7 @@
 #include "utils.h"
 #include "log.h"
 #include "videoarch.h"
+#include "statusbar.h"
 
 raster_t *video_find_raster_for_canvas(canvas_t *canvas);
 
@@ -49,6 +50,10 @@ raster_t *video_find_raster_for_canvas(canvas_t *canvas);
 #ifndef HAVE_GUIDLIB
 const GUID IID_IDirectDraw2={0xB3A6F3E0,0x2B43,0x11CF,
 {0xA2,0xDE,0x00,0xAA,0x00,0xB9,0x33,0x56}};
+#endif
+
+#ifndef DUMMYUNIONNAME
+#define DUMMYUNIONNAME  u1
 #endif
 
 typedef struct _DDL {
@@ -140,7 +145,7 @@ DirectDrawModeList  *search_mode;
 #ifdef HAVE_UNNAMED_UNIONS
         new_mode->bitdepth=desc->ddpfPixelFormat.dwRGBBitCount;
 #else
-        new_mode->bitdepth=desc->ddpfPixelFormat.u1.dwRGBBitCount;
+        new_mode->bitdepth=desc->ddpfPixelFormat.DUMMYUNIONNAME.dwRGBBitCount;
 #endif
     }
     if (desc->dwFlags&(DDSD_REFRESHRATE)) {
@@ -185,7 +190,7 @@ int                     i;
         }
         CHECK_DDRESULT(ddresult);
 //        log_debug("MODEPROBE_SetCooperativeLevel");
-        ddresult = IDirectDraw_SetCooperativeLevel(DirectDrawObject, ui_get_main_hwnd(), DDSCL_EXCLUSIVE|DDSCL_FULLSCREEN|DDSCL_NOWINDOWCHANGES);
+        ddresult = IDirectDraw_SetCooperativeLevel(DirectDrawObject, ui_get_main_hwnd(), DDSCL_EXCLUSIVE|DDSCL_FULLSCREEN);
         CHECK_DDRESULT(ddresult);
 //        log_debug("MODEPROBE_ObtainDirectDraw2");
         ddresult=IDirectDraw_QueryInterface(DirectDrawObject,&IID_IDirectDraw2,(LPVOID *)&DirectDrawObject2);
@@ -591,6 +596,8 @@ int     old_client_width;
 int     old_client_height;
 int     fullscreen_active;
 
+int     fullscreen_transition=0;
+
 void SwitchToFullscreenMode(HWND hwnd)
 {
 int             w,h,wnow,hnow;
@@ -607,6 +614,7 @@ int             i;
 HDC             hdc;
 raster_t        *r;
 
+    fullscreen_transition=1;
     //  Get fullscreen parameters
     GetCurrentModeParameters(&fullscreen_width,&fullscreen_height,&bitdepth,&refreshrate);
     //  Get the Canvas for this window
@@ -621,13 +629,15 @@ raster_t        *r;
 #ifdef HAVE_UNNAMED_UNIONS
     old_bitdepth=desc2.ddpfPixelFormat.dwRGBBitCount;;
 #else
-    old_bitdepth=desc2.ddpfPixelFormat.u1.dwRGBBitCount;;
+    old_bitdepth=desc2.ddpfPixelFormat.DUMMYUNIONNAME.dwRGBBitCount;;
 #endif
 
     IDirectDrawSurface_Release(c->temporary_surface);
     IDirectDrawSurface_Release(c->primary_surface);
     IDirectDraw_Release(c->dd_object2);
     IDirectDraw_Release(c->dd_object);
+
+    statusbar_destroy();
 
     //  Remove Window Styles
     old_style=GetWindowLong(hwnd,GWL_STYLE);
@@ -646,11 +656,11 @@ raster_t        *r;
 
     device_guid=GetGUIDForActualDevice();
     ddresult=DirectDrawCreate(device_guid, &c->dd_object, NULL);
-    ddresult=IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE|DDSCL_FULLSCREEN|DDSCL_NOWINDOWCHANGES);
+    ddresult=IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE|DDSCL_FULLSCREEN);
     ddresult=IDirectDraw_QueryInterface(c->dd_object,&IID_IDirectDraw2,(LPVOID *)&c->dd_object2);
 
     //  Set cooperative level
-    ddresult=IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE|DDSCL_FULLSCREEN|DDSCL_NOWINDOWCHANGES);
+    ddresult=IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE|DDSCL_FULLSCREEN);
     //  Set Mode
     ddresult=IDirectDraw2_SetDisplayMode(c->dd_object2,fullscreen_width,fullscreen_height,bitdepth,refreshrate,0);
     //  Adjust window size
@@ -725,13 +735,16 @@ raster_t        *r;
     set_physical_colors(c);
 
     r=video_find_raster_for_canvas(c);
-    video_frame_buffer_translate(c);
-    raster_rebuild_tables(r);
+    if (r) {
+        video_frame_buffer_translate(c);
+        raster_rebuild_tables(r);
+    }
     IDirectDrawSurface_GetDC(c->primary_surface,&hdc);
     canvas_update(c->hwnd,hdc,0,0,fullscreen_width,fullscreen_height);
     IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
     fullscreen_active=1;
 
+    fullscreen_transition=0;
 }
 
 void SwitchToWindowedMode(HWND hwnd)
@@ -743,6 +756,8 @@ DDSURFACEDESC   desc2;
 int             i;
 HDC             hdc;
 raster_t        *r;
+
+    fullscreen_transition=1;
 
     //  Get the Canvas for this window
     c=canvas_find_canvas_for_hwnd(hwnd);
@@ -765,6 +780,7 @@ raster_t        *r;
     c->client_height=old_client_height;
     LockWindowUpdate(NULL);
 
+    statusbar_create(hwnd);
 
     ddresult=DirectDrawCreate(NULL, &c->dd_object, NULL);
     ddresult=IDirectDraw_SetCooperativeLevel(c->dd_object, NULL, DDSCL_NORMAL);
@@ -849,6 +865,8 @@ raster_t        *r;
     canvas_update(c->hwnd,hdc,0,0,c->client_width,c->client_height);
     IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
     fullscreen_active=0;
+
+    fullscreen_transition=0;
 }
 
 

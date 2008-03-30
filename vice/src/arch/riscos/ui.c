@@ -1910,9 +1910,12 @@ static int ui_build_romset_menu(void)
     item[number-1].mflags = MFlg_LastItem;
     if ((MenuROMSetTmpl.item[0].mflags & MFlg_FirstInd) != 0)
       item[0].mflags |= MFlg_FirstInd;
+    item[0].mflags |= MFlg_Tick;
     ConfigMenus[CONF_MENU_ROMSET].menu = MenuROMSet;
+    ConfigDispDescs[CONF_MENU_ROMSET] = MenuDisplayROMSet;
     MenuDisplayROMSet->menu = MenuROMSet;
     MenuDisplayROMSet->items = number;
+    ui_set_menu_display_text(MenuDisplayROMSet, 0, MenuROMSet);
     return 0;
   }
   return -1;

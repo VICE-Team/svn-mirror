@@ -162,7 +162,7 @@ end
 
 curdir = directory(origdir)
 
-/* Open the CD-writing folder */
+/* Open the Vice/2 folder */
 rc=SysSetObjectData("<VICE2>","OPEN=DEFAULT")
 
 say ''

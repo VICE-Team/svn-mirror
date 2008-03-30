@@ -24,6 +24,7 @@
  *
  */
 
+#include <Application.h>
 #include <Button.h>
 #include <FilePanel.h>
 #include <Font.h>
@@ -127,7 +128,7 @@ int     index;
 }
 
 
-VicePreview::VicePreview(BPoint origin)
+VicePreview::VicePreview(BPoint origin, ViceFilePanel *f)
 	: BWindow(
 		BRect(origin.x,origin.y,origin.x+300,origin.y+200),
 		"Image Contents", B_MODAL_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL, B_AVOID_FOCUS)
@@ -135,7 +136,9 @@ VicePreview::VicePreview(BPoint origin)
 	BView *background;
 	BRect r;
 	BFont font(be_fixed_font);
-		
+	
+	father = f;		
+	
 	r = Bounds();
 	background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
 	background->SetViewColor(220,220,220,0);
@@ -187,6 +190,7 @@ void VicePreview::MessageReceived(BMessage *msg)
 		case AUTOSTART_MESSAGE:
 			file_num = contentlist->CurrentSelection();
 			if (file_num >= 0) {
+				father->Hide();
 				autostart_autodetect(image_name, NULL, file_num);
 			}
 			break;
@@ -207,7 +211,8 @@ ViceFilePanel::ViceFilePanel(
 {
 	if (mode == B_OPEN_PANEL)
 		previewwindow = new VicePreview(
-			BPoint(Window()->Frame().left, Window()->Frame().bottom));
+			BPoint(Window()->Frame().left, Window()->Frame().bottom),
+			this);
 	else
 		previewwindow = NULL;
 }
