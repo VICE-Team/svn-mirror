@@ -43,6 +43,7 @@
 /* #define DEBUG_DRIVE */
 
 #include <string.h>
+#include <ctype.h>
 
 #ifdef __riscos
 #include "ROlib.h"
@@ -51,6 +52,7 @@
 
 #include "log.h"
 #include "serial.h"
+#include "types.h"
 #include "utils.h"
 #include "vdrive-bam.h"
 #include "vdrive-dir.h"
@@ -334,7 +336,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 
             status = disk_image_read_sector(vdrive->image, p->buffer, track,
                                             sector);
-            if (status < 0) {
+            if (status != 0) {
                 vdrive_close(vdrive, secondary);
                 return SERIAL_ERROR;
             }
@@ -634,9 +636,19 @@ void vdrive_flush(void *flp, int secondary)
     if (p->mode != BUFFER_COMMAND_CHANNEL)
         return;
 
+#ifdef DEBUG_DRIVE
+       log_debug("FLUSH: COMMAND CHANNEL");
+#endif
+
     if (p->readmode == FAM_READ)
         return;
-    if (p->length) { /* if no command, do nothing - keep error code. */
+
+#ifdef DEBUG_DRIVE
+       log_debug("FLUSH: READ MODE");
+#endif
+
+    if (p->length) {
+        /* If no command, do nothing - keep error code.  */
         status = vdrive_command_execute(vdrive, p->buffer, p->bufptr);
         p->bufptr = 0;
         if (status == IPE_OK)

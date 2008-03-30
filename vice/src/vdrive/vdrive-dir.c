@@ -40,6 +40,7 @@
 
 #include "diskimage.h"
 #include "log.h"
+#include "types.h"
 #include "vdrive-bam.h"
 #include "vdrive-dir.h"
 #include "vdrive.h"

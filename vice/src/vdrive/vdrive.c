@@ -39,6 +39,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #ifdef __riscos
 #include "ROlib.h"
@@ -51,6 +52,7 @@
 #include "fsdevice.h"
 #include "log.h"
 #include "serial.h"
+#include "types.h"
 #include "utils.h"
 #include "vdrive-bam.h"
 #include "vdrive-dir.h"
@@ -233,6 +235,10 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, int length)
     if (name) /* Fix name length */
         for (p2 = p; *p2 && *p2 != ':' && length > 0; p2++, length--);
 
+#ifdef DEBUG_DRIVE
+    log_debug("Command %c.", *p);
+#endif
+
     switch (*p) {
       case 'C': /* Copy command.  */
         status = vdrive_command_copy(vdrive, (char *)name, length);
@@ -393,15 +399,11 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, int length)
     return status;
 }
 
-/*
- * This function is modeled after BLKPAR, in the 1541 ROM at CC6F.
- */
-
 static int vdrive_get_block_parameters(char *buf, int *p1, int *p2, int *p3,
                                        int *p4)
 {
     int ip;
-    char *bp;
+    char *bp, endsign;
     int *p[4];	/* This is a kludge */
     p[0] = p1;
     p[1] = p2;
@@ -415,11 +417,11 @@ static int vdrive_get_block_parameters(char *buf, int *p1, int *p2, int *p3,
 	    bp++;
 	if (*bp == 0)
 	    break;
-	/* convert and skip over decimal number */
+	/* Convert and skip over decimal number.  */
 	*p[ip] = strtol(bp, &bp, 10);
     }
-
-    if ((*bp != 0) && (ip == 4))
+    endsign = *bp;
+    if (isalnum((int)endsign) && (ip == 4))
 	return IPE_SYNTAX;
     return -ip;			/* negative of # arguments found */
 }
@@ -427,7 +429,11 @@ static int vdrive_get_block_parameters(char *buf, int *p1, int *p2, int *p3,
 static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
 {
     int channel = 0, drive = 0, track = 0, sector = 0, position = 0;
-    int l;
+    int l, rc;
+
+#ifdef DEBUG_DRIVE
+    log_debug("vdrive_command_block command:%c.", command);
+#endif
 
     switch (command) {
       case 'R':
@@ -453,12 +459,18 @@ static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
                                             track, sector) < 0)
                     return IPE_NOT_READY;
             } else {
-                if (disk_image_read_sector(vdrive->image,
-                                      vdrive->buffers[channel].buffer,
-                                      track, sector) < 0)
+                rc = disk_image_read_sector(vdrive->image,
+                                            vdrive->buffers[channel].buffer,
+                                            track, sector);
+                if (rc > 0)
+                    return rc;
+                if (rc < 0)
                     return IPE_NOT_READY;
             }
             vdrive->buffers[channel].bufptr = 0;
+        } else {
+            log_error(vdrive_log, "B-R/W invalid parameter "
+                      "C:%i D:%i T:%i S:%i.", channel, drive, track, sector);
         }
         break;
       case 'A':

@@ -39,6 +39,7 @@
 
 #include "attach.h"
 #include "log.h"
+#include "types.h"
 #include "vdrive-bam.h"
 #include "vdrive.h"
 
@@ -173,7 +174,7 @@ int vdrive_bam_isset(int type, BYTE *bamp, int sector)
 int vdrive_bam_allocate_chain(vdrive_t *vdrive, int t, int s)
 {
     BYTE tmp[256];
-    int disk_type = -1;
+    int disk_type = -1, rc;
 
     switch (vdrive->image_format) {
       case VDRIVE_IMAGE_FORMAT_1541:
@@ -206,7 +207,12 @@ int vdrive_bam_allocate_chain(vdrive_t *vdrive, int t, int s)
             vdrive_command_set_error(&vdrive->buffers[15], IPE_NO_BLOCK, s, t);
             return IPE_NO_BLOCK;
         }
-        disk_image_read_sector(vdrive->image, tmp, t, s);
+        rc = disk_image_read_sector(vdrive->image, tmp, t, s);
+        if (rc > 0)
+            return rc;
+        if (rc < 0) 
+            return IPE_NOT_READY;
+
         t = (int)tmp[0];
         s = (int)tmp[1];
     }
@@ -542,6 +548,8 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
                   "Unknown disk type %i.  Cannot read BAM.",
                   vdrive->image_format);
     }
+    if (err < 0)
+        return IPE_NOT_READY;
     return err;
 }
 

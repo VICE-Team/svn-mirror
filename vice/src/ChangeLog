@@ -1,3 +1,59 @@
+1999-10-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.13.
+
+	* vdrive/vdrive-iec.c, vdrive/vdrive.c: #include <ctype.h>.
+
+	* vdrive/vdrive.c (vdrive_get_block_parameters): Tolerate non
+	alphanumeric chars at end of command.
+
+	* diskimage.h: Added new member `error_info' to struct
+	`disk_image_t'.
+
+	* diskimage.c (disk_image_open, disk_image_close,
+	disk_image_read_sector, disk_image_check_for_d64): Added
+	support for error codes.
+
+	* imagecontents.c, mon.c, drive/drive.c, vdrive/vdrive-bam.c,
+	vdrive/vdrive.c: Adapted to new sector read return value.
+
+	* vicii/vicii.c (vic_ii_reset_registers): New function.
+
+	* c64/c64.c, c128/c128.c (machine_powerup): Reset VIC-II
+	registers.
+
+	* maincpu.c (mainloop): Print proper starting address.
+
+	* vicii/vicii.h, cbm2/c610cia.h, sid/resid.h, crtc/crtc.h,
+	viacore.h, mon.h, kbdbuf.h, ciacore.h, arch/unix/vsync.c,
+	arch/msdos/vsync.c, arch/win32/vsync.c, arch/os2/vsync.c,
+	cbm2/c610.c, pet/petsound.c, vic20/vic20.c, c128/c128.c
+	vic20/vic20sound.c, c64/c64.c, sid/sid.h, sid/sid.c,
+	crtc/crtc.c, vicii/vicii-mem.c, vicii/vicii.c, drive/wd1770.c,
+	drive/drive.c, sounddrv/sounddump.c, sound.c, interrupt.c,
+	datasette.c, autostart.c, alarm.c, diskimage.c, mon.c,
+	c1541.c, vdrive/vdrive-bam.c, vdrive/vdrive-dir.c,
+	vdrive/vdrive-iec.c, vdrive/vdrive.c: #include "types.h".
+
+	* vicii/vicii.h, drive/drive.h: #include "snapshot.h"
+
+        * drive/drive.h: Do not #include "drivecpu.h".
+
+	* drive/drive.c, viacore.h, c64/c64.c, c64/c64cia2.c,
+	c64/c64iec.c, c64/c64tpi.c, c128/c128.c, c128/c128iec.c,
+	vic20/vic20.c, vic20/vic20iec.c, pet/pet.c, pet/petpia1.c,
+	pet/petpia2.c, cbm2/c610.c, cbm2/c610cia1.c, cbm2/c610tpi1.c:
+	#include "drivecpu.h".
+
+	* interrupt.h: Removed special OS2 inclusion.
+
+	* sid/sid.h: Do not #include "sound.h".
+
+	* sid/resid.h, sid/resid.cc, c64/c64.c, c128/c128.c: #include
+	"sound.h".
+
+	* utils.h: #include "vice.h".
+
 1999-10-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.12.
