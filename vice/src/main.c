@@ -62,6 +62,7 @@
 #include "main_exit.h"
 #include "resources.h"
 #include "sysfile.h"
+#include "screenshot.h"
 #include "tape.h"
 #include "types.h"
 #include "ui.h"
@@ -538,6 +539,8 @@ int MAIN_PROGRAM(int argc, char **argv)
 #ifdef HAS_JOYSTICK
         joystick_init();
 #endif
+
+        screenshot_init();
 
         drive0_cpu_early_init();
         drive1_cpu_early_init();
