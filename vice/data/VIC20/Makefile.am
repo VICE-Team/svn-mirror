@@ -7,6 +7,7 @@ vic20_DATA = \
 	default.vkm \
 	default.vpl \
 	dos1541 \
-	kernal
+	kernal \
+	position.vkm
 
 EXTRA_DIST = $(vic20_DATA)
