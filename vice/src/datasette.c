@@ -849,9 +849,9 @@ int datasette_read_snapshot(snapshot_t *s)
         || SMR_B_INT(m, &datasette_alarm_pending) < 0
         || SMR_DW(m, &alarm_clk) < 0
         || SMR_DW(m, &datasette_long_gap_pending) < 0
-        || SMR_DW(m, (int*)&datasette_long_gap_elapsed) < 0
+        || SMR_DW(m, (DWORD *)&datasette_long_gap_elapsed) < 0
         || SMR_B_INT(m, &datasette_last_direction) < 0
-        || SMR_DW(m, &datasette_counter_offset) < 0
+        || SMR_DW(m, (DWORD *)&datasette_counter_offset) < 0
         || SMR_B_INT(m, &reset_datasette_with_maincpu) < 0
         || SMR_DW(m, &datasette_zero_gap_delay) < 0
         || SMR_DW(m, &datasette_speed_tuning) < 0
