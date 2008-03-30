@@ -40,7 +40,6 @@
 #include "x11menu.h"
 #include "uimenu.h"
 
-
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
     { "--" },
@@ -110,6 +109,19 @@ static void add_accelerator(GtkWidget *w, GtkAccelGroup *accel, guint accel_key,
                                flags, GTK_ACCEL_VISIBLE);
 }
 
+static char *make_menu_label(ui_menu_entry_t *e)
+{
+    char *trans;
+
+    /* Check wether NO_TRANS prefix is there, if yes don't translate it */
+    if (strncmp(e->string, NO_TRANS, strlen(NO_TRANS)) == 0)
+        trans = lib_stralloc(e->string + strlen(NO_TRANS));
+    else
+        trans = lib_stralloc(_(e->string));
+
+    return trans;
+}
+
 void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, ui_menu_entry_t *list)
 {
     static int level = 0;
@@ -140,10 +152,11 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
 	    {
 		/* Add this item to the list of calls to perform to update the
 		   menu status. */
+                char *label = make_menu_label(&list[i]);
 		if (list[i].callback) 
 		{
 		    checkmark_t *cmt;
-		    new_item = gtk_check_menu_item_new_with_label(list[i].string+1);
+		    new_item = gtk_check_menu_item_new_with_label(label + 1);
 		    
 		    cmt = (checkmark_t *)lib_malloc(sizeof(checkmark_t));
 		    cmt->name = lib_stralloc(list[i].string+1);
@@ -162,16 +175,18 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
 		    obj = &cmt->obj;
 		} 
 		else 
-		    new_item = gtk_menu_item_new_with_label(list[i].string+1);
+		    new_item = gtk_menu_item_new_with_label(label + 1);
 
 		j++;
+		lib_free(label);
 		break;
 	    }
             case 0:
                 break;
 	    default:
 	    {
-                const char *item = list[i].string;
+		char *item, *itemp;
+		item = itemp = make_menu_label(&list[i]);
                 if (strncmp(item, "RJ", 2) == 0)
                 {
                     do_right_justify = 1;
@@ -187,6 +202,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
 				     G_CALLBACK(list[i].callback),
 				     (gpointer) obj); 
 		}
+		lib_free(itemp);
 		j++;
 	    }
             }

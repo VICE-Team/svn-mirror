@@ -103,7 +103,7 @@ int main_program(int argc, char **argv)
     bindtextdomain(PACKAGE, NLS_LOCALEDIR);
     textdomain(PACKAGE);
 #endif
-
+    
     archdep_init(&argc, argv);
 
 #ifndef __riscos

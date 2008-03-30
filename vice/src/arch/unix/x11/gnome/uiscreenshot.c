@@ -431,12 +431,6 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     int res, i;
     char *fn, *tmp;
     const char *driver, *ext;
-    int current_ac_id, current_vc_id;
-
-    resources_get_int("FFMPEGAudioCodec", &current_ac_id);
-    resources_get_int("FFMPEGVideoCodec", &current_vc_id);
-
-    printf("ac_id: %d, vc_id: %d\n", current_ac_id, current_vc_id);
     
     if (screenshot_dialog) {
     	gdk_window_show(screenshot_dialog->window);
