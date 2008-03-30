@@ -106,6 +106,7 @@ noinst_HEADERS = \
 	monitor.h \
 	mos6510.h \
 	mouse.h \
+	opencbmlib.h \
 	palette.h \
 	parallel.h \
 	petui.h \
@@ -258,6 +259,12 @@ if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
 else
 blockdev_lib =
+endif
+
+if HAVE_REALDEVICE
+realdevice_lib = @ARCH_DIR@/opencbmlib.o
+else
+realdevice_lib =
 endif
 
 bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat
@@ -597,6 +604,7 @@ c1541_LDADD = \
 	@ARCH_DIR@/archdep.o \
 	@ARCH_DIR@/uicmdline.o \
 	$(blockdev_lib) \
+	$(realdevice_lib) \
 	$(vdrive_lib) \
 	$(imagecontents_lib) \
 	$(fileio_lib) \
