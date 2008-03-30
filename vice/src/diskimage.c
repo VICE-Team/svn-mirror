@@ -447,6 +447,81 @@ int disk_image_close(disk_image_t *image)
 
 
 /*-----------------------------------------------------------------------*/
+/* Create GCR disk image.  */
+
+extern int speed_map_1541[42];
+
+static int disk_image_create_gcr(disk_image_t *image)
+{
+    BYTE gcr_header[12], gcr_track[7930], *gcrptr;
+    DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
+    DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
+    int track, sector;
+
+    strcpy((char *) gcr_header, "GCR-1541");
+
+    gcr_header[8] = 0;
+    gcr_header[9] = MAX_TRACKS_1541 * 2;
+    gcr_header[10] = 7928 % 256;
+    gcr_header[11] = 7928 / 256;
+
+    if (fwrite((char *)gcr_header, sizeof(gcr_header), 1, image->fd)
+        < 1) {
+        log_error(disk_image_log, "Cannot write GCR header.");
+        return -1;
+    }
+
+    for (track = 0; track < MAX_TRACKS_1541; track++) {
+        gcr_track_p[track * 2] = 12 + MAX_TRACKS_1541 * 16 + track * 7930;
+        gcr_track_p[track * 2 + 1] = 0;
+        gcr_speed_p[track * 2] = speed_map_1541[track];
+        gcr_speed_p[track * 2 + 1] = 0;
+    }
+
+    if (write_dword(image->fd, gcr_track_p, sizeof(gcr_track_p)) < 0) {
+        log_error(disk_image_log, "Cannot write track header.");
+        return -1;
+    }
+    if (write_dword(image->fd, gcr_speed_p, sizeof(gcr_speed_p)) < 0) {
+        log_error(disk_image_log, "Cannot write speed header.");
+        return -1;
+    }
+    for (track = 0; track < MAX_TRACKS_1541; track++) {
+        int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
+
+        memset(&gcr_track[2], 0xff, 7928);
+        gcr_track[0] = raw_track_size[speed_map_1541[track]] % 256;
+        gcr_track[1] = raw_track_size[speed_map_1541[track]] / 256;
+        gcrptr = &gcr_track[2];
+
+        for (sector = 0;
+        sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track + 1);
+        sector++) {
+            BYTE chksum, id[2], rawdata[260];
+            int i;
+
+            id[0] = id[1] = 0xa0;
+            memset(rawdata, 0, 260);
+            rawdata[0] = 7;
+            chksum = rawdata[1];
+            for (i = 1; i < 256; i++)
+                chksum ^= rawdata[i + 1];
+            rawdata[257] = chksum;
+
+            convert_sector_to_GCR(rawdata, gcrptr, track + 1, sector,
+                                  id[0], id[1]);
+            gcrptr += 360;
+        }
+        if (fwrite((char *)gcr_track, sizeof(gcr_track), 1, image->fd) < 1 ) {
+            log_error(disk_image_log, "Cannot write track data.");
+            return -1;
+        }
+    }
+    return 0;
+}
+
+
+/*-----------------------------------------------------------------------*/
 /* Create a disk image.  */
 
 int disk_image_create(const char *name, int type)
@@ -473,8 +548,7 @@ int disk_image_create(const char *name, int type)
         size = D82_FILE_SIZE;
         break;
       case DISK_IMAGE_TYPE_GCR:
-        log_error(disk_image_log, "GCR is not supported!");
-        return -1;
+        break;
       default:
         log_error(disk_image_log,
                   "Wrong image type.  Cannot create disk image.");
@@ -494,15 +568,32 @@ int disk_image_create(const char *name, int type)
 
     memset(block, 0, 256);
 
-    for (i = 0; i < (size / 256); i++) {
-        if (fwrite(block, 256, 1, image->fd) < 1) {
-            log_error(disk_image_log, "Cannot seek to end of disk image `%s'.",
-                      image->name);
+    switch (type) {
+      case DISK_IMAGE_TYPE_D64:
+      case DISK_IMAGE_TYPE_D71:
+      case DISK_IMAGE_TYPE_D81:
+      case DISK_IMAGE_TYPE_D80:
+      case DISK_IMAGE_TYPE_D82:
+        for (i = 0; i < (size / 256); i++) {
+            if (fwrite(block, 256, 1, image->fd) < 1) {
+                log_error(disk_image_log,
+                          "Cannot seek to end of disk image `%s'.",
+                          image->name);
+                fclose(image->fd);
+                free(image->name);
+                free(image);
+                return -1;
+            }
+        }
+        break;
+      case DISK_IMAGE_TYPE_GCR:
+        if (disk_image_create_gcr(image) < 0) {
             fclose(image->fd);
             free(image->name);
             free(image);
             return -1;
         }
+        break;
     }
 
     fclose(image->fd);
