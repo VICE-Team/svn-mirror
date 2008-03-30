@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/via2drive0.c
- * This file is generated from ../../../src/via-tmpl.c and ../../../src/drive/via2drive0.def,
+ * ../../src/drive/via2drive0.c
+ * This file is generated from ../../src/via-tmpl.c and ../../src/drive/via2drive0.def,
  * Do not edit!
  */
 /*
@@ -486,21 +486,24 @@ void REGPARM2 store_via2d0(ADDRESS addr, BYTE byte)
         /* bit 0  CA1 interrupt control */
 
 
-        if(byte != via2d0[VIA_PCR]) {
-          register BYTE tmp = byte;
-          /* first set bit 1 and 5 to the real output values */
-          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
-          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-          /* insert_your_favourite_drive_function_here(tmp);
-	     bit 5 is the write output to the analog circuitry:
-	     0 = writing, 0x20 = reading */
-	     drive_update_viad2_pcr(tmp, 0);
-          if ((byte&0x20) != (via2d0[addr]&0x20)) {
-             drive_rotate_disk(0, 0);
-             drive_rotate_disk(1, 0);
-          }
-          byte = tmp;
+    if(byte != via2d0[VIA_PCR]) {
+        register BYTE tmp = byte;
+        /* first set bit 1 and 5 to the real output values */
+        if((tmp & 0x0c) != 0x0c)
+            tmp |= 0x02;
+        if((tmp & 0xc0) != 0xc0)
+            tmp |= 0x20;
+        /* insert_your_favourite_drive_function_here(tmp);
+        bit 5 is the write output to the analog circuitry:
+        0 = writing, 0x20 = reading */
+        drive_update_viad2_pcr(tmp, 0);
+        if ((byte & 0x20) != (via2d0[addr] & 0x20)) {
+            if (drive[0].byte_ready_active == 0x06)
+                drive_rotate_disk(0);
+            drive[0].finish_byte = 1;
         }
+        byte = tmp;
+    }
         via2d0[addr] = byte;
         break;
 
@@ -551,8 +554,8 @@ BYTE REGPARM1 read_via2d0_(ADDRESS addr)
         byte = ((drive_read_disk_byte(0) & ~via2d0[VIA_DDRA])
             | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
         if (drive[0].type == DRIVE_TYPE_1571)
-            if (drive_byte_ready(0))
-                drive_set_byte_ready(0, 0);
+            if (drive[0].byte_ready)
+                drive[0].byte_ready = 0;
     }
 	return byte;
 
@@ -818,12 +821,15 @@ int via2d0_read_snapshot_module(snapshot_t * p)
         addr = VIA_DDRA;
 	byte = via2d0[VIA_PRA] | ~via2d0[VIA_DDRA];
 
-     drive_write_gcr(byte, 0);
+
 	oldpa = byte;
 
 	addr = VIA_DDRB;
 	byte = via2d0[VIA_PRB] | ~via2d0[VIA_DDRB];
-	/* FIXME!!!! */
+
+    drive[0].led_status = byte & 8;
+    drive_update_zone_bits((byte >> 5) & 0x3, 0);
+    drive_motor_control(byte & 0x04, 0);
 	oldpb = byte;
     }
 
@@ -853,21 +859,24 @@ int via2d0_read_snapshot_module(snapshot_t * p)
 	addr = via2d0[VIA_PCR];
 	byte = via2d0[addr];
 
-        if(byte != via2d0[VIA_PCR]) {
-          register BYTE tmp = byte;
-          /* first set bit 1 and 5 to the real output values */
-          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
-          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-          /* insert_your_favourite_drive_function_here(tmp);
-	     bit 5 is the write output to the analog circuitry:
-	     0 = writing, 0x20 = reading */
-	     drive_update_viad2_pcr(tmp, 0);
-          if ((byte&0x20) != (via2d0[addr]&0x20)) {
-             drive_rotate_disk(0, 0);
-             drive_rotate_disk(1, 0);
-          }
-          byte = tmp;
+    if(byte != via2d0[VIA_PCR]) {
+        register BYTE tmp = byte;
+        /* first set bit 1 and 5 to the real output values */
+        if((tmp & 0x0c) != 0x0c)
+            tmp |= 0x02;
+        if((tmp & 0xc0) != 0xc0)
+            tmp |= 0x20;
+        /* insert_your_favourite_drive_function_here(tmp);
+        bit 5 is the write output to the analog circuitry:
+        0 = writing, 0x20 = reading */
+        drive_update_viad2_pcr(tmp, 0);
+        if ((byte & 0x20) != (via2d0[addr] & 0x20)) {
+            if (drive[0].byte_ready_active == 0x06)
+                drive_rotate_disk(0);
+            drive[0].finish_byte = 1;
         }
+        byte = tmp;
+    }
     }
 
     snapshot_module_read_byte(m, &byte);

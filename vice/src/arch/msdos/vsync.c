@@ -376,7 +376,7 @@ int do_vsync(int been_skipped)
 
 /* -------------------------------------------------------------------------- */
 
-void vsync_init(double hz, long cycles, void (*hook)(void))
+void vsync_init(double hertz, long cycles, void (*hook)(void))
 {
     LOCK_VARIABLE(elapsed_frames);
     LOCK_FUNCTION(my_timer_callback);
@@ -389,7 +389,7 @@ void vsync_init(double hz, long cycles, void (*hook)(void))
 #endif /* !USE_MIDAS_SOUND */
 
     vsync_hook = hook;
-    refresh_frequency = hz;
+    refresh_frequency = hertz;
     cycles_per_sec = cycles;
     suspend_speed_eval();
     vsync_disable_timer();

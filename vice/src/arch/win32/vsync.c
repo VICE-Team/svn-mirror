@@ -232,10 +232,10 @@ void vsync_cleanup(void)
     OutputDebugString("vsync_cleanup()\n");
 }
 
-int vsync_init(double hz, long cycles, void (*hook)(void))
+int vsync_init(double hertz, long cycles, void (*hook)(void))
 {
     vsync_hook = hook;
-    refresh_frequency = hz;
+    refresh_frequency = hertz;
     cycles_per_sec = cycles;
     suspend_speed_eval();
     vsync_disable_timer();

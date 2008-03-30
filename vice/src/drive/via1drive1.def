@@ -76,7 +76,13 @@ static iec_info_t *iec_info;
 
 }
 
-#define	UNDUMP_PRA	/* FIXME!!! */
+UNDUMP_PRA()
+{
+    if (drive[1].type == DRIVE_TYPE_1571) {
+        drive_set_1571_sync_factor(byte & 0x20, 1);
+        drive_set_1571_side((byte >> 2) & 1, 1);
+    }
+}
 
 STORE_PRA()
 {
@@ -130,7 +136,7 @@ READ_PRA()
 {
     if (drive[1].type == DRIVE_TYPE_1571) {
         BYTE tmp;
-        tmp = (drive_byte_ready(1) ? 0 : 0x80)
+        tmp = (drive[1].byte_ready ? 0 : 0x80)
             | (drive[1].current_half_track == 2 ? 0 : 1);
         return (tmp & ~via1d1[VIA_DDRA])
             | (via1d1[VIA_PRA] & via1d1[VIA_DDRA]);

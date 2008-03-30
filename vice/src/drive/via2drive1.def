@@ -63,10 +63,15 @@ STORE_PRA()
 
 UNDUMP_PRA()
 {
-	drive_write_gcr(byte, 1);
+
 }
 
-#define	UNDUMP_PRB	/* FIXME!!!! */
+UNDUMP_PRB()
+{
+    drive[1].led_status = byte & 8;
+    drive_update_zone_bits((byte >> 5) & 0x3, 1);
+    drive_motor_control(byte & 0x04, 1);
+}
 
 STORE_PRB()
 {
@@ -90,21 +95,24 @@ STORE_PRB()
 
 STORE_PCR()
 {
-        if(byte != via2d1[VIA_PCR]) {
-          register BYTE tmp = byte;
-          /* first set bit 1 and 5 to the real output values */
-          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
-          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-          /* insert_your_favourite_drive_function_here(tmp);
-	     bit 5 is the write output to the analog circuitry:
-	     0 = writing, 0x20 = reading */
-	     drive_update_viad2_pcr(tmp, 1);
-          if ((byte&0x20) != (via2d1[addr]&0x20)) {
-             drive_rotate_disk(0, 1);
-             drive_rotate_disk(1, 1);
-          }
-          byte = tmp;
+    if(byte != via2d1[VIA_PCR]) {
+        register BYTE tmp = byte;
+        /* first set bit 1 and 5 to the real output values */
+        if((tmp & 0x0c) != 0x0c)
+            tmp |= 0x02;
+        if((tmp & 0xc0) != 0xc0)
+            tmp |= 0x20;
+        /* insert_your_favourite_drive_function_here(tmp);
+        bit 5 is the write output to the analog circuitry:
+        0 = writing, 0x20 = reading */
+        drive_update_viad2_pcr(tmp, 1);
+        if ((byte & 0x20) != (via2d1[addr] & 0x20)) {
+            if (drive[1].byte_ready_active == 0x06)
+                drive_rotate_disk(1);
+            drive[1].finish_byte = 1;
         }
+        byte = tmp;
+    }
 }
 
 #define	STORE_ACR
@@ -125,8 +133,8 @@ READ_PRA()
         byte = ((drive_read_disk_byte(1) & ~via2d1[VIA_DDRA])
             | (via2d1[VIA_PRA] & via2d1[VIA_DDRA] ));
         if (drive[1].type == DRIVE_TYPE_1571)
-            if (drive_byte_ready(1))
-                drive_set_byte_ready(0, 1);
+            if (drive[1].byte_ready)
+                drive[1].byte_ready = 0;
     }
 }
 

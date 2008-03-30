@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/via1drive0.c
- * This file is generated from ../../../src/via-tmpl.c and ../../../src/drive/via1drive0.def,
+ * ../../src/drive/via1drive0.c
+ * This file is generated from ../../src/via-tmpl.c and ../../src/drive/via1drive0.def,
  * Do not edit!
  */
 /*
@@ -562,7 +562,7 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
 
     if (drive[0].type == DRIVE_TYPE_1571) {
         BYTE tmp;
-        tmp = (drive_byte_ready(0) ? 0 : 0x80)
+        tmp = (drive[0].byte_ready ? 0 : 0x80)
             | (drive[0].current_half_track == 2 ? 0 : 1);
         return (tmp & ~via1d0[VIA_DDRA])
             | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
@@ -841,7 +841,11 @@ int via1d0_read_snapshot_module(snapshot_t * p)
     {
         addr = VIA_DDRA;
 	byte = via1d0[VIA_PRA] | ~via1d0[VIA_DDRA];
-	/* FIXME!!!! */
+
+    if (drive[0].type == DRIVE_TYPE_1571) {
+        drive_set_1571_sync_factor(byte & 0x20, 0);        
+        drive_set_1571_side((byte >> 2) & 1, 0);
+    }
 	oldpa = byte;
 
 	addr = VIA_DDRB;

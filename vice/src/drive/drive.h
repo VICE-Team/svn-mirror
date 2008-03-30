@@ -151,6 +151,7 @@
 #define DRIVE_IDLE_TRAP_IDLE		2
 
 /* Drive type.  */
+#define DRIVE_TYPE_NONE 0
 #define DRIVE_TYPE_1541	1541
 #define DRIVE_TYPE_1571	1571
 #define DRIVE_TYPE_1581 1581
@@ -199,7 +200,7 @@ typedef struct drive_s {
 
     /* Disk side.  */
     int side;
- 
+
     /* What idling method?  (See `DRIVE_IDLE_*')  */
     int idling_method;
 
@@ -242,7 +243,7 @@ typedef struct drive_s {
     /* Activates the byte ready line.  */
     int byte_ready_active;
 
-    /* Clock frequency of this drive in 1MHz untis  */
+    /* Clock frequency of this drive in 1MHz units.  */
     int clock_frequency;
 
     /* Tick when the disk image was attached.  */
@@ -283,9 +284,7 @@ extern BYTE serial_bus_drive_read(void);
 extern int drive0_trap_handler(void);
 extern int drive1_trap_handler(void);
 extern void drive_move_head(int step, int dnr);
-extern int drive_byte_ready(int dnr);
-extern void drive_set_byte_ready(int val, int dnr);
-extern void drive_rotate_disk(int mode_changed, int dnr);
+extern void drive_rotate_disk(int dnr);
 extern BYTE drive_read_disk_byte(int dnr);
 extern void drive_write_gcr(BYTE val, int dnr);
 extern void drive_reset(void);
