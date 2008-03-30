@@ -1,8 +1,7 @@
 /*
- * uicommands.h - Implementation of common UI commands.
+ * uiattach.h
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -25,19 +24,14 @@
  *
  */
 
-#ifndef _UI_COMMANDS_H
-#define _UI_COMMANDS_H
+#ifndef _UIATTACH_H
+#define _UIATTACH_H
 
-extern void uicommands_shutdown(void);
+extern struct ui_menu_entry_s uiattach_disk_menu[];
+extern struct ui_menu_entry_s uiattach_tape_menu[];
+extern struct ui_menu_entry_s uiattach_smart_attach_menu[];
 
-extern struct ui_menu_entry_s ui_directory_commands_menu[];
-extern struct ui_menu_entry_s ui_exit_commands_menu[];
-extern struct ui_menu_entry_s ui_help_commands_menu[];
-extern struct ui_menu_entry_s ui_run_commands_menu[];
-extern struct ui_menu_entry_s ui_snapshot_commands_menu[];
-extern struct ui_menu_entry_s ui_snapshot_commands_submenu[];
-extern struct ui_menu_entry_s ui_sound_record_commands_menu[];
-extern struct ui_menu_entry_s ui_tool_commands_menu[];
+extern void uiattach_shutdown(void);
 
 #endif
 
