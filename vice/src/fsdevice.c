@@ -49,7 +49,6 @@
 #else
 #include <dirent.h>
 #endif
-#include <memory.h>
 #endif
 
 #ifdef HAVE_ERRNO_H

@@ -2,9 +2,10 @@
  * traps.c - Allow VICE to replace ROM code with C function calls.
  *
  * Written by
- *   Teemu Rantanen <tvr@cs.hut.fi>
- *   Jarkko Sonninen <sonninen@lut.fi>
- *   Ettore Perazzoli <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Jarkko Sonninen <sonninen@lut.fi>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,7 +29,6 @@
 
 #include "vice.h"
 
-#include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -65,7 +65,7 @@ static int traps_enabled;
 
 static int set_traps_enabled(resource_value_t v, void *param)
 {
-    int new_value = (int) v;
+    int new_value = (int)v;
 
     if ((!traps_enabled && new_value) || (traps_enabled && !new_value)) {
         if (!new_value) {
@@ -91,8 +91,8 @@ static int set_traps_enabled(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    { "VirtualDevices", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t) &traps_enabled, set_traps_enabled, NULL },
+    { "VirtualDevices", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t)&traps_enabled, set_traps_enabled, NULL },
     { NULL }
 };
 
@@ -106,11 +106,11 @@ int traps_init_resources(void)
 /* Trap-related command-line options.  */
 
 static cmdline_option_t cmdline_options[] = {
-    { "-virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices", 
-	(resource_value_t) 0,
+    { "-virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices",
+        (resource_value_t)0,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },
-    { "+virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices", 
-	(resource_value_t) 1,
+    { "+virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices",
+        (resource_value_t)1,
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
     { NULL }
 };
@@ -133,18 +133,16 @@ static int install_trap(const trap_t *t)
     int i;
 
     for (i = 0; i < 3; i++) {
-	if (rom_read((ADDRESS)(t->address + i)) != t->check[i]) {
-	    log_error(traps_log,
+        if ((t->readfunc)((ADDRESS)(t->address + i)) != t->check[i]) {
+            log_error(traps_log,
                       "Incorrect checkbyte for trap `%s'.  Not installed.",
                       t->name);
-	    return -1;
-	}
+            return -1;
+        }
     }
-    /* log_warning(traps_log, "Installing trap `%s' at %04x.",  
-	t->name, t->address); */
 
     /* BRK (0x00) is trap-opcode.  */
-    rom_store(t->address, 0x00);
+    (t->storefunc)(t->address, 0x00);
 
     return 0;
 }
@@ -153,7 +151,7 @@ int traps_add(const trap_t *t)
 {
     traplist_t *p;
 
-    p = (traplist_t *) xmalloc (sizeof (traplist_t));
+    p = (traplist_t *)xmalloc(sizeof(traplist_t));
     p->next = traplist;
     p->trap = t;
     traplist = p;
@@ -166,14 +164,12 @@ int traps_add(const trap_t *t)
 
 static int remove_trap(const trap_t *t)
 {
-    if (rom_read(t->address) != 0x00) {
-	log_error(traps_log, "No trap `%s' installed?", t->name);
+    if ((t->readfunc)(t->address) != 0x00) {
+        log_error(traps_log, "No trap `%s' installed?", t->name);
         return -1;
     }
-    /* log_warning(traps_log, "Deinstalling trap `%s' from %04x.", 
-	t->name, t->address); */
 
-    rom_store(t->address, t->check[0]);
+    (t->storefunc)(t->address, t->check[0]);
     return 0;
 }
 
@@ -182,21 +178,21 @@ int traps_remove(const trap_t *t)
     traplist_t *p = traplist, *prev = NULL;
 
     while (p) {
-	if (p->trap->address == t->address)
-	    break;
-	prev = p;
-	p = p->next;
+        if (p->trap->address == t->address)
+            break;
+        prev = p;
+        p = p->next;
     }
 
     if (!p) {
-	log_error(traps_log, "Trap `%s' not found.", t->name);
-	return -1;
+        log_error(traps_log, "Trap `%s' not found.", t->name);
+        return -1;
     }
 
     if (prev)
-	prev->next = p->next;
+        prev->next = p->next;
     else
-	traplist = p ->next;
+        traplist = p ->next;
 
     free(p);
 
@@ -212,18 +208,19 @@ int traps_handler(void)
     unsigned int pc = MOS6510_REGS_GET_PC(&maincpu_regs);
 
     while (p) {
-	if (p->trap->address == pc) {
+        if (p->trap->address == pc) {
             /* This allows the trap function to remove traps.  */
             ADDRESS resume_address = p->trap->resume_address;
 
-	    (*p->trap->func)();
+            (*p->trap->func)();
             /* XXX ALERT!  `p' might not be valid anymore here, because
                `p->trap->func()' might have removed all the traps.  */
             MOS6510_REGS_SET_PC(&maincpu_regs, resume_address);
             return 0;
-	}
-	p = p->next;
+        }
+        p = p->next;
     }
 
     return -1;
 }
+
