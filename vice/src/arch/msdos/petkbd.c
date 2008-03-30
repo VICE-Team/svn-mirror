@@ -137,7 +137,7 @@ static keyconv pet40_keyboard[256] = {
     { 9, 4, 0 },		/*   Right Ctrl -> RUN/STOP 	*/
     { -1, -1, 0 },		/*        Pause -> (no key) 	*/
     { -1, -1, 0 },		/*       PrtScr -> (no key) 	*/
-    { 3, 7, 0 },		/*     Numpad / -> (no key) 	*/
+    { 3, 7, 0 },		/*     Numpad / -> /        	*/
     { -1, -1, 0 },		/*    Right Alt -> (no key) 	*/
     { -1, -1, 0 },		/*        Break -> (no key) 	*/
     { -1, -1, 0 },		/*   Left Win95 -> (no key) 	*/
@@ -171,7 +171,7 @@ static keyconv pet80_keyboard[256] = {
     { 5, 3, 0 },		/*            U -> U            */
     { 4, 5, 0 },		/*            I -> I            */
     { 5, 5, 0 },		/*            O -> O            */
-    { 4, 6, 0 },		/*            p -> P            */
+    { 4, 6, 0 },		/*            P -> P            */
     { 5, 6, 0 },		/*            [ -> [            */
     { 2, 4, 0 },		/*            ] -> ]		*/
     { 3, 4, 0 },		/*       Return -> Return       */
