@@ -54,8 +54,8 @@
  * file; prototypes are in print.h
  */
 
-static int prdevice_attach(int);
-static int prdevice_detach(int);
+static int prdevice_attach(unsigned int unit);
+static int prdevice_detach(unsigned int unit);
 static int close_pr(vdrive_t *var, unsigned int secondary);
 
 /***********************************************************************
@@ -67,7 +67,7 @@ static int pr4_enabled;
 
 static int set_pr4_device(resource_value_t v, void *param)
 {
-    pr4_device = (int) v;
+    pr4_device = (int)v;
     return 0;
 }
 
@@ -76,7 +76,7 @@ static int set_pr4_enabled(resource_value_t v, void *param)
     int flag = ((int) v) ? 1 : 0;
 
     if(pr4_enabled && !flag) {
-	prdevice_detach(4);
+        prdevice_detach(4);
     }
     if(flag && !pr4_enabled) {
         prdevice_attach(4);
@@ -87,9 +87,9 @@ static int set_pr4_enabled(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    { "Printer4", RES_INTEGER, (resource_value_t) 0,
+    { "Printer4", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *) &pr4_enabled, set_pr4_enabled, NULL },
-    { "Printer4Device", RES_INTEGER, (resource_value_t) 0,
+    { "Printer4Device", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *) &pr4_device, set_pr4_device, NULL },
     { NULL }
 };
@@ -101,13 +101,13 @@ int prdevice_init_resources(void)
 
 static cmdline_option_t cmdline_options[] = {
     { "-printer4", SET_RESOURCE, 0, NULL, NULL, "Printer4",
-	(resource_value_t) 1, NULL,
-	"Enable the IEC device #4 printer emulation" },
+        (resource_value_t)1, NULL,
+        "Enable the IEC device #4 printer emulation" },
     { "+printer4", SET_RESOURCE, 0, NULL, NULL, "Printer4",
-	(resource_value_t) 0, NULL,
-	"Disable the IEC device #4 printer emulation" },
+        (resource_value_t)0, NULL,
+        "Disable the IEC device #4 printer emulation" },
     { "-pr4dev", SET_RESOURCE, 1, NULL, NULL, "Printer4Device",
-	(resource_value_t) 0,
+        (resource_value_t)0,
       "<0-2>", "Specify VICE printer device for IEC printer #4" },
     { NULL }
 };
@@ -117,10 +117,10 @@ int prdevice_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
-int prdevice_close_printer(int device)
+int prdevice_close_printer(unsigned int unit)
 {
-    if (device == 4) {
-	close_pr(NULL, -1);
+    if (unit == 4) {
+        close_pr(NULL, -1);
     }
     return 0;
 }
@@ -128,14 +128,14 @@ int prdevice_close_printer(int device)
 void prdevice_late_init(void)
 {
     if (pr4_enabled) {
-	prdevice_attach(4);
+        prdevice_attach(4);
     }
 }
 
 /***********************************************************************/
 
-/* These two variables have to be put into a table and the var 
- * argument to the functions below has to be used to select the right 
+/* These two variables have to be put into a table and the var
+ * argument to the functions below has to be used to select the right
  * value to support multiple IEC printer devices */
 
 static int currfd;
@@ -145,14 +145,14 @@ static int open_pr(vdrive_t *var, const char *name, int length,
                    unsigned int secondary)
 {
     if (inuse) {
-	log_error(LOG_DEFAULT, "Open printer while still open - ignoring.");
-	return 0;
+        log_error(LOG_DEFAULT, "Open printer while still open - ignoring.");
+        return 0;
     }
 
     currfd = print_open(pr4_device);
     if (currfd < 0) {
-	log_error(LOG_DEFAULT, "Couldn't open device %d.", pr4_device);
-	return -1;
+        log_error(LOG_DEFAULT, "Couldn't open device %d.", pr4_device);
+        return -1;
     }
 
     inuse = 1;
@@ -167,13 +167,13 @@ static int write_pr(vdrive_t *var, BYTE byte, unsigned int secondary)
     /* FIXME: switch(secondary) for code conversion */
 
     if (!inuse) {
-	/* oh, well, we just assume an implicit open - "OPEN 1,4"
- 	   just does not leave any trace on the serial bus */
-	log_warning(LOG_DEFAULT, "Auto-opening printer!");
+        /* oh, well, we just assume an implicit open - "OPEN 1,4"
+           just does not leave any trace on the serial bus */
+        log_warning(LOG_DEFAULT, "Auto-opening printer!");
 
-	er = open_pr(var, NULL, 0, secondary);
+        er = open_pr(var, NULL, 0, secondary);
 
-	if (er < 0)
+        if (er < 0)
             return er;
     }
 
@@ -183,8 +183,8 @@ static int write_pr(vdrive_t *var, BYTE byte, unsigned int secondary)
 static int close_pr(vdrive_t *var, unsigned int secondary)
 {
     if (!inuse) {
-	log_error(LOG_DEFAULT, "Close printer while being closed - ignoring.");
-	return 0;
+        log_error(LOG_DEFAULT, "Close printer while being closed - ignoring.");
+        return 0;
     }
 
     print_close(currfd);
@@ -197,8 +197,8 @@ static int close_pr(vdrive_t *var, unsigned int secondary)
 static void flush_pr(vdrive_t *var, unsigned int secondary)
 {
     if (!inuse) {
-	log_error(LOG_DEFAULT, "Flush printer while being closed - ignoring.");
-	return;
+        log_error(LOG_DEFAULT, "Flush printer while being closed - ignoring.");
+        return;
     }
 
     print_flush(currfd);
@@ -209,32 +209,31 @@ static int fn(void)
     return 0x80;
 }
 
-static int prdevice_attach(int device)
+static int prdevice_attach(unsigned int unit)
 {
     int er;
 
     inuse = 0;
 
-    if ((er = serial_attach_device(device,
-	    "Printer device",
-	    (int (*)(vdrive_t *, BYTE *, unsigned int))fn,
-	    write_pr,
-	    open_pr,
-	    close_pr,
-	    flush_pr))) {
-	return 1;
+    if ((er = serial_attach_device(unit, "Printer device",
+            (int (*)(vdrive_t *, BYTE *, unsigned int))fn,
+            write_pr,
+            open_pr,
+            close_pr,
+            flush_pr))) {
+        return 1;
     }
     return 0;
 }
 
-static int prdevice_detach(int device)
+static int prdevice_detach(unsigned int unit)
 {
     if (inuse) {
         flush_pr(NULL, -1);
         close_pr(NULL, -1);
     }
 
-    serial_detach_device(device);
+    serial_detach_device(unit);
 
     return 0;
 }
