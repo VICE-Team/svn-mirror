@@ -1,3 +1,45 @@
+1999-03-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.41.
+
+	* mon.c (mon_block_cmd): Implemented block read and write
+	commands.
+
+1999-03-13  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* autostart.c: Converted to use `log.c' instead of `warn.c' for
+	logging and made a bit less noisy.  Removed (now useless)
+	`AUTOSTART_HASFILE' case.
+
+	* fsdevice.c (fs_find_pc64_name): If `opendir()' fails, return
+	NULL.
+
+	* c64/c64.c: Removed `rawaddr' stuff.
+	* cbm2/c610mem.c: Likewise.
+	* pet/petmem.c: Likewise.
+	* vic20/vic20.c: Likewise.
+	* c128/c128.c: Likewise.
+
+	* arch/win32/archdep.c (archdep_path_is_relative): New function,
+	same as the one for MS-DOS.
+
+	* arch/msdos/archdep.c (archdep_path_is_relative): New function.
+
+	* arch/unix/archdep.c (archdep_path_is_relative): New
+	function.
+
+	* utils.c: #include "archdep.h".
+	(path_is_relative): New function.
+
+	* autostart.c: Removed `rawaddr' stuff.
+	(autostart_prg): New function.
+	(autostart_autodetect): Use `autostart_prg()' instead of
+	`autostart_rawfile()'.
+	(autostart_rawfile): Removed.
+
+	* p00.c (p00_read_header): Do not set `*recsize_return' if
+	`recsize_return' is NULL.
+
 1999-03-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.40.

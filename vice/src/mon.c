@@ -6,6 +6,7 @@
  *
  * Patches and improvements by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose (boose@linux.rz.fh-hannover.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -1509,9 +1510,8 @@ void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
   for (i=0; i<len; i++)
      buf[i] = get_mem_val(src_mem, ADDR_LIMIT(start+i));
 
-  for (i=0; i<len; i++) {
+  for (i=0; i<len; i++)
      set_mem_val(dest_mem, ADDR_LIMIT(dst+i), buf[i]);
-  }
 }
 
 
@@ -2123,21 +2123,75 @@ void mon_stack_down(int count)
 
 void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
 {
-   evaluate_default_addr(&addr);
+    serial_t *p;
+    DRIVE *floppy;
 
-   if (!op)
-   {
-      if (is_valid_addr(addr))
-         fprintf(mon_output, "Read track %d sector %d to screen\n", track, sector);
-      else
-         fprintf(mon_output, "Read track %d sector %d into address $%04x\n", track, sector, addr_location(addr));
-   }
-   else
-   {
-      fprintf(mon_output, "Write data from address $%04x to track %d sector %d\n",
-              addr_location(addr), track, sector);
-   }
+    evaluate_default_addr(&addr);
 
+    /* FIXME */
+    p = serial_get_device(8);
+    floppy = (DRIVE *)p->info;
+
+    if (!floppy || floppy->ActiveFd == ILLEGAL_FILE_DESC) {
+        fprintf(mon_output, "No disk attached\n");
+        return;
+    }
+
+    if (!op)
+    {
+        BYTE readdata[256];
+        int i,j, dst;
+        MEMSPACE dest_mem;
+
+        if (floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+            readdata, track, sector, floppy->D64_Header) < 0) {
+            fprintf(mon_output, "Error reading track %d sector %d\n",
+                    track, sector);
+            return;
+        }
+
+        if (is_valid_addr(addr)) {
+            dst = addr_location(addr);
+            dest_mem = addr_memspace(addr);
+
+            for (i = 0; i < 256; i++)
+                set_mem_val(dest_mem, ADDR_LIMIT(dst+i), readdata[i]);
+
+            fprintf(mon_output, "Read track %d sector %d into address $%04x\n",
+                    track, sector, dst);
+        } else {
+            for (i = 0; i < 16; i++) {
+                fprintf(mon_output, ">%04x", i * 16);
+                for (j = 0; j < 16; j++) {
+                    if ((j & 3) == 0)
+                        fprintf(mon_output, " ");
+                    fprintf(mon_output, " %02x", readdata[i * 16 + j]);
+                }
+                fprintf(mon_output, "\n");
+            }
+        }
+    } else {
+        BYTE writedata[256];
+        int i, src;
+        MEMSPACE src_mem;
+
+        src = addr_location(addr);
+        src_mem = addr_memspace(addr);
+
+        for (i = 0; i < 256; i++)
+            writedata[i] = get_mem_val(src_mem, ADDR_LIMIT(src+i));
+
+        if (floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+            writedata, track, sector, floppy->D64_Header)) {
+            fprintf(mon_output, "Error writing track %d sector %d\n",
+                    track, sector);
+            return;
+        }
+
+        fprintf(mon_output, 
+                "Write data from address $%04x to track %d sector %d\n",
+                src, track, sector);
+    }
 }
 
 
