@@ -153,6 +153,18 @@ static char *autostart_string;
 static char *startup_disk_images[4];
 static char *startup_tape_image;
 
+static int cmdline_help(const char *param, void *extra_param)
+{
+    cmdline_show_help();
+    exit(0);
+}
+
+static int cmdline_default(const char *param, void *extra_param)
+{
+    resources_set_defaults();
+    return 0;
+}
+
 static int cmdline_autostart(const char *param, void *extra_param)
 {
     if (autostart_string != NULL)
@@ -188,12 +200,22 @@ static int cmdline_attach(const char *param, void *extra_param)
 }
 
 static cmdline_option_t cmdline_options[] = {
-    { "-autostart", CALL_FUNCTION, 1, cmdline_autostart, NULL, NULL, NULL },
-    { "-1", CALL_FUNCTION, 1, cmdline_attach, (void *) 1, NULL, NULL },
-    { "-8", CALL_FUNCTION, 1, cmdline_attach, (void *) 8, NULL, NULL },
-    { "-9", CALL_FUNCTION, 1, cmdline_attach, (void *) 9, NULL, NULL },
-    { "-10", CALL_FUNCTION, 1, cmdline_attach, (void *) 10, NULL, NULL },
-    { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *) 11, NULL, NULL },
+    { "-help", CALL_FUNCTION, 1, cmdline_help, NULL, NULL, NULL,
+      NULL, "Show a list of the available options and exit normally" },
+    { "-default", CALL_FUNCTION, 1, cmdline_default, NULL, NULL, NULL,
+      NULL, "Restore default (factory) settings" },
+    { "-autostart", CALL_FUNCTION, 1, cmdline_autostart, NULL, NULL, NULL,
+      "<name>", "Attach and autostart tape/disk image <name>" },
+    { "-1", CALL_FUNCTION, 1, cmdline_attach, (void *) 1, NULL, NULL,
+      "<name>", "Attach <name> as a tape image" },
+    { "-8", CALL_FUNCTION, 1, cmdline_attach, (void *) 8, NULL, NULL,
+      "<name>", "Attach <name> as a disk image in drive #8" },
+    { "-9", CALL_FUNCTION, 1, cmdline_attach, (void *) 9, NULL, NULL,
+      "<name>", "Attach <name> as a disk image in drive #9" },
+    { "-10", CALL_FUNCTION, 1, cmdline_attach, (void *) 10, NULL, NULL,
+      "<name>", "Attach <name> as a disk image in drive #10" },
+    { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *) 11, NULL, NULL,
+      "<name>", "Attach <name> as a disk image in drive #11" },
     { NULL }
 };
 
@@ -230,15 +252,15 @@ int main(int argc, char **argv)
 
     /* VICE boot sequence. */
     printf ("\n*** VICE Version %s ***\n", VERSION);
-    printf ("Welcome to %s, the Commodore %s Emulator for the X-Window System."
-	    "\n\n", progname, machdesc.machine_name);
+    printf ("Welcome to %s, the portable Commodore %s Emulator.\n\n",
+	    progname, machdesc.machine_name);
     printf ("Written by\n"
-	    "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic, A. Boose, \n"
-            "J. Valta and J. Sonninen.\n\n");
+	    "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,\n"
+            "A. Boose, J. Valta and J. Sonninen.\n\n");
 
     /* Initialize the user interface.  UiInit() might need to handle the
        command line somehow, so we call it before parsing the options.
-       (e.g. under X11, the `-display' option is handled independently). */
+       (e.g. under X11, the `-display' option is handled independently).  */
     if (UiInit (&argc, argv) < 0) {
         fprintf(stderr, "Cannot initialize the UI.\n");
 	exit (-1);
@@ -249,26 +271,19 @@ int main(int argc, char **argv)
         fprintf(stderr, "Cannot initialize resource handling.\n");
         exit(-1);
     }
-
-    /* Initialize resources for system file locator.  */
     if (sysfile_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize resources for the system file locator.\n");
+        fprintf(stderr,
+                "Cannot initialize resources for the system file locator.\n");
         exit(-1);
     }
-
-    /* Initialize UI-specific resources.  */
     if (ui_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize UI-specific resources.\n");
         exit(-1);
     }
-
-    /* Initialize file system-specific resources.  */
     if (file_system_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize file system-specific resources.\n");
         exit(-1);
     }
-
-    /* Initialize machine-specific resources.  */
     if (machine_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize machine-specific resources.\n");
         exit(-1);
@@ -276,30 +291,6 @@ int main(int argc, char **argv)
 
     /* Set factory defaults.  */
     resources_set_defaults();
-
-    /* Initialize command-line options.  */
-    cmdline_init();
-
-    cmdline_register_options(cmdline_options);
-
-    if (cmdline_parse(&argc, argv) < 0) {
-        fprintf(stderr, "Error parsing command-line options, bailing out.\n");
-        exit(-1);
-    }
-
-    /* The last orphan option is the same as `-autostart'.  */
-    if (argc > 1 && autostart_string == NULL) {
-        autostart_string = stralloc(argv[1]);
-        argc--, argv++;
-    }
-
-    if (argc > 1) {
-        int i;
-
-        fprintf(stderr, "Extra arguments being ignored:\n");
-        for (i = 1; i < argc; i++)
-            fprintf(stderr, "\t%s\n", argv[i]);
-    }
 
     /* Load the user's default configuration file.  */
     if (resources_load(NULL) == -1) {
@@ -311,10 +302,48 @@ int main(int argc, char **argv)
 	resources_set_defaults();
     }
 
+    /* Initialize command-line options.  */
+    cmdline_init();
+    if (cmdline_register_options(cmdline_options) < 0) {
+        fprintf(stderr, "Cannot initialize main command-line options.\n");
+        exit(-1);
+    }
+    if (sysfile_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize command-line options for system file locator.\n");
+        exit(-1);
+    }
+    if (ui_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize UI-specific command-line options.\n");
+        exit(-1);
+    }
+    if (machine_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize machine-specific command-line options.\n");
+        exit(-1);
+    }
+    if (cmdline_parse(&argc, argv) < 0) {
+        fprintf(stderr, "Error parsing command-line options, bailing out.\n");
+        exit(-1);
+    }
+
+    /* The last orphan option is the same as `-autostart'.  */
+    if (argc >= 1 && autostart_string == NULL) {
+        autostart_string = stralloc(argv[1]);
+        argc--, argv++;
+    }
+
+    if (argc > 1) {
+        int i;
+
+        fprintf(stderr, "Extra arguments on command-line:\n");
+        for (i = 1; i < argc; i++)
+            fprintf(stderr, "\t%s\n", argv[i]);
+        exit(-1);
+    }
+
     putchar('\n');
 
     /* Complete the GUI initialization (after loading the resources and
-       parsing the command-line) if necessary. */
+       parsing the command-line) if necessary.  */
     if (UiInitFinish() < 0)
 	exit(-1);
 
@@ -336,10 +365,6 @@ int main(int argc, char **argv)
 #ifdef HAS_JOYSTICK
     /* Initialize real joystick. */
     joyini();
-#endif
-
-#ifndef MITSHM
-    app_resources.mitshm = 0;
 #endif
 
     if (video_init() < 0)
@@ -400,16 +425,13 @@ int main(int argc, char **argv)
         fprintf(stderr, "Cannot attach tape image `%s'.\n",
                 startup_tape_image);
 
-#ifdef SOUND
-#ifdef __MSDOS__
+    /* Notice that sound is not actually playing yet.  The sound device is
+       open the first time playback is started.  */
+#if defined SOUND && defined __MSDOS__
     if (app_resources.doSoundSetup) {
 	vmidas_startup();
 	vmidas_config();
     }
-#endif
-
-    /* Fire up the sound emulation.  */
-    initialize_sound();
 #endif
 
     putchar ('\n');

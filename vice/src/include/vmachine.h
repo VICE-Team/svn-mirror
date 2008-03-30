@@ -1,5 +1,5 @@
 /*
- * vmachine.h - Miscellaneous system parameters. 
+ * vmachine.h - Miscellaneous system parameters.
  *
  * Written by
  *  Vesa-Matti Puro (vmp@lut.fi)
@@ -107,72 +107,5 @@
 #define I_RESET		16	/* Reset in startup */
 
 #define NUMOFINT        17
-
-
-/* Video Constants */
-
-#define MAX_COLORS	16
-#define SPECIAL_COLORS	6	/* 4 VIC BG, 2 VDC BG */
-
-
-#ifdef VIC20
-#define XSIZE		22
-#define YSIZE		23
-#define XPIX	        XSIZE*8	
-#define YPIX	        YSIZE*8	
-#else
-
-/* Hey... this is a dirty kludge! */
-#ifdef PET
-extern int XSIZE;
-extern int XPIX;
-#else
-#define	XSIZE		40
-#define	XPIX		320
-#endif
-
-#define	YSIZE		25
-#define	YPIX		200
-
-#endif  /* VIC20 */
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * Timing Constants
- *
- * Exact values are more complicated, but these approximations are
- * enough for emulator's use.
- */
-
-#ifdef PAL
-
-#ifdef VIC20
-#define CYCLES_PER_SEC	1108405
-#define CYCLES_PER_LINE	71
-#else
-#define CYCLES_PER_SEC	985248	/* 2MHz mode: 1.89050MHz */
-				/* Z80 average 1.97051MHz */
-#define CYCLES_PER_LINE	63
-#endif
-#define SCR_LINES	312
-
-#else  /* NTSC */
-
-#ifdef VIC20
-#define CYCLES_PER_SEC	1022727
-#define SCR_LINES	261
-#else
-#define CYCLES_PER_SEC	1022730
-#define SCR_LINES	262
-#endif
-#define CYCLES_PER_LINE	65
-
-#endif /* PAL */
-
-#define CYCLES_PER_RFSH   (SCR_LINES * CYCLES_PER_LINE)
-
-#define RFSH_PER_SEC	  (1.0 / ((double)CYCLES_PER_RFSH	\
-				  / (double)CYCLES_PER_SEC))
 
 #endif  /* VICE_VMACHINE_H */
