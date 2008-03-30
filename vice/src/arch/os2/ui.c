@@ -297,7 +297,7 @@ void ui_display_recording(int recording_status)
 {
 }
 
-void ui_display_playback(int playback_status)
+void ui_display_playback(int playback_status, char *version)
 {
 }
 

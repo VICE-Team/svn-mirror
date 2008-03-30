@@ -2,7 +2,7 @@
  * tfe.c - TFE ("The final ethernet") emulation.
  *
  * Written by
- *  Spiro Trikaliotis <trik-news@gmx.de>
+ *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
  * 
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

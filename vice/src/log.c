@@ -48,9 +48,32 @@ static log_t num_logs = 0;
 
 static char *log_file_name = NULL;
 
+static void log_file_open(void)
+{
+    if (log_file_name == NULL || *log_file_name == 0) {
+        log_file = archdep_open_default_log_file();
+        return;
+    } else {
+#ifndef __OS2__
+        if (strcmp(log_file_name, "-") == 0)
+            log_file = stdout;
+        else
+#endif
+            log_file = fopen(log_file_name, MODE_WRITE_TEXT);
+    }
+    /* flush all data direct to the output stream. */
+    if (log_file)
+        setbuf(log_file, NULL);
+}
+
 static int set_log_file_name(resource_value_t v, void *param)
 {
     util_string_set(&log_file_name, (const char *)v);
+
+    if (log_file) {
+        fclose(log_file);
+        log_file_open();
+    }
 
     return 0;
 }
@@ -100,20 +123,7 @@ int log_init(void)
     if (logs != NULL)
         return -1;
 
-    if (log_file_name == NULL || *log_file_name == 0) {
-        log_file = archdep_open_default_log_file();
-        return 0;
-    } else {
-#ifndef __OS2__
-        if (strcmp(log_file_name, "-") == 0)
-            log_file = stdout;
-        else
-#endif
-            log_file = fopen(log_file_name, MODE_WRITE_TEXT);
-    }
-    /* flush all data direct to the output stream. */
-    if (log_file)
-        setbuf(log_file, NULL);
+    log_file_open();
 
     return log_file == NULL ? -1 : 0;
 }

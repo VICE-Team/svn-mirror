@@ -163,11 +163,11 @@ int main_program(int argc, char **argv)
         }
     }
 
-    if (initcmdline_check_args(argc, argv) < 0)
-        return -1;
-
     if (log_init() < 0)
         archdep_startup_log_error("Cannot startup logging system.\n");
+
+    if (initcmdline_check_args(argc, argv) < 0)
+        return -1;
 
     program_name = archdep_program_name();
 

@@ -2,7 +2,7 @@
  * crc32.h
  *
  * Written by
- *  Spiro Trikaliotis <trik-news@gmx.de>
+ *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

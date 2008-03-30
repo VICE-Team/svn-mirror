@@ -1731,7 +1731,7 @@ void ui_display_recording(int recording_status)
 	gtk_widget_hide(event_rec_checkbox);
 }
 
-void ui_display_playback(int playback_status)
+void ui_display_playback(int playback_status, char *version)
 {
     if (playback_status)
 	gtk_widget_show(event_playback_checkbox);

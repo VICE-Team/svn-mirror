@@ -426,6 +426,8 @@ static ui_menu_entry_t set_event_start_mode_submenu[] = {
       (ui_callback_data_t)EVENT_START_MODE_FILE_LOAD, NULL },
     { N_("*Start with reset"), (ui_callback_t)radio_EventStartMode,
       (ui_callback_data_t)EVENT_START_MODE_RESET, NULL },
+    { N_("*Overwrite running playback"), (ui_callback_t)radio_EventStartMode,
+      (ui_callback_data_t)EVENT_START_MODE_PLAYBACK, NULL },
     { NULL }
 };
 

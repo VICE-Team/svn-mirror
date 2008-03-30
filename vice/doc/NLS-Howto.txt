@@ -140,6 +140,17 @@ Other format specifiers (\n, etc.) are used for print formatting,
 and are not strictly required. It depends on the language what is
 nicely formatted and what is not.
 
+Sometimes you'll find messages marked as fuzzy. e.g.:
+  #: src/event.c:466
+  #, fuzzy, c-format
+  msgid "Could not create start snapshot file %s."
+
+Those have been translated by heuristic and shall be reviewed by the
+translator. After correction or confirmation the word `fuzzy' has to
+be removed: e.g.
+  #: src/event.c:466
+  #, c-format
+  msgid "Could not create start snapshot file %s."
 
 -- 
 Andrea Musuruane, 

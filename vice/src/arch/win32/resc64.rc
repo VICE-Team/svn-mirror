@@ -128,9 +128,10 @@ BEGIN
         MENUITEM "Return to Milestone\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Recording start mode"
         BEGIN
-            MENUITEM "&Save new snapshot",      IDM_EVENT_RECORDMODE_SAVE
-            MENUITEM "&Load existing snapshot", IDM_EVENT_RECORDMODE_LOAD
-            MENUITEM "Start with &reset",       IDM_EVENT_RECORDMODE_RESET
+            MENUITEM "&Save new snapshot",      IDM_EVENT_START_MODE_SAVE
+            MENUITEM "&Load existing snapshot", IDM_EVENT_START_MODE_LOAD
+            MENUITEM "Start with &reset",       IDM_EVENT_START_MODE_RESET
+            MENUITEM "Overwrite &Playback",     IDM_EVENT_START_MODE_PLAYBACK
         END
         MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR

@@ -161,9 +161,10 @@ static ui_res_possible_values_t SpeedValues[] = {
 };
 
 static ui_res_possible_values_t RecordingOptions[] = {
-    { EVENT_START_MODE_FILE_SAVE, IDM_EVENT_RECORDMODE_SAVE },
-    { EVENT_START_MODE_FILE_LOAD, IDM_EVENT_RECORDMODE_LOAD },
-    { EVENT_START_MODE_RESET, IDM_EVENT_RECORDMODE_RESET },
+    { EVENT_START_MODE_FILE_SAVE, IDM_EVENT_START_MODE_SAVE },
+    { EVENT_START_MODE_FILE_LOAD, IDM_EVENT_START_MODE_LOAD },
+    { EVENT_START_MODE_RESET, IDM_EVENT_START_MODE_RESET },
+    { EVENT_START_MODE_PLAYBACK, IDM_EVENT_START_MODE_PLAYBACK },
     { -1, 0 }
 };
 
@@ -838,12 +839,20 @@ void ui_display_recording(int recording_status)
         statusbar_event_status(EVENT_OFF);
 }
 
-void ui_display_playback(int playback_status)
+void ui_display_playback(int playback_status, char *version)
 {
-    if (playback_status)
+    char st[256];
+
+    if (playback_status) {
         statusbar_event_status(EVENT_PLAYBACK);
-    else
+        if (version == NULL || version[0] == 0)
+            sprintf(st, "History recorded with unknown release");
+        else 
+            sprintf(st, "History recorded with VICE-%s", version);
+        ui_display_statustext(st);
+    } else {
         statusbar_event_status(EVENT_OFF);
+    }
 }
 
 void ui_display_event_time(unsigned int current, unsigned int total)

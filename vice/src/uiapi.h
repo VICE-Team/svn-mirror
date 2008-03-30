@@ -78,7 +78,7 @@ extern ui_jam_action_t ui_jam_dialog(const char *format, ...);
 extern void ui_update_menus(void);
 
 /* Recording UI */
-extern void ui_display_playback(int playback_status);
+extern void ui_display_playback(int playback_status, char *version);
 extern void ui_display_recording(int recording_status);
 extern void ui_display_event_time(unsigned int current, unsigned int total);
 

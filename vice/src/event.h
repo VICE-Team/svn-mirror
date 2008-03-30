@@ -42,6 +42,7 @@
 #define EVENT_START_MODE_FILE_SAVE 0
 #define EVENT_START_MODE_FILE_LOAD 1
 #define EVENT_START_MODE_RESET     2
+#define EVENT_START_MODE_PLAYBACK  3
 
 struct snapshot_s;
 
