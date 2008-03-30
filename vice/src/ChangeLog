@@ -1,6 +1,23 @@
+2002-05-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.13.
+
+	* tape/tapeimage.c, imagecontents/tapecontents.c,
+	tape/tape.c, tape.h, tape/tap.c, tap.h: Rewritten to support
+	generic tape access.
+
+	* tap.h, tape/tap.c (tap_open): Support for read only flag.
+
+	* t64.h, tape/t64.c (t64_open): Changed likewise.
+
+	* c1541.c (tape_cmd): Added read only flag.
+
+	* datasette.c (datasette_internal_reset): Use
+	`tap_seek_start()'.
+
 2002-05-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-        * Version 1.9.12.
+	* Version 1.9.12.
 
 	* imagecontents/Makefile.am, imagecontents/diskcontents.c,
 	imagecontents/imagecontents.c, imagecontents/tapecontents.c,

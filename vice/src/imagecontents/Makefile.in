@@ -264,7 +264,7 @@ imagecontents.o: imagecontents.c ../../src/vice.h ../../src/config.h \
 	../../src/imagecontents.h ../../src/utils.h
 tapecontents.o: tapecontents.c ../../src/vice.h ../../src/config.h \
 	../../src/imagecontents.h ../../src/arch/unix/types.h \
-	../../src/t64.h ../../src/utils.h
+	../../src/tape.h ../../src/utils.h
 
 info-am:
 info: info-am

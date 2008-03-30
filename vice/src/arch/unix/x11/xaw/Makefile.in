@@ -332,20 +332,17 @@ about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h uiarch.h ../videoarch.h \
 	../../../../../src/fullscreen.h ../../../../../src/resources.h \
-	../../../../../src/arch/unix/x11/fullscreen-common.h \
 	../../../../../src/video.h ../../../../../src/vsync.h
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
-	../../../../../src/fullscreen.h ../../../../../src/resources.h \
-	../../../../../src/arch/unix/types.h \
-	../../../../../src/arch/unix/x11/fullscreen-common.h \
-	../../../../../src/arch/unix/x11/vidmode.h \
 	../../../../../src/drive/drive.h ../../../../../src/log.h \
+	../../../../../src/arch/unix/types.h \
 	../../../../../src/interrupt.h ../../../../../src/6510core.h \
 	../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/palette.h ../../../../../src/c64/psid.h \
 	../../../../../src/raster/raster.h \
 	../../../../../src/raster/raster-changes.h \
+	../../../../../src/resources.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
 	uiarch.h ../../../../../src/uicolor.h \
 	../../../../../src/arch/unix/uihotkey.h uimenu.h ../x11menu.h \
@@ -367,8 +364,7 @@ uicolor.o: uicolor.c ../../../../../src/vice.h \
 	../../../../../src/utils.h ../../../../../src/video.h \
 	videoarch.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/uiapi.h uiarch.h uiarch.h ../videoarch.h \
-	../../../../../src/fullscreen.h ../../../../../src/resources.h \
-	../../../../../src/arch/unix/x11/fullscreen-common.h
+	../../../../../src/fullscreen.h ../../../../../src/resources.h
 uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/diskimage.h \
@@ -381,7 +377,6 @@ uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
 	checkmark.xbm right_arrow.xbm ../../../../../src/fullscreen.h \
 	../../../../../src/resources.h \
 	../../../../../src/arch/unix/types.h \
-	../../../../../src/arch/unix/x11/fullscreen-common.h \
 	../../../../../src/machine.h uimenu.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
 	uiarch.h ../../../../../src/arch/unix/uihotkey.h ../x11menu.h \
@@ -419,7 +414,6 @@ x11video.o: x11video.c ../../../../../src/vice.h \
 	videoarch.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/uiapi.h uiarch.h uiarch.h ../videoarch.h \
 	../../../../../src/fullscreen.h ../../../../../src/resources.h \
-	../../../../../src/arch/unix/x11/fullscreen-common.h \
 	../../../../../src/video.h
 
 info-am:

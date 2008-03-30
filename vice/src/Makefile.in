@@ -606,10 +606,6 @@ fsdevice.o: fsdevice.c vice.h config.h arch/unix/archdep.h archapi.h \
 	fsdevice.h log.h p00.h serial.h utils.h vdrive/vdrive-command.h \
 	vdrive/vdrive.h
 gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h utils.h
-imagecontents.o: imagecontents.c vice.h config.h arch/unix/archdep.h \
-	archapi.h charset.h arch/unix/types.h diskimage.h \
-	imagecontents.h serial.h t64.h utils.h vdrive/vdrive-bam.h \
-	vdrive/vdrive-dir.h vdrive/vdrive.h zfile.h
 info.o: info.c
 init.o: init.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	cmdline.h resources.h console.h debug.h diskimage.h \
@@ -635,11 +631,10 @@ machine.o: machine.c machine.h mem.h arch/unix/types.h vice.h config.h \
 	vsync.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	resources.h console.h debug.h drive/drive.h log.h \
-	arch/unix/types.h fullscreen.h \
-	arch/unix/x11/fullscreen-common.h init.h initcmdline.h \
-	interrupt.h 6510core.h machine.h maincpu.h \
-	arch/unix/main_exit.h sysfile.h arch/unix/ui.h uiapi.h \
-	arch/unix/x11/xaw/uiarch.h utils.h version.h video.h fliplist.h
+	arch/unix/types.h fullscreen.h init.h initcmdline.h interrupt.h \
+	6510core.h machine.h maincpu.h arch/unix/main_exit.h sysfile.h \
+	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h utils.h \
+	version.h video.h fliplist.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h clkguard.h debug.h interrupt.h log.h machine.h \
 	maincpu.h mem.h monitor/mon.h mos6510.h snapshot.h traps.h \
@@ -682,7 +677,7 @@ vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	vsync.h vsyncapi.h arch/unix/videoarch.h \
 	arch/unix/x11/xaw/videoarch.h arch/unix/ui.h uiapi.h \
 	arch/unix/x11/xaw/uiarch.h arch/unix/x11/xaw/../videoarch.h \
-	fullscreen.h arch/unix/x11/fullscreen-common.h video.h
+	fullscreen.h video.h
 zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h

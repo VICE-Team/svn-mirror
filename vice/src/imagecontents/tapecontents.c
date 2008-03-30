@@ -32,45 +32,37 @@
 #include <string.h>
 
 #include "imagecontents.h"
-#include "t64.h"
+#include "tape.h"
 #include "utils.h"
 
 
-image_contents_t *image_contents_read_tape(const char *file_name)
+static void tapecontents_read(tape_image_t *tape_image,
+                              image_contents_t *new)
 {
-    t64_t *t64;
-    image_contents_t *new;
     image_contents_file_list_t *lp;
 
-    t64 = t64_open(file_name);
-    if (t64 == NULL)
-        return NULL;
-
-    new = image_contents_new();
-
-    memcpy(new->name, t64->header.description, T64_REC_CBMNAME_LEN);
-    *new->id = 0;
-    new->blocks_free = -1;
+    memset(new->name, 0, IMAGE_CONTENTS_NAME_LEN + 1);
+    tape_get_header(tape_image, new->name);
 
     lp = NULL;
-    new->file_list = NULL;
 
-    while (t64_seek_to_next_file(t64, 0) >= 0) {
-        t64_file_record_t *rec;
+    while (tape_seek_to_next_file(tape_image, 0) >= 0) {
+        tape_file_record_t *rec;
 
-        rec = t64_get_current_file_record(t64);
-        if (rec->entry_type != T64_FILE_RECORD_FREE) {
+        rec = tape_get_current_file_record(tape_image);
+        if (rec->type) {
             image_contents_file_list_t *new_list;
 
-            new_list = (image_contents_file_list_t*)xmalloc(sizeof(image_contents_file_list_t));
-            memcpy(new_list->name, rec->cbm_name, T64_REC_CBMNAME_LEN);
+            new_list = (image_contents_file_list_t *)xmalloc(
+                       sizeof(image_contents_file_list_t));
+            memcpy(new_list->name, rec->name, 16);
             new_list->name[IMAGE_CONTENTS_FILE_NAME_LEN] = 0;
 
             /* XXX: Not quite true, but this is what the tape emulation
                will do anyway.  */
             strcpy((char *)new_list->type, " PRG ");
 
-            new_list->size = (rec->end_addr - rec->start_addr) / 254;
+            new_list->size = 1 + (rec->end_addr - rec->start_addr) / 254;
             new_list->next = NULL;
 
             if (lp == NULL) {
@@ -84,8 +76,27 @@ image_contents_t *image_contents_read_tape(const char *file_name)
             }
         }
     }
+}
 
-    t64_close(t64);
+image_contents_t *image_contents_read_tape(const char *file_name)
+{
+    tape_image_t *tape_image;
+    image_contents_t *new;
+
+    tape_image = tape_internal_open_tape_image(file_name, 1);
+
+    if (tape_image->name == NULL)
+        return NULL;
+
+    new = image_contents_new();
+
+    *new->id = 0;
+    new->blocks_free = -1;
+    new->file_list = NULL;
+
+    tapecontents_read(tape_image, new);
+
+    tape_internal_close_tape_image(tape_image);
     return new;
 }
 
