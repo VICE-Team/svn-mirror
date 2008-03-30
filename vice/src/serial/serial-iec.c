@@ -26,8 +26,6 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-
 #include "iec.h"
 #include "serial-iec.h"
 #include "types.h"
@@ -114,29 +112,5 @@ int serial_iec_write(unsigned int unit, unsigned int secondary, BYTE data)
 int serial_iec_flush(unsigned int unit, unsigned int secondary)
 {
     return 0;
-}
-
-/*-----------------------------------------------------------------------*/
-
-int serial_iec_directory(unsigned int unit, const char *pattern, BYTE **buf)
-{
-    int length, status;
-    BYTE data, *tmpbuf;
-    unsigned int maxlen = 0;
-
-    serial_iec_open(unit, 0, pattern, strlen(pattern));
-
-    length = 0;
-    tmpbuf = NULL;
-
-    do {
-        status = serial_iec_read(unit, 0, &data);
-        tmpbuf = util_bufcat(tmpbuf, &length, &maxlen, &data, sizeof(BYTE));
-    } while (status == 0);
-
-    serial_iec_close(unit, 0);
-    *buf = tmpbuf;
-
-    return length;
 }
 

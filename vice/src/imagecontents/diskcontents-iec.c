@@ -251,7 +251,7 @@ image_contents_t *diskcontents_iec_read(unsigned int unit)
     int length;
     BYTE *buf = NULL;
     
-    length = serial_iec_directory(unit, "$", &buf);
+    length = serial_iec_lib_directory(unit, "$", &buf);
 
     if (length <= 0)
         return NULL;
