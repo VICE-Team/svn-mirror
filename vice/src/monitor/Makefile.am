@@ -13,7 +13,8 @@ noinst_HEADERS = \
 	mon_parse.h
 
 libmonitor_a_SOURCES = \
-	asm.c \
+	asm6502.c \
+	asmz80.c \
 	asm.h \
 	mon.c \
 	mon.h \
