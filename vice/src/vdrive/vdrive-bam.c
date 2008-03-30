@@ -50,7 +50,8 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam,
                                        unsigned int *track,
                                        unsigned int *sector)
 {
-    unsigned int t, s, d, max_tracks;
+    unsigned int s, d, max_tracks;
+    int t;
 
     max_tracks = vdrive_calculate_disk_half(vdrive->image_format);
 
@@ -60,34 +61,38 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam,
 #ifdef DEBUG_DRIVE
         log_error(LOG_ERR, "Allocate first free sector on track %d.", t);
 #endif
-        if (t < 1)
-            continue;
-        max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
-        for (s = 0; s < (unsigned int)max_sector; s++) {
-            if (vdrive_bam_allocate_sector(vdrive->image_format, bam, t, s)) {
-                *track = t;
-                *sector = s;
+        if (t >= 1) {
+            max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
+            for (s = 0; s < (unsigned int)max_sector; s++) {
+                if (vdrive_bam_allocate_sector(vdrive->image_format, bam, t,
+                    s)) {
+                    *track = t;
+                    *sector = s;
 #ifdef DEBUG_DRIVE
-                log_error(LOG_ERR, "Allocate first free sector: %d,%d.", t, s);
+                    log_error(LOG_ERR,
+                              "Allocate first free sector: %d,%d.", t, s);
 #endif
-                return 0;
+                    return 0;
+                }
             }
         }
         t = vdrive->Bam_Track + d;
 #ifdef DEBUG_DRIVE
         log_error(LOG_ERR, "Allocate first free sector on track %d.", t);
 #endif
-        if (t > vdrive->num_tracks)
-            continue;
-        max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
-        for (s = 0; s < (unsigned int)max_sector; s++) {
-            if (vdrive_bam_allocate_sector(vdrive->image_format, bam, t, s)) {
-                *track = t;
-                *sector = s;
+        if (t <= vdrive->num_tracks) {
+            max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
+            for (s = 0; s < (unsigned int)max_sector; s++) {
+                if (vdrive_bam_allocate_sector(vdrive->image_format, bam, t,
+                                               s)) {
+                    *track = t;
+                    *sector = s;
 #ifdef DEBUG_DRIVE
-                log_error(LOG_ERR, "Allocate first free sector: %d,%d.", t, s);
+                    log_error(LOG_ERR,
+                              "Allocate first free sector: %d,%d.", t, s);
 #endif
-                return 0;
+                    return 0;
+                }
             }
         }
     }

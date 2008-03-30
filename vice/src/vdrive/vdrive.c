@@ -243,11 +243,12 @@ void vdrive_close_all_channels(vdrive_t *vdrive)
 
 int vdrive_calculate_disk_half(unsigned int type)
 {
+    /* Maximum distance from dir track to start/end of disk.  */
     switch (type) {
       case VDRIVE_IMAGE_FORMAT_1541:
-        return 17;
+        return 17 + 5;
       case VDRIVE_IMAGE_FORMAT_1571:
-        return 17;
+        return 17 + 35;
       case VDRIVE_IMAGE_FORMAT_1581:
         return 40;
       case VDRIVE_IMAGE_FORMAT_8050:

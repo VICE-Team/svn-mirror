@@ -1,6 +1,17 @@
+2000-10-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.14.
+
 2000-09-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.13.
+
+2000-09-30  Ricardo Ferreira  <storm@atdot.org>
+
+	* configure.in: Add --with-arts to enable aRts sound device 
+	support.
+
+	* acconfig.h: Added USE_ARTS symbol.
 
 2000-09-27  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
 
