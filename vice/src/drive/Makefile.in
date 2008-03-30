@@ -382,18 +382,6 @@ drivesync.o: drivesync.c ../../src/vice.h ../../src/config.h drive.h \
 	rotation.h
 rotation.o: rotation.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/arch/unix/types.h rotation.h
-via1d.o: via1d.c ../../src/vice.h ../../src/config.h \
-	../../src/clkguard.h ../../src/arch/unix/types.h drive.h \
-	drivecpu.h drivesync.h drivetypes.h ../../src/ciatimer.h \
-	../../src/alarm.h ../../src/mos6510.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/log.h ../../src/parallel.h \
-	rotation.h ../../src/via.h viad.h ../../src/viacore.c \
-	../../src/snapshot.h
-via2d.o: via2d.c ../../src/vice.h ../../src/config.h drive.h \
-	../../src/arch/unix/types.h drivetypes.h ../../src/ciatimer.h \
-	../../src/alarm.h ../../src/mos6510.h ../../src/interrupt.h \
-	../../src/log.h rotation.h ../../src/via.h viad.h \
-	../../src/viacore.c ../../src/clkguard.h ../../src/snapshot.h
 
 info-am:
 info: info-recursive

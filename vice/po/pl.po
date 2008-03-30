@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-04-13 15:28+0200\n"
+"POT-Creation-Date: 2003-04-13 22:26+0200\n"
 "PO-Revision-Date: 2002-08-31 19:18+02:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -682,83 +682,83 @@ msgstr "Ustawienia RAM"
 msgid "TED settings"
 msgstr "Ustawienia TED"
 
-#: src/arch/unix/rs232.c:119
+#: src/arch/unix/rs232.c:128
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
 msgstr "Okre¶l nazwê 1 urz±dzenia RS232 (/dev/ttyS0)"
 
-#: src/arch/unix/rs232.c:121
+#: src/arch/unix/rs232.c:130
 msgid "Specify baudrate of first RS232 device"
 msgstr "Okre¶l szybko¶æ transmisji urz±dzenia "
 
-#: src/arch/unix/rs232.c:123
+#: src/arch/unix/rs232.c:132
 msgid "Specify name of second RS232 device (/dev/ttyS1)"
 msgstr "Okre¶l nazwê drugorzêdnego urz±dzenia RS232 (/dev/ttyS1)"
 
-#: src/arch/unix/rs232.c:125
+#: src/arch/unix/rs232.c:134
 msgid "Specify baudrate of second RS232 device"
 msgstr "Okre¶l szybko¶æ transmisju drugorzêdnego urz±dzenia RS232"
 
-#: src/arch/unix/rs232.c:127
+#: src/arch/unix/rs232.c:136
 msgid "Specify name of third RS232 device (rs232.dump)"
 msgstr "Okre¶l nazwê 3 urz±dzenia RS232 (rs232.dump)"
 
-#: src/arch/unix/rs232.c:129
+#: src/arch/unix/rs232.c:138
 msgid "Specify baudrate of third RS232 device"
 msgstr "Okre¶l szybko¶æ transmisji 3 urz±dzenia RS232"
 
-#: src/arch/unix/rs232.c:131
+#: src/arch/unix/rs232.c:140
 msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 msgstr "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 
-#: src/arch/unix/rs232.c:133
+#: src/arch/unix/rs232.c:142
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Okre¶l szybko¶æ transmisji 4 urz±dzenia RS232"
 
-#: src/arch/unix/rs232.c:264
+#: src/arch/unix/rs232.c:273
 msgid "No more devices available."
 msgstr "Brak dodatkowych dostêpnych urz±dzeñ."
 
-#: src/arch/unix/rs232.c:269
+#: src/arch/unix/rs232.c:278
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "rs232_open(device=%d)."
 
-#: src/arch/unix/rs232.c:284
+#: src/arch/unix/rs232.c:293
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Nie mo¿na otworzyæ pliku \"%s\": %s "
 
-#: src/arch/unix/rs232.c:311
+#: src/arch/unix/rs232.c:320
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Próbuj zamkn±æ uszkodzony fd %d."
 
-#: src/arch/unix/rs232.c:315
+#: src/arch/unix/rs232.c:324
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Próbuj zamkn±æ nie otwarty fd %d."
 
-#: src/arch/unix/rs232.c:335
+#: src/arch/unix/rs232.c:344
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Próbuj zapisaæ do uszkodzonego fd %d."
 
-#: src/arch/unix/rs232.c:339
+#: src/arch/unix/rs232.c:348
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Próbuj zapisaæ do nie otwartego fd %d."
 
-#: src/arch/unix/rs232.c:351
+#: src/arch/unix/rs232.c:360
 #, c-format
 msgid "Error writing: %s."
 msgstr "B³±d czytania: %s."
 
-#: src/arch/unix/rs232.c:366
+#: src/arch/unix/rs232.c:375
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Próbuj odczytaæ z uszkodzonego fd %d."
 
-#: src/arch/unix/rs232.c:370
+#: src/arch/unix/rs232.c:379
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Próbuj odczytaæ z nie otwartego fd %d."
@@ -1832,7 +1832,7 @@ msgid "Invalid speed value"
 msgstr "Nieprawid³owa warto¶æ prêdko¶ci"
 
 #: src/arch/unix/uisettings.c:221 src/arch/unix/x11/gnome/x11ui.c:1251
-#: src/arch/unix/x11/xaw/x11ui.c:1012
+#: src/arch/unix/x11/xaw/x11ui.c:1019
 msgid "Cannot save settings."
 msgstr "Nie mo¿na zapisaæ ustawieñ."
 
@@ -2537,17 +2537,17 @@ msgstr "Nie mo¿na dodaæ ¶cie¿ki czcionki: `%s'.\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Ustaw ¶cie¿kê czcionki: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:631 src/arch/unix/x11/xaw/x11ui.c:464
+#: src/arch/unix/x11/gnome/x11ui.c:631 src/arch/unix/x11/xaw/x11ui.c:471
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Ten wy¶wietlacz nie ma odpowiedniego wspomagania wizualnego %dbit"
 
-#: src/arch/unix/x11/gnome/x11ui.c:634 src/arch/unix/x11/xaw/x11ui.c:467
+#: src/arch/unix/x11/gnome/x11ui.c:634 src/arch/unix/x11/xaw/x11ui.c:474
 msgid "Please select a bit depth supported by your display."
 msgstr "Proszê wybraæ g³êbiê koloru obs³ugiwan± przez twój ekran."
 
 #: src/arch/unix/x11/gnome/x11ui.c:637 src/arch/unix/x11/gnome/x11ui.c:661
-#: src/arch/unix/x11/xaw/x11ui.c:470 src/arch/unix/x11/xaw/x11ui.c:487
+#: src/arch/unix/x11/xaw/x11ui.c:477 src/arch/unix/x11/xaw/x11ui.c:494
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Znaleziono urz±dzenie wizualne %dbit/%s "
@@ -2557,7 +2557,7 @@ msgstr "Znaleziono urz±dzenie wizualne %dbit/%s "
 msgid "Found %dbit visual."
 msgstr "Znaleziono urz±dzenie wizualne %dbit "
 
-#: src/arch/unix/x11/gnome/x11ui.c:669 src/arch/unix/x11/xaw/x11ui.c:495
+#: src/arch/unix/x11/gnome/x11ui.c:669 src/arch/unix/x11/xaw/x11ui.c:502
 msgid "Cannot autodetect a proper visual."
 msgstr "Nie mo¿na automatycznie wykryæ odpowiedniego urz±dzenia wizualnego"
 
@@ -2585,7 +2585,7 @@ msgstr "Napêd %d: "
 msgid "Tape 000"
 msgstr "Kaseta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:953 src/arch/unix/x11/xaw/x11ui.c:576
+#: src/arch/unix/x11/gnome/x11ui.c:953 src/arch/unix/x11/xaw/x11ui.c:583
 msgid "Maximum number of toplevel windows reached."
 msgstr "Osi±gniêto maksymalny limit okien najwy¿szego stopnia."
 
@@ -2597,24 +2597,24 @@ msgstr "Komendy"
 msgid "Help"
 msgstr "Pomoc"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1235 src/arch/unix/x11/xaw/x11ui.c:1000
+#: src/arch/unix/x11/gnome/x11ui.c:1235 src/arch/unix/x11/xaw/x11ui.c:1007
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1240 src/arch/unix/x11/xaw/x11ui.c:1002
+#: src/arch/unix/x11/gnome/x11ui.c:1240 src/arch/unix/x11/xaw/x11ui.c:1009
 msgid "Do you really want to exit?"
 msgstr "Czy naprawdê chcesz wyj¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1248 src/arch/unix/x11/xaw/x11ui.c:1009
+#: src/arch/unix/x11/gnome/x11ui.c:1248 src/arch/unix/x11/xaw/x11ui.c:1016
 msgid "Save the current settings?"
 msgstr "Czy zapisaæ obecne ustawienia?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1294 src/arch/unix/x11/xaw/x11ui.c:1051
+#: src/arch/unix/x11/gnome/x11ui.c:1294 src/arch/unix/x11/xaw/x11ui.c:1058
 msgid "Using private colormap."
 msgstr "U¿yj prywatnej mapy kolorów."
 
 #: src/arch/unix/x11/gnome/x11ui.c:1314 src/arch/unix/x11/gnome/x11ui.c:1317
-#: src/arch/unix/x11/xaw/x11ui.c:1072 src/arch/unix/x11/xaw/x11ui.c:1078
+#: src/arch/unix/x11/xaw/x11ui.c:1079 src/arch/unix/x11/xaw/x11ui.c:1085
 msgid "(warp)"
 msgstr "(przyspieszony)"
 
@@ -2625,7 +2625,7 @@ msgstr "(przyspieszony)"
 msgid "Tape %03d"
 msgstr "Ta¶ma %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1637 src/arch/unix/x11/xaw/x11ui.c:1288
+#: src/arch/unix/x11/gnome/x11ui.c:1637 src/arch/unix/x11/xaw/x11ui.c:1295
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pauza)"
@@ -2646,7 +2646,7 @@ msgstr "Zimny reset"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1873 src/arch/unix/x11/xaw/x11ui.c:1566
+#: src/arch/unix/x11/gnome/x11ui.c:1873 src/arch/unix/x11/xaw/x11ui.c:1573
 msgid "Extend disk image"
 msgstr "Rozszerzenie obrazu dyskietki"
 
@@ -2974,16 +2974,16 @@ msgstr "Zapisz obecnie za³adowany ROM"
 msgid "Save snapshot"
 msgstr "Zapisz obraz"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1161
+#: src/arch/unix/x11/xaw/x11ui.c:1168
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: ¦cie¿ka %.1f "
 
-#: src/arch/unix/x11/xaw/x11ui.c:1451
+#: src/arch/unix/x11/xaw/x11ui.c:1458
 msgid "VICE Error!"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1635
+#: src/arch/unix/x11/xaw/x11ui.c:1642
 msgid "Unknown image type."
 msgstr "Nieznany typ obrazu."
 

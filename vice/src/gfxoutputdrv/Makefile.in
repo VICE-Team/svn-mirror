@@ -270,7 +270,7 @@ bmpdrv.o: bmpdrv.c ../../src/vice.h ../../src/config.h \
 	../../src/palette.h ../../src/arch/unix/types.h \
 	../../src/screenshot.h ../../src/utils.h
 gfxoutput.o: gfxoutput.c ../../src/vice.h ../../src/config.h bmpdrv.h \
-	../../src/gfxoutput.h ../../src/lib.h pngdrv.h ../../src/log.h
+	../../src/gfxoutput.h ../../src/lib.h ../../src/log.h pngdrv.h
 pngdrv.o: pngdrv.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/gfxoutput.h ../../src/lib.h ../../src/screenshot.h \

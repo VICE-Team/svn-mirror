@@ -303,6 +303,16 @@ memiec.o: memiec.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/ciatimer.h ../../../src/alarm.h \
 	../../../src/drive/drive.h ../../../src/mos6510.h \
 	../../../src/lib.h memiec.h ../../../src/drive/viad.h wd1770.h
+via1d.o: via1d.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/clkguard.h ../../../src/arch/unix/types.h \
+	../../../src/drive/drive.h ../../../src/drive/drivecpu.h \
+	../../../src/drive/drivesync.h ../../../src/drive/drivetypes.h \
+	../../../src/ciatimer.h ../../../src/alarm.h \
+	../../../src/mos6510.h ../../../src/iecdrive.h \
+	../../../src/interrupt.h ../../../src/log.h \
+	../../../src/parallel.h ../../../src/drive/rotation.h \
+	../../../src/via.h ../../../src/drive/viad.h \
+	../../../src/viacore.c ../../../src/snapshot.h
 wd1770.o: wd1770.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h ../../../src/arch/unix/types.h \
 	../../../src/diskimage.h ../../../src/drive/drive.h \

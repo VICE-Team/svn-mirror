@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libdriveiecieee.a
 
-libdriveiecieee_a_SOURCES =  	iecieee.c 	via1d.c 	via2d.c
+libdriveiecieee_a_SOURCES =  	iecieee.c 	via1d.c		via2d.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h

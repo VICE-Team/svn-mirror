@@ -424,8 +424,9 @@ plus4ui.o: plus4ui.c ../../../src/vice.h ../../../src/config.h \
 	uiperipheral.h uirs232.h uiscreenshot.h uisettings.h uisound.h \
 	uited.h ../../../src/utils.h ../../../src/vsync.h
 rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h coproc.h ../../../src/log.h \
-	../../../src/resources.h types.h ../../../src/utils.h
+	../../../src/cmdline.h coproc.h ../../../src/lib.h \
+	../../../src/log.h ../../../src/resources.h types.h \
+	../../../src/utils.h
 ui.o: ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/interrupt.h types.h ui.h ../../../src/uiapi.h \
 	../../../src/vsync.h

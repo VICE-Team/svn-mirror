@@ -1,3 +1,39 @@
+2003-04-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.31.
+
+	* drive/drive.c, c64/c64cia2.c, plus4/plus4mem.c: Changed name
+	of local IEC struct.
+
+	* arch/unix/x11/xaw/x11ui.c (ui_init): Free `wm_command_data'
+	and shell titles.
+
+	* archapi.h, arch/unix/archdep.c, arch/win32/archdep.c,
+	arch/msdos/archdep.c, arch/riscos/archdep.c,
+	arch/os2/archdep.c, arch/beos/archdep.c
+	(archdep_default_save_resource_file_name,
+	archdep_default_save_resource_file_name,
+	archdep_program_name): Return non const string.
+
+	* main.c (main_program): Free program name.
+
+	* resources.c (resources_load, resources_save): Free default
+	name.
+
+	arch/unix/rs232.c, rs232drv/rs232.h, rs232drv/rs232drv.c,
+	rs232drv.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c:
+
+	* printerdrv/drv-mps803.c, printerdrv/drv-mps803.h,
+	printerdrv/driver-select.c, printerdrv/driver-select.h,
+	printerdrv/printer.c
+
+	* raster/raster.c (raster_destroy_active): New function.
+	(raster_free): Free active raster.
+
+	* fsdevice/fsdevice-resources.c, fsdevice.h
+	(fsdevice_resources_shutdown): New function.
+
 2003-04-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.30.
