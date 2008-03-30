@@ -74,6 +74,7 @@ extern "C" {
 #include "ui_joystick.h"
 #include "ui_sound.h"
 #include "ui_vicii.h"
+#include "usleep.h"
 #include "utils.h"
 #include "version.h"
 #include "vsync.h"
@@ -340,6 +341,46 @@ static void scan_files(void)
 }
 
 
+/* ------------------------------------------------------------------------- */
+static int is_paused = 0;
+
+/* Toggle displaying of paused state.  */
+void ui_display_paused(int flag)
+{
+	/* use ui_display_speed() and warp flag to encode pause mode */ 
+	if (flag)
+		ui_display_speed(0,0,-1);
+	else
+		ui_display_speed(0,0,-2);
+}
+
+static void pause_trap(ADDRESS addr, void *data)
+{
+    ui_display_paused(1);
+    vsync_suspend_speed_eval();
+    while (is_paused)
+    {
+        usleep(1000);
+        ui_dispatch_events();
+    }
+}
+
+void ui_pause_emulation(void)
+{
+    is_paused = is_paused ? 0 : 1;
+    if (is_paused) {
+        maincpu_trigger_trap(pause_trap, 0);
+    } else {
+        ui_display_paused(0);
+    }
+}
+
+int ui_emulation_is_paused(void)
+{
+    return is_paused;
+}
+
+
 /* here the stuff for queueing and dispatching ui commands */
 /*---------------------------------------------------------*/
 #define MAX_MESSAGE_QUEUE_SIZE	256
@@ -489,6 +530,10 @@ void ui_dispatch_events(void)
 			case MENU_MONITOR:
 				maincpu_trigger_trap(mon_trap, (void *) 0);
 				break;
+			case MENU_PAUSE:
+        		ui_pause_emulation();
+        		break;
+#if 0
 	      	case MENU_REFRESH_RATE_AUTO:
     	    	resources_set_value("RefreshRate", (resource_value_t) 0);
         		break;
@@ -552,6 +597,7 @@ void ui_dispatch_events(void)
         		resources_set_value("VideoStandard",
                 	(resource_value_t) DRIVE_SYNC_NTSCOLD);
         		break;
+#endif
         	case MENU_DRIVE_SETTINGS:
         		ui_drive();
         		break;	
@@ -647,20 +693,11 @@ void ui_dispatch_events(void)
 			default:
 				if (message_queue[i].what >= 'M000' &&
 					message_queue[i].what <= 'M999') {
+					
 					/* Handle the TOGGLE-Menuitems */
 	            	for (m = 0; toggle_list[m].name != NULL; m++) {
     	            	if (toggle_list[m].item_id == message_queue[i].what) {
     	            		resources_toggle(toggle_list[m].name, NULL);
-    	            		/* FIXME: workaround for sound stumble in warp mode */
-    	            		if (message_queue[i].what == MENU_TOGGLE_WARP_MODE) {
-    	            			int warp_enabled;
-    	            			resources_get_value(toggle_list[m].name, 
-    	            				(resource_value_t*) &warp_enabled);
-    	            			if (warp_enabled)
-    	            				sound_suspend();
-    	            			else
-    	            				sound_resume();
-    	            		}
             	        	break;
                 		}
 					}
@@ -672,6 +709,33 @@ void ui_dispatch_events(void)
 	                    	}
     	            	}
         	    	}
+
+        	    	/* Handle VALUE-Menuitems */
+	            	for (m = 0; value_list[m].name != NULL; m++) {
+	            		
+	            		ui_res_possible_values *vl = value_list[m].vals;
+	            		
+	            		for (; vl->item_id > 0; vl++) {
+	            			if (vl->item_id == message_queue[i].what) {
+    	            			resources_set_value(value_list[m].name, (resource_value_t) vl->value);
+		           	        	break;
+		           	        }
+                		}
+					}
+					if (machine_specific_values) {
+	            		for (m = 0; machine_specific_values[m].name != NULL; m++) {
+	            		
+	            			ui_res_possible_values *vl = machine_specific_values[m].vals;
+	            		
+	            			for (; vl->item_id > 0; vl++) {
+	            				if (vl->item_id == message_queue[i].what) {
+    	            				resources_set_value(machine_specific_values[m].name, (resource_value_t) vl->value);
+		           	        		break;
+		           	        	}
+                			}
+						}
+        	    	}
+        	    	 
             		ui_update_menus();
 				}            		
             	break;
@@ -1072,12 +1136,6 @@ void ui_display_joyport_and(int port_num, BYTE status)
 		ui_joystick_status[port_num] &= status;
 		ui_display_joyport(port_num);
 	}
-}
-
-
-/* Toggle displaying of paused state.  */
-void ui_display_paused(int flag)
-{
 }
 
 void ui_statusbar_update()

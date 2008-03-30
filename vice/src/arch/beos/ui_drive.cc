@@ -272,7 +272,7 @@ DriveView::DriveView(BRect r, int drive_num)
 			drive_type[i].name,
 			drive_type[i].name,
 			msg);
-		radiobutton->SetEnabled(drive_check_type(drive_type[i].id, drive_num));
+		radiobutton->SetEnabled(drive_check_type(drive_type[i].id, drive_num-8));
 		box->AddChild(radiobutton);
 		
 		if (drive_type[i].id == current_type) {

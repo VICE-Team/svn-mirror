@@ -203,6 +203,8 @@ BMenuBar *menu_create(int machine_class) {
 	}
 	
 	menu->AddSeparatorItem();
+	menu->AddItem(item = new BMenuItem("Pause", 
+		new BMessage(MENU_PAUSE), 'P'));
 	menu->AddItem(item = new BMenuItem("Monitor", 
 		new BMessage(MENU_MONITOR), 'M'));
 	menu->AddItem(item = new BMenuItem("Soft Reset", 
@@ -344,14 +346,39 @@ BMenuBar *menu_create(int machine_class) {
 	}
 
 	if (!vsid_mode) {
-		if (machine_class == VICE_MACHINE_C64) {
+		if (machine_class == VICE_MACHINE_C64
+			|| machine_class == VICE_MACHINE_C128) {
 			menu->AddSeparatorItem();
-			menu->AddItem(new BMenuItem("Emulator ID",
-				new BMessage(MENU_TOGGLE_EMUID)));
 			menu->AddItem(new BMenuItem("REU emulation",
 				new BMessage(MENU_TOGGLE_REU)));
+			menu->AddItem(submenu = new BMenu("REU size"));
+			submenu->SetRadioMode(true);
+			submenu->AddItem(new BMenuItem("128 kB",
+				new BMessage(MENU_REU_SIZE_128)));
+			submenu->AddItem(new BMenuItem("256 kB",
+				new BMessage(MENU_REU_SIZE_256)));
+			submenu->AddItem(new BMenuItem("512 kB",
+				new BMessage(MENU_REU_SIZE_512)));
+			submenu->AddItem(new BMenuItem("1024 kB",
+				new BMessage(MENU_REU_SIZE_1024)));
+			submenu->AddItem(new BMenuItem("2048 kB",
+				new BMessage(MENU_REU_SIZE_2048)));
+			submenu->AddItem(new BMenuItem("4096 kB",
+				new BMessage(MENU_REU_SIZE_4096)));
+			submenu->AddItem(new BMenuItem("8192 kB",
+				new BMessage(MENU_REU_SIZE_8192)));
+			submenu->AddItem(new BMenuItem("16384 kB",
+				new BMessage(MENU_REU_SIZE_16384)));
+
+			menu->AddItem(new BMenuItem("Emulator ID",
+				new BMessage(MENU_TOGGLE_EMUID)));
 			menu->AddItem(new BMenuItem("1351 mouse",
 				new BMessage(MENU_TOGGLE_MOUSE)));
+		}
+		if (machine_class == VICE_MACHINE_VIC20
+			|| machine_class == VICE_MACHINE_C128) {
+			menu->AddItem(new BMenuItem("IEEE488 Interface",
+				new BMessage(MENU_TOGGLE_IEEE488)));
 		}
 	}		
 	

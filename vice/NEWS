@@ -38,11 +38,16 @@ list of all the changes in the code.
 ** OS/2 changes
 ---------------
   
-- Moved zlib and png APIs to a DLL to decrease the archive size
+- Moved zlib and png APIs to a DLL to decrease the 
+  archive size
+
+- Removed the Emulator Dialog, use Alt-+/Alt-- to change 
+  the speed
 
 - Added a new file dialog with a contents window
 
-- Dragging a file to the Vice Window now autostarts the file
+- Dragging a file to the Vice Window now autostarts 
+  the file
 
 - Added autostart option to menu
 
@@ -50,7 +55,8 @@ list of all the changes in the code.
 
 - Added missing resources to menus
 
-- Added popup menu (switch off menu bar, press mouse button 2)
+- Added popup menu (switch off menu bar, 
+  press mouse button 2)
 
 - make menu bar switchable
 
@@ -73,6 +79,10 @@ list of all the changes in the code.
 
 - added preliminary (beta) DGA2 support
 
+- French translation; Credits to Eric (meepmeep).
+
+- Datasette control UI.
+ 
 * Changes in VICE 1.6
 =====================
 

@@ -78,8 +78,15 @@ void ViceStatusbar::DisplaySpeed(
 	
 	if (percent > 9999)
 		percent = 9999;
-	sprintf(str, "Speed: %.0f%% at %.0ffps %s",
-		percent, framerate, (warp_flag? "(warp)":"      "));
+		
+	/* take care of encoding of pause mode */
+	if (warp_flag == -1)
+		sprintf(str, "(Paused)");
+	else if (warp_flag == -2)
+		sprintf(str, "(Resumed)");
+	else
+		sprintf(str, "Speed: %.0f%% at %.0ffps %s",
+			percent, framerate, (warp_flag? "(warp)":"      "));
 	statusbitmap->Lock();
 	drawview->SetLowColor(statusbar_background);
 	drawview->FillRect(BRect(1,1,150,20), B_SOLID_LOW);

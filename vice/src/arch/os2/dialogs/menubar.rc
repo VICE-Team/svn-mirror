@@ -358,7 +358,7 @@ BEGIN
        MENUITEM "~Adjusting",           IDM_SYNCADJUST,   MIS_TEXT
        MENUITEM "~Exact",               IDM_SYNCEXACT,    MIS_TEXT
      END
-     SUBMENU "~Device",                 IDM_SOUNDDEV,     MIS_TEXT
+     SUBMENU "Output ~Device",          IDM_SOUNDDEV,     MIS_TEXT
      BEGIN
        MENUITEM "~DART - Speaker",      IDM_DEVDART,      MIS_TEXT
        MENUITEM "~SID - File",          IDM_DEVSID,       MIS_TEXT

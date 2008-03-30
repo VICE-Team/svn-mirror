@@ -29,6 +29,7 @@ EXTRA_DIST = \
         incl/resid.icc \
         incl/sounddrv.icc \
         incl/screendrv.icc \
+        incl/printerdrv.icc \
         incl/vdc.icc \
         incl/vdrive.icc \
         incl/vic20.icc \

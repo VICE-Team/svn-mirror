@@ -156,7 +156,7 @@ do
     say '!!! Can''t create a html object for HTML Documatation'
 end
 
-if SysCreateObject("WPUrl","Vice/2 Homepage","<VICE2_ONLINE>","URL=http://www.prakt.physik.tu-muenchen.de/tbretz/vice2/","update")<>1 then
+if SysCreateObject("WPUrl","Vice/2 Homepage","<VICE2_ONLINE>","URL=http://www.d4m.de/vice2/","update")<>1 then
 do
     say '!!! Can''t create a html object for HTML Documatation'
 end

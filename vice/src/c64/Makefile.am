@@ -44,7 +44,8 @@ libc64_a_SOURCES = \
 	psid.c \
 	psid.h \
 	psiddrv.a65 \
-	psiddrv.h
+	psiddrv.h \
+	reloc65.c
 
 libc64c128_a_SOURCES = \
 	c64cart.h \
@@ -82,5 +83,5 @@ libc64c128_a_LIBADD = $(acia_libadd)
 SUFFIXES = .a65
 
 %.h : %.a65
-	xa $< -o $(srcdir)/$*.o65
+	xa -R -G $< -o $(srcdir)/$*.o65
 	od -v -An -w8 -tx1 $(srcdir)/$*.o65 | sed 's/\w\w/0x&,/g' > $(srcdir)/$@

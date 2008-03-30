@@ -149,7 +149,10 @@ static int functionrom_load_internal(void)
             return -1;
         }
 
-        for (i = 0; i < INTERNAL_FUNCTION_ROM_SIZE; i+= flen) {
+        for (i = 0; i < INTERNAL_FUNCTION_ROM_SIZE; i += flen) {
+            rewind(fd);
+            if (i + flen > INTERNAL_FUNCTION_ROM_SIZE)
+                break;
             res = fread(&(int_function_rom[i]), flen, 1, fd);
             if (res < 1) {
                 fclose(fd);
@@ -185,7 +188,10 @@ static int functionrom_load_external(void)
             return -1;
         }
 
-        for (i = 0; i < EXTERNAL_FUNCTION_ROM_SIZE; i+= flen) {
+        for (i = 0; i < EXTERNAL_FUNCTION_ROM_SIZE; i += flen) {
+            rewind(fd);
+            if (i + flen > EXTERNAL_FUNCTION_ROM_SIZE)
+                break;
             res = fread(&(ext_function_rom[i]), flen, 1, fd);
             if (res < 1) {
                 fclose(fd);

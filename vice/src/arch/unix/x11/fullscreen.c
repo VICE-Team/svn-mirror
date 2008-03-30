@@ -623,7 +623,7 @@ char *fullscreen_mode_name(int mode)
 
 #ifdef CHECK_DGA_V2
 
-void fullscreen_update(void)
+void fullscreen_mode_update(void)
 {
     if (request_fullscreen_mode == 1)
 	fullscreen_mode_on();
@@ -670,7 +670,7 @@ static void fullscreen_dispatch_events_2(void)
 static void fullscreen_dispatch_events(void)
 {
     fullscreen_dispatch_events_2();
-    fullscreen_update();
+    fullscreen_mode_update();
 }
 
 #endif

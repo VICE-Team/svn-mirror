@@ -75,6 +75,28 @@ static ui_res_possible_values SidResidSampling[] = {
 };
 #endif
 
+ui_res_possible_values ReuSize[] = {
+        {128, MENU_REU_SIZE_128},
+        {256, MENU_REU_SIZE_256},
+        {512, MENU_REU_SIZE_512},
+        {1024, MENU_REU_SIZE_1024},
+        {2048, MENU_REU_SIZE_2048},
+        {4096, MENU_REU_SIZE_4096},
+        {8192, MENU_REU_SIZE_8192},
+        {16384, MENU_REU_SIZE_16384},
+        {-1, 0}
+};
+
+ui_res_value_list c64_ui_res_values[] = {
+    {"SidModel", SidType},
+#ifdef HAVE_RESID
+    {"SidResidSampling", SidResidSampling},
+#endif
+    {"REUsize", ReuSize},
+    {NULL,NULL}
+};
+
+
 static ui_cartridge_t c64_ui_cartridges[]={
     {
     MENU_CART_ATTACH_CRT,
@@ -127,15 +149,6 @@ static ui_cartridge_t c64_ui_cartridges[]={
 };
 
 
-ui_res_value_list c64_ui_res_values[] = {
-    {"SidModel", SidType},
-#ifdef HAVE_RESID
-    {"SidResidSampling", SidResidSampling},
-#endif
-    {NULL,NULL}
-};
-
-
 static void c64_ui_attach_cartridge(void *msg, void *window)
 {
 	int menu = ((BMessage*)msg)->what;
@@ -163,6 +176,7 @@ static void c64_play_vsid(const char *filename) {
     	ui_error("`%s' is not a valid PSID file.", filename);
       	return;
     }
+    psid_init_driver();
     machine_play_psid(0);
     maincpu_trigger_reset();
 
@@ -213,24 +227,6 @@ void c64_ui_specific(void *msg, void *window)
 				ui_error("Invalid cartridge image");
 			break;
 		}
-		case MENU_SIDTYPE_6581:
-    		resources_set_value("SidModel", (resource_value_t) 0);
-        	break;
-		case MENU_SIDTYPE_8580:
-        	resources_set_value("SidModel", (resource_value_t) 1);
-        	break;
-		case MENU_RESID_SAMPLE_FAST:
-    		resources_set_value("SidResidSampling", (resource_value_t) 0);
-			vsync_suspend_speed_eval();
-        	break;
-		case MENU_RESID_SAMPLE_INTERPOLATE:
-    		resources_set_value("SidResidSampling", (resource_value_t) 1);
-			vsync_suspend_speed_eval();
-        	break;
-		case MENU_RESID_SAMPLE_RESAMPLE:
-    		resources_set_value("SidResidSampling", (resource_value_t) 2);
-			vsync_suspend_speed_eval();
-        	break;
 		case MENU_VICII_SETTINGS:
         	ui_vicii();
         	break;

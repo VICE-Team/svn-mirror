@@ -82,11 +82,10 @@
 #include "uimenu.h"
 #include "autostart.h"
 #include "video.h"
-#include "videoarch.h"
-
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
+#include "videoarch.h"
 
 /* FIXME: We want these to be static.  */
 GdkVisual *visual;

@@ -296,24 +296,16 @@ int machine_init(void)
 
     maincpu_init();
 
+    if (mem_load() < 0)
+        return -1;
+
     if (vsid_mode)
     {
-        mem_powerup();
-
         psid_init_driver();
-
-        /* Initialize the VIC-II emulation.  */
-        /*
-        if (vic_ii_init() == NULL)
-            return -1;
-        */
     }
 
     if (!vsid_mode)
     {
-        if (mem_load() < 0)
-            return -1;
-
         /* Setup trap handling.  */
         traps_init();
 
@@ -444,7 +436,6 @@ void machine_specific_reset(void)
 
     if (vsid_mode)
     {
-        psid_init_driver();
         psid_init_tune();
         return;
     }
@@ -457,6 +448,11 @@ void machine_specific_reset(void)
 
 void machine_powerup(void)
 {
+    /* Hard reset unloads PSID. */
+    if (vsid_mode) {
+        machine_play_psid(-1);
+    }
+
     mem_powerup();
     vic_ii_reset_registers();
     maincpu_trigger_reset();

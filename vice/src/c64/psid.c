@@ -51,6 +51,7 @@
 #include "zfile.h"
 
 typedef struct psid_s {
+  /* PSID data */
   WORD version;
   WORD data_offset;
   WORD load_addr;
@@ -63,10 +64,13 @@ typedef struct psid_s {
   BYTE author[32];
   BYTE copyright[32];
   WORD flags;
-  DWORD reserved;
+  BYTE start_page;
+  BYTE max_pages;
+  WORD reserved;
   WORD data_size;
   BYTE data[65536];
 
+  /* Non-PSID data */
   DWORD frames_played;
 } psid_t;
 
@@ -134,6 +138,7 @@ static WORD psid_extract_word(BYTE** buf)
   return word;
 }
 
+
 int psid_load_file(const char* filename)
 {
   FILE* f;
@@ -156,7 +161,7 @@ int psid_load_file(const char* filename)
   psid->version = psid_extract_word(&ptr);
 
   if (psid->version < 1 || psid->version > 2) {
-    log_error(LOG_DEFAULT, "PSID: Unknown version number: %d.",
+    log_error(LOG_DEFAULT, "VSID: Unknown PSID version number: %d.",
 	      (int)psid->version);
     goto fail;
   }
@@ -165,7 +170,7 @@ int psid_load_file(const char* filename)
            ? PSID_V1_DATA_OFFSET : PSID_V2_DATA_OFFSET) - 6);
 
   if (fread(ptr, 1, length, f) != length) {
-    log_message(LOG_DEFAULT, "PSID: Error reading header.");
+    log_message(LOG_DEFAULT, "VSID: Error reading PSID header.");
     goto fail;
   }
 
@@ -189,19 +194,28 @@ int psid_load_file(const char* filename)
   ptr += 32;
   if (psid->version == 2) {
     psid->flags = psid_extract_word(&ptr);
-    psid->reserved = psid_extract_word(&ptr) << 16;
-    psid->reserved |= psid_extract_word(&ptr);
+    psid->start_page = *ptr++;
+    psid->max_pages = *ptr++;
+    psid->reserved = psid_extract_word(&ptr);
   }
   else {
     psid->flags = 0;
+    psid->start_page = 0;
+    psid->max_pages = 0;
     psid->reserved = 0;
+  }
+
+  /* Check for SIDPLAYER MUS files. */
+  if (psid->flags & 0x01) {
+    log_error(LOG_DEFAULT, "VSID: SIDPLAYER MUS files not supported.");
+    goto fail;
   }
 
   /* Zero load address => the load address is stored in the
      first two bytes of the binary C64 data. */
   if (psid->load_addr == 0) {
     if (fread(ptr, 1, 2, f) != 2) {
-      log_message(LOG_DEFAULT, "PSID: Error reading load address.");
+      log_message(LOG_DEFAULT, "VSID: Error reading PSID load address.");
       goto fail;
     }
     psid->load_addr = ptr[0] | ptr[1] << 8;
@@ -216,16 +230,63 @@ int psid_load_file(const char* filename)
   psid->data_size = fread(psid->data, 1, sizeof(psid->data), f);
 
   if (ferror(f)) {
-    log_message(LOG_DEFAULT, "PSID: Error reading data.");
+    log_message(LOG_DEFAULT, "VSID: Error reading PSID data.");
     goto fail;
   }
 
   if (!feof(f)) {
-    log_message(LOG_DEFAULT, "PSID: More than 64K data.");
+    log_message(LOG_DEFAULT, "VSID: More than 64K PSID data.");
+    goto fail;
+  }
+
+  /* Relocation setup. */
+  if (psid->start_page == 0x00) {
+    /* Start and end pages. */
+    int startp = psid->load_addr >> 8;
+    int endp = (psid->load_addr + psid->data_size - 1) >> 8;
+
+    /* Used memory ranges. */
+    int used[] = { 0x00, 0x03,
+		   0xa0, 0xbf,
+		   0xd0, 0xff,
+		   startp, endp };
+    int pages[256];
+    int last_page = 0;
+    int i, page, tmp;
+
+    /* Mark used pages in table. */
+    memset(pages, 0, sizeof(pages));
+    for (i = 0; i < sizeof(used)/sizeof(*used); i += 2) {
+      for (page = used[i]; page <= used[i + 1]; page++) {
+	pages[page] = 1;
+      }
+    }
+
+    /* Find largest free range. */
+    psid->max_pages = 0x00;
+    for (page = 0; page < sizeof(pages)/sizeof(*pages); page++) {
+      if (!pages[page]) continue;
+      tmp = page - last_page;
+      if (tmp > psid->max_pages) {
+	psid->start_page = last_page;
+	psid->max_pages = tmp;
+      }
+      last_page = page + 1;
+    }
+
+    if (psid->max_pages == 0x00) {
+      psid->start_page = 0xff;
+    }
+  }
+
+  if (psid->start_page == 0xff || psid->max_pages < 2)
+  {
+    log_error(LOG_DEFAULT, "VSID: No space for driver.");
     goto fail;
   }
 
   zfclose(f);
+
   return 0;
 
 fail:
@@ -236,26 +297,55 @@ fail:
 }
 
 
+/* Use CBM80 vector to start PSID driver. This is a simple method to
+   transfer control to the PSID driver while running in a pure C64
+   environment. */
+int psid_set_cbm80(ADDRESS vec, ADDRESS addr)
+{
+  int i;
+  BYTE cbm80[] = { 0x00, 0x00, 0x00, 0x00, 0xc3, 0xc2, 0xcd, 0x38, 0x30 };
+
+  cbm80[0] = vec & 0xff;
+  cbm80[1] = vec >> 8;
+
+  for (i = 0; i < sizeof(cbm80); i++) {
+    ram_store(addr + i, ram_read(0x8000 + i));
+    ram_store(0x8000 + i, cbm80[i]);
+  }
+
+  return i;
+}
+
+
 void psid_init_tune(void)
 {
   int start_song = psid_tune;
-  resource_value_t sync;
+  resource_value_t sync, sid_model;
   int i;
+  ADDRESS reloc_addr;
+  ADDRESS addr;
   int speedbit;
   char* irq;
+  char irq_str[20];
 
   if (!psid) {
     return;
   }
 
   psid->frames_played = 0;
-  vsid_ui_display_name((char *)(psid->name));
-  vsid_ui_display_author((char *)(psid->author));
-  vsid_ui_display_copyright((char *)(psid->copyright));
+
+  reloc_addr = psid->start_page << 8;
+
+  log_message(LOG_DEFAULT, "\nVSID: driver=$%04x, image=$%04x-$%04x, init=$%04x, play=$%04x",
+	      reloc_addr,
+	      psid->load_addr, psid->load_addr + psid->data_size - 1,
+	      psid->init_addr, psid->play_addr);
 
   /* PAL/NTSC. */
   resources_get_value("VideoStandard", &sync);
-  vsid_ui_display_sync((int)sync);
+
+  /* MOS6581/MOS8580. */
+  resources_get_value("SidModel", &sid_model);
 
   /* Check tune number. */
   if (start_song == 0) {
@@ -263,8 +353,13 @@ void psid_init_tune(void)
   }
   else if (start_song < 1 || start_song > psid->songs) {
     log_message(LOG_DEFAULT,
-		"Warning: Tune out of range.\n");
+		"Warning: Tune out of range.");
     start_song = psid->start_song;
+  }
+
+  /* Check for PSID specific file. */
+  if (psid->flags & 0x08) {
+    log_message(LOG_DEFAULT, "Warning: Image contains PlaySID samples - trying anyway.");
   }
 
   /* Check tune speed. */
@@ -276,7 +371,7 @@ void psid_init_tune(void)
   irq = psid->speed & speedbit ? "CIA 1" : "VICII";
 
   if (psid->play_addr) {
-      /*vsid_ui_display_irqtype(irq);*/
+      vsid_ui_display_irqtype(irq);
       log_message(LOG_DEFAULT, "Using %s interrupt", irq);
   }
   else {
@@ -325,7 +420,7 @@ int psid_ui_set_tune(resource_value_t tune, void *param)
 {
   psid_tune = (int)tune == -1 ? 0 : (int)tune;
 
-  machine_play_psid(psid_tune);
+  psid_set_tune(psid_tune);
   vsync_suspend_speed_eval();
   maincpu_trigger_reset();
 
@@ -338,34 +433,76 @@ int psid_tunes(int* default_tune)
   return psid ? psid->songs : 0;
 }
 
-void psid_init_driver(void) {
+
+void psid_init_driver(void)
+{
   BYTE psid_driver[] = {
 #include "psiddrv.h"
   };
+  char* psid_reloc;
+  int psid_size;
 
+  ADDRESS reloc_addr;
   ADDRESS addr;
-  resource_value_t sync;
   int i;
+  int sync;
 
-  /* 6510 vectors stored in both ROM and RAM. */
-  for (addr = 0xfffa, i = 0; i < 6; i++) {
-    rom_store((ADDRESS)(addr + i), psid_driver[i]);
-    ram_store((ADDRESS)(addr + i), psid_driver[i]);
-  }
-  
-  /* EA31 IRQ return: jmp($0312). */
-  rom_store(0xea31, 0x6c);
-  rom_store(0xea32, 0x12);
-  rom_store(0xea33, 0x03);
-
-  /* C64 interrupt vectors and PSID driver code. */
-  for (addr = 0x0300, i = 0x12; i < sizeof(psid_driver); i++) {
-    ram_store((ADDRESS)(addr + i), (BYTE)(psid_driver[i]));
+  if (!psid) {
+    return;
   }
 
-  /* C64 PAL/NTSC flag */
-  resources_get_value("VideoStandard", &sync);
-  ram_store((ADDRESS)0x02a6, (BYTE)((int)sync == DRIVE_SYNC_PAL ? 1 : 0));
+  /* C64 PAL/NTSC flag. */
+  sync = psid->flags & 0x02 ? DRIVE_SYNC_NTSC : DRIVE_SYNC_PAL;
+  resources_set_value("VideoStandard", (resource_value_t)sync);
+
+  /* MOS6581/MOS8580 flag. */
+  resources_set_value("SidModel", (resource_value_t)(psid->flags & 0x04 ? 1 : 0));
+
+  /* Clear low memory to minimize the damage of PSIDs doing bad reads. */
+  for (addr = 0; addr < 0x0800; addr++) {
+    ram_store(addr, (BYTE)0x00);
+  }
+
+  /* Relocation of C64 PSID driver code. */
+  reloc_addr = psid->start_page << 8;
+  psid_size = sizeof(psid_driver);
+  psid_reloc = memcpy(xmalloc(psid_size), psid_driver, psid_size);
+
+  if (!reloc65(&psid_reloc, &psid_size, reloc_addr)) {
+    log_error(LOG_DEFAULT, "VSID: Relocation error.");
+    free(psid_reloc);
+    psid_set_tune(-1);
+    return;
+  }
+
+  for (i = 0; i < psid_size; i++) {
+    ram_store(reloc_addr + i, psid_reloc[i]);
+  }
+
+  free(psid_reloc);
+
+  /* Store binary C64 data. */
+  for (i = 0; i < psid->data_size; i++) {
+    ram_store(psid->load_addr + i, psid->data[i]);
+  }
+
+  /* Skip JMP and CBM80 reset vector. */
+  addr = reloc_addr + 3 + 9;
+
+  /* Store parameters for PSID player. */
+  ram_store(addr++, (BYTE)(0));
+  ram_store(addr++, (BYTE)(psid->songs));
+  ram_store(addr++, (BYTE)(psid->load_addr & 0xff));
+  ram_store(addr++, (BYTE)(psid->load_addr >> 8));
+  ram_store(addr++, (BYTE)(psid->init_addr & 0xff));
+  ram_store(addr++, (BYTE)(psid->init_addr >> 8));
+  ram_store(addr++, (BYTE)(psid->play_addr & 0xff));
+  ram_store(addr++, (BYTE)(psid->play_addr >> 8));
+  ram_store(addr++, (BYTE)(psid->speed & 0x0f));
+  ram_store(addr++, (BYTE)((psid->speed >> 8) & 0x0f));
+  ram_store(addr++, (BYTE)((psid->speed >> 16) & 0x0f));
+  ram_store(addr++, (BYTE)(psid->speed >> 24));
+  ram_store(addr++, (BYTE)(sync == DRIVE_SYNC_PAL ? 1 : 0));
 }
 
 

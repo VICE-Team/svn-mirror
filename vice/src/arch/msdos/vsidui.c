@@ -57,6 +57,12 @@ void vsid_ui_display_sync(int sync)
     log_message(LOG_DEFAULT, "Using %s sync", sync==DRIVE_SYNC_PAL?"PAL":"NTSC");
 }
 
+void vsid_ui_display_sid_model(int model)
+{
+    log_message(LOG_DEFAULT, "Using %s emulation",
+		model == 0 ? "MOS6581" : "MOS8580");
+}
+
 void vsid_ui_set_default_tune(int nr)
 {
     log_message(LOG_DEFAULT, "Default Tune: %i", nr);
@@ -73,5 +79,9 @@ void vsid_ui_display_nr_of_tunes(int count)
 }
 
 void vsid_ui_display_time(unsigned int sec)
+{
+}
+
+void vsid_ui_display_irqtype(const char *irq)
 {
 }

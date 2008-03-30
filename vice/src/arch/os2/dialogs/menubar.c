@@ -28,7 +28,8 @@
 #define INCL_WINMENUS      // WinCheckMenuItem
 #define INCL_WINDIALOGS    // WinMessageBox
 #define INCL_WINWINDOWMGR  // QWL_USER
-#include "video.h"         // canvas_*
+#include "videoarch.h"     // canvas_*
+//#include "video.h"         // canvas_*
 #include "dialogs.h"
 #include "menubar.h"
 #include "dlg-drive.h"
@@ -144,7 +145,7 @@ void ChangeSpeed(HWND hwnd, int idm)
 
     char *txt;
 
-    unsigned int speed;
+    int speed;
     resources_get_value("Speed", (resource_value_t*) &speed);
 
     if ((signed long)(time-tm) < vsyncarch_frequency())
@@ -168,6 +169,9 @@ void ChangeSpeed(HWND hwnd, int idm)
     calls++;
 
     speed += idm==IDM_PLUS ? step : -step;
+
+    if (speed<0)
+        speed=0;
 
     resources_set_value("Speed", (resource_value_t)speed);
 

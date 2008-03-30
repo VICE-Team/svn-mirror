@@ -38,6 +38,7 @@
 #define INCL_WINFRAMEMGR       // WM_QUERYFOCUSCHAIN
 #define INCL_WINMENUS          // OWNERITEM
 #include "vice.h"
+#include "videoarch.h"         // canvas_t
 
 #include <stdlib.h>            // free
 #include <string.h>            // strcpy
@@ -47,7 +48,6 @@
 #include "mem.h"               // mem_romset_resource_list
 #include "tape.h"              // tape_attach_image
 #include "utils.h"             // xmsprintf
-#include "video.h"             // canvas_t
 #include "attach.h"            // file_system_attach_disk
 #include "romset.h"            // romset_*
 #include "machine.h"           // machine_read/write_snapshot

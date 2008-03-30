@@ -155,7 +155,7 @@ static cmdline_option_t vsid_cmdline_options[] = {
       NULL, "Show a list of the available options and exit normally" },
     { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
-#ifndef __OS2__
+#if (!defined  __OS2__ && !defined __BEOS__)
     { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
       NULL, "Console mode (for playing music)" },
     { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
@@ -190,7 +190,7 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Attach <name> as a disk image in drive #10" },
     { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *)11, NULL, NULL,
       "<name>", "Attach <name> as a disk image in drive #11" },
-#ifdef __OS2__
+#if defined  __OS2__ || defined __BEOS__
     { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
       NULL, "Don't call exception handler" },
     { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
@@ -533,7 +533,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     archdep_setup_signals(do_core_dumps);
 
     /* Check for PSID here since we don't want to allow autodetection
-       in autostart.c. ROM image loading should also be skipped. */
+       in autostart.c. */
     if (vsid_mode)
     {
         if (autostart_string
@@ -632,6 +632,7 @@ int MAIN_PROGRAM(int argc, char **argv)
                       startup_tape_image);
 
     }
+
     ui_init_finalize();
 
     init_done = 1;

@@ -177,6 +177,7 @@ int vsid_ui_load_file(const char *file)
   if (psid_load_file(file) == 0)
   {
     vsid_ui_set_ready(1);
+    psid_init_driver();
     psid_init_tune();
     vsid_set_tune(wimp_window_read_icon_number(VSidWindow, Icon_VSid_Default));
     return 0;
@@ -270,6 +271,13 @@ void vsid_ui_display_sync(int sync)
 {
 }
 
+void vsid_ui_display_sid_model(int model)
+{
+    /* FIXME */
+    log_message(LOG_DEFAULT, "Using %s emulation",
+		model == 0 ? "MOS6581" : "MOS8580");
+}
+
 void vsid_ui_set_default_tune(int nr)
 {
     wimp_window_write_icon_number(VSidWindow, Icon_VSid_Default, nr);
@@ -307,4 +315,8 @@ void vsid_ui_display_speed(int percent)
 
     sprintf(buffer, "%d%%", percent);
     wimp_window_write_icon_text(VSidWindow, Icon_VSid_Speed, buffer);
+}
+
+void vsid_ui_display_irqtype(const char *irq)
+{
 }

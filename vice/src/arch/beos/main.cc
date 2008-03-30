@@ -49,6 +49,11 @@ ViceApp::ViceApp()
 
 int32 vice_start_main(void* data) {
 	main_program(viceargc,viceargv);
+	
+	/* if vice thread returns, it's time to close the application */
+	BMessenger messenger(APP_SIGNATURE);
+	BMessage message(WINDOW_CLOSED);
+	messenger.SendMessage(&message, be_app);
 }
 
 void ViceApp::ReadyToRun() {

@@ -370,7 +370,7 @@ int vsync_do_vsync(int been_skipped)
      *         If we are becoming faster a small deviation because of
      *         threading results in a frame rate correction suddenly.
      */
-    if (vsid_mode || skipped_redraw < MAX_SKIPPED_FRAMES
+    if (skipped_redraw < MAX_SKIPPED_FRAMES
         && (warp_mode_enabled
             || (skipped_redraw < refresh_rate - 1)
             || ((!timer_speed || delay > 3*frame_ticks*timer_speed/100)
@@ -417,8 +417,6 @@ int vsync_do_vsync(int been_skipped)
 	        adjust = adjust/labs(adjust)*frame_ticks/100;
 	    }
 	    frame_ticks -= adjust;
-
-	    log_message(LOG_DEFAULT, "frames_adjust = %d, min_sdelay= %ld, frame_ticks = %ld", frames_adjust, min_sdelay, frame_ticks);
 
 	    frames_adjust = 0;
 	    prev_sdelay = min_sdelay;

@@ -46,6 +46,7 @@
 extern int c64_mem_init_resources(void);
 extern int c64_mem_init_cmdline_options(void);
 extern void mem_set_vbank(int new_vbank);
+extern read_func_t ram_read;
 extern read_func_t roml_read, romh_read;
 extern read_func_t ultimax_a000_bfff_read;
 extern store_func_t ram_store, ram_hi_store;

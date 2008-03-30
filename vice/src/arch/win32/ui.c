@@ -839,7 +839,7 @@ void ui_display_paused(int flag)
         buf = xmsprintf("%s (%s)", hwnd_titles[index],
             flag ? "paused" : "resumed");
         SetWindowText(window_handles[index], buf);
-
+		free(buf);
     }
 }
 
@@ -1550,129 +1550,9 @@ int     window_index;
             if (window_index<number_of_windows) {
                 statusbar_handle_WMSIZE(msg,wparam,lparam,window_index);
             }
-/*            SendMessage(status_hwnd[window_index],msg,wparam,lparam);
-            SetStatusWindowParts(status_hwnd[window_index]);
-            GetClientRect(window, &client_rect);*/
             return 0;
         case WM_DRAWITEM:
             statusbar_handle_WMDRAWITEM(wparam,lparam);
-#if 0
-            if (wparam==IDM_STATUS_WINDOW) {
-                if (((DRAWITEMSTRUCT*)lparam)->itemID==0) {
-                    /* it's the status info */
-                    led=((DRAWITEMSTRUCT*)lparam)->rcItem;
-                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                               (COLORREF)GetSysColor(COLOR_MENU));
-                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                 (COLORREF)GetSysColor(COLOR_MENUTEXT));
-                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC, emu_status_text,
-                             -1, &led, 0);
-               }
-                if ((((DRAWITEMSTRUCT*)lparam)->itemID==1) && tape_enabled) {
-                    /* it's the tape status */
-                    POINT tape_control_sign[3];
-
-                    /* the leading "Tape:" */
-                    led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
-                    led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
-                    led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
-                    led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+34;
-                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                               (COLORREF)GetSysColor(COLOR_MENU));
-                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                 (COLORREF)GetSysColor(COLOR_MENUTEXT));
-                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC, "Tape:",
-                             -1, &led, 0);
-
-                    /* the tape-motor */
-                    led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+1;
-                    led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+15;
-                    led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+36;
-                    led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+50;
-                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC, &led, tape_motor
-                             ? tape_motor_on_brush : tape_motor_off_brush);
-
-                    /* the tape-control */
-                    led.top+=3;
-                    led.bottom-=3;
-                    led.left+=3;
-                    led.right-=3;
-                    tape_control_sign[0].x = led.left;
-                    tape_control_sign[1].x = led.left+4;
-                    tape_control_sign[2].x = led.left;
-                    tape_control_sign[0].y = led.top;
-                    tape_control_sign[1].y = led.top+4;
-                    tape_control_sign[2].y = led.top+8;
-                    switch (tape_control) {
-                        case DATASETTE_CONTROL_STOP:
-                            FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                     &led, led_black);
-                            break;
-                        case DATASETTE_CONTROL_START:
-                        case DATASETTE_CONTROL_RECORD:
-                            SelectObject(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                         led_black);
-                            Polygon(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                    tape_control_sign, 3);
-                            if (tape_control==DATASETTE_CONTROL_RECORD) {
-                                SelectObject(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                             led_red);
-                                Ellipse(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                        led.left+17,
-                                        led.top+1,
-                                        led.left+24,
-                                        led.top+8);
-                            }
-                            break;
-                        case DATASETTE_CONTROL_REWIND:
-                            tape_control_sign[0].x += 4;
-                            tape_control_sign[1].x -= 4;
-                            tape_control_sign[2].x += 4;
-                        case DATASETTE_CONTROL_FORWARD:
-                            Polyline(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                     tape_control_sign, 3);
-                            tape_control_sign[0].x += 4;
-                            tape_control_sign[1].x += 4;
-                            tape_control_sign[2].x += 4;
-                            Polyline(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                     tape_control_sign, 3);
-                    }
-
-                    /* the tape-counter */
-                    led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
-                    led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
-                    led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+75;
-                    led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+110;
-                    sprintf(text,"%03i",tape_counter);
-                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
-
-                }
-                if (((DRAWITEMSTRUCT*)lparam)->itemID>(UINT)(tape_enabled?1:0)) {
-                    int index=((DRAWITEMSTRUCT*)lparam)->itemID-(tape_enabled?2:1);
-                    /* it's a disk */
-                    led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
-                    led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
-                    led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
-                    led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+84;
-                    sprintf(text,"%d: Track: %.1f", status_map[index]+8,
-                            status_track[status_map[index]]);
-                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                               (COLORREF)GetSysColor(COLOR_MENU));
-                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                 (COLORREF)GetSysColor(COLOR_MENUTEXT));
-                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
-
-                    led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
-                    led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2+12;
-                    led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86;
-                    led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86+16;
-                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC, &led,
-                             status_led[status_map[index]]
-                             ? (drive_active_led[status_map[index]]
-                             ? led_green : led_red ) : led_black);
-                }
-            }
-#endif
             return 0;
         case WM_COMMAND:
             handle_wm_command(wparam, lparam, window);

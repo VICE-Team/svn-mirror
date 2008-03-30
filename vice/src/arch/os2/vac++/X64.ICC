@@ -21,6 +21,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\screendrv"),
+    incl(searchpath, "..\\..\\..\\printerdrv"),
     incl(searchpath, "..\\..\\..\\vicii"),
     incl(searchpath, "..\\..\\..\\..\\..\\zlib"),
     incl(searchpath, "..\\..\\..\\..\\..\\lpng"),
@@ -54,6 +55,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "incl/vdrive.icc"
         include "incl/sounddrv.icc"
         include "incl/screendrv.icc"
+        include "incl/printerdrv.icc"
         include "incl/vicii.icc"
         include "incl/vsid.icc"
         include "incl/resid.icc"

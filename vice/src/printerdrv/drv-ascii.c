@@ -46,7 +46,7 @@ static int drv_ascii_putc(unsigned int prnr, unsigned int secondary, BYTE b)
     if (output_file_putc(prnr, b) < 0)
         return -1;
 
-#if defined(__MSDOS__) || defined(WIN32) || defined(OS2) || defined(__BEOS__)
+#if defined(__MSDOS__) || defined(WIN32) || defined(__OS2__) || defined(__BEOS__)
     if (b == 13)
         return output_file_putc(prnr, 10);
 #endif

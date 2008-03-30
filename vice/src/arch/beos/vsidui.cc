@@ -145,6 +145,13 @@ void vsid_ui_display_sync(int sync)
 	}
 }
 
+void vsid_ui_display_sid_model(int model)
+{
+    /* FIXME */
+    log_message(LOG_DEFAULT, "Using %s emulation",
+		model == 0 ? "MOS6581" : "MOS8580");
+}
+
 void vsid_ui_set_default_tune(int nr)
 {
 	char s[16];

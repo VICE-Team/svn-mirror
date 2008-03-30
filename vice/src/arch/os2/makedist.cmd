@@ -15,7 +15,6 @@ copy ..\..\..\data\c1541.exe  Vice2
 copy ..\..\..\data\petcat.exe Vice2
 copy ..\..\..\data\vice2.dll  Vice2
 copy ..\..\..\data\vice2.fon  Vice2
-copy ..\..\..\data\c64mem.sym Vice2
 
 md "Vice2\Icons"
 copy icons\folder1.ico Vice2\Icons
@@ -36,6 +35,8 @@ copy ..\..\..\data\C64\kernal       Vice2\C64
 copy ..\..\..\data\C64\os2.vkm      Vice2\C64
 copy ..\..\..\data\C64\os2_sym.vkm  Vice2\C64
 copy ..\..\..\data\C64\pc64.vpl     Vice2\C64
+copy ..\..\..\data\C64\vice.vpl     Vice2\C64
+copy ..\..\..\data\C64\c64mem.sym   Vice2\C64
 
 md Vice2\C128
 copy ..\..\..\data\C128\basic        Vice2\C128
@@ -49,6 +50,7 @@ copy ..\..\..\data\C128\godot.vpl    Vice2\C128
 copy ..\..\..\data\C128\kernal       Vice2\C128
 copy ..\..\..\data\C128\os2.vkm      Vice2\C128
 copy ..\..\..\data\C128\pc64.vpl     Vice2\C128
+copy ..\..\..\data\C128\vice.vpl     Vice2\C128
 copy ..\..\..\data\C128\vdc_deft.vpl Vice2\C128
 copy ..\..\..\data\C128\z80bios      Vice2\C128
 
@@ -104,7 +106,6 @@ copy ..\..\..\data\CBM-II\godot.vpl     Vice2\CBM-II
 copy ..\..\..\data\CBM-II\green.vpl     Vice2\CBM-II
 copy ..\..\..\data\CBM-II\kernal        Vice2\CBM-II
 copy ..\..\..\data\CBM-II\kernal.500    Vice2\CBM-II
-copy ..\..\..\data\CBM-II\kernal.500+   Vice2\CBM-II
 copy ..\..\..\data\CBM-II\os2.vkm       Vice2\CBM-II
 copy ..\..\..\data\CBM-II\rom128h.vrs   Vice2\CBM-II
 copy ..\..\..\data\CBM-II\rom128l.vrs   Vice2\CBM-II
@@ -123,6 +124,9 @@ copy ..\..\..\data\DRIVES\dos2031       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos2040       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos3040       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos4040       Vice2\DRIVES
+
+md Vice2\PRINTER
+copy ..\..\..\data\PRINTER\mps803       Vice2\PRINTER
 
 md Vice2\doc
 copy "vac++\vice2.inf"         Vice2\doc

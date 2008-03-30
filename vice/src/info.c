@@ -526,6 +526,8 @@ const char contrib_text[] =
 "  Peter Karlsson <peter@softwolves.pp.se> provided the swedish\n"
 "  translation for the Unix ports.\n"
 "\n"
+"  Eric (meepmeep) provided the french translation for the Unix ports.\n"
+"\n"
 "  Michael Klein <nip@c64.org> contributed the ESD sound driver\n"
 "  and some patches.\n"
 "\n"

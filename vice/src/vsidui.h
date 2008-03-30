@@ -33,6 +33,7 @@ extern void vsid_ui_display_name(const char *name);
 extern void vsid_ui_display_author(const char *author);
 extern void vsid_ui_display_copyright(const char *copyright);
 extern void vsid_ui_display_sync(int sync);
+extern void vsid_ui_display_sid_model(int model);
 extern void vsid_ui_display_tune_nr(int nr);
 extern void vsid_ui_display_nr_of_tunes(int count);
 extern void vsid_ui_set_default_tune(int nr);

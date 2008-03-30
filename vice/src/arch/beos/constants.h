@@ -68,6 +68,7 @@ const uint32 MENU_SNAPSHOT_SAVE					= 'M029';
 const uint32 MENU_LOADQUICK						= 'M030';
 const uint32 MENU_SAVEQUICK						= 'M031';
 const uint32 MENU_MONITOR						= 'M032';
+const uint32 MENU_PAUSE							= 'M033';
 const uint32 MENU_CART_ATTACH_CRT				= 'M040';
 const uint32 MENU_CART_ATTACH_8KB				= 'M041';
 const uint32 MENU_CART_ATTACH_16KB				= 'M042';
@@ -155,6 +156,15 @@ const uint32 MENU_SETTINGS_DEFAULT				= 'M212';
 const uint32 MENU_VSID_LOAD						= 'M300';
 const uint32 PLAY_VSID							= 'M301';
 const uint32 MENU_VSID_TUNE						= 'M302';
+
+const uint32 MENU_REU_SIZE_128					= 'M400';
+const uint32 MENU_REU_SIZE_256					= 'M401';
+const uint32 MENU_REU_SIZE_512					= 'M402';
+const uint32 MENU_REU_SIZE_1024					= 'M403';
+const uint32 MENU_REU_SIZE_2048					= 'M404';
+const uint32 MENU_REU_SIZE_4096					= 'M405';
+const uint32 MENU_REU_SIZE_8192					= 'M406';
+const uint32 MENU_REU_SIZE_16384				= 'M407';
 
 const uint32 MENU_ABOUT							= 'M901';
 const uint32 MENU_CONTRIBUTORS					= 'M902';

@@ -175,6 +175,10 @@ int archdep_num_text_columns(void)
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {
+    if (fputs(level_string, stdout) == EOF
+        || fprintf(stdout, txt) < 0
+        || fputc ('\n', stdout) == EOF)
+        return -1;
     return 0;
 }
 
@@ -193,7 +197,6 @@ static RETSIGTYPE break64(int sig)
 void archdep_setup_signals(int do_core_dumps)
 {
 
-/* Activate this later...
     signal(SIGINT, break64);
     signal(SIGTERM, break64);
 
@@ -201,7 +204,6 @@ void archdep_setup_signals(int do_core_dumps)
         signal(SIGSEGV,  break64);
         signal(SIGILL,   break64);
     }
-*/
 }
 
 int archdep_path_is_relative(const char *path)
@@ -270,7 +272,8 @@ void archdep_startup_log_error(const char *format, ...)
     va_start(args, format);
     tmp = xmvsprintf(format, args);
     va_end(args);
-
+	printf(tmp);
+	
     free(tmp);
 }
 

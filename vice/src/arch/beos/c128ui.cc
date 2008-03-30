@@ -69,11 +69,25 @@ static ui_res_possible_values SidResidSampling[] = {
 };
 #endif
 
+ui_res_possible_values ReuSize[] = {
+        {128, MENU_REU_SIZE_128},
+        {256, MENU_REU_SIZE_256},
+        {512, MENU_REU_SIZE_512},
+        {1024, MENU_REU_SIZE_1024},
+        {2048, MENU_REU_SIZE_2048},
+        {4096, MENU_REU_SIZE_4096},
+        {8192, MENU_REU_SIZE_8192},
+        {16384, MENU_REU_SIZE_16384},
+        {-1, 0}
+};
+
+
 ui_res_value_list c128_ui_res_values[] = {
     {"SidModel", SidType},
 #ifdef HAVE_RESID
     {"SidResidSampling", SidResidSampling},
 #endif
+    {"REUsize", ReuSize},
     {NULL,NULL}
 };
 
@@ -81,21 +95,6 @@ ui_res_value_list c128_ui_res_values[] = {
 void c128_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
-		case MENU_SIDTYPE_6581:
-    		resources_set_value("SidModel", (resource_value_t) 0);
-        	break;
-		case MENU_SIDTYPE_8580:
-        	resources_set_value("SidModel", (resource_value_t) 1);
-        	break;
-		case MENU_RESID_SAMPLE_FAST:
-    		resources_set_value("SidResidSampling", (resource_value_t) 0);
-        	break;
-		case MENU_RESID_SAMPLE_INTERPOLATE:
-    		resources_set_value("SidResidSampling", (resource_value_t) 1);
-        	break;
-		case MENU_RESID_SAMPLE_RESAMPLE:
-    		resources_set_value("SidResidSampling", (resource_value_t) 2);
-        	break;
 		case MENU_VICII_SETTINGS:
         	ui_vicii();
         	break;

@@ -955,7 +955,7 @@ void sound_store(ADDRESS addr, BYTE val)
 void sound_set_relative_speed(int value)
 {
     if (value != speed_percent) {
-        sound_close();
+        sound_state_changed = TRUE;
     }
 
     speed_percent = value;
