@@ -134,6 +134,10 @@ SOURCE="..\..\c64\cart\retroreplay.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\stb.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\supergames.c"
 # End Source File
 # Begin Source File
