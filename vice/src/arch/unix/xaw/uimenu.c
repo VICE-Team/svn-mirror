@@ -40,9 +40,12 @@
 
 #include "checkmark.xbm"
 #include "right_arrow.xbm"
-#include "uimenu.h"
-#include "vsync.h"
+
+#include "resources.h"
 #include "utils.h"
+#include "vsync.h"
+
+#include "uimenu.h"
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
@@ -410,4 +413,69 @@ void ui_menu_set_tick(Widget w, int flag)
 void ui_menu_set_sensitive(Widget w, int flag)
 {
     XtVaSetValues(w, XtNsensitive, flag, NULL);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* These functions are called by radio and toggle menu items if the callback
+   functions are defined through `UI_MENU_DEFINE_TOGGLE()',
+   `UI_MENU_DEFINE_RADIO()' or `UI_MENU_DEFINE_STRING_RADIO()'.  */
+
+void _ui_menu_toggle_helper(Widget w,
+                            ui_callback_data_t client_data,
+                            ui_callback_data_t call_data,
+                            const char *resource_name)
+{
+    int current_value;
+
+    if (resources_get_value(resource_name,
+                            (resource_value_t *) &current_value) < 0)
+        return;
+
+    if (!call_data) {
+        resources_set_value(resource_name, (resource_value_t) !current_value);
+        ui_update_menus();
+    } else {
+        ui_menu_set_tick(w, current_value);
+    }
+}
+
+void _ui_menu_radio_helper(Widget w,
+                           ui_callback_data_t client_data,
+                           ui_callback_data_t call_data,
+                           const char *resource_name)
+{
+    int current_value;
+
+    resources_get_value(resource_name, (resource_value_t *) &current_value);
+
+    if (!call_data) {
+        if (current_value != (int) client_data) {
+            resources_set_value(resource_name,
+                                (resource_value_t) client_data);
+            ui_update_menus();
+        }
+    } else {
+        ui_menu_set_tick(w, current_value == (int) client_data);
+    }
+}
+
+void _ui_menu_string_radio_helper(Widget w, 
+                                  ui_callback_data_t client_data,
+                                  ui_callback_data_t call_data,
+                                  const char *resource_name)
+{
+    resource_value_t current_value;
+
+    resources_get_value(resource_name, &current_value);
+    if (!call_data) {
+        if (strcmp((const char *) current_value,
+                   (const char *) client_data) != 0) {
+            resources_set_value(resource_name, (resource_value_t) client_data);
+            ui_update_menus();
+        }
+    } else {
+        ui_menu_set_tick(w, strcmp((const char *) current_value,
+                                   (const char *) client_data) == 0);
+    }
 }
