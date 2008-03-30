@@ -26,6 +26,10 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "mon.h"
 #include "montypes.h"
 #include "mon_register.h"
@@ -33,13 +37,10 @@
 #include "mon_util.h"
 #include "utils.h"
 
-#include <stdlib.h>
-#include <string.h>
-
 
 struct mon_disassembly_private
 {
-	MEMSPACE memspace;
+    MEMSPACE memspace;
     ADDRESS  StartAddress;
     ADDRESS  EndAddress;
     ADDRESS  CurrentAddress;
@@ -62,40 +63,44 @@ struct mon_disassembly_private *mon_disassembly_init( void )
     return ret;
 }
 
-void mon_disassembly_deinit( struct mon_disassembly_private *pmdp )
+void mon_disassembly_deinit(struct mon_disassembly_private *pmdp)
 {
     free(pmdp);
 }
 
-void mon_disassembly_update( struct mon_disassembly_private *pmdp )
+void mon_disassembly_update(struct mon_disassembly_private *pmdp)
 {
-    pmdp->CurrentAddress = monitor_cpu_type.mon_register_get_val(pmdp->memspace,e_PC);
+    pmdp->CurrentAddress
+        = monitor_cpu_type.mon_register_get_val(pmdp->memspace,e_PC);
 
-    if ((pmdp->CurrentAddress < pmdp->StartAddress) || (pmdp->CurrentAddress > pmdp->EndAddress))
-    {
+    if ((pmdp->CurrentAddress < pmdp->StartAddress)
+        || (pmdp->CurrentAddress > pmdp->EndAddress)) {
         pmdp->StartAddress = pmdp->CurrentAddress;
         pmdp->EndAddress   = 0;
     }
 }
 
-void mon_disassembly_set_memspace( struct mon_disassembly_private *pmdp, MEMSPACE memspace )
+void mon_disassembly_set_memspace(struct mon_disassembly_private *pmdp,
+                                  MEMSPACE memspace)
 {
     pmdp->memspace = memspace;
 }
 
-MEMSPACE mon_disassembly_get_memspace( struct mon_disassembly_private *pmdp )
+MEMSPACE mon_disassembly_get_memspace(struct mon_disassembly_private *pmdp)
 {
     return pmdp->memspace;
 }
 
 
-struct mon_disassembly *mon_disassembly_get_lines( struct mon_disassembly_private *pmdp, int lines_visible, int lines_full_visible )
+struct mon_disassembly *mon_disassembly_get_lines(
+    struct mon_disassembly_private *pmdp, int lines_visible,
+    int lines_full_visible)
 {
     ADDRESS loc;
     unsigned int size;
     int  i;
     int  have_label = pmdp->have_label;
-    struct mon_disassembly *contents;
+    struct mon_disassembly *contents = NULL;
     struct mon_disassembly *ret;
 
     loc = pmdp->StartAddress;
@@ -103,7 +108,7 @@ struct mon_disassembly *mon_disassembly_get_lines( struct mon_disassembly_privat
 
     pmdp->Lines = lines_full_visible;
 
-    for (i=0; i<lines_visible; i++ )
+    for (i = 0; i < lines_visible; i++ )
     {
         struct mon_disassembly *newcont;
         newcont = xmalloc(sizeof(struct mon_disassembly));
@@ -121,11 +126,13 @@ struct mon_disassembly *mon_disassembly_get_lines( struct mon_disassembly_privat
 
         contents->next                    = NULL;
         contents->flags.active_line       = loc==pmdp->CurrentAddress ? 1 : 0;
-        contents->flags.is_breakpoint     = (loc == 0xA47B) || (loc == 0xA47D); /* @SRT: just for testing! */
-        contents->flags.breakpoint_active = loc == 0xA47B;                      /* @SRT: just for testing! */
+        /* @SRT: just for testing! */
+        contents->flags.is_breakpoint     = (loc == 0xA47B) || (loc == 0xA47D);
+        /* @SRT: just for testing! */
+        contents->flags.breakpoint_active = loc == 0xA47B;
 
-		contents->content = 
-            mon_disassemble_with_label(pmdp->memspace, loc, 1, &size, &have_label );
+	contents->content = 
+        mon_disassemble_with_label(pmdp->memspace, loc, 1, &size, &have_label);
 
         contents->length  = strlen(contents->content);
 
@@ -138,13 +145,13 @@ struct mon_disassembly *mon_disassembly_get_lines( struct mon_disassembly_privat
 }
 
 static
-ADDRESS scroll_down( struct mon_disassembly_private *pmdp, ADDRESS loc )
+ADDRESS scroll_down(struct mon_disassembly_private *pmdp, ADDRESS loc)
 {
     unsigned int size;
     char *content;
 
-	content = 
-        mon_disassemble_with_label(pmdp->memspace, loc, 1, &size, &pmdp->have_label );
+	content = mon_disassemble_with_label(pmdp->memspace, loc, 1, &size,
+                                             &pmdp->have_label );
 
     free(content);
 
@@ -152,18 +159,17 @@ ADDRESS scroll_down( struct mon_disassembly_private *pmdp, ADDRESS loc )
 }
 
 static
-ADDRESS scroll_down_page( struct mon_disassembly_private *pmdp, ADDRESS loc )
+ADDRESS scroll_down_page(struct mon_disassembly_private *pmdp, ADDRESS loc)
 {
     unsigned int size;
     int  i;
 
     /* it's one less than visible, so there will be one line visible left! */
-    for (i=1; i<pmdp->Lines; i++)
-    {
+    for (i = 1; i < pmdp->Lines; i++) {
         char *content;
 
-	    content = 
-            mon_disassemble_with_label(pmdp->memspace, loc, 1, &size, &pmdp->have_label );
+        content = mon_disassemble_with_label(pmdp->memspace, loc, 1, &size,
+                                             &pmdp->have_label );
 
         free(content);
 
@@ -174,11 +180,14 @@ ADDRESS scroll_down_page( struct mon_disassembly_private *pmdp, ADDRESS loc )
 }
 
 static
-ADDRESS scroll_up_count( struct mon_disassembly_private *pmdp, ADDRESS loc, unsigned int count )
+ADDRESS scroll_up_count(struct mon_disassembly_private *pmdp, ADDRESS loc,
+                        unsigned int count)
 {
     unsigned int size;
-    int  have_label = 0; /* this has to be initialized with zero for correct processing */
-    ADDRESS testloc = loc - 3 * count - 3; /* @SRT: TODO: adjust: is this enough? */
+    /* this has to be initialized with zero for correct processing */
+    int  have_label = 0;
+    /* @SRT: TODO: adjust: is this enough? */
+    ADDRESS testloc = loc - 3 * count - 3;
 
     unsigned int *disp = xmalloc( sizeof(unsigned int)*count );
     unsigned int storepos = 0;
@@ -191,8 +200,8 @@ ADDRESS scroll_up_count( struct mon_disassembly_private *pmdp, ADDRESS loc, unsi
         if (storepos==count)
             storepos = 0;
 
-	    content = 
-            mon_disassemble_with_label(pmdp->memspace, testloc, 1, &size, &have_label );
+	    content = mon_disassemble_with_label(pmdp->memspace, testloc, 1,
+                                                 &size, &have_label );
 
         free(content);
 
@@ -207,46 +216,52 @@ ADDRESS scroll_up_count( struct mon_disassembly_private *pmdp, ADDRESS loc, unsi
 }
 
 static
-ADDRESS scroll_up( struct mon_disassembly_private *pmdp, ADDRESS loc )
+ADDRESS scroll_up(struct mon_disassembly_private *pmdp, ADDRESS loc)
 {
     return scroll_up_count( pmdp, loc, 1 );
 }
 
 static
-ADDRESS scroll_up_page( struct mon_disassembly_private *pmdp, ADDRESS loc )
+ADDRESS scroll_up_page(struct mon_disassembly_private *pmdp, ADDRESS loc)
 {
-    /* the count is one less than visible, so there will be one line visible left! */
+    /* the count is one less than visible,
+       so there will be one line visible left! */
     return scroll_up_count( pmdp, loc, pmdp->Lines - 1);
 }
 
-ADDRESS mon_scroll ( struct mon_disassembly_private *pmdp, MON_SCROLL_TYPE ScrollType )
+ADDRESS mon_scroll(struct mon_disassembly_private *pmdp,
+                   MON_SCROLL_TYPE ScrollType )
 {
-    switch (ScrollType)
-    {
-        case MON_SCROLL_NOTHING:
-            break;
+    switch (ScrollType) {
+      case MON_SCROLL_NOTHING:
+        break;
 
-        case MON_SCROLL_DOWN:
-            pmdp->StartAddress = scroll_down( pmdp, pmdp->StartAddress );
-            break;
+      case MON_SCROLL_DOWN:
+        pmdp->StartAddress = scroll_down(pmdp, pmdp->StartAddress);
+        break;
 
-        case MON_SCROLL_UP:
-            pmdp->StartAddress = scroll_up( pmdp, pmdp->StartAddress );
-            break;
+      case MON_SCROLL_UP:
+        pmdp->StartAddress = scroll_up(pmdp, pmdp->StartAddress);
+        break;
 
-        case MON_SCROLL_PAGE_DOWN:
-            pmdp->StartAddress = scroll_down_page( pmdp, pmdp->StartAddress );
-            break;
+      case MON_SCROLL_PAGE_DOWN:
+        pmdp->StartAddress = scroll_down_page(pmdp, pmdp->StartAddress);
+        break;
 
-        case MON_SCROLL_PAGE_UP:
-            pmdp->StartAddress = scroll_up_page( pmdp, pmdp->StartAddress );
-            break;
+      case MON_SCROLL_PAGE_UP:
+        pmdp->StartAddress = scroll_up_page(pmdp, pmdp->StartAddress);
+        break;
     }
     return pmdp->StartAddress;
 }
 
-ADDRESS mon_scroll_to( struct mon_disassembly_private *pmdp, ADDRESS addr )
+ADDRESS mon_scroll_to(struct mon_disassembly_private *pmdp, ADDRESS addr)
 {
     pmdp->StartAddress = addr;
     return pmdp->StartAddress;
 }
+
+void mon_ui_init(void)
+{
+}
+

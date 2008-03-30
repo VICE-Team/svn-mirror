@@ -1,3 +1,69 @@
+2001-10-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.16.
+
+	* c64/cart/epyxfastload.c, c64/cart/epyxfastload.h,
+	c64/cart/supergames.c, c64/cart/supergames.h,
+	c64/cart/zaxxon.c, c64/cart/zaxxon.h: New files.
+
+	* c64/cart/Makefile.am: Added new files.
+
+	* c64/cart/c64cartmem.c, c64/cart/crt.c: Separated some carts.
+
+	* c64/cart/retroreplay.c (retroreplay_io1_store): Fixed no
+	freeze bit and write once functionallity.
+
+	* arch/win32/c64ui.c (c64_ui_specific): Added RR cart.
+
+	* arch/win32/c64ui.c, arch/win32/c128ui.c,
+	arch/win32/vic20ui.c, arch/win32/petui.c, arch/win32/c610ui.c:
+	Made some functions static.
+
+	* monitor/mon_ui.c, monitor/mon_ui.h (mon_ui_init): Stub.
+
+	* monitor/mon.c (monitor_init): Call `mon_ui_init()'.
+
+2001-10-23  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dlg-fileio.c:
+	added support for configuration file
+	fixed some small bugs
+    
+	* arch/os2/dialogs/menubar.[h, c, rc]:
+	reorganized cartridge support
+	added stereo stuff
+    
+	* arch/os2/kbd/kbd-c128.c, arch/os2/kbd/kbd-c610.c,
+	arch/os2/kbd/kbd-c64.c, arch/os2/kbd/kbd-pet.c,
+	arch/os2/kbd/kbd-vic20.c: simplified kbd_init-call
+    
+	* arch/os2/kbd.c: fixed a bug in the name initialization
+    
+	* arch/os2/vac++/incl/gfxoutputdrv.icc: added
+    
+	* arch/os2/vac++/incl/resid.icc: added new sid-files
+    
+	* arch/os2/vac++/incl/screendrv.icc: removed
+    
+	* arch/os2/vac++/RESID.ICC: changed version number
+    
+	* arch/os2/vac++/vicedll.ICC: added some more exports
+    
+	* arch/os2/video.c: small changes
+    
+	* main.c: cut some lines
+    
+	* raster/raster-modes.h: removed forward declaration (isn't
+	understood by Vac++)
+    
+	* resources.c: exchanged log_warning by
+	archdep_startup_log_error
+    
+	* sound.c: exchanged sound_close calls to sound_state_changed
+    
+	* sounddrv/sounddart.c, sounddrv/soundmmos2.c: make use of new
+	stero capability
+    
 2001-10-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
         * Version 1.7.15.
