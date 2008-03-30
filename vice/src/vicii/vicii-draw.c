@@ -49,20 +49,33 @@ static DWORD hr_table[16 * 16 * 16];
 static WORD mc_table[2 * 4 * 256];
 static WORD mcmsktable[512];
 
+
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
 
 static void draw_std_background(int start_pixel, int end_pixel)
 {
-#if 1
-    vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
-               vic_ii.raster.xsmooth_color,
-               end_pixel - start_pixel + 1);
-#else
-    vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
-               vic_ii.raster.overscan_background_color,
-               end_pixel - start_pixel + 1);
-#endif
+    BYTE background_color;
 
+    background_color = (BYTE)vic_ii.raster.xsmooth_color;
+
+    if (vic_ii.raster.xsmooth_shift_right) {
+        int pos;
+
+        vic_ii.raster.xsmooth_shift_right = 0;
+
+        pos = (start_pixel - vic_ii.raster.geometry.gfx_position.x) / 8;
+
+        if (pos >= 0 && pos < VIC_II_SCREEN_TEXTCOLS) {
+            if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE)
+                background_color = vic_ii.vbuf[pos] & 0xf;
+        }
+    }
+
+    vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+               background_color,
+               end_pixel - start_pixel + 1);
+
+#if 0
     /* The background color in the xsmooth region is set by xsmooth color.  */
     if (vic_ii.raster.xsmooth
         && start_pixel
@@ -73,6 +86,7 @@ static void draw_std_background(int start_pixel, int end_pixel)
                    + vic_ii.raster.geometry.gfx_position.x),
                    vic_ii.raster.xsmooth_color,
                    vic_ii.raster.xsmooth);
+#endif
 }
 
 static void draw_idle_std_background(int start_pixel, int end_pixel)
@@ -213,6 +227,13 @@ static void draw_std_text_foreground(int start_char, int end_char)
 
         b = char_ptr[vic_ii.vbuf[i] * 8];
         f = vic_ii.cbuf[i];
+        
+        if (i == end_char) {
+            if (vic_ii.raster.xsmooth_shift_left > 0) {
+                b = (b >> vic_ii.raster.xsmooth_shift_left) 
+                    << vic_ii.raster.xsmooth_shift_left;
+            }
+        }
 
         *(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
         DRAW_STD_TEXT_BYTE(p, b, f);
