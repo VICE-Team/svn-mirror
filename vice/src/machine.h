@@ -79,11 +79,14 @@ extern void machine_early_init(void);
 extern void machine_maincpu_init(void);
 
 /* Reset the machine.  */
+#define MACHINE_RESET_MODE_SOFT 0
+#define MACHINE_RESET_MODE_HARD 1
+extern void machine_trigger_reset(const unsigned int reset_mode);
 extern void machine_reset(void);
 extern void machine_specific_reset(void);
 
 /* Power-up the machine.  */
-extern void machine_powerup(void);
+extern void machine_specific_powerup(void);
 
 /* Shutdown the emachine.  */
 extern void machine_shutdown(void);
