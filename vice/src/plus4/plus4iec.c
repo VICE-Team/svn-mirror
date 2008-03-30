@@ -117,7 +117,7 @@ void iec_cpu_write_conf0(BYTE data)
 /* Only the first drive is enabled.  */
 void iec_cpu_write_conf1(BYTE data)
 {
-    drive0_cpu_execute(last_write_cycle);
+    drivecpu_execute(&drive0_context, last_write_cycle);
 
     iec_update_cpu_bus(data);
 
@@ -148,7 +148,7 @@ void iec_cpu_write_conf1(BYTE data)
 /* Only the second drive is enabled.  */
 void iec_cpu_write_conf2(BYTE data)
 {
-    drive1_cpu_execute(last_write_cycle);
+    drivecpu_execute(&drive1_context, last_write_cycle);
 
     iec_update_cpu_bus(data);
 
@@ -179,8 +179,8 @@ void iec_cpu_write_conf2(BYTE data)
 /* Both drive are enabled.  */
 void iec_cpu_write_conf3(BYTE data)
 {
-    drive0_cpu_execute(last_write_cycle);
-    drive1_cpu_execute(last_write_cycle);
+    drivecpu_execute(&drive0_context, last_write_cycle);
+    drivecpu_execute(&drive1_context, last_write_cycle);
 
     iec_update_cpu_bus(data);
 
@@ -239,10 +239,8 @@ BYTE iec_cpu_read(void)
     if (!drive[0].enable && !drive[1].enable)
 	return (iec_info.iec_fast_1541 & 0x30) << 2;
 
-    if (drive[0].enable)
-	drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-	drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
+
     return iec_info.cpu_port;
 }
 
@@ -287,10 +285,7 @@ void parallel_cable_cpu_write(BYTE data)
     if (!drive[0].enable && !drive[1].enable)
         return;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(last_write_cycle);
-    if (drive[1].enable)
-        drive1_cpu_execute(last_write_cycle);
+    drivecpu_execute_all(last_write_cycle);
 
     parallel_cable_cpu_value = data;
 }
@@ -300,10 +295,7 @@ BYTE parallel_cable_cpu_read(void)
     if (!drive[0].enable && !drive[1].enable)
         return 0;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;

@@ -51,16 +51,13 @@ extern void REGPARM3 drive_store(struct drive_context_s *drv, WORD addr,
                                  BYTE value);
 extern BYTE REGPARM2 drive_read(struct drive_context_s *drv, WORD addr);
 extern void drive_toggle_watchpoints(struct drive_context_s *drv, int flag);
-extern void drivex_cpu_execute(struct drive_context_s *drv, CLOCK clk_value);
+extern void drivecpu_execute(struct drive_context_s *drv, CLOCK clk_value);
+extern void drivecpu_execute_all(CLOCK clk_value);
 extern void drive_set_bank_base(struct drive_context_s *drv);
 extern int drive_cpu_snapshot_write_module(struct drive_context_s *drv,
                                            struct snapshot_s *s);
 extern int drive_cpu_snapshot_read_module(struct drive_context_s *drv,
                                           struct snapshot_s *s);
-
-/* to minimize changes in other modules */
-#define drive0_cpu_execute(c)   drivex_cpu_execute(&drive0_context, c)
-#define drive1_cpu_execute(c)   drivex_cpu_execute(&drive1_context, c)
 
 /* don't use these pointers before the context is set up! */
 extern struct monitor_interface_s *drive0_monitor_interface_get(void);

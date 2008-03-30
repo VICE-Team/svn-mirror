@@ -1,3 +1,68 @@
+2003-11-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.13.
+
+	* gfxoutputdrv/gfxoutput.c: Only include ffmpeg header if
+	`HAVE_FFMPEG' is defined.
+
+	* drive/drivetypes.h, drive/drivecpu.h, drive/drivecpu.c,
+	c64/c64-snapshot.c, c64/c64cia2.c, c64/c64iec.c, c64/c64tpi.c,
+	pet/petpia1.c, pet/petpia2.c, pet/petvia.c, c128/c128iec.c,
+	c128/c128cia1.c, cbm2/cbm2tpi1.c, cbm2/cbm2cia1.c,
+	drive/drive.c, plus4/plus4-snapshot.c, plus4/plus4iec.c,
+	plus4/plus4tcbm.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, vic20/vic20iec.c, parallel/parallel.c:
+	Removed drive CPU execute macro.
+
+2003-11-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/mouse.c: New resource Mouseport and commandline
+	switch -mouseport to select the port of the emulated mouse.
+
+2003-10-31  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/msvc/config.h: Defines HAVE_FFMPEG.
+
+	* arch/win32/Makefile.am, arch.dsp, ffmpeglib.c: Added new
+	file. ffmpeglib_open initialises the function pointers used
+	in ffmpegdrv by loading the corresponding dlls.
+
+	* arch/win32/res.h, res<machine>*.rc, ui.c, uisnapshot.c:
+	Replaced movie, screenshot and soundshot UI by a general
+	media UI. FIXME: The dialog needs further work.
+
+	* gfxoutputdrv/mpegdrv.*: Renamed to ffmpegdrv.*.
+	MP3 audio codec is forced now. Resolution of the video is a
+	multiple of 16 now. Funktion pointers p_<ffmpeg-function) are
+	used now, must be set in arch/*/ffmpeglib.c
+
+	* gfxoutputdrv/ffmpeg/*.h: New header files from the ffmpeg
+	library.
+
+	* gfxoutputdrv/ffmpeglib.h: New file declaring the ffmpeg
+	functions and pointers.
+
+	* gfxoutputdrv/gfxoutput.c: First initialises the ffmpeg lib,
+	then the driver depending on HAVE_FFMPEG.
+
+	* gfxoutputdrv/Makefile.am: Added new files.
+
+	* sound.c: Uses HAVE_FFMPEG.
+
+	* sound.h: Fixed prototype of renamed sound driver.
+
+	* sounddrv/soundmovie.c: Renamed to soundffmpegaudio.c.
+
+2003-10-29  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/video.c (video_canvas_destroy): Fixed call order
+	of releasing canvas resources.
+
+	* c128/c128cia1.c, c64/c64cia1.c, c64/c64cia2.c,
+	cbm2/cbm2cia1.c, pet/petvia.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, vic20/vic20via1.c, vic20/vic20via2.c:
+	Init prv member of context struct to NULL in setup functions.
+
 2003-10-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.12.

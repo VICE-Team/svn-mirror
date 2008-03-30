@@ -1,3 +1,13 @@
+2003-11-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.13.
+
+2003-10-31  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* Added commandline option --enable-ffmpeg that defines
+	HAVE_FFMPEG and adds the sound and gfxoutput drivers.
+	Removed every ffmpeg header and library test.
+
 2003-10-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.12.

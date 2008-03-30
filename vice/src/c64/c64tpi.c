@@ -172,10 +172,7 @@ static BYTE read_pa(tpi_context_t *tpi_context)
 {
     BYTE byte;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     byte = 0xff;
     if (ieee_is_out) {
@@ -204,10 +201,7 @@ static BYTE read_pb(tpi_context_t *tpi_context)
 {
     BYTE byte;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     byte = ieee_is_out ? 0xff : parallel_bus;
     byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPB])

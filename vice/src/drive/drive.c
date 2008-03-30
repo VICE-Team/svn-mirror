@@ -856,9 +856,9 @@ void drive_vsync_hook(void)
 {
     drive_update_ui_status();
     if (drive[0].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
+        drivecpu_execute(&drive0_context, maincpu_clk);
     if (drive[1].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+        drivecpu_execute(&drive1_context, maincpu_clk);
 
     machine_drive_vsync_hook();
 }

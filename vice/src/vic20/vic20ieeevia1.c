@@ -142,10 +142,7 @@ inline static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     byte = 255
         - (parallel_atn  ? 0x80 : 0)
@@ -189,6 +186,7 @@ void vic20ieeevia1_setup_context(machine_context_t *machine_context)
     machine_context->ieeevia1 = lib_malloc(sizeof(via_context_t));
     via = machine_context->ieeevia1;
 
+    via->prv = NULL;
     via->context = NULL;
 
     via->rmw_flag = &maincpu_rmw_flag;

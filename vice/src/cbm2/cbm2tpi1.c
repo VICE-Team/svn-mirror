@@ -173,10 +173,7 @@ static BYTE read_pa(tpi_context_t *tpi_context)
 {
     BYTE byte;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     byte = 0x07;
     byte += parallel_atn ? 0 : 8;

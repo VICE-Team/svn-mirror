@@ -127,10 +127,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 {
     BYTE byte;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     /* this reads the 8 bit IEEE488 data bus, but joystick 1 and 2 buttons
        can pull down inputs pa6 and pa7 resp. */
@@ -207,6 +204,7 @@ void cia1_setup_context(machine_context_t *machine_context)
     machine_context->cia1 = lib_malloc(sizeof(cia_context_t));
     cia = machine_context->cia1;
 
+    cia->prv = NULL;
     cia->context = NULL;
 
     cia->rmw_flag = &maincpu_rmw_flag;

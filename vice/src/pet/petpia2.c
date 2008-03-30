@@ -120,10 +120,7 @@ static BYTE read_pa(void)
 {
     BYTE byte;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     if (parallel_debug)
         log_message(mypia_log,

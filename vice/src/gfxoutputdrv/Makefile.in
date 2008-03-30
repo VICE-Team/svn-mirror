@@ -229,8 +229,9 @@ noinst_LIBRARIES = libgfxoutputdrv.a
 
 # These sources are linked only under certain circumstances.
 EXTRA_libgfxoutputdrv_a_SOURCES = \
-	mpegdrv.c \
-	mpegdrv.h \
+	ffmpegdrv.c \
+	ffmpegdrv.h \
+	ffmpeglib.h \
 	pngdrv.c \
 	pngdrv.h
 
@@ -245,7 +246,15 @@ libgfxoutputdrv_a_SOURCES = \
 libgfxoutputdrv_a_DEPENDENCIES = @GFXOUTPUT_DRIVERS@
 libgfxoutputdrv_a_LIBADD = @GFXOUTPUT_DRIVERS@
 
-EXTRA_DIST = 
+EXTRA_DIST = \
+    ffmpeg/avcodec.h \
+    ffmpeg/avformat.h \
+    ffmpeg/avio.h \
+    ffmpeg/common.h \
+    ffmpeg/rtp.h \
+    ffmpeg/rtsp.h \
+    ffmpeg/rtspcodes.h
+
 subdir = src/gfxoutputdrv
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
@@ -259,8 +268,8 @@ libgfxoutputdrv_a_OBJECTS = $(am_libgfxoutputdrv_a_OBJECTS)
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/bmpdrv.Po ./$(DEPDIR)/gfxoutput.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/mpegdrv.Po ./$(DEPDIR)/pngdrv.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/bmpdrv.Po ./$(DEPDIR)/ffmpegdrv.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/gfxoutput.Po ./$(DEPDIR)/pngdrv.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -294,8 +303,8 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bmpdrv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ffmpegdrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gfxoutput.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mpegdrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pngdrv.Po@am__quote@
 
 distclean-depend:
@@ -383,6 +392,7 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/ffmpeg
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

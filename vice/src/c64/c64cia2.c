@@ -195,10 +195,8 @@ static BYTE read_ciapa(cia_context_t *cia_context)
         return ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))
             & 0x3f) |
             (cia2_iec_info->iec_fast_1541 & 0x30) << 2;
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+
+    drivecpu_execute_all(maincpu_clk);
 
     byte = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))
            & 0x3f) | cia2_iec_info->cpu_port;
@@ -226,9 +224,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 static void read_ciaicr(cia_context_t *cia_context)
 {
     if (drive[0].parallel_cable_enabled)
-        drive0_cpu_execute(maincpu_clk);
+        drivecpu_execute(&drive0_context, maincpu_clk);
     if (drive[1].parallel_cable_enabled)
-        drive1_cpu_execute(maincpu_clk);
+        drivecpu_execute(&drive1_context, maincpu_clk);
 }
 
 static void read_sdr(cia_context_t *cia_context)
@@ -284,6 +282,7 @@ void cia2_setup_context(machine_context_t *machine_context)
     machine_context->cia2 = lib_malloc(sizeof(cia_context_t));
     cia = machine_context->cia2;
 
+    cia->prv = NULL;
     cia->context = NULL;
 
     cia->rmw_flag = &maincpu_rmw_flag;

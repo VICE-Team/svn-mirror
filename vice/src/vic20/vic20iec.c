@@ -153,10 +153,7 @@ BYTE iec_drive1_read(void)
 
 BYTE iec_pa_read(void)
 {
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     cpu_bus_val = (bus_data << 1) | bus_clock | (NOT(bus_atn) << 7);
 
@@ -167,10 +164,7 @@ void iec_pa_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     /* Signal ATN interrupt to the drives.  */
     if ((cpu_atn == 0) && (data & 128)) {
@@ -224,10 +218,7 @@ void iec_pcr_write(BYTE data)
     if (!drive[0].enable && !drive[1].enable)
         return;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     cpu_data = ((data & 32) >> 5);
     cpu_clock = ((data & 2) >> 1);

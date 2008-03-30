@@ -240,7 +240,7 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundhpux.c \
 	soundmidas.c \
 	soundmmos2.c \
-	soundmovie.c \
+	soundffmpegaudio.c \
 	soundsb.c \
 	soundsdl.c \
 	soundsgi.c \
@@ -291,9 +291,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/soundarts.Po ./$(DEPDIR)/soundbeos.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sounddart.Po ./$(DEPDIR)/sounddummy.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sounddump.Po ./$(DEPDIR)/sounddx.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/soundesd.Po ./$(DEPDIR)/soundfs.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/soundhpux.Po ./$(DEPDIR)/soundmidas.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/soundmmos2.Po ./$(DEPDIR)/soundmovie.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundesd.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundffmpegaudio.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundfs.Po ./$(DEPDIR)/soundhpux.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundmidas.Po ./$(DEPDIR)/soundmmos2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundsb.Po ./$(DEPDIR)/soundsdl.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundsgi.Po ./$(DEPDIR)/soundspeed.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundsun.Po ./$(DEPDIR)/sounduss.Po \
@@ -344,11 +345,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sounddump.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sounddx.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundesd.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundffmpegaudio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundfs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundhpux.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundmidas.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundmmos2.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundmovie.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundsb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundsdl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundsgi.Po@am__quote@

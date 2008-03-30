@@ -65,10 +65,7 @@ int c64_snapshot_write(const char *name, int save_roms, int save_disks,
     sound_snapshot_prepare();
 
     /* Execute drive CPUs to get in sync with the main CPU.  */
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     if (maincpu_snapshot_write_module(s) < 0
         || c64_snapshot_write_module(s, save_roms) < 0

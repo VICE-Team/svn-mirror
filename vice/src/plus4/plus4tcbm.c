@@ -209,7 +209,7 @@ static BYTE tiatcbm_read(WORD addr, unsigned int dnr)
 BYTE REGPARM1 plus4tcbm1_read(WORD addr)
 {
     if (drive[0].enable && drive[0].type == DRIVE_TYPE_1551) {
-        drive0_cpu_execute(maincpu_clk);
+        drivecpu_execute(&drive0_context, maincpu_clk);
         return tiatcbm_read(addr, 0);
     }
     return 0;
@@ -218,7 +218,7 @@ BYTE REGPARM1 plus4tcbm1_read(WORD addr)
 void REGPARM2 plus4tcbm1_store(WORD addr, BYTE value)
 {
     if (drive[0].enable && drive[0].type == DRIVE_TYPE_1551) {
-        drive0_cpu_execute(maincpu_clk);
+        drivecpu_execute(&drive0_context, maincpu_clk);
         tiatcbm_store(addr, value, 0);
     }
 }
@@ -226,7 +226,7 @@ void REGPARM2 plus4tcbm1_store(WORD addr, BYTE value)
 BYTE REGPARM1 plus4tcbm2_read(WORD addr)
 {
     if (drive[1].enable && drive[1].type == DRIVE_TYPE_1551) {
-        drive1_cpu_execute(maincpu_clk);
+        drivecpu_execute(&drive1_context, maincpu_clk);
         return tiatcbm_read(addr, 1);
     }
     return 0;
@@ -235,7 +235,7 @@ BYTE REGPARM1 plus4tcbm2_read(WORD addr)
 void REGPARM2 plus4tcbm2_store(WORD addr, BYTE value)
 {
     if (drive[1].enable && drive[1].type == DRIVE_TYPE_1551) {
-        drive1_cpu_execute(maincpu_clk);
+        drivecpu_execute(&drive1_context, maincpu_clk);
         tiatcbm_store(addr, value, 1);
     }
 }

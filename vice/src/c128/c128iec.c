@@ -127,7 +127,7 @@ void iec_cpu_write_conf0(BYTE data)
 /* Only the first drive is enabled.  */
 void iec_cpu_write_conf1(BYTE data)
 {
-    drive0_cpu_execute(maincpu_clk);
+    drivecpu_execute(&drive0_context, maincpu_clk);
 
     iec_update_cpu_bus(data);
 
@@ -161,7 +161,7 @@ void iec_cpu_write_conf1(BYTE data)
 /* Only the second drive is enabled.  */
 void iec_cpu_write_conf2(BYTE data)
 {
-    drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute(&drive1_context, maincpu_clk);
 
     iec_update_cpu_bus(data);
 
@@ -194,8 +194,8 @@ void iec_cpu_write_conf2(BYTE data)
 /* Both drive are enabled.  */
 void iec_cpu_write_conf3(BYTE data)
 {
-    drive0_cpu_execute(maincpu_clk);
-    drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute(&drive0_context, maincpu_clk);
+    drivecpu_execute(&drive1_context, maincpu_clk);
 
     iec_update_cpu_bus(data);
 
@@ -257,10 +257,8 @@ BYTE iec_cpu_read(void)
     if (!drive[0].enable && !drive[1].enable)
         return (iec_info.iec_fast_1541 & 0x30) << 2;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
+
     return iec_info.cpu_port;
 }
 #endif
@@ -297,10 +295,7 @@ void parallel_cable_cpu_write(BYTE data)
     if (!drive[0].enable && !drive[1].enable)
         return;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     parallel_cable_cpu_value = data;
 }
@@ -310,10 +305,8 @@ BYTE parallel_cable_cpu_read(void)
     if (!drive[0].enable && !drive[1].enable)
         return 0;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
+
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
@@ -323,10 +316,7 @@ void parallel_cable_cpu_pulse(void)
     if (!drive[0].enable && !drive[1].enable)
         return;
 
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+    drivecpu_execute_all(maincpu_clk);
 
     viacore_signal(drive0_context.via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
     viacore_signal(drive1_context.via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
@@ -354,7 +344,7 @@ void iec_fast_cpu_write(BYTE data)
     /*log_debug("CW %02x %i", data, maincpu_clk);*/
     if (fast_cpu_direction) {
         if (drive[0].enable) {
-            drive0_cpu_execute(maincpu_clk);
+            drivecpu_execute(&drive0_context, maincpu_clk);
             if (drive[0].type == DRIVE_TYPE_1570
                 || drive[0].type == DRIVE_TYPE_1571
                 || drive[0].type == DRIVE_TYPE_1571CR)
@@ -363,7 +353,7 @@ void iec_fast_cpu_write(BYTE data)
                 ciacore_set_sdr(drive0_context.cia1581, data);
         }
         if (drive[1].enable) {
-            drive1_cpu_execute(maincpu_clk);
+            drivecpu_execute(&drive1_context, maincpu_clk);
             if (drive[1].type == DRIVE_TYPE_1570
                 || drive[1].type == DRIVE_TYPE_1571
                 || drive[1].type == DRIVE_TYPE_1571CR)

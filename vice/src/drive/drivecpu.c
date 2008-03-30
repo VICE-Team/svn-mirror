@@ -371,10 +371,7 @@ CLOCK drive_cpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
         if (drv->drive_ptr->enable) {
             if (drv->cpu->last_clk < sub) {
                 /* Hm, this is kludgy.  :-(  */
-                if (drive[0].enable)
-                    drive0_cpu_execute(maincpu_clk + sub);
-                if (drive[1].enable)
-                    drive1_cpu_execute(maincpu_clk + sub);
+                drivecpu_execute_all(maincpu_clk + sub);
             }
             drv->cpu->last_clk -= sub;
         } else {
@@ -469,7 +466,7 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 /* -------------------------------------------------------------------------- */
 /* Execute up to the current main CPU clock value.  This automatically
    calculates the corresponding number of clock ticks in the drive.  */
-void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
+void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 {
     CLOCK cycles;
     drivecpu_context_t *cpu;
@@ -562,6 +559,14 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
 
     cpu->last_clk = clk_value;
     drive_cpu_sleep(drv);
+}
+
+void drivecpu_execute_all(CLOCK clk_value)
+{
+    if (drive[0].enable)
+        drivecpu_execute(&drive0_context, clk_value);
+    if (drive[1].enable)
+        drivecpu_execute(&drive1_context, clk_value);
 }
 
 /* ------------------------------------------------------------------------- */

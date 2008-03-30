@@ -636,24 +636,16 @@ void parallel_drv1_set_bus(BYTE b)
  *
  */
 
-void parallel_drive_cpu_execute(CLOCK cpu_clk)
-{
-    if (drive[0].enable)
-        drive0_cpu_execute(cpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(cpu_clk);
-}
-
-#define PARALLEL_CPU_SET_LINE(line, dev, mask)                          \
-    void parallel_##dev##_set_##line( char val )                        \
-    {                                                                   \
-        parallel_drive_cpu_execute(maincpu_clk);                        \
-        if (val) {                                                      \
-            parallel_set_##line(PARALLEL_##mask);                       \
-        } else {                                                        \
-            parallel_clr_##line(~PARALLEL_##mask);                      \
-        }                                                               \
+#define PARALLEL_CPU_SET_LINE(line, dev, mask)     \
+    void parallel_##dev##_set_##line(char val)     \
+    {                                              \
+        drivecpu_execute_all(maincpu_clk);         \
+        if (val) {                                 \
+            parallel_set_##line(PARALLEL_##mask);  \
+        } else {                                   \
+            parallel_clr_##line(~PARALLEL_##mask); \
+        }                                          \
     }
 
-PARALLEL_CPU_SET_LINE(atn,cpu, CPU)
+PARALLEL_CPU_SET_LINE(atn, cpu, CPU)
 
