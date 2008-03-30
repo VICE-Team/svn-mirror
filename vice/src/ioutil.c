@@ -107,6 +107,16 @@ int ioutil_rename(const char *oldpath, const char *newpath)
     return rename(oldpath, newpath);
 }
 
+int ioutil_errno(unsigned int check)
+{
+    switch (check) {
+      case IOUTIL_ERRNO_EPERM:
+        if (errno != EPERM)
+            return -1;
+    }
+
+    return 0;
+}
 
 /* ------------------------------------------------------------------------- */
 /* IO helper functions.  */
