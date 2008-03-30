@@ -41,7 +41,6 @@
 #include "drivecpu.h"
 #include "drivetypes.h"
 #include "iecbus.h"
-/*#include "iecdrive.h"*/
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -86,9 +85,6 @@ static void cia_restore_int(cia_context_t *cia_context, int value)
  * I/O
  */
 
-/* Pointer to the IEC structure.  */
-static iecbus_t *cia2_iecbus;
-
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
@@ -101,7 +97,6 @@ static void do_reset_cia(cia_context_t *cia_context)
     rsuser_write_ctrl((BYTE)0xff);
     rsuser_set_tx_bit(1);
 #endif
-    cia2_iecbus = iecbus_drive_port();
 
     vbank = 0;
     mem_set_vbank(vbank);
@@ -186,17 +181,8 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 /* read_* functions must return 0xff if nothing to read!!! */
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
-    BYTE byte;
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))
-            & 0x3f) | (cia2_iecbus->iec_fast_1541 & 0x30) << 2;
-
-    drivecpu_execute_all(maincpu_clk);
-
-    byte = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))
-           & 0x3f) | cia2_iecbus->cpu_port;
-    return byte;
+    return ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))
+           & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */

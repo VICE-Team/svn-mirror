@@ -40,9 +40,17 @@
 #include "types.h"
 
 
+#define IECBUS_DEVICE_NONE      0
+#define IECBUS_DEVICE_TRUEDRIVE 1
+#define IECBUS_DEVICE_IECDEVICE 2
+
+
+BYTE (*iecbus_callback_read)(CLOCK) = NULL;
 void (*iecbus_callback_write)(BYTE, CLOCK) = NULL;
 
 iecbus_t iecbus;
+
+static unsigned int iecbus_device[IECBUS_NUM];
 
 static BYTE iec_old_atn = 0x10;
 
@@ -53,14 +61,32 @@ void iecbus_init(void)
     iecbus.drv_port = 0x85;
 }
 
+void iec_cpu_undump(BYTE data)
+{
+    iec_update_cpu_bus(data);
+    iec_old_atn = iecbus.cpu_bus & 0x10;
+}
+
 /* No drive is enabled.  */
-static void iec_cpu_write_conf0(BYTE data, CLOCK clock)
+static BYTE iecbus_cpu_read_conf0(CLOCK clock)
+{
+    return (iecbus.iec_fast_1541 & 0x30) << 2;
+}
+
+static void iecbus_cpu_write_conf0(BYTE data, CLOCK clock)
 {
     iecbus.iec_fast_1541 = data;
 }
 
 /* Only the first drive is enabled.  */
-static void iec_cpu_write_conf1(BYTE data, CLOCK clock)
+static BYTE iecbus_cpu_read_conf1(CLOCK clock)
+{
+    drivecpu_execute_all(clock);
+
+    return iecbus.cpu_port;
+}
+
+static void iecbus_cpu_write_conf1(BYTE data, CLOCK clock)
 {
     drive_t *drive;
 
@@ -94,7 +120,14 @@ static void iec_cpu_write_conf1(BYTE data, CLOCK clock)
 }
 
 /* Only the second drive is enabled.  */
-static void iec_cpu_write_conf2(BYTE data, CLOCK clock)
+static BYTE iecbus_cpu_read_conf2(CLOCK clock)
+{
+    drivecpu_execute_all(clock);
+
+    return iecbus.cpu_port;
+}
+
+static void iecbus_cpu_write_conf2(BYTE data, CLOCK clock)
 {
     drive_t *drive;
 
@@ -126,65 +159,17 @@ static void iec_cpu_write_conf2(BYTE data, CLOCK clock)
 
     iec_update_ports();
 }
-#if 0
-/* Both drive are enabled.  */
-static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
+
+static BYTE iecbus_cpu_read_conf3(CLOCK clock)
 {
-    drive_t *drive0, *drive1;
+    drivecpu_execute_all(clock);
 
-    drive0 = drive_context[0]->drive;
-    drive1 = drive_context[1]->drive;
-    drivecpu_execute(drive_context[0], clock);
-    drivecpu_execute(drive_context[1], clock);
-
-    iec_update_cpu_bus(data);
-
-    if (iec_old_atn != (iecbus.cpu_bus & 0x10)) {
-        iec_old_atn = iecbus.cpu_bus & 0x10;
-
-        if (drive0->type != DRIVE_TYPE_1581)
-            viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1,
-                           iec_old_atn ? 0 : VIA_SIG_RISE);
-        else
-            if (!iec_old_atn)
-                ciacore_set_flag(drive_context[0]->cia1581);
-
-        if (drive1->type != DRIVE_TYPE_1581)
-            viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CA1,
-                           iec_old_atn ? 0 : VIA_SIG_RISE);
-        else
-            if (!iec_old_atn)
-                ciacore_set_flag(drive_context[1]->cia1581);
-    }
-
-    if (drive0->type != DRIVE_TYPE_1581)
-        iecbus.drv_bus[8] = (((iecbus.drv_data[8] << 3) & 0x40)
-                            | ((iecbus.drv_data[8] << 6)
-                            & ((~iecbus.drv_data[8] ^ iecbus.cpu_bus) << 3)
-                            & 0x80));
-    else
-        iecbus.drv_bus[8] = (((iecbus.drv_data[8] << 3) & 0x40)
-                            | ((iecbus.drv_data[8] << 6)
-                            & ((iecbus.drv_data[8] | iecbus.cpu_bus) << 3)
-                            & 0x80));
-
-    if (drive1->type != DRIVE_TYPE_1581)
-        iecbus.drv_bus[9] = (((iecbus.drv_data[9] << 3) & 0x40)
-                            | ((iecbus.drv_data[9] << 6)
-                            & ((~iecbus.drv_data[9] ^ iecbus.cpu_bus) << 3)
-                            & 0x80));
-    else
-        iecbus.drv_bus[9] = (((iecbus.drv_data[9] << 3) & 0x40)
-                            | ((iecbus.drv_data[9] << 6)
-                            & ((iecbus.drv_data[9] | iecbus.cpu_bus) << 3)
-                            & 0x80));
-
-    iec_update_ports();
+    return iecbus.cpu_port;
 }
-#endif
-static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
+
+static void iecbus_cpu_write_conf3(BYTE data, CLOCK clock)
 {
-    unsigned int dnr, pnr;
+    unsigned int dnr;
 
     drivecpu_execute_all(clock);
 
@@ -203,9 +188,6 @@ static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
             else
                 if (!iec_old_atn)
                     ciacore_set_flag(drive_context[dnr]->cia1581);
-        }
-        for (pnr = 0; pnr < PRINTER_IEC_NUM; pnr++) {
-
         }
     }
 
@@ -228,41 +210,117 @@ static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
                                    & ((iecbus.drv_data[unit]
                                    | iecbus.cpu_bus) << 3) & 0x80));
     }
-    for (pnr = 0; pnr < PRINTER_IEC_NUM; pnr++) {
-
-    }
 
     iec_update_ports();
 }
 
-void iecbus_calculate_callback_index(void)
+static void calculate_callback_index(void)
 {
-    int iecbus_callback_index;
+    unsigned int callback_index;
 
-    iecbus_callback_index = (drive_context[0]->drive->enable ? 1 : 0)
-                            | (drive_context[1]->drive->enable ? 2 : 0)
-                            | (drive_context[2]->drive->enable ? 4 : 0)
-                            | (drive_context[3]->drive->enable ? 8 : 0);
+    callback_index = (iecbus_device[8] << 0)
+                     | (iecbus_device[9] << 2)
+                     | (iecbus_device[10] << 4)
+                     | (iecbus_device[11] << 6);
 
-    switch (iecbus_callback_index) {
+    switch (callback_index) {
       case 0:
-        iecbus_callback_write = iec_cpu_write_conf0;
+        iecbus_callback_read = iecbus_cpu_read_conf0;
+        iecbus_callback_write = iecbus_cpu_write_conf0;
         break;
-      case 1:
-        iecbus_callback_write = iec_cpu_write_conf1;
+      case IECBUS_DEVICE_TRUEDRIVE << 0:
+        iecbus_callback_read = iecbus_cpu_read_conf1;
+        iecbus_callback_write = iecbus_cpu_write_conf1;
         break;
-      case 2:
-        iecbus_callback_write = iec_cpu_write_conf2;
+      case IECBUS_DEVICE_TRUEDRIVE << 2:
+        iecbus_callback_read = iecbus_cpu_read_conf2;
+        iecbus_callback_write = iecbus_cpu_write_conf2;
         break;
       default:
-        iecbus_callback_write = iec_cpu_write_conf3;
+        iecbus_callback_read = iecbus_cpu_read_conf3;
+        iecbus_callback_write = iecbus_cpu_write_conf3;
         break;
     }
 }
 
-void iec_cpu_undump(BYTE data)
+/*
+
+iecbus_status_set() sets IEC bus devices according to the following table:
+
+TDE DE ID VD                                       iecbus_device
+ 0  0  0  0  nothing enabled                       IECBUS_DEVICE_NONE
+ 0  0  0  1  trap device enabled                   IECBUS_DEVICE_NONE
+ 0  0  1  0  IEC device enabled                    IECBUS_DEVICE_IECDEVICE
+ 0  0  1  1  IEC device enabled+trap dev. enabled  IECBUS_DEVICE_IECDEVICE
+ 0  1  0  0  nothing enabled                       IECBUS_DEVICE_NONE
+ 0  1  0  1  trap device enabled                   IECBUS_DEVICE_NONE
+ 0  1  1  0  IEC device enabled                    IECBUS_DEVICE_IECDEVICE
+ 0  1  1  1  IEC device enabled+trap dev. enabled  IECBUS_DEVICE_IECDEVICE
+--------------------------------------------------------------------------
+ 1  0  0  0  nothing enabled                       IECBUS_DEVICE_NONE
+ 1  0  0  1  nothing enabled                       IECBUS_DEVICE_NONE
+ 1  0  1  0  IEC device enabled                    IECBUS_DEVICE_IECDEVICE
+ 1  0  1  1  IEC device enabled                    IECBUS_DEVICE_IECDEVICE
+ 1  1  0  0  TDE drive enabled                     IECBUS_DEVICE_TRUEDRIVE
+ 1  1  0  1  TDE drive enabled                     IECBUS_DEVICE_TRUEDRIVE
+ 1  1  1  0  IEC device enabled                    IECBUS_DEVICE_IECDEVICE
+ 1  1  1  1  IEC device enabled                    IECBUS_DEVICE_IECDEVICE
+
+TDE = true drive emulation (global switch)
+DE = device enable (device switch)
+ID = IEC devices (device switch)
+VD = virtual devices (global switch)
+
+*/
+
+static const unsigned int iecbus_device_index[16] = {
+    IECBUS_DEVICE_NONE,
+    IECBUS_DEVICE_NONE,
+    IECBUS_DEVICE_IECDEVICE,
+    IECBUS_DEVICE_IECDEVICE,
+    IECBUS_DEVICE_NONE,
+    IECBUS_DEVICE_NONE,
+    IECBUS_DEVICE_IECDEVICE,
+    IECBUS_DEVICE_IECDEVICE,
+    IECBUS_DEVICE_NONE,
+    IECBUS_DEVICE_NONE,
+    IECBUS_DEVICE_IECDEVICE,
+    IECBUS_DEVICE_IECDEVICE,
+    IECBUS_DEVICE_TRUEDRIVE,
+    IECBUS_DEVICE_TRUEDRIVE,
+    IECBUS_DEVICE_IECDEVICE,
+    IECBUS_DEVICE_IECDEVICE
+};
+
+void iecbus_status_set(unsigned int type, unsigned int unit,
+                       unsigned int enable)
 {
-    iec_update_cpu_bus(data);
-    iec_old_atn = iecbus.cpu_bus & 0x10;
+   static unsigned int truedrive, drivetype[IECBUS_NUM], iecdevice[IECBUS_NUM],
+                       virtualdevices;
+   unsigned int dev;
+
+   switch (type) {
+     case IECBUS_STATUS_TRUEDRIVE:
+       truedrive = enable ? (1 << 3) : 0;    
+       break;
+     case IECBUS_STATUS_DRIVETYPE:
+       drivetype[unit] = enable ? (1 << 2) : 0;
+       break;
+     case IECBUS_STATUS_IECDEVICE:
+       iecdevice[unit] = enable ? (1 << 1) : 0;
+       break;
+     case IECBUS_STATUS_VIRTUALDEVICES:
+       virtualdevices = enable ? (1 << 0) : 0;
+       break;
+   }
+
+   for (dev = 0; dev < IECBUS_NUM; dev++) {
+       unsigned int index;
+
+       index = truedrive | drivetype[dev] | iecdevice[dev] | virtualdevices;
+       iecbus_device[dev] = iecbus_device_index[index];
+   }
+
+   calculate_callback_index();
 }
 

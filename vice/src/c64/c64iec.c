@@ -39,6 +39,7 @@
 #include "drivetypes.h"
 #include "iecbus.h"
 #include "iecdrive.h"
+#include "maincpu.h"
 #include "types.h"
 
 
@@ -95,19 +96,6 @@ BYTE iec_drive1_read(void)
     return iecbus.drv_port;
 }
 
-#if 0
-BYTE iec_cpu_read(void)
-{
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return (iecbus.iec_fast_1541 & 0x30) << 2;
-
-    drivecpu_execute_all(maincpu_clk);
-
-    return iecbus.cpu_port;
-}
-#endif
-
 iecbus_t *iecbus_drive_port(void)
 {
     return &iecbus;
@@ -118,5 +106,9 @@ int iec_available_busses(void)
 {
     return IEC_BUS_IEC
         | ((c64cart_type == CARTRIDGE_IEEE488) ? IEC_BUS_IEEE : 0);
+}
+
+void c64iec_init(void)
+{
 }
 

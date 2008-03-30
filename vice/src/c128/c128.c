@@ -45,6 +45,7 @@
 #include "c128ui.h"
 #include "c64acia.h"
 #include "c64cia.h"
+#include "c64iec.h"
 #include "c64keyboard.h"
 #include "c64memrom.h"
 #include "c64rsuser.h"
@@ -323,6 +324,7 @@ int machine_resources_init(void)
         || acia1_resources_init() < 0
         || rs232drv_resources_init() < 0
         || rsuser_resources_init() < 0
+        || serial_resources_init() < 0
         || printer_resources_init() < 0
 #ifdef HAVE_MOUSE
         || mouse_resources_init() < 0
@@ -372,6 +374,7 @@ int machine_cmdline_options_init(void)
         || acia1_cmdline_options_init() < 0
         || rs232drv_cmdline_options_init() < 0
         || rsuser_cmdline_options_init() < 0
+        || serial_cmdline_options_init() < 0
         || printer_cmdline_options_init() < 0
 #ifdef HAVE_MOUSE
         || mouse_cmdline_options_init() < 0
@@ -515,6 +518,7 @@ int machine_init(void)
 #endif
 
     iecbus_init();
+    c64iec_init();
     c128fastiec_init();
 
     cartridge_init();
@@ -748,8 +752,19 @@ unsigned int machine_num_keyboard_mappings(void)
     return NUM_KEYBOARD_MAPPINGS;
 }
 
-void machine_traps_enable(int enable)
+void machine_bus_status_truedrive_set(unsigned int enable)
 {
+    iecbus_status_set(IECBUS_STATUS_TRUEDRIVE, 0, enable);
+}
+
+void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
+{
+    iecbus_status_set(IECBUS_STATUS_DRIVETYPE, unit, enable);
+}
+
+void machine_bus_status_virtualdevices_set(unsigned int enable)
+{
+    iecbus_status_set(IECBUS_STATUS_VIRTUALDEVICES, 0, enable);
     parallel_bus_enable(enable);
 }
 

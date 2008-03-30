@@ -92,17 +92,6 @@ BYTE iec_drive1_read(void)
     return iecbus.drv_port;
 }
 
-BYTE iec_cpu_read(void)
-{
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-	return (iecbus.iec_fast_1541 & 0x30) << 2;
-
-    drivecpu_execute_all(maincpu_clk);
-
-    return iecbus.cpu_port;
-}
-
 iecbus_t *iecbus_drive_port(void)
 {
     return &iecbus;
@@ -120,6 +109,10 @@ void iec_fast_drive_write(BYTE data, unsigned int dnr)
 }
 
 void iec_fast_drive_direction(int direction, unsigned int dnr)
+{
+}
+
+void plus4iec_init(void)
 {
 }
 

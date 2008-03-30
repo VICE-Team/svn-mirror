@@ -100,9 +100,6 @@ static struct {
 /* Current memory configuration.  */
 static unsigned int mem_config;
 
-/* Pointer to the IEC structure.  */
-static iecbus_t *plus4_iecbus;
-
 /* ------------------------------------------------------------------------- */
 
 #define RAM0 mem_ram + 0x0000
@@ -196,7 +193,7 @@ inline static BYTE mem_proc_port_read(WORD addr)
     if (addr == 0)
         return pport.dir;
 
-    input = (iec_cpu_read() & 0xc0);
+    input = ((*iecbus_callback_read)(maincpu_clk) & 0xc0);
     if (tape_read) {
         input |= 0x10;
     } else {
@@ -647,8 +644,6 @@ void mem_initialize_memory(void)
         }
         break;
     }
-
-    plus4_iecbus = iecbus_drive_port();
 
     mem_limit_init(mem_read_limit_tab);
 

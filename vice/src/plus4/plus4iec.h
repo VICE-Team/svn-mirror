@@ -30,8 +30,6 @@
 #include "types.h"
 
 extern void plus4iec_init(void);
-extern void iec_cpu_write(BYTE data);
-extern BYTE iec_cpu_read(void);
 extern void iec_cpu_undump(BYTE data);
 
 #endif
