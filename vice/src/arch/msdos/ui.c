@@ -112,6 +112,10 @@ int ui_resources_init(void)
     return resources_register(resources);
 }
 
+void ui_resources_shutdown(void)
+{
+}
+
 static const cmdline_option_t cmdline_options[] = {
     { "-leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t)1,
       NULL, "Enable usage of PC keyboard LEDs" },

@@ -43,6 +43,7 @@ typedef enum {
 
 /* Initialization  */
 extern int ui_resources_init(void);
+extern int ui_resources_shutdown(void);
 extern int ui_cmdline_options_init(void);
 extern int ui_init(int *argc, char **argv);
 extern int ui_init_finish(void);

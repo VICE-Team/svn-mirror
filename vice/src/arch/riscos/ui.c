@@ -958,6 +958,10 @@ int ui_resources_init(void)
   return resources_register(resources);
 }
 
+void ui_resources_shutdown(void)
+{
+}
+
 
 int ui_cmdline_options_init(void)
 {

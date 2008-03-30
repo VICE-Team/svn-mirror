@@ -212,6 +212,10 @@ int ui_resources_init(void)
     return resources_register(resources);
 }
 
+void ui_resources_shutdown(void)
+{
+}
+
 /* ------------------------------------------------------------------------ */
 
 /* UI-related command-line options.  */
