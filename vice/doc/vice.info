@@ -6168,15 +6168,22 @@ in the development of X64 and VICE:
    * David Hansel wrote the Star NL10 printer driver, implemented IEC
      devices and improved the tape emulation.
 
-   * Marco van den Heuvel Translated the UI to Dutch.
-     Internationalization support for the Win32 port. Wrote the GEORAM
-     and RamCart cartridge code. Wrote the c64 +60K, +256K and 256K
-     memory expansions code. Wrote the pet 128K memory expansion code.
-     Wrote the plus4 256K csory and 256K, 1024K and 4096K hannes memory
-     expansion code.  Made the ethernet support for the Msdos port.
-     Maintains the QNX 6.x, Solaris, GP2X, Minix 3.x, Amiga and newly
-     resurrected OS/2 binary ports. Added new .crt support. Added new
-     screenshot formats. And lots of other fixes and improvements.
+   * Marco van den Heuvel Translated the UI to Dutch. Made the
+     internationalization support for the Win32 and Amiga ports. Wrote
+     the GEORAM and RamCart cartridge code. Wrote the c64 +60K, +256K
+     and 256K memory expansions code. Wrote the pet REU code. Wrote the
+     plus4 memory expansions code. Made the ethernet support for the
+     Msdos port. Maintains the QNX 6.x, Solaris, GP2X, Minix 3.x,
+     Amiga, ppc-BeOS, ZETA and newly resurrected OS/2 binary ports.
+     Added new .crt support. Added new screenshot formats. Added new
+     sound recording support. Added SIDcart support for pet, plus4 and
+     vic20. Added digimax support. Improved the MMC64 emulation.  And
+     lots of other fixes and improvements.
+
+   * Christian Vogelgsang maintains the Mac OS X port. Added Intel Mac
+     support and universal binary creation. Wrote the build scripts for
+     all external Mac libraries and the bindist bundle tool. Improved
+     the TFE chip emulation. Added some Gtk+ fixes.
 
 
    Former team members:
@@ -6372,6 +6379,16 @@ in the development of X64 and VICE:
    * Christian Vogelgsang resurrected the Mac OSX X11 port and added
      support for an Intel build.
 
+   * Peter Gordon provided support for native AmigaOS4 compiling.
+
+   * Bernd Kortz provided some fixes for ZETA and the ZETA binary
+     package.
+
+   * Andr351 'JoBBo' Siegel provided the native morphos icons.
+
+   * Markus Stehr provided the MMC64 emulation.
+
+
    * Lutz Sammer
 
    * Ralph Mason
@@ -6425,6 +6442,8 @@ File: vice.info,  Node: Copyright,  Next: Contacts,  Prev: Acknowledgments,  Up:
    * Copyright (C) 2000-2007 Spiro Trikaliotis
 
    * Copyright (C) 2005-2007 Marco van den Heuvel
+
+   * Copyright (C) 2006-2007 Christian Vogelgsang
 
    * Copyright (C) 2003-2005 David Hansel
 
@@ -7214,14 +7233,14 @@ Node: T64 tape record223359
 Node: T64 file record224157
 Node: G64225417
 Node: Acknowledgments239411
-Node: Copyright249516
-Node: Contacts251090
-Node: Home page251602
-Node: Sending feedback252006
-Node: Contributing254356
-Node: Newsgroups255475
-Node: FAQs you should read256114
-Node: Concept Index256436
-Node: Resource Index277473
+Node: Copyright250165
+Node: Contacts251790
+Node: Home page252302
+Node: Sending feedback252706
+Node: Contributing255056
+Node: Newsgroups256175
+Node: FAQs you should read256814
+Node: Concept Index257136
+Node: Resource Index278173
 
 End Tag Table

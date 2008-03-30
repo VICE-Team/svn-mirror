@@ -66,6 +66,7 @@ Copyright @copyright{} 1999-2007 Andreas Matthies
 Copyright @copyright{} 1999-2007 Martin Pottendorfer
 Copyright @copyright{} 2000-2007 Spiro Trikaliotis
 Copyright @copyright{} 2005-2007 Marco van den Heuvel
+Copyright @copyright{} 2006-2007 Christian Vogelgsang
 Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
 
@@ -7386,16 +7387,23 @@ and added support for some more cartridges.
 devices and improved the tape emulation.
 
 @item
-@b{Marco van den Heuvel} Translated
-the UI to Dutch. Internationalization support for the Win32
-port. Wrote the GEORAM and RamCart cartridge code. Wrote the
-c64 +60K, +256K and 256K memory expansions code. Wrote the
-pet 128K memory expansion code. Wrote the plus4 256K csory
-and 256K, 1024K and 4096K hannes memory expansion code.
-Made the ethernet support for the Msdos port. Maintains the
-QNX 6.x, Solaris, GP2X, Minix 3.x, Amiga and newly
-resurrected OS/2 binary ports. Added new .crt support. Added new
-screenshot formats. And lots of other fixes and improvements.
+@b{Marco van den Heuvel} Translated the UI to Dutch. Made the
+internationalization support for the Win32 and Amiga ports. Wrote
+the GEORAM and RamCart cartridge code. Wrote the c64 +60K, +256K
+and 256K memory expansions code. Wrote the pet REU code. Wrote
+the plus4 memory expansions code. Made the ethernet support for
+the Msdos port. Maintains the QNX 6.x, Solaris, GP2X, Minix 3.x,
+Amiga, ppc-BeOS, ZETA and newly resurrected OS/2 binary ports.
+Added new .crt support. Added new screenshot formats. Added new
+sound recording support. Added SIDcart support for pet, plus4
+and vic20. Added digimax support. Improved the MMC64 emulation.
+And lots of other fixes and improvements.
+
+@item
+@b{Christian Vogelgsang} maintains the Mac OS X port. Added Intel Mac
+support and universal binary creation. Wrote the build scripts for
+all external Mac libraries and the bindist bundle tool. Improved
+the TFE chip emulation. Added some Gtk+ fixes.
 
 @end itemize
 
@@ -7682,6 +7690,20 @@ to the GCR code.
 @item
 @b{Christian Vogelgsang} resurrected the Mac
 OSX X11 port and added support for an Intel build.
+
+@item
+@b{Peter Gordon} provided support for native AmigaOS4 compiling.
+
+@item
+@b{Bernd Kortz} provided some fixes for ZETA and the ZETA binary
+package.
+
+@item
+@b{Andr351 'JoBBo' Siegel} provided the native morphos icons.
+
+@item
+@b{Markus Stehr} provided the MMC64 emulation.
+
 @end itemize
 
 @itemize @bullet
@@ -7741,6 +7763,8 @@ Copyright @copyright{} 1999-2007 Martin Pottendorfer
 Copyright @copyright{} 2000-2007 Spiro Trikaliotis
 @item
 Copyright @copyright{} 2005-2007 Marco van den Heuvel
+@item
+Copyright @copyright{} 2006-2007 Christian Vogelgsang
 @item
 Copyright @copyright{} 2003-2005 David Hansel
 @item
