@@ -28,6 +28,9 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
     displays, this release will work with all depths, though 8-bit is
     still highly recommended for best performance.
 
+    With version 0.15.1, VICE includes Dag Lem's reSID engine; to
+    compile it, you will need a C++ compiler.
+
     VICE has been compiled successfully on the following Unix systems
     in the past:
 
@@ -37,8 +40,8 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
       - Some HP9000 (712, 715, 735, 800) machines running HP-UX 9.x
         and 10.x;
 
-      - SUN SPARC 5, 10 and Ultra running Solaris 2.3 or 2.4 (using
-        gcc);
+      - SUN SPARC 5, 10 and Ultra running Solaris 2.3, 2.4 or 2.5
+        (using gcc);
 
       - SUN SPARC 10 running SunOS 4.1 with both X11R4 and X11R5
         (using gcc);
@@ -154,6 +157,17 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
         Use Xaw3d (instead of plain Xaw) if present.
 
+      --without-resid
+      --with-resid=no
+
+        Compile without the enhanced reSID engine.
+
+      --with-resid=PATH
+
+        Compile with a reSID engine located at `PATH'.  This is useful
+        in case you want to compile VICE with another version of the
+        reSID engine.
+
     (to obtain a complete list of the available options with a
     description, use `./configure --help')
 
@@ -180,6 +194,10 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
     passing the `CC' variable, e.g.:
 
       CC="cc" CFLAGS="-Ae -g +O3" ./configure
+
+    To specify a C++ compiler, use the `CXX' variable:
+
+      CXX="g++" CFLAGS="-Wall -Wno-strict-prototypes" ./configure
 
     Important notice: if you use the Pentium-specific GCC, some
     optimizations might have to be disabled.  The best way to make
