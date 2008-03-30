@@ -2,20 +2,23 @@ c128dir = $(prefix)/lib/vice/C128
 
 c128_DATA = \
 	basic \
-        vice.vpl \
+	basic64 \
 	c64s.vpl \
 	ccs64.vpl \
+	charg64 \
 	chargen \
-        os2.vkm \
 	default.vkm \
 	default.vpl \
 	default.vrs \
 	frodo.vpl \
 	godot.vpl \
 	kernal \
+	kernal64 \
 	pc64.vpl \
-        vdc_deft.vpl \
 	position.vkm \
+	os2.vkm \
+	vdc_deft.vpl \
+	vice.vpl \
 	z80bios
 
 EXTRA_DIST = $(c128_DATA)
