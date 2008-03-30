@@ -578,9 +578,9 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         vicii.screen_base = vicii.ram_base_phi2 + screen_addr;
         VICII_DEBUG_REGISTER(("Video memory at $%04X", screen_addr));
     } else {
-        vicii.screen_base = mem_chargen_rom_ptr + (screen_addr & 0x800);
+        vicii.screen_base = mem_chargen_rom_ptr + (screen_addr & 0xc00);
         VICII_DEBUG_REGISTER(("Video memory at Character ROM + $%04X",
-                              screen_addr & 0x800));
+                              screen_addr & 0xc00));
     }
 
     tmp = (vicii.regs[0x18] & 0xe) << 10;
@@ -602,7 +602,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         if (((bitmap_bank + 0x1000) & 0x3fff) >= 0x3000)
             bitmap_high_base = romh_banks + (romh_bank << 13) + 0x1000;
         else
-            bitmap_high_base = vicii.ram_base_phi1 + bitmap_bank + 0x1000;
+            bitmap_high_base = bitmap_low_base + 0x1000;
 
     } else {
         if ((tmp & vicii.vaddr_chargen_mask_phi1)
@@ -613,7 +613,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
 
         if (((bitmap_bank + 0x1000) & vicii.vaddr_chargen_mask_phi1)
             != vicii.vaddr_chargen_value_phi1)
-            bitmap_high_base = vicii.ram_base_phi1 + bitmap_bank + 0x1000;
+            bitmap_high_base = bitmap_low_base + 0x1000;
         else
             bitmap_high_base = mem_chargen_rom_ptr;
     }
