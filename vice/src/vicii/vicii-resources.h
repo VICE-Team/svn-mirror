@@ -2,8 +2,8 @@
  * vicii-resources.h - Resources for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,8 +28,6 @@
 #ifndef _VIC_II_RESOURCES_H
 #define _VIC_II_RESOURCES_H
 
-#include "vice.h"
-
 /* VIC-II resources.  */
 struct vic_ii_resources_s
 {
@@ -42,14 +40,6 @@ struct vic_ii_resources_s
     /* Flag: Do we emulate the sprite-background collision register and
        IRQ?  */
     int sprite_background_collisions_enabled;
-
-#ifdef USE_XF86_EXTENSIONS
-    /* Flag: Do we use double size?  */
-    int fullscreen_double_size_enabled;
-
-    /* Flag: Do we copy lines in double size mode?  */
-    int fullscreen_double_scan_enabled;
-#endif
 };
 typedef struct vic_ii_resources_s vic_ii_resources_t;
 

@@ -2,8 +2,6 @@
  * crtc-resources.h - A line-based CRTC emulation (under construction).
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -29,7 +27,6 @@
 #ifndef _CRTC_RESOURCES_H
 #define _CRTC_RESOURCES_H
 
-#include "vice.h"
 
 struct crtc_resources_s;
 
@@ -38,14 +35,6 @@ struct crtc_resources_s
 {
     /* Name of palette file.  */
     char *palette_file_name;
-
-#ifdef USE_XF86_EXTENSIONS
-    /* Flag: Do we use double size?  */
-    int fullscreen_double_size_enabled;
-
-    /* Flag: Do we copy lines in double size mode?  */
-    int fullscreen_double_scan_enabled;
-#endif
 };
 
 typedef struct crtc_resources_s crtc_resources_t;

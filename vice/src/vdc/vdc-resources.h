@@ -2,8 +2,6 @@
  * vdc-resources.h - Resources for the MOS 8563 (VDC) emulation.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Markus Brenner <markus@brenner.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -37,20 +35,6 @@ struct vdc_resources_s
 
     /* Flag: VDC memory size.  */
     int vdc_64kb_expansion;
-
-#ifdef USE_XF86_EXTENSIONS
-    /* Flag: Fullscreenmode?  */
-    int fullscreen;
-
-    /* Flag: Do we use double size?  */
-    int fullscreen_double_size_enabled;
-
-    /* Flag: Do we copy lines in double size mode?  */
-    int fullscreen_double_scan_enabled;
-
-    int fullscreen_width;
-    int fullscreen_height;
-#endif
 };
 typedef struct vdc_resources_s vdc_resources_t;
 
