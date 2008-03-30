@@ -318,9 +318,7 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
       case VIA_SR: /* Serial Port output buffer */
 	via[addr] = byte;
 
-#ifdef SOUND
 	store_petsnd_sample(byte);
-#endif
 	break;
 
 	/* Timers */
@@ -364,14 +362,12 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 	via[VIA_T2LL] = byte;
 	update_viatbl();
 
-#ifdef SOUND
         store_petsnd_rate(2*byte+4);
 	if(!byte) {
 	  store_petsnd_onoff(0);
 	} else {
 	  store_petsnd_onoff(((via[VIA_ACR] & 0x1c)==0x10)?1:0);
 	}
-#endif
 	break;
 
       case VIA_T2CH: /* Write timer 2 high */
@@ -438,9 +434,7 @@ byte, viapb7, viapb7x, viapb7o, viapb7xx, viapb7sx);*/
 	via[addr] = byte;
 
 
-#ifdef SOUND
 	store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
-#endif
 
 	/* bit 5 timer 2 count mode */
 	if (byte & 32) {

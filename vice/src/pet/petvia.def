@@ -94,28 +94,22 @@ STORE_PCR()
 
 STORE_ACR()
 {
-#ifdef SOUND
 	store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
-#endif
 }
 
 STORE_SR()
 {
-#ifdef SOUND
 	store_petsnd_sample(byte);
-#endif
 }
 
 STORE_T2L()
 {
-#ifdef SOUND
         store_petsnd_rate(2*byte+4);
 	if(!byte) {
 	  store_petsnd_onoff(0);
 	} else {
 	  store_petsnd_onoff(((via[VIA_ACR] & 0x1c)==0x10)?1:0);
 	}
-#endif
 }
 
 RESET_VIA()
