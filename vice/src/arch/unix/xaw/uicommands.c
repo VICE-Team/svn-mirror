@@ -99,7 +99,7 @@ static UI_CALLBACK(attach_tape)
     suspend_speed_eval();
 
     filename = ui_select_file("Attach a tape image", read_tape_image_contents,
-			      True, NULL, "*.t64*", &button);
+			      True, NULL, NULL, &button);
 
     switch (button) {
       case UI_BUTTON_OK:

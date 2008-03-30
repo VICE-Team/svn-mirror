@@ -1,3 +1,90 @@
+Fri Jul 10 21:55:22 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/joystick.c (joystick_init): Display joystick
+	initialization messages to the console (with `cprintf()') instead
+	of stdout.
+
+	* vic20/vic20via2.def, pet/petvia.def: Printer-specific stuff
+ 	wrapped into `#ifdef HAVE_PRINTER's.
+
+	* arch/msdos/tuimenu.c (tui_menu_call_callback): `new_par_string'
+	made const.
+
+	* arch/msdos/c64ui.c: Declare all the TUI menu callbacks using
+ 	`TUI_MENU_CALLBACK' instead of manually.
+
+	* arch/msdos/menudefs.c: Declare all the TUI menu callbacks using
+	`TUI_MENU_CALLBACK' instead of manually.
+
+	* arch/msdos/tuimenu.h: Return type of `tui_menu_callback_t' made
+ 	`const'.
+	(TUI_MENU_CALLBACK): Modified accordingly.
+
+	* arch/msdos/c64ui.c: Members of `palette_items' declared const.
+	New member `menu_item'.
+	(add_palette_submenu): Use it.
+
+	* c64/c64cia2.def: Printer-specific stuff wrapped into `#ifdef
+ 	HAVE_PRINTER's, serial-specific functions into `#ifdef
+ 	HAVE_RS232's.
+
+	* arch/msdos/kbd.c (kbd_init_resources, kbd_init_cmdline_options):
+	New (dummy) functions.
+
+	* Makefile.am: New variable `$(READLINE)': set its value to
+ 	`@READLINE@' if the `NEED_READLINE' conditional is true, to null
+ 	if false.  Replaced all occurences of `@READLINE@' with
+ 	`$(READLINE)'.  Compile `pruser.[ch]' and `prdevice.[ch]' only if
+ 	the `HAVE_PRINTER' conditional is true.
+
+	* mon.h: Do not attempt to #redefine `TRUE' or `FALSE' if already
+ 	#defined.
+
+	* arch/msdos/menudefs.c: #include "attach.h".
+	(ui_create_main_menu): Added missing `,' in call to
+ 	`tui_menu_add_submenu()'.
+
+	* arch/msdos/kbd.c: #include "joystick.h".
+
+	* arch/msdos/kbd.h (kbd_init_resources): Prototype.
+	(kbd_init_cmdline_options): Prototype.
+
+	* arch/msdos/kbd.c: Do not #define `_KBD_DOS_C' anymore.
+
+	* arch/msdos/kbd.h [!_KBD_DOS_C]: Define `enum doskbd_codes'
+ 	anyway.
+
+	* arch/msdos/joystick.h (joystick_handle_key): Fixed prototype.
+	Return value changed to `int'.
+
+	* arch/msdos/joystick.c: #include "joystick.h", "cmdline.h".
+	(joystick_init_resources): Register `resources', not
+ 	`joystick_resources'.
+
+	* c64/c64cia2.def (READ_CIAPB) [!HAVE_RS232]: Removed extra
+ 	parenthesis.
+
+	* c64/Makefile.am: Added `c64acia1.c' to `BUILT_SOURCES'.  Compile
+ 	`c64acia1.c' and `rsuser.c' only if the `HAVE_RS232' conditional
+ 	is true.
+
+Fri Jul 10 14:32:41 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/widgets/FileSel.c: #Include "utils.h" instead of
+ 	"../../../utils.h".
+
+	* arch/unix/xaw/widgets/Makefile.am: Add `-I$(top_srcdir)/src' to
+ 	`INCLUDES'.
+
+	* c64/rsuser.c (cmdline_options): Fix `-rsuserdev' entry.
+
+	* prdevice.c (cmdline_options): Fix `-pr4dev' entry.
+
+	* pruser.c (cmdline_options): Fix `-pruserdev' entry.
+
+	* arch/unix/xaw/uicommands.c (attach_tape): Remove t64 filemask to
+ 	show all files.
+
 Thu Jul  9 14:09:52 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/msdos/kbd.c: #Include "machine.h", replace

@@ -45,17 +45,18 @@ static int fd;
 static int userport_printer_enabled = 0;
 static int userport_printer_device;
 
-static int set_up_enabled(resource_value_t v) {
+static int set_up_enabled(resource_value_t v)
+{
     int newval = ((int) v) ? 1 : 0;
 
-    if(newval && !userport_printer_enabled) {
+    if (newval && !userport_printer_enabled) {
 	/* switch printer on */
 	fd = print_open(userport_printer_device);
-	if(fd>=0) {
-	  userport_printer_enabled = 1;
+	if (fd>=0) {
+            userport_printer_enabled = 1;
 	}
     }
-    if(userport_printer_enabled && !newval) {
+    if (userport_printer_enabled && !newval) {
 	print_close(fd);
 	userport_printer_enabled = 0;
     }
@@ -76,7 +77,8 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int pruser_init_resources(void) {
+int pruser_init_resources(void)
+{
     return resources_register(resources);
 }
 
@@ -88,23 +90,27 @@ static cmdline_option_t cmdline_options[] = {
         (resource_value_t) 0, NULL,
         "Disable the userport printer emulation" },
     { "-pruserdev", SET_RESOURCE, 1, NULL, NULL, "PrUserDevice",
+        (resource_value_t) 0,
       "<0-2>", "Specify VICE printer device for userport" },
     { NULL }
 };
 
-int pruser_init_cmdline_options(void) {
+int pruser_init_cmdline_options(void)
+{
     return cmdline_register_options(cmdline_options);
 }
 
 /*********************************************************************/
 
 
-void userport_printer_write_data(BYTE b) {
+void userport_printer_write_data(BYTE b)
+{
     value = b;
 }
 
-void userport_printer_write_strobe(int s) {
-    if(userport_printer_enabled && strobe && !s) {	/* hi->lo on strobe */
+void userport_printer_write_strobe(int s)
+{
+    if (userport_printer_enabled && strobe && !s) {	/* hi->lo on strobe */
 	print_putc(fd, value);
 
         userport_printer_set_busy(1);	/* signal lo->hi */

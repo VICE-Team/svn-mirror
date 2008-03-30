@@ -28,7 +28,7 @@
 #define VICE
 
 #include "config.h"		/* [EP] 04/07/97 */
-#include "../../../utils.h"	/* [AF] 26jun98 */
+#include "utils.h"		/* [AF] 26jun98 */
 
 #include <stdio.h>
 #include <stdlib.h>		/* [EP] 10/15/96 */

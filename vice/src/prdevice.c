@@ -103,6 +103,7 @@ static cmdline_option_t cmdline_options[] = {
 	(resource_value_t) 0, NULL,
 	"Disable the IEC device #4 printer emulation" },
     { "-pr4dev", SET_RESOURCE, 1, NULL, NULL, "Printer4Device",
+	(resource_value_t) 0, 
       "<0-2>", "Specify VICE printer device for IEC printer #4" },
     { NULL }
 };

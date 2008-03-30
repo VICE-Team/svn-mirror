@@ -104,6 +104,7 @@ static cmdline_option_t cmdline_options[] = {
         (resource_value_t) 0, NULL,
         "Disable the userport 9600 baud RS232 emulation" },
     { "-rsuserdev", SET_RESOURCE, 1, NULL, NULL, "RsUserDev",
+        (resource_value_t) 0,
       "<0-2>", "Specify VICE RS232 device for userport" },
     { NULL }
 };

@@ -1,5 +1,6 @@
 INCLUDES = \
 	@ARCH_INCLUDES@ \
+        -I$(top_srcdir)/src \
 	-I$(top_builddir)/src
 
 noinst_LIBRARIES = libwidgets.a
