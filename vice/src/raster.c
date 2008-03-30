@@ -711,7 +711,7 @@ inline static void handle_blank_line(void)
 	cache[rasterline].blank = 1;
     	have_changes_on_this_line = 0;
 	add_line(rasterline, 0, SCREEN_WIDTH - 1);
-	if (pixel_height == 2 && app_resources.doubleScan)
+	if (pixel_height == 2 && double_scan_enabled)
 	    vid_memcpy((FRAME_BUFFER_LINE_START(frame_buffer, 2*rasterline + 1)
 			+ 2 * SCREEN_MAX_SPRITE_WIDTH),
 	               frame_buffer_ptr, pixel_width * SCREEN_WIDTH);
@@ -727,7 +727,7 @@ inline static void handle_blank_line(void)
 	cache[rasterline].is_dirty = 0;
 
 	DRAW_BLANK(frame_buffer_ptr, 0, SCREEN_WIDTH - 1, pixel_width);
-	if (pixel_height == 2 && app_resources.doubleScan)
+	if (pixel_height == 2 && double_scan_enabled)
 	    DRAW_BLANK((FRAME_BUFFER_LINE_START(frame_buffer, 2*rasterline + 1)
 			+ 2 * SCREEN_MAX_SPRITE_WIDTH),
 		       0, SCREEN_WIDTH - 1, pixel_width);
@@ -929,7 +929,7 @@ inline static void handle_visible_line_with_cache(void)
     if (needs_update) {
 	add_line(rasterline, changed_start, changed_end);
 
-	if (pixel_height == 2 && app_resources.doubleScan) {
+	if (pixel_height == 2 && double_scan_enabled) {
 	    vid_memcpy((FRAME_BUFFER_LINE_START(frame_buffer, 2*rasterline + 1)
 		        + 2*SCREEN_MAX_SPRITE_WIDTH
 			+ changed_start * pixel_width),
@@ -998,7 +998,7 @@ inline static void handle_visible_line_without_cache()
 
     }
 
-    if (pixel_height == 2 && app_resources.doubleScan)
+    if (pixel_height == 2 && double_scan_enabled)
 	vid_memcpy((FRAME_BUFFER_LINE_START(frame_buffer, rasterline*2 + 1)
 		    + 2 * SCREEN_MAX_SPRITE_WIDTH),
 		   frame_buffer_ptr,
@@ -1103,7 +1103,7 @@ inline static void handle_visible_line_with_changes(void)
     cache[rasterline].is_dirty = 1;
 
     add_line(rasterline, 0, SCREEN_WIDTH - 1);
-    if (pixel_height == 2 && app_resources.doubleScan)
+    if (pixel_height == 2 && double_scan_enabled)
         vid_memcpy(FRAME_BUFFER_LINE_START(frame_buffer, 2*rasterline + 1)
 		   + 2 * SCREEN_MAX_SPRITE_WIDTH,
                    frame_buffer_ptr, pixel_width * SCREEN_WIDTH);
@@ -1115,7 +1115,7 @@ inline static void handle_visible_line(void)
 {
     if (have_changes_on_this_line)
 	handle_visible_line_with_changes();
-    else if (app_resources.videoCache
+    else if (video_cache_enabled
 	     && !open_left_border
 	     && !open_right_border) /* FIXME: shortcut! */
 	handle_visible_line_with_cache();
