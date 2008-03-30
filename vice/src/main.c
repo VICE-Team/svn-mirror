@@ -201,12 +201,6 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     /* Let's go...  */
     maincpu_trigger_reset();
-
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    if (!(console_mode || vsid_mode))
-        fullscreen_mode_init();
-#endif
-
     maincpu_mainloop();
 
     log_error(LOG_DEFAULT, "perkele!");

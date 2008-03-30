@@ -96,7 +96,7 @@ static void set_alarm_timeout(void)
 }
 #endif
 
-static void dga2_refresh_func(video_canvas_t *canvas,
+static void dga1_refresh_func(video_canvas_t *canvas,
                               int src_x, int src_y, int dest_x, int dest_y,
                               unsigned int width, unsigned int height)
 {
@@ -203,7 +203,7 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
             return -1;
         }
 
-        canvas->video_fullscreen_refresh_func = dga2_refresh_func;
+        canvas->video_fullscreen_refresh_func = dga1_refresh_func;
 
         XF86DGAGetVideo(display, screen, (char **)&fb_addr, &fb_width,
                         &fb_bank, &fb_mem);

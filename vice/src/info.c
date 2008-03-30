@@ -569,6 +569,8 @@ const char info_contrib_text[] =
 "  Kajtar Zsolt <soci@c64.rulez.org> wrote the IDE64 interface emulation\n"
 "  and did some small fixes.\n"
 "\n"
+"  ck! <pixelite@lycos.de> provided a win32 cbm character font.\n"
+"\n"
 "(We hope we have not forgotten anybody; if you think we have,\n"
 "please tell us.)\n"
 "\n"

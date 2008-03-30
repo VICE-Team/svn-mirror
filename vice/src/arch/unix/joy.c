@@ -423,34 +423,36 @@ void new_joystick(void)
 
         if (ajoyfd[ajoyport] < 0)
             continue;
-        if (read(ajoyfd[ajoyport], &e, sizeof(struct js_event))
-            != sizeof(struct js_event))
-            continue;
 
-        switch (e.type & ~JS_EVENT_INIT) {
-          case JS_EVENT_BUTTON:
-            joystick_value[i] &= ~16; // reset fire bit
-            if (e.value)
-                joystick_value[i] |= 16;
-            break;
+	/* Read all queued events. */
+        while (read(ajoyfd[ajoyport], &e, sizeof(struct js_event))
+	       == sizeof(struct js_event))
+	{
+            switch (e.type & ~JS_EVENT_INIT) {
+            case JS_EVENT_BUTTON:
+                joystick_value[i] &= ~16; // reset fire bit
+                if (e.value)
+		    joystick_value[i] |= 16;
+		break;
 
-          case JS_EVENT_AXIS:
-            if (e.number == 0) {
-                joystick_value[i] &= 19; // reset 2 bit
-                if (e.value > 16384)
-                    joystick_value[i] |= 8;
-                else if (e.value < -16384)
-                    joystick_value[i] |= 4;
-            }
-            if (e.number == 1) {
-                joystick_value[i] &= 28; // reset 2 bit
-                if (e.value > 16384)
-                    joystick_value[i] |= 2;
-                else if (e.value < -16384)
-                    joystick_value[i] |= 1;
-            }
-            break;
-        }
+	    case JS_EVENT_AXIS:
+                if (e.number == 0) {
+		    joystick_value[i] &= 19; // reset 2 bit
+		    if (e.value > 16384)
+		        joystick_value[i] |= 8;
+		    else if (e.value < -16384)
+		        joystick_value[i] |= 4;
+		}
+		if (e.number == 1) {
+		    joystick_value[i] &= 28; // reset 2 bit
+		    if (e.value > 16384)
+		        joystick_value[i] |= 2;
+		    else if (e.value < -16384)
+		        joystick_value[i] |= 1;
+		}
+		break;
+	    }
+	}
     }
 }
 #endif  /* NEW_JOYSTICK */

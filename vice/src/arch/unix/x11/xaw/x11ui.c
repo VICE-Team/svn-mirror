@@ -1302,6 +1302,9 @@ void ui_dispatch_events(void)
 
     while (XtAppPending(app_context))
         ui_dispatch_next_event();
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    dga2_mode_update();
+#endif
 }
 
 /* Resize one window. */

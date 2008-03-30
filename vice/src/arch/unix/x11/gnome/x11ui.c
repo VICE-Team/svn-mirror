@@ -629,6 +629,12 @@ int ui_init_finish(void)
         }
     } else {
 	/* Autodetect. */
+	visual = gdk_visual_get_system();
+	have_truecolor = (visual->type == GDK_VISUAL_TRUE_COLOR);
+	depth=visual->depth;
+	log_message(ui_log, _("Found %dbit visual."), depth);
+	
+#if 0
         int j, done;
 	int sdepth;
 
@@ -652,6 +658,7 @@ int ui_init_finish(void)
 	    log_error(ui_log, _("Cannot autodetect a proper visual."));
 	    return -1;
 	}
+#endif
     }
 
     textfont = gdk_font_load(textfontname);
@@ -1632,7 +1639,9 @@ void ui_dispatch_events(void)
 {
     while (gtk_events_pending())
 	ui_dispatch_next_event();
-    /*fullscreen_update();*/
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    dga2_mode_update();
+#endif
 }
 
 /* Resize one window. */

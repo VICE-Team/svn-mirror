@@ -34,7 +34,7 @@
 #include "fullscreenarch.h"
 #include "video.h"
 #include "videoarch.h"
-
+#include "utils.h"
 
 #ifdef USE_XF86_EXTENSIONS
 
@@ -163,11 +163,20 @@ int fullscreen_init(void)
     return 0;
 }
 
+int fullscreen_init_alloc_hooks(struct video_canvas_s *canvas)
+{
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    if (dga2_init_alloc_hooks(canvas) < 0)
+        return -1;
+#endif
+    return 0;
+}
+
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
     if (canvas->fullscreenconfig->device == NULL)
-        return 0;
-
+	return 0;
+    
 #ifdef USE_XF86_VIDMODE_EXT
     if (strcmp(STR_VIDMODE, canvas->fullscreenconfig->device) == 0)
         if (vidmode_enable(canvas, enable) < 0)
@@ -183,7 +192,7 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
         if (dga2_enable(canvas, enable) < 0)
             return -1;
 #endif
-    canvas->fullscreenconfig->enable = enable;
+    fullscreen_is_enabled = canvas->fullscreenconfig->enable = enable;
     return 0;
 }
 
@@ -219,7 +228,10 @@ static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
         return -1;
     }
 
-    canvas->fullscreenconfig->device = device;
+    if (canvas->fullscreenconfig->device)
+	free (canvas->fullscreenconfig->device);
+    
+    canvas->fullscreenconfig->device = stralloc(device);
 
     return 0;
 }

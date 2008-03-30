@@ -35,5 +35,17 @@ void fullscreen_set_raster(raster_t *raster);
 extern int fullscreen_is_enabled;
 extern raster_t *fs_cached_raster;
 
+extern int dga2_init(void);
+extern int dga2_available(void);
+extern int dga2_enable(struct video_canvas_s *canvas, int enable);
+extern int dga2_mode(struct video_canvas_s *canvas, int mode);
+extern void dga2_shutdown(void);
+extern void dga2_suspend(int level);
+extern void dga2_resume(void);
+extern void dga2_mode_callback(void *callback);
+extern void dga2_create_menus(struct ui_menu_entry_s menu[]);
+extern void dga2_set_mouse_timeout(void);
+extern int dga2_init_alloc_hooks(struct video_canvas_s *canvas);
+
 #endif
 

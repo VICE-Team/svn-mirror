@@ -110,9 +110,6 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     log_message(gnomevideo_log,
                 _("Successfully initialized video."));
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_set_canvas(canvas);
-#endif 
     return 0;
 }
 

@@ -210,10 +210,6 @@ tryagain:
     if (video_convert_func(canvas, width, height) < 0)
         return -1;
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_set_canvas(canvas);
-#endif
-
     return 0;
 }
 

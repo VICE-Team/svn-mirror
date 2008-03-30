@@ -9,8 +9,6 @@
 - The Linux/DGA2 code is known to be unstable, especially when
   switching back to window mode under some circumstances.
 
-- x128 Linux/DGA2 fullscreen support is known to be broken
-
 - The Unix/Gnome port file selector filter does not take care about
   directories which are most probably filtered out and not
   listed. Once the directory is changed within the file selector the

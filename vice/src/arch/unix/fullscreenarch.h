@@ -31,7 +31,7 @@ struct video_canvas_s;
 
 struct fullscreenconfig_s {
     int enable;
-    const char *device;
+    char *device;
     int double_size;
     int double_scan;
     int mode;
@@ -41,7 +41,7 @@ typedef struct fullscreenconfig_s fullscreenconfig_t;
 
 struct ui_menu_entry_s;
 
-extern int fullscreen_is_enabled;
+extern int fullscreen_is_enabled; 
 extern int fullscreen_available(void);
 
 extern void fullscreen_shutdown(void);
@@ -51,6 +51,7 @@ extern void fullscreen_set_mouse_timeout(void);
 extern void fullscreen_mode_callback(const char *device, void *callback);
 extern void fullscreen_create_menus(struct ui_menu_entry_s menu[]);
 extern int fullscreen_init(void);
+extern int fullscreen_init_alloc_hooks(struct video_canvas_s *canvas);
 
 #endif
 

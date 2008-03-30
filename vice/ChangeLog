@@ -1,3 +1,9 @@
+2002-08-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.69.
+
+	* configure.in: Do not define `UNSTABLE'.
+
 2002-08-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.68.
