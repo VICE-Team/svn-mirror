@@ -277,7 +277,7 @@ resid.o: resid.cc ../../src/resid/sid.h ../../src/resid/siddefs.h \
 	../../src/resid/spline.h ../../src/resid/extfilt.h \
 	../../src/resid/pot.h ../../src/log.h ../../src/utils.h \
 	../../src/vice.h ../../src/config.h ../../src/arch/unix/types.h \
-	../../src/sound.h ../../src/fixpoint.h
+	../../src/sound.h
 sid.o: sid.c ../../src/vice.h ../../src/config.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/log.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/6510core.h \
