@@ -40,20 +40,23 @@
 
 #define IDD_ABOUT                       110
 #define IDC_ABOUT_VERSION               1002
+
 #define IDC_BROWSEDISK                  1006
 #define IDC_SELECTDISK                  1007
 #define IDC_SELECTNONE                  1008
 #define IDC_SELECTDIR                   1009
-#define IDC_BROWSEDIR                   1010
-#define IDD_DISKDEVICE_DIALOG           1010
-#define IDC_AUTOSTART                   1011
-#define IDC_DISKIMAGE                   1012
-#define IDC_DIR                         1013
-#define IDC_TOGGLE_READP00              1014
-#define IDC_TOGGLE_WRITEP00             1015
-#define IDC_TOGGLE_HIDENONP00           1016
-#define IDC_TOGGLE_ATTACH_READONLY      1017
-#define IDC_TOGGLE_USEIECDEVICE         1018
+#define IDC_SELECTREAL                  1010
+#define IDC_BROWSEDIR                   1011
+
+#define IDD_DISKDEVICE_DIALOG           1012
+#define IDC_AUTOSTART                   1013
+#define IDC_DISKIMAGE                   1014
+#define IDC_DIR                         1015
+#define IDC_TOGGLE_READP00              1016
+#define IDC_TOGGLE_WRITEP00             1017
+#define IDC_TOGGLE_HIDENONP00           1018
+#define IDC_TOGGLE_ATTACH_READONLY      1019
+#define IDC_TOGGLE_USEIECDEVICE         1020
 
 #define IDC_SELECT_DRIVE_TYPE_1541      1021
 #define IDC_SELECT_DRIVE_TYPE_1541II    1022
@@ -562,6 +565,12 @@
 #define IDC_RS232USER_ENABLE            1961
 #define IDC_RS232USER_DEVICE            1962
 #define IDC_RS232USER_BAUDRATE          1963
+
+#define IDD_RS232_SETTINGS_DIALOG       1970
+#define IDC_RS232_DEVICE1               1971
+#define IDC_RS232_DEVICE2               1972
+#define IDC_RS232_DEVICE3               1973
+#define IDC_RS232_DEVICE4               1974
  
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
@@ -731,6 +740,7 @@
 #define IDM_IDE64_SETTINGS              40227
 #define IDM_ACIA_SETTINGS               40228
 #define IDM_RS232USER_SETTINGS          40229
+#define IDM_RS232_SETTINGS              40230
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001
