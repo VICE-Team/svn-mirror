@@ -59,10 +59,18 @@ typedef struct cmdline_option {
        `need_arg' is zero.  */
     resource_value_t resource_value;
 
+    /* String to display after the option name in the help screen.  (Can be
+       NULL).  */
+    const char *param_name;
+
+    /* Description string.  */
+    const char *description;
+
 } cmdline_option_t;
 
 int cmdline_init(void);
 int cmdline_register_options(const cmdline_option_t *c);
 int cmdline_parse(int *argc, char **argv);
+void cmdline_show_help(void);
 
 #endif
