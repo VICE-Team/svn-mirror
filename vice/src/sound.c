@@ -381,7 +381,7 @@ int sound_register_device(sound_device_t *pdevice)
 
 unsigned int sound_device_num(void)
 {
-    const int max = sizeof(sound_devices) / sizeof(sound_devices[0]);
+    const unsigned int max = sizeof(sound_devices) / sizeof(sound_devices[0]);
     unsigned int i;
 
     for (i = 0; sound_devices[i] && i < max; i++);

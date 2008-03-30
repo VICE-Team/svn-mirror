@@ -487,6 +487,9 @@
 /* Enable support for Linux style joysticks. */
 #undef LINUX_JOYSTICK
 
+/* Enable Mac OS X specific code. */
+#undef MACOSX_SUPPORT
+
 /* Enable Mac Joystick support. */
 #undef MAC_JOYSTICK
 
