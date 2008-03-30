@@ -10,13 +10,14 @@ Copyright: GPL
 Group: X11/Applications/Emulators
 Source: ftp://ftp.funet.fi/pub/cbm/crossplatform/emulators/VICE/vice-%{version}.tar.gz
 URL: http://www.cs.cmu.edu/%7Edsladic/vice/vice.html
-Packager: Ettore Perazzoli <ettore@comm2000.it>
+Packager: Andreas Boose <boose@linux.rz.fh-hannover.de>
 Prefix: %{prefix}
 BuildRoot: /opt/rpm-build-root
 
 %description
-VICE is a set of accurate emulators for the Commodore 64, 128, VIC20
-and PET 8-bit computers, all of which run under the X Window System.
+VICE is a set of accurate emulators for the Commodore 64, 128, VIC20,
+PET and CBM-II 8-bit computers, all of which run under the X Window
+System.
 
 %prep
 %setup
@@ -43,6 +44,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/x128
 %{prefix}/bin/xvic
 %{prefix}/bin/xpet
+%{prefix}/bin/xcbm2
 %{prefix}/bin/c1541
 %{prefix}/bin/petcat
 %{prefix}/lib/vice
