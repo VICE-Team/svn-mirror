@@ -35,6 +35,7 @@
 #include "video-color.h"
 #include "video.h"
 #include "videoarch.h"
+#include "viewport.h"
 #include "util.h"
 
 

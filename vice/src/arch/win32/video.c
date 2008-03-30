@@ -46,6 +46,7 @@
 #include "ui.h"
 #include "video.h"
 #include "videoarch.h"
+#include "viewport.h"
 #include "vsyncapi.h"
 #include "statusbar.h"
 

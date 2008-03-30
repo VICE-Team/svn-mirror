@@ -31,6 +31,7 @@
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "raster.h"
+#include "viewport.h"
 
 
 static int update_for_minor_changes(raster_t *raster,

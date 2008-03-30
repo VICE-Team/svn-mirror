@@ -1,3 +1,60 @@
+2004-12-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.11.
+
+	* arch/win32/uikeyboard.c (end_mapping_dialog): Set index.
+
+	* keyboard.c (keyboard_parse_set_pos_row): Allow same keysym
+	to be added if `ALLOW_OTHER' was specified.
+	(keyboard_keyconvmap_free): Set `keyconvmap' to NULL.
+
+	* arch/win32/c64ui.c, c64/c64-resources.c, c64/c64.c,
+	arch/unix/kbd.h, arch/win32/kbd.h, arch/msdos/kbd.h,
+	arch/riscos/kbd.h, arch/os2/kbd.h, arch/beos/kbd.h,
+	arch/win32/res.h, arch/win32/resc64.rc,
+	c64/c64-cmdline-options.c: Added support for German symbolic
+	keyboard mapping.
+
+	* datasette.c, parallel/parallel.c, parallel/parallel-trap.c,
+	parallel/parallel-trap.h, drive/drivemem.c, drive/drivemem.h,
+	drive/iec/iec-resources.c, drive/drive-snapshot.c,
+	drive/drivecpu.c, monitor/mon_ui.c, monitor/mon_breakpoint.c,
+	monitor/mon_breakpoint.h, monitor/mon_memory.c, fliplist.c,
+	fliplist.h, machine.c, attach.c, arch/unix/uifliplist.c,
+	arch/riscos/ui.c, arch/os2/dialogs/dlg-drive.c, autostart.c.
+	arch/msdos/kbd.c, arch/msdos/uiattach.c, init.c, video.h,
+	arch/win32/uifliplist.c, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/dlg-fileio.c, arch/unix/uisettings.c,
+	arch/beos/ui.cc, kbdbuf.c, kbdbuf.h, monitor/monitor.c,
+	c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	pet/petmemsnapshot.c, pet/petrom.c, plus4/plus4.c,
+	cbm2/cbm2rom.c, arch/os2/unused/vsync.c, arch/os2/vsyncarch.c,
+	arch/beos/vsyncarch.c, arch/unix/vsyncarch.c, drive/drive.c,
+	arch/msdos/vsync.c, arch/win32/vsyncarch.c,
+	arch/riscos/vsync.c, drive/ieee/riot2d.c, drive/ieee/riotd.h,
+	drive/ieee/ieee.c, drive/drivecpu.c, drive/drivecpu.h,
+	drive/drive-resources.c, drive/drive-snapshot.c,
+	drive/driverom.c, drive/driverom.h, drive/drivesync.c,
+	drive/iec/via1d1541.c, video/video-resources.c,
+	video/video-canvas.c, arch/unix/x11/video.c, raster/raster.h,
+	raster/raster.c, raster/raster-line.c, arch/os2/video.c,
+	arch/win32/video.c, arch/riscos/video.c, vicii/vicii.c,
+	vic20/vic.c, vic20/vic-mem.c, vicii/vicii-draw.c,
+	arch/beos/video.cc, raster/raster-line-changes.c,
+	raster/raster-line-changes-sprite.c: Small changes.
+
+2004-12-05  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/unix/uirs232user.c: missing NULL terminator, causes
+	crashes with ICC6.
+
+2004-11-30  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/uihelp.c: missing include
+
+	* arch/riscos/uiimage.c: replaced usage of non-standard dirent
+	fields with stat-call
+
 2004-11-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.10.

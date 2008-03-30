@@ -39,6 +39,7 @@
 #include "util.h"
 #include "video.h"
 #include "videoarch.h"
+#include "viewport.h"
 #include "vsync.h"
 #include "ui.h"
 

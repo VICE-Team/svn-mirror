@@ -41,6 +41,7 @@
 #include "types.h"
 #include "vicii-draw.h"
 #include "viciitypes.h"
+#include "viewport.h"
 
 
 #define GFX_MSK_LEFTBORDER_SIZE ((VICII_MAX_SPRITE_WIDTH - VICII_RASTER_X(0) \

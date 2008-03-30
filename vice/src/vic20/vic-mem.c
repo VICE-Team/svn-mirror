@@ -38,6 +38,7 @@
 #include "vic-mem.h"
 #include "vic20mem.h"
 #include "vic20sound.h"
+#include "viewport.h"
 
 
 /* VIC access functions. */

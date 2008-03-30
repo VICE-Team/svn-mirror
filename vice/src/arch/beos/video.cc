@@ -45,6 +45,7 @@ extern "C" {
 #include "uiapi.h"
 #include "video.h"
 #include "videoarch.h"
+#include "viewport.h"
 }
 
 /* #define DEBUG_VIDEO */

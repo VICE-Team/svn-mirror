@@ -35,6 +35,7 @@
 #include "raster.h"
 #include "video.h"
 #include "videoarch.h"
+#include "viewport.h"
 
 
 inline static void refresh_canvas(raster_t *raster)

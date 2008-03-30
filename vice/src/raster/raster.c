@@ -46,6 +46,7 @@
 #include "util.h"
 #include "video.h"
 #include "videoarch.h"
+#include "viewport.h"
 
 
 int raster_calc_frame_buffer_width(raster_t *raster)

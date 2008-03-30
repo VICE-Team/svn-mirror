@@ -75,6 +75,7 @@
 #include "util.h"
 #include "video.h"
 #include "videoarch.h"
+#include "viewport.h"
 #include "x11ui.h"
 #ifdef USE_GNOMEUI
 #include <gdk/gdkx.h>

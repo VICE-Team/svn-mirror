@@ -28,7 +28,6 @@
 #define _VIDEO_H
 
 #include "types.h"
-#include "viewport.h"
 
 
 /* These constants are used to configure the video output.  */
@@ -170,7 +169,7 @@ extern void video_viewport_get(struct video_canvas_s *canvas,
 extern void video_viewport_resize(struct video_canvas_s *canvas);
 extern void video_viewport_title_set(struct video_canvas_s *canvas,
                                      const char *title);
-extern void video_viewport_title_free(viewport_t *viewport);
+extern void video_viewport_title_free(struct viewport_s *viewport);
 
 typedef struct video_draw_buffer_callback_s {
     int (*draw_buffer_alloc)(struct video_canvas_s *canvas, BYTE **draw_buffer,

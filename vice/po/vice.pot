@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-11-21 18:28+0100\n"
+"POT-Creation-Date: 2004-12-05 22:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3329,40 +3329,40 @@ msgstr ""
 msgid "Specify X display depth (1..32)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:180
+#: src/arch/unix/x11/video.c:181
 msgid "Call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:183
+#: src/arch/unix/x11/video.c:184
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:186
+#: src/arch/unix/x11/video.c:187
 msgid "Use shared memory"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:189
+#: src/arch/unix/x11/video.c:190
 msgid "Never use shared memory (slower)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:192
+#: src/arch/unix/x11/video.c:193
 msgid "Request YUV FOURCC format"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:194
+#: src/arch/unix/x11/video.c:195
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:271
+#: src/arch/unix/x11/video.c:272
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:275
+#: src/arch/unix/x11/video.c:276
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:341
+#: src/arch/unix/x11/video.c:342
 msgid "Cannot release shared memory!"
 msgstr ""
 

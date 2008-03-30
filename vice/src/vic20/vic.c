@@ -58,8 +58,9 @@
 #include "vic.h"
 #include "vic20.h"
 #include "vic20mem.h"
-#include "vsync.h"
 #include "videoarch.h"
+#include "viewport.h"
+#include "vsync.h"
 
 
 vic_t vic;

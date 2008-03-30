@@ -63,9 +63,11 @@ static const cmdline_option_t cmdline_options[] =
 #endif
 #ifdef COMMON_KBD
     { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
-      "<number>", N_("Specify index of keymap file (0=symbol, 1=positional)") },
+      "<number>", N_("Specify index of keymap file (0=sym, 1=symDE, 2=pos)") },
     { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
       "<name>", N_("Specify name of symbolic keymap file") },
+    { "-symdekeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymDeFile", NULL,
+      "<name>", N_("Specify name of symbolic German keymap file") },
     { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
       "<name>", N_("Specify name of positional keymap file") },
 #endif

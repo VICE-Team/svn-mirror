@@ -37,6 +37,7 @@
 #include "video-render.h"
 #include "video.h"
 #include "videoarch.h"
+#include "viewport.h"
 
 
 /* Temporary! */

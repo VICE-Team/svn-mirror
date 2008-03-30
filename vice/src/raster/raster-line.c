@@ -37,6 +37,7 @@
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "raster.h"
+#include "viewport.h"
 
 
 unsigned int raster_line_get_real_mode(raster_t *raster)

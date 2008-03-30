@@ -34,6 +34,7 @@
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "raster.h"
+#include "viewport.h"
 
 
 inline void update_cached_sprite_collisions(raster_t *raster)

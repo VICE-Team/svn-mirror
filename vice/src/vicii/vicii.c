@@ -76,6 +76,7 @@
 #include "vsync.h"
 #include "videoarch.h"
 #include "video.h"
+#include "viewport.h"
 
 
 void vicii_set_phi1_addr_options(WORD mask, WORD offset)

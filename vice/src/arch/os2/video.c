@@ -69,6 +69,7 @@
 #include "dragndrop.h"
 #include "cmdline.h"
 #include "resources.h"
+#include "viewport.h"
 
 #include "machine.h"         // machine_canvas_screenshot
 #include "screenshot.h"      // screenshot_t
