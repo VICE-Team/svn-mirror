@@ -441,7 +441,7 @@ static void init_drawing_tables(void)
         DWORD __m;                                                      \
         int __p, __i;                                                   \
                                                                         \
-        for (__m = 1 << ((size) - 1), __p = 0; __p < (size);            \
+        for (__m = 1U << ((size) - 1), __p = 0; __p < (size);           \
              __p += 4, (mcmsk) <<= 2, (trmsk) <<= 4) {                  \
             BYTE __c;                                                   \
             BYTE __t;                                                   \
@@ -718,9 +718,10 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
 
     if (sprite_status->sprites[n].in_background) {
         MCSPRITE_DOUBLE_MASK(mcsprmsk, collmsk, trimmsk, 32, 
-            sbit, ptr, sptr, c, cmsk);
+                             sbit, ptr, sptr, c, cmsk);
     } else {
-        MCSPRITE_DOUBLE_MASK(mcsprmsk, 0, trimmsk, 32, sbit, ptr, sptr, c, cmsk);
+        MCSPRITE_DOUBLE_MASK(mcsprmsk, 0, trimmsk, 32,
+                             sbit, ptr, sptr, c, cmsk);
     }
 
     sprmsk = sprite_doubling_table[mcsprtable[data_ptr[2]]];
