@@ -362,7 +362,6 @@ inline static void evaluate_speed(unsigned long clk)
 
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
-printf("OV!\n");
     alarm_context_time_warp(&maincpu_alarm_context, sub, -1);
     cpu_int_status_time_warp(&maincpu_int_status, sub, -1);
 }
