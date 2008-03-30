@@ -168,3 +168,9 @@ int archdep_default_logger(const char *level_string, const char *format,
     return 0;
 }
 
+void archdep_setup_signals(int do_core_dumps)
+{
+    /* What is a signal?  */
+    return;
+}
+
