@@ -1,3 +1,42 @@
+2006-06-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.16.
+
+	* c128/c128fastiec.c (c128fastiec_init, iec_fast_cpu_write):
+	Added four drive support.
+
+	* c128/c128fastiec.c, c128/c128fastiec.h, c128/c128cia1.c,
+	c128/c128mmu.c: Renamed fast iec functions.
+
+	* c64/psid.c, diskimage/fsimage.c, tape/t64.c, tape/tap.c,
+	tape/tape-snapshot.c, vic20/vic20cartridge.c, autostart.c,
+	zfile.c, zfile.h, snapshot.c: Renamed zfile functions.
+
+	* c64/cart/final.c, c64/plus60k.c, c64/ramcart.c,
+	c64/plus256k.c, c64/georam.c, c64/c64_256k.c, cbm2/cbm2cia1.c,
+	cbm2/cbm2tpi2.c, plus4/plus4memhannes256k.c,
+	plus4/plus4memcsory256k.c, c64/c64.c, c64/cart/expert.c,
+	c64/cart/supersnapshot.c, c64/cart/delaep256.c,
+	c64/cart/delaep7x8.c, c64/cart/rexep256.c: Updated includes.
+
+	* c64/c64io.c, c64/c64io.h, c64/c64meminit.c, c64/c64mem.c,
+	c128/c128meminit.c, c128/z80mem.c, c128/c128mem.c: Renamed
+	c64io functions.
+
+	* fsdevice/fsdevice.c, fsdevice.h, init.c, machine.c,
+	fsdevice/fsdevice-close.c, fsdevice/fsdevice-open.c,
+	fsdevice/fsdevice-read.c, fsdevice/fsdevice-cmdline-options.c,
+	fsdevice/fsdevicetypes.h, fsdevice/fsdevice-flush.c: Allocate
+	buffer and structs at runtime.
+
+2006-06-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/vsyncarch.c, arch/unix/vsyncarch.c,
+	arch/win32/vsyncarch.c: ui_dispatch_events isn't called in
+	vsyncarch_presync but in vsyncarch_postsync to keep the
+	order of history playback mode where event alarms are
+	executed after the drives vsync.
+
 2006-06-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.15.

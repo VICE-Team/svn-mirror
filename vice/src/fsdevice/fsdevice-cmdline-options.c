@@ -29,21 +29,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
-
-#ifndef PATH_MAX
-#  ifdef MAX_PATH
-#    define PATH_MAX MAX_PATH
-#  else
-#    define PATH_MAX 1024
-#  endif
-#endif
-
 #include "archdep.h"
 #include "cmdline.h"
 #include "fsdevice.h"
+#include "ioutil.h"
+#include "lib.h"
 #ifdef HAS_TRANSLATION
 #include "translate.h"
 #endif
@@ -53,13 +43,17 @@
 static int cmdline_fsdirectory(const char *param, void *extra_param)
 {
     unsigned int unit;
-    char directory[PATH_MAX];
+    char *directory;
 
     unit = (unsigned int)extra_param;
+    directory = (char *)lib_malloc(ioutil_maxpathlen());
+
     strcpy(directory, param);
     strcat(directory, FSDEV_DIR_SEP_STR);
 
     fsdevice_set_directory(directory, unit);
+
+    lib_free(directory);
 
     return 0;
 }

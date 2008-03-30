@@ -54,6 +54,20 @@
 #include "vdrive.h"
 
 
+/* Will disapper */
+#ifdef HAVE_LIMITS_H
+#include <limits.h>
+#endif
+
+#ifndef PATH_MAX
+#  ifdef MAX_PATH
+#    define PATH_MAX MAX_PATH
+#  else
+#    define PATH_MAX 1024
+#  endif
+#endif
+
+
 static BYTE fs_cmdbuf[4][PATH_MAX];
 static unsigned int fs_cptr[4] = { 0, 0, 0, 0 };
 

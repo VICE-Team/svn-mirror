@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-06-21 22:16+0200\n"
+"POT-Creation-Date: 2006-06-23 15:18+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -51,7 +51,7 @@ msgstr "Uw machine is te traag voor de huidige instellingen!"
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Sorry. Meerdere opnames wordt niet ondersteund."
 
-#: src/autostart.c:187
+#: src/autostart.c:186
 msgid "Cannot load snapshot file."
 msgstr "Kan momentopname bestand niet laden."
 
@@ -90,9 +90,9 @@ msgstr "Zet de geluid buffer grootte naar <waarde> msec"
 #: src/c64/cart/c64cart.c:244 src/c64/cart/c64cart.c:247
 #: src/c64/cart/c64cart.c:250 src/c64/cart/c64cart.c:253
 #: src/c64/cart/c64cart.c:256 src/c64/cart/c64cart.c:259
-#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:275 src/c64/c64_256k.c:215
-#: src/c64/georam.c:204 src/c64/plus256k.c:179 src/c64/plus60k.c:254
-#: src/c64/ramcart.c:235 src/c64/reu.c:240 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:275 src/c64/c64_256k.c:212
+#: src/c64/georam.c:202 src/c64/plus256k.c:176 src/c64/plus60k.c:251
+#: src/c64/ramcart.c:233 src/c64/reu.c:240 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -111,10 +111,10 @@ msgstr "Zet de geluid buffer grootte naar <waarde> msec"
 #: src/drive/ieee/ieee-cmdline-options.c:59
 #: src/drive/ieee/ieee-cmdline-options.c:61
 #: src/drive/tcbm/tcbm-cmdline-options.c:45 src/fliplist.c:122
-#: src/fsdevice/fsdevice-cmdline-options.c:82
-#: src/fsdevice/fsdevice-cmdline-options.c:84
-#: src/fsdevice/fsdevice-cmdline-options.c:86
-#: src/fsdevice/fsdevice-cmdline-options.c:88 src/initcmdline.c:208
+#: src/fsdevice/fsdevice-cmdline-options.c:76
+#: src/fsdevice/fsdevice-cmdline-options.c:78
+#: src/fsdevice/fsdevice-cmdline-options.c:80
+#: src/fsdevice/fsdevice-cmdline-options.c:82 src/initcmdline.c:208
 #: src/initcmdline.c:210 src/initcmdline.c:212 src/initcmdline.c:214
 #: src/initcmdline.c:216 src/initcmdline.c:218 src/initcmdline.c:220
 #: src/log.c:111 src/pet/pet-cmdline-options.c:116
@@ -309,8 +309,8 @@ msgstr "Fout bij het lezen van het start momentopname bestand."
 msgid "Playback recorded events"
 msgstr "Afspelen opgenomen gebeurtenissen"
 
-#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:111
-#: src/c64/plus256k.c:101 src/c64/plus60k.c:146
+#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:108
+#: src/c64/plus256k.c:98 src/c64/plus60k.c:143
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Bron %s geblokeerd door %s."
@@ -795,73 +795,73 @@ msgstr "Automatisch de grootte van de geformateerde bestanden detecteren"
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Niet automatisch de grootte van de geformateerde bestanden detecteren"
 
-#: src/c64/c64_256k.c:211
+#: src/c64/c64_256k.c:208
 msgid "Enable the 256K RAM expansion"
 msgstr "Aktiveer de 256K geheugen uitbreiding"
 
-#: src/c64/c64_256k.c:213
+#: src/c64/c64_256k.c:210
 msgid "Disable the 256K RAM expansion"
 msgstr "De 256K geheugen uitbreiding afsluiten"
 
-#: src/c64/c64_256k.c:215
+#: src/c64/c64_256k.c:212
 msgid "Specify name of 256K image"
 msgstr "Geef de naam van het 256K bestand"
 
-#: src/c64/c64_256k.c:217 src/c64/plus60k.c:256
+#: src/c64/c64_256k.c:214 src/c64/plus60k.c:253
 #: src/sid/sid-cmdline-options.c:141
 msgid "<base address>"
 msgstr "<basis adres>"
 
-#: src/c64/c64_256k.c:217
+#: src/c64/c64_256k.c:214
 msgid "Base address of the 256K expansion"
 msgstr "Basis adres van de 256K geheugen uitbreiding"
 
-#: src/c64/georam.c:200
+#: src/c64/georam.c:198
 msgid "Enable the GEORAM expansion unit"
 msgstr "Aktiveer de GEORAM Uitbreidings Eenheid"
 
-#: src/c64/georam.c:202
+#: src/c64/georam.c:200
 msgid "Disable the GEORAM expansion unit"
 msgstr "De GEORAM Uitbreidings Eenheid afsluiten"
 
-#: src/c64/georam.c:204
+#: src/c64/georam.c:202
 msgid "Specify name of GEORAM image"
 msgstr "Geef de naam van het GEORAM bestand"
 
-#: src/c64/georam.c:206 src/c64/ramcart.c:237 src/c64/reu.c:242
+#: src/c64/georam.c:204 src/c64/ramcart.c:235 src/c64/reu.c:242
 #: src/pet/petreu.c:220
 msgid "<size in KB>"
 msgstr "<grootte in KB>"
 
-#: src/c64/georam.c:206
+#: src/c64/georam.c:204
 msgid "Size of the GEORAM expansion unit"
 msgstr "Grootte van de GEORAM Uitbreidings Eenheid"
 
-#: src/c64/plus256k.c:175
+#: src/c64/plus256k.c:172
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Aktiveer de PLUS256K geheugen uitbreiding"
 
-#: src/c64/plus256k.c:177
+#: src/c64/plus256k.c:174
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "De PLUS256K geheugen uitbreiding afsluiten"
 
-#: src/c64/plus256k.c:179
+#: src/c64/plus256k.c:176
 msgid "Specify name of PLUS256K image"
 msgstr "Geef de naam van het PLUS256K bestand"
 
-#: src/c64/plus60k.c:250
+#: src/c64/plus60k.c:247
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Aktiveer de PLUS60K geheugen uitbreiding"
 
-#: src/c64/plus60k.c:252
+#: src/c64/plus60k.c:249
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "De PLUS60K geheugen uitbreiding afsluiten"
 
-#: src/c64/plus60k.c:254
+#: src/c64/plus60k.c:251
 msgid "Specify name of PLUS60K image"
 msgstr "Geef de naam van het PLUS60K bestand"
 
-#: src/c64/plus60k.c:256
+#: src/c64/plus60k.c:253
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basis adres van de PLUS60K geheugen uitbreiding"
 
@@ -877,19 +877,19 @@ msgstr "Overschrijf PSID instellingen voor Video standaard en SID model"
 msgid "Specify PSID tune <number>"
 msgstr "Geef PSID muziek <nummer>"
 
-#: src/c64/ramcart.c:231
+#: src/c64/ramcart.c:229
 msgid "Enable the RAMCART expansion"
 msgstr "Aktiveer de RAMCART uitbreiding"
 
-#: src/c64/ramcart.c:233
+#: src/c64/ramcart.c:231
 msgid "Disable the RAMCART expansion"
 msgstr "De RAMCART uitbreiding afsluiten"
 
-#: src/c64/ramcart.c:235
+#: src/c64/ramcart.c:233
 msgid "Specify name of RAMCART image"
 msgstr "Geef de naam van het RAMCART bestand"
 
-#: src/c64/ramcart.c:237
+#: src/c64/ramcart.c:235
 msgid "Size of the RAMCART expansion"
 msgstr "Grootte van de RAMCART uitbreiding"
 
@@ -1195,19 +1195,19 @@ msgstr "Geef de naam van het 1551 DOS ROM bestand"
 msgid "Specify name of the flip list file image"
 msgstr "Geef de naam van het flip lijst bestand"
 
-#: src/fsdevice/fsdevice-cmdline-options.c:82
+#: src/fsdevice/fsdevice-cmdline-options.c:76
 msgid "Use <name> as directory for file system device #8"
 msgstr "Gebruik <naam> als directory voor file system apparaat #8"
 
-#: src/fsdevice/fsdevice-cmdline-options.c:84
+#: src/fsdevice/fsdevice-cmdline-options.c:78
 msgid "Use <name> as directory for file system device #9"
 msgstr "Gebruik <naam> als directory voor file system apparaat #9"
 
-#: src/fsdevice/fsdevice-cmdline-options.c:86
+#: src/fsdevice/fsdevice-cmdline-options.c:80
 msgid "Use <name> as directory for file system device #10"
 msgstr "Gebruik <naam> als directory voor file system apparaat #10"
 
-#: src/fsdevice/fsdevice-cmdline-options.c:88
+#: src/fsdevice/fsdevice-cmdline-options.c:82
 msgid "Use <name> as directory for file system device #11"
 msgstr "Gebruik <naam> als directory voor file system apparaat #11"
 
@@ -1432,19 +1432,19 @@ msgstr "Geef de naam van het Cartridge 2 high ROM bestand"
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Geef de hoeveelheid RAM in kb (16/32/64)"
 
-#: src/plus4/plus4memcsory256k.c:119
+#: src/plus4/plus4memcsory256k.c:117
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Aktiveer de CSORY 256K geheugen uitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:134
+#: src/plus4/plus4memhannes256k.c:132
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Aktiveer de HANNES 256K geheugen uitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:136
+#: src/plus4/plus4memhannes256k.c:134
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Aktiveer de HANNES 1024K geheugen uitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:138
+#: src/plus4/plus4memhannes256k.c:136
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Aktiveer de HANNES 4096K geheugen uitbreiding"
 

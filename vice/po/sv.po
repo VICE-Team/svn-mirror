@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-06-21 22:16+0200\n"
+"POT-Creation-Date: 2006-06-23 15:18+0200\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -50,7 +50,7 @@ msgstr "Din maskin är för långsam för nuvarande inställningar!"
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Endast en inspelning kan göras åt gången."
 
-#: src/autostart.c:187
+#: src/autostart.c:186
 msgid "Cannot load snapshot file."
 msgstr "Kan inte läsa in ögonblicksbildfil."
 
@@ -89,9 +89,9 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/c64/cart/c64cart.c:244 src/c64/cart/c64cart.c:247
 #: src/c64/cart/c64cart.c:250 src/c64/cart/c64cart.c:253
 #: src/c64/cart/c64cart.c:256 src/c64/cart/c64cart.c:259
-#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:275 src/c64/c64_256k.c:215
-#: src/c64/georam.c:204 src/c64/plus256k.c:179 src/c64/plus60k.c:254
-#: src/c64/ramcart.c:235 src/c64/reu.c:240 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:275 src/c64/c64_256k.c:212
+#: src/c64/georam.c:202 src/c64/plus256k.c:176 src/c64/plus60k.c:251
+#: src/c64/ramcart.c:233 src/c64/reu.c:240 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -110,10 +110,10 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/drive/ieee/ieee-cmdline-options.c:59
 #: src/drive/ieee/ieee-cmdline-options.c:61
 #: src/drive/tcbm/tcbm-cmdline-options.c:45 src/fliplist.c:122
-#: src/fsdevice/fsdevice-cmdline-options.c:82
-#: src/fsdevice/fsdevice-cmdline-options.c:84
-#: src/fsdevice/fsdevice-cmdline-options.c:86
-#: src/fsdevice/fsdevice-cmdline-options.c:88 src/initcmdline.c:208
+#: src/fsdevice/fsdevice-cmdline-options.c:76
+#: src/fsdevice/fsdevice-cmdline-options.c:78
+#: src/fsdevice/fsdevice-cmdline-options.c:80
+#: src/fsdevice/fsdevice-cmdline-options.c:82 src/initcmdline.c:208
 #: src/initcmdline.c:210 src/initcmdline.c:212 src/initcmdline.c:214
 #: src/initcmdline.c:216 src/initcmdline.c:218 src/initcmdline.c:220
 #: src/log.c:111 src/pet/pet-cmdline-options.c:116
@@ -306,8 +306,8 @@ msgstr "Fel vid läsning av startögonblicksbildfil."
 msgid "Playback recorded events"
 msgstr "Spela upp inspelade händelser"
 
-#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:111
-#: src/c64/plus256k.c:101 src/c64/plus60k.c:146
+#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:108
+#: src/c64/plus256k.c:98 src/c64/plus60k.c:143
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Resursen %s blockeras av %s."
@@ -793,83 +793,83 @@ msgstr "Autodetektera geometri från formaterad avbildningsfil"
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Autodetektera inte geometri från formaterad avbildningsfil"
 
-#: src/c64/c64_256k.c:211
+#: src/c64/c64_256k.c:208
 #, fuzzy
 msgid "Enable the 256K RAM expansion"
 msgstr "Aktivera +60K RAM-expansion"
 
-#: src/c64/c64_256k.c:213
+#: src/c64/c64_256k.c:210
 #, fuzzy
 msgid "Disable the 256K RAM expansion"
 msgstr "Inaktivera +60K RAM-expansion"
 
-#: src/c64/c64_256k.c:215
+#: src/c64/c64_256k.c:212
 #, fuzzy
 msgid "Specify name of 256K image"
 msgstr "Ange namn på +60K-avbildning"
 
-#: src/c64/c64_256k.c:217 src/c64/plus60k.c:256
+#: src/c64/c64_256k.c:214 src/c64/plus60k.c:253
 #: src/sid/sid-cmdline-options.c:141
 msgid "<base address>"
 msgstr "<basadress>"
 
-#: src/c64/c64_256k.c:217
+#: src/c64/c64_256k.c:214
 #, fuzzy
 msgid "Base address of the 256K expansion"
 msgstr "Inaktivera +60K RAM-expansion"
 
-#: src/c64/georam.c:200
+#: src/c64/georam.c:198
 msgid "Enable the GEORAM expansion unit"
 msgstr "Aktivera GEORAM-expansionsenhet"
 
-#: src/c64/georam.c:202
+#: src/c64/georam.c:200
 msgid "Disable the GEORAM expansion unit"
 msgstr "Inaktivera GEORAM-expansionsenhet"
 
-#: src/c64/georam.c:204
+#: src/c64/georam.c:202
 msgid "Specify name of GEORAM image"
 msgstr "Ange namn på GEORAM-avbildning"
 
-#: src/c64/georam.c:206 src/c64/ramcart.c:237 src/c64/reu.c:242
+#: src/c64/georam.c:204 src/c64/ramcart.c:235 src/c64/reu.c:242
 #: src/pet/petreu.c:220
 msgid "<size in KB>"
 msgstr "<storlek i KB>"
 
-#: src/c64/georam.c:206
+#: src/c64/georam.c:204
 msgid "Size of the GEORAM expansion unit"
 msgstr "Storlek på GEORAM-expansionsenhet"
 
-#: src/c64/plus256k.c:175
+#: src/c64/plus256k.c:172
 #, fuzzy
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Aktivera +60K RAM-expansion"
 
-#: src/c64/plus256k.c:177
+#: src/c64/plus256k.c:174
 #, fuzzy
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Inaktivera +60K RAM-expansion"
 
-#: src/c64/plus256k.c:179
+#: src/c64/plus256k.c:176
 #, fuzzy
 msgid "Specify name of PLUS256K image"
 msgstr "Ange namn på +60K-avbildning"
 
-#: src/c64/plus60k.c:250
+#: src/c64/plus60k.c:247
 #, fuzzy
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Aktivera +60K RAM-expansion"
 
-#: src/c64/plus60k.c:252
+#: src/c64/plus60k.c:249
 #, fuzzy
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Inaktivera +60K RAM-expansion"
 
-#: src/c64/plus60k.c:254
+#: src/c64/plus60k.c:251
 #, fuzzy
 msgid "Specify name of PLUS60K image"
 msgstr "Ange namn på +60K-avbildning"
 
-#: src/c64/plus60k.c:256
+#: src/c64/plus60k.c:253
 #, fuzzy
 msgid "Base address of the PLUS60K expansion"
 msgstr "Inaktivera +60K RAM-expansion"
@@ -886,19 +886,19 @@ msgstr "Ersätt PSID-inställningar för videostandard och SID-modell"
 msgid "Specify PSID tune <number>"
 msgstr "Ange PSID-låt <nummer>"
 
-#: src/c64/ramcart.c:231
+#: src/c64/ramcart.c:229
 msgid "Enable the RAMCART expansion"
 msgstr "Aktivera RAMCART-expansion"
 
-#: src/c64/ramcart.c:233
+#: src/c64/ramcart.c:231
 msgid "Disable the RAMCART expansion"
 msgstr "Inaktivera RAMCART-expansion"
 
-#: src/c64/ramcart.c:235
+#: src/c64/ramcart.c:233
 msgid "Specify name of RAMCART image"
 msgstr "Ange namn på RAMCART-avbildning"
 
-#: src/c64/ramcart.c:237
+#: src/c64/ramcart.c:235
 msgid "Size of the RAMCART expansion"
 msgstr "Storlek på RAMCART-expansion"
 
@@ -1204,19 +1204,19 @@ msgstr "Ange namn på 1551-DOS-ROM-avbildning"
 msgid "Specify name of the flip list file image"
 msgstr "Ange namn på vallistefilavbildningen"
 
-#: src/fsdevice/fsdevice-cmdline-options.c:82
+#: src/fsdevice/fsdevice-cmdline-options.c:76
 msgid "Use <name> as directory for file system device #8"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 8"
 
-#: src/fsdevice/fsdevice-cmdline-options.c:84
+#: src/fsdevice/fsdevice-cmdline-options.c:78
 msgid "Use <name> as directory for file system device #9"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 9"
 
-#: src/fsdevice/fsdevice-cmdline-options.c:86
+#: src/fsdevice/fsdevice-cmdline-options.c:80
 msgid "Use <name> as directory for file system device #10"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 10"
 
-#: src/fsdevice/fsdevice-cmdline-options.c:88
+#: src/fsdevice/fsdevice-cmdline-options.c:82
 msgid "Use <name> as directory for file system device #11"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 11"
 
@@ -1445,22 +1445,22 @@ msgstr "Ange namn på ROM-avbildning för högt insticksmodul 2-ROM"
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Ange storlek på installerat RAM i kb (16/32/64)"
 
-#: src/plus4/plus4memcsory256k.c:119
+#: src/plus4/plus4memcsory256k.c:117
 #, fuzzy
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Aktivera +60K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:134
+#: src/plus4/plus4memhannes256k.c:132
 #, fuzzy
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Aktivera +60K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:136
+#: src/plus4/plus4memhannes256k.c:134
 #, fuzzy
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Aktivera +60K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:138
+#: src/plus4/plus4memhannes256k.c:136
 #, fuzzy
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Aktivera +60K RAM-expansion"

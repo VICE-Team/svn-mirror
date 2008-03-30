@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-06-21 22:16+0200\n"
+"POT-Creation-Date: 2006-06-23 15:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Sorry. Multiple recording is not supported."
 msgstr ""
 
-#: src/autostart.c:187
+#: src/autostart.c:186
 msgid "Cannot load snapshot file."
 msgstr ""
 
@@ -90,9 +90,9 @@ msgstr ""
 #: src/c64/cart/c64cart.c:244 src/c64/cart/c64cart.c:247
 #: src/c64/cart/c64cart.c:250 src/c64/cart/c64cart.c:253
 #: src/c64/cart/c64cart.c:256 src/c64/cart/c64cart.c:259
-#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:275 src/c64/c64_256k.c:215
-#: src/c64/georam.c:204 src/c64/plus256k.c:179 src/c64/plus60k.c:254
-#: src/c64/ramcart.c:235 src/c64/reu.c:240 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:275 src/c64/c64_256k.c:212
+#: src/c64/georam.c:202 src/c64/plus256k.c:176 src/c64/plus60k.c:251
+#: src/c64/ramcart.c:233 src/c64/reu.c:240 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -111,10 +111,10 @@ msgstr ""
 #: src/drive/ieee/ieee-cmdline-options.c:59
 #: src/drive/ieee/ieee-cmdline-options.c:61
 #: src/drive/tcbm/tcbm-cmdline-options.c:45 src/fliplist.c:122
-#: src/fsdevice/fsdevice-cmdline-options.c:82
-#: src/fsdevice/fsdevice-cmdline-options.c:84
-#: src/fsdevice/fsdevice-cmdline-options.c:86
-#: src/fsdevice/fsdevice-cmdline-options.c:88 src/initcmdline.c:208
+#: src/fsdevice/fsdevice-cmdline-options.c:76
+#: src/fsdevice/fsdevice-cmdline-options.c:78
+#: src/fsdevice/fsdevice-cmdline-options.c:80
+#: src/fsdevice/fsdevice-cmdline-options.c:82 src/initcmdline.c:208
 #: src/initcmdline.c:210 src/initcmdline.c:212 src/initcmdline.c:214
 #: src/initcmdline.c:216 src/initcmdline.c:218 src/initcmdline.c:220
 #: src/log.c:111 src/pet/pet-cmdline-options.c:116
@@ -306,8 +306,8 @@ msgstr ""
 msgid "Playback recorded events"
 msgstr ""
 
-#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:111
-#: src/c64/plus256k.c:101 src/c64/plus60k.c:146
+#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:108
+#: src/c64/plus256k.c:98 src/c64/plus60k.c:143
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr ""
@@ -783,73 +783,73 @@ msgstr ""
 msgid "Do not autodetect geometry of formatted images"
 msgstr ""
 
-#: src/c64/c64_256k.c:211
+#: src/c64/c64_256k.c:208
 msgid "Enable the 256K RAM expansion"
 msgstr ""
 
-#: src/c64/c64_256k.c:213
+#: src/c64/c64_256k.c:210
 msgid "Disable the 256K RAM expansion"
 msgstr ""
 
-#: src/c64/c64_256k.c:215
+#: src/c64/c64_256k.c:212
 msgid "Specify name of 256K image"
 msgstr ""
 
-#: src/c64/c64_256k.c:217 src/c64/plus60k.c:256
+#: src/c64/c64_256k.c:214 src/c64/plus60k.c:253
 #: src/sid/sid-cmdline-options.c:141
 msgid "<base address>"
 msgstr ""
 
-#: src/c64/c64_256k.c:217
+#: src/c64/c64_256k.c:214
 msgid "Base address of the 256K expansion"
 msgstr ""
 
-#: src/c64/georam.c:200
+#: src/c64/georam.c:198
 msgid "Enable the GEORAM expansion unit"
 msgstr ""
 
-#: src/c64/georam.c:202
+#: src/c64/georam.c:200
 msgid "Disable the GEORAM expansion unit"
 msgstr ""
 
-#: src/c64/georam.c:204
+#: src/c64/georam.c:202
 msgid "Specify name of GEORAM image"
 msgstr ""
 
-#: src/c64/georam.c:206 src/c64/ramcart.c:237 src/c64/reu.c:242
+#: src/c64/georam.c:204 src/c64/ramcart.c:235 src/c64/reu.c:242
 #: src/pet/petreu.c:220
 msgid "<size in KB>"
 msgstr ""
 
-#: src/c64/georam.c:206
+#: src/c64/georam.c:204
 msgid "Size of the GEORAM expansion unit"
 msgstr ""
 
-#: src/c64/plus256k.c:175
+#: src/c64/plus256k.c:172
 msgid "Enable the PLUS256K RAM expansion"
 msgstr ""
 
-#: src/c64/plus256k.c:177
+#: src/c64/plus256k.c:174
 msgid "Disable the PLUS256K RAM expansion"
 msgstr ""
 
-#: src/c64/plus256k.c:179
+#: src/c64/plus256k.c:176
 msgid "Specify name of PLUS256K image"
 msgstr ""
 
-#: src/c64/plus60k.c:250
+#: src/c64/plus60k.c:247
 msgid "Enable the PLUS60K RAM expansion"
 msgstr ""
 
-#: src/c64/plus60k.c:252
+#: src/c64/plus60k.c:249
 msgid "Disable the PLUS60K RAM expansion"
 msgstr ""
 
-#: src/c64/plus60k.c:254
+#: src/c64/plus60k.c:251
 msgid "Specify name of PLUS60K image"
 msgstr ""
 
-#: src/c64/plus60k.c:256
+#: src/c64/plus60k.c:253
 msgid "Base address of the PLUS60K expansion"
 msgstr ""
 
@@ -865,19 +865,19 @@ msgstr ""
 msgid "Specify PSID tune <number>"
 msgstr ""
 
-#: src/c64/ramcart.c:231
+#: src/c64/ramcart.c:229
 msgid "Enable the RAMCART expansion"
 msgstr ""
 
-#: src/c64/ramcart.c:233
+#: src/c64/ramcart.c:231
 msgid "Disable the RAMCART expansion"
 msgstr ""
 
-#: src/c64/ramcart.c:235
+#: src/c64/ramcart.c:233
 msgid "Specify name of RAMCART image"
 msgstr ""
 
-#: src/c64/ramcart.c:237
+#: src/c64/ramcart.c:235
 msgid "Size of the RAMCART expansion"
 msgstr ""
 
@@ -1170,19 +1170,19 @@ msgstr ""
 msgid "Specify name of the flip list file image"
 msgstr ""
 
-#: src/fsdevice/fsdevice-cmdline-options.c:82
+#: src/fsdevice/fsdevice-cmdline-options.c:76
 msgid "Use <name> as directory for file system device #8"
 msgstr ""
 
-#: src/fsdevice/fsdevice-cmdline-options.c:84
+#: src/fsdevice/fsdevice-cmdline-options.c:78
 msgid "Use <name> as directory for file system device #9"
 msgstr ""
 
-#: src/fsdevice/fsdevice-cmdline-options.c:86
+#: src/fsdevice/fsdevice-cmdline-options.c:80
 msgid "Use <name> as directory for file system device #10"
 msgstr ""
 
-#: src/fsdevice/fsdevice-cmdline-options.c:88
+#: src/fsdevice/fsdevice-cmdline-options.c:82
 msgid "Use <name> as directory for file system device #11"
 msgstr ""
 
@@ -1407,19 +1407,19 @@ msgstr ""
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr ""
 
-#: src/plus4/plus4memcsory256k.c:119
+#: src/plus4/plus4memcsory256k.c:117
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr ""
 
-#: src/plus4/plus4memhannes256k.c:134
+#: src/plus4/plus4memhannes256k.c:132
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr ""
 
-#: src/plus4/plus4memhannes256k.c:136
+#: src/plus4/plus4memhannes256k.c:134
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr ""
 
-#: src/plus4/plus4memhannes256k.c:138
+#: src/plus4/plus4memhannes256k.c:136
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr ""
 
