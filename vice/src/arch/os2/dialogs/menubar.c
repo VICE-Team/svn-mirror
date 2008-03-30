@@ -53,7 +53,7 @@
 #include "machine.h"         // machine_read/write_snapshot
 #include "cmdline.h"         // cmdline_show_help, include resources.h
 #include "vsyncapi.h"        // vsyncarch
-#include "fliplist.h"        // flip_attach_head
+#include "fliplist.h"        // fliplist_attach_head
 #include "cartridge.h"       // CARTRIDGE_*
 #include "resources.h"       // resource_value_t
 #include "interrupt.h"       // interrupt_maincpu_trigger_trap
@@ -342,7 +342,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_FLIPNEXT9:
     case IDM_FLIPPREV8:
     case IDM_FLIPPREV9:
-        flip_attach_head((idm>>4)&0xf, idm&1);
+        fliplist_attach_head((idm>>4)&0xf, idm&1);
         return;
 
     case IDM_DEFAULTCONFIG:

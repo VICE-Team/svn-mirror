@@ -382,28 +382,28 @@ static TUI_MENU_CALLBACK(create_disk_image_callback)
 static TUI_MENU_CALLBACK(flip_add_callback)
 {
     if (been_activated)
-        flip_add_image(8);
+        fliplist_add_image(8);
     return NULL;
 }
 
 static TUI_MENU_CALLBACK(flip_remove_callback)
 {
     if (been_activated)
-        flip_remove(-1, NULL);
+        fliplist_remove(-1, NULL);
     return NULL;
 }
 
 static TUI_MENU_CALLBACK(flip_next_callback)
 {
     if (been_activated)
-        flip_attach_head(8, 1);
+        fliplist_attach_head(8, 1);
     return NULL;
 }
 
 static TUI_MENU_CALLBACK(flip_previous_callback)
 {
     if (been_activated)
-        flip_attach_head(8, 0);
+        fliplist_attach_head(8, 0);
     return NULL;
 }
 

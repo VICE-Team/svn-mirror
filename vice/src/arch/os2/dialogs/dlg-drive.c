@@ -144,16 +144,16 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             file_system_detach_disk(drive+8);
             return FALSE;
         case PB_FLIPADD:
-            flip_add_image(drive+8);
+            fliplist_add_image(drive+8);
             return FALSE;
         case PB_FLIPREMOVE:
-            flip_remove(drive+8, NULL);
+            fliplist_remove(drive+8, NULL);
             return FALSE;
         case PB_FLIP/*NEXT*/:
-            flip_attach_head(drive+8, FLIP_NEXT);
+            fliplist_attach_head(drive+8, FLIP_NEXT);
             return FALSE;
             //        case PB_FLIPPREV:
-            //            flip_attach_head(drive+8, FLIP_PREV);
+            //            fliplist_attach_head(drive+8, FLIP_PREV);
             //            return FALSE;
         }
         break;
