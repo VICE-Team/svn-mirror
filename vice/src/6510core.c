@@ -761,6 +761,17 @@
       CLK += (clk_inc2);                        \
   } while (0)
 
+#define JMP_IND()                                                   \
+  do {                                                              \
+      WORD dest_addr;                                               \
+      CLK += 3;                                                     \
+      dest_addr = LOAD(p2);                                         \
+      CLK += 1;                                                     \
+      dest_addr |= (LOAD((p2 & 0xff00) | ((p2 + 1) & 0xff)) << 8);  \
+      CLK += 1;                                                     \
+      JUMP(dest_addr);                                              \
+  } while (0)
+
 #define JSR(addr, clk_inc1, clk_inc2, pc_inc)           \
   do {                                                  \
       unsigned int tmp_addr;                            \
@@ -1928,9 +1939,7 @@
             break;
 
         case 0x6c:                      /* JMP ($nnnn) */
-            /* FIXME: This is not correct (timing-wise).  */
-            JMP(LOAD(p2) | (LOAD((p2 & 0xff00) | ((p2 + 1) & 0xff)) << 8),
-                3, 2);
+            JMP_IND();
             break;
 
         case 0x6d:                      /* ADC $nnnn */
