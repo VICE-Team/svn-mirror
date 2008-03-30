@@ -76,6 +76,9 @@ extern int archdep_num_text_columns(void);
 /* Allocates a filename for a tempfile.  */
 extern char *archdep_tmpnam(void);
 
+/* Allocates a filename and creates a tempfile.  */
+extern FILE *archdep_mkstemp_fd(char **filename, const char *mode);
+
 /* Check file for gzip extension.  */
 extern int archdep_file_is_gzip(const char *name);
 extern int archdep_file_set_gzip(const char *name);
