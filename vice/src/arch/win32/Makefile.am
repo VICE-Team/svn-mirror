@@ -99,6 +99,8 @@ libarch_a_SOURCES = \
 	uidrivepetcbm2.h \
 	uidriveplus4.c \
 	uidriveplus4.h \
+	uievent.c \
+	uievent.h \
 	uifliplist.c \
 	uifliplist.h \
 	uihelp.c \

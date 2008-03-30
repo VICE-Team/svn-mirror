@@ -40,12 +40,10 @@
 #include "attach.h"
 #include "autostart.h"
 #include "archdep.h"
-#include "datasette.h"
 #include "debug.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "event.h"
-#include "fliplist.h"
 #include "fullscrn.h"
 #include "imagecontents.h"
 #include "interrupt.h"
@@ -57,17 +55,16 @@
 #include "mem.h"
 #include "monitor.h"
 #include "mousedrv.h"
-#include "printer.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
-#include "tape.h"
 #include "types.h"
 #include "ui.h"
 #include "uiattach.h"
 #include "uiperipheral.h"
 #include "uicmdline.h"
 #include "uidatasette.h"
+#include "uievent.h"
 #include "uifliplist.h"
 #include "uihelp.h"
 #include "uijoystick.h"
@@ -559,7 +556,7 @@ static void update_menus(HWND hwnd)
         }
     }
 
-    if (machine_specific_values){
+    if (machine_specific_values) {
         for (i = 0; machine_specific_values[i].name != NULL; i++) {
             result = resources_get_value(machine_specific_values[i].name,
                                          (void *)&value);
@@ -866,11 +863,9 @@ static BYTE ui_joyport[3] = { 0, 0, 0 };
 
 void ui_display_joyport(BYTE *joyport)
 {
-	if (ui_joyport[1] != joyport[1] || ui_joyport[2] != joyport[2])
-    {
+    if (ui_joyport[1] != joyport[1] || ui_joyport[2] != joyport[2]) {
         ui_joyport[1] = joyport[1];
         ui_joyport[2] = joyport[2];
-
         statusbar_display_joyport(ui_joyport);
     }
 }
@@ -964,6 +959,54 @@ static void reset_dialog_proc(WPARAM wparam)
 /* FIXME: tmp hack.  */
 int syscolorchanged, displaychanged, querynewpalette, palettechanged;
 
+static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
+{
+    int i, j, command_found = 0;
+
+    for (i = 0; toggle_list[i].name != NULL && !command_found; i++) {
+        if (toggle_list[i].item_id == wparam) {
+            resources_toggle(toggle_list[i].name, NULL);
+            command_found = 1;
+        }
+    }
+
+    if (machine_specific_toggles) {
+        for (i = 0; machine_specific_toggles[i].name != NULL
+            && !command_found; i++) {
+            if (machine_specific_toggles[i].item_id == wparam) {
+                resources_toggle(machine_specific_toggles[i].name, NULL);
+                command_found = 1;
+            }
+        }
+    }
+
+    for (i = 0; value_list[i].name != NULL && !command_found; i++) {
+        for (j = 0; value_list[i].vals[j].item_id != 0
+            && !command_found; j++) {
+            if (value_list[i].vals[j].item_id == wparam) {
+                resources_set_value(value_list[i].name,
+                    (resource_value_t) value_list[i].vals[j].value);
+                command_found = 1;
+            }
+        }
+    }
+
+    if (machine_specific_values) {
+        for (i = 0; machine_specific_values[i].name != NULL
+            && !command_found; i++) {
+            for (j = 0; machine_specific_values[i].vals[j].item_id != 0
+                && !command_found; j++) {
+                if (machine_specific_values[i].vals[j].item_id == wparam) {
+                    resources_set_value(machine_specific_values[i].name,
+                        (resource_value_t)
+                        machine_specific_values[i].vals[j].value);
+                    command_found = 1;
+                }
+            }
+        }
+    }
+}
+
 static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 {
     char *fname;
@@ -974,7 +1017,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 
     switch (wparam) {
       case IDM_DEVICEMANAGER:
-        ui_peripheral_dialog(hwnd);
+      case IDM_FORMFEED_PRINTERIEC4 | 0x00010000:
+      case IDM_FORMFEED_PRINTERIEC5 | 0x00010000:
+        uiperipheral_command(hwnd, wparam);
         break;
       case IDM_EXIT | 0x00010000:
       case IDM_EXIT:
@@ -986,7 +1031,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_LICENSE:
       case IDM_WARRANTY:
       case IDM_CMDLINE:
-        ui_help_dialog(hwnd, wparam);
+        uihelp_dialog(hwnd, wparam);
         break;
       case IDM_ATTACH_8 | 0x00010000:
       case IDM_ATTACH_9 | 0x00010000:
@@ -996,79 +1041,39 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_ATTACH_9:
       case IDM_ATTACH_10:
       case IDM_ATTACH_11:
-        ui_attach_disk_dialog(wparam, hwnd);
-        break;
       case IDM_DETACH_8:
-        file_system_detach_disk(8);
-        break;
       case IDM_DETACH_9:
-        file_system_detach_disk(9);
-        break;
       case IDM_DETACH_10:
-        file_system_detach_disk(10);
-        break;
       case IDM_DETACH_11:
-        file_system_detach_disk(11);
-        break;
       case IDM_DETACH_ALL | 0x00010000:
       case IDM_DETACH_ALL:
-        file_system_detach_disk(8);
-        file_system_detach_disk(9);
-        file_system_detach_disk(10);
-        file_system_detach_disk(11);
+      case IDM_ATTACH_TAPE | 0x00010000:
+      case IDM_ATTACH_TAPE:
+      case IDM_DETACH_TAPE:
+      case IDM_AUTOSTART:
+        uiattach_command(hwnd, wparam);
         break;
       case IDM_FLIP_ADD | 0x00010000:
       case IDM_FLIP_ADD:
-        flip_add_image(8);
-        break;
       case IDM_FLIP_REMOVE | 0x00010000:
       case IDM_FLIP_REMOVE:
-        flip_remove(8, NULL);
-        break;
       case IDM_FLIP_NEXT | 0x00010000:
       case IDM_FLIP_NEXT:
-        flip_attach_head(8, 1);
-        break;
       case IDM_FLIP_PREVIOUS | 0x00010000:
       case IDM_FLIP_PREVIOUS:
-        flip_attach_head(8, 0);
-        break;
       case IDM_FLIP_LOAD:
-        uifliplist_load_dialog(hwnd);
-        break;
       case IDM_FLIP_SAVE:
-        uifliplist_save_dialog(hwnd);
+        uifliplist_command(hwnd, wparam);
         break;
-      case IDM_ATTACH_TAPE | 0x00010000:
-      case IDM_ATTACH_TAPE:
-        ui_attach_tape_dialog(hwnd);
-        break;
-      case IDM_DETACH_TAPE:
-        tape_image_detach(1);
-        break;
+      case IDM_DATASETTE_SETTINGS:
       case IDM_DATASETTE_CONTROL_STOP:
-        datasette_control(DATASETTE_CONTROL_STOP);
-        break;
       case IDM_DATASETTE_CONTROL_START:
-        datasette_control(DATASETTE_CONTROL_START);
-        break;
       case IDM_DATASETTE_CONTROL_FORWARD:
-        datasette_control(DATASETTE_CONTROL_FORWARD);
-        break;
       case IDM_DATASETTE_CONTROL_REWIND:
-        datasette_control(DATASETTE_CONTROL_REWIND);
-        break;
       case IDM_DATASETTE_CONTROL_RECORD:
-        datasette_control(DATASETTE_CONTROL_RECORD);
-        break;
       case IDM_DATASETTE_CONTROL_RESET:
-        datasette_control(DATASETTE_CONTROL_RESET);
-        break;
       case IDM_DATASETTE_RESET_COUNTER:
-        datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
-        break;
-      case IDM_AUTOSTART:
-        ui_attach_autostart_dialog(hwnd);
+        uidatasette_command(hwnd, wparam);
         break;
       case IDM_SNAPSHOT_LOAD | 0x00010000:
       case IDM_SNAPSHOT_LOAD:
@@ -1130,9 +1135,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_MAXIMUM_SPEED_CUSTOM:
         ui_speed_settings_dialog(hwnd);
         break;
-      case IDM_DATASETTE_SETTINGS:
-        ui_datasette_settings_dialog(hwnd);
-        break;
       case IDM_JOY_SETTINGS:
         ui_joystick_settings_dialog(hwnd);
         break;
@@ -1155,11 +1157,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             ui_error("Cannot save settings.");
         else
             ui_message("Settings saved successfully.");
-	{
-	    char *fname = archdep_default_fliplist_file_name();
-	    flip_save_list((unsigned int) -1, fname);
-	    lib_free(fname);
-	}
+        uifliplist_save_settings();
         break;
       case IDM_SETTINGS_LOAD:
         if (resources_load(NULL) < 0) {
@@ -1173,107 +1171,19 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         ui_message("Default settings restored.");
         break;
       case IDM_EVENT_DIRECTORY:
-        fname = uilib_select_file(hwnd, 
-                          TEXT("Select start snapshot for event history"), 
-                          UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
-                          UILIB_SELECTOR_TYPE_FILE_SAVE,
-                          UILIB_SELECTOR_STYLE_EVENT_START);
-        lib_free(fname);
-        fname = uilib_select_file(hwnd,
-                          TEXT("Select end snapshot for event history"), 
-                          UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
-                          UILIB_SELECTOR_TYPE_FILE_SAVE,
-                          UILIB_SELECTOR_STYLE_EVENT_END);
-        lib_free(fname);
-        break;
       case IDM_EVENT_TOGGLE_RECORD:
-        {
-            int recording_new = (event_record_active() ? 0 : 1);
-
-            if (recording_new)
-                event_record_start();
-            else
-                event_record_stop();
-        }
-        break;
       case IDM_EVENT_TOGGLE_PLAYBACK:
-        {
-            int playback_new = (event_playback_active() ? 0 : 1);
-
-            if (playback_new)
-                event_playback_start();
-            else
-                event_playback_stop();
-        }
-        break;
       case IDM_EVENT_SETMILESTONE:
       case IDM_EVENT_SETMILESTONE | 0x00010000:
-        event_record_set_milestone();
-        break;
       case IDM_EVENT_RESETMILESTONE:
       case IDM_EVENT_RESETMILESTONE | 0x00010000:
-        event_record_reset_milestone();
-        break;
-      case IDM_FORMFEED_PRINTERIEC4 | 0x00010000:
-        printer_formfeed(0);
-        break;
-      case IDM_FORMFEED_PRINTERIEC5 | 0x00010000:
-        printer_formfeed(1);
+        uievent_command(hwnd, wparam);
         break;
       case IDM_RS232_SETTINGS:
         ui_rs232_settings_dialog(hwnd);
         break;
       default:
-        {
-            int i, j, command_found = 0;
-
-            for (i = 0; toggle_list[i].name != NULL && !command_found; i++) {
-                if (toggle_list[i].item_id == wparam) {
-                    resources_toggle(toggle_list[i].name, NULL);
-                     command_found = 1;
-                }
-            }
-
-            if (machine_specific_toggles) {
-                for (i = 0; machine_specific_toggles[i].name != NULL 
-                            && !command_found; i++) {
-                    if (machine_specific_toggles[i].item_id == wparam) {
-                        resources_toggle(machine_specific_toggles[i].name,
-                                         NULL);
-                     command_found = 1;
-                    }
-                }
-            }
-
-
-            for (i = 0; value_list[i].name != NULL && !command_found; i++) {
-                for (j = 0; value_list[i].vals[j].item_id != 0 
-                            && !command_found; j++) {
-                    if (value_list[i].vals[j].item_id == wparam) {
-                        resources_set_value(value_list[i].name, 
-                            (resource_value_t) value_list[i].vals[j].value);
-                        command_found = 1;
-                    }
-                }
-            }
-
-            if (machine_specific_values) {
-                for (i = 0; machine_specific_values[i].name != NULL 
-                            && !command_found; i++) {
-                    for (j = 0; machine_specific_values[i].vals[j].item_id != 0
-                                && !command_found; j++) {
-                        if (machine_specific_values[i].vals[j].item_id 
-                                == wparam) {
-                            resources_set_value(
-                                machine_specific_values[i].name, 
-                                (resource_value_t) 
-                                    machine_specific_values[i].vals[j].value);
-                            command_found = 1;
-                        }
-                    }
-                }
-            }
-        }
+        handle_default_command(wparam, lparam, hwnd);
     }
 }
 

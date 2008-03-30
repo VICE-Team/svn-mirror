@@ -226,6 +226,10 @@ SOURCE=.\uidriveplus4.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uievent.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uifliplist.c
 # End Source File
 # Begin Source File
