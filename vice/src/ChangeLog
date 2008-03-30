@@ -1,3 +1,84 @@
+1999-10-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.23.
+
+	* arch/unix: Moved X11 specific code to x11 directory.
+
+	* arch/unix: Moved common header files from x11/xaw to this
+	directory.
+
+	* arch/unix/kbd.h: Removed X11 specific stuff.
+
+	* arch/unix/joystick.c (new_joystick_init): Do not use `TRUE'.
+
+	* arch/unix/x11/xaw/widgets/strnchr.c: Updated includes.
+
+	* arch/unix/x11/xaw/Makefile.am,
+	arch/unix/x11/gnome/Makefile.am,
+	arch/unix/x11/xaw/widgets/Makefile.am: Fixed include path.
+
+	* arch/unix/x11/xaw/video.h, arch/win32/video.h,
+	arch/msdos/video.h, arch/riscos/video.h, arch/os2/video.h:
+	Moved common code to `video.h' and renamed to `videoarch.h'.
+
+	* arch/msdos/uisnapshot.c, arch/msdos/mouse.c: Added missing
+	casts.
+
+1999-10-30  Andreas Matthies <andreas.matthies@arcormail.de>
+
+	* arch/win32/res.rc: Use `AUTOCHECKBOX' instead of `CONTROL'.
+
+1999-10-30  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/xaw/ui.c (ui_jam_dialog): Handle CPU jam in vsid mode.
+
+	* c64/psid.c (psid_play_tune): tune == -1 means stop playing.
+
+	* sound.c (closesound): Log messages to console in console and
+	vsid modes.
+	(initsid): Set warp mode for non-realtime sound devices in vsid
+	mode.
+
+1999-10-29  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/kbd.c (kbd_event_handler): No keyboard handling in
+	vsid mode.
+
+	* arch/unix/xaw/ui.c: Overdue vsid mode cleanup.
+	* arch/unix/xaw/ui.h (ui_proc_read_msg): New parameter to block
+	vsid mode main process in select().
+
+	* arch/unix/xaw/uimenu.c (_ui_menu_toggle_helper,
+	_ui_menu_radio_helper): Pass resource values to vsid main process
+	in vsid mode.
+
+	* arch/unix/xaw/vsidui.c: Made all menu options actually work.
+
+	* c64/c64.c: Overdue vsid mode cleanup. (machine_play_psid):
+	Choose tune in vsid mode.
+
+	* c64/psid.c: Option -psid changed to -vsid. (psid_play_tune):
+	Choose tune in vsid mode.
+	* c64/psid.h (psid_play_tune): New function.
+
+	* c610/c610.c (machine_play_psid): Dummy function.
+
+	* c128/c128.c (machine_play_psid): Dummy function.
+
+	* vic20/vic20.c (machine_play_psid): Dummy function.
+
+	* pet/pet.c (machine_play_psid): Dummy function.
+
+	* machine.h (machine_play_psid): New function.
+
+	* main.c: Separate list of options for vsid mode. -vsid and
+	-console options are checked before any UI initialization and
+	normal command line parsing. This allows -console to start without
+	any UI, and -vsid to have a separate set of command line options.
+	SID tunes are no longer autodetected; -vsid is mandatory.
+
+	* raster/raster.c (realize_canvas): Not realized in console mode.
+	
 1999-10-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.22.
