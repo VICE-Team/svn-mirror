@@ -95,13 +95,13 @@ extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  unsigned int xs, unsigned int ys,
                                  unsigned int xi, unsigned int yi,
                                  unsigned int w, unsigned int h);
-extern int video_canvas_set_palette(struct video_canvas_s *c,
+extern int video_canvas_set_palette(struct video_canvas_s *canvas,
                                     const struct palette_s *palette);
-extern void video_canvas_destroy(struct video_canvas_s *s);
-extern void video_canvas_map(struct video_canvas_s *s);
-extern void video_canvas_unmap(struct video_canvas_s *s);
-extern void video_canvas_resize(struct video_canvas_s *s, unsigned int width,
-                                unsigned int height);
+extern void video_canvas_destroy(struct video_canvas_s *canvas);
+extern void video_canvas_map(struct video_canvas_s *canvas);
+extern void video_canvas_unmap(struct video_canvas_s *canvas);
+extern void video_canvas_resize(struct video_canvas_s *canvas,
+                                unsigned int width, unsigned int height);
 
 typedef struct video_draw_buffer_callback_s {
     int (*draw_buffer_alloc)(struct video_canvas_s *canvas, BYTE **draw_buffer,
