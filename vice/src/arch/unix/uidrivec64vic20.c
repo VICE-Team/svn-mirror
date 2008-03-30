@@ -33,7 +33,7 @@
 #include "uidrivec64vic20.h"
 #include "uidriveiec.h"
 #include "uimenu.h"
-#include "uisettings.h"
+#include "uiromset.h"
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
