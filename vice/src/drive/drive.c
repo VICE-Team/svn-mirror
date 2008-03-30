@@ -80,7 +80,7 @@ drive_context_t drive0_context;
 drive_context_t drive1_context;
 
 /* Prototypes of functions called by resource management.  */
-static int drive_check_image_format(unsigned int format, int dnr);
+static int drive_check_image_format(unsigned int format, unsigned int dnr);
 
 /* Generic drive logging goes here.  */
 static log_t drive_log = LOG_ERR;
@@ -147,7 +147,7 @@ static void drive_set_clock_frequency(int type, int dnr);
 
 /* Disk image handling. */
 
-static void drive_read_image_d64_d71(int dnr)
+static void drive_read_image_d64_d71(unsigned int dnr)
 {
     BYTE buffer[260], chksum;
     int rc, i;
@@ -226,7 +226,7 @@ static void drive_read_image_d64_d71(int dnr)
     }
 }
 
-static int setID(int dnr)
+static int setID(unsigned int dnr)
 {
     BYTE buffer[256];
     int rc;
@@ -812,9 +812,9 @@ void drive_disable(int dnr)
 	    iec_info->drive2_data = 0xff;
 	}
     if (dnr == 0)
-        drive_GCR_data_writeback(0);
+        drive_gcr_data_writeback(0);
     if (dnr == 1)
-        drive_GCR_data_writeback(1);
+        drive_gcr_data_writeback(1);
     }
 
     /* Make sure the UI is updated.  */
@@ -846,7 +846,7 @@ void drive_reset(void)
 
 /* ------------------------------------------------------------------------- */
 /* Check if the drive type matches the disk image type.  */
-static int drive_check_image_format(unsigned int format, int dnr)
+static int drive_check_image_format(unsigned int format, unsigned int dnr)
 {
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
@@ -880,9 +880,9 @@ static int drive_check_image_format(unsigned int format, int dnr)
 }
 
 /* Attach a disk image to the true drive emulation. */
-int drive_attach_image(disk_image_t *image, int unit)
+int drive_attach_image(disk_image_t *image, unsigned int unit)
 {
-    int dnr;
+    unsigned int dnr;
 
     if (unit != 8 && unit != 9)
         return -1;
@@ -942,9 +942,9 @@ int drive_attach_image(disk_image_t *image, int unit)
 }
 
 /* Detach a disk image from the true drive emulation. */
-int drive_detach_image(disk_image_t *image, int unit)
+int drive_detach_image(disk_image_t *image, unsigned int unit)
 {
-    int dnr;
+    unsigned int dnr;
 
     if (unit != 8 && unit != 9)
         return -1;
@@ -973,7 +973,7 @@ int drive_detach_image(disk_image_t *image, int unit)
             return -1;
         }
 
-        drive_GCR_data_writeback(dnr);
+        drive_gcr_data_writeback(dnr);
         memset(drive[dnr].gcr->data, 0, sizeof(drive[dnr].gcr->data));
         drive[dnr].detach_clk = drive_clk[dnr];
         drive[dnr].GCR_image_loaded = 0;
@@ -1271,7 +1271,7 @@ void drive_set_1571_side(int side, int dnr)
     int num = drive[dnr].current_half_track;
     if (drive[dnr].byte_ready_active == 0x06)
         drive_rotate_disk(&drive[dnr]);
-    drive_GCR_data_writeback(dnr);
+    drive_gcr_data_writeback(dnr);
     drive[dnr].side = side;
     if (num > 70)
         num -= 70;
@@ -1283,7 +1283,7 @@ void drive_set_1571_side(int side, int dnr)
    for `step' are `+1' and `-1'.  */
 void drive_move_head(int step, int dnr)
 {
-    drive_GCR_data_writeback(dnr);
+    drive_gcr_data_writeback(dnr);
     if (drive[dnr].type == DRIVE_TYPE_1571) {
         if (drive[dnr].current_half_track + step == 71)
             return;
@@ -1291,8 +1291,9 @@ void drive_move_head(int step, int dnr)
     drive_set_half_track(drive[dnr].current_half_track + step, &drive[dnr]);
 }
 
-/* Hack... otherwise you get internal compiler errors when optimizing on gcc2.7.2 on RISC OS */
-static void GCR_data_writeback2(BYTE *buffer, BYTE *offset, int dnr,
+/* Hack... otherwise you get internal compiler errors when optimizing on
+    gcc2.7.2 on RISC OS */
+static void gcr_data_writeback2(BYTE *buffer, BYTE *offset, unsigned int dnr,
                                 unsigned int track, unsigned int sector)
 {
     int rc;
@@ -1313,7 +1314,7 @@ static void GCR_data_writeback2(BYTE *buffer, BYTE *offset, int dnr,
     }
 }
 
-void drive_GCR_data_writeback(int dnr)
+void drive_gcr_data_writeback(unsigned int dnr)
 {
     int extend;
     unsigned int track, sector, max_sector = 0;
@@ -1328,9 +1329,18 @@ void drive_GCR_data_writeback(int dnr)
         return;
 
     if (drive[dnr].image->type == DISK_IMAGE_TYPE_G64) {
+        BYTE *gcr_track_start_ptr;
+        int gcr_current_track_size;
+
+        gcr_current_track_size = drive[dnr].gcr->track_size[track - 1];
+
+        gcr_track_start_ptr = drive[dnr].gcr->data
+                              + ((track - 1) * NUM_MAX_BYTES_TRACK);
+
         disk_image_write_track(drive[dnr].image, track,
-                               drive[dnr].gcr->track_size,
-                               drive[dnr].gcr->speed_zone);
+                               gcr_current_track_size,
+                               drive[dnr].gcr->speed_zone,
+                               gcr_track_start_ptr);
         drive[dnr].GCR_dirty_track = 0;
         return;
     }
@@ -1392,7 +1402,7 @@ void drive_GCR_data_writeback(int dnr)
                           "Could not find data sync of T:%d S:%d.",
                           track, sector);
             } else {
-                GCR_data_writeback2(buffer, offset, dnr, track, sector);
+                gcr_data_writeback2(buffer, offset, dnr, track, sector);
             }
         }
     }
