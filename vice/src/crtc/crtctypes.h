@@ -40,11 +40,6 @@
 #include "raster.h"
 #include "types.h"
 
-/* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
-   memory and (little) speed.  */
-#if !defined(__MSDOS__) && !defined(__riscos) && !defined(__OS2__)
-#define CRTC_NEED_2X 1
-#endif
 
 enum crtc_video_mode_s
 {
