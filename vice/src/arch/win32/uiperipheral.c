@@ -49,6 +49,7 @@
 #include "uiperipheral.h"
 #include "printer.h"
 #include "iecdrive.h"
+#include "system.h"
 #include "uilib.h"
 #include "winmain.h"
 
@@ -211,9 +212,6 @@ static BOOL store_dialog_results(HWND hwnd, unsigned int num)
 static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
-    int n;
-    char tmp[256];
-
     switch (msg) {
       case WM_INITDIALOG:
         init_dialog(hwnd, num);
@@ -481,7 +479,7 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
 
 static BOOL store_printer_dialog_results(HWND hwnd, unsigned int num)
 {
-  char printer_name[30], filename[500];
+  char printer_name[30];
   
   if( num==0 )
     sprintf(printer_name, "PrinterUserport");
@@ -526,7 +524,7 @@ static BOOL store_printer_dialog_results(HWND hwnd, unsigned int num)
 static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg, 
                                          WPARAM wparam, LPARAM lparam)
 {
-    int command, n;
+    int command;
 
     switch (msg) {
       case WM_COMMAND:
@@ -536,6 +534,16 @@ static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg,
   	  case IDC_PRINTER_USEIECDEVICE:
             enable_printer_controls(num, hwnd);
             break;
+  	  case IDC_PRINTER_FORMFEED:
+	    {
+	      switch( num )
+		{
+		case 4: printer_formfeed(0); break;
+		case 5: printer_formfeed(1); break;
+		case 0: printer_formfeed(2); break;
+		}
+	      break;
+	    }
         }
         return FALSE;
 

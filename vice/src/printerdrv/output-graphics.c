@@ -49,6 +49,7 @@ struct output_gfx_s
     screenshot_t screenshot;
     BYTE *line;
     char *filename;
+    unsigned int isopen;
     unsigned int line_pos;
     unsigned int line_no;
 };
@@ -132,8 +133,8 @@ static void output_graphics_line_data(screenshot_t *screenshot, BYTE *data,
 static int output_graphics_open(unsigned int prnr,
                                 output_parameter_t *output_parameter)
 {
-    int device = 0;
     char *filename;
+    int device = 0;
     output_gfx[prnr].gfxoutputdrv = gfxoutput_get_driver("BMP");
 
     if (output_gfx[prnr].gfxoutputdrv == NULL)
@@ -164,60 +165,93 @@ static int output_graphics_open(unsigned int prnr,
     output_gfx[prnr].line_no = 0;
 
     output_gfx[prnr].screenshot.convert_line = output_graphics_line_data;
-
-    output_gfx[prnr].gfxoutputdrv->open(&output_gfx[prnr].screenshot,
-                                        output_gfx[prnr].filename);
+    output_gfx[prnr].isopen = 0;
 
     return 0;
 }
 
 static void output_graphics_close(unsigned int prnr)
 {
-unsigned int i;
-int cleared;
+  output_gfx_t *o = &(output_gfx[prnr]);
 
-    current_prnr = prnr;
-    cleared = 0;
-    for (i = output_gfx[prnr].line_no; i < output_gfx[prnr].screenshot.height; i++) {
-        (output_gfx[prnr].gfxoutputdrv->write)(&output_gfx[prnr].screenshot);
-        if (cleared) {
-            memset(output_gfx[prnr].line, OUTPUT_PIXEL_WHITE,
-                output_gfx[prnr].screenshot.width);
-            cleared = 1;
-        }
+  /* only do this if something has actually been printed on this page */
+  if( o->isopen )
+    {
+      unsigned int i;
+
+      /* output current line */
+      current_prnr = prnr;
+      (o->gfxoutputdrv->write)(&o->screenshot);
+      o->line_no++;
+
+      /* fill rest of page with blank lines */
+      memset(o->line, OUTPUT_PIXEL_WHITE, o->screenshot.width);
+      for (i = o->line_no; i < o->screenshot.height; i++) 
+        (o->gfxoutputdrv->write)(&o->screenshot);
+
+      /* close output */
+      o->gfxoutputdrv->close(&o->screenshot);
+      o->isopen = 0;
     }
-    output_gfx[prnr].gfxoutputdrv->close(&output_gfx[prnr].screenshot);
+
+  /* free filename */
+  if( o->filename != NULL )
+    {
+      lib_free(o->filename);
+      o->filename = NULL;
+    }
 }
 
 static int output_graphics_putc(unsigned int prnr, BYTE b)
 {
-    if (b == OUTPUT_NEWLINE) {
-        current_prnr = prnr;
-        (output_gfx[prnr].gfxoutputdrv->write)(&output_gfx[prnr].screenshot);
-        memset(output_gfx[prnr].line, OUTPUT_PIXEL_WHITE,
-               output_gfx[prnr].screenshot.width);
-        output_gfx[prnr].line_pos = 0;
-        output_gfx[prnr].line_no++;
-        if (output_gfx[prnr].line_no == output_gfx[prnr].screenshot.height) {
-            int i;
-            output_gfx[prnr].gfxoutputdrv->close(&output_gfx[prnr].screenshot);
-            output_gfx[prnr].line_pos = 0;
-            output_gfx[prnr].line_no = 0;
-	    i = strlen(output_gfx[prnr].filename);
-	    output_gfx[prnr].filename[i-1]++;
-            if (output_gfx[prnr].filename[i-1] > '9') {
-                output_gfx[prnr].filename[i-1] = '0';
-                output_gfx[prnr].filename[i-2]++;
+  output_gfx_t *o = &(output_gfx[prnr]);
+
+  if (b == OUTPUT_NEWLINE) 
+    {
+      /* if output is not open yet, open it now */
+      if( !o->isopen )
+        {
+          int i;
+
+          /* increase page count in filename */
+          i = strlen(o->filename);
+          o->filename[i-1]++;
+          if (o->filename[i-1] > '9') 
+            {
+              o->filename[i-1] = '0';
+              o->filename[i-2]++;
             }
-            output_gfx[prnr].gfxoutputdrv->open(&output_gfx[prnr].screenshot,
-                                                output_gfx[prnr].filename);
+          
+          /* open output file */
+          o->gfxoutputdrv->open(&o->screenshot, o->filename);
+          o->isopen = 1;
+          o->line_pos = 0;
+          o->line_no = 0;
         }
-    } else {
-        output_gfx[prnr].line[output_gfx[prnr].line_pos] = b;
-        if (output_gfx[prnr].line_pos < output_gfx[prnr].screenshot.width - 1)
-            output_gfx[prnr].line_pos++;
+
+      /* write buffered line to output and clear buffer */
+      current_prnr = prnr;
+      (o->gfxoutputdrv->write)(&o->screenshot);
+      memset(o->line, OUTPUT_PIXEL_WHITE, o->screenshot.width);
+      o->line_pos = 0;
+
+      /* check for bottom of page.  If so, close output file */
+      o->line_no++;
+      if( o->line_no == o->screenshot.height )
+        {
+          o->gfxoutputdrv->close(&o->screenshot);
+          o->isopen = 0;
+        }
+    } 
+  else 
+    {
+      /* store pixel in buffer */
+      o->line[o->line_pos] = b;
+      if (o->line_pos < o->screenshot.width - 1) 
+        o->line_pos++;
     }
-    return 0;
+
+  return 0;
 }
 
 static int output_graphics_getc(unsigned int prnr, BYTE *b)
@@ -237,6 +271,7 @@ void output_graphics_init(void)
     unsigned int i;
 
     for (i = 0; i < 3; i++) {
+        output_gfx[i].filename = NULL;
         output_gfx[i].line = NULL;
         output_gfx[i].line_pos = 0;
     }
@@ -258,8 +293,6 @@ int output_graphics_init_resources(void)
     output_select.output_flush = output_graphics_flush;
 
     output_select_register(&output_select);
-
-    
 
     return resources_register(resources);
 }

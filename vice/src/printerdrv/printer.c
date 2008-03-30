@@ -99,3 +99,7 @@ void printer_shutdown(void)
     machine_printer_shutdown();
 }
 
+void printer_formfeed(unsigned int prnr)
+{
+    driver_select_formfeed(prnr);
+}

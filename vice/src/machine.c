@@ -95,7 +95,7 @@ unsigned int machine_jam(const char *format, ...)
     return JAM_NONE;
 }
 
-void machine_trigger_reset(const unsigned int mode)
+static void machine_trigger_reset_internal(const unsigned int mode)
 {
     switch (mode) {
       case MACHINE_RESET_MODE_HARD:
@@ -106,13 +106,21 @@ void machine_trigger_reset(const unsigned int mode)
         maincpu_trigger_reset();
         break;
     }
+}
+
+void machine_trigger_reset(const unsigned int mode)
+{
+    if (event_playback_active())
+        return;
 
     event_record(EVENT_RESET, (void *)&mode, sizeof(mode));
+
+    machine_trigger_reset_internal(mode);
 }
 
 void machine_reset_event_playback(CLOCK offset, void *data)
 {
-    machine_trigger_reset(((unsigned int*)data)[0]);
+    machine_trigger_reset_internal(((unsigned int*)data)[0]);
 }
 
 void machine_reset(void)

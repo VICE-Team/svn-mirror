@@ -419,7 +419,7 @@ int tape_tap_attched(void)
 /* ------------------------------------------------------------------------- */
 
 /* Detach.  */
-int tape_image_detach(unsigned int unit)
+static int tape_image_detach_internal(unsigned int unit)
 {
     int retval = 0;
     char event_data[2];
@@ -461,8 +461,16 @@ int tape_image_detach(unsigned int unit)
     return retval;
 }
 
+int tape_image_detach(unsigned int unit)
+{
+   if (event_playback_active())
+        return -1;
+
+   return tape_image_detach_internal(unit);
+}
+
 /* Attach.  */
-int tape_image_attach(unsigned int unit, const char *name)
+static int tape_image_attach_internal(unsigned int unit, const char *name)
 {
     tape_image_t tape_image;
     char *event_data;
@@ -521,6 +529,14 @@ int tape_image_attach(unsigned int unit, const char *name)
     return 0;
 }
 
+int tape_image_attach(unsigned int unit, const char *name)
+{
+   if (event_playback_active())
+        return -1;
+
+   return tape_image_attach_internal(unit, name);
+}
+
 void tape_image_event_playback(CLOCK offset, void *data)
 {
     int unit;
@@ -530,8 +546,8 @@ void tape_image_event_playback(CLOCK offset, void *data)
     filename = &((char*)data)[1];
 
     if (filename[0] == 0)
-        tape_image_detach(unit);
+        tape_image_detach_internal(unit);
     else
-        tape_image_attach(unit, filename);
+        tape_image_attach_internal(unit, filename);
 }
 

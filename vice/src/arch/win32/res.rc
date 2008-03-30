@@ -707,6 +707,7 @@ BEGIN
     LTEXT           "Printer emulation",IDC_STATIC,15,25,70,8
     COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Send Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
     GROUPBOX        "File system printer",IDC_STATIC,5,40,275,130
     LTEXT           "Printer driver",IDC_STATIC,15,52,70,8
     COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,

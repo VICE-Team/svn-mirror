@@ -311,7 +311,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 
     /* disable traps before saving the ROM */
     resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
+    resources_set_value("VirtualDevices", (resource_value_t)0);
     petrom_unpatch_2001();
 
     config = (rom_9_loaded ? 1 : 0)
@@ -380,7 +380,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 
     /* disable traps before loading the ROM */
     resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)1);
+    resources_set_value("VirtualDevices", (resource_value_t)0);
     petrom_unpatch_2001();
 
     config = (rom_9_loaded ? 1 : 0)

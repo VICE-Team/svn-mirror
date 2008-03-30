@@ -196,3 +196,8 @@ int driver_select_flush(unsigned int prnr, unsigned int secondary)
     return driver_select[prnr].drv_flush(prnr, secondary);
 }
 
+int driver_select_formfeed(unsigned int prnr)
+{
+    return driver_select[prnr].drv_formfeed(prnr);
+}
+

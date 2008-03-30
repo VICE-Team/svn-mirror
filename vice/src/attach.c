@@ -493,7 +493,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
 
 /* ------------------------------------------------------------------------- */
 
-int file_system_attach_disk(unsigned int unit, const char *filename)
+static int file_system_attach_disk_internal(unsigned int unit, const char *filename)
 {
     vdrive_t *vdrive;
     char *event_data;
@@ -525,6 +525,14 @@ int file_system_attach_disk(unsigned int unit, const char *filename)
     return 0;
 }
 
+int file_system_attach_disk(unsigned int unit, const char *filename)
+{
+   if (event_playback_active())
+        return -1;
+
+   return file_system_attach_disk_internal(unit, filename);
+}
+
 static void file_system_detach_disk_single(unsigned int unit)
 {
     vdrive_t *vdrive;
@@ -538,7 +546,7 @@ static void file_system_detach_disk_single(unsigned int unit)
     ui_display_drive_current_image(unit - 8, "");
 }
 
-void file_system_detach_disk(int unit)
+static void file_system_detach_disk_internal(int unit)
 {
     char event_data[2];
 
@@ -558,6 +566,14 @@ void file_system_detach_disk(int unit)
     event_data[1] = 0;
 
     event_record(EVENT_ATTACHDISK, (void *)event_data, 2);
+}
+
+void file_system_detach_disk(int unit)
+{
+   if (event_playback_active())
+        return;
+
+   file_system_detach_disk_internal(unit);
 }
 
 void file_system_detach_disk_shutdown(void)
@@ -585,8 +601,8 @@ void file_system_event_playback(CLOCK offset, void *data)
     filename = &((char*)data)[1];
 
     if (filename[0] == 0)
-        file_system_detach_disk(unit);
+        file_system_detach_disk_internal(unit);
     else
-        file_system_attach_disk(unit, filename);
+        file_system_attach_disk_internal(unit, filename);
 }
 

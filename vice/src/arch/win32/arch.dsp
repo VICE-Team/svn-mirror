@@ -162,10 +162,6 @@ SOURCE=.\ui.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\uiattach.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\uic128.c
 # End Source File
 # Begin Source File
@@ -214,15 +210,15 @@ SOURCE=.\uimon.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiperipheral.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uipetset.c
 # End Source File
 # Begin Source File
 
 SOURCE=.\uiplus4mem.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\uiprinter.c
 # End Source File
 # Begin Source File
 

@@ -30,6 +30,7 @@
 #include <commctrl.h>
 #endif
 #include "datasette.h"
+#include "drive.h"
 #include "res.h"
 #include "ui.h"
 #include "statusbar.h"
@@ -40,10 +41,10 @@ static int  number_of_status_windows=0;
 static int  status_height;
 
 static ui_drive_enable_t    status_enabled;
-static int                  status_led[2];
-static int                  status_map[2];          //  Translate from window index -> drive index
-static int                  status_partindex[2];    //  Translate from drive index -> window index
-static double               status_track[2];
+static int                  status_led[DRIVE_NUM];
+static int                  status_map[DRIVE_NUM];          //  Translate from window index -> drive index
+static int                  status_partindex[DRIVE_NUM];    //  Translate from drive index -> window index
+static double               status_track[DRIVE_NUM];
 static int                 *drive_active_led;
 
 static int                  tape_enabled = 0;
@@ -75,13 +76,13 @@ int     i;
     if (tape_enabled)
         number_of_parts++;
 
-    if (status_enabled&UI_DRIVE_ENABLE_0) {
-        status_map[enabled_drives++]=0;
-        status_partindex[0]=number_of_parts++;
-    }
-    if (status_enabled&UI_DRIVE_ENABLE_1) {
-        status_map[enabled_drives++]=1;
-        status_partindex[1]=number_of_parts++;
+    for (i = 0; i < DRIVE_NUM; i++) {
+        int the_drive = 1 << i;
+
+        if (status_enabled & the_drive) {
+            status_map[enabled_drives++] = i;
+            status_partindex[i] = number_of_parts++;
+        }
     }
     GetWindowRect(hwnd,&rect);
     width=rect.right-rect.left;
@@ -90,15 +91,7 @@ int     i;
         width-=110;
     }
     SendMessage(hwnd,SB_SETPARTS,number_of_parts+1,(LPARAM)posx);
-    if (number_of_parts==3) {
-        SendMessage(hwnd,SB_SETTEXT,3|SBT_OWNERDRAW,0);
-    }
-    if (number_of_parts==2) {
-        SendMessage(hwnd,SB_SETTEXT,2|SBT_OWNERDRAW,0);
-    }
-    if (number_of_parts==1) {
-        SendMessage(hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
-    }
+    SendMessage(hwnd,SB_SETTEXT,number_of_parts|SBT_OWNERDRAW,0);
 }
 
 

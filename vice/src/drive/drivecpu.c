@@ -39,6 +39,7 @@
 #include "debug.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drive-check.h"
 #include "drivemem.h"
 #include "drivetypes.h"
 #include "interrupt.h"

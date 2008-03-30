@@ -377,6 +377,7 @@ void drive_disable(drive_context_t *drv)
     int i, drive_true_emulation = 0;
     unsigned int dnr;
     drive_t *drive;
+    unsigned int enabled_drives = 0;
 
     dnr = drv->mynumber;
     drive = drv->drive;
@@ -396,12 +397,19 @@ void drive_disable(drive_context_t *drv)
 
     /* Make sure the UI is updated.  */
     for (i = 0; i < DRIVE_NUM; i++) {
+        unsigned int the_drive;
+
+        the_drive = 1 << i;
         if (drive_context[i]->drive->enable) {
+            enabled_drives |= the_drive;
             drive_context[i]->drive->old_led_status = -1;
             drive_context[i]->drive->old_half_track = -1;
         }
     }
 
+    ui_enable_drive_status(enabled_drives,
+                           drive_led_color);
+#if 0
     ui_enable_drive_status((drive_context[0]->drive->enable
                            ? UI_DRIVE_ENABLE_0 : 0)
                            | ((drive_context[1]->drive->enable
@@ -416,6 +424,7 @@ void drive_disable(drive_context_t *drv)
                            ? UI_DRIVE_ENABLE_1 : 0),
                            drive_led_color);
 */
+#endif
 }
 
 void drive_reset(void)

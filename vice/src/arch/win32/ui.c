@@ -78,6 +78,7 @@
 #include "vsync.h"
 #include "winmain.h"
 #include "statusbar.h"
+#include "printer.h"
 
 
 //static HWND status_hwnd[2];
@@ -420,6 +421,8 @@ int ui_cmdline_options_init(void)
 #define UI_COMMON_HOTKEYS                                               \
     { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_RESET_HARD },    \
     { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_RESET_SOFT },               \
+    { FVIRTKEY | FALT | FNOINVERT, '4', IDM_FORMFEED_PRINTERIEC4 },     \
+    { FVIRTKEY | FALT | FNOINVERT, '5', IDM_FORMFEED_PRINTERIEC5 },     \
     { FVIRTKEY | FALT | FNOINVERT, '8', IDM_ATTACH_8 },                 \
     { FVIRTKEY | FALT | FNOINVERT, '9', IDM_ATTACH_9 },                 \
     { FVIRTKEY | FALT | FNOINVERT, '0', IDM_ATTACH_10 },                \
@@ -1625,6 +1628,12 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_EVENT_RESETMILESTONE:
       case IDM_EVENT_RESETMILESTONE | 0x00010000:
         event_record_reset_milestone();
+        break;
+      case IDM_FORMFEED_PRINTERIEC4 | 0x00010000:
+        printer_formfeed(0);
+        break;
+      case IDM_FORMFEED_PRINTERIEC5 | 0x00010000:
+        printer_formfeed(1);
         break;
       default:
         {

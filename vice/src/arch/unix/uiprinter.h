@@ -28,7 +28,7 @@
 #define _UI_PRINTER_H
 
 extern UI_CALLBACK(uiprinter_set_printer_exec_file);
-extern UI_CALLBACK(uiprinter_flush_printer);
+extern UI_CALLBACK(uiprinter_formfeed);
 
 extern ui_menu_entry_t uiprinter_pr4_driver_submenu[];
 extern ui_menu_entry_t uiprinter_pr4_device_submenu[];

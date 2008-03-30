@@ -320,6 +320,7 @@
 #define IDC_PRINTER_TEXTOUT             1503
 #define IDC_PRINTER_USEIECDEVICE        1504
 #define IDC_PRINTER_OUTPUT              1505
+#define IDC_PRINTER_FORMFEED            1506
 #define IDC_PRINTER_OUTPUT_FILE1_NAME   1590
 #define IDC_PRINTER_OUTPUT_FILE2_NAME   1591
 #define IDC_PRINTER_OUTPUT_FILE3_NAME   1592
@@ -483,6 +484,9 @@
 #define IDM_CUSTOM_SPEED                40220
 #define IDM_PRINTER_SETTINGS            40221
 #define IDM_C128_SETTINGS               40222
+#define IDM_FORMFEED_PRINTERIEC4        40223
+#define IDM_FORMFEED_PRINTERIEC5        40224
+#define IDM_FORMFEED_PRINTERUSERPORT    40225
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001

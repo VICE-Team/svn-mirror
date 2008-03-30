@@ -92,7 +92,7 @@ typedef struct nl10_s
   int  mapping_intl_id;
   int  pos_x, pos_y, pos_y_pix;
   int  char_count;
-  int  mode, gfx_mode, gfx_count;
+  int  isopen, mode, gfx_mode, gfx_count;
   int  linespace; /* in 1/216 inch */
 } nl10_t;
 
@@ -1008,7 +1008,12 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
           {
             /* CBM: turn on expanded print (and turn off graphics printing) */
             set_mode(nl10, NL10_EXPANDED);
-            nl10->gfx_mode = NL10_GFX_OFF;
+
+	    if( nl10->gfx_mode & NL10_GFX_7PIN )
+	      {
+		nl10->gfx_mode  = NL10_GFX_OFF;
+		nl10->linespace = 12*3;
+	      }
           }
 
 	break;
@@ -1023,7 +1028,12 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
           {
             /* CBM: turn off expanded print (and turn off graphics printing) */
             del_mode(nl10, NL10_EXPANDED);
-            nl10->gfx_mode = NL10_GFX_OFF;
+
+	    if( nl10->gfx_mode & NL10_GFX_7PIN )
+	      {
+		nl10->gfx_mode  = NL10_GFX_OFF;
+		nl10->linespace = 12*3;
+	      }
           }
 
 	break;
@@ -1031,13 +1041,16 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
 
     case 16:
       {
-        /* skip horizontal print position (NOT IMPLEMENTED) */
+        /* skip to horizontal print position */
         if( nl10->esc_ctr<2 )
           nl10->esc_ctr++;
         else
           {
-            log_warning(drvnl10_log, "Command 'skip horizontal print position' (%i %i %i) not implemented.",
-                        nl10->esc[0], nl10->esc[1], nl10->esc[2]);
+	    int i = 0;
+	    if( (nl10->esc[1] >= '0') && (nl10->esc[1] <= '9') ) i += 10 * (nl10->esc[1] - '0');
+	    if( (nl10->esc[2] >= '0') && (nl10->esc[2] <= '9') ) i +=  1 * (nl10->esc[2] - '0');
+	    if( i>79 ) i = 79;
+	    nl10->pos_x = BORDERX + 30 * i;
             nl10->esc_ctr=0;
           }
         break;
@@ -1153,9 +1166,23 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
       set_mode(nl10, NL10_EXPANDED);
       break;
       
+    case 16:
+      {
+        /* skip to horizontal point position */
+        if( nl10->esc_ctr<3 )
+          nl10->esc_ctr++;
+        else
+          {
+	    int i = 256 * nl10->esc[2] + nl10->esc[3];
+	    if( i>479 ) i = 479;
+	    nl10->pos_x = BORDERX + 5 * i;
+            nl10->esc_ctr=0;
+          }
+        break;
+      }
+      
     case 18:
       {
-        
         /* CBM: enable single-density reverse graphics printing */
         if( !is_mode(nl10, NL10_ASCII) )
           nl10->gfx_mode = NL10_GFX_SINGLE | NL10_GFX_REVERSE | NL10_GFX_7PIN; 
@@ -1767,30 +1794,41 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
 
 static int drv_nl10_open(unsigned int prnr, unsigned int secondary)
 {
+  int ret;
   nl10_t *nl10 = &(drv_nl10[prnr]);
 
-  output_parameter_t output_parameter;
-  
-  output_parameter.maxcol  = MAX_COL;
-  output_parameter.maxrow  = MAX_ROW;
-  output_parameter.palette = palette;
-  
+  if( !nl10->isopen )
+    {
+      output_parameter_t output_parameter;
+      
+      output_parameter.maxcol  = MAX_COL;
+      output_parameter.maxrow  = MAX_ROW;
+      output_parameter.palette = palette;
+      
+      drv_nl10[prnr].pos_y     = 0;
+      drv_nl10[prnr].pos_y_pix = 0;
+      drv_nl10[prnr].isopen    = 1;
+
+      ret = output_select_open(prnr, &output_parameter);
+    }
+  else 
+    ret = 0;
+
   if( secondary==7 )
     set_mode(nl10, NL10_CBMTEXT);
   else
     del_mode(nl10, NL10_CBMTEXT);
-    
-  init_mapping(nl10, drv_nl10[prnr].mapping_intl_id);
-  drv_nl10[prnr].pos_y     = 0;
-  drv_nl10[prnr].pos_y_pix = 0;
 
-  return output_select_open(prnr, &output_parameter);
+  init_mapping(nl10, drv_nl10[prnr].mapping_intl_id);
+
+  return ret;
 }
 
 static void drv_nl10_close(unsigned int prnr, unsigned int secondary)
 {
-  output_buf(&(drv_nl10[prnr]), prnr);
-  output_select_close(prnr);
+  /* cannot call output_select_close() here since it would eject the
+     current page, which is not what "close"ing a channel to a real 
+     printer does */
 }
 
 static int drv_nl10_putc(unsigned int prnr, unsigned int secondary, BYTE b)
@@ -1801,12 +1839,19 @@ static int drv_nl10_putc(unsigned int prnr, unsigned int secondary, BYTE b)
 
 static int drv_nl10_getc(unsigned int prnr, unsigned int secondary, BYTE *b)
 {
-    return output_select_getc(prnr, b);
+    return 0x80;
 }
 
 static int drv_nl10_flush(unsigned int prnr, unsigned int secondary)
 {
-    return output_select_flush(prnr);
+    return 0;
+}
+
+static int drv_nl10_formfeed(unsigned int prnr)
+{
+  nl10_t *nl10 = &(drv_nl10[prnr]);
+  if( nl10->isopen ) formfeed(nl10, prnr);
+  return 0;
 }
 
 int drv_nl10_init_resources(void)
@@ -1819,6 +1864,7 @@ int drv_nl10_init_resources(void)
     driver_select.drv_putc = drv_nl10_putc;
     driver_select.drv_getc = drv_nl10_getc;
     driver_select.drv_flush = drv_nl10_flush;
+    driver_select.drv_formfeed = drv_nl10_formfeed;
 
     driver_select_register(&driver_select);
 
@@ -1839,7 +1885,10 @@ int drv_nl10_init(void)
       return -1;
 
     for(i=0; i<2; i++)
-      reset_hard(&(drv_nl10[i]));
+      {
+	reset_hard(&(drv_nl10[i]));
+	drv_nl10[i].isopen = 0;
+      }
 
     palette = palette_create(2, color_names);
 
@@ -1861,11 +1910,8 @@ void drv_nl10_shutdown(void)
   palette_free(palette);
 
   for(i=0; i<2; i++)
-    {
-      nl10_t *nl10 = &(drv_nl10[i]);
-      if( nl10->pos_y_pix > BORDERY ) 
-        formfeed(nl10, i);
-    }
+    if( drv_nl10[i].isopen ) 
+      output_select_close(i);
 }
 
 

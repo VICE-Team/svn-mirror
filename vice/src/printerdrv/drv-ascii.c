@@ -80,6 +80,11 @@ static int drv_ascii_flush(unsigned int prnr, unsigned int secondary)
     return output_select_flush(prnr);
 }
 
+static int drv_ascii_formfeed(unsigned int prnr)
+{
+    return 0;
+}
+
 int drv_ascii_init_resources(void)
 {
     driver_select_t driver_select;
@@ -90,6 +95,7 @@ int drv_ascii_init_resources(void)
     driver_select.drv_putc = drv_ascii_putc;
     driver_select.drv_getc = drv_ascii_getc;
     driver_select.drv_flush = drv_ascii_flush;
+    driver_select.drv_formfeed = drv_ascii_formfeed;
 
     driver_select_register(&driver_select);
 

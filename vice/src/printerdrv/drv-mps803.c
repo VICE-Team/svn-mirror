@@ -370,6 +370,11 @@ static int drv_mps803_flush(unsigned int prnr, unsigned int secondary)
     return output_select_flush(prnr);
 }
 
+static int drv_mps803_formfeed(unsigned int prnr)
+{
+    return 0;
+}
+
 int drv_mps803_init_resources(void)
 {
     driver_select_t driver_select;
@@ -380,6 +385,7 @@ int drv_mps803_init_resources(void)
     driver_select.drv_putc = drv_mps803_putc;
     driver_select.drv_getc = drv_mps803_getc;
     driver_select.drv_flush = drv_mps803_flush;
+    driver_select.drv_formfeed = drv_mps803_formfeed;
 
     driver_select_register(&driver_select);
 

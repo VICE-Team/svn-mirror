@@ -36,6 +36,7 @@ struct driver_select_s {
     int (*drv_putc)(unsigned int prnr, unsigned int secondary, BYTE b);
     int (*drv_getc)(unsigned int prnr, unsigned int secondary, BYTE *b);
     int (*drv_flush)(unsigned int prnr, unsigned int secondary);
+    int (*drv_formfeed)(unsigned int prnr);
 };
 typedef struct driver_select_s driver_select_t;
 
@@ -54,6 +55,7 @@ extern int driver_select_putc(unsigned int prnr, unsigned int secondary,
 extern int driver_select_getc(unsigned int prnr, unsigned int secondary,
                               BYTE *b);
 extern int driver_select_flush(unsigned int prnr, unsigned int secondary);
+extern int driver_select_formfeed(unsigned int prnr);
 
 #endif
 

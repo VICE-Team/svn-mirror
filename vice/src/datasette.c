@@ -698,6 +698,9 @@ static void datasette_control_internal(int command)
 
 void datasette_control(int command)
 {
+    if (event_playback_active())
+        return;
+
     datasette_event_record(command);
 
     datasette_control_internal(command);
