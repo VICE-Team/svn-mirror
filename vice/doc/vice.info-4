@@ -17,6 +17,387 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Acknowledgments,  Next: Copyright,  Prev: c1541,  Up: Top
+
+Acknowledgments
+***************
+
+   VICE derives from X64, the first Commodore 64 emulator for the X
+Window System.  Here is an informal list of the people who were mostly
+involved in the development of X64 and VICE:
+
+   The VICE core team:
+
+   * Ettore Perazzoli (<ettore@comm2000.it>) made the 6510, VIC-II,
+     VIC-I and CRTC emulations, part of the hardware-level 1541
+     emulation, speed optimizations, bug fixes, the event-driven
+     cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a general
+     code reorganization, the new resource handling, most of the
+     documentation and the MS-DOS port (well, somebody had to do it).
+
+   * Teemu Rantanen (<tvr@cs.hut.fi>) implemented the SID emulation and
+     the trap-based disk drive and serial bus implementation; added
+     support for multiple display depths under X11.
+
+   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) wrote the PET
+     emulators, the CIA and VIA emulation, the IEEE488 interface,
+     implemented the IEC serial bus in `xvic' and made tons of bug
+     fixes.
+
+   * Daniel Sladic (<sladic@eecg.toronto.edu>) started the work on
+     hardware-level 1541 emulation and wrote the new monitor introduced
+     with VICE 0.15.
+
+   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) gave lots of
+     information and bug reports about the VIC-II, the 6510 and the
+     CIAs; moreover, he wrote several test-routines that were used to
+     improve the emulation.  Also contributed some important patches,
+     fixed several problems in the 1541 emulation, implemented the
+     SpeedDOS parallel cable emulation and added cartridge support.
+
+   Former team members:
+
+   * Jouko Valta (<jopi@stekt.oulu.fi>) wrote `petcat' and `c1541',
+     `T64' handling, user service and maintenance (most of the work in
+     x64 0.3.x was made by him); retired from the project in July 96,
+     after VICE 0.10.0.
+
+   * Jarkko Sonninen (<sonninen@lut.fi>) was the founder of the
+     project, wrote the old version of the 6502 emulation and the
+     XDebugger, and retired from the project after x64 0.2.1.
+
+   External contributors:
+
+   * Michael Schwendt (<sidplay@geocities.com>) helped with the SID
+     (audio) chip emulation, bringing important suggestions and bug
+     reports, as well as the wave tables and filter emulation from his
+     SIDplay emulator.
+
+   * Christian Bauer (<bauec002@goofy.zdv.uni-mainz.de>) wrote the very
+     interesting "VIC article" from which we got invaluable information
+     about the VIC-II chip: without this, the VIC-II implementation
+     would have not been possible.
+
+   * Wolfgang Lorenz wrote an excellent 6510 test suite that helped us
+     to debug the CPU emulation.
+
+   * Giuliano Procida (<gpp10@cam.ac.uk>) is the maintainer of the VICE
+     `deb' package for the Debian distribution.
+
+   * Marko M"akel"a (<msmakela@nic.funet.fi>) wrote lots of CPU
+     documentation.
+
+   * Martin Pottendorfer (<Martin.Pottendorfer@aut.alcatel.at>)
+     implemented the "Contents" button in the file selector and
+     provided us with several suggestions and constant testing of
+     constantly broken snapshots.
+
+   * Chris Sharp (<sharpc@hurlsey.ibm.com>) wrote the AIX sound driver.
+
+   * Krister Walfridsson (<cato@df.lth.se>) implemented joystick and
+     sound support for NetBSD.
+
+   * Dag Lem (<resid@nimrod.no>) implemented an alternative cycle-exact
+     SID emulator (reSID), and contributed a bugfix in our SID
+     emulation.
+
+   * Peter Andrew Felvegi aka Petschy (<petschy@derceto.sch.bme.hu>)
+     fixed a couple of bugs in the fast serial emulation.
+
+   * Olaf Seibert (<rhialto@polder.ubc.kun.nl>) contributed some PET,
+     and disk drive patches.
+
+   * Daniel Fandrich (<dan@fch.wimsey.bc.ca>) contributed some disk
+     drive patches.
+
+   * Heiko Selber (<selber@fhi-berlin.mpg.de>) contributed some VIC20
+     I/O patches.
+
+   * Steven Tieu (<stieu@physics.ubc.ca>) added initial support for
+     16/24 bpp X11 displays.
+
+   * Alexander Lehmann (<alex@mathematik.th-darmstadt.de>) added
+     complete support for all the VIC20 memory configurations for the
+     old VICE 0.12.
+
+   * Lionel Ulmer implemented joystick support for Linux and a first
+     try of a SID emulation for SGI machines.
+
+   * Bernhard Kuhn (<kuhn@eikon.e-technik.tu-muenchen.de>) made some
+     joystick improvements for Linux.
+
+   * Gerhard Wesp (<gwesp@cosy.sbg.ac.at>) contributed the `extract'
+     command in `c1541'.
+
+   * Ricardo Ferreira (<storm@esoterica.pt>) contributed the `unlynx'
+     and `system' commands in `c1541'.
+
+   * Tomi Ollila (<Tomi.Ollila@tfi.net>) donated `findpath.c'.
+
+   * Richard Hable (<hab@fim.uni-linz.ac.at>) contributed the initial
+     version of the REU Emulation.
+
+   * Vesa-Matti Puro (<vmp@lut.fi>) wrote the very first 6502 CPU
+     emulator in x64 0.1.0. That was the beginning of the story...
+
+   * Dan Miner (<dminer@nyx10.cs.du.edu>) contributed some patches to
+     the fast disk drive emulation.
+
+   * Frank Prindle (<Frank.Prindle@lambada.oit.unc.edu>) contributed
+     some patches.
+
+   * Peter Weighill (<stuce@csv.warwick.ac.uk>) gave many ideas and
+     contributed the ROM patcher.
+
+   * Dominique Strigl (<strigl@sxb.bsf.alcatel.fr>), Craig Jackson
+     (<Craig.Jackson@lambada.oit.unc.edu>) and Lasse Jyrkinen
+     ((<Lasse.Jyrkinen@uz.kuleuven.ac.be>) contributed miscellaneous
+     patches in the old X64 times.
+
+   * Per Olofsson (<MagerValp@Goth.Org>) digitalized the C64 colors
+     used in the default palette.
+
+   * Paul David Doherty (<h0142kdd@rz.hu-berlin.de>) wrote `zip2disk',
+     on which the Zipcode support in `c1541' is based.
+
+   * Robert H. Forsman Jr., Brian Totty (<totty@cs.uiuc.edu>) and
+     Robert W. McMullen (<rwmcm@orion.ae.utexas.edu>) provided the
+     widget set for implementing the `Xaw' GUI.
+
+   * Shawn Hargreaves (<shawn@talula.demon.co.uk>) wrote Allegro, the
+     graphics and audio library used in the MS-DOS version.
+
+   (We hope we have not forgotten anybody; if you think we have, please
+tell us.)
+
+   Thanks also to everyone else for sending suggestions, ideas, bug
+reports, questions and requests.  In particular, a warm thank goes to
+the following people:
+
+   * Lutz Sammer
+
+   * Ralph Mason (<RALPHM@msmail02.liffe.com>)
+
+   * George Caswell (<timbuktu@the-eye.res.wpi.edu>)
+
+   * Per Olofsson (<MagerValp@goth.org>)
+
+   * Jasper Phillips (<philljas@newt.cs.orst.edu>)
+
+   * Luca Forcucci (<frk@geocities.com>)
+
+   * Asger Alstrup (<alstrup@diku.dk>)
+
+   * Bernhard Schwall (<uzs484@uni-bonn.de>)
+
+   * Salvatore Valente (<svalente@mit.edu>)
+
+   * Arthur Hagen (<art@broomstick.com>)
+
+   * Douglas Carmichael (<dcarmich@mcs.com>)
+
+   * Ferenc Veres (<lion@c64.rulez.org>)
+
+   Last but not least, a very special thank to Andreas Arens, Lutz
+Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel
+and Per H^akan Sundell for writing cool emulators to compete with.  :-)
+
+
+File: vice.info,  Node: Copyright,  Next: Contacts,  Prev: Acknowledgments,  Up: Top
+
+Copyright
+*********
+
+   Copyright (C) 1996-1998 Ettore Perazzoli
+
+   Copyright (C) 1996-1998 Andr'e Fachat
+
+   Copyright (C) 1993-1994, 1997-1998 Teemu Rantanen
+
+   Copyright (C) 1997-1998 Daniel Sladic
+
+   Copyright (C) 1998 Andreas Boose
+
+   Copyright (C) 1993-1996 Jouko Valta
+
+   Copyright (C) 1993-1994 Jarkko Sonninen
+
+   This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+
+
+File: vice.info,  Node: Contacts,  Next: Concept Index,  Prev: Copyright,  Up: Top
+
+Contact information
+*******************
+
+* Menu:
+
+* Home page::                   The official VICE WWW page.
+* Sending feedback::            How to report impressions and
+                                bugs to the authors.
+* Contributing::                How to help developing VICE.
+* Newsgroups::                  VICE-related Usenet groups.
+* FAQs you should read::        VICE-related Frequently Asked Questions.
+
+
+File: vice.info,  Node: Home page,  Next: Sending feedback,  Prev: Contacts,  Up: Contacts
+
+VICE home page
+==============
+
+   You can find the latest news about VICE at the official VICE home
+page:
+
+     http://www.tu-chemnitz.de/~fachat/vice/vice.html
+
+   Also the public patches and beta releases will be available there as
+well, so you might want to have a look at it periodically.  If you are
+going to report a bug, please check those pages *first*; it is possible
+that the problem you encountered has already been fixed with a newer
+version.
+
+
+File: vice.info,  Node: Sending feedback,  Next: Contributing,  Prev: Home page,  Up: Contacts
+
+How to send feedback
+====================
+
+   If you want to report bugs, make suggestions or contribute to the
+project, please email one of the following people:
+
+   * Teemu Rantanen (<tvr@cs.hut.fi>) for the SID stuff;
+
+   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) for the 1541 disk
+     drive;
+
+   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs;
+
+   * Ettore Perazzoli (<ettore@comm2000.it>), the current maintainer,
+     for everything else.
+
+   It's always nice to receive feedback and/or bugreports about VICE,
+but please read these few notes before sending mail to anybody in the
+team.
+
+   * Please put the word `VICE' *in all capitals* in your subject line
+     (e.g. `VICE fails to run game XXX').  This helps mail splitting
+     and reduces chances that your message is unintentionally deleted,
+     forgotten or lost.
+
+   * Please don't send any HTML mail (we really hate that!).  If you use
+     M$ Outlook or Netscape Communicator, make sure you turn off the
+     "rich text" (HTML) feature.
+
+   * Please don't send *any* binaries without asking first.
+
+   * Please read the following documents carefully before reporting a
+     bug or a problem you cannot solve:
+
+        * the VICE documentation (you are reading it!);
+
+        * the VICE FAQ (it is available on the Internet, and reachable
+          from the VICE home page:
+          http://www.tu-chemnitz.de/~fachat/vice/vice.html);
+
+        * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (*note FAQs
+          you should read::.).
+
+   * When you report a bug, please try to be as accurate as possible and
+     describe how it can be reproduced to the very detail.  You should
+     also tell us what machine you are running on, what operating
+     system you are using as well as the version of it.
+
+   * Please don't ask us how to transfer original C64 disk or tapes to
+     your PC; this has been asked a gazillion times through email.  To
+     transfer disks, you can use the Star Commander
+     (http://ludens.elte.hu/~sta/sc.html).  And no, you cannot read C64
+     disks with your old 5"1/4 PC drive.
+
+   * Please don't ask us where to find games for the emulator on the
+     Internet.
+
+   * Please don't ask us when the next version will be out, because we
+     really don't know.
+
+   * Please write in English, or in the language of the person you are
+     writing to (Ettore is Italian, Andr'e and Andreas are German,
+     Teemu is Finnish, Daniel is from Canada).
+
+   In any case, we would be *really* glad to receive your comments
+about VICE.
+
+   Thanks!
+
+
+File: vice.info,  Node: Contributing,  Next: Newsgroups,  Prev: Sending feedback,  Up: Contacts
+
+How to contribute
+=================
+
+   If you want to make a major contribution, please *ask* first.  It
+has already happened a couple of times that somebody started working at
+something that had already been done but not released to the public yet,
+and we really do *not* want anybody to waste time.
+
+   If you are going to make a patch, please make sure the patch is
+relative to the very latest version, and provide us with the following:
+
+   * a diff file containing all the changes you have made (`diff -c' or
+     `diff -u' (better) is fine; please don't use plain `diff');
+
+   * GNU-style `ChangeLog' entries with a description of the changes you
+     have made (look at the `ChangeLog's provided with the original VICE
+     sources for an example).
+
+   This is very important, and makes adding patches much smoother and
+safer.
+
+   People willing to port VICE to other platforms are always welcome.  A
+Windows and a MacOS port are in the works, so if you are interested in
+those platforms, please let us know.  There is plenty of work to do and
+any sort of help can be very useful.
+
+
+File: vice.info,  Node: Newsgroups,  Next: FAQs you should read,  Prev: Contributing,  Up: Contacts
+
+Interesting newsgroups
+======================
+
+   There are some Usenet newsgroups you might be interested in:
+
+   * `comp.emulators.cbm', discussing about emulators of Commodore 8-bit
+     machines (definitely not Amiga emulators).
+
+   * `comp.sys.cbm', discussing various topics regarding real Commodore
+     8-bit machines.  This newsgroup is mainly for people who actually
+     use original Commodore equipment (so please don't talk about
+     emulation here).
+
+   * `comp.emulators.misc', discussing emulators in general.
+
+
+File: vice.info,  Node: FAQs you should read,  Prev: Newsgroups,  Up: Contacts
+
+FAQs you should read
+====================
+
+   We recommend reading the `comp.emulators.cbm' and `comp.sys.cbm'
+FAQs, which are posted regularly on the corresponding newsgroups and
+are also available via FTP from ftp://rtfm.mit.edu.
+
+
 File: vice.info,  Node: Concept Index,  Next: Resource Index,  Prev: Contacts,  Up: Top
 
 Concept Index
@@ -119,22 +500,30 @@ Concept Index
 * BasicName:                             C64/128 system ROM resources.
 * block:                                 c1541 commands and options.
 * C64/128 emulator identification:       C64 I/O extension settings.
-* ChargenName <1>:                       VIC20 system ROM resources.
+* Cart2Name:                             CBM-II model.
+* Cart4Name:                             CBM-II model.
+* Cart6Name:                             CBM-II model.
+* ChargenName <1>:                       PET model.
+* ChargenName <2>:                       VIC20 system ROM resources.
 * ChargenName:                           C64/128 system ROM resources.
 * Converting X64 files into D64:         File formats.
 * copy:                                  c1541 commands and options.
 * create:                                c1541 commands and options.
+* Crtc:                                  PET model.
 * delete:                                c1541 commands and options.
 * detach:                                c1541 commands and options.
 * Double-scan mode.:                     Video settings.
 * Double-size mode:                      Video settings.
+* EditorName:                            PET model.
 * extract:                               c1541 commands and options.
 * format:                                c1541 commands and options.
 * gcrformat:                             c1541 commands and options.
 * HP-UX and Solaris audio problems:      Sound problems.
 * IEEE488 interface emulation:           C64 I/O extension settings.
 * info:                                  c1541 commands and options.
-* KernalName <1>:                        VIC20 system ROM resources.
+* IOSize:                                PET model.
+* KernalName <1>:                        PET model.
+* KernalName <2>:                        VIC20 system ROM resources.
 * KernalName:                            C64/128 system ROM resources.
 * KernalRev:                             C64/128 system ROM resources.
 * Limiting emulation speed:              Performance settings.
@@ -142,9 +531,20 @@ Concept Index
 * Loosing control on low-end systems:    Video settings.
 * MITSHM:                                Shared memory problems.
 * Oversampling:                          Sound settings.
+* Ram1:                                  CBM-II model.
+* Ram2:                                  CBM-II model.
+* Ram4:                                  CBM-II model.
+* Ram6:                                  CBM-II model.
+* Ram9:                                  PET model.
+* RamA:                                  PET model.
+* RamSize <1>:                           CBM-II model.
+* RamSize:                               PET model.
 * read:                                  c1541 commands and options.
 * Refresh rate:                          Performance settings.
 * REU:                                   C64 I/O extension settings.
+* RomModule9Name:                        PET model.
+* RomModuleAName:                        PET model.
+* RomModuleBName:                        PET model.
 * Sample rate:                           Sound settings.
 * SID filters:                           SID settings.
 * SID models:                            SID settings.
@@ -153,6 +553,7 @@ Concept Index
 * Sound suspend time:                    Sound settings.
 * Sound syncronization:                  Sound settings.
 * Sprite collision detection:            VIC-II settings.
+* SuperPET:                              PET model.
 * tape:                                  c1541 commands and options.
 * Turning sound playback on/off:         Sound settings.
 * unlynx:                                c1541 commands and options.
@@ -160,6 +561,7 @@ Concept Index
 * validate:                              c1541 commands and options.
 * VIC-II color sets:                     VIC-II settings.
 * Video cache:                           Video settings.
+* VideoSize:                             PET model.
 * Warp speed mode:                       Performance settings.
 * write:                                 c1541 commands and options.
 * zcreate:                               c1541 commands and options.

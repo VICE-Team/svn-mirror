@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 9 September 1998 -->
+     from ../vice.texi on 17 September 1998 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
 <BODY BGCOLOR="#ffffff" TEXT="#00000">
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <A HREF="vice_3.html">next</A>, <A HREF="vice_14.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <A HREF="vice_3.html">next</A>, <A HREF="vice_15.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 <P><HR><P>
 
 
@@ -25,7 +25,7 @@ file formats.
 8-bit computer is, or have questions about how these machines are used,
 how the file formats work or everything else that is not strictly
 related to VICE, you should read the appropriate FAQs <EM>first</EM>, as
-this kind of information is not available here.  See section <A HREF="vice_12.html#SEC111">12  Contact information</A> for
+this kind of information is not available here.  See section <A HREF="vice_13.html#SEC137">13  Contact information</A> for
 information about how to retrieve the the FAQs.
 
 </P>
@@ -101,7 +101,7 @@ graphical effects will not work correctly.
 <P>
 Sound is implemented, but is still at the experimental stage.  If
 you think it does not sound right and know how to improve it, feel
-free to contact us (see section <A HREF="vice_12.html#SEC111">12  Contact information</A>).
+free to contact us (see section <A HREF="vice_13.html#SEC137">13  Contact information</A>).
 
 </P>
 
@@ -110,8 +110,9 @@ free to contact us (see section <A HREF="vice_12.html#SEC111">12  Contact inform
 <H2><A NAME="SEC9" HREF="vice_toc.html#TOC9">2.4  PET emulator features</A></H2>
 
 <P>
-The PET emulator emulates the 2001, 3032, 4032, 8032, 8096 and 8296
-models, which almost covers all models of this kind of machines.  The
+The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and SuperPET
+(MicroMainFram 9000) models, which almost covers all models of this kind of 
+machines.  The
 hardware is pretty much the same and that is why one single program is
 enough to emulate all of them.  For more detailed information about PET
 hardware please refer to the <TT>`PETdoc'</TT> file.
@@ -144,6 +145,12 @@ text and 32k for variables.  See <TT>`PETdoc'</TT> for more information.
 
 </P>
 <P>
+The SuperPET also is a PET 8032 with an expansion board. It can map
+4k at a time out of 64k into the <CODE>$9***</CODE> area. Also it has an 
+ACIA 6551 for RS232 communication.
+
+</P>
+<P>
 The PET computers came with three major ROM revisions, so-called BASIC
 1, 2 and 4, all of which are provided.  The PET 2001 uses the version 1,
 the PET 3032 uses version 2, and the others use version 4.  The 2001 ROM
@@ -172,13 +179,57 @@ addresses.
 To select which model to run, you specify the model on the
 command line with the <CODE>-model MODEL</CODE> option, where
 <CODE>MODEL</CODE> can be one of a list of PET model numbers, all
-described in ...
+described in see section <A HREF="vice_7.html#SEC94">7.3.1  Changing PET model settings</A>
 
 </P>
 
 
 
-<H2><A NAME="SEC10" HREF="vice_toc.html#TOC10">2.5  The keyboard emulation</A></H2>
+<H2><A NAME="SEC10" HREF="vice_toc.html#TOC10">2.5  CBM-II emulator features</A></H2>
+
+<P>
+The CBM-II emulator emulates several types of CBM-II models. Those models
+are known under different names in the USA and Europe.
+In the States they have been sold as <CODE>B128</CODE> and <CODE>B256</CODE>, in 
+Europe as <CODE>CBM 610</CODE>, <CODE>CBM 620</CODE> (low-profile case) or
+<CODE>CBM 710</CODE> and <CODE>CBM 720</CODE> (high-profile case with monitor).
+
+</P>
+<P>
+These computers are prepared to take a coprocessor board with an 8088
+or Z80 CPU. Indeed there are models <CODE>CBM 630</CODE> and <CODE>CBM 730</CODE>
+that supposedly had those processors. However these models are not
+emulated.
+
+</P>
+<P>
+The basic difference is the amount of RAM these machines have been supplied
+with. The <CODE>B128</CODE> and the <CODE>CBM *10</CODE> models had 128k RAM, the 
+others 256k. This implies some banking scheme, as the 6502 can only
+address 64k. And indeed those machines use a 6509, that can address
+1 MByte of RAM. It has 2 registers at addresses 0 and 1. The indirekt bank
+register at address 1 determines the bank (0-15) where the opcodes
+<CODE>LDA (zp),Y</CODE> and <CODE>STA (zp),Y</CODE> take the data from. The exec bank
+register at address 0 determines the bank where all other read and
+write addresses take place.
+
+</P>
+<P>
+Many models have been expanded to more than the built-in memory. In fact
+some machines have been expanded to the full 1M. 
+Bank 15 is used as system bank, with only little RAM, and lots of
+expansion cartridge ROM area, the I/O and the kernal/basic ROMs.
+Some models have been modified to map RAM into the expansion ROM area.
+Those modifications can be emulated as well.
+
+</P>
+<P>
+The different settings are described in see section <A HREF="vice_7.html#SEC98">7.4.1  Changing CBM-II model</A>.
+
+</P>
+
+
+<H2><A NAME="SEC11" HREF="vice_toc.html#TOC11">2.6  The keyboard emulation</A></H2>
 
 <P>
 There are two ways of emulating the keyboard in VICE.
@@ -233,7 +284,7 @@ The <KBD>RESTORE</KBD> key is mapped to <KBD>Page Up</KBD> (or <KBD>Prev</KBD>).
 
 
 
-<H2><A NAME="SEC11" HREF="vice_toc.html#TOC11">2.6  The joystick emulation</A></H2>
+<H2><A NAME="SEC12" HREF="vice_toc.html#TOC12">2.7  The joystick emulation</A></H2>
 
 <P>
 Joysticks can be emulated both via the keyboard and via a real joystick
@@ -261,7 +312,7 @@ and <KBD>space</KBD> for the fire button instead.
 
 
 
-<H2><A NAME="SEC12" HREF="vice_toc.html#TOC12">2.7  The disk drive emulation</A></H2>
+<H2><A NAME="SEC13" HREF="vice_toc.html#TOC13">2.8  The disk drive emulation</A></H2>
 
 <P>
 All the emulators support emulation of up to 4 external disk drives as
@@ -328,7 +379,7 @@ interface.
 </P>
 
 
-<H2><A NAME="SEC13" HREF="vice_toc.html#TOC13">2.8  Supported file formats</A></H2>
+<H2><A NAME="SEC14" HREF="vice_toc.html#TOC14">2.9  Supported file formats</A></H2>
 
 <P>
 VICE supports the most popular Commodore file formats:
@@ -356,7 +407,7 @@ VICE supports the most popular Commodore file formats:
 </UL> </P>
 
 <P>
-An utility (<CODE>c1541</CODE>, see section <A HREF="vice_9.html#SEC107">9  c1541</A>) is provided to allow transfers
+An utility (<CODE>c1541</CODE>, see section <A HREF="vice_10.html#SEC133">10  c1541</A>) is provided to allow transfers
 between these formats.
 
 </P>
@@ -379,7 +430,7 @@ dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 
 
 
-<H2><A NAME="SEC14" HREF="vice_toc.html#TOC14">2.9  Common problems</A></H2>
+<H2><A NAME="SEC15" HREF="vice_toc.html#TOC15">2.10  Common problems</A></H2>
 
 <P>
 This section tries to describe the most common known problem with VICE,
@@ -389,7 +440,7 @@ and how to resolve them.
 
 
 
-<H3><A NAME="SEC15" HREF="vice_toc.html#TOC15">2.9.1  Sound problems</A></H3>
+<H3><A NAME="SEC16" HREF="vice_toc.html#TOC16">2.10.1  Sound problems</A></H3>
 
 <P>
 VICE should compile and run without major problems on many UNIX systems,
@@ -416,13 +467,13 @@ finding HP-UX and SUN consoles to work at...
 
 
 
-<H3><A NAME="SEC16" HREF="vice_toc.html#TOC16">2.9.2  Shared memory problems</A></H3>
+<H3><A NAME="SEC17" HREF="vice_toc.html#TOC17">2.10.2  Shared memory problems</A></H3>
 
 <P>
 <A NAME="IDX3"></A>
 <A NAME="IDX4"></A>
 If you cannot start VICE, because you get errors about shared memory,
-try to run it with the <SAMP>`+mitshm'</SAMP> command-line option (see section <A HREF="vice_6.html#SEC43">6.4.2  Video command-line options</A>).  This will completely disable usage of the MITSHM
+try to run it with the <SAMP>`+mitshm'</SAMP> command-line option (see section <A HREF="vice_6.html#SEC44">6.4.2  Video command-line options</A>).  This will completely disable usage of the MITSHM
 extensions, that are normally used to speed up the process of updating
 the emulation window.  Of course, this will also result in a big loss in
 speed.
@@ -457,6 +508,6 @@ from the right-button menu.
 </P>
 
 <P><HR><P>
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <A HREF="vice_3.html">next</A>, <A HREF="vice_14.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <A HREF="vice_3.html">next</A>, <A HREF="vice_15.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 </BODY>
 </HTML>

@@ -40,6 +40,7 @@ Commodore Emulator.
 
 * Machine-specific features::   Peculiar characteristics of the emulators.
 
+* Snapshots::			Save the emulator state in one file
 * Monitor::                     The VICE built-in monitor.
 * c1541::                       The disk-image maintenance utility.
 
@@ -169,6 +170,8 @@ Machine-specific features
                                 VIC20 emulator
 * PET-specific::                Commands and settings specific to the
                                 PET emulator
+* CBM-II-specific::		Commands and settings specific to the
+				CBM-II (C610, ...) emulator
 
 C64/128-specific commands and settings
 
@@ -225,6 +228,16 @@ PET-specific commands and settings
 * PET model::
 * PET diagnostic pin::
 * PET colors::
+
+CBM-II-specific commands and settings
+
+* CBM-II model::
+* CBM-II colors::
+
+Snapshots
+
+* Snapshot usage::
+* Snapshot format::
 
 Monitor
 
@@ -650,6 +663,7 @@ good as the C64 one, as they are still under construction.
 * C128 emulator features::
 * VIC20 emulator features::
 * PET emulator features::
+* CBM-II emulator features::
 * Keyboard emulation::
 * Joystick emulation::
 * Disk drive emulation::
@@ -704,16 +718,17 @@ you think it does not sound right and know how to improve it, feel free
 to contact us (*note Contacts::.).
 
 
-File: vice.info,  Node: PET emulator features,  Next: Keyboard emulation,  Prev: VIC20 emulator features,  Up: Preface
+File: vice.info,  Node: PET emulator features,  Next: CBM-II emulator features,  Prev: VIC20 emulator features,  Up: Preface
 
 PET emulator features
 =====================
 
-   The PET emulator emulates the 2001, 3032, 4032, 8032, 8096 and 8296
-models, which almost covers all models of this kind of machines.  The
-hardware is pretty much the same and that is why one single program is
-enough to emulate all of them.  For more detailed information about PET
-hardware please refer to the `PETdoc' file.
+   The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
+SuperPET (MicroMainFram 9000) models, which almost covers all models of
+this kind of machines.  The hardware is pretty much the same and that
+is why one single program is enough to emulate all of them.  For more
+detailed information about PET hardware please refer to the `PETdoc'
+file.
 
    Both the 40 column and 80 column CRTC video chips are emulated (from
 the 4032 onward), but a few of the features are not implemented yet
@@ -735,6 +750,10 @@ emulations run the Commodore LOS-96 operating system - basically an
 improved BASIC 4 version with up to 32k for BASIC text and 32k for
 variables.  See `PETdoc' for more information.
 
+   The SuperPET also is a PET 8032 with an expansion board. It can map
+4k at a time out of 64k into the `$9***' area. Also it has an ACIA 6551
+for RS232 communication.
+
    The PET computers came with three major ROM revisions, so-called
 BASIC 1, 2 and 4, all of which are provided.  The PET 2001 uses the
 version 1, the PET 3032 uses version 2, and the others use version 4.
@@ -754,10 +773,45 @@ load and save, and not arbitrary unused secondary addresses.
 
    To select which model to run, you specify the model on the command
 line with the `-model MODEL' option, where `MODEL' can be one of a list
-of PET model numbers, all described in ...
+of PET model numbers, all described in *note PET model::.
 
 
-File: vice.info,  Node: Keyboard emulation,  Next: Joystick emulation,  Prev: PET emulator features,  Up: Preface
+File: vice.info,  Node: CBM-II emulator features,  Next: Keyboard emulation,  Prev: PET emulator features,  Up: Preface
+
+CBM-II emulator features
+========================
+
+   The CBM-II emulator emulates several types of CBM-II models. Those
+models are known under different names in the USA and Europe.  In the
+States they have been sold as `B128' and `B256', in Europe as `CBM
+610', `CBM 620' (low-profile case) or `CBM 710' and `CBM 720'
+(high-profile case with monitor).
+
+   These computers are prepared to take a coprocessor board with an 8088
+or Z80 CPU. Indeed there are models `CBM 630' and `CBM 730' that
+supposedly had those processors. However these models are not emulated.
+
+   The basic difference is the amount of RAM these machines have been
+supplied with. The `B128' and the `CBM *10' models had 128k RAM, the
+others 256k. This implies some banking scheme, as the 6502 can only
+address 64k. And indeed those machines use a 6509, that can address 1
+MByte of RAM. It has 2 registers at addresses 0 and 1. The indirekt bank
+register at address 1 determines the bank (0-15) where the opcodes `LDA
+(zp),Y' and `STA (zp),Y' take the data from. The exec bank register at
+address 0 determines the bank where all other read and write addresses
+take place.
+
+   Many models have been expanded to more than the built-in memory. In
+fact some machines have been expanded to the full 1M.  Bank 15 is used
+as system bank, with only little RAM, and lots of expansion cartridge
+ROM area, the I/O and the kernal/basic ROMs.  Some models have been
+modified to map RAM into the expansion ROM area.  Those modifications
+can be emulated as well.
+
+   The different settings are described in *note CBM-II model::..
+
+
+File: vice.info,  Node: Keyboard emulation,  Next: Joystick emulation,  Prev: CBM-II emulator features,  Up: Preface
 
 The keyboard emulation
 ======================
@@ -978,6 +1032,8 @@ Invoking the emulators
 
    * `xvic', the VIC20 emulator
 
+   * `x610', the CBM-II emulator
+
    You can run each of them by simply typing the name from a shell.  If
 you want to run them from another application (e.g. a window manager or
 some other sort of program launcher) you should always run them from a
@@ -1168,79 +1224,4 @@ command line options `-petrom9', `-petromA' and `-petromB' resp.
    Also, you can specify a replacement for the basic ROM at $B000-$DFFF
 with the `-petromBasic' option and a replacement for the editor ROM at
 $E000-$E7FF with the `-petromEditor' option.
-
-
-File: vice.info,  Node: Keymap files,  Next: Palette files,  Prev: ROM files,  Up: System files
-
-Keymap files
-============
-
-   "Keymap files" are used to define the keyboard layout, defining what
-key (or combination of keys) must me mapped to ever keysym.
-
-   In other words, the keyboard emulation works like this: whenever the
-user presses o releases a key while the input focus in the emulation
-window, the emulator receives an X-Window event with a value that
-identifies that key.  That value is called a "keysym" and is unique to
-that key.  Then the emulator looks for that keysym into an internal
-table which tells it what key(s) to press or release on the emulated
-keyboard.
-
-   This table is described by the keymap file, which is made up of lines
-like the following:
-
-     KEYSYM ROW COLUMN SHIFTFLAG
-
-   Where:
-
-   * `KEYSYM' is a string identifying the keysym: you can use the `xev'
-     utility (shipped with the X Window system) to see what keysym is
-     bound to any key;
-
-   * `ROW' and `COLUMN' identify the key on the emulated keyboard;
-
-   * `SHIFTFLAG' can have one of the following values:
-
-        * `0': the key is never shifted;
-
-        * `1': the key is shifted;
-
-        * `2': the key is the left shift;
-
-        * `4': the key is the right shift;
-
-        * `8': the key can be (optionally) shifted by the user.
-
-   The `SHIFTFLAG' is useful if you want certain keys to be
-"artificially" shifted by the emulator, and not by the user.  For
-example, <F2> is shifted on the C64 keyboard, but you might want it to
-be mapped to the unshifted <F2> key on the PC keyboard.  To do so, you
-just have to use a line like the following:
-
-     F2 0 4 1
-
-   where `0' and `4' identify the key (row 0, column 4 on the keyboard
-matrix), and `1' specifies that every time the user presses <F2> the
-shift key on the C64 keyboard must be pressed.
-
-   There are also some special commands you can put into the keyboard
-file; they are recognized because they start with an exclamation mark:
-
-   * `!CLEAR' clears the currently loaded keyboard map; it is necessary
-     to put this at the beginning of the file if you want the keymap
-     file to override all of the current internal settings;
-
-   * `!LSHIFT', `!RSHIFT', followed by a row and a column value,
-     specify where the left and right shift keys are located on the
-     emulated keyboard; for example, C64 default keymaps will specify
-
-          !LSHIFT 1 7
-          !RSHIFT 6 4
-
-   Any line starting with the `#' sign, instead, is completely ignored.
-This is useful for adding comments within the keymap file.
-
-   VICE keymap files have the `.vkm' default extension, and every
-emulator comes with a default positional mapping and a default symbolic
-mapping.
 

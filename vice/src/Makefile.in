@@ -144,7 +144,6 @@ noinst_HEADERS = \
 	mon_parse.h \
 	mos6510.h \
 	mshell.h \
-	op.h \
 	palette.h \
 	parallel.h \
 	print.h \
@@ -582,6 +581,8 @@ distdir: $(DISTFILES)
 fsdevice.o: fsdevice.c vice.h config.h resources.h vdrive.h types.h \
 	fs_cbm.h serial.h traps.h file.h charsets.h tape.h utils.h \
 	cmdline.h fsdevice.h
+interrupt.o: interrupt.c vice.h config.h interrupt.h types.h vmachine.h \
+	6510core.h mem.h snapshot.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
 	snapshot.h mon.h mos6510.h interrupt.h vmachine.h machine.h \
 	misc.h resources.h traps.h arch/unix/ui.h arch/unix/xaw/ui.h \

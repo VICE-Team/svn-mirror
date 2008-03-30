@@ -15,6 +15,7 @@ doc_DATA = \
 	vice_12.html \
 	vice_13.html \
 	vice_14.html \
+	vice_15.html \
 	vice_toc.html
 
 EXTRA_DIST = $(doc_DATA) \
