@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "machine.h"
+#include "tuimenu.h"
 #include "tuifs.h"
 #include "ui.h"
 #include "uisnapshot.h"
@@ -44,7 +45,7 @@ static TUI_MENU_CALLBACK(toggle_callback);
 static TUI_MENU_CALLBACK(write_snapshot_callback);
 static TUI_MENU_CALLBACK(load_snapshot_callback);
 
-static char *file_name;
+static char *file_name = NULL;
 static int save_roms_flag;
 static int save_disks_flag;
 
