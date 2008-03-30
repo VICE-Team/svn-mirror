@@ -42,6 +42,8 @@
 
 /* Not exact, but for now allow 16 pixels of border each    */
 
+#define VDC_DOT_CLOCK 16000000.0
+
 #define VDC_SCREEN_WIDTH              672
 #define VDC_SCREEN_HEIGHT_LARGE       432
 #define VDC_SCREEN_HEIGHT_SMALL       232
@@ -86,9 +88,9 @@ enum vdc_video_mode_s {
 };
 typedef enum vdc_video_mode_s vdc_video_mode_t;
 
-#define VDC_IS_ILLEGAL_MODE(x)	((x) >= VDC_ILLEGAL_TEXT_MODE \
-					 && (x) != VDC_IDLE_MODE)
-#define VDC_IS_BITMAP_MODE(x)	((x) & 0x02)
+#define VDC_IS_ILLEGAL_MODE(x)  ((x) >= VDC_ILLEGAL_TEXT_MODE \
+                                         && (x) != VDC_IDLE_MODE)
+#define VDC_IS_BITMAP_MODE(x)   ((x) & 0x02)
 
 /* VDC structures.  This is meant to be used by VDC modules
    *exclusively*!  */
@@ -102,7 +104,7 @@ typedef struct vdc_light_pen_s vdc_light_pen_t;
 
 struct vdc_s {
     /* Flag: Are we initialized?  */
-    int initialized;		/* = 0; */
+    int initialized;            /* = 0; */
 
     /* VDC registers.  */
     int regs[38];
@@ -114,6 +116,12 @@ struct vdc_s {
     unsigned int row25_stop_line;
     unsigned int raster_ycounter_max;
     unsigned int raster_ycounter_divide;
+
+    /* Number of chars per line (including blank and sync).  */
+    unsigned int xchars_total;
+
+    /* VDC to host processor synchronization.  */
+    unsigned int xsync_increment;
 
     /* Internal VDC register pointer */
     int update_reg;
@@ -141,7 +149,7 @@ struct vdc_s {
     int force_black_overscan_background_color;
 
     /* All the VDC logging goes here.  */
-    log_t log;		/* = LOG_ERR; */
+    log_t log;          /* = LOG_ERR; */
 
     /* VDC alarms.  */
     /* Alarm to update a raster line. */
@@ -170,6 +178,9 @@ struct vdc_s {
 
     /* Flush the cache next frame.  */
     int force_cache_flush;
+
+    /* The screen geometry has changed.  */
+    int update_geometry;
 
     /* Is the flashing text visible?  */
     int text_blink_visible;
@@ -202,8 +213,8 @@ extern int vdc_load_palette(const char *name);
 extern void vdc_fetch_matrix(int offs, int num);
 extern void vdc_update_memory_ptrs(unsigned int cycle);
 extern void vdc_update_video_mode(unsigned int cycle);
-extern void vdc_raster_draw_alarm_handler(CLOCK offset);
 extern void vdc_set_set_canvas_refresh(int enable);
+extern void vdc_calculate_xsync(void);
 
 #endif
 

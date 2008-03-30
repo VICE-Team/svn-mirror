@@ -37,12 +37,12 @@ typedef int vreal_t;
 #define REAL_TO_INT(x)((int)((x)>>FIXPOINT_PREC))
 
 /* sound clk specific */
-typedef unsigned long		soundclk_t;
-#define SOUNDCLK_PREC		10
-#define SOUNDCLK_CONSTANT(x)	((soundclk_t)(x*(1<<SOUNDCLK_PREC)))
-#define SOUNDCLK_MULT(a,b)	soundclk_mult(a,b)
-#define SOUNDCLK_LONG(a)	((long)((a)>>SOUNDCLK_PREC))
-#define SOUNDCLK_LONG_RAW(a)	SOUNDCLK_LONG(a)
+typedef unsigned long           soundclk_t;
+#define SOUNDCLK_PREC           10
+#define SOUNDCLK_CONSTANT(x)    ((soundclk_t)(x*(1<<SOUNDCLK_PREC)))
+#define SOUNDCLK_MULT(a,b)      soundclk_mult(a,b)
+#define SOUNDCLK_LONG(a)        ((long)((a)>>SOUNDCLK_PREC))
+#define SOUNDCLK_LONG_RAW(a)    SOUNDCLK_LONG(a)
 
 /* inline these functions or not? */
 #ifdef INLINE_FIXPOINT_FUNCTIONS
@@ -61,10 +61,10 @@ typedef float vreal_t;
 
 /* sound clk specific */
 typedef double soundclk_t;
-#define SOUNDCLK_CONSTANT(x)	((soundclk_t)(x))
-#define SOUNDCLK_MULT(a,b)	(a)*(b)
-#define SOUNDCLK_LONG(a)	((long)BIG_FLOAT_TO_INT(a))
-#define SOUNDCLK_LONG_RAW(a)	((long)(a))
+#define SOUNDCLK_CONSTANT(x)    ((soundclk_t)(x))
+#define SOUNDCLK_MULT(a,b)      (a)*(b)
+#define SOUNDCLK_LONG(a)        ((long)BIG_FLOAT_TO_INT(a))
+#define SOUNDCLK_LONG_RAW(a)    ((long)(a))
 
 #endif /* FIXPOINT_ARITHMETIC */
 

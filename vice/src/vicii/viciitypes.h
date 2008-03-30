@@ -38,62 +38,62 @@
 
 /* Screen constants.  */
 #define VIC_II_PAL_SCREEN_HEIGHT        312
-#define VIC_II_NTSC_SCREEN_HEIGHT	263
-#define VIC_II_NTSCOLD_SCREEN_HEIGHT	262
+#define VIC_II_NTSC_SCREEN_HEIGHT       263
+#define VIC_II_NTSCOLD_SCREEN_HEIGHT    262
 
 /* We need the full width for correct
    sprite-sprite-collision in unvisible area */
-#define VIC_II_SCREEN_WIDTH		    512
+#define VIC_II_SCREEN_WIDTH                 512
 
 #define VIC_II_PAL_OFFSET                       0
 #define VIC_II_NTSC_OFFSET                      0
 #define VIC_II_NTSCOLD_OFFSET                   0
 
-#define VIC_II_SCREEN_XPIX			320
-#define VIC_II_SCREEN_YPIX			200
-#define VIC_II_SCREEN_TEXTCOLS			40
-#define VIC_II_SCREEN_TEXTLINES 	       	25
-#define VIC_II_SCREEN_PAL_BORDERWIDTH		32
-#define VIC_II_SCREEN_PAL_BORDERHEIGHT     	51
-#define VIC_II_SCREEN_NTSC_BORDERWIDTH		32
-#define VIC_II_SCREEN_NTSC_BORDERHEIGHT		27
-#define VIC_II_SCREEN_NTSCOLD_BORDERWIDTH	32
-#define VIC_II_SCREEN_NTSCOLD_BORDERHEIGHT	27
-#define VIC_II_SCREEN_CHARHEIGHT		8
+#define VIC_II_SCREEN_XPIX                      320
+#define VIC_II_SCREEN_YPIX                      200
+#define VIC_II_SCREEN_TEXTCOLS                  40
+#define VIC_II_SCREEN_TEXTLINES                 25
+#define VIC_II_SCREEN_PAL_BORDERWIDTH           32
+#define VIC_II_SCREEN_PAL_BORDERHEIGHT          51
+#define VIC_II_SCREEN_NTSC_BORDERWIDTH          32
+#define VIC_II_SCREEN_NTSC_BORDERHEIGHT         27
+#define VIC_II_SCREEN_NTSCOLD_BORDERWIDTH       32
+#define VIC_II_SCREEN_NTSCOLD_BORDERHEIGHT      27
+#define VIC_II_SCREEN_CHARHEIGHT                8
 
-#define VIC_II_PAL_FIRST_DISPLAYED_LINE		0x10
-#define VIC_II_PAL_LAST_DISPLAYED_LINE		0x11f
-#define VIC_II_PAL_25ROW_START_LINE		0x33
-#define VIC_II_PAL_25ROW_STOP_LINE		0xfb
-#define VIC_II_PAL_24ROW_START_LINE		0x37
-#define VIC_II_PAL_24ROW_STOP_LINE		0xf7
+#define VIC_II_PAL_FIRST_DISPLAYED_LINE         0x10
+#define VIC_II_PAL_LAST_DISPLAYED_LINE          0x11f
+#define VIC_II_PAL_25ROW_START_LINE             0x33
+#define VIC_II_PAL_25ROW_STOP_LINE              0xfb
+#define VIC_II_PAL_24ROW_START_LINE             0x37
+#define VIC_II_PAL_24ROW_STOP_LINE              0xf7
 
-#define VIC_II_NTSC_FIRST_DISPLAYED_LINE	(0x20 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_LAST_DISPLAYED_LINE		0x102
-#define VIC_II_NTSC_25ROW_START_LINE		(0x33 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_25ROW_STOP_LINE		(0xfb - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_24ROW_START_LINE		(0x37 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_24ROW_STOP_LINE		(0xf7 - VIC_II_NTSC_OFFSET)
+#define VIC_II_NTSC_FIRST_DISPLAYED_LINE        (0x20 - VIC_II_NTSC_OFFSET)
+#define VIC_II_NTSC_LAST_DISPLAYED_LINE         0x102
+#define VIC_II_NTSC_25ROW_START_LINE            (0x33 - VIC_II_NTSC_OFFSET)
+#define VIC_II_NTSC_25ROW_STOP_LINE             (0xfb - VIC_II_NTSC_OFFSET)
+#define VIC_II_NTSC_24ROW_START_LINE            (0x37 - VIC_II_NTSC_OFFSET)
+#define VIC_II_NTSC_24ROW_STOP_LINE             (0xf7 - VIC_II_NTSC_OFFSET)
 
-#define VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE	(0x20 - VIC_II_NTSCOLD_OFFSET)
-#define VIC_II_NTSCOLD_LAST_DISPLAYED_LINE	0x102
-#define VIC_II_NTSCOLD_25ROW_START_LINE		(0x33 - VIC_II_NTSCOLD_OFFSET)
-#define VIC_II_NTSCOLD_25ROW_STOP_LINE		(0xfb - VIC_II_NTSCOLD_OFFSET)
-#define VIC_II_NTSCOLD_24ROW_START_LINE		(0x37 - VIC_II_NTSCOLD_OFFSET)
-#define VIC_II_NTSCOLD_24ROW_STOP_LINE		(0xf7 - VIC_II_NTSCOLD_OFFSET)
+#define VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE     (0x20 - VIC_II_NTSCOLD_OFFSET)
+#define VIC_II_NTSCOLD_LAST_DISPLAYED_LINE      0x102
+#define VIC_II_NTSCOLD_25ROW_START_LINE         (0x33 - VIC_II_NTSCOLD_OFFSET)
+#define VIC_II_NTSCOLD_25ROW_STOP_LINE          (0xfb - VIC_II_NTSCOLD_OFFSET)
+#define VIC_II_NTSCOLD_24ROW_START_LINE         (0x37 - VIC_II_NTSCOLD_OFFSET)
+#define VIC_II_NTSCOLD_24ROW_STOP_LINE          (0xf7 - VIC_II_NTSCOLD_OFFSET)
 
-#define VIC_II_40COL_START_PIXEL		0x20
-#define VIC_II_40COL_STOP_PIXEL			0x160
-#define VIC_II_38COL_START_PIXEL		0x27
-#define VIC_II_38COL_STOP_PIXEL			0x157
+#define VIC_II_40COL_START_PIXEL                0x20
+#define VIC_II_40COL_STOP_PIXEL                 0x160
+#define VIC_II_38COL_START_PIXEL                0x27
+#define VIC_II_38COL_STOP_PIXEL                 0x157
 
-#define VIC_II_NUM_SPRITES		8
-#define VIC_II_MAX_SPRITE_WIDTH		48
-#define VIC_II_NUM_COLORS	        16
+#define VIC_II_NUM_SPRITES              8
+#define VIC_II_MAX_SPRITE_WIDTH         48
+#define VIC_II_NUM_COLORS               16
 
-#define VIC_II_PAL_SPRITE_WRAP_X	504
-#define VIC_II_NTSC_SPRITE_WRAP_X	520
-#define VIC_II_NTSCOLD_SPRITE_WRAP_X	512
+#define VIC_II_PAL_SPRITE_WRAP_X        504
+#define VIC_II_NTSC_SPRITE_WRAP_X       520
+#define VIC_II_NTSCOLD_SPRITE_WRAP_X    512
 
 
 /* Available video modes.  The number is given by
@@ -107,14 +107,14 @@ enum _vic_ii_video_mode {
     VIC_II_ILLEGAL_TEXT_MODE,
     VIC_II_ILLEGAL_BITMAP_MODE_1,
     VIC_II_ILLEGAL_BITMAP_MODE_2,
-    VIC_II_IDLE_MODE,		/* Special mode for idle state.  */
+    VIC_II_IDLE_MODE,           /* Special mode for idle state.  */
     VIC_II_NUM_VMODES
 };
 typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 
-#define VIC_II_IS_ILLEGAL_MODE(x)	((x) >= VIC_II_ILLEGAL_TEXT_MODE \
-					 && (x) != VIC_II_IDLE_MODE)
-#define VIC_II_IS_BITMAP_MODE(x)	((x) & 0x02)
+#define VIC_II_IS_ILLEGAL_MODE(x)       ((x) >= VIC_II_ILLEGAL_TEXT_MODE \
+                                         && (x) != VIC_II_IDLE_MODE)
+#define VIC_II_IS_BITMAP_MODE(x)        ((x) & 0x02)
 
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
@@ -132,7 +132,7 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 #define VIC_II_NTSCOLD_CYCLES_PER_LINE  C64_NTSCOLD_CYCLES_PER_LINE
 
 /* Cycle # at which the VIC takes the bus in a bad line (BA goes low).  */
-#define	VIC_II_FETCH_CYCLE          11
+#define VIC_II_FETCH_CYCLE          11
 
 /* Cycle # at which sprite DMA is set.  */
 #define VIC_II_PAL_SPRITE_FETCH_CYCLE       54
@@ -212,7 +212,7 @@ typedef enum _vic_ii_idle_data_location vic_ii_idle_data_location_t;
 
 struct vic_ii_s {
     /* Flag: Are we initialized?  */
-    int initialized;		/* = 0; */
+    int initialized;            /* = 0; */
 
     /* VIC-II raster.  */
     raster_t raster;
@@ -221,7 +221,7 @@ struct vic_ii_s {
     int regs[64];
 
     /* Interrupt register.  */
-    int irq_status;		/* = 0; */
+    int irq_status;             /* = 0; */
 
     /* Line for raster compare IRQ.  */
     unsigned int raster_irq_line;
@@ -232,22 +232,22 @@ struct vic_ii_s {
     /* Pointer to the base of RAM seen by the VIC-II.  */
     /* address is base of 64k bank. vbank adds 0/16k/32k/48k to get actual
        video address */
-    BYTE *ram_base_phi1;		/* = VIC-II address during Phi1; */
-    BYTE *ram_base_phi2;		/* = VIC-II address during Phi2; */
+    BYTE *ram_base_phi1;                /* = VIC-II address during Phi1; */
+    BYTE *ram_base_phi2;                /* = VIC-II address during Phi2; */
 
-    /* valid VIC-II address bits for Phi1 and Phi2. After masking 
+    /* valid VIC-II address bits for Phi1 and Phi2. After masking
        the address, it is or'd with the offset value to set always-1 bits */
-    ADDRESS vaddr_mask_phi1;		/* mask of valid address bits */
-    ADDRESS vaddr_mask_phi2;		/* mask of valid address bits */
-    ADDRESS vaddr_offset_phi1;		/* mask of address bits always set */
-    ADDRESS vaddr_offset_phi2;		/* mask of address bits always set */
+    ADDRESS vaddr_mask_phi1;            /* mask of valid address bits */
+    ADDRESS vaddr_mask_phi2;            /* mask of valid address bits */
+    ADDRESS vaddr_offset_phi1;          /* mask of address bits always set */
+    ADDRESS vaddr_offset_phi2;          /* mask of address bits always set */
 
     /* Those two values determine where in the address space the chargen
        ROM is mapped. Use mask=0x7000, value=0x1000 for the C64. */
-    ADDRESS vaddr_chargen_mask_phi1;	/* address bits to comp. for chargen */
-    ADDRESS vaddr_chargen_mask_phi2;	/* address bits to comp. for chargen */
-    ADDRESS vaddr_chargen_value_phi1;	/* compare value for chargen */
-    ADDRESS vaddr_chargen_value_phi2;	/* compare value for chargen */
+    ADDRESS vaddr_chargen_mask_phi1;    /* address bits to comp. for chargen */
+    ADDRESS vaddr_chargen_mask_phi2;    /* address bits to comp. for chargen */
+    ADDRESS vaddr_chargen_value_phi1;   /* compare value for chargen */
+    ADDRESS vaddr_chargen_value_phi2;   /* compare value for chargen */
 
     /* Video memory pointers.  */
     BYTE *screen_ptr;
@@ -304,8 +304,8 @@ struct vic_ii_s {
     vic_ii_light_pen_t light_pen;
 
     /* Start of the memory bank seen by the VIC-II.  */
-    int vbank_phi1;			/* = 0; */
-    int vbank_phi2;			/* = 0; */
+    int vbank_phi1;                     /* = 0; */
+    int vbank_phi2;                     /* = 0; */
 
     /* Pointer to the start of the video bank.  */
     /* BYTE *vbank_ptr; - never used, only set */
@@ -321,7 +321,7 @@ struct vic_ii_s {
     int extended_keyboard_rows_enabled;
 
     /* All the VIC-II logging goes here.  */
-    log_t log;			/* = LOG_ERR; */
+    log_t log;                  /* = LOG_ERR; */
 
     /* VIC-II alarms.  */
     alarm_t raster_fetch_alarm;
@@ -379,14 +379,15 @@ extern vic_ii_t vic_ii;
 /* Private function calls, used by the other VIC-II modules.  FIXME:
    Prepend names with `_'?  */
 extern int vic_ii_activate_palette(void);
-extern int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum,int mixedcols);
+extern int vic_ii_calc_palette(int sat, int con, int bri, int gam, int newlum,
+                               int mixedcols);
 extern int vic_ii_load_palette(const char *name);
-extern void vic_ii_fetch_matrix (int offs, int num);
-extern void vic_ii_set_raster_irq (unsigned int line);
-extern void vic_ii_update_memory_ptrs (unsigned int cycle);
-extern void vic_ii_update_video_mode (unsigned int cycle);
-extern void vic_ii_raster_draw_alarm_handler (CLOCK offset);
-extern void vic_ii_raster_fetch_alarm_handler (CLOCK offset);
+extern void vic_ii_fetch_matrix(int offs, int num);
+extern void vic_ii_set_raster_irq(unsigned int line);
+extern void vic_ii_update_memory_ptrs(unsigned int cycle);
+extern void vic_ii_update_video_mode(unsigned int cycle);
+extern void vic_ii_raster_draw_alarm_handler(CLOCK offset);
+extern void vic_ii_raster_fetch_alarm_handler(CLOCK offset);
 
 /* Debugging options.  */
 

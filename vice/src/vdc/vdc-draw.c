@@ -117,7 +117,7 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 
        c) the attribute RAM
      */
-    int r;	/* return value */
+    int r;      /* return value */
     *xs = 0;
     *xe = vdc.screen_text_cols;
 
@@ -228,13 +228,13 @@ static void draw_std_text(void)
 
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
     screen_ptr = vdc.ram + vdc.screen_adr + vdc.mem_counter;
-    char_ptr = vdc.ram + vdc.chargen_adr 
+    char_ptr = vdc.ram + vdc.chargen_adr
                + (vdc.raster.ycounter / vdc.raster_ycounter_divide);
 
     for (i = 0; i < vdc.screen_text_cols; i++, p+= 8) {
         PIXEL4 *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
 
-	int d = *(char_ptr
+        int d = *(char_ptr
             + ((*(attr_ptr + i) & 0x80) ? 0x1000 : 0)
             + (*(screen_ptr + i) * 16));
 
@@ -262,7 +262,7 @@ static int get_std_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
 
        c) the attribute RAM
      */
-    int r;	/* return value */
+    int r;      /* return value */
     *xs = 0;
     *xe = vdc.screen_text_cols;
 
@@ -337,14 +337,14 @@ static void draw_std_bitmap(void)
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8) {
         PIXEL4 *ptr;
-	int d;
+        int d;
 
-	if (vdc.regs[25] & 0x40)
+        if (vdc.regs[25] & 0x40)
             ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
-	else
+        else
             ptr = table_ptr + ((vdc.regs[26] & 0xf0) << 4);
 
-	d = *(bitmap_ptr + i);
+        d = *(bitmap_ptr + i);
 
         *((PIXEL4 *)p)     = *(ptr + (d >> 4));
         *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));

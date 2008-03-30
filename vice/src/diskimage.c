@@ -115,7 +115,7 @@ static void disk_image_check_log(disk_image_t *image, const char *type)
 {
     log_message(disk_image_log, "%s disk image recognised: %s, %d tracks%s",
                 type, image->name, image->tracks,
-		image->read_only ? " (read only)." : ".");
+                image->read_only ? " (read only)." : ".");
 }
 
 static int disk_image_check_min_block(unsigned int blk, unsigned int length)
@@ -134,9 +134,9 @@ static int disk_image_check_for_d64(disk_image_t *image)
 
     /*** detect 35..42 track d64 image, determine image parameters.
          Walk from 35 to 42, calculate expected image file size for each track,
-	 and compare this with the size of the given image.
-	 */ 
-    
+         and compare this with the size of the given image.
+         */
+
     int checkimage_tracks,checkimage_blocks;
     int checkimage_realsize,checkimage_errorinfo;
 
@@ -144,38 +144,38 @@ static int disk_image_check_for_d64(disk_image_t *image)
     checkimage_realsize=util_file_length(image->fd);
     checkimage_tracks=NUM_TRACKS_1541; /* start at track 35 */
     checkimage_blocks=D64_FILE_SIZE_35/256;
-    
+
     while (1) {
 
-	/* check if image matches "checkimage_tracks" */
-	if (checkimage_realsize==checkimage_blocks*256) {
-	    /* image file matches size-with-no-error-info */
-	    checkimage_errorinfo=0;
-	    break;
-	    
-	} else if (checkimage_realsize==checkimage_blocks*256
-	    + checkimage_blocks) {
-	    /* image file matches size-with-error-info */
-	    checkimage_errorinfo=1;
-	    break;
-	}
-	
-	/* try next track (all tracks from 35 to 42 have 17 blocks) */
-	checkimage_tracks++;
-	checkimage_blocks+=17;
-	
-	/* we tried them all up to 42, none worked, image must be corrupt */
-	if (checkimage_tracks>MAX_TRACKS_1541)
-	    return 0;
+        /* check if image matches "checkimage_tracks" */
+        if (checkimage_realsize==checkimage_blocks*256) {
+            /* image file matches size-with-no-error-info */
+            checkimage_errorinfo=0;
+            break;
+
+        } else if (checkimage_realsize==checkimage_blocks*256
+            + checkimage_blocks) {
+            /* image file matches size-with-error-info */
+            checkimage_errorinfo=1;
+            break;
+        }
+
+        /* try next track (all tracks from 35 to 42 have 17 blocks) */
+        checkimage_tracks++;
+        checkimage_blocks+=17;
+
+        /* we tried them all up to 42, none worked, image must be corrupt */
+        if (checkimage_tracks>MAX_TRACKS_1541)
+            return 0;
     }
-    
+
     /*** test image file: read it (fgetc is pretty fast).
          further size checks are no longer necessary (done during detection) */
     rewind(image->fd);
     for (countbytes=0; countbytes<checkimage_realsize; countbytes++) {
-	if (fgetc(image->fd)==EOF) {
-    	    log_error(disk_image_log, "Cannot read D64 image.");
-	    return 0;
+        if (fgetc(image->fd)==EOF) {
+            log_error(disk_image_log, "Cannot read D64 image.");
+            return 0;
         }
     }
 
@@ -183,13 +183,13 @@ static int disk_image_check_for_d64(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D64;
     image->tracks = checkimage_tracks;
     if (checkimage_errorinfo) {
-	image->error_info = (BYTE *)xmalloc(MAX_BLOCKS_1541);
-	memset(image->error_info, 0, MAX_BLOCKS_1541);
-	if (fseek(image->fd, 256 * checkimage_blocks, SEEK_SET) < 0)
-    	    return 0;
-	if (fread(image->error_info, 1, checkimage_blocks, image->fd)
-    	    < checkimage_blocks)
-    	    return 0;
+        image->error_info = (BYTE *)xmalloc(MAX_BLOCKS_1541);
+        memset(image->error_info, 0, MAX_BLOCKS_1541);
+        if (fseek(image->fd, 256 * checkimage_blocks, SEEK_SET) < 0)
+            return 0;
+        if (fread(image->error_info, 1, checkimage_blocks, image->fd)
+            < checkimage_blocks)
+            return 0;
     }
 
     /*** log and return successfully */
@@ -213,7 +213,7 @@ static int disk_image_check_for_d67(disk_image_t *image)
     rewind(image->fd);
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
-	/* FIXME */
+        /* FIXME */
         if (++blk > (NUM_BLOCKS_2040)) {
             log_error(disk_image_log, "Disk image too large");
             break;
@@ -561,9 +561,9 @@ int disk_image_open(disk_image_t *image)
     }
 
     if (disk_image_check_for_d64(image))
-	return 0;
+        return 0;
     if (disk_image_check_for_d67(image))
-        return 0;        
+        return 0;
     if (disk_image_check_for_d71(image))
         return 0;
     if (disk_image_check_for_d81(image))
@@ -691,8 +691,8 @@ int disk_image_create(const char *name, unsigned int type)
         size = D64_FILE_SIZE_35;
         break;
       case DISK_IMAGE_TYPE_D67:
-	size = D67_FILE_SIZE;
-	break;
+        size = D67_FILE_SIZE;
+        break;
       case DISK_IMAGE_TYPE_D71:
         size = D71_FILE_SIZE;
         break;
@@ -856,14 +856,14 @@ unsigned int disk_image_sector_per_track(unsigned int format,
         if (track >= sizeof(sector_map_d64)) {
             log_message(disk_image_log, "Track %i exceeds sector map.", track);
             return 0;
-        }        
+        }
         return sector_map_d64[track];
         break;
       case DISK_IMAGE_TYPE_D67:
         if (track >= sizeof(sector_map_d67)) {
             log_message(disk_image_log, "Track %i exceeds sector map.", track);
             return 0;
-        }        
+        }
         return sector_map_d67[track];
         break;
       case DISK_IMAGE_TYPE_D71:
@@ -883,8 +883,7 @@ unsigned int disk_image_sector_per_track(unsigned int format,
         break;
       default:
         log_message(disk_image_log,
-                    "Unknown disk type %i.  Cannot calculate sectors per track",
-                    format);
+                    "Unknown disk type %i.  Cannot calculate sectors per track",                    format);
     }
     return 0;
 }
@@ -934,7 +933,7 @@ int disk_image_check_sector(unsigned int format, unsigned int track,
         sectors = (track - 1) * NUM_SECTORS_1581 + sector;
         break;
       case DISK_IMAGE_TYPE_D80:
-        if (track > MAX_TRACKS_8050 || sector 
+        if (track > MAX_TRACKS_8050 || sector
             >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track))
             return -1;
         for (i = 1; i < track; i++)
