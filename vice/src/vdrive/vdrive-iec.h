@@ -30,13 +30,15 @@
 #include "types.h"
 
 struct bufferinfo_s;
+struct cbmdos_cmd_parse_s;
 struct vdrive_s;
 
 extern void vdrive_iec_init(void);
 
 /* Generic IEC interface.  */
 extern int vdrive_iec_open(struct vdrive_s *vdrive, const BYTE *name,
-                           unsigned int length, unsigned int secondary);
+                           unsigned int length, unsigned int secondary,
+                           struct cbmdos_cmd_parse_s *cmd_parse_ext);
 extern int vdrive_iec_close(struct vdrive_s *vdrive, unsigned int secondary);
 extern int vdrive_iec_read(struct vdrive_s *vdrive, BYTE *data,
                            unsigned int secondary);

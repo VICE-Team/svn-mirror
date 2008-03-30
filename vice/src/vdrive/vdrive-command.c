@@ -466,7 +466,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     log_debug("COPY: dest= '%s', orig= '%s'.", dest, files);
 #endif
 
-    if (vdrive_iec_open(vdrive, (BYTE *)dest, strlen(dest), 1))
+    if (vdrive_iec_open(vdrive, (BYTE *)dest, strlen(dest), 1, NULL))
         return CBMDOS_IPE_FILE_EXISTS;
 
     p = name = files;
@@ -481,7 +481,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
 #ifdef DEBUG_DRIVE
         log_debug("searching for file '%s'.", name);
 #endif
-        if (vdrive_iec_open(vdrive, (BYTE *)name, strlen(name), 0)) {
+        if (vdrive_iec_open(vdrive, (BYTE *)name, strlen(name), 0, NULL)) {
             vdrive_iec_close(vdrive, 1);
             return CBMDOS_IPE_NOT_FOUND;
         }

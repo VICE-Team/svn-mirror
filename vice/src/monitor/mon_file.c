@@ -71,7 +71,7 @@ static int mon_file_open(const char *filename, unsigned int secondary,
             return -1;
 
         if (vdrive_iec_open(vdrive, (const BYTE *)filename,
-            (int)strlen(filename), secondary) != SERIAL_OK)
+            (int)strlen(filename), secondary, NULL) != SERIAL_OK)
             return -1;
 
         /* initialize EOF buffer. */
