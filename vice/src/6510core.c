@@ -58,12 +58,12 @@
 #define LOCAL_SET_NZ(val)        (flag_z = flag_n = (val))
 
 #if defined DRIVE_CPU
-#define LOCAL_SET_OVERFLOW(val)             \
-    do {                                    \
-        if (!(val))                         \
-            _drive_byte_ready_egde_clear(); \
-        ((val) ? (reg_p |= P_OVERFLOW)      \
-         : (reg_p &= ~P_OVERFLOW));         \
+#define LOCAL_SET_OVERFLOW(val)               \
+    do {                                      \
+        if (!(val))                           \
+            drivecpu_byte_ready_egde_clear(); \
+        ((val) ? (reg_p |= P_OVERFLOW)        \
+         : (reg_p &= ~P_OVERFLOW));           \
     } while (0)
 #else
 #define LOCAL_SET_OVERFLOW(val)  ((val) ? (reg_p |= P_OVERFLOW)    \
@@ -178,6 +178,7 @@
    execute NMI.  */
 /* FIXME: Dummy LOAD() cycles are missing!  */
 /* FIXME: Improper BRK handling!  */
+/* FIXME: LOCAL_STATUS() should check byte ready first.  */
 #define DO_INTERRUPT(int_kind)                                        \
     do {                                                              \
         BYTE ik = (int_kind);                                         \
@@ -775,11 +776,10 @@
       RMW_FLAG = 0;                                           \
   } while (0)
 
-#define JMP(addr, clk_inc1, clk_inc2)  \
-  do {                                 \
-      CLK += (clk_inc1);               \
-      JUMP(addr);                      \
-      CLK += (clk_inc2);               \
+#define JMP(addr)  \
+  do {             \
+      CLK += 3;    \
+      JUMP(addr);  \
   } while (0)
 
 #define JMP_IND()                                                   \
@@ -793,17 +793,18 @@
       JUMP(dest_addr);                                              \
   } while (0)
 
-#define JSR(addr, clk_inc1, clk_inc2, pc_inc)       \
-  do {                                              \
-      unsigned int tmp_addr;                        \
-                                                    \
-      CLK += (clk_inc1);                            \
-      CLK += (clk_inc2 - 1);                        \
-      PUSH(((reg_pc + (pc_inc) - 1) >> 8) & 0xff);  \
-      PUSH((reg_pc + (pc_inc) - 1) & 0xff);         \
-      tmp_addr = (p1 | (LOAD(reg_pc + 2) << 8));    \
-      CLK += 1;                                     \
-      JUMP(tmp_addr);                               \
+#define JSR()                                 \
+  do {                                        \
+      unsigned int tmp_addr;                  \
+                                              \
+      CLK += 3;                               \
+      INC_PC(2);                              \
+      CLK += 2;                               \
+      PUSH(((reg_pc) >> 8) & 0xff);           \
+      PUSH((reg_pc) & 0xff);                  \
+      tmp_addr = (p1 | (LOAD(reg_pc) << 8));  \
+      CLK += 1;                               \
+      JUMP(tmp_addr);                         \
   } while (0)
 
 #define LAS(value, clk_inc1, clk_inc2, pc_inc)    \
@@ -939,6 +940,7 @@
       INC_PC(1);            \
   } while (0)
 
+/* FIXME: Rotate disk before executing LOCAL_SET_STATUS().  */
 #define PLP()                                            \
   do {                                                   \
       BYTE s = PULL();                                   \
@@ -1089,6 +1091,7 @@
    from 1 to 0 because the value of I is set 3 cycles before the end of the
    opcode, and thus the 6510 has enough time to call the interrupt routine as
    soon as the opcode ends, if necessary.  */
+/* FIXME: Rotate disk before executing LOCAL_SET_STATUS().  */
 #define RTI()                       \
   do {                              \
       WORD tmp;                     \
@@ -1113,7 +1116,6 @@
       tmp++;                      \
       JUMP(tmp);                  \
   } while (0)
-
 
 #define SAX(addr, clk_inc1, clk_inc2, pc_inc)  \
   do {                                         \
@@ -1662,7 +1664,7 @@ trap_skipped:
 
           case 0x08:            /* PHP */
 #ifdef DRIVE_CPU
-            if (_drive_byte_ready())
+            if (drivecpu_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
 #endif
             PHP();
@@ -1772,7 +1774,7 @@ trap_skipped:
             break;
 
           case 0x20:            /* JSR $nnnn */
-            JSR(p2, 3, 3, 3);
+            JSR();
             break;
 
           case 0x21:            /* AND ($nn,X) */
@@ -1920,7 +1922,7 @@ trap_skipped:
             break;
 
           case 0x4c:            /* JMP $nnnn */
-            JMP(p2, 3, 0);
+            JMP(p2);
             break;
 
           case 0x4d:            /* EOR $nnnn */
@@ -1937,7 +1939,7 @@ trap_skipped:
 
           case 0x50:            /* BVC $nnnn */
 #ifdef DRIVE_CPU
-            if (_drive_byte_ready())
+            if (drivecpu_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
 #endif
             BRANCH(!LOCAL_OVERFLOW(), p1);
@@ -2045,7 +2047,7 @@ trap_skipped:
 
           case 0x70:            /* BVS $nnnn */
 #ifdef DRIVE_CPU
-            if (_drive_byte_ready())
+            if (drivecpu_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
 #endif
             BRANCH(LOCAL_OVERFLOW(), p1);
