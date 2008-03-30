@@ -362,8 +362,7 @@ drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	../../src/ciatimer.h ../../src/mos6510.h ../../src/interrupt.h \
 	../../src/log.h ../../src/machine-drive.h ../../src/machine.h \
 	../../src/mem.h ../../src/monitor/mon.h rotation.h \
-	../../src/snapshot.h ../../src/utils.h viad.h \
-	../../src/6510core.c
+	../../src/snapshot.h viad.h ../../src/6510core.c
 driveimage.o: driveimage.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h drive.h driveimage.h \

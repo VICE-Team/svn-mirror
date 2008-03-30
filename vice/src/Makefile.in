@@ -635,7 +635,7 @@ initcmdline.o: initcmdline.c vice.h config.h arch/unix/archdep.h \
 	cmdline.h initcmdline.h log.h machine.h resources.h tape.h \
 	utils.h
 interrupt.o: interrupt.c vice.h config.h interrupt.h arch/unix/types.h \
-	log.h snapshot.h
+	log.h snapshot.h utils.h
 ioutil.o: ioutil.c vice.h config.h arch/unix/archdep.h archapi.h \
 	ioutil.h utils.h arch/unix/types.h
 joystick.o: joystick.c vice.h config.h alarm.h arch/unix/types.h event.h \
@@ -648,11 +648,11 @@ keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
 	resources.h sysfile.h utils.h
 log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	log.h resources.h utils.h arch/unix/types.h
-machine.o: machine.c vice.h config.h alarm.h arch/unix/types.h \
+machine.o: machine.c vice.h config.h alarm.h arch/unix/types.h attach.h \
 	autostart.h clkguard.h cmdline.h console.h drive/drive.h \
-	interrupt.h log.h machine.h maincpu.h mem.h printer.h \
-	resources.h sound.h arch/unix/ui.h uiapi.h utils.h vsync.h \
-	arch/unix/joy.h
+	interrupt.h keyboard.h log.h machine.h maincpu.h mem.h \
+	monitor/mon.h printer.h resources.h sound.h traps.h \
+	arch/unix/ui.h uiapi.h utils.h vsync.h arch/unix/joy.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	console.h debug.h arch/unix/types.h drive/drive.h fullscreen.h \
 	init.h initcmdline.h interrupt.h log.h machine.h maincpu.h \

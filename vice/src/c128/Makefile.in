@@ -259,8 +259,8 @@ distdir: $(DISTFILES)
 c128-cmdline-options.o: c128-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/machine.h
 c128-resources.o: c128-resources.c ../../src/vice.h ../../src/config.h \
-	c128.h c128rom.h ../../src/drive/drive.h \
-	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
+	c128.h c128mem.h ../../src/arch/unix/types.h c128rom.h \
+	../../src/drive/drive.h ../../src/arch/unix/kbd.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/resources.h \
 	../../src/c64/reu.h ../../src/sid/sid-resources.h \
 	../../src/utils.h
@@ -325,17 +325,17 @@ c128io.o: c128io.c ../../src/vice.h ../../src/config.h c128-resources.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid.h \
 	../../src/vicii/vicii-phi1.h
 c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
-	c128-resources.h c128io.h ../../src/arch/unix/types.h c128mem.h \
-	c128memlimit.h c128mmu.h ../../src/c64/c64cart.h \
-	../../src/c64/c64cia.h ../../src/c64/c64pla.h \
-	../../src/c64/c64tpi.h functionrom.h ../../src/keyboard.h \
-	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/monitor/mon.h ../../src/parallel.h ../../src/ram.h \
-	../../src/c64/reu.h ../../src/sid/sid.h ../../src/utils.h \
-	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
-	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
-	../../src/vicii/vicii.h z80mem.h ../../src/mem.h \
-	../../src/c64/c64acia.h
+	c128-resources.h c128.h c128io.h ../../src/arch/unix/types.h \
+	c128mem.h c128memlimit.h c128mmu.h ../../src/c64/c64cart.h \
+	../../src/c64/c64cia.h ../../src/c64/c64meminit.h \
+	../../src/c64/c64pla.h ../../src/c64/c64tpi.h functionrom.h \
+	../../src/keyboard.h ../../src/log.h ../../src/machine.h \
+	../../src/maincpu.h ../../src/monitor/mon.h \
+	../../src/parallel.h ../../src/ram.h ../../src/c64/reu.h \
+	../../src/sid/sid.h ../../src/utils.h ../../src/vdc/vdc-mem.h \
+	../../src/vdc/vdc.h ../../src/vicii/vicii-mem.h \
+	../../src/vicii/vicii-phi1.h ../../src/vicii/vicii.h z80mem.h \
+	../../src/mem.h ../../src/c64/c64acia.h
 c128memlimit.o: c128memlimit.c ../../src/vice.h ../../src/config.h
 c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \

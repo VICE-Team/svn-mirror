@@ -298,8 +298,8 @@ vicii-irq.o: vicii-irq.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 vicii-mem.o: vicii-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
-	../../src/c64/c64cia.h ../../src/interrupt.h \
-	../../src/maincpu.h ../../src/raster/raster-sprite-status.h \
+	../../src/c64/c64cia.h ../../src/maincpu.h \
+	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h vicii-badline.h vicii-fetch.h \
 	vicii-irq.h vicii-resources.h vicii-sprites.h vicii-mem.h \
 	vicii.h viciitypes.h ../../src/raster/raster.h \
