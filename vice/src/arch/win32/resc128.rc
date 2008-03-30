@@ -183,13 +183,6 @@ BEGIN
         MENUITEM "TFE &ethernet emulation", IDM_TOGGLE_TFE
 #endif /* #ifdef HAVE_TFE */
         MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
-        POPUP "Function ROMS"
-        BEGIN
-            MENUITEM "Internal Function ROM", IDM_TOGGLE_IFUNCTIONROM
-            MENUITEM "Internal Function ROM name...", IDM_IFUNCTIONROM_NAME
-            MENUITEM "External Function ROM", IDM_TOGGLE_EFUNCTIONROM
-            MENUITEM "External Function ROM name...", IDM_EFUNCTIONROM_NAME
-        END
         MENUITEM "IEEE&488 Interface emulation",    IDM_IEEE488
     MENUITEM "&1351 mouse emulation\tAlt+Q",    IDM_MOUSE
     END
@@ -206,6 +199,7 @@ BEGIN
         MENUITEM "S&ID settings...",       IDM_SID_SETTINGS
         MENUITEM "R&EU settings...",       IDM_REU_SETTINGS
         MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
+        MENUITEM "C&128 settings...",      IDM_C128_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",   IDM_SETTINGS_LOAD
@@ -226,5 +220,38 @@ BEGIN
         MENUITEM "&License",              IDM_LICENSE
         MENUITEM "No &warranty",          IDM_WARRANTY
     END
+END
+
+IDD_C128_MACHINE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 220, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Machine type"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Machine type", IDC_STATIC, 10,9,50,8
+    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
+                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_C128_FUNCTIONROM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 220, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Function ROM"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Internal Function ROM", IDC_STATIC, 5,5,205,45
+    AUTOCHECKBOX    "Enable internal Function ROM",
+                    IDC_C128_FUNCTIONROM_INTERNAL, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "File name", IDC_STATIC,11,32,50,8
+    EDITTEXT        IDC_C128_FUNCTIONROM_INTERNAL_NAME, 50,30,95,12,WS_TABSTOP
+    PUSHBUTTON      "Browse...", IDC_C128_FUNCTIONROM_INTERNAL_BROWSE,
+                    155,30,50,14, 0
+    GROUPBOX        "External Function ROM", IDC_STATIC, 5,55,205,45
+    AUTOCHECKBOX    "Enable external Function ROM",
+                    IDC_C128_FUNCTIONROM_EXTERNAL, 15,65,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "File name", IDC_STATIC,11,82,50,8
+    EDITTEXT        IDC_C128_FUNCTIONROM_EXTERNAL_NAME, 50,80,95,12,WS_TABSTOP
+    PUSHBUTTON      "Browse...", IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE,
+                    155,80,50,14, 0
 END
 
