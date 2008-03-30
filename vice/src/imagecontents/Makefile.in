@@ -261,7 +261,8 @@ diskcontents-block.o: diskcontents-block.c ../../src/vice.h \
 	../../src/vdrive/vdrive-internal.h ../../src/vdrive/vdrive.h
 diskcontents-iec.o: diskcontents-iec.c ../../src/vice.h \
 	../../src/config.h diskcontents-iec.h ../../src/imagecontents.h \
-	../../src/arch/unix/types.h ../../src/serial.h
+	../../src/arch/unix/types.h ../../src/serial.h \
+	../../src/utils.h
 diskcontents.o: diskcontents.c ../../src/vice.h ../../src/config.h \
 	diskcontents-block.h diskcontents-iec.h diskcontents.h \
 	../../src/imagecontents.h ../../src/arch/unix/types.h \

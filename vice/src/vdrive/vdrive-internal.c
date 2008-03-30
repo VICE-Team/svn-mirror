@@ -86,14 +86,14 @@ vdrive_t *vdrive_internal_open_disk_image(const char *name,
                                           unsigned int read_only)
 {
     switch (unit) {
-      case 0:
-        return open_fsimage(name, read_only);
       case 8:
       case 9:
       case 10:
       case 11:
         return open_rawimage(unit, read_only);
-        break;
+      default:
+        return open_fsimage(name, read_only);
+
     }
 
     return NULL;
@@ -125,13 +125,13 @@ static int close_rawimage(vdrive_t *vdrive)
 int vdrive_internal_close_disk_image(vdrive_t *vdrive)
 {
     switch (vdrive->unit) {
-      case 0:
-        return close_fsimage(vdrive);
       case 8:
       case 9:
       case 10:
       case 11:
         return close_rawimage(vdrive);
+      default:
+        return close_fsimage(vdrive);
     }
 
     return 0;

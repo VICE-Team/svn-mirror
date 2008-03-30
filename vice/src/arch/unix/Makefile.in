@@ -435,10 +435,10 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/log.h ../../../src/machine.h \
 	../../../src/maincpu.h ../../../src/monitor/mon.h \
 	../../../src/mos6510.h ../../../src/resources.h \
-	../../../src/sound.h ../../../src/tape.h uicommands.h uiedisk.h \
-	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
-	x11/xaw/../xaw/uiarch.h uisnapshot.h uidrive.h \
+	../../../src/serial.h ../../../src/sound.h ../../../src/tape.h \
+	uicommands.h uiedisk.h uimenu.h x11/xaw/uimenu.h ui.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
+	uihotkey.h x11/xaw/../xaw/uiarch.h uisnapshot.h uidrive.h \
 	../../../src/utils.h ../../../src/vsync.h
 uicrtc.o: uicrtc.c ../../../src/vice.h ../../../src/config.h \
 	fullscreenarch.h uimenu.h x11/xaw/uimenu.h ui.h types.h \

@@ -1,3 +1,39 @@
+2002-11-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.28.
+
+	* serial/serial-iec.c, imagecontents/diskcontents-iec.c: Added
+	implementation.
+
+	* c1541.c (vsync_suspend_speed_eval): Stub.
+
+	* attach.c (file_system_get_fsimage_state): Use serial state.
+
+	* serial/serial-device.c (serial_device_get_realdevice_state):
+	Use serial state.
+
+	* serial/fsdrive.c, serial/fsdrive.h, serial/iec.c,
+	serial/iec.h, serial/realdevice.c, serial/realdevice.h,
+	serial/serial-iec.c, serial/serial-iec.c: Added set st
+	callback to remaining IEC functions.
+
+	* serial/serial.c, serial/serial-device.c, serial.h, attach.c,
+	serial/fsdrive.c, serial/serial-trap.c, serial/serial.c,
+	arch/riscos/ui.c (serial_device_get, serial_device_type_get,
+	serial_device_type_set): Moved and renamed.
+
+	* serial/serial-device.h: New file.
+
+	* serial/Makefile.am: Updated.
+
+	* serial/serial-device.c, serial.h, arch/unix/uicommands.c,
+	serial/serial.c (serial_device_get_fsimage_state): Moved and
+	renamed.
+
+	* vdrive/vdrive-internal.c (vdrive_internal_close_disk_image,
+	vdrive_internal_open_disk_image): Only device number 8..11 can
+	be non-fsimages.
+
 2002-11-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.27.
@@ -22,6 +58,8 @@
 
 	* imagecontents/diskcontents.c: Moved block device specific
 	contents functions to separate file.
+
+	* Makefile.am: Added `libserial' to `c1541'.
 
 2002-11-20  Andreas Matthies  <andreas.matthies@gmx.net>
 

@@ -137,7 +137,7 @@ noinst_LIBRARIES = libserial.a
 EXTRA_libserial_a_SOURCES =          realdevice.c         realdevice.h
 
 
-libserial_a_SOURCES =  	fsdrive.c 	fsdrive.h 	iec.c 	iec.h 	serial-device.c 	serial-iec.c 	serial-iec.h 	serial-trap.c 	serial-trap.h 	serial.c
+libserial_a_SOURCES =  	fsdrive.c 	fsdrive.h 	iec.c 	iec.h 	serial-device.c 	serial-device.h 	serial-iec.c 	serial-iec.h 	serial-trap.c 	serial-trap.h 	serial.c
 
 @HAVE_REALDEVICE_TRUE@libserial_a_DEPENDENCIES = realdevice.o
 @HAVE_REALDEVICE_FALSE@libserial_a_DEPENDENCIES = 
@@ -269,11 +269,9 @@ realdevice.o: realdevice.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h realdevice.h ../../src/arch/unix/types.h \
 	../../src/serial.h ../../src/vsync.h
 serial-device.o: serial-device.c ../../src/vice.h ../../src/config.h \
-	../../src/attach.h ../../src/diskimage.h \
-	../../src/arch/unix/types.h ../../src/serial.h \
-	../../src/vdrive/vdrive.h
-serial-iec.o: serial-iec.c ../../src/vice.h ../../src/config.h \
-	serial-iec.h ../../src/arch/unix/types.h
+	serial-device.h ../../src/serial.h ../../src/arch/unix/types.h
+serial-iec.o: serial-iec.c ../../src/vice.h ../../src/config.h iec.h \
+	../../src/arch/unix/types.h serial-iec.h ../../src/utils.h
 serial-trap.o: serial-trap.c ../../src/vice.h ../../src/config.h iec.h \
 	../../src/arch/unix/types.h ../../src/maincpu.h ../../src/mem.h \
 	../../src/mos6510.h serial-trap.h ../../src/serial.h

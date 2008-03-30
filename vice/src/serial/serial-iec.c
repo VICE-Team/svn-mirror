@@ -26,33 +26,117 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
+#include "iec.h"
 #include "serial-iec.h"
 #include "types.h"
+#include "utils.h"
 
+
+static int serial_iec_st = 0;
+static unsigned int listen = 0;
+static unsigned int talk = 0;
+
+
+void serial_iec_set_st(BYTE st)
+{
+    serial_iec_st = (int)st;
+}
 
 int serial_iec_open(unsigned int unit, unsigned int secondary,
-                    const char *name, int length)
+                    const char *name, unsigned int length)
 {
+    unsigned int i;
+
+    iec_open(unit, secondary, serial_iec_set_st);
+
+    for (i = 0; i < length; i++) {
+        iec_write(unit, secondary, name[i], serial_iec_set_st);
+    }
+
+    iec_unlisten(unit, secondary, serial_iec_set_st);
+
     return 0;
 }
 
 int serial_iec_close(unsigned int unit, unsigned int secondary)
 {
+    if (listen) {
+        iec_unlisten(unit, secondary, serial_iec_set_st);
+        listen = 0;
+    }
+
+    if (talk) {
+        iec_untalk(unit, secondary, serial_iec_set_st);
+        talk = 0;
+    }
+
+    iec_close(unit, secondary, serial_iec_set_st);
+
     return 0;
 }
 
 int serial_iec_read(unsigned int unit, unsigned int secondary, BYTE *data)
 {
-    return 0;
+    if (listen) {
+        iec_unlisten(unit, secondary, serial_iec_set_st);
+        listen = 0;
+    }
+
+    if (!talk) {
+        iec_listentalk(unit | 0x40, secondary, serial_iec_set_st);
+        talk = 1;
+    }
+
+    *data = iec_read(unit, secondary, serial_iec_set_st);
+
+    return serial_iec_st;
 }
 
 int serial_iec_write(unsigned int unit, unsigned int secondary, BYTE data)
 {
-    return 0;
+    if (talk) {
+        iec_untalk(unit, secondary, serial_iec_set_st);
+        talk = 0;
+    }
+
+    if (!listen) {
+        iec_listentalk(unit | 0x20, secondary, serial_iec_set_st);
+        listen = 1;
+    }
+
+    iec_write(unit, secondary, data, serial_iec_set_st);
+
+    return serial_iec_st;
 }
 
 int serial_iec_flush(unsigned int unit, unsigned int secondary)
 {
     return 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+int serial_iec_directory(unsigned int unit, const char *pattern, BYTE **buf)
+{
+    int length, status;
+    BYTE data, *tmpbuf;
+    unsigned int maxlen = 0;
+
+    serial_iec_open(unit, 0, pattern, strlen(pattern));
+
+    length = 0;
+    tmpbuf = NULL;
+
+    do {
+        status = serial_iec_read(unit, 0, &data);
+        tmpbuf = util_bufcat(tmpbuf, &length, &maxlen, &data, sizeof(BYTE));
+    } while (status == 0);
+
+    serial_iec_close(unit, 0);
+    *buf = tmpbuf;
+
+    return length;
 }
 
