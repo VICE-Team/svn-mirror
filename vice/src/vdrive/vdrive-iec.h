@@ -41,6 +41,7 @@ extern void vdrive_flush(void *floppy, int secondary);
 /* Low level access to IEC interface.  */
 extern void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
                                         int reallength, int filetype);
+extern int vdrive_iec_attach(int unit, const char *name);
 
 #endif
 
