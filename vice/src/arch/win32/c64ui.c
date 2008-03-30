@@ -49,7 +49,7 @@ void c64_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_CART_ATTACH_AR:
       case IDM_CART_ATTACH_SS4:
         {
-            char *s, text1[100], text2[100];
+            char *s;
             int type;
 
             switch (wparam) {

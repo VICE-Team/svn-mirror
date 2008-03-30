@@ -139,10 +139,11 @@ int ui_init_resources(void)
 /* ------------------------------------------------------------------------ */
 
 /* UI-related command-line options.  */
-
+/*
 static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
+*/
 
 int ui_init_cmdline_options(void)
 {
@@ -237,8 +238,6 @@ void ui_exit(void)
 HWND ui_open_canvas_window(const char *title, unsigned int width,
                            unsigned int height, canvas_redraw_t exp_handler)
 {
-    RECT wrect;
-
     /* This is avoids moving the window around and also makes sure the client
        rectangle has the correct size...  Maybe there is a better way to
        achieve the same result?  (FIXME?)  */
@@ -495,7 +494,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
                 break;
             }
             if ((s = ui_select_file("Attach disk image",
-                "C64 disk image files (*.d64;*.g64;*.x64)\0*.d64;*.g64;*.x64)\0"
+                "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64\0"
                 "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
                 if (file_system_attach_disk(unit, s) < 0)
                     ui_error("Cannot attach specified file");
@@ -526,7 +525,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
             char *s;
 
             if ((s = ui_select_file("Attach tape image",
-                "C64 tape image files (*.t64;*.p00)\0*.t64;*.p00)\0"
+                "Tape image files (*.t64;*.p00)\0*.t64;*.p00\0"
                 "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
                 if (tape_attach_image(s) < 0)
                     ui_error("Cannot attach specified file.");
@@ -542,8 +541,8 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
             char *s;
 
             if ((s = ui_select_file("Autostart disk/tape image",
-                "C64 disk image files (*.d64;*.g64:*.x64)\0*.d64;*.g64;*.x64)\0"
-                "C64 tape image files (*.t64;*.p00)\0*.t64;*.p00\0"
+                "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64\0"
+                "Tape image files (*.t64;*.p00)\0*.t64;*.p00\0"
                 "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
                 if (autostart_autodetect(s, "*") < 0)
                     ui_error("Cannot autostart specified file.");
