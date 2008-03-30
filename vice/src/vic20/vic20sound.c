@@ -25,6 +25,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "vice.h"
 #include "sound.h"

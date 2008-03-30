@@ -24,14 +24,13 @@
  *
  */
 
-#include <stdio.h>
-
 #include "vice.h"
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 #include "petsound.h"
-
 #include "maincpu.h"
 #include "sound.h"
 #include "utils.h"
