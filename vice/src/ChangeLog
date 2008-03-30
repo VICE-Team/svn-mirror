@@ -1,3 +1,27 @@
+2002-06-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.42.
+
+	* 6510core.c, maincpu.c, drive/drivecpu.c
+	(interrupt_check_nmi_delay, interrupt_check_irq_delay): Moved
+	to files including `6510core.c'.
+
+	* drive/driverom.c, drive/driverom.h, drive/drivemem.c: Added
+	support for 1541II ROM mirror.
+
+	* arch/msdos/video.c (video_canvas_set_palette): Added lost
+	line.
+
+	* arch/win32/uiplus4mem.c: Fixed compiler warning.
+
+	* arch/win32/video.c (video_canvas_resize, video_canvas_map,
+	video_canvas_unmap, video_canvas_destroy,
+	video_canvas_refresh): Changed variable names.
+	* arch/msdos/video.c: Changed likewise.
+
+	* arch/win32/ui.h, arch/win32/ui.c, arch/win32/vsyncarch.c:
+	Removed video header dependency from `ui.h'.
+
 2002-06-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.41.
