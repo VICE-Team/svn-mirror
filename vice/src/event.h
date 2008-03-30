@@ -32,6 +32,7 @@
 #define EVENT_KEYBOARD_RESTORE  2
 #define EVENT_JOYSTICK_VALUE    3
 #define EVENT_DATASETTE         4
+#define EVENT_INITIAL           5
 
 struct snapshot_s;
 
@@ -46,6 +47,8 @@ extern int event_playback_start(void);
 extern int event_playback_stop(void);
 extern int event_record_active(void);
 extern int event_playback_active(void);
+
+extern void event_playback_reset_ack(void);
 
 extern void event_record(unsigned int type, void *data, unsigned int size);
 
