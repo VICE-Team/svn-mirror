@@ -480,41 +480,53 @@ void crtc_resize (void)
     if (double_h) {
         if (crtc.raster.viewport.pixel_size.height == 1
                   && crtc.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size (&crtc.raster, 
+				crtc.raster.viewport.pixel_size.width, 2);
             raster_resize_viewport (&crtc.raster,
                                 crtc.raster.viewport.width,
                                 crtc.raster.viewport.height * 2);
-	}
+        } else {
         raster_set_pixel_size (&crtc.raster, 
 				crtc.raster.viewport.pixel_size.width, 2);
+        }
     } else {
         if (crtc.raster.viewport.pixel_size.height == 2
                   && crtc.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size (&crtc.raster, 
+				crtc.raster.viewport.pixel_size.width, 1);
             raster_resize_viewport (&crtc.raster,
                                 crtc.raster.viewport.width,
                                 crtc.raster.viewport.height / 2);
-	}
-        raster_set_pixel_size (&crtc.raster, 
+        } else {
+            raster_set_pixel_size (&crtc.raster, 
 				crtc.raster.viewport.pixel_size.width, 1);
+        }
     }
 
     if (double_w) {
         if (crtc.raster.viewport.pixel_size.width == 1
                   && crtc.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size (&crtc.raster, 
+				2, crtc.raster.viewport.pixel_size.height);
             raster_resize_viewport (&crtc.raster,
                                 crtc.screen_width * 2,
                                 crtc.raster.viewport.height);
-	}
-        raster_set_pixel_size (&crtc.raster, 
+        } else {
+            raster_set_pixel_size (&crtc.raster, 
 				2, crtc.raster.viewport.pixel_size.height);
+        }
     } else {
         if (crtc.raster.viewport.pixel_size.width == 2
                   && crtc.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size (&crtc.raster, 
+				1, crtc.raster.viewport.pixel_size.height);
             raster_resize_viewport (&crtc.raster,
                                 crtc.screen_width,
                                 crtc.raster.viewport.height);
-	}
-        raster_set_pixel_size (&crtc.raster, 
+        } else {
+            raster_set_pixel_size (&crtc.raster, 
 				1, crtc.raster.viewport.pixel_size.height);
+        }
     }
 
     crtc_draw_set_double_size ((double_h ? 1 : 0) | (double_w ? 2 : 0));

@@ -33,6 +33,7 @@
 #include <mmsystem.h>
 
 #include "video.h"
+#include "raster.h"
 
 #include "ui.h"
 #include "utils.h"
@@ -372,7 +373,6 @@ int frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
 #else
 
 /* This is the real version...  Without using DirectDrawSurfaces.  */
-frame_buffer_t  main_fbuff;
 
 int frame_buffer_alloc(frame_buffer_t *f,
                        unsigned int width,
@@ -389,9 +389,6 @@ int frame_buffer_alloc(frame_buffer_t *f,
         (*f)->lines[i] = (PIXEL *) xmalloc(width * sizeof(PIXEL));
 
     DEBUG(("Allocated frame buffer, %d x %d pixels.", width, height));
-
-    main_fbuff=*f;
-    DEBUG(("Frame buffer is at %08x",main_fbuff));
 
     return 0;
 }
@@ -553,7 +550,8 @@ static int set_physical_colors(canvas_t c)
     return 0;
 }
 
-canvas_t main_canvas;
+int         video_number_of_canvases;
+canvas_t    video_canvases[2];
 
 /* Create a `canvas_t' with tile `win_name', of widht `*width' x `*height'
    pixels, exposure handler callback `exposure_handler' and palette
@@ -694,8 +692,9 @@ canvas_t canvas_create(const char *title, unsigned int *width,
     if (set_physical_colors(c) < 0)
         goto error;
 
-    main_canvas=c;
-    DEBUG(("Canvas is at %08x",main_fbuff));
+    c->frame_buffer=NULL;
+
+    video_canvases[video_number_of_canvases++]=c;
 
     return c;
 
@@ -776,6 +775,124 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 
 char    Region[2048];
 
+static raster_t     *raster_cache[2];
+static int          number_of_rasters;
+
+void video_register_raster(raster_t *raster)
+{
+int i;
+    //  First check if already registered
+    for (i=0; i<number_of_rasters; i++) {
+        if (raster_cache[i]==raster) return;
+    }
+    if (number_of_rasters==2) {
+        log_debug("PANIC: too much rasters...");
+        exit(0);
+    }
+    raster_cache[number_of_rasters++]=raster;
+}
+
+raster_t *video_find_raster_for_canvas(canvas_t canvas)
+{
+int i;
+
+    for (i=0; i<number_of_rasters; i++) {
+        if (raster_cache[i]->viewport.canvas==canvas) {
+            return raster_cache[i];
+        }
+    }
+    return 0;
+}
+
+canvas_t canvas_find_canvas_for_hwnd(HWND hwnd)
+{
+int i;
+
+    for (i=0; i<video_number_of_canvases; i++) {
+        if (video_canvases[i]->hwnd==hwnd) {
+            return video_canvases[i];
+        }
+    }
+    return 0;
+}
+
+static void clear(HDC hdc, int x1, int y1, int x2, int y2)
+{
+static HBRUSH   back_color;
+RECT            clear_rect;
+
+    if (back_color==NULL) back_color=CreateSolidBrush(0);
+    clear_rect.left=x1;
+    clear_rect.top=y1;
+    clear_rect.right=x2;
+    clear_rect.bottom=y2;
+    FillRect(hdc,&clear_rect,back_color);
+}
+
+void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
+{
+canvas_t    c;
+raster_t    *r;
+int         xs;     //  upperleft x in framebuffer
+int         ys;     //  upperleft y in framebuffer
+int         xi;     //  upperleft x in client space
+int         yi;     //  upperleft y in client space
+
+    c=canvas_find_canvas_for_hwnd(hwnd);
+    if (c) {
+        r=video_find_raster_for_canvas(c);
+        //  Calculate upperleft point's framebuffer coords
+        xs=xclient-r->viewport.x_offset+r->viewport.first_x*r->viewport.pixel_size.width+r->geometry.extra_offscreen_border;
+        ys=yclient-r->viewport.y_offset+r->viewport.first_line*r->viewport.pixel_size.height;
+        //  Cut off areas outside of framebuffer and clear them
+        xi=xclient;
+        yi=yclient;
+
+        if (c->frame_buffer) {
+            //  Check if it's out
+            if ((xs+w<=0) || (xs>=c->frame_buffer->width) ||
+                (ys+h<=0) || (ys>=c->frame_buffer->height)) {
+                clear(hdc,xi,yi,xi+w,yi+h);
+                return;
+            }
+
+            //  Cut top
+            if (ys<0) {
+                clear(hdc,xi,yi,xi+w,yi-ys);
+                yi-=ys;
+                h+=ys;
+                ys=0;
+            }
+            //  Cut left
+            if (xs<0) {
+                clear(hdc,xi,yi,xi-xs,yi+h);
+                xi-=xs;
+                w+=xs;
+                xs=0;
+            }
+            //  Cut bottom
+            if (ys+h>c->frame_buffer->height) {
+                clear(hdc,xi,yi+c->frame_buffer->height-ys,xi+w,yi+h);
+                h=c->frame_buffer->height-ys;
+            }
+            //  Cut right
+            if (xs+w>c->frame_buffer->width) {
+                clear(hdc,xi+c->frame_buffer->width-xs,yi,xi+w,yi+h);
+                w=c->frame_buffer->width-xs;
+            }
+
+            //  Update remaining area from framebuffer....
+
+//            xs+=r->geometry.extra_offscreen_border;
+
+            if ((w>0) && (h>0)) {
+                log_debug("Trying with %d %d %d %d %d %d",xs,ys,xi,yi,w,h);
+                canvas_refresh(c, c->frame_buffer, xs, ys, xi, yi, w, h);
+            }
+        }
+    }
+}
+
 #if 0
 void canvas_refresh(canvas_t c, frame_buffer_t f,
                     int xs, int ys, int xi, int yi, int w, int h)
@@ -819,8 +936,16 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 
     PAINTSTRUCT ps;
     int     px,py,ph,pw;
+    int     i;
 
     DEBUG(("Entering canvas_render : xs=%d ys=%d xi=%d yi=%d w=%d h=%d",xs,ys,xi,yi,w,h));
+
+    for (i=0; i<video_number_of_canvases; i++) {
+        if (video_canvases[i]==c) {
+            c->frame_buffer=f;
+            break;
+        }
+    }
 
     if (IsIconic(c->hwnd))
         return;

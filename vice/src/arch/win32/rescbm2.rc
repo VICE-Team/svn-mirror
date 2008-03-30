@@ -105,11 +105,11 @@ BEGIN
         MENUITEM "&Warp mode\tAlt+W",               IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Video &cache",                    IDM_TOGGLE_VIDEOCACHE
+        MENUITEM "Video &cache",                    IDM_TOGGLE_CRTCVIDEOCACHE
         , CHECKED
-        MENUITEM "&Double size",                    IDM_TOGGLE_DOUBLESIZE
+        MENUITEM "&Double size",                    IDM_TOGGLE_CRTCDOUBLESIZE
         , CHECKED
-        MENUITEM "D&ouble scan",                    IDM_TOGGLE_DOUBLESCAN
+        MENUITEM "D&ouble scan",                    IDM_TOGGLE_CRTCDOUBLESCAN
         , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED

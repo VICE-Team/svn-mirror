@@ -707,6 +707,13 @@ update_for_minor_changes_with_sprites (raster_t *raster,
                                      changed_start_char,
                                      changed_end_char);
 
+      if (raster->sprite_status.num_sprites > 0)
+	{
+          /* FIXME: Could be optimized better.  */
+          draw_sprites_when_cache_enabled (raster, cache);
+          draw_borders (raster);
+	}
+
       /* Fill the space between the border and the graphics with the
          background color (necessary if xsmooth is > 0).  */
       vid_memset (raster->frame_buffer_ptr
@@ -756,10 +763,6 @@ update_for_minor_changes_with_sprites (raster_t *raster,
             *changed_start = 0;
           if (raster->open_right_border)
             *changed_end = raster->geometry.screen_size.width - 1;
-
-          /* FIXME: Could be optimized better.  */
-          draw_sprites_when_cache_enabled (raster, cache);
-          draw_borders (raster);
 
           /* Even if we have recalculated the whole line, we will
              refresh only the part that has actually changed when
@@ -1110,11 +1113,23 @@ raster_geometry_init (raster_geometry_t *geometry)
   geometry->last_displayed_line = 0;
 }
 
+#ifdef WIN32
+void video_register_raster(raster_t *raster);
+#endif
+
 void
 raster_init (raster_t *raster,
              unsigned int num_modes,
              unsigned int num_sprites)
 {
+/*  FIXME: This is a WORKAROUND, I need access to fields in the
+    raster struct when window has to be updated in certain cases...
+    So I have to register it in the video module and do a lookup.
+*/
+#ifdef WIN32
+    video_register_raster(raster);
+#endif
+
   raster_viewport_init (&raster->viewport);
   raster_geometry_init (&raster->geometry);
   raster_modes_init (&raster->modes, num_modes);
@@ -1195,6 +1210,14 @@ raster_new (unsigned int num_modes,
   new = xmalloc (sizeof (raster_t));
 
   raster_init (new, num_modes, num_sprites);
+
+/*  FIXME: This is a WORKAROUND, I need access to fields in the
+    raster struct when window has to be updated in certain cases...
+    So I have to register it in the video module and do a lookup.
+*/
+#ifdef WIN32
+    video_register_raster(new);
+#endif
 
   return new;
 }

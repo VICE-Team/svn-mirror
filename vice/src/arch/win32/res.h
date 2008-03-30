@@ -249,6 +249,9 @@
 #define IDM_FLIP_NEXT                   40172
 #define IDM_FLIP_PREVIOUS               40173
 #define IDM_TOGGLE_REU                  40180
+#define IDM_TOGGLE_CRTCDOUBLESIZE	40181
+#define IDM_TOGGLE_CRTCDOUBLESCAN	40182
+#define IDM_TOGGLE_CRTCVIDEOCACHE	40183
 
 
 // Next default values for new objects

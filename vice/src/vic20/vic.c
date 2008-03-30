@@ -253,24 +253,28 @@ vic_resize (void)
   if (vic_resources.double_size_enabled)
     {
       if (vic.raster.viewport.pixel_size.width == VIC_PIXEL_WIDTH
-          && vic.raster.viewport.canvas != NULL)
+          && vic.raster.viewport.canvas != NULL) {
+          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2);
         raster_resize_viewport (&vic.raster,
                                 vic.raster.viewport.width * 2,
                                 vic.raster.viewport.height * 2);
-
-      raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2);
+      } else {
+          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2);
+      }
 
       vic_draw_set_double_size (1);
     }
   else
     {
       if (vic.raster.viewport.pixel_size.width == VIC_PIXEL_WIDTH * 2
-          && vic.raster.viewport.canvas != NULL)
+          && vic.raster.viewport.canvas != NULL) {
+          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1);
         raster_resize_viewport (&vic.raster,
                                 vic.raster.viewport.width / 2,
                                 vic.raster.viewport.height / 2);
-
-      raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1);
+      } else {
+          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1);
+      }
 
       vic_draw_set_double_size (0);
     }

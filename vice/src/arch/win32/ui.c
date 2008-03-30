@@ -96,6 +96,9 @@ struct {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
+    { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
+    { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
     { "REU", IDM_TOGGLE_REU },
     { "SidFilters", IDM_TOGGLE_SIDFILTERS },
 #ifdef HAVE_RESID
@@ -1113,6 +1116,7 @@ int     window_index;
             if ((window_index<number_of_windows) && (exposure_handler[window_index])) {
                 exposure_handler[window_index](client_rect.right - client_rect.left,
                                 client_rect.bottom - client_rect.top - status_height);
+                log_debug("Exposure: %d %d",client_rect.right - client_rect.left,client_rect.bottom - client_rect.top - status_height);
             }
             log_debug("New Window size : %d %d",LOWORD(lparam),HIWORD(lparam));
             return 0;
@@ -1134,57 +1138,69 @@ int     window_index;
                 FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,CreateSolidBrush(status_led[((DRAWITEMSTRUCT*)lparam)->itemID-1] ? (drive_active_led[status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1]-8] ? 0xff00 : 0xff ) : 0x00));
             }
             return 0;
-      case WM_COMMAND:
-        handle_wm_command(wparam, lparam, window);
-        return 0;
-      case WM_ENTERSIZEMOVE:
-        suspend_speed_eval();
-        break;
-      case WM_ENTERMENULOOP:
-        suspend_speed_eval();
-        update_menus(window);
-        break;
-      case WM_KEYDOWN:
-        kbd_handle_keydown(wparam, lparam);
-        break;
-      case WM_KEYUP:
-        kbd_handle_keyup(wparam, lparam);
-        break;
-      case WM_SYSCOLORCHANGE:
-        syscolorchanged = 1;
-        break;
-      case WM_DISPLAYCHANGE:
-        displaychanged = 1;
-        break;
-      case WM_QUERYNEWPALETTE:
-        querynewpalette = 1;
-        break;
-      case WM_PALETTECHANGED:
-        if ((HWND) wparam != window)
-            palettechanged = 1;
-        break;
-      case WM_CLOSE:
-        if (MessageBox(window,
+        case WM_COMMAND:
+            handle_wm_command(wparam, lparam, window);
+            return 0;
+        case WM_ENTERSIZEMOVE:
+            suspend_speed_eval();
+            break;
+        case WM_ENTERMENULOOP:
+            suspend_speed_eval();
+            update_menus(window);
+            break;
+        case WM_SYSKEYDOWN:
+            if (wparam==VK_F10) {
+                kbd_handle_keydown(wparam, lparam);
+                return 0;
+            }
+            break;
+        case WM_KEYDOWN:
+            kbd_handle_keydown(wparam, lparam);
+            return 0;
+        case WM_SYSKEYUP:
+            if (wparam==VK_F10) {
+                kbd_handle_keyup(wparam, lparam);
+                return 0;
+            }
+            break;
+        case WM_KEYUP:
+            kbd_handle_keyup(wparam, lparam);
+            return 0;
+        case WM_SYSCOLORCHANGE:
+            syscolorchanged = 1;
+            break;
+        case WM_DISPLAYCHANGE:
+            displaychanged = 1;
+            break;
+        case WM_QUERYNEWPALETTE:
+            querynewpalette = 1;
+            break;
+        case WM_PALETTECHANGED:
+            if ((HWND) wparam != window)
+                palettechanged = 1;
+            break;
+        case WM_CLOSE:
+            if (MessageBox(window,
                        "Do you really want to exit?\n\n"
                        "All the data present in the emulated RAM will be lost.",
                        "VICE",
                        MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2)
-            == IDYES)
-            DestroyWindow(window);
-        return 0;
-      case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
+                == IDYES)
+                DestroyWindow(window);
+            return 0;
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;
         case WM_ERASEBKGND:
             return 1;
-      case WM_PAINT:
+        case WM_PAINT:
         {
             RECT update_rect;
 
             if (GetUpdateRect(window, &update_rect, FALSE)) {
                 PAINTSTRUCT ps;
                 HDC hdc;
-#if 1
+#if 0
                 RECT    client_rect;
 
                 hdc=BeginPaint(window,&ps);
@@ -1205,7 +1221,7 @@ int     window_index;
                 frame_coord[3]=update_rect.bottom;
 
 //                translate_client_to_framebuffer(&frame_coord);
-
+#if 0
                 //  Check if it's out
                 if ((frame_coord[3]<=0) || (frame_coord[1]>=frame_coord[5]) ||
                     (frame_coord[2]<=0) || (frame_coord[0]>=frame_coord[4])) {
@@ -1236,8 +1252,8 @@ int     window_index;
                     update_rect.right-=frame_coord[2]-frame_coord[4];
                     frame_coord[2]=frame_coord[4];
                 }
-
-                canvas_render(main_canvas, main_fbuff, frame_coord[0], frame_coord[1], update_rect.left, update_rect.top, update_rect.right-update_rect.left, update_rect.bottom-update_rect.top);
+#endif
+                canvas_update(window, hdc, update_rect.left, update_rect.top, update_rect.right-update_rect.left, update_rect.bottom-update_rect.top);
 
                 EndPaint(window, &ps);
 #endif

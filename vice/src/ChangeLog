@@ -1,3 +1,71 @@
+1999-08-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.61.
+
+1999-08-16  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am: Added raster to include directories.
+
+	* arch/win32/arch.dsp: Added raster to include directories.
+
+	* arch/win32/msvc/config.h (MSVC_RC): Added definitions.
+
+	* arch/win32/resh.h: Added IDM_TOGGLE_CRTCDOUBLESIZE,
+	  IDM_TOGGLE_CRTCDOUBLESCAN, IDM_TOGGLE_CRTCVIDEOCACHE definitions.
+
+	* arch/win32/res.rc: Fixed about box, when using MSVC's Resource
+	  Compiler.
+
+	* arch/win32/rescbm2.rc, arch/win32/respet.rc: Updated Video Cahce,
+	  Double Size, Double Scan menu entries.
+
+	* arch/win32/ui.c (toggle_list): Added CRTC values for VideoCache,
+	  DoubleSize, DoubleScan.
+	  (window_proc): Handle WM_SYSKEYDOWN, WM_SYSKEYUP to intercept
+	  F10 keypresses.
+	  Call canvas_update instead of exposure_handler in WM_PAINT.
+
+	* arch/win32/uilib.c (hook_proc): Override Open button to Attach
+	  button when building the dialog box with content viewer enabled.
+
+	* arch/win32/video.c: Include "raster.h".
+	  Removed main_fbuff and main_canvas variables.
+	  Added video_number_of_canvases and video_canvases variables.
+	  Added raster_cache and number_of_rasters variables.
+	  (video_register_raster): New function to import raster data.
+	  (find_raster_for_canvas): New function, finds raster data for
+	  canvas.
+	  (canvas_find_canvas_for_hwnd): New function, finds canvas for
+	  window handle.
+	  (clear): New function, clears area to black.
+	  (canvas_update): New function, updates screen from framebuffer.
+	  (canvas_refresh): Stores framebuffer for canvas.
+
+	* arch/win32/video.h (canvas_t): Addded framebuffer pointer to struct.
+	  (canvas_update): Added prototype.
+
+	* crtc/crtc.c (crtc_resize): Call raster_set_pixel_size before
+	  calling raster_resize_viewport.
+
+	* raster/raster.c (raster_init) (raster_new): Call
+	  video_register_raster when compiling for Windows. This is a
+	  WORKAROUND.
+
+	* vdc/vdc.c (vdc_resize): Call raster_set_pixel_size before
+	  calling raster_resize_viewport.
+
+	* vic20/vic.c (vic_resize): Call raster_set_pixel_size before
+	  calling raster_resize_viewport.
+
+	* vicii/vicii.c (vic_ii_resize): Call raster_set_pixel_size before
+	  calling raster_resize_viewport.
+
+1999-08-16  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* raster/raster.c (update_for_minor_changes_with_sprites): Ooops.
+	Always draw sprites over the graphics when graphics has changed,
+	even if sprites have not.
+
 1999-08-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.60.

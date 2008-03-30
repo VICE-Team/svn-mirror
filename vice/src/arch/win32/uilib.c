@@ -113,6 +113,9 @@ char    filename[256];
 
     preview=GetDlgItem(hwnd,IDC_PREVIEW);
     switch (uimsg) {
+        case WM_INITDIALOG:
+            SetWindowText(GetDlgItem(GetParent(hwnd),IDOK),"&Attach");
+            break;
         case WM_NOTIFY:
             if (((OFNOTIFY*)lparam)->hdr.code==CDN_SELCHANGE) {
                 SendMessage(preview,LB_RESETCONTENT,0,0);
@@ -189,4 +192,3 @@ void ui_set_res_num(char *res, int value, int num)
     sprintf(tmp, res, num);
     resources_set_value(tmp, (resource_value_t *) value);
 }
-

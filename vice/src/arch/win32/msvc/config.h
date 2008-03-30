@@ -28,4 +28,6 @@
 
 #define S_ISDIR(m)              ((m) & _S_IFDIR)
 
+#define MSVC_RC			1
+
 #endif
