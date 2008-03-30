@@ -291,7 +291,7 @@ static int init_raster(void)
 
     ted_set_geometry();
 
-    if (ted_color_update_palette() < 0) {
+    if (ted_color_update_palette(raster->canvas) < 0) {
         log_error(ted.log, "Cannot load palette.");
         return -1;
     }

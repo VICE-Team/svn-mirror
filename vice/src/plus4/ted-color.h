@@ -1,5 +1,5 @@
 /*
- * ted-color.h - Colors for the MOS 6569 (VIC-II) emulation.
+ * ted-color.h - Colors for the TED emulation.
  *
  * Written by
  *  John Selck <graham@cruise.de>
@@ -31,7 +31,9 @@
 #ifndef _TED_COLOR_H
 #define _TED_COLOR_H
 
-extern int ted_color_update_palette(void);
+struct video_canvas_s;
+
+extern int ted_color_update_palette(struct video_canvas_s *canvas);
 
 #endif
 

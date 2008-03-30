@@ -280,7 +280,7 @@ static int init_raster(void)
 
     vic_set_geometry();
 
-    vic_color_update_palette();
+    vic_color_update_palette(raster->canvas);
 
     title = util_concat("VICE: ", machine_name, " emulator", NULL);
     raster_set_title(raster, title);

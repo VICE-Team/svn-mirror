@@ -296,7 +296,7 @@ static int init_raster(void)
 
     vicii_set_geometry();
 
-    if (vicii_color_update_palette() < 0) {
+    if (vicii_color_update_palette(raster->canvas) < 0) {
         log_error(vicii.log, "Cannot load palette.");
         return -1;
     }

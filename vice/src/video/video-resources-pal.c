@@ -34,6 +34,7 @@
 #include "video-resources.h"
 #include "video.h"
 
+extern struct video_canvas_s *video_current_canvas;
 
 static int set_color_saturation(resource_value_t v, void *param)
 {
@@ -44,7 +45,7 @@ static int set_color_saturation(resource_value_t v, void *param)
     if (val > 2000)
         val = 2000;
     video_resources.color_saturation = val;
-    return video_color_update_palette();
+    return video_color_update_palette(video_current_canvas);
 }
 
 static int set_color_contrast(resource_value_t v, void *param)
@@ -56,7 +57,7 @@ static int set_color_contrast(resource_value_t v, void *param)
     if (val > 2000)
         val = 2000;
     video_resources.color_contrast = val;
-    return video_color_update_palette();
+    return video_color_update_palette(video_current_canvas);
 }
 
 static int set_color_brightness(resource_value_t v, void *param)
@@ -68,7 +69,7 @@ static int set_color_brightness(resource_value_t v, void *param)
     if (val > 2000)
         val = 2000;
     video_resources.color_brightness = val;
-    return video_color_update_palette();
+    return video_color_update_palette(video_current_canvas);
 }
 
 static int set_color_gamma(resource_value_t v, void *param)
@@ -80,7 +81,7 @@ static int set_color_gamma(resource_value_t v, void *param)
     if (val > 2000)
         val=2000;
     video_resources.color_gamma = val;
-    return video_color_update_palette();
+    return video_color_update_palette(video_current_canvas);
 }
 
 #ifndef USE_GNOMEUI
@@ -93,7 +94,7 @@ static int set_delayloop_emulation(resource_value_t v, void *param)
     int old = video_resources.delayloop_emulation;
     video_resources.delayloop_emulation = (int)v;
 
-    if (video_color_update_palette() < 0) {
+    if (video_color_update_palette(video_current_canvas) < 0) {
         video_resources.delayloop_emulation = old;
         ui_update_pal_ctrls(video_resources.delayloop_emulation);
         return -1;
@@ -112,7 +113,7 @@ static int set_pal_scanlineshade(resource_value_t v, void *param)
     if (val > 1000)
         val = 1000;
     video_resources.pal_scanlineshade = val;
-    return video_color_update_palette();
+    return video_color_update_palette(video_current_canvas);
 }
 
 static int set_pal_mode(resource_value_t v, void *param)

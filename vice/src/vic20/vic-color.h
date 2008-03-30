@@ -31,7 +31,9 @@
 #ifndef _VIC_COLOR_H
 #define _VIC_COLOR_H
 
-extern int vic_color_update_palette(void);
+struct video_canvas_s *canvas;
+
+extern int vic_color_update_palette(struct video_canvas_s *canvas);
 
 #endif
 
