@@ -74,6 +74,7 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LINKCC = @LINKCC@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
@@ -81,7 +82,6 @@ PERL = @PERL@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
 RESID_DIR = @RESID_DIR@
-RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
@@ -364,7 +364,7 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/mem.h ../../../../src/snapshot.h \
 	../../../../src/interrupt.h ../../../../src/vmachine.h \
 	../../../../src/6510core.h ../../../../src/arch/unix/vsync.h \
-	../../../../src/utils.h
+	../../../../src/utils.h ../../../../src/iecdrive.h
 uisnapshot.o: uisnapshot.c ../../../../src/vice.h \
 	../../../../src/config.h widgets/TextField.h uisnapshot.h \
 	../../../../src/machine.h ../../../../src/types.h ui.h \

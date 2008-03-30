@@ -74,6 +74,7 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LINKCC = @LINKCC@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
@@ -81,7 +82,6 @@ PERL = @PERL@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
 RESID_DIR = @RESID_DIR@
-RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
@@ -329,21 +329,21 @@ c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
 	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
 	../../src/c64/c64cia.h
-c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
-	../../src/vmachine.h ../../src/drive/drive.h ../../src/types.h \
+c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
+	../../src/types.h ../../src/c64/c64cia.h ../../src/cia.h \
+	../../src/snapshot.h ../../src/c64/c64tpi.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/drive/drive.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
 	../../src/traps.h ../../src/drive/drivecpu.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/interrupt.h ../../src/6510core.h \
-	c128mem.h ../../src/resources.h ../../src/cmdline.h \
-	../../src/c64/c64cia.h ../../src/cia.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/warn.h ../../src/memutils.h \
-	../../src/maincpu.h ../../src/parallel.h ../../src/c64/c64tpi.h \
-	../../src/tapeunit.h ../../src/tape.h ../../src/utils.h vdc.h \
-	../../src/emuid.h ../../src/rs232.h ../c64/c64cart.h \
-	../c64/vicii.h ../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/c64/c64acia.h
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/emuid.h ../../src/maincpu.h ../../src/memutils.h \
+	../../src/parallel.h ../../src/rs232.h ../../src/sid/sid.h \
+	../../src/sound.h ../../src/warn.h ../../src/tapeunit.h \
+	../../src/tape.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/utils.h vdc.h ../c64/c64cart.h ../c64/vicii.h \
+	../../src/arch/unix/video.h ../../src/c64/c64acia.h
 vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/types.h ../../src/snapshot.h
 

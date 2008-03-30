@@ -96,23 +96,19 @@ VERSION = @VERSION@
 YACC = @YACC@
 cxx = @cxx@
 
-c128dir = $(prefix)/lib/vice/C128
+drvdir = $(prefix)/lib/vice/DRIVES
 
-c128_DATA = \
-	basic \
-	chargen \
-	ccs64.vpl \
-	frodo.vpl \
-	godot.vpl \
-	default.vkm \
-	default.vpl \
-	kernal
+drv_DATA = \
+	dos1541 \
+	dos1571 \
+	dos1581 \
+	dos2031
 
-EXTRA_DIST = $(c128_DATA)
+EXTRA_DIST = $(drv_DATA)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
-DATA =  $(c128_DATA)
+DATA =  $(drv_DATA)
 
 DIST_COMMON =  Makefile.am Makefile.in
 
@@ -125,30 +121,30 @@ all: all-recursive all-am
 
 .SUFFIXES:
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps data/C128/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps data/DRIVES/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 
-install-c128DATA: $(c128_DATA)
+install-drvDATA: $(drv_DATA)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(c128dir)
-	@list='$(c128_DATA)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(drvdir)
+	@list='$(drv_DATA)'; for p in $$list; do \
 	  if test -f $(srcdir)/$$p; then \
-	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(c128dir)/$$p"; \
-	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(c128dir)/$$p; \
+	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(drvdir)/$$p"; \
+	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(drvdir)/$$p; \
 	  else if test -f $$p; then \
-	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(c128dir)/$$p"; \
-	    $(INSTALL_DATA) $$p $(DESTDIR)$(c128dir)/$$p; \
+	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(drvdir)/$$p"; \
+	    $(INSTALL_DATA) $$p $(DESTDIR)$(drvdir)/$$p; \
 	  fi; fi; \
 	done
 
-uninstall-c128DATA:
+uninstall-drvDATA:
 	@$(NORMAL_UNINSTALL)
-	list='$(c128_DATA)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(c128dir)/$$p; \
+	list='$(drv_DATA)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(drvdir)/$$p; \
 	done
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -218,7 +214,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = data/C128
+subdir = data/DRIVES
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -242,9 +238,9 @@ check: all-am
 installcheck: installcheck-recursive
 all-am: Makefile $(DATA)
 
-install-data-am: install-c128DATA
+install-data-am: install-drvDATA
 
-uninstall-am: uninstall-c128DATA
+uninstall-am: uninstall-drvDATA
 
 install-exec: install-exec-recursive
 	@$(NORMAL_INSTALL)
@@ -260,7 +256,7 @@ uninstall: uninstall-recursive uninstall-am
 install-strip:
 	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
 installdirs: installdirs-recursive
-	$(mkinstalldirs)  $(DATADIR)$(c128dir)
+	$(mkinstalldirs)  $(DATADIR)$(drvdir)
 
 
 mostlyclean-generic:
@@ -297,7 +293,7 @@ maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
-.PHONY: uninstall-c128DATA install-c128DATA install-data-recursive \
+.PHONY: uninstall-drvDATA install-drvDATA install-data-recursive \
 uninstall-data-recursive install-exec-recursive \
 uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
 all-recursive check-recursive installcheck-recursive info-recursive \

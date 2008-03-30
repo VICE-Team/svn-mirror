@@ -74,6 +74,7 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LINKCC = @LINKCC@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
@@ -81,7 +82,6 @@ PERL = @PERL@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
 RESID_DIR = @RESID_DIR@
-RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
@@ -131,7 +131,12 @@ libpet_a_SOURCES = \
 	petvia.def \
 	petvia.h
 
-BUILT_SOURCES = petvia.c petacia1.c crtc.c
+BUILT_SOURCES = \
+	crtc.c \
+	petacia1.c \
+	petpia1.c \
+	petpia2.c \
+	petvia.c
 
 petdir = $(top_srcdir)/src/pet
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs

@@ -74,6 +74,7 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LINKCC = @LINKCC@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
@@ -81,7 +82,6 @@ PERL = @PERL@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
 RESID_DIR = @RESID_DIR@
-RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
@@ -103,7 +103,6 @@ SUFFIXES = .def
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
-	@RESID_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
@@ -156,7 +155,8 @@ libc64c128_a_SOURCES = \
 BUILT_SOURCES = \
 	c64acia1.c \
 	c64cia1.c \
-	c64cia2.c
+	c64cia2.c \
+	c64tpi.c
 
 EXTRA_libc64_a_SOURCES = \
 	c64acia.h \
@@ -403,9 +403,9 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64cart.h \
 	../../src/maincpu.h ../../src/memutils.h ../../src/parallel.h \
 	patchrom.h reu.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/tapeunit.h ../../src/tape.h \
-	../../src/utils.h vicii.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h c64acia.h
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h ../../src/utils.h vicii.h \
+	../../src/arch/unix/video.h c64acia.h
 c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/types.h c64.h c64cia.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/rsuser.h

@@ -74,6 +74,7 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LINKCC = @LINKCC@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
@@ -81,7 +82,6 @@ PERL = @PERL@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
 RESID_DIR = @RESID_DIR@
-RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
@@ -102,13 +102,12 @@ c610_DATA = \
 	amber.vpl \
 	basic.128 \
 	basic.256 \
-	chargen \
-	chargen_hun \
+	chargen.600 \
+	chargen.700 \
 	busi_uk.vkm \
 	default.vpl \
 	kernal \
-	white.vpl \
-	dos2031
+	white.vpl
 
 EXTRA_DIST = $(c610_DATA)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs

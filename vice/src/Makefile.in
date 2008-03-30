@@ -73,13 +73,13 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LINKCC = @LINKCC@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
 PERL = @PERL@
 RANLIB = @RANLIB@
 RESID_DIR = @RESID_DIR@
-RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
@@ -94,6 +94,10 @@ YACC = @YACC@
 cxx = @cxx@
 
 READLINE = @READLINE@
+
+# We have to override the automake default, because we need to use
+# $(CXX) instead of $(CC) when compiling with reSID.
+LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
 @HAVE_RS232_TRUE@@HAVE_PRINTER_TRUE@rs232_printer_ldadd = pruser.o prdevice.o rsuser.o
 @HAVE_RS232_TRUE@@HAVE_PRINTER_FALSE@rs232_printer_ldadd = rsuser.o
@@ -368,7 +372,6 @@ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
-LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 HEADERS =  $(noinst_HEADERS)
 
 DIST_COMMON =  ChangeLog Makefile.am Makefile.in alloca.c config.h.in \
