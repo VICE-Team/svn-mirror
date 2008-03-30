@@ -24,7 +24,7 @@
  *
  */
 
-/* XXX: includes */
+#include <stdio.h>
 
 #include "vice.h"
 #include "sound.h"

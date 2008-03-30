@@ -40,6 +40,7 @@ noinst_HEADERS = \
 	charsets.h \
 	cia.h \
 	ciacore.h \
+	ciatimer.h \
 	cmdline.h \
 	config.h.in \
 	crtc.h \
@@ -99,6 +100,7 @@ base_sources = \
 	attach.c \
 	autostart.c \
 	charsets.c \
+	ciatimer.c \
 	cmdline.c \
 	datasette.c \
 	emuid.c \
@@ -159,7 +161,6 @@ EXTRA_DIST = \
 	ChangeLog.2 \
 	aciacore.c \
 	ciacore.c \
-	ciatimer.c \
 	crtccore.c \
 	convio \
 	fixpoint.c \

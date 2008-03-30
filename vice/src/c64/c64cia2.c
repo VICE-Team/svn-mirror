@@ -32,9 +32,6 @@
 /* set mycia_debugFlag to 1 to get output */
 #undef CIA_TIMER_DEBUG
 
-/* set myciat_logfl to 1 to get output */
-#define	CIAT_DEBUG
-
 /*************************************************************************
  * Renaming exported functions
  */
