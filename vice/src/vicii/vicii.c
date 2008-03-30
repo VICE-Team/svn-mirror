@@ -176,7 +176,7 @@ static void vic_ii_set_geometry(void)
   raster_resize_viewport (&vic_ii.raster, width, height);
 }
 
-static void 
+static int
 init_raster (void)
 {
   raster_t *raster;
@@ -197,9 +197,10 @@ init_raster (void)
 
   vic_ii_set_geometry();
 
-  if (vic_ii_load_palette (vic_ii_resources.palette_file_name) < 0)
+  if (vic_ii_load_palette (vic_ii_resources.palette_file_name) < 0) {
     log_error (vic_ii.log, "Cannot load palette.");
-
+    return -1;
+  }
   title = concat ("VICE: ", machine_name, " emulator", NULL);
   raster_set_title (raster, title);
   free (title);
@@ -210,6 +211,8 @@ init_raster (void)
   raster->display_ystop = vic_ii.row_25_stop_line;
   raster->display_xstart = VIC_II_40COL_START_PIXEL;
   raster->display_xstop = VIC_II_40COL_STOP_PIXEL;
+
+  return 0;
 }
 
 
@@ -375,7 +378,8 @@ vic_ii_init (void)
 
   vic_ii_change_timing();
 
-  init_raster ();
+  if (init_raster() < 0)
+      return NULL;
 
   vic_ii_powerup ();
 
