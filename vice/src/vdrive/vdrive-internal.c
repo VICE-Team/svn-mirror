@@ -31,6 +31,7 @@
 
 #include "attach.h"
 #include "diskimage.h"
+#include "image.h"
 #include "lib.h"
 #include "log.h"
 #include "types.h"
@@ -165,7 +166,7 @@ int vdrive_internal_create_format_disk_image(const char *filename,
                                              const char *diskname,
                                              unsigned int type)
 {
-    if (disk_image_fsimage_create(filename, type) < 0)
+    if (image_create_image(filename, type) < 0)
         return -1;
     if (vdrive_internal_format_disk_image(filename, diskname) < 0)
         return -1;

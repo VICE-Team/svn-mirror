@@ -38,6 +38,7 @@
 #include "archdep.h"
 #include "diskimage.h"
 #include "fullscrn.h"
+#include "image.h"
 #include "imagecontents.h"
 #include "lib.h"
 #include "res.h"
@@ -244,7 +245,7 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                     if (ret != IDYES)
                         return -1;
                 }
-                if (disk_image_fsimage_create(filename, DISK_IMAGE_TYPE_TAP)) {
+                if (image_create_image(filename, DISK_IMAGE_TYPE_TAP)) {
                     ui_error("Cannot create image");
                     return -1;
                 }
@@ -278,8 +279,9 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
 }
 
 static char *image_type_name[] = 
-    { "d64","d71","d80","d81","d82","g64","x64",NULL };
-static int  image_type[] = {
+    { "d64", "d71", "d80", "d81", "d82", "g64", "x64", NULL };
+
+static int image_type[] = {
     DISK_IMAGE_TYPE_D64,
     DISK_IMAGE_TYPE_D71,
     DISK_IMAGE_TYPE_D80,
