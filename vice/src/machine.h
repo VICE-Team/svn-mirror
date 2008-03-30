@@ -28,8 +28,6 @@
 #ifndef _MACHINE_H
 #define _MACHINE_H
 
-#include "types.h"
-
 /* The following stuff must be defined once per every emulated CBM machine.  */
 
 /* Name of the machine.  */

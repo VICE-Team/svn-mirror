@@ -27,9 +27,8 @@
  *
  */
 
-extern void keyboard_init(void);
-extern void keyboard_set_keyarr(int row, int col, int value);
-extern void keyboard_clear_keymatrix(void);
+#ifndef _KEYBOARD_H
+#define _KEYBOARD_H
 
 /* Maximum of keyboard array (CBM-II values
  * (8 for C64/VIC20, 10 for PET, 11 for C128; we need max).  */
@@ -39,7 +38,13 @@ extern void keyboard_clear_keymatrix(void);
 /* (All have 8, except CBM-II that has 6) */
 #define KBD_COLS    8
 
+extern void keyboard_init(void);
+extern void keyboard_set_keyarr(int row, int col, int value);
+extern void keyboard_clear_keymatrix(void);
+
 /* This ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
+
+#endif
 
