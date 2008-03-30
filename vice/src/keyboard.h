@@ -75,8 +75,11 @@ extern int kbd_init_resources(void);
 extern int pet_kbd_init_cmdline_options(void);
 extern int pet_kbd_init_resources(void);
 
-typedef void (*key_ctrl_column4080_func_t) (void);
+typedef void (*key_ctrl_column4080_func_t)(void);
 extern void kbd_register_column4080_key(key_ctrl_column4080_func_t func);
+
+typedef void (*key_ctrl_caps_func_t)(void);
+extern void kbd_register_caps_key(key_ctrl_caps_func_t func);
 
 #endif
 
