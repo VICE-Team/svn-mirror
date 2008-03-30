@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "drivetypes.h"
 #include "mem1551.h"
 #include "glue1551.h"
 #include "tcbm-cmdline-options.h"
@@ -60,7 +61,7 @@ void tcbm_drive_init(struct drive_context_s *drv)
 
 void tcbm_drive_reset(struct drive_context_s *drv)
 {
-    tpid_reset(drv);
+    tpid_reset(&(drv->tpid));
     glue1551_reset(drv);
 }
 
