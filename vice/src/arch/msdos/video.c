@@ -151,8 +151,8 @@ int video_init(void)
     return 0;
 }
 
-int frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
-		       unsigned int height)
+int video_frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
+                             unsigned int height)
 {
     DEBUG(("Allocating bitmap width=%d, height=%d", width, height));
     *i = create_bitmap(width, height);
@@ -165,13 +165,13 @@ int frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
     }
 }
 
-void frame_buffer_free(frame_buffer_t *i)
+void video_frame_buffer_free(frame_buffer_t *i)
 {
     DEBUG(("Freeing frame buffer 0x%x", (unsigned int)i));
     destroy_bitmap(*i);
 }
 
-void frame_buffer_clear(frame_buffer_t * f, BYTE value)
+void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
 {
     int i;
 

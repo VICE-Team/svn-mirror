@@ -185,7 +185,8 @@ int video_init(void)
 }*/
 
 
-int frame_buffer_alloc(frame_buffer_t *i, unsigned int width, unsigned int height)
+int video_frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
+                             unsigned int height)
 {
   PIXEL *data;
 
@@ -202,7 +203,7 @@ int frame_buffer_alloc(frame_buffer_t *i, unsigned int width, unsigned int heigh
 }
 
 
-void frame_buffer_free(frame_buffer_t *i)
+void video_frame_buffer_free(frame_buffer_t *i)
 {
   canvas_list_t *clist = CanvasList;
 
@@ -216,7 +217,7 @@ void frame_buffer_free(frame_buffer_t *i)
 }
 
 
-void frame_buffer_clear(frame_buffer_t *i, PIXEL value)
+void video_frame_buffer_clear(frame_buffer_t *i, PIXEL value)
 {
   if (ModeChanging == 0)
     memset(i->tmpframebuffer, value, i->width * i->height);

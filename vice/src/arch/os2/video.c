@@ -131,7 +131,7 @@ int video_init(void) // initialize Dive
 
 /* ------------------------------------------------------------------------ */
 /* Frame buffer functions.  */
-int frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
+int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
 {
     static int first=TRUE;
     if (first)  // be shure that image_buffer is freed (BEFORE video_close)
@@ -153,13 +153,13 @@ int frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
     return 0;
 }
 
-void frame_buffer_clear(frame_buffer_t *f, BYTE value)
+void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
 { // raster_force_repaint, we needn't this
 //    memset((*f)->bitmap, value, ((*f)->width)*((*f)->height)*sizeof(BYTE));
     //    log_message(LOG_DEFAULT,"video.c: Frame buffer cleared");
 }
 
-void frame_buffer_free(frame_buffer_t *f)
+void video_frame_buffer_free(frame_buffer_t *f)
 {
     //    if (ulBuffer) {  // share this with video_close
     DiveFreeImageBuffer (hDiveInst, (*f)->ulBuffer);
