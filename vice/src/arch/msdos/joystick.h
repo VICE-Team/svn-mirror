@@ -27,17 +27,35 @@
 #ifndef _VICE_JOYSTICK_H
 #define _VICE_JOYSTICK_H
 
+#include "kbd.h"
+
 typedef enum {
     JOYDEV_NONE,
     JOYDEV_NUMPAD,
+    JOYDEV_KEYSET1,
+    JOYDEV_KEYSET2,
     JOYDEV_HW1,
     JOYDEV_HW2
 } joystick_device_t;
+
+typedef enum {
+    KEYSET_NW,
+    KEYSET_N,
+    KEYSET_NE,
+    KEYSET_E,
+    KEYSET_SE,
+    KEYSET_S,
+    KEYSET_SW,
+    KEYSET_W,
+    KEYSET_FIRE
+} joystick_direction_t;
 
 extern void joystick_init(void);
 extern int joystick_init_resources(void);
 extern int joystick_init_cmdline_options(void);
 extern void joystick_update(void);
-extern int joystick_handle_key(int kcode, int pressed);
+extern int joystick_handle_key(kbd_code_t kcode, int pressed);
+extern const char *joystick_direction_to_string(joystick_direction_t
+                                                direction);
 
 #endif
