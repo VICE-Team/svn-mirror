@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.15\n"
-"POT-Creation-Date: 2004-12-05 22:07+0100\n"
+"POT-Creation-Date: 2004-12-29 20:08+0100\n"
 "PO-Revision-Date: 2004-08-22 11:01+0200\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -1283,59 +1283,59 @@ msgid "Load custom"
 msgstr "Charger un fichier..."
 
 #: src/arch/unix/uicrtc.c:93 src/arch/unix/uicrtc.c:106
-#: src/arch/unix/uited.c:103 src/arch/unix/uited.c:132
+#: src/arch/unix/uited.c:119 src/arch/unix/uited.c:148
 #: src/arch/unix/uivdc.c:98 src/arch/unix/uivdc.c:111
-#: src/arch/unix/uivic.c:101 src/arch/unix/uivic.c:124
-#: src/arch/unix/uivicii.c:114 src/arch/unix/uivicii.c:141
+#: src/arch/unix/uivic.c:118 src/arch/unix/uivic.c:143
+#: src/arch/unix/uivicii.c:130 src/arch/unix/uivicii.c:157
 msgid "*Double size"
 msgstr "*Double pixels"
 
 #: src/arch/unix/uicrtc.c:95 src/arch/unix/uicrtc.c:108
-#: src/arch/unix/uited.c:105 src/arch/unix/uited.c:134
+#: src/arch/unix/uited.c:121 src/arch/unix/uited.c:150
 #: src/arch/unix/uivdc.c:100 src/arch/unix/uivdc.c:113
-#: src/arch/unix/uivic.c:103 src/arch/unix/uivic.c:126
-#: src/arch/unix/uivicii.c:116 src/arch/unix/uivicii.c:143
+#: src/arch/unix/uivic.c:120 src/arch/unix/uivic.c:145
+#: src/arch/unix/uivicii.c:132 src/arch/unix/uivicii.c:159
 msgid "*Double scan"
 msgstr "*Doubler les lignes"
 
-#: src/arch/unix/uicrtc.c:97 src/arch/unix/uited.c:107
-#: src/arch/unix/uivdc.c:102 src/arch/unix/uivic.c:105
-#: src/arch/unix/uivicii.c:118
+#: src/arch/unix/uicrtc.c:97 src/arch/unix/uited.c:123
+#: src/arch/unix/uivdc.c:102 src/arch/unix/uivic.c:122
+#: src/arch/unix/uivicii.c:134
 msgid "*Video cache"
 msgstr "*Cache vidéo"
 
-#: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:126
-#: src/arch/unix/uivic.c:118 src/arch/unix/uivicii.c:135
+#: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:142
+#: src/arch/unix/uivic.c:137 src/arch/unix/uivicii.c:151
 msgid "*Scale 2x render"
 msgstr "*Rendu 2x plus net"
 
-#: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:130
-#: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:122
-#: src/arch/unix/uivicii.c:139
+#: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:146
+#: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:141
+#: src/arch/unix/uivicii.c:155
 msgid "*Enable fullscreen"
 msgstr "*Mode plein écran"
 
-#: src/arch/unix/uicrtc.c:110 src/arch/unix/uited.c:136
-#: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:128
-#: src/arch/unix/uivicii.c:145
+#: src/arch/unix/uicrtc.c:110 src/arch/unix/uited.c:152
+#: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:147
+#: src/arch/unix/uivicii.c:161
 msgid "Fullscreen device"
 msgstr "Périphérique plein écran"
 
-#: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:141
-#: src/arch/unix/uivdc.c:120 src/arch/unix/uivic.c:133
-#: src/arch/unix/uivicii.c:150
+#: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:157
+#: src/arch/unix/uivdc.c:120 src/arch/unix/uivic.c:152
+#: src/arch/unix/uivicii.c:166
 msgid "VidMode Resolutions"
 msgstr "Résolutions et modes vidéos"
 
-#: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:145
-#: src/arch/unix/uivdc.c:124 src/arch/unix/uivic.c:137
-#: src/arch/unix/uivicii.c:154
+#: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:161
+#: src/arch/unix/uivdc.c:124 src/arch/unix/uivic.c:156
+#: src/arch/unix/uivicii.c:170
 msgid "DGA1 Resolutions"
 msgstr "Résolutions DGA1"
 
-#: src/arch/unix/uicrtc.c:123 src/arch/unix/uited.c:149
-#: src/arch/unix/uivdc.c:128 src/arch/unix/uivic.c:141
-#: src/arch/unix/uivicii.c:158
+#: src/arch/unix/uicrtc.c:123 src/arch/unix/uited.c:165
+#: src/arch/unix/uivdc.c:128 src/arch/unix/uivic.c:160
+#: src/arch/unix/uivicii.c:174
 msgid "DGA2 Resolutions"
 msgstr "Résolutions DGA2"
 
@@ -1343,9 +1343,9 @@ msgstr "Résolutions DGA2"
 msgid "*CRTC Screen color"
 msgstr "*Couleurs CRTC"
 
-#: src/arch/unix/uicrtc.c:131 src/arch/unix/uited.c:154
-#: src/arch/unix/uivdc.c:105 src/arch/unix/uivic.c:149
-#: src/arch/unix/uivicii.c:171
+#: src/arch/unix/uicrtc.c:131 src/arch/unix/uited.c:170
+#: src/arch/unix/uivdc.c:105 src/arch/unix/uivic.c:168
+#: src/arch/unix/uivicii.c:187
 msgid "*Use XSync()"
 msgstr "*Utiliser XSync()"
 
@@ -2385,7 +2385,7 @@ msgid "Invalid speed value"
 msgstr "Valeur de vitesse invalide"
 
 #: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1350
-#: src/arch/unix/x11/xaw/x11ui.c:1039
+#: src/arch/unix/x11/xaw/x11ui.c:1041
 msgid "Cannot save settings."
 msgstr "Impossible d'enregistrer les paramètres."
 
@@ -2597,25 +2597,27 @@ msgstr "Suréchantillonage"
 msgid "Sound settings"
 msgstr "Paramètres de son"
 
-#: src/arch/unix/uited.c:110 src/arch/unix/uivicii.c:123
+#: src/arch/unix/uited.c:126 src/arch/unix/uivic.c:125
+#: src/arch/unix/uivicii.c:139
 msgid "*External color set"
 msgstr "*Palette de couleurs externe"
 
-#: src/arch/unix/uited.c:112 src/arch/unix/uivdc.c:138
-#: src/arch/unix/uivic.c:108 src/arch/unix/uivicii.c:125
-msgid "Color set"
+#: src/arch/unix/uited.c:128 src/arch/unix/uivic.c:127
+#: src/arch/unix/uivicii.c:141
+#, fuzzy
+msgid "*Color set"
 msgstr "Palette de couleurs"
 
-#: src/arch/unix/uited.c:116
+#: src/arch/unix/uited.c:132
 msgid "*Fast PAL emulation"
 msgstr "*Émulation PAL rapide"
 
-#: src/arch/unix/uited.c:120 src/arch/unix/uivic.c:112
-#: src/arch/unix/uivicii.c:129
+#: src/arch/unix/uited.c:136 src/arch/unix/uivic.c:131
+#: src/arch/unix/uivicii.c:145
 msgid "*Hardware scaling"
 msgstr ""
 
-#: src/arch/unix/uited.c:123 src/arch/unix/uivicii.c:132
+#: src/arch/unix/uited.c:139 src/arch/unix/uivicii.c:148
 msgid "PAL Emulation"
 msgstr "Émulation PAL"
 
@@ -2660,11 +2662,15 @@ msgstr "Mémoire d'affichage de 64Ko"
 msgid "Revision"
 msgstr "Révision"
 
-#: src/arch/unix/uivic.c:115
+#: src/arch/unix/uivdc.c:138
+msgid "Color set"
+msgstr "Palette de couleurs"
+
+#: src/arch/unix/uivic.c:134
 msgid "PAL Emulation Settings"
 msgstr "Paramètres d'émulation PAL"
 
-#: src/arch/unix/uivic.c:146 src/arch/unix/uivicii.c:163
+#: src/arch/unix/uivic.c:165 src/arch/unix/uivicii.c:179
 #: src/arch/unix/vsidui.c:177
 msgid "Video standard"
 msgstr "Standard vidéo"
@@ -2681,15 +2687,15 @@ msgstr "*Frodo"
 msgid "*GoDot"
 msgstr "*GoDot"
 
-#: src/arch/unix/uivicii.c:121
+#: src/arch/unix/uivicii.c:137
 msgid "*New Luminances"
 msgstr "*Nouvelles luminescences"
 
-#: src/arch/unix/uivicii.c:166
+#: src/arch/unix/uivicii.c:182
 msgid "*Sprite-sprite collisions"
 msgstr "*Collisions sprite-sprite"
 
-#: src/arch/unix/uivicii.c:168
+#: src/arch/unix/uivicii.c:184
 msgid "*Sprite-background collisions"
 msgstr "*Collisions sprite-arrière-plan"
 
@@ -3062,17 +3068,17 @@ msgstr "Impossible d'ajouter le \"fontpath\" `%s'.\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Définir le \"fontpath\": `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:624 src/arch/unix/x11/xaw/x11ui.c:487
+#: src/arch/unix/x11/gnome/x11ui.c:624 src/arch/unix/x11/xaw/x11ui.c:489
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Cet affichage ne supporte pas de mode visuel utilisable %dbits."
 
-#: src/arch/unix/x11/gnome/x11ui.c:627 src/arch/unix/x11/xaw/x11ui.c:490
+#: src/arch/unix/x11/gnome/x11ui.c:627 src/arch/unix/x11/xaw/x11ui.c:492
 msgid "Please select a bit depth supported by your display."
 msgstr "SVP, veuillez sélectionner une profondeur de couleurs supportée."
 
 #: src/arch/unix/x11/gnome/x11ui.c:630 src/arch/unix/x11/gnome/x11ui.c:654
-#: src/arch/unix/x11/xaw/x11ui.c:493 src/arch/unix/x11/xaw/x11ui.c:510
+#: src/arch/unix/x11/xaw/x11ui.c:495 src/arch/unix/x11/xaw/x11ui.c:512
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Détecté une capacité visuelle de %dbits/%s."
@@ -3082,7 +3088,7 @@ msgstr "Détecté une capacité visuelle de %dbits/%s."
 msgid "Found %dbit visual."
 msgstr "Détecté une capacité visuelle de %dbits."
 
-#: src/arch/unix/x11/gnome/x11ui.c:662 src/arch/unix/x11/xaw/x11ui.c:518
+#: src/arch/unix/x11/gnome/x11ui.c:662 src/arch/unix/x11/xaw/x11ui.c:520
 msgid "Cannot autodetect a proper visual."
 msgstr "Impossible de détecter une configuration visuelle fonctionnelle."
 
@@ -3130,7 +3136,7 @@ msgstr "Lecteur %d:"
 msgid "Tape 000"
 msgstr "Datassette 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1026 src/arch/unix/x11/xaw/x11ui.c:599
+#: src/arch/unix/x11/gnome/x11ui.c:1026 src/arch/unix/x11/xaw/x11ui.c:601
 msgid "Maximum number of toplevel windows reached."
 msgstr "Nombre maximal de fenêtres \"toplevel\" atteint."
 
@@ -3142,24 +3148,24 @@ msgstr "Commandes"
 msgid "Help"
 msgstr "Aide"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1024
+#: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1026
 msgid " emulator"
 msgstr " émulateur"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1340 src/arch/unix/x11/xaw/x11ui.c:1028
+#: src/arch/unix/x11/gnome/x11ui.c:1340 src/arch/unix/x11/xaw/x11ui.c:1030
 msgid "Do you really want to exit?"
 msgstr "Voulez-vous vraiment quitter?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1347 src/arch/unix/x11/xaw/x11ui.c:1036
+#: src/arch/unix/x11/gnome/x11ui.c:1347 src/arch/unix/x11/xaw/x11ui.c:1038
 msgid "Save the current settings?"
 msgstr "Enregistrer les paramètres courants?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1392 src/arch/unix/x11/xaw/x11ui.c:1077
+#: src/arch/unix/x11/gnome/x11ui.c:1392 src/arch/unix/x11/xaw/x11ui.c:1079
 msgid "Using private colormap."
 msgstr "Utilisation d'un \"colormap\" privé."
 
 #: src/arch/unix/x11/gnome/x11ui.c:1412 src/arch/unix/x11/gnome/x11ui.c:1415
-#: src/arch/unix/x11/xaw/x11ui.c:1098 src/arch/unix/x11/xaw/x11ui.c:1104
+#: src/arch/unix/x11/xaw/x11ui.c:1100 src/arch/unix/x11/xaw/x11ui.c:1106
 msgid "(warp)"
 msgstr "(Turbo)"
 
@@ -3170,7 +3176,7 @@ msgstr "(Turbo)"
 msgid "Tape %03d"
 msgstr "Datassette %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1751 src/arch/unix/x11/xaw/x11ui.c:1325
+#: src/arch/unix/x11/gnome/x11ui.c:1751 src/arch/unix/x11/xaw/x11ui.c:1327
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausé)"
@@ -3191,7 +3197,7 @@ msgstr "Mettre hors tension, puis sous tension (OFF, ON)"
 msgid "Monitor"
 msgstr "Moniteur"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1987 src/arch/unix/x11/xaw/x11ui.c:1603
+#: src/arch/unix/x11/gnome/x11ui.c:1987 src/arch/unix/x11/xaw/x11ui.c:1605
 msgid "Extend disk image"
 msgstr "Étendre l'image de disque"
 
@@ -3518,16 +3524,16 @@ msgstr "Enregistrer les ROMS présentement chargés:"
 msgid "Save snapshot"
 msgstr "Sauvegarder"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1190
+#: src/arch/unix/x11/xaw/x11ui.c:1192
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Piste %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1488
+#: src/arch/unix/x11/xaw/x11ui.c:1490
 msgid "VICE Error!"
 msgstr "Erreur VICE!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1671
+#: src/arch/unix/x11/xaw/x11ui.c:1673
 msgid "Unknown image type."
 msgstr "Type d'image inconnu."
 
