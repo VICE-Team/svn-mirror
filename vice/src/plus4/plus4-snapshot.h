@@ -24,13 +24,12 @@
  *
  */
 
-#ifndef _PLUS4SNAPSHOT_H
-#define _PLUS4SNAPSHOT_H
+#ifndef _PLUS4_SNAPSHOT_H
+#define _PLUS4_SNAPSHOT_H
 
-struct snapshot_s;
+extern int plus4_snapshot_write(const char *name, int save_roms, int save_disks,
+                                int event_mode);
+extern int plus4_snapshot_read(const char *name, int event_mode);
 
-extern int plus4_snapshot_write_module(struct snapshot_s *s, int save_roms);
-extern int plus4_snapshot_read_module(struct snapshot_s *s);
- 
 #endif
 
