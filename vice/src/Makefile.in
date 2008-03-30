@@ -147,11 +147,12 @@ am__DEPENDENCIES_34 = $(am__DEPENDENCIES_9) $(am__DEPENDENCIES_10) \
 	$(am__DEPENDENCIES_29) $(am__DEPENDENCIES_30) \
 	$(am__DEPENDENCIES_31) $(am__DEPENDENCIES_32) \
 	$(am__DEPENDENCIES_33)
+am__DEPENDENCIES_35 =
 am__objects_2 = maincpu.$(OBJEXT)
 am_x64_OBJECTS = $(am__objects_1) $(am__objects_2)
 x64_OBJECTS = $(am_x64_OBJECTS)
-am__DEPENDENCIES_35 = $(top_builddir)/src/c64/libc64.a
-am__DEPENDENCIES_36 = $(am__DEPENDENCIES_35) $(am__DEPENDENCIES_11) \
+am__DEPENDENCIES_36 = $(top_builddir)/src/c64/libc64.a
+am__DEPENDENCIES_37 = $(am__DEPENDENCIES_36) $(am__DEPENDENCIES_11) \
 	$(am__DEPENDENCIES_12) $(am__DEPENDENCIES_14) \
 	$(am__DEPENDENCIES_15) $(am__DEPENDENCIES_16) \
 	$(am__DEPENDENCIES_17) $(am__DEPENDENCIES_18) \
@@ -161,41 +162,41 @@ am__DEPENDENCIES_36 = $(am__DEPENDENCIES_35) $(am__DEPENDENCIES_11) \
 	$(am__DEPENDENCIES_32) $(am__DEPENDENCIES_33)
 am_xcbm2_OBJECTS = $(am__objects_1)
 xcbm2_OBJECTS = $(am_xcbm2_OBJECTS)
-am__DEPENDENCIES_37 = $(top_builddir)/src/cbm2/libcbm2.a
-am__DEPENDENCIES_38 = $(top_builddir)/src/crtc/libcrtc.a
-am__DEPENDENCIES_39 = $(am__DEPENDENCIES_37) $(am__DEPENDENCIES_14) \
+am__DEPENDENCIES_38 = $(top_builddir)/src/cbm2/libcbm2.a
+am__DEPENDENCIES_39 = $(top_builddir)/src/crtc/libcrtc.a
+am__DEPENDENCIES_40 = $(am__DEPENDENCIES_38) $(am__DEPENDENCIES_14) \
 	$(am__DEPENDENCIES_16) $(am__DEPENDENCIES_17) \
 	$(am__DEPENDENCIES_19) $(am__DEPENDENCIES_3) \
 	$(am__DEPENDENCIES_28) $(am__DEPENDENCIES_20) \
-	$(am__DEPENDENCIES_38) $(am__DEPENDENCIES_29) \
+	$(am__DEPENDENCIES_39) $(am__DEPENDENCIES_29) \
 	$(am__DEPENDENCIES_31) $(am__DEPENDENCIES_32) \
 	$(am__DEPENDENCIES_33)
 am_xpet_OBJECTS = $(am__objects_1) $(am__objects_2)
 xpet_OBJECTS = $(am_xpet_OBJECTS)
-am__DEPENDENCIES_40 = $(top_builddir)/src/pet/libpet.a
-am__DEPENDENCIES_41 = $(am__DEPENDENCIES_40) $(am__DEPENDENCIES_14) \
+am__DEPENDENCIES_41 = $(top_builddir)/src/pet/libpet.a
+am__DEPENDENCIES_42 = $(am__DEPENDENCIES_41) $(am__DEPENDENCIES_14) \
 	$(am__DEPENDENCIES_16) $(am__DEPENDENCIES_17) \
 	$(am__DEPENDENCIES_19) $(am__DEPENDENCIES_3) \
-	$(am__DEPENDENCIES_28) $(am__DEPENDENCIES_38) \
+	$(am__DEPENDENCIES_28) $(am__DEPENDENCIES_39) \
 	$(am__DEPENDENCIES_31) $(am__DEPENDENCIES_32) \
 	$(am__DEPENDENCIES_20) $(am__DEPENDENCIES_33)
 am_xplus4_OBJECTS = $(am__objects_1)
 xplus4_OBJECTS = $(am_xplus4_OBJECTS)
-am__DEPENDENCIES_42 = $(top_builddir)/src/plus4/libplus4.a
-am__DEPENDENCIES_43 =  \
+am__DEPENDENCIES_43 = $(top_builddir)/src/plus4/libplus4.a
+am__DEPENDENCIES_44 =  \
 	$(top_builddir)/src/drive/iec/plus4exp/libdriveiecplus4exp.a
-am__DEPENDENCIES_44 = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
-am__DEPENDENCIES_45 = $(am__DEPENDENCIES_42) $(am__DEPENDENCIES_12) \
-	$(am__DEPENDENCIES_14) $(am__DEPENDENCIES_43) \
-	$(am__DEPENDENCIES_44) $(am__DEPENDENCIES_17) \
+am__DEPENDENCIES_45 = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
+am__DEPENDENCIES_46 = $(am__DEPENDENCIES_43) $(am__DEPENDENCIES_12) \
+	$(am__DEPENDENCIES_14) $(am__DEPENDENCIES_44) \
+	$(am__DEPENDENCIES_45) $(am__DEPENDENCIES_17) \
 	$(am__DEPENDENCIES_18) $(am__DEPENDENCIES_3) \
 	$(am__DEPENDENCIES_28) $(am__DEPENDENCIES_20) \
 	$(am__DEPENDENCIES_31) $(am__DEPENDENCIES_32) \
 	$(am__DEPENDENCIES_33)
 am_xvic_OBJECTS = $(am__objects_1) $(am__objects_2)
 xvic_OBJECTS = $(am_xvic_OBJECTS)
-am__DEPENDENCIES_46 = $(top_builddir)/src/vic20/libvic20.a
-am__DEPENDENCIES_47 = $(am__DEPENDENCIES_46) $(am__DEPENDENCIES_12) \
+am__DEPENDENCIES_47 = $(top_builddir)/src/vic20/libvic20.a
+am__DEPENDENCIES_48 = $(am__DEPENDENCIES_47) $(am__DEPENDENCIES_12) \
 	$(am__DEPENDENCIES_14) $(am__DEPENDENCIES_16) \
 	$(am__DEPENDENCIES_17) $(am__DEPENDENCIES_18) \
 	$(am__DEPENDENCIES_19) $(am__DEPENDENCIES_3) \
@@ -225,6 +226,8 @@ ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
+ALTERNATE_DOCDIR_FALSE = @ALTERNATE_DOCDIR_FALSE@
+ALTERNATE_DOCDIR_TRUE = @ALTERNATE_DOCDIR_TRUE@
 AMDEP_FALSE = @AMDEP_FALSE@
 AMDEP_TRUE = @AMDEP_TRUE@
 AMIGA_COMPILE_FALSE = @AMIGA_COMPILE_FALSE@
@@ -268,9 +271,11 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FFMPEG_INCLUDES = @FFMPEG_INCLUDES@
+FFMPEG_LIBS = @FFMPEG_LIBS@
 FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
 GFXOUTPUT_DRIVERS = @GFXOUTPUT_DRIVERS@
+GFXOUTPUT_LIBS = @GFXOUTPUT_LIBS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEUI_FALSE = @GNOMEUI_FALSE@
@@ -294,6 +299,7 @@ INSTOBJEXT = @INSTOBJEXT@
 INTLDEPS = @INTLDEPS@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
+JOY_LIBS = @JOY_LIBS@
 LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LEXLIB = @LEXLIB@
@@ -304,12 +310,15 @@ LINKCC = @LINKCC@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
+MAKE_BINDIST_FALSE = @MAKE_BINDIST_FALSE@
+MAKE_BINDIST_TRUE = @MAKE_BINDIST_TRUE@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSDOS_COMPILE_FALSE = @MSDOS_COMPILE_FALSE@
 MSDOS_COMPILE_TRUE = @MSDOS_COMPILE_TRUE@
 MSGFMT = @MSGFMT@
 NEED_READLINE_FALSE = @NEED_READLINE_FALSE@
 NEED_READLINE_TRUE = @NEED_READLINE_TRUE@
+NETPLAY_LIBS = @NETPLAY_LIBS@
 NLS_LOCALEDIR = @NLS_LOCALEDIR@
 OBJEXT = @OBJEXT@
 OS2_COMPILE_FALSE = @OS2_COMPILE_FALSE@
@@ -326,6 +335,7 @@ POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
+READLINE_LIBS = @READLINE_LIBS@
 RESID_DEP = @RESID_DEP@
 RESID_DIR = @RESID_DIR@
 RESID_INCLUDES = @RESID_INCLUDES@
@@ -344,6 +354,7 @@ SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 STRIP = @STRIP@
 SYNC = @SYNC@
+TFE_LIBS = @TFE_LIBS@
 UNIX_COMPILE_FALSE = @UNIX_COMPILE_FALSE@
 UNIX_COMPILE_TRUE = @UNIX_COMPILE_TRUE@
 UNIX_GP2X_COMPILE_FALSE = @UNIX_GP2X_COMPILE_FALSE@
@@ -389,6 +400,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 YACC = @YACC@
+ZLIB_LIBS = @ZLIB_LIBS@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_RANLIB = @ac_ct_RANLIB@
@@ -621,6 +633,7 @@ noinst_HEADERS = \
 	via.h \
 	vic20ui.h \
 	vice.h \
+	vicii.h \
 	video.h \
 	viewport.h \
 	vsidui.h \
@@ -739,7 +752,10 @@ vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
-common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ @VICE_LIBPNG@ @VICE_ZLIB@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @VICE_LIBPNG@ @VICE_ZLIB@
+
+# external libraries required for all emulators
+emu_extlibs = @X_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @FFMPEG_LIBS@ @JOY_LIBS@ @READLINE_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@
 driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 @HAVE_RAWDRIVE_FALSE@blockdev_lib = 
 @HAVE_RAWDRIVE_TRUE@blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -767,7 +783,7 @@ x64_libs = \
 	$(common_libs)
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
-x64_LDADD = $(x64_libs) @X_LIBS@ @INTLLIBS@
+x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 x64_DEPENDENCIES = $(x64_libs)
 
 # x128
@@ -794,7 +810,7 @@ x128_libs = \
 	$(common_libs)
 
 x128_SOURCES = $(base_sources)
-x128_LDADD = $(x128_libs) @X_LIBS@ @INTLLIBS@
+x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 x128_DEPENDENCIES = $(x128_libs)
 
 # xvic
@@ -815,7 +831,7 @@ xvic_libs = \
 	$(common_libs)
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
-xvic_LDADD = $(xvic_libs) @X_LIBS@ @INTLLIBS@
+xvic_LDADD = $(xvic_libs) $(emu_extlibs)
 xvic_DEPENDENCIES = $(xvic_libs)
 
 # xpet
@@ -835,7 +851,7 @@ xpet_libs = \
 	$(common_libs)
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(xpet_libs) @X_LIBS@ @INTLLIBS@
+xpet_LDADD = $(xpet_libs) $(emu_extlibs)
 xpet_DEPENDENCIES = $(xpet_libs) 
 
 # xplus4
@@ -856,7 +872,7 @@ xplus4_libs = \
 	$(common_libs)
 
 xplus4_SOURCES = $(base_sources)
-xplus4_LDADD = $(xplus4_libs) @X_LIBS@ @INTLLIBS@
+xplus4_LDADD = $(xplus4_libs) $(emu_extlibs)
 xplus4_DEPENDENCIES = $(xplus4_libs)
 
 # xcbm2
@@ -877,7 +893,7 @@ xcbm2_libs = \
 	$(common_libs)
 
 xcbm2_SOURCES = $(base_sources)
-xcbm2_LDADD = $(xcbm2_libs) @X_LIBS@ @INTLLIBS@
+xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs)
 xcbm2_DEPENDENCIES = $(xcbm2_libs) 
 
 # c1541
@@ -913,8 +929,8 @@ c1541_LDADD = \
 	$(tape_lib) \
 	$(serial_lib) \
 	@INTLLIBS@ \
-	@READLINE@ \
-	@VICE_ZLIB@
+	@READLINE@ @READLINE_LIBS@ \
+	@VICE_ZLIB@ @ZLIB_LIBS@
 
 
 # petcat
@@ -935,7 +951,7 @@ petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
 	$(fileio_lib) \
 	@INTLLIBS@ \
-	@VICE_ZLIB@
+	@VICE_ZLIB@ @ZLIB_LIBS@
 
 
 # cartconv
