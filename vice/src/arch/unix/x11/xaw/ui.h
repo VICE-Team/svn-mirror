@@ -132,6 +132,8 @@ extern ui_button_t ui_input_string(const char *title, const char *prompt,
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 extern void ui_autorepeat_on(void);
 extern void ui_autorepeat_off(void);
+extern Widget ui_create_shell(Widget parent, const char *name,
+			      WidgetClass class);
 extern Widget ui_create_transient_shell(Widget parent, const char *name);
 extern void ui_popdown(Widget w);
 extern void ui_popup(Widget w, const char *title, Boolean wait_popdown);

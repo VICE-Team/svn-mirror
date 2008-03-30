@@ -287,8 +287,7 @@ Widget ui_menu_create(const char *menu_name, ...)
 
 
     level++;
-    w = XtCreatePopupShell(menu_name, simpleMenuWidgetClass, _ui_top_level,
-                           NULL, 0);
+    w = ui_create_shell(_ui_top_level, menu_name, simpleMenuWidgetClass);
     if (level == 1) {
 	XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
 	XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
