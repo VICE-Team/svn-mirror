@@ -50,8 +50,8 @@
 #include "mon.h"
 #include "kbd.h"
 #include "vsync.h"
-#include "autostart.h"
 #include "c64mem.h"
+#include "attach.h"
 
 static void vsync_hook(void);
 
@@ -200,13 +200,7 @@ int machine_init(void)
     initialize_serial(c64_serial_traps);
 
     /* Initialize drives.  Only drive #8 allows true 1541 emulation.  */
-    initialize_1541(8, DT_DISK | DT_1541,
-                    true1541_attach_floppy, true1541_detach_floppy);
-    initialize_1541(9, DT_DISK | DT_1541, NULL, NULL);
-    initialize_1541(10, DT_DISK | DT_1541, NULL, NULL);
-
-    /* Initialize FS-based emulation for drive #11.  */
-    initialize_1541(11, DT_FS | DT_1541, NULL, NULL);
+    initialize_drives();
 
     /* Initialize the tape emulation.  */
     initialize_tape(c64_tape_traps);
@@ -216,36 +210,6 @@ int machine_init(void)
 
     /* Initialize autostart.  */
     autostart_init();
-
-#if 0
-    {
-        FILE *autostartfd;
-        char *autostartprg;
-        char *autostartfile;
-        char *tmp;
-
-        /* Check for image:prg -format.  */
-        if (app_resources.autostartName != NULL) {
-            tmp = strrchr(app_resources.autostartName, ':');
-            if (tmp) {
-                autostartfile = stralloc(app_resources.autostartName);
-                autostartprg = strrchr(autostartfile, ':');
-                *autostartprg++ = '\0';
-                autostartfd = fopen(autostartfile, "r");
-                /* image exists? */
-                if (autostartfd) {
-                    fclose(autostartfd);
-                    autostart_autodetect(autostartfile, autostartprg);
-                }
-                else
-                    autostart_autodetect(app_resources.autostartName, NULL);
-                free(autostartfile);
-            } else {
-                autostart_autodetect(app_resources.autostartName, NULL);
-            }
-        }
-    }
-#endif
 
     /* Initialize the VIC-II emulation.  */
     vic_ii_init();
