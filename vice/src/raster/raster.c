@@ -438,17 +438,7 @@ int raster_set_palette(raster_t *raster, struct palette_s *palette)
 
 void raster_set_title(raster_t *raster, const char *title)
 {
-    viewport_t *viewport;
-
-    viewport = raster->canvas->viewport;
-
-    lib_free(viewport->title);
-    viewport->title = lib_stralloc(title);
-
-#if 0                           /* FIXME: Not yet in the canvas API.  */
-    if (raster->canvas != NULL)
-        canvas_set_title(raster->canvas, title);
-#endif
+    video_viewport_title_set(raster->canvas, title);
 }
 
 void raster_skip_frame(raster_t *raster, int skip)
