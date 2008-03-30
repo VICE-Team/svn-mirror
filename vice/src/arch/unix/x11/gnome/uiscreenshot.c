@@ -31,7 +31,9 @@
 #include "gfxoutput.h"
 #include "screenshot.h"
 #include "ui.h"
+#include "uiarch.h"
 #include "utils.h"
+
 
 static GtkWidget *screenshot_dialog, *fileentry;
 

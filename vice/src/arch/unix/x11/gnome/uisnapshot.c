@@ -30,8 +30,10 @@
 
 #include "uisnapshot.h"
 #include "ui.h"
+#include "uiarch.h"
 #include "machine.h"
 #include "utils.h"
+
 
 static GtkWidget *snapshot_dialog, *attach_disk, *attach_rom, *fileentry;
 

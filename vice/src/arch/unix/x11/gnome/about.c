@@ -28,7 +28,7 @@
 
 #include "version.h"
 #include "info.h"
-#include "ui.h"
+#include "uiarch.h"
 
 #include <gnome.h>
 GtkWidget *about;

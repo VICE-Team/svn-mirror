@@ -7,19 +7,19 @@ INCLUDES = \
 noinst_LIBRARIES = libgnomeui.a
 
 libgnomeui_a_SOURCES = \
+	about.c \
 	dummies.c \
-	ui.c \
-	uiarch.h \
-	videoarch.h \
-	uimenu.c \
-	uimenu.h \
 	gnomekbd.c \
 	gnomevideo.c \
+	uiarch.h \
+	uicartridge.c \
 	uicolor.c \
 	uiedisk.c \
-	uisnapshot.c \
-	about.c \
-	uicartridge.c \
-	uiscreenshot.c \
+	uimenu.c \
+	uimenu.h \
 	uipalcontrol.c \
-	uivsidcontrol.c
+	uiscreenshot.c \
+	uisnapshot.c \
+	uivsidcontrol.c \
+	videoarch.h \
+	x11ui.c

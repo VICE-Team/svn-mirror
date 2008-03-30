@@ -30,6 +30,7 @@
 
 #include "uiedisk.h"
 #include "ui.h"
+#include "uiarch.h"
 #include "diskimage.h"
 #include "vdrive/vdrive.h"
 #include "utils.h"

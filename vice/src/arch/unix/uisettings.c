@@ -37,7 +37,7 @@
 #include "archapi.h"
 #include "debug.h"
 #include "fliplist.h"
-#ifdef USE_XF86_DGA2_EXTENSIONS
+#ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
 #ifdef USE_XF86_VIDMODE_EXT

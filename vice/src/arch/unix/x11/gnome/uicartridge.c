@@ -29,7 +29,9 @@
 #include <stdio.h>
 
 #include "ui.h"
+#include "uiarch.h"
 #include "cartridge.h"
+
 
 static GtkWidget *cartridge_dialog, *fileentry;
 
@@ -102,3 +104,4 @@ void ui_cartridge_dialog(void)
     else
 	ui_message(_("Successfully wrote `%s'\n"), name);
 }
+

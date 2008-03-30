@@ -28,8 +28,10 @@
 #include <stdlib.h>
 
 #include "ui.h"
-#include "vsiduiunix.h"
+#include "uiarch.h"
 #include "utils.h"
+#include "vsiduiunix.h"
+
 
 static GtkWidget *current_line;
 static char *author, *copyright, *name, *vsidsync, *model, *irq;

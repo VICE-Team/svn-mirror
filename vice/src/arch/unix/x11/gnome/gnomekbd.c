@@ -32,7 +32,7 @@
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 
-#include <string.h>		/* memset() */
+#include <string.h>             /* memset() */
 #include <gtk/gtk.h>
 
 #include "kbd.h"
@@ -40,33 +40,32 @@
 #include "machine.h"
 
 
-void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
+void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 {
     gint key;
 
     key = report->key.keyval;
     switch (report->type) {
-	
-    case GDK_KEY_PRESS:
-	x11kbd_press((ui_keysym_t) key);
-	break;
+      case GDK_KEY_PRESS:
+        x11kbd_press((signed long)key);
+        break;
 
-    case GDK_KEY_RELEASE:
-	x11kbd_release((ui_keysym_t) key);
-	break;
-	
-    case GDK_ENTER_NOTIFY:
-    case GDK_LEAVE_NOTIFY:
-	x11kbd_enter_leave();
-	break;
+      case GDK_KEY_RELEASE:
+        x11kbd_release((signed long)key);
+        break;
 
-    case GDK_FOCUS_CHANGE:
-	x11kbd_focus_change();
-	break;
+      case GDK_ENTER_NOTIFY:
+      case GDK_LEAVE_NOTIFY:
+        x11kbd_enter_leave();
+        break;
 
-    default:
-	break;
-	
-    }				/* switch */
+      case GDK_FOCUS_CHANGE:
+        x11kbd_focus_change();
+        break;
+
+      default:
+        break;
+
+    }                           /* switch */
 }
 
