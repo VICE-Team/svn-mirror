@@ -346,10 +346,10 @@ int machine_init(void)
 /* CBM-II-specific initialization.  */
 void machine_specific_reset(void)
 {
-    acia1_reset();
     ciacore_reset(machine_context.cia1);
     tpicore_reset(machine_context.tpi1);
     tpicore_reset(machine_context.tpi2);
+    acia1_reset();
 
     sid_reset();
 
