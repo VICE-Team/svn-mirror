@@ -651,8 +651,8 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
 
     ffmpegdrv_init_video(screenshot);
 
-    resources_set_value("SoundRecordDeviceName", "ffmpegaudio");
-    resources_set_value("Sound", (resource_value_t)1);
+    resources_set_string("SoundRecordDeviceName", "ffmpegaudio");
+    resources_set_int("Sound", 1);
 
     return 0;
 }
@@ -687,7 +687,7 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
     lib_free(ffmpegdrv_oc);
     log_debug("ffmpegdrv: Closed successfully");
 
-    resources_set_value("SoundRecordDeviceName", "");
+    resources_set_string("SoundRecordDeviceName", "");
 
     file_init_done = 0;
 

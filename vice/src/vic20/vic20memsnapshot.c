@@ -148,23 +148,23 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 
     SMR_BA(m, mem_ram + 0x9400, 0x0800);
 
-    resources_set_value("RAMBlock0", (resource_value_t)(config & 1));
+    resources_set_int("RAMBlock0", config & 1);
     if (config & 1) {
         SMR_BA(m, mem_ram + 0x0400, 0x0c00);
     }
-    resources_set_value("RAMBlock1", (resource_value_t)(config & 2));
+    resources_set_int("RAMBlock1", config & 2);
     if (config & 2) {
         SMR_BA(m, mem_ram + 0x2000, 0x2000);
     }
-    resources_set_value("RAMBlock2", (resource_value_t)(config & 4));
+    resources_set_int("RAMBlock2", config & 4);
     if (config & 4) {
         SMR_BA(m, mem_ram + 0x4000, 0x2000);
     }
-    resources_set_value("RAMBlock3", (resource_value_t)(config & 8));
+    resources_set_int("RAMBlock3", config & 8);
     if (config & 8) {
         SMR_BA(m, mem_ram + 0x6000, 0x2000);
     }
-    resources_set_value("RAMBlock5", (resource_value_t)(config & 32));
+    resources_set_int("RAMBlock5", config & 32);
     if (config & 32) {
         SMR_BA(m, mem_ram + 0xA000, 0x2000);
     }
@@ -223,8 +223,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)0);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
 
     config = mem_rom_blocks;
 
@@ -263,7 +263,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     }
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     snapshot_module_close(m);
 
@@ -287,8 +287,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)0);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
 
     SMR_B(m, &config);
 
@@ -342,7 +342,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
                 "represent\nthe state before loading the snapshot!");
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     snapshot_module_close(m);
 

@@ -212,7 +212,7 @@ int c128rom_kernal_setup(void)
     if (!rom_loaded)
         return 0;
 
-    resources_get_value("MachineType", (void *)&machine_type);
+    resources_get_int("MachineType", &machine_type);
 
     switch (machine_type) {
       case C128_MACHINE_INT:
@@ -242,8 +242,8 @@ int c128rom_kernal_setup(void)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)1);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 1);
 
     memcpy(&c128memrom_basic_rom[C128_BASIC_ROM_SIZE], kernal,
            C128_EDITOR_ROM_SIZE);
@@ -256,7 +256,7 @@ int c128rom_kernal_setup(void)
 
     c128rom_kernal_checksum();
 
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     return 0;
 }
@@ -337,7 +337,7 @@ int c128rom_chargen_setup(void)
     if (!rom_loaded)
         return 0;
 
-    resources_get_value("MachineType", (void *)&machine_type);
+    resources_get_int("MachineType", &machine_type);
 
     switch (machine_type) {
       case C128_MACHINE_INT:
@@ -474,7 +474,7 @@ int c128rom_load_basic64(const char *rom_name)
 
 int mem_load(void)
 {
-    char *rom_name = NULL;
+    const char *rom_name = NULL;
 
     if (c128rom_log == LOG_ERR)
         c128rom_log = log_open("C128MEM");
@@ -485,81 +485,81 @@ int mem_load(void)
 
     rom_loaded = 1;
 
-    if (resources_get_value("KernalIntName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalIntName", &rom_name) < 0)
         return -1;
     if (c128rom_load_kernal_int(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("KernalDEName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalDEName", &rom_name) < 0)
         return -1;
     if (c128rom_load_kernal_de(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("KernalFIName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalFIName", &rom_name) < 0)
         return -1;
     if (c128rom_load_kernal_fi(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("KernalFRName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalFRName", &rom_name) < 0)
         return -1;
     if (c128rom_load_kernal_fr(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("KernalITName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalITName", &rom_name) < 0)
         return -1;
     if (c128rom_load_kernal_it(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("KernalNOName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalNOName", &rom_name) < 0)
         return -1;
     if (c128rom_load_kernal_no(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("KernalSEName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalSEName", &rom_name) < 0)
         return -1;
     if (c128rom_load_kernal_se(rom_name) < 0)
         return -1;
 
     c128rom_kernal_setup();
 
-    if (resources_get_value("BasicLoName", (void *)&rom_name) < 0)
+    if (resources_get_string("BasicLoName", &rom_name) < 0)
         return -1;
     if (c128rom_load_basiclo(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("BasicHiName", (void *)&rom_name) < 0)
+    if (resources_get_string("BasicHiName", &rom_name) < 0)
         return -1;
     if (c128rom_load_basichi(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("ChargenIntName", (void *)&rom_name) < 0)
+    if (resources_get_string("ChargenIntName", &rom_name) < 0)
         return -1;
     if (c128rom_load_chargen_int(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("ChargenDEName", (void *)&rom_name) < 0)
+    if (resources_get_string("ChargenDEName", &rom_name) < 0)
         return -1;
     if (c128rom_load_chargen_de(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("ChargenFRName", (void *)&rom_name) < 0)
+    if (resources_get_string("ChargenFRName", &rom_name) < 0)
         return -1;
     if (c128rom_load_chargen_fr(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("ChargenSEName", (void *)&rom_name) < 0)
+    if (resources_get_string("ChargenSEName", &rom_name) < 0)
         return -1;
     if (c128rom_load_chargen_se(rom_name) < 0)
         return -1;
 
     c128rom_chargen_setup();
 
-    if (resources_get_value("Kernal64Name", (void *)&rom_name) < 0)
+    if (resources_get_string("Kernal64Name", &rom_name) < 0)
         return -1;
     if (c128rom_load_kernal64(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("Basic64Name", (void *)&rom_name) < 0)
+    if (resources_get_string("Basic64Name", &rom_name) < 0)
         return -1;
     if (c128rom_load_basic64(rom_name) < 0)
         return -1;

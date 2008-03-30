@@ -249,18 +249,12 @@ int cbm2_set_model(const char *model, void *extra)
         if (strcmp(modtab[i].model, model))
             continue;
 
-        resources_set_value("UseVicII",
-                            (resource_value_t)(modtab[i].usevicii));
-        resources_set_value("RamSize",
-                            (resource_value_t)(modtab[i].ramsize));
-        resources_set_value("BasicName",
-                            (resource_value_t)(modtab[i].basic));
-        resources_set_value("ChargenName",
-                            (resource_value_t)(modtab[i].charrom));
-        resources_set_value("KernalName",
-                            (resource_value_t)(modtab[i].kernal));
-        resources_set_value("ModelLine",
-                             (resource_value_t)(modtab[i].line));
+        resources_set_int("UseVicII", modtab[i].usevicii);
+        resources_set_int("RamSize", modtab[i].ramsize);
+        resources_set_string("BasicName", modtab[i].basic);
+        resources_set_string("ChargenName", modtab[i].charrom);
+        resources_set_string("KernalName", modtab[i].kernal);
+        resources_set_int("ModelLine", modtab[i].line);
 
         cbm2_model = i;
 

@@ -126,10 +126,10 @@ int plus4cart_load_c2hi(const char *rom_name)
 
 void plus4cart_detach_cartridges(void)
 {
-    resources_set_value("c1loName", "");
-    resources_set_value("c1hiName", "");
-    resources_set_value("c2loName", "");
-    resources_set_value("c2hiName", "");
+    resources_set_string("c1loName", "");
+    resources_set_string("c1hiName", "");
+    resources_set_string("c2loName", "");
+    resources_set_string("c2hiName", "");
 
     memset(extromlo2, 0, PLUS4_CART16K_SIZE);
     memset(extromhi2, 0, PLUS4_CART16K_SIZE);

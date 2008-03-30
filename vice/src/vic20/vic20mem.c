@@ -480,13 +480,13 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $2000.");
         memcpy(mem_cartrom + 0x2000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK1A;
-        resources_set_value("RAMBlock1", (resource_value_t)0);
+        resources_set_int("RAMBlock1", 0);
         break;
       case CARTRIDGE_VIC20_8KB_2000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $2000.");
         memcpy(mem_cartrom + 0x2000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK1A | VIC_ROM_BLK1B;
-        resources_set_value("RAMBlock1", (resource_value_t)0);
+        resources_set_int("RAMBlock1", 0);
         break;
       case CARTRIDGE_VIC20_16KB_2000:
         log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $2000.");
@@ -494,21 +494,21 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         memcpy(mem_cartrom + 0xA000, rawcart + 0x2000, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK1A | VIC_ROM_BLK1B
                         | VIC_ROM_BLK5A | VIC_ROM_BLK5B;
-        resources_set_value("RAMBlock1", (resource_value_t)0);
-        resources_set_value("RAMBlock5", (resource_value_t)0);
+        resources_set_int("RAMBlock1", 0);
+        resources_set_int("RAMBlock5", 0);
         break;
 
       case CARTRIDGE_VIC20_4KB_4000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $4000.");
         memcpy(mem_cartrom + 0x4000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK2A;
-        resources_set_value("RAMBlock2", (resource_value_t)0);
+        resources_set_int("RAMBlock2", 0);
         break;
       case CARTRIDGE_VIC20_8KB_4000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $4000.");
         memcpy(mem_cartrom + 0x4000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK2A | VIC_ROM_BLK2B;
-        resources_set_value("RAMBlock2", (resource_value_t)0);
+        resources_set_int("RAMBlock2", 0);
         break;
       case CARTRIDGE_VIC20_16KB_4000:
         log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $4000.");
@@ -516,21 +516,21 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         memcpy(mem_cartrom + 0xA000, rawcart + 0x2000, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK2A | VIC_ROM_BLK2B
                         | VIC_ROM_BLK5A | VIC_ROM_BLK5B;
-        resources_set_value("RAMBlock2", (resource_value_t)0);
-        resources_set_value("RAMBlock5", (resource_value_t)0);
+        resources_set_int("RAMBlock2", 0);
+        resources_set_int("RAMBlock5", 0);
         break;
 
       case CARTRIDGE_VIC20_4KB_6000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $6000.");
         memcpy(mem_cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A;
-        resources_set_value("RAMBlock3", (resource_value_t)0);
+        resources_set_int("RAMBlock3", 0);
         break;
       case CARTRIDGE_VIC20_8KB_6000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $6000.");
         memcpy(mem_cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A | VIC_ROM_BLK3B;
-        resources_set_value("RAMBlock3", (resource_value_t)0);
+        resources_set_int("RAMBlock3", 0);
         break;
       case CARTRIDGE_VIC20_16KB_6000:
         log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $6000.");
@@ -538,28 +538,28 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         memcpy(mem_cartrom + 0xA000, rawcart + 0x2000, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A | VIC_ROM_BLK3B
                         | VIC_ROM_BLK5A | VIC_ROM_BLK5B;
-        resources_set_value("RAMBlock3", (resource_value_t)0);
-        resources_set_value("RAMBlock5", (resource_value_t)0);
+        resources_set_int("RAMBlock3", 0);
+        resources_set_int("RAMBlock5", 0);
         break;
 
       case CARTRIDGE_VIC20_4KB_A000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $A000.");
         memcpy(mem_cartrom + 0xa000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5A;
-        resources_set_value("RAMBlock5", (resource_value_t)0);
+        resources_set_int("RAMBlock5", 0);
         break;
       case CARTRIDGE_VIC20_8KB_A000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $A000.");
         memcpy(mem_cartrom + 0xA000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK5A | VIC_ROM_BLK5B;
-        resources_set_value("RAMBlock5", (resource_value_t)0);
+        resources_set_int("RAMBlock5", 0);
         break;
 
       case CARTRIDGE_VIC20_4KB_B000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $B000.");
         memcpy(mem_cartrom + 0xB000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5B;
-        resources_set_value("RAMBlock5", (resource_value_t)0);
+        resources_set_int("RAMBlock5", 0);
         break;
       default:
         log_error(vic20_mem_log, "Unknown Cartridge Type!");
@@ -748,7 +748,7 @@ int mem_patch_kernal(void)
     short bytes, n, i = 0;
     WORD a;
 
-    resources_get_value("MachineVideoStandard", (void *)&video_mode);
+    resources_get_int("MachineVideoStandard", &video_mode);
 
     switch (video_mode) {
       case MACHINE_SYNC_PAL:    

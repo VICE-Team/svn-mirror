@@ -73,15 +73,15 @@ int vic20rom_load_kernal(const char *rom_name)
         return 0;
 
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)1);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 1);
 
     /* Load Kernal ROM. */
     if (sysfile_load(rom_name,
         vic20memrom_kernal_rom, VIC20_KERNAL_ROM_SIZE,
         VIC20_KERNAL_ROM_SIZE) < 0) {
         log_error(vic20rom_log, "Couldn't load kernal ROM.");
-        resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+        resources_set_int("VirtualDevices", trapfl);
         return -1;
     }
     memcpy(vic20memrom_kernal_trap_rom, vic20memrom_kernal_rom,
@@ -89,7 +89,7 @@ int vic20rom_load_kernal(const char *rom_name)
 
     vic20rom_kernal_checksum();
 
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     return 0;
 }
@@ -146,7 +146,7 @@ int vic20rom_load_chargen(const char *rom_name)
 
 int mem_load(void)
 {
-    char *rom_name = NULL;
+    const char *rom_name = NULL;
 
     if (vic20rom_log == LOG_ERR)
         vic20rom_log = log_open("VIC20MEM");
@@ -155,17 +155,17 @@ int mem_load(void)
 
     vicrom_loaded = 1;
 
-    if (resources_get_value("KernalName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalName", &rom_name) < 0)
         return -1;
     if (vic20rom_load_kernal(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("BasicName", (void *)&rom_name) < 0)
+    if (resources_get_string("BasicName", &rom_name) < 0)
         return -1;
     if (vic20rom_load_basic(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("ChargenName", (void *)&rom_name) < 0)
+    if (resources_get_string("ChargenName", &rom_name) < 0)
         return -1;
     if (vic20rom_load_chargen(rom_name) < 0)
         return -1;

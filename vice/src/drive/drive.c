@@ -159,8 +159,8 @@ int drive_init(void)
     }
 
     if (driverom_load_images() < 0) {
-        resources_set_value("Drive8Type", (resource_value_t)DRIVE_TYPE_NONE);
-        resources_set_value("Drive9Type", (resource_value_t)DRIVE_TYPE_NONE);
+        resources_set_int("Drive8Type", DRIVE_TYPE_NONE);
+        resources_set_int("Drive9Type", DRIVE_TYPE_NONE);
         return -1;
     }
 
@@ -179,13 +179,8 @@ int drive_init(void)
 
         machine_drive_port_default(drive_context[dnr]);
 
-        if (drive_check_type(drive->type, dnr) < 1) {
-            char *resname;
-
-            resname = lib_msprintf("Drive%iType", dnr + 8);
-            resources_set_value(resname, (resource_value_t)DRIVE_TYPE_NONE);
-            lib_free(resname);
-        }
+        if (drive_check_type(drive->type, dnr) < 1)
+            resources_set_int_sprintf("Drive%iType", DRIVE_TYPE_NONE, dnr + 8);
 
         machine_drive_rom_setup_image(dnr);
     }
@@ -327,7 +322,7 @@ int drive_enable(drive_context_t *drv)
     if (!rom_loaded)
         return -1;
 
-    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
+    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
     /* Always disable kernal traps. */
     if (!drive_true_emulation)
@@ -387,7 +382,7 @@ void drive_disable(drive_context_t *drv)
        drive initialization.  */
     drive->enable = 0;
 
-    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
+    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
     if (rom_loaded) {
         drivecpu_sleep(drv);

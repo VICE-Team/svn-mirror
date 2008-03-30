@@ -143,7 +143,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
         return -1;
     SMW_B(m, (BYTE)(config | rconf));
 
-    resources_get_value("KeymapIndex", (void *)&kbdindex);
+    resources_get_int("KeymapIndex", &kbdindex);
     SMW_B(m, (BYTE)(kbdindex >> 1));
 
     SMW_B(m, memsize);
@@ -259,13 +259,12 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     if (vminor > 0) {
         int kindex;
         SMR_B(m, &byte);
-        resources_get_value("KeymapIndex", (void *)&kindex);
-        resources_set_value("KeymapIndex",
-                            (resource_value_t)((kindex & ~1) | (byte & 1)));
+        resources_get_int("KeymapIndex", &kindex);
+        resources_set_int("KeymapIndex", (kindex & ~1) | (byte & 1));
     }
     if (vminor > 1) {
         SMR_B(m, &byte);
-        resources_set_value("EoiBlank", (resource_value_t)(byte & 1));
+        resources_set_int("EoiBlank", byte & 1);
     }
 
     snapshot_module_close(m);
@@ -310,8 +309,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)0);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
     petrom_unpatch_2001();
 
     config = (petrom_9_loaded ? 1 : 0)
@@ -351,7 +350,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     }
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
     petrom_patch_2001();
 
     snapshot_module_close(m);
@@ -379,8 +378,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)0);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
     petrom_unpatch_2001();
 
     config = (petrom_9_loaded ? 1 : 0)
@@ -418,7 +417,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
         SMR_BA(m, mem_rom + 0x6000, 0x0800);
 
         /* chargen ROM */
-        resources_set_value("Basic1Chars", (resource_value_t) 0);
+        resources_set_int("Basic1Chars", 0);
         SMR_BA(m, mem_chargen_rom, 0x0800);
         petrom_convert_chargen(mem_chargen_rom);
 
@@ -456,7 +455,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     petrom_patch_2001();
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     snapshot_module_close(m);
 

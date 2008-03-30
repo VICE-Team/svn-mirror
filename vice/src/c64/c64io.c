@@ -56,6 +56,7 @@
 #include "tfe.h"
 #endif
 
+
 struct io_source_s {
     int id;
     char *name;
@@ -64,17 +65,17 @@ struct io_source_s {
 };
 typedef struct io_source_s io_source_t;
 
+
 static void io_source_detach(int detach_id, char *resource_name)
 {
-  switch (detach_id)
-  {
-    case IO_DETACH_CART:
-      cartridge_detach_image();
-      break;
-    case IO_DETACH_RESOURCE:
-      resources_set_value(resource_name, (resource_value_t)0);
-      break;
-  }
+    switch (detach_id) {
+      case IO_DETACH_CART:
+        cartridge_detach_image();
+        break;
+      case IO_DETACH_RESOURCE:
+        resources_set_int(resource_name, 0);
+        break;
+    }
 }
 
 static io_source_t io_source_table[] = {

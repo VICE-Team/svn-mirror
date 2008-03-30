@@ -141,11 +141,16 @@ static int output_graphics_open(unsigned int prnr,
     if (output_gfx[prnr].gfxoutputdrv == NULL)
         return -1;
 
-    switch( prnr )
-      {
-      case 0: resources_get_value("Printer4TextDevice", (void *)&device); break;
-      case 1: resources_get_value("Printer5TextDevice", (void *)&device); break;
-      case 2: resources_get_value("PrinterUserportTextDevice", (void *)&device); break;
+    switch (prnr) {
+      case 0:
+        resources_get_int("Printer4TextDevice", &device);
+        break;
+      case 1:
+        resources_get_int("Printer5TextDevice", &device);
+        break;
+      case 2:
+        resources_get_int("PrinterUserportTextDevice", &device);
+        break;
       }
 
     resources_get_string_sprintf("PrinterTextDevice%d", &filename, device + 1);

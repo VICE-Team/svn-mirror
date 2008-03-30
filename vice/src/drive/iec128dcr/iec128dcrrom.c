@@ -62,12 +62,12 @@ static void iec128dcrrom_new_image_loaded(unsigned int dtype)
 
 int iec128dcrrom_load_1571cr(void)
 {
-    char *rom_name = NULL;
+    const char *rom_name = NULL;
 
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName1571cr", (void *)&rom_name);
+    resources_get_string("DosName1571cr", &rom_name);
 
     if (sysfile_load(rom_name, drive_rom1571cr, DRIVE_ROM1571_SIZE,
                      DRIVE_ROM1571_SIZE) < 0) {

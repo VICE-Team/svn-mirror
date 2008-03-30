@@ -86,13 +86,13 @@ static int set_h256k_enabled(int val, void *param)
         h256k_enabled = val;
 
         if (cs256k_enabled)
-            resources_set_value("CS256K", (resource_value_t)0);
-        if (h256k_enabled==1)
-            resources_set_value("RamSize", (resource_value_t)256);
-        if (h256k_enabled==2)
-            resources_set_value("RamSize", (resource_value_t)1024);
-        if (h256k_enabled==3)
-            resources_set_value("RamSize", (resource_value_t)4096);
+            resources_set_int("CS256K", 0);
+        if (h256k_enabled == 1)
+            resources_set_int("RamSize", 256);
+        if (h256k_enabled == 2)
+            resources_set_int("RamSize", 1024);
+        if (h256k_enabled == 3)
+            resources_set_int("RamSize", 4096);
 
         return 0;
     }

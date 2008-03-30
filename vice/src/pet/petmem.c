@@ -996,26 +996,17 @@ int petmem_set_conf_info(petinfo_t *pi)
 {
     int kindex;
 
-    resources_set_value("RamSize",
-                        (resource_value_t)pi->ramSize);
-    resources_set_value("IOSize",
-                        (resource_value_t)pi->IOSize);
-    resources_set_value("Crtc",
-                        (resource_value_t)pi->crtc);
-    resources_set_value("VideoSize",
-                        (resource_value_t)pi->video);
-    resources_set_value("Ram9",
-                        (resource_value_t)pi->mem9);
-    resources_set_value("RamA",
-                        (resource_value_t)pi->memA);
-    resources_set_value("EoiBlank",
-                        (resource_value_t)pi->eoiblank);
-    resources_set_value("SuperPET",
-                        (resource_value_t)pi->superpet);
+    resources_set_int("RamSize", pi->ramSize);
+    resources_set_int("IOSize", pi->IOSize);
+    resources_set_int("Crtc", pi->crtc);
+    resources_set_int("VideoSize", pi->video);
+    resources_set_int("Ram9", pi->mem9);
+    resources_set_int("RamA", pi->memA);
+    resources_set_int("EoiBlank", pi->eoiblank);
+    resources_set_int("SuperPET", pi->superpet);
 
-    resources_get_value("KeymapIndex", (void *)&kindex);
-    resources_set_value("KeymapIndex",
-                        (resource_value_t)((kindex & 1) + 2 * pi->kbd_type));
+    resources_get_int("KeymapIndex", &kindex);
+    resources_set_int("KeymapIndex", (kindex & 1) + 2 * pi->kbd_type);
     return 0;
 }
 
@@ -1025,31 +1016,22 @@ int pet_set_model_info(petinfo_t *pi)
     petmem_set_conf_info(pi);
 
     if (pi->pet2k) {    /* set resource only when necessary */
-        resources_set_value("Basic1",
-                            (resource_value_t)pi->pet2k);
+        resources_set_int("Basic1", pi->pet2k);
     }
-    resources_set_value("Basic1Chars",
-                        (resource_value_t)pi->pet2kchar);
+    resources_set_int("Basic1Chars", pi->pet2kchar);
 
-    resources_set_value("ChargenName",
-                        (resource_value_t)pi->chargenName);
-    resources_set_value("KernalName",
-                        (resource_value_t)pi->kernalName);
-    resources_set_value("BasicName",
-                        (resource_value_t)pi->basicName);
-    resources_set_value("EditorName",
-                        (resource_value_t)pi->editorName);
+    resources_set_string("ChargenName", pi->chargenName);
+    resources_set_string("KernalName", pi->kernalName);
+    resources_set_string("BasicName", pi->basicName);
+    resources_set_string("EditorName", pi->editorName);
 
     /* allow additional ROMs to survive a model switch. */
     if (pi->mem9name)
-        resources_set_value("RomModule9Name",
-                            (resource_value_t)pi->mem9name);
+        resources_set_string("RomModule9Name", pi->mem9name);
     if (pi->memAname)
-        resources_set_value("RomModuleAName",
-                            (resource_value_t)pi->memAname);
+        resources_set_string("RomModuleAName", pi->memAname);
     if (pi->memBname)
-        resources_set_value("RomModuleBName",
-                            (resource_value_t)pi->memBname);
+        resources_set_string("RomModuleBName", pi->memBname);
     return 0;
 }
 

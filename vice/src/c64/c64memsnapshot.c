@@ -73,8 +73,8 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)0);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
 
     if (SMW_BA(m, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
         || SMW_BA(m, c64memrom_basic64_rom, C64_BASIC_ROM_SIZE) < 0
@@ -94,7 +94,7 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
     if (snapshot_module_close(m) < 0)
         goto fail;
 
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     return 0;
 
@@ -102,7 +102,7 @@ fail:
     if (m != NULL)
         snapshot_module_close(m);
 
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     return -1;
 }
@@ -133,8 +133,8 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)0);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
 
     if (SMR_BA(m, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
         || SMR_BA(m, c64memrom_basic64_rom, C64_BASIC_ROM_SIZE) < 0
@@ -158,7 +158,7 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     c64rom_get_kernal_checksum();
     c64rom_get_basic_checksum();
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
 
     return 0;
@@ -166,7 +166,7 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
 fail:
     if (m != NULL)
         snapshot_module_close(m);
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
     return -1;
 }
 

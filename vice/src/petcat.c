@@ -1646,8 +1646,8 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
     while((p2 = (unsigned char *)fgets(line, 255, source)) != NULL) {
 
-	memset(tokenizedline,0,256);
-	p1=tokenizedline;
+	memset(tokenizedline, 0, 256);
+	p1 = (unsigned char *)tokenizedline;
 
 #ifndef GEMDOS
         if (sscanf(line, "%d%n", &linum, &len) == 1)

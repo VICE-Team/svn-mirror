@@ -773,7 +773,7 @@ void cartridge_attach(int type, BYTE *rawcart)
         mem_cartridge_type = CARTRIDGE_NONE;
     }
     
-    resources_get_value("CartridgeReset", (void *)&cartridge_reset);
+    resources_get_int("CartridgeReset", &cartridge_reset);
 
     if (cartridge_reset != 0) {
         /* "Turn off machine before inserting cartridge" */
@@ -882,7 +882,7 @@ void cartridge_detach(int type)
     cartridge_config_changed(6, 6, CMODE_READ);
     mem_cartridge_type = CARTRIDGE_NONE;
 
-    resources_get_value("CartridgeReset", (void *)&cartridge_reset);
+    resources_get_int("CartridgeReset", &cartridge_reset);
 
     if (cartridge_reset != 0) {
         /* "Turn off machine before removing cartridge" */

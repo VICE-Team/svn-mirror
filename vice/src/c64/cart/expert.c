@@ -145,8 +145,7 @@ int expert_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
 
     /* Set default mode */
-    resources_set_value("CartridgeMode",
-                        (resource_value_t)CARTRIDGE_MODE_PRG);
+    resources_set_int("CartridgeMode", CARTRIDGE_MODE_PRG);
     return 0;
 }
 
@@ -163,8 +162,7 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart)
     if (c64export_add(&export_res) < 0)
         return -1;
 
-    resources_set_value("CartridgeMode",
-                        (resource_value_t)CARTRIDGE_MODE_ON);
+    resources_set_int("CartridgeMode", CARTRIDGE_MODE_ON);
 
     return 0;
 }

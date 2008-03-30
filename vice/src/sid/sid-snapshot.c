@@ -55,14 +55,14 @@ static int sid_snapshot_write_module_simple(snapshot_t *s)
     if (m == NULL)
         return -1;
 
-    resources_get_value("Sound", (void *)&sound);
+    resources_get_int("Sound", &sound);
     if (SMW_B(m, (BYTE)sound) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     if (sound) {
-        resources_get_value("SidEngine", (void *)&sid_engine);
+        resources_get_int("SidEngine", &sid_engine);
         if (SMW_B(m, (BYTE)sid_engine) < 0) {
             snapshot_module_close(m);
             return -1;
@@ -121,9 +121,9 @@ static int sid_snapshot_read_module_simple(snapshot_t *s)
         screenshot_prepare_reopen();
         sound_close();
         screenshot_try_reopen();
-        resources_set_value("Sound", (resource_value_t)res_sound);
+        resources_set_int("Sound", res_sound);
         if (res_sound) {
-            resources_set_value("SidEngine", (resource_value_t)res_engine);
+            resources_set_int("SidEngine", res_engine);
             /* FIXME: Only data for first SID read. */
             memcpy(sid_get_siddata(0), &tmp[2], 32);
             sound_open();
@@ -147,12 +147,12 @@ static int sid_snapshot_write_module_extended(snapshot_t *s)
     sid_snapshot_state_t sid_state;
     int sound, sid_engine;
 
-    resources_get_value("Sound", (void *)&sound);
+    resources_get_int("Sound", &sound);
 
     if (sound == 0)
         return 0;
 
-    resources_get_value("SidEngine", (void *)&sid_engine);
+    resources_get_int("SidEngine", &sid_engine);
 
     if (sid_engine != SID_ENGINE_FASTSID
 #ifdef HAVE_RESID
@@ -201,12 +201,12 @@ static int sid_snapshot_read_module_extended(snapshot_t *s)
 
     memset(&sid_state, 0, sizeof(sid_state));
 
-    resources_get_value("Sound", (void *)&sound);
+    resources_get_int("Sound", &sound);
 
     if (sound == 0)
         return 0;
 
-    resources_get_value("SidEngine", (void *)&sid_engine);
+    resources_get_int("SidEngine", &sid_engine);
 
     if (sid_engine != SID_ENGINE_FASTSID
 #ifdef HAVE_RESID

@@ -176,7 +176,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     SMR_B(m, &config);
 
     SMR_B(m, &hwconfig);
-    resources_set_value("ModelLine", (resource_value_t)(int)(hwconfig & 3));
+    resources_set_int("ModelLine", hwconfig & 3);
 
     SMR_B(m, &byte);
     cbm2mem_set_bank_exec(byte);
@@ -270,7 +270,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     snapshot_module_t *m;
     BYTE config;
     int trapfl;
-    char *cart_1_name, *cart_2_name, *cart_4_name, *cart_6_name;
+    const char *cart_1_name, *cart_2_name, *cart_4_name, *cart_6_name;
 
     if (!save_roms)
         return 0;
@@ -281,13 +281,13 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)0);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
 
-    resources_get_value("Cart1Name", (void *)&cart_1_name);
-    resources_get_value("Cart2Name", (void *)&cart_2_name);
-    resources_get_value("Cart4Name", (void *)&cart_4_name);
-    resources_get_value("Cart6Name", (void *)&cart_6_name);
+    resources_get_string("Cart1Name", &cart_1_name);
+    resources_get_string("Cart2Name", &cart_2_name);
+    resources_get_string("Cart4Name", &cart_4_name);
+    resources_get_string("Cart6Name", &cart_6_name);
 
     config = ((cart_1_name ? 2 : 0)
              | (cart_2_name ? 4 : 0)
@@ -326,7 +326,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     }
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     snapshot_module_close(m);
 
@@ -350,8 +350,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)0);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
 
     SMR_B(m, &config);
 
@@ -393,7 +393,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     cbm2rom_checksum();
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     snapshot_module_close(m);
 

@@ -58,21 +58,21 @@ int plus4rom_load_kernal(const char *rom_name)
     /* serial_remove_traps(); */
     /* we also need the TAPE traps!!! therefore -> */
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)1);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 1);
 
     /* Load Kernal ROM.  */
     if (sysfile_load(rom_name, plus4memrom_kernal_rom,
         PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE) < 0) {
         log_error(plus4rom_log, "Couldn't load kernal ROM `%s'.",
                   rom_name);
-        resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+        resources_set_int("VirtualDevices", trapfl);
         return -1;
     }
     memcpy(plus4memrom_kernal_trap_rom, plus4memrom_kernal_rom,
            PLUS4_KERNAL_ROM_SIZE);
 
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     return 0;
 }
@@ -132,7 +132,7 @@ int plus4rom_load_3plus1hi(const char *rom_name)
 int mem_load(void)
 {
 
-    char *rom_name = NULL;
+    const char *rom_name = NULL;
 
     mem_powerup();
 
@@ -141,42 +141,42 @@ int mem_load(void)
 
     plus4_rom_loaded = 1;
 
-    if (resources_get_value("KernalName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalName", &rom_name) < 0)
         return -1;
     if (plus4rom_load_kernal(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("BasicName", (void *)&rom_name) < 0)
+    if (resources_get_string("BasicName", &rom_name) < 0)
         return -1;
     if (plus4rom_load_basic(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("FunctionLowName", (void *)&rom_name) < 0)
+    if (resources_get_string("FunctionLowName", &rom_name) < 0)
         return -1;
     if (plus4rom_load_3plus1lo(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("FunctionHighName", (void *)&rom_name) < 0)
+    if (resources_get_string("FunctionHighName", &rom_name) < 0)
         return -1;
     if (plus4rom_load_3plus1hi(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("c1loName", (void *)&rom_name) < 0)
+    if (resources_get_string("c1loName", &rom_name) < 0)
         return -1;
     if (plus4cart_load_c1lo(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("c1hiName", (void *)&rom_name) < 0)
+    if (resources_get_string("c1hiName", &rom_name) < 0)
         return -1;
     if (plus4cart_load_c1hi(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("c2loName", (void *)&rom_name) < 0)
+    if (resources_get_string("c2loName", &rom_name) < 0)
         return -1;
     if (plus4cart_load_c2lo(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("c2hiName", (void *)&rom_name) < 0)
+    if (resources_get_string("c2hiName", &rom_name) < 0)
         return -1;
     if (plus4cart_load_c2hi(rom_name) < 0)
         return -1;

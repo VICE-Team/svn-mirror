@@ -86,7 +86,7 @@ int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
         return -1;
     }
 
-    resources_get_value("IEEE488", (void *)&ieee488);
+    resources_get_int("IEEE488", &ieee488);
     if (ieee488) {
         if (viacore_snapshot_write_module(machine_context.ieeevia1, s) < 0
             || viacore_snapshot_write_module(machine_context.ieeevia2,
@@ -133,9 +133,9 @@ int vic20_snapshot_read(const char *name, int event_mode)
     if (viacore_snapshot_read_module(machine_context.ieeevia1, s) < 0
         || viacore_snapshot_read_module(machine_context.ieeevia2, s) < 0) {
         /* IEEE488 module not undumped */
-        resources_set_value("IEEE488", (resource_value_t)0);
+        resources_set_int("IEEE488", 0);
     } else {
-        resources_set_value("IEEE488", (resource_value_t)1);
+        resources_set_int("IEEE488", 1);
     }
 
     snapshot_close(s);

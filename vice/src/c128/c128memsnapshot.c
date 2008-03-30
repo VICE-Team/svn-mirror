@@ -69,8 +69,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)0);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
 
     if (0
         || SMW_BA(m, c128memrom_kernal_rom,  C128_KERNAL_ROM_SIZE) < 0
@@ -90,7 +90,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
     */
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     if (snapshot_module_close(m) < 0)
         goto fail;
@@ -99,7 +99,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
 
  fail:
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     if (m != NULL)
         snapshot_module_close(m);
@@ -121,8 +121,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
         return 0;
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)0);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
 
     if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
         log_error(c128_snapshot_log,
@@ -149,7 +149,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
     c128rom_kernal_checksum();
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     /* to get all the checkmarks right */
     ui_update_menus();
@@ -159,7 +159,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
  fail:
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     if (m != NULL)
         snapshot_module_close(m);

@@ -541,7 +541,7 @@ void mem_initialize_memory(void)
     int i, j;
     int ram_size;
 
-    if (resources_get_value("RamSize", (void *)&ram_size) < 0)
+    if (resources_get_int("RamSize", &ram_size) < 0)
         return;
 
     switch (ram_size) {

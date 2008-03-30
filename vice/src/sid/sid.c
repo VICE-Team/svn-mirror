@@ -211,7 +211,7 @@ sound_t *sound_machine_open(int chipno)
 #ifdef HAVE_RESID
     sidengine = 0;
 
-    if (resources_get_value("SidEngine", (void *)&sidengine) < 0)
+    if (resources_get_int("SidEngine", &sidengine) < 0)
         return NULL;
 
     if (sidengine == SID_ENGINE_RESID)
@@ -295,7 +295,7 @@ int sound_machine_cycle_based(void)
 int sound_machine_channels(void)
 {
     int stereo = 0;
-    resources_get_value("SidStereo", (void *)&stereo);
+    resources_get_int("SidStereo", &stereo);
     return stereo ? 2 : 1;
 }
 

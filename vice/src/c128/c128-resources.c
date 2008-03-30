@@ -348,7 +348,7 @@ static int set_ieee488_enabled(int val, void *param)
     } else {
         int reu_enabled;
 
-        resources_get_value("REU", (void *)&reu_enabled);
+        resources_get_int("REU", &reu_enabled);
 
         if (!reu_enabled) {
             ieee488_enabled = 1;

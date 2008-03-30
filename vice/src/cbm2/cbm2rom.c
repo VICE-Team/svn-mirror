@@ -232,14 +232,14 @@ int cbm2rom_load_cart_6(const char *rom_name)
 int mem_load(void)
 {
     int i;
-    char *rom_name = NULL;
+    const char *rom_name = NULL;
 
     if (cbm2rom_log == LOG_ERR)
         cbm2rom_log = log_open("CBM2MEM");
 
     rom_loaded = 1;
 
-    if (resources_get_value("ChargenName", (void *)&rom_name) < 0)
+    if (resources_get_string("ChargenName", &rom_name) < 0)
         return -1;
     if (cbm2rom_load_chargen(rom_name) < 0)
         return -1;
@@ -249,33 +249,33 @@ int mem_load(void)
         mem_rom[i] = 0xff;
     }
 
-    if (resources_get_value("KernalName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalName", &rom_name) < 0)
         return -1;
     if (cbm2rom_load_kernal(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("BasicName", (void *)&rom_name) < 0)
+    if (resources_get_string("BasicName", &rom_name) < 0)
         return -1;
     if (cbm2rom_load_basic(rom_name) < 0)
         return -1;
 
     /* Load extension ROMs.  */
-    if (resources_get_value("Cart1Name", (void *)&rom_name) < 0)
+    if (resources_get_string("Cart1Name", &rom_name) < 0)
         return -1;
     if (cbm2rom_load_cart_1(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("Cart2Name", (void *)&rom_name) < 0)
+    if (resources_get_string("Cart2Name", &rom_name) < 0)
         return -1;
     if (cbm2rom_load_cart_2(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("Cart4Name", (void *)&rom_name) < 0)
+    if (resources_get_string("Cart4Name", &rom_name) < 0)
         return -1;
     if (cbm2rom_load_cart_4(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("Cart6Name", (void *)&rom_name) < 0)
+    if (resources_get_string("Cart6Name", &rom_name) < 0)
         return -1;
     if (cbm2rom_load_cart_6(rom_name) < 0)
         return -1;

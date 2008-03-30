@@ -110,11 +110,11 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     snapshot_module_t *m;
     DWORD rotation_table_ptr[DRIVE_NUM];
     BYTE GCR_image[2];
-    unsigned int drive_true_emulation;
-    DWORD sync_factor;
+    int drive_true_emulation;
+    int sync_factor;
     drive_t *drive;
 
-    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
+    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
     if (vdrive_snapshot_module_write(s, drive_true_emulation ? 10 : 8) < 0)
         return -1;
@@ -137,7 +137,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     if (m == NULL)
         return -1;
 
-    resources_get_value("MachineVideoStandard", (void *)&sync_factor);
+    resources_get_int("MachineVideoStandard", &sync_factor);
 
     if (SMW_DW(m, (DWORD)sync_factor) < 0) {
         if (m != NULL)
@@ -250,7 +250,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     CLOCK attach_clk[DRIVE_NUM];
     CLOCK detach_clk[DRIVE_NUM];
     CLOCK attach_detach_clk[DRIVE_NUM];
-    unsigned int drive_true_emulation;
+    int drive_true_emulation;
     int sync_factor;
     drive_t *drive;
 
@@ -258,7 +258,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                              &major_version, &minor_version);
     if (m == NULL) {
         /* If this module is not found true emulation is off.  */
-        resources_set_value("DriveTrueEmulation", (resource_value_t)0);
+        resources_set_int("DriveTrueEmulation", 0);
         return 0;
     }
 
@@ -273,7 +273,7 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     /* If this module exists true emulation is enabled.  */
     /* XXX drive_true_emulation = 1 */
-    resources_set_value("DriveTrueEmulation", (resource_value_t)1);
+    resources_set_int("DriveTrueEmulation", 1);
 
     if (SMR_DW_INT(m, &sync_factor) < 0) {
         if (m != NULL)
@@ -340,13 +340,11 @@ int drive_snapshot_read_module(snapshot_t *s)
             && drive->type != DRIVE_TYPE_1571CR) {
             if (drive->type == DRIVE_TYPE_1581) {
                 rotation_init_table(1, i);
-                resources_set_value("MachineVideoStandard",
-                                    (resource_value_t)sync_factor);
+                resources_set_int("MachineVideoStandard", sync_factor);
             } else {
                 drive->side = 0;
                 rotation_init_table(0, i);
-                resources_set_value("MachineVideoStandard",
-                                    (resource_value_t)sync_factor);
+                resources_set_int("MachineVideoStandard", sync_factor);
             }
         }
     }
@@ -370,8 +368,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         drive->enable = 1;
         machine_drive_rom_setup_image(0);
         drivemem_init(drive_context[0], drive->type);
-        resources_set_value("Drive8IdleMethod",
-                            (resource_value_t)(drive->idling_method));
+        resources_set_int("Drive8IdleMethod", drive->idling_method);
         driverom_initialize_traps(drive);
         drive_set_active_led_color(drive->type, 0);
         machine_bus_status_drivetype_set(8, 1);
@@ -398,8 +395,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         drive->enable = 1;
         machine_drive_rom_setup_image(1);
         drivemem_init(drive_context[1], drive->type);
-        resources_set_value("Drive9IdleMethod",
-                            (resource_value_t)(drive->idling_method));
+        resources_set_int("Drive9IdleMethod", drive->idling_method);
         driverom_initialize_traps(drive);
         drive_set_active_led_color(drive->type, 1);
         machine_bus_status_drivetype_set(9, 1);
@@ -455,7 +451,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     iec_update_ports_embedded();
     drive_update_ui_status();
 
-    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
+    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
     if (vdrive_snapshot_module_read(s, drive_true_emulation ? 10 : 8) < 0)
         return -1;

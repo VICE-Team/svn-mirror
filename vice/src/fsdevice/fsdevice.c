@@ -67,16 +67,10 @@ void fsdevice_set_directory(char *filename, unsigned int unit)
 {
     switch (unit) {
       case 8:
-        resources_set_value("FSDevice8Dir", (resource_value_t)filename);
-        break;
       case 9:
-        resources_set_value("FSDevice9Dir", (resource_value_t)filename);
-        break;
       case 10:
-        resources_set_value("FSDevice10Dir", (resource_value_t)filename);
-        break;
       case 11:
-        resources_set_value("FSDevice11Dir", (resource_value_t)filename);
+        resources_set_string_sprintf("FSDevice%iDir", filename, unit);
         break;
       default:
         log_message(LOG_DEFAULT, "Invalid unit number %d.", unit);

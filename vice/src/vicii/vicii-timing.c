@@ -103,11 +103,11 @@
 
 void vicii_timing_set(machine_timing_t *machine_timing)
 {
-    resource_value_t mode;
+    int mode;
 
-    resources_get_value("MachineVideoStandard", (void *)&mode);
+    resources_get_int("MachineVideoStandard", &mode);
 
-    switch ((int)mode) {
+    switch (mode) {
       case MACHINE_SYNC_NTSC:
         vicii.screen_height = VICII_NTSC_SCREEN_HEIGHT;
         vicii.first_displayed_line = VICII_NTSC_FIRST_DISPLAYED_LINE;

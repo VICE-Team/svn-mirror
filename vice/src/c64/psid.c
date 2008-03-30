@@ -366,7 +366,7 @@ static int psid_set_cbm80(WORD vec, WORD addr)
 void psid_init_tune(void)
 {
     int start_song = psid_tune;
-    resource_value_t sync, sid_model;
+    int sync, sid_model;
     int i;
     WORD reloc_addr;
     WORD addr;
@@ -388,10 +388,10 @@ void psid_init_tune(void)
                 psid->init_addr, psid->play_addr);
 
     /* PAL/NTSC. */
-    resources_get_value("MachineVideoStandard", (void *)&sync);
+    resources_get_int("MachineVideoStandard", &sync);
 
     /* MOS6581/MOS8580. */
-    resources_get_value("SidModel", (void *)&sid_model);
+    resources_get_int("SidModel", &sid_model);
 
     /* Check tune number. */
     if (start_song == 0) {
@@ -499,22 +499,22 @@ void psid_init_driver(void)
     WORD reloc_addr;
     WORD addr;
     int i;
-    resource_value_t sync;
+    int sync;
 
     if (!psid)
         return;
 
     /* C64 PAL/NTSC flag. */
-    resources_get_value("MachineVideoStandard", (void *)&sync);
+    resources_get_int("MachineVideoStandard", &sync);
     if (!keepenv) {
         switch ((psid->flags >> 2) & 0x03) {
           case 0x01:
-            sync = (resource_value_t)MACHINE_SYNC_PAL;
-            resources_set_value("MachineVideoStandard", sync);
+            sync = MACHINE_SYNC_PAL;
+            resources_set_int("MachineVideoStandard", sync);
             break;
           case 0x02:
-            sync = (resource_value_t)MACHINE_SYNC_NTSC;
-            resources_set_value("MachineVideoStandard", sync);
+            sync = MACHINE_SYNC_NTSC;
+            resources_set_int("MachineVideoStandard", sync);
             break;
           default:
             /* Keep settings (00 = unknown, 11 = any) */
@@ -526,10 +526,10 @@ void psid_init_driver(void)
     if (!keepenv) {
         switch ((psid->flags >> 4) & 0x03) {
           case 0x01:
-            resources_set_value("SidModel", (resource_value_t)0);
+            resources_set_int("SidModel", 0);
             break;
           case 0x02:
-            resources_set_value("SidModel", (resource_value_t)1);
+            resources_set_int("SidModel", 1);
             break;
           default:
             /* Keep settings (00 = unknown, 11 = any) */

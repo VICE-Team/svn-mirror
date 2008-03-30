@@ -71,11 +71,11 @@ static void vic_set_geometry(void);
 
 void vic_change_timing(void)
 {
-    resource_value_t mode;
+    int mode;
 
-    resources_get_value("MachineVideoStandard", (void *)&mode);
+    resources_get_int("MachineVideoStandard", &mode);
 
-    switch ((int)mode) {
+    switch (mode) {
       case MACHINE_SYNC_NTSC:
         vic.screen_height = VIC20_NTSC_SCREEN_LINES;
         vic.screen_width = VIC_NTSC_SCREEN_WIDTH;

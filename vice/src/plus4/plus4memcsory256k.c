@@ -80,8 +80,8 @@ static int set_cs256k_enabled(int val, void *param)
         cs256k_enabled = 1;
 
         if (h256k_enabled)
-            resources_set_value("H256K", (resource_value_t)0);
-        resources_set_value("RamSize", (resource_value_t)256);
+            resources_set_int("H256K", 0);
+        resources_set_int("RamSize", 256);
 
         return 0;
     }

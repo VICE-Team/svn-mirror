@@ -130,34 +130,34 @@ static int cmdline_memory(const char *param, void *extra_param)
     log_message(LOG_DEFAULT, "Extension memory enabled: ");
 
     if (memconf & VIC_BLK0) {
-        resources_set_value("RAMBlock0", (resource_value_t)1);
+        resources_set_int("RAMBlock0", 1);
         log_message(LOG_DEFAULT, "blk0 ");
     } else {
-        resources_set_value("RAMBlock0", (resource_value_t)0);
+        resources_set_int("RAMBlock0", 0);
     }
     if (memconf & VIC_BLK1) {
-        resources_set_value("RAMBlock1", (resource_value_t)1);
+        resources_set_int("RAMBlock1", 1);
         log_message(LOG_DEFAULT, "blk1 ");
     } else {
-        resources_set_value("RAMBlock1", (resource_value_t)0);
+        resources_set_int("RAMBlock1", 0);
     }
     if (memconf & VIC_BLK2) {
-        resources_set_value("RAMBlock2", (resource_value_t)1);
+        resources_set_int("RAMBlock2", 1);
         log_message(LOG_DEFAULT, "blk2 ");
     } else {
-        resources_set_value("RAMBlock2", (resource_value_t)0);
+        resources_set_int("RAMBlock2", 0);
     }
     if (memconf & VIC_BLK3) {
-        resources_set_value("RAMBlock3", (resource_value_t)1);
+        resources_set_int("RAMBlock3", 1);
         log_message(LOG_DEFAULT, "blk3 ");
     } else {
-        resources_set_value("RAMBlock3", (resource_value_t)0);
+        resources_set_int("RAMBlock3", 0);
     }
     if (memconf & VIC_BLK5) {
-        resources_set_value("RAMBlock5", (resource_value_t)1);
+        resources_set_int("RAMBlock5", 1);
         log_message(LOG_DEFAULT, "blk5");
     } else {
-        resources_set_value("RAMBlock5", (resource_value_t)0);
+        resources_set_int("RAMBlock5", 0);
     }
     if (memconf == 0)
         log_message(LOG_DEFAULT, "none");

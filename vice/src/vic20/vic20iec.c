@@ -239,7 +239,7 @@ int iec_available_busses(void)
 {
     int ieee488_enabled;
 
-    resources_get_value("IEEE488", (void *)&ieee488_enabled);
+    resources_get_int("IEEE488", &ieee488_enabled);
 
     return IEC_BUS_IEC | (ieee488_enabled ? IEC_BUS_IEEE : 0);
 }

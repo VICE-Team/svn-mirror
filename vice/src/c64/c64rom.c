@@ -79,8 +79,7 @@ int c64rom_get_kernal_checksum(void)
 /*
     {
         int drive_true_emulation;
-        resources_get_value("DriveTrueEmulation",
-                            (void *)&drive_true_emulation);
+        resources_get_int("DriveTrueEmulation", &drive_true_emulation);
         if (!drive_true_emulation)
             serial_install_traps();
     }
@@ -99,22 +98,22 @@ int c64rom_load_kernal(const char *rom_name)
     /* serial_remove_traps(); */
     /* we also need the TAPE traps!!! therefore -> */
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)1);
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 1);
 
     /* Load Kernal ROM.  */
     if (sysfile_load(rom_name,
         c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
         log_error(c64rom_log, "Couldn't load kernal ROM `%s'.",
                   rom_name);
-        resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+        resources_set_int("VirtualDevices", trapfl);
         return -1;
     }
     c64rom_get_kernal_checksum();
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom,
            C64_KERNAL_ROM_SIZE);
 
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    resources_set_int("VirtualDevices", trapfl);
 
     return 0;
 }
@@ -173,7 +172,7 @@ int c64rom_load_chargen(const char *rom_name)
 
 int mem_load(void)
 {
-    char *rom_name = NULL;
+    const char *rom_name = NULL;
 
     mem_powerup();
 
@@ -182,17 +181,17 @@ int mem_load(void)
 
     rom_loaded = 1;
 
-    if (resources_get_value("KernalName", (void *)&rom_name) < 0)
+    if (resources_get_string("KernalName", &rom_name) < 0)
         return -1;
     if (c64rom_load_kernal(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("BasicName", (void *)&rom_name) < 0)
+    if (resources_get_string("BasicName", &rom_name) < 0)
         return -1;
     if (c64rom_load_basic(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("ChargenName", (void *)&rom_name) < 0)
+    if (resources_get_string("ChargenName", &rom_name) < 0)
         return -1;
     if (c64rom_load_chargen(rom_name) < 0)
         return -1;

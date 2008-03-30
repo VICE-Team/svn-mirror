@@ -47,11 +47,11 @@
 
 void ted_timing_set(machine_timing_t *machine_timing)
 {
-    resource_value_t mode;
+    int mode;
 
-    resources_get_value("MachineVideoStandard", (void *)&mode);
+    resources_get_int("MachineVideoStandard", &mode);
 
-    switch ((int)mode) {
+    switch (mode) {
       case MACHINE_SYNC_NTSC:
         ted.screen_height = TED_NTSC_SCREEN_HEIGHT;
         ted.first_displayed_line = TED_NTSC_FIRST_DISPLAYED_LINE;

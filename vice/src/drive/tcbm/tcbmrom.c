@@ -62,12 +62,12 @@ static void tcbmrom_new_image_loaded(unsigned int dtype)
 
 int tcbmrom_load_1551(void)
 {
-    char *rom_name = NULL;
+    const char *rom_name = NULL;
 
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName1551", (void *)&rom_name);
+    resources_get_string("DosName1551", &rom_name);
 
     if (sysfile_load(rom_name, drive_rom1551, DRIVE_ROM1551_SIZE,
                      DRIVE_ROM1551_SIZE) < 0) {

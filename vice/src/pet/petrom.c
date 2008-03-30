@@ -513,7 +513,7 @@ int petrom_load_basic(void)
 
         if (old_start && (new_start > old_start)) {
             if (old_start <= 0xB000 && new_start >= 0xC000) {
-                resources_set_value("RomModuleBName", (resource_value_t)NULL);
+                resources_set_string("RomModuleBName", NULL);
             }
         }
 
@@ -522,7 +522,7 @@ int petrom_load_basic(void)
         /* if kernal long enough, "unload" expansion ROMs */
         if (petres.basic_start <= 0xb000) {
             petrom_B_loaded = 0;
-            resources_set_value("RomModuleBName", (resource_value_t)NULL);
+            resources_set_string("RomModuleBName", NULL);
             petrom_B_loaded = 1;
         }
     }

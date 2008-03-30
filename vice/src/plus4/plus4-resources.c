@@ -149,8 +149,8 @@ static int set_ram_size_plus4(int rs, void *param)
     ram_size_plus4 = rs;
 
     if (ram_size_plus4 < 256) {
-        resources_set_value("H256K", (resource_value_t)0);
-        resources_set_value("CS256K", (resource_value_t)0);
+        resources_set_int("H256K", 0);
+        resources_set_int("CS256K", 0);
     }
 
     vsync_suspend_speed_eval();
