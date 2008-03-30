@@ -630,7 +630,8 @@ int mem_load(void)
     if ((rsize = mem_load_sys_file(app_resources.directory,
 				   app_resources.kernalName,
 				   rom, pet.romSize, PET_ROM_SIZE)) < 0) {
-	fprintf(stderr, "Couldn't load ROM %s.\n\n", app_resources.kernalName);
+	fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
+                app_resources.kernalName);
 	return -1;
     }
 
@@ -639,28 +640,32 @@ int mem_load(void)
 	((rsize = mem_load_sys_file(app_resources.directory,
 				    app_resources.petromBasic,
 				    rom + 0x3000, 0x2000, 0x3000)) < 0)) {
-	fprintf(stderr, "Couldn't load ROM %s.\n\n", app_resources.petromBasic);
+	fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
+                app_resources.petromBasic);
 	return -1;
     }
     if (app_resources.petromEditor &&
 	((rsize = mem_load_sys_file(app_resources.directory,
 				    app_resources.petromEditor,
 				    rom + 0x6000, 0x0800, 0x0800)) < 0)) {
-	fprintf(stderr, "Couldn't load ROM %s.\n\n", app_resources.petromEditor);
+	fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
+                app_resources.petromEditor);
 	return -1;
     }
     if (app_resources.petrom9Name &&
 	((rsize = mem_load_sys_file(app_resources.directory,
 				    app_resources.petrom9Name,
 				    rom + 0x1000, 0x1000, 0x1000)) < 0)) {
-	fprintf(stderr, "Couldn't load ROM %s.\n\n", app_resources.petrom9Name);
+	fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
+                app_resources.petrom9Name);
 	return -1;
     }
     if (app_resources.petromAName &&
 	((rsize = mem_load_sys_file(app_resources.directory,
 				    app_resources.petromAName,
 				    rom + 0x2000, 0x1000, 0x1000)) < 0)) {
-	fprintf(stderr, "Couldn't load ROM %s.\n\n", app_resources.petromAName);
+	fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
+                app_resources.petromAName);
 	return -1;
     }
     if (app_resources.petromBName) {
@@ -668,12 +673,13 @@ int mem_load(void)
 	    if ((rsize = mem_load_sys_file(app_resources.directory,
 					   app_resources.petromBName,
 				       rom + 0x3000, 0x1000, 0x1000)) < 0) {
-		fprintf(stderr, "Couldn't load ROM %s.\n\n", app_resources.petromBName);
+		fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
+                        app_resources.petromBName);
 		return -1;
 	    }
 	} else {
 	    printf("PET: internal ROM too large for extension ROM at $b000 - "
-		   "ignoring %s\n", app_resources.petromBName);
+		   "ignoring `%s'\n", app_resources.petromBName);
 	}
     }
 
@@ -713,13 +719,6 @@ int mem_load(void)
 
     printf("Setting screen width to %d columns.\n", screen_width);
     crtc_set_screen_mode(ram + 0x8000, pet.vmask, screen_width);
-
-    /* Setup the corresponding PET keyboard. */
-    if (strcmp(app_resources.keyboardType, "business") == 0) {
-	set80key();
-    } else {
-	set40key();
-    }
 
     rom_loaded = 1;
 

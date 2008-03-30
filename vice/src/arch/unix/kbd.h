@@ -48,15 +48,10 @@
 extern int keyarr[KBD_ROWS], rev_keyarr[KBD_COLS];
 extern BYTE joy[3];
 
-extern void kbd_init(void);
+extern int kbd_init(const char *keymap_name);
 extern void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 			      Boolean *ctd);
-extern void kbd_load_keymap(const char *filename);
+extern int kbd_load_keymap(const char *filename);
 extern int kbd_dump_keymap(const char *filename);
-
-#ifdef PET
-extern void set80key(void);
-extern void set40key(void);
-#endif
 
 #endif
