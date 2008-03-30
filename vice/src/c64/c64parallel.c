@@ -39,30 +39,39 @@
 
 
 static BYTE parallel_cable_cpu_value = 0xff;
-static BYTE parallel_cable_drive0_value = 0xff;
-static BYTE parallel_cable_drive1_value = 0xff;
+static BYTE parallel_cable_drive_value[DRIVE_NUM] = { 0xff, 0xff, 0xff, 0xff };
 
 
-void parallel_cable_drive0_write(BYTE data, int handshake)
+static BYTE parallel_cable_value(void)
 {
-    if (handshake)
-        ciacore_set_flag(machine_context.cia2);
-    parallel_cable_drive0_value = data;
+    unsigned int dnr;
+    BYTE val;
+
+    val = parallel_cable_cpu_value;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        if (drive_context[dnr]->drive->enable
+            && drive_context[dnr]->drive->parallel_cable_enabled)
+            val &= parallel_cable_drive_value[dnr];
+    }
+
+    return val;
 }
 
-void parallel_cable_drive1_write(BYTE data, int handshake)
+void parallel_cable_drive_write(BYTE data, int handshake, unsigned int dnr)
 {
     if (handshake)
         ciacore_set_flag(machine_context.cia2);
-    parallel_cable_drive1_value = data;
+
+    parallel_cable_drive_value[dnr] = data;
 }
 
 BYTE parallel_cable_drive_read(int handshake)
 {
     if (handshake)
         ciacore_set_flag(machine_context.cia2);
-    return parallel_cable_cpu_value & parallel_cable_drive0_value
-        & parallel_cable_drive1_value;
+
+    return parallel_cable_value();
 }
 
 void parallel_cable_cpu_execute(void)
@@ -78,10 +87,6 @@ void parallel_cable_cpu_execute(void)
 
 void parallel_cable_cpu_write(BYTE data)
 {
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return;
-
     parallel_cable_cpu_execute();
 
     parallel_cable_cpu_value = data;
@@ -89,23 +94,14 @@ void parallel_cable_cpu_write(BYTE data)
 
 BYTE parallel_cable_cpu_read(void)
 {
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return 0xff;
-
     parallel_cable_cpu_execute();
 
-    return parallel_cable_cpu_value & parallel_cable_drive0_value
-        & parallel_cable_drive1_value;
+    return parallel_cable_value();
 }
 
 void parallel_cable_cpu_pulse(void)
 {
     unsigned int dnr;
-
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return;
 
     parallel_cable_cpu_execute();
 

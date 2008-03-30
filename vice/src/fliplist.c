@@ -92,8 +92,6 @@ int fliplist_resources_init(void)
     if (resources_register(resources) < 0)
         return -1;
 
-    lib_free(resources[0].factory_value);
-
     return 0;
 }
 
