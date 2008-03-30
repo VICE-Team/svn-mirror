@@ -108,16 +108,6 @@ static BYTE REGPARM1 z80mem_read(WORD addr)
     return _z80mem_read_tab_ptr[addr >> 8](addr);
 }
 
-static BYTE REGPARM1 ram_read(WORD addr)
-{
-    return ram_bank[addr];
-}
-
-static void REGPARM2 ram_store(WORD addr, BYTE value)
-{
-    ram_bank[addr] = value;
-}
-
 BYTE REGPARM1 bios_read(WORD addr)
 {
     return z80bios_rom[addr & 0x0fff];
@@ -136,16 +126,6 @@ static BYTE REGPARM1 z80_read_zero(WORD addr)
 static void REGPARM2 z80_store_zero(WORD addr, BYTE value)
 {
     mem_page_zero[addr] = value;
-}
-
-static BYTE REGPARM1 read_one(WORD addr)
-{
-    return mem_page_one[addr - 0x100];
-}
-
-static void REGPARM2 one_store(WORD addr, BYTE value)
-{
-    mem_page_one[addr - 0x100] = value;
 }
 
 static BYTE REGPARM1 read_unconnected_io(WORD addr)
@@ -197,17 +177,17 @@ void z80mem_initialize(void)
     mem_write_tab[0][1] = one_store;
     mem_read_tab[1][1] = bios_read;
     mem_write_tab[1][1] = one_store;
-    mem_read_tab[2][1] = read_one;
+    mem_read_tab[2][1] = one_read;
     mem_write_tab[2][1] = one_store;
-    mem_read_tab[3][1] = read_one;
+    mem_read_tab[3][1] = one_read;
     mem_write_tab[3][1] = one_store;
-    mem_read_tab[4][1] = read_one;
+    mem_read_tab[4][1] = one_read;
     mem_write_tab[4][1] = one_store;
-    mem_read_tab[5][1] = read_one;
+    mem_read_tab[5][1] = one_read;
     mem_write_tab[5][1] = one_store;
-    mem_read_tab[6][1] = read_one;
+    mem_read_tab[6][1] = one_read;
     mem_write_tab[6][1] = one_store;
-    mem_read_tab[7][1] = read_one;
+    mem_read_tab[7][1] = one_read;
     mem_write_tab[7][1] = one_store;
 
     for (i = 2; i < 0x10; i++) {
