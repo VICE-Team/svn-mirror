@@ -29,9 +29,9 @@
 
 #include "types.h"
 
-extern void REGPARM2 vic_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 vic_read(ADDRESS addr);
-extern BYTE REGPARM1 vic_peek(ADDRESS addr);
+extern void REGPARM2 vic_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 vic_read(WORD addr);
+extern BYTE REGPARM1 vic_peek(WORD addr);
 
 #endif
 

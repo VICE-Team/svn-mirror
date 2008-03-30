@@ -34,9 +34,9 @@ struct snapshot_s;
 
 extern void cia1_init(void);
 extern void cia1_reset(void);
-extern void REGPARM2 cia1_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 cia1_read(ADDRESS addr);
-extern BYTE REGPARM1 cia1_peek(ADDRESS addr);
+extern void REGPARM2 cia1_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 cia1_read(WORD addr);
+extern BYTE REGPARM1 cia1_peek(WORD addr);
 extern void cia1_prevent_clk_overflow(CLOCK sub);
 extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);

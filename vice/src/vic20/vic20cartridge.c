@@ -344,7 +344,7 @@ void cartridge_set_default(void)
     set_cartridge_file_B((resource_value_t)cartfileB, NULL);
 }
 
-const char *cartridge_get_file_name(ADDRESS addr)
+const char *cartridge_get_file_name(WORD addr)
 {
     switch (addr) {
       case 0x2000:

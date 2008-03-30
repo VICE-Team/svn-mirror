@@ -84,7 +84,7 @@ static void undump_pra(BYTE byte)
     printer_interface_userport_write_data(byte);
 }
 
-inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE myoldpa, WORD addr)
 {
         printer_interface_userport_write_data(byte);
 }
@@ -95,7 +95,7 @@ static void undump_prb(BYTE byte)
     parallel_cpu_restore_atn((BYTE)(!(byte & 0x04)));
 }
 
-inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
+inline static void store_prb(BYTE byte, BYTE myoldpb, WORD addr)
 {
     if ((addr==VIA_DDRB) && (via[addr] & 0x20)) {
         log_warning(via_log, "PET: Killer POKE! might kill a real PET!\n");
@@ -120,7 +120,7 @@ static void undump_pcr(BYTE byte)
 #endif
 }
 
-inline static void store_pcr(BYTE byte, ADDRESS addr)
+inline static void store_pcr(BYTE byte, WORD addr)
 {
 #if 0
     if (byte != via[VIA_PCR]) {
@@ -172,7 +172,7 @@ static void res_via(void)
     printer_interface_userport_write_strobe(1);
 }
 
-inline static BYTE read_pra(ADDRESS addr)
+inline static BYTE read_pra(WORD addr)
 {
     BYTE byte;
     byte = 255;

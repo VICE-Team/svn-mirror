@@ -106,6 +106,10 @@ SOURCE=..\..\drive\iec\iecrom.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\iec\jobcode1581.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\iec\memiec.c
 # End Source File
 # Begin Source File

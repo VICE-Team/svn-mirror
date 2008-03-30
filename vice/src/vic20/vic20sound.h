@@ -29,7 +29,7 @@
 
 #include "types.h"
 
-extern void vic_sound_store(ADDRESS address, BYTE byte);
+extern void vic_sound_store(WORD address, BYTE byte);
 extern void vic_sound_reset(void);
 
 #endif

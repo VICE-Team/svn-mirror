@@ -33,9 +33,9 @@ struct snapshot_s;
 
 extern void tpi1_init(void);
 extern void tpi1_reset(void);
-extern void REGPARM2 tpi1_store(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 tpi1_read(ADDRESS addr);
-extern BYTE tpi1_peek(ADDRESS addr);
+extern void REGPARM2 tpi1_store(WORD addr, BYTE byte);
+extern BYTE REGPARM1 tpi1_read(WORD addr);
+extern BYTE tpi1_peek(WORD addr);
 extern void tpi1_set_int(int bit, int state);
 extern void tpi1_restore_int(int bit, int state);
 extern void tpi1_set_tape_sense(int v);
@@ -44,9 +44,9 @@ extern int tpi1_snapshot_read_module(struct snapshot_s *p);
 
 extern void tpi2_init(void);
 extern void tpi2_reset(void);
-extern void REGPARM2 tpi2_store(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 tpi2_read(ADDRESS addr);
-extern BYTE tpi2_peek(ADDRESS addr);
+extern void REGPARM2 tpi2_store(WORD addr, BYTE byte);
+extern BYTE REGPARM1 tpi2_read(WORD addr);
+extern BYTE tpi2_peek(WORD addr);
 extern void tpi2_set_int(int bit, int state);
 extern void tpi2_restore_int(int bit, int state);
 extern int tpi2_snapshot_write_module(struct snapshot_s *p);

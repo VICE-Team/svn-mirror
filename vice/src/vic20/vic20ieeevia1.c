@@ -87,7 +87,7 @@ static void undump_pra(BYTE byte)
 {
 }
 
-inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE myoldpa, WORD addr)
 {
 }
 
@@ -98,7 +98,7 @@ static void undump_prb(BYTE byte)
     parallel_cpu_set_ndac((BYTE)(!(byte & 0x04)));
 }
 
-inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
+inline static void store_prb(BYTE byte, BYTE myoldpb, WORD addr)
 {
     parallel_cpu_set_dav((BYTE)(!(byte & 0x01)));
     parallel_cpu_set_nrfd((BYTE)(!(byte & 0x02)));
@@ -116,12 +116,12 @@ static void res_via(void)
     parallel_cpu_set_ndac(0);
 }
 
-inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
+inline static BYTE store_pcr(BYTE byte, WORD addr)
 {
     return byte;
 }
 
-inline static BYTE read_pra(ADDRESS addr)
+inline static BYTE read_pra(WORD addr)
 {
     return 0xff;
 }

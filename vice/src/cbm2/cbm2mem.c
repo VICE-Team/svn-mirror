@@ -357,7 +357,7 @@ void cbm2mem_set_bank_ind(int val)
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 zero_store(ADDRESS addr, BYTE value)
+void REGPARM2 zero_store(WORD addr, BYTE value)
 {
     if (addr == 0)
         cbm2mem_set_bank_exec(value);
@@ -365,40 +365,40 @@ void REGPARM2 zero_store(ADDRESS addr, BYTE value)
       if (addr == 1)
           cbm2mem_set_bank_ind(value);
 
-    _mem_write_tab_ptr[0]((ADDRESS)(addr & 0xff), value);
+    _mem_write_tab_ptr[0]((WORD)(addr & 0xff), value);
 }
 
-#define STORE_ZERO(bank)                                                \
-    void REGPARM2 store_zero_##bank(ADDRESS addr, BYTE value)           \
-    {                                                                   \
-        addr &= 0xff;                                                   \
-                                                                        \
-        if (addr == 0)                                                  \
-            cbm2mem_set_bank_exec(value);                               \
-        else                                                            \
-        if (addr == 1)                                                  \
-            cbm2mem_set_bank_ind(value);                                \
-                                                                        \
-        mem_ram[(0x##bank << 16) | addr] = value;                       \
+#define STORE_ZERO(bank)                                    \
+    void REGPARM2 store_zero_##bank(WORD addr, BYTE value)  \
+    {                                                       \
+        addr &= 0xff;                                       \
+                                                            \
+        if (addr == 0)                                      \
+            cbm2mem_set_bank_exec(value);                   \
+        else                                                \
+        if (addr == 1)                                      \
+            cbm2mem_set_bank_ind(value);                    \
+                                                            \
+        mem_ram[(0x##bank << 16) | addr] = value;           \
     }
 
 
-#define READ_ZERO(bank)                                                 \
-    BYTE REGPARM1 read_zero_##bank(ADDRESS addr)                        \
-    {                                                                   \
-        return mem_ram[(0x##bank << 16) | (addr & 0xff)];               \
+#define READ_ZERO(bank)                                     \
+    BYTE REGPARM1 read_zero_##bank(WORD addr)               \
+    {                                                       \
+        return mem_ram[(0x##bank << 16) | (addr & 0xff)];   \
     }
 
-#define READ_RAM(bank)                                                  \
-    BYTE REGPARM1 read_ram_##bank(ADDRESS addr)                         \
-    {                                                                   \
-        return mem_ram[(0x##bank << 16) | addr];                        \
+#define READ_RAM(bank)                                      \
+    BYTE REGPARM1 read_ram_##bank(WORD addr)                \
+    {                                                       \
+        return mem_ram[(0x##bank << 16) | addr];            \
     }
 
-#define STORE_RAM(bank)                                                 \
-    void REGPARM2 store_ram_##bank(ADDRESS addr, BYTE byte)             \
-    {                                                                   \
-        mem_ram[(0x##bank << 16) | addr] = byte;                        \
+#define STORE_RAM(bank)                                     \
+    void REGPARM2 store_ram_##bank(WORD addr, BYTE byte)    \
+    {                                                       \
+        mem_ram[(0x##bank << 16) | addr] = byte;            \
     }
 
 STORE_ZERO(0)
@@ -498,7 +498,7 @@ static read_func_ptr_t read_zero_tab[16] = {
 };
 
 
-void REGPARM2 store_zeroX(ADDRESS addr, BYTE value)
+void REGPARM2 store_zeroX(WORD addr, BYTE value)
 {
     if (addr == 0)
         cbm2mem_set_bank_exec(value);
@@ -507,27 +507,27 @@ void REGPARM2 store_zeroX(ADDRESS addr, BYTE value)
             cbm2mem_set_bank_ind(value);
 }
 
-BYTE REGPARM1 rom_read(ADDRESS addr)
+BYTE REGPARM1 rom_read(WORD addr)
 {
     return mem_rom[addr];
 }
 
-BYTE REGPARM1 read_chargen(ADDRESS addr)
+BYTE REGPARM1 read_chargen(WORD addr)
 {
     return mem_chargen_rom[addr & 0xfff];
 }
 
-void REGPARM2 rom_store(ADDRESS addr, BYTE value)
+void REGPARM2 rom_store(WORD addr, BYTE value)
 {
     mem_rom[addr] = value;
 }
 
-static BYTE REGPARM1 read_unused(ADDRESS addr)
+static BYTE REGPARM1 read_unused(WORD addr)
 {
     return 0xff; /* (addr >> 8) & 0xff; */
 }
 
-static void REGPARM2 store_dummy(ADDRESS addr, BYTE value)
+static void REGPARM2 store_dummy(WORD addr, BYTE value)
 {
     return;
 }
@@ -536,25 +536,25 @@ static void REGPARM2 store_dummy(ADDRESS addr, BYTE value)
 
 /* Functions for watchpoint memory access.  */
 
-BYTE REGPARM1 read_watch(ADDRESS addr)
+BYTE REGPARM1 read_watch(WORD addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab[cbm2mem_bank_exec][addr >> 8](addr);
 }
 
-void REGPARM2 store_watch(ADDRESS addr, BYTE value)
+void REGPARM2 store_watch(WORD addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab[cbm2mem_bank_exec][addr >> 8](addr, value);
 }
 
-BYTE REGPARM1 read_ind_watch(ADDRESS addr)
+BYTE REGPARM1 read_ind_watch(WORD addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab[cbm2mem_bank_ind][addr >> 8](addr);
 }
 
-void REGPARM2 store_ind_watch(ADDRESS addr, BYTE value)
+void REGPARM2 store_ind_watch(WORD addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab[cbm2mem_bank_ind][addr >> 8](addr, value);
@@ -564,19 +564,19 @@ void REGPARM2 store_ind_watch(ADDRESS addr, BYTE value)
 
 /* Generic memory access.  */
 
-void REGPARM2 mem_store(ADDRESS addr, BYTE value)
+void REGPARM2 mem_store(WORD addr, BYTE value)
 {
     _mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE REGPARM1 mem_read(ADDRESS addr)
+BYTE REGPARM1 mem_read(WORD addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 store_io(ADDRESS addr, BYTE value)
+void REGPARM2 store_io(WORD addr, BYTE value)
 {
     switch (addr & 0xf800) {
       case 0xd000:
@@ -597,28 +597,28 @@ void REGPARM2 store_io(ADDRESS addr, BYTE value)
           case 0xd900:
             return;                     /* disk units */
           case 0xda00:
-            sid_store((ADDRESS)(addr & 0xff), value);
+            sid_store((WORD)(addr & 0xff), value);
             return;
           case 0xdb00:
             return;                     /* coprocessor */
           case 0xdc00:
-            cia1_store((ADDRESS)(addr & 0x0f), value);
+            cia1_store((WORD)(addr & 0x0f), value);
             return;
           case 0xdd00:
-            acia1_store((ADDRESS)(addr & 0x03), value);
+            acia1_store((WORD)(addr & 0x03), value);
             return;
           case 0xde00:
-            tpi1_store((ADDRESS)(addr & 0x07), value);
+            tpi1_store((WORD)(addr & 0x07), value);
             return;
           case 0xdf00:
-            tpi2_store((ADDRESS)(addr & 0x07), value);
+            tpi2_store((WORD)(addr & 0x07), value);
             return;
         }
     }
 }
 
 
-BYTE REGPARM1 read_io(ADDRESS addr)
+BYTE REGPARM1 read_io(WORD addr)
 {
 /*
     if (emu_id_enabled && addr >= 0xE8A0) {
@@ -658,9 +658,9 @@ BYTE REGPARM1 read_io(ADDRESS addr)
             /* FIXME: VIC-II irq? */
             /* if (cbm2_isC500 && ((addr & 7) == 2)) {
                    return tpi1_read(addr&7)|1; }   */
-            return tpi1_read((ADDRESS)(addr & 0x07));
+            return tpi1_read((WORD)(addr & 0x07));
           case 0xdf00:
-            return tpi2_read((ADDRESS)(addr & 0x07));
+            return tpi2_read((WORD)(addr & 0x07));
         }
     }
     return read_unused(addr);
@@ -696,12 +696,12 @@ void mem_reset(void) {
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 colorram_store(ADDRESS addr, BYTE value)
+void REGPARM2 colorram_store(WORD addr, BYTE value)
 {
     mem_color_ram[addr & 0x3ff] = value & 0xf;
 }
 
-BYTE REGPARM1 colorram_read(ADDRESS addr)
+BYTE REGPARM1 colorram_read(WORD addr)
 {
     return mem_color_ram[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
 }
@@ -984,17 +984,17 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 
 /* FIXME: To do!  */
 
-void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
+void mem_get_basic_text(WORD *start, WORD *end)
 {
 }
 
-void mem_set_basic_text(ADDRESS start, ADDRESS end)
+void mem_set_basic_text(WORD start, WORD end)
 {
 }
 
 /* ------------------------------------------------------------------------- */
 
-int mem_rom_trap_allowed(ADDRESS addr)
+int mem_rom_trap_allowed(WORD addr)
 {
     return 1;   /* (addr >= 0xf000) && !(map_reg & 0x80); */
 }
@@ -1007,7 +1007,7 @@ void mem_set_tape_sense(int value)
 
 /* Banked memory access functions for the monitor.  */
 
-static BYTE peek_bank_io(ADDRESS addr)
+static BYTE peek_bank_io(WORD addr)
 {
     switch (addr & 0xf800) {
       case 0xc000:
@@ -1034,9 +1034,9 @@ static BYTE peek_bank_io(ADDRESS addr)
           case 0xdd00:
             return acia1_peek(addr);
           case 0xde00:
-            return tpi1_peek((ADDRESS)(addr & 0x07));
+            return tpi1_peek((WORD)(addr & 0x07));
           case 0xdf00:
-            return tpi2_peek((ADDRESS)(addr & 0x07));
+            return tpi2_peek((WORD)(addr & 0x07));
         }
     }
     return read_unused(addr);
@@ -1073,7 +1073,7 @@ int mem_bank_from_name(const char *name)
     return -1;
 }
 
-BYTE mem_bank_read(int bank, ADDRESS addr)
+BYTE mem_bank_read(int bank, WORD addr)
 {
     switch (bank) {
       case 17:                  /* current */
@@ -1090,7 +1090,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
     return read_unused(addr);
 }
 
-BYTE mem_bank_peek(int bank, ADDRESS addr)
+BYTE mem_bank_peek(int bank, WORD addr)
 {
     if (bank == 16) {
         if (addr >= 0xc000 && addr < 0xe000) {
@@ -1100,7 +1100,7 @@ BYTE mem_bank_peek(int bank, ADDRESS addr)
     return mem_bank_read(bank, addr);
 }
 
-void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
+void mem_bank_write(int bank, WORD addr, BYTE byte)
 {
     switch (bank) {
       case 17:                   /* current */
@@ -1143,7 +1143,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void)
     return mem_ioreg_list;
 }
 
-void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
+void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns)
 {
     /* FIXME */
     *base = 0;

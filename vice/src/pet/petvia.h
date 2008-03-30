@@ -33,9 +33,9 @@ struct snapshot_s;
 
 extern void via_reset(void);
 extern void via_init(void);
-extern BYTE REGPARM1 via_read(ADDRESS addr);
-extern BYTE REGPARM1 via_peek(ADDRESS addr);
-extern void REGPARM2 via_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 via_read(WORD addr);
+extern BYTE REGPARM1 via_peek(WORD addr);
+extern void REGPARM2 via_store(WORD addr, BYTE value);
 
 extern int via_snapshot_read_module(struct snapshot_s *);
 extern int via_snapshot_write_module(struct snapshot_s *);

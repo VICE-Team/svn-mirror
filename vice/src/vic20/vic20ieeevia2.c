@@ -87,7 +87,7 @@ static void undump_pra(BYTE byte)
     parallel_cpu_set_bus(byte);
 }
 
-inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE myoldpa, WORD addr)
 {
     parallel_cpu_set_bus(byte);
 }
@@ -96,7 +96,7 @@ static void undump_prb(BYTE byte)
 {
 }
 
-inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
+inline static void store_prb(BYTE byte, BYTE myoldpb, WORD addr)
 {
 }
 
@@ -109,7 +109,7 @@ static void res_via(void)
     parallel_cpu_set_bus(0xff); /* all data lines high, because of input mode */
 }
 
-inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
+inline static BYTE store_pcr(BYTE byte, WORD addr)
 {
 #if 0
     if (byte != myvia[VIA_PCR]) {
@@ -138,7 +138,7 @@ inline static BYTE read_prb(void)
     return byte;
 }
 
-inline static BYTE read_pra(ADDRESS addr)
+inline static BYTE read_pra(WORD addr)
 {
     return 0xff;
 }

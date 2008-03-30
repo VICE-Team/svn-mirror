@@ -391,7 +391,7 @@ void vic_update_memory_ptrs(void)
     static BYTE *old_color_ptr = NULL;
     static BYTE *old_screen_ptr = NULL;
 
-    ADDRESS char_addr;
+    WORD char_addr;
     int tmp;
   
     BYTE *new_chargen_ptr;

@@ -38,8 +38,7 @@
 
 /* VIC access functions. */
 
-void REGPARM2
-vic_store(ADDRESS addr, BYTE value)
+void REGPARM2 vic_store(WORD addr, BYTE value)
 {
     addr &= 0xf;
     vic.regs[addr] = value;
@@ -344,8 +343,7 @@ vic_store(ADDRESS addr, BYTE value)
 
 
 
-BYTE REGPARM1
-vic_read(ADDRESS addr)
+BYTE REGPARM1 vic_read(WORD addr)
 {
     addr &= 0xf;
 

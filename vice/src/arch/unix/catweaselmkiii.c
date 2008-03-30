@@ -47,25 +47,35 @@ typedef void (*voidfunc_t)(void);
 
 #define MAXSID 2
 
+/* buffer containing current register state of SIDs */
 static BYTE sidbuf[0x20 * MAXSID];
-static int sidfh = -1;
-static int ntsc = 0;
-static int atexitinitialized = 0;
 
+/* file handle for unix device */
+static int sidfh = -1;
+
+/* 0 = pal, !0 = ntsc */
+static int ntsc = 0;
+
+/* set all CatWeasels frequency to global variable ntsc */
 static void setfreq()
 {
     if (sidfh >= 0)
         ioctl(sidfh, ntsc ? CWSID_IOCTL_NTSC : CWSID_IOCTL_PAL);
 }
 
-static int opendevice()
+/* open unix device */
+int catweaselmkiii_open(void)
 {
+    static int atexitinitialized = 0;
+
+    /* if no device is currently opened */
     if (sidfh < 0) {
         sidfh = open("/dev/sid", O_WRONLY);
 
         if (sidfh < 0)
             sidfh = open("/dev/misc/sid", O_WRONLY);
 
+	/* could not open at standard locations: error */
         if (sidfh < 0) {
             log_error(LOG_DEFAULT,
                       "could not open sid device /dev/sid or /dev/misc/sid");
@@ -73,48 +83,30 @@ static int opendevice()
         }
     }
 
-    return 0;
-}
+    /* mute all sids */
+    memset(sidbuf, 0, sizeof(sidbuf));
+    lseek(sidfh, 0, SEEK_SET);
+    write(sidfh, sidbuf, sizeof(sidbuf));
 
-int catweaselmkiii_init(void)
-{
-  int r = opendevice();
+    setfreq();
 
-  catweaselmkiii_close();
+    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
 
-  if (r < 0)
-      log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: not found");
-  else
-      log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: found");
-
-  return r;
-}
-
-int catweaselmkiii_open(void)
-{
+    /* install exit handler, so device is closed on exit */
     if (!atexitinitialized) {
         atexitinitialized = 1;
         atexit((voidfunc_t)catweaselmkiii_close);
     }
 
-    if (opendevice() < 0) {
-        log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: could not open");
-        return -1;
-    }
-
-    memset(sidbuf, 0, sizeof(sidbuf));
-    lseek(sidfh, 0, SEEK_SET);
-    write(sidfh, sidbuf, sizeof(sidbuf));
-    setfreq();
-
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
-
     return 0;
 }
 
+/* close unix device */
 int catweaselmkiii_close(void)
 {
+  /* if there is a device opened */
     if (sidfh >= 0) {
+      /* mute */
         memset(sidbuf, 0, sizeof(sidbuf));
         lseek(sidfh, 0, SEEK_SET);
         write(sidfh, sidbuf, sizeof(sidbuf));
@@ -122,33 +114,44 @@ int catweaselmkiii_close(void)
         close(sidfh);
         sidfh = -1;
 
-        /*log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");*/
+        log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
     }
 
     return 0;
 }
 
+/* read value from SIDs */
 int catweaselmkiii_read(ADDRESS addr, int chipno)
 {
+  /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
+      /* if addr is from read-only register, perform a read read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
             addr += chipno*0x20;
             lseek(sidfh, addr, SEEK_SET);
             read(sidfh, &sidbuf[addr], 1);
-        } else
+        } 
+	/* else correct addr, so it becomes an index into sidbuf[] */
+	else
           addr += chipno*0x20;
 
+	/* take value from sidbuf[] */
         return sidbuf[addr];
     }
 
     return 0;
 }
 
+/* write value into SID */
 void catweaselmkiii_store(ADDRESS addr, BYTE val, int chipno)
 {
+  /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr <= 0x18) {
+      /* correct addr, so it becomes an index into sidbuf[] and the unix device */
         addr += chipno * 0x20;
+	/* write into sidbuf[] */
         sidbuf[addr] = val;
+	/* if the device is opened, write to device */
         if (sidfh >= 0) {
             lseek(sidfh, addr, SEEK_SET);
             write(sidfh, &val, 1);
@@ -156,19 +159,12 @@ void catweaselmkiii_store(ADDRESS addr, BYTE val, int chipno)
     }
 }
 
+/* set current main clock frequency, which gives us the possibilty to
+   choose between pal and ntsc frequencies */
 void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 {
     ntsc = (cycles_per_sec <= 1000000) ? 0 : 1;
     setfreq();
-}
-
-int catweaselmkiii_available(void)
-{
-    int r = opendevice();
-
-    catweaselmkiii_close();
-
-    return r;
 }
 
 #endif

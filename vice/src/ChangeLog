@@ -1,3 +1,65 @@
+2003-03-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.18.
+
+	* keyboard.c (keyboard_key_pressed, keyboard_key_released):
+	Stop searching for the matching key code if one is found and
+	`ALLOW_OTHER' is not defined or no shift key is pressed.
+
+	* keyboard.h: Changed define to `ALLOW_OTHER'.
+
+	* sid/sid-snapshot.c (sid_snapshot_write_module_extended,
+	sid_snapshot_read_module_extended): Check for sound playback
+	and SID engine.
+
+	* arch/unix/x11/xaw/uiscreenshot.c, arch/unix/uiscreenshot.h,
+	c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c, cbm2/cbm2.c,
+	plus4/plus4.c,  arch/unix/c64ui.c, arch/unix/c128ui.c,
+	arch/unix/vic20ui.c, arch/unix/petui.c, arch/unix/cbm2ui.c,
+	arch/unix/plus4ui.c, arch/win32/uisnapshot.c,
+	arch/riscos/ui.c, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/dlg-fileio.c: Always use canvas for
+	screenshot.
+
+	* arch/win32/videoarch.h, arch/win32/fullscrn.c,
+	arch/win32/uisnapshot.c, arch/win32/video.c: Renamed
+	`canvas_find_canvas_for_hwnd()'.
+
+	* drive/iec/cia1571d.c, drive/iec/cia1581d.c, c128/c128iec.c,
+	iecdrive.h, c64/c64iec.c, vic20/vic20iec.c plus4/plus4iec.c,
+	pet/petiec.c, cbm2/cbm2iec.c, drive/via1d.c: Improved fast IEC
+	transfer.
+
+	* c128/c128mmu.c (mmu_store): Set FS direction.
+
+	* drive/iec/iec.c (iec_drive_handle_job_code): Call
+	`jobcode1581_handle_job_code()'.
+
+	* drive/iec/jobcode1581.c, drive/iec/jobcode1581.h: New files.
+
+	* drive/iec/Makefile.am, arch/win32/iec.dsp: Added new files.
+
+	* drive/iec/wd1770.c, drive/iec/wd1770.h: Moved 1581 job code
+	emulation to separate file.
+
+	* vic20/vic-mem.c, vic20/vic-mem.h, vic20/vic-snapshot.c,
+	vic20/vic.c, vic20/vic20.c, vic20/vic20cartridge.c,
+	vic20/vic20drive.c, vic20/vic20mem.c, vic20/vic20sound.c,
+	vic20/vic20sound.h, vic20/vic20via.h, vic20/vic20via1.c,
+	vic20/vic20via2.c, vic20/vic20ieeevia.h,
+	vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c, pet/petacia.h,
+	pet/petdrive.c, pet/petmem.c, pet/petpia.h, pet/petrom.c,
+	pet/pets.h, pet/petsound.c, pet/petvia.c, pet/petvia.h,
+	cbm2/cbm2acia.h, cbm2/cbm2cia.h, cbm2/cbm2cpu.c,
+	cbm2/cbm2drive.c, cbm2/cbm2mem.c, cbm2/cbm2tpi.h: Use `WORD'
+	instead of `ADDRESS'.
+
+2003-03-22  Dirk Jagdmann  <doj@cubic.org>
+
+	* arch/win32/catweaselmkiii.c, arch/unix/catweaselmkiii.c,
+	catweaselmkiii.h, sid/sid.c: removed catweasekmkiii_init() and
+	related code
+
 2003-03-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.17.

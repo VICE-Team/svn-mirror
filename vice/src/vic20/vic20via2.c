@@ -1,5 +1,5 @@
 /*
- * via2.c - VIA2 emulation in the VIC20.
+ * vic20via2.c - VIA2 emulation in the VIC20.
  *
  * Written by
  *   André Fachat <fachat@physik.tu-chemnitz.de>
@@ -93,7 +93,7 @@ static void undump_pra(BYTE byte)
     iec_pa_write(byte);
 }
 
-inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE myoldpa, WORD addr)
 {
     if (!(byte & 0x20) && (myoldpa & 0x20))
         vic_trigger_light_pen(maincpu_clk);
@@ -106,7 +106,7 @@ static void undump_prb(BYTE byte)
     printer_interface_userport_write_data(byte);
 }
 
-inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
+inline static void store_prb(BYTE byte, BYTE myoldpb, WORD addr)
 {
     printer_interface_userport_write_data(byte);
 #ifdef HAVE_RS232
@@ -130,7 +130,7 @@ static void res_via(void)
 #endif
 }
 
-inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
+inline static BYTE store_pcr(BYTE byte, WORD addr)
 {
     /* FIXME: should use VIA_SET_CA2() and VIA_SET_CB2() */
     if (byte != via2[VIA_PCR]) {
@@ -170,7 +170,7 @@ inline void static store_t2l(BYTE byte)
 {
 }
 
-inline static BYTE read_pra(ADDRESS addr)
+inline static BYTE read_pra(WORD addr)
 {
     BYTE byte;
     BYTE joy_bits;

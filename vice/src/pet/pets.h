@@ -102,7 +102,7 @@ typedef struct petres_s {
     int         vmask;          /* valid CRTC address bits */
     int         rompatch;       /* 1 = need $ef** for ROM patch */
     int         rom_video;      /* derived from ROM */
-    ADDRESS     basic_start;    /* derived from ROM */
+    WORD        basic_start;    /* derived from ROM */
     WORD        kernal_checksum;/* derived from ROM */
     WORD        editor_checksum;/* derived from ROM */
 } petres_t;

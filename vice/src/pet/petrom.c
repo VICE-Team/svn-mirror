@@ -486,7 +486,7 @@ int petrom_load_chargen(void)
 int petrom_load_basic(void)
 {
     int krsize;
-    ADDRESS old_start, new_start;
+    WORD old_start, new_start;
 
     if (!rom_loaded)
         return 0;

@@ -1,5 +1,5 @@
 /*
- * via1.c - VIA1 emulation in the VIC20.
+ * vic20via1.c - VIA1 emulation in the VIC20.
  *
  * Written by
  *   André Fachat <fachat@physik.tu-chemnitz.de>
@@ -95,7 +95,7 @@ static void undump_pra(BYTE byte)
 {
 }
 
-inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE myoldpa, WORD addr)
 {
 }
 
@@ -103,7 +103,7 @@ static void undump_prb(BYTE byte)
 {
 }
 
-inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
+inline static void store_prb(BYTE byte, BYTE myoldpb, WORD addr)
 {
     if ((byte ^ myoldpb) & 8)
         datasette_toggle_write_bit((~via1[VIA_DDRB] | byte) & 0x8);
@@ -118,7 +118,7 @@ static void res_via(void)
 /*      iec_pcr_write(0x22);*/
 }
 
-inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
+inline static BYTE store_pcr(BYTE byte, WORD addr)
 {
     /* FIXME: this should use VIA_SET_CA2() and VIA_SET_CB2() */
     if (byte != via1[VIA_PCR]) {
@@ -132,7 +132,7 @@ inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
     return byte;
 }
 
-inline static BYTE read_pra(ADDRESS addr)
+inline static BYTE read_pra(WORD addr)
 {
     BYTE byte;
     /* FIXME: not 100% sure about this... */

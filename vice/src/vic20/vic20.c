@@ -402,7 +402,7 @@ void machine_shutdown(void)
 }
 
 /* Return nonzero if `addr' is in the trappable address space.  */
-int rom_trap_allowed(ADDRESS addr)
+int rom_trap_allowed(WORD addr)
 {
     return 1; /* FIXME */
 }
@@ -578,17 +578,15 @@ void machine_play_psid(int tune)
 {
 }
 
-int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
+struct video_canvas_s *machine_canvas_get(unsigned int window)
 {
-    if (wn != 0)
-        return -1;
+    if (window == 0)
+        return vic_get_canvas();
 
-    vic_screenshot(screenshot);
-    return 0;
+    return NULL;
 }
 
-int machine_canvas_screenshot(screenshot_t *screenshot,
-                              struct video_canvas_s *canvas)
+int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
     if (canvas != vic_get_canvas())
         return -1;

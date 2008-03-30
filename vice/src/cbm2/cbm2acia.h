@@ -35,9 +35,9 @@
 struct snapshot_s;
 
 extern void acia1_init(void);
-extern BYTE REGPARM1 acia1_read(ADDRESS a);
-extern BYTE REGPARM1 acia1_peek(ADDRESS a);
-extern void REGPARM2 acia1_store(ADDRESS a, BYTE b);
+extern BYTE REGPARM1 acia1_read(WORD a);
+extern BYTE REGPARM1 acia1_peek(WORD a);
+extern void REGPARM2 acia1_store(WORD a, BYTE b);
 extern void acia1_reset(void);
 
 extern int acia1_cmdline_options_init(void);

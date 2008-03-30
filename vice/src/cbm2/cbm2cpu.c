@@ -57,10 +57,10 @@ extern store_func_ptr_t *_mem_write_ind_tab_ptr;
     PAGE_ZERO[(addr) & 0xff]
 
 #define STORE_IND(addr, value) \
-    (*_mem_write_ind_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
+    (*_mem_write_ind_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value))
 
 #define LOAD_IND(addr) \
-    (*_mem_read_ind_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
+    (*_mem_read_ind_tab_ptr[(addr) >> 8])((WORD)(addr))
 
 #include "../maincpu.c"
 

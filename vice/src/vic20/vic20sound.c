@@ -129,7 +129,7 @@ int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
                       | ((i << (5 - (16 - 16))) & 0x20));
     }
     for (i = 0; i < 16; i++)
-        sound_machine_store(psid, (ADDRESS)i, siddata[i]);
+        sound_machine_store(psid, (WORD)i, siddata[i]);
 
     return 1;
 }
@@ -141,7 +141,7 @@ void sound_machine_close(sound_t *psid)
 
 void vic_sound_reset(void)
 {
-    ADDRESS i;
+    WORD i;
 
     sound_reset();
     for (i = 10; i < 15; i++)
@@ -154,14 +154,14 @@ void vic_sound_reset(void)
  */
 #define VIC20FREQBASE    65535
 
-void vic_sound_store(ADDRESS addr, BYTE value)
+void vic_sound_store(WORD addr, BYTE value)
 {
     addr &= 0x0f;
     siddata[addr] = value;
     sound_store(addr, value, 0);
 }
 
-void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)
+void sound_machine_store(sound_t *psid, WORD addr, BYTE value)
 {
     DWORD freq;
     int sbase, shift, divide;
@@ -200,7 +200,7 @@ void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
 }
 
-BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
+BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
     abort();
     return 0;
