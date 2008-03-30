@@ -268,6 +268,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
         memcpy(event_data, data, size);
         break;
       case EVENT_LIST_END:
+      case EVENT_OVERFLOW:
         break;
       default:
         /*log_error(event_log, "Unknow event type %i.", type);*/
@@ -359,6 +360,8 @@ static void event_alarm_handler(CLOCK offset, void *data)
       case EVENT_LIST_END:
         event_playback_stop();
         break;
+      case EVENT_OVERFLOW:
+        break;
       default:
         log_error(event_log, "Unknow event type %i.", event_list_current->type);
     }
@@ -395,7 +398,6 @@ static void cut_list(event_list_t *cut_base)
         lib_free(c1);
         c1 = c2;
     }
-
 }
 
 static void destroy_image_list(void)
@@ -907,7 +909,9 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
                 next_timestamp_clk = clk;
         } else {
             /* insert timestamps each second */
-           while (next_timestamp_clk < clk) {
+            while (next_timestamp_clk < clk || (type == EVENT_OVERFLOW 
+                && next_timestamp_clk < maincpu_clk_guard->clk_max_value))
+            {
                 curr->type = EVENT_TIMESTAMP;
                 curr->clk = next_timestamp_clk;
                 curr->size = 0;
@@ -916,6 +920,9 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
                 next_timestamp_clk += machine_get_cycles_per_second();
                 num_of_timestamps++;
             }
+
+            if (type == EVENT_OVERFLOW)
+                    next_timestamp_clk -= clk_guard_clock_sub(maincpu_clk_guard);
         }
 
         curr->type = type;
@@ -1075,11 +1082,23 @@ int event_cmdline_options_init(void)
 
 /*-----------------------------------------------------------------------*/
 
+static void clk_overflow_callback(CLOCK sub, void *data)
+{
+    if (event_record_active())
+        event_record(EVENT_OVERFLOW, NULL, 0);
+
+    if (next_timestamp_clk)
+        next_timestamp_clk -= sub;
+}
+
+
 void event_init(void)
 {
     event_log = log_open("Event");
 
     event_alarm = alarm_new(maincpu_alarm_context, "Event",
                             event_alarm_handler, NULL);
+
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 

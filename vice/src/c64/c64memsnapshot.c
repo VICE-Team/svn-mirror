@@ -186,7 +186,10 @@ int c64_snapshot_write_module(snapshot_t *s, int save_roms)
         || SMW_B(m, pport.dir) < 0
         || SMW_B(m, export.exrom) < 0
         || SMW_B(m, export.game) < 0
-        || SMW_BA(m, mem_ram, C64_RAM_SIZE) < 0)
+        || SMW_BA(m, mem_ram, C64_RAM_SIZE) < 0
+        || SMW_B(m, pport.data_out) < 0
+        || SMW_B(m, pport.data_read) < 0
+        || SMW_B(m, pport.dir_read) < 0)
         goto fail;
 
     if (snapshot_module_close(m) < 0)
@@ -240,6 +243,11 @@ int c64_snapshot_read_module(snapshot_t *s)
         || SMR_B(m, &export.game) < 0
         || SMR_BA(m, mem_ram, C64_RAM_SIZE) < 0)
         goto fail;
+    
+    /* new since 1.15.x */
+    SMR_B(m, &pport.data_out);
+    SMR_B(m, &pport.data_read);
+    SMR_B(m, &pport.dir_read);
 
     mem_pla_config_changed();
 

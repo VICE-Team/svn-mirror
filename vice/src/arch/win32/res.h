@@ -820,6 +820,10 @@
 #define IDM_RS232USER_SETTINGS          40229
 #define IDM_RS232_SETTINGS              40230
 #define IDM_KEYBOARD_SETTINGS           40231
+#define IDM_DEBUG_MODE_NORMAL           40240
+#define IDM_DEBUG_MODE_SMALL            40241
+#define IDM_DEBUG_MODE_HISTORY          40242
+#define IDM_DEBUG_MODE_AUTOPLAY         40243
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001

@@ -51,8 +51,11 @@ char *findpath(const char *cmd, const char *syspath, int mode)
 {
     char *pd = NULL;
     char *c, *buf;
+    size_t maxpathlen;
 
-    buf = lib_malloc((size_t)ioutil_maxpathlen());
+    maxpathlen = (size_t)ioutil_maxpathlen();
+
+    buf = lib_malloc(maxpathlen);
 
     buf[0] = '\0'; /* this will (and needs to) stay '\0' */
 
@@ -62,7 +65,7 @@ char *findpath(const char *cmd, const char *syspath, int mode)
         const char *ps;
 
         if (archdep_path_is_relative(cmd)) {
-            if (ioutil_getcwd(buf + 1, (int)sizeof(buf) - 128) == NULL)
+            if (ioutil_getcwd(buf + 1, (int)maxpathlen - 128) == NULL)
                 goto fail;
 
             l = strlen(buf + 1);
@@ -70,7 +73,7 @@ char *findpath(const char *cmd, const char *syspath, int mode)
             l = 0;
         }
 
-        if (l + strlen(cmd) >= sizeof(buf) - 5)
+        if (l + strlen(cmd) >= maxpathlen - 5)
             goto fail;
 
         ps = cmd;
@@ -147,7 +150,7 @@ char *findpath(const char *cmd, const char *syspath, int mode)
             s = strchr(path, ARCHDEP_FINDPATH_SEPARATOR_CHAR);
             l = s ? (s - path) : (int)strlen(path);
 
-            if (l + cl > sizeof buf - 5)
+            if (l + cl > maxpathlen - 5)
                 continue;
 
             memcpy(buf + 1, path, l);

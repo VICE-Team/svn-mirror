@@ -38,6 +38,7 @@
 #define EVENT_RESETCPU          8
 #define EVENT_TIMESTAMP         9
 #define EVENT_ATTACHIMAGE       10
+#define EVENT_OVERFLOW          11
 
 #define EVENT_START_MODE_FILE_SAVE 0
 #define EVENT_START_MODE_FILE_LOAD 1

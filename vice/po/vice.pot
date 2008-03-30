@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-09-12 22:43+0200\n"
+"POT-Creation-Date: 2004-11-06 15:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,36 +124,36 @@ msgstr ""
 msgid "store to sounddevice failed."
 msgstr ""
 
-#: src/event.c:520
+#: src/event.c:522
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr ""
 
-#: src/event.c:535 src/event.c:798
+#: src/event.c:537 src/event.c:800
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 
-#: src/event.c:598 src/event.c:769
+#: src/event.c:600 src/event.c:771
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 
-#: src/event.c:659
+#: src/event.c:661
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 
-#: src/event.c:670
+#: src/event.c:672
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:690
+#: src/event.c:692
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 
-#: src/event.c:716
+#: src/event.c:718
 msgid "Error reading start snapshot file."
 msgstr ""
 

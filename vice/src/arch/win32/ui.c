@@ -172,11 +172,24 @@ static const ui_res_possible_values_t SyncFactor[] = {
     { -1, 0 }
 };
 
+#ifdef DEBUG
+static const ui_res_possible_values_t TraceMode[] = {
+    { DEBUG_NORMAL, IDM_DEBUG_MODE_NORMAL },
+    { DEBUG_SMALL, IDM_DEBUG_MODE_SMALL },
+    { DEBUG_HISTORY, IDM_DEBUG_MODE_HISTORY },
+    { DEBUG_AUTOPLAY, IDM_DEBUG_MODE_AUTOPLAY },
+    { -1, 0 }
+};
+#endif
+
 static const ui_res_value_list_t value_list[] = {
     { "RefreshRate", RefreshRateValues, 0 },
     { "Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM },
     { "MachineVideoStandard", SyncFactor, 0 },
     { "EventStartMode", RecordingOptions, 0 },
+#ifdef DEBUG
+    { "TraceMode", TraceMode, 0},
+#endif
     { NULL, NULL, 0 }
 };
 
