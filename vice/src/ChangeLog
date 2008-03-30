@@ -1,6 +1,44 @@
+1999-03-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.40.
+
+	* datasette.c (datasette_read_bit): Calculate proper gap length
+	for version "1" TAP images.
+
+	* arch/msdos/menudefs.c (attach_tape_callback): Display TAPs too.
+	(ui_datasette_submenu): New menu.
+	(datasette_callback): New function.
+
+	* arch/win32/res.h, arch/win32/resc64.r, arch/win32/resc128.r,
+	arch/win32/resvic.r, arch/win32/respet.r, arch/win32/rescbm2.r:
+	New datasette controls.
+
+	* arch/win32/ui.h (handle_wm_command): Added datasette controls.
+
+1998-03-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciatimer.c (ciat_set_ctrl): load timer even when not running
+	when force load bit is set.
+	Also force load the timer when it is already running.
+
+1998-03-11  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciacore.c (cia_update_ta, cia_update_tb): new wrapper
+	function for ciat_update(). They handle the stuff that has
+	to be done when underflows occur.
+	All occurances of ciat_update have been relaced with these functions.
+	(read_mycia): call cia_update_t* before reading control registers
+	because of resetting start/stop bit in oneshot mode.
+
+	* ciatimer.c (ciat_set_ctrl): fix handling of one-shot bit.
+
+1999-03-11  Dag Lem  <resid@nimrod.no>
+
+	* sounddev/soundwav.c: Code cleanup.
+
 1999-03-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 0.16.1.38.
+	* Version 0.16.1.39.
 
 	* arch/unix/mouse.c: Removed volatile from `_mouse_enabled'.
 

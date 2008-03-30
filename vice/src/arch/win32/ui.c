@@ -36,6 +36,7 @@
 #include "autostart.h"
 #include "archdep.h"
 #include "cmdline.h"
+#include "datasette.h"
 #include "drive.h"
 #include "interrupt.h"
 #include "kbd.h"
@@ -845,7 +846,7 @@ char *dname;
             char *s;
 
             if ((s = ui_select_file("Attach tape image",
-                "Tape image files (*.t64;*.p00)\0*.t64;*.p00\0"
+                "Tape image files (*.t64;*.tap)\0*.t64;*.tap\0"
                 "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
                 if (tape_attach_image(s) < 0)
                     ui_error("Cannot attach specified file.");
@@ -855,6 +856,24 @@ char *dname;
         break;
       case IDM_DETACH_TAPE:
         tape_detach_image();
+        break;
+      case IDM_DATASETTE_CONTROL_STOP:
+        datasette_control(DATASETTE_CONTROL_STOP);
+        break;
+      case IDM_DATASETTE_CONTROL_START:
+        datasette_control(DATASETTE_CONTROL_START);
+        break;
+      case IDM_DATASETTE_CONTROL_FORWARD:
+        datasette_control(DATASETTE_CONTROL_FORWARD);
+        break;
+      case IDM_DATASETTE_CONTROL_REWIND:
+        datasette_control(DATASETTE_CONTROL_REWIND);
+        break;
+      case IDM_DATASETTE_CONTROL_RECORD:
+        datasette_control(DATASETTE_CONTROL_RECORD);
+        break;
+      case IDM_DATASETTE_CONTROL_RESET:
+        datasette_control(DATASETTE_CONTROL_RESET);
         break;
       case IDM_AUTOSTART:
         {

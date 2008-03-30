@@ -32,6 +32,17 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Attach &tape image...\tAlt+T",    IDM_ATTACH_TAPE
         MENUITEM "Detac&h tape image",              IDM_DETACH_TAPE
+        POPUP "Datasette contro&l"
+        BEGIN
+            MENUITEM "S&top",                     IDM_DATASETTE_CONTROL_STOP
+            MENUITEM "&Start",                    IDM_DATASETTE_CONTROL_START
+            MENUITEM "&Forward",                  IDM_DATASETTE_CONTROL_FORWARD
+            MENUITEM "&Rewind",                   IDM_DATASETTE_CONTROL_REWIND
+#if 0
+            MENUITEM "Re&cord",                   IDM_DATASETTE_CONTROL_RECORD
+            MENUITEM "R&eset",                    IDM_DATASETTE_CONTROL_RESET
+#endif
+        END
         MENUITEM SEPARATOR
         POPUP "Attach &cartridge image..."
         BEGIN
