@@ -1895,7 +1895,6 @@ void mem_initialize_memory(void)
         mem_write_tab[j][0x100] = mem_write_tab[j][0x0];
 
         mem_read_base_tab[j][0x100] = NULL;
-        mem_read_limit_tab[j][0x100] = -1;
     }
 
 
@@ -2017,10 +2016,7 @@ void mem_initialize_memory(void)
         mem_read_tab[i][0x100] = mem_read_tab[i][0];
         mem_write_tab[i][0x100] = mem_write_tab[i][0];
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
-        mem_read_limit_tab[i][0x100] = -1;
     }
-
-
 
     mmu_reset();
 

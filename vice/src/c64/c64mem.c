@@ -446,11 +446,9 @@ void mem_initialize_memory(void)
         set_write_hook(i, 0, store_zero);
         mem_read_tab[i][0] = read_zero;
         mem_read_base_tab[i][0] = ram;
-        mem_read_limit_tab[i][0] = 0xfffd;
         for (j = 1; j <= 0xfe; j++) {
             mem_read_tab[i][j] = ram_read;
             mem_read_base_tab[i][j] = ram + (j << 8);
-            mem_read_limit_tab[i][j] = 0xfffd;
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
@@ -470,7 +468,6 @@ void mem_initialize_memory(void)
         }
         mem_read_tab[i][0xff] = ram_read;
         mem_read_base_tab[i][0xff] = ram + 0xff00;
-        mem_read_limit_tab[i][0xff] = 0xfffd;
 
         /* FIXME: we do not care about vbank writes here, but we probably
            should.  Anyway, the $FFxx addresses are not so likely to contain
@@ -612,7 +609,6 @@ void mem_initialize_memory(void)
             mem_write_tab[j][i][0x100] = mem_write_tab[j][i][0];
         }
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
-        mem_read_limit_tab[i][0x100] = 0;
     }
 
     _mem_read_tab_ptr = mem_read_tab[7];
