@@ -255,6 +255,98 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/version.h ../../../../../src/info.h \
+	../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h
+dummies.o: dummies.c
+gnomekbd.o: gnomekbd.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/keyboard.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/machine.h ../../../../../src/arch/unix/kbd.h \
+	../../../../../src/arch/unix/x11/kbdef.h \
+	../../../../../src/arch/unix/x11/x11kbd.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
+	uiarch.h
+gnomevideo.o: gnomevideo.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/log.h \
+	../../../../../src/arch/unix/types.h videoarch.h ../videoarch.h \
+	../../../../../src/fullscreen.h ../../../../../src/resources.h \
+	../../../../../src/video.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/uiapi.h uiarch.h uiarch.h \
+	../../../../../src/utils.h
+ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h uiarch.h ../../../../../src/datasette.h \
+	../../../../../src/interrupt.h ../../../../../src/6510core.h \
+	../../../../../src/log.h ../../../../../src/arch/unix/kbd.h \
+	../../../../../src/machine.h ../../../../../src/maincpu.h \
+	../../../../../src/arch/unix/mouse.h \
+	../../../../../src/palette.h ../../../../../src/raster/raster.h \
+	../../../../../src/raster/raster-changes.h \
+	../../../../../src/resources.h ../../../../../src/uicolor.h \
+	uimenu.h ../x11menu.h ../../../../../src/arch/unix/uihotkey.h \
+	../../../../../src/arch/unix/uisettings.h \
+	../../../../../src/arch/unix/uicommands.h \
+	../../../../../src/utils.h ../../../../../src/version.h \
+	../../../../../src/vsync.h ../../../../../src/drive/drive.h \
+	../../../../../src/charset.h ../../../../../src/imagecontents.h \
+	../../../../../src/autostart.h ../../../../../src/video.h \
+	videoarch.h ../videoarch.h ../../../../../src/fullscreen.h \
+	../../../../../src/arch/unix/vsiduiunix.h
+uicartridge.o: uicartridge.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/cartridge.h
+uicolor.o: uicolor.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/color.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/log.h \
+	../../../../../src/palette.h ../../../../../src/uicolor.h \
+	../../../../../src/utils.h ../../../../../src/video.h \
+	videoarch.h ../videoarch.h ../../../../../src/fullscreen.h \
+	../../../../../src/resources.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
+	uiarch.h
+uiedisk.o: uiedisk.c ../../../../../src/vice.h \
+	../../../../../src/config.h \
+	../../../../../src/arch/unix/uiedisk.h \
+	../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/diskimage.h \
+	../../../../../src/vdrive/vdrive.h ../../../../../src/utils.h
+uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/machine.h ../../../../../src/resources.h \
+	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \
+	../../../../../src/vsync.h \
+	../../../../../src/arch/unix/x11/x11menu.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/arch/unix/uihotkey.h uimenu.h \
+	../x11menu.h
+uipalcontrol.o: uipalcontrol.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/video.h \
+	../../../../../src/resources.h
+uiscreenshot.o: uiscreenshot.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/gfxoutput.h \
+	../../../../../src/screenshot.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/utils.h
+uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
+	../../../../../src/config.h \
+	../../../../../src/arch/unix/uisnapshot.h \
+	../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/machine.h \
+	../../../../../src/utils.h
+uivsidcontrol.o: uivsidcontrol.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/arch/unix/vsiduiunix.h \
+	../../../../../src/utils.h
 
 info-am:
 info: info-am

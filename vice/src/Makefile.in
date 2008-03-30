@@ -592,8 +592,8 @@ cmdline.o: cmdline.c vice.h config.h arch/unix/archdep.h archapi.h \
 color.o: color.c vice.h config.h log.h palette.h arch/unix/types.h \
 	uicolor.h utils.h
 datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h \
-	clkguard.h cmdline.h resources.h datasette.h log.h machine.h \
-	maincpu.h 6510core.h tap.h arch/unix/ui.h uiapi.h \
+	autostart.h clkguard.h cmdline.h resources.h datasette.h log.h \
+	machine.h maincpu.h 6510core.h tap.h arch/unix/ui.h uiapi.h \
 	arch/unix/x11/xaw/uiarch.h
 debug.o: debug.c vice.h config.h cmdline.h resources.h debug.h
 emuid.o: emuid.c arch/unix/types.h vice.h config.h
@@ -626,9 +626,9 @@ keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
 	keyboard.h maincpu.h 6510core.h
 log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	resources.h log.h utils.h arch/unix/types.h
-machine.o: machine.c machine.h mem.h arch/unix/types.h vice.h config.h \
-	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h utils.h \
-	vsync.h
+machine.o: machine.c autostart.h arch/unix/types.h vice.h config.h \
+	machine.h mem.h arch/unix/ui.h uiapi.h \
+	arch/unix/x11/xaw/uiarch.h utils.h vsync.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	resources.h console.h debug.h drive/drive.h log.h \
 	arch/unix/types.h fullscreen.h init.h initcmdline.h interrupt.h \

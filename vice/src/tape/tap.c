@@ -39,13 +39,6 @@
 #include "zfile.h"
 
 
-#define TAP_PULSE_SHORT_MIN 36
-#define TAP_PULSE_SHORT_MAX 54
-#define TAP_PULSE_MIDDLE_MIN 55
-#define TAP_PULSE_MIDDLE_MAX 73
-#define TAP_PULSE_LONG_MIN 74
-#define TAP_PULSE_LONG_MAX 92
-
 #define TAP_PULSE_SHORT(x) \
     ((x) >= tap_pulse_short_min && (x) <= tap_pulse_short_max)
 #define TAP_PULSE_MIDDLE(x) \
@@ -53,7 +46,7 @@
 #define TAP_PULSE_LONG(x) \
     ((x) >= tap_pulse_long_min && (x) <= tap_pulse_long_max)
 
-#define TAP_PILOT_HEADER_MIN 10000
+#define TAP_PILOT_HEADER_MIN 1000
 
 
 static int tap_pulse_short_min;
@@ -212,8 +205,11 @@ static int tap_search_header_pilot(tap_t *tap)
 
             count += 256;
 
-            if (count >= TAP_PILOT_HEADER_MIN)
+            if (count >= TAP_PILOT_HEADER_MIN) {
+                tap->current_file_seek_position = (int)ftell(tap->fd) - count
+                                                  - tap->offset;
                 return 0;
+            }
         }
     }
 }
@@ -240,11 +236,12 @@ static int tap_skip_pilot(tap_t *tap)
 
 static int tap_read_byte(tap_t *tap)
 {
-    unsigned int i;
+    unsigned int i, checksum;
     int data, data2;
     BYTE read;
 
     read = 0;
+    checksum = 1;
 
     data = tap_get_bit(tap);
     if (data < 0)
@@ -266,12 +263,24 @@ static int tap_read_byte(tap_t *tap)
         if (data2 < 0)
             return -1;
         read >>= 1;
-        if (TAP_PULSE_MIDDLE(data) && TAP_PULSE_SHORT(data2))
+        if (TAP_PULSE_MIDDLE(data) && TAP_PULSE_SHORT(data2)) {
             read |= 0x80;
+            checksum ^= 1;
+        }
     }
 
     data = tap_get_bit(tap);
-    data = tap_get_bit(tap);
+    if (data < 0)
+        return -1;
+    data2 = tap_get_bit(tap);
+    if (data2 < 0)
+        return -1;
+
+    if (TAP_PULSE_MIDDLE(data) && TAP_PULSE_SHORT(data2))
+        checksum ^= 1;
+
+    if (checksum)
+        return -2;
 
     return read;
 }
@@ -294,38 +303,58 @@ static int tap_read_sync(tap_t *tap, int start)
 static int tap_read_header(tap_t *tap)
 {
     unsigned int i;
-    int read, read2;
+    int read, read2, checksum;
 
     read = tap_read_byte(tap);
     if (read < 0)
         return read;
+    checksum = read;
 
     tap->tap_file_record->type = (BYTE)read;
 
     read = tap_read_byte(tap);
     if (read < 0)
         return read;
+    checksum ^= read;
     read2 = tap_read_byte(tap);
     if (read2 < 0)
         return read2;
+    checksum ^= read2;
 
     tap->tap_file_record->start_addr = (ADDRESS)(read + read2 * 256);
 
     read = tap_read_byte(tap);
     if (read < 0)
         return read;
+    checksum ^= read;
     read2 = tap_read_byte(tap);
     if (read2 < 0)
         return read2;
+    checksum ^= read2;
 
     tap->tap_file_record->end_addr = (ADDRESS)(read + read2 * 256);
 
     for (i = 0; i < 16; i++) {
         read = tap_read_byte(tap);
         if (read < 0)
-           return read;
+            return read;
         tap->tap_file_record->name[i] = (BYTE)read;
+        checksum ^= read;
     }
+
+    for (i = 0; i < 171; i++) {
+        read = tap_read_byte(tap);
+        if (read < 0)
+            return read;
+        checksum ^= read;
+    }
+
+    read = tap_read_byte(tap);
+    if (read < 0)
+        return read;
+
+    if (checksum != read)
+        return -2;
 
     return 0;
 }
@@ -366,10 +395,29 @@ tape_file_record_t *tap_get_current_file_record(tap_t *tap)
     return tap->tap_file_record;
 }
 
-void tap_seek_start(tap_t *tap)
+int tap_seek_start(tap_t *tap)
 {
     tap->current_file_seek_position = 0;
     fseek(tap->fd, tap->offset, SEEK_SET);
+    return 0;
+}
+
+int tap_seek_to_file(tap_t *tap, unsigned int file_number)
+{
+    unsigned int number;
+
+    number = 0;
+
+    tap_seek_start(tap);
+    while (1) {
+        if (tap_seek_to_next_file(tap, 1) < 0)
+            return -1;
+        number++;
+        if (number == file_number) {
+            fseek(tap->fd, tap->current_file_seek_position, SEEK_SET);
+            return 0;
+        }
+    }
 }
 
 int tap_seek_to_next_file(tap_t *tap, unsigned int allow_rewind)
