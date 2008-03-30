@@ -65,29 +65,29 @@ BYTE ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE];
 static int functionrom_load_internal(void);
 static int functionrom_load_external(void);
 
-static int set_internal_function_rom_enabled(resource_value_t v, void *param)
+static int set_internal_function_rom_enabled(int val, void *param)
 {
-    internal_function_rom_enabled = (int)v;
+    internal_function_rom_enabled = val;
     return functionrom_load_internal();
 }
 
-static int set_internal_function_rom_name(resource_value_t v, void *param)
+static int set_internal_function_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&internal_function_rom_name, (const char *)v))
+    if (util_string_set(&internal_function_rom_name, val))
         return 0;
 
     return functionrom_load_internal();
 }
 
-static int set_external_function_rom_enabled(resource_value_t v, void *param)
+static int set_external_function_rom_enabled(int val, void *param)
 {
-    external_function_rom_enabled = (int)v;
+    external_function_rom_enabled = val;
     return functionrom_load_external();
 }
 
-static int set_external_function_rom_name(resource_value_t v, void *param)
+static int set_external_function_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&external_function_rom_name, (const char *)v))
+    if (util_string_set(&external_function_rom_name, val))
         return 0;
 
     return functionrom_load_external();

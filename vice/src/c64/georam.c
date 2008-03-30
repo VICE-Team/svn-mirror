@@ -80,9 +80,9 @@ static DWORD georam_size_kb = 0;
 /* Filename of the GEORAM image.  */
 static char *georam_filename = NULL;
 
-static int set_georam_enabled(resource_value_t v, void *param)
+static int set_georam_enabled(int val, void *param)
 {
-    if (!(int)v) {
+    if (!val) {
         if (georam_enabled) {
             if (georam_deactivate() < 0) {
                 return -1;
@@ -102,12 +102,12 @@ static int set_georam_enabled(resource_value_t v, void *param)
     }
 }
 
-static int set_georam_size(resource_value_t v, void *param)
+static int set_georam_size(int val, void *param)
 {
-    if ((DWORD)v == georam_size_kb)
+    if ((DWORD)val == georam_size_kb)
         return 0;
 
-    switch ((DWORD)v) {
+    switch ((DWORD)val) {
       case 64:
       case 128:
       case 256:
@@ -117,27 +117,25 @@ static int set_georam_size(resource_value_t v, void *param)
       case 4096:
         break;
       default:
-        log_message(georam_log, "Unknown GEORAM size %ld.", (long)v);
+        log_message(georam_log, "Unknown GEORAM size %ld.", (long)val);
         return -1;
     }
 
     if (georam_enabled) {
         georam_deactivate();
-        georam_size_kb = (DWORD)v;
+        georam_size_kb = (DWORD)val;
         georam_size = georam_size_kb << 10;
         georam_activate();
     } else {
-        georam_size_kb = (DWORD)v;
+        georam_size_kb = (DWORD)val;
         georam_size = georam_size_kb << 10;
     }
 
     return 0;
 }
 
-static int set_georam_filename(resource_value_t v, void *param)
+static int set_georam_filename(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     if (georam_filename != NULL && name != NULL
         && strcmp(name, georam_filename) == 0)
         return 0;
@@ -388,10 +386,10 @@ int georam_read_snapshot_module(snapshot_t *s)
         goto fail;
     }
 
-    set_georam_size((resource_value_t)size, NULL);
+    set_georam_size((int)size, NULL);
 
     if (!georam_enabled)
-        set_georam_enabled((resource_value_t)1, NULL);
+        set_georam_enabled(1, NULL);
 
     if (SMR_BA(m, georam, sizeof(georam)) < 0 || SMR_BA(m, georam_ram, georam_size) < 0)
         goto fail;

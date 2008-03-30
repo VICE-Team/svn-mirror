@@ -75,8 +75,8 @@ extern void keyboard_event_delayed_playback(void *data);
 extern void keyboard_register_delay(unsigned int delay);
 extern void keyboard_register_clear(void);
 
-extern int keyboard_set_keymap_index(void *v, void *param);
-extern int keyboard_set_keymap_file(void *v, void *param);
+extern int keyboard_set_keymap_index(int vak, void *param);
+extern int keyboard_set_keymap_file(const char *val, void *param);
 extern int keyboard_keymap_dump(const char *filename);
 
 extern void keyboard_key_pressed(signed long key);
