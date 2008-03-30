@@ -76,12 +76,15 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
             *mask++ = 0;
         } else {
             strcpy(fs_dirmask, mask);
-            strcpy(cmd_parse->parsecmd, fsdevice_get_path(vdrive->unit));
+            lib_free(cmd_parse->parsecmd);
+            cmd_parse->parsecmd = lib_stralloc(fsdevice_get_path(vdrive->unit));
         }
     } else {
         *fs_dirmask = 0;
-        if (!*(cmd_parse->parsecmd))
-            strcpy(cmd_parse->parsecmd, fsdevice_get_path(vdrive->unit));
+        if (!*(cmd_parse->parsecmd)) {
+            lib_free(cmd_parse->parsecmd);
+            cmd_parse->parsecmd = lib_stralloc(fsdevice_get_path(vdrive->unit));
+        }
     }
     /* trying to open */
     ioutil_dir = ioutil_opendir((char *)(cmd_parse->parsecmd));
