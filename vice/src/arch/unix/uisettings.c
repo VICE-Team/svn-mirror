@@ -37,19 +37,12 @@
 #include "archapi.h"
 #include "debug.h"
 #include "fliplist.h"
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
-#ifdef USE_XF86_VIDMODE_EXT
-#include "x11/vidmode.h"
-#endif
 #include "keyboard.h"
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
 #include "romset.h"
 #include "types.h"
-#include "uidrive.h"
 #include "uimenu.h"
 #include "uiperipheral.h"
 #include "uirs232.h"
@@ -504,54 +497,6 @@ static ui_menu_entry_t set_maximum_speed_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-#if defined (USE_XF86_DGA2_EXTENSIONS) || defined (USE_XF86_VIDMODE_EXT)
-
-#ifdef USE_XF86_DGA2_EXTENSIONS
-UI_MENU_DEFINE_TOGGLE(UseFullscreen)
-#endif
-#ifdef USE_XF86_VIDMODE_EXT
-UI_MENU_DEFINE_TOGGLE(UseFullscreenVidMode)
-#endif
-#if 0
-UI_MENU_DEFINE_TOGGLE(FullscreenDoubleSize)
-UI_MENU_DEFINE_TOGGLE(FullscreenDoubleScan)
-#endif
-
-ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    { N_("*Enable DGA2 fullscreen"),
-      (ui_callback_t)toggle_UseFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
-    /* Translators: 'DGA2' must remain in the beginning of the translation
-       e.g. German: "DGA2 Auflösungen" */
-    { N_("DGA2 Resolutions"),
-      (ui_callback_t) NULL, NULL, NULL },
-    { "--"},
-#endif
-#ifdef USE_XF86_VIDMODE_EXT
-    { N_("*Enable VidMode fullscreen"),
-      (ui_callback_t)toggle_UseFullscreenVidMode, NULL, NULL, XK_v, 
-      UI_HOTMOD_META },
-    /* Translators: 'VidMode' must remain in the beginning of the translation
-       e.g. German: "VidMode Auflösungen" */
-    { N_("VidMode Resolutions"),
-      (ui_callback_t) NULL, NULL, NULL },
-#endif
-#if 0
-    { N_("*Double size"),
-      (ui_callback_t)toggle_FullscreenDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
-      (ui_callback_t)toggle_FullscreenDoubleScan, NULL, NULL },
-    { "--"},
-#endif
-    { NULL }
-};
-
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/* ------------------------------------------------------------------------- */
-
 ui_menu_entry_t video_settings_submenu[] = {
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
@@ -587,23 +532,6 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
       (ui_callback_t)toggle_WarpMode, NULL, NULL, XK_w, UI_HOTMOD_META },
     { NULL }
 };
-
-#ifdef USE_XF86_EXTENSIONS
-
-static UI_CALLBACK(FullscreenMenu)
-{
-    if (CHECK_MENUS) {
-        ui_menu_set_sensitive(w, fullscreen_available());
-    }
-}
-
-ui_menu_entry_t ui_fullscreen_settings_menu[] = {
-    { N_("*Fullscreen settings"),
-      (ui_callback_t)FullscreenMenu, NULL, ui_fullscreen_settings_submenu },
-    { NULL }
-};
-#endif
-
 
 ui_menu_entry_t ui_keyboard_settings_menu[] = {
     { N_("Keyboard settings"),

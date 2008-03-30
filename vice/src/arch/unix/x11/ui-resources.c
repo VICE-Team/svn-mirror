@@ -32,16 +32,7 @@
 
 #include "resources.h"
 #include "utils.h"
-#ifdef USE_XF86_DGA2_EXTENSIONS
-#include "fullscreen.h"
-#endif
-#ifdef USE_XF86_VIDMODE_EXT
-#include "vidmode.h"
-#endif
 
-extern int fullscreen_request_set_mode(resource_value_t r, void *a);
-
-/* ------------------------------------------------------------------------- */
 
 struct ui_resources_s {
     char *html_browser_command;
@@ -97,22 +88,6 @@ static resource_t resources[] = {
     { "DisplayDepth", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&ui_resources.depth,
       set_depth, NULL },
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    { "UseFullscreen", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&fullscreen_is_enabled,
-      fullscreen_request_set_mode, NULL },
-    { "SelectedDGA2Mode", RES_INTEGER, (resource_value_t)-1,
-      (resource_value_t *)&fs_selected_videomode,
-      fullscreen_set_bestmode, NULL },
-#endif
-#ifdef USE_XF86_VIDMODE_EXT
-    { "UseFullscreenVidMode", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&vm_is_enabled,
-      vidmode_set_mode, NULL },
-    { "SelectedFullscreenMode", RES_INTEGER, (resource_value_t)-1,
-      (resource_value_t *)&vm_selected_videomode,
-      vidmode_set_bestmode, NULL },
-#endif
     { NULL }
 };
 
