@@ -73,6 +73,9 @@ static CLOCK last_clk;
    was called.  */
 static CLOCK last_exc_cycles;
 
+static CLOCK cycle_accum;
+static BYTE *bank_base;
+
 /* This is non-zero each time a Read-Modify-Write instructions that accesses
    memory is executed.  We can emulate the RMW bug of the 6502 this way.  */
 int mydrive_rmw_flag = 0;
@@ -252,8 +255,8 @@ static void reset(void)
     preserve_monitor = mydrive_int_status.global_pending_int & IK_MONITOR;
 
     printf("MYIDENTIFICATION: RESET\n");
-    cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFALRM,
-			DRIVE_NUMOFINT, &mydrive_last_opcode_info);
+    cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT,
+			DRIVE_NUMOFALRM, &mydrive_last_opcode_info);
     mydrive_int_status.alarm_handler[A_MYVIA1T1] = int_myvia1t1;
     mydrive_int_status.alarm_handler[A_MYVIA1T2] = int_myvia1t2;
     mydrive_int_status.alarm_handler[A_MYVIA2T1] = int_myvia2t1;
@@ -425,8 +428,6 @@ CLOCK mydrive_cpu_prevent_clk_overflow(CLOCK sub)
    calculates the corresponding number of clock ticks in the drive.  */
 void mydrive_cpu_execute(void)
 {
-    static BYTE *bank_base;
-    static CLOCK cycle_accum;
     static int old_reg_pc;
     CLOCK cycles;
 
@@ -507,9 +508,11 @@ void mydrive_cpu_execute(void)
 
 #define CALLER e_disk_space
 
-#define _drive_set_byte_ready(value) drive_set_byte_ready(value, mynumber)
+#define _drive_set_byte_ready(value) drive[mynumber].byte_ready = value
 
-#define _drive_byte_ready() drive_byte_ready(mynumber)
+#define _drive_byte_ready() ((drive[mynumber].byte_ready_active == 0x6)	\
+                                ? drive_rotate_disk(mynumber),		\
+                                drive[mynumber].byte_ready : 0)		\
 
 #include "6510core.c"
 
@@ -546,13 +549,16 @@ int mydrive_cpu_write_snapshot_module(snapshot_t *s)
         || snapshot_module_write_word(m, (WORD) reg_pc) < 0
         || snapshot_module_write_byte(m, (BYTE) reg_p) < 0
         || snapshot_module_write_dword(m, (DWORD) mydrive_last_opcode_info) < 0
+        || snapshot_module_write_dword(m, (DWORD) last_clk) < 0
+        || snapshot_module_write_dword(m, (DWORD) cycle_accum) < 0
+        || snapshot_module_write_dword(m, (DWORD) last_exc_cycles) < 0
         )
         goto fail;
 
     if (interrupt_write_snapshot(&mydrive_int_status, m) < 0)
         goto fail;
 
-    if (drive[mynumber].type == DRIVE_TYPE_1541 
+    if (drive[mynumber].type == DRIVE_TYPE_1541
         || drive[mynumber].type == DRIVE_TYPE_1571) {
         if (snapshot_module_write_byte_array(m, mydrive_ram, 0x800) < 0)
             goto fail;
@@ -601,6 +607,9 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
         || read_word_into_unsigned_int(m, &reg_pc) < 0
         || snapshot_module_read_byte(m, &reg_p) < 0
         || snapshot_module_read_dword(m, &mydrive_last_opcode_info) < 0
+        || snapshot_module_read_dword(m, &last_clk) < 0
+        || snapshot_module_read_dword(m, &cycle_accum) < 0
+        || snapshot_module_read_dword(m, &last_exc_cycles) < 0
         )
         goto fail;
 
@@ -617,6 +626,9 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
         if (snapshot_module_read_byte_array(m, mydrive_ram, 0x2000) < 0)
             goto fail;
     }
+
+    /* Update `*bank_base'.  */
+    JUMP(reg_pc);
 
     return snapshot_module_close(m);
 
