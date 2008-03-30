@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the Vice Emulator package.
 #
 # If you need help translating to french interesting open source projects contact me!
-# Paul Dubé <dube.paul@sympatico.ca>, 2005, alias Kaddict
-# If email comes to an end try <dubepaul@gmail.com>
-# Long Live To Vice and to it's developpers!! The C64 started my ADDICTion ;)
+# Paul Dubé <dubepaul@gmail.com>
+# Long Live To Vice and to it's developpers!! The C64 started my addiction ;)
+# Note to myself: *cry* this file is so long!! :-)
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.17\n"
 "POT-Creation-Date: 2005-10-01 17:51+0200\n"
-"PO-Revision-Date: 2005-09-18 10:57+0200\n"
-"Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
+"PO-Revision-Date: 2005-10-02 12:19+0200\n"
+"Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: src/vsync.c:139 src/sid/sid-cmdline-options.c:123
 #: src/sid/sid-cmdline-options.c:126
 msgid "<percent>"
-msgstr ""
+msgstr "<pourcent>"
 
 #: src/vsync.c:139
 msgid "Limit emulation speed to specified value"
@@ -33,7 +33,7 @@ msgstr "Limiter la vitesse d'émulation à une valeur specifiée"
 #: src/datasette.c:180 src/datasette.c:183 src/gfxoutputdrv/ffmpegdrv.c:133
 #: src/gfxoutputdrv/ffmpegdrv.c:136 src/mouse.c:97 src/ram.c:101
 msgid "<value>"
-msgstr ""
+msgstr "<valeur>"
 
 #: src/vsync.c:141
 msgid "Update every <value> frames (`0' for automatic)"
@@ -49,34 +49,31 @@ msgstr "Désactiver mode turbo"
 
 #: src/vsync.c:455
 msgid "Your machine is too slow for current settings!"
-msgstr ""
-"Désolé mais votre ordinateur est trop lent pour les paramètres choisis!"
+msgstr "-Votre ordinateur est trop lent pour les paramètres choisis!"
 
 #: src/screenshot.c:162
 msgid "Sorry. Multiple recording is not supported."
-msgstr "Désolé. Vous ne pouvez enregistrer plus d'une chose à la fois."
+msgstr "Désolé. L'enregistrement multiple n'est pas supporté."
 
 #: src/autostart.c:186
 msgid "Cannot load snapshot file."
-msgstr "Impossible de charger le fichier de sauvegarde."
+msgstr "Impossible de charger la sauvegarde."
 
 #: src/sound.c:243
-#, fuzzy
 msgid "Enable sound playback"
-msgstr "*Activer le son"
+msgstr "Activer le son"
 
 #: src/sound.c:245
-#, fuzzy
 msgid "Disable sound playback"
-msgstr "*Activer le son"
+msgstr "Désactiver le son"
 
 #: src/sound.c:247
 msgid "Set sound sample rate to <value> Hz"
-msgstr ""
+msgstr "Régler le taux d'échantillonage à <valeur> Hz"
 
 #: src/sound.c:249
 msgid "Set sound buffer size to <value> msec"
-msgstr ""
+msgstr "Régler la taille du tampon à <valeur> ms"
 
 #: src/sound.c:251 src/sound.c:255 src/c128/c128-cmdline-options.c:108
 #: src/c128/c128-cmdline-options.c:110 src/c128/c128-cmdline-options.c:112
@@ -148,48 +145,48 @@ msgstr ""
 #: src/vic20/vic20cartridge.c:220 src/vic20/vic20cartridge.c:222
 #: src/vic20/vic20cartridge.c:224 src/video/video-cmdline-options.c:192
 msgid "<name>"
-msgstr ""
+msgstr "<nom>"
 
 #: src/sound.c:251
 msgid "Specify sound driver"
-msgstr ""
+msgstr "Spécifier le pilote son"
 
 #: src/sound.c:253 src/sound.c:257
 msgid "<args>"
-msgstr ""
+msgstr "<args>"
 
 #: src/sound.c:253
 msgid "Specify initialization parameters for sound driver"
-msgstr ""
+msgstr "Spécifier les paramètres d'initialisation pour le pilote son"
 
 #: src/sound.c:255
-#, fuzzy
 msgid "Specify recording sound driver"
-msgstr "Lever le signet d'enregistrement"
+msgstr "Spécifier le pilote d'enregistrement son"
 
 #: src/sound.c:257
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
+"Spécifier les paramètres d'initialisation pour le pilote d'enregistrement son"
 
 #: src/sound.c:259
 msgid "<sync>"
-msgstr ""
+msgstr "<sync>"
 
 #: src/sound.c:259
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
-msgstr ""
+msgstr "Régler l'ajustement son (0: flexible, 1: ajusté 2: exact"
 
 #: src/sound.c:455
 msgid "write to sound device failed."
-msgstr "Impossible d'écriture sur le périphérique de son."
+msgstr "impossible d'écrire sur le périphérique son."
 
 #: src/sound.c:470
 msgid "Cannot open SID engine"
-msgstr "Erreur de chargement de l'engin de son SID"
+msgstr "Erreur d'ouverture de l'engin SID"
 
 #: src/sound.c:509
 msgid "Cannot initialize SID engine"
-msgstr "Erreur d'initialisation de l'engin de son SID"
+msgstr "Erreur d'initialisation de l'engin SID"
 
 #: src/sound.c:616
 #, c-format
@@ -198,7 +195,7 @@ msgstr "erreur d'initialisation du périphérique `%s'."
 
 #: src/sound.c:625
 msgid "sound device lacks stereo capability"
-msgstr "le périphérique de son n'est pas stéréo"
+msgstr "le périphérique son n'est pas stéréo"
 
 #: src/sound.c:675
 #, c-format
@@ -221,7 +218,7 @@ msgstr ""
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 "Attention! Le périphérique d'enregistrement %s semble être un périphérique "
-"en temps réel"
+"temps réel"
 
 #: src/sound.c:725
 #, c-format
@@ -231,8 +228,7 @@ msgstr "Échec de l'initialisation du périphérique `%s'."
 #: src/sound.c:740
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
-"Le périphérique d'enregistrement ne supporte pas les paramètres de son "
-"actuellement configurés"
+"Le périphérique d'enregistrement ne supporte pas les paramètres son actuels"
 
 #: src/sound.c:821
 msgid "Sound buffer overflow (cycle based)"
@@ -256,32 +252,30 @@ msgstr "Tampon vide"
 
 #: src/sound.c:1079
 msgid "running too slow."
-msgstr "l'exécution est trop lente."
+msgstr "exécution trop lente."
 
 #: src/sound.c:1095 src/sound.c:1105
 msgid "write to sounddevice failed."
-msgstr "erreur d'écriture sur le périphérique de son."
+msgstr "erreur d'écriture sur le périphérique son."
 
 #: src/sound.c:1352
 msgid "store to sounddevice failed."
-msgstr "erreur d'enregistrement sur le périphérique de son."
+msgstr "erreur d'enregistrement sur le périphérique son."
 
 #: src/event.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create image file %s"
-msgstr "Impossible de créer l'image `%s'."
+msgstr "Impossible de créer le fichier image %s"
 
 #: src/event.c:230
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write image file %s"
-msgstr ""
-"Impossible d'écrire le fichier image de la cartouche\n"
-"`%s'\n"
+msgstr "Impossible d'écrire le fichier image %s"
 
 #: src/event.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find mapped name for %s"
-msgstr "Impossible de charger la police de caractères %s."
+msgstr "Impossible de trouver le nom correspondant à %s"
 
 #: src/event.c:540
 #, c-format
@@ -321,1279 +315,1210 @@ msgid "Error reading start snapshot file."
 msgstr "Erreur de lecture du fichier de sauvegarde de départ."
 
 #: src/event.c:1132
-#, fuzzy
 msgid "Playback recorded events"
-msgstr "Démarrer les événements d'enregistrement"
+msgstr "Jouer les événements enregistrés"
 
 #: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
 #: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
 #, c-format
 msgid "Resource %s blocked by %s."
-msgstr ""
+msgstr "La ressource %s est bloquée par %s."
 
 #: src/debug.c:171
 msgid "Trace the main CPU"
-msgstr ""
+msgstr "Tracer le CPU principal"
 
 #: src/debug.c:174
 msgid "Do not trace the main CPU"
-msgstr ""
+msgstr "Ne pas tracer le CPU principal"
 
 #: src/debug.c:177
 msgid "Trace the drive0 CPU"
-msgstr ""
+msgstr "Tracer le CPU de drive0"
 
 #: src/debug.c:180
 msgid "Do not trace the drive0 CPU"
-msgstr ""
+msgstr "Ne pas tracer le CPU de drive0"
 
 #: src/debug.c:183
 msgid "Trace the drive1 CPU"
-msgstr ""
+msgstr "Tracer le CPU de drive1"
 
 #: src/debug.c:186
 msgid "Do not trace the drive1 CPU"
-msgstr ""
+msgstr "Ne pas tracer le CPU de drive1"
 
 #: src/debug.c:190
 msgid "Trace the drive2 CPU"
-msgstr ""
+msgstr "Tracer le CPU de drive2"
 
 #: src/debug.c:193
 msgid "Do not trace the drive2 CPU"
-msgstr ""
+msgstr "Ne pas tracer le CPU de drive2"
 
 #: src/debug.c:198
 msgid "Trace the drive3 CPU"
-msgstr ""
+msgstr "Tracer le CPU de drive3"
 
 #: src/debug.c:201
 msgid "Do not trace the drive3 CPU"
-msgstr ""
+msgstr "Ne pas tracer le CPU de drive3"
 
 #: src/debug.c:205
 msgid "Trace mode (0=normal 1=small 2=history)"
-msgstr ""
+msgstr "Mode de trace (0=normal 1=petit 2=historique)"
 
 #: src/debug.c:438
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
+"Erreur de lecture: %s est différente de la ligne %d du fichier débug%06d"
 
 #: src/aciacore.c:142
 msgid "Specify RS232 device this ACIA should work on"
-msgstr ""
+msgstr "Spécifier le périphérique RS232 sur lequel doit fonctionner l'ACIA"
 
 #: src/attach.c:158 src/attach.c:161 src/attach.c:164 src/attach.c:167
 #: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:124
 #: src/printerdrv/interface-serial.c:127
 #, fuzzy
 msgid "<type>"
-msgstr "<vide>"
+msgstr "<type>"
 
 #: src/attach.c:159
 msgid "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
+"Régler le type de périphérique pour #8 (0: AUCUN, 1: FS, 2: RÉEL, 3: RAW)"
 
 #: src/attach.c:162
 msgid "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
+"Régler le type de périphérique pour #9 (0: AUCUN, 1: FS, 2: RÉEL, 3: RAW)"
 
 #: src/attach.c:165
 msgid "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
+"Régler le type de périphérique pour #10 (0: AUCUN, 1: FS, 2: RÉEL, 3: RAW)"
 
 #: src/attach.c:168
 msgid "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
+"Régler le type de périphérique pour #11 (0: AUCUN, 1: FS, 2: RÉEL, 3: RAW)"
 
 #: src/attach.c:171
-#, fuzzy
 msgid "Attach disk image for drive #8 read only"
-msgstr "Insérer une image de disque dans l'unité #%d"
+msgstr "Insérer une image de disque dans l'unité #8 en lecture seule"
 
 #: src/attach.c:174
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr ""
+"Insérer une image de disque dans l'unité #8 en lecture/écriture (si possible)"
 
 #: src/attach.c:177
-#, fuzzy
 msgid "Attach disk image for drive #9 read only"
-msgstr "Insérer une image de disque dans l'unité #%d"
+msgstr "Insérer une image de disque dans l'unité #9 en lecture seule"
 
 #: src/attach.c:180
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr ""
+"Insérer une image de disque dans l'unité #9 en lecture/écriture (si possible)"
 
 #: src/attach.c:183
-#, fuzzy
 msgid "Attach disk image for drive #10 read only"
-msgstr "Insérer une image de disque dans l'unité #%d"
+msgstr "Insérer une image de disque dans l'unité #10 en lecture seule"
 
 #: src/attach.c:186
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr ""
+"Insérer une image de disque dans l'unité #10 en lecture/écriture (si "
+"possible)"
 
 #: src/attach.c:189
-#, fuzzy
 msgid "Attach disk image for drive #11 read only"
-msgstr "Insérer une image de disque dans l'unité #%d"
+msgstr "Insérer une image de disque dans l'unité #11 en lecture seule"
 
 #: src/attach.c:192
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr ""
+"Insérer une image de disque dans l'unité #11 en lecture/écriture (si "
+"possible)"
 
 #: src/c128/c128-cmdline-options.c:104 src/c64/c64-cmdline-options.c:84
 #: src/c64/psid.c:152 src/plus4/plus4-cmdline-options.c:76
 #: src/vic20/vic20-cmdline-options.c:205
 msgid "Use PAL sync factor"
-msgstr ""
+msgstr "Utiliser PAL"
 
 #: src/c128/c128-cmdline-options.c:106 src/c64/c64-cmdline-options.c:86
 #: src/c64/psid.c:155 src/plus4/plus4-cmdline-options.c:78
 #: src/vic20/vic20-cmdline-options.c:207
 msgid "Use NTSC sync factor"
-msgstr ""
+msgstr "Utiliser NTSC"
 
 #: src/c128/c128-cmdline-options.c:108
 msgid "Specify name of international Kernal ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image Kernal internationale"
 
 #: src/c128/c128-cmdline-options.c:110
-#, fuzzy
 msgid "Specify name of German Kernal ROM image"
-msgstr "Charger une nouvelle ROM Kernal en allemand"
+msgstr "Spécifier le nom de l'image Kernal allemande"
 
 #: src/c128/c128-cmdline-options.c:112
 msgid "Specify name of Finnish Kernal ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image Kernal finlandaise"
 
 #: src/c128/c128-cmdline-options.c:114
 msgid "Specify name of French Kernal ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image Kernal française"
 
 #: src/c128/c128-cmdline-options.c:116
 msgid "Specify name of Italian Kernal ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image Kernal italienne"
 
 #: src/c128/c128-cmdline-options.c:118
 msgid "Specify name of Norwegain Kernal ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image Kernal norvégienne"
 
 #: src/c128/c128-cmdline-options.c:120
 msgid "Specify name of Swedish Kernal ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image Kernal suédoise"
 
 #: src/c128/c128-cmdline-options.c:122
 msgid "Specify name of BASIC ROM image (lower part)"
-msgstr ""
+msgstr "Spécifier le nom de l'image BASIC ROM (partie basse)"
 
 #: src/c128/c128-cmdline-options.c:124
 msgid "Specify name of BASIC ROM image (higher part)"
-msgstr ""
+msgstr "Spécifier le nom de l'image BASIC ROM (partie haute)"
 
 #: src/c128/c128-cmdline-options.c:126
 msgid "Specify name of international character generator ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image du générateur de caractères internationaux"
 
 #: src/c128/c128-cmdline-options.c:128
 msgid "Specify name of German character generator ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image du générateur de caractères allemands"
 
 #: src/c128/c128-cmdline-options.c:130
 msgid "Specify name of French character generator ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image du générateur de caractères français"
 
 #: src/c128/c128-cmdline-options.c:132
 msgid "Specify name of Swedish character generator ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image du générateur de caractères suédois"
 
 #: src/c128/c128-cmdline-options.c:134
 msgid "Specify name of C64 mode Kernal ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image Kernal du mode C64"
 
 #: src/c128/c128-cmdline-options.c:136
 msgid "Specify name of C64 mode BASIC ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image BASIC ROM du mode C64"
 
 #: src/c128/c128-cmdline-options.c:138 src/c64/c64-cmdline-options.c:97
 #: src/cbm2/cbm2-cmdline-options.c:171 src/pet/pet-cmdline-options.c:156
 #: src/vic20/vic20-cmdline-options.c:217
-#, fuzzy
 msgid "Enable emulator identification"
-msgstr "*Identification de l'émulateur"
+msgstr "Activer l'identification de l'émulateur"
 
 #: src/c128/c128-cmdline-options.c:140 src/c64/c64-cmdline-options.c:99
 #: src/cbm2/cbm2-cmdline-options.c:173 src/pet/pet-cmdline-options.c:158
 #: src/vic20/vic20-cmdline-options.c:219
-#, fuzzy
 msgid "Disable emulator identification"
-msgstr "*Identification de l'émulateur"
+msgstr "Désactiver l'identification de l'émulateur"
 
 #: src/c128/c128-cmdline-options.c:142
-#, fuzzy
 msgid "Enable the IEEE488 interface emulation"
-msgstr "*Interface d'émulation IEEE488"
+msgstr "Activer l'interface d'émulation IEEE488"
 
 #: src/c128/c128-cmdline-options.c:144
-#, fuzzy
 msgid "Disable the IEEE488 interface emulation"
-msgstr "*Interface d'émulation IEEE488"
+msgstr "Désactiver l'interface d'émulation IEEE488"
 
 #: src/c128/c128-cmdline-options.c:146 src/c64/c64-cmdline-options.c:101
-#, fuzzy
 msgid "<revision>"
-msgstr "Révision"
+msgstr "<révision>"
 
 #: src/c128/c128-cmdline-options.c:146 src/c64/c64-cmdline-options.c:101
 msgid "Patch the Kernal ROM to the specified <revision>"
-msgstr ""
+msgstr "Mettre à jour le ROM Kernal à la <révision> spécifiée"
 
 #: src/c128/c128-cmdline-options.c:149 src/c64/c64-cmdline-options.c:104
-#, fuzzy
 msgid "Enable the $DE** ACIA RS232 interface emulation"
-msgstr "*Émulation d'interface ACIA $DExx RS232"
+msgstr "Activer l'émulation de l'interface ACIA $DE** RS232"
 
 #: src/c128/c128-cmdline-options.c:155 src/c64/c64-cmdline-options.c:110
 #: src/c64/psid.c:164 src/cbm2/cbm2-cmdline-options.c:176
 #: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:99
 #: src/vdc/vdc-cmdline-options.c:68 src/vic20/vic20-cmdline-options.c:226
 msgid "<number>"
-msgstr ""
+msgstr "<numéro>"
 
 #: src/c128/c128-cmdline-options.c:155 src/plus4/plus4-cmdline-options.c:99
 #: src/vic20/vic20-cmdline-options.c:226
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
-msgstr ""
+msgstr "Spécifier l'index du fichier keymap (0=symboles, 1=position)"
 
 #: src/c128/c128-cmdline-options.c:157 src/c64/c64-cmdline-options.c:112
 #: src/plus4/plus4-cmdline-options.c:101 src/vic20/vic20-cmdline-options.c:228
-#, fuzzy
 msgid "Specify name of symbolic keymap file"
-msgstr "Définir le fichier symbolique de mappage clavier"
+msgstr "Spécifier le nom du fichier de mappage clavier symbolique"
 
 #: src/c128/c128-cmdline-options.c:159 src/c64/c64-cmdline-options.c:116
 #: src/plus4/plus4-cmdline-options.c:103 src/vic20/vic20-cmdline-options.c:230
-#, fuzzy
 msgid "Specify name of positional keymap file"
-msgstr "Définir le fichier positionnel de mappage clavier"
+msgstr "Spécifier le nom du fichier de mappage clavier positionnel"
 
 #: src/c128/c128mmu.c:106
-#, fuzzy
 msgid "Activate 40 column mode"
-msgstr "Activer le moniteur"
+msgstr "Activer le mode 40 colonnes"
 
 #: src/c128/c128mmu.c:109
-#, fuzzy
 msgid "Activate 80 column mode"
-msgstr "Activer le moniteur"
+msgstr "Activer le mode 80 colonnes"
 
 #: src/c128/functionrom.c:143
-#, fuzzy
 msgid "Specify name of internal Function ROM image"
-msgstr "*Activer l'image ROM Fonction interne"
+msgstr "Spécifier le nom de l'image ROM des fonctions internes"
 
 #: src/c128/functionrom.c:145
-#, fuzzy
 msgid "Specify name of external Function ROM image"
-msgstr "*Activer l'image ROM Fonction externe"
+msgstr "Spécifier le nom de l'image ROM des fonctions externes"
 
 #: src/c128/functionrom.c:147
-#, fuzzy
 msgid "Enable the internal Function ROM"
-msgstr "*Activer l'image ROM Fonction interne"
+msgstr "Activer l'image ROM des fonctions internes"
 
 #: src/c128/functionrom.c:149
-#, fuzzy
 msgid "Disable the internal Function ROM"
-msgstr "*Activer l'image ROM Fonction interne"
+msgstr "Désactiver l'image ROM des fonctions internes"
 
 #: src/c128/functionrom.c:151
-#, fuzzy
 msgid "Enable the external Function ROM"
-msgstr "*Activer l'image ROM Fonction externe"
+msgstr "Activer l'image ROM des fonctions externes"
 
 #: src/c128/functionrom.c:153
-#, fuzzy
 msgid "Disable the external Function ROM"
-msgstr "*Activer l'image ROM Fonction externe"
+msgstr "Désactiver l'image ROM des fonctions externes"
 
 #: src/c64/c64-cmdline-options.c:89 src/c64/psid.c:158
 msgid "Use old NTSC sync factor"
-msgstr ""
+msgstr "Utiliser l'ancien mode NTSC"
 
 #: src/c64/c64-cmdline-options.c:91 src/cbm2/cbm2-cmdline-options.c:132
 #: src/pet/pet-cmdline-options.c:116 src/plus4/plus4-cmdline-options.c:80
 #: src/vic20/vic20-cmdline-options.c:209
 msgid "Specify name of Kernal ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image ROM Kernal"
 
 #: src/c64/c64-cmdline-options.c:93 src/cbm2/cbm2-cmdline-options.c:134
 #: src/pet/pet-cmdline-options.c:118 src/plus4/plus4-cmdline-options.c:82
 #: src/vic20/vic20-cmdline-options.c:211
 msgid "Specify name of BASIC ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image BASIC ROM"
 
 #: src/c64/c64-cmdline-options.c:95 src/cbm2/cbm2-cmdline-options.c:136
 #: src/pet/pet-cmdline-options.c:122 src/vic20/vic20-cmdline-options.c:213
 msgid "Specify name of character generator ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image du générateur de caractères"
 
 #: src/c64/c64-cmdline-options.c:106
-#, fuzzy
 msgid "Disable the $DE** ACIA RS232 interface emulation"
-msgstr "*Émulation d'interface ACIA $DExx RS232"
+msgstr "Désactiver l'émulation de l'interface ACIA $DE** RS232"
 
 #: src/c64/c64-cmdline-options.c:110
 msgid "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
-msgstr ""
+msgstr "Spécifier l'index du fichier keymap (0=sym, 1=symDE, 2=pos)"
 
 #: src/c64/c64-cmdline-options.c:114
 #, fuzzy
 msgid "Specify name of symbolic German keymap file"
-msgstr "Définir le fichier symbolique de mappage clavier"
+msgstr "Spécifier le nom du fichier symbolique de mappage clavier"
 
 #: src/c64/cart/c64cart.c:212
 msgid "Reset machine if a cartridge is attached or detached"
-msgstr ""
+msgstr "Réinitialiser si une cartouche est insérée ou retirée"
 
 #: src/c64/cart/c64cart.c:215
 msgid "Do not reset machine if a cartridge is attached or detached"
-msgstr ""
+msgstr "Ne pas réinitialiser si une cartouche est insérée ou retirée"
 
 #: src/c64/cart/c64cart.c:218
-#, fuzzy
 msgid "Attach CRT cartridge image"
-msgstr "Insérer une image de cartouch"
+msgstr "Insérer une cartouche CRT"
 
 #: src/c64/cart/c64cart.c:221
-#, fuzzy
 msgid "Attach generic 8KB cartridge image"
-msgstr "Insérer une image de cartouch"
+msgstr "Insérer une cartouche générique 8KO"
 
 #: src/c64/cart/c64cart.c:224
-#, fuzzy
 msgid "Attach generic 16KB cartridge image"
-msgstr "Insérer une image générique de 16Ko..."
+msgstr "Insérer une cartouche générique de 16KO"
 
 #: src/c64/cart/c64cart.c:227
-#, fuzzy
 msgid "Attach raw 32KB Action Replay cartridge image"
-msgstr "Insérer une image de cartouche Action Replay..."
+msgstr "Insérer une cartouche Action Replay 32KO"
 
 #: src/c64/cart/c64cart.c:230
-#, fuzzy
 msgid "Attach raw 64KB Retro Replay cartridge image"
-msgstr "Insérer une image de cartouch"
+msgstr "Insérer une cartouche Retro Replay 64KO"
 
 #: src/c64/cart/c64cart.c:233
-#, fuzzy
 msgid "Attach raw 64KB IDE64 cartridge image"
-msgstr "Insérer une image de cartouch"
+msgstr "Insérer une cartouche IDE64 64KO"
 
 #: src/c64/cart/c64cart.c:236
-#, fuzzy
 msgid "Attach raw 32KB Atomic Power cartridge image"
-msgstr "Insérer une image de cartouch"
+msgstr "Insérer une cartouche Atomic Power 32KO"
 
 #: src/c64/cart/c64cart.c:239
-#, fuzzy
 msgid "Attach raw 8KB Epyx fastload cartridge image"
-msgstr "Insérer une image de cartouche Epyx FastLoad..."
+msgstr "Insérer une cartouche Epyx FastLoad 8KO"
 
 #: src/c64/cart/c64cart.c:242
-#, fuzzy
 msgid "Attach raw 32KB Super Snapshot cartridge image"
-msgstr "Insérer une image de cartouche Super Snapshot 4..."
+msgstr "Insérer une cartouche Super Snapshot 32KO"
 
 #: src/c64/cart/c64cart.c:245
-#, fuzzy
 msgid "Attach raw 64KB Super Snapshot cartridge image"
-msgstr "Insérer une image de cartouche Super Snapshot 4..."
+msgstr "Insérer une cartouche Super Snapshot 64KO"
 
 #: src/c64/cart/c64cart.c:248
-#, fuzzy
 msgid "Attach CBM IEEE488 cartridge image"
-msgstr "Insérer une image de cartouch"
+msgstr "Insérer une cartouche CBM IEEE488"
 
 #: src/c64/cart/c64cart.c:251
-#, fuzzy
 msgid "Attach raw 16KB Westermann learning cartridge image"
-msgstr "Insérer une image de cartouch"
+msgstr "Insérer une cartouche Westermann Learning 16KO"
 
 #: src/c64/cart/c64cart.c:254
-#, fuzzy
 msgid "Enable expert cartridge"
-msgstr "Activer les paramètres des cartouches experts..."
+msgstr "Activer les paramètres experts de cartouches"
 
 #: src/c64/cart/ide64.c:268
 msgid "Specify name of IDE64 image file"
-msgstr ""
+msgstr "Spécifier le nom de l'image IDE64"
 
 #: src/c64/cart/ide64.c:270
 msgid "Set number of cylinders for the IDE64 emulation"
-msgstr ""
+msgstr "Régler le nombre de cylindres pour l'émulation IDE64"
 
 #: src/c64/cart/ide64.c:272
 msgid "Set number of heads for the IDE64 emulation"
-msgstr ""
+msgstr "Régler le nombre de têtes pour l'émulation IDE64"
 
 #: src/c64/cart/ide64.c:274
 msgid "Set number of sectors for the IDE64 emulation"
-msgstr ""
+msgstr "Régler le nombre de secteurs pour l'émulation IDE64"
 
 #: src/c64/cart/ide64.c:277
 msgid "Autodetect geometry of formatted images"
-msgstr ""
+msgstr "Détecter automatiquement la géométrie des images formattées"
 
 #: src/c64/cart/ide64.c:280
 msgid "Do not autodetect geometry of formatted images"
-msgstr ""
+msgstr "Ne pas détecter automatiquement la géométrie des images formattées"
 
 #: src/c64/cart/ide64.c:782
 #, c-format
 msgid "IDE64: Using imagefile `%s'."
-msgstr ""
+msgstr "IDE64: Utilisation de l'image `%s'."
 
 #: src/c64/cart/ide64.c:785
 #, c-format
 msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
 msgstr ""
+"IDE64: Impossible d'utiliser le fichier `%s'. AUCUNE ÉMULATION DE DISQUE!"
 
 #: src/c64/cart/ide64.c:801
 msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
 msgstr ""
+"IDE64: Impossible de lire la géométrie de l'image, utilisation du paramètre "
+"par défaut: 8MO."
 
 #: src/c64/cart/ide64.c:835
 msgid "IDE64: Disk is not formatted, using default 8MB."
 msgstr ""
+"IDE64: Le disque n'est pas formatté, utilisation du paramètre par défaut: "
+"8MO."
 
 #: src/c64/cart/ide64.c:843
 #, c-format
 msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
-msgstr ""
+msgstr "IDE64: Utilisation : %i/%i/%i géométrie CHS, total de %lu secteurs."
 
 #: src/c64/cart/ide64.c:845
 #, c-format
 msgid "IDE64: LBA geometry, %lu sectors total."
-msgstr ""
+msgstr "IDE64: Géométrie LBA, total de %lu secteurs."
 
 #: src/c64/georam.c:211
-#, fuzzy
 msgid "Enable the GEORAM expansion unit"
-msgstr "Unité d'expansion RAM"
+msgstr "Activer l'unité d'expansion GEORAM"
 
 #: src/c64/georam.c:213
-#, fuzzy
 msgid "Disable the GEORAM expansion unit"
-msgstr "Unité d'expansion RAM"
+msgstr "Désactiver l'unité d'expansion GEORAM"
 
 #: src/c64/georam.c:215
 msgid "Specify name of GEORAM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image GEORAM"
 
 #: src/c64/georam.c:217 src/c64/ramcart.c:230 src/c64/reu.c:252
 msgid "<size in KB>"
-msgstr ""
+msgstr "<taille en KO>"
 
 #: src/c64/georam.c:217
-#, fuzzy
 msgid "Size of the GEORAM expansion unit"
-msgstr "Unité d'expansion RAM"
+msgstr "Taille de l'unité d'expansion GEORAM"
 
 #: src/c64/plus60k.c:202
-#, fuzzy
 msgid "Enable the +60K RAM expansion"
-msgstr "Unité d'expansion RAM"
+msgstr "Activer l'expansion RAM +60K"
 
 #: src/c64/plus60k.c:204
-#, fuzzy
 msgid "Disable the +60K RAM expansion"
-msgstr "Expansion de RAM du lecteur #10"
+msgstr "Désactiver l'expansion RAM +60K"
 
 #: src/c64/plus60k.c:206
 msgid "Specify name of +60K image"
-msgstr ""
+msgstr "Spécifier le nom de l'image +60K"
 
 #: src/c64/psid.c:160
 msgid "SID player mode"
-msgstr ""
+msgstr "Mode jukebox SID"
 
 #: src/c64/psid.c:162
 msgid "Override PSID settings for Video standard and SID model"
-msgstr ""
+msgstr "Écraser les paramètres PSID pour le standard vidéo et le modèle SID"
 
 #: src/c64/psid.c:164
 msgid "Specify PSID tune <number>"
-msgstr ""
+msgstr "Spécifier <numéro> piste PSID"
 
 #: src/c64/ramcart.c:224
-#, fuzzy
 msgid "Enable the RAMCART expansion"
-msgstr "*Activer RAMCART"
+msgstr "Activer l'expansion RAMCART"
 
 #: src/c64/ramcart.c:226
-#, fuzzy
 msgid "Disable the RAMCART expansion"
-msgstr "Expansion de RAM du lecteur #8"
+msgstr "Désactiver l'expansion RAMCART"
 
 #: src/c64/ramcart.c:228
 msgid "Specify name of RAMCART image"
-msgstr ""
+msgstr "Spécifier le nom de l'image RAMCART"
 
 #: src/c64/ramcart.c:230
-#, fuzzy
 msgid "Size of the RAMCART expansion"
-msgstr "Expansion de RAM du lecteur #9"
+msgstr "Taille de l'expansion RAMCART"
 
 #: src/c64/reu.c:246
-#, fuzzy
 msgid "Enable the RAM expansion unit"
-msgstr "Unité d'expansion RAM"
+msgstr "Activer l'unité d'expansion RAM"
 
 #: src/c64/reu.c:248
-#, fuzzy
 msgid "Disable the RAM expansion unit"
-msgstr "Expansion de RAM du lecteur #9"
+msgstr "Désactiver l'unité d'expansion RAM"
 
 #: src/c64/reu.c:250
 msgid "Specify name of REU image"
-msgstr ""
+msgstr "Spécifier le nom de l'image REU"
 
 #: src/c64/reu.c:252
-#, fuzzy
 msgid "Size of the RAM expansion unit"
-msgstr "Unité d'expansion RAM"
+msgstr "Taille de l'unité d'expansion RAM"
 
 #: src/c64/tfe.c:1514
 msgid "Enable the TFE (\"the final ethernet\") unit"
-msgstr ""
+msgstr "Activer l'unité TFE (\"The Final Ethernet\")"
 
 #: src/c64/tfe.c:1516
 msgid "Disable the TFE (\"the final ethernet\") unit"
-msgstr ""
+msgstr "Désactiver l'unité TFE"
 
 #: src/cbm2/cbm2-cmdline-options.c:121 src/pet/pet-cmdline-options.c:114
 msgid "<modelnumber>"
-msgstr ""
+msgstr "<numérodemodèle>"
 
 #: src/cbm2/cbm2-cmdline-options.c:121
 msgid "Specify CBM-II model to emulate"
-msgstr ""
+msgstr "Spécifier le modèle CBM-II à émuler"
 
 #: src/cbm2/cbm2-cmdline-options.c:123
 msgid "Specify to use VIC-II"
-msgstr ""
+msgstr "Spécifier l'utilisation de VIC-II"
 
 #: src/cbm2/cbm2-cmdline-options.c:125
 msgid "Specify to use CRTC"
-msgstr ""
+msgstr "Spécifier l'utilisation de CRTC"
 
 #: src/cbm2/cbm2-cmdline-options.c:127
 msgid "<linenumber>"
-msgstr ""
+msgstr "<numérodeligne>"
 
 #: src/cbm2/cbm2-cmdline-options.c:127
 msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
-msgstr ""
+msgstr "Spécifier le modèle CBM-II (0=6x0, 1=7x0)"
 
 #: src/cbm2/cbm2-cmdline-options.c:129 src/plus4/plus4-cmdline-options.c:96
 msgid "<ramsize>"
-msgstr ""
+msgstr "<tailleram>"
 
 #: src/cbm2/cbm2-cmdline-options.c:129
 msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
-msgstr ""
+msgstr "Spécifier la taille de la RAM (64/128/256/512/1024 kilo-octets)"
 
 #: src/cbm2/cbm2-cmdline-options.c:139
-#, fuzzy
 msgid "Specify name of cartridge ROM image for $1000"
-msgstr "Sauvegarder l'image de la cartouche"
+msgstr "Spécifier le nom de la l'image de cartouche ROM pour $1000"
 
 #: src/cbm2/cbm2-cmdline-options.c:141
 msgid "Specify name of cartridge ROM image for $2000-$3fff"
-msgstr ""
+msgstr "Spécifier le nom de la l'image de cartouche ROM pour $2000-$3fff"
 
 #: src/cbm2/cbm2-cmdline-options.c:143
 msgid "Specify name of cartridge ROM image for $4000-$5fff"
-msgstr ""
+msgstr "Spécifier le nom de la l'image de cartouche ROM pour $4000-$5fff"
 
 #: src/cbm2/cbm2-cmdline-options.c:145
 msgid "Specify name of cartridge ROM image for $6000-$7fff"
-msgstr ""
+msgstr "Spécifier le nom de la l'image de cartouche ROM pour $6000-$7fff"
 
 #: src/cbm2/cbm2-cmdline-options.c:147
 msgid "Enable RAM mapping in $0800-$0FFF"
-msgstr ""
+msgstr "Activer le mappage RAM dans $0800-$0FFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:149
 msgid "Disable RAM mapping in $0800-$0FFF"
-msgstr ""
+msgstr "Désactiver le mappage RAM dans $0800-$0FFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:151
 msgid "Enable RAM mapping in $1000-$1FFF"
-msgstr ""
+msgstr "Activer le mappage RAM dans $1000-$1FFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:153
 msgid "Disable RAM mapping in $1000-$1FFF"
-msgstr ""
+msgstr "Désactiver le mappage RAM dans $1000-$1FFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:155
 msgid "Enable RAM mapping in $2000-$3FFF"
-msgstr ""
+msgstr "Activer le mappage RAM dans $2000-$3FFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:157
 msgid "Disable RAM mapping in $2000-$3FFF"
-msgstr ""
+msgstr "Désactiver le mappage RAM dans $2000-$3FFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:159
 msgid "Enable RAM mapping in $4000-$5FFF"
-msgstr ""
+msgstr "Activer le mappage RAM dans $4000-$5FFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:161
 msgid "Disable RAM mapping in $4000-$5FFF"
-msgstr ""
+msgstr "Désactiver le mappage RAM dans $4000-$5FFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:163
 msgid "Enable RAM mapping in $6000-$7FFF"
-msgstr ""
+msgstr "Activer le mappage RAM dans $6000-$7FFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:165
 msgid "Disable RAM mapping in $6000-$7FFF"
-msgstr ""
+msgstr "Désactiver le mappage RAM dans $6000-$7FFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:167
 msgid "Enable RAM mapping in $C000-$CFFF"
-msgstr ""
+msgstr "Activer le mappage RAM dans $C000-$CFFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:169
 msgid "Disable RAM mapping in $C000-$CFFF"
-msgstr ""
+msgstr "Désactiver le mappage RAM dans $C000-$CFFF"
 
 #: src/cbm2/cbm2-cmdline-options.c:176 src/pet/pet-cmdline-options.c:161
-#, fuzzy
 msgid "Specify index of keymap file"
-msgstr "Définir le fichier positionnel de mappage clavier"
+msgstr "Spécifier l'index du fichier de mappage clavier"
 
 #: src/cbm2/cbm2-cmdline-options.c:179 src/pet/pet-cmdline-options.c:164
 msgid "Specify name of graphics keyboard symbolic keymap file"
-msgstr ""
+msgstr "Spécifier le nom du fichier de mappage clavier symbolique"
 
 #: src/cbm2/cbm2-cmdline-options.c:182 src/pet/pet-cmdline-options.c:167
-#, fuzzy
 msgid "Specify name of graphics keyboard positional keymap file"
-msgstr "Définir le fichier positionnel de mappage clavier"
+msgstr "Spécifier le nom du fichier de mappage clavier positionnel"
 
 #: src/cbm2/cbm2-cmdline-options.c:185 src/pet/pet-cmdline-options.c:170
 msgid "Specify name of UK business keyboard symbolic keymap file"
-msgstr ""
+msgstr "Spécifier le nom du fichier de mappage clavier symbolique UK"
 
 #: src/cbm2/cbm2-cmdline-options.c:188 src/pet/pet-cmdline-options.c:173
 msgid "Specify name of UK business keyboard positional keymap file"
-msgstr ""
+msgstr "Spécifier le nom du fichier de mappage clavier positionnel UK"
 
 #: src/cbm2/cbm2-cmdline-options.c:191 src/pet/pet-cmdline-options.c:176
 msgid "Specify name of German business keyboard symbolic keymap file"
-msgstr ""
+msgstr "Spécifier le nom du fichier de mappage clavier symbolique allemand"
 
 #: src/cbm2/cbm2-cmdline-options.c:194 src/pet/pet-cmdline-options.c:179
 msgid "Specify name of German business keyboard positional keymap file"
-msgstr ""
+msgstr "Spécifier le nom du fichier de mappage clavier positionnel allemand"
 
 #: src/datasette.c:174
 msgid "Enable automatic Datasette-Reset"
-msgstr ""
+msgstr "Activer le redémarrage automatique du Datasette"
 
 #: src/datasette.c:177
 msgid "Disable automatic Datasette-Reset"
-msgstr ""
+msgstr "Désactiver le redémarrage automatique du Datasette"
 
 #: src/datasette.c:180
 msgid "Set delay in cycles for a zero in the tap"
-msgstr ""
+msgstr "Spécifier le délai en cycles pour un zéro sur le ruban"
 
 #: src/datasette.c:183
 msgid "Set number of cycles added to each gap in the tap"
-msgstr ""
+msgstr "Spécifier le nombre de cycles ajouté a chaque raccord du ruban"
 
 #: src/drive/drive-cmdline-options.c:51
 msgid "Enable hardware-level emulation of disk drives"
-msgstr ""
+msgstr "Activer l'émulation des disque au niveau physique"
 
 #: src/drive/drive-cmdline-options.c:53
 msgid "Disable hardware-level emulation of disk drives"
-msgstr ""
+msgstr "Désactiver l'émulation des disque au niveau physique"
 
 #: src/drive/drive-cmdline-options.c:69
 msgid "Set drive type (0: no drive)"
-msgstr ""
+msgstr "Spécifier le type de lecteur de disque (0: pas de lecteur)"
 
 #: src/drive/drive-cmdline-options.c:70
 #: src/drive/iec/iec-cmdline-options.c:104 src/sid/sid-cmdline-options.c:120
 msgid "<method>"
-msgstr ""
+msgstr "<méthode>"
 
 #: src/drive/drive-cmdline-options.c:71
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 msgstr ""
+"Spécifier la règle d'extention 40 pistes (0: jamais, 1: demander, 2: à "
+"l'accès)"
 
 #: src/drive/iec/iec-cmdline-options.c:86
 msgid "Specify name of 1541 DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 1541 DOS ROM"
 
 #: src/drive/iec/iec-cmdline-options.c:88
 msgid "Specify name of 1541-II DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 1541-II DOS ROM"
 
 #: src/drive/iec/iec-cmdline-options.c:90
 msgid "Specify name of 1570 DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 1570 DOS ROM"
 
 #: src/drive/iec/iec-cmdline-options.c:92
 msgid "Specify name of 1571 DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 1571 DOS ROM"
 
 #: src/drive/iec/iec-cmdline-options.c:94
 msgid "Specify name of 1581 DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 1581 DOS ROM"
 
 #: src/drive/iec/iec-cmdline-options.c:100
-#, fuzzy
 msgid "Enable SpeedDOS-compatible parallel cable"
-msgstr "*Activer l'utilisation du câble parralèle pour le lecteur #8"
+msgstr "Activer l'utilisation du câble parallèle compatible SpeedDOS"
 
 #: src/drive/iec/iec-cmdline-options.c:102
-#, fuzzy
 msgid "Disable SpeedDOS-compatible parallel cable"
-msgstr "*Activer l'utilisation du câble parralèle pour le lecteur #9"
+msgstr "Désactiver l'utilisation du câble parallèle  compatible SpeedDOS"
 
 #: src/drive/iec/iec-cmdline-options.c:105
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
+"Spécifier la méthode d'idle (0: no traps, 1: sauter des cycles, 2: trap idle)"
 
 #: src/drive/iec/iec-cmdline-options.c:107
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
-msgstr ""
+msgstr "Activer l'exansion de 8KB RAM à $2000-$3FFF"
 
 #: src/drive/iec/iec-cmdline-options.c:109
-#, fuzzy
 msgid "Disable 8KB RAM expansion at $2000-$3FFF"
-msgstr "Expansion de RAM du lecteur #8"
+msgstr "Désactiver l'exansion de 8KB RAM à $2000-$3FFF"
 
 #: src/drive/iec/iec-cmdline-options.c:111
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
-msgstr ""
+msgstr "Activer l'exansion de 8KB RAM à $4000-$5FFF"
 
 #: src/drive/iec/iec-cmdline-options.c:113
 #, fuzzy
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
-msgstr "Expansion de RAM du lecteur #8"
+msgstr "Désactiver l'exansion de 8KB RAM à $4000-$5FFF"
 
 #: src/drive/iec/iec-cmdline-options.c:115
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
-msgstr ""
+msgstr "Activer l'exansion de 8KB RAM à $6000-$7FFF"
 
 #: src/drive/iec/iec-cmdline-options.c:117
 #, fuzzy
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
-msgstr "Expansion de RAM du lecteur #8"
+msgstr "Désactiver l'exansion de 8KB RAM à $6000-$7FFF"
 
 #: src/drive/iec/iec-cmdline-options.c:119
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
-msgstr ""
+msgstr "Activer l'exansion de 8KB RAM à $8000-$9FFF"
 
 #: src/drive/iec/iec-cmdline-options.c:121
 #, fuzzy
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
-msgstr "Expansion de RAM du lecteur #8"
+msgstr "Désactiver l'exansion de 8KB RAM à $8000-$9FFF"
 
 #: src/drive/iec/iec-cmdline-options.c:123
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
-msgstr ""
+msgstr "Activer l'exansion de 8KB RAM à $A000-$BFFF"
 
 #: src/drive/iec/iec-cmdline-options.c:125
 #, fuzzy
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
-msgstr "Expansion de RAM du lecteur #8"
+msgstr "Désactiver l'exansion de 8KB RAM à $A000-$BFFF"
 
 #: src/drive/iec128dcr/iec128dcr-cmdline-options.c:45
 msgid "Specify name of 1571CR DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 1571CR DOS ROM"
 
 #: src/drive/ieee/ieee-cmdline-options.c:53
 msgid "Specify name of 2031 DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 2031 DOS ROM"
 
 #: src/drive/ieee/ieee-cmdline-options.c:55
 msgid "Specify name of 2040 DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 2040 DOS ROM"
 
 #: src/drive/ieee/ieee-cmdline-options.c:57
 msgid "Specify name of 3040 DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 3040 DOS ROM"
 
 #: src/drive/ieee/ieee-cmdline-options.c:59
 msgid "Specify name of 4040 DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 4040 DOS ROM"
 
 #: src/drive/ieee/ieee-cmdline-options.c:61
 msgid "Specify name of 1001/8050/8250 DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 1001/8050/8250 DOS ROM"
 
 #: src/drive/tcbm/tcbm-cmdline-options.c:45
 msgid "Specify name of 1551 DOS ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image 1551 DOS ROM"
 
 #: src/fliplist.c:122
 msgid "Specify name of the flip list file image"
-msgstr ""
+msgstr "Spécifier le nom de l'image du fichier de groupement de disques"
 
 #: src/fsdevice/fsdevice-cmdline-options.c:82
 msgid "Use <name> as directory for file system device #8"
 msgstr ""
+"Utiliser le répertoire <nom> comme système de fichiers pour le lecteur #8"
 
 #: src/fsdevice/fsdevice-cmdline-options.c:84
 msgid "Use <name> as directory for file system device #9"
 msgstr ""
+"Utiliser le répertoire <nom> comme système de fichiers pour le lecteur #9"
 
 #: src/fsdevice/fsdevice-cmdline-options.c:86
 msgid "Use <name> as directory for file system device #10"
 msgstr ""
+"Utiliser le répertoire <nom> comme système de fichiers pour le lecteur #10"
 
 #: src/fsdevice/fsdevice-cmdline-options.c:88
 msgid "Use <name> as directory for file system device #11"
 msgstr ""
+"Utiliser le répertoire <nom> comme système de fichiers pour le lecteur #11"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:133
 msgid "Set bitrate for audio stream in media file"
-msgstr ""
+msgstr "Régler le bitrate audio du fichier média"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:136
 msgid "Set bitrate for video stream in media file"
-msgstr ""
+msgstr "Régler le bitrate vidéo du fichier média"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:491
 msgid "ffmpegdrv: Cannot open video stream"
-msgstr ""
+msgstr "ffmpegdrv: Impossible d'ouvrir le flux vidéo"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:496
 msgid "ffmpegdrv: Cannot open audio stream"
-msgstr ""
+msgstr "ffmpegdrv: Impossible d'ouvrir le flux audio"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:505
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
-msgstr ""
+msgstr "ffmpegdrv: Impossible d'ouvrir %s"
 
 #: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
 msgid "Show a list of the available options and exit normally"
-msgstr ""
+msgstr "Montrer une liste des options disponibles et terminer normalement"
 
 #: src/initcmdline.c:162
 msgid "Console mode (for music playback)"
-msgstr ""
+msgstr "Mode console (pour l'écoute de musique)"
 
 #: src/initcmdline.c:164
 msgid "Allow production of core dumps"
-msgstr ""
+msgstr "Permettre la production de \"core dumps\""
 
 #: src/initcmdline.c:166
 msgid "Do not produce core dumps"
-msgstr ""
+msgstr "Ne pas produire de \"core dumps\""
 
 #: src/initcmdline.c:169
 msgid "Don't call exception handler"
-msgstr ""
+msgstr "Ne pas utiliser l'assistant d'exception"
 
 #: src/initcmdline.c:171
 msgid "Call exception handler (default)"
-msgstr ""
+msgstr "Utiliser l'assistant d'exception par défaut"
 
 #: src/initcmdline.c:206
-#, fuzzy
 msgid "Restore default (factory) settings"
 msgstr "Rétablir les paramètres par défaut"
 
 #: src/initcmdline.c:208
-#, fuzzy
 msgid "Attach and autostart tape/disk image <name>"
-msgstr "Insérer une image de disque"
+msgstr "Insérer et démarrer l'image de disque/datassette <nom>"
 
 #: src/initcmdline.c:210
-#, fuzzy
 msgid "Attach and autoload tape/disk image <name>"
-msgstr "Insérer une image de disque"
+msgstr "Insérer et charger l'image de disque/datassette <nom>"
 
 #: src/initcmdline.c:212
-#, fuzzy
 msgid "Attach <name> as a tape image"
-msgstr "Insérer une image de datassette"
+msgstr "Insérer <nom> comme image de datassette"
 
 #: src/initcmdline.c:214
-#, fuzzy
 msgid "Attach <name> as a disk image in drive #8"
-msgstr "Insérer une image de disque"
+msgstr "Insérer <nom> comme image de disque dans le lecteur #8"
 
 #: src/initcmdline.c:216
-#, fuzzy
 msgid "Attach <name> as a disk image in drive #9"
-msgstr "Insérer une image de disque"
+msgstr "Insérer <nom> comme image de disque dans le lecteur #9"
 
 #: src/initcmdline.c:218
-#, fuzzy
 msgid "Attach <name> as a disk image in drive #10"
-msgstr "Insérer une image de disque"
+msgstr "Insérer <nom> comme image de disque dans le lecteur #10"
 
 #: src/initcmdline.c:220
-#, fuzzy
 msgid "Attach <name> as a disk image in drive #11"
-msgstr "Insérer une image de disque"
+msgstr "Insérer <nom> comme image de disque dans le lecteur #11"
 
 #: src/kbdbuf.c:136
 msgid "<string>"
-msgstr ""
+msgstr "<chaine>"
 
 #: src/kbdbuf.c:136
 msgid "Put the specified string into the keyboard buffer"
-msgstr ""
+msgstr "Placer la chaîne de caractères spécifiée dans le tampon clavier"
 
 #: src/log.c:110
 msgid "Specify log file name"
-msgstr ""
+msgstr "Spécifier le nom du fichier log"
 
 #: src/mouse.c:93
 msgid "Enable emulation of the 1351 proportional mouse"
-msgstr ""
+msgstr "Activer l'émulation de la souris 1351"
 
 #: src/mouse.c:95
 msgid "Disable emulation of the 1351 proportional mouse"
-msgstr ""
+msgstr "Désactiver l'émulation de la souris 1351"
 
 #: src/mouse.c:97
 msgid "Select the joystick port the mouse is attached to"
-msgstr ""
+msgstr "Sélectionner le port joystick sur lequel la souris est attachée"
 
 #: src/pet/pet-cmdline-options.c:114
 msgid "Specify PET model to emulate"
-msgstr ""
+msgstr "Spécifier le modèle PET à émuler"
 
 #: src/pet/pet-cmdline-options.c:120
-#, fuzzy
 msgid "Specify name of Editor ROM image"
-msgstr "Spécifiez la vitesse du 2e port RS232"
+msgstr "Spécifier la vitesse de l'éditeur d'image ROM"
 
 #: src/pet/pet-cmdline-options.c:124
 msgid "Specify 4K extension ROM name at $9***"
-msgstr ""
+msgstr "Spécifier le nom de l'extension ROM 4K à $9***"
 
 #: src/pet/pet-cmdline-options.c:126
 msgid "Specify 4K extension ROM name at $A***"
-msgstr ""
+msgstr "Spécifier le nom de l'extension ROM 4K à $A***"
 
 #: src/pet/pet-cmdline-options.c:128
 msgid "Specify 4K extension ROM name at $B***"
-msgstr ""
+msgstr "Spécifier le nom de l'extension ROM 4K à $B***"
 
 #: src/pet/pet-cmdline-options.c:130
 msgid "Enable PET8296 4K RAM mapping at $9***"
-msgstr ""
+msgstr "Activer l'extension PET8296 4K à $9***"
 
 #: src/pet/pet-cmdline-options.c:132
 msgid "Disable PET8296 4K RAM mapping at $9***"
-msgstr ""
+msgstr "Désactiver l'extension PET8296 4K à $9***"
 
 #: src/pet/pet-cmdline-options.c:134
 msgid "Enable PET8296 4K RAM mapping at $A***"
-msgstr ""
+msgstr "Activer l'extension PET8296 4K à $A***"
 
 #: src/pet/pet-cmdline-options.c:136
 msgid "Disable PET8296 4K RAM mapping at $A***"
-msgstr ""
+msgstr "Désactiver l'extension PET8296 4K à $A***"
 
 #: src/pet/pet-cmdline-options.c:138
-#, fuzzy
 msgid "Enable SuperPET I/O"
-msgstr "ACIA SuperPET"
+msgstr "Activer les E/S SuperPET"
 
 #: src/pet/pet-cmdline-options.c:140
-#, fuzzy
 msgid "Disable SuperPET I/O"
-msgstr "ACIA SuperPET"
+msgstr "Désactiver les E/S SuperPET"
 
 #: src/pet/pet-cmdline-options.c:142
 msgid "Enable ROM 1 Kernal patches"
-msgstr ""
+msgstr "Activer les patches ROM 1 Kernal"
 
 #: src/pet/pet-cmdline-options.c:144
 msgid "Disable ROM 1 Kernal patches"
-msgstr ""
+msgstr "Désactiver les patches ROM 1 Kernal"
 
 #: src/pet/pet-cmdline-options.c:147
 msgid "Switch upper/lower case charset"
-msgstr ""
+msgstr "Inverser les modes majuscules et minuscules"
 
 #: src/pet/pet-cmdline-options.c:150
 msgid "Do not switch upper/lower case charset"
-msgstr ""
+msgstr "Ne pas inverser les modes majuscules et minuscules"
 
 #: src/pet/pet-cmdline-options.c:152
 msgid "EOI blanks screen"
-msgstr ""
+msgstr "EOI vide l'écran"
 
 #: src/pet/pet-cmdline-options.c:154
 msgid "EOI does not blank screen"
-msgstr ""
+msgstr "EOI ne vide pas l'écran"
 
 #: src/pet/petpia1.c:121
-#, fuzzy
 msgid "Enable userport diagnostic pin"
-msgstr "*Pin de diagnostique userport PET"
+msgstr "Activer la pin de diagnostique userport"
 
 #: src/pet/petpia1.c:123
-#, fuzzy
 msgid "Disable userport diagnostic pin"
-msgstr "*Pin de diagnostique userport PET"
+msgstr "Désactiver la pin de diagnostique userport"
 
 #: src/plus4/plus4-cmdline-options.c:84
-#, fuzzy
 msgid "Specify name of Function low ROM image"
-msgstr "Image ROM Fonction"
+msgstr "Spécifier le nom de l'image basse ROM Fonction"
 
 #: src/plus4/plus4-cmdline-options.c:86
-#, fuzzy
 msgid "Specify name of Function high ROM image"
-msgstr "Image ROM Fonction"
+msgstr "Spécifier le nom de l'image haute ROM Fonction"
 
 #: src/plus4/plus4-cmdline-options.c:88
 msgid "Specify name of Cartridge 1 low ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image basse ROM Cartouche 1"
 
 #: src/plus4/plus4-cmdline-options.c:90
 msgid "Specify name of Cartridge 1 high ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image haute ROM Cartouche 1"
 
 #: src/plus4/plus4-cmdline-options.c:92
 msgid "Specify name of Cartridge 2 low ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image basse ROM Cartouche 2"
 
 #: src/plus4/plus4-cmdline-options.c:94
 msgid "Specify name of Cartridge 2 high ROM image"
-msgstr ""
+msgstr "Spécifier le nom de l'image haute ROM Cartouche 2"
 
 #: src/plus4/plus4-cmdline-options.c:96
 msgid "Specify size of RAM installed in kb (16/32/64)"
-msgstr ""
+msgstr "Spécifier la taille du RAM installé (16/32/64)"
 
 #: src/plus4/ted-cmdline-options.c:56 src/vicii/vicii-cmdline-options.c:83
 msgid "Set saturation of internal calculated palette [1000]"
-msgstr ""
+msgstr "Régler la saturation de la palette interne calculée [1000]"
 
 #: src/plus4/ted-cmdline-options.c:58 src/vicii/vicii-cmdline-options.c:85
 msgid "Set contrast of internal calculated palette [1100]"
-msgstr ""
+msgstr "Régler le contraste de la palette interne calculée [1100]"
 
 #: src/plus4/ted-cmdline-options.c:60 src/vicii/vicii-cmdline-options.c:87
 msgid "Set brightness of internal calculated palette [1100]"
-msgstr ""
+msgstr "Régler la luminosité de la palette interne calculée [1100]"
 
 #: src/plus4/ted-cmdline-options.c:62 src/vicii/vicii-cmdline-options.c:89
 msgid "Set gamma of internal calculated palette [900]"
-msgstr ""
+msgstr "Régler le gamma de la palette interne calculée [900]"
 
 #: src/printerdrv/driver-select.c:126
-#, fuzzy
 msgid "Specify name of printer driver for device #4"
-msgstr "Spécifiez le nom du 3e port RS232 (/dev/ttyS0)"
+msgstr "Spécifier le nom du pilote imprimante pour le périphérique #4"
 
 #: src/printerdrv/driver-select.c:128
-#, fuzzy
 msgid "Specify name of printer driver for device #5"
-msgstr "Spécifiez le nom du 3e port RS232 (/dev/ttyS0)"
+msgstr "Spécifier le nom du pilote imprimante pour le périphérique #5"
 
 #: src/printerdrv/driver-select.c:130
 msgid "Specify name of printer driver for the userport printer"
-msgstr ""
+msgstr "Spécifier le nom du pilote imprimante pour l'imprimante userport"
 
 #: src/printerdrv/interface-serial.c:125
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
-msgstr ""
+msgstr "Spécifier le type de périphérique pour #4 (0: AUCUN, 1: SF, 2: RÉEL)"
 
 #: src/printerdrv/interface-serial.c:128
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
-msgstr ""
+msgstr "Spécifier le type de périphérique pour #5 (0: AUCUN, 1: SF, 2: RÉEL)"
 
 #: src/printerdrv/interface-userport.c:93
-#, fuzzy
 msgid "Enable the userport printer emulation"
-msgstr "*Émulation d'imprimante sur port utilisateur"
+msgstr "Acviver l'émulation de l'imprimante userport"
 
 #: src/printerdrv/interface-userport.c:96
 #, fuzzy
 msgid "Disable the userport printer emulation"
-msgstr "*Émulation d'imprimante sur port utilisateur"
+msgstr "Désactiver l'émulation de l'imprimante userport"
 
 #: src/printerdrv/output-select.c:121
-#, fuzzy
 msgid "Specify name of output device for device #4"
-msgstr "Spécifiez le nom du 1er port RS232 (/dev/ttyS0)"
+msgstr "Spécifiez le nom du périphérique de sortie pour le périphérique #4"
 
 #: src/printerdrv/output-select.c:123
-#, fuzzy
 msgid "Specify name of output device for device #5"
-msgstr "Spécifiez le nom du 1er port RS232 (/dev/ttyS0)"
+msgstr "Spécifiez le nom du périphérique de sortie pour le périphérique #5"
 
 #: src/printerdrv/output-select.c:126
 msgid "Specify name of output device for the userport printer"
-msgstr ""
+msgstr "Spécifiez le nom du périphérique de sortie pour l'imprimante userport"
 
 #: src/printerdrv/output-text.c:113 src/printerdrv/output-text.c:115
 #: src/printerdrv/output-text.c:117
-#, fuzzy
 msgid "Specify name of printer text device or dump file"
-msgstr "Spécifiez le nom du 3e port RS232 (/dev/ttyS0)"
+msgstr "Spécifier le nom de l'imprimante text ou \"dump file\""
 
 #: src/printerdrv/output-text.c:120
-#, fuzzy
 msgid "Specify printer text output device for IEC printer #4"
-msgstr "Périphérique de sortie texte de l'imprimante sur port utilisateur"
+msgstr "Spécifier le périphérique de sortie text pour l'imprimante IEC #4"
 
 #: src/printerdrv/output-text.c:123
-#, fuzzy
 msgid "Specify printer text output device for IEC printer #5"
-msgstr "Périphérique de sortie texte de l'imprimante sur port utilisateur"
+msgstr "Spécifier le périphérique de sortie text pour l'imprimante IEC #5"
 
 #: src/printerdrv/output-text.c:126
-#, fuzzy
 msgid "Specify printer text output device for userport printer"
-msgstr "Périphérique de sortie texte de l'imprimante sur port utilisateur"
+msgstr "Spécifier le périphérique de sortie text pour l'imprimante userport"
 
 #: src/ram.c:101
 msgid "Set the value for the very first RAM address after powerup"
 msgstr ""
+"Spécifier la valeur de la première adresse RAM après la mise sous tension"
 
 #: src/ram.c:104 src/ram.c:107
 msgid "<num of bytes>"
-msgstr ""
+msgstr "<nombre d'octets>"
 
 #: src/ram.c:104
 msgid "Length of memory block initialized with the same value"
-msgstr ""
+msgstr "Longeur du premier bloc mémoire initialisé avec la même valeur"
 
 #: src/ram.c:107
 msgid "Length of memory block initialized with the same pattern"
-msgstr ""
+msgstr "Longeur du premier bloc mémoire initialisé avec le même pattern"
 
 #: src/raster/raster-cmdline-options.c:59
-#, fuzzy
 msgid "Enable the video cache"
-msgstr "*Activer le périphérique IEC"
+msgstr "Activer le cache vidéo"
 
 #: src/raster/raster-cmdline-options.c:61
 msgid "Disable the video cache"
-msgstr ""
+msgstr "Désactiver le cache vidéo"
 
 #: src/rs232drv/rs232drv.c:101
-#, fuzzy
 msgid "Specify name of first RS232 device"
-msgstr "Spécifiez la vitesse du 1er port RS232 (bps)"
+msgstr "Spécifier le nom du 1er périphérique RS232"
 
 #: src/rs232drv/rs232drv.c:103
-#, fuzzy
 msgid "Specify name of second RS232 device"
-msgstr "Spécifiez la vitesse du 2e port RS232"
+msgstr "Spécifier le nom du 2e périphérique RS232"
 
 #: src/rs232drv/rs232drv.c:105
-#, fuzzy
 msgid "Specify name of third RS232 device"
-msgstr "Spécifiez la vitesse du 2e port RS232"
+msgstr "Spécifier le nom du 3e périphérique RS232"
 
 #: src/rs232drv/rs232drv.c:107
-#, fuzzy
 msgid "Specify name of fourth RS232 device"
-msgstr "Spécifiez la vitesse du 1er port RS232 (bps)"
+msgstr "Spécifier le nom du 4e périphérique RS232"
 
 #: src/rs232drv/rsuser.c:185
-#, fuzzy
 msgid "Enable RS232 userport emulation"
-msgstr "*Activer l'émulation réelle de lecteur"
+msgstr "Activer l'émulation de périphérique RS232 userport"
 
 #: src/rs232drv/rsuser.c:187
-#, fuzzy
 msgid "Disable RS232 userport emulation"
-msgstr "*Pas d'émulation de port utilisateur RS232"
+msgstr "Désactiver l'émulation de périphérique RS232 userport"
 
 #: src/rs232drv/rsuser.c:189
 msgid "<baud>"
-msgstr ""
+msgstr "<baud>"
 
 #: src/rs232drv/rsuser.c:190
-#, fuzzy
 msgid "Set the baud rate of the RS232 userport emulation."
-msgstr "Spécifiez la vitesse du 4ième port RS232"
+msgstr "Spécifiez la vitesse en baud du périphérique RS232 userport"
 
 #: src/rs232drv/rsuser.c:193
-#, fuzzy
 msgid "Specify VICE RS232 device for userport"
-msgstr "Sélectionnez le fichier du périphérique RS232"
+msgstr "Spécifier un périphérique VICE RS232 pour le userport"
 
 #: src/serial/serial-iec-device.c:148
-#, fuzzy
 msgid "Enable IEC device emulation for device #4"
-msgstr "*Activer l'émulation réelle de lecteur"
+msgstr "Activer l'émulation IEC pour le périphérique #4"
 
 #: src/serial/serial-iec-device.c:151
 msgid "Disable IEC device emulation for device #4"
-msgstr ""
+msgstr "Désactiver l'émulation IEC pour le périphérique #4"
 
 #: src/serial/serial-iec-device.c:154
-#, fuzzy
 msgid "Enable IEC device emulation for device #5"
-msgstr "*Activer l'émulation réelle de lecteur"
+msgstr "Activer l'émulation IEC pour le périphérique #5"
 
 #: src/serial/serial-iec-device.c:157
 msgid "Disable IEC device emulation for device #5"
-msgstr ""
+msgstr "Désactiver l'émulation IEC pour le périphérique #5"
 
 #: src/serial/serial-iec-device.c:160
-#, fuzzy
 msgid "Enable IEC device emulation for device #8"
-msgstr "*Activer l'émulation réelle de lecteur"
+msgstr "Activer l'émulation IEC pour le lecteur #8"
 
 #: src/serial/serial-iec-device.c:163
 msgid "Disable IEC device emulation for device #8"
-msgstr ""
+msgstr "Désactiver l'émulation IEC pour le lecteur #8"
 
 #: src/serial/serial-iec-device.c:166
-#, fuzzy
 msgid "Enable IEC device emulation for device #9"
-msgstr "*Activer l'émulation réelle de lecteur"
+msgstr "Activer l'émulation IEC pour le lecteur #9"
 
 #: src/serial/serial-iec-device.c:169
 msgid "Disable IEC device emulation for device #9"
-msgstr ""
+msgstr "Désactiver l'émulation IEC pour le lecteur #9"
 
 #: src/serial/serial-iec-device.c:172
-#, fuzzy
 msgid "Enable IEC device emulation for device #10"
-msgstr "*Activer l'émulation réelle de lecteur"
+msgstr "Activer l'émulation IEC pour le lecteur #10"
 
 #: src/serial/serial-iec-device.c:175
 msgid "Disable IEC device emulation for device #10"
-msgstr ""
+msgstr "Désactiver l'émulation IEC pour le lecteur #10"
 
 #: src/serial/serial-iec-device.c:178
-#, fuzzy
 msgid "Enable IEC device emulation for device #11"
-msgstr "*Activer l'émulation réelle de lecteur"
+msgstr "Activer l'émulation IEC pour le lecteur #11"
 
 #: src/serial/serial-iec-device.c:181
 msgid "Disable IEC device emulation for device #11"
-msgstr ""
+msgstr "Désactiver l'émulation IEC pour le lecteur #11"
 
 #: src/sid/sid-cmdline-options.c:72
-#, fuzzy
 msgid "<engine>"
-msgstr "Engin SID"
+msgstr "<engin>"
 
 #: src/sid/sid-cmdline-options.c:76
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
@@ -1628,250 +1553,224 @@ msgid "Specify SID engine (0: FastSID)"
 msgstr ""
 
 #: src/sid/sid-cmdline-options.c:106
-#, fuzzy
 msgid "Enable second SID"
-msgstr "*Second SID"
+msgstr "Activer le second SID"
 
 #: src/sid/sid-cmdline-options.c:109
-#, fuzzy
 msgid "<base address>"
-msgstr "*Adresse de base du second SID"
+msgstr "<adresse de base>"
 
 #: src/sid/sid-cmdline-options.c:109
 msgid "Specify base address for 2nd SID"
-msgstr ""
+msgstr "Spécifier l'adresse de base pour le second SID"
 
 #: src/sid/sid-cmdline-options.c:111
 msgid "<model>"
-msgstr ""
+msgstr "<modèle>"
 
 #: src/sid/sid-cmdline-options.c:111
 msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
-msgstr ""
+msgstr "Spécifier le modèle SID (0: 6581, 1: 8580, 2: 8580 + Boost digital)"
 
 #: src/sid/sid-cmdline-options.c:114
-#, fuzzy
 msgid "Emulate SID filters"
-msgstr "*Émuler les filtres"
+msgstr "Émuler les filtres SID"
 
 #: src/sid/sid-cmdline-options.c:117
-#, fuzzy
 msgid "Do not emulate SID filters"
-msgstr "*Émuler les filtres"
+msgstr "Ne pas émuler les filtres SID"
 
 #: src/sid/sid-cmdline-options.c:121
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
 msgstr ""
+"Méthode reSID (0: rapide, 1: interpolation, 2: rééchantillonnage, 3: "
+"rééchantillonnage rapide)"
 
 #: src/sid/sid-cmdline-options.c:124
-#, fuzzy
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
-"Entrez la bande passante (%) de la bande totale\n"
-"(0 - 90, petit = performances, grand = qualité)"
+"Bande passante pour le resampling reSID en pourcentage de la bande totale (0 "
+"- 90)"
 
 #: src/sid/sid-cmdline-options.c:127
 msgid "reSID gain in percent (90 - 100)"
-msgstr ""
+msgstr "Gain reSID en pourcent (90 - 100)"
 
 #: src/sysfile.c:127
-#, fuzzy
 msgid "<path>"
-msgstr "<vide>"
+msgstr "<chemin>"
 
 #: src/sysfile.c:127
 msgid "Define search path to locate system files"
-msgstr ""
+msgstr "Définir le chemin de recherche pour trouver les fichiers systèmes"
 
 #: src/traps.c:125
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr ""
+"Activer les méchanismes généraux pour l'émulation disque/datassette rapide"
 
 #: src/traps.c:128
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr ""
+"Désactiver les méchanismes généraux pour l'émulation disque/datassette rapide"
 
 #: src/vdc/vdc-cmdline-options.c:62
 msgid "Set the VDC memory size to 16KB"
-msgstr ""
+msgstr "Régler la taille de la mémoire VDC à 16KO"
 
 #: src/vdc/vdc-cmdline-options.c:65
 msgid "Set the VDC memory size to 64KB"
-msgstr ""
+msgstr "Régler la taille de la mémoire VDC à 64KO"
 
 #: src/vdc/vdc-cmdline-options.c:68
 msgid "Set VDC revision (0..2)"
-msgstr ""
+msgstr "Régler la révision VDC (0..2)"
 
 #: src/vic20/vic20-cmdline-options.c:215
 msgid "<spec>"
-msgstr ""
+msgstr "<spec>"
 
 #: src/vic20/vic20-cmdline-options.c:215
-#, fuzzy
 msgid "Specify memory configuration"
-msgstr "Configuration active"
+msgstr "Spécifier la configuration de la mémoire"
 
 #: src/vic20/vic20-cmdline-options.c:221
 msgid "Enable VIC-1112 IEEE488 interface"
-msgstr ""
+msgstr "Activer l'interface VIC-1112 IEEE488"
 
 #: src/vic20/vic20-cmdline-options.c:223
 msgid "Disable VIC-1112 IEEE488 interface"
-msgstr ""
+msgstr "Désactiver l'interface VIC-1112 IEEE488"
 
 #: src/vic20/vic20cartridge.c:216
 msgid "Specify 4/8/16K extension ROM name at $2000"
-msgstr ""
+msgstr "Spécifier le nom de l'extension ROM 4/8/16K à $2000"
 
 #: src/vic20/vic20cartridge.c:218
 msgid "Specify 4/8/16K extension ROM name at $4000"
-msgstr ""
+msgstr "Spécifier le nom de l'extension ROM 4/8/16K à $4000"
 
 #: src/vic20/vic20cartridge.c:220
 msgid "Specify 4/8/16K extension ROM name at $6000"
-msgstr ""
+msgstr "Spécifier le nom de l'extension ROM 4/8/16K à $6000"
 
 #: src/vic20/vic20cartridge.c:222
 msgid "Specify 4/8K extension ROM name at $A000"
-msgstr ""
+msgstr "Spécifier le nom de l'extension ROM 4/8K à $A000"
 
 #: src/vic20/vic20cartridge.c:224
 msgid "Specify 4K extension ROM name at $B000"
-msgstr ""
+msgstr "Spécifier le nom de l'extension ROM 4K à $B000"
 
 #: src/vicii/vicii-cmdline-options.c:71
-#, fuzzy
 msgid "Enable sprite-background collision registers"
-msgstr "*Collisions sprite-arrière-plan"
+msgstr "Activer les registres de collisions Sprite-Arrière-plan"
 
 #: src/vicii/vicii-cmdline-options.c:73
-#, fuzzy
 msgid "Disable sprite-background collision registers"
-msgstr "*Collisions sprite-arrière-plan"
+msgstr "Désactiver les registres de collisions Sprite-Arrière-plan"
 
 #: src/vicii/vicii-cmdline-options.c:75
-#, fuzzy
 msgid "Enable sprite-sprite collision registers"
-msgstr "*Collisions sprite-sprite"
+msgstr "Activer les registres de collisions Sprites-Sprites"
 
 #: src/vicii/vicii-cmdline-options.c:77
-#, fuzzy
 msgid "Disable sprite-sprite collision registers"
-msgstr "*Collisions sprite-sprite"
+msgstr "Désactiver les registres de collisions Sprites-Sprites"
 
 #: src/vicii/vicii-cmdline-options.c:79
-#, fuzzy
 msgid "Use new luminances"
-msgstr "*Nouvelles luminescences"
+msgstr "Utiliser les nouvelles luminescences"
 
 #: src/vicii/vicii-cmdline-options.c:81
-#, fuzzy
 msgid "Use old luminances"
-msgstr "*Nouvelles luminescences"
+msgstr "Utiliser les anciennes luminescences"
 
 #: src/video/video-cmdline-options.c:60
-#, fuzzy
 msgid "Enable double size"
-msgstr "*Double pixels"
+msgstr "Taille double"
 
 #: src/video/video-cmdline-options.c:62
-#, fuzzy
 msgid "Disable double size"
-msgstr "*Double pixels"
+msgstr "Taille normale"
 
 #: src/video/video-cmdline-options.c:87
-#, fuzzy
 msgid "Enable double scan"
-msgstr "Activer le mode plein écran"
+msgstr "Activer le mode double scan"
 
 #: src/video/video-cmdline-options.c:89
-#, fuzzy
 msgid "Disable double scan"
-msgstr "*Doubler les lignes"
+msgstr "Désactiver le mode double scan"
 
 #: src/video/video-cmdline-options.c:114
-#, fuzzy
 msgid "Enable hardware scaling"
-msgstr "*'scaling' matériel"
+msgstr "Activer le \"scaling\" matériel"
 
 #: src/video/video-cmdline-options.c:116
-#, fuzzy
 msgid "Disable hardware scaling"
-msgstr "*'scaling' matériel"
+msgstr "Désactiver le \"scaling\" matériel"
 
 #: src/video/video-cmdline-options.c:141
-#, fuzzy
 msgid "Enable Scale2x"
-msgstr "Activer mode turbo"
+msgstr "Activer Scale2x"
 
 #: src/video/video-cmdline-options.c:143
-#, fuzzy
 msgid "Disable Scale2x"
-msgstr "Désactiver mode turbo"
+msgstr "Désactiver Scale2x"
 
 #: src/video/video-cmdline-options.c:168
 msgid "Use an internal calculated palette"
-msgstr ""
+msgstr "Utiliser une palette interne calculée"
 
 #: src/video/video-cmdline-options.c:170
 msgid "Use an external palette (file)"
-msgstr ""
+msgstr "Utiliser une palette externe (fichier)"
 
 #: src/video/video-cmdline-options.c:192
 msgid "Specify name of file of external palette"
-msgstr ""
+msgstr "Spécifier le nom du fichier de la palette externe"
 
 #: src/video/video-cmdline-options.c:232
-#, fuzzy
 msgid "Enable fullscreen mode"
 msgstr "Activer le mode plein écran"
 
 #: src/video/video-cmdline-options.c:234
-#, fuzzy
 msgid "Disable fullscreen mode"
 msgstr "Désactiver le mode plein écran"
 
 #: src/video/video-cmdline-options.c:236
-#, fuzzy
 msgid "<device>"
-msgstr "Périphérique ACIA"
+msgstr "<périphérique>"
 
 #: src/video/video-cmdline-options.c:236
-#, fuzzy
 msgid "Select fullscreen device"
-msgstr "Périphérique plein écran"
+msgstr "Sélectionner le périphérique plein écran"
 
 #: src/video/video-cmdline-options.c:238
-#, fuzzy
 msgid "Enable double size in fullscreen mode"
-msgstr "Activer le mode plein écran"
+msgstr "Activer \"Taille double\" en plein écran"
 
 #: src/video/video-cmdline-options.c:240
-#, fuzzy
 msgid "Disable double size in fullscreen mode"
-msgstr "Désactiver le mode plein écran"
+msgstr "Désactiver \"Taille double\" en plein écran"
 
 #: src/video/video-cmdline-options.c:242
-#, fuzzy
 msgid "Enable double scan in fullscreen mode"
-msgstr "Activer le mode plein écran"
+msgstr "Activer \"Double scan\" en plein écran"
 
 #: src/video/video-cmdline-options.c:244
-#, fuzzy
 msgid "Disable double scan in fullscreen mode"
-msgstr "Désactiver le mode plein écran"
+msgstr "Désactiver \"Double scan\" en plein écran"
 
 #: src/video/video-cmdline-options.c:266
 msgid "<mode>"
-msgstr ""
+msgstr "<mode>"
 
 #: src/video/video-cmdline-options.c:266
-#, fuzzy
 msgid "Select fullscreen mode"
-msgstr "Activer le mode plein écran"
+msgstr "Sélectionner le mode plein écran"
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:68
 #: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:53 src/arch/unix/uivic.c:42
@@ -1940,7 +1839,7 @@ msgid ""
 "Could not load function ROM image\n"
 "'%s'"
 msgstr ""
-"Impossible de charger l'Image ROM Fonction\n"
+"Impossible de charger l'image ROM Fonction\n"
 "'%s'"
 
 #: src/arch/unix/c128ui.c:220
@@ -2690,11 +2589,11 @@ msgstr "Insertion intelligente d'un(e) image de disque/datassette"
 
 #: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
 msgid "Cannot attach cartridge"
-msgstr "Impossible d'attacher la cassette"
+msgstr "Impossible d'attacher la datassette"
 
 #: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:218
 msgid "Attach cartridge image"
-msgstr "Insérer une image de cartouche"
+msgstr "Insérer une cartouche"
 
 #: src/arch/unix/uic64cart.c:137
 msgid "Save cartridge image..."
@@ -2714,35 +2613,35 @@ msgstr "Insérer une image générique de 16Ko..."
 
 #: src/arch/unix/uic64cart.c:153
 msgid "Attach Action Replay image..."
-msgstr "Insérer une image de cartouche Action Replay..."
+msgstr "Insérer une cartouche Action Replay..."
 
 #: src/arch/unix/uic64cart.c:156
 msgid "Attach Atomic Power image..."
-msgstr "Insérer une image de cartouche Atomic Power..."
+msgstr "Insérer une cartouche Atomic Power..."
 
 #: src/arch/unix/uic64cart.c:159
 msgid "Attach Epyx fastload image..."
-msgstr "Insérer une image de cartouche Epyx FastLoad..."
+msgstr "Insérer une cartouche Epyx FastLoad..."
 
 #: src/arch/unix/uic64cart.c:162
 msgid "Attach IEEE488 interface image..."
-msgstr "Insérer une image de cartouche interface IEEE488..."
+msgstr "Insérer une cartouche interface IEEE488..."
 
 #: src/arch/unix/uic64cart.c:165
 msgid "Attach Retro Replay image..."
-msgstr "Insérer une image de cartouche Retro Replay..."
+msgstr "Insérer une cartouche Retro Replay..."
 
 #: src/arch/unix/uic64cart.c:168
 msgid "Attach IDE64 interface image..."
-msgstr "Insérer une image de cartouche interface IDE64..."
+msgstr "Insérer une cartouche interface IDE64..."
 
 #: src/arch/unix/uic64cart.c:171
 msgid "Attach Super Snapshot 4 image..."
-msgstr "Insérer une image de cartouche Super Snapshot 4..."
+msgstr "Insérer une cartouche Super Snapshot 4..."
 
 #: src/arch/unix/uic64cart.c:174
 msgid "Attach Super Snapshot 5 image..."
-msgstr "Insérer une image de cartouche Super Snapshot 5..."
+msgstr "Insérer une cartouche Super Snapshot 5..."
 
 #: src/arch/unix/uic64cart.c:178
 msgid "Enable Expert Cartridge..."
@@ -2758,7 +2657,7 @@ msgstr "Insérer une image de cartouch"
 
 #: src/arch/unix/uic64cart.c:190
 msgid "Detach cartridge image"
-msgstr "Retirer une image de cartouche"
+msgstr "Retirer une cartouche"
 
 #: src/arch/unix/uic64cart.c:192
 msgid "Cartridge freeze"
@@ -4361,7 +4260,7 @@ msgstr "Suréchantillonage"
 
 #: src/arch/unix/uisound.c:137 src/arch/unix/vsidui.c:165
 msgid "Sound settings"
-msgstr "Paramètres de son"
+msgstr "Paramètres son"
 
 #: src/arch/unix/uited.c:127 src/arch/unix/uivic.c:126
 #: src/arch/unix/uivicii.c:139
@@ -4572,7 +4471,7 @@ msgstr "Insertion d'une image 4Ko à $B000..."
 
 #: src/arch/unix/vic20ui.c:278
 msgid "Detach cartridge image(s)"
-msgstr "Retirer une image de cartouche"
+msgstr "Retirer une cartouche"
 
 #: src/arch/unix/vic20ui.c:421
 msgid "VIC settings"
@@ -4817,7 +4716,7 @@ msgid ""
 "IRQ: %s"
 msgstr ""
 "Nom: %s\n"
-"Tune: %d\n"
+"Clip: %d\n"
 "Auteur: %s\n"
 "Copyright: %s\n"
 "%s\n"
@@ -5321,7 +5220,7 @@ msgstr ""
 #: src/arch/unix/x11/xaw/x11video.c:170 src/arch/unix/x11/xaw/x11video.c:187
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
-"Impossible d'attacher la mémoire partagée; retour au mode sans extension "
+"Impossible d'attacher la mémoire partagée; retour au mode extension non "
 "MITSHM."
 
 #: src/arch/unix/x11/xaw/x11video.c:194
@@ -5331,7 +5230,7 @@ msgstr "Initialisation MITSHM réussie.\n"
 #: src/arch/unix/x11/xaw/x11video.c:215
 #, c-format
 msgid "Successfully initialized%s shared memory."
-msgstr "Initialisation réussie%s mémoire partagée."
+msgstr "Initialisation réussie %s mémoire partagée."
 
 #: src/arch/unix/x11/xaw/x11video.c:216
 msgid ", using"
@@ -5339,7 +5238,7 @@ msgstr ", avec"
 
 #: src/arch/unix/x11/xaw/x11video.c:216
 msgid " without"
-msgstr ", sans"
+msgstr " sans"
 
 #: src/arch/unix/x11/xaw/x11video.c:219
 msgid "Performance will be poor."
@@ -5349,85 +5248,157 @@ msgstr "Les performances vont être médiocres."
 msgid "Successfully initialized without shared memory."
 msgstr "Initialisation réussie sans mémoire partagée."
 
-#, fuzzy
 #~ msgid "&File"
-#~ msgstr "Fichier"
+#~ msgstr "&Fichier"
 
-#, fuzzy
+#~ msgid "&Open"
+#~ msgstr "&Ouvrir"
+
 #~ msgid "&Save"
-#~ msgstr "Enregistrer"
+#~ msgstr "&Enregistrer"
 
-#, fuzzy
+#~ msgid "&Print"
+#~ msgstr "&Imprimer"
+
+#~ msgid "E&xit\tAlt+F4"
+#~ msgstr "&Quitter\tAlt+F4"
+
+#~ msgid "&Debug"
+#~ msgstr "&Débug"
+
+#~ msgid "&Stop Debug"
+#~ msgstr "&Arrêter débug"
+
+#~ msgid "Stop E&xecution"
+#~ msgstr "Arrêter l'e&xécution"
+
+#~ msgid "Step &into"
+#~ msgstr "Tracer à l'&intérieur"
+
+#~ msgid "Step &over"
+#~ msgstr "Tracer par de&ssus"
+
+#~ msgid "Step until &return"
+#~ msgstr "Sauter jusqu'à &return"
+
+#~ msgid "Go to &cursor"
+#~ msgstr "Aller au &curseur"
+
+#~ msgid "&Evaluate"
+#~ msgstr "Éval&uer"
+
+#~ msgid "&View"
+#~ msgstr "&Affichage"
+
 #~ msgid "&Current instruction"
-#~ msgstr "Fichier image ROM courant:"
+#~ msgstr "Instruction courante"
 
-#, fuzzy
+#~ msgid "Evaluation &window"
+#~ msgstr "Fenêtre d'É&valuation"
+
+#~ msgid "&Register window"
+#~ msgstr "Fenêtre des &Registres"
+
 #~ msgid "&Memory window"
-#~ msgstr "Taille de la mémoire"
+#~ msgstr "Fenêtre &mémoire"
 
-#, fuzzy
+#~ msgid "&Disassembly window"
+#~ msgstr "Fenêtre &Désassemblage"
+
+#~ msgid "&Console window"
+#~ msgstr "Fenêtre &Console"
+
+#~ msgid "&Computer"
+#~ msgstr "&Ordinateur"
+
 #~ msgid "Drive &8"
-#~ msgstr "Lecteur %d:"
+#~ msgstr "Lecteur #&8"
 
-#, fuzzy
 #~ msgid "Drive &9"
-#~ msgstr "Lecteur %d:"
+#~ msgstr "Lecteur #&9"
+
+#~ msgid "&Window"
+#~ msgstr "&Fenêtre"
+
+#~ msgid "&Cascade"
+#~ msgstr "&Cascade"
+
+#~ msgid "Tile &vertically"
+#~ msgstr "Fractionner &verticallement"
+
+#~ msgid "Tile &horizontally"
+#~ msgstr "Fractionner &horizontalement"
+
+#~ msgid "&Arrange icons"
+#~ msgstr "&Arranger les îcones"
 
 #, fuzzy
 #~ msgid "&Use IEC Device"
-#~ msgstr "*Activer le périphérique IEC"
+#~ msgstr "Utiliser le périphérique IEC"
 
 #, fuzzy
 #~ msgid "Disk &image"
-#~ msgstr "Retirer une image de disque"
+#~ msgstr "&Image de disque"
 
 #, fuzzy
 #~ msgid "&Directory"
-#~ msgstr "Répertoire introuvable"
+#~ msgstr "&Répertoire"
 
 #, fuzzy
 #~ msgid "Rea&l IEC device"
-#~ msgstr "*Activer le périphérique IEC"
+#~ msgstr "Périphérique IEC Réel"
 
-#, fuzzy
 #~ msgid "&None"
-#~ msgstr "*Aucun"
+#~ msgstr "&Aucun"
 
-#, fuzzy
 #~ msgid "&Browse..."
-#~ msgstr "Parcourir..."
+#~ msgstr "&Parcourir..."
 
 #, fuzzy
 #~ msgid "&Autostart"
-#~ msgstr "Démarrage automatique"
+#~ msgstr "&Démarrage automatique"
 
 #, fuzzy
 #~ msgid "Attach read only"
-#~ msgstr "Insérer #%d"
+#~ msgstr "Insérer en lecture seule"
 
 #, fuzzy
 #~ msgid "Bro&wse..."
-#~ msgstr "Parcourir..."
+#~ msgstr "Pa&rcourir..."
 
-#, fuzzy
 #~ msgid "&Options"
-#~ msgstr "Options"
+#~ msgstr "&Options"
 
 #, fuzzy
 #~ msgid "&Read P00 files"
-#~ msgstr "Charger le fichier PSID"
+#~ msgstr "&Lire les fichier P00"
 
 #, fuzzy
 #~ msgid "&Write P00 files"
-#~ msgstr "*Créer des fichiers P00 lors de sauvegardes"
+#~ msgstr "&Écrire sur les fichier P00"
+
+#~ msgid "&Hide non-P00 files"
+#~ msgstr "&Cacher les fichiers non-P00"
 
 #, fuzzy
 #~ msgid "Datasette Settings"
-#~ msgstr "Réglage de la vitesse du datassette"
+#~ msgstr "Réglages datassette"
 
 #, fuzzy
 #~ msgid "&Reset Datasette with CPU"
-#~ msgstr "*Réinitialiser la datassette avec le CPU"
+#~ msgstr "&Réinitialiser la datassette avec le CPU"
+
+#~ msgid "Speed of motor while reading"
+#~ msgstr "Vitesse du moteur lors de la lecture"
+
+#~ msgid "cycle(s) additional &delay each trigger"
+#~ msgstr "cycle(s) additionnel(s) &délai après trigger"
+
+#~ msgid "cycles delay at &zero-values"
+#~ msgstr "cycles délai aux valeurs-&zéro"
+
+#~ msgid "OK"
+#~ msgstr "OK"
 
 #, fuzzy
 #~ msgid "Joystick in port #&1"
@@ -5435,99 +5406,168 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "Select fire button"
-#~ msgstr "Activer le mode plein écran"
+#~ msgstr "Sélectionner le bouton de feu"
 
 #, fuzzy
 #~ msgid "Auto fire button settings"
 #~ msgstr "Rétablir les paramètres par défaut"
 
+#~ msgid "Autofire &speed (1..32)"
+#~ msgstr "Vitesse tir automatique (1..32)"
+
 #, fuzzy
 #~ msgid "Joystick in port #&2"
 #~ msgstr "Joystick dans le port #2"
 
+#~ msgid "Config Keyset &A"
+#~ msgstr "Configurer &A"
+
+#~ msgid "Config Keyset &B"
+#~ msgstr "Configurer &B"
+
+#~ msgid "&Calibrate Joystick(s)"
+#~ msgstr "&Calibration des joystick(s)"
+
+#~ msgid "S&outh West"
+#~ msgstr "Su&d Ouest"
+
 #, fuzzy
 #~ msgid "&South"
-#~ msgstr "à chaud"
+#~ msgstr "&Sud"
+
+#~ msgid "So&uth East"
+#~ msgstr "S&ud Est"
 
 #, fuzzy
 #~ msgid "&West"
-#~ msgstr "Réinitialiser"
+#~ msgstr "&Ouest"
 
 #, fuzzy
 #~ msgid "&East"
-#~ msgstr "*Rapide"
+#~ msgstr "&Est"
+
+#~ msgid "No&rth West"
+#~ msgstr "No&rd Ouest"
+
+#~ msgid "&North"
+#~ msgstr "&Nord"
+
+#~ msgid "Nor&th East"
+#~ msgstr "N&ord Est"
+
+#~ msgid "&Fire button"
+#~ msgstr "&Bouton de tir"
+
+#~ msgid "Configure Sound Device Settings"
+#~ msgstr "Configurer les paramètres du périphérique son"
+
+#~ msgid "DirectX driver"
+#~ msgstr "Pilote DirectX"
+
+#~ msgid "WMM driver"
+#~ msgstr "Pilote WMM"
 
 #, fuzzy
 #~ msgid "Sample &Frequency :"
-#~ msgstr "Taux d'échantillonage"
+#~ msgstr "Fréquence d'échantillonage"
 
 #, fuzzy
 #~ msgid "Sound Buffer &Size :"
-#~ msgstr "Taille du tampon"
+#~ msgstr "Taille du tampon son"
+
+#~ msgid "&Oversampling Factor :"
+#~ msgstr "Facteur D'&Oversampling"
 
 #, fuzzy
 #~ msgid "Synchronization &Method :"
-#~ msgstr "Synchronisation du son"
+#~ msgstr "&Méthode de synchronisation"
 
 #, fuzzy
 #~ msgid "Image Contents "
-#~ msgstr "Contenu"
+#~ msgstr "Contenu de l'image "
+
+#~ msgid "New Image"
+#~ msgstr "Nouvelle image"
 
 #, fuzzy
 #~ msgid "Name"
 #~ msgstr "Nom:"
 
+#~ msgid "ID"
+#~ msgstr "ID:"
+
 #, fuzzy
 #~ msgid "Type"
-#~ msgstr "<vide>"
+#~ msgstr "<type>"
 
 #, fuzzy
 #~ msgid "Create Image"
-#~ msgstr "Échec de XCreateImage."
+#~ msgstr "Création d'image"
+
+#~ msgid "New TAP Image"
+#~ msgstr "Nouvelle image TAP"
 
 #, fuzzy
 #~ msgid "Save currently attached &disks images"
-#~ msgstr "Sauvegarder aussi les disques insérés"
+#~ msgstr "Sauvegarder les &disques présentement insérés"
 
 #, fuzzy
 #~ msgid "Save currently loaded &ROM images"
-#~ msgstr "Enregistrer les ROMS présentement chargés:"
+#~ msgstr "Sauvegarder les images ROM présentement chargés"
 
 #, fuzzy
 #~ msgid "Save as"
-#~ msgstr "Enregistrer"
+#~ msgstr "Enregistrer sous"
+
+#~ msgid "&Append log to existing file"
+#~ msgstr "&Ajouter le log au fichier existant"
+
+#~ msgid "Dialog"
+#~ msgstr "Dialogue"
+
+#~ msgid "Read this:"
+#~ msgstr "Lisez bien ceci:"
 
 #, fuzzy
 #~ msgid "Driver:"
-#~ msgstr "Lecteur %d:"
+#~ msgstr "Pilote:"
+
+#~ msgid "Bitdepth:"
+#~ msgstr "Bitdepth:"
 
 #, fuzzy
 #~ msgid "Resolution:"
-#~ msgstr "Résolutions DGA2"
+#~ msgstr "Résolution:"
 
 #, fuzzy
 #~ msgid "Refreshrate:"
-#~ msgstr "Taux de rafraîchissement"
+#~ msgstr "Taux de rafraîchissement:"
 
 #, fuzzy
 #~ msgid "VBLANK synchronization"
-#~ msgstr "Synchronisation du son"
+#~ msgstr "Synchronisation VBLANK"
+
+#~ msgid "Render to DX Primary surface"
+#~ msgstr "Rendu à la surface primaire DX"
 
 #, fuzzy
 #~ msgid "Phase"
-#~ msgstr "*Pause"
+#~ msgstr "Phase"
 
 #, fuzzy
 #~ msgid "PAL Shade"
-#~ msgstr "Ombrage des scanlines PAL"
+#~ msgstr "Ombrage PAL"
 
 #, fuzzy
 #~ msgid "PAL Blur"
 #~ msgstr "Flou PAL"
 
+#~ msgid "PAL Mode"
+#~ msgstr "Mode PAL"
+
 #, fuzzy
 #~ msgid "External Palette:"
-#~ msgstr "*Palette de couleurs externe"
+#~ msgstr "Palette externe:"
 
 #, fuzzy
 #~ msgid "RAM Settings"
@@ -5535,15 +5575,24 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "Initialization at powerup"
-#~ msgstr "Échec de l'initialisation du périphérique `%s'."
+#~ msgstr "Initialisation au démarrage"
+
+#~ msgid "Value of first byte"
+#~ msgstr "Valeur du premier octet"
+
+#~ msgid "Length of constant values"
+#~ msgstr "Longeur des valeurs constantes"
+
+#~ msgid "Length of constant pattern"
+#~ msgstr "Longeur des contantes pattern"
 
 #, fuzzy
 #~ msgid "Custom speed"
-#~ msgstr "*Touches personnalisées"
+#~ msgstr "Vitesse personnalisée"
 
 #, fuzzy
 #~ msgid "Enter custom speed [%]"
-#~ msgstr "Entrez la vitesse"
+#~ msgstr "Entrez la vitesse [%]"
 
 #, fuzzy
 #~ msgid "Printer Settings"
@@ -5551,31 +5600,37 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "Printer emulation"
-#~ msgstr "*Émulation d'une imprimante IEC #5"
+#~ msgstr "Émulation d'imprimante"
+
+#~ msgid "Send Formfeed"
+#~ msgstr "Envoyer \"Form Feed\""
 
 #, fuzzy
 #~ msgid "File system printer"
-#~ msgstr "Répertoire du système de fichiers..."
+#~ msgstr "Imprimante sur système de fichiers"
 
 #, fuzzy
 #~ msgid "Printer driver"
-#~ msgstr "Pilote de l'imprimante IEC #4"
+#~ msgstr "Pilote d'imprimante"
+
+#~ msgid "Output"
+#~ msgstr "Sortie"
 
 #, fuzzy
 #~ msgid "Output to file #"
-#~ msgstr "*Rediriger vers un fichier"
+#~ msgstr "Rediriger vers le fichier #"
 
 #, fuzzy
 #~ msgid "Output file #1 name"
-#~ msgstr "Nom du fichier..."
+#~ msgstr "Nom du fichier de sortie #1"
 
 #, fuzzy
 #~ msgid "Output file #2 name"
-#~ msgstr "Nom du fichier..."
+#~ msgstr "Nom du fichier de sortie #2"
 
 #, fuzzy
 #~ msgid "Output file #3 name"
-#~ msgstr "Nom du fichier..."
+#~ msgstr "Nom du fichier de sortie #3"
 
 #, fuzzy
 #~ msgid "ROM Settings"
@@ -5583,47 +5638,59 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "Romset archive"
-#~ msgstr "Fichier archive image ROM:"
+#~ msgstr "Archive Romset"
 
 #, fuzzy
 #~ msgid "Browse"
-#~ msgstr "Parcourir..."
+#~ msgstr "Parcourir"
 
 #, fuzzy
 #~ msgid "Load archive"
-#~ msgstr "Charger fichier image ROM"
+#~ msgstr "Charger archive"
 
 #, fuzzy
 #~ msgid "Save archive"
-#~ msgstr "Sauvegarder fichier image ROM"
+#~ msgstr "Sauvegarder archive"
 
 #, fuzzy
 #~ msgid "&Configuration"
-#~ msgstr "Configurations communes"
+#~ msgstr "&Configuration"
+
+#~ msgid "Apply"
+#~ msgstr "Appliquer"
+
+#~ msgid "New"
+#~ msgstr "Nouveau"
+
+#~ msgid "Delete"
+#~ msgstr "Supprimer"
 
 #, fuzzy
 #~ msgid "Romset file"
-#~ msgstr "Fichier image ROM:"
+#~ msgstr "Fichier Romset"
 
 #, fuzzy
 #~ msgid "Load romset"
-#~ msgstr "Charger les paramètres"
+#~ msgstr "Charger Romset"
 
 #, fuzzy
 #~ msgid "Save romset"
-#~ msgstr "Enregistrer les paramètres"
+#~ msgstr "Sauvegarder Romset"
+
+#~ msgid "Computer"
+#~ msgstr "Ordinateur"
 
 #, fuzzy
 #~ msgid "Drive"
-#~ msgstr "Lecteur %d:"
+#~ msgstr "Lecteur"
 
 #, fuzzy
 #~ msgid "New configuration"
-#~ msgstr "Supprimer la configuration"
+#~ msgstr "Nouvelle configuration"
 
 #, fuzzy
 #~ msgid "Enter configuration name"
-#~ msgstr "Supprimer la configuration"
+#~ msgstr "Entrer le nom de la configuration"
 
 #, fuzzy
 #~ msgid "RS232 Settings"
@@ -5631,67 +5698,106 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "RS232 device 1"
-#~ msgstr "Périphérique de port utilisateur RS232"
+#~ msgstr "1er Périphérique RS232"
 
 #, fuzzy
 #~ msgid "RS232 device 2"
-#~ msgstr "Périphérique de port utilisateur RS232"
+#~ msgstr "2e Périphérique RS232"
 
 #, fuzzy
 #~ msgid "RS232 device 3"
-#~ msgstr "Périphérique de port utilisateur RS232"
+#~ msgstr "3e Périphérique RS232"
 
 #, fuzzy
 #~ msgid "RS232 device 4"
-#~ msgstr "Périphérique de port utilisateur RS232"
+#~ msgstr "4e Périphérique RS232"
 
 #, fuzzy
 #~ msgid "None"
-#~ msgstr "*Aucun"
+#~ msgstr "Aucun"
 
 #, fuzzy
 #~ msgid "VICE question"
-#~ msgstr "Paramètres de VICE"
+#~ msgstr "Question VICE"
+
+#~ msgid "Your ffmpeg dll version doesn't match."
+#~ msgstr "La version du DLL ffmpeg ne correspond pas."
+
+#~ msgid "DirectDraw error: Code:%8x Error:%s"
+#~ msgstr "Erreur DirectDraw: Code:%8x Erreur:%s"
 
 #, fuzzy
 #~ msgid "Cannot load settings."
-#~ msgstr "Impossible d'enregistrer les paramètres."
+#~ msgstr "Impossible de charger les paramètres."
 
 #, fuzzy
 #~ msgid "Default settings restored."
-#~ msgstr "Rétablir les paramètres par défaut"
+#~ msgstr "Paramètres par défaut restaurés."
 
 #, fuzzy
 #~ msgid "Cannot attach specified file"
-#~ msgstr "Impossible d'attacher la cassette"
+#~ msgstr "Impossible d'attacher le fichier spécifié"
 
 #, fuzzy
 #~ msgid ""
 #~ "%s\n"
 #~ "\n"
 #~ "Start monitor?"
-#~ msgstr "Activer le moniteur"
+#~ msgstr ""
+#~ "%s\n"
+#~ "\n"
+#~ "Activer la trace?"
+
+#~ msgid "VICE CPU JAM"
+#~ msgstr "ERREUR CPU VICE"
+
+#~ msgid "Extend image to 40-track format?"
+#~ msgstr "Étendre l'image au format 40 pistes?"
+
+#~ msgid "Detached device %s"
+#~ msgstr "Périphérique détaché %s"
+
+#~ msgid "Attached %s to device#%s"
+#~ msgstr "%s attaché au périphérique #%s"
 
 #, fuzzy
 #~ msgid "Detached tape"
-#~ msgstr "Retirer une image datassette..."
+#~ msgstr "Datassette détaché"
+
+#~ msgid "History recorded with unknown release"
+#~ msgstr "Historique enregistrée avec une release inconnue"
+
+#~ msgid "History recorded with VICE-%s"
+#~ msgstr "Historique enregistrée avec VICE-%s"
 
 #, fuzzy
 #~ msgid "paused"
-#~ msgstr "%s (en pause)"
+#~ msgstr "en pause"
+
+#~ msgid "resumed"
+#~ msgstr "résumé"
+
+#~ msgid ""
+#~ "Do you really want to exit?\n"
+#~ "\n"
+#~ "All the data present in the emulated RAM will be lost."
+#~ msgstr ""
+#~ "Désirez-vous vraiment quitter?\n"
+#~ "\n"
+#~ "Toutes les données présentes dans la mémoire de l'émulateur seront "
+#~ "perdues."
 
 #, fuzzy
 #~ msgid "Cannot autostart specified file."
-#~ msgstr ""
-#~ "Impossible de démarrer automatiquement la sélection %d de l'image %s"
+#~ msgstr "Impossible de démarrer automatiquement le fichier spécifié"
 
 #, fuzzy
 #~ msgid "Attached tape %s"
-#~ msgstr "Insérer une image de datassette"
+#~ msgstr "Datassette %s attaché"
 
 #, fuzzy
 #~ msgid "Settings loaded successfully."
-#~ msgstr "Sauvegarde des paramètres effectuée correctement."
+#~ msgstr "Chargement des paramètres réussi."
 
 #, fuzzy
 #~ msgid "Attach disk image"
@@ -5703,109 +5809,120 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "Autostart disk/tape image"
-#~ msgstr "Insérer une image de datassette"
+#~ msgstr "Démarrer automatiquement une image de disque/datassette"
 
 #~ msgid "Invalid cartridge"
 #~ msgstr "Cartouche invalide"
 
 #, fuzzy
 #~ msgid "Bad cartridge config in UI!"
-#~ msgstr "Sauvegarder l'image de la cartouche"
+#~ msgstr ""
+#~ "Mauvaise configuration de la cartouche dans l'interface utilisateur!"
+
+#~ msgid "Logging console output image"
+#~ msgstr "Log de l'image de sortie console"
+
+#~ msgid "VICE console logging files (*.dbg)"
+#~ msgstr "Fichier de débuggage VICE (*.dbg)"
 
 #, fuzzy
 #~ msgid "Cannot write log file `%s'."
-#~ msgstr ""
-#~ "Impossible d'écrire le fichier image de la cartouche\n"
-#~ "`%s'\n"
+#~ msgstr "Impossible d'écrire le fichier log `%s'."
 
 #, fuzzy
 #~ msgid "Load flip list file"
-#~ msgstr "Charger un groupement de disques"
+#~ msgstr "Charger un fichier de groupement de disques"
 
 #, fuzzy
 #~ msgid "Cannot read flip list file"
-#~ msgstr "Charger un groupement de disques"
+#~ msgstr "Charger un fichier de groupement de disques"
 
 #, fuzzy
 #~ msgid "Save flip list file"
-#~ msgstr "Enregistrer le groupement de disques actuel"
+#~ msgstr "Enregistrer le fichier de groupement de disques actuel"
 
 #, fuzzy
 #~ msgid "Cannot write flip list file"
-#~ msgstr ""
-#~ "Impossible d'écrire le fichier image de la cartouche\n"
-#~ "`%s'\n"
+#~ msgstr "Impossible d'écrire le fichier de groupement de disques"
 
 #, fuzzy
 #~ msgid "Select keymap file"
-#~ msgstr "Définir le fichier symbolique de mappage clavier"
+#~ msgstr "Sélectionner le fichier de mappage clavier"
 
 #, fuzzy
 #~ msgid "Save keymap file"
-#~ msgstr "Sauvegarder un fichier disque vide"
+#~ msgstr "Sauvegarder le fichier de mappage clavier"
 
 #, fuzzy
 #~ msgid "Cannot write keymap file"
-#~ msgstr ""
-#~ "Impossible d'écrire le fichier image de la cartouche\n"
-#~ "`%s'\n"
+#~ msgstr "Impossible d'écrire sur le fichier de mappage clavier"
+
+#~ msgid "Mapping"
+#~ msgstr "Mappage"
 
 #, fuzzy
 #~ msgid "&Attach"
-#~ msgstr "Insérer #%d"
+#~ msgstr "&Insérer"
+
+#~ msgid "Please enter a filename."
+#~ msgstr "Entrer un nom de fichier."
+
+#~ msgid "Overwrite existing image?"
+#~ msgstr "Écraser les images existantes?"
 
 #, fuzzy
 #~ msgid "Cannot create image"
-#~ msgstr "Impossible de créer l'image `%s'."
+#~ msgstr "Impossible de créer l'image"
 
 #, fuzzy
 #~ msgid "Command line options"
-#~ msgstr ""
-#~ "\n"
-#~ "Options de ligne de commande disponibles:\n"
-#~ "\n"
+#~ msgstr "Options de ligne de commande"
+
+#~ msgid "Which command line options are available?"
+#~ msgstr "Quelles sont les lignes de commandes disponibles?"
+
+#~ msgid "No driver selected or selected driver not supported"
+#~ msgstr "Aucun pilote sélectionné, ou le pilote n'est pas supporté"
 
 #, fuzzy
 #~ msgid "Cannot write screenshot file `%s'."
-#~ msgstr ""
-#~ "Impossible d'écrire le fichier de sauvegarde\n"
-#~ "`%s'\n"
+#~ msgstr "Impossible d'écrire le fichier de capture `%s'."
 
 #, fuzzy
 #~ msgid "Autostart disk image"
-#~ msgstr "Insérer une image de disque"
+#~ msgstr "Démarrer automatiquement une image de disque"
 
 #, fuzzy
 #~ msgid "Select file system directory"
-#~ msgstr "Sélectionnez le répertoire des captures"
+#~ msgstr "Sélectionnez le répertoire du système de fichiers"
 
 #, fuzzy
 #~ msgid "Printer Userport"
-#~ msgstr "Paramètres d'imprimante"
+#~ msgstr "Imprimante Userport"
 
 #, fuzzy
 #~ msgid "Printer 4"
-#~ msgstr "Paramètres d'imprimante"
+#~ msgstr "Imprimante #4"
 
 #, fuzzy
 #~ msgid "Printer 5"
-#~ msgstr "Paramètres d'imprimante"
+#~ msgstr "Imprimante #5"
 
 #, fuzzy
 #~ msgid "Drive 8"
-#~ msgstr "Lecteur %d:"
+#~ msgstr "Lecteur #8"
 
 #, fuzzy
 #~ msgid "Drive 9"
-#~ msgstr "Lecteur %d:"
+#~ msgstr "Lecteur #9"
 
 #, fuzzy
 #~ msgid "Drive 10"
-#~ msgstr "Modèle du lecteur #10"
+#~ msgstr "Lecteur #10"
 
 #, fuzzy
 #~ msgid "Drive 11"
-#~ msgstr "Modèle du lecteur #11"
+#~ msgstr "Lecteur #11"
 
 #, fuzzy
 #~ msgid "Peripheral Settings"
@@ -5813,9 +5930,7 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "Can't write snapshot file."
-#~ msgstr ""
-#~ "Impossible d'écrire le fichier de sauvegarde\n"
-#~ "`%s'\n"
+#~ msgstr "Impossible d'écrire le fichier de sauvegarde"
 
 #, fuzzy
 #~ msgid "Cannot read snapshot image"
@@ -5823,704 +5938,873 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "Load %s ROM image"
-#~ msgstr "Charger image ROM:"
+#~ msgstr "Charger image ROM %s"
 
 #, fuzzy
 #~ msgid "Select romset archive"
-#~ msgstr "Sauvegarder fichier image ROM"
+#~ msgstr "Sélectionner archive Romset"
 
 #, fuzzy
 #~ msgid "Cannot load romset archive!"
-#~ msgstr ""
-#~ "Impossible de charger le fichier ROM\n"
-#~ "'%s'"
+#~ msgstr "Impossible de charger l'archive Romset!"
 
 #, fuzzy
 #~ msgid "Cannot save romset archive!"
-#~ msgstr "Impossible d'enregistrer les paramètres."
+#~ msgstr "Impossible d'enregistrer l'archive Romset."
 
 #, fuzzy
 #~ msgid "Cannot load romset file!"
-#~ msgstr "Impossible de charger le fichier de sauvegarde."
+#~ msgstr "Impossible de charger le fichier Romset!"
 
 #, fuzzy
 #~ msgid "Cannot save romset file!"
-#~ msgstr "Impossible d'enregistrer les paramètres."
+#~ msgstr "Impossible d'enregistrer le fichier Romset!"
 
 #, fuzzy
 #~ msgid "Select romset file"
-#~ msgstr "Sélectionnez d'item d'image ROM:"
+#~ msgstr "Sélectionner le fichier Romset"
 
 #, fuzzy
 #~ msgid "Romset"
-#~ msgstr "Réinitialiser"
+#~ msgstr "Romset"
 
 #, fuzzy
 #~ msgid "Save snapshot image"
-#~ msgstr "Sauvegarder"
+#~ msgstr "Enregistrer le fichier de sauvegarde"
 
 #, fuzzy
 #~ msgid "Cannot write snapshot file `%s'."
-#~ msgstr ""
-#~ "Impossible d'écrire le fichier de sauvegarde\n"
-#~ "`%s'\n"
+#~ msgstr "Impossible d'écrire le fichier de sauvegarde `%s'."
 
 #, fuzzy
 #~ msgid "Load snapshot image"
-#~ msgstr "Chargement du fichier de sauvegarde"
+#~ msgstr "Charger le fichier de sauvegarde"
 
 #, fuzzy
 #~ msgid "Could not load palette file."
-#~ msgstr ""
-#~ "Impossible de charger le fichier de palette\n"
-#~ "'%s'"
+#~ msgstr "Impossible de charger le fichier de palette."
 
 #, fuzzy
 #~ msgid "Load VICE palette file"
-#~ msgstr "Charger un groupement de disques"
+#~ msgstr "Charger un fichier de palette VICE"
 
 #, fuzzy
 #~ msgid "Fullscreen"
-#~ msgstr "Périphérique plein écran"
+#~ msgstr "Plein écran"
 
 #, fuzzy
 #~ msgid "Colors"
-#~ msgstr "Palette de couleurs"
+#~ msgstr "Couleurs"
 
 #, fuzzy
 #~ msgid "Video settings"
-#~ msgstr "Paramètres des lecteurs"
+#~ msgstr "Paramètres vidéo"
 
 #, fuzzy
 #~ msgid "File system"
-#~ msgstr "*Accès au système de fichiers"
+#~ msgstr "Système de fichiers"
 
 #, fuzzy
 #~ msgid "Real IEC device"
-#~ msgstr "*Activer le périphérique IEC"
+#~ msgstr "Périphérique IEC réel"
 
 #, fuzzy
 #~ msgid "RS232 device %i"
-#~ msgstr "Sélectionnez le fichier du périphérique RS232"
+#~ msgstr "Périphérique RS232 #%i"
 
 #, fuzzy
 #~ msgid "Attach raw 8KB cartridge image"
-#~ msgstr "Insérer une image de cartouch"
+#~ msgstr "Insérer une cartouche 8KO"
 
 #, fuzzy
 #~ msgid "Attach raw 16KB cartridge image"
-#~ msgstr "Insérer une image de cartouch"
+#~ msgstr "Insérer une cartouche 16KO"
 
 #, fuzzy
 #~ msgid "Attach Action Replay cartridge image"
-#~ msgstr "Insérer une image de cartouche Action Replay..."
+#~ msgstr "Insérer une cartouche Action Replay..."
 
 #, fuzzy
 #~ msgid "Attach Atomic Power cartridge image"
-#~ msgstr "Insérer une image de cartouch"
+#~ msgstr "Insérer une cartouche Atomic Power"
 
 #, fuzzy
 #~ msgid "Attach Epyx fastload cartridge image"
-#~ msgstr "Insérer une image de cartouche Epyx FastLoad..."
+#~ msgstr "Insérer une cartouche Epyx FastLoad..."
 
 #, fuzzy
 #~ msgid "Attach IEEE interface cartridge image"
-#~ msgstr "Insérer une image de cartouch"
+#~ msgstr "Insérer une cartouche interface IEEE"
 
 #, fuzzy
 #~ msgid "Attach Retro Replay cartridge image"
-#~ msgstr "Insérer une image de cartouch"
+#~ msgstr "Insérer une cartouche Retro Replay"
 
 #, fuzzy
 #~ msgid "Attach IDE64 interface cartridge image"
-#~ msgstr "Insérer une image de cartouche interface IDE64..."
+#~ msgstr "Insérer une cartouche interface IDE64"
 
 #, fuzzy
 #~ msgid "Attach Super Snapshot 4 cartridge image"
-#~ msgstr "Insérer une image de cartouche Super Snapshot 4..."
+#~ msgstr "Insérer une cartouche Super Snapshot 4"
 
 #, fuzzy
 #~ msgid "Attach Super Snapshot 5 cartridge image"
-#~ msgstr "Insérer une image de cartouche Super Snapshot 4..."
+#~ msgstr "Insérer une cartouche Super Snapshot 5"
+
+#~ msgid "Model"
+#~ msgstr "Modèle"
 
 #, fuzzy
 #~ msgid "Drive Settings"
 #~ msgstr "Paramètres des lecteurs"
 
+#~ msgid "Select start snapshot for event history"
+#~ msgstr ""
+#~ "Sélectionner la sauvegarde de départ pour l'historique des événements"
+
+#~ msgid "Select end snapshot for event history"
+#~ msgstr "Sélectionner la sauvegarde de fin pour l'historique des événements"
+
+#~ msgid "Version %s *UNSTABLE*"
+#~ msgstr "Version %s *INSTABLE*"
+
+#~ msgid "Version %s"
+#~ msgstr "Version %s"
+
 #, fuzzy
 #~ msgid "VICE contributors"
-#~ msgstr "Contributeurs"
+#~ msgstr "Contributeurs à VICE"
+
+#~ msgid "Who made what?"
+#~ msgstr "Qui fait quoi?"
+
+#~ msgid "VICE is distributed WITHOUT ANY WARRANTY!"
+#~ msgstr "VICE est distribué SANS AUCUN GARANTIE!"
+
+#~ msgid "Press key for NorthWest"
+#~ msgstr "Appuyer sur la touche pour Nord Est"
+
+#~ msgid "Press key for North"
+#~ msgstr "Appuyer sur la touche pour Nord"
+
+#~ msgid "Press key for NorthEast"
+#~ msgstr "Appuyer sur la touche pour Nord Est"
+
+#~ msgid "Press key for East"
+#~ msgstr "Appuyer sur la touche pour Est"
+
+#~ msgid "Press key for SouthEast"
+#~ msgstr "Appuyer sur la touche pour Sud Est"
+
+#~ msgid "Press key for South"
+#~ msgstr "Appuyer sur la touche pour Sud"
+
+#~ msgid "Press key for SouthWest"
+#~ msgstr "Appuyer sur la touche pour Sud Ouest"
+
+#~ msgid "Press key for West"
+#~ msgstr "Appuyer sur la touche pour Ouest"
+
+#~ msgid "Press key for Fire"
+#~ msgstr "Appuyer sur la touche pour Bouton de tir"
+
+#~ msgid "Numpad + RCtrl"
+#~ msgstr "Clavier numérique + Ctrl Droite"
 
 #, fuzzy
 #~ msgid "Keyset A"
-#~ msgstr "Réinitialiser"
+#~ msgstr "Touches A"
 
 #, fuzzy
 #~ msgid "Keyset B"
-#~ msgstr "Réinitialiser"
+#~ msgstr "Touches B"
+
+#~ msgid "All buttons used as fire"
+#~ msgstr "Tous les boutons sont utilisés comme boutons de tir"
+
+#~ msgid "numeric (see above)"
+#~ msgstr "numérique (voir ci-dessus)"
+
+#~ msgid "No button - Autofire disabled"
+#~ msgstr "Aucun bouton - Tir automatique désactivé"
+
+#~ msgid "All files (*.*)"
+#~ msgstr "Tous les fichiers (*.*)"
+
+#~ msgid "VICE palette files (*.vpl)"
+#~ msgstr "Fichiers de palette VICE (*.vpl)"
 
 #, fuzzy
 #~ msgid "VICE snapshot files (*.vsf)"
-#~ msgstr "Sauvegarder"
+#~ msgstr "Fichiers de sauvegarde VICE (*.vsf)"
+
+#~ msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+#~ msgstr "Images de disques (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+
+#~ msgid "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+#~ msgstr "Images de datassette (*.t64;*.p00;*.tap;*.prg)"
+
+#~ msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+#~ msgstr ""
+#~ "Fichiers compressés (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 
 #, fuzzy
 #~ msgid "CRT cartridge image files (*.crt)"
-#~ msgstr "Sauvegarder l'image de la cartouche"
+#~ msgstr "Images de cartouches CRT (*.crt)"
 
 #, fuzzy
 #~ msgid "Raw cartridge image files (*.bin)"
-#~ msgstr "Sauvegarder l'image de la cartouche"
+#~ msgstr "Images brutes de cartouches (*.bin)"
 
 #, fuzzy
 #~ msgid "VICE flip list files (*.vfl)"
-#~ msgstr "Charger un groupement de disques"
+#~ msgstr "Fichiers de groupement de disques (*.vfl)"
+
+#~ msgid "VICE romset files (*.vrs)"
+#~ msgstr "Fichiers Romset VICE (*.vrs)"
+
+#~ msgid "VICE romset archives (*.vra)"
+#~ msgstr "Archives Romset VICE (*.vra)"
+
+#~ msgid "VICE keymap files (*.vkm)"
+#~ msgstr "Fichiers de mappage clavier VICE (*.vkm)"
 
 #, fuzzy
 #~ msgid "Flexible"
-#~ msgstr "*Flexible"
+#~ msgstr "Flexible"
 
 #, fuzzy
 #~ msgid "Adjusting"
-#~ msgstr "*Ajusté"
+#~ msgstr "Ajusté"
 
 #, fuzzy
 #~ msgid "Exact"
-#~ msgstr "*Exact"
+#~ msgstr "Exact"
+
+#~ msgid "Sound driver: DirectX"
+#~ msgstr "Pilote son: DirectX"
+
+#~ msgid "Sound driver: WMM"
+#~ msgstr "Pilote son: WMM"
+
+#~ msgid "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+#~ msgstr "Fichiers média (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+
+#~ msgid " kB"
+#~ msgstr " kO"
+
+#~ msgid "Configure Keyset A"
+#~ msgstr "Configurer Touches A"
+
+#~ msgid "Configure Keyset B"
+#~ msgstr "Configurer Touches B"
 
 #, fuzzy
 #~ msgid "Save media image"
-#~ msgstr "Sauvegarder une image de cartouche"
+#~ msgstr "Sauvegarder un fichier média"
+
+#~ msgid "%s at %d%% speed, %d fps%s"
+#~ msgstr "%s à une vitesse de %d%%, à %d img/s%s"
 
 #, fuzzy
 #~ msgid "Tape:"
-#~ msgstr "Datassette 000"
+#~ msgstr "Datassette:"
 
 #, fuzzy
 #~ msgid "Joystick:"
-#~ msgstr "*USB Joystick 1"
+#~ msgstr "Joystick:"
+
+#~ msgid ""
+#~ "Recording\n"
+#~ "%02d:%02d"
+#~ msgstr ""
+#~ "Enregistrement\n"
+#~ "%02d:%02d"
+
+#~ msgid ""
+#~ "Playback\n"
+#~ "%02d:%02d (%02d:%02d)"
+#~ msgstr ""
+#~ "Lecture\n"
+#~ "%02d:%02d (%02d:%02d)"
+
+#~ msgid "Unknown"
+#~ msgstr "Inconnu"
 
 #, fuzzy
 #~ msgid "Set input device for joystick #1"
-#~ msgstr "Définir le périphique pour le port joystick #1"
+#~ msgstr "Sélectionner le périphique branché au port joystick #1"
 
 #, fuzzy
 #~ msgid "Set input device for joystick #2"
-#~ msgstr "Définir le périphique pour le port joystick #2"
+#~ msgstr "Sélectionner le périphique branché au port joystick #2"
+
+#~ msgid "Use all CPU on SMP systems"
+#~ msgstr "Utiliser tous les processeurs (systèmes SMP)"
+
+#~ msgid "Use only first CPU on SMP systems"
+#~ msgstr "N'utiliser que le premier processeur (systèmes SMP)"
 
 #, fuzzy
 #~ msgid "Start VICE in fullscreen mode"
-#~ msgstr "Activer le mode plein écran"
+#~ msgstr "Activer le mode plein écran au démarrage de VICE"
 
-#, fuzzy
 #~ msgid "IRQ"
-#~ msgstr "*IRQ"
+#~ msgstr "IRQ"
 
-#, fuzzy
 #~ msgid "NMI"
-#~ msgstr "*NMI"
+#~ msgstr "NMI"
 
-#, fuzzy
 #~ msgid "ACIA Settings"
-#~ msgstr "Paramètres PAL"
+#~ msgstr "Paramètres ACIA"
 
-#, fuzzy
 #~ msgid "&Enable ACIA"
-#~ msgstr "*Activer RAMCART"
+#~ msgstr "&Activer ACIA"
 
-#, fuzzy
 #~ msgid "ACIA location"
-#~ msgstr "Émulation PAL"
+#~ msgstr "Emplacement ACIA"
 
-#, fuzzy
 #~ msgid "ACIA interrupt"
-#~ msgstr "Interruption ACIA $DExx"
+#~ msgstr "Interruption ACIA"
 
-#, fuzzy
 #~ msgid "&Autostart disk/tape image..."
-#~ msgstr "Insérer une image datassette..."
+#~ msgstr "Démarrage &automatique d'une image datassette..."
 
-#, fuzzy
 #~ msgid "Attach &disk image"
-#~ msgstr "Insérer une image de disque"
+#~ msgstr "Insérer une image de &disque"
 
-#, fuzzy
+#~ msgid "Drive &8\tAlt+8"
+#~ msgstr "Lecteur #&8\tAlt+8"
+
+#~ msgid "Drive &9\tAlt+9"
+#~ msgstr "Lecteur #&9\tAlt+9"
+
 #~ msgid "Drive 1&0\tAlt+0"
-#~ msgstr "Modèle du lecteur #10"
+#~ msgstr "Lecteur #&10\tAlt+0"
 
-#, fuzzy
 #~ msgid "Drive &11\tAlt+1"
-#~ msgstr "Modèle du lecteur #11"
+#~ msgstr "Lecteur #&11\tAlt+1"
 
-#, fuzzy
 #~ msgid "D&etach disk image"
-#~ msgstr "Retirer une image de disque"
+#~ msgstr "&Retirer une image de disque"
 
-#, fuzzy
 #~ msgid "Drive 1&0"
-#~ msgstr "Modèle du lecteur #10"
+#~ msgstr "Lecteur #1&0"
 
-#, fuzzy
 #~ msgid "Drive &11"
-#~ msgstr "Modèle du lecteur #11"
+#~ msgstr "Lecteur #&11"
 
-#, fuzzy
+#~ msgid "&All\tAlt+A"
+#~ msgstr "&Tout\tAlt+A"
+
 #~ msgid "&Flip list"
-#~ msgstr "Groupement de disques"
+#~ msgstr "&Groupement de disques"
 
-#, fuzzy
 #~ msgid "&Add current image\tAlt+I"
-#~ msgstr "Ajouter l'image de disque courante (#8) au groupement"
+#~ msgstr "&Ajouter l'image de disque courante\tAlt+I"
 
-#, fuzzy
 #~ msgid "&Remove current image\tAlt+K"
-#~ msgstr "Retirer l'image de disque courante (#8) au groupement"
+#~ msgstr "&Retirer l'image de disque courante\tAlt+K"
 
-#, fuzzy
 #~ msgid "Attach &next image\tAlt+N"
-#~ msgstr "Insérer le prochain disque du groupement dans le lecteur #8"
+#~ msgstr "Insérer la &prochaine image\tAlt+N"
 
-#, fuzzy
 #~ msgid "Attach &previous image\tAlt+B"
-#~ msgstr "Insérer le disque précédent du groupement dans le lecteur #8"
+#~ msgstr "Insérer l'image p&récédente\tAlt+B"
 
-#, fuzzy
 #~ msgid "&Load flip list"
-#~ msgstr "Charger un groupement de disques"
+#~ msgstr "&Charger un groupement de disques"
 
-#, fuzzy
 #~ msgid "&Save flip list"
-#~ msgstr "Enregistrer le groupement de disques actuel"
+#~ msgstr "&Enregistrer le groupement de disques"
 
-#, fuzzy
 #~ msgid "Attach &tape image...\tAlt+T"
-#~ msgstr "Insérer une image datassette..."
+#~ msgstr "Insérer une image &datassette...\tAlt+T"
 
-#, fuzzy
 #~ msgid "Detac&h tape image"
-#~ msgstr "Retirer une image datassette..."
+#~ msgstr "Reti&rer une image datassette"
 
-#, fuzzy
 #~ msgid "Datassette contro&l"
-#~ msgstr "Contrôle datassette"
+#~ msgstr "Contrô&le datassette"
 
-#, fuzzy
 #~ msgid "S&top"
-#~ msgstr "Arrêt"
+#~ msgstr "&Arrêt"
 
-#, fuzzy
+#~ msgid "&Start"
+#~ msgstr "&Démarrer"
+
 #~ msgid "&Forward"
-#~ msgstr "En avant"
+#~ msgstr "En &avant"
 
-#, fuzzy
 #~ msgid "&Rewind"
-#~ msgstr "En arrière"
+#~ msgstr "En a&rrière"
 
-#, fuzzy
 #~ msgid "Re&cord"
-#~ msgstr "Enregistrer"
+#~ msgstr "Enre&gistrer"
 
-#, fuzzy
 #~ msgid "R&eset"
-#~ msgstr "Réinitialiser"
+#~ msgstr "Réinitialis&er"
 
-#, fuzzy
+#~ msgid "Reset C&ounter"
+#~ msgstr "Réinialiser le c&ompteur"
+
 #~ msgid "Attach &cartridge image..."
-#~ msgstr "Insérer une image de cartouche"
+#~ msgstr "Insérer une &cartouche..."
 
-#, fuzzy
 #~ msgid "&CRT image..."
-#~ msgstr "Nom du fichier image RAMCART..."
+#~ msgstr "Nom du fichier image CRT..."
 
-#, fuzzy
 #~ msgid "Generic &8KB image..."
 #~ msgstr "Insérer une image générique de 8Ko..."
 
-#, fuzzy
 #~ msgid "Generic &16KB image..."
 #~ msgstr "Insérer une image générique de 16Ko..."
 
-#, fuzzy
 #~ msgid "&Action Replay image..."
-#~ msgstr "Insérer une image de cartouche Action Replay..."
+#~ msgstr "Insérer une cartouche Action Replay..."
 
-#, fuzzy
 #~ msgid "Atomic &Power image..."
-#~ msgstr "Insérer une image de cartouche Atomic Power..."
+#~ msgstr "Insérer une cartouche Atomic Power..."
 
-#, fuzzy
 #~ msgid "&Epyx fastload image..."
-#~ msgstr "Insérer une image de cartouche Epyx FastLoad..."
+#~ msgstr "Insérer une cartouche Epyx FastLoad..."
 
-#, fuzzy
 #~ msgid "&IEEE488 interface image..."
-#~ msgstr "Insérer une image de cartouche interface IEEE488..."
+#~ msgstr "Insérer une cartouche interface IEEE488..."
 
-#, fuzzy
 #~ msgid "&Retro Replay image..."
-#~ msgstr "Insérer une image de cartouche Retro Replay..."
+#~ msgstr "Insérer une cartouche Retro Replay..."
 
-#, fuzzy
 #~ msgid "IDE&64 interface image..."
-#~ msgstr "Insérer une image de cartouche interface IDE64..."
+#~ msgstr "Insérer une cartouche interface IDE64..."
 
-#, fuzzy
 #~ msgid "Super Snapshot &4 image..."
-#~ msgstr "Insérer une image de cartouche Super Snapshot 4..."
+#~ msgstr "Insérer une cartouche Super Snapshot 4..."
 
-#, fuzzy
 #~ msgid "Super Snapshot &5 image..."
-#~ msgstr "Insérer une image de cartouche Super Snapshot 5..."
+#~ msgstr "Insérer une cartouche Super Snapshot 5..."
 
-#, fuzzy
 #~ msgid "Expert Cartridge"
-#~ msgstr "Activer les paramètres des cartouches experts..."
+#~ msgstr "Activer les paramètres des cartouches experts"
 
-#, fuzzy
 #~ msgid "Enable"
-#~ msgstr "*Activer REU"
+#~ msgstr "Activer"
 
-#, fuzzy
+#~ msgid "Prg"
+#~ msgstr "Prg"
+
 #~ msgid "Set cartridge as &default"
-#~ msgstr "Définir cette cartouche par défaut"
+#~ msgstr "Définir cette cartouche par &défaut"
 
-#, fuzzy
+#~ msgid "Reset &on cart change"
+#~ msgstr "Réinialiser sur c&hangement de cartouche"
+
 #~ msgid "Detach cartridge &image"
-#~ msgstr "Retirer une image de cartouche"
+#~ msgstr "Retirer une cart&ouche"
 
-#, fuzzy
 #~ msgid "Cartridge free&ze\tAlt+Z"
-#~ msgstr "Geler la cartouche"
+#~ msgstr "Geler la cartouche\tAlt+Z"
 
-#, fuzzy
+#~ msgid "&Pause\tAlt+Pause"
+#~ msgstr "&Pause\tAlt+Pause"
+
 #~ msgid "&Monitor\tAlt+M"
-#~ msgstr "Moniteur"
+#~ msgstr "&Tracer\tAlt+M"
 
-#, fuzzy
 #~ msgid "&Reset"
-#~ msgstr "Réinitialiser"
+#~ msgstr "&Réinitialiser"
 
-#, fuzzy
+#~ msgid "&Hard\tCtrl+Alt+R"
+#~ msgstr "&Physiquement\tCtrl+Alt+R"
+
+#~ msgid "&Soft\tAlt+R"
+#~ msgstr "&Logiciellement\tAlt+R"
+
 #~ msgid "Drive #&8"
-#~ msgstr "Modèle du lecteur #8"
+#~ msgstr "Lecteur #&8"
 
-#, fuzzy
 #~ msgid "Drive #&9"
-#~ msgstr "Modèle du lecteur #9"
+#~ msgstr "Lecteur #&9"
 
-#, fuzzy
 #~ msgid "Drive #1&0"
-#~ msgstr "Modèle du lecteur #10"
+#~ msgstr "Lecteur #1&0"
 
-#, fuzzy
 #~ msgid "Drive #&11"
-#~ msgstr "Modèle du lecteur #11"
+#~ msgstr "Lecteur #1&1"
 
-#, fuzzy
+#~ msgid "M&ode"
+#~ msgstr "&Mode"
+
+#~ msgid "&Normal"
+#~ msgstr "&Normal"
+
+#~ msgid "&Small"
+#~ msgstr "&Petit"
+
+#~ msgid "&History"
+#~ msgstr "&Historique"
+
+#~ msgid "&History Autoplay"
+#~ msgstr "H&istorique automatique"
+
+#~ msgid "&Main CPU Trace\tAlt+F10"
+#~ msgstr "Tracer CPU &Principal\tAlt+F10"
+
+#~ msgid "Drive&0 CPU Trace\tAlt+F11"
+#~ msgstr "Tracer CPU Drive&0\tAlt+F11"
+
+#~ msgid "Drive&1 CPU Trace\tAlt+F12"
+#~ msgstr "Tracer CPU Drive&1\tAlt+F12"
+
+#~ msgid "E&xit\tAlt+X"
+#~ msgstr "&Quitter\tAlt+X"
+
 #~ msgid "Sna&pshot"
-#~ msgstr "Sauvegardes"
+#~ msgstr "&Sauvegarde"
 
-#, fuzzy
 #~ msgid "Load snapshot &image..."
-#~ msgstr "Charger une sauvegarde...."
+#~ msgstr "C&harger une sauvegarde...."
 
-#, fuzzy
 #~ msgid "Save sna&pshot image..."
-#~ msgstr "Enregistrer une sauvegarde..."
+#~ msgstr "E&nregistrer une sauvegarde..."
 
-#, fuzzy
+#~ msgid "&Load quicksnapshot image\tAlt+L"
+#~ msgstr "&Charger la sauvegarde rapide\tAlt+L"
+
 #~ msgid "&Save quicksnapshot image\tAlt+S"
-#~ msgstr "Sauvegarder"
+#~ msgstr "&Enregistrer la sauvegarde rapide\tAlt+S"
 
-#, fuzzy
 #~ msgid "Start/Stop &Recording History"
-#~ msgstr "Démarrer les événements d'enregistrement"
+#~ msgstr "Démarrer/Arrêter l'historique de l'enre&gistrement"
 
-#, fuzzy
+#~ msgid "Start/Stop Pl&ayback History"
+#~ msgstr "Démarrer/Arrêter l'historique de la &lecture"
+
 #~ msgid "Set Recording Milestone\tAlt+G"
-#~ msgstr "Lever le signet d'enregistrement"
+#~ msgstr "Lever le Signet d'enregistrement\tAlt+G"
 
-#, fuzzy
 #~ msgid "Return to Milestone\tAlt+H"
-#~ msgstr "Retourner au signet d'enregistrement"
+#~ msgstr "Retourner au Signet d'enregistrement\tAlt+H"
 
-#, fuzzy
 #~ msgid "&Save new snapshot"
-#~ msgstr "*Enregistrer une nouvelle sauvegarde"
+#~ msgstr "&Enregistrer une nouvelle sauvegarde"
 
-#, fuzzy
 #~ msgid "&Load existing snapshot"
-#~ msgstr "*Charger une sauvegarde"
+#~ msgstr "&Charger une sauvegarde"
 
-#, fuzzy
 #~ msgid "Start with &reset"
-#~ msgstr "*Réinitialiser au démarrage"
+#~ msgstr "&Réinitialiser au démarrage"
 
-#, fuzzy
 #~ msgid "Overwrite &Playback"
-#~ msgstr "*Écraser le 'playback' actuel"
+#~ msgstr "É&craser la lecture actuelle"
 
-#, fuzzy
 #~ msgid "Select History files/directory"
 #~ msgstr "Sélectionnez le répertoire des captures"
 
-#, fuzzy
+#~ msgid "Save/stop media file...\tAlt+C"
+#~ msgstr "Enregistrer/Arrêter fichier média...\tAlt+C"
+
 #~ msgid "&Refresh rate"
-#~ msgstr "Taux de rafraîchissement"
+#~ msgstr "Taux de &rafraîchissement"
 
-#, fuzzy
 #~ msgid "&Auto"
-#~ msgstr "*Auto"
+#~ msgstr "&Automatique"
 
-#, fuzzy
 #~ msgid "&Maximum Speed"
-#~ msgstr "Vitesse maximale"
+#~ msgstr "Vitesse &Maximale"
 
-#, fuzzy
 #~ msgid "No &limit"
-#~ msgstr "*Aucune limite"
+#~ msgstr "Aucune &limite"
 
-#, fuzzy
 #~ msgid "&Custom"
-#~ msgstr "*Personnalisé..."
+#~ msgstr "&Personnalisé"
 
-#, fuzzy
+#~ msgid "&Warp mode\tAlt+W"
+#~ msgstr "&Mode turbo\tAlt+W"
+
 #~ msgid "Video &cache"
-#~ msgstr "*Cache vidéo"
+#~ msgstr "&Cache vidéo"
 
-#, fuzzy
 #~ msgid "&Double size"
-#~ msgstr "*Double pixels"
+#~ msgstr "&Taille double"
 
-#, fuzzy
 #~ msgid "Dou&ble scan"
-#~ msgstr "*Doubler les lignes"
+#~ msgstr "Dou&ble scan"
 
-#, fuzzy
 #~ msgid "Scale2x"
-#~ msgstr "Activer mode turbo"
+#~ msgstr "Scale2x"
 
-#, fuzzy
 #~ msgid "VDC settin&gs"
-#~ msgstr "Paramètres VDC"
+#~ msgstr "Para&mètres VDC"
 
-#, fuzzy
 #~ msgid "64KB video &memory"
 #~ msgstr "Mémoire d'affichage de 64Ko"
 
-#, fuzzy
 #~ msgid "Swap &Joystick\tAlt+J"
-#~ msgstr "Échanger les joysticks de ports"
+#~ msgstr "Interchanger les joysticks\tAlt+J"
 
-#, fuzzy
 #~ msgid "&Sound playback"
-#~ msgstr "*Activer le son"
+#~ msgstr "Lecture &audio"
 
-#, fuzzy
 #~ msgid "&True drive emulation"
-#~ msgstr "*Activer l'émulation réelle de lecteur"
+#~ msgstr "Activer l'émulation &réelle des lecteurs"
 
-#, fuzzy
 #~ msgid "&Virtual device traps"
-#~ msgstr "*Activer les périphériques virtuels"
+#~ msgstr "Activer les périphériques &virtuels"
 
-#, fuzzy
 #~ msgid "Vide&o standard"
-#~ msgstr "Standard vidéo"
+#~ msgstr "Standar&d vidéo"
 
-#, fuzzy
 #~ msgid "&PAL-G"
-#~ msgstr "*PAL-G"
+#~ msgstr "&PAL-G"
 
-#, fuzzy
 #~ msgid "&NTSC-M"
-#~ msgstr "*NTSC-M"
+#~ msgstr "&NTSC-M"
 
-#, fuzzy
 #~ msgid "Emulator &Identification"
-#~ msgstr "*Identification de l'émulateur"
+#~ msgstr "&Identification de l'émulateur"
 
-#, fuzzy
 #~ msgid "IEEE&488 Interface emulation"
-#~ msgstr "*Interface d'émulation IEEE488"
+#~ msgstr "Interface d'émulation &IEEE488"
 
-#, fuzzy
 #~ msgid "&1351 mouse emulation\tAlt+Q"
-#~ msgstr "*Émulation de la souris 1351"
+#~ msgstr "Émulation de la &souris 1351\tAlt+Q"
 
-#, fuzzy
 #~ msgid "S&ettings"
-#~ msgstr "Paramètres"
+#~ msgstr "&Paramètres"
 
-#, fuzzy
 #~ msgid "&Video settings..."
-#~ msgstr "Paramètres du modèle"
+#~ msgstr "Paramètres vidéo..."
 
-#, fuzzy
 #~ msgid "&Peripheral settings..."
-#~ msgstr "Paramètres des périphériques"
+#~ msgstr "Paramètres des périphériques..."
 
-#, fuzzy
 #~ msgid "&Drive settings..."
-#~ msgstr "Paramètres des lecteurs"
+#~ msgstr "Paramètres des lecteurs..."
 
-#, fuzzy
 #~ msgid "D&atasette settings..."
-#~ msgstr "Réglage de la vitesse du datassette"
+#~ msgstr "Paramètres du datassette..."
 
-#, fuzzy
 #~ msgid "VIC-II settings..."
-#~ msgstr "Paramètres VIC-II"
+#~ msgstr "Paramètres VIC-II..."
 
-#, fuzzy
 #~ msgid "&Joystick settings..."
-#~ msgstr "Paramètres des joysticks"
+#~ msgstr "Paramètres des joysticks..."
 
-#, fuzzy
 #~ msgid "&Keyboard settings..."
-#~ msgstr "Paramètres du clavier"
+#~ msgstr "Paramètres du clavier..."
 
-#, fuzzy
 #~ msgid "S&ound settings..."
-#~ msgstr "Paramètres de son"
+#~ msgstr "Paramètres son..."
 
-#, fuzzy
 #~ msgid "S&ID settings..."
-#~ msgstr "Paramètres SID"
+#~ msgstr "Paramètres SID..."
 
-#, fuzzy
 #~ msgid "&ROM settings..."
-#~ msgstr "Paramètres ROM"
+#~ msgstr "Paramètres ROM..."
 
-#, fuzzy
 #~ msgid "RA&M settings..."
-#~ msgstr "Paramètres de la RAM"
+#~ msgstr "Paramètres de la RAM..."
 
-#, fuzzy
 #~ msgid "C&128 settings..."
-#~ msgstr "Paramètres VDC"
+#~ msgstr "Paramètres C&128..."
 
-#, fuzzy
 #~ msgid "RS&232 settings..."
-#~ msgstr "Paramètres RS232"
+#~ msgstr "Paramètres RS&232..."
 
-#, fuzzy
 #~ msgid "&Cartridge Settings"
-#~ msgstr "Paramètres CRTC"
+#~ msgstr "Paramètres des cartouches"
 
-#, fuzzy
 #~ msgid "&REU settings..."
-#~ msgstr "Paramètres ROM"
+#~ msgstr "Paramètres RE&U..."
 
-#, fuzzy
 #~ msgid "&GEORAM settings..."
-#~ msgstr "Paramètres de la RAM"
+#~ msgstr "Paramètres &GEORAM..."
 
-#, fuzzy
 #~ msgid "&RAMCART settings..."
-#~ msgstr "Paramètres de la RAM"
+#~ msgstr "Paramètres &RAMCART..."
 
-#, fuzzy
 #~ msgid "&IDE64 settings..."
-#~ msgstr "Paramètres SID"
+#~ msgstr "Paramètres &IDE64..."
 
-#, fuzzy
 #~ msgid "&Ethernet settings..."
-#~ msgstr "Émulation ethernet"
+#~ msgstr "Émulation &Ethernet..."
 
-#, fuzzy
 #~ msgid "&ACIA settings..."
-#~ msgstr "Paramètres VDC"
+#~ msgstr "Paramètres &ACIA..."
 
-#, fuzzy
 #~ msgid "RS&232 userport settings..."
-#~ msgstr "Paramètres RS232"
+#~ msgstr "Paramètres RS&232 userport..."
 
-#, fuzzy
 #~ msgid "&Save current settings"
-#~ msgstr "Enregistrer les paramètres courants?"
+#~ msgstr "&Enregistrer les paramètres courants"
 
-#, fuzzy
 #~ msgid "&Load saved settings"
-#~ msgstr "Charger les paramètres"
+#~ msgstr "&Charger les paramètres"
 
-#, fuzzy
 #~ msgid "Set de&fault settings"
-#~ msgstr "Rétablir les paramètres par défaut"
+#~ msgstr "Rétablir les paramètres par dé&faut"
 
-#, fuzzy
 #~ msgid "Save settings on e&xit"
-#~ msgstr "*Enregistrer les paramètres à la sortie"
+#~ msgstr "Enregistrer les pa&ramètres à la sortie"
 
-#, fuzzy
 #~ msgid "&Confirm on exit"
-#~ msgstr "*Confirmation à la sortie"
+#~ msgstr "&Confirmation à la sortie"
 
-#, fuzzy
+#~ msgid "&Language"
+#~ msgstr "&Langage"
+
+#~ msgid "&English"
+#~ msgstr "&Anglais"
+
+#~ msgid "&German"
+#~ msgstr "&Allemand"
+
+#~ msgid "&French"
+#~ msgstr "&Français"
+
+#~ msgid "&Italian"
+#~ msgstr "&Italien"
+
+#~ msgid "&Dutch"
+#~ msgstr "&Hollandais"
+
+#~ msgid "&Polish"
+#~ msgstr "&Polonais"
+
+#~ msgid "&Swedish"
+#~ msgstr "&Suédois"
+
 #~ msgid "&Help"
-#~ msgstr "Aide"
+#~ msgstr "&Aide"
 
-#, fuzzy
 #~ msgid "&About..."
-#~ msgstr "À propos de VICE..."
+#~ msgstr "À &Propos..."
 
-#, fuzzy
 #~ msgid "Command line &options"
-#~ msgstr ""
-#~ "\n"
-#~ "Options de ligne de commande disponibles:\n"
-#~ "\n"
+#~ msgstr "&Options de ligne de commande"
 
-#, fuzzy
 #~ msgid "&Contributors"
-#~ msgstr "Contributeurs"
+#~ msgstr "&Contributeurs"
 
-#, fuzzy
 #~ msgid "&License"
-#~ msgstr "License"
+#~ msgstr "&License"
 
-#, fuzzy
 #~ msgid "No &warranty"
-#~ msgstr "Aucune garantie!"
+#~ msgstr "Aucune &garantie!"
+
+#~ msgid "Kernal Int."
+#~ msgstr "Kernal Int."
+
+#~ msgid "Kernal DE"
+#~ msgstr "Kernal DE"
+
+#~ msgid "Kernal FI"
+#~ msgstr "Kernal FI"
+
+#~ msgid "Kernal FR"
+#~ msgstr "Kernal FR"
+
+#~ msgid "Kernal IT"
+#~ msgstr "Kernal IT"
+
+#~ msgid "Kernal NO"
+#~ msgstr "Kernal NO"
+
+#~ msgid "Kernal SE"
+#~ msgstr "Kernal SE"
+
+#~ msgid "Basic LO"
+#~ msgstr "Basic LO"
+
+#~ msgid "Basic HI"
+#~ msgstr "Basic HI"
+
+#~ msgid "Char. Int."
+#~ msgstr "Char. Int."
+
+#~ msgid "Char. DE"
+#~ msgstr "Char. DE"
+
+#~ msgid "Char. FR"
+#~ msgstr "Char. FR"
+
+#~ msgid "Char. SE"
+#~ msgstr "Char. SE"
+
+#~ msgid "Kernal C64"
+#~ msgstr "Kernal C64"
+
+#~ msgid "Basic C64"
+#~ msgstr "Basic C64"
+
+#~ msgid "Computer resources"
+#~ msgstr "Ressources de l'ordinateur"
+
+#~ msgid "Computer resources saved to romset"
+#~ msgstr "Ressources de l'ordinateur enregistrées au Romset"
+
+#~ msgid "International Kernal"
+#~ msgstr "Kernal international"
 
 #, fuzzy
 #~ msgid "German Kernal"
-#~ msgstr "Charger une nouvelle ROM Kernal en allemand"
+#~ msgstr "Kernal allemand"
+
+#~ msgid "Finnish Kernal"
+#~ msgstr "Kernal finlandais"
+
+#~ msgid "French Kernal"
+#~ msgstr "Kernal français"
 
 #, fuzzy
 #~ msgid "Italian Kernal"
-#~ msgstr "Charger le nouveau Kernal"
+#~ msgstr "Kernal italien"
 
 #, fuzzy
 #~ msgid "Norwegain Kernal"
-#~ msgstr "Charger le nouveau Kernal"
+#~ msgstr "Kernal norvégien"
+
+#~ msgid "Swedish Kernal"
+#~ msgstr "Kernal suédois"
 
 #, fuzzy
 #~ msgid "International Character"
-#~ msgstr "*Jeu de caractères original"
+#~ msgstr "Jeu de caractères international"
 
 #, fuzzy
 #~ msgid "German Character"
-#~ msgstr "*Jeu de caractère Allemands"
+#~ msgstr "Jeu de caractères allemand"
+
+#~ msgid "French Character"
+#~ msgstr "Jeu de caractères français"
+
+#~ msgid "Swedish Character"
+#~ msgstr "Jeu de caractères suédois"
 
 #, fuzzy
 #~ msgid "C64 mode Kernal"
-#~ msgstr "Charger le nouveau Kernal"
+#~ msgstr "Kernel mode C64"
 
 #, fuzzy
 #~ msgid "C64 mode Basic"
-#~ msgstr "Charger le nouveau Basic"
+#~ msgstr "Basic mode C64"
 
 #, fuzzy
 #~ msgid "Drive resources"
-#~ msgstr "Paramètres des lecteurs"
+#~ msgstr "Ressources des lecteurs"
+
+#~ msgid "Drive resources saved to romset"
+#~ msgstr "Ressources du lecteur sauvegardés dans le Romset"
 
 #, fuzzy
 #~ msgid "Internal Function ROM"
-#~ msgstr "Nom de l'image ROM Fonction interne..."
+#~ msgstr "Image ROM Fonction interne..."
 
 #, fuzzy
 #~ msgid "Enable internal Function ROM"
-#~ msgstr "*Activer l'image ROM Fonction interne"
+#~ msgstr "Activer l'image ROM Fonction interne"
 
 #, fuzzy
 #~ msgid "File name"
@@ -6528,47 +6812,48 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "External Function ROM"
-#~ msgstr "Nom de l'image ROM Fonction interne..."
+#~ msgstr "Image ROM Fonction externe"
 
 #, fuzzy
 #~ msgid "Enable external Function ROM"
-#~ msgstr "*Activer l'image ROM Fonction externe"
+#~ msgstr "Activer l'image ROM Fonction externe"
 
-#, fuzzy
 #~ msgid "&Drive type"
-#~ msgstr "Type de périphérique"
+#~ msgstr "Type de &lecteur"
 
-#, fuzzy
+#~ msgid "40 &track handling"
+#~ msgstr "Prise en charge du 40 pistes"
+
 #~ msgid "Never extend"
-#~ msgstr "*Ne jamais étendre"
+#~ msgstr "Ne jamais é&tendre"
 
-#, fuzzy
 #~ msgid "Ask on extend"
-#~ msgstr "*Demander"
+#~ msgstr "Demander avant d'étendre"
 
-#, fuzzy
 #~ msgid "Extend on access"
-#~ msgstr "*Étendre à l'accès"
+#~ msgstr "Étendre à l'accès"
 
-#, fuzzy
 #~ msgid "Id&le method"
-#~ msgstr "Méthode d'idle du lecteur #8"
+#~ msgstr "Méthode d'idle"
 
-#, fuzzy
 #~ msgid "Trap idle"
-#~ msgstr "*Attente des trappes"
+#~ msgstr "Trap idle"
 
-#, fuzzy
 #~ msgid "Skip cycles"
-#~ msgstr "*Sauter les cycles"
+#~ msgstr "Sauter des cycles"
 
-#, fuzzy
+#~ msgid "&Parallel cable"
+#~ msgstr "Câble &parallèle"
+
 #~ msgid "Drive &expansion"
-#~ msgstr "Expansion de RAM du lecteur #8"
+#~ msgstr "&Expansion de lecteur"
 
 #, fuzzy
 #~ msgid "&Symbolic"
-#~ msgstr "*Mappage symbolique"
+#~ msgstr "&Symbolique"
+
+#~ msgid "&Positional"
+#~ msgstr "&Positionnel"
 
 #, fuzzy
 #~ msgid "Dump keyset"
@@ -6576,467 +6861,551 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "Select internal function ROM image"
-#~ msgstr "*Activer l'image ROM Fonction interne"
+#~ msgstr "Sélectionner l'image ROM Fonction interne"
 
 #, fuzzy
 #~ msgid "Select external function ROM image"
-#~ msgstr "*Activer l'image ROM Fonction externe"
+#~ msgstr "Sélectionner l'image ROM Fonction externe"
 
 #, fuzzy
 #~ msgid "C128 settings"
-#~ msgstr "Paramètres VDC"
+#~ msgstr "Paramètres C128"
 
-#, fuzzy
 #~ msgid "Fullscreen\tAlt+D"
-#~ msgstr "Périphérique plein écran"
+#~ msgstr "Périphérique plein écran\tAlt+D"
 
-#, fuzzy
 #~ msgid "&Old NTSC-M"
-#~ msgstr "*Ancien NTSC-M"
+#~ msgstr "&Ancien NTSC-M"
 
-#, fuzzy
 #~ msgid "&Cartridge/IO settings"
-#~ msgstr "Paramètres CRTC"
+#~ msgstr "Paramètres E/S &cartouche"
 
-#, fuzzy
 #~ msgid "+&60K settings..."
-#~ msgstr "Paramètres VDC"
+#~ msgstr "Paramètres +&60K..."
+
+#~ msgid "Kernal"
+#~ msgstr "Kernal"
+
+#~ msgid "Basic"
+#~ msgstr "Basic"
+
+#~ msgid "Character"
+#~ msgstr "Caractère"
 
 #, fuzzy
 #~ msgid "&Symbolic US"
-#~ msgstr "*Mappage symbolique"
+#~ msgstr "Symbolique &US"
 
 #, fuzzy
 #~ msgid "&Symbolic DE"
-#~ msgstr "*Mappage symbolique"
+#~ msgstr "Symbolique &DE"
 
-#, fuzzy
+#~ msgid "Drive s&ync factor"
+#~ msgstr "Facteur de s&ynchro du lecteur"
+
 #~ msgid "&CBM2 settings..."
-#~ msgstr "Paramètres VDC"
+#~ msgstr "Paramètres CBM2..."
 
-#, fuzzy
 #~ msgid "&VIC-II settings..."
-#~ msgstr "Paramètres VIC-II"
+#~ msgstr "Paramètres &VIC-II..."
 
 #, fuzzy
 #~ msgid "&Cartridge/IO Settings"
-#~ msgstr "Paramètres CRTC"
+#~ msgstr "Paramètres E/S cartouche"
+
+#~ msgid "Cart 1"
+#~ msgstr "Cartouche 1"
+
+#~ msgid "Cart 2"
+#~ msgstr "Cartouche 2"
+
+#~ msgid "Cart 4"
+#~ msgstr "Cartouche 4"
+
+#~ msgid "Cart 6"
+#~ msgstr "Cartouche 6"
 
 #, fuzzy
 #~ msgid "Machine &defaults"
-#~ msgstr "Valeurs par défaut du modèle"
+#~ msgstr "Valeurs par dé&faut du modèle"
 
 #, fuzzy
 #~ msgid "&Model line"
-#~ msgstr "Paramètres du modèle"
+#~ msgstr "Ligne du &modèle"
 
 #, fuzzy
 #~ msgid "&Memory"
-#~ msgstr "Taille de la mémoire"
+#~ msgstr "Taille de la &mémoire"
 
 #, fuzzy
 #~ msgid "12&8 kByte"
-#~ msgstr "*128 kOctets"
+#~ msgstr "12&8 kOctets"
 
 #, fuzzy
 #~ msgid "2&56 kByte"
-#~ msgstr "*256 Octets"
+#~ msgstr "2&56 Octets"
 
 #, fuzzy
 #~ msgid "512 &kByte"
-#~ msgstr "*128 kOctets"
+#~ msgstr "51&2 kOctets"
 
 #, fuzzy
 #~ msgid "1024 kByt&e"
-#~ msgstr "*128 kOctets"
+#~ msgstr "102&4 kOctets"
+
+#~ msgid "&Ram banks"
+#~ msgstr "Banques de &RAM"
 
 #, fuzzy
 #~ msgid "Bank 15 $&0800-$0FFF RAM"
-#~ msgstr "*Banque 15 $0800-$0FFF RAM"
+#~ msgstr "Banque 15 $0800-$0FFF RAM"
 
 #, fuzzy
 #~ msgid "Bank 15 $&1000-$1FFF RAM"
-#~ msgstr "*Banque 15 $1000-$1FFF RAM"
+#~ msgstr "Banque 15 $1000-$1FFF RAM"
 
 #, fuzzy
 #~ msgid "Bank 15 $&2000-$3FFF RAM"
-#~ msgstr "*Banque 15 $2000-$3FFF RAM"
+#~ msgstr "Banque 15 $2000-$3FFF RAM"
 
 #, fuzzy
 #~ msgid "Bank 15 $&4000-$5FFF RAM"
-#~ msgstr "*Banque 15 $4000-$5FFF RAM"
+#~ msgstr "Banque 15 $4000-$5FFF RAM"
 
 #, fuzzy
 #~ msgid "Bank 15 $&6000-$7FFF RAM"
-#~ msgstr "*Banque 15 $6000-$7FFF RAM"
+#~ msgstr "Banque 15 $6000-$7FFF RAM"
 
 #, fuzzy
 #~ msgid "Bank 15 $&C000-$CFFF RAM"
-#~ msgstr "*Banque 15 $C000-$CFFF RAM"
+#~ msgstr "Banque 15 $C000-$CFFF RAM"
+
+#~ msgid "&Gr Sym."
+#~ msgstr "&GR Sym."
+
+#~ msgid "G&r Pos."
+#~ msgstr "G&R Pos."
+
+#~ msgid "&UK Sym."
+#~ msgstr "&UK Sym."
+
+#~ msgid "U&K Pos."
+#~ msgstr "U&K Pos."
+
+#~ msgid "&DE Sym."
+#~ msgstr "&DE Sym."
+
+#~ msgid "D&E Pos."
+#~ msgstr "D&E Pos."
 
 #, fuzzy
 #~ msgid "Memory"
-#~ msgstr "Taille de la mémoire"
+#~ msgstr "Mémoire"
 
 #, fuzzy
 #~ msgid "CBM2 settings"
-#~ msgstr "Paramètres VDC"
+#~ msgstr "Paramètres CBM2"
 
-#, fuzzy
 #~ msgid "GEORAM Settings"
-#~ msgstr "Paramètres de la RAM"
+#~ msgstr "Paramètres GEORAM"
 
-#, fuzzy
 #~ msgid "&Enable GEORAM"
-#~ msgstr "*Activer GEORAM"
+#~ msgstr "&Activer GEORAM"
 
-#, fuzzy
 #~ msgid "GEORAM file"
-#~ msgstr "Taille du GEORAM"
+#~ msgstr "Fichier GEORAM"
+
+#~ msgid "Select file for GEORAM"
+#~ msgstr "Sélectionner le fichier GEORAM"
 
 #, fuzzy
 #~ msgid "IDE64 Settings"
-#~ msgstr "Paramètres SID"
+#~ msgstr "Paramètres IDE64"
 
 #, fuzzy
 #~ msgid "&HD image file"
-#~ msgstr "Nom d'image IDE64"
+#~ msgstr "Nom d'image &DD"
+
+#~ msgid "&Geometry"
+#~ msgstr "&Géométrie"
 
 #, fuzzy
 #~ msgid "&Autodetect"
-#~ msgstr "*Autodétection de la taille de l'image"
+#~ msgstr "&Autodétection"
 
 #, fuzzy
 #~ msgid "Cylinders"
-#~ msgstr "*Cylindres..."
+#~ msgstr "&Cylindres..."
 
 #, fuzzy
 #~ msgid "Heads"
-#~ msgstr "*Têtes..."
+#~ msgstr "&Têtes..."
 
 #, fuzzy
 #~ msgid "Sectors"
-#~ msgstr "*Secteurs..."
+#~ msgstr "&Secteurs..."
+
+#~ msgid "Total size: %iKB"
+#~ msgstr "Taille totale: %iKo"
 
 #, fuzzy
 #~ msgid "Select HD image file"
-#~ msgstr "Sélectionnez le fichier du périphérique RS232"
+#~ msgstr "Sélectionnez le fichier image du D.D."
 
-#, fuzzy
 #~ msgid "P&ET settings..."
-#~ msgstr "Paramètres TED"
+#~ msgstr "Paramètres &PET..."
 
 #, fuzzy
 #~ msgid "Editor"
-#~ msgstr "Moniteur"
+#~ msgstr "Éditeur"
 
 #, fuzzy
 #~ msgid "Machine defaults"
-#~ msgstr "Valeurs par défaut du modèle"
+#~ msgstr "Valeurs par déf&aut du modèle"
 
 #, fuzzy
 #~ msgid "M&emory"
-#~ msgstr "Taille de la mémoire"
+#~ msgstr "Mémoire"
 
 #, fuzzy
 #~ msgid "4KB"
-#~ msgstr "*64KO"
+#~ msgstr "4Ko"
+
+#~ msgid "8KB"
+#~ msgstr "8Ko"
 
 #, fuzzy
 #~ msgid "16KB"
-#~ msgstr "*16KO"
+#~ msgstr "16Ko"
 
 #, fuzzy
 #~ msgid "32KB"
-#~ msgstr "*32KO"
+#~ msgstr "32Ko"
 
 #, fuzzy
 #~ msgid "96KB"
-#~ msgstr "*64KO"
+#~ msgstr "96Ko"
 
 #, fuzzy
 #~ msgid "128KB"
-#~ msgstr "*32KO"
+#~ msgstr "128Ko"
 
 #, fuzzy
 #~ msgid "&Video"
-#~ msgstr "Taille vidéo"
+#~ msgstr "&Vidéo"
 
 #, fuzzy
 #~ msgid "&Auto (from ROM)"
-#~ msgstr "*Auto (depuis la ROM)"
+#~ msgstr "&Auto (depuis la ROM)"
 
 #, fuzzy
 #~ msgid "&40 Columns"
-#~ msgstr "*40 Colonnes"
+#~ msgstr "&40 Colonnes"
 
 #, fuzzy
 #~ msgid "&80 Columns"
-#~ msgstr "*80 Colonnes"
+#~ msgstr "&80 Colonnes"
 
 #, fuzzy
 #~ msgid "&IO Size"
-#~ msgstr "Taille d'E/S"
+#~ msgstr "Taille d'&E/S"
 
 #, fuzzy
 #~ msgid "2&56 Byte"
-#~ msgstr "*256 Octets"
+#~ msgstr "25&6 Octets"
 
 #, fuzzy
 #~ msgid "&2 kByte"
-#~ msgstr "*2 kOctets"
+#~ msgstr "204&8 Octets"
 
 #, fuzzy
 #~ msgid "CRTC chip &enable"
-#~ msgstr "*Puce CRTC activée"
+#~ msgstr "Activer la puce &CRTC"
 
 #, fuzzy
 #~ msgid "&Keyboard"
-#~ msgstr "Type de clavier"
+#~ msgstr "Type de &clavier"
 
 #, fuzzy
 #~ msgid "&Graphics"
-#~ msgstr "*Graphiques"
+#~ msgstr "&Graphiques"
 
 #, fuzzy
 #~ msgid "&Business (UK)"
-#~ msgstr "*Business (UK)"
+#~ msgstr "&Business (UK)"
 
 #, fuzzy
 #~ msgid "&IO Settings"
-#~ msgstr "Paramètres"
+#~ msgstr "Paramètres &E/S"
 
 #, fuzzy
 #~ msgid "SuperPET I/O &enable (disables 8x96)"
-#~ msgstr "*E/S SuperPET activé (empêche 8x96 de fonctionner)"
+#~ msgstr "Activer les E/S &SuperPET (ne fonctionne pas avec 8x96)"
 
 #, fuzzy
 #~ msgid "&RAM Settings"
-#~ msgstr "Paramètres de la RAM"
+#~ msgstr "Paramètres &RAM"
 
 #, fuzzy
 #~ msgid "$&9*** as RAM"
-#~ msgstr "*$9*** comme RAM (8296 seulement)"
+#~ msgstr "$9*** comme RAM (8296 seulement)"
 
 #, fuzzy
 #~ msgid "$&A*** as RAM"
 #~ msgstr "*$A*** comme RAM (8296 seulement)"
 
+#~ msgid "Input/Output"
+#~ msgstr "Entrée/Sortie"
+
 #, fuzzy
 #~ msgid "PET settings"
-#~ msgstr "Paramètres TED"
+#~ msgstr "Paramètres PET"
 
-#, fuzzy
+#~ msgid "C1 low  image..."
+#~ msgstr "Image C1 basse..."
+
 #~ msgid "C1 high image..."
-#~ msgstr "Sauvegarder l'image de la cartouche..."
+#~ msgstr "Image C1 haute..."
 
-#, fuzzy
+#~ msgid "C2 low  image..."
+#~ msgstr "Image C2 basse..."
+
 #~ msgid "C2 high image..."
-#~ msgstr "Sauvegarder l'image de la cartouche..."
+#~ msgstr "Image C1 haute..."
 
-#, fuzzy
 #~ msgid "Function low  image (3plus1)..."
-#~ msgstr "Image ROM Fonction"
+#~ msgstr "Image Fonction basse (3+1)..."
 
-#, fuzzy
 #~ msgid "Function high image (3plus1)..."
-#~ msgstr "Image ROM Fonction"
+#~ msgstr "Image Fonction haute (3+1)..."
 
-#, fuzzy
 #~ msgid "P&lus4 settings..."
-#~ msgstr "Paramètres du modèle"
+#~ msgstr "Paramètres P&lus4..."
+
+#~ msgid "3+1 Lo"
+#~ msgstr "3+1 Lo"
+
+#~ msgid "3+1 Hi"
+#~ msgstr "+1 Hi"
 
 #, fuzzy
 #~ msgid "3 plus 1 LO"
-#~ msgstr "Charger le nouveau ROM 3+1 LO"
+#~ msgstr "3+1 basse"
 
 #, fuzzy
 #~ msgid "3 plus 1 HI"
-#~ msgstr "Charger le nouveau ROM 3+1 HI"
+#~ msgstr "3+1 haute"
 
 #, fuzzy
 #~ msgid "Plus4 settings"
-#~ msgstr "Paramètres du modèle"
+#~ msgstr "Paramètres Plus4"
 
 #, fuzzy
 #~ msgid "&16 kByte"
-#~ msgstr "*16 kOctets"
+#~ msgstr "&16 kOctets"
 
 #, fuzzy
 #~ msgid "&32 kByte"
-#~ msgstr "*32 kOctets"
+#~ msgstr "&32 kOctets"
 
 #, fuzzy
 #~ msgid "&64 kByte"
-#~ msgstr "*4 kOctets"
+#~ msgstr "&64 kOctets"
 
 #, fuzzy
 #~ msgid "Attach cartridge image for Function Low"
-#~ msgstr "Insérer une image de cartouche"
+#~ msgstr "Insérer une cartouche Fonction basse"
 
 #, fuzzy
 #~ msgid "Attach cartridge image for Function High"
-#~ msgstr "Insérer une image de cartouche"
+#~ msgstr "Insérer une cartouche Fonction haute"
 
 #, fuzzy
 #~ msgid "Attach cartridge image for Cartridge1 Low"
-#~ msgstr "Insérer une image de cartouche"
+#~ msgstr "Insérer une cartouche pour Cartouche1 basse"
 
 #, fuzzy
 #~ msgid "Attach cartridge image for Cartridge1 High"
-#~ msgstr "Insérer une image de cartouche"
+#~ msgstr "Insérer une cartouche pour Cartouche1 haute"
 
 #, fuzzy
 #~ msgid "Attach cartridge image for Cartridge2 Low"
-#~ msgstr "Insérer une image de cartouche"
+#~ msgstr "Insérer une cartouche pour Cartouche2 basse"
 
 #, fuzzy
 #~ msgid "Attach cartridge image for Cartridge2 High"
-#~ msgstr "Insérer une image de cartouche"
+#~ msgstr "Insérer une cartouche pour Cartouche2 haute"
 
 #, fuzzy
 #~ msgid "+60K Settings"
-#~ msgstr "Paramètres"
+#~ msgstr "Paramètres +60K"
 
 #, fuzzy
 #~ msgid "&Enable +60K"
-#~ msgstr "*Activer REU"
+#~ msgstr "&Activer +60K"
+
+#~ msgid "+60K file"
+#~ msgstr "Fichier +60K"
+
+#~ msgid "Select file for +60K"
+#~ msgstr "Sélectionner fichier pour +60K"
 
 #, fuzzy
 #~ msgid "RAMCART Settings"
-#~ msgstr "Paramètres de la RAM"
+#~ msgstr "Paramètres RAMCART"
 
 #, fuzzy
 #~ msgid "&Enable RAMCART"
-#~ msgstr "*Activer RAMCART"
+#~ msgstr "&Activer RAMCART"
 
 #, fuzzy
 #~ msgid "&Read Only"
-#~ msgstr "*Accès en lecture seuel"
+#~ msgstr "&Lecture seule"
 
 #, fuzzy
 #~ msgid "RAMCART file"
-#~ msgstr "Taille du RAMCART"
+#~ msgstr "Fichier RAMCART"
+
+#~ msgid "Select file for RAMCART"
+#~ msgstr "Sélectionner fichier pour RAMCART"
 
 #, fuzzy
 #~ msgid "REU Settings"
-#~ msgstr "Paramètres"
+#~ msgstr "Paramètres REU"
 
 #, fuzzy
 #~ msgid "&Enable REU"
-#~ msgstr "*Activer REU"
+#~ msgstr "&Activer REU"
 
 #, fuzzy
 #~ msgid "REU file"
 #~ msgstr "Taille du REU"
 
+#~ msgid "Select file for REU"
+#~ msgstr "Sélectionner fichier pour REU"
+
 #, fuzzy
 #~ msgid "RS232 Userport Settings"
-#~ msgstr "Paramètres RS232"
+#~ msgstr "Paramètres RS232 Userport"
 
 #, fuzzy
 #~ msgid "&Enable RS232 userport"
-#~ msgstr "*Activer l'émulation réelle de lecteur"
+#~ msgstr "&Activer RS232 Userport"
 
 #, fuzzy
 #~ msgid "Userport device"
-#~ msgstr "Périphérique de port utilisateur RS232"
+#~ msgstr "Périphérique Userport"
 
 #, fuzzy
 #~ msgid "Userport baud rate"
-#~ msgstr "Périphérique de port utilisateur RS232"
+#~ msgstr "Vitesse du Userport"
+
+#~ msgid "This machine may not have a SID"
+#~ msgstr "Cette machine n'a peut-être pas de SID"
+
+#~ msgid "General"
+#~ msgstr "Général"
 
 #, fuzzy
 #~ msgid "fast"
-#~ msgstr "*Rapide"
+#~ msgstr "rapide"
 
 #, fuzzy
 #~ msgid "interpolating"
-#~ msgstr "*par interpolation"
+#~ msgstr "par interpolation"
 
 #, fuzzy
 #~ msgid "resampling"
-#~ msgstr "*Rééchantillonage"
+#~ msgstr "rééchantillonage"
 
 #, fuzzy
 #~ msgid "fast resampling"
-#~ msgstr "*Rééchantillonage rapide"
+#~ msgstr "rééchantillonage rapide"
 
 #, fuzzy
 #~ msgid "SID Engine"
 #~ msgstr "Engin SID"
 
+#~ msgid "SID Model"
+#~ msgstr "Modèle SID"
+
 #, fuzzy
 #~ msgid "6581 (old)"
-#~ msgstr "*6581 (ancien)"
+#~ msgstr "6581 (ancien)"
 
 #, fuzzy
 #~ msgid "8580 (new)"
-#~ msgstr "*8580 (nouveau)"
+#~ msgstr "8580 (nouveau)"
 
 #, fuzzy
 #~ msgid "SID Stereo"
 #~ msgstr "Engin SID"
 
+#~ msgid "Stereo SID at"
+#~ msgstr "SID Stéréo à"
+
 #, fuzzy
 #~ msgid "SID Filters"
-#~ msgstr "*Émuler les filtres"
+#~ msgstr "Filtres SID"
 
 #, fuzzy
 #~ msgid "reSID options"
-#~ msgstr "Options de disque"
+#~ msgstr "Options reSID"
 
 #, fuzzy
 #~ msgid "Sample method"
-#~ msgstr "Méthode d'échantillonnage reSID"
+#~ msgstr "Méthode d'échantillonnage"
+
+#~ msgid "Passband (0-90%)"
+#~ msgstr "Bande passante (0..90%)"
 
 #, fuzzy
 #~ msgid "Device selection"
-#~ msgstr "Paramètres des lecteurs"
+#~ msgstr "Sélection des périphériques"
+
+#~ msgid "Left/Main device"
+#~ msgstr "Périphérique gauche/principal"
 
 #, fuzzy
 #~ msgid "Right device"
-#~ msgstr "Périphérique ACIA"
+#~ msgstr "Périphérique droit"
 
 #, fuzzy
 #~ msgid "Ethernet Settings"
-#~ msgstr "Émulation ethernet"
+#~ msgstr "Paramètres Ethernet"
 
 #, fuzzy
 #~ msgid "&Ethernet"
-#~ msgstr "*Activer ethernet"
+#~ msgstr "&Ethernet"
 
 #, fuzzy
 #~ msgid "&Interface"
-#~ msgstr "Interface..."
+#~ msgstr "&Interface"
 
-#, fuzzy
 #~ msgid "4/8/16KB image at $&2000..."
 #~ msgstr "Insertion d'une image 4/8/16Ko à $2000..."
 
-#, fuzzy
 #~ msgid "4/8/16KB image at $&4000..."
 #~ msgstr "Insertion d'une image 4/8/16Ko à $4000..."
 
-#, fuzzy
 #~ msgid "4/8/16KB image at $&6000..."
 #~ msgstr "Insertion d'une image 4/8/16Ko à $6000..."
 
-#, fuzzy
 #~ msgid "4/8KB image at $&A000..."
 #~ msgstr "Insertion d'une image 4/8Ko à $A000..."
 
-#, fuzzy
 #~ msgid "4KB image at $&B000..."
 #~ msgstr "Insertion d'une image 4Ko à $B000..."
 
 #, fuzzy
 #~ msgid "Detach c&artridge image"
-#~ msgstr "Retirer une image de cartouche"
+#~ msgstr "Reti&rer une cartouche"
 
-#, fuzzy
+#~ msgid "VIC-1112 IEEE &488 module"
+#~ msgstr "Module VIC-1112 IEEE &488"
+
 #~ msgid "V&IC settings..."
-#~ msgstr "Paramètres VIC"
+#~ msgstr "Paramètres V&IC..."
 
 #, fuzzy
 #~ msgid "VIC Settings"
@@ -7044,39 +7413,48 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "&no expansion memory"
-#~ msgstr "Aucune expansion de mémoire"
+#~ msgstr "&Aucune expansion de mémoire"
 
 #, fuzzy
 #~ msgid "3&K (block 0)"
-#~ msgstr "3Ko (block 0)"
+#~ msgstr "&3Ko (block 0)"
 
 #, fuzzy
 #~ msgid "&8K (block 1)"
-#~ msgstr "8Ko (block 1)"
+#~ msgstr "&8Ko (block 1)"
 
 #, fuzzy
 #~ msgid "1&6K (blocks 1/2)"
-#~ msgstr "16Ko (block 1/2)"
+#~ msgstr "1&6Ko (blocks 1/2)"
 
 #, fuzzy
 #~ msgid "2&4K (blocks 1/2/3)"
-#~ msgstr "24Ko (block 1/2/3)"
+#~ msgstr "2&4Ko (blocks 1/2/3)"
 
 #, fuzzy
 #~ msgid "&Full (blocks 0/1/2/3/5)"
-#~ msgstr "Tous (blocks 0/1/2/3/5)"
+#~ msgstr "&Tous (blocks 0/1/2/3/5)"
 
 #, fuzzy
 #~ msgid "&custom"
-#~ msgstr "Charger un fichier..."
+#~ msgstr "&Personnalisé"
 
 #, fuzzy
 #~ msgid "Block &0"
-#~ msgstr "3Ko (block 0)"
+#~ msgstr "Block &0"
 
 #, fuzzy
 #~ msgid "Block &1"
-#~ msgstr "8Ko (block 1)"
+#~ msgstr "Block &1"
+
+#~ msgid "Block &2"
+#~ msgstr "Block &2"
+
+#~ msgid "Block &3"
+#~ msgstr "Block &3"
+
+#~ msgid "Block &5"
+#~ msgstr "Block &5"
 
 #, fuzzy
 #~ msgid "Attach 4/8/16KB cartridge image at $2000"
@@ -7104,22 +7482,22 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #, fuzzy
 #~ msgid "Sprite Collisions"
-#~ msgstr "*Collisions sprite-sprite"
+#~ msgstr "Collisions de Sprites"
 
 #, fuzzy
 #~ msgid "Sprite-&sprite collisions"
-#~ msgstr "*Collisions sprite-sprite"
+#~ msgstr "Collisions sprite-sprite"
 
 #, fuzzy
 #~ msgid "Sprite-background &collisions"
-#~ msgstr "*Collisions sprite-arrière-plan"
+#~ msgstr "Collisions sprite-arrière-plan"
 
 #, fuzzy
 #~ msgid "New Luminances"
-#~ msgstr "*Nouvelles luminescences"
+#~ msgstr "Nouvelles luminescences"
 
 #~ msgid "Specify name of second RS232 device (/dev/ttyS1)"
-#~ msgstr "Spécifiez le nom du 2e port RS232 (/dev/ttyS0)"
+#~ msgstr "Spécifiez le nom du 2e port RS232 (/dev/ttyS1)"
 
 #~ msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 #~ msgstr ""
