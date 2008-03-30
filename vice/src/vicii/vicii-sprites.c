@@ -295,7 +295,6 @@ const vic_ii_sprites_fetch_t vic_ii_sprites_fetch_table[256][4] =
   /* $FF */ { { 0, 19, 0, 7 },  { -1, -1 } }
 };
 
-
 
 const int vic_ii_sprites_crunch_table[64] =
 {
@@ -323,7 +322,6 @@ const int vic_ii_sprites_crunch_table[64] =
   0
 };
 
-
 
 /* Each byte in this array is a bit mask representing the sprites that
    have a pixel turned on in that position.  This is used for sprite-sprite
@@ -331,28 +329,14 @@ const int vic_ii_sprites_crunch_table[64] =
 static BYTE sprline[VIC_II_SCREEN_WIDTH + 2 * VIC_II_MAX_SPRITE_WIDTH];
 
 /* Sprite tables.  */
-#ifdef AVOID_STATIC_ARRAYS
-static DWORD *sprite_doubling_table;
-static BYTE *mcsprtable;
-#else
 static DWORD sprite_doubling_table[65536];
 static BYTE mcsprtable[256];
-#endif
 
-
 
 static void
 init_drawing_tables (void)
 {
   unsigned int i, lmsk, wmsk;
-
-#ifdef AVOID_STATIC_ARRAYS
-  if (sprite_doubling_table == NULL)
-    sprite_doubling_table = xmalloc (sizeof (*sprite_doubling_table)
-                                     * 65536);
-  if (mcsprtable == NULL)
-    mcsprtable = xmalloc (sizeof (*mcsprtable) * 256);
-#endif
 
   for (i = 0; i <= 0xff; i++)
     mcsprtable[i] = ((i & 0xc0 ? 0xc0 : 0) | (i & 0x30 ? 0x30 : 0)
@@ -366,8 +350,6 @@ init_drawing_tables (void)
           sprite_doubling_table[i] |= lmsk;
     }
 }
-
-
 
 /* Sprite drawing macros.  */
 
@@ -446,7 +428,6 @@ init_drawing_tables (void)
   _SPRITE_MASK (raster, msk, gfxmsk, size, sprite_bit, imgptr, collmskptr, \
                 color, collmsk_return, SPRITE_PIXEL_2x)
 
-
 /* Multicolor sprites */
 
 #define _MCSPRITE_MASK(raster, mcmsk, gfxmsk, size, sprite_bit, imgptr,   \
@@ -543,7 +524,6 @@ init_drawing_tables (void)
                          collmskptr, pixel_table, collmsk_return,         \
                          SPRITE_PIXEL_2x)
 
-
 
 /* Draw one hires sprite.  */
 inline static void 
@@ -584,11 +564,15 @@ draw_hires_sprite (PIXEL * line_ptr,
           if (in_background)
             {
               if (double_size)
-                SPRITE_MASK_2x (&vic_ii.raster, sprmsk, collmsk, 32, sbit, ptr, sptr,
-                        vic_ii.raster.sprite_status->sprites[n].color, cmsk);
+                SPRITE_MASK_2x (&vic_ii.raster, sprmsk, collmsk, 32, sbit,
+                                ptr, sptr,
+                                vic_ii.raster.sprite_status->sprites[n].color,
+                                cmsk);
               else
-                SPRITE_MASK (&vic_ii.raster, sprmsk, collmsk, 32, sbit, ptr, sptr,
-                        vic_ii.raster.sprite_status->sprites[n].color, cmsk);
+                SPRITE_MASK (&vic_ii.raster, sprmsk, collmsk, 32, sbit,
+                             ptr, sptr,
+                             vic_ii.raster.sprite_status->sprites[n].color,
+                             cmsk);
             }
           else
             {
@@ -648,11 +632,15 @@ draw_hires_sprite (PIXEL * line_ptr,
           if (in_background)
             {
               if (double_size)
-                SPRITE_MASK_2x (&vic_ii.raster, sprmsk, collmsk, 24, sbit, ptr, sptr,
-                        vic_ii.raster.sprite_status->sprites[n].color, cmsk);
+                SPRITE_MASK_2x (&vic_ii.raster, sprmsk, collmsk, 24, sbit,
+                                ptr, sptr,
+                                vic_ii.raster.sprite_status->sprites[n].color,
+                                cmsk);
               else
-                SPRITE_MASK (&vic_ii.raster, sprmsk, collmsk, 24, sbit, ptr, sptr,
-                        vic_ii.raster.sprite_status->sprites[n].color, cmsk);
+                SPRITE_MASK (&vic_ii.raster, sprmsk, collmsk, 24, sbit,
+                             ptr, sptr,
+                             vic_ii.raster.sprite_status->sprites[n].color,
+                             cmsk);
             }
           else
             {
@@ -664,7 +652,8 @@ draw_hires_sprite (PIXEL * line_ptr,
                         vic_ii.raster.sprite_status->sprites[n].color, cmsk);
             }
           if (cmsk)
-            vic_ii.raster.sprite_status->sprite_sprite_collisions |= cmsk | sbit;
+            vic_ii.raster.sprite_status->sprite_sprite_collisions |= cmsk
+                                                                     | sbit;
         }
     }
 }
@@ -734,11 +723,11 @@ draw_mc_sprite (PIXEL * line_ptr,
           if (in_background)
             {
               if (double_size)
-                MCSPRITE_DOUBLE_MASK_2x (&vic_ii.raster, mcsprmsk, collmsk, 16, sbit,
-                                         ptr + 64, sptr + 32, c, cmsk);
+                MCSPRITE_DOUBLE_MASK_2x (&vic_ii.raster, mcsprmsk, collmsk, 16,
+                                         sbit, ptr + 64, sptr + 32, c, cmsk);
               else
-                MCSPRITE_DOUBLE_MASK (&vic_ii.raster, mcsprmsk, collmsk, 16, sbit,
-                                      ptr + 32, sptr + 32, c, cmsk);
+                MCSPRITE_DOUBLE_MASK (&vic_ii.raster, mcsprmsk, collmsk, 16,
+                                      sbit, ptr + 32, sptr + 32, c, cmsk);
             }
           else
             {
@@ -763,11 +752,11 @@ draw_mc_sprite (PIXEL * line_ptr,
           if (in_background)
             {
               if (double_size)
-                MCSPRITE_MASK_2x (&vic_ii.raster, mcsprmsk, collmsk, 24, sbit, ptr,
-                                  sptr, c, cmsk);
+                MCSPRITE_MASK_2x (&vic_ii.raster, mcsprmsk, collmsk, 24,
+                                  sbit, ptr, sptr, c, cmsk);
               else
-                MCSPRITE_MASK (&vic_ii.raster, mcsprmsk, collmsk, 24, sbit, ptr,
-                               sptr, c, cmsk);
+                MCSPRITE_MASK (&vic_ii.raster, mcsprmsk, collmsk, 24,
+                               sbit, ptr, sptr, c, cmsk);
             }
           else
             {
@@ -846,7 +835,6 @@ draw_all_sprites_2x (PIXEL *line_ptr, BYTE *gfx_msk_ptr)
 }
 #endif /* VIC_II_NEED_2X */
 
-
 
 void
 vic_ii_sprites_init (void)
@@ -871,7 +859,6 @@ vic_ii_sprites_set_double_size (int enabled)
                                             draw_all_sprites);
 }
 
-
 
 /* Set the X coordinate of the `num'th sprite to `new_x'; the current
    vic_ii.raster X position is `raster_x'.  */

@@ -222,13 +222,6 @@ void drive_cpu_set_sync_factor(drive_context_t *drv, unsigned int sync_factor)
 {
     unsigned long i;
 
-#ifdef AVOID_STATIC_ARRAYS
-    if (!drv->cpud.clk_conv_table)
-    {
-        drv->cpud.clk_conv_table = xmalloc(sizeof(*(drv->cpud.clk_conv_table))*(MAX_TICKS + 1));
-        drv->cpud.clk_mod_table = xmalloc(sizeof(*(drv->cpud.clk_mod_table))*(MAX_TICKS + 1));
-    }
-#endif
     for (i = 0; i <= MAX_TICKS; i++) {
         unsigned long tmp;
 
@@ -571,7 +564,7 @@ static void drive_jam(drive_context_t *drv)
         break;
       case UI_JAM_MONITOR:
         caller_space = drv->cpu.monspace;
-        mon(reg_pc);
+        mon((ADDRESS)(reg_pc));
         break;
       default:
         CLK++;

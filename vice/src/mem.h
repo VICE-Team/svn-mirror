@@ -41,17 +41,9 @@ extern store_func_ptr_t *_mem_write_tab_ptr;
 extern BYTE **_mem_read_base_tab_ptr;
 extern int *mem_read_limit_tab_ptr;
 
-#ifdef AVOID_STATIC_ARRAYS
-extern BYTE *ram;
-#else
 extern BYTE ram[];
-#endif
 extern int ram_size;
-#ifdef AVOID_STATIC_ARRAYS
-extern BYTE *chargen_rom;
-#else
 extern BYTE chargen_rom[];
-#endif
 extern BYTE *page_zero;
 extern BYTE *page_one;
 
