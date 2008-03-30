@@ -31,6 +31,12 @@
 
 struct disk_image_s;
 
+typedef struct realimage_s {
+    unsigned int unit;
+    unsigned int drivetype;
+} realimage_t;
+
+
 extern void realimage_init(void);
 
 extern int realimage_open(struct disk_image_s *image);

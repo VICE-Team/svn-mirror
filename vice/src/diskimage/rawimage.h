@@ -31,6 +31,12 @@
 
 struct disk_image_s;
 
+typedef struct rawimage_s {
+    char *name;
+    unsigned int drivetype;
+} rawimage_t;
+
+
 extern void rawimage_init(void);
 extern int rawimage_resources_init(void);
 extern int rawimage_cmdline_options_init(void);
