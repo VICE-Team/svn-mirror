@@ -94,7 +94,7 @@ BYTE REGPARM1 io2_read(WORD addr)
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io2(addr);
     if (emu_id_enabled && addr >= 0xdfa0)
-        return emuid_read(addr - 0xdfa0);
+        return emuid_read((WORD)(addr - 0xdfa0));
     if (reu_enabled)
         return reu_read((WORD)(addr & 0x0f));
 

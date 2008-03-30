@@ -38,7 +38,7 @@
 
 extern int fsdevice_cmdline_options_init(void);
 extern int fsdevice_resources_init(void);
-extern int fsdevice_resources_shutdown(void);
+extern void fsdevice_resources_shutdown(void);
 
 extern int fsdevice_attach(unsigned int device, const char *name);
 extern void fsdevice_set_directory(char *filename, unsigned int unit);

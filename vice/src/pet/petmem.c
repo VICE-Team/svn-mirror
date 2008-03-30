@@ -370,7 +370,7 @@ BYTE REGPARM1 read_io(WORD addr)
     BYTE v1, v2, v3, v4;
 
     if (emu_id_enabled && addr >= 0xe8a0)
-        return emuid_read(addr - 0xe8a0);
+        return emuid_read((WORD)(addr - 0xe8a0));
 
     switch (addr & 0xf0) {
       case 0x10:                /* PIA1 */
@@ -782,7 +782,7 @@ static BYTE peek_bank_io(WORD addr)
     BYTE v1, v2, v3, v4;
 
     if (emu_id_enabled && addr >= 0xe8a0)
-        return emuid_read(addr - 0xe8a0);
+        return emuid_read((WORD)(addr - 0xe8a0));
 
     switch (addr & 0xf0) {
       case 0x10:                /* PIA1 */

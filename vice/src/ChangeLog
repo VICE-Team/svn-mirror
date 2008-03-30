@@ -1,4 +1,48 @@
-2003-05-25  Andreas Boose  <viceteam@t-online.de>
+2003-05-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.48.
+
+	* maincpu.h, monitor.h, monitor/asm6502.c, monitor/asmz80.c,
+	fsdevice/fsdevice-flush.c, diskimage/fsimage-check.c, sound.h,
+	serial/serial.c, tape/t64.c, tape/tape-snapshot.c, log.h.
+	video/video-resources.c, vicii/vicii-fetch.c, c64/cart/crt.c,
+	arch/unix/x11/xaw/x11video.c, datasette.c, plus4/ted-fetch.c,
+	vic20/vic20iec.c, serial/iecbus.c, serial/serial-realdevice.c,
+	printerdrv/interface-serial.c, monitor/mon_util.h, uimon.h,
+	arch/unix/uiperipheral.c, arch/unix/uiprinter.c, attach.c,
+	zfile.c, drive/iec/iecrom.c,drive/iec/jobcode1581.c,
+	drive/viad.h, drive/tcbm/tcbm.c, drive/tcbm/tpid.h,
+	drive/drive-cmdline-options.c, drive/drive-snapshot.c,
+	drive/drivemem.c, vdrive/vdrive-internal.c, diskimage.h,
+	vdrive/vdrive-rel.c, fsdevice/fsdevice-close.c,
+	diskimage/fsimage-probe.c, serial/serial-iec-lib.c,
+	serial/serial-iec.c, imagecontents/tapecontents.c,
+	tape/tapeimage.c, video/render1x1pal.c, video/render2x2pal.c,
+	video/renderyuv.c, raster/raster-resources.c, raster/raster.c,
+	vicii/vicii-timing.c, gfxoutputdrv/bmpdrv.c, sid/fastsid.c,
+	gfxoutputdrv/pngdrv.c, printerdrv/drv-mps803.c, sid/sid.c,
+	printerdrv/printer.c, rs232drv/rs232drv.c, sid/resid.cc,
+	monitor/mon_assemble6502.c, monitor/mon_assemblez80.c,
+	monitor/mon_drive.c, monitor/mon_util.c, c64/cart/c64cart.c,
+	c64/cart/ide64.c, c64/cart/supergames.c, c64/c64datasette.c,
+	c64/c64-cmdline-options.c, c64/c64-resources.c, c64/c64mem.c,
+	c64/c64memlimit.c, c64/c64rsuser.c, c64/psid.c, c64/reu.c,
+	c128/c128-cmdline-options.c, c128/c128-resources.c,
+	c128/c128-snapshot.c, c128/c128.c, maincpu.c, c128/c128iec.c,
+	c128/c128mem.c, c128/c128mem.h, c128/c128memlimit.c,
+	c128/daa.c, c128/functionrom.c, vic20/vic-color.c,
+	vic20/vic20-cmdline-options.c, vic20/vic20-resources.c,
+	vic20/vic20-snapshot.c, vic20/vic20.c, vic20/vic20datasette.c,
+	vic20/vic20iec.c, vic20/vic20mem.c, vic20/vic20rsuser.c:
+	Fixed ICC warnings.
+
+	* drive/drive-snapshot.c (drive_snapshot_read_image_module):
+	Use `archdep_tmpnam()'.
+
+	* arch/win32/video.c, c64/c64io.c, c128/c128io.c,
+	pet/petmem.c, vic20/vic20mem.c: Fixed MSVC warnings.
+
+2003-05-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.47.
 

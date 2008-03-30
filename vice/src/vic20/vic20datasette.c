@@ -26,10 +26,12 @@
 
 #include "vice.h"
 
+#include "datasette.h"
 #include "via.h"
 #include "vic20via.h"
 
-void datasette_trigger_flux_change(void)
+
+void datasette_trigger_flux_change(unsigned int on)
 {
     via1_signal(VIA_SIG_CA1, VIA_SIG_FALL);
 }

@@ -34,6 +34,7 @@
 #include "attach.h"
 #include "diskconstants.h"
 #include "diskimage.h"
+#include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivemem.h"
@@ -459,7 +460,7 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
     snapshot_module_t *m;
     char snap_module_name[10];
     WORD word;
-    char *p, filename[L_tmpnam];
+    char *filename;
     char request_str[100];
     int len = 0;
     FILE *fp;
@@ -505,30 +506,40 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
     }
 
     /* create temporary file of the right size */
-    p = tmpnam(filename);
-    if (!p) {
+    filename = archdep_tmpnam();
+
+    if (filename == NULL) {
         log_error(drive_snapshot_log, "Could not create temporary filename");
         snapshot_module_close(m);
         return -1;
     }
+
     fp = fopen(filename, MODE_WRITE);
-    if (!fp) {
+
+    if (fp == NULL) {
         log_error(drive_snapshot_log, "Could not create temporary file");
         log_error(drive_snapshot_log, "filename=%s", filename);
+        lib_free(filename);
         snapshot_module_close(m);
         return -1;
     }
+
     /* blow up the file to needed size */
     if (fseek(fp, len - 1, SEEK_SET) < 0
         || (fputc(0, fp) == EOF)) {
         log_error(drive_snapshot_log, "Could not create large temporary file");
         fclose(fp);
+        lib_free(filename);
         snapshot_module_close(m);
         return -1;
     }
+
     fclose(fp);
+    lib_free(filename);
+
     if (file_system_attach_disk(dnr + 8, filename) < 0) {
         log_error(drive_snapshot_log, "Invalid Disk Image");
+        lib_free(filename);
         snapshot_module_close(m);
         return -1;
     }

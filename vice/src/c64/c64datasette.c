@@ -28,8 +28,10 @@
 
 #include "c64cia.h"
 #include "c64mem.h"
+#include "datasette.h"
 
-void datasette_trigger_flux_change(void)
+
+void datasette_trigger_flux_change(unsigned int on)
 {
     cia1_set_flag();
 }

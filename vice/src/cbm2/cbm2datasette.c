@@ -28,8 +28,10 @@
 
 #include "cbm2cia.h"
 #include "cbm2tpi.h"
+#include "datasette.h"
 
-void datasette_trigger_flux_change(void)
+
+void datasette_trigger_flux_change(unsigned int on)
 {
     cia1_set_flag();
 }

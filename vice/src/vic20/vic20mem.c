@@ -86,16 +86,16 @@ BYTE mem_cartrom[0x10000];
 BYTE mem_chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
 
 /* Memory read and write tables.  */
-read_func_ptr_t _mem_read_tab[0x101];
-store_func_ptr_t _mem_write_tab[0x101];
-BYTE *_mem_read_base_tab[0x101];
-int mem_read_limit_tab[0x101];
+static read_func_ptr_t _mem_read_tab[0x101];
+static store_func_ptr_t _mem_write_tab[0x101];
+static BYTE *_mem_read_base_tab[0x101];
+static int mem_read_limit_tab[0x101];
 
 /* These ones are used when watchpoints are turned on.  */
-read_func_ptr_t _mem_read_tab_watch[0x101];
-store_func_ptr_t _mem_write_tab_watch[0x101];
-read_func_ptr_t _mem_read_tab_nowatch[0x101];
-store_func_ptr_t _mem_write_tab_nowatch[0x101];
+static read_func_ptr_t _mem_read_tab_watch[0x101];
+static store_func_ptr_t _mem_write_tab_watch[0x101];
+static read_func_ptr_t _mem_read_tab_nowatch[0x101];
+static store_func_ptr_t _mem_write_tab_nowatch[0x101];
 
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
@@ -112,17 +112,17 @@ static void REGPARM2 store_wrap(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 basic_read(WORD addr)
+static BYTE REGPARM1 basic_read(WORD addr)
 {
     return mem_basic_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 kernal_read(WORD addr)
+static BYTE REGPARM1 kernal_read(WORD addr)
 {
     return mem_kernal_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 chargen_read(WORD addr)
+static BYTE REGPARM1 chargen_read(WORD addr)
 {
     return mem_chargen_rom[0x400 + (addr & 0xfff)];
 }
@@ -153,12 +153,12 @@ static BYTE REGPARM1 read_cartrom(WORD addr)
 }
 
 /* FIXME: Using random values for high nibble instead of VIC fetches */
-BYTE REGPARM1 colorram_read(WORD addr)
+static BYTE REGPARM1 colorram_read(WORD addr)
 {
     return mem_ram[addr] | (rand() & 0xf0);
 }
 
-void REGPARM2 colorram_store(WORD addr, BYTE value)
+static void REGPARM2 colorram_store(WORD addr, BYTE value)
 {
     mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value & 0xf;
 }
@@ -196,7 +196,7 @@ void REGPARM2 rom_store(WORD addr, BYTE value)
     }
 }
 
-void REGPARM2 via_store(WORD addr, BYTE value)
+static void REGPARM2 via_store(WORD addr, BYTE value)
 {
     if (addr & 0x10)            /* $911x (VIA2) */
         via2_store(addr, value);
@@ -204,7 +204,7 @@ void REGPARM2 via_store(WORD addr, BYTE value)
         via1_store(addr, value);
 }
 
-BYTE REGPARM1 via_read(WORD addr)
+static BYTE REGPARM1 via_read(WORD addr)
 {
     BYTE ret = 0xff;
 
@@ -221,7 +221,7 @@ static BYTE REGPARM1 read_emuid(WORD addr)
     addr &= 0xff;
 
     if (addr >= 0xa0)
-        return emuid_read(addr - 0xa0);
+        return emuid_read((WORD)(addr - 0xa0));
 
     return 0xff;
 }
@@ -350,7 +350,7 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
     /* We do not need MMU support.  */
 }
 
-int vic20_mem_enable_rom_block(int num)
+static int vic20_mem_enable_rom_block(int num)
 {
     if (num == 1 || num == 2 || num == 3 || num == 5) {
         set_mem(num * 0x20, num * 0x20 + 0x1f,

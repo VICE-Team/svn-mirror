@@ -652,9 +652,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
                                     unsigned int *height, int mapped,
                                     const struct palette_s *palette)
 {
-    HRESULT result;
+/*    HRESULT result;*/
     HRESULT ddresult;
-    DDSURFACEDESC desc;
+/*    DDSURFACEDESC desc;*/
     DDSURFACEDESC desc2;
     GUID *device_guid;
 
@@ -748,17 +748,17 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
     /* For now, the back surface is always NULL because we have not
        implemented the full-screen mode yet.  */
-	canvas->render_surface = NULL;
-	canvas->primary_surface = NULL;
+    canvas->render_surface = NULL;
+    canvas->primary_surface = NULL;
     canvas->back_surface = NULL;
-	canvas->temporary_surface = NULL;
+    canvas->temporary_surface = NULL;
 
 
     memset(&desc2, 0, sizeof(desc2));
     desc2.dwSize = sizeof(desc2);
     ddresult = IDirectDraw2_GetDisplayMode(canvas->dd_object2, &desc2);
 
-	create_single_surface(canvas, desc2.dwWidth, desc2.dwHeight);
+    create_single_surface(canvas, desc2.dwWidth, desc2.dwHeight);
 
     /* Create the temporary surface.  */
  /*   memset(&desc, 0, sizeof(desc));

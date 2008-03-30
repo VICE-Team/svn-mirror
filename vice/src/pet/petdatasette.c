@@ -26,9 +26,11 @@
 
 #include "vice.h"
 
+#include "datasette.h"
 #include "petpia.h"
 
-void datasette_trigger_flux_change(void)
+
+void datasette_trigger_flux_change(unsigned int on)
 {
     pia1_signal(PIA_SIG_CA1, PIA_SIG_FALL);
 }
