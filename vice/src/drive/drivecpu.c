@@ -47,8 +47,6 @@
 #include "machine.h"
 #include "mem.h"
 #include "mon.h"
-#include "mon_breakpoint.h"
-#include "mon_disassemble.h"
 #include "riotd.h"
 #include "snapshot.h"
 #include "types.h"

@@ -38,8 +38,6 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
-#include "mon_breakpoint.h"
-#include "mon_disassemble.h"
 #include "mos6510.h"
 #include "snapshot.h"
 #include "traps.h"
@@ -418,7 +416,7 @@ void maincpu_reset(void)
 unsigned int reg_pc;
 #endif
 
-void mainloop(ADDRESS start_address)
+void maincpu_mainloop(void)
 {
     /* Notice that using a struct for these would make it a lot slower (at
        least, on gcc 2.7.2.x).  */

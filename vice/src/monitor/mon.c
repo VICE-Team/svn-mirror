@@ -60,6 +60,8 @@
 #include "mon_breakpoint.h"
 #include "mon_disassemble.h"
 #include "mon_parse.h"
+#include "mon_register.h"
+#include "montypes.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
@@ -353,6 +355,10 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
 
 /* *** REGISTER AND MEMORY OPERATIONS *** */
 
+mon_reg_list_t *mon_register_list_get(int mem)
+{
+    return monitor_cpu_type.mon_register_list_get(mem);
+}
 
 bool check_drive_emu_level_ok(int drive_num)
 {
@@ -408,6 +414,8 @@ void mon_cpu_type(const char *cpu_type)
 
     memcpy(&monitor_cpu_type, &(monitor_cpu_type_list_ptr->monitor_cpu_type),
            sizeof(monitor_cpu_type_t));
+
+    uimon_notify_change();
 }
 
 void mon_bank(MEMSPACE mem, const char *bankname)
@@ -1534,7 +1542,7 @@ bool watchpoints_check_stores(MEMSPACE mem)
 /* *** CPU INTERFACES *** */
 
 
-bool mon_force_import(MEMSPACE mem)
+int mon_force_import(MEMSPACE mem)
 {
     bool result;
 

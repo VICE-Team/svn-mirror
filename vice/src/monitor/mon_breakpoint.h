@@ -27,14 +27,7 @@
 #ifndef _MON_BREAKPOINT_H
 #define _MON_BREAKPOINT_H
 
-#include "mon.h"
-
-#define check_breakpoints(mem, addr) \
-    mon_breakpoint_check_checkpoint(mem, addr, breakpoints[mem])
-
-struct break_list_s;
-
-extern struct break_list_s *breakpoints[NUM_MEMSPACES];
+#include "montypes.h"
 
 extern void mon_breakpoint_init(void);
 
@@ -45,8 +38,6 @@ extern void mon_breakpoint_delete_checkpoint(int brknum);
 extern void mon_breakpoint_set_checkpoint_condition(int brk_num,
                                                     struct cond_node_s *cnode);
 extern void mon_breakpoint_set_checkpoint_command(int brk_num, char *cmd);
-extern int mon_breakpoint_check_checkpoint(MEMSPACE mem, ADDRESS addr,
-                                           struct break_list_s *list);
 extern int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
                                          bool is_trace, bool is_load,
                                          bool is_store, bool is_temp);
