@@ -26,7 +26,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <gnome.h>
 
 #include "lib.h"
 #include "uiedisk.h"
@@ -71,7 +70,7 @@ static GtkWidget *build_empty_disk_dialog(void)
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
 
     gtk_box_pack_start(GTK_BOX(box), fileentry,
-		       TRUE, TRUE, GNOME_PAD);
+		       TRUE, TRUE, 0);
     gtk_widget_show(fileentry);
 
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
@@ -133,7 +132,7 @@ static GtkWidget *build_empty_disk_dialog(void)
     gtk_widget_show(box);
 
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), frame, 
-		       FALSE, FALSE, GNOME_PAD);
+		       FALSE, FALSE, 0);
     gtk_widget_show(frame);
     gtk_widget_show(d);
     

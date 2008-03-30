@@ -27,7 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <gnome.h>
+#include <gtk/gtkfilechooser.h>
 
 #include "uifileentry.h"
 

@@ -30,7 +30,6 @@
 
 #include <stdlib.h>
 
-#include <gnome.h>
 #include <gdk/gdkx.h>
 #ifdef ENABLE_NLS
 #include <locale.h>

@@ -26,7 +26,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <gnome.h>
 
 #include "uisnapshot.h"
 #include "ui.h"
@@ -53,7 +52,7 @@ static GtkWidget *build_snapshot_dialog(void)
 				GTK_FILE_CHOOSER_ACTION_SAVE);
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
     
-    gtk_box_pack_start(GTK_BOX(box), fileentry, TRUE, TRUE, GNOME_PAD);
+    gtk_box_pack_start(GTK_BOX(box), fileentry, TRUE, TRUE, 0);
     gtk_widget_show(fileentry);
     
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
@@ -76,7 +75,7 @@ static GtkWidget *build_snapshot_dialog(void)
     gtk_widget_show(box);
     
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), tmp, TRUE, TRUE, 
-		       GNOME_PAD);
+		       0);
     gtk_widget_show(tmp);
     
     return d;

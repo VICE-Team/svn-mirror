@@ -44,7 +44,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include <gnome.h>
 #include <gdk/gdkx.h>
 #include <pango/pango.h>
 #ifdef ENABLE_NLS
@@ -2043,7 +2042,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     vsprintf(str, format, ap);
     message = gtk_label_new(str);
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(jam_dialog)->vbox),
-		       message, TRUE, TRUE, GNOME_PAD);
+		       message, TRUE, TRUE, 0);
     gtk_widget_show(message);
     gtk_dialog_set_default_response(GTK_DIALOG(jam_dialog), 0);
 
@@ -2423,11 +2422,11 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
     
     label = gtk_label_new(prompt);
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox),
-		       label, FALSE, FALSE, GNOME_PAD);
+		       label, FALSE, FALSE, 0);
     gtk_widget_show(label);
 
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox),
-		       entry, FALSE, FALSE, GNOME_PAD);
+		       entry, FALSE, FALSE, 0);
     gtk_entry_set_text(
 	GTK_ENTRY(GTK_ENTRY(entry)), buf);
     gtk_widget_show(entry);
@@ -2803,7 +2802,7 @@ static GtkWidget* build_show_text(const String text, int width, int height)
     gtk_container_add(GTK_CONTAINER(scrollw), textw);
     gtk_widget_show(textw);
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(show_text)->vbox),
-		       scrollw, TRUE, TRUE, GNOME_PAD);
+		       scrollw, TRUE, TRUE, 0);
     gtk_widget_show(scrollw);
     g_free(utf8_text);
     return show_text;

@@ -32,7 +32,6 @@
 #include <X11/StringDefs.h>
 #include <X11/keysym.h>
 
-#include <gnome.h>
 #include <gtk/gtk.h>
 
 #include "vice.h"

@@ -26,7 +26,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <gnome.h>
 
 #include "ui.h"
 #include "video.h"

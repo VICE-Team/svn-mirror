@@ -26,7 +26,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <gnome.h>
 
 #ifdef HAVE_NETWORK
 #include "ui.h"
@@ -238,7 +237,7 @@ build_netplay_dialog(void)
     
     /* entry port */
     np_port = entry = gtk_entry_new();
-    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, GNOME_PAD);
+    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 0);
     gtk_widget_set_size_request(entry, 50, -1);
     gtk_widget_show(entry);
     
@@ -256,7 +255,7 @@ build_netplay_dialog(void)
     
     /* entry IP */
     np_server = entry = gtk_entry_new();
-    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, GNOME_PAD);
+    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 0);
     gtk_widget_set_size_request(entry, 100, -1);
     gtk_widget_show(entry);
     
@@ -315,7 +314,7 @@ build_netplay_dialog(void)
     gtk_container_add(GTK_CONTAINER(f), h);
     gtk_widget_show(h);
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), f, TRUE, TRUE,
-		       GNOME_PAD);
+		       0);
     gtk_widget_show(f);
 
     dcb = rb = gtk_button_new_with_label(_("Disconnect"));

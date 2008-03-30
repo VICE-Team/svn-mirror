@@ -30,7 +30,6 @@
 #include "info.h"
 #include "uiarch.h"
 
-#include <gnome.h>
 GtkWidget *about;
 
 static void license_cb(GtkWidget *w, GdkEvent *event, gpointer data)
