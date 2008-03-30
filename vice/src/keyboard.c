@@ -38,6 +38,7 @@
 
 #include "alarm.h"
 #include "archdep.h"
+#include "event.h"
 #include "joystick.h"
 #include "kbd.h"
 #include "keyboard.h"
@@ -62,16 +63,13 @@ static int latch_rev_keyarr[KBD_COLS];
 
 static alarm_t keyboard_alarm;
 
-static log_t keyboard_log = LOG_ERR;
+static log_t keyboard_log = LOG_DEFAULT;
 
 static keyboard_machine_func_t keyboard_machine_func = NULL;
 
 
 static void keyboard_latch_matrix(CLOCK offset)
 {
-    alarm_unset(&keyboard_alarm);
-    alarm_context_update_next_pending(keyboard_alarm.context);
-
     memcpy(keyarr, latch_keyarr, sizeof(keyarr));
     memcpy(rev_keyarr, latch_rev_keyarr, sizeof(rev_keyarr));
 
@@ -79,12 +77,10 @@ static void keyboard_latch_matrix(CLOCK offset)
         keyboard_machine_func(keyarr);
 }
 
-/*-----------------------------------------------------------------------*/
-
-void keyboard_set_keyarr(int row, int col, int value)
+static int keyboard_set_latch_keyarr(int row, int col, int value)
 {
     if (row < 0 || col < 0)
-        return;
+        return -1;
     if (value) {
         latch_keyarr[row] |= 1 << col;
         latch_rev_keyarr[col] |= 1 << row;
@@ -92,23 +88,58 @@ void keyboard_set_keyarr(int row, int col, int value)
         latch_keyarr[row] &= ~(1 << col);
         latch_rev_keyarr[col] &= ~(1 << row);
     }
+
+    return 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+static void keyboard_event_record(void)
+{
+    event_record(EVENT_KEYBOARD_MATRIX, (void *)keyarr, sizeof(keyarr));
+}
+
+void keyboard_event_playback(CLOCK offset, void *data)
+{
+    int row, col;
+
+    memcpy(latch_keyarr, data, sizeof(keyarr));
+
+    for (row = 0; row < KBD_ROWS; row++) {
+        for (col = 0; col < KBD_COLS; col++) {
+            keyboard_set_latch_keyarr(row, col, latch_keyarr[row] & (1 << col));
+        }
+    }
+
+    keyboard_latch_matrix(offset);
+}
+
+static void keyboard_latch_handler(CLOCK offset)
+{
+    alarm_unset(&keyboard_alarm);
+    alarm_context_update_next_pending(keyboard_alarm.context);
+
+    keyboard_latch_matrix(offset);
+
+    keyboard_event_record();
+}
+
+/*-----------------------------------------------------------------------*/
+
+void keyboard_set_keyarr(int row, int col, int value)
+{
+    if (keyboard_set_latch_keyarr(row, col, value) < 0)
+        return;
 
     alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
 }
 
 void keyboard_set_keyarr_and_latch(int row, int col, int value)
 {
-    if (row < 0 || col < 0)
+    if (keyboard_set_latch_keyarr(row, col, value) < 0)
         return;
-    if (value) {
-        latch_keyarr[row] |= 1 << col;
-        latch_rev_keyarr[col] |= 1 << row;
-    } else {
-        latch_keyarr[row] &= ~(1 << col);
-        latch_rev_keyarr[col] &= ~(1 << row);
-    }
-    memcpy(keyarr, latch_keyarr, sizeof(keyarr));
-    memcpy(rev_keyarr, latch_rev_keyarr, sizeof(rev_keyarr));
+
+    keyboard_latch_matrix(0);
 }
 
 void keyboard_clear_keymatrix(void)
@@ -773,7 +804,7 @@ void keyboard_init(void)
     keyboard_log = log_open("Keyboard");
 
     alarm_init(&keyboard_alarm, maincpu_alarm_context,
-               "Keyboard", keyboard_latch_matrix);
+               "Keyboard", keyboard_latch_handler);
 
 #ifdef COMMON_KBD
     for (i = 0; i < 2; i++)
