@@ -141,6 +141,7 @@
        reg_pc = (addr);                      \
        bank_base = mem_read_base(reg_pc);    \
        bank_limit = mem_read_limit(reg_pc);  \
+       old_reg_pc = reg_pc;                  \
      } while (0)
 
 #else  /* !INSTRUCTION_FETCH_HACK */
@@ -415,6 +416,8 @@ void mainloop(ADDRESS start_address)
 #ifdef INSTRUCTION_FETCH_HACK
     BYTE *bank_base;
     int bank_limit;
+
+    mem_set_bank_pointer(&bank_base, &bank_limit);
 #endif
 
     reset();
