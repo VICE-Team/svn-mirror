@@ -21,6 +21,7 @@ libxawui_a_SOURCES = \
 	ui.c \
 	uiarch.h \
 	uicartridge.c \
+	uicolor.c \
 	uiedisk.c \
 	uihotkey.c \
 	uihotkey.h \
