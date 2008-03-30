@@ -162,8 +162,9 @@ static void vsid_create_menus(void)
   static int tunes = 0;
   int default_tune;
   int i;
-  char buf[20];
-  strcpy(buf, _("*Default Tune"));
+  char *buf;
+
+  buf = stralloc(_("*Default Tune"));
 
   /* Free previously allocated memory. */
   for (i = 0; i <= tunes; i++) {
@@ -185,8 +186,11 @@ static void vsid_create_menus(void)
     tune_menu[i].hotkey_keysym = i < 10 ? XK_0 + i : 0;
     tune_menu[i].hotkey_modifier =
       (ui_hotkey_modifier_t) i < 10 ? UI_HOTMOD_META : 0;
-    sprintf(buf, _("*Tune %d"), i + 1);
+    free(buf);
+    buf = xmsprintf(_("*Tune %d"), i + 1);
   }
+
+  free(buf);
 
   tune_menu[i].string =
     (ui_callback_data_t) NULL;
