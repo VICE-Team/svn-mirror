@@ -262,6 +262,9 @@ static void file_selector_display_path(const char *path,
     int i, xx;
 
     tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
+
+    tui_hline(x, y, 0xcd, width);
+
     for (i = strlen(path) - 1, xx = MIN(x + width - 1, x + i);
          i >= 0 && xx >= x;
          i--, xx--) {
