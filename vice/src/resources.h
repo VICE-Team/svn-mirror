@@ -2,7 +2,7 @@
  * resources.h - Resource handling for VICE.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -82,3 +82,4 @@ int resources_read_item_from_file(FILE *fp);
 void resources_set_defaults(void);
 
 #endif /* _RESOURCES_H */
+

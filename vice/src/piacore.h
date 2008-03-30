@@ -2,8 +2,8 @@
  * piacore.h -- PIA chip emulation.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,11 +25,12 @@
  *
  */
 
-#include "vice.h"
+#ifndef _PIACORE_H
+#define _PIACORE_H
 
-#include "types.h"
 #include "log.h"
 #include "snapshot.h"
+#include "types.h"
 
 #if defined(NO_INLINE)
 #define _PIA_FUNC       static
@@ -72,4 +73,5 @@ static int is_peek_access = 0;
 
 static log_t mypia_log = LOG_ERR;
 
+#endif
 

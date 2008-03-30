@@ -1,8 +1,8 @@
 /*
- * tape.h - (Guess what?) Tape unit emulation.
+ * tape.h - Tape unit emulation.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,9 +27,6 @@
 #ifndef _TAPE_H
 #define _TAPE_H
 
-#include <stdio.h>
-
-#include "types.h"
 #include "traps.h"
 
 extern int tape_detach_image(void);
@@ -44,3 +41,4 @@ extern void tape_receive_trap(void);
 extern char *tape_get_file_name(void);
 
 #endif /* ndef _TAPE_H */
+

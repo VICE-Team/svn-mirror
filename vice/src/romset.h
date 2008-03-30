@@ -2,7 +2,7 @@
  * romset.h - romset file handling
  *
  * Written by
- *  Andre Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,7 +34,8 @@ extern int romset_load_archive(const char *filename, int autostart);
 extern int romset_dump_archive(const char *filename);
 extern int romset_save_item(const char *filename, const char *romset_name);
 extern int romset_select_item(const char *romset_name);
-extern int romset_create_item(const char *romset_name, const char **resource_list);
+extern int romset_create_item(const char *romset_name,
+                              const char **resource_list);
 extern int romset_delete_item(const char *romset_name);
 extern void romset_clear_archive(void);
 extern int romset_get_number(void);

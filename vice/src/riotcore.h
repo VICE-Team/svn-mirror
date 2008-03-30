@@ -2,7 +2,7 @@
  * riotcore.h - Core functions for RIOT emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,8 +30,8 @@
 #include "clkguard.h"
 #include "interrupt.h"
 #include "log.h"
-#include "snapshot.h"
 #include "riot.h"
+#include "snapshot.h"
 
 #if defined(NO_INLINE)
 #define _RIOT_FUNC       static

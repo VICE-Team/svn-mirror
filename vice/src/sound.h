@@ -2,7 +2,7 @@
  * sound.h - General code for the sound interface
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -138,3 +138,4 @@ extern void sound_synthesize(SWORD *buffer, int length);
 #endif
 
 #endif /* !defined (_SOUND_H) */
+

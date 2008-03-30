@@ -2,7 +2,7 @@
  * tap.h - TAP file support.
  *
  * Written by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -64,8 +64,8 @@ typedef struct tap_s {
     int read_only;
 } tap_t;
 
-tap_t *tap_open(const char *name);
-int tap_close(tap_t *tap);
+extern tap_t *tap_open(const char *name);
+extern int tap_close(tap_t *tap);
 
 #endif
 

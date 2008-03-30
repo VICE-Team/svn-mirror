@@ -2,7 +2,7 @@
  * sysfile.h - Simple locator for VICE system files.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,9 +27,7 @@
 #ifndef _SYSFILE_H
 #define _SYSFILE_H
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
 
 #include "types.h"
 
@@ -42,3 +40,4 @@ extern int sysfile_load(const char *name, BYTE *dest,
                         int minsize, int maxsize);
 
 #endif /* _SYSFILE_H */
+

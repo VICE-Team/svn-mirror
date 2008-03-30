@@ -3,7 +3,7 @@
  * pruser.h - Printer device for userport.
  *
  * Written by
- *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * Patches by
  *
@@ -30,12 +30,12 @@
 #ifndef _PRUSER_H_
 #define _PRUSER_H_
 
-int pruser_init_resources(void);
-int pruser_init_cmdline_options(void);
+extern int pruser_init_resources(void);
+extern int pruser_init_cmdline_options(void);
 
-void pruser_write_data(BYTE);
-void pruser_write_strobe(int);
-void pruser_set_busy(int);
+extern void pruser_write_data(BYTE);
+extern void pruser_write_strobe(int);
+extern void pruser_set_busy(int);
 
 #endif
 

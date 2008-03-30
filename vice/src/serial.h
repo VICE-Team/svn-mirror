@@ -2,8 +2,9 @@
  * serial.h - Serial device implementation.
  *
  * Written by
- *  Teemu Rantanen  (tvr@cs.hut.fi)
- *  André Fachat    (a.fachat@physik.tu-chemnitz.de)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,8 +30,8 @@
 #define _SERIAL_H
 
 #include "diskimage.h"
-#include "types.h"
 #include "traps.h"
+#include "types.h"
 
 #define MAXDEVICES		16
 
@@ -110,3 +111,4 @@ extern void serial_set_eof_callback(void (*func)(void));
 extern void serial_set_attention_callback(void (*func)(void));
 
 #endif  /* _SERIAL_H */
+

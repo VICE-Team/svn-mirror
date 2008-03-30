@@ -2,7 +2,7 @@
  * parallel.h
  *
  * Written by
- *  André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,9 +37,8 @@
 #ifndef _PARALLEL_H
 #define _PARALLEL_H
 
-#include "types.h"
-#include "maincpu.h"
 #include "drive.h"
+#include "types.h"
 
 /* debug variable - set to 1 to generate output */
 extern int parallel_debug;
@@ -150,3 +149,4 @@ PARALLEL_SET_LINE(ndac,drv1,DRV1)
 void parallel_drv1_set_bus( BYTE);
 
 #endif
+

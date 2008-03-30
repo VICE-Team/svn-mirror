@@ -2,7 +2,7 @@
  * t64.c - T64 file support.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,6 +28,7 @@
 #define _T64_H
 
 #include <stdio.h>
+
 #include "types.h"
 
 #define T64_HDR_SIZE                    64
@@ -110,22 +111,23 @@ struct t64 {
 };
 typedef struct t64 t64_t;
 
-int t64_header_read(t64_header_t *hdr, FILE *fd);
-int t64_file_record_read(t64_file_record_t *rec, FILE *fd);
-int t64_file_record_get_size(t64_file_record_t *rec);
+extern int t64_header_read(t64_header_t *hdr, FILE *fd);
+extern int t64_file_record_read(t64_file_record_t *rec, FILE *fd);
+extern int t64_file_record_get_size(t64_file_record_t *rec);
 
-t64_t *t64_new(void);
-void t64_destroy(t64_t *t64);
+extern t64_t *t64_new(void);
+extern void t64_destroy(t64_t *t64);
 
-t64_t *t64_open(const char *name);
-int t64_close(t64_t *t64);
+extern t64_t *t64_open(const char *name);
+extern int t64_close(t64_t *t64);
 
-int t64_rewind(t64_t *t64);
-int t64_seek_to_file(t64_t *t64, int file_number);
-int t64_seek_to_next_file(t64_t *t64, int allow_rewind);
-t64_file_record_t *t64_get_file_record(t64_t *t64, unsigned int num);
-t64_file_record_t *t64_get_current_file_record(t64_t *t64);
-int t64_read(t64_t *t64, BYTE *buf, int size);
-int t64_read_byte(t64_t *t64);
+extern int t64_rewind(t64_t *t64);
+extern int t64_seek_to_file(t64_t *t64, int file_number);
+extern int t64_seek_to_next_file(t64_t *t64, int allow_rewind);
+extern t64_file_record_t *t64_get_file_record(t64_t *t64, unsigned int num);
+extern t64_file_record_t *t64_get_current_file_record(t64_t *t64);
+extern int t64_read(t64_t *t64, BYTE *buf, int size);
+extern int t64_read_byte(t64_t *t64);
 
 #endif
+

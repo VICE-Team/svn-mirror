@@ -2,7 +2,7 @@
  * rsuser.h - Daniel Dallmann's 9600 baud RS232 userport interface
  *
  * Written by
- *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +27,8 @@
 #ifndef _RSUSER_H_
 #define _RSUSER_H_
 
+#include "types.h"
+
 #define	RTS_OUT		0x02
 #define	DTR_OUT		0x04
 
@@ -36,20 +38,20 @@
 
 extern int rsuser_enabled;
 
-void rsuser_init(long cycles_per_sec, void (*start_bit_trigger)(void),
+extern void rsuser_init(long cycles_per_sec, void (*start_bit_trigger)(void),
                  void (*byte_rx_func)(BYTE));
-int rsuser_init_resources(void);
-int rsuser_init_cmdline_options(void);
+extern int rsuser_init_resources(void);
+extern int rsuser_init_cmdline_options(void);
 
-void rsuser_tx_byte(BYTE);
-void rsuser_write_ctrl(BYTE);
-BYTE rsuser_read_ctrl(void);
+extern void rsuser_tx_byte(BYTE);
+extern void rsuser_write_ctrl(BYTE);
+extern BYTE rsuser_read_ctrl(void);
 
-int int_rsuser(long offset);
-void rsuser_reset(void);
+extern int int_rsuser(long offset);
+extern void rsuser_reset(void);
 
-BYTE rsuser_get_rx_bit(void);
-void rsuser_set_tx_bit(int);
+extern BYTE rsuser_get_rx_bit(void);
+extern void rsuser_set_tx_bit(int);
 
 #endif
 
