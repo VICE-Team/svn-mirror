@@ -42,24 +42,24 @@
 #include "vdrive-bam.h"
 #include "vdrive.h"
 
-int vdrive_bam_alloc_first_free_sector(vdrive_t *floppy, BYTE *bam, int *track,
+int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam, int *track,
                                        int *sector)
 {
     int t, s, d, max_tracks;
 
-    max_tracks = vdrive_calculate_disk_half(floppy->image_format);
+    max_tracks = vdrive_calculate_disk_half(vdrive->image_format);
 
     for (d = 1; d <= max_tracks; d++) {
         int max_sector;
-        t = floppy->Bam_Track - d;
+        t = vdrive->Bam_Track - d;
 #ifdef DEBUG_DRIVE
         fprintf(logfile, "Allocate first free sector on track %d?.\n", t);
 #endif
         if (t < 1)
             continue;
-        max_sector = vdrive_get_max_sectors(floppy->image_format, t);
+        max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
         for (s = 0; s < max_sector; s++) {
-            if (vdrive_bam_allocate_sector(floppy->image_format, bam, t, s)) {
+            if (vdrive_bam_allocate_sector(vdrive->image_format, bam, t, s)) {
                 *track = t;
                 *sector = s;
 #ifdef DEBUG_DRIVE
@@ -68,15 +68,15 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *floppy, BYTE *bam, int *track,
                 return 0;
             }
         }
-        t = floppy->Bam_Track + d;
+        t = vdrive->Bam_Track + d;
 #ifdef DEBUG_DRIVE
         fprintf(logfile, "Allocate first free sector on track %d?.\n", t);
 #endif
-        if (t > floppy->NumTracks)
+        if (t > vdrive->NumTracks)
             continue;
-        max_sector = vdrive_get_max_sectors(floppy->image_format, t);
+        max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
         for (s = 0; s < max_sector; s++) {
-            if (vdrive_bam_allocate_sector(floppy->image_format, bam, t, s)) {
+            if (vdrive_bam_allocate_sector(vdrive->image_format, bam, t, s)) {
                 *track = t;
                 *sector = s;
 #ifdef DEBUG_DRIVE
@@ -95,36 +95,36 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *floppy, BYTE *bam, int *track,
  * XXX the interleave is not taken into account yet.
  * FIXME: does this handle double-sided formats?
  */
-int vdrive_bam_alloc_next_free_sector(vdrive_t *floppy, BYTE *bam, int *track,
+int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam, int *track,
                                       int *sector)
 {
     int t, s, d;
     int dir, diskhalf;
 
-    if (*track < floppy->Dir_Track) {
+    if (*track < vdrive->Dir_Track) {
         dir = -1;
-        d = floppy->Bam_Track - *track;
+        d = vdrive->Bam_Track - *track;
     } else {
         dir = 1;
-        d = *track - floppy->Bam_Track;
+        d = *track - vdrive->Bam_Track;
     }
 
     for (diskhalf = 0; diskhalf < 2; diskhalf++) {
-        int max_track = vdrive_calculate_disk_half(floppy->image_format);
+        int max_track = vdrive_calculate_disk_half(vdrive->image_format);
         for (; d <= max_track; d++) {
             int max_sector;
-            t = floppy->Bam_Track + dir * d;
+            t = vdrive->Bam_Track + dir * d;
 #ifdef DEBUG_DRIVE
             fprintf(logfile, "Allocate next free sector on track %d?.\n", t);
 #endif
-            if (t < 1 || t > floppy->NumTracks) {
+            if (t < 1 || t > vdrive->NumTracks) {
                 dir = -dir;
                 d = 1;
                 break;
             }
-            max_sector = vdrive_get_max_sectors(floppy->image_format, t);
+            max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
             for (s = 0; s < max_sector; s++) {
-                if (vdrive_bam_allocate_sector(floppy->image_format, bam,
+                if (vdrive_bam_allocate_sector(vdrive->image_format, bam,
                     t, s)) {
                     *track = t;
                     *sector = s;
@@ -450,28 +450,28 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
 
 int vdrive_bam_get_disk_id(int unit, BYTE *id)
 {
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
-    floppy = file_system_get_vdrive(unit);
+    vdrive = file_system_get_vdrive(unit);
 
-    if (floppy == NULL || id == NULL)
+    if (vdrive == NULL || id == NULL)
         return -1;
 
-    memcpy(id, floppy->bam + floppy->bam_id, 2);
+    memcpy(id, vdrive->bam + vdrive->bam_id, 2);
 
     return 0;
 }
 
 int vdrive_bam_set_disk_id(int unit, BYTE *id)
 {
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
-    floppy = file_system_get_vdrive(unit);
+    vdrive = file_system_get_vdrive(unit);
 
-    if (floppy == NULL || id == NULL)
+    if (vdrive == NULL || id == NULL)
         return -1;
 
-    memcpy(floppy->bam + floppy->bam_id, id, 2);
+    memcpy(vdrive->bam + vdrive->bam_id, id, 2);
 
     return 0;
 }
