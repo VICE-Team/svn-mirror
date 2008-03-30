@@ -30,9 +30,9 @@
 
 #include "archdep.h"
 #include "fullscreen.h"
+#include "lib.h"
 #include "raster-resources.h"
 #include "resources.h"
-#include "utils.h"
 #include "vic-resources.h"
 #include "vic.h"
 #include "video.h"
@@ -42,7 +42,7 @@ int vic_resources_init(void)
 {
     video_chip_cap_t *video_chip_cap;
 
-    video_chip_cap = (video_chip_cap_t *)xmalloc(sizeof(video_chip_cap_t));
+    video_chip_cap = (video_chip_cap_t *)lib_malloc(sizeof(video_chip_cap_t));
 
     video_chip_cap->dsize_allowed = ARCHDEP_VIC_DSIZE;
     video_chip_cap->dsize_default = 0;

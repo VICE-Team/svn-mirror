@@ -139,7 +139,7 @@ typedef void monitor_toggle_func_t(int value);
 #define any_watchpoints_load(mem) (watchpoints_load[(mem)] != NULL)
 #define any_watchpoints_store(mem) (watchpoints_store[(mem)] != NULL)
 
-#define new_cond ((cond_node_t *)(xmalloc(sizeof(cond_node_t))))
+#define new_cond ((cond_node_t *)(lib_malloc(sizeof(cond_node_t))))
 #define addr_memspace(ma) (HI16_TO_LO16(ma))
 #define addr_location(ma) (LO16(ma))
 #define new_addr(m, l) (LO16_TO_HI16(m) | (l))

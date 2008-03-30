@@ -31,13 +31,14 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "lib.h"
 #include "log.h"
 #include "mon_register.h"
 #include "mon_util.h"
 #include "montypes.h"
 #include "mos6510.h"
 #include "uimon.h"
-#include "utils.h"
+
 
 #define TEST(x) ((x)!=0)
 
@@ -157,7 +158,7 @@ static mon_reg_list_t *mon_register_list_get6502(int mem)
 {
     mon_reg_list_t *mon_reg_list;
 
-    mon_reg_list = (mon_reg_list_t *)xmalloc(sizeof(mon_reg_list_t) * 9);
+    mon_reg_list = (mon_reg_list_t *)lib_malloc(sizeof(mon_reg_list_t) * 9);
 
     mon_reg_list[0].name = "PC";
     mon_reg_list[0].val = (unsigned int)mon_register_get_val(mem, e_PC);

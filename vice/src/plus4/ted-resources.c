@@ -30,11 +30,11 @@
 
 #include "archdep.h"
 #include "fullscreen.h"
+#include "lib.h"
 #include "raster-resources.h"
 #include "resources.h"
 #include "ted-resources.h"
 #include "tedtypes.h"
-#include "utils.h"
 #include "video.h"
 
 
@@ -42,7 +42,7 @@ int ted_resources_init(void)
 {
     video_chip_cap_t *video_chip_cap;
 
-    video_chip_cap = (video_chip_cap_t *)xmalloc(sizeof(video_chip_cap_t));
+    video_chip_cap = (video_chip_cap_t *)lib_malloc(sizeof(video_chip_cap_t));
 
     video_chip_cap->dsize_allowed = ARCHDEP_TED_DSIZE;
     video_chip_cap->dsize_default = 0;

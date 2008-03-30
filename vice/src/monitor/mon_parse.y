@@ -53,7 +53,7 @@ extern char *alloca();
 
 #include "asm.h"
 #include "console.h"
-#include "uimon.h"
+#include "lib.h"
 #include "machine.h"
 #include "mon_breakpoint.h"
 #include "mon_command.h"
@@ -64,7 +64,8 @@ extern char *alloca();
 #include "mon_util.h"
 #include "montypes.h"
 #include "types.h"
-#include "utils.h"
+#include "uimon.h"
+
 
 #define join_ints(x,y) (LO16_TO_HI16(x)|y)
 #define separate_int1(x) (HI16_TO_LO16(x))
@@ -637,7 +638,7 @@ void parse_and_execute_line(char *input)
    char *temp_buf;
    int i, rc;
 
-   temp_buf = (char *)xmalloc(strlen(input) + 3);
+   temp_buf = (char *)lib_malloc(strlen(input) + 3);
    strcpy(temp_buf,input);
    i = strlen(input);
    temp_buf[i++] = '\n';
