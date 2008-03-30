@@ -392,6 +392,8 @@ static void serialreceivebyte()
      * Set registers (PC, AC and CARRY) like the ML routine does
      */
     AC = data;
+    SET_SIGN(data);
+    SET_ZERO(data);
     SET_CARRY(0);
 
     PC = TRAP_LISTEN_RTS;
