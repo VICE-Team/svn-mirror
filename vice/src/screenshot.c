@@ -46,6 +46,10 @@ static log_t screenshot_log = LOG_ERR;
 static gfxoutputdrv_t *recording_driver;
 static struct video_canvas_s *recording_canvas;
 
+static int reopen = 0;
+static char *reopen_recording_drivername;
+static struct video_canvas_s *reopen_recording_canvas;
+static char *reopen_filename;
 
 int screenshot_init(void)
 {
@@ -161,6 +165,10 @@ int screenshot_save(const char *drvname, const char *filename,
     if (drv->record != NULL) {
         recording_driver = drv;
         recording_canvas = canvas;
+
+        reopen_recording_drivername = lib_stralloc(drvname);
+        reopen_recording_canvas = canvas;
+        reopen_filename = lib_stralloc(filename);
     }
 
     return screenshot_save_core(&screenshot, drv, filename);
@@ -202,3 +210,19 @@ int screenshot_is_recording(void)
 {
     return (recording_driver == NULL ? 0 : 1);
 }
+
+void screenshot_prepare_reopen(void)
+{
+    reopen = (screenshot_is_recording() ? 1 : 0);
+}
+
+void screenshot_try_reopen(void)
+{
+    if (reopen == 1) {
+        screenshot_save(reopen_recording_drivername,
+                        reopen_filename,
+                        reopen_recording_canvas);
+    }
+    reopen = 0;
+}
+

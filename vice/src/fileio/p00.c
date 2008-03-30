@@ -141,26 +141,6 @@ static int p00_write_header(struct rawfile_info_s *info, const BYTE *cbmname,
     return 0;
 }
 
-static int p00_compare_wildcards(const char *name, const char *p00name)
-{
-    size_t i, len;
-
-    len = strlen(name);
-    if (len == 0)
-        return 0;
-
-    for (i = 0; i < len; i++) {
-        if (name[i] == '*')
-            return 1;
-        if (name[i] != '?' && name[i] != p00name[i])
-            return 0;
-    }
-    if (strlen(p00name) > len)
-        return 0;
-
-    return 1;
-}
-
 static void p00_pad_a0(BYTE *slot)
 {
     unsigned int index;

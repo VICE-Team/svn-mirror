@@ -84,6 +84,8 @@ extern int screenshot_save(const char *drvname, const char *filename,
 extern int screenshot_record(void);
 extern void screenshot_stop_recording(void);
 extern int screenshot_is_recording(void);
+extern void screenshot_prepare_reopen(void);
+extern void screenshot_try_reopen(void);
 
 #endif
 
