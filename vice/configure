@@ -309,7 +309,7 @@ ac_includes_default="\
 #endif"
 
 ac_subdirs_all="$ac_subdirs_all src/resid"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE DOS_OR_WIN_TRUE DOS_OR_WIN_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS JOY_OBJS DOS_TFE_PCAP_LIB WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE GFXOUTPUT_DRIVERS X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ BINDIR LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE DOS_OR_WIN_TRUE DOS_OR_WIN_FALSE HAVE_NETWORK_TRUE HAVE_NETWORK_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS JOY_OBJS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES DOS_TFE_PCAP_LIB WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ BINDIR LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1310,7 +1310,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=17
-VICE_VERSION_BUILD=3
+VICE_VERSION_BUILD=4
 
 
 
@@ -3065,6 +3065,11 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
 
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_NETWORK
+_ACEOF
+
+
 
 cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
@@ -4672,6 +4677,16 @@ if test x"$is_dos" = "xyes" -o x"$is_win32" = "xyes"; then
 else
   DOS_OR_WIN_TRUE='#'
   DOS_OR_WIN_FALSE=
+fi
+
+
+
+if test x"$is_win32" = "xyes"; then
+  HAVE_NETWORK_TRUE=
+  HAVE_NETWORK_FALSE='#'
+else
+  HAVE_NETWORK_TRUE='#'
+  HAVE_NETWORK_FALSE=
 fi
 
 
@@ -10045,7 +10060,14 @@ fi
 
 
 
-if test "${ac_cv_header_zlib_h+set}" = set; then
+
+VICE_ZLIB=
+VICE_ZLIB_DIR=
+VICE_ZLIB_DEP=
+VICE_ZLIB_INCLUDES=
+
+if test x"$with_zlib" != "xno" ; then
+  if test "${ac_cv_header_zlib_h+set}" = set; then
   echo "$as_me:$LINENO: checking for zlib.h" >&5
 echo $ECHO_N "checking for zlib.h... $ECHO_C" >&6
 if test "${ac_cv_header_zlib_h+set}" = set; then
@@ -10176,8 +10198,8 @@ echo "${ECHO_T}$ac_cv_header_zlib_h" >&6
 fi
 
 
-if test x"$ac_cv_header_zlib_h" = "xyes" ; then
-  echo "$as_me:$LINENO: checking for zlibVersion in -lz" >&5
+  if test x"$ac_cv_header_zlib_h" = "xyes" ; then
+    echo "$as_me:$LINENO: checking for zlibVersion in -lz" >&5
 echo $ECHO_N "checking for zlibVersion in -lz... $ECHO_C" >&6
 if test "${ac_cv_lib_z_zlibVersion+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -10240,7 +10262,24 @@ _ACEOF
 
 fi
 
+  fi
+  if test x"$ac_cv_lib_z_zlibVersion" != "xyes"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_ZLIB
+_ACEOF
+
+    VICE_ZLIB="\$(top_builddir)/src/lib/zlib/libz.a"
+    VICE_ZLIB_DEP=libz
+    VICE_ZLIB_INCLUDES="-I\$(top_srcdir)/src/lib/zlib"
+    VICE_ZLIB_DIR=lib/zlib
+  fi
 fi
+
+
+
+
+
 
 
 SOUND_DRIVERS=""
@@ -14763,8 +14802,14 @@ fi
 
 
 
-if test x"$is_dos" != "xyes" -a x"$is_beos" != "xyes"; then
-    if test "${ac_cv_header_png_h+set}" = set; then
+VICE_LIBPNG=
+VICE_LIBPNG_DIR=
+VICE_LIBPNG_DEP=
+VICE_LIBPNG_INCLUDES=
+
+if test x"$is_beos" != "xyes"; then
+  if test x"$with_png" != "xno" ; then
+        if test "${ac_cv_header_png_h+set}" = set; then
   echo "$as_me:$LINENO: checking for png.h" >&5
 echo $ECHO_N "checking for png.h... $ECHO_C" >&6
 if test "${ac_cv_header_png_h+set}" = set; then
@@ -14895,9 +14940,9 @@ echo "${ECHO_T}$ac_cv_header_png_h" >&6
 fi
 
 
-  if test x"$ac_cv_header_png_h" = "xyes" ; then
-    unset ac_cv_lib_png_png_check_sig
-    echo "$as_me:$LINENO: checking for png_check_sig in -lpng" >&5
+    if test x"$ac_cv_header_png_h" = "xyes" ; then
+      unset ac_cv_lib_png_png_check_sig
+      echo "$as_me:$LINENO: checking for png_check_sig in -lpng" >&5
 echo $ECHO_N "checking for png_check_sig in -lpng... $ECHO_C" >&6
 if test "${ac_cv_lib_png_png_check_sig+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -14953,7 +14998,7 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_png_png_check_sig" >&5
 echo "${ECHO_T}$ac_cv_lib_png_png_check_sig" >&6
 if test $ac_cv_lib_png_png_check_sig = yes; then
    LIBS="-lpng $LIBS";
-                   GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
+                     GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_PNG
@@ -14961,9 +15006,9 @@ _ACEOF
 
 fi
 
-    if test "$ac_cv_lib_png_png_check_sig" = "no"; then
-      unset ac_cv_lib_png_png_check_sig
-      echo "$as_me:$LINENO: checking for png_check_sig in -lpng" >&5
+      if test "$ac_cv_lib_png_png_check_sig" = "no"; then
+        unset ac_cv_lib_png_png_check_sig
+        echo "$as_me:$LINENO: checking for png_check_sig in -lpng" >&5
 echo $ECHO_N "checking for png_check_sig in -lpng... $ECHO_C" >&6
 if test "${ac_cv_lib_png_png_check_sig+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -15019,7 +15064,7 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_png_png_check_sig" >&5
 echo "${ECHO_T}$ac_cv_lib_png_png_check_sig" >&6
 if test $ac_cv_lib_png_png_check_sig = yes; then
    LIBS="-lpng -lz $LIBS";
-                     GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
+                       GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_PNG
@@ -15027,9 +15072,27 @@ _ACEOF
 
 fi
 
+      fi
+    fi
+    if test x"$ac_cv_lib_png_png_check_sig" != "xyes"; then
+      if test x"$with_zlib" != "xno" ; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_PNG
+_ACEOF
+
+        VICE_LIBPNG="\$(top_builddir)/src/lib/lpng/libpng.a"
+        VICE_LIBPNG_DEP=libpng
+        GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o"
+        VICE_LIBPNG_INCLUDES="-I\$(top_srcdir)/src/lib/lpng"
+        VICE_LIBPNG_DIR=lib/lpng
+      fi
     fi
   fi
 fi
+
+
+
 
 
 
@@ -19078,7 +19141,7 @@ if false ; then
 
 fi
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ac_config_files="$ac_config_files Makefile data/Makefile data/C128/Makefile data/C64/Makefile data/CBM-II/Makefile data/DRIVES/Makefile data/PET/Makefile data/PLUS4/Makefile data/PRINTER/Makefile data/VIC20/Makefile data/fonts/Makefile doc/Makefile doc/html/Makefile man/Makefile src/Makefile src/arch/Makefile src/arch/beos/Makefile src/arch/msdos/Makefile src/arch/os2/Makefile src/arch/os2/dialogs/Makefile src/arch/os2/kbd/Makefile src/arch/os2/snippets/Makefile src/arch/os2/vac++/Makefile src/arch/riscos/Makefile src/arch/unix/Makefile src/arch/unix/readline/Makefile src/arch/unix/x11/Makefile src/arch/unix/x11/gnome/Makefile src/arch/unix/x11/xaw/Makefile src/arch/unix/x11/xaw/widgets/Makefile src/arch/win32/Makefile src/arch/win32/utils/Makefile src/c128/Makefile src/c64/Makefile src/c64/cart/Makefile src/cbm2/Makefile src/core/Makefile src/crtc/Makefile src/diskimage/Makefile src/drive/Makefile src/drive/iec/Makefile src/drive/iec128dcr/Makefile src/drive/iecieee/Makefile src/drive/ieee/Makefile src/drive/tcbm/Makefile src/fileio/Makefile src/fsdevice/Makefile src/gfxoutputdrv/Makefile src/iecbus/Makefile src/imagecontents/Makefile src/monitor/Makefile src/parallel/Makefile src/pet/Makefile src/plus4/Makefile src/printerdrv/Makefile src/raster/Makefile src/rs232drv/Makefile src/serial/Makefile src/sid/Makefile src/sounddrv/Makefile src/tape/Makefile src/vdc/Makefile src/vdrive/Makefile src/vic20/Makefile src/vicii/Makefile src/video/Makefile src/version.h po/Makefile.in"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ac_config_files="$ac_config_files Makefile data/Makefile data/C128/Makefile data/C64/Makefile data/CBM-II/Makefile data/DRIVES/Makefile data/PET/Makefile data/PLUS4/Makefile data/PRINTER/Makefile data/VIC20/Makefile data/fonts/Makefile doc/Makefile doc/html/Makefile man/Makefile src/Makefile src/arch/Makefile src/arch/beos/Makefile src/arch/msdos/Makefile src/arch/os2/Makefile src/arch/os2/dialogs/Makefile src/arch/os2/kbd/Makefile src/arch/os2/snippets/Makefile src/arch/os2/vac++/Makefile src/arch/riscos/Makefile src/arch/unix/Makefile src/arch/unix/readline/Makefile src/arch/unix/x11/Makefile src/arch/unix/x11/gnome/Makefile src/arch/unix/x11/xaw/Makefile src/arch/unix/x11/xaw/widgets/Makefile src/arch/win32/Makefile src/arch/win32/utils/Makefile src/c128/Makefile src/c64/Makefile src/c64/cart/Makefile src/cbm2/Makefile src/core/Makefile src/crtc/Makefile src/diskimage/Makefile src/drive/Makefile src/drive/iec/Makefile src/drive/iec128dcr/Makefile src/drive/iecieee/Makefile src/drive/ieee/Makefile src/drive/tcbm/Makefile src/fileio/Makefile src/fsdevice/Makefile src/gfxoutputdrv/Makefile src/iecbus/Makefile src/imagecontents/Makefile src/lib/Makefile src/lib/lpng/Makefile src/lib/zlib/Makefile src/monitor/Makefile src/parallel/Makefile src/pet/Makefile src/plus4/Makefile src/printerdrv/Makefile src/raster/Makefile src/rs232drv/Makefile src/serial/Makefile src/sid/Makefile src/sounddrv/Makefile src/tape/Makefile src/vdc/Makefile src/vdrive/Makefile src/vic20/Makefile src/vicii/Makefile src/video/Makefile src/version.h po/Makefile.in"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -19279,6 +19342,13 @@ if test -z "${DOS_OR_WIN_TRUE}" && test -z "${DOS_OR_WIN_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"DOS_OR_WIN\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"DOS_OR_WIN\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_NETWORK_TRUE}" && test -z "${HAVE_NETWORK_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_NETWORK\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_NETWORK\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -20084,6 +20154,9 @@ do
   "src/gfxoutputdrv/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/gfxoutputdrv/Makefile" ;;
   "src/iecbus/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/iecbus/Makefile" ;;
   "src/imagecontents/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/imagecontents/Makefile" ;;
+  "src/lib/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/lib/Makefile" ;;
+  "src/lib/lpng/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/lib/lpng/Makefile" ;;
+  "src/lib/zlib/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/lib/zlib/Makefile" ;;
   "src/monitor/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/monitor/Makefile" ;;
   "src/parallel/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/parallel/Makefile" ;;
   "src/pet/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/pet/Makefile" ;;
@@ -20249,6 +20322,8 @@ s,@USE_MIDAS_SOUND_TRUE@,$USE_MIDAS_SOUND_TRUE,;t t
 s,@USE_MIDAS_SOUND_FALSE@,$USE_MIDAS_SOUND_FALSE,;t t
 s,@DOS_OR_WIN_TRUE@,$DOS_OR_WIN_TRUE,;t t
 s,@DOS_OR_WIN_FALSE@,$DOS_OR_WIN_FALSE,;t t
+s,@HAVE_NETWORK_TRUE@,$HAVE_NETWORK_TRUE,;t t
+s,@HAVE_NETWORK_FALSE@,$HAVE_NETWORK_FALSE,;t t
 s,@AR@,$AR,;t t
 s,@RANLIB@,$RANLIB,;t t
 s,@ac_ct_RANLIB@,$ac_ct_RANLIB,;t t
@@ -20298,6 +20373,10 @@ s,@CROSS_TRUE@,$CROSS_TRUE,;t t
 s,@CROSS_FALSE@,$CROSS_FALSE,;t t
 s,@CROSS@,$CROSS,;t t
 s,@JOY_OBJS@,$JOY_OBJS,;t t
+s,@VICE_ZLIB@,$VICE_ZLIB,;t t
+s,@VICE_ZLIB_DIR@,$VICE_ZLIB_DIR,;t t
+s,@VICE_ZLIB_DEP@,$VICE_ZLIB_DEP,;t t
+s,@VICE_ZLIB_INCLUDES@,$VICE_ZLIB_INCLUDES,;t t
 s,@DOS_TFE_PCAP_LIB@,$DOS_TFE_PCAP_LIB,;t t
 s,@WINDRES@,$WINDRES,;t t
 s,@WRC@,$WRC,;t t
@@ -20307,7 +20386,11 @@ s,@LIBOBJS@,$LIBOBJS,;t t
 s,@NEED_READLINE_TRUE@,$NEED_READLINE_TRUE,;t t
 s,@NEED_READLINE_FALSE@,$NEED_READLINE_FALSE,;t t
 s,@READLINE@,$READLINE,;t t
+s,@VICE_LIBPNG@,$VICE_LIBPNG,;t t
+s,@VICE_LIBPNG_DIR@,$VICE_LIBPNG_DIR,;t t
+s,@VICE_LIBPNG_DEP@,$VICE_LIBPNG_DEP,;t t
 s,@GFXOUTPUT_DRIVERS@,$GFXOUTPUT_DRIVERS,;t t
+s,@VICE_LIBPNG_INCLUDES@,$VICE_LIBPNG_INCLUDES,;t t
 s,@X_CFLAGS@,$X_CFLAGS,;t t
 s,@X_PRE_LIBS@,$X_PRE_LIBS,;t t
 s,@X_LIBS@,$X_LIBS,;t t

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.17\n"
-"POT-Creation-Date: 2005-10-23 18:01+0200\n"
+"POT-Creation-Date: 2005-10-29 20:33+0200\n"
 "PO-Revision-Date: 2005-09-18 11:20+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -253,57 +253,57 @@ msgstr "schrijf actie naar geluidsapparaat faalt."
 msgid "store to sounddevice failed."
 msgstr "opslag naar geluidsapparaat faalt."
 
-#: src/event.c:221
+#: src/event.c:213
 #, c-format
 msgid "Cannot create image file %s"
 msgstr "Kan bestand `%s' niet maken."
 
-#: src/event.c:230
+#: src/event.c:222
 #, c-format
 msgid "Cannot write image file %s"
 msgstr "Kan niet schrijven naar bestand %s"
 
-#: src/event.c:242
+#: src/event.c:234
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Kan vertaalde naam voor %s niet vinden"
 
-#: src/event.c:540
+#: src/event.c:586
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kon het start momentopname bestand %s niet maken."
 
-#: src/event.c:559 src/event.c:850
+#: src/event.c:605 src/event.c:899
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fout bij het lezen van het eind van het momentopname bestand %s."
 
-#: src/event.c:626 src/event.c:817
+#: src/event.c:672 src/event.c:866
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kon het eind momentopname bestand %s niet maken."
 
-#: src/event.c:691
+#: src/event.c:740
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kon het eind momentopname bestand %s niet openen."
 
-#: src/event.c:706
+#: src/event.c:755
 msgid "Could not find event section in end snapshot file."
 msgstr "Kon de gebeurtenis sectie in eind momentopname bestand niet vinden."
 
-#: src/event.c:730
+#: src/event.c:779
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Fout bij het lezen van het start momentopname bestand. Heb %s en %s "
 "geprobeerd"
 
-#: src/event.c:760
+#: src/event.c:809
 msgid "Error reading start snapshot file."
 msgstr "Fout bij het lezen van het start momentopname bestand."
 
-#: src/event.c:1132
+#: src/event.c:1190
 msgid "Playback recorded events"
 msgstr "Afspelen opgenomen gebeurtenissen"
 
@@ -2621,9 +2621,8 @@ msgid "Attach Super Snapshot 5 image..."
 msgstr "Koppel Super Snapshot 5 bestand..."
 
 #: src/arch/unix/uic64cart.c:177
-#, fuzzy
 msgid "Attach Structured Basic image..."
-msgstr "Koppel cartridge bestand"
+msgstr "Koppel Structured Basic bestand..."
 
 #: src/arch/unix/uic64cart.c:181
 msgid "Enable Expert Cartridge..."
@@ -4106,9 +4105,8 @@ msgid "*Catweasel MKIII"
 msgstr "*Catweasel MKIII"
 
 #: src/arch/unix/uisid.c:54
-#, fuzzy
 msgid "*HardSID"
-msgstr "Hard"
+msgstr "*HardSID"
 
 #: src/arch/unix/uisid.c:63
 msgid "*6581 (old)"

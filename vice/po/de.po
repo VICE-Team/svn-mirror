@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-10-23 18:01+0200\n"
+"POT-Creation-Date: 2005-10-29 20:33+0200\n"
 "PO-Revision-Date: 2005-10-12 22:03+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -253,57 +253,57 @@ msgstr "Schreiben auf Sound Gerät ist fehlgeschlagen."
 msgid "store to sounddevice failed."
 msgstr "Speichern auf Sound Gerät ist fehlgeschlagen."
 
-#: src/event.c:221
+#: src/event.c:213
 #, c-format
 msgid "Cannot create image file %s"
 msgstr "Kann Datei `%s' nicht erzeugen"
 
-#: src/event.c:230
+#: src/event.c:222
 #, c-format
 msgid "Cannot write image file %s"
 msgstr "Kann Datei %s nicht schreiben"
 
-#: src/event.c:242
+#: src/event.c:234
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Kann zugeordneten Namen für `%s' nicht finden."
 
-#: src/event.c:540
+#: src/event.c:586
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kann Start Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:559 src/event.c:850
+#: src/event.c:605 src/event.c:899
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
 
-#: src/event.c:626 src/event.c:817
+#: src/event.c:672 src/event.c:866
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:691
+#: src/event.c:740
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht öffnen: %s"
 
-#: src/event.c:706
+#: src/event.c:755
 msgid "Could not find event section in end snapshot file."
 msgstr "Kann Sektion in Ende Snapshotdatei nicht finden."
 
-#: src/event.c:730
+#: src/event.c:779
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und %"
 "s."
 
-#: src/event.c:760
+#: src/event.c:809
 msgid "Error reading start snapshot file."
 msgstr "Fehler beim Lesen der Start Snapshot Datei."
 
-#: src/event.c:1132
+#: src/event.c:1190
 msgid "Playback recorded events"
 msgstr "Wiedergabe von aufgenommener Ereignisse"
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-10-23 18:01+0200\n"
+"POT-Creation-Date: 2005-10-29 20:33+0200\n"
 "PO-Revision-Date: 2005-09-18 10:57+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -259,66 +259,66 @@ msgstr ""
 msgid "store to sounddevice failed."
 msgstr ""
 
-#: src/event.c:221
+#: src/event.c:213
 #, fuzzy, c-format
 msgid "Cannot create image file %s"
 msgstr "Nie mo¿na stworzyc obrazu `%s'."
 
-#: src/event.c:230
+#: src/event.c:222
 #, fuzzy, c-format
 msgid "Cannot write image file %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku obrazu kartrid¿a\n"
 "`%s'\n"
 
-#: src/event.c:242
+#: src/event.c:234
 #, fuzzy, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Nie mo¿na za³adowaæ tekstowej czcionki %s."
 
-#: src/event.c:540
+#: src/event.c:586
 #, fuzzy, c-format
 msgid "Could not create start snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:559 src/event.c:850
+#: src/event.c:605 src/event.c:899
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:626 src/event.c:817
+#: src/event.c:672 src/event.c:866
 #, fuzzy, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:691
+#: src/event.c:740
 #, fuzzy, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:706
+#: src/event.c:755
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:730
+#: src/event.c:779
 #, fuzzy, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:760
+#: src/event.c:809
 #, fuzzy
 msgid "Error reading start snapshot file."
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:1132
+#: src/event.c:1190
 #, fuzzy
 msgid "Playback recorded events"
 msgstr "Rozpocznij zapisywanie wydarzen"

@@ -85,6 +85,8 @@ GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEUI_FALSE = @GNOMEUI_FALSE@
 GNOMEUI_TRUE = @GNOMEUI_TRUE@
+HAVE_NETWORK_FALSE = @HAVE_NETWORK_FALSE@
+HAVE_NETWORK_TRUE = @HAVE_NETWORK_TRUE@
 HAVE_RAWDRIVE_FALSE = @HAVE_RAWDRIVE_FALSE@
 HAVE_RAWDRIVE_TRUE = @HAVE_RAWDRIVE_TRUE@
 HAVE_READLINE = @HAVE_READLINE@
@@ -160,10 +162,18 @@ USE_MIDAS_SOUND_TRUE = @USE_MIDAS_SOUND_TRUE@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 VERSION_RC = @VERSION_RC@
+VICE_LIBPNG = @VICE_LIBPNG@
+VICE_LIBPNG_DEP = @VICE_LIBPNG_DEP@
+VICE_LIBPNG_DIR = @VICE_LIBPNG_DIR@
+VICE_LIBPNG_INCLUDES = @VICE_LIBPNG_INCLUDES@
 VICE_VERSION = @VICE_VERSION@
 VICE_VERSION_BUILD = @VICE_VERSION_BUILD@
 VICE_VERSION_MAJOR = @VICE_VERSION_MAJOR@
 VICE_VERSION_MINOR = @VICE_VERSION_MINOR@
+VICE_ZLIB = @VICE_ZLIB@
+VICE_ZLIB_DEP = @VICE_ZLIB_DEP@
+VICE_ZLIB_DIR = @VICE_ZLIB_DIR@
+VICE_ZLIB_INCLUDES = @VICE_ZLIB_INCLUDES@
 WIN32_COMPILE_FALSE = @WIN32_COMPILE_FALSE@
 WIN32_COMPILE_TRUE = @WIN32_COMPILE_TRUE@
 WINDRES = @WINDRES@
@@ -234,6 +244,8 @@ LINK = @LINKCC@ $(CFLAGS) $(LDFLAGS) -o $@
 
 SUBDIRS = \
 	@RESID_DIR@ \
+	@VICE_LIBPNG_DIR@ \
+	@VICE_ZLIB_DIR@ \
 	sounddrv \
 	drive \
 	vdrive \
@@ -267,6 +279,7 @@ SUBDIRS = \
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
+	@VICE_ZLIB_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
@@ -336,6 +349,7 @@ noinst_HEADERS = \
 	monitor.h \
 	mos6510.h \
 	mouse.h \
+	network.h \
 	opencbmlib.h \
 	palette.h \
 	parallel.h \
@@ -415,6 +429,7 @@ base_sources = \
 	machine.c \
 	main.c \
 	mouse.c \
+	network.c \
 	palette.c \
 	ram.c \
 	rawfile.c \
@@ -488,7 +503,7 @@ vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ @VICE_LIBPNG@ @VICE_ZLIB@
 
 driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
@@ -668,7 +683,8 @@ c1541_LDADD = \
 	$(diskimage_lib) \
 	$(tape_lib) \
 	$(serial_lib) \
-	@READLINE@
+	@READLINE@ \
+	@VICE_ZLIB@
 
 
 # petcat
@@ -688,7 +704,8 @@ petcat_SOURCES = \
 
 petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
-	$(fileio_lib) 
+	$(fileio_lib) \
+	@VICE_ZLIB@
 
 subdir = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -760,11 +777,11 @@ am__objects_1 = alarm.$(OBJEXT) attach.$(OBJEXT) autostart.$(OBJEXT) \
 	interrupt.$(OBJEXT) ioutil.$(OBJEXT) joystick.$(OBJEXT) \
 	kbdbuf.$(OBJEXT) keyboard.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) \
 	machine-bus.$(OBJEXT) machine.$(OBJEXT) main.$(OBJEXT) \
-	mouse.$(OBJEXT) palette.$(OBJEXT) ram.$(OBJEXT) \
-	rawfile.$(OBJEXT) resources.$(OBJEXT) romset.$(OBJEXT) \
-	screenshot.$(OBJEXT) snapshot.$(OBJEXT) sound.$(OBJEXT) \
-	sysfile.$(OBJEXT) translate.$(OBJEXT) traps.$(OBJEXT) \
-	util.$(OBJEXT) vsync.$(OBJEXT) zfile.$(OBJEXT) \
+	mouse.$(OBJEXT) network.$(OBJEXT) palette.$(OBJEXT) \
+	ram.$(OBJEXT) rawfile.$(OBJEXT) resources.$(OBJEXT) \
+	romset.$(OBJEXT) screenshot.$(OBJEXT) snapshot.$(OBJEXT) \
+	sound.$(OBJEXT) sysfile.$(OBJEXT) translate.$(OBJEXT) \
+	traps.$(OBJEXT) util.$(OBJEXT) vsync.$(OBJEXT) zfile.$(OBJEXT) \
 	zipcode.$(OBJEXT)
 am_x128_OBJECTS = $(am__objects_1)
 x128_OBJECTS = $(am_x128_OBJECTS)
@@ -801,14 +818,15 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/log.Po ./$(DEPDIR)/machine-bus.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/machine.Po ./$(DEPDIR)/main.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/maincpu.Po ./$(DEPDIR)/mouse.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/palette.Po ./$(DEPDIR)/petcat.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ram.Po ./$(DEPDIR)/rawfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/resources.Po ./$(DEPDIR)/romset.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/screenshot.Po ./$(DEPDIR)/snapshot.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sound.Po ./$(DEPDIR)/sysfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/translate.Po ./$(DEPDIR)/traps.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/util.Po ./$(DEPDIR)/vsync.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/zfile.Po ./$(DEPDIR)/zipcode.Po
+@AMDEP_TRUE@	./$(DEPDIR)/network.Po ./$(DEPDIR)/palette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/petcat.Po ./$(DEPDIR)/ram.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/rawfile.Po ./$(DEPDIR)/resources.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/romset.Po ./$(DEPDIR)/screenshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/snapshot.Po ./$(DEPDIR)/sound.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sysfile.Po ./$(DEPDIR)/translate.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/traps.Po ./$(DEPDIR)/util.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po ./$(DEPDIR)/zfile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/zipcode.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -948,6 +966,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/maincpu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mouse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/network.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/palette.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petcat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ram.Po@am__quote@
@@ -1429,6 +1448,7 @@ xcbm2-all: \
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libvdc libsid libcrtc libvideo
 	libserial libparallel libcore libiecbus libfileio @RESID_DEP@
+	@VICE_LIBPNG_DEP@ @VICE_ZLIB_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -1478,6 +1498,8 @@ libpet:
 	(cd pet && $(MAKE))
 libplus4:
 	(cd plus4 && $(MAKE))
+libpng:
+	(cd lib/lpng && $(MAKE))
 libprinterdrv:
 	(cd printerdrv && $(MAKE))
 librs232drv:
@@ -1504,6 +1526,8 @@ libvicii:
 	(cd vicii && $(MAKE))
 libvideo:
 	(cd video && $(MAKE))
+libz:
+	(cd lib/zlib && $(MAKE))
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

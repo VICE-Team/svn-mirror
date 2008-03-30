@@ -1,3 +1,127 @@
+2005-10-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.4.
+
+	* network.c: Fixed declaration of `network_init_done'.
+
+2005-10-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* Makefile.am, arch/win32/base.dsp: Added new files network.c
+	and network.h
+
+	* arch/win32/msvc/config.h: define HAVE_NETWORK
+
+	* arch/win32/resc64.rc, arch/win32/resmenu.txt,
+	arch/win32/ui.c: Added menuitems to start server and client.
+
+	* autostart.c (reboot_for_autostart): Fixed autostart for
+	empty filenames.
+
+	* c64/c64.c (machine_vsync_hook): Call network_hook.
+
+	* event.c, event.h: Gereralized to handle various event lists.
+	New functions event_register_event_list,
+	event_playback_event_list, event_record_in_list.
+
+	* joystick.c, joystick.h (joystick_latch_handler,
+	joystick_process_latch): Handle newtork connection.
+	New functions joystick_event_delayed_playback,
+	joystick_register_delay.
+
+	* init.c (init_resources): Register network resources.
+
+	* keyboard.c, keyboard.h (keyboard_latch_handler,
+	keyboard_key_pressed, keyboard_key_released): Handle network
+	connection. New functions keyboard_event_delayed_playback,
+	keyboard_register_delay.
+
+	* machine.c (machine_trigger_reset): Handle network
+	connection.
+
+	* network.c, network.h: New files.
+
+	* translate.c: Fixed definition of STB_CART in string_table
+	and translation_text table.
+
+2005-10-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added built-in support for libpng and libz.
+
+	* arch/os2/Makefile.am: Removed the references to the os/2
+	specific libpng and zlib files.
+
+	* arch/os2/lpng/LICENSE, arch/os2/lpng/png.c,
+	arch/os2/lpng/png.h, arch/os2/lpng/pngconf.h,
+	arch/os2/lpng/pngerror.c, arch/os2/lpng/pngget.c,
+	arch/os2/lpng/pngmem.c, arch/os2/lpng/pngpread.c,
+	arch/os2/lpng/pngread.c, arch/os2/lpng/pngrio.c,
+	arch/os2/lpng/pngrtran.c, arch/os2/lpng/pngrutil.c,
+	arch/os2/lpng/pngset.c, arch/os2/lpng/pngtrans.c,
+	arch/os2/lpng/pngwio.c, arch/os2/lpng/pngwrite.c,
+	arch/os2/lpng/pngwtran.c, arch/os2/lpng/pngwutil.c: Removed
+	these old os/2 specific libpng files.
+
+	* arch/os2/vac++/PETcat.ICC, arch/os2/vac++/X1541.ICC,
+	arch/os2/vac++/lpng.icc, arch/os2/vac++/lzlib.icc,
+	arch/os2/vac++/x128/X128.ICC, arch/os2/vac++/x64/X64.ICC,
+	arch/os2/vac++/xcbm2/Xcbm2.ICC, arch/os2/vac++/xpet/Xpet.ICC,
+	arch/os2/vac++/xplus4/Xplus4.ICC,
+	arch/os2/vac++/xvic/Xvic.ICC: Removed support for the old os/2
+	specific libpng and libz, and added support for the new
+	built-in support of libpng and libz.
+
+	* arch/os2/zlib/README, arch/os2/zlib/adler32.c,
+	arch/os2/zlib/compress.c, arch/os2/zlib/crc32.c,
+	arch/os2/zlib/deflate.c, arch/os2/zlib/deflate.h,
+	arch/os2/zlib/gzio.c, arch/os2/zlib/infblock.c,
+	arch/os2/zlib/infblock.h, arch/os2/zlib/infcodes.c,
+	arch/os2/zlib/infcodes.h, arch/os2/zlib/inffast.c,
+	arch/os2/zlib/inffast.h, arch/os2/zlib/inffixed.h,
+	arch/os2/zlib/inflate.c, arch/os2/zlib/inftrees.c,
+	arch/os2/zlib/inftrees.h, arch/os2/zlib/infutil.c,
+	arch/os2/zlib/infutil.h, arch/os2/zlib/maketree.c,
+	arch/os2/zlib/trees.c, arch/os2/zlib/trees.h,
+	arch/os2/zlib/uncompr.c, arch/os2/zlib/zconf.h,
+	arch/os2/zlib/zlib.h, arch/os2/zlib/zutil.c,
+	arch/os2/zlib/zutil.h: Removed these old os/2 specific zlib
+	files.
+
+	* arch/win32/Makefile.am, arch/win32/png.dsp,
+	arch/win32/zlib.dsp, arch/win32/vice.dsw: Added png.dsp and
+	zlib.png for built-in libpng and zlib support.
+
+	* arch/win32/base.dsp, arch/win32/c1541.dsp,
+	arch/win32/gfxoutputdrv.dsp, arch/win32/msvc/config.h,
+	arch/win32/petcat.dsp: Added built-in libpng and zlib support.
+
+	* gfxoutputdrv/Makefile.am: Added built-in libpng and zlib
+	support.
+
+	* lib/Makefile.am: Added 2 new directories in the new lib
+	directory, lpng and zlib.
+
+	* lib/lpng/LICENSE, lib/lpng/Makefile.am, lib/lpng/png.c,
+	lib/lpng/png.h, lib/lpng/pngconf.h, lib/lpng/pngerror.c,
+	lib/lpng/pngget.c, lib/lpng/pngmem.c, lib/lpng/pngpread.c,
+	lib/lpng/pngread.c, lib/lpng/pngrio.c, lib/lpng/pngrtran.c,
+	lib/lpng/pngrutil.c, lib/lpng/pngset.c, lib/lpng/pngtrans.c,
+	lib/lpng/pngwio.c, lib/lpng/pngwrite.c, lib/lpng/pngwtran.c,
+	lib/lpng/pngwutil.c: Added built-in support for libpng.
+
+	* lib/zlib/Makefile.am, lib/zlib/README, lib/zlib/adler32.c,
+	lib/zlib/compress.c, lib/zlib/crc32.c, lib/zlib/crc32.h,
+	lib/zlib/deflate.c, lib/zlib/deflate.h, lib/zlib/gzio.c,
+	lib/zlib/infback.c, lib/zlib/inffast.c, lib/zlib/inffast.h,
+	lib/zlib/inffixed.h, lib/zlib/inflate.c, lib/zlib/inflate.h,
+	lib/zlib/inftrees.c, lib/zlib/inftrees.h, lib/zlib/trees.c,
+	lib/zlib/trees.h, lib/zlib/uncompr.c, lib/zlib/zconf.h,
+	lib/zlib/zlib.h, lib/zlib/zutil.c, lib/zlib/zutil.h: Added
+	built-in support for zlib.
+
+2005-10-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/resplus4.rc: Translations fix.
+
 2005-10-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.17.3.
