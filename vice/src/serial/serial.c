@@ -42,7 +42,6 @@
 
 #include "attach.h"
 #include "drive.h"
-#include "iecbus.h"
 #include "lib.h"
 #include "log.h"
 #include "maincpu.h"
@@ -59,7 +58,8 @@
 
 extern BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
 extern int SerialPtr;
-extern int serial_truedrive;
+
+int serial_truedrive;
 
 /* Flag: Have traps been installed?  */
 static int traps_installed = 0;
@@ -100,14 +100,11 @@ BYTE serial_get_st(void)
 
 /* ------------------------------------------------------------------------- */
 
-int serial_init(const trap_t *trap_list, WORD tmpin)
+int serial_init(const trap_t *trap_list)
 {
     unsigned int i;
 
     serial_log = log_open("Serial");
-    iecbus_init();
-
-    serial_trap_init(tmpin);
 
     /* Remove installed traps, if any.  */
     serial_remove_traps();
@@ -235,12 +232,6 @@ int serial_detach_device(unsigned int unit)
     }
 
     return 0;
-}
-
-/* Close all files.  */
-void serial_reset(void)
-{
-    iecbus_reset();
 }
 
 /* ------------------------------------------------------------------------- */

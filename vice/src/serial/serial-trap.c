@@ -46,10 +46,8 @@
 static WORD tmp_in;
 
 /* On which channel did listen happen to?  */
-BYTE TrapDevice;
-BYTE TrapSecondary;
-
-int serial_truedrive;
+static BYTE TrapDevice;
+static BYTE TrapSecondary;
 
 
 /* Command Serial Bus to TALK, LISTEN, UNTALK, or UNLISTEN, and send the
@@ -183,6 +181,13 @@ int serial_trap_ready(void)
 
 void serial_trap_init(WORD tmpin)
 {
+    iecbus_init();
+
     tmp_in = tmpin;
+}
+
+void serial_traps_reset(void)
+{
+    iecbus_reset();
 }
 

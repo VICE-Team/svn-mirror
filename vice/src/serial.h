@@ -87,7 +87,7 @@ typedef struct serial_s
 
 } serial_t;
 
-extern int serial_init(const struct trap_s *trap_list, WORD tmpin);
+extern int serial_init(const struct trap_s *trap_list);
 extern void serial_shutdown(void);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
@@ -104,7 +104,7 @@ extern int serial_attach_device(unsigned int unit, const char *name,
                                 void (*flushf)(struct vdrive_s *,
                                 unsigned int));
 extern int serial_detach_device(unsigned int unit);
-extern void serial_reset(void);
+extern void serial_traps_reset(void);
 extern BYTE serial_get_st(void);
 extern void serial_set_st(BYTE st);
 
@@ -135,8 +135,9 @@ extern serial_t *serial_device_get(unsigned int unit);
 extern unsigned int serial_device_type_get(unsigned int unit);
 extern void serial_device_type_set(unsigned int type, unsigned int unit);
 
-extern BYTE TrapDevice;
-extern BYTE TrapSecondary;
+extern void serial_trap_init(WORD tmpin);
+
+extern int serial_truedrive;
 
 #endif
 
