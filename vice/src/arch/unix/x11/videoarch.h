@@ -2,8 +2,9 @@
  * videoarch.h - X11 graphics routines.
  *
  * Written by
- *   Ettore Perazzoli <ettore@comm2000.it>
- *   Teemu Rantanen <tvr@cs.hut.fi>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,7 +31,7 @@
 
 #include "vice.h"
 
-#include "fullscreen.h"
+#include "fullscreenarch.h"
 #include "video.h"
 
 #include <X11/Xlib.h>
@@ -60,6 +61,7 @@
 #endif
 
 struct video_draw_buffer_callback_s;
+struct fullscreenconfig_s;
 
 struct video_canvas_s {
     unsigned int width, height;
@@ -91,6 +93,9 @@ struct video_canvas_s {
 #endif
     GC gc;
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
+#ifdef USE_XF86_EXTENSIONS
+    struct fullscreenconfig_s *fullscreenconfig;
+#endif
 };
 typedef struct video_canvas_s video_canvas_t;
 
@@ -143,29 +148,5 @@ extern void video_convert_color_table(unsigned int i, BYTE *data,
 extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
                                          unsigned int width,
                                          unsigned int height);
-
-#ifdef USE_XF86_DGA2_EXTENSIONS
-#define fullscreen_on() fullscreen_mode_on_restore()
-#define fullscreen_off() fullscreen_mode_off_restore()
-#define fullscreen_update() fullscreen_mode_update()
-extern void fullscreen_set_canvas(video_canvas_t *c);
-extern void fullscreen_set_palette(video_canvas_t *vc,
-                                   const struct palette_s *p);
-extern void fullscreen_resize(int w, int h);
-extern int fs_draw_buffer_alloc(struct video_canvas_s *c,
-				BYTE **db, unsigned int w, unsigned int h,
-				unsigned int *pitch);
-extern void fs_draw_buffer_free(struct video_canvas_s *c, BYTE *db);
-extern void fs_draw_buffer_clear(struct video_canvas_s *, BYTE *db, 
-				 BYTE value, unsigned int w, unsigned int h,
-				 unsigned int pitch);
-extern void fullscreen_create_menus(void);
-
-#else
-#define fullscreen_on()
-#define fullscreen_off()
-#define fullscreen_update()
 #endif
-
-#endif /* !_VIDEOARCH_H */
 

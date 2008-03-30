@@ -2,8 +2,8 @@
  * vidmode.c
  *
  * Written by
- *  Martin Pottendorfer <pottendo@utanet.at>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Martin Pottendorfer <pottendo@utanet.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,8 +25,6 @@
  *
  */
 
-/*
-*/
 #define FS_VIDMODE_DEBUG
 
 #include "vice.h"
@@ -51,6 +49,7 @@
 
 static int vm_selected_videomode = -1;
 int vm_is_enabled = 0;
+int vm_is_suspended = 0;
 
 /* ---------------------------------------------------------------*/
 static log_t vidmode_log = LOG_ERR;
@@ -67,16 +66,6 @@ typedef struct {
 
 static vm_bestvideomode_t *vm_bestmodes = NULL;
 
-
-static unsigned int vidmode_available_modes(void)
-{
-#ifdef FS_VIDMODE_DEBUG
-    unsigned int i;
-    for (i = 0; i < vm_index; i++)
-        log_message(vidmode_log, "found mode: %s", vm_bestmodes[i].name);
-#endif
-    return vm_index;
-}
 
 extern int screen;
 
@@ -119,20 +108,21 @@ int vidmode_init(void)
 
     vm_selected_videomode = 0;
     vm_available = 1;
-    (void)vidmode_available_modes();
     return 0;
 }
 
-int vidmode_mode(struct video_canvas_s *canvas, int mode)
+static unsigned int vidmode_available_modes(void)
 {
-    if (mode < 0 || vm_available == 0)
-        return 0;
-
-    log_message(vidmode_log, "Selected mode: %s", vm_bestmodes[mode].name);
-    vm_selected_videomode = mode;
-
-    return 0;
+#ifdef FS_VIDMODE_DEBUG
+    unsigned int i;
+    for (i = 0; i < vm_index; i++)
+        log_message(vidmode_log, "found mode: %s", vm_bestmodes[i].name);
+#endif
+    return vm_index;
 }
+
+/* FIXME: Limiting vidmode to one active fullscreen window.  */
+static video_canvas_t *active_canvas;
 
 int vidmode_enable(struct video_canvas_s *canvas, int enable)
 {
@@ -151,7 +141,6 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
                     vm_bestmodes[vm_selected_videomode].name);
         vm = vm_modes[vm_bestmodes[vm_selected_videomode].modeindex];
 
-        vm_is_enabled = 1;
         saved_w = canvas->draw_buffer->canvas_width;
         saved_h = canvas->draw_buffer->canvas_height;
 
@@ -174,7 +163,9 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
                      0, 0, vm->hdisplay, vm->vdisplay,
                      x + vm->hdisplay / 2,
                      y + vm->vdisplay / 2);
-
+        active_canvas = canvas;
+        vm_is_enabled = 1;
+        vm_is_suspended = 0;
     } else {
         if (!vm_is_enabled)
             return 0;
@@ -188,6 +179,61 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
 
     }
     return 0;
+}
+
+int vidmode_mode(struct video_canvas_s *canvas, int mode)
+{
+    if (mode < 0 || vm_available == 0)
+        return 0;
+
+    log_message(vidmode_log, "Selected mode: %s", vm_bestmodes[mode].name);
+    vm_selected_videomode = mode;
+
+    return 0;
+}
+
+void vidmode_shutdown(void)
+{
+    if (vm_is_enabled == 0)
+        return;
+
+    if (vm_is_suspended > 0)
+        return;
+
+    log_message(vidmode_log, "Disabling Vidmode");
+    XF86VidModeSwitchToMode(x11ui_get_display_ptr(), screen, vm_modes[0]);
+}
+
+void vidmode_suspend(int level)
+{
+    if (vm_is_enabled == 0)
+        return;
+
+    if (level > 0)
+        return;
+
+    if (vm_is_suspended > 0)
+        return;
+
+    vm_is_suspended = 1;
+    vidmode_enable(active_canvas, 0);
+}
+
+void vidmode_resume(void)
+{
+   if (vm_is_enabled == 0)
+        return;
+
+   if (vm_is_suspended == 0)
+      return;
+
+   vm_is_suspended = 0;
+   vidmode_enable(active_canvas, 1);
+}
+
+void vidmode_set_mouse_timeout(void)
+{
+
 }
 
 int vidmode_available(void)
