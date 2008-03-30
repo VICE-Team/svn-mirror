@@ -1,3 +1,24 @@
+2001-12-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.47.
+
+	* raster/raster.c (add_line_and_double_scan): Update the
+	region between `start' and `end' and not the whole line.
+
+	* raster/raster-cache.c: Removed VDC specific functions.
+
+	* vdc/vdc-draw.c (get_attr_char_data,
+	cache_data_fill_attr_text, cache_data_fill_attr_text_const):
+	Moved functions here.
+	(get_std_text): Improved cursor handling.
+	(get_std_bitmap): Improved reverse bit implementation.
+	(cache_data_fill): New function.
+
+	* vdc/vdc.c, vdc/vdctypes.h: Removed `raster_ycounter_divide'.
+
+	* c64/reu.c (reu_dma): Restructured block functions, added
+	support for DMA cycle stealing.
+
 2001-12-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.46.
