@@ -31,7 +31,7 @@
 #include "uicmdline.h"
 
 
-void ui_cmdline_show_help(int num_options,
+void ui_cmdline_show_help(unsigned int num_options,
                           cmdline_option_ram_t *options, void *userparam)
 {
     unsigned int i;
