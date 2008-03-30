@@ -1,717 +1,575 @@
-#
-# This file is part of VICE, the Versatile Commodore Emulator.
-# See README for Copyright notice.
-#
-# Makefile template for building VICE.
-# The real Makefile is built from this one when you execute
-# the `configure' script.
-#
-# Written by
-#  Ettore Perazzoli	(ettore@comm2000.it)
-#  André Fachat		(a.fachat@physik.tu-chemnitz.de)
-#
-#
-# This needs some cleanup to separate machine-specific things better.
-# Moreover, it might not be 100% portable as we want it to be.
-# So far, it has worked fine with both GNU and BSD `make's.
-#
+# Makefile.in generated automatically by automake 1.3 from Makefile.am
 
-BASEDIR	        = @srcdir@
-TOPDIR	        = $(BASEDIR)/..
+# Copyright (C) 1994, 1995, 1996, 1997, 1998 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
 
-SRCDIR	        = $(BASEDIR)
-UNIXDIR		= $(SRCDIR)/arch/unix
-UNIXODIR	= ./arch/unix
-UNIXAWDIR	= $(UNIXDIR)/xaw
-UNIXAWDIR	= $(UNIXODIR)/xaw
-READLINEDIR     = $(UNIXDIR)/readline
-READLINEODIR    = $(UNIXODIR)/readline
-WIDGETDIR	= $(UNIXDIR)/widgets
-WIDGETODIR      = $(UNIXODIR)/widgets
-MSDOSDIR	= $(SRCDIR)/arch/msdos
-MSDOSODIR	= ./arch/msdos
-ARCHDIR		= @ARCHDIR@
-ARCHODIR	= @ARCHODIR@
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
 
-C64DIR		= $(SRCDIR)/c64
-C64ODIR		= ./c64
-VICDIR		= $(SRCDIR)/vic20
-VICODIR		= ./vic20
-PETDIR		= $(SRCDIR)/pet
-PETODIR		= ./pet
 
-READLINE        = @READLINE@
-WIDGETS		= $(WIDGETODIR)/widgets.a
+SHELL = /bin/sh
 
-BINDIR	        = @BINDIR@
-DOCDIR	        = $(TOPDIR)/doc
-MANDIR	        = $(TOPDIR)/man
-UTILDIR	        = $(TOPDIR)/utils
-RUNDIR	        = $(TOPDIR)/run
-INCLUDEDIR	= $(SRCDIR)/include
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
 
-SHELL           = /bin/sh
-CC 	        = @CC@
-CPP		= @CPP@
-PERL		= @PERL@
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
 
-prefix		= @prefix@
-PREFIX		= $(prefix)
-exec_prefix	= @exec_prefix@
-ARCH		= @host@
+DISTDIR =
 
-LDFLAGS         = @X_LIBS@ @LDFLAGS@
-DEFS 	        = @DEFS@ @JOYSTICK@ -DPREFIX=\"@prefix@\"
-MKDEP 	        = @MKDEP@
-CFLAGS          = @X_CFLAGS@ @CFLAGS@
-INCLUDES	= -I$(SRCDIR) -I./include -I$(ARCHDIR) -I$(INCLUDEDIR)
-LIBS	        = @LIBS@
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
 
-LN_S 	        = @LN_S@
+top_builddir = ..
 
-INSTALL		= @INSTALL@
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
-INSTALL_DATA	= @INSTALL_DATA@
-INSTALL_BINS_TO = @bindir@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+transform = @program_transform_name@
 
-RM		= rm
-
-### Installation settings
-
-# Root directory during installation
-# (e.g. /mnt for installation under /mnt/usr/local/)
-INSTALLROOT	=
-
-# All the executables go here
-INSTALL_BINDIR	= $(INSTALLROOT)$(INSTALL_BINS_TO)
-# ROMs and support files go into the lib dir $PREFIX/lib/vice
-# (also defined in vice.h)
-INSTALL_LIBDIR	= $(INSTALLROOT)$(PREFIX)/lib/vice
-INSTALL_DOCDIR  = $(INSTALL_LIBDIR)/doc
-
-# Manual page installation
-INSTALL_MANEXT = 1
-INSTALL_MANPREFIX = $(INSTALLROOT)$(PREFIX)
-INSTALL_MANDIR = $(INSTALL_MANPREFIX)/man/man$(INSTALL_MANEXT)
-
-### Distribution files
-
-## VICE sources
-
-C64SRC = $(C64DIR)/c64.c $(C64DIR)/cia1.c $(C64DIR)/cia2.c $(C64DIR)/c64mem.c \
-	$(C64DIR)/vicii.c $(C64DIR)/vicii.h $(C64DIR)/cia1.def \
-	$(C64DIR)/cia2.def $(C64DIR)/c64.h $(C64DIR)/c64mem.h \
-	$(C64DIR)/c64iec.c $(C64DIR)/c64iec.h $(C64DIR)/sid.h $(C64DIR)/sid.c
-
-VICSRC = $(VICDIR)/via1.c $(VICDIR)/via2.c $(VICDIR)/vic20mem.c \
-	$(VICDIR)/vic.c $(VICDIR)/vic.h $(VICDIR)/via1.def $(VICDIR)/via2.def \
-	$(VICDIR)/vic20.c $(VICDIR)/vic20mem.h $(VICDIR)/vic20iec.c \
-	$(VICDIR)/vic20.h $(VICDIR)/vic20iec.h $(VICDIR)/soundvic20.h \
-	$(VICDIR)/soundvic20.c
-
-PETSRC = $(PETDIR)/viap.c $(PETDIR)/petmem.c $(PETDIR)/crtc.c \
-	$(PETDIR)/viap.def $(PETDIR)/pets.c $(PETDIR)/pia.c \
-	$(PETDIR)/petmem.h $(PETDIR)/pets.h $(PETDIR)/pet.c \
-	$(PETDIR)/crtc.h $(PETDIR)/soundpet.h $(PETDIR)/soundpet.c
-
-VICESRC = $(SRCDIR)/1541cpu.c $(SRCDIR)/6510core.c $(SRCDIR)/asm.c \
-	$(SRCDIR)/attach.c $(SRCDIR)/autostart.c $(SRCDIR)/c1541.c \
-	$(SRCDIR)/charsets.c $(SRCDIR)/cia-tmpl.c $(SRCDIR)/cmdline.c \
-	$(SRCDIR)/drive.c $(SRCDIR)/findpath.c $(SRCDIR)/fsdevice.c \
-	$(SRCDIR)/gcr.c $(SRCDIR)/info.c $(SRCDIR)/kbdbuf.c \
-	$(SRCDIR)/main.c $(SRCDIR)/maincpu.c $(SRCDIR)/memcmp.c \
-	$(SRCDIR)/memutils.c $(SRCDIR)/misc.c $(SRCDIR)/mon.c \
-	$(SRCDIR)/mon_cli.l $(SRCDIR)/mon_cli.y $(SRCDIR)/mon_lex.c \
-	$(SRCDIR)/mon_parse.c $(SRCDIR)/mshell.c $(SRCDIR)/palette.c \
-	$(SRCDIR)/parallel.c $(SRCDIR)/patchrom.c $(SRCDIR)/petcat.c \
-	$(SRCDIR)/raster.c $(SRCDIR)/resources.c $(SRCDIR)/reu.c \
-	$(SRCDIR)/serial.c $(SRCDIR)/sysfile.c \
-	$(SRCDIR)/tape.c $(SRCDIR)/tapeunit.c $(SRCDIR)/tpi.c \
-	$(SRCDIR)/traps.c $(SRCDIR)/true1541.c $(SRCDIR)/usleep.c \
-	$(SRCDIR)/utils.c $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.c \
-	$(SRCDIR)/viad2.c $(SRCDIR)/viad1.def $(SRCDIR)/viad2.def \
-	$(SRCDIR)/warn.c $(SRCDIR)/zfile.c $(SRCDIR)/zipcode.c \
-	$(SRCDIR)/sound.c $(SRCDIR)/soundfs.c $(SRCDIR)/sounddump.c \
-	$(SRCDIR)/soundspeed.c $(SRCDIR)/sounddummy.c
-
-VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
-	$(INCLUDEDIR)/asm.h $(INCLUDEDIR)/attach.h $(INCLUDEDIR)/autostart.h \
-	$(INCLUDEDIR)/c1541.h $(INCLUDEDIR)/charsets.h $(INCLUDEDIR)/cia.h \
-	$(INCLUDEDIR)/cmdline.h $(INCLUDEDIR)/drive.h \
-	$(INCLUDEDIR)/file.h $(INCLUDEDIR)/findpath.h $(INCLUDEDIR)/fs_cbm.h \
-	$(INCLUDEDIR)/fsdevice.h $(INCLUDEDIR)/gcr.h $(INCLUDEDIR)/iecdrive.h \
-	$(INCLUDEDIR)/icon.h $(INCLUDEDIR)/info.h $(INCLUDEDIR)/interrupt.h \
-	$(INCLUDEDIR)/kbdbuf.h $(INCLUDEDIR)/machspec.h \
-	$(INCLUDEDIR)/maincpu.h $(INCLUDEDIR)/mem.h $(INCLUDEDIR)/memutils.h \
-	$(INCLUDEDIR)/misc.h $(INCLUDEDIR)/mon.h $(INCLUDEDIR)/mon_parse.h \
-	$(INCLUDEDIR)/mos6510.h $(INCLUDEDIR)/mshell.h $(INCLUDEDIR)/op.h \
-	$(INCLUDEDIR)/palette.h	$(INCLUDEDIR)/parallel.h \
-	$(INCLUDEDIR)/patchlevel.h $(INCLUDEDIR)/patchrom.h \
-	$(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h $(INCLUDEDIR)/raster.h \
-	$(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h $(INCLUDEDIR)/serial.h \
-	$(INCLUDEDIR)/sprites.h $(INCLUDEDIR)/sprcycles.h \
-	$(INCLUDEDIR)/sprcrunch.h $(INCLUDEDIR)/sysfile.h \
-	$(INCLUDEDIR)/tape.h $(INCLUDEDIR)/tapeunit.h $(INCLUDEDIR)/traps.h \
-	$(INCLUDEDIR)/tpi.h $(INCLUDEDIR)/true1541.h $(INCLUDEDIR)/types.h \
-	$(INCLUDEDIR)/utils.h $(INCLUDEDIR)/via.h $(INCLUDEDIR)/viad.h \
-	$(INCLUDEDIR)/vice.h $(INCLUDEDIR)/vmachine.h $(INCLUDEDIR)/warn.h \
-	$(INCLUDEDIR)/wave6581.h $(INCLUDEDIR)/wave8580.h \
-	$(INCLUDEDIR)/zfile.h $(INCLUDEDIR)/zipcode.h \
-	$(INCLUDEDIR)/sound.h $(INCLUDEDIR)/acconfig.h \
-	$(INCLUDEDIR)/autoconf.h.in
-
-VICEMISC = $(SRCDIR)/Makefile.in $(SRCDIR)/configure $(SRCDIR)/configure.in \
-	$(SRCDIR)/config.guess $(SRCDIR)/config.sub $(SRCDIR)/install-sh \
-	$(SRCDIR)/convio $(SRCDIR)/mkinstalldirs $(SRCDIR)/mkdep \
-	$(SRCDIR)/ChangeLog $(SRCDIR)/ChangeLog.1
-
-VICEDIST = $(VICEMISC) $(VICESRC) $(VICEHDR) $(C64SRC) $(VICSRC) $(PETSRC)
-
-# Unix-specific sources.
-
-UNIXSRC =  $(UNIXDIR)/joystick.c $(UNIXDIR)/kbd.c $(UNIXDIR)/video.c \
-	$(UNIXDIR)/vsync.c $(UNIXDIR)/sounduss.c $(UNIXDIR)/soundsgi.c \
-	$(UNIXDIR)/soundsun.c $(UNIXDIR)/soundaix.c $(UNIXDIR)/soundhpux.c \
-
-UNIXHDR = $(UNIXDIR)/joystick.h $(UNIXDIR)/kbd.h $(UNIXDIR)/kbdef.h \
-	$(UNIXDIR)/ui.h $(UNIXDIR)/video.h $(UNIXDIR)/vsync.h
-
-UNIXMISC = $(UNIXDIR)/x64_icon.xpm $(UNIXDIR)/checkmark.xbm \
-	$(UNIXDIR)/xpet_icon.xpm $(UNIXDIR)/right_arrow.xbm \
-	$(UNIXDIR)/xvic_icon.xpm
-
-UNIXDIST = $(UNIXSRC) $(UNIXHDR) $(UNIXMISC)
-
-UNIXAWSRC = $(UNIXAWDIR)/ui.c $(UNIXAWDIR)/uicommands.c $(UNIXAWDIR)/uimenu.c \
-	$(UNIXAWDIR)/uisettings.c $(UNIXAWDIR)/xdebug.c $(UNIXAWDIR)/c64ui.c \
-	$(UNIXAWDIR)/vic20ui.c
-
-UNIXAWHDR = $(UNIXAWDIR)/ui.h $(UNIXAWDIR)/uicommands.h $(UNIXAWDIR)/uimenu.h \
-	$(UNIXAWDIR)/uisettings.h $(UNIXAWDIR)/xdebug.h $(UNIXAWDIR)/c64ui.h \
-	$(UNIXAWDIR)/vic20ui.h
-
-UNIXAWDIST = $(UNIXAWSRC) $(UNIXAWHDR)
-
-# MS-DOS-specific sources.
-
-MSDOSSRC = $(MSDOSDIR)/joystick.c $(MSDOSDIR)/kbd.c $(MSDOSDIR)/vmidas.c \
-	$(MSDOSDIR)/tuimenu.c $(MSDOSDIR)/tui.c $(MSDOSDIR)/tui_backend.c \
-	$(MSDOSDIR)/tuifs.c $(MSDOSDIR)/ui.c $(MSDOSDIR)/video.c \
-	 $(MSDOSDIR)/vsync.c $(MSDOSDIR)/tuiview.c
-
-MSDOSHDR = $(MSDOSDIR)/joystick.h $(MSDOSDIR)/kbd.h $(MSDOSDIR)/vmidas.h \
-	$(MSDOSDIR)/kbdef.h $(MSDOSDIR)/tuimenu.h $(MSDOSDIR)/tui.h \
-	$(MSDOSDIR)/tui_backend.h $(MSDOSDIR)/tuifs.h $(MSDOSDIR)/ui.h \
-	 $(MSDOSDIR)/video.h $(MSDOSDIR)/vsync.h $(MSDOSDIR)/tuiview.h
-
-MSDOSDIST = $(MSDOSSRC) $(MSDOSHDR)
-
-
-### Libraries.
-
-## Readline sources
-
-READLINESRC = $(READLINEDIR)/complete.c $(READLINEDIR)/editline.c \
-	$(READLINEDIR)/editline2.c $(READLINEDIR)/sysos9.c \
-	$(READLINEDIR)/sysunix.c $(READLINEDIR)/testit.c \
-	$(READLINEDIR)/version.c
-
-READLINEHDR = $(READLINEDIR)/editline.h $(READLINEDIR)/os9.h \
-	$(READLINEDIR)/unix.h
-
-READLINEMISC = $(READLINEDIR)/Makefile.in $(READLINEDIR)/README \
-	$(READLINEDIR)/autoconf.h.in
-
-READLINEDIST = $(READLINEMISC) $(READLINESRC) $(READLINEHDR)
-
-## Widget sources
-
-WIDGETSRC = $(WIDGETDIR)/Canvas.c $(WIDGETDIR)/DirMgr.c \
-	$(WIDGETDIR)/Directory.c $(WIDGETDIR)/DrawImageString.c \
-	$(WIDGETDIR)/DrawString.c $(WIDGETDIR)/FileSel.c \
-	$(WIDGETDIR)/MultiList.c $(WIDGETDIR)/RegExp.c $(WIDGETDIR)/ScrList.c \
-	$(WIDGETDIR)/Tablist2Tabs.c $(WIDGETDIR)/TextField.c \
-	$(WIDGETDIR)/TextWidth.c $(WIDGETDIR)/strnchr.c
-
-WIDGETHDR = $(WIDGETDIR)/Canvas.h $(WIDGETDIR)/CanvasP.h \
-	$(WIDGETDIR)/DirMgr.h $(WIDGETDIR)/Directory.h $(WIDGETDIR)/FileSel.h \
-	$(WIDGETDIR)/FileSelP.h $(WIDGETDIR)/MultiList.h \
-	$(WIDGETDIR)/MultiListP.h $(WIDGETDIR)/RegExp.h \
-	$(WIDGETDIR)/ScrList.h $(WIDGETDIR)/ScrListP.h \
-	$(WIDGETDIR)/TabString.h $(WIDGETDIR)/TextField.h \
-	$(WIDGETDIR)/TextFieldP.h
-
-WIDGETMISC = $(WIDGETDIR)/Makefile.in $(WIDGETDIR)/autoconf.h.in
-
-WIDGETDIST = $(WIDGETMISC) $(WIDGETSRC) $(WIDGETHDR)
-
-
-## Documentation
-
-DOCS = $(DOCDIR)/64doc.txt $(DOCDIR)/cbm_basic_tokens.txt \
-        $(DOCDIR)/recomment.html $(DOCDIR)/Evaluation $(DOCDIR)/PETdoc.txt \
-	$(DOCDIR)/drive_info.txt $(DOCDIR)/serial.txt $(DOCDIR)/mnemonics.txt \
-	$(DOCDIR)/MANUAL.html $(DOCDIR)/mon.txt
-
-MANPAGES = $(MANDIR)/vice.man $(MANDIR)/c1541.man $(MANDIR)/petcat.man
-
-CATPAGES = $(MANDIR)/vice.cat $(MANDIR)/c1541.cat $(MANDIR)/petcat.cat
-
-README	= $(TOPDIR)/README $(TOPDIR)/COPYING $(TOPDIR)/BUGS $(TOPDIR)/CHANGES \
-	$(TOPDIR)/TODO $(TOPDIR)/INSTALL
-
-## Utilities
-
-UTILS = $(UTILDIR)/INDEX $(UTILDIR)/dsk2infocom.c $(UTILDIR)/recomment \
-	$(UTILDIR)/xkeymaped.tar.Z $(UTILDIR)/rmshm $(UTILDIR)/rmshm.linux \
-	$(UTILDIR)/tounix $(UTILDIR)/toiso
-
-## x64run utility
-
-RUN = $(RUNDIR)/README.RUN $(RUNDIR)/cbm16.bdf $(RUNDIR)/cbm8.bdf \
-	$(RUNDIR)/fonts.dir $(RUNDIR)/x64run $(RUNDIR)/xvicrun \
-	$(RUNDIR)/xpetrun
-
-## ROMs
-
-C64ROMDIR = $(TOPDIR)/bin/C64
-VIC20ROMDIR = $(TOPDIR)/bin/VIC20
-PETROMDIR = $(TOPDIR)/bin/PET
-
-C64ROMS = $(C64ROMDIR)/basic $(C64ROMDIR)/kernal $(C64ROMDIR)/dos1541 \
-	$(C64ROMDIR)/chargen $(C64ROMDIR)/vice.vkm $(C64ROMDIR)/default.vpl \
-	$(C64ROMDIR)/ccs64.vpl $(C64ROMDIR)/frodo.vpl
-
-VIC20ROMS = $(VIC20ROMDIR)/basic $(VIC20ROMDIR)/kernal $(VIC20ROMDIR)/dos1541 \
-	$(VIC20ROMDIR)/chargen $(VIC20ROMDIR)/vice.vkm \
-	$(VIC20ROMDIR)/default.vpl
-
-PETROMS = $(PETROMDIR)/pet2001 $(PETROMDIR)/pet3032 $(PETROMDIR)/pet4032 \
-	$(PETROMDIR)/edit2.b $(PETROMDIR)/edit4.b40 $(PETROMDIR)/edit4.b80 \
-	$(PETROMDIR)/chargen $(PETROMDIR)/graphics.vkm \
-	$(PETROMDIR)/busi_uk.vkm $(PETROMDIR)/posg_de.vkm
-
-
-### Object files
-#
-# Common objects are produced in the obj directory
-# x64/xvic/xpet (l)objects are produced in the obj/{c64|vic20|pet} dir.
-#
-
-X64_SYSPEC_OBJS  = @X64_SYSPEC_OBJS@
-XVIC_SYSPEC_OBJS = @XVIC_SYSPEC_OBJS@
-XPET_SYSPEC_OBJS = @XPET_SYSPEC_OBJS@
-
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
+AR = @AR@
+ARCH_INCLUDES = @ARCH_INCLUDES@
+BINDIR = @BINDIR@
+CC = @CC@
+CPP = @CPP@
+JOYSTICK = @JOYSTICK@
 JOY_OBJS = @JOY_OBJS@
+LDFLAGS = @LDFLAGS@
+LEX = @LEX@
+LIBOBJS = @LIBOBJS@
+LIBS = @LIBS@
+LN_S = @LN_S@
+MAKEINFO = @MAKEINFO@
+PACKAGE = @PACKAGE@
+PERL = @PERL@
+RANLIB = @RANLIB@
+READLINE = @READLINE@
+SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
+SOUND_DRIVERS = @SOUND_DRIVERS@
+SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
+SOUND_LIBS = @SOUND_LIBS@
+SOUND_MIDAS_OBJ = @SOUND_MIDAS_OBJ@
+SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
+SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
+SOUND_USS_OBJ = @SOUND_USS_OBJ@
+VERSION = @VERSION@
+YACC = @YACC@
 
-SOUND_OBJS = @SOUND_USS_OBJ@ @SOUND_SGI_OBJ@ @SOUND_HPUX_OBJ@ \
-	@SOUND_AIX_OBJ@ @SOUND_MIDAS_OBJ@ @SOUND_SDL_OBJ@
+ARCH_LIBS = @ARCH_LIBS@
 
-COMMON_OBJS = charsets.o cmdline.o info.o mshell.o main.o tape.o tapeunit.o \
-	warn.o utils.o gcr.o zfile.o misc.o mon_parse.o mon_lex.o memutils.o \
-	drive.o asm.o kbdbuf.o findpath.o maincpu.o zipcode.o serial.o \
-	parallel.o traps.o mon.o palette.o sysfile.o resources.o autostart.o \
-	attach.o fsdevice.o @SYSPEC_OBJS@ @LIBOBJS@ $(SOUND_OBJS) \
-	sound.o soundspeed.o sounddummy.o soundfs.o sounddump.o
+SUBDIRS = sounddrv true1541 c64 c128 vic20 pet arch
 
-COMMON_LIBS = @COMMON_LIBS@
+INCLUDES = \
+	@ARCH_INCLUDES@ \
+	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src \
+	-DPREFIX=\"@prefix@\"
 
-TRUE1541_OBJS =  true1541.o viad1.o viad2.o 1541cpu.o
+noinst_HEADERS = \
+	6510core.h \
+	asm.h \
+	attach.h \
+	autostart.h \
+	c1541.h \
+	charsets.h \
+	cia.h \
+	cmdline.h \
+	config.h.in \
+	drive.h \
+	file.h \
+	findpath.h \
+	fs_cbm.h \
+	fsdevice.h \
+	gcr.h \
+	icon.h \
+	iecdrive.h \
+	info.h \
+	interrupt.h \
+	kbdbuf.h \
+	machine.h \
+	maincpu.h \
+	mem.h \
+	memutils.h \
+	misc.h \
+	mon.h \
+	mon_parse.h \
+	mos6510.h \
+	mshell.h \
+	op.h \
+	palette.h \
+	parallel.h \
+	printer.h \
+	raster.h \
+	resources.h \
+	serial.h \
+	sound.h \
+	sysfile.h \
+	tape.h \
+	tapeunit.h \
+	traps.h \
+	types.h \
+	utils.h \
+	via.h \
+	vice.h \
+	vmachine.h \
+	warn.h \
+	zfile.h \
+	zipcode.h
 
-C64_OBJS = patchrom.o reu.o tpi.o $(X64_SYSPEC_OBJS)
+base_sources = \
+	asm.c \
+	attach.c \
+	autostart.c \
+	charsets.c \
+	cmdline.c \
+	drive.c \
+	findpath.c \
+	fsdevice.c \
+	gcr.c \
+	info.c \
+	kbdbuf.c \
+	main.c \
+	maincpu.c \
+	memutils.c \
+	misc.c \
+	mon.c \
+	mon_lex.l \
+	mon_parse.y \
+	mshell.c \
+	palette.c \
+	parallel.c \
+	resources.c \
+	serial.c \
+	sound.c \
+	sysfile.c \
+	tape.c \
+	tapeunit.c \
+	traps.c \
+	utils.c \
+	warn.c \
+	zfile.c \
+	zipcode.c
 
-C64_LOBJS = $(C64ODIR)/cia1.o $(C64ODIR)/cia2.o $(C64ODIR)/c64.o \
-	$(C64ODIR)/c64mem.o $(C64ODIR)/vicii.o $(C64ODIR)/c64iec.o \
-	$(C64ODIR)/sid.o
+EXTRA_DIST = \
+	6510core.c \
+	ChangeLog \
+	ChangeLog.1 \
+	cia-tmpl.c \
+	convio \
+	raster.c \
+	via-tmpl.c
 
-VIC20_OBJS =
+sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+true1541_lib = $(top_builddir)/src/true1541/libtrue1541.a
+c64_lib = $(top_builddir)/src/c64/libc64.a
+c128_lib = $(top_builddir)/src/c128/libc128.a
+vic20_lib = $(top_builddir)/src/vic20/libvic20.a
+pet_lib = $(top_builddir)/src/pet/libpet.a
 
-VIC20_LOBJS =  $(VICODIR)/via1.o $(VICODIR)/via2.o $ $(VICODIR)/vic20.o \
-	$(VICODIR)/vic20mem.o $(VICODIR)/vic.o $(VICODIR)/vic20iec.o \
-        $(XVIC_SYSPEC_OBJS) $(VICODIR)/soundvic20.o
+bin_PROGRAMS = x64 x128 xvic xpet
 
-PET_OBJS = $(XPET_SYSPEC_OBJS)
+# x64
+x64_SOURCES = $(base_sources)
+x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
+	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
+x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) @ARCH_LIBS@
 
-PET_LOBJS = $(PETODIR)/viap.o $(PETODIR)/petmem.o $(PETODIR)/crtc.o \
-	$(PETODIR)/pets.o $(PETODIR)/pia.o $(PETODIR)/pet.o \
-	$(PETODIR)/soundpet.o
+# x128
+# Notice that this works by overriding some symbols from the C64 library.
+x128_SOURCES = $(base_sources)
+x128_LDADD = $(c128_lib) $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
+	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
+x128_DEPENDENCIES = $(c128_lib) $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
+	@ARCH_LIBS@
 
-C64_DEPS = $(C64_OBJS) $(JOY_OBJS) $(TRUE1541_OBJS) $(COMMON_OBJS) \
-	$(C64_LOBJS) $(COMMON_LIBS)
+# xvic
+xvic_SOURCES = $(base_sources)
+xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
+	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
+xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) @ARCH_LIBS@
 
-VIC_DEPS = $(VIC20_OBJS) $(JOY_OBJS) $(TRUE1541_OBJS) $(COMMON_OBJS) \
-	$(VIC20_LOBJS) $(COMMON_LIBS)
-
-PET_DEPS = $(PET_OBJS) $(COMMON_OBJS) $(PET_LOBJS) $(COMMON_LIBS) $(JOY_OBJS)
-
-C1541_OBJS = c1541.o zipcode.o
-
-C1541_DEPS = $(C1541_OBJS) drive.o tape.o mshell.o charsets.o utils.o \
-	zfile.o gcr.o $(READLINE)
-
-PETCAT_OBJS = petcat.o
-
-PETCAT_DEPS = $(PETCAT_OBJS) charsets.o tape.o utils.o zfile.o zipcode.o
-
-VICEOBJS = $(COMMON_OBJS) $(C64_OBJS) $(VIC20_OBJS) $(PET_OBJS) $(C1541_OBJS) \
-	$(PETCAT_OBJS) $(TRUE1541_OBJS) $(PARALLEL_OBJS) $(JOY_OBJS) \
-	$(C64_LOBJS) $(VIC20_LOBJS) $(PET_LOBJS)
-
-EMUBIN = $(BINDIR)/x64 $(BINDIR)/xvic $(BINDIR)/xpet
-
-UTILBIN = $(BINDIR)/c1541 $(BINDIR)/petcat
-
-TARGET = $(EMUBIN) $(UTILBIN)
-
-
-### Default target (build everything)
-
-.PHONY: all
-all: $(EMUBIN) $(UTILBIN)
+# xpet
+xpet_SOURCES = $(base_sources)
+xpet_LDADD = $(pet_lib) $(sounddrv_lib) \
+	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
+xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) @ARCH_LIBS@
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = config.h
+CONFIG_CLEAN_FILES = 
+PROGRAMS =  $(bin_PROGRAMS)
 
 
-### Default rule for building C object files.
+DEFS = @DEFS@ -I. -I$(srcdir) -I.
+CPPFLAGS = @CPPFLAGS@
+X_CFLAGS = @X_CFLAGS@
+X_LIBS = @X_LIBS@
+X_EXTRA_LIBS = @X_EXTRA_LIBS@
+X_PRE_LIBS = @X_PRE_LIBS@
+x64_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
+findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o maincpu.o memutils.o \
+misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o \
+resources.o serial.o sound.o sysfile.o tape.o tapeunit.o traps.o \
+utils.o warn.o zfile.o zipcode.o
+x64_LDFLAGS = 
+x128_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
+findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o maincpu.o memutils.o \
+misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o \
+resources.o serial.o sound.o sysfile.o tape.o tapeunit.o traps.o \
+utils.o warn.o zfile.o zipcode.o
+x128_LDFLAGS = 
+xvic_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
+findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o maincpu.o memutils.o \
+misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o \
+resources.o serial.o sound.o sysfile.o tape.o tapeunit.o traps.o \
+utils.o warn.o zfile.o zipcode.o
+xvic_LDFLAGS = 
+xpet_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
+findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o maincpu.o memutils.o \
+misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o \
+resources.o serial.o sound.o sysfile.o tape.o tapeunit.o traps.o \
+utils.o warn.o zfile.o zipcode.o
+xpet_LDFLAGS = 
+LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+LEXLIB = @LEXLIB@
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
+LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
+HEADERS =  $(noinst_HEADERS)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $<
+DIST_COMMON =  ChangeLog Makefile.am Makefile.in config.h.in mon_lex.c \
+mon_parse.c stamp-h.in
+
+
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+
+TAR = tar
+GZIP = --best
+SOURCES = $(x64_SOURCES) $(x128_SOURCES) $(xvic_SOURCES) $(xpet_SOURCES)
+OBJECTS = $(x64_OBJECTS) $(x128_OBJECTS) $(xvic_OBJECTS) $(xpet_OBJECTS)
+
+all: all-recursive-am all-am
+
+.SUFFIXES:
+.SUFFIXES: .S .c .l .o .s .y
+$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/Makefile
+
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+
+config.h: stamp-h
+	@:
+stamp-h: $(srcdir)/config.h.in $(top_builddir)/config.status
+	cd $(top_builddir) \
+	  && CONFIG_FILES= CONFIG_HEADERS=src/config.h \
+	     $(SHELL) ./config.status
+	@echo timestamp > stamp-h
+$(srcdir)/config.h.in: $(srcdir)/stamp-h.in
+$(srcdir)/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+	cd $(top_srcdir) && $(AUTOHEADER)
+	@echo timestamp > $(srcdir)/stamp-h.in
+
+mostlyclean-hdr:
+
+clean-hdr:
+
+distclean-hdr:
+	-rm -f config.h
+
+maintainer-clean-hdr:
+
+mostlyclean-binPROGRAMS:
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+
+distclean-binPROGRAMS:
+
+maintainer-clean-binPROGRAMS:
+
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
+	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	  else :; fi; \
+	done
+
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	done
 
 .c.o:
-	$(CC) $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $<
+	$(COMPILE) -c $<
+
+.s.o:
+	$(COMPILE) -c $<
+
+.S.o:
+	$(COMPILE) -c $<
+
+mostlyclean-compile:
+	-rm -f *.o core *.core
+
+clean-compile:
+
+distclean-compile:
+	-rm -f *.tab.c
+
+maintainer-clean-compile:
+
+x64: $(x64_OBJECTS) $(x64_DEPENDENCIES)
+	@rm -f x64
+	$(LINK) $(x64_LDFLAGS) $(x64_OBJECTS) $(x64_LDADD) $(LIBS)
+
+x128: $(x128_OBJECTS) $(x128_DEPENDENCIES)
+	@rm -f x128
+	$(LINK) $(x128_LDFLAGS) $(x128_OBJECTS) $(x128_LDADD) $(LIBS)
+
+xvic: $(xvic_OBJECTS) $(xvic_DEPENDENCIES)
+	@rm -f xvic
+	$(LINK) $(xvic_LDFLAGS) $(xvic_OBJECTS) $(xvic_LDADD) $(LIBS)
+
+xpet: $(xpet_OBJECTS) $(xpet_DEPENDENCIES)
+	@rm -f xpet
+	$(LINK) $(xpet_LDFLAGS) $(xpet_OBJECTS) $(xpet_LDADD) $(LIBS)
+.y.c:
+	$(YACC) $(YFLAGS) $< && mv y.tab.c $*.c
+	if test -f y.tab.h; then \
+	if cmp -s y.tab.h $*.h; then rm -f y.tab.h; else mv y.tab.h $*.h; fi; \
+	else :; fi
+mon_parse.h: mon_parse.c
+
+.l.c:
+	$(LEX) $(LFLAGS) $< && mv $(LEX_OUTPUT_ROOT).c $@
+
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run `make' without going through this Makefile.
+# To change the values of `make' variables: instead of editing Makefiles,
+# (1) if the variable is set in `config.status', edit `config.status'
+#     (which will cause the Makefiles to be regenerated when you run `make');
+# (2) otherwise, pass the desired values on the `make' command line.
+
+@SET_MAKE@
+
+all-recursive install-data-recursive install-exec-recursive \
+installdirs-recursive install-recursive uninstall-recursive  \
+check-recursive installcheck-recursive info-recursive dvi-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  target=`echo $@ | sed s/-recursive//`; \
+	  echo "Making $$target in $$subdir"; \
+	  (cd $$subdir && $(MAKE) $$target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done && test -z "$$fail"
+
+mostlyclean-recursive clean-recursive distclean-recursive \
+maintainer-clean-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	  rev="$$subdir $$rev"; \
+	done; \
+	for subdir in $$rev; do \
+	  target=`echo $@ | sed s/-recursive//`; \
+	  echo "Making $$target in $$subdir"; \
+	  (cd $$subdir && $(MAKE) $$target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done && test -z "$$fail"
+tags-recursive:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  (cd $$subdir && $(MAKE) tags); \
+	done
+
+tags: TAGS
+
+ID: $(HEADERS) $(SOURCES) $(LISP)
+	here=`pwd` && cd $(srcdir) \
+	  && mkid -f$$here/ID $(SOURCES) $(HEADERS) $(LISP)
+
+TAGS: tags-recursive $(HEADERS) $(SOURCES) config.h.in $(TAGS_DEPENDENCIES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+	done; \
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)config.h.in$$unique$(LISP)$$tags" \
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags config.h.in $$unique $(LISP) -o $$here/TAGS)
+
+mostlyclean-tags:
+
+clean-tags:
 
-$(COMMON_OBJS) $(TRUE1541_OBJS) $(PARALLEL_OBJS) $(C1541_OBJS) $(PETCAT_OBJS):
-	$(CC) $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
+distclean-tags:
+	-rm -f TAGS ID
 
-### `widget' and `readline' libraries
+maintainer-clean-tags:
 
-$(READLINEODIR)/readline.a:
-	cd $(READLINEODIR); $(MAKE)
+distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-$(WIDGETS):
-	cd $(WIDGETODIR); $(MAKE)
+subdir = src
 
-
-### x64
-
-.PHONY: x64
-x64:	$(BINDIR)/x64
-
-$(BINDIR)/x64: $(C64_DEPS)
-	$(CC) $(LDFLAGS) -o $@ $(C64_DEPS) $(LIBS) -lm
-#	$(RM) -f ./x64; $(LN_S) $(BINDIR)/x64 ./x64
-
-$(C64_OBJS):
-	$(CC) $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
-
-$(C64_LOBJS):
-	$(CC) -DCBM64 $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
-
-$(C64DIR)/cia1.c: $(SRCDIR)/cia-tmpl.c $(C64DIR)/cia1.def $(SRCDIR)/convio
-	if [ -x $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/cia-tmpl.c $(C64DIR)/cia1.def $(C64DIR)/cia1.c; fi
-
-$(C64DIR)/cia2.c: $(SRCDIR)/cia-tmpl.c $(C64DIR)/cia2.def $(SRCDIR)/convio
-	if [ -x $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/cia-tmpl.c $(C64DIR)/cia2.def $(C64DIR)/cia2.c; fi
-
-
-### xvic
-
-.PHONY: xvic
-xvic:	$(BINDIR)/xvic
-
-$(BINDIR)/xvic: $(VIC_DEPS)
-	$(CC) $(LDFLAGS) -o $@ $(VIC_DEPS) $(LIBS) -lm
-#	$(RM) -f ./xvic; $(LN_S) $(BINDIR)/xvic ./xvic
-
-$(VIC20_OBJS):
-	$(CC) -DVIC20 $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:_VIC20.o=.c)
-
-$(VIC20_LOBJS):
-	$(CC) -DVIC20 $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
-
-$(VICDIR)/via1.c: $(SRCDIR)/via-tmpl.c $(VICDIR)/via1.def $(SRCDIR)/convio
-	if [ -s $(PERL) ]; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(VICDIR)/via1.def $(VICDIR)/via1.c; fi
-
-$(VICDIR)/via2.c: $(SRCDIR)/via-tmpl.c $(VICDIR)/via2.def $(SRCDIR)/convio
-	if [ -s $(PERL) ]; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(VICDIR)/via2.def $(VICDIR)/via2.c; fi
-
-
-### xpet
-
-.PHONY: xpet
-xpet: $(BINDIR)/xpet
-
-$(BINDIR)/xpet: $(PET_DEPS)
-	$(CC) $(LDFLAGS) -o $@ $(PET_DEPS) $(LIBS) -lm
-#	$(RM) -rf ./xpet; $(LN_S) $(BINDIR)/xpet ./xpet
-
-$(PET_OBJS):
-	$(CC) -DPET $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:_PET.o=.c)
-
-$(PET_LOBJS):
-	$(CC) -DPET $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
-
-$(PETDIR)/viap.c: $(SRCDIR)/via-tmpl.c $(PETDIR)/viap.def $(SRCDIR)/convio
-	if [ -s $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(PETDIR)/viap.def $(PETDIR)/viap.c; fi
-
-
-### 1541
-
-$(SRCDIR)/viad1.c: $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.def $(SRCDIR)/convio
-	if [ -s $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.def $(SRCDIR)/viad1.c; fi
-
-$(SRCDIR)/viad2.c: $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad2.def $(SRCDIR)/convio
-	if [ -s $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad2.def $(SRCDIR)/viad2.c; fi
-
-
-### Monitor
-
-$(SRCDIR)/mon_parse.c: $(SRCDIR)/mon_cli.y
-	bison -dt -o mon_parse.c mon_cli.y
-	mv mon_parse.h $(INCLUDEDIR)/mon_parse.h
-
-$(SRCDIR)/mon_lex.c: $(SRCDIR)/mon_cli.l
-	flex -I -omon_lex.c mon_cli.l
-
-
-### Utilities: c1541 and petcat
-
-.PHONY: utils
-utils: c1541 petcat
-
-.PHONY: c1541
-c1541: $(BINDIR)/c1541
-
-$(BINDIR)/c1541: $(C1541_DEPS)
-	$(CC) $(LDFLAGS) -o $@ $(C1541_DEPS) $(LIBS)
-#	$(RM) -f ./c1541; 	$(LN_S) $(BINDIR)/c1541 ./c1541
-
-.PHONY: petcat
-petcat: $(BINDIR)/petcat
-
-$(BINDIR)/petcat: $(PETCAT_DEPS)
-	$(CC) $(LDFLAGS) -o $@ $(PETCAT_DEPS)
-#	$(RM) -f ./petcat; $(LN_S) $(BINDIR)/petcat ./petcat
-
-stdprinter.o: $(SRCDIR)/printer.c
-	$(CC) -c $(CFLAGS) $(DEFS) $(INCLUDES) -DSTANDALONE_PRINTER -o stdprinter.o $(SRCDIR)/printer.c
-
-
-### Pre-formatted man pages
-
-.PHONY: catpages
-catpages: $(CATPAGES)
-
-$(MANDIR)/vice.cat: $(MANDIR)/vice.man
-	nroff -man $(MANDIR)/vice.man | col -b   > $(MANDIR)/vice.cat
-
-$(MANDIR)/petcat.cat: $(MANDIR)/petcat.man
-	nroff -man $(MANDIR)/petcat.man | col -b > $(MANDIR)/petcat.cat
-
-$(MANDIR)/c1541.cat: $(MANDIR)/c1541.man
-	nroff -man $(MANDIR)/c1541.man | col -b   > $(MANDIR)/c1541.cat
-
-### Installation
-
-## Extract version ID from patchlevel.h
-VERSION: $(INCLUDEDIR)/patchlevel.h
-	@( sed -e '/ VERSION/!d' $(INCLUDEDIR)/patchlevel.h | sed -e 's/.*"\([0-9.]*\) *\([A-Za-z]*\) *\([0-9.]*\)"/\1-\2\3/' | sed -e 's/-$$//' ) > VERSION ;
-	@echo VICE version is \``cat VERSION`\'.
-
-## Install VICE fully
-.PHONY: install
-install: all VERSION install.roms install.docs install.bin
-
-## Install VICE fully, but clean directories before that.
-.PHONY: cleaninstall
-cleaninstall: all VERSION cleandirs install.roms install.docs install.bin
-
-## clean installation directories (except man...)
-.PHONY: cleandirs
-cleandirs:
-	@( 								\
-	   echo Cleaning up bin directory ;			\
-	   $(RM) -f $(INSTALL_LIBDIR)/$(ARCH)/*;			\
-	)
-
-## Install VICE binaries
-.PHONY: install.bin
-install.bin: all VERSION
-	@( VERSION=`cat VERSION`;			                      \
-           echo Installing VICE binaries under $(INSTALL_LIBDIR)/$(ARCH) ... ;\
-	   $(SHELL) $(SRCDIR)/mkinstalldirs $(INSTALL_LIBDIR) 	              \
-		$(INSTALL_BINDIR) $(INSTALL_LIBDIR)/$(ARCH);                  \
-           for a in x64 xvic xpet petcat c1541 ; do			      \
-               $(RM) -f $(INSTALL_BINDIR)/$$a;				      \
-               $(INSTALL_PROGRAM) $(BINDIR)/$$a                               \
-                   $(INSTALL_LIBDIR)/$(ARCH)/$$a-$$VERSION;                   \
-               $(LN_S) $(INSTALL_LIBDIR)/$(ARCH)/$$a-$$VERSION		      \
-	           $(INSTALL_BINDIR)/$$a;				      \
-	   done;							      \
-           $(RM) -f $(INSTALL_BINDIR)/recomment;			      \
-	   $(INSTALL_PROGRAM) $(UTILDIR)/recomment			      \
-	       $(INSTALL_LIBDIR)/$(ARCH)/recomment-$$VERSION;		      \
-	   $(LN_S) $(INSTALL_LIBDIR)/$(ARCH)/recomment-$$VERSION	      \
-	       $(INSTALL_BINDIR)/recomment )
-
-## Install VICE ROMs
-.PHONY: install.roms
-install.roms: $(C64ROMS) $(PETROMS) $(VIC20ROMS)
-	@( $(SHELL) $(SRCDIR)/mkinstalldirs $(INSTALL_LIBDIR)/C64          \
-		$(INSTALL_LIBDIR)/VIC20 $(INSTALL_LIBDIR)/PET ;		   \
-           echo Installing C64 ROMs under $(INSTALL_LIBDIR)/C64 ... ;	   \
-	   for a in $(C64ROMS) ; do					   \
-		$(INSTALL_DATA) $$a $(INSTALL_LIBDIR)/C64 ;	   \
-           done;				                  	   \
-           echo Installing VIC20 ROMs under $(INSTALL_LIBDIR)/VIC20 ... ;  \
-	   for a in $(VIC20ROMS) ; do		                  	   \
-                $(INSTALL_DATA) $$a $(INSTALL_LIBDIR)/VIC20 ;    \
-           done;				                  	   \
-           echo Installing PET ROMs under $(INSTALL_LIBDIR)/PET ... ;	   \
-	   for a in $(PETROMS) ; do		                  	   \
-		$(INSTALL_DATA) $$a $(INSTALL_LIBDIR)/PET ;      \
-           done )
-
-## Install VICE documentation
-.PHONY: install.docs
-install.docs: $(DOCS) $(README)
-	@( echo Installing VICE documentation under $(INSTALL_DOCDIR) ...;    \
-	   $(SHELL) $(SRCDIR)/mkinstalldirs $(INSTALL_DOCDIR) ;		      \
-	   for a in $(DOCS) ; do				              \
-	     $(INSTALL_DATA) $$a $(INSTALL_DOCDIR) ;			      \
-           done;							      \
-	   for a in $(README) ; do					      \
-	     $(INSTALL_DATA) $$a $(INSTALL_DOCDIR) ;			      \
-           done;							      \
-           $(RM) -f $(INSTALL_DOCDIR)/index.html;		  	      \
-	   $(LN_S) $(INSTALL_DOCDIR)/MANUAL.html			      \
-	     	$(INSTALL_DOCDIR)/index.html				      \
-	)
-
-## Install manual pages
-.PHONY: install.man
-install.man: $(INSTALL_MANDIR)/vice.$(INSTALL_MANEXT)	\
-	$(INSTALL_MANDIR)/petcat.$(INSTALL_MANEXT)	\
-	$(INSTALL_MANDIR)/c1541.$(INSTALL_MANEXT)
-
-$(INSTALL_MANDIR)/vice.$(INSTALL_MANEXT): $(MANDIR)/vice.man
-	@echo Installing VICE manual page under $(INSTALL_MANDIR)
-	@$(INSTALL_DATA) $(MANDIR)/vice.man $@
-
-$(INSTALL_MANDIR)/petcat.$(INSTALL_MANEXT): $(MANDIR)/petcat.man
-	@echo Installing petcat manual page under $(INSTALL_MANDIR)
-	@$(INSTALL_DATA) $(MANDIR)/petcat.man $@
-
-$(INSTALL_MANDIR)/c1541.$(INSTALL_MANEXT): $(MANDIR)/c1541.man
-	@echo Installing c1541 manual page under $(INSTALL_MANDIR)
-	@$(INSTALL_DATA) $(MANDIR)/c1541.man $@
-
-
-## Uninstall VICE
-.PHONY: uninstall
-uninstall: VERSION
-	@( set -e;							\
-	   VERSION=`cat VERSION`;					\
-	   echo Removing VICE from $(INSTALL_LIBDIR) ... ;		\
-	   $(RM) -rf $(INSTALL_LIBDIR);					\
-	   $(RM) $(INSTALL_BINDIR)/x64;				        \
-           $(RM) $(INSTALL_BINDIR)/xvic;				\
-	   $(RM) $(INSTALL_BINDIR)/xpet;				\
-           $(RM) $(INSTALL_BINDIR)/c1541;				\
-           $(RM) $(INSTALL_BINDIR)/petcat;				\
-           $(RM) $(INSTALL_BINDIR)/recomment;				\
-	   echo Removing VICE manual pages from $(INSTALL_MANDIR) ... ;	\
-	   $(RM) $(INSTALL_MANDIR)/vice.$(INSTALL_MANEXT);		\
-	   $(RM) $(INSTALL_MANDIR)/petcat.$(INSTALL_MANEXT);		\
-	   $(RM) $(INSTALL_MANDIR)/c1541.$(INSTALL_MANEXT) )
-
-### Servicing...
-
-.PHONY: clean
-clean:
-	(cd $(READLINEODIR); $(MAKE) clean)
-	(cd $(WIDGETODIR); $(MAKE) clean)
-	$(RM) -f *~ *.bak TAGS *.o
-	(cd $(UNIXAWODIR); $(RM) -f *~ *.bak TAGS *.o)
-	(cd $(UNIXODIR); $(RM) -f *~ *.bak TAGS *.o)
-	(cd $(MSDOSODIR); $(RM) -f *~ *.bak TAGS *.o)
-	(cd $(C64ODIR); $(RM) -f *~ *.bak TAGS *.o)
-	(cd $(PETODIR); $(RM) -f *~ *.bak TAGS *.o)
-	(cd $(VICODIR); $(RM) -f *~ *.bak TAGS *.o)
-	$(RM) -f $(TARGET)
-
-.PHONY: mrproper
-mrproper: clean
-	(cd $(WIDGETODIR); $(MAKE) mrproper)
-	(cd $(READLINEODIR); $(MAKE) mrproper)
-	$(RM) -f config.cache config.log config.status Makefile Makefile.old \
-	      include/autoconf.h VERSION
-	$(RM) -f c1541 petcat x64 xpet xvic
-
-configure: configure.in
-	autoconf
-
-.PHONY: dist
-dist: catpages VERSION configure $(C64ROMS) $(VIC20ROMS) $(PETROMS)
-	@( DISTNAME=vice-`cat VERSION`;			  	\
-           echo Making distribution \`$$DISTNAME\' ... ;  	\
-	   mkdir $$DISTNAME;				  	\
-	   ln $(README) $$DISTNAME;			  	\
-	   mkdir $$DISTNAME/src;			  	\
-	   ln $(VICESRC) $$DISTNAME/src;		  	\
-	   ln $(VICEMISC) $$DISTNAME/src;		  	\
-	   mkdir $$DISTNAME/src/c64;				\
-	   ln $(C64SRC) $$DISTNAME/src/c64;			\
-	   mkdir $$DISTNAME/src/vic20;				\
-	   ln $(VICSRC) $$DISTNAME/src/vic20;			\
-	   mkdir $$DISTNAME/src/pet;				\
-	   ln $(PETSRC) $$DISTNAME/src/pet;			\
-	   mkdir $$DISTNAME/src/include;		  	\
-	   ln $(VICEHDR) $$DISTNAME/src/include;	  	\
-           mkdir -p $$DISTNAME/src/arch/unix;		  	\
-	   ln $(UNIXDIST) $$DISTNAME/src/arch/unix;	  	\
-           mkdir -p $$DISTNAME/src/arch/unix/xaw;		\
-           ln $(UNIXAWDIST) $$DISTNAME/src/arch/unix/xaw;	\
-	   mkdir $$DISTNAME/src/arch/unix/widgets;	  	\
-	   ln $(WIDGETDIST) $$DISTNAME/src/arch/unix/widgets;	\
-	   mkdir $$DISTNAME/src/arch/unix/readline;		\
-	   ln $(READLINEDIST) $$DISTNAME/src/arch/unix/readline;\
-           mkdir -p $$DISTNAME/src/arch/msdos;		  	\
-	   ln $(MSDOSDIST) $$DISTNAME/src/arch/msdos;	  	\
-	   mkdir $$DISTNAME/doc;			  	\
-	   ln $(DOCS) $$DISTNAME/doc;			  	\
-	   mkdir $$DISTNAME/man;			  	\
-	   ln $(MANPAGES) $$DISTNAME/man;		  	\
-	   ln $(CATPAGES) $$DISTNAME/man;		  	\
-	   mkdir $$DISTNAME/utils;			  	\
-	   ln $(UTILS) $$DISTNAME/utils;                  	\
-	   mkdir $$DISTNAME/run;                          	\
-	   ln $(RUN) $$DISTNAME/run;			  	\
-	   mkdir $$DISTNAME/bin;			  	\
-	   mkdir $$DISTNAME/bin/$(C64ROMDIR);		  	\
-	   ln $(C64ROMS) $$DISTNAME/bin/$(C64ROMDIR);	  	\
-	   mkdir $$DISTNAME/bin/$(VIC20ROMDIR);		  	\
-	   ln $(VIC20ROMS) $$DISTNAME/bin/$(VIC20ROMDIR); 	\
-	   mkdir $$DISTNAME/bin/$(PETROMDIR);		  	\
-	   ln $(PETROMS) $$DISTNAME/bin/$(PETROMDIR);	  	\
-	   tar cfh $(TOPDIR)/$$DISTNAME.tar $$DISTNAME;	  	\
-	   gzip -9 $(TOPDIR)/$$DISTNAME.tar;		  	\
-	   $(RM) -rf $$DISTNAME )
-
-.PHONY: depend
-depend: $(VICESRC)
-	@( if test "@MKDEP@"; then                        \
-	     echo building dependencies ... ;             \
-             INCLUDES="$(INCLUDES) $(CFLAGS)";            \
-	     SRCDIR=$(SRCDIR);                            \
-	     export INCLUDES SRCDIR;                      \
-	     CPP="$(CPP)"; export CPP;                    \
-	     $(SHELL) $(SRCDIR)/mkdep $(VICEOBJS);        \
-           else						  \
-	     echo 'warning!  Cannot build dependencies!'; \
-	   fi; )
-
-
-### Automatically generated dependencies.
-### This part of Makefile is updated automatically by the `mkdep'
-### script.
-
-# DO NOT DELETE
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  test -f $(distdir)/$$file \
+	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	  || cp -p $$d/$$file $(distdir)/$$file; \
+	done
+	for subdir in $(SUBDIRS); do \
+	  test -d $(distdir)/$$subdir \
+	  || mkdir $(distdir)/$$subdir \
+	  || exit 1; \
+	  chmod 777 $(distdir)/$$subdir; \
+	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	    || exit 1; \
+	done
+
+info: info-recursive
+dvi: dvi-recursive
+check: all-am
+	$(MAKE) check-recursive
+installcheck: installcheck-recursive
+all-recursive-am: config.h
+	$(MAKE) all-recursive
+
+all-am: Makefile $(PROGRAMS) $(HEADERS) config.h
+
+install-exec-am: install-binPROGRAMS
+
+uninstall-am: uninstall-binPROGRAMS
+
+install-exec: install-exec-recursive install-exec-am
+	@$(NORMAL_INSTALL)
+
+install-data: install-data-recursive
+	@$(NORMAL_INSTALL)
+
+install: install-recursive install-exec-am
+	@:
+
+uninstall: uninstall-recursive uninstall-am
+
+install-strip:
+	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
+installdirs: installdirs-recursive
+	$(mkinstalldirs)  $(DATADIR)$(bindir)
+
+
+mostlyclean-generic:
+	-test -z "$(MOSTLYCLEANFILES)" || rm -f $(MOSTLYCLEANFILES)
+
+clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
+
+distclean-generic:
+	-rm -f Makefile $(DISTCLEANFILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
+
+maintainer-clean-generic:
+	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
+mostlyclean-am:  mostlyclean-hdr mostlyclean-binPROGRAMS \
+		mostlyclean-compile mostlyclean-tags \
+		mostlyclean-generic
+
+clean-am:  clean-hdr clean-binPROGRAMS clean-compile clean-tags \
+		clean-generic mostlyclean-am
+
+distclean-am:  distclean-hdr distclean-binPROGRAMS distclean-compile \
+		distclean-tags distclean-generic clean-am
+
+maintainer-clean-am:  maintainer-clean-hdr maintainer-clean-binPROGRAMS \
+		maintainer-clean-compile maintainer-clean-tags \
+		maintainer-clean-generic distclean-am
+
+mostlyclean:  mostlyclean-recursive mostlyclean-am
+
+clean:  clean-recursive clean-am
+
+distclean:  distclean-recursive distclean-am
+	-rm -f config.status
+
+maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+
+.PHONY: mostlyclean-hdr distclean-hdr clean-hdr maintainer-clean-hdr \
+mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
+maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
+mostlyclean-compile distclean-compile clean-compile \
+maintainer-clean-compile install-data-recursive \
+uninstall-data-recursive install-exec-recursive \
+uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
+all-recursive check-recursive installcheck-recursive info-recursive \
+dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
+maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
+distclean-tags clean-tags maintainer-clean-tags distdir info dvi \
+installcheck all-recursive-am all-am install-exec-am uninstall-am \
+install-exec install-data install uninstall all installdirs \
+mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+
+
+# Special targets for building the subdirectories.  This only works
+# with GNU make, though.  FIXME?
+
+.PHONY: c64 c128 vic20 pet true1541 sounddrv
+c64:
+	(cd c64 && $(MAKE))
+c128:
+	(cd c128 && $(MAKE))
+vic20:
+	(cd vic20 && $(MAKE))
+pet:
+	(cd pet && $(MAKE))
+true1541:
+	(cd true1541 && $(MAKE))
+sounddrv:
+	(cd sounddrv && $(MAKE))
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:
