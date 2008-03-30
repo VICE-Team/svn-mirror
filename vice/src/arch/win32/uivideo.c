@@ -50,9 +50,10 @@
 
 
 static char *palette_file=NULL;
+static char *palette_file2=NULL;
 static int  res_extpalette;
 
-static char *palettes[9]=
+static char *vicii_palettes[]=
 {
     "default",
     "c64hq",
@@ -63,6 +64,50 @@ static char *palettes[9]=
     "pc64",
     "vice",
     NULL
+};
+
+static char *vic_palettes[]=
+{
+    "default",
+    NULL
+};
+
+static char *crtc_palettes[]=
+{
+    "amber",
+    "green",
+    "white",
+    NULL
+};
+
+static char *vdc_palettes[]=
+{
+    "vdc_deft",
+    NULL
+};
+
+static char *ted_palettes[]=
+{
+    "default",
+    "vice",
+    NULL
+};
+
+typedef struct {
+    char **palette_names;
+    char *res_PaletteFile_name;
+    char *res_ExternalPalette_name;
+    int  palette_mode;
+    char *page_title;
+} Chip_Parameters;
+
+static Chip_Parameters  chip_param_table[] =
+{
+    {vicii_palettes, "VICIIPaletteFile", "VICIIExternalPalette", UI_VIDEO_PAL, "VICII Palette"},
+    {vic_palettes, "VICPaletteFile", "VICExternalPalette", UI_VIDEO_PAL, "VIC Palette"},
+    {crtc_palettes, "CRTCPaletteFile", NULL, UI_VIDEO_RGB, "CRTC Palette"},
+    {vdc_palettes, "VDCPaletteFile", NULL, UI_VIDEO_RGB, "VDC Palette"},
+    {ted_palettes, "TEDPaletteFile", "TEDExternalPalette", UI_VIDEO_PAL, "TED Palette"},
 };
 
 static char *modes[4]=
@@ -104,13 +149,18 @@ static void init_color_dialog(HWND hwnd)
 
 }
 
-static void init_advanced_dialog(HWND hwnd)
+static Chip_Parameters *current_chip;
+static Chip_Parameters *current_chip2;
+
+static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
     int n,val;
     double fval;
     char newval[64];
     char *path;
     HWND filename_hwnd;
+
+    current_chip = chip_type;
 
     resources_get_value("ColorGamma", (void *)&val);
         fval = ((double)val) / 1000.0;
@@ -135,20 +185,44 @@ static void init_advanced_dialog(HWND hwnd)
     resources_get_value("PALMode", (void *)&val);
     SendMessage(filename_hwnd, CB_SETCURSEL, (WPARAM)val, 0);
 
-    resources_get_value("ExternalPalette", (void *)&n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, n
-                   ? BST_CHECKED : BST_UNCHECKED);
-    res_extpalette = n;
+    if (chip_type->res_ExternalPalette_name) {
+        resources_get_value(chip_type->res_ExternalPalette_name, (void *)&n);
+        CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, n
+                       ? BST_CHECKED : BST_UNCHECKED);
+        res_extpalette = n;
+    } else {
+        EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE), FALSE);
+    }
 
     filename_hwnd = GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME);
     SendMessage(filename_hwnd, CB_RESETCONTENT, 0, 0);
-    n= 0 ;
-    while (palettes[n] != NULL) {
-        SendMessage(filename_hwnd, CB_ADDSTRING, 0, (LPARAM)palettes[n]);
+    n = 0 ;
+    while (chip_type->palette_names[n] != NULL) {
+        SendMessage(filename_hwnd, CB_ADDSTRING, 0, (LPARAM)chip_type->palette_names[n]);
         n++;
     }
-    resources_get_value("PaletteFile", (void *)&path);
+    resources_get_value(chip_type->res_PaletteFile_name, (void *)&path);
     palette_file = lib_stralloc(path);
+    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, path);
+}
+
+static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
+{
+    int n;
+    char *path;
+    HWND filename_hwnd;
+
+    current_chip2 = chip_type;
+
+    filename_hwnd = GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME);
+    SendMessage(filename_hwnd, CB_RESETCONTENT, 0, 0);
+    n = 0 ;
+    while (chip_type->palette_names[n] != NULL) {
+        SendMessage(filename_hwnd, CB_ADDSTRING, 0, (LPARAM)chip_type->palette_names[n]);
+        n++;
+    }
+    resources_get_value(chip_type->res_PaletteFile_name, (void *)&path);
+    palette_file2 = lib_stralloc(path);
     SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, path);
 }
 
@@ -156,6 +230,12 @@ static void update_palettename(char *name)
 {
     lib_free(palette_file);
     palette_file = lib_stralloc(name);
+}
+
+static void update_palettename2(char *name)
+{
+    lib_free(palette_file2);
+    palette_file2 = lib_stralloc(name);
 }
 
 static BOOL CALLBACK dialog_color_proc(HWND hwnd, UINT msg,
@@ -213,7 +293,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
             ival = (int)(atof(s) * 1000.0 + 0.5);
             resources_set_value("ColorGamma", (resource_value_t)ival);
 
-            resources_set_value("ExternalPalette",
+            resources_set_value(current_chip->res_ExternalPalette_name,
                                 (resource_value_t) res_extpalette);
 
             GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, (LPSTR)s, 100);
@@ -225,24 +305,24 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
             resources_set_value("PALMode", (resource_value_t) ival);
 
             querynewpalette = 1;
-            if (resources_set_value("PaletteFile",
+            if (resources_set_value(current_chip->res_PaletteFile_name,
                 (resource_value_t)palette_file) < 0) {
                 ui_error("Could not load palette file.");
-                resources_set_value("ExternalPalette",
+                resources_set_value(current_chip->res_ExternalPalette_name,
                                      (resource_value_t)res_extpalette);
                 SetWindowLong (hwnd, DWL_MSGRESULT, TRUE);
                 return TRUE;
             }
             lib_free(palette_file);
             palette_file=NULL;
-            resources_set_value("ExternalPalette",
+            resources_set_value(current_chip->res_ExternalPalette_name,
                                 (resource_value_t)res_extpalette);
             SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
             return TRUE;
         }
         return FALSE;
       case WM_INITDIALOG:
-        init_advanced_dialog(hwnd);
+        init_advanced_dialog(hwnd, (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
         return TRUE;
       case WM_COMMAND:
         type = LOWORD(wparam);
@@ -274,10 +354,10 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
 
                 GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, (LPSTR)s, 100);
                 update_palettename(s);
-/*
+
                 res_extpalette = 1;
                 CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, BST_CHECKED);
-*/
+
                 break;
             }
         }
@@ -286,13 +366,70 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
     return FALSE;
 }
 
-void ui_video_settings_dialog(HWND hwnd, int videosettings)
+static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
+                                          WPARAM wparam, LPARAM lparam)
 {
-    PROPSHEETPAGE psp[3];
+    int type;
+    extern int querynewpalette;
+
+    switch (msg) {
+      case WM_NOTIFY:
+        if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
+            querynewpalette = 1;
+            if (resources_set_value(current_chip2->res_PaletteFile_name,
+                (resource_value_t)palette_file2) < 0) {
+                ui_error("Could not load palette file.");
+                SetWindowLong (hwnd, DWL_MSGRESULT, TRUE);
+                return TRUE;
+            }
+            lib_free(palette_file2);
+            palette_file2=NULL;
+            SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
+            return TRUE;
+        }
+        return FALSE;
+      case WM_INITDIALOG:
+        init_palette_dialog(hwnd, (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
+        return TRUE;
+      case WM_COMMAND:
+        type = LOWORD(wparam);
+        switch (type) {
+          case IDC_VIDEO_CUSTOM_BROWSE:
+            {
+                char *s;
+
+                if ((s = ui_select_file(hwnd,"Load VICE palette file",
+                    UI_LIB_FILTER_ALL | UI_LIB_FILTER_PALETTE,
+                    FILE_SELECTOR_DEFAULT_STYLE,NULL)) != NULL) {
+                    update_palettename2(s);
+                    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, s);
+                    lib_free(s);
+                }
+            }
+            break;
+          case IDC_VIDEO_CUSTOM_NAME:
+            {
+                char s[100];
+
+                GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, (LPSTR)s, 100);
+                update_palettename2(s);
+
+                break;
+            }
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
+{
+    PROPSHEETPAGE psp[4];
     PROPSHEETHEADER psh;
     int i;
+    Chip_Parameters *chip_param;
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < 4; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -305,41 +442,70 @@ void ui_video_settings_dialog(HWND hwnd, int videosettings)
         psp[i].pfnCallback = NULL;
     }
 
-        if (videosettings == UI_VIDEO_PAL) {
-            psp[0].pfnDlgProc = dialog_color_proc;
-            psp[0].pszTitle = "Colors";
-            psp[1].pfnDlgProc = dialog_fullscreen_proc;
-            psp[1].pszTitle = "Fullscreen";
-            psp[2].pfnDlgProc = dialog_advanced_proc;
-            psp[2].pszTitle = "Advanced";
+    chip_param = &chip_param_table[chip_type1];
+
+    if (chip_param->palette_mode == UI_VIDEO_PAL) {
+        psp[0].pfnDlgProc = dialog_color_proc;
+        psp[0].pszTitle = "Colors";
+        psp[1].pfnDlgProc = dialog_fullscreen_proc;
+        psp[1].pszTitle = "Fullscreen";
+        psp[2].pfnDlgProc = dialog_advanced_proc;
+        psp[2].pszTitle = chip_param->page_title;
+        psp[2].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
-            psp[0].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
-            psp[1].pszTemplate
-                = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
-            psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
+        psp[0].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+        psp[1].pszTemplate
+            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+        psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
 #else
-            psp[0].DUMMYUNIONNAME.pszTemplate
-                = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
-            psp[1].DUMMYUNIONNAME.pszTemplate
-                = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
-            psp[2].DUMMYUNIONNAME.pszTemplate
-                = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
+        psp[0].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+        psp[1].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+        psp[2].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
 #endif
-            psh.nPages = 3;
-        } else {
-            psp[0].pfnDlgProc = dialog_fullscreen_proc;
-            psp[0].pszTitle = "Fullscreen";
+        psh.nPages = 3;
+    } else {
+        psp[0].pfnDlgProc = dialog_fullscreen_proc;
+        psp[0].pszTitle = "Fullscreen";
+        psp[1].pfnDlgProc = dialog_palette_proc;
+        psp[1].pszTitle = chip_param->page_title;
+        psp[1].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
-            psp[0].pszTemplate
-                = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+        psp[0].pszTemplate
+            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+        psp[1].pszTemplate
+            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #else
-            psp[0].DUMMYUNIONNAME.pszTemplate
-                = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+        psp[0].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+        psp[1].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #endif
-            psh.nPages = 1;
-        }
+        psh.nPages = 2;
+    }
+
+    if (chip_type2 != UI_VIDEO_CHIP_NONE) {
+        int index = psh.nPages;
+    
+        chip_param = &chip_param_table[chip_type2];
+
+        psp[index].pfnDlgProc = dialog_palette_proc;
+        psp[index].pszTitle = chip_param->page_title;
+        psp[index].lParam = (LPARAM)chip_param;
+
+#ifdef _ANONYMOUS_UNION
+        psp[index].pszTemplate
+            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
+#else
+        psp[index].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
+#endif
+        psh.nPages++;
+    }
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;

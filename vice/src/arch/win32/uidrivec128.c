@@ -1,8 +1,10 @@
 /*
- * uidriveplus4.c - Implementation of the drive settings dialog box.
+ * uidrivec128.c - Implementation of the drive settings dialog box.
  *
  * Written by
- *  Tibor Biczo <viceteam@t-online.de>
+ *  Andreas Boose <viceteam@t-online.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -43,7 +45,7 @@
 #include "serial.h"
 #include "system.h"
 #include "ui.h"
-#include "uidriveplus4.h"
+#include "uidrivec128.h"
 #include "uilib.h"
 #include "winmain.h"
 
@@ -58,17 +60,38 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
       case IDC_SELECT_DRIVE_TYPE_1541II:
         drive_type = DRIVE_TYPE_1541II;
         break;
-      case IDC_SELECT_DRIVE_TYPE_1551:
-        drive_type = DRIVE_TYPE_1551;
-        break;
       case IDC_SELECT_DRIVE_TYPE_1570:
         drive_type = DRIVE_TYPE_1570;
         break;
       case IDC_SELECT_DRIVE_TYPE_1571:
         drive_type = DRIVE_TYPE_1571;
         break;
+      case IDC_SELECT_DRIVE_TYPE_1571cr:
+        drive_type = DRIVE_TYPE_1571CR;
+        break;
       case IDC_SELECT_DRIVE_TYPE_1581:
         drive_type = DRIVE_TYPE_1581;
+        break;
+      case IDC_SELECT_DRIVE_TYPE_2031:
+        drive_type = DRIVE_TYPE_2031;
+        break;
+      case IDC_SELECT_DRIVE_TYPE_2040:
+        drive_type = DRIVE_TYPE_2040;
+        break;
+      case IDC_SELECT_DRIVE_TYPE_3040:
+        drive_type = DRIVE_TYPE_3040;
+        break;
+      case IDC_SELECT_DRIVE_TYPE_4040:
+        drive_type = DRIVE_TYPE_4040;
+        break;
+      case IDC_SELECT_DRIVE_TYPE_1001:
+        drive_type = DRIVE_TYPE_1001;
+        break;
+      case IDC_SELECT_DRIVE_TYPE_8050:
+        drive_type = DRIVE_TYPE_8050;
+        break;
+      case IDC_SELECT_DRIVE_TYPE_8250:
+        drive_type = DRIVE_TYPE_8250;
         break;
     }
 
@@ -108,14 +131,28 @@ static void init_dialog(HWND hwnd, int num)
                  drive_check_type(DRIVE_TYPE_1541, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541II),
                  drive_check_type(DRIVE_TYPE_1541II, num - 8));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1551),
-                 drive_check_type(DRIVE_TYPE_1551, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1570),
                  drive_check_type(DRIVE_TYPE_1570, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1571),
                  drive_check_type(DRIVE_TYPE_1571, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1571cr),
+                 drive_check_type(DRIVE_TYPE_1571CR, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1581),
                  drive_check_type(DRIVE_TYPE_1581, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2031),
+                 drive_check_type(DRIVE_TYPE_2031, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2040),
+                 drive_check_type(DRIVE_TYPE_2040, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_3040),
+                 drive_check_type(DRIVE_TYPE_3040, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_4040),
+                 drive_check_type(DRIVE_TYPE_4040, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1001),
+                 drive_check_type(DRIVE_TYPE_1001, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8050),
+                 drive_check_type(DRIVE_TYPE_8050, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8250),
+                 drive_check_type(DRIVE_TYPE_8250, num - 8));
 
     resources_get_sprintf("Drive%dType",
                           (void *)&drive_type, num);
@@ -134,17 +171,38 @@ static void init_dialog(HWND hwnd, int num)
       case DRIVE_TYPE_1541II:
         n = IDC_SELECT_DRIVE_TYPE_1541II;
         break;
-      case DRIVE_TYPE_1551:
-        n = IDC_SELECT_DRIVE_TYPE_1551;
-        break;
       case DRIVE_TYPE_1570:
         n = IDC_SELECT_DRIVE_TYPE_1570;
         break;
       case DRIVE_TYPE_1571:
         n = IDC_SELECT_DRIVE_TYPE_1571;
         break;
+      case DRIVE_TYPE_1571CR:
+        n = IDC_SELECT_DRIVE_TYPE_1571cr;
+        break;
       case DRIVE_TYPE_1581:
         n = IDC_SELECT_DRIVE_TYPE_1581;
+        break;
+      case DRIVE_TYPE_2031:
+        n = IDC_SELECT_DRIVE_TYPE_2031;
+        break;
+      case DRIVE_TYPE_2040:
+        n = IDC_SELECT_DRIVE_TYPE_2040;
+        break;
+      case DRIVE_TYPE_3040:
+        n = IDC_SELECT_DRIVE_TYPE_3040;
+        break;
+      case DRIVE_TYPE_4040:
+        n = IDC_SELECT_DRIVE_TYPE_4040;
+        break;
+      case DRIVE_TYPE_1001:
+        n = IDC_SELECT_DRIVE_TYPE_1001;
+        break;
+      case DRIVE_TYPE_8050:
+        n = IDC_SELECT_DRIVE_TYPE_8050;
+        break;
+      case DRIVE_TYPE_8250:
+        n = IDC_SELECT_DRIVE_TYPE_8250;
         break;
     }
 
@@ -235,11 +293,6 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
                                   (resource_value_t *)DRIVE_TYPE_1541II, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
-          case IDC_SELECT_DRIVE_TYPE_1551:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_1551, num);
-            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
-            break;
           case IDC_SELECT_DRIVE_TYPE_1570:
             resources_set_sprintf("Drive%dType",
                                   (resource_value_t *)DRIVE_TYPE_1570, num);
@@ -250,9 +303,49 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
                                   (resource_value_t *)DRIVE_TYPE_1571, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
+          case IDC_SELECT_DRIVE_TYPE_1571cr:
+            resources_set_sprintf("Drive%dType",
+                                  (resource_value_t *)DRIVE_TYPE_1571CR, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
           case IDC_SELECT_DRIVE_TYPE_1581:
             resources_set_sprintf("Drive%dType",
                                   (resource_value_t *)DRIVE_TYPE_1581, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_2031:
+            resources_set_sprintf("Drive%dType",
+                                  (resource_value_t *)DRIVE_TYPE_2031, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_2040:
+            resources_set_sprintf("Drive%dType",
+                                  (resource_value_t *)DRIVE_TYPE_2040, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_3040:
+            resources_set_sprintf("Drive%dType",
+                                  (resource_value_t *)DRIVE_TYPE_3040, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_4040:
+            resources_set_sprintf("Drive%dType",
+                                  (resource_value_t *)DRIVE_TYPE_4040, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_1001:
+            resources_set_sprintf("Drive%dType",
+                                  (resource_value_t *)DRIVE_TYPE_1001, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_8050:
+            resources_set_sprintf("Drive%dType",
+                                  (resource_value_t *)DRIVE_TYPE_8050, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_8250:
+            resources_set_sprintf("Drive%dType",
+                                  (resource_value_t *)DRIVE_TYPE_8250, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_EXTEND_NEVER:
@@ -330,7 +423,7 @@ static BOOL CALLBACK callback_##num(HWND dialog, UINT msg,        \
 _CALLBACK(8)
 _CALLBACK(9)
 
-void uidriveplus4_settings_dialog(HWND hwnd)
+void uidrivec128_settings_dialog(HWND hwnd)
 {
     PROPSHEETPAGE psp[2];
     PROPSHEETHEADER psh;
@@ -341,10 +434,10 @@ void uidriveplus4_settings_dialog(HWND hwnd)
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-        psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_PLUS4);
+        psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_C128);
         psp[i].pszIcon = NULL;
 #else
-        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_PLUS4);
+        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_C128);
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;

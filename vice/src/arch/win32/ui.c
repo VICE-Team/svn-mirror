@@ -1812,10 +1812,15 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         break;
       case WM_MOVE:
           if (window_index<number_of_windows) {
+              WINDOWPLACEMENT place;
               RECT  rect;
+              place.length = sizeof(WINDOWPLACEMENT);
+              GetWindowPlacement(window, &place);
               GetWindowRect(window, &rect);
-              ui_resources.window_xpos[window_index] = rect.left;
-              ui_resources.window_ypos[window_index] = rect.top;
+              if (place.showCmd == SW_SHOWNORMAL) {
+                  ui_resources.window_xpos[window_index] = rect.left;
+                  ui_resources.window_ypos[window_index] = rect.top;
+              }
           }
           break;
       case WM_SYSKEYDOWN:
@@ -1891,8 +1896,13 @@ static long CALLBACK window_proc(HWND window, UINT msg,
       case WM_DROPFILES:
         hDrop = (HDROP) wparam;
         DragQueryFile(hDrop, 0, (char *)&szFile, 256);
-        if (autostart_autodetect(szFile, NULL, 0, AUTOSTART_MODE_RUN) < 0)
-            ui_error("Cannot autostart specified file.");
+        if (GetAsyncKeyState(VK_SHIFT) & 0x8000) {
+            if (file_system_attach_disk(8, szFile) < 0)
+                ui_error("Cannot attach specified file");
+        } else {
+            if (autostart_autodetect(szFile, NULL, 0, AUTOSTART_MODE_RUN) < 0)
+                ui_error("Cannot autostart specified file.");
+        }
         DragFinish (hDrop);
         return 0;
       case WM_PAINT:

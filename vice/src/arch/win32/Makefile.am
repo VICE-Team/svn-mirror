@@ -80,8 +80,10 @@ libarch_a_SOURCES = \
 	uiconsole.c \
 	uidatasette.c \
 	uidatasette.h \
-	uidrivec64c128vic20.c \
-	uidrivec64c128vic20.h \
+	uidrivec64vic20.c \
+	uidrivec64vic20.h \
+	uidrivec128.c \
+	uidrivec128.h \
 	uidrivepetcbm2.c \
 	uidrivepetcbm2.h \
 	uidriveplus4.c \

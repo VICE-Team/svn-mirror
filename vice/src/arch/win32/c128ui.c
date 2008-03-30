@@ -43,7 +43,7 @@
 #include "sid.h"
 #include "ui.h"
 #include "uic128.h"
-#include "uidrivec64c128vic20.h"
+#include "uidrivec128.h"
 #include "uireu.h"
 #include "uisid.h"
 #include "uitfe.h"
@@ -196,10 +196,10 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         ui_c128_dialog(hwnd);
         break;
       case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
+        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_VDC);
         break;
       case IDM_DRIVE_SETTINGS:
-        uidrivec64c128vic20_settings_dialog(hwnd);
+        uidrivec128_settings_dialog(hwnd);
         break;
      }
 }

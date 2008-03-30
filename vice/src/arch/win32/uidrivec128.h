@@ -1,5 +1,5 @@
 /*
- * uivicii.h - Implementation of VIC-II settings dialog box.
+ * uidrivec128.h - Implementation of the drive settings dialog box.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -25,21 +25,10 @@
  *
  */
 
-#ifndef _UIVIDEO_H
-#define _UIVIDEO_H
+#ifndef _UIDRIVEC128_H
+#define _UIDRIVEC128_H
 
-#include <windows.h>
-
-#define UI_VIDEO_PAL	0
-#define UI_VIDEO_RGB	1
-
-#define UI_VIDEO_CHIP_NONE      -1
-#define UI_VIDEO_CHIP_VICII     0
-#define UI_VIDEO_CHIP_VIC       1
-#define UI_VIDEO_CHIP_CRTC      2
-#define UI_VIDEO_CHIP_VDC       3
-#define UI_VIDEO_CHIP_TED       4
-
-void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2);
+extern void uidrivec128_settings_dialog(HWND hwnd);
 
 #endif
+

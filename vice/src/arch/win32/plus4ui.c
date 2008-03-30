@@ -62,7 +62,7 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
         ui_plus4_memory_dialog(hwnd);
         break;
       case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
+        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_TED, UI_VIDEO_CHIP_NONE);
         break;
       case IDM_DRIVE_SETTINGS:
         uidriveplus4_settings_dialog(hwnd);

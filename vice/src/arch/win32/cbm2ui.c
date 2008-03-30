@@ -63,7 +63,7 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
         ui_sid_settings_dialog(hwnd);
         break;
       case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd, UI_VIDEO_RGB);
+        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
         break;
       case IDM_DRIVE_SETTINGS:
         uidrivepetcbm2_settings_dialog(hwnd);
