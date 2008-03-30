@@ -64,13 +64,11 @@ extern int drive_cpu_read_snapshot_module(struct drive_context_s *drv,
 #define drive1_cpu_execute(c)   drivex_cpu_execute(&drive1_context, c)
 #define drive0_cpu_early_init() drive_cpu_early_init(&drive0_context)
 #define drive1_cpu_early_init() drive_cpu_early_init(&drive1_context)
-#define drive0_set_bank_base()  drive_set_bank_base(&drive0_context)
-#define drive1_set_bank_base()  drive_set_bank_base(&drive1_context)
 
 /* don't use these pointers before the context is set up! */
 struct monitor_interface_s;
-extern struct monitor_interface_s *drive0_monitor_interface_ptr;
-extern struct monitor_interface_s *drive1_monitor_interface_ptr;
+extern struct monitor_interface_s *drive0_get_monitor_interface_ptr(void);
+extern struct monitor_interface_s *drive1_get_monitor_interface_ptr(void);
 struct cpu_int_status_s;
 extern struct cpu_int_status_s *drive0_int_status_ptr;
 extern struct cpu_int_status_s *drive1_int_status_ptr;
