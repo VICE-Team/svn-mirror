@@ -741,13 +741,7 @@ int mem_load(void)
     int	id;			/* ROM identification number */
     int i;
 
-#if 0
-    /* try to load a RAM image if available. */
-    if (mem_load_sys_file(ram_name,
-                          ram, C64_RAM_SIZE, C64_RAM_SIZE) < 0) {
-	mem_powerup();
-    }
-#endif
+    mem_powerup();
 
     /* Load Kernal ROM. */
     if (mem_load_sys_file(kernal_rom_name,
