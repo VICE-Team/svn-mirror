@@ -57,14 +57,14 @@ typedef struct PetInfo {
         int		superpet;	/* 1 = enable SuperPET I/O */
 
 	/* ROM image resources */
-	char		*chargenName;	/* Character ROM */
-	char		*kernalName;	/* ROM to load before others */
+	const char	*chargenName;	/* Character ROM */
+	const char	*kernalName;	/* ROM to load before others */
 					/* the following override kernalName
 					   for their specific area */
-	char		*editorName;	/* $E*** ROM image filename */
-	char		*memBname;	/* $B*** ROM image filename */
-	char		*memAname;	/* $A*** ROM image filename */
-	char		*mem9name;	/* $9*** ROM image filename */
+	const char	*editorName;	/* $E*** ROM image filename */
+	const char	*memBname;	/* $B*** ROM image filename */
+	const char	*memAname;	/* $A*** ROM image filename */
+	const char	*mem9name;	/* $9*** ROM image filename */
 
 	/* runtime (derived) variables */
 	int		videoSize;	/* video RAM size (1k or 2k) */

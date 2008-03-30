@@ -71,7 +71,7 @@
 
 static char snap_module_name[] = "VIA2D1";
 
-inline static void store_pra(BYTE byte, BYTE oldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE oldpa_value, ADDRESS addr)
 {
     if (drive[1].byte_ready_active == 0x06)
         drive_rotate_disk(&drive[1]);

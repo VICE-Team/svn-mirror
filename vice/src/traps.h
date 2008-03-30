@@ -32,7 +32,7 @@
 
 typedef struct trap_s
 {
-    char        *name;
+    const char  *name;
     ADDRESS      address;
     ADDRESS      resume_address;
     BYTE         check[3];

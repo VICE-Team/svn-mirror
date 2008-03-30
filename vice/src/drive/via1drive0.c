@@ -110,13 +110,13 @@ static void undump_pra(BYTE byte)
         parallel_cable_drive0_write(byte, 0);
 }
 
-inline static void store_pra(BYTE byte, BYTE oldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE oldpa_value, ADDRESS addr)
 {
     {
         if (drive[0].type == DRIVE_TYPE_1571) {
-            if ((oldpa ^ byte) & 0x20)
+            if ((oldpa_value ^ byte) & 0x20)
                 drive_set_1571_sync_factor(byte & 0x20, 0);
-            if ((oldpa ^ byte) & 0x04)
+            if ((oldpa_value ^ byte) & 0x04)
                 drive_set_1571_side((byte >> 2) & 1, 0);
         } else
         if (drive[0].type == DRIVE_TYPE_2031) {
