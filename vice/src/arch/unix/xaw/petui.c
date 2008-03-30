@@ -234,7 +234,7 @@ static ui_menu_entry_t pet_video_submenu[] = {
 };
 
 static ui_menu_entry_t model_defaults_submenu[] = {
-    { "PET 2001",
+    { "PET 2001-8N",
       (ui_callback_t) petui_set_model, (ui_callback_data_t)"2001", NULL },
     { "PET 3008",
       (ui_callback_t) petui_set_model, (ui_callback_data_t)"3008", NULL },

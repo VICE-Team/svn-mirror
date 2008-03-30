@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c64/c64cia1.c
- * This file is generated from ../../../src/cia-tmpl.c and ../../../src/c64/c64cia1.def,
+ * ../../../vice-0.14.2.38/src/c64/c64cia1.c
+ * This file is generated from ../../../vice-0.14.2.38/src/cia-tmpl.c and ../../../vice-0.14.2.38/src/c64/c64cia1.def,
  * Do not edit!
  */
 /*
@@ -84,6 +84,7 @@
 
 
 #include "kbd.h"
+#include "c64cia.h"
 
 #include "interrupt.h"
 
@@ -849,7 +850,8 @@ int int_cia1ta(long offset)
     if ((cia1_tas == CIAT_RUNNING) && !(cia1[CIA_CRA] & 8)) {
 	/* if we do not need alarm, no PB6, no shift register, and not timer B
 	   counting timer A, then we can savely skip alarms... */
-	if ((cia1ier & CIA_IM_TA)
+	if ( ((cia1ier & CIA_IM_TA) && 
+		(!maincpu_int_status.pending_int[I_CIA1TA]))
 	    || (cia1[CIA_CRA] & 0x42)
 	    || (cia1_tbs == CIAT_COUNTTA)) {
 	    maincpu_set_alarm_clk(A_CIA1TA, rclk + cia1_tal + 1 /*+ 1*/);

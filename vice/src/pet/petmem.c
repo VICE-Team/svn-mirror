@@ -464,7 +464,7 @@ void initialize_memory(void)
     l = (pet.ramSize << 2);	/* ramSize in kB, l in 256 Byte */
     if(l>128) l=128;		/* fix 8096 / 8296 */
 
-printf("PET: initialize memory, ramSize=%04x -> l=%d\n", pet.ramSize * 1024,l);
+/*printf("PET: initialize memory, ramSize=%04x -> l=%d\n", pet.ramSize * 1024,l);*/
 
     /* Setup RAM from $0000 to pet.ramSize */
     for (i = 0x00; i < l; i++) {
@@ -735,6 +735,9 @@ int mem_load(void)
         pet.screen_width = 40;
     } else if (sum == PET4032_CHECKSUM) {
         printf("Identified PET 4032 ROM by checksum.\n");
+        pet.screen_width = 40;
+    } else if (sum == PET2001_CHECKSUM) {
+        printf("Identified PET 2001 ROM by checksum.\n");
         pet.screen_width = 40;
     } else {
         printf("Unknown PET ROM.\n");

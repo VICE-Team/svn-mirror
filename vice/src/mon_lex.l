@@ -1,3 +1,30 @@
+/* -*- C -*-
+ *
+ * mon_lex.l - Lexer for the VICE built-in monitor.
+ *
+ * Written by
+ *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
 %{
 
 /* Lexer for x64 monitor */
@@ -57,7 +84,7 @@ YY_BUFFER_STATE my_state;
                                    break;
                                 default:
                                    assert(0);
-                             } 
+                             }
                              yylval.i = mon_cmd_get_token(temp);
                              if (yylval.i == CMD_ASSEMBLE)
                                 opt_asm = 1;
@@ -156,7 +183,7 @@ d:              { return MEM_DISK; }
 <ASM_MODE>[a-zA-Z]{3,4}                           { yylval.str = stralloc(yytext); return OPCODE; }
 <ASM_MODE,INITIAL>\.[a-zA-Z][a-zA-Z0-9]*          { yylval.str = stralloc(yytext); return LABEL; }
 
-<ASM_MODE>(a|A)/[ \t]*[:\n]           { if (!dont_match_reg_a) return REG_A; 
+<ASM_MODE>(a|A)/[ \t]*[:\n]           { if (!dont_match_reg_a) return REG_A;
                                         yylval.i = 0x0a; return H_NUMBER; }
 <ASM_MODE>x|X           { return REG_X; }
 <ASM_MODE>y|Y           { return REG_Y; }
@@ -199,7 +226,7 @@ static int resolve_datatype(unsigned guess_type, char *num, int *val)
       *val = strtol(num, NULL, 8);
       return O_NUMBER;
    }
-   
+
    *val = strtol(num, NULL, 2);
    return B_NUMBER;
 }

@@ -1,3 +1,30 @@
+/* -*- C -*-
+ *
+ * mon_parse.y - Parser for the VICE built-in monitor.
+ *
+ * Written by
+ *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -69,7 +96,7 @@ extern int cur_len, last_len;
 %token<rt> RADIX_TYPE INPUT_SPEC
 %token<action> CMD_CHECKPT_ONOFF TOGGLE
 
-%type<a> address opt_address 
+%type<a> address opt_address
 %type<cond_node> cond_expr compare_operand
 %type<i> command number expression
 %type<i> memspace memloc memaddr breakpt_num opt_mem_op
@@ -110,9 +137,9 @@ command: machine_state_rules
        | checkpoint_control_rules
        | monitor_state_rules
        | monitor_misc_rules
-       | disk_rules 
-       | cmd_file_rules 
-       | data_entry_rules 
+       | disk_rules
+       | cmd_file_rules
+       | data_entry_rules
        | BAD_CMD { return ERR_BAD_CMD; }
        ;
 
@@ -141,7 +168,7 @@ symbol_table_rules: CMD_LOAD_LABELS opt_memspace filename end_cmd 	{ mon_load_sy
                   | CMD_SHOW_LABELS opt_memspace end_cmd 		{ mon_print_symbol_table($2); }
                   ;
 
-asm_rules: CMD_ASSEMBLE address { mon_start_assemble_mode($2, NULL); } post_assemble end_cmd 
+asm_rules: CMD_ASSEMBLE address { mon_start_assemble_mode($2, NULL); } post_assemble end_cmd
          | CMD_ASSEMBLE address end_cmd 		{ mon_start_assemble_mode($2, NULL); }
          | CMD_DISASSEMBLE address opt_address end_cmd  { mon_disassemble_lines($2,$3); }
          | CMD_DISASSEMBLE end_cmd 			{ mon_disassemble_lines(BAD_ADDR, BAD_ADDR); }
@@ -163,10 +190,10 @@ memory_rules: CMD_MOVE address address address end_cmd 		  { mon_move_memory($2,
             ;
 
 checkpoint_rules: CMD_BREAK address opt_address end_cmd { mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE); }
-                | CMD_BREAK address opt_address IF cond_expr end_cmd { 
-                          temp = mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE); 
+                | CMD_BREAK address opt_address IF cond_expr end_cmd {
+                          temp = mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE);
                           mon_set_checkpoint_condition(temp, $5); }
-                | CMD_WATCH opt_mem_op address opt_address end_cmd { mon_add_checkpoint($3, $4, FALSE, 
+                | CMD_WATCH opt_mem_op address opt_address end_cmd { mon_add_checkpoint($3, $4, FALSE,
                               ($2 == e_load || $2 == e_load_store), ($2 == e_store || $2 == e_load_store)); }
                 | CMD_TRACE address opt_address end_cmd { mon_add_checkpoint($2, $3, TRUE, FALSE, FALSE); }
                 | CMD_BREAK end_cmd { mon_print_checkpoints(); }
@@ -186,9 +213,9 @@ checkpoint_control_rules: CMD_CHECKPT_ONOFF breakpt_num end_cmd 	 { mon_switch_c
 monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd 	       { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
                    | CMD_SIDEFX end_cmd 	       { fprintf(mon_output, "sidefx %d\n",sidefx); }
                    | CMD_RADIX RADIX_TYPE end_cmd      { default_radix = $2; }
-                   | CMD_RADIX end_cmd 	       	       { fprintf(mon_output, "Default radix is %d\n", 
+                   | CMD_RADIX end_cmd 	       	       { fprintf(mon_output, "Default radix is %d\n",
                                                          default_radix); }
-                   | CMD_DEVICE memspace end_cmd       { fprintf(mon_output,"Setting default device to %s\n", 
+                   | CMD_DEVICE memspace end_cmd       { fprintf(mon_output,"Setting default device to %s\n",
                                                          SPACESTRING($2)); default_memspace = $2; }
                    | CMD_QUIT end_cmd 		       { fprintf(mon_output, "Quit.\n"); exit(-1); exit(0); }
                    | CMD_EXIT end_cmd 		       { exit_mon = 1; YYACCEPT; }
@@ -203,9 +230,9 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd 	{ mon_execute_disk_command($2
                   | CMD_CHDIR rest_of_line end_cmd 	{ mon_change_dir($2); }
                   ;
 
-disk_rules: CMD_LOAD filename address end_cmd 			{ mon_load_file($2,$3); } 
-          | CMD_SAVE filename address address end_cmd 		{ mon_save_file($2,$3,$4); } 
-          | CMD_VERIFY filename address end_cmd 		{ mon_verify_file($2,$3); } 
+disk_rules: CMD_LOAD filename address end_cmd 			{ mon_load_file($2,$3); }
+          | CMD_SAVE filename address address end_cmd 		{ mon_save_file($2,$3,$4); }
+          | CMD_VERIFY filename address end_cmd 		{ mon_verify_file($2,$3); }
           | CMD_BLOCK_READ expression expression opt_address end_cmd	{ mon_block_cmd(0,$2,$3,$4); }
           | CMD_BLOCK_WRITE expression expression address end_cmd	{ mon_block_cmd(1,$2,$3,$4); }
           ;
@@ -240,7 +267,7 @@ reg_list: reg_list REG_ASGN_SEP reg_asgn
 
 reg_asgn: register EQUALS number { mon_set_reg_val(reg_memspace($1), reg_regid($1), $3); }
         ;
- 
+
 opt_count: expression { $$ = $1; }
          | { $$ = -1; }
          ;
@@ -261,19 +288,19 @@ opt_memspace: memspace { $$ = $1; }
             |          { $$ = e_default_space; }
             ;
 
-memspace: MEM_COMP { $$ = e_comp_space; } 
+memspace: MEM_COMP { $$ = e_comp_space; }
         | MEM_DISK { $$ = e_disk_space; }
         ;
 
 memloc: memaddr { $$ = $1; if (!CHECK_ADDR($1)) return ERR_ADDR_TOO_BIG; }
       ;
 
-memaddr: number { $$ = $1; } 
+memaddr: number { $$ = $1; }
 
-expression: expression '+' expression { $$ = $1 + $3; } 
-          | expression '-' expression { $$ = $1 - $3; } 
-          | expression '*' expression { $$ = $1 * $3; } 
-          | expression '/' expression { $$ = ($3) ? ($1 / $3) : 1; } 
+expression: expression '+' expression { $$ = $1 + $3; }
+          | expression '-' expression { $$ = $1 - $3; }
+          | expression '*' expression { $$ = $1 * $3; }
+          | expression '/' expression { $$ = ($3) ? ($1 / $3) : 1; }
           | '(' expression ')' 	      { $$ = $2; }
           | '(' expression error      { return ERR_MISSING_CLOSE_PAREN; }
           | value  		      { $$ = $1; }
@@ -315,7 +342,7 @@ assembly_instr_list: assembly_instr_list INST_SEP assembly_instruction
                    | assembly_instruction INST_SEP assembly_instruction
                    ;
 
-assembly_instruction: OPCODE asm_operand_mode { $$ = 0; 
+assembly_instruction: OPCODE asm_operand_mode { $$ = 0;
                                                 if ($1) {
                                                     mon_assemble_instr($1, $2);
                                                 } else {
@@ -329,7 +356,7 @@ post_assemble: assembly_instruction
              | assembly_instr_list { asm_mode = 0; }
              ;
 
-asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) return ERR_IMM_TOO_BIG; 
+asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) return ERR_IMM_TOO_BIG;
                                          $$ = join_ints(IMMEDIATE,$2); }
                 | number { if ($1 < 0x100)
                               $$ = join_ints(ZERO_PAGE,$1);
@@ -354,7 +381,7 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) return ERR_IMM_TOO_BIG;
                 ;
 
 
-%% 
+%%
 
 void parse_and_execute_line(char *input)
 {

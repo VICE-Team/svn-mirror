@@ -44,6 +44,7 @@ typedef struct PetInfo {
 	int		mem9;		/* 0 = open/ROM, 1 = RAM */
 	int		memA;		/* 0 = open/ROM, 1 = RAM */
 	int		kbd_type;	/* 1 = graphics, 0 = business (UK) */
+	int		pet2k;		/* reset when romName is changed */
 
 	/* ROM image resources */
 	char		*chargenName;	/* Character ROM */
@@ -55,16 +56,11 @@ typedef struct PetInfo {
 	char		*memAname;	/* $A*** ROM image filename */
 	char		*mem9name;	/* $9*** ROM image filename */
 
-	/* FIXME: this belongs elsewhere */
-	char		*keyb_gr;	/* graphics keymap name */
-	char		*keyb_bs;	/* business keymap name */
-
 	/* runtime (derived) variables */
 	int		videoSize;	/* video RAM size (1k or 2k) */
 	int		map;		/* 0 = linear map, 1 = 8096 mapping */
 					/* 2 = 8296 mapping */
 	int		vmask;		/* valid CRTC address bits */
-	int		pet2k;		/* reset when romName is changed */
 	int		screen_width;	/* derived from ROM */
 } PetInfo;
 

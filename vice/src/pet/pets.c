@@ -57,31 +57,31 @@ static struct {
     const char *model;
     PetInfo info;
 } pet_table[] = {
-    {"2001",  { 8, 0x0800, 0, 40, 0, 0, 1,
+    {"2001",  { 8, 0x0800, 0, 40, 0, 0, 1, 1,
 	     PET_CHARGEN_NAME, PET_KERNAL2001NAME, NULL, NULL, NULL, NULL } },
-    {"3008",  { 8, 0x0800, 0, 40, 0, 0, 1,
+    {"3008",  { 8, 0x0800, 0, 40, 0, 0, 1, 0,
 	     PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL } },
-    {"3016",  { 16, 0x0800, 0, 40, 0, 0, 1,
+    {"3016",  { 16, 0x0800, 0, 40, 0, 0, 1, 0,
 	     PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL } },
-    {"3032",  { 32, 0x0800, 0, 40, 0, 0, 1,
+    {"3032",  { 32, 0x0800, 0, 40, 0, 0, 1, 0,
 	     PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL } },
-    {"3032B", { 32, 0x0800, 0, 40, 0, 0, 0,
+    {"3032B", { 32, 0x0800, 0, 40, 0, 0, 0, 0,
 	     PET_CHARGEN_NAME, PET_KERNAL3032NAME, PET_EDITOR2B40NAME,
 	     NULL, NULL, NULL } },
-    {"4016",  { 16, 0x0800, 1, 40, 0, 0, 1,
+    {"4016",  { 16, 0x0800, 1, 40, 0, 0, 1, 0,
 	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, NULL, NULL, NULL, NULL } },
-    {"4032",  { 32, 0x0800, 1, 40, 0, 0, 1,
+    {"4032",  { 32, 0x0800, 1, 40, 0, 0, 1, 0,
 	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, NULL, NULL, NULL, NULL } },
-    {"4032B", { 32, 0x0800, 1, 40, 0, 0, 0,
+    {"4032B", { 32, 0x0800, 1, 40, 0, 0, 0, 0,
 	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B40NAME,
 	     NULL, NULL, NULL } },
-    {"8032",  { 32, 0x0800, 1, 80, 0, 0, 0,
+    {"8032",  { 32, 0x0800, 1, 80, 0, 0, 0, 0,
 	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME,
 	     NULL, NULL, NULL } },
-    {"8096",  { 96, 0x0800, 1, 80, 0, 0, 0,
+    {"8096",  { 96, 0x0800, 1, 80, 0, 0, 0, 0,
 	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME,
 	     NULL, NULL, NULL } },
-    {"8296",  { 128, 0x0100, 1, 80, 0, 0, 0,
+    {"8296",  { 128, 0x0100, 1, 80, 0, 0, 0, 0,
 	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME,
 	     NULL, NULL, NULL } },
     {NULL}
@@ -127,6 +127,9 @@ int pet_set_model(const char *model_name, void* extra)
 		(resource_value_t) pet_table[i].info.memAname);
 	    resources_set_value("RomModuleBName",
 		(resource_value_t) pet_table[i].info.memBname);
+
+	    /* hm, does this belong to a resource? */
+	    pet.pet2k = pet_table[i].info.pet2k;
 
 	    mem_load();
 	    suspend_speed_eval();
@@ -255,9 +258,11 @@ static int set_kernal_rom_name(resource_value_t v)
     string_set(&petres.kernalName, (char *)v);
 
     petres.pet2k = 0;
+/*
     if(!strcmp(PET_KERNAL2001NAME, petres.kernalName)) {
 	petres.pet2k = 1;
     }
+*/
     return 0;
 }
 

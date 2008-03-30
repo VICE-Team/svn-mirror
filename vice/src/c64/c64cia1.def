@@ -43,6 +43,7 @@
 INCLUDES()
 {
 #include "kbd.h"
+#include "c64cia.h"
 }
 
 #define PRE_CIA_FUNCS

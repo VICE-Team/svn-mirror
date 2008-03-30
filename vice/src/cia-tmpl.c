@@ -73,7 +73,7 @@
 #include "vmachine.h"
 #include "cia.h"
 #include "vicii.h"
-#include "maincpu.h"
+#include "mycpu.h"
 #include "resources.h"
 
 INCLUDES
@@ -194,7 +194,7 @@ static int update_mycia(CLOCK rclk)
 		    && (mycia_tau < added_int_clk))
 		    added_int_clk = mycia_tau;
 		mycia_tau = 0;
-		maincpu_unset_alarm(A_MYCIATA);
+		mycpu_unset_alarm(A_MYCIATA);
 		mycia_tac = mycia_tal;
 		mycia_tas = CIAT_STOPPED;
 		mycia[CIA_CRA] &= 0xfe;
@@ -246,7 +246,7 @@ static int update_mycia(CLOCK rclk)
 		if ((myciaier & CIA_IM_TB) && (mycia_tbu < added_int_clk))
 		    added_int_clk = mycia_tbu;
 		mycia_tbu = 0;
-		maincpu_unset_alarm(A_MYCIATB);
+		mycpu_unset_alarm(A_MYCIATB);
 		mycia_tbc = mycia_tbl;
 		mycia_tbs = CIAT_STOPPED;
 		mycia[CIA_CRB] &= 0xfe;
@@ -335,13 +335,13 @@ void reset_mycia(void)
     mycia_tat = 0;
     mycia_tbt = 0;
 
-    maincpu_unset_alarm(A_MYCIATB);
-    maincpu_unset_alarm(A_MYCIATA);
+    mycpu_unset_alarm(A_MYCIATB);
+    mycpu_unset_alarm(A_MYCIATA);
 
     memset(myciatodalarm, 0, sizeof(myciatodalarm));
     myciatodlatched = 0;
     myciatodstopped = 0;
-    maincpu_set_alarm(A_MYCIATOD, myciatodticks);
+    mycpu_set_alarm(A_MYCIATOD, myciatodticks);
 
     myciaint = 0;
 }
@@ -353,7 +353,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
     addr &= 0xf;
 
-    vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
+    vic_ii_handle_pending_alarms(mycpu_num_write_cycles());
 
     rclk = clk - STORE_OFFSET;
 
@@ -471,7 +471,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	    /* switch timer A alarm on again, if necessary */
 	    update_mycia(rclk);
 	    if (mycia_tau) {
-		maincpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
+		mycpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
 	    }
 
 #if defined (MYCIA_TIMER_DEBUG)
@@ -508,10 +508,10 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	}
 	if (myciaier & (CIA_IM_TA + CIA_IM_TB)) {
 	    if ((myciaier & CIA_IM_TA) && mycia_tau) {
-		maincpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
+		mycpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
 	    }
 	    if ((myciaier & CIA_IM_TB) && mycia_tbu) {
-		maincpu_set_alarm_clk(A_MYCIATB, mycia_tbu + 1);
+		mycpu_set_alarm_clk(A_MYCIATB, mycia_tbu + 1);
 	    }
 	}
 	/* Control */
@@ -533,7 +533,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	    mycia_tac = mycia_tal;
 	    if (mycia_tas == CIAT_RUNNING) {
 		mycia_tau = rclk + mycia_tac + 2;
-		maincpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
+		mycpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
 	    }
 	}
 	/* bit 3 timer run mode */
@@ -547,7 +547,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	    if ((byte & 0x21) == 0x01) {	/* timer just started */
 		mycia_tas = CIAT_RUNNING;
 		mycia_tau = rclk + (mycia_tac + 1) + ((byte & 0x10) >> 4);
-		maincpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
+		mycpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
 	    } else {		/* timer just stopped */
 		mycia_tas = CIAT_STOPPED;
 		mycia_tau = 0;
@@ -559,7 +559,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 		    if (mycia_tac > 0)
 			mycia_tac--;
 		}
-		maincpu_unset_alarm(A_MYCIATA);
+		mycpu_unset_alarm(A_MYCIATA);
 	    }
 	}
 #if defined (MYCIA_TIMER_DEBUG)
@@ -590,7 +590,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 		if (app_resources.debugFlag)
 		    printf("MYCIA: rclk=%d force load: set tbu alarm to %d\n", rclk, mycia_tbu);
 #endif
-		maincpu_set_alarm_clk(A_MYCIATB, mycia_tbu + 1);
+		mycpu_set_alarm_clk(A_MYCIATB, mycia_tbu + 1);
 	    }
 	}
 	/* bit 3 timer run mode */
@@ -607,14 +607,14 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 		if (app_resources.debugFlag)
 		    printf("MYCIA: rclk=%d start timer: set tbu alarm to %d\n", rclk, mycia_tbu);
 #endif
-		maincpu_set_alarm_clk(A_MYCIATB, mycia_tbu + 1);
+		mycpu_set_alarm_clk(A_MYCIATB, mycia_tbu + 1);
 		mycia_tbs = CIAT_RUNNING;
 	    } else {		/* timer just stopped */
 #if defined(MYCIA_TIMER_DEBUG)
 		if (app_resources.debugFlag)
 		    printf("MYCIA: rclk=%d stop timer: set tbu alarm\n", rclk);
 #endif
-		maincpu_unset_alarm(A_MYCIATB);
+		mycpu_unset_alarm(A_MYCIATB);
 		mycia_tbu = 0;
 		if (!(byte & 0x10)) {
 		    /* 1 cycle delay for counter stop.  This must only happen
@@ -630,7 +630,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 		    update_mycia(rclk);
 		    /* switch timer A alarm on if necessary */
 		    if (mycia_tau) {
-			maincpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
+			mycpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
 		    }
 		} else {
 		    mycia_tbs = CIAT_STOPPED;
@@ -744,9 +744,9 @@ BYTE read_mycia_(ADDRESS addr)
 	/* little hack .... */
 	{
 	    int i;
-	    printf("\nmaincpu_ints:");
+	    printf("\nmycpu_ints:");
 	    for (i = 0; i < NUMOFINT; i++) {
-		printf(" %d", maincpu_int_status.pending_int[i]);
+		printf(" %d", mycpu_int_status.pending_int[i]);
 	    }
 	    printf("\n");
 	}
@@ -763,10 +763,10 @@ BYTE read_mycia_(ADDRESS addr)
 
 	    myciardi = rclk;
 
-            if (rclk >= maincpu_int_status.alarm_clk[A_MYCIATA])
-                int_myciata(rclk - maincpu_int_status.alarm_clk[A_MYCIATA]);
-            if (rclk >= maincpu_int_status.alarm_clk[A_MYCIATB])
-                int_myciatb(rclk - maincpu_int_status.alarm_clk[A_MYCIATB]);
+            if (rclk >= mycpu_int_status.alarm_clk[A_MYCIATA])
+                int_myciata(rclk - mycpu_int_status.alarm_clk[A_MYCIATA]);
+            if (rclk >= mycpu_int_status.alarm_clk[A_MYCIATB])
+                int_myciatb(rclk - mycpu_int_status.alarm_clk[A_MYCIATB]);
 
 	    update_mycia(rclk);
 	    t = myciaint | myciaflag;
@@ -807,12 +807,13 @@ int int_myciata(long offset)
     if ((mycia_tas == CIAT_RUNNING) && !(mycia[CIA_CRA] & 8)) {
 	/* if we do not need alarm, no PB6, no shift register, and not timer B
 	   counting timer A, then we can savely skip alarms... */
-	if ((myciaier & CIA_IM_TA)
+	if ( ((myciaier & CIA_IM_TA) && 
+		(!mycpu_int_status.pending_int[I_MYCIATA]))
 	    || (mycia[CIA_CRA] & 0x42)
 	    || (mycia_tbs == CIAT_COUNTTA)) {
-	    maincpu_set_alarm_clk(A_MYCIATA, rclk + mycia_tal + 1 /*+ 1*/);
+	    mycpu_set_alarm_clk(A_MYCIATA, rclk + mycia_tal + 1 /*+ 1*/);
 	} else {
-	    maincpu_unset_alarm(A_MYCIATA);
+	    mycpu_unset_alarm(A_MYCIATA);
 	}
     } else {
 #if 0
@@ -820,7 +821,7 @@ int int_myciata(long offset)
 	mycia[CIA_CRA] &= 0xfe;	/* clear run flag. Correct? */
 	mycia_tau = 0;
 #endif
-	maincpu_unset_alarm(A_MYCIATA);
+	mycpu_unset_alarm(A_MYCIATA);
     }
 
     if (mycia[CIA_CRA] & 0x40) {
@@ -844,7 +845,7 @@ int int_myciata(long offset)
 		printf("MYCIA: timer B underflow when counting timer A occured, rclk=%d!\n", rclk);
 #endif
 	    myciaint |= CIA_IM_TB;
-	    maincpu_set_alarm_clk(A_MYCIATB, rclk);
+	    mycpu_set_alarm_clk(A_MYCIATB, rclk);
 	} else {
 	    mycia_tbc--;
 	}
@@ -892,9 +893,9 @@ int int_myciatb(long offset)
 #endif
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (myciaier & CIA_IM_TB) {
-		maincpu_set_alarm_clk(A_MYCIATB, rclk + mycia_tbl + 1 /*+ 1*/);
+		mycpu_set_alarm_clk(A_MYCIATB, rclk + mycia_tbl + 1 /*+ 1*/);
 	    } else {
-		maincpu_unset_alarm(A_MYCIATB);
+		mycpu_unset_alarm(A_MYCIATB);
 	    }
 	} else {
 #if 0
@@ -906,7 +907,7 @@ int int_myciatb(long offset)
 	    if (app_resources.debugFlag)
 		printf("MYCIA: rclk=%d myciatb: unset tbu alarm\n", rclk);
 #endif
-	    maincpu_unset_alarm(A_MYCIATB);
+	    mycpu_unset_alarm(A_MYCIATB);
 	}
     } else {
 	if (mycia_tbs == CIAT_COUNTTA) {
@@ -917,7 +918,7 @@ int int_myciatb(long offset)
 	    }
 	}
 	mycia_tbu = 0;
-	maincpu_unset_alarm(A_MYCIATB);
+	mycpu_unset_alarm(A_MYCIATB);
 #if defined(MYCIA_TIMER_DEBUG)
 	if (app_resources.debugFlag)
 	    printf("MYCIA: rclk=%d myciatb: unset tbu alarm\n", rclk);
@@ -956,7 +957,7 @@ int int_myciatod(long offset)
 #endif
 
     /* set up new int */
-    maincpu_set_alarm(A_MYCIATOD, myciatodticks);
+    mycpu_set_alarm(A_MYCIATOD, myciatodticks);
 
     if (!myciatodstopped) {
 	/* inc timer */
@@ -1041,7 +1042,7 @@ void mycia_dump(FILE * fp)
 	);
 
     fprintf(fp, "ICR %u %u %u", myciaint, myciaier,
-	    maincpu_int_status.pending_int[I_MYCIAFL]);
+	    mycpu_int_status.pending_int[I_MYCIAFL]);
     fprintf(fp, " [fl= %s%s%s%s%s] ",
 	    (myciaint & 1) ? "TA " : "",
 	    (myciaint & 2) ? "TB " : "",
@@ -1081,7 +1082,7 @@ void mycia_undump_line(char *s)
 	if ((mycia[CIA_CRA] & 0x21) == 0x01) {
 	    mycia_tau = clk + mycia_tac;
 	    mycia_tas = CIAT_RUNNING;
-	    maincpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
+	    mycpu_set_alarm_clk(A_MYCIATA, mycia_tau + 1);
 	} else {
 	    mycia_tau = 0;
 	    mycia_tas = CIAT_STOPPED;
@@ -1092,7 +1093,7 @@ void mycia_undump_line(char *s)
 	if ((mycia[CIA_CRB] & 0x61) == 0x01) {
 	    mycia_tbu = clk + mycia_tbc;
 	    mycia_tbs = CIAT_RUNNING;
-	    maincpu_set_alarm_clk(A_MYCIATB, mycia_tbu + 1);
+	    mycpu_set_alarm_clk(A_MYCIATB, mycia_tbu + 1);
 	} else {
 	    mycia_tbu = 0;
 	    if ((mycia[CIA_CRB] & 0x61) == 0x41) {

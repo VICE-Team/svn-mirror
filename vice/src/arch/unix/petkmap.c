@@ -95,7 +95,7 @@ static int set_keymap_buk_pos_file(resource_value_t v)
 static resource_t resources[] = {
     { "KeymapGraphicsSymFile", RES_STRING, (resource_value_t) "graphics.vkm",
       (resource_value_t *) &keymap_file_list[0], set_keymap_gr_sym_file },
-    { "KeymapGraphicsPosFile", RES_STRING, (resource_value_t) "gr_pos.vkm",
+    { "KeymapGraphicsPosFile", RES_STRING, (resource_value_t) "posg_de.vkm",
       (resource_value_t *) &keymap_file_list[1], set_keymap_gr_pos_file },
     { "KeymapBusinessUKSymFile", RES_STRING, (resource_value_t) "busi_uk.vkm",
       (resource_value_t *) &keymap_file_list[2], set_keymap_buk_sym_file },
