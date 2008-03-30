@@ -59,6 +59,9 @@ typedef struct tap_s {
 
     /* Which mode is activated?  */
     int mode;
+
+    /* Is the file opened read only?  */
+    int read_only;
 } tap_t;
 
 tap_t *tap_open(const char *name);

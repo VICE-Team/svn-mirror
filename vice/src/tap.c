@@ -51,11 +51,18 @@ int tap_header_read(BYTE *version, FILE *fd)
 tap_t *tap_open(const char *name)
 {
     FILE *fd;
+    int read_only;
     tap_t *new;
 
     fd = zfopen(name, MODE_READ_WRITE);
-    if (fd == NULL)
-        return NULL;
+    if (fd == NULL) {
+        fd = zfopen(name, MODE_READ);
+        if (fd == NULL)
+            return NULL;
+        read_only = 1;
+    } else {
+        read_only = 0;
+    }
 
     new = xmalloc(sizeof(tap_t));
 
@@ -68,6 +75,7 @@ tap_t *tap_open(const char *name)
     }
 
     new->fd = fd;
+    new->read_only = read_only;
     new->counter = 0;
     new->current_file_seek_position = 0;
     new->mode = DATASETTE_CONTROL_STOP;
