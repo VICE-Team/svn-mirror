@@ -4,7 +4,7 @@ SUBDIRS = src data man doc
 
 EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h vice.spec
 
-.PHONY: x64 x128 xvic xpet xcbm2
+.PHONY: x64 x128 xvic xpet xcbm2 vsid
 x64:
 	(cd src; $(MAKE) x64-all)
 
@@ -19,3 +19,7 @@ xpet:
 
 xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
+
+vsid:
+	(cd src; $(MAKE) vsid-all)
+
