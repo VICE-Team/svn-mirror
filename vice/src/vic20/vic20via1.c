@@ -117,7 +117,7 @@ static void undump_pcr(BYTE byte)
 
 static void res_via(void)
 {
-	iec_pcr_write(0x22);
+/*	iec_pcr_write(0x22);*/
 }
 
 inline static BYTE store_pcr(BYTE byte, ADDRESS addr)

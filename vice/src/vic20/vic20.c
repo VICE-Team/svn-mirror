@@ -172,7 +172,7 @@ int machine_init_resources(void)
 #endif
         || kbd_init_resources() < 0
         || drive_init_resources() < 0
-	|| cartridge_init_resources() <0)
+        || cartridge_init_resources() <0)
         return -1;
 
     return 0;
@@ -198,7 +198,7 @@ int machine_init_cmdline_options(void)
 #endif
         || kbd_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
-	|| cartridge_init_cmdline_options() < 0)
+        || cartridge_init_cmdline_options() < 0)
         return -1;
 
     return 0;
@@ -235,7 +235,7 @@ int machine_init(void)
 #endif
 
 #ifdef HAVE_PRINTER
-    /* initialize print devices */
+    /* initialize print devices.  */
     print_init();
 #endif
 
@@ -246,7 +246,7 @@ int machine_init(void)
     /* Initialize the datasette emulation.  */
     datasette_init();
 
-    /* Fire up the hardware-level 1541 emulation. */
+    /* Fire up the hardware-level drive emulation. */
     drive_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
@@ -288,26 +288,22 @@ int machine_init(void)
     return 0;
 }
 
-/* Reset.  */
+/* VIC20-specific reset sequence.  */
 void machine_reset(void)
 {
     via1_reset();
     via2_reset();
-
     reset_vic();
-
-    drive_reset();
-
     vic_sound_reset();
-
 #ifdef HAVE_RS232
     rs232_reset();
     rsuser_reset();
 #endif
-
 #ifdef HAVE_PRINTER
     print_reset();
 #endif
+    autostart_reset();
+    drive_reset();
 }
 
 void machine_powerup(void)
@@ -341,25 +337,8 @@ static void vsync_hook(void)
 
     sub = clk_guard_prevent_overflow(&maincpu_clk_guard);
 
-#if 0
-    /* We have to make sure the number of cycles subtracted is multiple of
-       `VIC20_PAL_CYCLES_PER_RFSH' here, or the VIC emulation could go
-       nuts.  */
-    sub = maincpu_prevent_clk_overflow(VIC20_PAL_CYCLES_PER_RFSH);
-    if (sub > 0) {
-	vic_prevent_clk_overflow(sub);
-#ifdef HAVE_RS232
-        rsuser_prevent_clk_overflow(sub);
-#endif
-	via1_prevent_clk_overflow(sub);
-	via2_prevent_clk_overflow(sub);
-	sound_prevent_clk_overflow(sub);
-        vsync_prevent_clk_overflow(sub);
-    }
-#endif
-
-    /* The 1541 has to deal both with our overflowing and its own one, so it
-       is called even when there is no overflowing in the main CPU.  */
+    /* The drive has to deal both with our overflowing and its own one, so
+       it is called even when there is no overflowing in the main CPU.  */
     /* FIXME: Do we have to check drive_enabled here?  */
     drive_prevent_clk_overflow(sub, 0);
     drive_prevent_clk_overflow(sub, 1);
@@ -367,7 +346,7 @@ static void vsync_hook(void)
 
 int machine_set_restore_key(int v)
 {
-    via2_signal(VIA_SIG_CA1, v? VIA_SIG_FALL: VIA_SIG_RISE);
+    via2_signal(VIA_SIG_CA1, v ? VIA_SIG_FALL : VIA_SIG_RISE);
     return 1;
 }
 

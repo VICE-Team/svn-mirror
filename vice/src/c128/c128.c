@@ -317,8 +317,6 @@ int machine_init(void)
 /* C128-specific reset sequence.  */
 void machine_reset(void)
 {
-    initialize_memory();
-
     cia1_reset();
     cia2_reset();
     sid_reset();
@@ -339,7 +337,6 @@ void machine_reset(void)
     reset_vic_ii();
 
     autostart_reset();
-
     drive_reset();
 }
 

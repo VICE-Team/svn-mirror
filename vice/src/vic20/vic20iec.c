@@ -29,12 +29,12 @@
 
 #include "vice.h"
 
-#include "types.h"
-#include "iecdrive.h"
-#include "resources.h"
-#include "drive.h"
-#include "viad.h"
 #include "ciad.h"
+#include "drive.h"
+#include "iecdrive.h"
+#include "maincpu.h"
+#include "resources.h"
+#include "viad.h"
 
 #define NOT(x) ((x)^1)
 
@@ -79,11 +79,12 @@ void iec_drive0_write(BYTE data)
     drive_data = ((data & 2) >> 1);
     drive_clock = ((data & 8) >> 3);
     drive_atna = ((data & 16) >> 4);
-    drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
+    if (drive[0].type != DRIVE_TYPE_1581)
+        drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
+    else
+        drive_data_modifier = (NOT(cpu_atn) & NOT(drive_atna));
 
-    if (last_write != (data & 26)) {
-	resolve_bus_signals();
-    }
+    resolve_bus_signals();
     last_write = data & 26;
 }
 
@@ -95,11 +96,12 @@ void iec_drive1_write(BYTE data)
     drive2_data = ((data & 2) >> 1);
     drive2_clock = ((data & 8) >> 3);
     drive2_atna = ((data & 16) >> 4);
-    drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
+    if (drive[1].type != DRIVE_TYPE_1581)
+        drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
+    else
+        drive2_data_modifier = (NOT(cpu_atn) & NOT(drive2_atna));
 
-    if (last_write != (data & 26)) {
-        resolve_bus_signals();
-    }
+    resolve_bus_signals();
     last_write = data & 26;
 }
 
@@ -130,10 +132,9 @@ BYTE iec_drive1_read(void)
 /* These two routines are called for VIA2 Port A. */
 
 BYTE iec_pa_read(void)
-
 {
     if (!drive[0].enable && !drive[1].enable)
-	return 0;
+        return 0;
 
     if (drive[0].enable)
         drive0_cpu_execute(clk);
@@ -186,12 +187,17 @@ void iec_pa_write(BYTE data)
     }
 
     cpu_atn = ((data & 128) >> 7);
-    drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
-    drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
+    if (drive[0].type != DRIVE_TYPE_1581)
+        drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
+    else
+        drive_data_modifier = (NOT(cpu_atn) & NOT(drive_atna));
 
-    if (last_write != (data & 128))
-	resolve_bus_signals();
+    if (drive[1].type != DRIVE_TYPE_1581)
+        drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
+    else
+        drive2_data_modifier = (NOT(cpu_atn) & NOT(drive2_atna));
 
+    resolve_bus_signals();
     last_write = data & 128;
 }
 
@@ -215,12 +221,17 @@ void iec_pcr_write(BYTE data)
 
     cpu_data = ((data & 32) >> 5);
     cpu_clock = ((data & 2) >> 1);
-    drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
-    drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
 
-    if (last_write != (data & 34))
-	resolve_bus_signals();
+    if (drive[0].type != DRIVE_TYPE_1581)
+        drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
+    else
+        drive_data_modifier = (NOT(cpu_atn) & NOT(drive_atna));
+    if (drive[1].type != DRIVE_TYPE_1581)
+        drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
+    else
+        drive2_data_modifier = (NOT(cpu_atn) & NOT(drive2_atna));
 
+    resolve_bus_signals();
     last_write = data & 34;
 }
 

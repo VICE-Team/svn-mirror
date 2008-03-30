@@ -122,7 +122,7 @@ static void undump_pcr(BYTE byte)
 
 static void res_via(void)
 {
-    iec_pa_write(0xff);
+/*    iec_pa_write(0xff);*/
 
 #ifdef HAVE_PRINTER
     pruser_write_data(0xff);
