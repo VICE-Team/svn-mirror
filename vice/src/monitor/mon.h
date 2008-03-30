@@ -230,6 +230,7 @@ extern const char *_mon_space_strings[];
 extern struct mon_cmds mon_cmd_array[];
 
 struct console_s;
+struct monitor_cpu_type_s;
 
 extern struct console_s *console_log;
 extern int sidefx;
@@ -242,6 +243,11 @@ extern MEMSPACE caller_space;
 extern unsigned mon_mask[NUM_MEMSPACES];
 extern char *playback_name;
 extern bool playback;
+extern MON_ADDR asm_mode_addr;
+extern struct monitor_cpu_type_s monitor_cpu_type;
+extern MON_ADDR dot_addr[NUM_MEMSPACES];
+extern const char *mon_memspace_string[];
+extern int mon_stop_output;
 
 extern BREAK_LIST *breakpoints[NUM_MEMSPACES];
 extern BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
@@ -268,20 +274,22 @@ extern void mon_add_string_to_buffer(char *str);
 extern int mon_cmd_lookup_index(char *str, int *push_back);
 extern int mon_cmd_get_token(int mon_index);
 extern int mon_cmd_get_next_state(int mon_index);
-
-extern void mon_start_assemble_mode(MON_ADDR addr, char *asm_line);
-extern void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr);
-extern int mon_assemble_instr(char *opcode_name, unsigned operand);
-
-extern void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr);
-extern void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y);
+extern void mon_display_memory(int radix_type, MON_ADDR start_addr,
+                               MON_ADDR end_addr);
+extern void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x,
+                             int y);
 extern void mon_display_screen(void);
-extern void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest);
-extern void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest);
-extern void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data);
-extern void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data);
+extern void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr,
+                            MON_ADDR dest);
+extern void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr,
+                               MON_ADDR dest);
+extern void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr,
+                            unsigned char *data);
+extern void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
+                            unsigned char *data);
 extern void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload);
-extern void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool is_bsave);
+extern void mon_save_file(char *filename, MON_ADDR start_addr,
+                          MON_ADDR end_addr, bool is_bsave);
 extern void mon_verify_file(char *filename, MON_ADDR start_addr);
 extern void mon_instructions_step(int count);
 extern void mon_instructions_next(int count);
@@ -296,6 +304,12 @@ extern void mon_print_help(char *cmd);
 extern void mon_cpu_type(char *cpu_type);
 extern void mon_bank(MEMSPACE mem, char *bank);
 extern void mon_display_io_regs(void);
+extern void mon_evaluate_default_addr(MON_ADDR *a);
+extern void mon_set_mem_val(MEMSPACE mem, unsigned mem_addr,
+                            unsigned char val);
+extern bool mon_inc_addr_location(MON_ADDR *a, unsigned inc);
+extern long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
+                                       bool must_be_range, WORD default_len);
 
 extern bool check_drive_emu_level_ok(int drive_num);
 
@@ -329,9 +343,5 @@ extern void mon_set_checkpoint_command(int brk_num, char *cmd);
 extern void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
 extern void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
 
-extern const char *mon_disassemble_to_string(MEMSPACE, ADDRESS addr, BYTE x, BYTE p1,
-                                             BYTE p2, int hex_mode);
-extern const char *mon_disassemble_to_string_ex(MEMSPACE, ADDRESS addr, BYTE x, BYTE p1,
-                                             BYTE p2, int hex_mode, unsigned *len);
-
 #endif
+

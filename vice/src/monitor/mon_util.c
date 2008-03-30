@@ -32,38 +32,38 @@
 #include "console.h"
 #include "mem.h"
 #include "mon.h"
+#include "mon_disassemble.h"
 #include "mon_util.h"
 #include "types.h"
 #include "uimon.h"
 #include "utils.h"
 
-char *mon_disassemble_with_label( MEMSPACE memspace, ADDRESS loc, int hex, unsigned *opc_size_p, unsigned *label_p )
+char *mon_disassemble_with_label(MEMSPACE memspace, ADDRESS loc, int hex,
+                                 unsigned *opc_size_p, unsigned *label_p)
 {
     const char *p;
 
-    if (*label_p == 0)
-    {
+    if (*label_p == 0) {
         /* process a label, if available */
         p = mon_symbol_table_lookup_name(memspace, loc);
         if (p)
         {
             *label_p    = 1;
             *opc_size_p = 0;
-            return xmsprintf( "%s:",p);
+            return xmsprintf("%s:",p);
         }
-    }
-    else
-    {
+    } else {
         *label_p = 0;
     }
 
     /* process the disassembly itself */
-    p = mon_disassemble_to_string_ex( memspace, loc,
-             mon_get_mem_val(memspace,loc),
-             mon_get_mem_val(memspace,loc+1),
-             mon_get_mem_val(memspace,loc+2),
-             hex,
-             opc_size_p );
+    p = mon_disassemble_to_string_ex(memspace, loc,
+                                     mon_get_mem_val(memspace, loc),
+                                     mon_get_mem_val(memspace, loc+1),
+                                     mon_get_mem_val(memspace, loc+2),
+                                     mon_get_mem_val(memspace, loc+3),
+                                     hex,
+                                     opc_size_p);
 
     return xmsprintf( (hex ? "%04X: %s%10s" : "05u: %s%10s"), loc, p, "");
 }
@@ -71,7 +71,8 @@ char *mon_disassemble_with_label( MEMSPACE memspace, ADDRESS loc, int hex, unsig
 
 char *pchCommandLine = NULL;
 
-void mon_set_command( console_t *console_log, char *command, void (*pAfter)(void) )
+void mon_set_command(console_t *console_log, char *command,
+                     void (*pAfter)(void))
 {
     pchCommandLine = command;
 
@@ -86,21 +87,17 @@ char *uimon_in()
 {
     char *p = NULL;
 
-	while (!p && !pchCommandLine)
-	{
+    while (!p && !pchCommandLine) {
         /* as long as we don't have any return value... */
 
         p = uimon_get_in(&pchCommandLine);
     }
 
-    if (pchCommandLine)
-    {
+    if (pchCommandLine) {
         /* we have an "artificially" generated command line */
 
         if (p)
-		{
             free(p);
-		}
 
         p = stralloc(pchCommandLine);
         pchCommandLine = NULL;
@@ -109,3 +106,4 @@ char *uimon_in()
     /* return the command (the one or other way...) */
     return p;
 }
+

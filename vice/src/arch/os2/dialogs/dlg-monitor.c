@@ -44,6 +44,7 @@
 #include <stdlib.h>
 
 #include "mon.h"             // e_*
+#include "mondisassemble.h"
 #include "utils.h"
 #include "mos6510.h"         // P_*
 #include "archdep.h"         // archdep_boot_path
