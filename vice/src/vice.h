@@ -91,25 +91,9 @@
 #include <sys/param.h>
 #endif
 
-#ifndef PATH_MAX
-#ifndef POSIX
-#define PATH_MAX        MAXPATHLEN
-#endif  /* Not POSIX.  */
-#endif  /* No PATH_MAX.  */
 #ifndef MAXPATHLEN
 #define MAXPATHLEN 1024
 #endif  /* No MAXPATHLEN.  */
-
-/* As `GET_PATH_MAX' might call a function, a `PATH_VAR' macro is provided to
-   declare local strings for storing paths.  WARNING: This needs `alloca()'
-   to be available!  */
-#ifdef  PATH_MAX
-#define GET_PATH_MAX    PATH_MAX
-#else
-#define NEED_GET_PATH_MAX
-extern unsigned int get_path_max();
-#define GET_PATH_MAX    (get_path_max())
-#endif
 
 /* ------------------------------------------------------------------------- */
 

@@ -158,7 +158,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
 {
     const char *p;
     char *parsecmd, *c;
-    int t;
+    int cmdlen;
 
     cmd_parse->parsecmd = NULL;
     cmd_parse->readmode = (cmd_parse->secondary == 1)
@@ -183,15 +183,15 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
         p++;
 #endif
 
-    t = cmd_parse->cmdlength - (p - cmd_parse->cmd);
+    cmdlen = cmd_parse->cmdlength - (p - cmd_parse->cmd);
     cmd_parse->parselength = 0;
 
     /* Temporary hack.  */
-    cmd_parse->parsecmd = (char *)lib_calloc(1, 256);
+    cmd_parse->parsecmd = (char *)lib_calloc(1, cmdlen + 2);
 
     parsecmd = cmd_parse->parsecmd;
 
-    while (*p != ',' && t-- > 0) {
+    while (*p != ',' && cmdlen-- > 0) {
         (cmd_parse->parselength)++;
         *(parsecmd++) = *(p++);
     }
@@ -201,11 +201,11 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     /*
      * Change modes ?
      */
-    while (t > 0) {
-        t--;
+    while (cmdlen > 0) {
+        cmdlen--;
         p++;
 
-        if (t == 0)
+        if (cmdlen == 0)
             return CBMDOS_IPE_INVAL;
 
         switch (*p) {
@@ -239,12 +239,12 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
                 return CBMDOS_IPE_INVAL;
         }
 
-        c = (char *)memchr(p, ',', t);
+        c = (char *)memchr(p, ',', cmdlen);
         if (c) {
-            t -= (c - p);
+            cmdlen -= (c - p);
             p = c;
         } else {
-            t = 0;
+            cmdlen = 0;
         }
     }
 
