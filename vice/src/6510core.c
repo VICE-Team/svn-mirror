@@ -184,71 +184,73 @@
 
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
    execute NMI.  */
-#define DO_INTERRUPT(int_kind)                                          \
-    do {                                                                \
-        BYTE ik = (int_kind);                                           \
-                                                                        \
-        if (ik & (IK_IRQ | IK_NMI)) {                                   \
-            if ((ik & IK_NMI)                                           \
-		&& check_nmi_delay(&CPU_INT_STATUS, CLK)) {             \
-                TRACE_NMI();                                            \
-                ack_nmi(&CPU_INT_STATUS);                               \
-                LOCAL_SET_BREAK(0);                                     \
-                PUSH(reg_pc >> 8);                                      \
-                PUSH(reg_pc & 0xff);                                    \
-                PUSH(LOCAL_STATUS());                                   \
-                LOCAL_SET_INTERRUPT(1);                                 \
-                JUMP(LOAD_ADDR(0xfffa));                                \
-                SET_LAST_OPCODE(0);                                     \
-                CLK += NMI_CYCLES;                                      \
-            } else if ((ik & IK_IRQ)                                    \
-                       && (!LOCAL_INTERRUPT()                           \
-                           || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))    \
-                       && check_irq_delay(&CPU_INT_STATUS, CLK)) {      \
-                TRACE_IRQ();                                            \
-                LOCAL_SET_BREAK(0);                                     \
-                PUSH(reg_pc >> 8);                                      \
-                PUSH(reg_pc & 0xff);                                    \
-                PUSH(LOCAL_STATUS());                                   \
-                LOCAL_SET_INTERRUPT(1);                                 \
-                JUMP(LOAD_ADDR(0xfffe));                                \
-                SET_LAST_OPCODE(0);                                     \
-                CLK += IRQ_CYCLES;                                      \
-            }                                                           \
-        }                                                               \
-        if (ik & (IK_TRAP | IK_RESET)) {                                \
-            if (ik & IK_TRAP) {                                         \
-                EXPORT_REGISTERS();                                     \
-                do_trap(&CPU_INT_STATUS, (ADDRESS) reg_pc);             \
-                IMPORT_REGISTERS();                                     \
-            }                                                           \
-            if (ik & IK_RESET) {                                        \
-                ack_reset(&CPU_INT_STATUS);                             \
-                reset();                                                \
-                JUMP(LOAD_ADDR(0xfffc));                                \
-            }                                                           \
-        }                                                               \
-        if (ik & (IK_MONITOR)) {					\
-           caller_space = CALLER;					\
-           if (mon_force_import(CALLER))				\
-              IMPORT_REGISTERS();					\
-           if (mon_mask[CALLER])					\
-              EXPORT_REGISTERS();					\
-           if (mon_mask[CALLER] & (MI_BREAK)) {				\
-              if (check_breakpoints(CALLER, (ADDRESS) reg_pc)) {	\
-                 mon((ADDRESS) reg_pc);					\
-                 IMPORT_REGISTERS();					\
-              }								\
-           }								\
-           if (mon_mask[CALLER] & (MI_STEP)) {				\
-              mon_check_icount((ADDRESS) reg_pc);		        \
-              IMPORT_REGISTERS();					\
-           }								\
-           if (mon_mask[CALLER] & (MI_WATCH)) {				\
-              mon_check_watchpoints((ADDRESS) reg_pc);   		\
-              IMPORT_REGISTERS();					\
-           }								\
-        }								\
+#define DO_INTERRUPT(int_kind)                                           \
+    do {                                                                 \
+        BYTE ik = (int_kind);                                            \
+                                                                         \
+        if (ik & (IK_IRQ | IK_NMI)) {                                    \
+            if ((ik & IK_NMI)                                            \
+		&& check_nmi_delay(&CPU_INT_STATUS, CLK)) {              \
+                TRACE_NMI();                                             \
+                ack_nmi(&CPU_INT_STATUS);                                \
+                LOCAL_SET_BREAK(0);                                      \
+                PUSH(reg_pc >> 8);                                       \
+                PUSH(reg_pc & 0xff);                                     \
+                PUSH(LOCAL_STATUS());                                    \
+                LOCAL_SET_INTERRUPT(1);                                  \
+                JUMP(LOAD_ADDR(0xfffa));                                 \
+                SET_LAST_OPCODE(0);                                      \
+                CLK += NMI_CYCLES;                                       \
+            } else if ((ik & IK_IRQ)                                     \
+                       && (!LOCAL_INTERRUPT()                            \
+                           || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))     \
+                       && check_irq_delay(&CPU_INT_STATUS, CLK)) {       \
+                TRACE_IRQ();                                             \
+                LOCAL_SET_BREAK(0);                                      \
+                PUSH(reg_pc >> 8);                                       \
+                PUSH(reg_pc & 0xff);                                     \
+                PUSH(LOCAL_STATUS());                                    \
+                LOCAL_SET_INTERRUPT(1);                                  \
+                JUMP(LOAD_ADDR(0xfffe));                                 \
+                SET_LAST_OPCODE(0);                                      \
+                CLK += IRQ_CYCLES;                                       \
+            }                                                            \
+        }                                                                \
+        if (ik & (IK_TRAP | IK_RESET)) {                                 \
+            if (ik & IK_TRAP) {                                          \
+                EXPORT_REGISTERS();                                      \
+                do_trap(&CPU_INT_STATUS, (ADDRESS) reg_pc);              \
+                IMPORT_REGISTERS();                                      \
+                if (check_pending_interrupt(&CPU_INT_STATUS) & IK_RESET) \
+                    ik |= IK_RESET;                                      \
+            }                                                            \
+            if (ik & IK_RESET) {                                         \
+                ack_reset(&CPU_INT_STATUS);                              \
+                reset();                                                 \
+                JUMP(LOAD_ADDR(0xfffc));                                 \
+            }                                                            \
+        }                                                                \
+        if (ik & (IK_MONITOR)) {					 \
+           caller_space = CALLER;					 \
+           if (mon_force_import(CALLER))				 \
+              IMPORT_REGISTERS();					 \
+           if (mon_mask[CALLER])					 \
+              EXPORT_REGISTERS();					 \
+           if (mon_mask[CALLER] & (MI_BREAK)) {				 \
+              if (check_breakpoints(CALLER, (ADDRESS) reg_pc)) {	 \
+                 mon((ADDRESS) reg_pc);					 \
+                 IMPORT_REGISTERS();					 \
+              }								 \
+           }								 \
+           if (mon_mask[CALLER] & (MI_STEP)) {				 \
+              mon_check_icount((ADDRESS) reg_pc);		         \
+              IMPORT_REGISTERS();					 \
+           }								 \
+           if (mon_mask[CALLER] & (MI_WATCH)) {				 \
+              mon_check_watchpoints((ADDRESS) reg_pc);   		 \
+              IMPORT_REGISTERS();					 \
+           }								 \
+        }								 \
     } while (0)
 
 /* ------------------------------------------------------------------------- */

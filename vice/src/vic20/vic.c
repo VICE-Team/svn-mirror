@@ -81,18 +81,8 @@ static int set_video_cache_enabled(resource_value_t v)
     return 0;
 }
 
-/* prototype for resources - new function from raster.c */
+/* Prototype for resources - new function from raster.c.  */
 static int set_palette_file_name(resource_value_t v);
-#if 0
-static int set_palette_file(resource_value_t v)
-{
-    if (palette_file_name != NULL)
-        free(palette_file_name);
-
-    palette_file_name = stralloc((char *)v);
-    return 0;
-}
-#endif
 
 static int set_double_size_enabled(resource_value_t v)
 {
@@ -212,6 +202,15 @@ typedef PIXEL2 VIC_PIXEL2;
 #endif
 
 #include "raster.c"
+/* ------------------------------------------------------------------------- */
+
+/* Cycle # within the current line.  */
+#define RASTER_CYCLE	((int)(clk % CYCLES_PER_LINE))
+
+/* Current vertical position of the raster.  Unlike `rasterline', which is
+   only accurate if a pending `A_RASTERDRAW' event has been served, this is
+   guarranteed to be always correct.  It is a bit slow, though.  */
+#define RASTER_Y    	((int)(clk / CYCLES_PER_LINE) % SCREEN_HEIGHT)
 
 /* -------------------------------------------------------------------------- */
 
@@ -670,3 +669,108 @@ void vic_prevent_clk_overflow(CLOCK sub)
 {
     oldclk -= sub;
 }
+
+/* ------------------------------------------------------------------------- */
+
+static char snap_module_name[] = "VIC-I";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int vic_write_snapshot_module(snapshot_t *s)
+{
+    int i;
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
+        return -1;
+
+    if (snapshot_module_write_byte(m, (BYTE) RASTER_CYCLE) < 0
+        || snapshot_module_write_word(m, (WORD) RASTER_Y) < 0)
+        goto fail;
+
+    /* Color RAM.  */
+    if (snapshot_module_write_byte_array(m, ram + 0x9400, 0x800) < 0)
+        goto fail;
+
+    if (snapshot_module_write_word(m, (WORD) memptr) < 0)
+        goto fail;
+
+    for (i = 0; i < 0x10; i++)
+        if (snapshot_module_write_byte(m, (BYTE) vic[i]) < 0)
+            goto fail;
+
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+
+int vic_read_snapshot_module(snapshot_t *s)
+{
+    int i;
+    snapshot_module_t *m;
+    BYTE major_version, minor_version;
+    WORD w;
+    BYTE b;
+
+    m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
+    if (m == NULL)
+        return -1;
+
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        fprintf(stderr,
+                "VIC: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                major_version, minor_version,
+                SNAP_MAJOR, SNAP_MINOR);
+        goto fail;
+    }
+
+    if (snapshot_module_read_byte(m, &b) < 0)
+        goto fail;
+    if (b != RASTER_CYCLE) {
+        fprintf(stderr,
+                "VIC: Cycle value (%d) incorrect; should be %d.\n",
+                (int) b, RASTER_CYCLE);
+        goto fail;
+    }
+
+    if (snapshot_module_read_word(m, &w) < 0)
+        goto fail;
+    if (w != RASTER_Y) {
+        fprintf(stderr,
+                "VIC: Raster line value (%d) incorrect; should be %d.\n",
+                (int) w, RASTER_Y);
+        goto fail;
+    }
+
+    if (snapshot_module_read_word(m, &w) < 0)
+        goto fail;
+    memptr = w;
+
+    /* Color RAM.  */
+    if (snapshot_module_read_byte_array(m, ram + 0x9400, 0x800) < 0)
+        goto fail;
+
+    for (i = 0; i < 0x10; i++) {
+        if (snapshot_module_read_byte(m, &b) < 0)
+            goto fail;
+
+        /* XXX: This assumes that there are no side effects.  */
+        store_vic(i, b);
+    }
+
+    maincpu_set_alarm(A_RASTERDRAW, CYCLES_PER_LINE - RASTER_CYCLE);
+
+    force_repaint();
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+

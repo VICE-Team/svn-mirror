@@ -366,12 +366,64 @@ int machine_set_restore_key(int v)
 
 /* ------------------------------------------------------------------------- */
 
+#define SNAP_MACHINE_NAME   "VIC20"
+#define SNAP_MAJOR          0
+#define SNAP_MINOR          0
+
 int machine_write_snapshot(const char *name)
 {
+    snapshot_t *s;
+
+    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
+    if (s == NULL) {
+        perror(name);
+        return -1;
+    }
+
+    /* FIXME: Missing sound.  */
+    if (maincpu_write_snapshot_module(s) < 0
+        || mem_write_snapshot_module(s) < 0
+        || vic_write_snapshot_module(s) < 0
+        || via1_write_snapshot_module(s) < 0
+        || via2_write_snapshot_module(s) < 0) {
+        snapshot_close(s);
+        unlink(name);
+        return -1;
+    }
+
+    snapshot_close(s);
     return 0;
 }
 
 int machine_read_snapshot(const char *name)
 {
+    snapshot_t *s;
+    BYTE minor, major;
+
+    s = snapshot_open(name, &major, &minor, SNAP_MACHINE_NAME);
+    if (s == NULL)
+        return -1;
+
+    if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
+        printf("Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
+               major, minor, SNAP_MAJOR, SNAP_MINOR);
+        goto fail;
+    }
+
+    /* FIXME: Missing sound.  */
+    if (maincpu_read_snapshot_module(s) < 0
+        || mem_read_snapshot_module(s) < 0
+        || vic_read_snapshot_module(s) < 0
+        || via1_read_snapshot_module(s) < 0
+        || via2_read_snapshot_module(s) < 0)
+        goto fail;
+
+    snapshot_close(s);
     return 0;
+
+fail:
+    if (s != NULL)
+        snapshot_close(s);
+    maincpu_trigger_reset();
+    return -1;
 }

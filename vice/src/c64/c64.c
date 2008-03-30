@@ -418,10 +418,8 @@ int machine_write_snapshot(const char *name)
     snapshot_t *s;
 
     s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
-    if (s == NULL) {
-        perror(name);
+    if (s == NULL)
         return -1;
-    }
 
     if (maincpu_write_snapshot_module(s) < 0
         || mem_write_snapshot_module(s) < 0
@@ -442,13 +440,10 @@ int machine_read_snapshot(const char *name)
 {
     snapshot_t *s;
     BYTE minor, major;
-    char machine_name[SNAPSHOT_MACHINE_NAME_LEN];
 
-    s = snapshot_open(name, &major, &minor, machine_name);
-    if (s == NULL) {
-        perror(name);
+    s = snapshot_open(name, &major, &minor, SNAP_MACHINE_NAME);
+    if (s == NULL)
         return -1;
-    }
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
         printf("Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
@@ -469,5 +464,6 @@ int machine_read_snapshot(const char *name)
 fail:
     if (s != NULL)
         snapshot_close(s);
+    maincpu_trigger_reset();
     return -1;
 }
