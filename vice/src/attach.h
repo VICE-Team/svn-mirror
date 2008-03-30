@@ -28,8 +28,10 @@
 #ifndef _ATTACH_H
 #define _ATTACH_H
 
-extern int file_system_init_resources(void);
 extern void file_system_init(void);
+extern int file_system_init_resources(void);
+extern int file_system_init_cmdline_options(void);
+
 extern char *file_system_get_disk_name(unsigned int unit);
 extern int file_system_attach_disk(unsigned int unit, const char *filename);
 extern void file_system_detach_disk(int unit);
