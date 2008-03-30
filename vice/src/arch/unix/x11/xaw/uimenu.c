@@ -241,7 +241,7 @@ static char *make_menu_label(ui_menu_entry_t *e)
     else
         key_string++;
 
-    return concat(e->string, "    (", tmp, key_string, ")", NULL);
+    return concat(_(e->string), "    (", tmp, key_string, ")", NULL);
 }
 
 /* ------------------------------------------------------------------------- */

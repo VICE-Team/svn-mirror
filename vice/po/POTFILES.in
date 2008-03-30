@@ -1,0 +1,7 @@
+# List of Files which already gettext aware.
+
+# Architecture Unix
+src/arch/unix/uicommands.c
+
+# Gnome port
+src/arch/unix/x11/gnome/ui.c

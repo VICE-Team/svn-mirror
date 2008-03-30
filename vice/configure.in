@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.4.3)
+AM_INIT_AUTOMAKE(vice, 1.4.4)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -196,8 +196,8 @@ AC_PROG_YACC
 AM_PROG_LEX
 
 dnl Gettext stuff
-dnl ALL_LINGUAS="de"
-dnl AM_GNU_GETTEXT
+ALL_LINGUAS="de"
+AM_GNU_GETTEXT
 
 dnl Check for a perl interpreter.
 
@@ -693,6 +693,12 @@ if test x"$GCC" = "xyes" ; then
   esac
 fi
 
+if test x"$USE_NLS" = "xyes" ; then
+    NLS_LOCALEDIR="-DLOCALEDIR=\\\"\$(datadir)/locale\\\""
+fi
+
+
+AC_SUBST(NLS_LOCALEDIR)
 AC_SUBST(HAVE_READLINE)
 AC_SUBST(ARCH_INCLUDES)
 AC_SUBST(ARCH_LIBS)

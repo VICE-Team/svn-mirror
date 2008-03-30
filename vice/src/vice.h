@@ -149,5 +149,20 @@ extern char *alloca ();
 #define MAIN_PROGRAM(argc, argv)        main(argc, argv)
 #endif
 
+/* Internationalization stuff */
+#ifdef ENABLE_NLS
+#    include <libintl.h>
+#    define _(String) gettext (String)
+#    ifdef gettext_noop
+#        define N_(String) gettext_noop (String)
+#    else
+#        define N_(String) (String)
+#    endif
+#else
+/* Stubs that do something close enough.  */
+#    define _(String) (String)
+#    define N_(String) (String)
+#endif /* ENABLE_NLS */
+
 #endif  /* _VICE_H */
 

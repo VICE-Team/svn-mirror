@@ -36,6 +36,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef ENABLE_NLS
+#include <locale.h>
+#endif
 
 #include "archdep.h"
 #include "attach.h"
@@ -394,6 +397,14 @@ int MAIN_PROGRAM(int argc, char **argv)
 	    psid_mode = 1;
 	}
     }
+
+#ifdef ENABLE_NLS
+    /* gettext stuff, not needed in Gnome, but here I can
+       overrule the default locale path */
+    setlocale (LC_ALL, "");
+    bindtextdomain (PACKAGE, LOCALEDIR);
+    textdomain (PACKAGE);
+#endif
 
     archdep_startup(&argc, argv);
 

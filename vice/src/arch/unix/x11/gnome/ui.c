@@ -871,14 +871,6 @@ void archdep_ui_init(int argc, char *argv[])
     fake_argv[1] = NULL;
     gnome_init(PACKAGE, VERSION, 1, fake_argv);
 
-#ifdef ENABLE_NLS
-    /* gettext stuff, not needed in Gnome, but here I can
-       overrule the default locale path */
-    setlocale (LC_ALL, "");
-    bindtextdomain (PACKAGE, LOCALEDIR);
-    textdomain (PACKAGE);
-#endif
-
     /* set X11 fontpath */
     if (access(PREFIX "/lib/vice/fonts/fonts.dir", R_OK) == 0)
     {

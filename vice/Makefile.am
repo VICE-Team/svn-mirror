@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 
-SUBDIRS = src data man doc # intl po
+SUBDIRS = intl po src data man doc
 
 EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h vice.spec ABOUT-NLS
 

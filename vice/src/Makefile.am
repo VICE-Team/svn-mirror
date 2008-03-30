@@ -43,7 +43,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/monitor \
-	-I$(top_srcdir)/intl
+	-I$(top_srcdir)/intl \
+	@NLS_LOCALEDIR@
 
 noinst_HEADERS = \
 	6510core.h \
@@ -200,7 +201,7 @@ vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ # @INTLLIBS@ 
+common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ @INTLLIBS@ 
 
 bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 

@@ -32,12 +32,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#else
-#define _(a) (a)		/* temporary, will go into vice.h */
-#define N_(a) (a)
-#endif
 
 #include "archdep.h"
 #include "attach.h"
