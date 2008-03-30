@@ -276,7 +276,6 @@ void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte)
       case VIA_DDRA:
 
 	viaD2[addr] = byte;
-        true1541_rotate_disk(0);
 	true1541_write_gcr(viaD2[VIA_PRA] | ~viaD2[VIA_DDRA]);
 	break;
 
@@ -505,8 +504,8 @@ BYTE REGPARM1 read_viaD2_(ADDRESS addr)
 
       case VIA_PRA_NHS: /* port A, no handshake */
 
-       return ((true1541_read_disk_byte() & ~viaD2[VIA_DDRA])
-	       | (viaD2[VIA_PRA] & viaD2[VIA_DDRA]));
+    return ((true1541_read_disk_byte() & ~viaD2[VIA_DDRA])
+        | (viaD2[VIA_PRA] & viaD2[VIA_DDRA]));
 
       case VIA_PRB: /* port B */
         viaD2ifr &= ~VIA_IM_CB1;
@@ -517,12 +516,7 @@ BYTE REGPARM1 read_viaD2_(ADDRESS addr)
 	{
 	  BYTE byte;
 
-	true1541_rotate_disk(0);
-
-	/* I hope I got the polarities right */
-	byte = (true1541_sync_found() ? 0 : 0x80)
-		| (true1541_write_protect_sense() ? 0 : 0x10);
-	byte = (byte & ~viaD2[VIA_DDRB])
+	byte = (true1541_read_viad2_prb() & ~viaD2[VIA_DDRB])
 			| (viaD2[VIA_PRB] & viaD2[VIA_DDRB]);
 	  if(viaD2[VIA_ACR] & 0x80) {
 	    update_viaD2tal();
@@ -589,12 +583,7 @@ BYTE REGPARM1 peek_viaD2(ADDRESS addr)
 	{
 	  BYTE byte;
 
-	true1541_rotate_disk(0);
-
-	/* I hope I got the polarities right */
-	byte = (true1541_sync_found() ? 0 : 0x80)
-		| (true1541_write_protect_sense() ? 0 : 0x10);
-	byte = (byte & ~viaD2[VIA_DDRB])
+	byte = (true1541_read_viad2_prb() & ~viaD2[VIA_DDRB])
 			| (viaD2[VIA_PRB] & viaD2[VIA_DDRB]);
 	  if(viaD2[VIA_ACR] & 0x80) {
 	    update_viaD2tal();

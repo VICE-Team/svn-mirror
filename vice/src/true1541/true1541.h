@@ -118,6 +118,7 @@ extern int true1541_attach_floppy(DRIVE *floppy);
 extern int true1541_detach_floppy(DRIVE *floppy);
 extern void true1541_update_zone_bits(int zone);
 extern void true1541_update_viad2_pcr(int pcrval);
+extern BYTE true1541_read_viad2_prb(void);
 extern void true1541_prevent_clk_overflow(CLOCK sub);
 extern void true1541_motor_control(int flag);
 extern void true1541_update_ui_status(void);

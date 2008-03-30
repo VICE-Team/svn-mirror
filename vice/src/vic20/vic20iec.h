@@ -39,4 +39,6 @@ void iec_pcr_write(BYTE data);
 extern void parallel_cable_cpu_write(BYTE data, int handshake);
 extern BYTE parallel_cable_cpu_read(void);
 
+extern iec_info_t *iec_get_drive_port(void);
+
 #endif

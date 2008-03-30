@@ -59,7 +59,10 @@ INCLUDES()
 #endif
 }
 
-#define	PRE_CIA_FUNCS
+PRE_CIA_FUNCS()
+{
+    static iec_info_t *iec_info;
+}
 
 RESET_CIA()
 {
@@ -68,6 +71,7 @@ RESET_CIA()
     userport_printer_write_data(0xff);
     userport_serial_write_ctrl(0xff);
 #endif
+    iec_info = iec_get_drive_port();
 }
 
 STORE_CIAPA()
@@ -97,11 +101,11 @@ STORE_CIAPB()
 
 READ_CIAPA()
 {
-#if 1				/* FAST_BUS */
-    byte = ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) | iec_cpu_read();
-#else
-    byte= ((cia2[CIA_PRA] & cia2[CIA_DDRA]) | ((0x3f | iec_cpu_read(	)) & ~cia2[CIA_DDRA]));
-#endif
+    if (!true1541_enabled)
+	return ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) |
+	    (iec_info->iec_fast_1541 & 0x30) << 2;
+    true1541_cpu_execute();
+    byte = ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) | iec_info->cpu_port;
 }
 
 READ_CIAPB()

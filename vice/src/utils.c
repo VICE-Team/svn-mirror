@@ -644,3 +644,49 @@ int atexit(void (*function)(void))
 }
 
 #endif /* !defined HAVE_ATEXIT */
+
+/* ------------------------------------------------------------------------- */
+
+int read_dword(int fd, DWORD *buf, int num)
+{
+    int i;
+    BYTE *tmpbuf;
+
+    tmpbuf = xmalloc(num);
+
+    if (read(fd, (char *)tmpbuf, num) < num) {
+	free(tmpbuf);
+	return -1;
+    }
+
+    for (i = 0; i < (num / 4); i++)
+	buf[i] = tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
+	    + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24);
+
+    free(tmpbuf);
+    return 0;
+}
+
+int write_dword(int fd, DWORD *buf, int num)
+{
+    int i;
+    BYTE *tmpbuf;
+
+    tmpbuf = xmalloc(num);
+
+    for (i = 0; i < (num / 4); i++) {
+	tmpbuf[i * 4] = buf[i] & 0xff;
+	tmpbuf[i * 4 + 1] = (buf[i] >> 8) & 0xff;
+	tmpbuf[i * 4 + 2] = (buf[i] >> 16) & 0xff;
+	tmpbuf[i * 4 + 3] = (buf[i] >> 24) & 0xff;
+    }
+
+    if (write(fd, (char *)tmpbuf, num) < 0) {
+	free(tmpbuf);
+	return -1;
+    }
+
+    free(tmpbuf);
+    return 0;
+}
+

@@ -241,6 +241,7 @@ static BYTE cia2flag = 0;
 /* CIA2 */
 
 
+    static iec_info_t *iec_info;
 
 inline static void check_cia2todalarm(CLOCK rclk)
 {
@@ -437,6 +438,7 @@ void reset_cia2(void)
     userport_printer_write_data(0xff);
     userport_serial_write_ctrl(0xff);
 #endif
+    iec_info = iec_get_drive_port();
 }
 
 
@@ -804,11 +806,11 @@ BYTE read_cia2_(ADDRESS addr)
 
       case CIA_PRA:		/* port A */
 
-#if 1				/* FAST_BUS */
-    byte = ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) | iec_cpu_read();
-#else
-    byte= ((cia2[CIA_PRA] & cia2[CIA_DDRA]) | ((0x3f | iec_cpu_read(	)) & ~cia2[CIA_DDRA]));
-#endif
+    if (!true1541_enabled)
+	return ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) |
+	    (iec_info->iec_fast_1541 & 0x30) << 2;
+    true1541_cpu_execute();
+    byte = ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) | iec_info->cpu_port;
 	return byte;
 	break;
 

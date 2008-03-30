@@ -152,6 +152,11 @@ void iec_pcr_write(BYTE data)
     last_write = data & 34;
 }
 
+iec_info_t *iec_get_drive_port(void)
+{
+    return NULL;
+}
+
 void parallel_cable_drive_write(BYTE data, int handshake)
 {
 }

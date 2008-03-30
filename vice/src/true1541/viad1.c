@@ -201,6 +201,8 @@ void set_atn(BYTE state)
 #endif
 }
 
+static iec_info_t *iec_info;
+
 
 /*
  * according to Rockwell, all internal registers are cleared, except
@@ -231,7 +233,8 @@ void    reset_viaD1(void)
     true1541_unset_alarm(A_VIAD1T2);
     update_viaD1irq();
 
-    
+
+    iec_info = iec_get_drive_port();
 
 }
 
@@ -308,8 +311,19 @@ void REGPARM2 store_viaD1(ADDRESS addr, BYTE byte)
       case VIA_DDRB:
 
     if (byte != viaD1[addr]) {
-        viaD1[addr] = byte;
- 	iec_drive_write(viaD1[VIA_DDRB] & ~viaD1[VIA_PRB]);
+	viaD1[addr] = byte;
+	if (iec_info != NULL) {
+	    iec_info->drive_data = viaD1[VIA_DDRB] & ~viaD1[VIA_PRB];
+	    iec_info->drive_bus = (((iec_info->drive_data << 3) & 0x40)
+	        | ((iec_info->drive_data << 6)
+	        & ((~iec_info->drive_data ^ iec_info->cpu_bus) << 3) & 0x80));
+	    iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus;
+	    iec_info->drive_port = (((iec_info->cpu_port >> 4) & 0x4)
+	        | (iec_info->cpu_port >> 7)
+	        | ((iec_info->cpu_bus << 3) & 0x80));
+	} else {
+	    iec_drive_write(viaD1[VIA_DDRB] & ~viaD1[VIA_PRB]);
+	}
     }
 	break;
 
@@ -508,6 +522,9 @@ BYTE REGPARM1 read_viaD1_(ADDRESS addr)
 	{
 	  BYTE byte;
 
+    if (iec_info != NULL)
+	byte = ((viaD1[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+    else
 	byte = ((viaD1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
 	  if(viaD1[VIA_ACR] & 0x80) {
 	    update_viaD1tal();
@@ -574,6 +591,9 @@ BYTE REGPARM1 peek_viaD1(ADDRESS addr)
 	{
 	  BYTE byte;
 
+    if (iec_info != NULL)
+	byte = ((viaD1[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+    else
 	byte = ((viaD1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
 	  if(viaD1[VIA_ACR] & 0x80) {
 	    update_viaD1tal();

@@ -392,15 +392,13 @@ static int read_image_gcr(void)
     NumTracks = true1541_floppy->NumTracks;
 
     lseek(true1541_floppy->ActiveFd, 12, SEEK_SET);
-    if (read(true1541_floppy->ActiveFd, (DWORD *)gcr_track_p, NumTracks * 8)
-		< NumTracks * 8) {
+    if (read_dword(true1541_floppy->ActiveFd, gcr_track_p, NumTracks * 8) < 0) {
 	fprintf(stderr, "1541: Could not read GCR disk image.\n");
 	return 0;
     }
 
     lseek(true1541_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
-    if (read(true1541_floppy->ActiveFd, (DWORD *)gcr_speed_p, NumTracks * 8)
-		< NumTracks * 8) {
+    if (read_dword(true1541_floppy->ActiveFd, gcr_speed_p, NumTracks * 8) < 0) {
 	fprintf(stderr, "1541: Could not read GCR disk image.\n");
 	return 0;
     }
@@ -477,15 +475,13 @@ static void write_track_gcr(int track)
     NumTracks = true1541_floppy->NumTracks;
 
     lseek(true1541_floppy->ActiveFd, 12, SEEK_SET);
-    if (read(true1541_floppy->ActiveFd, (DWORD *)gcr_track_p, NumTracks * 8)
-			< NumTracks * 8) {
+    if (read_dword(true1541_floppy->ActiveFd, gcr_track_p, NumTracks * 8) < 0) {
 	fprintf(stderr, "1541: Could not read GCR disk image header.\n");
 	return;
     }
 
     lseek(true1541_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
-    if (read(true1541_floppy->ActiveFd, (DWORD *)gcr_speed_p, NumTracks * 8)
-			< NumTracks * 8) {
+    if (read_dword(true1541_floppy->ActiveFd, gcr_speed_p, NumTracks * 8) < 0) {
 	fprintf(stderr, "1541: Could not read GCR disk image header.\n");
 	return;
     }
@@ -543,7 +539,7 @@ static void write_track_gcr(int track)
 
     offset = 12 + NumTracks * 8 + (track - 1) * 8;
     if (lseek(true1541_floppy->ActiveFd, offset, SEEK_SET) < 0
-        || write(true1541_floppy->ActiveFd,
+        || write_dword(true1541_floppy->ActiveFd,
            &gcr_speed_p[(track - 1) * 2], 4) < 0) {
     fprintf(stderr, "1541: Could not write GCR disk image.\n");
     return;
@@ -1200,6 +1196,13 @@ void true1541_update_viad2_pcr(int pcrval)
 void true1541_motor_control(int flag)
 {
     byte_ready_active = (byte_ready_active & ~0x04) | (flag & 0x04);
+}
+
+BYTE true1541_read_viad2_prb(void)
+{
+    true1541_rotate_disk(0);
+    return (true1541_sync_found() ? 0 : 0x80)
+        | (true1541_write_protect_sense() ? 0 : 0x10);
 }
 
 /* ------------------------------------------------------------------------- */

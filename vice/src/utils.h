@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <types.h>
 
 extern char *stralloc(const char *str);
 extern void *xmalloc(size_t s);
@@ -60,5 +61,8 @@ extern void *memmove(void *target, const void *source, unsigned int length);
 #if !defined HAVE_ATEXIT
 extern int atexit(void (*function)(void));
 #endif
+
+extern int read_dword(int fd, DWORD *buf, int num);
+extern int write_dword(int fd, DWORD *buf, int num);
 
 #endif /* UTILS_H */

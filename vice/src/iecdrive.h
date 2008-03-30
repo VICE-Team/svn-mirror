@@ -39,4 +39,15 @@ BYTE iec_drive_read(void);
 void parallel_cable_drive_write(BYTE data, int handshake);
 BYTE parallel_cable_drive_read(int handshake);
 
+typedef struct {
+    BYTE drive_bus;
+    BYTE drive_port;
+    BYTE drive_data;
+    BYTE cpu_bus;
+    BYTE cpu_port;
+    BYTE iec_fast_1541;
+} iec_info_t;
+
+iec_info_t *iec_get_drive_port(void);
+
 #endif
