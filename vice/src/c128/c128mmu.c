@@ -174,6 +174,11 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
             basic_hi_in = !(value & 0xc);
             kernal_in = chargen_in = editor_in = !(value & 0x30);
             mmu_set_ram_bank(value);
+#ifdef MMU_DEBUG
+            log_message(mmu_log, "IO: %s BASLO: %s BASHI: %s KERNAL %s.",
+                        io_in ? "on" : "off", basic_lo_in ? "on" : "off",
+                        basic_hi_in ? "on" : "off", kernal_in ? "on" : "off");
+#endif
             break;
           case 5:
             value = (value & 0x7f) | 0x30;

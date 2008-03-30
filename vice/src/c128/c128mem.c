@@ -620,7 +620,7 @@ static void REGPARM2 store_editor(ADDRESS addr, BYTE value)
     STORE_TOP_SHARED(addr, value);
 }
 
-BYTE REGPARM1 read_d7xx(ADDRESS addr)
+BYTE REGPARM1 d7xx_read(ADDRESS addr)
 {
 #if 0                           /*def HAVE_RS232 */
     if (acia_d7_enabled)
@@ -629,7 +629,7 @@ BYTE REGPARM1 read_d7xx(ADDRESS addr)
     return 0xff;
 }
 
-void REGPARM2 store_d7xx(ADDRESS addr, BYTE value)
+void REGPARM2 d7xx_store(ADDRESS addr, BYTE value)
 {
 #if 0                           /*def HAVE_RS232 */
         if (acia_d7_enabled)
@@ -663,7 +663,7 @@ void REGPARM2 store_top_shared(ADDRESS addr, BYTE value)
  * they leave out the cartridge support
  */
 
-static void REGPARM2 io1_store(ADDRESS addr, BYTE value)
+void REGPARM2 io1_store(ADDRESS addr, BYTE value)
 {
 #ifdef HAVE_RS232
         if (acia_de_enabled)
@@ -672,7 +672,7 @@ static void REGPARM2 io1_store(ADDRESS addr, BYTE value)
     return;
 }
 
-static BYTE REGPARM1 io1_read(ADDRESS addr)
+BYTE REGPARM1 io1_read(ADDRESS addr)
 {
 #ifdef HAVE_RS232
         if (acia_de_enabled)
@@ -681,7 +681,7 @@ static BYTE REGPARM1 io1_read(ADDRESS addr)
         return 0xff;  /* rand(); - C64 has rand(), which is correct? */
 }
 
-static void REGPARM2 io2_store(ADDRESS addr, BYTE value)
+void REGPARM2 io2_store(ADDRESS addr, BYTE value)
 {
     if (reu_enabled)
         reu_store(addr & 0x0f, value);
@@ -691,7 +691,7 @@ static void REGPARM2 io2_store(ADDRESS addr, BYTE value)
     return;
 }
 
-static BYTE REGPARM1 io2_read(ADDRESS addr)
+BYTE REGPARM1 io2_read(ADDRESS addr)
 {
     if (emu_id_enabled && addr >= 0xdfa0) {
         addr &= 0xff;
@@ -1079,8 +1079,8 @@ void initialize_memory(void)
         mem_read_tab[j][0xd6] = vdc_read;
         mem_write_tab[j][0xd6] = vdc_store;
 
-        mem_read_tab[j][0xd7] = read_d7xx;    /* read_empty_io; */
-        mem_write_tab[j][0xd7] = store_d7xx;  /* store_empty_io; */
+        mem_read_tab[j][0xd7] = d7xx_read;    /* read_empty_io; */
+        mem_write_tab[j][0xd7] = d7xx_store;  /* store_empty_io; */
 
         mem_read_tab[j][0xd8] = mem_read_tab[j][0xd9] = colorram_read;
         mem_read_tab[j][0xda] = mem_read_tab[j][0xdb] = colorram_read;
@@ -1427,7 +1427,7 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
         vdc_store(addr, byte);
         break;
       case 0xd700:
-        store_d7xx(addr, byte);
+        d7xx_store(addr, byte);
         break;
       case 0xd800:
       case 0xd900:
@@ -1466,7 +1466,7 @@ static BYTE read_bank_io(ADDRESS addr)
       case 0xd600:
         return vdc_read(addr);
       case 0xd700:
-        return read_d7xx(addr);
+        return d7xx_read(addr);
       case 0xd800:
       case 0xd900:
       case 0xda00:
@@ -1499,7 +1499,7 @@ static BYTE peek_bank_io(ADDRESS addr)
       case 0xd600:
         return vdc_read(addr); /* FIXME */
       case 0xd700:
-        return read_d7xx(addr); /* FIXME */
+        return d7xx_read(addr); /* FIXME */
       case 0xd800:
       case 0xd900:
       case 0xda00:
