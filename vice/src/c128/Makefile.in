@@ -308,9 +308,9 @@ c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/arch/unix/types.h z80.h ../maincpu.c ../vice.h \
 	../6510core.h ../alarm.h ../clkguard.h ../debug.h \
-	../interrupt.h ../log.h ../machine.h ../maincpu.h ../mem.h \
+	../interrupt.h ../machine.h ../maincpu.h ../mem.h \
 	../../src/monitor/mon.h ../mos6510.h ../snapshot.h ../traps.h \
-	../utils.h ../6510core.c
+	../6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
 	../../src/c64/c64iec.h ../../src/drive/ciad.h \

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.10\n"
-"POT-Creation-Date: 2002-10-13 21:48+0200\n"
+"POT-Creation-Date: 2002-10-27 00:12+0200\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -230,7 +230,7 @@ msgid "Memory and I/O extensions"
 msgstr "Extentions Mémoire et I/O"
 
 #: src/arch/unix/c128ui.c:329 src/arch/unix/c64ui.c:348
-#: src/arch/unix/cbm2ui.c:370 src/arch/unix/vic20ui.c:348
+#: src/arch/unix/cbm2ui.c:370 src/arch/unix/vic20ui.c:349
 msgid "RS232 settings"
 msgstr "Paramètres RS232"
 
@@ -238,28 +238,28 @@ msgstr "Paramètres RS232"
 msgid "Memory settings"
 msgstr "Paramètres Mémoire"
 
-#: src/arch/unix/c128ui.c:390 src/arch/unix/c64ui.c:406
-#: src/arch/unix/cbm2ui.c:460 src/arch/unix/petui.c:385
-#: src/arch/unix/plus4ui.c:146 src/arch/unix/vic20ui.c:464
+#: src/arch/unix/c128ui.c:389 src/arch/unix/c64ui.c:405
+#: src/arch/unix/cbm2ui.c:459 src/arch/unix/petui.c:385
+#: src/arch/unix/plus4ui.c:145 src/arch/unix/vic20ui.c:464
 #: src/arch/unix/vsidui.c:255
 msgid "File"
 msgstr "Fichier"
 
-#: src/arch/unix/c128ui.c:409 src/arch/unix/c64ui.c:425
-#: src/arch/unix/cbm2ui.c:477 src/arch/unix/petui.c:402
-#: src/arch/unix/plus4ui.c:163 src/arch/unix/vic20ui.c:483
+#: src/arch/unix/c128ui.c:408 src/arch/unix/c64ui.c:424
+#: src/arch/unix/cbm2ui.c:476 src/arch/unix/petui.c:402
+#: src/arch/unix/plus4ui.c:162 src/arch/unix/vic20ui.c:483
 msgid "Snapshot"
 msgstr "Capture"
 
-#: src/arch/unix/c128ui.c:415 src/arch/unix/c64ui.c:431
-#: src/arch/unix/cbm2ui.c:483 src/arch/unix/petui.c:408
-#: src/arch/unix/plus4ui.c:169 src/arch/unix/vic20ui.c:489
+#: src/arch/unix/c128ui.c:414 src/arch/unix/c64ui.c:430
+#: src/arch/unix/cbm2ui.c:482 src/arch/unix/petui.c:408
+#: src/arch/unix/plus4ui.c:168 src/arch/unix/vic20ui.c:489
 msgid "Options"
 msgstr "Options"
 
-#: src/arch/unix/c128ui.c:427 src/arch/unix/c64ui.c:443
-#: src/arch/unix/cbm2ui.c:493 src/arch/unix/petui.c:416
-#: src/arch/unix/plus4ui.c:177 src/arch/unix/vic20ui.c:495
+#: src/arch/unix/c128ui.c:426 src/arch/unix/c64ui.c:442
+#: src/arch/unix/cbm2ui.c:492 src/arch/unix/petui.c:416
+#: src/arch/unix/plus4ui.c:176 src/arch/unix/vic20ui.c:495
 #: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1099
 #: src/arch/unix/x11/gnome/x11ui.c:1191
 msgid "Settings"
@@ -267,9 +267,9 @@ msgstr "Paramètres"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:458
-#: src/arch/unix/cbm2ui.c:508 src/arch/unix/petui.c:430
-#: src/arch/unix/plus4ui.c:192 src/arch/unix/vic20ui.c:511
+#: src/arch/unix/c128ui.c:440 src/arch/unix/c64ui.c:456
+#: src/arch/unix/cbm2ui.c:506 src/arch/unix/petui.c:430
+#: src/arch/unix/plus4ui.c:190 src/arch/unix/vic20ui.c:510
 msgid "RJHelp"
 msgstr "RJAide"
 
@@ -291,7 +291,7 @@ msgstr "Charger la nouvelle ROM character"
 
 #: src/arch/unix/c64ui.c:332 src/arch/unix/cbm2ui.c:400
 #: src/arch/unix/petui.c:325 src/arch/unix/plus4ui.c:66
-#: src/arch/unix/vic20ui.c:389
+#: src/arch/unix/vic20ui.c:390
 msgid "Screenshot..."
 msgstr "Capture d'écan..."
 
@@ -425,32 +425,32 @@ msgid "ACIA device"
 msgstr "Périférique ACIA"
 
 #: src/arch/unix/cbm2ui.c:332 src/arch/unix/petui.c:244
-#: src/arch/unix/uirs232.c:216 src/arch/unix/vic20ui.c:329
+#: src/arch/unix/uirs232.c:216 src/arch/unix/vic20ui.c:330
 msgid "Serial 1 device..."
 msgstr "Périférique série 1..."
 
 #: src/arch/unix/cbm2ui.c:334 src/arch/unix/petui.c:246
-#: src/arch/unix/uirs232.c:218 src/arch/unix/vic20ui.c:331
+#: src/arch/unix/uirs232.c:218 src/arch/unix/vic20ui.c:332
 msgid "Serial 1 baudrate"
 msgstr "Vitesse de transmission du périférique série 1 (en bauds)"
 
 #: src/arch/unix/cbm2ui.c:337 src/arch/unix/petui.c:249
-#: src/arch/unix/vic20ui.c:334
+#: src/arch/unix/vic20ui.c:335
 msgid "Serial 2 device..."
 msgstr "Périférique série 2..."
 
 #: src/arch/unix/cbm2ui.c:339 src/arch/unix/petui.c:251
-#: src/arch/unix/uirs232.c:223 src/arch/unix/vic20ui.c:336
+#: src/arch/unix/uirs232.c:223 src/arch/unix/vic20ui.c:337
 msgid "Serial 2 baudrate"
 msgstr "Vitesse de transmission du périférique série 2 (en bauds)"
 
 #: src/arch/unix/cbm2ui.c:342 src/arch/unix/petui.c:254
-#: src/arch/unix/uirs232.c:226 src/arch/unix/vic20ui.c:339
+#: src/arch/unix/uirs232.c:226 src/arch/unix/vic20ui.c:340
 msgid "Dump filename..."
 msgstr "Nom du fichier de sauegarde..."
 
 #: src/arch/unix/cbm2ui.c:345 src/arch/unix/petui.c:257
-#: src/arch/unix/uirs232.c:229 src/arch/unix/vic20ui.c:342
+#: src/arch/unix/uirs232.c:229 src/arch/unix/vic20ui.c:343
 msgid "Program name to exec..."
 msgstr "Nom du programme à executer..."
 
@@ -764,11 +764,11 @@ msgstr ""
 msgid "Invalid cartridge"
 msgstr "Cartouche invalide"
 
-#: src/arch/unix/uic64cart.c:63 src/arch/unix/vic20ui.c:198
+#: src/arch/unix/uic64cart.c:63 src/arch/unix/vic20ui.c:199
 msgid "Attach cartridge image"
 msgstr "Attacher l'image d'une cartouche"
 
-#: src/arch/unix/uic64cart.c:71 src/arch/unix/vic20ui.c:204
+#: src/arch/unix/uic64cart.c:71 src/arch/unix/vic20ui.c:205
 msgid "Invalid cartridge image"
 msgstr "Image de cartouche invalide"
 
@@ -826,11 +826,11 @@ msgstr "Attacher une image Super Snapshot 5..."
 msgid "Enable Expert Cartridge..."
 msgstr "Activer Expert Cartouche..."
 
-#: src/arch/unix/uic64cart.c:179 src/arch/unix/vic20ui.c:250
+#: src/arch/unix/uic64cart.c:179 src/arch/unix/vic20ui.c:251
 msgid "Set cartridge as default"
 msgstr "Définir la cartouche par défaut"
 
-#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:256
+#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:257
 msgid "Attach a cartridge image"
 msgstr ""
 
@@ -882,7 +882,7 @@ msgstr ""
 msgid "Unknown image type"
 msgstr "Type d'image inconnu"
 
-#: src/arch/unix/uicommands.c:285 src/arch/unix/uisettings.c:331
+#: src/arch/unix/uicommands.c:285 src/arch/unix/uisettings.c:330
 msgid "VICE setting"
 msgstr "Configuration de VICE"
 
@@ -1197,63 +1197,65 @@ msgstr ""
 msgid "Load custom"
 msgstr "Charger les paramètres personalisés"
 
-#: src/arch/unix/uicrtc.c:90 src/arch/unix/uicrtc.c:102
-#: src/arch/unix/uited.c:86 src/arch/unix/uited.c:96 src/arch/unix/uivdc.c:99
-#: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:95
-#: src/arch/unix/uivic.c:105 src/arch/unix/uivicii.c:104
-#: src/arch/unix/uivicii.c:114
+#: src/arch/unix/uicrtc.c:90 src/arch/unix/uicrtc.c:103
+#: src/arch/unix/uited.c:87 src/arch/unix/uited.c:100
+#: src/arch/unix/uivdc.c:100 src/arch/unix/uivdc.c:113
+#: src/arch/unix/uivic.c:96 src/arch/unix/uivic.c:109
+#: src/arch/unix/uivicii.c:105 src/arch/unix/uivicii.c:118
 msgid "*Double size"
 msgstr "*Double taille"
 
-#: src/arch/unix/uicrtc.c:92 src/arch/unix/uicrtc.c:104
-#: src/arch/unix/uited.c:88 src/arch/unix/uited.c:98 src/arch/unix/uivdc.c:101
-#: src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:97
-#: src/arch/unix/uivic.c:107 src/arch/unix/uivicii.c:106
-#: src/arch/unix/uivicii.c:116
+#: src/arch/unix/uicrtc.c:92 src/arch/unix/uicrtc.c:105
+#: src/arch/unix/uited.c:89 src/arch/unix/uited.c:102
+#: src/arch/unix/uivdc.c:102 src/arch/unix/uivdc.c:115
+#: src/arch/unix/uivic.c:98 src/arch/unix/uivic.c:111
+#: src/arch/unix/uivicii.c:107 src/arch/unix/uivicii.c:120
 msgid "*Double scan"
 msgstr "*Double balayage"
 
-#: src/arch/unix/uicrtc.c:94 src/arch/unix/uited.c:90
-#: src/arch/unix/uivdc.c:103 src/arch/unix/uivic.c:99
-#: src/arch/unix/uivicii.c:108
+#: src/arch/unix/uicrtc.c:94 src/arch/unix/uited.c:91
+#: src/arch/unix/uivdc.c:104 src/arch/unix/uivic.c:100
+#: src/arch/unix/uivicii.c:109
 msgid "*Video cache"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:96 src/arch/unix/uisettings.c:501
+#: src/arch/unix/uicrtc.c:97 src/arch/unix/uited.c:94
+#: src/arch/unix/uivdc.c:107 src/arch/unix/uivic.c:103
+#: src/arch/unix/uivicii.c:112
 msgid "*Use XSync()"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:94
-#: src/arch/unix/uivdc.c:107 src/arch/unix/uivic.c:103
-#: src/arch/unix/uivicii.c:112
+#: src/arch/unix/uicrtc.c:101 src/arch/unix/uited.c:98
+#: src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:107
+#: src/arch/unix/uivicii.c:116
 msgid "*Enable fullscreen"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:106 src/arch/unix/uited.c:100
-#: src/arch/unix/uivdc.c:113 src/arch/unix/uivic.c:109
-#: src/arch/unix/uivicii.c:118
+#: src/arch/unix/uicrtc.c:107 src/arch/unix/uited.c:104
+#: src/arch/unix/uivdc.c:117 src/arch/unix/uivic.c:113
+#: src/arch/unix/uivicii.c:122
 msgid "Fullscreen device"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:111 src/arch/unix/uited.c:105
-#: src/arch/unix/uivdc.c:118 src/arch/unix/uivic.c:114
-#: src/arch/unix/uivicii.c:123
+#: src/arch/unix/uicrtc.c:112 src/arch/unix/uited.c:109
+#: src/arch/unix/uivdc.c:122 src/arch/unix/uivic.c:118
+#: src/arch/unix/uivicii.c:127
 msgid "VidMode Resolutions"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:109
-#: src/arch/unix/uivdc.c:122 src/arch/unix/uivic.c:118
-#: src/arch/unix/uivicii.c:127
+#: src/arch/unix/uicrtc.c:116 src/arch/unix/uited.c:113
+#: src/arch/unix/uivdc.c:126 src/arch/unix/uivic.c:122
+#: src/arch/unix/uivicii.c:131
 msgid "DGA1 Resolutions"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:113
-#: src/arch/unix/uivdc.c:126 src/arch/unix/uivic.c:122
-#: src/arch/unix/uivicii.c:131
+#: src/arch/unix/uicrtc.c:120 src/arch/unix/uited.c:117
+#: src/arch/unix/uivdc.c:130 src/arch/unix/uivic.c:126
+#: src/arch/unix/uivicii.c:135
 msgid "DGA2 Resolutions"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:124
+#: src/arch/unix/uicrtc.c:125
 msgid "*CRTC Screen color"
 msgstr "*Couleur d'écran CRTC"
 
@@ -1300,7 +1302,7 @@ msgstr ""
 
 #: src/arch/unix/uidrive.c:100 src/arch/unix/uidrive.c:128
 #: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:107
-#: src/arch/unix/vic20ui.c:281
+#: src/arch/unix/vic20ui.c:282
 msgid "*None"
 msgstr "*Aucun"
 
@@ -1413,32 +1415,32 @@ msgid "Drive settings"
 msgstr "Paramètres VDC"
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:110
-#: src/arch/unix/vic20ui.c:284
+#: src/arch/unix/vic20ui.c:285
 msgid "*Numpad"
 msgstr "*Pavé numérique"
 
 #: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:113
-#: src/arch/unix/vic20ui.c:287
+#: src/arch/unix/vic20ui.c:288
 msgid "*Custom Keys"
 msgstr "*Clefs personnalisées"
 
 #: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:117
-#: src/arch/unix/vic20ui.c:291
+#: src/arch/unix/vic20ui.c:292
 msgid "*Analog Joystick 0"
 msgstr "*Joystick Analogique 0"
 
 #: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:120
-#: src/arch/unix/vic20ui.c:294
+#: src/arch/unix/vic20ui.c:295
 msgid "*Analog Joystick 1"
 msgstr "*Joystick Analogique 1"
 
 #: src/arch/unix/uijoystick2.c:95 src/arch/unix/uijoystick2.c:124
-#: src/arch/unix/vic20ui.c:298
+#: src/arch/unix/vic20ui.c:299
 msgid "*Digital Joystick 0"
 msgstr "*Joystick Numérique 0"
 
 #: src/arch/unix/uijoystick2.c:98 src/arch/unix/uijoystick2.c:127
-#: src/arch/unix/vic20ui.c:301
+#: src/arch/unix/vic20ui.c:302
 msgid "*Digital Joystick 1"
 msgstr "*Joystick Numérique 1"
 
@@ -1454,7 +1456,7 @@ msgstr "Joystick branché sur le port 2"
 msgid "Swap joystick ports"
 msgstr "Inverser les ports joysticks"
 
-#: src/arch/unix/uijoystick2.c:154 src/arch/unix/vic20ui.c:310
+#: src/arch/unix/uijoystick2.c:154 src/arch/unix/vic20ui.c:311
 msgid "Joystick settings"
 msgstr "Paramètres du Joystick"
 
@@ -1733,15 +1735,15 @@ msgstr "Périférique ACIA"
 msgid "ACIA $DExx Interrupt"
 msgstr ""
 
-#: src/arch/unix/uirs232.c:205 src/arch/unix/vic20ui.c:320
+#: src/arch/unix/uirs232.c:205 src/arch/unix/vic20ui.c:321
 msgid "*No Userport RS232 emulation"
 msgstr ""
 
-#: src/arch/unix/uirs232.c:207 src/arch/unix/vic20ui.c:322
+#: src/arch/unix/uirs232.c:207 src/arch/unix/vic20ui.c:323
 msgid "*Userport 300 baud RS232 emulation"
 msgstr ""
 
-#: src/arch/unix/uirs232.c:209 src/arch/unix/vic20ui.c:324
+#: src/arch/unix/uirs232.c:209 src/arch/unix/vic20ui.c:325
 msgid "*Userport 1200 baud RS232 emulation"
 msgstr ""
 
@@ -1749,7 +1751,7 @@ msgstr ""
 msgid "*CIA 9600 baud RS232 emulation"
 msgstr ""
 
-#: src/arch/unix/uirs232.c:213 src/arch/unix/vic20ui.c:326
+#: src/arch/unix/uirs232.c:213 src/arch/unix/vic20ui.c:327
 msgid "Userport RS232 device"
 msgstr ""
 
@@ -1757,7 +1759,7 @@ msgstr ""
 msgid "Enter refresh rate"
 msgstr "Entrer le taux de rafraîschissement"
 
-#: src/arch/unix/uisettings.c:121 src/arch/unix/uisettings.c:527
+#: src/arch/unix/uisettings.c:121 src/arch/unix/uisettings.c:500
 msgid "Refresh rate"
 msgstr "Taux de rafraîschissement"
 
@@ -1802,118 +1804,105 @@ msgstr ""
 msgid "Settings loaded."
 msgstr "Paramètres chargés."
 
-#: src/arch/unix/uisettings.c:286
+#: src/arch/unix/uisettings.c:285
 msgid "*Symbolic mapping"
 msgstr "*Mappage symbolique"
 
-#: src/arch/unix/uisettings.c:288
+#: src/arch/unix/uisettings.c:287
 msgid "*Positional mapping (US)"
 msgstr "*Mappage de positionnement (US)"
 
-#: src/arch/unix/uisettings.c:306
+#: src/arch/unix/uisettings.c:305
 msgid "Read Keymap File"
 msgstr "Lire le fichier de keymap"
 
-#: src/arch/unix/uisettings.c:331
+#: src/arch/unix/uisettings.c:330
 msgid "Write to Keymap File:"
 msgstr "Ecrire dans le fichier keymap:"
 
-#: src/arch/unix/uisettings.c:340
+#: src/arch/unix/uisettings.c:339
 msgid "Keyboard mapping type"
 msgstr "Type de mappage clavier"
 
-#: src/arch/unix/uisettings.c:343
+#: src/arch/unix/uisettings.c:342
 msgid "Set symbolic keymap file"
 msgstr "Définir un fichier keymap symbolique"
 
-#: src/arch/unix/uisettings.c:345
+#: src/arch/unix/uisettings.c:344
 msgid "Set positional keymap file"
 msgstr "Définir un fichier keymap de positionnement"
 
-#: src/arch/unix/uisettings.c:348
+#: src/arch/unix/uisettings.c:347
 msgid "Dump keymap to file"
 msgstr "Sauvegarder le keymap dans un fichier"
 
-#: src/arch/unix/uisettings.c:370
+#: src/arch/unix/uisettings.c:369
 msgid "Load custom ROM set definition"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:378
+#: src/arch/unix/uisettings.c:377
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
 "'%s'"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:399
+#: src/arch/unix/uisettings.c:398
 msgid "File to dump ROM set definition to"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:404
+#: src/arch/unix/uisettings.c:403
 msgid "ROM set file:"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:420
+#: src/arch/unix/uisettings.c:419
 msgid "Load ROM file"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:429
+#: src/arch/unix/uisettings.c:428
 #, c-format
 msgid ""
 "Could not load ROM file\n"
 "'%s'"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:451
+#: src/arch/unix/uisettings.c:450
 msgid "*Auto"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:474 src/arch/unix/uisettings.c:493
+#: src/arch/unix/uisettings.c:473 src/arch/unix/uisettings.c:492
 msgid "*Custom..."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:490
+#: src/arch/unix/uisettings.c:489
 msgid "*No limit"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:507
-msgid "VIC-II Video settings"
-msgstr ""
-
-#: src/arch/unix/uisettings.c:513
-msgid "VIC Video settings"
-msgstr ""
-
-#: src/arch/unix/uisettings.c:519
-#, fuzzy
-msgid "TED Video settings"
-msgstr "Paramètres du modèle PET"
-
-#: src/arch/unix/uisettings.c:529
+#: src/arch/unix/uisettings.c:502
 msgid "Maximum speed"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:531
+#: src/arch/unix/uisettings.c:504
 msgid "*Enable warp mode"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:537
+#: src/arch/unix/uisettings.c:510
 msgid "Keyboard settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:543
+#: src/arch/unix/uisettings.c:516
 msgid "Save settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:545
+#: src/arch/unix/uisettings.c:518
 msgid "Load settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:547
+#: src/arch/unix/uisettings.c:520
 msgid "Restore default settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:549
+#: src/arch/unix/uisettings.c:522
 msgid "*Save settings on exit"
 msgstr ""
 
@@ -2042,21 +2031,21 @@ msgstr ""
 msgid "Sound settings"
 msgstr ""
 
-#: src/arch/unix/uited.c:118 src/arch/unix/uivicii.c:146
+#: src/arch/unix/uited.c:122 src/arch/unix/uivicii.c:150
 msgid "*External color set"
 msgstr ""
 
-#: src/arch/unix/uited.c:121 src/arch/unix/uivicii.c:151
+#: src/arch/unix/uited.c:125 src/arch/unix/uivicii.c:155
 #, fuzzy
 msgid "PAL Emulation"
 msgstr "*Utiliser l'émulation reSID"
 
-#: src/arch/unix/uited.c:124 src/arch/unix/uivdc.c:136
-#: src/arch/unix/uivic.c:130 src/arch/unix/uivicii.c:148
+#: src/arch/unix/uited.c:128 src/arch/unix/uivdc.c:140
+#: src/arch/unix/uivic.c:134 src/arch/unix/uivicii.c:152
 msgid "Color set"
 msgstr "Jeu de couleurs"
 
-#: src/arch/unix/uited.c:127
+#: src/arch/unix/uited.c:131
 #, fuzzy
 msgid "*Fast PAL emulation"
 msgstr "*Utiliser l'émulation reSID"
@@ -2078,20 +2067,20 @@ msgstr ""
 msgid "*Revison 2"
 msgstr ""
 
-#: src/arch/unix/uivdc.c:131
+#: src/arch/unix/uivdc.c:135
 msgid "*64KB display memory"
 msgstr ""
 
-#: src/arch/unix/uivdc.c:133
+#: src/arch/unix/uivdc.c:137
 msgid "Revision"
 msgstr ""
 
-#: src/arch/unix/uivic.c:127 src/arch/unix/uivicii.c:136
+#: src/arch/unix/uivic.c:131 src/arch/unix/uivicii.c:140
 #: src/arch/unix/vsidui.c:173
 msgid "Video standard"
 msgstr ""
 
-#: src/arch/unix/uivic.c:133
+#: src/arch/unix/uivic.c:137
 #, fuzzy
 msgid "PAL Emulation Settings"
 msgstr "Paramètres"
@@ -2108,15 +2097,15 @@ msgstr ""
 msgid "*GoDot"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:139
+#: src/arch/unix/uivicii.c:143
 msgid "*Sprite-sprite collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:141
+#: src/arch/unix/uivicii.c:145
 msgid "*Sprite-background collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:144
+#: src/arch/unix/uivicii.c:148
 msgid "*New Luminances"
 msgstr ""
 
@@ -2185,39 +2174,39 @@ msgstr ""
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:182 src/arch/unix/vic20ui.c:397
+#: src/arch/unix/vic20ui.c:183 src/arch/unix/vic20ui.c:398
 msgid "Memory expansions"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:229
+#: src/arch/unix/vic20ui.c:230
 msgid "Smart-attach cartridge image..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:234
+#: src/arch/unix/vic20ui.c:235
 msgid "Attach 4/8/16KB image at $2000..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:237
+#: src/arch/unix/vic20ui.c:238
 msgid "Attach 4/8/16KB image at $4000..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:240
+#: src/arch/unix/vic20ui.c:241
 msgid "Attach 4/8/16KB image at $6000..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:243
+#: src/arch/unix/vic20ui.c:244
 msgid "Attach 4/8KB image at $A000..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:246
+#: src/arch/unix/vic20ui.c:247
 msgid "Attach 4KB image at $B000..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:258
+#: src/arch/unix/vic20ui.c:259
 msgid "Detach cartridge image(s)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:395
+#: src/arch/unix/vic20ui.c:396
 msgid "VIC settings"
 msgstr ""
 
@@ -2942,6 +2931,10 @@ msgstr "Les performances vont être faibles."
 #: src/arch/unix/x11/xaw/x11video.c:207
 msgid "Successfully initialized without shared memory."
 msgstr "Correctement initialisée sans mémoire partagée"
+
+#, fuzzy
+#~ msgid "TED Video settings"
+#~ msgstr "Paramètres du modèle PET"
 
 #, fuzzy
 #~ msgid "Couldn't allocate pixel value cache."

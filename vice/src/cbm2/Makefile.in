@@ -312,9 +312,9 @@ cbm2cia1.o: cbm2cia1.c ../../src/vice.h ../../src/config.h \
 cbm2cpu.o: cbm2cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/arch/unix/types.h ../maincpu.c ../vice.h \
 	../6510core.h ../alarm.h ../clkguard.h ../debug.h \
-	../interrupt.h ../log.h ../machine.h ../maincpu.h ../mem.h \
+	../interrupt.h ../machine.h ../maincpu.h ../mem.h \
 	../../src/monitor/mon.h ../mos6510.h ../snapshot.h ../traps.h \
-	../utils.h ../6510core.c
+	../6510core.c
 cbm2datasette.o: cbm2datasette.c ../../src/vice.h ../../src/config.h \
 	cbm2cia.h ../../src/arch/unix/types.h cbm2tpi.h
 cbm2iec.o: cbm2iec.c ../../src/vice.h ../../src/config.h \

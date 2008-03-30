@@ -629,17 +629,18 @@ keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
 	utils.h
 log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	log.h resources.h utils.h arch/unix/types.h
-machine.o: machine.c autostart.h arch/unix/types.h vice.h config.h \
-	machine.h mem.h arch/unix/ui.h uiapi.h utils.h vsync.h
+machine.o: machine.c alarm.h arch/unix/types.h vice.h config.h \
+	autostart.h clkguard.h interrupt.h log.h machine.h maincpu.h \
+	mem.h arch/unix/ui.h uiapi.h utils.h vsync.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	console.h debug.h arch/unix/types.h drive/drive.h log.h \
 	fullscreen.h init.h initcmdline.h interrupt.h machine.h \
 	maincpu.h main.h resources.h sysfile.h arch/unix/ui.h uiapi.h \
 	utils.h version.h video.h viewport.h fliplist.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h alarm.h \
-	arch/unix/types.h clkguard.h debug.h interrupt.h log.h \
-	machine.h maincpu.h mem.h monitor/mon.h mos6510.h snapshot.h \
-	traps.h utils.h 6510core.c
+	arch/unix/types.h clkguard.h debug.h interrupt.h machine.h \
+	maincpu.h mem.h monitor/mon.h mos6510.h snapshot.h traps.h \
+	6510core.c
 p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive/vdrive.h
 palette.o: palette.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	palette.h arch/unix/types.h sysfile.h utils.h
