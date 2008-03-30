@@ -73,6 +73,8 @@ static int stop_output;
 
 /* Defines */
 
+#define MAX_LABEL_LEN 255
+#define MAX_MEMSPACE_NAME_LEN 10
 #define HASH_ARRAY_SIZE 256
 #define HASH_ADDR(x) ((x)%0xff)
 #define OP_JSR 0x20
@@ -193,6 +195,7 @@ static FILE *recording_fp;
 static char *recording_name;
 bool playback;
 char *playback_name;
+static void playback_commands(char *filename);
 
 struct mon_cmds mon_cmd_array[] = {
    { "",		"",	BAD_CMD,		STATE_INITIAL },
@@ -307,7 +310,7 @@ struct mon_cmds mon_cmd_array[] = {
 
    { "down", 		"", 	CMD_DOWN, 		STATE_INITIAL },
 
-   { "dump", 		"", 	CMD_DUMP, 		STATE_INITIAL },
+   { "dump", 		"", 	CMD_DUMP, 		STATE_FNAME },
 
    { "enable", 		"", 	CMD_CHECKPT_ONOFF, 	STATE_INITIAL,
      "<checknum>",
@@ -459,7 +462,7 @@ struct mon_cmds mon_cmd_array[] = {
      "for that address.  If two addresses are specified, set a tracepoint\n"
      "for the memory locations between the two addresses." },
 
-   { "undump", 		"", 	CMD_UNDUMP, 		STATE_INITIAL },
+   { "undump", 		"", 	CMD_UNDUMP, 		STATE_FNAME },
 
    { "up", 		"", 	CMD_UP, 		STATE_INITIAL },
 
@@ -508,7 +511,7 @@ static const char *register_string[] = { "A",
                                          "Y",
                                          "PC",
                                          "SP"
-                                       };
+                                        };
 
 
 /* *** ADDRESS FUNCTIONS *** */
@@ -1451,6 +1454,29 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
 }
 
 
+void mon_display_io_regs(void)
+{
+   MON_ADDR start,end;
+
+   /* FIXME */
+   start = new_addr(e_comp_space, 0xd000);
+   end = new_addr(e_comp_space, 0xd02e);
+   mon_display_memory(e_hexadecimal, start, end);
+
+   start = new_addr(e_comp_space, 0xdc00);
+   end = new_addr(e_comp_space, 0xdc0f);
+   mon_display_memory(e_hexadecimal, start, end);
+
+   start = new_addr(e_comp_space, 0xdd00);
+   end = new_addr(e_comp_space, 0xdd0f);
+   mon_display_memory(e_hexadecimal, start, end);
+
+   start = new_addr(e_comp_space, 0xd400);
+   end = new_addr(e_comp_space, 0xd41f);
+   mon_display_memory(e_hexadecimal, start, end);
+}
+
+
 void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 {
   unsigned i, len, dst;
@@ -1594,11 +1620,11 @@ void mon_change_dir(char *path)
 }
 
 
-void mon_load_file(char *filename, MON_ADDR start_addr)
+void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
 {
     FILE   *fp;
     ADDRESS adr;
-    int     b1, b2;
+    int     b1=0, b2=0;
     int     ch;
 
     if (NULL == (fp = fopen(filename, READ))) {
@@ -1607,11 +1633,18 @@ void mon_load_file(char *filename, MON_ADDR start_addr)
 	return;
     }
 
-    b1 = fgetc(fp);
-    b2 = fgetc(fp);
+    if (is_bload == FALSE) {
+       b1 = fgetc(fp);
+       b2 = fgetc(fp);
+    }
 
     evaluate_default_addr(&start_addr);
     if (!is_valid_addr(start_addr)) {	/* No Load address given */
+        if (is_bload == TRUE) {
+	   fprintf(mon_output, "No LOAD address given.\n");
+	   return;
+        }
+
 	if (b1 == 1)	/* Load Basic */
 	    mem_get_basic_text(&adr, NULL);
 	else
@@ -1623,50 +1656,27 @@ void mon_load_file(char *filename, MON_ADDR start_addr)
     fprintf(mon_output, "Loading %s", filename);
     fprintf(mon_output, " from %04X\n", adr);
 
-    /* FIXME - check for wraparound */
     ch = fread (ram + adr, 1, ram_size - adr, fp);
+    if (ch == ram_size - adr) {
+       /* May be more bytes... */
+       ch += fread (ram, 1, adr, fp);
+    }
     fprintf(mon_output, "%x bytes\n", ch);
 
-    /* set end of load addresses like kernal load */
-    mem_set_basic_text(adr, adr + ch);
+    if (is_bload == FALSE) {
+       /* set end of load addresses like kernal load */
+       mem_set_basic_text(adr, adr + ch);
+    }
 
     fclose(fp);
 }
 
-void mon_bload_file(char *filename, MON_ADDR start_addr)
-{
-    FILE   *fp;
-    ADDRESS adr;
-    int     ch;
-
-    if (NULL == (fp = fopen(filename, READ))) {
-	fprintf(mon_output, "Loading for `%s' failed: %s.\n",
-                filename, strerror(errno));
-	return;
-    }
-
-    evaluate_default_addr(&start_addr);
-    if (!is_valid_addr(start_addr)) {	/* No Load address given */
-	fprintf(mon_output, "No LOAD address given.\n");
-	return;
-    }
-    adr = addr_location(start_addr);
-
-    fprintf(mon_output, "Loading %s", filename);
-    fprintf(mon_output, " from %04X\n", adr);
-
-    /* FIXME - check for wraparound */
-    ch = fread (ram + adr, 1, ram_size - adr, fp);
-    fprintf(mon_output, "%x bytes\n", ch);
-
-    fclose(fp);
-}
-
-void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
+void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool is_bsave)
 {
    FILE   *fp;
    ADDRESS adr, end;
    long len;
+   int ch;
 
    len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
    if (len < 0) {
@@ -1682,44 +1692,23 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
                 filename, strerror(errno));
    } else {
 	printf("Saving file `%s'...\n", filename);
-	fputc((BYTE) adr & 0xff, fp);
-	fputc((BYTE) (adr >> 8) & 0xff, fp);
+
+        if (is_bsave == FALSE) {
+	   fputc((BYTE) adr & 0xff, fp);
+	   fputc((BYTE) (adr >> 8) & 0xff, fp);
+        }
+
         if (end < adr) {
-	   fwrite((char *) (ram + adr), 1, ram_size-adr, fp);
-	   fwrite((char *) ram, 1, end, fp);
+	   ch = fwrite((char *) (ram + adr), 1, ram_size-adr, fp);
+           if (ch == ram_size-adr)
+	      ch += fwrite((char *) ram, 1, end, fp);
         } else
-	   fwrite((char *) (ram + adr), 1, len, fp);
+	   ch = fwrite((char *) (ram + adr), 1, len, fp);
 
-	fclose(fp);
-   }
-}
-
-void mon_bsave_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
-{
-   FILE   *fp;
-   ADDRESS adr, end;
-   long len;
-
-   len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
-   if (len < 0) {
-      fprintf(mon_output, "Invalid range.\n");
-      return;
-   }
-
-   adr = addr_location(start_addr);
-   end = addr_location(end_addr);
-
-   if (NULL == (fp = fopen(filename, WRITE))) {
-	fprintf(mon_output, "Saving for `%s' failed: %s.\n",
-                filename, strerror(errno));
-   } else {
-	fprintf(mon_output, "Saving file `%s'...\n", filename);
-        if (end < adr) {
-	   fwrite((char *) (ram + adr), 1, ram_size-adr, fp);
-	   fwrite((char *) ram, 1, end, fp);
-        } else
-	   fwrite((char *) (ram + adr), 1, len, fp);
-
+        if (ch != len) {
+	   fprintf(mon_output, "Saving for `%s' failed: %s.\n",
+                   filename, strerror(errno));
+        }
 	fclose(fp);
    }
 }
@@ -1733,11 +1722,19 @@ void mon_verify_file(char *filename, MON_ADDR start_addr)
 
 void mon_load_symbols(MEMSPACE mem, char *filename)
 {
+    /* Switched to a command-line format for the symbol file
+     * so loading just involves "playing back" the commands.
+     * It is no longer possible to just load symbols from a
+     * single memory space.
+     */
+    playback_commands(filename);
+#if 0
     FILE   *fp;
     ADDRESS adr;
-    char name[256];
+    char memspace[MAX_MEMSPACE_NAME_LEN], name[MAX_LABEL_LEN];
     char *name_ptr;
     bool found = FALSE;
+    int rc, line_num = 2;
 
     if (NULL == (fp = fopen(filename, READ))) {
 	fprintf(mon_output, "Loading for `%s' failed: %s.\n",
@@ -1748,11 +1745,12 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     fprintf(mon_output, "Loading symbol table from `%s'...\n", filename);
 
     if (mem == e_default_space) {
-       fscanf(fp, "%s\n", name);
-       for (mem = FIRST_SPACE; mem <= LAST_SPACE; mem++) {
-          if (strcmp(name,memspace_string[mem]) == 0) {
-             found = TRUE;
-             break;
+       if (fscanf(fp, "%10s\n", name) == 1) {
+          for (mem = FIRST_SPACE; mem <= LAST_SPACE; mem++) {
+             if (strcmp(name,memspace_string[mem]) == 0) {
+                found = TRUE;
+                break;
+             }
           }
        }
        if (!found) {
@@ -1762,14 +1760,22 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     }
 
     while (!feof(fp)) {
-       fscanf(fp, "%x %s\n", (int *) &adr, name);
+       rc = fscanf(fp, "%6x %255s\n", (int *) &adr, name);
+       if (rc != 2) {
+          fprintf(mon_output, "Bad label file: (line %d) cannot parse argument %d.\n",line_num,rc+1);
+          break;
+       }
+       /* FIXME: Check name is a valid label name */
        name_ptr = (char *) xmalloc((strlen(name)+1) * sizeof(char));
        strcpy(name_ptr, name);
        fprintf(mon_output, "Read ($%x:%s)\n",adr, name_ptr);
        mon_add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
+ 
+       line_num++;
     }
 
     fclose(fp);
+#endif
 }
 
 void mon_save_symbols(MEMSPACE mem, char *filename)
@@ -1785,15 +1791,15 @@ void mon_save_symbols(MEMSPACE mem, char *filename)
 
     fprintf(mon_output, "Saving symbol table to `%s'...\n", filename);
 
+    /* FIXME: Write out all memspaces? */
     if (mem == e_default_space)
        mem = default_memspace;
 
     sym_ptr = monitor_labels[mem].name_list;
-    fprintf(fp, "%s\n", memspace_string[mem]);
 
     while (sym_ptr) {
-       fprintf(fp, "%04x %s\n", sym_ptr->addr, sym_ptr->name);
-       fprintf(mon_output, "Write ($%x:%s)\n",sym_ptr->addr,sym_ptr-> name);
+       fprintf(fp, "al %s:%04x %s\n", memspace_string[mem], sym_ptr->addr, sym_ptr->name);
+       /* fprintf(mon_output, "Write ($%x:%s)\n",sym_ptr->addr,sym_ptr-> name); */
        sym_ptr = sym_ptr->next;
     }
 
@@ -1836,7 +1842,7 @@ void mon_end_recording(void)
 static void playback_commands(char *filename)
 {
    FILE *fp;
-   char string[255];
+   char string[256], *rc;
 
    if (NULL == (fp = fopen(filename, READ))) {
        fprintf(mon_output, "Playback for `%s' failed: %s.\n",
@@ -1845,11 +1851,15 @@ static void playback_commands(char *filename)
    }
 
    while (1) {
-      fgets(string, 255, fp);
-      if (strcmp(string, "stop\n") == 0)
+      rc = fgets(string, 255, fp);
+      if (rc != NULL) {
+         if (strcmp(string, "stop\n") == 0)
+            break;
+         string[strlen(string)-1] = '\0';
+         parse_and_execute_line(string);
+      } else {
          break;
-      string[strlen(string)-1] = '\0';
-      parse_and_execute_line(string);
+      }
    }
 
    fclose(fp);
@@ -2313,7 +2323,7 @@ static void print_checkpoint_info(breakpoint *bp)
       fprintf(mon_output, "BREAK: ");
    }
    fprintf(mon_output, "%d A:$%04x",bp->brknum,addr_location(bp->start_addr));
-   if (is_valid_addr(bp->end_addr))
+   if (is_valid_addr(bp->end_addr) && (bp->start_addr != bp->end_addr))
       fprintf(mon_output, "-$%04x",addr_location(bp->end_addr));
 
    if (bp->watch_load)
@@ -2755,8 +2765,7 @@ void mon_check_watchpoints(ADDRESS a)
 
 static void make_prompt(char *str)
 {
-    sprintf(str, "[%c] (%s:$%04x) ",
-            (sidefx == e_ON) ? 'S' : '-',
+    sprintf(str, "(%s:$%04x) ",
             memspace_string[default_memspace],
             addr_location(dot_addr[default_memspace]));
 }
@@ -2805,7 +2814,7 @@ void mon(ADDRESS a)
     fprintf(mon_output, "\n** Monitor\n");
     fflush(mon_output);
 
-    do {
+    while (!exit_mon) {
         make_prompt(prompt);
 
         if (asm_mode) {
@@ -2836,8 +2845,14 @@ void mon(ADDRESS a)
             }
 
             if (myinput) {
-                if (recording)
-                    fprintf(recording_fp, "%s\n", myinput);
+                if (recording) {
+                    if (fprintf(recording_fp, "%s\n", myinput) != 1) {
+                       fprintf(mon_output,"Error while recording commands. Output file closed.\n");
+                       fclose(recording_fp);
+                       recording_fp = NULL;
+                       recording = FALSE;
+                    }
+                }
 
                 parse_and_execute_line(myinput);
 
@@ -2849,7 +2864,7 @@ void mon(ADDRESS a)
             free(last_cmd);
 
         last_cmd = myinput;
-    } while (!exit_mon);
+    }
     inside_monitor = FALSE;
     suspend_speed_eval();
 

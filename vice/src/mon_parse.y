@@ -36,6 +36,7 @@
 #include "asm.h"
 #include "utils.h"
 #include "mon.h"
+#include "machine.h"
 
 #define join_ints(x,y) (LO16_TO_HI16(x)|y)
 #define separate_int1(x) (HI16_TO_LO16(x))
@@ -43,6 +44,7 @@
 
 static int yyerror(char *s);
 static int temp;
+static int resolve_datatype(unsigned guess_type, char *num);
 
 /* Defined in the lexer */
 extern int new_cmd, opt_asm;
@@ -62,6 +64,7 @@ extern int cur_len, last_len;
 #define ERR_EXPECT_FILENAME 9
 #define ERR_ADDR_TOO_BIG 10
 #define ERR_IMM_TOO_BIG 11
+#define ERR_EXPECT_STRING 12
 
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 #define CHECK_ADDR(x) ((x) == LO16(x))
@@ -80,6 +83,7 @@ extern int cur_len, last_len;
 }
 
 %token<i> H_NUMBER D_NUMBER O_NUMBER B_NUMBER CONVERT_OP B_DATA
+%token<str> D_NUMBER_GUESS O_NUMBER_GUESS B_NUMBER_GUESS
 %token<i> TRAIL BAD_CMD MEM_OP IF MEM_COMP MEM_DISK8 MEM_DISK9 CMD_SEP REG_ASGN_SEP EQUALS
 %token<i> CMD_SIDEFX CMD_RETURN CMD_BLOCK_READ CMD_BLOCK_WRITE CMD_UP CMD_DOWN
 %token<i> CMD_LOAD CMD_SAVE CMD_VERIFY CMD_IGNORE CMD_HUNT CMD_FILL CMD_MOVE
@@ -101,7 +105,7 @@ extern int cur_len, last_len;
 
 %type<a> address opt_address
 %type<cond_node> cond_expr compare_operand
-%type<i> command number expression
+%type<i> command number expression d_number guess_default
 %type<i> memspace memloc memaddr breakpt_num opt_mem_op
 %type<i> register_mod opt_count command_list top_level value
 %type<i> asm_operand_mode assembly_instruction end_cmd register
@@ -148,10 +152,10 @@ command: machine_state_rules
 
 machine_state_rules: CMD_BANK opt_memspace opt_bankname end_cmd { mon_bank($2,$3); }
                    | CMD_GOTO address end_cmd { mon_jump($2); }
-                   | CMD_IO end_cmd { fprintf(mon_output, "Display IO registers\n"); }
+                   | CMD_IO end_cmd { mon_display_io_regs(); }
                    | CMD_RETURN end_cmd { mon_instruction_return(); }
-                   | CMD_DUMP end_cmd { puts("Dump machine state."); }
-                   | CMD_UNDUMP end_cmd { puts("Undump machine state."); }
+                   | CMD_DUMP filename end_cmd { machine_write_snapshot($2,0,0); /* FIXME */ }
+                   | CMD_UNDUMP filename end_cmd { machine_read_snapshot($2); }
                    | CMD_STEP opt_count end_cmd { mon_instructions_step($2); }
                    | CMD_NEXT opt_count end_cmd { mon_instructions_next($2); }
                    | CMD_UP opt_count end_cmd { mon_stack_up($2); }
@@ -179,8 +183,8 @@ asm_rules: CMD_ASSEMBLE address { mon_start_assemble_mode($2, NULL); } post_asse
 
 memory_rules: CMD_MOVE address address address end_cmd 		  { mon_move_memory($2, $3, $4); }
             | CMD_COMPARE address address address end_cmd 	  { mon_compare_memory($2, $3, $4); }
-            | CMD_FILL address address data_list end_cmd 	  { mon_fill_memory($2, $3, $4); }
-            | CMD_HUNT address address data_list end_cmd 	  { mon_hunt_memory($2, $3, $4); }
+            | CMD_FILL address address data_list end_cmd 	  { mon_fill_memory($2,$3,(unsigned char *)$4); }
+            | CMD_HUNT address address data_list end_cmd 	  { mon_hunt_memory($2,$3,(unsigned char *)$4); }
             | CMD_MEM_DISPLAY RADIX_TYPE address opt_address end_cmd { mon_display_memory($2, $3, $4); }
             | CMD_MEM_DISPLAY address opt_address end_cmd 	  { mon_display_memory(default_radix, $2, $3); }
             | CMD_MEM_DISPLAY end_cmd 				  { mon_display_memory(default_radix, BAD_ADDR, BAD_ADDR); }
@@ -211,6 +215,7 @@ checkpoint_control_rules: CMD_CHECKPT_ONOFF breakpt_num end_cmd 	 { mon_switch_c
                         | CMD_DELETE end_cmd				 { mon_delete_checkpoint(-1); }
                         | CMD_CONDITION breakpt_num IF cond_expr end_cmd { mon_set_checkpoint_condition($2, $4); }
                         | CMD_COMMAND breakpt_num STRING end_cmd 	 { mon_set_checkpoint_command($2, $3); }
+                        | CMD_COMMAND breakpt_num error end_cmd 	 { return ERR_EXPECT_STRING; }
                         ;
 
 monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd 	       { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
@@ -249,10 +254,10 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd 	{ mon_execute_disk_command($2
                   | CMD_CHDIR rest_of_line end_cmd 	{ mon_change_dir($2); }
                   ;
 
-disk_rules: CMD_LOAD filename opt_address end_cmd 			{ mon_load_file($2,$3); }
-          | CMD_BLOAD filename opt_address end_cmd 			{ mon_bload_file($2,$3); }
-          | CMD_SAVE filename address address end_cmd 		{ mon_save_file($2,$3,$4); }
-          | CMD_BSAVE filename address address end_cmd 		{ mon_bsave_file($2,$3,$4); }
+disk_rules: CMD_LOAD filename opt_address end_cmd 			{ mon_load_file($2,$3,FALSE); }
+          | CMD_BLOAD filename opt_address end_cmd 			{ mon_load_file($2,$3,TRUE); }
+          | CMD_SAVE filename address address end_cmd 		{ mon_save_file($2,$3,$4,FALSE); }
+          | CMD_BSAVE filename address address end_cmd 		{ mon_save_file($2,$3,$4,TRUE); }
           | CMD_VERIFY filename address end_cmd 		{ mon_verify_file($2,$3); }
           | CMD_BLOCK_READ expression expression opt_address end_cmd	{ mon_block_cmd(0,$2,$3,$4); }
           | CMD_BLOCK_WRITE expression expression address end_cmd	{ mon_block_cmd(1,$2,$3,$4); }
@@ -297,7 +302,7 @@ opt_count: expression { $$ = $1; }
          | { $$ = -1; }
          ;
 
-breakpt_num: D_NUMBER { $$ = $1; }
+breakpt_num: d_number { $$ = $1; }
            | error { return ERR_EXPECT_BRKNUM; }
            ;
 
@@ -363,14 +368,27 @@ value: number { $$ = $1; }
      | register { $$ = mon_get_reg_val(reg_memspace($1), reg_regid($1)); }
      ;
 
+d_number: D_NUMBER { $$ = $1; }
+        | B_NUMBER_GUESS { $$ = strtol($1, NULL, 2); }
+        | O_NUMBER_GUESS { $$ = strtol($1, NULL, 8); }
+        | D_NUMBER_GUESS { $$ = strtol($1, NULL, 10); }
+        ;
+
+guess_default: B_NUMBER_GUESS { $$ = resolve_datatype(B_NUMBER,$1); }
+             | O_NUMBER_GUESS { $$ = resolve_datatype(O_NUMBER,$1); }
+             | D_NUMBER_GUESS { $$ = resolve_datatype(D_NUMBER,$1); }
+             ;
+
 number: H_NUMBER { $$ = $1; }
       | D_NUMBER { $$ = $1; }
       | O_NUMBER { $$ = $1; }
       | B_NUMBER { $$ = $1; }
+      | guess_default { $$ = $1; }
       ;
 
 assembly_instr_list: assembly_instr_list INST_SEP assembly_instruction
                    | assembly_instruction INST_SEP assembly_instruction
+                   | assembly_instruction INST_SEP
                    ;
 
 assembly_instruction: OPCODE asm_operand_mode { $$ = 0;
@@ -460,6 +478,9 @@ void parse_and_execute_line(char *input)
            case ERR_IMM_TOO_BIG:
                fprintf(mon_output, "Immediate argument too large:\n");
                break;
+           case ERR_EXPECT_STRING:
+               fprintf(mon_output, "Expecting a string.\n");
+               break;
            case ERR_ILLEGAL_INPUT:
            default:
                fprintf(mon_output, "Wrong syntax:\n");
@@ -479,5 +500,23 @@ static int yyerror(char *s)
    YYABORT;
    fprintf(stderr, "ERR:%s\n",s);
    return 0;
+}
+
+static int resolve_datatype(unsigned guess_type, char *num)
+{
+   /* FIXME: Handle cases when default type is non-numerical */
+   if (default_radix == e_hexadecimal) {
+      return strtol(num, NULL, 16);
+   }
+
+   if ((guess_type == D_NUMBER) || (default_radix == e_decimal)) {
+      return strtol(num, NULL, 10);
+   }
+
+   if ((guess_type == O_NUMBER) || (default_radix == e_octal)) {
+      return strtol(num, NULL, 8);
+   }
+
+   return strtol(num, NULL, 2);
 }
 

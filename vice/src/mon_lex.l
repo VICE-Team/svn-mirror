@@ -43,7 +43,6 @@
 int new_cmd = 1, quote = 0, opt_asm = 0, cur_len = 0, last_len = 0, dont_match_reg_a = 0;
 int temp;
 static int yywrap();
-static int resolve_datatype(unsigned guess_type, char *num, int *val);
 YY_BUFFER_STATE my_state;
 
 #define YY_USER_ACTION { last_len = cur_len; cur_len += yyleng; }
@@ -141,7 +140,7 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
  /* TA		{ yylval.i = e_text_ascii; return RADIX_TYPE; } */
  /* TP		{ yylval.i = e_text_petscii; return RADIX_TYPE; } */
 
-<BNAME,INITIAL>c:              { return MEM_COMP; }
+<BNAME,INITIAL>(c|C):            { return MEM_COMP; }
 <BNAME,INITIAL>8:              { return MEM_DISK8; }
 <BNAME,INITIAL>9:              { return MEM_DISK9; }
 
@@ -208,12 +207,12 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ASM_MODE>:             { dont_match_reg_a = 0; return INST_SEP; }
 
 <ASM_MODE,INITIAL,COND_MODE>{
-	1[01]*                  { return resolve_datatype(B_NUMBER, yytext, &(yylval.i)); }
+	1[01]*                  { yylval.str = stralloc(yytext); return B_NUMBER_GUESS; }
 	%[01]+                  { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }
 	&[0-7]+                 { yylval.i = strtol(yytext+1, NULL, 8); return O_NUMBER; }
-	[0-7]*                  { return resolve_datatype(O_NUMBER, yytext, &(yylval.i)); }
+	[0-7]*                  { yylval.str = stralloc(yytext); return O_NUMBER_GUESS; }
 	\+[0-9]+                { yylval.i = strtol(yytext+1, NULL, 10); return D_NUMBER; }
-	[0-9]+                  { return resolve_datatype(D_NUMBER, yytext, &(yylval.i)); }
+	[0-9]+                  { yylval.str = stralloc(yytext); return D_NUMBER_GUESS; }
 	\$[0-9a-fA-F]+          { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
 	[0-9a-fA-F]+            { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
 }
@@ -221,28 +220,6 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 <*>[^ \t]		{ return yytext[0]; }
 
 %%
-
-static int resolve_datatype(unsigned guess_type, char *num, int *val)
-{
-   /* FIXME: Handle cases when default type is non-numerical */
-   if (default_radix == e_hexadecimal) {
-      *val = strtol(num, NULL, 16);
-      return H_NUMBER;
-   }
-
-   if ((guess_type == D_NUMBER) || (default_radix == e_decimal)) {
-      *val = strtol(num, NULL, 10);
-      return D_NUMBER;
-   }
-
-   if ((guess_type == O_NUMBER) || (default_radix == e_octal)) {
-      *val = strtol(num, NULL, 8);
-      return O_NUMBER;
-   }
-
-   *val = strtol(num, NULL, 2);
-   return B_NUMBER;
-}
 
 void free_buffer()
 {

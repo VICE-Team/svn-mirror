@@ -93,6 +93,7 @@ int joystick_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef NEW_JOYSTICK
 #ifdef HAS_JOYSTICK
 
 #ifdef LINUX_JOYSTICK
@@ -192,7 +193,7 @@ void joystick_init(void)
 #ifdef HAS_DIGITAL_JOYSTICK
     /* open device files for digital joystick */
     for (i = 0; i < 2; i++) {
-	char *dev;
+	const char *dev;
 	dev = (i == 0) ? "/dev/djs0" : "/dev/djs1";
 
 	djoyfd[i] = open(dev, O_RDONLY);
@@ -284,3 +285,150 @@ void joystick_close(void)
 }
 
 #endif				/* HAS_JOYSTICK */
+#else
+#include "/home/sladic/joystick-1.2.12/joystick.h"
+#include <errno.h>
+
+static int ajoyfd[2] = {-1, -1};
+
+static log_t joystick_log = LOG_ERR;
+
+void joystick_init(void)
+{
+    int i;
+
+    if (joystick_log == LOG_ERR)
+        joystick_log = log_open("Joystick");
+
+    /* close all device files */
+    for (i = 0; i < 2; i++) {
+	if (ajoyfd[i] != -1)
+	    close(ajoyfd[i]);
+    }
+
+    /* open device files */
+    for (i = 0; i < 2; i++) {
+
+	const char *dev;
+#ifdef LINUX_JOYSTICK
+	dev = (i == 0) ? "/dev/js0" : "/dev/js1";
+#elif defined(BSD_JOYSTICK)
+	dev = (i == 0) ? "/dev/joy0" : "/dev/joy1";
+#endif
+
+	ajoyfd[i] = open (dev, O_RDONLY | O_NONBLOCK);
+	if (ajoyfd[i] < 0) {
+	    log_warning(joystick_log,
+                        "Cannot open joystick device `%s'.", dev);
+	} else {
+#if 0
+	    int j;
+
+	    /* calibration loop */
+	    for (j = 0; j < JOYCALLOOPS; j++) {
+		struct JS_DATA_TYPE js;
+		int status = read(ajoyfd[i], &js, JS_RETURN);
+
+		if (status != JS_RETURN) {
+		    log_warning(joystick_log,
+                                "Error reading joystick device `%s'.", dev);
+		} else {
+		    /* determine average */
+		    joyxcal[i] += js.x;
+		    joyycal[i] += js.y;
+		}
+	    }
+
+	    /* correct average */
+	    joyxcal[i] /= JOYCALLOOPS;
+	    joyycal[i] /= JOYCALLOOPS;
+
+	    /* determine treshoulds */
+	    joyxmin[i] = joyxcal[i] - joyxcal[i] / JOYSENSITIVITY;
+	    joyxmax[i] = joyxcal[i] + joyxcal[i] / JOYSENSITIVITY;
+	    joyymin[i] = joyycal[i] - joyycal[i] / JOYSENSITIVITY;
+	    joyymax[i] = joyycal[i] + joyycal[i] / JOYSENSITIVITY;
+
+	    log_message(joystick_log,
+                        "Hardware joystick calibration for device `%s':", dev);
+	    log_message(joystick_log,
+                        "  X: min: %i , mid: %i , max: %i.",
+                        joyxmin[i], joyxcal[i], joyxmax[i]);
+	    log_message(joystick_log,
+                        "  Y: min: %i , mid: %i , max: %i.",
+                        joyymin[i], joyycal[i], joyymax[i]);
+#endif
+	}
+    }
+}
+
+void joystick_close(void)
+{
+    if (ajoyfd[0] > 0)
+	close(ajoyfd[0]);
+    if (ajoyfd[1] > 0)
+	close(ajoyfd[1]);
+}
+
+void joystick(void)
+{
+    int i;
+
+    for (i = 1; i <= 2; i++) {
+	int joyport = joystick_port_map[i - 1];
+
+	if (joyport == JOYDEV_ANALOG_0 || joyport == JOYDEV_ANALOG_1) {
+	    int status;
+	    struct js_event e;
+	    int ajoyport = joyport - JOYDEV_ANALOG_0;
+
+	    if (ajoyfd[ajoyport] > 0) {
+               while (read (ajoyfd[ajoyport], &e, sizeof(struct js_event)) > 0) {
+                  if ((e.type & ~JS_EVENT_INIT) == JS_EVENT_BUTTON) {
+                     if (e.value)
+			joy[i] |= 16;
+                     else
+			joy[i] &= ~16;
+                  }
+                  else if ((e.type & ~JS_EVENT_INIT) == JS_EVENT_AXIS) {
+                     if (e.number == 0) {
+                        if (e.value < 0) {
+			   joy[i] |= 4;
+			   joy[i] &= ~8;
+                        }
+                        else if (e.value > 0) {
+			   joy[i] &= ~4;
+			   joy[i] |= 8;
+                        } 
+                        else {
+			   joy[i] &= ~4;
+			   joy[i] &= ~8;
+                        }
+                     }  
+                     else { 
+                        if (e.value < 0) {
+			   joy[i] |= 1;
+			   joy[i] &= ~2;
+                        }
+                        else if (e.value > 0) {
+			   joy[i] &= ~1;
+			   joy[i] |= 2;
+                        } 
+                        else {
+			   joy[i] &= ~1;
+			   joy[i] &= ~2;
+                        }
+                     }
+                  }
+
+               }
+               if (errno != EAGAIN) {
+	          log_error(joystick_log, "Error reading joystick device.");
+               }
+
+	    }
+	}
+    }
+}
+
+#endif

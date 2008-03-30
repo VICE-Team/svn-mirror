@@ -270,10 +270,8 @@ extern void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR des
 extern void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest);
 extern void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data);
 extern void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data);
-extern void mon_load_file(char *filename, MON_ADDR start_addr);
-extern void mon_bload_file(char *filename, MON_ADDR start_addr);
-extern void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr);
-extern void mon_bsave_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr);
+extern void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload);
+extern void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool is_bsave);
 extern void mon_verify_file(char *filename, MON_ADDR start_addr);
 extern void mon_instructions_step(int count);
 extern void mon_instructions_next(int count);
@@ -286,6 +284,7 @@ extern void mon_change_dir(char *path);
 extern void mon_execute_disk_command(char *cmd);
 extern void mon_print_help(char *cmd);
 extern void mon_bank(MEMSPACE mem, char *bank);
+extern void mon_display_io_regs(void);
 
 extern unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id);
 extern void mon_set_reg_val(MEMSPACE mem, REG_ID reg_id, WORD val);
