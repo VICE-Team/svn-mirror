@@ -39,10 +39,9 @@
 #include <stdlib.h>
 #endif
 
+#include "archdep.h"
 #include "findpath.h"
 #include "utils.h"
-#include "archdep.h"
-
 
 /*
  * This function is checked to be robust with all path 3 types possible

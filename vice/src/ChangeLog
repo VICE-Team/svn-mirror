@@ -1,5 +1,50 @@
 1999-05-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.21.
+
+	* fsdevice.c (fsdevice_create_file_p00): Removed double extension.
+	Use proper modes for `fopen()'.
+
+	* arch/unix/archdep.h, arch/msdos/archdep.h, arch/win32/archdep.h,
+	arch/riscos/archdep.h: New mode `MODE_APPEND_READ_WRITE'.
+
+	* arch/unix/archdep.c, arch/msdos/archdep.c, arch/win32/archdep.c,
+	arch/riscos/archdep.c, archapi.h (archdep_open_monitor_console,
+	archdep_close_monitor_console): New functions.
+
+	* mon.c (mon): Use architecture specific functions to open and
+	close the monitor console.
+
+	* c1541.c, petcat.c (enable_text, disable_text): Stubs.
+
+	* autostart.c (autostart_prg): Use `archdep_path_is_relative'.
+
+	* utils.c, utils.h (path_is_relative): Removed.
+
+1999-05-22  Dag Lem  <resid@nimrod.no>
+
+	* c64/psid.c: Removed PSIDTune resource
+	* c64/c64.c: Likewise
+
+	* vicii/vicii.c (vicii_load_palette): Don't load palette in PSID mode
+	
+	* machine.h: External declaration of console_mode flag.
+
+	* main.c: Added console_mode flag and -console option (unfinished)
+	(main): Removed PSIDTune resource
+
+1999-05-18  Dag Lem  <resid@nimrod.no>
+
+	* c64/c64.c (machine_init): Initialize monitor in psid mode.
+
+	* sid/sid.c (store_sid): Report usage of PSID registers.
+
+	* sid/resid.cc (resid_sound_machine_open): Warnings changed to
+	normal messages.
+	* sound.c (closesound, initsid): Likewise.
+
+1999-05-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.20.
 
 	* drive/drive.c (set_drive_true_emulation): Always enable IEC bus

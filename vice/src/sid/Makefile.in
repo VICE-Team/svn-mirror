@@ -305,7 +305,7 @@ resid.o: resid.cc ../../src/resid/sid.h ../../src/resid/siddefs.h \
 	../../src/resid/spline.h ../../src/resid/extfilt.h \
 	../../src/resid/pot.h ../../src/vice.h ../../src/config.h sid.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
-	../../src/snapshot.h ../../src/utils.h
+	../../src/snapshot.h ../../src/log.h ../../src/utils.h
 sid.o: sid.c ../../src/vice.h ../../src/config.h sid.h ../../src/sound.h \
 	../../src/arch/unix/types.h ../../src/warn.h \
 	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \

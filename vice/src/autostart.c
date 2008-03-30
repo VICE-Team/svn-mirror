@@ -473,7 +473,7 @@ int autostart_prg(const char *file_name)
         directory = tmpdir;
     }
 
-    if (path_is_relative(directory)) {
+    if (archdep_path_is_relative(directory)) {
         char *tmp, *cwd;
 
         cwd = get_current_dir();

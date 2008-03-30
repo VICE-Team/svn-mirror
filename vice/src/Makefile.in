@@ -718,8 +718,8 @@ datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h log.h \
 	clkguard.h datasette.h tap.h maincpu.h 6510core.h mem.h \
 	snapshot.h mon.h mos6510.h interrupt.h
 emuid.o: emuid.c vice.h config.h arch/unix/types.h
-findpath.o: findpath.c vice.h config.h findpath.h utils.h \
-	arch/unix/types.h arch/unix/archdep.h archapi.h
+findpath.o: findpath.c vice.h config.h arch/unix/archdep.h archapi.h \
+	findpath.h utils.h arch/unix/types.h
 fliplist.o: fliplist.c vice.h config.h log.h utils.h arch/unix/types.h \
 	fliplist.h attach.h vdrive.h fs_cbm.h serial.h traps.h \
 	snapshot.h

@@ -528,11 +528,6 @@ void fname_split(const char *path, char **directory_return, char **name_return)
     return;
 }
 
-int path_is_relative(const char *directory)
-{
-    return archdep_path_is_relative(directory);
-}
-
 /* ------------------------------------------------------------------------- */
 
 int read_dword(file_desc_t fd, DWORD *buf, int num)
