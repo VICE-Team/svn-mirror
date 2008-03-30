@@ -140,7 +140,7 @@ list of all the changes in the code.
 - A couple of bugs in the fast serial emulation have been fixed
   (courtesy of Peter Andrew Felvegi <petschy@derceto.sch.bme.hu>).
 
-- Sound output can now be oversampled up to 4 times.
+- Sound output can now be oversampled up to 8 times.
 
 - The `Directory' resource is now a list of paths.  The separator is
   `;' on MS-DOS and `:' on Unix.
