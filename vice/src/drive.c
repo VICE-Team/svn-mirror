@@ -144,8 +144,6 @@ static int  write_sequential_buffer ( DRIVE *floppy, bufferinfo_t *bi, int lengt
 
 static int  alloc_first_free_sector ( BYTE *bam, int *track, int *sector );
 static int  alloc_next_free_sector ( BYTE *bam, int *track, int *sector );
-static int  allocate_sector ( BYTE *bam, int track, int sector );
-static int  free_sector ( BYTE *bam, int track, int sector );
 static int  floppy_name_match ( BYTE *slot, char *name, int length, int type );
 
 static int  floppy_read_bam (DRIVE *floppy);
@@ -2625,7 +2623,7 @@ static int  alloc_next_free_sector(BYTE *bam, int *track, int *sector)
     return -1;
 }
 
-static int  allocate_sector(BYTE *bam, int track, int sector)
+int  allocate_sector(BYTE *bam, int track, int sector)
 {
     BYTE   *bamp;	/* Macros use this */
 
@@ -2643,7 +2641,7 @@ static int  allocate_sector(BYTE *bam, int track, int sector)
 }
 
 
-static int  free_sector(BYTE *bam, int track, int sector)
+int  free_sector(BYTE *bam, int track, int sector)
 {
     BYTE   *bamp;
 

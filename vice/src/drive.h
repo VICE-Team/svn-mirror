@@ -289,6 +289,8 @@ extern int check_header(int fd, hdrinfo *hdr);
 extern int get_diskformat(int devtype);
 extern int num_blocks(int format, int tracks);
 extern void no_a0_pads(BYTE *ptr, int l);
+extern int free_sector (BYTE *bam, int track, int sector);
+extern int allocate_sector (BYTE *bam, int track, int sector);
 
 extern char *floppy_read_directory(DRIVE *floppy, const char *pattern);
 extern int floppy_parse_name ( char *name, int length, char *realname,
