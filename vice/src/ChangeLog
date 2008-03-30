@@ -1,3 +1,54 @@
+2003-04-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.28.
+
+	* vicii/vicii-mem.c (vicii_read): The raster IRQ flag even if
+	raster IRQ is masked.
+
+	* vicii/vicii-irq.c, vicii/vicii-irq.h (vicii_irq_next_frame):
+	New function.
+
+	* printerdrv/printer.c (printer_resources_shutdown): Fixed
+	typo.
+
+	* machine.c (machine_shutdown): Call
+	`machine_resources_shutdown()' again.
+
+	* c64/tfe.c: Do not nest comments.
+
+	* c64/tfe.h: `struct snapshot_s' forward declaration.
+
+2003-04-11  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/tfearch.h, arch/win32/tfearch.c, c64/tfe.c,
+	c64/tfe.h, arch/win32/Makefile.am,
+	arch/c64/Makefile.am, arch/win32/arch.dsp,
+	arch/win32/c64.dsp, arch/win32/c64c128.dsp,
+	c64/c64.c, c64/c64io.c, c64/c64mem.c,
+	arch/win32/[res,resc64,resc128].h, arch/win32/ui.c:
+	Added support for "The Final Ethernet" (TFE)
+	cartridge. Essentially, this means simulating a Crystal
+	CS8900a ethernet controller.
+
+	* arch/win32/msvc/config.h: Removed disabling of some
+	MSVC warnings, added #define HAVE_TFE 1.
+
+	* arch/win32/ui.c: In UNSTABLE versions, print this in the
+	about dialog.
+
+	* c128/c128mem.c, c128/c64mem.c: mem_toggle_reu() is
+	commented out since this seems not to be used anywhere.
+
+	* c64/c64-cmdline-options.c:
+	Commented out reu-resources since these are already handled in
+	reu.c.
+
+	* arch/win32/archdep.c: Added default logger to
+	archdep_default_logger(): write with OutputDebugString().
+
+	* log.c: On WIN32 target, always print logging output not
+	only in the log file but also to the default logger.
+
 2003-04-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.27.
