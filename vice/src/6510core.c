@@ -174,9 +174,9 @@
                                                                          \
         if (ik & (IK_IRQ | IK_NMI)) {                                    \
             if ((ik & IK_NMI)                                            \
-		&& check_nmi_delay(&CPU_INT_STATUS, CLK)) {              \
+                && interrupt_check_nmi_delay(&CPU_INT_STATUS, CLK)) {    \
                 TRACE_NMI();                                             \
-                ack_nmi(&CPU_INT_STATUS);                                \
+                interrupt_ack_nmi(&CPU_INT_STATUS);                      \
                 LOCAL_SET_BREAK(0);                                      \
                 PUSH(reg_pc >> 8);                                       \
                 PUSH(reg_pc & 0xff);                                     \
@@ -187,8 +187,9 @@
                 CLK += NMI_CYCLES;                                       \
             } else if ((ik & IK_IRQ)                                     \
                        && (!LOCAL_INTERRUPT()                            \
-                           || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))     \
-                       && check_irq_delay(&CPU_INT_STATUS, CLK)) {       \
+                       || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))         \
+                       && interrupt_check_irq_delay(&CPU_INT_STATUS,     \
+                                                    CLK)) {              \
                 TRACE_IRQ();                                             \
                 LOCAL_SET_BREAK(0);                                      \
                 PUSH(reg_pc >> 8);                                       \
@@ -203,48 +204,49 @@
         if (ik & (IK_TRAP | IK_RESET)) {                                 \
             if (ik & IK_TRAP) {                                          \
                 EXPORT_REGISTERS();                                      \
-                do_trap(&CPU_INT_STATUS, (ADDRESS) reg_pc);              \
+                interrupt_do_trap(&CPU_INT_STATUS, (ADDRESS) reg_pc);    \
                 IMPORT_REGISTERS();                                      \
-                if (check_pending_interrupt(&CPU_INT_STATUS) & IK_RESET) \
+                if (interrupt_check_pending_interrupt(&CPU_INT_STATUS)   \
+                    & IK_RESET)                                          \
                     ik |= IK_RESET;                                      \
             }                                                            \
             if (ik & IK_RESET) {                                         \
-                ack_reset(&CPU_INT_STATUS);                              \
+                interrupt_ack_reset(&CPU_INT_STATUS);                    \
                 cpu_reset();                                             \
                 JUMP(LOAD_ADDR(0xfffc));                                 \
                 DMA_ON_RESET;                                            \
             }                                                            \
         }                                                                \
-        if (ik & (IK_MONITOR | IK_DMA)) {				 \
-            if (ik & IK_MONITOR) {					 \
-                caller_space = CALLER;					 \
-                if (mon_force_import(CALLER))				 \
-                   IMPORT_REGISTERS();					 \
-                if (mon_mask[CALLER])					 \
-                   EXPORT_REGISTERS();					 \
-                if (mon_mask[CALLER] & (MI_BREAK)) {			 \
-                   if (check_breakpoints(CALLER, (ADDRESS) reg_pc)) {	 \
-                      mon((ADDRESS) reg_pc);				 \
-                      IMPORT_REGISTERS();				 \
-                   }							 \
-                }							 \
-                if (mon_mask[CALLER] & (MI_STEP)) {			 \
-                   mon_check_icount((ADDRESS) reg_pc);		         \
-                   IMPORT_REGISTERS();					 \
-                }							 \
-                if (mon_mask[CALLER] & (MI_WATCH)) {			 \
-                   mon_check_watchpoints((ADDRESS) reg_pc);   		 \
-                   IMPORT_REGISTERS();					 \
-                }							 \
-            }								 \
-            if (ik & IK_DMA) {						 \
-                EXPORT_REGISTERS();					 \
-                DMA_FUNC;						 \
-                ack_dma(&CPU_INT_STATUS);				 \
-                IMPORT_REGISTERS();					 \
+        if (ik & (IK_MONITOR | IK_DMA)) {                                \
+            if (ik & IK_MONITOR) {                                       \
+                caller_space = CALLER;                                   \
+                if (mon_force_import(CALLER))                            \
+                   IMPORT_REGISTERS();                                   \
+                if (mon_mask[CALLER])                                    \
+                   EXPORT_REGISTERS();                                   \
+                if (mon_mask[CALLER] & (MI_BREAK)) {                     \
+                   if (check_breakpoints(CALLER, (ADDRESS) reg_pc)) {    \
+                      mon((ADDRESS) reg_pc);                             \
+                      IMPORT_REGISTERS();                                \
+                   }                                                     \
+                }                                                        \
+                if (mon_mask[CALLER] & (MI_STEP)) {                      \
+                   mon_check_icount((ADDRESS) reg_pc);                   \
+                   IMPORT_REGISTERS();                                   \
+                }                                                        \
+                if (mon_mask[CALLER] & (MI_WATCH)) {                     \
+                   mon_check_watchpoints((ADDRESS) reg_pc);              \
+                   IMPORT_REGISTERS();                                   \
+                }                                                        \
+            }                                                            \
+            if (ik & IK_DMA) {                                           \
+                EXPORT_REGISTERS();                                      \
+                DMA_FUNC;                                                \
+                interrupt_ack_dma(&CPU_INT_STATUS);                      \
+                IMPORT_REGISTERS();                                      \
                 JUMP(reg_pc);                                            \
-            }								 \
-        }								 \
+            }                                                            \
+        }                                                                \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -1461,7 +1463,7 @@
     {
         enum cpu_int pending_interrupt;
 
-        pending_interrupt = check_pending_interrupt(&CPU_INT_STATUS);
+        pending_interrupt = interrupt_check_pending_interrupt(&CPU_INT_STATUS);
         if (pending_interrupt != IK_NONE) {
             DO_INTERRUPT(pending_interrupt);
             while (CLK >= alarm_context_next_pending_clk(&ALARM_CONTEXT))

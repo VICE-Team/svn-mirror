@@ -300,12 +300,13 @@ static BYTE SZP[256] = {
                                                                              \
         if (ik & (IK_TRAP | IK_RESET)) {                                     \
             if (ik & IK_TRAP) {                                              \
-                do_trap(cpu_int_status, (ADDRESS) z80_reg_pc);               \
-                if (check_pending_interrupt(cpu_int_status) & IK_RESET)      \
+                interrupt_do_trap(cpu_int_status, (ADDRESS) z80_reg_pc);     \
+                if (interrupt_check_pending_interrupt(cpu_int_status)        \
+                                                      & IK_RESET)            \
                     ik |= IK_RESET;                                          \
             }                                                                \
             if (ik & IK_RESET) {                                             \
-                ack_reset(cpu_int_status);                                   \
+                interrupt_ack_reset(cpu_int_status);                         \
                 maincpu_reset();                                             \
             }                                                                \
         }                                                                    \
@@ -1838,7 +1839,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
         {
             enum cpu_int pending_interrupt;
 
-            pending_interrupt = check_pending_interrupt(cpu_int_status);
+            pending_interrupt = interrupt_check_pending_interrupt(cpu_int_status);
             if (pending_interrupt != IK_NONE) {
                 DO_INTERRUPT(pending_interrupt);
                 while (CLK >= alarm_context_next_pending_clk(cpu_alarm_context))
