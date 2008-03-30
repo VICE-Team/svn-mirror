@@ -27,30 +27,32 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
-#include "log.h"
 #include "screenshot.h"
 #include "types.h"
-#include "video.h"
+#include "utils.h"
 
 int bmp_save(screenshot_t *screenshot, const char *filename)
 {
-    unsigned int x, y;
-    PIXEL *line_start;
+    unsigned int line, x;
+    BYTE *data;
 
-    for (y = 0; y < screenshot->height; y++) {
+    data = (BYTE *)xmalloc(screenshot->width);
 
-        line_start = VIDEO_FRAME_BUFFER_LINE_START(VIDEO_FRAME_BUFFER_POINTER_FIXUP(screenshot->frame_buffer), y);
-        
-        printf("LINE %03i\n", y);
+    for (line = 0; line < screenshot->height; line++) {
+
+        printf("LINE %03i\n", line);
+
+        screenshot_line_data(screenshot, data, line, SCREENSHOT_MODE_PALETTE);
 
         for (x = 0; x < screenshot->width; x++) {
-
-            printf("%02x ", line_start[x]);
+            printf("%02x ", data[x]);
         }
         printf("\n");
     }
 
+    free(data);
     return 0;
 }
 

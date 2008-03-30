@@ -27,10 +27,16 @@
 #ifndef _SCREENSHOT_H
 #define _SCREENSHOT_H
 
+#include "types.h"
+
 struct video_frame_buffer_s;
+struct palette_s;
 
 typedef struct screenshot_s {
     struct video_frame_buffer_s *frame_buffer;
+    struct palette_s *palette;
+    PIXEL *pixel_table_sing;
+    PIXEL *color_map;
     unsigned int width;
     unsigned int height;
 } screenshot_t;
@@ -40,10 +46,18 @@ typedef struct screendrv_s {
     int (*save)(struct screenshot_s *, const char *);
 } screendrv_t;
 
+#define SCREENSHOT_MODE_PALETTE 0
+#define SCREENSHOT_MODE_RGB32   1
+
+/* Functions called by external emulator code.  */
 extern int screenshot_init(void);
-extern int screenshot_register(screendrv_t *drv);
 extern int screenshot_save(const char *drvname, const char *filename,
                            unsigned int window_number);
+
+/* Functions called by screenshot modules.  */
+extern int screenshot_register(screendrv_t *drv);
+extern void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
+                                 unsigned int line, unsigned int mode);
 
 /* Initialization prototypes */
 extern void screenshot_init_bmp(void);
