@@ -109,7 +109,8 @@ typedef struct vdrive_s {
     unsigned int num_tracks;
 
     /* FIXME: bam sizeof define */
-    BYTE bam[5*256];   /* The 1581 uses 3 secs as BAM - but the 8250 uses 5.  */    bufferinfo_t buffers[16];
+    BYTE bam[5*256];   /* The 1581 uses 3 secs as BAM - but the 8250 uses 5.  */
+    bufferinfo_t buffers[16];
 
     /* File information */
     BYTE Dir_buffer[256];  /* Current directory sector.  */

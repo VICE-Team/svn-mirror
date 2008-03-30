@@ -32,7 +32,7 @@
 #include <stdio.h>
 
 #ifdef __riscos
-#include "ui.h"
+#include "archdep.h"
 #else
 #ifdef __IBMC__
 #include <direct.h>

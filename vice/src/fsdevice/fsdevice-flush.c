@@ -36,6 +36,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #ifdef HAVE_ERRNO_H
@@ -58,6 +59,7 @@
 #include "charset.h"
 #include "fsdevice-flush.h"
 #include "fsdevice-resources.h"
+#include "fsdevice.h"
 #include "fsdevicetypes.h"
 #include "utils.h"
 #include "types.h"
@@ -77,32 +79,27 @@ static int fsdevice_flush_mr(vdrive_t *vdrive)
     return vdrive_command_memory_read(vdrive, addr, fs_cmdbuf[5]);
 }
 
-static int fsdevice_flush_cd(char *arg)
+static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
 {
     int er;
 
     er = IPE_OK;
-    if (chdir(arg)) {
+    if (chdir(fsdevice_get_path(vdrive->unit)) || chdir(arg)) {
         er = IPE_NOT_FOUND;
         if (errno == EPERM)
             er = IPE_PERMISSION;
+    } else { /* get full path and save */
+        arg = util_get_current_dir();
+        fsdevice_set_directory(arg, vdrive->unit);
+        free(arg);
     }
 
     return er;
 }
 
-static int fsdevice_flush_cdup(void)
+static int fsdevice_flush_cdup(vdrive_t* vdrive)
 {
-    int er;
-
-    er = IPE_OK;
-    if (chdir("..")) {
-        er = IPE_NOT_FOUND;
-        if (errno == EPERM)
-            er = IPE_PERMISSION;
-    }
-
-    return er;
+    return fsdevice_flush_cd(vdrive, "..");
 }
 
 static int fsdevice_flush_reset(void)
@@ -125,6 +122,27 @@ static int fsdevice_flush_mkdir(char *arg)
             er = IPE_NOT_FOUND;
     }
 
+    return er;
+}
+
+static int fsdevice_flush_partition(vdrive_t* vdrive, char* arg)
+{
+    char* comma;
+    int er;
+
+    if (arg == NULL || *arg == '\0')
+        er = IPE_SYNTAX; /* change to root partition not implemented */
+    else if ((comma = strchr(arg, ',')) == NULL)
+        er = fsdevice_flush_cd(vdrive, arg);
+    else { /* create partition: check syntax */
+        int i = 0;
+        *comma++ = '\0';
+        for (i=0; i<4 && *comma++; i++);
+        if (i==4 && *comma++ == ',' && *comma++ == 'c' && !*comma)
+            er = fsdevice_flush_mkdir(arg);
+        else
+            er = IPE_SYNTAX;
+    }
     return er;
 }
 
@@ -289,15 +307,17 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     if (!strncmp(fs_cmdbuf, "M-R", 3)) {
         er = fsdevice_flush_mr(vdrive);
     } else if (!strcmp(cmd, "cd")) {
-        er = fsdevice_flush_cd(arg);
+        er = fsdevice_flush_cd(vdrive, arg);
     } else if (!strcmp(fs_cmdbuf, "CD_")) {
-        er = fsdevice_flush_cdup();
-    } else if (!strcmp(cmd, "ui")) {
-        er = fsdevice_flush_reset();
+        er = fsdevice_flush_cdup(vdrive);
+    } else if (*cmd == '/') {
+        er = fsdevice_flush_partition(vdrive, arg);
     } else if (!strcmp(cmd, "md")) {
         er = fsdevice_flush_mkdir(arg);
     } else if (!strcmp(cmd, "rd")) {
         er = fsdevice_flush_remove(arg);
+    } else if (!strcmp(cmd, "ui")) {
+        er = fsdevice_flush_reset();
     } else if (*cmd == 's' && arg != NULL) {
         er = fsdevice_flush_scratch(vdrive, arg, realarg);
     } else if (*cmd == 'r' && arg != NULL) {

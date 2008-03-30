@@ -17,8 +17,8 @@ CFG=fsdevice - Win32 Debug
 !MESSAGE
 !MESSAGE Possible choices for configuration are:
 !MESSAGE
-!MESSAGE "fsdevice - Win32 Release" (basierend auf  "Win32 (x86) Static Library")
-!MESSAGE "fsdevice - Win32 Debug" (basierend auf  "Win32 (x86) Static Library")
+!MESSAGE "fsdevice - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "fsdevice - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE
 
 # Begin Project
@@ -82,11 +82,31 @@ LIB32=link.exe -lib
 # Name "fsdevice - Win32 Debug"
 # Begin Source File
 
+SOURCE="..\..\fsdevice\fsdevice-close.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\fsdevice\fsdevice-cmdline-options.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\fsdevice\fsdevice-flush.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\fsdevice\fsdevice-open.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\fsdevice\fsdevice-read.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\fsdevice\fsdevice-resources.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\fsdevice\fsdevice-write.c"
 # End Source File
 # Begin Source File
 

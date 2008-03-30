@@ -38,6 +38,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #include "archdep.h"
 #include "charset.h"
 #include "fsdevice-read.h"
@@ -52,7 +56,7 @@
 int fsdevice_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 {
     int i, l, f;
-    unsigned short blocks;
+    unsigned int blocks;
     struct dirent *dirp;        /* defined in /usr/include/sys/dirent.h */
 #ifdef __riscos
     int objType;
@@ -173,6 +177,9 @@ int fsdevice_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
                     else
                         blocks = 0;   /* this file can't be opened */
 
+                    if (blocks > 0xffff)
+                        blocks = 0xffff; /* limit file size to 16 bits */
+
                     SET_LO_HI(p, blocks);
 
                     if (blocks < 10)
@@ -196,7 +203,7 @@ int fsdevice_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
                     }
 
                     *p++ = '"';
-                    for (; i < 17; i++)
+                    for (; i < 16; i++)
                         *p++ = ' ';
 
 #ifdef __riscos
@@ -205,10 +212,15 @@ int fsdevice_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
                     if (S_ISDIR(statbuf.st_mode))
 #endif
                     {
+                        *p++ = ' '; /* normal file */
                         *p++ = 'D';
                         *p++ = 'I';
                         *p++ = 'R';
                     } else {
+                        if (blocks)
+                            *p++ = ' '; /* normal file */
+                        else
+                            *p++ = '*'; /* splat file */
                         switch(fs_info[secondary].type) {
                           case FT_DEL:
                             *p++ = 'D';
@@ -237,6 +249,9 @@ int fsdevice_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
                             break;
                         }
                     }
+
+                    if (access(buf, W_OK))
+                        *p++ = '<'; /* read-only file */
 
                     *p = '\0';        /* to allow strlen */
 
