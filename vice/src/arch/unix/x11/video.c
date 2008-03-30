@@ -123,10 +123,12 @@ static int set_fourcc(resource_value_t v, void *param)
 }
 
 static double aspect_ratio;
+static const char *aspect_ratio_s;
 static int set_aspect_ratio(resource_value_t v, void *param)
 {
     if (v) {
         char* endptr;
+        aspect_ratio_s = (char*)v;
         aspect_ratio = strtod((char*)v, &endptr);
 	if ((char*)v == endptr) {
 	    aspect_ratio = 1.0;
@@ -158,7 +160,7 @@ static const resource_t resources[] = {
     { "FOURCC", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&fourcc, set_fourcc, NULL },
     { "AspectRatio", RES_STRING, (resource_value_t)"1.0",
-      (resource_value_t *)&aspect_ratio, set_aspect_ratio, NULL },
+      (resource_value_t *)&aspect_ratio_s, set_aspect_ratio, NULL },
 #endif
     { NULL }
 };

@@ -57,6 +57,7 @@
 static char *(*read_content_func)(const char *);
 static int *autostart_result;
 static char* fontfile;
+static int font_loaded;
 
 static struct { char *name; char *pattern; } uilib_filefilter[] = {
     { "All files (*.*)", "*.*" },
@@ -177,7 +178,7 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
       case WM_INITDIALOG:
         SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), "&Attach");
 
-        if (AddFontResource(fontfile))
+        if (font_loaded)
             hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, "cbm-directory-charset/ck!");
         else
@@ -315,7 +316,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
         SendMessage(image_type_list, CB_SETCURSEL, (WPARAM)0, 0);
 
         /* Try to use the cbm font */
-        if (AddFontResource(fontfile))
+        if (font_loaded)
             hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, "cbm-directory-charset/ck!");
         else
@@ -564,9 +565,11 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     if (ui_file_selector_initialfile[style] != NULL)
         strcpy(name, ui_file_selector_initialfile[style]);
 
-    if (fontfile == NULL)
+    if (fontfile == NULL) {
         fontfile = util_concat(archdep_boot_path(), 
                                "\\fonts\\cbm-directory-charset.fon", NULL);
+        font_loaded = AddFontResource(fontfile);
+    }
 
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);

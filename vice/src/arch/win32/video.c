@@ -261,7 +261,7 @@ void init_palette(const palette_t *p, PALETTEENTRY *ape)
     unsigned int i;
 
     /* Default to a 332 palette.  */
-    for (i = 0; i <2 56; i++) {
+    for (i = 0; i < 256; i++) {
         ape[i].peRed   = (BYTE)(((i >> 5) & 0x07) * 255 / 7);
         ape[i].peGreen = (BYTE)(((i >> 2) & 0x07) * 255 / 7);
         ape[i].peBlue  = (BYTE)(((i >> 0) & 0x03) * 255 / 3);

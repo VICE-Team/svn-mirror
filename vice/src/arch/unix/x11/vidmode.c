@@ -95,7 +95,7 @@ int vidmode_init(void)
         }
     }
 
-    if (vm_mode_count == 0)
+    if (vm_index == 0)
         return 0;
 
     vm_available = 1;
@@ -113,6 +113,9 @@ static video_canvas_t *active_canvas;
 int vidmode_enable(struct video_canvas_s *canvas, int enable)
 {
     Display *vm_display;
+
+    if(vm_available == 0)
+        return 0;
 
     vm_display = x11ui_get_display_ptr();
 

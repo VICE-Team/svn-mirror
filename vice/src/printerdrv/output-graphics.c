@@ -59,6 +59,8 @@ static unsigned int current_prnr;
 
 static int ppb;
 
+static char filename[]="prngfx00";
+
 static int set_ppb(resource_value_t v, void *param)
 {
     ppb = (int)v;
@@ -151,7 +153,7 @@ static int output_graphics_open(unsigned int prnr,
     output_gfx[prnr].screenshot.convert_line = output_graphics_line_data;
 
     output_gfx[prnr].gfxoutputdrv->open(&output_gfx[prnr].screenshot,
-                                        "prngfx");
+                                        filename);
 
     return 0;
 }
@@ -183,6 +185,18 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
                output_gfx[prnr].screenshot.width);
         output_gfx[prnr].line_pos = 0;
         output_gfx[prnr].line_no++;
+        if (output_gfx[prnr].line_no == output_gfx[prnr].screenshot.height) {
+            output_gfx[prnr].gfxoutputdrv->close(&output_gfx[prnr].screenshot);
+            output_gfx[prnr].line_pos = 0;
+            output_gfx[prnr].line_no = 0;
+            filename[7]++;
+            if (filename[7] > '9') {
+                filename[7] = 0;
+                filename[6]++;
+            }
+            output_gfx[prnr].gfxoutputdrv->open(&output_gfx[prnr].screenshot,
+                                                filename);
+        }
     } else {
         output_gfx[prnr].line[output_gfx[prnr].line_pos] = b;
         if (output_gfx[prnr].line_pos < output_gfx[prnr].screenshot.width - 1)

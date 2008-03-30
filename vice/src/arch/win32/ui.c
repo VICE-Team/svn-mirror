@@ -170,6 +170,7 @@ struct {
     int fullscreenenabled;
     int save_resources_on_exit;
     int confirm_on_exit;
+    int single_cpu;
     char *monitor_dimensions;
     char *initialdir[NUM_OF_FILE_SELECTOR_STYLES];
 } ui_resources;
@@ -219,6 +220,27 @@ static int set_save_resources_on_exit(resource_value_t v, void *param)
 static int set_confirm_on_exit(resource_value_t v, void *param)
 {
     ui_resources.confirm_on_exit = (int)v;
+    return 0;
+}
+
+static int set_single_cpu(resource_value_t v, void *param)
+{
+DWORD   process_affinity;
+DWORD   system_affinity;
+
+    ui_resources.single_cpu = (int)v;
+    if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity, &system_affinity)) {
+        //  Check if multi CPU system or not
+        if ((system_affinity & (system_affinity - 1))) {
+            if (ui_resources.single_cpu == 1) {
+                //  Set it to first CPU
+                SetThreadAffinityMask(GetCurrentThread(),system_affinity ^ (system_affinity & (system_affinity - 1)));
+            } else {
+                //  Set it to all CPU
+                SetThreadAffinityMask(GetCurrentThread(),system_affinity);
+            }
+        }
+    }
     return 0;
 }
 
@@ -289,6 +311,9 @@ static const resource_t resources[] = {
     { "InitialSnapshotDir", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&ui_resources.initialdir[5],
       set_initial_dir, (void *)5 },
+    { "SingleCPU", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&ui_resources.single_cpu,
+      set_single_cpu, NULL },
     { NULL }
 };
 
@@ -314,6 +339,12 @@ static const cmdline_option_t cmdline_options[] = {
     { "+confirmexit", SET_RESOURCE, 0, NULL, NULL,
       "ConfirmOnExit", (resource_value_t)1,
       NULL, "Never confirm quiting VICE" },
+    { "-singlecpu", SET_RESOURCE, 0, NULL, NULL,
+      "SingleCPU", (resource_value_t)0,
+      NULL, "Use all CPU on SMP systems" },
+    { "+singlecpu", SET_RESOURCE, 0, NULL, NULL,
+      "SingleCPU", (resource_value_t)1,
+      NULL, "Use only first CPU on SMP systems" },
     { NULL }
 };
 
