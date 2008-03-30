@@ -770,6 +770,30 @@ int drive_check_type(unsigned int drive_type, unsigned int dnr)
     return 1;
 }
 
+int drive_check_extend_policy(unsigned int drive_type)
+{
+    if ((drive_type == DRIVE_TYPE_1541) ||
+        (drive_type == DRIVE_TYPE_1541II) ||
+        (drive_type == DRIVE_TYPE_1551) ||
+        (drive_type == DRIVE_TYPE_1571) ||
+        (drive_type == DRIVE_TYPE_2031)) return 1;
+    return 0;
+}
+
+int drive_check_idle_method(unsigned int drive_type)
+{
+    if ((drive_type == DRIVE_TYPE_1541) ||
+        (drive_type == DRIVE_TYPE_1541II)) return 1;
+    return 0;
+}
+
+int drive_check_parallel_cable(unsigned int drive_type)
+{
+    if ((drive_type == DRIVE_TYPE_1541) ||
+        (drive_type == DRIVE_TYPE_1541II)) return 1;
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Update the status bar in the UI.  */

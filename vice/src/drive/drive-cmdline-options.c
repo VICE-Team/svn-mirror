@@ -47,6 +47,12 @@ static const cmdline_option_t cmdline_options[] = {
     { "-drive9type", SET_RESOURCE, 1, NULL, NULL, "Drive9Type",
       (void *)DRIVE_TYPE_NONE, "<type>",
       "Set drive type (0: no drive)" },
+    { "-drive8extend", SET_RESOURCE, 1, NULL, NULL, "Drive8ExtendImagePolicy",
+      (void *)DRIVE_EXTEND_NEVER, "<method>",
+      "Set drive 8 40 track extension policy (0: never, 1: ask, 2: on access)"},
+    { "-drive9extend", SET_RESOURCE, 1, NULL, NULL, "Drive9ExtendImagePolicy",
+      (void *)DRIVE_EXTEND_NEVER, "<method>",
+      "Set drive 9 40 track extension policy (0: never, 1: ask, 2: on access)"},
     { NULL }
 };
 

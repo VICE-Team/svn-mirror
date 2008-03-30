@@ -35,8 +35,7 @@
 #include "res.h"
 #include "resources.h"
 #include "ui.h"
-/* FIXME! */
-#include "uidrivec64c128vic20.h"
+#include "uidriveplus4.h"
 #include "uilib.h"
 #include "uivideo.h"
 #include "winmain.h"
@@ -64,9 +63,8 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
         break;
-      /* FIXME! */
       case IDM_DRIVE_SETTINGS:
-        uidrivec64c128vic20_settings_dialog(hwnd);
+        uidriveplus4_settings_dialog(hwnd);
         break;
     }
 }

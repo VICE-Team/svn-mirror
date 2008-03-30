@@ -46,6 +46,7 @@ extern "C" {
 #include "log.h"
 #include "mouse.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
@@ -248,7 +249,7 @@ ViceWindow::~ViceWindow() {
 	delete savepanel;
 	delete locker;
 	if (fclip_list != NULL)
-		free(fclip_list);
+		lib_free(fclip_list);
 }
 
 
@@ -328,12 +329,12 @@ void ViceWindow::DirectConnected(direct_buffer_info *info)
 			fconnected = true;
 		case B_DIRECT_MODIFY:
 			if (fclip_list) {
-				free(fclip_list);
+				lib_free(fclip_list);
 				fclip_list = NULL;
 			}
 			fcliplist_count = info->clip_list_count;
 			fclip_list = (clipping_rect *)
-				malloc(fcliplist_count * sizeof(clipping_rect));
+				lib_malloc(fcliplist_count * sizeof(clipping_rect));
 			if (fclip_list)
 				memcpy(fclip_list, info->clip_list,
 					fcliplist_count * sizeof(clipping_rect));

@@ -40,6 +40,7 @@ extern "C" {
 #include "constants.h"
 #include "machine.h"
 #include "resources.h"
+#include "sid.h"
 #include "ui.h"
 #include "ui_sid.h"
 #include "utils.h"
@@ -208,11 +209,11 @@ SidWindow::SidWindow()
 		scrollview->Hide();
 	
 	/* ReSID */
-    resources_get_value("SidUseResid",(resource_value_t *)&res_val);
+    resources_get_value("SidEngine",(resource_value_t *)&res_val);
 	checkbox = new BCheckBox(BRect(10, 90, r.Width()/2-20, 105),
 		"Enable reSID", "Enable reSID",
 		new BMessage(MESSAGE_SID_RESID));
-	checkbox->SetValue(res_val);
+	checkbox->SetValue(res_val == SID_ENGINE_RESID);
 	background->AddChild(checkbox);
 
 	/* reSID settings */
@@ -246,8 +247,8 @@ SidWindow::SidWindow()
 	passbandslider->SetLimitLabels("0", "90");
 	residbox->AddChild(passbandslider);
 
-    resources_get_value("SidUseResid",(resource_value_t *)&res_val);
-	if (!res_val) residbox->Hide();
+    resources_get_value("SidEngine",(resource_value_t *)&res_val);
+	if (res_val != SID_ENGINE_RESID) residbox->Hide();
 
 	Show();
 }
@@ -280,7 +281,7 @@ void SidWindow::MessageReceived(BMessage *msg) {
 			CreateAndGetAddressList(addresslistview, 1);
 			break;
 		case MESSAGE_SID_RESID:
-			resources_toggle("SidUseResid", &dummy);
+			resources_toggle("SidEngine", &dummy);
 			dummy?residbox->Show():residbox->Hide();
 			break;
 		case MESSAGE_SID_RESIDSAMPLING:

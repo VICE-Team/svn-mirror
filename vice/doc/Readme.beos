@@ -23,17 +23,14 @@ binaries, the following hints may help:
   http://www.be.com  
 - Expand the source directory vice-1.*
 - Start a terminal and enter the source directory
-- ./configure --host=i586-beos-gnu
+- ./configure
   configures for building BeOS binaries.
 - make
   compiles all the stuff and creates the executables in the src subdirectory.
 - The make install doesn't work right now, so just copy the executables
-  x128,x64,xpet,xcbm2,xvic,petcat and c1541 to the data directory and
+  x128,x64,xpet,xcbm2,xvic,xplus4,petcat and c1541 to the data directory and
   launch them from there.
 
-
-This is a very early release of VICE's port for BeOS, so
-please remind the following, if you discover problems:
 
 BUGS (only the known;)
 -------------------------------------

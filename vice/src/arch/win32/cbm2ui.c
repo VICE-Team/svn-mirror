@@ -36,8 +36,7 @@
 #include "sid.h"
 #include "ui.h"
 #include "uicbm2set.h"
-/* FIXME! */
-#include "uidrivec64c128vic20.h"
+#include "uidrivepetcbm2.h"
 #include "uivideo.h"
 #include "winmain.h"
 
@@ -62,9 +61,8 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_RGB);
         break;
-      /* FIXME! */
       case IDM_DRIVE_SETTINGS:
-        uidrivec64c128vic20_settings_dialog(hwnd);
+        uidrivepetcbm2_settings_dialog(hwnd);
         break;
     }
 }

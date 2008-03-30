@@ -94,15 +94,15 @@ SOURCE=.\c128ui.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\cbm2ui.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\c64ui.c
 # End Source File
 # Begin Source File
 
 SOURCE=.\catweaselmkiii.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\cbm2ui.c
 # End Source File
 # Begin Source File
 
@@ -175,6 +175,14 @@ SOURCE=.\uidatasette.c
 # Begin Source File
 
 SOURCE=.\uidrivec64c128vic20.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uidrivepetcbm2.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uidriveplus4.c
 # End Source File
 # Begin Source File
 

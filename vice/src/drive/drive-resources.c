@@ -76,6 +76,19 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_drive_extend_image_policy(resource_value_t v, void *param)
+{
+    switch ((int)v) {
+      case DRIVE_EXTEND_NEVER:
+      case DRIVE_EXTEND_ASK:
+      case DRIVE_EXTEND_ACCESS:
+        drive[(int)param].extend_image_policy = (int)v;
+        return 0;
+      default:
+        return -1;
+    }
+}
+
 int drive0_resources_type(resource_value_t v, void *param)
 {
     unsigned int type;
@@ -215,6 +228,14 @@ static const resource_t resources[] = {
     { "DriveTrueEmulation", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&drive_true_emulation,
       set_drive_true_emulation, NULL },
+    { "Drive8ExtendImagePolicy", RES_INTEGER,
+      (resource_value_t)DRIVE_EXTEND_NEVER, (resource_value_t *)
+      &(drive[0].extend_image_policy), set_drive_extend_image_policy,
+      (void *)0 },
+    { "Drive9ExtendImagePolicy", RES_INTEGER,
+      (resource_value_t)DRIVE_EXTEND_NEVER, (resource_value_t *)
+      &(drive[1].extend_image_policy), set_drive_extend_image_policy,
+      (void *)1 },
     { NULL }
 };
 

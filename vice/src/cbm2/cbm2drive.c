@@ -49,7 +49,7 @@ static const resource_t resources[] = {
 
 int machine_drive_resources_init(void)
 {
-    return ieee_drive_resources_init();
+    return resources_register(resources) | ieee_drive_resources_init();
 }
 
 void machine_drive_resources_shutdown(void)

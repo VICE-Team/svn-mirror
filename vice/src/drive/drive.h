@@ -320,6 +320,9 @@ extern void drive1_riot_set_atn(int);
 extern int drive_match_bus(unsigned int drive_type, unsigned int drv,
                            int bus_map);
 extern int drive_check_type(unsigned int drive_type, unsigned int dnr);
+extern int drive_check_extend_policy(unsigned int drive_type);
+extern int drive_check_idle_method(unsigned int drive_type);
+extern int drive_check_parallel_cable(unsigned int drive_type);
 
 extern int drive_num_leds(unsigned int dnr);
 

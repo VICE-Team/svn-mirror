@@ -51,19 +51,6 @@ static int set_drive_parallel_cable_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_drive_extend_image_policy(resource_value_t v, void *param)
-{
-    switch ((int)v) {
-      case DRIVE_EXTEND_NEVER:
-      case DRIVE_EXTEND_ASK:
-      case DRIVE_EXTEND_ACCESS:
-        drive[(int)param].extend_image_policy = (int)v;
-        return 0;
-      default:
-        return -1;
-    }
-}
-
 static int set_drive_idling_method(resource_value_t v, void *param)
 {
     unsigned int dnr;
@@ -180,14 +167,6 @@ static const resource_t resources[] = {
     { "Drive9ParallelCable", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&(drive[1].parallel_cable_enabled),
        set_drive_parallel_cable_enabled, (void *)1 },
-    { "Drive8ExtendImagePolicy", RES_INTEGER,
-      (resource_value_t)DRIVE_EXTEND_NEVER, (resource_value_t *)
-      &(drive[0].extend_image_policy), set_drive_extend_image_policy,
-      (void *)0 },
-    { "Drive9ExtendImagePolicy", RES_INTEGER,
-      (resource_value_t)DRIVE_EXTEND_NEVER, (resource_value_t *)
-      &(drive[1].extend_image_policy), set_drive_extend_image_policy,
-      (void *)1 },
     { "Drive8IdleMethod", RES_INTEGER, (resource_value_t)DRIVE_IDLE_TRAP_IDLE,
       (resource_value_t *)&(drive[0].idling_method),
       set_drive_idling_method, (void *)0 },

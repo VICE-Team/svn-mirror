@@ -102,6 +102,10 @@ SOURCE="..\..\ciatimer.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\cbmimage.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\clkguard.c"
 # End Source File
 # Begin Source File
@@ -143,10 +147,6 @@ SOURCE="..\..\fliplist.c"
 # Begin Source File
 
 SOURCE="..\..\gcr.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\image.c"
 # End Source File
 # Begin Source File
 

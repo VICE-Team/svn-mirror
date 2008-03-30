@@ -36,9 +36,9 @@
 #include <commctrl.h>
 
 #include "archdep.h"
+#include "cbmimage.h"
 #include "diskimage.h"
 #include "fullscrn.h"
-#include "image.h"
 #include "imagecontents.h"
 #include "lib.h"
 #include "res.h"
@@ -245,7 +245,7 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                     if (ret != IDYES)
                         return -1;
                 }
-                if (image_create_image(filename, DISK_IMAGE_TYPE_TAP)) {
+                if (cbmimage_create_image(filename, DISK_IMAGE_TYPE_TAP)) {
                     ui_error("Cannot create image");
                     return -1;
                 }

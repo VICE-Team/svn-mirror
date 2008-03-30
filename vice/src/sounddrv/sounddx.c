@@ -210,6 +210,32 @@ PCMWAVEFORMAT pcmwf;
 DSCAPS  capabilities;
 WAVEFORMATEX    wfex;
 
+static void dx_clear(void)
+{
+LPVOID  lpvPtr1;
+DWORD   dwBytes1;
+LPVOID  lpvPtr2;
+DWORD   dwBytes2;
+HRESULT result;
+
+    result = IDirectSoundBuffer_Lock(buffer, 0, buffer_size,
+                                     &lpvPtr1, &dwBytes1, &lpvPtr2,
+                                     &dwBytes2, 0);
+    if (result == DSERR_BUFFERLOST) {
+        IDirectSoundBuffer_Restore(buffer);
+    } else {
+        if (is16bit) {
+            memset(lpvPtr1, 0, dwBytes1);
+            if (lpvPtr2) memset(lpvPtr2, 0, dwBytes2);
+        } else {
+            memset(lpvPtr1, 0x80, dwBytes1);
+            if (lpvPtr2) memset(lpvPtr2, 0x80, dwBytes2);
+        }
+        result = IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1,
+                                           lpvPtr2, dwBytes2);
+    }
+}
+
 static int dx_init(const char *param, int *speed, int *fragsize, int *fragnr,
                    int *channels)
 {
@@ -318,6 +344,7 @@ HRESULT result;
 
     buffer_offset= *fragsize * (is16bit ? sizeof(SWORD) : 1) * (*fragnr - 1)
                    * *channels;
+    dx_clear();
     /* Let's go...  */
     result = IDirectSoundBuffer_Play(buffer, 0, 0, DSBPLAY_LOOPING);
     if (result == DSERR_BUFFERLOST) {
