@@ -81,7 +81,7 @@
 
 /* ------------------------------------------------------------------------- */
 /* Which OS is using the common keyboard routines?  */
-#if !defined(__MSDOS__) && !defined(WIN32) && !defined(__riscos) && !defined(__OS2__) && !defined(__BEOS__)
+#if !defined(WIN32) && !defined(__riscos) && !defined(__OS2__) && !defined(__BEOS__)
 #define COMMON_KBD
 #endif
 
