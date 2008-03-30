@@ -41,6 +41,8 @@
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
+#include <limits.h>
 #include <ctype.h>
 #include <string.h>
 #include <errno.h>
@@ -854,7 +856,10 @@ static int create_cmd(int nargs, char **args)
     DiskFormats *format;
     char tmp[256];
     file_desc_t fsfd;
-    int len, blk = 0, errblk = 0;
+    int len, blk, errblk;
+
+    blk = 0;
+    errblk = 0;
 
     /* Open image or create a new one.  If the file exists, it must have
        valid header.  */
