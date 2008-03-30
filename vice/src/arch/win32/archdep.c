@@ -72,6 +72,9 @@ int archdep_init(int *argc, char **argv)
 {
     _fmode = O_BINARY;
 
+    _setmode(_fileno(stdin), O_BINARY);
+    _setmode(_fileno(stdout), O_BINARY);
+
     argv0 = lib_stralloc(argv[0]);
 
     orig_workdir = getcwd(NULL, GET_PATH_MAX);
