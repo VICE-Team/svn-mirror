@@ -127,102 +127,56 @@ static int set_use_vicii(resource_value_t v, void *param)
 
 static int set_chargen_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (chargen_name != NULL && name != NULL
-        && strcmp(name, chargen_name) == 0)
+    if (util_string_set(&chargen_name, (const char *)v))
         return 0;
 
-    util_string_set(&chargen_name, name);
-
     return mem_load_chargen(chargen_name);
-    /* only does something after mem_load() */
 }
 
 static int set_kernal_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (kernal_rom_name != NULL && name != NULL
-        && strcmp(name, kernal_rom_name) == 0)
+    if (util_string_set(&kernal_rom_name, (const char *)v))
         return 0;
 
-    util_string_set(&kernal_rom_name, name);
-
     return mem_load_kernal(kernal_rom_name);
-    /* only does something after mem_load() */
 }
 
 static int set_basic_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (basic_rom_name != NULL
-        && name != NULL
-        && strcmp(name, basic_rom_name) == 0)
+    if (util_string_set(&basic_rom_name, (const char *)v))
         return 0;
 
-    util_string_set(&basic_rom_name, name);
-
     return mem_load_basic(basic_rom_name);
-    /* only does something after mem_load() */
 }
 
 static int set_cart1_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (cart_1_name != NULL
-        && name != NULL
-        && strcmp(name, cart_1_name) == 0)
+    if (util_string_set(&cart_1_name, (const char *)v))
         return 0;
 
-    util_string_set(&cart_1_name, name);
-
     return mem_load_cart_1(cart_1_name);
-    /* only does something after mem_load() */
 }
 
 static int set_cart2_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (cart_2_name != NULL
-        && name != NULL
-        && strcmp(name, cart_2_name) == 0)
+    if (util_string_set(&cart_2_name, (const char *)v))
         return 0;
 
-    util_string_set(&cart_2_name, name);
-
     return mem_load_cart_2(cart_2_name);
-    /* only does something after mem_load() */
 }
 
 static int set_cart4_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (cart_4_name != NULL
-        && name != NULL
-        && strcmp(name, cart_4_name) == 0)
+    if (util_string_set(&cart_4_name, (const char *)v))
         return 0;
 
-    util_string_set(&cart_4_name, name);
-
     return mem_load_cart_4(cart_4_name);
-    /* only does something after mem_load() */
 }
 
 static int set_cart6_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (cart_6_name != NULL
-        && name != NULL
-        && strcmp(name, cart_6_name) == 0)
+    if (util_string_set(&cart_6_name, (const char *)v))
         return 0;
-
-    util_string_set(&cart_6_name, name);
 
     return mem_load_cart_6(cart_6_name);
     /* only does something after mem_load() */

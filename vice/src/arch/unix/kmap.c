@@ -26,7 +26,7 @@
 
 /*
  * This file is the same for C128, VIC20, and C64
- * (maybe the C128 can have DIN (german) keyboards someday? - sure, 
+ * (maybe the C128 can have DIN (german) keyboards someday? - sure,
  * see petkmap.c)
  */
 
@@ -51,12 +51,12 @@
 /* array of resource names for keyboard - for kbd.c
  * by convention even indexes are symbol mappings, odd are positional */
 static const char *my_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
-	"KeymapSymFile", "KeymapPosFile"
+        "KeymapSymFile", "KeymapPosFile"
 };
 
 /* name of keymap file for symbolic and positional mappings */
 static char *keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
-	NULL, NULL
+        NULL, NULL
 };
 
 static int set_keymap_file(int myindex, const char *name)
@@ -64,41 +64,38 @@ static int set_keymap_file(int myindex, const char *name)
     int kindex;
 
     if (myindex >= NUM_KEYBOARD_MAPPINGS) {
-	return -1;
+        return -1;
     }
 
-    if (keymap_file_list[myindex] != NULL && name != NULL
-        && strcmp(name, keymap_file_list[myindex]) == 0)
+    if (resources_get_value("KeymapIndex", (resource_value_t *)&kindex) < 0)
+        return -1;
+
+    if (util_string_set(&keymap_file_list[myindex], name))
         return 0;
 
-    if(resources_get_value("KeymapIndex", (resource_value_t*) &kindex) < 0)
-	return -1;
-
-    util_string_set(&keymap_file_list[myindex], name);
-
     /* reset kindex -> reload keymap file if this keymap is active */
-    if(kindex == myindex) {
-      resources_set_value("KeymapIndex", (resource_value_t) kindex);
+    if (kindex == myindex) {
+        resources_set_value("KeymapIndex", (resource_value_t)kindex);
     }
     return 0;
 }
 
 static int set_keymap_sym_file(resource_value_t v, void *param)
 {
-    return set_keymap_file(0, (const char *) v);
+    return set_keymap_file(0, (const char *)v);
 }
 
 static int set_keymap_pos_file(resource_value_t v, void *param)
 {
-    return set_keymap_file(1, (const char *) v);
+    return set_keymap_file(1, (const char *)v);
 }
 
 static resource_t resources[] = {
-    { "KeymapSymFile", RES_STRING, (resource_value_t) "default.vkm",
-      (resource_value_t *) &keymap_file_list[0],
+    { "KeymapSymFile", RES_STRING, (resource_value_t)"default.vkm",
+      (resource_value_t *)&keymap_file_list[0],
       set_keymap_sym_file, NULL },
-    { "KeymapPosFile", RES_STRING, (resource_value_t) "position.vkm",
-      (resource_value_t *) &keymap_file_list[1],
+    { "KeymapPosFile", RES_STRING, (resource_value_t)"position.vkm",
+      (resource_value_t *)&keymap_file_list[1],
       set_keymap_pos_file, NULL },
     { NULL }
 };
@@ -117,7 +114,7 @@ int kbd_init_resources(void)
 static cmdline_option_t cmdline_options[] = {
     { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
       "<name>", N_("Specify name of symbolic keymap file") },
-     { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
+    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
       "<name>", N_("Specify name of positional keymap file") },
     { NULL }
 };
@@ -128,3 +125,4 @@ int kbd_init_cmdline_options(void)
     cmdline_register_options(cmdline_options);
     return do_kbd_init_cmdline_options();
 }
+
