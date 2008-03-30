@@ -3040,7 +3040,7 @@ void ui_toggle_sid_emulation(void)
 static void ui_redraw_window(int *b)
 {
   int more;
-  struct canvas_s *canvas;
+  struct video_canvas_s *canvas;
 
   if ((canvas = canvas_for_handle(b[RedrawB_Handle])) != NULL)
   {
@@ -3140,7 +3140,7 @@ static void ui_close_window(int *b)
 static void ui_set_emu_window_size(RO_Window *win)
 {
   int dx, dy;
-  struct canvas_s *canvas;
+  struct video_canvas_s *canvas;
 
   UseEigen = (ScreenMode.eigx < ScreenMode.eigy) ? ScreenMode.eigx : ScreenMode.eigy;
 
@@ -3288,7 +3288,7 @@ static void ui_mouse_click_pane(int *b)
       case Icon_Pane_Toggle:
         {
           RO_Window *win;
-          struct canvas_s *canvas;
+          struct video_canvas_s *canvas;
           int block[WindowB_WFlags+1];
           int dx, dy;
 
@@ -3371,7 +3371,7 @@ static void ui_mouse_click_vsid(int *b)
 
 static void ui_mouse_click_canvas(int *b)
 {
-  struct canvas_s *canvas;
+  struct video_canvas_s *canvas;
 
   canvas = canvas_for_handle(b[MouseB_Window]);
 
@@ -4740,7 +4740,7 @@ void ui_trigger_snapshot_load(void)
 
 static int ui_make_screenshot(const char *name)
 {
-  struct canvas_s *canvas = canvas_for_handle(LastHandle);
+  struct video_canvas_s *canvas = canvas_for_handle(LastHandle);
   if ((canvas != NULL) && (screenshot_canvas_save("Sprite", name, canvas) == 0))
   {
     SetFileType(name, FileType_Sprite);
@@ -4876,7 +4876,7 @@ static void ui_user_msg_mode_change(int *b)
 
 static void ui_user_msg_data_load(int *b)
 {
-  struct canvas_s *canvas;
+  struct video_canvas_s *canvas;
   int i;
   int action=0;
   char *name = ((char*)b)+44;
@@ -5089,7 +5089,7 @@ static void ui_user_msg_data_load(int *b)
 
 static void ui_user_msg_data_save(int *b)
 {
-  struct canvas_s *canvas;
+  struct video_canvas_s *canvas;
   int action=0;
   char *name = ((char*)b)+44;
 
