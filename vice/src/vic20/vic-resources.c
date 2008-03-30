@@ -49,6 +49,7 @@ int vic_resources_init(void)
     video_chip_cap.dscan_allowed = ARCHDEP_VIC_DSCAN;
     video_chip_cap.scale2x_allowed = ARCHDEP_VIC_DSIZE;
     video_chip_cap.internal_palette_allowed = 0;
+    video_chip_cap.external_palette_name = "default";
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
     video_chip_cap.single_mode.rmode = VIDEO_RENDER_PAL_1X1;

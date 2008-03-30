@@ -41,20 +41,8 @@
 video_resources_t video_resources =
 {
     1000, 1100, 1100, 880,
-    0, NULL, 0, 0, 0
+    0, 0, 0
 };
-
-static int set_ext_palette(resource_value_t v, void *param)
-{
-    video_resources.ext_palette = (int)v;
-    return video_color_update_palette();
-}
-
-static int set_palette_file_name(resource_value_t v, void *param)
-{
-    util_string_set(&video_resources.palette_file_name, (char *)v);
-    return video_color_update_palette();
-}
 
 int video_resources_init(void)
 {
@@ -80,6 +68,8 @@ struct video_resource_chip_s {
     int fullscreen_double_size_enabled;
     int fullscreen_double_scan_enabled;
     int fullscreen_mode[FULLSCREEN_MAXDEV];
+    int external_palette_enabled;
+    char *external_palette_name;
 };
 typedef struct video_resource_chip_s video_resource_chip_t;
 
@@ -326,16 +316,46 @@ static resource_t resources_chip_fullscreen_mode[] =
     { NULL }
 };
 
+static int set_ext_palette(resource_value_t v, void *param)
+{
+    video_resource_chip_t *video_resource_chip;
+    video_chip_cap_t *video_chip_cap;
+    video_canvas_t *canvas;
+
+    video_resource_chip = (video_resource_chip_t *)param;
+    video_chip_cap = video_resource_chip->video_chip_cap;
+    canvas = *(video_resource_chip->canvas);
+
+    video_resource_chip->external_palette_enabled = (int)v;
+    canvas->videoconfig->external_palette = (unsigned int)v;
+
+    return video_color_update_palette(canvas);
+}
+
+static int set_palette_file_name(resource_value_t v, void *param)
+{
+    video_resource_chip_t *video_resource_chip;
+    video_canvas_t *canvas;
+
+    video_resource_chip = (video_resource_chip_t *)param;
+    canvas = *(video_resource_chip->canvas);
+
+    util_string_set(&(video_resource_chip->external_palette_name), (char *)v);
+    canvas->videoconfig->external_palette_name
+        = video_resource_chip->external_palette_name;
+
+    return video_color_update_palette(canvas);
+}
+
 static const char *vname_chip_palette[] = { "PaletteFile", "ExternalPalette",
                                             NULL };
 
 static resource_t resources_chip_palette[] =
 {
-    { NULL, RES_STRING, (resource_value_t)"default",
-      (void *)&video_resources.palette_file_name,
+    { NULL, RES_STRING, NULL, NULL,
       set_palette_file_name, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)0,
-      (void *)&video_resources.ext_palette, set_ext_palette, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
+      set_ext_palette, NULL },
     { NULL }
 };
 
@@ -448,14 +468,22 @@ int video_resources_chip_init(const char *chipname,
 
     resources_chip_palette[0].name
         = util_concat(chipname, vname_chip_palette[0], NULL);
-    resources_chip_scan[0].param = (void *)resource_chip;
+    resources_chip_palette[0].factory_value
+        = (resource_value_t)video_chip_cap->external_palette_name;
+    resources_chip_palette[0].value_ptr
+        = (resource_value_t *)&(resource_chip->external_palette_name);
+    resources_chip_palette[0].param = (void *)resource_chip;
 
     if (video_chip_cap->internal_palette_allowed != 0) {
         resources_chip_palette[1].name
             = util_concat(chipname, vname_chip_palette[1], NULL);
-        resources_chip_scan[1].param = (void *)resource_chip;
+        resources_chip_palette[1].value_ptr
+            = (resource_value_t *)&(resource_chip->external_palette_enabled);
+        resources_chip_palette[1].param = (void *)resource_chip;
     } else {
         resources_chip_palette[1].name = NULL;
+        resource_chip->external_palette_enabled = 1;
+        (*canvas)->videoconfig->external_palette = 1;
     }
 
     if (resources_register(resources_chip_palette) < 0)

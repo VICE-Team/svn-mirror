@@ -45,6 +45,7 @@
 #define VIDEO_RENDER_RGB_2X2    5
 
 struct video_canvas_s;
+struct video_cbm_palette_s;
 struct viewport_s;
 struct geometry_s;
 struct palette_s;
@@ -99,6 +100,7 @@ struct video_chip_cap_s {
     unsigned int dscan_allowed;
     unsigned int scale2x_allowed;
     unsigned int internal_palette_allowed;
+    const char *external_palette_name;
     cap_render_t single_mode;
     cap_render_t double_mode;
     cap_fullscreen_t fullscreen;
@@ -106,13 +108,16 @@ struct video_chip_cap_s {
 typedef struct video_chip_cap_s video_chip_cap_t;
 
 struct video_render_config_s {
-    video_chip_cap_t *cap;      /* Which renders are allowed?  */
-    int rendermode;             /* What render is active?  */
-    int doublesizex;            /* Doublesizex enabled?  */
-    int doublesizey;            /* Doublesizey enabled?  */
-    int doublescan;             /* Doublescan enabled?  */
-    int scale2x;                /* Scale2x enabled?  */
+    video_chip_cap_t *cap;         /* Which renders are allowed?  */
+    int rendermode;                /* What render is active?  */
+    int doublesizex;               /* Doublesizex enabled?  */
+    int doublesizey;               /* Doublesizey enabled?  */
+    int doublescan;                /* Doublescan enabled?  */
+    int scale2x;                   /* Scale2x enabled?  */
     DWORD physical_colors[256];
+    unsigned int external_palette; /* Use an external palette?  */
+    char *external_palette_name;   /* Name of the external palette.  */
+    struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
 };
 typedef struct video_render_config_s video_render_config_t;
 
@@ -204,8 +209,9 @@ typedef struct video_cbm_palette_s {
     float phase;      /* color phase (will be added to all color angles) */
 } video_cbm_palette_t;
 
-extern void video_color_set_palette(video_cbm_palette_t *palette);
-extern int video_color_update_palette(void);
+extern void video_color_palette_internal(struct video_canvas_s *canvas,
+            struct video_cbm_palette_s *cbm_palette);
+extern int video_color_update_palette(struct video_canvas_s *canvas);
 extern void video_color_palette_free(struct palette_s *palette);
 extern void video_color_set_canvas(struct video_canvas_s *canvas);
 extern int video_render_get_fake_pal_state(void);

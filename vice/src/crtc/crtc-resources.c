@@ -34,32 +34,12 @@
 #include "crtc-resources.h"
 #include "crtctypes.h"
 #include "fullscreen.h"
-#include "lib.h"
 #include "raster-resources.h"
-#include "resources.h"
-#include "utils.h"
 #include "video.h"
 
 
-crtc_resources_t crtc_resources;
 static video_chip_cap_t video_chip_cap;
 
-
-static int set_palette_file_name(resource_value_t v, void *param)
-{
-    util_string_set(&crtc_resources.palette_file_name, (char *)v);
-    if (crtc.initialized)
-        return crtc_load_palette(crtc_resources.palette_file_name);
-
-    return 0;
-}
-
-static const resource_t resources[] =
-{
-    { "CrtcPaletteFile", RES_STRING, (resource_value_t)"green",
-      (void *)&crtc_resources.palette_file_name, set_palette_file_name, NULL },
-    { NULL }
-};
 
 int crtc_resources_init(void)
 {
@@ -70,6 +50,7 @@ int crtc_resources_init(void)
     video_chip_cap.dscan_allowed = ARCHDEP_CRTC_DSCAN;
     video_chip_cap.scale2x_allowed = ARCHDEP_CRTC_DSIZE;
     video_chip_cap.internal_palette_allowed = 0;
+    video_chip_cap.external_palette_name = "green";
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
     video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGB_1X1;
@@ -82,9 +63,8 @@ int crtc_resources_init(void)
     if (raster_resources_chip_init("Crtc", &crtc.raster, &video_chip_cap) < 0)
         return -1;
 
-    crtc_resources.palette_file_name = NULL;
     crtc.video_chip_cap = &video_chip_cap;
 
-    return resources_register(resources);
+    return 0;
 }
 

@@ -26,11 +26,12 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "archdep.h"
 #include "fullscreen.h"
 #include "raster-resources.h"
 #include "resources.h"
-#include "utils.h"
 #include "vdc-resources.h"
 #include "vdctypes.h"
 #include "video.h"
@@ -39,15 +40,6 @@
 vdc_resources_t vdc_resources;
 static video_chip_cap_t video_chip_cap;
 
-
-static int set_palette_file_name(resource_value_t v, void *param)
-{
-    util_string_set (&vdc_resources.palette_file_name, (char *)v);
-    if (vdc.initialized)
-        return vdc_load_palette(vdc_resources.palette_file_name);
-
-    return 0;
-}
 
 static int set_64kb_expansion(resource_value_t v, void *param)
 {
@@ -73,8 +65,6 @@ static int set_vdc_revision(resource_value_t v, void *param)
 
 static const resource_t resources[] =
 {
-    { "VDCPaletteFile", RES_STRING, (resource_value_t)"vdc_deft",
-      (void *)&vdc_resources.palette_file_name, set_palette_file_name, NULL },
     { "VDC64KB", RES_INTEGER, (resource_value_t)1,
       (void *)&vdc_resources.vdc_64kb_expansion, set_64kb_expansion, NULL },
     { "VDCRevision", RES_INTEGER, (resource_value_t)2,
@@ -91,6 +81,7 @@ int vdc_resources_init(void)
     video_chip_cap.dscan_allowed = ARCHDEP_VDC_DSCAN;
     video_chip_cap.scale2x_allowed = 0;
     video_chip_cap.internal_palette_allowed = 0;
+    video_chip_cap.external_palette_name = "vdc_deft";
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
     video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGB_1X1;
@@ -100,7 +91,6 @@ int vdc_resources_init(void)
 
     fullscreen_capability(&(video_chip_cap.fullscreen));
 
-    vdc_resources.palette_file_name = NULL;
     vdc.video_chip_cap = &video_chip_cap;
 
     if (raster_resources_chip_init("VDC", &vdc.raster, &video_chip_cap) < 0)

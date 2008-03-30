@@ -46,7 +46,7 @@ static video_chip_cap_t video_chip_cap;
 static int set_new_luminances(resource_value_t v, void *param)
 {
     vicii_resources.new_luminances = (int)v;
-    return vicii_color_update_palette();
+    return vicii_color_update_palette(vicii.raster.canvas);
 }
 
 static int set_sprite_sprite_collisions_enabled(resource_value_t v, void *param)
@@ -86,6 +86,7 @@ int vicii_resources_init(void)
     video_chip_cap.dscan_allowed = ARCHDEP_VICII_DSCAN;
     video_chip_cap.scale2x_allowed = ARCHDEP_VICII_DSIZE;
     video_chip_cap.internal_palette_allowed = 1;
+    video_chip_cap.external_palette_name = "default";
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
     video_chip_cap.single_mode.rmode = VIDEO_RENDER_PAL_1X1;
