@@ -1,3 +1,16 @@
+2002-08-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.70.
+
+	* README, vice.spec, doc/vice.texi, doc/html/index.html,
+	doc/html/plain/BUGS, doc/html/plain/NEWS, doc/html/plain/TODO,
+	doc/html/Makefile.am: Updated.
+
+	* doc/html/images/lastsite.gif, doc/html/images/nextsite.gif,
+	doc/html/images/offmem.gif: Removed.
+
+	* doc/html/images/navbarlogo: New file.
+
 2002-08-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.69.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.10\n"
-"POT-Creation-Date: 2002-08-17 22:10+0200\n"
+"POT-Creation-Date: 2002-08-25 23:04+0200\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -212,17 +212,15 @@ msgstr "Capture d'écran VDC"
 msgid "Screenshots..."
 msgstr "Captures d'écrans..."
 
-#: src/arch/unix/c128ui.c:321 src/arch/unix/c128ui.c:337
-#: src/arch/unix/c64ui.c:342 src/arch/unix/c64ui.c:356
+#: src/arch/unix/c128ui.c:321 src/arch/unix/c64ui.c:342
 msgid "VIC-II settings"
 msgstr "Paramètres VIC-II"
 
-#: src/arch/unix/c128ui.c:323 src/arch/unix/c128ui.c:339
+#: src/arch/unix/c128ui.c:323
 msgid "VDC settings"
 msgstr "Paramètres VDC"
 
-#: src/arch/unix/c128ui.c:325 src/arch/unix/c128ui.c:341
-#: src/arch/unix/c64ui.c:344 src/arch/unix/c64ui.c:358
+#: src/arch/unix/c128ui.c:325 src/arch/unix/c64ui.c:344
 #: src/arch/unix/cbm2ui.c:377 src/arch/unix/vsidui.c:171
 msgid "SID settings"
 msgstr "Paramètre SID"
@@ -231,36 +229,35 @@ msgstr "Paramètre SID"
 msgid "Memory and I/O extensions"
 msgstr "Extentions Mémoire et I/O"
 
-#: src/arch/unix/c128ui.c:329 src/arch/unix/c128ui.c:343
-#: src/arch/unix/c64ui.c:348 src/arch/unix/c64ui.c:360
+#: src/arch/unix/c128ui.c:329 src/arch/unix/c64ui.c:348
 #: src/arch/unix/cbm2ui.c:370 src/arch/unix/vic20ui.c:348
 msgid "RS232 settings"
 msgstr "Paramètres RS232"
 
-#: src/arch/unix/c128ui.c:331 src/arch/unix/c128ui.c:345
+#: src/arch/unix/c128ui.c:331
 msgid "Memory settings"
 msgstr "Paramètres Mémoire"
 
-#: src/arch/unix/c128ui.c:404 src/arch/unix/c64ui.c:418
+#: src/arch/unix/c128ui.c:390 src/arch/unix/c64ui.c:406
 #: src/arch/unix/cbm2ui.c:460 src/arch/unix/petui.c:385
 #: src/arch/unix/plus4ui.c:150 src/arch/unix/vic20ui.c:464
 #: src/arch/unix/vsidui.c:255
 msgid "File"
 msgstr "Fichier"
 
-#: src/arch/unix/c128ui.c:423 src/arch/unix/c64ui.c:437
+#: src/arch/unix/c128ui.c:409 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:477 src/arch/unix/petui.c:402
 #: src/arch/unix/plus4ui.c:167 src/arch/unix/vic20ui.c:483
 msgid "Snapshot"
 msgstr "Capture"
 
-#: src/arch/unix/c128ui.c:429 src/arch/unix/c64ui.c:443
+#: src/arch/unix/c128ui.c:415 src/arch/unix/c64ui.c:431
 #: src/arch/unix/cbm2ui.c:483 src/arch/unix/petui.c:408
 #: src/arch/unix/plus4ui.c:173 src/arch/unix/vic20ui.c:489
 msgid "Options"
 msgstr "Options"
 
-#: src/arch/unix/c128ui.c:441 src/arch/unix/c64ui.c:455
+#: src/arch/unix/c128ui.c:427 src/arch/unix/c64ui.c:443
 #: src/arch/unix/cbm2ui.c:493 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:181 src/arch/unix/vic20ui.c:495
 #: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1099
@@ -270,9 +267,9 @@ msgstr "Paramètres"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:469
-#: src/arch/unix/cbm2ui.c:509 src/arch/unix/petui.c:431
-#: src/arch/unix/plus4ui.c:194 src/arch/unix/vic20ui.c:512
+#: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:458
+#: src/arch/unix/cbm2ui.c:508 src/arch/unix/petui.c:430
+#: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:511
 msgid "RJHelp"
 msgstr "RJAide"
 
@@ -298,7 +295,7 @@ msgstr "Charger la nouvelle ROM character"
 msgid "Screenshot..."
 msgstr "Capture d'écan..."
 
-#: src/arch/unix/c64ui.c:340 src/arch/unix/c64ui.c:354
+#: src/arch/unix/c64ui.c:340
 msgid "ROM settings"
 msgstr "Paramètres de la ROM"
 
@@ -2635,76 +2632,76 @@ msgstr "Execution de `%s'..."
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr ""
 
-#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:772
+#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:773
 msgid "Switch to windowmode"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:189
+#: src/arch/unix/x11/dga2.c:190
 #, c-format
 msgid "Selected mode: %s"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:308
+#: src/arch/unix/x11/dga2.c:309
 #, c-format
 msgid "Attach debugger to pid %d..."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:344
+#: src/arch/unix/x11/dga2.c:345
 msgid "refresh, not ready, skipping frame"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:413
+#: src/arch/unix/x11/dga2.c:414
 msgid "Successfully forked DGA"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:418
+#: src/arch/unix/x11/dga2.c:419
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:423
+#: src/arch/unix/x11/dga2.c:424
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:432
+#: src/arch/unix/x11/dga2.c:433
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:435
+#: src/arch/unix/x11/dga2.c:436
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:566
+#: src/arch/unix/x11/dga2.c:567
 #, c-format
 msgid "Switch to fullscreen%s"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:572
+#: src/arch/unix/x11/dga2.c:573
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:586
+#: src/arch/unix/x11/dga2.c:587
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:596
+#: src/arch/unix/x11/dga2.c:597
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:630
+#: src/arch/unix/x11/dga2.c:631
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:644
+#: src/arch/unix/x11/dga2.c:645
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:699
+#: src/arch/unix/x11/dga2.c:700
 #, fuzzy
 msgid "Couldn't allocate color cache"
 msgstr "Impossible de créer une image disque"
