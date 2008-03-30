@@ -153,12 +153,22 @@ void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
 {
     vic_ii_local_store_vbank(addr, value);
 
-    if (vic_ii.idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
-        raster_add_int_change_foreground
-            (&vic_ii.raster,
-            VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(maincpu_clk)),
-            &vic_ii.idle_data,
-            value);
+    if ((addr & 0x3fff) == 0x3fff) {
+        if (vic_ii.idle_data_location == IDLE_3FFF)
+            raster_add_int_change_foreground
+                (&vic_ii.raster,
+                VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(maincpu_clk)),
+                &vic_ii.idle_data,
+                value);
+
+        if (vic_ii.raster.sprite_status->visible_msk != 0
+            || vic_ii.raster.sprite_status->dma_msk != 0) {
+            vic_ii.idle_3fff[vic_ii.num_idle_3fff].cycle = maincpu_clk;
+            vic_ii.idle_3fff[vic_ii.num_idle_3fff].value = value;
+            vic_ii.num_idle_3fff++;
+printf("num_idle_3fff %i\n",vic_ii.num_idle_3fff);
+        }
+    }
 }
 
 

@@ -299,6 +299,12 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
         }
     }
 
+    vic_ii.num_idle_3fff_old = vic_ii.num_idle_3fff;
+    if (vic_ii.num_idle_3fff > 0)
+        memcpy(vic_ii.idle_3fff_old, vic_ii.idle_3fff,
+               sizeof(idle_3fff_t) * vic_ii.num_idle_3fff);
+    vic_ii.num_idle_3fff = 0;
+
     if (vic_ii.fetch_clk > maincpu_clk || offset == 0) {
         alarm_set(vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
         return 1;

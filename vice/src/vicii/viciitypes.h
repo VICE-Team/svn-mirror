@@ -212,6 +212,12 @@ enum vic_ii_idle_data_location_s {
 };
 typedef enum vic_ii_idle_data_location_s vic_ii_idle_data_location_t;
 
+struct idle_3fff_s {
+    CLOCK cycle;
+    BYTE value;
+};
+typedef struct idle_3fff_s idle_3fff_t;
+
 struct alarm_s;
 
 struct vic_ii_s {
@@ -382,13 +388,19 @@ struct vic_ii_s {
     /* Number of lines the whole screen is shifted up.  */
     int offset;
     
-    /* flag backgroundcolor in HIRES mode */
+    /* Flag backgroundcolor in hires mode or extended text mode.  */
     int get_background_from_vbuf;
 
     /* Value to store before DMA.  */
     CLOCK store_clk;
     ADDRESS store_addr;
     BYTE store_value;
+
+    /* Stores to 0x3fff idle location (used for idle sprite fetch).  */
+    unsigned int num_idle_3fff;
+    idle_3fff_t *idle_3fff;
+    unsigned int num_idle_3fff_old;
+    idle_3fff_t *idle_3fff_old;
 };
 typedef struct vic_ii_s vic_ii_t;
 
