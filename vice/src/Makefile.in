@@ -96,28 +96,28 @@ INSTALL_MANDIR = $(INSTALL_MANPREFIX)/man/man$(INSTALL_MANEXT)
 
 ## VICE sources
 
-C64SRC = $(C64DIR)/cia1.c $(C64DIR)/cia2.c $(C64DIR)/c64mem.c \
+C64SRC = $(C64DIR)/c64.c $(C64DIR)/cia1.c $(C64DIR)/cia2.c $(C64DIR)/c64mem.c \
 	$(C64DIR)/vicii.c $(C64DIR)/cia1.def $(C64DIR)/cia2.def \
-	$(C64DIR)/autostart.c $(C64DIR)/c64mem.h
+	$(C64DIR)/autostart.c $(C64DIR)/c64mem.h $(C64DIR)/c64iec.c
 
 VICSRC = $(VICDIR)/via1.c $(VICDIR)/via2.c $(VICDIR)/vic20mem.c \
 	$(VICDIR)/vic.c $(VICDIR)/via1.def $(VICDIR)/via2.def \
-	$(VICDIR)/vic20mem.h
+	$(VICDIR)/vic20.c $(VICDIR)/vic20mem.h $(VICDIR)/vic20iec.c
 
 PETSRC = $(PETDIR)/viap.c $(PETDIR)/petmem.c $(PETDIR)/crtc.c \
 	$(PETDIR)/viap.def $(PETDIR)/pets.c $(PETDIR)/pia.c \
-	$(PETDIR)/petmem.h $(PETDIR)/pets.h
+	$(PETDIR)/petmem.h $(PETDIR)/pets.h $(PETDIR)/pet.c
 
 VICESRC = $(SRCDIR)/1541cpu.c $(SRCDIR)/6510core.c $(SRCDIR)/asm.c \
 	$(SRCDIR)/c1541.c $(SRCDIR)/charsets.c $(SRCDIR)/cia-tmpl.c \
 	$(SRCDIR)/drive.c $(SRCDIR)/findpath.c $(SRCDIR)/info.c \
-        $(SRCDIR)/kbdbuf.c $(SRCDIR)/main.c $(SRCDIR)/maincpu.c \
-        $(SRCDIR)/memcmp.c $(SRCDIR)/memutils.c $(SRCDIR)/misc.c \
+	$(SRCDIR)/kbdbuf.c $(SRCDIR)/main.c $(SRCDIR)/maincpu.c \
+	$(SRCDIR)/memcmp.c $(SRCDIR)/memutils.c $(SRCDIR)/misc.c \
 	$(SRCDIR)/mon.c $(SRCDIR)/mon_cli.l $(SRCDIR)/mon_cli.y \
-        $(SRCDIR)/mon_lex.c $(SRCDIR)/mon_parse.c \
-	$(SRCDIR)/mshell.c $(SRCDIR)/parallel.c $(SRCDIR)/patchrom.c \
-	$(SRCDIR)/petcat.c $(SRCDIR)/raster.c $(SRCDIR)/resources.c \
-	$(SRCDIR)/reu.c $(SRCDIR)/serial.c $(SRCDIR)/sid.c $(SRCDIR)/tape.c \
+	$(SRCDIR)/mon_lex.c $(SRCDIR)/mon_parse.c $(SRCDIR)/mshell.c \
+	$(SRCDIR)/parallel.c $(SRCDIR)/patchrom.c $(SRCDIR)/petcat.c \
+	$(SRCDIR)/raster.c $(SRCDIR)/resources.c $(SRCDIR)/reu.c \
+	$(SRCDIR)/serial.c $(SRCDIR)/sid.c $(SRCDIR)/tape.c \
 	$(SRCDIR)/tapeunit.c $(SRCDIR)/tpi.c $(SRCDIR)/traps.c \
 	$(SRCDIR)/true1541.c $(SRCDIR)/usleep.c $(SRCDIR)/utils.c \
 	$(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.c $(SRCDIR)/viad2.c \
@@ -129,11 +129,12 @@ VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
 	$(INCLUDEDIR)/charsets.h $(INCLUDEDIR)/cia.h $(INCLUDEDIR)/vice.h \
 	$(INCLUDEDIR)/crtc.h $(INCLUDEDIR)/drive.h $(INCLUDEDIR)/file.h \
 	$(INCLUDEDIR)/findpath.h $(INCLUDEDIR)/fs_cbm.h \
-	$(INCLUDEDIR)/icon.h $(INCLUDEDIR)/info.h $(INCLUDEDIR)/interrupt.h \
-	$(INCLUDEDIR)/kbdbuf.h $(INCLUDEDIR)/macro.h $(INCLUDEDIR)/maincpu.h \
-	$(INCLUDEDIR)/mem.h $(INCLUDEDIR)/memutils.h $(INCLUDEDIR)/misc.h \
-	$(INCLUDEDIR)/mon.h $(INCLUDEDIR)/mon_parse.h $(INCLUDEDIR)/mshell.h \
-	$(INCLUDEDIR)/op.h $(INCLUDEDIR)/parallel.h \
+	$(INCLUDEDIR)/iecdrive.h $(INCLUDEDIR)/icon.h $(INCLUDEDIR)/info.h \
+	$(INCLUDEDIR)/interrupt.h $(INCLUDEDIR)/kbdbuf.h \
+	$(INCLUDEDIR)/machspec.h $(INCLUDEDIR)/macro.h \
+	$(INCLUDEDIR)/maincpu.h $(INCLUDEDIR)/mem.h $(INCLUDEDIR)/memutils.h \
+	$(INCLUDEDIR)/misc.h $(INCLUDEDIR)/mon.h $(INCLUDEDIR)/mon_parse.h \
+	$(INCLUDEDIR)/mshell.h $(INCLUDEDIR)/op.h $(INCLUDEDIR)/parallel.h \
 	$(INCLUDEDIR)/patchlevel.h $(INCLUDEDIR)/patchrom.h \
         $(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h $(INCLUDEDIR)/raster.h \
 	$(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h $(INCLUDEDIR)/serial.h \
@@ -281,9 +282,9 @@ XPET_SYSPEC_OBJS = @XPET_SYSPEC_OBJS@
 
 JOY_OBJS = @JOY_OBJS@
 
-COMMON_OBJS = charsets.o info.o mshell.o tape.o warn.o utils.o zfile.o \
-	mon_parse.o mon_lex.o memutils.o drive.o asm.o kbdbuf.o findpath.o \
-	zipcode.o @SYSPEC_OBJS@ @LIBOBJS@
+COMMON_OBJS = charsets.o info.o mshell.o tape.o warn.o utils.o \
+	zfile.o mon_parse.o mon_lex.o memutils.o drive.o asm.o kbdbuf.o \
+	findpath.o maincpu.o zipcode.o true1541.o @SYSPEC_OBJS@ @LIBOBJS@
 
 COMMON_LIBS = @COMMON_LIBS@
 
@@ -291,28 +292,26 @@ TRUE1541_OBJS =  viad1.o viad2.o 1541cpu.o
 
 PARALLEL_OBJS = parallel.o
 
-C64_OBJS = main.o maincpu.o misc.o mon.o patchrom.o \
-	reu.o resources.o serial.o tapeunit.o tpi.o traps.o true1541.o sid.o \
-	$(X64_SYSPEC_OBJS)
+C64_OBJS = main.o misc.o mon.o patchrom.o reu.o resources.o serial.o \
+	tapeunit.o tpi.o traps.o sid.o $(X64_SYSPEC_OBJS)
 
-C64_LOBJS = $(C64ODIR)/cia1.o $(C64ODIR)/cia2.o $(C64ODIR)/c64mem.o \
-	$(C64ODIR)/vicii.o $(C64ODIR)/autostart.o
+C64_LOBJS = $(C64ODIR)/autostart.o $(C64ODIR)/cia1.o $(C64ODIR)/cia2.o \
+	$(C64ODIR)/c64.o $(C64ODIR)/c64mem.o $(C64ODIR)/vicii.o \
+	$(C64ODIR)/c64iec.o
 
-VIC20_OBJS = maincpu_VIC20.o main_VIC20.o \
-	misc_VIC20.o mon_VIC20.o resources_VIC20.o \
-	serial_VIC20.o tapeunit_VIC20.o true1541_VIC20.o \
-	sid_VIC20.o traps_VIC20.o $(XVIC_SYSPEC_OBJS)
+VIC20_OBJS = main_VIC20.o misc_VIC20.o mon_VIC20.o resources_VIC20.o \
+	serial_VIC20.o tapeunit_VIC20.o sid_VIC20.o traps_VIC20.o \
+	$(XVIC_SYSPEC_OBJS)
 
-VIC20_LOBJS = $(VICODIR)/via1.o $(VICODIR)/via2.o $(VICODIR)/vic20mem.o \
-	$(VICODIR)/vic.o
+VIC20_LOBJS =  $(VICODIR)/via1.o $(VICODIR)/via2.o $ $(VICODIR)/vic20.o \
+	$(VICODIR)/vic20mem.o $(VICODIR)/vic.o $(VICODIR)/vic20iec.o
 
-PET_OBJS = maincpu_PET.o main_PET.o \
-	misc_PET.o mon_PET.o resources_PET.o \
+PET_OBJS = main_PET.o misc_PET.o mon_PET.o resources_PET.o \
 	serial_PET.o sid_PET.o traps_PET.o \
 	$(XPET_SYSPEC_OBJS)
 
 PET_LOBJS = $(PETODIR)/viap.o $(PETODIR)/petmem.o $(PETODIR)/crtc.o \
-	$(PETODIR)/pets.o $(PETODIR)/pia.o
+	$(PETODIR)/pets.o $(PETODIR)/pia.o $(PETODIR)/pet.o
 
 C64_DEPS = $(C64_OBJS) $(JOY_OBJS) $(PARALLEL_OBJS) $(TRUE1541_OBJS) \
 	$(COMMON_OBJS) $(C64_LOBJS) $(COMMON_LIBS)
@@ -320,10 +319,10 @@ C64_DEPS = $(C64_OBJS) $(JOY_OBJS) $(PARALLEL_OBJS) $(TRUE1541_OBJS) \
 VIC_DEPS = $(VIC20_OBJS) $(JOY_OBJS) $(TRUE1541_OBJS) \
 	$(COMMON_OBJS) $(VIC20_LOBJS) $(COMMON_LIBS)
 
-PET_DEPS = $(PET_OBJS) $(PARALLEL_OBJS) $(COMMON_OBJS) $(PET_LOBJS) \
-	$(COMMON_LIBS) $(JOY_OBJS)
+PET_DEPS = $(PET_OBJS) $(PARALLEL_OBJS) $(TRUE1541_OBJS) \
+	$(COMMON_OBJS) $(PET_LOBJS) $(COMMON_LIBS) $(JOY_OBJS)
 
-C1541_OBJS = c1541.o
+C1541_OBJS = c1541.o zipcode.o
 
 C1541_DEPS = $(C1541_OBJS) stddrive.o tape.o mshell.o charsets.o utils.o \
 	zfile.o $(READLINE)
@@ -444,7 +443,7 @@ $(SRCDIR)/viad2.c: $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad2.def $(SRCDIR)/convio
 ### Monitor
 
 $(SRCDIR)/mon_parse.c: $(SRCDIR)/mon_cli.y
-	bison -dtv -o mon_parse.c mon_cli.y
+	bison -dt -o mon_parse.c mon_cli.y
 	mv mon_parse.h $(INCLUDEDIR)/mon_parse.h
 
 $(SRCDIR)/mon_lex.c: $(SRCDIR)/mon_cli.l
