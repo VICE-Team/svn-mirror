@@ -136,16 +136,11 @@ int joystick_check_set(signed long key, int joynum)
             if (joypad_bits[column]) {
                 /*joystick_value[joyport] |= joypad_bits[column];*/
                 joystick_set_value_or(joyport, joypad_bits[column]);
-                joypad_status[joynum][column]=1;
+                joypad_status[joynum][column] = 1;
             } else {
                 /*joystick_value[joyport] = 0;*/
                 joystick_set_value_absolute(joyport, 0);
                 memset(joypad_status[joynum], 0, sizeof(joypad_status[joynum]));
-#ifdef DEBUG_JOY
-            log_debug("got joyport %d, joynum %d, keysym=`%s'.",
-                      joyport, joynum,
-                      XKeysymToString(joykeys[joynum][column].sym));
-#endif
             }
             return 1;
         }
