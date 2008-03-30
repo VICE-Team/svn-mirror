@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libplus4.a
 
-libplus4_a_SOURCES =  	plus4-cmdline-options.c 	plus4-cmdline-options.h 	plus4-resources.c 	plus4-resources.h 	plus4-snapshot.c 	plus4-snapshot.h 	plus4.c 	plus4.h         plus4acia.c         plus4acia.h 	plus4cpu.c 	plus4datasette.c 	plus4drive.c 	plus4iec.c 	plus4iec.h 	plus4mem.c 	plus4mem.h 	plus4memlimit.c 	plus4memlimit.h 	plus4pio1.c 	plus4pio1.h 	plus4pio2.c 	plus4pio2.h 	plus4rom.c 	plus4rom.h 	plus4tcbm.c 	plus4tcbm.h 	ted-badline.c 	ted-badline.h 	ted-cmdline-options.c 	ted-cmdline-options.h 	ted-color.c 	ted-color.h 	ted-draw.c 	ted-draw.h 	ted-fetch.c 	ted-fetch.h 	ted-irq.c 	ted-irq.h 	ted-mem.c 	ted-mem.h 	ted-resources.c 	ted-resources.h 	ted-snapshot.c 	ted-snapshot.h 	ted-sound.c 	ted-sound.h 	ted-timer.c 	ted-timer.h 	ted.c 	ted.h 	tedtypes.h
+libplus4_a_SOURCES =  	plus4-cmdline-options.c 	plus4-cmdline-options.h 	plus4-resources.c 	plus4-resources.h 	plus4-snapshot.c 	plus4-snapshot.h 	plus4.c 	plus4.h         plus4acia.c         plus4acia.h 	plus4cpu.c 	plus4datasette.c 	plus4drive.c 	plus4iec.c 	plus4iec.h 	plus4mem.c 	plus4mem.h 	plus4memlimit.c 	plus4memlimit.h 	plus4pio1.c 	plus4pio1.h 	plus4pio2.c 	plus4pio2.h 	plus4rom.c 	plus4rom.h 	plus4tcbm.c 	plus4tcbm.h 	ted-badline.c 	ted-badline.h 	ted-cmdline-options.c 	ted-cmdline-options.h 	ted-color.c 	ted-color.h 	ted-draw.c 	ted-draw.h 	ted-fetch.c 	ted-fetch.h 	ted-irq.c 	ted-irq.h 	ted-mem.c 	ted-mem.h 	ted-resources.c 	ted-resources.h 	ted-snapshot.c 	ted-snapshot.h 	ted-sound.c 	ted-sound.h 	ted-timer.c 	ted-timer.h 	ted-timing.c 	ted-timing.h 	ted.c 	ted.h 	tedtypes.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -155,7 +155,7 @@ plus4-snapshot.o plus4.o plus4acia.o plus4cpu.o plus4datasette.o \
 plus4drive.o plus4iec.o plus4mem.o plus4memlimit.o plus4pio1.o \
 plus4pio2.o plus4rom.o plus4tcbm.o ted-badline.o ted-cmdline-options.o \
 ted-color.o ted-draw.o ted-fetch.o ted-irq.o ted-mem.o ted-resources.o \
-ted-snapshot.o ted-sound.o ted-timer.o ted.o
+ted-snapshot.o ted-sound.o ted-timer.o ted-timing.o ted.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -391,9 +391,14 @@ ted-sound.o: ted-sound.c ../../src/vice.h ../../src/config.h \
 	../../src/lib.h ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/sound.h ted-sound.h
 ted-timer.o: ted-timer.c ../../src/vice.h ../../src/config.h \
-	../../src/alarm.h ../../src/arch/unix/types.h \
-	../../src/maincpu.h ted-timer.h tedtypes.h \
+	../../src/alarm.h ../../src/arch/unix/types.h ../../src/log.h \
+	../../src/maincpu.h ted-irq.h ted-timer.h tedtypes.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h
+ted-timing.o: ted-timing.c ../../src/vice.h ../../src/config.h \
+	../../src/machine.h plus4.h ../../src/resources.h ted-timing.h \
+	tedtypes.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
 	../../src/viewport.h
 ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/arch/unix/archdep.h \
@@ -405,9 +410,10 @@ ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/raster/raster-sprite-cache.h ../../src/resources.h \
 	../../src/screenshot.h ted-cmdline-options.h ted-color.h \
 	ted-draw.h ted-fetch.h ted-irq.h ted-mem.h ted-resources.h \
-	ted-snapshot.h ted-sound.h ted-timer.h ted.h tedtypes.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/viewport.h ../../src/utils.h ../../src/vsync.h \
+	ted-snapshot.h ted-sound.h ted-timer.h ted-timing.h ted.h \
+	tedtypes.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/viewport.h \
+	../../src/utils.h ../../src/vsync.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
