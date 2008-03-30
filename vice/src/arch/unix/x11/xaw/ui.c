@@ -91,11 +91,12 @@
 #include "widgets/TextField.h"
 
 /* FIXME: We want these to be static.  */
-Display *display;
-int screen;
 Visual *visual;
-int depth = X_DISPLAY_DEPTH;
 int have_truecolor;
+
+static Display *display;
+static int screen;
+static int depth = X_DISPLAY_DEPTH;
 
 static int n_allocated_pixels = 0;
 static unsigned long allocated_pixels[0x100];
@@ -255,7 +256,7 @@ static int set_fullscreen(resource_value_t v)
     static int win_x,win_y;
     static int interval,prefer_blanking,allow_exposures;
     static XF86VidModeModeLine restoremodeline;
-    static unsigned int dotclock;
+    static int dotclock;
     static int window_doublesize;
     static int panecolor;
     int i;
@@ -315,7 +316,7 @@ static int set_fullscreen(resource_value_t v)
     /* A small hack!!!!  */
 	{
 	    Window root, child;
-	    int mask;
+	    unsigned int mask;
 
 	    XQueryPointer(display, XtWindow(canvas),
 			  &root, &child, &root_x, &root_y,
@@ -381,7 +382,7 @@ static int set_fullscreen(resource_value_t v)
 	    }
 	{
 	    Window root, child;
-	    int mask;
+	    unsigned int mask;
 
 	    XQueryPointer(display, XtWindow(canvas),
 			  &root, &child, &troot_x, &troot_y,
@@ -1026,6 +1027,16 @@ int ui_init_finish(void)
 #endif
 
     return ui_menu_init(app_context, display, screen);
+}
+
+int ui_get_display_depth(void)
+{
+    return depth;
+}
+
+Display *ui_get_display_ptr(void)
+{
+    return display;
 }
 
 /* Create a shell with a canvas widget in it.  */

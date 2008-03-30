@@ -55,11 +55,16 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
                              unsigned int height)
 {
     int sizeofpixel = sizeof(PIXEL);
+    int depth;
+    Display *display;
 #ifdef USE_MITSHM
     int (*olderrorhandler)(Display*,XErrorEvent*);
     int dummy;
     i->using_mitshm = use_mitshm;
 #endif
+
+    depth = ui_get_display_depth();
+    display = ui_get_display_ptr();
 
     if (sizeof(PIXEL2) != sizeof(PIXEL) * 2 ||
 	sizeof(PIXEL4) != sizeof(PIXEL) * 4) {
@@ -203,6 +208,10 @@ tryagain:
 
 GC video_get_gc(XGCValues *gc_values)
 {
+    Display *display;
+
+    display = ui_get_display_ptr();
+
     return XCreateGC(display, XtWindow(_ui_top_level), 0, gc_values);
 }
 
@@ -221,6 +230,10 @@ void video_add_handlers(ui_window_t w)
 /* Make the canvas visible. */
 void canvas_map(canvas_t s)
 {
+    Display *display;
+
+    display = ui_get_display_ptr();
+
     XMapWindow(display, s->drawable);
     XFlush(display);
 }
@@ -228,6 +241,10 @@ void canvas_map(canvas_t s)
 /* Make the canvas not visible. */
 void canvas_unmap(canvas_t s)
 {
+    Display *display;
+
+    display = ui_get_display_ptr();
+
     XUnmapWindow(display, s->drawable);
     XFlush(display);
 }

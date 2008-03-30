@@ -172,6 +172,10 @@ void ui_proc_exit(void)
 
 int ui_proc_create(void)
 {
+  Display *display;
+
+  display = ui_get_display_ptr();
+
   XSync(display, False);
 
   if (pipe(ui_pipefd) < 0) {

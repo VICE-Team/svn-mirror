@@ -252,8 +252,10 @@ extern GC video_get_gc(void *not_used);
 int video_init(void)
 {
     XGCValues gc_values;
+    Display *display;
 
     _video_gc = video_get_gc(&gc_values);
+    display = ui_get_display_ptr();
 
     if (video_log == LOG_ERR)
 	video_log = log_open("Video");
@@ -308,8 +310,12 @@ int shmhandler(Display* display,XErrorEvent* err)
 /* Free an allocated frame buffer. */
 void video_frame_buffer_free(frame_buffer_t *i)
 {
+    Display *display;
+
     if (!i)
 	return;
+
+    display = ui_get_display_ptr();
 
 #ifdef USE_MITSHM
     if (i->using_mitshm) {
@@ -328,9 +334,15 @@ void video_frame_buffer_free(frame_buffer_t *i)
 #endif
 
 #if X_DISPLAY_DEPTH == 0
-    /* Free temporary 8bit frame buffer.  */
-    if (depth != 8 && i->tmpframebuffer)
-	free(i->tmpframebuffer);
+    {
+        int depth;
+
+        depth = ui_get_display_depth();
+
+        /* Free temporary 8bit frame buffer.  */
+        if (depth != 8 && i->tmpframebuffer)
+            free(i->tmpframebuffer);
+    }
 #endif
     {
 #ifdef USE_GNOMEUI
@@ -431,10 +443,14 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)
 {
+    Display *display;
 #if X_DISPLAY_DEPTH == 0
     if (_convert_func)
         _convert_func(&frame_buffer, xs, ys, w, h);
 #endif
+
+    /* This could be optimized away.  */
+    display = ui_get_display_ptr();
 
     _refresh_func(display, canvas->drawable, _video_gc,
 		  frame_buffer.x_image, xs, ys, xi, yi, w, h, False, 

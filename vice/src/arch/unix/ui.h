@@ -37,10 +37,6 @@
 #include "x11/xaw/uiarch.h"
 #endif
 
-/* Globals */
-extern int screen;
-extern int depth;
-
 /* If this is #defined, `Alt' is handled the same as `Meta'.  On
    systems which have Meta, it's better to use Meta instead of Alt as
    a shortcut modifier (because Alt is usually used by Window
@@ -121,5 +117,7 @@ extern void ui_proc_start(void);
 extern void ui_destroy_widget(ui_window_t w);
 extern void ui_set_topmenu(void);
 extern void ui_set_selected_file(int num);
+extern int ui_get_display_depth(void);
+extern Display *ui_get_display_ptr(void);
 
 #endif /* !_UI_H_ */

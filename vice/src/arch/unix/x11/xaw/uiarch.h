@@ -51,7 +51,6 @@ typedef XtPointer ui_callback_data_t;
 #define UI_MENU_CB_PARAM client_data
 
 extern Widget _ui_top_level;
-extern Display *display;
 extern Visual *visual;
 
 /* ------------------------------------------------------------------------- */
