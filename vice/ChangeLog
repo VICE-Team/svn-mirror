@@ -1,3 +1,11 @@
+2003-02-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.8.
+
+	* configure.in: Removed `soundsid.o'.
+
+	* data/C128/*: Reorganized firmware.
+
 2003-02-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.7.
