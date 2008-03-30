@@ -33,6 +33,15 @@
 #define C610_ROM_SIZE		0x10000		/* complete bank 15 */
 #define C610_CHARGEN_ROM_SIZE	0x2000
 
+#define CBM2_CHARGEN500 "chargen" FSDEV_EXT_SEP_STR "500"
+#define CBM2_CHARGEN600 "chargen" FSDEV_EXT_SEP_STR "600"
+#define CBM2_CHARGEN700 "chargen" FSDEV_EXT_SEP_STR "700"
+#define CBM2_BASIC128   "basic" FSDEV_EXT_SEP_STR "128"
+#define CBM2_BASIC256   "basic" FSDEV_EXT_SEP_STR "256"
+#define CBM2_BASIC500   "basic" FSDEV_EXT_SEP_STR "500"
+#define CBM2_KERNAL     "kernal"
+#define CBM2_KERNAL500  "kernal" FSDEV_EXT_SEP_STR "500"
+
 extern int c610_mem_init_resources(void);
 extern int c610_mem_init_cmdline_options(void);
 
@@ -51,6 +60,18 @@ extern void cbm2_set_tpi2pc(BYTE);
 
 extern void c500_set_phi1_bank(int b);
 extern void c500_set_phi2_bank(int b);
+
+extern int mem_load_chargen(const char *rom_name);
+extern int mem_load_kernal(const char *rom_name);
+extern int mem_load_basic(const char *rom_name);
+extern int mem_load_cart_1(const char *rom_name);
+extern int mem_load_cart_2(const char *rom_name);
+extern int mem_load_cart_4(const char *rom_name);
+extern int mem_load_cart_6(const char *rom_name);
+
+extern void mem_initialize_memory(void);
+extern void mem_powerup(void);
+extern void mem_initialize_memory_bank(int i);
 
 #endif
 
