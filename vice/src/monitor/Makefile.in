@@ -128,17 +128,17 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive
+INCLUDES =          @ARCH_INCLUDES@         -I$(top_builddir)/src         -I$(top_srcdir)/src         -I$(top_srcdir)/src/drive         -I$(top_srcdir)/src/vdrive
 
 
 YFLAGS = -dt
 
 noinst_LIBRARIES = libmonitor.a
 
-noinst_HEADERS =  	mon_parse.h
+noinst_HEADERS =          mon_parse.h
 
 
-libmonitor_a_SOURCES =  	asm6502.c 	asmz80.c 	asm.h 	mon.c 	mon.h 	mon_lex.l 	mon_parse.y
+libmonitor_a_SOURCES =          asm6502.c         asmz80.c         asm.h         mon.c         mon.h         mon_util.c         mon_util.h         mon_lex.l         mon_parse.y
 
 
 BUILT_SOURCES = mon_parse.h mon_parse.c
@@ -155,7 +155,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libmonitor_a_LIBADD = 
-libmonitor_a_OBJECTS =  asm6502.o asmz80.o mon.o mon_lex.o mon_parse.o
+libmonitor_a_OBJECTS =  asm6502.o asmz80.o mon.o mon_util.o mon_lex.o \
+mon_parse.o
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
@@ -282,14 +283,20 @@ mon.o: mon.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/mem.h mon.h mon_parse.h \
-	../../src/mos6510.h ../../src/resources.h ../../src/uimon.h \
-	../../src/utils.h ../../src/vdrive/vdrive-command.h \
-	../../src/vdrive/vdrive.h ../../src/vsync.h
+	../../src/mos6510.h ../../src/resources.h ../../src/sysfile.h \
+	../../src/uimon.h mon_util.h ../../src/utils.h \
+	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h \
+	../../src/vsync.h
 mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon.h \
 	../../src/arch/unix/types.h mon_parse.h ../../src/utils.h
 mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h ../../src/console.h \
-	../../src/uimon.h ../../src/machine.h mon.h ../../src/utils.h
+	../../src/uimon.h mon.h mon_util.h ../../src/machine.h \
+	../../src/utils.h
+mon_util.o: mon_util.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/console.h ../../src/mem.h ../../src/arch/unix/types.h \
+	mon.h mon_util.h ../../src/uimon.h ../../src/utils.h
 
 info-am:
 info: info-am

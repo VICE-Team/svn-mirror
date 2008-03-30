@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-03-04 13:44+0100\n"
+"POT-Creation-Date: 2001-03-14 08:15+0100\n"
 "PO-Revision-Date: 2000-12-01 21:31+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -16,6 +16,26 @@ msgstr ""
 #: src/print.c:78 src/print.c:80 src/print.c:82
 msgid "Specify name of printer device or dump file"
 msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/vsync.c:111
+msgid "Limit emulation speed to specified value"
+msgstr "Emulationsgeschwindigkeit auf Wert beschränken."
+
+#: src/vsync.c:113
+msgid "Update every <value> frames (`0' for automatic)"
+msgstr "Jedes <Wert> Bild aktualisieren (`0' für Automatik)"
+
+#: src/vsync.c:115
+msgid "Enable warp mode"
+msgstr "*Warp Mode Aktivieren"
+
+#: src/vsync.c:117
+msgid "Disable warp mode"
+msgstr "*Warp Mode Deaktivieren"
+
+#: src/vsync.c:184
+msgid "Your machine is too slow for current settings!"
+msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 
 #: src/arch/unix/uicommands.c:98
 #, c-format
@@ -1884,26 +1904,6 @@ msgstr "*Default Tune"
 msgid "*Tune %d"
 msgstr "*Tune %d"
 
-#: src/arch/unix/vsync.c:121
-msgid "Limit emulation speed to specified value"
-msgstr "Emulationsgeschwindigkeit auf Wert beschränken."
-
-#: src/arch/unix/vsync.c:123
-msgid "Update every <value> frames (`0' for automatic)"
-msgstr "Jedes <Wert> Bild aktualisieren (`0' für Automatik)"
-
-#: src/arch/unix/vsync.c:125
-msgid "Enable warp mode"
-msgstr "*Warp Mode Aktivieren"
-
-#: src/arch/unix/vsync.c:127
-msgid "Disable warp mode"
-msgstr "*Warp Mode Deaktivieren"
-
-#: src/arch/unix/vsync.c:195
-msgid "Your machine is too slow for current settings!"
-msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
-
 #. Shouldn't happen.
 #: src/arch/unix/vic20ui.c:91
 msgid "What?!\n"
@@ -2295,63 +2295,73 @@ msgstr "Aktuell eingelegte Diskimages mitspeichern"
 msgid "Save currently attached ROMs"
 msgstr "Aktuelle ROMs mitspeichern"
 
-#: src/arch/unix/x11/fullscreen.c:155 src/arch/unix/x11/fullscreen.c:183
+#: src/arch/unix/x11/fullscreen.c:123
+#, c-format
+msgid "Attach debugger to pid %d...\n"
+msgstr ""
+
+#: src/arch/unix/x11/fullscreen.c:183
+#, fuzzy
+msgid "Successfully forked DGA\n"
+msgstr "`%s' erfolgreich gespeichert\n"
+
+#: src/arch/unix/x11/fullscreen.c:187 src/arch/unix/x11/fullscreen.c:214
 #, fuzzy
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr "Kann Version von Video Erweiterung nicht feststellen"
 
-#: src/arch/unix/x11/fullscreen.c:160 src/arch/unix/x11/fullscreen.c:188
+#: src/arch/unix/x11/fullscreen.c:192 src/arch/unix/x11/fullscreen.c:219
 #, fuzzy
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr "Kann nötige Information für Video Erweiterung nicht abfragen"
 
-#: src/arch/unix/x11/fullscreen.c:169
+#: src/arch/unix/x11/fullscreen.c:200
 #, fuzzy, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr "Alte Version der XFree86-VidMode Erweiterung erkannt (%d.  %d)"
 
-#: src/arch/unix/x11/fullscreen.c:171 src/arch/unix/x11/fullscreen.c:199
+#: src/arch/unix/x11/fullscreen.c:202 src/arch/unix/x11/fullscreen.c:230
 #, fuzzy, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr "Minimal erforderliche Version ist %d.%d"
 
-#: src/arch/unix/x11/fullscreen.c:197
+#: src/arch/unix/x11/fullscreen.c:228
 #, c-format
 msgid "Xserver is running an old XFree86-VidMode version (%d.  %d)"
 msgstr "Alte Version der XFree86-VidMode Erweiterung erkannt (%d.  %d)"
 
-#: src/arch/unix/x11/fullscreen.c:206
+#: src/arch/unix/x11/fullscreen.c:237
 #, fuzzy
 msgid "Error getting video mode information - disabling fullscreen."
 msgstr "Fehler beim Abfragen der Video Modus Information"
 
-#: src/arch/unix/x11/fullscreen.c:213
+#: src/arch/unix/x11/fullscreen.c:244
 msgid ""
 "Vice is not running as root, DGA extension not possible - disabling "
 "fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:220
+#: src/arch/unix/x11/fullscreen.c:251
 msgid "Problems with DGA - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:309 src/arch/unix/x11/fullscreen.c:338
+#: src/arch/unix/x11/fullscreen.c:361 src/arch/unix/x11/fullscreen.c:390
 #, c-format
 msgid "Switch to fullscreen %ix%i"
 msgstr "Aktiviere Vollbild Modus %ix%i"
 
-#: src/arch/unix/x11/fullscreen.c:318 src/arch/unix/x11/fullscreen.c:344
-#: src/arch/unix/x11/fullscreen.c:349 src/arch/unix/x11/fullscreen.c:362
+#: src/arch/unix/x11/fullscreen.c:370 src/arch/unix/x11/fullscreen.c:396
+#: src/arch/unix/x11/fullscreen.c:401 src/arch/unix/x11/fullscreen.c:414
 #, c-format
 msgid "Error switching to fullscreen %ix%i\n"
 msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i\n"
 
-#: src/arch/unix/x11/fullscreen.c:329
+#: src/arch/unix/x11/fullscreen.c:381
 #, c-format
-msgid "DGA extension: addr:%X, width %d, bank size %d mem size %d\n"
+msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:383
+#: src/arch/unix/x11/fullscreen.c:458
 msgid "Switch to windowmode"
 msgstr "Umschalten auf Fenster Modus"
 

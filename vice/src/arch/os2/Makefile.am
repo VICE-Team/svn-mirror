@@ -73,14 +73,20 @@ EXTRA_DIST = \
 	icons/info.ico \
  	icons/note.ico \
         icons/skull.ico \
+        icons/dirup.bmp \
 	texi2ipf/readme \
 	texi2ipf/texi2ipf.exe \
 	texi2ipf/texi2ipf.INF \
 	doc/Vice_for_OS2.txt \
+        fonts/header1.fnt \
+        fonts/header2.fnt \
 	fonts/bdf2fnt.cc \
 	fonts/bdf2fnt.icc \
 	fonts/chargen2fnt.cc \
 	fonts/chargen2fnt.icc \
+        fonts/mps2chargen.cc \
+        fonts/mps2chargen.icc \
+        fonts/mps803.fnt \
 	fonts/vice-cbm.cmd \
 	fonts/vice2.asm \
 	fonts/vice2.def \

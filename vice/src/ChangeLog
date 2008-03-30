@@ -1,3 +1,159 @@
+2001-03-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.9.
+
+2001-03-11  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/ui-resources.c: Changed callback, when switching
+	to fullscreen to `fullscreen_request_set_mode()', as it's bad to
+	change to DGA within a (gnome-)callback function. Switching
+ 	to and from fullscreen now is handled synchronously at vsync
+	level. 
+
+	* arch/unix/x11/gnome/gnomekbd.c: Fixed warnings.
+
+	* arch/unix/x11/fullscreen.c: Reworked to make it functional with
+	DGA V2 including keyboard support.
+	On startup (and not FS_DEBUG set) the program forks via
+	`XF86DGAForkApp()'. This is useful as once vice crashs the
+	window settings of the X11 server is restored
+	automatically. 
+
+	* arch/unix/x11/Makefile.am (EXTRA_libx11ui_a_SOURCES): Added
+	fullscreenkbd.c. This file is temporary and will be straightened
+	along with further fullscreen work.
+
+	* arch/unix/vsync.c: Call ui event dispatcher via a hook
+	function. 
+	(vsync_set_event_dispatcher): New function.
+
+	* vsync.h (vsync_set_event_dispatcher): Added prototype.
+
+2001-03-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic.c(vic_raster_draw_alarm_handler) display_xstop is
+	checked not to exceed the screen width
+
+2001-03-10  Dag Lem  <resid@nimrod.no>
+
+	* arch/beos/Makefile.am: Removed vsync.c, added vsyncarch.c.
+
+	* arch/unix/Makefile.am: Likewise.
+
+	* arch/beos/vsync.c: Removed file, merged with generic
+	vsync.c.
+
+	* arch/unix/vsync.c: Likewise.
+
+	* arch/beos/vsyncarch.c: New file.
+
+	* arch/unix/vsyncarch.c: Likewise.
+
+	* arch/os2/vsyncarch.c: Microseconds interface.
+
+	* arch/win32/vsyncarch.c: Likewise.
+
+	* vsync.c: Merged with Unix and BeOS vsync.c.
+
+	* vsyncarch.h: Microseconds interface, removed
+	vsyncarch_timescale.
+
+	* arch/unix/x11/gnome/ui.c: Corrected macro pasting.
+
+	* resid/: Another fix for a certain braindead compiler.
+
+2001-03-09  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: Corrected a rounding error in
+	external_resize_window(), resulting in "garbage" printed at
+	the bottom or right side of the console under certain
+	circumstances.
+
+	* monitor/mon.c: Deleted (obsolete) maincpu_interface,
+	drive8_interface, drive9_interface; corrected an error in
+	is_valid_addr_range(), which didn't allow to specify i.e.
+	"d 8:c100 c200";
+
+	* monitor/mon.c: Corrected an error with respect to Z80: If
+	cpu type was Z80, even a drive's disassembly was in that
+	format. For this, changed mon_disassemble_to_string() and
+	mon_disassemble_to_string_ex() to take the memspace as
+	additional argument.
+
+	* monitor/mon.c: Whenever the monitor is opened,
+	uimon_notify_change() is called to notify the arch-dependant
+	monitor interface.
+
+	* uimon.h: added functions uimon_notify_change(), and
+	uimon_get_in() as a helper function for uimon_in();
+
+	* monitor/mon_util.c, mon_util.h: added.
+
+	* monitor/mon.c: Changed playback_commands() as suggested by
+	Michael Klein on 20.12.2000, so the symbol file "c64mem.sym"
+	is found even if it is not in the actual directory.
+
+	* monitor/mon.[ch]: Added mon_get_mem_val_ex() which allows to
+	specify a different memory bank
+
+	* */uimon.c: Added uimon_get_in(), uimon_notify_change()
+	and uimon_set_interface() as dummy-functions...
+
+	* */uimon.c: renamed all arch_mon_... to uimon_...()
+
+2001-03-06  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.{c,h}: changed some static declarations,
+	extended help system
+
+	* arch/riscos/uiconf.c: added new drive types to dos name
+	menu.
+
+	* arch/riscos/vsync.c: pass configured speed rather than
+	actual speed to sound_flush()
+
+	* sound.c: fixed missing definition of delta_t.
+
+2001-03-04  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+ 
+	* arch/os2/dialogs/dialogs.[h,rc]:
+	small changes
+   
+	* arch/os2/dialogs/dlg-fileio.c: 
+	added some missing features, solved some smaller problems
+   
+	* arch/os2/dialogs/dlg-fileio.rc:
+	small changes
+   
+	* arch/os2/dialogs/menubar.[rc,h,c]:
+	added some missing features
+   
+	* arch/os2/fonts/mps2chargen.cc:
+	added 
+   
+	* arch/os2/fonts/mps2chargen.icc:
+	added 
+   
+	* arch/os2/vac++/*.ICC:
+	removed linksharedlib
+   
+	* arch/os2/vac++/Xcbm2.ICC:
+	added vicii support
+  
+	* arch/os2/video.c:
+	added hwndlist feature
+   
+	* cbm2/c610mem.[h,c]:
+	added get_model
+   
+	* crtc/crtctypes.h diff/src/crtc/crtctypes.h
+
+	* pet/petmem.[c,h]:
+	added get_model
+   
+	* zfile.c diff/src/zfile.c:
+	added zlib support for reading
+ 
 2001-03-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.8.

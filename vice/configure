@@ -721,7 +721,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.6.8
+VERSION=1.6.9
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -7887,7 +7887,7 @@ else
 fi
 
     if test x"$ac_cv_header_X11_extensions_xf86vmode_h" = "xyes" ; then
-    echo $ac_n "checking for XF86VidModeQueryVersion in -lXxf86vm""... $ac_c" 1>&6
+    	echo $ac_n "checking for XF86VidModeQueryVersion in -lXxf86vm""... $ac_c" 1>&6
 echo "configure:7892: checking for XF86VidModeQueryVersion in -lXxf86vm" >&5
 ac_lib_var=`echo Xxf86vm'_'XF86VidModeQueryVersion | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
@@ -7923,12 +7923,55 @@ fi
 if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
   echo "$ac_t""yes" 1>&6
    X_LIBS="-lXxf86vm -lXxf86dga $X_LIBS";
-                   LINK_X_LIBS="-lXxf86vm  -lXxf86dga $LINK_X_LIBS";
-                   FULLSCREEN_DRIVERS="fullscreen.o";
-                   cat >> confdefs.h <<\EOF
+                       LINK_X_LIBS="-lXxf86vm  -lXxf86dga $LINK_X_LIBS";
+                       FULLSCREEN_DRIVERS="fullscreen.o";
+                       cat >> confdefs.h <<\EOF
 #define USE_XF86_EXTENSIONS 1
 EOF
  
+else
+  echo "$ac_t""no" 1>&6
+fi
+
+        echo $ac_n "checking for XDGAQueryExtension in -lXxf86dga""... $ac_c" 1>&6
+echo "configure:7938: checking for XDGAQueryExtension in -lXxf86dga" >&5
+ac_lib_var=`echo Xxf86dga'_'XDGAQueryExtension | sed 'y%./+-%__p_%'`
+if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-lXxf86dga $X_LIBS $LIBS"
+cat > conftest.$ac_ext <<EOF
+#line 7946 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char XDGAQueryExtension();
+
+int main() {
+XDGAQueryExtension()
+; return 0; }
+EOF
+if { (eval echo configure:7957: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  eval "ac_cv_lib_$ac_lib_var=yes"
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  eval "ac_cv_lib_$ac_lib_var=no"
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+
+fi
+if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
+  echo "$ac_t""yes" 1>&6
+  cat >> confdefs.h <<\EOF
+#define USE_XF86_DGA2_EXTENSIONS 1
+EOF
+
 else
   echo "$ac_t""no" 1>&6
 fi
