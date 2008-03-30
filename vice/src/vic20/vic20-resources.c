@@ -181,69 +181,60 @@ static int set_romset_firmware(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] =
+static const resource_string_t resources_string[] =
 {
-    { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
-      RES_EVENT_SAME, NULL,
-      (void *)&sync_factor, set_sync_factor, NULL },
-    { "ChargenName", RES_STRING, (resource_value_t)"chargen",
-      RES_EVENT_NO, NULL,
-      (void *)&chargen_rom_name, set_chargen_rom_name, NULL },
-    { "RomsetChargenName", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "KernalName", RES_STRING, (resource_value_t)"kernal",
-      RES_EVENT_NO, NULL,
-      (void *)&kernal_rom_name, set_kernal_rom_name, NULL },
-    { "RomsetKernalName", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "BasicName", RES_STRING, (resource_value_t)"basic",
-      RES_EVENT_NO, NULL,
-      (void *)&basic_rom_name, set_basic_rom_name, NULL },
-    { "RomsetBasicName", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
-    { "RAMBlock0", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&ram_block_0_enabled, set_ram_block_0_enabled, NULL },
-    { "RAMBlock1", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&ram_block_1_enabled, set_ram_block_1_enabled, NULL },
-    { "RAMBlock2", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&ram_block_2_enabled, set_ram_block_2_enabled, NULL },
-    { "RAMBlock3", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&ram_block_3_enabled, set_ram_block_3_enabled, NULL },
-    { "RAMBlock5", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&ram_block_5_enabled, set_ram_block_5_enabled, NULL },
-    { "EmuID", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&emu_id_enabled, set_emu_id_enabled, NULL },
-    { "IEEE488", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&ieee488_enabled, set_ieee488_enabled, NULL },
+    { "ChargenName", "chargen", RES_EVENT_NO, NULL,
+      &chargen_rom_name, set_chargen_rom_name, NULL },
+    { "KernalName", "kernal", RES_EVENT_NO, NULL,
+      &kernal_rom_name, set_kernal_rom_name, NULL },
+    { "BasicName", "basic", RES_EVENT_NO, NULL,
+      &basic_rom_name, set_basic_rom_name, NULL },
 #ifdef COMMON_KBD
-    { "KeymapIndex", RES_INTEGER, (resource_value_t)KBD_INDEX_VIC20_DEFAULT,
-      RES_EVENT_NO, NULL,
-      (void *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
-    { "KeymapSymFile", RES_STRING, (resource_value_t)KBD_VIC20_SYM,
-      RES_EVENT_NO, NULL,
-      (void *)&machine_keymap_file_list[0],
-      keyboard_set_keymap_file, (void *)0 },
-    { "KeymapPosFile", RES_STRING, (resource_value_t)KBD_VIC20_POS,
-      RES_EVENT_NO, NULL,
-      (void *)&machine_keymap_file_list[1],
-      keyboard_set_keymap_file, (void *)1 },
+    { "KeymapSymFile", KBD_VIC20_SYM, RES_EVENT_NO, NULL,
+      &machine_keymap_file_list[0], keyboard_set_keymap_file, (void *)0 },
+    { "KeymapPosFile", KBD_VIC20_POS, RES_EVENT_NO, NULL,
+      &machine_keymap_file_list[1], keyboard_set_keymap_file, (void *)1 },
+#endif
+    {NULL}
+};
+
+static const resource_int_t resources_int[] =
+{
+    { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
+      &sync_factor, set_sync_factor, NULL },
+    { "RomsetChargenName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[0], set_romset_firmware, (void *)0 },
+    { "RomsetKernalName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[1], set_romset_firmware, (void *)1 },
+    { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[2], set_romset_firmware, (void *)2 },
+    { "RAMBlock0", 1, RES_EVENT_SAME, NULL,
+      &ram_block_0_enabled, set_ram_block_0_enabled, NULL },
+    { "RAMBlock1", 1, RES_EVENT_SAME, NULL,
+      &ram_block_1_enabled, set_ram_block_1_enabled, NULL },
+    { "RAMBlock2", 1, RES_EVENT_SAME, NULL,
+      &ram_block_2_enabled, set_ram_block_2_enabled, NULL },
+    { "RAMBlock3", 1, RES_EVENT_SAME, NULL,
+      &ram_block_3_enabled, set_ram_block_3_enabled, NULL },
+    { "RAMBlock5", 1, RES_EVENT_SAME, NULL,
+      &ram_block_5_enabled, set_ram_block_5_enabled, NULL },
+    { "EmuID", 0, RES_EVENT_SAME, NULL,
+      &emu_id_enabled, set_emu_id_enabled, NULL },
+    { "IEEE488", 0, RES_EVENT_SAME, NULL,
+      &ieee488_enabled, set_ieee488_enabled, NULL },
+#ifdef COMMON_KBD
+    { "KeymapIndex", KBD_INDEX_VIC20_DEFAULT, RES_EVENT_NO, NULL,
+      (int *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
     {NULL}
 };
 
 int vic20_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void vic20_resources_shutdown(void)

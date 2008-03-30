@@ -135,9 +135,9 @@ static int set_model_name(resource_value_t v, void *param)
 
 /* ------------------------------------------------------------------------- */
 
-static const resource_t resources[] = {
-    { "Model", RES_STRING, (resource_value_t)"8032",
-      (void *)&model_name, set_model_name, NULL },
+static const resource_string_t resources_string[] = {
+    { "Model", "8032", RES_EVENT_NO, NULL,
+      &model_name, set_model_name, NULL },
     { NULL }
 };
 
@@ -156,7 +156,7 @@ static const cmdline_option_t cmdline_options[] = {
 int machine_resources_init(void)
 {
 #if 0
-    if (resources_register(resources) < 0)
+    if (resources_register_string(resources_string) < 0)
         return -1;
 #endif
 
