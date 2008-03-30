@@ -68,5 +68,8 @@ extern void mem_initialize_memory_bank(int i);
 extern int cbm2mem_bank_exec;
 extern int cbm2mem_bank_ind;
 
+extern void REGPARM2 colorram_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 colorram_read(WORD addr);
+
 #endif
 

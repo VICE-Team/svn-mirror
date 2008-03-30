@@ -85,6 +85,7 @@ const char *mem_romset_resources_list[] = {
 BYTE mem_ram[C64_RAM_SIZE];
 BYTE mem_basic64_rom[C64_BASIC_ROM_SIZE];
 BYTE mem_kernal64_rom[C64_KERNAL_ROM_SIZE];
+BYTE mem_kernal64_trap_rom[C64_KERNAL_ROM_SIZE];
 BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 
 /* Internal color memory.  */
@@ -229,19 +230,14 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 basic64_read(WORD addr)
-{
-    return mem_basic64_rom[addr & 0x1fff];
-}
-
-BYTE REGPARM1 kernal64_read(WORD addr)
-{
-    return mem_kernal64_rom[addr & 0x1fff];
-}
-
 BYTE REGPARM1 chargen_read(WORD addr)
 {
     return mem_chargen_rom[addr & 0xfff];
+}
+
+void REGPARM2 chargen_store(WORD addr, BYTE value)
+{
+    mem_chargen_rom[addr & 0xfff] = value;
 }
 
 BYTE REGPARM1 ram_read(WORD addr)
@@ -263,39 +259,6 @@ void REGPARM2 ram_hi_store(WORD addr, BYTE value)
 
     if (addr == 0xff00)
         reu_dma(-1);
-}
-
-BYTE REGPARM1 rom_read(WORD addr)
-{
-    switch (addr & 0xf000) {
-      case 0xa000:
-      case 0xb000:
-        return basic64_read(addr);
-      case 0xd000:
-        return chargen_read(addr);
-      case 0xe000:
-      case 0xf000:
-        return kernal64_read(addr);
-    }
-
-    return 0;
-}
-
-void REGPARM2 rom_store(WORD addr, BYTE value)
-{
-    switch (addr & 0xf000) {
-      case 0xa000:
-      case 0xb000:
-        mem_basic64_rom[addr & 0x1fff] = value;
-        break;
-      case 0xd000:
-        mem_chargen_rom[addr & 0x0fff] = value;
-        break;
-      case 0xe000:
-      case 0xf000:
-        mem_kernal64_rom[addr & 0x1fff] = value;
-        break;
-    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -326,7 +289,7 @@ BYTE REGPARM1 colorram_read(WORD addr)
 
 /* ------------------------------------------------------------------------- */
 
-static void set_write_hook(int config, int page, store_func_t *f)
+void mem_set_write_hook(int config, int page, store_func_t *f)
 {
     int i;
 
@@ -349,11 +312,7 @@ void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr)
 void mem_initialize_memory(void)
 {
     int i, j, k;
-    /* IO is enabled at memory configs 5, 6, 7 and Ultimax.  */
-    const int io_config[32] = { 0, 0, 0, 0, 0, 1, 1, 1,
-                                0, 0, 0, 0, 0, 1, 1, 1,
-                                1, 1, 1, 1, 1, 1, 1, 1,
-                                0, 0, 0, 0, 0, 1, 1, 1 };
+
     /* ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.  */
     const int roml_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
                                   0, 0, 0, 1, 0, 0, 0, 1,
@@ -393,7 +352,7 @@ void mem_initialize_memory(void)
     }
 
     for (i = 0; i < NUM_CONFIGS; i++) {
-        set_write_hook(i, 0, zero_store);
+        mem_set_write_hook(i, 0, zero_store);
         mem_read_tab[i][0] = zero_read;
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xfe; j++) {
@@ -420,7 +379,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i][0xff] = mem_ram + 0xff00;
 
         /* vbank access is handled within `ram_hi_store()'.  */
-        set_write_hook(i, 0xff, ram_hi_store);
+        mem_set_write_hook(i, 0xff, ram_hi_store);
     }
 
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
@@ -446,41 +405,6 @@ void mem_initialize_memory(void)
         mem_read_base_tab[27][i] = mem_chargen_rom + ((i & 0x0f) << 8);
     }
 
-    /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
-    for (j = 0; j < NUM_CONFIGS; j++) {
-        if (io_config[j]) {
-            for (i = 0xd0; i <= 0xd3; i++) {
-                mem_read_tab[j][i] = vicii_read;
-                set_write_hook(j, i, vicii_store);
-            }
-            for (i = 0xd4; i <= 0xd5; i++) {
-                mem_read_tab[j][i] = sid_read;
-                set_write_hook(j, i, sid_store);
-            }
-            for (i = 0xd6; i <= 0xd7; i++) {
-                mem_read_tab[j][i] = sid_read;
-                set_write_hook(j, i, sid_store);
-            }
-            for (i = 0xd8; i <= 0xdb; i++) {
-                mem_read_tab[j][i] = colorram_read;
-                set_write_hook(j, i, colorram_store);
-            }
-
-            mem_read_tab[j][0xdc] = cia1_read;
-            set_write_hook(j, 0xdc, cia1_store);
-            mem_read_tab[j][0xdd] = cia2_read;
-            set_write_hook(j, 0xdd, cia2_store);
-
-            mem_read_tab[j][0xde] = io1_read;
-            set_write_hook(j, 0xde, io1_store);
-            mem_read_tab[j][0xdf] = io2_read;
-            set_write_hook(j, 0xdf, io2_store);
-
-            for (i = 0xd0; i <= 0xdf; i++)
-                mem_read_base_tab[j][i] = NULL;
-        }
-    }
-
     c64meminit(0);
 
     /* Setup ROML at $8000-$9FFF.  */
@@ -495,19 +419,19 @@ void mem_initialize_memory(void)
     for (j = 16; j < 24; j++) {
         for (i = 0x10; i <= 0x7f; i++) {
             mem_read_tab[j][i] = ultimax_1000_7fff_read;
-            set_write_hook(j, i, ultimax_1000_7fff_store);
+            mem_set_write_hook(j, i, ultimax_1000_7fff_store);
             mem_read_base_tab[j][i] = NULL;
         }
         for (i = 0x80; i <= 0x9f; i++)
-            set_write_hook(j, i, roml_store);
+            mem_set_write_hook(j, i, roml_store);
 
         for (i = 0xa0; i <= 0xbf; i++) {
             mem_read_tab[j][i] = ultimax_a000_bfff_read;
-            set_write_hook(j, i, ultimax_a000_bfff_store);
+            mem_set_write_hook(j, i, ultimax_a000_bfff_store);
         }
         for (i = 0xc0; i <= 0xcf; i++) {
             mem_read_tab[j][i] = ultimax_c000_cfff_read;
-            set_write_hook(j, i, ultimax_c000_cfff_store);
+            mem_set_write_hook(j, i, ultimax_c000_cfff_store);
             mem_read_base_tab[j][i] = NULL;
         }
     }
@@ -543,7 +467,7 @@ void mem_initialize_memory(void)
         for (j = 0; j < NUM_CONFIGS; j++) {
             if (roml_config[j]) {
                 for (i = 0x80; i <= 0x9f; i++) {
-                    set_write_hook(j, i, roml_store);
+                    mem_set_write_hook(j, i, roml_store);
                 }
             }
         }
@@ -554,7 +478,7 @@ void mem_initialize_memory(void)
                 mem_read_tab[j][i] = roml_read;
                 mem_read_limit_tab[j][i] = -1;
                 mem_read_base_tab[j][i] = NULL;
-                set_write_hook(j, i, roml_store);
+                mem_set_write_hook(j, i, roml_store);
             }
         }
 
@@ -565,16 +489,16 @@ void mem_initialize_memory(void)
         for (j = 16; j < 24; j++) {
             for (i = 0x10; i <= 0x7f; i++) {
                 mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-                set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+                mem_set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
                 mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
             }
             for (i = 0xa0; i <= 0xbf; i++) {
                 mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-                set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+                mem_set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
             }
             for (i = 0xc0; i <= 0xcf; i++) {
                 mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-                set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+                mem_set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
                 mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
             }
         }
