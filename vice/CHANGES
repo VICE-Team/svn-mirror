@@ -56,8 +56,7 @@ list of all the changes in the code.
 - A major cleanup of the code has been done.
 
 - A brand new monitor with watchpoints and breakpoint has been added.
-  It now allows access to the 1541 CPU when the true 1541 emulation is
-  turned on.
+  It now allows access to the 1541 CPU, too.
 
 - "On the fly" Lynx and Zipcode support has been added.
 
@@ -68,6 +67,8 @@ list of all the changes in the code.
 
 - The `Directory' resource is now a list of paths.  The separator is
   `;' on MS-DOS and `:' on Unix.
+
+- Serial traps can be enabled/disabled at runtime.
 
 
 * Changes in VICE 0.14.2

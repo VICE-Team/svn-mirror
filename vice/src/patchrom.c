@@ -237,6 +237,9 @@ int  patch_rom(const char *str)
     short bytes, n, i = 0;
     ADDRESS a;
 
+    if (str == NULL || *str == '\0')
+        return 0;
+
     for (isnum = 0, i = 0; str[i] != '\0'; i++)
         if (!isalnum((int) str[i]))
             isnum = 0;

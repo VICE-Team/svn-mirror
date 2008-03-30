@@ -277,7 +277,7 @@ static const char *default_resource_file(void)
 /* ------------------------------------------------------------------------- */
 
 /* Read one resource line from the file descriptor `f'.  Return 1 on success,
-   -1 on failure, 0 on EOF.  */
+   -1 on failure, 0 on EOF or end of emulator section.  */
 static int read_resource_item(FILE *f)
 {
     char buf[1024];
@@ -337,11 +337,13 @@ static int read_resource_item(FILE *f)
             result = -1;
         }
 
-        if (result < 0)
+        if (result < 0) {
             fprintf(stderr, "Warning: Cannot assign value to resource `%s'.\n",
                     r->name);
+            return -1;
+        }
 
-        return result;
+        return 1;
     }
 }
 
