@@ -118,10 +118,6 @@ SOURCE="..\..\c64\cart\delaep7x8.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\c64\cart\delaep64.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\c64\cart\epyxfastload.c"
 # End Source File
 # Begin Source File
@@ -151,6 +147,10 @@ SOURCE="..\..\c64\cart\magicformel.c"
 # Begin Source File
 
 SOURCE="..\..\c64\cart\retroreplay.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\rexep256.c"
 # End Source File
 # Begin Source File
 

@@ -53,6 +53,7 @@
 #include "magicformel.h"
 #include "resources.h"
 #include "retroreplay.h"
+#include "rexep256.h"
 #include "ide64.h"
 #include "ramcart.h"
 #include "ross.h"
@@ -293,6 +294,8 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
         return magicformel_io2_read(addr);
       case CARTRIDGE_ROSS:
         return ross_io2_read(addr);
+      case CARTRIDGE_REX_EP256:
+        return rexep256_io2_read(addr);
     }
     return vicii_read_phi1();
 }
@@ -335,6 +338,9 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
         break;
       case CARTRIDGE_MAGIC_FORMEL:
         magicformel_io2_store(addr, value);
+        break;
+      case CARTRIDGE_REX_EP256:
+        rexep256_io2_store(addr, value);
         break;
     }
 }
@@ -635,6 +641,9 @@ void cartridge_init_config(void)
       case CARTRIDGE_DELA_EP256:
         delaep256_config_init();
         break;
+      case CARTRIDGE_REX_EP256:
+        rexep256_config_init();
+        break;
       default:
         cartridge_config_changed(2, 2, CMODE_READ);
     }
@@ -747,6 +756,9 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_DELA_EP256:
         delaep256_config_setup(rawcart);
         break;
+      case CARTRIDGE_REX_EP256:
+        rexep256_config_setup(rawcart);
+        break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;
     }
@@ -849,6 +861,9 @@ void cartridge_detach(int type)
         break;
       case CARTRIDGE_DELA_EP256:
         delaep256_detach();
+        break;
+      case CARTRIDGE_REX_EP256:
+        rexep256_detach();
         break;
     }
     cartridge_config_changed(6, 6, CMODE_READ);

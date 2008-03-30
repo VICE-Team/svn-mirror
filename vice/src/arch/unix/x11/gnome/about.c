@@ -86,7 +86,7 @@ void ui_about(gpointer data)
 	"Martin Pottendorfer - German\n"
 	"Peter Karlsson - Swedish\n"
 	"Andrea Musuruane - Italian\n"
-	"Paul Dube - French\n"
+	"Paul Dubé - French\n"
 	"Marco van den Heuvel - Dutch\n"
 	"Flooder - Polish\n");
     if (!about)

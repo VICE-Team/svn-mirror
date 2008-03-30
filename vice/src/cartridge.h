@@ -84,6 +84,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_DELA_EP64          24
 #define CARTRIDGE_DELA_EP7x8         25
 #define CARTRIDGE_DELA_EP256         26
+#define CARTRIDGE_REX_EP256          27
 
 /* Expert cartridge has three modes: */
 #define CARTRIDGE_MODE_OFF                      0

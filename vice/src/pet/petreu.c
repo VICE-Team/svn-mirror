@@ -353,11 +353,11 @@ BYTE REGPARM1 read_petreu_ram(WORD addr)
 void REGPARM2 store_petreu_reg(WORD addr, BYTE byte)
 {
   petreu[addr&0xf]=byte;
-  if ((petreu[PETREU_CONTROL]&0xe)==0xe)
+  if ((petreu[PETREU_CONTROL]&0xe)!=0xc)
     petreu_bank=2;
   else
     petreu_bank=0;
-  if ((petreu[PETREU_CONTROL]&0xe0)==0xe0)
+  if ((petreu[PETREU_CONTROL]&0xe0)!=0xc0)
     petreu_bank++;
 }
 

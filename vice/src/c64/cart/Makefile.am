@@ -41,6 +41,8 @@ libc64cart_a_SOURCES = \
 	magicformel.h \
 	retroreplay.c \
 	retroreplay.h \
+	rexep256.c \
+	rexep256.h \
 	ross.c \
 	ross.h \
 	stb.c \

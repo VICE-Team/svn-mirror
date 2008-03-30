@@ -1,3 +1,14 @@
+2006-01-22  pottendo  <pottendo@utanet.at>
+
+	* Makefile.in.in: Added `--from-code' to support UTF-8 source
+	inputs. 
+
+	* de.po: Updated.
+
+2006-01-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* de.po, fr.po, it.po, nl.po, sv.po: Updated.
+
 2006-01-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* POTFILES.in: Added the +256k related source files.

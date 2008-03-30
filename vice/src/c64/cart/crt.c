@@ -47,6 +47,7 @@
 #include "kcs.h"
 #include "magicformel.h"
 #include "resources.h"
+#include "rexep256.h"
 #include "ross.h"
 #include "stb.h"
 #include "supergames.h"
@@ -259,6 +260,12 @@ int crt_attach(const char *filename, BYTE *rawcart)
         break;
       case CARTRIDGE_DELA_EP256:
         rc = delaep256_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_REX_EP256:
+        rc = rexep256_crt_attach(fd, rawcart);
         fclose(fd);
         if (rc < 0)
             return -1;

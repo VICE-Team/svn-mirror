@@ -1118,7 +1118,7 @@ Exiting...", 1041},
 Martin Pottendorfer - German\n\
 Peter Karlsson - Swedish\n\
 Andrea Musuruane - Italian\n\
-Paul Dube - French\n\
+Paul Dub - French\n\
 Marco van den Heuvel - Dutch\n\
 Flooder - Polish\n", 1081},
   {"(c) 1998 - 2006 The Vice Team", 1082},
