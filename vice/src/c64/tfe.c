@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "c64export.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -451,7 +452,7 @@ int tfe_activate(void)
 
 #ifdef TFE_DEBUG_INIT
     log_message(tfe_log, "tfe_activate: Allocated memory successfully.");
-    log_message(tfe_log, "\ttfe at 0x%08X, tfe_packetpage at 0x%08X", tfe, tfe_packetpage );
+    log_message(tfe_log, "\ttfe at $%08X, tfe_packetpage at $%08X", tfe, tfe_packetpage );
 #endif
 
     if (!tfe_arch_activate(tfe_interface)) {
@@ -637,7 +638,7 @@ WORD tfe_receive(void)
 
     BYTE buffer[MAX_RXLENGTH];
 
-    int  len         = MAX_RXLENGTH;
+    int  len;
     int  hashed;
     int  hash_index;
     int  rx_ok;
@@ -651,6 +652,8 @@ WORD tfe_receive(void)
     int  ready;
 
     do {
+        len = MAX_RXLENGTH;
+
         ready = 1 ; /* assume we will find a good frame */
 
         newframe = tfe_arch_receive(
@@ -1056,29 +1059,18 @@ BYTE REGPARM1 tfe_read(WORD ioaddress)
     case TFE_ADDR_PP_DATA+1:
         /* make sure the TFE register have the correct content */
         {
-            WORD ppaddress = tfe_packetpage_ptr;
-
-            if (ppaddress >= MAX_PACKETPAGE_ARRAY)
-            {
-                /* FIXME: @SRT What is the real behaviour in such condition? */
-#ifdef TFE_DEBUG_WARN
-                log_message(tfe_log, 
-                "WARNING! Reading PacketPage beyond MAX_PACKETPAGE_ARRAY: %04X"
-                "Performing \"wrap around\".", ppaddress);
-#endif
-        		ppaddress &= MAX_PACKETPAGE_ARRAY-1;
-	        }
+            WORD ppaddress = tfe_packetpage_ptr & MAX_PACKETPAGE_ARRAY-1;
 
             /* perform side-effects the read may perform */
             tfe_sideeffects_read_pp( ppaddress );
 
             /* [3] make sure the data matches the real value - [1] assumes this! */
-            SET_TFE_16( TFE_ADDR_PP_DATA,    GET_PP_16(ppaddress) );
+            SET_TFE_16( TFE_ADDR_PP_DATA, GET_PP_16(ppaddress) );
         }
 
 
 #ifdef TFE_DEBUG_LOAD
-        log_message(tfe_log, "reading PP Ptr: 0x%04X => 0x%04X.", 
+        log_message(tfe_log, "reading PP Ptr: $%04X => $%04X.", 
             tfe_packetpage_ptr, GET_PP_16(tfe_packetpage_ptr) );
 #endif
 
@@ -1200,8 +1192,24 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
         tfe_packetpage_ptr = GET_TFE_16(TFE_ADDR_PP_PTR);
 
 #ifdef TFE_DEBUG_STORE
-        log_message(tfe_log, "set PP Ptr to 0x%04X.", tfe_packetpage_ptr);
+        log_message(tfe_log, "set PP Ptr to $%04X.", tfe_packetpage_ptr);
 #endif
+
+        if ((tfe_packetpage_ptr & 1) != 0) {
+
+#ifdef TFE_DEBUG_WARN
+            log_message(tfe_log,
+                "WARNING! PacketPage register set to odd address $%04X (not allowed!)",
+                tfe_packetpage_ptr );
+#endif /* #ifdef TFE_DEBUG_WARN */
+
+            /* "correct" the address to the next lower address 
+             REMARK: I don't know how a real cs8900a will behave in this case,
+                     since it is not allowed. Nevertheless, this "correction"
+                     prevents assert()s to fail.
+            */
+            tfe_packetpage_ptr -= 1;
+        }
 
         /*
          [1] The TFE_ADDR_PP_DATA does not need to be modified here,
@@ -1213,40 +1221,28 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
 
     case TFE_ADDR_PP_DATA:
     case TFE_ADDR_PP_DATA+1:
-#ifdef TFE_DEBUG_STORE
-        log_message(tfe_log, "before writing to PP Ptr: 0x%04X <= 0x%04X.", 
-            tfe_packetpage_ptr, GET_PP_16(tfe_packetpage_ptr) );
-#endif
 
         {
-            WORD ppaddress = tfe_packetpage_ptr;
+            WORD ppaddress = tfe_packetpage_ptr & (MAX_PACKETPAGE_ARRAY-1);
 
-            if (ppaddress >= MAX_PACKETPAGE_ARRAY)
-            {
-                /* FIXME: @SRT What is the real behaviour in such condition? */
-#ifdef TFE_DEBUG_WARN
-                log_message(tfe_log, 
-                    "WARNING! Writing PacketPage beyond MAX_PACKETPAGE_ARRAY: %04X."
-                    "Performing \"wrap around\".", ppaddress);
+#ifdef TFE_DEBUG_STORE
+            log_message(tfe_log, "before writing to PP Ptr: $%04X <= $%04X.", 
+                ppaddress, GET_PP_16(ppaddress) );
 #endif
-        		ppaddress &= MAX_PACKETPAGE_ARRAY-1;
-	        }
-
             {
                 register WORD tmpIoAddr = ioaddress & ~1; /* word-align the address */
-                SET_PP_16(tfe_packetpage_ptr, GET_TFE_16(tmpIoAddr));
+                SET_PP_16(ppaddress, GET_TFE_16(tmpIoAddr));
             }
 
             /* perform side-effects the write may perform */
             /* the addresses are always aligned on the whole 16-bit-word */
-            tfe_sideeffects_write_pp(tfe_packetpage_ptr, ioaddress-TFE_ADDR_PP_DATA);
-        }
-
+            tfe_sideeffects_write_pp(ppaddress, ioaddress-TFE_ADDR_PP_DATA);
 
 #ifdef TFE_DEBUG_STORE
-        log_message(tfe_log, "after  writing to PP Ptr: 0x%04X <= 0x%04X.", 
-            tfe_packetpage_ptr, GET_PP_16(tfe_packetpage_ptr) );
+            log_message(tfe_log, "after  writing to PP Ptr: $%04X <= $%04X.", 
+                ppaddress, GET_PP_16(ppaddress) );
 #endif
+        }
         break;
     }
 
@@ -1256,6 +1252,9 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 /*    resources support functions                                            */
+static const c64export_resource_t export_res = {
+    "TFE", 1, 0, 0, 0
+};
 
 static
 int set_tfe_disabled(resource_value_t v, void *param)
@@ -1274,12 +1273,19 @@ int set_tfe_rr_net(resource_value_t v, void *param)
             if (tfe_as_rr_net) {
                 tfe_as_rr_net = 0;
             }
+            c64export_remove(&export_res);
             return 0;
         } else { 
+            if (c64export_query(&export_res) < 0)
+                return -1;
+
             if (!tfe_as_rr_net) {
                 tfe_as_rr_net = 1;
 				tfe_enabled = 1;
             }
+
+            if (c64export_add(&export_res) < 0)
+                return -1;
 
             /* virtually reset the LAN chip */
             tfe_reset();

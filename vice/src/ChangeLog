@@ -1,3 +1,46 @@
+2004-02-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.6.
+
+	* arch/win32/evc/system.c, arch/win32/evc/system.h,
+	arch/win32/system.c, arch/win32/mingw32/system.h,
+	arch/win32/msvc/system.h: Added more multi byte utility
+	functions.
+
+	* arch/win32/uireu.c, arch/win32/uirom.c, arch/win32/uisid.c,
+	arch/win32/uisnapshot.c, arch/win32/uispeed.c,
+	arch/win32/uivideo.c, arch/win32/dirent.c, arch/win32/ui.c,
+	arch/win32/ui.h, arch/win32/statusbar.c, arch/win32/uilib.c,
+	arch/win32/uic128.c, arch/win32/uiide64.c, arch/win32/kbd.c,
+	arch/win32/kbd.h, arch/win32/uijoystick.c,
+	arch/win32/uimediafile.c, arch/win32/uiperipheral.c,
+	arch/win32/winmain.c, arch/win32/winmain.h: Use multi byte
+	functions.
+
+	* arch/win32/evc/config.h: Removed `sys/types.h' define.
+
+	* c64/tfe.c (set_tfe_rr_net): Use expansion port resource
+	management.
+
+2004-02-24  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* autostart.c: When autostarting, put a colon after the run
+	command to prevent programs that write on the screen to fail
+	to run.
+
+2004-02-23  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/tfe.c: The CS8900a does not allow writing the packetpage
+	pointer register with an odd address. Until now, an assertion
+	failed if this was the case. Now, we only log this event, but
+	do not fail VICE.
+
+2004-02-23  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/tfe.c: Fixed a bug where the maximum receive packet
+	length was overwritten while calling tfe_arch_receive(). This
+	resulted in many corrupt packages received.
+
 2004-02-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.5.
