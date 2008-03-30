@@ -9,6 +9,7 @@
 #define HAS_JOYSTICK            1
 #define HAVE_MOUSE              1
 #define HAVE_CATWEASELMKIII     1
+#define HAVE_HARDSID            1
 
 #define HAS_LONGLONG_INTEGER    1
 #define HAS_UNLOCKRESOURCE      1
