@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.15\n"
-"POT-Creation-Date: 2004-11-21 18:28+0100\n"
+"POT-Creation-Date: 2004-12-05 22:07+0100\n"
 "PO-Revision-Date: 2004-08-22 11:01+0200\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -3380,41 +3380,41 @@ msgstr "Désactiver le mode plein écran"
 msgid "Specify X display depth (1..32)"
 msgstr "Sécifiez la profondeur des couleurs de votre affichage X (1..32)"
 
-#: src/arch/unix/x11/video.c:180
+#: src/arch/unix/x11/video.c:181
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Appeller `XSync()' après la mise à jour de la fenêtre d'émulation"
 
-#: src/arch/unix/x11/video.c:183
+#: src/arch/unix/x11/video.c:184
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "Ne pas appeller `XSync()' après la mise à jour de la fenêtre d'émulation"
 
-#: src/arch/unix/x11/video.c:186
+#: src/arch/unix/x11/video.c:187
 msgid "Use shared memory"
 msgstr "Utiliser la mémoire partagée"
 
-#: src/arch/unix/x11/video.c:189
+#: src/arch/unix/x11/video.c:190
 msgid "Never use shared memory (slower)"
 msgstr "Ne pas utiliser la mémoire partagée (plus lent)"
 
-#: src/arch/unix/x11/video.c:192
+#: src/arch/unix/x11/video.c:193
 msgid "Request YUV FOURCC format"
 msgstr "Demander le format YUV FOURCC"
 
-#: src/arch/unix/x11/video.c:194
+#: src/arch/unix/x11/video.c:195
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Définir le ratio d'aspect (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:271
+#: src/arch/unix/x11/video.c:272
 msgid "The MITSHM extension is not supported on this display."
 msgstr "L'extension MITSHM n'est pas supportée sur cet affichage."
 
-#: src/arch/unix/x11/video.c:275
+#: src/arch/unix/x11/video.c:276
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Détecté extensions MITSHM version %d.%d."
 
-#: src/arch/unix/x11/video.c:341
+#: src/arch/unix/x11/video.c:342
 msgid "Cannot release shared memory!"
 msgstr "Impossible de relâcher la mémoire partagée!"
 

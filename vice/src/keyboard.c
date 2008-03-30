@@ -410,6 +410,7 @@ static void keyboard_keyconvmap_alloc(void)
 static void keyboard_keyconvmap_free(void)
 {
     lib_free(keyconvmap);
+    keyconvmap = NULL;
 }
 
 static void keyboard_keyconvmap_realloc(void)
@@ -539,7 +540,7 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
     int i;
 
     for (i = 0; keyconvmap[i].sym; i++) {
-        if (sym == keyconvmap[i].sym) {
+        if (sym == keyconvmap[i].sym && !(keyconvmap[i].shift & ALLOW_OTHER)) {
             keyconvmap[i].row = row;
             keyconvmap[i].column = col;
             keyconvmap[i].shift = shift;

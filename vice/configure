@@ -1307,7 +1307,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=15
-VICE_VERSION_BUILD=10
+VICE_VERSION_BUILD=11
 
 
 
@@ -9925,7 +9925,7 @@ fi
 
 fi
 
-if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes"; then
+if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
 
   if test x"$enable_ffmpeg" = "xyes" ; then
 
