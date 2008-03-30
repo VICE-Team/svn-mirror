@@ -1,8 +1,9 @@
 /*
- * uisnapshot.h - Implementation of the snapshot load/save dialogs.
+ * uihelp.h - Help menu UI.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,11 +25,10 @@
  *
  */
 
-#ifndef _UISNAPSHOT_H
-#define _UISNAPSHOT_H
+#ifndef _UIHELP_H
+#define _UIHELP_H
 
-extern void ui_snapshot_load(HWND hwnd);
-extern void ui_snapshot_save(HWND hwnd);
+extern void ui_help_dialog(HWND hwnd, WPARAM wparam);
 
 #endif
 

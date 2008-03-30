@@ -77,6 +77,8 @@ libarch_a_SOURCES = \
 	ui.h \
 	uiacia.c \
 	uiacia.h \
+	uiattach.c \
+	uiattach.h \
 	uic128.c \
 	uic128.h \
 	uic64cart.c \
@@ -99,6 +101,8 @@ libarch_a_SOURCES = \
 	uidriveplus4.h \
 	uifliplist.c \
 	uifliplist.h \
+	uihelp.c \
+	uihelp.h \
 	uiide64.c \
 	uiide64.h \
 	uijoystick.c \
@@ -116,12 +120,16 @@ libarch_a_SOURCES = \
 	uiplus4cart.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
+	uiquicksnapshot.c \
+	uiquicksnapshot.h \
 	uiram.c \
 	uiram.h \
 	uireu.c \
 	uireu.h \
 	uirom.c \
 	uirom.h \
+	uirs232.c \
+	uirs232.h \
 	uirs232user.c \
 	uirs232user.h \
 	uisid.c \
@@ -145,7 +153,6 @@ libarch_a_SOURCES = \
 	videoarch.h \
 	vsidui.c \
 	vsyncarch.c \
-	winhack.h \
 	winmain.c \
 	winmain.h
 

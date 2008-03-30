@@ -178,6 +178,10 @@ SOURCE=.\uiacia.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiattach.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uic128.c
 # End Source File
 # Begin Source File
@@ -226,6 +230,10 @@ SOURCE=.\uifliplist.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uihelp.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uiide64.c
 # End Source File
 # Begin Source File
@@ -262,6 +270,10 @@ SOURCE=.\uiplus4mem.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiquicksnapshot.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uiram.c
 # End Source File
 # Begin Source File
@@ -271,6 +283,10 @@ SOURCE=.\uireu.c
 # Begin Source File
 
 SOURCE=.\uirom.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uirs232.c
 # End Source File
 # Begin Source File
 

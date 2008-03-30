@@ -35,6 +35,8 @@
 #include <tchar.h>
 
 #include "drive.h"
+#include "fullscrn.h"
+#include "interrupt.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
@@ -133,7 +135,7 @@ static char *ui_save_snapshot(const TCHAR *title, const char *filter,
 }
 
 
-void ui_snapshot_save_dialog(HWND hwnd)
+static void ui_snapshot_save_dialog(HWND hwnd)
 {
     char *s;
     s = ui_save_snapshot(TEXT("Save snapshot image"),
@@ -149,7 +151,7 @@ void ui_snapshot_save_dialog(HWND hwnd)
 }
 
 
-void ui_snapshot_load_dialog(HWND hwnd)
+static void ui_snapshot_load_dialog(HWND hwnd)
 {
     TCHAR *st_name;
 
@@ -165,5 +167,32 @@ void ui_snapshot_load_dialog(HWND hwnd)
         system_wcstombs_free(name);
         lib_free(st_name);
     }
+}
+
+static void save_snapshot_trap(WORD unused_addr, void *hwnd)
+{
+    SuspendFullscreenModeKeep(hwnd);
+    ui_snapshot_save_dialog(hwnd);
+    ResumeFullscreenModeKeep(hwnd);
+}
+
+static void load_snapshot_trap(WORD unused_addr, void *hwnd)
+{
+    SuspendFullscreenModeKeep(hwnd);
+    ui_snapshot_load_dialog(hwnd);
+    ResumeFullscreenModeKeep(hwnd);
+}
+
+void ui_snapshot_load(HWND hwnd)
+{
+    if (!ui_emulation_is_paused())
+        interrupt_maincpu_trigger_trap(load_snapshot_trap, hwnd);
+    else
+        load_snapshot_trap(0, 0);
+}
+
+void ui_snapshot_save(HWND hwnd)
+{
+    interrupt_maincpu_trigger_trap(save_snapshot_trap, hwnd);
 }
 

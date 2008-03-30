@@ -1,3 +1,39 @@
+2004-09-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.5.
+
+	* arch/win32/res.rc, arch/win32/res.h, arch/win32/ui.c,
+	arch/win32/resc64.rc, arch/win32/resc128.rc,
+	arch/win32/resvic20.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/rescbm2.rc: Added RS232
+	settings dialog.
+
+	* arch/win32/uirs232.c, arch/win32/uirs232.h,
+	arch/win32/uiattach.c, arch/win32/uiattach.h,
+	arch/win32/uiquicksnapshot.c, arch/win32/uiquicksnapshot.h,
+	arch/win32/uihelp.c, arch/win32/uihelp.h: New files.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Added new
+	files.
+
+	* arch/win32/uirs232user.c, arch/win32/uiacia.c: Fixed RS232
+	device name.
+
+	* arch/win32/ui.c: Moved attach, quicksnapshot and help
+	specific code to separate files.
+
+	* arch/win32/uiperipheral.c, arch/win32/res.h,
+	arch/win32/res.rc: Added opencbmlib settings.
+
+	* arch/win32/opencbmlib.c, opencbmlib.h
+	(opencbm_is_available): New function.
+
+	* arch/win32/winhack.h: Removed.
+
+	* arch/win32/uisnapshot.c, arch/win32/uisnapshot.h,
+	arch/win32/ui.c, arch/win32/ui.h: Moved more snapshot specific
+	code to separate file.
+
 2004-09-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.4.
