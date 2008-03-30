@@ -54,16 +54,16 @@
 /*----------------------------------------------------------------------*/
 /* CPU binding */
 
-#define	mycpu_set_int(a,b) maincpu_set_irq((a),(b))
-#define	mycpu_restore_int(a,b) \
+#define mycpu_set_int(a,b) maincpu_set_irq((a),(b))
+#define mycpu_restore_int(a,b) \
         interrupt_set_irq_noclk(&maincpu_int_status,(a),(b))
 
 #define mycpu_rmw_flag  rmw_flag
 #define myclk           clk
 
-#define	MYIRQ	IK_IRQ
+#define MYIRQ   IK_IRQ
 
-#define	I_MYTPI I_TPI1
+#define I_MYTPI I_TPI1
 
 /*----------------------------------------------------------------------*/
 /* TPI resources. */
@@ -107,18 +107,18 @@ _TPI_FUNC void store_pa(BYTE byte)
         BYTE tmp = ~byte;
         cia1_set_ieee_dir(byte & 2);
         if (byte & 2) {
-    	    parallel_cpu_set_ndac(0);
-	    parallel_cpu_set_nrfd(0);
-            parallel_cpu_set_atn(tmp & 0x08);
-            parallel_cpu_set_dav(tmp & 0x10);
-            parallel_cpu_set_eoi(tmp & 0x20);
+            parallel_cpu_set_ndac(0);
+            parallel_cpu_set_nrfd(0);
+            parallel_cpu_set_atn((BYTE)(tmp & 0x08));
+            parallel_cpu_set_dav((BYTE)(tmp & 0x10));
+            parallel_cpu_set_eoi((BYTE)(tmp & 0x20));
         } else {
-	    /* order is important */
-            parallel_cpu_set_nrfd(tmp & 0x80);
-            parallel_cpu_set_ndac(tmp & 0x40);
-	    parallel_cpu_set_atn(0);
-	    parallel_cpu_set_dav(0);
-	    parallel_cpu_set_eoi(0);
+            /* order is important */
+            parallel_cpu_set_nrfd((BYTE)(tmp & 0x80));
+            parallel_cpu_set_ndac((BYTE)(tmp & 0x40));
+            parallel_cpu_set_atn(0);
+            parallel_cpu_set_dav(0);
+            parallel_cpu_set_eoi(0);
         }
     }
 }
@@ -128,22 +128,22 @@ _TPI_FUNC void undump_pa(BYTE byte)
     BYTE tmp = ~byte;
     cia1_set_ieee_dir(byte & 2);
     if (byte & 2) {
-	parallel_cpu_set_ndac(0);
-	parallel_cpu_set_nrfd(0);
-        parallel_cpu_restore_atn(tmp & 0x08);
-        parallel_cpu_set_dav(tmp & 0x10);
-        parallel_cpu_set_eoi(tmp & 0x20);
+        parallel_cpu_set_ndac(0);
+        parallel_cpu_set_nrfd(0);
+        parallel_cpu_restore_atn((BYTE)(tmp & 0x08));
+        parallel_cpu_set_dav((BYTE)(tmp & 0x10));
+        parallel_cpu_set_eoi((BYTE)(tmp & 0x20));
     } else {
-	/* order is important */
-        parallel_cpu_set_nrfd(tmp & 0x80);
-        parallel_cpu_set_ndac(tmp & 0x40);
-	parallel_cpu_restore_atn(0);
-	parallel_cpu_set_dav(0);
-	parallel_cpu_set_eoi(0);
+        /* order is important */
+        parallel_cpu_set_nrfd((BYTE)(tmp & 0x80));
+        parallel_cpu_set_ndac((BYTE)(tmp & 0x40));
+        parallel_cpu_restore_atn(0);
+        parallel_cpu_set_dav(0);
+        parallel_cpu_set_eoi(0);
     }
 }
 
-_TPI_FUNC void store_pb(BYTE byte) 
+_TPI_FUNC void store_pb(BYTE byte)
 {
     if ((byte ^ oldpb) & 0x40)
         datasette_set_motor(!(byte & 0x40));
@@ -151,15 +151,15 @@ _TPI_FUNC void store_pb(BYTE byte)
         datasette_toggle_write_bit(byte & 0x20);
 }
 
-_TPI_FUNC void store_pc(BYTE byte) 
+_TPI_FUNC void store_pc(BYTE byte)
 {
 }
 
-_TPI_FUNC void undump_pb(BYTE byte) 
+_TPI_FUNC void undump_pb(BYTE byte)
 {
 }
 
-_TPI_FUNC void undump_pc(BYTE byte) 
+_TPI_FUNC void undump_pc(BYTE byte)
 {
 }
 
