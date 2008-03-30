@@ -1,3 +1,146 @@
+Sat May  9 11:18:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.18.
+
+	* include/vicii.h: Moved to `c64/vicii.h'.
+	* include/vic.h: Moved to `vic20/vic.h'.
+	* include/crtc.h: Moved to `pet/crtc.h'.
+
+	* true1541.c: New variables `pal_cycles_per_sec',
+ 	`ntsc_cycles_per_sec'.
+	(initialize_true1541): New parameters `pal_hz', `ntsc_hz'.
+	Initialize `pal_cycles_per_sec' and `ntsc_cycles_per_sec' from
+	their values.
+
+	* c64/c64.c, vic20/vic20.c (machine_init): Updated
+ 	`kbd_buf_init()' and `autostart_init()' calls.
+
+	* autostart.c: New variable `min_cycles'.  Use it instead of
+ 	hardcoded constants.
+	(autostart_init): New parameter `mincycles'.
+
+	* kbdbuf.c: New variable `kernal_init_cycles'.
+	(kbd_buf_init): New parameter `newcycles'.  Initialize
+	`kernal_init_cycles' with its value.
+	(kbd_buf_flush): Do not write to the Kernal keyboard buffer before
+ 	`kernal_init_cycles' ticks.
+
+	* true1541.c (true1541_prevent_clk_overflow): New parameter `sub',
+ 	passed to `true1541_cpu_prevent_clk_overflow'.  Use the value
+ 	returned by `true1541_cpu_prevent_clk_overflow' instead of
+ 	`PREVENT_CLK_OVERFLOW_SUB'.
+
+	* 1541cpu.c (true1541_cpu_prevent_clk_overflow): New parameter
+ 	`sub'; return type changed to `CLOCK'.  Return the number of
+ 	cycles subtracted.
+
+	* c64/c64.c (machine_init): Call `initialize_sound'.
+
+	* main.c (main): Do not call `initialize_sound' anymore.
+
+	* sid.c: New variables `cycles_per_sec', `cycles_per_rfsh'.  Use
+ 	them instead of old `CYCLES_PER_SEC' and `CYCLES_PER_RFSH'
+ 	#defined constants.
+ 	(initialize_sound): New parameters `clock_rate',
+ 	`cycles_per_frame'.  Initialize `cycles_per_sec' and
+	`cycles_per_rfsh' from them.
+
+	* c64/vicii.c (vic_ii_prevent_clk_overflow): New parameter `sub'.
+	Use it instead of `PREVENT_CLK_OVERFLOW_SUB'.
+	* vic20/vic.c (vic_prevent_clk_overflow): Likewise.
+	* pet/crtc.c (crtc_prevent_clk_overflow): Likewise.
+	* cia-tmpl.c (mycia_prevent_clk_overflow): Likewise.
+	* via-tmpl.c (myvia_prevent_clk_overflow): Likewise.
+	* sid.c (sid_prevent_clk_overflow): Likewise.
+
+	* vic20/vic20.c, c64/c64.c, pet/pet.c (vsync_hook): Adapted
+ 	accordingly.
+
+	* include/interrupt.h: Removed `PREVENT_CLK_OVERFLOW_SUB'.
+ 	(prevent_clk_overflow): New parameter `baseval'.  Calculate the
+ 	number of cycles to subtract so that it is multiple of `baseval'.
+  	Return the number of subtracted cycles instead of a boolean value.
+
+	* include/vmachine.h: Removed timing constants.
+
+	* c64/c64.h, vic20/vic20.h: New files.
+
+	* patchrom.c (patch_rom): If `str' is not a number, check if its
+ 	value is "sx"; if so, patch to revision 67; otherwise report an
+	error.  Moreover, handle revision "4064" as revision "100".
+
+	* vic20/vic20.c (machine_init): Removed argument to
+ 	`autostart_init()'.
+
+	* include/vice.h: Do not #define `AUTOSTART'.
+
+	* include/autostart.h (autostart_reset): Removed `#ifdef
+ 	AUTOSTART'.
+
+	* vic20/vic20mem.c: Command-line options.
+	(vic20_mem_init_cmdline_options): New function.
+
+	* c64/c64.c (machine_init_cmdline_options): New function.
+  	Initialize the command-line options for all the C64 modules.
+
+	* sid.c: Command-line options.
+	(sid_init_cmdline_options): New function.
+
+	* true1541.c (set_sync_factor): Added missing assignment to
+ 	`sync_factor' when the value is not `TRUE1541_SYNC_PAL' or
+ 	`TRUE1541_SYNC_NTSC'.
+	(true1541_enable): Do not enable the 1541 emulation if the ROM has
+	not been loaded.
+
+	* arch/unix/video.c: Command-line options.
+	(video_init_cmdline_options): New function.
+
+	* arch/unix/vsync.c: Command-line options.
+	(vsync_init_cmdline_options): New function.
+
+	* arch/unix/ui_xaw.c: Command-line options.
+	(ui_init_cmdline_options): New function.
+
+	* include/vicii.h, include/vic.h, include/crtc.h: Removed
+ 	`SCREEN_SKIP_FRAMES'.
+
+	* c64/vicii.c: Command-line options.
+	(vic_ii_init_cmdline_options): New function.
+
+	* c64/c64mem.c: Command-line options.
+	(c64_mem_init_cmdline_options): New function.
+	(mem_load): Display the ROM names when error happens.
+
+	* main.c (main): Call `sysfile_init_cmdline_options()'.  Moved
+ 	loading of resources before the command-line parsing.  Removed
+ 	assignment to `app_resources.mitshm'.  Exit if there are extra
+ 	unneeded arguments on the command-line instead of just ignoring
+ 	them.
+
+	* sysfile.c (sysfile_init_cmdline_options): New function.
+
+	* cmdline.c (cmdline_parse): Use `resource_set_value_string()' to
+	set the value of a resource from a command-line option.
+
+	* resources.c (resources_set_value_string): New function.
+
+Fri May  8 23:08:50 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* main.c: Updated option list with the new description fields.
+
+	* cmdline.c (cmdline_show_help): New function.
+
+	* include/cmdline.h: New members `param_name' and `description' in
+	`cmdline_option_t'.
+
+	* main.c (main): Fixed typo `argc > 1' -> `argc >= 1'.
+	(cmdline_default): New function.  Implements new option
+ 	`-default'.
+
+	* cmdline.c (lookup, cmdline_parse): Fixed handling of ambiguous
+ 	options.
+	(cmdline_parse): `--' interrupts command-line parsing.
+
 Fri May  8 20:00:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.17.
