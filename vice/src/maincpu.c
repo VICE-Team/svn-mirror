@@ -60,7 +60,7 @@
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
    trace all the opcodes being executed.  This is mainly useful for
    debugging, and also makes things a bit slower.  */
-/* #define TRACE */
+#define TRACE
 
 /* Print a message whenever a program attempts to execute instructions fetched
    from the I/O area.  */
