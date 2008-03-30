@@ -437,14 +437,14 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
    exporting/importing and we just use global variables.  This also makes it
    possible to let the monitor access the CPU status without too much
    headache.   */
-#define reg_a   drv->cpu.cpu_regs.reg_a
-#define reg_x   drv->cpu.cpu_regs.reg_x
-#define reg_y   drv->cpu.cpu_regs.reg_y
-#define reg_pc  drv->cpu.cpu_regs.reg_pc
-#define reg_sp  drv->cpu.cpu_regs.reg_sp
-#define reg_p   drv->cpu.cpu_regs.reg_p
-#define flag_z  drv->cpu.cpu_regs.flag_z
-#define flag_n  drv->cpu.cpu_regs.flag_n
+#define reg_a   (drv->cpu.cpu_regs.a)
+#define reg_x   (drv->cpu.cpu_regs.x)
+#define reg_y   (drv->cpu.cpu_regs.y)
+#define reg_pc  (drv->cpu.cpu_regs.pc)
+#define reg_sp  (drv->cpu.cpu_regs.sp)
+#define reg_p   (drv->cpu.cpu_regs.p)
+#define flag_z  (drv->cpu.cpu_regs.z)
+#define flag_n  (drv->cpu.cpu_regs.n)
 
     drive_cpu_wake_up(drv);
 
