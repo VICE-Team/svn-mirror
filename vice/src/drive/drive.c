@@ -48,9 +48,8 @@
 #endif
 #include <stdio.h>
 #include <ctype.h>
-#include <assert.h>
-#include <string.h>
 #include <math.h>
+#include <string.h>
 #include <errno.h>
 #endif
 #ifdef HAVE_UNISTD_H
@@ -375,7 +374,6 @@ static int set_sync_factor(resource_value_t v)
             return -1;
         }
     }
-
     return 0;
 }
 
@@ -643,7 +641,7 @@ static void drive_set_clock_frequency(int type, int dnr);
 
 static void drive_read_image_d64_d71(int dnr)
 {
-    BYTE buffer[260], *ptr, chksum;
+    BYTE buffer[260], chksum;
     int rc, i;
     int track, sector;
 
@@ -680,6 +678,7 @@ static void drive_read_image_d64_d71(int dnr)
     drive_set_half_track(drive[dnr].current_half_track, &drive[dnr]);
 
     for (track = 1; track <= drive[dnr].image->tracks; track++) {
+        BYTE *ptr;
         int max_sector = 0;
 
         ptr = drive[dnr].gcr->data + GCR_OFFSET(track, 0);
@@ -709,203 +708,6 @@ static void drive_read_image_d64_d71(int dnr)
         }
     }
 }
-
-static int drive_read_image_gcr(int dnr)
-{
-    int track, track_len, zone_len, i, NumTracks;
-    BYTE len[2], comp_speed[NUM_MAX_BYTES_TRACK / 4];
-    BYTE *track_data, *zone_data;
-    DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
-    DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
-    off_t offset;
-
-    NumTracks = drive[dnr].image->tracks;
-
-    fseek(drive[dnr].image->fd, 12, SEEK_SET);
-    if (read_dword(drive[dnr].image->fd, gcr_track_p,
-                   NumTracks * 8) < 0) {
-        log_error(drive[dnr].log, "Could not read GCR disk image.");
-        return 0;
-    }
-
-    fseek(drive[dnr].image->fd, 12 + NumTracks * 8, SEEK_SET);
-    if (read_dword(drive[dnr].image->fd, gcr_speed_p,
-                   NumTracks * 8) < 0) {
-        log_error(drive[dnr].log, "Could not read GCR disk image.");
-        return 0;
-    }
-
-    for (track = 0; track < MAX_TRACKS_1541; track++) {
-
-	track_data = drive[dnr].gcr->data + track * NUM_MAX_BYTES_TRACK;
-	zone_data = drive[dnr].gcr->speed_zone + track * NUM_MAX_BYTES_TRACK;
-	memset(track_data, 0xff, NUM_MAX_BYTES_TRACK);
-	memset(zone_data, 0x00, NUM_MAX_BYTES_TRACK / 4);
-	drive[dnr].gcr->track_size[track] = 6250;
-
-	if (track <= NumTracks && gcr_track_p[track * 2] != 0) {
-
-	    offset = gcr_track_p[track * 2];
-
-	    fseek(drive[dnr].image->fd, offset, SEEK_SET);
-	    if (fread((char *)len, 2, 1, drive[dnr].image->fd) < 1) {
-		log_error(drive[dnr].log, "Could not read GCR disk image.");
-		return 0;
-	    }
-
-	    track_len = len[0] + len[1] * 256;
-
-	    if (track_len < 5000 || track_len > 7928) {
-		log_error(drive[dnr].log,
-                          "Track field length %i is not supported.",
-                          track_len);
-		return 0;
-	    }
-
-	    drive[dnr].gcr->track_size[track] = track_len;
-
-	    fseek(drive[dnr].image->fd, offset + 2, SEEK_SET);
-	    if (fread((char *)track_data, track_len, 1,
-                drive[dnr].image->fd) < 1) {
-		log_error(drive[dnr].log, "Could not read GCR disk image.");
-		return 0;
-	    }
-
-	    zone_len = (track_len + 3) / 4;
-
-	    if (gcr_speed_p[track * 2] > 3) {
-
-		offset = gcr_speed_p[track * 2];
-
-		fseek(drive[dnr].image->fd, offset, SEEK_SET);
-		if (fread((char *)comp_speed, zone_len, 1,
-                drive[dnr].image->fd) < 1) {
-		    log_error(drive[dnr].log,
-                              "Could not read GCR disk image.");
-		    return 0;
-		}
-
-		for (i = 0; i < zone_len; i++) {
-		    zone_data[i * 4] = comp_speed[i] & 3;
-		    zone_data[i * 4 + 1] = (comp_speed[i] >> 2) & 3;
-		    zone_data[i * 4 + 2] = (comp_speed[i] >> 4) & 3;
-		    zone_data[i * 4 + 3] = (comp_speed[i] >> 6) & 3;
-		}
-	    } else {
-		memset(zone_data, gcr_speed_p[track * 2], NUM_MAX_BYTES_TRACK);
-	    }
-	}
-    }
-    return 1;
-}
-
-#if 0
-static void write_track_gcr(int track, int dnr)
-{
-    int gap, i, NumTracks;
-    BYTE len[2];
-    DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
-    DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
-    off_t offset;
-
-    NumTracks = drive[dnr].image->tracks;
-
-    fseek(drive[dnr].image->fd, 12, SEEK_SET);
-    if (read_dword(drive[dnr].image->fd, gcr_track_p,
-                   NumTracks * 8) < 0) {
-	log_error(drive[dnr].log, "Could not read GCR disk image header.");
-	return;
-    }
-
-    fseek(drive[dnr].image->fd, 12 + NumTracks * 8, SEEK_SET);
-    if (read_dword(drive[dnr].image->fd, gcr_speed_p,
-                   NumTracks * 8) < 0) {
-	log_error(drive[dnr].log, "Could not read GCR disk image header.");
-	return;
-    }
-
-    if (gcr_track_p[(track - 1) * 2] == 0) {
-	offset = fseek(drive[dnr].image->fd, 0, SEEK_END);
-	if (offset < 0) {
-	    log_error(drive[dnr].log, "Could not extend GCR disk image.");
-	    return;
-	}
-	gcr_track_p[(track - 1) * 2] = offset;
-    }
-
-    offset = gcr_track_p[(track - 1) * 2];
-
-    len[0] = drive[dnr].gcr->track_size[track - 1] % 256;
-    len[1] = drive[dnr].gcr->track_size[track - 1] / 256;
-
-    if (fseek(drive[dnr].image->fd, offset, SEEK_SET) < 0
-        || fwrite((char *)len, 2, 1, drive[dnr].image->fd) < 1) {
-	log_error(drive[dnr].log, "Could not write GCR disk image.");
-	return;
-    }
-
-    /* Clear gap between the end of the actual track and the start of
-       the next track.  */
-    gap = NUM_MAX_BYTES_TRACK - drive[dnr].gcr->track_size[track - 1];
-    if (gap > 0)
-	memset(drive[dnr].GCR_track_start_ptr + drive[dnr].gcr->track_size[track - 1], 0, gap);
-
-    if (fseek(drive[dnr].image->fd, offset + 2, SEEK_SET) < 0
-        || fwrite((char *)drive[dnr].GCR_track_start_ptr, NUM_MAX_BYTES_TRACK,
-        1, drive[dnr].image->fd) < 1) {
-	log_error(drive[dnr].log, "Could not write GCR disk image.");
-	return;
-    }
-
-    for (i = 0; (drive[dnr].gcr->speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK]
-                 == drive[dnr].gcr->speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK + i])
-             && i < NUM_MAX_BYTES_TRACK; i++);
-
-    if (i < drive[dnr].gcr->track_size[track - 1]) {
-	/* This will change soon.  */
-	log_error(drive[dnr].log,
-                  "Saving different speed zones is not supported yet.");
-	return;
-    }
-
-    if (gcr_speed_p[(track - 1) * 2] >= 4) {
-	/* This will change soon.  */
-	log_error(drive[dnr].log,
-                  "Adding new speed zones is not supported yet.");
-	return;
-    }
-
-    offset = 12 + NumTracks * 8 + (track - 1) * 8;
-    if (fseek(drive[dnr].image->fd, offset, SEEK_SET) < 0
-        || write_dword(drive[dnr].image->fd,
-                       &gcr_speed_p[(track - 1) * 2], 4) < 0) {
-        log_error(drive[dnr].log, "Could not write GCR disk image.");
-        return;
-    }
-
-#if 0  /* We do not support writing different speeds yet.  */
-    for (i = 0; i < (NUM_MAX_BYTES_TRACK / 4); i++)
-        zone_len = (drive[dnr].gcr->track_size[track - 1] + 3) / 4;
-    zone_data = drive[dnr].-gcr->speed_zone + (track - 1) * NUM_MAX_BYTES_TRACK;
-
-    if (gap > 0)
-	memset(zone_data + drive[dnr].gcr->track_size[track - 1], 0, gap);
-
-    for (i = 0; i < (NUM_MAX_BYTES_TRACK / 4); i++)
-	comp_speed[i] = (zone_data[i * 4]
-                         | (zone_data[i * 4 + 1] << 2)
-                         | (zone_data[i * 4 + 2] << 4)
-                         | (zone_data[i * 4 + 3] << 6));
-
-    if (fseek(drive[dnr].image->fd, offset, SEEK_SET) < 0
-        || fwrite((char *)comp_speed, NUM_MAX_BYTES_TRACK / 4, 1
-        drive[dnr].image->fd) < 1) {
-        log_error(drive[dnr].log, "Could not write GCR disk image");
-        return;
-    }
-#endif
-}
-#endif
 
 static int setID(int dnr)
 {
@@ -1168,7 +970,8 @@ static int drive_do_1541_checksum(void)
 
 static int drive_load_1541(void)
 {
-    if (!drive_rom_load_ok) return 0;
+    if (!drive_rom_load_ok)
+        return 0;
 
     /* Load the ROMs. */
     if (sysfile_load(dos_rom_name_1541, drive_rom1541, DRIVE_ROM1541_SIZE,
@@ -1185,7 +988,8 @@ static int drive_load_1541(void)
 
 static int drive_load_1541ii(void)
 {
-    if (!drive_rom_load_ok) return 0;
+    if (!drive_rom_load_ok)
+        return 0;
 
     if (sysfile_load(dos_rom_name_1541ii, drive_rom1541ii,
         DRIVE_ROM1541II_SIZE, DRIVE_ROM1541II_SIZE) < 0) {
@@ -1194,14 +998,15 @@ static int drive_load_1541ii(void)
                   "Hardware-level 1541-II emulation is not available.");
     } else {
         rom1541ii_loaded = 1;
-	return 0;
+        return 0;
     }
     return -1;
 }
 
 static int drive_load_1571(void)
 {
-    if (!drive_rom_load_ok) return 0;
+    if (!drive_rom_load_ok)
+        return 0;
 
     if (sysfile_load(dos_rom_name_1571, drive_rom1571, DRIVE_ROM1571_SIZE,
         DRIVE_ROM1571_SIZE) < 0) {
@@ -1210,14 +1015,15 @@ static int drive_load_1571(void)
                   "Hardware-level 1571 emulation is not available.");
     } else {
         rom1571_loaded = 1;
-	return 0;
+        return 0;
     }
     return -1;
 }
 
 static int drive_load_1581(void)
 {
-    if (!drive_rom_load_ok) return 0;
+    if (!drive_rom_load_ok)
+        return 0;
 
     if (sysfile_load(dos_rom_name_1581, drive_rom1581, DRIVE_ROM1581_SIZE,
         DRIVE_ROM1581_SIZE) < 0) {
@@ -1226,14 +1032,15 @@ static int drive_load_1581(void)
                   "Hardware-level 1581 emulation is not available.");
     } else {
         rom1581_loaded = 1;
-	return 0;
+        return 0;
     }
     return -1;
 }
 
 static int drive_load_2031(void)
 {
-    if (!drive_rom_load_ok) return 0;
+    if (!drive_rom_load_ok)
+        return 0;
 
     if (sysfile_load(dos_rom_name_2031, drive_rom2031, DRIVE_ROM2031_SIZE,
         DRIVE_ROM2031_SIZE) < 0) {
@@ -1242,14 +1049,15 @@ static int drive_load_2031(void)
                   "Hardware-level 2031 emulation is not available.");
     } else {
         rom2031_loaded = 1;
-	return 0;
+        return 0;
     }
     return -1;
 }
 
 static int drive_load_1001(void)
 {
-    if (!drive_rom_load_ok) return 0;
+    if (!drive_rom_load_ok)
+        return 0;
 
     if (sysfile_load(dos_rom_name_1001, drive_rom1001, DRIVE_ROM1001_SIZE,
         DRIVE_ROM1001_SIZE) < 0) {
@@ -1258,7 +1066,7 @@ static int drive_load_1001(void)
                   "Hardware-level 1001 emulation is not available.");
     } else {
         rom1001_loaded = 1;
-	return 0;
+        return 0;
     }
     return -1;
 }
@@ -1499,7 +1307,7 @@ int drive_attach_image(disk_image_t *image, int unit)
     dnr = unit - 8;
 
     if (drive_check_image_format(image->type, dnr) < 0)
-        return 0;
+        return -1;
 
     drive[dnr].read_only = image->read_only;
     drive[dnr].have_new_disk = 1;
@@ -1529,7 +1337,7 @@ int drive_attach_image(disk_image_t *image, int unit)
     drive[dnr].image->gcr = drive[dnr].gcr;
 
     if (drive[dnr].image->type == DISK_IMAGE_TYPE_GCR) {
-        if (!drive_read_image_gcr(dnr)) {
+        if (disk_image_read_gcr_image(drive[dnr].image) < 0) {
             return -1;
         }
     } else {
@@ -1578,6 +1386,7 @@ int drive_detach_image(disk_image_t *image, int unit)
         memset(drive[dnr].gcr->data, 0, sizeof(drive[dnr].gcr->data));
         drive[dnr].detach_clk = drive_clk[dnr];
         drive[dnr].GCR_image_loaded = 0;
+        drive[dnr].read_only = 0;
         drive[dnr].image = NULL;
     }
     return 0;
