@@ -73,7 +73,7 @@ static int set_system_path(resource_value_t v, void *param)
         if (!archdep_path_is_relative(tmp_path)) {
             /* absolute path */
             if (expanded_system_path == NULL) {
-                s = util_concat(tmp_path, NULL ); /* concat allocs a new str. */
+                s = util_concat(tmp_path, NULL); /* concat allocs a new str. */
             } else {
                 s = util_concat(expanded_system_path,
                     FINDPATH_SEPARATOR_STRING,
