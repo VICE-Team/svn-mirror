@@ -88,8 +88,10 @@ int mon_stop_output;
 #define ADDR_LIMIT(x) (LO16(x))
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 
-#define GET_OPCODE(mem) \
-    (mon_get_mem_val(mem, (monitor_cpu_type.mon_register_get_val)(mem, e_PC)))
+#define GET_OPCODE(mem)                                                     \
+    (mon_get_mem_val(mem,                                                   \
+                     (ADDRESS)((monitor_cpu_type.mon_register_get_val)(mem, \
+                     e_PC))))
 
 console_t *console_log = NULL;
 

@@ -217,7 +217,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
             sprintf(buffp, " (%s),IX", addr_name);
         } else {
             if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
-                ival - 1)))
+                (ADDRESS)(ival - 1))))
                 sprintf(buffp, " (%s+1),IX", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),IX" : " (%5d),IX"), ival);

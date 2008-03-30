@@ -76,9 +76,12 @@ char *mon_disassemble_with_label(MEMSPACE memspace, ADDRESS loc, int hex,
     /* process the disassembly itself */
     p = mon_disassemble_to_string_ex(memspace, loc,
                                      mon_get_mem_val(memspace, loc),
-                                     mon_get_mem_val(memspace, loc+1),
-                                     mon_get_mem_val(memspace, loc+2),
-                                     mon_get_mem_val(memspace, loc+3),
+                                     mon_get_mem_val(memspace,
+                                                     (ADDRESS)(loc + 1)),
+                                     mon_get_mem_val(memspace,
+                                                     (ADDRESS)(loc + 2)),
+                                     mon_get_mem_val(memspace,
+                                                     (ADDRESS)(loc + 3)),
                                      hex,
                                      opc_size_p);
 
