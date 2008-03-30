@@ -65,6 +65,25 @@
 
 extern char *slot_type[]; /* FIXME: Away with this!  */
 
+void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
+                                 int reallength, int filetype)
+{
+    p->slot = (BYTE *)xmalloc(32);
+    memset(p->slot, 0, 32);
+    memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
+    memcpy(p->slot + SLOT_NAME_OFFSET, realname, reallength);
+#ifdef DEBUG_DRIVE
+    fprintf(logfile, "DIR: Created dir slot. Name (%d) '%s'\n",
+            reallength, realname);
+#endif
+    p->slot[SLOT_TYPE_OFFSET] = filetype;       /* unclosed */
+
+    p->buffer = (BYTE *)xmalloc(256);
+    p->mode = BUFFER_SEQUENTIAL;
+    p->bufptr = 2;
+    return;
+}
+
 /*
  * Create directory listing. (called from vdrive_open)
  * If filetype is 0, match for all files.  Return the length in bytes
@@ -535,23 +554,7 @@ int vdrive_open(void *flp, char *name, int length, int secondary)
         }
     }
 
-    /*
-     * Create slot information.
-     * Different front-ends can fetch the real filename from slot info.
-     */
-
-    p->slot = (BYTE *)xmalloc(32);
-    memset(p->slot, 0, 32);
-    memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
-    memcpy(p->slot + SLOT_NAME_OFFSET, realname, reallength);
-#ifdef DEBUG_DRIVE
-    fprintf(logfile, "DIR: name (%d) '%s'\n", reallength, realname);
-#endif
-    p->slot[SLOT_TYPE_OFFSET] = filetype;	/* unclosed */
-
-    p->buffer = (BYTE *)xmalloc(256);
-    p->mode = BUFFER_SEQUENTIAL;
-    p->bufptr = 2;
+    vdrive_open_create_dir_slot(p, realname, reallength, filetype);
 
 #if 0
     /* XXX keeping entry until close not implemented */

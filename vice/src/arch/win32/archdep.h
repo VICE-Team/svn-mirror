@@ -1,5 +1,5 @@
 /*
- * vdrive-iec.h - Virtual disk-drive IEC implementation.
+ * archdep.h - Architecture dependant defines.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
@@ -24,18 +24,21 @@
  *
  */
 
-#ifndef _VDRIVEIEC_H
-#define _VDRIVEIEC_H
+#ifndef _ARCHDEP_H
+#define _ARCHDEP_H
 
-/* Generic IEC interface.  */
-extern int vdrive_open(void *floppy, char *name, int length, int secondary);
-extern int vdrive_close(void *floppy, int secondary);
-extern int vdrive_read(void *floppy, BYTE *data, int secondary);
-extern int vdrive_write(void *floppy, BYTE data, int secondary);
-extern void vdrive_flush(void *floppy, int secondary);
+/* Filesystem dependant operators.  */
+#define FSDEVICE_DEFAULT_DIR   "."
+#define FSDEV_DIR_SEP_STR      "\\"
+#define FSDEV_DIR_SEP_CHR      '\\'
+#define FSDEV_EXT_SEP_STR      "."
+#define FSDEV_EXT_SEP_CHR      '.'
 
-/* Low level access to IEC interface.  */
-extern void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
-                                        int reallength, int filetype);
+int archdep_startup(int *argc, char **argv);
+const char *archdep_program_name(void);
+const char *archdep_boot_path(void);
+const char *archdep_default_sysfile_pathlist(const char *emu_id);
+const char *archdep_default_resource_file_name(void);
+FILE *archdep_open_default_log_file(void);
 
 #endif

@@ -100,7 +100,7 @@ BEGIN
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
         , CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "&true drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
     END
     POPUP "&Settings"
     BEGIN

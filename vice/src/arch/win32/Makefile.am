@@ -16,7 +16,8 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
-	archdefs.h \
+	archdep.c \
+	archdep.h \
 	c128kbd.c \
 	c128kbd.h \
 	c128ui.c \
