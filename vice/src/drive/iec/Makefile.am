@@ -23,7 +23,6 @@ libdriveiec_a_SOURCES = \
 	iec.c \
 	iecrom.c \
 	iecrom.h \
-	mc6821.c \
 	memiec.c \
 	memiec.h \
 	via1d1541.c \

@@ -252,14 +252,5 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
                               drive_read_rama, drive_store_rama);
         }
     }
-
-    /* Setup parallel cable */
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
-        || type == DRIVE_TYPE_1570 || type == DRIVE_TYPE_1571
-        || type == DRIVE_TYPE_1571CR) {
-        if (drv->drive->parallel_cable == DRIVE_PC_DD3) {
-            drivemem_set_func(cpud, 0x50, 0x60, mc6821_read, mc6821_store);
-        }
-    }
 }
 

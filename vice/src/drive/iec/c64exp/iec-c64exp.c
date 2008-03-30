@@ -29,6 +29,7 @@
 #include "c64exp-cmdline-options.h"
 #include "c64exp-resources.h"
 #include "drivetypes.h"
+#include "mc6821.h"
 #include "profdos.h"
 
 
@@ -49,16 +50,19 @@ int iec_c64exp_cmdline_options_init(void)
 
 void iec_c64exp_init(struct drive_context_s *drv)
 {
+    mc6821_init(drv);
     profdos_init(drv);
 }
 
 void iec_c64exp_reset(struct drive_context_s *drv)
 {
+    mc6821_reset(drv);
     profdos_reset(drv);
 }
 
 void iec_c64exp_mem_init(struct drive_context_s *drv, unsigned int type)
 {
+    mc6821_mem_init(drv, type);
     profdos_mem_init(drv, type);
 }
 

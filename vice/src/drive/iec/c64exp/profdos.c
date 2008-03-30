@@ -59,11 +59,11 @@ int profdos_load_1571(const char *name)
     return 0;
 }
 
-void REGPARM3 profdos_store(drive_context_t *drv, WORD addr, BYTE byte)
+static void REGPARM3 profdos_store(drive_context_t *drv, WORD addr, BYTE byte)
 {
 }
 
-BYTE REGPARM2 profdos_read(drive_context_t *drv, WORD addr)
+static BYTE REGPARM2 profdos_read(drive_context_t *drv, WORD addr)
 {
     if (addr >= 0x7000) {
         if (!(addr & 0x0800))

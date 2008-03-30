@@ -13,5 +13,6 @@ libdriveiecc64exp_a_SOURCES = \
 	c64exp-resources.c \
 	c64exp-resources.h \
 	iec-c64exp.c \
+	mc6821.c \
 	profdos.c \
 	profdos.h

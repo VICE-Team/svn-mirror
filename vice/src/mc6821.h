@@ -53,10 +53,8 @@ typedef struct mc6821_s mc6821_t;
 
 struct drive_context_s;
 extern void mc6821_init(struct drive_context_s *drv);
-extern void REGPARM3 mc6821_store(struct drive_context_s *drv, WORD addr,
-                                  BYTE byte);
-extern BYTE REGPARM2 mc6821_read(struct drive_context_s *drv, WORD addr);
 extern void mc6821_reset(struct drive_context_s *drv);
+extern void mc6821_mem_init(struct drive_context_s *drv, unsigned int type);
 
 extern void mc6821_set_signal(struct drive_context_s *drive_context, int line);
 
