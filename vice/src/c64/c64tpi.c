@@ -116,7 +116,7 @@ _TPI_FUNC void store_pa(BYTE byte)
 
 _TPI_FUNC void store_pb(BYTE byte)
 {
-    parallel_cpu_set_bus(ieee_is_out ? byte : 0xff);
+    parallel_cpu_set_bus((BYTE)(ieee_is_out ? byte : 0xff));
 }
 
 _TPI_FUNC void undump_pa(BYTE byte)
@@ -125,7 +125,7 @@ _TPI_FUNC void undump_pa(BYTE byte)
     ieee_is_dev = byte & 0x01;
     ieee_is_out = byte & 0x02;
 
-    parallel_cpu_set_bus(ieee_is_out ? oldpb : 0xff);
+    parallel_cpu_set_bus((BYTE)(ieee_is_out ? oldpb : 0xff));
 
     if (ieee_is_out) {
         parallel_cpu_set_ndac(0);
@@ -147,7 +147,7 @@ _TPI_FUNC void undump_pa(BYTE byte)
 
 _TPI_FUNC void undump_pb(BYTE byte)
 {
-    parallel_cpu_set_bus(ieee_is_out ? byte : 0xff);
+    parallel_cpu_set_bus((BYTE)(ieee_is_out ? byte : 0xff));
 }
 
 _TPI_FUNC void store_pc(BYTE byte)

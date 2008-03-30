@@ -517,7 +517,7 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         if (byte & 0x40) {
             /* we count ta - so we enable that */
             ciat_set_alarm(&ciata, rclk);
-            ciat_set_ctrl(&ciatb, rclk, byte | 0x20);
+            ciat_set_ctrl(&ciatb, rclk, (BYTE)(byte | 0x20));
         } else {
             ciat_set_ctrl(&ciatb, rclk, byte);
         }
@@ -1143,7 +1143,7 @@ int mycia_write_snapshot_module(CIA_CONTEXT_PARAM snapshot_t *p)
     }
     snapshot_module_write_byte(m, (BYTE)(byte));
 
-    snapshot_module_write_byte(m, ((ciatodlatched ? 1 : 0)
+    snapshot_module_write_byte(m, ((BYTE)(ciatodlatched ? 1 : 0)
                                    | (ciatodstopped ? 2 : 0)));
     snapshot_module_write_byte(m, ciatodlatch[0]);
     snapshot_module_write_byte(m, ciatodlatch[1]);

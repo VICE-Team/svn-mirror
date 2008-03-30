@@ -304,7 +304,7 @@ void psid_init_tune(void)
 
   /* Store binary C64 data. */
   for (i = 0; i < psid->data_size; i++) {
-    ram_store(psid->load_addr + i, (BYTE)(psid->data[i]));
+    ram_store((ADDRESS)(psid->load_addr + i), (BYTE)(psid->data[i]));
   }
 }
 
@@ -359,12 +359,12 @@ void psid_init_driver(void) {
 
   /* C64 interrupt vectors and PSID driver code. */
   for (addr = 0x0300, i = 0x12; i < sizeof(psid_driver); i++) {
-    ram_store(addr + i, (BYTE)(psid_driver[i]));
+    ram_store((ADDRESS)(addr + i), (BYTE)(psid_driver[i]));
   }
 
   /* C64 PAL/NTSC flag */
   resources_get_value("VideoStandard", &sync);
-  ram_store(0x02a6, (int)sync == DRIVE_SYNC_PAL ? 1 : 0);
+  ram_store((ADDRESS)0x02a6, (BYTE)((int)sync == DRIVE_SYNC_PAL ? 1 : 0));
 }
 
 
