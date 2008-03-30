@@ -1429,14 +1429,6 @@ static void drive_extend_disk_image(int dnr)
     }
 }
 
-void drive_cpu_execute(CLOCK clk_value)
-{
-    if (drive[0].enable)
-        drive0_cpu_execute(clk_value);
-    if (drive[1].enable)
-        drive1_cpu_execute(clk_value);
-}
-
 int drive_match_bus(int drive_type, int unit, int bus_map)
 {
     if ( (drive_type == DRIVE_TYPE_NONE)
