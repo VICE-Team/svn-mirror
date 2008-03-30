@@ -309,7 +309,7 @@ ac_includes_default="\
 #endif"
 
 ac_subdirs_all="$ac_subdirs_all src/resid"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE DOS_OR_WIN_TRUE DOS_OR_WIN_FALSE CPP AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES EGREP MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP JOY_OBJS SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE GFXOUTPUT_DRIVERS X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS FULLSCREEN_DRIVERS WINDRES x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ BINDIR LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE DOS_OR_WIN_TRUE DOS_OR_WIN_FALSE CPP AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES EGREP MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP JOY_OBJS SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE GFXOUTPUT_DRIVERS X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS FULLSCREEN_DRIVERS WINDRES HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ BINDIR LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1568,7 +1568,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.14.38
+ VERSION=1.14.39
 
 
 cat >>confdefs.h <<_ACEOF
@@ -3013,21 +3013,6 @@ _ACEOF
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_TFE
 _ACEOF
-
-
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_OPENCBM
-_ACEOF
-
-
-
-if true; then
-  HAVE_REALDEVICE_TRUE=
-  HAVE_REALDEVICE_FALSE='#'
-else
-  HAVE_REALDEVICE_TRUE='#'
-  HAVE_REALDEVICE_FALSE=
-fi
 
 
 
@@ -16434,7 +16419,24 @@ fi
 fi
 
 if test x"$enable_realdevice" != x"no"; then
-  if test "${ac_cv_header_opencbm_h+set}" = set; then
+  if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_OPENCBM
+_ACEOF
+
+
+
+if true; then
+  HAVE_REALDEVICE_TRUE=
+  HAVE_REALDEVICE_FALSE='#'
+else
+  HAVE_REALDEVICE_TRUE='#'
+  HAVE_REALDEVICE_FALSE=
+fi
+
+  else
+    if test "${ac_cv_header_opencbm_h+set}" = set; then
   echo "$as_me:$LINENO: checking for opencbm.h" >&5
 echo $ECHO_N "checking for opencbm.h... $ECHO_C" >&6
 if test "${ac_cv_header_opencbm_h+set}" = set; then
@@ -16565,13 +16567,13 @@ echo "${ECHO_T}$ac_cv_header_opencbm_h" >&6
 fi
 
 
-  if test x"$ac_cv_header_opencbm_h" = "xyes" ; then
+    if test x"$ac_cv_header_opencbm_h" = "xyes" ; then
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_OPENCBM_H
 _ACEOF
 
-    echo "$as_me:$LINENO: checking for cbm_get_eoi in -lopencbm" >&5
+      echo "$as_me:$LINENO: checking for cbm_get_eoi in -lopencbm" >&5
 echo $ECHO_N "checking for cbm_get_eoi in -lopencbm... $ECHO_C" >&6
 if test "${ac_cv_lib_opencbm_cbm_get_eoi+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -16644,7 +16646,7 @@ else
   HAVE_REALDEVICE_FALSE=
 fi
 
-  else
+    else
 
 
 if false; then
@@ -16655,6 +16657,7 @@ else
   HAVE_REALDEVICE_FALSE=
 fi
 
+    fi
   fi
 fi
 
@@ -17322,13 +17325,6 @@ echo "$as_me: error: conditional \"HAVE_RAWDRIVE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${HAVE_REALDEVICE_TRUE}" && test -z "${HAVE_REALDEVICE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"HAVE_REALDEVICE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"HAVE_REALDEVICE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
 if test -z "${HAVE_RS232_TRUE}" && test -z "${HAVE_RS232_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"HAVE_RS232\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -17410,6 +17406,13 @@ if test -z "${NEED_READLINE_TRUE}" && test -z "${NEED_READLINE_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"NEED_READLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"NEED_READLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_REALDEVICE_TRUE}" && test -z "${HAVE_REALDEVICE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_REALDEVICE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_REALDEVICE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -18326,8 +18329,6 @@ s,@HAVE_RS232_TRUE@,$HAVE_RS232_TRUE,;t t
 s,@HAVE_RS232_FALSE@,$HAVE_RS232_FALSE,;t t
 s,@HAVE_RAWDRIVE_TRUE@,$HAVE_RAWDRIVE_TRUE,;t t
 s,@HAVE_RAWDRIVE_FALSE@,$HAVE_RAWDRIVE_FALSE,;t t
-s,@HAVE_REALDEVICE_TRUE@,$HAVE_REALDEVICE_TRUE,;t t
-s,@HAVE_REALDEVICE_FALSE@,$HAVE_REALDEVICE_FALSE,;t t
 s,@USE_MIDAS_SOUND_TRUE@,$USE_MIDAS_SOUND_TRUE,;t t
 s,@USE_MIDAS_SOUND_FALSE@,$USE_MIDAS_SOUND_FALSE,;t t
 s,@DOS_OR_WIN_TRUE@,$DOS_OR_WIN_TRUE,;t t
@@ -18393,6 +18394,8 @@ s,@X_LIBS@,$X_LIBS,;t t
 s,@X_EXTRA_LIBS@,$X_EXTRA_LIBS,;t t
 s,@FULLSCREEN_DRIVERS@,$FULLSCREEN_DRIVERS,;t t
 s,@WINDRES@,$WINDRES,;t t
+s,@HAVE_REALDEVICE_TRUE@,$HAVE_REALDEVICE_TRUE,;t t
+s,@HAVE_REALDEVICE_FALSE@,$HAVE_REALDEVICE_FALSE,;t t
 s,@x64_LDFLAGS@,$x64_LDFLAGS,;t t
 s,@x128_LDFLAGS@,$x128_LDFLAGS,;t t
 s,@xvic_LDFLAGS@,$xvic_LDFLAGS,;t t
