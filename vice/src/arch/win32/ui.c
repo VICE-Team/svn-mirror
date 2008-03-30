@@ -1353,7 +1353,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_SOUNDSHOT | 0x00010000:
       case IDM_SOUNDSHOT:
-          SuspendFullscreenMode(hwnd);
+        SuspendFullscreenMode(hwnd);
         ui_soundshot_save_dialog(hwnd);
         ResumeFullscreenMode(hwnd);
         break;
