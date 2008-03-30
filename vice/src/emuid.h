@@ -25,5 +25,10 @@
  *
  */
 
+#ifndef _EMUID_H
+#define _EMUID_H
+
 extern BYTE emulator_id[];
+
+#endif
 
