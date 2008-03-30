@@ -93,7 +93,7 @@
 
 /* FIXME: We want these to be static.  */
 Visual *visual;
-int have_truecolor;
+static int have_truecolor;
 
 static Display *display;
 /*static*/ int screen;
