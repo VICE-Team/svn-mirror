@@ -77,9 +77,9 @@ static void draw_std_background(int start_pixel, int end_pixel)
 
 static void draw_idle_std_background(int start_pixel, int end_pixel)
 {
-        vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
-                   vic_ii.raster.overscan_background_color,
-                   end_pixel - start_pixel + 1);
+    vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+               vic_ii.raster.overscan_background_color,
+               end_pixel - start_pixel + 1);
 }
 
 /* If unaligned 32-bit access is not allowed, the graphics is stored in a
@@ -344,10 +344,11 @@ inline static void _draw_mc_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
     c[5] = c[4] = vic_ii.ext_background_color[1];
     c[11] = c[8] = vic_ii.raster.background_color;
 
-	ptmp = (WORD *)(p + xs*8);
+    ptmp = (WORD *)(p + xs * 8);
+
     for (i = xs; i <= xe; i++) {
         unsigned int d = (*(char_ptr + vic_ii.vbuf[i] * 8))
-			| ((vic_ii.cbuf[i] & 0x8) << 5);
+                         | ((vic_ii.cbuf[i] & 0x8) << 5);
 
         *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[d];
 
@@ -489,7 +490,7 @@ static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
 inline static void _draw_mc_bitmap(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 {
     BYTE *colptr, *bmptr, *ptmp;
-	BYTE c[4];
+    BYTE c[4];
     unsigned int i, j;
 
     colptr = vic_ii.cbuf;
@@ -497,7 +498,8 @@ inline static void _draw_mc_bitmap(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 
     c[0] = vic_ii.raster.background_color;
 
-	ptmp = p + xs * 8;
+    ptmp = p + xs * 8;
+
     for (j = ((vic_ii.memptr << 3) + vic_ii.raster.ycounter + xs * 8) & 0x1fff,
         i = xs; i <= xe; i++, j = (j + 8) & 0x1fff) {
 
@@ -511,11 +513,11 @@ inline static void _draw_mc_bitmap(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
         c[2] = vic_ii.vbuf[i] & 0xf;
         c[3] = colptr[i];
 
-		ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
-		ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
-		ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
-		ptmp[7] = ptmp[6] = c[mc_table[0x700 + d]];
-		ptmp += 8;
+        ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
+        ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
+        ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
+        ptmp[7] = ptmp[6] = c[mc_table[0x700 + d]];
+        ptmp += 8;
     }
 }
 
@@ -731,8 +733,7 @@ static void draw_black_foreground(int start_char, int end_char)
         + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth +
         8 * start_char));
 
-    vid_memset(p, 0,
-               (end_char - start_char + 1) * 8);
+    vid_memset(p, 0, (end_char - start_char + 1) * 8);
 
     memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
            0, VIC_II_SCREEN_TEXTCOLS);
@@ -770,9 +771,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
     p = aligned_line_buffer;
 #endif
 
-    if (VIC_II_IS_ILLEGAL_MODE(vic_ii.raster.video_mode)) {
-        vid_memset(p, 0, VIC_II_SCREEN_XPIX);
-    } else {
+    if (VIC_II_IS_TEXT_MODE(vic_ii.raster.video_mode)) {
         /* The foreground color is always black (0).  */
         unsigned int offs;
         DWORD c1, c2;
@@ -785,6 +784,36 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
             *((DWORD *)(p + i)) = c1;
             *((DWORD *)(p + i + 4)) = c2;
         }
+        memset(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE, d,
+               VIC_II_SCREEN_TEXTCOLS);
+    } else {
+        if (vic_ii.raster.video_mode == VIC_II_MULTICOLOR_BITMAP_MODE) {
+            /* FIXME: Could be optimized */
+            BYTE *ptmp;
+            BYTE c[4];
+
+            c[0] = vic_ii.raster.background_color;
+            c[1] = 0;
+            c[2] = 0;
+            c[3] = 0;
+
+            ptmp = p + xs * 8;
+
+            for (i = xs; i <= xe; i++) {
+                *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[d
+                                                               | 0x100];
+
+                ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
+                ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
+                ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
+                ptmp[7] = ptmp[6] = c[mc_table[0x700 + d]];
+                ptmp += 8;
+            }
+        } else {
+            vid_memset(p, xs * 8, (xe + 1 - xs) * 8);
+            memset(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE, d,
+                   VIC_II_SCREEN_TEXTCOLS);
+        }
     }
 
 #ifndef ALLOW_UNALIGNED_ACCESS
@@ -793,8 +822,6 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
                aligned_line_buffer + xs * 8,
                (xe - xs + 1) * 8);
 #endif
-
-    memset(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE, d, VIC_II_SCREEN_TEXTCOLS);
 }
 
 static void draw_idle(void)
@@ -894,9 +921,9 @@ static void setup_single_size_modes(void)
 /* Initialize the drawing tables.  */
 static void init_drawing_tables(void)
 {
-   DWORD i;
-   unsigned int f, b;
-   char tmptable[4] = { 0, 4, 5, 3 };
+    DWORD i;
+    unsigned int f, b;
+    char tmptable[4] = { 0, 4, 5, 3 };
 
     for (i = 0; i <= 0xf; i++) {
         for (f = 0; f <= 0xf; f++) {
