@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "attach.h"
+#include "serial.h"
 #include "types.h"
 #include "log.h"
 
@@ -163,8 +164,6 @@ typedef struct {
     int  gcr;
     char description[HEADER_LABEL_LEN+1];
 } hdrinfo;
-
-extern int utility_flag;
 
 
 #define SET_LO_HI(p, val)                       \
@@ -320,13 +319,6 @@ struct _DRIVE {
 #define IS_D80_LEN(x) ((x) == D80_FILE_SIZE)
 #define IS_D82_LEN(x) ((x) == D82_FILE_SIZE)
 
-#define DISK_IMAGE_TYPE_X64 0
-#define DISK_IMAGE_TYPE_D64 1
-#define DISK_IMAGE_TYPE_D71 2
-#define DISK_IMAGE_TYPE_D81 3
-#define DISK_IMAGE_TYPE_D80 4
-#define DISK_IMAGE_TYPE_D82 5
-
 /*
  * Input Processor Error Codes
  */
@@ -379,8 +371,13 @@ extern int initialize_1541(int dev, int type,
                            drive_attach_func_t attach_func,
                            drive_detach_func_t detach_func,
                            DRIVE *oldinfo);
+
 extern int attach_floppy_image(DRIVE *floppy, const char *name, int mode);
 extern void detach_floppy_image(DRIVE *floppy);
+
+extern int vdrive_attach_image(disk_image_t *image, DRIVE *floppy,
+                               const char *filename);
+
 extern int vdrive_check_track_sector(int format, int track, int sector);
 extern int floppy_read_block(FILE *fd, int format, BYTE *buf, int track,
 			                 int sector, int d64, int g64, int unit);

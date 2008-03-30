@@ -60,6 +60,7 @@ noinst_HEADERS = \
 	cmdline.h \
 	config.h.in \
 	datasette.h \
+	diskimage.h \
 	emuid.h \
 	fixpoint.h \
 	findpath.h \
@@ -119,6 +120,7 @@ base_sources = \
 	clkguard.c \
 	cmdline.c \
 	datasette.c \
+	diskimage.c \
 	emuid.c \
 	findpath.c \
 	fsdevice.c \
@@ -345,6 +347,7 @@ c1541_SOURCES = \
 	c1541.c \
 	charsets.c \
 	cmdline.c \
+	diskimage.c \
 	findpath.c \
 	gcr.c \
 	info.c \
