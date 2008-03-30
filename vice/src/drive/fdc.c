@@ -777,11 +777,11 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
 	|| fdc[drive_no].drive_type == DRIVE_TYPE_1001) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D80:
-            log_message(fdc_log, "Unit %d: D80 disk image attached: %s",
+            log_message(fdc_log, "Unit %d: D80 disk image detached: %s",
                     unit, image->name);
             break;
           case DISK_IMAGE_TYPE_D82:
-            log_message(fdc_log, "Unit %d: D82 disk image attached: %s",
+            log_message(fdc_log, "Unit %d: D82 disk image detached: %s",
                     unit, image->name);
             break;
           default:
@@ -790,15 +790,15 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
     } else {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
-            log_message(fdc_log, "Unit %d: D64 disk image attached: %s",
+            log_message(fdc_log, "Unit %d: D64 disk image detached: %s",
                     unit, image->name);
             break;
           case DISK_IMAGE_TYPE_G64:
-            log_message(fdc_log, "Unit %d: G64 disk image attached: %s",
+            log_message(fdc_log, "Unit %d: G64 disk image detached: %s",
                     unit, image->name);
             break;
           case DISK_IMAGE_TYPE_X64:
-            log_message(fdc_log, "Unit %d: X64 disk image attached: %s",
+            log_message(fdc_log, "Unit %d: X64 disk image detached: %s",
                     unit, image->name);
             break;
           default:
