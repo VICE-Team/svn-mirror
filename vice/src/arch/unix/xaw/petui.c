@@ -72,7 +72,7 @@ static UI_CALLBACK(set_joystick_device_2)
     }
 }
 
-static UI_CALLBACK(UiSwapJoystickPorts)
+static UI_CALLBACK(swap_joystick_ports)
 {
     int tmp1, tmp2;
 
@@ -136,7 +136,7 @@ static ui_menu_entry_t joystick_settings_submenu[] = {
       NULL, NULL, set_joystick_device_2_submenu },
     { "--" },
     { "Swap joystick ports",
-      (ui_callback_t) UiSwapJoystickPorts, NULL, NULL },
+      (ui_callback_t) swap_joystick_ports, NULL, NULL },
     { NULL }
 };
 

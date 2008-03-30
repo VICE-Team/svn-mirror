@@ -39,6 +39,8 @@
 #include "c64icon.xpm"
 #endif
 
+/* ------------------------------------------------------------------------- */
+
 UI_MENU_DEFINE_TOGGLE(CheckSsColl)
 UI_MENU_DEFINE_TOGGLE(CheckSbColl)
 
@@ -49,6 +51,8 @@ static ui_menu_entry_t vic_submenu[] = {
       (ui_callback_t) toggle_CheckSsColl, NULL, NULL },
     { NULL }
 };
+
+/* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_RADIO(SidModel)
 
@@ -70,6 +74,8 @@ static ui_menu_entry_t sid_submenu[] = {
     { NULL },
 };
 
+/* ------------------------------------------------------------------------- */
+
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(REU)
@@ -86,6 +92,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       (ui_callback_t) toggle_ActionReplay, NULL, NULL },
     { NULL }
 };
+
+/* ------------------------------------------------------------------------- */
 
 static UI_CALLBACK(set_joystick_device_1)
 {
@@ -115,7 +123,7 @@ static UI_CALLBACK(set_joystick_device_2)
     }
 }
 
-static UI_CALLBACK(UiSwapJoystickPorts)
+static UI_CALLBACK(swap_joystick_ports)
 {
     int tmp1, tmp2;
 
@@ -179,10 +187,11 @@ static ui_menu_entry_t joystick_settings_submenu[] = {
       NULL, NULL, set_joystick_device_2_submenu },
     { "--" },
     { "Swap joystick ports",
-      (ui_callback_t) UiSwapJoystickPorts, NULL, NULL },
+      (ui_callback_t) swap_joystick_ports, NULL, NULL },
     { NULL }
 };
 
+/* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t c64_menu[] = {
     { "VIC-II settings",
