@@ -31,6 +31,7 @@
 #include <string.h>
 #include <windows.h>
 #include <windowsx.h>
+#include <tchar.h>
 #ifdef HAVE_COMMCTRL_H
 #include <commctrl.h>
 #endif
@@ -61,6 +62,7 @@
 #include "mousedrv.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "tape.h"
 #include "types.h"
 #include "ui.h"
@@ -835,6 +837,7 @@ void ui_register_machine_specific(ui_machine_specific_t func)
 void ui_error(const char *format, ...)
 {
     char *tmp;
+    TCHAR *st;
     va_list args;
 
     va_start(args, format);
@@ -842,7 +845,9 @@ void ui_error(const char *format, ...)
     va_end(args);
 
     log_debug(tmp);
-    ui_messagebox(tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
+    st = system_mbstowcs_alloc(tmp);
+    ui_messagebox(st, TEXT("VICE Error!"), MB_OK | MB_ICONSTOP);
+    system_mbstowcs_free(st);
     vsync_suspend_speed_eval();
     lib_free(tmp);
 }
@@ -850,21 +855,28 @@ void ui_error(const char *format, ...)
 /* Report an error to the user (one string).  */
 void ui_error_string(const char *text)
 {
+    TCHAR *st;
+
     log_debug(text);
-    ui_messagebox(text, "VICE Error!", MB_OK | MB_ICONSTOP);
+    st = system_mbstowcs_alloc(text);
+    ui_messagebox(st, TEXT("VICE Error!"), MB_OK | MB_ICONSTOP);
+    system_mbstowcs_free(st);
 }
 
 /* Report a message to the user (`printf()' style).  */
 void ui_message(const char *format, ...)
 {
     char *tmp;
+    TCHAR *st;
     va_list args;
 
     va_start(args, format);
     tmp = lib_mvsprintf(format, args);
     va_end(args);
 
-    ui_messagebox(tmp, "VICE Information", MB_OK | MB_ICONASTERISK);
+    st = system_mbstowcs_alloc(tmp);
+    ui_messagebox(tmp, TEXT("VICE Information"), MB_OK | MB_ICONASTERISK);
+    system_mbstowcs_free(st);
     vsync_suspend_speed_eval();
     lib_free(tmp);
 }
@@ -873,13 +885,16 @@ void ui_message(const char *format, ...)
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
     char *txt, *txt2;
+    TCHAR *st;
     int ret;
 
     va_list ap;
     va_start(ap, format);
     txt = lib_mvsprintf(format, ap);
-    txt2 = lib_msprintf("%s\n\nStart monitor?", txt );
-    ret = ui_messagebox(txt2, "VICE CPU JAM", MB_YESNO);
+    txt2 = lib_msprintf("%s\n\nStart monitor?", txt);
+    st = system_mbstowcs_alloc(txt2);
+    ret = ui_messagebox(st, TEXT("VICE CPU JAM"), MB_YESNO);
+    system_mbstowcs_free(st);
     lib_free(txt2);
     lib_free(txt);
     return (ret == IDYES) ? UI_JAM_MONITOR : UI_JAM_HARD_RESET;
@@ -892,8 +907,8 @@ int ui_extend_image_dialog(void)
 {
     int ret;
 
-    ret = ui_messagebox("Extend image to 40-track format?",
-                        "VICE question", MB_YESNO | MB_ICONQUESTION);
+    ret = ui_messagebox(TEXT("Extend image to 40-track format?"),
+                        TEXT("VICE question"), MB_YESNO | MB_ICONQUESTION);
     return ret == IDYES;
 }
 
@@ -1979,7 +1994,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
  mode. This should be correct because when fullscreen, that window
  has to be active.
 */
-int ui_messagebox( LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
+int ui_messagebox(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 {
     int ret;
     HWND hWnd = NULL;
