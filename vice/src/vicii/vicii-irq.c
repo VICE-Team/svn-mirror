@@ -129,6 +129,7 @@ void vicii_irq_set_raster_line(unsigned int line)
     } else {
         VIC_II_DEBUG_RASTER(("update_raster_irq(): "
                             "raster compare out of range ($%04X)!", line));
+        vic_ii.raster_irq_clk = CLOCK_MAX;
         alarm_unset(vic_ii.raster_irq_alarm);
     }
 
