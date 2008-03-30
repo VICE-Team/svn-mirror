@@ -1,3 +1,10 @@
+	* Makefile.am (EXTRA_DIST): Added resid.dsp.
+
+	* resid.dsp: New file. MSVC project file for resid library.
+
+	* filter.h, filter.cc, wave.h, wave.cc: Typecasts for pedantic
+	compilers.
+	
 	* sid.cc (SID::State): Added constructor for proper initalization.
 
 	* spline.h: Inlined template functions to avoid problems at link

@@ -1,3 +1,204 @@
+1999-04-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.62.
+
+1999-04-21  Tibor Biczo  <crown@mail.matav.hu>
+
+	* Makefile.am (EXTRA_DIST): Added c1541.dsp, petcat.dsp, x128.dsp,
+	  x64.dsp, xcbm2.dsp, xpet.dsp, xvic.dsp.
+
+	* arch/win32/Makefile.am (EXTRA_DIST): Added msvc/config.h, arch.dsp.
+
+	* arch/win32/arch.dsp: New file. MSVC project file for Win32 arch
+	  library.
+
+	* arch/win32/archdep.c: Include <stdio.h>. Don't include <dir.h> when
+	  compiling with MSVC. Don't include <unistd.h> when compiling with
+	  MSVC.
+
+	* arch/win32/joystick.c (joystick_handle_key): Make compiler happy and
+	  put ';' to default case into switch.
+
+	* arch/win32/msvc/config.h: New file. Configuration file to use when
+	  compiling with MSVC.
+
+	* arch/win32/res/rc: MSVC resource compiler doesn't like spaces
+	  between concatenated Strings, removed space.
+
+	* arch/win32/ui.c: Include <commctrl.h>.
+	  (UI_COMMON_HOTKEYS, c64_accel): MSVC doesn't have VK_* defines,
+	  replaced them with keycodes.
+	  (clear): New function. Clears window areas which are outside of
+	  the framebuffer.
+	  (window_procedure): Call exposure_handler in WM_SIZE.
+	  Complete rewrite of WM_PAINT handling. Now if dialog boxes are
+	  moved, the underlying emulator screen updates correctly.
+
+	* arch/win32/uiattach.c (ui_attach_dialog): Use unnamed union members
+	  when compiling with MSVC.
+
+	* arch/win32/uicbm2set.c (ui_cbm2_settings_dialog): Use unnamed union
+	  members when compiling with MSVC.
+
+	* arch/win32/uidrive.c (ui_drive_settings_dialog): Use unnamed union
+	  members when compiling with MSVC.
+
+	* arch/win32/uipetset.c (ui_pet_settings_dialog): Use unnamed union
+	  members when compiling with MSVC.
+
+	* arch/win32/uivicii.c (ui_vicii_settings_dialog): Use unnamed union
+	  members when compiling with MSVC.
+
+	* arch/win32/video.c (main_fbuff): New variable to store framebuffer
+	  pointer.
+	  (frame_buffer_alloc): Save pointer to allocated framebuffer.
+	  (main_canvas): New variable to store canvas pointer.
+	  (canvas_create): Save pointer to created canvas.
+	  (canvas_refresh): Method changed. It only invalidates the modified
+	  rectangle, this generates WM_PAINT calls, and the message process
+	  function will put the changed grpahic data to the screen through
+	  canvas_render.
+	  (canvas_render): New function, actually it takes over what
+	  canvas_refresh done before. Use unnamed unions when compiling with
+	  MSVC.
+
+	* arch/win32/video.h: Export main_fbuff, main_canvas and canvas_render.
+
+	* arch/win32/winmain.c (ParseCommandLine): New function. Generates
+	  argc, argv when compiling with MSVC.
+
+	* c128/Makefile.am (EXTRA_DIST): Added c128.dsp.
+
+	* c128/c128.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* c128/c128.dsp: New file. MSVC project file for c128 library.
+
+	* c128/c128iec.c (iec_update_ports_embedded): New function. Embeds
+	  iec_update_ports for extarnal calls.
+
+	* c1541.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* c1541.dsp: New file. MSVC project file for c1541.
+
+	* c64/Makefile.am (EXTRA_DIST): Added c64.dsp, c64c128.dsp.
+
+	* c64/c64.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* c64/c64.dsp: New file. MSVC project file for c64 library.
+
+	* c64/c64c128.dsp: New file. MSVC project file for c64c128 library.
+
+	* c64/c64iec.c (iec_update_ports_embedded): New function. Embeds
+	  iec_update_ports for external calls.
+
+	* cbm2/Makefile.am (EXTRA_DIST): Added cbm2.dsp.
+
+	* cbm2/c610.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* cbm2/c610iec.c (iec_update_ports_embedded): New fucntion. Embeds
+	  iec_update_ports for external calls.
+
+	* cbm2/cbm2.dsp: New file. MSVC project file for cbm2 library.
+
+	* drive/Makefile.am (EXTRA_DIST): Added drive.dsp.
+
+	* drive/drive.c: Don't include <unistd.h> when compiling with MSVC,
+	  include <sys/types.h> instead.
+
+	* drive/drive.dsp: New file. MSVC project file for drive library.
+
+	* findpath.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* findpath.h: Don't include <unistd.h> when compiling with MSVC.
+
+	* fsdevice.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* iecdrive.h: Removed export of iec_update_ports, added export of
+	  iec_update_ports_embedded.
+
+	* mon.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* pet/Makefile.am (EXTRA_DIST): Added pet.dsp.
+
+	* pet/pet.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* pet/pet.dsp: New file. MSVC project file for pet library.
+
+	* pet/petiec.c (iec_update_ports_embedded): New function. Embeds
+	  iec_update_ports for external calls.
+
+	* petcat.dsp: New file. MSVC project file for petcat.
+
+	* raster.c: Don't include <unistd.h> when compiling with MSVC.
+	  (framebuff_width, framebuff_height) New variables to store
+	  framebuffer dimensions.
+	  (init_raster): Store framebuffer dimensions.
+	  (translate_client_to_framebuffer): New function. Needed for the
+	  Win32 port. Translates client window coordinates into framebuffer
+	  coordinates.
+
+	* sid/Makefile.am (EXTRA_DIST): Added sid.dsp.
+
+	* sid/resid.cc: Moved include of system headers outside of
+	  extern "C".
+
+	* sid/sid.dsp: New file. MSVC project file for sid library.
+
+	* snapshot.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* sounddrv/Makefile.am (EXTRA_DIST): Added sounddrv.dsp.
+
+	* sounddrv/sounddrv.dsp: New file. MSVC project file for sounddrv
+	  library.
+
+	* sounddrv/sounddc.c (HandleNotifications, TimerCallbackFunction):
+	  Corrected casting when getting last_played_sample.
+
+	* tape.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* types.h: Define DWORD as unsigned long when compiling with MSVC.
+
+	* utils.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* vdrive-iec.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* vdrive.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* vic20/Makefile.am (EXTRA_DIST): Added vic20.dsp.
+
+	* vic20/vic20.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* vic20/vic20.dsp: New file. MSVC project file for vic20 library.
+
+	* vic20/vic20iec.c (iec_update_ports_embedded): New function. Embed
+	  iec_update_ports for external calls.
+
+	* vice.h: When compiling with MSVC define alloca as _alloca.
+
+	* vicii/Makefile.am (EXTRA_DIST): Added vicii.dsp.
+
+	* vicii/vicii.dsp: New file. MSVC project file for vicii library.
+
+	* x128.dsp: New file. MSVC project file for x128.
+
+	* x64.dsp: New file. MSVC project file for x64.
+
+	* xcbm2.dsp: New file. MSVC project file for xcbm2.
+
+	* xpet.dsp: New file. MSVC project file for xpet.
+
+	* xvic.dsp: New file. MSVC project file for xvic.
+
+	* zfile.c: Don't include <unistd.h> when compiling with MSVC.
+
+	* zipcode.c: Don't include <unistd.h> when compiling with MSVC.
+
+1999-04-20	Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: added support for full screen mode.
+
+	* drive.c: replaced puts() statement with call to log_warning()
+
 1999-04-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.61.

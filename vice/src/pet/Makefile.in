@@ -143,6 +143,8 @@ BUILT_SOURCES = \
 	petpia1.c \
 	petpia2.c
 
+EXTRA_DIST = pet.dsp
+
 petdir = $(top_srcdir)/src/pet
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h

@@ -189,7 +189,9 @@ libarch_a_DEPENDENCIES = \
 	resc128.o resc64.o rescbm2.o respet.o resvic.o
 
 EXTRA_DIST = \
-        c64.ico
+	msvc/config.h \
+	arch.dsp \
+        c64.ico 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -336,6 +338,7 @@ distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 subdir = src/arch/win32
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/msvc
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  test -f $(distdir)/$$file \

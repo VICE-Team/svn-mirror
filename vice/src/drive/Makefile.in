@@ -137,6 +137,7 @@ libdrive_a_SOURCES = \
         wd1770.h
 
 EXTRA_DIST = \
+	drive.dsp \
 	drivecpucore.c
 
 drivedir = $(top_srcdir)/src/drive

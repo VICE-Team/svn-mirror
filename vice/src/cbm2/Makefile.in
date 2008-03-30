@@ -140,6 +140,8 @@ libcbm2_a_SOURCES = \
 
 BUILT_SOURCES = c610tpi1.c c610tpi2.c 
 
+EXTRA_DIST = cbm2.dsp
+
 c610dir = $(top_srcdir)/src/cbm2
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
