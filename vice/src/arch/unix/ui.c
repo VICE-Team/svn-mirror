@@ -29,6 +29,7 @@
 #include "fullscreenarch.h"
 #include "interrupt.h"
 #include "ui.h"
+#include "uiattach.h"
 #include "uicommands.h"
 #include "uifliplist.h"
 #include "types.h"
@@ -67,6 +68,7 @@ void ui_common_shutdown(void)
     fullscreen_shutdown();
 #endif
 
+    uiattach_shutdown();
     uicommands_shutdown();
     uifliplist_shutdown();
 }
