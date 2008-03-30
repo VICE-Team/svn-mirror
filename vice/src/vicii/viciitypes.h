@@ -36,7 +36,6 @@
 #include "raster.h"
 #include "types.h"
 #include "vicii-mem.h"
-#include "video.h"
 
 /* Screen constants.  */
 #define VIC_II_PAL_SCREEN_HEIGHT        312
