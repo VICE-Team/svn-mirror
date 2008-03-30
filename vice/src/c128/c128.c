@@ -58,6 +58,7 @@
 #include "reu.h"
 #include "serial.h"
 #include "sid.h"
+#include "snapshot.h"
 #include "sound.h"
 #include "tape.h"
 #include "traps.h"
@@ -283,8 +284,9 @@ int machine_init(void)
     drive_init(C128_PAL_CYCLES_PER_SEC, C128_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart. FIXME: at least 0xa26 is only for 40 cols */
-    autostart_init(3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH, 1,
-                   0xa27, 0xe0, 0xec, 0xee);
+    autostart_init((CLOCK)
+                   (3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH),
+                   1, 0xa27, 0xe0, 0xec, 0xee);
 
     /* Initialize the VDC emulation.  */
     if (vdc_init() == NULL)
@@ -326,7 +328,7 @@ int machine_init(void)
 
     /* Initialize keyboard buffer.  */
     kbd_buf_init(842, 208, 10,
-                 C128_PAL_CYCLES_PER_RFSH * C128_PAL_RFSH_PER_SEC);
+                 (CLOCK)(C128_PAL_CYCLES_PER_RFSH * C128_PAL_RFSH_PER_SEC));
 
     /* Initialize the C128-specific part of the UI.  */
     c128_ui_init();
@@ -462,7 +464,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
 
-    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
+    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)),
+                        SNAP_MACHINE_NAME);
     if (s == NULL)
         return -1;
 

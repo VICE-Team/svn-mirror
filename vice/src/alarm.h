@@ -34,9 +34,7 @@
 
 #define ALARM_CONTEXT_MAX_PENDING_ALARMS 0x100
 
-/* FIXME: `long' is for backwards compatibility, but it should really be
-   `CLOCK', as the offset is always non-negative.  */
-typedef int (*alarm_callback_t) (long offset);
+typedef int (*alarm_callback_t) (CLOCK offset);
 
 typedef struct _alarm alarm_t;
 typedef struct _alarm_context alarm_context_t;
@@ -141,7 +139,7 @@ inline static void alarm_context_dispatch(alarm_context_t *context, CLOCK clk)
 
     idx = context->next_pending_alarm_idx;
 
-    (context->pending_alarms[idx].alarm->callback)(offset);
+    (context->pending_alarms[idx].alarm->callback)((CLOCK)(offset));
 }
 
 inline static void alarm_set(alarm_t *alarm, CLOCK clk)

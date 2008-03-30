@@ -56,7 +56,7 @@ static int dart_init(warn_t *w, const char *param, int *speed,
 }
 
 
-static int dart_write(warn_t *w, SWORD *pbuf, int nr)
+static int dart_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     return 0;
 }

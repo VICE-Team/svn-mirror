@@ -140,7 +140,7 @@ static int allegro_init_sound(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int allegro_write(warn_t *w, SWORD *pbuf, int nr)
+static int allegro_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     static int counter;
     unsigned int i, count;

@@ -46,6 +46,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "serial.h"
+#include "snapshot.h"
 #include "sound.h"
 #include "tape.h"
 #include "traps.h"
@@ -254,8 +255,9 @@ int machine_init(void)
     drive_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
-    autostart_init(3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH, 1,
-                   0xcc, 0xd1, 0xd3, 0xd5);
+    autostart_init((CLOCK)
+                   (3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH),
+                   1, 0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-I emulation.  */
     if (vic_init() == NULL)
@@ -289,7 +291,7 @@ int machine_init(void)
 
     /* Initialize keyboard buffer.  */
     kbd_buf_init(631, 198, 10,
-                 VIC20_PAL_CYCLES_PER_RFSH * VIC20_PAL_RFSH_PER_SEC);
+                 (CLOCK)(VIC20_PAL_CYCLES_PER_RFSH * VIC20_PAL_RFSH_PER_SEC));
 
     /* Initialize the VIC20-specific part of the UI.  */
     vic20_ui_init();
@@ -391,7 +393,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
     snapshot_t *s;
     int ieee488;
 
-    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
+    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)),
+                        machine_name);
     if (s == NULL) {
         perror(name);
         return -1;

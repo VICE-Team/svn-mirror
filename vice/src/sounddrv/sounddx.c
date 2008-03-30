@@ -2,8 +2,8 @@
  * sounddx.c - Implementation of the DirectSound sound device.
  *
  * Written by
- *  Tibor Biczo (crown@mail.matav.hu)
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Tibor Biczo <crown@mail.matav.hu>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,7 +36,9 @@
 #include <dsound.h>
 
 #include "sound.h"
+#include "types.h"
 #include "ui.h"
+#include "utils.h"
 
 #ifndef HAVE_GUIDLIB
 /*  FIXME: It would be better to convert the dxguid.lib from DX5 into the Mingw32 port of DX5 */
@@ -424,7 +426,7 @@ int     i;
     desc.dwBufferBytes = buffer_size;
     desc.lpwfxFormat = (LPWAVEFORMATEX)&pcmwf;
 
-    stream_buffer=(SWORD*)malloc(fragment_size**fragnr*2);
+    stream_buffer=(SWORD*)xmalloc(fragment_size**fragnr*2);
     stream_buffer_size=fragment_size**fragnr;
     stream_buffer_first=0;
     stream_buffer_last=0;
@@ -450,7 +452,7 @@ int     i;
 
     if (SUCCEEDED(result)) {
         streammode=STREAM_NOTIFY;
-        notifypositions=malloc(*fragnr*sizeof(DSBPOSITIONNOTIFY));
+        notifypositions=xmalloc(*fragnr*sizeof(DSBPOSITIONNOTIFY));
         notifyevent=CreateEvent(NULL,FALSE,FALSE,NULL);
         events[0]=notifyevent;
         endevent=CreateEvent(NULL,FALSE,FALSE,NULL);
@@ -558,7 +560,7 @@ static int dx_bufferstatus(warn_t *s, int first)
     return value;
 }
 
-static int dx_write(warn_t *w, SWORD *pbuf, int nr)
+static int dx_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     /* LPVOID lpvPtr1;
     DWORD dwBytes1;

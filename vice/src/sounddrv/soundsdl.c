@@ -2,7 +2,7 @@
  * soundsdl.c - Implementation of the Simple Directmedia Layer sound device
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,6 +30,9 @@
 #include "SDL_sleep.h"
 
 #include "vice.h"
+
+#include <stdio.h>
+
 #include "sound.h"
 
 
@@ -102,7 +105,7 @@ static int sdl_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int sdl_write(warn_t *s, SWORD *pbuf, int nr)
+static int sdl_write(warn_t *s, SWORD *pbuf, size_t nr)
 {
     int			total, amount;
     total = 0;

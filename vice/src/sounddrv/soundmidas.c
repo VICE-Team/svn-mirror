@@ -27,10 +27,10 @@
 /* XXX: includes */
 
 #include "vice.h"
-#include "sound.h"
 
 #include <stdio.h>
 
+#include "sound.h"
 #include "vmidas.h"
 
 static int midas_bufferstatus(warn_t *w, int first);
@@ -92,7 +92,7 @@ static int midas_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int midas_write(warn_t *w, SWORD *pbuf, int nr)
+static int midas_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     BOOL		st = 1;
     unsigned int	ist;

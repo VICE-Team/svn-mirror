@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include <sys/ioctl.h>
 #include <sys/audio.h>
 
@@ -83,7 +85,7 @@ fail:
     return 1;
 }
 
-static int hpux_write(warn_t *w, SWORD *pbuf, int nr)
+static int hpux_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     int			total, i, now;
     total = nr*sizeof(SWORD);

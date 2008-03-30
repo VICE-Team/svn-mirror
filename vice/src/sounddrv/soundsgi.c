@@ -2,7 +2,7 @@
  * soundsgi.c - Implementation of the SGI sound device
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,9 +24,10 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 
-#include "vice.h"
 #include "sound.h"
 
 #if defined(HAVE_DMEDIA_AUDIO_H)
@@ -83,7 +84,7 @@ fail:
     return 1;
 }
 
-static int sgi_write(warn_t *w, SWORD *pbuf, int nr)
+static int sgi_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     int				i;
     i = ALwritesamps(sgi_audioport, pbuf, nr);

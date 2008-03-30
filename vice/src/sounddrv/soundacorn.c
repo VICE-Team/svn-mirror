@@ -34,6 +34,7 @@
 #include "sound.h"
 #include "types.h"
 #include "ui.h"
+#include "utils.h"
 #include "warn.h"
 
 
@@ -87,7 +88,7 @@ static int init_vidc_device(warn_t *w, const char *device, int *speed, int *frag
   }
   DigitalRenderer_GetTables(&LinToLog, &LogScale);
 
-  if ((VIDCSampleBuffer = (SWORD*)malloc(buffersize*sizeof(SWORD))) == NULL)
+  if ((VIDCSampleBuffer = (SWORD*)xmalloc(buffersize*sizeof(SWORD))) == NULL)
   {
     log_error(vidc_log, "Can't claim memory for sound buffer!");
     DigitalRenderer_Deactivate();
@@ -181,7 +182,7 @@ static int vidc_resume(warn_t *w)
 
 
 /* Dummies */
-static int vidc_write(warn_t *w, SWORD *pbuf, int nr)
+static int vidc_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
   return 0;
 }

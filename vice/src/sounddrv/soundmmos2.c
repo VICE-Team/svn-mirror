@@ -132,7 +132,7 @@ static int mmos2_init(warn_t *w, const char *param, int *speed,
 
 signed long old;
 
-static int mmos2_write(warn_t *w, SWORD *pbuf, int nr)
+static int mmos2_write(warn_t *w, SWORD *pbuf, size_t nr)
 {   // maximale differenz anschauen!
     static ULONG first;
 

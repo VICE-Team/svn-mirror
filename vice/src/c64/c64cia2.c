@@ -80,16 +80,21 @@
  * I/O
  */
 
+#include "vice.h"
+
 #include "c64mem.h"
 #include "c64iec.h"
 #include "c64cia.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "maincpu.h"
+#include "types.h"
 #include "vicii.h"
+
 #ifdef HAVE_PRINTER
 #include "pruser.h"
 #endif
+
 #ifdef HAVE_RS232
 #include "rsuser.h"
 #endif
@@ -110,10 +115,10 @@ static inline void do_reset_cia(void)
 {
 #ifdef HAVE_PRINTER
     pruser_write_strobe(1);
-    pruser_write_data(0xff);
+    pruser_write_data((BYTE)0xff);
 #endif
 #ifdef HAVE_RS232
-    rsuser_write_ctrl(0xff);
+    rsuser_write_ctrl((BYTE)0xff);
     rsuser_set_tx_bit(1);
 #endif
     iec_info = iec_get_drive_port();
@@ -149,7 +154,7 @@ static inline void store_ciapa(CLOCK rclk, BYTE byte)
             vbank = new_vbank;
             mem_set_vbank(new_vbank);
         }
-        iec_cpu_write_callback[iec_callback_index](tmp);
+        iec_cpu_write_callback[iec_callback_index]((BYTE)tmp);
 #ifdef HAVE_PRINTER
         pruser_write_strobe(tmp & 0x04);
 #endif
@@ -160,21 +165,21 @@ static inline void undump_ciapa(CLOCK rclk, BYTE byte)
 {
 #ifdef HAVE_RS232
     if(rsuser_enabled) {
-	rsuser_set_tx_bit(byte & 4);
+	rsuser_set_tx_bit((int)(byte & 4));
     }
 #endif
     vbank = (byte ^ 3) & 3;
     mem_set_vbank(vbank);
-    iec_cpu_undump(byte ^ 0xff);
+    iec_cpu_undump((BYTE)(byte ^ 0xff));
 }
 
 
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
-        parallel_cable_cpu_write(byte);
+        parallel_cable_cpu_write((BYTE)byte);
 #ifdef HAVE_RS232
-    rsuser_write_ctrl(byte);
+    rsuser_write_ctrl((BYTE)byte);
 #endif
 }
 
@@ -183,19 +188,19 @@ static inline void pulse_ciapc(CLOCK rclk)
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
         parallel_cable_cpu_pulse();
 #ifdef HAVE_PRINTER
-    pruser_write_data(oldpb);
+    pruser_write_data((BYTE)oldpb);
 #endif
 }
 
 /* FIXME! */
 static inline void undump_ciapb(CLOCK rclk, BYTE byte)
 {
-    parallel_cable_cpu_undump(byte);
+    parallel_cable_cpu_undump((BYTE)byte);
 #ifdef HAVE_PRINTER
-    pruser_write_data(byte);
+    pruser_write_data((BYTE)byte);
 #endif
 #ifdef HAVE_RS232
-    rsuser_write_ctrl(byte);
+    rsuser_write_ctrl((BYTE)byte);
 #endif
 }
 

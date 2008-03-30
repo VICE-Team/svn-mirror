@@ -161,37 +161,38 @@ static unsigned int masks[] = {
 
 void rsuser_init(long cycles, void (*startfunc)(void),
                  void (*bytefunc)(BYTE)) {
-	int i, j;
-	unsigned char c,d;
+    int i, j;
+    unsigned char c,d;
 
-        alarm_init(&rsuser_alarm, &maincpu_alarm_context,
-                   "RSUser", int_rsuser);
+    alarm_init(&rsuser_alarm, &maincpu_alarm_context,
+    "RSUser", int_rsuser);
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
 
-        cycles_per_sec = cycles;
-	set_up_enabled((resource_value_t) rsuser_enabled);
+    cycles_per_sec = cycles;
+    set_up_enabled((resource_value_t) rsuser_enabled);
 
-	start_bit_trigger = startfunc;
-	byte_rx_func = bytefunc;
+    start_bit_trigger = startfunc;
+    byte_rx_func = bytefunc;
 
-	for(i=0;i<256;i++) {
-	  c = i; d = 0;
-	  for(j=0 ;j<8; j++) {
-	    d<<=1;
-	    if(c&1) d|=1;
-	    c>>=1;
-	  }
-	  code[i] = d;
-	}
+    for(i=0;i<256;i++) {
+        c = i; d = 0;
+        for(j=0 ;j<8; j++) {
+            d<<=1;
+            if(c&1)
+                d|=1;
+            c>>=1;
+        }
+        code[i] = d;
+    }
 
-	dtr = DTR_OUT;	/* inactive */
-	rts = RTS_OUT;	/* inactive */
-	fd = -1;
+    dtr = DTR_OUT;	/* inactive */
+    rts = RTS_OUT;	/* inactive */
+    fd = -1;
 
-	buf = ~0;	/* all 1s */
-	valid = 0;
+    buf = (unsigned int)(~0); /* all 1s */
+    valid = 0;
 }
 
 void rsuser_reset(void) {
@@ -255,7 +256,7 @@ static void check_tx_buffer(void) {
 #ifdef DEBUG
 		log_debug("\"%c\" (%02x).", code[c], code[c]);
 #endif
-		rs232_putc(fd, code[c]);
+		rs232_putc(fd, ((BYTE)(code[c])));
 	    }
 	}
 	valid -= 10;
@@ -346,7 +347,7 @@ void rsuser_tx_byte(BYTE b) {
 
 
 
-int int_rsuser(long offset) {
+int int_rsuser(CLOCK offset) {
 	CLOCK rclk = clk - offset;
 
         keepup_tx_buffer();
@@ -363,7 +364,8 @@ int int_rsuser(long offset) {
 		break;
 	case 1:
 		/* now byte should be in shift register */
-		if(byte_rx_func) byte_rx_func(code[rxdata]);
+		if(byte_rx_func)
+                    byte_rx_func((BYTE)(code[rxdata]));
 		rxstate = 0;
 		clk_start_rx = 0;
 		alarm_set(&rsuser_alarm, clk + char_clk_ticks / 8);

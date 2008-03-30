@@ -280,7 +280,8 @@ int machine_init(void)
 	sound_init(C64_PAL_CYCLES_PER_SEC, C64_PAL_CYCLES_PER_RFSH);
 
 	/* Initialize keyboard buffer.  */
-	kbd_buf_init(631, 198, 10, C64_PAL_CYCLES_PER_RFSH * C64_PAL_RFSH_PER_SEC);
+	kbd_buf_init(631, 198, 10,
+                     (CLOCK)(C64_PAL_CYCLES_PER_RFSH * C64_PAL_RFSH_PER_SEC));
 
 	/* Initialize the C64-specific part of the UI.  */
 	if (!console_mode) {
@@ -325,8 +326,8 @@ int machine_init(void)
     drive_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
-    autostart_init(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH, 1,
-                   0xcc, 0xd1, 0xd3, 0xd5);
+    autostart_init((CLOCK)(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH),
+                   1, 0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL && !console_mode)
@@ -363,7 +364,8 @@ int machine_init(void)
     sound_init(C64_PAL_CYCLES_PER_SEC, C64_PAL_CYCLES_PER_RFSH);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(631, 198, 10, C64_PAL_CYCLES_PER_RFSH * C64_PAL_RFSH_PER_SEC);
+    kbd_buf_init(631, 198, 10,
+                 (CLOCK)(C64_PAL_CYCLES_PER_RFSH * C64_PAL_RFSH_PER_SEC));
 
     /* Initialize the C64-specific part of the UI.  */
     c64_ui_init();
@@ -502,7 +504,7 @@ void machine_change_timing(int timeval)
         break;
       case DRIVE_SYNC_NTSCOLD:
         rfsh_per_sec = C64_NTSCOLD_RFSH_PER_SEC;
-        cycles_per_second = C64_NTSCOLD_RFSH_PER_SEC;
+        cycles_per_second = C64_NTSCOLD_CYCLES_PER_SEC;
         break;
       default:
         log_error(c64_log, "Unknown machine timing.");
@@ -522,7 +524,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
 
-    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
+    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)),
+                        machine_name);
     if (s == NULL)
         return -1;
 

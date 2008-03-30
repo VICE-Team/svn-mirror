@@ -117,7 +117,7 @@ fail:
 #endif
 }
 
-static int aix_write(warn_t *w, SWORD *pbuf, int nr)
+static int aix_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     int	total, i, now;
     long samples_written;

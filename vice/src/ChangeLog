@@ -1,6 +1,67 @@
 1999-10-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.1.18.
+	* Version 1.1.20.
+
+	* arch/win32/ui.c, arch/win32/video.c, arch/win32/vsync.c,
+	arch/win32/winmain.c, c64/c64.c, ciacore.c, c64/c64cia2.c,
+	c64/c64mem.c, c64/c64tpi.c, c64/psid.c, drive/drive.c, log.c,
+	6510core.c, drive/drivecpucore.c, drive/fdc.c, riotcore.c,
+	drive/riot1drive0.c, drive/riot1drive1.c, drive/riot2drive0.c,
+	drive/riot2drive1.c, viacore.c, maincpu.c, kbdbuf.c, traps.c,
+	imagecontents.c, fsdevice.c, datasette.c, utils.c, tape.c,
+	t64.c, sysfile.c, sound.c, snapshot.c, serial.c, parallel.c,
+	palette.c, ciatimer.h, raster/raster-cache.h, vicii/vicii.h,
+	c64/reu.c, main.c, t64.h, findpath.c, diskimages.c, cmdline.c,
+	petcat.c, c1541.c, prdevice.c, interrupt.c, keyboard.c,
+	aciacore.c, rsuser.c, vicii/vicii.c, vdc/vdc.c, crtc/crtc.c,
+	vic20/vic.c, sounddrv/soundfs.c, sounddrv/soundwav.c,
+	sounddrv/sounduss.c: Removed some warnings.
+
+	* c64/c64.c (machine_change_timing): Fixed typo.
+
+	* tpicore.c, c64/c64tpi.h, cbm2/c610tpi.h: use REGPARM for
+	register access.
+
+	* pruser.h, sid/wave6581.h, sid/wave8580.h, vdc/vdc.h,
+	vic20/vic.h, riotcore.h, arch/msdos/c64ui.c, arch/msdos/kbd.c,
+	arch/msdos/vic20ui.c, arch/os2/archdep.c, arch/riscos/ui.c,
+	arch/unix/xaw/ui.c, arch/unix/xaw/uicommands.c, c128/z80mem.c,
+	arch/win32/ui.c, c128/c128mem.c, c128/c128mmu.c, c128/z80.c,
+	c64/patchrom.c, c64/psid.c, c64/reu.c, c64/c64tpi.h, traps.c,
+	drive/via1drive0.c, drive/via1drive1.c, drive/via2drive0.c,
+	drive/via2drive1.c, pet/petvia.c, vdc/vdc-mem.c, vic20/vic.c,
+	vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c, snapshot.c,
+	vic20/vic20mem.c, vic20/vic20via1.c, vic20/vic20via2.c,
+	arch/msdos/vmidas.c, arch/win32/kbd.c, arch/win32/mouse.c,
+	arch/win32/video.c, raster/raster-sprite-status.c, attach.c,
+	sounddrv/sounddx.c, sounddrv/soundwav.c, vdc/vdc-draw.c,
+	vicii/vicii-draw.c, vicii/vicii-snapshot.c, arch/os2/kbd.c,
+	arch/msdos/joystick.c, arch/msdos/tui_backend.c, c64/c64tpi.c,
+	arch/msdos/tuiimagebrowser.c, arch/msdos/video.c, charsets.c,
+	arch/os2/joystick.c, arch/os2/video.c, arch/os2/video_gpi.c,
+	arch/riscos/kbd.c, arch/unix/kbd.c, arch/unix/video.c, main.c,
+	arch/win32/joystick.c, c128/c128cia1.c, c128/c128iec.c, tap.c,
+	c64/c64cartmem.c, c64/c64cia1.c, c64/c64cia2.c, c64/c64iec.c,
+	cbm2/c610cia1.c, cbm2/c610tpi1.c, cbm2/c610tpi2.c, pet/pet.c,
+	crtc/crtc-draw.c, drive/cia1571drive0.c, drive/riot1drive0.c,
+	drive/cia1571drive1.c, drive/cia1581drive0.c, imagecontents.c,
+	drive/cia1581drive1.c, drive/drivecpucore.c, petcat.c,
+	drive/riot1drive1.c, drive/riot2drive0.c, drive/riot2drive1.c,
+	prdevice.c, raster/raster.c, serial.c, sounddrv/soundsb.c,
+	vdc/vdc-snapshot.c, vic20/vic-snapshot.c, vic20/vic20iec.c,
+	arch/riscos/vic20ui.c: #include "types.h".	
+
+	* c64/c64tpi.h, attach.c, c128/c128.c, c64/reu.c,
+	crtc/crtc-snapshot.c, drive/drivecpucore.c, vic20/vic20.c,
+	vic20/vic20mem.c: #include "snapshot.h".
+
+	* sounddrv/sounddx.c, sounddrv/soundacorn.c: Use `xmalloc'.
+
+	* mon_parse.y: #include <string.h>.
+
+1999-10-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.19.
 
 	* datasette.c (datasette_move_buffer_back): Return `1'.
 

@@ -2,7 +2,7 @@
  * soundsun.c - Implementation of the Sun/Solaris/NetBSD sound device
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * NetBSD patch by
  *  Krister Walfridsson (cato@df.lth.se)
@@ -29,6 +29,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <sys/uio.h>
 #include <unistd.h>
 
@@ -49,9 +50,7 @@
 #include <string.h>          /* For memset */
 #endif
 
-#include "vice.h"
 #include "sound.h"
-
 
 static int sun_bufferstatus(warn_t *w, int first);
 
@@ -134,7 +133,7 @@ fail:
     return 1;
 }
 
-static int sun_write(warn_t *w, SWORD *pbuf, int nr)
+static int sun_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     int			total, i, now;
     if (sun_8bit)

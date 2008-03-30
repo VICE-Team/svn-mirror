@@ -46,7 +46,7 @@ static int dump_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int dump_write(warn_t *w, SWORD *pbuf, int nr)
+static int dump_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     return 0;
 }

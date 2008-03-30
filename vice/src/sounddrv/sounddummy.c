@@ -30,7 +30,7 @@
 
 #include "sound.h"
 
-static int dummy_write(warn_t *w, SWORD *pbuf, int nr)
+static int dummy_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     return 0;
 }

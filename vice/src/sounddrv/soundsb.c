@@ -2,7 +2,7 @@
  * soundsb.c - Implementation of the Sound Blaster sound device.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,6 +28,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <go32.h>
 #include <dpmi.h>
 #include <dos.h>
@@ -35,9 +36,9 @@
 
 #include <allegro.h>            /* Must come after everything else.  */
 
-#include "sound.h"
-
 #include "log.h"
+#include "sound.h"
+#include "types.h"
 #include "utils.h"
 #include "vicesb.h"
 
@@ -187,7 +188,7 @@ static int sb_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int sb_write(warn_t *w, SWORD *pbuf, int nr)
+static int sb_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     int total;
 

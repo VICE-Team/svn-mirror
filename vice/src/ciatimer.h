@@ -329,7 +329,7 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk)
 		&& (state->cnt == 1)
 		&& (state->latch == 1) ) {
 	    /* when latch=1 and cnt=1 this warps up to clk */
-	    m = (cclk - state->clk) & ~1; 
+	    m = (int)((cclk - state->clk) & (CLOCK)~1);
 	    if (m) {
 	        state->clk += m;
 	        n += (m >> 1);
@@ -498,7 +498,7 @@ _CIAT_FUNC void ciat_ack_alarm(ciat_t *state, CLOCK cclk)
 
 /***************************************************************************/
 
-_CIAT_FUNC void ciat_save_snapshot(ciat_t *state, CLOCK cclk, 
+_CIAT_FUNC void ciat_save_snapshot(ciat_t *cia_state, CLOCK cclk, 
 					snapshot_module_t *m, int ver) {
 
     /* ciat_print_state(state); */
@@ -506,7 +506,7 @@ _CIAT_FUNC void ciat_save_snapshot(ciat_t *state, CLOCK cclk,
     if (ver >= 0x100) {
 	/* major 1, minor >= 1 */
 	/* cnt & latch are saved from cia module already */
-	snapshot_module_write_word(m, state->state);
+	snapshot_module_write_word(m, ((WORD)(cia_state->state)));
     }
 }
 
