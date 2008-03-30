@@ -49,7 +49,6 @@
 #include "parallel-trap.h"
 #include "parallel.h"
 #include "resources.h"
-#include "serial.h"
 #include "types.h"
 
 
@@ -428,10 +427,10 @@ static State_t State[NSTATE] = {
             log_warning(LOG_DEFAULT,                                    \
                         "set_" #line "(%02x) -> " #linecap "lo", mask); \
         else                                                            \
-            if ( ! (old & mask))                                        \
-                 log_warning(LOG_DEFAULT,                               \
-                             "set_" #line "(%02x) -> %02x",             \
-                             mask, parallel_##line);                    \
+            if (!(old & mask))                                          \
+                log_warning(LOG_DEFAULT,                                \
+                            "set_" #line "(%02x) -> %02x",              \
+                            mask, parallel_##line);                     \
     }
 
 void parallel_set_eoi(BYTE mask)
@@ -439,7 +438,7 @@ void parallel_set_eoi(BYTE mask)
     BYTE old = parallel_eoi;
     parallel_eoi |= mask;
 
-    PARALLEL_LINE_DEBUG_SET(eoi,EOI)
+    PARALLEL_LINE_DEBUG_SET(eoi, EOI)
 }
 
 void parallel_clr_eoi(BYTE mask)
@@ -447,7 +446,7 @@ void parallel_clr_eoi(BYTE mask)
     BYTE old = parallel_eoi;
     parallel_eoi &= mask;
 
-    PARALLEL_LINE_DEBUG_CLR(eoi,EOI)
+    PARALLEL_LINE_DEBUG_CLR(eoi, EOI)
 }
 
 void parallel_set_atn(BYTE mask)
@@ -455,7 +454,7 @@ void parallel_set_atn(BYTE mask)
     BYTE old = parallel_atn;
     parallel_atn |= mask;
 
-    PARALLEL_LINE_DEBUG_SET(atn,ATN)
+    PARALLEL_LINE_DEBUG_SET(atn, ATN)
 
     /* if ATN went active, signal to attached devices */
     if (!old) {
@@ -476,7 +475,7 @@ void parallel_clr_atn(BYTE mask)
     BYTE old = parallel_atn;
     parallel_atn &= mask;
 
-    PARALLEL_LINE_DEBUG_CLR(atn,ATN)
+    PARALLEL_LINE_DEBUG_CLR(atn, ATN)
 
     /* if ATN went inactive, signal to attached devices */
     if (old && !parallel_atn) {
@@ -519,7 +518,7 @@ void parallel_set_dav(BYTE mask)
     BYTE old = parallel_dav;
     parallel_dav |= mask;
 
-    PARALLEL_LINE_DEBUG_SET(dav,DAV)
+    PARALLEL_LINE_DEBUG_SET(dav, DAV)
 
     if (parallel_emu && !old) {
         DoTrans(DAVlo);
@@ -531,7 +530,7 @@ void parallel_clr_dav(BYTE mask)
     BYTE old = parallel_dav;
     parallel_dav &= mask;
 
-    PARALLEL_LINE_DEBUG_CLR(dav,DAV)
+    PARALLEL_LINE_DEBUG_CLR(dav, DAV)
 
     if (parallel_emu && old && !parallel_dav) {
         DoTrans(DAVhi);
@@ -543,7 +542,7 @@ void parallel_set_nrfd(BYTE mask)
     BYTE old = parallel_nrfd;
     parallel_nrfd |= mask;
 
-    PARALLEL_LINE_DEBUG_SET(nrfd,NRFD)
+    PARALLEL_LINE_DEBUG_SET(nrfd, NRFD)
 
     if (parallel_emu && !old) {
         DoTrans(NRFDlo);
@@ -555,7 +554,7 @@ void parallel_clr_nrfd(BYTE mask)
     BYTE old = parallel_nrfd;
     parallel_nrfd &= mask;
 
-    PARALLEL_LINE_DEBUG_CLR(nrfd,NRFD)
+    PARALLEL_LINE_DEBUG_CLR(nrfd, NRFD)
 
     if (parallel_emu && old && !parallel_nrfd) {
         DoTrans(NRFDhi);
@@ -567,7 +566,7 @@ void parallel_set_ndac(BYTE mask)
     BYTE old = parallel_ndac;
     parallel_ndac |= mask;
 
-    PARALLEL_LINE_DEBUG_SET(ndac,NDAC)
+    PARALLEL_LINE_DEBUG_SET(ndac, NDAC)
 
     if (parallel_emu && !old) {
         DoTrans(NDAClo);
@@ -579,7 +578,7 @@ void parallel_clr_ndac(BYTE mask)
     BYTE old = parallel_ndac;
     parallel_ndac &= mask;
 
-    PARALLEL_LINE_DEBUG_CLR(ndac,NDAC)
+    PARALLEL_LINE_DEBUG_CLR(ndac, NDAC)
 
     if (parallel_emu && old && !parallel_ndac) {
         DoTrans(NDAChi);
@@ -645,7 +644,7 @@ void parallel_drive_cpu_execute(CLOCK cpu_clk)
         drive1_cpu_execute(cpu_clk);
 }
 
-#define PARALLEL_CPU_SET_LINE(line,dev,mask)                            \
+#define PARALLEL_CPU_SET_LINE(line, dev, mask)                          \
     void parallel_##dev##_set_##line( char val )                        \
     {                                                                   \
         parallel_drive_cpu_execute(maincpu_clk);                        \
@@ -656,5 +655,5 @@ void parallel_drive_cpu_execute(CLOCK cpu_clk)
         }                                                               \
     }
 
-PARALLEL_CPU_SET_LINE(atn,cpu,CPU)
+PARALLEL_CPU_SET_LINE(atn,cpu, CPU)
 
