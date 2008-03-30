@@ -291,28 +291,22 @@ inline void ted_fetch_matrix(int offs, int num)
         memcpy(ted.vbuf + offs, p + start_char, c);
         memcpy(ted.vbuf + offs + c, p, num - c);
     }
+    memcpy(ted.cbuf, ted.cbuf_tmp, TED_SCREEN_TEXTCOLS);
 }
 
 inline void ted_fetch_color(int offs, int num)
 {
-    BYTE *p;
     int start_char;
-    int c, i;
+    int c;
 
-    /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
-    p = ted.screen_ptr;
-
-    start_char = (ted.mem_counter + offs) & 0x3ff;
+    start_char = (ted.memptr_col + offs) & 0x3ff;
     c = 0x3ff - start_char + 1;
 
     if (c >= num) {
-        for (i = 0; i < num; i++)
-            ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0xff;
+        memcpy(ted.cbuf_tmp + offs,  ted.color_ptr + start_char, num);
     } else {
-        for (i = 0; i < c; i++)
-            ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0xff;
-        for (i = 0; i < num - c; i++)
-            ted.cbuf[offs + c + i] = (ted.color_ptr)[i] & 0xff;
+        memcpy(ted.cbuf_tmp + offs,  ted.color_ptr + start_char, c);
+        memcpy(ted.cbuf_tmp + offs + c, ted.color_ptr, num - c);
     }
 }
 
@@ -355,7 +349,6 @@ inline static int do_matrix_fetch(CLOCK sub)
             && raster->current_line >= ted.first_dma_line
             && raster->current_line <= ted.last_dma_line) {
             ted_fetch_color(0, TED_SCREEN_TEXTCOLS);
-
 /*
             raster->draw_idle_state = 0;
             raster->ycounter = 0;
@@ -491,6 +484,7 @@ void ted_powerup(void)
     ted.force_display_state = 0;
     ted.memory_fetch_done = 0;
     ted.memptr = 0;
+    ted.memptr_col = 0;
     ted.mem_counter = 0;
     ted.mem_counter_inc = 0;
     ted.bad_line = 0;
@@ -794,6 +788,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
         raster_skip_frame(&ted.raster,
                           vsync_do_vsync(ted.raster.skip_frame));
         ted.memptr = 0;
+        ted.memptr_col = 0;
         ted.mem_counter = 0;
 
         ted.cursor_phase = (ted.cursor_phase + 1) & 0x1f;
@@ -816,9 +811,10 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
         /* `ycounter' makes the chip go to idle state when it reaches the
            maximum value.  */
         if (ted.raster.ycounter == 6) {
-            ted.memptr = ted.mem_counter;
+            ted.memptr_col = ted.mem_counter;
         }
         if (ted.raster.ycounter == 7) {
+            ted.memptr = ted.mem_counter;
             ted.idle_state = 1;
         }
         if (!ted.idle_state || ted.bad_line) {
@@ -848,7 +844,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
             ted.idle_data = ram[0x3fff];
         }
     } else {
-      ted.idle_data_location = IDLE_NONE;
+        ted.idle_data_location = IDLE_NONE;
     }
 
     /* Set the next draw event.  */
@@ -890,7 +886,7 @@ inline static void handle_fetch_matrix(long offset, CLOCK sub,
 /* Handle matrix fetch events.  FIXME: could be made slightly faster.  */
 void ted_raster_fetch_alarm_handler(CLOCK offset)
 {
-     CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
+    CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
 
     /* This kludgy thing is used to emulate the behavior of the 6510 when BA
        goes low.  When BA goes low, every read access stops the processor
@@ -971,12 +967,14 @@ void ted_resize(void)
     if (!ted.initialized)
         return;
 
+#ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)
 #endif
         raster_enable_double_size(&ted.raster,
                                   ted_resources.double_size_enabled,
                                   ted_resources.double_size_enabled);
+#endif
 
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
