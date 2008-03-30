@@ -35,7 +35,7 @@
 
 #include "vice.h"
 
-/* #define DEBUG_DRIVE */
+#define DEBUG_DRIVE
 
 #include <stdlib.h>
 #include <string.h>
@@ -105,12 +105,22 @@ errortext_t floppy_error_messages[] =
     { 1, "FILES SCRATCHED"},
     { 2, "SELECTED PARTITION"},           /* 1581 */
     { 3, "UNIMPLEMENTED"},
+    {20, "READ ERROR"},
+    {21, "READ ERROR"},
+    {22, "READ ERROR"},
+    {23, "READ ERROR"},
+    {24, "READ ERROR"},
+    {25, "WRITE ERROR"},
     {26, "WRITE PROTECT ON"},
+    {27, "READ ERROR"},
+    {28, "WRITE ERROR"},
+    {29, "DISK ID MISMATCH"},
     {30, "SYNTAX ERROR"},
-    {31, "SNERR INVALID COMMAND"},
-    {32, "SNERR LINE TOO LONG"},
-    {33, "SNERR INVAL FILE NAME"},
-    {34, "SNERR NO FILE NAME"},
+    {31, "SYNTAX ERROR"},
+    {32, "SYNTAX ERROR"},
+    {33, "SYNTAX ERROR"},
+    {34, "SYNTAX ERROR"},
+    {39, "SYNTAX ERROR"},
     {60, "WRITE FILE OPEN"},
     {61, "FILE NOT OPEN"},
     {62, "FILE NOT FOUND"},
