@@ -292,13 +292,13 @@ static void REGPARM2 store_dummy(ADDRESS addr, BYTE value)
 static BYTE REGPARM1 read_watch(ADDRESS addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
-    return _mem_read_tab_nowatch[addr >> 8] (addr);
+    return _mem_read_tab_nowatch[addr >> 8](addr);
 }
 
 static void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
-    _mem_write_tab_nowatch[addr >> 8] (addr, value);
+    _mem_write_tab_nowatch[addr >> 8](addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -307,12 +307,12 @@ static void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 
 void REGPARM2 mem_store(ADDRESS addr, BYTE value)
 {
-    _mem_write_tab_ptr[addr >> 8] (addr, value);
+    _mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
 BYTE REGPARM1 mem_read(ADDRESS addr)
 {
-    return _mem_read_tab_ptr[addr >> 8] (addr);
+    return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -320,7 +320,7 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 static void set_mem(int start_page, int end_page,
                     read_func_ptr_t read_func,
                     store_func_ptr_t store_func,
-                    BYTE * read_base, int base_mask)
+                    BYTE *read_base, int base_mask)
 {
     int i;
 
