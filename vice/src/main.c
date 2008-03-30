@@ -205,7 +205,28 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Attach <name> as a disk image in drive #10" },
     { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *) 11, NULL, NULL,
       "<name>", "Attach <name> as a disk image in drive #11" },
+    { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
+      NULL, "Allow production of core dumps" },
+    { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
+      NULL, "Do not produce core dumps" },
     { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
+static int do_core_dumps = 0;
+
+static int set_do_core_dumps(resource_value_t v)
+{
+    do_core_dumps = (int) v;
+    return 0;
+}
+
+static resource_t resources[] =
+{
+    {"DoCoreDump", RES_INTEGER, (resource_value_t) 0,
+     (resource_value_t *) & do_core_dumps, set_do_core_dumps},
+    {NULL}
 };
 
 /* ------------------------------------------------------------------------- */
@@ -263,6 +284,10 @@ int MAIN_PROGRAM(int argc, char **argv)
     /* Initialize resource handling.  */
     if (resources_init(machine_name)) {
         fprintf(stderr, "Cannot initialize resource handling.\n");
+        exit(-1);
+    }
+    if (resources_register(resources) < 0) {
+        fprintf(stderr, "Cannot initialize main resources.\n");
         exit(-1);
     }
     if (sysfile_init_resources() < 0) {
@@ -380,18 +405,21 @@ int MAIN_PROGRAM(int argc, char **argv)
     signal(SIGINT,   SIG_IGN);
 #else
     signal(SIGINT,   break64);
+    signal(SIGTERM,  break64);
 #endif
 
-    signal(SIGSEGV,  break64);
-    signal(SIGILL,   break64);
-    signal(SIGTERM,  break64);
+    if (!do_core_dumps) {
+        signal(SIGSEGV,  break64);
+        signal(SIGILL,   break64);
 
 #ifndef WIN32
-    /* Windows does not have these ones.  */
-    signal(SIGPIPE,  break64);
-    signal(SIGHUP,   break64);
-    signal(SIGQUIT,  break64);
+        /* Windows does not have these ones.  */
+        signal(SIGPIPE,  break64);
+        signal(SIGHUP,   break64);
+        signal(SIGQUIT,  break64);
 #endif
+    }
+
 
     /* Initialize real joystick.  */
     joystick_init();
@@ -470,35 +498,6 @@ static RETSIGTYPE break64(int sig)
     fprintf(stderr, "Received signal %d (%s).\n", sig, sys_siglist[sig]);
 #else
     fprintf(stderr, "Received signal %d.\n", sig);
-#endif
-
-#ifndef __MSDOS__
-    if (sig != SIGINT && sig != SIGTERM) {
-
-        /* If we crash during initialization, we are really broken.  */
-        if (!init_done)
-            exit(-1);
-
-        if (ui_ask_confirmation(
-#ifdef SYS_SIGLIST_DECLARED
-                                sys_siglist[sig],
-#else
-                                "VICE internal error",
-#endif
-                                "Congratulations!\n"
-                                "You have just found a bug in VICE.\n"
-                                "\n"
-                                "The program has crashed, and will abort now.\n"
-                                "\n"
-                                "Please send a complete description of the bug to\n"
-                                "the VICE development team.\n"
-                                "\n"
-                                "Do you want to dump core?\n")
-            == UI_BUTTON_YES) {
-            exit64();
-            abort();
-        }
-    }
 #endif
 
     exit (-1);

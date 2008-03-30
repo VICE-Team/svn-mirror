@@ -1,7 +1,7 @@
 
 /*
- * ../../src/pet/crtc.c
- * This file is generated from ../../src/crtc-tmpl.c and ../../src/pet/crtc.def,
+ * ../../../src/pet/crtc.c
+ * This file is generated from ../../../src/crtc-tmpl.c and ../../../src/pet/crtc.def,
  * Do not edit!
  */
 /*
@@ -75,7 +75,19 @@
 #define	max(a,b)	(((a)>(b))?(a):(b))
 #define	min(a,b)	(((a)<(b))?(a):(b))
 
-#define IS_DOUBLE_WIDTH_ALLOWED(a)	((a)<60)
+#define	MAX_PIXEL_WIDTH		2
+#define	MAX_PIXEL_HEIGHT	2
+
+#define IS_DOUBLE_WIDTH_ALLOWED(a)	\
+	(((a) * 8 + 2 * SCREEN_BORDERWIDTH) <= (FRAMEB_WIDTH / MAX_PIXEL_WIDTH))
+#define IS_DOUBLE_HEIGHT_ALLOWED(a)	\
+	(((a) + 2 * SCREEN_BORDERHEIGHT) <= (FRAMEB_HEIGHT / MAX_PIXEL_HEIGHT))
+
+#ifdef __MSDOS__
+#define	DOUBLE_SIZE_ENABLED()	(double_size_enabled || (screen_xpix > 320))
+#else
+#define	DOUBLE_SIZE_ENABLED()	double_size_enabled
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -114,9 +126,8 @@ static int crsrend;     /* last cursor scan line */
 static int crsrstate;   /* 0 = off, 1 = on, toggled by int_* */
 static int crsrcnt;
 
-/* those values describe the current screen and are set in crtc_update_timing(). 
-   Some of them could be combined into screen_height or so to improve speed
-   in raster.c (currently the computation is done in the macros in crtc.h) */
+/* those values describe the current screen and are set in 
+   crtc_update_timing(). */
 static int screen_charheight 		= 8;
 static int crtc_screen_textlines	= 25;
 static int crtc_cycles_per_line		= 100;
@@ -125,10 +136,9 @@ static int crtc_vertical_adjust 	= 0;
 
 /* these values are derived from the above and must never be changed 
    directly but only over crtc_update_timing(). */
-static int screen_height;
-static int screen_width;
 static int screen_xpix;
 static int screen_ypix;
+static int screen_rasterlines;
 
 /* those values are the new values for the variables without "new_" and are 
    evaluated whenever crtc_update_timing() is called. */
@@ -287,7 +297,7 @@ canvas_t crtc_init(void)
         "Background", "Foreground"
     };
 
-#ifdef __MSDOS__
+#if 0 /* def __MSDOS__ */
     /* FIXME: Should set VGA mode.  */
     if (SCREEN_XPIX > 320)
 	double_size_enabled = 1;
@@ -295,7 +305,7 @@ canvas_t crtc_init(void)
         double_size_enabled = 0;
 #endif
 
-    if (init_raster(1, 2, 2) < 0)
+    if (init_raster(1, MAX_PIXEL_WIDTH, MAX_PIXEL_HEIGHT) < 0)
         return NULL;
 
     video_resize();
@@ -330,8 +340,8 @@ canvas_t crtc_init(void)
     chargen_ptr = chargen_rom + chargen_rel;
     border_color = 0;
     background_color = 0;
-    display_ystart = CRTC_SCREEN_BORDERHEIGHT;
-    display_ystop = CRTC_SCREEN_BORDERHEIGHT + CRTC_SCREEN_MAX_YPIX;
+    display_ystart = SCREEN_BORDERHEIGHT;
+    display_ystop = SCREEN_BORDERHEIGHT + CRTC_SCREEN_MAX_YPIX;
 
     crtc_init_dwg_tables();
 
@@ -392,8 +402,8 @@ void video_resize(void)
 {
     static int old_size = 0;
 
-    if (double_size_enabled) {
-	pixel_height = 2;
+    if (DOUBLE_SIZE_ENABLED()) {
+	/* pixel_height = 2; */
 	if (IS_DOUBLE_WIDTH_ALLOWED(memptr_inc)) {
 	    pixel_width = 2;
 	    video_modes[CRTC_STANDARD_MODE].fill_cache = fill_cache;
@@ -404,9 +414,11 @@ void video_resize(void)
             video_modes[CRTC_REVERSE_MODE].draw_line = draw_reverse_line_2x;
 	    if (old_size == 1) {
 		window_width *= 2;
+/*
 		window_height *= 2;
 		if (canvas)
 		    canvas_resize(canvas, window_width, window_height);
+*/
 	    }
 	} else {
 	    /* When in 80 column mode, only the height is doubled. */
@@ -417,8 +429,21 @@ void video_resize(void)
             video_modes[CRTC_REVERSE_MODE].fill_cache = fill_cache;
             video_modes[CRTC_REVERSE_MODE].draw_line_cached = draw_reverse_line_cached;
             video_modes[CRTC_REVERSE_MODE].draw_line = draw_reverse_line;
+/*
 	    if (old_size == 1)
 		window_height *= 2;
+*/
+	}
+/* printf("foo: old_size=%d, height=%d, frameh=%d\n",old_size, 
+		crtc_screen_textlines*screen_charheight,
+		FRAMEB_HEIGHT); */
+	if (IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines*screen_charheight)) {
+	    pixel_height = 2;
+	    if (old_size == 1) {
+		window_height *= 2;
+	    }
+	} else {
+	    pixel_height = 1;
 	}
     } else {
 	pixel_width = 1;
@@ -432,10 +457,11 @@ void video_resize(void)
 	if (old_size == 2) {
 	    if (IS_DOUBLE_WIDTH_ALLOWED(memptr_inc))
 		window_width /= 2;
-	    window_height /= 2;
+	    if (IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines*screen_charheight))
+	        window_height /= 2;
 	}
     }
-    old_size = double_size_enabled ? 2 : 1;
+    old_size = DOUBLE_SIZE_ENABLED() ? 2 : 1;
 
     if (canvas) {
 	resize(window_width, window_height);
@@ -458,11 +484,6 @@ static void crtc_arrange_window(int width, int height)
     refresh_all();
 }
 
-/* some of this function might look strange. At the moment the underlying
-   video code in raster.c relies on defines SCREEN_WIDTH, SCREEN_HEIGHT etc
-   Those are defined in crtc.h and sometimes a derivation of the variable
-   values. */
-
 static void crtc_update_timing(int change) 
 {
     int new_window_height = window_height;
@@ -480,7 +501,7 @@ static void crtc_update_timing(int change)
     }
 
     if (new_memptr_inc != memptr_inc) {
-	if (double_size_enabled) {
+	if (DOUBLE_SIZE_ENABLED()) {
 	    if ((!IS_DOUBLE_WIDTH_ALLOWED(memptr_inc))
 		&& IS_DOUBLE_WIDTH_ALLOWED(new_memptr_inc) ) {
 		/* make window smaller */
@@ -508,7 +529,6 @@ static void crtc_update_timing(int change)
 	}
         memptr_inc = new_memptr_inc;
 
-	new_window_width = SCREEN_WIDTH;
 
 	change = 1;
     }
@@ -519,14 +539,47 @@ static void crtc_update_timing(int change)
 	|| new_crtc_vertical_adjust != crtc_vertical_adjust
 	) {
 
+	if (DOUBLE_SIZE_ENABLED()) {
+/*
+printf("double_size_enabled when update_timing(): \n");
+printf("new_textlines=%d, new_charheight=%d -> height=%d\n",
+		new_crtc_screen_textlines, new_screen_charheight,
+		new_crtc_screen_textlines * new_screen_charheight);
+printf("    textlines=%d,     charheight=%d -> height=%d\n",
+		crtc_screen_textlines, screen_charheight,
+		crtc_screen_textlines * screen_charheight);
+printf(" framb_height=%d\n",FRAMEB_HEIGHT);
+*/
+	    if (IS_DOUBLE_HEIGHT_ALLOWED(new_crtc_screen_textlines 
+				* new_screen_charheight)
+		&& !IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines
+				* screen_charheight)
+	    ) {
+		printf("CRTC: double_size_enabled and window shrinks\n");
+		pixel_height = 2;
+	    } else
+	    if (!IS_DOUBLE_HEIGHT_ALLOWED(new_crtc_screen_textlines 
+				* new_screen_charheight)
+		&& IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines
+				* screen_charheight)
+	    ) {
+		printf("CRTC: double_size_enabled and window grows\n");
+		pixel_height = 1;
+	    }
+	}
+	
+	while (new_crtc_screen_textlines * new_screen_charheight * pixel_height
+		+ 2 * SCREEN_BORDERHEIGHT >= FRAMEB_HEIGHT) {
+	    printf("CRTC: screen to high (ypix=%d, FRAMEB_H=%d!\n",
+			new_crtc_screen_textlines* new_screen_charheight,
+			FRAMEB_HEIGHT);
+	    new_screen_charheight--;
+	}
+
         crtc_screen_textlines = new_crtc_screen_textlines;
         screen_charheight = new_screen_charheight;
 	crtc_vertical_total = new_crtc_vertical_total;
 	crtc_vertical_adjust = new_crtc_vertical_adjust;
-
-	/* catch screens to large for our text cache */
-	while(SCREEN_HEIGHT > SCREEN_MAX_HEIGHT) screen_charheight--;
-	new_screen_charheight = screen_charheight;
 
 	change = 1;
     }
@@ -536,31 +589,18 @@ static void crtc_update_timing(int change)
 	screen_xpix = memptr_inc * 8;
 	screen_ypix = crtc_screen_textlines * screen_charheight;
 
-	screen_height = crtc_vertical_total * screen_charheight 
+	new_window_width = pixel_width * 
+			(screen_xpix + 2 * SCREEN_BORDERWIDTH);
+	new_window_height = pixel_height * 
+			(screen_ypix + 2 * SCREEN_BORDERWIDTH);
+
+	screen_rasterlines = crtc_vertical_total * screen_charheight 
 			+ crtc_vertical_adjust;
 
-	/* this seems to be a bug (i.e I don't understand it)
-	   SCREEN_WIDTH is used to open the window in crtc_init() and
-	   is used as a character counter (!?) in the DRAW() macros... 
-	   This should actually read 
-
-           screen_width = crtc_cycles_per_line * 8; 
-
-	   and I guess the display_xstart/xstop then point to the pixel
-           of the screen (in the canvas) where the character line starts, but 
-	   who knows... 
-        */
-	screen_width = screen_xpix + 2 * SCREEN_BORDERWIDTH;
-
-	new_window_height = pixel_height * 
-				(2 * SCREEN_BORDERHEIGHT + screen_ypix);
-	new_window_width = pixel_width * 
-				(2 * SCREEN_BORDERWIDTH + screen_xpix);
-
-	machine_set_cycles_per_frame(screen_height * crtc_cycles_per_line);
+	machine_set_cycles_per_frame(screen_rasterlines * crtc_cycles_per_line);
 
 	/* from screen height */
-	if(rasterline >= screen_height) {
+	if(rasterline >= SCREEN_LAST_RASTERLINE) {
 	    handle_end_of_frame();
 	}
 
@@ -590,8 +630,11 @@ static void crsr_set_dirty(void)
     j = (crsrrel / memptr_inc) * screen_charheight + crsrend;
     j += SCREEN_BORDERHEIGHT + ysmooth;
 
+    /* printf("crsr_set_dirty(%d-%d)\n",i,j); */
     while (i<=j) {
-	cache[i++].is_dirty = 1;
+	if (i < SCREEN_HEIGHT)
+	  cache[i].is_dirty = 1;
+	i++;
     }
 }
 
@@ -826,12 +869,8 @@ void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols, int hwflags)
        user's back...  So this is definitely a Bad Thing (tm).  For now, it's
        fine with us, though.  */
     resources_set_value("VGAMode",
-                        (resource_value_t) (crtc_cols > 40
+                        (resource_value_t) (num_cols > 40
                                             ? VGA_640x480 : VGA_320x200));
-    if (SCREEN_XPIX > 320)
-	double_size_enabled = 1;
-    else
-        double_size_enabled = 0;
 #endif
 
     /* vmask has changed -> */
@@ -962,12 +1001,12 @@ static int fill_cache(struct line_cache *l, int *xs, int *xe, int r)
             *((PIXEL4 *) p) = dwg_table_0[d];                           \
             *((PIXEL4 *) p + 1) = dwg_table_1[d];                       \
         }                                                               \
-									\
+/*									\
         d = (reverse_flag) ? 0xff: 0;                                   \
-        for (; i < SCREEN_WIDTH; i++, p += 8) {             \
+        for (; i < SCREEN_MAX_TEXTCOLS; i++, p += 8) {                  \
                 *((PIXEL4 *) p) = dwg_table_0[d];                       \
                 *((PIXEL4 *) p + 1) = dwg_table_1[d];                   \
-        }                                                               \
+        }  */                                                           \
     } while (0)
 
 static void draw_standard_line(void)
@@ -1015,14 +1054,14 @@ static void draw_reverse_line(void)
             *((PIXEL4 *) p + 2) = dwg_table2x_2[d];                     \
             *((PIXEL4 *) p + 3) = dwg_table2x_3[d];                     \
         }                                                               \
-                                                                        \
+/*                                                                      \
         d = (reverse_flag) ? 0xff : 0;                                  \
-        for (; i < SCREEN_WIDTH; i++, p += 16) {                           \
+        for (; i < SCREEN_MAX_TEXTCOLS; i++, p += 16) {                 \
             *((PIXEL4 *) p) = dwg_table2x_0[d];                         \
             *((PIXEL4 *) p + 1) = dwg_table2x_1[d];                     \
             *((PIXEL4 *) p + 2) = dwg_table2x_2[d];                     \
             *((PIXEL4 *) p + 3) = dwg_table2x_3[d];                     \
-        }                                                               \
+        }  */                                                           \
     } while (0)
 
 static void draw_standard_line_2x(void)
