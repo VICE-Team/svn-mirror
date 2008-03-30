@@ -27,13 +27,10 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 
-#include "lib.h"
-#include "resources.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uireu.h"
-#include "vsync.h"
 
 
 UI_MENU_DEFINE_TOGGLE(REU)
@@ -41,35 +38,8 @@ UI_MENU_DEFINE_RADIO(REUsize)
 
 UI_CALLBACK(set_reu_image_name)
 {
-    char *resname = (char *)UI_MENU_CB_PARAM;
-    char *title;
-    ui_button_t button;
-    char *value;
-    char *new_value;
-    int len;
-
-    vsync_suspend_speed_eval();
-    title = lib_stralloc(_("REU image name"));
-
-    resources_get_value(resname, (void *)&value);
-
-    if (value == NULL)
-        value = "";
-
-    len = strlen(value) * 2;
-    if (len < 255)
-        len = 255;
-
-    new_value = lib_malloc(len + 1);
-    strcpy(new_value, value);
-
-    button = ui_input_string(title, _("Name:"), new_value, len);
-    lib_free(title);
-
-    if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t)new_value);
-
-    lib_free(new_value);
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("REU image name"),
+                        _("Name:"));
 }
 
 static ui_menu_entry_t reu_size_submenu[] = {

@@ -32,41 +32,15 @@
 #include "lib.h"
 #include "resources.h"
 #include "uiide64.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "vsync.h"
 
 
 UI_CALLBACK(set_ide64_image_name)
 {
-    char *resname = (char *)UI_MENU_CB_PARAM;
-    char *title;
-    ui_button_t button;
-    char *value;
-    char *new_value;
-    int len;
-
-    vsync_suspend_speed_eval();
-    title = lib_stralloc(_("IDE64 image name"));
-
-    resources_get_value(resname, (void *)&value);
-
-    if (value == NULL)
-        value = "";
-
-    len = strlen(value) * 2;
-    if (len < 255)
-        len = 255;
-
-    new_value = lib_malloc(len + 1);
-    strcpy(new_value, value);
-
-    button = ui_input_string(title, _("Name:"), new_value, len);
-    lib_free(title);
-
-    if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t)new_value);
-
-    lib_free(new_value);
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("IDE64 image name"),
+                        _("Name:"));
 }
 
 UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize)

@@ -33,6 +33,7 @@
 
 #include "lib.h"
 #include "resources.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "vsync.h"
 
@@ -134,61 +135,15 @@ UI_CALLBACK(set_rs232_device_file)
 
 UI_CALLBACK(set_rs232_exec_file)
 {
-    char *resname = (char *)UI_MENU_CB_PARAM;
-    char *title;
-    ui_button_t button;
-    char *value;
-    char *new_value;
-    int len;
-
-    vsync_suspend_speed_eval();
-    title = lib_stralloc(_("Command to execute for RS232 (preceed with '|')"));
-
-    resources_get_value(resname, (void *)&value);
-
-    len = strlen(value) * 2;
-    if (len < 255)
-        len = 255;
-
-    new_value = lib_malloc(len + 1);
-    strcpy(new_value, value);
-
-    button = ui_input_string(title, _("Command:"), new_value, len);
-    lib_free(title);
-
-    if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t)new_value);
-
-    lib_free(new_value);
+    uilib_select_string((char *)UI_MENU_CB_PARAM,
+                        _("Command to execute for RS232 (preceed with '|')"),
+                        _("Command:"));
 }
 
 UI_CALLBACK(set_rs232_dump_file)
 {
-    char *resname = (char *)UI_MENU_CB_PARAM;
-    char *title;
-    ui_button_t button;
-    char *value;
-    char *new_value;
-    int len;
-
-    vsync_suspend_speed_eval();
-    title = lib_stralloc(_("File to dump RS232 to"));
-
-    resources_get_value(resname, (void *)&value);
-    len = strlen(value) * 2;
-    if (len < 255)
-        len = 255;
-
-    new_value = lib_malloc(len + 1);
-    strcpy(new_value, value);
-
-    button = ui_input_string(title, _("Command:"), new_value, len);
-    lib_free(title);
-
-    if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t)new_value);
-
-    lib_free(new_value);
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"),
+                        _("Command:"));
 }
 
 
