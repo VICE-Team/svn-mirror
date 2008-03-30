@@ -644,47 +644,8 @@ UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
 UI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
 
-static UI_CALLBACK(set_custom_drive_sync_factor)
-{
-    static char input_string[256];
-    char msg_string[256];
-    ui_button_t button;
-    int sync_factor;
-
-    resources_get_value("DriveSyncFactor",
-                        (resource_value_t *) &sync_factor);
-    if (!*input_string)
-	sprintf(input_string, "%d", sync_factor);
-
-    if (call_data) {
-	if (sync_factor != DRIVE_SYNC_PAL
-            && sync_factor != DRIVE_SYNC_NTSC
-            && sync_factor != DRIVE_SYNC_NTSCOLD)
-	    ui_menu_set_tick(w, 1);
-	else
-	    ui_menu_set_tick(w, 0);
-    } else {
-	suspend_speed_eval();
-	sprintf(msg_string, "Enter factor (PAL %d, NTSC %d)",
-		DRIVE_SYNC_PAL, DRIVE_SYNC_NTSC);
-	button = ui_input_string("Drive Sync Factor", msg_string, input_string,
-				 256);
-	if (button == UI_BUTTON_OK) {
-	    int v;
-
-	    v = atoi(input_string);
-	    if (v != sync_factor) {
-                resources_set_value("DriveSyncFactor",
-                                    (resource_value_t) v);
-		ui_update_menus();
-	    }
-	}
-    }
-}
-
 UI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
 UI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
-UI_MENU_DEFINE_RADIO(DriveSyncFactor)
 UI_MENU_DEFINE_RADIO(Drive8IdleMethod)
 UI_MENU_DEFINE_RADIO(Drive9IdleMethod)
 
@@ -903,18 +864,6 @@ static ui_menu_entry_t set_drive1_extend_image_policy_submenu[] = {
       (ui_callback_data_t) DRIVE_EXTEND_ASK, NULL },
     { "*Extend on access", (ui_callback_t) radio_Drive9ExtendImagePolicy,
       (ui_callback_data_t) DRIVE_EXTEND_ACCESS, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t set_drive_sync_factor_submenu[] = {
-    { "*PAL", (ui_callback_t) radio_DriveSyncFactor,
-      (ui_callback_data_t) DRIVE_SYNC_PAL, NULL },
-    { "*NTSC", (ui_callback_t) radio_DriveSyncFactor,
-      (ui_callback_data_t) DRIVE_SYNC_NTSC, NULL },
-    { "*Old NTSC", (ui_callback_t) radio_DriveSyncFactor,
-      (ui_callback_data_t) DRIVE_SYNC_NTSCOLD, NULL },
-    { "*Custom...", (ui_callback_t) set_custom_drive_sync_factor,
-      NULL, NULL },
     { NULL }
 };
 
@@ -1236,9 +1185,6 @@ static ui_menu_entry_t drive_settings_submenu[] = {
       NULL, NULL, set_drive1_extend_image_policy_submenu },
     { "Drive #9 idle method",
       NULL, NULL, set_drive1_idle_method_submenu },
-    { "--" },
-    { "Drive sync factor",
-      NULL, NULL, set_drive_sync_factor_submenu },
     { NULL }
 };
 
@@ -1264,9 +1210,6 @@ static ui_menu_entry_t par_drive_settings_submenu[] = {
     { "Drive #9 idle method",
       NULL, NULL, set_drive1_idle_method_submenu },
 #endif
-    { "--" },
-    { "Drive sync factor",
-      NULL, NULL, set_drive_sync_factor_submenu },
     { NULL }
 };
 
