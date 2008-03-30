@@ -89,6 +89,7 @@ int drive1_traceflg;
 #define mydrive_cpu_set_sync_factor drive1_cpu_set_sync_factor
 #define mydrive_cpu_write_snapshot_module drive1_cpu_write_snapshot_module
 #define mydrive_cpu_read_snapshot_module drive1_cpu_read_snapshot_module
+#define mydrive_traceflg drive1_traceflg
 
 #define mymonspace e_disk9_space
 #define MYIDENTIFICATION DRIVE#9
