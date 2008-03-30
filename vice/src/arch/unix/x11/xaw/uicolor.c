@@ -45,13 +45,16 @@ extern int have_truecolor;
 extern Colormap colormap;
 extern Pixel drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel;
 
+#if 0
 static int n_allocated_pixels = 0;
 static unsigned long allocated_pixels[0x100];
+#endif
 
 /* Allocate colors in the colormap. */
 static int do_alloc_colors(const palette_t *palette, PIXEL *pixel_return,
                            int releasefl)
 {
+#if 0
     int i, failed;
     XColor color;
     XImage *im;
@@ -127,8 +130,10 @@ static int do_alloc_colors(const palette_t *palette, PIXEL *pixel_return,
     }
 
     return failed;
+#else
+    return 0;
+#endif 
 }
-
 /* In here we try to allocate the given colors. This function is called from
  * 'ui_open_canvas_window()'.  The calling function sets the colormap
  * resource of the toplevel window.  If there is not enough place in the
@@ -141,15 +146,15 @@ static int do_alloc_colors(const palette_t *palette, PIXEL *pixel_return,
 int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
                          PIXEL pixel_return[])
 {
+#if 0
     int failed;
-
+#endif
     log_message(LOG_DEFAULT, "Color request for canvas %p.", c);
 
-#if 0
     color_alloc_colors(c, palette, pixel_return);
     return 0;
-#endif
 
+#if 0
     failed = do_alloc_colors(palette, pixel_return, 1);
     if (failed) {
 	if (colormap == DefaultColormap(display, screen)) {
@@ -161,6 +166,7 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
 	}
     }
     return failed ? -1 : 0;
+#endif
 }
 
 /* Change the colormap of window `w' on the fly.  This only works for
@@ -171,15 +177,15 @@ int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
 {
     log_message(LOG_DEFAULT, "Change color request for canvas %p.", c);
 
+    color_alloc_colors(c, palette, pixel_return);
+    return 0;
+
+#if 0
     if (!have_truecolor) {
 	int nallocp;
 	PIXEL  *xpixel = xmalloc(sizeof(PIXEL) * palette->num_entries);
 	unsigned long *ypixel = xmalloc(sizeof(unsigned long)
                                         * n_allocated_pixels);
-#if 0
-        color_alloc_colors(c, palette, pixel_return);
-        return 0;
-#endif
 
 #if X_DISPLAY_DEPTH == 0
         video_convert_save_pixel();
@@ -233,10 +239,13 @@ int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
     }
 
     return uicolor_alloc_colors(c, palette, pixel_return);
+#endif
 }
 
 /*-----------------------------------------------------------------------*/
-#if 0
+
+static unsigned int bits_per_pixel;
+
 int uicolor_alloc_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long *color_pixel,
                         PIXEL *pixel_return)
@@ -248,7 +257,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
     im = XCreateImage(display, visual, ui_get_display_depth(),
-                      ZPixmap, 0, (char *)data, 1, 1, 8, 0);
+                      ZPixmap, 0, (char *)data, 1, 1, 8, 1);
     if (!im) {
         log_error(LOG_DEFAULT, "XCreateImage failed.");
         return -1;
@@ -265,13 +274,9 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     }
     XPutPixel(im, 0, 0, color.pixel);
 
-#if X_DISPLAY_DEPTH == 0
-    video_convert_color_table(i, pixel_return, data, im, palette,
-                             (long)color.pixel, ui_get_display_depth());
-#else
-    *pixel_return = *data;
-#endif
+    bits_per_pixel = im->bits_per_pixel;
 
+    *pixel_return = *data;
     *color_pixel = color.pixel;
 
     XDestroyImage(im);
@@ -279,12 +284,20 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     return 0;
 }
 
-
-
 void uicolor_free_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long color_pixel)
 {
     if (!XFreeColors(display, colormap, &color_pixel, 1, 0))
         log_error(LOG_DEFAULT, "XFreeColors failed.");
 }
+
+void uicolor_convert_color_table(unsigned int colnr, PIXEL *pixel_return,
+                                 PIXEL *data, unsigned int dither,
+                                 long color_pixel)
+{
+#if X_DISPLAY_DEPTH == 0
+    video_convert_color_table(colnr, pixel_return, data, bits_per_pixel,
+                              dither, color_pixel);
 #endif
+}
+
