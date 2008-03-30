@@ -1,3 +1,66 @@
+Wed Apr  8 11:52:57 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.2.
+
+	* resources.c (parse_cmd_line): Do not handle arguments beginning
+	with `+' as orphans anymore.  Fixed typo `argv[1]' -> `argv[i]'.
+
+Wed Apr  8 01:06:41 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* c64/autostart.c: Added include "kbdbuf.h".
+
+	* kbdbuf.c: Added include "charsets.h"
+
+	* main.c: Removed include "charsets.h" and removed call to
+ 	petconvstring().  Autostart handles the conversion now.
+
+	* c1541.c (disk_import_zipfile): Added support for extracting
+ 	zipcodes that are on one file.  There are no standards for this,
+ 	but this makes life a lot easier when we try to extract zipcodes
+ 	from archive.
+
+	* c1541.c (disk_import_zipfile): Changed to accept the zipcode
+ 	-name with the `[1-4]!' -prefix.
+
+	* c1541.c (main): Fixed `-zcreate' parameter when used from the
+ 	command -line.
+
+	* zfile.c (compression_type): New types COMPR_ZIPCODE and
+ 	COMPR_LYNX.
+
+	* zfile.c (extensions): New extension '.lnx' to be searched from
+ 	inside the archive.
+
+	* zfile.c (is_zipcode_name): New function.  Checks the `[1-4]!'
+ 	prefix.
+
+	* zfile.c (is_valid_extension): Added check for zipcode -names.
+
+	* zfile.c (try_uncompress_archive): When zipcode -filename is found
+	inside the archive, the whole zipcode (4 files) is extracted into
+	temporary file.
+
+	* zfile.c (read_zipped_sector): Read one zipcode -sector from the
+ 	image.  NOTE! This was directly copied from c1541.c and it should be
+	shared someplace.
+
+	* zfile.c (try_uncompress_zipcode): New function.  Tries to uncompress
+	zipcode into image using c1541 -utility.
+
+	* zfile.c (try_uncompress_lynx): New function.  Tries to uncompress
+	lynx file into image using c1541 -utility.
+
+	* zfile.c (valid_archives): New extension .lha to be extracted using
+	external lha -program.
+
+	* zfile.c (try_uncompress): Try to uncompress zipcode and lynx -image
+	if other decompression attempts fail.
+
+	* zfile.c (compress): Warnings if zipcodes or lynx -images are being
+	compressed (should not happen as they are read-only).
+
+	* zfile.c (zopen): Support for recursive decompression.
+
 Tue Apr  7 15:33:40 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.1.
