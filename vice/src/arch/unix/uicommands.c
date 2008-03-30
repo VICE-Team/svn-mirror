@@ -263,16 +263,18 @@ static UI_CALLBACK(smart_attach)
 
 static UI_CALLBACK(change_working_directory)
 {
-    PATH_VAR(wd);
-    int path_max = GET_PATH_MAX;
+    char *wd;
+    wd = xmalloc(MAXPATHLEN);
 
-    getcwd(wd, path_max);
+    getcwd(wd, MAXPATHLEN);
     suspend_speed_eval();
-    if (ui_input_string(_("VICE setting"), _("Change current working directory"),
-			wd, path_max) != UI_BUTTON_OK)
-	return;
-    else if (chdir(wd) < 0)
-	ui_error(_("Directory not found"));
+    if (ui_input_string(_("VICE setting"),
+                        _("Change current working directory"),
+			wd, MAXPATHLEN) == UI_BUTTON_OK) {
+        if (chdir(wd) < 0)
+	    ui_error(_("Directory not found"));
+    }
+    free(wd);
 }
 
 #ifdef USE_VIDMODE_EXTENSION
