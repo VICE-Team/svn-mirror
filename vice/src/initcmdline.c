@@ -48,6 +48,8 @@
 static char *autostart_string;
 static char *startup_disk_images[4];
 static char *startup_tape_image;
+static unsigned int autostart_mode;
+
 
 static int cmdline_help(const char *param, void *extra_param)
 {
@@ -67,6 +69,16 @@ static int cmdline_autostart(const char *param, void *extra_param)
     if (autostart_string != NULL)
         free(autostart_string);
     autostart_string = stralloc(param);
+    autostart_mode = AUTOSTART_MODE_RUN;
+    return 0;
+}
+
+static int cmdline_autoload(const char *param, void *extra_param)
+{
+    if (autostart_string != NULL)
+        free(autostart_string);
+    autostart_string = stralloc(param);
+    autostart_mode = AUTOSTART_MODE_LOAD;
     return 0;
 }
 
@@ -105,8 +117,7 @@ static int cmdline_attach(const char *param, void *extra_param)
     return 0;
 }
 
-
-static cmdline_option_t vsid_cmdline_options[] = {
+static cmdline_option_t common_cmdline_options[] = {
     { "-help", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
     { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
@@ -129,19 +140,19 @@ static cmdline_option_t vsid_cmdline_options[] = {
     { NULL }
 };
 
+static cmdline_option_t vsid_cmdline_options[] = {
+    { NULL }
+};
+
 /* These are the command-line options for the initialization sequence.  */
 
 static cmdline_option_t cmdline_options[] = {
-    { "-help", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
-      NULL, "Show a list of the available options and exit normally" },
-    { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
-      NULL, "Show a list of the available options and exit normally" },
-    { "-h", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
-      NULL, "Show a list of the available options and exit normally" },
     { "-default", CALL_FUNCTION, 0, cmdline_default, NULL, NULL, NULL,
       NULL, "Restore default (factory) settings" },
     { "-autostart", CALL_FUNCTION, 1, cmdline_autostart, NULL, NULL, NULL,
       "<name>", "Attach and autostart tape/disk image <name>" },
+    { "-autoload", CALL_FUNCTION, 1, cmdline_autoload, NULL, NULL, NULL,
+      "<name>", "Attach and autoload tape/disk image <name>" },
     { "-1", CALL_FUNCTION, 1, cmdline_attach, (void *)1, NULL, NULL,
       "<name>", "Attach <name> as a tape image" },
     { "-8", CALL_FUNCTION, 1, cmdline_attach, (void *)8, NULL, NULL,
@@ -152,19 +163,6 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Attach <name> as a disk image in drive #10" },
     { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *)11, NULL, NULL,
       "<name>", "Attach <name> as a disk image in drive #11" },
-#if defined  __OS2__ || defined __BEOS__
-    { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
-      NULL, "Don't call exception handler" },
-    { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
-      NULL, "Call exception handler (default)" },
-#else
-    { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
-      NULL, "Console mode (for playing music)" },
-    { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
-      NULL, "Allow production of core dumps" },
-    { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
-      NULL, "Do not produce core dumps" },
-#endif
     { NULL }
 };
 
@@ -173,7 +171,13 @@ int initcmdline_init(void)
     cmdline_option_t *main_cmdline_options =
         vsid_mode ? vsid_cmdline_options : cmdline_options;
 
-    return cmdline_register_options(main_cmdline_options);
+    if (cmdline_register_options(common_cmdline_options) < 0)
+        return -1;
+
+    if (cmdline_register_options(main_cmdline_options) < 0)
+        return -1;
+
+    return 0;
 }
 
 int initcmdline_check_psid(void)
@@ -214,7 +218,7 @@ int initcmdline_check_args(int argc, char **argv)
         {
             char *txt = xcalloc(1, len + argc + 1);
             for (j = 1; j < argc; j++)
-                strcat(strcat(txt, " "),argv[j]);
+                strcat(strcat(txt, " "), argv[j]);
             archdep_startup_log_error("Extra arguments on command-line: %s\n",
                                       txt);
             free(txt);
@@ -245,7 +249,7 @@ static char *hexstring_to_byte(const char *s, BYTE *value_return)
         }
     }
 
-    return (char *) s;
+    return (char *)s;
 }
 
 static char *replace_hexcodes(char *s)
@@ -291,35 +295,33 @@ void initcmdline_check_attach(void)
 
         /* `-autostart' */
         if (autostart_string != NULL) {
-            FILE *autostart_fd;
-            char *autostart_prg_name;
-            char *autostart_file;
             char *tmp;
 
             /* Check for image:prg -format.  */
             tmp = strrchr(autostart_string, ':');
             if (tmp) {
+                char *autostart_prg_name;
+                char *autostart_file;
+
                 autostart_file = stralloc(autostart_string);
                 autostart_prg_name = strrchr(autostart_file, ':');
                 *autostart_prg_name++ = '\0';
-                autostart_fd = fopen(autostart_file, MODE_READ);
                 /* Does the image exist?  */
-                if (autostart_fd) {
+                if (util_file_exists(autostart_file)) {
                     char *name;
 
-                    fclose(autostart_fd);
                     charset_petconvstring((BYTE *)autostart_prg_name, 0);
                     name = replace_hexcodes(autostart_prg_name);
                     autostart_autodetect(autostart_file, name, 0,
-                                         AUTOSTART_MODE_RUN);
+                                         autostart_mode);
                     free(name);
                 } else
                     autostart_autodetect(autostart_string, NULL, 0,
-                                         AUTOSTART_MODE_RUN);
+                                         autostart_mode);
                 free(autostart_file);
             } else {
                 autostart_autodetect(autostart_string, NULL, 0,
-                                     AUTOSTART_MODE_RUN);
+                                     autostart_mode);
             }
         }
         /* `-8', `-9', `-10' and `-11': Attach specified disk image.  */
