@@ -33,7 +33,9 @@
 #include <string.h>
 
 #include "charset.h"
+#include "diskcontents.h"
 #include "imagecontents.h"
+#include "tapecontents.h"
 #include "types.h"
 #include "utils.h"
 
@@ -224,5 +226,43 @@ char *image_contents_to_string(image_contents_t *contents,
         charset_petconvstring(buf, 1);
 
     return buf;
+}
+
+image_contents_t *image_contents_read(unsigned int type, const char *filename,
+                                      unsigned int unit)
+{
+    image_contents_t *contents = NULL;
+
+    switch (type) {
+      case IMAGE_CONTENTS_AUTO:
+        contents = diskcontents_read(filename, unit);
+        if (contents != NULL)
+            break;
+        contents = tapecontents_read(filename, unit);
+        break;
+      case IMAGE_CONTENTS_DISK:
+        contents = diskcontents_read(filename, unit);
+        break;
+      case IMAGE_CONTENTS_TAPE:
+        contents = tapecontents_read(filename, unit);
+        break;
+    }
+
+    return contents;
+}
+
+char *image_contents_filename_by_number(unsigned int type,
+                                        const char *filename,
+                                        unsigned int unit,
+                                        unsigned int file_index)
+{
+    switch (type) {
+      case IMAGE_CONTENTS_DISK:
+        return diskcontents_filename_by_number(filename, unit, file_index);
+      case IMAGE_CONTENTS_TAPE:
+        return tapecontents_filename_by_number(filename, unit, file_index);
+    }
+
+    return NULL;
 }
 

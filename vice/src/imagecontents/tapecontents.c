@@ -36,8 +36,7 @@
 #include "utils.h"
 
 
-static void tapecontents_read(tape_image_t *tape_image,
-                              image_contents_t *new)
+static void tape_read(tape_image_t *tape_image, image_contents_t *new)
 {
     image_contents_file_list_t *lp;
 
@@ -78,7 +77,7 @@ static void tapecontents_read(tape_image_t *tape_image,
     }
 }
 
-image_contents_t *image_contents_read_tape(const char *file_name)
+image_contents_t *tapecontents_read(const char *file_name, unsigned int unit)
 {
     tape_image_t *tape_image;
     image_contents_t *new;
@@ -94,23 +93,23 @@ image_contents_t *image_contents_read_tape(const char *file_name)
     new->blocks_free = -1;
     new->file_list = NULL;
 
-    tapecontents_read(tape_image, new);
+    tape_read(tape_image, new);
 
     tape_internal_close_tape_image(tape_image);
     return new;
 }
 
-char *image_contents_tape_filename_by_number(const char *filename,
-                                             unsigned int file_index)
+char *tapecontents_filename_by_number(const char *filename, unsigned int unit,
+                                      unsigned int file_index)
 {
     image_contents_t *contents;
     image_contents_file_list_t *current;
     char *s;
 
-    contents = image_contents_read_tape(filename);
-    if (contents == NULL) {
+    contents = tapecontents_read(filename, unit);
+
+    if (contents == NULL)
         return NULL;
-    }
 
     s = NULL;
 

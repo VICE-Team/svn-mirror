@@ -65,7 +65,7 @@ char *read_disk_image_contents(const char *name)
 	image_contents_t    *contents;
 	char                *s;
 
-    contents=image_contents_read_disk(name);
+    contents=image_contents_read(IMAGE_CONTENTS_DISK, name, 0);
     if (contents==NULL) {
         return NULL;
     }
@@ -79,7 +79,7 @@ char *read_tape_image_contents(const char *name)
 image_contents_t    *contents;
 char                *s;
 
-    contents=image_contents_read_tape(name);
+    contents=image_contents_read_tape(IMAGE_CONTENTS_TAPE, name, 0);
     if (contents==NULL) {
         return NULL;
     }
@@ -92,7 +92,7 @@ char *read_disk_or_tape_image_contents(const char *name)
 {
 char    *tmp;
 
-    tmp=read_disk_image_contents(name);
+    tmp=read_disk_image_contents(IMAGE_CONTENTS_TAPE, name, 0);
     if (tmp==NULL) {
         tmp=read_tape_image_contents(name);
     }
