@@ -28,12 +28,12 @@
  *
  */
 
-
 #include "vice.h"
 #include "resources.h"
 #include "viad.h"
 #include "types.h"
 #include "iecdrive.h"
+#include "true1541.h"
 
 static BYTE drive_bus, drive_data, cpu_bus; /* FIXME: ugly name `drive_data'. */
 
@@ -70,8 +70,9 @@ BYTE iec_drive_read(void)
     return drive_port;
 }
 
-/* The C64 has all bus lines in one I/O byte in a CIA.  If this byte is read or
-   modified, these routines are called. */
+
+/* The C64 has all bus lines in one I/O byte in a CIA.  If this byte is read
+   or modified, these routines are called. */
 
 void iec_cpu_write(BYTE data)
 {

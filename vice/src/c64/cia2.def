@@ -43,7 +43,12 @@
 #define	cia2_set_int_clk		maincpu_set_nmi_clk
 #define	CIA2_INT			IK_NMI
 
-#define INCLUDES #include "true1541.h"
+INCLUDES()
+{
+    #include "true1541.h"
+    #include "c64mem.h"
+    #include "c64iec.h"
+}
 
 #define	PRE_CIA_FUNCS
 #define	POST_CIA_FUNCS

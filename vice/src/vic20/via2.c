@@ -139,8 +139,9 @@
 #include "resources.h"
 
 
-#include "true1541.h"
-#include "kbd.h"
+    #include "true1541.h"
+    #include "kbd.h"
+    #include "vic20iec.h"
 
 #include "interrupt.h"
 

@@ -1,5 +1,5 @@
 /*
- * iecdrive.c - IEC bus handling for the true 1541 emulator.
+ * c64iec.h - IEC bus handling for the C64.
  *
  * Written by
  *  Daniel Sladic (sladic@eecg.toronto.edu)
@@ -28,15 +28,15 @@
  *
  */
 
-
-#ifndef _IEC_H
-#define _IEC_H
+#ifndef _C64IEC_H
+#define _C64IEC_H
 
 #include "types.h"
+#include "iecdrive.h"
 
-void iec_drive_write(BYTE data);
-BYTE iec_drive_read(void);
-void parallel_cable_drive_write(BYTE data, int handshake);
-BYTE parallel_cable_drive_read(int handshake);
+extern void iec_cpu_write(BYTE data);
+extern BYTE iec_cpu_read(void);
+extern void parallel_cable_cpu_write(BYTE data, int handshake);
+extern BYTE parallel_cable_cpu_read(void);
 
 #endif

@@ -1,12 +1,9 @@
 /*
- * iecdrive.c - IEC bus handling for the true 1541 emulator.
+ * vic20.c - IEC bus handling for the VIC20.
  *
  * Written by
  *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
- *  Ettore Perazzoli (ettore@comm2000.it)
  *  André Fachat (fachat@physik.tu-chemnitz.de)
- *  Teemu Rantanen (tvr@cs.hut.fi)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,15 +25,18 @@
  *
  */
 
-
-#ifndef _IEC_H
-#define _IEC_H
+#ifndef _VIC20IEC_H
+#define _VIC20IEC_H
 
 #include "types.h"
+#include "iecdrive.h"
 
-void iec_drive_write(BYTE data);
-BYTE iec_drive_read(void);
-void parallel_cable_drive_write(BYTE data, int handshake);
-BYTE parallel_cable_drive_read(int handshake);
+extern BYTE iec_pa_read(void);
+extern void iec_pa_write(BYTE data);
+void iec_pcr_write(BYTE data);
+
+/* These are dummies.  */
+extern void parallel_cable_cpu_write(BYTE data, int handshake);
+extern BYTE parallel_cable_cpu_read(void);
 
 #endif

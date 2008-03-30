@@ -41,8 +41,9 @@
 
 INCLUDES()
 {
-#include "true1541.h"
-#include "kbd.h"
+    #include "true1541.h"
+    #include "kbd.h"
+    #include "vic20iec.h"
 }
 
 #define	via_set_int		maincpu_set_irq

@@ -82,7 +82,10 @@
 #include "maincpu.h"
 #include "resources.h"
 
-#include "true1541.h"
+
+    #include "true1541.h"
+    #include "c64mem.h"
+    #include "c64iec.h"
 
 #include "interrupt.h"
 
