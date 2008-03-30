@@ -1,5 +1,38 @@
 Sat Aug 15 15:18:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* sound.h: Fixed typo.
+
+	* arch/msdos/tuifs.c (file_list_read_lfn): New function derived
+ 	from old `file_list_read()'; reads the directory with DJGPP's
+ 	`opendir()'.
+	(file_list_read_nolfn): New function; read the directory with
+ 	MS-DOS `findfirst()'/`findnext()'.
+ 	(file_list_read): Call `file_list_read_lfn()' if running under
+ 	Windows 95; call `file_list_read_nolfn()' otherwise.
+	(tui_file_selector): Do not redraw the whole window when updating
+ 	the file selector.
+
+	* c128/c128.c [__MSDOS__]: #include "c128kbd.h".
+
+	* c64/c64.c [__MSDOS__]: #include "c64kbd.h".
+
+	* arch/msdos/menudefs.c (create_special_submenu): New menu item
+	for toggling `UseLeds'.
+
+	* arch/msdos/ui.c: #include "cmdline.h"; #include "resources.h".
+  	New resource `UseLeds'; new command-line options `-leds' and
+ 	`+leds'.
+	(set_kbd_leds): Do nothing if `UseLeds' is zero.
+
+	* arch/msdos/menudefs.c (create_special_submenu): Fixed relative
+ 	speed submenu.
+
+	* arch/msdos/vicesb.c: Removed some unused FM stuff.
+
+	* arch/msdos/vicesb.c (vicesb_close): Do not clear the DSP
+ 	information.
+	(vicesb_init): Clear audio buffers.
+
 	* sounddrv/soundsb.c: New file.
 
 	* arch/msdos/vicesb.c, arch/msdos/vicesb.h: New files.
@@ -1555,8 +1588,6 @@ Sun Jun 21 18:33:41 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
  	every byte transfered to the shift register.
 	(mycia_set_flag): Set myciaint CIA_IM_FLAG instead of myciaflag.
   	also check and set interrupt if necessary!
-
-	* Makefile.am: (pruser.h, pruser.c) added to file list.
 
 	* arch/unix/xaw/uisettings.c: Added PrUserDev userport printer
  	support menus.
