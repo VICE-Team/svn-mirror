@@ -112,9 +112,13 @@ enum vic_ii_video_mode_s {
 };
 typedef enum vic_ii_video_mode_s vic_ii_video_mode_t;
 
-#define VIC_II_IS_ILLEGAL_MODE(x)       ((x) >= VIC_II_ILLEGAL_TEXT_MODE \
-                                         && (x) != VIC_II_IDLE_MODE)
-#define VIC_II_IS_BITMAP_MODE(x)        ((x) & 0x02)
+#define VIC_II_IS_ILLEGAL_MODE(x) ((x) >= VIC_II_ILLEGAL_TEXT_MODE \
+                                  && (x) != VIC_II_IDLE_MODE)
+#define VIC_II_IS_BITMAP_MODE(x)  ((x) & 0x02)
+
+#define VIC_II_IS_TEXT_MODE(x)    ((x) == VIC_II_NORMAL_TEXT_MODE \
+                                  || (x) == VIC_II_MULTICOLOR_TEXT_MODE \
+                                  || (x) == VIC_II_EXTENDED_TEXT_MODE)
 
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
