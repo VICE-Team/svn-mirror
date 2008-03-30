@@ -52,7 +52,7 @@ typedef struct owner_list_s owner_list_t;
 struct color_list_s {
     color_rgb_t color_rgb_req;
     unsigned long color_pixel;
-    PIXEL pixel_data;
+    BYTE pixel_data;
     owner_list_t *owner;
     struct color_list_s *next;
 };
@@ -348,7 +348,7 @@ static void color_print_list(const char *name, color_list_t *list)
 static int color_alloc_new_colors(color_list_t *list)
 {
     color_list_t *list_start;
-    PIXEL data;
+    BYTE data;
     unsigned long color_pixel;
 
     list_start = list;

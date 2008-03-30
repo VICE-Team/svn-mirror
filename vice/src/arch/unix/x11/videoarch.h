@@ -61,6 +61,17 @@ struct video_canvas_s {
     Window drawable;
     Colormap colormap;
 #endif
+
+    XImage *x_image;
+#ifdef USE_GNOMEUI
+    GdkImage *gdk_image;
+#endif
+
+#ifdef USE_MITSHM
+    XShmSegmentInfo xshm_info;
+    int using_mitshm;     /* True if MITSHM is used for this framebuffer. */
+#endif
+    GC gc;
 };
 typedef struct video_canvas_s video_canvas_t;
 
@@ -70,21 +81,6 @@ typedef struct video_canvas_s video_canvas_t;
 #else
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 #endif
-
-struct video_frame_buffer_s {
-    XImage *x_image;
-#ifdef USE_GNOMEUI
-    GdkImage *gdk_image;
-#endif
-    video_canvas_t *canvas;
-
-#ifdef USE_MITSHM
-    XShmSegmentInfo xshm_info;
-    int using_mitshm;     /* True if MITSHM is used for this framebuffer. */
-#endif
-    GC gc;
-};
-typedef struct video_frame_buffer_s video_frame_buffer_t;
 
 typedef ui_exposure_handler_t canvas_redraw_t;
 
@@ -121,14 +117,17 @@ extern void ui_finish_canvas(video_canvas_t *c);
 extern void video_convert_save_pixel(void);
 extern void video_convert_restore_pixel(void);
 extern void video_refresh_func(void (*rfunc)(void));
-extern int video_convert_func(video_frame_buffer_t *i, int depth,
+extern int video_convert_func(video_canvas_t *canvas, int depth,
                               unsigned int width, unsigned int height);
 extern void video_register_raster(raster_t *raster);
 
 extern void video_convert_color_table(unsigned int i, BYTE *pixel_return,
-                                      PIXEL *data, unsigned int bits_per_pixel,
+                                      BYTE *data, unsigned int bits_per_pixel,
                                       unsigned int dither, long col,
                                       video_canvas_t *c);
+extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
+                                         unsigned int width,
+                                         unsigned int height);
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
 #define fullscreen_on() fullscreen_mode_on_restore()

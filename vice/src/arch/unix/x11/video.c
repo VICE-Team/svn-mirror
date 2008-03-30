@@ -62,6 +62,7 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/utsname.h>
 
 #include "color.h"
@@ -155,11 +156,11 @@ static log_t video_log = LOG_ERR;
 
 static void (*_convert_func) (BYTE *draw_buffer,
                               unsigned int draw_buffer_line_size,
-                              video_frame_buffer_t *p,
+                              video_canvas_t *canvas,
                               int x, int y, int w, int h);
 static BYTE shade_table[256];
 
-void video_convert_color_table(unsigned int i, BYTE *pixel_return, PIXEL *data,
+void video_convert_color_table(unsigned int i, BYTE *pixel_return, BYTE *data,
                                unsigned int bits_per_pixel,
                                unsigned int dither, long col,
                                video_canvas_t *c)
@@ -190,36 +191,36 @@ void video_convert_color_table(unsigned int i, BYTE *pixel_return, PIXEL *data,
    comparing the general convert_8toall() -routine. */
 static void convert_8to8(BYTE *draw_buffer,
                          unsigned int draw_buffer_line_size,
-                         video_frame_buffer_t *p,
+                         video_canvas_t *canvas,
                          int sx, int sy, int w, int h)
 {
-    video_render_main(&p->canvas->videoconfig, draw_buffer,
-                      p->x_image->data,
+    video_render_main(&canvas->videoconfig, draw_buffer,
+                      canvas->x_image->data,
                       w, h, sx, sy, sx, sy, draw_buffer_line_size,
-                      p->x_image->bytes_per_line, 8);
+                      canvas->x_image->bytes_per_line, 8);
 
 }
 
 static void convert_8to16(BYTE *draw_buffer,
                           unsigned int draw_buffer_line_size,
-                          video_frame_buffer_t *p,
+                          video_canvas_t *canvas,
                           int sx, int sy, int w, int h)
 {
-    video_render_main(&p->canvas->videoconfig, draw_buffer,
-                      p->x_image->data,
+    video_render_main(&canvas->videoconfig, draw_buffer,
+                      canvas->x_image->data,
                       w, h, sx, sy, sx, sy, draw_buffer_line_size,
-                      p->x_image->bytes_per_line, 16);
+                      canvas->x_image->bytes_per_line, 16);
 }
 
 static void convert_8to32(BYTE *draw_buffer,
                           unsigned int draw_buffer_line_size,
-                          video_frame_buffer_t *p,
+                          video_canvas_t *canvas,
                           int sx, int sy, int w, int h)
 {
-    video_render_main(&p->canvas->videoconfig, draw_buffer,
-                      p->x_image->data,
+    video_render_main(&canvas->videoconfig, draw_buffer,
+                      canvas->x_image->data,
                       w, h, sx, sy, sx, sy, draw_buffer_line_size,
-                      p->x_image->bytes_per_line, 32);
+                      canvas->x_image->bytes_per_line, 32);
 }
 
 #define SRCPTR(x, y) \
@@ -238,7 +239,7 @@ BYTE dither_table[4][4] = {
 
 static void convert_8to1_dither(BYTE *draw_buffer,
                                 unsigned int draw_buffer_line_size,
-                                video_frame_buffer_t *p,
+                                video_canvas_t *canvas,
                                 int sx, int sy, int w, int h)
 {
     BYTE *src, *dither;
@@ -248,8 +249,8 @@ static void convert_8to1_dither(BYTE *draw_buffer,
         dither = dither_table[(sy + y) % 4];
         for (x = 0; x < w; x++) {
             /* XXX: trusts that real_pixel[0, 1] == black, white */
-            XPutPixel(p->x_image, sx + x, sy + y,
-                      p->canvas->videoconfig.physical_colors[shade_table[src[x]]
+            XPutPixel(canvas->x_image, sx + x, sy + y,
+                      canvas->videoconfig.physical_colors[shade_table[src[x]]
                       > dither[(sx + x) % 4]]);
         }
     }
@@ -258,7 +259,7 @@ static void convert_8to1_dither(BYTE *draw_buffer,
 /* And this is inefficient... */
 static void convert_8toall(BYTE *draw_buffer,
                            unsigned int draw_buffer_line_size,
-                           video_frame_buffer_t * p,
+                           video_canvas_t *canvas,
                            int sx, int sy, int w, int h)
 {
     BYTE *src;
@@ -266,30 +267,30 @@ static void convert_8toall(BYTE *draw_buffer,
     for (y = 0; y < h; y++) {
         src = SRCPTR(sx, sy + y);
         for (x = 0; x < w; x++)
-            XPutPixel(p->x_image, sx + x, sy + y,
-                      p->canvas->videoconfig.physical_colors[src[x]]);
+            XPutPixel(canvas->x_image, sx + x, sy + y,
+                      canvas->videoconfig.physical_colors[src[x]]);
     }
 }
 
 
-int video_convert_func(video_frame_buffer_t *i, int depth, unsigned int width,
+int video_convert_func(video_canvas_t *canvas, int depth, unsigned int width,
                        unsigned int height)
 {
 #if VIDEO_DISPLAY_DEPTH != 0
     unsigned int sup_depth = VIDEO_DISPLAY_DEPTH;
-    if (sup_depth != i->x_image->bits_per_pixel) {
+    if (sup_depth != canvas->x_image->bits_per_pixel) {
         log_error(video_log,
                   _("Only %ibpp supported by this emulator."), sup_depth);
         log_error(video_log,
                   _("Current X server depth is %ibpp."),
-                  i->x_image->bits_per_pixel);
+                  canvas->x_image->bits_per_pixel);
         log_error(video_log,
                   _("Switch X server depth or recompile with --enable-autobpp."));
         return -1;
     }
 
 #endif
-    switch (i->x_image->bits_per_pixel) {
+    switch (canvas->x_image->bits_per_pixel) {
       case 1:
         _convert_func = convert_8to1_dither;
         break;
@@ -371,50 +372,34 @@ int shmhandler(Display* display,XErrorEvent* err)
 #endif
 
 /* Free an allocated frame buffer. */
-void video_frame_buffer_free(video_frame_buffer_t *i)
+static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 {
     Display *display;
 
-    if (!i)
+    if (canvas == NULL)
         return;
 
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
-	return;
+        return;
 #endif
+
     display = ui_get_display_ptr();
 
 #ifdef USE_MITSHM
-    if (i->using_mitshm) {
-        XShmDetach(display, &(i->xshm_info));
-        if (i->x_image)
-            XDestroyImage(i->x_image);
-        if (shmdt(i->xshm_info.shmaddr))
+    if (canvas->using_mitshm) {
+        XShmDetach(display, &(canvas->xshm_info));
+        if (canvas->x_image)
+            XDestroyImage(canvas->x_image);
+        if (shmdt(canvas->xshm_info.shmaddr))
             log_error(video_log, _("Cannot release shared memory!"));
-    } else if (i->x_image)
-        XDestroyImage(i->x_image);
+    } else if (canvas->x_image)
+        XDestroyImage(canvas->x_image);
 #else
 #ifndef USE_GNOMEUI
-    if (i->x_image)
-        XDestroyImage(i->x_image);
+    if (canvas->x_image)
+        XDestroyImage(canvas->x_image);
 #endif
-
-#endif
-    {
-        extern video_canvas_t *dangling_canvas;
-        dangling_canvas = i->canvas;
-    }
-    free(i);
-}
-
-void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
-{
-#if 0
-    int i;
-
-    for (i = 0; i < f->x_image->height * f->x_image->bytes_per_line;
-         i += sizeof(PIXEL))
-        *((PIXEL *)(f->x_image->data + i)) = value;
 #endif
 }
 
@@ -432,19 +417,23 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
                                     unsigned int *height, int mapped,
                                     void_t exposure_handler,
                                     const palette_t *palette,
-                                    BYTE *pixel_return,
-                                    video_frame_buffer_t *fb)
+                                    BYTE *pixel_return)
 {
-    video_canvas_t *c;
+    video_canvas_t *canvas;
     ui_window_t w;
     XGCValues gc_values;
 
-    c = (video_canvas_t *)xmalloc(sizeof(struct video_canvas_s));
-    memset(c, 0, sizeof(struct video_canvas_s));
+    canvas = (video_canvas_t *)xmalloc(sizeof(video_canvas_t));
+    memset(canvas, 0, sizeof(video_canvas_t));
 
-    video_render_initconfig(&c->videoconfig);
+    if (video_arch_frame_buffer_alloc(canvas, *width, *height) < 0) {
+        free(canvas);
+        return NULL;
+    }
 
-    w = ui_open_canvas_window(c, win_name, *width, *height, 1,
+    video_render_initconfig(&canvas->videoconfig);
+
+    w = ui_open_canvas_window(canvas, win_name, *width, *height, 1,
                               (canvas_redraw_t)exposure_handler, palette,
                               pixel_return);
 
@@ -452,25 +441,28 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
         _video_gc = video_get_gc(&gc_values);
 
     if (!w) {
-        free(c);
+        free(canvas);
         return (video_canvas_t *)NULL;
     }
 
-    c->emuwindow = w;
-    c->width = *width;
-    c->height = *height;
-    ui_finish_canvas(c);
-
+    canvas->emuwindow = w;
+    canvas->width = *width;
+    canvas->height = *height;
+    ui_finish_canvas(canvas);
+#if 0
+    if (video_arch_frame_buffer_alloc(canvas, *width, *height) < 0) {
+        free(canvas);
+        return NULL;
+    }
+#endif
     video_add_handlers(w);
     if (console_mode || vsid_mode)
-        return c;
-
-    fb->canvas = c;
+        return canvas;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_set_palette(fb->canvas, palette, pixel_return);
 #endif
-    return c;
+    return canvas;
 }
 
 void video_canvas_destroy(video_canvas_t *c)
@@ -493,12 +485,17 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *palette,
 }
 
 /* Change the size of the canvas. */
-void video_canvas_resize(video_canvas_t *s, unsigned int width,
+void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
                          unsigned int height)
 {
     if (console_mode || vsid_mode) {
         return;
     }
+
+    video_arch_frame_buffer_free(canvas);
+
+    video_arch_frame_buffer_alloc(canvas, width, height);
+
 #ifdef USE_XF86_DGA2_EXTENSIONS
     /* printf("%s: w = %d, h = %d\n", __FUNCTION__, width, height); */
     if (fullscreen_is_enabled)
@@ -506,10 +503,10 @@ void video_canvas_resize(video_canvas_t *s, unsigned int width,
     fullscreen_resize(width, height);
 #endif
 
-    ui_resize_canvas_window(s->emuwindow, width, height);
-    s->width = width;
-    s->height = height;
-    ui_finish_canvas(s);
+    ui_resize_canvas_window(canvas->emuwindow, width, height);
+    canvas->width = width;
+    canvas->height = height;
+    ui_finish_canvas(canvas);
 }
 
 void enable_text(void)
@@ -533,7 +530,6 @@ void video_refresh_func(void (*rfunc)(void))
 void video_canvas_refresh(video_canvas_t *canvas,
                           BYTE *draw_buffer,
                           unsigned int draw_buffer_line_size,
-                          video_frame_buffer_t *frame_buffer,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
@@ -549,15 +545,15 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
 #endif
     if (_convert_func)
-        _convert_func(draw_buffer, draw_buffer_line_size, frame_buffer,
+        _convert_func(draw_buffer, draw_buffer_line_size, canvas,
                       xs, ys, w, h);
 
     /* This could be optimized away.  */
     display = ui_get_display_ptr();
 
     _refresh_func(display, canvas->drawable, _video_gc,
-                  frame_buffer->x_image, xs, ys, xi, yi, w, h, False,
-                  frame_buffer, canvas);
+                  canvas->x_image, xs, ys, xi, yi, w, h, False,
+                  NULL, canvas);
     if (_video_use_xsync)
         XSync(display, False);
 }

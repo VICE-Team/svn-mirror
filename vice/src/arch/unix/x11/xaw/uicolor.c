@@ -116,11 +116,11 @@ static unsigned int bits_per_pixel;
 
 int uicolor_alloc_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long *color_pixel,
-                        PIXEL *pixel_return)
+                        BYTE *pixel_return)
 {
     XColor color;
     XImage *im;
-    PIXEL *data = (PIXEL *)xmalloc(4);
+    BYTE *data = (BYTE *)xmalloc(4);
     Display *display = ui_get_display_ptr();
 
     /* This is a kludge to map pixels to zimage values. Is there a better
@@ -163,7 +163,7 @@ void uicolor_free_color(unsigned int red, unsigned int green,
 }
 
 void uicolor_convert_color_table(unsigned int colnr, BYTE *pixel_return,
-                                 PIXEL *data, unsigned int dither,
+                                 BYTE *data, unsigned int dither,
                                  long color_pixel, void *c)
 {
     video_convert_color_table(colnr, pixel_return, data, bits_per_pixel,

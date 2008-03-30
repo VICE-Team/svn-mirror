@@ -34,11 +34,11 @@ struct palette_s;
 
 extern int uicolor_alloc_color(unsigned int red, unsigned int green,
                                unsigned int blue, unsigned long *color_pixel,
-                               PIXEL *pixel_return);
+                               BYTE *pixel_return);
 extern void uicolor_free_color(unsigned int red, unsigned int green,
                                unsigned int blue, unsigned long color_pixel);
 extern void uicolor_convert_color_table(unsigned int colnr, BYTE *pixel_return,
-                                        PIXEL *data, unsigned int dither,
+                                        BYTE *data, unsigned int dither,
                                         long color_pixel, void *c);
 extern int uicolor_set_palette(struct video_canvas_s *c,
                                const struct palette_s *palette,

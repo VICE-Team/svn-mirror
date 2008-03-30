@@ -193,7 +193,7 @@ void uicolor_free_color(unsigned int red, unsigned int green,
 }
 
 void uicolor_convert_color_table(unsigned int colnr, BYTE *pixel_return,
-                                 PIXEL *data, unsigned int dither,
+                                 BYTE *data, unsigned int dither,
                                  long color_pixel, void *c)
 {
     video_convert_color_table(colnr, pixel_return, data, bits_per_pixel,
