@@ -54,6 +54,8 @@ libarch_a_SOURCES = \
 	uicommands.c \
         uiedisk.h \
 	uimenu.h \
+	uiscreenshot.c \
+	uiscreenshot.h \
 	uisettings.h \
 	uisettings.c \
 	uisnapshot.h \
