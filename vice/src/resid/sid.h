@@ -66,6 +66,7 @@ public:
     reg16 rate_counter[3];
     reg16 exponential_counter[3];
     reg8 envelope_counter[3];
+    EnvelopeGenerator::State envelope_state[3];
     bool hold_zero[3];
   };
     

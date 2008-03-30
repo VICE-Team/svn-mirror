@@ -1,3 +1,9 @@
+	* envelope.h (EnvelopeGenerator): Added public State enum.
+
+	* sid.cc, sid.h (SID::State): Added envelope_state.
+	(SID::State::write_state): Restore register 0x18.
+
+
 2002-12-31  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.14 released.

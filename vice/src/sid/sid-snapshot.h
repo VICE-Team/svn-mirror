@@ -40,6 +40,7 @@ struct sid_snapshot_state_s {
     WORD rate_counter[3];
     WORD exponential_counter[3];
     BYTE envelope_counter[3];
+    BYTE envelope_state[3];
     BYTE hold_zero[3];
 };
 typedef struct sid_snapshot_state_s sid_snapshot_state_t;

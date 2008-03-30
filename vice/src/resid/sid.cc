@@ -258,6 +258,7 @@ SID::State::State()
     rate_counter[i] = 0;
     exponential_counter[i] = 0;
     envelope_counter[i] = 0;
+    envelope_state[i] = EnvelopeGenerator::RELEASE;
     hold_zero[i] = 0;
   }
 }
@@ -313,6 +314,7 @@ SID::State SID::read_state()
     state.rate_counter[i] = voice[i].envelope.rate_counter;
     state.exponential_counter[i] = voice[i].envelope.exponential_counter;
     state.envelope_counter[i] = voice[i].envelope.envelope_counter;
+    state.envelope_state[i] = voice[i].envelope.state;
     state.hold_zero[i] = voice[i].envelope.hold_zero;
   }
 
@@ -327,7 +329,7 @@ void SID::write_state(const State& state)
 {
   int i;
 
-  for (i = 0; i < 0x18; i++) {
+  for (i = 0; i <= 0x18; i++) {
     write(i, state.sid_register[i]);
   }
 
@@ -340,6 +342,7 @@ void SID::write_state(const State& state)
     voice[i].envelope.rate_counter = state.rate_counter[i];
     voice[i].envelope.exponential_counter = state.exponential_counter[i];
     voice[i].envelope.envelope_counter = state.envelope_counter[i];
+    voice[i].envelope.state = state.envelope_state[i];
     voice[i].envelope.hold_zero = state.hold_zero[i];
   }
 }

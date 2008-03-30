@@ -37,6 +37,8 @@ class EnvelopeGenerator
 public:
   EnvelopeGenerator();
 
+  enum State { ATTACK, DECAY_SUSTAIN, RELEASE };
+
   RESID_INLINE void clock();
   RESID_INLINE void clock(cycle_count delta_t);
   void reset();
@@ -64,7 +66,7 @@ protected:
 
   reg8 gate;
 
-  enum { ATTACK, DECAY_SUSTAIN, RELEASE } state;
+  State state;
 
   // Lookup table to convert from attack, decay, or release value to rate
   // counter period.

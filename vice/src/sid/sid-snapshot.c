@@ -129,6 +129,7 @@ static int sid_snapshot_write_module_extended(snapshot_t *s)
         || SMW_WA(m, sid_state.rate_counter, 3) < 0
         || SMW_WA(m, sid_state.exponential_counter, 3) < 0
         || SMW_BA(m, sid_state.envelope_counter, 3) < 0
+        || SMW_BA(m, sid_state.envelope_state, 3) < 0
         || SMW_BA(m, sid_state.hold_zero, 3) < 0) {
         snapshot_module_close(m);
         return -1;
@@ -179,6 +180,7 @@ static int sid_snapshot_read_module_extended(snapshot_t *s)
         || SMR_WA(m, sid_state.rate_counter, 3) < 0
         || SMR_WA(m, sid_state.exponential_counter, 3) < 0
         || SMR_BA(m, sid_state.envelope_counter, 3) < 0
+        || SMR_BA(m, sid_state.envelope_state, 3) < 0
         || SMR_BA(m, sid_state.hold_zero, 3) < 0) {
         snapshot_module_close(m);
         return -1;
