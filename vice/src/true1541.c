@@ -60,7 +60,131 @@
 #include "viad.h"
 #include "via.h"
 #include "cia.h"
+#include "utils.h"
 #include "ui.h"
+
+/* ------------------------------------------------------------------------- */
+
+/* Flag: Is the true 1541 emulation turned on?  */
+int true1541_enabled;
+
+/* Flag: Do we emulate a SpeedDOS-compatible parallel cable?  */
+int true1541_parallel_cable_enabled;
+
+/* What extension policy?  (See `TRUE1541_EXTEND_*' in `true1541.h'.)  */
+static int extend_image_policy;
+
+/* What idling method?  (See `TRUE1541_IDLE_*' in `true1541.h'.)  */
+static int idling_method;
+
+/* What sync factor between the CPU and the 1541?  If equal to
+   `TRUE1541_SYNC_PAL', the same as PAL machines.  If equal to
+   `TRUE1541_SYNC_NTSC', the same as NTSC machines.  The sync factor is
+   calculated as
+
+   65536 * clk_1541 / clk_[c64|vic20]
+
+   where `clk_1541' is fixed to 1 MHz, while `clk_[c64|vic20]' depends on the
+   video timing (PAL or NTSC).  The pre-calculated values for PAL and NTSC
+   are in `pal_sync_factor' and `ntsc_sync_factor'.  */
+static int sync_factor;
+
+/* Name of the DOS ROM.  */
+static char *dos_rom_name;
+
+static int set_true1541_enabled(resource_value_t v)
+{
+    if ((int) v)
+        true1541_enable();
+    else
+        true1541_disable();
+    return 0;
+}
+
+static int set_true1541_parallel_cable_enabled(resource_value_t v)
+{
+    true1541_parallel_cable_enabled = (int) v;
+    return 0;
+}
+
+static int set_extend_image_policy(resource_value_t v)
+{
+    switch ((int) v) {
+      case TRUE1541_EXTEND_NEVER:
+      case TRUE1541_EXTEND_ASK:
+      case TRUE1541_EXTEND_ACCESS:
+        extend_image_policy = (int) v;
+        return 0;
+      default:
+        return -1;
+    }
+}
+
+static int set_idling_method(resource_value_t v)
+{
+    /* FIXME: Maybe we should call `true1541_cpu_execute()' here?  */
+    if ((int) v != TRUE1541_IDLE_SKIP_CYCLES
+        && (int) v != TRUE1541_IDLE_TRAP_IDLE)
+        return -1;
+
+    idling_method = (int) v;
+    return 0;
+}
+
+static int set_sync_factor(resource_value_t v)
+{
+    switch ((int) v) {
+      case TRUE1541_SYNC_PAL:
+        sync_factor = (int) v;
+        true1541_set_pal_sync_factor();
+        break;
+      case TRUE1541_SYNC_NTSC:
+        sync_factor = (int) v;
+        true1541_set_ntsc_sync_factor();
+        break;
+      default:
+        if ((int) v > 0)
+            true1541_set_sync_factor((int) v);
+        else
+            return -1;
+    }
+
+    return 0;
+}
+
+static int set_dos_rom_name(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (dos_rom_name == NULL)
+        dos_rom_name = stralloc(name);
+    else {
+        dos_rom_name = xrealloc(dos_rom_name, strlen(name) + 1);
+        strcpy(dos_rom_name, name);
+    }
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "True1541", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &true1541_enabled, set_true1541_enabled },
+    { "True1541ParallelCable", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &true1541_parallel_cable_enabled, set_true1541_parallel_cable_enabled },
+    { "True1541ExtendImagePolicy", RES_INTEGER, (resource_value_t) TRUE1541_EXTEND_NEVER,
+      (resource_value_t *) &extend_image_policy, set_extend_image_policy },
+    { "True1541IdleMethod", RES_INTEGER, (resource_value_t) TRUE1541_IDLE_TRAP_IDLE,
+      (resource_value_t *) &idling_method, set_idling_method },
+    { "True1541SyncFactor", RES_INTEGER, (resource_value_t) TRUE1541_SYNC_PAL,
+      (resource_value_t *) &sync_factor, set_sync_factor },
+    { "DosName", RES_STRING, (resource_value_t) "dos1541",
+      (resource_value_t *) &dos_rom_name, set_dos_rom_name },
+    { NULL }
+};
+
+int true1541_init_resources(void)
+{
+    return resources_register(resources);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -417,12 +541,12 @@ int initialize_true1541(void)
     true1541_warn = warn_init("1541", TRUE1541_NUM_WARNINGS);
 
     /* Load the ROMs. */
-    if (mem_load_sys_file(app_resources.directory, app_resources.dosName,
-		  true1541_rom, TRUE1541_ROM_SIZE, TRUE1541_ROM_SIZE) < 0) {
+    if (mem_load_sys_file(dos_rom_name, true1541_rom, TRUE1541_ROM_SIZE,
+                          TRUE1541_ROM_SIZE) < 0) {
 	fprintf(stderr,
 		"1541: Warning: ROM image not loaded; hardware-level "
 		"emulation is not available.\n");
-	app_resources.true1541 = 0;
+	true1541_enabled = 0;
 	return -1;
     }
 
@@ -466,15 +590,16 @@ int initialize_true1541(void)
 /* Activate full 1541 emulation. */
 int true1541_enable(void)
 {
+    puts(__FUNCTION__);
+
     /* Always disable kernal traps. */
-    if (rom_loaded) {
+    if (rom_loaded)
 	remove_serial_traps();
-    }
 
     if (true1541_floppy != NULL)
         true1541_attach_floppy(true1541_floppy);
 
-    app_resources.true1541 = 1;
+    true1541_enabled = 1;
     true1541_cpu_wake_up();
 
     UiToggleDriveStatus(1);
@@ -484,29 +609,17 @@ int true1541_enable(void)
 /* Disable full 1541 emulation.  */
 void true1541_disable(void)
 {
-    if (rom_loaded) {
-	/* Do not enable kernal traps if required. */
-	if (app_resources.noTraps)
-	    remove_serial_traps();
-	else
-	    install_serial_traps();
-    }
-    app_resources.true1541 = 0;
+    puts(__FUNCTION__);
+
+    if (rom_loaded)
+        install_serial_traps();
+
+    true1541_enabled = 0;
     true1541_cpu_sleep();
 
     GCR_data_writeback();
 
     UiToggleDriveStatus(0);
-}
-
-/* This is called when the true1541 resource is changed, to acknowledge the new
-   value.  */
-void true1541_ack_switch(void)
-{
-    if (app_resources.true1541)
-	true1541_enable();
-    else
-	true1541_disable();
 }
 
 void true1541_reset(void)
@@ -841,7 +954,7 @@ static void GCR_data_writeback(void)
 	return;
 
     if (track > true1541_floppy->NumTracks) {
-	switch (app_resources.true1541ExtendImage) {
+	switch (extend_image_policy) {
 	  case TRUE1541_EXTEND_NEVER:
 	    ask_extend_disk_image = 1;
 	    return;
@@ -949,7 +1062,7 @@ int true1541_trap_handler(void)
 	/* Idle loop */
 	init_complete = 1;
 	true1541_cpu_regs.pc = 0xebff;
-	if (app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE)
+	if (idling_method == TRUE1541_IDLE_TRAP_IDLE)
 	    true1541_clk = next_alarm_clk(&true1541_int_status);
     } else
 	return 1;
@@ -959,40 +1072,45 @@ int true1541_trap_handler(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Set the sync factor between the computer and the 1541. */
+/* Set the sync factor between the computer and the 1541.  */
 
+void true1541_set_sync_factor(unsigned int factor)
+{
+    true1541_cpu_set_sync_factor(factor);
+}
+
+/* FIXME: This is hardcoded!  */
 void true1541_set_pal_sync_factor(void)
 {
-    true1541_set_sync_factor(TRUE1541_PAL_SYNC_FACTOR);
+    true1541_cpu_set_sync_factor(66516);
 }
 
+/* FIXME: This is hardcoded!  */
 void true1541_set_ntsc_sync_factor(void)
 {
-    true1541_set_sync_factor(TRUE1541_NTSC_SYNC_FACTOR);
-}
-
-void true1541_ack_sync_factor(void)
-{
-    true1541_set_sync_factor(app_resources.true1541SyncFactor);
+    true1541_cpu_set_sync_factor(64094);
 }
 
 /* ------------------------------------------------------------------------- */
 
+/* Update the status bar in the UI.  */
 void true1541_update_ui_status(void)
 {
     static int old_led_status = -1;
     static int old_half_track = -1;
     int my_led_status;
 
-    if (!app_resources.true1541) {
-	old_led_status = old_half_track = -1;
-	UiToggleDriveStatus(0);
-	return;
+    if (!true1541_enabled) {
+        if (old_led_status >= 0) {
+            old_led_status = old_half_track = -1;
+            UiToggleDriveStatus(0);
+        }
+        return;
     }
 
     /* Actually update the LED status only if the `trap idle' idling method
        is being used, as the LED status could be incorrect otherwise. */
-   if (app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE)
+   if (idling_method == TRUE1541_IDLE_TRAP_IDLE)
 	my_led_status = true1541_led_status ? 1 : 0;
     else
 	my_led_status = 0;
@@ -1006,4 +1124,16 @@ void true1541_update_ui_status(void)
 	old_half_track = true1541_current_half_track;
 	UiDisplayDriveTrack((float) true1541_current_half_track / 2.0);
     }
+}
+
+/* This is called at every vsync.  */
+void true1541_vsync_hook(void)
+{
+    true1541_update_ui_status();
+
+    if (!true1541_enabled)
+        return;
+
+    if (idling_method == TRUE1541_IDLE_TRAP_IDLE)
+        true1541_cpu_execute();
 }
