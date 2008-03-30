@@ -82,7 +82,7 @@ LIB32=link.exe -lib
 # Name "vic20 - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\vic20\cartridge.c
+SOURCE=..\..\vic20\vic20cartridge.c
 # End Source File
 # Begin Source File
 

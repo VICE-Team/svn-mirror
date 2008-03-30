@@ -102,6 +102,10 @@ SOURCE=..\..\vdrive\vdrive-command.c
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\vdrive\vdrive-rel.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\vdrive\vdrive-snapshot.c
 # End Source File
 # End Target

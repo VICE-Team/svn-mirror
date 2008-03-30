@@ -114,7 +114,7 @@ SOURCE=..\..\c64\c64tpi.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\c64\cartridge.c
+SOURCE=..\..\c64\c64cartridge.c
 # End Source File
 # Begin Source File
 
