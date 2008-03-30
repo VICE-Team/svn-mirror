@@ -1106,7 +1106,13 @@ static int mem_kernal_checksum(void)
 
 static int mem_load_kernal(void) 
 {
+    int trapfl;
+
     if(!rom_loaded) return 0;
+
+    /* disable traps before loading the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
 
     if(!IS_NULL(kernal_rom_name)) {
         /* Load Kernal ROM.  */
@@ -1115,10 +1121,16 @@ static int mem_load_kernal(void)
                           C128_KERNAL_ROM_SIZE) < 0) {
             log_error(c128_mem_log, "Couldn't load kernal ROM `%s'.", 
 			  kernal_rom_name);
+	    resources_set_value("NoTraps", (resource_value_t) trapfl);
             return -1;
 	}
     }
-    return mem_kernal_checksum();
+
+    mem_kernal_checksum();
+
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
+    return 0;
 }
 
 static int mem_basic_checksum(void) 
@@ -1721,12 +1733,14 @@ int mem_read_snapshot_module(snapshot_t *s)
         ieee488_enabled = 1;
     }
 
+#ifdef HAVE_RS232
     /* ACIA module.  */
     if (acia1_read_snapshot_module(s) < 0) {
         acia_de_enabled = 0;
     } else {
         acia_de_enabled = 1;
     }
+#endif
 
     ui_update_menus();
 

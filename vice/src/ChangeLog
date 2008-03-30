@@ -1,3 +1,169 @@
+1999-02-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.27.
+
+	* drive/drive.c, drive/via1drive0.c, drive/via1drive1.c,
+	drive/drivecpu-tmpl.c, arch/unix/xaw/uisettings.c,
+	arch/win32/res.h, arch/win32/res.r, arch/win32/uidrive.c,
+	arch/msdos/menudefs.c: Added 1541-II disk drive support.
+
+	* c128/c128mem.c (mem_read_snapshot_module): Only load ACIA
+	snapshot when `HAVE_RS232' is defined.
+
+1998-02-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am: rename crtc-tmpl.c to crtccore.c
+
+	* cbm2/Makefile.am: remove crtc.def from sources and crtc.c from 
+	BUILT_SOURCES and remove rule to build crtc.c
+	* pet/Makefile.am: likewise
+
+	* cbm2/crtc.def, cbm2/crtc.c: renamed former to latter. Added
+	some necessary includes and make the MEMORY_PTRS define an
+	inline function. Include crtccore.c in the end.
+	* pet/crtc.def, crtc/crtc.c: likewise
+
+	* crtc-tmpl.c: removed
+
+	* crtccore.c: renamed from crtc-tmpl.c
+
+1998-02-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am: replace acia-tmpl.c with aciacore.c
+
+	* acia-tmpl.c: renamed to aciacore.c
+
+	* aciacore.c: new file, from acia-tmpl.c
+	Change calls to set_int_noclk(&maincpu_int_status,...) to 
+	mycpu_set_int_noclk. 
+	(myacia_write_snapshot_module): write offset of next alarm.
+	(myacia_*): rename all static vars to acia_*.
+	
+	* c128/c128.c (vsync_hook): call acia1_prevent_clk_overflow()
+	* c64/c64.c (vsync_hook): likewise
+	* cbm2/c610.c (vsync_hook): likewise
+	* pet/pet.c (vsync_hook): likewise
+
+	* cbm2/c610.c (machine_init): if HAVE_RS232 defined, call 
+	rs232_init.
+
+	* pet/pet.c: (machine_init): if HAVE_RS232 defined, call 
+	rs232_init.
+	(machine_reset): if HAVE_RS232 defined, call rs232_reset.
+
+	* c64/c64acia.h (acia1_prevent_clk_overflow): new prototype
+	* cbm2/c610acia.h: likewise
+	* pet/petacia.h: likewise
+
+	* c64/Makefile.am: remove c64acia1.c from BUILT_SOURCES and 
+	c64acia1.def from sources at all. Remove rule to build
+	c64acia1.c
+	* pet/Makefile.am: likewise for petacia1
+	* cbm2/Makefile.am: likewise for c610acia1
+
+	* c64/c64acia1.def, cbm2/c610acia1.def, pet/petacia1.def: removed files
+
+	* interrupt.h (maincpu_set_int_noclk): new convenience definition
+
+	* maincpu.h: include config.h
+
+	* c64/c64acia1.c, pet/petacia1.c, cbm2/c610acia1.c: renamed
+	from *.def, added definitions for the transformation of 
+	myacia -> acia1
+
+1998-02-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* acia-tmpl.c (int_myacia): made static
+
+	* c64acia.h (int_myacia): removed prototype
+	(acia1_init): added prototype.
+	* cbm2/c610acia.h: likewise
+	pet/petacia.h: likewise
+
+	* cia-tmpl.c (int_myciata, int_myciatb, int_myciatod): made static
+
+	* c64/c64cia.h (int_cia1ta, int_cia1tb, int_cia1tod): removed
+	prototypes.
+	(int_cia1ta, int_cia1tb, int_cia1tod): likewise
+	* cbm2/c610cia.h: likewise +
+	(cia1_init): added prototype
+	* drive/ciad.h: likewise
+
+	* drive/via1drive0.c (A_MYVIA*, mycpu_*set_alarm): remove defs
+	(int_myviat*): remove defs
+	* drive/via1drive1.c: likewise
+	* drive/via2drive0.c: likewise
+	* drive/via2drive1.c: likewise
+
+	* pet/petvia.c: (A_MYVIA*, mycpu_*set_alarm): remove defs
+        (int_myviat*): remove defs
+	(myvia_init, MYVIA_NAME, mycpu_alarm_context): added defs
+	include maincpu.h
+	* vic20/vic20via1.c: likewise	
+	* vic20/vic20via2.c: likewise	
+
+	* drive/viad.h (via*_init): add prototypes
+	(int_via*): remove prototypes
+	* pet/petvia.h: likewise
+	* vic20/vic20via.h: likewise
+
+	* cbm2/c610cia.h: include maincpu.h
+
+	* src/viacore.c (int_myviat*): made static
+
+	* crtc-tmpl.c: include alarm.h and maincpu.h
+	(raster_draw_alarm): new struct for alarm handling. change
+	alarm handling to new version.
+	(crtc_init): call alarm_init
+
+	* c128/c128.c (machine_init): call cia[12]_init and acia1_init
+	(machine_reset): remove alarm handler init
+
+	* cbm2/c610.c (machine_init): call cia1_init and acia1_init
+	(machine_reset): remove alarm handler init
+
+	* pet/pet.c (machine_init): call via_init and acia1_init
+	(machine_reset): remove alarm handler init. Also call reset_acia1
+	(machine_read_snapshot): do not reset ACIA when no acia in 
+	snapshot - done in ACIA code.
+
+	* vic20/vic.c: include alarm.h and maincpu.h
+	(raster_draw_alarm): new struct for new alarm code. Change
+	all alarm handling approprately.
+	(reset_vic): new function to reset VIC-I
+	(vic_init): call alarm_init.
+
+	* vic20/vic.h (reset_vic): new prototype
+
+	* vic20/vic20.c (machine_init): call via1_init and via2_init.
+	(machine_reset): remove alarm handler init
+	Also call reset_vic.
+
+1999-02-11  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/res.h (IDM_SAVEQUICK, IDM_LOADQUICK): Added identifiers
+	  for Quick Snapshot menu items.
+
+	* arch/win32/resc128.r, arch/win32/resc64.r, arch/win32/rescbm2.r
+	  arch/win32/respet.r, arch/win32/resvic.r: Added Quick Snapshot
+	  load and save menu items.
+
+	* arch/win32/ui.c: Include archdep.h.
+	  (c64_accel, c128_accel, cbm2_accel, vic_accel, pet_accel):
+	  Added shortcut keys for Quick Snapshot menu items.
+	  (ui_init): Update sizes of shortcut key tables.
+	  (save_quicksnapshot_trap): New function. Saves Quick Snapshot
+          image, deletes oldest quick snapshot file if we have 10 already,
+	  collapse files if any missing.
+	  (load_quicksnapshot_trap): New function. Loads last Quick Snapshot
+	  file.
+	  (scan_files): New function. Finds available Quick Snapshot files.
+	  (handle_wm_command): Handle Quick Snapshot menu items.
+
+	* findpath.c (findpath): Change '/' into '\' on Win32.
+
+	* findpath.h: Use ';' as path separator on Win32.
+
 1999-02-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.26.
