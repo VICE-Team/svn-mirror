@@ -134,7 +134,7 @@ static resource_t resources[] = {
       (resource_value_t *) &sample_rate, set_sample_rate },
     { "SoundDeviceName", RES_STRING, (resource_value_t) NULL,
       (resource_value_t) &device_name, set_device_name },
-    { "SoundDeviceArg", RES_STRING, (resource_value_t) "SoundDump",
+    { "SoundDeviceArg", RES_STRING, (resource_value_t) NULL,
       (resource_value_t *) &device_arg, set_device_arg },
     { "SoundBufferSize", RES_INTEGER, (resource_value_t) SOUND_SAMPLE_BUFFER_SIZE,
       (resource_value_t *) &buffer_size, set_buffer_size },
@@ -170,8 +170,7 @@ static cmdline_option_t cmdline_options[] = {
     { "-soundarg", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceArg", NULL,
       "<args>", "Specify initialization parameters for sound driver" },
     { "-soundsync", SET_RESOURCE, 1, NULL, NULL, "SoundSpeedAdjustment", NULL,
-      "<sync>",
-      "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)" },
+      "<sync>", "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)" },
     { NULL }
 };
 
@@ -701,6 +700,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #ifdef WINCE
     sound_init_ce_device();
 #endif
+
 #ifdef __riscos
     sound_init_vidc_device();
 #endif
