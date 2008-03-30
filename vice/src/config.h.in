@@ -167,6 +167,9 @@
 /* Can we use the PNG library? */
 #undef HAVE_PNG
 
+/* Define to 1 if you have the <process.h> header file. */
+#undef HAVE_PROCESS_H
+
 /* Support for block device disk image access. */
 #undef HAVE_RAWDRIVE
 

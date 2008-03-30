@@ -1,3 +1,60 @@
+2004-02-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.3.
+
+	* arch/win32/iec128dcr.dsp, arch/win32/iecieee.dsp,
+	arch/win32/Makefile.am: Fixed.
+
+	* c64/cart/crt.c (crt_attach): Attach Magic Formel cart.
+
+	* c64/cart/magicformel.c, c64/cart/magicformel.h: New files.
+
+	* c64/cart/Makefile.am, arch/win32/c64cart.dsp: Added new
+	files.
+
+	* c64/cart/c64cartmem.c (cartridge_attach): Setup MF cart.
+	(cartridge_init_config): Init MF cart config.
+	(cartridge_read_io1, cartridge_store_io1, roml_read,
+	roml_store, ultimax_1000_7fff_read, ultimax_1000_7fff_store,
+	ultimax_a000_bfff_read, ultimax_a000_bfff_store,
+	ultimax_c000_cfff_read, ultimax_c000_cfff_store,
+	ultimax_d000_dfff_read, ultimax_d000_dfff_store, romh_read):
+	Added MF support.
+
+	* c64/c64mem.c, c64/c64mem.h, c64/c64cart.h
+	(mem_store_without_ultimax, mem_read_without_ultimax): New
+	functions.  (store_bank_io, read_bank_io): Made global.
+
+	* c128/c128mem.c: Changed likewise.
+
+	* c64/c64meminit.c (c64meminit): More hooks for Ultimax mode.
+
+	* drive/drive.c, drive/drive.h (drive_gcr_data_writeback_all):
+	New function.
+
+	* drive/drive-snapshot.c (drive_snapshot_write_module,
+	drive_snapshot_read_module): Write back GCR track first.
+
+	* arch/win32/archdep.c, arch/win32/msvc/config.h,
+	arch/win32/winmain.c: Use checked header files.
+
+2004-02-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* debug.c, debug.h: Changed resource TraceSmall to TraceMode.
+	This is now also used to select history debugging.
+	(debug_maincpu): Handles three different debug modes NORMAL,
+	SMALL and HISTORY now.
+	(debug_text, debug_int): Handle history mode.
+	New functions debug_close_file, debug_create_new_file,
+	debug_open_new_file, debug_history_step, debug_stop_playback,
+	debug_start_playback, debug_stop_recording,
+	debug_start_recording
+
+	* event.c: Include debug.h.
+	The start/stop_recording/playback code calls
+	debug_start/stop_recording/playback function if DEBUG is
+	defined.
+
 2004-02-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.2.

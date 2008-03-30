@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <process.h>
 #include <windows.h>
 #include <tlhelp32.h>
 
@@ -52,6 +51,9 @@
 #endif
 #ifdef HAVE_IO_H
 #include <io.h>
+#endif
+#ifdef HAVE_PROCESS_H
+#include <process.h>
 #endif
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>

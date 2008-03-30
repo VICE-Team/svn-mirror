@@ -27,6 +27,7 @@
 #define HAVE_DIRENT_H           1
 #define HAVE_ERRNO_H            1
 #define HAVE_IO_H               1
+#define HAVE_PROCESS_H          1
 #define HAVE_SYS_TYPES_H        1
 #define HAVE_SYS_STAT_H         1
 #define HAVE_SIGNAL_H           1

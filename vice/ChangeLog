@@ -1,3 +1,9 @@
+2004-02-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.3.
+
+	* configure.in: Check for `process.h'.
+
 2004-02-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.2.
