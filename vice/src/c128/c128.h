@@ -28,29 +28,30 @@
 #ifndef _C128_H
 #define _C128_H
 
-#define C128_PAL_CYCLES_PER_SEC	985248
+#define C128_PAL_CYCLES_PER_SEC  985248
 #define C128_PAL_CYCLES_PER_LINE 63
 #define C128_PAL_SCREEN_LINES    312
 #define C128_PAL_CYCLES_PER_RFSH (C128_PAL_SCREEN_LINES \
                                  * C128_PAL_CYCLES_PER_LINE)
-#define C128_PAL_RFSH_PER_SEC    (1.0 / ((double)C128_PAL_CYCLES_PER_RFSH	\
-                                        / (double)C128_PAL_CYCLES_PER_SEC))
+#define C128_PAL_RFSH_PER_SEC    (1.0 / ((double)C128_PAL_CYCLES_PER_RFSH \
+                                 / (double)C128_PAL_CYCLES_PER_SEC))
 
 #define C128_NTSC_CYCLES_PER_SEC  1022730
 #define C128_NTSC_CYCLES_PER_LINE 65
-#define C128_NTSC_SCREEN_LINES	 262
+#define C128_NTSC_SCREEN_LINES    263
 #define C128_NTSC_CYCLES_PER_RFSH (C128_NTSC_SCREEN_LINES \
                                   * C128_NTSC_CYCLES_PER_LINE)
 #define C128_NTSC_RFSH_PER_SEC    (1.0 / ((double)C128_NTSC_CYCLES_PER_RFSH   \
-                                        / (double)C128_NTSC_CYCLES_PER_SEC))
+                                  / (double)C128_NTSC_CYCLES_PER_SEC))
 
 #define C128_NTSCOLD_CYCLES_PER_SEC  1022730
 #define C128_NTSCOLD_CYCLES_PER_LINE 64
-#define C128_NTSCOLD_SCREEN_LINES    263
+#define C128_NTSCOLD_SCREEN_LINES    262
 #define C128_NTSCOLD_CYCLES_PER_RFSH (C128_NTSCOLD_SCREEN_LINES \
-                                    * C128_NTSCOLD_CYCLES_PER_LINE)
-#define C128_NTSC_OLDRFSH_PER_SEC (1.0 / ((double)C128_NTSCOLD_CYCLES_PER_RFSH \
-                                        / (double)C128_NTSCOLD_CYCLES_PER_SEC))
+                                     * C128_NTSCOLD_CYCLES_PER_LINE)
+#define C128_NTSC_OLDRFSH_PER_SEC    (1.0                                    \
+                                     / ((double)C128_NTSCOLD_CYCLES_PER_RFSH \
+                                     / (double)C128_NTSCOLD_CYCLES_PER_SEC))
 
 #endif
 
