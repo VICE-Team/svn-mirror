@@ -47,12 +47,16 @@ UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
 static ui_menu_entry_t palette_submenu[] = {
     { "*Default",
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "default", NULL },
+    { "*C64S",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "c64s", NULL },
     { "*CCS64",
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "ccs64", NULL },
     { "*Frodo",
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "frodo", NULL },
     { "*GoDot",
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "godot", NULL },
+    { "*PC64",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "pc64", NULL },
     { NULL }
 };
 
