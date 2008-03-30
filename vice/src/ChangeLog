@@ -1,3 +1,37 @@
+2000-06-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.16.
+
+	* arch/unix/ui.h, arch/unix/x11/ui-resources.c: Moved resource
+	specific code to resource file.
+
+	* crtc/crtc.c, vicii/vicii.c: #include "video.h".
+
+	* arch/unix/x11/xaw/uicolor.c, arch/unix/x11/uicolor.h: New
+	files.
+
+	* arch/unix/ui.h, arch/unix/x11/xaw/ui.c, arch/unix/video.c,
+	arch/unix/x11/gnome/ui.c (ui_open_canvas_window,
+	ui_canvas_set_palette): Pass pointer to canvas.
+
+	* arch/unix/c128ui.c: Added VDC palette UI entry.
+
+	* arch/unix/uisettings.c, arch/unix/c64ui.c,
+	arch/unix/c128ui.c, arch/unix/petui.c, arch/unix/c610ui.c:
+	Fixed loading custom CRTC palette.
+
+2000-06-10  Dag Lem  <resid@nimrod.no>
+
+	* c64/c64.c: Removed PAL hardcoding.
+	* c128/c128.c: Likewise.
+	* vicii/vicii.c: Likewise.
+
+	* sound.c, sound.h (sound_set_machine_parameter): New function for
+	PAL/NTSC.
+
+	* arch/unix/x11/gnome/uimenu.c (_ui_menu_toggle_helper,
+	_ui_menu_radio_helper): Removed unused variable buf.
+
 2000-06-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.15.
