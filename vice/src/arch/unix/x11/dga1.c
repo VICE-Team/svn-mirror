@@ -42,12 +42,12 @@
 #include "dga1.h"
 #include "fullscreenarch.h"
 #include "kbd.h"
+#include "lib.h"
 #include "log.h"
 #include "mouse.h"
 #include "resources.h"
 #include "types.h"
 #include "uimenu.h"
-#include "utils.h"
 #include "video.h"
 #include "videoarch.h"
 #include "vidmode.h"
@@ -337,12 +337,12 @@ void dga1_create_menus(struct ui_menu_entry_s menu[])
 
     amodes = vidmode_available_modes();
 
-    resolutions_submenu = (ui_menu_entry_t *)xcalloc((size_t)(amodes + 1),
+    resolutions_submenu = (ui_menu_entry_t *)lib_calloc((size_t)(amodes + 1),
                           sizeof(ui_menu_entry_t));
 
     for (i = 0; i < amodes ; i++) {
         resolutions_submenu[i].string =
-            (ui_callback_data_t)xmsprintf("*%s", vm_bestmodes[i].name);
+            (ui_callback_data_t)lib_msprintf("*%s", vm_bestmodes[i].name);
         resolutions_submenu[i].callback = (ui_callback_t)mode_callback;
         resolutions_submenu[i].callback_data = (ui_callback_data_t)i;
     }

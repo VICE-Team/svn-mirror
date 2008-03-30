@@ -34,13 +34,13 @@
 #include <X11/extensions/xf86vmode.h>
 
 #include "dga1.h"
+#include "lib.h"
 #include "log.h"
 #include "fullscreenarch.h"
 #include "resources.h"
 #include "types.h"
 #include "uimenu.h"
 #include "uisettings.h"
-#include "utils.h"
 #include "videoarch.h"
 #include "vidmode.h"
 #include "x11ui.h"
@@ -82,14 +82,15 @@ int vidmode_init(void)
             vm_modes[i]->hdisplay >= 320 &&
             vm_modes[i]->vdisplay <= 600 &&
             vm_modes[i]->vdisplay >= 200) {
-            vm_bestmodes = (vm_bestvideomode_t *)xrealloc(vm_bestmodes,
+            vm_bestmodes = (vm_bestvideomode_t *)lib_realloc(vm_bestmodes,
                            (vm_index + 1) * sizeof(vm_bestvideomode_t));
             vm_bestmodes[vm_index].modeindex = i;
             hz = vm_modes[i]->dotclock * 1000 /
                  (vm_modes[i]->vtotal * vm_modes[i]->htotal);
-            vm_bestmodes[vm_index].name = xmsprintf(" %ix%i-%iHz",
-                                                    vm_modes[i]->hdisplay,
-                                                    vm_modes[i]->vdisplay, hz);
+            vm_bestmodes[vm_index].name = lib_msprintf(" %ix%i-%iHz",
+                                                       vm_modes[i]->hdisplay,
+                                                       vm_modes[i]->vdisplay,
+                                                       hz);
             if (++vm_index > 29)
                 break;
         }
@@ -249,12 +250,12 @@ void vidmode_create_menus(struct ui_menu_entry_s menu[])
 
     amodes = vidmode_available_modes();
 
-    resolutions_submenu = (ui_menu_entry_t *)xcalloc((size_t)(amodes + 1),
+    resolutions_submenu = (ui_menu_entry_t *)lib_calloc((size_t)(amodes + 1),
                           sizeof(ui_menu_entry_t));
 
     for (i = 0; i < amodes ; i++) {
         resolutions_submenu[i].string =
-            (ui_callback_data_t)xmsprintf("*%s", vm_bestmodes[i].name);
+            (ui_callback_data_t)lib_msprintf("*%s", vm_bestmodes[i].name);
         resolutions_submenu[i].callback = (ui_callback_t)mode_callback;
         resolutions_submenu[i].callback_data = (ui_callback_data_t)i;
     }
