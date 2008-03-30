@@ -357,9 +357,11 @@ void fsdevice_set_directory(char *filename, int unit)
 {
     char *p;
 
+#if 0
     /* FIXME: Remove this once the select directory dialog is available.  */
     p = strrchr(filename, '/');
     *(++p) = '\0';
+#endif
 
     switch (unit) {
       case 8:
@@ -695,7 +697,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		      strcpy(rname, dirp->d_name);
 		      if (fsdevice_convert_p00_enabled[(floppy->unit) - 8])
 			  fs_test_pc64_name(flp, rname, secondary);
-			  if (strcmp(rname, dirp->d_name) == 0 
+			  if (strcmp(rname, dirp->d_name) == 0
 			  && fsdevice_hide_cbm_files_enabled[floppy->unit - 8])
 			      continue;
 		      if (!*fs_dirmask)
