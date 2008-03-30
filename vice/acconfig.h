@@ -40,3 +40,6 @@
 
 /* Version number.  */
 #define VERSION ""
+
+/* Define if this version is unstable.  */
+#define UNSTABLE

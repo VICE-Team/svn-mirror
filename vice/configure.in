@@ -6,8 +6,10 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.51)
+AM_INIT_AUTOMAKE(vice, 0.14.2.52)
 AM_CONFIG_HEADER(src/config.h)
+
+AC_DEFINE(UNSTABLE)
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
