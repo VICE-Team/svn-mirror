@@ -1,3 +1,9 @@
+1999-08-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.
+
+	* configure.in: Do not define `UNSTABLE'.
+
 1999-08-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.65.
