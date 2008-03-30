@@ -1658,11 +1658,11 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                   "Press the REWIND key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_REWIND, 0,
                   TUI_MENU_BEH_RESUME);
-#if 0
         tui_menu_add_item(ui_datasette_submenu, "Re_cord",
                   "Press the REWIND key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_RECORD, 0,
                   TUI_MENU_BEH_RESUME);
+#if 0
         tui_menu_add_item(ui_datasette_submenu, "R_eset",
                   "Press the REWIND key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_RESET, 0,

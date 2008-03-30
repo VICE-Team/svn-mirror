@@ -45,8 +45,8 @@ BEGIN
             MENUITEM "&Start",                    IDM_DATASETTE_CONTROL_START
             MENUITEM "&Forward",                  IDM_DATASETTE_CONTROL_FORWARD
             MENUITEM "&Rewind",                   IDM_DATASETTE_CONTROL_REWIND
-#if 0
             MENUITEM "Re&cord",                   IDM_DATASETTE_CONTROL_RECORD
+#if 0
             MENUITEM "R&eset",                    IDM_DATASETTE_CONTROL_RESET
 #endif
         END
