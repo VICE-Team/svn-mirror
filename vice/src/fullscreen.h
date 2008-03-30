@@ -28,15 +28,8 @@
 #define _FULLSCREEN_H
 
 struct cap_fullscreen_s;
-struct ui_menu_entry_s;
 
 extern void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen);
-extern int fullscreen_init(void);
-extern void fullscreen_create_menus(struct ui_menu_entry_s menu[]);
-extern void fullscreen_mode_callback(const char *device, void *callback);
-
-extern int fullscreen_is_enabled;
-extern int fullscreen_available(void);
 
 #endif
 
