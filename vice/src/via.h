@@ -74,6 +74,9 @@
 #define VIA_SIG_RISE    1
 
 
+struct alarm_context_s;
+struct clk_guard_s;
+struct interrupt_cpu_status_s;
 struct snapshot_s;
 struct via_context_s;
 
@@ -137,6 +140,19 @@ typedef struct via_context_s {
     void (*reset)(struct via_context_s *);
 } via_context_t;
 
+typedef struct via_initdesc_s {
+    struct via_context_s *via_ptr;
+    void (*clk)(CLOCK, void*);
+    void (*int_t1)(CLOCK);
+    void (*int_t2)(CLOCK);
+} via_initdesc_t;
+
+
+extern void viacore_setup_context(struct via_context_s *via_context);
+extern void viacore_init(const via_initdesc_t *vd,
+                         struct alarm_context_s *alarm_context,
+                         struct interrupt_cpu_status_s *int_status,
+                         struct clk_guard_s *clk_guard);
 extern void viacore_reset(struct via_context_s *via_context);
 extern void viacore_signal(struct via_context_s *via_context, int line,
                            int edge);
