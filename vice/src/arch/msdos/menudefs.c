@@ -38,11 +38,12 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "log.h"
+#include "sound.h"
 #include "tui.h"
 #include "tuiview.h"
 #include "ui.h"
 
-/* FIXME: Argh!!  Megahack!  <dir.h> #defines `DRIVE', which we need in
+/* FIXME: Argh!!  Megakludge!  <dir.h> #defines `DRIVE', which we need in
    "drive.h".  */
 #undef DRIVE
 
@@ -422,6 +423,26 @@ static TUI_MENU_CALLBACK(sound_oversample_submenu_callback)
         return "None";
 }
 
+TUI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
+
+static TUI_MENU_CALLBACK(sound_synchronization_submenu_callback)
+{
+    int value;
+
+    resources_get_value("SoundSpeedAdjustment", (resource_value_t *) &value);
+
+    switch (value) {
+      case SOUND_ADJUST_FLEXIBLE:
+        return "Flexible";
+      case SOUND_ADJUST_ADJUSTING:
+        return "Adjusting";
+      case SOUND_ADJUST_EXACT:
+        return "Exact";
+      default:
+        return "Unknown";
+    }
+}
+
 static tui_menu_item_def_t sample_rate_submenu[] = {
     { "_0: 8000 Hz",
       "Set sampling rate to 8000 Hz",
@@ -498,6 +519,22 @@ static tui_menu_item_def_t sound_oversample_submenu[] = {
     { NULL }
 };
 
+static tui_menu_item_def_t sound_synchronization_submenu[] = {
+    { "_Flexible",
+      "Slightly adapt sound playback speed to the speed of the emulator",
+      radio_SoundSpeedAdjustment_callback, (void *) SOUND_ADJUST_FLEXIBLE, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Adjusting",
+      "Fully adapt the playback speed to the emulator, avoiding clicks when it's slower",
+      radio_SoundSpeedAdjustment_callback, (void *) SOUND_ADJUST_ADJUSTING, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Exact",
+      "Don't adapt sound playback: make the emulator finetune its speed to the playback",
+      radio_SoundSpeedAdjustment_callback, (void *) SOUND_ADJUST_EXACT, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
 static tui_menu_item_def_t sound_submenu[] = {
     { "Sound _Playback:",
       "Enable sound output",
@@ -515,6 +552,10 @@ static tui_menu_item_def_t sound_submenu[] = {
       "Specify amount of oversampling on sound output",
       sound_oversample_submenu_callback, NULL, 4,
       TUI_MENU_BEH_CONTINUE, sound_oversample_submenu, "Oversample" },
+    { "S_ynchronization Method:",
+      "Specify method used to synchronize the sound playback with the emulator",
+      sound_synchronization_submenu_callback, NULL, 9,
+      TUI_MENU_BEH_CONTINUE, sound_synchronization_submenu, "Synchronization" },
     { NULL }
 };
 
