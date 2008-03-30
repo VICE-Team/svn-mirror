@@ -96,7 +96,7 @@ console_t *uimon_window_resume()
     return console;
 }
 
-int uimon_out(const char *format, ...)
+int uimon_out(const char *buffer)
 {
     //
     // Split output into single lines. If a line doesn't end with
@@ -106,20 +106,14 @@ int uimon_out(const char *format, ...)
 
     int flag = FALSE;
 
-    char *in;
     char *txt, *tmp, *eol;
-
-    va_list ap;
 
     if (!hwndMonitor || !console)
         return 0;
 
     if (!out) out = lib_calloc(1,1);
 
-    va_start(ap, format);
-    in=lib_mvsprintf(format, ap);
-
-    txt=in;
+    txt=buffer;
 
     eol = strchr(txt, '\n');
     while (strrchr(txt,'\n') && eol!= txt+strlen(txt))
@@ -148,8 +142,6 @@ int uimon_out(const char *format, ...)
         out = line;
     }
 
-    lib_free(in);
-
     return 0;
 }
 
@@ -158,7 +150,8 @@ char *uimon_in(const char *prompt)
     char *c=NULL;
     int wait_for_input = TRUE;
 
-    uimon_out("%s\n", prompt);
+    uimon_out(prompt);
+    uimon_out("\n");
     WinSendMsg(hwndMonitor, WM_INPUT, &c, &wait_for_input);
 
     while (wait_for_input && !trigger_shutdown && !trigger_console_exit)

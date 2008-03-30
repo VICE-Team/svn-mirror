@@ -171,11 +171,23 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
             return;
         }
 
-        if (b1 == 1)    /* Load Basic */
+        if (b1 == 1) {   /* Load Basic */
             mem_get_basic_text(&adr, NULL);
-        else
-            adr = (BYTE)b1 | ((BYTE)b2 << 8);
         mem = e_comp_space;
+        }
+        else {
+            adr = (BYTE)b1 | ((BYTE)b2 << 8);
+            mem = e_default_space;
+            start_addr = new_addr(mem, adr);
+            mon_evaluate_default_addr(&start_addr);
+            adr = addr_location(start_addr);
+            mem = addr_memspace(start_addr);
+
+            /* if we are not writing to BASIC, do not 
+             * adjust BASIC pointers */
+            if (mem != e_comp_space)
+                is_bload = TRUE;
+        };
     } else  {
         adr = addr_location(start_addr);
         mem = addr_memspace(start_addr);

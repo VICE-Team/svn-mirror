@@ -35,12 +35,7 @@ extern void uimon_window_suspend(void);
 extern struct console_s *uimon_window_resume(void);
 extern void uimon_window_close(void);
 
-#ifdef __GNUC__
-extern int uimon_out(const char *format, ...)
-    __attribute__((format(printf, 1, 2)));
-#else
-extern int uimon_out(const char *format, ...);
-#endif
+extern int uimon_out(const char *buffer);
 
 extern char *uimon_in(const char *prompt);
 

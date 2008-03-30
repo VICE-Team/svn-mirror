@@ -94,6 +94,8 @@ typedef struct console_private_s
     unsigned     xPosInputLineStart;
     unsigned     yPosInputLineStart;
 
+    unsigned     yPosInputLineStartValid;
+
     /* count for how often we scrolled */
     unsigned     scroll_up;
 
@@ -742,6 +744,12 @@ static void draw_current_input( console_private_t *pcp )
     int xPos = pcp->xPos;
     int yPos = pcp->yPos;
 
+    if (!pcp->yPosInputLineStartValid) {
+        pcp->xPosInputLineStart = pcp->xPos;
+        pcp->yPosInputLineStart = pcp->yPos;
+        pcp->cntInputBuffer = 0;
+    }
+
     /* go to where the input line begins */
     pcp->xPos = pcp->xPosInputLineStart;
     pcp->yPos = pcp->yPosInputLineStart;
@@ -807,13 +815,14 @@ int console_out(console_t *log, const char *format, ...)
     va_list ap;
 
     char ch;
-    char buffer[MAX_OUTPUT_LENGTH];
-    char *pBuffer      = buffer;
+    char *buffer;
+    char *pBuffer;
 
     pcp->bBreak = FALSE;
 
     va_start(ap, format);
-    vsprintf(buffer, format, ap);
+    buffer = lib_mvsprintf(format, ap);
+    pBuffer = buffer;
 
     FileOut( pcp, pBuffer );
 
@@ -826,6 +835,8 @@ int console_out(console_t *log, const char *format, ...)
     }
 
     cursor(pcp, CS_RESUME);
+
+    lib_free(buffer);
 
     return pcp->bBreak ? -1 :  0;
 }
@@ -840,6 +851,7 @@ char *console_in(console_t *log, const char *prompt)
 
     pcp->xPosInputLineStart = pcp->xPos;
     pcp->yPosInputLineStart = pcp->yPos;
+    pcp->yPosInputLineStartValid = 1;
 
     pcp->posInputBuffer =
     pcp->cntInputBuffer = 0;
@@ -895,6 +907,11 @@ static void replace_current_input( console_private_t *pcp, const char *p )
     pcp->cntInputBuffer = strlen( pcp->achInputBuffer );
 
     draw_current_input( pcp );
+
+    if (!pcp->yPosInputLineStartValid) {
+        pcp->xPosInputLineStart = pcp->xPos;
+        pcp->yPosInputLineStart = pcp->yPos;
+    }
 
     pcp->xPos = pcp->xPosInputLineStart;
     pcp->yPos = pcp->yPosInputLineStart;
@@ -1538,6 +1555,8 @@ static long CALLBACK console_window_proc(HWND hwnd,
                 pcp->bInputReady                        = TRUE;
 
                 console_out_character( pcp, chCharCode );
+
+                pcp->yPosInputLineStartValid = 0;
 
                 cursor(pcp, CS_RESUME);
                 return 0;

@@ -42,7 +42,7 @@
 
 
 #define IS_D67_LEN(x) ((x) == D67_FILE_SIZE)
-#define IS_D71_LEN(x) ((x) == D71_FILE_SIZE)
+#define IS_D71_LEN(x) (((x) == D71_FILE_SIZE) || ((x) == D71_FILE_SIZE_E))
 #define IS_D81_LEN(x) ((x) == D81_FILE_SIZE)
 #define IS_D80_LEN(x) ((x) == D80_FILE_SIZE)
 #define IS_D82_LEN(x) ((x) == D82_FILE_SIZE)
@@ -126,8 +126,9 @@ static int disk_image_check_for_d64(disk_image_t *image)
     /*** set parameters in image structure, read error info */
     image->type = DISK_IMAGE_TYPE_D64;
     image->tracks = checkimage_tracks;
+    fsimage_error_info_destroy(fsimage);
+
     if (checkimage_errorinfo) {
-        fsimage_error_info_destroy(fsimage);
         fsimage_error_info_create(fsimage);
         if (fseek(fsimage->fd, (long)(256 * checkimage_blocks), SEEK_SET) < 0)
             return 0;
@@ -177,6 +178,7 @@ static int disk_image_check_for_d67(disk_image_t *image)
       default:
         return 0;
     }
+    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "D67");
     return 1;
 }
@@ -187,11 +189,17 @@ static int disk_image_check_for_d71(disk_image_t *image)
     size_t len;
     BYTE block[256];
     fsimage_t *fsimage;
+    size_t checkimage_realsize;
+    int checkimage_errorinfo;
 
     fsimage = image->media.fsimage;
+    checkimage_realsize = util_file_length(fsimage->fd);
+    checkimage_errorinfo = 0;
 
-    if (!(IS_D71_LEN(util_file_length(fsimage->fd))))
+    if (!(IS_D71_LEN(checkimage_realsize)))
         return 0;
+
+    checkimage_errorinfo = (checkimage_realsize == D71_FILE_SIZE_E) ? 1 : 0;
 
     image->type = DISK_IMAGE_TYPE_D71;
     image->tracks = NUM_TRACKS_1571;
@@ -199,22 +207,23 @@ static int disk_image_check_for_d71(disk_image_t *image)
     rewind(fsimage->fd);
 
     while ((len = fread(block, 1, 256, fsimage->fd)) == 256) {
-        if (++blk > 1372) {
-            log_error(disk_image_probe_log, "Disk image too large.");
+        if (++blk == NUM_BLOCKS_1571)
             break;
-        }
     }
 
     if (disk_image_check_min_block(blk, NUM_BLOCKS_1571) < 0)
         return 0;
 
-    switch (blk) {
-      case 1366:
-        image->tracks = NUM_TRACKS_1571;
-        break;
-      default:
-        return 0;
+    fsimage_error_info_destroy(fsimage);
+    if (checkimage_errorinfo) {
+        fsimage_error_info_create(fsimage);
+        if (fseek(fsimage->fd, (long)(256 * blk), SEEK_SET) < 0)
+            return 0;
+        if (fread(fsimage->error_info, 1, blk, fsimage->fd)
+            < blk)
+            return 0;
     }
+
     disk_image_check_log(image, "D71");
     return 1;
 }
@@ -253,6 +262,7 @@ static int disk_image_check_for_d81(disk_image_t *image)
       default:
         return 0;
     }
+    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "D81");
     return 1;
 }
@@ -291,6 +301,7 @@ static int disk_image_check_for_d80(disk_image_t *image)
       default:
         return 0;
     }
+    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "D80");
     return 1;
 }
@@ -329,6 +340,7 @@ static int disk_image_check_for_d82(disk_image_t *image)
       default:
         return 0;
     }
+    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "D82");
     return 1;
 }
@@ -357,6 +369,7 @@ static int disk_image_check_for_x64(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_X64;
     image->tracks = header[X64_HEADER_FLAGS_OFFSET + 1];
 
+    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "X64");
     return 1;
 }
@@ -402,6 +415,7 @@ static int disk_image_check_for_gcr(disk_image_t *image)
 
     image->type = DISK_IMAGE_TYPE_G64;
     image->tracks = header[9] / 2;
+    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "GCR");
 
     if (image->gcr != NULL) {

@@ -26,7 +26,9 @@
 
 #include "vice.h"
 
+#include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "archdep.h"
 #include "console.h"
@@ -39,6 +41,82 @@
 #include "uimon.h"
 
 
+static char *             bigbuffer      = NULL;
+static const unsigned int bigbuffersize  = 10000;
+static unsigned int       bigbufferwrite = 0;
+
+static void mon_buffer_alloc(void)
+{
+    if (!bigbuffer) {
+        bigbuffer = lib_malloc(bigbuffersize + 1);
+        bigbuffer[bigbuffersize] = 0;
+    }
+}
+
+static int mon_buffer_flush(void)
+{
+    int rv = 0;
+
+    mon_buffer_alloc();
+
+    if (bigbufferwrite) {
+        bigbufferwrite = 0;
+        rv = uimon_out(bigbuffer);
+    }
+
+    return rv;
+}
+
+/* like strncpy, but: 
+ * 1. always add a null character
+ * 2. do not fill the rest of the buffer
+ */
+static void stringcopy_n(char *dest, const char *src, unsigned int len)
+{
+    while (*src && len--)
+        *dest++ = *src++;
+
+    *dest = 0;
+}
+
+static void mon_buffer_add(const char *buffer, unsigned int bufferlen)
+{
+    if (bigbufferwrite + bufferlen > bigbuffersize) {
+        /* the buffer does not fit into bigbuffer, thus, 
+           flush the buffer! */
+        mon_buffer_flush();
+    }
+
+    if (bigbufferwrite + bufferlen <= bigbuffersize) {
+        stringcopy_n(&bigbuffer[bigbufferwrite], buffer, bufferlen);
+        bigbufferwrite += bufferlen;
+
+        assert(bigbufferwrite <= bigbuffersize);
+    }
+}
+
+static int mon_out_buffered(const char *buffer)
+{
+    int rv = 0;
+    char *eol;
+
+    mon_buffer_alloc();
+
+    eol = strrchr(buffer, '\n');
+
+    if (1) { // !eol) {
+        mon_buffer_add(buffer, strlen(buffer));
+    }
+    else {
+        mon_buffer_add(buffer, eol - buffer + 1);
+        rv = mon_buffer_flush();
+
+        mon_buffer_add(eol+1, strlen(eol+1));
+    }
+
+    return rv;
+}
+
 int mon_out(const char *format, ...)
 {
     va_list ap;
@@ -48,7 +126,7 @@ int mon_out(const char *format, ...)
     va_start(ap, format);
     buffer = lib_mvsprintf(format, ap);
 
-    rc = uimon_out("%s", buffer);
+    rc = mon_out_buffered(buffer);
     lib_free(buffer);
 
     if (rc < 0)
@@ -111,6 +189,10 @@ char *uimon_in(const char *prompt)
     while (!p && !pchCommandLine) {
         /* as long as we don't have any return value... */
 
+        /* make sure to flush the output buffer */
+        mon_buffer_flush();
+
+        /* get input from the user */
         p = uimon_get_in(&pchCommandLine, prompt);
     }
 

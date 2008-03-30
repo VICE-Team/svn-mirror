@@ -90,10 +90,6 @@ SOURCE=..\..\monitor\asmz80.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\monitor\monitor.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\monitor\mon_assemble6502.c
 # End Source File
 # Begin Source File
@@ -110,11 +106,11 @@ SOURCE=..\..\monitor\mon_command.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\monitor\mon_drive.c
+SOURCE=..\..\monitor\mon_disassemble.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\monitor\mon_disassemble.c
+SOURCE=..\..\monitor\mon_drive.c
 # End Source File
 # Begin Source File
 
@@ -126,11 +122,19 @@ SOURCE=..\..\monitor\mon_lex.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\monitor\mon_lex.l
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\monitor\mon_memory.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\monitor\mon_parse.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_parse.y
 # End Source File
 # Begin Source File
 
@@ -142,11 +146,15 @@ SOURCE=..\..\monitor\mon_registerz80.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\monitor\mon_ui.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\monitor\mon_util.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\monitor\mon_ui.c
+SOURCE=..\..\monitor\monitor.c
 # End Source File
 # End Target
 # End Project

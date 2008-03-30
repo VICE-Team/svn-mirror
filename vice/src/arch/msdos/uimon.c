@@ -61,17 +61,12 @@ console_t *uimon_window_resume(void)
     return uimon_window_open();
 }
 
-int uimon_out(const char *format, ...)
+int uimon_out(const char *buffer)
 {
-    va_list ap;
-    char *buffer;
     int rc = 0;
 
     if (console_log) {
-        va_start(ap, format);
-        buffer = lib_mvsprintf(format, ap);
         rc = console_out(console_log, "%s", buffer);
-        lib_free(buffer);
     }
     return rc;
 }

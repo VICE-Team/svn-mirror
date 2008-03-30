@@ -134,9 +134,14 @@ static const mon_cmds_t mon_cmd_array[] = {
      "<checknum> if <cond_expr>",
      "Each time the specified checkpoint is examined, the condition is\n"
      "evaluated.  If it evalutes to true, the checkpoint is activated.\n"
-     "Otherwise, it is ignores.  If registers are specified in the expression,\n"
+     "Otherwise, it is ignored.  If registers are specified in the expression,\n"
      "the values used are those at the time the checkpoint is examined, not\n"
-     "when the condition is set.\n" },
+     "when the condition is set.\n"
+     "The condition can make use of registers (.A, .X, .Y, .PC, .SP) and\n"
+     "compare them (==, !=, <, >, <=, >=) again other registers or constants.\n"
+     "Registers can be the registers of other devices; this is denoted by\n"
+     "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
+     "Examples: .A == 0, .X == .Y, 8:.X == .X\n" },
 
    { "cpu",             "",     CMD_CPU,                STATE_CTYPE,
      "<type>",
@@ -157,7 +162,7 @@ static const mon_cmds_t mon_cmd_array[] = {
    { "delete_label",    "dl",   CMD_DEL_LABEL,          STATE_INITIAL },
 
    { "device",          "dev",  CMD_DEVICE,             STATE_INITIAL,
-     "[c:|8:|9:]",
+     "[c:|8:|9:|10:|11:]",
      "Set the default memory device to either the computer `c:' or the\n"
      "specified disk drive (`8:', `9:')." },
 
@@ -211,10 +216,11 @@ static const mon_cmds_t mon_cmd_array[] = {
      "Put the specified string into the keyboard buffer.\n" },
 
    { "load",            "l",    CMD_LOAD,               STATE_FNAME,
-     "\"<filename>\" <device> <address>",
+     "\"<filename>\" <device> [<address>]",
      "Load the specified file into memory at the specified address. Set BASIC\n"
-     "pointers appropriately (not all emulators). Use (otherwise ignored)\n"
-     "two-byte load address from file if no address specified.\n"
+     "pointers appropriately if loaded into computer memory (not all emulators).\n"
+     "Use (otherwise ignored) two-byte load address from file if no address\n"
+     "specified.\n"
      "If device is 0, the file is read from the file system." },
 
    { "load_labels",     "ll",   CMD_LOAD_LABELS,        STATE_FNAME,

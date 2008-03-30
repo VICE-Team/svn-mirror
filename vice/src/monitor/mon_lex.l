@@ -153,9 +153,11 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
  /* TA		{ yylval.i = e_text_ascii; return RADIX_TYPE; } */
  /* TP		{ yylval.i = e_text_petscii; return RADIX_TYPE; } */
 
-<BNAME,INITIAL>(c|C):            { return MEM_COMP; }
-<BNAME,INITIAL>8:              { return MEM_DISK8; }
-<BNAME,INITIAL>9:              { return MEM_DISK9; }
+<BNAME,INITIAL,COND_MODE>(c|C):            { return MEM_COMP; }
+<BNAME,INITIAL,COND_MODE>8:              { return MEM_DISK8; }
+<BNAME,INITIAL,COND_MODE>9:              { return MEM_DISK9; }
+<BNAME,INITIAL,COND_MODE>10:             { return MEM_DISK10; }
+<BNAME,INITIAL,COND_MODE>11:             { return MEM_DISK11; }
 
 <CTYPE>[_a-zA-Z0-9]*      { yylval.str = lib_stralloc(yytext); return CPUTYPE; }
 
