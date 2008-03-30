@@ -3845,11 +3845,10 @@ Advance to the next instruction.  Subroutines are treated as
 a single instruction.
 
 @item registers [<reg_name> = <number> [, <reg_name> = <number>]*]
-This command allows displaying and setting the registers of the 6502
-microprocessor.  Valid register names are A, X, Y, PC and SP.
+Assign respective registers.  With no parameters, display register values.
 
 @item return
-Continues the execution of the 6502 and returns to the monitor just
+Continues execution  and returns to the monitor just
 before(after?) the next RTS or RTI is executed.
 
 @item step [<count>]
@@ -3886,29 +3885,28 @@ displayed.  The entire range is searched for all possible matches.
 @item i <address_opt_range>
 Display memory contents as PETSCII text.
 
-@item m [data_type] [address_opt_range]
+@item m [<data_type>] [<address_opt_range>]
 Display the contents of memory.  If no datatype is given, the default is
 used.  If only one address is specified, the length of data displayed is
 based on the datatype.  If no addresses are given, the 'dot' address is
 used.
 
-@item mc [data_type] [address_opt_range]
+@item mc [<data_type>] [<address_opt_range>]
 Display the contents of memory as character data.  If only one address
 is specified, only one character is displayed.  If no addresses are
 given, the ``dot'' address is used.
 
-@item ms [data_type] [address_opt_range]
+@item ms [<data_type>] [<address_opt_range>]
 Display the contents of memory as sprite data.  If only one address is
 specified, only one sprite is displayed.  If no addresses are given, the
 ``dot'' address is used.
 
-@item move address_range address
-@item transfer address_range address
+@item move <address_range> <address>
 Move memory from the source specified by the address range to
 the destination specified by the address.  The regions may overlap.
 
-@item > [address] <data_list>
-Write the specified data at @code{ADDRESS}.
+@item > [<address>] <data_list>
+Write the specified data at @code{address}.
 
 @end table
 
@@ -3919,9 +3917,9 @@ Write the specified data at @code{ADDRESS}.
 @table @code
 
 @item a <address> [ <instruction> [: <instruction>]* ]
-Assemble instructions to the specified address.  If more than one
-instruction is given, the command does not cause the monitor to enter
-assembly mode.
+Assemble instructions to the specified address.  If only one instruction
+is specified, enter assembly mode (enter an empty line to exit assembly
+mode).
 
 @item d [<address> [<address>]]
 Disassemble instructions.  If two addresses are specified, they are used
@@ -3951,9 +3949,9 @@ conditions, see the CONDITION command.
 Each checkpoint can be enabled or disabled.  This command allows changing
 between these states.
 
-@item command <check_num> "<command>"
-When checkpoint check_num is hit, the specified command is executed by
-the monitor.  Note that the 'x' command is not yet supported as a
+@item command <checknum> "<command>"
+When checkpoint @code{checknum} is hit, the specified command is executed by
+the monitor.  Note that the @code{x} command is not yet supported as a
 command argument.
 
 @item condition <checknum> if <cond_expr>
@@ -3963,7 +3961,7 @@ Otherwise, it is ignores.  If registers are specified in the expression,
 the values used are those at the time the checkpoint is examined, not
 when the condition is set.
 
-@item delete <check_num>
+@item delete <checknum>
 Delete the specified checkpoint.
 
 @item ignore <checknum> [<count>]
@@ -3981,7 +3979,7 @@ end of an range of addresses to be traced.
 This command is similar to the previous two commands except that it
 operates on watchpoints.  A watchpoint differs from the others by
 stopping on a read and/or write to an address or range of addresses.  If
-no addresses are given, a list of all the checkpoints is printed.
+no addresses are given, a list of all the watchpoints is printed.
 
 @end table
 
@@ -3996,7 +3994,8 @@ no addresses are given, a list of all the checkpoints is printed.
 Change the working directory.
 
 @item device [c:|d:]
-Set the default memory device to either the computer or the disk.
+Set the default memory device to either the computer (@code{c:}) or the
+disk (@code{d:}).
 
 @item radix [H|D|O|B]
 Set the default radix to hex, decimal, octal, or binary.  With no
@@ -4007,7 +4006,7 @@ Control how monitor generated reads affect memory locations that have
 read side-effects.  If the argument is 'on' then reads may cause
 side-effects.  If the argument is 'off' then reads don't cause
 side-effects.  If the argument is 'toggle' then the current mode is
-switched.  No argument displays the current state.  (Unfinished!)
+switched.  No argument displays the current state.
 
 @item system <system command>
 Nothing yet.
@@ -4023,14 +4022,14 @@ Nothing yet.
 @item br <track> <sector> [<address>]
 Read the block at the specified track and sector.  If an address is
 specified, the data is loaded into memory.  If no address is given, the
-data is displayed on the screen using the default datatype.
+data is displayed using the default datatype.
 
 @item bw <track> <sector> <address>
-This command writes a block of data at address to the specified track
-and sector.
+Write a block of data at @code{address} to the specified track and
+sector of disk in drive 8.
 
 @item @@<disk command>
-Perform a disk command on the currently attached disk image.  The
+Perform a disk command on the currently attached disk image on drive 8.  The
 specified disk command is sent to the drive's channel #15.
 
 @item load "<filename>" <address>
@@ -4039,8 +4038,8 @@ Load the specified file into memory at the specified address.
 @item save "<filename>" <address1> <address2>
 Save the memory from address1 to address2 to the specified file.
 
-@item v "<filename>" <address>
-Nothing yet.  Is this really needed?
+@c @item v "<filename>" <address>
+@c Nothing yet.  Is this really needed?
 
 @end table
 
