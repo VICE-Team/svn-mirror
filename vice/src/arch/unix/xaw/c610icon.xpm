@@ -1,5 +1,5 @@
 /* XPM */
-static char * icon_data[] = {
+static const char * icon_data[] = {
 "48 42 4 1",
 " 	c #C000C000C000",
 ".	c #000000000000",
