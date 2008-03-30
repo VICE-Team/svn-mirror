@@ -1,5 +1,13 @@
 2003-11-10  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.13.19.
+
+	* configure.in: Changed optimization to "-O2".
+
+	* data/PRINTER/Makefile.am: Added new file.
+
+2003-11-10  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.13.18.
 
 	* configure.in: Check for libm and libz before checking for
