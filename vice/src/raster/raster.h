@@ -230,7 +230,7 @@ struct _raster
     int draw_idle_state;
 
     /* Count character lines (i.e. RC on the VIC-II).  */
-    unsigned int ycounter;
+    int ycounter;
 
     /* Current video mode.  */
     int video_mode;

@@ -196,16 +196,14 @@ int vdc_raster_draw_alarm_handler(long offset)
 /*
     log_message(vdc.log, "raster_draw_alarm - line %d",vdc.raster.current_line);
 */
-    raster_emulate_line(&vdc.raster);
-
     in_visible_area = (vdc.raster.current_line >= VDC_FIRST_DISPLAYED_LINE
                     && vdc.raster.current_line <= VDC_LAST_DISPLAYED_LINE);
 
     if (vdc.raster.current_line == 0)
     {
-        vdc.mem_counter = 0; 
-        vdc.bitmap_counter = 0;
-        vdc.raster.ycounter = 0;
+        vdc.mem_counter = 0;
+        vdc.bitmap_counter = 0 - vdc.mem_counter_inc;
+        vdc.raster.ycounter = 0 - 1;
     }
 
     if (in_visible_area)
@@ -218,6 +216,8 @@ int vdc_raster_draw_alarm_handler(long offset)
         }
         vdc.raster.ycounter = (vdc.raster.ycounter + 1) & 0x07;
     }
+
+    raster_emulate_line(&vdc.raster);
 
     /* Set the next draw event. */
     alarm_set(&vdc.raster_draw_alarm, clk + VDC_CYCLES_PER_LINE() - offset);
