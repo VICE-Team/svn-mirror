@@ -98,6 +98,8 @@ static void vdc_perform_fillcopy(void)
 /* Store a value in a VDC register. */
 void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 {
+    BYTE oldval;
+
     vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
     /* $d600 sets the internal vdc address pointer */
@@ -109,6 +111,8 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         return;
     }
 
+    oldval = vdc.regs[vdc.update_reg];
+
     /* $d601 sets the vdc register indexed by the update register pointer */
     vdc.regs[vdc.update_reg] = value;
 
@@ -119,11 +123,14 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
     switch (vdc.update_reg)
     {
       case 0:                   /* R00  Horizontal total (characters + 1) */
-/*      new_vdc_cycles_per_line = vdc[0] + 1; */
-#ifdef REG_DEBUG
-    log_message(vdc.log, "REG 0 unsupported!");
-#endif
+        if (vdc.regs[0] >= 120 && vdc.regs[0] <= 127) {
+            vdc.xchars_total = vdc.regs[0] + 1;
+            vdc_calculate_xsync();
+        }
         break;
+#ifdef REG_DEBUG
+        log_message(vdc.log, "Horizontal Total %i", vdc.xchars_total);
+#endif
 
       case 1:                   /* R01  Horizontal characters displayed */
         if (vdc.regs[1] >= 8 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS) {
@@ -151,18 +158,18 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 4:                   /* R04  Vertical total (character) rows */
-/*
-        new_vdc_vertical_total = vdc[4] + 1;
-*/
+        if (vdc.regs[4] != oldval)
+            vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 4 unsupported!");
+        log_message(vdc.log, "Vertical Total %i.", vdc.regs[4]);
 #endif
         break;
 
       case 5:                   /* R05  Vertical total line adjust */
-/*        new_vdc_vertical_adjust = vdc[5] & 0x1f; */
+        if (vdc.regs[5] != oldval)
+            vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 5 unsupported!");
+        log_message(vdc.log, "Vertical Total Fine Adjust %i.", vdc.regs[5]);
 #endif
         break;
 
@@ -186,9 +193,10 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 9:                   /* R09  Rasters between two display lines */
-/*      new_screen_charheight = vdc_min(8, vdc[9] + 1); */
+        if (vdc.regs[9] != oldval)
+            vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 9 unsupported!");
+        log_message(vdc.log, "Character Total Vertical %i", vdc.regs[9]);
 #endif
         break;
 
@@ -375,9 +383,9 @@ BYTE REGPARM1 vdc_read(ADDRESS addr)
     } else {
         /* Emulate vblank bit.  */
         if (vdc.raster.current_line > vdc.last_displayed_line)
-            return 0xbf;
+            return 0xba;
 
-        return 0x9f;
+        return 0x9a;
     }
 }
 
