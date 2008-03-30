@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "cmdline.h"
 #include "debug.h"
 #include "resources.h"
 
@@ -75,5 +76,34 @@ static resource_t resources[] = {
 int debug_resources_init(void)
 {
     return resources_register(resources);
+}
+
+static cmdline_option_t cmdline_options[] = {
+#ifdef DEBUG
+    { "-trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
+      "MainCPU_TRACE", (resource_value_t)1,
+      NULL, "Trace the main CPU" },
+    { "+trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
+      "MainCPU_TRACE", (resource_value_t)0,
+      NULL, "Do not trace the main CPU" },
+    { "-trace_drive0", SET_RESOURCE, 0, NULL, NULL,
+      "Drive0CPU_TRACE", (resource_value_t)1,
+      NULL, "Trace the drive0 CPU" },
+    { "+trace_drive0", SET_RESOURCE, 0, NULL, NULL,
+      "Drive0CPU_TRACE", (resource_value_t)0,
+      NULL, "Do not trace the drive0 CPU" },
+    { "-trace_drive1", SET_RESOURCE, 0, NULL, NULL,
+      "Drive1CPU_TRACE", (resource_value_t)1,
+      NULL, "Trace the drive1 CPU" },
+    { "+trace_drive1", SET_RESOURCE, 0, NULL, NULL,
+      "Drive1CPU_TRACE", (resource_value_t)0,
+      NULL, "Do not trace the drive1 CPU" },
+#endif
+    { NULL }
+};
+
+int debug_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 

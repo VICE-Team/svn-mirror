@@ -121,6 +121,12 @@ int init_cmdline_options(void)
         archdep_startup_log_error("Cannot initialize Attach-specific command-line options.\n");
         return -1;
     }
+#ifdef DEBUG
+    if (debug_init_cmdline_options() < 0) {
+        archdep_startup_log_error("Cannot initialize debug-specific command-line options.\n");
+        return -1;
+    }
+#endif
     if (machine_init_cmdline_options() < 0) {
         archdep_startup_log_error("Cannot initialize machine-specific command-line options.\n");
         return -1;
