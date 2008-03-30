@@ -100,7 +100,7 @@ iecbus_t *iecbus_drive_port(void)
 /* This function is called from ui_update_menus() */
 int iec_available_busses(void)
 {
-    return IEC_BUS_IEC;
+    return IEC_BUS_IEC | IEC_BUS_TCBM;
 }
 
 void iec_fast_drive_write(BYTE data, unsigned int dnr)
