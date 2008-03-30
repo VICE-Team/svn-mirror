@@ -69,6 +69,7 @@
 #include "cmdline.h"
 #include "utils.h"
 #include "vsync.h"
+#include "uihotkey.h"
 
 /* FIXME: We want these to be static.  */
 Display *display;
@@ -179,9 +180,6 @@ static Atom wm_delete_window;
 /* Toplevel widget. */
 Widget _ui_top_level = NULL;
 
-/* xdebugger, Jarkko's X11-based 6502 debugger. */
-static Widget xdebugger;
-
 /* Our colormap. */
 static Colormap colormap;
 
@@ -228,9 +226,6 @@ static Widget build_info_dialog(Widget parent,
 static void position_submenu(Widget w, Widget parent);
 static void close_action(Widget w, XEvent *event, String *params,
                          Cardinal *num_params);
-static void handle_special_keys(Widget w, XtPointer closure,
-                                XEvent *x_event,
-                                Boolean *continue_to_dispatch);
 
 UI_CALLBACK(enter_window_callback);
 UI_CALLBACK(exposure_callback);
@@ -304,7 +299,6 @@ static String fallback_resources[] = {
     "*driveTrack.font:                          -*-lucida-medium-r-*-*-12-*",
     "*speedStatus.font:                         -*-lucida-medium-r-*-*-12-*",
 
-    XDEBUG_FALLBACK_RESOURCES,
     NULL
 };
 
@@ -318,9 +312,13 @@ int ui_init(int *argc, char **argv)
 				    fallback_resources, NULL, 0);
     if (!_ui_top_level)
 	return -1;
+
     display = XtDisplay(_ui_top_level);
     screen = XDefaultScreen(display);
     atexit(ui_autorepeat_on);
+
+    ui_hotkey_init();
+
     return 0;
 }
 
@@ -585,9 +583,17 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
 	XtAddEventHandler(canvas, LeaveWindowMask, False,
 			  (XtEventHandler) ui_autorepeat_on, NULL);
 	XtAddEventHandler(shell, KeyPressMask, False,
-			  (XtEventHandler) handle_special_keys, NULL);
+			  (XtEventHandler) ui_hotkey_event_handler, NULL);
 	XtAddEventHandler(canvas, KeyPressMask, False,
-			  (XtEventHandler) handle_special_keys, NULL);
+			  (XtEventHandler) ui_hotkey_event_handler, NULL);
+	XtAddEventHandler(shell, KeyReleaseMask, False,
+			  (XtEventHandler) ui_hotkey_event_handler, NULL);
+	XtAddEventHandler(canvas, KeyReleaseMask, False,
+			  (XtEventHandler) ui_hotkey_event_handler, NULL);
+	XtAddEventHandler(shell, FocusChangeMask, False,
+			  (XtEventHandler) ui_hotkey_event_handler, NULL);
+	XtAddEventHandler(canvas, FocusChangeMask, False,
+			  (XtEventHandler) ui_hotkey_event_handler, NULL);
     }
 
     XtRealizeWidget(shell);
@@ -993,49 +999,7 @@ DEFINE_BUTTON_CALLBACK(UI_BUTTON_AUTOSTART)
 
 /* ------------------------------------------------------------------------- */
 
-/* Handle all special keys. */
-static void handle_special_keys(Widget w, XtPointer closure,
-                                XEvent *x_event,
-                                Boolean *continue_to_dispatch)
-{
-    static char buffer[20];
-    KeySym key;
-    XComposeStatus compose;
-
-    XLookupString(&x_event->xkey, buffer, 20, &key, &compose);
-
-    switch (key) {
-        /* FIXME: THese should be defined in the menu definitions.  */
-#if 0
-      case XK_F9:
-	ui_toggle_warp_mode(NULL, NULL, NULL);
-	break;
-      case XK_F10:
-	UiAttachDisk(NULL, (XtPointer) 8, NULL);
-	break;
-#if defined(CBM64) || defined(C128)
-      case XK_F11:
-#ifdef HAVE_X11_SUNKEYSYM_H
-      case SunXK_F36:		/* SUN does it its own way... */
-#endif
-	UiSwapJoystickPorts(NULL, NULL, NULL);
-	break;
-#endif
-      case XK_F12:
-#ifdef HAVE_X11_SUNKEYSYM_H
-      case SunXK_F37:		/* SUN does it its own way... */
-#endif
-	UiPowerUpReset(NULL, NULL, NULL);
-	break;
-#endif
-      default:
-	break;
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Report an error to the user. */
+/* Report an error to the user.  */
 void ui_error(const char *format,...)
 {
     char str[1024];
@@ -1057,7 +1021,7 @@ void ui_error(const char *format,...)
     suspend_speed_eval();
 }
 
-/* Report a message to the user. */
+/* Report a message to the user.  */
 void ui_message(const char *format,...)
 {
     char str[1024];
@@ -1077,23 +1041,6 @@ void ui_message(const char *format,...)
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
     suspend_speed_eval();
-}
-
-void activate_xdebug_window(void)
-{
-    if (!xdebugger) {
-	xdebugger = XtVaCreatePopupShell("XDebugger",
-					 applicationShellWidgetClass,
-					 _ui_top_level,
-					 NULL);
-	XtOverrideTranslations(xdebugger,
-			       (XtParseTranslationTable
-				("<Message>WM_PROTOCOLS: Close()")));
-	xdebug_create(xdebugger);
-    }
-    XtPopup(xdebugger, XtGrabNone);
-    XSetWMProtocols(display, XtWindow(xdebugger), &wm_delete_window, 1);
-    xdebug_enable();
 }
 
 /* Report a message to the user, allow different buttons. */
@@ -1138,11 +1085,6 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     XtAddCallback(tmp, XtNcallback, UI_BUTTON_MON_callback,
 		  (XtPointer) &button);
 
-    tmp = XtVaCreateManagedWidget
-	("debugButton", commandWidgetClass, bbox, NULL);
-    XtAddCallback(tmp, XtNcallback, UI_BUTTON_DEBUG_callback,
-		  (XtPointer) &button);
-
     ui_popup(XtParent(jam_dialog), "VICE", False);
     button = UI_BUTTON_NONE;
     do
@@ -1150,11 +1092,6 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(jam_dialog));
     XtDestroyWidget(XtParent(jam_dialog));
-
-    if (button == UI_BUTTON_DEBUG) {
-	activate_xdebug_window();
-	XSync(display, False);
-    }
 
     suspend_speed_eval();
     ui_dispatch_events();
@@ -1164,8 +1101,6 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 	return UI_JAM_MONITOR;
       case UI_BUTTON_HARDRESET:
         return UI_JAM_HARD_RESET;
-      case UI_BUTTON_DEBUG:
-        return UI_JAM_DEBUG;
       case UI_BUTTON_RESET:
       default:
         return UI_JAM_RESET;
@@ -1553,109 +1488,6 @@ static Widget build_confirm_dialog(Widget parent,
     return confirm_dialog;
 }
 
-#if 0
-static Widget build_popup_menu(Widget parent, const char *name, ...)
-{
-    Widget w;
-    unsigned int i, j;
-    static int level = 0;
-    ui_menu_entry_t *list;
-    va_list ap;
-
-    level++;
-    w = XtCreatePopupShell(name, simpleMenuWidgetClass, parent, NULL, 0);
-    if (level == 1) {
-	XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
-	XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
-    }
-    XtOverrideTranslations
-	(w, XtParseTranslationTable
-	 ("<BtnMotion>: highlight() PositionSubmenu()\n"
-	  "@Num_Lock<BtnMotion>: highlight() PositionSubmenu()\n"
-	  "<LeaveWindow>: Unhighlight()\n"
-	  "<BtnUp>: Popdownsubmenus() MenuPopdown() notify() unhighlight()"));
-
-    va_start(ap, name);
-    while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
-        for (i = j = 0; list[i].string; i++) {
-            Widget new_item;
-            char name[256];
-
-            sprintf(name, "MenuItem%d", j);	/* ugly... */
-            switch (*list[i].string) {
-              case '-':		/* line */
-                new_item = XtCreateManagedWidget("separator",
-                                                 smeLineObjectClass, w,
-                                                 NULL, 0);
-                break;
-              case '*':		/* toggle */
-                new_item = XtVaCreateManagedWidget(name,
-                                                   smeBSBObjectClass, w,
-                                                   XtNrightMargin, 20,
-                                                   XtNleftMargin, 20,
-                                                   XtNlabel,
-                                                   list[i].string + 1,
-                                                   NULL);
-                /* Add this item to the list of calls to perform to update the
-                   menu status. */
-                if (list[i].callback) {
-                    if (num_checkmark_menu_items < MAX_UPDATE_MENU_LIST_SIZE)
-                        checkmark_menu_items[num_checkmark_menu_items++] = new_item;
-                    else {
-                        fprintf(stderr,
-                                "Maximum number of menus reached!  "
-                                "Please fix the code.\n");
-                        exit(-1);
-                    }
-                }
-                j++;
-                break;
-              default:
-                new_item = XtVaCreateManagedWidget(name, smeBSBObjectClass, w,
-                                                   XtNleftMargin, 20,
-                                                   XtNrightMargin, 20,
-                                                   XtNlabel, list[i].string,
-                                                   NULL);
-                j++;
-            }
-            if (list[i].callback)
-                XtAddCallback(new_item, XtNcallback,
-                              (XtCallbackProc) list[i].callback,
-                              list[i].callback_data);
-            if (list[i].sub_menu) {
-                Widget sub;
-
-                if (num_submenus > MAX_SUBMENUS) {
-                    fprintf(stderr,
-                            "Maximum number of sub menus reached! "
-                            "Please fix the code.\n");
-                    exit(-1);
-                }
-                XtVaSetValues(new_item, XtNrightBitmap, right_arrow_bitmap,
-                              NULL);
-                sub = build_popup_menu(parent,
-                                       "SUB", list[i].sub_menu, NULL);
-                submenus[num_submenus].widget = sub;
-                submenus[num_submenus].parent = new_item;
-                submenus[num_submenus].level = level;
-                XtAddCallback(sub,
-                              XtNpopupCallback, submenu_popup_callback,
-                              submenus + num_submenus);
-                XtAddCallback(sub,
-                              XtNpopdownCallback, submenu_popdown_callback,
-                              (XtPointer) w);
-                num_submenus++;
-            }
-        }
-    }
-
-    level--;
-
-    va_end(ap);
-    return w;
-}
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 /* Miscellaneous callbacks.  */
@@ -1681,18 +1513,10 @@ static void close_action(Widget w, XEvent * event, String * params,
                          Cardinal * num_params)
 {
     suspend_speed_eval();
-    if (w == xdebugger) {
-	xdebug_disable();
-	XtPopdown(xdebugger);
-    } else {
-	int i;
-
 #if 0
-	for (i = 0; i < num_app_shells; i++)
-	    if (app_shells[i].shell == w)
-		UiExit(w, NULL, NULL);
+    for (i = 0; i < num_app_shells; i++)
+        if (app_shells[i].shell == w)
+            UiExit(w, NULL, NULL);
 #endif
-	last_visited_app_shell = NULL;
-    }
 }
 

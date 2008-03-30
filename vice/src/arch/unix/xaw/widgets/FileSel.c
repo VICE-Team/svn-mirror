@@ -25,6 +25,8 @@
  *
  */
 
+#define VICE
+
 #include "config.h"		/* [EP] 04/07/97 */
 
 #include <stdio.h>
