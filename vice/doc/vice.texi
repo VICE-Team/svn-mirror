@@ -1994,7 +1994,10 @@ Enables/disables warp mode (@code{WarpMode=1}, @code{WarpMode=0}).
 @node Video settings, Keyboard settings, Performance settings, Settings and resources
 @section Video settings
 
-The following right-button menu items control the video output:
+The following right-button menu items control the video output.
+On emulators that include two video chips (like @code{x128})
+all options but XSync exist twice, once for each chip.
+XSync is shared between the video chips.
 
 @itemize @bullet
 
@@ -2041,20 +2044,25 @@ resources that it becomes impossible for the user to interact with it.
 @node Video resources, Video options, Video settings, Video settings
 @subsection Video resources
 
-The following resources affect the screen emulation:
+The following resources affect the screen emulation. The prefix of
+some of the resources and commandline options denote the video chip 
+the values apply to.
 
 @table @code
 
 @vindex VideoCache
-@item VideoCache
+@vindex CrtcVideoCache
+@item VideoCache, CrtcVideoCache
 Boolean specifying whether the video cache is turned on.
 
 @vindex DoubleSize
-@item DoubleSize
+@vindex CrtcDoubleSize
+@item DoubleSize, CrtcDoubleSize
 Boolean specifying whether double-size mode is turned on.
 
 @vindex DoubleScan
-@item DoubleScan
+@vindex CrtcDoubleScan
+@item DoubleScan, CrtcDoubleScan
 Boolean specifying whether double-scan mode is turned on.
 
 @vindex UseXSync
@@ -2084,6 +2092,12 @@ colors if other color-hungry applications are running at the same time.
 @item DisplayDepth
 Integer specifying the depth of the host display.  The value @samp{0}
 (the default) causes the emulator to autodetect it.
+
+@vindex PaletteFile
+@vindex CrtcPaletteFile
+@item PaletteFile, CrtcPaletteFile
+String specifying the name of the palette file being used.  The
+@file{.vpl} extension is optional.
 
 @end table
 
@@ -2135,6 +2149,11 @@ Enable/disable installation of a private colormap
 @cindex -displaydepth
 @item -displaydepth DEPTH
 Specify the display depth (@code{DisplayDepth}).
+
+@cindex -palette, -crtcpalette 
+@item -palette NAME
+@itemx -crtcpalette NAME
+Specify @code{NAME} as the palette file (@code{PaletteFile},@code{CrtcPaletteFile}).
 
 @end table
 
@@ -3423,11 +3442,6 @@ detection must be emulated.
 Boolean specifying whether the sprite-background hardware collision
 detection must be emulated.
 
-@vindex PaletteFile
-@item PaletteFile
-String specifying the name of the palette file being used.  The
-@file{.vpl} extension is optional.
-
 @end table
 
 
@@ -3449,9 +3463,6 @@ emulation of hardware sprite-sprite collision detection, respectively.
 Enable (@code{CheckSbColl=1}) and disable (@code{CheckSbColl=0})
 emulation of hardware sprite-background collision detection,
 respectively.
-
-@item -palette NAME
-Specify @code{NAME} as the palette file (@code{PaletteFile}).
 
 @end table
 
@@ -4300,25 +4311,25 @@ $9000-$9fff, $a000-$afff
 @cindex -superpet
 @cindex +superpet
 @item -superpet, +superpet
-Enable/Disable SuperPET I/O emulation.
+Enable/Disable SuperPET I/O emulation (@code{SuperPET}).
 
 @cindex -basic1
 @cindex +basic1
 @item -basic1, +basic1
 Enable/Disable patching the IEEE488 section of the PET2001 ROM when detected
-@code{Basic1}.
+(@code{Basic1}).
 
 @cindex -basic1char
 @cindex +basic1char
 @item -basic1char, +basic1char
 Enable/Disable PET 2001 character generator
-@code{Basic1Chars}.
+(@code{Basic1Chars}).
 
 @cindex -eoiblank
 @cindex +eoiblank
 @item -eoiblank, +eoiblank
 Enable/Disable EOI blanking the screen
-@code{EoiBlank}.
+(@code{EoiBlank}).
 
 @cindex -emuid, +emuid
 @item -emuid

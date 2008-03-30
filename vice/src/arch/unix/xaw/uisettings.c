@@ -250,7 +250,6 @@ static UI_CALLBACK(set_default_resources)
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_TOGGLE(VideoCache)
 
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 
@@ -258,9 +257,6 @@ UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 
 UI_MENU_DEFINE_TOGGLE(WarpMode)
 
-UI_MENU_DEFINE_TOGGLE(DoubleSize)
-
-UI_MENU_DEFINE_TOGGLE(DoubleScan)
 
 
 /* ------------------------------------------------------------------------- */
@@ -1298,6 +1294,12 @@ ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_TOGGLE(VideoCache)
+
+UI_MENU_DEFINE_TOGGLE(DoubleSize)
+
+UI_MENU_DEFINE_TOGGLE(DoubleScan)
+
 static ui_menu_entry_t video_settings_submenu[] = {
     { "*Video cache",
       (ui_callback_t) toggle_VideoCache, NULL, NULL },
@@ -1307,6 +1309,38 @@ static ui_menu_entry_t video_settings_submenu[] = {
       (ui_callback_t) toggle_DoubleScan, NULL, NULL },
     { "*Use XSync()",
       (ui_callback_t) toggle_UseXSync, NULL, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t ui_video_settings_menu[] = {
+    { "Video settings",
+      NULL, NULL, video_settings_submenu },
+    { NULL }
+};
+
+/*---- CRTC -----------*/
+
+UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
+
+UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
+
+UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
+
+static ui_menu_entry_t crtc_video_settings_submenu[] = {
+    { "*Video cache",
+      (ui_callback_t) toggle_CrtcVideoCache, NULL, NULL },
+    { "*Double size",
+      (ui_callback_t) toggle_CrtcDoubleSize, NULL, NULL },
+    { "*Double scan",
+      (ui_callback_t) toggle_CrtcDoubleScan, NULL, NULL },
+    { "*Use XSync()",
+      (ui_callback_t) toggle_UseXSync, NULL, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t ui_crtc_video_settings_menu[] = {
+    { "Crtc Video settings",
+      NULL, NULL, crtc_video_settings_submenu },
     { NULL }
 };
 
@@ -1339,11 +1373,6 @@ ui_menu_entry_t ui_fullscreen_settings_menu[] = {
 #endif 
 
 
-ui_menu_entry_t ui_video_settings_menu[] = {
-    { "Video settings",
-      NULL, NULL, video_settings_submenu },
-    { NULL }
-};
 
 ui_menu_entry_t ui_keyboard_settings_menu[] = {
     { "Keyboard settings",

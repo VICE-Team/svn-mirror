@@ -103,6 +103,7 @@ Concept Index
 * -modelline:                            CBM-II commandline options.
 * -ntscdrive:                            Drive options.
 * -paldrive:                             Drive options.
+* -palette, -crtcpalette:                Video options.
 * -parallel8, +parallel8, -parallel9, +parallel9: Drive options.
 * -petramA:                              PET commandline options.
 * -petramB:                              PET commandline options.
@@ -236,6 +237,10 @@ Index of Resources
 * AciaDE:                                RS232 resources.
 * CheckSbColl:                           VIC-II resources.
 * CheckSsColl:                           VIC-II resources.
+* CrtcDoubleScan:                        Video resources.
+* CrtcDoubleSize:                        Video resources.
+* CrtcPaletteFile:                       Video resources.
+* CrtcVideoCache:                        Video resources.
 * Directory:                             Misc resources.
 * DisplayDepth:                          Video resources.
 * DoCoreDump:                            Misc resources.
@@ -284,7 +289,7 @@ Index of Resources
 * KeymapSymFile:                         Keyboard resources.
 * MITSHM:                                Video resources.
 * NoTraps:                               No traps resources.
-* PaletteFile:                           VIC-II resources.
+* PaletteFile:                           Video resources.
 * PrDevice1:                             Printer resources.
 * PrDevice2:                             Printer resources.
 * PrDevice3:                             Printer resources.

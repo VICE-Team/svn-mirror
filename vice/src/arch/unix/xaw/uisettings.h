@@ -33,6 +33,7 @@
 extern ui_menu_entry_t ui_performance_settings_menu[];
 extern ui_menu_entry_t ui_joystick_settings_menu[];
 extern ui_menu_entry_t ui_video_settings_menu[];
+extern ui_menu_entry_t ui_crtc_video_settings_menu[];
 extern ui_menu_entry_t ui_fullscreen_settings_menu[];
 extern ui_menu_entry_t ui_fullscreen_settings_submenu[];
 extern ui_menu_entry_t ui_keyboard_settings_menu[];

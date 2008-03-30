@@ -87,6 +87,8 @@ static int set_drive0_idling_method(resource_value_t v);
 static int set_drive1_idling_method(resource_value_t v);
 static void drive_initialize_rom_traps(int dnr);
 static int drive_check_image_format(int format, int dnr);
+static int set_drive0_type(resource_value_t v);
+static int set_drive1_type(resource_value_t v);
 
 static int drive_load_1541(void);
 static int drive_load_1541ii(void);
@@ -178,6 +180,15 @@ static int set_drive0_type(resource_value_t v)
 	    type = DRIVE_TYPE_NONE;
     }
 
+    if (DRIVE_IS_DUAL(type)) {
+	/* dual disk drives disable second emulated unit */
+
+        log_warning(drive[0].log, 
+			"Dual disk drive disables second emulated drive");
+
+	set_drive1_type((resource_value_t) DRIVE_TYPE_NONE);
+    }
+
     switch (type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
@@ -228,6 +239,15 @@ static int set_drive1_type(resource_value_t v)
 	    type = DRIVE_TYPE_2031;
 	} else
 	    type = DRIVE_TYPE_NONE;
+    }
+
+    if (drive[0].enable && DRIVE_IS_DUAL(drive[0].type)) { 
+	/* dual disk drives disable second emulated unit */
+
+        log_warning(drive[1].log, 
+			"Dual disk drive disables second emulated drive");
+
+	type = DRIVE_TYPE_NONE;
     }
 
     switch (type) {
@@ -657,7 +677,8 @@ static void drive_read_image_d64_d71(int dnr)
 
     /* Since the D64/D71 format does not provide the actual track sizes or
        speed zones, we set them to standard values.  */
-    if (drive[dnr].image->type == DISK_IMAGE_TYPE_D64
+    if ((drive[dnr].image->type == DISK_IMAGE_TYPE_D64
+        || drive[dnr].image->type == DISK_IMAGE_TYPE_X64)
         && (drive[dnr].type == DRIVE_TYPE_1541
         || drive[dnr].type == DRIVE_TYPE_1541II
         || drive[dnr].type == DRIVE_TYPE_2031)) {
@@ -1220,9 +1241,12 @@ static int drive_enable(int dnr)
     }
 
     drive_set_active_led_color(drive[dnr].type, dnr);
-    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0),
-                           drive_led_color);
+    ui_enable_drive_status(
+	  (drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
+            | ((drive[1].enable 
+		|| (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
+	      ) ? UI_DRIVE_ENABLE_1 : 0),
+          drive_led_color);
 
     return 0;
 }
@@ -1268,9 +1292,17 @@ static void drive_disable(int dnr)
         }
     }
 
+    ui_enable_drive_status(
+	  (drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
+            | ((drive[1].enable 
+		|| (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
+	      ) ? UI_DRIVE_ENABLE_1 : 0),
+          drive_led_color);
+/*
     ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
                            | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0),
                            drive_led_color);
+*/
 }
 
 void drive_reset(void)
@@ -1286,6 +1318,7 @@ static int drive_check_image_format(int format, int dnr)
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
       case DISK_IMAGE_TYPE_GCR:
+      case DISK_IMAGE_TYPE_X64:
         if (drive[dnr].type != DRIVE_TYPE_1541
             && drive[dnr].type != DRIVE_TYPE_1541II
             && drive[dnr].type != DRIVE_TYPE_1571
@@ -1346,6 +1379,10 @@ int drive_attach_image(disk_image_t *image, int unit)
         log_message(drive_log, "Unit %d: GCR disk image attached: %s",
                     unit, image->name);
         break;
+      case DISK_IMAGE_TYPE_X64:
+        log_message(drive_log, "Unit %d: X64 disk image attached: %s",
+                    unit, image->name);
+        break;
       default:
         return -1;
     }
@@ -1393,6 +1430,10 @@ int drive_detach_image(disk_image_t *image, int unit)
             break;
           case DISK_IMAGE_TYPE_GCR:
             log_message(drive_log, "Unit %d: D81 disk image detached: %s",
+                        unit, image->name);
+            break;
+          case DISK_IMAGE_TYPE_X64:
+            log_message(drive_log, "Unit %d: X64 disk image detached: %s",
                         unit, image->name);
             break;
           default:
@@ -1761,7 +1802,8 @@ void drive_GCR_data_writeback(int dnr)
         return;
     }
 
-    if (drive[dnr].image->type == DISK_IMAGE_TYPE_D64) {
+    if (drive[dnr].image->type == DISK_IMAGE_TYPE_D64
+        || drive[dnr].image->type == DISK_IMAGE_TYPE_X64) {
         if (track > EXT_TRACKS_1541)
             return;
         max_sector = disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
@@ -1921,7 +1963,8 @@ void drive_update_ui_status(void)
 
     /* Update the LEDs and the track indicators.  */
     for (i = 0; i < 2; i++) {
-        if (drive[i].enable) {
+        if (drive[i].enable 
+	    || ((i==1) && drive[0].enable && DRIVE_IS_DUAL(drive[0].type))) {
             int my_led_status = 0;
 
             /* Actually update the LED status only if the `trap idle'
@@ -1942,8 +1985,11 @@ void drive_update_ui_status(void)
                 ui_display_drive_track_int(i, drive[i].current_half_track);
 #else
                 ui_display_drive_track(i,
-                                       ((float) drive[i].current_half_track
-                                       / 2.0));
+		    (i<2 
+			&& drive[0].enable 
+			&& DRIVE_IS_DUAL(drive[0].type)) 
+			? 0 : 8,
+                    ((float) drive[i].current_half_track / 2.0));
 #endif
             }
         }
@@ -2848,12 +2894,14 @@ void drive1_parallel_set_atn(int state)
 
 int drive_num_leds(int dnr)
 {
-    if ((drive[dnr].type == DRIVE_TYPE_1001) 
-	|| (drive[dnr].type == DRIVE_TYPE_8050)
-	|| (drive[dnr].type == DRIVE_TYPE_8250)
-	) {
+    if (DRIVE_IS_OLDTYPE(drive[dnr].type)) {
 	return 2;
     }
+
+    if ((dnr == 1) && DRIVE_IS_DUAL(drive[0].type)) {
+	return 2;
+    }
+
     return 1;
 }
 

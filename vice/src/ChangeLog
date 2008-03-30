@@ -1,3 +1,74 @@
+1999-07-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.48.
+
+	* diskimage.c (disk_image_check_for_x64): New function.
+	(disk_image_read_sector, disk_image_write_sector,
+	disk_image_check_sector, disk_image_sector_per_track,
+	disk_image_create): Added X64 support.
+
+	* vdrive/vdrive.c (vdrive_attach_image, vdrive_detach_image):
+	Added X64 support.
+
+	* drive/drive.c (drive_read_image_d64_d71, drive_attach_image,
+	drive_check_image_format, drive_detach_image,
+	drive_GCR_data_writeback): Added X64 support.
+
+	* c1541.c (format_cmd): Added X64 support.
+
+1999-07-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/msdos/ui.c, arch/os2/archdep.c, arch/win32/ui.c 
+	arch/unix/xaw/ui.c (ui_display_drive_track): add "drive_base"
+	parameter, either 0 or 8 depending on whether dual drives are
+	displayed (0) or different units (8)
+
+	* uiapi.h (ui_display_drive_track): added drive_base to prototype
+
+	* drive/drive.c (set_drive0_type): if dual disk type selected,
+	disable second unit
+	(set_drive1_type): if first drive is dual drive, do not enable
+	(drive_enable, drive_disable): enable drive status of second
+	unit as second drive when first unit is dual drive
+	(drive_update_ui_status):if first unit is dual drive, update
+	second drive too.
+	(drive_num_leds): if first unit is dual drive, return 2 LEDs
+	for the second drive
+
+	* drive/drive.h (DRIVE_IS_IEEE, DRIVE_IS_OLDTYPE, DRIVE_IS_DUAL):
+	new defines
+
+	* drive/fdc.c (fdc_do_job): if dual disk drive setup drive 
+	appropriately
+
+	* drive/riot2drive0.c (drive0_riot_set_atn): use DRIVE_IS_OLDTYPE()
+	macro
+	(undump_prb, store_prb): if unit is dual drive, update drive 1
+	LED status too
+
+	* drive/riot2drive1.c (drive1_riot_set_atn): use DRIVE_IS_OLDTYPE()
+        macro
+
+1999-07-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi (Video Options): Move PaletteFile here, add
+	Crtc-specific resources and cmdline options
+
+	* arch/unix/xaw/petui.c (pet_ui_init=: use ui_crtc_video_settings_menu
+	instead of ui_video_settings_menu
+
+	* arch/unix/xaw/uisettings.c (ui_crtc_video_settings_menu,
+	crtc_video_settings_submenu): new entries for Crtc-specific 
+	options
+
+	* arch/unix/xaw/uisettings.h (ui_crtc_video_settings_menu): new 
+	prototype
+
+	* crtc/crtc-cmdline-options.c (cmdline_options): prefix cmdline
+	options with "crtc"
+
+	* crtc/crtc-resources.c (resources): prefix resources with "Crtc".
+
 1999-07-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.47.

@@ -17,6 +17,59 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Checkpoint commands,  Next: General commands,  Prev: Assembly commands,  Up: Monitor
+
+Checkpoint commands
+===================
+
+`break [<address> [if <cond_expr>] ]'
+     This command allows setting a breakpoint or listing the current
+     breakpoints.  If no address is given, the currently valid
+     checkpoints are printed.  If an address is given, a breakpoint is
+     set for that address and the breakpoint number is printed.  A
+     conditional expression can also be specified for the breakpoint.
+     For more information on conditions, see the CONDITION command.
+
+`enable <checknum>'
+
+`disable <checknum>'
+     Each checkpoint can be enabled or disabled.  This command allows
+     changing between these states.
+
+`command <checknum> "<command>"'
+     When checkpoint `checknum' is hit, the specified command is
+     executed by the monitor.  Note that the `x' command is not yet
+     supported as a command argument.
+
+`condition <checknum> if <cond_expr>'
+     Each time the specified checkpoint is examined, the condition is
+     evaluated.  If it evalutes to true, the checkpoint is activated.
+     Otherwise, it is ignores.  If registers are specified in the
+     expression, the values used are those at the time the checkpoint
+     is examined, not when the condition is set.
+
+`delete <checknum>'
+     Delete the specified checkpoint.
+
+`ignore <checknum> [<count>]'
+     Ignore a checkpoint a given number of crossings.  If no count is
+     given, the default value is 1.
+
+`trace [address [address]]'
+     This command is similar to the `break' command except that it
+     operates on tracepoints.  A tracepoint differs from a breakpoint
+     by not stopping execution but simply printing the PC, giving the
+     user an execution trace.  The second optional address can be used
+     to specify the end of an range of addresses to be traced.
+
+`watch [address [address]]'
+     This command is similar to the previous two commands except that it
+     operates on watchpoints.  A watchpoint differs from the others by
+     stopping on a read and/or write to an address or range of
+     addresses.  If no addresses are given, a list of all the
+     watchpoints is printed.
+
+
 File: vice.info,  Node: General commands,  Next: Disk commands,  Prev: Checkpoint commands,  Up: Monitor
 
 General commands

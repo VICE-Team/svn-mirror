@@ -104,6 +104,25 @@
 #define DRIVE_TYPE_8050   8050	/* DOS 2.7 dual floppy drive, 0.5M/disk */
 #define DRIVE_TYPE_8250   8250	/* DOS 2.7 dual floppy drive, 1M/disk */
 
+/* some defines */
+#define	DRIVE_IS_IEEE(type)	( 		\
+	((type) == DRIVE_TYPE_2031) 		\
+	|| ((type) == DRIVE_TYPE_1001) 		\
+	|| ((type) == DRIVE_TYPE_8050) 		\
+	|| ((type) == DRIVE_TYPE_8250) 		\
+	)
+
+#define	DRIVE_IS_OLDTYPE(type)	( 		\
+	((type) == DRIVE_TYPE_1001) 		\
+	|| ((type) == DRIVE_TYPE_8050) 		\
+	|| ((type) == DRIVE_TYPE_8250) 		\
+	)
+	
+#define	DRIVE_IS_DUAL(type)	( 		\
+	((type) == DRIVE_TYPE_8050) 		\
+	|| ((type) == DRIVE_TYPE_8250) 		\
+	)
+
 /* Possible colors of the drive active LED.  */
 #define DRIVE_ACTIVE_RED     0
 #define DRIVE_ACTIVE_GREEN   1

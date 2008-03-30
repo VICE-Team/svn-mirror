@@ -18,6 +18,33 @@ permission notice identical to this one.
 
 
 
+File: vice.info,  Node: xpet modules,  Next: xcbm2 modules,  Prev: xvic modules,  Up: Emulator modules
+
+xpet modules
+............
+
+   The modules in the xpet emulator are:
+
+Name    Type                          Description                          
+MAINCPU 6502                          The Main CPU                         
+PETMEM  Memory                        Holds the RAM contents of the PET.   
+PETROM  ROM images                    Holds the ROM images of the PET,     
+                                      including possibly attached          
+                                      cartridges                           
+CRTC    6545                          The CRTC of the PET. This is also    
+                                      included if it is a dump of a PET    
+                                      without CRTC, because the video      
+                                      state is saved here anyway.          
+PIA1    6520                          The PIA for the interrupts, tape     
+                                      and the keyboard                     
+PIA2    6520                          The PIA for the IEEE488-bus          
+VIA     6522                          The VIA for IEEE488, userport, sound 
+ACIA1   6551                          The ACIA for the SuperPET.  This     
+                                      module is optional.                  
+*       Drive modules                 The emulated drive(s) have their     
+                                      own modules *note Drive modules::.   
+
+
 File: vice.info,  Node: xcbm2 modules,  Next: Drive modules,  Prev: xpet modules,  Up: Emulator modules
 
 xcbm2 modules
@@ -966,57 +993,4 @@ Assembly commands
      instructions are disassembled.  If no addresses are specified, a
      default number of instructions are disassembled from the dot
      address.
-
-
-File: vice.info,  Node: Checkpoint commands,  Next: General commands,  Prev: Assembly commands,  Up: Monitor
-
-Checkpoint commands
-===================
-
-`break [<address> [if <cond_expr>] ]'
-     This command allows setting a breakpoint or listing the current
-     breakpoints.  If no address is given, the currently valid
-     checkpoints are printed.  If an address is given, a breakpoint is
-     set for that address and the breakpoint number is printed.  A
-     conditional expression can also be specified for the breakpoint.
-     For more information on conditions, see the CONDITION command.
-
-`enable <checknum>'
-
-`disable <checknum>'
-     Each checkpoint can be enabled or disabled.  This command allows
-     changing between these states.
-
-`command <checknum> "<command>"'
-     When checkpoint `checknum' is hit, the specified command is
-     executed by the monitor.  Note that the `x' command is not yet
-     supported as a command argument.
-
-`condition <checknum> if <cond_expr>'
-     Each time the specified checkpoint is examined, the condition is
-     evaluated.  If it evalutes to true, the checkpoint is activated.
-     Otherwise, it is ignores.  If registers are specified in the
-     expression, the values used are those at the time the checkpoint
-     is examined, not when the condition is set.
-
-`delete <checknum>'
-     Delete the specified checkpoint.
-
-`ignore <checknum> [<count>]'
-     Ignore a checkpoint a given number of crossings.  If no count is
-     given, the default value is 1.
-
-`trace [address [address]]'
-     This command is similar to the `break' command except that it
-     operates on tracepoints.  A tracepoint differs from a breakpoint
-     by not stopping execution but simply printing the PC, giving the
-     user an execution trace.  The second optional address can be used
-     to specify the end of an range of addresses to be traced.
-
-`watch [address [address]]'
-     This command is similar to the previous two commands except that it
-     operates on watchpoints.  A watchpoint differs from the others by
-     stopping on a read and/or write to an address or range of
-     addresses.  If no addresses are given, a list of all the
-     watchpoints is printed.
 

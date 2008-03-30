@@ -145,7 +145,10 @@ void ui_display_drive_led(int drive_number, int status)
     WinFillRect(ui_status.hps, &rectl, status?4:SYSCLR_FIELDBACKGROUND);
 }
 
-void ui_display_drive_track(int drive_number, double track_number)
+/* drive_base is either 8 or 0 depending on unit or drive display.
+   Dual drives display drive 0: and 1: instead of unit 8: and 9: */
+void ui_display_drive_track(int drive_number, int drive_base, 
+							double track_number)
 {
     char str[40];
     RECTL rectl=ui_status.rectl;

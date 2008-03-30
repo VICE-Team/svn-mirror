@@ -509,7 +509,9 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 }
 
 /* Toggle displaying of the drive track.  */
-void ui_display_drive_track(int drivenum, double track_number)
+/* drive_base is either 8 or 0 depending on unit or drive display.
+   Dual drives display drive 0: and 1: instead of unit 8: and 9: */
+void ui_display_drive_track(int drivenum, int drive_base, double track_number)
 {
     status_track[status_map[drivenum]]=track_number;
     SendMessage(status_hwnd,SB_SETTEXT,(status_map[drivenum]+1)|SBT_OWNERDRAW,0);

@@ -1886,12 +1886,14 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
     ui_display_drive_current_image2();
 }
 	
-void ui_display_drive_track(int drive_number, double track_number)
+void ui_display_drive_track(int drive_number, int drive_base, 
+							double track_number)
 {
     int i;
     char str[256];
 
-    sprintf(str, "%d: Track %.1f", drive_number + 8, (double)track_number);
+    sprintf(str, "%d: Track %.1f", drive_number + drive_base, 
+							(double)track_number);
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive_number];
 	Widget w;

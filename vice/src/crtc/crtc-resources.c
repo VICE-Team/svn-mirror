@@ -90,16 +90,16 @@ static resource_t resources[] =
     (resource_value_t *) &crtc_resources.palette_file_name,
     set_palette_file_name },
 #ifdef CRTC_NEED_2X
-  { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
+  { "CrtcDoubleSize", RES_INTEGER, (resource_value_t) 0,
     (resource_value_t *) &crtc_resources.double_size_enabled,
     set_double_size_enabled },
 #endif
 #if defined CRTC_NEED_2X || defined __MSDOS__
-  { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
+  { "CrtcDoubleScan", RES_INTEGER, (resource_value_t) 0,
     (resource_value_t *) &crtc_resources.double_scan_enabled,
     set_double_scan_enabled },
 #endif
-  { "VideoCache", RES_INTEGER, (resource_value_t) 0,
+  { "CrtcVideoCache", RES_INTEGER, (resource_value_t) 0,
     (resource_value_t *) &crtc_resources.video_cache_enabled,
     set_video_cache_enabled },
   { NULL }

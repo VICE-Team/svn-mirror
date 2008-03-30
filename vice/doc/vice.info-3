@@ -17,6 +17,45 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Printer settings,  Next: No kernal traps,  Prev: File system device settings,  Up: Peripheral settings
+
+Printer settings
+----------------
+
+   The VICE emulators can emulate printers connected to either the IEC
+buffer or the user port.  Emulation can be achieved by redirecting the
+printer output to a file or by piping it through an external process.
+This is defined by so-called "printer device file names"; a printer
+device file name can be either a simple path, or a command name
+preceeded by a pipe symbol `|'.
+
+   For example, printer device `filename' will cause the output to be
+appended to the file `filename', while printer device `|lpr' will cause
+the `lpr' command to be executed and be fed the printer output.  The
+printer output will not be converted but saved as printed by the
+emulated machine.
+
+   Up to three printer devices may be specified through the following
+resources:
+
+   * device 1, whose default value is `print.dump';
+
+   * device 2, whose default value is `|lpr'.
+
+   * device 3, whose default value is `|petlp -F PS|lpr';
+
+   So, basically, by default printer device 1 will dump printer output
+to `print.dump'; printer device 2 will print it via `lpr' directly to
+the printer and device 3 will print it via `petlp' (a not-yet-complete
+utility that will produce Postscript output from the Commodore printer
+code) and then to the printer via `lpr'.
+
+* Menu:
+
+* Printer resources::
+* Printer options::
+
+
 File: vice.info,  Node: Printer resources,  Next: Printer options,  Prev: Printer settings,  Up: Printer settings
 
 Printer resources
@@ -517,10 +556,6 @@ VIC-II resources
      Boolean specifying whether the sprite-background hardware collision
      detection must be emulated.
 
-`PaletteFile'
-     String specifying the name of the palette file being used.  The
-     `.vpl' extension is optional.
-
 
 File: vice.info,  Node: VIC-II options,  Prev: VIC-II resources,  Up: VIC-II settings
 
@@ -536,9 +571,6 @@ VIC-II command-line options
 `+checksb'
      Enable (`CheckSbColl=1') and disable (`CheckSbColl=0') emulation
      of hardware sprite-background collision detection, respectively.
-
-`-palette NAME'
-     Specify `NAME' as the palette file (`PaletteFile').
 
 
 File: vice.info,  Node: SID settings,  Next: C64 I/O extension settings,  Prev: VIC-II settings,  Up: C64/128-specific
@@ -1158,17 +1190,17 @@ PET command line options
      (`Ram9', `RamA').
 
 `-superpet, +superpet'
-     Enable/Disable SuperPET I/O emulation.
+     Enable/Disable SuperPET I/O emulation (`SuperPET').
 
 `-basic1, +basic1'
      Enable/Disable patching the IEEE488 section of the PET2001 ROM
-     when detected `Basic1'.
+     when detected (`Basic1').
 
 `-basic1char, +basic1char'
-     Enable/Disable PET 2001 character generator `Basic1Chars'.
+     Enable/Disable PET 2001 character generator (`Basic1Chars').
 
 `-eoiblank, +eoiblank'
-     Enable/Disable EOI blanking the screen `EoiBlank'.
+     Enable/Disable EOI blanking the screen (`EoiBlank').
 
 `-emuid'
 `+emuid'
@@ -1477,32 +1509,5 @@ VIA1    6522                          The VIA for the interrupts and the
                                       keyboard                             
 VIA2    6522                          The VIA for the userport, IEC-bus    
                                       and RS232.                           
-*       Drive modules                 The emulated drive(s) have their     
-                                      own modules *note Drive modules::.   
-
-
-File: vice.info,  Node: xpet modules,  Next: xcbm2 modules,  Prev: xvic modules,  Up: Emulator modules
-
-xpet modules
-............
-
-   The modules in the xpet emulator are:
-
-Name    Type                          Description                          
-MAINCPU 6502                          The Main CPU                         
-PETMEM  Memory                        Holds the RAM contents of the PET.   
-PETROM  ROM images                    Holds the ROM images of the PET,     
-                                      including possibly attached          
-                                      cartridges                           
-CRTC    6545                          The CRTC of the PET. This is also    
-                                      included if it is a dump of a PET    
-                                      without CRTC, because the video      
-                                      state is saved here anyway.          
-PIA1    6520                          The PIA for the interrupts, tape     
-                                      and the keyboard                     
-PIA2    6520                          The PIA for the IEEE488-bus          
-VIA     6522                          The VIA for IEEE488, userport, sound 
-ACIA1   6551                          The ACIA for the SuperPET.  This     
-                                      module is optional.                  
 *       Drive modules                 The emulated drive(s) have their     
                                       own modules *note Drive modules::.   

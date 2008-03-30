@@ -101,10 +101,7 @@ _RIOT_FUNC void set_handshake(BYTE pa)
  
 void drive1_riot_set_atn(int state) 
 {
-    if ((drive[1].type == DRIVE_TYPE_1001)
-	|| (drive[1].type == DRIVE_TYPE_8050)
-	|| (drive[1].type == DRIVE_TYPE_8250)
-	) {
+    if (DRIVE_IS_OLDTYPE(drive[1].type)) {
 	if (atn_active && !state) {
 	    riot2d1_signal(RIOT_SIG_PA7, RIOT_SIG_FALL);
 	} else

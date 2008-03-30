@@ -107,6 +107,18 @@ void fdc_reset(int fnum, int drive_type)
 static BYTE fdc_do_job(int fnum, int buf, 
 				int drv, BYTE job, BYTE *header)
 {
+#ifdef FDC_DEBUG
+static BYTE fdc_do_job_(int fnum, int buf, 
+				int drv, BYTE job, BYTE *header);
+    BYTE retval = fdc_do_job_(fnum, buf, drv, job, header);
+    log_message(fdc_log, "  fdc_do_job (%02x) -> %02x\n",
+	job, retval);
+    return retval;
+}
+static BYTE fdc_do_job_(int fnum, int buf, 
+				int drv, BYTE job, BYTE *header)
+{
+#endif
     int rc, dnr;
     int i;
     int track, sector;
@@ -117,17 +129,23 @@ static BYTE fdc_do_job(int fnum, int buf,
     track = header[2];
     sector = header[3];
 
-    if (drv) {
-	return FDC_ERR_SYNC;
+    if (DRIVE_IS_DUAL(fdc[fnum].drive_type)) {
+	/* dual disk drive */
+        dnr = drv;
+    } else {
+	/* single disk drive */
+        if (drv) {
+	    return FDC_ERR_SYNC;
+	}
+        dnr = fnum;
     }
-    dnr = fnum;
 
     rc = 0;
     base = &(fdc[fnum].buffer[(buf + 1) << 8]);
 
 #ifdef FDC_DEBUG
     log_message(fdc_log, "do job %02x, buffer %d ($%04x): d%d t%d s%d, "
-		"image=%p, type=%04d\n",
+		"image=%p, type=%04d",
 		job, buf, (buf + 1) << 8, dnr, track, sector,
 		fdc[dnr].image,
 		fdc[dnr].image ? fdc[dnr].image->type : 0);

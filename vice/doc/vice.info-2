@@ -663,7 +663,10 @@ File: vice.info,  Node: Video settings,  Next: Keyboard settings,  Prev: Perform
 Video settings
 ==============
 
-   The following right-button menu items control the video output:
+   The following right-button menu items control the video output.  On
+emulators that include two video chips (like `x128') all options but
+XSync exist twice, once for each chip.  XSync is shared between the
+video chips.
 
    * "Video Cache" enables a video cache that can speed up the emulation
      when little graphics activity is going on; it is especially useful
@@ -701,15 +704,17 @@ File: vice.info,  Node: Video resources,  Next: Video options,  Prev: Video sett
 Video resources
 ---------------
 
-   The following resources affect the screen emulation:
+   The following resources affect the screen emulation. The prefix of
+some of the resources and commandline options denote the video chip the
+values apply to.
 
-`VideoCache'
+`VideoCache, CrtcVideoCache'
      Boolean specifying whether the video cache is turned on.
 
-`DoubleSize'
+`DoubleSize, CrtcDoubleSize'
      Boolean specifying whether double-size mode is turned on.
 
-`DoubleScan'
+`DoubleScan, CrtcDoubleScan'
      Boolean specifying whether double-scan mode is turned on.
 
 `UseXSync'
@@ -737,6 +742,10 @@ Video resources
 `DisplayDepth'
      Integer specifying the depth of the host display.  The value `0'
      (the default) causes the emulator to autodetect it.
+
+`PaletteFile, CrtcPaletteFile'
+     String specifying the name of the palette file being used.  The
+     `.vpl' extension is optional.
 
 
 File: vice.info,  Node: Video options,  Prev: Video resources,  Up: Video settings
@@ -778,6 +787,11 @@ Video command-line options
 
 `-displaydepth DEPTH'
      Specify the display depth (`DisplayDepth').
+
+`-palette NAME'
+`-crtcpalette NAME'
+     Specify `NAME' as the palette file
+     (`PaletteFile',`CrtcPaletteFile').
 
 
 File: vice.info,  Node: Keyboard settings,  Next: Sound settings,  Prev: Video settings,  Up: Settings and resources
@@ -1332,43 +1346,4 @@ Command-line options for file system devices
      Specify the paths for the file system access on drives 8, 9, 10
      and 11, respectively (`FSDevice8Dir', `FSDevice9Dir',
      `FSDevice10Dir' and `FSDevice11Dir').
-
-
-File: vice.info,  Node: Printer settings,  Next: No kernal traps,  Prev: File system device settings,  Up: Peripheral settings
-
-Printer settings
-----------------
-
-   The VICE emulators can emulate printers connected to either the IEC
-buffer or the user port.  Emulation can be achieved by redirecting the
-printer output to a file or by piping it through an external process.
-This is defined by so-called "printer device file names"; a printer
-device file name can be either a simple path, or a command name
-preceeded by a pipe symbol `|'.
-
-   For example, printer device `filename' will cause the output to be
-appended to the file `filename', while printer device `|lpr' will cause
-the `lpr' command to be executed and be fed the printer output.  The
-printer output will not be converted but saved as printed by the
-emulated machine.
-
-   Up to three printer devices may be specified through the following
-resources:
-
-   * device 1, whose default value is `print.dump';
-
-   * device 2, whose default value is `|lpr'.
-
-   * device 3, whose default value is `|petlp -F PS|lpr';
-
-   So, basically, by default printer device 1 will dump printer output
-to `print.dump'; printer device 2 will print it via `lpr' directly to
-the printer and device 3 will print it via `petlp' (a not-yet-complete
-utility that will produce Postscript output from the Commodore printer
-code) and then to the printer via `lpr'.
-
-* Menu:
-
-* Printer resources::
-* Printer options::
 

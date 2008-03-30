@@ -101,10 +101,7 @@ _RIOT_FUNC void set_handshake(BYTE pa)
  
 void drive0_riot_set_atn(int state) 
 {
-    if ((drive[0].type == DRIVE_TYPE_1001)
-	|| (drive[0].type == DRIVE_TYPE_8050)
-	|| (drive[0].type == DRIVE_TYPE_8250)
-	) {
+    if (DRIVE_IS_OLDTYPE(drive[0].type)) {
 	if (atn_active && !state) {
 	    riot2d0_signal(RIOT_SIG_PA7, RIOT_SIG_FALL);
 	} else
@@ -141,6 +138,10 @@ _RIOT_FUNC void undump_prb(BYTE byte)
 
     /* 1001 only needs LED 0 and Error LED */
     drive[0].led_status = (byte >> 4) & 0x03;
+
+    if (DRIVE_IS_DUAL(drive[0].type)) {
+	drive[1].led_status = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
+    }
 }
 
 _RIOT_FUNC void store_prb(BYTE byte)
@@ -151,6 +152,10 @@ _RIOT_FUNC void store_prb(BYTE byte)
 
     /* 1001 only needs LED 0 and Error LED */
     drive[0].led_status = (byte >> 4) & 0x03;
+
+    if (DRIVE_IS_DUAL(drive[0].type)) {
+	drive[1].led_status = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
+    }
 }
 
 _RIOT_FUNC void riot_reset(void)
