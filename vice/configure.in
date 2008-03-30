@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.4.20)
+AM_INIT_AUTOMAKE(vice, 1.4.21)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -331,11 +331,6 @@ fi
 AC_SUBST(USE_NLS)
 AC_SUBST(NLS_LOCALEDIR)
   
-dnl Check for a perl interpreter.
-
-AC_PATH_PROG(PERL, perl)
-AC_SUBST(PERL)
-
 
 dnl Setup reSID compilation.  We need a C++ compiler for this.
 

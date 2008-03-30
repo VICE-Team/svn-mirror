@@ -65,7 +65,6 @@ typedef struct canvas_list_t {
 } canvas_list_t;
 
 
-#define VIDEO_FRAME_BUFFER_POINTER_FIXUP(x) ((x))
 #define VIDEO_FRAME_BUFFER_START(i)         ((i)->tmpframebuffer)
 #define VIDEO_FRAME_BUFFER_LINE_SIZE(i)     ((i)->tmpframebufferlinesize)
 #define VIDEO_FRAME_BUFFER_LINE_START(i, n) ((i)->tmpframebuffer \

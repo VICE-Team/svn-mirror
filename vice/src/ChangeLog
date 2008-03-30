@@ -1,3 +1,28 @@
+2000-06-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.21.
+
+	* arch/unix/x11/xaw/uicolor.c, arch/unix/x11/gnome/uicolor.c,
+	color.c: Added support for system colors.
+
+	* arch/unix/x11/videoarch.h, arch/msdos/videoarch.h,
+	arch/win32/videoarch.h, arch/riscos/videoarch.h,
+	arch/os2/videoarch.h, arch/beos/videoarch.h: Removed
+	`VIDEO_FRAME_BUFFER_POINTER_FIXUP' macro.
+
+2000-06-18  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/uiscreenshot.c:
+	(ui_screenshot_dialog): Fixed error check to fn instead of
+	name. Added feedback messages on success/failure of screenshot
+	saves.
+ 
+2000-06-18  Dag Lem  <resid@nimrod.no>
+
+	* vicii/vicii.c: Moved call on clk_guard_set_clk_base from
+	vic_ii_init to vic_ii_change_timing to allow change of PAL/NTSC
+	time base.
+
 2000-06-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.20.

@@ -63,7 +63,6 @@ typedef struct video_frame_buffer_s {
     
 } video_frame_buffer_t;
 
-#define VIDEO_FRAME_BUFFER_POINTER_FIXUP(x) (x)
 #define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->width
 #define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer+(n)*(f)->width)
 #define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))

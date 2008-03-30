@@ -76,7 +76,6 @@ typedef struct canvas_s canvas_t;
 
 /* ------------------------------------------------------------------------- */
 
-#define VIDEO_FRAME_BUFFER_POINTER_FIXUP(x) (x)
 #define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     ((f)->w)
 #define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->line[(n)])
 #define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
