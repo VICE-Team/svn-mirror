@@ -628,8 +628,8 @@ pruser.o: pruser.c vice.h config.h arch/unix/types.h print.h pruser.h \
 	resources.h cmdline.h
 resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
 	log.h resources.h utils.h arch/unix/types.h
-romset.o: romset.c config.h arch/unix/types.h mem.h snapshot.h \
-	resources.h sysfile.h log.h utils.h romset.h
+romset.o: romset.c vice.h config.h log.h mem.h arch/unix/types.h \
+	snapshot.h resources.h romset.h sysfile.h utils.h
 rsuser.o: rsuser.c vice.h config.h arch/unix/types.h alarm.h log.h \
 	clkguard.h cmdline.h resources.h interrupt.h 6510core.h mem.h \
 	snapshot.h maincpu.h mon.h mos6510.h rs232.h rsuser.h

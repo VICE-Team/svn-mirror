@@ -328,14 +328,13 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
 	../../src/warn.h ../../src/utils.h ../../src/via.h \
 	../../src/arch/unix/vsync.h ../../src/rs232.h ../../src/print.h \
 	../../src/prdevice.h ../../src/pruser.h
-petacia1.o: petacia1.c ../../src/maincpu.h ../../src/config.h \
-	../../src/6510core.h ../../src/mem.h \
+petacia1.o: petacia1.c ../../src/maincpu.h ../../src/vice.h \
+	../../src/config.h ../../src/6510core.h ../../src/mem.h \
 	../../src/arch/unix/types.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
-	../../src/aciacore.c ../../src/vice.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/machine.h ../../src/rs232.h \
-	../../src/acia.h
+	../../src/aciacore.c ../../src/cmdline.h ../../src/resources.h \
+	../../src/machine.h ../../src/rs232.h ../../src/acia.h
 petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
 	petpia.h ../../src/arch/unix/types.h ../../src/snapshot.h
 petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
