@@ -130,6 +130,7 @@ EXTRA_DIST = \
 	raster.dsp \
 	resid.dsp \
 	rs232drv.dsp \
+	serial.dsp \
 	sid.dsp \
 	sounddrv.dsp \
 	tape.dsp \

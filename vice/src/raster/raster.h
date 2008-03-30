@@ -331,9 +331,16 @@ inline static void raster_add_int_change_sprites(raster_t *raster,
                                                     int *ptr,
                                                     int new_value)
 {
-    raster_changes_add_int(&raster->changes.sprites,
+    if (raster_x < -(int)raster->geometry->extra_offscreen_border_left)
+        *ptr = new_value;
+    else if (raster_x < (int)(raster->geometry->screen_size.width 
+                        + raster->geometry->extra_offscreen_border_right)) {
+        raster_changes_add_int(&raster->changes.sprites,
                                raster_x, ptr, new_value);
-    raster->changes.have_on_this_line = 1;
+        raster->changes.have_on_this_line = 1;
+    } else {
+        raster_add_int_change_next_line(raster, ptr, new_value);
+    }
 }
 #endif
 

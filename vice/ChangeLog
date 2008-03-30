@@ -1,3 +1,13 @@
+2002-11-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.23.
+
+	* acconfig.h, configure.in: Added `HAVE_RAWDRIVE' conditional.
+
+2002-11-15  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Correction for recent versions of autoconf.
+
 2002-11-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.22.

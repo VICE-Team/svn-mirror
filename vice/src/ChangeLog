@@ -1,3 +1,43 @@
+2002-11-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.23.
+
+	* init.c (init_resources, init_cmdline_options): Added
+	diskimage resources.  (init_resource_fail,
+	init_cmdline_options_fail): New functions.
+
+	* blockdev.h, arch/unix/blockdev.h: New files.
+
+	* Makefile.am. diskimage/Makefile.am, arch/unix/Makefile.am:
+	Updated.
+
+	* diskimage/diskimage.c: Added resource and command line
+	initialization.
+
+	* diskimage/diskimage.c, diskimage.h, diskimage/fsimage.c,
+	diskimage/fsimage.h, diskimage/realimage.c,
+	diskimage/realimage.h, diskimage/rawimage.c,
+	diskimage/rawimage.h, attach.c, vdrive/vdrive.c: Better
+	support for real devices and raw drive images.
+
+	* drive/fdc.c (fdc_attach_image): Fixed return value.
+
+	* drive/driveimage.c, vdrive/vdrive.c, drive/fdc.c,
+	drive/wd1770.c: Use common attach/detach logging function.
+
+	* vdrive/vdrive-bam.c (vdrive_bam_read_bam): Stop reading BAM
+	on error.
+
+2002-11-16  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/Makefile.am: Added serial.dsp
+
+	* arch/win32/diskimage.dsp: Added file.
+
+	* raster/raster.h (raster_add_int_change_sprites): Change
+	immediately or in the next line if coordinate is outside line
+	range.
+
 2002-11-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.22.
