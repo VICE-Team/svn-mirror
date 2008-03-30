@@ -145,7 +145,7 @@ static int functionrom_load_internal(void)
         size_t flen, res, i;
 
         if (internal_function_rom_name == NULL
-            || internal_function_rom_name[0] == '0')
+            || internal_function_rom_name[0] == '\0')
             return 0;
 
         fd = fopen(internal_function_rom_name, MODE_READ);
@@ -180,7 +180,7 @@ static int functionrom_load_external(void)
         size_t flen, res, i;
 
         if (external_function_rom_name == NULL
-            || external_function_rom_name[0] == '0')
+            || external_function_rom_name[0] == '\0')
             return 0;
 
         fd = fopen(external_function_rom_name, MODE_READ);
