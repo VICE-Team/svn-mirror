@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-10-01 21:21+0200\n"
+"POT-Creation-Date: 2000-10-14 19:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1697,57 +1697,6 @@ msgstr ""
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr ""
 
-#: src/arch/unix/print.c:99
-msgid "Specify name of printer dump file (print.dump)"
-msgstr ""
-
-#: src/arch/unix/print.c:101
-msgid "Specify command for printer 1 (|petlp |lpr)"
-msgstr ""
-
-#: src/arch/unix/print.c:103
-msgid "Specify command for printer 2 (|lpr)"
-msgstr ""
-
-#: src/arch/unix/print.c:161 src/arch/unix/rs232.c:270
-msgid "No more devices available."
-msgstr ""
-
-#: src/arch/unix/print.c:166
-#, c-format
-msgid "print_open(device=%d)."
-msgstr ""
-
-#: src/arch/unix/print.c:200 src/arch/unix/rs232.c:317
-#, c-format
-msgid "Attempt to close invalid fd %d."
-msgstr ""
-
-#: src/arch/unix/print.c:204 src/arch/unix/rs232.c:321
-#, c-format
-msgid "Attempt to close non-open fd %d."
-msgstr ""
-
-#: src/arch/unix/print.c:219
-#, c-format
-msgid "Trying to write to invalid fd %d."
-msgstr ""
-
-#: src/arch/unix/print.c:223
-#, c-format
-msgid "Trying to write to non-open fd %d."
-msgstr ""
-
-#: src/arch/unix/print.c:235
-#, c-format
-msgid "Trying to flush invalid fd %d."
-msgstr ""
-
-#: src/arch/unix/print.c:239
-#, c-format
-msgid "Trying to flush non-open fd %d."
-msgstr ""
-
 #: src/arch/unix/rs232.c:126
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
 msgstr ""
@@ -1780,6 +1729,10 @@ msgstr ""
 msgid "Specify baudrate of 4th RS232 device"
 msgstr ""
 
+#: src/arch/unix/rs232.c:270
+msgid "No more devices available."
+msgstr ""
+
 #: src/arch/unix/rs232.c:275
 #, c-format
 msgid "rs232_open(device=%d)."
@@ -1788,6 +1741,16 @@ msgstr ""
 #: src/arch/unix/rs232.c:290
 #, c-format
 msgid "Cannot open file \"%s\": %s"
+msgstr ""
+
+#: src/arch/unix/rs232.c:317
+#, c-format
+msgid "Attempt to close invalid fd %d."
+msgstr ""
+
+#: src/arch/unix/rs232.c:321
+#, c-format
+msgid "Attempt to close non-open fd %d."
 msgstr ""
 
 #: src/arch/unix/rs232.c:341
@@ -1982,23 +1945,23 @@ msgstr ""
 msgid "Contributors to the VICE project"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:57
+#: src/arch/unix/x11/gnome/about.c:58
 msgid "The VICE Team"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:72 src/arch/unix/x11/xaw/about.c:150
+#: src/arch/unix/x11/gnome/about.c:77 src/arch/unix/x11/xaw/about.c:150
 msgid "Official VICE homepage:"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:82
+#: src/arch/unix/x11/gnome/about.c:90
 msgid "License"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:88
+#: src/arch/unix/x11/gnome/about.c:96
 msgid "Warranty"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:94
+#: src/arch/unix/x11/gnome/about.c:102
 msgid "Contributors"
 msgstr ""
 

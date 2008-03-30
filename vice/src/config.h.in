@@ -125,6 +125,9 @@
 #undef HAVE_LIBINTL_H
 #undef NLS_LOCALEDIR
 
+/* 64bit integer for Win32 performance counter */
+#undef HAS_LONGLONG_INTEGER
+
 /* The number of bytes in a unsigned int.  */
 #undef SIZEOF_UNSIGNED_INT
 
