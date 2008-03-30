@@ -98,6 +98,7 @@ struct video_chip_cap_s {
     unsigned int dsize_limit_height;
     unsigned int dscan_allowed;
     unsigned int scale2x_allowed;
+    unsigned int internal_palette_allowed;
     cap_render_t single_mode;
     cap_render_t double_mode;
     cap_fullscreen_t fullscreen;
