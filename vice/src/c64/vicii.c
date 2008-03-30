@@ -385,11 +385,11 @@ int vic_ii_init_cmdline_options(void)
 
 /* Current char being drawn by the raster.  < 0 or >= SCREEN_TEXTCOLS if
    outside the visible range.  */
-#define RASTER_CHAR(cycle)	((cycle) - 15)
+#define RASTER_CHAR(cycle)	((int) (cycle) - 15)
 
 /* Current horizontal position (in pixels) of the raster.  < 0 or >=
    SCREEN_WIDTH if outside the visible range. */
-#define RASTER_X(cycle)		(((cycle) - 13) * 8)
+#define RASTER_X(cycle)		(((int) (cycle) - 13) * 8)
 
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending `A_RASTERDRAW' event has been served, this is
@@ -1317,7 +1317,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	    /* FIXME: Line-based emulation!  */
 	    if ((value & 7) != (vic[0x16] & 7)) {
 #if 1
-		if (skip_next_frame || RASTER_CHAR(cycle) <= 0)
+		if (skip_next_frame || RASTER_CHAR(cycle) <= 1)
 		    xsmooth = value & 0x7;
 		else
 		    add_int_change_next_line(&xsmooth, value & 0x7);
