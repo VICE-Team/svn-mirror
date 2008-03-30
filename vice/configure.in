@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.0.43)
+AM_INIT_AUTOMAKE(vice, 1.0.44)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -156,12 +156,17 @@ else
 
   is_dos=no
   is_win32=no
+  is_riscos=no
+  is_os2=no
 
   dnl This is only possible on Unix (for now).
   AC_DEFINE(HAVE_RS232)
   AM_CONDITIONAL(HAVE_RS232, true)
   AC_DEFINE(HAVE_PRINTER)
   AM_CONDITIONAL(HAVE_PRINTER, true)
+
+  AC_DEFINE(USE_VSID)
+  AM_CONDITIONAL(USE_VSID, true)
 fi
 
 dnl Check for needed external programs.

@@ -22,6 +22,9 @@
 /* Do we want to use XFree86 VIDMODE extensions?  */
 #undef USE_VIDMODE_EXTENSION
 
+/* Does the architecture provide VSID UI?  */
+#undef USE_VSID
+
 /* Are we using the `readline' library or one replacement?  */
 #undef HAVE_READLINE
 
