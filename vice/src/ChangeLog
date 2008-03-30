@@ -1,3 +1,26 @@
+2003-06-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.6.
+
+	* vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, vic20/vic20ieeevia.h, vic20/vic20via.h,
+	pet/petvia.h, pet/petvia.c: Use context pointer.
+
+	* main.c, machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, plus4/plus4.c, cbm2/cbm2.c (machine_setup_context):
+	New function.
+
+	* vic20/vic20.h, vic20/vic20-snapshot.c, vic20/vic20rsuser.c,
+	vic20/vic20datasette.c, vic20/vic20.c, pet/pet.h, pet/pet.c,
+	pet/pet-snapshot.c: Added context support.
+
+	* viacore.c, viacore.h: Removed unused code.
+
+	* traps.c [cmdline_options]: Fixed reversed behaviour.
+
+	* drive/iec/jobcode1581.c (track_cache_read): Set buffer
+	offset.
+
 2003-06-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.6.
@@ -41,6 +64,9 @@
 
 	* drive/iec/wd1770.c (wd1770_command_readaddress): Return seek
 	error for 1571 drives.
+
+	* sid/sid-snapshot.c (sid_snapshot_read_module_simple): Read
+	old style snapshots too.
 
 2003-06-23  Andreas Boose  <viceteam@t-online.de>
 
