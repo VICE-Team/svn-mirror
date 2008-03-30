@@ -59,4 +59,6 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/info/vice.info-3.gz
 %{prefix}/info/vice.info-4.gz
 %{prefix}/info/vice.info-5.gz
+%{prefix}/info/vice.info-6.gz
+%{prefix}/info/vice.info-7.gz
 %{prefix}/share/locale/*/LC_MESSAGES/vice.mo

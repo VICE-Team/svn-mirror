@@ -1,3 +1,10 @@
+2003-07-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.20.
+
+	* vice.spec: Added missing files as pointed out by Ulrik
+	Petersen <emdros@yahoo.dk>.
+
 2003-07-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.19.

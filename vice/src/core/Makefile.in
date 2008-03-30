@@ -227,6 +227,7 @@ noinst_LIBRARIES = libcore.a
 libcore_a_SOURCES = \
 	ciacore.c \
 	ciatimer.c \
+	riotcore.c \
 	viacore.c
 
 subdir = src/core
@@ -238,14 +239,14 @@ LIBRARIES = $(noinst_LIBRARIES)
 libcore_a_AR = $(AR) cru
 libcore_a_LIBADD =
 am_libcore_a_OBJECTS = ciacore.$(OBJEXT) ciatimer.$(OBJEXT) \
-	viacore.$(OBJEXT)
+	riotcore.$(OBJEXT) viacore.$(OBJEXT)
 libcore_a_OBJECTS = $(am_libcore_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ciacore.Po ./$(DEPDIR)/ciatimer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/viacore.Po
+@AMDEP_TRUE@	./$(DEPDIR)/riotcore.Po ./$(DEPDIR)/viacore.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -279,6 +280,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ciacore.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ciatimer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/riotcore.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/viacore.Po@am__quote@
 
 distclean-depend:

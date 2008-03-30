@@ -101,7 +101,6 @@ noinst_HEADERS = \
 	ram.h \
 	resources.h \
 	riot.h \
-	riotcore.h \
 	romset.h \
 	rs232drv.h \
 	rsuser.h \
@@ -192,7 +191,6 @@ EXTRA_DIST = \
 	aciacore.c \
 	fixpoint.c \
 	piacore.c \
-	riotcore.c \
 	tpicore.c
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
