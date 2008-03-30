@@ -32,6 +32,7 @@
 
 #include "c610ui.h"
 #include "menudefs.h"
+#include "resources.h"
 #include "sidui.h"
 #include "tui.h"
 #include "tuifs.h"

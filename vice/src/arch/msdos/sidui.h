@@ -27,9 +27,9 @@
 #ifndef SIDUI_H
 #define SIDUI_H
 
-#include "tuimenu.h"
+struct tui_menu_item_def_s;
 
-extern tui_menu_item_def_t sid_ui_menu_items[];
+extern struct tui_menu_item_def_s sid_ui_menu_items[];
 
 #endif
 

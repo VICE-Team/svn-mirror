@@ -34,6 +34,7 @@
 #include "cartridge.h"
 #include "log.h"
 #include "menudefs.h"
+#include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
 #include "tuifs.h"

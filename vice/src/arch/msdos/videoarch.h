@@ -32,7 +32,6 @@
 #include <allegro.h>
 
 #include "types.h"
-#include "palette.h"
 
 #define NUM_AVAILABLE_COLORS	0x100
 

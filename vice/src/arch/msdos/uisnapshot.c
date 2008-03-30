@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "machine.h"
+#include "tui.h"
 #include "tuimenu.h"
 #include "tuifs.h"
 #include "ui.h"

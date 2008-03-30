@@ -54,6 +54,7 @@
 #include "menudefs.h"
 #include "mon.h"
 #include "mos6510.h"
+#include "resources.h"
 #include "romset.h"
 #include "sound.h"
 #include "tape.h"

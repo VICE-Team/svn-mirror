@@ -27,8 +27,6 @@
 #ifndef _TUI_MENU_H
 #define _TUI_MENU_H
 
-#include "resources.h"
-
 #define TUI_MENU_HOT_KEY_PREFIX		'_'
 
 typedef enum tui_menu_item_behavior {
@@ -57,17 +55,17 @@ typedef const char *(*tui_menu_callback_t)(int been_activated,
 typedef struct tui_menu *tui_menu_t;
 
 /* Struct to define a menu item.  */
-typedef struct _tui_menu_item_def_t tui_menu_item_def_t;
-struct _tui_menu_item_def_t {
+struct tui_menu_item_def_s {
     const char *label;
     const char *help_string;
     tui_menu_callback_t callback;
     void *callback_param;
     int par_string_max_len;
     tui_menu_item_behavior_t behavior;
-    tui_menu_item_def_t *submenu;
+    struct tui_menu_item_def_s *submenu;
     const char *submenu_title;
 };
+typedef struct tui_menu_item_def_s tui_menu_item_def_t;
 
 tui_menu_t tui_menu_create(const char *title, int spacing);
 void tui_menu_free(tui_menu_t menu);

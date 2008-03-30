@@ -34,6 +34,8 @@
 #include "autostart.h"
 #include "diskimage.h"
 #include "fliplist.h"
+#include "imagecontents.h"
+#include "tui.h"
 #include "tuifs.h"
 #include "tuimenu.h"
 #include "ui.h"

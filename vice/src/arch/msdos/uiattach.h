@@ -27,10 +27,9 @@
 #ifndef UIATTACH_H
 #define UIATTACH_H
 
-#include "tui.h"
-#include "tuimenu.h"
+struct tui_menu_item_def_s;
 
-extern tui_menu_item_def_t ui_attach_menu_def[];
+extern struct tui_menu_item_def_s ui_attach_menu_def[];
 
 #endif
 

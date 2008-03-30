@@ -28,7 +28,10 @@
 
 #include <stdio.h>
 
+#include "resources.h"
 #include "sidui.h"
+#include "tui.h"
+#include "tuimenu.h"
 
 static TUI_MENU_CALLBACK(toggle_SidModel_callback)
 {

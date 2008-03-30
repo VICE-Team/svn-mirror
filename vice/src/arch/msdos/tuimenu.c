@@ -35,6 +35,7 @@
 #include <string.h>
 
 #include "log.h"
+#include "resources.h"
 #include "tui.h"
 #include "tui_backend.h"
 #include "tuimenu.h"

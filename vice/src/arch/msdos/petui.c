@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include "menudefs.h"
+#include "resources.h"
 #include "pets.h"
 #include "petui.h"
 #include "tui.h"
