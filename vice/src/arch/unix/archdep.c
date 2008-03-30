@@ -294,4 +294,13 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     return 0;
 }
 
+void archdep_open_monitor_console(FILE **mon_input, FILE **mon_output)
+{
+    *mon_output = stdout;
+    *mon_input = stdin;
+}
+
+void archdep_close_monitor_console(FILE *mon_input, FILE *mon_output)
+{
+}
 

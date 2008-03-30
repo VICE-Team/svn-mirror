@@ -31,8 +31,11 @@
 
 #include <stdarg.h>
 
+/* Program start and signals.  */
 extern int archdep_startup(int *argc, char **argv);
+extern void archdep_setup_signals(int do_core_dumps);
 
+/* Filesystem related functions.  */
 extern const char *archdep_program_name(void);
 extern const char *archdep_boot_path(void);
 extern const char *archdep_default_sysfile_pathlist(const char *emu_id);
@@ -55,10 +58,12 @@ extern int archdep_default_logger(const char *level_string, const char *format,
 extern int archdep_spawn(const char *name, char **argv,
                          const char *stdout_redir, const char *stderr_redir);
 
+/* Monitor console functions.  */
+extern void archdep_open_monitor_console(FILE **mon_input, FILE **mon_output);
+extern void archdep_close_monitor_console(FILE *mon_input, FILE *mon_output);
+
 extern int archdep_num_text_lines(void);
 extern int archdep_num_text_columns(void);
-
-extern void archdep_setup_signals(int do_core_dumps);
 
 #endif
 

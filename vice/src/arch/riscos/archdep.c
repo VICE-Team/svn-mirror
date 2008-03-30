@@ -49,7 +49,7 @@ char *archdep_program_name(void)
 
   if (machine_name != NULL)
   {
-    if ((name = (char*)malloc(strlen("Vice") + strlen(machine_name) + 1)) != NULL)
+    if ((name = (char*)xmalloc(strlen("Vice") + strlen(machine_name) + 1)) != NULL)
       sprintf(name, "Vice%s", machine_name);
   }
 
@@ -80,7 +80,7 @@ char *archdep_default_resource_file_name(void)
 
   basename = (machine_name == NULL) ? "DRIVES" : (char*)machine_name;
 
-  if ((name = (char*)malloc(strlen("Vice:.vicerc") + strlen(basename) + 1)) != NULL)
+  if ((name = (char*)xmalloc(strlen("Vice:.vicerc") + strlen(basename) + 1)) != NULL)
      sprintf(name, "Vice:%s.vicerc", basename);
 
   return name;
@@ -97,7 +97,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
   char *name;
 
-  if ((name = (char*)malloc(strlen("Vice:") + strlen(emu_id) + 2)) != NULL)
+  if ((name = (char*)xmalloc(strlen("Vice:") + strlen(emu_id) + 2)) != NULL)
     sprintf(name, "Vice:%s.", emu_id);
 
   return name;
@@ -149,7 +149,7 @@ char *readline(const char *prompt)
   if ((len <= 0) || (readbuffer[0] < 32)) return NULL;
   readbuffer[len] = '\0';
 
-  retbuf = (char*)malloc(strlen(readbuffer) + 1);
+  retbuf = (char*)xmalloc(strlen(readbuffer) + 1);
   strcpy(retbuf, readbuffer);
 
   return retbuf;
@@ -197,8 +197,16 @@ int archdep_spawn(const char *name, char **argv,
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
     /* Always treat it as the full pathname... */
-    *return_path = (char*)malloc(strlen(orig_name) + 1);
+    *return_path = (char*)xmalloc(strlen(orig_name) + 1);
     strcpy(*return_path, orig_name);
     return 0;
+}
+
+void archdep_open_monitor_console(FILE **mon_input, FILE **mon_output)
+{
+}
+
+void archdep_close_monitor_console(FILE *mon_input, FILE *mon_output)
+{
 }
 
