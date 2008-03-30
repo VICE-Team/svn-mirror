@@ -42,6 +42,7 @@ struct video_canvas_s {
     char *title;
     unsigned int width, height, depth;
     struct video_render_config_s *videoconfig;
+    struct draw_buffer_s *draw_buffer;
     canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
 	
