@@ -1,3 +1,41 @@
+1999-04-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.61.
+
+	* arch/msdos/menudefs.c: Fixed shortcuts for drive type menu.
+
+	* arch/msdos/menudefs.c, arch/msdos/menudefs.h,
+	arch/msdos/c64ui.c: Some ROM set stuff.
+
+1998-04-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* pet/petsound.c (petsnd_reset): call sound_reset
+	(sound_machine_reset): new function
+
+	* sid/resid.h, sid/resid.cc (resid_sound_machine_reset): new function
+	and prototype
+
+	* sid/sid.c (sid_reset): call sound_reset
+	(sound_machine_reset): new function
+
+	* sound.c (sound_reset): new function. calls sound_machine_reset
+	when psid pointer available
+
+	* sound.h (sound_reset, sound_machine_reset): new prototypes
+
+	* vic20/vic.c (store_vic): replace store_sound with store_vic_sound
+
+	* vic20/vic20.c (machine_reset): replace sound_reset with 
+	sound_vic_reset
+
+	* vic20/vic20sound.c (sound_vic_reset): renamed from sound_reset,
+	call new sound_reset function
+	(store_vic_sound); renamed from store_sound
+	(sound_machine_reset): new function
+
+	* vic20/vic20sound.h (store_sound, sound_reset): removed prototypes
+	(store_vic_sound, vic_sound_reset): new prototypes
+
 1999-04-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.60.
