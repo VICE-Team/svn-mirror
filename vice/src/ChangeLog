@@ -1,3 +1,21 @@
+2001-12-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.50.
+
+	* vic20/vic-draw.c (fill_cache, draw_line_cached,
+	draw_reverse_line_cached,  draw_line_cached_2x,
+	draw_reverse_line_cached_2x): Fixed start and end changes
+	coordinates calculation.
+
+	* raster/raster.c (add_line_and_double_scan): Update the
+	region between `start' and `end' and not the whole line if
+	`VIDEO_REMOVE_2X' is undefined too.
+	(raster_screenshot): Always use a pixel size of one if
+	`VIDEO_REMOVE_2X' is defined.
+
+	* crtc/crtc.c (crtc_raster_draw_alarm_handler): Change xoffset
+	only at line 0.
+
 2001-12-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.49.

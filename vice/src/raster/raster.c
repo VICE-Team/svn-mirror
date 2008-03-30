@@ -544,9 +544,7 @@ inline static void add_line_and_double_scan(raster_t *raster,
 #ifndef VIDEO_REMOVE_2X
     unsigned int pixel_width;
 
-    add_line_to_area(&raster->update_area,
-                     raster->current_line,
-                     0, raster->geometry.screen_size.width - 1);
+    add_line_to_area(&raster->update_area, raster->current_line, start, end);
 
     if (raster->viewport.pixel_size.height != 2 || !raster->do_double_scan)
         return;
@@ -1844,12 +1842,17 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
     screenshot->max_width = raster->geometry.screen_size.width;
     screenshot->max_height = raster->geometry.screen_size.height;
     screenshot->x_offset = raster->geometry.extra_offscreen_border;
+#ifndef VIDEO_REMOVE_2X
     screenshot->size_width = raster->viewport.pixel_size.width;
     screenshot->size_height = raster->viewport.pixel_size.height;
+#else
+    screenshot->size_width = 1;
+    screenshot->size_height = 1;
+#endif
     screenshot->first_displayed_line = raster->geometry.first_displayed_line;
     screenshot->last_displayed_line = raster->geometry.last_displayed_line;
     screenshot->first_displayed_col = raster->geometry.extra_offscreen_border
-        +raster->viewport.first_x;
+                                      + raster->viewport.first_x;
     return 0;
 }
 
