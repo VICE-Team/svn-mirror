@@ -1498,11 +1498,7 @@
 #endif
 
     {
-/* CPU128 doesn't need this variable */
-#ifndef _C128CPU_C
         opcode_t opcode;
-#endif
-
         FETCH_OPCODE(opcode);
 
 #if defined(TRACE)
