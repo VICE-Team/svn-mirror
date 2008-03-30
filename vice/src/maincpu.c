@@ -270,7 +270,7 @@ mos6510_regs_t maincpu_regs;
 /* Trace flag.  Set this to a nonzero value from a debugger to trace the 6510
    instructions being executed.  */
 #ifdef TRACE
-int traceflg;
+int traceflg = 1;
 #endif
 
 /* ------------------------------------------------------------------------- */
