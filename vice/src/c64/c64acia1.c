@@ -52,7 +52,7 @@
 
 #define	mycpu_alarm_context maincpu_alarm_context
 #define	mycpu_set_int maincpu_set_irq
-#define	mycpu_set_int_noclk maincpu_set_int_noclk
+#define	mycpu_set_int_noclk maincpu_set_int
 
 #include "aciacore.c"
 
