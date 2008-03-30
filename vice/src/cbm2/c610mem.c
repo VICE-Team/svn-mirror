@@ -572,7 +572,7 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 
 void REGPARM2 store_io(ADDRESS addr, BYTE value)
 {
-    switch(addr & 0xf800) {
+    switch (addr & 0xf800) {
       case 0xd000:
         rom_store(addr, value);         /* video RAM mapped here... */
         if (isC500 && (addr >= 0xd400)) {
@@ -1228,7 +1228,7 @@ static BYTE peek_bank_io(ADDRESS addr)
             if (isC500) {
                 return vic_peek(addr);
             } else {
-               return crtc_read(addr);
+                return crtc_read(addr);
             }
           case 0xd900:
             return read_unused(addr);
@@ -1284,15 +1284,15 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
 {
     switch (bank) {
       case 17:                  /* current */
-          return mem_read(addr);
+        return mem_read(addr);
       case 16:                   /* romio */
-          if (addr >= 0xd000 && addr < 0xe000)
-              return read_io(addr);
-          return _mem_read_tab[15][addr >> 8](addr);
+        if (addr >= 0xd000 && addr < 0xe000)
+            return read_io(addr);
+        return _mem_read_tab[15][addr >> 8](addr);
       default:
-          if (bank >=0 && bank <15) {
-              return read_ram_tab[bank](addr);
-          }
+        if (bank >=0 && bank <15) {
+            return read_ram_tab[bank](addr);
+        }
     }
     return read_unused(addr);
 }
