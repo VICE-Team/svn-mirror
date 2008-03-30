@@ -1,6 +1,34 @@
+2001-10-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.9.
+
+	* vicii/vicii-mem.c (store_d030): New function.
+
+	* vdc/vdc.c (vdc_raster_draw_alarm_handler): Added hock to
+	flush the cache.
+
+	* vdc/vdc-mem.c: Added support for vblank bit and added
+	register #1 emulation.
+
+	* vdc/vdctypes.h: Added `screen_text_cols' and
+	`force_cache_flush' to `vdc_t'.
+
+	* raster/raster.c, raster/raster.h (raster_invalidate_cache):
+	New function.
+
+	* raster/raster-cache.c (raster_cache_init): Clear entire
+	cache.
+
+2001-10-02 Andreas Matthies <andreas.matthies@gmx.net> 
+
+	* arch/win32/sid.dsp: added sid-engine.c to MSVC project file
+
+	* vicii/vicii-sprites.c (draw_hires_sprite, draw_mc_sprite):
+	added initialization for some local variables
+
 2001-10-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-        * Version 1.7.8.
+	* Version 1.7.8.
 
 	* ciacore.c (mycia_store): Pass real clock value to
 	`store_ciapa' and `store_ciapb'.

@@ -4,6 +4,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,29 +27,34 @@
 
 #include "vice.h"
 
-#include "utils.h"
+#include <string.h>
 
 #include "raster-cache.h"
+#include "utils.h"
 
-void raster_cache_init (raster_cache_t * cache)
+void raster_cache_init(raster_cache_t *cache)
 {
-  unsigned int i;
+    unsigned int i;
 
-  for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++)
-    raster_sprite_cache_init (&(cache->sprites[i]));
+    for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++)
+        raster_sprite_cache_init(&(cache->sprites[i]));
 
-  for (i = 0; i < RASTER_CACHE_MAX_TEXTCOLS; i++)
-    cache->background_data[i] = 0;
+    memset(cache->background_data, 0, RASTER_CACHE_MAX_TEXTCOLS);
+    memset(cache->foreground_data, 0, RASTER_CACHE_MAX_TEXTCOLS);
+    memset(cache->color_data_1, 0, RASTER_CACHE_MAX_TEXTCOLS);
+    memset(cache->color_data_2, 0, RASTER_CACHE_MAX_TEXTCOLS);
+    memset(cache->color_data_3, 0, RASTER_CACHE_MAX_TEXTCOLS);
 
-  cache->is_dirty = 1;
+    cache->is_dirty = 1;
 }
 
-raster_cache_t *raster_cache_new (void)
+raster_cache_t *raster_cache_new(void) 
 {
-  raster_cache_t *new;
+    raster_cache_t *new_cache;
 
-  new = xmalloc (sizeof (raster_cache_t));
-  raster_cache_init (new);
+    new_cache = (raster_cache_t *)xmalloc(sizeof(raster_cache_t));
+    raster_cache_init(new_cache);
 
-  return new;
+    return new_cache;
 }
+
