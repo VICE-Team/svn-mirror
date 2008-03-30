@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "log.h"
 #include "t64.h"
 #include "types.h"
 #include "utils.h"
@@ -50,8 +51,9 @@ static DWORD get_number(BYTE *p, unsigned int n)
 
     weight = 1;
     retval = 0;
+
     for (i = 0; i < n; i++, p++) {
-        retval |= *p * weight;
+        retval |= (DWORD)(*p * weight);
         weight <<= 8;
     }
 
@@ -83,7 +85,7 @@ int t64_header_read(t64_header_t *hdr, FILE *fd)
         return -1;
 
     hdr->version = get_number(buf + T64_HDR_VERSION_OFFSET,
-                              T64_HDR_VERSION_LEN);
+                              (unsigned int)T64_HDR_VERSION_LEN);
 
     /* We could make a version check, but there are way too many images with
        broken version number out there for us to trust it.  */
@@ -93,7 +95,7 @@ int t64_header_read(t64_header_t *hdr, FILE *fd)
 #endif
 
     hdr->num_entries = get_number(buf + T64_HDR_NUMENTRIES_OFFSET,
-                                  T64_HDR_NUMENTRIES_LEN);
+                                  (unsigned int)T64_HDR_NUMENTRIES_LEN);
     if (hdr->num_entries == 0) {
         /* XXX: The correct behavior here would be to reject it, but there
            are so many broken T64 images out there, that it's better if we
@@ -102,7 +104,7 @@ int t64_header_read(t64_header_t *hdr, FILE *fd)
     }
 
     hdr->num_used = get_number(buf + T64_HDR_NUMUSED_OFFSET,
-                               T64_HDR_NUMUSED_LEN);
+                               (unsigned int)T64_HDR_NUMUSED_LEN);
     if (hdr->num_used > hdr->num_entries)
         return -1;
 
@@ -123,9 +125,9 @@ int t64_file_record_read(t64_file_record_t *rec, FILE *fd)
     memcpy(rec->cbm_name, buf + T64_REC_CBMNAME_OFFSET, T64_REC_CBMNAME_LEN);
     rec->cbm_type = buf[T64_REC_CBMTYPE_OFFSET];
     rec->start_addr = get_number(buf + T64_REC_STARTADDR_OFFSET,
-                                 T64_REC_STARTADDR_LEN);
+                                 (unsigned int)T64_REC_STARTADDR_LEN);
     rec->end_addr = get_number(buf + T64_REC_ENDADDR_OFFSET,
-                               T64_REC_ENDADDR_LEN);
+                               (unsigned int)T64_REC_ENDADDR_LEN);
     rec->contents = get_number(buf + T64_REC_CONTENTS_OFFSET,
                                T64_REC_CONTENTS_LEN);
 
@@ -276,10 +278,12 @@ t64_file_record_t *t64_get_file_record(t64_t *t64, unsigned int num)
 
 t64_file_record_t *t64_get_current_file_record(t64_t *t64)
 {
-    return t64_get_file_record(t64, t64->current_file_number);
+    if (t64->current_file_number < 0)
+        log_error(LOG_ERR, "T64: Negative file number.");
+    return t64_get_file_record(t64, (unsigned int)(t64->current_file_number));
 }
 
-int t64_read(t64_t *t64, BYTE *buf, int size)
+int t64_read(t64_t *t64, BYTE *buf, size_t size)
 {
     t64_file_record_t *rec;
     int recsize;
