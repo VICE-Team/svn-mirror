@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-11-27 18:10+0100\n"
+"POT-Creation-Date: 2005-12-11 13:44+0100\n"
 "PO-Revision-Date: 2005-09-28 17:52+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -14,39 +14,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
 
-#: src/vsync.c:139 src/sid/sid-cmdline-options.c:123
+#: src/vsync.c:140 src/sid/sid-cmdline-options.c:123
 #: src/sid/sid-cmdline-options.c:126
 msgid "<percent>"
 msgstr "<procent>"
 
-#: src/vsync.c:139
+#: src/vsync.c:140
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
-#: src/vsync.c:141 src/sound.c:247 src/sound.c:249 src/debug.c:205
+#: src/vsync.c:142 src/sound.c:247 src/sound.c:249 src/debug.c:205
 #: src/c64/cart/ide64.c:270 src/c64/cart/ide64.c:272 src/c64/cart/ide64.c:274
-#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:134
-#: src/gfxoutputdrv/ffmpegdrv.c:137 src/mouse.c:97 src/ram.c:101
+#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:198
+#: src/gfxoutputdrv/ffmpegdrv.c:201 src/mouse.c:97 src/ram.c:101
 msgid "<value>"
 msgstr "<värde>"
 
-#: src/vsync.c:141
+#: src/vsync.c:142
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
-#: src/vsync.c:143
+#: src/vsync.c:144
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
-#: src/vsync.c:145
+#: src/vsync.c:146
 msgid "Disable warp mode"
 msgstr "Inaktivera warpläge"
 
-#: src/vsync.c:460
+#: src/vsync.c:462
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
-#: src/screenshot.c:162
+#: src/screenshot.c:171
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Endast en inspelning kan göras åt gången."
 
@@ -252,55 +252,55 @@ msgstr "misslyckades skriva till ljudenheten."
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
-#: src/event.c:213
+#: src/event.c:222
 #, c-format
 msgid "Cannot create image file %s"
 msgstr "Kan inte skapa avbildningsfil %s"
 
-#: src/event.c:222
+#: src/event.c:231
 #, c-format
 msgid "Cannot write image file %s"
 msgstr "Kan inte skriva avbildningsfil %s"
 
-#: src/event.c:234
+#: src/event.c:243
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Kan inte kopplat namn för %s"
 
-#: src/event.c:586
+#: src/event.c:618
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kunde inte skapa startögonblicksbildfilen %s."
 
-#: src/event.c:605 src/event.c:899
+#: src/event.c:637 src/event.c:931
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fel vid läsning av slutögonblicksbildfilen %s."
 
-#: src/event.c:672 src/event.c:866
+#: src/event.c:704 src/event.c:898
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kunde inte skapa slutögonblicksbildfilen %s."
 
-#: src/event.c:740
+#: src/event.c:772
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kunde inte öppna slutögonblicksbildfilen %s."
 
-#: src/event.c:755
+#: src/event.c:787
 msgid "Could not find event section in end snapshot file."
 msgstr "Kunde inte hinna händelsedelen i slutögonblicksbilden."
 
-#: src/event.c:779
+#: src/event.c:811
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"
 
-#: src/event.c:809
+#: src/event.c:841
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
-#: src/event.c:1190
+#: src/event.c:1222
 msgid "Playback recorded events"
 msgstr "Spela upp inspelade händelser"
 
@@ -363,57 +363,57 @@ msgstr "Återspelningsfel: %s inte lika som rad %d i filen debug%06d"
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Ange RS232-enhet denna ACIA skall arbeta på"
 
-#: src/attach.c:158 src/attach.c:161 src/attach.c:164 src/attach.c:167
+#: src/attach.c:159 src/attach.c:162 src/attach.c:165 src/attach.c:168
 #: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:124
 #: src/printerdrv/interface-serial.c:127
 msgid "<type>"
 msgstr "<typ>"
 
-#: src/attach.c:159
+#: src/attach.c:160
 msgid "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 8 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
-#: src/attach.c:162
+#: src/attach.c:163
 msgid "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 9 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
-#: src/attach.c:165
+#: src/attach.c:166
 msgid "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
-#: src/attach.c:168
+#: src/attach.c:169
 msgid "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 11 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
-#: src/attach.c:171
+#: src/attach.c:172
 msgid "Attach disk image for drive #8 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 8 med skrivskydd"
 
-#: src/attach.c:174
+#: src/attach.c:175
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 8 skrivbar (om möjligt)"
 
-#: src/attach.c:177
+#: src/attach.c:178
 msgid "Attach disk image for drive #9 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 9 med skrivskydd"
 
-#: src/attach.c:180
+#: src/attach.c:181
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 9 skrivbar (om möjligt)"
 
-#: src/attach.c:183
+#: src/attach.c:184
 msgid "Attach disk image for drive #10 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 10 med skrivskydd"
 
-#: src/attach.c:186
+#: src/attach.c:187
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 10 skrivbar (om möjligt)"
 
-#: src/attach.c:189
+#: src/attach.c:190
 msgid "Attach disk image for drive #11 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 11 med skrivskydd"
 
-#: src/attach.c:192
+#: src/attach.c:193
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 11 skrivbar (om möjligt)"
 
@@ -1112,23 +1112,23 @@ msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 10"
 msgid "Use <name> as directory for file system device #11"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 11"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:134
+#: src/gfxoutputdrv/ffmpegdrv.c:198
 msgid "Set bitrate for audio stream in media file"
 msgstr "Ange bithastighet för ljudström i mediafil"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:137
+#: src/gfxoutputdrv/ffmpegdrv.c:201
 msgid "Set bitrate for video stream in media file"
 msgstr "Ange bithastighet för videoström i mediafil"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:492
+#: src/gfxoutputdrv/ffmpegdrv.c:559
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr "ffmpegdrv: Kan inte öppna videoström"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:497
+#: src/gfxoutputdrv/ffmpegdrv.c:564
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr "ffmpegdrv: Kan inte öppna ljudström"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:506
+#: src/gfxoutputdrv/ffmpegdrv.c:573
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Kan inte öppna %s"

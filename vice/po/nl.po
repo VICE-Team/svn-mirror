@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.17\n"
-"POT-Creation-Date: 2005-11-27 18:10+0100\n"
+"POT-Creation-Date: 2005-12-11 13:44+0100\n"
 "PO-Revision-Date: 2005-09-18 11:20+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -15,39 +15,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
 
-#: src/vsync.c:139 src/sid/sid-cmdline-options.c:123
+#: src/vsync.c:140 src/sid/sid-cmdline-options.c:123
 #: src/sid/sid-cmdline-options.c:126
 msgid "<percent>"
 msgstr "<procent>"
 
-#: src/vsync.c:139
+#: src/vsync.c:140
 msgid "Limit emulation speed to specified value"
 msgstr "Limiteer emulatie snelheid tot de opgegeven waarde"
 
-#: src/vsync.c:141 src/sound.c:247 src/sound.c:249 src/debug.c:205
+#: src/vsync.c:142 src/sound.c:247 src/sound.c:249 src/debug.c:205
 #: src/c64/cart/ide64.c:270 src/c64/cart/ide64.c:272 src/c64/cart/ide64.c:274
-#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:134
-#: src/gfxoutputdrv/ffmpegdrv.c:137 src/mouse.c:97 src/ram.c:101
+#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:198
+#: src/gfxoutputdrv/ffmpegdrv.c:201 src/mouse.c:97 src/ram.c:101
 msgid "<value>"
 msgstr "<waarde>"
 
-#: src/vsync.c:141
+#: src/vsync.c:142
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Elke <waarde> beeld vernieuwen (`0' voor automatisch)"
 
-#: src/vsync.c:143
+#: src/vsync.c:144
 msgid "Enable warp mode"
 msgstr "Aktiveer warp modus"
 
-#: src/vsync.c:145
+#: src/vsync.c:146
 msgid "Disable warp mode"
 msgstr "Warp modus afsluiten"
 
-#: src/vsync.c:460
+#: src/vsync.c:462
 msgid "Your machine is too slow for current settings!"
 msgstr "Uw machine is te traag voor de huidige instellingen!"
 
-#: src/screenshot.c:162
+#: src/screenshot.c:171
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Sorry. Meerdere opnames wordt niet ondersteund."
 
@@ -253,57 +253,57 @@ msgstr "schrijf actie naar geluidsapparaat faalt."
 msgid "store to sounddevice failed."
 msgstr "opslag naar geluidsapparaat faalt."
 
-#: src/event.c:213
+#: src/event.c:222
 #, c-format
 msgid "Cannot create image file %s"
 msgstr "Kan bestand `%s' niet maken."
 
-#: src/event.c:222
+#: src/event.c:231
 #, c-format
 msgid "Cannot write image file %s"
 msgstr "Kan niet schrijven naar bestand %s"
 
-#: src/event.c:234
+#: src/event.c:243
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Kan vertaalde naam voor %s niet vinden"
 
-#: src/event.c:586
+#: src/event.c:618
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kon het start momentopname bestand %s niet maken."
 
-#: src/event.c:605 src/event.c:899
+#: src/event.c:637 src/event.c:931
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fout bij het lezen van het eind van het momentopname bestand %s."
 
-#: src/event.c:672 src/event.c:866
+#: src/event.c:704 src/event.c:898
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kon het eind momentopname bestand %s niet maken."
 
-#: src/event.c:740
+#: src/event.c:772
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kon het eind momentopname bestand %s niet openen."
 
-#: src/event.c:755
+#: src/event.c:787
 msgid "Could not find event section in end snapshot file."
 msgstr "Kon de gebeurtenis sectie in eind momentopname bestand niet vinden."
 
-#: src/event.c:779
+#: src/event.c:811
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Fout bij het lezen van het start momentopname bestand. Heb %s en %s "
 "geprobeerd"
 
-#: src/event.c:809
+#: src/event.c:841
 msgid "Error reading start snapshot file."
 msgstr "Fout bij het lezen van het start momentopname bestand."
 
-#: src/event.c:1190
+#: src/event.c:1222
 msgid "Playback recorded events"
 msgstr "Afspelen opgenomen gebeurtenissen"
 
@@ -366,61 +366,61 @@ msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Geef het RS232 apparaat waarmee deze ACIA moet werken"
 
-#: src/attach.c:158 src/attach.c:161 src/attach.c:164 src/attach.c:167
+#: src/attach.c:159 src/attach.c:162 src/attach.c:165 src/attach.c:168
 #: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:124
 #: src/printerdrv/interface-serial.c:127
 msgid "<type>"
 msgstr "<soort>"
 
-#: src/attach.c:159
+#: src/attach.c:160
 msgid "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
 "Zet het apparaat soort voor apparaat #8 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
 
-#: src/attach.c:162
+#: src/attach.c:163
 msgid "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
 "Zet het apparaat soort voor apparaat #9 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
 
-#: src/attach.c:165
+#: src/attach.c:166
 msgid "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
 "Zet het apparaat soort voor apparaat #10 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
 
-#: src/attach.c:168
+#: src/attach.c:169
 msgid "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
 "Zet het apparaat soort voor apparaat #11 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
 
-#: src/attach.c:171
+#: src/attach.c:172
 msgid "Attach disk image for drive #8 read only"
 msgstr "Koppel disk bestand voor station #8 als alleen lezen"
 
-#: src/attach.c:174
+#: src/attach.c:175
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Koppel disk bestand voor station #8 als schrijfbaar (indien mogelijk)"
 
-#: src/attach.c:177
+#: src/attach.c:178
 msgid "Attach disk image for drive #9 read only"
 msgstr "Koppel disk bestand voor station #9 als alleen lezen"
 
-#: src/attach.c:180
+#: src/attach.c:181
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Koppel disk bestand voor station #9 als schrijfbaar (indien mogelijk)"
 
-#: src/attach.c:183
+#: src/attach.c:184
 msgid "Attach disk image for drive #10 read only"
 msgstr "Koppel disk bestand voor station #10 als alleen lezen"
 
-#: src/attach.c:186
+#: src/attach.c:187
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Koppel disk bestand voor station #10 als schrijfbaar (indien mogelijk)"
 
-#: src/attach.c:189
+#: src/attach.c:190
 msgid "Attach disk image for drive #11 read only"
 msgstr "Koppel disk bestand voor station #11 als alleen lezen"
 
-#: src/attach.c:192
+#: src/attach.c:193
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Koppel disk bestand voor station #11 als schrijfbaar (indien mogelijk)"
 
@@ -1114,23 +1114,23 @@ msgstr "Gebruik <naam> als directory voor file system apparaat #10"
 msgid "Use <name> as directory for file system device #11"
 msgstr "Gebruik <naam> als directory voor file system apparaat #11"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:134
+#: src/gfxoutputdrv/ffmpegdrv.c:198
 msgid "Set bitrate for audio stream in media file"
 msgstr "Zet de bitrate voor het audio gedeelte van het media bestand"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:137
+#: src/gfxoutputdrv/ffmpegdrv.c:201
 msgid "Set bitrate for video stream in media file"
 msgstr "Zet de bitrate voor het video gedeelte van het media bestand"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:492
+#: src/gfxoutputdrv/ffmpegdrv.c:559
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr ""
 
-#: src/gfxoutputdrv/ffmpegdrv.c:497
+#: src/gfxoutputdrv/ffmpegdrv.c:564
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr ""
 
-#: src/gfxoutputdrv/ffmpegdrv.c:506
+#: src/gfxoutputdrv/ffmpegdrv.c:573
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr ""
