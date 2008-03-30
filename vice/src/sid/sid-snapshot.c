@@ -38,15 +38,16 @@
 #include "types.h"
 
 
-static char snap_module_name[] = "SID";
-#define SNAP_MAJOR 1
-#define SNAP_MINOR 0
+static const char snap_module_name_simple[] = "SID";
+#define SNAP_MAJOR_SIMPLE 1
+#define SNAP_MINOR_SIMPLE 0
 
-int sid_snapshot_write_module(snapshot_t *s)
+static int sid_snapshot_write_module_simple(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name_simple, SNAP_MAJOR_SIMPLE,
+                               SNAP_MINOR_SIMPLE);
     if (m == NULL)
         return -1;
 
@@ -60,30 +61,125 @@ int sid_snapshot_write_module(snapshot_t *s)
     return 0;
 }
 
-int sid_snapshot_read_module(snapshot_t *s)
+static int sid_snapshot_read_module_simple(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
 
     sound_close();
 
-    m = snapshot_module_open(s, snap_module_name,
+    m = snapshot_module_open(s, snap_module_name_simple,
                              &major_version, &minor_version);
     if (m == NULL)
         return -1;
 
-    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+    if (major_version > SNAP_MAJOR_SIMPLE
+        || minor_version > SNAP_MINOR_SIMPLE) {
         log_error(LOG_DEFAULT,
                   "SID: Snapshot module version (%d.%d) newer than %d.%d.\n",
                   major_version, minor_version,
-                  SNAP_MAJOR, SNAP_MINOR);
+                  SNAP_MAJOR_SIMPLE, SNAP_MINOR_SIMPLE);
         return snapshot_module_close(m);
     }
 
     /* FIXME: Only data for first SID read. */
-    if (SMR_BA(m, sid_get_siddata(0), 32) < 0)
+    if (SMR_BA(m, sid_get_siddata(0), 32) < 0) {
+        snapshot_module_close(m);
         return -1;
+    }
 
     return snapshot_module_close(m);
+}
+
+static const char snap_module_name_extended[] = "SIDEXTENDED";
+#define SNAP_MAJOR_EXTENDED 1
+#define SNAP_MINOR_EXTENDED 0
+
+static int sid_snapshot_write_module_extended(snapshot_t *s)
+{
+    snapshot_module_t *m;
+    sid_snapshot_state_t sid_state;
+
+    sid_state_read(0, &sid_state);
+
+    m = snapshot_module_create(s, snap_module_name_extended,
+                               SNAP_MAJOR_EXTENDED, SNAP_MINOR_EXTENDED);
+    if (m == NULL)
+        return -1;
+
+    if (SMW_BA(m, sid_state.sid_register, 32) < 0
+        || SMW_B(m, sid_state.bus_value) < 0
+        || SMW_DW(m, sid_state.bus_value_ttl) < 0
+        || SMW_DWA(m, sid_state.accumulator, 3) < 0
+        || SMW_DWA(m, sid_state.shift_register, 3) < 0
+        || SMW_WA(m, sid_state.rate_counter, 3) < 0
+        || SMW_WA(m, sid_state.exponential_counter, 3) < 0
+        || SMW_BA(m, sid_state.envelope_counter, 3) < 0
+        || SMW_BA(m, sid_state.hold_zero, 3) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+static int sid_snapshot_read_module_extended(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+    sid_snapshot_state_t sid_state;
+
+    m = snapshot_module_open(s, snap_module_name_extended,
+                             &major_version, &minor_version);
+    if (m == NULL)
+        return -1;
+
+    if (major_version > SNAP_MAJOR_EXTENDED
+        || minor_version > SNAP_MINOR_EXTENDED) {
+        log_error(LOG_DEFAULT,
+                  "SID: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                  major_version, minor_version,
+                  SNAP_MAJOR_EXTENDED, SNAP_MINOR_EXTENDED);
+        return snapshot_module_close(m);
+    }
+
+    if (SMR_BA(m, sid_state.sid_register, 32) < 0
+        || SMR_B(m, &(sid_state.bus_value)) < 0
+        || SMR_DW(m, &(sid_state.bus_value_ttl)) < 0
+        || SMR_DWA(m, sid_state.accumulator, 3) < 0
+        || SMR_DWA(m, sid_state.shift_register, 3) < 0
+        || SMR_WA(m, sid_state.rate_counter, 3) < 0
+        || SMR_WA(m, sid_state.exponential_counter, 3) < 0
+        || SMR_BA(m, sid_state.envelope_counter, 3) < 0
+        || SMR_BA(m, sid_state.hold_zero, 3) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    sid_state_write(0, &sid_state);
+
+    return snapshot_module_close(m);
+}
+
+int sid_snapshot_write_module(snapshot_t *s)
+{
+    if (sid_snapshot_write_module_simple(s) < 0)
+        return -1;
+
+    if (sid_snapshot_write_module_extended(s) < 0)
+        return -1;
+
+    return 0;
+}
+
+int sid_snapshot_read_module(snapshot_t *s)
+{
+    if (sid_snapshot_read_module_simple(s) < 0)
+        return -1;
+
+    sid_snapshot_read_module_extended(s);
+
+    return 0;
 }
 
