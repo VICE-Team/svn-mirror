@@ -207,9 +207,11 @@ void datasette_control(int command)
             last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_RECORD:
-            current_image->mode = DATASETTE_CONTROL_RECORD;
-            datasette_set_tape_sense(1);
-            last_write_clk = (CLOCK)0;
+            if (current_image->read_only == 0) {
+                current_image->mode = DATASETTE_CONTROL_RECORD;
+                datasette_set_tape_sense(1);
+                last_write_clk = (CLOCK)0;
+            }
             break;
           case DATASETTE_CONTROL_RESET:
             break;
