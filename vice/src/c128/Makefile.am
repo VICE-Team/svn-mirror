@@ -12,6 +12,8 @@ INCLUDES = \
 noinst_LIBRARIES = libc128.a
 
 libc128_a_SOURCES = \
+	c128-resources.c \
+	c128-resources.h \
 	c128.c \
 	c128.h \
 	c128cia1.c \
