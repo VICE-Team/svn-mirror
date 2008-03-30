@@ -147,7 +147,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
             free(file);
         } else if (name != NULL
 	    && (s == NULL || strcasecmp(s, name) != 0)
-	    && serial_select_file(DT_TAPE, 1, name) < 0) {
+	    && tape_attach_image(name) < 0) {
 	    tui_error("Invalid tape image.");
 	}
 	ui_update_menus();

@@ -43,7 +43,6 @@
 #include "mem.h"
 #include "resources.h"
 #include "serial.h"
-#include "tape.h"
 #include "ui.h"
 #include "utils.h"
 #include "vdrive.h"
@@ -382,7 +381,7 @@ int autostart_tape(const char *file_name, const char *program_name)
     if (file_name == NULL || !autostart_enabled)
 	return -1;
 
-    if (serial_select_file(DT_TAPE, 1, file_name) < 0) {
+    if (tape_attach_image(file_name) < 0) {
 	warn(pwarn, -1, "cannot attach file '%s' (as a tape)", file_name);
 	autostartmode = AUTOSTART_ERROR;
 	deallocate_program_name();
