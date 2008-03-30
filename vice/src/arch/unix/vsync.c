@@ -31,9 +31,9 @@
 
 #include "vice.h"
 
+#include <signal.h>
 #include <stdio.h>
 #include <sys/time.h>
-#include <signal.h>
 #include <unistd.h>
 
 #include "clkguard.h"
@@ -271,6 +271,7 @@ void vsync_set_machine_parameter(double refresh_rate, long cycles)
 {
     refresh_frequency = refresh_rate;
     cycles_per_sec = cycles;
+    set_timer_speed(relative_speed);
 }
 
 void vsync_init(void (*hook)(void))
