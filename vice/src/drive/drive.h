@@ -119,6 +119,11 @@ typedef struct drive_s {
 
     int led_status;
 
+    CLOCK led_last_change_clk;
+    CLOCK led_last_uiupdate_clk;
+    CLOCK led_active_ticks;
+    unsigned int led_last_pwm;
+
     /* Current half track on which the R/W head is positioned.  */
     int current_half_track;
 
