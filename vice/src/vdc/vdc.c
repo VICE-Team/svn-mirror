@@ -122,7 +122,7 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
 
 static void vdc_invalidate_cache(raster_t *raster, unsigned int screen_height)
 {
-    raster_invalidate_cache(raster, screen_height);
+    raster_new_cache(raster, screen_height);
 }
 
 static int init_raster(void)

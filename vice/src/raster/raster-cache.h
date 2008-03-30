@@ -107,7 +107,11 @@ struct raster_cache_s {
 };
 typedef struct raster_cache_s raster_cache_t;
 
-extern void raster_cache_init(raster_cache_t *cache, unsigned int num_sprites);
+extern void raster_cache_new(raster_cache_t *cache, unsigned int num_sprites);
+extern void raster_cache_destroy(raster_cache_t *cache,
+                                 unsigned int num_sprites);
+extern void raster_cache_realloc(raster_cache_t **cache,
+                                 unsigned int screen_height);
 
 #endif
 

@@ -214,8 +214,7 @@ extern void raster_set_geometry(raster_t *raster,
                                 unsigned int last_displayed_line,
                                 unsigned int extra_offscreen_border_left,
                                 unsigned int extra_offscreen_border_right);
-extern void raster_invalidate_cache(raster_t *raster,
-                                    unsigned int screen_height);
+extern void raster_new_cache(raster_t *raster, unsigned int screen_height);
 extern void raster_draw_buffer_ptr_update(raster_t *raster);
 extern void raster_force_repaint(raster_t *raster);
 extern int raster_set_palette(raster_t *raster, struct palette_s *palette);

@@ -33,7 +33,7 @@
 #include "raster-cache.h"
 
 
-void raster_cache_init(raster_cache_t *cache, unsigned int num_sprites)
+void raster_cache_new(raster_cache_t *cache, unsigned int num_sprites)
 {
     unsigned int i;
 
@@ -51,5 +51,17 @@ void raster_cache_init(raster_cache_t *cache, unsigned int num_sprites)
     memset(cache->color_data_3, 0, RASTER_CACHE_MAX_TEXTCOLS);
 
     cache->is_dirty = 1;
+}
+
+void raster_cache_destroy(raster_cache_t *cache, unsigned int num_sprites)
+{
+    if (num_sprites > 0) {
+        lib_free(cache->gfx_msk);
+    }
+}
+
+void raster_cache_realloc(raster_cache_t **cache, unsigned int screen_height)
+{
+    *cache = lib_realloc(*cache, sizeof(raster_cache_t) * screen_height);
 }
 
