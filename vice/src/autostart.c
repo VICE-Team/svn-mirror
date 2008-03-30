@@ -607,11 +607,12 @@ int autostart_prg(const char *file_name, unsigned int runmode)
 {
     char *directory;
     char *file;
-    fileio_info_t *info;
+    fileio_info_t *finfo;
 
-    info = fileio_info(file_name);
+    finfo = fileio_open(file_name, NULL, FILEIO_FORMAT_RAW | FILEIO_FORMAT_P00,
+                        FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME);
 
-    if (info == NULL) {
+    if (finfo == NULL) {
         log_error(autostart_log, "Cannot open `%s'.", file_name);
         return -1;
     }
@@ -639,11 +640,11 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     ui_update_menus();
 
     /* Now it's the same as autostarting a disk image.  */
-    reboot_for_autostart((char *)(info->name), AUTOSTART_HASDISK, runmode);
+    reboot_for_autostart((char *)(finfo->name), AUTOSTART_HASDISK, runmode);
 
     lib_free(directory);
     lib_free(file);
-    fileio_destroy(info);
+    fileio_destroy(finfo);
 
     log_message(autostart_log, "Preparing to load PRG file `%s'.",
                 file_name);

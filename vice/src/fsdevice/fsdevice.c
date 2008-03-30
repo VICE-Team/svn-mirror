@@ -66,6 +66,7 @@
 #include "attach.h"
 #include "charset.h"
 #include "cmdline.h"
+#include "fileio.h"
 #include "fsdevice-close.h"
 #include "fsdevice-flush.h"
 #include "fsdevice-open.h"
@@ -195,45 +196,6 @@ int fsdevice_error_get_byte(vdrive_t *vdrive, BYTE *data)
     return rc;
 }
 
-void fsdevice_test_pc64_name(vdrive_t *vdrive, char *rname, int secondary)
-{
-    char p00id[8];
-    char p00name[17];
-    char pathname[MAXPATHLEN];
-    FILE *fd;
-    int tmptype;
-
-    tmptype = p00_check_name(rname);
-    if (tmptype >= 0) {
-        strcpy(pathname, fsdevice_get_path(vdrive->unit));
-        strcat(pathname, FSDEV_DIR_SEP_STR);
-        strcat(pathname, rname);
-        fd = fopen(pathname, MODE_READ);
-        if (!fd)
-            return;
-
-        fread((char *)p00id, 8, 1, fd);
-        if (ferror(fd)) {
-            fclose(fd);
-            return;
-        }
-        p00id[7] = '\0';
-        if (!strncmp(p00id, "C64File", 7)) {
-            fread((char *)p00name, 16, 1, fd);
-            if (ferror(fd)) {
-                fclose(fd);
-                return;
-            }
-            fs_info[secondary].type = tmptype;
-            p00name[16] = '\0';
-            strcpy(rname, p00name);
-            fclose(fd);
-            return;
-        }
-        fclose(fd);
-    }
-}
-
 FILE *fsdevice_find_pc64_name(vdrive_t *vdrive, char *name, int length,
                               char *pname)
 {
@@ -316,16 +278,23 @@ void fsdevice_compare_file_name(vdrive_t *vdrive, char *fsname2,
 {
     struct dirent *dirp;
     DIR *dp;
-    char rname[MAXPATHLEN];
 
     dp = opendir(fsdevice_get_path(vdrive->unit));
     do {
+        fileio_info_t *finfo = NULL;
+
         dirp = readdir(dp);
         if (dirp != NULL) {
             if (fsdevice_compare_wildcards(fsname2, dirp->d_name) > 0) {
-                strcpy(rname, dirp->d_name);
-                fsdevice_test_pc64_name(vdrive, rname, secondary);
-                if (strcmp(rname, dirp->d_name) == 0) {
+                finfo = fileio_open(dirp->d_name,
+                                    fsdevice_get_path(vdrive->unit),
+                                    FILEIO_FORMAT_P00 | FILEIO_FORMAT_RAW,
+                                    FILEIO_COMMAND_READ
+                                    | FILEIO_COMMAND_FSNAME);
+                if (finfo == NULL)
+                    continue;
+
+                if (finfo->format == FILEIO_FORMAT_RAW) {
                     strcpy(fsname, fsdevice_get_path(vdrive->unit));
                     strcat(fsname, FSDEV_DIR_SEP_STR);
                     strcat(fsname, dirp->d_name);
@@ -334,8 +303,9 @@ void fsdevice_compare_file_name(vdrive_t *vdrive, char *fsname2,
                 }
             }
         }
-    }
-    while (dirp != NULL);
+        if (finfo != NULL)
+            fileio_destroy(finfo);
+    } while (dirp != NULL);
     closedir(dp);
     return;
 }
