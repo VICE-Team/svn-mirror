@@ -591,13 +591,12 @@ static void drive_jam(drive_context_t *drv)
       case JAM_RESET:
         reg_pc = 0xeaa0;
         drive_set_bank_base(drv);
-        maincpu_trigger_reset();
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
         break;
       case JAM_HARD_RESET:
         reg_pc = 0xeaa0;
         drive_set_bank_base(drv);
-        mem_powerup();
-        maincpu_trigger_reset();
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
         break;
       case JAM_MONITOR:
         caller_space = drv->cpu.monspace;

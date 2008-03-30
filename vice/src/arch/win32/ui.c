@@ -1496,9 +1496,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                 keyboard_clear_keymatrix();
             }
             if ((wparam & 0xffff) == IDM_HARD_RESET) {
-                machine_powerup();
+                machine_trigger_reset(MACHINE_RESET_MODE_HARD);
             } else {
-                maincpu_trigger_reset();
+                machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
             }
         }
         break;

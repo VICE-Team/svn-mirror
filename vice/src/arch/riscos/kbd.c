@@ -37,6 +37,7 @@
 #include "joy.h"
 #include "keyboard.h"
 #include "log.h"
+#include "machine.h"
 #include "ui.h"
 #include "interrupt.h"
 #include "resources.h"
@@ -469,7 +470,7 @@ void kbd_poll(void)
               maincpu_set_nmi(keyboard_int_num, 1);
               break;
             case IntKey_F8:
-              maincpu_trigger_reset();
+              machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
               break;
             case IntKey_F9:
               if (ctrlPressed == 0)

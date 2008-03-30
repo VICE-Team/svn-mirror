@@ -462,7 +462,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     deallocate_program_name();
     if (program_name)
         autostart_program_name = (BYTE *)lib_stralloc(program_name);
-    maincpu_trigger_reset();
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     /* The autostartmode must be set AFTER the shutdown to make the autostart
        threadsafe for OS/2 */
     autostartmode = mode;

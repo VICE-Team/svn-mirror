@@ -336,7 +336,7 @@ void maincpu_mainloop(void)
 
     mem_set_bank_pointer(&bank_base, &bank_limit);
 
-    maincpu_trigger_reset();
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 
     while (1) {
 

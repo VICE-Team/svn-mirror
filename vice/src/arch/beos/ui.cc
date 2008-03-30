@@ -461,10 +461,10 @@ void ui_dispatch_events(void)
 				break;
 			}
 			case MENU_RESET_SOFT:
-				maincpu_trigger_reset();
+				machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 				break;
 			case MENU_RESET_HARD:
-				machine_powerup();
+				machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 				break;
 			case MENU_AUTOSTART:
 				ui_select_file(filepanel,AUTOSTART_FILE,(void*)0);

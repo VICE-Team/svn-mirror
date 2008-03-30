@@ -1175,9 +1175,8 @@ static TUI_MENU_CALLBACK(monitor_callback)
 
 static TUI_MENU_CALLBACK(soft_reset_callback)
 {
-    if (been_activated) {
-        maincpu_trigger_reset();
-    }
+    if (been_activated)
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 
     /* This way, the "Not Really!" item is always the default one.  */
     *become_default = 0;
@@ -1188,7 +1187,7 @@ static TUI_MENU_CALLBACK(soft_reset_callback)
 static TUI_MENU_CALLBACK(hard_reset_callback)
 {
     if (been_activated)
-        machine_powerup();
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 
     /* This way, the "Not Really!" item is always the default one.  */
     *become_default = 0;

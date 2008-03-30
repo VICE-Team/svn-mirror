@@ -1941,7 +1941,7 @@ void ui_issue_reset(int doreset)
 
   for (i=0; i<4; i++) ui_set_drive_leds(i, 0);
 
-  if (doreset != 0) maincpu_trigger_reset();
+  if (doreset != 0) machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 }
 
 

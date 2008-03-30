@@ -38,7 +38,6 @@
 #include "c64mem.h"
 #include "c64ui.h"
 #include "icon.h"
-#include "interrupt.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -87,7 +86,7 @@ static UI_CALLBACK(psid_load)
         }
         psid_init_driver();
         machine_play_psid(0);
-        maincpu_trigger_reset();
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
         vsid_create_menus();
         break;
       default:
@@ -103,7 +102,7 @@ static UI_CALLBACK(psid_tune)
     int tune = *((int *)UI_MENU_CB_PARAM);
     machine_play_psid(tune);
     vsync_suspend_speed_eval();
-    maincpu_trigger_reset();
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 }
 
 

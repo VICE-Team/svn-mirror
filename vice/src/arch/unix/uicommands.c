@@ -336,13 +336,13 @@ static UI_CALLBACK(unit9_reset)
 static UI_CALLBACK(reset)
 {
     vsync_suspend_speed_eval();
-    maincpu_trigger_reset();
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 }
 
 static UI_CALLBACK(powerup_reset)
 {
     vsync_suspend_speed_eval();
-    machine_powerup();
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }
 
 static UI_CALLBACK(browse_manual)
