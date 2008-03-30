@@ -36,15 +36,14 @@
 #include "types.h"
 
 
-fileio_info_t *cbmfile_info(const char *file_name)
+fileio_info_t *cbmfile_info(const char *file_name, const char *path,
+                            unsigned int command)
 {
     BYTE *cbm_name;
-    char *directory;
-    char *file;
     fileio_info_t *info;
     struct rawfile_info_s *rawfile;
 
-    rawfile = rawfile_info(file_name);
+    rawfile = rawfile_open(file_name, path, command & FILEIO_COMMAND_MASK);
 
     if (rawfile == NULL)
         return NULL;
@@ -55,6 +54,7 @@ fileio_info_t *cbmfile_info(const char *file_name)
     info = (fileio_info_t *)lib_malloc(sizeof(fileio_info_t));
     info->name = cbm_name;
     info->type = FILEIO_TYPE_PRG;
+    info->format = FILEIO_FORMAT_RAW;
     info->rawfile = rawfile;
 
     return info;

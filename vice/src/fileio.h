@@ -29,6 +29,15 @@
 
 #include "types.h"
 
+#define FILEIO_COMMAND_READ   0
+#define FILEIO_COMMAND_WRITE  1
+#define FILEIO_COMMAND_APPEND 2
+#define FILEIO_COMMAND_MASK   15
+#define FILEIO_COMMAND_FSNAME 16
+
+#define FILEIO_FORMAT_RAW (1 << 0)
+#define FILEIO_FORMAT_P00 (1 << 1)
+
 #define FILEIO_TYPE_DEL 0
 #define FILEIO_TYPE_SEQ 1
 #define FILEIO_TYPE_PRG 2
@@ -42,11 +51,13 @@ struct fileio_info_s {
     BYTE *name;
     unsigned int length;
     unsigned int type;
+    unsigned int format;
     struct rawfile_info_s *rawfile;
 };
 typedef struct fileio_info_s fileio_info_t;
 
-extern fileio_info_t *fileio_info(const char *file_name);
+extern fileio_info_t *fileio_open(const char *file_name, const char *path,
+                                  unsigned int format, unsigned int command);
 extern void fileio_destroy(fileio_info_t *info);
 
 #endif
