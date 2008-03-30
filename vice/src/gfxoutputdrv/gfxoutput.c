@@ -36,6 +36,7 @@
 #include "log.h"
 #include "utils.h"
 
+
 struct gfxoutputdrv_list_s {
     struct gfxoutputdrv_s *drv;
     struct gfxoutputdrv_list_s *next;
@@ -46,6 +47,7 @@ static gfxoutputdrv_list_t *gfxoutputdrv_list;
 static int gfxoutputdrv_list_count = 0;
 static log_t gfxoutput_log = LOG_ERR;
 static gfxoutputdrv_list_t *gfxoutputdrv_list_iter = NULL;
+
 
 int gfxoutput_num_drivers(void)
 {
