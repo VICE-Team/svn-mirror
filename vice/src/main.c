@@ -130,8 +130,8 @@ static int cmdline_attach(const char *param, void *extra_param)
         startup_disk_images[unit - 8] = stralloc(param);
         break;
       default:
-        fprintf(stderr, "cmdline_attach(): unexpected unit number %d?!\n",
-                unit);
+        archdep_startup_log_error("cmdline_attach(): unexpected unit number %d?!\n",
+                                  unit);
     }
 
     return 0;
@@ -201,46 +201,45 @@ static resource_t resources[] =
 static int init_resources(void)
 {
     if (resources_init(machine_name)) {
-        fprintf(stderr, "Cannot initialize resource handling.\n");
+        archdep_startup_log_error("Cannot initialize resource handling.\n");
         return -1;
     }
     if (log_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize log resource handling.\n");
+        archdep_startup_log_error("Cannot initialize log resource handling.\n");
         return -1;
     }
     if (resources_register(resources) < 0) {
-        fprintf(stderr, "Cannot initialize main resources.\n");
+        archdep_startup_log_error("Cannot initialize main resources.\n");
         return -1;
     }
     if (sysfile_init_resources() < 0) {
-        fprintf(stderr,
-                "Cannot initialize resources for the system file locator.\n");
+        archdep_startup_log_error("Cannot initialize resources for the system file locator.\n");
         return -1;
     }
     if (ui_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize UI-specific resources.\n");
+        archdep_startup_log_error("Cannot initialize UI-specific resources.\n");
         return -1;
     }
     if (file_system_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize file system-specific resources.\n");
+        archdep_startup_log_error("Cannot initialize file system-specific resources.\n");
         return -1;
     }
     /* Initialize file system device-specific resources.  */
     if (fsdevice_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize file system device-specific resources.\n");
+        archdep_startup_log_error("Cannot initialize file system device-specific resources.\n");
         return -1;
     }
     if (machine_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize machine-specific resources.\n");
+        archdep_startup_log_error("Cannot initialize machine-specific resources.\n");
         return -1;
     }
     if (joystick_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize joystick-specific resources.\n");
+        archdep_startup_log_error("Cannot initialize joystick-specific resources.\n");
         return -1;
     }
 #ifdef HAVE_MOUSE
     if (mouse_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize mouse-specific resources.\n");
+        archdep_startup_log_error("Cannot initialize mouse-specific resources.\n");
         return -1;
     }
 #endif
@@ -253,60 +252,52 @@ static int init_cmdline_options(void)
         psid_mode ? psid_cmdline_options : cmdline_options;
 
     if (cmdline_init()) {
-        fprintf(stderr, "Cannot initialize resource handling.\n");
+        archdep_startup_log_error("Cannot initialize resource handling.\n");
         return -1;
     }
     if (log_init_cmdline_options() < 0) {
-        fprintf(stderr,
-                "Cannot initialize log command-line option handling.\n");
+        archdep_startup_log_error("Cannot initialize log command-line option handling.\n");
         return -1;
     }
     if (cmdline_register_options(main_cmdline_options) < 0) {
-        fprintf(stderr, "Cannot initialize main command-line options.\n");
+        archdep_startup_log_error("Cannot initialize main command-line options.\n");
         return -1;
     }
     if (sysfile_init_cmdline_options() < 0) {
-        fprintf(stderr, "Cannot initialize command-line options for system file locator.\n");
+        archdep_startup_log_error("Cannot initialize command-line options for system file locator.\n");
         return -1;
     }
     if (psid_mode) {
         if (machine_init_cmdline_options() < 0) {
-	    fprintf(stderr,
-                    "Cannot initialize machine-specific command-line options.\n");
+            archdep_startup_log_error("Cannot initialize machine-specific command-line options.\n");
 	    return -1;
 	}
 	return 0;
     }
     if (ui_init_cmdline_options() < 0) {
-        fprintf(stderr,
-                "Cannot initialize UI-specific command-line options.\n");
+        archdep_startup_log_error("Cannot initialize UI-specific command-line options.\n");
         return -1;
     }
     if (machine_init_cmdline_options() < 0) {
-        fprintf(stderr,
-                "Cannot initialize machine-specific command-line options.\n");
+        archdep_startup_log_error("Cannot initialize machine-specific command-line options.\n");
         return -1;
     }
     if (fsdevice_init_cmdline_options() < 0) {
-        fprintf(stderr,
-                "Cannot initialize file system-specific command-line options.\n");
+        archdep_startup_log_error("Cannot initialize file system-specific command-line options.\n");
         return -1;
     }
     if (joystick_init_cmdline_options() < 0) {
-        fprintf(stderr,
-                "Cannot initialize joystick-specific command-line options.\n");
+        archdep_startup_log_error("Cannot initialize joystick-specific command-line options.\n");
         return -1;
     }
 #ifdef HAVE_MOUSE
     if (mouse_init_cmdline_options() < 0) {
-        fprintf(stderr,
-                "Cannot initialize mouse-specific command-line options.\n");
+        archdep_startup_log_error("Cannot initialize mouse-specific command-line options.\n");
         return -1;
     }
 #endif
     if (kbd_buf_init_cmdline_options() < 0) {
-        fprintf(stderr,
-                "Cannot initialize keyboard buffer-specific command-line options.\n");
+        archdep_startup_log_error("Cannot initialize keyboard buffer-specific command-line options.\n");
         return -1;
     }
 
@@ -419,7 +410,7 @@ int MAIN_PROGRAM(int argc, char **argv)
        command line somehow, so we call it before parsing the options.
        (e.g. under X11, the `-display' option is handled independently).  */
     if (!console_mode && ui_init(&argc, argv) < 0) {
-        fprintf(stderr, "Cannot initialize the UI.\n");
+        archdep_startup_log_error("Cannot initialize the UI.\n");
         return -1;
     }
 
@@ -439,9 +430,6 @@ int MAIN_PROGRAM(int argc, char **argv)
         int retval = resources_load(NULL);
 
         if (retval < 0) {
-            fprintf(stderr,
-                    "Couldn't load user's configuration file: "
-                    "using default settings.\n\n");
             /* The resource file might contain errors, and thus certain
                resources might have been initialized anyway.  */
             resources_set_defaults();
@@ -449,7 +437,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     }
 
     if (cmdline_parse(&argc, argv) < 0) {
-        fprintf(stderr, "Error parsing command-line options, bailing out.\n");
+        archdep_startup_log_error("Error parsing command-line options, bailing out.\n");
         return -1;
     }
 
@@ -462,14 +450,14 @@ int MAIN_PROGRAM(int argc, char **argv)
     if (argc > 1) {
         int i;
 
-        fprintf(stderr, "Extra arguments on command-line:\n");
+        archdep_startup_log_error("Extra arguments on command-line:\n");
         for (i = 1; i < argc; i++)
-            fprintf(stderr, "\t%s\n", argv[i]);
+            archdep_startup_log_error("\t%s\n", argv[i]);
         return -1;
     }
 
     if (log_init() < 0) {
-        fprintf(stderr, "Cannot startup logging system.\n");
+        archdep_startup_log_error("Cannot startup logging system.\n");
     }
 
     /* VICE boot sequence.  */

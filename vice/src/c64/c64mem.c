@@ -1003,13 +1003,13 @@ int mem_load(void)
 
     rom_loaded = 1;
 
-    if (mem_load_kernal()<0) 
+    if (mem_load_kernal() < 0) 
 	return -1;
 
-    if (mem_load_basic()<0) 
+    if (mem_load_basic() < 0) 
 	return -1;
 
-    if (mem_load_chargen()<0) 
+    if (mem_load_chargen() < 0) 
 	return -1;
 
     return 0;
