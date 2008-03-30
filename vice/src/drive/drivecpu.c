@@ -39,6 +39,7 @@
 #include "alarm.h"
 #include "ciad.h"
 #include "clkguard.h"
+#include "debug.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivemem.h"
@@ -59,10 +60,6 @@
 
 
 #define DRIVE_CPU
-
-/* Define this to enable tracing of drive CPU instructions.
-   Warning: this slows it down!  */
-/* #define TRACE */
 
 static void drive_jam(drive_context_t *drv);
 
@@ -149,7 +146,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
     drv->cpu.d_bank_limit = -1;
     drv->cpu.pageone = NULL;
     sprintf(drv->cpu.snap_module_name, "DRIVECPU%d", drv->mynumber);
-    sprintf(drv->cpu.identification_string, "DRIVE#%d", drv->mynumber+8);
+    sprintf(drv->cpu.identification_string, "DRIVE#%d", drv->mynumber + 8);
     drv->cpu.monitor_interface
         = (monitor_interface_t *)xmalloc(sizeof(monitor_interface_t));
     mi = drv->cpu.monitor_interface;
@@ -483,7 +480,7 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
 #define RMW_FLAG (drv->cpu.rmw_flag)
 #define PAGE_ONE (drv->cpu.pageone)
 #define LAST_OPCODE_INFO (drv->cpu.last_opcode_info)
-#define TRACEFLG (drv->cpu.traceflg)
+#define TRACEFLG (debug.drivecpu_traceflg[drv->mynumber])
 
 #define CPU_INT_STATUS (drv->cpu.int_status)
 
