@@ -47,7 +47,6 @@
 #include "c64tpi.h"
 #include "c64ui.h"
 #include "cartridge.h"
-#include "ciatimer.h"
 #include "clkguard.h"
 #include "datasette.h"
 #include "debug.h"
@@ -393,7 +392,6 @@ int machine_init(void)
     if (!vicii_init(VICII_STANDARD) && !console_mode && !vsid_mode)
         return -1;
 
-    ciat_init_table();
     cia1_init(&(machine_context.cia1));
     cia2_init(&(machine_context.cia2));
 

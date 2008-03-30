@@ -112,10 +112,17 @@ void ciat_print_state(const ciat_t *state)
 
 ciat_tstate_t ciat_table[CIAT_TABLEN];
 
+static unsigned int ciat_init_table_initialized = 0;
+
 void ciat_init_table(void)
 {
     int i;
     ciat_tstate_t tmp;
+
+    if (ciat_init_table_initialized)
+        return;
+
+    ciat_init_table_initialized = 1;
 
     for (i = 0; i < CIAT_TABLEN; i ++) {
 

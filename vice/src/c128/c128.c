@@ -50,7 +50,6 @@
 #include "c64rsuser.h"
 #include "c64tpi.h"
 #include "cartridge.h"
-#include "ciatimer.h"
 #include "clkguard.h"
 #include "datasette.h"
 #include "debug.h"
@@ -462,7 +461,6 @@ int machine_init(void)
     if (vicii_init(VICII_EXTENDED) == NULL)
         return -1;
 
-    ciat_init_table();
     cia1_init(&(machine_context.cia1));
     cia2_init(&(machine_context.cia2));
 

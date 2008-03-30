@@ -31,7 +31,6 @@
 #include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
-#include "ciatimer.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
@@ -333,9 +332,6 @@ int machine_init(void)
     /* Initialize the VIC-I emulation.  */
     if (vic_init() == NULL)
         return -1;
-
-    /* needed for VC1571/1581 emulation */
-    ciat_init_table();
 
     via1_init(&(machine_context.via1));
     via2_init(&(machine_context.via2));

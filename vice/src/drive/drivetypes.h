@@ -29,7 +29,6 @@
 #define _DRIVETYPES_H
 
 #include "cia.h"
-#include "ciatimer.h"
 #include "drive.h"
 #include "mos6510.h"
 #include "riot.h"
