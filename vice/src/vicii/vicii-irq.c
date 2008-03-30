@@ -146,6 +146,7 @@ void vicii_irq_check_state(BYTE value, unsigned int high)
 {
     unsigned int irq_line, line;
     unsigned int old_raster_irq_line;
+    CLOCK old_raster_irq_clk = vicii.raster_irq_clk;
 
     if (high)
         irq_line = (vicii.raster_irq_line & 0xff) | ((value & 0x80) << 1);
@@ -164,6 +165,10 @@ void vicii_irq_check_state(BYTE value, unsigned int high)
         int trigger_irq;
 
         trigger_irq = 0;
+
+        if (old_raster_irq_clk 
+                == VICII_LINE_START_CLK(maincpu_clk) + (line == 0 ? 1 : 0))
+            trigger_irq = 2;
 
         if (maincpu_rmw_flag) {
             if (high) {
@@ -199,8 +204,11 @@ void vicii_irq_check_state(BYTE value, unsigned int high)
         if (vicii.raster_irq_line == line && line != old_raster_irq_line)
             trigger_irq = 1;
 
-        if (trigger_irq)
+        if (trigger_irq == 1)
             vicii_irq_raster_set(maincpu_clk);
+
+        if (trigger_irq == 2)
+            vicii_irq_raster_set(old_raster_irq_clk);
     }
 }
 
