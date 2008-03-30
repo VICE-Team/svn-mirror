@@ -40,6 +40,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
@@ -84,6 +85,7 @@
 #include "resources.h"
 #include "mon.h"
 #include "utils.h"
+#include "kbd.h"
 
 #ifdef AUTOSTART
 #include "autostart.h"
@@ -250,6 +252,10 @@ CallbackFunc(UiLoadResources);
 CallbackFunc(UiSetDefaultResources);
 CallbackFunc(UiToggleSaveResourcesOnExit);
 CallbackFunc(UiToggleTurbo);
+CallbackFunc(UiSetKeymap);
+CallbackFunc(UiLoadKeymap);
+CallbackFunc(UiLoadUserKeymap);
+CallbackFunc(UiDumpKeymap);
 
 #if defined(CBM64) || defined(C128)
 CallbackFunc(UiAttachTape);
@@ -2447,6 +2453,47 @@ CallbackFunc(UiToggleTurbo)
 	app_resources.refreshRate = 25;
     }
     UiUpdateMenus();
+}
+
+CallbackFunc(UiSetKeymap)
+{
+    kbd_load_keymap((char*)client_data);
+}
+
+CallbackFunc(UiLoadKeymap)
+{
+    kbd_load_keymap((char*)client_data);
+}
+
+CallbackFunc(UiLoadUserKeymap)
+{
+    char *filename;
+    UiButton button;
+    suspend_speed_eval();
+    filename = UiFileSelect("Read Keymap File", NULL, False, &button);
+
+    switch (button) {
+      case Button_Ok:
+	kbd_load_keymap(filename);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+}
+
+CallbackFunc(UiDumpKeymap)
+{
+    PATH_VAR(wd);
+    int path_max = GET_PATH_MAX;
+
+    getcwd(wd, path_max);
+    suspend_speed_eval();
+    if (UiInputString("VICE setting", "Write to Keymap File:",
+		      wd, path_max) != Button_Ok)
+	return;
+    else if (kbd_dump_keymap(wd) < 0)
+	UiError(strerror(errno));
 }
 
 /* ------------------------------------------------------------------------- */
