@@ -139,19 +139,19 @@ static void init_color_dialog(HWND hwnd)
     double fval;
     TCHAR newval[64];
 
-    resources_get_value("ColorSaturation", (void *)&val);
-                        fval = ((double)val) / 1000.0;
-                        _stprintf(newval, TEXT("%.3f"), (float)fval);
+    resources_get_int("ColorSaturation", &val);
+                      fval = ((double)val) / 1000.0;
+                      _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_SAT, newval);
 
-    resources_get_value("ColorContrast", (void *)&val);
-                        fval = ((double)val) / 1000.0;
-                        _stprintf(newval, TEXT("%.3f"), (float)fval);
+    resources_get_int("ColorContrast", &val);
+                      fval = ((double)val) / 1000.0;
+                      _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_CON, newval);
 
-    resources_get_value("ColorBrightness", (void *)&val);
-                        fval = ((double)val) / 1000.0;
-                       _stprintf(newval, TEXT("%.3f"), (float)fval);
+    resources_get_int("ColorBrightness", &val);
+                      fval = ((double)val) / 1000.0;
+                      _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRI, newval);
 
 }
@@ -164,13 +164,13 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
     int n, val;
     double fval;
     TCHAR newval[64];
-    char *path;
+    const char *path;
     TCHAR *st_path;
     HWND filename_hwnd;
 
     current_chip = chip_type;
 
-    resources_get_value("ColorGamma", (void *)&val);
+    resources_get_int("ColorGamma", &val);
                         fval = ((double)val) / 1000.0;
                         _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, newval);
@@ -178,12 +178,12 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
     /* As long as 'phase' isn't implemented, set a constant entry  */
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_PHA, TEXT("N/A"));
 
-    resources_get_value("PALScanLineShade", (void *)&val);
+    resources_get_int("PALScanLineShade", &val);
                         fval = ((double)val) / 1000.0;
                         _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, newval);
 
-    resources_get_value("PALBlur", (void *)&val);
+    resources_get_int("PALBlur", &val);
                         fval = ((double)val) / 1000.0;
                         _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, newval);
@@ -195,11 +195,11 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
         SendMessage(filename_hwnd, CB_ADDSTRING, 0, (LPARAM)modes[n]);
         n++;
     }
-    resources_get_value("PALMode", (void *)&val);
+    resources_get_int("PALMode", &val);
     SendMessage(filename_hwnd, CB_SETCURSEL, (WPARAM)val, 0);
 
     if (chip_type->res_ExternalPalette_name) {
-        resources_get_value(chip_type->res_ExternalPalette_name, (void *)&n);
+        resources_get_int(chip_type->res_ExternalPalette_name, &n);
         CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, n
                        ? BST_CHECKED : BST_UNCHECKED);
         res_extpalette = n;
@@ -219,7 +219,7 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
                     (LPARAM)chip_type->palette_names[n]);
         n++;
     }
-    resources_get_value(chip_type->res_PaletteFile_name, (void *)&path);
+    resources_get_string(chip_type->res_PaletteFile_name, &path);
     palette_file = lib_stralloc(path);
     st_path = system_mbstowcs_alloc(path);
     SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_path);
@@ -229,7 +229,7 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
 static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
     int n;
-    char *path;
+    const char *path;
     TCHAR *st_path;
     HWND filename_hwnd;
 
@@ -243,7 +243,7 @@ static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
                     (LPARAM)chip_type->palette_names[n]);
         n++;
     }
-    resources_get_value(chip_type->res_PaletteFile_name, (void *)&path);
+    resources_get_string(chip_type->res_PaletteFile_name, &path);
     palette_file2 = lib_stralloc(path);
     st_path = system_mbstowcs_alloc(path);
     SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_path);
@@ -276,15 +276,15 @@ static BOOL CALLBACK dialog_color_proc(HWND hwnd, UINT msg,
             GetDlgItemText(hwnd, IDC_VIDEO_COLORS_SAT, s, 100);
             _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
-            resources_set_value("ColorSaturation", (resource_value_t)ival);
+            resources_set_int("ColorSaturation", ival);
             GetDlgItemText(hwnd, IDC_VIDEO_COLORS_CON, s, 100);
             _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
-            resources_set_value("ColorContrast", (resource_value_t)ival);
+            resources_set_int("ColorContrast", ival);
             GetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRI, s, 100);
             _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
-            resources_set_value("ColorBrightness", (resource_value_t)ival);
+            resources_set_int("ColorBrightness", ival);
             querynewpalette = 1;
             SetWindowLong(hwnd, DWL_MSGRESULT, FALSE);
             return TRUE;
@@ -320,38 +320,38 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
             GetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, s, 100);
             _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
-            resources_set_value("ColorGamma", (resource_value_t)ival);
+            resources_set_int("ColorGamma", ival);
 
-            resources_set_value(current_chip->res_ExternalPalette_name,
-                                (resource_value_t) res_extpalette);
+            resources_set_int(current_chip->res_ExternalPalette_name,
+                              res_extpalette);
 
             GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, s, 100);
             _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
-            resources_set_value("PALScanLineShade", (resource_value_t)ival);
+            resources_set_int("PALScanLineShade", ival);
 
             GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, s, 100);
             _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
-            resources_set_value("PALBlur", (resource_value_t)ival);
+            resources_set_int("PALBlur", ival);
 
             ival = SendMessage(GetDlgItem(hwnd, IDC_VIDEO_ADVANCED_MODE),
                                CB_GETCURSEL, 0, 0);
-            resources_set_value("PALMode", (resource_value_t) ival);
+            resources_set_int("PALMode", ival);
 
             querynewpalette = 1;
-            if (resources_set_value(current_chip->res_PaletteFile_name,
-                (resource_value_t)palette_file) < 0) {
+            if (resources_set_string(current_chip->res_PaletteFile_name,
+                palette_file) < 0) {
                 ui_error(translate_text(IDS_COULD_NOT_LOAD_PALETTE));
-                resources_set_value(current_chip->res_ExternalPalette_name,
-                                     (resource_value_t)res_extpalette);
+                resources_set_int(current_chip->res_ExternalPalette_name,
+                                  res_extpalette);
                 SetWindowLong (hwnd, DWL_MSGRESULT, TRUE);
                 return TRUE;
             }
             lib_free(palette_file);
             palette_file = NULL;
-            resources_set_value(current_chip->res_ExternalPalette_name,
-                                (resource_value_t)res_extpalette);
+            resources_set_int(current_chip->res_ExternalPalette_name,
+                              res_extpalette);
             SetWindowLong(hwnd, DWL_MSGRESULT, FALSE);
             return TRUE;
         }
@@ -423,8 +423,8 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
       case WM_NOTIFY:
         if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
             querynewpalette = 1;
-            if (resources_set_value(current_chip2->res_PaletteFile_name,
-                (resource_value_t)palette_file2) < 0) {
+            if (resources_set_string(current_chip2->res_PaletteFile_name,
+                palette_file2) < 0) {
                 ui_error(translate_text(IDS_COULD_NOT_LOAD_PALETTE));
                 SetWindowLong (hwnd, DWL_MSGRESULT, TRUE);
                 return TRUE;

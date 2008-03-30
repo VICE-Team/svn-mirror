@@ -46,35 +46,35 @@
 static void init_network_dialog(HWND hwnd)
 {
     int port;
-    char *server_name;
-    unsigned int control;
+    const char *server_name;
+    int control;
     TCHAR st[256];
     int connected;
 
-    resources_get_value("NetworkServerPort", (void *)&port);
-    resources_get_value("NetworkServerName", (void *)&server_name);
-    resources_get_value("NetworkControl", (void *)&control);
+    resources_get_int("NetworkServerPort", &port);
+    resources_get_string("NetworkServerName", &server_name);
+    resources_get_int("NetworkControl", &control);
 
     _stprintf(st, TEXT("%d"), port);
     SetDlgItemText(hwnd, IDC_NETWORK_PORT, st);
     SetDlgItemText(hwnd, IDC_NETWORK_SERVERNAME, TEXT(server_name));
 
     switch(network_get_mode()) {
-        case NETWORK_IDLE:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_IDLE));
-            break;
-        case NETWORK_SERVER:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, 
-                translate_text(IDS_SERVER_LISTENING));
-            break;
-        case NETWORK_SERVER_CONNECTED:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, 
-                translate_text(IDS_CONNECTED_SERVER));
-            break;
-        case NETWORK_CLIENT:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, 
-                translate_text(IDS_CONNECTED_CLIENT));
-            break;
+      case NETWORK_IDLE:
+        SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_IDLE));
+        break;
+      case NETWORK_SERVER:
+        SetDlgItemText(hwnd, IDC_NETWORK_MODE, 
+                       translate_text(IDS_SERVER_LISTENING));
+        break;
+      case NETWORK_SERVER_CONNECTED:
+        SetDlgItemText(hwnd, IDC_NETWORK_MODE, 
+                       translate_text(IDS_CONNECTED_SERVER));
+        break;
+      case NETWORK_CLIENT:
+        SetDlgItemText(hwnd, IDC_NETWORK_MODE, 
+                       translate_text(IDS_CONNECTED_CLIENT));
+        break;
     }
 
     CheckDlgButton(hwnd, IDC_NETWORK_KEYB_SERVER,
@@ -112,7 +112,7 @@ static void init_network_dialog(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_MODE), 0);
 
     SetFocus(connected ? GetDlgItem(hwnd, IDC_NETWORK_DISCONNECT)
-                        : GetDlgItem(hwnd, IDC_NETWORK_SERVER));
+             : GetDlgItem(hwnd, IDC_NETWORK_SERVER));
 }
 
 static int set_resources(HWND hwnd)
@@ -142,8 +142,7 @@ static int set_resources(HWND hwnd)
     if (IsDlgButtonChecked(hwnd,IDC_NETWORK_RSRC_CLIENT)==BST_CHECKED)
         control |= (NETWORK_CONTROL_RSRC << NETWORK_CONTROL_CLIENTOFFSET);
 
-    resources_set_value("NetworkControl",
-                        (resource_value_t)control);
+    resources_set_int("NetworkControl", control);
 
     GetDlgItemText(hwnd, IDC_NETWORK_PORT, st, MAX_PATH);
     port = atoi(st);
@@ -152,11 +151,10 @@ static int set_resources(HWND hwnd)
         return -1;
     }
 
-    resources_set_value("NetworkServerPort",
-                        (resource_value_t)port);
+    resources_set_int("NetworkServerPort", port);
 
     GetDlgItemText(hwnd, IDC_NETWORK_SERVERNAME, st, MAX_PATH);
-    resources_set_value("NetworkServerName", (resource_value_t)st);
+    resources_set_string("NetworkServerName", st);
 
     return 0;
 }

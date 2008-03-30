@@ -63,14 +63,14 @@ static void init_sound_dialog(HWND hwnd)
 {
     HWND snd_hwnd;
     int res_value;
-    char *devicename;
+    const char *devicename;
 
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FREQ);
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("8000 Hz"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("11025 Hz"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("22050 Hz"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("44100 Hz"));
-    resources_get_value("SoundSampleRate", (void *)&res_value);
+    resources_get_int("SoundSampleRate", &res_value);
     switch (res_value) {
       case 8000:
         res_value = 0;
@@ -95,7 +95,7 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("250 msec"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("300 msec"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("350 msec"));
-    resources_get_value("SoundBufferSize", (void *)&res_value);
+    resources_get_int("SoundBufferSize", &res_value);
     switch (res_value) {
       case 100:
         res_value = 0;
@@ -124,14 +124,14 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("2x"));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("4x"));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("8x"));
-    resources_get_value("SoundOversample", (void *)&res_value);
+    resources_get_int("SoundOversample", &res_value);
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_SYNCH);
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_FLEXIBLE));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_ADJUSTING));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_EXACT));
-    resources_get_value("SoundSpeedAdjustment", (void *)&res_value);
+    resources_get_int("SoundSpeedAdjustment", &res_value);
     switch (res_value) {
       case SOUND_ADJUST_FLEXIBLE:
       default:
@@ -146,7 +146,7 @@ static void init_sound_dialog(HWND hwnd)
     }
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_value("SoundDeviceName", (void *)&devicename);
+    resources_get_string("SoundDeviceName", (void *)&devicename);
     if (devicename && !strcasecmp("wmm", devicename))
         res_value = IDC_SOUND_WMM;
     else
@@ -157,33 +157,26 @@ static void init_sound_dialog(HWND hwnd)
 
 static void end_sound_dialog(HWND hwnd)
 {
-    resources_set_value("SoundSampleRate",
-                        (resource_value_t)ui_sound_freq[SendMessage(
-                        GetDlgItem(hwnd,IDC_SOUND_FREQ),
-                        CB_GETCURSEL, 0, 0)]);
-    resources_set_value("SoundBufferSize",
-                        (resource_value_t)ui_sound_buffer[SendMessage(
-                        GetDlgItem(hwnd,IDC_SOUND_BUFFER),
-                        CB_GETCURSEL, 0, 0)]);
-    resources_set_value("SoundOversample",
-                        (resource_value_t)SendMessage(
-                        GetDlgItem(hwnd,IDC_SOUND_OVERSAMPLE),
-                        CB_GETCURSEL, 0, 0));
-    resources_set_value("SoundSpeedAdjustment",
-                        (resource_value_t)ui_sound_adjusting[SendMessage(
-                        GetDlgItem(hwnd, IDC_SOUND_SYNCH),
-                        CB_GETCURSEL, 0, 0)]);
+    resources_set_int("SoundSampleRate", ui_sound_freq[SendMessage(
+                      GetDlgItem(hwnd,IDC_SOUND_FREQ), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("SoundBufferSize", ui_sound_buffer[SendMessage(
+                      GetDlgItem(hwnd,IDC_SOUND_BUFFER), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("SoundOversample", SendMessage(
+                      GetDlgItem(hwnd,IDC_SOUND_OVERSAMPLE),
+                      CB_GETCURSEL, 0, 0));
+    resources_set_int("SoundSpeedAdjustment", ui_sound_adjusting[SendMessage(
+                      GetDlgItem(hwnd, IDC_SOUND_SYNCH), CB_GETCURSEL, 0, 0)]);
 }
 
 static void select_dx(void)
 {
-    resources_set_value("SoundDeviceName",(resource_value_t)"dx");
+    resources_set_string("SoundDeviceName", "dx");
     ui_display_statustext(translate_text(IDS_SOUND_DRIVER_DIRECTX), 1);
 }
 
 static void select_wmm(void)
 {
-    resources_set_value("SoundDeviceName",(resource_value_t)"wmm");
+    resources_set_string("SoundDeviceName", "wmm");
     ui_display_statustext(translate_text(IDS_SOUND_DRIVER_WMM), 1);
 }
 

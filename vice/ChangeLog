@@ -1,3 +1,11 @@
+2006-09-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.4.
+
+	* build/mingw32/build-cross.sh: New file.
+
+	* build/Makefile.am: Added new file.
+
 2006-09-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.3.
