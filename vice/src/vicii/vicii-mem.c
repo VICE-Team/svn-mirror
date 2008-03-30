@@ -696,7 +696,7 @@ inline static void store_d019(ADDRESS addr, BYTE value)
 {
     if (rmw_flag) { /* (emulates the Read-Modify-Write bug) */
         vic_ii.irq_status = 0;
-        if (clk >= vic_ii.raster_irq_clk) {
+        if (clk > vic_ii.raster_irq_clk) {
             vic_ii.raster_irq_clk += vic_ii.screen_height
                                      * vic_ii.cycles_per_line;
             alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);

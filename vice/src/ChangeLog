@@ -1,3 +1,77 @@
+2002-03-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.28.
+
+	* vicii/vicii-mem.c (store_d019): Added fix as suggested by
+	AndreasM.
+
+2002-03-23  pottendo  <pottendo@utanet.at>
+
+	* petcat.c: Added dummy `machine_name'.
+	* c1541.c: Likewise.
+
+	* arch/unix/uicommands.c (load_save_fliplist): New
+	function. Implementation for fliplist load/save ui.
+	(flip_submenu): Added load-save menu entries.
+
+	* arch/beos/archdep.c (archdep_default_fliplist_file_name): New
+	dummy function. Please fill in appropriate default fliplist file name.
+	* arch/win32/archdep.c (archdep_default_fliplist_file_name): Likewise.
+	* arch/os2/archdep.c (archdep_default_fliplist_file_name): Likewise.
+	* arch/msdos/archdep.c (archdep_default_fliplist_file_name): Likewise.
+	* arch/riscos/archdep.c (archdep_default_fliplist_file_name): Likewise.
+	* arch/unix/uisettings.c (save_resources callback): Save flip lists.
+
+	* main.c (MAIN_PROGRAM): Load default fliplist on startup.
+
+	* fliplist.c (flip_save_list): Added unit support to fliplist
+	file. 
+	(flip_load_list): Likewise. 
+
+2002-03-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/msdos/c128ui.c, c610ui.c, c64ui.c, petui.c, plus4ui.c,
+	vic20ui.c: Changed behaviour of the color related menus to
+	TUI_MENU_BEH_RESUME. This will prevent color mixups.
+	Renamed "fast PAL" to "PAL" and added meuitem for external
+	colors.
+
+	* arch/msdos/video.c (canvas_change_palette): Added raw rgb
+	support for video_render.
+
+2002-03-20  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/dga2.c (fullscreen_set_palette): Made
+	palette_t parameter const.
+
+	* arch/unix/x11/gnome/uicolor.c (uicolor_alloc_system_colors):
+	Pass NULL canvas to color_alloc_colors.
+	(uicolor_convert_color_table): Don't call
+	video_convert_color_table if canvas == NULL.
+
+	* arch/unix/x11/renderxv.c (render_yuv_image): Initialize
+	variables which gcc (incorrectly) warns about.
+
+	* arch/unix/x11/video.c (video_convert_color_table): Use bits
+	per pixel instead of color depth for rendering.
+	(convert_8to8n): Likewise.
+	(video_convert_func): Likewise.
+
+	* arch/unix/x11/videoarch.h (fullscreen_set_palette): Made
+	palette_t parameter const.
+	(fullscreen_resize): Added missing prototype.
+
+	* monitor/mon.c (mon_record_commands): Corrected printf
+	format.
+
+2002-03-18  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: moved canvas window resizing to video.c,
+	minor cleanup
+
+	* arch/riscos/videoarch.h, arch/riscos/video.c: moved canvas
+	resizing to video.c, finished PAL emulation (double size OK).
+
 2002-03-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.27.
