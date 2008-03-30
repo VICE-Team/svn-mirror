@@ -76,10 +76,10 @@ extern int video_arch_init_resources(void);
 
 /* Commodore VIC/VIC-II/TED related color/palette types */
 typedef struct video_cbm_color_s {
-        float luminance;        /* luminance                      */
-        float angle;            /* angle on color wheel           */
-        int direction;          /* +1 (pos), -1 (neg) or 0 (grey) */
-        char *name;             /* name of this color             */
+    float luminance;        /* luminance                      */
+    float angle;            /* angle on color wheel           */
+    int direction;          /* +1 (pos), -1 (neg) or 0 (grey) */
+    char *name;             /* name of this color             */
 } video_cbm_color_t;
 
 typedef struct video_cbm_palette_s {
@@ -99,8 +99,6 @@ extern void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
                               int height, int xs, int ys, int xt, int yt,
                               int pitchs, int pitcht, int depth);
 extern int video_render_get_fake_pal_state(void);
-
-extern void video_color_set_raster(struct raster_s *raster);
 
 #endif
 
