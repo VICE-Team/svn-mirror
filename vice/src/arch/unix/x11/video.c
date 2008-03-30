@@ -167,16 +167,18 @@ void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
 
     switch (bits_per_pixel) {
       case 8:
-        c->color_tab[i] = (DWORD)(*(PIXEL *)data | (*(PIXEL *)data << 8));
+        video_render_setphysicalcolor(&c->videoconfig, i,
+                                      (DWORD)(*(PIXEL *)data), 8);
         break;
       case 16:
-        c->color_tab[i] = (DWORD)(col | ((DWORD)col << 16));
+        video_render_setphysicalcolor(&c->videoconfig, i, (DWORD)(col), 16);
         break;
       case 32:
-        c->color_tab[i] = (DWORD)col;
+        video_render_setphysicalcolor(&c->videoconfig, i, (DWORD)(col), 32);
         break;
       default:
-        c->color_tab[i] = col;
+        video_render_setphysicalcolor(&c->videoconfig, i, (DWORD)(col),
+                                      bits_per_pixel);
     }
 
     if (bits_per_pixel == 1)
@@ -187,31 +189,29 @@ void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
    comparing the general convert_8toall() -routine. */
 static void convert_8to8(video_frame_buffer_t *p, int sx, int sy, int w, int h)
 {
-    video_render_main(p->canvas->color_tab, p->tmpframebuffer, p->x_image->data,
+    video_render_main(&p->canvas->videoconfig, p->tmpframebuffer,
+                      p->x_image->data,
                       w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
-                      p->x_image->bytes_per_line, 8,
-                      p->canvas->videorendermode);
+                      p->x_image->bytes_per_line, 8);
 
 }
 
 static void convert_8to16(video_frame_buffer_t *p, int sx, int sy, int w,
                           int h)
 {
-    video_render_main(p->canvas->color_tab, p->tmpframebuffer, p->x_image->data,
+    video_render_main(&p->canvas->videoconfig, p->tmpframebuffer,
+                      p->x_image->data,
                       w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
-                      p->x_image->bytes_per_line, 16,
-                      p->canvas->videorendermode);
-
+                      p->x_image->bytes_per_line, 16);
 }
 
 static void convert_8to32(video_frame_buffer_t *p, int sx, int sy, int w,
                           int h)
 {
-    video_render_main(p->canvas->color_tab, p->tmpframebuffer, p->x_image->data,
+    video_render_main(&p->canvas->videoconfig, p->tmpframebuffer,
+                      p->x_image->data,
                       w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
-                      p->x_image->bytes_per_line, 32,
-                      p->canvas->videorendermode);
-
+                      p->x_image->bytes_per_line, 32);
 }
 
 #define SRCPTR(i, x, y) \
@@ -239,7 +239,7 @@ static void convert_8to1_dither(video_frame_buffer_t *p, int sx, int sy, int w,
         for (x = 0; x < w; x++) {
             /* XXX: trusts that real_pixel[0, 1] == black, white */
             XPutPixel(p->x_image, sx + x, sy + y,
-                      p->canvas->color_tab[shade_table[src[x]]
+                      p->canvas->videoconfig.physical_colors[shade_table[src[x]]
                       > dither[(sx + x) % 4]]);
         }
     }
@@ -254,7 +254,8 @@ static void convert_8toall(video_frame_buffer_t * p, int sx, int sy, int w,
     for (y = 0; y < h; y++) {
         src = SRCPTR(p, sx, sy + y);
         for (x = 0; x < w; x++)
-            XPutPixel(p->x_image, sx + x, sy + y, p->canvas->color_tab[src[x]]);
+            XPutPixel(p->x_image, sx + x, sy + y,
+                      p->canvas->videoconfig.physical_colors[src[x]]);
     }
 }
 
@@ -456,6 +457,9 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
 
     c = (video_canvas_t *)xmalloc(sizeof(struct video_canvas_s));
     memset(c, 0, sizeof(struct video_canvas_s));
+
+    video_render_initconfig(&c->videoconfig);
+
     w = ui_open_canvas_window(c, win_name, *width, *height, 1,
                               (canvas_redraw_t)exposure_handler, palette,
                               pixel_return);
@@ -482,6 +486,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_set_palette(palette, pixel_return);
 #endif
+
     return c;
 }
 
