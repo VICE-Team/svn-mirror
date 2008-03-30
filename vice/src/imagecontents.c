@@ -27,14 +27,21 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
 #include <string.h>
-#include <errno.h>
 
-#include "imagecontents.h"
+#ifdef HAVE_ERRNO_H
+#include <errno.h>
+#endif
+
+#ifdef __riscos
+#include "ROlib.h"
+#endif
 
 #include "archdep.h"
 #include "charsets.h"
 #include "diskimage.h"
+#include "imagecontents.h"
 #include "log.h"
 #include "serial.h"
 #include "t64.h"
@@ -43,10 +50,6 @@
 #include "vdrive-dir.h"
 #include "vdrive.h"
 #include "zfile.h"
-
-#ifdef __riscos
-#include "ROlib.h"
-#endif
 
 /* ------------------------------------------------------------------------- */
 
