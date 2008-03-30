@@ -657,8 +657,25 @@ inline static void store_d016(ADDRESS addr, BYTE value)
             /* If CSEL changes from 1 to 0 at cycle 56, the lateral
                border is open.  */
             if (cycle == 56 && (vic_ii.regs[addr] & 0x8)
-                && (!raster->blank_enabled || raster->open_left_border))
+                && (!raster->blank_enabled || raster->open_left_border)) {
                 raster->open_right_border = 1;
+                switch (vic_ii.get_background_from_vbuf) {
+                  case VIC_II_HIRES_BITMAP_MODE:
+                    raster_add_int_change_background(
+                    &vic_ii.raster,
+                    VIC_II_RASTER_X(56),
+                    &vic_ii.raster.xsmooth_color,
+                    vic_ii.background_color_source & 0x0f);
+                    break;
+                  case VIC_II_EXTENDED_TEXT_MODE:
+                    raster_add_int_change_background(
+                    &vic_ii.raster,
+                    VIC_II_RASTER_X(56),
+                    &vic_ii.raster.xsmooth_color,
+                    vic_ii.regs[0x21 + (vic_ii.background_color_source >> 6)]);
+                    break;
+                }
+            }
         }
     }
 
