@@ -24,6 +24,9 @@
  *
  */
 
+/* FIXME: For now, we avoid ISO characters completely to avoid problems with
+   MS-DOS.  But we should provide some automatic conversion instead.  */
+
 const char license_text[] =
 "GNU GENERAL PUBLIC LICENSE\n"
 "Version 2, June 1991\n"
@@ -368,8 +371,8 @@ const char contrib_text[] =
 "    6510 and the CIAs; moreover, he wrote several test-routines\n"
 "    that were used to improve the emulation.  Also contributed\n"
 "    some important patches, fixed several problems in the 1541\n"
-"    emulation, implemented SpeedDOS parallel cable emulation, and\n"
-"    added BZIP v2 support.\n"
+"    emulation, implemented SpeedDOS parallel cable emulation and\n"
+"    raw GCR image support.\n"
 "\n"
 "Former team members:\n"
 "\n"
@@ -421,7 +424,7 @@ const char contrib_text[] =
 "  Krister Walfridsson (cato@df.lth.se)\n"
 "    Joystick and sound support for NetBSD.\n"
 "\n"
-"  Peter Andrew Felvegi aka Petschy"
+"  Peter Andrew Felvegi aka Petschy\n"
 "      (petschy@derceto.sch.bme.hu)\n"
 "    Fixed a couple of bugs in the fast serial emulation.\n"
 "\n"
