@@ -34,6 +34,8 @@
  * simulated) serial bus, as it's parallel. So we don't need traps.
  */
 
+/* FIXME: This should have its own log instead of using `LOG_DEFAULT'.  */
+
 #include "vice.h"
 
 #ifdef STDC_HEADERS
@@ -143,21 +145,7 @@ int state = WaitATN;
 #define	isListening()	((par_status&0xf000)==0x2000)
 #define	isTalking()	((par_status&0xf000)==0x4000)
 
-#if 1
 #define	DoTrans(a)	State[state].m[(a)]((a))
-#else
-static void DoTrans(int tr) {
-    	if(parallel_debug) {
-	    fprintf(logfile, "DoTrans(%s).%s\n",State[state].name, Trans[tr]);
-	    fflush(stdout);
-	}
-	State[state].m[tr](tr);
-    	if(parallel_debug) {
-	    fprintf(logfile, " -> %s\n",State[state].name);
-	    fflush(stdout);
-	}
-}
-#endif
 
 static void ResetBus(void) {
 	parallel_emu_set_atn(0);
@@ -177,8 +165,9 @@ static void ignore(int i) {}
 
 static void unexpected(int trans) {
 	if(parallel_debug)
-	fprintf(logfile, "IEEE488: unexpected line transition in state %s: %s\n",
-		State[state].name, Trans[trans]);
+            log_warning(LOG_DEFAULT,
+                        "IEEE488: unexpected line transition in state %s: %s.",
+                        State[state].name, Trans[trans]);
 }
 
 static void WATN_atnlo(int tr) {
@@ -210,7 +199,7 @@ static void In1_atnhi(int tr) {
 	  }
 	} else {
 	  if(parallel_debug)
-	  fprintf(logfile, "IEEE488: Ouch, something weird happened: %s got %s\n",
+	  log_warning(LOG_DEFAULT, "IEEE488: Ouch, something weird happened: %s got %s",
 		State[In1].name, Trans[tr]);
 	  ResetBus();
 	  Go(WaitATN);
@@ -229,7 +218,7 @@ static void In1_davlo(int tr) {
 	} else {
 	  par_status = parallelsendbyte(b);
 	}
-	if(parallel_debug) fprintf(logfile, "IEEE488: sendbyte returns %04x\n",par_status);
+	if(parallel_debug) log_warning(LOG_DEFAULT, "IEEE488: sendbyte returns %04x",par_status);
 
 	Go(In2);
 }
@@ -277,7 +266,7 @@ static void OPet_ndaclo(int tr) {
 /* this is for CBM 610 only */
 
 static void OPet_nrfdlo(int tr) {
-	if(parallel_debug) fprintf(logfile, "OPet_nrfdlo()\n");
+	if(parallel_debug) log_warning(LOG_DEFAULT, "OPet_nrfdlo()");
 	State[Out1].m[NRFDhi](tr);
 }
 
@@ -287,8 +276,6 @@ static void Out1_nrfdhi(int tr) {
 	static BYTE b;
 
 	par_status = parallelreceivebyte(&b, 1);
-/*if(par_status & 0xff)
-	  fprintf(logfile, "IEEE488: Out1_nrfdhi: par_status=%x\n",par_status);*/
 
 	if(par_status & 0x40) {
 	  parallel_emu_set_eoi(1);
@@ -324,8 +311,6 @@ static void Out2_ndachi(int tr) {
 	parallel_emu_set_bus(0);
 
 	par_status = parallelreceivebyte(&b, 0);
-/*if(par_status & 0xff)
-	  fprintf(logfile, "IEEE488: Out2_ndachi: par_status=%x\n",par_status);*/
 	if(par_status & 0xff) {
 	  ResetBus();
 	  Go(WaitATN);
@@ -369,7 +354,7 @@ void parallel_set_atn( char mask )
     char old = parallel_atn;
     parallel_atn |= mask;
     if (!old) {
-	if(parallel_debug) fprintf(logfile, "set_atn(%02x) -> ATNlo\n", mask);
+	if(parallel_debug) log_warning(LOG_DEFAULT, "set_atn(%02x) -> ATNlo", mask);
 	DoTrans(ATNlo);
 
 	if (drive[0].enable) {
@@ -386,7 +371,7 @@ void parallel_clr_atn( char mask )
     char old = parallel_atn;
     parallel_atn &= mask;
     if (old && !parallel_atn) {
-	if(parallel_debug) fprintf(logfile, "clr_atn(%02x) -> ATNhi\n", ~mask);
+	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_atn(%02x) -> ATNhi", ~mask);
 	DoTrans(ATNhi);
 
 	if (drive[0].enable) {
@@ -403,7 +388,7 @@ void parallel_set_dav( char mask )
     char old = parallel_dav;
     parallel_dav |= mask;
     if (!old) {
-	if(parallel_debug) fprintf(logfile, "set_dav(%02x) -> DAVlo\n", mask);
+	if(parallel_debug) log_warning(LOG_DEFAULT, "set_dav(%02x) -> DAVlo", mask);
 	DoTrans(DAVlo);
     }
 }
@@ -413,7 +398,7 @@ void parallel_clr_dav( char mask )
     char old = parallel_dav;
     parallel_dav &= mask;
     if (old && !parallel_dav) {
-	if(parallel_debug) fprintf(logfile, "clr_dav(%02x) -> DAVhi\n", ~mask);
+	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_dav(%02x) -> DAVhi", ~mask);
 	DoTrans(DAVhi);
     }
 }
@@ -423,7 +408,7 @@ void parallel_set_nrfd( char mask )
     char old = parallel_nrfd;
     parallel_nrfd |= mask;
     if (!old) {
-	if(parallel_debug) fprintf(logfile, "set_nrfd(%02x) -> NRFDlo\n", mask);
+	if(parallel_debug) log_warning(LOG_DEFAULT, "set_nrfd(%02x) -> NRFDlo", mask);
 	DoTrans(NRFDlo);
     }
 }
@@ -433,7 +418,7 @@ void parallel_clr_nrfd( char mask )
     char old = parallel_nrfd;
     parallel_nrfd &= mask;
     if (old && !parallel_nrfd) {
-	if(parallel_debug) fprintf(logfile, "clr_nrfd(%02x) -> NRFDhi\n", ~mask);
+	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_nrfd(%02x) -> NRFDhi", ~mask);
 	DoTrans(NRFDhi);
     }
 }
@@ -443,7 +428,7 @@ void parallel_set_ndac( char mask )
     char old = parallel_ndac;
     parallel_ndac |= mask;
     if (!old) {
-	if(parallel_debug) fprintf(logfile, "set_ndac(%02x) -> NDAClo\n", mask);
+	if(parallel_debug) log_warning(LOG_DEFAULT, "set_ndac(%02x) -> NDAClo", mask);
 	DoTrans(NDAClo);
     }
 }
@@ -453,7 +438,7 @@ void parallel_clr_ndac( char mask )
     char old = parallel_ndac;
     parallel_ndac &= mask;
     if (old && !parallel_ndac) {
-	if(parallel_debug) fprintf(logfile, "clr_ndac(%02x) -> NDAChi\n", ~mask);
+	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_ndac(%02x) -> NDAChi", ~mask);
 	DoTrans(NDAChi);
     }
 }
