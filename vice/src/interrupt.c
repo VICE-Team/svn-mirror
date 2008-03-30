@@ -45,6 +45,7 @@ void interrupt_cpu_status_init(interrupt_cpu_status_t *cs,
 {
     cs->num_ints = 0;
     cs->pending_int = NULL;
+    cs->int_name = NULL;
     cs->last_opcode_info_ptr = last_opcode_info_ptr;
 }
 
@@ -69,12 +70,17 @@ void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs)
     cs->reset_trap_func = NULL;
 }
 
-unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs)
+unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs,
+                                          const char *name)
 {
     cs->num_ints += 1;
-    cs->pending_int = lib_realloc(cs->pending_int, cs->num_ints
-                                  * sizeof(*(cs->pending_int)));
+    cs->pending_int = (unsigned int *)lib_realloc(cs->pending_int, cs->num_ints
+                                                  * sizeof(*(cs->pending_int)));
     cs->pending_int[cs->num_ints - 1] = 0;
+#if 0
+    cs->int_name = (char **)lib_realloc(cs->int_name, cs->num_ints
+                                        * sizeof(*(cs->int_name)));
+#endif
     return cs->num_ints - 1;
 }
 
