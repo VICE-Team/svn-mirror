@@ -377,8 +377,11 @@ int archdep_spawn(const char *name, char **argv,
     char       *cmdline;
     char *stdout_redir = NULL;
 
-    if (pstdout_redir != NULL)
-       stdout_redir = *pstdout_redir;
+    if (pstdout_redir != NULL) {
+        if (*pstdout_redir == NULL)
+            *pstdout_redir = archdep_tmpnam();
+        stdout_redir = *pstdout_redir;
+    }
 
     if (archdep_search_path(name, fqName, sizeof(fqName)))
         return -1;

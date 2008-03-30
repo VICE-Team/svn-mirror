@@ -217,8 +217,11 @@ int archdep_spawn(const char *name, char **argv,
     int retval;
     char *stdout_redir = NULL;
 
-    if (pstdout_redir != NULL)
-       stdout_redir = *pstdout_redir;
+    if (pstdout_redir != NULL) {
+        if (*pstdout_redir == NULL)
+            *pstdout_redir = archdep_tmpnam();
+        stdout_redir = *pstdout_redir;
+    }
 
     new_stdout = new_stderr = old_stdout = old_stderr = -1;
 

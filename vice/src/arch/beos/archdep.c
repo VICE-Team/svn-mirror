@@ -210,8 +210,11 @@ int archdep_spawn(const char *name, char **argv,
     int child_status;
     char *stdout_redir = NULL;
 
-    if (pstdout_redir != NULL)
-       stdout_redir = *pstdout_redir;
+    if (pstout_redir != NULL) {
+        if (*pstdout_redir == NULL)
+            *pstdout_redir = archdep_tmpnam();
+        stdout_redir = *pstdout_redir;
+    }
 
     child_pid = vfork();
     if (child_pid < 0) {
