@@ -49,7 +49,7 @@
 
 ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "Mouse", IDM_MOUSE },

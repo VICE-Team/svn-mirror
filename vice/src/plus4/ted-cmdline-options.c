@@ -64,9 +64,9 @@ static cmdline_option_t cmdline_options_2x[] =
       (void *)0, NULL, "Disable double size" },
 #endif
 #if ARCHDEP_TED_DSCAN == 1
-    { "-dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
+    { "-dscan", SET_RESOURCE, 0, NULL, NULL, "TEDDoubleScan",
       (void *)1, NULL, "Enable double scan" },
-    { "+dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
+    { "+dscan", SET_RESOURCE, 0, NULL, NULL, "TEDDoubleScan",
       (void *)0, NULL, "Disable double scan" },
 #endif
     { NULL }

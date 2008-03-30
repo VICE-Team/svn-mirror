@@ -437,7 +437,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         maincpu_trigger_trap(toggle_async, "VDC_DoubleSize");
         return;
     case IDM_VDCDSCAN:
-        maincpu_trigger_trap(toggle_async, "VDC_DoubleScan");
+        maincpu_trigger_trap(toggle_async, "VDCDoubleScan");
         return;
 #endif
 
@@ -1079,7 +1079,7 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_value("VDC_DoubleSize", (resource_value_t*)&val);
         WinEnableMenuItem(hwnd, IDM_VDCDSCAN, val);
         WinCheckMenuItem(hwnd,  IDM_VDCDSIZE, val);
-        WinCheckRes(hwnd, IDM_VDCDSCAN, "VDC_DoubleScan");
+        WinCheckRes(hwnd, IDM_VDCDSCAN, "VDCDoubleScan");
 #endif
 #ifdef HAVE_MOUSE
         WinCheckRes(hwnd, IDM_MOUSE,     "Mouse");

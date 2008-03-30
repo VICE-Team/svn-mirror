@@ -1,5 +1,5 @@
 /*
- * c64ui.c - C64-specific user interface.
+ * plus4ui.c - PLUS4-specific user interface.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -44,7 +44,7 @@
 
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { NULL, 0 }

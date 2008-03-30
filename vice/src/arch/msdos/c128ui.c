@@ -129,7 +129,7 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
 /* ------------------------------------------------------------------------- */
 
 TUI_MENU_DEFINE_TOGGLE(VDC_DoubleSize)
-TUI_MENU_DEFINE_TOGGLE(VDC_DoubleScan)
+TUI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 TUI_MENU_DEFINE_TOGGLE(VDC64KB)
 
 static tui_menu_item_def_t vcd_menu_items[] = {
@@ -140,7 +140,7 @@ static tui_menu_item_def_t vcd_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "VDC Double _scan",
       "Display any scanline twice",
-      toggle_VDC_DoubleScan_callback, NULL, 3,
+      toggle_VDCDoubleScan_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "VDC _64KB video memory",
       "Emulate a VDC with 64KB video RAM",
