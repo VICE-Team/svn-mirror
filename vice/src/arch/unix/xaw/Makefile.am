@@ -14,6 +14,9 @@ INCLUDES = \
 noinst_LIBRARIES = libxawui.a
 
 libxawui_a_SOURCES = \
+	c128icon.xpm \
+	c128ui.c \
+	c128ui.h \
 	c64icon.xpm \
 	c64ui.c \
 	c64ui.h \

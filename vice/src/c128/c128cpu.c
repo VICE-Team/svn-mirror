@@ -1,5 +1,5 @@
 /*
- * maincpu.c - Emulation of the main 6510 processor.
+ * c128cpu.c - Emulation of the main 6510 processor in the C128.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -24,12 +24,18 @@
  *
  */
 
+/* Because of the different memory access scheme, the C128 needs a special
+   version of the CPU: we implement it here, keeping compatibility with the
+   standard version.  Notice that this is not very well optimized, and surely
+   looks like a big hack.  Well, that's fine with me for now.  */
+
 #include "vice.h"
 
 #include <stdio.h>
 #include <sys/time.h>
 
 #define _MAINCPU_C
+#define _C128CPU_C
 
 #include "maincpu.h"
 #include "types.h"
@@ -39,20 +45,20 @@
 #include "resources.h"
 #include "traps.h"
 #include "mon.h"
-#include "mem.h"
+#include "c128mem.h"
 #include "misc.h"
 #include "drive.h"
 #include "6510core.h"
+
 #include "interrupt.h"
 
 /* ------------------------------------------------------------------------- */
 
 /* This enables a special hack that can speed up the instruction fetch quite
    a lot, but does not work when a conditional branch instruction jumps from
-   ROM to RAM or vice versa.  It still works if one program lies in the I/O
-   space, though.  Keeping this defined should be OK for everything, and
-   makes things much faster.  */
-#define INSTRUCTION_FETCH_HACK
+   ROM to RAM or vice versa.  It does not work for the C128, so we disable
+   it.  */
+#undef INSTRUCTION_FETCH_HACK
 
 /* ------------------------------------------------------------------------- */
 
@@ -62,23 +68,6 @@
    trace all the opcodes being executed.  This is mainly useful for
    debugging, and also makes things a bit slower.  */
 /* #define TRACE */
-
-/* Print a message whenever a program attempts to execute instructions fetched
-   from the I/O area.  */
-#undef IO_AREA_WARNING
-
-/* Run without interpreting opcodes (just fetch them from memory).  */
-#undef NO_OPCODES
-
-/* Do not handle CPU alarms, but measure speed instead.  */
-#undef EVALUATE_SPEED
-
-/* Use a global variable for Program Counter.  This makes it slower, but also
-   makes debugging easier.  This is needed by the VIC-II emulation, so avoid
-   #undefining or #defining it in case it is already #defined.  */
-#if !defined EXTERN_PC
-#undef EXTERN_PC
-#endif
 
 /* Force `TRACE' in unstable versions.  */
 #if 0 && defined UNSTABLE && !defined TRACE
@@ -131,21 +120,6 @@ CLOCK _maincpu_opcode_write_cycles[] = {
    the values copied into this struct.  */
 mos6510_regs_t maincpu_regs;
 
-/* Implement the hack to make opcode fetches faster.  */
-#ifdef INSTRUCTION_FETCH_HACK
-
-#  define JUMP(addr)							\
-       do {								\
-	   reg_pc = (addr);						\
-	   bank_base = mem_read_base(reg_pc);				\
-       } while (0)
-
-#else  /* !INSTRUCTION_FETCH_HACK */
-
-#  define JUMP(addr)	(reg_pc = (addr))
-
-#endif /* !INSTRUCTION_FETCH_HACK */
-
 /* Trace flag.  Set this to a nonzero value from a debugger to trace the 6510
    instructions being executed.  */
 #ifdef TRACE
@@ -178,39 +152,6 @@ monitor_interface_t maincpu_monitor_interface = {
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef EVALUATE_SPEED
-
-#define EVALUATE_INTERVAL	10000000L
-
-inline static void evaluate_speed(unsigned long clk)
-{
-    static unsigned long old_clk;
-    static unsigned long next_clk = EVALUATE_INTERVAL;
-    static double old_time;
-
-    if (clk > next_clk) {
-	struct timeval tv;
-	double current_time;
-
-	gettimeofday (&tv, NULL);
-	current_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
-
-	if (old_clk)
-	    printf ("%ld cycles in %f seconds: %f%% speed\n",
-		    clk - old_clk, current_time - old_time,
-		    100.0 * (((double)(clk - old_clk)
-			      / (current_time - old_time)) / 1108405.0));
-
-	old_clk = clk;
-	next_clk = old_clk + EVALUATE_INTERVAL;
-	old_time = current_time;
-    }
-}
-
-#endif /* EVALUATE_SPEED */
-
-/* ------------------------------------------------------------------------- */
-
 static void reset(void)
 {
     printf("Main CPU: RESET\n");
@@ -230,9 +171,8 @@ static void reset(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef EXTERN_PC
 unsigned int reg_pc;
-#endif
+#define JUMP(addr)	(reg_pc = (addr))
 
 void mainloop(ADDRESS start_address)
 {
@@ -245,12 +185,6 @@ void mainloop(ADDRESS start_address)
     BYTE reg_sp = 0;
     BYTE flag_n = 0;
     BYTE flag_z = 0;
-#ifndef EXTERN_PC
-    unsigned int reg_pc;
-#endif
-#ifdef INSTRUCTION_FETCH_HACK
-    BYTE *bank_base;
-#endif
 
     reset();
 
@@ -263,29 +197,13 @@ void mainloop(ADDRESS start_address)
 
     while (1) {
 
-#ifdef EVALUATE_SPEED
-	evaluate_speed(clk);
-#endif /* !EVALUATE_SPEED */
-
-#ifdef IO_AREA_WARNING
-	if (!bank_base)
-	    printf ("Executing from I/O area at $%04X: "
-		    "$%02X $%02X $%04X at clk %ld\n", reg_pc, p0, p1, p2, clk);
-#endif
-
-#ifdef NO_OPCODES
-
-	clk += 4;
-
-#else  /* !NO_OPCODES */
-
 #  define CLK clk
 #  define RMW_FLAG rmw_flag
-#  define PAGE_ONE (ram + 0x100)
+#  define PAGE_ONE page_one
 #  define LAST_OPCODE_INFO last_opcode_info
 #  define TRACEFLG traceflg
 
-#  define CPU_INT_STATUS	maincpu_int_status
+#  define CPU_INT_STATUS maincpu_int_status
 
 #  define CHECK_PENDING_ALARM() \
      (clk >= next_alarm_clk(&maincpu_int_status))
@@ -329,9 +247,18 @@ void mainloop(ADDRESS start_address)
 
 #  define GLOBAL_REGS           maincpu_regs
 
-#  include "6510core.c"
+/* Define a "special" opcode fetch method.  We trust the code in `6510core.c'
+   to evaluate `p0', `p1' and `p2' at most once per every emulated opcode.  */
+#  define FETCH_OPCODE(x)
+#  define p0                    LOAD(reg_pc)
+#  define p1                    LOAD(reg_pc + 1)
+#  define p2                    LOAD_ADDR(reg_pc + 1)
 
-#endif /* !NO_OPCODES */
+/* FIXME: This might cause complaints about unused variables...  Well, who
+   cares?  */
+#  define opcode_t      int
+
+#  include "6510core.c"
 
     }
 }

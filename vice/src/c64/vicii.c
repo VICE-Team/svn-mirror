@@ -66,13 +66,15 @@
 #endif /* !__MSDOS__ */
 
 #include "vicii.h"
-#include "vmachine.h"
+
+#include "cmdline.h"
 #include "interrupt.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
-#include "cmdline.h"
 #include "utils.h"
+#include "vmachine.h"
 
 /* FIXME: ugliest thing ever. */
 static void draw_sprites(void);
@@ -616,6 +618,7 @@ canvas_t vic_ii_init(void)
         "Yellow", "Orange", "Brown", "Light Red", "Dark Gray", "Medium Gray",
         "Light Green", "Light Blue", "Light Gray"
     };
+    char title[256];
 
 #ifdef NEED_2x
     init_raster(1, 2, 2);
@@ -634,7 +637,8 @@ canvas_t vic_ii_init(void)
         return NULL;
     }
 
-    if (open_output_window(VIC_II_WINDOW_TITLE,
+    sprintf(title, "VICE: %s emulator", machine_name);
+    if (open_output_window(title,
 			   SCREEN_XPIX + SCREEN_BORDERWIDTH * 2,
 			   (VIC_II_LAST_DISPLAYED_LINE
 			    - VIC_II_FIRST_DISPLAYED_LINE),
@@ -666,6 +670,13 @@ void reset_vic_ii(void)
     vic_ii_fetch_clk = FETCH_CYCLE;
     maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
     fetch_idx = FETCH_MATRIX;
+
+    /* FIXME: I am not sure this is exact emulation.  */
+    int_raster_line = 0;
+    int_raster_clk = 0;
+    maincpu_set_alarm_clk(A_RASTER, 1);
+    /* Remove all the IRQ sources.  */
+    vic[0x1a] = 0;
 }
 
 /* This hook is called whenever video bank must be changed.  */

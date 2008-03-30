@@ -92,12 +92,6 @@
 					 && (x) != VIC_II_IDLE_MODE)
 #define VIC_II_IS_BITMAP_MODE(x)	((x) & 0x02)
 
-#ifndef C128
-#define VIC_II_WINDOW_TITLE		"VICE: C64 emulator"
-#else
-#define VIC_II_WINDOW_TITLE		"C128 emulator (40 column)"
-#endif
-
 
 /* Define proper constants for raster.h. */
 #ifdef _VICII_C

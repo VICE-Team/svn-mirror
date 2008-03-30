@@ -38,8 +38,8 @@
 
 #include "vice.h"
 
-/*#define DEBUG_DRIVE*/
-/*#define DEBUG_FS*/		/* Unix FS driver command/error channel */
+/* #define DEBUG_DRIVE */
+/* #define DEBUG_FS */		/* Unix FS driver command/error channel */
 
 #ifdef __hpux
 #ifndef _POSIX_SOURCE
@@ -315,7 +315,9 @@ int     open_1541(void *flp, char *name, int length, int secondary)
      * If ActiveName exists, the file may have been temporarily closed.
      */
 
-   if (floppy->ActiveFd < 0) {
+   if (floppy->ActiveFd < 0
+       && p->mode != BUFFER_COMMAND_CHANNEL
+       && *name != '#') {
        if (!*(floppy->ActiveName) ||
 	   (floppy->ActiveFd = zopen(name, O_RDWR, 0)) < 0) {
 	   if (secondary != 15) {
@@ -1165,14 +1167,16 @@ static int  do_block_command(DRIVE *floppy, char command, char *buffer)
 	    if (command == 'W') {
 		if (floppy->ReadOnly)
 		    return IPE_WRITE_PROTECT_ON;
-		floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-				   floppy->buffers[channel].buffer,
-				   track, sector,
-				   floppy->D64_Header);
+		if (floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+                                       floppy->buffers[channel].buffer,
+                                       track, sector,
+                                       floppy->D64_Header))
+                    return IPE_NOT_READY;
 	    } else {
-		floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-				  floppy->buffers[channel].buffer,
-				  track, sector, floppy->D64_Header);
+		if (floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                      floppy->buffers[channel].buffer,
+                                      track, sector, floppy->D64_Header) < 0)
+                    return IPE_NOT_READY;
 	    }
 	    floppy->buffers[channel].bufptr = 0;
 	}

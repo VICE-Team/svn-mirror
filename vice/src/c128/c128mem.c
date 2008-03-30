@@ -1,5 +1,5 @@
 /*
- * c128mem.c
+ * c128mem.c -- Memory handling for the C128 emulator.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -28,6 +28,13 @@
  */
 
 /* This is just a quick hack!  */
+
+/*
+   TODO:
+   - cartridge support;
+   - correct video bank emulation;
+   - maybe C64 mode?
+*/
 
 #include "vice.h"
 
@@ -222,8 +229,6 @@ int c128_mem_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Number of possible memory configurations.  */
-#define NUM_CONFIGS	32
 /* Number of possible video banks (16K each).  */
 #define NUM_VBANKS	4
 
@@ -236,37 +241,37 @@ BYTE chargen_rom[C128_CHARGEN_ROM_SIZE];
 /* Size of RAM...  */
 int ram_size = C128_RAM_SIZE;
 
-/* Tape sense status: 1 = some button pressed, 0 = no buttons pressed. */
+/* Currently selected RAM bank.  */
+static BYTE *ram_bank;
+
+/* Memory configuration.  */
+static int chargen_in;
+static int basic_lo_in;
+static int basic_hi_in;
+static int kernal_in;
+static int editor_in;
+static int io_in;
+
+/* Shared memory.  */
+static ADDRESS top_shared_limit, bottom_shared_limit;
+
+/* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
 
-static BYTE *page_zero, *page_one;
-
-static int shared_size;
-static int shared_lo;
-static int shared_hi;
+/* Pointers to pages 0 and 1 (which can be physically placed anywhere).  */
+BYTE *page_zero, *page_one;
 
 static BYTE mmu[11];
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 int rom_loaded = 0;
 
-/* Pointers to the currently used memory read and write tables.  */
-read_func_ptr_t *_mem_read_tab_ptr;
-store_func_ptr_t *_mem_write_tab_ptr;
-BYTE **_mem_read_base_tab_ptr;
-
-/* Memory read and write tables.  */
-static store_func_ptr_t mem_write_tab[0x101];
-static read_func_ptr_t mem_read_tab[0x101];
-static BYTE *mem_read_base_tab[0x101];
-
-static BYTE inittab0[] = {
-    0x4e, 0x67, 0x7c, 0x64, 0x6e, 0x7a, 0x62, 0x7e, 0x19, 0x2f,
-    0x01, 0x4a, 0x09, 0x06, 0x53, 0x65, 0x57, 0x4e, 0x58, 0x15,
-    0x3f, 0x74, 0x33, 0x3c, 0x60, 0x5d, 0x5f, 0x5e, 0x5e, 0x58,
-    0x50, 0x5a, 0x06, 0x2a, 0x6c, 0x26, 0x2f, 0x7e, 0x48, 0x5e,
-    0x42, 0x58, 0x5b, 0x4f, 0x4b, 0x0a
-};
+/* Memory read and write tables.  These are non-static to allow the CPU code
+   to access them.  */
+store_func_ptr_t _mem_write_tab[0x101];
+read_func_ptr_t _mem_read_tab[0x101];
+store_func_ptr_t *_mem_write_tab_ptr = _mem_write_tab;
+read_func_ptr_t *_mem_read_tab_ptr = _mem_read_tab;
 
 static BYTE biostab[] = {
     0x78, 0xa9, 0x3e, 0x8d, 0x00, 0xff, 0xa9, 0xb0, 0x8d, 0x05,
@@ -280,12 +285,13 @@ static int vbank;
 
 /* ------------------------------------------------------------------------- */
 
+/* MMU Implementation.  */
 
-BYTE REGPARM1 read_mmu(ADDRESS addr)
+inline BYTE REGPARM1 read_mmu(ADDRESS addr)
 {
     addr &= 0xff;
 
-    if ((addr & 0xff) < 0xb) {
+    if (addr < 0xb) {
         if (addr == 5) {
 	    /* 0x80 = 40/80 key released.  */
             return mmu[5] | 0x80;
@@ -297,7 +303,7 @@ BYTE REGPARM1 read_mmu(ADDRESS addr)
     }
 }
 
-void REGPARM2 store_mmu(ADDRESS address, BYTE value)
+inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
 {
     address &= 0xff;
 
@@ -306,20 +312,63 @@ void REGPARM2 store_mmu(ADDRESS address, BYTE value)
 
         switch (address) {
           case 0:
-            kernal_rom[0x1f00] = value;
-            ram[0xff00] = ram[0x1ff00] = value;
-            initialize_memory();
+            /* Configuration register (CR).  */
+            {
+                io_in = !(value & 0x1);
+                basic_lo_in = !(value & 0x2);
+                basic_hi_in = !(value & 0xc);
+                kernal_in = chargen_in = editor_in = !(value & 0x30);
+                ram_bank = ram + (((long) value & 0x40) << 10); /* (only 128K) */
+#if 0
+                printf("MMU: Store CR = $%02x\n", value);
+                printf("MMU: RAM bank at $%05X\n", ram_bank - ram);
+#endif
+            }
             break;
+
           case 6:
-            initialize_memory();
+            /* RAM configuration register (RCR).  */
+            {
+                int shared_size;
+
+                /* FIXME: Video bank handling missing.  */
+
+                printf("MMU: Store RCR = $%02x\n", value);
+                if (value & 0x3)
+                    shared_size = 0x1000 << (value & 0x3);
+                else
+                    shared_size = 0x400;
+
+                /* Share high memory?  */
+                if (value & 0x8) {
+                    top_shared_limit = 0xffff - shared_size;
+                    printf("MMU: Sharing high RAM from $%04X\n",
+                           top_shared_limit + 1);
+                } else {
+                    top_shared_limit = 0xffff;
+                    printf("MMU: No high shared RAM\n");
+                }
+
+                /* Share low memory?  */
+                if (value & 0x4) {
+                    bottom_shared_limit = shared_size;
+                    printf("MMU: Sharing low RAM up to $%04X\n",
+                           bottom_shared_limit - 1);
+                } else {
+                    bottom_shared_limit = 0;
+                    printf("MMU: No low shared RAM\n");
+                }
+            }
             break;
+
           case 5:
             value = (value & 0x7f) | 0x30;
             if ((value & 0x41) != 0x01)
-                fprintf (stderr,
-                         "$D505 %02X - Attempted accessing unimplemented mode.\n",
-                         value);
+                fprintf(stderr,
+                        "MMU: Attempted accessing unimplemented mode: $D505 <- $%02X.\n",
+                        value);
             break;
+
           case 7:
           case 8:
           case 9:
@@ -328,64 +377,16 @@ void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                          + (mmu[0x7] << 8));
             page_one = (ram + (mmu[0xa] & 0x1 ? 0x10000 : 0x00000)
                         + (mmu[0x9] << 8));
-            printf ("MMU: PAGE ZERO at $%05X, PAGE ONE at $%05X\n",
-                    page_zero - ram, page_one - ram);
+            printf("MMU: Page Zero at $%05X, Page One at $%05X\n",
+                   page_zero - ram, page_one - ram);
             break;
         }
     }
-    return;
 }
 
-void REGPARM1 store_zero(ADDRESS address, BYTE value)
-{
-    page_zero[address] = value;
-}
+/* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_zero(ADDRESS address)
-{
-    return page_zero[address];
-}
-
-void REGPARM1 store_one(ADDRESS address, BYTE value)
-{
-    page_one[address & 0xff] = value;
-}
-
-BYTE REGPARM1 read_one(ADDRESS address)
-{
-    return page_one[address & 0xff];
-}
-
-BYTE REGPARM1 read_ram(ADDRESS address)
-{
-  return (ram[(address > 0xffff - shared_size && shared_hi
-               ? address : (address < shared_size && shared_lo
-                            ? address
-                            : (((long) mmu[0] & 0x40) << 10) + address))]);
-}
-
-void REGPARM2 store_ram(ADDRESS address, BYTE value)
-{
-    ram[(address > 0xffff - shared_size && shared_hi
-	 ? address : (address < shared_size && shared_lo
-		      ? address
-                      : (((long) mmu[0] & 0x40) << 10) + address))] = value;
-}
-
-void REGPARM2 store_ram_hi(ADDRESS addr, BYTE value)
-{
-    ram[((mmu[0] & 0x40) << 10) + addr] = value;
-
-    if (addr > 0xff00 && addr <= 0xff04)
-        store_mmu(0, mmu[addr & 15]);
-    else if (addr == 0xff00)
-        store_mmu(0, value);
-
-#if 0
-    if (reu_enabled && addr == 0xff00)
-	reu_dma(-1);
-#endif
-}
+/* External memory access functions.  */
 
 BYTE REGPARM1 read_basic(ADDRESS addr)
 {
@@ -450,58 +451,6 @@ void REGPARM2 store_rom(ADDRESS addr, BYTE value)
     }
 }
 
-void REGPARM2 store_io1(ADDRESS addr, BYTE value)
-{
-    return;
-}
-
-BYTE REGPARM1 read_io1(ADDRESS addr)
-{
-    return rand();
-}
-
-void REGPARM2 store_io2(ADDRESS addr, BYTE value)
-{
-    return;
-}
-
-BYTE REGPARM1 read_io2(ADDRESS addr)
-{
-#if 0
-    if (emu_id_enabled && addr >= 0xdfa0) {
-	addr &= 0xff;
-	if (addr == 0xff)
-	    emulator_id[addr - 0xa0] ^= 0xff;
-	return emulator_id[addr - 0xa0];
-    }
-    if ((addr & 0xff00) == 0xdf00) {
-	if (reu_enabled)
-	    return read_reu(addr & 0x0f);
-	if (ieee488_enabled)
-	    return read_tpi(addr & 0x07);
-	if (action_replay_enabled) {
-        if (export_ram)
-            return export_ram0[0x1f00 + (addr & 0xff)];
-	    switch (roml_bank) {
-	      case 0:
-		return roml_banks[addr & 0x1fff];
-	      case 1:
-		return roml_banks[(addr & 0x1fff) + 0x2000];
-	      case 2:
-		return roml_banks[(addr & 0x1fff) + 0x4000];
-	      case 3:
-		return roml_banks[(addr & 0x1fff) + 0x6000];
-	    }
-	}
-    }
-    return rand();
-#else
-    return rand();
-#endif
-}
-
-/* ------------------------------------------------------------------------- */
-
 /* Generic memory access.  */
 
 void REGPARM2 mem_store(ADDRESS addr, BYTE value)
@@ -511,108 +460,384 @@ void REGPARM2 mem_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 mem_read(ADDRESS addr)
 {
-    return _mem_read_tab_ptr[addr >> 8](addr);
+    return _mem_read_tab[addr >> 8](addr);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* CPU Memory interface.  */
+
+BYTE REGPARM1 read_zero(ADDRESS addr)
+{
+    return page_zero[addr];
+}
+
+void REGPARM2 store_zero(ADDRESS addr, BYTE value)
+{
+    page_zero[addr] = value;
+}
+
+static BYTE REGPARM1 read_one(ADDRESS addr)
+{
+    return page_one[addr - 0x100];
+}
+
+static void REGPARM2 store_one(ADDRESS addr, BYTE value)
+{
+    page_one[addr - 0x100] = value;
+}
+
+
+/* $0200 - $3FFF: RAM (normal or shared) */
+
+static BYTE REGPARM1 read_lo(ADDRESS addr)
+{
+    if (addr < bottom_shared_limit)
+        return ram[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_lo(ADDRESS addr, BYTE value)
+{
+    if (addr < bottom_shared_limit)
+        ram[addr] = value;
+    else
+        ram_bank[addr] = value;
+}
+
+/* $4000 - $7FFF: RAM or low BASIC ROM.  */
+
+static BYTE REGPARM1 read_basic_lo(ADDRESS addr)
+{
+    if (basic_lo_in)
+        return basic_rom[addr - 0x4000];
+    else if (addr < bottom_shared_limit)
+        return ram[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_basic_lo(ADDRESS addr, BYTE value)
+{
+    if (addr < bottom_shared_limit)
+        ram[addr] = value;
+    else
+        ram_bank[addr] = value;
+}
+
+
+/* $8000 - $BFFF: RAM or high BASIC ROM.  */
+
+static BYTE REGPARM1 read_basic_hi(ADDRESS addr)
+{
+    if (basic_hi_in) {
+        return basic_rom[addr - 0x4000];
+    } else if (addr < bottom_shared_limit)
+        return ram[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_basic_hi(ADDRESS addr, BYTE value)
+{
+    if (addr < bottom_shared_limit)
+        ram[addr] = value;
+    else
+        ram_bank[addr] = value;
+}
+
+
+/* $C000 - $CFFF: RAM (normal or shared) or Editor ROM.  */
+
+static BYTE REGPARM1 read_editor(ADDRESS addr)
+{
+    if (editor_in)
+        return basic_rom[addr - 0x4000];
+    else if (addr > top_shared_limit)
+        return ram[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_editor(ADDRESS addr, BYTE value)
+{
+    if (!kernal_in) {
+        if (addr > top_shared_limit)
+            ram[addr] = value;
+        else
+            ram_bank[addr] = value;
+    }
+}
+
+static BYTE REGPARM1 read_d0xx(ADDRESS addr)
+{
+    if (io_in)
+        return read_vic(addr);
+    else if (chargen_in)
+        return chargen_rom[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_d0xx(ADDRESS addr, BYTE value)
+{
+    if (io_in)
+        store_vic(addr, value);
+    else
+        ram_bank[addr] = value;
+}
+
+static BYTE REGPARM1 read_d4xx(ADDRESS addr)
+{
+    if (io_in)
+        return read_sid(addr);
+    else if (chargen_in)
+        return chargen_rom[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_d4xx(ADDRESS addr, BYTE value)
+{
+    if (io_in)
+        store_sid(addr, value);
+    else
+        ram_bank[addr] = value;
+}
+
+static BYTE REGPARM1 read_d5xx(ADDRESS addr)
+{
+    if (io_in)
+        return read_mmu(addr);
+    else if (chargen_in)
+        return chargen_rom[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_d5xx(ADDRESS addr, BYTE value)
+{
+    if (io_in)
+        store_mmu(addr, value);
+    else
+        ram_bank[addr] = value;
+}
+
+static BYTE REGPARM1 read_d6xx(ADDRESS addr)
+{
+    if (io_in)
+        return read_vdc(addr);
+    else if (chargen_in)
+        return chargen_rom[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_d6xx(ADDRESS addr, BYTE value)
+{
+    if (io_in)
+        store_vdc(addr, value);
+    else
+        ram_bank[addr] = value;
+}
+
+static BYTE REGPARM1 read_d8xx(ADDRESS addr)
+{
+    if (io_in)
+        return read_colorram(addr);
+    else if (chargen_in)
+        return chargen_rom[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_d8xx(ADDRESS addr, BYTE value)
+{
+    if (io_in)
+        store_colorram(addr, value);
+    else
+        ram_bank[addr] = value;
+}
+
+static BYTE REGPARM1 read_dcxx(ADDRESS addr)
+{
+    if (io_in)
+        return read_cia1(addr);
+    else if (chargen_in)
+        return chargen_rom[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_dcxx(ADDRESS addr, BYTE value)
+{
+    if (io_in)
+        store_cia1(addr, value);
+    else
+        ram_bank[addr] = value;
+}
+
+static BYTE REGPARM1 read_ddxx(ADDRESS addr)
+{
+    if (io_in)
+        return read_cia2(addr);
+    else if (chargen_in)
+        return chargen_rom[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_ddxx(ADDRESS addr, BYTE value)
+{
+    if (io_in)
+        store_cia2(addr, value);
+    else
+        ram_bank[addr] = value;
+}
+
+/* $E000 - $FFFF: RAM or Kernal.  */
+static BYTE REGPARM1 read_hi(ADDRESS addr)
+{
+    if (kernal_in)
+        return kernal_rom[addr & 0x1fff];
+    else if (addr > top_shared_limit)
+        return ram[addr];
+    else
+        return ram_bank[addr];
+}
+
+/* $E000 - $FEFF: RAM or Kernal.  */
+static void REGPARM2 store_hi(ADDRESS addr, BYTE value)
+{
+    if (addr > top_shared_limit)
+        ram[addr] = value;
+    else
+        ram_bank[addr] = value;
+}
+
+
+/* $FF00 - $FFFF: RAM or Kernal, with MMU at $FF00 - $FF04.  */
+
+static BYTE REGPARM1 read_ffxx(ADDRESS addr)
+{
+    if (addr == 0xff00)
+        return mmu[0];
+    else if (kernal_in)
+        return kernal_rom[addr & 0x1fff];
+    else if (addr > top_shared_limit)
+        return ram[addr];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_ffxx(ADDRESS addr, BYTE value)
+{
+    if (addr == 0xff00)
+        store_mmu(0, value);
+    else if (addr <= 0xff04)
+        store_mmu(0, mmu[addr & 0xf]);
+    else if (addr > top_shared_limit)
+        ram[addr] = value;
+    else
+        ram_bank[addr] = value;
+}
+
+static BYTE REGPARM1 read_empty_io(ADDRESS addr)
+{
+    if (io_in)
+        return 0xff;
+    else if (chargen_in)
+        return chargen_rom[addr - 0xd000];
+    else
+        return ram_bank[addr];
+}
+
+static void REGPARM2 store_empty_io(ADDRESS addr, BYTE value)
+{
+    if (!io_in)
+        ram_bank[addr] = value;
 }
 
 /* ------------------------------------------------------------------------- */
 
 void initialize_memory(void)
 {
-    int i, j;
+    int i;
 
-    for (i = 0; i < 0x101; i++)
-	mem_read_base_tab[i] = NULL;
+    _mem_read_tab[0] = read_zero;
+    _mem_write_tab[0] = store_zero;
+    _mem_read_tab[1] = read_one;
+    _mem_write_tab[1] = store_one;
 
-    _mem_read_base_tab_ptr = mem_read_base_tab;
-
-    shared_lo = mmu[6] & 4;
-    shared_hi = mmu[6] & 8;
-
-    if (!(mmu[6] & 0x3))
-        shared_size = 0x400;
-    else
-        shared_size = 0x1000 << (mmu[6] & 0x3);
-
-    mem_read_tab[0] = mem_read_tab[0x100] = read_zero;
-    mem_write_tab[0] = mem_write_tab[0x100] = store_zero;
-    mem_read_tab[1] = read_one;
-    mem_write_tab[1] = store_one;
-
-    for (i = 0x2; i < 0x10; i++) {
-	mem_read_tab[i] = read_ram;
-	mem_write_tab[i] = store_ram;
+    for (i = 0x02; i <= 0x3f; i++) {
+        _mem_read_tab[i] = read_lo;
+        _mem_write_tab[i] = store_lo;
     }
 
-    for (i = 0x10; i <= 0xff; i += 0x10) {
-        mem_read_tab[i] = read_ram;
-        mem_write_tab[i] = store_ram;
+    for (i = 0x40; i <= 0x7f; i++) {
+        _mem_read_tab[i] = read_basic_lo;
+        _mem_write_tab[i] = store_basic_lo;
     }
 
-    switch (mmu[0] & 0x30) {
-      case 0x00:
-        mem_read_tab[0xe0] = mem_read_tab[0xf0] = read_kernal;
-        mem_read_tab[0xd0] = read_chargen;
-        mem_read_tab[0xc0] = read_basic;
-        break;
-      case 0x10:
-      case 0x20:
-        /* Cartridge: FIXME */
-        break;
+    for (i = 0x80; i <= 0xbf; i++) {
+        _mem_read_tab[i] = read_basic_hi;
+        _mem_write_tab[i] = store_basic_hi;
     }
 
-    switch (mmu[0] & 0xc) {
-      case 0:
-        mem_read_tab[0x80] = mem_read_tab[0x90] = read_basic;
-        mem_read_tab[0xa0] = mem_read_tab[0xb0] = read_basic;
-        break;
-      case 4:
-      case 8:
-        /* Cartridge: FIXME */
-        break;
+    for (i = 0xc0; i <= 0xcf; i++) {
+        _mem_read_tab[i] = read_editor;
+        _mem_write_tab[i] = store_editor;
     }
 
-    if (!(mmu[0] & 2)) {
-        mem_read_tab[0x40] = mem_read_tab[0x50] = read_basic;
-        mem_read_tab[0x60] = mem_read_tab[0x70] = read_basic;
+    for (i = 0xd0; i <= 0xd3; i++) {
+        _mem_read_tab[i] = read_d0xx;
+        _mem_write_tab[i] = store_d0xx;
     }
 
-    for (i = 0x10; i <= 0xf0; i += 0x10) {
-        for (j = 1; j <= 0xf; j++) {
-            mem_read_tab[i + j] = mem_read_tab[i];
-            mem_write_tab[i + j] = mem_write_tab[i];
-	}
+    _mem_read_tab[0xd4] = read_d4xx;
+    _mem_write_tab[0xd4] = store_d4xx;
+    _mem_read_tab[0xd5] = read_d5xx;
+    _mem_write_tab[0xd5] = store_d5xx;
+    _mem_read_tab[0xd6] = read_d6xx;
+    _mem_write_tab[0xd6] = store_d6xx;
+
+    _mem_read_tab[0xd7] = read_empty_io;
+    _mem_write_tab[0xd7] = store_empty_io;
+
+    _mem_read_tab[0xd8] = _mem_read_tab[0xd9] = read_d8xx;
+    _mem_read_tab[0xda] = _mem_read_tab[0xdb] = read_d8xx;
+    _mem_write_tab[0xd8] = _mem_write_tab[0xd9] = store_d8xx;
+    _mem_write_tab[0xda] = _mem_write_tab[0xdb] = store_d8xx;
+
+    _mem_read_tab[0xdc] = read_dcxx;
+    _mem_write_tab[0xdc] = store_dcxx;
+    _mem_read_tab[0xdd] = read_ddxx;
+    _mem_write_tab[0xdd] = store_ddxx;
+
+    _mem_read_tab[0xde] = _mem_read_tab[0xdf] = read_empty_io;
+    _mem_write_tab[0xde] = _mem_write_tab[0xdf] = store_empty_io;
+
+    for (i = 0xe0; i <= 0xfe; i++) {
+        _mem_read_tab[i] = read_hi;
+        _mem_write_tab[i] = store_hi;
     }
 
-    if (!(mmu[0] & 1)) {
-        mem_read_tab[0xd0] = mem_read_tab[0xd1] = read_vic;
-        mem_read_tab[0xd2] = mem_read_tab[0xd3] = read_vic;
-        mem_write_tab[0xd0] = mem_write_tab[0xd1] = store_vic;
-        mem_write_tab[0xd2] = mem_write_tab[0xd3] = store_vic;
-        mem_read_tab[0xd4] = read_sid;
-        mem_write_tab[0xd4] = store_sid;
-        mem_read_tab[0xd5] = read_mmu;
-        mem_write_tab[0xd5] = store_mmu;
-        mem_read_tab[0xd6] = read_vdc;
-        mem_write_tab[0xd6] = store_vdc;
-	mem_read_tab[0xd7] = read_io2;
-	mem_write_tab[0xd7] = store_io2;
-        mem_read_tab[0xd8] = mem_read_tab[0xd9] = read_colorram;
-        mem_read_tab[0xda] = mem_read_tab[0xdb] = read_colorram;
-        mem_write_tab[0xd8] = mem_write_tab[0xd9] = store_colorram;
-        mem_write_tab[0xda] = mem_write_tab[0xdb] = store_colorram;
-        mem_read_tab[0xdc] = read_cia1;
-        mem_write_tab[0xdc] = store_cia1;
-        mem_read_tab[0xdd] = read_cia2;
-        mem_write_tab[0xdd] = store_cia2;
-        mem_read_tab[0xde] = read_io1;
-        mem_write_tab[0xde] = store_io1;
-        mem_read_tab[0xdf] = read_io2;
-        mem_write_tab[0xdf] = store_io2;
-    }
+    _mem_read_tab[0xff] = read_ffxx;
+    _mem_write_tab[0xff] = store_ffxx;
 
-    _mem_read_tab_ptr = mem_read_tab;
-    _mem_write_tab_ptr = mem_write_tab;
-    mem_write_tab[0xff] = store_ram_hi;
+    _mem_read_tab[0x100] = _mem_read_tab[0x0];
+    _mem_write_tab[0x100] = _mem_write_tab[0x0];
+
+    /* FIXME?  Is this the real configuration?  */
+    basic_lo_in = basic_hi_in = kernal_in = editor_in = 1;
+    io_in = 1;
+    chargen_in = 0;
+    top_shared_limit = 0xffff;
+    bottom_shared_limit = 0x0000;
+    ram_bank = ram;
+    page_zero = ram;
+    page_one = ram + 0x100;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -647,7 +872,7 @@ int mem_load(void)
 
     initialize_memory();
 
-    /* Load Kernal ROM. */
+    /* Load Kernal ROM.  */
     if (mem_load_sys_file(kernal_rom_name,
 			  kernal_rom, C128_KERNAL_ROM_SIZE,
 			  C128_KERNAL_ROM_SIZE) < 0) {
@@ -663,7 +888,6 @@ int mem_load(void)
     id = read_rom(0xff80);
 
     printf("Kernal rev #%d.\n", id);
-
     if (id == 1
         && sum != C128_KERNAL_CHECKSUM_R01
         && sum != C128_KERNAL_CHECKSUM_R01SWE
@@ -671,7 +895,7 @@ int mem_load(void)
         fprintf (stderr, "Warning: Kernal image may be corrupted. Sum: %d\n",
 		 sum);
 
-    /* Load Basic ROM. */
+    /* Load Basic ROM.  */
     if (mem_load_sys_file(basic_rom_name,
 			  basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
 			  C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
@@ -680,7 +904,7 @@ int mem_load(void)
 	return -1;
     }
 
-    /* Check Basic ROM. */
+    /* Check Basic ROM.  */
     for (i = 0, sum = 0; i < C128_BASIC_ROM_SIZE; i++)
 	sum += basic_rom[i];
 
@@ -704,7 +928,7 @@ int mem_load(void)
         fprintf (stderr, "Check your Basic ROM\n");
     }
 
-    /* Load chargen ROM. */
+    /* Load chargen ROM.  */
     if (mem_load_sys_file(chargen_rom_name,
 			  chargen_rom, C128_CHARGEN_ROM_SIZE,
 			  C128_CHARGEN_ROM_SIZE) < 0) {
@@ -716,7 +940,6 @@ int mem_load(void)
     /* Fake BIOS initialization.  This is needed because the real C128 is
        initialized by the Z80, which we currently do not implement.  */
     memcpy (ram + 0xffd0, biostab, sizeof(biostab));
-    memcpy (basic_rom + 0x6eb3, inittab0, sizeof(inittab0));
 
     rom_loaded = 1;
     return 0;
@@ -724,21 +947,18 @@ int mem_load(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Change the current video bank. */
+/* Change the current video bank.  */
 void mem_set_vbank(int new_vbank)
 {
-    if (new_vbank != vbank) {
-	vbank = new_vbank;
-	_mem_write_tab_ptr = mem_write_tab;
-	vic_ii_set_vbank(new_vbank);
-    }
+    /* FIXME: Still to do.  */
 }
 
 void mem_toggle_watchpoints(int flag)
 {
+    /* FIXME: Still to do.  */
 }
 
-/* Set the tape sense status. */
+/* Set the tape sense status.  */
 void mem_set_tape_sense(int sense)
 {
     tape_sense = sense;
@@ -764,7 +984,7 @@ void mem_toggle_emu_id(int flag)
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: this part is wrong. */
+/* FIXME: this part is wrong.  */
 
 void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
 {
