@@ -30,6 +30,7 @@
 #include "c128mmu.h"
 #include "c64mem.h"
 #include "cmdline.h"
+#include "interrupt.h"
 #include "kbd.h"
 #include "log.h"
 #include "mem.h"
@@ -46,7 +47,7 @@
 #endif
 
 /* MMU register.  */
-BYTE mmu[11];
+static BYTE mmu[11];
 
 /* Memory configuration.  */
 static int chargen_in;
@@ -58,6 +59,9 @@ static int io_in;
 
 /* State of the 40/80 column key.  */
 static int mmu_column4080_key = 1;
+
+/* Logging goes here.  */
+static log_t mmu_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
@@ -105,8 +109,25 @@ static void mmu_toggle_column4080_key(void)
     mmu_column4080_key = !mmu_column4080_key;
     resources_set_value("40/80ColumnKey",
                         (resource_value_t)mmu_column4080_key);
-    log_message(LOG_DEFAULT, "40/80 column key %s.",
+    log_message(mmu_log, "40/80 column key %s.",
                 (mmu_column4080_key) ? "released" : "pressed");
+}
+
+static void mmu_switch_cpu(int value)
+{
+    if (value) {
+        log_message(mmu_log, "Switch to 8502 CPU.");
+        /* Stop Z80 emulation.  */
+    } else {
+        log_message(mmu_log, "Switch to Z80 CPU.");
+        maincpu_trigger_dma();
+    }
+}
+
+static void mmu_set_ram_bank(BYTE value)
+{
+    /* (We handle only 128K here.)  */
+    ram_bank = ram + (((long) value & 0x40) << 10);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -132,6 +153,9 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
     address &= 0xff;
 
     if (address < 0xb) {
+        BYTE oldvalue;
+
+        oldvalue = mmu[address];
         mmu[address] = value;
 
         switch (address) {
@@ -142,7 +166,7 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
                 basic_lo_in = !(value & 0x2);
                 basic_hi_in = !(value & 0xc);
                 kernal_in = chargen_in = editor_in = !(value & 0x30);
-                mem_set_ram_bank(value);
+                mmu_set_ram_bank(value);
             }
             break;
           case 6:
@@ -151,8 +175,10 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
             break;
           case 5:
             value = (value & 0x7f) | 0x30;
+            if ((value & 1) ^ (oldvalue & 1))
+                mmu_switch_cpu(value & 1);
             if ((value & 0x41) != 0x01)
-                log_error(LOG_ERR,
+                log_error(mmu_log,
                           "MMU: Attempted accessing unimplemented mode: $D505 <- $%02X.",
                           value);
             break;
@@ -198,7 +224,12 @@ void REGPARM2 mmu_ffxx_store(ADDRESS addr, BYTE value)
 
 void mmu_init(void)
 {
+    if (mmu_log == LOG_ERR)
+        mmu_log = log_open("MMU");
+
     set_column4080_key((resource_value_t)mmu_column4080_key);
+
+    mmu[5] = 1;
 }
 
 void mmu_reset(void)

@@ -1,3 +1,47 @@
+1999-09-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.1.
+
+	* imagecontents.c (image_contents_read_disk): Always copy all
+	16 bytes of the filename.
+	(image_contents_to_string): Convert the raw 16 char filename
+	to printable string here.
+
+	* vdrive/vdrive.c (vdrive_parse_name): Do not use string
+	functions on CBM filenames as they can contain `\0'.
+
+	* drive/drive.c (drive_init): Check for drive ROM.
+
+	* c128mmu.c (mmu_switch_cpu): New function.
+	(mmu_init): Initialize current CPU.  Use own logging system.
+	(mmu_set_ram_bank): New function.
+
+	* c128/c128cpu.c: Define `DMA_FUNC'.
+
+	* 6510core.c (DO_INTERRUPT): Switch to other bus master DMA
+	hosts like z80 CPU if `IK_DMA' is set.
+
+	* interrupt.h (set_dma, ack_dma): New functions.
+
+	* maincpu.c: If `DMA_FUNC' is not defined some generic DMA is
+	used.  (maincpu_generic_dma): New function.
+	* drive/drivecpucore.c: Changed likewise.
+
+	* c128/z80.c, c128/z80.h, c128/z80mem.c, c128/z80mem.h: New
+	files.
+
+	* c128/Makefile.am: Added new files.
+
+	* c128/c128mem.c (mem_set_ram_bank): Removed.
+
+	* c128/c128mem.h: `ram_bank' is extern now.
+
+	* romset.c, maincpu.h, cbm2/crtc.c, cbm2/c610cpu.c,
+	arch/unix/xaw/widgets/FileSel.c,
+	arch/unix/xaw/widgets/DirMgr.c,
+	arch/unix/xaw/widgets/RegExp.c, arch/unix/readline/editline.h:
+	Include "vice.h".
+
 1999-08-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.

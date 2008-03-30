@@ -308,7 +308,7 @@ BYTE chargen_rom[C128_CHARGEN_ROM_SIZE];
 int ram_size = C128_RAM_SIZE;
 
 /* Currently selected RAM bank.  */
-static BYTE *ram_bank;
+BYTE *ram_bank;
 
 /* Shared memory.  */
 static ADDRESS top_shared_limit, bottom_shared_limit;
@@ -397,14 +397,6 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 {
     bank_base = base;
     bank_limit = limit;
-}
-
-void mem_set_ram_bank(BYTE value)
-{
-    /* (We handle only 128K here.)  */
-    ram_bank = ram + (((long) value & 0x40) << 10);
-    DEBUG(("MMU: Store CR = $%02x, PC = $%04X\n", value, reg_pc));
-    DEBUG(("MMU: RAM bank at $%05X\n", ram_bank - ram));
 }
 
 void mem_set_ram_config(BYTE value)

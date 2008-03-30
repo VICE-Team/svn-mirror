@@ -58,7 +58,7 @@ extern void mem_set_ram_bank(BYTE value);
 extern BYTE REGPARM1 read_top_shared(ADDRESS addr);
 extern void REGPARM2 store_top_shared(ADDRESS addr, BYTE value);
 
-extern BYTE *page_zero, *page_one;
+extern BYTE *page_zero, *page_one, *ram_bank;
 
 /* ------------------------------------------------------------------------- */
 
