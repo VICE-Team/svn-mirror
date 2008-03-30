@@ -31,9 +31,12 @@
 #include <string.h>
 #include <windows.h>
 #include <commdlg.h>
+#include <tchar.h>
 
+#include "lib.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uireu.h"
 #include "winmain.h"
@@ -66,6 +69,7 @@ static void init_reu_dialog(HWND hwnd)
     HWND temp_hwnd;
     int res_value;
     const char *reufile;
+    TCHAR *st_reufile;
     int res_value_loop;
     int active_value;
 
@@ -76,9 +80,9 @@ static void init_reu_dialog(HWND hwnd)
     temp_hwnd = GetDlgItem(hwnd,IDC_REU_SIZE);
     for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE;
         res_value_loop++) {
-        char st[10];
-        itoa(ui_reu_size[res_value_loop], st, 10);
-        strcat(st, " kB");
+        TCHAR st[10];
+        _itot(ui_reu_size[res_value_loop], st, 10);
+        _tcscat(st, " kB");
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_value("REUsize", (void *)&res_value);
@@ -91,13 +95,18 @@ static void init_reu_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
     resources_get_value("REUfilename", (void *)&reufile);
-    SetDlgItemText(hwnd, IDC_REU_FILE, reufile != NULL ? reufile : "");
+    st_reufile = lib_malloc((strlen(reufile) + 1) * sizeof(TCHAR));
+    system_mbstowcs(st_reufile, reufile, strlen(reufile) + 1);
+    SetDlgItemText(hwnd, IDC_REU_FILE,
+                   reufile != NULL ? st_reufile : TEXT(""));
+    lib_free(st_reufile);
 
     enable_reu_controls(hwnd);
 }
 
 static void end_reu_dialog(HWND hwnd)
 {
+    TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
     resources_set_value("REU", (resource_value_t)
@@ -108,7 +117,8 @@ static void end_reu_dialog(HWND hwnd)
                         ui_reu_size[SendMessage(GetDlgItem(
                         hwnd, IDC_REU_SIZE), CB_GETCURSEL, 0, 0)]);
 
-    GetDlgItemText(hwnd, IDC_REU_FILE, s, MAX_PATH);
+    GetDlgItemText(hwnd, IDC_REU_FILE, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
     resources_set_value("REUfilename", (resource_value_t)s);
 }
 
