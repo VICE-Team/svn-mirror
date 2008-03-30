@@ -1,5 +1,26 @@
 2007-04-29  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.21.7.
+
+	* 6510core.c [LOAD_IND_X, LOAD_IND_Y]: Increment clock here,
+	removed separate increments.
+
+	* keyboard.c, arch/unix/archdep.h, arch/amigaos/archdep.h,
+	arch/os2/archdep.h, arch/beos/archdep.h, arch/msdos/archdep.h,
+	arch/riscos/archdep.h, arch/win32/archdep.h: Defined no key
+	symcode to remove amigaos specific defines.
+
+	* keyboard.c, keyboard.h: Allow the definition of an
+	alternative keyboard mapping.
+
+	* c128/c128mmu.c (mmu_update_config): Set alternative keyboard
+	mapping if c64 mode is entered.
+
+	* c128/c128mmu.c, translate.c, arch/unix/gui/c128ui.c: Added
+	support to always switch to C64 mode on reset.
+
+2007-04-29  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.21.6.
 
 2007-04-25  Christian Vogelgsang  <chris@vogelgsang.org>

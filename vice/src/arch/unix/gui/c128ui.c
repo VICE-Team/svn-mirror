@@ -357,11 +357,16 @@ static ui_menu_entry_t machine_type_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(Go64Mode)
+
 ui_menu_entry_t c128_model_submenu[] = {
     { N_("Machine type"),
       NULL, NULL, machine_type_submenu },
     { N_("ROM sets"),
       NULL, NULL, c128_romset_submenu },
+    { "--" },
+    { N_("*Always switch to C64 mode"),
+      (ui_callback_t)toggle_Go64Mode, NULL, NULL },
     { NULL }
 };
 
