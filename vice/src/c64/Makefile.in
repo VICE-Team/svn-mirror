@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc64.a libc64c128.a
 
-libc64_a_SOURCES =  	c64-resources.c 	c64-resources.h 	c64.c 	c64.h 	c64cart.h 	c64cartridge.c 	c64cartmem.c 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64iec.c 	c64iec.h 	c64mem.c 	c64mem.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	c64tpi.c 	c64tpi.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h
+libc64_a_SOURCES =  	c64-cmdline-options.c 	c64-cmdline-options.h 	c64-resources.c 	c64-resources.h 	c64.c 	c64.h 	c64cart.h 	c64cartridge.c 	c64cartmem.c 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64iec.c 	c64iec.h 	c64mem.c 	c64mem.h 	c64memlimit.c 	c64memlimit.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	c64tpi.c 	c64tpi.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h
 
 
 libc64c128_a_SOURCES =  	c64cia.h 	c64cia2.c 	c64datasette.c 	patchrom.c 	patchrom.h 	c64tpi.c 	c64tpi.h 	reu.c 	reu.h
@@ -169,9 +169,9 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RS232_FALSE@libc64_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
-libc64_a_OBJECTS =  c64-resources.o c64.o c64cartridge.o c64cartmem.o \
-c64cia1.o c64cia2.o c64datasette.o c64iec.o c64mem.o patchrom.o reu.o \
-c64tpi.o psid.o
+libc64_a_OBJECTS =  c64-cmdline-options.o c64-resources.o c64.o \
+c64cartridge.o c64cartmem.o c64cia1.o c64cia2.o c64datasette.o c64iec.o \
+c64mem.o c64memlimit.o patchrom.o reu.o c64tpi.o psid.o
 @HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
 libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o patchrom.o c64tpi.o \
@@ -283,15 +283,17 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+c64-cmdline-options.o: c64-cmdline-options.c ../../src/vice.h \
+	../../src/config.h ../../src/cmdline.h ../../src/resources.h
 c64-resources.o: c64-resources.c ../../src/vice.h ../../src/config.h \
 	c64cart.h ../../src/arch/unix/types.h c64mem.h ../../src/mem.h \
 	../../src/cartridge.h ../../src/resources.h reu.h \
 	../../src/utils.h
 c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/arch/unix/types.h ../../src/attach.h \
-	../../src/autostart.h c64-resources.h c64.h c64cart.h c64cia.h \
-	c64mem.h ../../src/mem.h c64tpi.h ../../src/arch/unix/c64ui.h \
-	../../src/arch/unix/uimenu.h \
+	../../src/autostart.h c64-cmdline-options.h c64-resources.h \
+	c64.h c64cart.h c64cia.h c64mem.h ../../src/mem.h c64tpi.h \
+	../../src/arch/unix/c64ui.h ../../src/arch/unix/uimenu.h \
 	../../src/arch/unix/x11/xaw/uimenu.h ../../src/arch/unix/ui.h \
 	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/uihotkey.h \
@@ -361,7 +363,7 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	c64-resources.h c64cart.h ../../src/arch/unix/types.h c64cia.h \
-	c64mem.h ../../src/mem.h ../../src/cartridge.h \
+	c64mem.h ../../src/mem.h c64memlimit.h ../../src/cartridge.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/datasette.h \
 	../../src/emuid.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/log.h ../../src/maincpu.h ../../src/monitor/mon.h \
@@ -370,6 +372,8 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h c64acia.h
+c64memlimit.o: c64memlimit.c ../../src/vice.h ../../src/config.h \
+	../../src/mem.h ../../src/arch/unix/types.h
 c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h c64.h \
 	c64cia.h ../../src/arch/unix/types.h ../../src/machine.h \
 	../../src/rsuser.h

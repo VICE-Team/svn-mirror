@@ -133,7 +133,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc128.a
 
-libc128_a_SOURCES =  	c128-resources.c 	c128-resources.h 	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128mem.c 	c128mem.h 	c128memlimit.c 	c128memlimit.h 	c128mmu.c 	c128mmu.h 	daa.c 	daa.h 	functionrom.c 	functionrom.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
+libc128_a_SOURCES =  	c128-cmdline-options.c 	c128-cmdline-options.h 	c128-resources.c 	c128-resources.h 	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128mem.c 	c128mem.h 	c128memlimit.c 	c128memlimit.h 	c128mmu.c 	c128mmu.h 	daa.c 	daa.h 	functionrom.c 	functionrom.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -148,9 +148,9 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libc128_a_LIBADD = 
-libc128_a_OBJECTS =  c128-resources.o c128.o c128cia1.o c128cpu.o \
-c128iec.o c128mem.o c128memlimit.o c128mmu.o daa.o functionrom.o z80.o \
-z80mem.o
+libc128_a_OBJECTS =  c128-cmdline-options.o c128-resources.o c128.o \
+c128cia1.o c128cpu.o c128iec.o c128mem.o c128memlimit.o c128mmu.o daa.o \
+functionrom.o z80.o z80mem.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -253,17 +253,20 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+c128-cmdline-options.o: c128-cmdline-options.c ../../src/vice.h \
+	../../src/config.h ../../src/cmdline.h ../../src/resources.h
 c128-resources.o: c128-resources.c ../../src/vice.h ../../src/config.h \
 	c128mem.h ../../src/arch/unix/types.h ../../src/resources.h \
 	../../src/c64/reu.h ../../src/utils.h
 c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/monitor/asm.h ../../src/arch/unix/types.h \
-	../../src/attach.h ../../src/autostart.h c128-resources.h \
-	c128.h c128mem.h c128mmu.h ../../src/arch/unix/c128ui.h \
-	../../src/c64/c64cia.h ../../src/c64/c64rsuser.h \
-	../../src/c64/c64tpi.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/snapshot.h ../../src/clkguard.h ../../src/console.h \
-	../../src/datasette.h ../../src/drive/drive-cmdline-options.h \
+	../../src/attach.h ../../src/autostart.h c128-cmdline-options.h \
+	c128-resources.h c128.h c128mem.h c128mmu.h \
+	../../src/arch/unix/c128ui.h ../../src/c64/c64cia.h \
+	../../src/c64/c64rsuser.h ../../src/c64/c64tpi.h \
+	../../src/ciatimer.h ../../src/alarm.h ../../src/snapshot.h \
+	../../src/clkguard.h ../../src/console.h ../../src/datasette.h \
+	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h functionrom.h \
@@ -273,15 +276,15 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/patchrom.h ../../src/prdevice.h ../../src/print.h \
 	../../src/pruser.h ../../src/c64/reu.h ../../src/screenshot.h \
 	../../src/serial.h ../../src/sid/sid.h ../../src/sound.h \
-	../../src/tape.h ../../src/traps.h ../../src/utils.h \
-	../../src/vicii/vicii.h ../../src/video.h \
+	../../src/tape.h ../../src/traps.h ../../src/mem.h \
+	../../src/utils.h ../../src/vicii/vicii.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/vdc/vdc.h \
-	../../src/vsync.h z80.h z80mem.h ../../src/mem.h \
-	../../src/rs232.h ../../src/c64/c64acia.h ../../src/rsuser.h \
+	../../src/vsync.h z80.h z80mem.h ../../src/rs232.h \
+	../../src/c64/c64acia.h ../../src/rsuser.h \
 	../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/alarm.h \
