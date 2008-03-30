@@ -122,29 +122,29 @@
 
 #ifndef DRIVE_CPU
 /* Export the local version of the registers.  */
-#define EXPORT_REGISTERS()                      \
-  do {                                          \
-      GLOBAL_REGS.reg_pc = reg_pc;              \
-      GLOBAL_REGS.reg_a = reg_a;                \
-      GLOBAL_REGS.reg_x = reg_x;                \
-      GLOBAL_REGS.reg_y = reg_y;                \
-      GLOBAL_REGS.reg_sp = reg_sp;              \
-      GLOBAL_REGS.reg_p = reg_p;                \
-      GLOBAL_REGS.flag_n = flag_n;              \
-      GLOBAL_REGS.flag_z = flag_z;              \
+#define EXPORT_REGISTERS()      \
+  do {                          \
+      GLOBAL_REGS.pc = reg_pc;  \
+      GLOBAL_REGS.a = reg_a;    \
+      GLOBAL_REGS.x = reg_x;    \
+      GLOBAL_REGS.y = reg_y;    \
+      GLOBAL_REGS.sp = reg_sp;  \
+      GLOBAL_REGS.p = reg_p;    \
+      GLOBAL_REGS.n = flag_n;   \
+      GLOBAL_REGS.z = flag_z;   \
   } while (0)
 
 /* Import the public version of the registers.  */
-#define IMPORT_REGISTERS()                      \
-  do {                                          \
-      reg_a = GLOBAL_REGS.reg_a;                \
-      reg_x = GLOBAL_REGS.reg_x;                \
-      reg_y = GLOBAL_REGS.reg_y;                \
-      reg_sp = GLOBAL_REGS.reg_sp;              \
-      reg_p = GLOBAL_REGS.reg_p;                \
-      flag_n = GLOBAL_REGS.flag_n;              \
-      flag_z = GLOBAL_REGS.flag_z;              \
-      JUMP(GLOBAL_REGS.reg_pc);                 \
+#define IMPORT_REGISTERS()      \
+  do {                          \
+      reg_a = GLOBAL_REGS.a;    \
+      reg_x = GLOBAL_REGS.x;    \
+      reg_y = GLOBAL_REGS.y;    \
+      reg_sp = GLOBAL_REGS.sp;  \
+      reg_p = GLOBAL_REGS.p;    \
+      flag_n = GLOBAL_REGS.n;   \
+      flag_z = GLOBAL_REGS.z;   \
+      JUMP(GLOBAL_REGS.pc);     \
   } while (0)
 #else  /* DRIVE_CPU */
 #define IMPORT_REGISTERS()
