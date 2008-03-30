@@ -40,6 +40,8 @@
 #include "cmdline.h"
 #include "log.h"
 
+void video_resize(void);
+
 /* Main DirectDraw object.  */
 LPDIRECTDRAW dd;
 

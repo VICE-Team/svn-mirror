@@ -111,6 +111,7 @@ BEGIN
     BEGIN
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
+        MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD

@@ -58,6 +58,8 @@ libarch_a_SOURCES = \
 	uicbm2set.h \
 	uidrive.c \
 	uidrive.h \
+        uijoystick.c \
+        uijoystick.h \
 	uilib.c \
 	uilib.h \
 	uipetset.c \
@@ -83,19 +85,19 @@ libarch_a_DEPENDENCIES = \
 EXTRA_DIST = \
         c64.ico
 
-resc128.o : resc128.r res.h
+resc128.o : resc128.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.r res.h
+resc64.o : resc64.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-rescbm2.o : rescbm2.r res.h
+rescbm2.o : rescbm2.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-respet.o : respet.r res.h
+respet.o : respet.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resvic.o : resvic.r res.h
+resvic.o : resvic.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 

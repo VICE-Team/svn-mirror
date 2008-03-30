@@ -34,6 +34,7 @@
 #include "kbd.h"
 #include "cmdline.h"
 #include "resources.h"
+#include "joystick.h"
 
 /* ------------------------------------------------------------------------ */
 
@@ -60,13 +61,14 @@ static void kbd_debug(const char *format, ...)
 /* ------------------------------------------------------------------------ */
 
 BYTE _kbd_extended_key_tab[256] = {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, K_KPENTER, K_RIGHTCTRL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, K_HOME, K_UP, K_PGUP, 0, K_LEFT, 0, K_RIGHT, 0, K_END,
-    K_DOWN, K_PGDOWN, K_INS, K_DEL, 0, 0, 0, 0, 0, 0, 0, K_LEFTW95,
-    K_RIGHTW95, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, K_KPENTER, K_RIGHTCTRL, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, K_KPDIV, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, K_NUMLOCK, 0, K_HOME, K_UP, K_PGUP, 0, K_LEFT, 0, K_RIGHT, 0, K_END,
+    K_DOWN, K_PGDOWN, K_INS, K_DEL, 0, 0, 0, 0, 0, 0, 0, K_LEFTW95, K_RIGHTW95, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 int keyarr[KBD_ROWS];
@@ -158,15 +160,6 @@ int kbd_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------ */
 
-/* Joystick-through-keyboard.  */
-
-static int joystick_handle_key(int kcode, int pressed)
-{
-    return 0;
-}
-
-/* ------------------------------------------------------------------------ */
-
 inline static void set_keyarr(int row, int col, int value)
 {
     if (row < 0 || col < 0)
@@ -219,4 +212,25 @@ int kbd_handle_keyup(DWORD virtual_key, DWORD key_data)
     }
 
     return 0;
+}
+
+const char *kbd_code_to_string(kbd_code_t kcode)
+{
+    static char *tab[256] = {
+        "None", "Esc", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-",
+        "=", "Backspace", "Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O",
+        "P", "{", "}", "Enter", "Left Ctrl", "A", "S", "D", "F", "G", "H", "J",
+        "K", "L", ";", "'", "`", "Left Shift", "\\", "Z", "X", "C", "V", "B",
+        "N", "M", ",", ".", "/", "Right Shift", "Numpad *", "Left Alt",
+        "Space", "Caps Lock", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8",
+        "F9", "F10", "Num Lock", "Scroll Lock", "Numpad 7", "Numpad 8",
+        "Numpad 9", "Numpad -", "Numpad 4", "Numpad 5", "Numpad 6",
+        "Numpad +", "Numpad 1", "Numpad 2", "Numpad 3", "Numpad 0",
+        "Numpad .", "SysReq", "85", "86", "F11", "F12", "Home",
+        "Up", "PgUp", "Left", "Right", "End", "Down", "PgDown", "Ins", "Del",
+        "Numpad Enter", "Right Ctrl", "Pause", "PrtScr", "Numpad /",
+        "Right Alt", "Break", "Left Win95", "Right Win95"
+    };
+
+    return tab[(int) kcode];
 }

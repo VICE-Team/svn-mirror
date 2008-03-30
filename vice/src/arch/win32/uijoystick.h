@@ -1,8 +1,8 @@
 /*
- * joystick.h - Joystick support for Windows.
+ * uijoystick.h - Joystick user interface for Win32 platforms.
  *
  * Written by
- *  Ettore Perazzoli    (ettore@comm2000.it)
+ *  Tibor Biczo  (crown@mail.matav.hu)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,39 +24,9 @@
  *
  */
 
-#ifndef _JOYSTICK_H
-#define _JOYSTICK_H
+#ifndef _UIJOYSTICK_H_
+#define _UIJOYSTICK_H_
 
-#include "kbd.h"
-
-typedef enum {
-    JOYDEV_NONE,
-    JOYDEV_NUMPAD,
-    JOYDEV_KEYSET1,
-    JOYDEV_KEYSET2,
-    JOYDEV_HW1,
-    JOYDEV_HW2
-} joystick_device_t;
-
-typedef enum {
-    KEYSET_NW,
-    KEYSET_N,
-    KEYSET_NE,
-    KEYSET_E,
-    KEYSET_SE,
-    KEYSET_S,
-    KEYSET_SW,
-    KEYSET_W,
-    KEYSET_FIRE
-} joystick_direction_t;
-
-int joystick_init(void);
-int joystick_init_resources(void);
-int joystick_init_cmdline_options(void);
-int joystick_close(void);
-void joystick_update(void);
-int joystick_handle_key(kbd_code_t kcode, int pressed);
-
-int joystick_inited;
+void ui_joystick_settings_dialog(HWND hwnd);
 
 #endif

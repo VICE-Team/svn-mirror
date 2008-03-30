@@ -166,6 +166,8 @@ libarch_a_SOURCES = \
 	uicbm2set.h \
 	uidrive.c \
 	uidrive.h \
+        uijoystick.c \
+        uijoystick.h \
 	uilib.c \
 	uilib.h \
 	uipetset.c \
@@ -205,8 +207,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610kbd.o c610ui.o \
 c64kbd.o c64ui.o dirent.o joystick.o kbd.o petkbd.o petui.o print.o \
-ui.o uiattach.o uicbm2set.o uidrive.o uilib.o uipetset.o uisnapshot.o \
-uivicii.o vic20kbd.o vic20ui.o video.o vsync.o winmain.o
+ui.o uiattach.o uicbm2set.o uidrive.o uijoystick.o uilib.o uipetset.o \
+uisnapshot.o uivicii.o vic20kbd.o vic20ui.o video.o vsync.o winmain.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -349,6 +351,7 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+
 info: info-recursive
 dvi: dvi-recursive
 check: all-am
@@ -425,19 +428,19 @@ installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-resc128.o : resc128.r res.h
+resc128.o : resc128.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.r res.h
+resc64.o : resc64.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-rescbm2.o : rescbm2.r res.h
+rescbm2.o : rescbm2.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-respet.o : respet.r res.h
+respet.o : respet.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resvic.o : resvic.r res.h
+resvic.o : resvic.r res.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 

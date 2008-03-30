@@ -1,3 +1,12 @@
+1999-01-21 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.10.
+
+1999-01-20  Tibor Biczo  <crown@mail.matav.hu>
+
+	* configure.in (HAS_JOYSTICK): On Win32 we have joystick.
+	(LIBS): Added dinput library.
+
 1999-01-20 Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.9.

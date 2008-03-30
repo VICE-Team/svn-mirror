@@ -38,6 +38,7 @@
 #include "resources.h"
 #include "sound.h"
 #include "ui.h"
+#include "joystick.h"
 
 #include <mmsystem.h>
 
@@ -298,6 +299,7 @@ int do_vsync(int been_skipped)
 
     /* Flush keypresses emulated through the keyboard buffer.  */
     kbd_buf_flush();
+    joystick_update();
 
 
 

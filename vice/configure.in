@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.16.1.9)
+AM_INIT_AUTOMAKE(vice, 0.16.1.10)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -96,6 +96,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xmingw32"; then
 
   is_win32=yes
 
+  AC_DEFINE(HAS_JOYSTICK)
   AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_PRINTER, false)
 
@@ -528,7 +529,7 @@ elif [[ x"$is_win32" != "xno" ]]; then
 
   dnl On Windows, we already know what we want.
 
-  LIBS="-lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound"
+  LIBS="-lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput"
 
   x64_LDFLAGS="-mwindows"
   x128_LDFLAGS="-mwindows"

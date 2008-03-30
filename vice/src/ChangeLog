@@ -1,3 +1,49 @@
+1999-01-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.9.
+
+	* arch/win32/joystick.c: #include <ddraw.h>.
+
+1999-01-20  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am (uijoystick.c uijoystick.h): Added
+	  new files.
+	  Added res.r to the dependenci list of resc128.o, resc64.o,
+	  rescbm2.o, respet.o, resvic.o.
+
+	* arch/win32/joystick.c: Implemented joystick support for Win32.
+        * arch/win32/joystick.h: Same here.
+
+	* arch/win32/kbd.c: Include joystick.h.
+	  (_kbd_extended_tab): Added missing Divide button on keypad.
+	  (joystick_handle_key): Removed from here, it's now in joystick.c.
+	  (kbd_code_to_string): New function for UI support.
+
+	* arch/win32/kbd.h (doskbd_codes): Renamed to kbd_code_t.
+	  Removed extern from function prototypes.
+	  Added prototype for _kbd_extended_key_tab and kbd_code_to_string.
+
+	* arch/win32/res.h: Added identifiers for Joystick dialogs.
+
+	* arch/win32/res.r: Added dialog definitions for Joystick UI.
+
+	* arch/win32/resc128.r arch/win32/resc64.r arch/win32/rescbm2.r
+	  arch/win32/respet.r arch/win32/resvic.r: Added joystick setting
+	  into menu.
+
+	* arch/win32/ui.c: Include uijoystick.h.
+	  (handle_wm_command): Added joystick menu handling.
+
+	* arch/win32/uijoystick.c: New file. Implements UI for joystick.
+	* arch/win32/uijoystick.h: New file.
+
+	* arch/win32/video.c: Define prototype of video_resize.
+
+	* arch/win32/vsync.c: Include joystick.h.
+	  (do_vsync): Call joystick_update.
+
+	* main.c: Define prototype of video_free.
+
 1999-01-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.9.

@@ -7,7 +7,9 @@
 #define IDR_MENUVIC                     103
 #define IDR_MENUPET                     104
 #define IDR_MENUCBM2                    105
+
 #define IDI_ICON1                       106
+
 #define IDD_ABOUT                       109
 #define IDC_ABOUT_VERSION               1002
 #define IDC_BROWSEDISK                  1006
@@ -114,6 +116,36 @@
 #define IDC_TOGGLE_CBMII_RAMC           1175
 #define IDC_SELECT_CBMII_KEYB_GRAPHICS  1180
 #define IDC_SELECT_CBMII_KEYB_BUSINESS  1181
+
+#define IDD_JOY_SETTINGS_DIALOG         1200
+#define IDC_JOY_DEV1                    1201
+#define IDC_JOY_DEV2                    1202
+#define IDC_JOY_CALIBRATE               1203
+#define IDC_JOY_CONFIG_A                1204
+#define IDC_JOY_CONFIG_B                1205
+
+#define IDD_CONFIG_KEYSET_DIALOG        1210
+#define IDC_KEYSET_SW                   1211
+#define IDC_KEYSET_S                    1212
+#define IDC_KEYSET_SE                   1213
+#define IDC_KEYSET_W                    1214
+#define IDC_KEYSET_E                    1215
+#define IDC_KEYSET_NW                   1216
+#define IDC_KEYSET_N                    1217
+#define IDC_KEYSET_NE                   1218
+#define IDC_KEYSET_FIRE                 1219
+#define IDC_KEY_SW                      1220
+#define IDC_KEY_S                       1221
+#define IDC_KEY_SE                      1222
+#define IDC_KEY_W                       1223
+#define IDC_KEY_E                       1224
+#define IDC_KEY_NW                      1225
+#define IDC_KEY_N                       1226
+#define IDC_KEY_NE                      1227
+#define IDC_KEY_FIRE                    1228
+
+#define IDD_CONFIG_KEY_DIALOG           1229
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
@@ -182,6 +214,7 @@
 #define IDM_CBM2_SETTINGS               40132
 #define IDM_SYNC_FACTOR_PAL             40140
 #define IDM_SYNC_FACTOR_NTSC            40141
+#define IDM_JOY_SETTINGS                40142
 
 // Next default values for new objects
 //

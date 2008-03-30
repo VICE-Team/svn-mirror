@@ -45,6 +45,7 @@
 #include "tape.h"
 #include "uiattach.h"
 #include "uidrive.h"
+#include "uijoystick.h"
 #include "uilib.h"
 #include "uisnapshot.h"
 #include "utils.h"
@@ -629,6 +630,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
       case IDM_DRIVE_SETTINGS:
         ui_drive_settings_dialog(main_hwnd);
         break;
+        case IDM_JOY_SETTINGS:
+            ui_joystick_settings_dialog(main_hwnd);
+            break;
       case IDM_SYNC_FACTOR_PAL:
         resources_set_value("DriveSyncFactor",
                             (resource_value_t) DRIVE_SYNC_PAL);

@@ -531,6 +531,8 @@ static RETSIGTYPE break64(int sig)
     exit (-1);
 }
 
+void video_free(void);
+
 static void exit64(void)
 {
     /* Disable SIGINT.  This is done to prevent the user from keeping C-c
@@ -544,7 +546,7 @@ static void exit64(void)
     video_free();
     sound_close();
 
-#if defined(HAS_JOYSTICK) && !defined(__MSDOS__) 
+#if defined(HAS_JOYSTICK) && !defined(__MSDOS__)
     joystick_close();
 #endif
 
@@ -552,4 +554,3 @@ static void exit64(void)
 }
 
 #endif
-
