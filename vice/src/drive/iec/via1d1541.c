@@ -103,7 +103,9 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
     via1p = (drivevia1_context_t *)(via_context->prv);
 
     iec_info = iec_get_drive_port();
-    if (via1p->drive_ptr->type == DRIVE_TYPE_1571) {
+    if (via1p->drive_ptr->type == DRIVE_TYPE_1570
+        || via1p->drive_ptr->type == DRIVE_TYPE_1571
+        || via1p->drive_ptr->type == DRIVE_TYPE_1571CR) {
         drive_sync_set_1571(byte & 0x20, via1p->number);
         drive_set_1571_side((byte >> 2) & 1, via1p->number);
     } else
@@ -121,7 +123,9 @@ inline static void store_pra(via_context_t *via_context, BYTE byte,
 
     via1p = (drivevia1_context_t *)(via_context->prv);
 
-    if (via1p->drive_ptr->type == DRIVE_TYPE_1571) {
+    if (via1p->drive_ptr->type == DRIVE_TYPE_1570
+        || via1p->drive_ptr->type == DRIVE_TYPE_1571
+        || via1p->drive_ptr->type == DRIVE_TYPE_1571CR) {
         if ((oldpa_value ^ byte) & 0x20)
             drive_sync_set_1571(byte & 0x20, via1p->number);
         if ((oldpa_value ^ byte) & 0x04)
@@ -250,7 +254,9 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
 
     via1p = (drivevia1_context_t *)(via_context->prv);
 
-    if (via1p->drive_ptr->type == DRIVE_TYPE_1571) {
+    if (via1p->drive_ptr->type == DRIVE_TYPE_1570
+        || via1p->drive_ptr->type == DRIVE_TYPE_1571
+        || via1p->drive_ptr->type == DRIVE_TYPE_1571CR) {
         BYTE tmp;
         if (via1p->drive_ptr->byte_ready_active == 0x6)
             rotation_rotate_disk(via1p->drive_ptr);
