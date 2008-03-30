@@ -63,19 +63,21 @@ libc64_a_SOURCES = \
 	c64tpi.c \
 	c64tpi.h \
 	c64video.c \
+	georam.c \
+	georam.h \
 	patchrom.c \
 	patchrom.h \
+	plus60k.c \
+	plus60k.h \
 	psid.c \
 	psid.h \
 	psiddrv.a65 \
 	psiddrv.h \
+	ramcart.c \
+	ramcart.h \
 	reloc65.c \
 	reu.c \
 	reu.h \
-	georam.c \
-	georam.h \
-	ramcart.c \
-	ramcart.h \
 	tfe.c \
 	tfe.h \
         tfearch.h
@@ -109,14 +111,14 @@ libc64c128_a_SOURCES = \
 	c64rsuser.h \
 	c64tpi.c \
 	c64tpi.h \
-	patchrom.c \
-	patchrom.h \
-	reu.c \
-	reu.h \
 	georam.c \
 	georam.h \
+	patchrom.c \
+	patchrom.h \
 	ramcart.c \
 	ramcart.h \
+	reu.c \
+	reu.h \
 	tfe.c \
 	tfe.h \
         tfearch.h

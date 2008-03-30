@@ -104,6 +104,7 @@ const uint32 MENU_TOGGLE_VIDEOCACHE				= 'M108';
 const uint32 MENU_TOGGLE_REU					= 'M109';
 const uint32 MENU_TOGGLE_GEORAM					= 'M143';
 const uint32 MENU_TOGGLE_RAMCART					= 'M145';
+const uint32 MENU_TOGGLE_PLUS60K					= 'M146';
 const uint32 MENU_TOGGLE_MOUSE					= 'M110';
 const uint32 MENU_TOGGLE_DIRECTWINDOW			= 'M111';
 const uint32 MENU_TOGGLE_IEEE488				= 'M112';

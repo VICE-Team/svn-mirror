@@ -125,6 +125,7 @@ static const char Rsrc_Basic[] = "BasicName";
 static const char Rsrc_REU[] = "REU";
 static const char Rsrc_GEORAM[] = "GEORAM";
 static const char Rsrc_RAMCART[] = "RAMCART";
+static const char Rsrc_PLUS60K[] = "PLUS60K";
 static const char Rsrc_IEEE[] = "IEEE488";
 static const char Rsrc_EmuID[] = "EmuID";
 static const char Rsrc_CartT[] = "CartridgeType";
@@ -1591,6 +1592,7 @@ config_item_t Configurations[] = {
   {Rsrc_REU, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_REU}},
   {Rsrc_GEORAM, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_GEORAM}},
   {Rsrc_RAMCART, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_RAMCART}},
+  {Rsrc_PLUS60K, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_PLUS60K}},
   {Rsrc_IEEE, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_IEEE488}},
   {Rsrc_EmuID, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_EmuID}},
   {Rsrc_AciaDE, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_ConfDev_ACIADE}},

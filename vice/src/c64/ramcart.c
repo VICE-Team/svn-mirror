@@ -41,6 +41,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "plus60k.h"
 #include "resources.h"
 #include "ramcart.h"
 #include "snapshot.h"
@@ -54,8 +55,6 @@
 static const c64export_resource_t export_res = {
     "RAMCART", 1, 1, 1, 0
 };
-
-extern BYTE mem_ram[];
 
 /* RAMCART registers */
 static BYTE ramcart[2];
@@ -338,13 +337,13 @@ BYTE REGPARM1 ramcart_roml_read(WORD addr)
     if (ramcart_readonly==1 && ramcart_size_kb==128 && addr>=0x8000 && addr<=0x80ff)
       retval=ramcart_ram[((ramcart[1]&1)*65536)+(ramcart[0]*256)+(addr&0xff)];
     else
-      retval=mem_ram[addr];
+      retval=plus60k_ram_read(addr);
     return retval;
 }
 
 void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte)
 {
-    mem_ram[addr]=byte;
+    plus60k_ram_store(addr, byte);
 }
 
 BYTE REGPARM1 ramcart_window_read(WORD addr)

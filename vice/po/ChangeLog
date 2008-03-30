@@ -1,10 +1,16 @@
+2005-06-15  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* de.po: Some translation fixes. This patch was written by
+	Jens Seidel and published on the Debian Bug Tracking as
+	#313846.
+
 2005-05-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
-	* po/nl.po: Tweaked a dutch translation item.
+	* nl.po: Tweaked a dutch translation item.
 
 2005-05-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
-	* po/de.po, po/fr.po, po/nl.po: Some translation tweaks.
+	* de.po, fr.po, nl.po: Some translation tweaks.
 
 2005-04-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
 

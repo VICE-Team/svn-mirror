@@ -531,6 +531,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_RAMCART:
         toggle("RAMCART");
         return;
+    case IDM_PLUS60K:
+        toggle("PLUS60K");
+        return;
 #ifdef HAVE_TFE
     case IDM_TFE:
         toggle("ETHERNET_ACTIVE");
@@ -564,6 +567,8 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         resources_set_value("RAMCARTSize",
                             (resource_value_t*)((idm&0xf)<<6));
         return;
+        resources_get_value("PLUS60K", (void *)&val);
+        WinCheckMenuItem(hwnd,  IDM_PLUS60K,     val);
 #endif // __X64__ || __X128__
 #ifdef HAVE_MOUSE
     case IDM_MOUSE:

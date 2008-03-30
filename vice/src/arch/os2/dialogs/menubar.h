@@ -136,6 +136,8 @@
 #define IDM_RAMCART64    0x941
 #define IDM_RAMCART128   0x942
 
+#define IDM_PLUS60K      0x17c
+
 #define IDM_TFE          0x158
 
 #define IDM_MOUSE        0x151

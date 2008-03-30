@@ -757,6 +757,15 @@ static int intl_table[][countof(language_table)] = {
 /* pl */  IDD_RS232_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_RS232_SETTINGS_DIALOG_SV},   /* fuzzy, size */
 
+/* resplus60k.rc */
+/* en */ {IDD_PLUS60K_SETTINGS_DIALOG,
+/* de */  IDD_PLUS60K_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_PLUS60K_SETTINGS_DIALOG_FR,    /* fuzzy, size */
+/* it */  IDD_PLUS60K_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_PLUS60K_SETTINGS_DIALOG_NL,    /* size */
+/* pl */  IDD_PLUS60K_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_PLUS60K_SETTINGS_DIALOG_SV},   /* fuzzy, size */
+
 
 /* ------------------------------ MENU RESOURCES ------------------------------ */ 
 
@@ -2514,7 +2523,16 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_START_VICE_FULLSCREEN_MODE_IT,    /* fuzzy */
 /* nl */  IDS_START_VICE_FULLSCREEN_MODE_NL,
 /* pl */  IDS_START_VICE_FULLSCREEN_MODE_PL,    /* fuzzy */
-/* sv */  IDS_START_VICE_FULLSCREEN_MODE_SV}    /* fuzzy */
+/* sv */  IDS_START_VICE_FULLSCREEN_MODE_SV},   /* fuzzy */
+
+/* resplus60k.rc */
+/* en */ {IDS_SELECT_FILE_PLUS60K,
+/* de */  IDS_SELECT_FILE_PLUS60K_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_FILE_PLUS60K_FR,    /* fuzzy */
+/* it */  IDS_SELECT_FILE_PLUS60K_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_FILE_PLUS60K_NL,
+/* pl */  IDS_SELECT_FILE_PLUS60K_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_FILE_PLUS60K_SV}    /* fuzzy */
 
 };
 

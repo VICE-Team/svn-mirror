@@ -1,8 +1,8 @@
 /*
- * version.h
+ * uiplus60k.h
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,19 +24,9 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _UI_PLUS60K_H
+#define _UI_PLUS60K_H
 
-#ifndef VERSION
-#define VERSION "1.16.16"
-#endif
-
-#ifndef VERSION_RC_NUMBER
-#define VERSION_RC_NUMBER 1,16,16,0
-#endif
-
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+extern struct ui_menu_entry_s plus60k_submenu[];
 
 #endif

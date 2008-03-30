@@ -47,6 +47,7 @@
 #include "uitfe.h"
 #endif
 #include "uigeoram.h"
+#include "uiplus60k.h"
 #include "uiramcart.h"
 #include "uisid.h"
 
@@ -345,6 +346,8 @@ int c64ui_init(void)
     uigeoram_init(ui_ioextensions_submenu);
 
     uiramcart_init(ui_ioextensions_submenu);
+
+    uiplus60k_init(ui_ioextensions_submenu);
 
 #ifdef HAVE_TFE
     uitfe_init(ui_ioextensions_submenu);

@@ -74,19 +74,21 @@ libarch_a_SOURCES = \
 	uicmdline.c \
 	uidrive.c \
 	uidrive.h \
+	uigeoram.c \
+	uigeoram.h \
 	uijoystick.c \
 	uijoystick.h \
 	uimon.c \
 	uiperipherial.c \
 	uiperipherial.h \
+	uiplus60k.c \
+	uiplus60k.h \
 	uiprinter.c \
 	uiprinter.h \
-	uireu.c \
-	uireu.h \
-	uigeoram.c \
-	uigeoram.h \
 	uiramcart.c \
 	uiramcart.h \
+	uireu.c \
+	uireu.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.c \

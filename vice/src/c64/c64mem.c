@@ -46,6 +46,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "plus60k.h"
 #include "ram.h"
 #include "ramcart.h"
 #include "reu.h"
@@ -293,6 +294,48 @@ BYTE REGPARM1 colorram_read(WORD addr)
 
 /* ------------------------------------------------------------------------- */
 
+/* init plus60k memory table changes */
+
+static void plus60k_init_config(void)
+{
+  int i,j,k;
+
+  if (plus60k_enabled)
+  {
+    for (i = 0; i < NUM_CONFIGS; i++)
+    {
+      for (j = 0x10; j <= 0xff; j++)
+      {
+        for (k = 0; k < NUM_VBANKS; k++)
+        {
+          if (mem_write_tab[k][i][j]==vicii_mem_vbank_39xx_store)
+            mem_write_tab[k][i][j]=plus60k_vicii_mem_vbank_39xx_store;
+          if (mem_write_tab[k][i][j]==vicii_mem_vbank_3fxx_store)
+            mem_write_tab[k][i][j]=plus60k_vicii_mem_vbank_3fxx_store;
+          if (mem_write_tab[k][i][j]==vicii_mem_vbank_store)
+            mem_write_tab[k][i][j]=plus60k_vicii_mem_vbank_store;
+          if (mem_write_tab[k][i][j]==ram_hi_store)
+            mem_write_tab[k][i][j]=plus60k_ram_hi_store;
+          if (mem_write_tab[k][i][j]==vicii_store && j==0xd1)
+            mem_write_tab[k][i][j]=plus60k_vicii_store;
+          if (mem_write_tab[k][i][j]==vicii_store && j>0xd1)
+            mem_write_tab[k][i][j]=plus60k_vicii_store0;
+          if (mem_write_tab[k][i][j]==ram_store)
+            mem_write_tab[k][i][j]=plus60k_ram_store;
+        }
+        if (mem_read_tab[i][j]==vicii_read && j==0xd1)
+          mem_read_tab[i][j]=plus60k_vicii_read;
+        if (mem_read_tab[i][j]==vicii_read && j>0xd1)
+          mem_read_tab[i][j]=plus60k_vicii_read0;
+        if (mem_read_tab[i][j]==ram_read)
+          mem_read_tab[i][j]=plus60k_ram_read;
+      }
+    }
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+
 void mem_set_write_hook(int config, int page, store_func_t *f)
 {
     int i;
@@ -459,6 +502,7 @@ void mem_initialize_memory(void)
     mem_pla_config_changed();
     cartridge_init_config();
     ramcart_init_config();
+    plus60k_init_config();
 }
 
 /* ------------------------------------------------------------------------- */

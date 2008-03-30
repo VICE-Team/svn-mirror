@@ -71,6 +71,7 @@
 #include "machine-video.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "monitor.h"
 #include "parallel.h"
 #include "patchrom.h"
@@ -104,6 +105,19 @@
 #ifdef HAVE_TFE
 #include "tfe.h"
 #endif
+
+/* dummy functions until the C128 version of the 
+   +60K expansion can be made */
+
+BYTE REGPARM1 plus60k_ram_read(WORD addr)
+{
+  return mem_ram[addr];
+}
+
+void REGPARM2 plus60k_ram_store(WORD addr, BYTE value)
+{
+  mem_ram[addr] = value;
+}
 
 machine_context_t machine_context;
 

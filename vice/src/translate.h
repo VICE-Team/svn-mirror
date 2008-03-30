@@ -339,7 +339,7 @@ extern int translate_res(int en_resource);
    printerdrv/output-select.c, printerdrv/output-text.c,
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
-   fliplist.c, initcmdline.c, log.c, sound.c */
+   fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c */
 #define IDCLS_P_NAME                            0x1100e
 #define IDCLS_P_NAME_DE                         0x1100f
 #define IDCLS_P_NAME_FR                         0x11010
@@ -3494,5 +3494,32 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_ISO_LANG_CODE_NL          0x1195c
 #define IDCLS_SPECIFY_ISO_LANG_CODE_PL          0x1195d
 #define IDCLS_SPECIFY_ISO_LANG_CODE_SV          0x1195e
+
+/* c64/plus60k.c */
+#define IDCLS_ENABLE_PLUS60K_EXPANSION          0x1195f
+#define IDCLS_ENABLE_PLUS60K_EXPANSION_DE       0x11960
+#define IDCLS_ENABLE_PLUS60K_EXPANSION_FR       0x11961
+#define IDCLS_ENABLE_PLUS60K_EXPANSION_IT       0x11962
+#define IDCLS_ENABLE_PLUS60K_EXPANSION_NL       0x11963
+#define IDCLS_ENABLE_PLUS60K_EXPANSION_PL       0x11964
+#define IDCLS_ENABLE_PLUS60K_EXPANSION_SV       0x11965
+
+/* c64/plus60k.c */
+#define IDCLS_DISABLE_PLUS60K_EXPANSION         0x11966
+#define IDCLS_DISABLE_PLUS60K_EXPANSION_DE      0x11967
+#define IDCLS_DISABLE_PLUS60K_EXPANSION_FR      0x11968
+#define IDCLS_DISABLE_PLUS60K_EXPANSION_IT      0x11969
+#define IDCLS_DISABLE_PLUS60K_EXPANSION_NL      0x1196a
+#define IDCLS_DISABLE_PLUS60K_EXPANSION_PL      0x1196b
+#define IDCLS_DISABLE_PLUS60K_EXPANSION_SV      0x1196c
+
+/* c64/plus60k.c */
+#define IDCLS_SPECIFY_PLUS60K_NAME              0x1196d
+#define IDCLS_SPECIFY_PLUS60K_NAME_DE           0x1196e
+#define IDCLS_SPECIFY_PLUS60K_NAME_FR           0x1196f
+#define IDCLS_SPECIFY_PLUS60K_NAME_IT           0x11970
+#define IDCLS_SPECIFY_PLUS60K_NAME_NL           0x11971
+#define IDCLS_SPECIFY_PLUS60K_NAME_PL           0x11972
+#define IDCLS_SPECIFY_PLUS60K_NAME_SV           0x11973
 
 #endif

@@ -420,7 +420,7 @@ translate_t string_table[] = {
    printerdrv/output-select.c, printerdrv/output-text.c,
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
-   fliplist.c, initcmdline.c, log.c, sound.c */
+   fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c */
 /* en */ {IDCLS_P_NAME,    "<name>"},
 /* de */ {IDCLS_P_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_NAME_FR, ""},  /* fuzzy */
@@ -3653,7 +3653,34 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_ISO_LANG_CODE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_ISO_LANG_CODE_NL, "Geef de iso code van de taal"},
 /* pl */ {IDCLS_SPECIFY_ISO_LANG_CODE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_ISO_LANG_CODE_SV, ""}   /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_ISO_LANG_CODE_SV, ""},  /* fuzzy */
+
+/* c64/plus60k.c */
+/* en */ {IDCLS_ENABLE_PLUS60K_EXPANSION,    "Enable the +60K RAM expansion"},
+/* de */ {IDCLS_ENABLE_PLUS60K_EXPANSION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_PLUS60K_EXPANSION_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_PLUS60K_EXPANSION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_PLUS60K_EXPANSION_NL, "Aktiveer de +60K geheugen uitbreiding"},
+/* pl */ {IDCLS_ENABLE_PLUS60K_EXPANSION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_PLUS60K_EXPANSION_SV, ""},  /* fuzzy */
+
+/* c64/plus60k.c */
+/* en */ {IDCLS_DISABLE_PLUS60K_EXPANSION,    "Disable the +60K RAM expansion"},
+/* de */ {IDCLS_DISABLE_PLUS60K_EXPANSION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_PLUS60K_EXPANSION_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_PLUS60K_EXPANSION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_PLUS60K_EXPANSION_NL, "De +60K geheugen uitbreiding afsluiten"},
+/* pl */ {IDCLS_DISABLE_PLUS60K_EXPANSION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_PLUS60K_EXPANSION_SV, ""},  /* fuzzy */
+
+/* c64/plus60k.c */
+/* en */ {IDCLS_SPECIFY_PLUS60K_NAME,    "Specify name of +60K image"},
+/* de */ {IDCLS_SPECIFY_PLUS60K_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PLUS60K_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PLUS60K_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PLUS60K_NAME_NL, "Geef de naam van het +60K bestand"},
+/* pl */ {IDCLS_SPECIFY_PLUS60K_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PLUS60K_NAME_SV, ""}   /* fuzzy */
 
 };
 
@@ -7108,7 +7135,34 @@ static int translate_text_table[][countof(language_table)] = {
 /* it */  IDCLS_SPECIFY_ISO_LANG_CODE_IT,
 /* nl */  IDCLS_SPECIFY_ISO_LANG_CODE_NL,
 /* pl */  IDCLS_SPECIFY_ISO_LANG_CODE_PL,
-/* sv */  IDCLS_SPECIFY_ISO_LANG_CODE_SV}
+/* sv */  IDCLS_SPECIFY_ISO_LANG_CODE_SV},
+
+/* c64/plus60k.c */
+/* en */ {IDCLS_ENABLE_PLUS60K_EXPANSION,
+/* de */  IDCLS_ENABLE_PLUS60K_EXPANSION_DE,
+/* fr */  IDCLS_ENABLE_PLUS60K_EXPANSION_FR,
+/* it */  IDCLS_ENABLE_PLUS60K_EXPANSION_IT,
+/* nl */  IDCLS_ENABLE_PLUS60K_EXPANSION_NL,
+/* pl */  IDCLS_ENABLE_PLUS60K_EXPANSION_PL,
+/* sv */  IDCLS_ENABLE_PLUS60K_EXPANSION_SV},
+
+/* c64/plus60k.c */
+/* en */ {IDCLS_DISABLE_PLUS60K_EXPANSION,
+/* de */  IDCLS_DISABLE_PLUS60K_EXPANSION_DE,
+/* fr */  IDCLS_DISABLE_PLUS60K_EXPANSION_FR,
+/* it */  IDCLS_DISABLE_PLUS60K_EXPANSION_IT,
+/* nl */  IDCLS_DISABLE_PLUS60K_EXPANSION_NL,
+/* pl */  IDCLS_DISABLE_PLUS60K_EXPANSION_PL,
+/* sv */  IDCLS_DISABLE_PLUS60K_EXPANSION_SV},
+
+/* c64/plus60k.c */
+/* en */ {IDCLS_SPECIFY_PLUS60K_NAME,
+/* de */  IDCLS_SPECIFY_PLUS60K_NAME_DE,
+/* fr */  IDCLS_SPECIFY_PLUS60K_NAME_FR,
+/* it */  IDCLS_SPECIFY_PLUS60K_NAME_IT,
+/* nl */  IDCLS_SPECIFY_PLUS60K_NAME_NL,
+/* pl */  IDCLS_SPECIFY_PLUS60K_NAME_PL,
+/* sv */  IDCLS_SPECIFY_PLUS60K_NAME_SV}
 
 };
 

@@ -1,8 +1,8 @@
 /*
- * version.h
+ * uiplus60k.c
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,19 +24,28 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include "vice.h"
 
-#ifndef VERSION
-#define VERSION "1.16.16"
-#endif
+#include <stdio.h>
 
-#ifndef VERSION_RC_NUMBER
-#define VERSION_RC_NUMBER 1,16,16,0
-#endif
+#include "uilib.h"
+#include "uimenu.h"
+#include "uiplus60k.h"
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
 
-#endif
+UI_MENU_DEFINE_TOGGLE(PLUS60K)
+
+UI_CALLBACK(set_plus60k_image_name)
+{
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("+60K image name"),
+                        _("Name:"));
+}
+
+ui_menu_entry_t plus60k_submenu[] = {
+    { N_("*Enable +60K"),
+      (ui_callback_t)toggle_PLUS60K, NULL, NULL },
+    { N_("+60K image name..."),
+      (ui_callback_t)set_plus60k_image_name,
+      (ui_callback_data_t)"PLUS60Kfilename", NULL },
+    { NULL }
+};

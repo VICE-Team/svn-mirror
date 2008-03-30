@@ -39,11 +39,12 @@
 #include "uiacia.h"
 #include "uic64cart.h"
 #include "uidrivec64vic20.h"
+#include "uigeoram.h"
 #include "uiide64.h"
 #include "uikeyboard.h"
-#include "uireu.h"
-#include "uigeoram.h"
+#include "uiplus60k.h"
 #include "uiramcart.h"
+#include "uireu.h"
 #include "uirom.h"
 #include "uirs232user.h"
 #include "uisid.h"
@@ -148,6 +149,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_RAMCART_SETTINGS:
         ui_ramcart_settings_dialog(hwnd);
+        break;
+      case IDM_PLUS60K_SETTINGS:
+        ui_plus60k_settings_dialog(hwnd);
         break;
       case IDM_IDE64_SETTINGS:
         uiide64_settings_dialog(hwnd);

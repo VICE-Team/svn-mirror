@@ -94,7 +94,7 @@ static void calculate_baudrate(void)
 {
     if (rsuser_enabled) {
         char_clk_ticks = (int)(10.0 * cycles_per_sec
-                         / ((double)rsuser_enabled));
+                         / ((double)rsuser_baudrate));
     } else {
         char_clk_ticks = RSUSER_TICKS;
     }
@@ -352,7 +352,7 @@ void rsuser_set_tx_bit(int b)
               clk, clk_start_tx, b);
 #endif
 
-    if (fd == -1 || rsuser_enabled > 2400) {
+    if (fd == -1 || rsuser_baudrate > 2400) {
         clk_start_tx = 0;
         return;
     }
@@ -395,7 +395,7 @@ BYTE rsuser_get_rx_bit(void)
 
 BYTE rsuser_read_ctrl(void)
 {
-    return rsuser_get_rx_bit() | CTS_IN | (rsuser_enabled > 2400 ? 0 : DCD_IN);
+    return rsuser_get_rx_bit() | CTS_IN | (rsuser_baudrate > 2400 ? 0 : DCD_IN);
 }
 
 void rsuser_tx_byte(BYTE b)

@@ -62,12 +62,13 @@ libarch_a_SOURCES = \
 	rescommon.h \
 	resdrivec64vic20.rc \
 	resdrivepetcbm2.rc \
+	resgeoram.rc \
 	reside64.rc \
 	respet.rc \
 	resplus4.rc \
-	resreu.rc \
-	resgeoram.rc \
+	resplus60k.rc \
 	resramcart.rc \
+	resreu.rc \
 	resrs232user.rc \
 	ressid.rc \
 	restfe.rc \
@@ -135,14 +136,16 @@ libarch_a_SOURCES = \
 	uiplus4cart.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
+	uiplus60k.c \
+	uiplus60k.h \
 	uiquicksnapshot.c \
 	uiquicksnapshot.h \
 	uiram.c \
 	uiram.h \
-	uireu.c \
-	uireu.h \
 	uiramcart.c \
 	uiramcart.h \
+	uireu.c \
+	uireu.h \
 	uirom.c \
 	uirom.h \
 	uirs232.c \
@@ -262,8 +265,8 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc $(srcdir)/res.h $(srcdir)/resa
 		--include-dir $(top_srcdir)/src/arch/win32 --include-dir $(top_srcdir)/src
 	$(WINDRES) -i resc128.res -o $@
 	rm -f resc128.res resc128cat.rc
-resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc $(srcdir)/res.h $(srcdir)/resacia.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec64vic20.rc $(srcdir)/restfe.rc
-	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivec64vic20.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/restfe.rc
+resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc $(srcdir)/res.h $(srcdir)/resacia.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resplus60k.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec64vic20.rc $(srcdir)/restfe.rc
+	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivec64vic20.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resplus60k.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/restfe.rc
 	$(WRC) -i resc64cat.rc -o resc64.res --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32  --include-dir $(top_srcdir)/src
 	$(WINDRES) -i resc64.res -o $@

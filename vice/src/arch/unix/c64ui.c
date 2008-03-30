@@ -42,14 +42,15 @@
 #include "uidatasette.h"
 #include "uidrive.h"
 #include "uidrivec64vic20.h"
+#include "uigeoram.h"
 #include "uiide64.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
 #include "uiperipheraliec.h"
-#include "uireu.h"
-#include "uigeoram.h"
+#include "uiplus60k.h"
 #include "uiramcart.h"
+#include "uireu.h"
 #include "uiromset.h"
 #include "uirs232c64c128.h"
 #include "uiscreenshot.h"
@@ -269,6 +270,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, georam_submenu },
     { N_("RAM Expansion Cart"),
       NULL, NULL, ramcart_submenu },
+    { N_("+60K RAM Expansion Hack"),
+      NULL, NULL, plus60k_submenu },
     { N_("IDE64 emulation"),
       NULL, NULL, ide64_submenu },
 #ifdef HAVE_TFE

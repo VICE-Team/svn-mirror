@@ -78,6 +78,8 @@ libarch_a_SOURCES = \
 	uiedisk.h \
 	uifliplist.c \
 	uifliplist.h \
+	uigeoram.c \
+	uigeoram.h \
 	uihotkey.h \
 	uiide64.c \
 	uiide64.h \
@@ -99,18 +101,18 @@ libarch_a_SOURCES = \
 	uiperipheraliec.h \
 	uiperipheralieee.c \
 	uiperipheralieee.h \
+	uiplus60k.c \
+	uiplus60k.h \
 	uiprinter.c \
 	uiprinter.h \
 	uiprinteriec.c \
 	uiprinteriec.h \
 	uiprinterieee.c \
 	uiprinterieee.h \
-	uireu.c \
-	uireu.h \
-	uigeoram.c \
-	uigeoram.h \
 	uiramcart.c \
 	uiramcart.h \
+	uireu.c \
+	uireu.h \
 	uiromset.c \
 	uiromset.h \
 	uirs232.c \

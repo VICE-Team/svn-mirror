@@ -292,19 +292,21 @@ libc64_a_SOURCES = \
 	c64tpi.c \
 	c64tpi.h \
 	c64video.c \
+	georam.c \
+	georam.h \
 	patchrom.c \
 	patchrom.h \
+	plus60k.c \
+	plus60k.h \
 	psid.c \
 	psid.h \
 	psiddrv.a65 \
 	psiddrv.h \
+	ramcart.c \
+	ramcart.h \
 	reloc65.c \
 	reu.c \
 	reu.h \
-	georam.c \
-	georam.h \
-	ramcart.c \
-	ramcart.h \
 	tfe.c \
 	tfe.h \
         tfearch.h
@@ -339,14 +341,14 @@ libc64c128_a_SOURCES = \
 	c64rsuser.h \
 	c64tpi.c \
 	c64tpi.h \
-	patchrom.c \
-	patchrom.h \
-	reu.c \
-	reu.h \
 	georam.c \
 	georam.h \
+	patchrom.c \
+	patchrom.h \
 	ramcart.c \
 	ramcart.h \
+	reu.c \
+	reu.h \
 	tfe.c \
 	tfe.h \
         tfearch.h
@@ -375,8 +377,9 @@ am_libc64_a_OBJECTS = c64-cmdline-options.$(OBJEXT) \
 	c64memsnapshot.$(OBJEXT) c64parallel.$(OBJEXT) c64pla.$(OBJEXT) \
 	c64printer.$(OBJEXT) c64rom.$(OBJEXT) c64romset.$(OBJEXT) \
 	c64rsuser.$(OBJEXT) c64tpi.$(OBJEXT) c64video.$(OBJEXT) \
-	patchrom.$(OBJEXT) psid.$(OBJEXT) reloc65.$(OBJEXT) \
-	reu.$(OBJEXT) georam.$(OBJEXT) ramcart.$(OBJEXT) tfe.$(OBJEXT)
+	georam.$(OBJEXT) patchrom.$(OBJEXT) plus60k.$(OBJEXT) \
+	psid.$(OBJEXT) ramcart.$(OBJEXT) reloc65.$(OBJEXT) \
+	reu.$(OBJEXT) tfe.$(OBJEXT)
 libc64_a_OBJECTS = $(am_libc64_a_OBJECTS)
 libc64c128_a_AR = $(AR) cru
 libc64c128_a_LIBADD =
@@ -385,8 +388,8 @@ am_libc64c128_a_OBJECTS = c64acia1.$(OBJEXT) c64bus.$(OBJEXT) \
 	c64iec.$(OBJEXT) c64io.$(OBJEXT) c64keyboard.$(OBJEXT) \
 	c64meminit.$(OBJEXT) c64memrom.$(OBJEXT) c64printer.$(OBJEXT) \
 	c64pla.$(OBJEXT) c64parallel.$(OBJEXT) c64rsuser.$(OBJEXT) \
-	c64tpi.$(OBJEXT) patchrom.$(OBJEXT) reu.$(OBJEXT) \
-	georam.$(OBJEXT) ramcart.$(OBJEXT) tfe.$(OBJEXT)
+	c64tpi.$(OBJEXT) georam.$(OBJEXT) patchrom.$(OBJEXT) \
+	ramcart.$(OBJEXT) reu.$(OBJEXT) tfe.$(OBJEXT)
 libc64c128_a_OBJECTS = $(am_libc64c128_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -409,9 +412,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/c64romset.Po ./$(DEPDIR)/c64rsuser.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c64tpi.Po ./$(DEPDIR)/c64video.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/georam.Po ./$(DEPDIR)/patchrom.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/psid.Po ./$(DEPDIR)/ramcart.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/reloc65.Po ./$(DEPDIR)/reu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/tfe.Po
+@AMDEP_TRUE@	./$(DEPDIR)/plus60k.Po ./$(DEPDIR)/psid.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ramcart.Po ./$(DEPDIR)/reloc65.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/reu.Po ./$(DEPDIR)/tfe.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -485,6 +488,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64video.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/georam.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/patchrom.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus60k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/psid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ramcart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/reloc65.Po@am__quote@

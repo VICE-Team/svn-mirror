@@ -1,3 +1,32 @@
+2005-07-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.16.
+
+	* rs232drv/rsuser.c: Fixed wrong usage of `rsuser_enabled'
+	noticed by Keith Henrickson.
+
+2005-06-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/c64ui.cc, arch/beos/constants.h,
+	arch/beos/vicemenu.cc, arch/msdos/Makefile.am,
+	arch/msdos/c64ui.c, arch/msdos/uiplus60k.c,
+	arch/msdos/uiplus60k.h, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/menubar.h, arch/os2/dialogs/menubar.rc,
+	arch/os2/vac++/incl/c64.icc, arch/riscos/uiconfig.c,
+	arch/riscos/uiconfig.h, arch/riscos/uihelp.c,
+	arch/riscos/uisharedef.h, arch/unix/Makefile.am,
+	arch/unix/c64ui.c, arch/unix/uiplus60k.c,
+	arch/unix/uiplus60k.h, arch/win32/Makefile.am,
+	arch/win32/arch.dsp, arch/win32/c64.dsp,
+	arch/win32/c64ui.c, arch/win32/intl.c,
+	arch/win32/resc64.rc, arch/win32/resdialogs.txt,
+	arch/win32/resmenu.txt, arch/win32/resplus60k.rc,
+	arch/win32/resstrings.txt, arch/win32/uiplus60k.c,
+	arch/win32/uiplus60k.h, c128/c128.c, c64/Makefile.am,
+	c64/c64.c, c64/c64mem.c, c64/plus60k.c, c64/plus60k.h,
+	c64/ramcart.c, translate.c, translate.h: Added emulation
+	of the c64 +60K expansion.
+
 2005-06-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.15.

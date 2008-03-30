@@ -323,6 +323,10 @@ SOURCE=.\uiplus4mem.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiplus60k.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uiquicksnapshot.c
 # End Source File
 # Begin Source File

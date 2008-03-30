@@ -387,6 +387,9 @@ BMenuBar *menu_create(int machine_class) {
 			submenu->AddItem(new BMenuItem("128 kB",
 				new BMessage(MENU_RAMCART_SIZE_128)));
 
+			menu->AddItem(new BMenuItem("+60K emulation",
+				new BMessage(MENU_TOGGLE_PLUS60K)));
+
 			menu->AddItem(new BMenuItem("Emulator ID",
 				new BMessage(MENU_TOGGLE_EMUID)));
 			menu->AddItem(new BMenuItem("1351 mouse",

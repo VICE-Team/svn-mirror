@@ -25,9 +25,10 @@ source type(c)
     "c64rsuser.c",
     "c64tpi.c",
     "c64video.c",
-    "patchrom.c",
-    "reu.c",
     "georam.c",
+    "patchrom.c",
+    "plus60k.c",
     "ramcart.c",
+    "reu.c",
     "tfe.c",
     "tfearch.c"

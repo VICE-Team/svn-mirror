@@ -1,8 +1,8 @@
 /*
- * version.h
+ * uiplus60k.h - +60K EXPANSION HACK UI interface for MS-DOS.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,19 +24,11 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef UIPLUS60K_H
+#define UIPLUS60K_H
 
-#ifndef VERSION
-#define VERSION "1.16.16"
-#endif
+struct tui_menu;
 
-#ifndef VERSION_RC_NUMBER
-#define VERSION_RC_NUMBER 1,16,16,0
-#endif
-
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+extern void uiplus60k_init(struct tui_menu *parent_submenu);
 
 #endif

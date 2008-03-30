@@ -57,6 +57,7 @@
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "georam.h"
 #include "imagecontents.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -70,12 +71,12 @@
 #include "monitor.h"
 #include "parallel.h"
 #include "patchrom.h"
+#include "plus60k.h"
 #include "printer.h"
 #include "psid.h"
+#include "ramcart.h"
 #include "resources.h"
 #include "reu.h"
-#include "georam.h"
-#include "ramcart.h"
 #include "rs232drv.h"
 #include "rsuser.h"
 #include "screenshot.h"
@@ -245,6 +246,7 @@ int machine_resources_init(void)
         || reu_resources_init() < 0
         || georam_resources_init() < 0
         || ramcart_resources_init() < 0
+        || plus60k_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
@@ -282,6 +284,7 @@ void machine_resources_shutdown(void)
     reu_resources_shutdown();
     georam_resources_shutdown();
     ramcart_resources_shutdown();
+    plus60k_resources_shutdown();
     sound_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
@@ -309,6 +312,7 @@ int machine_cmdline_options_init(void)
         || reu_cmdline_options_init() < 0
         || georam_cmdline_options_init() < 0
         || ramcart_cmdline_options_init() < 0
+        || plus60k_cmdline_options_init() < 0
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
 #endif
@@ -463,6 +467,9 @@ int machine_specific_init(void)
         /* Initialize the RAMCART.  */
         ramcart_init();
 
+        /* Initialize the +60K.  */
+        plus60k_init();
+
 #ifdef HAVE_TFE
         /* Initialize the TFE.  */
         tfe_init();
@@ -504,9 +511,6 @@ void machine_specific_reset(void)
 
         /* FIXME */
         /* reset_reu(); */
-
-        /* FIXME */
-        /* reset_georam(); */
     }
 
     /* The VIC-II must be the *last* to be reset.  */
@@ -523,6 +527,7 @@ void machine_specific_reset(void)
     reu_reset();
     georam_reset();
     ramcart_reset();
+    plus60k_reset();
 }
 
 void machine_specific_powerup(void)
@@ -553,6 +558,7 @@ void machine_specific_shutdown(void)
     reu_shutdown();
     georam_shutdown();
     ramcart_shutdown();
+    plus60k_shutdown();
 
 #ifdef HAVE_TFE
     /* Shutdown the TFE.  */
