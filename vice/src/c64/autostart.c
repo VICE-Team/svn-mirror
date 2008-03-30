@@ -96,8 +96,10 @@ static int check(const char *str, int addr)
 
 static void settrue1541mode(int on)
 {
-    app_resources.true1541 = on;
-    true1541_ack_switch();
+    if (on)
+        true1541_enable();
+    else
+        true1541_disable();
 
     UiUpdateMenus();
 }
@@ -145,8 +147,9 @@ void autostart_advance(void)
 	if (clk > CYCLES_PER_RFSH * RFSH_PER_SEC && check("READY.", 1024+5*40))
 	{
 	    warn(pwarn, -1, "loading disk");
-	    orig_true1541_state = app_resources.true1541;
-	    if (!app_resources.noTraps)
+            /* FIXME */
+	    orig_true1541_state = true1541_enabled;
+	    if (1 /* || !app_resources.noTraps */) /* FIXME */
 	    {
 		if (orig_true1541_state)
 		    warn(pwarn, -1, "switching true 1541 emulation off");
@@ -167,7 +170,8 @@ void autostart_advance(void)
     case AUTOSTART_LOADINGDISK:
 	if (check("LOADING", 1024+9*40) && check("READY.", 1024+10*40))
 	{
-	    if (!app_resources.noTraps && orig_true1541_state)
+            /* FIXME */
+	    if (/* !app_resources.noTraps && */ orig_true1541_state)
 		warn(pwarn, -1, "switching true 1541 on and starting program");
 	    else
 		warn(pwarn, -1, "starting program");

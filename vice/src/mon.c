@@ -67,6 +67,7 @@ bool icount_is_next;
 BREAK_LIST *breakpoints[NUM_MEMSPACES];
 BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
 BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
+monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 
 MEMSPACE caller_space;
 
@@ -75,15 +76,16 @@ ADDRESS watch_store_array[5][NUM_MEMSPACES];
 unsigned watch_load_count[NUM_MEMSPACES];
 unsigned watch_store_count[NUM_MEMSPACES];
 bool force_array[NUM_MEMSPACES];
+symbol_table_t monitor_labels[NUM_MEMSPACES];
 
 M_ADDR dot_addr[NUM_MEMSPACES];
 int breakpoint_count;
 unsigned char data_buf[256];
 unsigned data_buf_len;
-int stop_on_start;
 bool asm_mode;
 M_ADDR asm_mode_addr;
 unsigned next_or_step_stop;
+unsigned mon_mask[NUM_MEMSPACES];
 
 bool watch_load_occurred;
 bool watch_store_occurred;
@@ -100,9 +102,9 @@ char *cond_op_string[] = { "",
                           };
 
 
-int default_display_number[] = {40, /* default = hex */
-                                40, /* hexadecimal */
-                                40, /* decimal */
+int default_display_number[] = {100, /* default = hex */
+                                100, /* hexadecimal */
+                                100, /* decimal */
                                 20, /* binary */
                                 40, /* octal */
                                  8, /* character */
@@ -126,8 +128,6 @@ int default_display_per_line[] = { 8, /* default = hex */
 
 char *memspace_string[] = {"", "C", "8" };
 
-/* 6502 */
-
 char *register_string[] = { "A",
                             "X",
                             "Y",
@@ -148,55 +148,31 @@ char *datatype_string[] = { "",
                             "asm"
                           };
 
-#if 0
-#define M_NONE 0
-#define M_LOAD 1
-#define M_STORE 2
-#define M_LOAD_STORE 3
 
-int memory_ops[] = {
-/* 0x00 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x08 */ M_STORE, M_NONE, M_NONE, M_NONE, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x10 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x18 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x20 */ M_STORE, M_LOAD, M_NONE, M_BOTH, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x28 */ M_LOAD, M_NONE, M_NONE, M_NONE, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x20 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x38 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x40 */ M_LOAD, M_LOAD, M_NONE, M_BOTH, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x48 */ M_STORE, M_NONE, M_NONE, M_NONE, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x50 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
-/* 0x58 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
-M_LOAD, , M_NONE, , M_NONE, , , , , , , , M_LOAD, , , ,
-M_NONE, , M_NONE, , M_NONE, , , , , , M_NONE, , M_LOAD, , , ,
-M_NONE, , M_NONE, , , , , , , M_NONE, , , , , , ,
-M_NONE, , M_NONE, , , , , , , , , , , , , ,
-, , , , , , , , , , , , , , , ,
-M_NONE, , M_NONE, , , , , , , , , , , , , ,
-, , M_NONE, , , , , , , , , , , , , ,
-M_NONE, , M_NONE, , M_NONE, , , , , , M_NONE, , M_LOAD, , , ,
-, , M_NONE, , , , , , , , , , , , , ,
-M_NONE, , M_NONE, , M_NONE, , , , , , M_NONE, , M_LOAD, , , ,
-};
-#endif
+/* *** REGISTER AND MEMORY OPERATIONS *** */
+
 
 unsigned int get_reg_val(MEMSPACE mem, int reg_id)
 {
-    mos6510_regs_t *reg_ptr;
+    mos6510_regs_t *reg_ptr = NULL;
 
-    if (mem == e_comp_space)
-        reg_ptr = maincpu_interface->cpu_regs;
-    else if (mem == e_disk_space) {
+    if (mem == e_disk_space) {
         if (true1541_interface == NULL) {
-            puts("True1541 emulation not supported for this machine.");
+            fprintf(mon_output, "True1541 emulation not supported for this machine.\n");
             return 0;
-        } else if (!app_resources.true1541) {
-            puts("True1541 emulation is not turned on.");
-            return 0;
-        } else {
-            reg_ptr = true1541_interface->cpu_regs;
         }
+
+/* FIXME: IMO, the user should be allowed to access the true 1541 emulation
+   even when it's (temporarily?) disabled.  */
+#if 0
+        else if (!app_resources.true1541) {
+            fprintf(mon_output, "True1541 emulation is not turned on.\n");
+            return 0;
+        }
+#endif
     }
+
+    reg_ptr = mon_interfaces[mem]->cpu_regs;
 
     switch(reg_id) {
       case e_A:
@@ -215,52 +191,24 @@ unsigned int get_reg_val(MEMSPACE mem, int reg_id)
     return 0;
 }
 
-unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
+void set_reg_val(int reg_id, MEMSPACE mem, WORD val)
 {
-   if (mem == e_comp_space)
-       return maincpu_interface->read_func(mem_addr);
-   else if (mem == e_disk_space) {
-       if (true1541_interface == NULL) {
-           puts("True1541 emulation is not supported on this machine.");
-           return 0;
-       } else if (!app_resources.true1541) {
-           puts("True1541 emulation is not turned on.");
-           return 0;
-       } else
-           return true1541_interface->read_func(mem_addr);
-   }
+    mos6510_regs_t *reg_ptr = NULL;
 
-   return 0;
-}
-
-bool mon_force_import(MEMSPACE mem)
-{
-   bool result;
-
-   result = force_array[mem];
-   force_array[mem] = FALSE;
-
-   return result;
-}
-
-void set_reg_val(int reg_id, WORD val)
-{
-    MEMSPACE mem = default_writespace;
-    mos6510_regs_t *reg_ptr;
-
-    if (mem == e_comp_space)
-        reg_ptr = maincpu_interface->cpu_regs;
-    else if (mem == e_disk_space) {
+    if (mem == e_disk_space) {
         if (true1541_interface == NULL) {
-            puts("True1541 emulation not supported for this machine.");
+            fprintf(mon_output, "True1541 emulation not supported for this machine.\n");
             return;
-        } else if (!app_resources.true1541) {
-            puts("True1541 emulation is not turned on.");
-            return;
-        } else {
-            reg_ptr = true1541_interface->cpu_regs;
         }
+#if 0
+        else if (!app_resources.true1541) {
+            fprintf(mon_output, "True1541 emulation is not turned on.\n");
+            return;
+        }
+#endif
     }
+
+    reg_ptr = mon_interfaces[mem]->cpu_regs;
 
     switch(reg_id) {
       case e_A:
@@ -286,49 +234,74 @@ void set_reg_val(int reg_id, WORD val)
 
 void print_registers(MEMSPACE mem)
 {
-    int i;
+    mos6510_regs_t *regs;
 
     if (mem == e_default_space)
         mem = default_readspace;
     else if (mem == e_disk_space) {
         if (true1541_interface == NULL) {
-            puts("True1541 emulation not supported for this machine.");
-            return;
-        } else if (!app_resources.true1541) {
-            puts("True1541 emulation is not turned on.");
+            fprintf(mon_output, "True1541 emulation not supported for this machine.\n");
             return;
         }
+#if 0
+        else if (!app_resources.true1541) {
+            fprintf(mon_output, "True1541 emulation is not turned on.\n");
+            return;
+        }
+#endif
     } else
         assert(FALSE);
 
-    for (i=0;i<=e_SP;i++) {
-        if (i)
-            printf(",");
-        printf(" %s = %x ",register_string[i],get_reg_val(mem,i));
-    }
-    puts("");
+    regs = mon_interfaces[mem]->cpu_regs;
+    fprintf(mon_output, "  ADDR AR XR YP SP 01 NV-BDIZC\n");
+    fprintf(mon_output, ".;%04x %02x %02x %02x %02x %02x %d%d%d%d%d%d%d%d\n",
+            get_reg_val(mem,e_PC), get_reg_val(mem,e_A),get_reg_val(mem,e_X),
+            get_reg_val(mem,e_Y), get_reg_val(mem,e_SP), get_mem_val(mem,1),
+            regs->psp.n, regs->psp.v, 1, 0, regs->psp.d, regs->psp.i,
+            regs->psp.z, regs->psp.c);
+}
+
+unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
+{
+   if (mem == e_disk_space) {
+       if (true1541_interface == NULL) {
+           fprintf(mon_output, "True1541 emulation not supported for this machine.\n");
+           return 0;
+       }
+#if 0
+       else if (!app_resources.true1541) {
+           fprintf(mon_output, "True1541 emulation is not turned on.\n");
+           return 0;
+       }
+#endif
+   }
+
+   return mon_interfaces[mem]->read_func(mem_addr);
 }
 
 void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
 {
    if (mem == e_comp_space) {
-       maincpu_interface->store_func(mem_addr, val);
    } else if (mem == e_disk_space) {
        if (true1541_interface == NULL) {
-           puts("True1541 emulation not supported for this machine.");
+           fprintf(mon_output, "True1541 emulation not supported for this machine.\n");
            return;
-       } else if (!app_resources.true1541) {
-           true1541_interface->store_func(mem_addr, val);
        }
+#if 0
+       else if (!app_resources.true1541) {
+           fprintf(mon_output, "True1541 emulation is not turned on.\n");
+           return;
+       }
+#endif
    } else
        assert(FALSE);
-}
 
+   mon_interfaces[mem]->store_func(mem_addr, val);
+}
 
 void jump(M_ADDR addr)
 {
-   /* FIXME - memspace */
-   set_reg_val(e_PC, addr_location(addr));
+   set_reg_val(e_PC, addr_memspace(addr), addr_location(addr));
    exit_mon = 1;
 }
 
@@ -347,17 +320,17 @@ bool inc_addr_location(M_ADDR *a, unsigned inc)
 }
 bool is_valid_addr(M_ADDR a) { return HI16_TO_LO16(a) != e_invalid_space; }
 M_ADDR new_addr(MEMSPACE m, unsigned l) { return (m<<16)|l; }
-M_ADDR evaluate_default_addr(M_ADDR a, bool is_read)
+M_ADDR evaluate_default_addr(M_ADDR *a, bool is_read)
 {
-   if (addr_memspace(a) != e_default_space)
-      return a;
+   if (addr_memspace(*a) != e_default_space)
+      return *a;
 
    if (is_read)
-      set_addr_memspace(&a,default_readspace);
+      set_addr_memspace(a,default_readspace);
    else
-      set_addr_memspace(&a,default_writespace);
+      set_addr_memspace(a,default_writespace);
 
-   return a;
+   return *a;
 }
 
 M_ADDR bad_addr;
@@ -474,7 +447,7 @@ unsigned check_addr_limits(unsigned val)
 {
    if (val != LO16(val))
    {
-      printf("Overflow warning: 0x%x -> 0xffff\n", val);
+      fprintf(mon_output, "Overflow warning: $%x -> $ffff\n", val);
       return 0xffff;
    }
 
@@ -491,7 +464,7 @@ bool is_valid_addr_range(M_ADDR_RANGE range)
    if ((addr_memspace(start) != addr_memspace(end)) &&
        ((addr_memspace(start) != e_default_space) ||
         (addr_memspace(end) != e_default_space))) {
-      printf("Invalid range: Endpoints are in different"
+      fprintf(mon_output, "Invalid range: Endpoints are in different"
              " memory spaces\n");
       return FALSE;
    }
@@ -512,9 +485,9 @@ void print_bin(int val, char on, char off)
 
    while (divisor) {
       digit = (val & divisor) ? on : off;
-      printf("%c",digit);
+      fprintf(mon_output, "%c",digit);
       if (divisor == 256)
-         printf(" ");
+         fprintf(mon_output, " ");
       divisor /= 2;
    }
 }
@@ -522,26 +495,26 @@ void print_bin(int val, char on, char off)
 void print_hex(int val)
 {
    if (val > 255)
-      printf("0x%04x\n",val);
+      fprintf(mon_output, "0x%04x\n",val);
    else
-      printf("0x%02x\n",val);
+      fprintf(mon_output, "0x%02x\n",val);
 }
 
 void print_octal(int val)
 {
    if (val > 511)
-      printf("0%06o\n",val);
+      fprintf(mon_output, "0%06o\n",val);
    else
-      printf("0%03o\n",val);
+      fprintf(mon_output, "0%03o\n",val);
 }
 
 
 void print_convert(int val)
 {
-   printf("+%d\n",val);
+   fprintf(mon_output, "+%d\n",val);
    print_hex(val);
    print_octal(val);
-   print_bin(val,'1','0'); puts("");
+   print_bin(val,'1','0'); fprintf(mon_output, "\n");
 }
 
 void add_number_to_buffer(int number)
@@ -560,6 +533,10 @@ void add_string_to_buffer(char *str)
    free(str);
 }
 
+void clear_buffer()
+{
+   data_buf_len = 0;
+}
 
 void memory_to_string(char *buf, MEMSPACE mem, unsigned addr, unsigned len, bool petscii)
 {
@@ -587,7 +564,7 @@ extern int yydebug;
 void monitor_init(monitor_interface_t *maincpu_interface_init,
                   monitor_interface_t *true1541_interface_init)
 {
-   int i;
+   int i, j;
 
    yydebug = 0;
    sidefx = e_OFF;
@@ -598,7 +575,6 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
    icount_is_next = FALSE;
    breakpoint_count = 1;
    data_buf_len = 0;
-   stop_on_start = 1;
    asm_mode = 0;
    next_or_step_stop = 0;
 
@@ -609,6 +585,10 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
       dot_addr[i] = new_addr(e_default_space + i, 0);
       watch_load_count[i] = 0;
       watch_store_count[i] = 0;
+      mon_mask[i] = MI_NONE;
+      monitor_labels[i].name_list = NULL;
+      for (j=0;j<HASH_ARRAY_SIZE;j++)
+         monitor_labels[i].addr_hash_table[j] = NULL;
    }
 
    bad_addr = new_addr(e_invalid_space, 0);
@@ -620,12 +600,18 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 
    maincpu_interface = maincpu_interface_init;
    true1541_interface = true1541_interface_init;
+
+   mon_interfaces[e_comp_space] = maincpu_interface;
+   mon_interfaces[e_disk_space] = true1541_interface;
 }
 
 void print_help()
 {
-    printf("No help yet.\n");
+    fprintf(mon_output, "No help yet.\n");
 }
+
+
+/* *** ASSEMBLY/DISASSEMBLY *** */
 
 
 void start_assemble_mode(M_ADDR addr, char *asm_line)
@@ -633,20 +619,78 @@ void start_assemble_mode(M_ADDR addr, char *asm_line)
    asm_mode = 1;
 
    assert(is_valid_addr(addr));
-   addr = evaluate_default_addr(addr, FALSE);
+   evaluate_default_addr(&addr, FALSE);
    asm_mode_addr = addr;
 }
 
-void end_assemble_mode()
+int mon_assemble_instr(char *opcode_name, unsigned operand)
 {
-   asm_mode = 0;
+   WORD operand_value = LO16(operand);
+   WORD operand_mode = HI16_TO_LO16(operand);
+   BYTE opcode = 0;
+   int i, len, branch_offset;
+   bool found = FALSE;
+   MEMSPACE mem;
+   unsigned loc;
+
+   mem = addr_memspace(asm_mode_addr);
+   loc = addr_location(asm_mode_addr);
+
+   for (i=0;i<=0xff;i++) {
+      if (!strcasecmp(lookup[i].mnemonic, opcode_name)) {
+         if (lookup[i].addr_mode == operand_mode) {
+            opcode = i;
+            found = TRUE;
+         }
+
+         /* Special case: Register A not specified for ACCUMULATOR mode. */
+         if ( (operand_mode == IMPLIED) && (lookup[i].addr_mode == ACCUMULATOR) ) {
+            opcode = i;
+            found = TRUE;
+         }
+
+         /* Special case: RELATIVE mode looks like ZERO_PAGE or ABSOLUTE modes */
+         if ( ((operand_mode == ZERO_PAGE) || (operand_mode == ABSOLUTE)) &&
+              (lookup[i].addr_mode == RELATIVE)) {
+            branch_offset = operand_value - loc - 2;
+            if ( (branch_offset > 127) || (branch_offset < -128) ) {
+               fprintf(mon_output, "Branch offset too large\n");
+               return -1;
+            }
+            operand_value = (branch_offset & 0xff);
+            opcode = i;
+            found = TRUE;
+         }
+      }
+   }
+
+   if (!found) {
+      fprintf(mon_output, "\"%s\" is not a valid opcode.\n",opcode_name);
+      return -1;
+   }
+
+   len = clength[lookup[opcode].addr_mode];
+
+   ram[loc] = opcode;
+   if (len >= 2)
+      ram[loc+1] = operand_value & 0xff;
+   if (len >= 3)
+      ram[loc+2] = (operand_value >> 8) & 0xff;
+
+   if (len >= 0) {
+      inc_addr_location(&asm_mode_addr, len);
+      dot_addr[mem] = asm_mode_addr;
+   } else {
+      fprintf(mon_output, "Assemble error: %d\n",len);
+   }
+   return len;
 }
 
 unsigned disassemble_instr(M_ADDR addr)
 {
    BYTE op, p1, p2;
    MEMSPACE mem;
-   unsigned loc;
+   unsigned loc, mode;
 
    mem = addr_memspace(addr);
    loc = addr_location(addr);
@@ -655,8 +699,14 @@ unsigned disassemble_instr(M_ADDR addr)
    p1 = get_mem_val(mem, loc+1);
    p2 = get_mem_val(mem, loc+2);
 
-   printf(".%s:%04x   %s\n",memspace_string[addr_memspace(addr)],loc,
-          sprint_disassembled(loc, op, p1, p2, MODE_HEX));  /* FIXME HEX */
+   /* sprint_disassembled() only supports hex and decimal.
+    * Unless the default datatype is decimal, we default
+    * to hex.
+    */
+   mode = (default_datatype == e_decimal) ? 0 : MODE_HEX;
+
+   fprintf(mon_output, ".%s:%04x   %s\n",memspace_string[mem],loc,
+           sprint_disassembled(loc, op, p1, p2, mode));
    return clength[lookup[op].addr_mode];
 }
 
@@ -722,44 +772,44 @@ void display_memory(int data_type, M_ADDR_RANGE range)
       last_addr = addr + default_display_number[data_type] - 1;
 
    while (addr <= last_addr) {
-      printf(">%s:%04x ",memspace_string[mem],addr);
+      fprintf(mon_output, ">%s:%04x ",memspace_string[mem],addr);
       max_width = default_display_per_line[data_type];
       for (i=0,real_width=0;i<max_width;i++) {
          switch(data_type) {
             case e_text_petscii:
-               printf("%c",p_toascii(get_mem_val(mem,addr+i),0));
+               fprintf(mon_output, "%c",p_toascii(get_mem_val(mem,addr+i),0));
                real_width++;
                break;
             case e_decimal:
                memset(printables,0,50);
                if (addr+i <= last_addr) {
-                  printf("%3d ",get_mem_val(mem,addr+i));
+                  fprintf(mon_output, "%3d ",get_mem_val(mem,addr+i));
                   real_width++;
                }
                else
-                  printf("    ");
+                  fprintf(mon_output, "    ");
                break;
             case e_hexadecimal:
                memset(printables,0,50);
                if (addr+i <= last_addr) {
-                  printf("%02x ",get_mem_val(mem,addr+i));
+                  fprintf(mon_output, "%02x ",get_mem_val(mem,addr+i));
                   real_width++;
                }
                else
-                  printf("   ");
+                  fprintf(mon_output, "    ");
                break;
             case e_octal:
                memset(printables,0,50);
                if (addr+i <= last_addr) {
-                  printf("%03o ",get_mem_val(mem,addr+i));
+                  fprintf(mon_output, "%03o ",get_mem_val(mem,addr+i));
                   real_width++;
                }
                else
-                  printf("   ");
+                  fprintf(mon_output, "    ");
                break;
             case e_character:
                print_bin(get_mem_val(mem,addr+i),'*','.');
-               printf(" \n");
+               fprintf(mon_output, " \n");
                real_width++;
                break;
             default:
@@ -770,9 +820,9 @@ void display_memory(int data_type, M_ADDR_RANGE range)
 
       if (data_type == e_decimal || data_type == e_hexadecimal) {
          memory_to_string(printables, mem, addr, real_width, FALSE);
-         printf("\t%s",printables);
+         fprintf(mon_output, "\t%s",printables);
       }
-      puts("");
+      fprintf(mon_output, "\n");
       addr += real_width;
    }
 
@@ -797,7 +847,7 @@ void move_memory(M_ADDR_RANGE src, M_ADDR dest)
   end = addr_range_end_location(src);
 
   assert(is_valid_addr(dest));
-  evaluate_default_addr(dest,FALSE);
+  evaluate_default_addr(&dest,FALSE);
   dst = addr_location(dest);
   len = end - start + 1;
   buf = (BYTE *) malloc(sizeof(BYTE) * len);
@@ -807,13 +857,10 @@ void move_memory(M_ADDR_RANGE src, M_ADDR dest)
 
   if (len < 0) len += 65536;
 
-  /* FIXME: handle overlap */
-  for (i=0; i<len; i++) {
+  for (i=0; i<len; i++)
      buf[i] = get_mem_val(src_mem, start+i);
-  }
 
   for (i=0; i<len; i++) {
-     printf("Moving addr:0x%x to addr:0x%x\n",start+i, dst+i);
      set_mem_val(dest_mem, dst+i, buf[i]);
   }
 
@@ -825,6 +872,7 @@ void compare_memory(M_ADDR_RANGE src, M_ADDR dest)
 {
   unsigned i, len, start, end, dst;
   MEMSPACE src_mem, dest_mem;
+  BYTE byte1, byte2;
 
   if (is_valid_range(src))
      evaluate_default_addr_range(&src, TRUE);
@@ -835,7 +883,7 @@ void compare_memory(M_ADDR_RANGE src, M_ADDR dest)
   end = addr_range_end_location(src);
 
   assert(is_valid_addr(dest));
-  evaluate_default_addr(dest,TRUE);
+  evaluate_default_addr(&dest,TRUE);
   dst = addr_location(dest);
   len = end - start + 1;
   if (len < 0) len += 65536;
@@ -843,11 +891,12 @@ void compare_memory(M_ADDR_RANGE src, M_ADDR dest)
   src_mem = addr_range_start_memspace(src);
   dest_mem = addr_memspace(dest);
 
-  /* FIXME: handle overlap & memspaces */
   for (i=0; i<len; i++) {
-     printf("Comparing addr:0x%x with addr:0x%x\n",start+i, dst+i);
-     if (get_mem_val(dest_mem, dst+i) != get_mem_val(src_mem, start+i))
-        printf("0x%x\n",start+i);
+     byte1 = get_mem_val(dest_mem, dst+1);
+     byte2 = get_mem_val(src_mem, start+1);
+
+     if (byte1 != byte2)
+        fprintf(mon_output, "$%04x $%04x: %02x %02x\n",start+i, dst+i, byte1, byte2);
   }
 
   free_range(src);
@@ -873,38 +922,53 @@ void fill_memory(M_ADDR_RANGE dest, unsigned char *data)
 
   i = 0;
   index = 0;
-  while (i < len) {
+  while (i <= len) {
      set_mem_val(dest_mem, start+i, data_buf[index++]);
      if (index >= strlen(data_buf)) index = 0;
      i++;
   }
 
+  clear_buffer();
   free_range(dest);
 }
 
 
 void hunt_memory(M_ADDR_RANGE dest, unsigned char *data)
 {
-  unsigned len, start, end;
+  unsigned len, start, end, data_len, i, next_read;
+  BYTE *buf;
+  MEMSPACE mem;
 
   if (is_valid_range(dest))
      evaluate_default_addr_range(&dest, TRUE);
   else
      assert(FALSE);
 
+  mem = addr_range_start_memspace(dest);
   start = addr_range_start_location(dest);
   end = addr_range_end_location(dest);
   len = end - start + 1;
   if (len < 0) len += 0x10000;
 
-  /* FIXME: handle overlap & memspaces */
-#if 0
-  for (i=0; i<(len-strlen(data)); i++) {
-     if (strncmp(&(memory_vals[start+i]),data,strlen(data)) == 0)
-        printf("Found match at addr:0x%x\n",start+i);
-  }
-#endif
+  data_len = strlen(data_buf);
+  buf = (BYTE *) malloc(sizeof(BYTE) * data_len);
 
+  /* Fill buffer */
+  for (i=0; i<data_len; i++)
+     buf[i] = get_mem_val(mem, start+i);
+
+  /* Do compares */
+  next_read = start + data_len;
+
+  for (i=0; i<(len-data_len); i++,next_read++) {
+     if (memcmp(buf,data_buf,data_len) == 0)
+        fprintf(mon_output, "0x%04x\n",start+i);
+
+     memmove(&(buf[0]), &(buf[1]), data_len-1);
+     buf[data_len-1] = get_mem_val(mem, next_read);
+   }
+
+  clear_buffer();
   free_range(dest);
 }
 
@@ -917,7 +981,7 @@ void change_dir(char *path)
 	perror(path);
     }
 
-    printf("Changing to directory: %s",path);
+    fprintf(mon_output, "Changing to directory: %s",path);
 }
 
 
@@ -928,11 +992,11 @@ void mon_load_file(char *filename, M_ADDR start_addr)
     int     b1, b2;
     int     ch;
 
-    evaluate_default_addr(start_addr, FALSE);
+    evaluate_default_addr(&start_addr, FALSE);
 
     if (NULL == (fp = fopen(filename, READ))) {
 	perror(filename);
-	printf("Loading failed.\n");
+	fprintf(mon_output, "Loading failed.\n");
 	return;
     }
 
@@ -948,11 +1012,11 @@ void mon_load_file(char *filename, M_ADDR start_addr)
        adr = addr_location(start_addr);
     }
 
-    printf("Loading %s", filename);
-    printf(" from %04X\n", adr);
+    fprintf(mon_output, "Loading %s", filename);
+    fprintf(mon_output, " from %04X\n", adr);
 
     ch = fread (ram + adr, 1, ram_size - adr, fp);
-    printf ("%x bytes\n", ch);
+    fprintf(mon_output, "%x bytes\n", ch);
 
     /* set end of load addresses like kernal load */ /*FCP*/
     mem_set_basic_text(adr, adr + ch);
@@ -974,7 +1038,7 @@ void mon_save_file(char *filename, M_ADDR_RANGE range)
 
    if (NULL == (fp = fopen(filename, WRITE))) {
 	perror(filename);
-	printf("Saving failed.\n");
+	fprintf(mon_output, "Saving failed.\n");
    } else {
 	printf("Saving file `%s'...\n", filename);
 	fputc((BYTE) adr & 0xff, fp);
@@ -989,9 +1053,143 @@ void mon_save_file(char *filename, M_ADDR_RANGE range)
 void mon_verify_file(char *filename, M_ADDR start_addr)
 {
    assert(is_valid_addr(start_addr));
-   evaluate_default_addr(start_addr, TRUE);
+   evaluate_default_addr(&start_addr, TRUE);
 
-   printf("Verify file %s at address 0x%04x\n", filename, addr_location(start_addr));
+   fprintf(mon_output, "Verify file %s at address 0x%04x\n", filename, addr_location(start_addr));
+}
+
+void mon_load_symbols(char *filename, MEMSPACE mem)
+{
+    FILE   *fp;
+    ADDRESS adr;
+    char name[256];
+    char *name_ptr;
+
+    if (NULL == (fp = fopen(filename, READ))) {
+	perror(filename);
+	fprintf(mon_output, "Loading failed.\n");
+	return;
+    }
+
+    fprintf(mon_output, "Loading symbol table from %s\n", filename);
+
+    while (!feof(fp)) {
+       fscanf(fp, "%x %s\n", (int *) &adr, name);
+       name_ptr = (char *) malloc((strlen(name)+1) * sizeof(char));
+       strcpy(name_ptr, name);
+       fprintf(mon_output, "Read (0x%x:%s)\n",adr, name_ptr);
+       add_name_to_symbol_table(e_comp_space, name_ptr, adr);
+    }
+
+    fclose(fp);
+}
+
+void mon_save_symbols(char *filename, MEMSPACE mem)
+{
+    FILE   *fp;
+    symbol_entry_t *sym_ptr;
+
+    if (NULL == (fp = fopen(filename, WRITE))) {
+	perror(filename);
+	fprintf(mon_output, "Saving failed.\n");
+	return;
+    }
+
+    fprintf(mon_output, "Saving symbol table to %s\n", filename);
+
+    sym_ptr = monitor_labels[mem].name_list;
+
+    while (sym_ptr) {
+       fprintf(fp, "%04x %s\n", sym_ptr->addr, sym_ptr->name);
+       fprintf(mon_output, "Write (0x%x:%s)\n",sym_ptr->addr,sym_ptr-> name);
+       sym_ptr = sym_ptr->next;
+    }
+
+    fclose(fp);
+}
+
+
+/* *** SYMBOL TABLE *** */
+
+
+char *symbol_table_lookup_name(MEMSPACE mem, ADDRESS addr)
+{
+   symbol_entry_t *sym_ptr;
+
+   sym_ptr = monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)];
+   while (sym_ptr) {
+      if (addr == sym_ptr->addr)
+         return sym_ptr->name;
+      sym_ptr = sym_ptr->next;
+   }
+
+   return NULL;
+}
+
+int symbol_table_lookup_addr(MEMSPACE mem, char *name)
+{
+   symbol_entry_t *sym_ptr;
+
+   sym_ptr = monitor_labels[mem].name_list;
+   while (sym_ptr) {
+      printf("CMP: %s %s\n",sym_ptr->name, name);
+      if (strcmp(sym_ptr->name, name) == 0)
+         return sym_ptr->addr;
+      sym_ptr = sym_ptr->next;
+   }
+
+   return -1;
+}
+
+void add_name_to_symbol_table(MEMSPACE mem, char *name, ADDRESS addr)
+{
+   symbol_entry_t *sym_ptr;
+   char *old_name;
+   int old_addr;
+
+   if ( (old_name = symbol_table_lookup_name(mem, addr)) ) {
+      fprintf(mon_output, "Replacing label %s with %s for address $%0x4x\n",
+              old_name, name, addr);
+   }
+   if ( (old_addr = symbol_table_lookup_addr(mem, name)) >= 0) {
+      fprintf(mon_output, "Changing address of label %s from $%04x to $%04x\n",
+              name, old_addr, addr);
+   }
+
+   /* Add name to name list */
+   sym_ptr = (symbol_entry_t *) malloc(sizeof(symbol_entry_t));
+   sym_ptr->name = name;
+   sym_ptr->addr = addr;
+
+   sym_ptr->next = monitor_labels[mem].name_list;
+   monitor_labels[mem].name_list = sym_ptr;
+
+   /* Add address to hash table */
+   sym_ptr = (symbol_entry_t *) malloc(sizeof(symbol_entry_t));
+   sym_ptr->name = name;
+   sym_ptr->addr = addr;
+
+   sym_ptr->next = monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)];
+   monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)] = sym_ptr;
+}
+
+void remove_name_from_symbol_table(MEMSPACE mem, char *name)
+{
+}
+
+void print_symbol_table(MEMSPACE mem)
+{
+   symbol_entry_t *sym_ptr;
+
+   sym_ptr = monitor_labels[mem].name_list;
+   while (sym_ptr) {
+      fprintf(mon_output, "$%04x %s\n",sym_ptr->addr, sym_ptr->name);
+      sym_ptr = sym_ptr->next;
+   }
+}
+
+void free_symbol_table(MEMSPACE mem)
+{
 }
 
 
@@ -1000,7 +1198,7 @@ void mon_verify_file(char *filename, M_ADDR start_addr)
 
 void instructions_step(int count)
 {
-   printf("Stepping through the next %d instruction(s).\n",
+   fprintf(mon_output, "Stepping through the next %d instruction(s).\n",
           (count>=0)?count:1);
    instruction_count = (count>=0)?count:1;
    icount_is_next = FALSE;
@@ -1010,7 +1208,7 @@ void instructions_step(int count)
 
 void instructions_next(int count)
 {
-   printf("Nexting through the next %d instruction(s).\n",
+   fprintf(mon_output, "Nexting through the next %d instruction(s).\n",
           (count>=0)?count:1);
    instruction_count = (count>=0)?count:1;
    icount_is_next = TRUE;
@@ -1020,13 +1218,13 @@ void instructions_next(int count)
 
 void stack_up(int count)
 {
-   printf("Going up %d stack frame(s).\n",
+   fprintf(mon_output, "Going up %d stack frame(s).\n",
           (count>=0)?count:1);
 }
 
 void stack_down(int count)
 {
-   printf("Going down %d stack frame(s).\n",
+   fprintf(mon_output, "Going down %d stack frame(s).\n",
           (count>=0)?count:1);
 }
 
@@ -1037,188 +1235,25 @@ void stack_down(int count)
 void block_cmd(int op, int track, int sector, M_ADDR addr)
 {
    assert(is_valid_addr(addr));
-   evaluate_default_addr(addr, op == 0);
+   evaluate_default_addr(&addr, op == 0);
 
    if (!op)
    {
       if (is_valid_addr(addr))
-         printf("Read track %d sector %d to screen\n", track, sector);
+         fprintf(mon_output, "Read track %d sector %d to screen\n", track, sector);
       else
-         printf("Read track %d sector %d into address 0x%04x\n", track, sector, addr_location(addr));
+         fprintf(mon_output, "Read track %d sector %d into address 0x%04x\n", track, sector, addr_location(addr));
    }
    else
    {
-      printf("Write data from address 0x%04x to track %d sector %d\n", addr_location(addr), track, sector);
+      fprintf(mon_output, "Write data from address 0x%04x to track %d sector %d\n",
+              addr_location(addr), track, sector);
    }
 
 }
 
 
-/* *** BREAKPOINT COMMANDS *** */
-
-
-breakpoint *find_breakpoint(int brknum)
-{
-   BREAK_LIST *ptr;
-   int i;
-
-   for (i=e_comp_space;i<=e_disk_space;i++) {
-      ptr = breakpoints[i];
-      while (ptr) {
-         if (ptr->brkpt->brknum == brknum)
-            return ptr->brkpt;
-         ptr = ptr->next;
-      }
-
-      ptr = watchpoints_load[i];
-      while (ptr) {
-         if (ptr->brkpt->brknum == brknum)
-            return ptr->brkpt;
-         ptr = ptr->next;
-      }
-
-      ptr = watchpoints_store[i];
-      while (ptr) {
-         if (ptr->brkpt->brknum == brknum)
-            return ptr->brkpt;
-         ptr = ptr->next;
-      }
-   }
-
-   return NULL;
-}
-
-void switch_breakpt(int op, int breakpt_num)
-{
-   breakpoint *bp;
-   bp = find_breakpoint(breakpt_num);
-
-   if (!bp)
-   {
-      printf("#%d not a valid breakpoint\n",breakpt_num);
-   }
-   else
-   {
-      bp->enabled = op;
-      printf("Set breakpoint #%d to state:%s\n",breakpt_num, (op==e_ON)?"enable":"disable");
-   }
-}
-
-void set_ignore_count(int breakpt_num, int count)
-{
-   breakpoint *bp;
-   bp = find_breakpoint(breakpt_num);
-
-   if (!bp)
-   {
-      printf("#%d not a valid breakpoint\n",breakpt_num);
-   }
-   else
-   {
-      bp->ignore_count = count;
-      printf("Ignoring the next %d crossings of breakpoint #%d\n",count, breakpt_num);
-   }
-}
-
-void print_breakpt_info(breakpoint *bp)
-{
-   if (bp->trace) {
-      printf("TRACE: ");
-   } else if (bp->watch_load || bp->watch_store) {
-      printf("WATCH: ");
-   } else {
-      printf("BREAK: ");
-   }
-   printf("%d A:0x%04x",bp->brknum,addr_range_start_location(bp->range));
-   if (is_valid_addr(bp->range->end_addr))
-      printf("-0x%04x",addr_range_end_location(bp->range));
-
-   if (bp->watch_load)
-      printf(" load");
-   if (bp->watch_store)
-      printf(" store");
-
-   printf("   %s\n",(bp->enabled==e_ON)?"enabled":"disabled");
-
-   if (bp->condition) {
-      printf("\tCondition: ");
-      print_conditional(bp->condition);
-      puts("");
-   }
-   if (bp->command)
-      printf("\tCommand: %s\n",bp->command);
-}
-
-void print_breakpts()
-{
-   int i, any_set=0;
-   breakpoint *bp;
-
-   for (i=1;i<breakpoint_count;i++)
-   {
-      if ( (bp = find_breakpoint(i)) )
-      {
-         print_breakpt_info(bp);
-         any_set = 1;
-      }
-   }
-
-   if (!any_set)
-      printf("No breakpoints are set\n");
-}
-
-void delete_conditional(CONDITIONAL_NODE *cnode)
-{
-   if (cnode) {
-      if (cnode->child1)
-         delete_conditional(cnode->child1);
-      if (cnode->child2)
-         delete_conditional(cnode->child2);
-      free(cnode);
-   }
-}
-
-void delete_breakpoint(int brknum)
-{
-   int i;
-   breakpoint *bp = NULL;
-   MEMSPACE mem;
-
-   if (brknum == -1)
-   {
-      /* Add user confirmation here. */
-      puts("Deleting all breakpoints");
-      for (i=1;i<breakpoint_count;i++)
-      {
-         bp = find_breakpoint(i);
-         if (bp)
-            delete_breakpoint(i);
-      }
-   }
-   else if ( !(bp = find_breakpoint(brknum)) )
-   {
-      printf("#%d not a valid breakpoint\n",brknum);
-      return;
-   }
-   else
-   {
-      mem = addr_range_start_memspace(bp->range);
-
-      if ( !(bp->watch_load) && !(bp->watch_store) ) {
-         remove_breakpoint_from_list(&(breakpoints[mem]), bp);
-      } else {
-         if ( bp->watch_load )
-            remove_breakpoint_from_list(&(watchpoints_load[mem]), bp);
-         if ( bp->watch_store )
-            remove_breakpoint_from_list(&(watchpoints_store[mem]), bp);
-      }
-   }
-
-   delete_conditional(bp->condition);
-   free_range(bp->range);
-   if (bp->command)
-      free(bp->command);
-}
+/* *** CONDITIONAL EXPRESSIONS *** */
 
 void print_conditional(CONDITIONAL_NODE *cnode)
 {
@@ -1227,15 +1262,15 @@ void print_conditional(CONDITIONAL_NODE *cnode)
    {
       assert(cnode->child1 && cnode->child2);
       print_conditional(cnode->child1);
-      printf(" %s ",cond_op_string[cnode->operation]);
+      fprintf(mon_output, " %s ",cond_op_string[cnode->operation]);
       print_conditional(cnode->child2);
    }
    else
    {
       if (cnode->is_reg)
-         printf("%s",register_string[cnode->reg_num]);
+         fprintf(mon_output, "%s",register_string[cnode->reg_num]);
       else
-         printf("%d",cnode->value);
+         fprintf(mon_output, "%d",cnode->value);
    }
 }
 
@@ -1275,7 +1310,7 @@ int evaluate_conditional(CONDITIONAL_NODE *cnode)
             cnode->value = ((cnode->child1->value) || (cnode->child2->value));
             break;
          default:
-            printf("Unexpected conditional operator: %d\n",cnode->operation);
+            fprintf(mon_output, "Unexpected conditional operator: %d\n",cnode->operation);
             assert(0);
       }
    }
@@ -1289,6 +1324,201 @@ int evaluate_conditional(CONDITIONAL_NODE *cnode)
 }
 
 
+void delete_conditional(CONDITIONAL_NODE *cnode)
+{
+   if (cnode) {
+      if (cnode->child1)
+         delete_conditional(cnode->child1);
+      if (cnode->child2)
+         delete_conditional(cnode->child2);
+      free(cnode);
+   }
+}
+
+
+/* *** BREAKPOINT COMMANDS *** */
+
+
+void remove_breakpoint_from_list(BREAK_LIST **head, breakpoint *bp)
+{
+   BREAK_LIST *cur_entry, *prev_entry;
+
+   cur_entry = *head;
+   prev_entry = NULL;
+
+   while (cur_entry) {
+      if (cur_entry->brkpt == bp)
+         break;
+
+      prev_entry = cur_entry;
+      cur_entry = cur_entry->next;
+   }
+
+   if (!cur_entry) {
+      assert(FALSE);
+   } else {
+     if (!prev_entry) {
+        *head = cur_entry->next;
+     } else {
+         prev_entry->next = cur_entry->next;
+     }
+
+     free(cur_entry);
+   }
+}
+
+breakpoint *find_breakpoint(int brknum)
+{
+   BREAK_LIST *ptr;
+   int i;
+
+   for (i=e_comp_space;i<=e_disk_space;i++) {
+      ptr = breakpoints[i];
+      while (ptr) {
+         if (ptr->brkpt->brknum == brknum)
+            return ptr->brkpt;
+         ptr = ptr->next;
+      }
+
+      ptr = watchpoints_load[i];
+      while (ptr) {
+         if (ptr->brkpt->brknum == brknum)
+            return ptr->brkpt;
+         ptr = ptr->next;
+      }
+
+      ptr = watchpoints_store[i];
+      while (ptr) {
+         if (ptr->brkpt->brknum == brknum)
+            return ptr->brkpt;
+         ptr = ptr->next;
+      }
+   }
+
+   return NULL;
+}
+
+void switch_breakpt(int op, int breakpt_num)
+{
+   breakpoint *bp;
+   bp = find_breakpoint(breakpt_num);
+
+   if (!bp)
+   {
+      fprintf(mon_output,"#%d not a valid breakpoint\n",breakpt_num);
+   }
+   else
+   {
+      bp->enabled = op;
+      fprintf(mon_output, "Set breakpoint #%d to state:%s\n",breakpt_num, (op==e_ON)?"enable":"disable");
+   }
+}
+
+void set_ignore_count(int breakpt_num, int count)
+{
+   breakpoint *bp;
+   bp = find_breakpoint(breakpt_num);
+
+   if (!bp)
+   {
+      fprintf(mon_output, "#%d not a valid breakpoint\n",breakpt_num);
+   }
+   else
+   {
+      bp->ignore_count = count;
+      fprintf(mon_output, "Ignoring the next %d crossings of breakpoint #%d\n",count, breakpt_num);
+   }
+}
+
+void print_breakpt_info(breakpoint *bp)
+{
+   if (bp->trace) {
+      fprintf(mon_output, "TRACE: ");
+   } else if (bp->watch_load || bp->watch_store) {
+      fprintf(mon_output, "WATCH: ");
+   } else {
+      fprintf(mon_output, "BREAK: ");
+   }
+   fprintf(mon_output, "%d A:0x%04x",bp->brknum,addr_range_start_location(bp->range));
+   if (is_valid_addr(bp->range->end_addr))
+      fprintf(mon_output, "-0x%04x",addr_range_end_location(bp->range));
+
+   if (bp->watch_load)
+      fprintf(mon_output, " load");
+   if (bp->watch_store)
+      fprintf(mon_output, " store");
+
+   fprintf(mon_output, "   %s\n",(bp->enabled==e_ON)?"enabled":"disabled");
+
+   if (bp->condition) {
+      fprintf(mon_output, "\tCondition: ");
+      print_conditional(bp->condition);
+      fprintf(mon_output, "\n");
+   }
+   if (bp->command)
+      fprintf(mon_output, "\tCommand: %s\n",bp->command);
+}
+
+void print_breakpts()
+{
+   int i, any_set=0;
+   breakpoint *bp;
+
+   for (i=1;i<breakpoint_count;i++)
+   {
+      if ( (bp = find_breakpoint(i)) )
+      {
+         print_breakpt_info(bp);
+         any_set = 1;
+      }
+   }
+
+   if (!any_set)
+      fprintf(mon_output, "No breakpoints are set\n");
+}
+
+void delete_breakpoint(int brknum)
+{
+   int i;
+   breakpoint *bp = NULL;
+   MEMSPACE mem;
+
+   if (brknum == -1)
+   {
+      /* Add user confirmation here. */
+      fprintf(mon_output, "Deleting all breakpoints\n");
+      for (i=1;i<breakpoint_count;i++)
+      {
+         bp = find_breakpoint(i);
+         if (bp)
+            delete_breakpoint(i);
+      }
+   }
+   else if ( !(bp = find_breakpoint(brknum)) )
+   {
+      fprintf(mon_output, "#%d not a valid breakpoint\n",brknum);
+      return;
+   }
+   else
+   {
+      mem = addr_range_start_memspace(bp->range);
+
+      if ( !(bp->watch_load) && !(bp->watch_store) ) {
+         remove_breakpoint_from_list(&(breakpoints[mem]), bp);
+      } else {
+         if ( bp->watch_load )
+            remove_breakpoint_from_list(&(watchpoints_load[mem]), bp);
+         if ( bp->watch_store )
+            remove_breakpoint_from_list(&(watchpoints_store[mem]), bp);
+      }
+   }
+
+   delete_conditional(bp->condition);
+   free_range(bp->range);
+   if (bp->command)
+      free(bp->command);
+}
+
 void set_brkpt_condition(int brk_num, CONDITIONAL_NODE *cnode)
 {
    breakpoint *bp;
@@ -1296,15 +1526,15 @@ void set_brkpt_condition(int brk_num, CONDITIONAL_NODE *cnode)
 
    if (!bp)
    {
-      printf("#%d not a valid breakpoint\n",brk_num);
+      fprintf(mon_output, "#%d not a valid breakpoint\n",brk_num);
    }
    else
    {
       bp->condition = cnode;
 
-      printf("Setting breakpoint %d condition to: ",brk_num);
+      fprintf(mon_output, "Setting breakpoint %d condition to: ",brk_num);
       print_conditional(cnode);
-      puts("");
+      fprintf(mon_output, "\n");
 #if 0
       evaluate_conditional(cnode);
       printf("Condition evaluates to: %d\n",cnode->value);
@@ -1320,12 +1550,12 @@ void set_breakpt_command(int brk_num, char *cmd)
 
    if (!bp)
    {
-      printf("#%d not a valid breakpoint\n",brk_num);
+      fprintf(mon_output, "#%d not a valid breakpoint\n",brk_num);
    }
    else
    {
       bp->command = cmd;
-      printf("Setting breakpoint %d command to: %s\n",brk_num, cmd);
+      fprintf(mon_output, "Setting breakpoint %d command to: %s\n",brk_num, cmd);
    }
 }
 
@@ -1349,113 +1579,6 @@ BREAK_LIST *search_breakpoint_list(BREAK_LIST *head, unsigned loc)
    return NULL;
 }
 
-
-bool check_watchpoints_load(MEMSPACE mem, unsigned eff_addr)
-{
-   BREAK_LIST *ptr;
-   bool result = FALSE;
-
-   ptr = search_breakpoint_list(watchpoints_load[mem],eff_addr);
-
-   while (ptr && is_in_range(ptr->brkpt->range, eff_addr)) {
-      printf("WATCH-LOAD(%d) 0x%04x\n",ptr->brkpt->brknum,eff_addr);
-      result = TRUE;
-      ptr = ptr->next;
-   }
-
-   return result;
-}
-
-bool check_watchpoints_store(MEMSPACE mem, unsigned eff_addr)
-{
-   BREAK_LIST *ptr;
-   bool result = FALSE;
-
-   ptr = search_breakpoint_list(watchpoints_store[mem],eff_addr);
-
-   while (ptr && is_in_range(ptr->brkpt->range, eff_addr)) {
-      printf("WATCH-STORE(%d) 0x%04x\n",ptr->brkpt->brknum,eff_addr);
-      result = TRUE;
-      ptr = ptr->next;
-   }
-
-   return result;
-}
-
-bool check_breakpoints(MEMSPACE mem)
-{
-   BREAK_LIST *ptr;
-   breakpoint *bp;
-   bool result = FALSE;
-   M_ADDR temp;
-
-   ptr = search_breakpoint_list(breakpoints[mem],get_reg_val(mem,e_PC));
-
-   while (ptr && is_in_range(ptr->brkpt->range,get_reg_val(mem,e_PC))) {
-      bp = ptr->brkpt;
-      if (bp && bp->enabled==e_ON) {
-         if (bp->trace) {
-            /* Check if PC is in trace range */
-            if (is_in_range(bp->range, get_reg_val(mem,e_PC))) {
-               temp = new_addr(mem, get_reg_val(mem,e_PC));
-               printf("TRACE:(%d) ",bp->brknum);
-               disassemble_instr(temp);
-            }
-         } else {
-            if (get_reg_val(mem,e_PC) == (addr_range_start_location(bp->range))) {
-               bp->hit_count++;
-
-               if (bp->condition) {
-                  if (!evaluate_conditional(bp->condition)) {
-                     result = TRUE;
-                  }
-               }
-
-               if (bp->ignore_count) {
-                  bp->ignore_count--;
-                  result = TRUE;
-               }
-
-               printf("BREAK(%d) 0x%04x\n",bp->brknum,get_reg_val(mem,e_PC));
-               if (bp->command) {
-                  printf("Executing: %s\n",bp->command);
-                  parse_and_execute_line(bp->command);
-               }
-               result = TRUE;
-            }
-         }
-      }
-      ptr = ptr->next;
-   }
-   return result;
-}
-
-
-bool check_stop_status(MEMSPACE mem, bool op_is_load, bool op_is_store, unsigned eff_addr)
-{
-   bool ret_val = FALSE;
-
-   if (stop_on_start)
-   {
-      stop_on_start = 0;
-      return TRUE;
-   }
-
-   ret_val |= check_breakpoints(mem);
-
-   if (op_is_load) {
-      ret_val |= check_watchpoints_load(mem, eff_addr);
-   }
-   if (op_is_store) {
-      ret_val |= check_watchpoints_store(mem, eff_addr);
-   }
-
-   ret_val |= (next_or_step_stop!=0);
-   next_or_step_stop = 0;
-   return ret_val;
-}
-
-
 int compare_breakpoints(breakpoint *bp1, breakpoint *bp2)
 {
    unsigned addr1, addr2;
@@ -1476,9 +1599,65 @@ int compare_breakpoints(breakpoint *bp1, breakpoint *bp2)
    return 0;
 }
 
+bool check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list)
+{
+   BREAK_LIST *ptr;
+   breakpoint *bp;
+   bool result = FALSE;
+   M_ADDR temp;
+   char *type;
+
+   ptr = search_breakpoint_list(list,addr);
+
+   while (ptr && is_in_range(ptr->brkpt->range,addr)) {
+      bp = ptr->brkpt;
+      ptr = ptr->next;
+      if (bp && bp->enabled==e_ON) {
+         /* If condition test fails, skip this checkpoint */
+         if (bp->condition) {
+            if (!evaluate_conditional(bp->condition)) {
+               continue;
+            }
+         }
+
+         /* Check if the user specified some ignores */
+         if (bp->ignore_count) {
+            bp->ignore_count--;
+            continue;
+         }
+
+         bp->hit_count++;
+
+         result = TRUE;
+
+         temp = new_addr(mem, get_reg_val(mem, e_PC));
+         if (bp->trace) {
+            type = "Trace";
+            result = FALSE;
+         }
+         else if (bp->watch_load)
+            type = "Watch-load";
+         else if (bp->watch_store)
+            type = "Watch-store";
+         else
+            type = "Break";
+
+         fprintf(mon_output, "#%d (%s) ",bp->brknum, type);
+         disassemble_instr(temp);
+
+         if (bp->command) {
+            fprintf(mon_output, "Executing: %s\n",bp->command);
+            parse_and_execute_line(bp->command);
+         }
+      }
+   }
+   return result;
+}
+
+#if 0
 void check_maincpu_breakpoints(ADDRESS addr)
 {
-   if (check_breakpoints(e_comp_space))
+   if (check_breakpoints(e_comp_space, addr))
       mon(maincpu_interface->cpu_regs->pc);
 
    trigger_trap(maincpu_interface->int_status,
@@ -1488,13 +1667,14 @@ void check_maincpu_breakpoints(ADDRESS addr)
 
 void check_true1541_breakpoints(ADDRESS addr)
 {
-   if (check_breakpoints(e_disk_space))
+   if (check_breakpoints(e_disk_space, addr))
       mon(true1541_interface->cpu_regs->pc);
 
    trigger_trap(true1541_interface->int_status,
                 check_true1541_breakpoints,
                 *true1541_interface->clk);
 }
+#endif
 
 void add_to_breakpoint_list(BREAK_LIST **head, breakpoint *bp)
 {
@@ -1525,34 +1705,6 @@ void add_to_breakpoint_list(BREAK_LIST **head, breakpoint *bp)
 
    prev_entry->next = new_entry;
    new_entry->next = cur_entry;
-}
-
-void remove_breakpoint_from_list(BREAK_LIST **head, breakpoint *bp)
-{
-   BREAK_LIST *cur_entry, *prev_entry;
-
-   cur_entry = *head;
-   prev_entry = NULL;
-
-   while (cur_entry) {
-      if (cur_entry->brkpt == bp)
-         break;
-
-      prev_entry = cur_entry;
-      cur_entry = cur_entry->next;
-   }
-
-   if (!cur_entry) {
-      assert(FALSE);
-   } else {
-     if (!prev_entry) {
-        *head = cur_entry->next;
-     } else {
-         prev_entry->next = cur_entry->next;
-     }
-
-     free(cur_entry);
-   }
 }
 
 int add_breakpoint(M_ADDR_RANGE range, bool is_trace, bool is_load, bool is_store)
@@ -1590,10 +1742,16 @@ int add_breakpoint(M_ADDR_RANGE range, bool is_trace, bool is_load, bool is_stor
    return new_bp->brknum;
 }
 
+
+/* *** WATCHPOINTS *** */
+
+
 void watch_push_load_addr(ADDRESS addr, MEMSPACE mem)
 {
    if (inside_monitor)
       return;
+
+   assert(watch_load_count[mem] < 5);
 
    watch_load_occurred = TRUE;
    watch_load_array[watch_load_count[mem]][mem] = addr;
@@ -1638,92 +1796,19 @@ bool watchpoints_check_stores(MEMSPACE mem)
    return trap;
 }
 
-#if 0
-bool is_breakpt_a_range(breakpoint *bp)
+
+/* *** CPU INTERFACES *** */
+
+
+bool mon_force_import(MEMSPACE mem)
 {
-   if (bp->end_addr)
-      return TRUE;
+   bool result;
 
-   return FALSE;
+   result = force_array[mem];
+   force_array[mem] = FALSE;
+
+   return result;
 }
-
-int check_breakpt_range_subsets(breakpoint *bp1, breakpoint *bp2)
-{
-  /* Returns < 0 if bp1 is a subset of bp2
-             = 0 if bp1 and bp2 and exclusive
-             > 0 if bp2 is a subset of bp1
-   */
-
-   unsigned start1, end1, start2, end2;
-
-   assert(is_breakpt_a_range(bp1));
-   assert(is_breakpt_a_range(bp2));
-
-
-   start1 = bp1->start_addr->location;
-   end1 = bp1->end_addr->location;
-   start2 = bp2->start_addr->location;
-   end2 = bp2->end_addr->location;
-
-   if ( (start1 >= start2) && (end1 <= end2) )
-      return -1;
-
-   if ( (start2 >= start1) && (end2 <= end1) )
-      return 1;
-
-   return 0;
-}
-
-int check_breakpt_range_overlaps(breakpoint *bp1, breakpoint *bp2)
-{
-  /* Returns < 0 if upper bp1 overlaps lower bp2
-             = 0 if bp1 and bp2 and exclusive
-             > 0 if upper bp2 overlaps lower bp1
-   */
-
-   unsigned start1, end1, start2, end2;
-
-   assert(is_breakpt_a_range(bp1));
-   assert(is_breakpt_a_range(bp2));
-
-   start1 = bp1->start_addr->location;
-   end1 = bp1->end_addr->location;
-   start2 = bp2->start_addr->location;
-   end2 = bp2->end_addr->location;
-
-   if ( end1 >= start2 )
-      return -1;
-
-   if ( end2 >= start1 )
-      return 1;
-
-   return 0;
-}
-
-int check_breakpt_in_range(breakpoint *bp_point, breakpoint *bp_range)
-{
-  /* Returns < 0 if point < range
-             = 0 if point is in range
-             > 0 if point > range
-   */
-   unsigned addr, start, end;
-
-   assert(!is_breakpt_a_range(bp_point));
-   assert(is_breakpt_a_range(bp_range));
-
-   addr = bp_point->start_addr->location;
-   start = bp_range->start_addr->location;
-   end = bp_range->end_addr->location;
-
-   if ( addr < start )
-      return -1;
-
-   if ( addr > end )
-      return 1;
-
-   return 0;
-}
-#endif
 
 void mon_helper(ADDRESS a)
 {
@@ -1758,24 +1843,27 @@ void mon_helper(ADDRESS a)
         }
     }
 
+#if 0
     if (any_watchpoints(e_comp_space))
         trigger_trap(maincpu_interface->int_status, mon_helper,
-                     *maincpu_interface->clk);
+                     *maincpu_interface->clk + 1);
 
     if (any_watchpoints(e_disk_space))
         trigger_trap(true1541_interface->int_status, mon_helper,
-                     *true1541_interface->clk);
+                     *true1541_interface->clk + 1);
+#endif
 }
 
 void mon(ADDRESS a)
 {
    char prompt[40];
+   bool do_trap = FALSE;
 
    inside_monitor = TRUE;
    dot_addr[caller_space] = new_addr(caller_space, a);
 
    do {
-      sprintf(prompt, "[%c,R:%s,W:%s] (%s:$%x) ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
+      sprintf(prompt, "[%c,R:%s,W:%s] (%s:$%04x) ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
               memspace_string[default_writespace], memspace_string[caller_space],
               addr_location(dot_addr[caller_space]));
 
@@ -1796,8 +1884,9 @@ void mon(ADDRESS a)
                   myinput = NULL;
             } else {
                /* Leave asm mode */
-               sprintf(prompt, "[%c,R:%s,W:%s] ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
-                               memspace_string[default_writespace]);
+               sprintf(prompt, "[%c,R:%s,W:%s] (%s:$%04x) ",(sidefx==e_ON)?'S':'-',
+                       memspace_string[default_readspace], memspace_string[default_writespace],
+                       memspace_string[caller_space], addr_location(dot_addr[caller_space]));
             }
          } else {
              /* Nonempty line */
@@ -1815,80 +1904,61 @@ void mon(ADDRESS a)
    } while (!exit_mon);
    inside_monitor = FALSE;
 
-   if (any_breakpoints(e_comp_space))
-       breakpoints_on(maincpu_interface->int_status);
-   else
-       breakpoints_off(maincpu_interface->int_status);
+   if (any_breakpoints(e_comp_space)) {
+       mon_mask[e_comp_space] |= MI_BREAK;
+       do_trap = TRUE;
+   } else {
+       mon_mask[e_comp_space] &= ~MI_BREAK;
+   }
 
    if (any_watchpoints(e_comp_space)) {
+       mon_mask[e_comp_space] |= MI_WATCH;
+       do_trap = TRUE;
+#if 0
        maincpu_interface->toggle_watchpoints_func(1);
        trigger_trap(maincpu_interface->int_status,
                     mon_helper, *maincpu_interface->clk);
-   }
-   else
+#endif
+   } else {
+       mon_mask[e_comp_space] &= ~MI_WATCH;
+#if 0
        maincpu_interface->toggle_watchpoints_func(0);
-       breakpoints_off(maincpu_interface->int_status);
+#endif
+   }
 
-   if (any_breakpoints(e_disk_space))
-       breakpoints_on(true1541_interface->int_status);
+   if (do_trap)
+       monitor_trap_on(maincpu_interface->int_status);
    else
-       breakpoints_off(true1541_interface->int_status);
+       monitor_trap_off(maincpu_interface->int_status);
+
+   do_trap = FALSE;
+
+   if (any_breakpoints(e_disk_space)) {
+       mon_mask[e_disk_space] |= MI_BREAK;
+       do_trap = TRUE;
+   } else {
+       mon_mask[e_disk_space] &= ~MI_BREAK;
+   }
 
    if (any_watchpoints(e_disk_space)) {
+       mon_mask[e_disk_space] |= MI_WATCH;
+#if 0
        true1541_interface->toggle_watchpoints_func(1);
        trigger_trap(true1541_interface->int_status,
                     mon_helper, *true1541_interface->clk);
-   }
-   else
+#endif
+   } else {
+       mon_mask[e_disk_space] &= ~MI_WATCH;
+#if 0
+       monitor_trap_off(true1541_interface->int_status);
        true1541_interface->toggle_watchpoints_func(0);
+#endif
+   }
+
+   if (do_trap)
+       monitor_trap_on(true1541_interface->int_status);
+   else
+       monitor_trap_off(true1541_interface->int_status);
 
    exit_mon = 0;
-}
-
-extern char *modename[];
-extern struct lookup_tag lookup[];
-
-int mon_assemble_instr(char *opcode_name, unsigned operand)
-{
-   WORD operand_value = LO16(operand);
-   WORD operand_mode = HI16_TO_LO16(operand);
-   BYTE opcode = 0;
-   int i, len;
-   bool found = FALSE;
-   MEMSPACE mem;
-   unsigned loc;
-
-   for (i=0;i<=0xff;i++) {
-      if (!strcasecmp(lookup[i].mnemonic, opcode_name)) {
-         if ((lookup[i].addr_mode == operand_mode) ||
-             ( (operand_mode == IMPLIED) && (lookup[i].addr_mode == ACCUMULATOR))) {
-            opcode = i;
-            found = TRUE;
-         }
-      }
-   }
-
-   if (!found) {
-      printf("\"%s\" is not a valid opcode.\n",opcode_name);
-      return -1;
-   }
-
-   len = clength[lookup[opcode].addr_mode];
-
-   mem = addr_memspace(asm_mode_addr);
-   loc = addr_location(asm_mode_addr);
-
-   ram[loc] = opcode;
-   if (len >= 2)
-      ram[loc+1] = operand_value & 0xff;
-   if (len >= 3)
-      ram[loc+2] = (operand_value >> 8) & 0xff;
-
-   if (len >= 0) {
-      inc_addr_location(&asm_mode_addr, len);
-      dot_addr[mem] = asm_mode_addr;
-   } else {
-      printf("Assemble error: %d\n",len);
-   }
-   return len;
 }
