@@ -271,7 +271,8 @@ static void color_copy_list_without_owner(color_list_t *dest, color_list_t *src)
 }
 
 static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
-                                    PIXEL pixel_return[])
+                                    PIXEL pixel_return[],
+                                    unsigned long *col_return)
 {
     unsigned int colnr;
     color_list_t *cdest;
@@ -289,6 +290,8 @@ static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
                                             &(cdest->pixel_data),
                                             cdest->color_rgb_req.dither,
                                             cdest->color_pixel);
+                if (col_return != NULL)
+                    col_return[colnr] = cdest->color_pixel;
                 colnr++;
             }
             cdest = cdest->next;
@@ -304,7 +307,8 @@ static void color_print_list(const char *name, color_list_t *list)
     log_message(color_log, "List %s start:", name);
     while (list->next != NULL) {
         owner_list_t *owner_list = list->owner;
-        log_message(color_log, "R %02x G %02x B %02x D %02x XCOL %08lx PIXEL %02x.",
+        log_message(color_log,
+                    "R %02x G %02x B %02x D %02x XCOL %08lx PIXEL %02x.",
                     list->color_rgb_req.red,
                     list->color_rgb_req.green,
                     list->color_rgb_req.blue,
@@ -375,7 +379,7 @@ void color_init(void)
 }
 
 int color_alloc_colors(void *c, const palette_t *palette,
-                       PIXEL pixel_return[])
+                       PIXEL pixel_return[], unsigned long *col_return)
 {
     color_list_t *color_new, *color_to_alloc, *color_no_alloc,
                  *color_alloced_owner, *color_without_owner;
@@ -410,7 +414,8 @@ int color_alloc_colors(void *c, const palette_t *palette,
     /* Copy valid colors (with owner) to new list.  */
     color_create_empty_entry(&color_alloced_owner);
     color_copy_list_with_owner(color_alloced_owner, color_alloced);
-    color_fill_pixel_return(color_alloced_owner, color_new, pixel_return);
+    color_fill_pixel_return(color_alloced_owner, color_new, pixel_return,
+                            col_return);
 
     /* Copy invalid colors (without owner) to new list.  */
     color_create_empty_entry(&color_without_owner);
