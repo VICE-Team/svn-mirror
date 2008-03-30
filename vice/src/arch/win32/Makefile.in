@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.3 from Makefile.am
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
 
-# Copyright (C) 1994, 1995, 1996, 1997, 1998 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -11,7 +11,7 @@
 # PARTICULAR PURPOSE.
 
 
-SHELL = /bin/sh
+SHELL = @SHELL@
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -32,7 +32,7 @@ mandir = @mandir@
 includedir = @includedir@
 oldincludedir = /usr/include
 
-DISTDIR =
+DESTDIR =
 
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -46,7 +46,7 @@ AUTOMAKE = @AUTOMAKE@
 AUTOHEADER = @AUTOHEADER@
 
 INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 transform = @program_transform_name@
@@ -93,7 +93,6 @@ SOUND_MIDAS_OBJ = @SOUND_MIDAS_OBJ@
 SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
-SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 WINDRES = @WINDRES@
 X128_WINRES = @X128_WINRES@
@@ -111,112 +110,21 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 
 SUFFIXES = .rc
 
-INCLUDES = \
-	@ARCH_INCLUDES@ \
-	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/c128 \
-	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet \
-	-I$(top_srcdir)/src/cbm2
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet 	-I$(top_srcdir)/src/cbm2
+
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES = \
-	archdep.c \
-	archdep.h \
-	c128kbd.c \
-	c128ui.c \
-	c128ui.h \
-	c610kbd.c \
-	c610ui.c \
-	c610ui.h \
-	c64kbd.c \
-	c64ui.c \
-	c64ui.h \
-	dirent.c \
-	dirent.h \
-	joystick.c \
-	joystick.h \
-	kbd.c \
-	kbd.h \
-	lose32.h \
-	petkbd.c \
-	petui.c \
-	petui.h \
-	print.c \
-	res.h \
-	res.rc \
-	resc128.rc \
-	resc64.rc \
-	rescbm2.rc \
-	respet.rc \
-	resvic.rc \
-	types.h \
-	ui.c \
-	ui.h \
-	uiattach.c \
-	uiattach.h \
-	uicbm2set.c \
-	uicbm2set.h \
-	uidrive.c \
-	uidrive.h \
-	uijoystick.c \
-	uijoystick.h \
-	uilib.c \
-	uilib.h \
-	uipetset.c \
-	uipetset.h \
-	uisnapshot.h \
-	uisnapshot.c \
-	uisound.c \
-	uisound.h \
-	uivicii.h \
-	uivicii.c \
-	vic20kbd.c \
-	vic20ui.c \
-	vic20ui.h \
-	video.c \
-	video.h \
-	vsync.c \
-	vsync.h \
-	winhack.h \
-	winmain.c \
-	winmain.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610kbd.c 	c610ui.c 	c610ui.h 	c64kbd.c 	c64ui.c 	c64ui.h 	dirent.c 	dirent.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	lose32.h 	petkbd.c 	petui.c 	petui.h 	print.c 	res.h 	res.rc 	resc128.rc 	resc64.rc 	rescbm2.rc 	respet.rc 	resvic.rc 	types.h 	ui.c 	ui.h 	uiattach.c 	uiattach.h 	uicbm2set.c 	uicbm2set.h 	uidrive.c 	uidrive.h 	uijoystick.c 	uijoystick.h 	uilib.c 	uilib.h 	uipetset.c 	uipetset.h 	uisnapshot.h 	uisnapshot.c 	uisound.c 	uisound.h 	uivicii.h 	uivicii.c 	vic20kbd.c 	vic20ui.c 	vic20ui.h 	video.c 	video.h 	vsync.c 	vsync.h 	winhack.h 	winmain.c 	winmain.h
 
-libarch_a_DEPENDENCIES = \
-	resc128.o resc64.o rescbm2.o respet.o resvic.o
 
-EXTRA_DIST = \
-	msvc/config.h \
-	arch.dsp \
-	c128.dsp \
-	c1541.dsp \
-	c64.dsp \
-	c64c128.dsp \
-	cbm2.dsp \
-	crtc.dsp \
-	drive.dsp \
-	pet.dsp \
-	petcat.dsp \
-	raster.dsp \
-	resid.dsp \
-	sid.dsp \
-	sounddrv.dsp \
-	vdc.dsp \
-	vdrive.dsp \
-	vic20.dsp \
-	vice.dsp \
-	vicii.dsp \
-	x128.dsp \
-	x64.dsp \
-	xcbm2.dsp \
-	xpet.dsp \
-	xvic.dsp \
-	vice.dsw \
-        c64.ico 
+libarch_a_DEPENDENCIES =  	resc128.o resc64.o rescbm2.o respet.o resvic.o
+
+
+EXTRA_DIST =  	msvc/config.h 	arch.dsp 	c128.dsp 	c1541.dsp 	c64.dsp 	c64c128.dsp 	cbm2.dsp 	crtc.dsp 	drive.dsp 	pet.dsp 	petcat.dsp 	raster.dsp 	resid.dsp 	sid.dsp 	sounddrv.dsp 	vdc.dsp 	vdrive.dsp 	vic20.dsp 	vice.dsp 	vicii.dsp 	x128.dsp 	x64.dsp 	xcbm2.dsp 	xpet.dsp 	xvic.dsp 	vice.dsw         c64.ico 
+
+
+SUBDIRS = .
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -236,23 +144,23 @@ ui.o uiattach.o uicbm2set.o uidrive.o uijoystick.o uilib.o uipetset.o \
 uisnapshot.o uisound.o uivicii.o vic20kbd.o vic20ui.o video.o vsync.o \
 winmain.o
 CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
-LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
-GZIP = --best
+GZIP_ENV = --best
 SOURCES = $(libarch_a_SOURCES)
 OBJECTS = $(libarch_a_OBJECTS)
 
-all: all-recursive all-am
-
+all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .rc .s
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
+$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/win32/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
@@ -306,41 +214,65 @@ all-recursive install-data-recursive install-exec-recursive \
 installdirs-recursive install-recursive uninstall-recursive  \
 check-recursive installcheck-recursive info-recursive dvi-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  target=`echo $@ | sed s/-recursive//`; \
 	  echo "Making $$target in $$subdir"; \
-	  (cd $$subdir && $(MAKE) $$target) \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
 	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
-	done && test -z "$$fail"
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
 
 mostlyclean-recursive clean-recursive distclean-recursive \
 maintainer-clean-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
 	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
 	  rev="$$subdir $$rev"; \
+	  test "$$subdir" = "." && dot_seen=yes; \
 	done; \
+	test "$$dot_seen" = "no" && rev=". $$rev"; \
+	target=`echo $@ | sed s/-recursive//`; \
 	for subdir in $$rev; do \
-	  target=`echo $@ | sed s/-recursive//`; \
 	  echo "Making $$target in $$subdir"; \
-	  (cd $$subdir && $(MAKE) $$target) \
+	  if test "$$subdir" = "."; then \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
 	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
 	done && test -z "$$fail"
 tags-recursive:
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  (cd $$subdir && $(MAKE) tags); \
+	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
 	done
 
 tags: TAGS
 
 ID: $(HEADERS) $(SOURCES) $(LISP)
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
 	here=`pwd` && cd $(srcdir) \
-	  && mkid -f$$here/ID $(SOURCES) $(HEADERS) $(LISP)
+	  && mkid -f$$here/ID $$unique $(LISP)
 
 TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	tags=; \
 	here=`pwd`; \
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+   if test "$$subdir" = .; then :; else \
+	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+   fi; \
 	done; \
 	list='$(SOURCES) $(HEADERS)'; \
 	unique=`for i in $$list; do echo $$i; done | \
@@ -366,200 +298,83 @@ distdir: $(DISTFILES)
 	$(mkinstalldirs) $(distdir)/msvc
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
-	  test -f $(distdir)/$$file \
-	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
-	  || cp -p $$d/$$file $(distdir)/$$file; \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
 	done
 	for subdir in $(SUBDIRS); do \
-	  test -d $(distdir)/$$subdir \
-	  || mkdir $(distdir)/$$subdir \
-	  || exit 1; \
-	  chmod 777 $(distdir)/$$subdir; \
-	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	  if test "$$subdir" = .; then :; else \
+	    test -d $(distdir)/$$subdir \
+	    || mkdir $(distdir)/$$subdir \
 	    || exit 1; \
+	    chmod 777 $(distdir)/$$subdir; \
+	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	      || exit 1; \
+	  fi; \
 	done
-archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	archdep.h ../../../src/archapi.h ../../../src/log.h \
-	../../../src/utils.h types.h
-c128kbd.o: c128kbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	../../../src/cartridge.h types.h kbd.h
-c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	c128ui.h res.h ui.h ../../../src/uiapi.h video.h types.h \
-	../../../src/palette.h uivicii.h
-c610kbd.o: c610kbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	kbd.h types.h
-c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	petui.h res.h ui.h ../../../src/uiapi.h video.h types.h \
-	../../../src/palette.h uicbm2set.h winmain.h
-c64kbd.o: c64kbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	kbd.h types.h
-c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h lose32.h ui.h \
-	../../../src/uiapi.h video.h types.h ../../../src/palette.h \
-	c64ui.h ../../../src/cartridge.h kbd.h ../../../src/keyboard.h \
-	res.h uilib.h uivicii.h winmain.h
-dirent.o: dirent.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	../../../src/utils.h types.h dirent.h
-joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
-	lose32.h ../../../src/cmdline.h ../../../src/resources.h \
-	joystick.h kbd.h types.h winmain.h
-kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h lose32.h kbd.h \
-	types.h ../../../src/cmdline.h ../../../src/resources.h \
-	../../../src/keyboard.h joystick.h ../../../src/machine.h \
-	../../../src/utils.h
-petkbd.o: petkbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	kbd.h types.h
-petui.o: petui.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	petui.h res.h ui.h ../../../src/uiapi.h video.h types.h \
-	../../../src/palette.h uipetset.h winmain.h
-print.o: print.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	../../../src/print.h types.h
-ui.o: ui.c ../../../src/vice.h ../../../src/config.h lose32.h ui.h \
-	../../../src/uiapi.h video.h types.h ../../../src/palette.h \
-	../../../src/attach.h ../../../src/snapshot.h \
-	../../../src/autostart.h archdep.h ../../../src/archapi.h \
-	../../../src/cmdline.h ../../../src/resources.h \
-	../../../src/datasette.h ../../../src/tap.h \
-	../../../src/drive/drive.h ../../../src/diskimage.h \
-	../../../src/gcr.h ../../../src/drive/drivecpu.h \
-	../../../src/alarm.h ../../../src/log.h ../../../src/clkguard.h \
-	../../../src/mon.h ../../../src/mos6510.h ../../../src/mem.h \
-	../../../src/interrupt.h ../../../src/6510core.h \
-	../../../src/fliplist.h ../../../src/imagecontents.h kbd.h \
-	../../../src/keyboard.h ../../../src/machine.h \
-	../../../src/maincpu.h res.h ../../../src/tape.h \
-	../../../src/traps.h uiattach.h uidrive.h uijoystick.h uilib.h \
-	uisnapshot.h uisound.h ../../../src/utils.h vsync.h winmain.h
-uiattach.o: uiattach.c ../../../src/vice.h ../../../src/config.h \
-	lose32.h ../../../src/attach.h types.h ../../../src/snapshot.h \
-	../../../src/autostart.h ../../../src/imagecontents.h res.h \
-	../../../src/resources.h ../../../src/serial.h \
-	../../../src/diskimage.h ../../../src/gcr.h \
-	../../../src/traps.h ui.h ../../../src/uiapi.h video.h \
-	../../../src/palette.h uiattach.h uilib.h winmain.h
-uicbm2set.o: uicbm2set.c ../../../src/vice.h ../../../src/config.h \
-	lose32.h ../../../src/cbm2/c610mem.h types.h res.h \
-	../../../src/resources.h ui.h ../../../src/uiapi.h video.h \
-	../../../src/palette.h uicbm2set.h uilib.h ../../../src/utils.h \
-	winmain.h
-uidrive.o: uidrive.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	../../../src/drive/drive.h types.h ../../../src/diskimage.h \
-	../../../src/gcr.h ../../../src/drive/drivecpu.h \
-	../../../src/alarm.h ../../../src/log.h ../../../src/clkguard.h \
-	../../../src/mon.h ../../../src/mos6510.h ../../../src/mem.h \
-	../../../src/snapshot.h ../../../src/interrupt.h \
-	../../../src/6510core.h res.h ../../../src/resources.h \
-	../../../src/serial.h ../../../src/traps.h ui.h \
-	../../../src/uiapi.h video.h ../../../src/palette.h uidrive.h \
-	uilib.h winmain.h
-uijoystick.o: uijoystick.c res.h ../../../src/resources.h joystick.h \
-	kbd.h types.h winmain.h
-uilib.o: uilib.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	../../../src/imagecontents.h types.h ../../../src/resources.h \
-	ui.h ../../../src/uiapi.h video.h ../../../src/palette.h \
-	uilib.h ../../../src/utils.h winmain.h res.h
-uipetset.o: uipetset.c ../../../src/vice.h ../../../src/config.h \
-	lose32.h ../../../src/pet/pets.h types.h res.h \
-	../../../src/resources.h ui.h ../../../src/uiapi.h video.h \
-	../../../src/palette.h uilib.h uipetset.h ../../../src/utils.h \
-	winmain.h
-uisnapshot.o: uisnapshot.c ../../../src/vice.h ../../../src/config.h \
-	lose32.h ../../../src/drive/drive.h types.h \
-	../../../src/diskimage.h ../../../src/gcr.h \
-	../../../src/drive/drivecpu.h ../../../src/alarm.h \
-	../../../src/log.h ../../../src/clkguard.h ../../../src/mon.h \
-	../../../src/mos6510.h ../../../src/mem.h \
-	../../../src/snapshot.h ../../../src/interrupt.h \
-	../../../src/6510core.h ../../../src/machine.h res.h \
-	../../../src/resources.h ../../../src/serial.h \
-	../../../src/traps.h ui.h ../../../src/uiapi.h video.h \
-	../../../src/palette.h uidrive.h uilib.h winmain.h
-uisound.o: uisound.c res.h ../../../src/resources.h ../../../src/sound.h \
-	types.h ../../../src/warn.h winmain.h
-uivicii.o: uivicii.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	res.h ../../../src/resources.h ui.h ../../../src/uiapi.h \
-	video.h types.h ../../../src/palette.h uilib.h \
-	../../../src/utils.h winmain.h
-vic20kbd.o: vic20kbd.c ../../../src/vice.h ../../../src/config.h \
-	lose32.h kbd.h types.h
-vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	ui.h ../../../src/uiapi.h video.h types.h \
-	../../../src/palette.h ../../../src/cartridge.h res.h uilib.h \
-	vic20ui.h winmain.h
-video.o: video.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	video.h types.h ../../../src/palette.h ui.h \
-	../../../src/uiapi.h ../../../src/utils.h \
-	../../../src/resources.h ../../../src/cmdline.h \
-	../../../src/log.h
-vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	vsync.h types.h ../../../src/cmdline.h ../../../src/resources.h \
-	../../../src/interrupt.h ../../../src/6510core.h \
-	../../../src/mem.h ../../../src/snapshot.h \
-	../../../src/kbdbuf.h ../../../src/sound.h ../../../src/warn.h \
-	ui.h ../../../src/uiapi.h video.h ../../../src/palette.h \
-	joystick.h kbd.h
-winmain.o: winmain.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	../../../src/utils.h types.h winmain.h
 
+info-am:
 info: info-recursive
+dvi-am:
 dvi: dvi-recursive
-check: all-am
-	$(MAKE) check-recursive
+check-am: all-am
+check: check-recursive
+installcheck-am:
 installcheck: installcheck-recursive
-all-am: Makefile $(LIBRARIES)
-
+install-exec-am:
 install-exec: install-exec-recursive
-	@$(NORMAL_INSTALL)
 
+install-data-am:
 install-data: install-data-recursive
-	@$(NORMAL_INSTALL)
 
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-recursive
-	@:
-
+uninstall-am:
 uninstall: uninstall-recursive
-
+all-am: Makefile $(LIBRARIES)
+all-redirect: all-recursive
 install-strip:
-	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs: installdirs-recursive
+installdirs-am:
 
 
 mostlyclean-generic:
-	-test -z "$(MOSTLYCLEANFILES)" || rm -f $(MOSTLYCLEANFILES)
 
 clean-generic:
-	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
-	-rm -f Makefile $(DISTCLEANFILES)
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
-	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 
 maintainer-clean-generic:
-	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
-	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
 		mostlyclean-tags mostlyclean-generic
+
+mostlyclean: mostlyclean-recursive
 
 clean-am:  clean-noinstLIBRARIES clean-compile clean-tags clean-generic \
 		mostlyclean-am
 
+clean: clean-recursive
+
 distclean-am:  distclean-noinstLIBRARIES distclean-compile \
 		distclean-tags distclean-generic clean-am
+
+distclean: distclean-recursive
 
 maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
 		maintainer-clean-compile maintainer-clean-tags \
 		maintainer-clean-generic distclean-am
-
-mostlyclean:  mostlyclean-recursive mostlyclean-am
-
-clean:  clean-recursive clean-am
-
-distclean:  distclean-recursive distclean-am
-	-rm -f config.status
-
-maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
+
+maintainer-clean: maintainer-clean-recursive
 
 .PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
 clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
@@ -570,8 +385,10 @@ uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
 all-recursive check-recursive installcheck-recursive info-recursive \
 dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
 maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags distdir info dvi \
-installcheck all-am install-exec install-data install uninstall all \
+distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
+dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
+install-exec install-data-am install-data install-am install \
+uninstall-am uninstall all-redirect all-am all installdirs-am \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 

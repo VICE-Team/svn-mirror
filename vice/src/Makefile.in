@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.3 from Makefile.am
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
 
-# Copyright (C) 1994, 1995, 1996, 1997, 1998 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -14,7 +14,7 @@
 # $(CXX) instead of $(CC) when compiling with reSID.
 
 
-SHELL = /bin/sh
+SHELL = @SHELL@
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -35,7 +35,7 @@ mandir = @mandir@
 includedir = @includedir@
 oldincludedir = /usr/include
 
-DISTDIR =
+DESTDIR =
 
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -49,7 +49,7 @@ AUTOMAKE = @AUTOMAKE@
 AUTOHEADER = @AUTOHEADER@
 
 INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 transform = @program_transform_name@
@@ -106,182 +106,41 @@ YACC = @YACC@
 cxx = @cxx@
 
 LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
-
 @HAVE_RS232_TRUE@@HAVE_PRINTER_TRUE@rs232_printer_ldadd = pruser.o prdevice.o rsuser.o
 @HAVE_RS232_TRUE@@HAVE_PRINTER_FALSE@rs232_printer_ldadd = rsuser.o
 @HAVE_RS232_FALSE@@HAVE_PRINTER_TRUE@rs232_printer_ldadd = pruser.o prdevice.o
-@HAVE_RS232_FALSE@@HAVE_PRINTER_FALSE@rs232_printer_ldadd =
+@HAVE_RS232_FALSE@@HAVE_PRINTER_FALSE@rs232_printer_ldadd = 
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = \
-	@RESID_DIR@ \
-	sounddrv \
-	drive \
-	vdrive \
-	raster \
-	vicii \
-        vdc \
-	crtc \
-	sid \
-	c64 \
-	c128 \
-	vic20 \
-	pet \
-	cbm2 \
-	arch
+SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	raster 	vicii         vdc 	crtc 	sid 	c64 	c128 	vic20 	pet 	cbm2 	arch
 
-INCLUDES = \
-	@ARCH_INCLUDES@ \
-	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/vdrive
+
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive
+
 
 YFLAGS = -dt
 
-noinst_HEADERS = \
-	6510core.h \
-	acia.h \
-	alarm.h \
-	archapi.h \
-	asm.h \
-	attach.h \
-	autostart.h \
-	cartridge.h \
-	charsets.h \
-	cia.h \
-	ciacore.h \
-	clkguard.h \
-	ciatimer.h \
-	cmdline.h \
-	config.h.in \
-	datasette.h \
-	diskimage.h \
-	emuid.h \
-	fixpoint.h \
-	findpath.h \
-	fsdevice.h \
-	fliplist.h \
-	gcr.h \
-	iecdrive.h \
-	imagecontents.h \
-	info.h \
-	interrupt.h \
-	kbdbuf.h \
-	keyboard.h \
-	log.h \
-	machine.h \
-	maincpu.h \
-	mem.h \
-	mon.h \
-	mon_parse.h \
-	mos6510.h \
-	p00.h \
-	palette.h \
-	parallel.h \
-	piacore.h \
-	print.h \
-	resources.h \
-	riot.h \
-	riotcore.h \
-	romset.h \
-	rs232.h \
-	serial.h \
-	snapshot.h \
-	sound.h \
-	sysfile.h \
-	t64.h \
-	tap.h \
-	tape.h \
-	tpi.h \
-	tpicore.h \
-	traps.h \
-	uiapi.h \
-	usleep.h \
-	utils.h \
-	via.h \
-	viacore.h \
-	vice.h \
-	warn.h \
-	zfile.h \
-	zipcode.h
+noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	asm.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	config.h.in 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mon.h 	mon_parse.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	via.h 	viacore.h 	vice.h 	warn.h 	zfile.h 	zipcode.h
 
-base_sources = \
-	alarm.c \
-	asm.c \
-	attach.c \
-	autostart.c \
-	charsets.c \
-	ciatimer.c \
-	clkguard.c \
-	cmdline.c \
-	datasette.c \
-	diskimage.c \
-	emuid.c \
-	findpath.c \
-	fsdevice.c \
-	fliplist.c \
-	gcr.c \
-	info.c \
-	interrupt.c \
-	imagecontents.c \
-	kbdbuf.c \
-	keyboard.c \
-	log.c \
-	main.c \
-	mon.c \
-	mon_lex.l \
-	mon_parse.y \
-	p00.c \
-	palette.c \
-	parallel.c \
-	resources.c \
-	romset.c \
-	serial.c \
-	snapshot.c \
-	sound.c \
-	sysfile.c \
-	t64.c \
-	tap.c \
-	tape.c \
-	traps.c \
-	utils.c \
-	warn.c \
-	zfile.c \
-	zipcode.c
 
-cpucore_sources = \
-	6510core.c
+base_sources =  	alarm.c 	asm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	main.c 	mon.c 	mon_lex.l 	mon_parse.y 	p00.c 	palette.c 	parallel.c 	resources.c 	romset.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	warn.c 	zfile.c 	zipcode.c
 
-maincpu_sources = \
-	maincpu.c
 
-printer_sources = \
-	prdevice.c \
-	prdevice.h \
-	pruser.c \
-	pruser.h
+cpucore_sources =  	6510core.c
 
-rs232_sources = \
-	rsuser.c \
-	rsuser.h
 
-EXTRA_DIST = \
-	6510core.c \
-	ChangeLog \
-	ChangeLog.1 \
-	ChangeLog.2 \
-	aciacore.c \
-	ciacore.c \
-	convio \
-	fixpoint.c \
-	piacore.c \
-	riotcore.c \
-	tpicore.c \
-	viacore.c \
-	$(printer_sources) \
-	$(rs232_sources)
+maincpu_sources =  	maincpu.c
+
+
+printer_sources =  	prdevice.c 	prdevice.h 	pruser.c 	pruser.h
+
+
+rs232_sources =  	rsuser.c 	rsuser.h
+
+
+EXTRA_DIST =  	6510core.c 	ChangeLog 	ChangeLog.1 	ChangeLog.2 	aciacore.c 	ciacore.c 	convio 	fixpoint.c 	piacore.c 	riotcore.c 	tpicore.c 	viacore.c 	$(printer_sources) 	$(rs232_sources)
+
 
 BUILT_SOURCES = mon_parse.h mon_parse.c 
 
@@ -304,19 +163,11 @@ common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @
 
 bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 
-EXTRA_PROGRAMS =
+EXTRA_PROGRAMS = 
 
 # x64
-x64_libs =  \
-	@X64_WINRES@ \
-	$(c64_lib) \
-	$(drive_lib) \
-	$(vdrive_lib) \
-	$(sid_lib) \
-	$(sounddrv_lib) \
-	$(vicii_lib) \
-	$(raster_lib) \
-	$(common_libs)
+x64_libs =  	@X64_WINRES@ 	$(c64_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib) 	$(vicii_lib) 	$(raster_lib) 	$(common_libs)
+
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(x64_libs) @X_LIBS@
@@ -324,18 +175,8 @@ x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
 # x128
-x128_libs =  \
-	@X128_WINRES@ \
-	$(c128_lib) \
-	$(c64c128_lib) \
-	$(drive_lib) \
-	$(vdrive_lib) \
-	$(sid_lib) \
-	$(sounddrv_lib) \
-	$(vicii_lib) \
-	$(vdc_lib) \
-	$(raster_lib) \
-	$(common_libs)
+x128_libs =  	@X128_WINRES@ 	$(c128_lib) 	$(c64c128_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib) 	$(vicii_lib) 	$(vdc_lib) 	$(raster_lib) 	$(common_libs)
+
 
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(x128_libs) @X_LIBS@
@@ -343,14 +184,8 @@ x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
 # xvic
-xvic_libs =  \
-	@XVIC_WINRES@ \
-	$(vic20_lib) \
-	$(drive_lib) \
-	$(vdrive_lib) \
-	$(sounddrv_lib) \
-	$(raster_lib) \
-	$(common_libs)
+xvic_libs =  	@XVIC_WINRES@ 	$(vic20_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(raster_lib) 	$(common_libs)
+
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
 xvic_LDADD = $(xvic_libs) @X_LIBS@
@@ -358,15 +193,8 @@ xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 # xpet
-xpet_libs =  \
-	@XPET_WINRES@ \
-	$(drive_lib) \
-	$(vdrive_lib) \
-	$(pet_lib) \
-	$(sounddrv_lib) \
-	$(crtc_lib) \
-	$(raster_lib) \
-	$(common_libs)
+xpet_libs =  	@XPET_WINRES@ 	$(drive_lib) 	$(vdrive_lib) 	$(pet_lib) 	$(sounddrv_lib) 	$(crtc_lib) 	$(raster_lib) 	$(common_libs)
+
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
 xpet_LDADD = $(xpet_libs) @X_LIBS@
@@ -374,16 +202,8 @@ xpet_DEPENDENCIES = $(xpet_libs)
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
 # xcbm2
-xcbm2_libs = \
-	@XCBM2_WINRES@ \
-	$(drive_lib) \
-	$(vdrive_lib) \
-	$(xcbm2_lib) \
-	$(sounddrv_lib) \
-	$(sid_lib) \
-	$(crtc_lib) \
-	$(raster_lib) \
-	$(common_libs)
+xcbm2_libs =  	@XCBM2_WINRES@ 	$(drive_lib) 	$(vdrive_lib) 	$(xcbm2_lib) 	$(sounddrv_lib) 	$(sid_lib) 	$(crtc_lib) 	$(raster_lib) 	$(common_libs)
+
 
 xcbm2_SOURCES = $(base_sources)
 xcbm2_LDADD = $(xcbm2_libs) @X_LIBS@
@@ -391,21 +211,8 @@ xcbm2_DEPENDENCIES = $(xcbm2_libs)
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 
 # c1541
-c1541_SOURCES = \
-	c1541.c \
-	charsets.c \
-	cmdline.c \
-	diskimage.c \
-	findpath.c \
-	gcr.c \
-	info.c \
-	log.c \
-	p00.c \
-	resources.c \
-	t64.c \
-	utils.c \
-	zfile.c \
-	zipcode.c
+c1541_SOURCES =  	c1541.c 	charsets.c 	cmdline.c 	diskimage.c 	findpath.c 	gcr.c 	info.c 	log.c 	p00.c 	resources.c 	t64.c 	utils.c 	zfile.c 	zipcode.c
+
 
 # FIXME: I don't like linking `archdep.o' this way, but we cannot use
 # the generic `ARCH_LIBS', because we would have to link against X11
@@ -413,17 +220,8 @@ c1541_SOURCES = \
 c1541_LDADD = @ARCH_DIR@/archdep.o $(vdrive_lib) @READLINE@
 
 # petcat
-petcat_SOURCES = \
-	charsets.c \
-	cmdline.c \
-	findpath.c \
-	log.c \
-	p00.c \
-	petcat.c \
-	resources.c \
-	utils.c \
-	zfile.c \
-	zipcode.c
+petcat_SOURCES =  	charsets.c 	cmdline.c 	findpath.c 	log.c 	p00.c 	petcat.c 	resources.c 	utils.c 	zfile.c 	zipcode.c
+
 
 petcat_LDADD = @ARCH_DIR@/archdep.o
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -481,25 +279,25 @@ petcat_LDFLAGS =
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
 HEADERS =  $(noinst_HEADERS)
 
-DIST_COMMON =  ChangeLog Makefile.am Makefile.in alloca.c config.h.in \
-memcmp.c mon_lex.c mon_parse.c stamp-h.in usleep.c
+DIST_COMMON =  ./stamp-h.in ChangeLog Makefile.am Makefile.in alloca.c \
+config.h.in memcmp.c mon_lex.c mon_parse.c usleep.c
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
-GZIP = --best
+GZIP_ENV = --best
 SOURCES = $(x64_SOURCES) $(x128_SOURCES) $(xvic_SOURCES) $(xpet_SOURCES) $(xcbm2_SOURCES) $(c1541_SOURCES) $(petcat_SOURCES)
 OBJECTS = $(x64_OBJECTS) $(x128_OBJECTS) $(xvic_OBJECTS) $(xpet_OBJECTS) $(xcbm2_OBJECTS) $(c1541_OBJECTS) $(petcat_OBJECTS)
 
-all: all-recursive-am all-am
-
+all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .l .o .s .y
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
+$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
@@ -508,16 +306,23 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 
 
 config.h: stamp-h
-	@:
+	@if test ! -f $@; then \
+		rm -f stamp-h; \
+		$(MAKE) stamp-h; \
+	else :; fi
 stamp-h: $(srcdir)/config.h.in $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES= CONFIG_HEADERS=src/config.h \
 	     $(SHELL) ./config.status
-	@echo timestamp > stamp-h
+	@echo timestamp > stamp-h 2> /dev/null
 $(srcdir)/config.h.in: $(srcdir)/stamp-h.in
+	@if test ! -f $@; then \
+		rm -f $(srcdir)/stamp-h.in; \
+		$(MAKE) $(srcdir)/stamp-h.in; \
+	else :; fi
 $(srcdir)/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOHEADER)
-	@echo timestamp > $(srcdir)/stamp-h.in
+	@echo timestamp > $(srcdir)/stamp-h.in 2> /dev/null
 
 mostlyclean-hdr:
 
@@ -542,15 +347,15 @@ install-binPROGRAMS: $(bin_PROGRAMS)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@list='$(bin_PROGRAMS)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
-	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
+	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
 	  else :; fi; \
 	done
 
 uninstall-binPROGRAMS:
 	@$(NORMAL_UNINSTALL)
 	list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
 	done
 
 .c.o:
@@ -599,15 +404,15 @@ c1541: $(c1541_OBJECTS) $(c1541_DEPENDENCIES)
 petcat: $(petcat_OBJECTS) $(petcat_DEPENDENCIES)
 	@rm -f petcat
 	$(LINK) $(petcat_LDFLAGS) $(petcat_OBJECTS) $(petcat_LDADD) $(LIBS)
+.l.c:
+	$(LEX) $(AM_LFLAGS) $(LFLAGS) $< && mv $(LEX_OUTPUT_ROOT).c $@
 .y.c:
-	$(YACC) $(YFLAGS) $< && mv y.tab.c $*.c
+	$(YACC) $(AM_YFLAGS) $(YFLAGS) $< && mv y.tab.c $*.c
 	if test -f y.tab.h; then \
 	if cmp -s y.tab.h $*.h; then rm -f y.tab.h; else mv y.tab.h $*.h; fi; \
 	else :; fi
 mon_parse.h: mon_parse.c
 
-.l.c:
-	$(LEX) $(LFLAGS) $< && mv $(LEX_OUTPUT_ROOT).c $@
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -622,41 +427,65 @@ all-recursive install-data-recursive install-exec-recursive \
 installdirs-recursive install-recursive uninstall-recursive  \
 check-recursive installcheck-recursive info-recursive dvi-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  target=`echo $@ | sed s/-recursive//`; \
 	  echo "Making $$target in $$subdir"; \
-	  (cd $$subdir && $(MAKE) $$target) \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
 	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
-	done && test -z "$$fail"
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
 
 mostlyclean-recursive clean-recursive distclean-recursive \
 maintainer-clean-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
 	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
 	  rev="$$subdir $$rev"; \
+	  test "$$subdir" = "." && dot_seen=yes; \
 	done; \
+	test "$$dot_seen" = "no" && rev=". $$rev"; \
+	target=`echo $@ | sed s/-recursive//`; \
 	for subdir in $$rev; do \
-	  target=`echo $@ | sed s/-recursive//`; \
 	  echo "Making $$target in $$subdir"; \
-	  (cd $$subdir && $(MAKE) $$target) \
+	  if test "$$subdir" = "."; then \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
 	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
 	done && test -z "$$fail"
 tags-recursive:
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  (cd $$subdir && $(MAKE) tags); \
+	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
 	done
 
 tags: TAGS
 
 ID: $(HEADERS) $(SOURCES) $(LISP)
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
 	here=`pwd` && cd $(srcdir) \
-	  && mkid -f$$here/ID $(SOURCES) $(HEADERS) $(LISP)
+	  && mkid -f$$here/ID $$unique $(LISP)
 
 TAGS: tags-recursive $(HEADERS) $(SOURCES) config.h.in $(TAGS_DEPENDENCIES) $(LISP)
 	tags=; \
 	here=`pwd`; \
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+   if test "$$subdir" = .; then :; else \
+	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+   fi; \
 	done; \
 	list='$(SOURCES) $(HEADERS)'; \
 	unique=`for i in $$list; do echo $$i; done | \
@@ -681,17 +510,23 @@ subdir = src
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
-	  test -f $(distdir)/$$file \
-	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
-	  || cp -p $$d/$$file $(distdir)/$$file; \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
 	done
 	for subdir in $(SUBDIRS); do \
-	  test -d $(distdir)/$$subdir \
-	  || mkdir $(distdir)/$$subdir \
-	  || exit 1; \
-	  chmod 777 $(distdir)/$$subdir; \
-	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	  if test "$$subdir" = .; then :; else \
+	    test -d $(distdir)/$$subdir \
+	    || mkdir $(distdir)/$$subdir \
 	    || exit 1; \
+	    chmod 777 $(distdir)/$$subdir; \
+	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	      || exit 1; \
+	  fi; \
 	done
 alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
 asm.o: asm.c vice.h config.h asm.h arch/unix/types.h
@@ -831,75 +666,70 @@ zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h
 
+info-am:
 info: info-recursive
+dvi-am:
 dvi: dvi-recursive
-check: all-am
-	$(MAKE) check-recursive
+check-am: all-am
+check: check-recursive
+installcheck-am:
 installcheck: installcheck-recursive
 all-recursive-am: config.h
-	$(MAKE) all-recursive
-
-all-am: Makefile $(PROGRAMS) $(HEADERS) config.h
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 install-exec-am: install-binPROGRAMS
+install-exec: install-exec-recursive
 
-uninstall-am: uninstall-binPROGRAMS
-
-install-exec: install-exec-recursive install-exec-am
-	@$(NORMAL_INSTALL)
-
+install-data-am:
 install-data: install-data-recursive
-	@$(NORMAL_INSTALL)
 
-install: install-recursive install-exec-am
-	@:
-
-uninstall: uninstall-recursive uninstall-am
-
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+install: install-recursive
+uninstall-am: uninstall-binPROGRAMS
+uninstall: uninstall-recursive
+all-am: Makefile $(PROGRAMS) $(HEADERS) config.h
+all-redirect: all-recursive-am
 install-strip:
-	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs: installdirs-recursive
-	$(mkinstalldirs)  $(DATADIR)$(bindir)
+installdirs-am:
+	$(mkinstalldirs)  $(DESTDIR)$(bindir)
 
 
 mostlyclean-generic:
-	-test -z "$(MOSTLYCLEANFILES)" || rm -f $(MOSTLYCLEANFILES)
 
 clean-generic:
-	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
-	-rm -f Makefile $(DISTCLEANFILES)
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
-	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 
 maintainer-clean-generic:
-	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
-	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
+	-test -z "mon_lexlmon_parsehmon_parsec$(BUILT_SOURCES)" || rm -f mon_lexl mon_parseh mon_parsec $(BUILT_SOURCES)
 mostlyclean-am:  mostlyclean-hdr mostlyclean-binPROGRAMS \
 		mostlyclean-compile mostlyclean-tags \
 		mostlyclean-generic
 
+mostlyclean: mostlyclean-recursive
+
 clean-am:  clean-hdr clean-binPROGRAMS clean-compile clean-tags \
 		clean-generic mostlyclean-am
+
+clean: clean-recursive
 
 distclean-am:  distclean-hdr distclean-binPROGRAMS distclean-compile \
 		distclean-tags distclean-generic clean-am
 
+distclean: distclean-recursive
+
 maintainer-clean-am:  maintainer-clean-hdr maintainer-clean-binPROGRAMS \
 		maintainer-clean-compile maintainer-clean-tags \
 		maintainer-clean-generic distclean-am
-
-mostlyclean:  mostlyclean-recursive mostlyclean-am
-
-clean:  clean-recursive clean-am
-
-distclean:  distclean-recursive distclean-am
-	-rm -f config.status
-
-maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
+
+maintainer-clean: maintainer-clean-recursive
 
 .PHONY: mostlyclean-hdr distclean-hdr clean-hdr maintainer-clean-hdr \
 mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
@@ -911,10 +741,11 @@ uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
 all-recursive check-recursive installcheck-recursive info-recursive \
 dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
 maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags distdir info dvi \
-installcheck all-recursive-am all-am install-exec-am uninstall-am \
-install-exec install-data install uninstall all installdirs \
-mostlyclean-generic distclean-generic clean-generic \
+distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
+dvi-am dvi check check-am installcheck-am installcheck all-recursive-am \
+install-exec-am install-exec install-data-am install-data install-am \
+install uninstall-am uninstall all-redirect all-am all installdirs-am \
+installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
