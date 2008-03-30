@@ -494,11 +494,9 @@
 #define BRANCH(cond, value)                                             \
   do {                                                                  \
       if (cond) {                                                       \
-          unsigned int dest_addr;                                       \
+          unsigned int dest_addr = reg_pc + 2 + (signed char)(value);   \
                                                                         \
-          INC_PC(2);                                                    \
-          dest_addr = reg_pc + (signed char)(value);                    \
-          if ((reg_pc ^ dest_addr) & 0xff00) {                          \
+          if (((reg_pc + 2) ^ dest_addr) & 0xff00) {                    \
               CLK += 4;                                                 \
           } else {                                                      \
               CLK += 3;                                                 \
