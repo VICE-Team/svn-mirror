@@ -31,38 +31,9 @@
 
 #include "types.h"
 
-#if 0
-/* VIA 1 drive 0 interrupts.  */
-#define I_VIA1D0FL      0
-/* VIA 2 drive 0 interrupts.  */
-#define I_VIA2D0FL      1
-/* CIA 1571 drive 0 interrupts.  */
-#define I_CIA1571D0FL   2
-/* CIA 1581 drive 0 interrupts.  */
-#define I_CIA1581D0FL   3
-/* RIOT 1001 drive 0 interrupts. */
-#define I_RIOTD0FL      4
-/* GLUE 1551 drive 0 interrupts. */
-#define I_GLUE1551D0FL  4
 
-/* VIA 1 drive 1 interrupts. */
-#define I_VIA1D1FL      0
-/* VIA 2 drive 1 interrupts. */
-#define I_VIA2D1FL      1
-/* CIA 1571 drive 1 interrupts.  */
-#define I_CIA1571D1FL   2
-/* CIA 1581 drive 1 interrupts.  */
-#define I_CIA1581D1FL   3
-/* RIOT 1001 drive 1 interrupts. */
-#define I_RIOTD1FL      4
-/* GLUE 1551 drive 1 interrupts. */
-#define I_GLUE1551D1FL  4
-
-#define DRIVE_NUMOFINT  5
-#endif
-
-#define DRIVE_ROM_SIZE              0x8000
-#define DRIVE_RAM_SIZE              0x2000
+#define DRIVE_ROM_SIZE 0x8000
+#define DRIVE_RAM_SIZE 0x2000
 
 /* Extended disk image handling.  */
 #define DRIVE_EXTEND_NEVER  0

@@ -302,10 +302,7 @@ void drive_cpu_early_init(drive_context_t *drv)
                                        - CLKGUARD_SUB_MIN);
 
     drv->cpu.alarm_context = alarm_context_new(drv->cpu.identification_string);
-/*
-    interrupt_cpu_status_init(drv->cpu.int_status,
-                              &(drv->cpu.last_opcode_info));
-*/
+
     machine_drive_init(drv);
 }
 
