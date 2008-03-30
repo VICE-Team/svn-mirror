@@ -604,6 +604,12 @@ Sound support is implemented, but is still at an experimental stage.  If
 you think it could be improved and know how to do so, feel
 free to contact us (@pxref{Contacts}).
 
+The VIC20 emulator now allows the use of the VIC1112 IEEE488 
+interface. You have to enable the hardware (by menu, resource, or
+commandline option) and then load the IEEE488 ROM (see for 
+example @code{http://www.funet.fi/pub/cbm/schematics/cartridges/vic20/ieee-488/325329-04.bin}, but you have to double the size to 4k for now).
+The IEEE-488 code is then started by @code{SYS45065}.
+
 
 @node PET emulator features, CBM-II emulator features, VIC20 emulator features, Preface
 @section PET emulator features
@@ -1242,8 +1248,9 @@ the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
 
 @end itemize
 
-In addition to those all emulators except the VIC20 can handle 
-a parallel IEEE488 interface (the C64 and C128 via @code{$df**} extension)
+In addition to those all emulators can handle 
+a parallel IEEE488 interface (the C64 and C128 via @code{$df**} extension,
+the VIC20 via VIC1112 emulation)
 so they also need the DOS ROM for the 2031 disk drive, basically a
 VC1541 with a parallel IEEE488 interface:
 
@@ -3934,6 +3941,10 @@ moved to $A000. If you encounter 16k images that have the second
 half not at $A000 you can split the image into two halfs 
 (i.e. one 8194 byte and one 8192 byte, because the first has the load
 address) and attach both files separately.
+
+One cartridge that is currently only partially supported here is
+the VIC1112 IEEE488 interface. You have to load the ROM as a cartridge,
+but you also have to enable the IEEE488 hardware by menu.
 
 @node VIC20 memory expansions, VIC20 system ROM settings, VIC20 cartridges, VIC20-specific
 @subsection Changing memory configuration

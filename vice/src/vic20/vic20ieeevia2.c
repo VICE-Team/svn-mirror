@@ -58,13 +58,18 @@
 #include "parallel.h"
 #include "drive.h"
 
-/*
+#if 0
+
 extern int traceflg;
-#define VIA_SET_CA2(a)	parallel_cpu_set_atn(((a)?0:1)); if ((a)==0) { traceflg=1; drive0_traceflg=1; }
-#define VIA_SET_CB2(a)	parallel_debug=1; printf("set eoi to %d\n", (a)); parallel_cpu_set_eoi(((a)?0:1)); 
-*/
+#define VIA_SET_CA2(a)	do { parallel_cpu_set_atn(((a)?0:1)); if ((a)==0) { traceflg=1; drive0_traceflg=1; parallel_debug=1; } } while(0);
+#define VIA_SET_CB2(a)	do { printf("set eoi to %d\n", (a)); parallel_cpu_set_eoi(((a)?0:1)); } while(0);
+
+#else
+
 #define VIA_SET_CA2(a)	parallel_cpu_set_atn(((a)?0:1)); 
 #define VIA_SET_CB2(a)	parallel_cpu_set_eoi(((a)?0:1)); 
+
+#endif
 
 /* #define VIA1_TIMER_DEBUG */
 

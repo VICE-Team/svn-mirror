@@ -511,6 +511,13 @@ graphical effects will not work correctly.
 If you think it could be improved and know how to do so, feel free to
 contact us (*note Contacts::.).
 
+   The VIC20 emulator now allows the use of the VIC1112 IEEE488
+interface. You have to enable the hardware (by menu, resource, or
+commandline option) and then load the IEEE488 ROM (see for example
+`http://www.funet.fi/pub/cbm/schematics/cartridges/vic20/ieee-488/325329-04.bin',
+but you have to double the size to 4k for now).  The IEEE-488 code is
+then started by `SYS45065'.
+
 
 File: vice.info,  Node: PET emulator features,  Next: CBM-II emulator features,  Prev: VIC20 emulator features,  Up: Preface
 

@@ -1013,6 +1013,10 @@ split the image into two halfs (i.e. one 8194 byte and one 8192 byte,
 because the first has the load address) and attach both files
 separately.
 
+   One cartridge that is currently only partially supported here is the
+VIC1112 IEEE488 interface. You have to load the ROM as a cartridge, but
+you also have to enable the IEEE488 hardware by menu.
+
 
 File: vice.info,  Node: VIC20 memory expansions,  Next: VIC20 system ROM settings,  Prev: VIC20 cartridges,  Up: VIC20-specific
 

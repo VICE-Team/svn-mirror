@@ -43,6 +43,8 @@
 #endif
 
 #include "types.h"
+#include "maincpu.h"
+#include "drive.h"
 #include "parallel.h"
 #include "serial.h"
 #include "drive.h"

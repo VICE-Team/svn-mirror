@@ -38,6 +38,8 @@
 #define _PARALLEL_H
 
 #include "types.h"
+#include "maincpu.h"
+#include "drive.h"
 
 /* debug variable - set to 1 to generate output */
 extern int parallel_debug;
@@ -88,6 +90,17 @@ extern void parallel_restore_clr_atn( char mask);
     	}								\
     }
 
+#define	PARALLEL_CPU_SET_LINE(line,dev,mask)				\
+    static inline void parallel_##dev##_set_##line##( char val ) 	\
+    {									\
+	drive_cpu_execute(clk);						\
+    	if (val) {							\
+	    parallel_set_##line##(PARALLEL_##mask##);			\
+        } else {							\
+	    parallel_clr_##line##(~PARALLEL_##mask##);			\
+    	}								\
+    }
+
 #define	PARALLEL_RESTORE_LINE(line,dev,mask)				\
     static inline void parallel_##dev##_restore_##line##( char val ) 	\
     {									\
@@ -107,11 +120,15 @@ PARALLEL_SET_LINE(ndac,emu,EMU)
 void parallel_emu_set_bus( BYTE);
 
 /* CPU functions */
+/* The *CPU* macros advance the drive CPU to the current clock. This 
+   is currently esp. for the VIC20 VIC1112 IEEE488 module. This seems
+   to be necessary for ATN only. Too many of them make IEEE488 
+   slower... (AF, 01AUG1999) */
 PARALLEL_SET_LINE(eoi,cpu,CPU)
 PARALLEL_SET_LINE(dav,cpu,CPU)
 PARALLEL_SET_LINE(nrfd,cpu,CPU)
 PARALLEL_SET_LINE(ndac,cpu,CPU)
-PARALLEL_SET_LINE(atn,cpu,CPU)
+PARALLEL_CPU_SET_LINE(atn,cpu,CPU)
 PARALLEL_RESTORE_LINE(atn,cpu,CPU)
 
 void parallel_cpu_set_bus( BYTE);
