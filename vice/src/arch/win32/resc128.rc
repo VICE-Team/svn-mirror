@@ -110,6 +110,13 @@ BEGIN
         , CHECKED
         MENUITEM "D&ouble scan",                    IDM_TOGGLE_DOUBLESCAN
         , CHECKED
+        POPUP "&VDC settings"
+        BEGIN
+            MENUITEM "Double size",                 IDM_TOGGLE_VDC_DOUBLESIZE
+            MENUITEM "Double scan",                 IDM_TOGGLE_VDC_DOUBLESCAN
+            MENUITEM SEPARATOR
+            MENUITEM "64KB video memory",           IDM_TOGGLE_VDC_64KB
+        END
         MENUITEM SEPARATOR
 	MENUITEM "Swap &Joystick\tAlt+J",           IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
@@ -128,7 +135,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         MENUITEM SEPARATOR
-        POPUP "Video standard"
+        POPUP "Vide&o standard"
         BEGIN
             MENUITEM "&PAL-G",                      IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC-M",                     IDM_SYNC_FACTOR_NTSC
@@ -136,8 +143,8 @@ BEGIN
         MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
         MENUITEM "&REU emulation",                  IDM_TOGGLE_REU
-        MENUITEM "IEEE488 Interface emulation",     IDM_IEEE488
-	MENUITEM "1351 mouse emulation",	    IDM_MOUSE
+        MENUITEM "IEEE&488 Interface emulation",    IDM_IEEE488
+	MENUITEM "&1351 mouse emulation",	    IDM_MOUSE
     END
     POPUP "&Settings"
     BEGIN

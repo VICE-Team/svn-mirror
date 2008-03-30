@@ -143,7 +143,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         MENUITEM SEPARATOR
-        POPUP "Video standard"
+        POPUP "Vide&o standard"
         BEGIN
             MENUITEM "&PAL-G",                      IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC-M",                     IDM_SYNC_FACTOR_NTSC
@@ -152,7 +152,7 @@ BEGIN
         MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
         MENUITEM "&REU emulation",                  IDM_TOGGLE_REU
-	MENUITEM "1351 mouse emulation",	    IDM_MOUSE
+	MENUITEM "&1351 mouse emulation",	    IDM_MOUSE
     END
     POPUP "&Settings"
     BEGIN
