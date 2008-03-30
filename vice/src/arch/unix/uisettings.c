@@ -92,7 +92,7 @@ static UI_CALLBACK(set_refresh_rate)
 static UI_CALLBACK(set_custom_refresh_rate)
 {
     static char input_string[32];
-    char msg_string[256];
+    char *msg_string;
     ui_button_t button;
     int i;
     int current_refresh_rate;
@@ -113,8 +113,10 @@ static UI_CALLBACK(set_custom_refresh_rate)
         int current_speed;
 
 	suspend_speed_eval();
-	sprintf(msg_string, _("Enter refresh rate"));
-	button = ui_input_string(_("Refresh rate"), msg_string, input_string, 32);
+	msg_string = stralloc(_("Enter refresh rate"));
+	button = ui_input_string(_("Refresh rate"), msg_string, input_string,
+                                 32);
+        free(msg_string);
 	if (button == UI_BUTTON_OK) {
 	    i = atoi(input_string);
             resources_get_value("Speed", (resource_value_t *) &current_speed);
@@ -167,7 +169,7 @@ static UI_CALLBACK(set_maximum_speed)
 static UI_CALLBACK(set_custom_maximum_speed)
 {
     static char input_string[32];
-    char msg_string[256];
+    char *msg_string;
     ui_button_t button;
     int i;
     int current_speed;
@@ -184,9 +186,10 @@ static UI_CALLBACK(set_custom_maximum_speed)
         have_custom_maximum_speed = 0;
     } else {
 	suspend_speed_eval();
-	sprintf(msg_string, _("Enter speed"));
-	button = ui_input_string(_("Maximum run speed"), msg_string, input_string,
-				 32);
+	msg_string = stralloc(_("Enter speed"));
+	button = ui_input_string(_("Maximum run speed"), msg_string,
+                                 input_string, 32);
+        free(msg_string);
 	if (button == UI_BUTTON_OK) {
             int current_refresh_rate;
 
@@ -349,16 +352,16 @@ static ui_menu_entry_t keyboard_settings_submenu[] = {
 
 UI_CALLBACK(ui_load_palette)
 {
-    char *filename;
-    char title[1024];
+    char *filename, *title;
     ui_button_t button;
     static char *last_dir;
 
     suspend_speed_eval();
-    sprintf(title, _("Load custom palette"));
+    title = stralloc(_("Load custom palette"));
     filename = ui_select_file(title, NULL, False, last_dir, "*.vpl", &button,
 			      False);
 
+    free(title);
     switch (button) {
       case UI_BUTTON_OK:
         if (resources_set_value(UI_MENU_CB_PARAM, 
@@ -389,16 +392,16 @@ UI_CALLBACK(ui_set_romset)
 
 UI_CALLBACK(ui_load_romset)
 {
-    char *filename;
-    char title[1024];
+    char *filename, *title;
     ui_button_t button;
     static char *last_dir;
 
     suspend_speed_eval();
-    sprintf(title, _("Load custom ROM set definition"));
+    title = stralloc(_("Load custom ROM set definition"));
     filename = ui_select_file(title, NULL, False, last_dir, "*.vrs", &button,
 			      False);
 
+    free(title);
     switch (button) {
       case UI_BUTTON_OK:
         if (romset_load(filename) < 0)
@@ -418,37 +421,36 @@ UI_CALLBACK(ui_load_romset)
 
 UI_CALLBACK(ui_dump_romset)
 {
-    char title[1024];
+    char *title, *new_value;
+    ui_button_t button;
+    int len = 512;
 
     suspend_speed_eval();
-    sprintf(title, _("File to dump ROM set definition to"));
-    {
-        char *new_value;
-        int len = 512;
+    title = stralloc(_("File to dump ROM set definition to"));
 
-        new_value = alloca(len + 1);
-        strcpy(new_value, "");
+    new_value = alloca(len + 1);
+    strcpy(new_value, "");
 
-        if (ui_input_string(title, _("ROM set file:"), new_value, len)
-                != UI_BUTTON_OK)
-            return;
+    button = ui_input_string(title, _("ROM set file:"), new_value, len);
+    free(title);
 
-        romset_dump(new_value, mem_romset_resources_list);
-    }
+    if (button != UI_BUTTON_OK)
+        return;
+    romset_dump(new_value, mem_romset_resources_list);
 }
 
 UI_CALLBACK(ui_load_rom_file)
 {
-    char *filename;
-    char title[1024];
+    char *filename, *title;
     ui_button_t button;
     static char *last_dir;
 
     suspend_speed_eval();
-    sprintf(title, _("Load ROM file"));
+    title = stralloc(_("Load ROM file"));
     filename = ui_select_file(title, NULL, False, last_dir, "*", &button,
 			      False);
 
+    free(title);
     switch (button) {
       case UI_BUTTON_OK:
         if (resources_set_value(UI_MENU_CB_PARAM,
@@ -574,53 +576,55 @@ UI_CALLBACK(set_rs232_device_file)
 UI_CALLBACK(set_rs232_exec_file)
 {
     char *resname = (char*) UI_MENU_CB_PARAM;
-    char title[1024];
+    char *title;
+    ui_button_t button;
+    char *value;
+    char *new_value;
+    int len;
 
     suspend_speed_eval();
-    sprintf(title, _("Command to execute for RS232 (preceed with '|')"));
-    {
-        char *value;
-        char *new_value;
-        int len;
+    title = stralloc(_("Command to execute for RS232 (preceed with '|')"));
 
-        resources_get_value(resname, (resource_value_t *) &value);
-        len = strlen(value) * 2;
-        if (len < 255)
-            len = 255;
-        new_value = alloca(len + 1);
-        strcpy(new_value, value);
+    resources_get_value(resname, (resource_value_t *) &value);
+    len = strlen(value) * 2;
+    if (len < 255)
+        len = 255;
+    new_value = alloca(len + 1);
+    strcpy(new_value, value);
 
-        if (ui_input_string(title, _("Command:"), new_value, len) != UI_BUTTON_OK)
-            return;
+    button = ui_input_string(title, _("Command:"), new_value, len);
+    free(title);
 
-        resources_set_value(resname, (resource_value_t) new_value);
-    }
+    if (button != UI_BUTTON_OK)
+        return;
+    resources_set_value(resname, (resource_value_t) new_value);
 }
 
 UI_CALLBACK(set_rs232_dump_file)
 {
     char *resname = (char*) UI_MENU_CB_PARAM;
-    char title[1024];
+    char *title;
+    ui_button_t button;
+    char *value;
+    char *new_value;
+    int len;
 
     suspend_speed_eval();
-    sprintf(title, _("File to dump RS232 to"));
-    {
-        char *value;
-        char *new_value;
-        int len;
+    title = stralloc(_("File to dump RS232 to"));
 
-        resources_get_value(resname, (resource_value_t *) &value);
-        len = strlen(value) * 2;
-        if (len < 255)
-            len = 255;
-        new_value = alloca(len + 1);
-        strcpy(new_value, value);
+    resources_get_value(resname, (resource_value_t *) &value);
+    len = strlen(value) * 2;
+    if (len < 255)
+        len = 255;
+    new_value = alloca(len + 1);
+    strcpy(new_value, value);
 
-        if (ui_input_string(title, _("Command:"), new_value, len) != UI_BUTTON_OK)
-            return;
+    button = ui_input_string(title, _("Command:"), new_value, len);
+    free(title);
 
-        resources_set_value(resname, (resource_value_t) new_value);
-    }
+    if (button != UI_BUTTON_OK)
+        return;
+    resources_set_value(resname, (resource_value_t) new_value);
 }
 
 
@@ -711,33 +715,34 @@ UI_MENU_DEFINE_TOGGLE(FSDevice11HideCBMFiles)
 
 static UI_CALLBACK(set_fsdevice_directory)
 {
+    /* FIXME: We need a real directory browser here.  */
     int unit = (int)UI_MENU_CB_PARAM;
-    char title[1024];
+    char *title, *resname;
+    char *value, *new_value;
+    int len;
+    ui_button_t button;
 
     suspend_speed_eval();
-    sprintf(title, "Attach file system directory to device #%d", unit);
 
-    /* FIXME: We need a real directory browser here.  */
-    {
-        char resname[256];
-        char *value;
-        char *new_value;
-        int len;
+    title = xmsprintf("Attach file system directory to device #%d", unit);
+    resname = xmsprintf("FSDevice%dDir", unit);
 
-        sprintf(resname, "FSDevice%dDir", unit);
+    resources_get_value(resname, (resource_value_t *) &value);
+    len = strlen(value) * 2;
+    if (len < 255)
+        len = 255;
+    new_value = alloca(len + 1);
+    strcpy(new_value, value);
 
-        resources_get_value(resname, (resource_value_t *) &value);
-        len = strlen(value) * 2;
-        if (len < 255)
-            len = 255;
-        new_value = alloca(len + 1);
-        strcpy(new_value, value);
+    button = ui_input_string(title, _("Path:"), new_value, len);
+    free(title);
 
-        if (ui_input_string(title, _("Path:"), new_value, len) != UI_BUTTON_OK)
-            return;
-
-        resources_set_value(resname, (resource_value_t) new_value);
+    if (button != UI_BUTTON_OK) {
+        free(resname);
+        return;
     }
+    resources_set_value(resname, (resource_value_t) new_value);
+    free(resname);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1112,27 +1117,28 @@ static UI_CALLBACK(set_printer_dump_file)
 static UI_CALLBACK(set_printer_exec_file)
 {
     char *resname = (char*) UI_MENU_CB_PARAM;
-    char title[1024];
+    char *title;
+    char *value;
+    char *new_value;
+    int len;
+    ui_button_t button;
 
     suspend_speed_eval();
-    sprintf(title, _("Command to execute for printing (preceed with '|')"));
-    {
-        char *value;
-        char *new_value;
-        int len;
+    title = stralloc(_("Command to execute for printing (preceed with '|')"));
 
-        resources_get_value(resname, (resource_value_t *) &value);
-        len = strlen(value) * 2;
-        if (len < 255)
-            len = 255;
-        new_value = alloca(len + 1);
-        strcpy(new_value, value);
+    resources_get_value(resname, (resource_value_t *) &value);
+    len = strlen(value) * 2;
+    if (len < 255)
+        len = 255;
+    new_value = alloca(len + 1);
+    strcpy(new_value, value);
 
-        if (ui_input_string(title, _("Command:"), new_value, len) != UI_BUTTON_OK)
-            return;
+    button = ui_input_string(title, _("Command:"), new_value, len);
+    free(title);
+    if (button != UI_BUTTON_OK)
+        return;
 
-        resources_set_value(resname, (resource_value_t) new_value);
-    }
+    resources_set_value(resname, (resource_value_t) new_value);
 }
 
 /* ------------------------------------------------------------------------- */
