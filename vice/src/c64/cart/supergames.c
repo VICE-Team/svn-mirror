@@ -40,7 +40,9 @@
 
 void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
 {
-    romh_bank = roml_bank = value & 3;
+    cartridge_romhbank_set(value & 3);
+    cartridge_romlbank_set(value & 3);
+
     if (value & 0x4) {
         export.game = 0;
         export.exrom = 1;

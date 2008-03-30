@@ -35,6 +35,9 @@
 extern void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2,
                                      unsigned int wflag);
 
+void cartridge_romhbank_set(unsigned int bank);
+void cartridge_romlbank_set(unsigned int bank);
+
 extern BYTE export_ram0[];
 
 #endif

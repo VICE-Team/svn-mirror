@@ -87,11 +87,13 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
     switch (addr & 0xff) {
       case 0:
         cartridge_config_changed((BYTE)(value & 0xfc), value, CMODE_WRITE);
-        romh_bank = roml_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
+        cartridge_romhbank_set(((value >> 3) & 3) | ((value >> 5) & 4));
+        cartridge_romlbank_set(((value >> 3) & 3) | ((value >> 5) & 4));
         break;
       case 1:
         if (write_once == 0) {
-            romh_bank = roml_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
+            cartridge_romhbank_set(((value >> 3) & 3) | ((value >> 5) & 4));
+            cartridge_romlbank_set(((value >> 3) & 3) | ((value >> 5) & 4));
             allow_bank = value & 2;
             no_freeze = value & 4;
             reu_mapping = value & 0x40;
