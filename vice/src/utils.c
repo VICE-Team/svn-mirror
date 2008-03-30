@@ -626,6 +626,13 @@ cleanup:
 
     /*  Win32 version.  */
 
+#ifndef _S_IREAD
+#define _S_IREAD S_IREAD
+#endif
+#ifndef _S_IWRITE
+#define _S_IWRITE S_IWRITE
+#endif
+
     int new_stdout, new_stderr;
     int old_stdout_mode, old_stderr_mode;
     int old_stdout, old_stderr;
