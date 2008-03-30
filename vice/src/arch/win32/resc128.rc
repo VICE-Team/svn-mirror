@@ -31,7 +31,7 @@ BEGIN
             MENUITEM "Drive 1&0", IDM_DETACH_10
             MENUITEM "Drive &11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&All",      IDM_DETACH_ALL
+            MENUITEM "&All\tAlt+A", IDM_DETACH_ALL
         END
         POPUP "&Flip list"
         BEGIN
@@ -140,10 +140,8 @@ BEGIN
             MENUITEM "&20%",      IDM_MAXIMUM_SPEED_20
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "No &limit", IDM_MAXIMUM_SPEED_NO_LIMIT
-#if 0
             MENUITEM SEPARATOR
             MENUITEM "&Custom",   IDM_MAXIMUM_SPEED_CUSTOM
-#endif
         END
         MENUITEM "&Warp mode\tAlt+W", IDM_TOGGLE_WARP_MODE
             , CHECKED
@@ -197,11 +195,12 @@ BEGIN
     END
     POPUP "S&ettings"
     BEGIN
-        MENUITEM "Video settings...",      IDM_VIDEO_SETTINGS
+        MENUITEM "&Video settings...",     IDM_VIDEO_SETTINGS
         MENUITEM "&Device settings...",    IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",     IDM_DRIVE_SETTINGS
+        MENUITEM "&Printer settings...",   IDM_PRINTER_SETTINGS
         MENUITEM "D&atasette settings...", IDM_DATASETTE_SETTINGS
-        MENUITEM "&VIC-II settings...",    IDM_VICII_SETTINGS
+        MENUITEM "VI&C-II settings...",    IDM_VICII_SETTINGS
         MENUITEM "&Joystick settings...",  IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",     IDM_SOUND_SETTINGS
         MENUITEM "S&ID settings...",       IDM_SID_SETTINGS
