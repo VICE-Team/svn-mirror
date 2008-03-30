@@ -115,7 +115,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
 {
     XColor color;
     XImage *im;
-    BYTE *data = (BYTE *)lib_malloc(4);
+    BYTE *data = (BYTE *)malloc(4); /* XDestroyImage will free data.  */
     Display *display = x11ui_get_display_ptr();
 
     /* This is a kludge to map pixels to zimage values. Is there a better
@@ -124,6 +124,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
                       ZPixmap, 0, (char *)data, 1, 1, 8, 1);
     if (!im) {
         log_error(LOG_DEFAULT, _("XCreateImage failed."));
+        free(data);
         return -1;
     }
 

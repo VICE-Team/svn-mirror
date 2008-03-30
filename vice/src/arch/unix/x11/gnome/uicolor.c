@@ -136,7 +136,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
 {
     GdkColor *color;
     XImage *im;
-    BYTE *data = (BYTE *)lib_malloc(4);
+    BYTE *data = (BYTE *)malloc(4);
     Display *display = x11ui_get_display_ptr();
 
     color = (GdkColor *)lib_malloc(sizeof(GdkColor));
@@ -148,6 +148,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
                       ZPixmap, 0, (char *)data, 1, 1, 8, 1);
     if (!im) {
         log_error(LOG_DEFAULT, _("XCreateImage failed."));
+        free(data);
         return -1;
     }
 
