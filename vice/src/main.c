@@ -120,7 +120,10 @@ int MAIN_PROGRAM(int argc, char **argv)
         return -1;
 
     /* Set factory defaults.  */
-    resources_set_defaults();
+    if (resources_set_defaults() < 0) {
+        archdep_startup_log_error("Cannot set defaults.\n");
+        return -1;
+    }
 
     /* Initialize the user interface.  `ui_init()' might need to handle the
        command line somehow, so we call it before parsing the options.
@@ -149,7 +152,10 @@ int MAIN_PROGRAM(int argc, char **argv)
         if (retval < 0) {
             /* The resource file might contain errors, and thus certain
                resources might have been initialized anyway.  */
-            resources_set_defaults();
+            if (resources_set_defaults() < 0) {
+                archdep_startup_log_error("Cannot set defaults.\n");
+                return -1;
+            }
         }
 	flip_load_list((unsigned int) -1, archdep_default_fliplist_file_name(),
 		       0);

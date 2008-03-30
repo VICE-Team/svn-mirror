@@ -404,18 +404,24 @@ int resources_get_default_value(const char *name,
     return 0;
 }
 
-void resources_set_defaults(void)
+int resources_set_defaults(void)
 {
     int i;
 
     for (i = 0; i < num_resources; i++) {
-        (*resources[i].set_func)(resources[i].factory_value,
-                                 resources[i].param);
+        if ((*resources[i].set_func)(resources[i].factory_value,
+            resources[i].param) < 0) {
+            printf("Cannot set resource %s", resources[i].name);
+            return -1;
+        }
+
         resources_issue_callback(resources + i, 0);
     }
 
     if (resource_modified_callback != NULL)
         resources_exec_callback_chain(resource_modified_callback, NULL);
+
+    return 0;
 }
 
 int resources_toggle(const char *name, resource_value_t *new_value_return)
