@@ -54,6 +54,16 @@
 
 #define VIC_NUM_COLORS 16
 
+/* This is the only machine that needs those defines.  */
+#define RASTER_PIXEL(raster, c) (raster)->pixel_table.sing[(c)]
+
+/* FIXME: MSDOS does not need double or quad pixel.
+`ifdef' them out once all video chips actually honour this.  */
+
+#define RASTER_PIXEL2(raster, c) (raster)->pixel_table.doub[(c)]
+#define RASTER_PIXEL4(raster, c) (raster)->pixel_table.quad[(c)]
+
+
 /* On MS-DOS, do not duplicate pixels.  Otherwise, we would always need at
    least 466 horizontal pixels to contain the whole screen.  */
 /* But this is no problem as 320*200 does not fit anyhow.  */
