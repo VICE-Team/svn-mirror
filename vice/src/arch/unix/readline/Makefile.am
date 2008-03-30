@@ -21,5 +21,5 @@ libreadline_a_SOURCES = \
 	sysunix.c \
 	version.c
 
-EXTRA_DIST = README os9.h sysos9.c testit.c
+EXTRA_DIST = README testit.c
 

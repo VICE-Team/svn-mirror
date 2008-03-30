@@ -38,6 +38,10 @@
 #define FSDEV_EXT_SEP_STR      "."
 #define FSDEV_EXT_SEP_CHR      '.'
 
+/* Path separator.  */
+#define FINDPATH_SEPARATOR_CHAR         ';'
+#define FINDPATH_SEPARATOR_STRING       ";"
+
 /* Modes for fopen().  */
 #define MODE_READ              "rb"
 #define MODE_READ_WRITE        "r+b"

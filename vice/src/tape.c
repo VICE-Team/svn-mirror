@@ -45,14 +45,9 @@
 #ifdef __riscos
 #include "ROlib.h"
 #else
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #include <errno.h>
 #endif
 #endif
-
-#include "tape.h"
 
 #include "datasette.h"
 #include "log.h"
@@ -61,6 +56,7 @@
 #include "serial.h"
 #include "t64.h"
 #include "tap.h"
+#include "tape.h"
 #include "traps.h"
 #include "types.h"
 #include "utils.h"

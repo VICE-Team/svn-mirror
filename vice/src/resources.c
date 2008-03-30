@@ -42,14 +42,13 @@
 #include <strings.h>
 #endif
 #endif
-
-#ifdef __MSDOS__
+#ifdef HAVE_DIR_H
 #include <dir.h>
 #endif
 
+#include "archdep.h"
 #include "log.h"
 #include "resources.h"
-#include "archdep.h"
 #include "utils.h"
 
 #ifdef __riscos

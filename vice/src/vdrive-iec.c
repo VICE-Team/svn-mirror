@@ -52,9 +52,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #include <dirent.h>
 #include <memory.h>
 #endif

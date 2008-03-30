@@ -42,22 +42,20 @@
 #else
 #include <fcntl.h>
 #include <sys/types.h>
-#ifndef _MSC_VER
+#endif
+#endif
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#endif
+#ifdef HAVE_DIR_H
+#include <dir.h>
 #endif
 
 #include <stdarg.h>
 
-#ifdef __MSDOS__
-#include <dir.h>
-#endif
-
-#include "utils.h"
-
 #include "archdep.h"
 #include "log.h"
+#include "utils.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -435,6 +433,11 @@ int save_file(const char *name, const void *src, int size)
     if (r  < 1)
         return -1;
     return 0;
+}
+
+int remove_file(const char *name)
+{
+    return unlink(name);
 }
 
 /* Input one line from the file descriptor `f'.  FIXME: we need something

@@ -28,20 +28,7 @@
 #ifndef _FINDPATH_H
 #define _FINDPATH_H
 
-#ifdef STDC_HEADERS
-#if !defined (__riscos) && !defined (_MSC_VER)
-#include <unistd.h>
-#endif
-#endif
-
-#if defined (__MSDOS__) || defined(WIN32) || defined(OS2)
-#define FINDPATH_SEPARATOR_CHAR         ';'
-#define FINDPATH_SEPARATOR_STRING       ";"
-#else
-#define FINDPATH_SEPARATOR_CHAR         ':'
-#define FINDPATH_SEPARATOR_STRING       ":"
-#endif
-
 char *findpath(const char *cmd, const char *syspath, int mode);
 
 #endif /* _FINDPATH_H */
+

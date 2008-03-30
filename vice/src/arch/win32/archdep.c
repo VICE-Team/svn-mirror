@@ -28,16 +28,18 @@
 #include "vice.h"
 
 #include <ctype.h>
-#ifndef _MSC_VER
-#include <dir.h>
-#include <unistd.h>
-#endif
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <windows.h>
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+#ifdef HAVE_DIR_H
+#include <dir.h>
+#endif
 
 #include "archdep.h"
 #include "findpath.h"

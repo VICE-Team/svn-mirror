@@ -171,6 +171,9 @@
 /* Define if you have the <allegro.h> header file.  */
 #undef HAVE_ALLEGRO_H
 
+/* Define if you have the <dir.h> header file.  */
+#undef HAVE_DIR_H
+
 /* Define if you have the <dirent.h> header file.  */
 #undef HAVE_DIRENT_H
 
@@ -233,6 +236,9 @@
 
 /* Define if you have the <sys/time.h> header file.  */
 #undef HAVE_SYS_TIME_H
+
+/* Define if you have the <unistd.h> header file.  */
+#undef HAVE_UNISTD_H
 
 /* Define if you have the SDL library (-lSDL).  */
 #undef HAVE_LIBSDL

@@ -62,7 +62,6 @@
 #include "charsets.h"
 #include "cmdline.h"
 #include "drivecpu.h"
-#include "findpath.h"
 #include "fsdevice.h"
 #include "interrupt.h"
 #include "joystick.h"
