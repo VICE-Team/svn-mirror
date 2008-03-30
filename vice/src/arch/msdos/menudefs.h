@@ -34,6 +34,7 @@ extern tui_menu_t ui_attach_submenu;
 extern tui_menu_t ui_detach_submenu;
 extern tui_menu_t ui_video_submenu;
 extern tui_menu_t ui_drive_submenu;
+extern tui_menu_t ui_rom_submenu;
 extern tui_menu_t ui_sound_submenu;
 extern tui_menu_t ui_speed_limit_submenu;
 extern tui_menu_t ui_special_submenu;
