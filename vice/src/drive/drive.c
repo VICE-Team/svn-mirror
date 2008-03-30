@@ -2884,8 +2884,6 @@ int reload_rom_1541(char *name) {
     return(1);
 }
 
-void drive1_riot_set_atn(int state) {}
-
 void drive0_parallel_set_atn(int state)
 {
     drive0_via_set_atn(state);

@@ -80,7 +80,7 @@ _TPI_FUNC void tpi_reset(void)
     parallel_cpu_set_nrfd(0);
     parallel_cpu_set_dav(0);
     parallel_cpu_set_eoi(0);
-    parallel_cpu_set_bus(0);
+    parallel_cpu_set_bus(0xff);
     cia1_set_ieee_dir(0);
 }
 

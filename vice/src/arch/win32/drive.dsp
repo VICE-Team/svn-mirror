@@ -104,11 +104,7 @@ SOURCE=..\..\drive\drivecpu1.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\fdc0.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\fdc1.c
+SOURCE=..\..\drive\fdc.c
 # End Source File
 # Begin Source File
 

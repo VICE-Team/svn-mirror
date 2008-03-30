@@ -91,9 +91,9 @@ void cia1_set_ieee_dir(int isout)
 {
     cia1_ieee_is_output = isout;
     if(isout) {
-	parallel_cpu_set_bus(~oldpa);
+	parallel_cpu_set_bus(oldpa);
     } else {
-	parallel_cpu_set_bus(0);
+	parallel_cpu_set_bus(0xff);
     }
 }
 
@@ -112,12 +112,12 @@ static inline void store_ciapa(CLOCK rclk, BYTE byte)
 {
 	/* FIXME: PA0 and PA1 are used as selector for the 
 	   Paddle 1/2 selection for the A/D converter. */
- 	parallel_cpu_set_bus( cia1_ieee_is_output ? ~byte : 0 );
+ 	parallel_cpu_set_bus( cia1_ieee_is_output ? byte : 0xff );
 }
 
 static inline void undump_ciapa(CLOCK rclk, BYTE byte)
 {
- 	parallel_cpu_set_bus( cia1_ieee_is_output ? ~byte : 0 );
+ 	parallel_cpu_set_bus( cia1_ieee_is_output ? byte : 0xff );
 }
 
 static inline void store_sdr(BYTE byte) {}

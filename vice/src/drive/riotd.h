@@ -34,7 +34,8 @@
 extern void riot1d0_set_atn(BYTE state);
 extern void riot1d1_set_atn(BYTE state);
 
-void riot1_set_pardata(void);
+void riot1d0_set_pardata(void);
+void riot1d1_set_pardata(void);
 
 extern void riot1d0_init(void);
 extern void riot1d0_signal(int sig, int type);
@@ -76,7 +77,6 @@ extern int riot2d1_read_snapshot_module(snapshot_t * p);
 #define	read_riot1d0(a)				0xff
 #define	riot1d0_write_snapshot_module(a)	0
 #define	riot1d0_read_snapshot_module(a)		0
-#endif
 
 #define	riot1d1_init()
 #define	riot1d1_reset()
@@ -85,14 +85,12 @@ extern int riot2d1_read_snapshot_module(snapshot_t * p);
 #define	riot1d1_write_snapshot_module(a)	0
 #define	riot1d1_read_snapshot_module(a)		0
 
-#if 0
 #define	riot2d0_init()
 #define	reset_riot2d0()
 #define	store_riot2d0(a,b)
 #define	read_riot2d0(a)				0xff
 #define	riot2d0_write_snapshot_module(a)	0
 #define	riot2d0_read_snapshot_module(a)		0
-#endif
 
 #define	riot2d1_init()
 #define	riot2d1_reset()
@@ -100,6 +98,7 @@ extern int riot2d1_read_snapshot_module(snapshot_t * p);
 #define	read_riot2d1(a)				0xff
 #define	riot2d1_write_snapshot_module(a)	0
 #define	riot2d1_read_snapshot_module(a)		0
+#endif
 
 #endif
 

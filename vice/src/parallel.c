@@ -59,7 +59,7 @@ char parallel_nrfd = 0;
 char parallel_dav = 0;
 char parallel_atn = 0;
 
-BYTE parallel_bus = 0;	/* data lines */
+BYTE parallel_bus = 0xff;	/* data lines */
 
 static int par_status = 0;	/* lower 8 bits = PET par_status, upper bits own */
 
@@ -164,7 +164,7 @@ static void ResetBus(void) {
 	parallel_emu_set_eoi(0);
 	parallel_emu_set_nrfd(0);
 	parallel_emu_set_ndac(0);
-	parallel_emu_set_bus(0);
+	parallel_emu_set_bus(0xff);
 	par_status = 0;
 }
 
@@ -185,7 +185,7 @@ static void WATN_atnlo(int tr) {
 	parallel_emu_set_ndac(1);
 	parallel_emu_set_dav(0);
 	parallel_emu_set_eoi(0);
-	parallel_emu_set_bus(0);
+	parallel_emu_set_bus(0xff);
 	parallel_emu_set_nrfd(0);
 	Go(In1); 
 }
@@ -225,9 +225,9 @@ static void In1_davlo(int tr) {
 	parallel_emu_set_ndac(0);
 
 	if(parallel_atn) {
-	  par_status = parallelattention(b);
+	  par_status = parallelattention(b ^ 0xff);
 	} else {
-	  par_status = parallelsendbyte(b);
+	  par_status = parallelsendbyte(b ^ 0xff);
 	}
 	if(parallel_debug) log_warning(LOG_DEFAULT, "IEEE488: sendbyte returns %04x",par_status);
 
@@ -294,7 +294,7 @@ static void Out1_nrfdhi(int tr) {
 	  parallel_emu_set_eoi(0);
 	}
 
-	parallel_emu_set_bus(b^255);
+	parallel_emu_set_bus(b ^ 0xff);
 
 	parallel_emu_set_dav(1);
 
@@ -319,7 +319,7 @@ static void Out2_ndachi(int tr) {
 
 	parallel_emu_set_dav(0);
 	parallel_emu_set_eoi(0);
-	parallel_emu_set_bus(0);
+	parallel_emu_set_bus(0xff);
 
 	par_status = parallelreceivebyte(&b, 0);
 	if(par_status & 0xff) {
@@ -458,33 +458,33 @@ void parallel_clr_ndac( char mask )
  * methods to set data lines
  */
 
-static BYTE par_emu_bus = 0;
-static BYTE par_cpu_bus = 0;
-static BYTE par_drv0_bus = 0;
-static BYTE par_drv1_bus = 0;
+static BYTE par_emu_bus = 0xff;
+static BYTE par_cpu_bus = 0xff;
+static BYTE par_drv0_bus = 0xff;
+static BYTE par_drv1_bus = 0xff;
 
 void parallel_emu_set_bus( BYTE b ) 
 {
     par_emu_bus = b;
-    parallel_bus = par_emu_bus | par_cpu_bus | par_drv0_bus | par_drv1_bus;
+    parallel_bus = par_emu_bus & par_cpu_bus & par_drv0_bus & par_drv1_bus;
 }
 
 void parallel_cpu_set_bus( BYTE b ) 
 {
     par_cpu_bus = b;
-    parallel_bus = par_emu_bus | par_cpu_bus | par_drv0_bus | par_drv1_bus;
+    parallel_bus = par_emu_bus & par_cpu_bus & par_drv0_bus & par_drv1_bus;
 }
 
 void parallel_drv0_set_bus( BYTE b ) 
 {
     par_drv0_bus = b;
-    parallel_bus = par_emu_bus | par_cpu_bus | par_drv0_bus | par_drv1_bus;
+    parallel_bus = par_emu_bus & par_cpu_bus & par_drv0_bus & par_drv1_bus;
 }
 
 void parallel_drv1_set_bus( BYTE b ) 
 {
     par_drv1_bus = b;
-    parallel_bus = par_emu_bus | par_cpu_bus | par_drv0_bus | par_drv1_bus;
+    parallel_bus = par_emu_bus & par_cpu_bus & par_drv0_bus & par_drv1_bus;
 }
 
 

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Tibor Biczo (crown@mail.matav.hu)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +28,7 @@
 #include "vice.h"
 
 #include <windows.h>
+#include <shlobj.h>
 
 #include "attach.h"
 #include "autostart.h"
@@ -137,15 +139,25 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
               break;
             case IDC_BROWSEDIR:
               {
-                  char *s;
-                  /* FIXME: We must select a directory, not a file!  */
-                  if ((s = ui_select_file("Select file system directory",
-                      "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                  BROWSEINFO    bi;
+                  char          s[MAX_PATH];
+                  LPITEMIDLIST  idlist;
+
+                  bi.hwndOwner=hwnd;
+                  bi.pidlRoot=NULL;
+                  bi.pszDisplayName=s;
+                  bi.lpszTitle="Select file system directory";
+                  bi.ulFlags=0;
+                  bi.lpfn=NULL;
+                  bi.lParam=0;
+                  bi.iImage=0;
+                  if ((idlist=SHBrowseForFolder(&bi))!=NULL) {
                       char tmp[256];
+                      SHGetPathFromIDList(idlist,s);
+                      LocalFree(idlist);
                       SetDlgItemText(hwnd, IDC_DIR, s);
                       sprintf(tmp, "FSDevice%dDir", num);
                       resources_set_value(tmp, (resource_value_t) s);
-                      free(s);
                   }
               }
               break;

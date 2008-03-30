@@ -96,7 +96,7 @@ static void undump_pra(BYTE byte)
         drive_set_1571_side((byte >> 2) & 1, 1);
     } else
     if (drive[1].type == DRIVE_TYPE_2031) {
-        parallel_drv1_set_bus(parieee_is_out ? byte : 0);
+        parallel_drv1_set_bus(parieee_is_out ? byte : 0xff);
     }
     if (drive[1].parallel_cable_enabled && (drive[1].type == DRIVE_TYPE_1541
         || drive[1].type == DRIVE_TYPE_1541II))
@@ -115,7 +115,7 @@ inline static void store_pra(BYTE byte, BYTE oldpa_value, ADDRESS addr)
         if (drive[1].type == DRIVE_TYPE_2031) {
             if(parallel_debug) 
                 printf("store_pra(byte=%02x, ~byte=%02x)\n",byte, 0xff^byte);
-                parallel_drv1_set_bus(parieee_is_out ? byte : 0);
+                parallel_drv1_set_bus(parieee_is_out ? byte : 0xff);
         } else
         if (drive[1].parallel_cable_enabled && (drive[1].type == DRIVE_TYPE_1541
             || drive[1].type == DRIVE_TYPE_1541II))
@@ -141,7 +141,7 @@ static void undump_prb(BYTE byte)
     } else {
         if (drive[1].type == DRIVE_TYPE_2031) {
             parieee_is_out = byte & 0x10;
-            parallel_drv1_set_bus(parieee_is_out ? oldpa : 0);
+            parallel_drv1_set_bus(parieee_is_out ? oldpa : 0xff);
 
             parallel_drv1_set_eoi( parieee_is_out && !(byte & 0x08) );
             parallel_drv1_set_dav( parieee_is_out && !(byte & 0x40) );
@@ -180,7 +180,7 @@ inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
                        !(byte & 0x08), !(byte & 0x40));
            }
            parieee_is_out = byte & 0x10;
-           parallel_drv1_set_bus(parieee_is_out ? oldpa : 0);
+           parallel_drv1_set_bus(parieee_is_out ? oldpa : 0xff);
 
            if ( parieee_is_out ) {
                 parallel_drv1_set_eoi( tmp & 0x08 );
@@ -233,7 +233,7 @@ static void res_via(void)
     parallel_drv1_set_nrfd(0);
     parallel_drv1_set_dav(0);
     parallel_drv1_set_eoi(0);
-    parallel_drv1_set_bus(0);
+    parallel_drv1_set_bus(0xff);
 
     parieee_is_out = 1;
 
@@ -262,7 +262,7 @@ inline static BYTE read_pra(ADDRESS addr)
             printf("read_pra(is_out=%d, parallel_bus=%02x, ddra=%02x\n",
                    parieee_is_out, parallel_bus, via1d1[VIA_DDRA]);
         }
-        byte = parieee_is_out ? 0xff : ~parallel_bus;
+        byte = parieee_is_out ? 0xff : parallel_bus;
         return (byte & ~via1d1[VIA_DDRA]) | (via1d1[VIA_PRA] & via1d1[VIA_DDRA]);
     }
     byte = (drive[1].parallel_cable_enabled

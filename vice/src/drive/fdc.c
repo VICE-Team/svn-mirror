@@ -84,11 +84,11 @@ static int int_fdc(int fnum, long offset)
     int i, j;
 
     if (fdc_state[fnum] < FDC_RUN) {
-	static int old_state = -1;
-	if (fdc_state[fnum] != old_state)
-	    log_message(fdc_log, "%d: int_fdc%d: state=%d\n",
-					rclk, fnum, fdc_state[fnum]);
-	old_state = fdc_state[fnum];
+	static int old_state[NUM_FDC] = { -1, -1 };
+	if (fdc_state[fnum] != old_state[fnum])
+	    log_message(fdc_log, "int_fdc%d %d: state=%d\n",
+					fnum, rclk, fdc_state[fnum]);
+	old_state[fnum] = fdc_state[fnum];
     }
 
     switch(fdc_state[fnum]) {

@@ -157,7 +157,7 @@
 #define I_CIA1581D1TB   25
 */
 /* RIOT 1001 drive 1 interrupts. */
-#define	I_RIOTD0FL	26
+#define	I_RIOTD1FL	26
 
 
 #define DRIVE_NUMOFINT 27

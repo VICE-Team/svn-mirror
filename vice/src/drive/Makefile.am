@@ -21,7 +21,9 @@ libdrive_a_SOURCES = \
         fdc.h \
         fdc.c \
         riot1drive0.c \
+        riot1drive1.c \
         riot2drive0.c \
+        riot2drive1.c \
         riotd.h \
         viad.h \
         via1drive0.c \

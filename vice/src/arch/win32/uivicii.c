@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Tibor Biczo (crown@mail.matav.hu)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,6 +38,8 @@
 #include "winmain.h"
 
 static char *palette_file;
+static int  res_checksscoll;
+static int  res_checksbcoll;
 
 static void enable_controls_for_vicii_settings(HWND hwnd, int type)
 {
@@ -46,16 +49,10 @@ static void enable_controls_for_vicii_settings(HWND hwnd, int type)
                  type == IDC_SELECT_VICII_CUSTOM);
 }
 
-static void init_dialog(HWND hwnd)
+static void init_palette_dialog(HWND hwnd)
 {
     int n;
     const char *pname;
-
-    resources_get_value("CheckSsColl", (resource_value_t *) &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC, n ? BST_CHECKED : BST_UNCHECKED);
-
-    resources_get_value("CheckSbColl", (resource_value_t *) &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SBC, n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_value("PaletteFile", (resource_value_t *) &pname);
     palette_file = stralloc(pname);
@@ -82,117 +79,144 @@ static void init_dialog(HWND hwnd)
     enable_controls_for_vicii_settings(hwnd, n);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
-                                 WPARAM wparam, LPARAM lparam)
+static void init_sprite_dialog(HWND hwnd)
+{
+    int n;
+
+    resources_get_value("CheckSsColl", (resource_value_t *) &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC, n ? BST_CHECKED : BST_UNCHECKED);
+    res_checksscoll=n;
+
+    resources_get_value("CheckSbColl", (resource_value_t *) &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SBC, n ? BST_CHECKED : BST_UNCHECKED);
+    res_checksbcoll=n;
+}
+
+static void update_palettename(char *name)
+{
+    free(palette_file);
+    palette_file = stralloc(name);
+}
+
+static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
+                                         WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        init_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-          type = LOWORD(wparam);
-          switch (type) {
-            case IDC_SELECT_VICII_DEFAULT:
-              if (resources_set_value("PaletteFile",
-                                      (resource_value_t) "default") < 0) {
-                  ui_error("Could not load palette file.");
-                  return FALSE;
-              }
-              enable_controls_for_vicii_settings(hwnd, type);
-              break;
-            case IDC_SELECT_VICII_C64S:
-              if (resources_set_value("PaletteFile",
-                                      (resource_value_t) "c64s") < 0) {
-                  ui_error("Could not load palette file.");
-                  return FALSE;
-              }
-              enable_controls_for_vicii_settings(hwnd, type);
-              break;
-            case IDC_SELECT_VICII_CCS64:
-              if (resources_set_value("PaletteFile",
-                                      (resource_value_t) "ccs64") < 0) {
-                  ui_error("Could not load palette file.");
-                  return FALSE;
-              }
-              enable_controls_for_vicii_settings(hwnd, type);
-              break;
-            case IDC_SELECT_VICII_FRODO:
-              if (resources_set_value("PaletteFile",
-                                      (resource_value_t) "frodo") < 0) {
-                  ui_error("Could not load palette file.");
-                  return FALSE;
-              }
-              enable_controls_for_vicii_settings(hwnd, type);
-              break;
-            case IDC_SELECT_VICII_GODOT:
-              if (resources_set_value("PaletteFile",
-                                      (resource_value_t) "godot") < 0) {
-                  ui_error("Could not load palette file.");
-                  return FALSE;
-              }
-              enable_controls_for_vicii_settings(hwnd, type);
-              break;
-            case IDC_SELECT_VICII_PC64:
-              if (resources_set_value("PaletteFile",
-                                      (resource_value_t) "pc64") < 0) {
-                  ui_error("Could not load palette file.");
-                  return FALSE;
-              }
-              enable_controls_for_vicii_settings(hwnd, type);
-              break;
-            case IDC_VICII_CUSTOM_BROWSE:
-              {
-                  char *s;
-                  if ((s = ui_select_file("Load VICE palette file",
-                      "VICE palette files (*.vpl)\0*.vpl)\0"
-                      "All files (*.*)\0*.*\0", hwnd)) != NULL) {
-                      if (resources_set_value("PaletteFile",
-                                              (resource_value_t) s) < 0) {
-                          ui_error("Could not load palette file.");
-                          free(s);
-                          break;
-                      }
-                      SetDlgItemText(hwnd, IDC_VICII_CUSTOM_NAME, s);
-                      free(s);
-                  }
-              }
-              break;
-            case IDC_VICII_CUSTOM_NAME:
-              {
-                  char s[100];
-                  GetDlgItemText(hwnd, IDC_VICII_CUSTOM_NAME, (LPSTR)s, 100);
-                  if (resources_set_value("PaletteFile",
-                                          (resource_value_t) s) < 0)
-                      ui_error("Could not load palette file.");
-                  break;
-              }
-            case IDC_TOGGLE_VICII_SSC:
-              {
-                  int n;
-                  resources_get_value("CheckSsColl", (resource_value_t *) &n);
-                  resources_set_value("CheckSsColl", (resource_value_t) !n);
-                  break;
-              }
-            case IDC_TOGGLE_VICII_SBC:
-              {
-                  int n;
-                  resources_get_value("CheckSbColl", (resource_value_t *) &n);
-                  resources_set_value("CheckSbColl", (resource_value_t) !n);
-                  break;
-              }
-          }
-          return TRUE;
+        case WM_NOTIFY:
+            if (((NMHDR FAR *)lparam)->code==PSN_APPLY) {
+                if (resources_set_value("PaletteFile", (resource_value_t) palette_file) < 0) {
+                    ui_error("Could not load palette file.");
+                    SetWindowLong (hwnd, DWL_MSGRESULT, TRUE);
+                    return TRUE;
+                }
+                free(palette_file);
+                SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
+                return TRUE;
+            }
+            return FALSE;
+        case WM_INITDIALOG:
+            init_palette_dialog(hwnd);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_SELECT_VICII_DEFAULT:
+                    update_palettename("default");
+                    enable_controls_for_vicii_settings(hwnd, type);
+                    break;
+                case IDC_SELECT_VICII_CUSTOM:
+                    {
+                    char s[100];
+                        GetDlgItemText(hwnd, IDC_VICII_CUSTOM_NAME, (LPSTR)s, 100);
+                        update_palettename(s);
+                        enable_controls_for_vicii_settings(hwnd, type);
+                        break;
+                    }
+                case IDC_SELECT_VICII_C64S:
+                    update_palettename("c64s");
+                    enable_controls_for_vicii_settings(hwnd, type);
+                    break;
+                case IDC_SELECT_VICII_CCS64:
+                    update_palettename("ccs64");
+                    enable_controls_for_vicii_settings(hwnd, type);
+                    break;
+                case IDC_SELECT_VICII_FRODO:
+                    update_palettename("frodo");
+                    enable_controls_for_vicii_settings(hwnd, type);
+                    break;
+                case IDC_SELECT_VICII_GODOT:
+                    update_palettename("godot");
+                    enable_controls_for_vicii_settings(hwnd, type);
+                    break;
+                case IDC_SELECT_VICII_PC64:
+                    update_palettename("pc64");
+                    enable_controls_for_vicii_settings(hwnd, type);
+                    break;
+                case IDC_VICII_CUSTOM_BROWSE:
+                    {
+                    char *s;
+                        if ((s = ui_select_file("Load VICE palette file",
+                            "VICE palette files (*.vpl)\0*.vpl\0"
+                            "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                            update_palettename(s);
+                            SetDlgItemText(hwnd, IDC_VICII_CUSTOM_NAME, s);
+                            free(s);
+                        }
+                    }
+                    break;
+                case IDC_VICII_CUSTOM_NAME:
+                    {
+                    char s[100];
+                        GetDlgItemText(hwnd, IDC_VICII_CUSTOM_NAME, (LPSTR)s, 100);
+                        update_palettename(s);
+                        break;
+                    }
+            }
+            return TRUE;
+    }
+    return FALSE;
+}
+
+
+static BOOL CALLBACK dialog_sprite_proc(HWND hwnd, UINT msg,
+                                        WPARAM wparam, LPARAM lparam)
+{
+    int type;
+
+    switch (msg) {
+        case WM_NOTIFY:
+            if (((NMHDR FAR *)lparam)->code==PSN_APPLY) {
+                resources_set_value("CheckSsColl", (resource_value_t) res_checksscoll);
+                resources_set_value("CheckSbColl", (resource_value_t) res_checksbcoll);
+                SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
+                return TRUE;
+            }
+            return FALSE;
+        case WM_INITDIALOG:
+            init_sprite_dialog(hwnd);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_TOGGLE_VICII_SSC:
+                    res_checksscoll = !res_checksscoll;
+                    break;
+                case IDC_TOGGLE_VICII_SBC:
+                    res_checksbcoll = !res_checksbcoll;
+                    break;
+            }
+            return TRUE;
     }
     return FALSE;
 }
 
 void ui_vicii_settings_dialog(HWND hwnd)
 {
-    PROPSHEETPAGE psp[2];
-    PROPSHEETHEADER psh;
-    int i;
+PROPSHEETPAGE       psp[2];
+PROPSHEETHEADER     psh;
+int                 i;
 
     for (i = 0; i < 2; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
@@ -207,9 +231,9 @@ void ui_vicii_settings_dialog(HWND hwnd)
         psp[i].pfnCallback = NULL;
     }
 
-    psp[0].pfnDlgProc = dialog_proc;
+    psp[0].pfnDlgProc = dialog_palette_proc;
     psp[0].pszTitle = "Palette";
-    psp[1].pfnDlgProc = dialog_proc;
+    psp[1].pfnDlgProc = dialog_sprite_proc;
     psp[1].pszTitle = "Sprites";
 
 #ifdef HAVE_UNNAMED_UNIONS

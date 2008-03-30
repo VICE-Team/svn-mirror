@@ -41,6 +41,7 @@
 
 #include "findpath.h"
 #include "utils.h"
+#include "archdep.h"
 
 
 /*
@@ -59,12 +60,12 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 
     buf[0] = '\0'; /* this will (and needs to) stay '\0' */
 
-    if (strchr(cmd, '/')) /* absolute or relative path given ???*/
+    if (strchr(cmd, FSDEV_DIR_SEP_CHR /*'/'*/)) /* absolute or relative path given ???*/
     {
 	int l, state;
 	const char *ps;
 
-	if (cmd[0] != '/')
+	if (archdep_path_is_relative(cmd))
 	{
 	    if (getcwd(buf + 1, sizeof buf - 128) == NULL)
 		goto fail;
@@ -79,8 +80,12 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 	ps = cmd;
 	pd = buf + l; /* buf + 1 + l - 1 */
 
+#if !defined (__MSDOS__) && !defined (WIN32) && !defined (OS2)
 	if (*pd++ != '/')
 	    *pd++ = '/';
+#else
+	pd++;
+#endif
 
 	state = 1;
 

@@ -1,5 +1,5 @@
 /*
- * riot1drive0.c - RIOT1 emulation in the SFD1001, 8050 and 8250 disk drive.
+ * riot1drive1.c - RIOT1 emulation in the SFD1001, 8050 and 8250 disk drive.
  *
  * Written by
  *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
@@ -32,17 +32,17 @@
  * Renaming exported functions
  */
 
-#define myriot_init riot1d0_init
-#define myriot_signal riot1d0_signal
-#define myriot_reset riot1d0_reset
-#define store_myriot store_riot1d0
-#define read_myriot read_riot1d0
-#define peek_myriot peek_riot1d0
-#define myriot_set_flag riot1d0_set_flag
-#define myriot_write_snapshot_module riot1d0_write_snapshot_module
-#define myriot_read_snapshot_module riot1d0_read_snapshot_module
+#define myriot_init riot1d1_init
+#define myriot_signal riot1d1_signal
+#define myriot_reset riot1d1_reset
+#define store_myriot store_riot1d1
+#define read_myriot read_riot1d1
+#define peek_myriot peek_riot1d1
+#define myriot_set_flag riot1d1_set_flag
+#define myriot_write_snapshot_module riot1d1_write_snapshot_module
+#define myriot_read_snapshot_module riot1d1_read_snapshot_module
 
-#define MYRIOT_NAME "RIOT1D0"
+#define MYRIOT_NAME "RIOT1D1"
 
 /*************************************************************************
  * CPU binding
@@ -50,10 +50,10 @@
 
 #include "interrupt.h"
 
-#define myclk           drive_clk[0]
-#define mycpu_clk_guard drive0_clk_guard
-#define mycpu_rmw_flag  drive0_rmw_flag
-#define mycpu_alarm_context drive0_alarm_context
+#define myclk           drive_clk[1]
+#define mycpu_clk_guard drive1_clk_guard
+#define mycpu_rmw_flag  drive1_rmw_flag
+#define mycpu_alarm_context drive1_alarm_context
 
 #define	my_set_irq(fl, clk)	
 
@@ -84,15 +84,15 @@ inline static void store_pra(BYTE byte)
 
 static void undump_prb(BYTE byte)
 {
-    parallel_drv0_set_bus(byte);
+    parallel_drv1_set_bus(byte);
 }
 
 inline static void store_prb(BYTE byte)
 {
-    parallel_drv0_set_bus(parallel_atn ? 0xff : byte);
+    parallel_drv1_set_bus(parallel_atn ? 0xff : byte);
 }
 
-void riot1d0_set_pardata(void)
+void riot1d1_set_pardata(void)
 {
     store_prb(oldpb);
 }
