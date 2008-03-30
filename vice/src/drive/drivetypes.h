@@ -32,6 +32,7 @@
 #include "ciatimer.h"
 #include "drive.h"
 #include "mos6510.h"
+#include "riot.h"
 #include "types.h"
 #include "via.h"
 
@@ -175,41 +176,10 @@ typedef struct drivecia1581_context_s {
     struct iec_info_s *iec_info;
 } drivecia1581_context_t;
 
-
-/*
- *  Private drive RIOT data, shared between RIOT1 and RIOT2
- */
-
-typedef struct driveriot_context_s {
-    BYTE riot_io[4];
-    BYTE old_pa;
-    BYTE old_pb;
-
-    signed int log;       /* init to LOG_ERR */
-
-    struct alarm_s *alarm;
-
-    CLOCK read_clk;       /* init to 0 */
-    int read_offset;      /* init to 0 */
-    BYTE last_read;       /* init to 0 */
-    BYTE r_edgectrl;      /* init to 0 */
-    BYTE r_irqfl;         /* init to 0 */
-    BYTE r_irqline;       /* init to 0 */
-
-    CLOCK r_write_clk;
-    int r_N;
-    int r_divider;
-    int r_irqen;
-
-    char myname[12];
-} driveriot_context_t;
-
-
-/*
- *  Additional data for RIOT2.
- */
-
+/*  Additional data for RIOT2.  */
 typedef struct driveriot2_context_s {
+    unsigned int number;
+    struct drive_s *drive_ptr;
     int r_atn_active;     /* init to 0 */
     unsigned int int_num;
 } driveriot2_context_t;
@@ -259,9 +229,9 @@ typedef struct drive_context_s {
     cia_context_t cia1571;
     cia_context_t cia1581;
     struct iec_info_s *c_iec_info;        /* for CIA1581 */
-    driveriot_context_t riot1;
-    driveriot_context_t riot2;
-    driveriot2_context_t riot2p;
+    riot_context_t riot1;
+    riot_context_t riot2;
+    /*driveriot2_context_t riot2p;*/
     drivetpi_context_t tpid;
     drivecpud_context_t cpud;
 
