@@ -1,3 +1,53 @@
+2007-03-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.2.
+
+	* c1541.c (unlynx_cmd): Eliminated some bugs and added more
+	error checking.
+
+	* c1541.c, monitor/mon_file.c, vdrive/vdrive-iec.c,
+	vdrive/vdrive-iec.h, machine-bus.c, machine-bus.h,
+	fsdevice/fsdevice-open.h, fsdevice/fsdevice-open.c,
+	printerdrv/interface-serial.c, serial.h, serial/fsdrive.c,
+	parallel/parallel-trap.c: Added command parse struct to open
+	routine.
+
+	* drive/iec/c64exp/mc6821.c: Moved to here.
+
+	* drive/iec/iec.c, drive/iec/c64exp/iec-c64exp.c, mc6821.h,
+	drive/iec/memiec.c, drive/iec/Makefile.am,
+	drive/iec/c64exp/Makefile.am, arch/win32/iec.dsp,
+	arch/win32/c64exp.dsp: Updated.
+
+	* drive/c64exp/profdos.c (profdos_store, profdos_read): Made
+	static.
+
+	* arch/win32/resdialogs.txt: Reordered c64 keyboard dialog
+	defines.
+
+	* arch/win32/uikeyboard.c (mapping_dialog_proc): Removed
+	cruft.
+
+	* arch/win32/statusbar.c (statusbar_create_brushes): Fixed
+	some warning.
+
+	* arch/win32/joy.c: Removed unused variables.
+
+	* arch/win32/uidrivec64vic20.c, arch/win32/uidrivec64vic20.h,
+	arch/win32/resdrivec64vic20.rc: Splitted.
+
+	* arch/win32/uidrivec64.c, arch/win32/uidrivec64.h,
+	arch/win32/uidrivevic20.c, arch/win32/uidrivevic20.h,
+	arch/win32/resdrivec64.rc, arch/win32/resdrivevic20.rc: New
+	files.
+
+	* arch/win32/c64ui.c, arch/win32/vic20ui.c,
+	arch/win32/Makefile.am, arch/win32/arch.dsp,
+	arch/win32/x64.dsp, arch/win32/xvic.dsp, arch/win32/intl.c,
+	arch/win32/resdialogs.txt: Updated.
+
+	* arch/unix/gui/uited.c: Added video standard menu entry.
+
 2007-03-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.1.

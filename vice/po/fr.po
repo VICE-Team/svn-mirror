@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-17 12:41+0100\n"
+"POT-Creation-Date: 2007-03-19 18:43+0100\n"
 "PO-Revision-Date: 2006-10-01 17:43+0200\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -3428,7 +3428,7 @@ msgstr "Résolutions DGA2"
 msgid "*CRTC Screen color"
 msgstr "*Couleurs CRTC"
 
-#: src/arch/unix/gui/uicrtc.c:131 src/arch/unix/gui/uited.c:171
+#: src/arch/unix/gui/uicrtc.c:131 src/arch/unix/gui/uited.c:174
 #: src/arch/unix/gui/uivdc.c:105 src/arch/unix/gui/uivic.c:169
 #: src/arch/unix/gui/uivicii.c:208
 msgid "*Use XSync()"
@@ -5121,6 +5121,12 @@ msgstr "*'scaling' matériel"
 msgid "PAL Emulation"
 msgstr "Émulation PAL"
 
+#: src/arch/unix/gui/uited.c:171 src/arch/unix/gui/uivic.c:166
+#: src/arch/unix/gui/uivicii.c:200 src/arch/unix/gui/vsidui.c:177
+#: src/arch/amigaos/intl.c.po.c:1158
+msgid "Video standard"
+msgstr "Standard vidéo"
+
 #: src/arch/unix/gui/uitfe.c:43
 msgid "Ethernet interface"
 msgstr "Interface Ethernet"
@@ -5169,11 +5175,6 @@ msgstr "Palette de couleurs"
 #: src/arch/unix/gui/uivic.c:135
 msgid "PAL Emulation Settings"
 msgstr "Paramètres d'émulation PAL"
-
-#: src/arch/unix/gui/uivic.c:166 src/arch/unix/gui/uivicii.c:200
-#: src/arch/unix/gui/vsidui.c:177 src/arch/amigaos/intl.c.po.c:1158
-msgid "Video standard"
-msgstr "Standard vidéo"
 
 #: src/arch/unix/gui/uivicii.c:51
 msgid "*CCS64"
@@ -6579,9 +6580,10 @@ msgid "Rea&l IEC device"
 msgstr "Périphérique IEC Réel"
 
 #: src/arch/win32/res.rc.po.c:588 src/arch/win32/resdrivec128.rc.po.c:38
-#: src/arch/win32/resdrivec64vic20.rc.po.c:36
+#: src/arch/win32/resdrivec64.rc.po.c:36
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:26
 #: src/arch/win32/resdriveplus4.rc.po.c:24
+#: src/arch/win32/resdrivevic20.rc.po.c:36
 msgid "&None"
 msgstr "&Aucun"
 
@@ -7717,8 +7719,9 @@ msgid "An error occured connecting the client."
 msgstr "Impossible d'allouer le cache couleur"
 
 #: src/arch/win32/res.rc.po.c:5084 src/arch/win32/resdrivec128.rc.po.c:48
-#: src/arch/win32/resdrivec64vic20.rc.po.c:46
-#: src/arch/win32/resdriveplus4.rc.po.c:34 src/arch/amigaos/intl.c.po.c:2648
+#: src/arch/win32/resdrivec64.rc.po.c:46
+#: src/arch/win32/resdriveplus4.rc.po.c:34
+#: src/arch/win32/resdrivevic20.rc.po.c:46 src/arch/amigaos/intl.c.po.c:2648
 msgid "None"
 msgstr "Aucun"
 
@@ -8773,8 +8776,9 @@ msgstr ""
 #: src/arch/win32/resc128.rc.po.c:2632 src/arch/win32/resc128.rc.po.c:3402
 #: src/arch/win32/resc64.rc.po.c:2249 src/arch/win32/resc64.rc.po.c:2795
 #: src/arch/win32/resdrivec128.rc.po.c:16
-#: src/arch/win32/resdrivec64vic20.rc.po.c:16
+#: src/arch/win32/resdrivec64.rc.po.c:16
 #: src/arch/win32/resdriveplus4.rc.po.c:18
+#: src/arch/win32/resdrivevic20.rc.po.c:16
 #: src/arch/win32/resplus4.rc.po.c:2044 src/arch/win32/resplus4.rc.po.c:2477
 #: src/arch/win32/resvic20.rc.po.c:1863 src/arch/win32/resvic20.rc.po.c:2102
 msgid "1570"
@@ -9240,25 +9244,29 @@ msgid "Digimax base address"
 msgstr "<adresse de base>"
 
 #: src/arch/win32/resdrivec128.rc.po.c:11
-#: src/arch/win32/resdrivec64vic20.rc.po.c:11
+#: src/arch/win32/resdrivec64.rc.po.c:11
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:11
 #: src/arch/win32/resdriveplus4.rc.po.c:11
+#: src/arch/win32/resdrivevic20.rc.po.c:11
 msgid "&Drive type"
 msgstr "Type de &lecteur"
 
 #: src/arch/win32/resdrivec128.rc.po.c:12
-#: src/arch/win32/resdrivec64vic20.rc.po.c:12
+#: src/arch/win32/resdrivec64.rc.po.c:12
+#: src/arch/win32/resdrivevic20.rc.po.c:12
 msgid "1&541"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:14
-#: src/arch/win32/resdrivec64vic20.rc.po.c:14
+#: src/arch/win32/resdrivec64.rc.po.c:14
+#: src/arch/win32/resdrivevic20.rc.po.c:14
 msgid "1541-&II"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:18
-#: src/arch/win32/resdrivec64vic20.rc.po.c:18
+#: src/arch/win32/resdrivec64.rc.po.c:18
 #: src/arch/win32/resdriveplus4.rc.po.c:20
+#: src/arch/win32/resdrivevic20.rc.po.c:18
 msgid "15&71"
 msgstr ""
 
@@ -9267,140 +9275,161 @@ msgid "15&71cr"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:22
-#: src/arch/win32/resdrivec64vic20.rc.po.c:20
+#: src/arch/win32/resdrivec64.rc.po.c:20
+#: src/arch/win32/resdrivevic20.rc.po.c:20
 msgid "&1581"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:24
-#: src/arch/win32/resdrivec64vic20.rc.po.c:22
+#: src/arch/win32/resdrivec64.rc.po.c:22
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:12
+#: src/arch/win32/resdrivevic20.rc.po.c:22
 msgid "20&31"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:26
-#: src/arch/win32/resdrivec64vic20.rc.po.c:24
+#: src/arch/win32/resdrivec64.rc.po.c:24
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:14
+#: src/arch/win32/resdrivevic20.rc.po.c:24
 msgid "20&40"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:28
-#: src/arch/win32/resdrivec64vic20.rc.po.c:26
+#: src/arch/win32/resdrivec64.rc.po.c:26
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:16
+#: src/arch/win32/resdrivevic20.rc.po.c:26
 msgid "30&40"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:30
-#: src/arch/win32/resdrivec64vic20.rc.po.c:28
+#: src/arch/win32/resdrivec64.rc.po.c:28
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:18
+#: src/arch/win32/resdrivevic20.rc.po.c:28
 msgid "40&40"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:32
-#: src/arch/win32/resdrivec64vic20.rc.po.c:30
+#: src/arch/win32/resdrivec64.rc.po.c:30
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:20
+#: src/arch/win32/resdrivevic20.rc.po.c:30
 msgid "1&001"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:34
-#: src/arch/win32/resdrivec64vic20.rc.po.c:32
+#: src/arch/win32/resdrivec64.rc.po.c:32
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:22
+#: src/arch/win32/resdrivevic20.rc.po.c:32
 msgid "&8050"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:36
-#: src/arch/win32/resdrivec64vic20.rc.po.c:34
+#: src/arch/win32/resdrivec64.rc.po.c:34
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:24
+#: src/arch/win32/resdrivevic20.rc.po.c:34
 msgid "8&250"
 msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:40
-#: src/arch/win32/resdrivec64vic20.rc.po.c:38
+#: src/arch/win32/resdrivec64.rc.po.c:38
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:28
 #: src/arch/win32/resdriveplus4.rc.po.c:26
+#: src/arch/win32/resdrivevic20.rc.po.c:38
 msgid "40 &track handling"
 msgstr "Prise en charge du 40 pistes"
 
 #: src/arch/win32/resdrivec128.rc.po.c:41
-#: src/arch/win32/resdrivec64vic20.rc.po.c:39
+#: src/arch/win32/resdrivec64.rc.po.c:39
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:29
-#: src/arch/win32/resdriveplus4.rc.po.c:27 src/arch/amigaos/intl.c.po.c:2891
+#: src/arch/win32/resdriveplus4.rc.po.c:27
+#: src/arch/win32/resdrivevic20.rc.po.c:39 src/arch/amigaos/intl.c.po.c:2891
 msgid "Never extend"
 msgstr "Ne jamais é&tendre"
 
 #: src/arch/win32/resdrivec128.rc.po.c:43
-#: src/arch/win32/resdrivec64vic20.rc.po.c:41
+#: src/arch/win32/resdrivec64.rc.po.c:41
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:31
-#: src/arch/win32/resdriveplus4.rc.po.c:29 src/arch/amigaos/intl.c.po.c:2900
+#: src/arch/win32/resdriveplus4.rc.po.c:29
+#: src/arch/win32/resdrivevic20.rc.po.c:41 src/arch/amigaos/intl.c.po.c:2900
 msgid "Ask on extend"
 msgstr "Demander avant d'étendre"
 
 #: src/arch/win32/resdrivec128.rc.po.c:45
-#: src/arch/win32/resdrivec64vic20.rc.po.c:43
+#: src/arch/win32/resdrivec64.rc.po.c:43
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:33
-#: src/arch/win32/resdriveplus4.rc.po.c:31 src/arch/amigaos/intl.c.po.c:2909
+#: src/arch/win32/resdriveplus4.rc.po.c:31
+#: src/arch/win32/resdrivevic20.rc.po.c:43 src/arch/amigaos/intl.c.po.c:2909
 msgid "Extend on access"
 msgstr "Étendre à l'accès"
 
 #: src/arch/win32/resdrivec128.rc.po.c:47
-#: src/arch/win32/resdrivec64vic20.rc.po.c:45
+#: src/arch/win32/resdrivec64.rc.po.c:45
 #: src/arch/win32/resdriveplus4.rc.po.c:33
+#: src/arch/win32/resdrivevic20.rc.po.c:45
 msgid "Id&le method"
 msgstr "Méthode d'idle"
 
 #: src/arch/win32/resdrivec128.rc.po.c:50
-#: src/arch/win32/resdrivec64vic20.rc.po.c:48
-#: src/arch/win32/resdriveplus4.rc.po.c:36 src/arch/amigaos/intl.c.po.c:2936
+#: src/arch/win32/resdrivec64.rc.po.c:48
+#: src/arch/win32/resdriveplus4.rc.po.c:36
+#: src/arch/win32/resdrivevic20.rc.po.c:48 src/arch/amigaos/intl.c.po.c:2936
 msgid "Trap idle"
 msgstr "Trap idle"
 
 #: src/arch/win32/resdrivec128.rc.po.c:52
-#: src/arch/win32/resdrivec64vic20.rc.po.c:50
-#: src/arch/win32/resdriveplus4.rc.po.c:38 src/arch/amigaos/intl.c.po.c:2927
+#: src/arch/win32/resdrivec64.rc.po.c:50
+#: src/arch/win32/resdriveplus4.rc.po.c:38
+#: src/arch/win32/resdrivevic20.rc.po.c:50 src/arch/amigaos/intl.c.po.c:2927
 msgid "Skip cycles"
 msgstr "Sauter des cycles"
 
 #: src/arch/win32/resdrivec128.rc.po.c:54
-#: src/arch/win32/resdrivec64vic20.rc.po.c:52
+#: src/arch/win32/resdrivec64.rc.po.c:52
 #: src/arch/win32/resdriveplus4.rc.po.c:40
 msgid "&Parallel cable"
 msgstr "Câble &parallèle"
 
 #: src/arch/win32/resdrivec128.rc.po.c:56
-#: src/arch/win32/resdrivec64vic20.rc.po.c:54
+#: src/arch/win32/resdrivec64.rc.po.c:54
 #: src/arch/win32/resdriveplus4.rc.po.c:42
+#: src/arch/win32/resdrivevic20.rc.po.c:52
 msgid "Drive &expansion"
 msgstr "&Expansion de lecteur"
 
 #: src/arch/win32/resdrivec128.rc.po.c:57
-#: src/arch/win32/resdrivec64vic20.rc.po.c:55
+#: src/arch/win32/resdrivec64.rc.po.c:55
 #: src/arch/win32/resdriveplus4.rc.po.c:43
+#: src/arch/win32/resdrivevic20.rc.po.c:53
 #, fuzzy
 msgid "$2000-$3FFF &RAM"
 msgstr "*Banque 15 $2000-$3FFF RAM"
 
 #: src/arch/win32/resdrivec128.rc.po.c:59
-#: src/arch/win32/resdrivec64vic20.rc.po.c:57
+#: src/arch/win32/resdrivec64.rc.po.c:57
+#: src/arch/win32/resdrivevic20.rc.po.c:55
 #, fuzzy
 msgid "$&4000-$5FFF RAM"
 msgstr "Banque 15 $4000-$5FFF RAM"
 
 #: src/arch/win32/resdrivec128.rc.po.c:61
-#: src/arch/win32/resdrivec64vic20.rc.po.c:59
+#: src/arch/win32/resdrivec64.rc.po.c:59
 #: src/arch/win32/resdriveplus4.rc.po.c:47
+#: src/arch/win32/resdrivevic20.rc.po.c:57
 #, fuzzy
 msgid "$&6000-$7FFF RAM"
 msgstr "Banque 15 $6000-$7FFF RAM"
 
 #: src/arch/win32/resdrivec128.rc.po.c:63
-#: src/arch/win32/resdrivec64vic20.rc.po.c:61
+#: src/arch/win32/resdrivec64.rc.po.c:61
 #: src/arch/win32/resdriveplus4.rc.po.c:49
+#: src/arch/win32/resdrivevic20.rc.po.c:59
 #, fuzzy
 msgid "$8000-$9FFF RA&M"
 msgstr "*Expansion de RAM $8000-$9FFF"
 
 #: src/arch/win32/resdrivec128.rc.po.c:65
-#: src/arch/win32/resdrivec64vic20.rc.po.c:63
+#: src/arch/win32/resdrivec64.rc.po.c:63
 #: src/arch/win32/resdriveplus4.rc.po.c:51
+#: src/arch/win32/resdrivevic20.rc.po.c:61
 #, fuzzy
 msgid "$&A000-$BFFF RAM"
 msgstr "*Expansion de RAM $A000-$BFFF"

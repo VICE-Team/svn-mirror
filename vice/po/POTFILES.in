@@ -207,9 +207,10 @@ src/arch/win32/resc64_256k.rc.po.c
 src/arch/win32/rescbm2.rc.po.c
 src/arch/win32/resdigimax.rc.po.c
 src/arch/win32/resdrivec128.rc.po.c
-src/arch/win32/resdrivec64vic20.rc.po.c
+src/arch/win32/resdrivec64.rc.po.c
 src/arch/win32/resdrivepetcbm2.rc.po.c
 src/arch/win32/resdriveplus4.rc.po.c
+src/arch/win32/resdrivevic20.rc.po.c
 src/arch/win32/resgeoram.rc.po.c
 src/arch/win32/reside64.rc.po.c
 src/arch/win32/resmmc64.rc.po.c

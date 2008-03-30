@@ -168,6 +168,9 @@ ui_menu_entry_t ted_submenu[] = {
 #endif
     { "--" },
 #endif
+    { N_("Video standard"),
+      NULL, NULL, set_video_standard_submenu },
+    { "--" },
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { NULL }

@@ -310,16 +310,31 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
  */
 
 int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
-                    unsigned int secondary)
+                    unsigned int secondary, cbmdos_cmd_parse_t *cmd_parse_ext)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     BYTE *slot; /* Current directory entry */
     int rc, status = SERIAL_OK;
-    cbmdos_cmd_parse_t cmd_parse; /* FIXME: This should probably be set to zero */
+    /* FIXME: This should probably be set to zero */
+    cbmdos_cmd_parse_t cmd_parse_stat;
+    cbmdos_cmd_parse_t *cmd_parse;
+    BYTE name_stat[17];
     unsigned int opentype;
 
-    if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
-        return SERIAL_NO_DEVICE;        /* Routine was called incorrectly. */
+    if (cmd_parse_ext != NULL) {
+        cmd_parse = cmd_parse_ext;
+        memset(name_stat, 0, sizeof(name_stat));
+        strncpy((char *)name_stat, cmd_parse->parsecmd, sizeof(name_stat) - 1);
+        name = name_stat;
+        length = strlen((char *)name);
+        secondary = cmd_parse->secondary;
+    } else {
+        cmd_parse = &cmd_parse_stat;
+    }
+
+    if (cmd_parse_ext == NULL
+        && (!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)
+        return SERIAL_NO_DEVICE;
 
     /* No floppy in drive?   */
     if (vdrive->image == NULL
@@ -333,7 +348,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
 
 #ifdef DEBUG_DRIVE
     log_debug("VDRIVE#%i: OPEN: FD = %p - Name '%s' (%d) on ch %d.",
-                  vdrive->unit, vdrive->image->fd, name, length, secondary);
+              vdrive->unit, vdrive->image->fd, name, length, secondary);
 #endif
 #ifdef __riscos
     archdep_set_drive_leds(vdrive->unit - 8, 1);
@@ -372,28 +387,29 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
         return SERIAL_ERROR;
     }
 
-    cmd_parse.cmd = name;
-    cmd_parse.cmdlength = length;
-    cmd_parse.secondary = secondary;
-    /* make sure this is zero, since it isn't set below */
-    cmd_parse.recordlength = 0;
+    if (cmd_parse_ext == NULL) {
+        cmd_parse->cmd = name;
+        cmd_parse->cmdlength = length;
+        cmd_parse->secondary = secondary;
+        /* make sure this is zero, since it isn't set below */
+        cmd_parse->recordlength = 0;
 
-    rc = cbmdos_command_parse(&cmd_parse);
+        rc = cbmdos_command_parse(cmd_parse);
 
-    if (rc != CBMDOS_IPE_OK) {
-        status = SERIAL_ERROR;
-        goto out;
+        if (rc != CBMDOS_IPE_OK) {
+            status = SERIAL_ERROR;
+            goto out;
+        }
+#ifdef DEBUG_DRIVE
+        log_debug("Raw file name: `%s', length: %i.", name, length);
+        log_debug("Parsed file name: `%s', reallength: %i.",
+                  cmd_parse->parsecmd, cmd_parse->parselength);
+#endif
     }
 
-#ifdef DEBUG_DRIVE
-    log_debug("Raw file name: `%s', length: %i.", name, length);
-    log_debug("Parsed file name: `%s', reallength: %i.",
-              cmd_parse.parsecmd, cmd_parse.parselength);
-#endif
-
     /* Limit file name to 16 chars.  */
-    if (cmd_parse.parselength > 16)
-        cmd_parse.parselength = 16;
+    if (cmd_parse->parselength > 16)
+        cmd_parse->parselength = 16;
 
     /*
      * Internal buffer ?
@@ -425,21 +441,21 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
      */
 
     if (*name == '$') {
-        status = iec_open_read_directory(vdrive, secondary, &cmd_parse);
+        status = iec_open_read_directory(vdrive, secondary, cmd_parse);
         goto out;
     }
 
     /*
      * Check that there is room on directory.
      */
-    if (cmd_parse.readmode == CBMDOS_FAM_READ
-        || cmd_parse.readmode == CBMDOS_FAM_APPEND)
-        opentype = cmd_parse.filetype;
+    if (cmd_parse->readmode == CBMDOS_FAM_READ
+        || cmd_parse->readmode == CBMDOS_FAM_APPEND)
+        opentype = cmd_parse->filetype;
     else
         opentype = CBMDOS_FT_DEL;
 
-    vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
-                               cmd_parse.parselength, opentype);
+    vdrive_dir_find_first_slot(vdrive, cmd_parse->parsecmd,
+                               cmd_parse->parselength, opentype);
 
     /*
      * Find the first non-DEL entry in the directory (if it exists).
@@ -448,16 +464,16 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
         slot = vdrive_dir_find_next_slot(vdrive);
     while (slot && ((slot[SLOT_TYPE_OFFSET] & 0x07) == CBMDOS_FT_DEL));
 
-    p->readmode = cmd_parse.readmode;
+    p->readmode = cmd_parse->readmode;
     p->slot = slot;
 
     /* Call REL function if we are creating OR opening one */
-    if (cmd_parse.filetype == CBMDOS_FT_REL ||
+    if (cmd_parse->filetype == CBMDOS_FT_REL ||
         ( slot && (slot[SLOT_TYPE_OFFSET] & 0x07) == CBMDOS_FT_REL) ) {
     /* Make sure the record length of the opening command is the same as
        the record length in the directory slot, if not DOS ERROR 50 */
-       if (slot && cmd_parse.recordlength > 0 &&
-           slot[SLOT_RECORD_LENGTH] != cmd_parse.recordlength) {
+       if (slot && cmd_parse->recordlength > 0 &&
+           slot[SLOT_RECORD_LENGTH] != cmd_parse->recordlength) {
            vdrive_command_set_error(vdrive, CBMDOS_IPE_NO_RECORD, 0, 0);
            status = SERIAL_ERROR;
            goto out;
@@ -465,18 +481,18 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
        /* At this point the record lengths are the same (or will be), so set
            them equal. */
        if (slot)
-           cmd_parse.recordlength = slot[SLOT_RECORD_LENGTH];
-       status = vdrive_rel_open(vdrive, secondary, &cmd_parse, name);
+           cmd_parse->recordlength = slot[SLOT_RECORD_LENGTH];
+       status = vdrive_rel_open(vdrive, secondary, cmd_parse, name);
        goto out;
     }
 
-    if (cmd_parse.readmode == CBMDOS_FAM_READ)
+    if (cmd_parse->readmode == CBMDOS_FAM_READ)
         status = iec_open_read(vdrive, secondary);
     else
-        status = iec_open_write(vdrive, secondary, &cmd_parse, name);
+        status = iec_open_write(vdrive, secondary, cmd_parse, name);
 
 out:
-    lib_free(cmd_parse.parsecmd);
+    lib_free(cmd_parse->parsecmd);
     return status;
 }
 

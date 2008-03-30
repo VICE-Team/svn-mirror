@@ -52,7 +52,7 @@ libdriveiecc64exp_a_AR = $(AR) $(ARFLAGS)
 libdriveiecc64exp_a_LIBADD =
 am_libdriveiecc64exp_a_OBJECTS = c64exp-cmdline-options.$(OBJEXT) \
 	c64exp-resources.$(OBJEXT) iec-c64exp.$(OBJEXT) \
-	profdos.$(OBJEXT)
+	mc6821.$(OBJEXT) profdos.$(OBJEXT)
 libdriveiecc64exp_a_OBJECTS = $(am_libdriveiecc64exp_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -296,6 +296,7 @@ libdriveiecc64exp_a_SOURCES = \
 	c64exp-resources.c \
 	c64exp-resources.h \
 	iec-c64exp.c \
+	mc6821.c \
 	profdos.c \
 	profdos.h
 
@@ -349,6 +350,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64exp-cmdline-options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64exp-resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iec-c64exp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mc6821.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/profdos.Po@am__quote@
 
 .c.o:

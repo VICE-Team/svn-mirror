@@ -1,3 +1,7 @@
+2007-03-19  Andreas Boose  <viceteam@t-online.de>
+
+	* POTFILES.in: Splitted `arch/win32/resdrivec64vic20.rc.po.c'.
+
 2007-03-03  pottendo  <pottendo@utanet.at>
 
 	* sv.po: Updated by Peter.

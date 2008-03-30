@@ -151,16 +151,6 @@ static BOOL CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     switch (msg) {
       case WM_NOTIFY:
         switch (((NMHDR FAR *)lparam)->code) {
-          case PSN_SETACTIVE:
-            {
-                /* FIXME: Read from radio button.  */
-                int idc_index;
-
-                idc_index = mapping_index_get();
-
-                enable_mapping_controls(hwnd, idc_index);
-                return TRUE;
-            }
           case PSN_KILLACTIVE:
             end_mapping_dialog(hwnd);
             return TRUE;
