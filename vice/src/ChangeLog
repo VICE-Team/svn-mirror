@@ -1,3 +1,31 @@
+1999-11-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.33.
+
+	* c64/c64mem.c, c128/c128mem.c (mem_get_screen_parameter):
+	Fixed base address.
+
+	* c128/z80.c: Renamed `reg_pc' to `z80_reg_pc'.
+
+	* c128/c128mmu.c: Commented out debugging output.
+
+	* mon.c (mon_display_screen): Specifiy type for `r' and `c'.
+
+1999-11-22  Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* parallel.c (ignoreown): new define to not print warning
+	when unexpected change is initiated by virtual IEEE488 itself
+	(Out1_nrfdhi): set IEEE488 bus value
+
+1999-11-21  Daniel Sladic  <dsladic@cs.cmu.edu>
+
+	* mon.c (mon_display_screen): New function.
+	Also added support for "screen" command.
+
+	* mon.y: Added mon_display_screen prototype.
+
+	* mon_parse.y: Support for "screen" command.
+
 1999-11-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.32.

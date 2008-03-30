@@ -54,7 +54,7 @@ static BYTE reg_l = 0;
 /*static WORD reg_ix = 0;*/
 /*static WORD reg_iy = 0;*/
 static WORD reg_sp = 0;
-static DWORD reg_pc = 0;
+static DWORD z80_reg_pc = 0;
 static BYTE reg_i = 0;
 static BYTE reg_iff = 0;
 
@@ -74,8 +74,8 @@ static int dma_request = 0;
     log_message(LOG_DEFAULT,                                           \
                 "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "      \
                 "H%02x L%02x OP %02x %02x %02x.",                      \
-                CLK, reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e, \
-                reg_h, reg_l, p0, p1, p2);                             \
+                CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d,    \
+                reg_e, reg_h, reg_l, p0, p1, p2);                      \
   } while (0)
 
 
@@ -86,7 +86,7 @@ void z80_trigger_dma(void)
 
 void z80_reset(void)
 {
-    reg_pc = 0;
+    z80_reg_pc = 0;
 }
 
 inline static BYTE *z80mem_read_base(int addr)
@@ -104,12 +104,12 @@ inline static int z80mem_read_limit(int addr)
     return z80mem_read_limit_tab_ptr[addr >> 8];
 }
 
-#define JUMP(addr)                            \
-   do {                                       \
-     reg_pc = (addr);                         \
-     bank_base = z80mem_read_base(reg_pc);    \
-     bank_limit = z80mem_read_limit(reg_pc);  \
-     z80_old_reg_pc = reg_pc;                 \
+#define JUMP(addr)                                \
+   do {                                           \
+     z80_reg_pc = (addr);                         \
+     bank_base = z80mem_read_base(z80_reg_pc);    \
+     bank_limit = z80mem_read_limit(z80_reg_pc);  \
+     z80_old_reg_pc = z80_reg_pc;                 \
    } while (0)
 
 
@@ -126,10 +126,10 @@ inline static int z80mem_read_limit(int addr)
     (io_write_tab[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
 
 #define opcode_t DWORD
-#define FETCH_OPCODE(o) ((o) = (LOAD(reg_pc)			\
-                               | (LOAD(reg_pc + 1) << 8)	\
-                               | (LOAD(reg_pc + 2) << 16)	\
-                               | (LOAD(reg_pc + 3) << 24)))
+#define FETCH_OPCODE(o) ((o) = (LOAD(z80_reg_pc)		\
+                               | (LOAD(z80_reg_pc + 1) << 8)	\
+                               | (LOAD(z80_reg_pc + 2) << 16)	\
+                               | (LOAD(z80_reg_pc + 3) << 24)))
 
 #define p0 (opcode & 0xff)
 #define p1 ((opcode >> 8) & 0xff)
@@ -141,7 +141,7 @@ inline static int z80mem_read_limit(int addr)
 
 #define CLK clk
 
-#define INC_PC(value)   (reg_pc += (value))
+#define INC_PC(value)   (z80_reg_pc += (value))
 
 /* ------------------------------------------------------------------------- */
 
@@ -294,36 +294,36 @@ static BYTE SZP[256] = {
 
 /* Interrupt handling.  */
 
-#define DO_INTERRUPT(int_kind)                                           \
-  do {                                                                   \
-        BYTE ik = (int_kind);                                            \
-                                                                         \
-        if (ik & (IK_TRAP | IK_RESET)) {                                 \
-            if (ik & IK_TRAP) {                                          \
-                do_trap(cpu_int_status, (ADDRESS) reg_pc);               \
-                if (check_pending_interrupt(cpu_int_status) & IK_RESET)  \
-                    ik |= IK_RESET;                                      \
-            }                                                            \
-            if (ik & IK_RESET) {                                         \
-                ack_reset(cpu_int_status);                               \
-                maincpu_reset();                                         \
-            }                                                            \
-        }                                                                \
-        if (ik & (IK_MONITOR)) {                                         \
-            caller_space = e_comp_space;                                 \
-            if (mon_mask[e_comp_space] & (MI_BREAK)) {                   \
-               if (check_breakpoints(e_comp_space, (ADDRESS) reg_pc)) {  \
-                  mon((ADDRESS) reg_pc);                                 \
-               }                                                         \
-            }                                                            \
-            if (mon_mask[e_comp_space] & (MI_STEP)) {                    \
-               mon_check_icount((ADDRESS) reg_pc);                       \
-            }                                                            \
-            if (mon_mask[e_comp_space] & (MI_WATCH)) {                   \
-               mon_check_watchpoints((ADDRESS) reg_pc);                  \
-            }                                                            \
-        }                                                                \
-                                                                         \
+#define DO_INTERRUPT(int_kind)                                               \
+  do {                                                                       \
+        BYTE ik = (int_kind);                                                \
+                                                                             \
+        if (ik & (IK_TRAP | IK_RESET)) {                                     \
+            if (ik & IK_TRAP) {                                              \
+                do_trap(cpu_int_status, (ADDRESS) z80_reg_pc);               \
+                if (check_pending_interrupt(cpu_int_status) & IK_RESET)      \
+                    ik |= IK_RESET;                                          \
+            }                                                                \
+            if (ik & IK_RESET) {                                             \
+                ack_reset(cpu_int_status);                                   \
+                maincpu_reset();                                             \
+            }                                                                \
+        }                                                                    \
+        if (ik & (IK_MONITOR)) {                                             \
+            caller_space = e_comp_space;                                     \
+            if (mon_mask[e_comp_space] & (MI_BREAK)) {                       \
+               if (check_breakpoints(e_comp_space, (ADDRESS) z80_reg_pc)) {  \
+                  mon((ADDRESS) z80_reg_pc);                                 \
+               }                                                             \
+            }                                                                \
+            if (mon_mask[e_comp_space] & (MI_STEP)) {                        \
+               mon_check_icount((ADDRESS) z80_reg_pc);                       \
+            }                                                                \
+            if (mon_mask[e_comp_space] & (MI_WATCH)) {                       \
+               mon_check_watchpoints((ADDRESS) z80_reg_pc);                  \
+            }                                                                \
+        }                                                                    \
+                                                                             \
   } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -408,29 +408,29 @@ static BYTE SZP[256] = {
       INC_PC(2);                                  \
   } while (0)
 
-#define BRANCH(cond, value)                               \
-  do {                                                    \
-      if (cond) {                                         \
-          unsigned int dest_addr;                         \
-                                                          \
-          dest_addr = reg_pc + 2 + (signed char)(value);  \
-          reg_pc = dest_addr & 0xffff;                    \
-          CLK += 7;                                       \
-      } else {                                            \
-          CLK += 7;                                       \
-          INC_PC(2);                                      \
-      }                                                   \
+#define BRANCH(cond, value)                                   \
+  do {                                                        \
+      if (cond) {                                             \
+          unsigned int dest_addr;                             \
+                                                              \
+          dest_addr = z80_reg_pc + 2 + (signed char)(value);  \
+          z80_reg_pc = dest_addr & 0xffff;                    \
+          CLK += 7;                                           \
+      } else {                                                \
+          CLK += 7;                                           \
+          INC_PC(2);                                          \
+      }                                                       \
   } while (0)
 
-#define CALL(reg_val, clk_inc, pc_inc)           \
-  do {                                           \
-      INC_PC(pc_inc);                            \
-      --reg_sp;                                  \
-      STORE((reg_sp), ((BYTE)(reg_pc >> 8)));    \
-      --reg_sp;                                  \
-      STORE((reg_sp), ((BYTE)(reg_pc & 0xff)));  \
-      JUMP(reg_val);                             \
-      CLK += clk_inc;                            \
+#define CALL(reg_val, clk_inc, pc_inc)               \
+  do {                                               \
+      INC_PC(pc_inc);                                \
+      --reg_sp;                                      \
+      STORE((reg_sp), ((BYTE)(z80_reg_pc >> 8)));    \
+      --reg_sp;                                      \
+      STORE((reg_sp), ((BYTE)(z80_reg_pc & 0xff)));  \
+      JUMP(reg_val);                                 \
+      CLK += clk_inc;                                \
   } while (0)
 
 #define CALL_COND(reg_value, cond, clk_inc1, clk_inc2, pc_inc)  \
@@ -1662,7 +1662,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         log_message(LOG_DEFAULT,
                     "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
                     "H%02x L%02x SP%04x OP %02x %02x %02x.",
-                    CLK, reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, ip0, ip1, ip2);
         INC_PC(2);
    }
@@ -1788,7 +1788,7 @@ inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         log_message(LOG_DEFAULT,
                     "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
                     "H%02x L%02x SP%04x OP %02x %02x %02x.",
-                    CLK, reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, ip0, ip1, ip2);
         INC_PC(2);
    }
@@ -1806,7 +1806,7 @@ inline void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         log_message(LOG_DEFAULT,
                     "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
                     "H%02x L%02x SP%04x OP %02x %02x %02x.",
-                    CLK, reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, ip0, ip1, ip2);
         INC_PC(2);
 #if 0
@@ -1852,7 +1852,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
         log_message(LOG_DEFAULT,
                     "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
                     "H%02x L%02x SP%04x OP %02x %02x %02x %02x",
-                    CLK, reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, p0, p1, p2, p3);
 #endif
 

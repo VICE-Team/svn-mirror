@@ -431,10 +431,14 @@ struct mon_cmds mon_cmd_array[] = {
      "Save the memory from address1 to address2 to the specified file. Write\n"
      "two-byte load address." },
 
-   { "save_labels", 	"sl", 	CMD_SAVE_LABELS, 	STATE_FNAME,
+   { "save_labels", 	"sl",	CMD_SAVE_LABELS, 	STATE_FNAME,
      "[<memspace>] \"<filename>\"",
      "Save labels to a file.  If no memory space is specified, all of the\n"
      "labels are saved." },
+
+   { "screen",         "sc",    CMD_SCREEN,             STATE_INITIAL,
+     NULL,
+     "Displays the contents of the screen." },
 
    { "show_labels", 	"shl", 	CMD_SHOW_LABELS, 	STATE_INITIAL,
      "[<memspace>]",
@@ -1474,6 +1478,22 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
    }
 
    set_addr_location(&(dot_addr[mem]),addr);
+}
+
+
+void mon_display_screen(void) {
+   ADDRESS base;
+   BYTE rows, cols;
+   unsigned int r, c;
+
+   mem_get_screen_parameter(&base, &rows, &cols);
+   for (r=0;r<rows;r++) {
+      for (c=0;c<cols;c++) {
+         fprintf(mon_output, "%c",p_toascii(get_mem_val(e_comp_space,
+                 ADDR_LIMIT(base++)),1));
+      }
+      fprintf(mon_output, "\n");
+   }
 }
 
 
