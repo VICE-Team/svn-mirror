@@ -202,6 +202,9 @@ static ui_menu_entry_t pet_romset_submenu[] = {
     { N_("Load new drive ROM"),
       NULL, NULL, ui_drivepetcbm2_romset_submenu },
     { "--" },
+    { N_("ROM set type"),
+      NULL, NULL, uiromset_type_submenu },
+    { "--" },
     { N_("Load new character ROM"),
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
@@ -233,10 +236,10 @@ static ui_menu_entry_t pet_romset_submenu[] = {
       (ui_callback_t)ui_unload_rom_file,
       (ui_callback_data_t)"RomModuleBName", NULL },
     { "--" },
-    { N_("Load custom ROM set from file"),
-      (ui_callback_t)ui_load_romset, NULL, NULL },
-    { N_("Dump ROM set definition to file"),
-      (ui_callback_t)ui_dump_romset, NULL, NULL },
+    { N_("ROM set archive"),
+      NULL, NULL, uiromset_archive_submenu },
+    { N_("ROM set file"),
+      NULL, NULL, uiromset_file_submenu },
     { NULL }
 };
 
