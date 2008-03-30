@@ -10,78 +10,113 @@ list of all the changes in the code.
 * Changes in VICE 1.7
 =====================
 
-** Drive changes
------------------
+** C64 changes
+--------------
 
-- implemented experimental DOS1 (670 blocks free) support with CBM 2040 
-  emulation.
+- REU support has been rewritten to support different types and
+  images.
 
-** Drive changes
------------------
+- Fixed a processor emulation bug which caused a crash in Summer
+  Games II.
 
-- implemented experimental DOS1 (670 blocks free) support with CBM 2040 
-  emulation.
+- Fixed a snapshot bug causing Castles of Dr. Creep to quit after the
+  snapshot has been restored.
+
+** C128 changes
+---------------
+
+- REU support has been rewritten to support different types and
+  images.
+
+- Added support for internal and external function ROM images.
+
+- Tape emulation has been added.
+
+- Added register 26 support to VDC emulation to make LUnix work.
+
+- Support for the CAPS key has been added.
+
+- There is a limited C64 mode now.
 
 ** VIC20 changes
 -----------------
 
 - VIC video emulation now almost cycle exact (try vimm or vvv demos)
+  NTSC video mode is supported.
 
 ** CBM-II changes
 -----------------
 
 - Implemented a C510 (aka P128) emulation, using the existing VIC-II
-   emulation
+  emulation.
 
-- Fix a couple of bugs in the CBM-II emulation (C610-C720)
+- Fix a couple of bugs in the CBM-II emulation (C610-C720).
+
+** Drive changes
+-----------------
+
+- Implemented experimental DOS1 (670 blocks free) support with CBM
+  2040 emulation.
+
+- The read-only bit of the 1581 disk drive is emulated now.
+
+** MS-Windows changes
+---------------------
+
+- DirectX sound driver with less delay; alternative WMM driver by
+  Cadaver.
+
+- New joystick autofire feature.
+
+- Fixed crash if invoked with invalid command line.
 
 ** OS/2 changes
 ---------------
   
-- Moved zlib and png APIs to a DLL to decrease the 
-  archive size
+- Moved zlib and png APIs to a DLL to decrease the archive size.
 
-- Removed the Emulator Dialog, use Alt-+/Alt-- to change 
-  the speed
+- Removed the Emulator Dialog, use Alt-+/Alt-- to change  the speed.
 
-- Added a new file dialog with a contents window
+- Added a new file dialog with a contents window.
 
-- Dragging a file to the Vice Window now autostarts 
-  the file
+- Dragging a file to the Vice Window now autostarts the file.
 
-- Added autostart option to menu
+- Added autostart option to menu.
 
-- Added cartridge support to menu
+- Added cartridge support to menu.
 
-- Added missing resources to menus
+- Added missing resources to menus.
 
-- Added popup menu (switch off menu bar, 
-  press mouse button 2)
+- Added popup menu (switch off menu bar, press mouse button 2).
 
-- make menu bar switchable
+- Make menu bar switchable.
 
-- removed hardware dialog
+- Removed hardware dialog.
 
-- removed sound dialog
+- Removed sound dialog.
 
-- added help system
+- Added help system.
 
-- changed hotkeys from scancode to Accelerator Table
+- Changed hotkeys from scancode to Accelerator Table.
 
-- changed layout of About Dialog
+- Changed layout of About Dialog.
 
- ** BeOS changes
-  --------------
+** BeOS changes
+---------------
   
-- sid-player mode (use commandline x64 -vsid)
+- Sid-player mode (use commandline x64 -vsid).
 
- ** Unix changes
+** Unix changes
+---------------
 
-- added preliminary (beta) DGA2 support
+- Added preliminary (beta) DGA2 support.
 
 - French translation; Credits to Eric (meepmeep).
 
 - Datasette control UI.
+
+- Zlib is used for reading compressed images.
+
  
 * Changes in VICE 1.6
 =====================
