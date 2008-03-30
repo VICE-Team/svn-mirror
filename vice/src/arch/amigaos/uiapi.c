@@ -144,62 +144,54 @@ static int set_initial_dir(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "FullscreenBitdepth", RES_INTEGER, (resource_value_t)8,
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.fullscreenbitdepth, set_fullscreen_bitdepth, NULL },
-    { "FullscreenWidth", RES_INTEGER, (resource_value_t)640,
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.fullscreenwidth, set_fullscreen_width, NULL },
-    { "FullscreenHeight", RES_INTEGER, (resource_value_t)480,
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.fullscreenheight, set_fullscreen_height, NULL },
-    { "FullscreenEnabled", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
-    { "StatusBarEnabled", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.statusbarenabled, set_statusbar_enabled, NULL },
+static const resource_string_t resources_string[] = {
+    { "MonitorDimensions", "", RES_EVENT_NO, NULL,
+      &ui_resources.monitor_dimensions, set_monitor_dimensions, NULL },
+    { "InitialDefaultDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[0], set_initial_dir, (void *)0 },
+    { "InitialTapeDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[1], set_initial_dir, (void *)1 },
+    { "InitialDiskDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[2], set_initial_dir, (void *)2 },
+    { "InitialAutostartDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[3], set_initial_dir, (void *)3 },
+    { "InitialCartDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[4], set_initial_dir, (void *)4 },
+    { "InitialSnapshotDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[5], set_initial_dir, (void *)5 },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "FullscreenBitdepth", 8, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenbitdepth, set_fullscreen_bitdepth, NULL },
+    { "FullscreenWidth", 640, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenwidth, set_fullscreen_width, NULL },
+    { "FullscreenHeight", 480, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenheight, set_fullscreen_height, NULL },
+    { "FullscreenEnabled", 0, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
+    { "StatusBarEnabled", 1, RES_EVENT_NO, NULL,
+      &ui_resources.statusbarenabled, set_statusbar_enabled, NULL },
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
-    { "VideoOverlayEnabled", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.videooverlayenabled, set_videooverlay_enabled, NULL },
+    { "VideoOverlayEnabled", 0, RES_EVENT_NO, NULL,
+      &ui_resources.videooverlayenabled, set_videooverlay_enabled, NULL },
 #endif
-    { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.save_resources_on_exit,
-      set_save_resources_on_exit, NULL },
-    { "ConfirmOnExit", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
-    { "MonitorDimensions", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.monitor_dimensions, set_monitor_dimensions, NULL },
-    { "InitialDefaultDir", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.initialdir[0], set_initial_dir, (void *)0 },
-    { "InitialTapeDir", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.initialdir[1], set_initial_dir, (void *)1 },
-    { "InitialDiskDir", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.initialdir[2], set_initial_dir, (void *)2 },
-    { "InitialAutostartDir", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.initialdir[3], set_initial_dir, (void *)3 },
-    { "InitialCartDir", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.initialdir[4], set_initial_dir, (void *)4 },
-    { "InitialSnapshotDir", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&ui_resources.initialdir[5], set_initial_dir, (void *)5 },
+    { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
+      &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
+    { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
+      &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
     { NULL }
 };
 
 int ui_resources_init(void)
 {
     translate_resources_init();
-    return resources_register(resources);
+
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void ui_resources_shutdown(void)
