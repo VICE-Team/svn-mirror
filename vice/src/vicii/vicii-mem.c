@@ -89,7 +89,10 @@ static int unused_bits_in_registers[64] =
 /* Store a value in the video bank (it is assumed to be in RAM).  */
 inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
 {
-    int f;
+    unsigned int f;
+
+    if (vic_ii.viciie != 0)
+        vic_ii_delay_clk();
 
     do {
         CLOCK mclk;
@@ -124,6 +127,8 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
             vic_ii_raster_draw_alarm_handler(0);
             f = 1;
         }
+        if (vic_ii.viciie != 0)
+            vic_ii_delay_clk();
     } while (f);
 
     vic_ii.ram_base_phi2[addr] = value;
@@ -237,9 +242,8 @@ static inline void store_sprite_x_position_msb(ADDRESS addr, BYTE value)
     }
 }
 
-inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
-                                                        int line,
-                                                        int old_allow_bad_lines)
+inline static void check_bad_line_state_change(BYTE value, int cycle, int line,
+                                               int old_allow_bad_lines)
 {
     int was_bad_line, now_bad_line;
 
@@ -250,26 +254,22 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
                     && ((value & 7) == (line & 7)));
 
     if (was_bad_line && !now_bad_line) {
-
         /* Bad line becomes good.  */
         if (cycle < VIC_II_FETCH_CYCLE)
             vic_ii.bad_line = 0;
 
-        /* By changing the values in the registers, one can make the VIC
-           switch from idle to display state, but not from display to
-           idle state.  So we are always in display state if this
-           happens.  This is only true if the value changes in some
-           cycle > 0, though; otherwise, the line never becomes bad.  */
+        /* By changing the values in the registers, one can make the VIC-II
+           switch from idle to display state, but not from display to idle
+           state.  So we are always in display state if this happens. This
+           is only true if the value changes in some cycle > 0, though;
+           otherwise, the line never becomes bad.  */
         if (cycle > 0) {
-#if 0
-            vic_ii.raster.draw_idle_state = vic_ii.idle_state = 0;
-#else             
             raster_add_int_change_foreground(&vic_ii.raster,
                 VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(maincpu_clk)),
                 &vic_ii.raster.draw_idle_state,
                 0);
             vic_ii.idle_state = 0;
-#endif
+
             vic_ii.idle_data_location = IDLE_NONE;
             if (cycle > VIC_II_FETCH_CYCLE + 2
                 && !vic_ii.ycounter_reset_checked) {
@@ -300,7 +300,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
             maincpu_steal_cycles(maincpu_clk, num_chars, 0);
 
             if (num_chars <= VIC_II_SCREEN_TEXTCOLS) {
-                /* Matrix fetches starts immediately, but the VIC needs
+                /* Matrix fetches starts immediately, but the VICII needs
                    at least 3 cycles to become the bus master.  Before
                    this happens, it fetches 0xff.  */
                 num_0xff_fetches = 3;
@@ -378,7 +378,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
 #if 0
             vic_ii.raster.draw_idle_state = vic_ii.idle_state = 0;
 #else
-              raster_add_int_change_foreground
+            raster_add_int_change_foreground
                    (&vic_ii.raster,
                     VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(maincpu_clk)),
                     &vic_ii.raster.draw_idle_state,
@@ -453,15 +453,9 @@ inline static void store_d011(ADDRESS addr, BYTE value)
                           "value $%02X", cycle, line, value));
 
     new_irq_line = ((vic_ii.raster_irq_line & 0xff) | ((value & 0x80) << 1));
-
-#if 1
     check_irq_line_state(new_irq_line);
-#else
-    vic_ii_set_raster_irq(new_irq_line);
-#endif
 
     /* This is the funniest part... handle bad line tricks.  */
-
     old_allow_bad_lines = vic_ii.allow_bad_lines;
 
     if (line == vic_ii.first_dma_line && (value & 0x10) != 0)
@@ -470,8 +464,7 @@ inline static void store_d011(ADDRESS addr, BYTE value)
     if (vic_ii.raster.ysmooth != (value & 7)
         && line >= vic_ii.first_dma_line
         && line <= vic_ii.last_dma_line)
-        check_bad_line_state_change_for_d011(value, cycle, line,
-                                             old_allow_bad_lines);
+        check_bad_line_state_change(value, cycle, line, old_allow_bad_lines);
 
     vic_ii.raster.ysmooth = value & 0x7;
 
@@ -1026,7 +1019,7 @@ inline static void store_sprite_color(ADDRESS addr, BYTE value)
 
 inline static void store_d02f(ADDRESS addr, BYTE value)
 {
-    if (vic_ii.extended_keyboard_rows_enabled) {
+    if (vic_ii.viciie) {
         VIC_II_DEBUG_REGISTER(("Extended keyboard row enable: $%02X",
                               value));
         vic_ii.regs[addr] = value | 0xf8;
@@ -1038,7 +1031,7 @@ inline static void store_d02f(ADDRESS addr, BYTE value)
 
 inline static void store_d030(ADDRESS addr, BYTE value)
 {
-    if (vic_ii.extended_keyboard_rows_enabled) {
+    if (vic_ii.viciie) {
         VIC_II_DEBUG_REGISTER(("Store $D030: $%02X", value));
         vic_ii.regs[addr] = value | 0xfc;
     } else {
@@ -1442,7 +1435,7 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
 
       case 0x2f:                  /* $D02F: Unused (or extended keyboard row
                                      select) */
-        if (vic_ii.extended_keyboard_rows_enabled) {
+        if (vic_ii.viciie) {
             VIC_II_DEBUG_REGISTER(("Extended keyboard row enable: $%02X",
                                   vic_ii.regs[addr]));
             return vic_ii.regs[addr];
@@ -1453,7 +1446,7 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
         break;
 
       case 0x30:                  /* $D030: Unused (or VIC-IIe extension) */
-        if (vic_ii.extended_keyboard_rows_enabled) {
+        if (vic_ii.viciie) {
             VIC_II_DEBUG_REGISTER(("Read $D030: $%02X",
                                   vic_ii.regs[addr]));
             return vic_ii.regs[addr];
@@ -1507,7 +1500,7 @@ BYTE REGPARM1 vic_peek(ADDRESS addr)
       case 0x1f:              /* $D01F: Sprite-background collision */
         return vic_ii.sprite_background_collisions;
       case 0x2f:              /* Extended keyboard row select */
-        if (vic_ii.extended_keyboard_rows_enabled)
+        if (vic_ii.viciie)
             return vic_ii.regs[addr] | 0xf8;
         else
             return /* vic_ii.regs[addr] | */ 0xff;

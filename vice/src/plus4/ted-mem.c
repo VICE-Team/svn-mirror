@@ -88,114 +88,105 @@ static int unused_bits_in_registers[64] =
 
 inline void REGPARM2 ted_local_store_vbank(ADDRESS addr, BYTE value)
 {
-    /* This can only cause "aesthetical" errors, so let's save some time if
-       the current frame will not be visible.  */
-    if (!ted.raster.skip_frame) {
-        int f;
+    unsigned int f;
 
-        /* Argh... this is a dirty kludge!  We should probably find a cleaner
-           solution.  */
-        do {
-            CLOCK mclk;
+    ted_delay_clk();
 
+    do {
+        CLOCK mclk;
+
+        /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
+        mclk = maincpu_clk - maincpu_rmw_flag - 1;
+        f = 0;
+
+        if (mclk >= ted.fetch_clk) {
+            /* If the fetch starts here, the sprite fetch routine should
+               get the new value, not the old one.  */
+            if (mclk == ted.fetch_clk) {
+                mem_ram[addr] = value;
+            }
+            ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
+            f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
-            f = 0;
+        }
 
-            if (mclk >= ted.fetch_clk) {
-                /* If the fetch starts here, the sprite fetch routine should
-                   get the new value, not the old one.  */
-                if (mclk == ted.fetch_clk) {
-                    mem_ram[addr] = value;
-                }
-                ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
-                f = 1;
-                /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
-                mclk = maincpu_clk - maincpu_rmw_flag - 1;
-            }
-
-            if (mclk >= ted.draw_clk) {
-                ted_raster_draw_alarm_handler(0);
-                f = 1;
-            }
-        } while (f);
-    }
+        if (mclk >= ted.draw_clk) {
+            ted_raster_draw_alarm_handler(0);
+            f = 1;
+        }
+        ted_delay_clk();
+    } while (f);
 
     mem_ram[addr] = value;
 }
 
 inline void REGPARM2 ted_local_store_vbank_32k(ADDRESS addr, BYTE value)
 {
-    /* This can only cause "aesthetical" errors, so let's save some time if
-       the current frame will not be visible.  */
-    if (!ted.raster.skip_frame) {
-        int f;
+    unsigned int f;
 
-        /* Argh... this is a dirty kludge!  We should probably find a cleaner
-           solution.  */
-        do {
-            CLOCK mclk;
+    ted_delay_clk();
 
+    do {
+        CLOCK mclk;
+
+        /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
+        mclk = maincpu_clk - maincpu_rmw_flag - 1;
+        f = 0;
+
+        if (mclk >= ted.fetch_clk) {
+            /* If the fetch starts here, the sprite fetch routine should
+               get the new value, not the old one.  */
+            if (mclk == ted.fetch_clk) {
+                mem_ram[addr & 0x7fff] = value;
+            }
+            ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
+            f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
-            f = 0;
+        }
 
-            if (mclk >= ted.fetch_clk) {
-                /* If the fetch starts here, the sprite fetch routine should
-                   get the new value, not the old one.  */
-                if (mclk == ted.fetch_clk) {
-                    mem_ram[addr & 0x7fff] = value;
-                }
-                ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
-                f = 1;
-                /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
-                mclk = maincpu_clk - maincpu_rmw_flag - 1;
-            }
-
-            if (mclk >= ted.draw_clk) {
-                ted_raster_draw_alarm_handler(0);
-                f = 1;
-            }
-        } while (f);
-    }
+        if (mclk >= ted.draw_clk) {
+            ted_raster_draw_alarm_handler(0);
+            f = 1;
+        }
+        ted_delay_clk();
+    } while (f);
 
     mem_ram[addr & 0x7fff] = value;
 }
 
 inline void REGPARM2 ted_local_store_vbank_16k(ADDRESS addr, BYTE value)
 {
-    /* This can only cause "aesthetical" errors, so let's save some time if
-       the current frame will not be visible.  */
-    if (!ted.raster.skip_frame) {
-        int f;
+    unsigned int f;
 
-        /* Argh... this is a dirty kludge!  We should probably find a cleaner
-           solution.  */
-        do {
-            CLOCK mclk;
+    ted_delay_clk();
 
+    do {
+        CLOCK mclk;
+
+        /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
+        mclk = maincpu_clk - maincpu_rmw_flag - 1;
+        f = 0;
+
+        if (mclk >= ted.fetch_clk) {
+            /* If the fetch starts here, the sprite fetch routine should
+               get the new value, not the old one.  */
+            if (mclk == ted.fetch_clk) {
+                mem_ram[addr & 0x3fff] = value;
+            }
+            ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
+            f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
-            f = 0;
+        }
 
-            if (mclk >= ted.fetch_clk) {
-                /* If the fetch starts here, the sprite fetch routine should
-                   get the new value, not the old one.  */
-                if (mclk == ted.fetch_clk) {
-                    mem_ram[addr & 0x3fff] = value;
-                }
-                ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
-                f = 1;
-                /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
-                mclk = maincpu_clk - maincpu_rmw_flag - 1;
-            }
-
-            if (mclk >= ted.draw_clk) {
-                ted_raster_draw_alarm_handler(0);
-                f = 1;
-            }
-        } while (f);
-    }
+        if (mclk >= ted.draw_clk) {
+            ted_raster_draw_alarm_handler(0);
+            f = 1;
+        }
+        ted_delay_clk();
+    } while (f);
 
     mem_ram[addr & 0x3fff] = value;
 }
@@ -292,6 +283,10 @@ inline static void check_bad_line_state_change(BYTE value, int cycle, int line)
             num_chars = (TED_SCREEN_TEXTCOLS
                          - (cycle - (TED_FETCH_CYCLE + 3)));
 
+            /* Take over the bus until the memory fetch is done.  */
+            maincpu_steal_cycles(maincpu_clk, num_chars, 0);
+            ted_delay_oldclk(num_chars);
+
             if (num_chars <= TED_SCREEN_TEXTCOLS) {
                 /* Matrix fetches starts immediately, but the TED needs
                    at least 3 cycles to become the bus master.  Before
@@ -341,10 +336,6 @@ inline static void check_bad_line_state_change(BYTE value, int cycle, int line)
                this line.  */
             ted.mem_counter_inc = inc;
 
-            /* Take over the bus until the memory fetch is done.  */
-            maincpu_clk = (TED_LINE_START_CLK(maincpu_clk) + TED_FETCH_CYCLE
-                          + TED_SCREEN_TEXTCOLS + 3);
-
             /* Remember we have done a DMA.  */
             ted.memory_fetch_done = 2;
 
@@ -391,7 +382,7 @@ inline static void ted06_store(BYTE value)
     line = TED_RASTER_Y(maincpu_clk);
 
     TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
-    TED_DEBUG_REGISTER(("$D011 tricks at cycle %d, line $%04X, "
+    TED_DEBUG_REGISTER(("$FF06 tricks at cycle %d, line $%04X, "
                        "value $%02X\n", cycle, line, value));
 
     /* This is the funniest part... handle bad line tricks.  */
@@ -706,10 +697,13 @@ inline static void ted13_store(BYTE value)
         return;
 
     if ((ted.regs[0x13] & 2) ^ (value & 2)) {
-        if (value & 2)
+        if (value & 2) {
+            ted.fastmode = 0;
             log_debug("Slow mode");
-        else
+        } else {
+            ted.fastmode = 1;
             log_debug("Fast mode");
+        }
     }
 
     ted.regs[0x13] = (ted.regs[0x13] & 0x01) | (value & 0xfe);
