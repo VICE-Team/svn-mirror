@@ -78,6 +78,24 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
     The MS-DOS port requires the Allegro library by Shawn Hargreaves
     (`http://www.talula.demon.co.uk/allegro') to be compiled.
+
+    You might apply this patch to `src/djgpp/timer.c' to achieve better
+    results on low end machines.
+
+    --- old-timer.c Sat Jan  2 03:29:55 1999
+    +++ timer.c     Sat Jan  2 03:30:02 1999
+    @@ -197,8 +197,9 @@
+           new_delay = bios_counter;
+
+        /* fudge factor to prevent interrupts coming too close to each other */
+    -   if (new_delay < 1024)
+    -      timer_delay = 1024;
+    +   /* FIXME: changed from 1024 to 0 (EP) */
+    +   if (new_delay < 0)
+    +      timer_delay = 0;
+        else
+           timer_delay = new_delay;
+
     Moreover, you also need DJGPP, the MS-DOS port of GCC
     (`http://www.delorie.com').
 
@@ -342,3 +360,4 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
   This will build much bigger executables, though.  We are sorry, but
   that is not our fault.
+

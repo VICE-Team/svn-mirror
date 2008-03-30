@@ -1,5 +1,11 @@
 1999-01-23 Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+    * Version 0.16.1.13.
+
+	* INSTALL: Included Allegro timer hack.
+
+1999-01-23 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.12.
 
 1999-01-22 Andreas Boose  <boose@linux.rz.fh-hannover.de>
