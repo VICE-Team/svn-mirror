@@ -43,6 +43,7 @@
 #include "c64rsuser.h"
 #include "clkguard.h"
 #include "drive.h"
+#include "iecdrive.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
@@ -242,8 +243,7 @@ int machine_init(void)
     /* Setup trap handling.  */
     traps_init();
 
-    /* Initialize serial traps.  If user does not want them, or if the
-       ``drive'' emulation is used, do not install them.  */
+    /* Initialize serial traps.  */
     serial_init(c128_serial_traps);
 
     /* Initialize drives. */
@@ -264,7 +264,7 @@ int machine_init(void)
     tape_init(0xb2, 0x90, 0x93, 0xa09, 0, 0xc1, 0xae, 0x34a, 0xd0,
               c128_tape_traps);
 
-    /* Fire up the hardware-level 1541 emulation.  */
+    /* Fire up the hardware-level drive emulation.  */
     drive_init(C128_PAL_CYCLES_PER_SEC, C128_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart. FIXME: at least 0xa26 is only for 40 cols */
@@ -279,12 +279,15 @@ int machine_init(void)
     if (vic_ii_init() == NULL)
         return -1;
     vic_ii_enable_extended_keyboard_rows(1);
+
     cia1_enable_extended_keyboard_rows(1);
 
     ciat_init_table();
     cia1_init();
     cia2_init();
+
     tpi_init();
+
 #ifdef HAVE_RS232
     acia1_init();
 #endif
@@ -318,6 +321,8 @@ int machine_init(void)
     /* Initialize mouse support (if present).  */
     mouse_init();
 #endif
+
+    iec_init();
 
     mmu_init();
 
@@ -384,26 +389,8 @@ static void vsync_hook(void)
 
     sub = clk_guard_prevent_overflow(&maincpu_clk_guard);
 
-#if 0
-    /* We have to make sure the number of cycles subtracted is multiple of
-       `C128_PAL_CYCLES_PER_RFSH' here, or the VIC-II emulation could go
-       nuts.  */
-    sub = maincpu_prevent_clk_overflow(C128_PAL_CYCLES_PER_RFSH);
-    if (sub > 0) {
-	vic_ii_prevent_clk_overflow(sub);
-#ifdef HAVE_RS232
-	acia1_prevent_clk_overflow(sub);
-	rsuser_prevent_clk_overflow(sub);
-#endif
-	cia1_prevent_clk_overflow(sub);
-	cia2_prevent_clk_overflow(sub);
-	sound_prevent_clk_overflow(sub);
-        vsync_prevent_clk_overflow(sub);
-    }
-#endif
-
-    /* The 1541 has to deal both with our overflowing and its own one, so it
-       is called even when there is no overflowing in the main CPU.  */
+    /* The drive has to deal both with our overflowing and its own one, so
+       it is called even when there is no overflowing in the main CPU.  */
     /* FIXME: Do we have to check drive_enabled here?  */
     drive_prevent_clk_overflow(sub, 0);
     drive_prevent_clk_overflow(sub, 1);
@@ -411,7 +398,7 @@ static void vsync_hook(void)
 
 int machine_set_restore_key(int v)
 {
-    maincpu_set_nmi(I_RESTORE, v?1:0);
+    maincpu_set_nmi(I_RESTORE, v ? 1 : 0);
     return 1;
 }
 

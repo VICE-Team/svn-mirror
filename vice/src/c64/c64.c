@@ -44,6 +44,7 @@
 #include "clkguard.h"
 #include "datasette.h"
 #include "drive.h"
+#include "iecdrive.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
@@ -237,7 +238,7 @@ int machine_init_cmdline_options(void)
 /* C64-specific initialization.  */
 int machine_init(void)
 {
-    if (c64_log != LOG_ERR)
+    if (c64_log == LOG_ERR)
         c64_log = log_open("C64");
 
     maincpu_init();
@@ -314,7 +315,7 @@ int machine_init(void)
     /* Initialize the datasette emulation.  */
     datasette_init();
 
-    /* Fire up the hardware-level 1541 emulation.  */
+    /* Fire up the hardware-level drive emulation.  */
     drive_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
@@ -337,6 +338,7 @@ int machine_init(void)
 #ifdef HAVE_RS232
     acia1_init();
 #endif
+
     /* Initialize the keyboard.  */
     if (c64_kbd_init() < 0)
         return -1;
@@ -357,7 +359,6 @@ int machine_init(void)
 
     /* Initialize the C64-specific part of the UI.  */
     c64_ui_init();
-    log_message(LOG_DEFAULT, "C64 UI initialized successfully.");
 
     /* Initialize the REU.  */
     reu_init();
@@ -367,6 +368,8 @@ int machine_init(void)
     mouse_init();
 #endif
 
+    iec_init();
+
     return 0;
 }
 
@@ -374,6 +377,7 @@ int machine_init(void)
 void machine_reset(void)
 {
     serial_reset();
+
     cia1_reset();
     cia2_reset();
     sid_reset();

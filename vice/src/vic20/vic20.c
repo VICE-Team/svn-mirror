@@ -35,6 +35,7 @@
 #include "cmdline.h"
 #include "datasette.h"
 #include "drive.h"
+#include "iecdrive.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
@@ -284,6 +285,8 @@ int machine_init(void)
 
     /* Initialize the VIC20-specific part of the UI.  */
     vic20_ui_init();
+
+    iec_init();
 
     return 0;
 }

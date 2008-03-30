@@ -33,12 +33,13 @@
 #include "vice.h"
 
 #include "c64cia.h"
+#include "c64iec.h"
+#include "cartridge.h"
 #include "ciad.h"
 #include "drive.h"
-#include "iecdrive.h"
 #include "maincpu.h"
+#include "iecdrive.h"
 #include "resources.h"
-#include "cartridge.h"
 #include "viad.h"
 
 /* Status of the IEC bus signals.  */
@@ -50,6 +51,11 @@ static BYTE parallel_cable_drive0_value = 0xff;
 static BYTE parallel_cable_drive1_value = 0xff;
 
 int iec_callback_index = 0;
+
+void iec_init(void)
+{
+    memset(&iec_info, 0xff, sizeof(iec_info_t));
+}
 
 inline void iec_update_ports(void)
 {
@@ -247,11 +253,6 @@ BYTE iec_cpu_read(void)
     return iec_info.cpu_port;
 }
 
-void iec_fast_drive_write(BYTE data)
-{
-/* The C64 does not use fast IEC.  */
-}
-
 iec_info_t *iec_get_drive_port(void)
 {
     return &iec_info;
@@ -298,9 +299,9 @@ BYTE parallel_cable_cpu_read(void)
         return 0;
 
     if (drive[0].enable)
-    drive0_cpu_execute(clk);
+        drive0_cpu_execute(clk);
     if (drive[1].enable)
-    drive1_cpu_execute(clk);
+        drive1_cpu_execute(clk);
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
@@ -327,15 +328,7 @@ void parallel_cable_cpu_undump(BYTE data)
 /* This function is called from ui_update_menus() */
 int iec_available_busses(void) 
 {
-/*
-    int pariec;
-
-    resources_get_value("IEEE488", (resource_value_t*) & pariec);
-
-    return IEC_BUS_IEC | (pariec ? IEC_BUS_IEEE : 0);
-*/
     extern int carttype;
-
     return IEC_BUS_IEC | ((carttype == CARTRIDGE_IEEE488) ? IEC_BUS_IEEE : 0);
 }
 
@@ -343,5 +336,10 @@ void iec_calculate_callback_index(void)
 {
     iec_callback_index = (drive[0].enable ? 1 : 0)
                            | (drive[1].enable ? 2 : 0);
+}
+
+void iec_fast_drive_write(BYTE data)
+{
+/* The C64 does not use fast IEC.  */
 }
 

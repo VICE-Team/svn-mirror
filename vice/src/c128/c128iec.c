@@ -47,6 +47,11 @@ static BYTE parallel_cable_drive1_value = 0xff;
 
 int iec_callback_index = 0;
 
+void iec_init(void)
+{
+    memset(&iec_info, 0xff, sizeof(iec_info_t));
+}
+
 inline void iec_update_ports(void)
 {
     iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus
@@ -243,29 +248,6 @@ BYTE iec_cpu_read(void)
     return iec_info.cpu_port;
 }
 
-void iec_fast_cpu_write(BYTE data)
-{
-    if (drive[0].enable) {
-       drive0_cpu_execute(clk);
-       if (drive[0].type == DRIVE_TYPE_1571)
-           cia1571d0_set_sdr(data);
-       if (drive[0].type == DRIVE_TYPE_1581)
-           cia1581d0_set_sdr(data);
-    }
-    if (drive[1].enable) {
-       drive1_cpu_execute(clk);
-       if (drive[1].type == DRIVE_TYPE_1571)
-           cia1571d1_set_sdr(data);
-       if (drive[1].type == DRIVE_TYPE_1581)
-           cia1581d1_set_sdr(data);
-    }
-}
-
-void iec_fast_drive_write(BYTE data)
-{
-    cia1_set_sdr(data);
-}
-
 iec_info_t *iec_get_drive_port(void)
 {
     return &iec_info;
@@ -306,20 +288,6 @@ void parallel_cable_cpu_write(BYTE data)
     parallel_cable_cpu_value = data;
 }
 
-void parallel_cable_cpu_pulse(void)
-{
-    if (!drive[0].enable && !drive[1].enable)
-        return;
-
-    if (drive[0].enable)
-	drive0_cpu_execute(clk);
-    if (drive[1].enable)
-	drive1_cpu_execute(clk);
-
-    via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-    via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-}
-
 BYTE parallel_cable_cpu_read(void)
 {
     if (!drive[0].enable && !drive[1].enable)
@@ -333,19 +301,57 @@ BYTE parallel_cable_cpu_read(void)
         & parallel_cable_drive1_value;
 }
 
+void parallel_cable_cpu_pulse(void)
+{
+    if (!drive[0].enable && !drive[1].enable)
+        return;
+
+    if (drive[0].enable)
+        drive0_cpu_execute(clk);
+    if (drive[1].enable)
+        drive1_cpu_execute(clk);
+
+    via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+}
+
 void parallel_cable_cpu_undump(BYTE data)
 {
     parallel_cable_cpu_value = data;
 }
 
+/* This function is called from ui_update_menus() */
 int iec_available_busses(void)
 {
-    return IEC_BUS_IEC | IEC_BUS_IEEE;
+    return IEC_BUS_IEC;
 }
 
 void iec_calculate_callback_index(void)
 {
     iec_callback_index = (drive[0].enable ? 1 : 0)
                            | (drive[1].enable ? 2 : 0);
+}
+
+void iec_fast_cpu_write(BYTE data)
+{
+    if (drive[0].enable) {
+       drive0_cpu_execute(clk);
+       if (drive[0].type == DRIVE_TYPE_1571)
+           cia1571d0_set_sdr(data);
+       if (drive[0].type == DRIVE_TYPE_1581)
+           cia1581d0_set_sdr(data);
+    }
+    if (drive[1].enable) {
+       drive1_cpu_execute(clk);
+       if (drive[1].type == DRIVE_TYPE_1571)
+           cia1571d1_set_sdr(data);
+       if (drive[1].type == DRIVE_TYPE_1581)
+           cia1581d1_set_sdr(data);
+    }
+}
+
+void iec_fast_drive_write(BYTE data)
+{
+    cia1_set_sdr(data);
 }
 
