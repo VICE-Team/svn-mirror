@@ -2,6 +2,8 @@ c64dir = $(prefix)/lib/vice/C64
 
 c64_DATA = \
 	basic \
+	beos_sym.vkm \
+	beos_pos.vkm \
 	c64mem.sym \
 	c64s.vpl \
 	ccs64.vpl \

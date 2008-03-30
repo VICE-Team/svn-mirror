@@ -150,6 +150,10 @@ SOURCE=..\..\vic20\vic20mem.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\vic20\vic20rom.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\vic20\vic20rsuser.c
 # End Source File
 # Begin Source File

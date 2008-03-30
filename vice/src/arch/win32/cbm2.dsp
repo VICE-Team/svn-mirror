@@ -122,6 +122,10 @@ SOURCE=..\..\cbm2\c610mem.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\cbm2\c610rom.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\cbm2\c610tpi1.c
 # End Source File
 # Begin Source File

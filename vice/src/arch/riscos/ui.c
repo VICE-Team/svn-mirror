@@ -4304,12 +4304,12 @@ static int ui_load_prg_file(const char *name)
         int length;
 
         lo = fgetc(fp); hi = fgetc(fp); length = lo + (hi << 8);
-        length += fread(ram + length, 1, ram_size - length, fp);
+        length += fread(mem_ram + length, 1, C64_RAM_SIZE - length, fp);
         fclose(fp);
-        ram[0xc3] = lo; ram[0xc4] = hi;
+        mem_ram[0xc3] = lo; mem_ram[0xc4] = hi;
         lo = length & 0xff; hi = (length >> 8) & 0xff;
-        ram[0xae] = lo; ram[0x2d] = lo; ram[0x2f] = lo; ram[0x31] = lo; ram[0x33] = lo;
-        ram[0xaf] = hi; ram[0x2e] = hi; ram[0x30] = hi; ram[0x32] = hi; ram[0x34] = hi;
+        mem_ram[0xae] = lo; mem_ram[0x2d] = lo; mem_ram[0x2f] = lo; mem_ram[0x31] = lo; mem_ram[0x33] = lo;
+        mem_ram[0xaf] = hi; mem_ram[0x2e] = hi; mem_ram[0x30] = hi; mem_ram[0x32] = hi; mem_ram[0x34] = hi;
         return 0;
       }
     }

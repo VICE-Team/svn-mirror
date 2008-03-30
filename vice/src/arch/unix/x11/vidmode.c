@@ -172,7 +172,7 @@ vidmode_set_mode(resource_value_t v, void *param)
 	ui_get_widget_size(status_bar, &status_w, &status_h);
 	log_message(vm_log, "Status bar: %dx%d", status_w, status_h);
 	raster_resize_viewport(fs_cached_raster, 
-			       vm->hdisplay, vm->vdisplay - status_h);
+			       vm->hdisplay + 10, vm->vdisplay-status_h + 10);
 	ui_move_canvas_window(((video_canvas_t *)fs_cached_raster->viewport.canvas)->emuwindow,
 			      0, 0);
 	ui_dispatch_events();
@@ -180,7 +180,7 @@ vidmode_set_mode(resource_value_t v, void *param)
 			   &x, &y);
 	
 	XF86VidModeSwitchToMode(vm_display, vm_screen, vm);
-	XF86VidModeSetViewPort(vm_display, vm_screen, x, y);
+	XF86VidModeSetViewPort(vm_display, vm_screen, x + 5, y + 5);
 	XWarpPointer(vm_display,
 		     None, DefaultRootWindow(vm_display), 
 		     0, 0, vm->hdisplay, vm->vdisplay,

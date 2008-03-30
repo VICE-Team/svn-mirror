@@ -3,6 +3,8 @@ vic20dir = $(prefix)/lib/vice/VIC20
 
 vic20_DATA = \
 	basic \
+	beos_sym.vkm \
+	beos_pos.vkm \
 	chargen \
 	default.vpl \
 	default.vrs \

@@ -1264,6 +1264,9 @@ void ui_exit(void)
 #ifdef USE_XF86_DGA2_EXTENSIONS
 	fullscreen_mode_off();
 #endif
+#ifdef USE_XF86_VIDMODE_EXT
+	resources_set_value("UseFullscreenVidMode", (resource_value_t) 0);
+#endif
 	ui_dispatch_events();
 
 	/* remove fontpath, Don't care about result */

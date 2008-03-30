@@ -673,7 +673,7 @@ void sound_synthesize(SWORD *buffer, int length)
         flush the sample buffer. On the other hand if sound_run were
         called at shorter intervals the sound thread would probably
         not be necessary at all. */
-        snddata.lastclk = clk;
+        snddata.lastclk = maincpu_clk;
     }
     /* Handling of sample based sound engines. */
     else {

@@ -332,7 +332,7 @@ static void keyboard_keyword_vshift(void)
 {
     char *p;
 
-    p = strtok(NULL, " \t,");
+    p = strtok(NULL, " \t,\r");
     if (!strcmp(p, "RSHIFT"))
         vshift = KEY_RSHIFT;
     else if (!strcmp(p, "LSHIFT"))

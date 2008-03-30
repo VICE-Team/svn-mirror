@@ -110,7 +110,7 @@ keymap_desc ViceKeymap = {
 
 
 
-BYTE joystick_value[3];
+/*BYTE joystick_value[3];*/
 
 Joy_Keys JoystickKeys[2] = {
   {KeyJoy1_Up, KeyJoy1_Down, KeyJoy1_Left, KeyJoy1_Right, KeyJoy1_Fire},

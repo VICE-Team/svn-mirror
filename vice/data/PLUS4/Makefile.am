@@ -4,6 +4,8 @@ plus4_DATA = \
 	3plus1hi \
 	3plus1lo \
 	basic \
+	beos_sym.vkm \
+	beos_pos.vkm \
 	default.vpl \
 	default.vrs \
 	dos_pos.vkm \

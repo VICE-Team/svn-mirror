@@ -21,6 +21,8 @@ roms = \
 	chargen.de
 
 keymaps = \
+	beos_bgrs.vkm \
+	beos_buks.vkm \
 	dos_bgrs.vkm \
 	dos_buks.vkm \
 	os2.vkm \

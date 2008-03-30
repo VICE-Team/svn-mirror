@@ -141,6 +141,7 @@ int kbd_cmdline_options_init(void)
 
 int kbd_handle_keydown(int kcode)
 {
+#ifndef COMMON_KBD
     if (kcode == 8) /* F7 */ {
         if (key_ctrl_column4080_func != NULL) {
             key_ctrl_column4080_func();
@@ -164,11 +165,17 @@ int kbd_handle_keydown(int kcode)
             keyboard_set_keyarr(keyconv_base->virtual_shift_row,
                                 keyconv_base->virtual_shift_column, 1);
     }
+#else
+    if (!joystick_handle_key(kcode, 1))
+        keyboard_key_pressed((signed long)kcode);
+#endif
+
     return 0;
 }
 
 int kbd_handle_keyup(int kcode)
 {
+#ifndef COMMON_KBD
     if (kcode == 33) /* PgUp */ {
         machine_set_restore_key(0);
     }
@@ -180,8 +187,11 @@ int kbd_handle_keyup(int kcode)
             keyboard_set_keyarr(keyconv_base->virtual_shift_row,
                                 keyconv_base->virtual_shift_column, 0);
     }
+#else
+    if (!joystick_handle_key(kcode, 0))
+        keyboard_key_released((signed long)kcode);
+#endif
 
-	
     return 0;
 }
 
@@ -205,7 +215,7 @@ const char *kbd_code_to_string(int kcode)
 }
 
 /* ------------------------------------------------------------------------ */
-
+#ifndef COMMON_KBD
 void keyboard_register_column4080_key(key_ctrl_column4080_func_t func)
 {
     key_ctrl_column4080_func = func;
@@ -215,4 +225,28 @@ void keyboard_register_caps_key(key_ctrl_caps_func_t func)
 {
     key_ctrl_caps_func = func;
 }
+#endif
+
+#ifdef COMMON_KBD
+void kbd_arch_init(void)
+{
+}
+
+signed long kbd_arch_keyname_to_keynum(char *keyname)
+{
+    return (signed long)atoi(keyname);
+}
+
+const char *kbd_arch_keynum_to_keyname(signed long keynum)
+{
+    static char keyname[20];
+
+    memset(keyname, 0, 20);
+
+    sprintf(keyname, "%li", keynum);
+
+    return keyname;
+}
+#endif
+
 

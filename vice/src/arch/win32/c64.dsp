@@ -130,6 +130,10 @@ SOURCE=..\..\c64\c64memlimit.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64rom.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64tpi.c
 # End Source File
 # Begin Source File

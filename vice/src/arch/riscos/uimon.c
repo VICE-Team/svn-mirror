@@ -29,6 +29,7 @@
 #include "console.h"
 #include "mon.h"
 #include "uimon.h"
+#include "utils.h"
 
 #include <stdarg.h>
 #include <stdio.h>

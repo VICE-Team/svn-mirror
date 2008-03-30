@@ -122,6 +122,10 @@ SOURCE=..\..\pet\petpia2.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\pet\petrom.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\pet\petsound.c
 # End Source File
 # Begin Source File

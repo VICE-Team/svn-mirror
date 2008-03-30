@@ -38,6 +38,8 @@ extern "C" {
 #include "cmdline.h"
 #include "resources.h"
 #include "joy.h"
+#undef _JOYSTICK_H /* also used in Be's Joystick.h */
+#include "joystick.h"
 #include "log.h"
 #include "keyboard.h"
 #include "types.h"
@@ -48,6 +50,9 @@ extern "C" {
 /* Notice that this has to be `int' to make resources work.  */
 static int keyset1[9], keyset2[9];
 
+#ifdef COMMON_KBD
+int joystick_port_map[2];
+#endif
 /* ------------------------------------------------------------------------ */
 
 /* device resource  */
@@ -266,6 +271,11 @@ int joy_arch_init(void)
 	joystick_initialized = 1;
 	joystick_open_device(0);
 	joystick_open_device(1);
+
+#ifdef COMMON_KBD
+    joystick_port_map[0] = 1;
+    joystick_port_map[1] = 2;
+#endif
 
 	return 0;
 }

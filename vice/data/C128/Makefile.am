@@ -3,6 +3,8 @@ c128dir = $(prefix)/lib/vice/C128
 c128_DATA = \
 	basic \
 	basic64 \
+	beos_sym.vkm \
+	beos_pos.vkm \
 	c64s.vpl \
 	ccs64.vpl \
 	charg64 \

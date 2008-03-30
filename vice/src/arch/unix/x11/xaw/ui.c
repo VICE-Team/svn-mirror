@@ -1020,7 +1020,6 @@ void ui_exit(void)
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_off();
 #endif
-
     b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
     if (b == UI_BUTTON_YES) {
@@ -1039,6 +1038,9 @@ void ui_exit(void)
         }
         ui_autorepeat_on();
         ui_restore_mouse();
+#ifdef USE_XF86_VIDMODE_EXT
+	resources_set_value("UseFullscreenVidMode", (resource_value_t) 0);
+#endif
         exit(0);
     }
 

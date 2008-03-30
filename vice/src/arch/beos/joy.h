@@ -65,6 +65,7 @@ typedef struct _hardware_joystick {
 	int axes;
 } hardware_joystick_t;
 	
+extern int joystick_port_map[2];
 
 extern int joy_arch_init(void);
 extern int joystick_init_resources(void);

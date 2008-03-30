@@ -41,6 +41,7 @@ extern "C" {
 #include "drive.h"
 #include "info.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "kbd.h"
 #include "log.h"
 #include "main.h"

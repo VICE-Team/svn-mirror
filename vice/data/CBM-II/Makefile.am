@@ -5,6 +5,7 @@ cbm2_DATA = \
 	basic.128 \
 	basic.256 \
 	basic.500 \
+	beos_buks.vkm \
 	ccs64.vpl \
 	c64s.vpl \
 	chargen.500 \
