@@ -1,5 +1,112 @@
 1999-07-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.44.
+
+	* cartridge.h, c64/cartridge.c, c64/cartmem.c: New cartridge type
+	"Atomic Power".
+
+	* arch/unix/xaw/c64ui.c, arch/msdos/c64ui.c, arch/win32/c64ui.c,
+	arch/win32/res.h, arch/win32/resc64.rc: Added Atomic Power
+	cartridge.
+
+	* drive/via2drive0.c, drive/via2drive1.c (store_pcr): Do not
+	modify return value.
+
+	* c64/c64.c (machine_init, machine_shutdown): Do not reference
+	VSID related functions when no VSID support is available.
+	Only include `vsidui.h' when the architecture provides this file.
+
+	* attach.c (file_system_get_disk_name): Return `NULL' if no name
+	is available.
+
+	* arch/msdos/c64ui.c (custom_palette_callback): New function.
+	* arch/msdos/c128ui.c (custom_palette_callback): New function.
+	* arch/msdos/petui.c (custom_palette_callback): New function.
+	* arch/msdos/c610ui.c (custom_palette_callback): New function.
+
+1999-07-08  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* cbm2/c610.c (machine_init): use crtc_set_retrace_*
+
+	* cbm2/c610tpi1.c (tpi_set_ca): use crtc_set_chargen_offset
+
+	* crtc/crtc-draw.c (DRAW): handle hardware cursor
+	mask screen address with vaddr_mask (screen wraparound)
+	(draw_standard_line): draw two parts, the one left of the 
+	current crtc rasterline (left of the first char in the line)
+	and the current rasterline (from the first char in the line on)
+	(draw_reverse_line): likewise
+
+	* crtc/crtc-mem.c (store_crtc): call alarm only when CRTC
+	is initialized
+	handle hardware cursor registers
+	(read_crtc): return correct values
+
+	* crtc/crtc.c (CRTC_SCREEN_WIDTH, CRTC_SCREEN_HEIGHT): removed
+	(crtc_update_window): renamed from crtc_update_screen.
+	Set the raster geometry here, as well as x/ystart/stop
+	(crtc_set_retrace_callback): split into crtc_set_retrace_callback
+	and crtc_set_retrace_type
+	(crtc_init): move viewport and window init to crtc_update_window
+	(crtc_reset): reset some more registers
+	(crtc_raster_draw_alarm_handler): tons of fixes: compute
+	x/y offset to center the screen in the window, incl. jitter
+	when the phase of the horizontal sync changes
+	Rasterline counting are now different from raster code and
+	crtc code. CRTC counts its internal counters
+	Call IRQ routines according to vsync or venable, depending on 
+	PET model (i.e. retrace type)
+	(crtc_offscreen): return vertical retrace according to 
+	retrace type
+	(crtc_screen_enable): set blank 
+
+	* crtc/crtc.h (crtc_t): hw_cols replaces hw_double_cols
+	sync_diff counts the cycles between the last two sync pulses
+	prev_screen_rel is needed to draw the part left of the first
+	character in the line
+	hjitter computes the jitter when the hsync phase changes
+	screen_xoffset, screen_yoffset offset of upper left
+	corner of CRTC screen in raster frame
+	current_line, framelines, vsync new variables
+	crsrmode, crsrcnt, crsrstate new variables for hardware cursor
+	handling
+	(CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT): 
+	the border where CRTC never paints
+	(CRTC_EXTRA_COLS, CRTC_EXTRA_RASTERLINES): border around
+	the machine defaults (40/80x25) where we can paint border 
+	effects
+
+	* pet/Makefile.am (libpet_a_SOURCES): remove crtc.c
+
+	* pet/crtc.c: removed
+
+	* pet/pet.c (machine_init): use crtc_set_retrace_type, 
+	crtc_set_retrace_callback.
+	Call pet_crtc_set_screen instead of via mem_load
+	(pet_crtc_set_screen): new function, copied from 
+	petmem.c: set_screen.
+
+	* pet/pet.h (pet_crtc_set_screen): add prototype
+
+	* pet/petmem.c (set_screen): removed
+	(mem_load): do not call set_screen, but initialize_memory only
+	(mem_read_ram_snapshot_module): call initialize_memory
+	and pet_crtc_set_screen
+
+	* pet/petvia.c (VIA_SET_CA2): use crtc_set_chargen_offset
+	(undump_pcr): rely on VIA_SET_C*
+	(store_pcr): do not return a value
+
+	* raster/raster.c (raster_handle_end_of_frame): new exported
+	function to export handle_end_of_frame()
+
+	* raster/raster.h (raster_handle_end_of_frame): new prototype
+
+	* viacore.c (store_myvia): do not set pcr value to return value
+	from store_pcr()
+
+1999-07-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.43.
 
 	* arch/Makefile.am: Added OS2 directory.

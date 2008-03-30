@@ -55,11 +55,30 @@ static struct {
 static TUI_MENU_CALLBACK(palette_callback)
 {
     if (been_activated) {
-	if (resources_set_value("PaletteFile", (resource_value_t) param) < 0)
-	   tui_error("Invalid palette file");
-	ui_update_menus();
+        if (resources_set_value("PaletteFile", (resource_value_t) param) < 0)
+           tui_error("Invalid palette file");
+        ui_update_menus();
     }
 
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(custom_palette_callback)
+{
+    if (been_activated) {
+        char *name;
+
+        name = tui_file_selector("Load custom palette",
+                                 NULL, "*.vpl", NULL, NULL, NULL);
+
+        if (name != NULL) {
+            if (resources_set_value("PaletteFile", (resource_value_t *)name)
+                < 0)
+                tui_error("Invalid palette file");
+            ui_update_menus();
+            free(name);
+        }
+    }
     return NULL;
 }
 
@@ -70,8 +89,8 @@ static TUI_MENU_CALLBACK(palette_menu_callback)
 
     resources_get_value("PaletteFile", (resource_value_t *) &s);
     for (i = 0; palette_items[i].name != NULL; i++) {
-	if (strcmp(s, palette_items[i].name) == 0)
-	   return palette_items[i].brief_description;
+        if (strcmp(s, palette_items[i].name) == 0)
+           return palette_items[i].brief_description;
     }
 
     return "Custom";
@@ -83,12 +102,19 @@ static void add_palette_submenu(tui_menu_t parent)
     tui_menu_t palette_menu = tui_menu_create("Color Set", 1);
 
     for (i = 0; palette_items[i].name != NULL; i++)
-	tui_menu_add_item(palette_menu,
-			  palette_items[i].menu_item,
-			  palette_items[i].long_description,
-			  palette_callback,
-			  (void *) palette_items[i].name, 0,
-			  TUI_MENU_BEH_CLOSE);
+        tui_menu_add_item(palette_menu,
+                          palette_items[i].menu_item,
+                          palette_items[i].long_description,
+                          palette_callback,
+                          (void *) palette_items[i].name, 0,
+                          TUI_MENU_BEH_CLOSE);
+
+    tui_menu_add_item(palette_menu,
+                      "C_ustom",
+                      "Load a custom palette",
+                      custom_palette_callback,
+                      NULL, 0,
+                      TUI_MENU_BEH_CLOSE);
 
     tui_menu_add_submenu(parent, "Color _Palette:",
 			 "Choose color palette",
