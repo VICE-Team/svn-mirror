@@ -125,13 +125,14 @@ ui_res_possible_values SpeedValues[] = {
 ui_res_possible_values SyncFactor[] = {
         {DRIVE_SYNC_PAL, IDM_SYNC_FACTOR_PAL},
         {DRIVE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC},
+        {DRIVE_SYNC_NTSCOLD, IDM_SYNC_FACTOR_NTSCOLD},
         {-1, 0}
 };
 
 ui_res_value_list value_list[] = {
     {"RefreshRate", RefreshRateValues},
     {"Speed", SpeedValues},
-    {"DriveSyncFactor", SyncFactor},
+    {"VideoStandard", SyncFactor},
     {NULL,NULL}
 };
 
@@ -1091,32 +1092,36 @@ char *dname;
       case IDM_MAXIMUM_SPEED_NO_LIMIT:
         resources_set_value("Speed", (resource_value_t) 0);
         break;
-        case IDM_SIDTYPE_6581:
-            resources_set_value("SidModel", (resource_value_t) 0);
-            break;
-        case IDM_SIDTYPE_8580:
-            resources_set_value("SidModel", (resource_value_t) 1);
-            break;
+      case IDM_SIDTYPE_6581:
+        resources_set_value("SidModel", (resource_value_t) 0);
+        break;
+      case IDM_SIDTYPE_8580:
+        resources_set_value("SidModel", (resource_value_t) 1);
+        break;
       case IDM_DRIVE_SETTINGS:
         ui_drive_settings_dialog(hwnd);
         break;
-        case IDM_JOY_SETTINGS:
-            ui_joystick_settings_dialog(hwnd);
-            break;
-        case IDM_SWAP_JOYSTICK|0x00010000:
-        case IDM_SWAP_JOYSTICK:
-            ui_joystick_swap_joystick();
-            break;
-        case IDM_SOUND_SETTINGS:
-            ui_sound_settings_dialog(hwnd);
-            break;
+      case IDM_JOY_SETTINGS:
+        ui_joystick_settings_dialog(hwnd);
+        break;
+      case IDM_SWAP_JOYSTICK|0x00010000:
+      case IDM_SWAP_JOYSTICK:
+        ui_joystick_swap_joystick();
+        break;
+      case IDM_SOUND_SETTINGS:
+        ui_sound_settings_dialog(hwnd);
+        break;
       case IDM_SYNC_FACTOR_PAL:
-        resources_set_value("DriveSyncFactor",
+        resources_set_value("VideoStandard",
                             (resource_value_t) DRIVE_SYNC_PAL);
         break;
       case IDM_SYNC_FACTOR_NTSC:
-        resources_set_value("DriveSyncFactor",
+        resources_set_value("VideoStandard",
                             (resource_value_t) DRIVE_SYNC_NTSC);
+        break;
+      case IDM_SYNC_FACTOR_NTSCOLD:
+        resources_set_value("VideoStandard",
+                            (resource_value_t) DRIVE_SYNC_NTSCOLD);
         break;
       case IDM_SETTINGS_SAVE:
         if (resources_save(NULL) < 0)

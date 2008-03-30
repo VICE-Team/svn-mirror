@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "drive.h"
 #include "joystick.h"
 #include "resources.h"
 #include "uicommands.h"
@@ -41,6 +42,16 @@
 #endif
 
 /* ------------------------------------------------------------------------- */
+
+UI_MENU_DEFINE_RADIO(VideoStandard)
+
+static ui_menu_entry_t set_video_standard_submenu[] = {
+    { "*PAL-G", (ui_callback_t) radio_VideoStandard,
+      (ui_callback_data_t) DRIVE_SYNC_PAL, NULL },
+    { "*NTSC-M", (ui_callback_t) radio_VideoStandard,
+      (ui_callback_data_t) DRIVE_SYNC_NTSC, NULL },
+    { NULL }
+};
 
 UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
 
@@ -67,6 +78,10 @@ UI_MENU_DEFINE_TOGGLE(CheckSsColl)
 UI_MENU_DEFINE_TOGGLE(CheckSbColl)
 
 static ui_menu_entry_t vic_submenu[] = {
+    { "Video standard",
+      NULL, NULL, set_video_standard_submenu },
+    { "--",
+      NULL, NULL, NULL },
     { "*Sprite-sprite collisions",
       (ui_callback_t) toggle_CheckSsColl, NULL, NULL },
     { "*Sprite-background collisions",

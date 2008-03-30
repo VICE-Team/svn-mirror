@@ -30,8 +30,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "c64mem.h"
 #include "cartridge.h"
 #include "datasette.h"
+#include "drive.h"
 #include "joystick.h"
 #include "resources.h"
 #include "uicommands.h"
@@ -39,7 +41,6 @@
 #include "uisettings.h"
 #include "utils.h"
 #include "vsync.h"
-#include "c64mem.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
@@ -158,6 +159,18 @@ ui_menu_entry_t ui_datasette_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_RADIO(VideoStandard)
+
+static ui_menu_entry_t set_video_standard_submenu[] = {
+    { "*PAL-G", (ui_callback_t) radio_VideoStandard,
+      (ui_callback_data_t) DRIVE_SYNC_PAL, NULL },
+    { "*NTSC-M", (ui_callback_t) radio_VideoStandard,
+      (ui_callback_data_t) DRIVE_SYNC_NTSC, NULL },
+    { "*Old NTSC-M", (ui_callback_t) radio_VideoStandard,
+      (ui_callback_data_t) DRIVE_SYNC_NTSCOLD, NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
 
 static ui_menu_entry_t palette_submenu[] = {
@@ -183,6 +196,10 @@ UI_MENU_DEFINE_TOGGLE(CheckSsColl)
 UI_MENU_DEFINE_TOGGLE(CheckSbColl)
 
 static ui_menu_entry_t vic_submenu[] = {
+    { "Video standard",
+      NULL, NULL, set_video_standard_submenu },
+    { "--",
+      NULL, NULL, NULL },
     { "*Sprite-sprite collisions",
       (ui_callback_t) toggle_CheckSsColl, NULL, NULL },
     { "*Sprite-background collisions",

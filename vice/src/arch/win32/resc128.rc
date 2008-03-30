@@ -128,10 +128,11 @@ BEGIN
         END
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        POPUP "Drive s&ync factor"
+        MENUITEM SEPARATOR
+        POPUP "Video standard"
         BEGIN
-            MENUITEM "&PAL",                        IDM_SYNC_FACTOR_PAL
-            MENUITEM "&NTSC",                       IDM_SYNC_FACTOR_NTSC
+            MENUITEM "&PAL-G",                      IDM_SYNC_FACTOR_PAL
+            MENUITEM "&NTSC-M",                     IDM_SYNC_FACTOR_NTSC
         END
         MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
