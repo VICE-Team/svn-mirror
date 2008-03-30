@@ -313,6 +313,7 @@ int cartridge_attach_image(int type, const char *filename)
     carttype = type;
     string_set(&cartfile, filename);
     mem_attach_cartridge((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
+    free(rawcart);
     return 0;
  done:
     free(rawcart);

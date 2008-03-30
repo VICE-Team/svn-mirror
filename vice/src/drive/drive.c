@@ -90,6 +90,12 @@ static int set_drive1_idling_method(resource_value_t v);
 static void drive_initialize_rom_traps(int dnr);
 static int drive_check_image_format(int format, int dnr);
 
+static int drive_load_1541(void);
+static int drive_load_1541ii(void);
+static int drive_load_1571(void);
+static int drive_load_1581(void);
+static int drive_load_2031(void);
+
 /* Generic drive logging goes here.  */
 static log_t drive_log = LOG_ERR;
 
@@ -122,6 +128,9 @@ static char *dos_rom_name_2031 = 0;
 /* If nonzero, at least one vaild drive ROM has already been loaded.  */
 static int rom_loaded = 0;
 
+/* If nonzero, we are far enough in init that we can load ROMs */
+static int drive_rom_load_ok = 0;
+
 static int set_drive_true_emulation(resource_value_t v)
 {
     drive_true_emulation = (int) v;
@@ -152,7 +161,7 @@ static int set_drive0_type(resource_value_t v)
     if (!drive_match_bus(type, busses)) {
 	if (busses & IEC_BUS_IEC) {
 	    type = DRIVE_TYPE_1541;
-	} else 
+	} else
 	if (busses & IEC_BUS_IEEE) {
 	    type = DRIVE_TYPE_2031;
 	} else
@@ -193,7 +202,7 @@ static int set_drive1_type(resource_value_t v)
     if (!drive_match_bus(type, busses)) {
 	if (busses & IEC_BUS_IEC) {
 	    type = DRIVE_TYPE_1541;
-	} else 
+	} else
 	if (busses & IEC_BUS_IEEE) {
 	    type = DRIVE_TYPE_2031;
 	} else
@@ -345,66 +354,67 @@ static int set_dos_rom_name_2031(resource_value_t v)
 {
     const char *name = (const char *) v;
 
-    if (dos_rom_name_2031 == NULL)
-        dos_rom_name_2031 = stralloc(name);
-    else {
-        dos_rom_name_2031 = xrealloc(dos_rom_name_2031, strlen(name) + 1);
-        strcpy(dos_rom_name_2031, name);
-    }
-    return 0;
+    if (dos_rom_name_2031 != NULL && name != NULL
+        && strcmp(name, dos_rom_name_2031) == 0)
+        return 0;
+
+    string_set(&dos_rom_name_2031, name);
+
+    return drive_load_2031();
 }
 
 static int set_dos_rom_name_1541(resource_value_t v)
 {
     const char *name = (const char *) v;
 
-    if (dos_rom_name_1541 == NULL)
-        dos_rom_name_1541 = stralloc(name);
-    else {
-        dos_rom_name_1541 = xrealloc(dos_rom_name_1541, strlen(name) + 1);
-        strcpy(dos_rom_name_1541, name);
-    }
-    return 0;
+    if (dos_rom_name_1541 != NULL && name != NULL
+        && strcmp(name, dos_rom_name_1541) == 0)
+        return 0;
+
+    string_set(&dos_rom_name_1541, name);
+
+    return drive_load_1541();
 }
 
 static int set_dos_rom_name_1541ii(resource_value_t v)
 {
     const char *name = (const char *) v;
 
-    if (dos_rom_name_1541ii == NULL)
-        dos_rom_name_1541ii = stralloc(name);
-    else {
-        dos_rom_name_1541ii = xrealloc(dos_rom_name_1541ii, strlen(name) + 1);
-        strcpy(dos_rom_name_1541ii, name);
-    }
-    return 0;
+    if (dos_rom_name_1541ii != NULL && name != NULL
+        && strcmp(name, dos_rom_name_1541ii) == 0)
+        return 0;
+
+    string_set(&dos_rom_name_1541ii, name);
+
+    return drive_load_1541ii();
 }
 
 static int set_dos_rom_name_1571(resource_value_t v)
 {
     const char *name = (const char *) v;
 
-    if (dos_rom_name_1571 == NULL)
-        dos_rom_name_1571 = stralloc(name);
-    else {
-        dos_rom_name_1571 = xrealloc(dos_rom_name_1571, strlen(name) + 1);
-        strcpy(dos_rom_name_1571, name);
-    }
-    return 0;
+    if (dos_rom_name_1571 != NULL && name != NULL
+        && strcmp(name, dos_rom_name_1571) == 0)
+        return 0;
+
+    string_set(&dos_rom_name_1571, name);
+
+    return drive_load_1571();
 }
 
 static int set_dos_rom_name_1581(resource_value_t v)
 {
     const char *name = (const char *) v;
 
-    if (dos_rom_name_1581 == NULL)
-        dos_rom_name_1581 = stralloc(name);
-    else {
-        dos_rom_name_1581 = xrealloc(dos_rom_name_1581, strlen(name) + 1);
-        strcpy(dos_rom_name_1581, name);
-    }
-    return 0;
+    if (dos_rom_name_1581 != NULL && name != NULL
+        && strcmp(name, dos_rom_name_1581) == 0)
+        return 0;
+
+    string_set(&dos_rom_name_1581, name);
+
+    return drive_load_1581();
 }
+
 
 static resource_t resources[] = {
     { "DriveTrueEmulation", RES_INTEGER, (resource_value_t) 0,
@@ -1129,10 +1139,24 @@ static int drive_set_disk_drive_type(int type, int dnr)
     return 0;
 }
 
-static int drive_load_rom_images(void)
+static int drive_do_1541_checksum(void)
 {
-    unsigned long s;
     int i;
+    unsigned long s;
+    
+    /* Calculate ROM checksum.  */
+    for (i = 0, s = 0; i < DRIVE_ROM1541_SIZE; i++)
+        s += drive_rom1541[i];
+
+    if (s != DRIVE_ROM1541_CHECKSUM)
+        log_warning(drive_log, "Unknown 1541 ROM image.  Sum: %lu.", s);
+
+    return 0;
+}
+
+static int drive_load_1541(void)
+{
+    if (!drive_rom_load_ok) return 0;
 
     /* Load the ROMs. */
     if (mem_load_sys_file(dos_rom_name_1541, drive_rom1541, DRIVE_ROM1541_SIZE,
@@ -1142,46 +1166,88 @@ static int drive_load_rom_images(void)
                   "Hardware-level 1541 emulation is not available.");
     } else {
         rom1541_loaded = 1;
-
-        /* Calculate ROM checksum.  */
-        for (i = 0, s = 0; i < DRIVE_ROM1541_SIZE; i++)
-            s += drive_rom1541[i];
-
-        if (s != DRIVE_ROM1541_CHECKSUM)
-            log_warning(drive_log, "Unknown 1541 ROM image.  Sum: %lu.", s);
+        return drive_do_1541_checksum();
     }
+    return -1;
+}
 
-    if (mem_load_sys_file(dos_rom_name_1541ii, drive_rom1541ii, 
+static int drive_load_1541ii(void)
+{
+    if (!drive_rom_load_ok) return 0;
+
+    if (mem_load_sys_file(dos_rom_name_1541ii, drive_rom1541ii,
                           DRIVE_ROM1541II_SIZE, DRIVE_ROM1541II_SIZE) < 0) {
         log_error(drive_log,
                   "1541-II ROM image not found.  "
                   "Hardware-level 1541-II emulation is not available.");
-    } else
+    } else {
         rom1541ii_loaded = 1;
+	return 0;
+    }
+    return -1;
+}
+
+static int drive_load_1571(void)
+{
+    if (!drive_rom_load_ok) return 0;
 
     if (mem_load_sys_file(dos_rom_name_1571, drive_rom1571, DRIVE_ROM1571_SIZE,
                           DRIVE_ROM1571_SIZE) < 0) {
         log_error(drive_log,
                   "1571 ROM image not found.  "
                   "Hardware-level 1571 emulation is not available.");
-    } else
+    } else {
         rom1571_loaded = 1;
+	return 0;
+    }
+    return -1;
+}
+
+static int drive_load_1581(void)
+{
+    if (!drive_rom_load_ok) return 0;
 
     if (mem_load_sys_file(dos_rom_name_1581, drive_rom1581, DRIVE_ROM1581_SIZE,
                           DRIVE_ROM1581_SIZE) < 0) {
         log_error(drive_log,
                   "1581 ROM image not found.  "
                   "Hardware-level 1581 emulation is not available.");
-    } else
+    } else {
         rom1581_loaded = 1;
+	return 0;
+    }
+    return -1;
+}
+
+static int drive_load_2031(void)
+{
+    if (!drive_rom_load_ok) return 0;
 
     if (mem_load_sys_file(dos_rom_name_2031, drive_rom2031, DRIVE_ROM2031_SIZE,
                           DRIVE_ROM2031_SIZE) < 0) {
         log_error(drive_log,
                   "2031 ROM image not found.  "
                   "Hardware-level 2031 emulation is not available.");
-    } else
+    } else {
         rom2031_loaded = 1;
+	return 0;
+    }
+    return -1;
+}
+
+static int drive_load_rom_images(void)
+{
+    drive_rom_load_ok = 1;
+
+    drive_load_1541();
+
+    drive_load_1541ii();
+
+    drive_load_1571();
+
+    drive_load_1581();
+
+    drive_load_2031();
 
     /* FIXME: Drive type radio button should be made insensitive here
        if a ROM image is not loaded. */
@@ -1296,7 +1362,7 @@ static int drive_enable(int dnr)
         }
     }
 
-    drive_set_active_led_color(drive[0].type, dnr);
+    drive_set_active_led_color(drive[dnr].type, dnr);
     ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
                            | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0),
                            drive_led_color);
@@ -1971,7 +2037,7 @@ LastMode             BYTE   2      flag: Was the last mode read or write
 ParallelCableEnabled BYTE   2      flag: Is the parallel cable enabed
 ReadOnly             BYTE   2      flag: This disk is read only
 RotationLastClk      CLOCK  2
-RotationTablePtr     DWORD  2      pointer to the rotation table 
+RotationTablePtr     DWORD  2      pointer to the rotation table
                                    (offset to the rotation table is saved)
 Type                 DWORD  2      drive type
 
@@ -2001,7 +2067,7 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
     for (i = 0; i < 2; i++) {
         rotation_table_ptr[i] = (DWORD) (drive[i].rotation_table_ptr
                                          - drive[i].rotation_table[0]);
-        GCR_image[i] = (drive[i].GCR_image_loaded == 0 
+        GCR_image[i] = (drive[i].GCR_image_loaded == 0
                          || !save_disks) ? 0 : 1;
     }
 
@@ -2420,7 +2486,7 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
             snapshot_module_close(m);
         free(tmpbuf);
         return -1;
-    } 
+    }
     snapshot_module_close(m);
     m = NULL;
 
@@ -2538,6 +2604,11 @@ static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr)
             snapshot_module_close(m);
         return -1;
     }
+
+    if (drive[dnr].type == DRIVE_TYPE_1541) {
+	drive_do_1541_checksum();
+    }
+
     snapshot_module_close(m);
     return 0;
 }
