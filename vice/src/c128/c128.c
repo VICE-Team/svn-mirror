@@ -250,27 +250,27 @@ static const trap_t c128_serial_traps[] = {
     },
     {
         "SerialSaListen",
-        0xED36,
+        0xED37,
         0xEDAB,
-        { 0x78, 0x20, 0x8E },
+        { 0x20, 0x8E, 0xEE },
         serial_trap_attention,
         c64memrom_trap_read,
         c64memrom_trap_store
     },
     {
         "SerialSendByte",
-        0xED40,
+        0xED41,
         0xEDAB,
-        { 0x78, 0x20, 0x97 },
+        { 0x20, 0x97, 0xEE },
         serial_trap_send,
         c64memrom_trap_read,
         c64memrom_trap_store
     },
     {
         "SerialReceiveByte",
-        0xEE13,
+        0xEE14,
         0xEDAB,
-        { 0x78, 0xA9, 0x00 },
+        { 0xA9, 0x00, 0x85 },
         serial_trap_receive,
         c64memrom_trap_read,
         c64memrom_trap_store
