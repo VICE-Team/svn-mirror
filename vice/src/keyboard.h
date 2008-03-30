@@ -47,7 +47,7 @@ enum shift_type {
     ALLOW_SHIFT = (1 << 3),   /* Allow key to be shifted. */
     DESHIFT_SHIFT = (1 << 4), /* Although SHIFT might be pressed, do not
                                  press shift on the real machine. */
-    ALLOW_OTHER = (1 << 5)    /* Allow another key code to by assigned if
+    ALLOW_OTHER = (1 << 5)    /* Allow another key code to be assigned if
                                  SHIFT is pressed. */
 };
 
