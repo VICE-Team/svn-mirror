@@ -37,10 +37,10 @@ extern int video_init_cmdline_options(void);
 extern int video_init(void);
 extern void video_free(void);
 
-extern int video_frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
-                                    unsigned int height);
-extern void video_frame_buffer_free(frame_buffer_t *i);
-extern void video_frame_buffer_clear(frame_buffer_t *i, PIXEL value);
+extern int video_frame_buffer_alloc(video_frame_buffer_t **i,
+                                    unsigned int width, unsigned int height);
+extern void video_frame_buffer_free(video_frame_buffer_t *i);
+extern void video_frame_buffer_clear(video_frame_buffer_t *i, PIXEL value);
 
 extern canvas_t canvas_create(const char *win_name, unsigned int *width,
                               unsigned int *height, int mapped,
@@ -48,10 +48,10 @@ extern canvas_t canvas_create(const char *win_name, unsigned int *width,
                               const struct palette_s *palette,
                               PIXEL *pixel_return
 #ifdef USE_GNOMEUI
-			      ,frame_buffer_t *fb
+			      ,video_frame_buffer_t *fb
 #endif
     );
-extern void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
+extern void canvas_refresh(canvas_t canvas, video_frame_buffer_t *frame_buffer,
                            unsigned int xs, unsigned int ys,
                            unsigned int xi, unsigned int yi,
                            unsigned int w, unsigned int h);
