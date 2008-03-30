@@ -32,6 +32,7 @@
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "fsimage-gcr.h"
+#include "fsimage.h"
 #include "log.h"
 #include "types.h"
 #include "utils.h"

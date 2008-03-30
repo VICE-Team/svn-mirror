@@ -44,6 +44,35 @@
 static log_t fsimage_log = LOG_ERR;
 
 
+void fsimage_name_set(disk_image_t *image, char *name)
+{
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
+
+    fsimage->name = name;
+}
+
+char *fsimage_name_get(disk_image_t *image)
+{
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
+
+    return fsimage->name;
+}
+
+void *fsimage_fd_get(disk_image_t *image)
+{
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
+
+    return (void *)(fsimage->fd);
+}
+
+/*-----------------------------------------------------------------------*/
+
 void fsimage_media_create(disk_image_t *image)
 {
     fsimage_t *fsimage;

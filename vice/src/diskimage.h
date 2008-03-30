@@ -27,8 +27,6 @@
 #ifndef _DISKIMAGE_H
 #define _DISKIMAGE_H
 
-#include <stdio.h>
-
 #include "types.h"
 
 #define D64_FILE_SIZE_35  174848        /* D64 image, 35 tracks */
@@ -66,25 +64,16 @@ typedef struct disk_image_s {
     BYTE *error_info;
 } disk_image_t;
 
-typedef struct fsimage_s {
-    FILE *fd;
-    char *name;
-} fsimage_t;
-
-typedef struct realimage_s {
-    unsigned int unit;
-    unsigned int drivetype;
-} realimage_t;
-
-typedef struct rawimage_s {
-    char *name;
-    unsigned int drivetype;
-} rawimage_t;
-
 
 extern void disk_image_init(void);
 extern int disk_image_resources_init(void);
 extern int disk_image_cmdline_options_init(void);
+
+extern void disk_image_fsimage_name_set(disk_image_t *image, char *name);
+extern char *disk_image_fsimage_name_get(disk_image_t *image);
+extern void *disk_image_fsimage_fd_get(disk_image_t *image);
+extern void disk_image_media_create(disk_image_t *image);
+extern void disk_image_media_destroy(disk_image_t *image);
 
 extern int disk_image_open(disk_image_t *image);
 extern int disk_image_close(disk_image_t *image);
@@ -103,8 +92,6 @@ extern int disk_image_write_track(disk_image_t *image, unsigned int track,
                                   int gcr_track_size,
                                   BYTE *gcr_speed_zone,
                                   BYTE *gcr_track_start_ptr);
-extern void disk_image_media_create(disk_image_t *image);
-extern void disk_image_media_destroy(disk_image_t *image);
 
 extern unsigned int disk_image_speed_map_1541(unsigned int track);
 extern unsigned int disk_image_speed_map_1571(unsigned int track);
