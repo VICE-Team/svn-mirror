@@ -94,8 +94,8 @@ sound_t *sound_machine_open(int chipno)
 {
     sound_t *psid;
 
-    psid = xmalloc(sizeof(*psid));
-    memset(psid, 0, sizeof(psid));
+    psid = xmalloc(sizeof(sound_t));
+    memset(psid, 0, sizeof(sound_t));
 
     return psid;
 }
@@ -193,10 +193,8 @@ void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 
 char *sound_machine_dump_state(sound_t *psid)
 {
-    char		buf[256];
-
-    sprintf(buf, "on=%d sample=%d rate=%d\n", psid->on, psid->sample, psid->t);
-    return stralloc(buf);
+    return xmsprintf("on=%d sample=%d rate=%d\n",
+                     psid->on, psid->sample, psid->t);
 }
 
 int sound_machine_cycle_based(void)

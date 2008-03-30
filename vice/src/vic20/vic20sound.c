@@ -41,9 +41,10 @@ static BYTE siddata[16];
 
 /* noise magic */
 #define NSHIFT(v, n) \
-        (((v)<<(n))|((((v)>>(23-(n)))^(v>>(18-(n))))&((1<<(n))-1)))
+    (((v) << (n)) | \
+    ((((v) >> (23 - (n))) ^ (v >> (18 - (n)))) & (( 1<< (n)) - 1)))
 #define NVALUE(v) \
-        (noiseLSB[v&0xff]|noiseMID[(v>>8)&0xff]|noiseMSB[(v>>16)&0xff])
+    (noiseLSB[v&0xff] | noiseMID[(v >> 8) & 0xff] | noiseMSB[(v >> 16) & 0xff])
 #define NSEED 0x7ffff8
 
 /* Noise tables */
@@ -84,8 +85,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
     int i;
     DWORD o0, o1, o2, o3;
 
-    for (i = 0; i < nr; i++)
-    {
+    for (i = 0; i < nr; i++) {
         /* addfptrs */
         psid->v[0].f += psid->v[0].fs;
         psid->v[1].f += psid->v[1].fs;
@@ -100,7 +100,8 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
         o2 = (psid->v[2].f & 0x80000000) >> 2;
         o3 = (DWORD)NVALUE(NSHIFT(psid->v[3].rv, psid->v[3].f >> 28)) << 22;
         /* sample */
-        pbuf[i*interleave] = ((SDWORD)((o0+o1+o2+o3)>>20)-0x800)*psid->vol;
+        pbuf[i * interleave] = ((SDWORD)((o0 + o1 + o2 + o3) >> 20) - 0x800)
+                               * psid->vol;
     }
     return 0;
 }
@@ -111,8 +112,8 @@ sound_t *sound_machine_open(int chipno)
 {
     sound_t *psid;
 
-    psid = xmalloc(sizeof(*psid));
-    memset(psid, 0, sizeof(psid));
+    psid = xmalloc(sizeof(sound_t));
+    memset(psid, 0, sizeof(sound_t));
 
     return psid;
 }
@@ -123,13 +124,14 @@ int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 
     psid->speed1 = (cycles_per_sec << 8) / speed;
     psid->v[3].rv = NSEED;
-    for (i = 0; i < NOISETABLESIZE; i++)
-    {
-        noiseLSB[i] = (BYTE)(((i>>(7-2))&0x04)|((i>>(4-1))&0x02)
-                      |((i>>(2-0))&0x01));
-        noiseMID[i] = (BYTE)(((i>>(13-8-4))&0x10)|((i<<(3-(11-8)))&0x08));
-        noiseMSB[i] = (BYTE)(((i<<(7-(22-16)))&0x80)|((i<<(6-(20-16)))&0x40)
-                      |((i<<(5-(16-16)))&0x20));
+    for (i = 0; i < NOISETABLESIZE; i++) {
+        noiseLSB[i] = (BYTE)(((i >> (7 - 2)) & 0x04) | ((i >> (4 - 1)) &0x02)
+                      | ((i >> (2 - 0)) & 0x01));
+        noiseMID[i] = (BYTE)(((i >> (13 - 8 - 4)) & 0x10)
+                      | ((i << (3- (11 - 8))) & 0x08));
+        noiseMSB[i] = (BYTE)(((i << (7 - (22 - 16))) & 0x80)
+                      | ((i << (6 - (20 - 16))) & 0x40)
+                      | ((i << (5 - (16 - 16))) & 0x20));
     }
     for (i = 0; i < 16; i++)
         sound_machine_store(psid, (ADDRESS)i, siddata[i]);
@@ -148,7 +150,7 @@ void vic_sound_reset(void)
 
     sound_reset();
     for (i = 10; i < 15; i++)
-        store_vic_sound(i, 0);
+        vic_sound_store(i, 0);
 }
 
 
@@ -157,7 +159,7 @@ void vic_sound_reset(void)
  */
 #define VIC20FREQBASE    65535
 
-void store_vic_sound(ADDRESS addr, BYTE value)
+void vic_sound_store(ADDRESS addr, BYTE value)
 {
     addr &= 0x0f;
     siddata[addr] = value;
@@ -174,7 +176,7 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)
       case 11:
       case 12:
       case 13:
-        sbase = (addr - 10)*4;
+        sbase = (addr - 10) * 4;
         shift = addr - 10;
         if (addr == 13)
             shift = 0;
@@ -185,7 +187,7 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)
         if (!(value & 0x80))
             freq = 0;
         else
-            freq = VIC20FREQBASE*(1 << shift) / divide;
+            freq = VIC20FREQBASE * (1 << shift) / divide;
         psid->v[addr - 10].fs = psid->speed1 * freq;
         break;
       case 14:
@@ -211,10 +213,7 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 
 char *sound_machine_dump_state(sound_t *psid)
 {
-    char buf[1024];
-
-    sprintf(buf, "#SID: clk=%d v=%d\n", clk, psid->vol);
-    return stralloc(buf);
+    return xmsprintf("#SID: clk=%d v=%d\n", clk, psid->vol);
 }
 
 int sound_machine_cycle_based(void)
@@ -226,3 +225,4 @@ int sound_machine_channels(void)
 {
     return 1;
 }
+
