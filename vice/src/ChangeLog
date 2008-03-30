@@ -1,3 +1,57 @@
+2004-06-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.28.
+
+	* video/render1x1.c, video/render1x1pal.c, video/render1x2.c,
+	video/render2x2.c, video/render2x2pal.c: Fixed some warnings.
+
+	* interrupt.c (interrupt_cpu_status_int_new): Fixed array size
+	calculation.
+
+	* arch/win32/rs232.c: Added patch contributed by Tim Newsham.
+
+2004-06-05  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/video.c, video/renderyuv.c, video/renderyuv.h,
+	video/video-render.c: Restored blur in XVideo PAL rendering.
+
+2004-06-01  Roberto Muscedere  <cococommie@cogeco.ca>
+
+	* vdrive/vdrive-dir.h: Added offset for REL file record size.
+
+	* vdrive/vdrive-command.c: Updated REL record position command
+	to compensate for default values and ORing of the channel
+	number by 96.
+
+	* vdrive/vdrive.h: Moved "side_sector" pointer from the vdrive
+	structure to the buffer structure and added somemore
+	variables.  The primary reason for this is so we can have more
+	than one REL file opened at one time (1581's can do this, but
+	not 1541's).
+
+	* vdrive/vdrive-iec.c: Corrected REL file open command.
+	Checks both requested and current record lengths and errors
+	out it they are different.
+
+	* vdrive/vdrive-iec.c: Removed closing of all channels if
+	command channel is closed.  This caused problems with REL
+	files in BASIC 7.0 with the RECORD command.
+
+	* vdrive/vdrive-iec.c: Added iec_read_relative() to read REL
+	files.
+
+	* cbmdos.c: Corrected cbmdos_command_parse() not to set the
+	default file type (base on secondary address) unless in write
+	mode.  This solves several problems, for example, a load"$",8
+	which would only show PRG files since the secondary address is
+	1.
+
+	* vdrive/vdrive-rel.c: Re-written to support efficient
+	buffered reads of REL files (with super side sector support).
+	Write abilility not included - it will give an error if you
+	try to open a new REL file, but the code is ready for write
+	modifications.
+
 2004-05-31  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.27.
