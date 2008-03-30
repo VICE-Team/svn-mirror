@@ -33,6 +33,8 @@ libarch_a_SOURCES = \
 	console.c \
 	dirent.c \
 	dirent.h \
+	fullscreen.c \
+	fullscreen.h \
 	joystick.c \
 	joystick.h \
 	kbd.c \

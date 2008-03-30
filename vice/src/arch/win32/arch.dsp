@@ -118,6 +118,10 @@ SOURCE=.\dirent.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\fullscreen.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\joystick.c
 # End Source File
 # Begin Source File

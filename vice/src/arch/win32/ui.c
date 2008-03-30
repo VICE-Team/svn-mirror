@@ -42,6 +42,7 @@
 #include "datasette.h"
 #include "drive.h"
 #include "fliplist.h"
+#include "fullscreen.h"
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
@@ -98,6 +99,8 @@ ui_menu_toggle  toggle_list[] = {
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { "WarpMode", IDM_TOGGLE_WARP_MODE|0x00010000 },
     { "VirtualDevices", IDM_TOGGLE_VIRTUAL_DEVICES },
+    { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
+    { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
     { NULL, 0 }
 };
 
@@ -146,7 +149,81 @@ ui_res_value_list value_list[] = {
 
 /* UI-related resources.  */
 
+struct {
+    int fullscreendevice;
+    int fullscreenbitdepth;
+    int fullscreenwidth;
+    int fullscreenheight;
+    int fullscreenrefreshrate;
+    int fullscreenenabled;
+    int save_resources_on_exit;
+} ui_resources;
+
+static int set_fullscreen_device(resource_value_t v)
+{
+    ui_resources.fullscreendevice=(int) v;
+    return 0;
+}
+
+static int set_fullscreen_bitdepth(resource_value_t v)
+{
+    ui_resources.fullscreenbitdepth=(int) v;
+    return 0;
+}
+
+static int set_fullscreen_width(resource_value_t v)
+{
+    ui_resources.fullscreenwidth=(int) v;
+    return 0;
+}
+
+static int set_fullscreen_height(resource_value_t v)
+{
+    ui_resources.fullscreenheight=(int) v;
+    return 0;
+}
+
+static int set_fullscreen_refreshrate(resource_value_t v)
+{
+    ui_resources.fullscreenrefreshrate=(int) v;
+    return 0;
+}
+
+static int set_fullscreen_enabled(resource_value_t v)
+{
+    ui_resources.fullscreenenabled=(int) v;
+    return 0;
+}
+
+static int set_save_resources_on_exit(resource_value_t v)
+{
+    ui_resources.save_resources_on_exit=(int) v;
+    return 0;
+}
+
+
 static resource_t resources[] = {
+    {"FullscreenDevice",RES_INTEGER, (resource_value_t)0,
+     (resource_value_t *)&ui_resources.fullscreendevice,
+     set_fullscreen_device},
+    {"FullscreenBitdepth",RES_INTEGER, (resource_value_t)8,
+     (resource_value_t *)&ui_resources.fullscreenbitdepth,
+     set_fullscreen_bitdepth},
+    {"FullscreenWidth",RES_INTEGER, (resource_value_t)640,
+     (resource_value_t *)&ui_resources.fullscreenwidth,
+     set_fullscreen_width},
+    {"FullscreenHeight",RES_INTEGER, (resource_value_t)480,
+     (resource_value_t *)&ui_resources.fullscreenheight,
+     set_fullscreen_height},
+    {"FullscreenRefreshRate",RES_INTEGER, (resource_value_t)0,
+     (resource_value_t *)&ui_resources.fullscreenrefreshrate,
+     set_fullscreen_refreshrate},
+    {"FullscreenEnabled",RES_INTEGER, (resource_value_t)0,
+     (resource_value_t *)&ui_resources.fullscreenenabled,
+     set_fullscreen_enabled},
+    {"SaveResourcesOnExit",RES_INTEGER, (resource_value_t)0,
+     (resource_value_t *)&ui_resources.save_resources_on_exit,
+     set_save_resources_on_exit},
     { NULL }
 };
 
@@ -158,15 +235,21 @@ int ui_init_resources(void)
 /* ------------------------------------------------------------------------ */
 
 /* UI-related command-line options.  */
-/*
+
 static cmdline_option_t cmdline_options[] = {
+    { "-saveres", SET_RESOURCE, 0, NULL, NULL,
+      "SaveResourcesOnExit", (resource_value_t) 1,
+      NULL, "Save settings (resources) on exit" },
+    { "+saveres", SET_RESOURCE, 0, NULL, NULL,
+      "SaveResourcesOnExit", (resource_value_t) 0,
+      NULL, "Never save settings (resources) on exit" },
     { NULL }
 };
-*/
+
 
 int ui_init_cmdline_options(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -192,7 +275,9 @@ int ui_init_cmdline_options(void)
     {FVIRTKEY|FCONTROL|FALT|FNOINVERT,'N',IDM_FLIP_PREVIOUS},\
     {FVIRTKEY|FALT|FNOINVERT,'J',IDM_SWAP_JOYSTICK},\
     {FVIRTKEY|FALT|FNOINVERT,'C',IDM_SCREENSHOT},\
-    {FVIRTKEY|FALT|FNOINVERT,'U',IDM_SOUNDSHOT},
+    {FVIRTKEY|FALT|FNOINVERT,'U',IDM_SOUNDSHOT},\
+    {FVIRTKEY|FALT|FNOINVERT,'D',IDM_TOGGLE_FULLSCREEN},\
+    {FVIRTKEY|FALT|FNOINVERT,0x0d,IDM_TOGGLE_FULLSCREEN}
 
 static ACCEL c64_accel[] = {
     {FVIRTKEY|FALT|FNOINVERT,'Z',IDM_CART_FREEZE},
@@ -221,41 +306,40 @@ static HBRUSH   led_black;
 static HBRUSH   tape_motor_on_brush;
 static HBRUSH   tape_motor_off_brush;
 
+HWND    main_hwnd;
+
 /* Initialize the UI before setting all the resource values.  */
 int ui_init(int *argc, char **argv)
 {
 WNDCLASS    window_class;
 WORD        menu;
-#if 0
-RECT        rect;
-#endif
 
     switch (machine_class) {
         case VICE_MACHINE_C64:
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,22);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,24);
             break;
         case VICE_MACHINE_C128:
             menu = IDR_MENUC128;
-            ui_accelerator=CreateAcceleratorTable(c128_accel,21);
+            ui_accelerator=CreateAcceleratorTable(c128_accel,23);
             break;
         case VICE_MACHINE_VIC20:
             menu = IDR_MENUVIC;
-            ui_accelerator=CreateAcceleratorTable(vic_accel,21);
+            ui_accelerator=CreateAcceleratorTable(vic_accel,23);
             break;
         case VICE_MACHINE_PET:
             menu = IDR_MENUPET;
-            ui_accelerator=CreateAcceleratorTable(pet_accel,21);
+            ui_accelerator=CreateAcceleratorTable(pet_accel,23);
             break;
         case VICE_MACHINE_CBM2:
             menu = IDR_MENUCBM2;
-            ui_accelerator=CreateAcceleratorTable(cbm2_accel,21);
+            ui_accelerator=CreateAcceleratorTable(cbm2_accel,23);
             break;
         default:
             log_debug("UI: No menu entries for this machine defined!");
             log_debug("UI: Using C64 type UI menues.");
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,22);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,24);
     }
 
     /* Register the window class.  */
@@ -272,7 +356,6 @@ RECT        rect;
     window_class.lpszClassName = APPLICATION_CLASS;
     RegisterClass(&window_class);
 
-#if 0
     /* Create the main window.  Notice that we are not going to
        `ShowWindow()' it yet; this will be done as soon as the video module
        requires us to do so.  This is needed both because the video module
@@ -292,14 +375,6 @@ RECT        rect;
                              NULL);
 
     InitCommonControls();
-    status_hwnd=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",main_hwnd,IDM_STATUS_WINDOW);
-    GetClientRect(status_hwnd,&rect);
-    status_height=rect.bottom-rect.top;
-
-    if (!main_hwnd)
-        return -1;
-#endif
-    InitCommonControls();
 
     number_of_windows=0;
 
@@ -315,6 +390,7 @@ RECT        rect;
 /* Initialize the UI after setting all the resource values.  */
 int ui_init_finish(void)
 {
+    ui_fullscreen_init();
     atexit(ui_exit);
     return 0;
 }
@@ -332,34 +408,48 @@ void ui_exit(void)
     }
 }
 
-/* Create a Window for the emulation.  */
-/* Oh, well, this currently does not actually create a new window; it just
-   sets the main one up so that it complies with the specified parameters and
-   returns a handler to it.  In the future, we might handle the "more than
-   one emulation window" case, so that e.g. X128 gets a window for the VDC
-   and one for the VIC-II.  */
+/*  Create a Window for the emulation.  */
 HWND ui_open_canvas_window(const char *title, unsigned int width,
-                           unsigned int height, canvas_redraw_t exp_handler)
+                           unsigned int height, canvas_redraw_t exp_handler,
+                           int fullscreen)
 {
 HWND    hwnd;
 RECT    rect;
 
     hwnd_titles[number_of_windows] = stralloc(title);
-    hwnd = CreateWindow(APPLICATION_CLASS,
-                        hwnd_titles[number_of_windows],
-                        WS_OVERLAPPED|WS_CLIPCHILDREN|WS_BORDER|WS_DLGFRAME|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX,
-                        CW_USEDEFAULT,
-                        CW_USEDEFAULT,
-                        CW_USEDEFAULT,
-                        CW_USEDEFAULT,
-                        NULL,
-                        NULL,
-                        winmain_instance,
-                        NULL);
+    if (fullscreen) {
+        hwnd = CreateWindow(APPLICATION_CLASS,
+                            hwnd_titles[number_of_windows],
+                            WS_VISIBLE|WS_POPUP,
+                            0,
+                            0,
+                            width,
+                            height,
+                            NULL,
+                            NULL,
+                            winmain_instance,
+                            NULL);
+        SetWindowPos(hwnd,HWND_TOPMOST,0,0,GetSystemMetrics(SM_CXSCREEN),GetSystemMetrics(SM_CYSCREEN),SWP_NOCOPYBITS);
+    } else {
+        hwnd = CreateWindow(APPLICATION_CLASS,
+                            hwnd_titles[number_of_windows],
+                            WS_OVERLAPPED|WS_CLIPCHILDREN|WS_BORDER|WS_DLGFRAME|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX,
+                            CW_USEDEFAULT,
+                            CW_USEDEFAULT,
+                            CW_USEDEFAULT,
+                            CW_USEDEFAULT,
+                            NULL,
+                            NULL,
+                            winmain_instance,
+                            NULL);
+    }
+    if (hwnd==NULL) log_debug("Window creation failed");
 
-    status_hwnd[number_of_windows]=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",hwnd,IDM_STATUS_WINDOW);
-    GetClientRect(status_hwnd[number_of_windows],&rect);
-    status_height=rect.bottom-rect.top;
+    if (!fullscreen) {
+        status_hwnd[number_of_windows]=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",hwnd,IDM_STATUS_WINDOW);
+        GetClientRect(status_hwnd[number_of_windows],&rect);
+        status_height=rect.bottom-rect.top;
+    }
 
     ui_resize_canvas_window(hwnd, width, height);
 
@@ -373,24 +463,6 @@ RECT    rect;
 
     return hwnd;
 
-#if 0
-    /* This is avoids moving the window around and also makes sure the client
-       rectangle has the correct size...  Maybe there is a better way to
-       achieve the same result?  (FIXME?)  */
-    ui_resize_canvas_window(main_hwnd, width, height);
-
-    /* Set the title...  */
-    main_hwnd_title = stralloc(title);
-    SetWindowText(main_hwnd, title);
-
-    /* Finally, we can actually display the thing...  */
-    ShowWindow(main_hwnd, winmain_cmd_show);
-
-    /* Of course, this will be different if we will happen to have more than
-       one window.  */
-    exposure_handler = exp_handler;
-    return main_hwnd;
-#endif
 }
 
 /* Resize `w' so that the client rectangle is of the requested size.  */
@@ -399,6 +471,8 @@ void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
 RECT            wrect;
 int             window_index;
 WINDOWPLACEMENT place;
+
+    if (IsFullscreenEnabled()) return;
 
     for (window_index=0; window_index<number_of_windows; window_index++) {
         if (window_handles[window_index]==w) break;
@@ -525,12 +599,14 @@ void ui_error(const char *format, ...)
     va_start(args, format);
     vsprintf(tmp, format, args);
     va_end(args);
+    log_debug(tmp);
     MessageBox(window_handles[0], tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
 }
 
 /* Report an error to the user (one string).  */
 void ui_error_string(const char *text)
 {
+    log_debug(text);
     MessageBox(window_handles[0], text, "VICE Error!", MB_OK | MB_ICONSTOP);
 }
 
@@ -747,12 +823,16 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 
 static void save_snapshot_trap(ADDRESS unused_addr, void *hwnd)
 {
+    SuspendFullscreenMode(hwnd);
     ui_snapshot_save_dialog(hwnd);
+    ResumeFullscreenMode(hwnd);
 }
 
 static void load_snapshot_trap(ADDRESS unused_addr, void *hwnd)
 {
+    SuspendFullscreenMode(hwnd);
     ui_snapshot_load_dialog(hwnd);
+    ResumeFullscreenMode(hwnd);
 }
 
 typedef struct {
@@ -836,6 +916,7 @@ static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
 /* Return the main window handler.  */
 HWND ui_get_main_hwnd(void)
 {
+    if (window_handles[0]==NULL) return main_hwnd;
     return window_handles[0];
 }
 
@@ -985,6 +1066,7 @@ char *dname;
             int     unit = 8;
             char    *autostart_filename=NULL;
 
+            SuspendFullscreenMode(hwnd);
             switch (wparam&0xffff) {
               case IDM_ATTACH_8:
                 unit = 8;
@@ -1015,6 +1097,7 @@ char *dname;
                 }
                 free(s);
             }
+            ResumeFullscreenMode(hwnd);
         }
         break;
       case IDM_DETACH_8:
@@ -1057,6 +1140,7 @@ char *dname;
             char    *s;
             char    *autostart_filename=NULL;
 
+            SuspendFullscreenMode(hwnd);
             if ((s = ui_select_file(hwnd,"Attach tape image",
                 "Tape image files (*.t64;*.p00;*.tap;*.prg)\0*.t64;*.p00;*.tap;*.prg\0"
                 "Zipped files (*.zip;*.gz;*.bz2;*.t6z;*.p0z;*.taz;*.prz)\0*.zip;*.bz2;*.gz;*.t6z;*.p0z;*.taz;*.prz\0"
@@ -1073,6 +1157,7 @@ char *dname;
                 }
                 free(s);
             }
+            ResumeFullscreenMode(hwnd);
         }
         break;
       case IDM_DETACH_TAPE:
@@ -1145,11 +1230,15 @@ char *dname;
         break;
       case IDM_SCREENSHOT|0x00010000:
       case IDM_SCREENSHOT:
+          SuspendFullscreenMode(hwnd);
         ui_screenshot_save_dialog(hwnd);
+        ResumeFullscreenMode(hwnd);
         break;
       case IDM_SOUNDSHOT|0x00010000:
       case IDM_SOUNDSHOT:
+          SuspendFullscreenMode(hwnd);
         ui_soundshot_save_dialog(hwnd);
+        ResumeFullscreenMode(hwnd);
         break;
       case IDM_MONITOR|0x00010000:
       case IDM_MONITOR:
@@ -1163,6 +1252,7 @@ char *dname;
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
         keyboard_clear_keymatrix();
+        SuspendFullscreenMode(hwnd);
         if (MessageBox(hwnd,
                        "Do you really want to reset the emulated machine?",
                        ((wparam&0xffff) == IDM_HARD_RESET ? "Hard reset"
@@ -1174,6 +1264,7 @@ char *dname;
                 maincpu_trigger_reset();
             }
         }
+        ResumeFullscreenMode(hwnd);
         break;
       case IDM_REFRESH_RATE_AUTO:
         resources_set_value("RefreshRate", (resource_value_t) 0);
@@ -1247,6 +1338,13 @@ char *dname;
         break;
       case IDM_SOUND_SETTINGS:
         ui_sound_settings_dialog(hwnd);
+        break;
+      case IDM_FULLSCREEN_SETTINGS:
+        ui_fullscreen_settings_dialog(hwnd);
+        break;
+      case IDM_TOGGLE_FULLSCREEN|0x00010000:
+      case IDM_TOGGLE_FULLSCREEN:
+        SwitchFullscreenMode(hwnd);
         break;
       case IDM_SYNC_FACTOR_PAL:
         resources_set_value("VideoStandard",
@@ -1332,12 +1430,23 @@ int     window_index;
     }
 
     switch (msg) {
+        case WM_ACTIVATEAPP:
+            if (wparam==WA_INACTIVE) {
+//                log_debug("WM_ACTIVATEAPP inactive %d %08x",window_index,window);
+            } else {
+//                log_debug("WM_ACTIVATEAPP active %d %08x",window_index,window);
+            }
+            break;
         case WM_ACTIVATE:
             if (wparam==WA_INACTIVE) {
+//                log_debug("WM_ACTIVATE inactive %d %08x",window_index,window);
                 ui_active=FALSE;
+                SuspendFullscreenMode(window);
             } else {
+//                log_debug("WM_ACTIVATE active %d %08x",window_index,window);
                 ui_active=TRUE;
                 ui_active_window=window;
+                ResumeFullscreenMode(window);
             }
             mouse_update_mouse_acquire();
             break;
@@ -1495,13 +1604,22 @@ int     window_index;
                 palettechanged = 1;
             break;
         case WM_CLOSE:
+            SuspendFullscreenMode(window);
             if (MessageBox(NULL,
                        "Do you really want to exit?\n\n"
                        "All the data present in the emulated RAM will be lost.",
                        "VICE",
                        MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 | MB_TASKMODAL)
-                == IDYES)
+                       == IDYES) {
+                if (ui_resources.save_resources_on_exit) {
+                    if (resources_save(NULL)<0) {
+                        ui_error("Cannot save settings.");
+                    }
+                }
                 DestroyWindow(window);
+            } else {
+                ResumeFullscreenMode(window);
+            }
             return 0;
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -1515,16 +1633,6 @@ int     window_index;
             if (GetUpdateRect(window, &update_rect, FALSE)) {
                 PAINTSTRUCT ps;
                 HDC hdc;
-#if 0
-                RECT    client_rect;
-
-                hdc=BeginPaint(window,&ps);
-                GetClientRect(window,&client_rect);
-                if ((window_index<number_of_windows) && (exposure_handler[window_index])) {
-                    exposure_handler[window_index](client_rect.right-client_rect.left,client_rect.bottom-client_rect.top-status_height);
-                }
-                EndPaint(window,&ps);
-#else
                 int frame_coord[6];
 
                 hdc = BeginPaint(window, &ps);
@@ -1534,43 +1642,9 @@ int     window_index;
                 frame_coord[2]=update_rect.right;
                 frame_coord[3]=update_rect.bottom;
 
-//                translate_client_to_framebuffer(&frame_coord);
-#if 0
-                //  Check if it's out
-                if ((frame_coord[3]<=0) || (frame_coord[1]>=frame_coord[5]) ||
-                    (frame_coord[2]<=0) || (frame_coord[0]>=frame_coord[4])) {
-                    clear(hdc,update_rect.left,update_rect.top,update_rect.right,update_rect.bottom);
-                }
-
-                //  Cut top
-                if (frame_coord[1]<0) {
-                    clear(hdc,update_rect.left,update_rect.top,update_rect.right,update_rect.top-frame_coord[1]);
-                    update_rect.top-=frame_coord[1];
-                    frame_coord[1]=0;
-                }
-                //  Cut left
-                if (frame_coord[0]<0) {
-                    clear(hdc,update_rect.left,update_rect.top,update_rect.left-frame_coord[0],update_rect.bottom);
-                    update_rect.left-=frame_coord[0];
-                    frame_coord[0]=0;
-                }
-                //  Cut bottom
-                if (frame_coord[3]>frame_coord[5]) {
-                    clear(hdc,update_rect.left,update_rect.bottom-(frame_coord[3]-frame_coord[5]),update_rect.right,update_rect.bottom);
-                    update_rect.bottom-=frame_coord[3]-frame_coord[5];
-                    frame_coord[3]=frame_coord[5];
-                }
-                //  Cut right
-                if (frame_coord[2]>frame_coord[4]) {
-                    clear(hdc,update_rect.right-(frame_coord[2]-frame_coord[4]),update_rect.top,update_rect.right,update_rect.bottom);
-                    update_rect.right-=frame_coord[2]-frame_coord[4];
-                    frame_coord[2]=frame_coord[4];
-                }
-#endif
                 canvas_update(window, hdc,update_rect.left,update_rect.top,update_rect.right-update_rect.left, update_rect.bottom-update_rect.top);
 
                 EndPaint(window, &ps);
-#endif
                 return 0;
             } else
                 break;

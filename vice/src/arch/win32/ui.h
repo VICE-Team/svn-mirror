@@ -32,6 +32,7 @@
 #include <stdio.h>
 
 #define APPLICATION_CLASS "VICE"
+#define APPLICATION_FULLSCREEN_CLASS "VICE:Fullscreen"
 #define CONSOLE_CLASS "VICE:Monitor"
 
 typedef enum {
@@ -84,7 +85,8 @@ void ui_register_res_values(ui_res_value_list *valuelist);
 extern HWND ui_get_main_hwnd(void);
 extern HWND ui_open_canvas_window(const char *title, unsigned int width,
                                   unsigned int height,
-                                  canvas_redraw_t exposure_handler);
+                                  canvas_redraw_t exposure_handler,
+                                  int fullscreen);
 extern void ui_resize_canvas_window(HWND w, unsigned int width,
                                     unsigned int height);
 

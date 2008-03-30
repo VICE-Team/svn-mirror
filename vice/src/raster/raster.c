@@ -331,6 +331,18 @@ static void perform_mode_change(raster_t *raster)
   raster_resize_viewport(raster, viewport->width, viewport->height);
 }
 
+/*  Rebuild Color tables of raster. It's used when colordepth
+    of the viewport changes.
+*/
+void raster_rebuild_tables(raster_t *raster)
+{
+  update_pixel_tables(raster);
+  if (raster->refresh_tables != NULL)
+    raster->refresh_tables();
+
+}
+
+
 /* Increase `area' so that it also includes [xs; xe] at line y.  WARNING:
    this must be called in order, from top to bottom.  */
 inline static void add_line_to_area (raster_area_t *area,

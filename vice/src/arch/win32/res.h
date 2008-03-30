@@ -227,6 +227,12 @@
 #define IDD_CONSOLE_SAVE_DIALOG         1310
 #define IDC_TOGGLE_CONSOLE_APPEND       1311
 
+#define IDD_FULLSCREEN_SETTINGS_DIALOG	1320
+#define IDC_FULLSCREEN_DEVICE		1321
+#define IDC_FULLSCREEN_RESOLUTION	1322
+#define IDC_FULLSCREEN_BITDEPTH		1323
+#define IDC_FULLSCREEN_REFRESHRATE	1324
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
@@ -343,5 +349,8 @@
 #define IDM_LICENSE                     40195
 #define IDM_WARRANTY                    40196
 #define IDM_CMDLINE                     40197
+#define IDM_FULLSCREEN_SETTINGS		40198
+#define IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT	40199
+#define IDM_TOGGLE_FULLSCREEN		40200
 #endif
 

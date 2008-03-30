@@ -77,23 +77,34 @@ typedef struct canvas_s {
     const struct palette_s *palette;
     DWORD physical_colors[256];
     PIXEL *pixels;
+    PIXEL *pixel_translate;
     HWND hwnd;
 //    video_frame_buffer_t      frame_buffer;
+    LPDIRECTDRAW        dd_object;
+    LPDIRECTDRAW2       dd_object2;
     LPDIRECTDRAWSURFACE primary_surface;
     LPDIRECTDRAWSURFACE back_surface;
     LPDIRECTDRAWSURFACE temporary_surface;
     LPDIRECTDRAWCLIPPER clipper;
     LPDIRECTDRAWPALETTE dd_palette;
+    int client_width;
+    int client_height;
 } canvas_t;
 
 /* ------------------------------------------------------------------------ */
 
-extern void canvas_set_border_color(canvas_t *canvas, BYTE color);
+const char *dd_error(HRESULT ddrval);
 
-//extern  video_frame_buffer_t  main_fbuff;
-//extern  canvas_t        *main_canvas;
+int set_palette(canvas_t *c);
+int set_physical_colors(canvas_t *c);
+void video_frame_buffer_translate(canvas_t *c);
 
-extern void canvas_render(canvas_t *c, video_frame_buffer_t *f,
+
+canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd);
+
+void canvas_set_border_color(canvas_t *canvas, BYTE color);
+
+void canvas_render(canvas_t *c, video_frame_buffer_t *f,
                            int xs, int ys, int xi, int yi, int w, int h);
 
 void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h);
