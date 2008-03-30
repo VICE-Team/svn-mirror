@@ -470,11 +470,6 @@ uidriveiec.o: uidriveiec.c ../../../src/vice.h ../../../src/config.h \
 	uidriveiec.h uimenu.h x11/xaw/uimenu.h ui.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
 	uihotkey.h x11/xaw/../xaw/uiarch.h
-uidriveieee.o: uidriveieee.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/drive.h ../../../src/log.h types.h uidrive.h \
-	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
-	x11/xaw/../xaw/uiarch.h uidriveieee.h
 uidrivepetcbm2.o: uidrivepetcbm2.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/drive/drive.h \
 	../../../src/log.h types.h uidrive.h uimenu.h x11/xaw/uimenu.h \
