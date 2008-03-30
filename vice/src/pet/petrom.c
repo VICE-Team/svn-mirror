@@ -44,9 +44,7 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
-
-
-#define IS_NULL(s)  (s == NULL || *s == '\0')
+#include "utils.h"
 
 
 static log_t petrom_log = LOG_ERR;
@@ -462,7 +460,7 @@ int petrom_load_chargen(void)
     if (!rom_loaded)
         return 0;
 
-    if (IS_NULL(petres.chargenName))
+    if (util_check_null_string(petres.chargenName))
         return 0;
 
     /* Load chargen ROM - we load 2k with 8 bytes/char, and generate
@@ -494,7 +492,7 @@ int petrom_load_basic(void)
         return 0;
 
     /* Load Kernal ROM.  */
-    if (!IS_NULL(petres.basicName)) {
+    if (!util_check_null_string(petres.basicName)) {
         const char *name = petres.basicName;
 
         if ((krsize = sysfile_load(name, mem_rom + 0x3000, 0x2000,
@@ -541,7 +539,7 @@ int petrom_load_kernal(void)
     tape_deinstall();
 
     /* Load Kernal ROM.  */
-    if (!IS_NULL(petres.kernalName)) {
+    if (!util_check_null_string(petres.kernalName)) {
         const char *name = petres.kernalName;
 
         if ((krsize = sysfile_load(name, mem_rom + 0x7000, 0x1000,
@@ -573,7 +571,7 @@ int petrom_load_editor(void)
     autostart_init(0, 0, 0, 0, 0, 0);
     tape_deinstall();
 
-    if (!IS_NULL(petres.editorName)) {
+    if (!util_check_null_string(petres.editorName)) {
         const char *name = petres.editorName;
 
         if ((rsize = sysfile_load(name, mem_rom + 0x6000, 0x0800,
@@ -601,7 +599,7 @@ int petrom_load_rom9(void)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(petres.mem9name)) {
+    if (!util_check_null_string(petres.mem9name)) {
         if ((rsize = sysfile_load(petres.mem9name,
             mem_rom + 0x1000, 0x0800, 0x1000)) < 0) {
             log_error(petrom_log, "Couldn't load ROM `%s'.", petres.mem9name);
@@ -630,7 +628,7 @@ int petrom_load_romA(void)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(petres.memAname)) {
+    if (!util_check_null_string(petres.memAname)) {
         if ((rsize = sysfile_load(petres.memAname,
             mem_rom + 0x2000, 0x0800, 0x1000)) < 0) {
             log_error(petrom_log, "Couldn't load ROM `%s'.", petres.memAname);
@@ -659,7 +657,7 @@ int petrom_load_romB(void)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(petres.memBname)) {
+    if (!util_check_null_string(petres.memBname)) {
         if ((rsize = sysfile_load(petres.memBname, mem_rom + 0x3000,
             0x0800, 0x1000)) < 0) {
             log_error(petrom_log, "Couldn't load ROM `%s'.",

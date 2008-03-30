@@ -1,3 +1,35 @@
+2003-02-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.9.
+
+	* initcmdline.c (initcmdline_check_attach): Use util
+	functions. Added support for autoload.
+
+	* c128/c128-cmdline-options.c: Updated command line switches.
+
+	* c128/c128rom.c, vic20/vic20rom.c, pet/petrom.c,
+	cbm2/cbm2rom.c: Use util functions.
+
+	* utils.c, utils.h, initcmdline.c, arch/win32/uilib.c,
+	arch/msdos/uisnapshot.c, arch/os2/dialogs/dlg-fileio.c,
+	autostart.c, cmdline.c, sysfile.c, c1541.c,
+	video/video-cmdline-options.c, video/video-resources.c,
+	raster/raster-cmdline-options.c, vicii/vicii.c, vdc/vdc.c,
+	crtc/crtc.c, vic20/vic.c, plus4/ted.c, arch/unix/archdep.c,
+	arch/unix/uicommands.c, arch/unix/x11/x11menu.c,
+	arch/unix/x11/gnome/uiedisk.c, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/x11/xaw/x11ui.c, arch/win32/archdep.c,
+	arch/win32/dirent.c, arch/win32/ui.c, arch/win32/uilib.c,
+	arch/msdos/archdep.c, arch/msdos/tuifs.c,
+	arch/msdos/uiattach.c, arch/msdos/uisnapshot.c,
+	arch/msdos/vmidas.c, arch/riscos/archdep.c,
+	arch/os2/archdep.c, arch/os2/ui.c, arch/os2/uimon.c,
+	arch/os2/video.c, arch/os2/kbd/parse.c,
+	arch/os2/dialogs/menubar.c, arch/os2/dialogs/dlg-fileio.c,
+	arch/os2/dialogs/dlg-monitor.c, arch/beos/archdep.c,
+	arch/beos/ui.cc, arch/beos/ui_file.cc, arch/beos/ui_video.cc:
+	Changed naming of util functions.
+
 2003-02-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.8.

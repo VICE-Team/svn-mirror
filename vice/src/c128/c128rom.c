@@ -36,10 +36,8 @@
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
+#include "utils.h"
 #include "z80mem.h"
-
-
-#define IS_NULL(s)  (s == NULL || *s == '\0')
 
 
 static log_t c128rom_log = LOG_ERR;
@@ -89,7 +87,7 @@ int c128rom_load_kernal_int(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load international Kernal ROM.  */
         if (sysfile_load(rom_name, kernal_int, C128_KERNAL_ROM_IMAGE_SIZE,
             C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
@@ -106,7 +104,7 @@ int c128rom_load_kernal_de(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load German Kernal ROM.  */
         if (sysfile_load(rom_name, kernal_de, C128_KERNAL_ROM_IMAGE_SIZE,
             C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
@@ -123,7 +121,7 @@ int c128rom_load_kernal_fi(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load Finnish Kernal ROM.  */
         if (sysfile_load(rom_name, kernal_fi, C128_KERNAL_ROM_IMAGE_SIZE,
             C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
@@ -140,7 +138,7 @@ int c128rom_load_kernal_fr(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load French Kernal ROM.  */
         if (sysfile_load(rom_name, kernal_fr, C128_KERNAL_ROM_IMAGE_SIZE,
             C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
@@ -157,7 +155,7 @@ int c128rom_load_kernal_it(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load Italian Kernal ROM.  */
         if (sysfile_load(rom_name, kernal_it, C128_KERNAL_ROM_IMAGE_SIZE,
             C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
@@ -174,7 +172,7 @@ int c128rom_load_kernal_no(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load Norwegian Kernal ROM.  */
         if (sysfile_load(rom_name, kernal_no, C128_KERNAL_ROM_IMAGE_SIZE,
             C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
@@ -191,7 +189,7 @@ int c128rom_load_kernal_se(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load Swedish Kernal ROM.  */
         if (sysfile_load(rom_name, kernal_se, C128_KERNAL_ROM_IMAGE_SIZE,
             C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
@@ -295,7 +293,7 @@ int c128rom_load_basiclo(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load Basic ROM.  */
         if (sysfile_load(rom_name,
             mem_basic_rom, C128_BASIC_ROM_IMAGELO_SIZE,
@@ -313,7 +311,7 @@ int c128rom_load_basichi(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load Basic ROM.  */
         if (sysfile_load(rom_name,
             &mem_basic_rom[C128_BASIC_ROM_IMAGELO_SIZE],
@@ -368,7 +366,7 @@ int c128rom_load_chargen_int(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load chargen ROM.  */
         if (sysfile_load(rom_name, chargen_int, C128_CHARGEN_ROM_SIZE,
             C128_CHARGEN_ROM_SIZE) < 0) {
@@ -385,7 +383,7 @@ int c128rom_load_chargen_de(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load chargen ROM.  */
         if (sysfile_load(rom_name, chargen_de, C128_CHARGEN_ROM_SIZE,
             C128_CHARGEN_ROM_SIZE) < 0) {
@@ -402,7 +400,7 @@ int c128rom_load_chargen_fr(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load chargen ROM.  */
         if (sysfile_load(rom_name, chargen_fr, C128_CHARGEN_ROM_SIZE,
             C128_CHARGEN_ROM_SIZE) < 0) {
@@ -419,7 +417,7 @@ int c128rom_load_chargen_se(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load chargen ROM.  */
         if (sysfile_load(rom_name, chargen_se, C128_CHARGEN_ROM_SIZE,
             C128_CHARGEN_ROM_SIZE) < 0) {
@@ -436,7 +434,7 @@ int c128rom_load_kernal64(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load C64 kernal ROM.  */
         if (sysfile_load(rom_name,
             kernal64_rom, C128_KERNAL64_ROM_SIZE,
@@ -454,7 +452,7 @@ int c128rom_load_basic64(const char *rom_name)
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load basic ROM.  */
         if (sysfile_load(rom_name,
             basic64_rom, C128_BASIC64_ROM_SIZE,

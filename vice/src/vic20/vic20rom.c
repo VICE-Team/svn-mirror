@@ -35,11 +35,9 @@
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
+#include "utils.h"
 #include "vic20mem.h"
 #include "vic20rom.h"
-
-
-#define IS_NULL(s)  (s == NULL || *s == '\0')
 
 
 static log_t vic20rom_log = LOG_ERR;
@@ -76,7 +74,7 @@ int vic20rom_load_kernal(const char *rom_name)
     resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
     resources_set_value("VirtualDevices", (resource_value_t) 1);
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load Kernal ROM. */
         if (sysfile_load(rom_name,
             mem_kernal_rom, VIC20_KERNAL_ROM_SIZE,
@@ -115,7 +113,7 @@ int vic20rom_load_basic(const char *rom_name)
     if (!vicrom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load Basic ROM. */
         if (sysfile_load(rom_name,
             mem_basic_rom, VIC20_BASIC_ROM_SIZE,
@@ -132,7 +130,7 @@ int vic20rom_load_chargen(const char *rom_name)
     if (!vicrom_loaded)
         return 0;
 
-    if (!IS_NULL(rom_name)) {
+    if (!util_check_null_string(rom_name)) {
         /* Load chargen ROM. */
         if (sysfile_load(rom_name,
             mem_chargen_rom + 0x400, VIC20_CHARGEN_ROM_SIZE,
