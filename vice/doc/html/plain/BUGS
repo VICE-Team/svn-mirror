@@ -19,12 +19,27 @@
 - In the C128 emulation VIC-II and VDC palette can not coexist
   currently in some ports.
 
-- The VIC-II implementation lacks cycle exact sprite support.
+- The VIC-II implementation lacks cycle exact sprite collision
+  support.  Also the charset is not visible at the locations $1000 and
+  $9000 in hires mode.
+
+- The 2MHz mode of the C128 is not supported.
 
 - The CBM-II emulation is not fully supported in all ports.
 
 - When loading a snapshot, the monitor break/watchpoints break.
   (at least in xpet)
+
+- The Linux/DGA2 code is known to be unstable, especially when
+  switching back to window mode under some circumstances.
+
+- The Linux/DGA1 and Linux/VIDMODE fullscreen support may be unstable
+  on some systems. Double size/scan does not work currenty.
+
+- The Unix/Gnome port file selector filter does not take care about
+  directories which are most probably filtered out and not
+  listed. Once the directory is changed within the file selector the
+  filter doesn't apply anymore and directories are shown.
 
 - The custom TextField widget is buggy and can cause crashes on
   DEC/Alpha machines, and possibly on other systems too.  If you get
@@ -33,10 +48,8 @@
   with the `--disable-textfield' option.  If it still does not work,
   please tell us.
 
-- Some DEC/Alpha machines crash due to the XAW implementation.  Compile
-  VICE with GNOME support `--enable-gnomeui' instead.
-
-- Dithering on monochrome X11 servers is *very* (VERY!) slow.
+- Some DEC/Alpha machines crash due to the XAW implementation.
+  Compile VICE with GNOME support `--enable-gnomeui' instead.
 
 - When a key which is shifted on the real machine but unshifted on the
   PC or Unix keyboard you are using is pressed, the virtual shift is
@@ -46,19 +59,20 @@
   = Shift + F1, F4 = Shift + F3 and so on); this also works with other
   keys.
 
-- The CBM-II emulator, when the execution bank is set to an open memory
-  bank, sets the zeropage and stack access to unmapped, but actually
-  existing memory. This is a bug but cannot be avoided with the current
-  CPU code architecture.
+- The CBM-II emulator, when the execution bank is set to an open
+  memory bank, sets the zeropage and stack access to unmapped, but
+  actually existing memory. This is a bug but cannot be avoided with
+  the current CPU code architecture.
 
-- When running the burn-in and diagnostics test of the 8296 system disk
-  on "xpet -model 8296" a lot of stuff fails.
+- When running the burn-in and diagnostics test of the 8296 system
+  disk on "xpet -model 8296" a lot of stuff fails.
 
 - Although both are emulated in the xcbm2 emulator, switching between
-  C510 and C6x0/7x0 is not possible at runtime. Use command line option
-  "xcbm -model 510".
+  C510 and C6x0/7x0 is not possible at runtime. Use command line
+  option "xcbm -model 510".
 
-- Dual disk drive 2040/3040 support (DOS1, 670 blocks free) is not working 
+- Dual disk drive 2040/3040 support (DOS1, 670 blocks free) is not
+  working 
 
 - In the C510 emulation the VIC-II timing is not exact, i.e. the
   stopping of the CPU during bad lines is wrong.
