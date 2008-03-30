@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-12-21 01:23+0100\n"
+"POT-Creation-Date: 2005-12-23 01:08+0100\n"
 "PO-Revision-Date: 2005-09-28 17:52+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -361,70 +361,65 @@ msgstr "Spårningsläge (0=normal 1=liten 2=historik)"
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Återspelningsfel: %s inte lika som rad %d i filen debug%06d"
 
-#: src/network.c:280
+#: src/network.c:314
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:332
+#: src/network.c:362
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:355
+#: src/network.c:385
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan inte läsa in ögonblicksbildfil."
 
-#: src/network.c:368
+#: src/network.c:398
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Spara &ögonblicksbild..."
 
-#: src/network.c:377
+#: src/network.c:407
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr "Kan inte läsa ögonblicksbildfil"
 
-#: src/network.c:393
+#: src/network.c:423
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan inte skriva ögonblicksbildfil \"%s\"."
 
-#: src/network.c:410
+#: src/network.c:440
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan inte skriva ögonblicksbildfil \"%s\"."
 
-#: src/network.c:494
+#: src/network.c:508 src/network.c:572
+#, fuzzy, c-format
+msgid "Cannot create snapshot file %s. Select different history directory!"
+msgstr "Kan inte skriva ögonblicksbildfil \"%s\"."
+
+#: src/network.c:542
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:525
+#: src/network.c:583
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr "Kan inte skriva loggfil \"%s\"."
 
-#: src/network.c:546
+#: src/network.c:604
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:556
+#: src/network.c:614
 #, fuzzy
 msgid "Receiving snapshot from server..."
 msgstr "Välj slutögonblicksmodul för händelsehistorik"
 
-#: src/network.c:574
-#, fuzzy
-msgid "Cannot read received snapshot file"
-msgstr "Kan inte läsa in ögonblicksbildfil."
-
-#: src/network.c:704
-#, fuzzy
-msgid "fragmented"
-msgstr "fragmentprogram."
-
-#: src/network.c:734
+#: src/network.c:761
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -5351,6 +5346,14 @@ msgstr "Prestanda kommer att bli dålig."
 #: src/arch/unix/x11/xaw/x11video.c:222
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
+
+#, fuzzy
+#~ msgid "Cannot read received snapshot file"
+#~ msgstr "Kan inte läsa in ögonblicksbildfil."
+
+#, fuzzy
+#~ msgid "fragmented"
+#~ msgstr "fragmentprogram."
 
 #~ msgid "&File"
 #~ msgstr "&Arkiv"

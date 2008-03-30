@@ -290,10 +290,12 @@ inline static void d011_store(BYTE value)
     /* This is the funniest part... handle bad line tricks.  */
     old_allow_bad_lines = vicii.allow_bad_lines;
 
-    if (line == vicii.first_dma_line && (value & 0x10) != 0)
+    if (VICII_RASTER_Y(maincpu_clk - 1) == vicii.first_dma_line
+        && (value & 0x10) != 0)
         vicii.allow_bad_lines = 1;
 
-    if (vicii.raster.ysmooth != (value & 7)
+    if ((vicii.raster.ysmooth != (value & 7)
+        || vicii.allow_bad_lines != old_allow_bad_lines)
         && line >= vicii.first_dma_line
         && line <= vicii.last_dma_line)
         vicii_badline_check_state(value, cycle, line, old_allow_bad_lines);

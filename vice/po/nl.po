@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.17\n"
-"POT-Creation-Date: 2005-12-21 01:23+0100\n"
+"POT-Creation-Date: 2005-12-23 01:08+0100\n"
 "PO-Revision-Date: 2005-09-18 11:20+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -364,65 +364,62 @@ msgstr "Traceer modus (0=normaal 1=klein 2=geschiedenis"
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 
-#: src/network.c:280
+#: src/network.c:314
 msgid "Testing best frame delay..."
 msgstr "Beste frame vertraging aan het testen..."
 
-#: src/network.c:332
+#: src/network.c:362
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d frames vertraging in gebruik."
 
-#: src/network.c:355
+#: src/network.c:385
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan het momentopname bestand voor versturen niet laden"
 
-#: src/network.c:368
+#: src/network.c:398
 msgid "Sending snapshot to client..."
 msgstr "Momentopname wordt naar de andere computer verstuurd..."
 
-#: src/network.c:377
+#: src/network.c:407
 msgid "Cannot send snapshot to client"
 msgstr "Kan de momentopname niet naar de andere computer versturen"
 
-#: src/network.c:393
+#: src/network.c:423
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet maken"
 
-#: src/network.c:410
+#: src/network.c:440
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet openen"
 
-#: src/network.c:494
+#: src/network.c:508 src/network.c:572
+#, fuzzy, c-format
+msgid "Cannot create snapshot file %s. Select different history directory!"
+msgstr "Kan het momentopname bestand %s niet maken"
+
+#: src/network.c:542
 msgid "Server is waiting for a client..."
 msgstr "De server wacht op de andere computer..."
 
-#: src/network.c:525
+#: src/network.c:583
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Onbekende host %s"
 
-#: src/network.c:546
+#: src/network.c:604
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."
 
-#: src/network.c:556
+#: src/network.c:614
 msgid "Receiving snapshot from server..."
 msgstr "Momentopname van de server wordt ontvangen..."
 
-#: src/network.c:574
-msgid "Cannot read received snapshot file"
-msgstr "Kan het ontvangen momentopname bestand niet lezen"
-
-#: src/network.c:704
-msgid "fragmented"
-msgstr "gefragmenteerd"
-
-#: src/network.c:734
+#: src/network.c:761
 msgid "Network out of sync - disconnecting."
 msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 
@@ -5354,6 +5351,12 @@ msgstr "Prestatie zal slecht zijn."
 #: src/arch/unix/x11/xaw/x11video.c:222
 msgid "Successfully initialized without shared memory."
 msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
+
+#~ msgid "Cannot read received snapshot file"
+#~ msgstr "Kan het ontvangen momentopname bestand niet lezen"
+
+#~ msgid "fragmented"
+#~ msgstr "gefragmenteerd"
 
 #, fuzzy
 #~ msgid "&File"

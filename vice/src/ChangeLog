@@ -1,3 +1,29 @@
+2005-12-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.6.
+
+	* vicii/vicii-mem.c (d011_store): A bad line can also be
+	triggered by setting DEN bit in line 48.
+
+2005-12-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/uiconsole.c, uisnapshot.c, uimediafile.c:
+	Replaced fixed filter array with a malloced one to avoid
+	crashes.
+
+	* joystick.c (joystick_latch_matrix): Uses first byte of
+	joystick array to dtermine, which port was changed and leave
+	the other unchanged. This is needed for netplay.
+	Removed unused function joystick_get_value_absolute().
+	(joystick_set_value_*) These function store the changed
+	joyport in the first byte of the array (which was unused).
+
+	* network.c (network_send_buffer, network_recv_buffer): New
+	functions to send and receive network buffer with
+	fragmentation support. Every send and recv is done here now.
+
+	* translate.c|h: Removed unused network.c translations.
+
 2005-12-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.5.

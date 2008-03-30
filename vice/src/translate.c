@@ -431,7 +431,7 @@ translate_t string_table[] = {
 /* sv */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_SV, ""},  /* fuzzy */
 
 /* network.c */
-/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S,    "Cannot create snapshot file %s"},
+/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S,    "Cannot create snapshot file %s. Select different history directory!"},
 /* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_FR, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT, ""},  /* fuzzy */
@@ -483,24 +483,6 @@ translate_t string_table[] = {
 /* nl */ {IDGS_RECEIVING_SNAPSHOT_SERVER_NL, "Momentopname van de server wordt ontvangen..."},
 /* pl */ {IDGS_RECEIVING_SNAPSHOT_SERVER_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RECEIVING_SNAPSHOT_SERVER_SV, ""},  /* fuzzy */
-
-/* network.c */
-/* en */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT,    "Cannot read received snapshot file"},
-/* de */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_DE, ""},  /* fuzzy */
-/* fr */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_FR, ""},  /* fuzzy */
-/* it */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_IT, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_NL, "Kan het ontvangen momentopname bestand niet lezen"},
-/* pl */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_SV, ""},  /* fuzzy */
-
-/* network.c */
-/* en */ {IDGS_FRAGMENTED,    "fragmented"},
-/* de */ {IDGS_FRAGMENTED_DE, ""},  /* fuzzy */
-/* fr */ {IDGS_FRAGMENTED_FR, ""},  /* fuzzy */
-/* it */ {IDGS_FRAGMENTED_IT, ""},  /* fuzzy */
-/* nl */ {IDGS_FRAGMENTED_NL, "gefragmenteerd"},
-/* pl */ {IDGS_FRAGMENTED_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_FRAGMENTED_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_NETWORK_OUT_OF_SYNC,    "Network out of sync - disconnecting."},
@@ -4239,24 +4221,6 @@ static int translate_text_table[][countof(language_table)] = {
 /* nl */  IDGS_RECEIVING_SNAPSHOT_SERVER_NL,
 /* pl */  IDGS_RECEIVING_SNAPSHOT_SERVER_PL,
 /* sv */  IDGS_RECEIVING_SNAPSHOT_SERVER_SV},
-
-/* network.c */
-/* en */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT,
-/* de */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_DE,
-/* fr */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_FR,
-/* it */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_IT,
-/* nl */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_NL,
-/* pl */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_PL,
-/* sv */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_SV},
-
-/* network.c */
-/* en */ {IDGS_FRAGMENTED,
-/* de */  IDGS_FRAGMENTED_DE,
-/* fr */  IDGS_FRAGMENTED_FR,
-/* it */  IDGS_FRAGMENTED_IT,
-/* nl */  IDGS_FRAGMENTED_NL,
-/* pl */  IDGS_FRAGMENTED_PL,
-/* sv */  IDGS_FRAGMENTED_SV},
 
 /* network.c */
 /* en */ {IDGS_NETWORK_OUT_OF_SYNC,

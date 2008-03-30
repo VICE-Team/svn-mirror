@@ -262,6 +262,40 @@ static event_list_state_t *network_create_event_list(BYTE *remote_event_buffer)
     return list;
 }
 
+static int network_recv_buffer(SOCKET s, BYTE *buf, int len)
+{
+    int t;
+    int received_total = 0;
+
+    while (received_total < len) {
+        t = recv(s, buf, len - received_total, 0);
+        
+        if (t < 0)
+            return t;
+
+        received_total += t;
+        buf += t;
+    }
+    return 0;
+}
+
+static int network_send_buffer(SOCKET s, const BYTE *buf, int len)
+{
+    int t;
+    int sent_total = 0;
+
+    while (sent_total < len) {
+        t = send(s, buf, len - sent_total, 0);
+        
+        if (t < 0)
+            return t;
+
+        sent_total += t;
+        buf += t;
+    }
+    return 0;
+}
+
 #define NUM_OF_TESTPACKETS 50
 
 static void network_test_delay(void)
@@ -283,10 +317,8 @@ static void network_test_delay(void)
     if (network_mode == NETWORK_SERVER_CONNECTED) {
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
             *((unsigned long*)buf) = vsyncarch_gettime();
-            if ((int)send(network_socket, buf, sizeof(buf), 0)
-                < (int)sizeof(buf)
-                || (int)recv(network_socket, buf, sizeof(buf), 0)
-                < (int)sizeof(buf))
+            if (network_send_buffer(network_socket, buf, sizeof(buf)) <  0
+                || network_recv_buffer(network_socket, buf, sizeof(buf)) <  0)
                 return;
             packet_delay[i] = vsyncarch_gettime() - *((unsigned long*)buf);
         }
@@ -311,17 +343,15 @@ static void network_test_delay(void)
         new_frame_delta = 5 + 2 * (BYTE)(vsync_get_refresh_frequency()
                             * packet_delay[(int)(0.1 * NUM_OF_TESTPACKETS)]
                             / (float)vsyncarch_frequency());
-        send(network_socket, &new_frame_delta, sizeof(new_frame_delta), 0);
+        network_send_buffer(network_socket, &new_frame_delta, sizeof(new_frame_delta));
     } else {
         /* network_mode == NETWORK_CLIENT */
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
-            if ((int)recv(network_socket, buf, sizeof(buf), 0)
-                < (int)sizeof(buf)
-                || (int)send(network_socket, buf, sizeof(buf), 0)
-                < (int)sizeof(buf))
+            if (network_recv_buffer(network_socket, buf, sizeof(buf)) <  0
+                || network_send_buffer(network_socket, buf, sizeof(buf)) < 0)
                 return;
         }
-        recv(network_socket, &new_frame_delta, sizeof(new_frame_delta), 0);
+        network_recv_buffer(network_socket, &new_frame_delta, sizeof(new_frame_delta));
     }
     network_free_frame_event_list();
     frame_delta = new_frame_delta;
@@ -367,10 +397,10 @@ static void network_server_connect_trap(WORD addr, void *data)
 #else
         ui_display_statustext(_("Sending snapshot to client..."), 0);
 #endif
-        send(network_socket, (char*)&buf_size, sizeof(long), 0);
-        i = send(network_socket, buf, buf_size, 0);
+        network_send_buffer(network_socket, (char*)&buf_size, sizeof(long));
+        i = network_send_buffer(network_socket, buf, buf_size);
         lib_free(buf);
-        if (i != buf_size) {
+        if (i < 0) {
 #ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT));
 #else
@@ -459,12 +489,30 @@ int network_start_server(void)
 {
 #ifdef HAVE_NETWORK
     struct sockaddr_in server_addr;
+    char *directory, *filename;
+    FILE *fd;
 
     if (network_init() < 0)
         return -1;
 
     if (network_mode != NETWORK_IDLE)
         return -1;
+
+    resources_get_value("EventSnapshotDir", (void *)&directory);
+    filename = util_concat(directory, "server", FSDEV_EXT_SEP_STR, "vsf", NULL);
+    fd = fopen(filename, MODE_WRITE);
+    if (fd == NULL) {
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), filename);
+#else
+        ui_error(_("Cannot create snapshot file %s. Select different history directory!"), filename);
+#endif
+        lib_free(filename);
+        return -1;
+    }
+
+    lib_free(filename);
+    fclose(fd);
 
     server_addr.sin_port = htons(server_port);
     server_addr.sin_addr.s_addr = htonl(0);
@@ -516,6 +564,16 @@ int network_connect_client(void)
 
     resources_get_value("EventSnapshotDir", (void *)&directory);
     filename = util_concat(directory, "client", FSDEV_EXT_SEP_STR, "vsf", NULL);
+    f = fopen(filename, MODE_WRITE);
+    if (f == NULL) {
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), filename);
+#else
+        ui_error(_("Cannot create snapshot file %s. Select different history directory!"), filename);
+#endif
+        lib_free(filename);
+        return -1;
+    }
 
     server_hostent = gethostbyname(server_name);
     if (server_hostent == NULL) {
@@ -555,27 +613,16 @@ int network_connect_client(void)
 #else
     ui_display_statustext(_("Receiving snapshot from server..."), 0);
 #endif
-    if (recv(network_socket, (char*)&buf_size, sizeof(long), 0)
-        != sizeof(long)) {
+    if (network_recv_buffer(network_socket, (char*)&buf_size, sizeof(long)) < 0)
+    {
         lib_free(filename);
         return -1;
     }
 
     buf = lib_malloc(buf_size);
 
-    if (recv(network_socket, buf, buf_size, 0) != buf_size)
+    if (network_recv_buffer(network_socket, buf, buf_size) <  0)
         return -1;
-
-    f = fopen(filename, MODE_WRITE);
-    if (f == NULL) {
-#ifdef HAS_TRANSLATION
-        ui_error(translate_text(IDGS_CANNOT_READ_RECEIVED_SNAPSHOT));
-#else
-        ui_error(_("Cannot read received snapshot file"));
-#endif
-        lib_free(filename);
-        return -1;
-    }
 
     fwrite(buf, 1, buf_size, f);
     fclose(f);
@@ -605,7 +652,8 @@ void network_suspend(void)
     if (!network_connected() || suspended == 1)
         return;
 
-    send(network_socket, (char*)&dummy_buf_len, sizeof(unsigned int), 0);
+    network_send_buffer(network_socket, (char*)&dummy_buf_len, 
+                        sizeof(unsigned int));
 #endif
 }
 
@@ -633,7 +681,6 @@ void network_hook(void)
     if (network_mode == NETWORK_SERVER_CONNECTED
         || network_mode == NETWORK_CLIENT) 
     {
-        unsigned int temp;
         BYTE *local_event_buf = NULL, *remote_event_buf = NULL;
         unsigned int local_buf_len, remote_buf_len;
         event_list_state_t *remote_event_list;
@@ -647,8 +694,8 @@ void network_hook(void)
 #ifdef NETWORK_DEBUG
         log_debug("network hook before send: %d",vsyncarch_gettime());
 #endif
-        send(network_socket, (char*)&local_buf_len, sizeof(unsigned int), 0);
-        send(network_socket, local_event_buf, local_buf_len, 0);
+        network_send_buffer(network_socket, (char*)&local_buf_len, sizeof(unsigned int));
+        network_send_buffer(network_socket, local_event_buf, local_buf_len);
 #ifdef NETWORK_DEBUG
         log_debug("network hook after send : %d",vsyncarch_gettime());
 #endif
@@ -660,19 +707,12 @@ void network_hook(void)
 
         if (frame_buffer_full) {
             do {
-                temp = 0;
-                while(temp < sizeof(unsigned int)) {
-                    int t;
-                    t = recv(network_socket, (char*)&remote_buf_len,
-                             sizeof(unsigned int), 0);
-                    if (t < 0) {
-                        ui_display_statustext("Remote host disconnected.", 1);
-                        network_disconnect();
-                        return;
-                    }
-                    temp += t;
-                    if (temp < sizeof(unsigned int))
-                        ui_error("fragmented");
+                if (network_recv_buffer(network_socket, (char*)&remote_buf_len,
+                                        sizeof(unsigned int)) < 0)
+                {
+                    ui_display_statustext("Remote host disconnected.", 1);
+                    network_disconnect();
+                    return;
                 }
 
                 if (remote_buf_len == 0 && suspended == 0) {
@@ -687,23 +727,10 @@ void network_hook(void)
                 ui_display_statustext("", 0);
 
             remote_event_buf = lib_malloc(remote_buf_len);
-            temp = 0;
-            while (temp < remote_buf_len) {
-                int t;
 
-                t = recv(network_socket, remote_event_buf + temp,
-                         remote_buf_len, 0);
-                if (t < 0)
-                    return;
-
-                temp += t;
-                if (temp < remote_buf_len)
-#ifdef HAS_TRANSLATION
-                    ui_error(translate_text(IDGS_FRAGMENTED));
-#else
-                    ui_error(_("fragmented"));
-#endif
-            }
+            if (network_recv_buffer(network_socket, remote_event_buf,
+                                    remote_buf_len) < 0)
+                return;
 #ifdef NETWORK_DEBUG
             log_debug("network hook after recv : %d",vsyncarch_gettime());
 #endif

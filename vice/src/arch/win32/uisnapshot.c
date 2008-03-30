@@ -140,18 +140,19 @@ static void ui_snapshot_save_dialog(HWND hwnd)
 {
     int filter_len,mask_len;
     char *s;
-    char filter[100];
+    char *filter;
     char mask[]="*.vsf";
     s=translate_text(IDS_SNAPSHOT_FILES_FILTER);
     filter_len=strlen(s);
     mask_len=strlen(mask);
-    sprintf(filter,"%s0%s0",s,mask);
+    filter = util_concat(s, "0", mask, "0", NULL);
     filter[filter_len]='\0';
     filter[filter_len+mask_len+1]='\0';
 
     s = ui_save_snapshot(translate_text(IDS_SAVE_SNAPSHOT_IMAGE),
                          filter,
                          hwnd, translate_res(IDD_SNAPSHOT_SAVE_DIALOG));
+    lib_free(filter);
     if (s != NULL) {
         util_add_extension(&s, "vsf");
 

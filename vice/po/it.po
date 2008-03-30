@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-12-21 01:23+0100\n"
+"POT-Creation-Date: 2005-12-23 01:08+0100\n"
 "PO-Revision-Date: 2005-10-02 12:18+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -371,69 +371,64 @@ msgstr ""
 "Errore di riproduzione: %s è differente dalla linea %d del file di debug %"
 "06d"
 
-#: src/network.c:280
+#: src/network.c:314
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:332
+#: src/network.c:362
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:355
+#: src/network.c:385
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr "Non è possibile caricare il file di snapshot."
 
-#: src/network.c:368
+#: src/network.c:398
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Salva immagine dello sna&pshot..."
 
-#: src/network.c:377
+#: src/network.c:407
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr "Non è possibile leggere l'immagine di snapshot"
 
-#: src/network.c:393
+#: src/network.c:423
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Non è possibile scrivere il file di snapshot `%s'."
 
-#: src/network.c:410
+#: src/network.c:440
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Non è possibile scrivere il file di snapshot `%s'."
 
-#: src/network.c:494
+#: src/network.c:508 src/network.c:572
+#, fuzzy, c-format
+msgid "Cannot create snapshot file %s. Select different history directory!"
+msgstr "Non è possibile scrivere il file di snapshot `%s'."
+
+#: src/network.c:542
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:525
+#: src/network.c:583
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr "Non è possibile scrivere il file di log `%s'."
 
-#: src/network.c:546
+#: src/network.c:604
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:556
+#: src/network.c:614
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:574
-#, fuzzy
-msgid "Cannot read received snapshot file"
-msgstr "Non è possibile caricare il file di snapshot."
-
-#: src/network.c:704
-#, fuzzy
-msgid "fragmented"
-msgstr "problemi di frammentazione."
-
-#: src/network.c:734
+#: src/network.c:761
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -5409,6 +5404,14 @@ msgstr "Le prestazioni saranno scarse."
 #: src/arch/unix/x11/xaw/x11video.c:222
 msgid "Successfully initialized without shared memory."
 msgstr "Inizializzato con successo senza memoria condivisa."
+
+#, fuzzy
+#~ msgid "Cannot read received snapshot file"
+#~ msgstr "Non è possibile caricare il file di snapshot."
+
+#, fuzzy
+#~ msgid "fragmented"
+#~ msgstr "problemi di frammentazione."
 
 #~ msgid "&File"
 #~ msgstr "&File"

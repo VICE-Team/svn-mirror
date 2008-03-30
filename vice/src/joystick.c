@@ -68,10 +68,21 @@ static CLOCK joystick_delay;
 
 static void joystick_latch_matrix(CLOCK offset)
 {
-    if (network_connected())
-        memcpy(joystick_value, network_joystick_value, sizeof(joystick_value));
-    else
-        memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
+    BYTE idx;
+
+    if (network_connected()) {
+        idx = network_joystick_value[0];
+        if (idx > 0)
+            joystick_value[idx] = network_joystick_value[idx];
+        else
+            memcpy(joystick_value, network_joystick_value, sizeof(joystick_value));
+    } else {
+        idx = latch_joystick_value[0];
+        if (idx > 0)
+            joystick_value[idx] = latch_joystick_value[idx];
+        else
+            memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
+    }
     ui_display_joyport(joystick_value);
 }
 
@@ -131,13 +142,11 @@ void joystick_set_value_absolute(unsigned int joyport, BYTE value)
     if (event_playback_active())
         return;
 
-    latch_joystick_value[joyport] = value;
-    joystick_process_latch();
-}
-
-BYTE joystick_get_value_absolute(unsigned int joyport)
-{
-    return latch_joystick_value[joyport];
+    if (latch_joystick_value[joyport] != value) {
+        latch_joystick_value[joyport] = value;
+        latch_joystick_value[0] = (BYTE)joyport;
+        joystick_process_latch();
+    }
 }
 
 void joystick_set_value_or(unsigned int joyport, BYTE value)
@@ -147,6 +156,7 @@ void joystick_set_value_or(unsigned int joyport, BYTE value)
 
     latch_joystick_value[joyport] |= value;
     latch_joystick_value[joyport] &= ~joystick_opposite_direction[value & 0xf];
+    latch_joystick_value[0] = (BYTE)joyport;
     joystick_process_latch();
 }
 
@@ -156,12 +166,14 @@ void joystick_set_value_and(unsigned int joyport, BYTE value)
         return;
 
     latch_joystick_value[joyport] &= value;
+    latch_joystick_value[0] = (BYTE)joyport;
     joystick_process_latch();
 }
 
 void joystick_clear(unsigned int joyport)
 {
     latch_joystick_value[joyport] = 0;
+    latch_joystick_value[0] = (BYTE)joyport;
     joystick_latch_matrix(0);
 }
 

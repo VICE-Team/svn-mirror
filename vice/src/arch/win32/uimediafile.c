@@ -280,7 +280,7 @@ void ui_mediafile_save_dialog(HWND hwnd)
 {
     int filter_len,mask_len;
     char *s;
-    char filter[100];
+    char *filter;
     char mask[]="*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg";
 
     if (screenshot_is_recording()) {
@@ -292,13 +292,15 @@ void ui_mediafile_save_dialog(HWND hwnd)
     s=translate_text(IDS_MEDIA_FILES_FILTER);
     filter_len=strlen(s);
     mask_len=strlen(mask);
-    sprintf(filter,"%s0%s0",s,mask);
+    filter = util_concat(s, "0", mask, "0", NULL);
     filter[filter_len]='\0';
     filter[filter_len+mask_len+1]='\0';
     s = ui_save_mediafile(translate_text(IDS_SAVE_MEDIA_IMAGE),
         filter,
         hwnd,
         translate_res(IDD_MEDIAFILE_DIALOG));
+
+    lib_free(filter);
 
     if (s != NULL) {
         selected_driver = gfxoutput_get_driver(screendrivername);

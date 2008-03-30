@@ -3690,24 +3690,6 @@ extern int translate_res(int en_resource);
 #define IDGS_RECEIVING_SNAPSHOT_SERVER_SV       0x119f1
 
 /* network.c */
-#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT      0x119f2
-#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_DE   0x119f3
-#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_FR   0x119f4
-#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_IT   0x119f5
-#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_NL   0x119f6
-#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_PL   0x119f7
-#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_SV   0x119f8
-
-/* network.c */
-#define IDGS_FRAGMENTED                         0x119f9
-#define IDGS_FRAGMENTED_DE                      0x119fa
-#define IDGS_FRAGMENTED_FR                      0x119fb
-#define IDGS_FRAGMENTED_IT                      0x119fc
-#define IDGS_FRAGMENTED_NL                      0x119fd
-#define IDGS_FRAGMENTED_PL                      0x119fe
-#define IDGS_FRAGMENTED_SV                      0x119ff
-
-/* network.c */
 #define IDGS_NETWORK_OUT_OF_SYNC                0x11a00
 #define IDGS_NETWORK_OUT_OF_SYNC_DE             0x11a01
 #define IDGS_NETWORK_OUT_OF_SYNC_FR             0x11a02
