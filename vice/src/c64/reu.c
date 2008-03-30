@@ -41,7 +41,7 @@
 #include "mem.h"
 #include "utils.h"
 
-#define REU_DEBUG
+/* #define REU_DEBUG */
 
 #define REUSIZE 512
 
@@ -180,6 +180,7 @@ void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
     if (reuram == NULL)
         reset_reu(0);
 
+/*
     if (addr == 4) {
         latch4 = byte;
         latched45 = 1;
@@ -191,11 +192,13 @@ void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
             latch5 = byte;
             reu[4] = latch4;
             reu[5] = latch5;
+            latched45 = 0;
             return;
         } else {
             return;
         }
     }
+*/
 
     reu[addr] = byte;
 
