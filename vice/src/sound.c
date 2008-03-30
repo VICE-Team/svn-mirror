@@ -293,19 +293,21 @@ static int closesound(const char *msg)
 	sound_machine_close(snddata.psid);
 	snddata.psid = NULL;
     }
-    if (msg)
+
+    /* The UI dialog below pauses emulation. Also, the sound engine
+       initalization on the next call to initsid() may take some
+       time. */
+    suspend_speed_eval();
+
+    if (msg && msg[0])
     {
-        suspend_speed_eval();
-	if (msg[0])
-	{
-	    if (console_mode || vsid_mode)
-	        log_message(LOG_DEFAULT, "SOUND: %s", msg);
-	    else
-	        ui_error(msg);
-            playback_enabled = 0;
-	    if (!console_mode)
-	        ui_update_menus();
-	}
+        if (console_mode || vsid_mode)
+	    log_message(LOG_DEFAULT, "SOUND: %s", msg);
+	else
+	    ui_error(msg);
+	playback_enabled = 0;
+	if (!console_mode)
+	    ui_update_menus();
     }
     snddata.prevused = snddata.prevfill = 0;
     return 1;
@@ -555,10 +557,14 @@ int sound_flush(int relative_speed)
 {
     int	i, nr, space, used, fill = 0, dir = 0;
 
-    if (!playback_enabled || sound_state_changed) {
+    if (!playback_enabled) {
+        if (sdev_open) sound_close();
+        return 0;
+    }
+
+    if (sound_state_changed) {
         if (sdev_open) sound_close();
         sound_state_changed = FALSE;
-        return 0;
     }
 
     if (suspend_time > 0)
