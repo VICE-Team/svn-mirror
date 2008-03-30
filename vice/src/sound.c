@@ -298,11 +298,10 @@ static void suspendsound(const char *reason)
 
 static void enablesound(void)
 {
-    int	now, diff;
+    int	diff;
     if (!disabletime)
         return;
-    now = time(0);
-    diff = now - disabletime;
+    diff = time(0) - disabletime;
     if (diff < 0 || diff >= suspend_time)
     {
         disabletime = 0;
@@ -312,7 +311,7 @@ static void enablesound(void)
 /* open sound device */
 static int initsid(void)
 {
-    int i, tmp;
+    int i;
     sound_device_t *pdev;
     char *name;
     char *param;
@@ -331,15 +330,11 @@ static int initsid(void)
     param = device_arg;
     if (param && !strcmp(param, ""))
 	param = NULL;
-    tmp = buffer_size;
-    if (tmp < 100 || tmp > 1000)
-	tmp = SOUND_SAMPLE_BUFFER_SIZE;
-    bufsize = tmp / 1000.0;
 
-    speed = sample_rate;
-    if (speed < 8000 || speed > 50000)
-	speed = SOUND_SAMPLE_RATE;
-    /* calculate optimal fragments */
+    bufsize = ((buffer_size<100 || buffer_size>1000)?SOUND_SAMPLE_BUFFER_SIZE:buffer_size)/1000.0;
+    speed   = (sample_rate<8000 || sample_rate>50000)?SOUND_SAMPLE_RATE:sample_rate;
+
+        /* calculate optimal fragments */
     fragsize = speed / ((int)rfsh_per_sec);
     for (i = 1; 1 << i < fragsize; i++);
     fragsize = 1 << i;
@@ -355,8 +350,7 @@ static int initsid(void)
 	    if (pdev->init)
 	    {
 		sprintf(err, "SOUND(%s)", pdev->name);
-		tmp = pdev->init(param, &speed, &fragsize, &fragnr, bufsize);
-		if (tmp)
+		if (pdev->init(param, &speed, &fragsize, &fragnr, bufsize))
 		{
 		    sprintf(err, "Audio: initialization failed for device `%s'.",
 			    pdev->name);
@@ -399,14 +393,13 @@ static int initsid(void)
 	    snddata.wclk = clk;
 
 	    /* Set warp mode for non-realtime sound devices in psid mode. */
-	    if (psid_mode && !pdev->bufferstatus) {
+	    if (psid_mode && !pdev->bufferstatus)
 	        resources_set_value("WarpMode", (resource_value_t)1);
-	    }
 
 	    return 0;
 	}
     }
-    sprintf(err, "Audio: device `%s' not found or not supported.", name);
+    sprintf(err, "Audio: device '%s' not found or not supported.", name);
     return closesound(err);
 }
 
@@ -415,9 +408,7 @@ static int sound_run_sound(void)
 {
     int	nr, i;
     /* XXX: implement the exact ... */
-    if (!playback_enabled)
-        return 1;
-    if (suspend_time > 0 && disabletime)
+    if (!playback_enabled || (suspend_time > 0 && disabletime))
         return 1;
     if (!snddata.pdev)
     {
@@ -434,14 +425,14 @@ static int sound_run_sound(void)
     nr = (int)((clk - snddata.fclk) / snddata.clkstep);
     if (!nr)
 	return 0;
-    if (snddata.bufptr + nr > BUFSIZE){
+    if (snddata.bufptr + nr > BUFSIZE)
         return closesound("Audio: sound buffer overflow.");
-    }
+
     sound_machine_calculate_samples(snddata.psid,
 				    snddata.buffer + snddata.bufptr,
 				    nr);
     snddata.bufptr += nr;
-    snddata.fclk += nr*snddata.clkstep;
+    snddata.fclk   += nr*snddata.clkstep;
     return 0;
 }
 
@@ -480,14 +471,14 @@ int sound_flush(int relative_speed)
     if (!playback_enabled || sound_state_changed)
     {
         if (sdev_open) sound_close();
+        sound_state_changed = FALSE;
         return 0;
     }
 
     if (suspend_time > 0)
         enablesound();
-    i = sound_run_sound();
-    if (i)
-	return 0;
+    if (sound_run_sound())
+        return 0;
     sound_resume();
 
     if (warp_mode_enabled && snddata.pdev->bufferstatus != NULL) {
@@ -513,17 +504,25 @@ int sound_flush(int relative_speed)
     /* handle oversampling */
     if (snddata.oversamplenr > 1)
     {
-	int j, k, newnr;
-	SDWORD v;
+	int j, newnr;
 	newnr = nr >> snddata.oversampleshift;
-	for (k = i = 0; i < newnr; i++)
-	{
-	    for (v = j = 0; j < (int)(snddata.oversamplenr); j++)
-		v += snddata.buffer[k++];
-	    snddata.buffer[i] = v >> snddata.oversampleshift;
-	}
-	for (i = 0; i < snddata.bufptr - nr; i++)
-	    snddata.buffer[newnr + i] = snddata.buffer[nr + i];
+        {
+            SDWORD v;
+            SWORD *sndbufj = &snddata.buffer[0];
+            SWORD *sndbufi = &snddata.buffer[0];
+            for (i = 0; i++ < newnr;)
+            {
+                for (v = j = 0; j++ < (int)(snddata.oversamplenr);)
+                    v += *(sndbufj++);
+                *(sndbufi++) = v >> snddata.oversampleshift;
+            }
+        }
+        {
+            SWORD *sndbufnewnr = &snddata.buffer[newnr];
+            SWORD *sndbufnr    = &snddata.buffer[nr];
+            for (i = 0; i++ < snddata.bufptr - nr;)
+                *(sndbufnewnr++) = *(sndbufnr++);
+        }
 	snddata.bufptr -= (nr - newnr);
 	nr = newnr;
     }
@@ -533,15 +532,15 @@ int sound_flush(int relative_speed)
 	space = snddata.pdev->bufferstatus(0);
 	if (!snddata.firststatus)
 	    space = snddata.bufsize - space;
-	used = snddata.bufsize - space;
-	if (space < 0 || used < 0)
+	if (space < 0 || space > snddata.bufsize)
 	{
 	    log_warning(LOG_DEFAULT, "fragment problems %d %d %d",
-		 space, used, snddata.firststatus);
+		 space, snddata.bufsize - space, snddata.firststatus);
 
             closesound("Audio: fragment problems.");
 	    return 0;
 	}
+	used = snddata.bufsize - space;
 	/* buffer empty */
 	if (used <= snddata.fragsize)
 	{
@@ -573,8 +572,7 @@ int sound_flush(int relative_speed)
 		v = snddata.bufptr > 0 ? snddata.buffer[0] : 0;
 		for (i = 0; i < j / (int)sizeof(*p); i++)
 		    p[i] = (float)v*i/(j / (int)sizeof(*p));
-		i = snddata.pdev->write(p, j / sizeof(*p));
-		if (i)
+		if (snddata.pdev->write(p, j/sizeof(*p)))
 		{
 		    closesound("Audio: write to sound device failed.");
 		    return 0;
@@ -630,8 +628,7 @@ int sound_flush(int relative_speed)
 	if (nr > space && nr < used)
 	    nr = space;
     }
-    i = snddata.pdev->write(snddata.buffer, nr);
-    if (i)
+    if (snddata.pdev->write(snddata.buffer, nr))
     {
 	closesound("Audio: write to sounddevice failed.");
 	return 0;
@@ -662,7 +659,7 @@ void sound_suspend(void)
     SWORD *p, v;
     if (snddata.pdev)
     {
-	if (snddata.pdev->write && snddata.issuspended == 0)
+	if (snddata.pdev->write && !snddata.issuspended)
 	{
 	    p = (short*)xmalloc(snddata.fragsize*sizeof(SWORD));
 	    if (!p)
@@ -675,10 +672,9 @@ void sound_suspend(void)
 	    if (i)
 		return;
 	}
-	if (snddata.pdev->suspend && snddata.issuspended == 0)
+	if (snddata.pdev->suspend && !snddata.issuspended)
 	{
-	    i = snddata.pdev->suspend();
-	    if (i)
+	    if (snddata.pdev->suspend())
 		return;
 	}
 	snddata.issuspended = 1;
@@ -688,16 +684,10 @@ void sound_suspend(void)
 /* resume sid */
 void sound_resume(void)
 {
-    int	i;
     if (snddata.pdev)
     {
-	if (snddata.pdev->resume && snddata.issuspended == 1)
-	{
-	    i = snddata.pdev->resume();
-	    snddata.issuspended = i ? 1 : 0;
-	}
-	else
-	    snddata.issuspended = 0;
+        snddata.issuspended = (snddata.pdev->resume && snddata.issuspended == 1)
+                              ? (snddata.pdev->resume() ? 1 : 0) : 0;
     }
 }
 
@@ -706,10 +696,10 @@ void sound_resume(void)
 void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 {
     sound_state_changed = FALSE;
-    
-    cycles_per_sec = clock_rate;
+
+    cycles_per_sec  = clock_rate;
     cycles_per_rfsh = ticks_per_frame;
-    rfsh_per_sec = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
+    rfsh_per_sec    = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
 
     sound_machine_init();
 
@@ -758,7 +748,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #ifdef OS2
     //    sound_init_mmos2_device();
     sound_init_dart_device();
-
+//    sound_init_dart2_device();
 #endif
 
     sound_init_dummy_device();
@@ -774,33 +764,28 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 double sound_sample_position(void)
 {
-    return (snddata.clkstep == 0) ?
-            0.0 : (clk - snddata.fclk) / snddata.clkstep;
+    return (snddata.clkstep==0) ? 0.0 : (clk-snddata.fclk)/snddata.clkstep;
 }
 
 int sound_read(ADDRESS addr)
 {
-    if (sound_run_sound())
-	return -1;
-    return sound_machine_read(snddata.psid, addr);
+    return sound_run_sound() ? -1 : sound_machine_read(snddata.psid, addr);
 }
 
 void sound_store(ADDRESS addr, BYTE val)
 {
     int	i;
-    if (sound_run_sound() == 0)
+    if (sound_run_sound()) return;
+    sound_machine_store(snddata.psid, addr, val);
+    if (snddata.pdev->dump)
     {
-	sound_machine_store(snddata.psid, addr, val);
-	if (snddata.pdev->dump)
-	{
-	    i = snddata.pdev->dump(addr, val, clk - snddata.wclk);
-	    snddata.wclk = clk;
-            if (i){
-                closesound("Audio: store to sounddevice failed.");
-            }
-	}
+        i = snddata.pdev->dump(addr, val, clk - snddata.wclk);
+        snddata.wclk = clk;
+        if (i)
+            closesound("Audio: store to sounddevice failed.");
     }
 }
+
 
 void sound_set_warp_mode(int value)
 {

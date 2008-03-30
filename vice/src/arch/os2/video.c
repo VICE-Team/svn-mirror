@@ -367,6 +367,8 @@ void PM_mainloop(VOID *arg)
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
         WinDispatchMsg (hab, &qmsg) ;
 
+    resources_set_value("Sound", (resource_value_t)FALSE);
+
     rc=WinDestroyWindow ((*ptr)->hwndFrame);
     if (rc) log_message(LOG_DEFAULT,"video.c: Graphic window destroyed (rc=%li)",rc);
     if (!WinDestroyMsgQueue(hmq)) log_message(LOG_DEFAULT,"video.c: Error! Msg Queue destroy.");

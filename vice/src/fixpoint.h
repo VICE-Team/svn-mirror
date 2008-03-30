@@ -45,12 +45,7 @@ extern vreal_t fixpoint_mult(vreal_t x, vreal_t y);
 
 #else  /* FIXPOINT_ARITHMETIC */
 
-#ifdef OS2
-typedef double vreal_t;
-#else  /* OS2 */
 typedef float vreal_t;
-#endif /* OS2 */
-
 #define REAL_VALUE(x)   (x)
 #define REAL_MULT(x,y)  (x*y)
 #define REAL_TO_INT(x)  ((int)(x))

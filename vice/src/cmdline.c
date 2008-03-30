@@ -143,10 +143,7 @@ int cmdline_parse(int *argc, char **argv)
                                                  p->resource_value);
                 break;
               case CALL_FUNCTION:
-                if (p->need_arg)
-                    retval = p->set_func(argv[i + 1], p->extra_param);
-                else
-                    retval = p->set_func(NULL, NULL);
+                retval = p->set_func(p->need_arg?argv[i+1]:NULL, p->extra_param);
                 break;
               default:
                 fprintf(stderr, "Invalid type for option `%s'.\n",

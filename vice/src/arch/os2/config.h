@@ -71,18 +71,19 @@
 //#define HAVE_PRINTER 1
 
 /* Do we want to enable the ReSID code support?  */
-//#define HAVE_RESID 1
+#define HAVE_RESID            1
 
 /* Do we support a 1351 mouse?  */
 //#define HAVE_MOUSE 1
 
 /* Do we have to emulate a joystick?  */
-/* #undef HAS_JOYSTICK */
+#define HAS_JOYSTICK          1
 
 /* Is digital joystick support avaiable?  */
 /* #undef HAS_DIGITAL_JOYSTICK */
 
-#define FIXPOINT_ARITHMETIC   1   /* Use this (what is it?) for SID emulation         */
+/* This seems to be needed to prevent the emulator from FPEs */
+#define FIXPOINT_ARITHMETIC   1  
 
 #define SIZEOF_UNSIGNED_INT   4   /* The number of bytes in a unsigned int.           */
 #define SIZEOF_UNSIGNED_LONG  4   /* The number of bytes in a unsigned long.          */

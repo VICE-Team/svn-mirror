@@ -54,7 +54,5 @@ void main_exit(void)
 #ifdef HAS_JOYSTICK
     joystick_close();
 #endif
-
-    //    putchar ('\n');
 }
 

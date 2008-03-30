@@ -115,7 +115,7 @@ BEGIN
         CONTROL "8580",         RB_8580,    77,  69, 30, 10, STY_AUTORADIOBUTTON
         CONTROL "Sid Filters",  CB_SIDFILTER, 17, 55, 50, 9, STY_AUTOCHECKBOX
 #ifdef HAVE_RESID
-        CONTROL "HiFi (reSID)", CB_RESID,   70,  55, 65,  9, STY_AUTOCHECKBOX
+        CONTROL "HiFi (reSID)", CB_RESID,   70,  55, 60,  9, STY_AUTOCHECKBOX
 #endif
         TEXT("Buffer Size <msec>", 17, 40, 75, 8)
         TEXT("[100-1000]",         17, 30, 55, 8)

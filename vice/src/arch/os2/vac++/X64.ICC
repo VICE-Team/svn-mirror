@@ -110,8 +110,10 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             "cia1581d.c",
             "drive.c",
             "drivecpu.c",
+            "drivemem.c",
             "drive-snapshot.c",
             "drive-resources.c",
+            "drive-cmdline-options.c",
             "via1d.c",
             "via2d.c",
             "wd1770.c"
@@ -128,7 +130,8 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             "vdrive-iec.c",
             "vdrive-bam.c",
             "vdrive-dir.c",
-            "vdrive-command.c"
+            "vdrive-command.c",
+            "vdrive-snapshot.c"
         source type(c)
             "sounddump.c",
             "sounddummy.c",

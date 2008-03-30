@@ -28,19 +28,23 @@
  */
 
 #include "vice.h"
+#include "log.h"
 
 int vsid_ui_init(void)
 {
+    log_message(LOG_DEFAULT, "vsid_ui_init");
     return 0;
 }
 
+
 int vsid_ui_exit(void)
 {
+    log_message(LOG_DEFAULT, "vsid_ui_exit");
     return 0;
 }
 
 void vsid_set_tune(char *msg)
 {
-
+    log_message(LOG_DEFAULT, "vsid_set_tune");
 }
 
