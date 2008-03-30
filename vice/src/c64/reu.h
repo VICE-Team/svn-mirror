@@ -34,11 +34,11 @@
 #include "types.h"
 
 extern void reu_init(void);
-extern int reset_reu(int size);
-extern void activate_reu(void);
+extern int reu_reset(int size);
+extern void reu_activate(void);
 extern void close_reu(void);
-extern BYTE REGPARM1 read_reu(ADDRESS addr);
-extern void REGPARM2 store_reu(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 reu_read(ADDRESS addr);
+extern void REGPARM2 reu_store(ADDRESS addr, BYTE byte);
 extern void reu_dma(int immed);
 extern int reu_read_snapshot_module(snapshot_t *s);
 extern int reu_write_snapshot_module(snapshot_t *s);

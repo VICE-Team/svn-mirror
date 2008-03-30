@@ -66,7 +66,7 @@ void reu_init(void)
 }
 
 /* FIXME: This does not really handle different sizes.  */
-int reset_reu(int size)
+int reu_reset(int size)
 {
     int i;
 
@@ -98,10 +98,10 @@ int reset_reu(int size)
     return 0;
 }
 
-void activate_reu(void)
+void reu_activate(void)
 {
     if (reuram == NULL)
-        reset_reu(0);
+        reu_reset(0);
 }
 
 void close_reu(void)
@@ -117,12 +117,12 @@ void close_reu(void)
 
 /*static BYTE latch4, latch5, latched45 = 0;*/
 
-BYTE REGPARM1 read_reu(ADDRESS addr)
+BYTE REGPARM1 reu_read(ADDRESS addr)
 {
     BYTE retval;
 
     if (reuram == NULL)
-        reset_reu(0);
+        reu_reset(0);
 
     switch (addr) {
       case 0x0:
@@ -171,10 +171,10 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
 }
 
 
-void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
+void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
 {
     if (reuram == NULL)
-        reset_reu(0);
+        reu_reset(0);
 
 /*
     if (addr == 4) {
@@ -416,7 +416,7 @@ int reu_read_snapshot_module(snapshot_t *s)
 
     /* FIXME: We cannot really support sizes different from `REUSIZE'.  */
 
-    reset_reu(ReuSize);
+    reu_reset(ReuSize);
 
     if (snapshot_module_read_byte_array(m, reu, sizeof(reu)) < 0
         || snapshot_module_read_byte_array(m, reuram, ReuSize) < 0)
