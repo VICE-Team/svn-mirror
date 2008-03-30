@@ -1,3 +1,64 @@
+2005-12-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.8.
+
+	* event.c (event_playback_start_trap): Fixed some warnings.
+
+	* arch/unix/x11/gnome/uiscreenshot.c
+	(build_screenshot_dialog): Likewise.
+
+	* arch/unix/x11/gnome/uinetplay.c (netplay_update_status):
+	Likewise.
+
+	* arch/unix/x11/dga2.c (dga2_menu_shutdown): Likewise.
+
+	* arch/win32/archdep.c (verify_exe): Likewise.
+
+	* resources.c, resources.h (resources_get_default_value):
+	Changed second parameter to `void *'.
+
+	* arch/unix/x11/gnome/uipalcontrol.c (pal_ctrl_reset): Fixed
+	cast to avoid a warning.
+
+	* 6510core.c: Fixed some comments.
+
+	* info.c: Updated.
+
+2005-12-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* event.c, network.c: Uses archdep_tmpnam instead of
+	EventSnapshotDir resource for snapshot and image files to
+	avoid problems with write protected directories.
+
+	* translate.c: Fixed typos for the ffmpeg IDs.
+
+2005-12-28  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xaw/x11ui.c (ui_display_statustext): log
+	statustext. 
+
+	* arch/unix/x11/gnome/x11ui.c (rebuild_contents_menu): Added casts
+	for tmp2 to keep compiler quiet.
+	(ui_display_speed): Handle status text.
+
+	* arch/unix/uicommands.c (UI_CALLBACK_netplay): suspend speed
+	eval. Makes netplay connection setup happy.
+
+	* arch/unix/x11/gnome/uiscreenshot.c (uiscreenshot_shutdown):
+	Check sanity before destroying `screenshot_dialog'.
+
+	* arch/unix/x11/gnome/x11ui.c (ui_display_statustext): Update
+	statustext widget.
+	(ui_create_status_bar): Add statustext widget.
+	(x11ui_open_canvas_window): Attach mouse_handler to new_canvas and
+	not new_window. This fixes the annoying bug when trying to access
+	the context menus within the status bar ending up in displaying
+	the main menus.
+
+2005-12-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/x11/gnome/uinetplay.c: Fixed a typo.
+
 2005-12-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.8.

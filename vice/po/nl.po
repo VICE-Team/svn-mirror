@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.17\n"
-"POT-Creation-Date: 2005-12-28 13:40+0100\n"
+"POT-Creation-Date: 2005-12-29 16:13+0100\n"
 "PO-Revision-Date: 2005-09-18 11:20+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -364,76 +364,76 @@ msgstr "Traceer modus (0=normaal 1=klein 2=geschiedenis"
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 
-#: src/network.c:148
+#: src/network.c:149
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
-msgstr ""
+msgstr "Kan niet schakelen tussen IPV4/IPV6 omdat netplay actief is."
 
-#: src/network.c:366
+#: src/network.c:367
 msgid "Testing best frame delay..."
 msgstr "Beste frame vertraging aan het testen..."
 
-#: src/network.c:414
+#: src/network.c:415
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d frames vertraging in gebruik."
 
-#: src/network.c:437
+#: src/network.c:435
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan het momentopname bestand voor versturen niet laden"
 
-#: src/network.c:450
+#: src/network.c:448
 msgid "Sending snapshot to client..."
 msgstr "Momentopname wordt naar de andere computer verstuurd..."
 
-#: src/network.c:459
+#: src/network.c:457
 msgid "Cannot send snapshot to client"
 msgstr "Kan de momentopname niet naar de andere computer versturen"
 
-#: src/network.c:475
+#: src/network.c:473
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet maken"
 
-#: src/network.c:492
+#: src/network.c:486
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet openen"
 
-#: src/network.c:567 src/network.c:660
+#: src/network.c:599
+msgid "Server is waiting for a client..."
+msgstr "De server wacht op de andere computer..."
+
+#: src/network.c:634
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Kan het momentopname bestand %s niet maken. Selecteer een andere "
 "geschiedenis folder!"
 
-#: src/network.c:623
-msgid "Server is waiting for a client..."
-msgstr "De server wacht op de andere computer..."
-
-#: src/network.c:680
+#: src/network.c:654
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Onbekende host %s"
 
-#: src/network.c:725
+#: src/network.c:699
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."
 
-#: src/network.c:739
+#: src/network.c:713
 msgid "Receiving snapshot from server..."
 msgstr "Momentopname van de server wordt ontvangen..."
 
-#: src/network.c:863
+#: src/network.c:836
 msgid "Remote host disconnected."
-msgstr ""
+msgstr "Andere computer heeft de verbinding verbroken."
 
-#: src/network.c:874
+#: src/network.c:847
 msgid "Remote host suspending..."
-msgstr ""
+msgstr "Andere computer halt de netplay..."
 
-#: src/network.c:916
+#: src/network.c:889
 msgid "Network out of sync - disconnecting."
 msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 
@@ -2003,14 +2003,12 @@ msgid "ROM set file"
 msgstr "ROM zet bestand"
 
 #: src/arch/unix/c128ui.c:320
-#, fuzzy
 msgid "VIC II Save media file"
-msgstr "Opslaan cartridge bestand"
+msgstr "Opslaan VIC II media bestand"
 
 #: src/arch/unix/c128ui.c:322
-#, fuzzy
 msgid "VDC Save media file"
-msgstr "Opslaan cartridge bestand"
+msgstr "Opslaan VDC media bestand"
 
 #: src/arch/unix/c128ui.c:328
 msgid "Screenshots..."
@@ -2074,8 +2072,8 @@ msgstr "Opties"
 #: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:463
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
 #: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:527
-#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1209
-#: src/arch/unix/x11/gnome/x11ui.c:1301
+#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1230
+#: src/arch/unix/x11/gnome/x11ui.c:1322
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -2116,9 +2114,8 @@ msgstr "Laad nieuw karakter ROM"
 #: src/arch/unix/c64ui.c:346 src/arch/unix/cbm2ui.c:384
 #: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
 #: src/arch/unix/vic20ui.c:415
-#, fuzzy
 msgid "Save media file"
-msgstr "Opslaan cartridge bestand"
+msgstr "Opslaan media bestand"
 
 #: src/arch/unix/c64ui.c:354 src/arch/unix/plus4ui.c:131
 msgid "ROM settings"
@@ -2578,19 +2575,19 @@ msgstr "Station #10..."
 msgid "Unit #11..."
 msgstr "Station #11..."
 
-#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:411
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:412
 msgid "Unit #8"
 msgstr "Station #8"
 
-#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:413
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:414
 msgid "Unit #9"
 msgstr "Station #9"
 
-#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:415
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:416
 msgid "Unit #10"
 msgstr "Station #10"
 
-#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:417
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:418
 msgid "Unit #11"
 msgstr "Station #11"
 
@@ -2837,7 +2834,7 @@ msgstr ""
 "Kan momentopname bestand niet schrijven\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:457
+#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:458
 msgid "Select history directory"
 msgstr "Selecteer geschiedenis directory"
 
@@ -2845,117 +2842,117 @@ msgstr "Selecteer geschiedenis directory"
 msgid "Record sound to file"
 msgstr "Opname van geluid naar bestand"
 
-#: src/arch/unix/uicommands.c:404
+#: src/arch/unix/uicommands.c:405
 msgid "Soft"
 msgstr "Zacht"
 
-#: src/arch/unix/uicommands.c:407
+#: src/arch/unix/uicommands.c:408
 msgid "Hard"
 msgstr "Hard"
 
-#: src/arch/unix/uicommands.c:423
+#: src/arch/unix/uicommands.c:424
 msgid "Change working directory..."
 msgstr "Verander werk directory..."
 
-#: src/arch/unix/uicommands.c:431
+#: src/arch/unix/uicommands.c:432
 msgid "*Save new snapshot"
 msgstr "*Opslaan nieuw momentopname"
 
-#: src/arch/unix/uicommands.c:433
+#: src/arch/unix/uicommands.c:434
 msgid "*Load existing snapshot"
 msgstr "*Laad bestaand momentopname"
 
-#: src/arch/unix/uicommands.c:435
+#: src/arch/unix/uicommands.c:436
 msgid "*Start with reset"
 msgstr "*start met reset"
 
-#: src/arch/unix/uicommands.c:437
+#: src/arch/unix/uicommands.c:438
 msgid "*Overwrite running playback"
 msgstr "*Overschrijf huidige weergave"
 
-#: src/arch/unix/uicommands.c:443
+#: src/arch/unix/uicommands.c:444
 msgid "Load snapshot..."
 msgstr "Laad momentopname..."
 
-#: src/arch/unix/uicommands.c:446
+#: src/arch/unix/uicommands.c:447
 msgid "Save snapshot..."
 msgstr "Opslaan momentopname..."
 
-#: src/arch/unix/uicommands.c:450
+#: src/arch/unix/uicommands.c:451
 msgid "Quickload snapshot"
 msgstr "Snellaad momentopname"
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:454
 msgid "Quicksave snapshot"
 msgstr "Snelopslaan momentopname"
 
-#: src/arch/unix/uicommands.c:459
+#: src/arch/unix/uicommands.c:460
 msgid "Start recording events"
 msgstr "Start opname gebeurtenissen"
 
-#: src/arch/unix/uicommands.c:461
+#: src/arch/unix/uicommands.c:462
 msgid "Stop recording events"
 msgstr "Stop opname gebeurtenissen"
 
-#: src/arch/unix/uicommands.c:463
+#: src/arch/unix/uicommands.c:464
 msgid "Start playing back events"
 msgstr "Start weergave gebeurtenissen"
 
-#: src/arch/unix/uicommands.c:465
+#: src/arch/unix/uicommands.c:466
 msgid "Stop playing back events"
 msgstr "Stop weergave gebeurtenissen"
 
-#: src/arch/unix/uicommands.c:467
+#: src/arch/unix/uicommands.c:468
 msgid "Set recording milestone"
 msgstr "Zet opname mijlpaal"
 
-#: src/arch/unix/uicommands.c:469
+#: src/arch/unix/uicommands.c:470
 msgid "Return to milestone"
 msgstr "Ga terug naar mijlpaal"
 
-#: src/arch/unix/uicommands.c:472
+#: src/arch/unix/uicommands.c:473
 msgid "Recording start mode"
 msgstr "Opname start modus"
 
-#: src/arch/unix/uicommands.c:477 src/arch/unix/uicommands.c:480
+#: src/arch/unix/uicommands.c:478 src/arch/unix/uicommands.c:481
 msgid "Netplay (experimental)"
-msgstr ""
+msgstr "Netplay (experimenteel)"
 
-#: src/arch/unix/uicommands.c:488
+#: src/arch/unix/uicommands.c:489
 msgid "Snapshot commands"
 msgstr "Momentopname commandos"
 
-#: src/arch/unix/uicommands.c:494
+#: src/arch/unix/uicommands.c:495
 msgid "Sound record..."
 msgstr "Geluid opname..."
 
-#: src/arch/unix/uicommands.c:501
+#: src/arch/unix/uicommands.c:502
 msgid "Activate monitor"
 msgstr "Aktiveer monitor"
 
-#: src/arch/unix/uicommands.c:504
+#: src/arch/unix/uicommands.c:505
 msgid "Run C1541"
 msgstr "Start C1541"
 
-#: src/arch/unix/uicommands.c:512
+#: src/arch/unix/uicommands.c:513
 msgid "Browse manuals"
 msgstr "Blader handboeken"
 
-#: src/arch/unix/uicommands.c:514
+#: src/arch/unix/uicommands.c:515
 msgid "About VICE..."
 msgstr "Over VICE..."
 
-#: src/arch/unix/uicommands.c:520 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:521 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1944
+#: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:522
+#: src/arch/unix/uicommands.c:523
 msgid "*Pause"
 msgstr "*Pauze"
 
-#: src/arch/unix/uicommands.c:529
+#: src/arch/unix/uicommands.c:530
 msgid "Exit emulator"
 msgstr "Emulator afsluiten"
 
@@ -3414,8 +3411,8 @@ msgid "Next: "
 msgstr "Volgende: "
 
 #: src/arch/unix/uifliplist.c:243 src/arch/unix/uifliplist.c:258
-#: src/arch/unix/x11/gnome/x11ui.c:861 src/arch/unix/x11/gnome/x11ui.c:871
-#: src/arch/unix/x11/gnome/x11ui.c:1547
+#: src/arch/unix/x11/gnome/x11ui.c:882 src/arch/unix/x11/gnome/x11ui.c:892
+#: src/arch/unix/x11/gnome/x11ui.c:1573
 msgid "<empty>"
 msgstr "<leeg>"
 
@@ -3604,61 +3601,56 @@ msgid "Keyboard settings"
 msgstr "Toetsenbord instellingen"
 
 #: src/arch/unix/uinetplay.c:60
-#, fuzzy
 msgid "Enter port"
-msgstr "Printer instellingen"
+msgstr "Geef poort"
 
 #: src/arch/unix/uinetplay.c:61
 msgid "Netplay TCP port"
-msgstr ""
+msgstr "Netplay TCP poort"
 
 #: src/arch/unix/uinetplay.c:73
-#, fuzzy
 msgid "Invalid TCP port"
-msgstr "Ongeldige bestandsnaam"
+msgstr "Ongeldige TCP poort"
 
 #: src/arch/unix/uinetplay.c:81
 msgid "Error starting the netplay server."
-msgstr ""
+msgstr "Fout bij het starten van de netplay server."
 
 #: src/arch/unix/uinetplay.c:86
-#, fuzzy
 msgid "Netplay Server name"
-msgstr "Rand apparaten instellingen"
+msgstr "Netplay Server naam"
 
 #: src/arch/unix/uinetplay.c:87
-#, fuzzy
 msgid "Hostname:"
-msgstr "ROM set naam:"
+msgstr "Hostnaam:"
 
 #: src/arch/unix/uinetplay.c:93
 msgid "Error connecting to server."
-msgstr ""
+msgstr "Fout bij het verbinden met de server."
 
 #: src/arch/unix/uinetplay.c:103
-#, fuzzy
 msgid "*Enable IPV6"
-msgstr "*Aktiveer 256K"
+msgstr "*Aktiveer IPV6"
 
 #: src/arch/unix/uinetplay.c:106
 msgid "TCP port"
-msgstr ""
+msgstr "TCP poort"
 
 #: src/arch/unix/uinetplay.c:108
 msgid "Start server"
-msgstr ""
+msgstr "Start server"
 
 #: src/arch/unix/uinetplay.c:110
 msgid "Server to connect to"
-msgstr ""
+msgstr "Server om mee te verbinden"
 
 #: src/arch/unix/uinetplay.c:113
 msgid "Connect to server"
-msgstr ""
+msgstr "Maak verbinding met de server"
 
 #: src/arch/unix/uinetplay.c:115 src/arch/unix/x11/gnome/uinetplay.c:205
 msgid "Disconnect"
-msgstr ""
+msgstr "Verbreek de verbinding"
 
 #: src/arch/unix/uipalemu.c:81
 msgid "PAL Scanline shade"
@@ -4196,7 +4188,7 @@ msgstr "Maximale snelheid"
 msgid "Invalid speed value"
 msgstr "Ongeldige snelheid waarde"
 
-#: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1350
+#: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1371
 #: src/arch/unix/x11/xaw/x11ui.c:1041
 msgid "Cannot save settings."
 msgstr "Kan de instellingen niet opslaan."
@@ -4814,61 +4806,56 @@ msgid "Exact Emulation"
 msgstr "Exacte Emulatie"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:58
-#, fuzzy
 msgid "Invalid Port number"
-msgstr "Ongeldige bestandsnaam"
+msgstr "Ongeldige Poort nummer"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:79
 msgid "Idle"
-msgstr ""
+msgstr "Idle"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:84
-#, fuzzy
 msgid "Server listening"
-msgstr "Opslaan instellingen"
+msgstr "Server wacht op verbinding"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:89
 msgid "Connected Server"
-msgstr ""
+msgstr "Verbonden Server"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:94
 msgid "Connected Client"
-msgstr ""
+msgstr "Verbonden Client"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:107
 #, c-format
 msgid "Status: %s, Server: %s, Port: %d"
-msgstr ""
+msgstr "Status: %s, Server: %s, Poort: %d"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:143
 #: src/arch/unix/x11/gnome/uinetplay.c:147
-#, fuzzy
 msgid "Netplay Settings"
-msgstr "Rand apparaten instellingen"
+msgstr "Netplay Instellingen"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:152
-#, fuzzy
 msgid "Current mode: "
-msgstr "Huidige ROM set"
+msgstr "Huidige modus: "
 
 #: src/arch/unix/x11/gnome/uinetplay.c:155
-msgid "<unknonw>"
-msgstr ""
+msgid "<unknown>"
+msgstr "<onbekend>"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:162
 msgid "Start Server"
-msgstr ""
+msgstr "Start Server"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:170
 msgid "TCP-Port: "
-msgstr ""
+msgstr "TCP-Poort: "
 
 #: src/arch/unix/x11/gnome/uinetplay.c:183
 msgid "Connect to "
-msgstr ""
+msgstr "Maak verbinding naar "
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:200
-#, fuzzy
 msgid "No gfxoutputdrivers available"
 msgstr "Geen apparaten meer beschikbaar."
 
@@ -4885,31 +4872,29 @@ msgstr "Beeld Formaat"
 #: src/arch/unix/x11/gnome/uiscreenshot.c:298
 #, c-format
 msgid "FFMPEG Driver: %s"
-msgstr ""
+msgstr "FFMPEG Stuurprogramma: %s"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:320
 #, c-format
 msgid "\tAC: %s(%d)"
-msgstr ""
+msgstr "\tAC: %s(%d)"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:345
 #, c-format
 msgid "\tVC: %s(%d)"
-msgstr ""
+msgstr "\tVC: %s(%d)"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:356
-#, fuzzy
 msgid "Format"
-msgstr "Beeld Formaat"
+msgstr "Formaat"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:365
 msgid "Audio Codec"
-msgstr ""
+msgstr "Audio Codec"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:374
-#, fuzzy
 msgid "Video Codec"
-msgstr "Video grootte"
+msgstr "Video Codec"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:391
 msgid "Audio Bitrate"
@@ -4961,176 +4946,176 @@ msgstr ""
 "Model: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:409
+#: src/arch/unix/x11/gnome/x11ui.c:411
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Kan fontpad `%s' niet toevoegen.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:411
+#: src/arch/unix/x11/gnome/x11ui.c:413
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Zet fontpad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:624 src/arch/unix/x11/xaw/x11ui.c:489
+#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/xaw/x11ui.c:489
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Deze monitor ondersteunt geen %dbit afbeeldingen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:627 src/arch/unix/x11/xaw/x11ui.c:492
+#: src/arch/unix/x11/gnome/x11ui.c:629 src/arch/unix/x11/xaw/x11ui.c:492
 msgid "Please select a bit depth supported by your display."
 msgstr "Selecteer aub een bit diepte die ondersteunt wordt door uw monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:630 src/arch/unix/x11/gnome/x11ui.c:654
+#: src/arch/unix/x11/gnome/x11ui.c:632 src/arch/unix/x11/gnome/x11ui.c:656
 #: src/arch/unix/x11/xaw/x11ui.c:495 src/arch/unix/x11/xaw/x11ui.c:512
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Gevonden %dbit/%s beeld."
 
-#: src/arch/unix/x11/gnome/x11ui.c:639
+#: src/arch/unix/x11/gnome/x11ui.c:641
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Gevonden %dbit beeld."
 
-#: src/arch/unix/x11/gnome/x11ui.c:662 src/arch/unix/x11/xaw/x11ui.c:520
+#: src/arch/unix/x11/gnome/x11ui.c:664 src/arch/unix/x11/xaw/x11ui.c:520
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan het beeld niet automatisch detecteren."
 
-#: src/arch/unix/x11/gnome/x11ui.c:670
+#: src/arch/unix/x11/gnome/x11ui.c:672
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan de tekst font %s niet laden."
 
-#: src/arch/unix/x11/gnome/x11ui.c:677
+#: src/arch/unix/x11/gnome/x11ui.c:679
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan de CBM font %s niet laden."
 
-#: src/arch/unix/x11/gnome/x11ui.c:763
+#: src/arch/unix/x11/gnome/x11ui.c:784
 msgid "PAL Controls"
 msgstr "PAL Bediening"
 
-#: src/arch/unix/x11/gnome/x11ui.c:782
+#: src/arch/unix/x11/gnome/x11ui.c:803
 msgid "audio/video recording"
 msgstr "geluid/beeld opname"
 
-#: src/arch/unix/x11/gnome/x11ui.c:796 src/arch/unix/x11/gnome/x11ui.c:815
+#: src/arch/unix/x11/gnome/x11ui.c:817 src/arch/unix/x11/gnome/x11ui.c:836
 msgid "click to stop recording"
 msgstr "klik om de opname te stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:801
+#: src/arch/unix/x11/gnome/x11ui.c:822
 msgid "event recording"
 msgstr "gebeurtenis opname"
 
-#: src/arch/unix/x11/gnome/x11ui.c:821
+#: src/arch/unix/x11/gnome/x11ui.c:842
 msgid "event playback"
 msgstr "gebeurtenis terugspelen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:835
+#: src/arch/unix/x11/gnome/x11ui.c:856
 msgid "click to stop playback"
 msgstr "klik om het terugspelen te stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:847
+#: src/arch/unix/x11/gnome/x11ui.c:868
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:957
+#: src/arch/unix/x11/gnome/x11ui.c:978
 msgid "Tape 000"
 msgstr "Tape 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1026 src/arch/unix/x11/xaw/x11ui.c:601
+#: src/arch/unix/x11/gnome/x11ui.c:1047 src/arch/unix/x11/xaw/x11ui.c:601
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale aantal van bovenliggende vensters."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1207 src/arch/unix/x11/gnome/x11ui.c:1290
+#: src/arch/unix/x11/gnome/x11ui.c:1228 src/arch/unix/x11/gnome/x11ui.c:1311
 msgid "Commands"
 msgstr "Commandos"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1213
+#: src/arch/unix/x11/gnome/x11ui.c:1234
 msgid "Help"
 msgstr "Help"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1026
+#: src/arch/unix/x11/gnome/x11ui.c:1354 src/arch/unix/x11/xaw/x11ui.c:1026
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1340 src/arch/unix/x11/xaw/x11ui.c:1030
+#: src/arch/unix/x11/gnome/x11ui.c:1361 src/arch/unix/x11/xaw/x11ui.c:1030
 msgid "Do you really want to exit?"
 msgstr "Wilt U echt afsluiten?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1347 src/arch/unix/x11/xaw/x11ui.c:1038
+#: src/arch/unix/x11/gnome/x11ui.c:1368 src/arch/unix/x11/xaw/x11ui.c:1038
 msgid "Save the current settings?"
 msgstr "De huidige instellingen opslaan?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1392 src/arch/unix/x11/xaw/x11ui.c:1079
+#: src/arch/unix/x11/gnome/x11ui.c:1413 src/arch/unix/x11/xaw/x11ui.c:1079
 msgid "Using private colormap."
 msgstr "Prive kleurenmap wordt gebruikt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1412 src/arch/unix/x11/gnome/x11ui.c:1415
+#: src/arch/unix/x11/gnome/x11ui.c:1433 src/arch/unix/x11/gnome/x11ui.c:1436
 #: src/arch/unix/x11/xaw/x11ui.c:1100 src/arch/unix/x11/xaw/x11ui.c:1106
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1699
+#: src/arch/unix/x11/gnome/x11ui.c:1725
 #, c-format
 msgid "Tape %03d"
 msgstr "Tape %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1751 src/arch/unix/x11/xaw/x11ui.c:1327
+#: src/arch/unix/x11/gnome/x11ui.c:1777 src/arch/unix/x11/xaw/x11ui.c:1327
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1907
+#: src/arch/unix/x11/gnome/x11ui.c:1936
 msgid "VICE Message"
 msgstr "VICE Bericht"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1918
+#: src/arch/unix/x11/gnome/x11ui.c:1947
 msgid "VICE Error"
 msgstr "Vice Fout"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1944
+#: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Hard Reset"
 msgstr "Harde Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1945
+#: src/arch/unix/x11/gnome/x11ui.c:1974
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1989 src/arch/unix/x11/xaw/x11ui.c:1605
+#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/xaw/x11ui.c:1605
 msgid "Extend disk image"
 msgstr "40-sporen disk bestand"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1990
+#: src/arch/unix/x11/gnome/x11ui.c:2019
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Wilt U her disk bestand uitbreiden naar 40 sporen?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2003
+#: src/arch/unix/x11/gnome/x11ui.c:2032
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostarten niet mogelijk voor station %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2011 src/arch/unix/x11/gnome/x11ui.c:2020
+#: src/arch/unix/x11/gnome/x11ui.c:2040 src/arch/unix/x11/gnome/x11ui.c:2049
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan de selectie %d in disk bestand %s niet autostarten"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2147 src/arch/unix/x11/gnome/x11ui.c:2152
+#: src/arch/unix/x11/gnome/x11ui.c:2176 src/arch/unix/x11/gnome/x11ui.c:2181
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "GEEN BESTAND INHOUD BESCHIKBAAR"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2621
+#: src/arch/unix/x11/gnome/x11ui.c:2650
 msgid "Contents"
 msgstr "Inhoud"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2668
+#: src/arch/unix/x11/gnome/x11ui.c:2697
 msgid "Attach write protected"
 msgstr "Koppel schrijf beveiligd"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2694
+#: src/arch/unix/x11/gnome/x11ui.c:2723
 msgid "Autostart"
 msgstr "Autostarten"
 

@@ -5,6 +5,46 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.19
+======================
+
+** General
+----------
+
+- Fixed "RESTORE key works only once" bug.
+
+- Fixed compilation with GCC4.
+
+** C64 changes
+--------------
+
+- Fixed an opcode execute problem with the +60k expansion.
+
+- New c64 256k expansion support.
+
+** VIC-II
+---------
+
+- Fixed switch from idle state to display state.
+
+- Added missing DEN bit scrolling feature.
+
+** MS-Windows changes
+---------------------
+
+- Added "always on top" option.
+
+** Miscellaneous changes
+------------------------
+
+- Added various new screenshot formats.
+
+- Improved the image content lister to display at least the first part
+  of a circular directory listing.
+
+- Made the tape routines able to cope with non-standard header sizes.
+
+
 * Changes in VICE 1.18
 ======================
 

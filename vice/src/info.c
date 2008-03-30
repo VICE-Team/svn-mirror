@@ -609,6 +609,8 @@ const char info_contrib_text[] =
 "\n"
 "  Rami Rasanen <raipe@neutech.fi> rewrote the VIC20 sound code.\n"
 "\n"
+"  iAN CooG <ian7102@libero.it> contributed various small patches.\n"
+"\n"
 "(We hope we have not forgotten anybody; if you think we have,\n"
 "please tell us.)\n"
 "\n"
