@@ -45,7 +45,11 @@ static void vdc_perform_fillcopy(void)
     int blklen;
 
     /* Word count, # of bytes to copy */
-    blklen = vdc.regs[30] ? vdc.regs[30] : 256; 
+    blklen = vdc.regs[30] ? vdc.regs[30] : 1;
+
+    /* Should be 256, but does not work.  */
+    /* blklen = vdc.regs[30] ? vdc.regs[30] : 256; */
+
     /* Block start address.  */
     ptr2 = (vdc.regs[32] << 8) + vdc.regs[33];
     /* Update address.  */
