@@ -38,7 +38,6 @@
 #include "fsdevice-flush.h"
 #include "fsdevice-write.h"
 #include "fsdevicetypes.h"
-#include "serial.h"
 #include "types.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
@@ -46,15 +45,9 @@
 
 int fsdevice_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
 {
-    if (secondary == 15) {
-        if (fs_cptr < MAXPATHLEN - 1) {         /* keep place for nullbyte */
-            fs_cmdbuf[fs_cptr++] = data;
-            return SERIAL_OK;
-        } else {
-            fsdevice_error(vdrive, IPE_LONG_LINE);
-            return SERIAL_ERROR;
-        }
-    }
+    if (secondary == 15)
+        return fsdevice_flush_write_byte(vdrive, data);
+
     if (fs_info[secondary].mode != Write && fs_info[secondary].mode != Append)
         return FLOPPY_ERROR;
 

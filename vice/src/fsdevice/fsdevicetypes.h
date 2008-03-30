@@ -81,12 +81,10 @@ extern int fsdevice_create_file_p00(struct vdrive_s *vdrive, char *name,
                                     int length, char *fsname, int secondary);
 extern void fsdevice_test_pc64_name(struct vdrive_s *vdrive, char *rname,
                                     int secondary);
+extern int fsdevice_error_get_byte(struct vdrive_s *vdrive, BYTE *data);
+extern int fsdevice_flush_write_byte(struct vdrive_s *vdrive, BYTE data);
 
 extern char fs_dirmask[];
-extern unsigned int fs_cptr;
-extern size_t fs_elen;
-extern char fs_errorl[];
-extern unsigned int fs_eptr;
 
 #endif
 

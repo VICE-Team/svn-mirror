@@ -27,12 +27,9 @@
 #ifndef _FSDEVICE_FLUSH_H
 #define _FSDEVICE_FLUSH_H
 
-#include "types.h"
-
 struct vdrive_s;
 
 extern void fsdevice_flush(struct vdrive_s *vdrive, unsigned int secondary);
-extern BYTE fs_cmdbuf[];
 
 #endif
 
