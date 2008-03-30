@@ -68,6 +68,7 @@
 #include "uiarch.h"
 
 #include "datasette.h"
+#include "fullscreen.h"
 #include "interrupt.h"
 #include "log.h"
 #include "kbd.h"
@@ -131,393 +132,26 @@ static int have_cbm_font = 0;
 static int cursor_is_blank = 0;
 
 #ifdef USE_VIDMODE_EXTENSION
-int vidmodeavail = 0;
+/*int vidmodeavail = 0;*/
 int use_fullscreen = 0;
-int use_fullscreen_at_start = 0;
+/*int use_fullscreen_at_start = 0;*/
 
-static int vidmodecount;
-static XF86VidModeModeInfo **allmodes;
+/*static int vidmodecount;*/
+/*static XF86VidModeModeInfo **allmodes;*/
 
-static ui_bestvideomode bestmodes[10];
-static int bestmode_counter;
-static char *selected_videomode;
-static char *selected_videomode_at_start;
-static int selected_videomode_index;
+/*static ui_bestvideomode bestmodes[10];*/
+/*static int bestmode_counter;*/
+/*static char *selected_videomode;*/
+/*static char *selected_videomode_at_start;*/
+/*static int selected_videomode_index;*/
 
 static ui_menu_entry_t* resolutions_submenu;
-
-extern void video_setfullscreen(int v,int width, int height);
-
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-static ui_resources_t _ui_resources;
-
 #ifdef USE_VIDMODE_EXTENSION
-
 UI_MENU_DEFINE_STRING_RADIO(SelectedFullscreenMode);
-
-void mouse_timeout(int signo) {
-    if(use_fullscreen && !cursor_is_blank) XDefineCursor(display,XtWindow(canvas), blankCursor);
-}
-
-void ui_set_mouse_timeout() {
-    if(!use_fullscreen) return;
-    cursor_is_blank = 0;
-    if (signal(SIGALRM, mouse_timeout) == SIG_ERR)
-        return;
-    alarm(5);
-}
-
-void mouse_handler(Widget w, XtPointer client_data, XEvent *report,
-                       Boolean *ctd) {
-    if(report->type == LeaveNotify)
-        cursor_is_blank = 1;
-    else
-        cursor_is_blank = 0;
-
-    if (! _mouse_enabled) {
-        XUndefineCursor(display,XtWindow(canvas));
-	if(cursor_is_blank == 0) {
-	    if (signal(SIGALRM, mouse_timeout) == SIG_ERR)
-	      return;
-	    alarm(5);
-	}
-    }
-}
-
-int vidmode_available(void)
-{
-    int MajorVersion, MinorVersion;
-    int EventBase, ErrorBase;
-    int i, hz = 0;
-
-    bestmode_counter = 0;
-
-    if (! XF86VidModeQueryVersion (display, &MajorVersion, &MinorVersion)) {
-        log_error(ui_log, _("Unable to query video extension version"));
-        return 0;
-    }
-    if (! XF86VidModeQueryExtension (display, &EventBase, &ErrorBase)) {
-        log_error(ui_log, "Unable to query video extension information");
-        return 0;
-    }
-    if (MajorVersion < VidMode_MINMAJOR
-        || (MajorVersion == VidMode_MINMAJOR && MinorVersion < VidMode_MINMINOR)
-) {
-        /* Fail if the extension version in the server is too old */
-        log_error(ui_log, "Xserver is running an old XFree86-VidMode version (%d.  %d)",
-	       MajorVersion, MinorVersion);
-        log_error(ui_log, "Minimum required version is %d.%d",
-	         VidMode_MINMAJOR, VidMode_MINMINOR);
-        return 0;
-    }
-    if (! XF86VidModeGetAllModeLines (display, screen, &vidmodecount, &allmodes)) {
-        log_error(ui_log, "Error getting video mode information");
-        return 0;
-    }
-
-    log_message(LOG_DEFAULT, "Available fullscreen video modes: ");
-
-    for (i = 0; i < vidmodecount; i++) {
-        if(allmodes[i]->hdisplay <= 800 &&
-	   allmodes[i]->hdisplay >= 320 &&
-	   allmodes[i]->vdisplay <= 600  &&
-	   allmodes[i]->hdisplay >= 200) {
-	      bestmodes[bestmode_counter].modeindex=i;
-	      hz = allmodes[i]->dotclock * 1000 /
-		( allmodes[i]->vtotal * allmodes[i]->htotal) ;
-	      snprintf(bestmodes[bestmode_counter].name,17," %ix%i-%iHz",
-		       allmodes[i]->hdisplay,
-		       allmodes[i]->vdisplay,
-		       hz);
-	      log_message(LOG_DEFAULT,"%ix%i-%iHz",
-			  allmodes[i]->hdisplay,
-			  allmodes[i]->vdisplay,
-			  hz);
-	      bestmode_counter++;
-	      if (bestmode_counter == 10) break;
-	}
-    }
-    return 1;
-}
-
-void focus_window_again() {
-    if(!use_fullscreen) return;
-    XGrabKeyboard(display, XtWindow(canvas),
-		  1, GrabModeAsync,
-		  GrabModeAsync,  CurrentTime);
-    XGrabPointer(display, XtWindow(canvas), 1,
-		 PointerMotionMask | ButtonPressMask |
-		 ButtonReleaseMask,
-		 GrabModeAsync, GrabModeAsync,
-		 XtWindow(canvas),
-		 None, CurrentTime);
-    XtVaSetValues(XtParent(XtParent(canvas)),
-		  XtNx,          0,
-		  XtNy,          0,
-		  None);
-    XWarpPointer(display, None,
-		 XtWindow(canvas),
-		 0, 0, 0, 0, 0, 0);
-    XRaiseWindow(display, XtWindow(XtParent(XtParent(canvas))));
-    ui_set_mouse_timeout();
-}
-
-static int set_fullscreen(resource_value_t v)
-{
-    static Dimension x,y,w,h;
-    static Dimension canvas_width, canvas_height;
-    static int root_x, root_y;
-    static int win_x,win_y;
-    static int interval,prefer_blanking,allow_exposures;
-    static XF86VidModeModeLine restoremodeline;
-    static int dotclock;
-    static int window_doublesize;
-    static int panecolor;
-    int i;
-
-    if( !vidmodeavail || !bestmode_counter ) {
-        use_fullscreen_at_start = (int) v;
-	return 0;
-    }
-    if( selected_videomode_index == -1) {
-	return 0;
-    }
-
-    if(v && !use_fullscreen) {
-        log_message(LOG_DEFAULT, "Switch to fullscreen %ix%i",
-		    allmodes[selected_videomode_index]->hdisplay,
-		    allmodes[selected_videomode_index]->vdisplay);
-
-	XF86VidModeGetModeLine(display, screen, &dotclock, &restoremodeline);
-
-	XF86VidModeLockModeSwitch(display, screen, 1);
-	XtVaGetValues(XtParent(XtParent(canvas)),
-		      XtNx,          &x,
-		      XtNy,          &y,
-		      XtNwidth,      &w,
-		      XtNheight,     &h,
-		      NULL);
-	XtVaGetValues(canvas,
-		      XtNwidth, &canvas_width,
-		      XtNheight, &canvas_height,
-		      NULL);
-	XtVaGetValues(pane,
-		      XtNbackground, &panecolor,
-		      NULL);
-	XtVaSetValues(pane,
-		      XtNbackground, BlackPixel(display,screen),
-		      NULL);
-	if ( ! XF86VidModeSwitchToMode(display, screen,
-				       allmodes[selected_videomode_index])) {
-	    log_error(ui_log,"Error switching to fullscreen %ix%i\n",
-		      allmodes[selected_videomode_index]->hdisplay,
-		      allmodes[selected_videomode_index]->vdisplay);
-	    return 0;
-	}
-
-	XtVaSetValues(XtParent(XtParent(canvas)),
-		      XtNx,          0,
-		      XtNy,          0,
-		      XtNwidth,
-		      w + allmodes[selected_videomode_index]->hdisplay -
-		      canvas_width + 10,
-		      XtNheight,
-		      h + allmodes[selected_videomode_index]->vdisplay -
-		      canvas_height + 10,
-		      NULL);
-
-
-    /* A small hack!!!!  */
-	{
-	    Window root, child;
-	    int mask;
-
-	    XQueryPointer(display, XtWindow(canvas),
-			  &root, &child, &root_x, &root_y,
-			  &win_x, &win_y, &mask);
-
-	    XF86VidModeSetViewPort(display,XDefaultScreen(display),
-				   root_x - win_x - 1,
-				   root_y - win_y - 1);
-
-	}
-
-	XGrabKeyboard(display, XtWindow(canvas),
-		      1, GrabModeAsync,
-		      GrabModeAsync,  CurrentTime);
-	XGrabPointer(display, XtWindow(canvas), 1,
-		     PointerMotionMask | ButtonPressMask |
-		     ButtonReleaseMask,
-		     GrabModeAsync, GrabModeAsync,
-		     XtWindow(canvas),
-		     None, CurrentTime);
-
-	XGetScreenSaver(display,&timeout,&interval,
-			&prefer_blanking,&allow_exposures);
-	XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);
-
-	use_fullscreen = 1;
-	video_setfullscreen(1,allmodes[selected_videomode_index]->hdisplay - 2,
-			    allmodes[selected_videomode_index]->vdisplay - 2);
-	XtVaSetValues(XtParent(XtParent(canvas)),
-		      XtNwidth,
-		      w + allmodes[selected_videomode_index]->hdisplay -
-		      canvas_width - 2,
-		      XtNheight,
-		      h + allmodes[selected_videomode_index]->vdisplay -
-		      canvas_height - 2,
-		      NULL);
-	XWarpPointer(display, None,
-		     XtWindow(canvas),
-		     0, 0, 0, 0, 0, 0);
-	if (resources_get_value("DoubleSize",
-                            (resource_value_t *) &window_doublesize) < 0)
-	  window_doublesize = 0;
-	XtAddEventHandler(canvas,
-			  PointerMotionMask | ButtonPressMask |
-			  LeaveWindowMask,
-			  True,
-			  (XtEventHandler) mouse_handler, NULL);
-	XRaiseWindow(display, XtWindow(XtParent(XtParent(canvas))));
-	ui_set_mouse_timeout();
-    } else if((int) v == 2) {
-        int troot_x, troot_y;
-        int twin_x,twin_y;
-
-        log_message(LOG_DEFAULT, "Change to fullscreen %ix%i",
-		    allmodes[selected_videomode_index]->hdisplay,
-		    allmodes[selected_videomode_index]->vdisplay);
-	if ( ! XF86VidModeSwitchToMode(display, screen,
-				       allmodes[selected_videomode_index])) {
-	    log_error(ui_log,"Error switching to fullscreen %ix%i\n",
-		      allmodes[selected_videomode_index]->hdisplay,
-		      allmodes[selected_videomode_index]->vdisplay);
-	    return 0;
-	    }
-	{
-	    Window root, child;
-	    int mask;
-
-	    XQueryPointer(display, XtWindow(canvas),
-			  &root, &child, &troot_x, &troot_y,
-			  &twin_x, &twin_y, &mask);
-
-	    XF86VidModeSetViewPort(display,XDefaultScreen(display),
-				   troot_x - twin_x - 1,
-				   troot_y - twin_y - 1 );
-	}
-	XtVaSetValues(XtParent(XtParent(canvas)),
-		      XtNx,          0,
-		      XtNy,          0,
-		      XtNwidth,
-		      w + allmodes[selected_videomode_index]->hdisplay -
-		      canvas_width - 2 ,
-		      XtNheight,
-		      h + allmodes[selected_videomode_index]->vdisplay -
-		      canvas_height - 2,
-		      NULL);
-	video_setfullscreen(1,allmodes[selected_videomode_index]->hdisplay - 2,
-			    allmodes[selected_videomode_index]->vdisplay - 2);
-	XWarpPointer(display, None,
-		     XtWindow(canvas),
-		     0, 0, 0, 0, 0, 0);
-    } else if(use_fullscreen) {
-        int ds;
-        log_message(LOG_DEFAULT, "Switch to windowmode");
-
-	use_fullscreen = 0;
-
-	XUndefineCursor(display,XtWindow(canvas));
-
-	XtRemoveEventHandler(canvas,
-			     PointerMotionMask | ButtonPressMask |
-			     LeaveWindowMask,
-			     True,
-			     (XtEventHandler) mouse_handler,
-			     NULL);
-	XF86VidModeLockModeSwitch(display, screen, 0);
-
-	XtVaSetValues(pane,
-		      XtNbackground, panecolor,
-		      NULL);
-
-	/* Oh who has designed the vidmode extension API???? */
-	for (i = 0; i < vidmodecount; i++) {
-	    if(allmodes[i]->hdisplay == restoremodeline.hdisplay &&
-	       allmodes[i]->vdisplay == restoremodeline.vdisplay &&
-	       allmodes[i]->dotclock == dotclock ) {
-	      XF86VidModeSwitchToMode(display, screen, allmodes[i]);
-	      break;
-	    }
-	}
-
-	video_setfullscreen(0,0,0);
-
-	if(use_fullscreen_at_start) {
-	    XtVaSetValues(XtParent(XtParent(canvas)),
-			  XtNx, 30,
-			  XtNy, 50,
-			  NULL);
-	    use_fullscreen_at_start = 0;
-	} else {
-	    XtVaSetValues(XtParent(XtParent(canvas)),
-			  XtNx,          x - root_x + win_x + 5,  /*???*/
-			  XtNy,          y - root_y + win_y + 5,  /*???*/
-			  NULL);
-	}
-
-	if (resources_get_value("DoubleSize",
-                            (resource_value_t *) &ds) < 0);
-
-	if(ds < window_doublesize) {
-	  w -= canvas_width/2;
-	  h -= canvas_height/2;
-	} else if(ds > window_doublesize) {
-	  w += canvas_width;
-	  h += canvas_height;
-	}
-	XtVaSetValues(XtParent(XtParent(canvas)),
-		      XtNwidth,      w,
-		      XtNheight,     h,
-		      NULL);
-
-	XUngrabPointer(display, CurrentTime);
-	XUngrabKeyboard(display, CurrentTime);
-
-	XSetScreenSaver(display,timeout,interval,prefer_blanking,allow_exposures);
-	XWarpPointer(display, None,
-		     RootWindowOfScreen(XtScreen(canvas)),
-		     0, 0, 0, 0, root_x, root_y);
-
-    }
-    ui_check_mouse_cursor();
-    return 1;
-}
-
-static int set_bestmode(resource_value_t v)
-{
-    int i;
-    if(!vidmodeavail) {
-      selected_videomode_at_start = (char*) stralloc(v);
-      return(0);
-    }
-    selected_videomode = (char*) v;
-    for (i = 0; i < bestmode_counter; i++) {
-        if(! strcmp(selected_videomode, bestmodes[i].name)) {
-	    selected_videomode_index = bestmodes[i].modeindex;
-	    if(use_fullscreen) set_fullscreen((resource_value_t) 2);
-	    return(0);
-	}
-    }
-    if(bestmode_counter > 0) {
-      selected_videomode_index = bestmodes[0].modeindex;
-      selected_videomode = bestmodes[0].name;
-    }
-    return(0);
-}
 
 static UI_CALLBACK(ui_set_bestmode)
 {
@@ -565,7 +199,7 @@ void ui_check_mouse_cursor()
         gdk_pointer_ungrab(CurrentTime);
 #ifdef USE_VIDMODE_EXTENSION
 	if(use_fullscreen)
-	  ui_set_mouse_timeout();
+	  fullscreen_set_mouse_timeout();
 #endif
     }
 }
@@ -581,64 +215,6 @@ void ui_restore_mouse() {
 
 void initBlankCursor() {
     blankCursor = gdk_cursor_new(GDK_MOUSE);
-}
-
-/* Warning: This cannot actually be changed at runtime.  */
-static int set_depth(resource_value_t v)
-{
-    int d = (int) v;
-
-    /* Minimal sanity check.  */
-    if (d < 0 || d > 32)
-        return -1;
-
-    _ui_resources.depth = d;
-    return 0;
-}
-
-static int set_html_browser_command(resource_value_t v)
-{
-    string_set(&_ui_resources.html_browser_command, (char *)v);
-    return 0;
-}
-
-static int set_use_private_colormap(resource_value_t v)
-{
-    _ui_resources.use_private_colormap = (int) v;
-    return 0;
-}
-
-static int set_save_resources_on_exit(resource_value_t v)
-{
-    _ui_resources.save_resources_on_exit = (int) v;
-    return 0;
-}
-
-static resource_t resources[] = {
-    { "HTMLBrowserCommand", RES_STRING, (resource_value_t) "netscape %s",
-      (resource_value_t *) &_ui_resources.html_browser_command,
-      set_html_browser_command },
-    { "PrivateColormap", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &_ui_resources.use_private_colormap,
-      set_use_private_colormap },
-    { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &_ui_resources.save_resources_on_exit,
-      set_save_resources_on_exit },
-    { "DisplayDepth", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &_ui_resources.depth,
-      set_depth },
-#ifdef USE_VIDMODE_EXTENSION
-    { "UseFullscreen", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &use_fullscreen, set_fullscreen },
-    { "SelectedFullscreenMode", RES_STRING, (resource_value_t) "",
-      (resource_value_t *) &selected_videomode , set_bestmode },
-#endif
-    { NULL }
-};
-
-int ui_init_resources(void)
-{
-    return resources_register(resources);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1392,7 +968,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     gtk_widget_show(new_window);
 
 #ifdef USE_VIDMODE_EXTENSION
-    vidmodeavail = vidmode_available();
+    fullscreen_vidmode_available();
 #endif
 
     gtk_signal_connect(GTK_OBJECT(new_canvas),"expose-event",
@@ -1460,39 +1036,42 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
 
 void ui_create_dynamic_menues()
 {
-
 #ifdef USE_VIDMODE_EXTENSION
-    {
-	int i;
-	char buf[50];
-	buf[0] = '*';
-	buf[50] = '\0';
-        resolutions_submenu = (ui_menu_entry_t*)
-	  xmalloc(sizeof(ui_menu_entry_t)*
-		 (size_t) (bestmode_counter + 1));
+    int i, amodes;
+    char buf[50];
+    char *modename;
 
-	for(i = 0; i < bestmode_counter ; i++) {
-	    buf[1] = '\0';
-	    strncat(buf+1,bestmodes[i].name,48);
-	    resolutions_submenu[i].string =
-	      (ui_callback_data_t) stralloc(buf);
-	    resolutions_submenu[i].callback =
-	      (ui_callback_t) radio_SelectedFullscreenMode;
-	    resolutions_submenu[i].callback_data =
-	      (ui_callback_data_t) bestmodes[i].name;
-	    resolutions_submenu[i].sub_menu = NULL;
-	    resolutions_submenu[i].hotkey_keysym = 0;
-	    resolutions_submenu[i].hotkey_modifier =
-	      (ui_hotkey_modifier_t) 0;
-	}
+    buf[0] = '*';
+    buf[50] = '\0';
 
-	resolutions_submenu[i].string =
-	  (ui_callback_data_t) NULL;
+    amodes = fullscreen_available_modes();
+
+    resolutions_submenu = (ui_menu_entry_t*)xmalloc(sizeof(ui_menu_entry_t) *
+                          (size_t)(amodes + 1));
+
+    for(i = 0; i < amodes ; i++) {
+        modename = fullscreen_mode_name(i);
+
+        buf[1] = '\0';
+        strncat(buf + 1, modename, 48);
+        resolutions_submenu[i].string =
+            (ui_callback_data_t) stralloc(buf);
+        resolutions_submenu[i].callback =
+            (ui_callback_t) radio_SelectedFullscreenMode;
+        resolutions_submenu[i].callback_data =
+            (ui_callback_data_t) modename;
+        resolutions_submenu[i].sub_menu = NULL;
+        resolutions_submenu[i].hotkey_keysym = 0;
+        resolutions_submenu[i].hotkey_modifier =
+            (ui_hotkey_modifier_t) 0;
     }
-    if(bestmode_counter > 0)
-        ui_fullscreen_settings_submenu[5].sub_menu = resolutions_submenu;
-#endif
 
+    resolutions_submenu[i].string = (ui_callback_data_t) NULL;
+
+    if (amodes > 0)
+        ui_fullscreen_settings_submenu[5].sub_menu = resolutions_submenu;
+
+#endif
 }
 
 #ifndef GNOME_MENUS
@@ -1598,7 +1177,11 @@ void ui_exit(void)
 
     if (b == UI_BUTTON_YES) 
     {
-	if (_ui_resources.save_resources_on_exit) 
+        int save_resources_on_exit;
+
+        resources_get_value("SaveResourcesOnExit",
+                            (resource_value_t *)&save_resources_on_exit);
+	if (save_resources_on_exit) 
 	{
 	    b = ui_ask_confirmation(s, _("Save the current settings?"));
 	    if (b == UI_BUTTON_YES) 
@@ -1615,7 +1198,7 @@ void ui_exit(void)
 	ui_autorepeat_on();
 	ui_restore_mouse();
 #ifdef USE_VIDMODE_EXTENSION
-	ui_set_windowmode();
+	fullscreen_mode_off();
 #endif
 	ui_dispatch_events();
 
@@ -1633,10 +1216,15 @@ void ui_exit(void)
    default one or not using the `privateColormap' resource.  */
 static int alloc_colormap(void)
 {
+    int use_private_colormap;
+
     if (colormap)
 	return 0;
 
-    if (!_ui_resources.use_private_colormap
+    resources_get_value("PrivateColormap",
+                        (resource_value_t *)&use_private_colormap);
+
+    if (!use_private_colormap
 	&& depth == DefaultDepth(display, screen)
         && !have_truecolor) {
         colormap = gdk_colormap_get_system();
@@ -2268,7 +1856,7 @@ static void ui_message2(const char *type, const char *msg, const char *title)
     static GtkWidget* msgdlg;
 
 #ifdef USE_VIDMODE_EXTENSION
-    ui_set_windowmode();
+    fullscreen_mode_off();
 #endif
     msgdlg = gnome_message_box_new(msg, type,
 				   GNOME_STOCK_BUTTON_CLOSE, 
@@ -2355,7 +1943,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
       case 2:
 	ui_restore_mouse();
 #ifdef USE_VIDMODE_EXTENSION
-	ui_set_windowmode();
+	fullscreen_mode_off();
 #endif
 	return UI_JAM_MONITOR;
       case 1:
@@ -2937,7 +2525,7 @@ void ui_popdown(GtkWidget *w)
     ui_unblock_shells();
     
 #ifdef USE_VIDMODE_EXTENSION
-    focus_window_again();
+    fullscreen_focus_window_again();
 #endif
 }
 
@@ -3193,50 +2781,3 @@ void ui_set_tape_menu (GtkWidget *w)
     tape_menu = w;
 }
 
-
-#ifdef USE_VIDMODE_EXTENSION
-int ui_set_windowmode(void)
-{
-    if(use_fullscreen) {
-        set_fullscreen(0);
-	ui_update_menus();
-	return(1);
-    }
-    return(0);
-}
-
-int ui_set_fullscreenmode(void)
-{
-    if(!use_fullscreen) {
-        set_fullscreen((resource_value_t) 1);
-	ui_update_menus();
-	return(0);
-    }
-    return(1);
-}
-
-void ui_set_fullscreenmode_init(void)
-{
-    set_bestmode(selected_videomode_at_start);
-    if( selected_videomode_index == -1 &&
-	bestmode_counter > 0) {
-        selected_videomode_index = bestmodes[0].modeindex;
-    }
-    if(use_fullscreen_at_start) {
-        ui_set_fullscreenmode();
-	XtVaSetValues(XtParent(XtParent(canvas)),
-		      XtNx,          0,
-		      XtNy,          0,
-		      None);
-	XWarpPointer(display, None,
-		     XtWindow(canvas),
-		     0, 0, 0, 0, 0, 0);
-    }
-    ui_update_menus();
-}
-
-int ui_is_fullscreen_available() {
-    return(bestmode_counter?1:0);
-}
-
-#endif

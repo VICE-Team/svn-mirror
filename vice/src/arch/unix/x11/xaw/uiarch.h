@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UI_XAW_H
-#define _UI_XAW_H
+#ifndef _UIARCH_XAW_H
+#define _UIARCH_XAW_H
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -68,18 +68,5 @@ extern void ui_popdown(Widget w);
 extern void ui_popup(Widget w, const char *title, Boolean wait_popdown);
 extern void ui_about (Widget w, ui_callback_data_t cd, ui_callback_data_t cl);
 
-#ifdef USE_VIDMODE_EXTENSION
-typedef struct {
-  int modeindex;
-  char name[17];
-} ui_bestvideomode;
-
-extern int ui_set_windowmode(void);
-extern int ui_set_fullscreenmode(void);
-extern void ui_set_fullscreenmode_init(void);
-extern void ui_set_mouse_timeout(void);
-extern int ui_is_fullscreen_available(void);
-#endif /* !USE_VIDMODE_EXTENSION */
-
-#endif /* !defined (_UI_XAW_H) */
+#endif /* !defined (_UIARCH_XAW_H) */
 
