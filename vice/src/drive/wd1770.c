@@ -350,7 +350,9 @@ static int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
     rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
                            drive[dnr].drive_floppy->ImageFormat,
                            sector_data, track, sector,
-                           drive[dnr].drive_floppy->D64_Header);
+                           drive[dnr].drive_floppy->D64_Header,
+                           drive[dnr].drive_floppy->GCR_Header,
+                           drive[dnr].drive_floppy->unit);
     if (rc < 0) {
         log_error(drive[dnr].log, 
                   "Cannot read T:%d S:%d from disk image.",

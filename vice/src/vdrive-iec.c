@@ -520,7 +520,8 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 
 	        status = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
                                        p->buffer, track, sector,
-                                       floppy->D64_Header);
+                                       floppy->D64_Header,
+                                       floppy->GCR_Header, floppy->unit);
             if (status < 0) {
                 vdrive_close(floppy, secondary);
                 return SERIAL_ERROR;
@@ -728,7 +729,7 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 				  p->buffer,
 				  (int) p->buffer[0],
 				  (int) p->buffer[1],
-				  floppy->D64_Header);
+				  floppy->D64_Header, floppy->GCR_Header, floppy->unit);
 		p->bufptr = 2;
 	    }
 	} else {

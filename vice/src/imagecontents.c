@@ -269,7 +269,9 @@ image_contents_t *image_contents_read_disk(const char *file_name)
                                    buffer,
                                    floppy->Curr_track,
                                    floppy->Curr_sector,
-                                   floppy->D64_Header);
+                                   floppy->D64_Header,
+                                   floppy->GCR_Header,
+                                   floppy->unit);
 
         if (retval < 0
             || circular_check(floppy->Curr_track, floppy->Curr_sector)) {
