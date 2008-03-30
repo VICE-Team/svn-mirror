@@ -23,7 +23,8 @@ src/arch/unix/uicommands.c
 src/arch/unix/uicrtc.c
 src/arch/unix/uidatasette.c
 src/arch/unix/uidrive.c
-src/arch/unix/uidrivec64c128vic20.c
+src/arch/unix/uidrivec128.c
+src/arch/unix/uidrivec64vic20.c
 src/arch/unix/uidriveiec.c
 src/arch/unix/uidrivepetcbm2.c
 src/arch/unix/uidriveplus4.c
