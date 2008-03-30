@@ -28,6 +28,7 @@
 #define _C64MEMINIT_H
 
 extern void c64meminit(unsigned int base);
+extern const int c64meminit_io_config[32];
 
 #endif
 
