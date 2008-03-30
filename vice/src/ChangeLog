@@ -1,3 +1,27 @@
+2002-07-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.58.
+
+	* raster/raster-cache.h (raster_cache_data_fill_nibbles):
+	Fixed. (raster_cache_data_fill_1fff): New function.
+
+	* vicii/vicii-draw.c (get_hires_bitmap, get_mc_bitmap): Use
+	cache fill function with wrap-around.
+	(vicii_draw_cache_data_fill_39ff): Fixed.
+
+2002-07-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/ui.cc: Include vidoarch.h
+	(ui_set_window_mode): Check for valid canvas before calling
+	video_canvas_refresh_all.
+
+	* arch/beos/vicewindow.cc: (ViceWindow): Initialize canvas
+	with NULL to avoid video_canvas_refresh_all with invalid
+	canvas.
+	(DirectConnected): Fixed typo and check for valid canvas.
+
+	* arch/beos/video.cc: Include fullscreen.h
+
 2002-07-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.57.

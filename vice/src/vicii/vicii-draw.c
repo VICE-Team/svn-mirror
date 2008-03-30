@@ -190,24 +190,25 @@ inline static int vicii_draw_cache_data_fill_39ff(BYTE *dest,
         *xe = length - 1;
 
         for (i = 0; i < length; i++, src_cnt += src_step)
-            dest[i] = src_base[src_cnt & 0x39ff];
+            dest[i] = src_base[src_cnt & 0x19ff];
 
         return 1;
     } else {
         int x = 0, i;
 
-        for (i = 0; i < length && dest[i] == src_base[src_cnt & 0x39ff];
+        for (i = 0; i < length && dest[i] == src_base[src_cnt & 0x19ff];
             i++, src_cnt += src_step)
-          /* do nothing */ ;
+            /* do nothing */ ;
 
         if (i < length) {
             if (*xs > i)
                 *xs = i;
 
-            for (; i < length; i++, src_cnt += src_step)
-                if (dest[i] != src_base[src_cnt & 0x39ff]) {
-                dest[i] = src_base[src_cnt & 0x39ff];
-                x = i;
+            for (; i < length; i++, src_cnt += src_step) {
+                if (dest[i] != src_base[src_cnt & 0x19ff]) {
+                    dest[i] = src_base[src_cnt & 0x19ff];
+                    x = i;
+                }
             }
 
             if (*xe < x)
@@ -360,13 +361,13 @@ static int get_hires_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
                                1,
                                xs, xe,
                                rr);
-    r |= raster_cache_data_fill(cache->foreground_data,
-                                (vic_ii.bitmap_ptr + vic_ii.memptr * 8
-                                + vic_ii.raster.ycounter),
-                                VIC_II_SCREEN_TEXTCOLS,
-                                8,
-                                xs, xe,
-                                rr);
+    r |= raster_cache_data_fill_1fff(cache->foreground_data,
+                                     vic_ii.bitmap_ptr,
+                                     vic_ii.memptr * 8 + vic_ii.raster.ycounter,
+                                     VIC_II_SCREEN_TEXTCOLS,
+                                     8,
+                                     xs, xe,
+                                     rr);
 
     if (!r) {
         vic_ii.sprite_sprite_collisions
@@ -675,13 +676,13 @@ static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 1,
                                 xs, xe,
                                 rr);
-    r |= raster_cache_data_fill(cache->foreground_data,
-                                (vic_ii.bitmap_ptr + 8 * vic_ii.memptr
-                                 + vic_ii.raster.ycounter),
-                                VIC_II_SCREEN_TEXTCOLS,
-                                8,
-                                xs, xe,
-                                rr);
+    r |= raster_cache_data_fill_1fff(cache->foreground_data,
+                                     vic_ii.bitmap_ptr,
+                                     8 * vic_ii.memptr + vic_ii.raster.ycounter,
+                                     VIC_II_SCREEN_TEXTCOLS,
+                                     8,
+                                     xs, xe,
+                                     rr);
 
     if (!r) {
         vic_ii.sprite_sprite_collisions
