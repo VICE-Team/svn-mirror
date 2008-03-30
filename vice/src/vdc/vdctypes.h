@@ -45,26 +45,19 @@
 #define VDC_DOT_CLOCK 16000000.0
 
 #define VDC_SCREEN_WIDTH              672
-#define VDC_SCREEN_HEIGHT_LARGE       432
-#define VDC_SCREEN_HEIGHT_SMALL       232
 
 #define VDC_SCREEN_XPIX               640
-#define VDC_SCREEN_YPIX_LARGE         400
-#define VDC_SCREEN_YPIX_SMALL         200
+#define VDC_SCREEN_YPIX               200
 #define VDC_SCREEN_MAX_TEXTCOLS       80
 #define VDC_SCREEN_TEXTCOLS           80
 #define VDC_SCREEN_TEXTLINES          25
-#define VDC_SCREEN_BORDERWIDTH        16
-#define VDC_SCREEN_BORDERHEIGHT       16
+#define VDC_SCREEN_BORDERWIDTH        8
+#define VDC_SCREEN_BORDERHEIGHT       32
 #define VDC_SCREEN_CHARHEIGHT_LARGE   16
 #define VDC_SCREEN_CHARHEIGHT_SMALL   8
 
 #define VDC_FIRST_DISPLAYED_LINE      16
-#define VDC_LAST_DISPLAYED_LINE_LARGE 415
-#define VDC_LAST_DISPLAYED_LINE_SMALL 215
-#define VDC_25ROW_START_LINE          16
-#define VDC_25ROW_STOP_LINE_LARGE     416
-#define VDC_25ROW_STOP_LINE_SMALL     216
+#define VDC_LAST_DISPLAYED_LINE       247
 #define VDC_80COL_START_PIXEL         16
 #define VDC_80COL_STOP_PIXEL          656
 
@@ -107,7 +100,7 @@ struct vdc_s {
     int initialized;            /* = 0; */
 
     /* VDC registers.  */
-    int regs[38];
+    int regs[64];
 
     /* VDC geometry constants that differ in doulbe size mode.  */
     unsigned int screen_height;
@@ -115,12 +108,11 @@ struct vdc_s {
     unsigned int screen_ypix;
     unsigned int first_displayed_line;
     unsigned int last_displayed_line;
-    unsigned int row25_start_line;
-    unsigned int row25_stop_line;
     unsigned int border_height;
     unsigned int border_width;
     unsigned int raster_ycounter_max;
     unsigned int raster_ycounter_divide;
+    unsigned int screen_textlines;
 
     /* Number of chars per line (including blank and sync).  */
     unsigned int xchars_total;
