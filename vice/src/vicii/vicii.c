@@ -873,9 +873,9 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
     }
 
     if (ultimax != 0)
-      char_base = ((tmp & 0x3fff) >= 0x3000
-                  ? romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000
-                  : vic_ii.ram_base_phi1 + tmp);
+        char_base = ((tmp & 0x3fff) >= 0x3000
+                    ? romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000
+                    : vic_ii.ram_base_phi1 + tmp);
 
     tmp = VIC_II_RASTER_CHAR(cycle);
 
@@ -938,11 +938,11 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
                                              (void *)(vic_ii.ram_base
                                              + vic_ii.vbank));
 */
-          old_vbank_p1 = vic_ii.vbank_phi1;
+            old_vbank_p1 = vic_ii.vbank_phi1;
         }
 
         if (vic_ii.vbank_phi2 != old_vbank_p2) {
-          old_vbank_p2 = vic_ii.vbank_phi2;
+            old_vbank_p2 = vic_ii.vbank_phi2;
         }
     } else {
         if (screen_base != old_screen_ptr) {
@@ -975,11 +975,11 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
                                             (void *)(vic_ii.ram_base
                                             + vic_ii.vbank));
 */
-          old_vbank_p1 = vic_ii.vbank_phi1;
+            old_vbank_p1 = vic_ii.vbank_phi1;
         }
 
         if (vic_ii.vbank_phi2 != old_vbank_p2) {
-          old_vbank_p2 = vic_ii.vbank_phi2;
+            old_vbank_p2 = vic_ii.vbank_phi2;
         }
     }
 }
@@ -1002,29 +1002,37 @@ void vic_ii_update_video_mode(unsigned int cycle)
                 &vic_ii.raster.overscan_background_color, 0);
             vic_ii.get_background_from_vbuf = 0;
             vic_ii.force_black_overscan_background_color = 1;
-        } else if (new_video_mode == VIC_II_HIRES_BITMAP_MODE) {
-            /* Use hack to get the background color from vbuf */
-            vic_ii.get_background_from_vbuf = 1;
-            vic_ii.force_black_overscan_background_color = 0;
-            /* FIXME: idle_state in HIRES_MODE not handled correctly.  */
-            /* Should give a black background; see emufuxxer scroller. */
-            /* Maybe this should be fixed in the raster_mode API.      */
         } else {
-            /* The overscan background color is given by the background color
-               register.  */
-            if (vic_ii.raster.overscan_background_color != vic_ii.regs[0x21])
-                raster_add_int_change_background
-                (&vic_ii.raster, VIC_II_RASTER_X(cycle),
-                &vic_ii.raster.overscan_background_color,
-                vic_ii.regs[0x21]);
-            vic_ii.get_background_from_vbuf = 0;
-            vic_ii.force_black_overscan_background_color = 0;
+            if (new_video_mode == VIC_II_HIRES_BITMAP_MODE) {
+                /* Use hack to get the background color from vbuf */
+                vic_ii.get_background_from_vbuf = 1;
+                vic_ii.force_black_overscan_background_color = 0;
+                /* FIXME: idle_state in HIRES_MODE not handled correctly.  */
+                /* Should give a black background; see emufuxxer scroller. */
+                /* Maybe this should be fixed in the raster_mode API.      */
+            } else {
+                /* The overscan background color is given by the background
+                   color register.  */
+                if (vic_ii.raster.overscan_background_color
+                    != vic_ii.regs[0x21])
+                    raster_add_int_change_background
+                    (&vic_ii.raster, VIC_II_RASTER_X(cycle),
+                    &vic_ii.raster.overscan_background_color,
+                    vic_ii.regs[0x21]);
+                vic_ii.get_background_from_vbuf = 0;
+                vic_ii.force_black_overscan_background_color = 0;
+            }
         }
 
         {
             int pos;
 
             pos = VIC_II_RASTER_CHAR(cycle);
+
+            /* Multicolor changes are propagated one cycle faster. */
+            if (((new_video_mode & 1) ^ (old_video_mode & 1))
+                && cycle > 0)
+                pos--;
 
             raster_add_int_change_foreground(&vic_ii.raster, pos,
                                              &vic_ii.raster.video_mode,
@@ -1204,17 +1212,19 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
 
         /* This makes sure we only create VIC_II_FETCH_MATRIX events in the bad
            line range.  These checks are (a little) redundant for safety.  */
-        if (raster->current_line < vic_ii.first_dma_line)
+        if (raster->current_line < vic_ii.first_dma_line) {
             vic_ii.fetch_clk += ((vic_ii.first_dma_line
                                 - raster->current_line)
                                 * vic_ii.cycles_per_line);
-        else if (raster->current_line >= vic_ii.last_dma_line)
-            vic_ii.fetch_clk += ((vic_ii.screen_height
-                                - raster->current_line
-                                + vic_ii.first_dma_line)
-                                * vic_ii.cycles_per_line);
-        else
-            vic_ii.fetch_clk += vic_ii.cycles_per_line;
+        } else {
+            if (raster->current_line >= vic_ii.last_dma_line)
+                vic_ii.fetch_clk += ((vic_ii.screen_height
+                                    - raster->current_line
+                                    + vic_ii.first_dma_line)
+                                    * vic_ii.cycles_per_line);
+            else
+                vic_ii.fetch_clk += vic_ii.cycles_per_line;
+        }
 
         alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
         return 1;
@@ -1347,7 +1357,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
     *write_offset = sub == 0 ? sf->num : 0;
 
-     next_cycle = (sf + 1)->cycle;
+    next_cycle = (sf + 1)->cycle;
     vic_ii.sprite_fetch_idx++;
 
     if (next_cycle == -1) {
@@ -1364,8 +1374,9 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
             vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
                                + vic_ii.cycles_per_line);
         }
-    } else
+    } else {
         vic_ii.fetch_clk = vic_ii.sprite_fetch_clk + next_cycle;
+    }
 
     if (clk >= vic_ii.draw_clk)
         vic_ii_raster_draw_alarm_handler(clk - vic_ii.draw_clk);
@@ -1414,7 +1425,7 @@ void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
                 last_opcode_last_write_clk = clk - 1;
                 last_opcode_first_write_clk = clk - maincpu_num_write_cycles();
             } else {
-                last_opcode_first_write_clk = (CLOCK) 0;
+                last_opcode_first_write_clk = (CLOCK)0;
                 last_opcode_last_write_clk = last_opcode_first_write_clk;
             }
             break;
