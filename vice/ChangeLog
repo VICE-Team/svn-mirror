@@ -1,3 +1,13 @@
+1999-02-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.15.0.42.
+
+	* configure.in: Commented out `AC_DEFINE(UNSTABLE)'.
+
+	* BUGS, FEEDBACK, INSTALL, NEWS, README, TODO, doc/vice.texi,
+	man/c1541.1, man/vice.1, vice.spec: Some tweaks to update version
+	number, dates, copyright, VICE home page URL and some features.
+
 1998-12-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.15.0.41.

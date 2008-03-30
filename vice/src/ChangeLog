@@ -1,3 +1,73 @@
+1999-02-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.15.0.42.
+
+	* arch/msdos/archdep.c, arch/msdos/tuifs.c, tuiimagebrowser.c,
+	arch/msdos/uisnapshot.c, arch/msdos/vicesb.c, arch/msdos/video.c,
+	arch/msdos/vsync.c, c128/c128mem.c 
+
+	* arch/msdos/grabkey.c (lock_stuff): Commented out.
+
+	* arch/msdos/menudefs.c, arch/msdos/ui.c, c1541.c, info.c
+	arch/unix/xaw/uicommands.c: Some tweaks to update version number,
+	dates, copyright, VICE home page URL and some features.
+
+	* c64/vicii.c (set_double_size_enabled): Only compile this function
+	when `NEED_2x' is defined.
+	* crtc-tmpl.c (set_double_size_enabled): Likewise.
+
+	* pet/pet.c (set_model_name): Commented out unused function.
+	* pet/pets.c (set_kbd_type): Likewise.
+	* sounddrv/soundsb.c (interrupt_function_end): Likewise.
+
+1999-01-03  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/archdep.h (archdep_num_text_lines,
+	  archdep_num_text_columns): Added function prototypes.
+
+	* arch/win32/joystick.h (joystick_close): Added function prototype.
+
+	* arch/win32/kbd.c: Include stdlib.h.
+
+	* arch/win32/lose32.h (main_program): Added function prototype.
+
+	* arch/win32/ui.c: Include tape.h and vsync.h.
+	(RefreshRateValues): Add missing braces.
+	(SpeedValues): Add missing braces.
+	(value_list): Add missing braces.
+
+	* arch/win32/uidrive.c: Include uilib.h
+
+	* arch/win32/video.c (canvas_refresh): Added casts to remove
+	some warnings.
+
+	* arch/win32/vsync.c: Removed timer event callback thread.
+	(vsync_cleanup): Removed obsolete function.
+	(do_vsync): Complete rewrite.
+
+	* arch/win32/vsync.h (vsync_cleanup): Removed prototype.
+
+	* arch/win32/winmain.c (WinMain): Added missing return at end of
+	  function.
+
+	* autostart.c (autostart_advance): Fixed a string handling bug.
+
+	* sounddrv/sounddx.c (sound_debug): Changed OutputDebugString
+	call to log_debug.
+	Complete rewrite of all functions. Added streaming support
+	for NT.
+
+1998-12-21  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* mon.c: hex_mode was used uninitialized.
+
+	* raster.c, sound.c, sound.h, sounddrv/soundacorn.c: put RISC OS
+	sound polling on a timer event rather than ``check every couple
+	of rasterlines''.
+
+	* sound.c: initializing snddata.issuspended with -1 must have been
+	an error (device doesn't suspend properly the 1st time).
+
 1998-12-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.15.0.41.
@@ -81,7 +151,7 @@
 	(MAIN_PROGRAM): Replace hex codes in the program name, if any.
 
 	* c64/c64mem.c (pla_config_changed): Applied André's patch to fix
-	the MMUFETCH test of Wolfgang's test suite.  Somebody should check 
+	the MMUFETCH test of Wolfgang's test suite.  Somebody should check
 	this on a real C64.
 
 1998-12-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
@@ -320,7 +390,7 @@
 
 	* arch/win32/video.c: Include log.h.
 	(video_debug): Changed fprintf to log_debug.
-        Removed newline character from end of debug messages.
+	Removed newline character from end of debug messages.
 	(set_physical_colors): Force unused bits of color
 	lookuptable to be zero.
 	(canvas_refresh): Speeded up 24 bit case.
@@ -331,7 +401,7 @@
 	* c1541.c (split_args): Added \t and \n as separator chars.
 
 	* cbm2/c610mem.c (initialize_memory): Removed logfile opening.
-        (mem_load): Added logfile opening.
+	(mem_load): Added logfile opening.
 
 	* pet/petmem.c (initialize_memory): Removed logfile opening.
 	(mem_load): Added logfile opening.
