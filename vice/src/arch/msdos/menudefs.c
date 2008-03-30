@@ -422,7 +422,6 @@ static TUI_MENU_CALLBACK(sound_oversample_submenu_callback)
         return "None";
 }
 
-#ifdef USE_MIDAS_SOUND
 static tui_menu_item_def_t sample_rate_submenu[] = {
     { "_0: 8000 Hz",
       "Set sampling rate to 8000 Hz",
@@ -442,27 +441,6 @@ static tui_menu_item_def_t sample_rate_submenu[] = {
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
-#else
-static tui_menu_item_def_t sample_rate_submenu[] = {
-    { "_0: 11906 Hz",
-      "Set sampling rate to 11906 Hz",
-      radio_SoundSampleRate_callback, (void *) 11906, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_1: 16129 Hz",
-      "Set sampling rate to 16129 Hz",
-      radio_SoundSampleRate_callback, (void *) 16129, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_2: 22727 Hz",
-      "Set sampling rate to 22727 Hz",
-      radio_SoundSampleRate_callback, (void *) 22727, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_3: 45454 Hz",
-      "Set sampling rate to 45454 Hz",
-      radio_SoundSampleRate_callback, (void *) 45454, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-#endif
 
 static tui_menu_item_def_t sound_buffer_size_submenu[] = {
     { "_1: 50 msec",
@@ -863,24 +841,7 @@ static tui_menu_item_def_t quit_submenu[] = {
 
 static void mon_trap(ADDRESS addr, void *data)
 {
-    int old_input_mode, old_output_mode;
-
-    log_disable();
-    enable_text();
-    clrscr();
-    _set_screen_lines(43);
-    _setcursortype(_SOLIDCURSOR);
-
-    old_input_mode = setmode(STDIN_FILENO, O_TEXT);
-    old_output_mode = setmode(STDOUT_FILENO, O_TEXT);
-
     mon(addr);
-
-    setmode(STDIN_FILENO, old_input_mode);
-    setmode(STDIN_FILENO, old_output_mode);
-
-    log_enable(0);
-    disable_text();
 }
 
 static TUI_MENU_CALLBACK(monitor_callback)

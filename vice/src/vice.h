@@ -52,15 +52,7 @@
 #define DOCDIR          LIBDIR "/doc"
 
 /* Sound defaults.  */
-#ifdef __MSDOS__
-# ifdef USE_MIDAS_SOUND
-#  define SOUND_SAMPLE_RATE 22050	/* Hz */
-# else
-#  define SOUND_SAMPLE_RATE 22727
-# endif
-#else
-# define SOUND_SAMPLE_RATE 22050
-#endif
+#define SOUND_SAMPLE_RATE 22050
 
 #ifndef __MSDOS__
 # define SOUND_SAMPLE_BUFFER_SIZE	350	/* ms */
