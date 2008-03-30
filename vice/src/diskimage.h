@@ -39,6 +39,10 @@
 #define D80_FILE_SIZE     533248        /* D80 image, 77 tracks */
 #define D82_FILE_SIZE    1066496        /* D82 image, 77 tracks */
 
+#define DISK_IMAGE_DEVICE_FS   0
+#define DISK_IMAGE_DEVICE_REAL 1
+#define DISK_IMAGE_DEVICE_RAW  2
+
 #define DISK_IMAGE_TYPE_X64 0
 #define DISK_IMAGE_TYPE_G64 100
 #define DISK_IMAGE_TYPE_D64 1541
@@ -49,18 +53,33 @@
 #define DISK_IMAGE_TYPE_D82 8250
 #define DISK_IMAGE_TYPE_TAP 1531
 
+
 struct gcr_s;
 
 typedef struct disk_image_s {
-    FILE *fd;
-    char *name;
+    void *media;
     unsigned int read_only;
-    unsigned int raw;
+    unsigned int device;
     unsigned int type;
     unsigned int tracks;
     struct gcr_s *gcr;
     BYTE *error_info;
 } disk_image_t;
+
+typedef struct fsimage_s {
+    FILE *fd;
+    char *name;
+} fsimage_t;
+
+typedef struct realimage_s {
+    unsigned int unit;
+    unsigned int drivetype;
+} realimage_t;
+
+typedef struct rawimage_s {
+    unsigned int drivetype;
+} rawimage_t;
+
 
 extern void disk_image_init(void);
 
