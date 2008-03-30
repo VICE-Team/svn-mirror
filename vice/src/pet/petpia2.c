@@ -1,7 +1,7 @@
 
 /*
- * ../../../vice-0.15.0.12/src/pet/petpia2.c
- * This file is generated from ../../../vice-0.15.0.12/src/pia-tmpl.c and ../../../vice-0.15.0.12/src/pet/petpia2.def,
+ * ../../../vice-0.15.0.14+/src/pet/petpia2.c
+ * This file is generated from ../../../vice-0.15.0.14+/src/pia-tmpl.c and ../../../vice-0.15.0.14+/src/pet/petpia2.def,
  * Do not edit!
  */
 /*
@@ -61,11 +61,11 @@
 
 
 #define PIA_SET_CA2(a)  do {                                            \
-                            par_set_ndac((a)?0:1);                      \
+                            parallel_cpu_set_ndac((a)?0:1);                      \
                         } while(0)
 
 #define PIA_SET_CB2(a)  do {						\
-			    par_set_dav((a)?0:1);			\
+			    parallel_cpu_set_dav((a)?0:1);			\
 			} while(0)
 
 
@@ -120,7 +120,7 @@ void    reset_pia2(void)
    pia2.port_b = 255;	/* PIA 1 Port B input; nothing to read from keyboard */
 
 
-    par_set_bus(0xff);	/* all data lines high, because of input mode */
+    parallel_cpu_set_bus(0xff);	/* all data lines high, because of input mode */
 
    PIA_SET_CA2(1);
    pia2.ca_state = 1;
@@ -209,7 +209,7 @@ void REGPARM2 store_pia2(ADDRESS addr, BYTE byte)
 	}
         byte = pia2.port_b | ~pia2.ddr_b;
 
-    par_set_bus(byte^255);
+    parallel_cpu_set_bus(byte^255);
 	if (IS_CB2_HANDSHAKE()) {
 	    PIA_SET_CB2(0);
 	    pia2.cb_state = 0;
@@ -296,12 +296,12 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 
 
 
-	    if (pardebug)
-		printf("read pia2 port A %x, par_bus=%x, gives %x\n",
-			pia2.port_a, par_bus,
-			(par_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a));
+	    if (parallel_debug)
+		printf("read pia2 port A %x, parallel_bus=%x, gives %x\n",
+			pia2.port_a, parallel_bus,
+			(parallel_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a));
 
-	    byte = (par_bus & ~pia2.ddr_a) | (pia2.port_a & pia2.ddr_a);
+	    byte = (parallel_bus & ~pia2.ddr_a) | (pia2.port_a & pia2.ddr_a);
 	    return byte;
 	}
 	return (pia2.ddr_a);
@@ -316,10 +316,10 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 
 
 
-	    if (pardebug)
-		printf("read pia2 port B %x, par_bus=%x, gives %x\n",
-			pia2.port_b, par_bus,
-			(~(par_bus|pia2.ddr_b)) |(pia2.port_b & pia2.ddr_b));
+	    if (parallel_debug)
+		printf("read pia2 port B %x, parallel_bus=%x, gives %x\n",
+		    pia2.port_b, parallel_bus,
+		    (~(parallel_bus|pia2.ddr_b)) | (pia2.port_b & pia2.ddr_b));
 
 	    byte = (~pia2.ddr_b) |(pia2.port_b & pia2.ddr_b);
 	    return (byte);
@@ -441,7 +441,7 @@ int pia2_read_snapshot_module(snapshot_t * p)
 
     byte = pia2.port_b | ~pia2.ddr_b;
 
-    par_set_bus(byte^255);
+    parallel_cpu_set_bus(byte^255);
 
     if( 0
             || ((pia2.ctrl_a & 0x81) == 0x81)

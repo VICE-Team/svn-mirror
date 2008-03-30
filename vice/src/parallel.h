@@ -39,24 +39,84 @@
 
 #include "types.h"
 
-/* state of the bus lines - if(par_eoi) { eoi is detected } */
-extern char par_eoi;
-extern char par_ndac;
-extern char par_nrfd;
-extern char par_dav;
-extern char par_atn;
+/* debug variable - set to 1 to generate output */
+extern int parallel_debug;
 
-extern BYTE par_bus;	/* data lines */
+/* state of the bus lines -> "if(parallel_eoi) { eoi is active }" */
+extern char parallel_eoi;
+extern char parallel_ndac;
+extern char parallel_nrfd;
+extern char parallel_dav;
+extern char parallel_atn;
 
-/* methods to set output lines */
-extern void par_set_eoi( char );
-extern void par_set_ndac( char );
-extern void par_set_nrfd( char );
-extern void par_set_dav( char );
-extern void par_set_atn( char );
+extern BYTE parallel_bus;	/* data lines */
 
-extern void par_set_bus( BYTE );
+/* Each device has a mask bit in the parallel_* handshake lines */
+#define	PARALLEL_EMU	0x01
+#define	PARALLEL_CPU	0x02
+#define	PARALLEL_DRV0	0x04
+#define	PARALLEL_DRV1	0x08
+  
+/* methods to set handshake lines active for the devices */
+extern void parallel_set_eoi( char mask);
+extern void parallel_set_ndac( char mask);
+extern void parallel_set_nrfd( char mask);
+extern void parallel_set_dav( char mask);
+extern void parallel_set_atn( char mask);
 
-extern int pardebug;
+/* methods to set handshake lines inactive for the devices */
+extern void parallel_clr_eoi( char mask);
+extern void parallel_clr_ndac( char mask);
+extern void parallel_clr_nrfd( char mask);
+extern void parallel_clr_dav( char mask);
+extern void parallel_clr_atn( char mask);
+
+
+/* methods to set output lines for the computer */
+#define	PARALLEL_SET_LINE(line,dev,mask)						\
+    static inline void parallel_##dev##_set_##line##( char val ) 		\
+    {									\
+    	if (val) {							\
+	    parallel_set_##line##(PARALLEL_##mask##);				\
+        } else {							\
+	    parallel_clr_##line##(~PARALLEL_##mask##);				\
+    	}								\
+    }
+
+/* Emulator functions */
+PARALLEL_SET_LINE(eoi,emu,EMU)
+PARALLEL_SET_LINE(dav,emu,EMU)
+PARALLEL_SET_LINE(nrfd,emu,EMU)
+PARALLEL_SET_LINE(ndac,emu,EMU)
+PARALLEL_SET_LINE(atn,emu,EMU)
+
+void parallel_emu_set_bus( BYTE);
+
+/* CPU functions */
+PARALLEL_SET_LINE(eoi,cpu,CPU)
+PARALLEL_SET_LINE(dav,cpu,CPU)
+PARALLEL_SET_LINE(nrfd,cpu,CPU)
+PARALLEL_SET_LINE(ndac,cpu,CPU)
+PARALLEL_SET_LINE(atn,cpu,CPU)
+
+void parallel_cpu_set_bus( BYTE);
+
+/* Drive 0 functions */
+PARALLEL_SET_LINE(eoi,drv0,DRV0)
+PARALLEL_SET_LINE(dav,drv0,DRV0)
+PARALLEL_SET_LINE(nrfd,drv0,DRV0)
+PARALLEL_SET_LINE(ndac,drv0,DRV0)
+PARALLEL_SET_LINE(atn,drv0,DRV0)
+
+void parallel_drv0_set_bus( BYTE);
+
+/* Drive 1 functions */
+PARALLEL_SET_LINE(eoi,drv1,DRV1)
+PARALLEL_SET_LINE(dav,drv1,DRV1)
+PARALLEL_SET_LINE(nrfd,drv1,DRV1)
+PARALLEL_SET_LINE(ndac,drv1,DRV1)
+PARALLEL_SET_LINE(atn,drv1,DRV1)
+
+void parallel_drv1_set_bus( BYTE);
 
 #endif

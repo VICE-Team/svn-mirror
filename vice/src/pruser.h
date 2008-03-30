@@ -33,9 +33,9 @@
 int pruser_init_resources(void);
 int pruser_init_cmdline_options(void);
 
-void userport_printer_write_data(BYTE);
-void userport_printer_write_strobe(int);
-void userport_printer_set_busy(int);
+void pruser_write_data(BYTE);
+void pruser_write_strobe(int);
+void pruser_set_busy(int);
 
 #endif
 

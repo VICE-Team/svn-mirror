@@ -410,7 +410,7 @@ int parallelattention(int b)
 {
     int st = 0;
 
-    if (pardebug)
+    if (parallel_debug)
 	printf("ParallelAttention(%02x)\n", b);
 
     if (b == 0x3f
@@ -433,7 +433,7 @@ int parallelattention(int b)
 	  case 0xf0:		/* Open File needs the filename first */
 	      TrapSecondary = b;
 	      serialdevices[TrapDevice & 0x0f].isopen[TrapSecondary & 0x0f] = 0;
-	      if (pardebug)
+	      if (parallel_debug)
 		  printf("close output.\n");
 	      break;
 	}
@@ -445,7 +445,7 @@ int parallelattention(int b)
 	TrapDevice = 0;
 	TrapSecondary = 0;
     }
-    if (pardebug)
+    if (parallel_debug)
 	printf("ParallelAttention(%02x)->TrapDevice=%02x, st=%04x\n",
 	       b, TrapDevice, st + (TrapDevice << 8));
 
@@ -467,7 +467,7 @@ int parallelsendbyte(int data)
     if (p->inuse) {
 	if (!p->isopen[TrapSecondary & 0x0f]) {
 
-	    if (pardebug)
+	    if (parallel_debug)
 		printf("SerialSendByte[%2d] = %02x\n", SerialPtr, data);
 	    /* Store name here */
 	    if (SerialPtr < SERIAL_NAMELENGTH)
@@ -514,7 +514,7 @@ int parallelreceivebyte(BYTE * data, int fake)
 	(p->lastok[secadr] ? p->lastst[secadr] : 2);
     st += TrapDevice << 8;
 
-    if (pardebug)
+    if (parallel_debug)
 	printf("receive: sa=%02x lastb = %02x,  ok=%s, st=%04x, nextb = %02x, "
 	       "ok=%s, st=%04x\n", secadr,
 	       p->lastbyte[secadr], p->lastok[secadr] ? "ok" : "no",
@@ -525,7 +525,7 @@ int parallelreceivebyte(BYTE * data, int fake)
     if ((!fake) && p->nextok[secadr] && p->nextst[secadr])
 	p->nextok[secadr] = 0;
 
-    if (pardebug)
+    if (parallel_debug)
 	printf("faked = %d, return data =%02x ('%c'), st = %04x\n",
 	       fake, *data, isprint(*data) ? *data : '_', st);
 

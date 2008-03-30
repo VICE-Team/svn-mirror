@@ -47,18 +47,18 @@ PIA_PRE_FUNCS()
 {
 
 #define PIA_SET_CA2(a)  do {                                            \
-                            par_set_ndac((a)?0:1);                      \
+                            parallel_cpu_set_ndac((a)?0:1);                      \
                         } while(0)
 
 #define PIA_SET_CB2(a)  do {						\
-			    par_set_dav((a)?0:1);			\
+			    parallel_cpu_set_dav((a)?0:1);			\
 			} while(0)
 
 }       /* end PIA_PRE_FUNCS */
 
 PIA_RESET()
 {
-    par_set_bus(0xff);	/* all data lines high, because of input mode */
+    parallel_cpu_set_bus(0xff);	/* all data lines high, because of input mode */
 }
 
 /* ------------------------------------------------------------------------- */
@@ -77,32 +77,32 @@ E823	CB2	    IEEE DAV out
 
 STORE_PB()
 {
-    par_set_bus(byte^255);
+    parallel_cpu_set_bus(byte^255);
 }
 
 UNDUMP_PB()
 {
-    par_set_bus(byte^255);
+    parallel_cpu_set_bus(byte^255);
 }
 
 READ_PA()
 {
 
-	    if (pardebug)
-		printf("read pia2 port A %x, par_bus=%x, gives %x\n",
-			pia2.port_a, par_bus,
-			(par_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a));
+	    if (parallel_debug)
+		printf("read pia2 port A %x, parallel_bus=%x, gives %x\n",
+			pia2.port_a, parallel_bus,
+			(parallel_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a));
 
-	    byte = (par_bus & ~pia2.ddr_a) | (pia2.port_a & pia2.ddr_a);
+	    byte = (parallel_bus & ~pia2.ddr_a) | (pia2.port_a & pia2.ddr_a);
 }
 
 READ_PB()
 {
 
-	    if (pardebug)
-		printf("read pia2 port B %x, par_bus=%x, gives %x\n",
-			pia2.port_b, par_bus,
-			(~(par_bus|pia2.ddr_b)) |(pia2.port_b & pia2.ddr_b));
+	    if (parallel_debug)
+		printf("read pia2 port B %x, parallel_bus=%x, gives %x\n",
+		    pia2.port_b, parallel_bus,
+		    (~(parallel_bus|pia2.ddr_b)) | (pia2.port_b & pia2.ddr_b));
 
 	    byte = (~pia2.ddr_b) |(pia2.port_b & pia2.ddr_b);
 }

@@ -1,7 +1,7 @@
 
 /*
- * ../../../vice-0.15.0.12/src/pet/petpia1.c
- * This file is generated from ../../../vice-0.15.0.12/src/pia-tmpl.c and ../../../vice-0.15.0.12/src/pet/petpia1.def,
+ * ../../../vice-0.15.0.14+/src/pet/petpia1.c
+ * This file is generated from ../../../vice-0.15.0.14+/src/pia-tmpl.c and ../../../vice-0.15.0.14+/src/pet/petpia1.def,
  * Do not edit!
  */
 /*
@@ -109,7 +109,7 @@ void mem_set_tape_sense(int v)
 }
 
 #define	PIA_SET_CA2(a)	do { 						\
-			    par_set_eoi((a)?0:1); 			\
+			    parallel_cpu_set_eoi((a)?0:1); 			\
 			    if(pet.pet2k) 				\
 				crtc_screen_enable((a)?1:0);		\
 			} while(0)
@@ -343,7 +343,7 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
 
     byte = 0xff
 	- (tape1_sense ? 16 : 0)
-	- (par_eoi ? 64 : 0)
+	- (parallel_eoi ? 64 : 0)
 	- ((diagnostic_pin_enabled || superpet_diag()) ? 128 : 0);
     byte = ((byte & ~pia1.ddr_a) | (pia1.port_a & pia1.ddr_a));
 	    return byte;
