@@ -127,11 +127,8 @@ static int snapshot_write_padded_string(FILE *f, const char *s, BYTE pad_char,
 
 static int snapshot_write_byte_array(FILE *f, BYTE *data, unsigned int len)
 {
-    unsigned int i;
-
-    for (i = 0; i < len; i++)
-        if (snapshot_write_byte(f, data[i]) < 0)
-            return -1;
+    if (fwrite(data, (size_t)len, 1, f) < 1)
+        return -1;
 
     return 0;
 }
@@ -211,11 +208,8 @@ static int snapshot_read_dword(FILE *f, DWORD *dw_return)
 
 static int snapshot_read_byte_array(FILE *f, BYTE *b_return, unsigned int size)
 {
-    unsigned int i;
-
-    for (i = 0; i < size; i++)
-        if (snapshot_read_byte(f, b_return + i) < 0)
-            return -1;
+    if (fread(b_return, (size_t)size, 1, f) < 1)
+        return -1;
 
     return 0;
 }
