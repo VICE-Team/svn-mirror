@@ -858,6 +858,16 @@ void raster_line_emulate(raster_t *raster)
             raster->dont_cache = 0;
             raster->num_cached_lines = 0;
         }
+
+#if 1
+        /* this is a fix for the pal emulation bug at the left/right edges */
+        /* hacked, but other solutions would cause changes in many places in
+           the code */
+        memset(raster->draw_buffer_ptr - 4,
+               *raster->draw_buffer_ptr, 4);
+        memset(raster->draw_buffer_ptr + raster->geometry->screen_size.width,
+               *raster->draw_buffer_ptr, 4);
+#endif
     } else {
         update_sprite_collisions(raster);
 

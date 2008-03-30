@@ -1,3 +1,15 @@
+2003-01-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.
+
+	* arch/unix/x11/video.c (video_canvas_refresh): Removed hack.
+
+2003-01-19  John Selck <graham@cruise.de>
+
+	* raster/raster-line.c (raster_line_emulate): Now a few pixels are
+	cleared beyond the clipping edges to remove pal emulation bugs
+	at the edges which appear due to unclipped sprites.
+
 2003-01-18  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.46.

@@ -655,9 +655,6 @@ void video_canvas_refresh(video_canvas_t *canvas,
     /*log_debug("XS%i YS%i XI%i YI%i W%i H%i PS%i", xs, ys, xi, yi, w, h,
               canvas->draw_buffer->draw_buffer_width);*/
 
-if (xs >= 800)
-    *(int *)0 = 0;
-
     if (console_mode || vsid_mode)
         return;
 
