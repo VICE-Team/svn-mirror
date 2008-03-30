@@ -1,3 +1,45 @@
+2003-11-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.30.
+
+	* core/viacore.c (viacore_reset): Reset PB7 variables.
+
+	* drive/drivecpu.c (drive_cpu_setup_context): Clear large
+	drive struct.
+
+	* c64/reu.c (reu_activate): Clear newly allocated RAM.
+
+	* cbm2/cbm2.c (machine_specific_reset): Reset TPI before ACIA
+	is reseted.
+
+	* raster/raster-changes.c (raster_changes_shutdown): Only free
+	changes if the changes struct exists.
+
+	* raster/raster.c (raster_draw_buffer_alloc): Marked hack.
+
+2003-11-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* raster/raster.c (raster_draw_buffer_alloc): Allocate one
+	more line for the draw buffer to avoid access violations in
+	Scale2x renderer.
+
+	* vicii/viciitypes.h: Increase VICII_MAX_SPRITE_WIDTH to 56
+	inlcluding the repeated pixels in the bug area.
+
+	* vicii-draw.c: Append the sprite wrap area to
+	GFX_MSK_LEFTBORDER_SIZE.
+
+	* vicii/vicii-sprites.c (draw_sprite_partial): Fixed msk_ptr
+	respecting new gfx_msk offset.
+
+2003-11-21  David Hansel  <hansel@reactive-systems.com>
+
+	* arch/unix/uidrivec128, arch/unix/uidrivec64vic20,
+	arch/unix/uidriveplus4, uiperipheral.c, uiprinter.c:
+	Moved "Enable IEC device" from "drive" settings to
+	"peripheral" settings.  Added "Enable IEC device"
+	to printer settings
+
 2003-11-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.29.
