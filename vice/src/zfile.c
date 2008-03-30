@@ -839,6 +839,11 @@ int zopen(const char *name, mode_t opt, int flags)
 	return -1;
     }
 
+    /* (Arghl...  The following code is very nice, except that it cannot work
+       backwards, and it also clobbers `type' causing even "plain"
+       compression not to work correctly anymore.)  */
+
+#if 0
     /* OK, we managed to decompress that. Let's see if we can do that again.
        If we can, we can delete the previous tmpfile */
     while (1) {
@@ -853,6 +858,7 @@ int zopen(const char *name, mode_t opt, int flags)
 	unlink(tmp_name);
 	tmp_name = tmp_name2;
     }
+#endif
 
     /* Open the uncompressed version of the file.  */
     fd = open(tmp_name, opt, flags);
