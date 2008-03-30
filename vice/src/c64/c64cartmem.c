@@ -174,7 +174,7 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
       case CARTRIDGE_KCS_POWER:
         return export_ram0[0x1f00 + (addr & 0xff)];
       case CARTRIDGE_IEEE488:
-        return read_tpi(addr & 0x07);
+        return tpi_read(addr & 0x07);
       case CARTRIDGE_EPYX_FASTLOAD:
         if (addr == 0xdf18)
             cartridge_config_changed(0);
@@ -254,7 +254,7 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
         pla_config_changed();
         break;
       case CARTRIDGE_IEEE488:
-        store_tpi(addr & 0x07, value);
+        tpi_store(addr & 0x07, value);
         break;
     }
     return;
@@ -322,7 +322,7 @@ void cartridge_init_config(void)
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
         cartridge_config_changed(1);
-        store_io1((ADDRESS) 0xde00, 0);
+        cartridge_store_io1((ADDRESS)0xde00, 0);
         break;
       case CARTRIDGE_IEEE488:
         cartridge_config_changed(0);

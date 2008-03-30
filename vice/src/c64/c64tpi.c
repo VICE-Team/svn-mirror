@@ -2,7 +2,7 @@
  * c64tpi.c - IEEE488 interface for the C64.
  *
  * Written by
- *   André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *   André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,10 +37,10 @@
 
 
 #define mytpi_init tpi_init
-#define reset_mytpi reset_tpi
-#define store_mytpi store_tpi
-#define read_mytpi read_tpi
-#define peek_mytpi peek_tpi
+#define mytpi_reset tpi_reset
+#define mytpi_store tpi_store
+#define mytpi_read tpi_read
+#define mytpi_peek tpi_peek
 #define mytpi_set_int tpi_set_int
 #define mytpi_write_snapshot_module tpi_write_snapshot_module
 #define mytpi_read_snapshot_module tpi_read_snapshot_module
@@ -70,7 +70,7 @@ _TPI_FUNC void tpi_set_cb(int a)
 static int ieee_is_dev = 1;
 static int ieee_is_out = 1;
 
-_TPI_FUNC void tpi_reset(void)
+_TPI_FUNC void _tpi_reset(void)
 {
     /* assuming input after reset */
     parallel_cpu_set_atn(0);

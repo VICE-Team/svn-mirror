@@ -2,7 +2,7 @@
  * tpicore.c - TPI 6525 template
  *
  * Written by
- *   André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *   André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -111,7 +111,7 @@ void mytpi_init (void)
         mytpi_log = log_open(MYTPI_NAME);
 }
 
-void reset_mytpi ( void ) {
+void mytpi_reset( void ) {
 	int i;
 
 	for(i=0;i<8;i++) {
@@ -134,15 +134,15 @@ void reset_mytpi ( void ) {
 	ca_state = 0;
 	cb_state = 0;
 
-	tpi_reset();
+	_tpi_reset();
 }
 
-void store_mytpi ( ADDRESS addr, BYTE byte ) {
+void mytpi_store( ADDRESS addr, BYTE byte ) {
 
         if (mycpu_rmw_flag) {
             myclk --;
             mycpu_rmw_flag = 0;
-            store_mytpi(addr, tpi_last_read);
+            mytpi_store(addr, tpi_last_read);
             myclk ++;
         }
 
@@ -221,7 +221,7 @@ void store_mytpi ( ADDRESS addr, BYTE byte ) {
 	tpi[addr] = byte;
 }
 
-BYTE read_mytpi ( ADDRESS addr ) {
+BYTE mytpi_read( ADDRESS addr ) {
 	BYTE byte = 0xff;
     	switch ( addr ) {
 	case TPI_PA:
@@ -257,8 +257,8 @@ BYTE read_mytpi ( ADDRESS addr ) {
 	}
 }
 
-BYTE peek_mytpi (ADDRESS addr) {
-	BYTE b = read_mytpi(addr);
+BYTE mytpi_peek(ADDRESS addr) {
+	BYTE b = mytpi_read(addr);
 	return b;
 }
 

@@ -2,8 +2,8 @@
  * pia.h -- PIA chip emulation.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -47,24 +47,25 @@ extern int pia1_init_resources(void);
 extern int pia1_init_cmdline_options(void);
 
 extern void pia1_init(void);
-extern void reset_pia1(void);
-extern void signal_pia1(int line, int edge);
-extern void REGPARM2 store_pia1(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_pia1(ADDRESS addr);
-extern BYTE REGPARM1 peek_pia1(ADDRESS addr);
+extern void pia1_reset(void);
+extern void pia1_signal(int line, int edge);
+extern void REGPARM2 pia1_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 pia1_read(ADDRESS addr);
+extern BYTE REGPARM1 pia1_peek(ADDRESS addr);
 extern void pia1_set_tape_sense(int v);
 
 extern int pia1_read_snapshot_module(snapshot_t *);
 extern int pia1_write_snapshot_module(snapshot_t *);
 
 extern void pia2_init(void);
-extern void reset_pia2(void);
-extern void signal_pia2(int line, int edge);
-extern void REGPARM2 store_pia2(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_pia2(ADDRESS addr);
-extern BYTE REGPARM1 peek_pia2(ADDRESS addr);
+extern void pia2_reset(void);
+extern void pia2_signal(int line, int edge);
+extern void REGPARM2 pia2_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 pia2_read(ADDRESS addr);
+extern BYTE REGPARM1 pia2_peek(ADDRESS addr);
 
 extern int pia2_read_snapshot_module(snapshot_t *);
 extern int pia2_write_snapshot_module(snapshot_t *);
 
 #endif
+

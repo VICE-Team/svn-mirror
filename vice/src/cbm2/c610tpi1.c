@@ -2,7 +2,7 @@
  * c610tpi1.c - TPI 1 for CBM-II
  *
  * Written by
- *   André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *   André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,10 +38,10 @@
 /* renaming of exported functions */
 
 #define mytpi_init tpi1_init
-#define reset_mytpi reset_tpi1
-#define store_mytpi store_tpi1
-#define read_mytpi read_tpi1
-#define peek_mytpi peek_tpi1
+#define mytpi_reset tpi1_reset
+#define mytpi_store tpi1_store
+#define mytpi_read tpi1_read
+#define mytpi_peek tpi1_peek
 #define mytpi_set_int tpi1_set_int
 #define mytpi_restore_int tpi1_restore_int
 #define mytpi_write_snapshot_module tpi1_write_snapshot_module
@@ -84,7 +84,7 @@ _TPI_FUNC void tpi_set_cb(int a)
 {
 }
 
-_TPI_FUNC void tpi_reset(void)
+_TPI_FUNC void _tpi_reset(void)
 {
     /* assuming input after reset */
     parallel_cpu_set_atn(0);

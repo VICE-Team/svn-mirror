@@ -2,8 +2,8 @@
  * petpia2.c -- PIA#1 chip emulation.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -41,13 +41,13 @@
 #define MYPIA_NAME      "PIA2"
 
 #define mypia_init pia2_init
-#define reset_mypia reset_pia2
-#define store_mypia store_pia2
-#define read_mypia read_pia2
-#define peek_mypia peek_pia2
+#define mypia_reset pia2_reset
+#define mypia_store pia2_store
+#define mypia_read pia2_read
+#define mypia_peek pia2_peek
 #define mypia_write_snapshot_module pia2_write_snapshot_module
 #define mypia_read_snapshot_module pia2_read_snapshot_module
-#define signal_mypia signal_pia2
+#define mypia_signal pia2_signal
 
 static piareg mypia;
 
