@@ -28,6 +28,7 @@
 #ifndef _DRIVETYPES_H
 #define _DRIVETYPES_H
 
+#include "cia.h"
 #include "ciatimer.h"
 #include "drive.h"
 #include "mos6510.h"
@@ -61,7 +62,6 @@ typedef void REGPARM3 drive_store_func_t(struct drive_context_s *, WORD,
  */
 
 typedef struct drivecpu_context_s {
-
     int traceflg;
     /* This is non-zero each time a Read-Modify-Write instructions that accesses
        memory is executed.  We can emulate the RMW bug of the 6502 this way.  */
@@ -101,7 +101,6 @@ typedef struct drivecpu_context_s {
     char snap_module_name[12];    /* init to "DRIVECPU[01]" */
 
     char identification_string[8];        /* init to "DRIVE#[89]" */
-
 } drivecpu_context_t;
 
 
@@ -163,53 +162,17 @@ typedef struct drivevia2_context_s {
     struct drive_s *drive_ptr;
 } drivevia2_context_t;
 
-/*
- *  Private drive CIA data, shared between CIA1571 and CIA1581.
- */
+/*  Additional data required for CIA1571.  */
+typedef struct drivecia1571_context_s {
+    unsigned int number;
+    struct drive_s *drive_ptr;
+} drivecia1571_context_t;
 
-typedef struct drivecia_context_s {
-
-    BYTE c_cia[16];
-    struct alarm_s *ta_alarm;
-    struct alarm_s *tb_alarm;
-    struct alarm_s *tod_alarm;
-    int irqflags;
-    CLOCK rdi;
-    unsigned int tat;
-    unsigned int tbt;
-    CLOCK todclk;
-    unsigned int sr_bits;
-    int sdr_valid;
-    BYTE shifter;
-    BYTE old_pa;
-    BYTE old_pb;
-    char todstopped;
-    char todlatched;
-    BYTE todalarm[4];
-    BYTE todlatch[4];
-    int todticks;                 /* init to 100000 */
-    signed int log;               /* init to LOG_ERR */
-
-    ciat_t ta;
-    ciat_t tb;
-    CLOCK read_clk;               /* init to 0 */
-    int read_offset;              /* init to 0 */
-    BYTE last_read;               /* init to 0 */
-    int debugFlag;                /* init to 0 */
-
-    int irq_line;                 /* IK_IRQ */
-    unsigned int int_num;
-
-    char myname[12];
-
-} drivecia_context_t;
-
-/*
- *  Additional data required for CIA1581: this is only one new variable,
- *  c_iec_info, so we don't use a struct.
- */
-
-
+/*  Additional data required for CIA1581.  */
+typedef struct drivecia1581_context_s {
+    unsigned int number;
+    struct drive_s *drive_ptr;
+} drivecia1581_context_t;
 
 
 /*
@@ -217,7 +180,6 @@ typedef struct drivecia_context_s {
  */
 
 typedef struct driveriot_context_s {
-
     BYTE riot_io[4];
     BYTE old_pa;
     BYTE old_pb;
@@ -239,7 +201,6 @@ typedef struct driveriot_context_s {
     int r_irqen;
 
     char myname[12];
-
 } driveriot_context_t;
 
 
@@ -248,10 +209,8 @@ typedef struct driveriot_context_s {
  */
 
 typedef struct driveriot2_context_s {
-
     int r_atn_active;     /* init to 0 */
     unsigned int int_num;
-
 } driveriot2_context_t;
 
 
@@ -260,7 +219,6 @@ typedef struct driveriot2_context_s {
  */
 
 typedef struct drivetpi_context_s {
-
     BYTE c_tpi[8];
 
     BYTE irq_previous;
@@ -279,7 +237,6 @@ typedef struct drivetpi_context_s {
     signed int log;
 
     char myname[12];
-
 } drivetpi_context_t;
 
 
@@ -297,8 +254,8 @@ typedef struct drive_context_s {
     drivefunc_context_t func;
     via_context_t via1;
     via_context_t via2;
-    drivecia_context_t cia1571;
-    drivecia_context_t cia1581;
+    cia_context_t cia1571;
+    cia_context_t cia1581;
     struct iec_info_s *c_iec_info;        /* for CIA1581 */
     driveriot_context_t riot1;
     driveriot_context_t riot2;
