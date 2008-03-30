@@ -132,7 +132,7 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
-    char *filename;
+    char *filename = NULL;
     FILE *ftap;
     BYTE *buffer;
     long tap_size;
@@ -151,16 +151,11 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
     }
 
     /* create temporary file */
-    filename = archdep_tmpnam();
-    if (filename == NULL) {
-        log_error(tape_snapshot_log, "Could not create temporary filename");
-        snapshot_module_close(m);
-        return -1;
-    }
-    ftap = fopen(filename, MODE_WRITE);
-    if (!ftap) {
-        log_error(tape_snapshot_log, "Could not create temporary file");
-        log_error(tape_snapshot_log, "filename=%s", filename);
+    /* FIXME: Were is this file deleted? */
+    ftap = archdep_mkstemp_fd(&filename, MODE_WRITE);
+
+    if (ftap == NULL) {
+        log_error(tape_snapshot_log, "Could not create temporary file!");
         snapshot_module_close(m);
         goto fail;
     }
