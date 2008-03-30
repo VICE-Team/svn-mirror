@@ -34,6 +34,10 @@
 #define EVENT_DATASETTE         4
 #define EVENT_INITIAL           5
 
+#define EVENT_START_MODE_FILE_SAVE 0
+#define EVENT_START_MODE_FILE_LOAD 1
+#define EVENT_START_MODE_RESET     2
+
 struct snapshot_s;
 
 extern void event_init(void);
