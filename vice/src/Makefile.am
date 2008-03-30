@@ -38,9 +38,9 @@ noinst_HEADERS = \
 	autostart.h \
 	cartridge.h \
 	charsets.h \
-	clkguard.h \
 	cia.h \
 	ciacore.h \
+	clkguard.h \
 	ciatimer.h \
 	cmdline.h \
 	config.h.in \
@@ -84,6 +84,7 @@ noinst_HEADERS = \
 	tpi.h \
 	traps.h \
 	types.h \
+	usleep.h \
 	utils.h \
 	vdrive.h \
 	vdrive-iec.h\
@@ -101,8 +102,8 @@ base_sources = \
 	attach.c \
 	autostart.c \
 	charsets.c \
-	clkguard.c \
 	ciatimer.c \
+	clkguard.c \
 	cmdline.c \
 	datasette.c \
 	emuid.c \

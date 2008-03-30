@@ -341,9 +341,10 @@ c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
-	../../src/resources.h ../../src/drive/viad.h ../../src/via.h
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/resources.h \
+	../../src/drive/viad.h ../../src/via.h
 c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/types.h ../c64/c64cart.h ../../src/c64/c64cia.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/c64/c64tpi.h \

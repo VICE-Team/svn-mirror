@@ -1,3 +1,70 @@
+1999-03-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.48.
+
+	* ciatimer.h (ciat_set_latchlo): Removed unused variables.
+	(ciat_ack_alarm): Likewise.
+
+	* ciacore.c (int_ciata): Removed unused variables.
+
+	* Makefile.am: Added `usleep.h'.
+
+1999-03-30  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* alarm.c, autostart.c, c64/c64mem.c, c64/patchrom.c,
+	drive/drive.c, findpath.c, findpath.h, interrupt.h, main.c,
+	memutils.c, utils.c, vicii/vicii.c, zfile.h: Fixed includes for
+	OS2.
+
+	* sysfile.c (sysfile_open): Use binary mode for `fopen'.
+
+	* usleep.c (usleep): OS2 specific changes.
+
+	* usleep.h: New file.
+
+1999-03-30  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* ciacore.c (cia_do_set_int): Return value changed to `void'.
+
+1999-03-26  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* maincpu.c (clk_overflow_callback): New function.
+	(maincpu_init): Add it to `maincpu_clk_guard'.
+
+	* sid/sid.c (sid_reset): Removed `sound_prevent_clk_overflow()'
+	call.  FIXME: This is looking for troubles.
+	* vic20/vic20sound.c (sound_reset): Likewise.
+	* pet/petsound.c (petsnd_reset): Likewise.
+
+	* drive/drivecpu0.c: Removed `*_prevent_clk_overflow()' #defines.
+	New `mydrive_clk_guard' #define.
+	* drive/drivecpu1.c: Likewise.
+
+	* drive/drivecpucore.c: New variable `mydrive_clk_guard'.
+	(mydrive_cpu_init): Initialize clk guard.
+
+	* arch/unix/vsync.c (vsync_prevent_clk_overflow): Removed.
+	(clk_overflow_callback): New function.
+	(vsync_init): Install it in `maincpu_clk_guard'.
+
+	* c64/c64cia1.c: No longer #define `mycia_prevent_clk_overflow'.
+	#Define `mycpu_clk_guard' instead.
+	* c64/c64cia2.c: Likewise.
+	* c128/c128cia1.c: Likewise.
+	* drive/cia1571drive0.c: Likewise.
+	* drive/cia1571drive1.c: Likewise.
+	* drive/cia1581drive0.c: Likewise.
+	* drive/cia1581drive1.c: Likewise.
+	* cbm2/c610cia1.c: Likewise.
+
+	* ciacore.c (mycia_prevent_clk_overflow): Removed.
+	(clk_overflow_callback): New function.
+	(mycia_init): Install it.
+
+	* sound.c (sound_prevent_clk_overflow): Removed.
+	(prevent_clk_overflow_callback): New static function.
+	(sound_init): Install it into `maincpu_clk_guard'.
+
 1999-03-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.47.
@@ -61,7 +128,7 @@
 	* drive/drivecpucore.c (mydrive_cpu_prevent_clk_overflow):
 	Temporarily `#if 0'ed out.
 
-	* c64/vicii.c (vic_ii_prevent_clk_overflow): Removed.
+	* vicii/vicii.c (vic_ii_prevent_clk_overflow): Removed.
 	(clk_overflow_callback): New function (does the same thing as the
 	previous one, but has `clk_guard_callback_t' parameters).
 	(vic_ii_init): Setup `clk_overflow_callback()' as a clk overflow

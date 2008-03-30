@@ -387,12 +387,12 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/fs_cbm.h ../../../../src/serial.h \
 	../../../../src/traps.h ../../../../src/log.h \
 	../../../../src/drive/drivecpu.h ../../../../src/alarm.h \
-	../../../../src/mos6510.h ../../../../src/mon.h \
-	../../../../src/mem.h ../../../../src/snapshot.h \
-	../../../../src/interrupt.h ../../../../src/vmachine.h \
-	../../../../src/6510core.h ../../../../src/arch/unix/vsync.h \
-	../../../../src/utils.h ../../../../src/iecdrive.h \
-	../../../../src/romset.h
+	../../../../src/clkguard.h ../../../../src/mos6510.h \
+	../../../../src/mon.h ../../../../src/mem.h \
+	../../../../src/snapshot.h ../../../../src/interrupt.h \
+	../../../../src/vmachine.h ../../../../src/6510core.h \
+	../../../../src/arch/unix/vsync.h ../../../../src/utils.h \
+	../../../../src/iecdrive.h ../../../../src/romset.h
 uisnapshot.o: uisnapshot.c ../../../../src/vice.h \
 	../../../../src/config.h widgets/TextField.h uisnapshot.h \
 	../../../../src/machine.h ../../../../src/types.h ui.h \

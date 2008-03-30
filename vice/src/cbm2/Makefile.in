@@ -349,9 +349,9 @@ c610iec.o: c610iec.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/drive/drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
-	../../src/6510core.h ../../src/iecdrive.h
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/iecdrive.h
 c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/autostart.h ../../src/types.h c610acia.h \
 	../../src/snapshot.h c610cia.h ../../src/cia.h \
@@ -372,8 +372,8 @@ c610tpi1.o: c610tpi1.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/tpi.h ../../src/parallel.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
-	../../src/alarm.h ../../src/mos6510.h ../../src/mon.h c610cia.h \
-	../../src/cia.h ../../src/maincpu.h ../../src/clkguard.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mon.h c610cia.h ../../src/cia.h ../../src/maincpu.h \
 	../../src/crtc.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/resources.h

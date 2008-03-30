@@ -398,9 +398,9 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h \
 	../../src/via.h ../../src/iecdrive.h ../../src/drive/drive.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
 	../../src/traps.h ../../src/log.h ../../src/drive/drivecpu.h \
-	../../src/alarm.h ../../src/mos6510.h ../../src/mon.h \
-	../../src/mem.h ../../src/interrupt.h ../../src/vmachine.h \
-	../../src/6510core.h c64cia.h
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h c64cia.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h c64cart.h ../../src/types.h \
 	c64cia.h ../../src/cia.h ../../src/snapshot.h c64mem.h \
@@ -424,7 +424,8 @@ c64tpi.o: c64tpi.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/tpi.h ../../src/parallel.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
-	../../src/alarm.h ../../src/mos6510.h ../../src/mon.h
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mon.h
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/resources.h \
 	../../src/mem.h ../../src/types.h ../../src/snapshot.h \
@@ -432,7 +433,7 @@ cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h ../../src/cartridge.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/mem.h ../../src/types.h \
-	../../src/snapshot.h patchrom.h
+	../../src/snapshot.h patchrom.h ../../src/utils.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h ../../src/types.h \
 	../../src/snapshot.h ../../src/log.h ../../src/maincpu.h \
 	../../src/6510core.h ../../src/mem.h ../../src/alarm.h \

@@ -342,9 +342,9 @@ petiec.o: petiec.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
-	../../src/6510core.h ../../src/iecdrive.h
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/iecdrive.h
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/autostart.h ../../src/types.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/crtc.h ../../src/snapshot.h \
@@ -367,7 +367,8 @@ petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/kbd.h ../../src/drive/drive.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
 	../../src/traps.h ../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/mon.h pets.h petmem.h petpia.h
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h pets.h \
+	petmem.h petpia.h
 petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
@@ -375,7 +376,8 @@ petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
 	../../src/parallel.h ../../src/drive/drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/mon.h petpia.h
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	petpia.h
 petsound.o: petsound.c ../../src/vice.h ../../src/config.h petsound.h \
 	../../src/types.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/alarm.h \
