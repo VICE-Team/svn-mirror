@@ -42,14 +42,9 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
 {
     z80_regs_t *reg_ptr;
 
-    if (mem == e_disk8_space) {
-        if (!check_drive_emu_level_ok(8))
+    if (monitor_diskspace_dnr(mem) >= 0)
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
             return 0;
-    }
-    if (mem == e_disk9_space) {
-        if (!check_drive_emu_level_ok(9))
-            return 0;
-    }
 
     reg_ptr = mon_interfaces[mem]->z80_cpu_regs;
 
@@ -92,14 +87,9 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 {
     z80_regs_t *reg_ptr;
 
-    if (mem == e_disk8_space) {
-        if (!check_drive_emu_level_ok(8))
+    if (monitor_diskspace_dnr(mem) >= 0)
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
             return;
-    }
-    if (mem == e_disk9_space) {
-        if (!check_drive_emu_level_ok(9))
-            return;
-    }
 
     reg_ptr = mon_interfaces[mem]->z80_cpu_regs;
 
@@ -157,11 +147,9 @@ static void mon_register_print(int mem)
 {
     z80_regs_t *regs;
 
-    if (mem == e_disk8_space) {
-        if (!check_drive_emu_level_ok(8))
-            return;
-    } else if (mem == e_disk9_space) {
-        if (!check_drive_emu_level_ok(9))
+
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
             return;
     } else if (mem != e_comp_space) {
         log_error(LOG_ERR, "Unknown memory space!");
