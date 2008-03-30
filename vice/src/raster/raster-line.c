@@ -320,8 +320,8 @@ inline static void fill_xsmooth_region(raster_t *raster)
 }
 
 inline static int update_for_minor_changes_with_sprites(raster_t *raster,
-                                                        int *changed_start,
-                                                        int *changed_end)
+                                                   unsigned int *changed_start,
+                                                   unsigned int *changed_end)
 {
     raster_cache_t *cache;
     unsigned int video_mode;
@@ -416,8 +416,8 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
 }
 
 inline static int update_for_minor_changes_without_sprites(raster_t *raster,
-                                                           int *changed_start,
-                                                           int *changed_end)
+                                                   unsigned int *changed_start,
+                                                   unsigned int *changed_end)
 {
     raster_cache_t *cache;
     unsigned int video_mode;
@@ -464,8 +464,8 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
 }
 
 inline static int update_for_minor_changes(raster_t *raster,
-                                           int *changed_start,
-                                           int *changed_end)
+                                           unsigned int *changed_start,
+                                           unsigned int *changed_end)
 {
     if (raster->sprite_status->num_sprites > 0)
         return update_for_minor_changes_with_sprites(raster,
@@ -515,8 +515,8 @@ inline static void fill_background(raster_t *raster)
 }
 
 inline static int check_for_major_changes_and_update(raster_t *raster,
-                                                     int *changed_start,
-                                                     int *changed_end)
+                                                   unsigned int *changed_start,
+                                                   unsigned int *changed_end)
 {
     raster_cache_t *cache;
     unsigned int video_mode;
@@ -599,7 +599,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
 inline static void handle_visible_line_with_cache(raster_t *raster)
 {
     int needs_update;
-    int changed_start = 0, changed_end = 0;
+    unsigned int changed_start, changed_end;
     raster_cache_t *cache;
 
     cache = &raster->cache[raster->current_line];
