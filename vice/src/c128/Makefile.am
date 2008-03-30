@@ -22,6 +22,7 @@ libc128_a_SOURCES = \
 	c128.h \
 	c128cia1.c \
 	c128cpu.c \
+	c128drive.c \
 	c128fastiec.c \
 	c128fastiec.h \
 	c128mem.c \
