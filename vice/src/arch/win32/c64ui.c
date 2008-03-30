@@ -125,6 +125,13 @@ static ui_cartridge_params c64_ui_cartridges[]={
     "All files (*.*)\0*.*\0"
     },
     {
+    IDM_CART_ATTACH_SS5,
+    CARTRIDGE_SUPER_SNAPSHOT_V5,
+    "Attach Super Snapshot 5 cartridge image",
+    "Raw SS5 cartridge image files (*.bin)\0*.bin\0"
+    "All files (*.*)\0*.*\0"
+    },
+    {
     0,0,NULL,NULL
     }
 };
@@ -159,6 +166,7 @@ void c64_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_CART_ATTACH_EPYX:
         case IDM_CART_ATTACH_IEEE488:
         case IDM_CART_ATTACH_SS4:
+        case IDM_CART_ATTACH_SS5:
             c64_ui_attach_cartridge(wparam,hwnd,c64_ui_cartridges);
             break;
         case IDM_CART_SET_DEFAULT:
