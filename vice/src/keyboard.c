@@ -61,7 +61,7 @@ int rev_keyarr[KBD_COLS];
 static int latch_keyarr[KBD_ROWS];
 static int latch_rev_keyarr[KBD_COLS];
 
-static alarm_t keyboard_alarm;
+static alarm_t *keyboard_alarm;
 
 static log_t keyboard_log = LOG_DEFAULT;
 
@@ -116,8 +116,8 @@ void keyboard_event_playback(CLOCK offset, void *data)
 
 static void keyboard_latch_handler(CLOCK offset)
 {
-    alarm_unset(&keyboard_alarm);
-    alarm_context_update_next_pending(keyboard_alarm.context);
+    alarm_unset(keyboard_alarm);
+    alarm_context_update_next_pending(keyboard_alarm->context);
 
     keyboard_latch_matrix(offset);
 
@@ -131,7 +131,7 @@ void keyboard_set_keyarr(int row, int col, int value)
     if (keyboard_set_latch_keyarr(row, col, value) < 0)
         return;
 
-    alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+    alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
 }
 
 void keyboard_set_keyarr_and_latch(int row, int col, int value)
@@ -286,7 +286,7 @@ void keyboard_key_pressed(signed long key)
 
     if (latch) {
         keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
-        alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+        alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
     }
 }
 
@@ -359,7 +359,7 @@ void keyboard_key_released(signed long key)
 
     if (latch) {
         keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 0);
-        alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+        alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
     }
 }
 
@@ -862,8 +862,8 @@ void keyboard_init(void)
 
     keyboard_log = log_open("Keyboard");
 
-    alarm_init(&keyboard_alarm, maincpu_alarm_context,
-               "Keyboard", keyboard_latch_handler);
+    keyboard_alarm = alarm_new(maincpu_alarm_context, "Keyboard",
+                               keyboard_latch_handler);
 
 #ifdef COMMON_KBD
     for (i = 0; i < 2; i++)
