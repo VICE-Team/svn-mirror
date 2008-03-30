@@ -1535,7 +1535,6 @@
 
         switch (p0) {
 
-#ifndef ONLY_LDA_BNE
         case 0x00:                      /* BRK */
             BRK();
             break;
@@ -1564,6 +1563,8 @@
             break;
 
         case 0x04:                      /* NOOP $nn */
+        case 0x44:                      /* NOOP $nn */
+        case 0x64:                      /* NOOP $nn */
             NOOP(3, 2);
             break;
 
@@ -1628,6 +1629,11 @@
             break;
 
         case 0x14:                      /* NOOP $nn,X */
+        case 0x34:                      /* NOOP */
+        case 0x54:                      /* NOOP $nn,X */
+        case 0x74:                      /* NOOP $nn,X */
+        case 0xd4:                      /* NOOP $nn,X */
+        case 0xf4:                      /* NOOP ($nn,X) */
             NOOP(4, 2);
             break;
 
@@ -1652,6 +1658,11 @@
             break;
 
         case 0x1a:                      /* NOOP */
+        case 0x3a:                      /* NOOP */
+        case 0x5a:                      /* NOOP */
+        case 0x7a:                      /* NOOP */
+        case 0xda:                      /* NOOP */
+        case 0xfa:                      /* NOOP */
             NOOP(2, 1);
             break;
 
@@ -1660,6 +1671,11 @@
             break;
 
         case 0x1c:                      /* NOOP $nnnn,X */
+        case 0x3c:                      /* NOOP $nnnn,X */
+        case 0x5c:                      /* NOOP $nnnn,X */
+        case 0x7c:                      /* NOOP $nnnn,X */
+        case 0xdc:                      /* NOOP $nnnn,X */
+        case 0xfc:                      /* NOOP $nnnn,X */
             NOOP_ABS_X();
             break;
 
@@ -1747,10 +1763,6 @@
             RLA_IND_Y(p1);
             break;
 
-        case 0x34:                      /* NOOP */
-            NOOP(4, 2);
-            break;
-
         case 0x35:                      /* AND $nn,X */
             AND(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
@@ -1771,16 +1783,8 @@
             AND(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0x3a:                      /* NOOP */
-            NOOP(2, 1);
-            break;
-
         case 0x3b:                      /* RLA $nnnn,Y */
             RLA(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
-            break;
-
-        case 0x3c:                      /* NOOP $nnnn,X */
-            NOOP_ABS_X();
             break;
 
         case 0x3d:                      /* AND $nnnn,X */
@@ -1805,10 +1809,6 @@
 
         case 0x43:                      /* SRE ($nn,X) */
             SRE(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
-            break;
-
-        case 0x44:                      /* NOOP $nn */
-            NOOP(3, 2);
             break;
 
         case 0x45:                      /* EOR $nn */
@@ -1873,10 +1873,6 @@
             SRE_IND_Y(p1);
             break;
 
-        case 0x54:                      /* NOOP $nn,X */
-            NOOP(4, 2);
-            break;
-
         case 0x55:                      /* EOR $nn,X */
             EOR(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
@@ -1897,16 +1893,8 @@
             EOR(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0x5a:                      /* NOOP */
-            NOOP(2, 1);
-            break;
-
         case 0x5b:                      /* SRE $nnnn,Y */
             SRE(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
-            break;
-
-        case 0x5c:                      /* NOOP $nnnn,X */
-            NOOP_ABS_X();
             break;
 
         case 0x5d:                      /* EOR $nnnn,X */
@@ -1931,10 +1919,6 @@
 
         case 0x63:                      /* RRA ($nn,X) */
             RRA(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
-            break;
-
-        case 0x64:                      /* NOOP $nn */
-            NOOP(3, 2);
             break;
 
         case 0x65:                      /* ADC $nn */
@@ -2001,10 +1985,6 @@
             RRA_IND_Y(p1);
             break;
 
-        case 0x74:                      /* NOOP $nn,X */
-            NOOP(4, 2);
-            break;
-
         case 0x75:                      /* ADC $nn,X */
             ADC(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
@@ -2025,16 +2005,8 @@
             ADC(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0x7a:                      /* NOOP */
-            NOOP(2, 1);
-            break;
-
         case 0x7b:                      /* RRA $nnnn,Y */
             RRA(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
-            break;
-
-        case 0x7c:                      /* NOOP $nnnn,X */
-            NOOP_ABS_X();
             break;
 
         case 0x7d:                      /* ADC $nnnn,X */
@@ -2050,15 +2022,15 @@
             break;
 
         case 0x80:                      /* NOOP #$nn */
+        case 0x82:                      /* NOOP #$nn */
+        case 0x89:                      /* NOOP #$nn */
+        case 0xc2:                      /* NOOP #$nn */
+        case 0xe2:                      /* NOOP #$nn */
             NOOP(2, 2);
             break;
 
         case 0x81:                      /* STA ($nn,X) */
             STA(LOAD_ZERO_ADDR(p1 + reg_x), 2, 4, 2, STORE_ABS);
-            break;
-
-        case 0x82:                      /* NOOP #$nn */
-            NOOP(2, 2);
             break;
 
         case 0x83:                      /* SAX ($nn,X) */
@@ -2083,10 +2055,6 @@
 
         case 0x88:                      /* DEY */
             DEY();
-            break;
-
-        case 0x89:                      /* NOOP #$nn */
-            NOOP(2, 2);
             break;
 
         case 0x8a:                      /* TXA */
@@ -2225,13 +2193,10 @@
             LDY(LOAD(p2), 3, 1, 3);
             break;
 
-#endif /* !ONLY_LDA_BNE */
-
         case 0xad:                      /* LDA $nnnn */
             LDA(LOAD(p2), 3, 1, 3);
             break;
 
-#ifndef ONLY_LDA_BNE
         case 0xae:                      /* LDX $nnnn */
             LDX(LOAD(p2), 3, 1, 3);
             break;
@@ -2308,10 +2273,6 @@
             CMP(LOAD_IND_X(p1), 2, 4, 2);
             break;
 
-        case 0xc2:                      /* NOOP #$nn */
-            NOOP(2, 2);
-            break;
-
         case 0xc3:                      /* DCP ($nn,X) */
             DCP(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
             break;
@@ -2363,23 +2324,17 @@
         case 0xcf:                      /* DCP $nnnn */
             DCP(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
-#endif /* !ONLY_LDA_BNE */
 
         case 0xd0:                      /* BNE $nnnn */
             BRANCH(!LOCAL_ZERO(), p1);
             break;
 
-#ifndef ONLY_LDA_BNE
         case 0xd1:                      /* CMP ($nn),Y */
             CMP(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
         case 0xd3:                      /* DCP ($nn),Y */
             DCP_IND_Y(p1);
-            break;
-
-        case 0xd4:                      /* NOOP $nn,X */
-            NOOP(4, 2);
             break;
 
         case 0xd5:                      /* CMP $nn,X */
@@ -2402,16 +2357,8 @@
             CMP(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0xda:                      /* NOOP */
-            NOOP(2, 1);
-            break;
-
         case 0xdb:                      /* DCP $nnnn,Y */
             DCP(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
-            break;
-
-        case 0xdc:                      /* NOOP $nnnn,X */
-            NOOP_ABS_X();
             break;
 
         case 0xdd:                      /* CMP $nnnn,X */
@@ -2432,10 +2379,6 @@
 
         case 0xe1:                      /* SBC ($nn,X) */
             SBC(LOAD_IND_X(p1), 2, 4, 2);
-            break;
-
-        case 0xe2:                      /* NOOP #$nn */
-            NOOP(2, 2);
             break;
 
         case 0xe3:                      /* ISB ($nn,X) */
@@ -2502,10 +2445,6 @@
             ISB_IND_Y(p1);
             break;
 
-        case 0xf4:                      /* NOOP ($nn,X) */
-            NOOP(4, 2);
-            break;
-
         case 0xf5:                      /* SBC $nn,X */
             SBC(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
@@ -2526,16 +2465,8 @@
             SBC(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0xfa:                      /* NOOP */
-            NOOP(2, 1);
-            break;
-
         case 0xfb:                      /* ISB $nnnn,Y */
             ISB(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
-            break;
-
-        case 0xfc:                      /* NOOP $nnnn,X */
-            NOOP_ABS_X();
             break;
 
         case 0xfd:                      /* SBC $nnnn,X */
@@ -2549,7 +2480,6 @@
         case 0xff:                      /* ISB $nnnn,X */
             ISB(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
-#endif /* !ONLY_LDA_BNE */
         }
     }
 }
