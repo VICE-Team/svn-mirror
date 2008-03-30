@@ -245,17 +245,15 @@ void crtc_update_window(void)
         unsigned int pix_w = 2, pix_h = 2;
 		int mode = VIDEO_RENDER_RGB_2X2;
 
-        if (width > 400)
-		{
+        if (width > 400) {
             pix_w = 1;
-			mode = VIDEO_RENDER_RGB_1X2;
-		}
+            mode = VIDEO_RENDER_RGB_1X2;
+        }
 
-        if (height > 350)
-		{
+        if (height > 350) {
             pix_h = 1;
-	        mode = VIDEO_RENDER_RGB_1X1;
-		}
+            mode = VIDEO_RENDER_RGB_1X1;
+        }
 
         width *= pix_w;
         height *= pix_h;
@@ -286,7 +284,6 @@ void crtc_update_window(void)
   if (!fullscreen_is_enabled)
 #endif
     raster_resize_viewport(&crtc.raster, width, height);
-
 }
 
 /*--------------------------------------------------------------------*/
@@ -616,7 +613,7 @@ void crtc_resize (void)
 
 /* Redraw the current raster line.  This happens at the last
    cycle of each line.  */
-void crtc_raster_draw_alarm_handler (CLOCK offset)
+void crtc_raster_draw_alarm_handler(CLOCK offset)
 {
     int new_sync_diff;
     int new_venable;
@@ -648,19 +645,19 @@ void crtc_raster_draw_alarm_handler (CLOCK offset)
                               + ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
                               - ((crtc.regs[3] & 0x0f) / 2))
                               * 8 * crtc.hw_cols);
+   
+        /* FIXME: The 320 is the pixel width of a window with 40 cols.
+           make that a define - or measure the visible line length?
+           but how to do that reliably? */
+        crtc.xoffset = CRTC_SCREEN_BORDERWIDTH + (CRTC_EXTRA_COLS * 4)
+                       /* ((screen_width - crtc.rl_visible * 8 * crtc.hw_cols)
+                       / 2) */
+                       - crtc.screen_xoffset
+                       + ((screen_width
+                       - (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
+                       + ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
+                       - ((crtc.regs[3] & 0x0f) / 2)) * 8 * crtc.hw_cols);
     }
-
-    /* FIXME: The 320 is the pixel width of a window with 40 cols.
-       make that a define - or measure the visible line length?
-       but how to do that reliably? */
-    crtc.xoffset = CRTC_SCREEN_BORDERWIDTH + (CRTC_EXTRA_COLS * 4)
-                   /* ((screen_width - crtc.rl_visible * 8 * crtc.hw_cols)
-                   / 2) */
-                   - crtc.screen_xoffset
-                   + ((screen_width
-                   - (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
-                   + ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
-                   - ((crtc.regs[3] & 0x0f) / 2)) * 8 * crtc.hw_cols);
 
     /* emulate the line */
     if (crtc.raster.current_line >=
