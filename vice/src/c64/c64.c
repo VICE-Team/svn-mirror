@@ -166,7 +166,7 @@ static trap_t c64_tape_traps[] = {
         "TapeFindHeader",
         0xF72F,
         0xF732,
-        {0x20, 0x41, 0xF8},
+        { 0x20, 0x41, 0xF8 },
         tape_find_header_trap,
         rom_read,
         rom_store
@@ -175,7 +175,7 @@ static trap_t c64_tape_traps[] = {
         "TapeReceive",
         0xF8A1,
         0xFC93,
-        {0x20, 0xBD, 0xFC},
+        { 0x20, 0xBD, 0xFC },
         tape_receive_trap,
         rom_read,
         rom_store
@@ -184,7 +184,7 @@ static trap_t c64_tape_traps[] = {
         NULL,
         0,
         0,
-        {0, 0, 0},
+        { 0, 0, 0 },
         NULL,
         NULL,
         NULL
