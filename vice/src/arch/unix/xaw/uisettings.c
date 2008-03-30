@@ -658,7 +658,8 @@ static UI_CALLBACK(set_custom_drive_sync_factor)
 
     if (call_data) {
 	if (sync_factor != DRIVE_SYNC_PAL
-            && sync_factor != DRIVE_SYNC_NTSC)
+            && sync_factor != DRIVE_SYNC_NTSC
+            && sync_factor != DRIVE_SYNC_NTSCOLD)
 	    ui_menu_set_tick(w, 1);
 	else
 	    ui_menu_set_tick(w, 0);
@@ -666,7 +667,7 @@ static UI_CALLBACK(set_custom_drive_sync_factor)
 	suspend_speed_eval();
 	sprintf(msg_string, "Enter factor (PAL %d, NTSC %d)",
 		DRIVE_SYNC_PAL, DRIVE_SYNC_NTSC);
-	button = ui_input_string("1541 Sync Factor", msg_string, input_string,
+	button = ui_input_string("Drive Sync Factor", msg_string, input_string,
 				 256);
 	if (button == UI_BUTTON_OK) {
 	    int v;
@@ -910,6 +911,8 @@ static ui_menu_entry_t set_drive_sync_factor_submenu[] = {
       (ui_callback_data_t) DRIVE_SYNC_PAL, NULL },
     { "*NTSC", (ui_callback_t) radio_DriveSyncFactor,
       (ui_callback_data_t) DRIVE_SYNC_NTSC, NULL },
+    { "*Old NTSC", (ui_callback_t) radio_DriveSyncFactor,
+      (ui_callback_data_t) DRIVE_SYNC_NTSCOLD, NULL },
     { "*Custom...", (ui_callback_t) set_custom_drive_sync_factor,
       NULL, NULL },
     { NULL }
