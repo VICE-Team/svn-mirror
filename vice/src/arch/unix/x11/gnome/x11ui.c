@@ -221,6 +221,7 @@ typedef struct {
     GtkWidget *topmenu;
     GtkLabel *speed_label;
     GtkLabel *statustext;
+    GtkAccelGroup *accel;
     drive_status_widget drive_status[NUM_DRIVES];
     tape_status_widget tape_status;
 } app_shell_type;
@@ -1060,7 +1061,7 @@ Display *x11ui_get_display_ptr(void)
     return display;
 }
 
-void kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
+gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
 /* Create a shell with a canvas widget in it.  */
 int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
@@ -1163,9 +1164,9 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
         g_signal_connect(G_OBJECT(new_window),"leave-notify-event",
 			 G_CALLBACK(ui_autorepeat_on),NULL);
     }
-    g_signal_connect(G_OBJECT(new_window),"key-press-event",
+    g_signal_connect_after(G_OBJECT(new_window),"key-press-event",
 		     G_CALLBACK(kbd_event_handler),NULL);
-    g_signal_connect(G_OBJECT(new_window),"key-release-event",
+    g_signal_connect_after(G_OBJECT(new_window),"key-release-event",
 		     G_CALLBACK(kbd_event_handler),NULL);
     g_signal_connect(G_OBJECT(new_window),"enter-notify-event",
 		     G_CALLBACK(kbd_event_handler),NULL);
@@ -1182,10 +1183,14 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     g_signal_connect(G_OBJECT(new_window),"destroy_event",
 		     G_CALLBACK(delete_event),NULL);
 
+    GtkAccelGroup* accel = gtk_accel_group_new();
+    gtk_window_add_accel_group (GTK_WINDOW (new_window), accel);
+
     app_shells[num_app_shells - 1].shell = new_window;
     app_shells[num_app_shells - 1].canvas = new_canvas;
     app_shells[num_app_shells - 1].title = lib_stralloc(title);
     app_shells[num_app_shells - 1].topmenu = topmenu;
+    app_shells[num_app_shells - 1].accel = accel;
 
     gtk_window_set_title(GTK_WINDOW(new_window),title);
 
@@ -1231,15 +1236,17 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 
 #ifndef GNOME_MENUS
 /* Attach `w' as the left menu of all the current open windows.  */
-void ui_set_left_menu(GtkWidget *w)
+void ui_set_left_menu(ui_menu_entry_t *menu)
 {
-    left_menu = w;
+    left_menu = gtk_menu_new();
+    ui_menu_create(left_menu, NULL, "LeftMenu", menu);
 }
 
 /* Attach `w' as the right menu of all the current open windows.  */
-void ui_set_right_menu(GtkWidget *w)
+void ui_set_right_menu(ui_menu_entry_t *menu)
 {
-    right_menu = w;
+    right_menu = gtk_menu_new();
+    ui_menu_create(right_menu, NULL, "RightMenu", menu);
 }
 
 #ifdef OLD_TOPMENU
@@ -1272,15 +1279,10 @@ void ui_set_topmenu(void)
 }
 #endif
 
-void ui_set_topmenu(const char *menu_name, ...)
+void ui_set_topmenu(ui_menu_entry_t *menu)
 {
-    va_list ap;
-    GtkWidget *sub_menu, *mitem;
-    char *item;
-    int i, do_right_justify = 0;
-    
-    va_start(ap, menu_name);
-    
+    int i;
+
     for (i = 0; i < num_app_shells; i++)
     {
 	gtk_container_foreach(
@@ -1288,42 +1290,20 @@ void ui_set_topmenu(const char *menu_name, ...)
 	    (GtkCallback) gtk_widget_destroy,
 	    NULL);
     }
-    
-    while ((item = va_arg(ap, char *)) != NULL) 
-    {
-	sub_menu = va_arg(ap, GtkWidget *);
-	if (! sub_menu)
-	{
-	    log_error(ui_log, "top_menu: sub_menu empty for '%s'.\n",
-		      item);
-	    return;
-	}
 
-	if (strncmp(item, "RJ", 2) == 0)
-	{
-	    do_right_justify = 1;
-	    item += 2;
-	}
-	    
-	for (i = 0; i < num_app_shells; i++)
-	{
-	    mitem = gtk_menu_item_new_with_label(item);
-	    gtk_widget_show(mitem);
-	    gtk_menu_item_set_submenu(GTK_MENU_ITEM(mitem), sub_menu);
-	    if (do_right_justify)
-		gtk_menu_item_set_right_justified(GTK_MENU_ITEM(mitem), TRUE);
-	    
-	    gtk_menu_shell_append(GTK_MENU_SHELL(app_shells[i].topmenu), mitem);
-	    gtk_widget_show(app_shells[i].topmenu);
-	}
-    }
+
+        for (i = 0; i < num_app_shells; i++)
+        {
+            ui_menu_create(app_shells[i].topmenu, app_shells[i].accel, "TopLevelMenu", menu);
+        }
 }
 
-void ui_set_speedmenu(GtkWidget *s)
+void ui_set_speedmenu(ui_menu_entry_t *menu)
 {
     if (speed_menu)
 	gtk_widget_destroy(speed_menu);
-    speed_menu = s;
+    speed_menu = gtk_menu_new();
+    ui_menu_create(speed_menu, NULL, "SpeedMenu", menu);
 }
 
 #else  /* GNOME_MENUS */
@@ -2199,7 +2179,8 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     }
     memset(&menu[fno++], 0, sizeof(ui_menu_entry_t)); /* end delimiter */
 
-    menu_widget = ui_menu_create(title, menu, NULL);
+    menu_widget = gtk_menu_new();
+    ui_menu_create(menu_widget, NULL, title, menu);
     if (fixed_font_desc)
     {
 	menu_entry_style = gtk_style_new();
@@ -2888,16 +2869,18 @@ void ui_destroy_drive_menu(int drvnr)
 	gtk_widget_destroy(drive_menus[drvnr]);
 }
 
-void ui_set_drive_menu(int drvnr, GtkWidget *w)
+void ui_set_drive_menu(int drvnr, ui_menu_entry_t *menu)
 {
-    drive_menus[drvnr] = w;
+    drive_menus[drvnr] = gtk_menu_new();
+    ui_menu_create(drive_menus[drvnr], NULL, "DriveMenu", menu);
 }
 
-void ui_set_tape_menu(GtkWidget *w)
+void ui_set_tape_menu(ui_menu_entry_t *menu)
 {
     if (tape_menu)
 	gtk_widget_destroy(tape_menu);
-    tape_menu = w;
+    tape_menu = gtk_menu_new();
+    ui_menu_create(tape_menu, NULL, "TapeMenu", menu);
 }
 
 void ui_display_statustext(const char *text, int fade_out)

@@ -53,7 +53,7 @@ extern int ui_menu_any_open(void);
 extern void ui_menu_update_all(void);
 extern void ui_menu_update_all_GTK(void);
 #ifndef GNOME_MENUS
-extern GtkWidget* ui_menu_create(const char *menu_name, ...);
+extern void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, ui_menu_entry_t *list);
 #else
 extern GnomeUIInfo* ui_menu_create(const char *menu_name, ...);
 #endif

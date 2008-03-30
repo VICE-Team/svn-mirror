@@ -28,44 +28,44 @@
 
 #include "vice.h"
 
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/keysym.h>
-
 #include <string.h>             /* memset() */
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 
 #include "kbd.h"
 #include "keyboard.h"
 #include "machine.h"
 
 
-void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
+gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 {
     gint key;
 
     key = report->key.keyval;
     switch (report->type) {
       case GDK_KEY_PRESS:
-        x11kbd_press((signed long)key);
-        break;
+        keyboard_key_pressed((signed long)key);
+        return FALSE;
 
       case GDK_KEY_RELEASE:
-        x11kbd_release((signed long)key);
+        if (key == GDK_Shift_L
+         || key == GDK_Shift_R
+         || key == GDK_ISO_Level3_Shift
+        )
+            keyboard_key_clear();
+        keyboard_key_released(key);
         break;
 
       case GDK_ENTER_NOTIFY:
       case GDK_LEAVE_NOTIFY:
-        x11kbd_enter_leave();
-        break;
-
       case GDK_FOCUS_CHANGE:
-        x11kbd_focus_change();
+        keyboard_key_clear();
         break;
 
       default:
         break;
 
     }                           /* switch */
+    return TRUE;
 }
 

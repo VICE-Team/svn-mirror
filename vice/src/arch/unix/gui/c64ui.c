@@ -365,6 +365,156 @@ static ui_menu_entry_t c64_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t x64_left_menu[] = {
+    { "",
+      NULL, NULL, uiattach_disk_menu },
+    { "--",
+      NULL, NULL, uiattach_tape_menu },
+    { "",
+      NULL, NULL, ui_datasette_commands_menu },
+    { "--",
+      NULL, NULL, uiattach_smart_attach_menu },
+    { "--",
+      NULL, NULL, ui_c64cart_commands_menu },
+    { "",
+      NULL, NULL, ui_directory_commands_menu },
+    { "--",
+      NULL, NULL, ui_snapshot_commands_menu },
+    { "",
+      NULL, NULL, ui_screenshot_commands_menu },
+    { "",
+      NULL, NULL, ui_sound_record_commands_menu },
+    { "--",
+      NULL, NULL, ui_tool_commands_menu },
+    { "--",
+      NULL, NULL, ui_help_commands_menu },
+    { "--",
+      NULL, NULL, ui_run_commands_menu },
+    { "--",
+      NULL, NULL, ui_exit_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t x64_right_menu[] = {
+    { "",
+      NULL, NULL, ui_performance_settings_menu },
+    { "--",
+      NULL, NULL, uikeyboard_settings_menu },
+    { "",
+      NULL, NULL, ui_sound_settings_menu },
+    { "",
+      NULL, NULL, ui_drivec64vic20_settings_menu },
+    { "",
+      NULL, NULL, ui_peripheraliec_settings_menu },
+    { "",
+      NULL, NULL, joystick_settings_menu },
+    { "--",
+      NULL, NULL, c64_menu },
+    { "--",
+      NULL, NULL, ui_settings_settings_menu },
+#ifdef DEBUG
+    { "--",
+      NULL, NULL, ui_debug_settings_menu },
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t x64_file_submenu[] = {
+    { "",
+      NULL, NULL, uiattach_smart_attach_menu },
+    { "--",
+      NULL, NULL, uiattach_disk_menu },
+    { "--",
+      NULL, NULL, uiattach_tape_menu },
+    { "",
+      NULL, NULL, ui_datasette_commands_menu },
+    { "--",
+      NULL, NULL, ui_c64cart_commands_menu },
+    { "--",
+      NULL, NULL, ui_directory_commands_menu },
+    { "--",
+      NULL, NULL, ui_tool_commands_menu },
+    { "--",
+      NULL, NULL, ui_run_commands_menu },
+    { "--",
+      NULL, NULL, ui_exit_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t x64_snapshot_submenu[] = {
+    { "",
+      NULL, NULL, ui_snapshot_commands_submenu },
+    { "--",
+      NULL, NULL, ui_screenshot_commands_menu },
+    { "",
+      NULL, NULL, ui_sound_record_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t x64_options_submenu[] = {
+    { "",
+      NULL, NULL, ui_performance_settings_menu },
+    { "--",
+      NULL, NULL, joystick_options_submenu },
+    { "--",
+      NULL, NULL, sid_options_submenu },
+    { "--",
+      NULL, NULL, ui_drive_options_submenu },
+    { "--",
+      NULL, NULL, io_extensions_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t x64_settings_submenu[] = {
+    { "",
+      NULL, NULL, uikeyboard_settings_menu },
+    { "",
+      NULL, NULL, ui_sound_settings_menu },
+    { "",
+      NULL, NULL, ui_drivec64vic20_settings_menu },
+    { "",
+      NULL, NULL, ui_peripheraliec_settings_menu },
+    { "",
+      NULL, NULL, joystick_settings_menu },
+    { "--",
+      NULL, NULL, c64_menu },
+    { "--",
+      NULL, NULL, ui_settings_settings_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t x64_main_menu[] = {
+    { N_("File"),
+      NULL, NULL, x64_file_submenu },
+    { N_("Snapshot"),
+      NULL, NULL, x64_snapshot_submenu },
+    { N_("Options"),
+      NULL, NULL, x64_options_submenu },
+    { N_("Settings"),
+      NULL, NULL, x64_settings_submenu },
+                   /* Translators: RJ means right justify and should be
+                      saved in your tranlation! e.g. german "RJHilfe" */
+    { N_("RJHelp"),
+      NULL, NULL, ui_help_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t x64_speed_menu[] = {
+    { "",
+      NULL, NULL, ui_performance_settings_menu },
+    { "--" },
+    { "--" },
+    { NULL }
+};
+
+static ui_menu_entry_t x64_tape_menu[] = {
+    { "",
+      NULL, NULL, uiattach_tape_menu },
+    { "--",
+      NULL, NULL, datasette_control_submenu },
+    { NULL }
+};
+
 static void c64ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
@@ -381,118 +531,12 @@ int c64ui_init(void)
 {
     ui_set_application_icon(c64_icon_data);
     c64ui_dynamic_menu_create();
-    ui_set_left_menu(ui_menu_create("LeftMenu",
-                                    uiattach_disk_menu,
-                                    ui_menu_separator,
-                                    uiattach_tape_menu,
-                                    ui_datasette_commands_menu,
-                                    ui_menu_separator,
-                                    uiattach_smart_attach_menu,
-                                    ui_menu_separator,
-                                    ui_c64cart_commands_menu,
-                                    ui_menu_separator,
-                                    ui_directory_commands_menu,
-                                    ui_menu_separator,
-                                    ui_snapshot_commands_menu,
-                                    ui_screenshot_commands_menu,
-                                    ui_sound_record_commands_menu,
-                                    ui_menu_separator,
-                                    ui_tool_commands_menu,
-                                    ui_menu_separator,
-                                    ui_help_commands_menu,
-                                    ui_menu_separator,
-                                    ui_run_commands_menu,
-                                    ui_menu_separator,
-                                    ui_exit_commands_menu,
-                                    NULL));
 
-    ui_set_right_menu(ui_menu_create("RightMenu",
-                                     ui_performance_settings_menu,
-                                     ui_menu_separator,
-                                     uikeyboard_settings_menu,
-                                     ui_sound_settings_menu,
-                                     ui_drivec64vic20_settings_menu,
-                                     ui_peripheraliec_settings_menu,
-                                     joystick_settings_menu,
-                                     ui_menu_separator,
-                                     c64_menu,
-                                     ui_menu_separator,
-                                     ui_settings_settings_menu,
-#ifdef DEBUG
-                                     ui_menu_separator,
-                                     ui_debug_settings_menu,
-#endif
-                                     NULL));
-
-    ui_set_topmenu("TopLevelMenu",
-                   _("File"),
-                   ui_menu_create("File",
-                                  uiattach_smart_attach_menu,
-                                  ui_menu_separator,
-                                  uiattach_disk_menu,
-                                  ui_menu_separator,
-                                  uiattach_tape_menu,
-                                  ui_datasette_commands_menu,
-                                  ui_menu_separator,
-                                  ui_c64cart_commands_menu,
-                                  ui_menu_separator,
-                                  ui_directory_commands_menu,
-                                  ui_menu_separator,
-                                  ui_tool_commands_menu,
-                                  ui_menu_separator,
-                                  ui_run_commands_menu,
-                                  ui_menu_separator,
-                                  ui_exit_commands_menu,
-                                  NULL),
-                   _("Snapshot"),
-                   ui_menu_create("Snapshot",
-                                  ui_snapshot_commands_submenu,
-                                  ui_menu_separator,
-                                  ui_screenshot_commands_menu,
-				  ui_sound_record_commands_menu,
-                                  NULL),
-                   _("Options"),
-                   ui_menu_create("Options",
-                                  ui_performance_settings_menu,
-                                  ui_menu_separator,
-                                  joystick_options_submenu,
-                                  ui_menu_separator,
-                                  sid_options_submenu,
-                                  ui_menu_separator,
-                                  ui_drive_options_submenu,
-                                  ui_menu_separator,
-                                  io_extensions_submenu,
-                                  NULL),
-                   _("Settings"),
-                   ui_menu_create("Settings",
-                                  uikeyboard_settings_menu,
-                                  ui_sound_settings_menu,
-                                  ui_drivec64vic20_settings_menu,
-                                  ui_peripheraliec_settings_menu,
-                                  joystick_settings_menu,
-                                  ui_menu_separator,
-                                  c64_menu,
-                                  ui_menu_separator,
-                                  ui_settings_settings_menu,
-                                  NULL),
-                   /* Translators: RJ means right justify and should be
-                      saved in your tranlation! e.g. german "RJHilfe" */
-                   _("RJHelp"),
-                   ui_menu_create("Help",
-                                  ui_help_commands_menu,
-                                  NULL),
-                   NULL);
-
-    ui_set_speedmenu(ui_menu_create("SpeedMenu",
-                                    ui_performance_settings_menu,
-                                    ui_menu_separator,
-                                    ui_menu_separator,
-                                    NULL));
-    ui_set_tape_menu(ui_menu_create("TapeMenu",
-                                    uiattach_tape_menu,
-                                    ui_menu_separator,
-                                    datasette_control_submenu,
-                                    NULL));
+    ui_set_left_menu(x64_left_menu);
+    ui_set_right_menu(x64_right_menu);
+    ui_set_topmenu(x64_main_menu);
+    ui_set_speedmenu(x64_speed_menu);
+    ui_set_tape_menu(x64_tape_menu);
 
     ui_update_menus();
 

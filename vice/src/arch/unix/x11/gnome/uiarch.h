@@ -52,16 +52,10 @@ extern GtkWidget *_ui_top_level;
 extern GdkVisual *visual;
 extern GtkWidget *canvasw;
 
-#ifndef GNOME_MENUS
-void ui_set_left_menu(GtkWidget *w);
-void ui_set_right_menu(GtkWidget *w);
-#else
+#ifdef GNOME_MENUS
 void ui_set_left_menu(GnomeUIInfo *w);
 void ui_set_right_menu(GnomeUIInfo *w);
 #endif
-void ui_set_drive_menu(int drvnr, GtkWidget *w);
-void ui_set_tape_menu(GtkWidget *w);
-void ui_set_speedmenu(GtkWidget *w);
 
 GtkWidget *ui_create_transient_shell(GtkWidget *parent, const char *name);
 void ui_popdown(GtkWidget *w);

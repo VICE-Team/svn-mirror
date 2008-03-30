@@ -179,6 +179,61 @@ static ui_menu_entry_t psid_menu[] = {
   { NULL }
 };
 
+static ui_menu_entry_t vsidui_left_menu[] = {
+  { "",
+    NULL, NULL, ui_load_commands_menu },
+  { "",
+    NULL, NULL, ui_tune_menu },
+  { "--",
+    NULL, NULL, ui_tool_commands_menu },
+  { "--",
+    NULL, NULL, ui_help_commands_menu },
+  { "--",
+    NULL, NULL, ui_run_commands_menu },
+  { "--",
+    NULL, NULL, ui_exit_commands_menu },
+  { NULL }
+};
+
+static ui_menu_entry_t vsidui_right_menu[] = {
+  { "",
+    NULL, NULL, ui_sound_settings_menu_vsid },
+  { "--",
+    NULL, NULL, psid_menu },
+  { NULL }
+};
+
+static ui_menu_entry_t vsidui_file_menu[] = {
+  { "",
+    NULL, NULL, ui_load_commands_menu },
+  { "",
+    NULL, NULL, ui_tune_menu },
+  { "--",
+    NULL, NULL, ui_tool_commands_menu },
+  { "--",
+    NULL, NULL, ui_help_commands_menu },
+  { "--",
+    NULL, NULL, ui_run_commands_menu },
+  { "--",
+    NULL, NULL, ui_exit_commands_menu },
+  { NULL }
+};
+
+static ui_menu_entry_t vsidui_settings_menu[] = {
+  { "",
+    NULL, NULL, ui_sound_settings_menu_vsid },
+  { "--",
+    NULL, NULL, psid_menu },
+  { NULL }
+};
+
+static ui_menu_entry_t vsidui_top_menu[] = {
+  { N_("File"),
+    NULL, NULL, vsidui_file_menu },
+  { N_("Settings"),
+    NULL, NULL, vsidui_settings_menu },
+  { NULL }
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -235,47 +290,12 @@ static void vsid_create_menus(void)
         x11ui_destroy_widget(wr);
     }
 
-    ui_set_left_menu(wl = ui_menu_create("LeftMenu",
-                                         ui_load_commands_menu,
-                                         ui_tune_menu,
-                                         ui_menu_separator,
-                                         ui_tool_commands_menu,
-                                         ui_menu_separator,
-                                         ui_help_commands_menu,
-                                         ui_menu_separator,
-                                         ui_run_commands_menu,
-                                         ui_menu_separator,
-                                         ui_exit_commands_menu,
-                                         NULL));
+    ui_set_left_menu(vsidui_left_menu);
 
-    ui_set_right_menu(wr = ui_menu_create("RightMenu",
-                                          ui_sound_settings_menu_vsid,
-                                          ui_menu_separator,
-                                          psid_menu,
-                                          NULL));
+    ui_set_right_menu(vsidui_right_menu);
 
 #ifdef USE_GNOMEUI
-    ui_set_topmenu("TopLevelMenu",
-                   _("File"),
-                   ui_menu_create("LeftMenu",
-                                  ui_load_commands_menu,
-                                  ui_tune_menu,
-                                  ui_menu_separator,
-                                  ui_tool_commands_menu,
-                                  ui_menu_separator,
-                                  ui_help_commands_menu,
-                                  ui_menu_separator,
-                                  ui_run_commands_menu,
-                                  ui_menu_separator,
-                                  ui_exit_commands_menu,
-                                  NULL),
-                   _("Settings"),
-                   ui_menu_create("File",
-                                  ui_sound_settings_menu_vsid,
-                                  ui_menu_separator,
-                                  psid_menu,
-                                  NULL),
-                   NULL);
+    ui_set_topmenu(vsidui_top_menu);
 #endif
 
     ui_update_menus();

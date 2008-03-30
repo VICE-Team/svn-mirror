@@ -264,7 +264,7 @@ static const cmdline_option_t cmdline_options[] =
       N_("<name>"), N_("Attach raw 16KB Westermann learning cartridge image") },
     { "-cartstb", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_STRUCTURED_BASIC, NULL, NULL,
-      N_("<name>"), N_("Attach Structured Basic cartridge image") },
+      N_("<name>"), N_("Attach raw Structured Basic cartridge image") },
     { "-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
       (void *)CARTRIDGE_EXPERT, NULL, NULL,
       NULL, N_("Enable expert cartridge") },

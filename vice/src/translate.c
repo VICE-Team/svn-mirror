@@ -3991,7 +3991,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_ISO_LANG_CODE_SV, ""},  /* fuzzy */
 
 /* c64/plus256k.c */
-/* en */ {IDCLS_ENABLE_PLUS256K_EXPANSION,    "Enable the PLUS2566K RAM expansion"},
+/* en */ {IDCLS_ENABLE_PLUS256K_EXPANSION,    "Enable the PLUS256K RAM expansion"},
 /* de */ {IDCLS_ENABLE_PLUS256K_EXPANSION_DE, "PLUS256K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_PLUS256K_EXPANSION_FR, "Activer l'expansion RAM PLUS256K"},
 /* it */ {IDCLS_ENABLE_PLUS256K_EXPANSION_IT, "Attiva l'espansione PLUS256K RAM"},

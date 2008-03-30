@@ -57,12 +57,8 @@ extern Visual *visual;
 
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
-extern void ui_set_left_menu(Widget w);
-extern void ui_set_right_menu(Widget w);
 extern void ui_set_drive8_menu(Widget w);
 extern void ui_set_drive9_menu(Widget w);
-extern void ui_set_tape_menu(Widget w);
-extern void ui_set_speedmenu(Widget w);
 extern Widget ui_create_shell(Widget parent, const char *name,
 			      WidgetClass class);
 extern Widget ui_create_transient_shell(Widget parent, const char *name);

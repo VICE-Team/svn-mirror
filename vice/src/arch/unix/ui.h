@@ -89,7 +89,6 @@ extern void ui_restore_mouse(void);
 
 extern void archdep_ui_init(int argc, char *argv[]);
 extern void ui_set_application_icon(const char *icon_data[]);
-extern void ui_set_topmenu(const char *menu_name, ...);
 extern void ui_set_selected_file(int num);
 
 #ifdef USE_GNOMEUI

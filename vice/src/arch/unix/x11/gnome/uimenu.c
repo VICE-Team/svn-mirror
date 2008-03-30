@@ -94,28 +94,40 @@ static void delete_checkmark_cb(GtkWidget *w, gpointer data)
     lib_free(cm);
 }
 
-GtkWidget* ui_menu_create(const char *menu_name, ...)
+static void add_accelerator(GtkWidget *w, GtkAccelGroup *accel, guint accel_key, ui_hotkey_modifier_t mod)
+{
+    GtkAccelFlags flags = 0;
+
+    if (mod & UI_HOTMOD_CONTROL)
+        flags |= GDK_CONTROL_MASK;
+    if (mod & UI_HOTMOD_META)
+        flags |= GDK_MOD1_MASK;
+    if (mod & UI_HOTMOD_SHIFT)
+        flags |= GDK_SHIFT_MASK;
+
+    gtk_widget_add_accelerator(w, "activate",
+                               accel, accel_key,
+                               flags, GTK_ACCEL_VISIBLE);
+}
+
+void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, ui_menu_entry_t *list)
 {
     static int level = 0;
-    GtkWidget *w;
     unsigned int i, j;
-    ui_menu_entry_t *list;
-    va_list ap;
     ui_menu_cb_obj *obj = NULL;
 
     level++;
-    va_start(ap, menu_name);
 
-    w = gtk_menu_new();
 #ifdef DEBUG_MENUS
     printf("allocate new: %s\t(%p)\t%s\n",
 	   gtk_type_name(GTK_WIDGET_TYPE(w)), w,
 	   menu_name);
 #endif
 
-    while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
         for (i = j = 0; list[i].string; i++) {
-            GtkWidget *new_item;
+            GtkWidget *new_item = NULL;
+            int do_right_justify = 0;
+
             char name[256];
 
             sprintf(name, "MenuItem%d", j);	/* ugly... */
@@ -126,16 +138,15 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
                 break;
 	    case '*':		/* toggle */
 	    {
-		char *label = make_menu_label(&list[i]);
 		/* Add this item to the list of calls to perform to update the
 		   menu status. */
 		if (list[i].callback) 
 		{
 		    checkmark_t *cmt;
-		    new_item = gtk_check_menu_item_new_with_label(label+1);
+		    new_item = gtk_check_menu_item_new_with_label(list[i].string+1);
 		    
 		    cmt = (checkmark_t *)lib_malloc(sizeof(checkmark_t));
-		    cmt->name = lib_stralloc(label+1);
+		    cmt->name = lib_stralloc(list[i].string+1);
 		    cmt->w = new_item;
 		    cmt->cb = list[i].callback;
 		    cmt->obj.value = (void*) list[i].callback_data;
@@ -151,16 +162,23 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
 		    obj = &cmt->obj;
 		} 
 		else 
-		    new_item = gtk_menu_item_new_with_label(label+1);
+		    new_item = gtk_menu_item_new_with_label(list[i].string+1);
 
 		j++;
-		lib_free(label);
 		break;
 	    }
+            case 0:
+                break;
 	    default:
 	    {
-		char *label = make_menu_label(&list[i]);
-		new_item = gtk_menu_item_new_with_label(label);
+                const char *item = list[i].string;
+                if (strncmp(item, "RJ", 2) == 0)
+                {
+                    do_right_justify = 1;
+                    item += 2;
+                }
+
+		new_item = gtk_menu_item_new_with_label(item);
 		if (list[i].callback) {
 		    obj = (ui_menu_cb_obj*)lib_malloc(sizeof(ui_menu_cb_obj));
 		    obj->value = (void*) list[i].callback_data;
@@ -169,42 +187,49 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
 				     G_CALLBACK(list[i].callback),
 				     (gpointer) obj); 
 		}
-		lib_free(label);
 		j++;
 	    }
             }
 
-	    gtk_menu_shell_append(GTK_MENU_SHELL(w),new_item);
-	    gtk_widget_show(new_item);
+            if (new_item)
+            {
+	        gtk_menu_shell_append(GTK_MENU_SHELL(w), new_item);
+	        gtk_widget_show(new_item);
+                if (do_right_justify)
+                    gtk_menu_item_set_right_justified(GTK_MENU_ITEM(new_item), TRUE);
 #ifdef DEBUG_MENUS
 	    printf("allocate new: %s\t(%p)\t%s\n",
 		   gtk_type_name(GTK_WIDGET_TYPE(new_item)), new_item,
 		   list[i].string);
 #endif
+            }
 
             if (list[i].sub_menu) 
 	    {
                 GtkWidget *sub;
-		sub = ui_menu_create(list[i].string, 
-				     list[i].sub_menu, NULL);
-		gtk_menu_item_set_submenu(GTK_MENU_ITEM(new_item),sub);
+                if (new_item && *list[i].string != '-')
+                {
+                    sub = gtk_menu_new();
+		    gtk_menu_item_set_submenu(GTK_MENU_ITEM(new_item),sub);
+                }
+                else
+                {
+                    sub = w;
+                }
+		ui_menu_create(sub, accel, list[i].string, 
+				     list[i].sub_menu);
             } 
 	    else 
 	    {            /* no submenu */
-	        if (list[i].hotkey_keysym != (KeySym) 0
-		    && list[i].callback != NULL)
-		    ui_hotkey_register(list[i].hotkey_modifier,
-                                       (signed long)list[i].hotkey_keysym,
-                                       (ui_callback_t)list[i].callback,
-                                       (ui_callback_data_t)obj);
+	        if (accel && list[i].hotkey_keysym != (KeySym) 0
+		    && list[i].callback != NULL && new_item != NULL)
+                    add_accelerator(new_item,
+                               accel, list[i].hotkey_keysym,
+                               list[i].hotkey_modifier);
             }
         }
-    }
     
     level--;
-
-    va_end(ap);
-    return w;
 }
 
 int ui_menu_any_open(void)

@@ -426,6 +426,149 @@ static ui_menu_entry_t vic20_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t vic20_left_menu[] = {
+    { "",
+      NULL, NULL, uiattach_disk_menu },
+    { "--",
+      NULL, NULL, uiattach_tape_menu },
+    { "",
+      NULL, NULL, ui_datasette_commands_menu },
+    { "--",
+      NULL, NULL, uiattach_smart_attach_menu },
+    { "--",
+      NULL, NULL, vic20_cartridge_commands_menu },
+    { "--",
+      NULL, NULL, ui_directory_commands_menu },
+    { "--",
+      NULL, NULL, ui_snapshot_commands_menu },
+    { "",
+      NULL, NULL, ui_screenshot_commands_menu },
+    { "",
+      NULL, NULL, ui_sound_record_commands_menu },
+    { "--",
+      NULL, NULL, ui_tool_commands_menu },
+    { "--",
+      NULL, NULL, ui_help_commands_menu },
+    { "--",
+      NULL, NULL, ui_run_commands_menu },
+    { "--",
+      NULL, NULL, ui_exit_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_right_menu[] = {
+    { "",
+      NULL, NULL, ui_performance_settings_menu },
+    { "--",
+      NULL, NULL, uikeyboard_settings_menu },
+    { "",
+      NULL, NULL, ui_sound_settings_menu },
+    { "",
+      NULL, NULL, ui_drivec64vic20_settings_menu },
+    { "",
+      NULL, NULL, ui_peripheraliec_settings_menu },
+/*
+                                     vic20_io_settings_menu,
+*/
+    { "",
+      NULL, NULL, joystick_settings_menu },
+    { "",
+      NULL, NULL, rs232_settings_menu },
+    { "--",
+      NULL, NULL, vic20_menu },
+    { "--",
+      NULL, NULL, ui_settings_settings_menu },
+#ifdef DEBUG
+    { "--",
+      NULL, NULL, ui_debug_settings_menu },
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_tape_menu[] = {
+    { "",
+      NULL, NULL, uiattach_tape_menu },
+    { "--",
+      NULL, NULL, datasette_control_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_file_menu[] = {
+    { "",
+      NULL, NULL, uiattach_smart_attach_menu },
+    { "--",
+      NULL, NULL, uiattach_disk_menu },
+    { "--",
+      NULL, NULL, uiattach_tape_menu },
+    { "",
+      NULL, NULL, ui_datasette_commands_menu },
+    { "--",
+      NULL, NULL, vic20_cartridge_commands_menu },
+    { "--",
+      NULL, NULL, ui_directory_commands_menu },
+    { "--",
+      NULL, NULL, ui_tool_commands_menu },
+    { "--",
+      NULL, NULL, ui_run_commands_menu },
+    { "--",
+      NULL, NULL, ui_exit_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_snapshot_menu[] = {
+    { "",
+      NULL, NULL, ui_snapshot_commands_submenu },
+    { "--",
+      NULL, NULL, ui_screenshot_commands_menu },
+    { "",
+      NULL, NULL, ui_sound_record_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_options_menu[] = {
+    { "",
+      NULL, NULL, ui_performance_settings_menu },
+    { "--",
+      NULL, NULL, ui_drive_options_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_settings_menu[] = {
+    { "",
+      NULL, NULL, uikeyboard_settings_menu },
+    { "",
+      NULL, NULL, ui_sound_settings_menu },
+    { "",
+      NULL, NULL, ui_drivec64vic20_settings_menu },
+    { "",
+      NULL, NULL, ui_peripheraliec_settings_menu },
+    { "",
+      NULL, NULL, joystick_settings_menu },
+    { "",
+      NULL, NULL, rs232_settings_menu },
+    { "--",
+      NULL, NULL, vic20_menu },
+    { "--",
+      NULL, NULL, ui_settings_settings_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_top_menu[] = {
+    { N_("File"),
+      NULL, NULL, vic20_file_menu },
+    { N_("Snapshot"),
+      NULL, NULL, vic20_snapshot_menu },
+    { N_("Options"),
+      NULL, NULL, vic20_options_menu },
+    { N_("Settings"),
+      NULL, NULL, vic20_settings_menu },
+                   /* Translators: RJ means right justify and should be
+                      saved in your tranlation! e.g. german "RJHilfe" */
+    { N_("RJHelp"),
+      NULL, NULL, ui_help_commands_menu },
+    { NULL }
+};
+
 static void vic20ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
@@ -442,114 +585,13 @@ int vic20ui_init(void)
 {
     ui_set_application_icon(vic20_icon_data);
     vic20ui_dynamic_menu_create();
-    ui_set_left_menu(ui_menu_create("LeftMenu",
-                                    uiattach_disk_menu,
-                                    ui_menu_separator,
-                                    uiattach_tape_menu,
-                                    ui_datasette_commands_menu,
-                                    ui_menu_separator,
-                                    uiattach_smart_attach_menu,
-                                    ui_menu_separator,
-                                    vic20_cartridge_commands_menu,
-                                    ui_menu_separator,
-                                    ui_directory_commands_menu,
-                                    ui_menu_separator,
-                                    ui_snapshot_commands_menu,
-                                    ui_screenshot_commands_menu,
-                                    ui_sound_record_commands_menu,
-                                    ui_menu_separator,
-                                    ui_tool_commands_menu,
-                                    ui_menu_separator,
-                                    ui_help_commands_menu,
-                                    ui_menu_separator,
-                                    ui_run_commands_menu,
-                                    ui_menu_separator,
-                                    ui_exit_commands_menu,
-                                    NULL));
+    ui_set_left_menu(vic20_left_menu);
 
-    ui_set_right_menu(ui_menu_create("RightMenu",
-                                     ui_performance_settings_menu,
-                                     ui_menu_separator,
-                                     uikeyboard_settings_menu,
-                                     ui_sound_settings_menu,
-                                     ui_drivec64vic20_settings_menu,
-                                     ui_peripheraliec_settings_menu,
-/*
-                                     vic20_io_settings_menu,
-*/
-                                     joystick_settings_menu,
-                                     rs232_settings_menu,
-                                     ui_menu_separator,
-                                     vic20_menu,
-                                     ui_menu_separator,
-                                     ui_settings_settings_menu,
-#ifdef DEBUG
-                                     ui_menu_separator,
-                                     ui_debug_settings_menu,
-#endif
-                                     NULL));
+    ui_set_right_menu(vic20_right_menu);
 
-    ui_set_tape_menu(ui_menu_create("TapeMenu",
-                                    uiattach_tape_menu,
-                                    ui_menu_separator,
-                                    datasette_control_submenu,
-                                    NULL));
-    ui_set_topmenu("TopLevelMenu",
-                   _("File"),
-                   ui_menu_create("File",
-                                  uiattach_smart_attach_menu,
-                                  ui_menu_separator,
-                                  uiattach_disk_menu,
-                                  ui_menu_separator,
-                                  uiattach_tape_menu,
-                                  ui_datasette_commands_menu,
-                                  ui_menu_separator,
-                                  vic20_cartridge_commands_menu,
-                                  ui_menu_separator,
-                                  ui_directory_commands_menu,
-                                  ui_menu_separator,
-                                  ui_tool_commands_menu,
-                                  ui_menu_separator,
-                                  ui_run_commands_menu,
-                                  ui_menu_separator,
-                                  ui_exit_commands_menu,
-                                  NULL),
-                   _("Snapshot"),
-                   ui_menu_create("Snapshot",
-                                  ui_snapshot_commands_submenu,
-                                  ui_menu_separator,
-                                  ui_screenshot_commands_menu,
-				  ui_sound_record_commands_menu,
-                                  NULL),
-                   _("Options"),
-                   ui_menu_create("Options",
-                                  ui_performance_settings_menu,
-                                  ui_menu_separator,
-                                  ui_drive_options_submenu,
-                                  NULL),
-                   _("Settings"),
-                   ui_menu_create("Settings",
-                                  uikeyboard_settings_menu,
-                                  ui_sound_settings_menu,
-                                  ui_drivec64vic20_settings_menu,
-                                  ui_peripheraliec_settings_menu,
-                                  joystick_settings_menu,
-                                  rs232_settings_menu,
-                                  ui_menu_separator,
-                                  vic20_menu,
-                                  ui_menu_separator,
-                                  ui_settings_settings_menu,
-                                  NULL),
-                   /* Translators: RJ means right justify and should be
-                      saved in your tranlation! e.g. german "RJHilfe" */
-                   _("RJHelp"),
-                   ui_menu_create("Help",
-                                  ui_help_commands_menu,
-                                  NULL),
-                   NULL);
-    ui_set_speedmenu(ui_menu_create("SpeedMenu",
-                                    ui_performance_settings_menu,
-                                    NULL));
+    ui_set_tape_menu(vic20_tape_menu);
+    ui_set_topmenu(vic20_top_menu);
+    ui_set_speedmenu(ui_performance_settings_menu);
     ui_update_menus();
 
     return 0;

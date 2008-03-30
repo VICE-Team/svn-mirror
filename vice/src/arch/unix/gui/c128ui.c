@@ -377,6 +377,148 @@ static ui_menu_entry_t c128_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t c128_left_menu[] = {
+    { "",
+      NULL, NULL, uiattach_disk_menu },
+    { "--",
+      NULL, NULL, uiattach_tape_menu },
+    { "",
+      NULL, NULL, ui_datasette_commands_menu },
+    { "--",
+      NULL, NULL, uiattach_smart_attach_menu },
+    { "--",
+      NULL, NULL, ui_c64cart_commands_menu },
+    { "--",
+      NULL, NULL, ui_directory_commands_menu },
+    { "--",
+      NULL, NULL, ui_snapshot_commands_menu },
+    { "",
+      NULL, NULL, ui_screenshot_commands_menu },
+    { "",
+      NULL, NULL, ui_sound_record_commands_menu },
+    { "--",
+      NULL, NULL, ui_tool_commands_menu },
+    { "--",
+      NULL, NULL, ui_help_commands_menu },
+    { "--",
+      NULL, NULL, ui_run_commands_menu },
+    { "--",
+      NULL, NULL, ui_exit_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t c128_right_menu[] = {
+    { "",
+      NULL, NULL, ui_performance_settings_menu },
+    { "--",
+      NULL, NULL, uikeyboard_settings_menu },
+    { "",
+      NULL, NULL, ui_sound_settings_menu },
+    { "",
+      NULL, NULL, ui_drivec128_settings_menu },
+    { "",
+      NULL, NULL, ui_peripheraliec_settings_menu },
+    { "",
+      NULL, NULL, joystick_settings_menu },
+    { "--",
+      NULL, NULL, c128_menu },
+    { "--",
+      NULL, NULL, ui_settings_settings_menu },
+#ifdef DEBUG
+    { "--",
+      NULL, NULL, ui_debug_settings_menu },
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t c128_file_menu[] = {
+    { "",
+      NULL, NULL, uiattach_smart_attach_menu },
+    { "--",
+      NULL, NULL, uiattach_disk_menu },
+    { "--",
+      NULL, NULL, uiattach_tape_menu },
+    { "",
+      NULL, NULL, ui_datasette_commands_menu },
+    { "--",
+      NULL, NULL, ui_c64cart_commands_menu },
+    { "--",
+      NULL, NULL, ui_directory_commands_menu },
+    { "--",
+      NULL, NULL, ui_tool_commands_menu },
+    { "--",
+      NULL, NULL, ui_run_commands_menu },
+    { "--",
+      NULL, NULL, ui_exit_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t c128_snapshot_menu[] = {
+    { "",
+      NULL, NULL, ui_snapshot_commands_submenu },
+    { "--",
+      NULL, NULL, screenshot_submenu },
+    { "",
+      NULL, NULL, ui_sound_record_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t c128_options_menu[] = {
+    { "",
+      NULL, NULL, ui_performance_settings_menu },
+    { "--",
+      NULL, NULL, joystick_options_submenu },
+    { "--",
+      NULL, NULL, sid_options_submenu },
+    { "--",
+      NULL, NULL, ui_drive_options_submenu },
+    { "--",
+      NULL, NULL, io_extensions_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t c128_settings_menu[] = {
+    { "",
+      NULL, NULL, uikeyboard_settings_menu },
+    { "",
+      NULL, NULL, ui_sound_settings_menu },
+    { "",
+      NULL, NULL, ui_drivec128_settings_menu },
+    { "",
+      NULL, NULL, ui_peripheraliec_settings_menu },
+    { "",
+      NULL, NULL, joystick_settings_menu },
+    { "--",
+      NULL, NULL, c128_menu },
+    { "--",
+      NULL, NULL, ui_settings_settings_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t c128_main_menu[] = {
+    { N_("File"),
+      NULL, NULL, c128_file_menu },
+    { N_("Snapshot"),
+      NULL, NULL, c128_snapshot_menu },
+    { N_("Options"),
+      NULL, NULL, c128_options_menu },
+    { N_("Settings"),
+      NULL, NULL, c128_settings_menu },
+                   /* Translators: RJ means right justify and should be
+                      saved in your tranlation! e.g. german "RJHilfe" */
+    { N_("RJHelp"),
+      NULL, NULL, ui_help_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t c128_tape_menu[] = {
+    { "",
+      NULL, NULL, uiattach_tape_menu },
+    { "--",
+      NULL, NULL, datasette_control_submenu },
+    { NULL }
+};
+
 static void c128ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
@@ -395,115 +537,13 @@ int c128ui_init(void)
 {
     ui_set_application_icon(c128_icon_data);
     c128ui_dynamic_menu_create();
-    ui_set_left_menu(ui_menu_create("LeftMenu",
-                                    uiattach_disk_menu,
-                                    ui_menu_separator,
-                                    uiattach_tape_menu,
-                                    ui_datasette_commands_menu,
-                                    ui_menu_separator,
-                                    uiattach_smart_attach_menu,
-                                    ui_menu_separator,
-                                    ui_c64cart_commands_menu,
-                                    ui_menu_separator,
-                                    ui_directory_commands_menu,
-                                    ui_menu_separator,
-                                    ui_snapshot_commands_menu,
-                                    ui_screenshot_commands_menu,
-                                    ui_sound_record_commands_menu,
-                                    ui_menu_separator,
-                                    ui_tool_commands_menu,
-                                    ui_menu_separator,
-                                    ui_help_commands_menu,
-                                    ui_menu_separator,
-                                    ui_run_commands_menu,
-                                    ui_menu_separator,
-                                    ui_exit_commands_menu,
-                                    NULL));
+    ui_set_left_menu(c128_left_menu);
 
-    ui_set_right_menu(ui_menu_create("RightMenu",
-                                     ui_performance_settings_menu,
-                                     ui_menu_separator,
-                                     uikeyboard_settings_menu,
-                                     ui_sound_settings_menu,
-                                     ui_drivec128_settings_menu,
-                                     ui_peripheraliec_settings_menu,
-                                     joystick_settings_menu,
-                                     ui_menu_separator,
-                                     c128_menu,
-                                     ui_menu_separator,
-                                     ui_settings_settings_menu,
-#ifdef DEBUG
-                                     ui_menu_separator,
-                                     ui_debug_settings_menu,
-#endif
-                                     NULL));
+    ui_set_right_menu(c128_right_menu);
 
-    ui_set_topmenu("TopLevelMenu",
-                   _("File"),
-                   ui_menu_create("File",
-                                  uiattach_smart_attach_menu,
-                                  ui_menu_separator,
-                                  uiattach_disk_menu,
-                                  ui_menu_separator,
-                                  uiattach_tape_menu,
-                                  ui_datasette_commands_menu,
-                                  ui_menu_separator,
-                                  ui_c64cart_commands_menu,
-                                  ui_menu_separator,
-                                  ui_directory_commands_menu,
-                                  ui_menu_separator,
-                                  ui_tool_commands_menu,
-                                  ui_menu_separator,
-                                  ui_run_commands_menu,
-                                  ui_menu_separator,
-                                  ui_exit_commands_menu,
-                                  NULL),
-                   _("Snapshot"),
-                   ui_menu_create("Snapshot",
-                                  ui_snapshot_commands_submenu,
-                                  ui_menu_separator,
-                                  screenshot_submenu,
-				  ui_sound_record_commands_menu,
-                                  NULL),
-                   _("Options"),
-                   ui_menu_create("Options",
-                                  ui_performance_settings_menu,
-                                  ui_menu_separator,
-                                  joystick_options_submenu,
-                                  ui_menu_separator,
-                                  sid_options_submenu,
-                                  ui_menu_separator,
-                                  ui_drive_options_submenu,
-                                  ui_menu_separator,
-                                  io_extensions_submenu,
-                                  NULL),
-                   _("Settings"),
-                   ui_menu_create("Settings",
-				  uikeyboard_settings_menu,
-				  ui_sound_settings_menu,
-				  ui_drivec128_settings_menu,
-				  ui_peripheraliec_settings_menu,
-				  joystick_settings_menu,
-                                  ui_menu_separator,
-                                  c128_menu,
-                                  ui_menu_separator,
-                                  ui_settings_settings_menu,
-                                  NULL),
-                   /* Translators: RJ means right justify and should be
-                      saved in your tranlation! e.g. german "RJHilfe" */
-                   _("RJHelp"),
-                   ui_menu_create("Help",
-                                  ui_help_commands_menu,
-                                  NULL),
-                   NULL);
-    ui_set_speedmenu(ui_menu_create("SpeedMenu",
-                                    ui_performance_settings_menu,
-                                    NULL));
-    ui_set_tape_menu(ui_menu_create("TapeMenu",
-                                    uiattach_tape_menu,
-                                    ui_menu_separator,
-                                    datasette_control_submenu,
-                                    NULL));
+    ui_set_topmenu(c128_main_menu);
+    ui_set_speedmenu(ui_performance_settings_menu);
+    ui_set_tape_menu(c128_tape_menu);
     ui_update_menus();
 
     return 0;

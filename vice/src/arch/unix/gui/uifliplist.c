@@ -339,8 +339,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
 
 #ifdef USE_GNOMEUI
         ui_destroy_drive_menu(drive);
-        ui_set_drive_menu(drive, ui_menu_create(menuname,
-                                                flipmenu[drive], NULL));
+        ui_set_drive_menu(drive, flipmenu[drive]);
 #else
         /* ugly ... */
         if (drive == 0) {

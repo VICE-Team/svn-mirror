@@ -82,6 +82,9 @@ all: all-@USE_NLS@
 all-yes: cat-id-tbl.c $(CATALOGS)
 all-no:
 
+@top_srcdir@/src/arch/win32/res.rc.po.c: intl2po
+	./intl2po $(top_srcdir)
+
 $(srcdir)/$(PACKAGE).pot: $(POTFILES)
 	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=$(top_srcdir) \
 	  --add-comments --keyword=_ --keyword=N_ \
@@ -186,7 +189,7 @@ dvi info tags TAGS ID:
 
 mostlyclean:
 	rm -f core core.* *.pox $(PACKAGE).po *.old.po cat-id-tbl.tmp intl2po
-	rm -fr *.o
+	rm -fr *.o $(top_srcdir)/src/arch/win32/*.po.c $(top_srcdir)/src/arch/amiga/*.po.c
 
 clean: mostlyclean
 
@@ -207,7 +210,7 @@ dist distdir: update-po $(DISTFILES)
 	done
 
 update-po: Makefile intl2po
-	./intl2po
+	./intl2po $(top_srcdir)
 	$(MAKE) $(PACKAGE).pot
 	PATH=`pwd`/../src:$$PATH; \
 	cd $(srcdir); \
@@ -227,7 +230,7 @@ update-po: Makefile intl2po
 	done
 
 intl2po: intl2po.c
-	$(CC) $(INCLUDES) $(CFLAGS) intl2po.c -o intl2po
+	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/intl2po.c -o intl2po
 
 POTFILES: POTFILES.in intl2po
 	( if test 'x$(srcdir)' != 'x.'; then \

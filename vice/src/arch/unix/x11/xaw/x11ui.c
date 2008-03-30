@@ -913,8 +913,9 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 }
 
 /* Attach `w' as the left menu of all the current open windows.  */
-void ui_set_left_menu(Widget w)
+void ui_set_left_menu(ui_menu_entry_t *menu)
 {
+    Widget w = ui_menu_create("LeftMenu", menu, NULL);
     char *translation_table;
     char *name = XtName(w);
     int i;
@@ -938,8 +939,9 @@ void ui_set_left_menu(Widget w)
 }
 
 /* Attach `w' as the right menu of all the current open windows.  */
-void ui_set_right_menu(Widget w)
+void ui_set_right_menu(ui_menu_entry_t *menu)
 {
+    Widget w = ui_menu_create("RightMenu", menu, NULL);
     char *translation_table;
     char *name = XtName(w);
     int i;
@@ -1037,15 +1039,15 @@ void ui_set_drive9_menu(Widget w)
     drive9_menu = w;
 }
 
-void ui_set_topmenu(const char *menu_name, ...)
+void ui_set_topmenu(ui_menu_entry_t *menu)
 {
 }
 
-void ui_set_speedmenu(Widget w)
+void ui_set_speedmenu(ui_menu_entry_t *menu)
 {
 }
 
-void ui_set_tape_menu(Widget w)
+void ui_set_tape_menu(ui_menu_entry_t *menu)
 {
 }
 

@@ -48,6 +48,7 @@
 #include "uiarch.h"
 #include "uimenu.h"
 #include "x11menu.h"
+#include "util.h"
 
 
 /* Separator item.  */
@@ -213,6 +214,42 @@ static void menu_unhighlight_action(Widget w, XEvent *event, String *params,
     XtCallActionProc(w, "unhighlight", event, params, *num_params);
 }
 
+static char *make_menu_label(ui_menu_entry_t *e)
+{
+    const char *key_string, *tmp = "";
+    char *retstr, *trans;
+
+    /* Check wether NO_TRANS prefix is there, if yes don't translate it */
+    if (strncmp(e->string, NO_TRANS, strlen(NO_TRANS)) == 0)
+        trans = lib_stralloc(e->string + strlen(NO_TRANS));
+    else
+        trans = lib_stralloc(_(e->string));
+
+    if (e->hotkey_keysym == (ui_keysym_t)0)
+        return trans;
+
+    if (e->hotkey_modifier & UI_HOTMOD_CONTROL)
+        tmp = "C-";
+    if (e->hotkey_modifier & UI_HOTMOD_META)
+        tmp = "M-";
+    if (e->hotkey_modifier & UI_HOTMOD_ALT)
+        tmp = "A-";
+    if (e->hotkey_modifier & UI_HOTMOD_SHIFT)
+        tmp = "S-";
+
+    key_string = strchr(XKeysymToString(e->hotkey_keysym), '_');
+    if (key_string == NULL)
+        key_string = XKeysymToString(e->hotkey_keysym);
+    else
+        key_string++;
+
+    retstr = util_concat(trans, "    (", tmp, key_string, ")", NULL);
+
+    lib_free(trans);
+
+    return retstr;
+}
+
 /* ------------------------------------------------------------------------- */
 
 int ui_menu_init(XtAppContext app_context, Display *d, int s)
@@ -246,16 +283,17 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
 
 Widget ui_menu_create(const char *menu_name, ...)
 {
-    static int level = 0;
-    Widget w;
+    static int level = 0, menulevel = 0;
+    static Widget w;
     unsigned int i, j;
     ui_menu_entry_t *list;
     va_list ap;
 
 
     level++;
-    w = ui_create_shell(_ui_top_level, menu_name, simpleMenuWidgetClass);
     if (level == 1) {
+        w = ui_create_shell(_ui_top_level, menu_name, simpleMenuWidgetClass);
+        menulevel++;
         XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
         XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
     }
@@ -269,7 +307,7 @@ Widget ui_menu_create(const char *menu_name, ...)
     va_start(ap, menu_name);
     while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
         for (i = j = 0; list[i].string; i++) {
-            Widget new_item;
+            Widget new_item = NULL;
             char *name;
 
             name = lib_msprintf("MenuItem%d", j);
@@ -309,6 +347,8 @@ Widget ui_menu_create(const char *menu_name, ...)
                     lib_free(label);
                 }
                 break;
+              case 0:
+                break;
               default:
                 {
                     char *label = make_menu_label(&list[i]);
@@ -331,27 +371,38 @@ Widget ui_menu_create(const char *menu_name, ...)
                               (XtCallbackProc) list[i].callback,
                               list[i].callback_data);
             if (list[i].sub_menu) {
-                Widget sub;
-
                 if (num_submenus > MAX_SUBMENUS) {
                     fprintf(stderr,
                             "Maximum number of sub menus reached! "
                             "Please fix the code.\n");
                     exit(-1);
                 }
-                XtVaSetValues(new_item, XtNrightBitmap, right_arrow_bitmap,
+                if (new_item != NULL && *list[i].string != '-') {
+                    Widget oldw = w;
+
+                    XtVaSetValues(new_item, XtNrightBitmap, right_arrow_bitmap,
                               NULL);
-                sub = ui_menu_create("SUB", list[i].sub_menu, NULL);
-                submenus[num_submenus].widget = sub;
-                submenus[num_submenus].parent = new_item;
-                submenus[num_submenus].level = level;
-                XtAddCallback(sub,
+                    w = ui_create_shell(_ui_top_level, "SUB", simpleMenuWidgetClass);
+                    menulevel++;
+
+                    ui_menu_create("SUB", list[i].sub_menu, NULL);
+                    submenus[num_submenus].widget = w;
+                    submenus[num_submenus].parent = new_item;
+                    submenus[num_submenus].level = menulevel;
+                    XtAddCallback(w,
                               XtNpopupCallback, submenu_popup_callback,
                               submenus + num_submenus);
-                XtAddCallback(sub,
+                    XtAddCallback(w,
                               XtNpopdownCallback, submenu_popdown_callback,
                               (XtPointer) w);
-                num_submenus++;
+                    num_submenus++;
+
+                    menulevel--;
+                    w = oldw;
+                }
+                else {
+                    ui_menu_create("SUB", list[i].sub_menu, NULL);
+                }
             } else {            /* no submenu */
                 if (list[i].hotkey_keysym != (KeySym) 0
                     && list[i].callback != NULL)
@@ -364,6 +415,8 @@ Widget ui_menu_create(const char *menu_name, ...)
     }
 
     level--;
+    if (level == 0)
+        menulevel = 0;
 
 #ifdef UI_MENU_DEBUG
     fprintf(stderr, "num_checkmark_menu_items: %d\tnum_submenus = %d.\n",
