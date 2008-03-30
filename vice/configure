@@ -715,7 +715,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.1.28
+VERSION=1.1.29
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -5325,7 +5325,7 @@ else
 fi
 
 
-if test x"$READLINE" = "x"; then
+if test x"$READLINE" != "x"; then
   NEED_READLINE_TRUE=
   NEED_READLINE_FALSE='#'
 else

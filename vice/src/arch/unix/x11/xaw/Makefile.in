@@ -348,21 +348,21 @@ petui.o: petui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	uimenu.h uihotkey.h uisettings.h ../../../../../src/vsync.h \
 	peticon.xpm
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
-	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
-	widgets/DirMgr.h widgets/Directory.h widgets/RegExp.h \
-	widgets/TextField.h ../../../../../src/cmdline.h \
-	../../../../../src/resources.h ../../../../../src/drive/drive.h \
-	../../../../../src/diskimage.h ../../../../../src/gcr.h \
-	../../../../../src/arch/unix/types.h ../../../../../src/log.h \
-	../../../../../src/machine.h ../../../../../src/maincpu.h \
-	../../../../../src/6510core.h ../../../../../src/alarm.h \
-	../../../../../src/clkguard.h ../../../../../src/mon.h \
-	../../../../../src/interrupt.h ../../../../../src/snapshot.h \
-	../../../../../src/mos6510.h \
+	../../../../../src/cmdline.h ../../../../../src/resources.h \
+	../../../../../src/drive/drive.h ../../../../../src/diskimage.h \
+	../../../../../src/gcr.h ../../../../../src/arch/unix/types.h \
+	../../../../../src/log.h ../../../../../src/machine.h \
+	../../../../../src/maincpu.h ../../../../../src/6510core.h \
+	../../../../../src/alarm.h ../../../../../src/clkguard.h \
+	../../../../../src/mon.h ../../../../../src/interrupt.h \
+	../../../../../src/snapshot.h ../../../../../src/mos6510.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/c64/psid.h ui.h ../../../../../src/palette.h \
 	../../../../../src/uiapi.h uihotkey.h uimenu.h uisettings.h \
-	../../../../../src/utils.h ../../../../../src/vsync.h
+	../../../../../src/utils.h ../../../../../src/vsync.h \
+	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
+	widgets/DirMgr.h widgets/Directory.h widgets/RegExp.h \
+	widgets/TextField.h
 uicommands.o: uicommands.c ../../../../../src/vice.h \
 	../../../../../src/config.h \
 	../../../../../src/arch/unix/archdep.h \

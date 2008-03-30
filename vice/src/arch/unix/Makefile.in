@@ -330,14 +330,14 @@ mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/utils.h ../../../src/resources.h \
 	../../../src/cmdline.h kbd.h
-print.o: print.c ../../../src/vice.h ../../../src/config.h types.h \
-	../../../src/log.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/print.h \
+print.o: print.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cmdline.h ../../../src/resources.h \
+	../../../src/log.h ../../../src/print.h types.h \
 	../../../src/utils.h
-rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h types.h \
-	../../../src/log.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/rs232.h \
-	../../../src/utils.h coproc.h
+rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cmdline.h ../../../src/resources.h coproc.h \
+	../../../src/log.h ../../../src/rs232.h types.h \
+	../../../src/utils.h
 uicmdline.o: uicmdline.c ../../../src/cmdline.h ../../../src/resources.h
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h types.h ../../../src/cmdline.h \

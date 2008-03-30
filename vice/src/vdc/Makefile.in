@@ -262,7 +262,8 @@ vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h ../../src/snapshot.h vdc-mem.h vdc-draw.h
+	../../src/resources.h ../../src/snapshot.h vdc-mem.h vdc-draw.h \
+	vdc-resources.h
 vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h vdc.h ../../src/alarm.h \
 	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
