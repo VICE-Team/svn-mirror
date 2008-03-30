@@ -1,0 +1,149 @@
+# VICE keyboard mapping file
+#
+# A Keyboard map is read in as patch to the current map.
+#
+# File format:
+# - comment lines start with '#'
+# - keyword lines start with '!keyword'
+# - normal line has 'keysym row column shiftflag'
+#
+# keywords and their lines are:
+# '!CLEAR'               clear whole table
+# '!INCLUDE filename'    read file as mapping file
+# '!LSHIFT row col'      left shift keyboard row/column
+# '!RSHIFT row col'      right shift keyboard row/column
+#
+# shiftflag can have the values:
+# 0      key is not shifted for this keysym
+# 1      key is shifted for this keysym
+# 2      left shift
+# 4      right shift
+# 8      key can be shifted or not with this keysym
+#
+!CLEAR
+!LSHIFT 1 3
+!RSHIFT 6 4
+Delete 7 0 8
+Return 7 1 8
+Right 7 2 8
+F7 7 7 8
+F1 7 4 8
+F3 7 5 8
+F5 7 6 8
+Down 7 3 8
+3 1 0 0
+w 1 1 8
+a 1 2 8
+4 1 7 0
+z 1 4 8
+s 1 5 8
+e 1 6 8
+Shift_L 1 3 2
+5 2 0 0
+r 2 1 8
+d 2 2 8
+6 2 7 0
+c 2 4 8
+f 2 5 8
+t 2 6 8
+x 2 3 8
+7 3 0 0
+y 3 1 8
+g 3 2 8
+8 3 7 0
+b 3 4 8
+h 3 5 8
+u 3 6 8
+v 3 3 8
+9 4 0 0
+i 4 1 8
+j 4 2 8
+0 4 7 0
+m 4 4 8
+k 4 5 8
+o 4 6 8
+n 4 3 8
+plus 5 0 0
+p 5 1 8
+l 5 2 8
+minus 5 7 0
+period 5 4 0
+colon 5 5 0
+at 5 6 0
+comma 5 3 0
+sterling 6 0 0
+bar 6 0 8
+asterisk 6 1 0
+semicolon 6 2 0
+Home 6 7 8
+Shift_R 6 4 0
+equal 6 5 0
+asciicircum 6 6 0
+asciitilde 6 6 0
+slash 6 3 0
+1 0 0 0
+underscore 0 1 0
+Control_L 0 2 8
+2 0 7 0
+space 0 4 8
+Alt_L 0 5 8
+Meta_L 0 5 8
+q 0 6 8
+Escape 0 3 8
+BackSpace 7 0 8
+KP_F1 7 4 8
+KP_F2 7 5 8
+KP_F3 7 6 8
+KP_F4 7 2 8
+Insert 7 0 16
+Find 6 7 8
+Linefeed 7 1 1
+Left 7 2 1
+F8 7 7 1
+F2 7 4 1
+F4 7 5 1
+F6 7 6 1
+Up 7 3 1
+numbersign 1 0 1
+W 1 1 1
+A 1 2 1
+dollar 1 7 1
+Z 1 4 1
+S 1 5 1
+E 1 6 1
+percent 2 0 1
+R 2 1 1
+D 2 2 1
+ampersand 2 7 1
+C 2 4 1
+F 2 5 1
+T 2 6 1
+X 2 3 1
+apostrophe 3 0 1
+Y 3 1 1
+G 3 2 1
+parenleft 3 7 1
+B 3 4 1
+H 3 5 1
+U 3 6 1
+V 3 3 1
+parenright 4 0 1
+I 4 1 1
+J 4 2 1
+M 4 4 1
+K 4 5 1
+O 4 6 1
+N 4 3 1
+P 5 1 1
+L 5 2 1
+greater 5 4 1
+bracketleft 5 5 1
+grave 5 6 1
+less 5 3 1
+backslash 6 0 1
+bracketright 6 2 1
+asciicircum 6 6 8
+question 6 3 1
+exclam 0 0 1
+quotedbl 0 7 1
+Q 0 6 1

@@ -90,17 +90,15 @@ static const char *create_name(const char *path, const char *name)
     return (buffer);
 }
 
-int mem_load_sys_file(const char *path, const char *name, BYTE *dest,
-		      int minsize, int maxsize)
+FILE *open_sys_file(const char *path, const char *name, const char **fname)
 {
     FILE *fp = NULL;
     const char *bufp = NULL;
     char *paths[2];
-    size_t rsize = 0;
     int	n, i;
 
     if (name == NULL || *name == '\0')
-	return -1;
+	return NULL;
 
 #ifdef __MSDOS__
     /* On MS-DOS, always load from the working directory or from the specified
@@ -126,12 +124,29 @@ int mem_load_sys_file(const char *path, const char *name, BYTE *dest,
 
     for (i = 0; i < n; i++) {
 	if ((bufp = create_name(paths[i], name)) == NULL)
-	    return -2;
+	    return NULL; /* -2; */
 	if ((fp = fopen(bufp, READ)) == NULL)
 	    /* perror(bufp)*/ ;
 	else
 	    break;
     }
+
+    if(fname) *fname = bufp;	/* bufp is static (from create_name) */
+
+    for (i=0; i < n; i++)
+	free(paths[i]);
+
+    return fp;
+}
+
+int mem_load_sys_file(const char *path, const char *name, BYTE *dest,
+		      int minsize, int maxsize)
+{
+    FILE *fp = NULL;
+    size_t rsize = 0;
+    const char *bufp = NULL;
+
+    fp = open_sys_file(path, name, &bufp);
 
     if (fp == NULL)
 	return -1;
@@ -174,8 +189,6 @@ int mem_load_sys_file(const char *path, const char *name, BYTE *dest,
 	    return -1;
     }
 
-    for (i=0; i < n; i++)
-	free(paths[i]);
 
     (void) fclose(fp);
 

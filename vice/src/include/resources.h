@@ -105,6 +105,8 @@ typedef struct _AppResources {
     int petdiag;	/* PET diagnostic pin (PIA1 PB7) */
     int numpadJoystick;/* joystick emulation via numpad (currently PET-only) */
 
+    char *keymapFile;
+
     int video80;
     int video40;
 

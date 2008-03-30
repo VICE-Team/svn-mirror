@@ -390,6 +390,57 @@ MenuEntry True1541Submenu[] = {
 };
 #endif
 
+MenuEntry KeyboardSubmenu[] = {
+#ifndef PET
+    { "Default Map (Symbol mapping)", 
+      (UiMenuCallback) UiSetKeymap, (UiCallbackDataPtr) "vice.vkm", NULL },
+    { "--" },
+    { "Position mapping - uk",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "orig_uk.vkm", NULL },
+    { "Position mapping - us",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "orig_us.vkm", NULL },
+    { "Position mapping - de",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "orig_de.vkm", NULL },
+    { "Position mapping - it",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "orig_it.vkm", NULL },
+    { "Position mapping - fi",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "orig_fi.vkm", NULL },
+#else
+    { "Graphics Keyboard (Symbol mapping)", 
+      (UiMenuCallback) UiSetKeymap, (UiCallbackDataPtr) "graphics.vkm", NULL },
+    { "UK Business Keyboard (Symbol mapping)", 
+      (UiMenuCallback) UiSetKeymap, (UiCallbackDataPtr) "busi_uk.vkm", NULL },
+    { "--" },
+    { "Position mapping - uk/graph",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "posg_uk.vkm", NULL },
+    { "Position mapping - us/graph",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "posg_us.vkm", NULL },
+    { "Position mapping - de/graph",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "posg_de.vkm", NULL },
+    { "Position mapping - it/graph",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "posg_it.vkm", NULL },
+    { "Position mapping - fi/graph",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "posg_fi.vkm", NULL },
+    { "Position mapping - uk/business",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "posb_uk.vkm", NULL },
+    { "Position mapping - us/business",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "posb_us.vkm", NULL },
+    { "Position mapping - de/business",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "posb_de.vkm", NULL },
+    { "Position mapping - it/business",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "posb_it.vkm", NULL },
+    { "Position mapping - fi/business",
+      (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "posb_fi.vkm", NULL },
+#endif
+    { "--" },
+    { "Load User Mapping",
+      (UiMenuCallback) UiLoadUserKeymap, NULL, NULL },
+    { "--" },
+    { "Dump Keyboard Mapping",
+      (UiMenuCallback) UiDumpKeymap, NULL, NULL },
+    { NULL }
+};
+
 MenuEntry VideoSubmenu[] = {
     { "*Video cache",
       (UiMenuCallback) UiToggleVideoCache, NULL, NULL },
@@ -431,6 +482,8 @@ MenuEntry RightMenu[] = {
 #endif /* C128 || CBM64 */
     { "Video settings",
       NULL, NULL, VideoSubmenu },
+    { "Keyboard settings",
+      NULL, NULL, KeyboardSubmenu },
 #ifdef SOUND
     { "Sound settings",
       NULL, NULL, SoundSubmenu },

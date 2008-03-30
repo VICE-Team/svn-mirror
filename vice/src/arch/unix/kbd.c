@@ -36,10 +36,15 @@
 #include <sys/time.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "vmachine.h"
 #include "video.h"
 #include "ui.h"
+
+#include "resources.h"
+#include "memutils.h"
 
 #include "kbd.h"
 #include "kbdef.h"
@@ -62,54 +67,17 @@ int rev_keyarr[KBD_COLS];
 BYTE joy[3] = { 0, 0, 0 };
 
 /* Shift status */
-#ifdef PET
-static short kbd_lshiftrow = 6;
+static short kbd_lshiftrow = 0;
 static short kbd_lshiftcol = 0;
-static short kbd_rshiftrow = 6;
-static short kbd_rshiftcol = 4;
-#else
-static short kbd_lshiftrow = 1;
-static short kbd_lshiftcol = COL7;
-static short kbd_rshiftrow = 6;
-static short kbd_rshiftcol = 4;
-#endif
+static short kbd_rshiftrow = 0;
+static short kbd_rshiftcol = 0;
 
-#if 1 /* ndef PET */
 /* Each element in this array is set to 0 if the corresponding key in the
    numeric keypad is pressed. */
 static int numpad_status[10];
-#endif
 
 static int left_shift_down, right_shift_down, virtual_shift_down;
 
-/* -------------------------------------------------------------------------- */
-
-/* Select between different PET keyboards. */
-#ifdef PET
-
-void set80key(void)
-{
-    kbd_lshiftrow = 6;
-    kbd_lshiftcol = 0;
-    kbd_rshiftrow = 6;
-    kbd_rshiftcol = 6;
-
-    keyconvmap = pet80map;
-    CONV_KEYS = sizeof(pet80map) / sizeof(keyconv);
-}
-
-void set40key(void)
-{
-    kbd_lshiftrow = 8;
-    kbd_lshiftcol = 0;
-    kbd_rshiftrow = 8;
-    kbd_rshiftcol = 5;
-
-    keyconvmap = pet40map;
-    CONV_KEYS = sizeof(pet40map) / sizeof(keyconv);
-}
-
-#endif
 
 /* -------------------------------------------------------------------------- */
 
@@ -438,10 +406,293 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 }
 
 /* ------------------------------------------------------------------------- */
+/*
+ * Handling of different keyboard mappings 
+ *
+ */
+
+int keyc_mem = 0;   /* memory size of array in sizeof(keyconv), 0 = static */
+int keyc_num = 0;   /* number of convs used in sizeof(keyconv) */
 
 void kbd_init()
 {
-    /* Do nothing.  In the X11 version, the keyboard handler is a callback
-       function for the emulation window, so we just cannot do anything useful
-       here. */
+    /* In the X11 version, the keyboard handler is a callback
+       function for the emulation window. We do only load the keymap
+       file here and sort it into the keymap. */
+
+    /* set40key() / set80key() is called before this */
+#ifndef PET
+    keyc_mem = 0;
+    keyconvmap = default_keyconvmap;
+    for(keyc_num=0;keyconvmap[keyc_num].sym;keyc_num++);
+
+    kbd_lshiftrow = 1;
+    kbd_lshiftcol = COL7;
+    kbd_rshiftrow = 6;
+    kbd_rshiftcol = 4;
+#endif
+
+    if(app_resources.keymapFile) kbd_load_keymap(app_resources.keymapFile);
 }
+
+/* Select between different PET keyboards. */
+#ifdef PET
+
+void set80key(void)
+{
+    if(keyconvmap) {
+	if(keyc_mem) free(keyconvmap);
+    }
+    keyc_mem = 0;
+    keyconvmap = pet80map;
+    for(keyc_num=0;keyconvmap[keyc_num].sym;keyc_num++);
+
+    kbd_lshiftrow = 6;
+    kbd_lshiftcol = 0;
+    kbd_rshiftrow = 6;
+    kbd_rshiftcol = 6;
+
+}
+
+void set40key(void)
+{
+    if(keyconvmap) {
+	if(keyc_mem) free(keyconvmap);
+    }
+    keyc_mem = 0;
+    keyconvmap = pet40map;
+    for(keyc_num=0;keyconvmap[keyc_num].sym;keyc_num++);
+
+    kbd_lshiftrow = 8;
+    kbd_lshiftcol = 0;
+    kbd_rshiftrow = 8;
+    kbd_rshiftcol = 5;
+}
+
+#endif /* PET */
+
+
+static void kbd_parse_keymap(const char *filename);
+
+static void kbd_parse_keyword(char *buffer) {
+    char *key, *p;
+    KeySym sym;
+    int i;
+
+    key = strtok(buffer+1, " \t:");
+    if(!strcmp(key, "LSHIFT")) {
+	p = strtok(NULL, " \t,");
+	if(p) {
+	  kbd_lshiftrow = atoi(p);
+	  p = strtok(NULL, " \t,");
+	  if(p) {
+	    kbd_lshiftcol = atoi(p);
+	  }
+	}
+    } else 
+    if(!strcmp(key, "RSHIFT")) {
+	p = strtok(NULL, " \t,");
+	if(p) {
+	  kbd_rshiftrow = atoi(p);
+	  p = strtok(NULL, " \t,");
+	  if(p) {
+	    kbd_rshiftcol = atoi(p);
+	  }
+	}
+    } else 
+    if(!strcmp(key, "CLEAR")) {
+	keyc_num = 0;
+	keyconvmap[0].sym = 0;
+    } else 
+    if(!strcmp(key, "INCLUDE")) {
+	key = strtok(NULL, " \t");
+	kbd_parse_keymap(key);
+    } else 
+    if(!strcmp(key, "UNDEF")) {
+	key = strtok(NULL, " \t");
+	sym = XStringToKeysym(key);
+	if(sym != NoSymbol) {
+	  for(i=0;i<keyc_num;i++) {
+	    if(keyconvmap[i].sym == sym) {
+	      if(keyc_num) {
+		keyconvmap[i] = keyconvmap[--keyc_num];
+	      }
+	      keyconvmap[keyc_num].sym = 0;
+	      break;
+	    }
+	  }
+	}
+    }
+}
+
+static void kbd_parse_entry(char *buffer) {
+    char *key, *p;
+    KeySym sym;
+    int row, col, shift, i;
+    keyconv *kp;
+    
+    key = strtok(buffer, " \t:");
+    sym = XStringToKeysym(key);
+    if(sym==NoSymbol) {
+	printf("Did not find KeySym '%s'!\n", key);
+    } else {
+	p = strtok(NULL, " \t,");
+	if(p) {
+	  row = atoi(p);
+	  p = strtok(NULL, " \t,");
+	  if(p) {
+	    col = atoi(p);
+	    p = strtok(NULL, " \t");
+	    if(p) {
+	      shift = atoi(p);
+
+	      for(i=0;keyconvmap[i].sym;i++) {
+		if(sym == keyconvmap[i].sym) {
+		  keyconvmap[i].row = row;
+		  keyconvmap[i].column = col;
+		  keyconvmap[i].shift = shift;
+		  break;
+		}
+	      }
+
+	      /* not in table -> add */
+	      if(i>=keyc_num) {	
+	        /* table too small -> realloc */
+		if(keyc_num>=keyc_mem) {
+		  i = keyc_mem * 1.5;
+		  kp= realloc(keyconvmap, (i+1) * sizeof(keyconv));
+		  if(kp) {
+		    keyconvmap = kp;
+		    keyc_mem = i;
+		  } else {
+		    fprintf(stderr, "Couldn't realloc keymap table!\n");
+		  }
+		}
+		if(keyc_num<keyc_mem) {
+		  keyconvmap[keyc_num].sym = sym;
+		  keyconvmap[keyc_num].row = row;
+		  keyconvmap[keyc_num].column = col;
+		  keyconvmap[keyc_num].shift = shift;
+		  keyconvmap[++keyc_num].sym = 0;
+		}
+	      }
+	    }
+	  }
+	}
+    }
+}
+
+static void kbd_parse_keymap(const char *filename)
+{
+    FILE *fp;
+    const char *fname;
+    char buffer[1000];
+
+printf("kbd_load_keymap() called, file='%s'\n",filename?filename:"(null)");
+
+    if(!filename) return;
+
+    fp = open_sys_file(app_resources.directory, filename, &fname);
+
+    if(!fp) {
+        perror(fname);
+    } else {
+	do {
+	  buffer[0] = 0;
+	  if(fgets(buffer, 999, fp)) {
+	    buffer[strlen(buffer)-1] = 0;
+	    switch(*buffer) {
+	    case 0:
+	    case '#':
+		break;
+	    case '!':
+		/* keyword handling */
+		kbd_parse_keyword(buffer);
+		break;
+	    default:
+		/* table entry handling */
+		kbd_parse_entry(buffer);
+		break;
+	    }
+	  }
+	} while(!feof(fp));
+	fclose(fp);
+    }
+}
+
+
+void kbd_load_keymap(const char *filename)
+{
+    keyconv *p;
+
+    if(!filename) return;
+
+    /* dynamicalize keymap table */
+    if(!keyc_mem) {
+      if(keyconvmap) {
+	p = malloc((keyc_num+1) * sizeof(keyconv));
+	if(!p) {
+	  fprintf(stderr,"Couldn't alloc memory for keytable!\n");
+	  return;
+	} else {
+	  memcpy(p, keyconvmap, (keyc_num+1) * sizeof(keyconv));
+	  keyc_mem = keyc_num;
+	  keyconvmap = p;
+	}
+      }
+    }
+    if(keyc_mem) {
+      kbd_parse_keymap(filename);
+    }
+}
+
+int kbd_dump_keymap(const char *filename)
+{
+    FILE *fp;
+    int i;
+
+    if(!filename) return -1;
+printf("kbd_dump_keymap() called, keyb file='%s'\n", filename);
+
+    fp = fopen(filename, "w");
+
+    if(!fp) {
+        return -1;
+    } else {
+      fprintf(fp, "# VICE keyboard mapping file\n"
+		  "#\n"
+		  "# A Keyboard map is read in as patch to the current map.\n"
+		  "#\n"
+      		  "# File format:\n"
+		  "# - comment lines start with '#'\n"
+		  "# - keyword lines start with '!keyword'\n"
+		  "# - normal line has 'keysym row column shiftflag'\n"
+		  "#\n"
+		  "# keywords and their lines are:\n"
+		  "# '!CLEAR'               clear whole table\n"
+		  "# '!INCLUDE filename'    read file as mapping file\n"
+		  "# '!LSHIFT row col'      left shift keyboard row/column\n"
+		  "# '!RSHIFT row col'      right shift keyboard row/column\n"
+		  "# '!UNDEF keysym'        remove keysym from table\n"
+		  "#\n"
+		  "# shiftflag can have the values:\n"
+		  "# 0      key is not shifted for this keysym\n"
+		  "# 1      key is shifted for this keysym\n"
+		  "# 2      left shift\n"
+		  "# 4      right shift\n"
+		  "# 8      key can be shifted or not with this keysym\n"
+		  "#\n" 
+      );
+      fprintf(fp, "!CLEAR\n");
+      fprintf(fp, "!LSHIFT %d %d\n", kbd_lshiftrow, kbd_lshiftcol);
+      fprintf(fp, "!RSHIFT %d %d\n", kbd_rshiftrow, kbd_rshiftcol);
+      for(i=0;keyconvmap[i].sym;i++) {
+	fprintf(fp, "%s %d %d %d\n",
+	  XKeysymToString(keyconvmap[i].sym),
+		keyconvmap[i].row, keyconvmap[i].column, keyconvmap[i].shift);
+      }
+      fclose(fp);
+    }
+    return 0;
+}
+

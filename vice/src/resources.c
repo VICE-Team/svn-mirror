@@ -116,6 +116,7 @@ static struct resource resources[] = {
     { "VideoCache", &app_resources.videoCache, RES_INTEGER, NULL },
     { "HTMLBrowserCommand", &app_resources.htmlBrowserCommand, RES_STRING,
       NULL },
+    { "KeymapFile", &app_resources.keymapFile, RES_STRING, NULL },
     { "SaveResourcesOnExit", &app_resources.saveResourcesOnExit, RES_INTEGER,
       NULL },
     { "NoTraps", &app_resources.noTraps, RES_INTEGER, NULL },
@@ -273,6 +274,8 @@ struct cmd_line_option options[] = {
       &app_resources.videoCache, RES_INTEGER, ARG_NONE, "0", NULL },
     { "-htmlbrowser",   "Specify an HTML browser for the on-line help",
       &app_resources.htmlBrowserCommand, RES_STRING, ARG_REQUIRED, NULL, NULL },
+    { "-keymapfile",    "Remap keyboard with this file",
+      &app_resources.keymapFile, RES_STRING, ARG_REQUIRED, NULL, NULL },
     { "-speed",		"Specify maximum emulation speed (0 for no limit)",
       &app_resources.speed, RES_INTEGER, ARG_REQUIRED, NULL, NULL },
     { "-refresh",	"Repaint each <value> frames (0 for automatic setting)",
@@ -525,6 +528,7 @@ void resources_set_defaults(void)
     resources_set_string(&app_resources.module, NULL);
     resources_set_string(&app_resources.kernalRev, NULL);
     resources_set_string(&app_resources.basicRev, NULL);
+    resources_set_string(&app_resources.keymapFile, NULL);
 
 #ifdef PET
     resources_set_string(&app_resources.petModel, "8032");
