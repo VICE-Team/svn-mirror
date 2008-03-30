@@ -35,7 +35,68 @@
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
+UI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
+UI_MENU_DEFINE_RADIO(Drive10ExtendImagePolicy)
+UI_MENU_DEFINE_RADIO(Drive11ExtendImagePolicy)
 
+
+UI_CALLBACK(uidrive_extend_policy_control)
+{
+    if (!CHECK_MENUS) {
+        ui_update_menus();
+    } else {
+        int type;
+
+        resources_get_int_sprintf("Drive%iType", &type,
+                                  (int)UI_MENU_CB_PARAM + 8);
+
+        if (drive_check_extend_policy(type))
+            ui_menu_set_sensitive(w, True);
+        else
+            ui_menu_set_sensitive(w, False);
+    }
+}
+
+ui_menu_entry_t set_drive0_extend_image_policy_submenu[] = {
+    { N_("*Never extend"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
+    { N_("*Ask on extend"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
+    { N_("*Extend on access"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t set_drive1_extend_image_policy_submenu[] = {
+    { N_("*Never extend"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
+    { N_("*Ask on extend"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
+    { N_("*Extend on access"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t set_drive2_extend_image_policy_submenu[] = {
+    { N_("*Never extend"), (ui_callback_t)radio_Drive10ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
+    { N_("*Ask on extend"), (ui_callback_t)radio_Drive10ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
+    { N_("*Extend on access"), (ui_callback_t)radio_Drive10ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t set_drive3_extend_image_policy_submenu[] = {
+    { N_("*Never extend"), (ui_callback_t)radio_Drive11ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
+    { N_("*Ask on extend"), (ui_callback_t)radio_Drive11ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
+    { N_("*Extend on access"), (ui_callback_t)radio_Drive11ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
+    { NULL }
+};
 
 UI_CALLBACK(radio_Drive8Type)
 {

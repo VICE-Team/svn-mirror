@@ -29,39 +29,90 @@
 #include <stdio.h>
 
 #include "drive.h"
+#include "resources.h"
 #include "uidriveiec.h"
 #include "uimenu.h"
 
 
-UI_MENU_DEFINE_TOGGLE(Drive8RAM2000)
-UI_MENU_DEFINE_TOGGLE(Drive8RAM4000)
-UI_MENU_DEFINE_TOGGLE(Drive8RAM6000)
-UI_MENU_DEFINE_TOGGLE(Drive8RAM8000)
-UI_MENU_DEFINE_TOGGLE(Drive8RAMA000)
-UI_MENU_DEFINE_TOGGLE(Drive9RAM2000)
-UI_MENU_DEFINE_TOGGLE(Drive9RAM4000)
-UI_MENU_DEFINE_TOGGLE(Drive9RAM6000)
-UI_MENU_DEFINE_TOGGLE(Drive9RAM8000)
-UI_MENU_DEFINE_TOGGLE(Drive9RAMA000)
-UI_MENU_DEFINE_TOGGLE(Drive10RAM2000)
-UI_MENU_DEFINE_TOGGLE(Drive10RAM4000)
-UI_MENU_DEFINE_TOGGLE(Drive10RAM6000)
-UI_MENU_DEFINE_TOGGLE(Drive10RAM8000)
-UI_MENU_DEFINE_TOGGLE(Drive10RAMA000)
-UI_MENU_DEFINE_TOGGLE(Drive11RAM2000)
-UI_MENU_DEFINE_TOGGLE(Drive11RAM4000)
-UI_MENU_DEFINE_TOGGLE(Drive11RAM6000)
-UI_MENU_DEFINE_TOGGLE(Drive11RAM8000)
-UI_MENU_DEFINE_TOGGLE(Drive11RAMA000)
-UI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
-UI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
-UI_MENU_DEFINE_RADIO(Drive10ExtendImagePolicy)
-UI_MENU_DEFINE_RADIO(Drive11ExtendImagePolicy)
+UI_MENU_DEFINE_TOGGLE_COND(Drive8RAM2000, Drive8Type,
+                           drive_check_expansion2000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive8RAM4000, Drive8Type,
+                           drive_check_expansion4000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive8RAM6000, Drive8Type,
+                           drive_check_expansion6000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive8RAM8000, Drive8Type,
+                           drive_check_expansion8000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive8RAMA000, Drive8Type,
+                           drive_check_expansionA000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive9RAM2000, Drive9Type,
+                           drive_check_expansion2000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive9RAM4000, Drive9Type,
+                           drive_check_expansion4000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive9RAM6000, Drive9Type,
+                           drive_check_expansion6000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive9RAM8000, Drive9Type,
+                           drive_check_expansion8000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive9RAMA000, Drive9Type,
+                           drive_check_expansionA000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive10RAM2000, Drive10Type,
+                           drive_check_expansion2000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive10RAM4000, Drive10Type,
+                           drive_check_expansion4000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive10RAM6000, Drive10Type,
+                           drive_check_expansion6000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive10RAM8000, Drive10Type,
+                           drive_check_expansion8000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive10RAMA000, Drive10Type,
+                           drive_check_expansionA000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive11RAM2000, Drive11Type,
+                           drive_check_expansion2000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive11RAM4000, Drive11Type,
+                           drive_check_expansion4000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive11RAM6000, Drive11Type,
+                           drive_check_expansion6000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive11RAM8000, Drive11Type,
+                           drive_check_expansion8000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive11RAMA000, Drive11Type,
+                           drive_check_expansionA000)
 UI_MENU_DEFINE_RADIO(Drive8IdleMethod)
 UI_MENU_DEFINE_RADIO(Drive9IdleMethod)
 UI_MENU_DEFINE_RADIO(Drive10IdleMethod)
 UI_MENU_DEFINE_RADIO(Drive11IdleMethod)
 
+
+UI_CALLBACK(uidriveiec_expansion_control)
+{
+    if (!CHECK_MENUS) {
+        ui_update_menus();
+    } else {
+        int type;
+
+        resources_get_int_sprintf("Drive%iType", &type,
+                                  (int)UI_MENU_CB_PARAM + 8);
+
+        if (drive_check_expansion(type))
+            ui_menu_set_sensitive(w, True);
+        else
+            ui_menu_set_sensitive(w, False);
+    }
+}
+
+UI_CALLBACK(uidriveiec_idle_method_control)
+{
+    if (!CHECK_MENUS) {
+        ui_update_menus();
+    } else {
+        int type;
+
+        resources_get_int_sprintf("Drive%iType", &type,
+                                  (int)UI_MENU_CB_PARAM + 8);
+
+        if (drive_check_idle_method(type))
+            ui_menu_set_sensitive(w, True);
+        else
+            ui_menu_set_sensitive(w, False);
+    }
+}
 
 ui_menu_entry_t set_drive0_expansion_submenu[] = {
     { N_("*$2000-$3FFF RAM expansion"),
@@ -116,46 +167,6 @@ ui_menu_entry_t set_drive3_expansion_submenu[] = {
       (ui_callback_t)toggle_Drive11RAM8000, NULL, NULL },
     { N_("*$A000-$BFFF RAM expansion"),
       (ui_callback_t)toggle_Drive11RAMA000, NULL, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t set_drive0_extend_image_policy_submenu[] = {
-    { N_("*Never extend"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
-    { N_("*Ask on extend"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
-    { N_("*Extend on access"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t set_drive1_extend_image_policy_submenu[] = {
-    { N_("*Never extend"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
-    { N_("*Ask on extend"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
-    { N_("*Extend on access"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t set_drive2_extend_image_policy_submenu[] = {
-    { N_("*Never extend"), (ui_callback_t)radio_Drive10ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
-    { N_("*Ask on extend"), (ui_callback_t)radio_Drive10ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
-    { N_("*Extend on access"), (ui_callback_t)radio_Drive10ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t set_drive3_extend_image_policy_submenu[] = {
-    { N_("*Never extend"), (ui_callback_t)radio_Drive11ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
-    { N_("*Ask on extend"), (ui_callback_t)radio_Drive11ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
-    { N_("*Extend on access"), (ui_callback_t)radio_Drive11ExtendImagePolicy,
-      (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
     { NULL }
 };
 

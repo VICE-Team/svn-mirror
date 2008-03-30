@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "drive.h"
+#include "resources.h"
 #include "uidrive.h"
 #include "uidrivec128.h"
 #include "uidriveiec.h"
@@ -37,10 +38,14 @@
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-UI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
-UI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
-UI_MENU_DEFINE_TOGGLE(Drive10ParallelCable)
-UI_MENU_DEFINE_TOGGLE(Drive11ParallelCable)
+UI_MENU_DEFINE_TOGGLE_COND(Drive8ParallelCable, Drive8Type,
+                           drive_check_parallel_cable)
+UI_MENU_DEFINE_TOGGLE_COND(Drive9ParallelCable, Drive9Type,
+                           drive_check_parallel_cable)
+UI_MENU_DEFINE_TOGGLE_COND(Drive10ParallelCable, Drive10Type,
+                           drive_check_parallel_cable)
+UI_MENU_DEFINE_TOGGLE_COND(Drive11ParallelCable, Drive11Type,
+                           drive_check_parallel_cable)
 
 
 static ui_menu_entry_t set_drive0_type_submenu[] = {
@@ -149,47 +154,59 @@ static ui_menu_entry_t drivec128_settings_submenu[] = {
     { "--" },
     { N_("Drive #8 model"),
       NULL, NULL, set_drive0_type_submenu },
-    { N_("Drive #8 RAM expansion"),
-      NULL, NULL, set_drive0_expansion_submenu },
+    { N_("*Drive #8 RAM expansion"),
+      (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)0,
+      set_drive0_expansion_submenu },
     { N_("*Drive #8 enable parallel cable"),
       (ui_callback_t)toggle_Drive8ParallelCable, NULL, NULL },
-    { N_("Drive #8 40-track image support"),
-      NULL, NULL, set_drive0_extend_image_policy_submenu },
-    { N_("Drive #8 idle method"),
-      NULL, NULL, set_drive0_idle_method_submenu },
+    { N_("*Drive #8 40-track image support"),
+      (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)0,
+      set_drive0_extend_image_policy_submenu },
+    { N_("*Drive #8 idle method"),
+      (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)0,
+      set_drive0_idle_method_submenu },
     { "--" },
     { N_("Drive #9 model"),
       NULL, NULL, set_drive1_type_submenu },
-    { N_("Drive #9 RAM expansion"),
-      NULL, NULL, set_drive1_expansion_submenu },
+    { N_("*Drive #9 RAM expansion"),
+      (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)1,
+      set_drive1_expansion_submenu },
     { N_("*Drive #9 enable parallel cable"),
       (ui_callback_t)toggle_Drive9ParallelCable, NULL, NULL },
-    { N_("Drive #9 40-track image support"),
-      NULL, NULL, set_drive1_extend_image_policy_submenu },
-    { N_("Drive #9 idle method"),
-      NULL, NULL, set_drive1_idle_method_submenu },
+    { N_("*Drive #9 40-track image support"),
+      (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)1,
+      set_drive1_extend_image_policy_submenu },
+    { N_("*Drive #9 idle method"),
+      (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)1,
+      set_drive1_idle_method_submenu },
     { "--" },
     { N_("Drive #10 model"),
       NULL, NULL, set_drive2_type_submenu },
-    { N_("Drive #10 RAM expansion"),
-      NULL, NULL, set_drive2_expansion_submenu },
+    { N_("*Drive #10 RAM expansion"),
+      (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)2,
+      set_drive2_expansion_submenu },
     { N_("*Drive #10 enable parallel cable"),
       (ui_callback_t)toggle_Drive10ParallelCable, NULL, NULL },
-    { N_("Drive #10 40-track image support"),
-      NULL, NULL, set_drive2_extend_image_policy_submenu },
-    { N_("Drive #10 idle method"),
-      NULL, NULL, set_drive2_idle_method_submenu },
+    { N_("*Drive #10 40-track image support"),
+      (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)2,
+      set_drive2_extend_image_policy_submenu },
+    { N_("*Drive #10 idle method"),
+      (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)2,
+      set_drive2_idle_method_submenu },
     { "--" },
     { N_("Drive #11 model"),
       NULL, NULL, set_drive3_type_submenu },
-    { N_("Drive #11 RAM expansion"),
-      NULL, NULL, set_drive3_expansion_submenu },
+    { N_("*Drive #11 RAM expansion"),
+      (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)3,
+      set_drive3_expansion_submenu },
     { N_("*Drive #11 enable parallel cable"),
       (ui_callback_t)toggle_Drive11ParallelCable, NULL, NULL },
-    { N_("Drive #11 40-track image support"),
-      NULL, NULL, set_drive3_extend_image_policy_submenu },
-    { N_("Drive #11 idle method"),
-      NULL, NULL, set_drive3_idle_method_submenu },
+    { N_("*Drive #11 40-track image support"),
+      (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)3,
+      set_drive3_extend_image_policy_submenu },
+    { N_("*Drive #11 idle method"),
+      (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)3,
+      set_drive3_idle_method_submenu },
     { NULL }
 };
 

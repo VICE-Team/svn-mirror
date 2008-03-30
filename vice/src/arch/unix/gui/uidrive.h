@@ -31,6 +31,13 @@
 
 extern struct ui_menu_entry_s ui_drive_options_submenu[];
 
+extern UI_CALLBACK(uidrive_extend_policy_control);
+
+extern struct ui_menu_entry_s set_drive0_extend_image_policy_submenu[];
+extern struct ui_menu_entry_s set_drive1_extend_image_policy_submenu[];
+extern struct ui_menu_entry_s set_drive2_extend_image_policy_submenu[];
+extern struct ui_menu_entry_s set_drive3_extend_image_policy_submenu[];
+
 extern UI_CALLBACK(radio_Drive8Type);
 extern UI_CALLBACK(radio_Drive9Type);
 extern UI_CALLBACK(radio_Drive10Type);
