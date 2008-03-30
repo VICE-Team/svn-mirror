@@ -52,16 +52,15 @@ void raster_canvas_update_all(raster_t *raster)
 #ifdef __OS2__
                          raster->draw_buffer_height,
 #endif
-                         viewport->pixel_size.width * (viewport->first_x
-                                + raster->geometry.extra_offscreen_border_left),                         viewport->first_line * viewport->pixel_size.height,
+                         viewport->first_x
+                                + raster->geometry.extra_offscreen_border_left,
+                         viewport->first_line,
                          viewport->x_offset,
                          viewport->y_offset,
-                         MIN(viewport->width,
-                             (raster->geometry.screen_size.width
-                             * viewport->pixel_size.width)),
-                         MIN(viewport->height,
-                             (raster->geometry.screen_size.height
-                              * viewport->pixel_size.height)));
+                         MIN((viewport->width / viewport->pixel_size.width),
+                             (raster->geometry.screen_size.width)),
+                         MIN((viewport->height / viewport->pixel_size.height),
+                             (raster->geometry.screen_size.height)));
 }
 
 inline static void update_canvas(raster_t *raster)
@@ -108,16 +107,7 @@ inline static void update_canvas(raster_t *raster)
     }
     x += raster->geometry.extra_offscreen_border_left;
 
-    x *= viewport->pixel_size.width;
-    w *= viewport->pixel_size.width;
-
-    y *= viewport->pixel_size.height;
-    h *= viewport->pixel_size.height;
-
-    xx *= viewport->pixel_size.width;
     xx += viewport->x_offset;
-
-    yy *= viewport->pixel_size.height;
     yy += viewport->y_offset;
 
     video_canvas_refresh(viewport->canvas,
@@ -127,8 +117,10 @@ inline static void update_canvas(raster_t *raster)
                          raster->draw_buffer_height,
 #endif
                          x, y, xx, yy,
-                         MIN(w, viewport->width - xx),
-                         MIN(h, viewport->height - yy));
+                         MIN(w, viewport->width / viewport->pixel_size.width
+                             - xx),
+                         MIN(h, viewport->height / viewport->pixel_size.height
+                             - yy));
 
     update_area->is_null = 1;
 }
