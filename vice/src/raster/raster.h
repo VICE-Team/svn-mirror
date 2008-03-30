@@ -169,11 +169,7 @@ struct raster_s {
 
     /* Area to update.  */
     raster_area_t update_area;
-#if 0
-    /* Function to call when internal tables have to be refreshed after a
-       mode change. E.g. vicii::init_drawing_tables(). NULL allowed */
-    void (*refresh_tables)(void);
-#endif
+
     /* This is a bit mask representing each pixel on the screen (1 =
        foreground, 0 = background) and is used both for sprite-background
        collision checking and background sprite drawing.  When cache is
@@ -192,7 +188,6 @@ struct raster_s {
         DWORD quad[0x100];
     } pixel_table;
 
-    struct video_render_config_s *videoconfig;
     int intialized;
 };
 typedef struct raster_s raster_t;

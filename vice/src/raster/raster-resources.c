@@ -89,7 +89,9 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster,
         resources_chip[i].param = (void *)raster_resource_chip;
     }
 
+    raster->canvas = video_canvas_init();
+
     return resources_register(resources_chip)
-        | video_resources_chip_init(chipname, raster, video_chip_cap);
+        | video_resources_chip_init(chipname, raster->canvas, video_chip_cap);
 }
 

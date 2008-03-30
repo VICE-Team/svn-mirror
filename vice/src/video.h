@@ -95,8 +95,7 @@ extern int video_canvas_create(struct video_canvas_s *canvas,
                                unsigned int *width, unsigned int *height,
                                int mapped, const struct palette_s *palette);
 extern void video_arch_canvas_init(struct video_canvas_s *canvas);
-extern struct video_canvas_s *video_canvas_init(video_render_config_t
-                                                *videoconfig);
+extern struct video_canvas_s *video_canvas_init(void);
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  unsigned int xs, unsigned int ys,
                                  unsigned int xi, unsigned int yi,
@@ -169,7 +168,7 @@ struct raster_s;
 
 extern int video_resources_init(int mode);
 extern int video_resources_chip_init(const char *chipname,
-                                     struct raster_s *raster,
+                                     struct video_canvas_s *canvas,
                                      video_chip_cap_t *video_chip_cap);
 extern int video_cmdline_options_chip_init(const char *chipname);
 extern int video_arch_init_resources(void);

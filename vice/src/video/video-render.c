@@ -28,8 +28,6 @@
 
 #include <stdio.h>
 
-#include "raster-canvas.h"
-#include "raster.h"
 #include "render1x1.h"
 #include "render1x1pal.h"
 #include "render1x2.h"
