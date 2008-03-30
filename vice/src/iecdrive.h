@@ -67,5 +67,8 @@ extern iec_info_t *iec_get_drive_port(void);
 extern int iec_available_busses(void);
 extern void iec_calculate_callback_index(void);
 
+extern void tcbm_update_bus(void);
+extern BYTE tcbm_busa[2], tcbm_busb[2], tcbm_busc[2];
+
 #endif
 

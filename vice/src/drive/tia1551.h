@@ -35,5 +35,7 @@ extern void REGPARM3 tia1551_store(struct drive_context_s *drv, ADDRESS addr,
 extern BYTE REGPARM2 tia1551_read(struct drive_context_s *drv, ADDRESS addr);
 extern void tia1551_reset(struct drive_context_s *drv);
 
+extern BYTE tia1551_outputa[2], tia1551_outputb[2], tia1551_outputc[2];
+
 #endif
 
