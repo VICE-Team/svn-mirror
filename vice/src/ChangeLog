@@ -1,3 +1,42 @@
+2003-10-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.5
+
+	* video/video-color.c, video.h, plus4/ted-color.c,
+	plus4/ted-color.h, plus4/ted.c, vic20/vic-color.c,
+	vic20/vic-color.h, vic20/vic.c, vicii/vicii-color.c,
+	vicii/vicii-color.h, vicii/vicii.c, video/video-resources.c,
+	vicii/vicii-resources.c (video_color_update_palette): Pass
+	canvas.
+
+	* video.h, video/video-resources.c, video/video-resources.h,
+	video/video-render-pal.c: Added palette video resource.
+
+	* crtc/crtc-resources.c, crtc/crtc-resources.h, crtc/crtc.c,
+	vdc/vdc-resources.c, vdc/vdc-resources.h, vdc/vdc.c: Removed
+	private palette code.
+
+	* video.h, vicii/vicii-resources.c, vic20/vic-resources.c,
+	plus4/ted-resources.c, crtc/crtc-resources.c,
+	vdc/vdc-resources.c: Set internal palette.
+
+	* drive/drive.h, drive/iec/wd1770.c, drive/iec/iec.c,
+	drive/iec/via1d1541.c, drive/iec/iecrom.c, drive/iec/memiec.c,
+	drive/driveimage.c, drive/drive.c, drive/drive-snapshot.c,
+	drive/drive-resources.c, drive/drivesync.c, drive/drivecpu.c,
+	drive/iecieee/iecieee.c, drive/drivemem.c, drive/iec/iecrom.h,
+	c128/c128iec.c: Added support for 1570 and 1571CR drives.
+
+	* arch/unix/uidrivec64c128vic20.c,
+	arch/unix/uidrivec64c128vic20.h: Renamed.
+
+	* arch/unix/uidrivec128.c, arch/unix/uidrivec128.h: New files.
+
+	* arch/unix/Makefile.am: Updated.
+
+	* arch/unix/vic20ui.c, arch/unix/c64ui.c, arch/unix/c128ui.c:
+	Splitted c128 drive UI.
+
 2003-10-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.4

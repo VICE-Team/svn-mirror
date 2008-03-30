@@ -37,7 +37,9 @@ extern void iecrom_do_checksum(unsigned int dnr);
 
 extern int iecrom_load_1541(void);
 extern int iecrom_load_1541ii(void);
+extern int iecrom_load_1570(void);
 extern int iecrom_load_1571(void);
+extern int iecrom_load_1571cr(void);
 extern int iecrom_load_1581(void);
 
 #endif

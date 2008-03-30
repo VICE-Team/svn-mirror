@@ -40,7 +40,9 @@
 
 static char *dos_rom_name_1541 = NULL;
 static char *dos_rom_name_1541ii = NULL;
+static char *dos_rom_name_1570 = NULL;
 static char *dos_rom_name_1571 = NULL;
+static char *dos_rom_name_1571cr = NULL;
 static char *dos_rom_name_1581 = NULL;
 
 
@@ -98,12 +100,28 @@ static int set_dos_rom_name_1541ii(resource_value_t v, void *param)
     return iecrom_load_1541ii();
 }
 
+static int set_dos_rom_name_1570(resource_value_t v, void *param)
+{
+    if (util_string_set(&dos_rom_name_1570, (const char *)v))
+        return 0;
+
+    return iecrom_load_1570();
+}
+
 static int set_dos_rom_name_1571(resource_value_t v, void *param)
 {
     if (util_string_set(&dos_rom_name_1571, (const char *)v))
         return 0;
 
     return iecrom_load_1571();
+}
+
+static int set_dos_rom_name_1571cr(resource_value_t v, void *param)
+{
+    if (util_string_set(&dos_rom_name_1571cr, (const char *)v))
+        return 0;
+
+    return iecrom_load_1571cr();
 }
 
 static int set_dos_rom_name_1581(resource_value_t v, void *param)
@@ -175,8 +193,12 @@ static const resource_t resources[] = {
       (void *)&dos_rom_name_1541, set_dos_rom_name_1541, NULL },
     { "DosName1541ii", RES_STRING, (resource_value_t)"d1541II",
       (void *)&dos_rom_name_1541ii, set_dos_rom_name_1541ii, NULL },
+    { "DosName1570", RES_STRING, (resource_value_t)"dos1570",
+      (void *)&dos_rom_name_1570, set_dos_rom_name_1570, NULL },
     { "DosName1571", RES_STRING, (resource_value_t)"dos1571",
       (void *)&dos_rom_name_1571, set_dos_rom_name_1571, NULL },
+    { "DosName1571cr", RES_STRING, (resource_value_t)"d1571cr",
+      (void *)&dos_rom_name_1571cr, set_dos_rom_name_1571cr, NULL },
     { "DosName1581", RES_STRING, (resource_value_t)"dos1581",
       (void *)&dos_rom_name_1581, set_dos_rom_name_1581, NULL },
     { "Drive8RAM2000", RES_INTEGER, (resource_value_t)0,
@@ -211,7 +233,9 @@ void iec_resources_shutdown(void)
 {
     lib_free(dos_rom_name_1541);
     lib_free(dos_rom_name_1541ii);
+    lib_free(dos_rom_name_1570);
     lib_free(dos_rom_name_1571);
+    lib_free(dos_rom_name_1571cr);
     lib_free(dos_rom_name_1581);
 }
 

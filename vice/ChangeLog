@@ -1,3 +1,11 @@
+2003-10-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.5
+
+	* data/DRIVES/dos1570, data/DRIVES/d1571cr: New files.
+
+	* data/DRIVES/Makefile.am: Added new files.
+
 2003-10-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.4

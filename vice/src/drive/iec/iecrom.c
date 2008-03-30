@@ -45,13 +45,17 @@ static log_t iecrom_log;
 
 static BYTE drive_rom1541[DRIVE_ROM1541_SIZE_EXPANDED];
 static BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE_EXPANDED];
+static BYTE drive_rom1570[DRIVE_ROM1571_SIZE];
 static BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
+static BYTE drive_rom1571cr[DRIVE_ROM1571_SIZE];
 static BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
 
 /* If nonzero, the ROM image has been loaded.  */
 static unsigned int rom1541_loaded = 0;
 static unsigned int rom1541ii_loaded = 0;
+static unsigned int rom1570_loaded = 0;
 static unsigned int rom1571_loaded = 0;
+static unsigned int rom1571cr_loaded = 0;
 static unsigned int rom1581_loaded = 0;
 
 static unsigned int drive_rom1541_size;
@@ -135,6 +139,28 @@ int iecrom_load_1541ii(void)
     return -1;
 }
 
+int iecrom_load_1570(void)
+{
+    char *rom_name = NULL;
+
+    if (!drive_rom_load_ok)
+        return 0;
+
+    resources_get_value("DosName1570", (void *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom1570, DRIVE_ROM1571_SIZE,
+                     DRIVE_ROM1571_SIZE) < 0) {
+        log_error(iecrom_log,
+                  "1570 ROM image not found.  "
+                  "Hardware-level 1570 emulation is not available.");
+    } else {
+        rom1570_loaded = 1;
+        iecrom_new_image_loaded(DRIVE_TYPE_1570);
+        return 0;
+    }
+    return -1;
+}
+
 int iecrom_load_1571(void)
 {
     char *rom_name = NULL;
@@ -152,6 +178,28 @@ int iecrom_load_1571(void)
     } else {
         rom1571_loaded = 1;
         iecrom_new_image_loaded(DRIVE_TYPE_1571);
+        return 0;
+    }
+    return -1;
+}
+
+int iecrom_load_1571cr(void)
+{
+    char *rom_name = NULL;
+
+    if (!drive_rom_load_ok)
+        return 0;
+
+    resources_get_value("DosName1571cr", (void *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom1570, DRIVE_ROM1571_SIZE,
+                     DRIVE_ROM1571_SIZE) < 0) {
+        log_error(iecrom_log,
+                  "1571CR ROM image not found.  "
+                  "Hardware-level 1571CR emulation is not available.");
+    } else {
+        rom1571cr_loaded = 1;
+        iecrom_new_image_loaded(DRIVE_TYPE_1571CR);
         return 0;
     }
     return -1;
@@ -207,8 +255,14 @@ void iecrom_setup_image(unsigned int dnr)
                        DRIVE_ROM1541II_SIZE_EXPANDED);
             }
             break;
+          case DRIVE_TYPE_1570:
+            memcpy(drive[dnr].rom, drive_rom1570, DRIVE_ROM1571_SIZE);
+            break;
           case DRIVE_TYPE_1571:
             memcpy(drive[dnr].rom, drive_rom1571, DRIVE_ROM1571_SIZE);
+            break;
+          case DRIVE_TYPE_1571CR:
+            memcpy(drive[dnr].rom, drive_rom1571cr, DRIVE_ROM1571_SIZE);
             break;
           case DRIVE_TYPE_1581:
             memcpy(drive[dnr].rom, drive_rom1581, DRIVE_ROM1581_SIZE);
@@ -226,8 +280,14 @@ int iecrom_read(unsigned int type, WORD addr, BYTE *data)
       case DRIVE_TYPE_1541II:
         *data = drive_rom1541ii[addr & (DRIVE_ROM1541II_SIZE - 1)];
         return 0;
+      case DRIVE_TYPE_1570:
+        *data = drive_rom1570[addr & (DRIVE_ROM1571_SIZE - 1)];
+        return 0;
       case DRIVE_TYPE_1571:
         *data = drive_rom1571[addr & (DRIVE_ROM1571_SIZE - 1)];
+        return 0;
+      case DRIVE_TYPE_1571CR:
+        *data = drive_rom1571cr[addr & (DRIVE_ROM1571_SIZE - 1)];
         return 0;
       case DRIVE_TYPE_1581:
         *data = drive_rom1581[addr & (DRIVE_ROM1581_SIZE - 1)];
@@ -250,8 +310,16 @@ int iecrom_check_loaded(unsigned int type)
         if (rom1541ii_loaded < 1 && rom_loaded)
             return -1;
         break;
+      case DRIVE_TYPE_1570:
+        if (rom1570_loaded < 1 && rom_loaded)
+            return -1;
+        break;
       case DRIVE_TYPE_1571:
         if (rom1571_loaded < 1 && rom_loaded)
+            return -1;
+        break;
+      case DRIVE_TYPE_1571CR:
+        if (rom1571cr_loaded < 1 && rom_loaded)
             return -1;
         break;
       case DRIVE_TYPE_1581:
@@ -259,8 +327,9 @@ int iecrom_check_loaded(unsigned int type)
             return -1;
         break;
       case DRIVE_TYPE_ANY:
-        if ((!rom1541_loaded && !rom1541ii_loaded && !rom1571_loaded
-            && !rom1581_loaded) && rom_loaded)
+        if ((!rom1541_loaded && !rom1541ii_loaded && !rom1570_loaded
+            && !rom1571_loaded && !rom1571cr_loaded && !rom1581_loaded)
+            && rom_loaded)
             return -1;
         break;
       default:
