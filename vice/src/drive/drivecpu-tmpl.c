@@ -40,6 +40,7 @@
 #include "resources.h"
 #include "viad.h"
 #include "ciad.h"
+#include "wd1770.h"
 #include "6510core.h"
 #include "misc.h"
 #include "mon.h"
@@ -268,6 +269,7 @@ static void reset(void)
     reset_myvia2();
     reset_mycia1571();
     reset_mycia1581();
+    reset_mywd1770();
     if (preserve_monitor)
 	monitor_trap_on(&mydrive_int_status);
 }
@@ -316,12 +318,18 @@ static void mydrive_mem_init(int type)
     if (type == DRIVE_TYPE_1571) {
         read_func_nowatch[0x10] = read_mycia1571;
         store_func_nowatch[0x10] = store_mycia1571;
+        /* FIXME: Do not use WD1770 yet.
+        read_func_nowatch[0x18] = read_mywd1770;
+        store_func_nowatch[0x18] = store_mywd1770;
+        */
     }
 
     /* Setup 1581 CIA.  */
     if (type == DRIVE_TYPE_1581) {
         read_func_nowatch[0x10] = read_mycia1581;
         store_func_nowatch[0x10] = store_mycia1581;
+        read_func_nowatch[0x18] = read_mywd1770;
+        store_func_nowatch[0x18] = store_mywd1770;
     }
 
     memcpy(read_func, read_func_nowatch, sizeof(mydrive_read_func_t *) * 0x41);

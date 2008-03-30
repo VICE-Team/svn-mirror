@@ -196,6 +196,9 @@ typedef struct drive_s {
     /* What drive type we have to emulate?  */
     int type;
 
+    /* Disk side.  */
+    int side;
+ 
     /* Byte ready line.  */
     int byte_ready;
 
@@ -209,19 +212,19 @@ typedef struct drive_s {
     BYTE GCR_write_value;
 
     /* Raw GCR image of the disk.  */
-    BYTE GCR_data[MAX_TRACKS_1541 * NUM_MAX_BYTES_TRACK];
+    BYTE GCR_data[MAX_TRACKS_1571 * NUM_MAX_BYTES_TRACK];
 
     /* Pointer to the start of the GCR data of this track.  */
     BYTE *GCR_track_start_ptr;
 
     /* Speed zone image of the disk.  */
-    BYTE GCR_speed_zone[MAX_TRACKS_1541 * NUM_MAX_BYTES_TRACK];
+    BYTE GCR_speed_zone[MAX_TRACKS_1571 * NUM_MAX_BYTES_TRACK];
 
     /* Size of the GCR data for the current track.  */
     int GCR_current_track_size;
 
     /* Size of the GCR data of each track.  */
-    int GCR_track_size[MAX_TRACKS_1541];
+    int GCR_track_size[MAX_TRACKS_1571];
 
     /* Offset of the R/W head on the current track.  */
     int GCR_head_offset;
@@ -288,6 +291,7 @@ extern void drive_prevent_clk_overflow(CLOCK sub, int dnr);
 extern void drive_motor_control(int flag, int dnr);
 extern void drive_vsync_hook(void);
 extern void drive_set_1571_sync_factor(int sync, int dnr);
+extern void drive_set_1571_side(int side, int dnr);
 
 extern BYTE drive_rom[DRIVE_ROM_SIZE];
 extern BYTE drive0_ram[DRIVE_RAM_SIZE];

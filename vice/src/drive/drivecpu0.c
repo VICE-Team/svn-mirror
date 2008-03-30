@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/drivecpu0.c
- * This file is generated from ../../../src/drive/drivecpu-tmpl.c and ../../../src/drive/drivecpu0.def,
+ * ../../src/drive/drivecpu0.c
+ * This file is generated from ../../src/drive/drivecpu-tmpl.c and ../../src/drive/drivecpu0.def,
  * Do not edit!
  */
 /*
@@ -46,6 +46,7 @@
 #include "resources.h"
 #include "viad.h"
 #include "ciad.h"
+#include "wd1770.h"
 #include "6510core.h"
 #include "misc.h"
 #include "mon.h"
@@ -274,6 +275,7 @@ static void reset(void)
     reset_via2d0();
     reset_cia1571d0();
     reset_cia1581d0();
+    reset_wd1770d0();
     if (preserve_monitor)
 	monitor_trap_on(&drive0_int_status);
 }
@@ -322,12 +324,18 @@ static void drive0_mem_init(int type)
     if (type == DRIVE_TYPE_1571) {
         read_func_nowatch[0x10] = read_cia1571d0;
         store_func_nowatch[0x10] = store_cia1571d0;
+        /* FIXME: Do not use WD1770 yet.
+        read_func_nowatch[0x18] = read_wd1770d0;
+        store_func_nowatch[0x18] = store_wd1770d0;
+        */
     }
 
     /* Setup 1581 CIA.  */
     if (type == DRIVE_TYPE_1581) {
         read_func_nowatch[0x10] = read_cia1581d0;
         store_func_nowatch[0x10] = store_cia1581d0;
+        read_func_nowatch[0x18] = read_wd1770d0;
+        store_func_nowatch[0x18] = store_wd1770d0;
     }
 
     memcpy(read_func, read_func_nowatch, sizeof(drive0_read_func_t *) * 0x41);

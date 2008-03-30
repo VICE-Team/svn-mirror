@@ -77,7 +77,8 @@
 
 #define DIR_MAXBUF	8192
 
-char sector_map[43] =
+/* FIXME: `drive.c' needs this arrays too.  */
+char sector_map_1541[43] =
 {
     0,
     21, 21, 21, 21, 21, 21, 21, 21, 21, 21,	/*  1 - 10 */
@@ -87,10 +88,30 @@ char sector_map[43] =
     17, 17, 17, 17, 17, 17, 17		/* Tracks 36 - 42 are non-standard. */
 };
 
-int speed_map[42] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-                      3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
-                      1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                      0, 0, 0 };
+char sector_map_1571[71] =
+{
+    0,
+    21, 21, 21, 21, 21, 21, 21, 21, 21, 21,	/*  1 - 10 */
+    21, 21, 21, 21, 21, 21, 21, 19, 19, 19,	/* 11 - 20 */
+    19, 19, 19, 19, 18, 18, 18, 18, 18, 18,	/* 21 - 30 */
+    17, 17, 17, 17, 17,                    	/* 31 - 35 */
+    21, 21, 21, 21, 21, 21, 21, 21, 21, 21,	/* 36 - 45 */
+    21, 21, 21, 21, 21, 21, 21, 19, 19, 19,	/* 46 - 55 */
+    19, 19, 19, 19, 18, 18, 18, 18, 18, 18,	/* 56 - 65 */
+    17, 17, 17, 17, 17                     	/* 66 - 70 */
+};
+
+int speed_map_1541[42] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                           3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
+                           1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                           0, 0, 0 };
+
+int speed_map_1571[70] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                           3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
+                           1, 1, 1, 1, 0, 0, 0, 0, 0, 
+                           3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                           3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
+                           1, 1, 1, 1, 0, 0, 0, 0, 0 };
 
 static char pet_sector_map[78] =
 {
@@ -1873,7 +1894,7 @@ int  do_validate(DRIVE *floppy)
 	*b++ = 0;
 	*b++ = 0;
 
-	for (s = 0; s < sector_map[t]; s++)
+	for (s = 0; s < sector_map_1541[t]; s++)
 	    free_sector(floppy->bam, t, s);
     }
 
@@ -2082,11 +2103,11 @@ int  check_track_sector(int format, int track, int sector)
 
     switch (format) {
       case 1541:
-	if (track > MAX_TRACKS_1541 || sector >= sector_map[track])
+	if (track > MAX_TRACKS_1541 || sector >= sector_map_1541[track])
 	    return (-1);
 
 	for (i = 1; i < track; i++) {
-	    sectors += sector_map[i];
+	    sectors += sector_map_1541[i];
 	}
 
 	sectors += sector;
@@ -2101,11 +2122,11 @@ int  check_track_sector(int format, int track, int sector)
 	    sectors = NUM_BLOCKS_1541;
 	}
 
-	if (sector >= sector_map[track])
+	if (sector >= sector_map_1541[track])
 	    return (-1);
 
 	for (i = 1; i < track; i++) {
-	    sectors += sector_map[i];
+	    sectors += sector_map_1541[i];
 	}
 
 	sectors += sector;
@@ -2403,7 +2424,7 @@ static BYTE *find_next_slot(DRIVE *floppy)
 		printf("create a new entry.\n");
 #endif
 
-	for (s = 1; s < sector_map[DSK_DIR_TRACK]; s++) {
+	for (s = 1; s < sector_map_1541[DSK_DIR_TRACK]; s++) {
 	    if (allocate_sector(floppy->bam, DSK_DIR_TRACK, s)) {
 		floppy->Dir_buffer[0] = DSK_DIR_TRACK;
 		floppy->Dir_buffer[1] = s;
@@ -2548,7 +2569,7 @@ static int  alloc_first_free_sector(BYTE *bam, int *track, int *sector)
 #endif
 	if (t < 1)
 	    continue;
-	for (s = 0; s < sector_map[t]; s++) {
+	for (s = 0; s < sector_map_1541[t]; s++) {
 	    if (allocate_sector(bam, t, s)) {
 		*track = t;
 		*sector = s;
@@ -2564,7 +2585,7 @@ static int  alloc_first_free_sector(BYTE *bam, int *track, int *sector)
 #endif
 	if (t > MAX_TRACKS_1541)
 	    continue;
-	for (s = 0; s < sector_map[t]; s++) {
+	for (s = 0; s < sector_map_1541[t]; s++) {
 	    if (allocate_sector(bam, t, s)) {
 		*track = t;
 		*sector = s;
@@ -2610,7 +2631,7 @@ static int  alloc_next_free_sector(BYTE *bam, int *track, int *sector)
 		d = 1;
 		break;
 	    }
-	    for (s = 0; s < sector_map[t]; s++) {
+	    for (s = 0; s < sector_map_1541[t]; s++) {
 		if (allocate_sector(bam, t, s)) {
 		    *track = t;
 		    *sector = s;
@@ -2774,35 +2795,42 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 	strcpy(floppy->ActiveName, name);
 	/* floppy->changed  = 0; */
 
-	floppy->NumTracks  = hdr.tracks;
-	floppy->NumBlocks  = num_blocks (DType, hdr.tracks);
-	floppy->ErrFlg     = hdr.errblk;
-	floppy->D64_Header = hdr.d64;
-	floppy->GCR_Header = hdr.gcr;
+        floppy->NumTracks  = hdr.tracks;
+        floppy->NumBlocks  = num_blocks (DType, hdr.tracks);
+        floppy->ErrFlg     = hdr.errblk;
+        floppy->D64_Header = hdr.d64 | hdr.d71 | hdr.d81;
+        floppy->GCR_Header = hdr.gcr;
 
-	if (!hdr.gcr) {
-	    /* Initialise format constants */
-	    set_disk_geometry(floppy, DType);
+        if (!hdr.gcr) {
+            /* Initialise format constants */
+            set_disk_geometry(floppy, DType);
 
-	    /* Initialize */
-	    if (hdr.errblk)
-		set_error_data(floppy, 3);	/* clear or read error data */
+            /* Initialize */
+            if (hdr.errblk)
+                set_error_data(floppy, 3);      /* clear or read error data */
 
-	    floppy_read_bam (floppy);
-	}
+            floppy_read_bam (floppy);
+        }
 
-	if (hdr.d64)
-	    printf ("D64 disk image attached: %s%s\n", name,
-		    floppy->ReadOnly ? " (read only)" : "");
-	if (hdr.gcr)
-	    printf ("GCR disk image attached: %s%s\n", name,
-		    floppy->ReadOnly ? " (read only)" : "");
+        if (hdr.d64)
+            printf ("D64 disk image attached: %s%s\n", name,
+                    floppy->ReadOnly ? " (read only)" : "");
+        if (hdr.d71)
+            printf ("D71 disk image attached: %s%s\n", name,
+                    floppy->ReadOnly ? " (read only)" : "");
+        if (hdr.d81)
+            printf ("D81 disk image attached: %s%s\n", name,
+                    floppy->ReadOnly ? " (read only)" : "");
+        if (hdr.gcr)
+            printf ("GCR disk image attached: %s%s\n", name,
+                    floppy->ReadOnly ? " (read only)" : "");
 
-	else
-	    printf ("VICE disk image version %d.%02d attached (CBM%d format%s): %s\n",
-		    hdr.v_major, hdr.v_minor, DType,
-		    floppy->ReadOnly ? ", read only" : "",
-		    name);
+        if (!(hdr.d64 | hdr.d71 | hdr.d81 | hdr.gcr))
+            printf ("VICE disk image version %d.%02d attached (CBM%d format%s):
+%s\n",
+                    hdr.v_major, hdr.v_minor, DType,
+                    floppy->ReadOnly ? ", read only" : "",
+                    name);
 
     } else {
 	fprintf(stderr, "Couldn't open file %s\n",name);
@@ -2899,6 +2927,60 @@ int get_std64_header(int fd, BYTE *header)
     return(0);
 }
 
+int get_std71_header(int fd, BYTE *header)
+{
+    int devtype = DT_1571;
+    int tracks = NUM_TRACKS_1571;
+    int blk = NUM_BLOCKS_1571-1;
+    int len, errblk;
+    char block[256];
+
+    memset(header, 0, HEADER_LENGTH);
+
+    /* Check values */
+
+    if (check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
+        exit (-1);
+
+    header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
+    header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
+    header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
+    header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
+
+    header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
+    header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
+
+    header[HEADER_FLAGS_OFFSET + 0] = devtype;
+    header[HEADER_FLAGS_OFFSET + 1] = tracks;
+
+    if (lseek(fd, 256*blk, SEEK_SET)<0)
+        return FD_BADIMAGE;
+    while ((len = read(fd, block, 256)) == 256) {
+        if (++blk > 1372) {
+            printf("Nice try.\n");
+            break;
+        }
+    }
+    if (blk <  NUM_BLOCKS_1571) {
+            printf("Cannot read block %d\n", blk);
+            return (FD_NOTRD);
+    }
+    switch (blk) {
+      case 1366:
+        tracks = NUM_TRACKS_1571;
+        errblk = 0;
+        break;
+      default:
+        return (FD_BADIMAGE);
+
+    }
+    header[HEADER_FLAGS_OFFSET+0] = DT_1571;
+    header[HEADER_FLAGS_OFFSET+1] = tracks;
+    header[HEADER_FLAGS_OFFSET+2] = 0;
+    header[HEADER_FLAGS_OFFSET+3] = errblk;
+
+    return(0);
+}
 
 int    check_header(int fd, hdrinfo *hdr)
 {
@@ -2906,37 +2988,43 @@ int    check_header(int fd, hdrinfo *hdr)
 
     lseek (fd, (off_t) 0, SEEK_SET);
     if (read(fd, (BYTE *)header, sizeof (header)) != sizeof (header)) {
-	fprintf(stderr, "\nCannot read image header\n");
-	return FD_RDERR;
+        fprintf(stderr, "\nCannot read image header\n");
+        return FD_RDERR;
     }
 
     memset (hdr, 0, sizeof(hdrinfo));
 
     hdr->d64 = 0;
+    hdr->d71 = 0;
+    hdr->d81 = 0;
     hdr->gcr = 0;
 
     if (header[HEADER_MAGIC_OFFSET + 0] != HEADER_MAGIC_1 ||
-	header[HEADER_MAGIC_OFFSET + 1] != HEADER_MAGIC_2 ||
-	header[HEADER_MAGIC_OFFSET + 2] != HEADER_MAGIC_3 ||
-	header[HEADER_MAGIC_OFFSET + 3] != HEADER_MAGIC_4) {
+        header[HEADER_MAGIC_OFFSET + 1] != HEADER_MAGIC_2 ||
+        header[HEADER_MAGIC_OFFSET + 2] != HEADER_MAGIC_3 ||
+        header[HEADER_MAGIC_OFFSET + 3] != HEADER_MAGIC_4) {
 
-	struct stat s;
+        struct stat s;
 
-	if (!fstat (fd, &s)) {
-	    if (IS_D64_LEN(s.st_size)) {
-		if (get_std64_header(fd, header))
-		    return FD_BADIMAGE;
-		hdr->d64 = 1;
-	    } else {
-		if (import_GCR_image(header, hdr))
-		    return FD_OK;
-		else
-		    return FD_BADIMAGE;
-	    }
-	} else {
-	    perror ("stat");
-	    return FD_BADIMAGE;
-	}
+        if (!fstat (fd, &s)) {
+            if (IS_D64_LEN(s.st_size)) {
+                if (get_std64_header(fd, header))
+                    return FD_BADIMAGE;
+                hdr->d64 = 1;
+            } else if (IS_D71_LEN(s.st_size)) {
+                if (get_std71_header(fd, header))
+                    return FD_BADIMAGE;
+                hdr->d71 = 1;
+            } else {
+                if (import_GCR_image(header, hdr))
+                    return FD_OK;
+                else
+                    return FD_BADIMAGE;
+            }
+        } else {
+            perror ("stat");
+            return FD_BADIMAGE;
+        }
     }
 
     hdr-> v_major = header[HEADER_VERSION_OFFSET + 0];
@@ -2951,15 +3039,15 @@ int    check_header(int fd, hdrinfo *hdr)
     hdr-> format  = (get_diskformat(hdr-> devtype)) == 1581 ? 'D' : 'A';
 
     if (hdr-> tracks == 0)
-	hdr-> tracks = 35;
+        hdr-> tracks = 35;
 
 
     if (check_track_sector(get_diskformat(hdr-> devtype), hdr-> tracks, 1) < 0)
-	return FD_BADIMAGE;
+        return FD_BADIMAGE;
 
 
     strncpy (hdr->description,
-	     (char *)header + HEADER_LABEL_OFFSET, HEADER_LABEL_LEN);
+             (char *)header + HEADER_LABEL_OFFSET, HEADER_LABEL_LEN);
 
     return FD_OK;
 }
@@ -3362,7 +3450,7 @@ char *read_disk_image_contents(const char *fname)
     floppy.NumTracks = hdr.tracks;
     floppy.NumBlocks = num_blocks(floppy.ImageFormat, hdr.tracks);
     floppy.ErrFlg    = hdr.errblk;
-    floppy.D64_Header= hdr.d64;
+    floppy.D64_Header= hdr.d64 | hdr.d71 | hdr.d81;
     floppy.ReadOnly = 1;	/* Just to be sure... */
     if (floppy_read_bam(&floppy) < 0) {
 	fprintf(stderr, "Error: cannot read BAM.\n");

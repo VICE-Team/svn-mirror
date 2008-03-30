@@ -795,6 +795,8 @@ instance, `F6' (which on the real C64 is obtained with `Shift + F5')
 could be recognized as `F5'.  In that case, use the shift key manually
 (i.e. type `Shift + F5' in the example).  Yes, we know this is a bug.
 
+   The `RESTORE' key is mapped to `Page Up' (or `Prev').
+
 
 File: vice.info,  Node: Joystick emulation,  Next: Disk drive emulation,  Prev: Keyboard emulation,  Up: Preface
 

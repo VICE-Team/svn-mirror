@@ -30,6 +30,7 @@
 
 #include "vice.h"
 #include "resources.h"
+#include "ciad.h"
 #include "viad.h"
 #include "types.h"
 #include "iecdrive.h"
@@ -89,23 +90,46 @@ void iec_cpu_write(BYTE data)
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
 	iec_old_atn = iec_info.cpu_bus & 0x10;
-	if (drive_enabled[0])
-	    via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
-	if (drive_enabled[1])
-	    via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+	if (drive_enabled[0]) {
+	    if (drive[0].type != DRIVE_TYPE_1581)
+		via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+	    else
+		if (!iec_old_atn)
+		    cia1581d0_set_flag();
+	}
+	if (drive_enabled[1]) {
+	    if (drive[1].type != DRIVE_TYPE_1581)
+		via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+	    else
+		if (!iec_old_atn)
+		    cia1581d1_set_flag();
+	}
     }
-    if (drive_enabled[0])
-	iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+    if (drive_enabled[0]) {
+	if (drive[0].type != DRIVE_TYPE_1581)
+	    iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
                           | ((iec_info.drive_data << 6)
-                             & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
-                             & 0x80));
+                          & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
+                          & 0x80));
+	else
+        iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+                          | ((iec_info.drive_data << 6)
+                          & ((iec_info.drive_data | iec_info.cpu_bus) << 3)
+                          & 0x80));
 
-    if (drive_enabled[1])
-	iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
-         | ((iec_info.drive2_data << 6)
-            & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
-            & 0x80));
-
+	}
+    if (drive_enabled[1]) {
+	if (drive[1].type != DRIVE_TYPE_1581)
+	    iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+                          | ((iec_info.drive2_data << 6)
+                          & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
+                          & 0x80));
+	else
+        iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+                          | ((iec_info.drive2_data << 6)
+                          & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
+                          & 0x80));
+	}
     update_ports();
 }
 

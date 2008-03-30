@@ -20,9 +20,9 @@ libdrive_a_SOURCES = \
         drive.c \
         drive.h \
         drivecpu0.c \
-	drivecpu0.def \
+        drivecpu0.def \
         drivecpu1.c \
-	drivecpu1.def \
+        drivecpu1.def \
         drivecpu.h \
         viad.h \
         via1drive0.c \
@@ -32,7 +32,9 @@ libdrive_a_SOURCES = \
         via1drive1.c \
         via1drive1.def \
         via2drive1.c \
-        via2drive1.def
+        via2drive1.def \
+        wd1770.c \
+        wd1770.h
 
 EXTRA_DIST = \
 	drivecpu-tmpl.c

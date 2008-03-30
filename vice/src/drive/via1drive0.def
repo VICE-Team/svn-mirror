@@ -84,12 +84,11 @@ STORE_PRA()
         via1d0[addr] = byte;
         byte = via1d0[VIA_PRA] | ~via1d0[VIA_DDRA];
 
-        printf("PREWERT adr: %x oldval: %x byte %x\n",addr,oldval,byte);
-        if (oldval != byte) printf("Wert: %x\n",byte&0x99);
-
         if (drive[0].type == DRIVE_TYPE_1571) {
             if ((oldval ^ byte) & 0x20)
                 drive_set_1571_sync_factor(byte & 0x20, 0);
+            if ((oldval ^ byte) & 0x04)
+                drive_set_1571_side((byte >> 2) & 1, 0);
         }
         if (drive_parallel_cable_enabled && drive[0].type == DRIVE_TYPE_1541)
             parallel_cable_drive_write(via1d0[VIA_PRA] | ~via1d0[VIA_DDRA],
@@ -131,10 +130,13 @@ RESET_VIA()
 
 READ_PRA()
 {
-    if (drive[0].type == DRIVE_TYPE_1571)
-        return (((drive_byte_ready(0) ? 0 : 0x80) & ~via1d0[VIA_DDRA])
-          | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]));
-
+    if (drive[0].type == DRIVE_TYPE_1571) {
+        BYTE tmp;
+        tmp = (drive_byte_ready(0) ? 0 : 0x80)
+            | (drive[0].current_half_track == 2 ? 0 : 1);
+        return (tmp & ~via1d0[VIA_DDRA])
+            | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
+    }
     return (drive_parallel_cable_enabled
             ? parallel_cable_drive_read((((addr == VIA_PRA) &&
                                           (via1d0[VIA_PCR] & 0xe) == 0xa))

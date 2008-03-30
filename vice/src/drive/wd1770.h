@@ -1,11 +1,8 @@
-/* -*- C -*-
- *
- * drivecpu1.def - Definitions of the 6502 processor in the Commodore 1541
- * floppy disk drive 1 (device #9).
+/*
+ * wd1770.h - WD1770 emulation for the 1571 and 1581 disk drives.
  *
  * Written by
- *   Ettore Perazzoli (ettore@comm2000.it)
- *   Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *  Andreas Boose (boose@linux.rz.fh-hannover.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,16 +24,25 @@
  *
  */
 
-#define mydrive drive1
-#define myvia1 via1d1
-#define myvia2 via2d1
-#define mycia1571 cia1571d1
-#define mycia1581 cia1581d1
-#define mywd1770 wd1770d1
-#define mynumber 1
-#define MYVIA1 VIA1D1
-#define MYVIA2 VIA2D1
-#define MYCIA1571 CIA1571D1
-#define MYCIA1581 CIA1581D1
-#define MYIDENTIFICATION DRIVE#9
+#ifndef _WD1770_H
+#define _WD1770_H
+
+#include "types.h"
+
+/* wd1770 register.  */
+#define WD1770_STATUS  0
+#define WD1770_COMMAND 0
+#define WD1770_TRACK   1
+#define WD1770_SECTOR  2
+#define WD1770_DATA    3
+
+void REGPARM2 store_wd1770d0(ADDRESS addr, BYTE byte);
+BYTE REGPARM1 read_wd1770d0(ADDRESS addr);
+void reset_wd1770d0(void);
+
+void REGPARM2 store_wd1770d1(ADDRESS addr, BYTE byte);
+BYTE REGPARM1 read_wd1770d1(ADDRESS addr);
+void reset_wd1770d1(void);
+
+#endif                          /* _WD1770_H */
 

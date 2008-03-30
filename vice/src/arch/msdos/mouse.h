@@ -58,7 +58,7 @@ inline static BYTE mouse_get_x(void)
     if (!_mouse_available || !_mouse_enabled)
         return 0xff;
     _update_mouse();
-    return (BYTE) _mouse_x;
+    return (BYTE) (_mouse_x >> 1) & 0x7e;
 }
 
 inline static BYTE mouse_get_y(void)
@@ -66,7 +66,7 @@ inline static BYTE mouse_get_y(void)
     if (!_mouse_available || !_mouse_enabled)
         return 0xff;
     _update_mouse();
-    return (BYTE) _mouse_y;
+    return (BYTE) (~_mouse_y >> 1) & 0x7e;
 }
 
 #if 0

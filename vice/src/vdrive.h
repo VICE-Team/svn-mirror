@@ -203,13 +203,17 @@ struct _DRIVE {
 #define CHK_RDY		1
 #define CHK_EMU		2	/* Is image block based */
 
-#define D64_FILE_SIZE_35  174848	/* D64 image, 35 tracks */
-#define D64_FILE_SIZE_35E 175531	/* D64 image, 35 tracks with errors */
-#define D64_FILE_SIZE_40  196608	/* D64 image, 40 tracks */
-#define D64_FILE_SIZE_40E  197376	/* D64 image, 40 tracks with errors */
+#define D64_FILE_SIZE_35  174848        /* D64 image, 35 tracks */
+#define D64_FILE_SIZE_35E 175531        /* D64 image, 35 tracks with errors */
+#define D64_FILE_SIZE_40  196608        /* D64 image, 40 tracks */
+#define D64_FILE_SIZE_40E 197376        /* D64 image, 40 tracks with errors */
+#define D71_FILE_SIZE     349696        /* D71 image, 70 tracks */
+#define D81_FILE_SIZE     819200        /* D81 image, 80 tracks */
 
 #define IS_D64_LEN(x) ((x) == D64_FILE_SIZE_35 || (x) == D64_FILE_SIZE_35E || \
 		       (x) == D64_FILE_SIZE_40 || (x) == D64_FILE_SIZE_40E)
+#define IS_D71_LEN(x) ((x) == D71_FILE_SIZE)
+#define IS_D81_LEN(x) ((x) == D81_FILE_SIZE)
 /*
  * Input Processor Error Codes
  */

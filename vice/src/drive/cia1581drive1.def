@@ -81,13 +81,13 @@ STORE_CIAPB()
     if (byte != cia1581d1[addr]) {
         cia1581d1[addr] = byte;
         if (iec_info != NULL) {
-            iec_info->drive_data = cia1581d1[CIA_DDRB] & ~cia1581d1[CIA_PRB];
-            iec_info->drive_bus = (((iec_info->drive_data << 3) & 0x40)
-                | ((iec_info->drive_data << 6)
-                & ((~iec_info->drive_data ^ iec_info->cpu_bus) << 3) & 0x80));
-            iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus
-                & iec_info->drive2_bus;
-            iec_info->drive_port = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
+            iec_info->drive2_data = cia1581d1[CIA_DDRB] & ~cia1581d1[CIA_PRB];
+            iec_info->drive2_bus = (((iec_info->drive2_data << 3) & 0x40)
+                | ((iec_info->drive2_data << 6)
+                & ((iec_info->drive2_data | iec_info->cpu_bus) << 3) & 0x80));
+            iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive2_bus
+                & iec_info->drive_bus;
+            iec_info->drive2_port = iec_info->drive_port = (((iec_info->cpu_port >> 4) & 0x4)
                 | (iec_info->cpu_port >> 7)
                 | ((iec_info->cpu_bus << 3) & 0x80));
         } else {
@@ -98,7 +98,7 @@ STORE_CIAPB()
 
 READ_CIAPA()
 {
-
+    byte = 8;
 }
 
 READ_CIAPB()
