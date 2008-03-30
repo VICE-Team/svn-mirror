@@ -1,3 +1,34 @@
+2003-02-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.7.
+
+	* arch/win32/arch.dsp: Added `catweaselmkiii.c'.
+
+	* arch/win32/catweaselmkiii.c: Fixed includes.
+
+	* arch/win32/msvc/config.h: Define `HAVE_CATWEASELMKIII'.
+
+	* arch/unix/catweaselmkiii.c, arch/win32/catweaselmkiii.c
+	(catweaselmkiii_available): Stub.
+
+	* arch/win32/c64ui.c, arch/win32/resc64.rc, arch/win32/res.h:
+	Added SidEngine UI.
+
+	* arch/win32/Makefile.am: Added `sid' directory.
+
+2003-02-09  Dirk Jagdmann  <doj@cubic.org>
+
+	* arch/unix/catweaselmkiii.c: added setfreq() function soi
+	pal/ntsc frequencies can be selected. Fixed usage of multiple
+	catweasel devices.
+
+	* arch/win32/catweaselmkiii.c: added this file
+
+	* sounddrv/Makefile.am: removed soundsid.c from compile
+	targets
+
+	* arch/win32/Makefile.am: added catweaselmkiii.c
+
 2003-02-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.6.
