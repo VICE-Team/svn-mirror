@@ -1,3 +1,36 @@
+2006-01-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.
+
+2006-01-08  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/uinetplay.h: Added prototype again.
+
+2006-01-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/resdrivec128.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/resrs232user.rc, arch/win32/resvic20.rc,
+	translate.c: Updated and fixed translations.
+
+2006-01-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/uic64_256k.c, arch/msdos/uiplus60k.c: Fixed some
+	ui text elements.
+
+2006-01-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/x11/gnome/uinetplay.c: Changed 'network' text into
+	'netplay'.
+
+	* arch/win32/intl.c: Updated.
+
+	* network.c: Fixed a translate.c related element.
+
+	* translate.c, translate.h: Fixed and updated.
+
 2006-01-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.12.

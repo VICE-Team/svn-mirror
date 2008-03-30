@@ -1,3 +1,17 @@
+2006-01-08  Andreas Boose  <viceteam@t-online.de>
+
+	* it.po: Reverted some multi byte changes.
+
+2006-01-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* it.po: Italian translations update.
+
+	* nl.po: Fixed a typo.
+
+2006-01-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* de.po, nl.po: Updated and fixed some translations.
+
 2006-01-06  pottendo  <pottendo@utanet.at>
 
 	* de.po: Updated.
