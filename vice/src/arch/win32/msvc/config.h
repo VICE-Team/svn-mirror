@@ -1,8 +1,6 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#define PACKAGE                 "vice"
-#define VERSION                 "1.2"
 #define UNSTABLE
 
 #define HAVE_ALLOCA             1

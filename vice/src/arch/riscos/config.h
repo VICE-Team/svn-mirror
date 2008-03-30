@@ -37,12 +37,6 @@
 /* #undef HAVE_RESID */
 #define HAVE_RESID 1
 
-/* Package name.  */
-#define PACKAGE "vice"
-
-/* Version number.  */
-#define VERSION "1.1"
-
 /* The number of bytes in a unsigned int.  */
 #define SIZEOF_UNSIGNED_INT 4
 
