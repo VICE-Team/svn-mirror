@@ -510,8 +510,8 @@ int autostart_tape(const char *file_name, const char *program_name,
     /* Get program name first to avoid more than one file handle open on
        image.  */
     if (!program_name && program_number > 0)
-        name = image_contents_tape_filename_by_number(file_name,
-                                                      program_number);
+        name = image_contents_filename_by_number(IMAGE_CONTENTS_TAPE,
+                                                 file_name, 0, program_number);
     else
         name = stralloc(program_name ? program_name : "");
 
@@ -576,8 +576,8 @@ int autostart_disk(const char *file_name, const char *program_name,
     /* Get program name first to avoid more than one file handle open on
        image.  */
     if (!program_name && program_number > 0)
-        name = image_contents_disk_filename_by_number(file_name,
-                                                      program_number);
+        name = image_contents_filename_by_number(IMAGE_CONTENTS_DISK,
+                                                 file_name, 0, program_number);
     else
         name = stralloc(program_name ? program_name : "*");
 
