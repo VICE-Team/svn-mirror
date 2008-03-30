@@ -67,6 +67,23 @@ UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
 UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 UI_MENU_DEFINE_TOGGLE(ExternalPalette)
+#ifdef USE_XF86_EXTENSIONS
+UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
+UI_MENU_DEFINE_STRING_RADIO(VICIIFullscreenDevice)
+
+static ui_menu_entry_t set_fullscreen_device_submenu[] = {
+#ifdef USE_XF86_VIDMODE_EXT
+    { "*Vidmode", (ui_callback_t)radio_VICIIFullscreenDevice,
+      (ui_callback_data_t)"Vidmode", NULL },
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    { "*DGA2", (ui_callback_t)radio_VICIIFullscreenDevice,
+      (ui_callback_data_t)"DGA2", NULL },
+#endif
+    { NULL }
+};
+
+#endif
 
 ui_menu_entry_t vic_submenu[] = {
     { N_("*Double size"),
@@ -76,6 +93,17 @@ ui_menu_entry_t vic_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_VICIIVideoCache, NULL, NULL },
     { "--" },
+#ifdef USE_XF86_EXTENSIONS
+    { N_("*Enable fullscreen"),
+      (ui_callback_t)toggle_VICIIFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
+    { N_("Fullscreen device"),
+      NULL, NULL, set_fullscreen_device_submenu },
+    { "--" },
+#ifdef USE_XF86_VIDMODE_EXT
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+#endif
+#endif
     { N_("Video standard"),
       NULL, NULL, set_video_standard_submenu },
     { "--" },
