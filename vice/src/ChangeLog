@@ -1,3 +1,50 @@
+2002-06-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.29.
+
+	* cbm2/*: Renamed from `c610*' to `cbm2*'.
+
+	* arch/unix/c610ui.c, arch/unix/c610ui.h,
+	arch/unix/x11/c610icon.c: Renamed.
+
+	* arch/win32/uicbm2set.c, arch/os2/dialogs/menubar.c,
+	arch/beos/ui_cbm2.cc, arch/unix/icon.h, arch/unix/cbm2ui.c,
+	keyboard.h, arch/win32/c610kbd.c, arch/riscos/c610ui.c,
+	arch/os2/kbd/kbd-c610.c, arch/beos/c610kbd.c, arch/unix/kbd.h,
+	arch/win32/kbd.h, arch/msdos/kbd.h, arch/riscos/kbd.h,
+	arch/os2/kbd.h, arch/beos/kbd.h: Renamed function names.
+
+2002-06-08  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/vidmode.c (vidmode_set_mode): Make canvas a
+	bit bigger to get rid of some window border lines.
+
+	* arch/unix/x11/gnome/ui.c (ui_exit): Turn off vidmode
+	fullscreen.
+	* arch/unix/x11/xaw/ui.c (ui_exit): Likewise.
+
+2002-06-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/<machine>.dsp: Added *rom.c.
+
+	* arch/beos/joy.c: Added joystick_port_map.
+
+	* arch/beos/kbd.c (kbd_handle_keydown, kbd_handle_keyup):
+	Use common keyboard code.
+
+	* arch/beos/ui.cc: Renamed ui_init_* functions.
+
+	* keyboard.c (keyboard_keyword_vshift): Fixed for DOS-style
+	line separator.
+
+	* vice.h: BeOS defines COMMON_KBD.
+
+2002-06-08  Andreas Dehmel  <zarquon@t-online.de>
+
+	* sound.c, arch/riscos/kbd.c, arch/riscos/ui.c,
+	arch/riscos/uimon.c: minor changes to make the latest version
+	work on RISC OS again.
+
 2002-06-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.28.
