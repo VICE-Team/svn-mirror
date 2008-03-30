@@ -114,6 +114,8 @@ typedef struct via_context_s {
 
     char myname[16];              /* init to "DriveXViaY" */
     char my_module_name[12];      /* init to "VIAXDY" */
+    char my_module_name_alt1[12]; /* Legacy names. */
+    char my_module_name_alt2[12];
 
     CLOCK *clk_ptr;
     int *rmw_flag;
