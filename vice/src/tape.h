@@ -33,12 +33,35 @@
 #define TAPE_TYPE_T64 0
 #define TAPE_TYPE_TAP 1
 
-typedef struct tape_image_s {
+struct trap_s;
+
+struct tape_image_s {
     char *name;
     unsigned int read_only;
     unsigned int type;
     void *data;
-} tape_image_t;
+};
+typedef struct tape_image_s tape_image_t;
+
+struct tape_init_s {
+    ADDRESS buffer_pointer_addr;
+    ADDRESS st_addr;
+    ADDRESS verify_flag_addr;
+    ADDRESS irqtmp;
+    int irqval;
+    ADDRESS stal_addr;
+    ADDRESS eal_addr;
+    ADDRESS kbd_buf_addr;
+    ADDRESS kbd_buf_pending_addr;
+    const struct trap_s *trap_list;
+    int pulse_short_min;
+    int pulse_short_max;
+    int pulse_middle_min;
+    int pulse_middle_max;
+    int pulse_long_min;
+    int pulse_long_max;
+};
+typedef struct tape_init_s tape_init_t;
 
 struct tape_file_record_s {
     BYTE name[17];
@@ -51,12 +74,7 @@ typedef struct tape_file_record_s tape_file_record_t;
 
 extern tape_image_t *tape_image_dev1;
 
-struct trap_s;
-
-extern int tape_init(int buffer_pointer_addr, int st_addr,
-                     int verify_flag_addr, int irqtmp, int irqval,
-                     int stal_addr, int eal_addr, int kbd_buf_addr,
-                     int kbd_buf_pending_addr, const struct trap_s *trap_list);
+extern int tape_init(tape_init_t *init);
 extern int tape_deinstall(void);
 extern void tape_get_header(tape_image_t *tape_image, BYTE *name);
 extern void tape_find_header_trap(void);

@@ -81,7 +81,7 @@ static const trap_t *tape_traps;
 static log_t tape_log = LOG_ERR;
 
 /* The tape image for device 1. */
-tape_image_t *tape_image_dev1;
+tape_image_t *tape_image_dev1 = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -114,16 +114,7 @@ void tape_traps_deinstall(void)
 
 /* Initialize the tape emulation, using the traps in `trap_list'.  */
 /* FIXME: This should be passed through a struct.  */
-int tape_init(int _buffer_pointer_addr,
-              int _st_addr,
-              int _verify_flag_addr,
-              int _irqtmp,
-              int _irqval,
-              int _stal_addr,
-              int _eal_addr,
-              int _kbd_buf_addr,
-              int _kbd_buf_pending_addr,
-              const trap_t *trap_list)
+int tape_init(tape_init_t *init)
 {
     tape_log = log_open("Tape");
 
@@ -131,19 +122,21 @@ int tape_init(int _buffer_pointer_addr,
 
     tape_image_dev1 = (tape_image_t *)xcalloc(1, sizeof(tape_image_t));
 
+    tap_init(init);
+
     /* Set addresses of tape routine variables.  */
-    st_addr = (ADDRESS)_st_addr;
-    buffer_pointer_addr = (ADDRESS)_buffer_pointer_addr;
-    verify_flag_addr = (ADDRESS)_verify_flag_addr;
-    irqtmp = (ADDRESS)_irqtmp;
-    irqval = _irqval;
-    stal_addr = (ADDRESS)_stal_addr;
-    eal_addr = (ADDRESS)_eal_addr;
+    st_addr = init->st_addr;
+    buffer_pointer_addr = init->buffer_pointer_addr;
+    verify_flag_addr = init->verify_flag_addr;
+    irqtmp = init->irqtmp;
+    irqval = init->irqval;
+    stal_addr = init->stal_addr;
+    eal_addr = init->eal_addr;
 
-    kbd_buf_addr = (ADDRESS)_kbd_buf_addr;
-    kbd_buf_pending_addr = (ADDRESS)_kbd_buf_pending_addr;
+    kbd_buf_addr = init->kbd_buf_addr;
+    kbd_buf_pending_addr = init->kbd_buf_pending_addr;
 
-    tape_traps = trap_list;
+    tape_traps = init->trap_list;
     tape_traps_install();
 
     if (tape_is_initialized)

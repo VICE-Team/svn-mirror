@@ -37,6 +37,7 @@
 #define TAP_HDR_SYSTEM       13
 #define TAP_HDR_LEN          16
 
+struct tape_init_s;
 struct tape_file_record_s;
 
 typedef struct tap_s {
@@ -90,6 +91,7 @@ typedef struct tap_s {
 
 } tap_t;
 
+extern void tap_init(struct tape_init_s *init);
 extern tap_t *tap_open(const char *name, unsigned int *read_only);
 extern int tap_close(tap_t *tap);
 

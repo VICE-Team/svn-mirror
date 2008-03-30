@@ -191,6 +191,25 @@ static trap_t c64_tape_traps[] = {
     }
 };
 
+static tape_init_t tapeinit = {
+    0xb2,
+    0x90,
+    0x93,
+    0x29f,
+    0,
+    0xc1,
+    0xae,
+    0x277,
+    0xc6,
+    c64_tape_traps,
+    36 * 8,
+    54 * 8,
+    55 * 8,
+    73 * 8,
+    74 * 8,
+    92 * 8
+};
+
 static log_t c64_log = LOG_ERR;
 
 static long cycles_per_sec = C64_PAL_CYCLES_PER_SEC;
@@ -293,8 +312,6 @@ int machine_init(void)
 {
     c64_log = log_open("C64");
 
-    maincpu_init();
-
     if (mem_load() < 0)
         return -1;
 
@@ -323,8 +340,7 @@ int machine_init(void)
         printer_init();
 
         /* Initialize the tape emulation.  */
-        tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, 0x277, 0xc6,
-                  c64_tape_traps);
+        tape_init(&tapeinit);
 
         /* Initialize the datasette emulation.  */
         datasette_init();
