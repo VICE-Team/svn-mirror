@@ -148,18 +148,24 @@ void alarm_unset(alarm_t *alarm)
 
         last = --context->num_pending_alarms;
 
-        /* Let's copy the struct by hand to make sure stupid compilers don't
-           do stupid things.  */
-        context->pending_alarms[idx].alarm = context->pending_alarms[last].alarm;
-        context->pending_alarms[idx].clk = context->pending_alarms[last].clk;
+        if (last != idx) {
+            /* Let's copy the struct by hand to make sure stupid compilers
+               don't do stupid things.  */
+            context->pending_alarms[idx].alarm = context->pending_alarms[last].alarm;
+            context->pending_alarms[idx].clk = context->pending_alarms[last].clk;
 
-        context->pending_alarms[idx].alarm->pending_idx = idx;
+            context->pending_alarms[idx].alarm->pending_idx = idx;
+        }
+
+        if (context->next_pending_alarm_idx == idx)
+            alarm_context_update_next_pending(context);
+        else if (context->next_pending_alarm_idx == last)
+            context->next_pending_alarm_idx = idx;
     } else {
         context->num_pending_alarms = 0;
+        context->next_pending_alarm_clk = (CLOCK) ~0L;
+        context->next_pending_alarm_idx = -1;
     }
-
-    if (idx == context->next_pending_alarm_idx)
-        alarm_context_update_next_pending(context);
 
     alarm->pending_idx = -1;
 }
