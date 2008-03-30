@@ -34,16 +34,15 @@
 #include "res.h"
 #include "resources.h"
 #include "system.h"
-#include "ui.h"
 #include "uiram.h"
 #include "winmain.h"
 
 
-static int ui_ram_startvalue[]={
+static int ui_ram_startvalue[] = {
     0, 255, -1
 };
 
-static int ui_ram_invertvalue[]={
+static int ui_ram_invertvalue[] = {
     0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, -1
 };
 
@@ -62,7 +61,7 @@ static void update_preview(HWND hwnd)
 
     s_win = lib_malloc((2 * strlen(s) + 1) * sizeof(TCHAR));
     i = j =0;
-    while(s[i] != '\0') {
+    while (s[i] != '\0') {
         if(s[i] == '\n')
             s_win[j++] = TEXT('\r');
         s_win[j++] = (TCHAR)s[i++];
@@ -78,93 +77,92 @@ static void init_ram_dialog(HWND hwnd)
 {
     HWND    temp_hwnd, temp_hwnd2;
     int     i;
-    LOGFONT logfont = {-12,-7,0,0,400,0,0,0,0,0,0,
-        DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,TEXT("")};
+    LOGFONT logfont = { -12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0,
+                      DRAFT_QUALITY, FIXED_PITCH|FF_MODERN, TEXT("") };
     HFONT   hfont = CreateFontIndirect(&logfont);
 
     if (hfont)
-        SendDlgItemMessage(hwnd,IDC_RAMINIT_PREVIEW,WM_SETFONT,
-            (WPARAM)hfont,MAKELPARAM(TRUE,0));
+        SendDlgItemMessage(hwnd, IDC_RAMINIT_PREVIEW, WM_SETFONT,
+            (WPARAM)hfont, MAKELPARAM(TRUE, 0));
 
     resources_get_value("RAMInitStartValue", (void *)&orig_startvalue);
-    temp_hwnd=GetDlgItem(hwnd,IDC_RAMINIT_STARTVALUE);
+    temp_hwnd = GetDlgItem(hwnd,IDC_RAMINIT_STARTVALUE);
 
-    for (i = 0; ui_ram_startvalue[i] >= 0; i++)
-    {
+    for (i = 0; ui_ram_startvalue[i] >= 0; i++) {
         TCHAR s[16];
 
         _stprintf(s, TEXT("%d"), ui_ram_startvalue[i]);
-        SendMessage(temp_hwnd,CB_ADDSTRING,0,(LPARAM)s);
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)s);
         if (orig_startvalue == ui_ram_startvalue[i])
-            SendMessage(temp_hwnd,CB_SETCURSEL,(WPARAM)i,0);
+            SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)i, 0);
     }
 
     resources_get_value("RAMInitValueInvert", (void *)&orig_valueinvert);
     resources_get_value("RAMInitPatternInvert", (void *)&orig_patterninvert);
-    temp_hwnd=GetDlgItem(hwnd,IDC_RAMINIT_VALUEINVERT);
-    temp_hwnd2=GetDlgItem(hwnd,IDC_RAMINIT_PATTERNINVERT);
+    temp_hwnd = GetDlgItem(hwnd, IDC_RAMINIT_VALUEINVERT);
+    temp_hwnd2 = GetDlgItem(hwnd, IDC_RAMINIT_PATTERNINVERT);
     
-    for (i = 0; ui_ram_invertvalue[i] >= 0; i++)
-    {
+    for (i = 0; ui_ram_invertvalue[i] >= 0; i++) {
         TCHAR s[16];
 
         _stprintf(s, TEXT("%d"), ui_ram_invertvalue[i]);
-        SendMessage(temp_hwnd,CB_ADDSTRING,0,(LPARAM)s);
-        SendMessage(temp_hwnd2,CB_ADDSTRING,0,(LPARAM)s);
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)s);
+        SendMessage(temp_hwnd2, CB_ADDSTRING, 0, (LPARAM)s);
         if (ui_ram_invertvalue[i] == orig_valueinvert)
-            SendMessage(temp_hwnd,CB_SETCURSEL,(WPARAM)i,0);
+            SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)i, 0);
         if (ui_ram_invertvalue[i] == orig_patterninvert)
-            SendMessage(temp_hwnd2,CB_SETCURSEL,(WPARAM)i,0);
+            SendMessage(temp_hwnd2, CB_SETCURSEL, (WPARAM)i, 0);
     }
 
     update_preview(hwnd);
 }
 
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                 LPARAM lparam)
 {
     int command;
     int rv;
 
     switch (msg) {
-        case WM_COMMAND:
-            command=LOWORD(wparam);
-            switch (command) {
-                case IDC_RAMINIT_STARTVALUE:
-                    rv = SendMessage(GetDlgItem(
-                            hwnd,IDC_RAMINIT_STARTVALUE),CB_GETCURSEL,0,0);
-                    resources_set_value("RAMInitStartValue", 
-                        (resource_value_t) ui_ram_startvalue[rv]);
-                    update_preview(hwnd);
-                    break;
-                case IDC_RAMINIT_VALUEINVERT:
-                    rv = SendMessage(GetDlgItem(
-                            hwnd,IDC_RAMINIT_VALUEINVERT),CB_GETCURSEL,0,0);
-                    resources_set_value("RAMInitValueInvert", 
-                        (resource_value_t) ui_ram_invertvalue[rv]);
-                    update_preview(hwnd);
-                    break;
-                case IDC_RAMINIT_PATTERNINVERT:
-                    rv = SendMessage(GetDlgItem(
-                            hwnd,IDC_RAMINIT_PATTERNINVERT),CB_GETCURSEL,0,0);
-                    resources_set_value("RAMInitPatternInvert", 
-                        (resource_value_t) ui_ram_invertvalue[rv]);
-                    update_preview(hwnd);
-                    break;
+      case WM_COMMAND:
+        command = LOWORD(wparam);
+        switch (command) {
+          case IDC_RAMINIT_STARTVALUE:
+           rv = SendMessage(GetDlgItem(hwnd,
+                            IDC_RAMINIT_STARTVALUE), CB_GETCURSEL, 0, 0);
+           resources_set_value("RAMInitStartValue", 
+                               (resource_value_t)ui_ram_startvalue[rv]);
+           update_preview(hwnd);
+           break;
+         case IDC_RAMINIT_VALUEINVERT:
+           rv = SendMessage(GetDlgItem(
+                            hwnd, IDC_RAMINIT_VALUEINVERT), CB_GETCURSEL, 0, 0);
+           resources_set_value("RAMInitValueInvert", 
+                               (resource_value_t)ui_ram_invertvalue[rv]);
+           update_preview(hwnd);
+           break;
+         case IDC_RAMINIT_PATTERNINVERT:
+           rv = SendMessage(GetDlgItem(hwnd,
+                            IDC_RAMINIT_PATTERNINVERT), CB_GETCURSEL, 0, 0);
+           resources_set_value("RAMInitPatternInvert", 
+                               (resource_value_t) ui_ram_invertvalue[rv]);
+           update_preview(hwnd);
+           break;
 
-                case IDOK:
-                    EndDialog(hwnd,0);
-                    return TRUE;
-                case IDCANCEL:
-                    resources_set_value("RAMInitStartValue", 
-                        (resource_value_t) orig_startvalue);
-                    resources_set_value("RAMInitValueInvert", 
-                        (resource_value_t) orig_valueinvert);
-                    resources_set_value("RAMInitPatternInvert", 
-                        (resource_value_t) orig_patterninvert);
-                    EndDialog(hwnd,0);
-                    return TRUE;
-            }
+         case IDOK:
+           EndDialog(hwnd,0);
+           return TRUE;
+         case IDCANCEL:
+           resources_set_value("RAMInitStartValue", 
+                               (resource_value_t) orig_startvalue);
+           resources_set_value("RAMInitValueInvert", 
+                               (resource_value_t) orig_valueinvert);
+           resources_set_value("RAMInitPatternInvert", 
+                               (resource_value_t) orig_patterninvert);
+           EndDialog(hwnd,0);
+           return TRUE;
+       }
             return FALSE;
         case WM_CLOSE:
             EndDialog(hwnd,0);
@@ -180,6 +178,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
 
 void ui_ram_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance,MAKEINTRESOURCE(IDD_RAM_SETTINGS_DIALOG),hwnd,dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_RAM_SETTINGS_DIALOG), hwnd,
+              dialog_proc);
 }
 
