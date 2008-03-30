@@ -354,13 +354,15 @@ static TUI_MENU_CALLBACK(drive_type_submenu_callback)
     switch (value) {
       case 0:
         return "None";
-      case 1541:
+      case DRIVE_TYPE_1541:
         return "1541, 5\"1/4 SS";
-      case 1571:
+      case DRIVE_TYPE_1541II:
+        return "1541-II, 5\"1/4 SS";
+      case DRIVE_TYPE_1571:
         return "1571, 5\"1/4 DS";
-      case 1581:
+      case DRIVE_TYPE_1581:
         return "1581, 3\"1/2 DS";
-      case 2031:
+      case DRIVE_TYPE_2031:
         return "2031, 5\"1/4 SS, IEEE488";
       default:
 	return "(Unknown)";
@@ -375,19 +377,23 @@ static tui_menu_item_def_t drive##num##_type_submenu[] = {                \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "_1541, 5\"1/4 SS",                                                 \
       "Emulate a 1541 5\"1/4 single-sided disk drive as unit #" #num,     \
-      radio_Drive##num##Type_callback, (void *) 1541, 0,                  \
+      radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_1541, 0,       \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "1541-_II, 5\"1/4 SS",                                              \
+      "Emulate a 1541-II 5\"1/4 single-sided disk drive as unit #" #num,  \
+      radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_1541II, 0,     \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "_1571, 5\"1/4 DS",                                                 \
       "Emulate a 1571 5\"1/4 double-sided disk drive as unit #" #num,     \
-      radio_Drive##num##Type_callback, (void *) 1571, 0,                  \
+      radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_1571, 0,       \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "_1581, 3\"1/2 DS",                                                 \
       "Emulate a 1581 3\"1/2 double-sided disk drive as unit #" #num,     \
-      radio_Drive##num##Type_callback, (void *) 1581, 0,                  \
+      radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_1581, 0,       \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "_2031, 5\"1/4 SS IEEE488",                                         \
       "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit #" #num,\
-      radio_Drive##num##Type_callback, (void *) 2031, 0,                  \
+      radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_2031, 0,       \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { NULL }                                                              \
 };
@@ -1432,7 +1438,7 @@ static void create_special_submenu(int has_serial_traps)
     tui_menu_add_separator(ui_special_submenu);
     tui_menu_add_item(ui_special_submenu,
                       "Use _Keyboard LEDs:",
-                      "Use PC keyboard LEDs for the 1541 drive and Warp Mode",
+                      "Use PC keyboard LEDs for the disk drive and Warp Mode",
                       toggle_UseLeds_callback, NULL, 4,
                       TUI_MENU_BEH_CONTINUE);
 }
