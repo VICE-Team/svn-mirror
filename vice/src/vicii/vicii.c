@@ -47,19 +47,19 @@
 
    - changes of $D016 within one line are not always correctly handled;
 
-   - g-accesses and c-accesses are not 100% emulated.
-
    Probably something else which I have not figured out yet...
 
  */
 
 #include "vice.h"
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "alarm.h"
 #include "c64.h"
+#include "c64cart.h"
 #include "clkguard.h"
 #include "interrupt.h"
 #include "log.h"
@@ -95,39 +95,43 @@
 /* ---------------------------------------------------------------------*/
 
 /* set phi1 address options */
-void vic_ii_set_phi1_addr_options (ADDRESS mask, ADDRESS offset)
+void vic_ii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset)
 {
     vic_ii.vaddr_mask_phi1 = mask;
     vic_ii.vaddr_offset_phi1 = offset;
 
-    VIC_II_DEBUG_REGISTER(("Set phi1 video addr mask=%04x, offset=%04x\n", mask, offset)); 
+    VIC_II_DEBUG_REGISTER(("Set phi1 video addr mask=%04x, offset=%04x\n",
+                          mask, offset));
     vic_ii_update_memory_ptrs_external();
 }
 
-void vic_ii_set_phi2_addr_options (ADDRESS mask, ADDRESS offset)
+void vic_ii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset)
 {
     vic_ii.vaddr_mask_phi2 = mask;
     vic_ii.vaddr_offset_phi2 = offset;
 
-    VIC_II_DEBUG_REGISTER(("Set phi2 video addr mask=%04x, offset=%04x\n", mask, offset)); 
+    VIC_II_DEBUG_REGISTER(("Set phi2 video addr mask=%04x, offset=%04x\n",
+                          mask, offset));
     vic_ii_update_memory_ptrs_external();
 }
 
-void vic_ii_set_phi1_chargen_addr_options (ADDRESS mask, ADDRESS value)
+void vic_ii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value)
 {
     vic_ii.vaddr_chargen_mask_phi1 = mask;
     vic_ii.vaddr_chargen_value_phi1 = value;
 
-    VIC_II_DEBUG_REGISTER(("Set phi1 chargen addr mask=%04x, value=%04x\n", mask, value)); 
+    VIC_II_DEBUG_REGISTER(("Set phi1 chargen addr mask=%04x, value=%04x\n",
+                          mask, value));
     vic_ii_update_memory_ptrs_external();
 }
 
-void vic_ii_set_phi2_chargen_addr_options (ADDRESS mask, ADDRESS value)
+void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value)
 {
     vic_ii.vaddr_chargen_mask_phi2 = mask;
     vic_ii.vaddr_chargen_value_phi2 = value;
 
-    VIC_II_DEBUG_REGISTER(("Set phi2 chargen addr mask=%04x, value=%04x\n", mask, value)); 
+    VIC_II_DEBUG_REGISTER(("Set phi2 chargen addr mask=%04x, value=%04x\n",
+                          mask, value));
     vic_ii_update_memory_ptrs_external();
 }
 
@@ -135,18 +139,9 @@ void vic_ii_set_phi2_chargen_addr_options (ADDRESS mask, ADDRESS value)
 
 vic_ii_t vic_ii;
 
-/* Flag: Ultimax (VIC-10) memory configuration enabled.  */
-extern int ultimax;
+static void vic_ii_raster_irq_alarm_handler(CLOCK offset);
 
-/* Exansion port ROML/ROMH images.  */
-extern BYTE roml_banks[], romh_banks[];
-
-/* Expansion port ROML/ROMH/RAM banking.  */
-extern int roml_bank, romh_bank, export_ram;
-
-static void vic_ii_raster_irq_alarm_handler (CLOCK offset);
-
-static void clk_overflow_callback (CLOCK sub, void *unused_data)
+static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
   vic_ii.raster_irq_clk -= sub;
   vic_ii.last_emulate_line_clk -= sub;
@@ -162,7 +157,7 @@ void vic_ii_change_timing(void)
 
     switch ((int)mode) {
       case DRIVE_SYNC_NTSC:
-        clk_guard_set_clk_base (&maincpu_clk_guard, C64_NTSC_CYCLES_PER_RFSH);
+        clk_guard_set_clk_base(&maincpu_clk_guard, C64_NTSC_CYCLES_PER_RFSH);
         vic_ii.screen_height = VIC_II_NTSC_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_NTSC_FIRST_DISPLAYED_LINE;
         vic_ii.last_displayed_line = VIC_II_NTSC_LAST_DISPLAYED_LINE;
@@ -181,7 +176,7 @@ void vic_ii_change_timing(void)
         vic_ii.offset = VIC_II_NTSC_OFFSET;
         break;
       case DRIVE_SYNC_NTSCOLD:
-        clk_guard_set_clk_base (&maincpu_clk_guard, C64_NTSCOLD_CYCLES_PER_RFSH);
+        clk_guard_set_clk_base(&maincpu_clk_guard, C64_NTSCOLD_CYCLES_PER_RFSH);
         vic_ii.screen_height = VIC_II_NTSCOLD_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE;
         vic_ii.last_displayed_line = VIC_II_NTSCOLD_LAST_DISPLAYED_LINE;
@@ -201,7 +196,7 @@ void vic_ii_change_timing(void)
         break;
       case DRIVE_SYNC_PAL:
       default:
-        clk_guard_set_clk_base (&maincpu_clk_guard, C64_PAL_CYCLES_PER_RFSH);
+        clk_guard_set_clk_base(&maincpu_clk_guard, C64_PAL_CYCLES_PER_RFSH);
         vic_ii.screen_height = VIC_II_PAL_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_PAL_FIRST_DISPLAYED_LINE;
         vic_ii.last_displayed_line = VIC_II_PAL_LAST_DISPLAYED_LINE;
@@ -222,6 +217,70 @@ void vic_ii_change_timing(void)
     }
 }
 
+inline void vic_ii_handle_pending_alarms(int num_write_cycles)
+{
+  if (num_write_cycles != 0)
+    {
+      int f;
+
+      /* Cycles can be stolen only during the read accesses, so we serve
+         only the events that happened during them.  The last read access
+         happened at `clk - maincpu_write_cycles()' as all the opcodes
+         except BRK and JSR do all the write accesses at the very end.  BRK
+         cannot take us here and we would not be able to handle JSR
+         correctly anyway, so we don't care about them...  */
+
+      /* Go back to the time when the read accesses happened and serve VIC
+         events.  */
+      clk -= num_write_cycles;
+
+      do
+        {
+          f = 0;
+          if (clk > vic_ii.fetch_clk)
+            {
+              vic_ii_raster_fetch_alarm_handler (0);
+              f = 1;
+            }
+          if (clk >= vic_ii.draw_clk)
+            {
+              vic_ii_raster_draw_alarm_handler((long)(clk - vic_ii.draw_clk));
+              f = 1;
+            }
+        }
+      while (f);
+
+      /* Go forward to the time when the last write access happens (that's
+         the one we care about, as the only instructions that do two write
+         accesses - except BRK and JSR - are the RMW ones, which store the
+         old value in the first write access, and then store the new one in
+         the second write access).  */
+      clk += num_write_cycles;
+
+    }
+  else
+    {
+      int f;
+
+      do
+        {
+          f = 0;
+          if (clk >= vic_ii.fetch_clk)
+            {
+              vic_ii_raster_fetch_alarm_handler (0);
+              f = 1;
+            }
+          if (clk >= vic_ii.draw_clk)
+            {
+              vic_ii_raster_draw_alarm_handler (0);
+              f = 1;
+            }
+        }
+      while (f);
+    }
+}
+
+
 static void vic_ii_set_geometry(void)
 {
   unsigned int width, height;
@@ -230,27 +289,29 @@ static void vic_ii_set_geometry(void)
   height = vic_ii.last_displayed_line - vic_ii.first_displayed_line + 1;
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
-  if (fullscreen_is_enabled ? vic_ii_resources.fullscreen_double_size_enabled : vic_ii_resources.double_size_enabled)
+  if (fullscreen_is_enabled
+      ? vic_ii_resources.fullscreen_double_size_enabled
+      : vic_ii_resources.double_size_enabled)
 #else
   if (vic_ii_resources.double_size_enabled)
 #endif
     {
       width *= 2;
       height *= 2;
-      raster_set_pixel_size (&vic_ii.raster, 2, 2);
+      raster_set_pixel_size(&vic_ii.raster, 2, 2);
     }
 #endif
 
-  raster_set_geometry (&vic_ii.raster,
-                       VIC_II_SCREEN_WIDTH, vic_ii.screen_height,
-                       VIC_II_SCREEN_XPIX, VIC_II_SCREEN_YPIX,
-                       VIC_II_SCREEN_TEXTCOLS, VIC_II_SCREEN_TEXTLINES,
-                       vic_ii.screen_borderwidth, vic_ii.row_25_start_line,
-                       0,
-                       vic_ii.first_displayed_line,
-                       vic_ii.last_displayed_line,
-                       2 * VIC_II_MAX_SPRITE_WIDTH);
-  raster_resize_viewport (&vic_ii.raster, width, height);
+  raster_set_geometry(&vic_ii.raster,
+                      VIC_II_SCREEN_WIDTH, vic_ii.screen_height,
+                      VIC_II_SCREEN_XPIX, VIC_II_SCREEN_YPIX,
+                      VIC_II_SCREEN_TEXTCOLS, VIC_II_SCREEN_TEXTLINES,
+                      vic_ii.screen_borderwidth, vic_ii.row_25_start_line,
+                      0,
+                      vic_ii.first_displayed_line,
+                      vic_ii.last_displayed_line,
+                      2 * VIC_II_MAX_SPRITE_WIDTH);
+  raster_resize_viewport(&vic_ii.raster, width, height);
 
 #ifdef __MSDOS__
   video_ack_vga_mode();
@@ -267,28 +328,30 @@ static int init_raster (void)
 
     if (raster_init(raster, VIC_II_NUM_VMODES, VIC_II_NUM_SPRITES) < 0)
         return -1;
-    raster_modes_set_idle_mode (raster->modes, VIC_II_IDLE_MODE);
-    raster_set_exposure_handler (raster, (void*)vic_ii_exposure_handler);
-    raster_enable_cache (raster, vic_ii_resources.video_cache_enabled);
+    raster_modes_set_idle_mode(raster->modes, VIC_II_IDLE_MODE);
+    raster_set_exposure_handler(raster, (void*)vic_ii_exposure_handler);
+    raster_enable_cache(raster, vic_ii_resources.video_cache_enabled);
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
-    raster_enable_double_scan (raster, fullscreen_is_enabled ? vic_ii_resources.fullscreen_double_scan_enabled : vic_ii_resources.double_scan_enabled);
+    raster_enable_double_scan(raster, fullscreen_is_enabled
+                              ? vic_ii_resources.fullscreen_double_scan_enabled 
+                              : vic_ii_resources.double_scan_enabled);
 #else
-    raster_enable_double_scan (raster, vic_ii_resources.double_scan_enabled);
+    raster_enable_double_scan(raster, vic_ii_resources.double_scan_enabled);
 #endif
 #else
-    raster_enable_double_scan (raster, 0);
+    raster_enable_double_scan(raster, 0);
 #endif
     raster_set_canvas_refresh(raster, 1);
 
     vic_ii_set_geometry();
 
-    if (vic_ii_load_palette (vic_ii_resources.palette_file_name) < 0) {
-        log_error (vic_ii.log, "Cannot load palette.");
+    if (vic_ii_load_palette(vic_ii_resources.palette_file_name) < 0) {
+        log_error(vic_ii.log, "Cannot load palette.");
         return -1;
     }
-    title = concat ("VICE: ", machine_name, " emulator", NULL);
-    raster_set_title (raster, title);
+    title = concat("VICE: ", machine_name, " emulator", NULL);
+    raster_set_title(raster, title);
     free (title);
 
     if (raster_realize(raster) < 0)
@@ -304,35 +367,35 @@ static int init_raster (void)
 
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
    care of the 10-bit counter wraparound.  */
-inline void vic_ii_fetch_matrix (int offs, int num)
+inline void vic_ii_fetch_matrix(int offs, int num)
 {
   BYTE *p;
   int start_char;
   int c;
 
   /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
-  p = vic_ii.ram_base_phi2 + vic_ii.vbank_phi2 
-				+ ((vic_ii.regs[0x18] & 0xf0) << 6);
+  p = vic_ii.ram_base_phi2 + vic_ii.vbank_phi2
+                                + ((vic_ii.regs[0x18] & 0xf0) << 6);
   start_char = (vic_ii.mem_counter + offs) & 0x3ff;
   c = 0x3ff - start_char + 1;
 
   if (c >= num)
     {
-      memcpy (vic_ii.vbuf + offs, p + start_char, num);
-      memcpy (vic_ii.cbuf + offs, vic_ii.color_ram + start_char, num);
+      memcpy(vic_ii.vbuf + offs, p + start_char, num);
+      memcpy(vic_ii.cbuf + offs, vic_ii.color_ram + start_char, num);
     }
   else
     {
-      memcpy (vic_ii.vbuf + offs, p + start_char, c);
-      memcpy (vic_ii.vbuf + offs + c, p, num - c);
-      memcpy (vic_ii.cbuf + offs, vic_ii.color_ram + start_char, c);
-      memcpy (vic_ii.cbuf + offs + c, vic_ii.color_ram, num - c);
+      memcpy(vic_ii.vbuf + offs, p + start_char, c);
+      memcpy(vic_ii.vbuf + offs + c, p, num - c);
+      memcpy(vic_ii.cbuf + offs, vic_ii.color_ram + start_char, c);
+      memcpy(vic_ii.cbuf + offs + c, vic_ii.color_ram, num - c);
     }
 }
 
 /* If we are on a bad line, do the DMA.  Return nonzero if cycles have been
    stolen.  */
-inline static int do_matrix_fetch (CLOCK sub)
+inline static int do_matrix_fetch(CLOCK sub)
 {
   if (!vic_ii.memory_fetch_done)
     {
@@ -358,8 +421,8 @@ inline static int do_matrix_fetch (CLOCK sub)
           vic_ii.ycounter_reset_checked = 1;
           vic_ii.memory_fetch_done = 2;
 
-          maincpu_steal_cycles (vic_ii.fetch_clk,
-                                VIC_II_SCREEN_TEXTCOLS + 3 - sub);
+          maincpu_steal_cycles(vic_ii.fetch_clk,
+                               VIC_II_SCREEN_TEXTCOLS + 3 - sub);
 
           vic_ii.bad_line = 1;
           return 1;
@@ -370,7 +433,7 @@ inline static int do_matrix_fetch (CLOCK sub)
 }
 
 /* Enable DMA for sprite `num'.  */
-inline static void turn_sprite_dma_on (unsigned int num)
+inline static void turn_sprite_dma_on(unsigned int num)
 {
   raster_sprite_status_t *sprite_status;
   raster_sprite_t *sprite;
@@ -386,7 +449,7 @@ inline static void turn_sprite_dma_on (unsigned int num)
 }
 
 /* Check for sprite DMA.  */
-inline static void check_sprite_dma (void)
+inline static void check_sprite_dma(void)
 {
   raster_sprite_status_t *sprite_status;
   int i, b;
@@ -423,21 +486,21 @@ inline static void check_sprite_dma (void)
               sprite_status->new_dma_msk &= ~b;
 
               if ((sprite_status->visible_msk & b)
-                  && sprite->y == ((int) vic_ii.raster.current_line & 0xff))
-                turn_sprite_dma_on (i);
+                  && sprite->y == ((int)vic_ii.raster.current_line & 0xff))
+                turn_sprite_dma_on(i);
             }
         }
     }
 }
 
-int vic_ii_init_resources (void)
+int vic_ii_init_resources(void)
 {
-  return vic_ii_resources_init ();
+  return vic_ii_resources_init();
 }
 
-int vic_ii_init_cmdline_options (void)
+int vic_ii_init_cmdline_options(void)
 {
-  return vic_ii_cmdline_options_init ();
+  return vic_ii_cmdline_options_init();
 }
 
 /* Initialize the VIC-II emulation.  */
@@ -445,48 +508,52 @@ raster_t *vic_ii_init(void)
 {
   vic_ii.log = log_open ("VIC-II");
 
-  alarm_init (&vic_ii.raster_fetch_alarm, &maincpu_alarm_context,
-              "VicIIRasterFetch", vic_ii_raster_fetch_alarm_handler);
-  alarm_init (&vic_ii.raster_draw_alarm, &maincpu_alarm_context,
-              "VicIIRasterDraw", vic_ii_raster_draw_alarm_handler);
-  alarm_init (&vic_ii.raster_irq_alarm, &maincpu_alarm_context,
-              "VicIIRasterIrq", vic_ii_raster_irq_alarm_handler);
+  alarm_init(&vic_ii.raster_fetch_alarm, &maincpu_alarm_context,
+             "VicIIRasterFetch", vic_ii_raster_fetch_alarm_handler);
+  alarm_init(&vic_ii.raster_draw_alarm, &maincpu_alarm_context,
+             "VicIIRasterDraw", vic_ii_raster_draw_alarm_handler);
+  alarm_init(&vic_ii.raster_irq_alarm, &maincpu_alarm_context,
+             "VicIIRasterIrq", vic_ii_raster_irq_alarm_handler);
 
   vic_ii_change_timing();
 
   if (init_raster() < 0)
       return NULL;
 
-  vic_ii_powerup ();
+  vic_ii_powerup();
 
-  vic_ii_update_video_mode (0);
-  vic_ii_update_memory_ptrs (0);
+  vic_ii_update_video_mode(0);
+  vic_ii_update_memory_ptrs(0);
 
-  vic_ii_draw_init ();
+  vic_ii_draw_init();
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
-  vic_ii_draw_set_double_size (fullscreen_is_enabled ? vic_ii_resources.fullscreen_double_size_enabled : vic_ii_resources.double_size_enabled);
+  vic_ii_draw_set_double_size(fullscreen_is_enabled
+                              ? vic_ii_resources.fullscreen_double_size_enabled
+                              : vic_ii_resources.double_size_enabled);
 #else
-  vic_ii_draw_set_double_size (vic_ii_resources.double_size_enabled);
+  vic_ii_draw_set_double_size(vic_ii_resources.double_size_enabled);
 #endif
 #else
-  vic_ii_draw_set_double_size (0);
+  vic_ii_draw_set_double_size(0);
 #endif
 
-  vic_ii_sprites_init ();
+  vic_ii_sprites_init();
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
-  vic_ii_sprites_set_double_size (fullscreen_is_enabled ? vic_ii_resources.fullscreen_double_size_enabled : vic_ii_resources.double_size_enabled);
+  vic_ii_sprites_set_double_size(fullscreen_is_enabled
+                                 ? vic_ii_resources.fullscreen_double_size_enabled
+                                 : vic_ii_resources.double_size_enabled);
 #else
-  vic_ii_sprites_set_double_size (vic_ii_resources.double_size_enabled);
+  vic_ii_sprites_set_double_size(vic_ii_resources.double_size_enabled);
 #endif
 #else
-  vic_ii_sprites_set_double_size (0);
+  vic_ii_sprites_set_double_size(0);
 #endif
 
   vic_ii.initialized = 1;
 
-  clk_guard_add_callback (&maincpu_clk_guard, clk_overflow_callback, NULL);
+  clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
   return &vic_ii.raster;
 }
@@ -497,21 +564,21 @@ canvas_t *vic_ii_get_canvas(void)
 }
 
 /* Reset the VIC-II chip.  */
-void vic_ii_reset (void)
+void vic_ii_reset(void)
 {
   vic_ii_change_timing();
 
-  raster_reset (&vic_ii.raster);
+  raster_reset(&vic_ii.raster);
 
   vic_ii_set_geometry();
 
   vic_ii.last_emulate_line_clk = 0;
 
   vic_ii.draw_clk = vic_ii.draw_cycle;
-  alarm_set (&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
+  alarm_set(&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
 
   vic_ii.fetch_clk = VIC_II_FETCH_CYCLE;
-  alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+  alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
   vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
   vic_ii.sprite_fetch_idx = 0;
   vic_ii.sprite_fetch_msk = 0;
@@ -523,7 +590,7 @@ void vic_ii_reset (void)
 
   /* Setup the raster IRQ alarm.  The value is `1' instead of `0' because we
      are at the first line, which has a +1 clock cycle delay in IRQs.  */
-  alarm_set (&vic_ii.raster_irq_alarm, 1);
+  alarm_set(&vic_ii.raster_irq_alarm, 1);
 
   vic_ii.force_display_state = 0;
 
@@ -539,7 +606,7 @@ void vic_ii_reset (void)
 
 void vic_ii_reset_registers(void)
 {
-    int i;
+    ADDRESS i;
 
     for (i = 0; i <= 0x3f; i++)
         vic_store(i, 0);
@@ -548,9 +615,9 @@ void vic_ii_reset_registers(void)
 /* This /should/ put the VIC-II in the same state as after a powerup, if
    `reset_vic_ii()' is called afterwards.  But FIXME, as we are not really
    emulating everything correctly here; just $D011.  */
-void vic_ii_powerup (void)
+void vic_ii_powerup(void)
 {
-  memset (vic_ii.regs, 0, sizeof (vic_ii.regs));
+  memset(vic_ii.regs, 0, sizeof(vic_ii.regs));
 
   vic_ii.irq_status = 0;
   vic_ii.raster_irq_line = 0;
@@ -604,7 +671,7 @@ void vic_ii_powerup (void)
 /* ---------------------------------------------------------------------*/
 
 /* This hook is called whenever video bank must be changed.  */
-static inline void vic_ii_set_vbanks (int vbank_p1, int vbank_p2)
+static inline void vic_ii_set_vbanks(int vbank_p1, int vbank_p2)
 {
   /* Warning: assumes it's called within a memory write access.
      FIXME: Change name?  */
@@ -612,62 +679,65 @@ static inline void vic_ii_set_vbanks (int vbank_p1, int vbank_p2)
      special optimizations for the not-really-changed case.  */
   vic_ii_handle_pending_alarms (rmw_flag + 1);
   if (clk >= vic_ii.draw_clk)
-    vic_ii_raster_draw_alarm_handler (clk - vic_ii.draw_clk);
+    vic_ii_raster_draw_alarm_handler(clk - vic_ii.draw_clk);
 
   vic_ii.vbank_phi1 = vbank_p1;
   vic_ii.vbank_phi2 = vbank_p2;
-  vic_ii_update_memory_ptrs (VIC_II_RASTER_CYCLE (clk));
+  vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
 }
 
 /* Phi1 and Phi2 accesses */
-void vic_ii_set_vbank (int num_vbank) {
+void vic_ii_set_vbank(int num_vbank)
+{
   int tmp = num_vbank << 14;
   vic_ii_set_vbanks(tmp, tmp);
 }
 
 /* Phi1 accesses */
-void vic_ii_set_phi1_vbank (int num_vbank) {
+void vic_ii_set_phi1_vbank(int num_vbank)
+{
   vic_ii_set_vbanks(num_vbank << 14, vic_ii.vbank_phi2);
 }
 
 /* Phi2 accesses */
-void vic_ii_set_phi2_vbank (int num_vbank) {
+void vic_ii_set_phi2_vbank(int num_vbank)
+{
   vic_ii_set_vbanks(vic_ii.vbank_phi1, num_vbank << 14);
 }
 
 /* ---------------------------------------------------------------------*/
 
 /* Trigger the light pen.  */
-void vic_ii_trigger_light_pen (CLOCK mclk)
+void vic_ii_trigger_light_pen(CLOCK mclk)
 {
   if (!vic_ii.light_pen.triggered)
     {
       vic_ii.light_pen.triggered = 1;
-      vic_ii.light_pen.x = VIC_II_RASTER_X (mclk % vic_ii.cycles_per_line);
+      vic_ii.light_pen.x = VIC_II_RASTER_X(mclk % vic_ii.cycles_per_line);
       if (vic_ii.light_pen.x < 0)
         vic_ii.light_pen.x = vic_ii.sprite_wrap_x + vic_ii.light_pen.x;
 
       /* FIXME: why `+2'? */
       vic_ii.light_pen.x = vic_ii.light_pen.x / 2 + 2;
-      vic_ii.light_pen.y = VIC_II_RASTER_Y (mclk);
+      vic_ii.light_pen.y = VIC_II_RASTER_Y(mclk);
       vic_ii.irq_status |= 0x8;
 
       if (vic_ii.regs[0x1a] & 0x8)
         {
           vic_ii.irq_status |= 0x80;
-          maincpu_set_irq_clk (I_RASTER, 1, mclk);
+          maincpu_set_irq_clk(I_RASTER, 1, mclk);
         }
     }
 }
 
 /* Handle the exposure event.  */
-void vic_ii_exposure_handler (unsigned int width, unsigned int height)
+void vic_ii_exposure_handler(unsigned int width, unsigned int height)
 {
-  raster_resize_viewport (&vic_ii.raster, width, height);
+  raster_resize_viewport(&vic_ii.raster, width, height);
 
   /* FIXME: Needed?  Maybe this should be triggered by
      `raster_resize_viewport()' automatically.  */
-  raster_force_repaint (&vic_ii.raster);
+  raster_force_repaint(&vic_ii.raster);
 }
 
 /* Toggle support for C128 extended keyboard rows.  */
@@ -680,17 +750,17 @@ void vic_ii_enable_extended_keyboard_rows (int flag)
    write functions for loading snapshot modules in other video chips without
    caring that the VIC-II alarms are dispatched when they really shouldn't
    be.  */
-void vic_ii_prepare_for_snapshot (void)
+void vic_ii_prepare_for_snapshot(void)
 {
   vic_ii.fetch_clk = CLOCK_MAX;
-  alarm_unset (&vic_ii.raster_fetch_alarm);
+  alarm_unset(&vic_ii.raster_fetch_alarm);
   vic_ii.draw_clk = CLOCK_MAX;
-  alarm_unset (&vic_ii.raster_draw_alarm);
+  alarm_unset(&vic_ii.raster_draw_alarm);
   vic_ii.raster_irq_clk = CLOCK_MAX;
-  alarm_unset (&vic_ii.raster_irq_alarm);
+  alarm_unset(&vic_ii.raster_irq_alarm);
 }
 
-void vic_ii_set_raster_irq (unsigned int line)
+void vic_ii_set_raster_irq(unsigned int line)
 {
   if (line == vic_ii.raster_irq_line && vic_ii.raster_irq_clk != CLOCK_MAX)
     return;
@@ -711,49 +781,49 @@ void vic_ii_set_raster_irq (unsigned int line)
       if (line <= current_line)
         vic_ii.raster_irq_clk += (vic_ii.screen_height
                                   * vic_ii.cycles_per_line);
-      alarm_set (&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+      alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
     }
   else
     {
-      VIC_II_DEBUG_RASTER (("VIC: update_raster_irq(): "
-                            "raster compare out of range ($%04X)!\n",
-                            line));
-      alarm_unset (&vic_ii.raster_irq_alarm);
+      VIC_II_DEBUG_RASTER(("VIC: update_raster_irq(): "
+                          "raster compare out of range ($%04X)!\n",
+                          line));
+      alarm_unset(&vic_ii.raster_irq_alarm);
     }
 
-  VIC_II_DEBUG_RASTER (("VIC: update_raster_irq(): "
-                        "vic_ii.raster_irq_clk = %ul, "
-                        "line = $%04X, "
-                        "vic_ii.regs[0x1a]&1 = %d\n",
-                        vic_ii.raster_irq_clk,
-                        line,
-                        vic_ii.regs[0x1a] & 1));
+  VIC_II_DEBUG_RASTER(("VIC: update_raster_irq(): "
+                      "vic_ii.raster_irq_clk = %ul, "
+                      "line = $%04X, "
+                      "vic_ii.regs[0x1a]&1 = %d\n",
+                      vic_ii.raster_irq_clk,
+                      line,
+                      vic_ii.regs[0x1a] & 1));
 
   vic_ii.raster_irq_line = line;
 }
 
 /* Change the base of RAM seen by the VIC-II.  */
-static inline void vic_ii_set_ram_bases (BYTE * base_p1, BYTE * base_p2)
+static inline void vic_ii_set_ram_bases(BYTE *base_p1, BYTE *base_p2)
 {
   /* WARNING: assumes `rmw_flag' is 0 or 1.  */
   vic_ii_handle_pending_alarms (rmw_flag + 1);
 
   vic_ii.ram_base_phi1 = base_p1;
   vic_ii.ram_base_phi2 = base_p2;
-  vic_ii_update_memory_ptrs (VIC_II_RASTER_CYCLE (clk));
+  vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
 }
 
-void vic_ii_set_ram_base (BYTE * base) 
+void vic_ii_set_ram_base(BYTE *base)
 {
   vic_ii_set_ram_bases(base, base);
 }
 
-void vic_ii_set_phi1_ram_base (BYTE * base) 
+void vic_ii_set_phi1_ram_base(BYTE *base)
 {
   vic_ii_set_ram_bases(base, vic_ii.ram_base_phi2);
 }
 
-void vic_ii_set_phi2_ram_base (BYTE * base) 
+void vic_ii_set_phi2_ram_base(BYTE *base)
 {
   vic_ii_set_ram_bases(vic_ii.ram_base_phi1, base);
 }
@@ -762,11 +832,11 @@ void vic_ii_set_phi2_ram_base (BYTE * base)
 void vic_ii_update_memory_ptrs_external(void)
 {
     if (vic_ii.initialized > 0)
-        vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
+        vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
 }
 
 /* Set the memory pointers according to the values in the registers.  */
-void vic_ii_update_memory_ptrs (unsigned int cycle)
+void vic_ii_update_memory_ptrs(unsigned int cycle)
 {
   /* FIXME: This is *horrible*!  */
   static BYTE *old_screen_ptr, *old_bitmap_ptr, *old_chargen_ptr;
@@ -780,19 +850,20 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
 
   screen_addr = vic_ii.vbank_phi2 + ((vic_ii.regs[0x18] & 0xf0) << 6);
 
-  screen_addr = (screen_addr & vic_ii.vaddr_mask_phi2) 
-					| vic_ii.vaddr_offset_phi2;
+  screen_addr = (screen_addr & vic_ii.vaddr_mask_phi2)
+                | vic_ii.vaddr_offset_phi2;
 
-  if ((screen_addr & vic_ii.vaddr_chargen_mask_phi2) != vic_ii.vaddr_chargen_value_phi2)
+  if ((screen_addr & vic_ii.vaddr_chargen_mask_phi2)
+      != vic_ii.vaddr_chargen_value_phi2)
     {
       screen_base = vic_ii.ram_base_phi2 + screen_addr;
-      VIC_II_DEBUG_REGISTER (("\tVideo memory at $%04X\n", screen_addr));
+      VIC_II_DEBUG_REGISTER(("\tVideo memory at $%04X\n", screen_addr));
     }
   else
     {
       screen_base = chargen_rom + (screen_addr & 0x800);
-      VIC_II_DEBUG_REGISTER (("\tVideo memory at Character ROM + $%04X\n",
-                              screen_addr & 0x800));
+      VIC_II_DEBUG_REGISTER(("\tVideo memory at Character ROM + $%04X\n",
+                            screen_addr & 0x800));
     }
 
   tmp = (vic_ii.regs[0x18] & 0xe) << 10;
@@ -801,17 +872,17 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
   tmp |= vic_ii.vaddr_offset_phi1;
   bitmap_base = vic_ii.ram_base_phi1 + (tmp & 0xe000);
 
-  VIC_II_DEBUG_REGISTER (("\tBitmap memory at $%04X\n", tmp & 0xe000));
+  VIC_II_DEBUG_REGISTER(("\tBitmap memory at $%04X\n", tmp & 0xe000));
 
   if ((tmp & vic_ii.vaddr_chargen_mask_phi1) != vic_ii.vaddr_chargen_value_phi1)
     {
       char_base = vic_ii.ram_base_phi1 + tmp;
-      VIC_II_DEBUG_REGISTER (("\tUser-defined character set at $%04X\n", tmp));
+      VIC_II_DEBUG_REGISTER(("\tUser-defined character set at $%04X\n", tmp));
     }
   else
     {
       char_base = chargen_rom + (tmp & 0x0800);
-      VIC_II_DEBUG_REGISTER (("\tStandard %s character set enabled\n",
+      VIC_II_DEBUG_REGISTER(("\tStandard %s character set enabled\n",
                               tmp & 0x800 ? "Lower Case" : "Upper Case"));
     }
 
@@ -820,24 +891,23 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
                  ? romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000
                  : vic_ii.ram_base_phi1 + tmp);
 
-  tmp = VIC_II_RASTER_CHAR (cycle);
+  tmp = VIC_II_RASTER_CHAR(cycle);
 
-  if (vic_ii.idle_data_location != IDLE_NONE && 
-				old_vbank_p2 != vic_ii.vbank_phi2
-			)
+  if (vic_ii.idle_data_location != IDLE_NONE &&
+                                old_vbank_p2 != vic_ii.vbank_phi2)
     {
       if (vic_ii.idle_data_location == IDLE_39FF)
-        raster_add_int_change_foreground (&vic_ii.raster,
-                                          VIC_II_RASTER_CHAR (cycle),
-                                          &vic_ii.idle_data,
-                                          vic_ii.ram_base_phi2[vic_ii.vbank_phi2
-                                                          + 0x39ff]);
+        raster_add_int_change_foreground(&vic_ii.raster,
+                                         VIC_II_RASTER_CHAR (cycle),
+                                         &vic_ii.idle_data,
+                                         vic_ii.ram_base_phi2[vic_ii.vbank_phi2
+                                         + 0x39ff]);
       else
-        raster_add_int_change_foreground (&vic_ii.raster,
-                                          VIC_II_RASTER_CHAR (cycle),
-                                          &vic_ii.idle_data,
-                                          vic_ii.ram_base_phi2[vic_ii.vbank_phi2
-                                                          + 0x3fff]);
+        raster_add_int_change_foreground(&vic_ii.raster,
+                                         VIC_II_RASTER_CHAR (cycle),
+                                         &vic_ii.idle_data,
+                                         vic_ii.ram_base_phi2[vic_ii.vbank_phi2
+                                         + 0x3fff]);
     }
 
   if (vic_ii.raster.skip_frame || (tmp <= 0 && clk < vic_ii.draw_clk))
@@ -854,99 +924,99 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
     {
       if (screen_base != old_screen_ptr)
         {
-          raster_add_ptr_change_foreground (&vic_ii.raster, tmp,
-                                            (void **) &vic_ii.screen_ptr,
-                                            (void *) screen_base);
-          raster_add_ptr_change_foreground (&vic_ii.raster, tmp,
-                            (void **) &vic_ii.raster.sprite_status->ptr_base,
-                                            (void *) (screen_base + 0x3f8));
+          raster_add_ptr_change_foreground(&vic_ii.raster, tmp,
+                                           (void **) &vic_ii.screen_ptr,
+                                           (void *) screen_base);
+          raster_add_ptr_change_foreground(&vic_ii.raster, tmp,
+                            (void **)&vic_ii.raster.sprite_status->ptr_base,
+                                           (void *)(screen_base + 0x3f8));
           old_screen_ptr = screen_base;
         }
 
       if (bitmap_base != old_bitmap_ptr)
         {
-          raster_add_ptr_change_foreground (&vic_ii.raster,
-                                            tmp,
-                                            (void **) &vic_ii.bitmap_ptr,
-                                            (void *) (bitmap_base));
+          raster_add_ptr_change_foreground(&vic_ii.raster,
+                                           tmp,
+                                           (void **)&vic_ii.bitmap_ptr,
+                                           (void *)(bitmap_base));
           old_bitmap_ptr = bitmap_base;
         }
 
       if (char_base != old_chargen_ptr)
         {
-          raster_add_ptr_change_foreground (&vic_ii.raster,
-                                            tmp,
-                                            (void **) &vic_ii.chargen_ptr,
-                                            (void *) char_base);
+          raster_add_ptr_change_foreground(&vic_ii.raster,
+                                           tmp,
+                                           (void **)&vic_ii.chargen_ptr,
+                                           (void *)char_base);
           old_chargen_ptr = char_base;
         }
 
       if (vic_ii.vbank_phi1 != old_vbank_p1)
         {
 /*
-          raster_add_ptr_change_foreground (&vic_ii.raster,
-                                            tmp,
-                                            (void **) &vic_ii.vbank_ptr,
-                                            (void *) (vic_ii.ram_base
-                                                      + vic_ii.vbank));
+          raster_add_ptr_change_foreground(&vic_ii.raster,
+                                           tmp,
+                                           (void **)&vic_ii.vbank_ptr,
+                                           (void *)(vic_ii.ram_base
+                                                    + vic_ii.vbank));
 */
           old_vbank_p1 = vic_ii.vbank_phi1;
         }
 
       if (vic_ii.vbank_phi2 != old_vbank_p2)
-	{
+        {
           old_vbank_p2 = vic_ii.vbank_phi2;
-	}
+        }
     }
   else
     {
       if (screen_base != old_screen_ptr)
         {
-          raster_add_ptr_change_next_line (&vic_ii.raster,
-                                           (void **) &vic_ii.screen_ptr,
-                                           (void *) screen_base);
-          raster_add_ptr_change_next_line (&vic_ii.raster,
-                            (void **) &vic_ii.raster.sprite_status->ptr_base,
-                                           (void *) (screen_base + 0x3f8));
+          raster_add_ptr_change_next_line(&vic_ii.raster,
+                                          (void **)&vic_ii.screen_ptr,
+                                          (void *)screen_base);
+          raster_add_ptr_change_next_line(&vic_ii.raster,
+                            (void **)&vic_ii.raster.sprite_status->ptr_base,
+                                          (void *)(screen_base + 0x3f8));
           old_screen_ptr = screen_base;
         }
       if (bitmap_base != old_bitmap_ptr)
         {
-          raster_add_ptr_change_next_line (&vic_ii.raster,
-                                           (void **) &vic_ii.bitmap_ptr,
-                                           (void *) (bitmap_base));
+          raster_add_ptr_change_next_line(&vic_ii.raster,
+                                          (void **)&vic_ii.bitmap_ptr,
+                                          (void *)(bitmap_base));
           old_bitmap_ptr = bitmap_base;
         }
 
       if (char_base != old_chargen_ptr)
         {
-          raster_add_ptr_change_next_line (&vic_ii.raster,
-                                           (void **) &vic_ii.chargen_ptr,
-                                           (void *) char_base);
+          raster_add_ptr_change_next_line(&vic_ii.raster,
+                                          (void **)&vic_ii.chargen_ptr,
+                                          (void *)char_base);
           old_chargen_ptr = char_base;
         }
 
       if (vic_ii.vbank_phi1 != old_vbank_p1)
         {
 /*
-          raster_add_ptr_change_next_line (&vic_ii.raster,
-                                           (void **) &vic_ii.vbank_ptr,
-                                           (void *) (vic_ii.ram_base
-                                                     + vic_ii.vbank));
+          raster_add_ptr_change_next_line(&vic_ii.raster,
+                                          (void **)&vic_ii.vbank_ptr,
+                                          (void *)(vic_ii.ram_base
+                                                   + vic_ii.vbank));
 */
           old_vbank_p1 = vic_ii.vbank_phi1;
         }
 
       if (vic_ii.vbank_phi2 != old_vbank_p2)
-	{
+        {
           old_vbank_p2 = vic_ii.vbank_phi2;
-	}
+        }
     }
 }
 
 /* Set the video mode according to the values in registers $D011 and $D016 of
    the VIC-II chip.  */
-void vic_ii_update_video_mode (unsigned int cycle)
+void vic_ii_update_video_mode(unsigned int cycle)
 {
   static int old_video_mode = -1;
   int new_video_mode;
@@ -957,7 +1027,7 @@ void vic_ii_update_video_mode (unsigned int cycle)
   if (new_video_mode != old_video_mode)
     {
       if (new_video_mode == VIC_II_HIRES_BITMAP_MODE
-          || VIC_II_IS_ILLEGAL_MODE (new_video_mode))
+          || VIC_II_IS_ILLEGAL_MODE(new_video_mode))
         {
           /* Force the overscan color to black.  */
           raster_add_int_change_background
@@ -981,21 +1051,21 @@ void vic_ii_update_video_mode (unsigned int cycle)
       {
         int pos;
 
-        pos = VIC_II_RASTER_CHAR (cycle);
+        pos = VIC_II_RASTER_CHAR(cycle);
 
-        raster_add_int_change_foreground (&vic_ii.raster, pos,
-                                          &vic_ii.raster.video_mode,
-                                          new_video_mode);
+        raster_add_int_change_foreground(&vic_ii.raster, pos,
+                                         &vic_ii.raster.video_mode,
+                                         new_video_mode);
 
         if (vic_ii.idle_data_location != IDLE_NONE)
           {
             if (vic_ii.regs[0x11] & 0x40)
               raster_add_int_change_foreground
-                (&vic_ii.raster, pos, (void *) &vic_ii.idle_data,
+                (&vic_ii.raster, pos, (void *)&vic_ii.idle_data,
                  vic_ii.ram_base_phi2[vic_ii.vbank_phi2 + 0x39ff]);
             else
               raster_add_int_change_foreground
-                (&vic_ii.raster, pos, (void *) &vic_ii.idle_data,
+                (&vic_ii.raster, pos, (void *)&vic_ii.idle_data,
                  vic_ii.ram_base_phi2[vic_ii.vbank_phi2 + 0x3fff]);
           }
       }
@@ -1007,41 +1077,41 @@ void vic_ii_update_video_mode (unsigned int cycle)
   switch (new_video_mode)
     {
     case VIC_II_NORMAL_TEXT_MODE:
-      VIC_II_DEBUG_VMODE (("Standard Text"));
+      VIC_II_DEBUG_VMODE(("Standard Text"));
       break;
     case VIC_II_MULTICOLOR_TEXT_MODE:
-      VIC_II_DEBUG_VMODE (("Multicolor Text"));
+      VIC_II_DEBUG_VMODE(("Multicolor Text"));
       break;
     case VIC_II_HIRES_BITMAP_MODE:
-      VIC_II_DEBUG_VMODE (("Hires Bitmap"));
+      VIC_II_DEBUG_VMODE(("Hires Bitmap"));
       break;
     case VIC_II_MULTICOLOR_BITMAP_MODE:
-      VIC_II_DEBUG_VMODE (("Multicolor Bitmap"));
+      VIC_II_DEBUG_VMODE(("Multicolor Bitmap"));
       break;
     case VIC_II_EXTENDED_TEXT_MODE:
-      VIC_II_DEBUG_VMODE (("Extended Text"));
+      VIC_II_DEBUG_VMODE(("Extended Text"));
       break;
     case VIC_II_ILLEGAL_TEXT_MODE:
-      VIC_II_DEBUG_VMODE (("Illegal Text"));
+      VIC_II_DEBUG_VMODE(("Illegal Text"));
       break;
     case VIC_II_ILLEGAL_BITMAP_MODE_1:
-      VIC_II_DEBUG_VMODE (("Invalid Bitmap"));
+      VIC_II_DEBUG_VMODE(("Invalid Bitmap"));
       break;
     case VIC_II_ILLEGAL_BITMAP_MODE_2:
-      VIC_II_DEBUG_VMODE (("Invalid Bitmap"));
+      VIC_II_DEBUG_VMODE(("Invalid Bitmap"));
       break;
     default:                    /* cannot happen */
-      VIC_II_DEBUG_VMODE (("???"));
+      VIC_II_DEBUG_VMODE(("???"));
     }
 
-  VIC_II_DEBUG_VMODE ((" Mode enabled at line $%04X, cycle %d.\n",
-                       VIC_II_RASTER_Y (clk), cycle));
+  VIC_II_DEBUG_VMODE((" Mode enabled at line $%04X, cycle %d.\n",
+                      VIC_II_RASTER_Y (clk), cycle));
 #endif
 }
 
 /* Redraw the current raster line.  This happens at cycle VIC_II_DRAW_CYCLE
    of each line.  */
-void vic_ii_raster_draw_alarm_handler (CLOCK offset)
+void vic_ii_raster_draw_alarm_handler(CLOCK offset)
 {
   BYTE prev_sprite_sprite_collisions;
   BYTE prev_sprite_background_collisions;
@@ -1053,22 +1123,22 @@ void vic_ii_raster_draw_alarm_handler (CLOCK offset)
   in_visible_area = (vic_ii.raster.current_line >= vic_ii.first_displayed_line
                  && vic_ii.raster.current_line <= vic_ii.last_displayed_line);
 
-  raster_emulate_line (&vic_ii.raster);
+  raster_emulate_line(&vic_ii.raster);
 
   if (vic_ii.raster.current_line == 0)
     {
-      raster_skip_frame (&vic_ii.raster,
-                         vsync_do_vsync(vic_ii.raster.skip_frame));
+      raster_skip_frame(&vic_ii.raster,
+                        vsync_do_vsync(vic_ii.raster.skip_frame));
       vic_ii.memptr = 0;
       vic_ii.mem_counter = 0;
       vic_ii.light_pen.triggered = 0;
 
 #ifdef __MSDOS__
       if (vic_ii.raster.viewport.width <= VIC_II_SCREEN_XPIX
-	  && vic_ii.raster.viewport.height <= VIC_II_SCREEN_YPIX
+          && vic_ii.raster.viewport.height <= VIC_II_SCREEN_YPIX
           && vic_ii.raster.viewport.update_canvas)
-	canvas_set_border_color (vic_ii.raster.viewport.canvas,
-                                 vic_ii.raster.border_color);
+        canvas_set_border_color(vic_ii.raster.viewport.canvas,
+                                vic_ii.raster.border_color);
 #endif
     }
 
@@ -1115,7 +1185,7 @@ void vic_ii_raster_draw_alarm_handler (CLOCK offset)
       vic_ii.irq_status |= 0x4;
       if (vic_ii.regs[0x1a] & 0x4)
         {
-          maincpu_set_irq (I_RASTER, 1);
+          maincpu_set_irq(I_RASTER, 1);
           vic_ii.irq_status |= 0x80;
         }
     }
@@ -1127,7 +1197,7 @@ void vic_ii_raster_draw_alarm_handler (CLOCK offset)
       vic_ii.irq_status |= 0x2;
       if (vic_ii.regs[0x1a] & 0x2)
         {
-          maincpu_set_irq (I_RASTER, 1);
+          maincpu_set_irq(I_RASTER, 1);
           vic_ii.irq_status |= 0x80;
         }
     }
@@ -1151,12 +1221,11 @@ void vic_ii_raster_draw_alarm_handler (CLOCK offset)
   /* Set the next draw event.  */
   vic_ii.last_emulate_line_clk += vic_ii.cycles_per_line;
   vic_ii.draw_clk = vic_ii.last_emulate_line_clk + vic_ii.draw_cycle;
-  alarm_set (&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
+  alarm_set(&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
 }
 
-inline static int handle_fetch_matrix(long offset,
-                    CLOCK sub,
-                    CLOCK *write_offset)
+inline static int handle_fetch_matrix(long offset, CLOCK sub,
+                                      CLOCK *write_offset)
 {
   raster_t *raster;
   raster_sprite_status_t *sprite_status;
@@ -1168,7 +1237,7 @@ inline static int handle_fetch_matrix(long offset,
 
   if (sprite_status->visible_msk == 0 && sprite_status->dma_msk == 0)
     {
-      do_matrix_fetch (sub);
+      do_matrix_fetch(sub);
 
       /* As sprites are all turned off, there is no need for a sprite DMA
          check; next time we will VIC_II_FETCH_MATRIX again.  This works
@@ -1189,7 +1258,7 @@ inline static int handle_fetch_matrix(long offset,
       else
         vic_ii.fetch_clk += vic_ii.cycles_per_line;
 
-      alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+      alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
       return 1;
     }
   else
@@ -1209,7 +1278,7 @@ inline static int handle_fetch_matrix(long offset,
       if (vic_ii.fetch_clk > clk || offset == 0)
         {
           /* Prepare the next fetch event.  */
-          alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+          alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
           return 1;
         }
 
@@ -1220,7 +1289,7 @@ inline static int handle_fetch_matrix(long offset,
   return 0;
 }
 
-inline static void swap_sprite_data_buffers (void)
+inline static void swap_sprite_data_buffers(void)
 {
   DWORD *tmp;
   raster_sprite_status_t *sprite_status;
@@ -1232,8 +1301,7 @@ inline static void swap_sprite_data_buffers (void)
   sprite_status->new_sprite_data = tmp;
 }
 
-inline static int handle_check_sprite_dma (long offset,
-                         CLOCK sub)
+inline static int handle_check_sprite_dma(long offset, CLOCK sub)
 {
   swap_sprite_data_buffers ();
 
@@ -1273,16 +1341,15 @@ inline static int handle_check_sprite_dma (long offset,
 
   if (vic_ii.fetch_clk > clk || offset == 0)
     {
-      alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+      alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
       return 1;
     }
 
   return 0;
 }
 
-inline static int handle_fetch_sprite (long offset,
-                     CLOCK sub,
-                     CLOCK *write_offset)
+inline static int handle_fetch_sprite(long offset, CLOCK sub,
+                                      CLOCK *write_offset)
 {
   const vic_ii_sprites_fetch_t *sf;
   unsigned int i;
@@ -1299,7 +1366,7 @@ inline static int handle_fetch_sprite (long offset,
 
       sprite_status = vic_ii.raster.sprite_status;
       /* FIXME: the 3 byte sprite data is instead taken during a Ph1/Ph2/Ph1
-	 sequence. This is of minor interest, though, only for CBM-II... */
+         sequence. This is of minor interest, though, only for CBM-II... */
       bank = vic_ii.ram_base_phi1 + vic_ii.vbank_phi1;
       spr_base = (bank + 0x3f8 + ((vic_ii.regs[0x18] & 0xf0) << 6)
                   + sf->first);
@@ -1325,9 +1392,9 @@ inline static int handle_fetch_sprite (long offset,
         }
     }
 
-  maincpu_steal_cycles (vic_ii.fetch_clk, sf->num - sub);
+  maincpu_steal_cycles(vic_ii.fetch_clk, sf->num - sub);
 
-  *write_offset = sub==0 ? sf->num : 0;
+  *write_offset = sub == 0 ? sf->num : 0;
 
   next_cycle = (sf + 1)->cycle;
   vic_ii.sprite_fetch_idx++;
@@ -1355,7 +1422,7 @@ inline static int handle_fetch_sprite (long offset,
     vic_ii.fetch_clk = vic_ii.sprite_fetch_clk + next_cycle;
 
   if (clk >= vic_ii.draw_clk)
-    vic_ii_raster_draw_alarm_handler (clk - vic_ii.draw_clk);
+    vic_ii_raster_draw_alarm_handler(clk - vic_ii.draw_clk);
 
   if (vic_ii.fetch_clk > clk || offset == 0)
     {
@@ -1364,14 +1431,14 @@ inline static int handle_fetch_sprite (long offset,
     }
 
   if (clk >= vic_ii.raster_irq_clk)
-    vic_ii_raster_irq_alarm_handler (clk - vic_ii.raster_irq_clk);
+    vic_ii_raster_irq_alarm_handler(clk - vic_ii.raster_irq_clk);
 
   return 0;
 }
 
 /* Handle sprite/matrix fetch events.  FIXME: could be made slightly
    faster.  */
-void vic_ii_raster_fetch_alarm_handler (CLOCK offset)
+void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
 {
   CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
 
@@ -1381,7 +1448,7 @@ void vic_ii_raster_fetch_alarm_handler (CLOCK offset)
 
   if (offset > 0)
     {
-      switch (OPINFO_NUMBER (last_opcode_info))
+      switch (OPINFO_NUMBER(last_opcode_info))
         {
         case 0:
           /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
@@ -1435,7 +1502,7 @@ void vic_ii_raster_fetch_alarm_handler (CLOCK offset)
       switch (vic_ii.fetch_idx)
         {
         case VIC_II_FETCH_MATRIX:
-          leave = handle_fetch_matrix (offset, sub, &write_offset);
+          leave = handle_fetch_matrix(offset, sub, &write_offset);
           last_opcode_first_write_clk += write_offset;
           last_opcode_last_write_clk += write_offset;
           break;
@@ -1446,7 +1513,7 @@ void vic_ii_raster_fetch_alarm_handler (CLOCK offset)
 
         case VIC_II_FETCH_SPRITE:
         default:                /* Make compiler happy.  */
-          leave = handle_fetch_sprite (offset, sub, &write_offset);
+          leave = handle_fetch_sprite(offset, sub, &write_offset);
           last_opcode_first_write_clk += write_offset;
           last_opcode_last_write_clk += write_offset;
           break;
@@ -1459,17 +1526,17 @@ void vic_ii_raster_fetch_alarm_handler (CLOCK offset)
 
 /* If necessary, emulate a raster compare IRQ. This is called when the raster
    line counter matches the value stored in the raster line register.  */
-static void vic_ii_raster_irq_alarm_handler (CLOCK offset)
+static void vic_ii_raster_irq_alarm_handler(CLOCK offset)
 {
   vic_ii.irq_status |= 0x1;
   if (vic_ii.regs[0x1a] & 0x1)
     {
-      maincpu_set_irq_clk (I_RASTER, 1, vic_ii.raster_irq_clk);
+      maincpu_set_irq_clk(I_RASTER, 1, vic_ii.raster_irq_clk);
       vic_ii.irq_status |= 0x80;
       VIC_II_DEBUG_RASTER (("VIC: *** IRQ requested at line $%04X, "
                 "vic_ii.raster_irq_line=$%04X, offset = %ld, cycle = %d.\n",
                       VIC_II_RASTER_Y (clk), vic_ii.raster_irq_line, offset,
-                            VIC_II_RASTER_CYCLE (clk)));
+                            VIC_II_RASTER_CYCLE(clk)));
     }
 
   vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
@@ -1479,7 +1546,7 @@ static void vic_ii_raster_irq_alarm_handler (CLOCK offset)
 /* WARNING: This does not change the resource value.  External modules are
    expected to set the resource value to change the VIC-II palette instead of
    calling this function directly.  */
-int vic_ii_load_palette (const char *name)
+int vic_ii_load_palette(const char *name)
 {
   static const char *color_names[VIC_II_NUM_COLORS] =
     {
@@ -1489,28 +1556,30 @@ int vic_ii_load_palette (const char *name)
     };
   palette_t *palette;
 
-  palette = palette_create (VIC_II_NUM_COLORS, color_names);
+  palette = palette_create(VIC_II_NUM_COLORS, color_names);
   if (palette == NULL)
     return -1;
 
-  if (!console_mode && !vsid_mode && palette_load (name, palette) < 0)
+  if (!console_mode && !vsid_mode && palette_load(name, palette) < 0)
     {
-      log_message (vic_ii.log, "Cannot load palette file `%s'.", name);
+      log_message(vic_ii.log, "Cannot load palette file `%s'.", name);
       return -1;
     }
 
-  return raster_set_palette (&vic_ii.raster, palette);
+  return raster_set_palette(&vic_ii.raster, palette);
 }
 
 /* Set proper functions and constants for the current video settings.  */
-void vic_ii_resize (void)
+void vic_ii_resize(void)
 {
   if (!vic_ii.initialized)
     return;
 
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
-  if (fullscreen_is_enabled ? vic_ii_resources.fullscreen_double_size_enabled : vic_ii_resources.double_size_enabled)
+  if (fullscreen_is_enabled
+      ? vic_ii_resources.fullscreen_double_size_enabled
+      : vic_ii_resources.double_size_enabled)
 #else
   if (vic_ii_resources.double_size_enabled)
 #endif
@@ -1520,31 +1589,31 @@ void vic_ii_resize (void)
     {
       if (vic_ii.raster.viewport.pixel_size.width == 1
           && vic_ii.raster.viewport.canvas != NULL) {
-        raster_set_pixel_size (&vic_ii.raster, 2, 2);
-        raster_resize_viewport (&vic_ii.raster,
-                                vic_ii.raster.viewport.width * 2,
-                                vic_ii.raster.viewport.height * 2);
+        raster_set_pixel_size(&vic_ii.raster, 2, 2);
+        raster_resize_viewport(&vic_ii.raster,
+                               vic_ii.raster.viewport.width * 2,
+                               vic_ii.raster.viewport.height * 2);
       } else {
-          raster_set_pixel_size (&vic_ii.raster, 2, 2);
+          raster_set_pixel_size(&vic_ii.raster, 2, 2);
       }
 
-      vic_ii_draw_set_double_size (1);
-      vic_ii_sprites_set_double_size (1);
+      vic_ii_draw_set_double_size(1);
+      vic_ii_sprites_set_double_size(1);
     }
   else
     {
       if (vic_ii.raster.viewport.pixel_size.width == 2
           && vic_ii.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size (&vic_ii.raster, 1, 1);
-        raster_resize_viewport (&vic_ii.raster,
-                                vic_ii.raster.viewport.width / 2,
-                                vic_ii.raster.viewport.height / 2);
+          raster_set_pixel_size(&vic_ii.raster, 1, 1);
+        raster_resize_viewport(&vic_ii.raster,
+                               vic_ii.raster.viewport.width / 2,
+                               vic_ii.raster.viewport.height / 2);
       } else {
-          raster_set_pixel_size (&vic_ii.raster, 1, 1);
+          raster_set_pixel_size(&vic_ii.raster, 1, 1);
       }
 
-      vic_ii_draw_set_double_size (0);
-      vic_ii_sprites_set_double_size (0);
+      vic_ii_draw_set_double_size(0);
+      vic_ii_sprites_set_double_size(0);
     }
 }
 
@@ -1557,22 +1626,17 @@ void vic_ii_set_set_canvas_refresh(int enable)
     raster_set_canvas_refresh(raster, enable);
 }
 
-int vic_ii_write_snapshot_module (snapshot_t *s)
+int vic_ii_write_snapshot_module(snapshot_t *s)
 {
-    return vic_ii_snapshot_write_module (s);
+    return vic_ii_snapshot_write_module(s);
 }
 
-int vic_ii_read_snapshot_module (snapshot_t *s)
+int vic_ii_read_snapshot_module(snapshot_t *s)
 {
-    return vic_ii_snapshot_read_module (s);
+    return vic_ii_snapshot_read_module(s);
 }
 
-void vic_ii_handle_pending_alarms_external(int num_write_cycles)
-{
-    vic_ii_handle_pending_alarms(num_write_cycles);
-}
-
-void vic_ii_free (void)
+void vic_ii_free(void)
 {
     raster_free(&vic_ii.raster);
 }
@@ -1586,10 +1650,11 @@ void vic_ii_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
 
-  vic_ii_resize ();
-  raster_enable_double_scan (&vic_ii.raster,
-			     fullscreen_is_enabled ?
-			     vic_ii_resources.fullscreen_double_scan_enabled :
-			     vic_ii_resources.double_scan_enabled);
+  vic_ii_resize();
+  raster_enable_double_scan(&vic_ii.raster,
+                            fullscreen_is_enabled ?
+                            vic_ii_resources.fullscreen_double_scan_enabled :
+                            vic_ii_resources.double_scan_enabled);
 #endif
 }
+
