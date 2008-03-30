@@ -1,3 +1,25 @@
+2003-02-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.8.
+
+	* c128/c128mem.c, c128/c128mem.h, c128/z80mem.c,
+	c128/z80mem.h, c128/c128-resources.c, c128/c128rom.c,
+	c128/c128rom.h, arch/unix/c128ui.c: Added support for machine
+	types.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/vic20ui.c,
+	arch/unix/uidrivec64c128vic20.c,
+	arch/unix/uidrivec64c128vic20.h: Moved common romset code.
+
+	* monitor/mon_file.c (mon_file_open): Fixed return value.
+
+	* monitor/mon.c, monitor/mon.h (mon_ioreg_add_list): New
+	function.
+
+	* c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c,
+	pet/petmem.c, plus4/plus4mem.c, cbm2/cbm2mem.c,
+	(mem_ioreg_list_get): Use `mon_ioreg_add_list()'.
+
 2003-02-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.7.

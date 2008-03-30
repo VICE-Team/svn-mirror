@@ -1128,46 +1128,17 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 
 mem_ioreg_list_t *mem_ioreg_list_get(void)
 {
-    mem_ioreg_list_t *mem_ioreg_list;
+    mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 6);
-
-    if (cbm2_isC500) {
-        mem_ioreg_list[0].name = "VIC-II";
-        mem_ioreg_list[0].start = 0xd800;
-        mem_ioreg_list[0].end = 0xd82e;
-        mem_ioreg_list[0].next = &mem_ioreg_list[1];
-    } else {
-        mem_ioreg_list[0].name = "CRTC";
-        mem_ioreg_list[0].start = 0xd800;
-        mem_ioreg_list[0].end = 0xd80f;
-        mem_ioreg_list[0].next = &mem_ioreg_list[1];
-    }
-
-    mem_ioreg_list[1].name = "SID";
-    mem_ioreg_list[1].start = 0xda00;
-    mem_ioreg_list[1].end = 0xda1f;
-    mem_ioreg_list[1].next = &mem_ioreg_list[2];
-
-    mem_ioreg_list[2].name = "CIA1";
-    mem_ioreg_list[2].start = 0xdc00;
-    mem_ioreg_list[2].end = 0xdc0f;
-    mem_ioreg_list[2].next = &mem_ioreg_list[3];
-
-    mem_ioreg_list[3].name = "ACIA1";
-    mem_ioreg_list[3].start = 0xdd00;
-    mem_ioreg_list[3].end = 0xdd03;
-    mem_ioreg_list[3].next = &mem_ioreg_list[4];
-
-    mem_ioreg_list[4].name = "TPI1";
-    mem_ioreg_list[4].start = 0xde00;
-    mem_ioreg_list[4].end = 0xde07;
-    mem_ioreg_list[4].next = &mem_ioreg_list[5];
-
-    mem_ioreg_list[5].name = "TPI2";
-    mem_ioreg_list[5].start = 0xdf00;
-    mem_ioreg_list[5].end = 0xdf07;
-    mem_ioreg_list[5].next = NULL;
+    if (cbm2_isC500)
+        mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd800, 0xd82e);
+    else
+        mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xd800, 0xd80f);
+    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xda00, 0xda1f);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f);
+    mon_ioreg_add_list(&mem_ioreg_list, "ACIA1", 0xdd00, 0xdd03);
+    mon_ioreg_add_list(&mem_ioreg_list, "TPI1", 0xde00, 0xde07);
+    mon_ioreg_add_list(&mem_ioreg_list, "TPI2", 0xdf00, 0xdf07);
 
     return mem_ioreg_list;
 }

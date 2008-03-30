@@ -153,6 +153,7 @@ extern const char *mon_disassemble_to_string(MEMSPACE, ADDRESS addr, BYTE x,
 
 /** Register interface.  */
 extern struct mon_reg_list_s *mon_register_list_get(int mem);
-
+extern void mon_ioreg_add_list(struct mem_ioreg_list_s **list, const char *name,
+                               ADDRESS start, ADDRESS end);
 #endif
 

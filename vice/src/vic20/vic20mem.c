@@ -756,24 +756,11 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 
 mem_ioreg_list_t *mem_ioreg_list_get(void)
 {
-    mem_ioreg_list_t *mem_ioreg_list;
+    mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 3);
-
-    mem_ioreg_list[0].name = "VIC";
-    mem_ioreg_list[0].start = 0x9000;
-    mem_ioreg_list[0].end = 0x900f;
-    mem_ioreg_list[0].next = &mem_ioreg_list[1];
-
-    mem_ioreg_list[1].name = "VIA1";
-    mem_ioreg_list[1].start = 0x9120;
-    mem_ioreg_list[1].end = 0x912f;
-    mem_ioreg_list[1].next = &mem_ioreg_list[2];
-
-    mem_ioreg_list[2].name = "VIA2";
-    mem_ioreg_list[2].start = 0x9110;
-    mem_ioreg_list[2].end = 0x911f;
-    mem_ioreg_list[2].next = NULL;
+    mon_ioreg_add_list(&mem_ioreg_list, "VIC", 0x9000, 0x900f);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIA1", 0x9120, 0x912f);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIA2", 0x9110, 0x911f);
 
     return mem_ioreg_list;
 }

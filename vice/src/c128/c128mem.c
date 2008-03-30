@@ -96,7 +96,6 @@ BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 
 BYTE basic64_rom[C128_BASIC64_ROM_SIZE];
 BYTE kernal64_rom[C128_KERNAL64_ROM_SIZE];
-BYTE chargen64_rom[C128_CHARGEN64_ROM_SIZE];
 
 /* Internal color memory.  */
 static BYTE mem_color_ram[0x800];
@@ -358,9 +357,14 @@ void REGPARM2 kernal_store(ADDRESS addr, BYTE value)
     mem_kernal_rom[addr & 0x1fff] = value;
 }
 
-BYTE REGPARM1 read_chargen(ADDRESS addr)
+BYTE REGPARM1 chargen_read(ADDRESS addr)
 {
     return mem_chargen_rom_ptr[addr & 0x0fff];
+}
+
+void REGPARM2 chargen_store(ADDRESS addr, BYTE value)
+{
+    mem_chargen_rom_ptr[addr & 0x0fff] = value;
 }
 
 BYTE REGPARM1 basic64_read(ADDRESS addr)
@@ -381,17 +385,6 @@ BYTE REGPARM1 kernal64_read(ADDRESS addr)
 void REGPARM2 kernal64_store(ADDRESS addr, BYTE value)
 {
     kernal64_rom[addr & 0x1fff] = value;
-}
-
-BYTE REGPARM1 chargen64_read(ADDRESS addr)
-{
-    return mem_chargen_rom_ptr[addr & 0x0fff];
-    /*return chargen64_rom[addr & 0xfff];*/
-}
-
-void REGPARM2 chargen64_store(ADDRESS addr, BYTE value)
-{
-    chargen64_rom[addr & 0xfff] = value;
 }
 
 BYTE REGPARM1 rom_read(ADDRESS addr)
@@ -446,7 +439,7 @@ BYTE REGPARM1 rom64_read(ADDRESS addr)
       case 0xb000:
         return basic64_read(addr);
       case 0xd000:
-        return chargen64_read(addr);
+        return chargen_read(addr);
       case 0xe000:
       case 0xf000:
         return kernal64_read(addr);
@@ -463,7 +456,7 @@ void REGPARM2 rom64_store(ADDRESS addr, BYTE value)
         basic64_store(addr, value);
         break;
       case 0xd000:
-        chargen64_store(addr, value);
+        chargen_store(addr, value);
         break;
       case 0xe000:
       case 0xf000:
@@ -1455,14 +1448,14 @@ void mem_initialize_memory(void)
     }
 
     for (i = 0xd0; i <= 0xdf; i++) {
-        mem_read_tab[0][i] = read_chargen;
-        mem_read_tab[1][i] = read_chargen;
-        mem_read_tab[2][i] = read_chargen;
-        mem_read_tab[3][i] = read_chargen;
-        mem_read_tab[4][i] = read_chargen;
-        mem_read_tab[5][i] = read_chargen;
-        mem_read_tab[6][i] = read_chargen;
-        mem_read_tab[7][i] = read_chargen;
+        mem_read_tab[0][i] = chargen_read;
+        mem_read_tab[1][i] = chargen_read;
+        mem_read_tab[2][i] = chargen_read;
+        mem_read_tab[3][i] = chargen_read;
+        mem_read_tab[4][i] = chargen_read;
+        mem_read_tab[5][i] = chargen_read;
+        mem_read_tab[6][i] = chargen_read;
+        mem_read_tab[7][i] = chargen_read;
         mem_read_tab[8][i] = internal_function_rom_read;
         mem_read_tab[9][i] = internal_function_rom_read;
         mem_read_tab[10][i] = internal_function_rom_read;
@@ -1487,14 +1480,14 @@ void mem_initialize_memory(void)
         mem_read_tab[29][i] = ram_read;
         mem_read_tab[30][i] = ram_read;
         mem_read_tab[31][i] = ram_read;
-        mem_read_tab[32][i] = read_chargen;
-        mem_read_tab[33][i] = read_chargen;
-        mem_read_tab[34][i] = read_chargen;
-        mem_read_tab[35][i] = read_chargen;
-        mem_read_tab[36][i] = read_chargen;
-        mem_read_tab[37][i] = read_chargen;
-        mem_read_tab[38][i] = read_chargen;
-        mem_read_tab[39][i] = read_chargen;
+        mem_read_tab[32][i] = chargen_read;
+        mem_read_tab[33][i] = chargen_read;
+        mem_read_tab[34][i] = chargen_read;
+        mem_read_tab[35][i] = chargen_read;
+        mem_read_tab[36][i] = chargen_read;
+        mem_read_tab[37][i] = chargen_read;
+        mem_read_tab[38][i] = chargen_read;
+        mem_read_tab[39][i] = chargen_read;
         mem_read_tab[40][i] = internal_function_rom_read;
         mem_read_tab[41][i] = internal_function_rom_read;
         mem_read_tab[42][i] = internal_function_rom_read;
@@ -1914,15 +1907,15 @@ void mem_initialize_memory(void)
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
        3, 9, 10, 11, 25, 26, 27).  */
     for (i = 0xd0; i <= 0xdf; i++) {
-        mem_read_tab[128+1][i] = chargen64_read;
-        mem_read_tab[128+2][i] = chargen64_read;
-        mem_read_tab[128+3][i] = chargen64_read;
-        mem_read_tab[128+9][i] = chargen64_read;
-        mem_read_tab[128+10][i] = chargen64_read;
-        mem_read_tab[128+11][i] = chargen64_read;
-        mem_read_tab[128+25][i] = chargen64_read;
-        mem_read_tab[128+26][i] = chargen64_read;
-        mem_read_tab[128+27][i] = chargen64_read;
+        mem_read_tab[128+1][i] = chargen_read;
+        mem_read_tab[128+2][i] = chargen_read;
+        mem_read_tab[128+3][i] = chargen_read;
+        mem_read_tab[128+9][i] = chargen_read;
+        mem_read_tab[128+10][i] = chargen_read;
+        mem_read_tab[128+11][i] = chargen_read;
+        mem_read_tab[128+25][i] = chargen_read;
+        mem_read_tab[128+26][i] = chargen_read;
+        mem_read_tab[128+27][i] = chargen_read;
         mem_read_base_tab[128+1][i] = NULL;
         mem_read_base_tab[128+2][i] = NULL;
         mem_read_base_tab[128+3][i] = NULL;
@@ -2399,7 +2392,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
             return basic64_rom[addr & 0x1fff];
         }
         if (addr >= 0xd000 && addr <= 0xdfff) {
-            return chargen64_rom[addr & 0x0fff];
+            return mem_chargen_rom[addr & 0x0fff];
         }
         if (addr >= 0xe000 && addr <= 0xffff) {
             return kernal64_rom[addr & 0x1fff];
@@ -2478,34 +2471,15 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 
 mem_ioreg_list_t *mem_ioreg_list_get(void)
 {
-    mem_ioreg_list_t *mem_ioreg_list;
+    mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 5);
-
-    mem_ioreg_list[0].name = "VIC-IIe";
-    mem_ioreg_list[0].start = 0xd000;
-    mem_ioreg_list[0].end = 0xd030;
-    mem_ioreg_list[0].next = &mem_ioreg_list[1];
-
-    mem_ioreg_list[1].name = "SID";
-    mem_ioreg_list[1].start = 0xd400;
-    mem_ioreg_list[1].end = 0xd41f;
-    mem_ioreg_list[1].next = &mem_ioreg_list[2];
-
-    mem_ioreg_list[2].name = "MMU";
-    mem_ioreg_list[2].start = 0xd500;
-    mem_ioreg_list[2].end = 0xd50b;
-    mem_ioreg_list[2].next = &mem_ioreg_list[3];
-
-    mem_ioreg_list[3].name = "CIA1";
-    mem_ioreg_list[3].start = 0xdc00;
-    mem_ioreg_list[3].end = 0xdc0f;
-    mem_ioreg_list[3].next = &mem_ioreg_list[4];
-
-    mem_ioreg_list[4].name = "CIA2";
-    mem_ioreg_list[4].start = 0xdd00;
-    mem_ioreg_list[4].end = 0xdd0f;
-    mem_ioreg_list[4].next = NULL;
+    mon_ioreg_add_list(&mem_ioreg_list, "VIC-IIe", 0xd000, 0xd030);
+    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f);
+    mon_ioreg_add_list(&mem_ioreg_list, "MMU", 0xd500, 0xd50b);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f);
+    if (reu_enabled)
+        mon_ioreg_add_list(&mem_ioreg_list, "REU", 0xdf00, 0xdf0f);
 
     return mem_ioreg_list;
 }

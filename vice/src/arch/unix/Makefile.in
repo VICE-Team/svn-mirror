@@ -367,14 +367,14 @@ archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h archdep.h \
 blockdev.o: blockdev.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/blockdev.h types.h ../../../src/log.h
 c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/debug.h types.h icon.h ../../../src/machine.h \
-	../../../src/resources.h uic64cart.h uicommands.h uidatasette.h \
-	uidrive.h uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
-	x11/xaw/../xaw/uiarch.h uidrivec64c128vic20.h uijoystick2.h \
-	uiperipheral.h uiscreenshot.h uireu.h uirs232.h uisettings.h \
-	uisid.h uisound.h uivdc.h uivicii.h ../../../src/utils.h \
-	../../../src/vsync.h
+	../../../src/c128/c128.h ../../../src/debug.h types.h icon.h \
+	../../../src/machine.h ../../../src/resources.h uic64cart.h \
+	uicommands.h uidatasette.h uidrive.h uimenu.h x11/xaw/uimenu.h \
+	ui.h ../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
+	uihotkey.h x11/xaw/../xaw/uiarch.h uidrivec64c128vic20.h \
+	uijoystick2.h uiperipheral.h uiscreenshot.h uireu.h uirs232.h \
+	uisettings.h uisid.h uisound.h uivdc.h uivicii.h \
+	../../../src/utils.h ../../../src/vsync.h
 c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/debug.h types.h icon.h ../../../src/machine.h \
 	../../../src/resources.h uic64cart.h uicommands.h uidatasette.h \
@@ -467,7 +467,8 @@ uidrivec64c128vic20.o: uidrivec64c128vic20.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/drive/drive.h types.h \
 	uidrive.h uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
-	x11/xaw/../xaw/uiarch.h uidrivec64c128vic20.h uidriveiec.h
+	x11/xaw/../xaw/uiarch.h uidrivec64c128vic20.h uidriveiec.h \
+	uisettings.h
 uidriveiec.o: uidriveiec.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h types.h uidriveiec.h uimenu.h \
 	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \

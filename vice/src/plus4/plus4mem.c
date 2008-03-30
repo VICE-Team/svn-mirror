@@ -1012,19 +1012,10 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 
 mem_ioreg_list_t *mem_ioreg_list_get(void)
 {
-    mem_ioreg_list_t *mem_ioreg_list;
+    mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 2);
-
-    mem_ioreg_list[0].name = "ACIA";
-    mem_ioreg_list[0].start = 0xfd00;
-    mem_ioreg_list[0].end = 0xfd0f;
-    mem_ioreg_list[0].next = &mem_ioreg_list[1];
-
-    mem_ioreg_list[1].name = "TED";
-    mem_ioreg_list[1].start = 0xff00;
-    mem_ioreg_list[1].end = 0xff3f;
-    mem_ioreg_list[1].next = NULL;
+    mon_ioreg_add_list(&mem_ioreg_list, "ACIA", 0xfd00, 0xfd0f);
+    mon_ioreg_add_list(&mem_ioreg_list, "TED", 0xff00, 0xff3f);
 
     return mem_ioreg_list;
 }

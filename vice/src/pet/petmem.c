@@ -918,33 +918,13 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 
 mem_ioreg_list_t *mem_ioreg_list_get(void)
 {
-    mem_ioreg_list_t *mem_ioreg_list;
+    mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 4);
-
-    mem_ioreg_list[0].name = "PIA1";
-    mem_ioreg_list[0].start = 0x0010;
-    mem_ioreg_list[0].end = 0x001f;
-    mem_ioreg_list[0].next = &mem_ioreg_list[1];
-
-    mem_ioreg_list[1].name = "PIA2";
-    mem_ioreg_list[1].start = 0x0020;
-    mem_ioreg_list[1].end = 0x002f;
-    mem_ioreg_list[1].next = &mem_ioreg_list[2];
-
-    mem_ioreg_list[2].name = "VIA";
-    mem_ioreg_list[2].start = 0x0040;
-    mem_ioreg_list[2].end = 0x004f;
-    mem_ioreg_list[2].next = NULL;
-
-    if (petres.crtc) {
-        mem_ioreg_list[2].next = &mem_ioreg_list[3];
-
-        mem_ioreg_list[3].name = "CRTC";
-        mem_ioreg_list[3].start = 0x0080;
-        mem_ioreg_list[3].end = 0x0093;
-        mem_ioreg_list[3].next = NULL;
-    }
+    mon_ioreg_add_list(&mem_ioreg_list, "PIA1", 0x0010, 0x001f);
+    mon_ioreg_add_list(&mem_ioreg_list, "PIA2", 0x0020, 0x002f);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIA", 0x0040, 0x004f);
+    if (petres.crtc)
+        mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0x0080, 0x0093);
 
     return mem_ioreg_list;
 }

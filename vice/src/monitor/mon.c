@@ -645,7 +645,6 @@ void mon_display_screen(void)
     }
 }
 
-
 void mon_display_io_regs(void)
 {
     mem_ioreg_list_t *mem_ioreg_list, *mem_ioreg_list_base;
@@ -666,6 +665,35 @@ void mon_display_io_regs(void)
     } while (mem_ioreg_list != NULL);
 
     free(mem_ioreg_list_base);
+}
+
+void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
+                        ADDRESS start, ADDRESS end)
+{
+    mem_ioreg_list_t *base, *curr;
+    unsigned int n;
+
+    base = *list;
+    curr = *list;
+    n = 0;
+
+    while (curr != NULL) {
+        n++;
+        curr = curr->next;
+    }
+
+    base = (mem_ioreg_list_t *)xrealloc(base, sizeof(mem_ioreg_list_t)
+           * (n + 1));
+
+    if (n > 0)
+        base[n - 1].next = &base[n];
+
+    base[n].name = name;
+    base[n].start = start;
+    base[n].end = end;
+    base[n].next = NULL;
+
+    *list = base;
 }
 
 

@@ -919,29 +919,14 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 
 mem_ioreg_list_t *mem_ioreg_list_get(void)
 {
-    mem_ioreg_list_t *mem_ioreg_list;
+    mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 4);
-
-    mem_ioreg_list[0].name = "VIC-II";
-    mem_ioreg_list[0].start = 0xd000;
-    mem_ioreg_list[0].end = 0xd02e;
-    mem_ioreg_list[0].next = &mem_ioreg_list[1];
-
-    mem_ioreg_list[1].name = "SID";
-    mem_ioreg_list[1].start = 0xd400;
-    mem_ioreg_list[1].end = 0xd41f;
-    mem_ioreg_list[1].next = &mem_ioreg_list[2];
-
-    mem_ioreg_list[2].name = "CIA1";
-    mem_ioreg_list[2].start = 0xdc00;
-    mem_ioreg_list[2].end = 0xdc0f;
-    mem_ioreg_list[2].next = &mem_ioreg_list[3];
-
-    mem_ioreg_list[3].name = "CIA2";
-    mem_ioreg_list[3].start = 0xdd00;
-    mem_ioreg_list[3].end = 0xdd0f;
-    mem_ioreg_list[3].next = NULL;
+    mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd000, 0xd02e);
+    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f);
+    if (reu_enabled)
+        mon_ioreg_add_list(&mem_ioreg_list, "REU", 0xdf00, 0xdf0f);
 
     return mem_ioreg_list;
 }
