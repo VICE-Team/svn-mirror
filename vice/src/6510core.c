@@ -1713,11 +1713,11 @@ trap_skipped:
             break;
 
           case 0x14:            /* NOOP $nn,X */
-          case 0x34:            /* NOOP */
+          case 0x34:            /* NOOP $nn,X */
           case 0x54:            /* NOOP $nn,X */
           case 0x74:            /* NOOP $nn,X */
           case 0xd4:            /* NOOP $nn,X */
-          case 0xf4:            /* NOOP ($nn,X) */
+          case 0xf4:            /* NOOP $nn,X */
             NOOP(4, 2);
             break;
 
