@@ -1,3 +1,43 @@
+2002-07-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.59.
+
+	* vicii/vicii-mem.c (store_d016): Change xsmooth color
+	immediately if border is open.
+
+2002-07-18  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* init.c (init_main): Call `joystick_init()' unconditially. 
+
+2002-07-17  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc): Use XVideo for YUV rendering
+	only.
+
+	* arch/unix/x11/gnome/x11ui.c (exposure_callback_app,
+	exposure_callback_canvas): Split from exposure_callback.
+
+	* arch/unix/x11/video.c (video_convert_color_table,
+	video_arch_frame_buffer_free, video_canvas_refresh): Use
+	XVideo for YUV rendering only.
+
+	* arch/unix/x11/xaw/x11ui.c (exposure_callback_shell,
+	exposure_callback_canvas): Refresh for XVideo.
+
+	* arch/unix/x11/xaw/x11video.c
+	(video_arch_frame_buffer_alloc): Use XVideo for YUV rendering
+	only.
+
+2002-07-17  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/statusbar.c (statusbar_handle_WMDRAWITEM):
+	Fixed background color for text under Windows XP using
+	COLOR_3DFACE instead of COLOR_MENU.
+
+	* arch/win32/ui.c: Implemented ui_display_drive_current_image
+	and ui_display_tape_current_image via ui_display_statustext.
+
 2002-07-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.58.
