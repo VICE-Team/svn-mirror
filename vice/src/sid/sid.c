@@ -50,10 +50,6 @@
 static int useresid;
 #endif
 
-#if ! defined __riscos && ! defined __MSDOS__
-#define HAVE_MOUSE
-#endif
-
 #ifdef HAVE_MOUSE
 #include "mouse.h"
 #endif
