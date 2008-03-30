@@ -1,5 +1,25 @@
 2000-11-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.5.19.
+
+	* monitor/asmz80.c: New file.
+
+	* monitor/asm.c: Renamed to `asm6502.c'.
+
+	* monitor/mon_parse.y, monitor/mon_lex.l, monitor/mon.c,
+	monitor/asm.h: Added support for Z80 opcodes.
+
+	* uimon.h, arch/unix/uimon.c, arch/msdos/uimon.c,
+	arch/win32/uimon.c, arch/riscos/uimon.c, arch/os2/uimon.c,
+	arch/beos/uimon.c (arch_mon_in): Removed `const'.
+
+2000-11-11  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uimon.c,console.c: added new functionality,
+	corrected errors (but it's FAR from finished!)
+
+2000-11-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.5.18.
 
 	* arch/win32/uimon.c (CreateAToolbar): Only use

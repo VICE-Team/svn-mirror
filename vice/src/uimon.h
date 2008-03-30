@@ -29,13 +29,13 @@
 
 struct console_s;
 
-extern struct console_s *arch_mon_window_open   (void);
-extern void              arch_mon_window_suspend(void);
-extern struct console_s *arch_mon_window_resume (void);
-extern void              arch_mon_window_close  (void);
+extern struct console_s *arch_mon_window_open(void);
+extern void arch_mon_window_suspend(void);
+extern struct console_s *arch_mon_window_resume(void);
+extern void arch_mon_window_close(void);
 
-extern int               arch_mon_out  (const char *format, ...);
-extern const char *      arch_mon_in   (void);
+extern int arch_mon_out(const char *format, ...);
+extern char *arch_mon_in(void);
 
 extern struct console_s *arch_console_open_mdi(const char *id, void *,
                                                void *, void *);

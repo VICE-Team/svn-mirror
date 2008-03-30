@@ -34,11 +34,13 @@
 #include <commctrl.h>
 
 #include "console.h"
-// #include "fullscreen.h"
+
+#include "fullscreen.h"
 #include "mon.h"
 #include "res.h"
 #include "ui.h"
 #include "uimon.h"
+
 #include "utils.h"
 #include "winmain.h"
 
@@ -46,8 +48,6 @@
 
 #ifdef UIMON_EXPERIMENTAL
 
-static HWND hwndDis = NULL;
-static HWND hwndReg = NULL;
 static HWND hwndConsole   = NULL;
 static HWND hwndMdiClient = NULL;
 static HWND hwndToolbar = NULL;
@@ -60,6 +60,11 @@ static char *pRetValue        = NULL;
 #define DIS_CLASS MONITOR_CLASS ":Dis"
 
 static HWND hwndParent = NULL;
+
+static HWND hwndMdiActive = NULL;
+
+
+#define WM_OWNCOMMAND (WM_USER+0x100)
 
 /*
  The following definitions (RT_TOOLBAR, CToolBarData) are from the MFC sources
@@ -76,7 +81,8 @@ typedef struct CToolBarData
 } CToolBarData;
 
 
-static HWND CreateAToolbar( HWND hwnd )
+static
+HWND CreateAToolbar( HWND hwnd )
 {
     HMODULE       hMod     = NULL;
     HRSRC         hRes     = NULL;
@@ -157,12 +163,34 @@ quit:
     return hToolbar;
 }
 
-static void OpenConsole( HWND hwnd, BOOLEAN bOpen )
+static
+HWND OpenDisassembly( HWND hwnd )
+{
+    return CreateMDIWindow(DIS_CLASS,
+        "Disassembly",
+        0,
+        0, // CW_USEDEFAULT, // 20,
+        0, // CW_USEDEFAULT, // 60,
+        500, // CW_USEDEFAULT, // 600,
+        500, // CW_USEDEFAULT, // 340,
+        hwndMdiClient,
+        winmain_instance,
+        0);
+}
+
+static
+void OpenConsole( HWND hwnd, BOOLEAN bOpen )
 {
     if (bOpen)
     {
         console_log = arch_console_open_mdi("Monitor",
             &hwndConsole,&hwndParent,&hwndMdiClient);
+
+		/* TODO: [SRT] this is just a temporary fix
+		  without this, the console window cannot be accessed almost always on first 
+		  opening if the monitor. Any hints why?
+		*/
+        DestroyWindow( OpenDisassembly(hwnd) );
     }
     else
     {
@@ -171,79 +199,44 @@ static void OpenConsole( HWND hwnd, BOOLEAN bOpen )
     }
 }
 
-static void OpenDisassembly( HWND hwnd, BOOLEAN bOpen )
+static
+HWND OpenRegistry( HWND hwnd )
 {
-    if (bOpen)
-    {
-        hwndDis = CreateMDIWindow(DIS_CLASS,
-            "Disassembly",
-            0,
-            0, // CW_USEDEFAULT, // 20,
-            0, // CW_USEDEFAULT, // 60,
-            500, // CW_USEDEFAULT, // 600,
-            500, // CW_USEDEFAULT, // 340,
-            hwndMdiClient,
-            winmain_instance,
-            0);
-    }
-    else
-    {
-        PostMessage( hwndMdiClient, WM_MDIDESTROY, (WPARAM) hwndDis, 0 );
-        hwndDis = NULL;
-    }
-}
-
-static void OpenRegistry( HWND hwnd, BOOLEAN bOpen )
-{
-#if 1
+#if 0
     #define DEF_REG_PROG DefWindowProc
-    if (bOpen)
-    {
-        hwndReg = CreateWindowEx(
-            WS_EX_TOOLWINDOW,
-            REG_CLASS,
-            "Register",
-            WS_CAPTION|WS_POPUPWINDOW,
-            30,
-            100,
-            0,
-            0,
-            hwnd,
-            NULL,
-            winmain_instance,
-            NULL);
+    HWND hwndReg = CreateWindowEx(
+        WS_EX_TOOLWINDOW,
+        REG_CLASS,
+        "Register",
+        WS_CAPTION|WS_POPUPWINDOW,
+        30,
+        100,
+        0,
+        0,
+        hwnd,
+        NULL,
+        winmain_instance,
+        NULL);
 
-        ShowWindow( hwndReg, SW_SHOW );
-    }
-    else
-    {
-        DestroyWindow( hwndReg );
-        hwndReg = NULL;
-    }
+    ShowWindow( hwndReg, SW_SHOW );
+    return hwndReg;
 #else
     #define DEF_REG_PROG DefMDIChildProc
-    if (bOpen)
-    {
-        hwndReg = CreateMDIWindow(REG_CLASS,
-            "Register",
-		    0,
-            0,
-            0,
-            0,
-            0,
-            hwndMdiClient,
-            winmain_instance,
-            0);
-    }
-    else
-    {
-        PostMessage( hwndMdiClient, WM_MDIDESTROY, (WPARAM) hwndReg, 0 );
-        hwndReg = NULL;
-    }
+    return CreateMDIWindow(REG_CLASS,
+        "Register",
+        0,
+        0,
+        0,
+        0,
+        0,
+        hwndMdiClient,
+        winmain_instance,
+        0);
 #endif
 }
 
-static void EnableCommands( HMENU hmnu, HWND hwndToolbar )
+static
+void EnableCommands( HMENU hmnu, HWND hwndToolbar )
 {
 #define ENABLE( xID, xENABLE) \
     EnableMenuItem( hmnu, (xID), (xENABLE) ? MF_ENABLED : MF_GRAYED ); \
@@ -265,13 +258,10 @@ static void EnableCommands( HMENU hmnu, HWND hwndToolbar )
     ENABLE( IDM_MON_GOTO_CURSOR  , 0 );
     ENABLE( IDM_MON_EVAL         , 0 );
     ENABLE( IDM_MON_WND_EVAL     , 0 );
-    CHECK ( IDM_MON_WND_REG      , hwndReg     ? TRUE : FALSE );
+//  CHECK ( IDM_MON_WND_REG      , hwndReg     ? TRUE : FALSE );
     ENABLE( IDM_MON_WND_MEM      , 0 );
-    CHECK ( IDM_MON_WND_DIS      , hwndDis     ? TRUE : FALSE );
+//  CHECK ( IDM_MON_WND_DIS      , hwndDis     ? TRUE : FALSE );
     CHECK ( IDM_MON_WND_CONSOLE  , hwndConsole ? TRUE : FALSE );
-    ENABLE( IDM_MON_COMPUTER     , 0 );
-    ENABLE( IDM_MON_DRIVE8       , 0 );
-    ENABLE( IDM_MON_DRIVE9       , 0 );
     ENABLE( IDM_MON_HELP         , 0 );
 //  ENABLE( IDM_MON_CASCADE      , 1 );
 //  ENABLE( IDM_MON_TILE_HORIZ   , 1 );
@@ -286,7 +276,8 @@ static void EnableCommands( HMENU hmnu, HWND hwndToolbar )
     if (hwndConsole) \
         SendMessage(hwndConsole,WM_CONSOLE_INSERTLINE,0,0 )
 
-static void ResizeMdiClient(HWND hwnd)
+static
+void ResizeMdiClient(HWND hwnd)
 {
     RECT rect;
 
@@ -297,7 +288,7 @@ static void ResizeMdiClient(HWND hwnd)
         if (hwndToolbar)
         {
             GetWindowRect(hwndToolbar, &rect);
-            wHeightToolbar = rect.bottom-rect.top;
+            wHeightToolbar = (WORD) (rect.bottom-rect.top);
         }
 
         GetClientRect(hwnd, &rect);
@@ -320,7 +311,7 @@ static void ResizeToolbar(HWND hwnd)
         WORD wHeightToolbar;
 
         GetWindowRect(hwndToolbar, &rect);
-        wHeightToolbar = rect.bottom-rect.top;
+        wHeightToolbar = (WORD) (rect.bottom-rect.top);
 
         GetClientRect(hwnd, &rect);
 
@@ -338,6 +329,7 @@ void OnConsoleResize(void)
     if (console_log)
         memcpy( &console_log_for_mon, console_log, sizeof( struct console_s ) );
 }
+
 void OnCommand( HWND hwnd, WORD wNotifyCode, WORD wID, HWND hwndCtrl )
 {
     switch (wID)
@@ -378,19 +370,28 @@ void OnCommand( HWND hwnd, WORD wNotifyCode, WORD wID, HWND hwndCtrl )
         break;
 
     case IDM_MON_WND_DIS:
-        OpenDisassembly(hwnd,(BOOLEAN)(hwndDis?FALSE:TRUE));
-        EnableCommands(GetMenu(hwnd),hwndToolbar);
+        OpenDisassembly(hwnd);
         break;
 
     case IDM_MON_WND_REG:
-        OpenRegistry(hwnd,(BOOLEAN)(hwndReg?FALSE:TRUE));
-        EnableCommands(GetMenu(hwnd),hwndToolbar);
+        OpenRegistry(hwnd);
         break;
 
     case IDM_MON_WND_CONSOLE:
         OpenConsole(hwnd,(BOOLEAN)(hwndConsole?FALSE:TRUE));
         EnableCommands(GetMenu(hwnd),hwndToolbar);
         break;
+
+	case IDM_MON_COMPUTER:
+		/* FALL THROUGH */
+
+	case IDM_MON_DRIVE8:
+		/* FALL THROUGH */
+
+	case IDM_MON_DRIVE9:
+		if (hwndMdiActive)
+			SendMessage( hwndMdiActive, WM_OWNCOMMAND, wID, 0 );
+		break;
     }
 }
 
@@ -403,10 +404,10 @@ static long CALLBACK mon_window_proc(HWND hwnd,
 	switch (msg)
 	{
 	case WM_CLOSE:
+        SET_COMMAND("x");
         /* FALL THROUGH */
 
 	case WM_DESTROY:
-        SET_COMMAND("x");
         return DefFrameProc(hwnd, hwndMdiClient, msg, wParam, lParam);
 
     case WM_CONSOLE_RESIZED:
@@ -416,6 +417,7 @@ static long CALLBACK mon_window_proc(HWND hwnd,
     case WM_CONSOLE_CLOSED:
         console_log = NULL;
         hwndConsole = NULL;
+        EnableCommands(GetMenu(hwnd),hwndToolbar);
         return 0;
 
     case WM_SIZE:
@@ -447,9 +449,6 @@ static long CALLBACK mon_window_proc(HWND hwnd,
             ResizeMdiClient(hwnd);
             ShowWindow( hwndMdiClient, SW_SHOW );
         }
-
-//        OpenDisassembly( hwnd, TRUE );
-//        OpenRegistry( hwnd, TRUE );
         break;
 
     case WM_COMMAND:
@@ -471,22 +470,109 @@ static long CALLBACK mon_window_proc(HWND hwnd,
 	return DefFrameProc(hwnd, hwndMdiClient, msg, wParam, lParam);
 }
 
+static
+void SetMemspace( HWND hwnd, enum t_memspace memspace )
+{
+	BOOL bComputer = FALSE;
+	BOOL bDrive8   = FALSE;
+	BOOL bDrive9   = FALSE;
+	HMENU hmnu = GetMenu(hwnd);
+
+	switch (memspace)
+	{
+	case e_comp_space:  bComputer = TRUE; break;
+	case e_disk8_space: bDrive8   = TRUE; break;
+	case e_disk9_space: bDrive9   = TRUE; break;
+	}
+
+	ENABLE( IDM_MON_COMPUTER, 1 );
+	ENABLE( IDM_MON_DRIVE8,   1 );
+    ENABLE( IDM_MON_DRIVE9,   1 );
+	CHECK ( IDM_MON_COMPUTER, bComputer );
+	CHECK ( IDM_MON_DRIVE8,   bDrive8   );
+    CHECK ( IDM_MON_DRIVE9,   bDrive9   );
+}
+
+static
+void ClearMemspace( HWND hwnd )
+{
+	HMENU hmnu = GetMenu(hwnd);
+
+	ENABLE( IDM_MON_COMPUTER, 0 );
+	ENABLE( IDM_MON_DRIVE8,   0 );
+    ENABLE( IDM_MON_DRIVE9,   0 );
+	CHECK ( IDM_MON_COMPUTER, FALSE );
+	CHECK ( IDM_MON_DRIVE8,   FALSE );
+    CHECK ( IDM_MON_DRIVE9,   FALSE );
+}
+
+static
+void ActivateMdiChild( HWND hwndDeactivated, HWND hwndOwn, enum t_memspace memspace )
+{
+	if (hwndDeactivated == hwndOwn)
+	{
+		// we are deactivated
+		hwndMdiActive = NULL;
+        ClearMemspace( hwndOwn );
+	}
+	else
+	{
+		// we are activated
+		hwndMdiActive = hwndOwn;
+        SetMemspace( hwndOwn, memspace );
+	}
+}
+
+typedef
+struct reg_private
+{
+    int charwidth;
+    int charheight;
+	enum t_memspace memspace;
+	int LastShownRegs[16];
+} reg_private_t;
 
 /* window procedure */
 static long CALLBACK reg_window_proc(HWND hwnd, 
 	UINT msg, WPARAM wParam, LPARAM lParam)
 
 {
-    static int width  = 0;
-    static int height = 0;
+	reg_private_t *prp = (reg_private_t*) GetWindowLong( hwnd, GWL_USERDATA );
 
 	switch (msg)
 	{
-	case WM_CLOSE:
+//	case WM_CLOSE:
 		/* FALL THROUGH */
 
 	case WM_DESTROY:
-		return 0;
+		// clear the dis_private info 
+		free(prp);
+		SetWindowLong( hwnd, GWL_USERDATA, 0 );
+
+	    return DEF_REG_PROG(hwnd, msg, wParam, lParam);
+
+	case WM_MDIACTIVATE:
+		ActivateMdiChild( (HWND) wParam, hwnd, prp->memspace );
+		break;
+
+	case WM_OWNCOMMAND:
+		switch (wParam)
+		{
+		case IDM_MON_COMPUTER:
+			prp->memspace = e_comp_space;
+			break;
+
+		case IDM_MON_DRIVE8:
+			prp->memspace = e_disk8_space;
+			break;
+
+		case IDM_MON_DRIVE9:
+			prp->memspace = e_disk9_space;
+			break;
+		}
+        SetMemspace( hwnd, prp->memspace );
+		InvalidateRect(hwnd,NULL,FALSE);
+		break;
 
     case WM_CREATE:
         {
@@ -494,17 +580,24 @@ static long CALLBACK reg_window_proc(HWND hwnd,
            	SIZE size;
             RECT rect;
 
+			prp = xmalloc(sizeof(reg_private_t));
+			
+			/* store pointer to structure with window */
+			SetWindowLong( hwnd, GWL_USERDATA, (long) prp );
+
 	        SelectObject( hdc, GetStockObject( ANSI_FIXED_FONT ) );
 
             // get height and width of a character
             GetTextExtentPoint32( hdc, " ", 1, &size );
-        	width  = size.cx;
-	        height = size.cy;
+        	prp->charwidth  = size.cx;
+	        prp->charheight = size.cy;
+
+			prp->memspace = e_comp_space;
 
             // resize window
             GetWindowRect( hwnd, &rect );
-            rect.right  = rect.left + width*34;
-            rect.bottom = rect.top  + height*2;
+            rect.right  = rect.left + prp->charwidth*34;
+            rect.bottom = rect.top  + prp->charheight*2;
             AdjustWindowRectEx( &rect, 
                 GetWindowLong( hwnd, GWL_STYLE ), FALSE, GetWindowLong( hwnd, GWL_EXSTYLE ) );
 
@@ -513,13 +606,31 @@ static long CALLBACK reg_window_proc(HWND hwnd,
             break;
         }
 
+	case WM_COMMAND:
+		{
+		    switch (HIWORD(wParam))
+			{
+			case IDM_MON_COMPUTER:
+				prp->memspace = e_comp_space;
+				break;
+
+			case IDM_MON_DRIVE8:
+				prp->memspace = e_disk8_space;
+				break;
+
+			case IDM_MON_DRIVE9:
+				prp->memspace = e_disk9_space;
+				break;
+		    }
+		}
+		break;
+
 	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
 			HDC hdc;
             char buffer[5];
-                     int lastRegValue;
-            static   int LastShownRegs[16];
+            int lastRegValue;
 
 			hdc = BeginPaint(hwnd,&ps);
 
@@ -528,23 +639,23 @@ static long CALLBACK reg_window_proc(HWND hwnd,
 
 #define DO_OUT(_bCond,_x,_val,_len) \
     SetTextColor(hdc,RGB((_bCond)?0xFF:0,0,0)); \
-    TextOut( hdc,  (_x)*width, 0+height, _val, _len )
+    TextOut( hdc,  (_x)*prp->charwidth, 0+prp->charheight, _val, _len )
 
 #define DO_OUT_REG(_no,_x,_reg,_len) \
-    lastRegValue = mon_get_reg_val(e_comp_space,_reg); \
+    lastRegValue = mon_get_reg_val(prp->memspace,_reg); \
     sprintf(buffer,"%0" #_len "X", lastRegValue ); \
-    DO_OUT(lastRegValue!=LastShownRegs[_no],_x,buffer,_len); \
-    LastShownRegs[_no]=lastRegValue
+    DO_OUT(lastRegValue!=prp->LastShownRegs[_no],_x,buffer,_len); \
+    prp->LastShownRegs[_no]=lastRegValue
 
 #define DO_OUT_FLG(_no,_x,_val) \
-    DO_OUT((lastRegValue&_val)!=LastShownRegs[_no],_x,(lastRegValue & _val)?"1":"0",1); \
-    LastShownRegs[_no]=lastRegValue & _val
+    DO_OUT((lastRegValue&_val)!=prp->LastShownRegs[_no],_x,(lastRegValue & _val)?"1":"0",1); \
+    prp->LastShownRegs[_no]=lastRegValue & _val
 
 #define DO_OUT_MEM(_no,_x,_addr) \
-    lastRegValue = mon_get_mem_val(e_comp_space,_addr); \
+    lastRegValue = mon_get_mem_val(prp->memspace,_addr); \
     sprintf(buffer,"%02X", lastRegValue ); \
-    DO_OUT(lastRegValue!=LastShownRegs[_no],_x,buffer,2); \
-    LastShownRegs[_no]=lastRegValue
+    DO_OUT(lastRegValue!=prp->LastShownRegs[_no],_x,buffer,2); \
+    prp->LastShownRegs[_no]=lastRegValue
 
             DO_OUT_REG(0,  0, e_PC, 4 );
 
@@ -578,50 +689,89 @@ static long CALLBACK reg_window_proc(HWND hwnd,
 	}
 
     return DEF_REG_PROG(hwnd, msg, wParam, lParam);
-//	return DefWindowProc(hwnd, msg, wParam, lParam);
-//	return DefMDIChildProc(hwnd, msg, wParam, lParam);
 }
 
+
+typedef
+struct dis_private
+{
+    int charwidth;
+    int charheight;
+	enum t_memspace memspace;
+    UINT StartAddress;
+    UINT EndAddress;
+
+} dis_private_t;
 
 /* window procedure */
 static long CALLBACK dis_window_proc(HWND hwnd, 
 	UINT msg, WPARAM wParam, LPARAM lParam)
 
 {
-    static int width  = 0;
-    static int height = 0;
+	dis_private_t *pdp = (dis_private_t*) GetWindowLong( hwnd, GWL_USERDATA );
 
 	switch (msg)
 	{
-	case WM_CLOSE:
-        /* FALL THROUGH */
-
 	case WM_DESTROY:
-		return 0;
+		// clear the dis_private info 
+		free(pdp);
+		SetWindowLong( hwnd, GWL_USERDATA, 0 );
+
+		return DefMDIChildProc(hwnd, msg, wParam, lParam);
+
+	case WM_MDIACTIVATE:
+		ActivateMdiChild( (HWND) wParam, hwnd, pdp->memspace );
+		break;
+
+	case WM_OWNCOMMAND:
+		switch (wParam)
+		{
+		case IDM_MON_COMPUTER:
+			pdp->memspace = e_comp_space;
+			break;
+
+		case IDM_MON_DRIVE8:
+			pdp->memspace = e_disk8_space;
+			break;
+
+		case IDM_MON_DRIVE9:
+			pdp->memspace = e_disk9_space;
+			break;
+		}
+        SetMemspace( hwnd, pdp->memspace );
+		InvalidateRect(hwnd,NULL,FALSE);
+		break;
 
     case WM_CREATE:
         {
             HDC hdc = GetDC( hwnd );
            	SIZE size;
 
+			pdp = xmalloc(sizeof(dis_private_t));
+			
+			/* store pointer to structure with window */
+			SetWindowLong( hwnd, GWL_USERDATA, (long) pdp );
+
 	        SelectObject( hdc, GetStockObject( ANSI_FIXED_FONT ) );
 
             // get height and width of a character
             GetTextExtentPoint32( hdc, " ", 1, &size );
-        	width  = size.cx;
-	        height = size.cy; 
+        	pdp->charwidth    = size.cx;
+	        pdp->charheight   = size.cy;
+
+			// initialize some window parameter
+			pdp->memspace     = e_comp_space;
+			pdp->StartAddress = -1;
+			pdp->EndAddress   = 0;
             break;
         }
 
 	case WM_PAINT:
 		{
-            static unsigned int StartAddress = -1;
-            static unsigned int EndAddress   = 0;
-
 			PAINTSTRUCT ps;
 			HDC hdc;
             RECT rect;
-            unsigned int uAddress = mon_get_reg_val(e_comp_space,e_PC);
+            unsigned int uAddress = mon_get_reg_val(pdp->memspace,e_PC);
             unsigned int loc;
             unsigned int size;
             char buffer[512];
@@ -630,13 +780,13 @@ static long CALLBACK dis_window_proc(HWND hwnd,
             int  i;
             int  nHeightToPrint, nHeightToNextPage;
 
-            if ((uAddress < StartAddress) || (uAddress > EndAddress))
+            if ((uAddress < pdp->StartAddress) || (uAddress > pdp->EndAddress))
             {
-                StartAddress = uAddress;
-                EndAddress = 0;
+                pdp->StartAddress = uAddress;
+                pdp->EndAddress = 0;
             }
 
-            loc = StartAddress;
+            loc = pdp->StartAddress;
 
             // get the height to paint
             GetClientRect(hwnd,&rect);
@@ -648,14 +798,14 @@ static long CALLBACK dis_window_proc(HWND hwnd,
 
 #define DO_OUT(_y,_addr) \
     SetTextColor(hdc,RGB((_addr)==uAddress?0xFF:0,0,0)); \
-    TextOut( hdc,  0, _y*height, buffer, strlen(buffer) )
+    TextOut( hdc,  0, _y*pdp->charheight, buffer, strlen(buffer) )
 
-            for (i=0; i*height<nHeightToPrint; i++)
+            for (i=0; i*pdp->charheight<nHeightToPrint; i++)
             {
-               if (i*height < nHeightToNextPage)
-                   EndAddress = loc;
+               if (i*pdp->charheight < nHeightToNextPage)
+                   pdp->EndAddress = loc;
 
-               label = mon_symbol_table_lookup_name(e_comp_space, loc);
+               label = mon_symbol_table_lookup_name(pdp->memspace, loc);
                if (label)
                {
                   sprintf( buffer, "%s:",label);
@@ -663,9 +813,9 @@ static long CALLBACK dis_window_proc(HWND hwnd,
                }
 
                p = mon_disassemble_to_string_ex( loc,
-                       mon_get_mem_val(e_comp_space,loc),
-                       mon_get_mem_val(e_comp_space,loc+1),
-                       mon_get_mem_val(e_comp_space,loc+2),
+                       mon_get_mem_val(pdp->memspace,loc),
+                       mon_get_mem_val(pdp->memspace,loc+1),
+                       mon_get_mem_val(pdp->memspace,loc+2),
                        1,
                        &size );
 
@@ -757,6 +907,8 @@ void arch_mon_window_close( void )
 	hwnd          =
     hwndMdiClient = NULL;
 
+	ResumeFullscreenMode( hwndParent );
+
 #else // #ifdef UIMON_EXPERIMENTAL
     console_close(console_log);
 
@@ -773,24 +925,32 @@ console_t *arch_mon_window_open( void )
 
     hwndParent = GetActiveWindow();
 
+	SuspendFullscreenMode( hwndParent );
+
     arch_mon_init();
 
     hwnd = CreateWindow(MONITOR_CLASS,
 		"VICE monitor",
-		WS_OVERLAPPED|WS_CLIPCHILDREN|WS_CLIPSIBLINGS|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
+		WS_OVERLAPPED|WS_CLIPCHILDREN/*|WS_CLIPSIBLINGS*/|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
         0,
         0,
-        800,
-        600,
+        640,
+        480,
         GetActiveWindow(),
         NULL,
         winmain_instance,
         NULL);
 
-    ShowWindow( hwnd, SW_SHOW );
+
+    
+	
+	ShowWindow( hwnd, SW_SHOW );
 
     OpenConsole(hwnd,TRUE);
+
     EnableCommands(GetMenu(hwnd),hwndToolbar);
+
+	SetActiveWindow( hwnd );
 
     memcpy( &console_log_for_mon, console_log, sizeof( struct console_s ) );
 
@@ -819,8 +979,8 @@ console_t *arch_mon_window_resume( void )
 {
 #ifdef UIMON_EXPERIMENTAL
 
-    InvalidateRect( hwndDis, NULL, FALSE );
-    InvalidateRect( hwndReg, NULL, FALSE );
+	pRetValue = NULL;
+
     UpdateWindow( hwnd );
     return &console_log_for_mon;
 
@@ -847,22 +1007,33 @@ int arch_mon_out(const char *format, ...)
     return 0;
 }
 
-const char *arch_mon_in()
+char *arch_mon_in()
 {
 #ifdef UIMON_EXPERIMENTAL
 
     char *p = NULL;
 
-    if (console_log)
-    {
-        p = console_in(console_log);
-    }
-    else
-    {
-        while (!pRetValue)
-        {
-            ui_dispatch_next_event();
-        }
+	while (!p && !pRetValue)
+	{
+		if (console_log)
+		{
+	        p = console_in(console_log);
+			if (p)
+			{
+				if (*p==0)
+				{
+					free(p);
+					p = NULL;
+				}
+			}
+		}
+		else
+		{
+	        while (!pRetValue && !console_log)
+		    {
+			    ui_dispatch_next_event();
+			}
+		}
     }
 
     if (pRetValue)

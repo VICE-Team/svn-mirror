@@ -74,7 +74,7 @@ int arch_mon_out(const char *format, ...)
     return 0;
 }
 
-const char *arch_mon_in()
+char *arch_mon_in()
 {
     return console_in(console_log);
 }
