@@ -43,6 +43,9 @@
 #include "mon_parse.h" /* FIXME ! */
 #include "types.h"
 
+
+#define YY_ALWAYS_INTERACTIVE 1
+
 #undef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
 

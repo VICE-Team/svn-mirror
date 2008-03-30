@@ -1,3 +1,67 @@
+2006-07-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.24.
+
+	* arch/unix/Makefile.am: Added the macox files.
+
+	* arch/unix/gp2x/c128ui.c, arch/unix/gp2x/c64ui.c,
+	arch/unix/gp2x/cbm2ui.c, arch/unix/gp2x/petui.c,
+	arch/unix/gp2x/vic20ui.c, arch/unix/console.c: Added missing
+	includes.
+
+	* arch/unix/gp2x/make-bindist.sh: Changed archive name and do
+	not write anything outsite the vice directory.
+
+	* arch/unix/macosx/make-bindist.sh: Changed archive name.
+
+	* arch/unix/gp2x/make-bindist.sh, arch/win32/make-bindist.sh,
+	arch/beos/make-bindist.sh, arch/msdos/make-bindist.sh: Removed
+	temporary directory on target `bindistzip'.
+
+	* monitor/mon_lex.l: Defined `YY_ALWAYS_INTERACTIVE' to stop
+	it using non-C standard function.
+
+2006-07-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/gp2x/Makefile.am, arch/unix/gp2x/c128ui.c,
+	arch/unix/gp2x/c64ui.c, arch/unix/gp2x/cbm2ui.c,
+	arch/unix/gp2x/petui.c, arch/unix/gp2x/plus4ui.c,
+	arch/unix/gp2x/prefs_gp2x.c, arch/unix/gp2x/prefs_gp2x.h,
+	arch/unix/gp2x/ui_gp2x.c, arch/unix/gp2x/uimon.c,
+	arch/unix/gp2x/uisound.h, arch/unix/gp2x/vic20ui.c,
+	arch/unix/gp2x/video.c, arch/unix/gp2x/videoarch.h,
+	arch/unix/gp2x/vkeyboard_gp2x.c,
+	arch/unix/gp2x/vkeyboard_gp2x.h,
+	arch/unix/gp2x/vsidui.c: Seperated the c64/pet/vic20...etc ui
+	elements so that no unneeded objects get linked.
+
+	* arch/unix/gp2x/make-bindist.sh: Updated the script to the
+	'new' place of the port in the source tree.
+
+	* cartconv.c: Changed the carttype char to signed.
+
+	* cbmdos.c: Added a cast to get rid of a warning.
+
+	* vdc/vdc.c: Fixed to only provide for the creation of the
+	vicii screen for the gp2x port (gp2x port can only handle one
+	screen).
+
+2006-07-10  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* sound.c: In sound_device_num(), max is unsigned now, so a
+	warning w.r.t. a signed/unsigned comparison in the for() loop
+	is avoided.
+
+2006-07-09  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/archdep.c: On Mac OS X search ROMs inside of
+	bundle's resources.
+
+	* arch/unix/macosx/make-bindist.sh,
+	arch/unix/macosx/Info.plist, arch/unix/macosx/VICE.icns:
+	Added bin dist script for Mac OS X. Creates Applications
+	bundles including Icon and creates distribution disk image.
+
 2006-07-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.23.
