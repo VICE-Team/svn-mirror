@@ -50,158 +50,11 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* PET-specific memory resources.  */
-
-/* Flag: Is RAM at $9xxx enabled?  */
-static int ram_9_enabled;
-
-/* Flag: Is RAM at $Axxx enabled?  */
-static int ram_a_enabled;
-
-/* Name of character generator ROM.  */
-static char *chargen_rom_name;
-
-/* Name of Kernal ROM.  */
-static char *kernal_rom_name;
-
-/* Name of BASIC ROM.  */
-static char *basic_rom_name;
-
-/* Name of Editor ROM.  */
-static char *editor_rom_name;
-
-/* Name of ROM module at $9xxx.  */
-static char *rom_module_9_name;
-
-/* Name of ROM module at $Axxx.  */
-static char *rom_module_a_name;
-
-/* Name of ROM module at $Bxxx.  */
-static char *rom_module_b_name;
-
-static int set_ram_9_enabled(resource_value_t v)
-{
-    ram_9_enabled = (int) v;
-    return 0;
-}
-
-static int set_ram_a_enabled(resource_value_t v)
-{
-    ram_a_enabled = (int) v;
-    return 0;
-}
-
-static int set_chargen_rom_name(resource_value_t v)
-{
-    string_set(&chargen_rom_name, (char *)v);
-    return 0;
-}
-
-static int set_kernal_rom_name(resource_value_t v)
-{
-    string_set(&kernal_rom_name, (char *)v);
-    return 0;
-}
-
-static int set_basic_rom_name(resource_value_t v)
-{
-    string_set(&basic_rom_name, (char *)v);
-    return 0;
-}
-
-static int set_editor_rom_name(resource_value_t v)
-{
-    string_set(&editor_rom_name, (char *)v);
-    return 0;
-}
-
-static int set_rom_module_9_name(resource_value_t v)
-{
-    string_set(&rom_module_9_name, (char *)v);
-    return 0;
-}
-
-static int set_rom_module_a_name(resource_value_t v)
-{
-    string_set(&rom_module_a_name, (char *)v);
-    return 0;
-}
-
-static int set_rom_module_b_name(resource_value_t v)
-{
-    string_set(&rom_module_b_name, (char *)v);
-    return 0;
-}
-
-static resource_t resources[] = {
-    { "Ram9", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &ram_9_enabled, set_ram_9_enabled },
-    { "RamA", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &ram_a_enabled, set_ram_a_enabled },
-    { "ChargenName", RES_STRING, (resource_value_t) "chargen",
-      (resource_value_t *) &chargen_rom_name, set_chargen_rom_name },
-    { "KernalName", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &kernal_rom_name, set_kernal_rom_name },
-    { "BasicName", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &basic_rom_name, set_basic_rom_name },
-    { "EditorName", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &editor_rom_name, set_editor_rom_name },
-    { "RomModule9Name", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &rom_module_9_name, set_rom_module_9_name },
-    { "RomModuleAName", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &rom_module_a_name, set_rom_module_a_name },
-    { "RomModuleBName", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &rom_module_b_name, set_rom_module_b_name },
-    { NULL }
-};
-
-int pet_mem_init_resources(void)
-{
-    return resources_register(resources);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* PET-specific command-line options.  */
-
-static cmdline_option_t cmdline_options[] = {
-    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
-      "<name>", "Specify name of Kernal ROM image" },
-    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
-      "<name>", "Specify name of BASIC ROM image" },
-    { "-editor", SET_RESOURCE, 1, NULL, NULL, "EditorName", NULL,
-      "<name>", "Specify name of BASIC ROM image" },
-    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
-      "<name>", "Specify name of character generator ROM image" },
-    { "-rom9", SET_RESOURCE, 1, NULL, NULL, "RomModule9Name", NULL,
-      "<name>", "Specify 4K extension ROM name at $9***" },
-    { "-romA", SET_RESOURCE, 1, NULL, NULL, "RomModuleAName", NULL,
-      "<name>", "Specify 4K extension ROM name at $A***" },
-    { "-romB", SET_RESOURCE, 1, NULL, NULL, "RomModuleBName", NULL,
-      "<name>", "Specify 4K extension ROM name at $B***" },
-    { "-petram9", SET_RESOURCE, 0, NULL, NULL, "Ram9", (resource_value_t) 1,
-      NULL, "Enable PET8296 4K RAM mapping at $9***" },
-    { "+petram9", SET_RESOURCE, 0, NULL, NULL, "Ram9", (resource_value_t) 0,
-      NULL, "Disable PET8296 4K RAM mapping at $9***" },
-    { "-petramA", SET_RESOURCE, 0, NULL, NULL, "RamA", (resource_value_t) 1,
-      NULL, "Enable PET8296 4K RAM mapping at $A***" },
-    { "+petramA", SET_RESOURCE, 0, NULL, NULL, "RamA", (resource_value_t) 0,
-      NULL, "Disable PET8296 4K RAM mapping at $A***" },
-    { NULL }
-};
-
-int pet_mem_init_cmdline_options(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
-
-/* ------------------------------------------------------------------------- */
-
 /* The PET memory. */
 
 #define	RAM_ARRAY 0x20000 /* this includes 8x96 expansion RAM */
 
-BYTE ram[RAM_ARRAY]; /* 64K just to make things easier.  Real size is 32K. */
+BYTE ram[RAM_ARRAY]; /* 128K to make things easier. Real size is 4-128K. */
 BYTE rom[PET_ROM_SIZE];
 BYTE chargen_rom[PET_CHARGEN_ROM_SIZE];
 
@@ -425,8 +278,8 @@ static void set_std_9tof(void) {
     int ram9, rama;
 
     store = (pet.map == 2) ? store_ram : store_dummy;
-    ram9 = (pet.map == 2 && ram_9_enabled) ? 1 : 0;
-    rama = (pet.map == 2 && ram_a_enabled) ? 1 : 0;
+    ram9 = (pet.map == 2 && pet.mem9) ? 1 : 0;
+    rama = (pet.map == 2 && pet.memA) ? 1 : 0;
 
     /* Setup RAM/ROM at $9000 - $9FFF. */
     for (i=0x90; i < 0xa0; i++) {
@@ -605,7 +458,10 @@ void initialize_memory(void)
 {
     int i, l;
 
-    l = (pet.ramSize >> 8) & 0xff;
+    l = (pet.ramSize << 2);	/* ramSize in kB, l in 256 Byte */
+    if(l>128) l=128;		/* fix 8096 / 8296 */
+
+printf("PET: initialize memory, ramSize=%04x -> l=%d\n", pet.ramSize * 1024,l);
 
     /* Setup RAM from $0000 to pet.ramSize */
     for (i = 0x00; i < l; i++) {
@@ -662,7 +518,7 @@ void initialize_memory(void)
 
     map_reg = 0;
 
-    ram_size = pet.ramSize;
+    ram_size = pet.ramSize * 1024;
     _mem_read_tab_ptr = _mem_read_tab;
     _mem_write_tab_ptr = _mem_write_tab;
 
@@ -738,13 +594,6 @@ void mem_powerup(void)
 #ifndef __MSDOS__
     printf("Initializing RAM for power-up...\n");
 #endif
-/*
-    for (i = 0; i < pet.ramSize; i += 0x80) {
-	memset(ram + i, 0, 0x40);
-	memset(ram + i + 0x40, 0xff, 0x40);
-    }
-    for (i = 0x10000; i < RAM_ARRAY; i += 0x80) {
-*/
     for (i = 0; i < RAM_ARRAY; i += 0x80) {
 	memset(ram + i, 0, 0x40);
 	memset(ram + i + 0x40, 0xff, 0x40);
@@ -755,20 +604,12 @@ void mem_powerup(void)
 int mem_load(void)
 {
     WORD sum;			/* ROM checksum */
-    int screen_width;
     int i;
-    int rsize;
-
-#if 0	/* should be done by read_* now! */
-    /* init unused ram[] area to "unused address" value */
-    for (i = pet.ramSize; i < 0x10000; i++) {
-	ram[i] = ((i >> 8) & 0xff);
-    }
-#endif
+    int rsize, krsize;
 
     /* Load chargen ROM - we load 2k, and generate the inverted 2k. */
 
-    if (mem_load_sys_file(chargen_rom_name, chargen_rom, 2048, 2048) < 0) {
+    if (mem_load_sys_file(pet.chargenName, chargen_rom, 2048, 2048) < 0) {
 	fprintf(stderr, "Couldn't load character ROM.\n");
 	return -1;
     }
@@ -800,18 +641,18 @@ int mem_load(void)
 
     /* Load Kernal ROM. */
     {
-        const char *name = (IS_NULL(kernal_rom_name)
-                            ? pet.kernalName : kernal_rom_name);
+        const char *name = /* (IS_NULL(kernal_rom_name)
+                            ? */ pet.kernalName /*: kernal_rom_name)*/;
 
-        if ((rsize = mem_load_sys_file(name,
-                                       rom, pet.romSize, PET_ROM_SIZE)) < 0) {
+        if ((krsize = mem_load_sys_file(name,
+                                       rom, 0x2000, PET_ROM_SIZE)) < 0) {
             fprintf(stderr, "Couldn't load ROM `%s'.\n\n", name);
             return -1;
         }
     }
 
     /* Load extension ROMs. */
-
+#if 0
     if (!IS_NULL(basic_rom_name)
         && ((rsize = mem_load_sys_file(basic_rom_name,
                                        rom + 0x3000, 0x2000, 0x3000)) < 0)) {
@@ -819,10 +660,10 @@ int mem_load(void)
                 basic_rom_name);
 	return -1;
     }
-
+#endif
     {
-        const char *name = (IS_NULL(editor_rom_name)
-                            ? pet.editorName : editor_rom_name);
+        const char *name = /*(IS_NULL(editor_rom_name)
+                            ?*/ pet.editorName /*: editor_rom_name)*/;
 
         if (!IS_NULL(name)
             && ((rsize = mem_load_sys_file(name, rom + 0x6000,
@@ -833,31 +674,31 @@ int mem_load(void)
         }
     }
 
-    if (!IS_NULL(rom_module_9_name)
-        && ((rsize = mem_load_sys_file(rom_module_9_name,
+    if (!IS_NULL(pet.mem9name)
+        && ((rsize = mem_load_sys_file(pet.mem9name,
                                        rom + 0x1000, 0x1000, 0x1000)) < 0)) {
 	fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
-                rom_module_9_name);
+                pet.mem9name);
 	return -1;
     }
-    if (!IS_NULL(rom_module_a_name)
-	&& ((rsize = mem_load_sys_file(rom_module_a_name,
+    if (!IS_NULL(pet.memAname)
+	&& ((rsize = mem_load_sys_file(pet.memAname,
                                        rom + 0x2000, 0x1000, 0x1000)) < 0)) {
 	fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
-                rom_module_a_name);
+                pet.memAname);
 	return -1;
     }
-    if (!IS_NULL(rom_module_b_name)) {
-	if (pet.romSize <= 0x4000) {
-	    if ((rsize = mem_load_sys_file(rom_module_b_name, rom + 0x3000,
+    if (!IS_NULL(pet.memBname)) {
+	if (krsize <= 0x4000) {
+	    if ((rsize = mem_load_sys_file(pet.memBname, rom + 0x3000,
                                            0x1000, 0x1000)) < 0) {
 		fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
-                        rom_module_b_name);
+                        pet.memBname);
 		return -1;
 	    }
 	} else {
 	    printf("PET: internal ROM too large for extension ROM at $b000 - "
-		   "ignoring `%s'\n", rom_module_b_name);
+		   "ignoring `%s'\n", pet.memBname);
 	}
     }
 
@@ -880,28 +721,49 @@ int mem_load(void)
 	}
     }
 
+    pet.screen_width = 0;
     /* BIG FIXME: I had to remove `video_width' because it should not stay
        here imo.  We should find a cleaner way to implement this. -- Ettore */
     if (sum == PET8032_CHECKSUM_A || sum == PET8032_CHECKSUM_B) {
         printf("Identified PET 8032 ROM by checksum.\n");
-        screen_width = 80;
+        pet.screen_width = 80;
     } else if (sum == PET3032_CHECKSUM) {
         printf("Identified PET 3032 ROM by checksum.\n");
-        screen_width = 40;
+        pet.screen_width = 40;
     } else if (sum == PET4032_CHECKSUM) {
         printf("Identified PET 4032 ROM by checksum.\n");
-        screen_width = 40;
+        pet.screen_width = 40;
     } else {
-        screen_width = PET_COLS;
         printf("Unknown PET ROM.\n");
     }
 
-    printf("Setting screen width to %d columns.\n", screen_width);
-    crtc_set_screen_mode(ram + 0x8000, pet.vmask, screen_width);
+    if(pet.screen_width) {
+	set_screen();
+    }
 
     rom_loaded = 1;
 
     return 0;
+}
+
+void set_screen(void) {
+    int cols, vmask;
+
+    cols = pet.video;
+    vmask = pet.vmask;
+
+    if(!cols) {
+	cols = pet.screen_width;
+        vmask = (cols==40) ? 0x3ff : 0x7ff;
+    }
+
+    if(!cols) {
+	cols = PET_COLS;
+        vmask = (cols==40) ? 0x3ff : 0x7ff;
+    }
+
+    printf("Setting screen width to %d columns (vmask=%04x).\n", cols, vmask);
+    crtc_set_screen_mode(ram + 0x8000, vmask, cols);
 }
 
 /* ------------------------------------------------------------------------- */

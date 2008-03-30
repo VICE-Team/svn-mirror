@@ -34,6 +34,7 @@
 #include "uicommands.h"
 #include "uisettings.h"
 #include "joystick.h"
+#include "pets.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
@@ -55,6 +56,27 @@ static ui_menu_entry_t palette_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(DiagPin)
+
+UI_MENU_DEFINE_TOGGLE(Crtc)
+
+UI_MENU_DEFINE_TOGGLE(Ram9)
+
+UI_MENU_DEFINE_TOGGLE(RamA)
+
+UI_MENU_DEFINE_RADIO(VideoSize)
+
+UI_MENU_DEFINE_RADIO(RamSize)
+
+UI_MENU_DEFINE_RADIO(IOSize)
+
+UI_MENU_DEFINE_RADIO(KeyboardType)
+
+static UI_CALLBACK(petui_set_model)
+{
+    pet_set_model(client_data, NULL);
+}
+
+/* ------------------------------------------------------------------------- */
 
 static UI_CALLBACK(set_joystick_device_1)
 {
@@ -152,13 +174,107 @@ static ui_menu_entry_t joystick_settings_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t pet_memsize_submenu[] = {
+    { "*4 kByte",
+	(ui_callback_t) radio_RamSize, (ui_callback_data_t) 4, NULL },
+    { "*8 kByte",
+	(ui_callback_t) radio_RamSize, (ui_callback_data_t) 8, NULL },
+    { "*16 kByte",
+	(ui_callback_t) radio_RamSize, (ui_callback_data_t) 16, NULL },
+    { "*32 kByte",
+	(ui_callback_t) radio_RamSize, (ui_callback_data_t) 32, NULL },
+    { "*96 kByte",
+	(ui_callback_t) radio_RamSize, (ui_callback_data_t) 96, NULL },
+    { "*128 kByte",
+	(ui_callback_t) radio_RamSize, (ui_callback_data_t) 128, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t pet_iosize_submenu[] = {
+    { "*2 kByte",
+	(ui_callback_t) radio_IOSize, (ui_callback_data_t) 0x800, NULL },
+    { "*256 Byte",
+	(ui_callback_t) radio_IOSize, (ui_callback_data_t) 0x100, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t pet_keybd_submenu[] = {
+    { "*Graphics",
+	(ui_callback_t) radio_KeyboardType, (ui_callback_data_t) 0, NULL },
+    { "*Business (UK)",
+	(ui_callback_t) radio_KeyboardType, (ui_callback_data_t) 1, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t pet_video_submenu[] = {
+    { "*Auto (from ROM)",
+	(ui_callback_t) radio_VideoSize, (ui_callback_data_t) 0, NULL },
+    { "*40 Columns",
+	(ui_callback_t) radio_VideoSize, (ui_callback_data_t) 40, NULL },
+    { "*80 Columns",
+	(ui_callback_t) radio_VideoSize, (ui_callback_data_t) 80, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t pet_custom_model_submenu[] = {
+    { "Video size",
+      NULL, NULL, pet_video_submenu },
+    { "Memory size",
+      NULL, NULL, pet_memsize_submenu },
+    { "I/O size",
+      NULL, NULL, pet_iosize_submenu },
+    { "*CRTC chip enable",
+      (ui_callback_t) toggle_Crtc, NULL, NULL },
+    { "--" },
+    { "*$9*** as RAM (8296 only)",
+      (ui_callback_t) toggle_Ram9, NULL, NULL },
+    { "*$A*** as RAM (8296 only)",
+      (ui_callback_t) toggle_RamA, NULL, NULL },
+    { "--" },
+    { "Keyboard type",
+      NULL, NULL, pet_keybd_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t model_settings_submenu[] = {
+    { "PET 2001",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"2001", NULL },
+    { "PET 3008",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"3008", NULL },
+    { "PET 3016",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"3016", NULL },
+    { "PET 3032",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"3032", NULL },
+    { "PET 3032B",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"3032B", NULL },
+    { "PET 4016",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"4016", NULL },
+    { "PET 4032",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"4032", NULL },
+    { "PET 4032B",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"4032B", NULL },
+    { "PET 8032",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"8032", NULL },
+    { "PET 8096",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"8096", NULL },
+    { "PET 8296",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"8296", NULL },
+    { "--" },
+    { "Custom settings",
+      NULL, NULL, pet_custom_model_submenu },
+    { NULL }
+};
+
 static ui_menu_entry_t pet_menu[] = {
-    { "Screen color",
-      NULL, NULL, palette_submenu },
+    { "Model settings",
+      NULL, NULL, model_settings_submenu },
     { "*PET Userport Diagnostic Pin",
       (ui_callback_t) toggle_DiagPin, NULL, NULL },
     { "Joystick settings",
       NULL, NULL, joystick_settings_submenu },
+    { "--" },
+    { "Screen color",
+      NULL, NULL, palette_submenu },
     { NULL }
 };
 
