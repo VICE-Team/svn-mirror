@@ -365,7 +365,7 @@ const char contrib_text[] =
 "  to improve the emulation.  He also added cartridge support and\n"
 "  has been the main head behind the drive and datasette emulation\n"
 "  since version 0.15.  Also added several UI elements to the MSDOS\n"
-"  and MS-Windows ports.\n"
+"  and MS-Windows ports and the C128 Z80 implementation.\n"
 "\n"
 "  Dag Lem <resid@nimrod.no> implemented the reSID SID emulation\n"
 "  engine.\n"
