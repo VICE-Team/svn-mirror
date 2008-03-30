@@ -1,3 +1,117 @@
+2006-01-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.2.
+
+	* c64/cart/delaep256.c (delaep256_io1_store): Removed unused
+	variable.
+
+	* pet/petreu.c (set_petreu_size): Fixed printf format.
+
+2006-01-20  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/c64cart.dsp: Added new files.
+
+	 resource.h, resource.c: Added event_relevant and
+	vent_strict_value to resource struct for information about
+	he recource being relevant for event history and netplay
+	nd the value needed for stable emulation.
+
+	 ... (every file that defines a resource_t): Added new values
+	o all the resources.
+
+2006-01-20  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/archdep.c (archdep_tmpnam): Included mkstemp patch to
+	avoid warning at link time.
+
+2006-01-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/c64cart.dsp, c64/cart/Makefile.am,
+	c64/cart/c64cartmem.c, c64/cart/crt.c,
+	c64/cart/delaep256.c, c64/cart/delaep256.h,
+	cartridge.h: Added support for the Dela EP256 Cartridge.
+
+2006-01-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/c64cart.dsp, c64/cart/Makefile.am,
+	c64/cart/crt.c, c64/cart/delaep7x8.c, c64/cart/delaep7x8.h,
+	cartridge.h: Added Dela EP7x8 cartridge support.
+
+	* c64/cart/delaep64.c, c64/cart/delaep64.h: Fixed a typo.
+
+	* c64/cart/c64cartmem.c: Added Dela EP7x8 cartridge support
+	and fixed a missing 'break' statement for the zaxxon
+	cartridge.
+
+2006-01-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64_256k.c: Fixed the init values of the direction
+	registers.
+
+2006-01-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/c64ui.cc, arch/beos/constants.h,
+	arch/beos/vicemenu.cc, arch/msdos/Makefile.am,
+	arch/msdos/c64ui.c, arch/msdos/uiplus256k.c,
+	arch/msdos/uiplus256k.h, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/menubar.h, arch/os2/dialogs/menubar.rc,
+	arch/os2/vac++/incl/c64.icc, arch/unix/Makefile.am,
+	arch/unix/c64ui.c, arch/unix/uiplus256k.c,
+	arch/unix/uiplus256k.h, arch/win32/Makefile.am,
+	arch/win32/arch.dsp, arch/win32/c64.dsp, arch/win32/c64ui.c,
+	arch/win32/resc64.rc, arch/win32/resdialogs.txt,
+	arch/win32/resmenu.txt, arch/win32/resplus256k.rc,
+	arch/win32/resstrings.txt, arch/win32/uiplus256k.c,
+	arch/win32/uiplus256k.h, arch/win32/x64.dsp, c128/c128.c,
+	c64/Makefile.am, c64/c64.c, c64/c64mem.c, c64/plus256k.c,
+	c64/plus256k.h, translate.c, translate.h: Added +256k
+	expansion support.
+
+	* arch/msdos/uic64_256k.c, arch/msdos/uic64_256k.h,
+	arch/msdos/uiplus60k.h, arch/win32/uic64_256k.c,
+	arch/win32/uic64_256k.h, arch/win32/uiplus60k.c,
+	arch/win32/uiplus60k.h: Got rid of the 'hack' reference.
+
+	* arch/msdos/uiplus60k.c, arch/unix/uiplus60k.c,
+	arch/win32/resplus60k.rc, c64/plus60k.c: Got rid of the 'hack'
+	reference and turned +60K into PLUS60K.
+
+	* arch/win32/c64cart.dsp: Added the missing delaep64.c file,
+	in order to compile correctly with msvc.
+
+	* c64/c64_256k.c: Extended the checking of the cpu-line
+	resources to include the +256k expansion.
+
+	* c64/c64memlimit.c, c64/c64memlimit.h: Changed the memory
+	limit table previously used by the c64 256k expansion into a
+	general one for use by the +256k expansion as well.
+
+	* c64/ramcart.c: Fixed to correctly co-exist with the +60k,
+	+256k and c64 256k expansion.
+
+2006-01-16  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/Makefile.am (libgnomeui_a_SOURCES): Removed
+	`dummies.c', added `uifileentry.c'. 
+
+	* arch/unix/uifliplist.c (uifliplist_update_menus): Ported to Gtk2
+	API. 
+
+	* arch/unix/uicommands.h (ui_change_dir): New Prototype.
+
+	* arch/unix/uicommands.c (change_working_directory): Use new
+	`ui_change_dir()' for Gtk2.
+
+	* arch/unix/x11/gnome/*.[ch]: Ported to Gnome2/Gtk2 API.
+
+2006-01-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/uirs232.c: Fixed a typo that cause the link to
+	fail.
+
+	* arch/unix/uirs232c64c128.c: Uncommented the serial 2 device
+	item.
+
 2006-01-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.1.

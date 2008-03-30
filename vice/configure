@@ -889,6 +889,8 @@ Optional Packages:
   --without-alsa          do not use the ALSA sound system
   --without-oss           do not use the OSS sound system
   --without-resid         do not use the reSID engine
+  --without-png         do not use the PNG screenshot system
+  --without-zlib         do not use the ZLIB support
   --with-x                use the X Window System
 
 Some influential environment variables:
@@ -1312,7 +1314,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=1
+VICE_VERSION_BUILD=2
 
 
 
@@ -1860,6 +1862,18 @@ fi;
 # Check whether --with-resid or --without-resid was given.
 if test "${with_resid+set}" = set; then
   withval="$with_resid"
+
+fi;
+
+# Check whether --with-png or --without-png was given.
+if test "${with_png+set}" = set; then
+  withval="$with_png"
+
+fi;
+
+# Check whether --with-zlib or --without-zlib was given.
+if test "${with_zlib+set}" = set; then
+  withval="$with_zlib"
 
 fi;
 # Check whether --enable-fullscreen or --disable-fullscreen was given.
@@ -15708,7 +15722,8 @@ fi
 
 
 
-for ac_func in gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir
+
+for ac_func in gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir mkstemp
 do
 as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $ac_func" >&5

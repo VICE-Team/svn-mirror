@@ -595,7 +595,7 @@ translate_t string_table[] = {
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
-   c64/c64_256k.c, pet/petreu.c */
+   c64/c64_256k.c, pet/petreu.c, c64/plus256k.c */
 /* en */ {IDCLS_P_NAME,    "<name>"},
 /* de */ {IDCLS_P_NAME_DE, "<Name>"},
 /* fr */ {IDCLS_P_NAME_FR, "<nom>"},
@@ -1041,7 +1041,7 @@ translate_t string_table[] = {
 
 /* pet/petreu.c */
 /* en */ {IDCLS_ENABLE_PETREU,    "Enable the PET Ram and Expansion Unit"},
-/* de */ {IDCLS_ENABLE_PETREU_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_PETREU_DE, "PET RAM Speicher und Erweiterungsmodul aktivieren"},
 /* fr */ {IDCLS_ENABLE_PETREU_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_PETREU_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_PETREU_NL, "Aktiveer de PET RAM en uitbreidings eenheid"},
@@ -1050,7 +1050,7 @@ translate_t string_table[] = {
 
 /* pet/petreu.c */
 /* en */ {IDCLS_DISABLE_PETREU,    "Disable the PET Ram and Expansion Unit"},
-/* de */ {IDCLS_DISABLE_PETREU_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_PETREU_DE, "PET RAM Speicher und Erweiterungsmodul dektivieren"},
 /* fr */ {IDCLS_DISABLE_PETREU_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_PETREU_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_PETREU_NL, "De PET RAM en uitbreidings eenheid afsluiten"},
@@ -1059,7 +1059,7 @@ translate_t string_table[] = {
 
 /* pet/petreu.c */
 /* en */ {IDCLS_SPECIFY_PETREU_NAME,    "Specify name of PET Ram and Expansion Unit image"},
-/* de */ {IDCLS_SPECIFY_PETREU_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_PETREU_NAME_DE, "Namen für PET RAM Speicher und Erweiterungsmodul definieren"},
 /* fr */ {IDCLS_SPECIFY_PETREU_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_PETREU_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_PETREU_NAME_NL, "Geef de naam van het PET RAM en uitbreidings eenheid bestand"},
@@ -1068,7 +1068,7 @@ translate_t string_table[] = {
 
 /* pet/petreu.c */
 /* en */ {IDCLS_PETREU_SIZE,    "Size of the PET Ram and Expansion Unit"},
-/* de */ {IDCLS_PETREU_SIZE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_PETREU_SIZE_DE, "Größe des PET RAM Speicher und Erweiterungsmodul"},
 /* fr */ {IDCLS_PETREU_SIZE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_PETREU_SIZE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_PETREU_SIZE_NL, "Grootte van de PET RAM en uitbreidings eenheid"},
@@ -3875,39 +3875,66 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_ISO_LANG_CODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_ISO_LANG_CODE_SV, ""},  /* fuzzy */
 
+/* c64/plus256k.c */
+/* en */ {IDCLS_ENABLE_PLUS256K_EXPANSION,    "Enable the PLUS2566K RAM expansion"},
+/* de */ {IDCLS_ENABLE_PLUS256K_EXPANSION_DE, "PLUS256K RAM Erweiterung aktivieren"},
+/* fr */ {IDCLS_ENABLE_PLUS256K_EXPANSION_FR, "Activer l'expansion RAM PLUS256K"},
+/* it */ {IDCLS_ENABLE_PLUS256K_EXPANSION_IT, "Attiva l'espansione PLUS256K RAM"},
+/* nl */ {IDCLS_ENABLE_PLUS256K_EXPANSION_NL, "Aktiveer de PLUS256K geheugen uitbreiding"},
+/* pl */ {IDCLS_ENABLE_PLUS256K_EXPANSION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_PLUS256K_EXPANSION_SV, "Aktivera PLUS256K RAM-expansion"},
+
+/* c64/plus256k.c */
+/* en */ {IDCLS_DISABLE_PLUS256K_EXPANSION,    "Disable the PLUS256K RAM expansion"},
+/* de */ {IDCLS_DISABLE_PLUS256K_EXPANSION_DE, "PLUS256K RAM Erweiterung deaktivieren"},
+/* fr */ {IDCLS_DISABLE_PLUS256K_EXPANSION_FR, "Désactiver l'expansion RAM PLUS256K"},
+/* it */ {IDCLS_DISABLE_PLUS256K_EXPANSION_IT, "Disattiva l'espansione PLUS256K RAM"},
+/* nl */ {IDCLS_DISABLE_PLUS256K_EXPANSION_NL, "De PLUS256K geheugen uitbreiding afsluiten"},
+/* pl */ {IDCLS_DISABLE_PLUS256K_EXPANSION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_PLUS256K_EXPANSION_SV, "Inaktivera PLUS256K RAM-expansion"},
+
+/* c64/plus256k.c */
+/* en */ {IDCLS_SPECIFY_PLUS256K_NAME,    "Specify name of PLUS256K image"},
+/* de */ {IDCLS_SPECIFY_PLUS256K_NAME_DE, "Name der PLUS256K Image Datei definieren"},
+/* fr */ {IDCLS_SPECIFY_PLUS256K_NAME_FR, "Spécifier le nom de l'image PLUS256K"},
+/* it */ {IDCLS_SPECIFY_PLUS256K_NAME_IT, "Specifica il nome dell'immagine PLUS256K"},
+/* nl */ {IDCLS_SPECIFY_PLUS256K_NAME_NL, "Geef de naam van het PLUS256K bestand"},
+/* pl */ {IDCLS_SPECIFY_PLUS256K_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PLUS256K_NAME_SV, "Ange namn på PLUS256K-avbildning"},
+
 /* c64/plus60k.c */
-/* en */ {IDCLS_ENABLE_PLUS60K_EXPANSION,    "Enable the +60K RAM expansion"},
-/* de */ {IDCLS_ENABLE_PLUS60K_EXPANSION_DE, "+60K RAM Erweiterung aktivieren"},
-/* fr */ {IDCLS_ENABLE_PLUS60K_EXPANSION_FR, "Activer l'expansion RAM +60K"},
-/* it */ {IDCLS_ENABLE_PLUS60K_EXPANSION_IT, "Attiva l'espansione +60K RAM"},
-/* nl */ {IDCLS_ENABLE_PLUS60K_EXPANSION_NL, "Aktiveer de +60K geheugen uitbreiding"},
+/* en */ {IDCLS_ENABLE_PLUS60K_EXPANSION,    "Enable the PLUS60K RAM expansion"},
+/* de */ {IDCLS_ENABLE_PLUS60K_EXPANSION_DE, "PLUS60K RAM Erweiterung aktivieren"},
+/* fr */ {IDCLS_ENABLE_PLUS60K_EXPANSION_FR, "Activer l'expansion RAM PLUS60K"},
+/* it */ {IDCLS_ENABLE_PLUS60K_EXPANSION_IT, "Attiva l'espansione PLUS60K RAM"},
+/* nl */ {IDCLS_ENABLE_PLUS60K_EXPANSION_NL, "Aktiveer de PLUS60K geheugen uitbreiding"},
 /* pl */ {IDCLS_ENABLE_PLUS60K_EXPANSION_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_PLUS60K_EXPANSION_SV, "Aktivera +60K RAM-expansion"},
+/* sv */ {IDCLS_ENABLE_PLUS60K_EXPANSION_SV, "Aktivera PLUS60K RAM-expansion"},
 
 /* c64/plus60k.c */
-/* en */ {IDCLS_DISABLE_PLUS60K_EXPANSION,    "Disable the +60K RAM expansion"},
-/* de */ {IDCLS_DISABLE_PLUS60K_EXPANSION_DE, "+60K RAM Erweiterung deaktivieren"},
-/* fr */ {IDCLS_DISABLE_PLUS60K_EXPANSION_FR, "Désactiver l'expansion RAM +60K"},
-/* it */ {IDCLS_DISABLE_PLUS60K_EXPANSION_IT, "Disattiva l'espansione +60K RAM"},
-/* nl */ {IDCLS_DISABLE_PLUS60K_EXPANSION_NL, "De +60K geheugen uitbreiding afsluiten"},
+/* en */ {IDCLS_DISABLE_PLUS60K_EXPANSION,    "Disable the PLUS60K RAM expansion"},
+/* de */ {IDCLS_DISABLE_PLUS60K_EXPANSION_DE, "PLUS60K RAM Erweiterung deaktivieren"},
+/* fr */ {IDCLS_DISABLE_PLUS60K_EXPANSION_FR, "Désactiver l'expansion RAM PLUS60K"},
+/* it */ {IDCLS_DISABLE_PLUS60K_EXPANSION_IT, "Disattiva l'espansione PLUS60K RAM"},
+/* nl */ {IDCLS_DISABLE_PLUS60K_EXPANSION_NL, "De PLUS60K geheugen uitbreiding afsluiten"},
 /* pl */ {IDCLS_DISABLE_PLUS60K_EXPANSION_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_PLUS60K_EXPANSION_SV, "Inaktivera +60K RAM-expansion"},
+/* sv */ {IDCLS_DISABLE_PLUS60K_EXPANSION_SV, "Inaktivera PLUS60K RAM-expansion"},
 
 /* c64/plus60k.c */
-/* en */ {IDCLS_SPECIFY_PLUS60K_NAME,    "Specify name of +60K image"},
-/* de */ {IDCLS_SPECIFY_PLUS60K_NAME_DE, "Name der +60K Image Datei definieren"},
-/* fr */ {IDCLS_SPECIFY_PLUS60K_NAME_FR, "Spécifier le nom de l'image +60K"},
-/* it */ {IDCLS_SPECIFY_PLUS60K_NAME_IT, "Specifica il nome dell'immagine +60K"},
-/* nl */ {IDCLS_SPECIFY_PLUS60K_NAME_NL, "Geef de naam van het +60K bestand"},
+/* en */ {IDCLS_SPECIFY_PLUS60K_NAME,    "Specify name of PLUS60K image"},
+/* de */ {IDCLS_SPECIFY_PLUS60K_NAME_DE, "Name der PLUS60K Image Datei definieren"},
+/* fr */ {IDCLS_SPECIFY_PLUS60K_NAME_FR, "Spécifier le nom de l'image PLUS60K"},
+/* it */ {IDCLS_SPECIFY_PLUS60K_NAME_IT, "Specifica il nome dell'immagine PLUS60K"},
+/* nl */ {IDCLS_SPECIFY_PLUS60K_NAME_NL, "Geef de naam van het PLUS60K bestand"},
 /* pl */ {IDCLS_SPECIFY_PLUS60K_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_PLUS60K_NAME_SV, "Ange namn på +60K-avbildning"},
+/* sv */ {IDCLS_SPECIFY_PLUS60K_NAME_SV, "Ange namn på PLUS60K-avbildning"},
 
 /* c64/plus60k.c */
-/* en */ {IDCLS_PLUS60K_BASE,    "Base address of the +60K expansion"},
-/* de */ {IDCLS_PLUS60K_BASE_DE, "Basis Adresse für +60K Erweiterung"},
+/* en */ {IDCLS_PLUS60K_BASE,    "Base address of the PLUS60K expansion"},
+/* de */ {IDCLS_PLUS60K_BASE_DE, "Basis Adresse für PLUS60K Erweiterung"},
 /* fr */ {IDCLS_PLUS60K_BASE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_PLUS60K_BASE_IT, "Indirizzo base dell'espansione +60K"},
-/* nl */ {IDCLS_PLUS60K_BASE_NL, "Basis adres van de +60K geheugen uitbreiding"},
+/* it */ {IDCLS_PLUS60K_BASE_IT, "Indirizzo base dell'espansione PLUS60K"},
+/* nl */ {IDCLS_PLUS60K_BASE_NL, "Basis adres van de PLUS60K geheugen uitbreiding"},
 /* pl */ {IDCLS_PLUS60K_BASE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_PLUS60K_BASE_SV, ""},  /* fuzzy */
 
@@ -4432,7 +4459,7 @@ static int translate_text_table[][countof(language_table)] = {
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
-   c64/c64_256k.c */
+   c64/c64_256k.c, pet/petreu.c, c64/plus256k.c */
 /* en */ {IDCLS_P_NAME,
 /* de */  IDCLS_P_NAME_DE,
 /* fr */  IDCLS_P_NAME_FR,
@@ -7632,6 +7659,33 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_ISO_LANG_CODE_PL,
 /* sv */  IDCLS_SPECIFY_ISO_LANG_CODE_SV},
 
+/* c64/plus256k.c */
+/* en */ {IDCLS_ENABLE_PLUS256K_EXPANSION,
+/* de */  IDCLS_ENABLE_PLUS256K_EXPANSION_DE,
+/* fr */  IDCLS_ENABLE_PLUS256K_EXPANSION_FR,
+/* it */  IDCLS_ENABLE_PLUS256K_EXPANSION_IT,
+/* nl */  IDCLS_ENABLE_PLUS256K_EXPANSION_NL,
+/* pl */  IDCLS_ENABLE_PLUS256K_EXPANSION_PL,
+/* sv */  IDCLS_ENABLE_PLUS256K_EXPANSION_SV},
+
+/* c64/plus256k.c */
+/* en */ {IDCLS_DISABLE_PLUS256K_EXPANSION,
+/* de */  IDCLS_DISABLE_PLUS256K_EXPANSION_DE,
+/* fr */  IDCLS_DISABLE_PLUS256K_EXPANSION_FR,
+/* it */  IDCLS_DISABLE_PLUS256K_EXPANSION_IT,
+/* nl */  IDCLS_DISABLE_PLUS256K_EXPANSION_NL,
+/* pl */  IDCLS_DISABLE_PLUS256K_EXPANSION_PL,
+/* sv */  IDCLS_DISABLE_PLUS256K_EXPANSION_SV},
+
+/* c64/plus256k.c */
+/* en */ {IDCLS_SPECIFY_PLUS256K_NAME,
+/* de */  IDCLS_SPECIFY_PLUS256K_NAME_DE,
+/* fr */  IDCLS_SPECIFY_PLUS256K_NAME_FR,
+/* it */  IDCLS_SPECIFY_PLUS256K_NAME_IT,
+/* nl */  IDCLS_SPECIFY_PLUS256K_NAME_NL,
+/* pl */  IDCLS_SPECIFY_PLUS256K_NAME_PL,
+/* sv */  IDCLS_SPECIFY_PLUS256K_NAME_SV},
+
 /* c64/plus60k.c */
 /* en */ {IDCLS_ENABLE_PLUS60K_EXPANSION,
 /* de */  IDCLS_ENABLE_PLUS60K_EXPANSION_DE,
@@ -7809,6 +7863,7 @@ static int set_current_language(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
   { "Language", RES_STRING, (resource_value_t)"en",
+    RES_EVENT_NO, NULL,
     (void *)&current_language, set_current_language, NULL },
   { NULL }
 };

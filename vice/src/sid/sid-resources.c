@@ -217,29 +217,39 @@ static int set_sid_hardsid_right(resource_value_t v, void *param)
 static const resource_t resources[] = {
 #ifdef HAVE_RESID
     { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_RESID,
+      RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID,
       (void *)&sid_engine, set_sid_engine, NULL },
 #else
     { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_FASTSID,
+      RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID, /* FIXME: deadl. */
       (void *)&sid_engine, set_sid_engine, NULL },
 #endif
     { "SidFilters", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_SAME, NULL,
       (void *)&sid_filters_enabled, set_sid_filters_enabled, NULL },
     { "SidModel", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_SAME, NULL,
       (void *)&sid_model, set_sid_model, NULL },
     { "SidStereo", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_SAME, NULL,
       (void *)&sid_stereo, set_sid_stereo, NULL },
 #ifdef HAVE_RESID
     { "SidResidSampling", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&sid_resid_sampling, set_sid_resid_sampling, NULL },
     { "SidResidPassband", RES_INTEGER, (resource_value_t)90,
+      RES_EVENT_NO, NULL,
       (void *)&sid_resid_passband, set_sid_resid_passband, NULL },
     { "SidResidGain", RES_INTEGER, (resource_value_t)97,
+      RES_EVENT_NO, NULL,
       (void *)&sid_resid_gain, set_sid_resid_gain, NULL },
 #endif
 #ifdef HAVE_HARDSID
     { "SidHardSIDMain", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&sid_hardsid_main, set_sid_hardsid_main, NULL },
     { "SidHardSIDRight", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,
       (void *)&sid_hardsid_right, set_sid_hardsid_right, NULL },
 #endif
     { NULL }

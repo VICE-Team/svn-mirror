@@ -303,6 +303,7 @@ libarch_a_SOURCES = \
 	reside64.rc \
 	respet.rc \
 	respetreu.rc \
+ 	resplus256k.rc \
 	resplus4.rc \
 	resplus60k.rc \
 	resramcart.rc \
@@ -376,6 +377,8 @@ libarch_a_SOURCES = \
 	uipetreu.h \
 	uipetset.c \
 	uipetset.h \
+	uiplus256k.c \
+	uiplus256k.h \
 	uiplus4cart.c \
 	uiplus4cart.h \
 	uiplus4mem.c \
@@ -524,8 +527,8 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uihelp.$(OBJEXT) uiide64.$(OBJEXT) uijoystick.$(OBJEXT) \
 	uikeyboard.$(OBJEXT) uilib.$(OBJEXT) uimediafile.$(OBJEXT) \
 	uimon.$(OBJEXT) uinetwork.$(OBJEXT) uiperipheral.$(OBJEXT) \
-	uipetreu.$(OBJEXT) uipetset.$(OBJEXT) uiplus4cart.$(OBJEXT) \
-	uiplus4mem.$(OBJEXT) uiplus60k.$(OBJEXT) \
+	uipetreu.$(OBJEXT) uipetset.$(OBJEXT) uiplus256k.$(OBJEXT) \
+	uiplus4cart.$(OBJEXT) uiplus4mem.$(OBJEXT) uiplus60k.$(OBJEXT) \
 	uiquicksnapshot.$(OBJEXT) uiram.$(OBJEXT) uiramcart.$(OBJEXT) \
 	uireu.$(OBJEXT) uirom.$(OBJEXT) uirs232.$(OBJEXT) \
 	uirs232user.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
@@ -566,7 +569,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uilib.Po ./$(DEPDIR)/uimediafile.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uinetwork.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po ./$(DEPDIR)/uipetreu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uipetset.Po ./$(DEPDIR)/uiplus4cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uipetset.Po ./$(DEPDIR)/uiplus256k.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiplus4cart.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiplus4mem.Po ./$(DEPDIR)/uiplus60k.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiquicksnapshot.Po ./$(DEPDIR)/uiram.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiramcart.Po ./$(DEPDIR)/uireu.Po \
@@ -670,6 +674,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheral.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetreu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetset.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus256k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus4cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus4mem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus60k.Po@am__quote@
@@ -1007,14 +1012,14 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
-	$(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc \
-	$(srcdir)/resdrivec64vic20.rc $(srcdir)/restfe.rc
+	$(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc \
+	$(srcdir)/reside64.rc $(srcdir)/resdrivec64vic20.rc $(srcdir)/restfe.rc
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64vic20.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
-	$(srcdir)/resramcart.rc $(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc \
-	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
-	$(srcdir)/restfe.rc
+	$(srcdir)/resramcart.rc $(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc \
+	$(srcdir)/resc64_256k.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc \
+	$(srcdir)/resvicii.rc $(srcdir)/restfe.rc
 	$(WRC) -i resc64cat.rc -o resc64.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \

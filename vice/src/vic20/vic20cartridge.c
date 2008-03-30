@@ -138,14 +138,19 @@ static int set_cartridge_file_B(resource_value_t v, void *param)
 static const resource_t resources[] =
 {
     { "CartridgeFile2000", RES_STRING, (resource_value_t)"",
+      RES_EVENT_STRICT, (resource_value_t)"",
       (void *)&cartridge_file_2, set_cartridge_file_2, NULL },
     { "CartridgeFile4000", RES_STRING, (resource_value_t)"",
+      RES_EVENT_STRICT, (resource_value_t)"",
       (void *)&cartridge_file_4, set_cartridge_file_4, NULL },
     { "CartridgeFile6000", RES_STRING, (resource_value_t)"",
+      RES_EVENT_STRICT, (resource_value_t)"",
       (void *)&cartridge_file_6, set_cartridge_file_6, NULL },
     { "CartridgeFileA000", RES_STRING, (resource_value_t)"",
+      RES_EVENT_STRICT, (resource_value_t)"",
       (void *)&cartridge_file_A, set_cartridge_file_A, NULL },
     { "CartridgeFileB000", RES_STRING, (resource_value_t)"",
+      RES_EVENT_STRICT, (resource_value_t)"",
       (void *)&cartridge_file_B, set_cartridge_file_B, NULL },
     { NULL }
 };

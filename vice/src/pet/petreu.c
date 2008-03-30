@@ -128,7 +128,7 @@ static int set_petreu_size(resource_value_t v, void *param)
     case 128:
       break;
     default:
-      log_message(petreu_log, "Unknown PET REU size %ld.", (DWORD)v);
+      log_message(petreu_log, "Unknown PET REU size %ld.", (long)v);
       return -1;
   }
 
@@ -171,10 +171,13 @@ static int set_petreu_filename(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "PETREU", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_SAME, NULL,
       (void *)&petreu_enabled, set_petreu_enabled, NULL },
     { "PETREUsize", RES_INTEGER, (resource_value_t)128,
+      RES_EVENT_SAME, NULL,
       (void *)&petreu_size_kb, set_petreu_size, NULL },
     { "PETREUfilename", RES_STRING, (resource_value_t)"",
+      RES_EVENT_NO, NULL,
       (void *)&petreu_filename, set_petreu_filename, NULL },
     { NULL }
 };

@@ -152,8 +152,9 @@ static const char *vname_chip_size[] = { "DoubleSize", NULL };
 
 static resource_t resources_chip_size[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
-      set_double_size_enabled, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
+      NULL, set_double_size_enabled, NULL },
     { NULL }
 };
 
@@ -180,8 +181,9 @@ static const char *vname_chip_scan[] = { "DoubleScan", NULL };
 
 static resource_t resources_chip_scan[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)1, NULL,
-      set_double_scan_enabled, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,
+      NULL, set_double_scan_enabled, NULL },
     { NULL }
 };
 
@@ -210,8 +212,9 @@ static const char *vname_chip_hwscale[] = { "HwScale", NULL };
 
 static resource_t resources_chip_hwscale[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
-      set_hwscale_enabled, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
+      NULL, set_hwscale_enabled, NULL },
     { NULL }
 };
 
@@ -238,8 +241,9 @@ static const char *vname_chip_scale2x[] = { "Scale2x", NULL };
 
 static resource_t resources_chip_scale2x[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
-      set_scale2x_enabled, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
+      NULL, set_scale2x_enabled, NULL },
     { NULL }
 };
 
@@ -315,14 +319,18 @@ static const char *vname_chip_fullscreen[] = {
 
 static resource_t resources_chip_fullscreen[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
-      set_fullscreen_enabled, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
-      set_fullscreen_double_size_enabled, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
-      set_fullscreen_double_scan_enabled, NULL },
-    { NULL, RES_STRING, (resource_value_t)NULL, NULL,
-      set_fullscreen_device, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
+      NULL, set_fullscreen_enabled, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
+      NULL, set_fullscreen_double_size_enabled, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
+      NULL, set_fullscreen_double_scan_enabled, NULL },
+    { NULL, RES_STRING, (resource_value_t)NULL,
+      RES_EVENT_NO, NULL,
+      NULL, set_fullscreen_device, NULL },
     { NULL }
 };
 
@@ -351,8 +359,9 @@ static const char *vname_chip_fullscreen_mode[] = { "FullscreenMode", NULL };
 
 static resource_t resources_chip_fullscreen_mode[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
-      set_fullscreen_mode, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
+      NULL, set_fullscreen_mode, NULL },
     { NULL }
 };
 
@@ -392,10 +401,12 @@ static const char *vname_chip_palette[] = { "PaletteFile", "ExternalPalette",
 
 static resource_t resources_chip_palette[] =
 {
-    { NULL, RES_STRING, NULL, NULL,
-      set_palette_file_name, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
-      set_ext_palette, NULL },
+    { NULL, RES_STRING, NULL,
+      RES_EVENT_NO, NULL,
+      NULL, set_palette_file_name, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
+      NULL, set_ext_palette, NULL },
     { NULL }
 };
 

@@ -152,10 +152,13 @@ static int set_up_device(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "RsUserEnable", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&rsuser_enabled, set_enable, NULL },
     { "RsUserBaud", RES_INTEGER, (resource_value_t)300,
+      RES_EVENT_NO, NULL,
       (void *)&rsuser_baudrate, set_baudrate, NULL },
     { "RsUserDev", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&rsuser_device, set_up_device, NULL },
     { NULL }
 };
