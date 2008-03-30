@@ -229,8 +229,6 @@ static void ted_set_geometry(void)
     if (ted_resources.double_size_enabled)
 #endif
     {
-        width *= 2;
-        height *= 2;
         raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
     }
 #endif
@@ -427,7 +425,9 @@ void ted_powerup(void)
 /* Handle the exposure event.  */
 static void ted_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&ted.raster, width, height);
+    raster_resize_viewport(&ted.raster,
+                           width / ted.raster.viewport.pixel_size.width,
+                           height / ted.raster.viewport.pixel_size.width);
 }
 
 /* Make sure all the TED alarms are removed.  This just makes it easier to
@@ -820,8 +820,8 @@ void ted_resize(void)
             && ted.raster.viewport.canvas != NULL) {
             raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
             raster_resize_viewport(&ted.raster,
-                                   ted.raster.viewport.width * 2,
-                                   ted.raster.viewport.height * 2);
+                                   ted.raster.viewport.width,
+                                   ted.raster.viewport.height);
         } else {
             raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
         }
