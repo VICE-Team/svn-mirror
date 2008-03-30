@@ -469,7 +469,7 @@ static BYTE REGPARM1 read_emuid(ADDRESS addr)
 static void REGPARM2 store_emuid(ADDRESS addr, BYTE value)
 {
     addr &= 0xff;
-    if(emu_id_enabled && (addr == 0xff)) {
+    if (emu_id_enabled && (addr == 0xff)) {
 	emulator_id[addr - 0xa0] ^= 0xff;
     }
     return;
@@ -971,19 +971,19 @@ int mem_write_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte_array(m, ram, 0x0400);
     snapshot_module_write_byte_array(m, ram + 0x1000, 0x1000);
 
-    if(config & 1) {
+    if (config & 1) {
         snapshot_module_write_byte_array(m, ram + 0x0400, 0x0c00);
     }
-    if(config & 2) {
+    if (config & 2) {
         snapshot_module_write_byte_array(m, ram + 0x2000, 0x2000);
     }
-    if(config & 4) {
+    if (config & 4) {
         snapshot_module_write_byte_array(m, ram + 0x4000, 0x2000);
     }
-    if(config & 8) {
+    if (config & 8) {
         snapshot_module_write_byte_array(m, ram + 0x6000, 0x2000);
     }
-    if(config & 32) {
+    if (config & 32) {
         snapshot_module_write_byte_array(m, ram + 0xA000, 0x2000);
     }
 
@@ -1010,23 +1010,23 @@ int mem_read_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte_array(m, ram + 0x1000, 0x1000);
 
     set_ram_block_0_enabled((resource_value_t)(config & 1));
-    if(config & 1) {
+    if (config & 1) {
         snapshot_module_read_byte_array(m, ram + 0x0400, 0x0c00);
     }
     set_ram_block_1_enabled((resource_value_t)(config & 2));
-    if(config & 2) {
+    if (config & 2) {
         snapshot_module_read_byte_array(m, ram + 0x2000, 0x2000);
     }
     set_ram_block_2_enabled((resource_value_t)(config & 4));
-    if(config & 4) {
+    if (config & 4) {
         snapshot_module_read_byte_array(m, ram + 0x4000, 0x2000);
     }
     set_ram_block_3_enabled((resource_value_t)(config & 8));
-    if(config & 8) {
+    if (config & 8) {
         snapshot_module_read_byte_array(m, ram + 0x6000, 0x2000);
     }
     set_ram_block_5_enabled((resource_value_t)(config & 32));
-    if(config & 32) {
+    if (config & 32) {
         snapshot_module_read_byte_array(m, ram + 0xA000, 0x2000);
     }
 
@@ -1034,5 +1034,3 @@ int mem_read_snapshot_module(snapshot_t *p)
 
     return 0;
 }
-
-
