@@ -43,7 +43,7 @@
 #include "uivicset.h"
 
 
-static const ui_menu_toggle vic20_ui_menu_toggles[] = {
+static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICScale2x", IDM_TOGGLE_SCALE2X },
