@@ -108,13 +108,13 @@ int log_open(const char *id)
     log_t new_log = 0;
     int i;
 
-    for (i = 0; i < num_logs; i++) {
+    for (i = 0; i < ((int)num_logs); i++) {
         if (logs[i] == NULL) {
             new_log = i;
             break;
         }
     }
-    if (i == num_logs) {
+    if (i == ((int)num_logs)) {
         new_log = num_logs++;
         if (num_logs > num_allocated_logs) {
             if (num_allocated_logs == 0) {
