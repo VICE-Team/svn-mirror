@@ -298,6 +298,109 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+cia1571drive0.o: cia1571drive0.c ../../src/ciacore.h ../../src/vice.h \
+	../../src/config.h ../../src/cia.h ../../src/types.h \
+	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
+	../../src/alarm.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	drivecpu.h ../../src/mos6510.h ../../src/mon.h ciad.h \
+	../../src/iecdrive.h ../../src/ciacore.c ../../src/ciatimer.h
+cia1571drive1.o: cia1571drive1.c ../../src/ciacore.h ../../src/vice.h \
+	../../src/config.h ../../src/cia.h ../../src/types.h \
+	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
+	../../src/alarm.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	drivecpu.h ../../src/mos6510.h ../../src/mon.h ciad.h \
+	../../src/iecdrive.h ../../src/ciacore.c ../../src/ciatimer.h
+cia1581drive0.o: cia1581drive0.c ../../src/ciacore.h ../../src/vice.h \
+	../../src/config.h ../../src/cia.h ../../src/types.h \
+	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
+	../../src/alarm.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	drivecpu.h ../../src/mos6510.h ../../src/mon.h ciad.h \
+	../../src/iecdrive.h ../../src/ciacore.c ../../src/ciatimer.h
+cia1581drive1.o: cia1581drive1.c ../../src/ciacore.h ../../src/vice.h \
+	../../src/config.h ../../src/cia.h ../../src/types.h \
+	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
+	../../src/alarm.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	drivecpu.h ../../src/mos6510.h ../../src/mon.h ciad.h \
+	../../src/iecdrive.h ../../src/ciacore.c ../../src/ciatimer.h
+drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
+	../../src/types.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/log.h \
+	../../src/snapshot.h ciad.h ../../src/cia.h ../../src/cmdline.h \
+	../../src/resources.h drive.h drivecpu.h ../../src/alarm.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/gcr.h ../../src/iecdrive.h ../../src/memutils.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h ../../src/utils.h viad.h ../../src/via.h \
+	wd1770.h ../../src/sysfile.h
+drivecpu0.o: drivecpu0.c ../../src/vice.h ../../src/config.h \
+	../../src/6510core.h ../../src/mem.h ../../src/types.h \
+	../../src/snapshot.h ../../src/alarm.h ../../src/log.h ciad.h \
+	../../src/cia.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/resources.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h viad.h ../../src/via.h wd1770.h \
+	drivecpucore.c ../../src/6510core.c
+drivecpu1.o: drivecpu1.c ../../src/vice.h ../../src/config.h \
+	../../src/6510core.h ../../src/mem.h ../../src/types.h \
+	../../src/snapshot.h ../../src/alarm.h ../../src/log.h ciad.h \
+	../../src/cia.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/resources.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h viad.h ../../src/via.h wd1770.h \
+	drivecpucore.c ../../src/6510core.c
+via1drive0.o: via1drive0.c ../../src/vice.h ../../src/config.h \
+	../../src/viacore.h ../../src/alarm.h ../../src/types.h \
+	../../src/log.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/resources.h ../../src/via.h drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h drivecpu.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/iecdrive.h viad.h \
+	../../src/parallel.h ../../src/viacore.c
+via1drive1.o: via1drive1.c ../../src/vice.h ../../src/config.h \
+	../../src/viacore.h ../../src/alarm.h ../../src/types.h \
+	../../src/log.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/resources.h ../../src/via.h drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h drivecpu.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/iecdrive.h viad.h \
+	../../src/parallel.h ../../src/viacore.c
+via2drive0.o: via2drive0.c ../../src/vice.h ../../src/config.h \
+	../../src/viacore.h ../../src/alarm.h ../../src/types.h \
+	../../src/log.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/resources.h ../../src/via.h drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h drivecpu.h ../../src/mos6510.h \
+	../../src/mon.h viad.h ../../src/viacore.c
+via2drive1.o: via2drive1.c ../../src/vice.h ../../src/config.h \
+	../../src/viacore.h ../../src/alarm.h ../../src/types.h \
+	../../src/log.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/resources.h ../../src/via.h drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h drivecpu.h ../../src/mos6510.h \
+	../../src/mon.h viad.h ../../src/viacore.c
+wd1770.o: wd1770.c ../../src/vice.h ../../src/config.h drive.h \
+	../../src/types.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/log.h drivecpu.h \
+	../../src/alarm.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h wd1770.h
 
 info: info-recursive
 dvi: dvi-recursive

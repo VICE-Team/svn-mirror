@@ -2,7 +2,8 @@
  * c128mem.c -- Memory handling for the C128 emulator.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Based on the original work in VICE 0.11.0 by
  *  Jouko Valta (jopi@stekt.oulu.fi)
@@ -38,11 +39,10 @@
 #include <stdio.h>
 
 #include "c128mem.h"
-
+#include "../c64/c64cart.h"
 #include "c64cia.h"
 #include "c64tpi.h"
 #include "cmdline.h"
-#include "drive.h"
 #include "emuid.h"
 #include "maincpu.h"
 #include "memutils.h"
@@ -52,12 +52,10 @@
 #include "rs232.h"
 #include "sid.h"
 #include "snapshot.h"
-#include "tape.h"
-#include "ui.h"
 #include "utils.h"
 #include "vdc.h"
 #include "vmachine.h"
-#include "../c64/c64cart.h"
+#include "ui.h"
 #include "vicii.h"
 
 #ifdef HAVE_RS232
@@ -386,7 +384,7 @@ static log_t c128_mem_log = LOG_ERR;
 
 /* MMU Implementation.  */
 
-inline BYTE REGPARM1 read_mmu(ADDRESS addr)
+BYTE REGPARM1 read_mmu(ADDRESS addr)
 {
     addr &= 0xff;
 
@@ -402,7 +400,7 @@ inline BYTE REGPARM1 read_mmu(ADDRESS addr)
     }
 }
 
-inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
+void REGPARM2 store_mmu(ADDRESS address, BYTE value)
 {
     address &= 0xff;
 
@@ -764,25 +762,6 @@ static void REGPARM2 store_ffxx(ADDRESS addr, BYTE value)
     else
         STORE_TOP_SHARED(addr, value);
 }
-
-/* FIXME: These routines are not used.  */
-/*
-static BYTE REGPARM1 read_empty_io(ADDRESS addr)
-{
-    if (io_in)
-        return 0xff;
-    else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
-}
-
-static void REGPARM2 store_empty_io(ADDRESS addr, BYTE value)
-{
-    if (!io_in)
-        STORE_TOP_SHARED(addr, value);
-}
-*/
 
 /* ------------------------------------------------------------------------- */
 /* those are approximate copies from the c64 versions....

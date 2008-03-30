@@ -1,3 +1,39 @@
+1999-03-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.46.
+
+	* sounddrv/soundsgi.c: #include <stdio.h>.
+
+	* drive/drive.c: Removed old warning cruft.
+
+	* drivecpucore.c (drive_jam): Print the correct drive type.
+
+	* drivecpu0.c, drivecpu1.c: Removed unnecessary includes.
+
+	* arch/win32/res.r: This is not an ALPHA release anymore.
+
+	* c128/c128mem.c (read_mmu, store_mmu): No need to be inlined.
+	Removed useless includes.
+	(read_empty_io, store_empty_io): Removed.
+
+	* c64/c64mem.c: Removed useless includes.
+
+1998-03-20  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am: add ciatimer.h
+
+	* c64/c64cia1.c, c64/c64cia2.c (CIAT_DEBUG): remove definition
+
+	* ciacore.c (read_mycia): do not call ciat_update before 
+	calling int_ciata/tb
+	(int_ciata): add clock parameter to ciat_single_step
+
+	* ciatimer.c: remove timer code, just keep logging code
+
+	* ciatimer.h: new file. basically the old ciatimer.h but with
+	define to either make it inline or a single compile in ciatimer.c
+	(ciat_update): fix computation of number of underflows
+
 1999-03-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.45.
