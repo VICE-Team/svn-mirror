@@ -116,12 +116,11 @@ static const char Rsrc_IEEE[] = "IEEE488";
 static const char Rsrc_EmuID[] = "EmuID";
 static const char Rsrc_CartT[] = "CartridgeType";
 static const char Rsrc_CartF[] = "CartridgeFile";
-static const char Rsrc_SScoll[] = "CheckSsColl";
-static const char Rsrc_SBcoll[] = "CheckSbColl";
+static const char Rsrc_SScoll[] = "VICIICheckSsColl";
+static const char Rsrc_SBcoll[] = "VICIICheckSbColl";
 static const char Rsrc_Palette[] = "PaletteFile";
 static const char Rsrc_ExtPal[] = "ExternalPalette";
 static const char Rsrc_NoTraps[] = "NoTraps";
-static const char Rsrc_VideoCache[] = "VideoCache";
 static const char Rsrc_SoundFile[] = "SoundDeviceArg";
 static const char Rsrc_SerialFile[] = "SerialFile";
 static const char Rsrc_PrinterFile[] = "PrinterFile";
@@ -162,8 +161,7 @@ static const char Rsrc_FullSetPal[] = "ScreenSetPalette";
 static const char Rsrc_UseBPlot[] = "UseBPlot";
 static const char Rsrc_Key8040[] = "40/80ColumnKey";
 static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
-static const char Rsrc_VDCcache[] = "VDC_VideoCache";
-static const char Rsrc_VDCsize[] = "VDC_64KB";
+static const char Rsrc_VDCsize[] = "VDC64KB";
 static const char Rsrc_Z80Bios[] = "Z80BiosName";
 static const char Rsrc_VDCdblsze[] = "VDC_DoubleSize";
 static const char Rsrc_VDCdblscn[] = "VDC_DoubleScan";
@@ -1369,6 +1367,7 @@ DISP_JOYSTICK_DEVICE_MENU(2)
 
 
 
+
 /* Config Menus */
 menu_icon_t ConfigMenus[] = {
   {(RO_MenuHead*)&MenuPrintDev, Rsrc_Prnt4Dev,
@@ -1463,6 +1462,8 @@ menu_icon_t ConfigMenus[] = {
     {CONF_WIN_VIDEO, Icon_ConfVid_PALDepth}},		/* 44 */
   {(RO_MenuHead*)&MenuPALMode, Rsrc_PALMode,
     {CONF_WIN_VIDEO, Icon_ConfVid_PalMode}},		/* 45 */
+  {NULL, NULL,
+    {CONF_WIN_VIDEO, Icon_ConfVid_VCache}},		/* 46 */
   {NULL, NULL, {0, 0}}
 };
 
@@ -1514,6 +1515,7 @@ disp_desc_t *ConfigDispDescs[] = {
   (disp_desc_t*)&MenuDisplaySid2Address,
   (disp_desc_t*)&MenuDisplayPALDepth,
   (disp_desc_t*)&MenuDisplayPALMode,
+  NULL,
   NULL
 };
 
@@ -1546,7 +1548,6 @@ config_item_t Configurations[] = {
   {Rsrc_TapeFile, CONFIG_STRING, {CONF_WIN_TAPE, Icon_ConfTap_TapeFile}},
   {Rsrc_DataReset, CONFIG_SELECT, {CONF_WIN_TAPE, Icon_ConfTap_DataReset}},
   {Rsrc_WarpMode, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_WarpMode}},
-  {Rsrc_VideoCache, CONFIG_SELECT, {CONF_WIN_VIDEO, Icon_ConfVid_VideoCache}},
   {Rsrc_CharGen, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_CharGen}},
   {Rsrc_Kernal, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Kernal}},
   {Rsrc_Basic, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Basic}},
@@ -1576,7 +1577,6 @@ config_item_t Configurations[] = {
   {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetSuper}},
   {Rsrc_Key8040, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf128_C1284080}},
   {Rsrc_VDCpalette, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf128_C128Palette}},
-  {Rsrc_VDCcache, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf128_C128Cache}},
   {Rsrc_VDCsize, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf128_C128Size}},
   {Rsrc_Z80Bios, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf128_C128z80bios}},
   {Rsrc_VDCdblsze, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf128_C128dblsize}},

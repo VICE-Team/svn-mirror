@@ -289,7 +289,7 @@ BMenuBar *menu_create(int machine_class) {
 				new BMessage(MENU_TOGGLE_VDC_DOUBLESCAN)));
 			submenu->AddSeparatorItem();
 			submenu->AddItem(new BMenuItem("64KB video memory",
-				new BMessage(MENU_TOGGLE_VDC_64KB)));
+				new BMessage(MENU_TOGGLE_VDC64KB)));
 		}
 		menu->AddSeparatorItem();
 	}

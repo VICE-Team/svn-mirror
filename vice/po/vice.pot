@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-06-16 23:03+0200\n"
+"POT-Creation-Date: 2002-06-20 18:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,7 +79,7 @@ msgid "*Revison 2"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:99 src/arch/unix/plus4ui.c:90
-#: src/arch/unix/uicrtc.c:56 src/arch/unix/uivicii.c:69
+#: src/arch/unix/uicrtc.c:56 src/arch/unix/uivicii.c:70
 #: src/arch/unix/vic20ui.c:422
 msgid "*Video cache"
 msgstr ""
@@ -103,7 +103,7 @@ msgid "Revision"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:111 src/arch/unix/plus4ui.c:99
-#: src/arch/unix/uivicii.c:82 src/arch/unix/vic20ui.c:428
+#: src/arch/unix/uivicii.c:85 src/arch/unix/vic20ui.c:428
 msgid "Color set"
 msgstr ""
 
@@ -715,11 +715,11 @@ msgstr ""
 msgid "*PET userport diagnostic pin"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:93 src/arch/unix/uivicii.c:80
+#: src/arch/unix/plus4ui.c:93 src/arch/unix/uivicii.c:83
 msgid "*External color set"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:96 src/arch/unix/uivicii.c:85
+#: src/arch/unix/plus4ui.c:96 src/arch/unix/uivicii.c:88
 msgid "PAL Emulation"
 msgstr ""
 
@@ -2020,17 +2020,21 @@ msgstr ""
 msgid "*GoDot"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:72 src/arch/unix/vic20ui.c:425
+#: src/arch/unix/uivicii.c:73 src/arch/unix/vic20ui.c:425
 #: src/arch/unix/vsidui.c:173
 msgid "Video standard"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:75
+#: src/arch/unix/uivicii.c:76
 msgid "*Sprite-sprite collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:77
+#: src/arch/unix/uivicii.c:78
 msgid "*Sprite-background collisions"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:81
+msgid "*New Luminances"
 msgstr ""
 
 #: src/arch/unix/uipalemu.c:75

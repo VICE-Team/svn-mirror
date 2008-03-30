@@ -361,7 +361,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 #ifdef HAVE_VIC_II
     case IDM_LUMINANCES:
-        toggle("NewLuminances");
+        toggle("VICIINewLuminances");
         return;
 #endif
     case IDM_TOGGLEPAL:
@@ -423,7 +423,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #ifdef HAVE_VDC
     case IDM_VDC16K:
     case IDM_VDC64K:
-        resources_set_value("VDC_64KB", (resource_value_t*)(idm&1));
+        resources_set_value("VDC64KB", (resource_value_t*)(idm&1));
         return;
 
     case IDM_INTFUNCROM:
@@ -483,10 +483,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
           */
     case IDM_SBCOLL:
-        toggle("CheckSbColl");
+        toggle("VICIICheckSbColl");
         return;
     case IDM_SSCOLL:
-        toggle("CheckSsColl");
+        toggle("VICIICheckSsColl");
         return;
 
     case IDM_REU:
@@ -1172,8 +1172,8 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
     case IDM_COLLISION:
-        WinCheckRes(hwnd, IDM_SBCOLL, "CheckSbColl");
-        WinCheckRes(hwnd, IDM_SSCOLL, "CheckSsColl");
+        WinCheckRes(hwnd, IDM_SBCOLL, "VICIICheckSbColl");
+        WinCheckRes(hwnd, IDM_SSCOLL, "VICIICheckSsColl");
         return;
 
     case IDM_REFRATE:
@@ -1298,7 +1298,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_LUMINANCES,  !val2 || val1);
             WinCheckMenuItem(hwnd,  IDM_INTERNALPAL, !val2);
 #ifndef HAVE_TED
-            WinCheckRes(hwnd, IDM_LUMINANCES, "NewLuminances");
+            WinCheckRes(hwnd, IDM_LUMINANCES, "VICIINewLuminances");
 #endif
         }
         return;
@@ -1320,7 +1320,7 @@ void menu_select(HWND hwnd, USHORT item)
 
 #ifdef HAVE_VDC
     case IDM_VDCMEMORY:
-        resources_get_value("VDC_64KB", (resource_value_t*)&val);
+        resources_get_value("VDC64KB", (resource_value_t*)&val);
         WinCheckMenuItem(hwnd, IDM_VDC16K, val==0);
         WinCheckMenuItem(hwnd, IDM_VDC64K, val==1);
         return;

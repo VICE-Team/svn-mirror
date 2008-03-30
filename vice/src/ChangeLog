@@ -1,3 +1,59 @@
+2002-06-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.37.
+
+	* raster/raster-resources.c (raster_resources_chip_init):
+	Simplified.
+
+	* arch/unix/archdep.h, arch/msdos/archdep.h,
+	arch/win32/archdep.h, arch/riscos/archdep.h,
+	arch/os2/archdep.h, arch/beos/archdep.h: Define video chip
+	scaling here.
+
+	* vicii/viciitypes.h, vic20/vic.h, crtc/crtctypes.h,
+	plus4/tedtypes.h, arch/os2/config.h, vicii/vicii.c,
+	vicii/vicii-cmdline-options.c, vicii/vicii-resources.c,
+	vicii/vicii-resources.h, vic20/vic-cmdline-options.c,
+	vic20/vic-resources.c, crtc/crtc-cmdline-options.c,
+	crtc/crtc-resources.c, plus4/ted-cmdline-options.c,
+	plus4/ted-resources.c, plus4/ted-resources.h, plus4/ted.c:
+	Use archdep video scaling defines instead of `*_NEED_2X'.
+
+	* vdc/vdc-draw.c: Removed obsolete 2x code.
+
+	* vicii/vicii-cmdline-options.c, vdc/vdc-cmdline-options.c,
+	vic20/vic-cmdline-options.c, crtc/crtc-cmdline-options.c,
+	plus4/ted-cmdline-options.c: Removed raster specific command
+	line options.
+
+	* raster/raster-cmdline-options.c,
+	raster/raster-cmdline-options.h,
+	video/video-cmdline-options.c, video/video-cmdline-options.h:
+	New files.
+
+	* raster/Makefile.am, video/Makefile.am: Added new files.
+
+	* vicii/vicii-cmdline-options.c, vicii/vicii-resources.c,
+	arch/win32/uivicii.c, arch/os2/dialogs/menubar.c,
+	arch/beos/ui_vicii.cc, arch/unix/uivicii.c,
+	arch/msdos/c128ui.c, arch/msdos/c64ui.c,
+	arch/riscos/uiconfig.c, vdc/vdc-cmdline-options.c,
+	vdc/vdc-resources.c, arch/unix/c128ui.c, arch/win32/c128ui.c,
+	arch/beos/c128ui.cc, arch/beos/vicemenu.cc,
+	arch/beos/constants.h: Changed names of `CheckSsColl',
+	`CheckSbColl', `NewLuminances', `VDC_64KB' and `VDC_Revision'.
+
+2002-06-20  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/c128ui.c, arch/riscos/c64ui.c,
+	arch/riscos/cbm2ui.c, arch/riscos/petui/c,
+	arch/riscos/plus4ui.c, arch/riscos/vicui.c,
+	arch/riscos/ui.{c,h}, arch.riscos/uiconfig.{c,h},
+	arch/riscos/uihelp.c: added machine-specific video cache menu.
+
+	* arch/riscos/video.c: fixed odd VDC behaviour caused by dummy
+	sprite palette, several minor improvements.
+
 2002-06-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.36.

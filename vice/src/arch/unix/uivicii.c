@@ -61,8 +61,9 @@ static ui_menu_entry_t palette_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
-UI_MENU_DEFINE_TOGGLE(CheckSsColl)
-UI_MENU_DEFINE_TOGGLE(CheckSbColl)
+UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
+UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
+UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 UI_MENU_DEFINE_TOGGLE(ExternalPalette)
 
 ui_menu_entry_t vic_submenu[] = {
@@ -73,10 +74,12 @@ ui_menu_entry_t vic_submenu[] = {
       NULL, NULL, set_video_standard_submenu },
     { "--" },
     { N_("*Sprite-sprite collisions"),
-      (ui_callback_t)toggle_CheckSsColl, NULL, NULL },
+      (ui_callback_t)toggle_VICIICheckSsColl, NULL, NULL },
     { N_("*Sprite-background collisions"),
-      (ui_callback_t)toggle_CheckSbColl, NULL, NULL },
+      (ui_callback_t)toggle_VICIICheckSbColl, NULL, NULL },
     { "--" },
+    { N_("*New Luminances"),
+      (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
     { N_("*External color set"),
       (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
     { N_("Color set"),

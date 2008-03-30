@@ -46,7 +46,7 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "VDC_DoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
     { "VDC_DoubleScan", MENU_TOGGLE_VDC_DOUBLESCAN },
-    { "VDC_64KB", MENU_TOGGLE_VDC_64KB },
+    { "VDC64KB", MENU_TOGGLE_VDC64KB },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { NULL, 0 }
 };

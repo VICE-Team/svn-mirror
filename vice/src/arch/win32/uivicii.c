@@ -54,58 +54,57 @@ static void init_dialog(HWND hwnd)
 {
     int n;
 
-    resources_get_value("CheckSsColl", (resource_value_t *) &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC, n ? BST_CHECKED : BST_UNCHECKED);
+    resources_get_value("VICIICheckSsColl", (resource_value_t *)&n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC,
+                   n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("CheckSbColl", (resource_value_t *) &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SBC, n ? BST_CHECKED : BST_UNCHECKED);
+    resources_get_value("VICIICheckSbColl", (resource_value_t *)&n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SBC,
+                   n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("NewLuminances", (resource_value_t *) &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_NEWLUM, n ? BST_CHECKED : BST_UNCHECKED);
+    resources_get_value("VICIINewLuminances", (resource_value_t *)&n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_NEWLUM,
+                   n ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
-                                        WPARAM wparam, LPARAM lparam)
+                                 WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
-        case WM_CLOSE:
+      case WM_CLOSE:
+        EndDialog(hwnd,0);
+        return TRUE;
+      case WM_INITDIALOG:
+        init_dialog(hwnd);
+        return TRUE;
+      case WM_COMMAND:
+        type = LOWORD(wparam);
+        switch (type) {
+          case IDC_TOGGLE_VICII_SSC:
+            break;
+          case IDC_TOGGLE_VICII_SBC:
+            break;
+          case IDC_TOGGLE_VICII_NEWLUM:
+            break;
+          case IDOK:
+            resources_set_value("VICIICheckSsColl", (resource_value_t)
+                (IsDlgButtonChecked
+                (hwnd,IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
+
+            resources_set_value("VICIICheckSbColl", (resource_value_t)
+                (IsDlgButtonChecked
+                (hwnd,IDC_TOGGLE_VICII_SBC) == BST_CHECKED ? 1 : 0 ));
+
+            resources_set_value("VICIINewLuminances", (resource_value_t)
+                (IsDlgButtonChecked
+                (hwnd,IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
+          case IDCANCEL:
             EndDialog(hwnd,0);
             return TRUE;
-        case WM_INITDIALOG:
-            init_dialog(hwnd);
-            return TRUE;
-        case WM_COMMAND:
-            type = LOWORD(wparam);
-            switch (type) {
-                case IDC_TOGGLE_VICII_SSC:
-                    break;
-                case IDC_TOGGLE_VICII_SBC:
-                    break;
-                case IDC_TOGGLE_VICII_NEWLUM:
-                    break;
-                case IDOK:
-                    resources_set_value("CheckSsColl", (resource_value_t)
-                        (IsDlgButtonChecked
-                            (hwnd,IDC_TOGGLE_VICII_SSC)==BST_CHECKED ?
-                            1 : 0 ));
-
-                    resources_set_value("CheckSbColl", (resource_value_t)
-                        (IsDlgButtonChecked
-                            (hwnd,IDC_TOGGLE_VICII_SBC)==BST_CHECKED ?
-                            1 : 0 ));
-
-                    resources_set_value("NewLuminances", (resource_value_t)
-                        (IsDlgButtonChecked
-                            (hwnd,IDC_TOGGLE_VICII_NEWLUM)==BST_CHECKED ?
-                            1 : 0 ));
-
-                case IDCANCEL:
-                    EndDialog(hwnd,0);
-                    return TRUE;
-            }
-            return TRUE;
+        }
+        return TRUE;
     }
     return FALSE;
 }

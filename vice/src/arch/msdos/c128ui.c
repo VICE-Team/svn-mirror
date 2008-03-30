@@ -46,8 +46,8 @@
 /* ------------------------------------------------------------------------- */
 
 TUI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
-TUI_MENU_DEFINE_TOGGLE(CheckSsColl)
-TUI_MENU_DEFINE_TOGGLE(CheckSbColl)
+TUI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
+TUI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
 TUI_MENU_DEFINE_TOGGLE(PALEmulation)
 
 static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
@@ -113,11 +113,11 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
     { "--" },
     { "Sprite-_Background Collisions:",
       "Emulate sprite-background collision register",
-      toggle_CheckSbColl_callback, NULL, 3,
+      toggle_VICIICheckSbColl_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Sprite-_Sprite Collisions:",
       "Emulate sprite-sprite collision register",
-      toggle_CheckSsColl_callback, NULL, 3,
+      toggle_VICIICheckSsColl_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "V_ideo Standard:",
       "Select machine clock ratio",
@@ -130,7 +130,7 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
 
 TUI_MENU_DEFINE_TOGGLE(VDC_DoubleSize)
 TUI_MENU_DEFINE_TOGGLE(VDC_DoubleScan)
-TUI_MENU_DEFINE_TOGGLE(VDC_64KB)
+TUI_MENU_DEFINE_TOGGLE(VDC64KB)
 
 static tui_menu_item_def_t vcd_menu_items[] = {
     { "--" },
@@ -144,7 +144,7 @@ static tui_menu_item_def_t vcd_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "VDC _64KB video memory",
       "Emulate a VDC with 64KB video RAM",
-      toggle_VDC_64KB_callback, NULL, 3,
+      toggle_VDC64KB_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

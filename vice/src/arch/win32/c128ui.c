@@ -53,7 +53,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE|0x00010000 },
     { "VDC_DoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
     { "VDC_DoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
-    { "VDC_64KB", IDM_TOGGLE_VDC_64KB },
+    { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
     { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
     { NULL, 0 }

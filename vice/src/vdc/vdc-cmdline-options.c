@@ -31,31 +31,24 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "raster-cmdline-options.h"
 #include "vdc-cmdline-options.h"
-#include "vdc.h"
 
 
 /* VDC command-line options.  */
-
 static cmdline_option_t cmdline_options[] =
 {
-    { "-VDC_vcache", SET_RESOURCE, 0, NULL, NULL,
-      "VDC_VideoCache", (void *)1,
-      NULL, "Enable the video cache" },
-    { "+VDC_vcache", SET_RESOURCE, 0, NULL, NULL,
-      "VDC_VideoCache", (void *)0,
-      NULL, "Disable the video cache" },
     { "-VDC_palette", SET_RESOURCE, 1, NULL, NULL,
       "VDC_PaletteFile", NULL,
       "<name>", "Specify palette file name" },
     { "-16KB", SET_RESOURCE, 0, NULL, NULL,
-      "VDC_64KB", (void *)0,
+      "VDC64KB", (void *)0,
       NULL, "Set the VDC memory size to 16KB" },
     { "-64KB", SET_RESOURCE, 0, NULL, NULL,
-      "VDC_64KB", (void *)1,
+      "VDC64KB", (void *)1,
       NULL, "Set the VDC memory size to 64KB" },
     { "-VDC_Revision", SET_RESOURCE, 1, NULL, NULL,
-      "VDC_Revision", (void *)2,
+      "VDCRevision", (void *)2,
       "<number>", "Set VDC revision (0..2)" },
     { NULL }
 };
@@ -80,6 +73,9 @@ static cmdline_option_t cmdline_options_2x[] =
 int vdc_cmdline_options_init(void)
 {
     if (cmdline_register_options(cmdline_options_2x) < 0)
+        return -1;
+
+    if (raster_cmdline_options_chip_init("VDC") < 0)
         return -1;
 
     return cmdline_register_options(cmdline_options);

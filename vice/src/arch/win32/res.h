@@ -381,7 +381,7 @@
 #define IDM_IEEE488                     40186
 #define IDM_MOUSE                       40187
 #define IDM_DATASETTE_SETTINGS          40188
-#define IDM_TOGGLE_VDC_64KB             40189
+#define IDM_TOGGLE_VDC64KB              40189
 #define IDM_TOGGLE_VDC_DOUBLESIZE       40190
 #define IDM_TOGGLE_VDC_DOUBLESCAN       40191
 #define IDM_VIC_SETTINGS                40192
