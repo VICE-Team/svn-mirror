@@ -437,7 +437,7 @@ void fs_error(int code)
 
 void flush_fs(void *flp, int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     char *cmd, *realarg, *arg, *realarg2 = NULL, *arg2 = NULL;
     char cbmcmd[MAXPATHLEN], name1[MAXPATHLEN], name2[MAXPATHLEN];
     int er = IPE_SYNTAX;
@@ -614,7 +614,7 @@ int write_fs(void *flp, BYTE data, int secondary)
 
 int read_fs(void *flp, BYTE * data, int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     int i, l, f;
     unsigned short blocks;
     struct dirent *dirp;        /* defined in /usr/include/sys/dirent.h */
@@ -841,7 +841,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 
 int open_fs(void *flp, const char *name, int length, int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     FILE *fd;
     DIR *dp;
     BYTE *p, *linkp;
@@ -1109,7 +1109,7 @@ int open_fs(void *flp, const char *name, int length, int secondary)
 int close_fs(void *flp, int secondary)
 {
 #ifdef __riscos
-    DRIVE *floppy = (DRIVE*)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
 
     ui_set_drive_leds(floppy->unit - 8, 0);
 #endif
@@ -1143,7 +1143,7 @@ int close_fs(void *flp, int secondary)
 
 void fs_test_pc64_name(void *flp, char *rname, int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     char p00id[8];
     char p00name[17];
     char pathname[MAXPATHLEN];
@@ -1183,7 +1183,7 @@ void fs_test_pc64_name(void *flp, char *rname, int secondary)
 
 FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     struct dirent *dirp;
     char *p;
     DIR *dp;
@@ -1261,7 +1261,7 @@ static int fsdevice_compare_wildcards(char *name, char *p00name)
 static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
                                        int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     struct dirent *dirp;
     DIR *dp;
     char rname[MAXPATHLEN];
@@ -1291,7 +1291,7 @@ static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
 static int fsdevice_create_file_p00(void *flp, char *name, int length,
                                      char *fsname, int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     char filename[17], realname[16];
     int i, len;
     FILE *fd;
