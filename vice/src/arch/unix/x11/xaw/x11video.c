@@ -58,7 +58,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     int sizeofpixel = sizeof(BYTE);
     Display *display;
 #ifdef USE_MITSHM
-    int (*olderrorhandler)(Display*,XErrorEvent*);
+    int (*olderrorhandler)(Display *, XErrorEvent *);
     int dummy;
 #endif
 
