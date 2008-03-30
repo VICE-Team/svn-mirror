@@ -68,18 +68,9 @@ int fsdevice_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
     fs_buffer_info_t *info = &fs_info[secondary];
     char rname[256];
 
-    if (secondary == 15) {
-        if (!fs_elen)
-            fsdevice_error(vdrive, IPE_OK);
-        if (fs_eptr < fs_elen) {
-            *data = (BYTE)fs_errorl[fs_eptr++];
-            return SERIAL_OK;
-        } else {
-            fsdevice_error(vdrive, IPE_OK);
-            *data = 0xc7;
-            return SERIAL_EOF;
-        }
-    }
+    if (secondary == 15)
+        return fsdevice_error_get_byte(vdrive, data);
+
     switch (info->mode) {
       case Write:
       case Append:
