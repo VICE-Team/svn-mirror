@@ -14,6 +14,10 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	c128kbd.c \
+	c128kbd.h \
+	c128ui.c \
+	c128ui.h \
 	c64kbd.c \
 	c64kbd.h \
 	c64ui.c \
@@ -56,8 +60,3 @@ libarch_a_SOURCES = \
 	vmidas.h \
 	vsync.c \
         vsync.h
-
-# bin_PROGRAMS = grabkey
-#
-# grabkey_SOURCES = \
-#	grabkey.c

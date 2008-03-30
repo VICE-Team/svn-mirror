@@ -1,5 +1,5 @@
 /*
- * c64ui.c - Definition of the C64-specific part of the UI.
+ * c128ui.c - Definition of the C128-specific part of the UI.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -30,7 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64ui.h"
+#include "c128ui.h"
 
 #include "cartridge.h"
 #include "menudefs.h"
@@ -38,96 +38,6 @@
 #include "tuimenu.h"
 #include "ui.h"
 #include "utils.h"
-
-/* ------------------------------------------------------------------------- */
-
-static TUI_MENU_CALLBACK(attach_cartridge_callback)
-{
-    if (been_activated) {
-        char *default_item, *directory;
-        char *name;
-        const char *s;
-        int type = (int) param;
-
-	s = cartridge_get_file_name((ADDRESS) 0);
-	fname_split(s, &directory, &default_item);
-
-        name = tui_file_selector("Attach cartridge image",
-                                 directory, "*", default_item, NULL);
-        if (name != NULL
-            && (s == NULL || strcasecmp(name, s) != 0)
-            && cartridge_attach_image(type, name) < 0)
-            tui_error("Invalid cartridge image.");
-        ui_update_menus();
-        free(name);
-    }
-
-    return NULL;
-}
-
-static TUI_MENU_CALLBACK(cartridge_callback)
-{
-    const char *s = cartridge_get_file_name((ADDRESS) 0);
-
-    if (s == NULL || *s == '\0')
-        return "(none)";
-    else
-        return s;
-}
-
-static tui_menu_item_def_t attach_cartridge_submenu_items[] = {
-    { "Attach _CRT Image...",
-      "Attach a CRT image, autodetecting its type",
-      attach_cartridge_callback, (void *) CARTRIDGE_CRT, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach Generic _8KB Image...",
-      "Attach a generic 8KB cartridge dump",
-      attach_cartridge_callback, (void *) CARTRIDGE_GENERIC_8KB, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach Generic _16KB Image...",
-      "Attach a generic 16KB cartridge dump",
-      attach_cartridge_callback, (void *) CARTRIDGE_GENERIC_16KB, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach _Action Replay image...",
-      "Attach an Action Replay cartridge image",
-      attach_cartridge_callback, (void *) CARTRIDGE_ACTION_REPLAY, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-static tui_menu_item_def_t attach_cartridge_menu_items[] = {
-    { "--" },
-    { "_Cartridge:",
-      "Attach a cartridge image",
-      cartridge_callback, NULL, 30,
-      TUI_MENU_BEH_CONTINUE, attach_cartridge_submenu_items,
-      "Attach cartridge" },
-    { NULL }
-};
-
-static TUI_MENU_CALLBACK(detach_cartridge_callback)
-{
-    const char *s;
-
-    if (been_activated)
-        cartridge_detach_image();
-
-    s = cartridge_get_file_name((ADDRESS) 0);
-
-    if (s == NULL || *s == '\0')
-        return "(none)";
-    else
-        return s;
-}
-
-static tui_menu_item_def_t detach_cartridge_menu_items[] = {
-    { "--" },
-    { "_Cartridge:",
-      "Detach attached cartridge image",
-      detach_cartridge_callback, NULL, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
 
 /* ------------------------------------------------------------------------- */
 
@@ -150,7 +60,6 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
 /* ------------------------------------------------------------------------- */
 
 TUI_MENU_DEFINE_TOGGLE(Mouse)
-TUI_MENU_DEFINE_TOGGLE(REU)
 TUI_MENU_DEFINE_TOGGLE(EmuID)
 TUI_MENU_DEFINE_TOGGLE(IEEE488)
 
@@ -159,10 +68,6 @@ static tui_menu_item_def_t special_menu_items[] = {
     { "1531 _Mouse Emulation:",
       "Emulate a Commodore 1351 proportional mouse connected to joystick port #1",
       toggle_Mouse_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "512K _RAM Expansion Unit (C1750):",
-      "Emulate auxiliary 512K RAM Expansion Unit",
-      toggle_REU_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_IEEE488 Interface Emulation:",
       "Emulate external IEEE488 interface",
@@ -272,12 +177,9 @@ static void add_palette_submenu(tui_menu_t parent)
 
 /* ------------------------------------------------------------------------- */
 
-int c64_ui_init(void)
+int c128_ui_init(void)
 {
     ui_create_main_menu(1, 1, 1, 2);
-
-    tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
-    tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
 
     tui_menu_add_separator(ui_video_submenu);
     add_palette_submenu(ui_video_submenu);

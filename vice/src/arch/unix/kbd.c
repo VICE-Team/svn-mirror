@@ -294,7 +294,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
                <KeyRelease 1>.  To avoid disasters, we reset all the keyboard
                when a modifier has been released, but this heavily simplifies
                the behavior of multiple keys.  Does anybody know a way to
-               avoid this X11 oddity? */
+               avoid this X11 oddity?  */
 	    memset(keyarr, 0, sizeof(keyarr));
 	    memset(rev_keyarr, 0, sizeof(rev_keyarr));
 	    virtual_shift_down = 0;
@@ -644,7 +644,7 @@ void kbd_flag_joykeys(int joydev, int flag)
 {
     int i;
 
-    for (i=0;i<2;i++) {
+    for (i = 0; i < 2; i++) {
         if (joykey_devs[i] == joydev) {
 #ifdef DEBUG_JOY
 	    printf("flag joydev %d, flag=%d -> joynum = %d\n",
@@ -655,4 +655,3 @@ void kbd_flag_joykeys(int joydev, int flag)
         }
     }
 }
-
