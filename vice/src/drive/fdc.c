@@ -139,7 +139,8 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
  */
 
 static BYTE fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
-                              int track, int sector, int buf, BYTE *header)
+                              unsigned int track, unsigned int sector,
+                              int buf, BYTE *header)
 {
     int i;
     int rc = 0;
@@ -206,7 +207,8 @@ static BYTE fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
  */
 
 static BYTE fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
-                              int track, int sector, int buf, BYTE *header)
+                              unsigned int track, unsigned int sector,
+                              int buf, BYTE *header)
 {
     int i;
     int rc = 0;
@@ -270,7 +272,8 @@ static BYTE fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
  */
 
 static BYTE fdc_do_format_D80(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
-                        int track, int sector, int buf, BYTE *header) {
+                              unsigned int track, unsigned int sector,
+                              int buf, BYTE *header) {
     int i;
     int rc = 0;
     BYTE sector_data[256];

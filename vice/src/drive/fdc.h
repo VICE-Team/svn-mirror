@@ -32,28 +32,28 @@
 struct snapshot_s;
 
 /* FDC states */
-#define	FDC_UNUSED	0
-#define	FDC_RESET0	1
-#define	FDC_RESET1	2
-#define	FDC_RESET2	3
-#define	FDC_RUN		4
+#define FDC_UNUSED      0
+#define FDC_RESET0      1
+#define FDC_RESET1      2
+#define FDC_RESET2      3
+#define FDC_RUN         4
 
-#define	FDC_LAST_STATE	4
+#define FDC_LAST_STATE  4
 
 /* fdc error codes to return to drive CPU */
-#define	FDC_ERR_OK	1
-#define	FDC_ERR_HEADER	2
-#define	FDC_ERR_SYNC	3
-#define	FDC_ERR_NOBLOCK	4
-#define	FDC_ERR_DCHECK	5
-#define	FDC_ERR_VERIFY	7
-#define	FDC_ERR_WPROT	8
-#define	FDC_ERR_HCHECK	9
-#define	FDC_ERR_BLENGTH	10
-#define	FDC_ERR_ID	11
-#define	FDC_ERR_FSPEED	12
-#define	FDC_ERR_DRIVE	15
-#define	FDC_ERR_DECODE	16
+#define FDC_ERR_OK      1
+#define FDC_ERR_HEADER  2
+#define FDC_ERR_SYNC    3
+#define FDC_ERR_NOBLOCK 4
+#define FDC_ERR_DCHECK  5
+#define FDC_ERR_VERIFY  7
+#define FDC_ERR_WPROT   8
+#define FDC_ERR_HCHECK  9
+#define FDC_ERR_BLENGTH 10
+#define FDC_ERR_ID      11
+#define FDC_ERR_FSPEED  12
+#define FDC_ERR_DRIVE   15
+#define FDC_ERR_DECODE  16
 
 extern void fdc_init(unsigned int fnum, BYTE *buffer_memory, BYTE *ipromp);
 extern void fdc_reset(unsigned int fnum, unsigned int enabled);
