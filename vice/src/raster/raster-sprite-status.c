@@ -30,33 +30,18 @@
 #include <stdio.h>
 
 #include "lib.h"
+#include "raster-sprite-cache.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
+#include "raster.h"
 #include "types.h"
 
 
-void raster_sprite_status_reset(raster_sprite_status_t *status)
-{
-    unsigned int i;
-
-    status->visible_msk = 0;
-    status->dma_msk = 0;
-    status->new_dma_msk = 0;
-
-    status->mc_sprite_color_1 = 0;
-    status->mc_sprite_color_2 = 0;
-
-    status->sprite_data = status->sprite_data_1;
-    status->new_sprite_data = status->sprite_data_2;
-
-    for (i = 0; i < status->num_sprites; i++)
-        raster_sprite_reset(&status->sprites[i]);
-}
-
-void raster_sprite_status_init(raster_sprite_status_t *status,
-                               unsigned int num_sprites)
+static void raster_sprite_status_init(raster_sprite_status_t *status,
+                                      unsigned int num_sprites)
 {
     status->num_sprites = num_sprites;
+    status->cache_init_func = raster_sprite_cache_init;
 
     status->draw_function = NULL;
     status->draw_partial_function = NULL;
@@ -75,8 +60,8 @@ void raster_sprite_status_init(raster_sprite_status_t *status,
     raster_sprite_status_reset(status);
 }
 
-void raster_sprite_status_shutdown(raster_sprite_status_t *status,
-                                   unsigned int num_sprites)
+static void raster_sprite_status_shutdown(raster_sprite_status_t *status,
+                                          unsigned int num_sprites)
 {
     if (num_sprites > 0) {
         lib_free(status->sprites);
@@ -85,15 +70,38 @@ void raster_sprite_status_shutdown(raster_sprite_status_t *status,
     }
 }
 
-raster_sprite_status_t *raster_sprite_status_new(unsigned int num_sprites)
+void raster_sprite_status_new(raster_t *raster, unsigned int num_sprites)
 {
-    raster_sprite_status_t *new_status;
+    raster->sprite_status = (raster_sprite_status_t *)lib_malloc(
+                            sizeof(raster_sprite_status_t));
+    raster_sprite_status_init(raster->sprite_status, num_sprites);
+}
 
-    new_status
-        = (raster_sprite_status_t *)lib_malloc(sizeof(raster_sprite_status_t));
-    raster_sprite_status_init(new_status, num_sprites);
+void raster_sprite_status_destroy(raster_t *raster)
+{
+    if (raster->sprite_status) {
+        raster_sprite_status_shutdown(raster->sprite_status,
+                                      raster->sprite_status->num_sprites);
+        lib_free(raster->sprite_status);
+    }
+}
 
-    return new_status;
+void raster_sprite_status_reset(raster_sprite_status_t *status)
+{
+    unsigned int i;
+
+    status->visible_msk = 0;
+    status->dma_msk = 0;
+    status->new_dma_msk = 0;
+
+    status->mc_sprite_color_1 = 0;
+    status->mc_sprite_color_2 = 0;
+
+    status->sprite_data = status->sprite_data_1;
+    status->new_sprite_data = status->sprite_data_2;
+
+    for (i = 0; i < status->num_sprites; i++)
+        raster_sprite_reset(&status->sprites[i]);
 }
 
 void raster_sprite_status_set_draw_function(raster_sprite_status_t *status,

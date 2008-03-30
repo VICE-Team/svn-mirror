@@ -31,15 +31,16 @@
 
 #include "lib.h"
 #include "raster-cache.h"
+#include "raster-sprite-status.h"
 
 
-void raster_cache_new(raster_cache_t *cache, unsigned int num_sprites)
+void raster_cache_new(raster_cache_t *cache, raster_sprite_status_t *status)
 {
     unsigned int i;
 
-    if (num_sprites > 0) {
+    if (status != NULL) {
         for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++)
-            raster_sprite_cache_init(&(cache->sprites[i]));
+            (status->cache_init_func)(&(cache->sprites[i]));
 
         cache->gfx_msk = lib_calloc(1, RASTER_CACHE_GFX_MSK_SIZE);
     }
@@ -53,9 +54,9 @@ void raster_cache_new(raster_cache_t *cache, unsigned int num_sprites)
     cache->is_dirty = 1;
 }
 
-void raster_cache_destroy(raster_cache_t *cache, unsigned int num_sprites)
+void raster_cache_destroy(raster_cache_t *cache, raster_sprite_status_t *status)
 {
-    if (num_sprites > 0) {
+    if (status != NULL) {
         lib_free(cache->gfx_msk);
     }
 }
