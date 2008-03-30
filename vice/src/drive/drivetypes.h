@@ -311,6 +311,15 @@ typedef struct drivetpi_context_s {
     BYTE tpi_last_read;
     unsigned int tpi_int_num;
 
+    BYTE oldpa;
+    BYTE oldpb;
+    BYTE oldpc;
+
+    BYTE ca_state;
+    BYTE cb_state;
+
+    signed int log;
+
     char myname[12];
 
 } drivetpi_context_t;

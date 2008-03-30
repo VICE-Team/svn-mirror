@@ -76,8 +76,6 @@ static BYTE irq_stack;
 
 static BYTE tpi[8];
 
-#endif
-
 static BYTE oldpa;
 static BYTE oldpb;
 static BYTE oldpc;
@@ -86,4 +84,5 @@ static BYTE ca_state;
 static BYTE cb_state;
 
 static log_t mytpi_log = LOG_ERR;
+#endif
 
