@@ -28,6 +28,9 @@
 
 #ifdef HAVE_OPENCBM
 
+#include <stdio.h>
+#include <windows.h>
+
 #include "log.h"
 #include "opencbmlib.h"
 
@@ -100,6 +103,14 @@ int opencbmlib_open(opencbmlib_t *opencbmlib)
 void opencbmlib_close(void)
 {
     opencbmlib_free_library();
+}
+
+unsigned int opencbmlib_is_available(void)
+{
+    if (opencbm_dll != NULL)
+        return 1;
+
+    return 0;
 }
 
 #endif
