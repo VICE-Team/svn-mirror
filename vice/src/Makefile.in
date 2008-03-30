@@ -121,7 +121,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 YFLAGS = -dt
 
-noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	asm.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	config.h.in 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mon.h 	mon_parse.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	via.h 	viacore.h 	vice.h 	warn.h 	zfile.h 	zipcode.h
+noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	asm.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	config.h.in 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mon.h 	mon_parse.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	via.h 	viacore.h 	vice.h 	vsync.h 	warn.h 	zfile.h 	zipcode.h
 
 
 base_sources =  	alarm.c 	asm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	main.c 	mon.c 	mon_lex.l 	mon_parse.y 	p00.c 	palette.c 	parallel.c 	resources.c 	romset.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	warn.c 	zfile.c 	zipcode.c
@@ -598,7 +598,7 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	kbdbuf.h keyboard.h machine.h maincpu.h serial.h traps.h \
 	sound.h warn.h sysfile.h tape.h arch/unix/ui.h \
 	arch/unix/xaw/ui.h palette.h uiapi.h utils.h arch/unix/video.h \
-	arch/unix/vsync.h arch/unix/mouse.h
+	vsync.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h \
 	arch/unix/types.h snapshot.h alarm.h log.h clkguard.h mon.h \
 	mos6510.h interrupt.h datasette.h tap.h machine.h traps.h \
@@ -607,7 +607,7 @@ mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	arch/unix/types.h snapshot.h asm.h charsets.h diskimage.h gcr.h \
 	drive/drivecpu.h alarm.h log.h clkguard.h mon.h mos6510.h mem.h \
 	interrupt.h 6510core.h mon_parse.h resources.h utils.h \
-	vdrive/vdrive.h arch/unix/vsync.h
+	vdrive/vdrive.h vsync.h
 mon_lex.o: mon_lex.c vice.h config.h arch/unix/types.h mon.h mos6510.h \
 	mem.h snapshot.h interrupt.h 6510core.h mon_parse.h utils.h
 mon_parse.o: mon_parse.c vice.h config.h asm.h arch/unix/types.h \
@@ -647,7 +647,7 @@ sound.o: sound.c vice.h config.h sound.h arch/unix/types.h warn.h \
 	clkguard.h cmdline.h resources.h log.h machine.h maincpu.h \
 	6510core.h mem.h snapshot.h alarm.h mon.h mos6510.h interrupt.h \
 	arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h utils.h \
-	arch/unix/vsync.h
+	vsync.h
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
 	cmdline.h resources.h findpath.h log.h sysfile.h \
 	arch/unix/types.h utils.h

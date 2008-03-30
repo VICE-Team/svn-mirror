@@ -295,7 +295,7 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
-	../../src/utils.h ../../src/arch/unix/vsync.h crtc.h \
+	../../src/utils.h ../../src/vsync.h crtc.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \

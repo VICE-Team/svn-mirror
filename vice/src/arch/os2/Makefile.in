@@ -117,7 +117,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c64kbd.c 	c64ui.c 	c64ui.h         config.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h         types.h 	ui.c 	ui.h         ui_status.c         ui_status.h         uicmdline.c         uicmdline.h         pm_cmdline.c         pm_cmdline.h 	video.c 	video.h 	vsync.c 	vsync.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c64kbd.c 	c64ui.c 	c64ui.h         config.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h         types.h 	ui.c 	ui.h         ui_status.c         ui_status.h         uicmdline.c         uicmdline.h         pm_cmdline.c         pm_cmdline.h 	video.c 	video.h 	vsync.c         vsync_old.c         vsync_old.h
 
 
 EXTRA_DIST =  	vice.def
@@ -136,7 +136,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c64kbd.o c64ui.o joystick.o kbd.o ui.o \
-ui_status.o uicmdline.o pm_cmdline.o video.o vsync.o
+ui_status.o uicmdline.o pm_cmdline.o video.o vsync.o vsync_old.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
