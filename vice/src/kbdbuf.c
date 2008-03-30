@@ -69,8 +69,6 @@ static int kbd_buf_enabled = 0;
 
 /* ------------------------------------------------------------------------- */
 
-/* ------------------------------------------------------------------------- */
-
 /* Initialization.  */
 int kbd_buf_init(int location, int plocation, int size,
                  CLOCK mincycles)
