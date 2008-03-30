@@ -362,7 +362,7 @@ static int initsid(void)
 		    return closesound(err);
 		}
 	    }
-	    snddata.issuspended = -1;
+	    snddata.issuspended = 0;
 	    snddata.lastsample = 0;
 	    snddata.pdev = pdev;
 	    snddata.fragsize = fragsize;
@@ -417,6 +417,7 @@ static int sound_run_sound(void)
     }
 #ifdef __riscos
     /* RISC OS vidc device uses a different approach... */
+    SoundMachineReady = 1;
     if (LinToLog != NULL) return 0;
 #endif
     nr = (clk - snddata.fclk) / snddata.clkstep;
@@ -433,9 +434,9 @@ static int sound_run_sound(void)
 }
 
 #ifdef __riscos
-void sound_synthesize(short *buffer, int length)
+void sound_synthesize(SWORD *buffer, int length)
 {
-    sound_machine_calculate_samples(snddata.psid, (SWORD*)buffer, length);
+    sound_machine_calculate_samples(snddata.psid, buffer, length);
     snddata.fclk += length * snddata.clkstep;
 }
 #endif

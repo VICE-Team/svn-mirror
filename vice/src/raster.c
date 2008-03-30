@@ -37,10 +37,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
-#ifdef __riscos
-#include "ROlib.h"
-#include "sound.h"
-#else
+#ifndef __riscos
 #include <unistd.h>
 #endif
 #include <stdarg.h>
@@ -741,9 +738,9 @@ inline static void refresh_changed(void)
 #if defined (RASTER_DEBUG_PUTIMAGE_CALLS)
     log_message(LOG_DEFAULT, "Refresh x=%d y=%d xx=%d yy=%d w=%d h=%d scrw=%d scrh=%d.",
            x, y, xx, yy, w, h, SCREEN_WIDTH, SCREEN_HEIGHT);
-    log_message(LOG_DEFAULT, "        changed: xs=%d ys=%d xe=%d ye=%d.", 
-           changed_area.xs, changed_area.ys, changed_area.xe, changed_area.ye); 
-    log_message(LOG_DEFAULT, "    window: x=%d y=%d w=%d h=%d.", 
+    log_message(LOG_DEFAULT, "        changed: xs=%d ys=%d xe=%d ye=%d.",
+           changed_area.xs, changed_area.ys, changed_area.xe, changed_area.ye);
+    log_message(LOG_DEFAULT, "    window: x=%d y=%d w=%d h=%d.",
            window_first_x, window_first_line, window_width, window_height);
 #endif
 
@@ -1377,15 +1374,6 @@ inline static void emulate_line(void)
     memory_fetch_done = 0;
 
     blank_this_line = 0;
-
-#ifdef __riscos
-    SoundLines++;
-    if (SoundLines >= SoundEvery)
-    {
-       SoundLines = 0;
-       sound_poll();
-    }
-#endif
 }
 
 /* Disable all the caching for the next frame.  */

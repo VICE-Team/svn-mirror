@@ -1288,7 +1288,8 @@ static unsigned disassemble_instr(MON_ADDR addr)
 {
    BYTE op, p1, p2;
    MEMSPACE mem;
-   unsigned loc, hex_mode;
+   unsigned loc;
+   int hex_mode = 1;
    char *label;
 
    mem = addr_memspace(addr);
@@ -1584,7 +1585,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 
 void mon_change_dir(char *path)
 {
-    if (chdir(path) < 0) 
+    if (chdir(path) < 0)
         fprintf(mon_output,
                 "Cannot change to directory `%s':\n%s",
                 path, strerror(errno));

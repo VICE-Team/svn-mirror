@@ -25,6 +25,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "config.h"
 #include "types.h"
@@ -36,23 +37,51 @@
 
 #include "ROlib.h"
 
-int SoundEvery = 20;
-int SoundLines = 0;
+
+extern void ui_set_sound_volume(void);
+
+
+/* Separate stack for sound thread */
+#define STACKSIZE	4096
+char SoundCallbackStack[STACKSIZE];
+
+timer_env SoundTimer = {0, NULL, 0, 0, NULL, NULL};
+
+
+/* Set to 1 as soon as foreground process is allowed to call sample generation */
+int SoundMachineReady = 0;
+/* Polling frequency in cs. A value of 0 means auto = 0.5 * buffer frequency */
+int SoundPollEvery = 0;
 
 log_t vidc_log = LOG_ERR;
 
 unsigned char *LinToLog = NULL;
 unsigned char *LogScale = NULL;
+SWORD *VIDCSampleBuffer;
 
 static int buffersize;
-static short *buffer;
+
+
 
 static int init_vidc_device(warn_t *w, char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
 {
+  int timerPeriod;
+
   if ((DigitalRenderer_ReadState() & DRState_Active) != 0)
     return 1;
 
-  buffersize = ((*fragsize)*(*fragnr) + 15) & ~15;
+  if (SoundTimer.stack_lwm == NULL)
+  {
+    memset(SoundCallbackStack, 0, STACKSIZE);
+    if (timer_callback_init_stack(&SoundTimer, SoundCallbackStack, STACKSIZE, NULL) != 0)
+    {
+      log_error(vidc_log, "Can't set up runtime stack for sound thread!\n");
+      return 1;
+    }
+  }
+
+  *fragsize = (*fragsize + 15) & ~15;
+  buffersize = (*fragsize)*(*fragnr);
 
   if (DigitalRenderer_Activate(1, buffersize, 1000000/(*speed)) != NULL)
   {
@@ -60,12 +89,30 @@ static int init_vidc_device(warn_t *w, char *device, int *speed, int *fragsize, 
   }
   DigitalRenderer_GetTables(&LinToLog, &LogScale);
 
-  if ((buffer = (short*)malloc(buffersize*sizeof(short))) == NULL)
+  if ((VIDCSampleBuffer = (SWORD*)malloc(buffersize*sizeof(SWORD))) == NULL)
   {
     DigitalRenderer_Deactivate();
     return 1;
   }
+
+  SoundMachineReady = 0;
+  /* SoundPollEvery == 0 ==> auto, calculate value from buffersize and frequency */
+  if (SoundPollEvery <= 0)
+  {
+    /* Default poll frequency = 0.5 * buffer frequency in centiseconds */
+    timerPeriod = (50 * buffersize) / (*speed);
+    if (timerPeriod < 1) timerPeriod = 1;
+  }
+  else
+  {
+    timerPeriod = SoundPollEvery;
+  }
+  timer_callback_install(&SoundTimer, timerPeriod, sound_poll);
+
+  ui_set_sound_volume();
+
   /*fprintf(logfile, "vidc OK\n");*/
+
   return 0;
 }
 
@@ -85,23 +132,34 @@ static void vidc_close(warn_t *w)
 
   /*fprintf(logfile, "vidc_close\n");*/
 
+  timer_callback_remove(&SoundTimer);
+  SoundTimer.f = NULL;
+
   if ((err = DigitalRenderer_Deactivate()) != NULL)
   {
     log_error(vidc_log, "%s\n", err->errmess);
   }
-  if (buffer != NULL)
+  if (VIDCSampleBuffer != NULL)
   {
-    free(buffer); buffer = NULL;
+    free(VIDCSampleBuffer); VIDCSampleBuffer = NULL;
   }
   /* Use this to mark device inactive */
   LinToLog = NULL; LogScale = NULL;
+
+  /*{
+    FILE *fp;
+    fp = fopen("soundstack", "wb"); fwrite(SoundCallbackStack, 1, STACKSIZE, fp); fclose(fp);
+  }*/
 }
 
 
 static int vidc_suspend(warn_t *w)
 {
+  timer_callback_remove(&SoundTimer);
+
   if (DigitalRenderer_Pause() != NULL)
     return 1;
+
   return 0;
 }
 
@@ -111,6 +169,12 @@ static int vidc_resume(warn_t *w)
 {
   if (DigitalRenderer_Resume() != NULL)
     return 1;
+
+  if (SoundTimer.f != NULL)
+  {
+    timer_callback_install(&SoundTimer, SoundTimer.period, sound_poll);
+  }
+
   return 0;
 }
 
@@ -153,12 +217,12 @@ static sound_device_t vidc_device =
 /* Called every couple of rasterlines */
 void sound_poll(void)
 {
-  if (buffer != NULL)
+  if ((VIDCSampleBuffer != NULL) && (SoundMachineReady != 0))
   {
     if ((DigitalRenderer_ReadState() & (DRState_NeedData | DRState_Active)) == (DRState_NeedData | DRState_Active))
     {
-      sound_synthesize(buffer, buffersize);
-      DigitalRenderer_New16BitSample(buffer);
+      sound_synthesize(VIDCSampleBuffer, buffersize);
+      DigitalRenderer_New16BitSample(VIDCSampleBuffer);
     }
   }
 }

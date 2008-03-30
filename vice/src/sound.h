@@ -119,11 +119,11 @@ extern char *sound_machine_dump_state(sound_t *psid);
 extern void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
 
 #ifdef __riscos
-extern int SoundEvery;
-extern int SoundLines;
+extern int SoundPollEvery;
+extern int SoundMachineReady;
 extern unsigned char *LinToLog;
 extern void sound_poll(void);
-extern void sound_synthesize(short *buffer, int length);
+extern void sound_synthesize(SWORD *buffer, int length);
 #endif
 
 #endif /* !defined (_SOUND_H) */
