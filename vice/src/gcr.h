@@ -63,7 +63,9 @@ extern BYTE *gcr_find_sector_header(int track, int sector,
 extern BYTE *gcr_find_sector_data(BYTE *offset,
                                   BYTE *gcr_track_start_ptr,
                                   int gcr_current_track_size);
-extern int gcr_read_sector(gcr_t *gcr, BYTE *readdata, int track, int sector);
+extern int gcr_read_sector(BYTE *gcr_track_start_ptr,
+                           int gcr_current_track_size,
+                           BYTE *readdata, int track, int sector);
 extern int gcr_write_sector(gcr_t *gcr, BYTE *writedata, int track, int sector);
 
 extern gcr_t *gcr_create_image(void);
