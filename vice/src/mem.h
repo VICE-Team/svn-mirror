@@ -76,6 +76,15 @@ extern BYTE mem_bank_peek(int bank, ADDRESS addr);
 extern void mem_bank_write(int bank, ADDRESS addr, BYTE byte);
 extern void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns);
 
+typedef struct mem_ioreg_list_s {
+    const char *name;
+    ADDRESS start;
+    ADDRESS end;
+    struct mem_ioreg_list_s *next;
+} mem_ioreg_list_t;
+
+extern mem_ioreg_list_t *mem_ioreg_list_get(void);
+
 /* Snapshots.  */
 struct snapshot_s;
 extern int mem_write_snapshot_module(struct snapshot_s *s, int save_roms);
