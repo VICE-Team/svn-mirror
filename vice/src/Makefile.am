@@ -76,7 +76,6 @@ noinst_HEADERS = \
 	machine.h \
 	maincpu.h \
 	mem.h \
-	memutils.h \
 	mon.h \
 	mon_parse.h \
 	mos6510.h \
@@ -134,7 +133,6 @@ base_sources = \
 	keyboard.c \
 	log.c \
 	main.c \
-	memutils.c \
 	mon.c \
 	mon_lex.l \
 	mon_parse.y \
