@@ -28,6 +28,7 @@
 
 #include "interrupt.h"
 #include "ui.h"
+#include "types.h"
 #include "vsync.h"
 
 

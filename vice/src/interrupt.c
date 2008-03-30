@@ -210,13 +210,6 @@ void interrupt_set_nmi_noclk(interrupt_cpu_status_t *cs, int int_num, int value)
     }
 }
 
-void interrupt_set_int_noclk(interrupt_cpu_status_t *cs, int int_num,
-                             enum cpu_int value)
-{
-    interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), maincpu_clk);
-    interrupt_set_irq(cs, int_num, (int)(value & IK_IRQ), maincpu_clk);
-}
-
 int interrupt_get_irq(interrupt_cpu_status_t *cs, int int_num)
 {
     return cs->pending_int[int_num] & IK_IRQ;

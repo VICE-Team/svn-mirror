@@ -31,7 +31,6 @@
 #define myvia via2
 #define myvia_init via2_init
 
-#define I_MYVIAFL I_VIA2FL
 #define MYVIA_INT VIA2_INT
 #define MYVIA_NAME "Via2"
 

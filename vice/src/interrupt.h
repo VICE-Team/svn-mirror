@@ -204,13 +204,6 @@ inline static void interrupt_set_int(interrupt_cpu_status_t *cs, int int_num,
 
 /* ------------------------------------------------------------------------- */
 
-/* Return the current status of the IRQ, NMI, RESET and TRAP lines.  */
-inline static enum cpu_int interrupt_check_pending_interrupt(
-    interrupt_cpu_status_t *cs)
-{
-    return cs->global_pending_int;
-}
-
 /* This function must be called by the CPU emulator when a pending NMI
    request is served.  */
 inline static void interrupt_ack_nmi(interrupt_cpu_status_t *cs)
@@ -218,8 +211,8 @@ inline static void interrupt_ack_nmi(interrupt_cpu_status_t *cs)
     cs->global_pending_int = (enum cpu_int)
         (cs->global_pending_int & ~IK_NMI);
 
-	if (cs->nmi_trap_func)
-		cs->nmi_trap_func();
+    if (cs->nmi_trap_func)
+        cs->nmi_trap_func();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -260,8 +253,6 @@ extern void interrupt_set_irq_noclk(interrupt_cpu_status_t *cs, int int_num,
                                     int value);
 extern void interrupt_set_nmi_noclk(interrupt_cpu_status_t *cs, int int_num,
                                     int value);
-extern void interrupt_set_int_noclk(interrupt_cpu_status_t *cs, int int_num,
-                          enum cpu_int value);
 extern int interrupt_get_irq(interrupt_cpu_status_t *cs, int int_num);
 extern int interrupt_get_nmi(interrupt_cpu_status_t *cs, int int_num);
 extern void interrupt_set_nmi_trap_func(interrupt_cpu_status_t *cs,
@@ -292,8 +283,6 @@ extern CLOCK drive_clk[2];
     interrupt_set_int(maincpu_int_status, (int_num), (value), maincpu_clk)
 #define maincpu_set_int_clk(int_num, value, clk) \
     interrupt_set_int(maincpu_int_status, (int_num), (value), (clk))
-#define maincpu_set_int_noclk(int_num, value) \
-    interrupt_set_int_noclk(maincpu_int_status, (int_num), (value))
 #define maincpu_trigger_reset() \
     interrupt_trigger_reset(maincpu_int_status, maincpu_clk)
 #define maincpu_trigger_dma() \

@@ -30,7 +30,6 @@
 #define myvia_init ieeevia2_init
 
 #define via_set_int maincpu_set_irq
-#define I_MYVIAFL I_IEEEVIA2FL
 #define MYVIA_INT IK_IRQ
 #define MYVIA_NAME "IeeeVia2"
 

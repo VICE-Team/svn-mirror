@@ -19,7 +19,6 @@ libxawui_a_SOURCES = \
 	about.c \
 	checkmark.xbm \
 	right_arrow.xbm \
-	ui.c \
 	uiarch.h \
 	uicartridge.c \
 	uicolor.c \
