@@ -1,3 +1,38 @@
+1999-01-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.11 and 0.16.1a.
+
+	* info.c: Updated.
+
+1999-01-21  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am (libarch_a_SOURCES): Added uisound.c,
+	  uisound.h.
+
+	* arch/win32/res.h: Added defines for sound setting dialog box.
+
+	* arch/win32/res.r: Added sound setting dialog box.
+
+	* arch/win32/resc128.r arch/win32/resc64.r arch/win32/rescbm2.r
+	  arch/win32/respet.r arch/win32/resvic.r: Added menu entry for
+	  sound settings dialog box.
+
+	* arch/win32/ui.c: Include uisound.h.
+	  (handle_wm_command): Call sound settings dialog box handler.
+
+	* arch/win32/uisound.c: New file. Implements sound settings dialog
+	  box.
+
+	* arch/win32/uisound.h: New file.
+
+1999-01-21  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* arch/unix/xaw/c64ui.c, arch/unix/xaw/ui.c, arch/unix/xaw/ui.h,
+	arch/unix/xaw/uisettings.c:
+	Fixed some fullscreenmode bugs and made some enhancements.	
+
+	* c64/c64mem.c: Small RomSet fixes.
+
 1999-01-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.9.
