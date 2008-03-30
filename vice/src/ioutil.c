@@ -66,13 +66,13 @@ int ioutil_access(const char *pathname, int mode)
     int access_mode = 0;
 
     if ((mode & IOUTIL_ACCESS_R_OK) == IOUTIL_ACCESS_R_OK)
-        access_mode |= R_OK;
+        access_mode |= ARCHDEP_R_OK;
     if ((mode & IOUTIL_ACCESS_W_OK) == IOUTIL_ACCESS_W_OK)
-        access_mode |= W_OK;
+        access_mode |= ARCHDEP_W_OK;
     if ((mode & IOUTIL_ACCESS_X_OK) == IOUTIL_ACCESS_X_OK)
-        access_mode |= X_OK;
+        access_mode |= ARCHDEP_X_OK;
     if ((mode & IOUTIL_ACCESS_F_OK) == IOUTIL_ACCESS_F_OK)
-        access_mode |= F_OK;
+        access_mode |= ARCHDEP_F_OK;
 
     return access(pathname, access_mode);
 }

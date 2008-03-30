@@ -1,3 +1,61 @@
+2004-01-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.46.
+
+	* ioutil.c (ioutil_access): Use archdep access modes.
+
+2004-01-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.h, resc128.rc, resc64.rc, rescbm2.rc,
+	respet.rc, resplus4.rc, resvic.rc: Added menuitem to select
+	directory for the event history.
+
+	* arch/win32/uilib.c, uilib.h: Added another file selector
+	style for the event history directory.
+
+	* arch/win32/ui.c: Uses this ui_select_file with this new
+	style.
+
+	* event.c: New resource EventSnapshotDir. Removed obsolete
+	resource EventMilestoneSnapshot, this is now implemeted with
+	the end snapshot.
+	Reading from and writing to a snapshot uses new function
+	event_snapshot_path, which concatenates the snapshot dir with
+	the snapshot filename.
+	Fixed a bug in event_record_reset_milestone_trap.
+
+2004-01-08  David Hansel  <hansel@reactive-systems.com>
+
+	* arch/unix/x11/xaw/x11ui.c: Fixed compile error
+
+	* autostart.c (autostart_tape): Fixed off-by-one error
+	when calling tape_seek_to_file
+
+	* tape.h, tape/tapeimage.c, tape/tap.c, 
+	imagecontents/tapecontents.c:  When listing contents 
+	of TAP file, list turbo-tape files as "TPRG" instead of "PRG"
+		
+2004-01-07  David Hansel  <hansel@reactive-systems.com>
+
+	* arch/unix/uisettings.c,
+	arch/unix/x11/ui-cmdline-options.c,
+	arch/unix/x11/ui-resources.c,
+	arch/unix/x11/xaw/x11ui.c, arch/unix/x11/gnome/x11ui.c:
+	Added "Confirm on exit" resource, command-line parameter
+	and menu entry.
+
+	* arch/unix/x11/gnome/x11ui.c (delete_event): Fixed bug that
+	made VICE exit even if user chose "No" in confirmation dialog
+	after closing VICE via the window manager (i.e. clicking 
+	the top-right-corner "x" of the emulator window)
+	
+	* tape/tap.c (tap_cbm_read_file_seq):  Fixed reading of SEQ
+	files
+
+2004-01-06  David Hansel  <hansel@reactive-systems.com>
+
+	* tape/tap.c:  Added support for TurboTape encoded files
+	
 2004-01-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.45.
