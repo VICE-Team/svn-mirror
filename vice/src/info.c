@@ -597,6 +597,8 @@ const char info_contrib_text[] =
 "  Roberto Muscedere <cococommie@cogeco.ca> improved support for\n"
 "  REL files.\n"
 "\n"
+"  Rami Rasanen <raipe@neutech.fi> rewrote the VIC20 sound code.\n"
+"\n"
 "(We hope we have not forgotten anybody; if you think we have,\n"
 "please tell us.)\n"
 "\n"

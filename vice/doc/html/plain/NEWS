@@ -5,6 +5,72 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.15
+======================
+
+** General
+----------
+
+- Improved event recording and playback.
+
+** C64 changes
+--------------
+
+- Fixed some CPU opcodes.
+
+- Added support for Magic Formel cart (preliminary).
+
+- Improved TFE cart emulation.
+
+** VIC20 changes
+-----------------
+
+- Four true drives are supported now.
+
+- The sound code has been rewritten.
+
+** PLUS4 changes
+----------------
+
+- Added cartridge support.
+
+** VIC-II
+---------
+
+- Improved IRQ timing during DMA.
+
+** Unix Changes
+---------------
+
+- Improved ROM set support.
+
+- Added TFE and IDE64 cart support.
+
+- Fixed crash on 64bit archs.
+
+- Added BSD USB joystick support.
+
+** MS-Windows changes
+---------------------
+
+- Improved ROM set support.
+
+- Added drive ROM settings.
+
+- The joystick status is displayed now.
+
+- Fixed some directory lister inconsistencies.
+
+** Miscellaneous changes
+------------------------
+
+- Made fsdevice emulation to list non-PRG files again.
+
+- Improved REL file handling of the virtual drive emulation.
+
+- Fixed some bugs in the petcat tokenizer.
+
+
 * Changes in VICE 1.14
 ======================
 
@@ -41,6 +107,7 @@ list of all the changes in the code.
 
 ** Unix Changes
 ---------------
+
 - Gnome UI:
   fixed resizing bug when PAL controls are hidden
   Improved PAL control widget

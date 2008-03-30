@@ -1,3 +1,61 @@
+2004-08-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.40.
+
+	* debug.h: Undefined `DEBUG'.
+
+	* debug.c, vicii/vicii-fetch.c: Added missing `DEBUG' define.
+
+	* event.c (destroy_image_list): Fixed prototype.
+
+	* info.c: Updated.
+
+2004-08-20  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* petcat.c: ctrl characters are braced consistently with { and
+	} now (before, it was <> and (), depending upon if we
+	tokenized or detokenized). This allows petcat to detokenize,
+	edit and tokenize the same source again (not possible before).
+	The command-line help now prints all available parameters.
+	Examples are added. The petcat version contains the VICE
+	version now, too.
+
+2004-08-18  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* petcat.c: Fixed a bug where REM and DATA statements where
+	not processed correctly. The are a type of "quote" mode,
+	meaning that keywords are not tokenized between REM and
+	newline or DATA and colon ':' (or newline, if there is no
+	colon). Fixed this.
+
+2004-08-14  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/<arch>/ui.c, uiapi.h (ui_display_playback): Added
+	parameter for version string.
+
+	* arch/unix/uicommands.c, arch/win32/res<machine>.rc,
+	arch/win32/res.h, arch/win32/uic: Added menuitem for new
+	history start mode.
+
+	* event.c, event.h: Version of VICE is written into data
+	portion of EVENT_INITIAL by new function event_write_version.
+	Version is presented by new parameter in ui_display_playback.
+	Timestamps aren't recorded anymore but inserted when event
+	snapshot is loaded. New funtion cut_list() to remove all
+	events from current.
+	(event_initial_write): record_active needs to be set earlier
+	otherwise EVENT_INITIAL isn't loaded.
+	Added new mode EVENT_START_MODE_PLAYBACK that records from a
+	running playback.
+	Some fixes to repair buggy histories.
+
+	* log.c: New function log_file_open. set_log_file_name()
+	closes existing log file and opens new one.
+
+	* main.c (main_program): Call log_init before
+	initcmdline_check_args to avoid error messages when opening
+	(cart-)zfiles via commandline.
+
 2004-08-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.39.
@@ -459,7 +517,7 @@
 	arch/beos/archdep.h, arch/os2/archdep.h, findpath.c,
 	printerdrv/output-text.c, sysfile.c, arch/unix/archdep.c,
 	arch/win32/archdep.c, arch/msdos/archdep.c,
-	arch/beos/archdep.c, arch/os2/archdep.c
+	arch/beos/archdep.c, arch/os2/archdep.c: Fixed defines.
 
 	* c64/c64tpi.c, cbm2/cbm2tpi1.c, cbm2/cbm2tpi2.c, cia.h,
 	via.h: Added regparm patch contributed by Adam Sampson.
@@ -1269,7 +1327,7 @@
 
 	* arch/win32/ui-resources.c: New file.
 
-	* arch/win32/ui.c: Moeved resource and cmdline stuff to
+	* arch/win32/ui.c: Moved resource and cmdline stuff to
 	seperate file. Removed unused code.
 	(ui_display_speed, ui_display_statustext): Clear status text
 	after 5 seconds.
