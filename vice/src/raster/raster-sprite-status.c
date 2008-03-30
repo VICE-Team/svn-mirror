@@ -26,59 +26,60 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "types.h"
 #include "utils.h"
 
-void
-raster_sprite_status_init (raster_sprite_status_t *s,
-			   unsigned int num_sprites)
+void raster_sprite_status_init(raster_sprite_status_t *s,
+                               unsigned int num_sprites)
 {
-  unsigned int i;
+    unsigned int i;
 
-  s->num_sprites = num_sprites;
+    s->num_sprites = num_sprites;
 
-  s->draw_function = NULL;
+    s->draw_function = NULL;
 
-  s->visible_msk = 0;
-  s->dma_msk = 0;
-  s->new_dma_msk = 0;
+    s->visible_msk = 0;
+    s->dma_msk = 0;
+    s->new_dma_msk = 0;
 
-  s->mc_sprite_color_1 = 0;
-  s->mc_sprite_color_2 = 0;
+    s->mc_sprite_color_1 = 0;
+    s->mc_sprite_color_2 = 0;
 
-  if (num_sprites > 0) {
-      s->sprites = xmalloc (sizeof (*s->sprites) * num_sprites);
-      s->sprite_data_1 = xmalloc (sizeof (DWORD) * num_sprites);
-      s->sprite_data_2 = xmalloc (sizeof (DWORD) * num_sprites);
-  } else {
-      s->sprites = NULL;
-      s->sprite_data_1 = NULL;
-      s->sprite_data_2 = NULL;
-  }
+    if (num_sprites > 0) {
+        s->sprites = xmalloc (sizeof (*s->sprites) * num_sprites);
+        s->sprite_data_1 = xmalloc (sizeof (DWORD) * num_sprites);
+        s->sprite_data_2 = xmalloc (sizeof (DWORD) * num_sprites);
+    } else {
+        s->sprites = NULL;
+        s->sprite_data_1 = NULL;
+        s->sprite_data_2 = NULL;
+    }
 
-  s->sprite_data = s->sprite_data_1;
-  s->new_sprite_data = s->sprite_data_2;
+    s->sprite_data = s->sprite_data_1;
+    s->new_sprite_data = s->sprite_data_2;
 
-  for (i = 0; i < num_sprites; i++)
-    raster_sprite_init (&s->sprites[i]);
+    for (i = 0; i < num_sprites; i++)
+        raster_sprite_init (&s->sprites[i]);
 }
 
-raster_sprite_status_t *
-raster_sprite_status_new (unsigned int num_sprites)
+raster_sprite_status_t *raster_sprite_status_new (unsigned int num_sprites)
 {
-  raster_sprite_status_t *new;
+    raster_sprite_status_t *new_status;
 
-  new = xmalloc (sizeof (raster_sprite_status_t));
-  raster_sprite_status_init (new, num_sprites);
+    new_status
+        = (raster_sprite_status_t *)xmalloc(sizeof(raster_sprite_status_t));
+    raster_sprite_status_init(new_status, num_sprites);
 
-  return new;
+    return new_status;
 }
 
-void
-raster_sprite_status_set_draw_function (raster_sprite_status_t *status,
-                                 raster_sprite_status_draw_function_t function)
+void raster_sprite_status_set_draw_function(raster_sprite_status_t *status,
+                                raster_sprite_status_draw_function_t function)
 {
-  status->draw_function = function;
+    status->draw_function = function;
 }
+

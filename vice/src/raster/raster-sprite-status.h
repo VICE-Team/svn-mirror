@@ -34,8 +34,7 @@ typedef void (*raster_sprite_status_draw_function_t) (PIXEL * line_ptr,
 
 struct raster_sprite_s;
 
-struct raster_sprite_status_s
-  {
+struct raster_sprite_status_s {
     unsigned int num_sprites;
 
     struct raster_sprite_s *sprites;
@@ -70,15 +69,14 @@ struct raster_sprite_status_s
     DWORD *sprite_data_2;
     DWORD *sprite_data;
     DWORD *new_sprite_data;
-  };
+};
 typedef struct raster_sprite_status_s raster_sprite_status_t;
 
-
 
-void raster_sprite_status_init (raster_sprite_status_t *s,
-                                unsigned int num_sprites);
-raster_sprite_status_t *raster_sprite_status_new (unsigned int num_sprites);
-void raster_sprite_status_set_draw_function (raster_sprite_status_t *status,
+void raster_sprite_status_init(raster_sprite_status_t *s,
+                               unsigned int num_sprites);
+raster_sprite_status_t *raster_sprite_status_new(unsigned int num_sprites);
+void raster_sprite_status_set_draw_function(raster_sprite_status_t *status,
                              raster_sprite_status_draw_function_t function);
 
 #endif

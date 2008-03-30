@@ -26,75 +26,70 @@
 
 #include "vice.h"
 
-#include "utils.h"
+#include <stdio.h>
 
 #include "raster-modes.h"
+#include "utils.h"
 
-
 
-void
-raster_modes_init (raster_modes_t *modes,
-                   unsigned int num_modes)
+void raster_modes_init(raster_modes_t *modes, unsigned int num_modes)
 {
-  unsigned int i;
+    unsigned int i;
 
-  modes->num_modes = num_modes;
-  modes->idle_mode = 0;
-  modes->modes = xmalloc (sizeof (*modes->modes) * num_modes);
+    modes->num_modes = num_modes;
+    modes->idle_mode = 0;
+    modes->modes = xmalloc(sizeof(*modes->modes) * num_modes);
 
-  for (i = 0; i < num_modes; i++)
-    {
-      raster_modes_def_t *mode;
+    for (i = 0; i < num_modes; i++) {
+        raster_modes_def_t *mode;
 
-      mode = modes->modes + i;
+        mode = modes->modes + i;
 
-      mode->fill_cache = NULL;
-      mode->draw_line_cached = NULL;
-      mode->draw_line = NULL;
-      mode->draw_background = NULL;
-      mode->draw_foreground = NULL;
+        mode->fill_cache = NULL;
+        mode->draw_line_cached = NULL;
+        mode->draw_line = NULL;
+        mode->draw_background = NULL;
+        mode->draw_foreground = NULL;
     }
 }
 
-raster_modes_t *
-raster_modes_new (unsigned int num_modes)
+raster_modes_t *raster_modes_new(unsigned int num_modes)
 {
-  raster_modes_t *new;
+    raster_modes_t *new_mode;
 
-  new = xmalloc (sizeof (raster_modes_t));
+    new_mode = (raster_modes_t *)xmalloc(sizeof(raster_modes_t));
 
-  raster_modes_init (new, num_modes);
+    raster_modes_init(new_mode, num_modes);
 
-  return new;
+    return new_mode;
 }
 
-void
-raster_modes_set (raster_modes_t *modes,
-		  unsigned int num_mode,
-		  raster_modes_fill_cache_function_t fill_cache,
-		  raster_modes_draw_line_cached_function_t draw_line_cached,
-		  raster_modes_draw_line_function_t draw_line,
-		  raster_modes_draw_background_function_t draw_background,
-		  raster_modes_draw_foreground_function_t draw_foreground)
+void raster_modes_set(raster_modes_t *modes,
+                      unsigned int num_mode,
+                      raster_modes_fill_cache_function_t fill_cache,
+                      raster_modes_draw_line_cached_function_t draw_line_cached,
+                      raster_modes_draw_line_function_t draw_line,
+                      raster_modes_draw_background_function_t draw_background,
+                      raster_modes_draw_foreground_function_t draw_foreground)
 {
-  raster_modes_def_t *mode;
+    raster_modes_def_t *mode;
 
-  mode = modes->modes + num_mode;
+    mode = modes->modes + num_mode;
 
-  mode->fill_cache = fill_cache;
-  mode->draw_line_cached = draw_line_cached;
-  mode->draw_line = draw_line;
-  mode->draw_background = draw_background;
-  mode->draw_foreground = draw_foreground;
+    mode->fill_cache = fill_cache;
+    mode->draw_line_cached = draw_line_cached;
+    mode->draw_line = draw_line;
+    mode->draw_background = draw_background;
+    mode->draw_foreground = draw_foreground;
 }
 
-int
-raster_modes_set_idle_mode (raster_modes_t *modes,
-			    unsigned int num_mode)
+int raster_modes_set_idle_mode(raster_modes_t *modes,
+                               unsigned int num_mode)
 {
-  if (num_mode >= modes->num_modes)
-    return -1;
+    if (num_mode >= modes->num_modes)
+        return -1;
 
-  modes->idle_mode = num_mode;
-  return 0;
+    modes->idle_mode = num_mode;
+    return 0;
 }
+

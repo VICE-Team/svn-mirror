@@ -26,31 +26,28 @@
 
 #include "vice.h"
 
+#include "raster-sprite-cache.h"
 #include "utils.h"
 
-#include "raster-sprite-cache.h"
 
-
-
-void
-raster_sprite_cache_init (raster_sprite_cache_t *sc)
+void raster_sprite_cache_init(raster_sprite_cache_t *sc)
 {
-  sc->c1 = sc->c2 = sc->c3 = 0;
-  sc->data = 0;
-  sc->x_expanded = 0;
-  sc->x = 0;
-  sc->visible = 0;
-  sc->in_background = 0;
-  sc->multicolor = 0;
+    sc->c1 = sc->c2 = sc->c3 = 0;
+    sc->data = 0;
+    sc->x_expanded = 0;
+    sc->x = 0;
+    sc->visible = 0;
+    sc->in_background = 0;
+    sc->multicolor = 0;
 }
 
-raster_sprite_cache_t *
-raster_sprite_cache_new (void)
+raster_sprite_cache_t *raster_sprite_cache_new(void)
 {
-  raster_sprite_cache_t *new;
+    raster_sprite_cache_t *new_cache;
 
-  new = xmalloc (sizeof (raster_sprite_cache_t));
-  raster_sprite_cache_init (new);
+    new_cache = (raster_sprite_cache_t *)xmalloc(sizeof(raster_sprite_cache_t));
+    raster_sprite_cache_init(new_cache);
 
-  return new;
+    return new_cache;
 }
+

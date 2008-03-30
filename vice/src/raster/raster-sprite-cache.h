@@ -30,8 +30,7 @@
 #include "types.h"
 
 /* This defines the cache for one sprite line. */
-struct raster_sprite_cache_s
-  {
+struct raster_sprite_cache_s {
     /* Sprite colors. */
     unsigned int c1, c2, c3;
 
@@ -53,15 +52,12 @@ struct raster_sprite_cache_s
 
     /* Multicolor flag. */
     int multicolor;
-  };
+};
 typedef struct raster_sprite_cache_s raster_sprite_cache_t;
 
-
 
-
-
-void raster_sprite_cache_init (raster_sprite_cache_t *sc);
-raster_sprite_cache_t *raster_sprite_cache_new (void);
+void raster_sprite_cache_init(raster_sprite_cache_t *sc);
+raster_sprite_cache_t *raster_sprite_cache_new(void);
 
 #endif
 

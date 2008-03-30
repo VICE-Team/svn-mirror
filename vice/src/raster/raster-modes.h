@@ -53,18 +53,16 @@ typedef void (*raster_modes_draw_background_function_t)
 typedef void (*raster_modes_draw_foreground_function_t)
   (int start_char, int end_char);
 
-struct raster_modes_def_s
-  {
+struct raster_modes_def_s {
     raster_modes_fill_cache_function_t fill_cache;
     raster_modes_draw_line_cached_function_t draw_line_cached;
     raster_modes_draw_line_function_t draw_line;
     raster_modes_draw_background_function_t draw_background;
     raster_modes_draw_foreground_function_t draw_foreground;
-  };
+};
 typedef struct raster_modes_def_s raster_modes_def_t;
 
-struct raster_modes_s
-  {
+struct raster_modes_s {
     /* Number of defined modes.  */
     unsigned int num_modes;
 
@@ -73,13 +71,12 @@ struct raster_modes_s
 
     /* Mode used for idle mode.  */
     unsigned int idle_mode;
-  };
+};
 typedef struct raster_modes_s raster_modes_t;
 
-
 
-extern void raster_modes_init (raster_modes_t *modes, unsigned int num_modes);
-extern raster_modes_t *raster_modes_new (unsigned int num_modes);
+extern void raster_modes_init(raster_modes_t *modes, unsigned int num_modes);
+extern raster_modes_t *raster_modes_new(unsigned int num_modes);
 extern void raster_modes_set (raster_modes_t *modes,
                               unsigned int num_mode,
                               raster_modes_fill_cache_function_t fill_cache,
@@ -90,80 +87,72 @@ extern void raster_modes_set (raster_modes_t *modes,
                               int raster_modes_set_idle_mode (raster_modes_t *modes,
                               unsigned int num_mode);
 
-
 
-inline static int
-raster_modes_fill_cache (raster_modes_t *modes,
-			 unsigned int mode_num,
-			 struct raster_cache_s *c,
-			 int *changed_start,
-			 int *changed_end,
-			 int no_check)
+inline static int raster_modes_fill_cache(raster_modes_t *modes,
+                                          unsigned int mode_num,
+                                          struct raster_cache_s *c,
+                                          int *changed_start,
+                                          int *changed_end,
+                                          int no_check)
 {
-  raster_modes_def_t *mode;
+    raster_modes_def_t *mode;
 
-  mode = modes->modes + mode_num;
+    mode = modes->modes + mode_num;
 
-  return mode->fill_cache (c, changed_start, changed_end, no_check);
+    return mode->fill_cache(c, changed_start, changed_end, no_check);
 }
 
-inline static void
-raster_modes_draw_line_cached (raster_modes_t *modes,
-			       unsigned int mode_num,
-			       struct raster_cache_s *c,
-			       int start,
-			       int end)
+inline static void raster_modes_draw_line_cached(raster_modes_t *modes,
+                                                 unsigned int mode_num,
+                                                 struct raster_cache_s *c,
+                                                 int start,
+                                                 int end)
 {
-  raster_modes_def_t *mode;
+    raster_modes_def_t *mode;
 
-  mode = modes->modes + mode_num;
+    mode = modes->modes + mode_num;
 
-  mode->draw_line_cached (c, start, end);
+    mode->draw_line_cached(c, start, end);
 }
 
-inline static void
-raster_modes_draw_line (raster_modes_t *modes,
-			unsigned int mode_num)
+inline static void raster_modes_draw_line(raster_modes_t *modes,
+                                          unsigned int mode_num)
 {
-  raster_modes_def_t *mode;
+    raster_modes_def_t *mode;
 
-  mode = modes->modes + mode_num;
+    mode = modes->modes + mode_num;
 
-  mode->draw_line ();
+    mode->draw_line();
 }
 
-inline static void
-raster_modes_draw_background (raster_modes_t *modes,
-			      unsigned int mode_num,
-			      unsigned int start_pixel,
-			      unsigned int end_pixel)
+inline static void raster_modes_draw_background(raster_modes_t *modes,
+                                                unsigned int mode_num,
+                                                unsigned int start_pixel,
+                                                unsigned int end_pixel)
 {
-  raster_modes_def_t *mode;
+    raster_modes_def_t *mode;
 
-  mode = modes->modes + mode_num;
+    mode = modes->modes + mode_num;
 
-  mode->draw_background (start_pixel, end_pixel);
+    mode->draw_background(start_pixel, end_pixel);
 }
 
-inline static void
-raster_modes_draw_foreground (raster_modes_t *modes,
-			      unsigned int mode_num,
-			      int start_char,
-			      int end_char)
+inline static void raster_modes_draw_foreground(raster_modes_t *modes,
+                                                unsigned int mode_num,
+                                                int start_char,
+                                                int end_char)
 {
-  raster_modes_def_t *mode;
+    raster_modes_def_t *mode;
 
-  mode = modes->modes + mode_num;
+    mode = modes->modes + mode_num;
 
-  mode->draw_foreground (start_char, end_char);
+    mode->draw_foreground(start_char, end_char);
 }
 
-
 
-inline static int
-raster_modes_get_idle_mode (raster_modes_t *modes)
+inline static int raster_modes_get_idle_mode(raster_modes_t *modes)
 {
-  return modes->idle_mode;
+    return modes->idle_mode;
 }
 
 #endif /* _RASTER_MODES_H */
