@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/pet/petpia1.c
- * This file is generated from ../../../src/pia-tmpl.c and ../../../src/pet/petpia1.def,
+ * ../../src/pet/petpia1.c
+ * This file is generated from ../../src/pia-tmpl.c and ../../src/pet/petpia1.def,
  * Do not edit!
  */
 /*

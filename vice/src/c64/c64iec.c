@@ -55,7 +55,7 @@ inline static void update_ports(void)
                            | ((iec_info.cpu_bus << 3) & 0x80));
 }
 
-void iec_drive_write(BYTE data)
+void iec_drive0_write(BYTE data)
 {
     iec_info.drive_bus = (((data << 3) & 0x40)
                           | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
@@ -64,9 +64,23 @@ void iec_drive_write(BYTE data)
     update_ports();
 }
 
-BYTE iec_drive_read(void)
+void iec_drive1_write(BYTE data)
+{
+    iec_info.drive2_bus = (((data << 3) & 0x40)
+                          | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
+                             & 0x80));
+    iec_info.drive2_data = data;
+    update_ports();
+}
+
+BYTE iec_drive0_read(void)
 {
     return iec_info.drive_port;
+}
+
+BYTE iec_drive1_read(void)
+{
+    return iec_info.drive2_port;
 }
 
 
@@ -110,7 +124,7 @@ void iec_cpu_write(BYTE data)
 	    }
 	}
     }
-    if (drive[0].enable) {
+    if (drive[0].enable && drive[0].type != DRIVE_TYPE_2031) {
 	if (drive[0].type != DRIVE_TYPE_1581)
 	    iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
                           | ((iec_info.drive_data << 6)
@@ -123,7 +137,7 @@ void iec_cpu_write(BYTE data)
                           & 0x80));
 
 	}
-    if (drive[1].enable) {
+    if (drive[1].enable && drive[1].type != DRIVE_TYPE_2031) {
 	if (drive[1].type != DRIVE_TYPE_1581)
 	    iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
                           | ((iec_info.drive2_data << 6)
@@ -210,5 +224,10 @@ BYTE parallel_cable_cpu_read(void)
     via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
     via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
     return parallel_cable_cpu_value & parallel_cable_drive_value;
+}
+
+int iec_available_busses(void) 
+{
+    return IEC_BUS_IEC | IEC_BUS_IEEE;
 }
 

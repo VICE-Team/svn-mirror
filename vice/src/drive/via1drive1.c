@@ -439,7 +439,7 @@ void via1d1_signal(int line, int edge)
                printf("       -> byte=%02x\n", byte);
            }
         } else {
-           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85) | 0x20;
+           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive1_read()) ^ 0x85) | 0x20;
         }
     }
 		via1d1_ilb = byte;
@@ -570,7 +570,7 @@ void REGPARM2 store_via1d1(ADDRESS addr, BYTE byte)
                                 || (parallel_atn && (tmp & 0x01))
                                 || ((!parallel_atn) && (byte & 0x01)));
         } else {
-	    iec_drive_write(~byte);
+	    iec_drive1_write(~byte);
 	}
     }
 	oldpb = byte;
@@ -754,7 +754,7 @@ void REGPARM2 store_via1d1(ADDRESS addr, BYTE byte)
                printf("       -> byte=%02x\n", byte);
            }
         } else {
-           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85) | 0x20;
+           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive1_read()) ^ 0x85) | 0x20;
         }
     }
 	    via1d1_ilb = byte;
@@ -976,7 +976,7 @@ BYTE REGPARM1 read_via1d1_(ADDRESS addr)
                printf("       -> byte=%02x\n", byte);
            }
         } else {
-           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85) | 0x20;
+           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive1_read()) ^ 0x85) | 0x20;
         }
     }
 	}
@@ -1017,7 +1017,7 @@ BYTE REGPARM1 read_via1d1_(ADDRESS addr)
                printf("       -> byte=%02x\n", byte);
            }
         } else {
-           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85) | 0x20;
+           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive1_read()) ^ 0x85) | 0x20;
         }
     }
 #endif
@@ -1127,7 +1127,7 @@ BYTE REGPARM1 peek_via1d1(ADDRESS addr)
                printf("       -> byte=%02x\n", byte);
            }
         } else {
-           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85) | 0x20;
+           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive1_read()) ^ 0x85) | 0x20;
         }
     }
 	    }
@@ -1168,7 +1168,7 @@ BYTE REGPARM1 peek_via1d1(ADDRESS addr)
                printf("       -> byte=%02x\n", byte);
            }
         } else {
-           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85) | 0x20;
+           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive1_read()) ^ 0x85) | 0x20;
         }
     }
 #endif
@@ -1415,7 +1415,7 @@ int via1d1_read_snapshot_module(snapshot_t * p)
                                || (parallel_atn && (!(byte & 0x01)))
                                || ((!parallel_atn) && (byte & 0x01)));
         } else {
-            iec_drive_write(~byte);
+            iec_drive1_write(~byte);
         }
     }
 

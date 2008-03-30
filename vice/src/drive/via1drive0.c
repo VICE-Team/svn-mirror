@@ -439,7 +439,7 @@ void via1d0_signal(int line, int edge)
 		printf("       -> byte=%02x\n", byte);
 	   }
         } else {
-           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive0_read()) ^ 0x85;
         }
     }
 		via1d0_ilb = byte;
@@ -570,7 +570,7 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
                                 || (parallel_atn && (tmp & 0x01))
                                 || ((!parallel_atn) && (byte & 0x01)));
         } else {
-	    iec_drive_write(~byte);
+	    iec_drive0_write(~byte);
 	}
     }
 	oldpb = byte;
@@ -754,7 +754,7 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
 		printf("       -> byte=%02x\n", byte);
 	   }
         } else {
-           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive0_read()) ^ 0x85;
         }
     }
 	    via1d0_ilb = byte;
@@ -976,7 +976,7 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
 		printf("       -> byte=%02x\n", byte);
 	   }
         } else {
-           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive0_read()) ^ 0x85;
         }
     }
 	}
@@ -1017,7 +1017,7 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
 		printf("       -> byte=%02x\n", byte);
 	   }
         } else {
-           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive0_read()) ^ 0x85;
         }
     }
 #endif
@@ -1127,7 +1127,7 @@ BYTE REGPARM1 peek_via1d0(ADDRESS addr)
 		printf("       -> byte=%02x\n", byte);
 	   }
         } else {
-           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive0_read()) ^ 0x85;
         }
     }
 	    }
@@ -1168,7 +1168,7 @@ BYTE REGPARM1 peek_via1d0(ADDRESS addr)
 		printf("       -> byte=%02x\n", byte);
 	   }
         } else {
-           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive0_read()) ^ 0x85;
         }
     }
 #endif
@@ -1415,7 +1415,7 @@ int via1d0_read_snapshot_module(snapshot_t * p)
                                || (parallel_atn && (!(byte & 0x01)))
                                || ((!parallel_atn) && (byte & 0x01)));
         } else {
-            iec_drive_write(~byte);
+            iec_drive0_write(~byte);
 	}
     }
 	oldpb = byte;

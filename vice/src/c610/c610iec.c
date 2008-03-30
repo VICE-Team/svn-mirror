@@ -31,14 +31,25 @@
 #include "drive.h"
 #include "iecdrive.h"
 
-void iec_drive_write(BYTE data)
+void iec_drive0_write(BYTE data)
 {
-    printf("BUG: iec_drive_write(%02x)\n", data);
+    printf("BUG: iec_drive0_write(%02x)\n", data);
 }
 
-BYTE iec_drive_read(void)
+void iec_drive1_write(BYTE data)
 {
-    printf("BUG: iec_drive_read()\n");
+    printf("BUG: iec_drive1_write(%02x)\n", data);
+}
+
+BYTE iec_drive0_read(void)
+{
+    printf("BUG: iec_drive0_read()\n");
+    return 0;
+}
+
+BYTE iec_drive1_read(void)
+{
+    printf("BUG: iec_drive1_read()\n");
     return 0;
 }
 
@@ -60,3 +71,9 @@ BYTE parallel_cable_drive_read(int handshake)
 {
     return 0;
 }
+
+int iec_available_busses(void)
+{
+    return /* IEC_BUS_IEC |*/ IEC_BUS_IEEE;
+}
+

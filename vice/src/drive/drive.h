@@ -129,10 +129,10 @@
 
 #define DRIVE_NUMOFINT 26
 
-#define DRIVE_ROM2031_SIZE	0x4000
 #define DRIVE_ROM1541_SIZE	0x4000
 #define DRIVE_ROM1571_SIZE	0x8000
 #define DRIVE_ROM1581_SIZE	0x8000
+#define DRIVE_ROM2031_SIZE	0x4000
 #define DRIVE_ROM_SIZE		0x8000
 #define DRIVE_RAM_SIZE		0x2000
 #define DRIVE_ROM1541_CHECKSUM	1976666
@@ -208,6 +208,9 @@ typedef struct drive_s {
 
     /* Original ROM code is saved here.  */
     BYTE rom_idle_trap;
+
+    /* Original ROM code of the checksum routine is saved here.  */
+    BYTE rom_checksum[4];
 
     /* Byte ready line.  */
     int byte_ready;
@@ -308,7 +311,7 @@ extern void drive_set_1571_sync_factor(int sync, int dnr);
 extern void drive_set_1571_side(int side, int dnr);
 extern void drive_update_ui_status(void);
 
-extern int drive_write_snapshot_module(snapshot_t *s);
+extern int drive_write_snapshot_module(snapshot_t *s, int save_disks);
 extern int drive_read_snapshot_module(snapshot_t *s);
 
 #ifdef AVOID_STATIC_ARRAYS
@@ -323,5 +326,7 @@ extern BYTE drive1_ram[DRIVE_RAM_SIZE];
 
 extern void drive0_parallel_set_atn(int);
 extern void drive1_parallel_set_atn(int);
+
+extern int drive_match_bus(int drive_type, int bus_map);
 
 #endif /* !_DRIVE_H */

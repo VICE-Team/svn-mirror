@@ -140,7 +140,7 @@ UNDUMP_PRB()
                                || (parallel_atn && (!(byte & 0x01)))
                                || ((!parallel_atn) && (byte & 0x01)));
         } else {
-            iec_drive_write(~byte);
+            iec_drive1_write(~byte);
         }
     }
 
@@ -185,7 +185,7 @@ STORE_PRB()
                                 || (parallel_atn && (tmp & 0x01))
                                 || ((!parallel_atn) && (byte & 0x01)));
         } else {
-	    iec_drive_write(~byte);
+	    iec_drive1_write(~byte);
 	}
     }
 }
@@ -280,7 +280,7 @@ READ_PRB()
                printf("       -> byte=%02x\n", byte);
            }
         } else {
-           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85) | 0x20;
+           byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive1_read()) ^ 0x85) | 0x20;
         }
     }
 }

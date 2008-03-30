@@ -34,8 +34,10 @@
 
 #include "types.h"
 
-void iec_drive_write(BYTE data);
-BYTE iec_drive_read(void);
+void iec_drive0_write(BYTE data);
+void iec_drive1_write(BYTE data);
+BYTE iec_drive0_read(void);
+BYTE iec_drive1_read(void);
 void iec_fast_drive_write(BYTE data);
 void iec_fast_cpu_write(BYTE data);
 void parallel_cable_drive_write(BYTE data, int handshake);
@@ -53,6 +55,12 @@ typedef struct {
     BYTE iec_fast_1541;
 } iec_info_t;
 
-iec_info_t *iec_get_drive_port(void);
+extern iec_info_t *iec_get_drive_port(void);
+
+/* return value for iec_available_busses() (can be ored) */
+#define	IEC_BUS_IEC	0x01	/* serial IEC bus */
+#define	IEC_BUS_IEEE	0x02	/* parallel IEEE bus */
+
+extern int iec_available_busses(void);
 
 #endif

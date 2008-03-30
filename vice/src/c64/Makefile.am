@@ -9,7 +9,6 @@ SUFFIXES = .def
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
-	@RESID_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
@@ -62,7 +61,8 @@ libc64c128_a_SOURCES = \
 BUILT_SOURCES = \
 	c64acia1.c \
 	c64cia1.c \
-	c64cia2.c
+	c64cia2.c \
+	c64tpi.c
 
 EXTRA_libc64_a_SOURCES = \
 	c64acia.h \

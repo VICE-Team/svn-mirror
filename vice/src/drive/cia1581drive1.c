@@ -618,7 +618,7 @@ void REGPARM2 store_cia1581d1(ADDRESS addr, BYTE byte)
                 | (iec_info->cpu_port >> 7)
                 | ((iec_info->cpu_bus << 3) & 0x80));
         } else {
-            iec_drive_write(~byte);
+            iec_drive1_write(~byte);
         }
     }
 	oldpb = byte;
@@ -944,9 +944,9 @@ BYTE read_cia1581d1_(ADDRESS addr)
 	   expected due to excessive load. */
 
     if (iec_info != NULL)
-        byte = ((cia1581d1[CIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+        byte = ((cia1581d1[CIA_PRB] & 0x1a) | iec_info->drive2_port) ^ 0x85;
     else
-        byte = ((cia1581d1[CIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+        byte = ((cia1581d1[CIA_PRB] & 0x1a) | iec_drive1_read()) ^ 0x85;
         if ((cia1581d1[CIA_CRA] | cia1581d1[CIA_CRB]) & 0x02) {
 	    update_cia1581d1(rclk);
 	    if (cia1581d1[CIA_CRA] & 0x02) {

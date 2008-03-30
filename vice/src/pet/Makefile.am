@@ -33,7 +33,12 @@ libpet_a_SOURCES = \
 	petvia.def \
 	petvia.h
 
-BUILT_SOURCES = petvia.c petacia1.c crtc.c
+BUILT_SOURCES = \
+	crtc.c \
+	petacia1.c \
+	petpia1.c \
+	petpia2.c \
+	petvia.c
 
 petdir = $(top_srcdir)/src/pet
 

@@ -38,23 +38,28 @@
 
 static BYTE cpu_data, cpu_clock, cpu_atn;
 static BYTE drive_data, drive_clock, drive_atna, drive_data_modifier;
+static BYTE drive2_data, drive2_clock, drive2_atna, drive2_data_modifier;
 static BYTE bus_data, bus_clock, bus_atn;
 static BYTE cpu_bus_val;
-static BYTE drive_bus_val;
+static BYTE drive_bus_val, drive2_bus_val;
 
 inline void resolve_bus_signals(void)
 {
     bus_atn = NOT(cpu_atn);
-    bus_clock = (NOT(cpu_clock) & NOT(drive_clock));
-    bus_data = (NOT(drive_data) & NOT(drive_data_modifier) & NOT(cpu_data));
-
+    bus_clock = NOT(cpu_clock) & (drive[0].enable ? NOT(drive_clock) : 0xff)
+                               & (drive[1].enable ? NOT(drive2_clock) : 0xff);
+    bus_data = (drive[0].enable
+                     ? NOT(drive_data) & NOT(drive_data_modifier) : 0xff)
+                 & (drive[1].enable 
+                     ? NOT(drive2_data) & NOT(drive2_data_modifier) : 0xff)
+                 & NOT(cpu_data);
 #if BUS_DBG
     printf("SB: [%ld]  data:%d clock:%d atn:%d\n",
 	   drive_clk[0], bus_data, bus_clock, bus_atn);
 #endif
 }
 
-void iec_drive_write(BYTE data)
+void iec_drive0_write(BYTE data)
 {
     static int last_write = 0;
 
@@ -70,11 +75,32 @@ void iec_drive_write(BYTE data)
     last_write = data & 26;
 }
 
-BYTE iec_drive_read(void)
+void iec_drive1_write(BYTE data)
+{
+    static int last_write = 0;
+
+    data = ~data;
+    drive2_data = ((data & 2) >> 1);
+    drive2_clock = ((data & 8) >> 3);
+    drive2_atna = ((data & 16) >> 4);
+    drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
+
+    if (last_write != (data & 26)) {
+        resolve_bus_signals();
+    }
+    last_write = data & 26;
+}
+
+BYTE iec_drive0_read(void)
 {
     drive_bus_val = bus_data | (bus_clock << 2) | (bus_atn << 7);
-
     return drive_bus_val;
+}
+
+BYTE iec_drive1_read(void)
+{
+    drive2_bus_val = bus_data | (bus_clock << 2) | (bus_atn << 7);
+    return drive2_bus_val;
 }
 
 /*
@@ -149,6 +175,7 @@ void iec_pa_write(BYTE data)
 
     cpu_atn = ((data & 128) >> 7);
     drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
+    drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
 
     if (last_write != (data & 128))
 	resolve_bus_signals();
@@ -177,6 +204,7 @@ void iec_pcr_write(BYTE data)
     cpu_data = ((data & 32) >> 5);
     cpu_clock = ((data & 2) >> 1);
     drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
+    drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
 
     if (last_write != (data & 34))
 	resolve_bus_signals();
@@ -202,3 +230,10 @@ BYTE parallel_cable_drive_read(int handshake)
 {
     return 0;
 }
+
+int iec_available_busses(void)
+{
+    return IEC_BUS_IEC /* | IEC_BUS_IEEE */;
+}
+
+
