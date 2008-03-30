@@ -46,7 +46,7 @@ noinst_HEADERS = \
 	attach.h \
 	autostart.h \
 	cartridge.h \
-	charsets.h \
+	charset.h \
 	cia.h \
 	ciacore.h \
 	clkguard.h \
@@ -120,7 +120,7 @@ base_sources = \
 	alarm.c \
 	attach.c \
 	autostart.c \
-	charsets.c \
+	charset.c \
 	ciatimer.c \
 	clkguard.c \
 	cmdline.c \
@@ -392,7 +392,7 @@ xcbm2-all: \
 # c1541
 c1541_SOURCES = \
 	c1541.c \
-	charsets.c \
+	charset.c \
 	cmdline.c \
 	diskimage.c \
 	findpath.c \
@@ -417,7 +417,7 @@ c1541_LDADD = \
 
 # petcat
 petcat_SOURCES = \
-	charsets.c \
+	charset.c \
 	cmdline.c \
 	findpath.c \
 	log.c \
