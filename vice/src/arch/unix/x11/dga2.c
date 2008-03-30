@@ -625,7 +625,6 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	fb_render_target = fb_dump = fb_addr + ((i - 1)* offs);
 	
 	raster_force_repaint(fs_cached_raster);
-	raster_rebuild_tables(fs_cached_raster);
 	raster_resize_viewport(fs_cached_raster, fs_width, fs_height);
 #ifdef FS_DEBUG_BUFFER
 	goto nodga;
@@ -648,7 +647,6 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 #endif
 	raster_resize_viewport(fs_cached_raster, fs_canvas_width, 
 			       fs_canvas_height);
-	raster_rebuild_tables(fs_cached_raster);
 	raster_force_repaint(fs_cached_raster);
 
       nodga:

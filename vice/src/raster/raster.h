@@ -76,35 +76,6 @@ typedef struct raster_area_s raster_area_t;
 
 struct video_canvas_s;
 
-struct raster_viewport_s {
-    /* Output canvas.  */
-    struct video_canvas_s *canvas;
-
-    /* Portion of the screen displayed on the output window window.
-       FIXME: We should get this from the canvas.  */
-    unsigned int width, height;
-
-    /* Title for the viewport.  FIXME: Duplicated info from the canvas?  */
-    char *title;
-
-    /* Offset of the screen on the window.  */
-    unsigned int x_offset, y_offset;
-
-    /* First and last lines shown in the output window.  */
-    unsigned int first_line, last_line;
-
-    /* First pixel in one line of the frame buffer to be shown on the output
-       window.  */
-    unsigned int first_x;
-
-    /* Exposure handler.  */
-    void *exposure_handler;
-
-    /* Only display canvas if this flag is set.  */
-    int update_canvas;
-};
-typedef struct raster_viewport_s raster_viewport_t;
-
 struct raster_geometry_s {
     /* Total size of the screen, including borders and unused areas.
        (SCREEN_WIDTH, SCREEN_HEIGHT)  */
@@ -138,8 +109,6 @@ struct raster_modes_s;
 struct raster_sprite_status_s;
 
 struct raster_s {
-    raster_viewport_t viewport;
-
     raster_geometry_t geometry;
 
     struct raster_modes_s *modes;
@@ -153,6 +122,9 @@ struct raster_s {
         raster_changes_t next_line;
         int have_on_this_line;
     } changes;
+
+    /* Output canvas.  */
+    struct video_canvas_s *canvas;
 
     /* Pointer to the draw buffer.  */
     BYTE *draw_buffer_ptr;
@@ -236,11 +208,11 @@ struct raster_s {
 
     /* Area to update.  */
     raster_area_t update_area;
-
+#if 0
     /* Function to call when internal tables have to be refreshed after a
        mode change. E.g. vicii::init_drawing_tables(). NULL allowed */
     void (*refresh_tables)(void);
-
+#endif
     /* This is a bit mask representing each pixel on the screen (1 =
        foreground, 0 = background) and is used both for sprite-background
        collision checking and background sprite drawing.  When cache is
@@ -260,6 +232,7 @@ struct raster_s {
     } pixel_table;
 
     struct video_render_config_s *videoconfig;
+    int intialized;
 };
 typedef struct raster_s raster_t;
 
@@ -272,10 +245,10 @@ extern void raster_reset(raster_t *raster);
 extern int raster_realize(raster_t *raster);
 extern void raster_set_exposure_handler(raster_t *raster,
                                         void *exposure_handler);
-extern void raster_set_table_refresh_handler(raster_t *raster,
-                                             void (*handler)(void));
 extern void raster_canvas_init(raster_t *raster);
 extern void raster_set_geometry(raster_t *raster,
+                                unsigned int canvas_width,
+                                unsigned int canvas_height,
                                 unsigned int screen_width,
                                 unsigned int screen_height,
                                 unsigned int gfx_width,
@@ -291,8 +264,7 @@ extern void raster_set_geometry(raster_t *raster,
                                 unsigned int extra_offscreen_border_right);
 extern void raster_invalidate_cache(raster_t *raster,
                                     unsigned int screen_height);
-extern void raster_resize_viewport(raster_t *raster,
-                                   unsigned int width, unsigned int height);
+extern void raster_resize_viewport(raster_t *raster);
 extern void raster_draw_buffer_ptr_update(raster_t *raster);
 extern int raster_realize_frame_buffer(raster_t *raster);
 extern void raster_force_repaint(raster_t *raster);
@@ -301,7 +273,6 @@ extern void raster_set_title(raster_t *raster, const char *title);
 extern void raster_skip_frame(raster_t *raster, int skip);
 extern void raster_enable_cache(raster_t *raster, int enable);
 extern void raster_mode_change(void);
-extern void raster_rebuild_tables(raster_t *raster);
 extern void raster_set_canvas_refresh(raster_t *raster, int enable);
 extern void raster_screenshot(raster_t *raster, struct screenshot_s *screenshot);
 extern void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref);

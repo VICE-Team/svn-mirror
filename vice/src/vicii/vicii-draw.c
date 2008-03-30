@@ -1450,7 +1450,5 @@ void vic_ii_draw_init(void)
     init_drawing_tables();
 
     setup_modes();
-
-    raster_set_table_refresh_handler(&vic_ii.raster, init_drawing_tables);
 }
 

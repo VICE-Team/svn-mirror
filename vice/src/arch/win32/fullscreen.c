@@ -39,13 +39,10 @@
 #include "winmain.h"
 #include "palette.h"
 #include "resources.h"
-#include "raster.h"
 #include "utils.h"
 #include "log.h"
 #include "videoarch.h"
 #include "statusbar.h"
-
-raster_t *video_find_raster_for_canvas(video_canvas_t *canvas);
 
 
 // ----------------------------------------------
@@ -658,8 +655,8 @@ static int     old_client_width;
 static int     old_client_height;
 static float   old_refreshrate;
 
-int     fullscreen_active;
-int     fullscreen_transition=0;
+int fullscreen_active;
+int fullscreen_transition=0;
 
 void SwitchToFullscreenMode(HWND hwnd)
 {
@@ -675,7 +672,6 @@ void SwitchToFullscreenMode(HWND hwnd)
     GUID *device_guid;
     int i;
     HDC hdc;
-    raster_t *r;
 
     fullscreen_transition = 1;
     //  Get fullscreen parameters
@@ -820,10 +816,6 @@ void SwitchToFullscreenMode(HWND hwnd)
     set_palette(c);
     set_physical_colors(c);
 
-    r = video_find_raster_for_canvas(c);
-    if (r) {
-        raster_rebuild_tables(r);
-    }
     IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
     canvas_update(c->hwnd,hdc, 0, 0, fullscreen_width, fullscreen_height);
     IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
@@ -841,7 +833,6 @@ void SwitchToWindowedMode(HWND hwnd)
     DDSURFACEDESC desc2;
     int i;
     HDC hdc;
-    raster_t *r;
 
     fullscreen_transition = 1;
 
@@ -950,8 +941,6 @@ void SwitchToWindowedMode(HWND hwnd)
     set_physical_colors(c);
 
 
-    r = video_find_raster_for_canvas(c);
-    raster_rebuild_tables(r);
     IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
     canvas_update(c->hwnd,hdc, 0, 0, c->client_width, c->client_height);
     IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
@@ -959,7 +948,7 @@ void SwitchToWindowedMode(HWND hwnd)
 
     fullscreen_transition = 0;
 
-	c->refreshrate = old_refreshrate;
+    c->refreshrate = old_refreshrate;
 }
 
 
