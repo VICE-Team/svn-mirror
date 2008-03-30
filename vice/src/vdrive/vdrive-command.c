@@ -108,8 +108,6 @@ static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer);
 static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
                                  unsigned int length);
 static int vdrive_command_initialize(vdrive_t *vdrive);
-static int vdrive_command_format(vdrive_t *vdrive, const char *name, BYTE *id,
-                                 BYTE *minus);
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length);
 static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length);
 
@@ -123,7 +121,7 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, unsigned int length)
     int status = IPE_OK;
     BYTE *p, *p2;
     char *name;
-    BYTE *minus, *id;
+    BYTE *minus;
 
     if (!length)
         return IPE_OK;
@@ -140,7 +138,6 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, unsigned int length)
     p[length] = 0;
 
     name = (char *)memchr(p, ':', length);
-    id = (BYTE *)memchr(p, ',', length);
     minus = (BYTE *)memchr(p, '-', length);
 
     if (name) /* Fix name length */
@@ -213,7 +210,8 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, unsigned int length)
 	break;
 
       case 'N':
-	status = vdrive_command_format(vdrive, name, id, minus);
+        /* Skip ":" at the start of the name.  */
+	status = vdrive_command_format(vdrive, name + 1);
 	break;
 
       case 'V':
@@ -672,14 +670,14 @@ int vdrive_command_validate(vdrive_t *vdrive)
     return status;
 }
 
-static int vdrive_command_format(vdrive_t *vdrive, const char *name, BYTE *id,
-                                 BYTE *minus)
+int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
 {
     BYTE tmp[256];
     int status;
-    BYTE null = 0;
+    char *name, *comma;
+    BYTE id[2];
 
-    if (!name)
+    if (!disk_name)
         return IPE_SYNTAX;
 
     if (vdrive->read_only)
@@ -688,32 +686,46 @@ static int vdrive_command_format(vdrive_t *vdrive, const char *name, BYTE *id,
     if (vdrive->image->fd == NULL)
         return IPE_NOT_READY;
 
-    /*
-     * If id, skip comma
-     */
+    comma = memchr(disk_name, ',', strlen(disk_name));
 
-    if (id)
-        *id++ = 0;
-    else
-        id = &null;
+    if (comma != NULL) {
+        if (comma != disk_name) {
+            name = xmalloc(comma - disk_name + 1);
+            memcpy(name, disk_name, comma - disk_name);
+            name[comma - disk_name] = '\0';
+        } else {
+            name = stralloc(" ");
+        }
+        if (comma[1] != '\0') {
+            if (comma[2] != '\0') {
+                id[0] = comma[1];
+                id[1] = comma[2];
+            } else {
+                id[0] = comma[1];
+                id[1] = ' ';
+            }
+        } else {
+            id[0] = id[1] = ' ';
+        }
+    } else {
+        name = stralloc(disk_name);
+        id[0] = id[1] = ' ';
+    }
 
-#if 0
-    if (vdrive->ErrFlg)
-        set_error_data(vdrive, 5);	/* clear and write error data */
-#endif
-
-    /*
-     * Make the first dir-entry
-     */
+    /* Make the first dir-entry.  */
     memset(tmp, 0, 256);
     tmp[1] = 255;
     disk_image_write_sector(vdrive->image, tmp, vdrive->Dir_Track,
                             vdrive->Dir_Sector);
+
     vdrive_bam_create_empty_bam(vdrive, name, id);
     vdrive_bam_write_bam(vdrive);
 
     /* Validate is called to clear the BAM.  */
     status = vdrive_command_validate(vdrive);
+
+    free(name);
+
     return status;
 }
 
