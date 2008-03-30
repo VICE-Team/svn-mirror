@@ -64,7 +64,6 @@
 #include "video.h"
 #include "ui.h"
 #include "sid.h"
-/* #include "mem.h" */
 #include "utils.h"
 
 #ifdef PET
