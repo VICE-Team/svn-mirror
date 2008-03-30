@@ -249,9 +249,9 @@ void psid_init_tune(void)
   }
 
   psid->frames_played = 0;
-  vsid_ui_display_name(psid->name);
-  vsid_ui_display_author(psid->author);
-  vsid_ui_display_copyright(psid->copyright);
+  vsid_ui_display_name((char *)(psid->name));
+  vsid_ui_display_author((char *)(psid->author));
+  vsid_ui_display_copyright((char *)(psid->copyright));
 
   /* PAL/NTSC. */
   resources_get_value("VideoStandard", &sync);

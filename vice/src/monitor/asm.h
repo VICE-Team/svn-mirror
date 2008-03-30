@@ -67,7 +67,7 @@ enum asm_addr_mode {
     ASM_ADDR_MODE_REG_IND_BC,
     ASM_ADDR_MODE_REG_IND_DE,
     ASM_ADDR_MODE_REG_IND_HL,
-    ASM_ADDR_MODE_REG_IND_SP,
+    ASM_ADDR_MODE_REG_IND_SP
 };
 typedef enum asm_addr_mode asm_addr_mode_t;
 
