@@ -35,6 +35,7 @@
 #include "interrupt.h"
 #include "keyboard.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "plus4mem.h"
 #include "plus4pio2.h"
 #include "ted-resources.h"
