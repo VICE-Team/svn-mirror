@@ -30,12 +30,12 @@
 
 #include <stdio.h>
 
+#include "c128fastiec.h"
 #include "c64.h"
 #include "c64cia.h"
 #include "cia.h"
 #include "clkguard.h"
 #include "drivecpu.h"
-#include "iecdrive.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -185,7 +185,7 @@ static void read_sdr(cia_context_t *cia_context)
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
-    iec_fast_cpu_write((BYTE)byte);
+    c128fastiec_fast_cpu_write((BYTE)byte);
 #ifdef HAVE_RS232
     if (rsuser_enabled) {
         rsuser_tx_byte((BYTE)byte);

@@ -37,7 +37,6 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "final.h"
-#include "interrupt.h"
 #include "types.h"
 
 
@@ -60,7 +59,7 @@ static const c64export_resource_t export_res_v3 = {
 
 BYTE REGPARM1 final_v1_io1_read(WORD addr)
 {
-    io_source=IO_SOURCE_FINAL1;
+    io_source = IO_SOURCE_FINAL1;
     cartridge_config_changed(0x42, 0x42, CMODE_READ);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
@@ -72,7 +71,7 @@ void REGPARM2 final_v1_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 final_v1_io2_read(WORD addr)
 {
-    io_source=IO_SOURCE_FINAL1;
+    io_source = IO_SOURCE_FINAL1;
     cartridge_config_changed(1, 1, CMODE_READ);
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
@@ -84,7 +83,7 @@ void REGPARM2 final_v1_io2_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 final_v3_io1_read(WORD addr)
 {
-    io_source=IO_SOURCE_FINAL3;
+    io_source = IO_SOURCE_FINAL3;
     return roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)];
 }
 
@@ -94,7 +93,7 @@ void REGPARM2 final_v3_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 final_v3_io2_read(WORD addr)
 {
-    io_source=IO_SOURCE_FINAL3;
+    io_source = IO_SOURCE_FINAL3;
     switch (roml_bank) {
       case 0:
         return roml_banks[addr & 0x1fff];
@@ -105,7 +104,7 @@ BYTE REGPARM1 final_v3_io2_read(WORD addr)
       case 3:
         return roml_banks[(addr & 0x1fff) + 0x6000];
     }
-    io_source=IO_SOURCE_NONE;
+    io_source = IO_SOURCE_NONE;
     return 0;
 }
 
@@ -285,3 +284,4 @@ void final_v3_detach(void)
 {
     c64export_remove(&export_res_v3);
 }
+

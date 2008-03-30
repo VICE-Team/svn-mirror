@@ -37,11 +37,9 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "cmdline.h"
-#include "interrupt.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "maincpu.h"
 #include "mem.h"
 #include "plus256k.h"
 #include "plus60k.h"
@@ -385,3 +383,4 @@ void REGPARM2 ramcart_window_store(WORD addr, BYTE byte)
 {
   ramcart_ram[((ramcart[1]&1)*65536)+(ramcart[0]*256)+(addr&0xff)]=byte;
 }
+

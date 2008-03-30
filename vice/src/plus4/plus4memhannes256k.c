@@ -31,11 +31,9 @@
 #include <string.h>
 
 #include "cmdline.h"
-#include "interrupt.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "maincpu.h"
 #include "mem.h"
 #include "plus4mem.h"
 #include "plus4memcsory256k.h"

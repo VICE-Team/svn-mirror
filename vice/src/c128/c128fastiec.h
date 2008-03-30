@@ -27,7 +27,12 @@
 #ifndef _C128FASTIEC_H
 #define _C128FASTIEC_H
 
-void c128fastiec_init(void);
+#include "types.h"
+
+extern void c128fastiec_init(void);
+
+extern void c128fastiec_fast_cpu_write(BYTE data);
+extern void c128fastiec_fast_cpu_direction(int direction);
 
 #endif
 

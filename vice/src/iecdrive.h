@@ -34,26 +34,25 @@
 
 #include "types.h"
 
-extern void iec_update_ports_embedded(void);
-extern void iec_drive_write(BYTE data, unsigned int dnr);
-extern BYTE iec_drive_read(unsigned int dnr);
-extern void iec_fast_drive_write(BYTE data, unsigned int dnr);
-extern void iec_fast_cpu_write(BYTE data);
-extern void iec_fast_drive_direction(int direction, unsigned int dnr);
-extern void iec_fast_cpu_direction(int direction);
-extern void parallel_cable_drive_write(BYTE data, int handshake,
-                                       unsigned int dnr);
-extern BYTE parallel_cable_drive_read(int handshake);
-
-extern void iec_update_cpu_bus(BYTE data);
-extern void iec_update_ports(void);
-
 /* return value for iec_available_busses() (can be ored) */
 #define IEC_BUS_IEC     0x01    /* serial IEC bus */
 #define IEC_BUS_IEEE    0x02    /* parallel IEEE bus */
 #define IEC_BUS_TCBM    0x04    /* parallel TCBM bus */
 
 extern int iec_available_busses(void);
+
+extern void iec_update_ports_embedded(void);
+extern void iec_drive_write(BYTE data, unsigned int dnr);
+extern BYTE iec_drive_read(unsigned int dnr);
+extern void parallel_cable_drive_write(BYTE data, int handshake,
+                                       unsigned int dnr);
+extern BYTE parallel_cable_drive_read(int handshake);
+
+extern void iec_fast_drive_write(BYTE data, unsigned int dnr);
+extern void iec_fast_drive_direction(int direction, unsigned int dnr);
+
+extern void iec_update_cpu_bus(BYTE data);
+extern void iec_update_ports(void);
 
 extern void plus4tcbm_update_pa(BYTE byte, unsigned int dnr);
 extern void plus4tcbm_update_pb(BYTE byte, unsigned int dnr);

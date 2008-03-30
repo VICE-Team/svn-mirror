@@ -32,7 +32,6 @@
 #include "cbm2.h"
 #include "cbm2mem.h"
 #include "cbm2tpi.h"
-#include "interrupt.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"

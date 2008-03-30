@@ -28,13 +28,13 @@
 
 #include <stdio.h>
 
+#include "c128fastiec.h"
 #include "c128mem.h"
 #include "c128memrom.h"
 #include "c128mmu.h"
 #include "c64cart.h"
 #include "cmdline.h"
 #include "functionrom.h"
-#include "iecdrive.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "log.h"
@@ -238,7 +238,7 @@ void REGPARM2 mmu_store(WORD address, BYTE value)
             value = (value & 0x7f) | 0x30;
             if ((value & 1) ^ (oldvalue & 1))
                 mmu_switch_cpu(value & 1);
-            iec_fast_cpu_direction(value & 8);
+            c128fastiec_fast_cpu_direction(value & 8);
             break;
           case 6: /* RAM configuration register (RCR).  */
             mem_set_ram_config(value);
