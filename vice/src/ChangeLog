@@ -1,3 +1,45 @@
+2002-10-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.10.
+
+	* plus4/plus4.c: Also initialize and reset RS232 device.
+
+	* vicii/vicii-mem.c (handle_check_sprite_dma): Always clear
+	`store_clk'.
+
+	* dma.c, dma.h, arch/unix/ui.c: New files.
+
+	* Makefile.am, arch/unix/Makefile.am: Added new files.
+
+	* vicii/vicii-badline.c, vicii/vicii-fetch.c, vicii/vicii.c,
+	plus4/ted-badline.c, plus4/ted-fetch.c, plus4/ted.c: Use DMA
+	stealing functions.
+
+	* autostart.c, interrupt.c, interrupt.h, arch/win32/ui.c,
+	arch/unix/uicommands.c, arch/msdos/kbd.c, arch/riscos/ui.c,
+	arch/os2/dialogs/menubar.c, arch/os2/dialogs/dlg-fileio.c,
+	arch/os2/dialogs/dlg-color.c (interrupt_trigger_trap):
+	Renamed.
+
+	* arch/unix/x11/gnome/x11ui.c, arch/unix/x11/xaw/x11ui.c,
+	arch/unix/ui.c: Moved common code to separate file.
+
+2002-10-07  Robert Willie  <hydrophilic@hotmail.com>
+
+	* arch/win32/plus4.dsp included references to new files
+	ted-badline.c and ted-badline.h
+
+2002-10-07  Robert Willie  <hydrophilic@hotmail.com>
+
+	* arch/os2/types.h #define'd file-access constants F_OK andi
+	X_OK
+
+2002-10-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/base.dsp, vicii.dsp: Updated.
+
+	* arch/win32/lose32.h: Defines X_OK, F_OK.
+
 2002-10-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.9.
