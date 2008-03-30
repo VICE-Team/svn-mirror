@@ -17,7 +17,7 @@ SUBDIRS = \
 	video \
 	raster \
 	vicii \
-        vdc \
+	vdc \
 	crtc \
 	gfxoutputdrv \
 	printerdrv \
@@ -283,7 +283,7 @@ x64-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-	x64
+	x64$(EXEEXT)
 
 # x128
 x128_libs =  \
@@ -334,7 +334,7 @@ x128-all: \
 	libtape \
 	libimagecontents \
 	@RESID_DEP@ \
-	x128
+	x128$(EXEEXT)
 
 # xvic
 xvic_libs =  \
@@ -374,7 +374,7 @@ xvic-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-	xvic
+	xvic$(EXEEXT)
 
 # xpet
 xpet_libs =  \
@@ -414,7 +414,7 @@ xpet-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-	xpet 
+	xpet$(EXEEXT)
 
 # xplus4
 xplus4_libs =  \
@@ -454,7 +454,7 @@ xplus4-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-	xplus4
+	xplus4$(EXEEXT)
 
 # xcbm2
 xcbm2_libs = \
@@ -499,7 +499,7 @@ xcbm2-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-	xcbm2
+	xcbm2$(EXEEXT)
 
 # c1541
 c1541_SOURCES = \
