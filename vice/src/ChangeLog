@@ -1,3 +1,23 @@
+2004-06-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.33.
+
+	* fileio/cbmfile.c (cbmfile_find_file): Set path if no path is
+	present.
+
+	* interrupt.c, interrupt.h (interrupt_fixup_int_clk): Fixed
+	interrupt clock calculation.
+
+	* dma.c (dma_maincpu_steal_cycles): Likewise.
+
+	* vice.h: Define `NEW_INTERUPT'.
+
+	* vicii/vicii-fetch.c (handle_fetch_sprite): Removed obsolete
+	cruft.
+
+	* arch/win32/uilib.c, arch/win32/msvc/config.h: Fixed PATH
+	defines as suggested by AndreasM.
+
 2004-06-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.32.

@@ -688,7 +688,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
 
         if (ui_file_selector_initialfile[style] != NULL)
             lib_free(ui_file_selector_initialfile[style]);
-        system_wcstombs(name, st_name, 1024);
+        system_wcstombs(name, st_name, MAX_PATH);
         util_fname_split(name, &tmpdir, &tmpfile);
         if (styles[style].file_resource != NULL)
             resources_set_value(styles[style].file_resource, tmpfile);
