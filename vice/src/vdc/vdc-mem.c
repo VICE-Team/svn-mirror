@@ -64,6 +64,11 @@ static void vdc_perform_fillcopy(void)
             vdc.ram[(ptr + i) & vdc.vdc_address_mask] = vdc.regs[31];
     }
 
+    if (ptr < 0x0800 && vdc.regs[31] >= 0x20)
+        log_message(LOG_DEFAULT, "WRITE %04x %02x %c",
+                    vdc.ram[ptr & vdc.vdc_address_mask],
+                    vdc.regs[31], vdc.regs[31]);
+
     ptr = (ptr + blklen) & vdc.vdc_address_mask;
     vdc.regs[18] = (ptr >> 8) & 0xff;
     vdc.regs[19] = ptr & 0xff;
