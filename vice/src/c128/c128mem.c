@@ -89,57 +89,6 @@ const char *mem_romset_resources_list[] = {
 
 /* ------------------------------------------------------------------------- */
 
-/* C128 memory-related command-line options.  */
-
-static cmdline_option_t cmdline_options[] = {
-    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
-      "<name>", "Specify name of Kernal ROM image" },
-    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
-      "<name>", "Specify name of BASIC ROM image" },
-    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
-      "<name>", "Specify name of character generator ROM image" },
-    { "-kernal64", SET_RESOURCE, 1, NULL, NULL, "Kernal64Name", NULL,
-      "<name>", "Specify name of C64 mode Kernal ROM image" },
-    { "-basic64", SET_RESOURCE, 1, NULL, NULL, "Basic64Name", NULL,
-      "<name>", "Specify name of C64 mode BASIC ROM image" },
-    { "-chargen64", SET_RESOURCE, 1, NULL, NULL, "Chargen64Name", NULL,
-      "<name>", "Specify name of C64 mode character generator ROM image" },
-    { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)1,
-      NULL, "Enable the 512K RAM expansion unit" },
-    { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)0,
-      NULL, "Disable the 512K RAM expansion unit" },
-    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)1,
-      NULL, "Enable emulator identification" },
-    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)0,
-      NULL, "Disable emulator identification" },
-    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)1,
-      NULL, "Enable the IEEE488 interface emulation" },
-    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)0,
-      NULL, "Disable the IEEE488 interface emulation" },
-    { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
-      "<revision>", "Patch the Kernal ROM to the specified <revision>" },
-#ifdef HAVE_RS232
-    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t)1,
-      NULL, "Enable the $DE** ACIA RS232 interface emulation" },
-    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t)0,
-      NULL, "Disable the $DE** ACIA RS232 interface emulation" },
-#if 0
-    { "-acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (resource_value_t)1,
-      NULL, "Enable the $D7** ACIA RS232 interface emulation" },
-    { "+acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (resource_value_t)0,
-      NULL, "Disable the $D7** ACIA RS232 interface emulation" },
-#endif
-#endif
-    { NULL }
-};
-
-int c128_mem_init_cmdline_options(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
-
-/* ------------------------------------------------------------------------- */
-
 /* Number of possible video banks (16K each).  */
 #define NUM_VBANKS      4
 
@@ -380,9 +329,19 @@ BYTE REGPARM1 basic64_read(ADDRESS addr)
     return basic64_rom[addr & 0x1fff];
 }
 
+void REGPARM2 basic64_store(ADDRESS addr, BYTE value)
+{
+    basic64_rom[addr & 0x1fff] = value;
+}
+
 BYTE REGPARM1 kernal64_read(ADDRESS addr)
 {
     return kernal64_rom[addr & 0x1fff];
+}
+
+void REGPARM2 kernal64_store(ADDRESS addr, BYTE value)
+{
+    kernal64_rom[addr & 0x1fff] = value;
 }
 
 BYTE REGPARM1 chargen64_read(ADDRESS addr)
@@ -390,14 +349,16 @@ BYTE REGPARM1 chargen64_read(ADDRESS addr)
     return chargen64_rom[addr & 0xfff];
 }
 
+void REGPARM2 chargen64_store(ADDRESS addr, BYTE value)
+{
+    chargen64_rom[addr & 0xfff] = value;
+}
+
 BYTE REGPARM1 rom_read(ADDRESS addr)
 {
     switch (addr & 0xf000) {
       case 0x0000:
         return read_bios(addr);
-      case 0xe000:
-      case 0xf000:
-        return read_kernal(addr);
       case 0x4000:
       case 0x5000:
       case 0x6000:
@@ -407,6 +368,9 @@ BYTE REGPARM1 rom_read(ADDRESS addr)
       case 0xa000:
       case 0xb000:
         return read_basic(addr);
+      case 0xe000:
+      case 0xf000:
+        return read_kernal(addr);
     }
 
     return 0;
@@ -418,10 +382,6 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
       case 0x0000:
         store_bios(addr, value);
         break;
-      case 0xe000:
-      case 0xf000:
-        store_kernal(addr, value);
-        break;
       case 0x4000:
       case 0x5000:
       case 0x6000:
@@ -431,6 +391,43 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
       case 0xa000:
       case 0xb000:
         store_basic(addr, value);
+        break;
+      case 0xe000:
+      case 0xf000:
+        store_kernal(addr, value);
+        break;
+    }
+}
+
+BYTE REGPARM1 rom64_read(ADDRESS addr)
+{
+    switch (addr & 0xf000) {
+      case 0xa000:
+      case 0xb000:
+        return basic64_read(addr);
+      case 0xd000:
+        return chargen64_read(addr);
+      case 0xe000:
+      case 0xf000:
+        return kernal64_read(addr);
+    }
+
+    return 0;
+}
+
+void REGPARM2 rom64_store(ADDRESS addr, BYTE value)
+{
+    switch (addr & 0xf000) {
+      case 0xa000:
+      case 0xb000:
+        basic64_store(addr, value);
+        break;
+      case 0xd000:
+        chargen64_store(addr, value);
+        break;
+      case 0xe000:
+      case 0xf000:
+        kernal64_store(addr, value);
         break;
     }
 }

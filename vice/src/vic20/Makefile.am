@@ -27,6 +27,8 @@ libvic20_a_SOURCES = \
 	vic-snapshot.h \
 	vic.c \
 	vic.h \
+	vic20-cmdline-options.c \
+	vic20-cmdline-options.h \
 	vic20-resources.c \
 	vic20-resources.h \
 	vic20.c \

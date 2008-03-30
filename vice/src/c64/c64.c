@@ -34,6 +34,7 @@
 #include "asm.h"
 #include "attach.h"
 #include "autostart.h"
+#include "c64-cmdline-options.h"
 #include "c64-resources.h"
 #include "c64.h"
 #include "c64cart.h"
@@ -106,35 +107,45 @@ static trap_t c64_serial_traps[] = {
         0xED24,
         0xEDAB,
         {0x20, 0x97, 0xEE},
-        serialattention
+        serialattention,
+        rom_read,
+        rom_store
     },
     {
         "SerialSaListen",
         0xED36,
         0xEDAB,
         {0x78, 0x20, 0x8E},
-        serialattention
+        serialattention,
+        rom_read,
+        rom_store
     },
     {
         "SerialSendByte",
         0xED40,
         0xEDAB,
         {0x78, 0x20, 0x97},
-        serialsendbyte
+        serialsendbyte,
+        rom_read,
+        rom_store
     },
     {
         "SerialReceiveByte",
         0xEE13,
         0xEDAB,
         {0x78, 0xA9, 0x00},
-        serialreceivebyte
+        serialreceivebyte,
+        rom_read,
+        rom_store
     },
     {
         "SerialReady",
         0xEEA9,
         0xEDAB,
         {0xAD, 0x00, 0xDD},
-        trap_serial_ready
+        trap_serial_ready,
+        rom_read,
+        rom_store
     },
 
     {
@@ -142,6 +153,8 @@ static trap_t c64_serial_traps[] = {
         0,
         0,
         {0, 0, 0},
+        NULL,
+        NULL,
         NULL
     }
 };
@@ -153,20 +166,26 @@ static trap_t c64_tape_traps[] = {
         0xF72F,
         0xF732,
         {0x20, 0x41, 0xF8},
-        tape_find_header_trap
+        tape_find_header_trap,
+        rom_read,
+        rom_store
     },
     {
         "TapeReceive",
         0xF8A1,
         0xFC93,
         {0x20, 0xBD, 0xFC},
-        tape_receive_trap
+        tape_receive_trap,
+        rom_read,
+        rom_store
     },
     {
         NULL,
         0,
         0,
         {0, 0, 0},
+        NULL,
+        NULL,
         NULL
     }
 };
@@ -232,7 +251,7 @@ int machine_init_cmdline_options(void)
     if (traps_init_cmdline_options() < 0
         || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
-        || c64_mem_init_cmdline_options() < 0
+        || c64_init_cmdline_options() < 0
         || vic_ii_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
         || sid_init_cmdline_options() < 0

@@ -36,6 +36,7 @@
 #include "asm.h"
 #include "attach.h"
 #include "autostart.h"
+#include "c128-cmdline-options.h"
 #include "c128-resources.h"
 #include "c128.h"
 #include "c128mem.h"
@@ -107,45 +108,109 @@ static trap_t c128_serial_traps[] = {
         0xE355,
         0xE5BA,
         {0x20, 0x73, 0xE5},
-        serialattention
+        serialattention,
+        rom_read,
+        rom_store
     },
     {
         "SerialSaListen",
         0xE37C,
         0xE5BA,
         {0x20, 0x73, 0xE5},
-        serialattention
+        serialattention,
+        rom_read,
+        rom_store
     },
     {
         "SerialSendByte",
         0xE38C,
         0xE5BA,
         {0x20, 0x73, 0xE5},
-        serialsendbyte
+        serialsendbyte,
+        rom_read,
+        rom_store
     },
     {
         "SerialReceiveByte",
         0xE43E,
         0xE5BA,
         {0x20, 0x73, 0xE5},
-        serialreceivebyte
+        serialreceivebyte,
+        rom_read,
+        rom_store
     },
     {
         "Serial ready",
         0xE569,
         0xE572,
         {0xAD, 0x00, 0xDD},
-        trap_serial_ready
+        trap_serial_ready,
+        rom_read,
+        rom_store
     },
     {
         "Serial ready",
         0xE4F5,
         0xE572,
         {0xAD, 0x00, 0xDD},
-        trap_serial_ready
+        trap_serial_ready,
+        rom_read,
+        rom_store
     },
-
-    { NULL }
+    {
+        "SerialListen",
+        0xED24,
+        0xEDAB,
+        {0x20, 0x97, 0xEE},
+        serialattention,
+        rom64_read,
+        rom64_store
+    },
+    {
+        "SerialSaListen",
+        0xED36,
+        0xEDAB,
+        {0x78, 0x20, 0x8E},
+        serialattention,
+        rom64_read,
+        rom64_store
+    },
+    {
+        "SerialSendByte",
+        0xED40,
+        0xEDAB,
+        {0x78, 0x20, 0x97},
+        serialsendbyte,
+        rom64_read,
+        rom64_store
+    },
+    {
+        "SerialReceiveByte",
+        0xEE13,
+        0xEDAB,
+        {0x78, 0xA9, 0x00},
+        serialreceivebyte,
+        rom64_read,
+        rom64_store
+    },
+    {
+        "SerialReady",
+        0xEEA9,
+        0xEDAB,
+        {0xAD, 0x00, 0xDD},
+        trap_serial_ready,
+        rom64_read,
+        rom64_store
+    },
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL,
+        NULL,
+        NULL
+    }
 };
 
 /* Tape traps.  */
@@ -155,20 +220,44 @@ static trap_t c128_tape_traps[] = {
         0xE8D3,
         0xE8D6,
         {0x20, 0xF2, 0xE9},
-        tape_find_header_trap
+        tape_find_header_trap,
+        rom_read,
+        rom_store
     },
     {
         "TapeReceive",
         0xEA60,
         0xEE57,
         {0x20, 0x9B, 0xEE},
-        tape_receive_trap
+        tape_receive_trap,
+        rom_read,
+        rom_store
+    },
+    {
+        "TapeFindHeader",
+        0xF72F,
+        0xF732,
+        {0x20, 0x41, 0xF8},
+        tape_find_header_trap,
+        rom64_read,
+        rom64_store
+    },
+    {
+        "TapeReceive",
+        0xF8A1,
+        0xFC93,
+        {0x20, 0xBD, 0xFC},
+        tape_receive_trap,
+        rom64_read,
+        rom64_store
     },
     {
         NULL,
         0,
         0,
         {0, 0, 0},
+        NULL,
+        NULL,
         NULL
     }
 };
@@ -223,7 +312,7 @@ int machine_init_cmdline_options(void)
     if (traps_init_cmdline_options() < 0
         || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
-        || c128_mem_init_cmdline_options() < 0
+        || c128_init_cmdline_options() < 0
         || vic_ii_init_cmdline_options() < 0
         || vdc_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
