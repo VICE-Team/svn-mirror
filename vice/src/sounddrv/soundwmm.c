@@ -218,7 +218,9 @@ static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, d
 
     /* If we're on Windows 2000/ME(?), no magic offset */
     dwVersion = GetVersion();
-    if ((dwVersion & 0xff) >= 5) play_cursor_offset = 0;
+    if ((dwVersion & 0xff) >= 5 ||
+		((dwVersion & 0xff) == 4 && ((dwVersion>>8 & 0xff) >= 90)))
+		 play_cursor_offset = 0;
 
     /* Reset writing pos, wrapping subtract, inactivity timer */
     write_cursor = buffer_size - fragment_bytesize;

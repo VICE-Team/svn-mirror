@@ -41,16 +41,14 @@
 #include "vic20.h"
 #include "video.h"
 
-#define VIC_SCREEN_WIDTH                272
-#define VIC_SCREEN_HEIGHT               312
+#define VIC_PAL_SCREEN_WIDTH            272
+#define VIC_NTSC_SCREEN_WIDTH           208
 
 #define VIC_SCREEN_MAX_TEXT_COLS        31
 #define VIC_SCREEN_MAX_TEXT_LINES       32
 
-#define VIC_FIRST_DISPLAYED_LINE        28
-#define VIC_LAST_DISPLAYED_LINE         311
-
-#define VIC_DISPLAY_WIDTH               224
+#define VIC_PAL_DISPLAY_WIDTH           224
+#define VIC_NTSC_DISPLAY_WIDTH          200
 
 #define VIC_NUM_SPRITES 0
 
@@ -77,16 +75,14 @@ typedef PIXEL2 VIC_PIXEL2;
 #define VIC_PIXEL_WIDTH 1
 #endif
 
-#define VIC_CYCLES_PER_LINE VIC20_PAL_CYCLES_PER_LINE
-
 /* Cycle # within the current line.  */
-#define VIC_RASTER_CYCLE(clk) ((unsigned int)((clk) % VIC_CYCLES_PER_LINE))
+#define VIC_RASTER_CYCLE(clk) ((unsigned int)((clk) % vic.cycles_per_line))
 
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending `A_RASTERDRAW' event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
-#define VIC_RASTER_Y(clk)     ((unsigned int)((clk) / VIC_CYCLES_PER_LINE)   \
-                               % VIC_SCREEN_HEIGHT)
+#define VIC_RASTER_Y(clk)     ((unsigned int)((clk) / vic.cycles_per_line)   \
+                               % vic.screen_height)
 
 #define VIC_RASTER_X(cycle)      (((int)(cycle) - 7) * 4)
 
@@ -162,6 +158,14 @@ struct vic_s
 
     /* FIXME: Bad name.  FIXME: Has to be initialized.  */
     CLOCK last_emulate_line_clk;
+
+    unsigned int cycles_per_line;
+    unsigned int screen_height;
+    unsigned int first_displayed_line;
+    unsigned int last_displayed_line;
+    unsigned int screen_width;
+    unsigned int display_width;
+    unsigned int cycle_offset;
 
   };
 typedef struct vic_s vic_t;

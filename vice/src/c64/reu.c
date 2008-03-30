@@ -364,7 +364,7 @@ void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
 void reu_dma(int immed)
 {
     static int delay = 0;
-    unsigned int len;
+    int len;
     int reu_step, host_step;
     ADDRESS host_addr;
     unsigned int reu_addr, reu6_mask;
@@ -389,7 +389,7 @@ void reu_dma(int immed)
     reu_addr  = ((unsigned int)reu[4] | ((unsigned int)reu[5] << 8)
                  | (((unsigned int)reu[6] & reu6_mask) << 16));
 
-    len = (unsigned int)(reu[7]) | ((unsigned int)(reu[8]) << 8);
+    len = (int)(reu[7]) | ((int)(reu[8]) << 8);
 
     if (len == 0)
         len = 0x10000;

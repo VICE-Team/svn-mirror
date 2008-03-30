@@ -45,12 +45,41 @@
 
 /* ------------------------------------------------------------------------- */
 
+static TUI_MENU_CALLBACK(toggle_VideoStandard_callback)
+{
+    int value;
+
+    resources_get_value("VideoStandard", (resource_value_t *) &value);
+
+    if (been_activated) {
+	    if (value == DRIVE_SYNC_PAL)
+	        value = DRIVE_SYNC_NTSC;
+        else
+	        value = DRIVE_SYNC_PAL;
+
+        resources_set_value("VideoStandard", (resource_value_t) value);
+    }
+
+    switch (value) {
+      case DRIVE_SYNC_PAL:
+	return "PAL-G";
+      case DRIVE_SYNC_NTSC:
+	return "NTSC-M";
+      default:
+	return "(Custom)";
+    }
+}
+
 TUI_MENU_DEFINE_TOGGLE(VideoCache)
 
 static tui_menu_item_def_t vic_menu_items[] = {
     { "Video _Cache:",
       "Enable screen cache (disabled when using triple buffering)",
       toggle_VideoCache_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "V_ideo Standard:",
+      "Select machine clock ratio",
+      toggle_VideoStandard_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

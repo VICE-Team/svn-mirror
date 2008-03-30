@@ -64,8 +64,8 @@ vic_store(ADDRESS addr, BYTE value)
             xstart = value * 4;
             
             xstop = xstart + vic.text_cols * 8;
-            if (xstop >= VIC_SCREEN_WIDTH)
-                xstop = VIC_SCREEN_WIDTH - 1; /* FIXME: SCREEN-MIXUP not handled */
+            if (xstop >= vic.screen_width)
+                xstop = vic.screen_width - 1; /* FIXME: SCREEN-MIXUP not handled */
 
             if (vic.raster.display_xstart < (signed int)VIC_RASTER_CYCLE(clk) * 4
                 && !vic.raster.blank_this_line)
@@ -118,7 +118,7 @@ vic_store(ADDRESS addr, BYTE value)
                     vic.raster.display_ystop = ystart
                         + vic.text_lines * vic.char_height;
                     
-                    vic.raster.geometry.gfx_position.y = ystart - VIC_FIRST_DISPLAYED_LINE;
+                    vic.raster.geometry.gfx_position.y = ystart - vic.first_displayed_line;
                 }
                 else
                 {
@@ -129,7 +129,7 @@ vic_store(ADDRESS addr, BYTE value)
                         + vic.text_lines * vic.char_height;
                     
                     vic.raster.geometry.gfx_position.y = VIC_RASTER_Y(clk)
-                        - VIC_FIRST_DISPLAYED_LINE;
+                        - vic.first_displayed_line;
 
                     if (vic.raster.display_xstart < (signed int)VIC_RASTER_CYCLE(clk))
                     {
@@ -146,7 +146,7 @@ vic_store(ADDRESS addr, BYTE value)
             int new_text_cols = MIN(value & 0x7f, VIC_SCREEN_MAX_TEXT_COLS);
             
             int new_xstop = MIN(vic.raster.display_xstart + new_text_cols * 8, 
-                VIC_SCREEN_WIDTH - 1);
+                vic.screen_width - 1);
             
             if (VIC_RASTER_CYCLE(clk) <= 1)
             {
@@ -351,9 +351,9 @@ vic_read(ADDRESS addr)
   switch (addr)
     {
     case 3:
-      return ((VIC_RASTER_Y (clk) & 1) << 7) | (vic.regs[3] & ~0x80);
+      return ((VIC_RASTER_Y (clk + vic.cycle_offset) & 1) << 7) | (vic.regs[3] & ~0x80);
     case 4:
-      return VIC_RASTER_Y (clk) >> 1;
+      return VIC_RASTER_Y (clk + vic.cycle_offset) >> 1;
     default:
       return vic.regs[addr];
     }

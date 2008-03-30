@@ -39,7 +39,7 @@ typedef int (*raster_modes_fill_cache_function_t)
 
 /* Draw part of one line to the buffer.  */
 typedef void (*raster_modes_draw_line_cached_function_t)
-  (struct raster_cache_s *c, unsigned int start, unsigned int end);
+  (struct raster_cache_s *c, int start, int end);
 
 /* Draw the whole line to the buffer.  */
 typedef void (*raster_modes_draw_line_function_t)
@@ -47,11 +47,11 @@ typedef void (*raster_modes_draw_line_function_t)
 
 /* Draw part of the background to the buffer.  */
 typedef void (*raster_modes_draw_background_function_t)
-  (unsigned int start_pixel, unsigned int end_pixel);
+  (int start_pixel, int end_pixel);
 
 /* Draw part of the foreground to the buffer.  */
 typedef void (*raster_modes_draw_foreground_function_t)
-  (unsigned int start_char, unsigned int end_char);
+  (int start_char, int end_char);
 
 struct raster_modes_def_s
   {
@@ -111,8 +111,8 @@ inline static void
 raster_modes_draw_line_cached (raster_modes_t *modes,
 			       unsigned int mode_num,
 			       struct raster_cache_s *c,
-			       unsigned int start,
-			       unsigned int end)
+			       int start,
+			       int end)
 {
   raster_modes_def_t *mode;
 
@@ -148,8 +148,8 @@ raster_modes_draw_background (raster_modes_t *modes,
 inline static void
 raster_modes_draw_foreground (raster_modes_t *modes,
 			      unsigned int mode_num,
-			      unsigned int start_char,
-			      unsigned int end_char)
+			      int start_char,
+			      int end_char)
 {
   raster_modes_def_t *mode;
 

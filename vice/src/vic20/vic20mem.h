@@ -79,6 +79,7 @@ extern void mem_detach_cartridge(int type);
 extern int mem_load_kernal(const char *rom_name);
 extern int mem_load_basic(const char *rom_name);
 extern int mem_load_chargen(const char *rom_name);
+extern int mem_patch_kernal(void);
 
 #endif
 

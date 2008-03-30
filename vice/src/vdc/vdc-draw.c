@@ -184,8 +184,8 @@ get_std_text(raster_cache_t *cache,
 
 static void
 draw_std_text_cached(raster_cache_t *cache,
-                     unsigned int xs,
-                     unsigned int xe)
+                     int xs,
+                     int xe)
 {
     PIXEL *p;
     PIXEL4 *table_ptr;
@@ -290,8 +290,8 @@ get_std_bitmap(raster_cache_t *cache,
 
 static void
 draw_std_bitmap_cached(raster_cache_t *cache,
-                     unsigned int xs,
-                     unsigned int xe)
+                     int xs,
+                     int xe)
 {
     PIXEL *p;
     PIXEL4 *table_ptr;

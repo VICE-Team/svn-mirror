@@ -179,6 +179,10 @@ static trap_t vic20_tape_traps[] = {
 
 static log_t vic20_log = LOG_ERR;
 
+static long cycles_per_sec = VIC20_PAL_CYCLES_PER_SEC;
+static long cycles_per_rfsh = VIC20_PAL_CYCLES_PER_RFSH;
+static double rfsh_per_sec = VIC20_PAL_RFSH_PER_SEC;
+
 /* ------------------------------------------------------------------------ */
 
 /* VIC20-specific resource initialization.  This is called before
@@ -288,7 +292,7 @@ int machine_init(void)
 
     /* Initialize autostart.  */
     autostart_init((CLOCK)
-                   (3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH),
+                   (3 * rfsh_per_sec * cycles_per_rfsh),
                    1, 0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-I emulation.  */
@@ -311,17 +315,16 @@ int machine_init(void)
     vic20_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
-    vsync_set_machine_parameter(VIC20_PAL_RFSH_PER_SEC,
-                                VIC20_PAL_CYCLES_PER_SEC);
+    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
     vsync_init(machine_vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_PAL_CYCLES_PER_RFSH);
+    sound_init(cycles_per_sec, cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
     kbd_buf_init(631, 198, 10,
-                 (CLOCK)(VIC20_PAL_CYCLES_PER_RFSH * VIC20_PAL_RFSH_PER_SEC));
+                 (CLOCK)(cycles_per_rfsh * rfsh_per_sec));
 
     /* Initialize the VIC20-specific part of the UI.  */
     vic20_ui_init();
@@ -410,11 +413,31 @@ int machine_set_restore_key(int v)
 
 long machine_get_cycles_per_second(void)
 {
-    return VIC20_PAL_CYCLES_PER_SEC;
+    return cycles_per_sec;
 }
 
 void machine_change_timing(int timeval)
 {
+    maincpu_trigger_reset();
+
+    switch (timeval) {
+      case DRIVE_SYNC_PAL:
+        cycles_per_sec = VIC20_PAL_CYCLES_PER_SEC;
+        cycles_per_rfsh = VIC20_PAL_CYCLES_PER_RFSH;
+        rfsh_per_sec = VIC20_PAL_RFSH_PER_SEC;
+        break;
+      case DRIVE_SYNC_NTSC:
+        cycles_per_sec = VIC20_NTSC_CYCLES_PER_SEC;
+        cycles_per_rfsh = VIC20_NTSC_CYCLES_PER_RFSH;
+        rfsh_per_sec = VIC20_NTSC_RFSH_PER_SEC;
+        break;
+      default:
+        log_error(vic20_log, "Unknown machine timing.");
+    }
+
+    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
+    sound_set_machine_parameter(cycles_per_sec, cycles_per_rfsh);
+    mem_patch_kernal();
 
 }
 

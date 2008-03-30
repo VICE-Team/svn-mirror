@@ -43,6 +43,7 @@
 #include "maincpu.h"
 #include "palette.h"
 #include "raster-modes.h"
+#include "resources.h"
 #include "screenshot.h"
 #include "snapshot.h"
 #include "types.h"
@@ -58,6 +59,11 @@
 #include "fullscreen.h"
 #endif
 
+/* FIXME: PAL/NTSC constants should be moved from drive.h */
+#define DRIVE_SYNC_PAL     -1
+#define DRIVE_SYNC_NTSC    -2
+#define DRIVE_SYNC_NTSCOLD -3
+
 vic_t vic;
 
 static void vic_exposure_handler (unsigned int width, unsigned int height);
@@ -70,6 +76,78 @@ static void vic_exposure_handler (unsigned int width, unsigned int height)
      `raster_resize_viewport()' automatically.  */
   raster_force_repaint (&vic.raster);
 }
+
+
+void vic_change_timing(void)
+{
+    resource_value_t mode;
+
+    resources_get_value("VideoStandard", &mode);
+
+    switch ((int)mode) {
+      case DRIVE_SYNC_NTSC:
+        clk_guard_set_clk_base (&maincpu_clk_guard, VIC20_NTSC_CYCLES_PER_RFSH);
+        vic.screen_height = VIC20_NTSC_SCREEN_LINES;
+        vic.screen_width = VIC_NTSC_SCREEN_WIDTH;
+        vic.display_width = VIC_NTSC_DISPLAY_WIDTH;
+        vic.first_displayed_line = VIC20_NTSC_FIRST_DISPLAYED_LINE;
+        vic.last_displayed_line = VIC20_NTSC_LAST_DISPLAYED_LINE;
+        vic.cycles_per_line = VIC20_NTSC_CYCLES_PER_LINE;
+        vic.cycle_offset = VIC20_NTSC_CYCLE_OFFSET;
+        break;
+      case DRIVE_SYNC_PAL:
+      default:
+        clk_guard_set_clk_base (&maincpu_clk_guard, VIC20_PAL_CYCLES_PER_RFSH);
+        vic.screen_height = VIC20_PAL_SCREEN_LINES;
+        vic.screen_width = VIC_PAL_SCREEN_WIDTH;
+        vic.display_width = VIC_PAL_DISPLAY_WIDTH;
+        vic.first_displayed_line = VIC20_PAL_FIRST_DISPLAYED_LINE;
+        vic.last_displayed_line = VIC20_PAL_LAST_DISPLAYED_LINE;
+        vic.cycles_per_line = VIC20_PAL_CYCLES_PER_LINE;
+        vic.cycle_offset = VIC20_PAL_CYCLE_OFFSET;
+        break;
+    }
+
+    /* just to make sure that we don't write behind the framebuffer */
+    vic.text_lines = 0;
+    vic.text_cols = 0;
+    vic.raster.display_xstart = 0;
+    vic.raster.display_ystart = 0;
+}
+
+static void vic_set_geometry(void)
+{
+    unsigned int width, height;
+
+    raster_set_geometry (&vic.raster,
+                         vic.screen_width, vic.screen_height,
+                         22*8, 23*8,    /* handled dynamically  */
+                         22, 23,        /* handled dynamically  */
+                         12*4, 38*2 - vic.first_displayed_line, /* handled dynamically  */
+                         1,
+                         vic.first_displayed_line,
+                         vic.last_displayed_line,
+                         0);
+
+    width = vic.display_width * VIC_PIXEL_WIDTH;
+    height = vic.last_displayed_line - vic.first_displayed_line + 1;
+
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled : vic_resources.double_size_enabled) {
+#else
+    if (vic_resources.double_size_enabled) {
+#endif
+        width *= 2;
+        height *= 2;
+        raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2);
+    } else
+        raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1);
+
+    raster_resize_viewport (&vic.raster, width, height);
+
+}
+
+
 
 /* Notice: The screen origin X register has a 4-pixel granularity, so our
    write accesses are always aligned. */
@@ -121,8 +199,8 @@ void vic_raster_draw_alarm_handler (CLOCK offset)
 
     /* xstart may have changed; recalculate xstop */
     vic.raster.display_xstop = vic.raster.display_xstart + vic.text_cols * 8;
-	if (vic.raster.display_xstop >= VIC_SCREEN_WIDTH)
-		vic.raster.display_xstop = VIC_SCREEN_WIDTH - 1;
+	if (vic.raster.display_xstop >= vic.screen_width)
+		vic.raster.display_xstop = vic.screen_width - 1;
 
     /* increment ycounter and set offset for memptr */
     if (vic.area == 1 && !blank_this_line)
@@ -155,7 +233,7 @@ void vic_raster_draw_alarm_handler (CLOCK offset)
         {
             vic.raster.display_ystart = vic.pending_ystart;
             vic.raster.geometry.gfx_position.y = 
-                vic.pending_ystart - VIC_FIRST_DISPLAYED_LINE;
+                vic.pending_ystart - vic.first_displayed_line;
             vic.raster.display_ystop = 
                 vic.raster.display_ystart + vic.text_lines * vic.char_height;
 
@@ -177,15 +255,14 @@ void vic_raster_draw_alarm_handler (CLOCK offset)
     }
 
     /* Set the next draw event.  */
-    vic.last_emulate_line_clk += VIC_CYCLES_PER_LINE;
-    vic.draw_clk = vic.last_emulate_line_clk + VIC_CYCLES_PER_LINE;
+    vic.last_emulate_line_clk += vic.cycles_per_line;
+    vic.draw_clk = vic.last_emulate_line_clk + vic.cycles_per_line;
     alarm_set (&vic.raster_draw_alarm, vic.draw_clk);
 }
 
 static int init_raster(void)
 {
     raster_t *raster;
-    unsigned int width, height;
     char *title;
 
     raster = &vic.raster;
@@ -203,32 +280,8 @@ static int init_raster(void)
 #endif
     raster_set_canvas_refresh(raster, 1);
 
-    raster_set_geometry (raster,
-                         VIC_SCREEN_WIDTH, VIC_SCREEN_HEIGHT,
-                         22*8, 23*8,    /* handled dynamically  */
-                         22, 23,        /* handled dynamically  */
-                         12*4, 38*2 - VIC_FIRST_DISPLAYED_LINE, /* handled dynamically  */
-                         1,
-                         VIC_FIRST_DISPLAYED_LINE,
-                         VIC_LAST_DISPLAYED_LINE,
-                         0);
-
-    width = VIC_DISPLAY_WIDTH * VIC_PIXEL_WIDTH;
-    height = VIC_LAST_DISPLAYED_LINE - VIC_FIRST_DISPLAYED_LINE + 1;
-
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled : vic_resources.double_size_enabled) {
-#else
-    if (vic_resources.double_size_enabled) {
-#endif
-        width *= 2;
-        height *= 2;
-        raster_set_pixel_size (raster, VIC_PIXEL_WIDTH * 2, 2);
-    } else
-        raster_set_pixel_size (raster, VIC_PIXEL_WIDTH, 1);
-
-    raster_resize_viewport (raster, width, height);
-
+    vic_set_geometry();
+    
     if (vic_load_palette (vic_resources.palette_file_name) < 0) {
         log_error (vic.log, "Cannot load palette.");
         return -1;
@@ -241,8 +294,8 @@ static int init_raster(void)
     if (raster_realize(raster) < 0)
         return -1;
 
-    raster->display_ystart = VIC_FIRST_DISPLAYED_LINE;
-    raster->display_ystop = VIC_FIRST_DISPLAYED_LINE + 1;
+    raster->display_ystart = vic.first_displayed_line;
+    raster->display_ystop = vic.first_displayed_line + 1;
     raster->display_xstart = 0;
     raster->display_xstop = 1;
 
@@ -266,6 +319,8 @@ raster_t *vic_init(void)
               "VicIRasterDraw", vic_raster_draw_alarm_handler);
 
   clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+
+  vic_change_timing();
 
   if (init_raster() < 0)
     return NULL;
@@ -296,12 +351,6 @@ raster_t *vic_init(void)
 
   vic.initialized = 1;
 
-  if (clk_guard_get_clk_base (&maincpu_clk_guard) == 0)
-    clk_guard_set_clk_base (&maincpu_clk_guard, VIC20_PAL_CYCLES_PER_RFSH);
-  else
-    /* Safety measure.  */
-    log_error (vic.log, "Trying to override clk base!?  Code is broken.");
-
   return &vic.raster;
 }
 
@@ -313,15 +362,21 @@ canvas_t *vic_get_canvas(void)
 /* Reset the VIC-I chip. */
 void vic_reset (void)
 {
+  vic_change_timing();
+
   raster_reset (&vic.raster);
-  alarm_set (&vic.raster_draw_alarm, VIC_CYCLES_PER_LINE);
+
+  vic_set_geometry();
+
+  vic.last_emulate_line_clk = 0;
+  vic.draw_clk = vic.cycles_per_line;
+  alarm_set (&vic.raster_draw_alarm, vic.draw_clk);
 
   vic.row_counter = 0;
   vic.memptr = 0;
   vic.pending_ystart = -1;
   vic.pending_text_lines = -1;
   vic.row_offset = -1;
-  vic.last_emulate_line_clk = 0;
   vic.area = 0;
 
 }

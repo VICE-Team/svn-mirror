@@ -323,7 +323,8 @@ BMenuBar *menu_create(int machine_class) {
 		menu->AddSeparatorItem();
 	}
 	if (machine_class == VICE_MACHINE_C64
-		|| machine_class == VICE_MACHINE_C128) {
+		|| machine_class == VICE_MACHINE_C128
+		|| machine_class == VICE_MACHINE_VIC20) {
 		menu->AddItem(submenu = new BMenu("Video Standard"));
 		submenu->SetRadioMode(true);
 		submenu->AddItem(new BMenuItem("PAL-G", 

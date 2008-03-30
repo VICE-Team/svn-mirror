@@ -122,9 +122,12 @@ draw (PIXEL *p,
       int transparent) /* transparent>0: don't overwrite background */
 {
   static VIC_PIXEL c[4];
-  int b, i;
+  int b, i, x, bordercheck;
   BYTE d;
 
+  /* Last character may exceed border, so we have some extra work */
+  /* bordercheck asumes p pointing to display_xstart */
+  bordercheck = vic.raster.display_xstart;
   p += xs * 8 * VIC_PIXEL_WIDTH;
 
   c[0] = VIC_PIXEL (vic.raster.background_color);
@@ -141,14 +144,12 @@ draw (PIXEL *p,
       else
         d = GET_CHAR_DATA (*(vic.screen_ptr + vic.memptr + i),
                            vic.raster.ycounter);
-      PUT_PIXEL (p, d, c, b, 0, transparent);
-      PUT_PIXEL (p, d, c, b, 1, transparent);
-      PUT_PIXEL (p, d, c, b, 2, transparent);
-      PUT_PIXEL (p, d, c, b, 3, transparent);
-      PUT_PIXEL (p, d, c, b, 4, transparent);
-      PUT_PIXEL (p, d, c, b, 5, transparent);
-      PUT_PIXEL (p, d, c, b, 6, transparent);
-      PUT_PIXEL (p, d, c, b, 7, transparent);
+      for (x = 0; x<8; x++)
+      {
+        if (++bordercheck>vic.raster.display_xstop)
+            return;
+        PUT_PIXEL (p, d, c, b, x, transparent);
+      }
     }
 }
 
@@ -176,8 +177,8 @@ draw_reverse_line (void)
 
 static void
 draw_line_cached (raster_cache_t *cache,
-                  unsigned int xs,
-                  unsigned int xe)
+                  int xs,
+                  int xe)
 {
   PIXEL *p;
 
@@ -189,14 +190,14 @@ draw_line_cached (raster_cache_t *cache,
 
 static void
 draw_reverse_line_cached (raster_cache_t *cache,
-                          unsigned int xs,
-                          unsigned int xe)
+                          int xs,
+                          int xe)
 {
   PIXEL *p;
 
   p = (vic.raster.frame_buffer_ptr
        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
-
+  
   draw (p, xs, xe, 1, 0);
 }
 
@@ -209,8 +210,11 @@ draw_2x(PIXEL *p,
 {
   static VIC_PIXEL2 c[4];
   BYTE d, b;
-  int i;
+  int i, x, bordercheck;
 
+  /* Last character may exceed border, so we have some extra work */
+  /* bordercheck asumes p pointing to display_xstart */
+  bordercheck = vic.raster.display_xstart;
   p += xs * 16 * VIC_PIXEL_WIDTH;
 
   c[0] = VIC_PIXEL2 (vic.raster.background_color);
@@ -229,14 +233,12 @@ draw_2x(PIXEL *p,
         d = GET_CHAR_DATA ((vic.screen_ptr + vic.memptr)[i],
                            vic.raster.ycounter);
 
-      PUT_PIXEL2 (p, d, c, b, 0, transparent);
-      PUT_PIXEL2 (p, d, c, b, 1, transparent);
-      PUT_PIXEL2 (p, d, c, b, 2, transparent);
-      PUT_PIXEL2 (p, d, c, b, 3, transparent);
-      PUT_PIXEL2 (p, d, c, b, 4, transparent);
-      PUT_PIXEL2 (p, d, c, b, 5, transparent);
-      PUT_PIXEL2 (p, d, c, b, 6, transparent);
-      PUT_PIXEL2 (p, d, c, b, 7, transparent);
+      for (x = 0; x<8; x++)
+      {
+        if (++bordercheck>vic.raster.display_xstop)
+            return;
+        PUT_PIXEL2 (p, d, c, b, x, transparent);
+      }
     }
 }
 
@@ -264,8 +266,8 @@ draw_reverse_line_2x (void)
 
 static void
 draw_line_cached_2x (raster_cache_t *cache,
-                     unsigned int xs,
-                     unsigned int xe)
+                     int xs,
+                     int xe)
 {
   PIXEL *p;
 
@@ -277,8 +279,8 @@ draw_line_cached_2x (raster_cache_t *cache,
 
 static void
 draw_reverse_line_cached_2x (raster_cache_t *cache,
-                             unsigned int xs,
-                             unsigned int xe)
+                             int xs,
+                             int xe)
 {
   PIXEL *p;
 
@@ -289,7 +291,7 @@ draw_reverse_line_cached_2x (raster_cache_t *cache,
 }
 
 static void 
-draw_std_background (unsigned int start_pixel, unsigned int end_pixel)
+draw_std_background (int start_pixel, int end_pixel)
 {
   vid_memset (vic.raster.frame_buffer_ptr + start_pixel * VIC_PIXEL_WIDTH,
               RASTER_PIXEL (&vic.raster,
@@ -298,7 +300,7 @@ draw_std_background (unsigned int start_pixel, unsigned int end_pixel)
 }
 
 static void
-draw_std_background_2x (unsigned int start_pixel, unsigned int end_pixel)
+draw_std_background_2x (int start_pixel, int end_pixel)
 {
   vid_memset (vic.raster.frame_buffer_ptr + start_pixel * VIC_PIXEL_WIDTH * 2,
               RASTER_PIXEL (&vic.raster,
@@ -307,7 +309,7 @@ draw_std_background_2x (unsigned int start_pixel, unsigned int end_pixel)
 }
 
 static void
-draw_std_foreground (unsigned int start_char, unsigned int end_char)
+draw_std_foreground (int start_char, int end_char)
 {
   PIXEL *p;
 
@@ -318,7 +320,7 @@ draw_std_foreground (unsigned int start_char, unsigned int end_char)
 }
 
 static void
-draw_rev_foreground (unsigned int start_char, unsigned int end_char)
+draw_rev_foreground (int start_char, int end_char)
 {
   PIXEL *p;
 
@@ -329,7 +331,7 @@ draw_rev_foreground (unsigned int start_char, unsigned int end_char)
 }
 
 static void
-draw_std_foreground_2x (unsigned int start_char, unsigned int end_char)
+draw_std_foreground_2x (int start_char, int end_char)
 {
   PIXEL *p;
 
@@ -340,7 +342,7 @@ draw_std_foreground_2x (unsigned int start_char, unsigned int end_char)
 }
 
 static void
-draw_rev_foreground_2x (unsigned int start_char, unsigned int end_char)
+draw_rev_foreground_2x (int start_char, int end_char)
 {
   PIXEL *p;
 

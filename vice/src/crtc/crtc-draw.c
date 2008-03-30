@@ -90,8 +90,8 @@ init_drawing_tables (void)
 
 /***************************************************************************/
 
-static void draw_standard_background (unsigned int start_pixel,
-           				          unsigned int end_pixel)
+static void draw_standard_background (int start_pixel,
+           				          int end_pixel)
 {
   vid_memset (crtc.raster.frame_buffer_ptr + start_pixel,
               RASTER_PIXEL (&crtc.raster, 0), 
@@ -99,8 +99,8 @@ static void draw_standard_background (unsigned int start_pixel,
 }
 
 #ifdef CRTC_NEED_2X
-static void draw_standard_background_2x (unsigned int start_pixel,
-                     				   unsigned int end_pixel)
+static void draw_standard_background_2x (int start_pixel,
+                     				   int end_pixel)
 {
   vid_memset (crtc.raster.frame_buffer_ptr + 2 * start_pixel,
               RASTER_PIXEL (&crtc.raster, 0), 
