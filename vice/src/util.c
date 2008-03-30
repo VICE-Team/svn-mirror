@@ -64,7 +64,8 @@ char *util_concat(const char *s, ...)
 
     newp = (char *)lib_malloc(tot_len + 1);
 
-    memcpy(newp, s, arg_len[0]);
+    if (arg_len[0] > 0)
+        memcpy(newp, s, arg_len[0]);
     ptr = newp + arg_len[0];
 
     va_start(ap, s);
@@ -77,6 +78,23 @@ char *util_concat(const char *s, ...)
     va_end(ap);
 
     return newp;
+}
+
+/* Add a line to a string.  */
+void util_addline(char **list, const char *line)
+{
+    char *tmp;
+
+    tmp = util_concat(*list, line, NULL);
+    lib_free(*list);
+    *list = tmp;
+}
+
+/* Add a line to a string and free the line.  */
+void util_addline_free(char **list, char *line)
+{
+    util_addline(list, line);
+    lib_free(line);
 }
 
 /* Add the first `src_size' bytes of `src' to the end of `buf', which is a

@@ -40,6 +40,8 @@
 #define UTIL_FILE_LOAD_FILL         2
 
 extern char *util_concat(const char *s1, ...);
+extern void util_addline(char **list, const char *line);
+extern void util_addline_free(char **list, char *line);
 extern BYTE *util_bufcat(BYTE *buf, int *buf_size, size_t *max_buf_size,
                          const BYTE *src, int src_size);
 extern void util_remove_spaces(char *s);
