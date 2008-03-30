@@ -70,10 +70,10 @@ void *xmalloc(size_t size)
     void *p = malloc(size);
 
     if (p == NULL && size > 0) {
-	log_error(LOG_DEFAULT,
+        log_error(LOG_DEFAULT,
                   "xmalloc - virtual memory exhausted: "
                   "cannot allocate %lu bytes.", (unsigned long)size);
-	exit(-1);
+        exit(-1);
     }
 
     return p;
@@ -85,10 +85,10 @@ void *xcalloc(size_t nmemb, size_t size)
     void *p = calloc(nmemb, size);
 
     if (p == NULL && (size * nmemb) > 0) {
-	log_error(LOG_DEFAULT,
+        log_error(LOG_DEFAULT,
                   "xcalloc - virtual memory exhausted: cannot allocate %lux%lu bytes.",
                   (unsigned long)nmemb,(unsigned long)size);
-	exit(-1);
+        exit(-1);
     }
 
     return p;
@@ -100,10 +100,10 @@ void *xrealloc(void *p, size_t size)
     void *new_p = realloc(p, size);
 
     if (new_p == NULL) {
-	log_error(LOG_DEFAULT,
+        log_error(LOG_DEFAULT,
                   "xrealloc - virtual memory exhausted: cannot allocate %lu bytes.",
                   (unsigned long)size);
-	exit(-1);
+        exit(-1);
     }
 
     return new_p;
@@ -144,10 +144,10 @@ char *concat(const char *s, ...)
 
     va_start(ap, s);
     for (i = 1;
-	 i < _CONCAT_MAX_ARGS && (arg = va_arg(ap, const char *)) != NULL;
-	 i++) {
-	arg_len[i] = strlen(arg);
-	tot_len += arg_len[i];
+        i < _CONCAT_MAX_ARGS && (arg = va_arg(ap, const char *)) != NULL;
+        i++) {
+        arg_len[i] = strlen(arg);
+        tot_len += arg_len[i];
     }
     num_args = i;
 
@@ -158,8 +158,8 @@ char *concat(const char *s, ...)
 
     va_start(ap, s);
     for (i = 1; i < num_args; i++) {
-	 memcpy(ptr, va_arg(ap, const char *), arg_len[i]);
-	 ptr += arg_len[i];
+        memcpy(ptr, va_arg(ap, const char *), arg_len[i]);
+        ptr += arg_len[i];
     }
     *ptr = '\0';
 
@@ -171,17 +171,17 @@ char *concat(const char *s, ...)
    malloc'ed block of `max_buf_size' bytes of which only the first `buf_size'
    ones are used.  If the `buf' is not large enough, realloc it.  Return a
    pointer to the new block.  */
-char *bufcat(char *buf, int *buf_size, size_t *max_buf_size,
-	     const char *src, int src_size)
+char *util_bufcat(char *buf, int *buf_size, size_t *max_buf_size,
+	          const char *src, int src_size)
 {
 #define BUFCAT_GRANULARITY 0x1000
     if (*buf_size + src_size > (int)(*max_buf_size)) {
-	char *new_buf;
+        char *new_buf;
 
-	*max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
-			  * BUFCAT_GRANULARITY);
-	new_buf = (char *)xrealloc(buf, *max_buf_size);
-	buf = new_buf;
+        *max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
+                          * BUFCAT_GRANULARITY);
+        new_buf = (char *)xrealloc(buf, *max_buf_size);
+        buf = new_buf;
     }
     memcpy(buf + *buf_size, src, src_size);
     *buf_size += src_size;
@@ -255,27 +255,27 @@ int util_string_to_long(const char *str, const char **endptr, int base,
         sign = +1;
 
     for (sp = str; isspace((int)*sp); sp++)
-	;
+        ;
 
     for (ep = sp;
          (isdigit((int)*ep)
           || (base > 10
               && toupper((int)*ep) <= last_letter
               && toupper((int)*ep) >= 'A')); ep++)
-	;
+        ;
 
     if (ep == sp)
-	return -1;
+        return -1;
 
     if (endptr != NULL)
-	*endptr = (char *)ep;
+        *endptr = (char *)ep;
 
     ep--;
 
     for (value = 0, weight = 1; ep >= sp; weight *= base, ep--) {
         if (base > 10 && toupper((int) *ep) >= 'A')
             value += weight * (toupper((int)*ep) - 'A' + 10);
-	else
+        else
             value += weight * (int)(*ep - '0');
     }
 
@@ -285,7 +285,7 @@ int util_string_to_long(const char *str, const char **endptr, int base,
 
 /* Replace every occurrence of `string' in `s' with `replacement' and return
    the result as a malloc'ed string.  */
-char *subst(const char *s, const char *string, const char *replacement)
+char *util_subst(const char *s, const char *string, const char *replacement)
 {
     int num_occurrences;
     int total_size;
@@ -354,7 +354,7 @@ char *util_get_current_dir(void)
 /* ------------------------------------------------------------------------- */
 
 /* Return the length of an open file in bytes.  */
-size_t file_length(FILE *fd)
+size_t util_file_length(FILE *fd)
 {
     size_t off, filesize;
 
@@ -367,10 +367,10 @@ size_t file_length(FILE *fd)
 
 /* Load the first `size' bytes of file named `name' into `dest'.  Return 0 on
    success, -1 on failure.  */
-int load_file(const char *name, void *dest, size_t size)
+int util_load_file(const char *name, void *dest, size_t size)
 {
     FILE *fd;
-    int r;
+    size_t r;
 
     if (name == NULL) {
         log_error(LOG_ERR, "No file name given for load_file().");
@@ -385,17 +385,17 @@ int load_file(const char *name, void *dest, size_t size)
 
     fclose(fd);
     if (r < 1)
-       return -1;
+        return -1;
     return 0;
 }
 
 /* Write the first `size' bytes of `src' into a newly created file `name'.
    If `name' already exists, it is replaced by the new one.  Returns 0 on
    success, -1 on failure.  */
-int save_file(const char *name, const void *src, int size)
+int util_save_file(const char *name, const void *src, int size)
 {
     FILE *fd;
-    int r;
+    size_t r;
 
     fd = fopen(name, MODE_WRITE);
     if (fd == NULL)
@@ -424,17 +424,16 @@ int util_get_line(char *buf, int bufsize, FILE *f)
 
     r = fgets(buf, bufsize, f);
     if (r == NULL)
-	return -1;
+        return -1;
 
     len = strlen(buf);
 
     if (len > 0) {
         char *p;
 
-	/* Remove trailing newline characters.  */
+        /* Remove trailing newline characters.  */
         /* Remove both 0x0a and 0x0d characters, this solution makes it */
-        /* work on all target platforms: Unixes, Win32, DOS, and even for MAC */
-        while ((len > 0) && ((*(buf+len-1)==0x0d) || (*(buf+len-1)==0x0a)))
+        /* work on all target platforms: Unixes, Win32, DOS, and even for MAC */        while ((len > 0) && ((*(buf+len-1)==0x0d) || (*(buf+len-1)==0x0a)))
             len--;
 
         /* Remove useless spaces.  */
@@ -456,8 +455,8 @@ void util_fname_split(const char *path, char **directory_return,
     const char *p;
 
     if (path == NULL) {
-	*directory_return = *name_return = NULL;
-	return;
+        *directory_return = *name_return = NULL;
+        return;
     }
 
     p = strrchr(path, '/');
@@ -474,17 +473,17 @@ void util_fname_split(const char *path, char **directory_return,
 #endif
 
     if (p == NULL) {
-	if (directory_return != NULL)
-	    *directory_return = NULL;
-	if (name_return != NULL)
- 	    *name_return = stralloc(path);
-	return;
+        if (directory_return != NULL)
+            *directory_return = NULL;
+        if (name_return != NULL)
+            *name_return = stralloc(path);
+        return;
     }
 
     if (directory_return != NULL) {
         *directory_return = (char*)xmalloc((size_t)(p - path + 1));
         memcpy(*directory_return, path, p - path);
-	(*directory_return)[p - path] = '\0';
+        (*directory_return)[p - path] = '\0';
     }
 
     if (name_return != NULL)
@@ -578,14 +577,14 @@ char *util_find_prev_line(const char *text, const char *pos)
     const char *p;
 
     if (pos - text <= 2)
-	return (char *) text;
+        return (char *) text;
 
     for (p = pos - 2; p != text; p--)
-	if (*p == '\n')
-	    break;
+        if (*p == '\n')
+            break;
 
     if (*p == '\n')
-	p++;
+        p++;
 
     return (char *) p;
 }
@@ -600,12 +599,12 @@ unsigned int get_path_max(void)
     static unsigned int value;
 
     if (value == 0) {
-	long int x = pathconf("/", _PC_PATH_MAX);
+        long int x = pathconf("/", _PC_PATH_MAX);
 
-	if (x > 0)
-	    value = x;
-	else
-	    return MAXPATHLEN;
+        if (x > 0)
+            value = x;
+        else
+            return MAXPATHLEN;
     }
 
     return value;
@@ -622,13 +621,13 @@ void *memmove(void *target, const void *source, unsigned int length)
     const char *sptr = (const char *) source;
 
     if (tptr > sptr) {
-	tptr += length;
-	sptr += length;
-	while (length--)
-	    *(--tptr) = *(--sptr);
+        tptr += length;
+        sptr += length;
+        while (length--)
+            *(--tptr) = *(--sptr);
     } else if (tptr < sptr) {
-	while (length--)
-	    *(tptr++) = *(sptr++);
+        while (length--)
+            *(tptr++) = *(sptr++);
     }
 
     return target;
@@ -640,7 +639,7 @@ void *memmove(void *target, const void *source, unsigned int length)
 
 static void atexit_support_func(int status, void *arg)
 {
-    void (*f)(void) =(void (*)(void)) arg;
+    void (*f)(void) = (void (*)(void))arg;
 
     f();
 }
@@ -690,7 +689,7 @@ int strcasecmp(const char *s1, const char *s2)
         s1++; s2++;
     }
 
-    return (((int)(unsigned char) *s1) - ((int)(unsigned char) *s2));
+    return (((int)(unsigned char)*s1) - ((int)(unsigned char)*s2));
 }
 
 #endif
