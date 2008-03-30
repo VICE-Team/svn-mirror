@@ -140,7 +140,7 @@ static int event_image_append(const char *filename, char **mapped_name)
 
 
 void event_record_attach_image(unsigned int unit, const char *filename,
-                        unsigned int read_only)
+                               unsigned int read_only)
 {
     char *event_data;
     unsigned int size;
