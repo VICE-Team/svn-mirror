@@ -38,20 +38,12 @@ void raster_canvas_update_all(raster_t *raster)
 {
     raster_viewport_t *viewport;
 
-    if (console_mode || vsid_mode || !raster->draw_buffer)
-        return;
-
     viewport = &raster->viewport;
 
-    if (!viewport->update_canvas)
+    if (viewport->canvas->draw_buffer == NULL)
         return;
 
     video_canvas_refresh(viewport->canvas,
-                         raster->draw_buffer,
-                         raster->draw_buffer_width,
-#ifdef __OS2__
-                         raster->draw_buffer_height,
-#endif
                          viewport->first_x
                                 + raster->geometry.extra_offscreen_border_left,
                          viewport->first_line,
@@ -70,13 +62,10 @@ inline static void update_canvas(raster_t *raster)
     int x, y, xx, yy;
     int w, h;
 
-    if (console_mode || vsid_mode)
-        return;
-
     update_area = &raster->update_area;
     viewport = &raster->viewport;
 
-    if (update_area->is_null || !(viewport->update_canvas))
+    if (update_area->is_null)
         return;
 
     x = update_area->xs;
@@ -110,13 +99,7 @@ inline static void update_canvas(raster_t *raster)
     xx += viewport->x_offset;
     yy += viewport->y_offset;
 
-    video_canvas_refresh(viewport->canvas,
-                         raster->draw_buffer,
-                         raster->draw_buffer_width,
-#ifdef __OS2__
-                         raster->draw_buffer_height,
-#endif
-                         x, y, xx, yy,
+    video_canvas_refresh(viewport->canvas, x, y, xx, yy,
                          MIN(w, viewport->width - xx),
                          MIN(h, viewport->height - yy));
     update_area->is_null = 1;
@@ -124,15 +107,13 @@ inline static void update_canvas(raster_t *raster)
 
 void raster_canvas_handle_end_of_frame(raster_t *raster)
 {
-    if (!console_mode && !vsid_mode) {
-      /* FIXME for SCREEN_MAX_SPRITE_WIDTH */
-      raster->draw_buffer_ptr = raster->draw_buffer
-                                + raster->geometry.extra_offscreen_border_left;
-    }
-
-    raster->current_line = 0;
+    if (console_mode || vsid_mode)
+        return;
 
     if (raster->skip_frame)
+        return;
+
+    if (!raster->viewport.update_canvas)
         return;
 
     if (raster->dont_cache)
