@@ -224,12 +224,6 @@ int use_xvideo = 0;
 /* Logging goes here.  */
 static log_t video_log = LOG_ERR;
 
-#ifdef USE_XF86_EXTENSIONS
-#if defined (USE_XF86_DGA1_EXTENSIONS) || defined(USE_XF86_DGA2_EXTENSIONS)
-static video_refresh_func_t video_fullscreen_refresh_func = NULL;
-#endif
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 void video_convert_color_table(unsigned int i, BYTE *data, long col,

@@ -368,7 +368,7 @@ static ui_menu_entry_t cbm2_menu[] = {
       NULL, NULL, cbm2_rs232_submenu },
     { "--" },
     { N_("Crtc settings"),
-      NULL, NULL, crtc_submenu },
+      (ui_callback_t)CrtcMenu, NULL, crtc_submenu },
     { N_("*VIC-II settings"),
       (ui_callback_t)VicMenu, NULL, vicii_submenu },
     { N_("SID settings"),
