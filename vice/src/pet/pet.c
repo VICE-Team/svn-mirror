@@ -55,6 +55,7 @@
 #include "mon.h"
 #include "pet-cmdline-options.h"
 #include "pet-resources.h"
+#include "pet-snapshot.h"
 #include "pet.h"
 #include "petmem.h"
 #include "pets.h"
@@ -417,7 +418,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         return -1;
     }
     if (maincpu_write_snapshot_module(s) < 0
-        || mem_write_snapshot_module(s, save_roms) < 0
+        || pet_snapshot_write_module(s, save_roms) < 0
         || crtc_write_snapshot_module(s) < 0
         || pia1_write_snapshot_module(s) < 0
         || pia2_write_snapshot_module(s) < 0
@@ -459,7 +460,7 @@ int machine_read_snapshot(const char *name)
 
     if (ef
         || maincpu_read_snapshot_module(s) < 0
-        || mem_read_snapshot_module(s) < 0
+        || pet_snapshot_read_module(s) < 0
         || crtc_read_snapshot_module(s) < 0
         || pia1_read_snapshot_module(s) < 0
         || pia2_read_snapshot_module(s) < 0

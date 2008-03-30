@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -47,7 +48,11 @@
 #define PET_EDIT4B40_CHECKSUM   27250
 #define PET_EDIT4B80_CHECKSUM   21166
 
+extern BYTE chargen_rom[PET_CHARGEN_ROM_SIZE];
+extern BYTE rom[PET_ROM_SIZE];
+
 struct petres_s;
+struct petinfo_s;
 
 extern int pet_mem_init_resources(void);
 extern int pet_mem_init_cmdline_options(void);
@@ -66,6 +71,12 @@ extern int petmem_undump(FILE *fp);
 
 extern void set_screen(void);
 
+extern int pet_set_conf_info(struct petinfo_s *pi);
+extern void petmem_convert_chargen(BYTE *charrom);
+extern void petmem_get_kernal_checksum(void);
+extern void petmem_get_editor_checksum(void);
+extern void petmem_checksum(void);
+
 extern int mem_load_chargen(void);
 extern int mem_load_kernal(void);
 extern int mem_load_basic(void);
@@ -73,6 +84,18 @@ extern int mem_load_editor(void);
 extern int mem_load_rom9(void);
 extern int mem_load_romA(void);
 extern int mem_load_romB(void);
+
+extern int rom_9_loaded;
+extern int rom_A_loaded;
+extern int rom_B_loaded;
+
+extern int spet_ramen;
+extern int spet_bank;
+extern int spet_ctrlwp;
+extern int spet_diag;
+extern int spet_ramwp;
+
+extern BYTE map_reg;
 
 #endif
 
