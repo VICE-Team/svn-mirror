@@ -33,6 +33,7 @@
 #undef DWORD
 #include <windows.h>
 #include <prsht.h>
+#include <tchar.h>
 #include <stdio.h>
 #include <stdlib.h>
 
