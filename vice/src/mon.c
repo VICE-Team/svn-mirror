@@ -91,7 +91,7 @@ static int stop_output;
 
 #define GET_OPCODE(mem) (get_mem_val(mem, mon_get_reg_val(mem, e_PC)))
 
-console_t console_log;
+console_t *console_log;
 
 /* External functions */
 #ifdef HAVE_READLINE
@@ -128,6 +128,8 @@ extern int yydebug;
 static char *myinput = NULL;
 static char *last_cmd = NULL;
 int exit_mon = 0;
+int mon_console_close_on_leaving = 1;
+
 
 int sidefx;
 RADIXTYPE default_radix;
@@ -178,22 +180,22 @@ static int disassemble_on_entry = 0;
 struct mon_cmds mon_cmd_array[] = {
    { "",		"",	BAD_CMD,		STATE_INITIAL },
 
-   { "~", 		"", 	CONVERT_OP, 		STATE_INITIAL,
+   { "~", 		"~", 	CONVERT_OP, 		STATE_INITIAL,
      "<number>",
      "Display the specified number in decimal, hex, octal and binary."},
 
-   { ">", 		"", 	CMD_ENTER_DATA, 	STATE_INITIAL,
+   { ">", 		">", 	CMD_ENTER_DATA, 	STATE_INITIAL,
      "[<address>] <data_list>",
      "Write the specified data at `address'."},
 
-   { "@", 		"", 	CMD_DISK, 		STATE_ROL,
+   { "@", 		"@", 	CMD_DISK, 		STATE_ROL,
    "<disk command>",
      "Perform a disk command on the currently attached disk image on drive 8.  The\n"
      "specified disk command is sent to the drive's channel #15." },
 
-   { "]", 		"", 	CMD_ENTER_BIN_DATA, 	STATE_INITIAL },
+   { "]", 		"]", 	CMD_ENTER_BIN_DATA, 	STATE_INITIAL },
 
-   { "a", 		"", 	CMD_ASSEMBLE, 		STATE_INITIAL,
+   { "a", 		"a", 	CMD_ASSEMBLE, 		STATE_INITIAL,
      "<address> [ <instruction> [: <instruction>]* ]",
      "Assemble instructions to the specified address.  If only one instruction\n"
      "is specified, enter assembly mode (enter an empty line to exit assembly\n"
@@ -263,7 +265,7 @@ struct mon_cmds mon_cmd_array[] = {
      "the values used are those at the time the checkpoint is examined, not\n"
      "when the condition is set.\n" },
 
-   { "d", 		"", 	CMD_DISASSEMBLE, 	STATE_INITIAL,
+   { "d", 		"d", 	CMD_DISASSEMBLE, 	STATE_INITIAL,
      "[<address> [<address>]]",
      "Disassemble instructions.  If two addresses are specified, they are used\n"
      "as a start and end address.  If only one is specified, it is treated as\n"
@@ -316,7 +318,7 @@ struct mon_cmds mon_cmd_array[] = {
      "<data_list>.  If the data is found, the starting address of the match is\n"
      "displayed.  The entire range is searched for all possible matches." },
 
-   { "i", 		"", 	CMD_TEXT_DISPLAY, 	STATE_INITIAL,
+   { "i", 		"i", 	CMD_TEXT_DISPLAY, 	STATE_INITIAL,
      "<address_opt_range>",
      "Display memory contents as PETSCII text." },
 
@@ -338,7 +340,7 @@ struct mon_cmds mon_cmd_array[] = {
      "Load a file containing a mapping of labels to addresses.  If no memory\n"
      "space is specified, the default readspace is used." },
 
-   { "m", 		"", 	CMD_MEM_DISPLAY, 	STATE_INITIAL,
+   { "m", 		"m", 	CMD_MEM_DISPLAY, 	STATE_INITIAL,
      "[<data_type>] [<address_opt_range>]"
      "Display the contents of memory.  If no datatype is given, the default is\n"
      "used.  If only one address is specified, the length of data displayed is\n"
@@ -970,21 +972,28 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
    mon_interfaces[e_disk9_space] = drive9_interface;
 }
 
-int mon_cmd_lookup_index(char *str)
+int mon_cmd_lookup_index(char *str, int *push_back)
 {
-   int num = 0;
+   int num = 0, partial = -1;
 
    if (str == NULL)
       return -1;
 
    do {
       if ((strcasecmp(str, mon_cmd_array[num].str) == 0) ||
-          (strcasecmp(str, mon_cmd_array[num].abbrev) == 0))
+          (strcasecmp(str, mon_cmd_array[num].abbrev) == 0)) {
+         *push_back = 0;
          return num;
+      }
+      else if (strlen(mon_cmd_array[num].abbrev) && 
+               strncasecmp(str, mon_cmd_array[num].abbrev, strlen(mon_cmd_array[num].abbrev)) == 0) {
+         *push_back = strlen(mon_cmd_array[num].abbrev);
+         partial = num;
+      }
       num++;
    } while(mon_cmd_array[num].token > 0);
 
-   return -1;
+   return partial;
 }
 
 int mon_cmd_get_token(int mon_index)
@@ -1030,9 +1039,10 @@ void mon_print_help(char *cmd)
        }
        console_out(console_log, "\n\n");
    } else {
-       int cmd_num = mon_cmd_lookup_index(cmd);
+       int push_back;
+       int cmd_num = mon_cmd_lookup_index(cmd, &push_back);
 
-       if (cmd_num == -1)
+       if (cmd_num == -1 || push_back)
            console_out(console_log, "Command `%s' unknown.\n", cmd);
        else if (mon_cmd_array[cmd_num].description == NULL)
            console_out(console_log, "No help available for `%s'\n", cmd);
@@ -1403,7 +1413,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
          switch(radix_type) {
             case 0: /* special case == petscii text */
                console_out(console_log, "%c",
-                           p_toascii(get_mem_val(mem, ADDR_LIMIT(addr+i)), 0));
+                           p_toascii(get_mem_val(mem, ADDR_LIMIT(addr+i)), 1));
                real_width++;
                cnt++;
                break;
@@ -2933,7 +2943,11 @@ void mon(ADDRESS a)
 {
     char prompt[40];
 
-    console_log = console_open("Monitor");
+	if (mon_console_close_on_leaving)
+	{
+	    console_log = console_open("Monitor");
+		mon_console_close_on_leaving = 0;
+	}
 
     old_handler = signal(SIGINT, handle_abort);
 #ifdef __riscos
@@ -3021,6 +3035,7 @@ void mon(ADDRESS a)
 #endif
     signal(SIGINT, old_handler);
 
-    console_close(console_log);
+	if (mon_console_close_on_leaving)
+		console_close(console_log);
 }
 

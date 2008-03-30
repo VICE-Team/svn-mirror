@@ -229,9 +229,10 @@ extern const char *_mon_space_strings[];
 
 extern struct mon_cmds mon_cmd_array[];
 
-extern console_t console_log;
+extern console_t *console_log;
 extern int sidefx;
 extern int exit_mon;
+extern int mon_console_close_on_leaving;
 extern RADIXTYPE default_radix;
 extern MEMSPACE default_memspace;
 extern bool asm_mode;
@@ -256,7 +257,7 @@ extern void mon(ADDRESS a);
 
 extern void mon_add_number_to_buffer(int number);
 extern void mon_add_string_to_buffer(char *str);
-extern int mon_cmd_lookup_index(char *str);
+extern int mon_cmd_lookup_index(char *str, int *push_back);
 extern int mon_cmd_get_token(int mon_index);
 extern int mon_cmd_get_next_state(int mon_index);
 
