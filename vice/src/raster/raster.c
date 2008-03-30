@@ -120,12 +120,11 @@ static int realize_canvas(raster_t *raster)
     viewport = &raster->viewport;
 
     if (viewport->canvas == NULL) {
-        viewport->canvas = video_canvas_create(viewport->title,
-                                               &viewport->width,
-                                               &viewport->height,
-                                               1,
-                                               (void_t)(raster->viewport.exposure_handler),
-                                               raster->palette);
+        viewport->canvas = video_canvas_init();
+        video_canvas_create(viewport->canvas, viewport->title,
+                            &viewport->width, &viewport->height, 1,
+                            (void_t)(raster->viewport.exposure_handler),
+                            raster->palette);
 
 /* FIXME: This has to be removed.  */
         {
@@ -619,26 +618,7 @@ void raster_force_repaint(raster_t *raster)
 {
     raster->dont_cache = 1;
     raster->num_cached_lines = 0;
-
-#if 0
-    {
-    unsigned int fb_width, fb_height;
-
-    fb_width = calc_frame_buffer_width(rastaer);
-    fb_height = (raster->geometry.screen_size.height);
-
-#ifndef __OS2__
-    if (!console_mode && !vsid_mode && raster->draw_buffer) {
-        video_canvas_t *canvas;
-        canvas = raster->viewport.canvas;
-
-        if (canvas != NULL)
-            raster_draw_buffer_clear(canvas, raster->draw_buffer,
-                                     0, fb_width, fb_height);
-    }
-#endif
-    }
-#endif
+    raster_set_canvas_refresh(raster, 1);
 }
 
 int raster_set_palette(raster_t *raster, palette_t *palette)
@@ -686,14 +666,6 @@ void raster_skip_frame(raster_t *raster, int skip)
 void raster_enable_cache(raster_t *raster, int enable)
 {
     raster->cache_enabled = enable;
-    raster_force_repaint (raster);
-}
-
-void raster_enable_double_scan(raster_t *raster, int enable)
-{
-    if (raster->viewport.canvas)
-        raster->viewport.canvas->videoconfig.doublescan = enable;
-
     raster_force_repaint(raster);
 }
 
