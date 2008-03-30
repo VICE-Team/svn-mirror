@@ -115,7 +115,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610kbd.c 	c610ui.c 	c610ui.h 	c64kbd.c 	c64ui.c 	c64ui.h 	dirent.c 	dirent.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	lose32.h 	petkbd.c 	petui.c 	petui.h 	print.c 	res.h 	res.rc 	resc128.rc 	resc64.rc 	rescbm2.rc 	respet.rc 	resvic.rc 	types.h 	ui.c 	ui.h 	uiattach.c 	uiattach.h 	uicbm2set.c 	uicbm2set.h 	uidrive.c 	uidrive.h 	uijoystick.c 	uijoystick.h 	uilib.c 	uilib.h 	uipetset.c 	uipetset.h 	uisnapshot.h 	uisnapshot.c 	uisound.c 	uisound.h 	uivicii.h 	uivicii.c 	vic20kbd.c 	vic20ui.c 	vic20ui.h 	video.c 	video.h 	vsync.c 	vsync.h 	winhack.h 	winmain.c 	winmain.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610kbd.c 	c610ui.c 	c610ui.h 	c64kbd.c 	c64ui.c 	c64ui.h 	dirent.c 	dirent.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	lose32.h 	mouse.c 	mouse.h 	petkbd.c 	petui.c 	petui.h 	print.c 	res.h 	res.rc 	resc128.rc 	resc64.rc 	rescbm2.rc 	respet.rc 	resvic.rc 	types.h 	ui.c 	ui.h 	uiattach.c 	uiattach.h 	uicbm2set.c 	uicbm2set.h 	uidrive.c 	uidrive.h 	uijoystick.c 	uijoystick.h 	uilib.c 	uilib.h 	uipetset.c 	uipetset.h 	uisnapshot.h 	uisnapshot.c 	uisound.c 	uisound.h 	uivicii.h 	uivicii.c 	vic20kbd.c 	vic20ui.c 	vic20ui.h 	video.c 	video.h 	vsync.c 	vsync.h 	winhack.h 	winmain.c 	winmain.h
 
 
 libarch_a_DEPENDENCIES =  	resc128.o resc64.o rescbm2.o respet.o resvic.o
@@ -139,10 +139,10 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610kbd.o c610ui.o \
-c64kbd.o c64ui.o dirent.o joystick.o kbd.o petkbd.o petui.o print.o \
-ui.o uiattach.o uicbm2set.o uidrive.o uijoystick.o uilib.o uipetset.o \
-uisnapshot.o uisound.o uivicii.o vic20kbd.o vic20ui.o video.o vsync.o \
-winmain.o
+c64kbd.o c64ui.o dirent.o joystick.o kbd.o mouse.o petkbd.o petui.o \
+print.o ui.o uiattach.o uicbm2set.o uidrive.o uijoystick.o uilib.o \
+uipetset.o uisnapshot.o uisound.o uivicii.o vic20kbd.o vic20ui.o \
+video.o vsync.o winmain.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)

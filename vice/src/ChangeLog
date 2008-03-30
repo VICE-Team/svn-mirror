@@ -1,3 +1,15 @@
+1999-09-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.3.
+
+	* c128/z80.c, c128/z80.h (z80_reset): New function.
+	Added lots of opcodes.
+
+	* c128mem.c (machine_reset): Reset Z80 emulation.
+
+	* arch/win32/uiattach.c (dialog_proc): Added D80 and D82 disk
+	images.
+
 1999-09-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.2.
