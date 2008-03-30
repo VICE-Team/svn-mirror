@@ -367,10 +367,9 @@ static int sid_init(void)
 {
     int c, speed;
 
-#ifdef HAVE_RESID
     /* Special handling for cycle based as opposed to sample based sound
        engines. reSID is cycle based. */
-    resources_get_value("SidUseResid", (resource_value_t*)&cycle_based);
+    cycle_based = sound_machine_cycle_based();
 
     /* Cycle based sound engines must do their own filtering,
        and handle sample rate conversion. */
@@ -385,7 +384,6 @@ static int sid_init(void)
     /* For sample based sound engines, both simple average filtering
        and sample rate conversion is handled here. */
     else
-#endif
     {
         snddata.oversampleshift = oversampling_factor;
 	snddata.oversamplenr = 1 << snddata.oversampleshift;
@@ -512,6 +510,7 @@ static int sound_open(void)
 	if (sid_open() != 0 || sid_init() != 0) {
 	    return 1;
 	}
+	sid_state_changed = FALSE;
 
         /* Set warp mode for non-realtime sound devices in vsid mode. */
 	if (vsid_mode && !pdev->bufferspace) {
@@ -697,17 +696,18 @@ double sound_flush(int relative_speed)
         if (sdev_open) sound_close();
         sound_state_changed = FALSE;
     }
-    else if (sid_state_changed) {
-        sid_state_changed = FALSE;
-        if (sid_init() != 0) {
-	    return 0;
-	}
-    }
 
     if (suspend_time > 0)
         enablesound();
     if (sound_run_sound())
         return 0;
+
+    if (sid_state_changed) {
+        if (sid_init() != 0) {
+	    return 0;
+	}
+        sid_state_changed = FALSE;
+    }
 
     if (warp_mode_enabled && snddata.pdev->bufferspace != NULL) {
       snddata.bufptr = 0;
