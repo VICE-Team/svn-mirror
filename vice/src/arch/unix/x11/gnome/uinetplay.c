@@ -77,13 +77,13 @@ netplay_update_control_res (GtkWidget *w, gpointer data)
     g_return_if_fail(data != 0);
     
     mask = *((unsigned int *) data);
-    resources_get_value("NetworkControl", (void *)&control);
+    resources_get_int("NetworkControl", (int *)&control);
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(w)))
 	control |= mask;
     else
 	control &= ~mask;
     
-    resources_set_value("NetworkControl", (resource_value_t) control);
+    resources_set_int("NetworkControl", (int)control);
     /* log_message(np_log, _("Updated control: 0x%04x"), control); */
 }
 
@@ -93,7 +93,7 @@ netplay_update_control_gui (void)
     int i;
     unsigned int control;
 
-    resources_get_value("NetworkControl", (void *) &control);
+    resources_get_int("NetworkControl", (int *)&control);
     for (i = 0; i < NR_NPCONROLS; i++)
     {
 	if (control & np_controls[i].s_mask)
@@ -119,15 +119,15 @@ netplay_update_resources (void)
         ui_error(_("Invalid Port number"));
 	return;
     }
-    resources_set_value("NetworkServerPort", (resource_value_t) port);
-    resources_set_value("NetworkServerName", (resource_value_t) server_name);
+    resources_set_int("NetworkServerPort", (int)port);
+    resources_set_string("NetworkServerName", server_name);
 }
 
 static void
 netplay_update_status(void)
 {
     gchar *text = NULL;
-    char *server_name;
+    const char *server_name;
     int port;
     char st[256];
     
@@ -158,8 +158,8 @@ netplay_update_status(void)
     }
     gtk_label_set_text(GTK_LABEL(current_mode), text);
 
-    resources_get_value("NetworkServerPort", (void *) &port);
-    resources_get_value("NetworkServerName", (void *) &server_name);
+    resources_get_int("NetworkServerPort", &port);
+    resources_get_string("NetworkServerName", &server_name);
     snprintf(st, 256, "%d", port);
     gtk_entry_set_text(GTK_ENTRY(np_port), st);
     gtk_entry_set_text(GTK_ENTRY(np_server), server_name);

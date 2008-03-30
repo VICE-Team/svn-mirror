@@ -61,7 +61,7 @@ static void upd_sb (GtkAdjustment *adj, gpointer data)
     pal_res_t *p = (pal_res_t *) data;
 
     v  = (int) v / p->scale;
-    resources_set_value(p->res, (resource_value_t) v);
+    resources_set_int(p->res, v);
 }
 
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
@@ -72,7 +72,7 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
     {
         resources_get_default_value(ctrls[i].res, (void *)&tmp);
 	tmp = tmp * ctrls[i].scale;
-	resources_set_value(ctrls[i].res, (resource_value_t) tmp);
+	resources_set_int(ctrls[i].res, tmp);
 	if (ctrls[i].adj) {
 	    gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[i].adj),
 				     (gfloat) tmp);
@@ -82,8 +82,8 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 
 static void upd_palmode (GtkWidget *w, gpointer data)
 {
-    resources_set_value("PALMode",
-			(resource_value_t) (int) data);
+    resources_set_int("PALMode", (int)data);
+
     if (data == (gpointer) 0)
     {
 	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), FALSE);
@@ -131,7 +131,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 	
 	ctrls[i].adj = adj = gtk_adjustment_new(0, 0, 2100, 1, 100, 100);
 	
- 	resources_get_value(ctrls[i].res, (void *)&v);
+ 	resources_get_int(ctrls[i].res, &v);
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), 
 				 (gfloat) (v * ctrls[i].scale));
 	sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
@@ -171,7 +171,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     gtk_box_pack_start(GTK_BOX(box), true_palemu, FALSE, FALSE, 5);
     gtk_widget_show(true_palemu);
 
-    resources_get_value("PALMode", (void *) &v);
+    resources_get_int("PALMode", &v);
     if (v == 0)
     {
 	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), FALSE);
