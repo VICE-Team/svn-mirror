@@ -270,6 +270,24 @@ BYTE REGPARM1 mem_read(WORD addr)
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
+void REGPARM2 mem_store_without_ultimax(WORD addr, BYTE value)
+{
+    store_func_ptr_t *write_tab_ptr;
+
+    write_tab_ptr = mem_write_tab[vbank][mem_config & 7];
+
+    write_tab_ptr[addr >> 8](addr, value);
+}
+
+BYTE REGPARM1 mem_read_without_ultimax(WORD addr)
+{
+    read_func_ptr_t *read_tab_ptr;
+
+    read_tab_ptr = mem_read_tab[mem_config & 7];
+
+    return read_tab_ptr[addr >> 8](addr);
+}
+
 /* ------------------------------------------------------------------------- */
 
 void REGPARM2 colorram_store(WORD addr, BYTE value)
@@ -554,7 +572,7 @@ int mem_rom_trap_allowed(WORD addr)
 
 /* FIXME: peek, cartridge support */
 
-static void store_bank_io(WORD addr, BYTE byte)
+void REGPARM2 store_bank_io(WORD addr, BYTE byte)
 {
     switch (addr & 0xff00) {
       case 0xd000:
@@ -593,7 +611,7 @@ static void store_bank_io(WORD addr, BYTE byte)
     return;
 }
 
-static BYTE read_bank_io(WORD addr)
+BYTE REGPARM1 read_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
       case 0xd000:

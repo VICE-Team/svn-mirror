@@ -79,5 +79,12 @@ extern void mem_read_tab_set(unsigned int base, unsigned int index,
                              read_func_ptr_t read_func);
 extern void mem_read_base_set(unsigned int base, unsigned int index,
                               BYTE *mem_ptr);
+
+extern void REGPARM2 mem_store_without_ultimax(WORD addr, BYTE value);
+extern BYTE REGPARM1 mem_read_without_ultimax(WORD addr);
+
+extern void REGPARM2 store_bank_io(WORD addr, BYTE byte);
+extern BYTE REGPARM1 read_bank_io(WORD addr);
+
 #endif
 
