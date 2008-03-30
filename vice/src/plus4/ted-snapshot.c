@@ -33,7 +33,6 @@
 #include "raster-sprite.h"
 #include "snapshot.h"
 #include "ted-snapshot.h"
-#include "ted-sprites.h"
 #include "ted.h"
 #include "tedtypes.h"
 #include "types.h"
@@ -106,24 +105,13 @@ int ted_snapshot_write_module(snapshot_t *s)
         || snapshot_module_write_byte(m, (BYTE)vic_ii.raster.blank_enabled) < 0
         /* ColorBuf */
         || snapshot_module_write_byte_array(m, vic_ii.cbuf, 40) < 0
-        /* ColorRam */
-        || snapshot_module_write_byte_array(m, vic_ii.color_ram, 1024) < 0
         /* IdleState */
         || snapshot_module_write_byte(m, vic_ii.idle_state) < 0
-        /* LPTrigger */
-        || snapshot_module_write_byte(m, (BYTE)vic_ii.light_pen.triggered) < 0
-        /* LPX */
-        || snapshot_module_write_byte(m, (BYTE)vic_ii.light_pen.x) < 0
-        /* LPY */
-        || snapshot_module_write_byte(m, (BYTE)vic_ii.light_pen.y) < 0
         /* MatrixBuf */
         || snapshot_module_write_byte_array(m, vic_ii.vbuf, 40) < 0
         /* NewSpriteDmaMask */
         || snapshot_module_write_byte(m,
             vic_ii.raster.sprite_status->new_dma_msk) < 0
-        /* RamBase */
-        || snapshot_module_write_dword(m,
-            (DWORD)(vic_ii.ram_base_phi1 - ram)) < 0
         /* RasterCycle */
         || snapshot_module_write_byte(m, (BYTE)VIC_II_RASTER_CYCLE (clk)) < 0
         /* RasterLine */
@@ -137,17 +125,9 @@ int ted_snapshot_write_module(snapshot_t *s)
             goto fail;
 
     if (0
-        /* SbCollMask */
-        || snapshot_module_write_byte(m,
-            (BYTE)vic_ii.sprite_background_collisions) < 0
         /* SpriteDmaMask */
         || snapshot_module_write_byte(m,
             (BYTE)vic_ii.raster.sprite_status->dma_msk) < 0
-        /* SsCollMask */
-        || snapshot_module_write_byte(m,
-            (BYTE)vic_ii.sprite_sprite_collisions) < 0
-        /* VBank */
-        || snapshot_module_write_word(m, (WORD)vic_ii.vbank_phi1) < 0
         /* Vc */
         || snapshot_module_write_word(m, (WORD)vic_ii.mem_counter) < 0
         /* VcInc */
@@ -179,20 +159,6 @@ int ted_snapshot_write_module(snapshot_t *s)
         || snapshot_module_write_dword (m, vic_ii.fetch_clk - clk) < 0
         /* FetchEventType */
         || snapshot_module_write_byte (m, (BYTE)vic_ii.fetch_idx) < 0
-        )
-        goto fail;
-
-  /* Added in version 1.1 of the snapshot module */
-  /* using "ram_base-ram" is F***ing bullshit - what when external memory
-     is not mapped anywhere in ram[]? We should rather use some more generic
-     configuration info. But as we use it above in V1.0... :-(
-     AF 16jan2001 */
-    if (0
-        /* RamBase */
-        || snapshot_module_write_dword(m,
-            (DWORD)(vic_ii.ram_base_phi2 - ram)) < 0
-        /* VBank */
-        || snapshot_module_write_word(m, (WORD)vic_ii.vbank_phi2) < 0
         )
         goto fail;
 
@@ -256,16 +222,8 @@ int ted_snapshot_read_module(snapshot_t *s)
         || read_byte_into_int(m, &vic_ii.raster.blank_enabled) < 0
         /* ColorBuf */
         || snapshot_module_read_byte_array (m, vic_ii.cbuf, 40) < 0
-        /* ColorRam */
-        || snapshot_module_read_byte_array (m, vic_ii.color_ram, 1024) < 0
         /* IdleState */
         || read_byte_into_int(m, &vic_ii.idle_state) < 0
-        /* LPTrigger */
-        || read_byte_into_int(m, &vic_ii.light_pen.triggered) < 0
-        /* LPX */
-        || read_byte_into_int(m, &vic_ii.light_pen.x) < 0
-        /* LPY */
-        || read_byte_into_int(m, &vic_ii.light_pen.y) < 0
         /* MatrixBuf */
         || snapshot_module_read_byte_array(m, vic_ii.vbuf, 40) < 0
         /* NewSpriteDmaMask */
@@ -273,14 +231,6 @@ int ted_snapshot_read_module(snapshot_t *s)
             &vic_ii.raster.sprite_status->new_dma_msk) < 0
         )
         goto fail;
-
-    {
-        DWORD RamBase;
-
-        if (snapshot_module_read_dword(m, &RamBase) < 0)
-            goto fail;
-        vic_ii.ram_base_phi1 = ram + RamBase;
-    }
 
     /* Read the current raster line and the current raster cycle.  As they
        are a function of `clk', this is just a sanity check.  */
@@ -313,16 +263,9 @@ int ted_snapshot_read_module(snapshot_t *s)
 
 
     if (0
-        /* SbCollMask */
-        || snapshot_module_read_byte(m,
-            &vic_ii.sprite_background_collisions) < 0
         /* SpriteDmaMask */
         || snapshot_module_read_byte(m,
             &vic_ii.raster.sprite_status->dma_msk) < 0
-        /* SsCollMask */
-        || snapshot_module_read_byte(m, &vic_ii.sprite_sprite_collisions) < 0
-        /* VBank */
-        || read_word_into_int(m, &vic_ii.vbank_phi1) < 0
         /* Vc */
         || read_word_into_int(m, &vic_ii.mem_counter) < 0
         /* VcInc */
@@ -354,41 +297,7 @@ int ted_snapshot_read_module(snapshot_t *s)
     vic_ii_set_raster_irq(vic_ii.regs[0x12]
                           | ((vic_ii.regs[0x11] & 0x80) << 1));
 
-    /* compatibility with older versions */
-    vic_ii.ram_base_phi2 = vic_ii.ram_base_phi1;
-    vic_ii.vbank_phi2 = vic_ii.vbank_phi1;
-
-    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
-
-    /* Update sprite parameters.  We had better do this manually, or the
-       VIC-II emulation could be quite upset.  */
-    {
-        BYTE msk;
-
-        for (i = 0, msk = 0x1; i < 8; i++, msk <<= 1) {
-            raster_sprite_t *sprite;
-            int tmp;
-
-            sprite = vic_ii.raster.sprite_status->sprites + i;
-
-            /* X/Y coordinates.  */
-            tmp = vic_ii.regs[i * 2] + ((vic_ii.regs[0x10] & msk) ? 0x100 : 0);
-
-            /* (-0xffff makes sure it's updated NOW.) */
-            vic_ii_sprites_set_x_position(i, tmp, -0xffff);
-
-            sprite->y = (int) vic_ii.regs[i * 2 + 1];
-            sprite->x_expanded = (int)(vic_ii.regs[0x1d] & msk);
-            sprite->y_expanded = (int)(vic_ii.regs[0x17] & msk);
-            sprite->multicolor = (int)(vic_ii.regs[0x1c] & msk);
-            sprite->in_background = (int)(vic_ii.regs[0x1b] & msk);
-            sprite->color = (int) vic_ii.regs[0x27 + i] & 0xf;
-            sprite->dma_flag = (int)(vic_ii.raster.sprite_status->new_dma_msk
-                               & msk);
-        }
-    }
-
-    vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status->new_dma_msk;
+    ted_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
 
     vic_ii.raster.xsmooth = vic_ii.regs[0x16] & 0x7;
     vic_ii.raster.ysmooth = vic_ii.regs[0x11] & 0x7;
@@ -442,7 +351,7 @@ int ted_snapshot_read_module(snapshot_t *s)
 
     vic_ii.memory_fetch_done = 0; /* FIXME? */
 
-    vic_ii_update_video_mode(VIC_II_RASTER_CYCLE(clk));
+    ted_update_video_mode(VIC_II_RASTER_CYCLE(clk));
 
     vic_ii.draw_clk = clk + (vic_ii.draw_cycle - VIC_II_RASTER_CYCLE(clk));
     vic_ii.last_emulate_line_clk = vic_ii.draw_clk - vic_ii.cycles_per_line;
@@ -466,20 +375,6 @@ int ted_snapshot_read_module(snapshot_t *s)
 
     if (vic_ii.irq_status & 0x80)
         interrupt_set_irq_noclk(&maincpu_int_status, I_RASTER, 1);
-
-    /* added in version 1.1 of snapshot format */
-    if (minor_version > 0) {
-        DWORD RamBase;
-
-        if (0
-            || snapshot_module_read_dword(m, &RamBase) < 0
-            || read_word_into_int(m, &vic_ii.vbank_phi2) < 0 /* VBank */
-            )
-            goto fail;
-        vic_ii.ram_base_phi2 = ram + RamBase;
-
-        vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
-    }
 
     raster_force_repaint(&vic_ii.raster);
     return 0;
