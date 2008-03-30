@@ -463,7 +463,7 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
         /* try to get drive geometry */
         unsigned char idebuf[24];
         int  heads, sectors, cyll, cylh, cyl, res;
-        unsigned long size;
+        unsigned long size = 0;
 	int is_chs;
 
         /* read header */

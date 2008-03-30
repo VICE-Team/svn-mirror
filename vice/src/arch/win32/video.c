@@ -782,7 +782,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
                ? "video"
                : "unknown"))));
 
-    /* Find the color depth.  */
+*/  /* Find the color depth.  */
 #ifdef _ANONYMOUS_UNION
     canvas->depth = desc2.ddpfPixelFormat.dwRGBBitCount;
 #else

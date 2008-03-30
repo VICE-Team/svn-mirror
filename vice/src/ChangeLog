@@ -1,3 +1,40 @@
+2003-10-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.4
+
+	* video/video-cmdline-options.c, vic20/vic-cmdline-options.c.
+	vicii/vicii-cmdline-options.c, plus4/ted-cmdline-options.c,
+	crtc/crtc-cmdline-options.c, vdc/vdc-cmdline-options.c:
+	Unified palette command line options.
+
+	* video/video-resources.c, video.h, vicii/vicii-resources.c,
+	vic20/vic-resources.c, plus4/ted-resources.c,
+	crtc/crtc-resources.c, vdc/vdc-resources.c: Unified palette
+	resources.
+
+	* arch/unix/uivicii.c, arch/unix/uicrtc.c, arch/unix/uivdc.c,
+	arch/unix/uivic.c, arch/msdos/plus4ui.c, arch/msdos/c64ui.c,
+	arch/msdos/cbm2ui.c, arch/msdos/c128ui.c, arch/msdos/petui.c:
+	Changed palette resources.
+
+	* 6510core.c: Fixed drive 1 debugging.
+
+	* drive/iec/cia1581d.c (read_ciapa): Added disk change bit.
+	(store_ciapa): Added side bit.
+
+	* drive/driverom.c (drive_rom_initialize_traps): Added 1581
+	CRC trap, removed jobcode trap.
+
+	* drive/iec/wd1770.c, drive/iec/wd1770.h: Massive rewrite.
+
+	* drive/iec/jobcode1581.c: Small changes.
+
+	* core/riotcore.c: #include "lib.h".
+
+	* c64/cart/ide64.c (ide64_bin_attach): Fixed warning.
+
+	* arch/win32/video.c: Fixed nested comment.
+
 2003-10-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.3

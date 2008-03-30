@@ -31,6 +31,7 @@
 
 #include "alarm.h"
 #include "clkguard.h"
+#include "lib.h"
 #include "log.h"
 #include "riot.h"
 #include "snapshot.h"
