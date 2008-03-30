@@ -38,17 +38,16 @@
 
 #include "uisettings.h"
 
+#include "drive.h"
 #include "fsdevice.h"
 #include "kbd.h"
-#include "resources.h"
-#include "sound.h"
-#include "drive.h"
-#include "vsync.h"
-#include "utils.h"
-#include "iecdrive.h"
-#include "romset.h"
 #include "mem.h"
 #include "prdevice.h"
+#include "resources.h"
+#include "romset.h"
+#include "sound.h"
+#include "utils.h"
+#include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -814,15 +813,15 @@ static UI_CALLBACK(radio_Drive8Type)
             resources_set_value("Drive8Type",
                                 (resource_value_t) client_data);
             ui_update_menus();
-        } 
+        }
     } else {
         ui_menu_set_tick(w, current_value == (int) client_data);
-	if (drive_match_bus((int) client_data, 0, iec_available_busses())) {
+        if (drive_check_type((int) client_data, 0)) {
             ui_menu_set_sensitive(w, True);
-	} else {
+        } else {
             ui_menu_set_sensitive(w, False);
-	}
-    } 
+        }
+    }
 }
 
 static UI_CALLBACK(radio_Drive9Type)
@@ -835,15 +834,15 @@ static UI_CALLBACK(radio_Drive9Type)
             resources_set_value("Drive9Type",
                                 (resource_value_t) client_data);
             ui_update_menus();
-        } 
+        }
     } else {
         ui_menu_set_tick(w, current_value == (int) client_data);
-	if (drive_match_bus((int) client_data, 1, iec_available_busses())) {
+        if (drive_check_type((int) client_data, 1)) {
             ui_menu_set_sensitive(w, True);
-	} else {
+        } else {
             ui_menu_set_sensitive(w, False);
-	}
-    } 
+        }
+    }
 }
 
 static ui_menu_entry_t set_drive0_type_submenu[] = {
