@@ -62,41 +62,20 @@ static BCheckBox *cb_readonly;
 
 char *read_disk_image_contents(const char *name)
 {
-	image_contents_t    *contents;
-	char                *s;
-
-    contents=image_contents_read(IMAGE_CONTENTS_DISK, name, 0);
-    if (contents==NULL) {
-        return NULL;
-    }
-    s=image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
-    image_contents_destroy(contents);
-    return s;
+   return image_contents_read_string(IMAGE_CONTENTS_DISK, name, 0,
+                                     IMAGE_CONTENTS_STRING_ASCII);
 }
 
 char *read_tape_image_contents(const char *name)
 {
-image_contents_t    *contents;
-char                *s;
-
-    contents=image_contents_read_tape(IMAGE_CONTENTS_TAPE, name, 0);
-    if (contents==NULL) {
-        return NULL;
-    }
-    s=image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
-    image_contents_destroy(contents);
-    return s;
+   return image_contents_read_string(IMAGE_CONTENTS_TAPE, name, 0,
+                                     IMAGE_CONTENTS_STRING_ASCII);
 }
 
 char *read_disk_or_tape_image_contents(const char *name)
 {
-char    *tmp;
-
-    tmp=read_disk_image_contents(IMAGE_CONTENTS_TAPE, name, 0);
-    if (tmp==NULL) {
-        tmp=read_tape_image_contents(name);
-    }
-    return tmp;
+   return image_contents_read_string(IMAGE_CONTENTS_AUTO, name, 0,
+                                     IMAGE_CONTENTS_STRING_ASCII);
 }
 
 

@@ -96,6 +96,7 @@ image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
     image_contents_file_list_t *lp;
 
     vdrive = vdrive_internal_open_disk_image(file_name, unit, 1);
+
     if (vdrive == NULL)
         return NULL;
 
