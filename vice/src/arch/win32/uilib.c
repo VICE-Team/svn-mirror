@@ -362,7 +362,7 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
         SetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, TEXT("1a"));
         if (res_readonly != NULL) {
             int ro;
-            resources_get_value(res_readonly, &ro);
+            resources_get_int(res_readonly, &ro);
             CheckDlgButton(hwnd, IDC_TOGGLE_ATTACH_READONLY,
                        ro ? BST_CHECKED : BST_UNCHECKED);
         } else {
@@ -394,8 +394,7 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
         switch (msg_type) {
           case IDC_TOGGLE_ATTACH_READONLY:
             if (res_readonly)
-                resources_set_value(res_readonly, 
-                          (resource_value_t)(IsDlgButtonChecked(hwnd,
+                resources_set_int(res_readonly, (IsDlgButtonChecked(hwnd,
                           IDC_TOGGLE_ATTACH_READONLY) == BST_CHECKED));
             break;
           case IDC_BLANK_IMAGE:
@@ -619,8 +618,8 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
 {
     TCHAR st_name[MAX_PATH];
     char name[MAX_PATH];
-    char *initialdir = NULL;
-    char *initialfile;
+    const char *initialdir = NULL;
+    const char *initialfile;
     TCHAR *filter;
     DWORD filterindex;
     OPENFILENAME ofn;
@@ -628,8 +627,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     char *ret = NULL;
 
     if (styles[style].initialdir_resource != NULL)
-        resources_get_value(styles[style].initialdir_resource,
-            (void *)&initialdir);
+        resources_get_string(styles[style].initialdir_resource, &initialdir);
 
     if (type == UILIB_SELECTOR_TYPE_DIR_EXIST)
         _tcscpy(st_name, TEXT("FilenameNotUsed"));
@@ -638,8 +636,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
 
     initialfile = ui_file_selector_initialfile[style];
     if (styles[style].file_resource != NULL)
-        resources_get_value(styles[style].file_resource,
-            (void *)&initialfile);
+        resources_get_string(styles[style].file_resource, &initialfile);
 
     if (initialfile != NULL)
         _tcscpy(st_name, initialfile);
@@ -708,9 +705,9 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
         system_wcstombs(name, st_name, MAX_PATH);
         util_fname_split(name, &tmpdir, &tmpfile);
         if (styles[style].file_resource != NULL)
-            resources_set_value(styles[style].file_resource, tmpfile);
+            resources_set_string(styles[style].file_resource, tmpfile);
         ui_file_selector_initialfile[style] = system_mbstowcs_alloc(tmpfile);
-        resources_set_value(styles[style].initialdir_resource, tmpdir);
+        resources_set_string(styles[style].initialdir_resource, tmpdir);
         ret = system_wcstombs_alloc(st_name);
 
         lib_free(tmpdir);
