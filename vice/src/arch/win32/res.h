@@ -251,15 +251,19 @@
 #define IDC_REU_FILE                    1333
 #define IDC_REU_BROWSE                  1334
 
-#define IDD_SID_SETTINGS_DIALOG         1340
-#define IDC_SID_FILTERS                 1341
-#define IDC_SID_6581                    1342
-#define IDC_SID_8580                    1343
-#define IDC_SID_STEREO                  1344
-#define IDC_SID_ENGINE                  1345
-#define IDC_SID_RESID_SAMPLING          1346
-#define IDC_SID_RESID_PASSBAND          1347
-#define IDC_SID_STEREOADDRESS           1348
+#define IDD_SID_GENERAL_SETTINGS_DIALOG 1340
+#define IDD_SID_RESID_SETTINGS_DIALOG   1341
+#define IDD_SID_HARDSID_SETTINGS_DIALOG 1342
+#define IDC_SID_FILTERS                 1343
+#define IDC_SID_6581                    1344
+#define IDC_SID_8580                    1345
+#define IDC_SID_STEREO                  1346
+#define IDC_SID_ENGINE                  1347
+#define IDC_SID_RESID_SAMPLING          1348
+#define IDC_SID_RESID_PASSBAND          1349
+#define IDC_SID_STEREOADDRESS           1350
+#define IDC_SID_HARDSID_LEFT_ENGINE     1351
+#define IDC_SID_HARDSID_RIGHT_ENGINE    1352
 
 #define IDD_VIDEO_COLORS_DIALOG         1400
 #define IDC_VIDEO_COLORS_SAT            1401
