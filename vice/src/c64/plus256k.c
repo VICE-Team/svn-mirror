@@ -54,82 +54,71 @@
 #include "vicii.h"
 
 /* PLUS256K registers */
-static BYTE plus256k_reg=0;
+static BYTE plus256k_reg = 0;
 
 static log_t plus256k_log = LOG_ERR;
 
 static int plus256k_activate(void);
 static int plus256k_deactivate(void);
 
-int plus256k_enabled=0;
+int plus256k_enabled = 0;
 
-static int plus256k_video_bank=0;
-static int plus256k_low_bank=0;
-static int plus256k_high_bank=0;
-static int plus256k_protected=0;
+static int plus256k_video_bank = 0;
+static int plus256k_low_bank = 0;
+static int plus256k_high_bank = 0;
+static int plus256k_protected = 0;
 
 /* Filename of the +256K image.  */
 static char *plus256k_filename = NULL;
 
-BYTE *plus256k_ram=NULL;
+BYTE *plus256k_ram = NULL;
 
-static int set_plus256k_enabled(resource_value_t v, void *param)
+static int set_plus256k_enabled(int val, void *param)
 {
-  if ((int)v == plus256k_enabled)
-      return 0;
+    if (val == plus256k_enabled)
+        return 0;
 
-  if (!(int)v)
-  {
-    if (plus256k_deactivate() < 0)
-    {
-      return -1;
-    }
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-    plus256k_enabled = 0;
-    return 0;
-  }
-  else
-  { 
-    if (plus60k_enabled || c64_256k_enabled)
-    {
+    if (!val) {
+        if (plus256k_deactivate() < 0) {
+            return -1;
+        }
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        plus256k_enabled = 0;
+        return 0;
+    } else {
+        if (plus60k_enabled || c64_256k_enabled) {
 #ifdef HAS_TRANSLATION
-      ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "256K");
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "256K");
 #else
-      ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "256K");
+            ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "256K");
 #endif
-      return -1;
+            return -1;
+        } else {
+            if (plus256k_activate() < 0) {
+                return -1;
+            }
+        }
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        plus256k_enabled = 1;
+        return 0;
     }
-    else
-    {
-      if (plus256k_activate() < 0)
-      {
-        return -1;
-      }
-    }
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-    plus256k_enabled = 1;
-    return 0;
-  }
 }
 
-static int set_plus256k_filename(resource_value_t v, void *param)
+static int set_plus256k_filename(const char *name, void *param)
 {
-  const char *name = (const char *)v;
+    if (plus256k_filename != NULL && name != NULL
+       && strcmp(name, plus256k_filename) == 0)
+       return 0;
 
-  if (plus256k_filename != NULL && name != NULL && strcmp(name, plus256k_filename) == 0)
+    if (plus256k_enabled) {
+        plus256k_deactivate();
+        util_string_set(&plus256k_filename, name);
+        plus256k_activate();
+    } else {
+        util_string_set(&plus256k_filename, name);
+    }
+
     return 0;
-
-  if (plus256k_enabled)
-  {
-    plus256k_deactivate();
-    util_string_set(&plus256k_filename, name);
-    plus256k_activate();
-  }
-  else
-  {
-    util_string_set(&plus256k_filename, name);
-  }
-  return 0;
 }
 
 static const resource_string_t resources_string[] = {

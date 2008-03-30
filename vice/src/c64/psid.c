@@ -78,15 +78,15 @@ typedef struct psid_s {
 #define PSID_V1_DATA_OFFSET 0x76
 #define PSID_V2_DATA_OFFSET 0x7c
 
-int psid_ui_set_tune(resource_value_t tune, void *param);
+int psid_ui_set_tune(int tune, void *param);
 
 static psid_t* psid = NULL;
 static int psid_tune = 0;
 static int keepenv = 0;
 
-static int set_keepenv(resource_value_t val, void *param)
+static int set_keepenv(int val, void *param)
 {
-    keepenv = (int)val;
+    keepenv = val;
 
     return 0;
 }
@@ -469,7 +469,7 @@ void psid_set_tune(int tune)
     }
 }
 
-int psid_ui_set_tune(resource_value_t tune, void *param)
+int psid_ui_set_tune(int tune, void *param)
 {
     psid_tune = (int)tune == -1 ? 0 : (int)tune;
 
