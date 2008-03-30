@@ -35,11 +35,11 @@
 #include "archdep.h"
 #include "utils.h"
 
-static FILE *log_file;
+static FILE *log_file = NULL;
 
-static char **logs;
-static unsigned int num_logs;
-static unsigned int num_allocated_logs;
+static char **logs = NULL;
+static unsigned int num_logs = 0;
+static unsigned int num_allocated_logs = 0;
 
 /* ------------------------------------------------------------------------- */
 
