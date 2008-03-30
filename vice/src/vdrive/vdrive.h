@@ -169,22 +169,22 @@ typedef struct vdrive_s {
 
     unsigned int Bam_Track;
     unsigned int Bam_Sector;
-    unsigned int bam_name;   /* Offset from start of BAM to disk name.  */
-    unsigned int bam_id;     /* Offset from start of BAM to disk ID. */
+    unsigned int bam_name;   /* Offset from start of BAM to disk name.   */
+    unsigned int bam_id;     /* Offset from start of BAM to disk ID.  */
     unsigned int Dir_Track;
     unsigned int Dir_Sector;
     unsigned int num_tracks;
 
     /* FIXME: bam sizeof define */
-    BYTE bam[5*256];   /* The 1581 uses 3 secs as BAM - but the 8250 uses 5. */
+    BYTE bam[5*256];   /* The 1581 uses 3 secs as BAM - but the 8250 uses 5.  */
     bufferinfo_t buffers[16];
 
     /* File information */
-    BYTE Dir_buffer[256];  /* Current directory sector. */
+    BYTE Dir_buffer[256];  /* Current directory sector.  */
     unsigned int SlotNumber;
 
-    const char *find_name; /* Current search pattern. */
-    unsigned int find_length;
+    const char *find_name; /* Current search pattern.  */
+    int find_length;       /* -1 allowed.  */
     unsigned int find_type;
 
     unsigned int Curr_track;

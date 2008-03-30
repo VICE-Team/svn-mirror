@@ -1,3 +1,81 @@
+2000-01-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.2.23.
+
+	* vdrive/vdrive.h: Changed `find_length' to `int'.
+
+2000-01-17  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* c1541.c (write_cmd): Fixed name conversion.
+
+2000-01-16  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* arch/msdos/Makefile.am: new files statusbar.h, statusbar.c
+
+	* arch/msdos/kbd.c: includes statusbar.h
+	handles KCMD_TOGGLE_STATUSBAR to switch statusbar, currently
+	ALT-F5 is used (is this okay?)
+
+	* arch/msdos/menudefs.c: new entry "Show Statusbar" in 
+	"Other settings"
+
+	* arch/msdos/statusbar.c,arch/msdos/statusbar.h: new files to 
+	implement the statusbar
+
+	* arch/msdos/tuifs.c(file_list_read): recognizes WIN98 and WINNT
+	for long filename support
+
+	* arch/msdos/ui.c: includes datasette.h ,statusbar.h
+	new resource ShowStatusbar and corresponding cmdline
+	(ui_exit) calls statusbar_exit
+	(ui_init) calls statusbar_init
+	new function (ui_draw_tape_status),(ui_display_speed)
+	implementations for (ui_set_tape_status),
+	(ui_display_tape_motor_status),(ui_display_tape_control_status),
+	(ui_display_tape_counter)
+	
+	* arch/msdos/video.c: new function (video_in_gfx_mode)
+	(canvas_set_vga_mode): sets bitmaps and width for the statusbars
+	update
+	(canvas_set_palette): creates colors for statusbar
+	(disable_text): updates statusbar
+
+	* arch/msdos/videoarch.h(canvas_refresh): don't refresh region of 
+	statusbar; calls (poll_scroll) and (request_scroll) instead of
+	obsolete ...modex... variants
+
+	* arch/msdos/vsync.c(do_vsync): calls ui_display_speed
+
+2000-01-16  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* monitor/mon.c: Fill `strerror()' with dummy macro in case
+	`errno.h' is missing.
+	Report `#error' if `signal.h' is missing.
+
+	* arch/unix/x11/gnome/uiedisk.c: Implemented missing dialog.
+	* arch/unix/x11/gnome/uisnapshot.c: ditto.
+
+2000-01-16  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/vsid: Use exec to start x64.
+	
+	* arch/unix/x11/gnome/gnomekbd.c (kbd_event_handler): Skip
+	keyboard handling in vsid mode.
+
+	* arch/unix/x11/gnome/ui.c (ui_jam_dialog):
+	Special handling of console and vsid modes.
+	
+	* arch/unix/x11/gnome/uimenu.c (_ui_menu_toggle_helper,
+	_ui_menu_radio_helper): Pass data to UI process in vsid mode.
+
+	* arch/unix/x11/gnome/uimenu.h: Removed const from string in
+	_ui_menu_entry.
+	
+	* arch/unix/x11/xaw/uimenu.h: Removed const from string in
+	_ui_menu_entry.
+	
+	* sounddrv/sounduss.c: Commented out GETOSPACE warning.
+
 2000-01-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.22.
