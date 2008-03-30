@@ -95,7 +95,7 @@
 Visual *visual;
 int have_truecolor;
 
-/*static*/ Display *display;
+static Display *display;
 /*static*/ int screen;
 static int depth = X_DISPLAY_DEPTH;
 
