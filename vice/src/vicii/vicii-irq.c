@@ -199,11 +199,14 @@ void vicii_irq_check_state(BYTE value, unsigned int high)
         if (vic_ii.raster_irq_line == line && line != old_raster_irq_line)
             trigger_irq = 1;
 
-        if (trigger_irq) {
-            /* To be replaced by vicii_irq_raster_set().  */
-            vic_ii.irq_status |= 0x81;
-            maincpu_set_irq(I_RASTER, 1);
-        }
+        if (trigger_irq)
+            vicii_irq_raster_set();
     }
+}
+
+void vicii_irq_next_frame(void)
+{
+    vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
+    alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
 }
 
