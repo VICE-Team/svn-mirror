@@ -64,7 +64,6 @@ typedef struct serial_s
 {
     int inuse;
     int isopen[16];                 /* isopen flag for each secondary address */
-    char *info;                     /* pointer to run-time data */
     disk_image_t *image;            /* pointer to the disk image data  */ 
     char *name;                     /* name of the device */
     int (*getf)(void *, BYTE *, int); /* serial read function */
@@ -83,17 +82,18 @@ typedef struct serial_s
     BYTE lastbyte[16];
     char lastok[16];
     int lastst[16];
+
 } serial_t;
 
 extern int serial_init(const trap_t *trap_list);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
-extern int serial_attach_device(int device, char *var, const char *name,
-				int (*getf)(void *, BYTE *, int),
-				int (*putf)(void *, BYTE, int),
-				int (*openf)(void *, const char *, int, int),
-				int (*closef)(void *, int),
-				void (*flushf)(void *, int));
+extern int serial_attach_device(int device, const char *name,
+                                int (*getf)(void *, BYTE *, int),
+                                int (*putf)(void *, BYTE, int),
+                                int (*openf)(void *, const char *, int, int),
+                                int (*closef)(void *, int),
+                                void (*flushf)(void *, int));
 extern int serial_detach_device(int device);
 extern serial_t *serial_get_device(int number);
 extern void serial_reset(void);
