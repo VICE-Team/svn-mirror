@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "c128.h"
 #include "c128mem.h"
 #include "c128rom.h"
 #include "mem.h"
@@ -35,6 +36,7 @@
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
+#include "z80mem.h"
 
 
 #define IS_NULL(s)  (s == NULL || *s == '\0')
@@ -44,6 +46,21 @@ static log_t c128rom_log = LOG_ERR;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 static int rom_loaded = 0;
+
+/* National Kernal ROM images. */
+static BYTE kernal_int[C128_KERNAL_ROM_IMAGE_SIZE];
+static BYTE kernal_de[C128_KERNAL_ROM_IMAGE_SIZE];
+static BYTE kernal_fi[C128_KERNAL_ROM_IMAGE_SIZE];
+static BYTE kernal_fr[C128_KERNAL_ROM_IMAGE_SIZE];
+static BYTE kernal_it[C128_KERNAL_ROM_IMAGE_SIZE];
+static BYTE kernal_no[C128_KERNAL_ROM_IMAGE_SIZE];
+static BYTE kernal_se[C128_KERNAL_ROM_IMAGE_SIZE];
+
+/* National Chargen ROM images. */
+static BYTE chargen_int[C128_CHARGEN_ROM_SIZE];
+static BYTE chargen_de[C128_CHARGEN_ROM_SIZE];
+static BYTE chargen_fr[C128_CHARGEN_ROM_SIZE];
+static BYTE chargen_se[C128_CHARGEN_ROM_SIZE];
 
 
 int c128rom_kernal_checksum(void)
@@ -67,32 +84,176 @@ int c128rom_kernal_checksum(void)
     return 0;
 }
 
-int c128rom_load_kernal(const char *rom_name)
+int c128rom_load_kernal_int(const char *rom_name)
 {
-    int trapfl;
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load international Kernal ROM.  */
+        if (sysfile_load(rom_name, kernal_int, C128_KERNAL_ROM_IMAGE_SIZE,
+            C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load kernal ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_kernal_de(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load German Kernal ROM.  */
+        if (sysfile_load(rom_name, kernal_de, C128_KERNAL_ROM_IMAGE_SIZE,
+            C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load kernal ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_kernal_fi(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load Finnish Kernal ROM.  */
+        if (sysfile_load(rom_name, kernal_fi, C128_KERNAL_ROM_IMAGE_SIZE,
+            C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load kernal ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_kernal_fr(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load French Kernal ROM.  */
+        if (sysfile_load(rom_name, kernal_fr, C128_KERNAL_ROM_IMAGE_SIZE,
+            C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load kernal ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_kernal_it(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load Italian Kernal ROM.  */
+        if (sysfile_load(rom_name, kernal_it, C128_KERNAL_ROM_IMAGE_SIZE,
+            C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load kernal ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_kernal_no(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load Norwegian Kernal ROM.  */
+        if (sysfile_load(rom_name, kernal_no, C128_KERNAL_ROM_IMAGE_SIZE,
+            C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load kernal ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_kernal_se(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load Swedish Kernal ROM.  */
+        if (sysfile_load(rom_name, kernal_se, C128_KERNAL_ROM_IMAGE_SIZE,
+            C128_KERNAL_ROM_IMAGE_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load kernal ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_kernal_setup(void)
+{
+    int trapfl, machine_type;
+    BYTE *kernal = NULL;
 
     if (!rom_loaded)
         return 0;
 
-    /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
+    resources_get_value("MachineType", (resource_value_t *)&machine_type);
 
-    if (!IS_NULL(rom_name)) {
-        /* Load Kernal ROM.  */
-        if (sysfile_load(rom_name,
-            mem_kernal_rom, C128_KERNAL_ROM_SIZE,
-            C128_KERNAL_ROM_SIZE) < 0) {
-            log_error(c128rom_log, "Couldn't load kernal ROM `%s'.",
-                      rom_name);
-            resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-            return -1;
-        }
+    switch (machine_type) {
+      case C128_MACHINE_INT:
+        kernal = kernal_int;
+        break;
+      case C128_MACHINE_FINNISH:
+        kernal = kernal_fi;
+        break;
+      case C128_MACHINE_FRENCH:
+        kernal = kernal_fr;
+        break;
+      case C128_MACHINE_GERMAN:
+        kernal = kernal_de;
+        break;
+      case C128_MACHINE_ITALIAN:
+        kernal = kernal_it;
+        break;
+      case C128_MACHINE_NORWEGIAN:
+        kernal = kernal_no;
+        break;
+      case C128_MACHINE_SWEDISH:
+        kernal = kernal_se;
+        break;
+      default:
+        log_error(c128rom_log, "Unknown machine type %i.", machine_type);
+        return -1;
     }
+
+    /* disable traps before loading the ROM */
+    resources_get_value("VirtualDevices", (resource_value_t *)&trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)1);
+
+    memcpy(&mem_basic_rom[C128_BASIC_ROM_SIZE], kernal,
+           C128_EDITOR_ROM_SIZE);
+    memcpy(z80bios_rom, &kernal[C128_EDITOR_ROM_SIZE],
+           C128_Z80BIOS_ROM_SIZE);
+    memcpy(mem_kernal_rom, &kernal[C128_EDITOR_ROM_SIZE
+           + C128_Z80BIOS_ROM_SIZE], C128_KERNAL_ROM_SIZE);
 
     c128rom_kernal_checksum();
 
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
 
     return 0;
 }
@@ -129,7 +290,7 @@ int c128rom_basic_checksum(void)
     return 0;
 }
 
-int c128rom_load_basic(const char *rom_name)
+int c128rom_load_basiclo(const char *rom_name)
 {
     if (!rom_loaded)
         return 0;
@@ -137,8 +298,26 @@ int c128rom_load_basic(const char *rom_name)
     if (!IS_NULL(rom_name)) {
         /* Load Basic ROM.  */
         if (sysfile_load(rom_name,
-            mem_basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
-            C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
+            mem_basic_rom, C128_BASIC_ROM_IMAGELO_SIZE,
+            C128_BASIC_ROM_IMAGELO_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load basic ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_basichi(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load Basic ROM.  */
+        if (sysfile_load(rom_name,
+            &mem_basic_rom[C128_BASIC_ROM_IMAGELO_SIZE],
+            C128_BASIC_ROM_IMAGEHI_SIZE, C128_BASIC_ROM_IMAGEHI_SIZE) < 0) {
             log_error(c128rom_log, "Couldn't load basic ROM `%s'.",
                       rom_name);
             return -1;
@@ -147,15 +326,102 @@ int c128rom_load_basic(const char *rom_name)
     return c128rom_basic_checksum();
 }
 
-int c128rom_load_chargen(const char *rom_name)
+int c128rom_chargen_setup(void)
+{
+    int machine_type;
+    BYTE *chargen;
+
+    if (!rom_loaded)
+        return 0;
+
+    resources_get_value("MachineType", (resource_value_t *)&machine_type);
+
+    switch (machine_type) {
+      case C128_MACHINE_INT:
+        chargen = chargen_int;
+        break;
+      case C128_MACHINE_FRENCH:
+      case C128_MACHINE_ITALIAN:
+        chargen = chargen_fr;
+        break;
+      case C128_MACHINE_GERMAN:
+        chargen = chargen_de;
+        break;
+      case C128_MACHINE_FINNISH:
+      case C128_MACHINE_NORWEGIAN:
+      case C128_MACHINE_SWEDISH:
+        chargen = chargen_se;
+        break;
+      default:
+        log_error(c128rom_log, "Unknown machine type %i.", machine_type);
+        return -1;
+    }
+
+    memcpy(mem_chargen_rom, chargen, C128_CHARGEN_ROM_SIZE);
+
+    return 0;
+
+}
+
+int c128rom_load_chargen_int(const char *rom_name)
 {
     if (!rom_loaded)
         return 0;
 
     if (!IS_NULL(rom_name)) {
         /* Load chargen ROM.  */
-        if (sysfile_load(rom_name,
-            mem_chargen_rom, C128_CHARGEN_ROM_SIZE,
+        if (sysfile_load(rom_name, chargen_int, C128_CHARGEN_ROM_SIZE,
+            C128_CHARGEN_ROM_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load character ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_chargen_de(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load chargen ROM.  */
+        if (sysfile_load(rom_name, chargen_de, C128_CHARGEN_ROM_SIZE,
+            C128_CHARGEN_ROM_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load character ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_chargen_fr(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load chargen ROM.  */
+        if (sysfile_load(rom_name, chargen_fr, C128_CHARGEN_ROM_SIZE,
+            C128_CHARGEN_ROM_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load character ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_chargen_se(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load chargen ROM.  */
+        if (sysfile_load(rom_name, chargen_se, C128_CHARGEN_ROM_SIZE,
             C128_CHARGEN_ROM_SIZE) < 0) {
             log_error(c128rom_log, "Couldn't load character ROM `%s'.",
                       rom_name);
@@ -201,24 +467,6 @@ int c128rom_load_basic64(const char *rom_name)
     return 0;
 }
 
-int c128rom_load_chargen64(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;
-
-    if (!IS_NULL(rom_name)) {
-        /* Load C64 Chargen ROM.  */
-        if (sysfile_load(rom_name,
-            chargen64_rom, C128_CHARGEN64_ROM_SIZE,
-            C128_CHARGEN64_ROM_SIZE) < 0) {
-            log_error(c128rom_log, "Couldn't load C64 character ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    }
-    return 0;
-}
-
 int mem_load(void)
 {
     char *rom_name = NULL;
@@ -228,27 +476,78 @@ int mem_load(void)
 
     mem_powerup();
 
-    mem_page_zero = mem_ram;
-    mem_page_one = mem_ram + 0x100;
-
     mem_initialize_memory();
 
     rom_loaded = 1;
 
-    if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
+    if (resources_get_value("KernalIntName", (resource_value_t)&rom_name) < 0)
         return -1;
-    if (c128rom_load_kernal(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (c128rom_load_basic(rom_name) < 0)
+    if (c128rom_load_kernal_int(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("ChargenName", (resource_value_t)&rom_name) < 0)
+    if (resources_get_value("KernalDEName", (resource_value_t)&rom_name) < 0)
         return -1;
-    if (c128rom_load_chargen(rom_name) < 0)
+    if (c128rom_load_kernal_de(rom_name) < 0)
         return -1;
+
+    if (resources_get_value("KernalFIName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_kernal_fi(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("KernalFRName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_kernal_fr(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("KernalITName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_kernal_it(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("KernalNOName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_kernal_no(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("KernalSEName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_kernal_se(rom_name) < 0)
+        return -1;
+
+    c128rom_kernal_setup();
+
+    if (resources_get_value("BasicLoName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_basiclo(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("BasicHiName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_basichi(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("ChargenIntName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_chargen_int(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("ChargenDEName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_chargen_de(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("ChargenFRName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_chargen_fr(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("ChargenSEName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (c128rom_load_chargen_se(rom_name) < 0)
+        return -1;
+
+    c128rom_chargen_setup();
 
     if (resources_get_value("Kernal64Name", (resource_value_t)&rom_name) < 0)
         return -1;
@@ -258,11 +557,6 @@ int mem_load(void)
     if (resources_get_value("Basic64Name", (resource_value_t)&rom_name) < 0)
         return -1;
     if (c128rom_load_basic64(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("Chargen64Name", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (c128rom_load_chargen64(rom_name) < 0)
         return -1;
 
     return 0;
