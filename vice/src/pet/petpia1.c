@@ -82,13 +82,13 @@ static int diagnostic_pin_enabled;
 
 static int set_diagnostic_pin_enabled(resource_value_t v, void *param)
 {
-    diagnostic_pin_enabled = (int) v;
+    diagnostic_pin_enabled = (int)v;
     return 0;
 }
 
 static resource_t resources[] = {
     { "DiagPin", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *) &diagnostic_pin_enabled,
+      (resource_value_t *)&diagnostic_pin_enabled,
       set_diagnostic_pin_enabled, NULL },
     { NULL }
 };
@@ -127,7 +127,7 @@ void pia1_set_tape_sense(int v)
 _PIA_FUNC void pia_set_ca2(int a)
 {
     parallel_cpu_set_eoi((BYTE)((a) ? 0 : 1));
-    if(petres.pet2k)
+    if (petres.pet2k)
         crtc_screen_enable((a)?1:0);
 }
 
@@ -203,7 +203,7 @@ _PIA_FUNC BYTE read_pa(void)
     byte = 0xff
            - (tape1_sense ? 16 : 0)
            - (parallel_eoi ? 64 : 0)
-           - ((diagnostic_pin_enabled || superpet_diag()) ? 128 : 0);
+           - ((diagnostic_pin_enabled || petmem_superpet_diag()) ? 128 : 0);
     byte = ((byte & ~mypia.ddr_a) | (mypia.port_a & mypia.ddr_a));
 
     return byte;
