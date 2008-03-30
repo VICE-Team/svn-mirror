@@ -108,7 +108,7 @@ static int set_double_size_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_double_scan_enabled (resource_value_t v, void *param)
+static int set_double_scan_enabled(resource_value_t v, void *param)
 {
     vic_ii_resources.double_scan_enabled = (int)v;
 
