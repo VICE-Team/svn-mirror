@@ -4,14 +4,15 @@
 
 Summary: VICE, the Versatile Commodore Emulator
 Name: vice
-Version: 0.16.0
-Release: 1
+Version: %version
+Release: %rel
 Copyright: GPL
 Group: X11/Applications/Emulators
 Source: ftp://ftp.funet.fi/pub/cbm/crossplatform/emulators/VICE/vice-%{version}.tar.gz
 URL: http://www.tu-chemnitz.de/%7Efachat/vice/vice.html
 Packager: Ettore Perazzoli <ettore@comm2000.it>
 Prefix: %{prefix}
+BuildRoot: /opt/rpm-build-root
 
 %description
 VICE is a set of accurate emulators for the Commodore 64, 128, VIC20
@@ -28,14 +29,16 @@ make
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{prefix}
 make prefix=$RPM_BUILD_ROOT%{prefix} install
-strip $RPM_BUILD_ROOT%{prefix}/bin/* || :
+strip $RPM_BUILD_ROOT%{prefix}/bin/*
 gzip -9 $RPM_BUILD_ROOT%{prefix}/info/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
+
 %doc AUTHORS BUGS COPYING FEEDBACK INSTALL NEWS README TODO
+
 %{prefix}/bin/x64
 %{prefix}/bin/x128
 %{prefix}/bin/xvic
