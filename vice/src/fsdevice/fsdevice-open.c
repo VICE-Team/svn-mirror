@@ -40,6 +40,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "cbmdos.h"
 #include "charset.h"
 #include "fileio.h"
@@ -49,10 +50,10 @@
 #include "fsdevicetypes.h"
 #include "ioutil.h"
 #include "lib.h"
+#include "tape.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 #include "util.h"
-#include "archdep.h"
 
 
 static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
@@ -218,7 +219,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     }
 
     /* Open file for read mode access.  */
-    tape = &(fs_info[secondary].tape);
+    tape = fs_info[secondary].tape;
     tape->name = util_concat(fsdevice_get_path(vdrive->unit), 
                              FSDEV_DIR_SEP_STR, rname, NULL);
     charset_petconvstring((BYTE *)(tape->name) + 
@@ -268,7 +269,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
                   unsigned int secondary)
 {
-    char rname[PATH_MAX];
+    char *rname;
     int status = 0, rc;
     unsigned int i;
     cbmdos_cmd_parse_t cmd_parse;
@@ -295,6 +296,8 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
 
     fs_info[secondary].type = cmd_parse.filetype;
 
+    rname = (char *)lib_malloc(ioutil_maxpathlen());
+
     cmd_parse.parsecmd[cmd_parse.parselength] = 0;
     strncpy(rname, cmd_parse.parsecmd, cmd_parse.parselength + 1);
 
@@ -318,6 +321,8 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     } else {
         status = fsdevice_open_file(vdrive, secondary, &cmd_parse, rname);
     }
+
+    lib_free(rname);
 
     if (status != FLOPPY_COMMAND_OK)
         goto out;

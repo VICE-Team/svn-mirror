@@ -50,14 +50,32 @@
 #include "fsdevice-write.h"
 #include "fsdevice.h"
 #include "fsdevicetypes.h"
+#include "ioutil.h"
+#include "lib.h"
 #include "log.h"
 #include "machine-bus.h"
 #include "resources.h"
+#include "tape.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 
 
-fs_buffer_info_t fs_info[16];
+#ifdef HAVE_LIMITS_H
+#include <limits.h>
+#endif
+
+#ifndef PATH_MAX
+#  ifdef MAX_PATH
+#    define PATH_MAX MAX_PATH
+#  else
+#    define PATH_MAX 1024
+#  endif
+#endif
+
+
+#define FSDEVICE_DEV_MAX 16
+
+fs_buffer_info_t fs_info[FSDEVICE_DEV_MAX];
 
 /* this should somehow go into the fs_info struct... */
 
@@ -185,5 +203,29 @@ int fsdevice_attach(unsigned int device, const char *name)
     vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
     fsdevice_error(vdrive, CBMDOS_IPE_DOS_VERSION);
     return 0;
+}
+
+void fsdevice_init(void)
+{
+    unsigned int i;
+
+    for (i = 0; i < FSDEVICE_DEV_MAX; i++) {
+        fs_info[i].tape = (tape_image_t *)lib_calloc(1, sizeof(tape_image_t));
+        fs_info[i].dir = (char *)lib_calloc(1, ioutil_maxpathlen());
+        fs_info[i].name = (BYTE *)lib_calloc(1, ioutil_maxpathlen());
+        fs_info[i].fs_dirmask = (char *)lib_calloc(1, ioutil_maxpathlen());
+    }
+}
+
+void fsdevice_shutdown(void)
+{
+    unsigned int i;
+
+    for (i = 0; i < FSDEVICE_DEV_MAX; i++) {
+        lib_free(fs_info[i].tape);
+        lib_free(fs_info[i].dir);
+        lib_free(fs_info[i].name);
+        lib_free(fs_info[i].fs_dirmask);
+    }
 }
 
