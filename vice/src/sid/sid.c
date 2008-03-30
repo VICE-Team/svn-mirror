@@ -37,6 +37,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "sid-resources.h"
+#include "sid-snapshot.h"
 #include "sid.h"
 #include "sound.h"
 #include "types.h"
@@ -316,5 +317,15 @@ void sid_engine_set(int engine)
     sid_engine_type = engine;
 
     set_sound_func();
+}
+
+void sid_state_read(unsigned int channel, sid_snapshot_state_t *sid_state)
+{
+    sid_engine.state_read(sound_get_psid(channel), sid_state);
+}
+
+void sid_state_write(unsigned int channel, sid_snapshot_state_t *sid_state)
+{
+    sid_engine.state_write(sound_get_psid(channel), sid_state);
 }
 

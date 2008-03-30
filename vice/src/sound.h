@@ -166,5 +166,7 @@ extern void sound_poll(void);
 extern void sound_synthesize(SWORD *buffer, int length);
 #endif
 
+extern sound_t *sound_get_psid(unsigned int channel);
+
 #endif /* !defined (_SOUND_H) */
 

@@ -344,11 +344,12 @@ static void fill_buffer(int size, int rise)
         for (i = 0; i < size; i++) {
             double factor;
             if (rise < 0)
-                factor = (double)(size - i)/size;
+                factor = (double)(size - i) / size;
             else
-                if (rise > 0) factor = (double)i/size;
-            else
-                factor = 1.0;
+                if (rise > 0)
+                    factor = (double)i / size;
+                else
+                    factor = 1.0;
 
             p[i * snddata.channels + c] = (SWORD)(snddata.lastsample[c]
                                           * factor);
@@ -413,11 +414,13 @@ static int sid_init(void)
     }
 
     snddata.clkstep = SOUNDCLK_CONSTANT(cycles_per_sec) / sample_rate;
+
     if (snddata.oversamplenr > 1) {
         snddata.clkstep /= snddata.oversamplenr;
         log_message(sound_log, "Using %dx oversampling",
                     snddata.oversamplenr);
     }
+
     snddata.origclkstep = snddata.clkstep;
     snddata.clkfactor = SOUNDCLK_CONSTANT(1.0);
     snddata.fclk = SOUNDCLK_CONSTANT(maincpu_clk);
@@ -437,6 +440,11 @@ static void sid_close(void)
             snddata.psid[c] = NULL;
         }
     }
+}
+
+sound_t *sound_get_psid(unsigned int channel)
+{
+    return snddata.psid[channel];
 }
 
 /* open sound device */
@@ -506,9 +514,11 @@ static int sound_open(void)
             }
         }
         snddata.issuspended = 0;
+
         for (c = 0; c < snddata.channels; c++) {
             snddata.lastsample[c] = 0;
         }
+
         snddata.pdev = pdev;
         snddata.fragsize = fragsize;
         snddata.fragnr = fragnr;
@@ -525,6 +535,7 @@ static int sound_open(void)
         if (sid_open() != 0 || sid_init() != 0) {
             return 1;
         }
+
         sid_state_changed = FALSE;
 
         /* Set warp mode for non-realtime sound devices in vsid mode. */

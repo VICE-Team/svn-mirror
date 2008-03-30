@@ -29,6 +29,9 @@
 
 #include "types.h"
 
+struct sound_s;
+struct sid_snapshot_state_s;
+
 #define SID_ENGINE_FASTSID        0
 #define SID_ENGINE_CATWEASELMKIII 1
 
@@ -40,8 +43,10 @@ extern void sid_reset(void);
 
 extern BYTE *sid_get_siddata(unsigned int channel);
 extern void sid_engine_set(int engine);
-
-struct sound_s;
+extern void sid_state_read(unsigned int channel,
+                           struct sid_snapshot_state_s *sid_state);
+extern void sid_state_write(unsigned int channel,
+                            struct sid_snapshot_state_s *sid_state);
 
 struct sid_engine_s {
     struct sound_s *(*open)(BYTE *sidstate);
@@ -53,7 +58,11 @@ struct sid_engine_s {
     int (*calculate_samples)(struct sound_s *psid, SWORD *pbuf, int nr,
 			     int interleave, int *delta_t);
     void (*prevent_clk_overflow)(struct sound_s *psid, CLOCK sub);
-    char* (*dump_state)(struct sound_s *psid);
+    char *(*dump_state)(struct sound_s *psid);
+    void (*state_read)(struct sound_s *psid,
+                       struct sid_snapshot_state_s *sid_state);
+    void (*state_write)(struct sound_s *psid,
+                        struct sid_snapshot_state_s *sid_state);
 };
 typedef struct sid_engine_s sid_engine_t;
 
