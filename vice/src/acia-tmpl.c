@@ -1,12 +1,26 @@
 /*
- *
- * This file is part of Commodore 64 emulator.
- * See README for copyright notice
- *
- * ACIA 6551 rs232 emulation
+ * acia-tmpl.c - Template file for ACIA 6551 emulation.
  *
  * Written by
- *    Andre Fachat (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
  *
  */
 
@@ -16,14 +30,16 @@
 #include <stdio.h>
 #endif
 
-#include "resources.h"
 #include "cmdline.h"
+#include "interrupt.h"
+#include "log.h"
+#include "machine.h"
+#include "resources.h"
+#include "rs232.h"
+#include "snapshot.h"
 #include "types.h"
 #include "vmachine.h"
-#include "machine.h"
-#include "interrupt.h"
-#include "snapshot.h"
-#include "rs232.h"
+
 #include "acia.h"
 
 INCLUDES
@@ -40,6 +56,8 @@ static BYTE rxdata;	/* data that has been received last */
 static BYTE txdata;	/* data prepared to send */
 static BYTE status;
 static int alarm_active = 0;	/* if alarm is set or not */
+
+static log_t myacia_log = LOG_ERR;
 
 /******************************************************************/
 
@@ -77,8 +95,8 @@ static int myacia_irq_res;
 static int myacia_set_device(resource_value_t v) {
 
     if(fd!=ILLEGAL_FILE_DESC) {
-	fprintf(errfile, "MYACIA: device open, change effective only after "
-		"close!\n");
+	log_error(myacia_log,
+                  "Device open, change effective only after close!");
     }
     myacia_device = (int) v;
     return 0;
@@ -140,7 +158,7 @@ static double acia_baud_table[16] = {
 void reset_myacia(void) {
 
 #ifdef DEBUG
-	fprintf(logfile, "reset_myacia\n");
+	log_message(myacia_log, "reset_myacia");
 #endif
 
 	cmd = 0;
@@ -287,7 +305,7 @@ int myacia_read_snapshot_module(snapshot_t * p)
 void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 
 #ifdef DEBUG
-	fprintf(logfile, "store_myacia(%04x,%02x\n",a,b);
+	log_message(myacia_log, "store_myacia(%04x,%02x)",a,b);
 #endif
 
 	switch(a & 3) {
@@ -346,7 +364,7 @@ BYTE REGPARM1 read_myacia(ADDRESS a) {
 	static BYTE lastb = 0;
 
 	if((a!=lasta) || (b!=lastb)) {
-	  fprintf(logfile, "read_myacia(%04x) -> %02x\n",a,b);
+	  log_message(myacia_log, "read_myacia(%04x) -> %02x",a,b);
 	}
 	lasta = a; lastb = b;
 	return b;
@@ -392,10 +410,6 @@ BYTE peek_myacia(ADDRESS a) {
 }
 
 int int_myacia(long offset) {
-#if 0 /*def DEBUG*/
-	fprintf(logfile, "int_myacia(clk=%ld)\n",myclk-offset);
-#endif
-
 	if(intx==2 && fd!=ILLEGAL_FILE_DESC) rs232_putc(fd,txdata);
 	if(intx) intx--;
 

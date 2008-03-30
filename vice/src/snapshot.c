@@ -38,6 +38,7 @@ typedef int off_t;
 
 #include "snapshot.h"
 
+#include "log.h"
 #include "utils.h"
 #include "zfile.h"
 
@@ -395,8 +396,6 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
     return m;
 
 fail:
-    /* fprintf(logfile, "-> failed!\n"); */
-
     fseek(s->file, s->first_module_offset, SEEK_SET);
     free(m);
     return NULL;
@@ -494,7 +493,7 @@ snapshot_t *snapshot_open(const char *filename,
     if (memcmp(read_name, machine_name, machine_name_len) != 0
         || (machine_name_len != SNAPSHOT_MODULE_NAME_LEN
             && read_name[machine_name_len] != 0)) {
-        fprintf(errfile, "SNAPSHOT: Wrong machine type.\n");
+        log_error(LOG_DEFAULT, "SNAPSHOT: Wrong machine type.");
         goto fail;
     }
 
