@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-01-30 22:18+0100\n"
+"POT-Creation-Date: 2006-02-11 22:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "Disable warp mode"
 msgstr ""
 
-#: src/vsync.c:479
+#: src/vsync.c:478
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Sorry. Multiple recording is not supported."
 msgstr ""
 
-#: src/autostart.c:186
+#: src/autostart.c:187
 msgid "Cannot load snapshot file."
 msgstr ""
 
@@ -420,15 +420,15 @@ msgstr ""
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:893
+#: src/network.c:897
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:904
+#: src/network.c:908
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:946
+#: src/network.c:950
 msgid "Network out of sync - disconnecting."
 msgstr ""
 

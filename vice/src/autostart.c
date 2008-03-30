@@ -49,6 +49,7 @@
 #include "machine-bus.h"
 #include "machine.h"
 #include "mem.h"
+#include "network.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "tape.h"
@@ -483,7 +484,7 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     BYTE vmajor, vminor;
     snapshot_t *snap;
 
-    if (file_name == NULL || !autostart_enabled)
+    if (network_connected() || file_name == NULL || !autostart_enabled)
         return -1;
 
     deallocate_program_name();  /* not needed at all */
@@ -510,7 +511,7 @@ int autostart_tape(const char *file_name, const char *program_name,
 {
     char *name = NULL;
 
-    if (!file_name || !autostart_enabled)
+    if (network_connected() || !file_name || !autostart_enabled)
         return -1;
 
     /* Get program name first to avoid more than one file handle open on
@@ -577,7 +578,7 @@ int autostart_disk(const char *file_name, const char *program_name,
 {
     char *name = NULL;
 
-    if (!file_name || !autostart_enabled)
+    if (network_connected() || !file_name || !autostart_enabled)
         return -1;
 
     /* Get program name first to avoid more than one file handle open on
@@ -617,6 +618,9 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     char *file;
     fileio_info_t *finfo;
 
+    if (network_connected())
+        return -1;
+    
     finfo = fileio_open(file_name, NULL, FILEIO_FORMAT_RAW | FILEIO_FORMAT_P00,
                         FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME,
                         FILEIO_TYPE_PRG);
@@ -667,7 +671,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
 int autostart_autodetect(const char *file_name, const char *program_name,
                          unsigned int program_number, unsigned int runmode)
 {
-    if (file_name == NULL)
+    if (network_connected() || file_name == NULL)
         return -1;
 
     if (!autostart_enabled) {
@@ -704,7 +708,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
 /* Autostart the image attached to device `num'.  */
 int autostart_device(int num)
 {
-    if (!autostart_enabled)
+    if (network_connected() || !autostart_enabled)
         return -1;
 
     switch (num) {

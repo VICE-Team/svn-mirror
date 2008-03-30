@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.19\n"
-"POT-Creation-Date: 2006-01-30 22:18+0100\n"
+"POT-Creation-Date: 2006-02-11 22:33+0100\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -47,7 +47,7 @@ msgstr "Activer mode turbo"
 msgid "Disable warp mode"
 msgstr "Désactiver mode turbo"
 
-#: src/vsync.c:479
+#: src/vsync.c:478
 msgid "Your machine is too slow for current settings!"
 msgstr "-Votre ordinateur est trop lent pour les paramètres choisis!"
 
@@ -55,7 +55,7 @@ msgstr "-Votre ordinateur est trop lent pour les paramètres choisis!"
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Désolé. L'enregistrement multiple n'est pas supporté."
 
-#: src/autostart.c:186
+#: src/autostart.c:187
 msgid "Cannot load snapshot file."
 msgstr "Impossible de charger la sauvegarde."
 
@@ -439,15 +439,15 @@ msgstr ""
 msgid "Receiving snapshot from server..."
 msgstr "Sélectionner la sauvegarde de fin pour l'historique des événements"
 
-#: src/network.c:893
+#: src/network.c:897
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:904
+#: src/network.c:908
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:946
+#: src/network.c:950
 msgid "Network out of sync - disconnecting."
 msgstr ""
 

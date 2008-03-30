@@ -1,9 +1,9 @@
 
-PETCAT version 2.12 PL 1					24 Jan 2006
+PETCAT version 2.15 PL 1					3 Feb 2006
 
 
   Listed below are keywords and token codes for all CBM Basic versions
-  supported on petcat v2.12 PL 1. They include the following:
+  supported on petcat v2.15 PL 1. They include the following:
  
 	Basic 1.0
 	Basic 2.0
@@ -22,6 +22,9 @@ PETCAT version 2.12 PL 1					24 Jan 2006
 	Basic 2.0 with Drago basic 2.2
 	Basic 2.0 with REU-basic
 	Basic 2.0 with Basic Lightning
+	Basic 2.0 with Magic Basic
+	Basic 2.0 with Easy Basic
+        Basic 2.0 with Blarg
 	Basic 4.0
 	Basic 4.0 extension for C64
 	Basic 3.5
@@ -319,7 +322,7 @@ fe3d                              highlight
   2)	Gives "unimplemented command error" on BASIC 10.0 v0.9
   3)	Only 'set def' is implemented.
   4)	Command also available on PET Basic 4.0, but the Token Code is
-	 different from that of V3.5, 7.0 and 10.0.
+	 different from that of V3.5, 7.0, 7.1 and 10.0.
 
  -----------------------------------------------------------------------------
 
@@ -328,66 +331,67 @@ fe3d                              highlight
 
  Turtle Basic v1.0 Keywords (Tokens CC - ED)
  Mighty Basic      Keywords (Tokens CC - FE)
+ Easy Basic        Keywords (Tokens CC - FE)
 
-        Turtle   Mighty
+Token  Turtle   Mighty     Easy
 
-cc	graphic  delete
-cd	old      old
-ce	turn     renumber
-cf	pen      help
+cc     graphic  delete     delete
+cd     old      old        old
+ce     turn     renumber   renumber
+cf     pen      help       dump
 
-d0	draw     header
-d1	move     move
-d2	point    trace
-d3	kill     kill
-d4	write    dump
-d5	repeat   dsave
-d6	screen   dload
-d7	doke     dverify
+d0     draw     header     merge
+d1     move     move       plot
+d2     point    trace      trace
+d3     kill     kill       kill
+d4     write    dump       help
+d5     repeat   dsave      dload
+d6     screen   dload      dsave
+d7     doke     dverify    dverify
 
-d8	reloc    dresave
-d9	fill     scratch
-da	rtime    directory
-db	base     key
-dc	pause    send
-dd	pop      pop
-de	color    off
-df	merge    bsave
+d8     reloc    dresave    append
+d9     fill     scratch    screen
+da     rtime    directory  directory
+db     base     key        key
+dc     pause    send       send
+dd     pop      pop        pop
+de     color    off        off
+df     merge    bsave      pout
 
-e0	char     bload
-e1	take     find
-e2	sound    auto
-e3	vol      pprint
-e4	put      accept
-e5	place    reset
-e6	cls      else
-e7	accept   color
+e0     char     bload      header
+e1     take     find       find
+e2     sound    auto       auto
+e3     vol      pprint     pprint
+e4     put      accept     accept
+e5     place    reset      reset
+e6     cls      else       scratch
+e7     accept   color      color
 
-e8	reset    take
-e9	grab     pause
-ea	rdot     base
-eb	plr$     copychr
-ec	deek     char
-ed	joy      beep
-ee               cls
-ef               fill
+e8     reset    take       take
+e9     grab     pause      pause
+ea     rdot     base       base
+eb     plr$     copychr    copychr
+ec     deek     char       char
+ed     joy      beep       clk
+ee               cls        cls
+ef               fill       fill
 
-f0               merge
-f1               sound
-f2               give
-f3               plist
-f4               put
-f5               volume
-f6               rtime
-f7               msb
+f0               merge      retime
+f1               sound      sound
+f2               give       poff
+f3               plist      plist
+f4               put        put
+f5               volume     volume
+f6               rtime      joy
+f7               msb        msb
 
-f8               lsb
-f9               vector
-fa               joy
-fb               dec
-fc               hex$
-fd               grab
-fe               ds$
+f8               lsb        lsb
+f9               vector     vector
+fa               joy        rkey
+fb               dec        dec
+fc               hex$       hex$
+fd               grab       grab
+fe               ds$        ds$
 
 
  -----------------------------------------------------------------------------
@@ -487,65 +491,68 @@ fe                                 exit    joy         joy
   Drago basic 2.2   Keywords (Tokens CC - D8)
   REU-basic         Keywords (Tokens CC - DA)
   Basic Lightning   Keywords (Tokens CC - FE)
+  Magic Basic       Keywords (Tokens CC - FD)
+  Blarg             Keywords (Tokens E0 - EA)
 
-Token  Xbasic    Drago    REU    Light
 
-cc     sprat     punkt    push   else
-cd     brdr      linia    pull   hex$
-ce     screen    rysuj    flip   deek
-cf     quit      param    rec    true
+Token  Xbasic    Drago    REU    Light     Magic      Blarg
 
-d0     sprmult   kontur   stash  import
-d1     move      anim     fetch  cfn
-d2     sprite    kolor    swap   size
-d3     asprite   puwid    reu    false
-d4     dsprite   ryselip  size   ver$
-d5     sid       koguma   dir    lpx
-d6     envelope  fiut     @      lpy
-d7     gate      figura   kill   common%
+cc     sprat     punkt    push   else      assembler
+cd     brdr      linia    pull   hex$      auto
+ce     screen    rysuj    flip   deek      cdrive
+cf     quit      param    rec    true      cat
 
-d8     frq       figuma   rom    crow
+d0     sprmult   kontur   stash  import    dappend
+d1     move      anim     fetch  cfn       delete
+d2     sprite    kolor    swap   size      dez
+d3     asprite   puwid    reu    false     dir
+d4     dsprite   ryselip  size   ver$      dload
+d5     sid       koguma   dir    lpx       dsave
+d6     envelope  fiut     @      lpy       dverify
+d7     gate      figura   kill   common%   config
+
+d8     frq       figuma   rom    crow      find
 d9     wave               ram    ccol
 da     vol                move   atr
-db     fcut                      inc
-dc     fmode                     num
-dd     filter                    row2
-de     frsn                      col2
-df     cset                      spn2
+db     fcut                      inc       help
+dc     fmode                     num       hex
+dd     filter                    row2      jump
+de     frsn                      col2      llist
+df     cset                      spn2      lprint
 
-e0     multi                     hgt
-e1     extnd                     wid
-e2     locate                    row
-e3     center                    col
-e4     hires                     spn
-e5     line                      task
-e6     hprnt                     halt
-e7     plot                      repeat
+e0     multi                     hgt       off        plot
+e1     extnd                     wid       old        line
+e2     locate                    row       renum      circle
+e3     center                    col       crun       gron
+e4     hires                     spn       send       groff
+e5     line                      task      status     mode
+e6     hprnt                     halt      hires      origin
+e7     plot                      repeat    multi      clear
 
-e8     text                      until
-e9     clear                     while
-ea     colr                      wend
-eb     stick                     cif
-ec     btn                       celse
-ed                               cend
-ee                               label
-ef                               doke
+e8     text                      until     clear      buffer
+e9     clear                     while     plot       swap
+ea     colr                      wend      invert     color
+eb     stick                     cif       line
+ec     btn                       celse     text
+ed                               cend      graphik
+ee                               label     page
+ef                               doke      box
 
-f0                               exit
-f1                               allocate
-f2                               disable
-f3                               pull
-f4                               dload
-f5                               dsave
-f6                               var
-f7                               local
+f0                               exit      draw
+f1                               allocate  mix
+f2                               disable   copy
+f3                               pull      circle
+f4                               dload     gsave
+f5                               dsave     gload
+f6                               var       frame
+f7                               local     hprint
 
-f8                               procend
-f9                               proc
-fa                               casend
+f8                               procend   vprint
+f9                               proc      block
+fa                               casend    fill
 fb                               of
-fc                               case
-fd                               rpt
+fc                               case      replace
+fd                               rpt       lrun
 fe                               setatr
 
 

@@ -807,8 +807,12 @@ void network_disconnect(void)
 {
 #ifdef HAVE_NETWORK
     closesocket(network_socket);
-    closesocket(listen_socket);
-    network_mode = NETWORK_IDLE;
+    if (network_mode == NETWORK_SERVER_CONNECTED) {
+        network_mode = NETWORK_SERVER;
+    } else {
+        closesocket(listen_socket);
+        network_mode = NETWORK_IDLE;
+    }
 #endif
 }
 

@@ -48,7 +48,12 @@ static const c64export_resource_t export_res_simon = {
 
 BYTE REGPARM1 kcs_io1_read(WORD addr)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
+    BYTE config;
+
+    /* A1 switches off roml/romh banks */
+    config = (addr & 2) ? 2 : 0;
+
+    cartridge_config_changed(config, config, CMODE_READ);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 

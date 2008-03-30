@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-01-30 22:18+0100\n"
+"POT-Creation-Date: 2006-02-11 22:33+0100\n"
 "PO-Revision-Date: 2006-01-22 11:22+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -42,7 +42,7 @@ msgstr "Warp Mode Aktivieren"
 msgid "Disable warp mode"
 msgstr "Warp Mode Deaktivieren"
 
-#: src/vsync.c:479
+#: src/vsync.c:478
 msgid "Your machine is too slow for current settings!"
 msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 
@@ -51,7 +51,7 @@ msgid "Sorry. Multiple recording is not supported."
 msgstr ""
 "Eine Aufnahme ist zur Zeit aktiv. Mehrfache Aufnahme ist nicht möglich."
 
-#: src/autostart.c:186
+#: src/autostart.c:187
 msgid "Cannot load snapshot file."
 msgstr "Kann Snapshot Datei nicht laden."
 
@@ -425,15 +425,15 @@ msgstr "Kann zu %s nicht verbinden (Kein Server aktiv auf Port %d)."
 msgid "Receiving snapshot from server..."
 msgstr "Empfange Snapshot von Server..."
 
-#: src/network.c:893
+#: src/network.c:897
 msgid "Remote host disconnected."
 msgstr "Entfernter Rechner getrennt."
 
-#: src/network.c:904
+#: src/network.c:908
 msgid "Remote host suspending..."
 msgstr "Entfernter Rechner angehaltedn..."
 
-#: src/network.c:946
+#: src/network.c:950
 msgid "Network out of sync - disconnecting."
 msgstr "Netzwerksynchronisationsproblem - Trenne Verbindung."
 

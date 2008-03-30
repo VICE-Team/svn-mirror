@@ -247,7 +247,8 @@ doc_DATA = \
 	Win32-Howto.txt \
 	iec-bus.txt \
 	mon.txt \
-	MinixVmd-Howto.txt
+	MinixVmd-Howto.txt \
+	delaep64.pl
 
 
 info_TEXINFOS = \

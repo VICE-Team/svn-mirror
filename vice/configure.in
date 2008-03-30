@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=4
+VICE_VERSION_BUILD=5
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -83,9 +83,6 @@ fi
 
 user_cflags=$CFLAGS
 AC_PROG_CC
-
-dnl Path for keymaps, ROMs etc.
-VICEDIR="$prefix/lib/vice"
 
 if test x"$host_os" = "xminixvmd"; then
   AR="\$(top_srcdir)/src/arch/unix/minix/minix-ar.sh"
@@ -252,8 +249,6 @@ else
 
   AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
 fi
-
-AC_SUBST(VICEDIR)
 
 AM_CONDITIONAL(USE_MIDAS_SOUND, test x"$with_midas" = "xyes")
 AM_CONDITIONAL(DOS_OR_WIN, test x"$is_dos" = "xyes" -o x"$is_win32" = "xyes")
@@ -1488,15 +1483,19 @@ AC_SUBST(SOUND_MIDAS_OBJ)
 AC_SUBST(SOUND_SDL_OBJ)
 
 if test "$prefix" = NONE && test "$exec_prefix" = NONE; then
-  AC_DEFINE_UNQUOTED(PREFIX, "$ac_default_prefix",
-                     [Where do we want to install the executable?])
+  PREFIX="$ac_default_prefix"
 elif test "$prefix" = NONE; then
-  AC_DEFINE_UNQUOTED(PREFIX, "$exec_prefix",
-                     [Where do we want to install the executable?])
+  PREFIX="$exec_prefix"
 else
-  AC_DEFINE_UNQUOTED(PREFIX, "$prefix",
-                     [Where do we want to install the executable?])
+  PREFIX="$prefix"
 fi
+
+AC_DEFINE_UNQUOTED(PREFIX, "$PREFIX",
+		   [Where do we want to install the executable?])
+
+dnl Path for keymaps, ROMs etc.
+VICEDIR="$PREFIX/lib/vice";
+AC_SUBST(VICEDIR)
 
 if false ; then
     dnl Now produce the directories & Makefiles.

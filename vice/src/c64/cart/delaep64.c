@@ -91,7 +91,6 @@ void delaep64_config_setup(BYTE *rawcart)
 int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
 {
     WORD chip;
-    WORD address;
     WORD size;
     WORD rom_size=0;
     BYTE chipheader[0x10];

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-01-30 22:18+0100\n"
+"POT-Creation-Date: 2006-02-11 22:33+0100\n"
 "PO-Revision-Date: 2006-01-02 16:58+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -43,7 +43,7 @@ msgstr "Attiva la modalità turbo"
 msgid "Disable warp mode"
 msgstr "Disattiva la modalità turbo"
 
-#: src/vsync.c:479
+#: src/vsync.c:478
 msgid "Your machine is too slow for current settings!"
 msgstr "Il computer è troppo lento per queste impostazioni!"
 
@@ -51,7 +51,7 @@ msgstr "Il computer è troppo lento per queste impostazioni!"
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Le registrazioni multiple non sono supportate."
 
-#: src/autostart.c:186
+#: src/autostart.c:187
 msgid "Cannot load snapshot file."
 msgstr "Non è possibile caricare il file di snapshot."
 
@@ -432,15 +432,15 @@ msgstr ""
 msgid "Receiving snapshot from server..."
 msgstr "Ricezione dello snapshot dal server in corso..."
 
-#: src/network.c:893
+#: src/network.c:897
 msgid "Remote host disconnected."
 msgstr "Disconnesso dall'host remoto."
 
-#: src/network.c:904
+#: src/network.c:908
 msgid "Remote host suspending..."
 msgstr "Sospesione dell'host remoto in corso..."
 
-#: src/network.c:946
+#: src/network.c:950
 msgid "Network out of sync - disconnecting."
 msgstr "Rete non sincronizzata - disconnesione in corso."
 

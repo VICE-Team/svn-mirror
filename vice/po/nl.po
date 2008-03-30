@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-01-30 22:18+0100\n"
+"POT-Creation-Date: 2006-02-11 22:33+0100\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -43,7 +43,7 @@ msgstr "Aktiveer warp modus"
 msgid "Disable warp mode"
 msgstr "Warp modus afsluiten"
 
-#: src/vsync.c:479
+#: src/vsync.c:478
 msgid "Your machine is too slow for current settings!"
 msgstr "Uw machine is te traag voor de huidige instellingen!"
 
@@ -51,7 +51,7 @@ msgstr "Uw machine is te traag voor de huidige instellingen!"
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Sorry. Meerdere opnames wordt niet ondersteund."
 
-#: src/autostart.c:186
+#: src/autostart.c:187
 msgid "Cannot load snapshot file."
 msgstr "Kan momentopname bestand niet laden."
 
@@ -426,15 +426,15 @@ msgstr ""
 msgid "Receiving snapshot from server..."
 msgstr "Momentopname van de server wordt ontvangen..."
 
-#: src/network.c:893
+#: src/network.c:897
 msgid "Remote host disconnected."
 msgstr "Andere computer heeft de verbinding verbroken."
 
-#: src/network.c:904
+#: src/network.c:908
 msgid "Remote host suspending..."
 msgstr "Andere computer halt de netplay..."
 
-#: src/network.c:946
+#: src/network.c:950
 msgid "Network out of sync - disconnecting."
 msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 
@@ -822,39 +822,32 @@ msgid "Size of the GEORAM expansion unit"
 msgstr "Grootte van de GEORAM Uitbreidings Eenheid"
 
 #: src/c64/plus256k.c:175
-#, fuzzy
 msgid "Enable the PLUS256K RAM expansion"
-msgstr "Aktiveer de 256K geheugen uitbreiding"
+msgstr "Aktiveer de PLUS256K geheugen uitbreiding"
 
 #: src/c64/plus256k.c:177
-#, fuzzy
 msgid "Disable the PLUS256K RAM expansion"
-msgstr "De 256K geheugen uitbreiding afsluiten"
+msgstr "De PLUS256K geheugen uitbreiding afsluiten"
 
 #: src/c64/plus256k.c:179
-#, fuzzy
 msgid "Specify name of PLUS256K image"
-msgstr "Geef de naam van het 256K bestand"
+msgstr "Geef de naam van het PLUS256K bestand"
 
 #: src/c64/plus60k.c:250
-#, fuzzy
 msgid "Enable the PLUS60K RAM expansion"
-msgstr "Aktiveer de +60K geheugen uitbreiding"
+msgstr "Aktiveer de PLUS60K geheugen uitbreiding"
 
 #: src/c64/plus60k.c:252
-#, fuzzy
 msgid "Disable the PLUS60K RAM expansion"
-msgstr "De +60K geheugen uitbreiding afsluiten"
+msgstr "De PLUS60K geheugen uitbreiding afsluiten"
 
 #: src/c64/plus60k.c:254
-#, fuzzy
 msgid "Specify name of PLUS60K image"
-msgstr "Geef de naam van het +60K bestand"
+msgstr "Geef de naam van het PLUS60K bestand"
 
 #: src/c64/plus60k.c:256
-#, fuzzy
 msgid "Base address of the PLUS60K expansion"
-msgstr "Basis adres van de +60K geheugen uitbreiding"
+msgstr "Basis adres van de PLUS60K geheugen uitbreiding"
 
 #: src/c64/psid.c:162
 msgid "SID player mode"
@@ -1424,24 +1417,20 @@ msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Geef de hoeveelheid RAM in kb (16/32/64)"
 
 #: src/plus4/plus4memcsory256k.c:120
-#, fuzzy
 msgid "Enable the CSORY 256K RAM expansion"
-msgstr "Aktiveer de 256K geheugen uitbreiding"
+msgstr "Aktiveer de CSORY 256K geheugen uitbreiding"
 
 #: src/plus4/plus4memhannes256k.c:135
-#, fuzzy
 msgid "Enable the HANNES 256K RAM expansion"
-msgstr "Aktiveer de 256K geheugen uitbreiding"
+msgstr "Aktiveer de HANNES 256K geheugen uitbreiding"
 
 #: src/plus4/plus4memhannes256k.c:137
-#, fuzzy
 msgid "Enable the HANNES 1024K RAM expansion"
-msgstr "Aktiveer de 256K geheugen uitbreiding"
+msgstr "Aktiveer de HANNES 1024K geheugen uitbreiding"
 
 #: src/plus4/plus4memhannes256k.c:139
-#, fuzzy
 msgid "Enable the HANNES 4096K RAM expansion"
-msgstr "Aktiveer de 256K geheugen uitbreiding"
+msgstr "Aktiveer de HANNES 4096K geheugen uitbreiding"
 
 #: src/plus4/ted-cmdline-options.c:56 src/vicii/vicii-cmdline-options.c:83
 msgid "Set saturation of internal calculated palette [1000]"
@@ -2147,17 +2136,14 @@ msgid "*Old NTSC-M"
 msgstr "*Oud NTSC-M"
 
 #: src/arch/unix/c64ui.c:275
-#, fuzzy
 msgid "PLUS60K RAM Expansion"
-msgstr "+60K geheugen uitbreiding"
+msgstr "PLUS60K geheugen uitbreiding"
 
 #: src/arch/unix/c64ui.c:277
-#, fuzzy
 msgid "PLUS256K RAM Expansion"
-msgstr "256K geheugen uitbreiding"
+msgstr "PLUS256K geheugen uitbreiding"
 
 #: src/arch/unix/c64ui.c:279
-#, fuzzy
 msgid "256K RAM Expansion"
 msgstr "256K geheugen uitbreiding"
 
@@ -2517,19 +2503,19 @@ msgstr "*64KB"
 
 #: src/arch/unix/plus4ui.c:127
 msgid "*256KB (CSORY)"
-msgstr ""
+msgstr "*256KB (CSORY)"
 
 #: src/arch/unix/plus4ui.c:129
 msgid "*256KB (HANNES)"
-msgstr ""
+msgstr "*256KB (HANNES)"
 
 #: src/arch/unix/plus4ui.c:131
 msgid "*1024KB (HANNES)"
-msgstr ""
+msgstr "*1024KB (HANNES)"
 
 #: src/arch/unix/plus4ui.c:133
 msgid "*4096KB (HANNES)"
-msgstr ""
+msgstr "*4096KB (HANNES)"
 
 #: src/arch/unix/plus4ui.c:143
 msgid "RAM settings"
@@ -3903,39 +3889,32 @@ msgid "PET REU image name..."
 msgstr "PET REU bestand naam..."
 
 #: src/arch/unix/uiplus256k.c:40
-#, fuzzy
 msgid "PLUS256K image name"
-msgstr "256K bestand naam"
+msgstr "PLUS256K bestand naam"
 
 #: src/arch/unix/uiplus256k.c:45
-#, fuzzy
 msgid "*Enable PLUS256K"
-msgstr "*Aktiveer 256K"
+msgstr "*Aktiveer PLUS256K"
 
 #: src/arch/unix/uiplus256k.c:47
-#, fuzzy
 msgid "PLUS256K image name..."
-msgstr "256K bestand naam..."
+msgstr "PLUS256K bestand naam..."
 
 #: src/arch/unix/uiplus60k.c:41
-#, fuzzy
 msgid "PLUS60K image name"
-msgstr "+60K bestand naam"
+msgstr "PLUS60K bestand naam"
 
 #: src/arch/unix/uiplus60k.c:54
-#, fuzzy
 msgid "*Enable PLUS60K"
-msgstr "*Aktiveer +60K"
+msgstr "*Aktiveer PLUS60K"
 
 #: src/arch/unix/uiplus60k.c:56
-#, fuzzy
 msgid "PLUS60K base address"
-msgstr "+60K basis adres"
+msgstr "PLUS60K basis adres"
 
 #: src/arch/unix/uiplus60k.c:58
-#, fuzzy
 msgid "PLUS60K image name..."
-msgstr "+60K bestand naam..."
+msgstr "PLUS60K bestand naam..."
 
 #: src/arch/unix/uiprinter.c:80 src/arch/unix/uiprinter.c:95
 #: src/arch/unix/uiprinter.c:107
@@ -4841,7 +4820,6 @@ msgid "Official VICE homepage:"
 msgstr "Officiële VICE homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:86
-#, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Karlsson - Swedish\n"
@@ -4853,7 +4831,7 @@ msgstr ""
 "Martin Pottendorfer - Duits\n"
 "Peter Karlsson - Zweeds\n"
 "Andrea Musuruane - Italiaans\n"
-"Paul Dube - Frans\n"
+"Paul Dub - Frans\n"
 "Marco van den Heuvel - Nederlands\n"
 "Flooder - Pools\n"
 

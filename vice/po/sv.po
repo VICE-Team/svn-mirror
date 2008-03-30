@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-01-30 22:18+0100\n"
+"POT-Creation-Date: 2006-02-11 22:33+0100\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -42,7 +42,7 @@ msgstr "Aktivera warpläge"
 msgid "Disable warp mode"
 msgstr "Inaktivera warpläge"
 
-#: src/vsync.c:479
+#: src/vsync.c:478
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
@@ -50,7 +50,7 @@ msgstr "Din maskin är för långsam för nuvarande inställningar!"
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Endast en inspelning kan göras åt gången."
 
-#: src/autostart.c:186
+#: src/autostart.c:187
 msgid "Cannot load snapshot file."
 msgstr "Kan inte läsa in ögonblicksbildfil."
 
@@ -424,15 +424,15 @@ msgstr ""
 msgid "Receiving snapshot from server..."
 msgstr "Välj slutögonblicksmodul för händelsehistorik"
 
-#: src/network.c:893
+#: src/network.c:897
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:904
+#: src/network.c:908
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:946
+#: src/network.c:950
 msgid "Network out of sync - disconnecting."
 msgstr ""
 

@@ -1,3 +1,31 @@
+2006-02-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.5.
+
+2006-02-11  Michael Klein <michael.klein@puffin.lb.shuttle.de>
+
+	* doc/Makefile.am: Added new files.
+
+	* doc/delaep64.pl: New files.
+
+2006-02-05  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* configure.in: Corrected handling of VICEDIR variable.
+
+2006-02-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Added Blarg support.
+
+2006-02-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Added Easy Basic
+	support.
+
+2006-02-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Added Magic Basic
+	support.
+
 2006-01-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.4.

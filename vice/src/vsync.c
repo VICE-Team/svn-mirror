@@ -106,7 +106,7 @@ static int set_warp_mode(resource_value_t v, void *param)
 /* Vsync-related resources. */
 static const resource_t resources[] = {
     { "Speed", RES_INTEGER, (resource_value_t)100,
-      RES_EVENT_NO, NULL,
+      RES_EVENT_SAME, NULL,
       (void *)&relative_speed, set_relative_speed, NULL },
     { "RefreshRate", RES_INTEGER, (resource_value_t)0,
       RES_EVENT_STRICT, (resource_value_t)1,
@@ -335,7 +335,6 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         if (network_hook_time > (unsigned long)frame_ticks) {
             next_frame_start += network_hook_time;
             now += network_hook_time;
-            skipped_frames += network_hook_time / frame_ticks;
         }
     }
 

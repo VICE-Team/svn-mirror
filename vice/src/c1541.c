@@ -161,6 +161,7 @@ int cmdline_register_options(const cmdline_option_t *c)
 
 int network_connected(void)
 {
+  return 0;
 }
 
 int network_get_mode(void)

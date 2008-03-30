@@ -1,3 +1,46 @@
+2006-02-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.5.
+
+	* 6510core.c: Fixed some typos.
+
+	* c64/cart/delaep64.c (delaep64_crt_attach): Removed unused
+	variable.
+
+2006-02-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added Blarg support.
+
+2006-02-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* autostart.c (autostart_snapshot, autostart_tape,
+	autostart_disk, autostart_prg, autostart_autodetect,
+	autostart_device): Disabled in network mode.
+
+	* network.c (network_disconnect): Let a connected server
+	return to listen mode.
+
+	* vsync.c: Fixed event_relevant for Speed resource.
+	(vsync_do_vsync): Don't increase skipped_frames if network
+	transfer is delayed, this leads to incorrect fps values.
+
+2006-02-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added Easy Basic support.
+
+2006-02-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added Magic Basic support.
+
+2006-02-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/cart/kcs.c: Fixed an incorrect behaviour of the
+	emulation.
+
+2006-01-30  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* c1541.c, petcat.c: Eliminate some warnings.
+
 2006-01-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.4.
