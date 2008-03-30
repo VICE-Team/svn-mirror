@@ -52,16 +52,21 @@ static void vdc_perform_fillcopy(void)
     ptr = (vdc.regs[18] << 8) + vdc.regs[19];
 
     if (vdc.regs[24] & 0x80) { /* COPY flag */
-        /*log_message(vdc.log, "Blockcopy: src = %x, dest = %x, len = %x.",
-                    ptr2, ptr, blklen);*/
-        for (i = 0; i < blklen; i++)
+        /*log_message(vdc.log, "Blockcopy: src = %04x, dest = %04x, len = %02x,"
+                    " data = %02x.", ptr2, ptr, blklen,
+                    vdc.ram[ptr2 & vdc.vdc_address_mask]);*/
+        for (i = 0; i < blklen; i++) {
             vdc.ram[(ptr + i) & vdc.vdc_address_mask]
                 = vdc.ram[(ptr2 + i) & vdc.vdc_address_mask];
+            /*log_message(vdc.log, "Copy %04x -> %04x %02x", ptr2 + i, ptr + i,
+                        vdc.ram[(ptr2 + i) & vdc.vdc_address_mask]);*/
+        }
         ptr2 += blklen;
         vdc.regs[32] = (ptr2 >> 8) & 0xff;
         vdc.regs[33] = ptr2 & 0xff;
     } else {
-        /*log_message(vdc.log, "Memset: dest = %x, len = %x.", ptr, blklen);*/
+        /*log_message(vdc.log, "Memset: dest = %04x, len = %02x.",
+        ptr, blklen); */
         for (i = 0; i < blklen; i++)
             vdc.ram[(ptr + i) & vdc.vdc_address_mask] = vdc.regs[31];
     }
@@ -80,9 +85,9 @@ static void vdc_perform_fillcopy(void)
 void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 {
 
-/*
-    log_message(vdc.log, "store: addr = %x, byte = %x", addr, value);
-*/
+
+    /*log_message(vdc.log, "store: addr = %x, byte = %x", addr, value);*/
+
     /* $d600 sets the internal vdc address pointer */
     if ((addr & 1) == 0)
     {
@@ -179,6 +184,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
       case 15:                  /* R14-5 Cursor location HI/LO */
         vdc.crsrpos = ((vdc.regs[14] << 8) | vdc.regs[15])
                       & vdc.vdc_address_mask;;
+        vdc.regs[24] &= 0x7f;
         break;
 
       case 16:			/* R16/17 Light Pen hi/lo */
@@ -196,6 +202,13 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
                             & vdc.vdc_address_mask;
         /*log_message(vdc.log,"Update attribute_adr: %x.", vdc.attribute_adr);*/
+        break;
+
+      case 24:
+        if (value & 0x20)
+          vdc.text_blink_frequency = 32;
+        else
+          vdc.text_blink_frequency = 16;
         break;
 
       case 25:
@@ -234,9 +247,9 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 BYTE REGPARM1 vdc_read(ADDRESS addr)
 {
     if (addr & 1) {
-/*
-    	log_message(vdc.log, "read: addr = %x", addr);
-*/
+
+    	/*og_message(vdc.log, "read: addr = %x", addr);*/
+
         if (vdc.update_reg == 31) {
             BYTE retval;
             int ptr;
