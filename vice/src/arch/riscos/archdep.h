@@ -37,6 +37,11 @@
 #define FSDEV_EXT_SEP_STR      "/"
 #define FSDEV_EXT_SEP_CHR      '/'
 
+/* Modes for fopen().  */
+#define MODE_READ   "r"
+#define MODE_WRITE  "w"
+#define MODE_APPEND "w+"
+
 extern int   archdep_startup(int *argc, char **argv);
 extern char *archdep_program_name(void);
 extern FILE *archdep_open_default_log_file(void);
@@ -56,4 +61,7 @@ extern void add_history(const char *p);
 /* Logfile */
 extern FILE *open_logfile(const char *basename);
 
+void archdep_setup_signals(int do_core_dumps);
+
 #endif
+

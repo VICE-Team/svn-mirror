@@ -37,6 +37,11 @@
 #define FSDEV_EXT_SEP_STR      "."
 #define FSDEV_EXT_SEP_CHR      '.'
 
+/* Modes for fopen().  */
+#define MODE_READ   "r"
+#define MODE_WRITE  "w"
+#define MODE_APPEND "w+"
+
 /* Define the default system directory (where the ROMs are).  */
 #define LIBDIR          PREFIX "/lib/vice"
 #define DOCDIR          LIBDIR "/doc"
@@ -54,6 +59,8 @@ int archdep_default_logger(const char *level_string, const char *format,
 FILE *archdep_open_default_log_file(void);
 int archdep_num_text_lines(void);
 int archdep_num_text_columns(void);
+
+void archdep_setup_signals(int do_core_dumps);
 
 #endif
 

@@ -34,6 +34,11 @@
 #define FSDEV_EXT_SEP_STR      "."
 #define FSDEV_EXT_SEP_CHR      '.'
 
+/* Modes for fopen().  */
+#define MODE_READ   "r"
+#define MODE_WRITE  "w"
+#define MODE_APPEND "w+"
+
 int archdep_startup(int *argc, char **argv);
 const char *archdep_program_name(void);
 const char *archdep_boot_path(void);
@@ -46,4 +51,7 @@ int archdep_num_text_columns(void);
 int archdep_default_logger(const char *level_string, const char *format,
                                                                 va_list ap);
 
+void archdep_setup_signals(int do_core_dumps);
+
 #endif
+
