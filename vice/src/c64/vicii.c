@@ -1134,11 +1134,13 @@ static void set_sprite_x(int num, int new_x, int raster_x)
 /* Enable DMA for sprite `num'.  */
 inline static void turn_sprite_dma_on(int num)
 {
-    new_dma_msk |= 1 << num;
-    sprites[num].dma_flag = 1;
-    sprites[num].memptr = 0;
-    sprites[num].exp_flag = sprites[num].y_expanded ? 0 : 1;
-    sprites[num].memptr_inc = sprites[num].exp_flag ? 3 : 0;
+    if (!sprites[num].dma_flag) {
+        new_dma_msk |= 1 << num;
+        sprites[num].dma_flag = 1;
+        sprites[num].memptr = 0;
+        sprites[num].exp_flag = sprites[num].y_expanded ? 0 : 1;
+        sprites[num].memptr_inc = sprites[num].exp_flag ? 3 : 0;
+    }
 }
 
 /* Store a value in a VIC-II register. */
@@ -1962,8 +1964,7 @@ inline static void check_sprite_dma(void)
 
     new_dma_msk = dma_msk;
     for (i = 0, b = 1; i < SCREEN_NUM_SPRITES; i++, b <<= 1) {
-	if ((visible_sprite_msk & b)
-	    && sprites[i].y == (rasterline & 0xff)) {
+	if ((visible_sprite_msk & b) && sprites[i].y == (rasterline & 0xff)) {
             turn_sprite_dma_on(i);
 	} else if (sprites[i].dma_flag) {
 	    sprites[i].memptr = ((sprites[i].memptr + sprites[i].memptr_inc)

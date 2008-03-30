@@ -474,11 +474,13 @@ int machine_read_snapshot(const char *name)
     if (s == NULL)
         return -1;
 
+#if 0
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
         fprintf(logfile, "Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
                major, minor, SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }
+#endif
 
     vic_ii_prepare_for_snapshot();
 
