@@ -37,7 +37,6 @@
 #include "archdep.h"
 #include "c64mem.h"
 #include "cmdline.h"
-#include "drive.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -126,15 +125,15 @@ static int cmdline_psid_tune(const char *param, void *extra_param)
 
 static cmdline_option_t cmdline_options[] =
 {
-  /* The Video Standard options are copied from drive-cmdline-options.c */
-  { "-pal", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
-    (resource_value_t) DRIVE_SYNC_PAL,
+  /* The Video Standard options are copied from the machine files. */
+  { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+    (resource_value_t)MACHINE_SYNC_PAL,
     NULL, "Use PAL sync factor" },
-  { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
-    (resource_value_t) DRIVE_SYNC_NTSC,
+  { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+    (resource_value_t)MACHINE_SYNC_NTSC,
     NULL, "Use NTSC sync factor" },
-  { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
-    (resource_value_t) DRIVE_SYNC_NTSCOLD,
+  { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+    (resource_value_t)MACHINE_SYNC_NTSCOLD,
     NULL, "Use old NTSC sync factor" },
   { "-vsid", CALL_FUNCTION, 0, cmdline_vsid_mode, NULL, NULL, NULL,
     NULL, "SID player mode" },
@@ -368,7 +367,7 @@ void psid_init_tune(void)
 	      psid->init_addr, psid->play_addr);
 
   /* PAL/NTSC. */
-  resources_get_value("VideoStandard", &sync);
+  resources_get_value("MachineVideoStandard", &sync);
 
   /* MOS6581/MOS8580. */
   resources_get_value("SidModel", &sid_model);
@@ -407,7 +406,7 @@ void psid_init_tune(void)
       log_message(vlog, "Author: %s",    (char *)(psid->author));
       log_message(vlog, "Copyright: %s", (char *)(psid->copyright));
       log_message(vlog, "Using %s sync",
-                  (int)sync == DRIVE_SYNC_PAL ? "PAL" : "NTSC");
+                  (int)sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
       log_message(vlog, "Using %s emulation",
                   sid_model ? "MOS8580" : "MOS6581");
       log_message(vlog, "Using %s interrupt", irq_str);
@@ -487,16 +486,16 @@ void psid_init_driver(void)
   }
 
   /* C64 PAL/NTSC flag. */
-  resources_get_value("VideoStandard", &sync);
+  resources_get_value("MachineVideoStandard", &sync);
   if (!keepenv) {
     switch ((psid->flags >> 2) & 0x03) {
     case 0x01:
-      sync = (resource_value_t)DRIVE_SYNC_PAL;
-      resources_set_value("VideoStandard", sync);
+      sync = (resource_value_t)MACHINE_SYNC_PAL;
+      resources_set_value("MachineVideoStandard", sync);
       break;
     case 0x02:
-      sync = (resource_value_t)DRIVE_SYNC_NTSC;
-      resources_set_value("VideoStandard", sync);
+      sync = (resource_value_t)MACHINE_SYNC_NTSC;
+      resources_set_value("MachineVideoStandard", sync);
       break;
     default:
       /* Keep settings (00 = unknown, 11 = any) */
@@ -559,7 +558,7 @@ void psid_init_driver(void)
   ram_store(addr++, (BYTE)((psid->speed >> 8) & 0xff));
   ram_store(addr++, (BYTE)((psid->speed >> 16) & 0xff));
   ram_store(addr++, (BYTE)(psid->speed >> 24));
-  ram_store(addr++, (BYTE)((int)sync == DRIVE_SYNC_PAL ? 1 : 0));
+  ram_store(addr++, (BYTE)((int)sync == MACHINE_SYNC_PAL ? 1 : 0));
 }
 
 

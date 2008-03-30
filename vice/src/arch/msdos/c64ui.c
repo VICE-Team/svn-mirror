@@ -32,10 +32,9 @@
 #include <string.h>
 
 #include "c64ui.h"
-
 #include "cartridge.h"
-#include "drive.h"
 #include "keyboard.h"
+#include "machine.h"
 #include "menudefs.h"
 #include "resources.h"
 #include "sidui.h"
@@ -204,32 +203,32 @@ TUI_MENU_DEFINE_TOGGLE(CheckSsColl)
 TUI_MENU_DEFINE_TOGGLE(CheckSbColl)
 TUI_MENU_DEFINE_TOGGLE(PALEmulation)
 
-static TUI_MENU_CALLBACK(toggle_VideoStandard_callback)
+static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
 {
     int value;
 
-    resources_get_value("VideoStandard", (resource_value_t *) &value);
+    resources_get_value("MachineVideoStandard", (resource_value_t *)&value);
 
     if (been_activated) {
-	    if (value == DRIVE_SYNC_PAL)
-	        value = DRIVE_SYNC_NTSC;
-	    else if (value == DRIVE_SYNC_NTSC)
-	        value = DRIVE_SYNC_NTSCOLD;
+            if (value == MACHINE_SYNC_PAL)
+                value = MACHINE_SYNC_NTSC;
+            else if (value == MACHINE_SYNC_NTSC)
+                value = MACHINE_SYNC_NTSCOLD;
         else
-	        value = DRIVE_SYNC_PAL;
+                value = MACHINE_SYNC_PAL;
 
-        resources_set_value("VideoStandard", (resource_value_t) value);
+        resources_set_value("MachineVideoStandard", (resource_value_t)value);
     }
 
     switch (value) {
-      case DRIVE_SYNC_PAL:
-	return "PAL-G";
-      case DRIVE_SYNC_NTSC:
-	return "NTSC-M";
-      case DRIVE_SYNC_NTSCOLD:
-	return "old NTSC-M";
+      case MACHINE_SYNC_PAL:
+        return "PAL-G";
+      case MACHINE_SYNC_NTSC:
+        return "NTSC-M";
+      case MACHINE_SYNC_NTSCOLD:
+        return "old NTSC-M";
       default:
-	return "(Custom)";
+        return "(Custom)";
     }
 }
 
@@ -246,13 +245,13 @@ static TUI_MENU_CALLBACK(toggle_PALMode_callback)
 
     switch (value) {
       case 0:
-	return "Fast PAL";
+        return "Fast PAL";
       case 1:
-	return "Y/C cable (sharp)";
+        return "Y/C cable (sharp)";
       case 2:
-	return "Composite (blurry)";
+        return "Composite (blurry)";
       default:
-	return "unknown";
+        return "unknown";
     }
 }
 
@@ -280,7 +279,7 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "V_ideo Standard:",
       "Select machine clock ratio",
-      toggle_VideoStandard_callback, NULL, 11,
+      toggle_MachineVideoStandard_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
@@ -325,8 +324,7 @@ static struct {
     { "frodo", "Frodo", "_Frodo",
       "Palette from the Frodo emulator by Christian Bauer" },
     { "godot", "GoDot", "_GoDot",
-      "Palette as suggested by the authors of the GoDot C64 graphics package" },
-    { "pc64", "PC64", "_PC64",
+      "Palette as suggested by the authors of the GoDot C64 graphics package" },    { "pc64", "PC64", "_PC64",
       "Palette from the PC64 emulator by Wolfgang Lorenz" },
     { NULL }
 };
@@ -334,7 +332,7 @@ static struct {
 static TUI_MENU_CALLBACK(palette_callback)
 {
     if (been_activated) {
-        if (resources_set_value("PaletteFile", (resource_value_t *) param) < 0)
+        if (resources_set_value("PaletteFile", (resource_value_t *)param) < 0)
            tui_error("Invalid palette file");
         ui_update_menus();
     }
@@ -365,7 +363,7 @@ static TUI_MENU_CALLBACK(palette_menu_callback)
     char *s;
     int i;
 
-    resources_get_value("PaletteFile", (resource_value_t *) &s);
+    resources_get_value("PaletteFile", (resource_value_t *)&s);
     for (i = 0; palette_items[i].name != NULL; i++) {
         if (strcmp(s, palette_items[i].name) == 0)
            return palette_items[i].brief_description;
@@ -399,13 +397,13 @@ static void add_palette_submenu(tui_menu_t parent)
                       "Use the palette file below",
                       toggle_ExternalPalette_callback,
                       NULL, 3, TUI_MENU_BEH_RESUME);
-            
+
     tui_menu_add_submenu(parent, "Color _Palette:",
-			 "Choose color palette",
-			 palette_menu,
-			 palette_menu_callback,
-			 NULL,
-			 10);
+                         "Choose color palette",
+                         palette_menu,
+                         palette_menu_callback,
+                         NULL,
+                         10);
 }
 
 /* ------------------------------------------------------------------------- */

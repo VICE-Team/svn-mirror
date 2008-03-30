@@ -32,8 +32,8 @@
 #include <string.h>
 
 #include "cartridge.h"
-#include "drive.h"
 #include "log.h"
+#include "machine.h"
 #include "menudefs.h"
 #include "resources.h"
 #include "tui.h"
@@ -46,25 +46,25 @@
 
 /* ------------------------------------------------------------------------- */
 
-static TUI_MENU_CALLBACK(toggle_VideoStandard_callback)
+static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
 {
     int value;
 
-    resources_get_value("VideoStandard", (resource_value_t *) &value);
+    resources_get_value("MachineVideoStandard", (resource_value_t *)&value);
 
     if (been_activated) {
-	    if (value == DRIVE_SYNC_PAL)
-	        value = DRIVE_SYNC_NTSC;
+	    if (value == MACHINE_SYNC_PAL)
+	        value = MACHINE_SYNC_NTSC;
         else
-	        value = DRIVE_SYNC_PAL;
+	        value = MACHINE_SYNC_PAL;
 
-        resources_set_value("VideoStandard", (resource_value_t) value);
+        resources_set_value("MachineVideoStandard", (resource_value_t)value);
     }
 
     switch (value) {
-      case DRIVE_SYNC_PAL:
+      case MACHINE_SYNC_PAL:
 	return "PAL-G";
-      case DRIVE_SYNC_NTSC:
+      case MACHINE_SYNC_NTSC:
 	return "NTSC-M";
       default:
 	return "(Custom)";
@@ -78,11 +78,11 @@ static TUI_MENU_CALLBACK(toggle_PALMode_callback)
 {
     int value;
 
-    resources_get_value("PALMode", (resource_value_t *) &value);
+    resources_get_value("PALMode", (resource_value_t *)&value);
 
     if (been_activated) {
         value = (value + 1) % 3;
-        resources_set_value("PALMode", (resource_value_t) value);
+        resources_set_value("PALMode", (resource_value_t)value);
     }
 
     switch (value) {
@@ -113,7 +113,7 @@ static tui_menu_item_def_t vic_menu_items[] = {
     { "--" },
     { "V_ideo Standard:",
       "Select machine clock ratio",
-      toggle_VideoStandard_callback, NULL, 11,
+      toggle_MachineVideoStandard_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
@@ -151,7 +151,7 @@ static ADDRESS cartridge_type_to_address(int type)
 static TUI_MENU_CALLBACK(attach_cartridge_callback)
 {
     const char *s;
-    int type = (int) param;
+    int type = (int)param;
 
     if (been_activated) {
         char *default_item, *directory;
@@ -187,23 +187,23 @@ static tui_menu_item_def_t attach_cartridge_menu_items[] = {
     { "--" },
     { "Cartridge at $_2000:",
       "Attach a cartridge image at address $2000",
-      attach_cartridge_callback, (void *) CARTRIDGE_VIC20_16KB_2000, 30,
+      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_16KB_2000, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Cartridge at $_4000:",
       "Attach a cartridge image at address $4000",
-      attach_cartridge_callback, (void *) CARTRIDGE_VIC20_16KB_4000, 30,
+      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_16KB_4000, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Cartridge at $_6000:",
       "Attach a cartridge image at address $6000",
-      attach_cartridge_callback, (void *) CARTRIDGE_VIC20_16KB_6000, 30,
+      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_16KB_6000, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Cartridge at $_A000:",
       "Attach a cartridge image at address $A000",
-      attach_cartridge_callback, (void *) CARTRIDGE_VIC20_8KB_A000, 30,
+      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_8KB_A000, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Cartridge at $_B000:",
       "Attach a cartridge image at address $B000",
-      attach_cartridge_callback, (void *) CARTRIDGE_VIC20_4KB_B000, 30,
+      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_4KB_B000, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
@@ -274,15 +274,15 @@ static TUI_MENU_CALLBACK(set_common_memory_configuration_callback)
             blocks = 0;         /* Make compiler happy.  */
         }
         resources_set_value("RamBlock0",
-                            (resource_value_t) (blocks & BLOCK_0 ? 1 : 0));
+                            (resource_value_t)(blocks & BLOCK_0 ? 1 : 0));
         resources_set_value("RamBlock1",
-                            (resource_value_t) (blocks & BLOCK_1 ? 1 : 0));
+                            (resource_value_t)(blocks & BLOCK_1 ? 1 : 0));
         resources_set_value("RamBlock2",
-                            (resource_value_t) (blocks & BLOCK_2 ? 1 : 0));
+                            (resource_value_t)(blocks & BLOCK_2 ? 1 : 0));
         resources_set_value("RamBlock3",
-                            (resource_value_t) (blocks & BLOCK_3 ? 1 : 0));
+                            (resource_value_t)(blocks & BLOCK_3 ? 1 : 0));
         resources_set_value("RamBlock5",
-                            (resource_value_t) (blocks & BLOCK_5 ? 1 : 0));
+                            (resource_value_t)(blocks & BLOCK_5 ? 1 : 0));
         ui_update_menus();
     }
 
@@ -298,27 +298,27 @@ static tui_menu_item_def_t common_memory_configurations_items[] = {
     { "--" },
     { "_Unexpanded",
       "Setup a completely unexpanded VIC20",
-      set_common_memory_configuration_callback, (void *) MEM_NONE, NULL,
+      set_common_memory_configuration_callback, (void *)MEM_NONE, NULL,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_3K (block 0)",
       "Setup a 3K-expanded VIC20",
-      set_common_memory_configuration_callback, (void *) MEM_3K, NULL,
+      set_common_memory_configuration_callback, (void *)MEM_3K, NULL,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_8K (block 1)",
       "Setup an 8K-expanded VIC20",
-      set_common_memory_configuration_callback, (void *) MEM_8K, NULL,
+      set_common_memory_configuration_callback, (void *)MEM_8K, NULL,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_16K (blocks 1/2)",
       "Setup an 8K-expanded VIC20",
-      set_common_memory_configuration_callback, (void *) MEM_16K, NULL,
+      set_common_memory_configuration_callback, (void *)MEM_16K, NULL,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_24K (blocks 1/2/3)",
       "Setup a 24K-expanded VIC20",
-      set_common_memory_configuration_callback, (void *) MEM_24K, NULL,
+      set_common_memory_configuration_callback, (void *)MEM_24K, NULL,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_All (blocks 0/1/2/3/5)",
       "Setup a VIC20 with all the possible RAM stuffed in",
-      set_common_memory_configuration_callback, (void *) MEM_ALL, NULL,
+      set_common_memory_configuration_callback, (void *)MEM_ALL, NULL,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };

@@ -139,16 +139,16 @@ ui_res_possible_values SpeedValues[] = {
 };
 
 ui_res_possible_values SyncFactor[] = {
-    { DRIVE_SYNC_PAL, IDM_SYNC_FACTOR_PAL },
-    { DRIVE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC },
-    { DRIVE_SYNC_NTSCOLD, IDM_SYNC_FACTOR_NTSCOLD },
+    { MACHINE_SYNC_PAL, IDM_SYNC_FACTOR_PAL },
+    { MACHINE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC },
+    { MACHINE_SYNC_NTSCOLD, IDM_SYNC_FACTOR_NTSCOLD },
     { -1, 0 }
 };
 
 ui_res_value_list value_list[] = {
     { "RefreshRate", RefreshRateValues },
     { "Speed", SpeedValues },
-    { "VideoStandard", SyncFactor },
+    { "MachineVideoStandard", SyncFactor },
     { NULL, NULL }
 };
 
@@ -804,13 +804,13 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
    Dual drives display drive 0: and 1: instead of unit 8: and 9: */
 void ui_display_drive_track(int drivenum, int drive_base, double track_number)
 {
-    statusbar_display_drive_track(drivenum,drive_base,track_number);
+    statusbar_display_drive_track(drivenum, drive_base, track_number);
 }
 
 /* Toggle displaying of the drive LED.  */
 void ui_display_drive_led(int drivenum, int status)
 {
-    statusbar_display_drive_led(drivenum,status);
+    statusbar_display_drive_led(drivenum, status);
 }
 
 /* display current image */
@@ -1420,16 +1420,16 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         SwitchFullscreenMode(hwnd);
         break;
       case IDM_SYNC_FACTOR_PAL:
-        resources_set_value("VideoStandard",
-                            (resource_value_t)DRIVE_SYNC_PAL);
+        resources_set_value("MachineVideoStandard",
+                            (resource_value_t)MACHINE_SYNC_PAL);
         break;
       case IDM_SYNC_FACTOR_NTSC:
-        resources_set_value("VideoStandard",
-                            (resource_value_t)DRIVE_SYNC_NTSC);
+        resources_set_value("MachineVideoStandard",
+                            (resource_value_t)MACHINE_SYNC_NTSC);
         break;
       case IDM_SYNC_FACTOR_NTSCOLD:
-        resources_set_value("VideoStandard",
-                            (resource_value_t)DRIVE_SYNC_NTSCOLD);
+        resources_set_value("MachineVideoStandard",
+                            (resource_value_t)MACHINE_SYNC_NTSCOLD);
         break;
       case IDM_SETTINGS_SAVE:
         if (resources_save(NULL) < 0)

@@ -2,7 +2,7 @@
  * uipalemu.c
  *
  * Written by
- *   Martin Pottendorfer (pottend@utanet.at)
+ *  Martin Pottendorfer (pottend@utanet.at)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,11 +24,17 @@
  *
  */
 
+#include "vice.h"
+
+#include <stdio.h>
+
 #include "uipalemu.h"
-#include "uimenu.h"
-#include "drive.h"
+#include "machine.h"
 #include "resources.h"
+#include "uimenu.h"
+#include "uipalemu.h"
 #include "utils.h"
+
 
 static UI_CALLBACK(toggle_DelayLoopEmulation)
 {
@@ -43,11 +49,11 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
     } else {
         int video_standard;
 
-        resources_get_value("VideoStandard",
+        resources_get_value("MachineVideoStandard",
                             (resource_value_t *)&video_standard);
         ui_menu_set_tick(w, delayloopemulation);
 
-        if (video_standard == DRIVE_SYNC_PAL)
+        if (video_standard == MACHINE_SYNC_PAL)
             ui_menu_set_sensitive(w, True);
         else
             ui_menu_set_sensitive(w, False);
@@ -62,30 +68,29 @@ static UI_CALLBACK(PAL_scanline_shade_cb)
     ui_button_t button;
     long res;
     int current;
-    
-    resources_get_value("PALScanLineShade", (resource_value_t) &current);
+
+    resources_get_value("PALScanLineShade", (resource_value_t)&current);
     current /= 10;
     sprintf(buf, "%d", current);
-    button = ui_input_string(_("PAL Scanline shade"), _("Scanline Shade in percent"),
-			     buf, 50);
-    switch (button)
-    {
-    case UI_BUTTON_OK:
-	if (util_string_to_long(buf, NULL, 10, &res) != 0)
-	{
-	     ui_error(_("Invalid value: %s"), buf);
-	     return;
-	}
-	resources_set_value("PALScanLineShade", (resource_value_t) res);
-	break;
-    default:
-	break;
+    button = ui_input_string(_("PAL Scanline shade"),
+                             _("Scanline Shade in percent"),
+                             buf, 50);
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (util_string_to_long(buf, NULL, 10, &res) != 0) {
+             ui_error(_("Invalid value: %s"), buf);
+             return;
+        }
+        resources_set_value("PALScanLineShade", (resource_value_t)res);
+        break;
+      default:
+        break;
     }
 
     if ((current != res) &&
-	(res <= 100) &&
-	(res >= 0) )
-	resources_set_value("PALScanLineShade", (resource_value_t) (res * 10));
+        (res <= 100) &&
+        (res >= 0))
+        resources_set_value("PALScanLineShade", (resource_value_t)(res * 10));
 }
 
 ui_menu_entry_t PALMode_submenu[] = {
@@ -103,6 +108,4 @@ ui_menu_entry_t PALMode_submenu[] = {
       (ui_callback_t)PAL_scanline_shade_cb, NULL, NULL },
     { NULL }
 };
-
-
 

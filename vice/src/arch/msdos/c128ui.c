@@ -33,8 +33,8 @@
 
 #include "c128ui.h"
 #include "cartridge.h"
-#include "drive.h"
 #include "menudefs.h"
+#include "machine.h"
 #include "resources.h"
 #include "sidui.h"
 #include "tui.h"
@@ -50,24 +50,24 @@ TUI_MENU_DEFINE_TOGGLE(CheckSsColl)
 TUI_MENU_DEFINE_TOGGLE(CheckSbColl)
 TUI_MENU_DEFINE_TOGGLE(PALEmulation)
 
-static TUI_MENU_CALLBACK(toggle_VideoStandard_callback)
+static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
 {
     int value;
 
-    resources_get_value("VideoStandard", (resource_value_t *) &value);
+    resources_get_value("MachineVideoStandard", (resource_value_t *)&value);
 
     if (been_activated) {
-	if (value == DRIVE_SYNC_PAL)
-	    value = DRIVE_SYNC_NTSC;
+	if (value == MACHINE_SYNC_PAL)
+	    value = MACHINE_SYNC_NTSC;
 	else
-	    value = DRIVE_SYNC_PAL;
-        resources_set_value("VideoStandard", (resource_value_t) value);
+	    value = MACHINE_SYNC_PAL;
+        resources_set_value("MachineVideoStandard", (resource_value_t)value);
     }
 
     switch (value) {
-      case DRIVE_SYNC_PAL:
+      case MACHINE_SYNC_PAL:
 	return "PAL-G";
-      case DRIVE_SYNC_NTSC:
+      case MACHINE_SYNC_NTSC:
 	return "NTSC-M";
       default:
 	return "(Custom)";
@@ -78,11 +78,11 @@ static TUI_MENU_CALLBACK(toggle_PALMode_callback)
 {
     int value;
 
-    resources_get_value("PALMode", (resource_value_t *) &value);
+    resources_get_value("PALMode", (resource_value_t *)&value);
 
     if (been_activated) {
         value = (value + 1) % 3;
-        resources_set_value("PALMode", (resource_value_t) value);
+        resources_set_value("PALMode", (resource_value_t)value);
     }
 
     switch (value) {
@@ -121,7 +121,7 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "V_ideo Standard:",
       "Select machine clock ratio",
-      toggle_VideoStandard_callback, NULL, 8,
+      toggle_MachineVideoStandard_callback, NULL, 8,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
@@ -198,7 +198,7 @@ static struct {
 static TUI_MENU_CALLBACK(palette_callback)
 {
     if (been_activated) {
-        if (resources_set_value("PaletteFile", (resource_value_t) param) < 0)
+        if (resources_set_value("PaletteFile", (resource_value_t)param) < 0)
            tui_error("Invalid palette file");
         ui_update_menus();
     }
@@ -214,7 +214,7 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
                                  NULL, "*.vpl", NULL, NULL, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_value("PaletteFile", (resource_value_t *)name)
+            if (resources_set_value("PaletteFile", (resource_value_t*)name)
                 < 0)
                 tui_error("Invalid palette file");
             ui_update_menus();
@@ -229,7 +229,7 @@ static TUI_MENU_CALLBACK(palette_menu_callback)
     char *s;
     int i;
 
-    resources_get_value("PaletteFile", (resource_value_t *) &s);
+    resources_get_value("PaletteFile", (resource_value_t *)&s);
     for (i = 0; palette_items[i].name != NULL; i++) {
         if (strcmp(s, palette_items[i].name) == 0)
            return palette_items[i].brief_description;

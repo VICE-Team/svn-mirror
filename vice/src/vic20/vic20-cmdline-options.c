@@ -34,6 +34,7 @@
 
 #include "log.h"
 #include "cmdline.h"
+#include "machine.h"
 #include "resources.h"
 #include "utils.h"
 #include "vic20mem.h"
@@ -163,6 +164,12 @@ static int cmdline_memory(const char *param, void *extra_param)
 
 static cmdline_option_t cmdline_options[] =
 {
+    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (resource_value_t)MACHINE_SYNC_PAL,
+      NULL, "Use PAL sync factor" },
+    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (resource_value_t)MACHINE_SYNC_NTSC,
+      NULL, "Use NTSC sync factor" },
     { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
       "<name>", "Specify name of Kernal ROM image" },
     { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,

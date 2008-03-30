@@ -30,6 +30,7 @@
 
 #include "cartridge.h"
 #include "joystick.h"
+#include "machine.h"
 #include "sound.h"
 #include "uiconfig.h"
 #include "videoarch.h"
@@ -63,7 +64,7 @@ static const char Rsrc_TrueIdle8[] = "Drive8IdleMethod";
 static const char Rsrc_TrueIdle9[] = "Drive9IdleMethod";
 static const char Rsrc_TrueType8[] = "Drive8Type";
 static const char Rsrc_TrueType9[] = "Drive9Type";
-static const char Rsrc_VideoSync[] = "VideoStandard";
+static const char Rsrc_VideoSync[] = "MachineVideoStandard";
 static const char Rsrc_Dos1541[] = "DosName1541";
 static const char Rsrc_Dos15412[] = "DosName1541ii";
 static const char Rsrc_Dos1571[] = "DosName1571";
@@ -979,7 +980,7 @@ static struct MenuDisplayVideoSync {
 } MenuDisplayVideoSync = {
   {Rsrc_VideoSync, {CONF_WIN_SYSTEM, Icon_ConfSys_VideoSyncT},
     (RO_MenuHead*)&MenuVideoSync, Menu_VideoSync_Items, 0, 1<<Menu_VideoSync_Custom},
-  {DRIVE_SYNC_PAL, DRIVE_SYNC_NTSC, 0}
+  {MACHINE_SYNC_PAL, MACHINE_SYNC_NTSC, 0}
 };
 
 #define DISP_TRUE_DRIVE_EXTEND_MENU(n) \

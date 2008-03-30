@@ -42,14 +42,9 @@
 #include "utils.h"
 #include "vdrive-bam.h"
 
+
 /* Is true drive emulation switched on?  */
 static int drive_true_emulation;
-
-/* What sync factor between the CPU and the drive?  If equal to
-   `DRIVE_SYNC_PAL', the same as PAL machines.  If equal to
-   `DRIVE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
-   calculated as 65536 * drive_clk / clk_[main machine] */
-static int sync_factor;
 
 /* Name of the DOS ROMs.  */
 static char *dos_rom_name_1541 = 0;
@@ -286,43 +281,6 @@ static int set_drive_idling_method(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_sync_factor(resource_value_t v, void *param)
-{
-    int change_timing = 0;
-
-    if (sync_factor != (int)v)
-        change_timing = 1;
-
-    switch ((int) v) {
-      case DRIVE_SYNC_PAL:
-        sync_factor = (int) v;
-        drive_set_pal_sync_factor();
-        if (change_timing)
-            machine_change_timing(DRIVE_SYNC_PAL);
-        break;
-      case DRIVE_SYNC_NTSC:
-        sync_factor = (int)v;
-        drive_set_ntsc_sync_factor();
-        if (change_timing)
-            machine_change_timing(DRIVE_SYNC_NTSC);
-        break;
-      case DRIVE_SYNC_NTSCOLD:
-        sync_factor = (int)v;
-        drive_set_ntsc_sync_factor();
-        if (change_timing)
-            machine_change_timing(DRIVE_SYNC_NTSCOLD);
-        break;
-      default:
-        if ((int) v > 0) {
-            sync_factor = (int)v;
-            drive_set_sync_factor((unsigned int) v);
-        } else {
-            return -1;
-        }
-    }
-    return 0;
-}
-
 static int set_dos_rom_name_2040(resource_value_t v, void *param)
 {
     if (util_string_set(&dos_rom_name_2040, (const char *)v))
@@ -479,9 +437,6 @@ static resource_t resources[] = {
     { "Drive9IdleMethod", RES_INTEGER, (resource_value_t)DRIVE_IDLE_TRAP_IDLE,
       (resource_value_t *)&(drive[1].idling_method),
       set_drive_idling_method, (void *)1 },
-    { "VideoStandard", RES_INTEGER, (resource_value_t)DRIVE_SYNC_PAL,
-      (resource_value_t *)&sync_factor,
-      set_sync_factor, NULL },
     { "DosName1541", RES_STRING, (resource_value_t)"dos1541",
       (resource_value_t *)&dos_rom_name_1541,
       set_dos_rom_name_1541, NULL },

@@ -135,7 +135,8 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     if (m == NULL)
         return -1;
 
-    resources_get_value("VideoStandard", (resource_value_t *)&sync_factor);
+    resources_get_value("MachineVideoStandard",
+                        (resource_value_t *)&sync_factor);
 
     if (snapshot_module_write_dword(m, (DWORD) sync_factor) < 0) {
         if (m != NULL)
@@ -351,12 +352,12 @@ int drive_snapshot_read_module(snapshot_t *s)
         if (drive[i].type != DRIVE_TYPE_1571) {
             if (drive[i].type == DRIVE_TYPE_1581) {
                 drive_initialize_rotation_table(1, i);
-                resources_set_value("VideoStandard",
+                resources_set_value("MachineVideoStandard",
                                     (resource_value_t)sync_factor);
             } else {
                 drive[i].side = 0;
                 drive_initialize_rotation_table(0, i);
-                resources_set_value("VideoStandard",
+                resources_set_value("MachineVideoStandard",
                                     (resource_value_t)sync_factor);
             }
         }

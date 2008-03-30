@@ -32,13 +32,14 @@
 
 #include "cartridge.h"
 #include "debug.h"
-#include "drive.h"
 #include "icon.h"
 #include "joystick.h"
+#include "machine.h"
 #include "resources.h"
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uidrive.h"
+#include "uipalemu.h"
 #include "uipalette.h"
 #include "uiperipheral.h"
 #include "uimenu.h"
@@ -47,11 +48,8 @@
 #include "uisettings.h"
 #include "uisound.h"
 #include "utils.h"
-#include "uipalemu.h"
 #include "vsync.h"
 
-
-/* ------------------------------------------------------------------------- */
 
 enum {
     MEM_NONE,
@@ -397,13 +395,13 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_RADIO(VideoStandard)
+UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_video_standard_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_VideoStandard,
-      (ui_callback_data_t)DRIVE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_VideoStandard,
-      (ui_callback_data_t)DRIVE_SYNC_NTSC, NULL },
+    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
+    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
     { NULL }
 };
 

@@ -27,9 +27,12 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "cmdline.h"
 #include "drive.h"
 #include "resources.h"
+
 
 static cmdline_option_t cmdline_options[] = {
     { "-truedrive", SET_RESOURCE, 0, NULL, NULL, "DriveTrueEmulation",
@@ -68,15 +71,6 @@ static cmdline_option_t cmdline_options[] = {
     { "-drive9extend", SET_RESOURCE, 1, NULL, NULL, "Drive9ExtendImagePolicy",
       (resource_value_t)DRIVE_EXTEND_NEVER, "<method>",
       "Set drive 9 40 track extension policy (0: never, 1: ask, 2: on access)"},
-    { "-pal", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
-      (resource_value_t)DRIVE_SYNC_PAL,
-      NULL, "Use PAL sync factor" },
-    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
-      (resource_value_t)DRIVE_SYNC_NTSC,
-      NULL, "Use NTSC sync factor" },
-    { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
-      (resource_value_t)DRIVE_SYNC_NTSCOLD,
-      NULL, "Use old NTSC sync factor" },
     { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
       "<name>", "Specify name of 1541 DOS ROM image" },
     { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "d1541II",

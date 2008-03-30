@@ -31,11 +31,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "c64mem.h"
 #include "debug.h"
-#include "drive.h"
 #include "icon.h"
-#include "maincpu.h"
+#include "machine.h"
 #include "resources.h"
 #include "uic64cart.h"
 #include "uicommands.h"
@@ -55,17 +53,15 @@
 #include "vsync.h"
 
 
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_RADIO(VideoStandard)
+UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 ui_menu_entry_t set_video_standard_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_VideoStandard,
-      (ui_callback_data_t)DRIVE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_VideoStandard,
-      (ui_callback_data_t)DRIVE_SYNC_NTSC, NULL },
-    { N_("*Old NTSC-M"), (ui_callback_t)radio_VideoStandard,
-      (ui_callback_data_t)DRIVE_SYNC_NTSCOLD, NULL },
+    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
+    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
+    { N_("*Old NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_NTSCOLD, NULL },
     { NULL }
 };
 

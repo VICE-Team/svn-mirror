@@ -32,8 +32,8 @@
 
 extern "C" {
 #include "c64ui.h"
-#include "drive.h"
 #include "log.h"
+#include "machine.h"
 
 extern ViceWindow *windowlist[];  /* arghh */
 static BWindow *window;
@@ -152,7 +152,7 @@ void vsid_ui_display_copyright(const char *copyright)
 void vsid_ui_display_sync(int sync)
 {
 	if (window->Lock()) {
-		tc_sync->SetText(sync==DRIVE_SYNC_PAL?"PAL":"NTSC");
+		tc_sync->SetText(sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
 		window->Unlock();
 	}
 }

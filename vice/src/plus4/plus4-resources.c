@@ -28,12 +28,20 @@
 
 #include <stdio.h>
 
+#include "drive.h"
+#include "machine.h"
 #include "plus4mem.h"
 #include "resources.h"
 #include "utils.h"
 #include "interrupt.h"
 #include "vsync.h"
 
+
+/* What sync factor between the CPU and the drive?  If equal to
+   `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
+   `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
+   calculated as 65536 * drive_clk / clk_[main machine] */
+static int sync_factor;
 
 /* Name of the BASIC ROM.  */
 static char *basic_rom_name = NULL;
@@ -94,6 +102,39 @@ static int set_ram_size_plus4(resource_value_t v, void *param)
     maincpu_trigger_reset();
     return 0;
 }
+
+static int set_sync_factor(resource_value_t v, void *param)
+{
+    int change_timing = 0;
+
+    if (sync_factor != (int)v)
+        change_timing = 1;
+
+    switch ((int)v) {
+      case MACHINE_SYNC_PAL:
+        sync_factor = (int) v;
+        drive_set_pal_sync_factor();
+        if (change_timing)
+            machine_change_timing(MACHINE_SYNC_PAL);
+        break;
+      case MACHINE_SYNC_NTSC:
+        sync_factor = (int)v;
+        drive_set_ntsc_sync_factor();
+        if (change_timing)
+            machine_change_timing(MACHINE_SYNC_NTSC);
+        break;
+      default:
+        if ((int)v > 0) {
+            sync_factor = (int)v;
+            drive_set_sync_factor((unsigned int)v);
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
 
 static resource_t resources[] = {
     { "KernalName", RES_STRING, (resource_value_t)"kernal",

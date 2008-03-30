@@ -27,7 +27,7 @@
 #include "vice.h"
 
 #include "wimp.h"
-#include "drive/drive.h"
+#include "machine.h"
 #include "types.h"
 #include "vsync.h"
 #include "vsyncarch.h"
@@ -291,8 +291,8 @@ int vsync_do_vsync(struct video_canvas_s *canvas, int been_skipped)
       RelativeSpeed = (10000 * NumberOfFrames) / (FramesPerSecond * (now - LastSpeed));
       ui_display_speed(RelativeSpeed, (100 * NumberOfRefreshes) / (now - LastSpeed), 0);
       LastSpeed = now; NumberOfFrames = 0; NumberOfRefreshes = 0;
-      resources_get_value("VideoStandard", &val);
-      FramesPerSecond = ((int)val == DRIVE_SYNC_PAL) ? 50 : 60;
+      resources_get_value("MachineVideoStandard", &val);
+      FramesPerSecond = ((int)val == MACHINE_SYNC_PAL) ? 50 : 60;
     }
   }
 

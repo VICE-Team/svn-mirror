@@ -37,7 +37,6 @@
 #include "attach.h"
 #include "c64mem.h"
 #include "c64ui.h"
-#include "drive.h"
 #include "icon.h"
 #include "interrupt.h"
 #include "log.h"
@@ -115,15 +114,15 @@ static ui_menu_entry_t ui_load_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_RADIO(VideoStandard)
+UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_video_standard_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_VideoStandard,
-      (ui_callback_data_t)DRIVE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_VideoStandard,
-      (ui_callback_data_t)DRIVE_SYNC_NTSC, NULL },
-    { N_("*Old NTSC-M"), (ui_callback_t)radio_VideoStandard,
-      (ui_callback_data_t)DRIVE_SYNC_NTSCOLD, NULL },
+    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
+    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
+    { N_("*Old NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_NTSCOLD, NULL },
     { NULL }
 };
 
@@ -317,7 +316,7 @@ void vsid_ui_display_sync(int sync)
 {
     char buf[50];
     sprintf(buf, "Using %s sync",
-	    sync == DRIVE_SYNC_PAL ? "PAL" : "NTSC");
+	    sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
     log_message(LOG_DEFAULT, buf);
     ui_vsid_setsync(buf);
 }

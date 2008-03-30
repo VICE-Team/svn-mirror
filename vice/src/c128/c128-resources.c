@@ -30,10 +30,18 @@
 #include <string.h>
 
 #include "c128mem.h"
+#include "drive.h"
+#include "machine.h"
 #include "resources.h"
 #include "reu.h"
 #include "utils.h"
 
+
+/* What sync factor between the CPU and the drive?  If equal to
+   `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
+   `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
+   calculated as 65536 * drive_clk / clk_[main machine] */
+static int sync_factor;
 
 /* Name of the character ROM.  */
 static char *chargen_rom_name;
@@ -166,10 +174,44 @@ static int set_acia_de_enabled(resource_value_t v, void *param)
 }
 #endif
 
+static int set_sync_factor(resource_value_t v, void *param)
+{
+    int change_timing = 0;
+
+    if (sync_factor != (int)v)
+        change_timing = 1;
+
+    switch ((int)v) {
+      case MACHINE_SYNC_PAL:
+        sync_factor = (int) v;
+        drive_set_pal_sync_factor();
+        if (change_timing)
+            machine_change_timing(MACHINE_SYNC_PAL);
+        break;
+      case MACHINE_SYNC_NTSC:
+        sync_factor = (int)v;
+        drive_set_ntsc_sync_factor();
+        if (change_timing)
+            machine_change_timing(MACHINE_SYNC_NTSC);
+        break;
+      default:
+        if ((int)v > 0) {
+            sync_factor = (int)v;
+            drive_set_sync_factor((unsigned int)v);
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static resource_t resources[] =
 {
+    { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
+      (resource_value_t *)&sync_factor,
+      set_sync_factor, NULL },
     { "ChargenName", RES_STRING, (resource_value_t)"chargen",
       (resource_value_t *)&chargen_rom_name,
       set_chargen_rom_name, NULL },

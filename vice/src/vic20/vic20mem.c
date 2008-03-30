@@ -36,10 +36,10 @@
 
 #include "cartridge.h"
 #include "cmdline.h"
-#include "drive.h"
 #include "emuid.h"
 #include "interrupt.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "mon.h"
 #include "resources.h"
@@ -958,13 +958,13 @@ int mem_patch_kernal(void)
     short bytes, n, i = 0;
     ADDRESS a;
 
-    resources_get_value("VideoStandard", (resource_value_t*)&video_mode);
+    resources_get_value("MachineVideoStandard", (resource_value_t*)&video_mode);
 
     switch (video_mode) {
-        case DRIVE_SYNC_PAL:    
+        case MACHINE_SYNC_PAL:    
             rev = 0;    /* use kernal 901486-07 */
             break;
-        case DRIVE_SYNC_NTSC:    
+        case MACHINE_SYNC_NTSC:    
             rev = 1;    /* use kernal 901486-06 */
             break;
         default:

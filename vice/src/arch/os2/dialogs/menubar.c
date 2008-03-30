@@ -45,7 +45,6 @@
 
 #include "mon.h"             // mon
 #include "tape.h"            // tape_image_detach
-#include "drive.h"           // DRIVE_SYNC_*
 #include "utils.h"           // xmsprintf
 #include "sound.h"           // SOUND_ADJUST_*
 #include "attach.h"          // file_system_detach_disk
@@ -452,17 +451,17 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
 #if defined __X64__ || defined __X128__ || defined __XVIC__
     case IDM_PAL:
-        resources_set_value("VideoStandard",
-                            (resource_value_t*) DRIVE_SYNC_PAL);
+        resources_set_value("MachineVideoStandard",
+                            (resource_value_t *)MACHINE_SYNC_PAL);
         return;
     case IDM_NTSC:
-        resources_set_value("VideoStandard",
-                            (resource_value_t*) DRIVE_SYNC_NTSC);
+        resources_set_value("MachineVideoStandard",
+                            (resource_value_t *)MACHINE_SYNC_NTSC);
         return;
 #ifdef __X64__
     case IDM_NTSCOLD:
-        resources_set_value("VideoStandard",
-                            (resource_value_t*) DRIVE_SYNC_NTSCOLD);
+        resources_set_value("MachineVideoStandard",
+                            (resource_value_t *)MACHINE_SYNC_NTSCOLD);
         return;
 #endif // __X64__
 #endif //  __X64__ || __X128__ || __XVIC__
@@ -1031,11 +1030,11 @@ void menu_select(HWND hwnd, USHORT item)
          return;
          */
     case IDM_VIDEOSTD:
-        resources_get_value("VideoStandard", (resource_value_t*) &val);
-        WinCheckMenuItem(hwnd, IDM_PAL,     val==DRIVE_SYNC_PAL);
-        WinCheckMenuItem(hwnd, IDM_NTSC,    val==DRIVE_SYNC_NTSC);
+        resources_get_value("MachineVideoStandard", (resource_value_t*)&val);
+        WinCheckMenuItem(hwnd, IDM_PAL,     val == MACHINE_SYNC_PAL);
+        WinCheckMenuItem(hwnd, IDM_NTSC,    val == MACHINE_SYNC_NTSC);
 #ifdef __X64__
-        WinCheckMenuItem(hwnd, IDM_NTSCOLD, val==DRIVE_SYNC_NTSCOLD);
+        WinCheckMenuItem(hwnd, IDM_NTSCOLD, val == MACHINE_SYNC_NTSCOLD);
 #endif
         return;
 #endif

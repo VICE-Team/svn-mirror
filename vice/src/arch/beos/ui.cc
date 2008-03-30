@@ -128,16 +128,16 @@ ui_res_possible_values SpeedValues[] = {
 };
 
 ui_res_possible_values SyncFactor[] = {
-        {DRIVE_SYNC_PAL, MENU_SYNC_FACTOR_PAL},
-        {DRIVE_SYNC_NTSC, MENU_SYNC_FACTOR_NTSC},
-        {DRIVE_SYNC_NTSCOLD, MENU_SYNC_FACTOR_NTSCOLD},
+        {MACHINE_SYNC_PAL, MENU_SYNC_FACTOR_PAL},
+        {MACHINE_SYNC_NTSC, MENU_SYNC_FACTOR_NTSC},
+        {MACHINE_SYNC_NTSCOLD, MENU_SYNC_FACTOR_NTSCOLD},
         {-1, 0}
 };
 
 ui_res_value_list value_list[] = {
     {"RefreshRate", RefreshRateValues},
     {"Speed", SpeedValues},
-    {"VideoStandard", SyncFactor},
+    {"MachineVideoStandard", SyncFactor},
     {NULL,NULL}
 };
 

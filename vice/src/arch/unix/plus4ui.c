@@ -30,14 +30,15 @@
 #include <stdlib.h>
 
 #include "debug.h"
-#include "drive.h"
 #include "icon.h"
+#include "machine.h"
 #include "resources.h"
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uidrive.h"
 #include "uijoystick2.h"
 #include "uimenu.h"
+#include "uipalemu.h"
 #include "uiperipheral.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
@@ -45,18 +46,15 @@
 #include "uisound.h"
 #include "utils.h"
 #include "vsync.h"
-#include "uipalemu.h"
 
 
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_RADIO(VideoStandard)
+UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 ui_menu_entry_t set_video_standard_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_VideoStandard,
-      (ui_callback_data_t)DRIVE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_VideoStandard,
-      (ui_callback_data_t)DRIVE_SYNC_NTSC, NULL },
+    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
+    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
     { NULL }
 };
 
