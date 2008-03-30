@@ -1,3 +1,43 @@
+2003-12-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.40.
+
+	* fsdevice/fsdevice-flush.c, fileio/fileio.c, fileio.h,
+	fileio/p00.c, p00.h, fileio/cbmfile.c, fileio/cbmfile.h,
+	rawfile.c, rawfile.h, ioutil.c, ioutil.h: Moved scratch and
+	rename functionallityy to fileio layer.
+
+	* fsdevice/fsdevice.c, fsdevice/fsdevicetypes.h, util.c:
+	Removed some now obsolete cruft.
+
+2003-12-18 Andreas Matthies <andreas.matthies@gmx.net>
+
+	* arch/win32/uimediafile.h, uimediafile.c: New files. Removed
+	mediafile related stuff from uisnapshot to these files.
+
+	* arch/win32/res<machine>.rc: Changed mediafile menu item.
+
+	* arch/win32/res.h, res.rc: Changed mediafile dialog.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp,
+	arch/win32/vice.dsw: Added missing files and projects.
+
+	* arch/win32/msvc/config.h: Define HAVE_DIRENT_H.
+
+	* gfxoutput.h, gfxoutputdrv/bmpdrv.c, gfxoutputdrv/pngdrv.c:
+	Added new member display_name to the driver struct.
+
+	* gfxoutputdrv/ffmpeglib.h, gfxoutputdrv/ffmpegdrv.c,
+	arch/unix/ffmpeglib.c, arch/win32/ffmpeglib.c: Removed all
+	the global function pointers and replaced them by a static
+	struct. Added new function ffmpegdrv_shutdown. Registers
+	multiple gfxoutput drivers with different display_name for
+	all the useful file types. Only force MP3 audio stream for
+	AVI files.
+
+	* screenshot.c (screenshot_save): Test if a movie is still
+	recording.
+
 2003-12-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.39.
