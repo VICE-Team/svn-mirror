@@ -1621,7 +1621,7 @@ static const BYTE fetch_tab[] = {
             BYTE lo = (BYTE)(p1);
             BYTE hi = (BYTE)(p2 >> 8);
 
-            debug_drive(reg_pc, drive_clk[0],
+            debug_drive(reg_pc, CLK,
                         mon_disassemble_to_string(e_disk8_space, reg_pc, op,
                         lo, hi, (BYTE)0, 1, "6502"), reg_a);
         }
