@@ -258,7 +258,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
 
     while (1) {
         BYTE *p;
-        int i;
+        int j;
 
         retval = floppy_read_block(floppy->ActiveFd,
                                    floppy->ImageFormat,
@@ -275,7 +275,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
             return NULL;
         }
 
-        for (p = buffer, i = 0; i < 8; i++, p += 32)
+        for (p = buffer, j = 0; j < 8; j++, p += 32)
             if (p[SLOT_TYPE_OFFSET] != 0) {
                 image_contents_file_list_t *new_list;
                 int i;

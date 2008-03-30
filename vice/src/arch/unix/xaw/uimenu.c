@@ -275,7 +275,7 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
     return 0;
 }
 
-Widget ui_menu_create(const char *name, ...)
+Widget ui_menu_create(const char *menu_name, ...)
 {
     static int level = 0;
     Widget w;
@@ -285,7 +285,7 @@ Widget ui_menu_create(const char *name, ...)
 
 
     level++;
-    w = XtCreatePopupShell(name, simpleMenuWidgetClass, _ui_top_level,
+    w = XtCreatePopupShell(menu_name, simpleMenuWidgetClass, _ui_top_level,
                            NULL, 0);
     if (level == 1) {
 	XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
@@ -298,7 +298,7 @@ Widget ui_menu_create(const char *name, ...)
 	  "<LeaveWindow>: Unhighlight()\n"
 	  "<BtnUp>: Popdownsubmenus() MenuPopdown() notify() unhighlight()"));
 
-    va_start(ap, name);
+    va_start(ap, menu_name);
     while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
         for (i = j = 0; list[i].string; i++) {
             Widget new_item;
