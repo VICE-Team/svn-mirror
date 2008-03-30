@@ -59,8 +59,6 @@ struct video_frame_buffer_s {
 
 typedef struct video_frame_buffer_s video_frame_buffer_t;
 
-typedef ui_exposure_handler_t canvas_redraw_t;
-
 struct video_canvas_s;
 
 /* currently active redraw function */
@@ -81,6 +79,7 @@ struct video_canvas_s {
   struct video_render_config_s *videoconfig;
   struct draw_buffer_s *draw_buffer;
   struct viewport_s *viewport;
+  struct geometry_s *geometry;
   struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
 

@@ -37,6 +37,7 @@ typedef struct video_canvas_s
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
+    struct geometry_s *geometry;
     HWND   hwndFrame;        // Handle to Frame of Window = WinQueryWindow(hwndClient, QW_PARENT)
     HWND   hwndClient;       // Handle to Paint Area of Window
     HWND   hwndMenu;         // Handle to menu bar

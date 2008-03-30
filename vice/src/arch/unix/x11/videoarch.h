@@ -67,6 +67,7 @@ struct video_canvas_s {
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
+    struct geometry_s *geometry;
 #ifdef USE_GNOMEUI
     GdkPixmap *drawable;
 #else
@@ -99,8 +100,6 @@ typedef struct video_canvas_s video_canvas_t;
 #else
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 #endif
-
-typedef ui_exposure_handler_t canvas_redraw_t;
 
 extern GC _video_gc;
 extern int _video_use_xsync;
