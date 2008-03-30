@@ -319,6 +319,10 @@ int fsimage_gcr_write_track(disk_image_t *image, unsigned int track,
         return;
     }
 #endif
+
+    /* Make sure the stream is visible to other readers.  */
+    fflush(fsimage->fd);
+
     return 0;
 }
 

@@ -1,3 +1,9 @@
+2005-04-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in: Added gettext aware files.
+
+	* nl.po: Fixed some dutch sentences.
+
 2005-04-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* POTFILES.in: Added the georam and ramcart ui's to the

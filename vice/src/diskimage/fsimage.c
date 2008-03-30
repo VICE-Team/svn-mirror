@@ -286,6 +286,9 @@ int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
                       track, sector);
             return -1;
         }
+
+        /* Make sure the stream is visible to other readers.  */
+        fflush(fsimage->fd);
         break;
       case DISK_IMAGE_TYPE_G64:
         if (fsimage_gcr_write_sector(image, buf, track, sector) < 0)
