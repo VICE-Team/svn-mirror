@@ -40,6 +40,7 @@
 #include "fullscreenarch.h"
 #include "pointer.h"
 
+#ifndef __VBCC__
 #define __USE_INLINE__
 
 #undef BYTE
@@ -51,22 +52,41 @@
 
 #include <proto/exec.h>
 #include <proto/intuition.h>
+#endif
+
 #ifdef AMIGA_M68K
 #define _INLINE_MUIMASTER_H
 #endif
+
+#ifndef __VBCC__
 #include <proto/muimaster.h>
+#endif
+
 #ifdef AMIGA_M68K
 #include <libraries/mui.h>
 #endif
+
+#ifndef __VBCC__
 #include <proto/graphics.h>
+#endif
 
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
+#ifndef __VBCC__
 #include <proto/cybergraphics.h>
 #include <cybergraphx/cybergraphics.h>
+#else
+#undef BYTE
+#undef WORD
+#include <proto/cybergraphics.h>
+#include <proto/muimaster.h>
+#include <libraries/mui.h>
+#include <cybergraphx/cybergraphics.h>
+#endif
+
 #ifdef AMIGA_MORPHOS
 #include <exec/execbase.h>
 #endif
-#if !defined(AMIGA_MORPHOS) && !defined(AMIGA_AROS)
+#if !defined(AMIGA_MORPHOS) && !defined(AMIGA_AROS) && !defined(__VBCC__)
 #include <inline/cybergraphics.h>
 #endif
 #else

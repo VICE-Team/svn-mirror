@@ -138,12 +138,17 @@ void timer_usleep(void *t, int us)
 
 #else
 
+#ifndef __VBCC__
 #include <devices/timer.h>
-#include <sys/time.h>
 #include <dos/dos.h>
-#include <proto/dos.h>
 #include <exec/memory.h>
+#endif
+
+#include <proto/dos.h>
+#include <sys/time.h>
 #include <proto/exec.h>
+
+#include "lib.h"
 
 #ifndef NEWLIST
 #define NEWLIST(l) ((l)->lh_Head = (struct Node *)&(l)->lh_Tail, \

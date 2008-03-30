@@ -36,11 +36,13 @@
 static int g_mx = 0, g_my = 0, g_mb = 0;
 
 #include <devices/input.h>
+
+#ifndef __VBCC__
 #include <devices/inputevent.h>
-
 #include <proto/exec.h>
+#endif
 
-#ifdef AMIGA_MORPHOS
+#if defined(AMIGA_MORPHOS) || defined(__VBCC__)
 #include <exec/interrupts.h>
 #endif
 
@@ -52,8 +54,7 @@ static struct InputEvent *_MyInputHandler(void);
 static const struct EmulLibEntry gate_MyInputHandler = {
   TRAP_LIB,
   0,
-  (void (*)(void))_MyInputHandler
-}, *MyInputHandler = &gate_MyInputHandler;
+  (void (*)(void))_MyInputHandler}, *MyInputHandler = &gate_MyInputHandler;
 
 static struct InputEvent *_MyInputHandler(void)
 {

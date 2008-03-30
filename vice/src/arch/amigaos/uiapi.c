@@ -28,10 +28,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef __VBCC__
 #define __USE_INLINE__
 
 #include <proto/intuition.h>
 #include <proto/exec.h>
+#endif
 
 #define _UIAPI
 #include "private.h"

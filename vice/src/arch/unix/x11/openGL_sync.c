@@ -26,21 +26,14 @@
 
 #include "vice.h"
 
-#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
-
 #ifndef HAVE_OPENGL_SYNC
 #error "openGL Sync extension (GLX_SGI_video_sync) not available in config.h, check config.log"
-#endif
-
-#ifndef HAVE_XRANDR
-#error "XRandR extension not available in config.h, check config.log"
 #endif
 
 #include <time.h>
 #include <stdio.h>
 #include <GL/glx.h> 
 #include <GL/gl.h> 
-#include <X11/extensions/Xrandr.h>
 #include "video.h"
 #include "videoarch.h"
 #include "x11ui.h"
@@ -95,7 +88,8 @@ openGL_sync_init(void)
 
     if (check_openGL(dpy))
 	no_sync = 1;
-    init_openGL();
+    else
+	init_openGL();
 }
 
 void 
@@ -207,6 +201,4 @@ openGL_dummy_set(int val, void *param)
 {
     return 0;
 }
-
-#endif
 

@@ -26,7 +26,10 @@
 
 #include "vice.h"
 
+#ifndef __VBCC__
 #define __USE_INLINE__
+#endif
+
 #include <proto/dos.h>
 
 #include <stdarg.h>

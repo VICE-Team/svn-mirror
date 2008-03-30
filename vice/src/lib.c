@@ -36,7 +36,13 @@
 #ifndef __USE_INLINE__
 #define __USE_INLINE__
 #endif
+#endif
+
+#if defined(AMIGA_SUPPORT) || defined(__VBCC__)
 #include <proto/exec.h>
+#ifndef AMIGA_SUPPORT
+#define AMIGA_SUPPORT
+#endif
 #endif
 
 #include "types.h"

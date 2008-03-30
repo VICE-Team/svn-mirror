@@ -84,6 +84,9 @@ void fullscreen_shutdown(void)
 #ifdef USE_XF86_DGA2_EXTENSIONS
     dga2_shutdown();
 #endif
+#ifdef HAVE_XRANDR
+    xrandr_shutdown();
+#endif
 }
 
 void fullscreen_suspend(int level)

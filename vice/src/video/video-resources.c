@@ -37,7 +37,7 @@
 #include "videoarch.h"
 #include "viewport.h"
 #include "util.h"
-
+#include "log.h"
 
 video_resources_t video_resources =
 {
@@ -75,7 +75,7 @@ struct video_resource_chip_s {
 };
 typedef struct video_resource_chip_s video_resource_chip_t;
 
-static void video_resources_update_ui(video_resource_chip_t *video_resource_chip);
+extern void video_resources_update_ui(video_resource_chip_t *video_resource_chip);
 
 struct video_resource_chip_mode_s {
     video_resource_chip_t *resource_chip;
@@ -301,6 +301,14 @@ static int set_fullscreen_device(const char *val, void *param)
     video_chip_cap = video_resource_chip->video_chip_cap;
     canvas = *(video_resource_chip->canvas);
 
+    if (video_resource_chip->fullscreen_enabled)
+    {
+	log_message(LOG_DEFAULT, 
+		    _("Fullscreen (%s) already active - disable first."),
+		    video_resource_chip->fullscreen_device);
+	return 0;
+    }
+    
     if (util_string_set(&video_resource_chip->fullscreen_device, val))
         return 0;
 

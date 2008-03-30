@@ -32,6 +32,7 @@
 #include "c128ui.h"
 #include "c128uires.h"
 #include "uic64cart.h"
+#include "ui.h"
 
 #include "mui/uiacia.h"
 #include "mui/uic128settings.h"

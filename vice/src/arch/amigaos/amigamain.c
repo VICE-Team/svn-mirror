@@ -34,11 +34,17 @@
 #include "machine.h"
 #include "main.h"
 #include "video.h"
+
 #undef BYTE
 #undef WORD
+
 #include "timer.h"
 
+#ifndef __VBCC__
 #include <dos/dos.h>
+#else
+#include <proto/dos.h>
+#endif
 
 #ifdef AMIGA_OS4
 timer_t *timer = NULL;
@@ -48,6 +54,10 @@ void *timer = NULL;
 
 #ifdef AMIGA_MORPHOS
 const unsigned long __stack = 512 * 1024;
+#endif
+
+#ifdef __VBCC__
+size_t __stack = 512 * 1024;
 #endif
 
 int main(int argc, char **argv)
@@ -71,4 +81,3 @@ void main_exit(void)
   machine_shutdown();
   timer_exit(timer);
 }
-

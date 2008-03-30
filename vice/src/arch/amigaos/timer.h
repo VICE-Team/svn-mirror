@@ -29,7 +29,9 @@
 
 #include "vice.h"
 
+#ifndef __VBCC__
 #include <proto/timer.h>
+#endif
 
 #ifdef AMIGA_AROS
 #include <aros/_timeval.h>

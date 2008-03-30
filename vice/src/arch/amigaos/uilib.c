@@ -28,11 +28,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef __VBCC__
 #define __USE_INLINE__
 
 #include <proto/exec.h>
 #include <proto/intuition.h>
 #include <proto/asl.h>
+#endif
 
 #include "private.h"
 #include "uilib.h"

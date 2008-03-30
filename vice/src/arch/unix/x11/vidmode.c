@@ -54,6 +54,7 @@ int vm_mode_count;
 static unsigned int vm_index = 0;
 static int vm_available = 0;
 static int saved_h, saved_w;
+static int vidmode_selected_mode = 0;
 
 XF86VidModeModeInfo **vm_modes;
 vm_bestvideomode_t *vm_bestmodes = NULL;
@@ -135,8 +136,8 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
         XF86VidModeModeInfo *vm;
 
         log_message(vidmode_log, "Enabling Vidmode with%s",
-                    vm_bestmodes[canvas->fullscreenconfig->mode].name);
-        vm = vm_modes[vm_bestmodes[canvas->fullscreenconfig->mode].modeindex];
+                    vm_bestmodes[vidmode_selected_mode].name);
+        vm = vm_modes[vm_bestmodes[vidmode_selected_mode].modeindex];
 
         saved_w = canvas->draw_buffer->canvas_width;
         saved_h = canvas->draw_buffer->canvas_height;
@@ -190,7 +191,7 @@ int vidmode_mode(struct video_canvas_s *canvas, int mode)
 
     if (vidmode_log != LOG_ERR)
 	log_message(vidmode_log, "Selected mode: %s", vm_bestmodes[mode].name);
-    canvas->fullscreenconfig->mode = mode;
+    vidmode_selected_mode = mode;
 
     return 0;
 }

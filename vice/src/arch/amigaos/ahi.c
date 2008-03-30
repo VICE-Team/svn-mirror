@@ -28,28 +28,45 @@
 
 #ifdef HAVE_DEVICES_AHI_H
 
+#ifndef __VBCC__
 #define __USE_INLINE__
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+
 #include <dos/dostags.h>
+
+#ifndef __VBCC__
 #include <exec/exec.h>
 #include <exec/types.h>
 #include <exec/memory.h>
 #include <devices/ahi.h>
 #include <devices/audio.h>
+#else
+#include <proto/timer.h>
+#include <proto/ahi.h>
+#endif
 
 #include <proto/exec.h>
 #include <proto/dos.h>
+
+#ifdef __VBCC__
+#include "types.h"
+#endif
 
 #include "ahi.h"
 #include "timer.h"
 #include "lib.h"
 
 typedef struct audio_buffer_s {
+#ifdef __VBCC__
+  SWORD *buffer;
+#else
   void *buffer;
+#endif
   s32 size;
   s64 time;
   s32 used;
@@ -442,7 +459,11 @@ static s32 ahi_in_buffer(void)
   return in_buffer;
 }
 
+#ifdef __VBCC__
+void ahi_play_samples(SWORD *data, s32 size, s64 time, s32 wait)
+#else
 void ahi_play_samples(void *data, s32 size, s64 time, s32 wait)
+#endif
 {
   s32 used, copy, max;
 

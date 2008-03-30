@@ -32,7 +32,9 @@
 #include <string.h>
 #include <ctype.h>
 
+#ifndef __VBCC__
 #define __USE_INLINE__
+#endif
 
 #include <proto/locale.h>
 

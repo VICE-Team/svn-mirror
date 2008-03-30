@@ -31,6 +31,7 @@
 #include "mui.h"
 
 #include "uipetsettings.h"
+#include "pets.h"
 #include "intl.h"
 #include "translate.h"
 

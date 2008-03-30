@@ -27,6 +27,6 @@
 #ifndef _SCREENSHOT_H_
 #define _SCREENSHOT_H_
 
-extern void ui_screenshot_dialog(video_canvas_t *canvas)
+extern void ui_screenshot_dialog(video_canvas_t *canvas);
 
 #endif

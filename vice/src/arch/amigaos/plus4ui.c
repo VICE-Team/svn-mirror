@@ -29,9 +29,11 @@
 #define UI_TRANSLATED_MENU_NAME plus4_ui_menu
 
 #include "private.h"
+#include "plus4cart.h"
 #include "plus4ui.h"
 #include "plus4uires.h"
 #include "uicart.h"
+#include "lib.h"
 #include "intl.h"
 #include "translate.h"
 

@@ -39,6 +39,6 @@ extern int joystick_arch_init_resources(void);
 extern int joystick_init_cmdline_options(void);
 extern int joystick_handle_key(unsigned long kcode, int pressed);
 extern int joystick_update(void);
+extern void joystick_close(void);
 
 #endif
-

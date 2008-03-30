@@ -93,7 +93,7 @@ xrandr_mode(struct video_canvas_s *canvas, int mode)
     if (xrandr_log != LOG_ERR)
 	log_message(xrandr_log, _("Selected mode: %s"), 
 		    screen_info.all_modes[mode].mode_string);
-    canvas->fullscreenconfig->mode = xrandr_selected_mode = mode;
+    xrandr_selected_mode = mode;
     
     return 0;
 }
@@ -102,8 +102,6 @@ int
 xrandr_enable(struct video_canvas_s *canvas, int activate)
 {
     int ret;
-
-    xrandr_selected_mode = canvas->fullscreenconfig->mode;
 
     if (canvas->fullscreenconfig->double_size)
 	log_message(xrandr_log, _("double size not implemented - use standard double size from menu."));
@@ -167,6 +165,13 @@ void
 xrandr_mode_callback(ui_callback_t cb)
 {
     menu_callback = cb;
+}
+
+void
+xrandr_shutdown(void)
+{
+    if (xrandr_active)
+	set_xrandr(0);
 }
 
 void

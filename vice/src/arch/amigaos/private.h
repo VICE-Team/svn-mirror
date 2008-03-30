@@ -29,8 +29,10 @@
 
 /* This is just a temporary place for some stuff */
 
+#ifndef __VBCC__
 #ifndef __USE_INLINE__
 #define __USE_INLINE__
+#endif
 #endif
 
 #include <stdio.h>
@@ -48,19 +50,22 @@
 
 #undef BYTE
 #undef WORD
+
 #include "timer.h"
 
+#ifndef __VBCC__
 #include <exec/types.h>
 #include <exec/nodes.h>
 #include <exec/lists.h>
 #include <exec/memory.h>
+#endif
 
 #include <proto/exec.h>
+#include <proto/gadtools.h>
 #include <proto/intuition.h>
+#include <proto/asl.h>
 #include <proto/graphics.h>
 #include <proto/dos.h>
-#include <proto/gadtools.h>
-#include <proto/asl.h>
 
 struct os_s {
   struct Screen *screen;

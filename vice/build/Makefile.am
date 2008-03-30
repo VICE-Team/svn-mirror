@@ -1,4 +1,5 @@
 EXTRA_DIST = \
+	amigaos/build-vbcc.sh \
 	mingw32/build-cross.sh \
 	macosx/build-allext.sh \
 	macosx/build-gtk.sh \

@@ -31,14 +31,19 @@
 #include "keyboard.h"
 #include "private.h"
 #include "statusbar.h"
+
+#ifndef __VBCC__
 #undef BYTE
 #undef WORD
+#endif
+
 #include "timer.h"
 #include "mousedrv.h"
 #include "joy.h"
 #include "intl.h"
 #include "translate.h"
 
+#ifndef __VBCC__
 #define __USE_INLINE__
 
 #include <exec/types.h>
@@ -50,6 +55,7 @@
 #include <proto/intuition.h>
 #include <proto/graphics.h>
 #include <proto/gadtools.h>
+#endif
 
 #include "private.h"
 

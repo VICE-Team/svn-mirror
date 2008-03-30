@@ -1439,7 +1439,7 @@ void ui_dispatch_events(void)
 
 /* Fixme: unfortunately the following function doesn't work :(
    Don't know why! Any help is appreciated - send suggestions to
-   `pottend@utanet.at' */
+   `pottendo@utanet.at' */
 void x11ui_fullscreen(int i)
 {
     static Atom _net_wm_state = -1;

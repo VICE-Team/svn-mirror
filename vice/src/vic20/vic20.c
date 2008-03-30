@@ -283,7 +283,7 @@ static void vic20_monitor_init(void)
     monitor_cpu_type_t asm6502;
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
 
-#if defined(MINIXVMD) || defined(MINIX_SUPPORT)
+#if defined(MINIXVMD) || defined(MINIX_SUPPORT) || defined(__VBCC__)
     monitor_cpu_type_t *asmarray[2];
     asmarray[0]=&asm6502;
     asmarray[1]=NULL;

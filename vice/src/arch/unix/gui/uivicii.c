@@ -73,7 +73,7 @@ UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
 UI_MENU_DEFINE_TOGGLE(VICIIHwScale)
 #endif
 UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
-#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
+#ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 #endif
 #ifdef USE_XF86_EXTENSIONS
@@ -161,7 +161,7 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("*Scale 2x render"),
       (ui_callback_t)toggle_VICIIScale2x, NULL, NULL },
     { "--" },
-#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
+#ifdef HAVE_OPENGL_SYNC
     { N_("*OpenGL Rastersynchronization"),
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
     { "--" },

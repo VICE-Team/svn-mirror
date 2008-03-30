@@ -35,6 +35,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef __VBCC__
 #define __USE_INLINE__
 #include <exec/memory.h>
 
@@ -51,6 +52,11 @@
 #include <proto/muimaster.h>
 #if defined(AMIGA_M68K) || defined(AMIGA_AROS)
 #include <libraries/mui.h>
+#endif
+#else
+#include <proto/muimaster.h>
+#include <libraries/mui.h>
+#include <clib/alib_protos.h>
 #endif
 
 #ifdef AMIGA_AROS

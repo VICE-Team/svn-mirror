@@ -64,5 +64,12 @@
 
 #define snprintf _snprintf
 
+/* begin: for FFMPEG: common.h */
+#define CONFIG_WIN32
+
+#define int64_t_C(c)     (c ## i64)
+#define uint64_t_C(c)    (c ## u64)
+/* end: for FFMPEG: common.h */
+
 #endif
 

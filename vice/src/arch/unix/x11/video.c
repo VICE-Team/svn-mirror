@@ -488,7 +488,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 #ifdef HAVE_XVIDEO
     init_xv_settings(canvas);
 #endif
-#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
+#ifdef HAVE_OPENGL_SYNC
     openGL_sync_init();
 #endif
 
@@ -706,7 +706,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
     /* This could be optimized away.  */
     display = x11ui_get_display_ptr();
 
-#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
+#ifdef HAVE_OPENGL_SYNC
     openGL_sync_with_raster();
 #endif
     _refresh_func(display, canvas->drawable, _video_gc, canvas->x_image,

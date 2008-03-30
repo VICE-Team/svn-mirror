@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#ifdef HAVE_NETWORK
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -183,4 +184,5 @@ void ui_network_dialog(void)
     MUI_DisposeObject(window);
   }
 }
+#endif
 

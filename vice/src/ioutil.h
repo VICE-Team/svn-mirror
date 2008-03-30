@@ -43,7 +43,7 @@ extern int ioutil_chdir(const char *path);
 extern int ioutil_errno(unsigned int check);
 extern char *ioutil_getcwd(char *buf, int size);
 extern int ioutil_isatty(int desc);
-extern int ioutil_maxpathlen(void);
+extern unsigned int ioutil_maxpathlen(void);
 extern int ioutil_mkdir(const char *pathname, int mode);
 extern int ioutil_remove(const char *name);
 extern int ioutil_rename(const char *oldpath, const char *newpath);

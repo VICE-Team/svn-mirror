@@ -140,7 +140,7 @@ int ioutil_isatty(int desc)
 #  endif
 #endif
 
-int ioutil_maxpathlen(void)
+unsigned int ioutil_maxpathlen(void)
 {
     return PATH_MAX;
 }

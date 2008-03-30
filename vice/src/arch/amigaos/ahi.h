@@ -67,7 +67,13 @@ typedef             double f64;
 extern s32 ahi_open(s32 frequency, u32 mode, s32 fragsize, s32 frags, void (*callback)(s64 time));
 extern s32 ahi_samples_to_bytes(s32 samples);
 extern s32 ahi_bytes_to_samples(s32 bytes);
+
+#ifdef __VBCC__
+extern void ahi_play_samples(SWORD *data, s32 samples, s64 time, s32 wait);
+#else
 extern void ahi_play_samples(void *data, s32 samples, s64 time, s32 wait);
+#endif
+
 extern s32 ahi_samples_buffered(void);
 extern s32 ahi_samples_free(void);
 extern void ahi_pause(void);

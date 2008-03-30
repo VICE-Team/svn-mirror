@@ -50,6 +50,8 @@
 #include "fliplist.h"
 #include "intl.h"
 #include "translate.h"
+#include "screen-shot.h"
+#include "ui.h"
 
 #include "mui/filereq.h"
 #include "mui/uidatasette.h"
@@ -206,7 +208,7 @@ void ui_register_machine_specific(ui_machine_specific_t func)
   machine_specific_function = func;
 }
 
-extern void ui_register_menu_toggles(const ui_menu_toggle_t *toggles)
+void ui_register_menu_toggles(const ui_menu_toggle_t *toggles)
 {
   machine_specific_toggles = toggles;
 }
@@ -609,9 +611,11 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
       case IDM_SOUND_SETTINGS:
         ui_sound_settings_dialog();
         break;
+#ifdef HAVE_NETWORK
       case IDM_NETWORK_SETTINGS:
         ui_network_dialog();
         break;
+#endif
       case IDM_LANGUAGE_ENGLISH:
         resources_get_value("Language", (void *)&curlang);
         if (strcasecmp(curlang,"en"))
