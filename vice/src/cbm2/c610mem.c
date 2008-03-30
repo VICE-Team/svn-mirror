@@ -61,7 +61,8 @@
 
 
 /* ultimax = 0 then the others are not needed */
-int ultimax = 0;
+unsigned int cart_ultimax_phi1 = 0;
+unsigned int cart_ultimax_phi2 = 0;
 int mem_cartridge_type = CARTRIDGE_NONE;
 int romh_bank;
 BYTE romh_banks[1];
