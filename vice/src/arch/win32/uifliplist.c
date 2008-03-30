@@ -35,6 +35,7 @@
 #include "system.h"
 #include "ui.h"
 #include "uilib.h"
+#include "util.h"
 
 
 void uifliplist_load_dialog(HWND hwnd)
@@ -62,6 +63,8 @@ void uifliplist_save_dialog(HWND hwnd)
         UILIB_FILTER_FLIPLIST, UILIB_SELECTOR_TYPE_FILE_SAVE,
         UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
         char *name;
+
+        util_add_extension(&st_name, "vfl");
 
         name = system_wcstombs_alloc(st_name);
         if (flip_save_list((unsigned int)-1, name) != 0)

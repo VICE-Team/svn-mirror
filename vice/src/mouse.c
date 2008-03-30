@@ -90,7 +90,7 @@ int mouse_cmdline_options_init(void)
     if (cmdline_register_options(cmdline_options) < 0)
         return -1;
 
-    return mousedrv_cmdline_options_init();;
+    return mousedrv_cmdline_options_init();
 }
 
 void mouse_init(void)

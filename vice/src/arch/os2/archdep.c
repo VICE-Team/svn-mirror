@@ -60,6 +60,7 @@
 #include "log.h"
 
 #include "ui.h"
+#include "machine.h"    // machine-name
 #include "signals.h"
 #include "vsyncapi.h"
 
@@ -211,7 +212,7 @@ char *archdep_default_resource_file_name(void)
 
 char *archdep_default_fliplist_file_name(void)
 {
-    return NULL;
+    return util_concat(archdep_boot_path(), "\\vice2-", machine_name, ".vfl", NULL);
 }
 
 FILE *fLog=NULL;
@@ -497,7 +498,7 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
         return -1;
 
     *len = statbuf.st_size;
-    *isdir = S_ISDIR(statbuf.st_mode);
+    *isdir = statbuf.st_mode&S_IFDIR;
 
     return 0;
 }

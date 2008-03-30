@@ -43,7 +43,7 @@
 #include "maincpu.h"
 #include "ui.h"
 #include "types.h"
-
+#include "log.h"
 
 #define JOYSTICK_RAND() (rand() & 0x3fff)
 

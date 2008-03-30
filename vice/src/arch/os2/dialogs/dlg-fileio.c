@@ -64,10 +64,16 @@
 #include "dlg-fileio.h"
 #include "snippets\pmwin2.h"
 
-#if defined __X64__ || defined __X128__ || defined __XVIC__
-static const char *VIDEO_PALETTE="PaletteFile";
-#else
-//#if defined __XPET__ || defined __XCBM__
+#ifdef HAVE_VIC_II
+static const char *VIDEO_PALETTE="ViciiPaletteFile";
+#endif
+#ifdef HAVE_VIC
+static const char *VIDEO_PALETTE="VicPaletteFile";
+#endif
+#ifdef HAVE_TED
+static const char *VIDEO_PALETTE="TedPaletteFile";
+#endif
+#ifdef HAVE_CRTC
 static const char *VIDEO_PALETTE="CrtcPaletteFile";
 #endif
 

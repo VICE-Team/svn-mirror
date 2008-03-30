@@ -166,7 +166,7 @@ int tape_deinstall(void)
 
     if (tape_image_dev1->name != NULL &&
         tape_image_dev1->type == TAPE_TYPE_T64)
-        tape_image_detach(1);
+        tape_image_detach_internal(1);
 
     tape_traps_deinstall();
 
@@ -419,7 +419,7 @@ int tape_tap_attched(void)
 /* ------------------------------------------------------------------------- */
 
 /* Detach.  */
-static int tape_image_detach_internal(unsigned int unit)
+int tape_image_detach_internal(unsigned int unit)
 {
     int retval = 0;
     char event_data[2];
@@ -489,7 +489,7 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
         return -1;
     }
 
-    tape_image_detach(unit);
+    tape_image_detach_internal(unit);
 
     memcpy(tape_image_dev1, &tape_image, sizeof(tape_image_t));
 

@@ -52,6 +52,9 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#ifdef __OS2__
+#include "snippets/dirport.h"
+#endif
 
 #include "archdep.h"
 #include "ioutil.h"
@@ -85,10 +88,12 @@ int ioutil_chdir(const char *path)
 int ioutil_errno(unsigned int check)
 {
     switch (check) {
+#ifndef __OS2__
       case IOUTIL_ERRNO_EPERM:
         if (errno == EPERM)
             return 1;
         break;
+#endif
       case IOUTIL_ERRNO_EEXIST:
         if (errno == EEXIST)
             return 1;
@@ -101,10 +106,12 @@ int ioutil_errno(unsigned int check)
         if (errno == ENOENT)
             return 1;
         break;
+#ifndef __OS2__
       case IOUTIL_ERRNO_ERANGE:
         if (errno == ERANGE)
             return 1;
         break;
+#endif
       default:
         return 0;
     }
@@ -174,7 +181,7 @@ ioutil_dir_t *ioutil_opendir(const char *path)
     DIR *dp;
     ioutil_dir_t *ioutil_dir;
 
-    dp = opendir(path);
+    dp = opendir((char*)path);
 
     if (dp == NULL)
         return NULL;

@@ -518,7 +518,7 @@ void machine_specific_shutdown(void)
     }
 
     /* and the tape */
-    tape_image_detach(1);
+    tape_image_detach_internal(1);
 
     /* and cartridge */
     cartridge_detach_image();

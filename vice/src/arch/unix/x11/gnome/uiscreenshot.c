@@ -256,6 +256,6 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 
 void uiscreenshot_shutdown(void)
 {
-    lib_free(driver_buttons);
+    lib_free(buttons);
 }
 

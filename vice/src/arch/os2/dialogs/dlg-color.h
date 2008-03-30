@@ -29,6 +29,8 @@
 #define ID_BRIGHTNESS  0x12
 #define ID_GAMMA       0x13
 #define ID_CONTRAST    0x14
-#define ID_DEFAULT     0x15
+#define ID_SCANLINE    0x15 // Only in PAL-TRUE and double-size
+#define ID_BLUR        0x16 // Only in PAL-TRUE
+#define ID_DEFAULT     0x17
 
 extern void color_dialog(HWND hwnd);

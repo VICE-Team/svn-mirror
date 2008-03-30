@@ -1,3 +1,18 @@
+2004-05-05  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.16 released.
+
+	* envelope.h (EnvelopeGenerator::clock): Corrected off-by-one
+	error in check for ADSR delay bug in delta_t cycle interface.
+
+	* filter.cc (Filter::set_chip_model): Initialize filter cutoff
+	mappings before call to set_chip_model.
+
+	* sid.cc (SID::set_sampling_parameters): Build shifted FIR tables
+	with samples according to the sampling frequency.
+	(SID::clock_resample): Factorized linear interpolation out from
+	filter convolutions, and made convolutions vectorizable.
+
 2003-10-20  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.15 released.
@@ -11,7 +26,6 @@
 	(SID::set_sampling_parameters): Scale resampling filter to avoid
 	clipping.
 	(SID::clock_resample): Saturated arithmetics to avoid clipping.
-
 
 2002-12-31  Dag Lem  <resid@nimrod.no>
 

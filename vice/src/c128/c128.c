@@ -570,7 +570,7 @@ void machine_specific_shutdown(void)
     file_system_detach_disk_shutdown();
 
     /* and the tape */
-    tape_image_detach(1);
+    tape_image_detach_internal(1);
 
     ciacore_shutdown(machine_context.cia1);
     ciacore_shutdown(machine_context.cia2);

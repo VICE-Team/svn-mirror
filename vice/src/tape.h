@@ -110,6 +110,7 @@ extern tape_image_t *tape_internal_open_tape_image(const char *name,
                                                    unsigned int read_only);
 /* External tape image interface.  */
 extern int tape_image_detach(unsigned int unit);
+extern int tape_image_detach_internal(unsigned int unit);
 extern int tape_image_attach(unsigned int unit, const char *name);
 extern int tape_image_open(tape_image_t *tape_image);
 extern int tape_image_close(tape_image_t *tape_image);

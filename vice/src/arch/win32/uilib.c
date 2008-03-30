@@ -883,4 +883,6 @@ void uilib_shutdown(void)
     for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++)
         if (ui_file_selector_initialfile[i] != NULL)
             lib_free(ui_file_selector_initialfile[i]);
+
+    lib_free(fontfile);
 }

@@ -409,7 +409,7 @@ void machine_specific_shutdown(void)
 {
     file_system_detach_disk_shutdown();
 
-    tape_image_detach(1);
+    tape_image_detach_internal(1);
 
     ted_shutdown();
 

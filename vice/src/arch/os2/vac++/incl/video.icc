@@ -10,6 +10,7 @@ source type(c)
     "video-cmdline-options.c",
     "video-color.c",
     "video-render.c",
+    "video-render-2x2.c",
     "video-render-pal.c",
     "video-resources.c",
     "video-resources-pal.c",

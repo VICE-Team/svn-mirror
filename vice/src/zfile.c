@@ -180,13 +180,16 @@ static char *try_uncompress_with_gzip(const char *name)
     tmp_name = archdep_tmpnam();
 
     fddest = fopen(tmp_name, MODE_WRITE);
-    if (fddest == NULL)
+    if (fddest == NULL) {
+        lib_free(tmp_name);
         return NULL;
+    }
 
     fdsrc = gzopen(name, MODE_READ);
     if (fdsrc == NULL) {
         fclose(fddest);
         ioutil_remove(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
 

@@ -163,7 +163,7 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
         log_error(tape_snapshot_log, "Could not create temporary file");
         log_error(tape_snapshot_log, "filename=%s", filename);
         snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
     SMR_DW_UL(m, (unsigned long *)&tap_size);
@@ -177,18 +177,19 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
         log_error(tape_snapshot_log, "filename=%s", filename);
         snapshot_module_close(m);
         fclose(ftap);
-        return -1;
+        goto fail;
     }
 
     lib_free(buffer);
-
     fclose(ftap);
-
     tape_image_attach(1, filename);
-
+    lib_free(filename);
     snapshot_module_close(m);
-
     return 0;
+
+fail:
+    lib_free(filename);
+    return -1;
 }
 
 
@@ -296,7 +297,7 @@ int tape_snapshot_read_module(snapshot_t *s)
 
     if (m == NULL) {
         /* no tape attached */
-        tape_image_detach(1);
+        tape_image_detach_internal(1);
         return 0;
     }
 
@@ -312,6 +313,7 @@ int tape_snapshot_read_module(snapshot_t *s)
         /* attached image type is not correct */
         log_error(tape_snapshot_log,
             "No tape image attached or type not correct.");
+        snapshot_module_close(m);
         return -1;
     }
 
@@ -342,6 +344,8 @@ int tape_snapshot_read_module(snapshot_t *s)
         default:
             break;
     }
+
+    snapshot_module_close(m);
 
     if (datasette_read_snapshot(s) < 0)
         return -1;

@@ -1,0 +1,4 @@
+source type(c)
+    "cbmfile.c",
+    "fileio.c",
+    "p00.c"

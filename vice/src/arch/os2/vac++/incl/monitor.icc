@@ -12,7 +12,7 @@ source type(c)
     "mon_ui.c",
     "mon_util.c"
 
-option x = define("__GNUC__", ), define("__TURBOC__",)
+option Monitor = define("__GNUC__", ), define("__TURBOC__",), lang(level, "ANSI")
 {
    source type(c)
     "mon_parse.c",

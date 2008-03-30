@@ -41,8 +41,10 @@ static SHORT _mouse_x, _mouse_y; // [-32768, 32768]
 
 void mousedrv_mouse_changed(void)
 {
-    mouse_button_left(0);
-    mouse_button_right(0);
+    /* -- FIXME: rash while startup --
+     mouse_button_left(0);
+     mouse_button_right(0);
+     */
 }
 
 static int set_hide_mouseptr(resource_value_t v, void *param)
@@ -65,7 +67,7 @@ static const resource_t resources[] = {
 
 int mousedrv_resources_init(void)
 {
-    return 0;
+    return resources_register(resources);
 }
 
 /* ----------------------------------------------------------- */

@@ -62,6 +62,10 @@
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
 
 // --------------------------------------------------------------------------
+//#define VIDEO_RESOURCE_PAL_MODE_BLUR  2
+//#define VIDEO_RESOURCE_PAL_MODE_SHARP 1
+//#define VIDEO_RESOURCE_PAL_MODE_FAST  0
+// --------------------------------------------------------------------------
 
 #ifdef __XCBM__
 #include "cbm2mem.h"     // cbm2_set_model
@@ -88,6 +92,7 @@ static const char *VIDEO_CACHE="ViciiVideoCache";
 static const char *DOUBLE_SIZE="ViciiDoubleSize";
 static const char *DOUBLE_SCAN="ViciiDoubleScan";
 static const char *DOUBLE_SCALE2X="ViciiScale2x";
+static const char *EXTERNAL_PALETTE="ViciiExternalPalette";
 #endif
 
 #ifdef HAVE_VIC
@@ -95,6 +100,7 @@ static const char *VIDEO_CACHE="VicVideoCache";
 static const char *DOUBLE_SIZE="VicDoubleSize";
 static const char *DOUBLE_SCAN="VicDoubleScan";
 static const char *DOUBLE_SCALE2X="VicScale2x";
+static const char *EXTERNAL_PALETTE="VicExternalPalette";
 #endif
 
 #ifdef HAVE_TED
@@ -102,6 +108,7 @@ static const char *VIDEO_CACHE="TedVideoCache";
 static const char *DOUBLE_SIZE="TedDoubleSize";
 static const char *DOUBLE_SCAN="TedDoubleScan";
 static const char *DOUBLE_SCALE2X="TedScale2x";
+static const char *EXTERNAL_PALETTE="TedExternalPalette";
 #endif
 
 #if defined HAVE_CRTC && !defined __XCBM__
@@ -382,7 +389,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 
     case IDM_INTERNALPAL:
-        toggle("ExternalPalette");
+        toggle(EXTERNAL_PALETTE);
         return;
 #ifdef HAVE_VIC_II
     case IDM_LUMINANCES:
@@ -393,14 +400,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         {
             long val1, val2;
             resources_get_value("PALEmulation", (void *)&val1);
-            resources_get_value("PALMode", (void *)&val2);
+            resources_get_value("PALMode",      (void *)&val2);
             if (!val1)
             {
-#ifdef HAVE_TED
-                resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_SHARP);
-#else
-                resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
-#endif
+                resources_set_value("PALMode",      (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
                 resources_set_value("PALEmulation", (resource_value_t*)1);
                 return;
             }
@@ -408,16 +411,13 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             switch (val2)
             {
 #ifndef HAVE_TED
-            case VIDEO_RESOURCE_PAL_MODE_FAST:
-                resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_SHARP);
+            case 0:
+                resources_set_value("PALMode",      (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_TRUE);
                 resources_set_value("PALEmulation", (resource_value_t*)1);
                 return;
 #endif
-            case VIDEO_RESOURCE_PAL_MODE_SHARP:
-                resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_BLUR);
-                resources_set_value("PALEmulation", (resource_value_t*)1);
-                return;
-            case VIDEO_RESOURCE_PAL_MODE_BLUR:
+            case 1:
+                resources_set_value("PALMode",      (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
                 resources_set_value("PALEmulation", (resource_value_t*)0);
                 return;
             }
@@ -428,16 +428,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 #ifndef HAVE_TED
     case IDM_PALFAST:
-        resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
+        resources_set_value("PALMode",      (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
         resources_set_value("PALEmulation", (resource_value_t*)1);
         return;
 #endif
-    case IDM_PALSHARP:
-        resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_SHARP);
-        resources_set_value("PALEmulation", (resource_value_t*)1);
-        return;
-    case IDM_PALBLUR:
-        resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_BLUR);
+    case IDM_PALON:
+        resources_set_value("PALMode",      (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_TRUE);
         resources_set_value("PALEmulation", (resource_value_t*)1);
         return;
         /*
@@ -529,11 +525,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_REU:
         toggle("REU");
         return;
-
+#ifdef HAVE_TFE
     case IDM_TFE:
         toggle("ETHERNET_ACTIVE");
         return;
-
+#endif
     case IDM_REU128:
     case IDM_REU256:
     case IDM_REU512:
@@ -1062,13 +1058,13 @@ void menu_select(HWND hwnd, USHORT item)
         WinEnableMenuItem(hwnd, IDM_LOGWIN,  hwndLog    !=NULLHANDLE);
         WinEnableMenuItem(hwnd, IDM_MONITOR, hwndMonitor!=NULLHANDLE);
 #if defined __X64__ || defined __X128__
-        resources_get_value("ExternalPalette", (void *)&val);
+        resources_get_value(EXTERNAL_PALETTE, (void *)&val);
         WinEnableMenuItem(hwnd, IDM_COLOR, !val);
 #endif
 #ifdef __XCBM__
         {
             long val1, val2;
-            resources_get_value("ExternalPalette", (void *)&val1);
+            resources_get_value(EXTERNAL_PALETTE, (void *)&val1);
             resources_get_value("UseVicII", (void *)&val2);
             WinEnableMenuItem(hwnd, IDM_COLOR, !val && val2);
         }
@@ -1158,7 +1154,9 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_IEEE,      "IEEE488");
 #endif // __X128__ || __XVIC__
 #if defined __X64__ || defined __X128__
+#ifdef HAVE_TFE
         WinCheckRes(hwnd, IDM_TFE, "ETHERNET_ACTIVE");
+#endif
         resources_get_value("REU", (void *)&val);
         WinCheckMenuItem(hwnd,  IDM_REU,     val);
         WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
@@ -1359,8 +1357,8 @@ void menu_select(HWND hwnd, USHORT item)
         {
             long val1, val2;
 
-            resources_get_value("PALEmulation", (void *)&val1);
-            resources_get_value("ExternalPalette", (void *)&val2);
+            resources_get_value("PALEmulation",   (void *)&val1);
+            resources_get_value(EXTERNAL_PALETTE, (void *)&val2);
             WinEnableMenuItem(hwnd, IDM_PALEMU,      !val2);
             WinEnableMenuItem(hwnd, IDM_INTERNALPAL, !val1);
             WinEnableMenuItem(hwnd, IDM_LUMINANCES,  !val2 || val1);
@@ -1376,14 +1374,13 @@ void menu_select(HWND hwnd, USHORT item)
         long val1, val2;
 
         resources_get_value("PALEmulation", (void *)&val1);
-        resources_get_value("PALMode", (void *)&val2);
+        resources_get_value("PALMode",      (void *)&val2);
 
-        WinCheckMenuItem(hwnd, IDM_PALOFF,   !val1);
+        WinCheckMenuItem(hwnd, IDM_PALOFF,  !val1);
 #ifndef HAVE_TED
-        WinCheckMenuItem(hwnd, IDM_PALFAST,  val1 && val2==VIDEO_RESOURCE_PAL_MODE_FAST);
+        WinCheckMenuItem(hwnd, IDM_PALFAST, val1 && val2==VIDEO_RESOURCE_PAL_MODE_FAST);
 #endif
-        WinCheckMenuItem(hwnd, IDM_PALSHARP, val1 && val2==VIDEO_RESOURCE_PAL_MODE_SHARP);
-        WinCheckMenuItem(hwnd, IDM_PALBLUR,  val1 && val2==VIDEO_RESOURCE_PAL_MODE_BLUR);
+        WinCheckMenuItem(hwnd, IDM_PALON,   val1 && val2==VIDEO_RESOURCE_PAL_MODE_TRUE);
     }
     return;
 #endif

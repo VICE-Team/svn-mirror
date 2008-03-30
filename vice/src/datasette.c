@@ -876,8 +876,14 @@ int datasette_read_snapshot(snapshot_t *s)
     if (current_image)
         ui_display_tape_control_status(current_image->mode);
 
+    if (current_image->mode > 0)
+        datasette_set_tape_sense(1);
+    else
+        datasette_set_tape_sense(0);
+
     /* reset buffer */
     next_tap = last_tap = 0;
 
+    snapshot_module_close(m);
     return 0;
 }

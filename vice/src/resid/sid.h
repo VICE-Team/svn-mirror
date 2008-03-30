@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2003  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2004  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -105,25 +105,25 @@ protected:
   // External audio input.
   int ext_in;
 
-  // Sampling variables.
-  cycle_count sample_offset;
-  short sample_prev;
-  unsigned int sample_index;
-  short sample[16384];
-
-  // Sampling constants.
-  enum { FIR_ORDER = 123 };
-  enum { FIR_N = FIR_ORDER/2 + 1 };
+  // Resampling constants.
+  enum { FIR_N = 125 };
   enum { FIR_RES = 512 };
   enum { FIR_SHIFT = 15 };
+
+  // Sampling variables.
   sampling_method sampling;
   cycle_count cycles_per_sample;
-  cycle_count fstep_per_cycle;
-  cycle_count sample_delay;
+  cycle_count sample_offset;
+  int sample_index;
+  short sample_prev;
   int fir_N;
-  int foffset_max;
-  short fir[FIR_N*FIR_RES + 1];
-  short fir_diff[FIR_N*FIR_RES + 1];
+  int fir_RES;
+
+  // Ring buffer with overflow for contiguous storage of 16384 samples.
+  short sample[16384*2];
+
+  // FIR_RES filter tables.
+  short fir[FIR_N*FIR_RES];
 };
 
 #endif // not __SID_H__

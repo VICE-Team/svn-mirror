@@ -97,6 +97,10 @@ int fliplist_resources_init(void)
 
 void fliplist_resources_shutdown(void)
 {
+    int i;
+
+    for (i = 0; i < NUM_DRIVES; i++)
+        flip_clear_list(8 + i);
     lib_free(fliplist_file_name);
     lib_free(resources[0].factory_value);
 }

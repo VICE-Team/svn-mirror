@@ -154,8 +154,7 @@ BEGIN
 #ifndef HAVE_TED
  	   MENUITEM "Fast",            IDM_PALFAST,      MIS_TEXT
 #endif
- 	   MENUITEM "Sharp",           IDM_PALSHARP,     MIS_TEXT
- 	   MENUITEM "Blur",            IDM_PALBLUR,      MIS_TEXT
+ 	   MENUITEM "True",            IDM_PALON,        MIS_TEXT
         END
         MENUITEM "Internal Palette",   IDM_INTERNALPAL,  MIS_TEXT
 #ifdef HAVE_VIC_II
@@ -367,7 +366,9 @@ BEGIN
       MENUITEM "Emulator ~Identification",      IDM_EMUID,     MIS_TEXT
 #endif
 #if defined __X64__ || defined __X128__
+#ifdef HAVE_TFE
       MENUITEM "TFE - Cartridge",         IDM_TFE,       MIS_TEXT
+#endif 
       MENUITEM "R~EU - Memory Extension", IDM_REU,       MIS_TEXT
       SUBMENU  "REU Memory ~Size",        IDM_REUSIZE,   MIS_TEXT
       BEGIN

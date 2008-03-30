@@ -34,25 +34,31 @@
 
 DLGTEMPLATE DLG_COLOR 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Video Color Settings", DLG_COLOR, 162, 122, 200, 83, STY_DIALOG|FCF_CLOSEBUTTON
+    DIALOG "Video Color Settings", DLG_COLOR, 162, 122, 200, 103, STY_DIALOG|FCF_CLOSEBUTTON
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",    DID_CLOSE,    7,  5,  38, 12, STY_CLOSEBUTTON | WS_GROUP  
         CONTROL "Defaults", ID_DEFAULT, 150,  5,  44, 12, STY_PUSHBUTTON  
-        CONTROL "Color",    ID_NONE,      7, 22, 186, 57, STY_GROUPBOX
+        CONTROL "Color",    ID_NONE,      7, 22, 186, 77, STY_GROUPBOX
 
-    	TEXT("Saturation",  12, 55)
-	TEXT("Contrast",    12, 45)
-    	TEXT("Brightness",  12, 35)
-    	TEXT("Gamma",       12, 25)
+    	TEXT("Saturation",  12, 75)
+	TEXT("Contrast",    12, 65)
+    	TEXT("Brightness",  12, 55)
+    	TEXT("Gamma",       12, 45)
+    	TEXT("PAL-ScanLine",12, 35)
+    	TEXT("PAL-Blur",    12, 25)
 
-        CONTROL "",      ID_SATURATION, 56, 55, 135, 16, STY_SLIDER
+        CONTROL "",      ID_SATURATION, 56, 75, 135, 16, STY_SLIDER
                 CTLDATA 12, 0, 201, 0, 0, 0
-        CONTROL "",      ID_CONTRAST,   56, 45, 135, 10, STY_SLIDER
+        CONTROL "",      ID_CONTRAST,   56, 65, 135, 10, STY_SLIDER
                 CTLDATA 12, 0, 201, 0, 0, 0
-        CONTROL "",      ID_BRIGHTNESS, 56, 35, 135, 10, STY_SLIDER
+        CONTROL "",      ID_BRIGHTNESS, 56, 55, 135, 10, STY_SLIDER
                 CTLDATA 12, 0, 201, 0, 0, 0
-        CONTROL "",      ID_GAMMA,      56  25, 135, 10, STY_SLIDER
+        CONTROL "",      ID_GAMMA,      56  45, 135, 10, STY_SLIDER
+                CTLDATA 12, 0, 201, 0, 0, 0
+        CONTROL "",      ID_SCANLINE,   56  35, 135, 10, STY_SLIDER
+                CTLDATA 12, 0, 201, 0, 0, 0
+        CONTROL "",      ID_BLUR,       56  25, 135, 10, STY_SLIDER
                 CTLDATA 12, 0, 201, 0, 0, 0
 
     END

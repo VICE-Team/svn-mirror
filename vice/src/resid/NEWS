@@ -1,3 +1,19 @@
+Changes in reSID version 0.16
+-----------------------------
+
+An off-by-one error in the emulation of the ADSR delay bug has been
+fixed in the fast version of the envelope clocking.
+
+An initialization bug in the Filter class which caused floating point
+exceptions on some platforms has been fixed.
+
+By building shifted FIR tables with samples according to the sampling
+frequency, the resampling code dramatically reduces the computational
+effort in the filter convolutions, without any loss of accuracy. The
+filter convolutions are now also vectorizable on current hardware. The
+implementation builds on ideas by Laurent Ganier.
+
+
 Changes in reSID version 0.15
 -----------------------------
 

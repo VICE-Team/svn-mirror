@@ -25,9 +25,11 @@ EXTRA_DIST = \
         incl/dialogs.icc \
         incl/diskimage.icc \
         incl/drive.icc \
+        incl/fileio.icc \
         incl/fsdevice.icc \
         incl/gfxoutputdrv.icc \
         incl/iec.icc \
+        incl/iecbus.icc \
         incl/iecieee.icc \
         incl/ieee.icc \
         incl/imagecontents.icc \

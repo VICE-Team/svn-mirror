@@ -1,5 +1,7 @@
 source type(c)
+    "drive-check.c",
     "drive-cmdline-options.c",
+    "drive-overflow.c",
     "drive-resources.c",
     "drive-snapshot.c",
     "drive.c",
@@ -12,5 +14,4 @@ source type(c)
     "iec/iec-cmdline-options.c",
     "iec/iec-resources.c",
     "iec/iecrom.c",
-    "iec/jobcode1581.c",
     "iec/wd1770.c"

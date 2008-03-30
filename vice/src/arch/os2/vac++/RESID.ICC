@@ -14,7 +14,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
 {
     target type(lib) "resid"
     {
-        option reSid = define("PACKAGE","\"resid\""), define("VERSION","\"0.14\""), define("SIZEOF_INT", "\"4\"")
+        option reSid = define("PACKAGE","\"resid\""), define("VERSION","\"0.15\""), define("SIZEOF_INT", "\"4\"")
         {
             source type(cpp) "envelope.cc"
             source type(cpp) "extfilt.cc"

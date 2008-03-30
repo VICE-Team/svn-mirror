@@ -1,4 +1,5 @@
 source type(c)
+    "iec/glue1571.c",
     "iec/iec.c",
     "iec/memiec.c",
     "iec/cia1571d.c",

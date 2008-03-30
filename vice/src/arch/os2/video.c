@@ -122,7 +122,7 @@ static ULONG flFrameFlags =
     FCF_AUTOICON | FCF_MINBUTTON | FCF_CLOSEBUTTON;
 
 /* ------------------------------------------------------------------------ */
-/* Video-related resources.  */
+/* Video-related resources.                                                 */
 
 int stretch;            // Strech factor for window (1,2,3,...)
 static int border;      // PM Border Type
@@ -780,8 +780,6 @@ static void VideoInitRenderer(video_canvas_t *c)
 
     int i;
 
-    video_render_initconfig(c->videoconfig);
-
     // video_render_setrawrgb: index, r, g, b
     for (i=0; i<0x100; i++)
         video_render_setrawrgb(i,
@@ -792,12 +790,14 @@ static void VideoInitRenderer(video_canvas_t *c)
     video_render_initraw();
 }
 
+video_canvas_t *initcanvas;
+
 MRESULT WmCreate(HWND hwnd)
 {
     ULONG rc;
 
     /*video_canvas_t *canvas_new = (video_canvas_t *)calloc(1, sizeof(video_canvas_t));*/
-    video_canvas_t *canvas_new = video_canvas_init();
+    video_canvas_t *canvas_new = initcanvas; //video_canvas_init();
 
     archdep_create_mutex_sem(&canvas_new->hmtx, "Video", FALSE);
 
@@ -1053,6 +1053,11 @@ void VideoCanvasBlit(video_canvas_t *c,
     const UINT  linesz = dsx*c->draw_buffer->draw_buffer_width;
     const UINT  bufh   = dsy*c->draw_buffer->draw_buffer_height;
 
+    /*********FIXME?**********/
+    if (c->ulBuffer==0)
+        return;
+    /*************************/
+
     //
     // xs, xy is double sized
     // w,  h  is double sized
@@ -1151,23 +1156,16 @@ void VideoCanvasBlit(video_canvas_t *c,
                                     &numlines);
     if (rc!=DIVE_SUCCESS)
     {
-        log_error(vidlog, "Call to DiveBeginImageBufferAccess failed, rc = 0x%x", rc);
+        log_error(vidlog, "Call to DiveBeginImageBufferAccess(%d, %d) failed, rc = 0x%x", c->hDiveInst, c->ulBuffer, rc);
         return;
     }
     video_canvas_render(c,
-                        targetbuffer,      // c->bitmaptrg,        // bitmap target (screen/dive)
-                        w, h,              // f->width, f->height, // bitmap width, height (2copy)
-                        xs/dsx, ys/dsy,    // 0, 0,                // top, left source
-                        xi, yi,            // 0, 0,                // top, left target
-                        scanlinesize,      // fccColorEncoding,    // c->width,            // line size target
+                        targetbuffer,   // c->bitmaptrg,        // bitmap target (screen/dive)
+                        w, h,           // f->width, f->height, // bitmap width, height (2copy)
+                        xs/dsx, ys/dsy, // 0, 0,                // top, left source
+                        xi, yi,         // 0, 0,                // top, left target
+                        scanlinesize,   // fccColorEncoding,    // c->width,            // line size target
                         c->bDepth);
-
-    rc = DiveEndImageBufferAccess(c->hDiveInst, c->ulBuffer);
-    if (rc!=DIVE_SUCCESS)
-    {
-        log_error(vidlog, "Call to DiveEndImageBufferAccess failed, rc = 0x%x", rc);
-        return;
-    }
 
     //
     // and blit the image to the screen
@@ -1176,6 +1174,16 @@ void VideoCanvasBlit(video_canvas_t *c,
     if (rc!=DIVE_SUCCESS)
     {
         log_error(vidlog, "Call to DiveBlitImage failed, rc = 0x%x", rc);
+        return;
+    }
+
+    //
+    // It seems, that this must be _after_ DiveBlitImage!
+    //
+    rc = DiveEndImageBufferAccess(c->hDiveInst, c->ulBuffer);
+    if (rc!=DIVE_SUCCESS)
+    {
+        log_error(vidlog, "Call to DiveEndImageBufferAccess failed, rc = 0x%x", rc);
         return;
     }
     /*
@@ -1621,7 +1629,7 @@ struct canvas_init_s
     draw_buffer_t         *draw_buffer;
     viewport_t            *viewport;
     geometry_t            *geometry;
-    const palette_t       *palette;
+    palette_t             *palette;
 };
 
 typedef struct canvas_init_s canvas_init_t;
@@ -1634,9 +1642,7 @@ void CanvasMainLoop(VOID *arg)
     HWND   hwndFrame;
     HWND   hwndClient;
 
-    video_canvas_t *c;
-
-    canvas_init_t *ini = (canvas_init_t*)arg;
+    video_canvas_t *c = (video_canvas_t*)arg;
 
     // archdep_setup_signals(0); // signals are not shared between threads!
 
@@ -1645,7 +1651,7 @@ void CanvasMainLoop(VOID *arg)
 
     //
     // 16 Byte Memory (Used eg for the Anchor Blocks)
-    //  CS_MOVENOTIFY, CS_SIZEREDRAW skipped
+    //  CS_MOVENOTI8FY, CS_SIZEREDRAW skipped
     //  CS_SYNCPAINT:       send WM_PAINT messages immediately
     //   don't send WM_PAINT befor canvas is resized
     //  CS_BYTEALIGNWINDOW: 0x2000
@@ -1655,11 +1661,11 @@ void CanvasMainLoop(VOID *arg)
     //
     // create window on desktop, FIXME: WS_ANIMATE looks sometimes strange
     //
+    initcanvas = c;
     hwndFrame = WinCreateStdWindow(HWND_DESKTOP, WS_ANIMATE|WS_VISIBLE,
                                    &flFrameFlags, szClientClass,
-                                   ini->title, 0L, 0, IDM_VICE2,
+                                   c->title, 0L, 0, IDM_VICE2,
                                    &hwndClient);
-
     if (!hwndFrame)
     {
         ERRORID id = WinGetLastError(hab);
@@ -1667,24 +1673,14 @@ void CanvasMainLoop(VOID *arg)
     }
 
     c = GetCanvas(hwndClient);
-
     if (!c)
     {
-        ini->canvas = (void*)-1;
+        initcanvas->initialized = 0;
         return;
     }
 
-    c->hwndFrame   = hwndFrame;
-    c->hwndClient  = hwndClient;
-    c->title       = ini->title;
-    c->width       = ini->width;
-    c->height      = ini->height;
-    c->stretch     = ini->stretch;
-    c->videoconfig = ini->videoconfig;
-    c->draw_buffer = ini->draw_buffer;
-    c->viewport    = ini->viewport;
-    c->geometry    = ini->geometry;
-    c->palette     = ini->palette;
+    c->hwndFrame  = hwndFrame;
+    c->hwndClient = hwndClient;
 
     VideoBufferAlloc(c);
 
@@ -1739,12 +1735,12 @@ void CanvasMainLoop(VOID *arg)
     if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, +1, 0))
         log_error(vidlog, "DosSetPriority (rc=%li)", rc);
 
-    log_message(vidlog, "'%s' completely initialized.", ini->title);
+    log_message(vidlog, "'%s' completely initialized.", c->title);
 
     //
     // Now wake up the emulation thread by setting ini->canvas
     //
-    ini->canvas = c;
+    c->initialized = 1;
 
     //
     // MAINLOOP
@@ -1821,57 +1817,48 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width,
                                     UINT *height, int mapped)
 {
-    canvas_init_t canvini;
-
     log_message(vidlog, "Creation of '%s' (%ix%i) requested%s.",
                 canvas->viewport->title, *width, *height,
                 vsid_mode ? " (vsid mode)" : "");
 
     *strrchr(canvas->viewport->title, ' ') = 0; // FIXME?
 
-    canvini.title       =  util_concat(szTitleBarText, " - ",
+    canvas->title       =  util_concat(szTitleBarText, " - ",
                                        canvas->viewport->title + 6, NULL);
-    canvini.width       = *width;
-    canvini.height      = *height;
-    canvini.stretch     =  stretch;
-    canvini.canvas      =  NULL;
-    canvini.videoconfig = canvas->videoconfig;
-    canvini.draw_buffer = canvas->draw_buffer;
-    canvini.viewport    = canvas->viewport;
-    canvini.geometry    = canvas->geometry;
-    canvini.palette     = canvas->palette;
+    canvas->width       = *width;
+    canvas->height      = *height;
+    canvas->stretch     = stretch;
+    canvas->initialized = 2;
 
     if (canvas->videoconfig->doublesizex)
-        canvini.width *= 2;
+        canvas->width *= 2;
 
     if (canvas->videoconfig->doublesizey)
-        canvini.height *= 2;
+        canvas->height *= 2;
 
-    _beginthread(CanvasMainLoop, NULL, 0x4000, &canvini);
+    _beginthread(CanvasMainLoop, NULL, 0x4000, canvas);
 
     //
     // Wait until the canvas as either created successfully or
     // the canvas creation failed
     //
-    while (!canvini.canvas)
+    while (canvas->initialized==2)
         DosSleep(1);
 
     //
     // If initialization of canvas failed
     // canvas_ini.canvas is set to -1
     //
-    if (canvini.canvas == (void*)-1)
+    if (canvas == 0)
         return NULL;
 
     log_message(vidlog, "Canvas '%s' (%ix%i) created: hwnd=0x%x.",
                 canvas->viewport->title, *width, *height,
-                canvini.canvas->hwndClient);
+                canvas->hwndClient);
 
-    video_canvas_set_palette(canvini.canvas, canvas->palette);
+    video_canvas_set_palette(canvas, canvas->palette);
 
-    canvini.canvas->initialized = 1;
-
-    return canvini.canvas;
+    return canvas;
 }
 
 void video_canvas_destroy(video_canvas_t *c)
@@ -1932,7 +1919,6 @@ void video_canvas_destroy(video_canvas_t *c)
     //
     lib_free(c->title);
     video_canvas_shutdown(c);
-    lib_free(c);
 
     //    DosReleaseMutexSem(hmtx);
 
@@ -2113,8 +2099,6 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, R
                 log_error(vidlog, "VideoConvertPalette - DiveSetupBlitter failed, rc=0x%x", rc);
             else
             {
-                int i;
-                DWORD color;
                 int bytes = c->bDepth/8;
 
                 rc = DiveBlitImage(inst, ulSrc, ulTrg);
@@ -2122,11 +2106,12 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, R
                     log_error(vidlog, "VideoConvertPalette - DiveBlitImage failed, rc=0x%x", rc);
                 else
                 {
+                    int i;
                     for (i=0; i<num; i++)
                     {
                         int b;
+                        DWORD color = 0;
 
-                        color = 0;
                         for (b=0; b<bytes; b++)
                             color |= (ULONG)target[i*bytes+b] << (b*8);
 
@@ -2157,7 +2142,12 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
 {
     int i;
 
-    if (c->bDepth==8)
+    if (c->bDepth!=8)
+    {
+        VideoConvertPalette(c, p->num_entries, p->entries);
+        WmPaint(c->hwndClient);
+    }
+    else
     {
         ULONG rc;
 
@@ -2186,20 +2176,9 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
             log_message(vidlog, "%d palette entries realized.", p->num_entries);
 
         lib_free(palette);
-    }
 
-#if 0
-    for (i=0; i<p->num_entries; i++)
-        pixel_return[i] = i;
-#endif
-
-    if (c->bDepth==8)
         VideoConvertPalette8(c, p->num_entries);
-    else
-        VideoConvertPalette(c, p->num_entries, p->entries);
-
-    if (c->bDepth!=8)
-        WmPaint(c->hwndClient);
+    }
 
     return 0;
 }

@@ -636,8 +636,10 @@ int resources_load(const char *fname)
 
     f = fopen(fname, MODE_READ_TEXT);
 
-    if (f == NULL)
+    if (f == NULL) {
+        lib_free(default_name);
         return RESERR_FILE_NOT_FOUND;
+    }
 
     log_message(LOG_DEFAULT, "Reading configuration file `%s'.", fname);
 
@@ -646,6 +648,7 @@ int resources_load(const char *fname)
         char buf[1024];
 
         if (util_get_line(buf, 1024, f) < 0) {
+            lib_free(default_name);
             fclose(f);
             return RESERR_READ_ERROR;
         }

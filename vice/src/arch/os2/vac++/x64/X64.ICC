@@ -16,8 +16,10 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
+    incl(searchpath, "..\\..\\..\\..\\fileio"),
     incl(searchpath, "..\\..\\..\\..\\fsdevice"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
+    incl(searchpath, "..\\..\\..\\..\\iecbus"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\parallel"),
@@ -41,15 +43,16 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     {
         source type (lib)
             "mmpm2.lib", // "zlib.lib", "png.lib"
-            "..\\..\\..\\..\\..\\data\\vice2.lib",
-            "..\\..\\..\\..\\..\\data\\ipspy.lib"
+            "..\\..\\..\\..\\..\\data\\vice2.lib"/*,
+            "..\\..\\..\\..\\..\\data\\ipspy.lib"*/
         source type (dll)
-            "..\\..\\..\\..\\..\\data\\vice2.dll",
-            "..\\..\\..\\..\\..\\data\\ipspy.dll"
+            "..\\..\\..\\..\\..\\data\\vice2.dll"/*,
+            "..\\..\\..\\..\\..\\data\\ipspy.dll"*/
 
         source type(c)
             "maincpu.c",
             "mouse.c",
+            "mousedrv.c",
             "kbd-c64.c",
             "c64memlimit.c",
             "dialogs\\dlg-color.c"
@@ -61,9 +64,11 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"
         include "../incl/drive.icc"
+        include "../incl/fileio.icc"
         include "../incl/fsdevice.icc"
         include "../incl/gfxoutputdrv.icc"
         include "../incl/iec.icc"
+        include "../incl/iecbus.icc"
         include "../incl/iecieee.icc"
         include "../incl/ieee.icc"
         include "../incl/imagecontents.icc"

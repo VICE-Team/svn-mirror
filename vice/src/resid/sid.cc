@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2003  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2004  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -401,7 +401,7 @@ double SID::I0(double x)
 //
 // For resampling, the ratio between the clock frequency and the sample
 // frequency is limited as follows:
-//   123*clock_freq/sample_freq < 16384
+//   125*clock_freq/sample_freq < 16384
 // E.g. provided a clock frequency of ~ 1MHz, the sample frequency can not
 // be set lower than ~ 8kHz. A lower sample frequency would make the
 // resampling code overfill its 16k sample ring buffer.
@@ -420,7 +420,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   // Check resampling constraints.
   if (method == SAMPLE_RESAMPLE) {
     // Check whether the sample ring buffer would overfill.
-    if (FIR_ORDER*clock_freq/sample_freq >= 16384) {
+    if (FIR_N*clock_freq/sample_freq >= 16384) {
       return false;
     }
 
@@ -462,44 +462,55 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
 
   // 16 bits -> -96dB stopband attenuation.
   const double A = -20*log10(1.0/(1 << 16));
-  const double beta = 0.1102*(A - 8.7);
-  const double I0beta = I0(beta);
-
   // A fraction of the bandwidth is allocated to the transition band,
   double dw = (1 - 2*pass_freq/sample_freq)*pi;
-
-  // The filter order will maximally be 123 with the current constraints.
-  // N >= (A - 8)/(2.285*0.1*pi) -> N >= 123
-  int N = int((A - 8)/(2.285*dw) + 0.5);
-  fir_N = 1 + N/2;
-  foffset_max = fir_N*FIR_RES << 10;
-
   // The cutoff frequency is midway through the transition band.
   double wc = (2*pass_freq/sample_freq + 1)*pi/2;
 
-  // Calculate FIR table. This is the right wing of the sinc function,
-  // weighted by the Kaiser window.
-  double samples_per_cycle = sample_freq/clock_freq;
-  double val1, val2 = 0;
-  for (int i = fir_N*FIR_RES; i > 0; i--) {
-    double wt = wc*i/FIR_RES;
-    double temp = double(i)/(fir_N*FIR_RES);
-    val1 = (1 << FIR_SHIFT)*filter_scale*samples_per_cycle*wc/pi*sin(wt)/wt*I0(beta*sqrt(1.0 - temp*temp))/I0beta;
-    fir[i] = short(val1 + 0.5);
-    fir_diff[i] = short(val2 - val1 + 0.5);
-    val2 = val1;
-  }
-  val1 = (1 << FIR_SHIFT)*filter_scale*samples_per_cycle*wc/pi;
-  fir[0] = short(val1 + 0.5);
-  fir_diff[0] = short(val2 - val1 + 0.5);
+  // For calculation of beta and N see the reference for the kaiserord
+  // function in the MATLAB Signal Processing Toolbox:
+  // http://www.mathworks.com/access/helpdesk/help/toolbox/signal/kaiserord.html
+  const double beta = 0.1102*(A - 8.7);
+  const double I0beta = I0(beta);
 
-  // Calculate FIR constants.
-  fstep_per_cycle =
-    cycle_count(FIR_RES*sample_freq/clock_freq*(1 << 10) + 0.5);
-  sample_delay = cycle_count(fir_N*clock_freq/sample_freq + 0.5);
+  // The filter order will maximally be 124 with the current constraints.
+  // N >= (96.33 - 7.95)/(2.285*0.1*pi) -> N >= 123
+  // The filter order is equal to the number of zero crossings, i.e.
+  // it should be an even number (sinc is symmetric about x = 0).
+  int N = int((A - 7.95)/(2.285*dw) + 0.5);
+  N += N & 1;
+
+  double f_samples_per_cycle = sample_freq/clock_freq;
+  double f_cycles_per_sample = clock_freq/sample_freq;
+
+  // The filter length is equal to the filter order + 1.
+  // The filter length must be an odd number (sinc is symmetric about x = 0).
+  fir_N = int(N*f_cycles_per_sample) + 1;
+  fir_N |= 1;
+  fir_RES = int(FIR_RES/f_cycles_per_sample);
+
+  // Calculate fir_RES FIR tables for linear interpolation.
+  for (int i = 0; i < fir_RES; i++) {
+    int fir_offset = i*fir_N + fir_N/2;
+    double j_offset = double(i)/fir_RES;
+    // Calculate FIR table. This is the sinc function, weighted by the
+    // Kaiser window.
+    for (int j = -fir_N/2; j <= fir_N/2; j++) {
+      double jx = j - j_offset;
+      double wt = wc*jx/f_cycles_per_sample;
+      double temp = jx/(fir_N/2);
+      double Kaiser =
+	fabs(temp) <= 1 ? I0(beta*sqrt(1 - temp*temp))/I0beta : 0;
+      double sincwt =
+	fabs(wt) >= 1e-6 ? sin(wt)/wt : 1;
+      double val =
+	(1 << FIR_SHIFT)*filter_scale*f_samples_per_cycle*wc/pi*sincwt*Kaiser;
+      fir[fir_offset + j] = short(val + 0.5);
+    }
+  }
 
   // Clear sample buffer.
-  for (int j = 0; j < 4096; j++) {
+  for (unsigned int j = 0; j < sizeof(sample)/sizeof(*sample); j++) {
     sample[j] = 0;
   }
   sample_index = 0;
@@ -788,9 +799,24 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 // expanded tutorial on the "Digital Audio Resampling Home Page":
 // http://www-ccrma.stanford.edu/~jos/resample/
 //
-// NB! The sample ring buffer requires two's complement integer, and
-// the result of right shifting negative numbers is really implementation
-// dependent in the C++ standard. It is crucial for speed, however.
+// By building shifted FIR tables with samples according to the
+// sampling frequency, this implementation dramatically reduces the
+// computational effort in the filter convolutions, without any loss
+// of accuracy. The filter convolutions are also vectorizable on
+// current hardware.
+//
+// Further possible optimizations are:
+// * Increasing the number of filter tables would make it possible to
+//   drop the linear interpolation step; this would double the speed.
+// * An equiripple filter design could yield a lower filter order, see
+//   http://www.mwrf.com/Articles/ArticleID/7229/7229.html
+// * Successive halving of the sampling frequency down from 1MHz could
+//   bring part of the computational effort down from O(n*n) to O(n*log2(n))
+//   by leveraging the fact that every second sample can be omitted in the
+//   convolution (every second sample falls on a zero crossing).
+//
+// NB! the result of right shifting negative numbers is really
+// implementation dependent in the C++ standard.
 // ----------------------------------------------------------------------------
 RESID_INLINE
 int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
@@ -809,39 +835,42 @@ int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
     }
     for (int i = 0; i < delta_t_sample; i++) {
       clock();
-      sample[sample_index++] = output();
+      sample[sample_index] = sample[sample_index + 16384] = output();
+      ++sample_index;
       sample_index &= 0x3fff;
     }
     delta_t -= delta_t_sample;
     sample_offset = next_sample_offset & 0x3ff;
 
-    int v = 0;
-    int filter_offset = sample_offset*fstep_per_cycle >> 10;
-    int foffset;
+    int fir_offset = sample_offset*fir_RES >> 10;
+    int fir_offset_rmd = sample_offset*fir_RES & 0x3ff;
+    int fir_start = fir_offset*fir_N;
+    // Leave one sample at the end for linear interpolation.
+    int sample_start = sample_index - fir_N - 1 + 16384;
 
-    // Convolution with right wing of filter impulse response.
-    unsigned int j = (sample_index - sample_delay - 1) & 0x3fff;
-    for (foffset = filter_offset;
-	 foffset <= foffset_max;
-	 foffset += fstep_per_cycle)
-    {
-      int findex = foffset >> 10;
-      int frmd = foffset & 0x3ff;
-      v += sample[j--]*(fir[findex] + (frmd*fir_diff[findex] >> 10));
-      j &= 0x3fff;
+    // Convolution with filter impulse response.
+    int v1 = 0;
+    for (int j = 0; j < fir_N; j++) {
+      v1 += sample[sample_start + j]*fir[fir_start + j];
     }
 
-    // Convolution with left wing of filter impulse response.
-    j = (sample_index - sample_delay) & 0x3fff;
-    for (foffset = fstep_per_cycle - filter_offset;
-	 foffset <= foffset_max;
-	 foffset += fstep_per_cycle)
-    {
-      int findex = foffset >> 10;
-      int frmd = foffset & 0x3ff;
-      v += sample[j++]*(fir[findex] + (frmd*fir_diff[findex] >> 10));
-      j &= 0x3fff;
+    // Use next FIR table, wrap around to first FIR table using next sample.
+    if (++fir_offset == fir_RES) {
+      fir_offset = 0;
+      ++sample_start;
     }
+    fir_start = fir_offset*fir_N;
+
+    // Convolution with filter impulse response.
+    int v2 = 0;
+    for (int j = 0; j < fir_N; j++) {
+      v2 += sample[sample_start + j]*fir[fir_start + j];
+    }
+
+    // Linear interpolation.
+    // fir_offset_rmd is equal for all samples, it can thus be factorized out:
+    // sum(v1 + rmd*(v2 - v1)) = sum(v1) + rmd*(sum(v2) - sum(v1))
+    int v = v1 + (fir_offset_rmd*(v2 - v1) >> 10);
 
     v >>= FIR_SHIFT;
 
@@ -859,7 +888,8 @@ int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
 
   for (int i = 0; i < delta_t; i++) {
     clock();
-    sample[sample_index++] = output();
+    sample[sample_index] = sample[sample_index + 16384] = output();
+    ++sample_index;
     sample_index &= 0x3fff;
   }
   sample_offset -= delta_t << 10;

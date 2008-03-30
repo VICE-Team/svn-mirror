@@ -65,7 +65,7 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_INITDLG:
         {
             long val;
-            SetSliderTxt(hwnd, ID_SATURATION, 0, "0");
+            SetSliderTxt(hwnd, ID_SATURATION,   0, "0");
             SetSliderTxt(hwnd, ID_SATURATION, 100, "1.0");
             SetSliderTxt(hwnd, ID_SATURATION, 200, "2.0");
 
@@ -77,6 +77,10 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             SetSliderPos(hwnd, ID_BRIGHTNESS, val/10);
             resources_get_value("ColorGamma", (void *)&val);
             SetSliderPos(hwnd, ID_GAMMA, val/10);
+            resources_get_value("PALScanLineShade", (void *)&val);
+            SetSliderPos(hwnd, ID_SCANLINE, val/5);
+            resources_get_value("PALBlur", (void *)&val);
+            SetSliderPos(hwnd, ID_BLUR, val/5);
         }
         break;
 
@@ -85,14 +89,18 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             break;
 
         canvas_set_value("ColorSaturation", 1000);
-        canvas_set_value("ColorContrast",   1100);
-        canvas_set_value("ColorBrightness", 1100);
-        canvas_set_value("ColorGamma",       900);
+        canvas_set_value("ColorContrast",   1000);
+        canvas_set_value("ColorBrightness", 1000);
+        canvas_set_value("ColorGamma",       880);
+        canvas_set_value("PALScanLineShade", 667);
+        canvas_set_value("PALBlur",          500);
 
         SetSliderPos(hwnd, ID_SATURATION, 100);
-        SetSliderPos(hwnd, ID_CONTRAST,   110);
-        SetSliderPos(hwnd, ID_BRIGHTNESS, 110);
-        SetSliderPos(hwnd, ID_GAMMA,       90);
+        SetSliderPos(hwnd, ID_CONTRAST,   100);
+        SetSliderPos(hwnd, ID_BRIGHTNESS, 100);
+        SetSliderPos(hwnd, ID_GAMMA,       88);
+        SetSliderPos(hwnd, ID_SCANLINE,   133);
+        SetSliderPos(hwnd, ID_BLUR,       100);
 
         return FALSE;
 
@@ -104,16 +112,22 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         switch (SHORT1FROMMP(mp1))
         {
         case ID_SATURATION:
-            canvas_set_value("ColorSaturation", (int)mp2*10);
+            canvas_set_value("ColorSaturation",  (int)mp2*10);
             break;
         case ID_CONTRAST:
-            canvas_set_value("ColorContrast",   (int)mp2*10);
+            canvas_set_value("ColorContrast",    (int)mp2*10);
             break;
         case ID_BRIGHTNESS:
-            canvas_set_value("ColorBrightness", (int)mp2*10);
+            canvas_set_value("ColorBrightness",  (int)mp2*10);
             break;
         case ID_GAMMA:
-            canvas_set_value("ColorGamma",      (int)mp2*10);
+            canvas_set_value("ColorGamma",       (int)mp2*10);
+            break;
+        case ID_SCANLINE:
+            canvas_set_value("PALScanLineShade", (int)mp2* 5);
+            break;
+        case ID_BLUR:
+            canvas_set_value("PALBlur",          (int)mp2* 5);
             break;
         }
         break;
@@ -133,4 +147,3 @@ void color_dialog(HWND hwnd)
 
     hwnd2 = WinLoadStdDlg(hwnd, pm_color, DLG_COLOR, NULL);
 }
-

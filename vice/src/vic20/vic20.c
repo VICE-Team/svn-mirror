@@ -411,7 +411,7 @@ void machine_specific_shutdown(void)
     file_system_detach_disk_shutdown();
 
     /* and the tape */
-    tape_image_detach(1);
+    tape_image_detach_internal(1);
 
     viacore_shutdown(machine_context.via1);
     viacore_shutdown(machine_context.via2);
