@@ -201,7 +201,10 @@ BYTE REGPARM1 crtc_read(ADDRESS addr)
     switch (crtc.regno) {
     case 14:
     case 15:                        /* Cursor location HI/LO */
-        if (addr>=64) { log_debug("crtc_read: ERROR"); return 0; }
+        if (addr >= 64) {
+            /*log_debug("crtc_read: ERROR");*/
+            return 0;
+        }
         return crtc.regs[addr];
 
     case 16:
