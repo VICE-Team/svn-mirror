@@ -229,3 +229,38 @@ void tui_message(const char *format,...)
     tui_area_free(backing_store);
 }
 
+int tui_ask_confirmation(const char *format, ...)
+{
+    int x, y, width, height;
+    char str[1024];
+    int str_length;
+    va_list ap;
+    tui_area_t backing_store = NULL;
+    int c;
+
+    va_start(ap, format);
+    vsprintf(str, format, ap);
+    str_length = strlen(str);
+    if (str_length > tui_num_cols() - 10) {
+	str_length = tui_num_cols() - 10;
+	str[str_length] = 0;
+    }
+    x = CENTER_X(str_length + 6);
+    y = CENTER_Y(5);
+    width = str_length + 6;
+    height = 5;
+
+    tui_display_window(x, y, width, height, MESSAGE_BORDER, MESSAGE_BACK,
+		       NULL, &backing_store);
+    tui_set_attr(MESSAGE_FORE, MESSAGE_BACK, 0);
+    tui_display(CENTER_X(str_length), y + 2, 0, str);
+
+    do {
+        c = getkey();
+    } while (toupper(c) != 'Y' && toupper(c) != 'N');
+
+    tui_area_put(backing_store, x, y);
+    tui_area_free(backing_store);
+
+    return toupper(c) == 'Y';
+}

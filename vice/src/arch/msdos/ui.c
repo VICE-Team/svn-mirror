@@ -122,7 +122,7 @@ static void ui_exit(void)
     cprintf("VICE version %s.\n\r", VERSION);
 #endif
 
-    cprintf("\nOfficial VICE homepage: http://www.tu-chemnitz.de/~fachat/vice/vice.html\n\n");
+    cprintf("\nOfficial VICE homepage: http://www.tu-chemnitz.de/~fachat/vice/vice.html\n\n\r");
 }
 
 int ui_init(int *argc, char **argv)
@@ -263,7 +263,16 @@ void ui_set_warp_status(int status)
 
 int ui_extend_image_dialog(void)
 {
-    return 0;
+    int ret;
+
+    enable_text();
+    tui_clear_screen();
+
+    ret = tui_ask_confirmation("Extend disk image in drive 8 to 40 tracks?  (Y/N)");
+
+    disable_text();
+
+    return ret;
 }
 
 /* ------------------------------------------------------------------------- */
