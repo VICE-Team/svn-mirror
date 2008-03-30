@@ -255,7 +255,7 @@ static help_icon_t Help_ConfigSystem[] = {
 
 static help_icon_t Help_ConfigVideo[] = {
   {-1, "\\HelpConfVideo"},
-  {Icon_ConfVid_VideoCache, "\\HelpConfVidVCache"},
+  {Icon_ConfVid_VCache, "\\HelpConfVidVCache"},
   {Icon_ConfVid_Refresh, "\\HelpConfVidRefresh"},
   {Icon_ConfVid_RefreshT, "\\HelpConfVidRefreshT"},
   {Icon_ConfVid_MaxSkipFrms, "\\HelpConfVidMaxSkip"},
@@ -345,7 +345,6 @@ static help_icon_t Help_ConfigMachineCBM2[] = {
 static help_icon_t Help_ConfigMachineC128[] = {
   {-1, "\\HelpConfC128"},
   {Icon_Conf128_C128Palette, "\\HelpConf128Pal|M\\HelpConfC128Path"},
-  {Icon_Conf128_C128Cache, "\\HelpConf128Cache"},
   {Icon_Conf128_C128Size, "\\HelpConf128Size"},
   {Icon_Conf128_C1284080, "\\HelpConf1284080"},
   {Icon_Conf128_C128z80bios, "\\HelpConf128z80bios|M\\HelpConfC128Path"},

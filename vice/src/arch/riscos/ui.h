@@ -77,6 +77,7 @@ extern void ui_trigger_snapshot_load(void);
 extern const char *ui_get_machine_ibar_icon(void);
 extern void ui_set_icons_grey(RO_Window *win, const struct conf_iconid_s *desc, int state);
 extern void ui_grey_out_machine_icons(void);
+extern void ui_bind_video_cache_menu(void);
 
 
 extern RO_Screen ScreenMode;

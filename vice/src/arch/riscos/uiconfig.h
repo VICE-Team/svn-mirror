@@ -94,6 +94,7 @@
 #define CONF_MENU_SID2ADDR	43
 #define CONF_MENU_PALDEPTH	44
 #define CONF_MENU_PALMODE	45
+#define CONF_MENU_VIDCACHE	46
 
 /* Configuration issues... */
 #define CONFIG_INT	1
@@ -305,7 +306,6 @@ typedef struct disp_desc_s {
 #define Icon_ConfVid_FullScrPAL		35
 #define Icon_ConfVid_FullScrDbl		37
 #define Icon_ConfVid_MaxSkipFrms	13
-#define Icon_ConfVid_VideoCache		17
 #define Icon_ConfVid_Palette		32
 #define Icon_ConfVid_ExtPal		33
 #define Icon_ConfVid_ColourSat		18
@@ -315,6 +315,7 @@ typedef struct disp_desc_s {
 #define Icon_ConfVid_LineShade		26
 #define Icon_ConfVid_PalMode		28
 #define Icon_ConfVid_PalModeT		29
+#define Icon_ConfVid_VCache		38
 
 /* Joystick conf */
 #define Icon_ConfJoy_JoyPort1		2
@@ -369,7 +370,6 @@ typedef struct disp_desc_s {
 
 /* C128 config */
 #define Icon_Conf128_C128Palette	3
-#define Icon_Conf128_C128Cache		4
 #define Icon_Conf128_C128Size		5
 #define Icon_Conf128_C1284080		6
 #define Icon_Conf128_C128z80bios	8

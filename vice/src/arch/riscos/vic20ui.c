@@ -99,6 +99,28 @@ static const conf_iconid_t conf_grey_xvic[] = {
 };
 
 
+static const char Rsrc_VICCache[] = "VICVideoCache";
+
+static struct MenuVideoCache {
+  RO_MenuHead head;
+  RO_MenuItem item[1];
+} MenuVideoCache = {
+  MENU_HEADER("\\MenVCaT", 200),
+  {
+    MENU_ITEM_LAST("\\MenVCaVIC")
+  }
+};
+
+static struct MenuDisplayVideoCache {
+  disp_desc_t dd;
+  int values[1];
+} MenuDisplayVideoCache = {
+  {NULL, {CONF_WIN_VIDEO, 0},
+    (RO_MenuHead*)&MenuVideoCache, 1, DISP_DESC_BITFIELD, 0},
+  {(int)Rsrc_VICCache}
+};
+
+
 int vic20_ui_init(void)
 {
   return ui_init_named_app("ViceVIC", IBarIconName);
@@ -116,6 +138,12 @@ int vic20_kbd_init(void)
 void ui_grey_out_machine_icons(void)
 {
   ui_set_icons_grey(NULL, conf_grey_xvic, 0);
+}
+
+void ui_bind_video_cache_menu(void)
+{
+  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
+  ConfigDispDescs[CONF_MENU_VIDCACHE] = (disp_desc_t*)&MenuDisplayVideoCache;
 }
 
 const char *ui_get_machine_ibar_icon(void)

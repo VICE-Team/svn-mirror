@@ -1999,6 +1999,7 @@ int ui_init(int *argc, char *argv[])
 
   /* make sure all config menus are defined, if only temporarily */
   ConfigMenus[CONF_MENU_ROMSET].menu = (RO_MenuHead*)&MenuROMSetTmpl;
+  ui_bind_video_cache_menu();
 
   if ((msg = wimp_message_init(MessagesFile)) == NULL)
   {

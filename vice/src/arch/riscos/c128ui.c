@@ -32,6 +32,7 @@
 #include "c64c128ui.h"
 #include "kbd.h"
 #include "uisharedef.h"
+#include "uiconfig.h"
 
 
 
@@ -45,6 +46,30 @@ static const conf_iconid_t conf_grey_x128[] = {
   ICON_LIST_PET
   ICON_LIST_VIC
   {0xff, 0xff}
+};
+
+
+static const char Rsrc_VICIICache[] = "VICIIVideoCache";
+static const char Rsrc_VDCCache[] = "VDCVideoCache";
+
+static struct MenuVideoCache {
+  RO_MenuHead head;
+  RO_MenuItem item[2];
+} MenuVideoCache = {
+  MENU_HEADER("\\MenVCaT", 200),
+  {
+    MENU_ITEM("\\MenVCaVIC2"),
+    MENU_ITEM_LAST("\\MenVCaVDC")
+  }
+};
+
+static struct MenuDisplayVideoCache {
+  disp_desc_t dd;
+  int values[2];
+} MenuDisplayVideoCache = {
+  {NULL, {CONF_WIN_VIDEO, 0},
+    (RO_MenuHead*)&MenuVideoCache, 2, DISP_DESC_BITFIELD, 0},
+  {(int)Rsrc_VICIICache, (int)Rsrc_VDCCache}
 };
 
 
@@ -63,6 +88,12 @@ int c128_kbd_init(void)
 void ui_grey_out_machine_icons(void)
 {
   ui_set_icons_grey(NULL, conf_grey_x128, 0);
+}
+
+void ui_bind_video_cache_menu(void)
+{
+  ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
+  ConfigDispDescs[CONF_MENU_VIDCACHE] = (disp_desc_t*)&MenuDisplayVideoCache;
 }
 
 const char *ui_get_machine_ibar_icon(void)

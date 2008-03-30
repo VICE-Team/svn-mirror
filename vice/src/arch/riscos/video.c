@@ -424,6 +424,7 @@ static int video_frame_buffer_alloc(video_canvas_t *canvas, BYTE **draw_buffer, 
   unsigned int i;
   sprite_area_t *sarea;
 
+  /* use a dummy palette here */
   for (i=0; i<256; i++) palette[i] = 0x10;
   /*log_message(LOG_DEFAULT, "Alloc %d x %d", fb_width, fb_height);*/
 
@@ -438,6 +439,8 @@ static int video_frame_buffer_alloc(video_canvas_t *canvas, BYTE **draw_buffer, 
       canvas->fb.depth = 8;
       canvas->fb.pitch = (sprite->wwidth+1)*4;
       canvas->fb.framedata = (BYTE*)wlsprite_get_image(sprite);
+      /* mark the palette as dirty since we used a dummy above! */
+      canvas->fb.paldirty = 1;
 
       wlsprite_plot_bind(&(canvas->fb.normplot), sarea);
 
@@ -469,6 +472,7 @@ static void video_frame_buffer_flush_pal(video_canvas_t *canvas)
 static void video_frame_buffer_free(video_canvas_t *canvas, BYTE *draw_buffer)
 {
   sprite_area_t *sarea;
+  video_frame_buffer_t *fb = &(canvas->fb);
 
   if ((sarea = wlsprite_plot_get_sarea(&(canvas->fb.normplot))) != NULL)
   {
@@ -477,6 +481,12 @@ static void video_frame_buffer_free(video_canvas_t *canvas, BYTE *draw_buffer)
     canvas->fb.framedata = NULL;
   }
   video_frame_buffer_flush_pal(canvas);
+
+  if (fb->bplot_trans != NULL)
+  {
+    free(fb->bplot_trans);
+    fb->bplot_trans = NULL;
+  }
 }
 
 
@@ -532,8 +542,6 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
     }
     canvas->fb.paldirty = 0;
 
-    wlsprite_plot_flush(&(canvas->fb.normplot));
-
     canvas->fb.transdirty = 1;
   }
 
@@ -541,6 +549,8 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
   if (canvas->fb.transdirty != 0)
   {
     unsigned int ldbpp;
+
+    wlsprite_plot_flush(&(canvas->fb.normplot));
 
     ldbpp = (FullScreenMode == 0) ? ScreenMode.ldbpp : FullScrDesc.ldbpp;
 
@@ -609,11 +619,11 @@ static int video_ensure_pal_sprite(video_canvas_t *canvas, int *pitchs, int *pit
     if (sarea == NULL)
       return -1;
 
-    sprite = wlsprite_area_get_sprite(sarea);
+    wlsprite_plot_bind(&(canvas->fb.palplot), sarea);
+
+    sprite = wlsprite_plot_get_sprite(&(canvas->fb.palplot));
     fb->paldata = wlsprite_get_image(sprite);
     memset(fb->paldata, 0, height * (sprite->wwidth+1)*4);
-
-    wlsprite_plot_bind(&(canvas->fb.palplot), sarea);
 
     /*log_message(LOG_DEFAULT, "Sprite width %d, height %d, mode %08x", wlsprite_get_width(sprite), wlsprite_get_height(sprite), sprite->sprmode);*/
   }
@@ -736,7 +746,6 @@ static void video_redraw_wimp_bplot(video_canvas_t *canvas, video_redraw_desc_t 
 static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t *vrd)
 {
   int pitchs, pitcht;
-  sprite_desc_t *sprite;
   video_frame_buffer_t *fb = &(canvas->fb);
   int xt, yt, px, py, w, h, pw, ph;
   int scalex, scaley, softx, softy;
@@ -767,8 +776,6 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
   /*log_message(LOG_DEFAULT, "s(%d,%d), t(%d,%d), d(%d,%d)", vrd->xs, vrd->ys, xt, yt, w, h);*/
   video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, w, h,
                     vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitchs, pitcht, ActualPALDepth);
-
-  sprite = wlsprite_plot_get_sprite(&(fb->palplot));
 
   video_canvas_get_soft_scale(canvas, &softx, &softy);
 
@@ -823,7 +830,6 @@ static void video_redraw_full_bplot(video_canvas_t *canvas, video_redraw_desc_t 
 static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t *vrd)
 {
   int pitchs, pitcht;
-  sprite_desc_t *sprite;
   video_frame_buffer_t *fb = &(canvas->fb);
   const int *b = vrd->block;
   int xt, yt, px, py, w, h, pw, ph;
@@ -856,8 +862,6 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
 
   video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, w, h,
                     vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitchs, pitcht, ActualPALDepth);
-
-  sprite = wlsprite_plot_get_sprite(&(fb->palplot));
 
   px = vrd->ge.x - (canvas->shiftx << FullScrDesc.eigx);
   py = vrd->ge.y - ((canvas->shifty + ph) << FullScrDesc.eigy);
@@ -1027,7 +1031,9 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette)
   p = palette->entries;
   numsprpal = (1 << fb->depth);
 
-  /*{FILE *fp = fopen("PALETTE", "w"); for(i=0;i<canvas->num_colours; i++) fprintf(fp, "%3d: %2x.%2x.%2x\n", i, p[i].red, p[i].green, p[i].blue); fclose(fp);}*/
+  /*{FILE *fp = fopen("PALETTE", "a+"); fprintf(fp, "%s\n", canvas->name);
+  for(i=0;i<canvas->num_colours; i++)
+    fprintf(fp, "%3d: %2x.%2x.%2x\n", i, p[i].red, p[i].green, p[i].blue); fclose(fp);}*/
 
   /* adapt the palette stored in the frame buffer sprite */
   if (wlsprite_plot_get_sarea(&(fb->normplot)) != NULL)
@@ -1184,14 +1190,6 @@ void video_canvas_destroy(video_canvas_t *s)
     free(s->current_palette);
     s->current_palette = NULL;
   }
-  if (fb->bplot_trans != NULL)
-  {
-    free(fb->bplot_trans);
-    fb->bplot_trans = NULL;
-  }
-
-  wlsprite_plot_flush(&(fb->normplot));
-  wlsprite_plot_flush(&(fb->palplot));
 
   free(s);
 }
