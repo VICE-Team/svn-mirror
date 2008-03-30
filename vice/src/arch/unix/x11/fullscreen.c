@@ -51,6 +51,7 @@
 #define VidMode_MINMAJOR 0
 #define VidMode_MINMINOR 0
 
+#include "machine.h"
 #include "mouse.h"
 #include "resources.h"
 #include "log.h"
@@ -58,8 +59,6 @@
 #include "vsyncapi.h"
 #include "utils.h"
 #include "videoarch.h"
-
-extern void video_refresh(void);
 
 typedef struct {
   int modeindex;
@@ -488,7 +487,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 
 	fullscreen_is_enabled = 0;
     }
-    video_refresh();
+    machine_video_refresh();
     ui_check_mouse_cursor();
     return 1;
 }

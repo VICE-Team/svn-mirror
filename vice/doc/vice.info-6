@@ -58,9 +58,9 @@ involved in the development of X64 and VICE:
 
    * Thomas Bretz (<tbretz@ph.tum.de>) responsible for the OS/2 port.
 
-   * Andreas Matthies (<andreas.matthies@arcormail.de>) improved the
-     datasette support and some ui stuff in the Win32 and MSDOS port.
-     Wrote the BeOS port.
+   * Andreas Matthies (<andreas.matthies@gmx.net>) improved the
+     datasette support, the VIC20 video emulation and some ui stuff in
+     the Win32 and MSDOS port. Wrote the BeOS port.
 
    * Martin Pottendorfer (<Martin.Pottendorfer@aut.alcatel.at>)
      Implemented Gnome Port based on Oliver Schaertels GTK+ port Added
