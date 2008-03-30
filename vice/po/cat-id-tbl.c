@@ -538,7 +538,7 @@ Enter passband in percentage of total bandwidth\n\
   {"License", 506},
   {"Warranty", 507},
   {"Contributors", 508},
-  {"Successfully initialized using XVideo (%s).", 509},
+  {"Successfully initialized using XVideo (%dx%d %4s).", 509},
   {"Successfully initialized video.", 510},
   {"Can't add fontpath `%s'.\n", 511},
   {"Set fontpath: `%s'.\n", 512},
