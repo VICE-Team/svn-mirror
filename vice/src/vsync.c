@@ -49,7 +49,7 @@
 #include "maincpu.h"
 #include "sound.h"
 #include "vsync.h"
-#include "vsyncarch.h"
+#include "vsyncapi.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -157,11 +157,11 @@ static int set_timer_speed(int speed)
 
     if (speed > 0 && refresh_frequency > 0) {
         timer_speed = speed;
-        frame_usec  = 1000000/refresh_frequency*100/speed;
+        frame_usec = 1000000/refresh_frequency*100/speed;
     }
     else {
         timer_speed = 0;
-        frame_usec  = 0;
+        frame_usec = 0;
     }
 
     return 0;
@@ -174,18 +174,6 @@ static void display_speed(int num_frames)
     double diff_sec;
     double speed_index;
     double frame_rate;
-
-    now = vsyncarch_gettime();
-
-#ifndef OS2
-    /* Check whether the hardware can keep up. Allow up to 3 seconds lag. */
-    if ((long)(now - (frame_start + 3000000)) > 0) {
-        if (!warp_mode_enabled && relative_speed) {
-            log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
-        }
-        frame_start = now;
-    }
-#endif
 
     diff_clk = clk - speed_eval_prev_clk;
     diff_sec = (now - display_start)/1000000.0;
@@ -257,7 +245,7 @@ int do_vsync(int been_skipped)
     int frame_delay;
     int skip_next_frame;
 
-    signed long time_deviation;
+    signed long delay;
 
     /*
      * process everything wich should be done before the syncronisation
@@ -276,40 +264,34 @@ int do_vsync(int been_skipped)
 
     /* Start afresh after pause in frame output. */
     if (speed_eval_suspended) {
-        speed_eval_prev_clk  = clk;
-        display_start        = now;
-        next_frame_start     = now;
-        skipped_redraw       = 0;
-        skipped_frames       = 0;
-        frame_counter        = 0;
+        speed_eval_prev_clk = clk;
+        display_start = now;
+        next_frame_start = now;
+        skipped_redraw = 0;
+        skipped_frames = 0;
+        frame_counter = 0;
         speed_eval_suspended = 0;
     }
 
-    /* This is the start time between the start of the overnext frame
-     * and now. This makes sure, that in a multithreaded
-     * environment we allow for a deviation, and do not try to be
-     * too exact.
+    /* This is the start time between the start of the next frame
+     * and now.
      */
-    time_deviation = (long)(now - (next_frame_start + frame_usec));
+    delay = (long)(now - next_frame_start);
 
     /*
      * We sleep until the start of the next frame, if:
      *  - warp_mode is enabled
      *  - a limiting speed is given
-     *  - we have not reached next_frame_start+frame_usec now, which means,
-     *    that we are inside the right frame (the actual or the next one)
+     *  - we have not reached next_frame_start yet
      *
      * We have to sleep even if no frame
      * is output because of sound synchronization
      *
      * FIXME: Sound synchronization.
      */
-    if (!warp_mode_enabled && timer_speed && time_deviation < 0)
+    if (!warp_mode_enabled && timer_speed && delay < 0)
     {
-        signed long delay = (signed long)(next_frame_start - now);
-        if (delay > 0) {
-            vsyncarch_sleep(delay);
-        }
+        vsyncarch_sleep(-delay);
     }
 
     /*
@@ -330,7 +312,7 @@ int do_vsync(int been_skipped)
     if (skipped_redraw < MAX_SKIPPED_FRAMES
         && (warp_mode_enabled
             || (skipped_redraw < refresh_rate - 1)
-            || ((!timer_speed || time_deviation > 2*frame_usec*timer_speed/100)
+            || ((!timer_speed || delay > 2*frame_usec*timer_speed/100)
                 && !refresh_rate
                )
            )
@@ -341,7 +323,7 @@ int do_vsync(int been_skipped)
     }
     else {
         skip_next_frame = 0;
-        skipped_redraw  = 0;
+        skipped_redraw = 0;
     }
 
     /*
@@ -356,7 +338,7 @@ int do_vsync(int been_skipped)
      * This should (in both cases) set next_frame_start to
      * a value which represents the start the next frame
      */
-    if ((signed long)(now-next_frame_start) > 3000000) {
+    if ((signed long)(now - next_frame_start) > 3000000) {
 #ifndef __OS2__
         if (!warp_mode_enabled) {
             log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
@@ -365,7 +347,7 @@ int do_vsync(int been_skipped)
         next_frame_start = now;
     }
     else {
-        next_frame_start += frame_usec * frame_delay;
+        next_frame_start += frame_usec*frame_delay;
     }
     next_frame_start += frame_usec;
 

@@ -290,6 +290,7 @@ typedef struct {
 #define Icon_Conf_KeyboardT	51
 #define Icon_Conf_VideoSync	52
 #define Icon_Conf_VideoSyncT	53
+#define Icon_Conf_MaxSkipFrms	54
 
 /* Joystick conf */
 #define Icon_Conf_JoyPort1	2

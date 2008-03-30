@@ -259,7 +259,6 @@ static int LastDrag;
 static int LastSubDrag;
 static int MenuType;
 static int DragType;
-static int LastSpeedLimit;
 static int CMOS_DragType;
 static int TrueDriveEmulation = 0;
 static int SoundEnabled = 0;
@@ -273,7 +272,6 @@ static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
 static int DoCoreDump = 0;
 static int DatasetteCounter = -1;
-static int FramesPerSecond = 50;
 static int WimpBlock[64];
 
 static int SnapshotPending = 0;
@@ -460,9 +458,6 @@ static const conf_icon_id conf_grey_xcbm2[] = {
 
 
 /* Configuration options */
-int CurrentSpeedLimit;
-static int PollEvery;
-static int SpeedEvery;
 static int AutoPauseEmu;
 static int DriveType8;
 static int DriveType9;
@@ -488,16 +483,11 @@ static char **DriveFiles[] = {
 /* Logging */
 static log_t roui_log = LOG_ERR;
 
-static int LastFrame;
-static int NumberOfFrames = 0;
 static int ShowEmuPane = 1;
 static char *ROMSetName = NULL;
 static char *ROMSetArchiveFile = NULL;
 
 int EmuZoom;
-int LastPoll;
-int LastSpeed;
-int RelativeSpeed = 100;
 int EmuPaused;
 int SingleTasking = 0;
 int CycleBasedSound;
@@ -847,6 +837,7 @@ static const char Rsrc_Speed[] = "SpeedEvery";
 static const char Rsrc_SndEvery[] = "SoundEvery";
 static const char Rsrc_AutoPause[] = "AutoPause";
 static const char Rsrc_SpeedLimit[] = "Speed";
+static const char Rsrc_MaxSkipped[] = "MaxSkippedFrames";
 static const char Rsrc_DriveT8[] = "DriveType8";
 static const char Rsrc_DriveT9[] = "DriveType9";
 static const char Rsrc_DriveT10[] = "DriveType10";
@@ -1116,6 +1107,7 @@ static help_icon_t Help_ConfigSystem[] = {
   {Icon_Conf_SpeedLmtT, "\\HelpConfSysSpdLmtT"},
   {Icon_Conf_Refresh, "\\HelpConfSysRefresh"},
   {Icon_Conf_RefreshT, "\\HelpConfSysRefreshT"},
+  {Icon_Conf_MaxSkipFrms, "\\HelpConfSysMaxSkip"},
   {Icon_Conf_WarpMode, "\\HelpConfSysWarpMode"},
   {Icon_Conf_CartType, "\\HelpConfSysCrtType|M\\HelpConfSystemCart"},
   {Icon_Conf_CartTypeT, "\\HelpConfSysCrtTypeT"},
@@ -1274,18 +1266,6 @@ static void ui_translate_help_messages(const wimp_msg_desc *msg)
 /*
  *  Resource functions
  */
-static int set_poll_every(resource_value_t v, void *param)
-{
-  PollEvery = (int)v;
-  return 0;
-}
-
-static int set_speed_every(resource_value_t v, void *param)
-{
-  SpeedEvery = (int)v;
-  return 0;
-}
-
 static int set_sound_every(resource_value_t v, void *param)
 {
   SoundPollEvery = (int)v;	/* actually defined in soundacorn */
@@ -1371,14 +1351,6 @@ static int set_tape_file(resource_value_t v, void *param)
   return 0;
 }
 
-static int set_speed_limit(resource_value_t v, void *param)
-{
-  CurrentSpeedLimit = (int)v;
-  sound_set_relative_speed(CurrentSpeedLimit);
-
-  return 0;
-}
-
 static int set_auto_pause(resource_value_t v, void *param)
 {
   AutoPauseEmu = (int)v;
@@ -1388,10 +1360,6 @@ static int set_auto_pause(resource_value_t v, void *param)
 
 
 static resource_t resources[] = {
-  {Rsrc_Poll, RES_INTEGER, (resource_value_t)20,
-    (resource_value_t*)&PollEvery, set_poll_every, NULL },
-  {Rsrc_Speed, RES_INTEGER, (resource_value_t)100,
-    (resource_value_t*)&SpeedEvery, set_speed_every, NULL },
   {Rsrc_SndEvery, RES_INTEGER, (resource_value_t)0,
     (resource_value_t*)&SoundPollEvery, set_sound_every, NULL },
   {Rsrc_AutoPause, RES_INTEGER, (resource_value_t)0,
@@ -1414,8 +1382,6 @@ static resource_t resources[] = {
     (resource_value_t*)&DriveFile11, set_drive_file11, NULL },
   {Rsrc_TapeFile, RES_STRING, (resource_value_t)"",
     (resource_value_t*)&TapeFile, set_tape_file, NULL },
-  {Rsrc_SpeedLimit, RES_INTEGER, (resource_value_t)100,
-    (resource_value_t*)&CurrentSpeedLimit, set_speed_limit, NULL },
   {NULL}
 };
 
@@ -2429,14 +2395,6 @@ static void ui_safe_exit(void)
 }
 
 
-static int ui_resync_speed(void)
-{
-  LastSpeed = OS_ReadMonotonicTime();
-  NumberOfFrames = 0; NumberOfRefreshes = 0;
-  return LastSpeed;
-}
-
-
 /* Shared by all uis for installing the icon bar icon */
 int ui_init(int *argc, char *argv[])
 {
@@ -2681,8 +2639,6 @@ int ui_init_finish(void)
   if (resources_get_value(Rsrc_Sound, &val) == 0)
     ui_set_sound_enable((int)val);
 
-  LastSpeedLimit = CurrentSpeedLimit;
-
   CMOS_DragType = ReadDragType();
 
   switch (machine_class)
@@ -2784,9 +2740,6 @@ int ui_init_finish(void)
   }
 
   atexit(ui_safe_exit);
-
-  LastPoll = ui_resync_speed();
-  LastFrame = LastPoll;
 
   return 0;
 }
@@ -3818,7 +3771,7 @@ static void ui_drag_snapshot_trap(ADDRESS unused_address, void *unused_data)
 
   WithinUiPoll--;
 
-  if ((WithinUiPoll == 0) && (SoundSuspended != 0)) sound_resume();
+  if ((WithinUiPoll == 0) && (SoundSuspended != 0) && (EmuPaused == 0)) sound_resume();
 
   ui_poll_epilogue();
 }
@@ -4013,9 +3966,14 @@ static void ui_key_press_config(int *b)
       case CONF_WIN_SYSTEM:
         switch (b[KeyPB_Icon])
         {
-          case Icon_Conf_PollEvery: PollEvery = atoi(data); break;
-          case Icon_Conf_SpeedEvery: SpeedEvery = atoi(data); break;
-          case Icon_Conf_SoundEvery: SoundPollEvery = atoi(data); break;
+          case Icon_Conf_PollEvery:
+            resources_set_value(Rsrc_Poll, (resource_value_t)atoi(data)); break;
+          case Icon_Conf_SpeedEvery:
+            resources_set_value(Rsrc_Speed, (resource_value_t)atoi(data)); break;
+          case Icon_Conf_SoundEvery:
+            resources_set_value(Rsrc_SndEvery, (resource_value_t)atoi(data)); break;
+          case Icon_Conf_MaxSkipFrms:
+            resources_set_value(Rsrc_MaxSkipped, (resource_value_t)atoi(data)); break;
           case Icon_Conf_CharGen:
             resources_set_value(Rsrc_CharGen, (resource_value_t)data); break;
           case Icon_Conf_Kernal:
@@ -4024,7 +3982,8 @@ static void ui_key_press_config(int *b)
             resources_set_value(Rsrc_Basic, (resource_value_t)data); break;
           case Icon_Conf_Palette:
             resources_set_value(Rsrc_Palette, (resource_value_t)data); break;
-          case Icon_Conf_CartFile: ui_set_cartridge_file(data); break;
+          case Icon_Conf_CartFile:
+            ui_set_cartridge_file(data); break;
           case Icon_Conf_DosName:
             ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_DOSNAME], (resource_value_t)data);
             break;
@@ -4561,7 +4520,7 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
       }
       break;
     case CONF_MENU_SPEED:
-      ui_resync_speed();
+      vsync_resync_speed();
       break;
     default:
       return 0;
@@ -5341,10 +5300,8 @@ int ui_poll_core(int *block)
   return event;
 }
 
-void ui_poll(int frame_delay)
+void ui_poll(int dopoll)
 {
-  int now;
-
   /* Just to be on the save side: snapshot unpauses for at most 1 frame! */
   SnapshotPending = 0;
   /* Was sound suspended while in this function? */
@@ -5353,38 +5310,13 @@ void ui_poll(int frame_delay)
   /* Must poll in every vblank! */
   kbd_poll();
 
-  now = OS_ReadMonotonicTime();
-
-  NumberOfFrames += 1 - frame_delay;
-
-  /* Speed limiter? Busy wait */
-  if (CurrentSpeedLimit != 0)
-  {
-    while ((10000*NumberOfFrames) > FramesPerSecond*CurrentSpeedLimit*(now-LastSpeed))
-      now = OS_ReadMonotonicTime();
-  }
-  LastFrame = now;
-
-  if ((now - LastSpeed) >= SpeedEvery)
-  {
-    resource_value_t val;
-
-    RelativeSpeed = (10000 * NumberOfFrames) / (FramesPerSecond * (now - LastSpeed));
-    ui_display_speed(RelativeSpeed, (100 * NumberOfRefreshes) / (now - LastSpeed), 0);
-    LastSpeed = now; NumberOfFrames = 0; NumberOfRefreshes = 0;
-    resources_get_value(Rsrc_VideoSync, &val);
-    FramesPerSecond = ((int)val == DRIVE_SYNC_PAL) ? 50 : 60;
-  }
-
   if (SingleTasking != 0) return;
 
-  if ((now - LastPoll) >= PollEvery)
+  if (dopoll != 0)
   {
     int event;
 
     WithinUiPoll++;	/* Allow for nested calls */
-
-    LastPoll = now;
 
     do
     {
@@ -5396,7 +5328,7 @@ void ui_poll(int frame_delay)
 
     if (--WithinUiPoll == 0)
     {
-      if (SoundSuspended != 0) sound_resume();
+      if ((SoundSuspended != 0) && (EmuPaused == 0)) sound_resume();
     }
     ui_poll_epilogue();
   }
@@ -5705,7 +5637,7 @@ void ui_display_paused(int flag)
   {
     ui_temp_resume_sound(); t = SymbolStrings[Symbol_Pause];
     /* resync to avoid including the pause in the speed calculation */
-    ui_resync_speed();
+    vsync_resync_speed();
   }
   else
   {

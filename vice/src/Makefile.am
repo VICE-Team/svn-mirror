@@ -110,7 +110,7 @@ noinst_HEADERS = \
 	video.h \
 	vsidui.h \
 	vsync.h \
-	vsyncarch.h \
+	vsyncapi.h \
 	zfile.h \
 	zipcode.h
 

@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "wimp.h"
+#include "drive/drive.h"
 #include "types.h"
 #include "vsync.h"
 #include "vsyncarch.h"
@@ -43,11 +44,23 @@
 
 
 /* Exported variables */
-int NumberOfRefreshes = 0;
 int EmuWindowHasInputFocus = 0;
 
 
 #define MAX_SKIPPED_FRAMES	10
+
+static int NumberOfRefreshes = 0;
+static int LastPoll;
+static int LastSpeed;
+static int RelativeSpeed = 100;
+static int CurrentSpeedLimit;
+static int PollEvery;
+static int SpeedEvery;
+static int LastFrame;
+static int MaxSkippedFrames;
+static int NumberOfFrames = 0;
+static int LastSpeedLimit;
+static int FramesPerSecond = 50;
 
 static double refresh_frequency;
 
@@ -78,6 +91,32 @@ static int set_warp_mode(resource_value_t v, void *param)
   return 0;
 }
 
+static int set_speed_limit(resource_value_t v, void *param)
+{
+  CurrentSpeedLimit = (int)v;
+  sound_set_relative_speed(CurrentSpeedLimit);
+
+  return 0;
+}
+
+static int set_poll_every(resource_value_t v, void *param)
+{
+  PollEvery = (int)v;
+  return 0;
+}
+
+static int set_speed_every(resource_value_t v, void *param)
+{
+  SpeedEvery = (int)v;
+  return 0;
+}
+
+static int set_max_skipped_frames(resource_value_t v, void *param)
+{
+  MaxSkippedFrames = (int)v;
+  return 0;
+}
+
 
 
 
@@ -92,6 +131,14 @@ static resource_t resources[] = {
     (resource_value_t*)&refresh_rate, set_refresh_rate, NULL },
   {"WarpMode", RES_INTEGER, (resource_value_t)0,
     (resource_value_t*)&warp_mode_enabled, set_warp_mode, NULL },
+  {"PollEvery", RES_INTEGER, (resource_value_t)20,
+    (resource_value_t*)&PollEvery, set_poll_every, NULL },
+  {"SpeedEvery", RES_INTEGER, (resource_value_t)100,
+    (resource_value_t*)&SpeedEvery, set_speed_every, NULL },
+  {"Speed", RES_INTEGER, (resource_value_t)100,
+    (resource_value_t*)&CurrentSpeedLimit, set_speed_limit, NULL },
+  {"MaxSkippedFrames", RES_INTEGER, (resource_value_t)MAX_SKIPPED_FRAMES,
+    (resource_value_t*)&MaxSkippedFrames, set_max_skipped_frames, NULL },
   {NULL}
 };
 
@@ -114,8 +161,22 @@ void vsync_set_machine_parameter(double refresh_rate, long cycles)
     cycles_per_sec = cycles;
 }
 
+
+int vsync_resync_speed(void)
+{
+  LastSpeed = OS_ReadMonotonicTime();
+  NumberOfFrames = 0; NumberOfRefreshes = 0;
+  return LastSpeed;
+}
+
+
 void vsync_init(void (*hook)(void))
 {
+  LastPoll = vsync_resync_speed();
+  LastFrame = LastPoll;
+
+  LastSpeedLimit = CurrentSpeedLimit;
+
   vsync_hook = hook;
 }
 
@@ -124,10 +185,17 @@ static unsigned short frame_counter = 0xffff;
 static unsigned short num_skipped_frames = 0;
 static int skip_counter=0;
 
+#define VSYNC_TIME_DELTA(t,n) \
+  ((10000*(n)) - FramesPerSecond*CurrentSpeedLimit*((t)-LastSpeed))
+
 int do_vsync(int been_skipped)
 {
   int skip_next_frame = 0;
   int frame_delay;
+  int now, dopoll;
+
+  /* this can happen in some rare cases; make sure emulation stops then */
+  while (EmuPaused != 0) ui_poll(1);
 
   if (FullScreenMode != 0)
   {
@@ -142,8 +210,10 @@ int do_vsync(int been_skipped)
     EmuWindowHasInputFocus = (canvas_for_handle(caret.WHandle) == NULL) ? 0 : 1;
   }
 
+  now = OS_ReadMonotonicTime();
+
   if (warp_mode_enabled) {
-    if (skip_counter < MAX_SKIPPED_FRAMES) {
+    if (skip_counter < MaxSkippedFrames) {
       skip_next_frame = 1;
       skip_counter++;
     } else {
@@ -157,16 +227,12 @@ int do_vsync(int been_skipped)
       skip_counter = 0;
     }
   } else {
-    if (skip_counter >= NumberOfRefreshes) {
-      NumberOfRefreshes = -1;
-      skip_counter = 0;
+    /* Use NumberOfFrames+1 because this frame isn't counted yet */
+    if ((VSYNC_TIME_DELTA(now, NumberOfFrames+1) < 0) && (skip_counter < MaxSkippedFrames)) {
+      skip_next_frame = 1;
+      skip_counter++;
     } else {
-      if (skip_counter < MAX_SKIPPED_FRAMES) {
-        skip_next_frame = 1;
-        skip_counter++;
-      } else {
-        skip_counter = 0;
-      }
+      skip_counter = 0;
     }
   }
 
@@ -186,7 +252,35 @@ int do_vsync(int been_skipped)
 
   joystick();
 
-  ui_poll(frame_delay);
+  NumberOfFrames += 1 - frame_delay;
+
+  /* Speed limiter? Wait */
+  if ((CurrentSpeedLimit != 0) && (warp_mode_enabled == 0))
+  {
+    while (VSYNC_TIME_DELTA(now, NumberOfFrames) > 0)
+      now = OS_ReadMonotonicTime();
+  }
+  LastFrame = now;
+
+  if ((now - LastSpeed) >= SpeedEvery)
+  {
+    resource_value_t val;
+
+    RelativeSpeed = (10000 * NumberOfFrames) / (FramesPerSecond * (now - LastSpeed));
+    ui_display_speed(RelativeSpeed, (100 * NumberOfRefreshes) / (now - LastSpeed), 0);
+    LastSpeed = now; NumberOfFrames = 0; NumberOfRefreshes = 0;
+    resources_get_value("VideoStandard", &val);
+    FramesPerSecond = ((int)val == DRIVE_SYNC_PAL) ? 50 : 60;
+  }
+
+  dopoll = 0;
+  if ((now - LastPoll) >= PollEvery)
+  {
+    dopoll = 1;
+    LastPoll = now;
+  }
+
+  ui_poll(dopoll);
 
   video_full_screen_plot_status();
 

@@ -29,7 +29,7 @@
 
 #include "kbdbuf.h"
 #include "ui.h"
-#include "vsyncarch.h"
+#include "vsyncapi.h"
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"

@@ -56,6 +56,7 @@ SWORD *VIDCSampleBuffer;
 
 static int SndTimerActive = 0;
 static int buffersize;
+static int numbuffers;
 
 /* maximum size of DMA buffer */
 static int MaxBufferSize = 0;
@@ -117,6 +118,7 @@ static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int sync
     return -1;
   }
   buffersize = *fragsize;
+  numbuffers = *fragnr;
 
   return 0;
 }
@@ -314,6 +316,9 @@ void sound_wimp_safe_exit(void)
  *  Synchronous sound device interface
  */
 
+static int JustInitialized;
+static int FragCorrection;
+
 static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
 {
   if ((DigitalRenderer_ReadState() &DRState_Active) != 0)
@@ -324,6 +329,11 @@ static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, 
 
   /* unthreaded sound */
   SoundThreadActive = 0;
+  JustInitialized = 1;
+  /* leave some frags at the end free to take reSID peaks */
+  FragCorrection = (numbuffers + 23) / 24;
+
+  log_message(LOG_DEFAULT, "fragsize %d, frags %d, correction %d", *fragsize, *fragnr, FragCorrection);
 
   ui_set_sound_volume();
 
@@ -333,7 +343,20 @@ static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, 
 
 static int vidc_sync_bufferstatus(int flag)
 {
-  return DigitalRenderer_StreamStatistics() * buffersize;
+  if (JustInitialized != 0)
+  {
+    JustInitialized = 0;
+    return 0;
+  }
+  else
+  {
+    int numbuf = DigitalRenderer_StreamStatistics() + FragCorrection;
+
+    if (numbuf > numbuffers)
+      numbuf = numbuffers;
+
+    return numbuf * buffersize;
+  }
 }
 
 

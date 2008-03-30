@@ -79,6 +79,7 @@ static const char Rsrc_AutoPause[] = "AutoPause";
 static const char Rsrc_SpeedLimit[] = "Speed";
 static const char Rsrc_Refresh[] = "RefreshRate";
 static const char Rsrc_WarpMode[] = "WarpMode";
+static const char Rsrc_MaxSkipped[] = "MaxSkippedFrames";
 static const char Rsrc_DriveT8[] = "DriveType8";
 static const char Rsrc_DriveT9[] = "DriveType9";
 static const char Rsrc_DriveT10[] = "DriveType10";
@@ -1384,6 +1385,7 @@ config_item Configurations[] = {
   {Rsrc_AutoPause, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_AutoPause}},
   {Rsrc_FullScr, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_FullScreen}},
   {Rsrc_FullSetPal, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_SetPalette}},
+  {Rsrc_MaxSkipped, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_Conf_MaxSkipFrms}},
   {Rsrc_DriveF8, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile8}},
   {Rsrc_DriveF9, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile9}},
   {Rsrc_DriveF10, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile10}},

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-03-25 23:54+0200\n"
+"POT-Creation-Date: 2001-03-29 15:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Disable warp mode"
 msgstr ""
 
-#: src/vsync.c:184 src/vsync.c:362
+#: src/vsync.c:344
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 

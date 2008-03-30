@@ -38,7 +38,7 @@ typedef void (*ui_exposure_handler_t) (unsigned int width, unsigned int height);
 
 extern int ui_init_named_app(const char *appname, const char *iconname);
 
-extern void ui_poll(int frame_delay);
+extern void ui_poll(int dopoll);
 extern int  ui_poll_core(int *block);
 
 extern void ui_message(const char *format,...);
@@ -79,15 +79,11 @@ extern RO_Window *VSidWindow;
 extern RO_Caret LastCaret;
 
 extern int EmuZoom;
-extern int LastPoll;
-extern int LastSpeed;
 extern int FrameBufferUpdate;
 extern int ModeChanging;
 extern int UseEigen;
 extern int EmuPaused;
 extern int SingleTasking;
-extern int RelativeSpeed;
-extern int CurrentSpeedLimit;
 extern int CycleBasedSound;
 
 extern char *PetModelName;

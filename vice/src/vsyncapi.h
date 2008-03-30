@@ -1,8 +1,8 @@
 /*
- * vsyncarch.h - End-of-frame handling on RISC OS.
+ * vsyncapi.h - general vsync archdependant functions
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -23,13 +23,31 @@
  *  02111-1307  USA.
  *
  */
+#ifndef VSYNCAPI_H
+#define VSYNCAPI_H
 
-#ifndef _VSYNCARCH_RO_H
-#define _VSYNCARCH_RO_H
+#include "vice.h"
 
-extern int vsync_resync_speed(void);
+typedef void (*void_hook_t)(void);
 
-extern int EmuWindowHasInputFocus;
+/* provide the actual time in microseconds */
+unsigned long vsyncarch_gettime(void);
 
+/* call when vsync_init is called */
+void vsyncarch_init(void);
+
+/* display speed(%) and framerate(fps) */
+void vsyncarch_display_speed(double speed, double fps, int warp_enabled);
+
+/* sleep the given amount of microseconds */
+void vsyncarch_sleep(long delay);
+
+/* this is called before do_vsync does the synchroniation */
+void vsyncarch_presync(void);
+
+/* this is called after do_vsync did the synchroniation */
+void vsyncarch_postsync(void);
+
+/* set ui dispatcher function */
+void_hook_t vsync_set_event_dispatcher(void_hook_t hook);
 #endif
-
