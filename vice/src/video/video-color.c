@@ -101,8 +101,8 @@ typedef struct video_ycbcr_color_s {
 
 /* variables needed for generating and activating a palette */
 
-static video_cbm_palette_t *video_current_palette=NULL;
-static struct raster_s *video_current_raster=NULL;
+static video_cbm_palette_t *video_current_palette = NULL;
+static struct raster_s *video_current_raster = NULL;
 
 void video_color_set_palette(video_cbm_palette_t *palette)
 {
