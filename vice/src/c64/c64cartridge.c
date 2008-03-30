@@ -520,13 +520,11 @@ void cartridge_set_default(void)
                        "" : cartfile), NULL);
 }
 
-static int cartridge_change_mapping(CLOCK offset)
+static void cartridge_change_mapping(CLOCK offset)
 {
     alarm_unset(&cartridge_alarm);
 
     cartridge_freeze((carttype == CARTRIDGE_CRT) ? crttype : carttype);
-
-    return 0;
 }
 
 void cartridge_init(void)

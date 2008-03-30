@@ -47,25 +47,21 @@ static BYTE latch_joystick_value[3] = { 0, 0, 0 };
 static alarm_t keyboard_alarm;
 static alarm_t joystick_alarm;
 
-static int keyboard_latch_matrix(CLOCK offset)
+static void keyboard_latch_matrix(CLOCK offset)
 {
     alarm_unset(&keyboard_alarm);
     alarm_context_update_next_pending(keyboard_alarm.context);
 
     memcpy(keyarr, latch_keyarr, sizeof(keyarr));
     memcpy(rev_keyarr, latch_rev_keyarr, sizeof(rev_keyarr));
-
-    return 0;
 }
 
-static int joystick_latch_matrix(CLOCK offset)
+static void joystick_latch_matrix(CLOCK offset)
 {
     alarm_unset(&joystick_alarm);
     alarm_context_update_next_pending(joystick_alarm.context);
 
     memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
-
-    return 0;
 }
 
 void keyboard_init(void)

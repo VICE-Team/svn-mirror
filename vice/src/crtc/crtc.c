@@ -584,7 +584,7 @@ void crtc_resize (void)
 
 /* Redraw the current raster line.  This happens at the last
    cycle of each line.  */
-int crtc_raster_draw_alarm_handler (CLOCK offset)
+void crtc_raster_draw_alarm_handler (CLOCK offset)
 {
     int new_sync_diff;
     int new_venable;
@@ -831,8 +831,6 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
      */
 
     alarm_set (&crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len + 1);
-
-    return 0;
 }
 
 void crtc_exposure_handler (unsigned int width,

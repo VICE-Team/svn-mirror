@@ -349,32 +349,32 @@ void rsuser_tx_byte(BYTE b) {
 
 
 
-int int_rsuser(CLOCK offset) {
-	CLOCK rclk = clk - offset;
+void int_rsuser(CLOCK offset)
+{
+    CLOCK rclk = clk - offset;
 
-        keepup_tx_buffer();
+    keepup_tx_buffer();
 
-	switch(rxstate) {
-	case 0:
-        	if( fd != -1 && rs232_getc(fd, &rxdata)) {
-		  /* byte received, signal startbit on flag */
-                  rxstate ++;
-		  if(start_bit_trigger) start_bit_trigger();
-		  clk_start_rx = rclk;
-		}
-		alarm_set(&rsuser_alarm, clk + char_clk_ticks);
-		break;
-	case 1:
-		/* now byte should be in shift register */
-		if(byte_rx_func)
-                    byte_rx_func((BYTE)(code[rxdata]));
-		rxstate = 0;
-		clk_start_rx = 0;
-		alarm_set(&rsuser_alarm, clk + char_clk_ticks / 8);
-		break;
+    switch(rxstate) {
+      case 0:
+        if( fd != -1 && rs232_getc(fd, &rxdata)) {
+            /* byte received, signal startbit on flag */
+            rxstate ++;
+            if(start_bit_trigger)
+                start_bit_trigger();
+            clk_start_rx = rclk;
         }
-
-        return 0;
+        alarm_set(&rsuser_alarm, clk + char_clk_ticks);
+        break;
+      case 1:
+        /* now byte should be in shift register */
+        if(byte_rx_func)
+            byte_rx_func((BYTE)(code[rxdata]));
+        rxstate = 0;
+        clk_start_rx = 0;
+        alarm_set(&rsuser_alarm, clk + char_clk_ticks / 8);
+        break;
+    }
 }
 
 static void clk_overflow_callback(CLOCK sub, void *data)

@@ -302,7 +302,7 @@ static CLOCK datasette_read_gap(int direction)
 }
 
 
-static int datasette_read_bit(CLOCK offset)
+static void datasette_read_bit(CLOCK offset)
 {
     double speed_of_tape = DS_V_PLAY;
     int direction = 1;
@@ -312,7 +312,7 @@ static int datasette_read_bit(CLOCK offset)
     datasette_alarm_pending = 0;
 
     if ((current_image == NULL) || !datasette_motor)
-        return 0;
+        return;
     switch (current_image->mode) {
       case DATASETTE_CONTROL_START:
         direction = 1;
@@ -339,10 +339,10 @@ static int datasette_read_bit(CLOCK offset)
         break;
       case DATASETTE_CONTROL_RECORD:
       case DATASETTE_CONTROL_STOP:
-        return 0;
+        return;
       default:
         log_error(datasette_log, "Unknown datasette mode.");
-        return 0;
+        return;
     }
     if (direction + datasette_last_direction == 0) {
         /* the direction changed; read the gap from file,
@@ -361,7 +361,7 @@ static int datasette_read_bit(CLOCK offset)
     }
     if (!gap) {
         datasette_control(DATASETTE_CONTROL_STOP);
-        return 0;
+        return;
     }
     if (gap > DATASETTE_MAX_GAP) {
         datasette_long_gap_pending = gap - DATASETTE_MAX_GAP;
@@ -385,7 +385,6 @@ static int datasette_read_bit(CLOCK offset)
         datasette_alarm_pending = 1;
     }
     datasette_update_ui_counter();
-    return 0;
 }
 
 

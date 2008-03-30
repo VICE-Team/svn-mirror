@@ -65,7 +65,7 @@ extern int riot2_read_snapshot_module(struct drive_context_s *ctxptr,
 typedef struct riot_initdesc_s {
     struct driveriot_context_s *riot_ptr;
     void (*clk)(CLOCK, void*);
-    int (*int_t1)(CLOCK);
+    void (*int_t1)(CLOCK);
 } riot_initdesc_t;
 
 /* init callbacks, shared by both riots; defined in riot1 */

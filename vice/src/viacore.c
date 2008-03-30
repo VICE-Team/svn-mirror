@@ -93,8 +93,8 @@ static BYTE via_last_read = 0;  /* the byte read the last time (for RMW) */
  * local prototypes
  */
 
-static int int_myviat1(VIA_CONTEXT_PARAM CLOCK offset);
-static int int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
+static void int_myviat1(VIA_CONTEXT_PARAM CLOCK offset);
+static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
 
 
 
@@ -771,7 +771,7 @@ BYTE VIARPARM1 myvia_peek(VIA_CONTEXT_PARAM ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-static int int_myviat1(VIA_CONTEXT_PARAM CLOCK offset)
+static void int_myviat1(VIA_CONTEXT_PARAM CLOCK offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
@@ -793,14 +793,14 @@ static int int_myviat1(VIA_CONTEXT_PARAM CLOCK offset)
     update_myviairq(VIA_CONTEXT_CALLVOID);
 
     /* TODO: toggle PB7? */
-    return 0;			/*(viaier & VIA_IM_T1) ? 1:0; */
+    /*(viaier & VIA_IM_T1) ? 1:0; */
 }
 
 /*
  * Timer B is always in one-shot mode
  */
 
-static int int_myviat2(VIA_CONTEXT_PARAM CLOCK offset)
+static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
@@ -812,8 +812,6 @@ static int int_myviat2(VIA_CONTEXT_PARAM CLOCK offset)
 
     myviaifr |= VIA_IM_T2;
     update_myviairq(VIA_CONTEXT_CALLVOID);
-
-    return 0;
 }
 
 static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data)

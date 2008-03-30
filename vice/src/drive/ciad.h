@@ -67,9 +67,9 @@ extern int cia1581_read_snapshot_module(struct drive_context_s *ctxptr,
 typedef struct cia_initdesc_s {
     struct drivecia_context_s *cia_ptr;
     void (*clk)(CLOCK, void*);
-    int (*int_ta)(CLOCK);
-    int (*int_tb)(CLOCK);
-    int (*int_tod)(CLOCK);
+    void (*int_ta)(CLOCK);
+    void (*int_tb)(CLOCK);
+    void (*int_tod)(CLOCK);
 } cia_initdesc_t;
 
 /* init callbacks, shared by both cias; defined in cia1571d. */

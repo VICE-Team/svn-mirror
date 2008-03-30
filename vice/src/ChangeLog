@@ -1,3 +1,78 @@
+2001-04-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.14.
+
+	* uimon.h: Fixed `uimon_console_open_mdi' prototype.
+
+	* maincpu.c, c128/c128cpu.c, cbm2/c610cpu.c: Removed some old
+	debugging cruft.
+
+	* ciacore.c, drive/ciad.h, drive/cia1571d.c, drive/cia1581d.c,
+	drive/fdc.c, riotcore.c, drive/riotd.h, drive/riot1d.c,
+	viacore.c, drive/viad.h, drive/via1d.c, drive/via2d.c,
+	vicii/vicii.c, vicii/viciitypes.h, vdc/vdc.c, crtc/crtc.c,
+	crtc/crtctypes.h, c64/c64cartridge.c, vic20/vic.c,
+	vic20/vic.h, datasette.c, keyboard.c, rsuser.c, rsuser.h:
+	Alarm callback now returns void.
+
+2001-04-04  Frank König  <frank_koenig@t-online.de>
+
+	* arch/win32/joystick.c: Implemetation of autofire feature.
+	Lots of changes.
+
+	* arch/win32/res.h, arch/win32/res.rc: Added dialog box items
+	for joystick autofire feature.
+
+	* arch/win32/uijoystick.c: Added UI elements for joystick
+	autofire feature.
+
+2001-04-04  Tibor Biczo  <crown@matavnet.hu>
+
+	* alarm.h (alarm_callback_t): Define function as returnin void
+
+	* arch/win32/fullscreen.c (fullscreen_getmode): Small fix for
+	Matrox based videocards.
+
+	* arch/win32/msvc/config.h: Disable certain MSVC warnings, so
+	real warnings can be spotted and fixed.
+
+	* arch/win32/uijoystick.c: Fixed a few things in the UI of
+	the joystick autofire feature.
+	Joystick swap now swaps direction definitions as well.
+
+	* arch/win32/uisound.h: Include ui.h, fixes a warning.
+
+	* arch/win32/video.c: Added commandline parameter for
+	fullscreen mode.
+
+	* c128/c12mem.c, c128/z80mem.c, drive/drivemem.c: Fixed an
+	MSVC related warning.
+
+	* cbm2/c610.c (c500_powerline_clk_alarm_handler): Changed
+	return type of function from int to void. Function doesn't
+	have return value.
+
+	* raster/raster.c (raster_fill_sprite_cache): Removed an
+	unused local variable called 'n'.
+
+2001-04-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/vsyncarch.c: includes vsyncapi.h
+
+	* sounddrv/soundbeos.cc: changed (beos_bufferspace) to
+	fit with Dag's new implementation
+
+2001-04-03  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/vsyncarch.c: Changed #include "vsyncarch.h"
+	to #include "vsyncapi.h" w/o that, WIN32 (MSVC++) did not
+	compile anymore.
+
+	* monitor/mon.c: Removed ambiguity in is_valid_addr_range()
+	in if()-statement regarding order of && and || evaluation.
+	Found better solution for not being able to enter
+	"d 8:c100 c200" in evaluate_address_range().
+
 2001-04-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.13.

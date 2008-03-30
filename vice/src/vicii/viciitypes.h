@@ -394,9 +394,9 @@ extern void vic_ii_fetch_matrix (int offs, int num);
 extern void vic_ii_set_raster_irq (unsigned int line);
 extern void vic_ii_update_memory_ptrs (unsigned int cycle);
 extern void vic_ii_update_video_mode (unsigned int cycle);
-extern int vic_ii_raster_draw_alarm_handler (CLOCK offset);
-extern int vic_ii_raster_fetch_alarm_handler (CLOCK offset);
-extern int vic_ii_raster_irq_alarm_handler (CLOCK offset);
+extern void vic_ii_raster_draw_alarm_handler (CLOCK offset);
+extern void vic_ii_raster_fetch_alarm_handler (CLOCK offset);
+extern void vic_ii_raster_irq_alarm_handler (CLOCK offset);
 
 /* Debugging options.  */
 

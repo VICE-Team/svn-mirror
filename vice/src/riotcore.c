@@ -40,7 +40,7 @@
  * local prototypes
  */
 
-static int int_riot(RIOT_CONTEXT_PARAM CLOCK offset);
+static void int_riot(RIOT_CONTEXT_PARAM CLOCK offset);
 
 #ifndef RIOT_SHARED_CODE
 
@@ -328,15 +328,13 @@ BYTE RIOTRPARM1 myriot_read_(RIOT_CONTEXT_PARAM ADDRESS addr)
     return 0xff;
 }
 
-static int int_riot(RIOT_CONTEXT_PARAM CLOCK offset)
+static void int_riot(RIOT_CONTEXT_PARAM CLOCK offset)
 {
 /*    CLOCK rclk = myclk - offset; */
 
     alarm_unset(&riot_alarm);
 
     update_irq(RIOT_CONTEXT_CALL (BYTE)(irqfl | 0x80));
-
-    return 0;
 }
 
 /*-------------------------------------------------------------------*/

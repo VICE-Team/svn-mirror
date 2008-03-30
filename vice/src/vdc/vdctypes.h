@@ -196,7 +196,7 @@ extern int vdc_load_palette (const char *name);
 extern void vdc_fetch_matrix (int offs, int num);
 extern void vdc_update_memory_ptrs (unsigned int cycle);
 extern void vdc_update_video_mode (unsigned int cycle);
-extern int vdc_raster_draw_alarm_handler (CLOCK offset);
+extern void vdc_raster_draw_alarm_handler (CLOCK offset);
 extern void vdc_set_set_canvas_refresh(int enable);
 
 #endif

@@ -73,7 +73,7 @@ static void vic_exposure_handler (unsigned int width, unsigned int height)
 /* Notice: The screen origin X register has a 4-pixel granularity, so our
    write accesses are always aligned. */
 
-int vic_raster_draw_alarm_handler (CLOCK offset)
+void vic_raster_draw_alarm_handler (CLOCK offset)
 {
     int blank_this_line;
     int cols_in_this_line;
@@ -169,8 +169,6 @@ int vic_raster_draw_alarm_handler (CLOCK offset)
     vic.last_emulate_line_clk += VIC_CYCLES_PER_LINE;
     vic.draw_clk = vic.last_emulate_line_clk + VIC_CYCLES_PER_LINE;
     alarm_set (&vic.raster_draw_alarm, vic.draw_clk);
-
-    return 0;
 }
 
 static int init_raster(void)

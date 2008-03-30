@@ -81,9 +81,9 @@ static inline BYTE read_ciapb(CIA_CONTEXT_PARVOID);
  * the inline functions
  */
 
-static int int_ciata(CIA_CONTEXT_PARAM CLOCK offset);
-static int int_ciatb(CIA_CONTEXT_PARAM CLOCK offset);
-static int int_ciatod(CIA_CONTEXT_PARAM CLOCK offset);
+static void int_ciata(CIA_CONTEXT_PARAM CLOCK offset);
+static void int_ciatb(CIA_CONTEXT_PARAM CLOCK offset);
+static void int_ciatod(CIA_CONTEXT_PARAM CLOCK offset);
 
 #ifndef CIA_SHARED_CODE
 

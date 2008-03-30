@@ -51,7 +51,7 @@
 
 
 static void clk_overflow_callback(int fnum, CLOCK sub, void *data);
-static int int_fdc(unsigned int fnum, CLOCK offset);
+static void int_fdc(unsigned int fnum, CLOCK offset);
 
 static void clk_overflow_callback0(CLOCK sub, void *data)
 {
@@ -63,14 +63,14 @@ static void clk_overflow_callback1(CLOCK sub, void *data)
     clk_overflow_callback(1, sub, data);
 }
 
-static int int_fdc0(CLOCK offset)
+static void int_fdc0(CLOCK offset)
 {
-    return int_fdc(0, offset);
+    int_fdc(0, offset);
 }
 
-static int int_fdc1(CLOCK offset)
+static void int_fdc1(CLOCK offset)
 {
-    return int_fdc(1, offset);
+    int_fdc(1, offset);
 }
 
 /************************************************************************/
@@ -552,7 +552,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
 }
 
 
-static int int_fdc(unsigned int fnum, CLOCK offset)
+static void int_fdc(unsigned int fnum, CLOCK offset)
 {
     CLOCK rclk = drive_clk[fnum] - offset;
     int i, j;
@@ -696,8 +696,6 @@ static int int_fdc(unsigned int fnum, CLOCK offset)
 	/* job loop */
 	break;
     }
-
-    return 0;
 }
 
 static void clk_overflow_callback(int fnum, CLOCK sub, void *data)

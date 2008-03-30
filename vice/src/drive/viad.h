@@ -63,8 +63,8 @@ extern int via2d_read_snapshot_module(struct drive_context_s *ctxptr,
 typedef struct via_initdesc_s {
     struct drivevia_context_s *via_ptr;
     void (*clk)(CLOCK, void*);
-    int (*int_t1)(CLOCK);
-    int (*int_t2)(CLOCK);
+    void (*int_t1)(CLOCK);
+    void (*int_t2)(CLOCK);
 } via_initdesc_t;
 
 /* init callbacks, shared by both vias; defined in via1d. */

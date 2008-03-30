@@ -400,8 +400,7 @@ main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
 	joystick.h ../../../src/log.h ../../../src/machine.h \
 	main_exit.h ../../../src/sound.h types.h ../../../src/video.h \
 	videoarch.h x11/xaw/videoarch.h ui.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h x11/xaw/../videoarch.h \
-	../../../src/fullscreen.h ../../../src/resources.h
+	x11/xaw/uiarch.h x11/xaw/../videoarch.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h \
 	../../../src/keyboard.h types.h mouse.h ../../../src/log.h ui.h \
@@ -436,8 +435,7 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/uihotkey.h \
 	x11/xaw/../x11menu.h x11/xaw/../xaw/uihotkey.h uisettings.h \
 	uiedisk.h uisnapshot.h ../../../src/utils.h \
-	../../../src/vsync.h ../../../src/fullscreen.h videoarch.h \
-	x11/xaw/videoarch.h x11/xaw/../videoarch.h
+	../../../src/vsync.h
 uimon.o: uimon.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/console.h ../../../src/uimon.h \
 	../../../src/monitor/mon.h types.h \

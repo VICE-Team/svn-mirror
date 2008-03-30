@@ -180,9 +180,6 @@ static inline void read_ciaicr(drive_context_t *ctxptr)
 /* special callback handling */
 
 static void clk_overflow_callback(drive_context_t *, CLOCK, void *);
-static int int_ciata(drive_context_t *, CLOCK);
-static int int_ciatb(drive_context_t *, CLOCK);
-static int int_ciatod(drive_context_t *, CLOCK);
 
 static void clk0_overflow_callback(CLOCK sub, void *data)
 {
@@ -194,34 +191,34 @@ static void clk1_overflow_callback(CLOCK sub, void *data)
     clk_overflow_callback(&drive1_context, sub, data);
 }
 
-static int int_ciad0ta(CLOCK c)
+static void int_ciad0ta(CLOCK c)
 {
-    return int_ciata(&drive0_context, c);
+    int_ciata(&drive0_context, c);
 }
 
-static int int_ciad1ta(CLOCK c)
+static void int_ciad1ta(CLOCK c)
 {
-    return int_ciata(&drive1_context, c);
+    int_ciata(&drive1_context, c);
 }
 
-static int int_ciad0tb(CLOCK c)
+static void int_ciad0tb(CLOCK c)
 {
-    return int_ciatb(&drive0_context, c);
+    int_ciatb(&drive0_context, c);
 }
 
-static int int_ciad1tb(CLOCK c)
+static void int_ciad1tb(CLOCK c)
 {
-    return int_ciatb(&drive1_context, c);
+    int_ciatb(&drive1_context, c);
 }
 
-static int int_ciad0tod(CLOCK c)
+static void int_ciad0tod(CLOCK c)
 {
-    return int_ciatod(&drive0_context, c);
+    int_ciatod(&drive0_context, c);
 }
 
-static int int_ciad1tod(CLOCK c)
+static void int_ciad1tod(CLOCK c)
 {
-    return int_ciatod(&drive1_context, c);
+    int_ciatod(&drive1_context, c);
 }
 
 static cia_initdesc_t cia1571_initdesc[2] = {

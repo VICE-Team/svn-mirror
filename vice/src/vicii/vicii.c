@@ -1039,7 +1039,7 @@ void vic_ii_update_video_mode (unsigned int cycle)
 
 /* Redraw the current raster line.  This happens at cycle VIC_II_DRAW_CYCLE
    of each line.  */
-int vic_ii_raster_draw_alarm_handler (CLOCK offset)
+void vic_ii_raster_draw_alarm_handler (CLOCK offset)
 {
   BYTE prev_sprite_sprite_collisions;
   BYTE prev_sprite_background_collisions;
@@ -1149,8 +1149,6 @@ int vic_ii_raster_draw_alarm_handler (CLOCK offset)
   vic_ii.last_emulate_line_clk += vic_ii.cycles_per_line;
   vic_ii.draw_clk = vic_ii.last_emulate_line_clk + vic_ii.draw_cycle;
   alarm_set (&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
-
-  return 0;
 }
 
 inline static int handle_fetch_matrix(long offset,
@@ -1370,7 +1368,7 @@ inline static int handle_fetch_sprite (long offset,
 
 /* Handle sprite/matrix fetch events.  FIXME: could be made slightly
    faster.  */
-int vic_ii_raster_fetch_alarm_handler (CLOCK offset)
+void vic_ii_raster_fetch_alarm_handler (CLOCK offset)
 {
   CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
 
@@ -1454,13 +1452,11 @@ int vic_ii_raster_fetch_alarm_handler (CLOCK offset)
       if (leave)
         break;
     }
-
-  return 0;
 }
 
 /* If necessary, emulate a raster compare IRQ. This is called when the raster
    line counter matches the value stored in the raster line register.  */
-int vic_ii_raster_irq_alarm_handler (CLOCK offset)
+void vic_ii_raster_irq_alarm_handler (CLOCK offset)
 {
   vic_ii.irq_status |= 0x1;
   if (vic_ii.regs[0x1a] & 0x1)
@@ -1475,8 +1471,6 @@ int vic_ii_raster_irq_alarm_handler (CLOCK offset)
 
   vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
   alarm_set (&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
-
-  return 0;
 }
 
 /* WARNING: This does not change the resource value.  External modules are

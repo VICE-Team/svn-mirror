@@ -404,8 +404,8 @@ inline static BYTE read_prb(drive_context_t *ctxptr)
 /* These callbacks and the data initializations have to be done here */
 
 static void clk_overflow_callback(drive_context_t *, CLOCK, void *);
-static int int_myviat1(drive_context_t *, CLOCK);
-static int int_myviat2(drive_context_t *, CLOCK);
+static void int_myviat1(drive_context_t *, CLOCK);
+static void int_myviat2(drive_context_t *, CLOCK);
 
 static void clk0_overflow_callback(CLOCK sub, void *data)
 {
@@ -417,24 +417,24 @@ static void clk1_overflow_callback(CLOCK sub, void *data)
     clk_overflow_callback(&drive1_context, sub, data);
 }
 
-static int int_via1d0t1(CLOCK c)
+static void int_via1d0t1(CLOCK c)
 {
-    return int_myviat1(&drive0_context, c);
+    int_myviat1(&drive0_context, c);
 }
 
-static int int_via1d0t2(CLOCK c)
+static void int_via1d0t2(CLOCK c)
 {
-    return int_myviat2(&drive0_context, c);
+    int_myviat2(&drive0_context, c);
 }
 
-static int int_via1d1t1(CLOCK c)
+static void int_via1d1t1(CLOCK c)
 {
-    return int_myviat1(&drive1_context, c);
+    int_myviat1(&drive1_context, c);
 }
 
-static int int_via1d1t2(CLOCK c)
+static void int_via1d1t2(CLOCK c)
 {
-    return int_myviat2(&drive1_context, c);
+    int_myviat2(&drive1_context, c);
 }
 
 static via_initdesc_t via1_initdesc[2] = {

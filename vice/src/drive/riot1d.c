@@ -148,7 +148,7 @@ inline static BYTE read_prb(drive_context_t *ctxptr)
 
 /* special callback handling */
 static void clk_overflow_callback(drive_context_t *, CLOCK, void*);
-static int int_riot(drive_context_t *, CLOCK);
+static void int_riot(drive_context_t *, CLOCK);
 
 static void clk0_overflow_callback(CLOCK sub, void *data)
 {
@@ -160,14 +160,14 @@ static void clk1_overflow_callback(CLOCK sub, void *data)
     clk_overflow_callback(&drive1_context, sub, data);
 }
 
-static int int_riot1d0(CLOCK c)
+static void int_riot1d0(CLOCK c)
 {
-    return int_riot(&drive0_context, c);
+    int_riot(&drive0_context, c);
 }
 
-static int int_riot1d1(CLOCK c)
+static void int_riot1d1(CLOCK c)
 {
-    return int_riot(&drive1_context, c);
+    int_riot(&drive1_context, c);
 }
 
 static riot_initdesc_t riot1_initdesc[] = {

@@ -209,7 +209,7 @@ void vdc_update_memory_ptrs(unsigned int cycle)
 
 /* Redraw the current raster line. */
 
-int vdc_raster_draw_alarm_handler(CLOCK offset)
+void vdc_raster_draw_alarm_handler(CLOCK offset)
 {
     int in_visible_area;
 
@@ -275,11 +275,7 @@ int vdc_raster_draw_alarm_handler(CLOCK offset)
 
     /* Set the next draw event. */
     alarm_set(&vdc.raster_draw_alarm, clk + VDC_CYCLES_PER_LINE() - offset);
-
-    return 0;
 }
-
-
 
 /* WARNING: This does not change the resource value. External modules are
    expected to set the resource value to change the VDC palette instead of

@@ -186,7 +186,7 @@ extern crtc_t crtc;
 extern int crtc_load_palette (const char *name);
 extern void crtc_resize (void);
 extern void crtc_exposure_handler (unsigned int width, unsigned int height);
-extern int crtc_raster_draw_alarm_handler (CLOCK offset);
+extern void crtc_raster_draw_alarm_handler (CLOCK offset);
 
 #endif
 

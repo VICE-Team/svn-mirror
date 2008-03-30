@@ -47,7 +47,7 @@ extern void rsuser_tx_byte(BYTE b);
 extern void rsuser_write_ctrl(BYTE b);
 extern BYTE rsuser_read_ctrl(void);
 
-extern int int_rsuser(CLOCK offset);
+extern void int_rsuser(CLOCK offset);
 extern void rsuser_reset(void);
 
 extern BYTE rsuser_get_rx_bit(void);

@@ -839,7 +839,7 @@ BYTE CIARPARM1 mycia_peek(CIA_CONTEXT_PARAM ADDRESS addr)
 /* ------------------------------------------------------------------------- */
 
 
-static int int_ciata(CIA_CONTEXT_PARAM CLOCK offset)
+static void int_ciata(CIA_CONTEXT_PARAM CLOCK offset)
 {
     CLOCK rclk = myclk - offset;
 /*    int n; */
@@ -901,8 +901,6 @@ static int int_ciata(CIA_CONTEXT_PARAM CLOCK offset)
     CIAT_LOGOUT((""));
 
 /* if(ciaint == 0x80) ciaint = *((BYTE*)0); */
-
-    return 0;
 }
 
 
@@ -914,7 +912,7 @@ static int int_ciata(CIA_CONTEXT_PARAM CLOCK offset)
  */
 
 
-static int int_ciatb(CIA_CONTEXT_PARAM CLOCK offset)
+static void int_ciatb(CIA_CONTEXT_PARAM CLOCK offset)
 {
     CLOCK rclk = myclk - offset;
     int n;
@@ -949,8 +947,6 @@ static int int_ciatb(CIA_CONTEXT_PARAM CLOCK offset)
     cia_do_set_int(CIA_CONTEXT_CALL rclk);
 
     CIAT_LOGOUT((""));
-
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -974,7 +970,7 @@ void mycia_set_sdr(CIA_CONTEXT_PARAM BYTE data)
 
 /* ------------------------------------------------------------------------- */
 
-static int int_ciatod(CIA_CONTEXT_PARAM CLOCK offset)
+static void int_ciatod(CIA_CONTEXT_PARAM CLOCK offset)
 {
     int t, pm;
     CLOCK rclk = myclk - offset;
@@ -1016,7 +1012,6 @@ static int int_ciatod(CIA_CONTEXT_PARAM CLOCK offset)
 	/* check alarm */
 	check_ciatodalarm(CIA_CONTEXT_CALL rclk);
     }
-    return 0;
 }
 
 
