@@ -53,4 +53,10 @@ void machine_shutdown(void);
    been used.  */
 int machine_set_restore_key(int);
 
+/* Write a snapshot.  */
+int machine_write_snapshot(const char *name);
+
+/* Read a snapshot.  */
+int machine_read_snapshot(const char *name);
+
 #endif /* _MACHINE_H */
