@@ -64,7 +64,7 @@ extern void datasette_trigger_flux_change(void);
 extern void datasette_set_tape_sense(int sense);
 
 /* For registering the resources.  */
-extern int  datasette_init_resources(void);
+extern int datasette_init_resources(void);
 extern int datasette_init_cmdline_options(void);
 
 #endif

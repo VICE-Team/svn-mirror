@@ -55,7 +55,7 @@ static PIXEL4 hr_table_2x[16 * 16 * 2 * 16];
 
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
-
+/*
 static void
 draw_std_background (unsigned int start_pixel,
                      unsigned int end_pixel)
@@ -77,7 +77,7 @@ draw_std_background_2x (unsigned int start_pixel,
               2 * (end_pixel - start_pixel + 1));
 }
 #endif
-
+*/
 
 
 /* Initialize the drawing tables.  */
