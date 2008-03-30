@@ -81,12 +81,12 @@ void tia1551_init(drive_context_t *drv)
 
 void REGPARM3 tia1551_store(drive_context_t *drv, WORD addr, BYTE byte)
 {
-    tia1551d_store((WORD)(addr & 3), byte, drv->mynumber);
+    tia1551d_store(addr, byte, drv->mynumber);
 }
 
 BYTE REGPARM2 tia1551_read(drive_context_t *drv, WORD addr)
 {
-    return tia1551d_read((WORD)(addr & 3), drv->mynumber);
+    return tia1551d_read(addr, drv->mynumber);
 }
 
 void tia1551_reset(drive_context_t *drv)

@@ -33,7 +33,7 @@
 #include "tcbm.h"
 #include "types.h"
 
-/* #define TCBM_DEBUG */
+#define TCBM_DEBUG
 
 typedef struct tiatcbm_s {
     BYTE ddra;
@@ -60,7 +60,8 @@ void tcbm_update_bus(void)
     tcbm_busb[1] = tcbm_outputb[1] & tia1551_outputb[1] & 0x03;
     tcbm_busc[1] = tcbm_outputc[1] & tia1551_outputc[1] & 0xc0;
 #ifdef TCBM_DEBUG
-    printf("BUS A:%02x B:%02x C:%02x\n",tcbm_busa[0],tcbm_busb[0],tcbm_busc[0]);
+    log_debug("BUS A:%02x B:%02x C:%02x",
+              tcbm_busa[0], tcbm_busb[0], tcbm_busc[0]);
 #endif
 }
 
@@ -118,7 +119,7 @@ inline static BYTE dataa_read(unsigned int dnr)
 {
     tiatcbm_porta_update(dnr);
 #ifdef TCBM_DEBUG
-    printf("TCBM PA READ %02x\n", tiatcbm[dnr].dataa);
+    log_debug("TCBM PA READ %02x", tiatcbm[dnr].dataa);
 #endif
     return tiatcbm[dnr].dataa;
 }
@@ -127,7 +128,7 @@ inline static BYTE datab_read(unsigned int dnr)
 {
     tiatcbm_portb_update(dnr);
 #ifdef TCBM_DEBUG
-    printf("TCBM PB READ %02x\n", tiatcbm[dnr].datab);
+    log_debug("TCBM PB READ %02x", tiatcbm[dnr].datab);
 #endif
     return tiatcbm[dnr].datab;
 }
@@ -136,7 +137,7 @@ inline static BYTE datac_read(unsigned int dnr)
 {
     tiatcbm_portc_update(dnr);
 #ifdef TCBM_DEBUG
-    printf("TCBM PC READ %02x\n", tiatcbm[dnr].datac);
+    log_debug("TCBM PC READ %02x", tiatcbm[dnr].datac);
 #endif
     return tiatcbm[dnr].datac;
 }
@@ -162,7 +163,7 @@ inline static BYTE ddrc_read(unsigned int dnr)
 inline static void dataa_store(BYTE byte, unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    printf("TCBM PA STORE %02x\n", byte);
+    log_debug("TCBM PA STORE %02x", byte);
 #endif
     tiatcbm[dnr].dataa = byte;
     tiatcbm_porta_update(dnr);
@@ -171,7 +172,7 @@ inline static void dataa_store(BYTE byte, unsigned int dnr)
 inline static void datab_store(BYTE byte, unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    printf("TCBM PB STORE %02x\n", byte);
+    log_debug("TCBM PB STORE %02x", byte);
 #endif
     tiatcbm[dnr].datab = byte;
     tiatcbm_portb_update(dnr);
@@ -180,7 +181,7 @@ inline static void datab_store(BYTE byte, unsigned int dnr)
 inline static void datac_store(BYTE byte, unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    printf("TCBM PC STORE %02x\n", byte);
+    log_debug("TCBM PC STORE %02x", byte);
 #endif
     tiatcbm[dnr].datac = byte;
     tiatcbm_portc_update(dnr);
