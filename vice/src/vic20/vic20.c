@@ -333,11 +333,11 @@ int machine_init(void)
     if (vic_init() == NULL)
         return -1;
 
-    via1_init(&(machine_context.via1));
-    via2_init(&(machine_context.via2));
+    via1_init(machine_context.via1);
+    via2_init(machine_context.via2);
 
-    ieeevia1_init(&(machine_context.ieeevia1));
-    ieeevia2_init(&(machine_context.ieeevia2));
+    ieeevia1_init(machine_context.ieeevia1);
+    ieeevia2_init(machine_context.ieeevia2);
 
 #ifndef COMMON_KBD
     /* Load the default keymap file.  */
@@ -375,13 +375,13 @@ void machine_specific_reset(void)
 {
     serial_traps_reset();
 
-    viacore_reset(&(machine_context.via1));
-    viacore_reset(&(machine_context.via2));
+    viacore_reset(machine_context.via1);
+    viacore_reset(machine_context.via2);
     vic_reset();
     vic_sound_reset();
 
-    viacore_reset(&(machine_context.ieeevia1));
-    viacore_reset(&(machine_context.ieeevia2));
+    viacore_reset(machine_context.ieeevia1);
+    viacore_reset(machine_context.ieeevia2);
 
     rs232drv_reset();
     rsuser_reset();
@@ -403,10 +403,10 @@ void machine_specific_shutdown(void)
     /* and the tape */
     tape_image_detach(1);
 
-    viacore_shutdown(&(machine_context.via1));
-    viacore_shutdown(&(machine_context.via2));
-    viacore_shutdown(&(machine_context.ieeevia1));
-    viacore_shutdown(&(machine_context.ieeevia2));
+    viacore_shutdown(machine_context.via1);
+    viacore_shutdown(machine_context.via2);
+    viacore_shutdown(machine_context.ieeevia1);
+    viacore_shutdown(machine_context.ieeevia2);
 
     /* close the video chip(s) */
     vic_shutdown();
@@ -423,6 +423,8 @@ static void machine_vsync_hook(void)
 
     autostart_advance();
 
+    screenshot_record();
+
     sub = clk_guard_prevent_overflow(maincpu_clk_guard);
 
     /* The drive has to deal both with our overflowing and its own one, so
@@ -434,7 +436,7 @@ static void machine_vsync_hook(void)
 
 int machine_set_restore_key(int v)
 {
-    viacore_signal(&(machine_context.via2),
+    viacore_signal(machine_context.via2,
                    VIA_SIG_CA1, v ? VIA_SIG_FALL : VIA_SIG_RISE);
     return 1;
 }

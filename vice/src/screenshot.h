@@ -79,8 +79,11 @@ typedef struct screenshot_s {
 
 /* Functions called by external emulator code.  */
 extern int screenshot_init(void);
-
 extern int screenshot_save(const char *drvname, const char *filename,
                            struct video_canvas_s *canvas);
+extern int screenshot_record(void);
+extern void screenshot_stop_recording(void);
+extern int screenshot_is_recording(void);
+
 #endif
 

@@ -623,12 +623,20 @@ int sound_open(void)
             break;
     }
 
+    if (recname && rdev == NULL)
+        ui_error("Recording device %s doesn't exist!", recname);
+
     if (rdev) {
         if (rdev == pdev) {
             ui_error("Recording device must be different from playback device");
             resources_set_value("SoundRecordDeviceName", "");
             return 0;
         }
+
+        if (rdev->bufferspace != NULL) {
+            ui_error("Warning! Recording device %s seems to be a realtime device!");
+        }
+
         if (rdev->init) {
             int channels_cap = snddata.channels;
             if (rdev->init(recparam, &speed, &fragsize, &fragnr, &channels_cap)) {

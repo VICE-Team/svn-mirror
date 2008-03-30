@@ -420,6 +420,8 @@ static void machine_vsync_hook(void)
 
     autostart_advance();
 
+    screenshot_record();
+
     sub = clk_guard_prevent_overflow(maincpu_clk_guard);
 
     /* The drive has to deal both with our overflowing and its own one, so

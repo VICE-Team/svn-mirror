@@ -9,6 +9,8 @@ noinst_LIBRARIES = libgfxoutputdrv.a
 
 # These sources are linked only under certain circumstances.
 EXTRA_libgfxoutputdrv_a_SOURCES = \
+	mpegdrv.c \
+	mpegdrv.h \
 	pngdrv.c \
 	pngdrv.h
 

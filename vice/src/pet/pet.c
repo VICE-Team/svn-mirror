@@ -292,7 +292,7 @@ int machine_init(void)
     crtc_set_retrace_callback(pet_crtc_signal);
     pet_crtc_set_screen();
 
-    via_init(&(machine_context.via));
+    via_init(machine_context.via);
     pia1_init();
     pia2_init();
     acia1_init();
@@ -340,7 +340,7 @@ void machine_specific_reset(void)
 {
     pia1_reset();
     pia2_reset();
-    viacore_reset(&(machine_context.via));
+    viacore_reset(machine_context.via);
     acia1_reset();
     crtc_reset();
     petsnd_reset();
@@ -363,7 +363,7 @@ void machine_specific_shutdown(void)
     /* and the tape */
     tape_image_detach(1);
 
-    viacore_shutdown(&(machine_context.via));
+    viacore_shutdown(machine_context.via);
 
     /* close the video chip(s) */
     crtc_shutdown();
@@ -379,6 +379,8 @@ static void machine_vsync_hook(void)
     autostart_advance();
 
     drive_vsync_hook();
+
+    screenshot_record();
 
     sub = clk_guard_prevent_overflow(maincpu_clk_guard);
 

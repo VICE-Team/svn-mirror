@@ -41,6 +41,7 @@
 #include "cbm2mem.h"
 #include "cbm2tpi.h"
 #include "cbm2ui.h"
+#include "cia.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "crtc.h"
@@ -185,9 +186,9 @@ int machine_cmdline_options_init(void)
 /* ------------------------------------------------------------------------- */
 /* provide the 50(?)Hz IRQ signal for the standard IRQ */
 
-#define SIGNAL_VERT_BLANK_OFF tpicore_set_int(&(machine_context.tpi1), 0, 1);
+#define SIGNAL_VERT_BLANK_OFF tpicore_set_int(machine_context.tpi1, 0, 1);
 
-#define SIGNAL_VERT_BLANK_ON  tpicore_set_int(&(machine_context.tpi1), 0, 0);
+#define SIGNAL_VERT_BLANK_ON  tpicore_set_int(machine_context.tpi1, 0, 0);
 
 /* ------------------------------------------------------------------------- */
 /* for the C500 there is a powerline IRQ... */
@@ -297,10 +298,10 @@ int machine_init(void)
         machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
     }
 
-    cia1_init(&(machine_context.cia1));
+    cia1_init(machine_context.cia1);
     acia1_init();
-    tpi1_init(&(machine_context.tpi1));
-    tpi2_init(&(machine_context.tpi2));
+    tpi1_init(machine_context.tpi1);
+    tpi2_init(machine_context.tpi2);
 
 #ifndef COMMON_KBD
     /* Initialize the keyboard.  */
@@ -339,9 +340,9 @@ int machine_init(void)
 void machine_specific_reset(void)
 {
     acia1_reset();
-    ciacore_reset(&(machine_context.cia1));
-    tpicore_reset(&(machine_context.tpi1));
-    tpicore_reset(&(machine_context.tpi2));
+    ciacore_reset(machine_context.cia1);
+    tpicore_reset(machine_context.tpi1);
+    tpicore_reset(machine_context.tpi2);
 
     sid_reset();
 
@@ -374,9 +375,9 @@ void machine_specific_shutdown(void)
     /* and the tape */
     tape_image_detach(1);
 
-    ciacore_shutdown(&(machine_context.cia1));
-    tpicore_shutdown(&(machine_context.tpi1));
-    tpicore_shutdown(&(machine_context.tpi2));
+    ciacore_shutdown(machine_context.cia1);
+    tpicore_shutdown(machine_context.tpi1);
+    tpicore_shutdown(machine_context.tpi2);
 
     /* close the video chip(s) */
     if (cbm2_isC500) {
@@ -400,6 +401,8 @@ static void machine_vsync_hook(void)
     drive_vsync_hook();
 
     autostart_advance();
+
+    screenshot_record();
 
     sub = clk_guard_prevent_overflow(maincpu_clk_guard);
 

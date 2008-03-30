@@ -233,18 +233,19 @@ void ui_movie_save_dialog(HWND hwnd)
     const char *devicename;
 
     resources_get_value("SoundRecordDeviceName",(void *) &devicename);
-    if (devicename && !strcmp(devicename,"movie")) {
+    if (screenshot_is_recording()) {
         /* the recording is active; stop it  */
-        resources_set_value("SoundRecordDeviceName", "");
+        screenshot_stop_recording();
         ui_display_statustext("");
     } else {
         s = ui_save_snapshot("Save movie file",
-            "Sound files (*.avi)\0*.avi\0",hwnd,0);
+            "Movie files (*.avi)\0*.avi\0",hwnd,0);
         if (s != NULL) {
-//            util_add_extension(&s, "avi");
-            resources_set_value("SoundRecordDeviceArg", s);
-            resources_set_value("SoundRecordDeviceName", "movie");
-            resources_set_value("Sound", (resource_value_t)1);
+            if (screenshot_save("MPEG", s, video_canvas_for_hwnd(hwnd)) < 0)
+            {
+                ui_error("Cannot write movie file `%s'.", s);
+                return;
+            }
             lib_free(s);
             ui_display_statustext("Recording movie...");
         }

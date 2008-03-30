@@ -34,6 +34,7 @@
 #include "gfxoutput.h"
 #include "lib.h"
 #include "log.h"
+#include "mpegdrv.h"
 #include "pngdrv.h"
 
 
@@ -86,6 +87,9 @@ int gfxoutput_init(void)
 #endif
 #ifdef HAVE_PNG
     gfxoutput_init_png();
+#endif
+#ifdef HAVE_AVCODEC_H
+    gfxoutput_init_mpeg();
 #endif
     return 0;
 }

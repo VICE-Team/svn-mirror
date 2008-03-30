@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,17 +36,22 @@
 #include "log.h"
 #include "machine.h"
 #include "palette.h"
+#include "resources.h"
 #include "screenshot.h"
 #include "video.h"
 
 
 static log_t screenshot_log = LOG_ERR;
+static gfxoutputdrv_t *recording_driver;
+static struct video_canvas_s *recording_canvas;
 
 
 int screenshot_init(void)
 {
     /* Setup logging system.  */
     screenshot_log = log_open("Screenshot");
+    recording_driver = NULL;
+    recording_canvas = NULL;
 
     return 0;
 }
@@ -93,7 +99,6 @@ static void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
 }
 
 /*-----------------------------------------------------------------------*/
-#if 1
 static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
                                 const char *filename)
 {
@@ -111,10 +116,20 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
 
     screenshot->convert_line = screenshot_line_data;
 
-    if ((drv->save)(screenshot, filename) < 0) {
-        log_error(screenshot_log, "Saving failed...");
-        lib_free(screenshot->color_map);
-        return -1;
+    if (drv != NULL) {
+        /* It's a usual screenshot. */
+        if ((drv->save)(screenshot, filename) < 0) {
+            log_error(screenshot_log, "Saving failed...");
+            free(screenshot->color_map);
+            return -1;
+        }
+    } else {
+        /* We're recording a movie */
+        if ((recording_driver->record)(screenshot) < 0) {
+            log_error(screenshot_log, "Recording failed...");
+            free(screenshot->color_map);
+            return -1;
+        }
     }
 
     lib_free(screenshot->color_map);
@@ -137,21 +152,47 @@ int screenshot_save(const char *drvname, const char *filename,
         return -1;
     }
 
+    if (drv->record != NULL) {
+        recording_driver = drv;
+        recording_canvas = canvas;
+    }
+
     return screenshot_save_core(&screenshot, drv, filename);
 }
-#else
-int screenshot_save(const char *drvname, const char *filename,
-                    struct video_canvas_s *canvas)
+
+
+int screenshot_record()
 {
     screenshot_t screenshot;
-    gfxoutputdrv_t *drv;
 
-    if ((drv = gfxoutput_get_driver(drvname)) == NULL)
-        return -1;
+    if (recording_driver == NULL)
+        return 0;
 
-    screenshot.canvas = canvas;
+    /* Retrive framebuffer and screen geometry.  */
+    if (recording_canvas != NULL) {
+        if (machine_screenshot(&screenshot, recording_canvas) < 0) {
+            log_error(screenshot_log, "Retrieving screen geometry failed.");
+            return -1;
+        }
+    } else {
+        /* should not happen */
+            log_error(screenshot_log, "Canvas is unknown.");
+            return -1;
+    }
 
-
+    return screenshot_save_core(&screenshot, NULL, NULL);
 }
-#endif
 
+void screenshot_stop_recording()
+{
+    if (recording_driver != NULL && recording_driver->close != NULL)
+        recording_driver->close(NULL);
+
+    recording_driver = NULL;
+    recording_canvas = NULL;
+}
+
+int screenshot_is_recording(void)
+{
+    return (recording_driver == NULL ? 0 : 1);
+}

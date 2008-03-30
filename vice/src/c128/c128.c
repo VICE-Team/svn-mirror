@@ -50,6 +50,7 @@
 #include "c64rsuser.h"
 #include "c64tpi.h"
 #include "cartridge.h"
+#include "cia.h"
 #include "clkguard.h"
 #include "datasette.h"
 #include "debug.h"
@@ -461,10 +462,10 @@ int machine_init(void)
     if (vicii_init(VICII_EXTENDED) == NULL)
         return -1;
 
-    cia1_init(&(machine_context.cia1));
-    cia2_init(&(machine_context.cia2));
+    cia1_init(machine_context.cia1);
+    cia2_init(machine_context.cia2);
 
-    tpi_init(&(machine_context.tpi1));
+    tpi_init(machine_context.tpi1);
 
     acia1_init();
 
@@ -523,10 +524,10 @@ void machine_specific_reset(void)
 {
     serial_traps_reset();
 
-    ciacore_reset(&(machine_context.cia1));
-    ciacore_reset(&(machine_context.cia2));
+    ciacore_reset(machine_context.cia1);
+    ciacore_reset(machine_context.cia2);
     sid_reset();
-    tpicore_reset(&(machine_context.tpi1));
+    tpicore_reset(machine_context.tpi1);
 
     acia1_reset();
     rs232drv_reset();
@@ -561,9 +562,9 @@ void machine_specific_shutdown(void)
     /* and the tape */
     tape_image_detach(1);
 
-    ciacore_shutdown(&(machine_context.cia1));
-    ciacore_shutdown(&(machine_context.cia2));
-    tpicore_shutdown(&(machine_context.tpi1));
+    ciacore_shutdown(machine_context.cia1);
+    ciacore_shutdown(machine_context.cia2);
+    tpicore_shutdown(machine_context.tpi1);
 
     /* close the video chip(s) */
     vicii_shutdown();
@@ -587,6 +588,8 @@ static void machine_vsync_hook(void)
     drive_vsync_hook();
 
     autostart_advance();
+
+    screenshot_record();
 
     sub = clk_guard_prevent_overflow(maincpu_clk_guard);
 

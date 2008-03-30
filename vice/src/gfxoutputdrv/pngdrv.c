@@ -164,7 +164,8 @@ static gfxoutputdrv_t png_drv =
     pngdrv_open,
     pngdrv_close,
     pngdrv_write,
-    pngdrv_save
+    pngdrv_save,
+    NULL
 };
 
 void gfxoutput_init_png(void)

@@ -36,6 +36,9 @@
 /* Define to 1 if you have the `atexit' function. */
 #undef HAVE_ATEXIT
 
+/* Define to 1 if you have the <avcodec.h> header file. */
+#undef HAVE_AVCODEC_H
+
 /* Define to 1 if you have the <avformat.h> header file. */
 #undef HAVE_AVFORMAT_H
 

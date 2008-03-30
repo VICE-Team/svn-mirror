@@ -36,6 +36,7 @@ typedef struct gfxoutputdrv_s {
     int (*close)(struct screenshot_s *);
     int (*write)(struct screenshot_s *);
     int (*save)(struct screenshot_s *, const char *);
+    int (*record)(struct screenshot_s *);
 } gfxoutputdrv_t;
 
 /* Functions called by external emulator code.  */

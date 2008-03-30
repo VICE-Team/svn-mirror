@@ -278,7 +278,8 @@ static gfxoutputdrv_t bmp_drv =
     bmpdrv_open,
     bmpdrv_close,
     bmpdrv_write,
-    bmpdrv_save
+    bmpdrv_save,
+    NULL
 };
 
 void gfxoutput_init_bmp(void)
