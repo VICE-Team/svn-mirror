@@ -36,7 +36,7 @@ enum shift_type {
     VIRTUAL_SHIFT =(1 << 0),	/* The key needs a shift on the real machine. */
     LEFT_SHIFT =(1 << 1),	/* Key is left shift. */
     RIGHT_SHIFT =(1 << 2),	/* Key is right shift. */
-    ALLOW_SHIFT =(1 << 3),	/* Allow key to be shifted. */
+    ALLOW_SHIFT =(1 << 3)	/* Allow key to be shifted. */
 };
 
 typedef struct {

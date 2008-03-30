@@ -46,7 +46,7 @@
 
 void c64_rsuser_init(void)
 {
-    return rsuser_init(machine_get_cycles_per_second(), 
-					cia2_set_flag, cia2_set_sdr);
+    rsuser_init(machine_get_cycles_per_second(), 
+				cia2_set_flag, cia2_set_sdr);
 }
 

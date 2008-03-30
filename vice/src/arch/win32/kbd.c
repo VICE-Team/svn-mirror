@@ -49,6 +49,7 @@ static void kbd_debug(const char *format, ...)
         vsprintf(tmp, format, args);
         va_end(args);
         OutputDebugString(tmp);
+        printf(tmp);
 }
 #define DEBUG(x) kbd_debug x
 #else

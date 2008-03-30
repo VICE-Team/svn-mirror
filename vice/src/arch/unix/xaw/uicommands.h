@@ -30,7 +30,6 @@
 #include "ui.h"
 #include "uimenu.h"
 
-extern ui_menu_entry_t ui_cartridge_commands_menu[];
 extern ui_menu_entry_t ui_directory_commands_menu[];
 extern ui_menu_entry_t ui_disk_commands_menu[];
 extern ui_menu_entry_t ui_exit_commands_menu[];

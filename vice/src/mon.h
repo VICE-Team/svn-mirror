@@ -54,7 +54,7 @@ enum mon_int {
     MI_NONE = 0,
     MI_BREAK = 1 << 0,
     MI_WATCH = 1 << 1,
-    MI_STEP = 1 << 2,
+    MI_STEP = 1 << 2
 };
 
 enum t_reg_id {
@@ -227,9 +227,7 @@ typedef struct monitor_interface monitor_interface_t;
 
 extern const char *_mon_space_strings[];
 
-extern char *register_string[];
 extern struct mon_cmds mon_cmd_array[];
-extern char *memspace_string[];
 
 extern FILE *mon_output;
 extern int sidefx;

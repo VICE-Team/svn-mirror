@@ -45,7 +45,7 @@ LPDIRECTDRAW dd;
 
 /* ------------------------------------------------------------------------ */
 
-/* #define DEBUG_VIDEO */
+/*#define DEBUG_VIDEO*/
 
 /* Debugging stuff.  */
 #ifdef DEBUG_VIDEO
@@ -58,6 +58,7 @@ static void video_debug(const char *format, ...)
         vsprintf(tmp, format, args);
         va_end(args);
         OutputDebugString(tmp);
+        printf(tmp);
 }
 #define DEBUG(x) video_debug x
 #else
@@ -410,6 +411,7 @@ void frame_buffer_clear(frame_buffer_t *f, BYTE value)
         }
 #endif
     }
+    return 0;
 }
 
 static int set_physical_colors(canvas_t c)
@@ -476,6 +478,7 @@ static int set_physical_colors(canvas_t c)
             IDirectDrawSurface_Unlock(c->temporary_surface, NULL);
         }
     }
+    return 0;
 }
 
 /* Create a `canvas_t' with tile `win_name', of widht `*width' x `*height'

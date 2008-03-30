@@ -47,7 +47,7 @@
 #include <mmsystem.h>
 
 /* #Define to enable `OutputDebugString()' messages.  */
-/* #define DEBUG_VSYNC */
+/*#define DEBUG_VSYNC*/
 
 /* ------------------------------------------------------------------------ */
 
@@ -62,6 +62,7 @@ static void vsync_debug(const char *format, ...)
         vsprintf(tmp, format, args);
         va_end(args);
         OutputDebugString(tmp);
+        printf(tmp);
 }
 #define DEBUG(x) vsync_debug x
 #else
@@ -229,7 +230,7 @@ void vsync_cleanup(void)
 {
     timeKillEvent(timer_id);
     timeEndPeriod(timer_tolerance);
-    OutputDebugString("vsync_cleanup()\n");
+    DEBUG(("vsync_cleanup()\n"));
 }
 
 int vsync_init(double hertz, long cycles, void (*hook)(void))

@@ -94,10 +94,6 @@ static void init_dialog(HWND hwnd, int num)
 static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
-    char s[256];
-
-    sprintf(s, "dialog_proc(%d)\n", num);
-    OutputDebugString(s);
     switch (msg) {
       case WM_INITDIALOG:
         init_dialog(hwnd, num);

@@ -56,7 +56,6 @@ extern BYTE *chargen_rom;
 #else
 extern BYTE chargen_rom[];
 #endif
-extern int rom_loaded;		/* FIXME: ugly! */
 extern BYTE *page_zero;
 extern BYTE *page_one;
 

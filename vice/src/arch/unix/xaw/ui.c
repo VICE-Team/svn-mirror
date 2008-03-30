@@ -319,7 +319,7 @@ static String fallback_resources[] = {
 /* ------------------------------------------------------------------------- */
 
 static unsigned int wm_command_size;
-static char *wm_command_data;
+static unsigned char *wm_command_data;
 static Atom wm_command_atom;
 static Atom wm_command_type_atom;
 
@@ -542,9 +542,11 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
          NULL);
 
     XtAddEventHandler(shell, EnterWindowMask, False,
-		      (XtEventHandler) enter_window_callback, NULL);
+		      (XtEventHandler) enter_window_callback,
+                      NULL);
     XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
-		      (XtEventHandler) exposure_callback, exposure_proc);
+		      (XtEventHandler) exposure_callback,
+                      (XtPointer) exposure_proc);
 
     /* Create the status bar on the bottom.  */
     {
@@ -1471,7 +1473,8 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 	Dimension my_width, my_height, shell_width, shell_height;
 	Dimension my_x, my_y;
 	Position tlx, tly;
-        int root_width, root_height, foo;
+        int foo;
+        unsigned int root_width, root_height, ufoo;
         Window foowin;
 
 	XtRealizeWidget(w);
@@ -1479,7 +1482,7 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 
         /* Now make sure the whole widget is visible.  */
         XGetGeometry(display, RootWindow(display, screen), &foowin, &foo,
-                     &foo, &root_width, &root_height, &foo, &foo);
+                     &foo, &root_width, &root_height, &ufoo, &ufoo);
 
         if (s != NULL) {
             XtVaGetValues(s, XtNwidth, &shell_width, XtNheight, &shell_height,

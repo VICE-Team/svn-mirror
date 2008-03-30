@@ -163,8 +163,6 @@ extern void vic_ii_enable_extended_keyboard_rows(int flag);
 extern void vic_ii_prepare_for_snapshot(void);
 extern void vic_ii_powerup(void);
 
-extern int vbank;
-
 extern int vic_ii_write_snapshot_module(snapshot_t *s);
 extern int vic_ii_read_snapshot_module(snapshot_t *s);
 
