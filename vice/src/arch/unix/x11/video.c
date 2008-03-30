@@ -658,3 +658,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
         XSync(display, False);
 }
 
+void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen)
+{
+    cap_fullscreen->device_num = 0;
+}
+

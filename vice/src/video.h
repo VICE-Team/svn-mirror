@@ -136,18 +136,26 @@ typedef struct video_draw_buffer_callback_s {
 #define VIDEO_RESOURCES_PAL        2 /* c64, c128, vic20 */
 #define VIDEO_RESOURCES_PAL_NOFAKE 3 /* plus4 (fake pal emu not possible here) */
 
-struct video_chip_cap_render_s {
+struct cap_render_s {
     unsigned int sizex;
     unsigned int sizey;
     unsigned int rmode;
 };
-typedef struct video_chip_cap_render_s video_chip_cap_render_t;
+typedef struct cap_render_s cap_render_t;
+
+struct cap_fullscreen_s {
+    unsigned int device_num;
+    char **device_name;
+    int (*mode)(struct video_canvas_s *canvas, int mode);
+};
+typedef struct cap_fullscreen_s cap_fullscreen_t;
 
 struct video_chip_cap_s {
     unsigned int dsize_allowed;
     unsigned int dscan_allowed;
-    video_chip_cap_render_t single_mode;
-    video_chip_cap_render_t double_mode;
+    cap_render_t single_mode;
+    cap_render_t double_mode;
+    cap_fullscreen_t fullscreen;
 };
 typedef struct video_chip_cap_s video_chip_cap_t;
 
@@ -160,6 +168,7 @@ extern int video_resources_chip_init(const char *chipname,
 extern int video_cmdline_options_chip_init(const char *chipname);
 extern int video_arch_init_resources(void);
 
+extern void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen);
 
 /* Video render interface */
 

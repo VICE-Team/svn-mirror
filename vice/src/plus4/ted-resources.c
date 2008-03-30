@@ -3,7 +3,6 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
- *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,62 +32,9 @@
 #include "raster-resources.h"
 #include "resources.h"
 #include "ted-resources.h"
-#include "ted.h"
 #include "tedtypes.h"
 #include "utils.h"
 #include "video.h"
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
-
-
-ted_resources_t ted_resources;
-
-
-#if ARCHDEP_TED_DSIZE == 1
-#ifdef USE_XF86_EXTENSIONS
-static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
-{
-    ted_resources.fullscreen_double_size_enabled = (int)v;
-    /* Does not exist anymore
-    if (fullscreen_is_enabled)
-        ted_resize(); */
-    return 0;
-}
-#endif
-#endif
-
-#if ARCHDEP_TED_DSCAN == 1
-#ifdef USE_XF86_EXTENSIONS
-static int
-set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
-{
-    ted_resources.fullscreen_double_scan_enabled = (int)v;
-    if (fullscreen_is_enabled)
-        raster_force_repaint(&ted.raster);
-    return 0;
-}
-#endif
-#endif
-
-static resource_t resources_2x[] =
-{
-#if ARCHDEP_TED_DSIZE == 1
-#ifdef USE_XF86_EXTENSIONS
-    { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ted_resources.fullscreen_double_size_enabled,
-      set_fullscreen_double_size_enabled, NULL },
-#endif
-#endif
-#if ARCHDEP_TED_DSCAN == 1
-#ifdef USE_XF86_EXTENSIONS
-    { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ted_resources.fullscreen_double_scan_enabled,
-      set_fullscreen_double_scan_enabled, NULL },
-#endif
-#endif
-    { NULL }
-};
 
 
 int ted_resources_init(void)
@@ -106,10 +52,8 @@ int ted_resources_init(void)
     video_chip_cap->double_mode.sizey = 2;
     video_chip_cap->double_mode.rmode = VIDEO_RENDER_PAL_2X2;
 
-#if (ARCHDEP_TED_DSIZE == 1) || (ARCHDEP_TED_DSCAN == 1)
-    if (resources_register(resources_2x) < 0)
-        return -1;
-#endif
+    video_fullscreen_cap(&video_chip_cap->fullscreen);
+
     if (raster_resources_chip_init("TED", &ted.raster, video_chip_cap) < 0)
         return -1;
 

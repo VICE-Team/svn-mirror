@@ -2,8 +2,8 @@
  * vicii-resources.c - Resources for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,12 +35,8 @@
 #include "utils.h"
 #include "vicii-color.h"
 #include "vicii-resources.h"
-#include "vicii.h"
 #include "viciitypes.h"
 #include "video.h"
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
 
 
 vic_ii_resources_t vic_ii_resources;
@@ -80,52 +76,6 @@ static resource_t resources[] =
 };
 
 
-#if ARCHDEP_VICII_DSIZE == 1
-#ifdef USE_XF86_EXTENSIONS
-static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
-{
-    vic_ii_resources.fullscreen_double_size_enabled = (int)v;
-
-    /* Does not exist anymore 
-    if (fullscreen_is_enabled)
-        vic_ii_resize(); */
-    return 0;
-}
-#endif
-#endif
-
-#if ARCHDEP_VICII_DSCAN == 1
-#ifdef USE_XF86_EXTENSIONS
-static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
-{
-    vic_ii_resources.fullscreen_double_scan_enabled = (int)v;
-    if (fullscreen_is_enabled)
-        raster_force_repaint(&vic_ii.raster);
-    return 0;
-}
-#endif
-#endif
-
-static resource_t resources_2x[] =
-{
-#if ARCHDEP_VICII_DSIZE == 1
-#ifdef USE_XF86_EXTENSIONS
-    { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&vic_ii_resources.fullscreen_double_size_enabled,
-      set_fullscreen_double_size_enabled, NULL },
-#endif
-#endif
-#if ARCHDEP_VICII_DSCAN == 1
-#ifdef USE_XF86_EXTENSIONS
-    { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&vic_ii_resources.fullscreen_double_scan_enabled,
-      set_fullscreen_double_scan_enabled, NULL },
-#endif
-#endif
-    { NULL }
-};
-
-
 int vic_ii_resources_init(void)
 {
     video_chip_cap_t *video_chip_cap;
@@ -141,10 +91,7 @@ int vic_ii_resources_init(void)
     video_chip_cap->double_mode.sizey = 2;
     video_chip_cap->double_mode.rmode = VIDEO_RENDER_PAL_2X2;
 
-#if (ARCHDEP_VICII_DSIZE == 1) || (ARCHDEP_VICII_DSCAN == 1)
-    if (resources_register(resources_2x) < 0)
-        return -1;
-#endif
+    video_fullscreen_cap(&video_chip_cap->fullscreen);
 
     if (raster_resources_chip_init("VICII", &vic_ii.raster,
         video_chip_cap) < 0)

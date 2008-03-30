@@ -2,8 +2,6 @@
  * vdc-resources.c - Resources for the MOS 8563 (VDC) emulation.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Markus Brenner <markus@brenner.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -33,7 +31,6 @@
 #include "resources.h"
 #include "utils.h"
 #include "vdc-resources.h"
-#include "vdc.h"
 #include "vdctypes.h"
 #include "video.h"
 
@@ -86,8 +83,6 @@ static resource_t resources[] =
     { NULL }
 };
 
-/*    vdc.force_repaint = 1;*/
-
 int vdc_resources_init(void)
 {
     video_chip_cap_t *video_chip_cap;
@@ -102,6 +97,8 @@ int vdc_resources_init(void)
     video_chip_cap->double_mode.sizex = 1;
     video_chip_cap->double_mode.sizey = 2;
     video_chip_cap->double_mode.rmode = VIDEO_RENDER_RGB_1X2;
+
+    video_fullscreen_cap(&video_chip_cap->fullscreen);
 
     vdc_resources.palette_file_name = NULL;
 

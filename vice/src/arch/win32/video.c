@@ -1303,3 +1303,8 @@ float video_refresh_rate(video_canvas_t *c)
     return 0.0f;
 }
 
+void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen)
+{
+    cap_fullscreen->device_num = 0;
+}
+
