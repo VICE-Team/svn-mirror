@@ -366,7 +366,8 @@ inline static DWORD drive_trap_handler(drive_context_t *drv)
         MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), 0xdaf6);
         return 0;
     }
-    return -1;
+
+    return (DWORD)-1;
 }
 
 static void drive_generic_dma(void)
