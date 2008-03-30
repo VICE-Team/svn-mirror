@@ -28,6 +28,8 @@
 #ifndef _TAPE_H
 #define _TAPE_H
 
+#include <stdio.h>
+
 #include "types.h"
 
 #define TAPE_TYPE_T64 0
@@ -94,6 +96,7 @@ extern int tape_seek_to_file(tape_image_t *tape_image,
                              unsigned int file_number);
 extern int tape_seek_to_next_file(tape_image_t *tape_image,
                                   unsigned int allow_rewind);
+extern int tape_read(tape_image_t *tape_image, BYTE *buf, size_t size);
 
 extern int tape_internal_close_tape_image(tape_image_t *tape_image);
 extern tape_image_t *tape_internal_open_tape_image(const char *name,
