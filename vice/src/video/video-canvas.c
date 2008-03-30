@@ -65,6 +65,7 @@ void video_canvas_shutdown(video_canvas_t *canvas)
     if (canvas != NULL) {
         lib_free(canvas->videoconfig);
         lib_free(canvas->draw_buffer);
+        video_viewport_title_free(canvas->viewport);
         lib_free(canvas->viewport);
         lib_free(canvas->geometry);
     }
