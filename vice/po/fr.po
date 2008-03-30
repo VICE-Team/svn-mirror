@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.15\n"
-"POT-Creation-Date: 2004-06-12 16:31+0200\n"
+"POT-Creation-Date: 2004-06-17 23:04+0200\n"
 "PO-Revision-Date: 2004-05-04 21:13+0200\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -409,8 +409,8 @@ msgstr "Options"
 #: src/arch/unix/c128ui.c:474 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:509 src/arch/unix/petui.c:432
 #: src/arch/unix/plus4ui.c:228 src/arch/unix/vic20ui.c:520
-#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1194
-#: src/arch/unix/x11/gnome/x11ui.c:1286
+#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1196
+#: src/arch/unix/x11/gnome/x11ui.c:1288
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -1276,7 +1276,7 @@ msgstr "À propos de VICE..."
 
 #: src/arch/unix/uicommands.c:494 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1927
+#: src/arch/unix/x11/gnome/x11ui.c:1929
 msgid "Reset"
 msgstr "Réinitialiser"
 
@@ -1748,8 +1748,8 @@ msgid "Next: "
 msgstr "Suivant: "
 
 #: src/arch/unix/uifliplist.c:243 src/arch/unix/uifliplist.c:258
-#: src/arch/unix/x11/gnome/x11ui.c:846 src/arch/unix/x11/gnome/x11ui.c:856
-#: src/arch/unix/x11/gnome/x11ui.c:1532
+#: src/arch/unix/x11/gnome/x11ui.c:848 src/arch/unix/x11/gnome/x11ui.c:858
+#: src/arch/unix/x11/gnome/x11ui.c:1534
 msgid "<empty>"
 msgstr "<vide>"
 
@@ -2185,7 +2185,7 @@ msgstr ""
 
 #: src/arch/unix/uiromset.c:136
 #, fuzzy
-msgid "File to dump ROM set archive to"
+msgid "File to save ROM set archive to"
 msgstr "Fichier vers lequel exporter les définitions ROM"
 
 #: src/arch/unix/uiromset.c:137
@@ -2193,38 +2193,71 @@ msgstr "Fichier vers lequel exporter les définitions ROM"
 msgid "ROM set archive:"
 msgstr "Fichier image ROM:"
 
-#: src/arch/unix/uiromset.c:160
+#: src/arch/unix/uiromset.c:151
+#, fuzzy
+msgid "Current ROM set archive"
+msgstr "Fichier image ROM:"
+
+#: src/arch/unix/uiromset.c:167
 msgid "ROM set item name to create"
 msgstr ""
 
-#: src/arch/unix/uiromset.c:161
+#: src/arch/unix/uiromset.c:168
 #, fuzzy
 msgid "ROM set name:"
 msgstr "Fichier image ROM:"
 
-#: src/arch/unix/uiromset.c:170 src/arch/unix/uiromset.c:245
-msgid "Load custom ROM set from file"
+#: src/arch/unix/uiromset.c:183
+#, fuzzy
+msgid "Delete configuration"
+msgstr "Configurations communes"
+
+#: src/arch/unix/uiromset.c:183 src/arch/unix/uiromset.c:205
+#, fuzzy
+msgid "Enter name"
+msgstr "Entrez la vitesse"
+
+#: src/arch/unix/uiromset.c:205
+#, fuzzy
+msgid "Active configuration"
+msgstr "Configurations communes"
+
+#: src/arch/unix/uiromset.c:216
+#, fuzzy
+msgid "Load ROM set archive"
+msgstr "Fichier image ROM:"
+
+#: src/arch/unix/uiromset.c:218
+#, fuzzy
+msgid "Save ROM set archive"
+msgstr "Fichier image ROM:"
+
+#: src/arch/unix/uiromset.c:220
+#, fuzzy
+msgid "List current ROM set archive"
 msgstr "Charger une ROM depuis un fichier"
 
-#: src/arch/unix/uiromset.c:172 src/arch/unix/uiromset.c:247
-msgid "Dump ROM set definition to file"
-msgstr "Dupliquer une ROM dans un fichier"
-
-#: src/arch/unix/uiromset.c:174 src/arch/unix/uiromset.c:249
-msgid "List current ROM set"
-msgstr ""
-
-#: src/arch/unix/uiromset.c:177
+#: src/arch/unix/uiromset.c:223
 #, fuzzy
 msgid "Create ROM set item"
 msgstr "Fichier image ROM:"
 
-#: src/arch/unix/uiromset.c:190
+#: src/arch/unix/uiromset.c:225
+#, fuzzy
+msgid "Delete ROM set item"
+msgstr "Fichier image ROM:"
+
+#: src/arch/unix/uiromset.c:227
+#, fuzzy
+msgid "Select ROM set item"
+msgstr "Fichier image ROM:"
+
+#: src/arch/unix/uiromset.c:244
 #, fuzzy
 msgid "Load custom ROM set file"
 msgstr "Charger une ROM depuis un fichier"
 
-#: src/arch/unix/uiromset.c:197
+#: src/arch/unix/uiromset.c:251
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
@@ -2233,18 +2266,31 @@ msgstr ""
 "Impossible de charger le fichier ROM\n"
 "'%s'"
 
-#: src/arch/unix/uiromset.c:224
-msgid "File to dump ROM set definition to"
+#: src/arch/unix/uiromset.c:278
+#, fuzzy
+msgid "File to save ROM set definition to"
 msgstr "Fichier vers lequel exporter les définitions ROM"
 
-#: src/arch/unix/uiromset.c:225
+#: src/arch/unix/uiromset.c:279
 msgid "ROM set file:"
 msgstr "Fichier image ROM:"
 
-#: src/arch/unix/uiromset.c:239
+#: src/arch/unix/uiromset.c:293
 #, fuzzy
 msgid "Current ROM set"
 msgstr "ROMs"
+
+#: src/arch/unix/uiromset.c:299
+msgid "Load custom ROM set from file"
+msgstr "Charger une ROM depuis un fichier"
+
+#: src/arch/unix/uiromset.c:301
+msgid "Dump ROM set definition to file"
+msgstr "Dupliquer une ROM dans un fichier"
+
+#: src/arch/unix/uiromset.c:303
+msgid "List current ROM set"
+msgstr ""
 
 #: src/arch/unix/uirs232.c:44 src/arch/unix/uirs232.c:58
 msgid "*Serial 1"
@@ -2338,8 +2384,8 @@ msgstr "Vitesse maximale d'exécution"
 msgid "Invalid speed value"
 msgstr "Valeur de vitesse invalide"
 
-#: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1335
-#: src/arch/unix/x11/xaw/x11ui.c:1037
+#: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1337
+#: src/arch/unix/x11/xaw/x11ui.c:1039
 msgid "Cannot save settings."
 msgstr "Impossible d'enregistrer les paramètres."
 
@@ -3013,170 +3059,170 @@ msgstr "Impossible d'ajouter le \"fontpath\" `%s'.\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Définir le \"fontpath\": `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:609 src/arch/unix/x11/xaw/x11ui.c:485
+#: src/arch/unix/x11/gnome/x11ui.c:611 src/arch/unix/x11/xaw/x11ui.c:487
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Cet affichage ne supporte pas de mode visuel utilisable %dbits."
 
-#: src/arch/unix/x11/gnome/x11ui.c:612 src/arch/unix/x11/xaw/x11ui.c:488
+#: src/arch/unix/x11/gnome/x11ui.c:614 src/arch/unix/x11/xaw/x11ui.c:490
 msgid "Please select a bit depth supported by your display."
 msgstr ""
 "SVP, veuillez sélectionner une profondeur de couleurs supportée par votre "
 "affichage."
 
-#: src/arch/unix/x11/gnome/x11ui.c:615 src/arch/unix/x11/gnome/x11ui.c:639
-#: src/arch/unix/x11/xaw/x11ui.c:491 src/arch/unix/x11/xaw/x11ui.c:508
+#: src/arch/unix/x11/gnome/x11ui.c:617 src/arch/unix/x11/gnome/x11ui.c:641
+#: src/arch/unix/x11/xaw/x11ui.c:493 src/arch/unix/x11/xaw/x11ui.c:510
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Détecté une capacité visuelle de %dbits/%s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:624
+#: src/arch/unix/x11/gnome/x11ui.c:626
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Détecté une capacité visuelle de %dbits."
 
-#: src/arch/unix/x11/gnome/x11ui.c:647 src/arch/unix/x11/xaw/x11ui.c:516
+#: src/arch/unix/x11/gnome/x11ui.c:649 src/arch/unix/x11/xaw/x11ui.c:518
 msgid "Cannot autodetect a proper visual."
 msgstr ""
 "Impossible de détecter automatiquement une configuration visuelle "
 "fonctionnelle."
 
-#: src/arch/unix/x11/gnome/x11ui.c:655
+#: src/arch/unix/x11/gnome/x11ui.c:657
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Impossible de charger la police de caractères %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:662
+#: src/arch/unix/x11/gnome/x11ui.c:664
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Impossible de charger la police de caractères CBM %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:748
+#: src/arch/unix/x11/gnome/x11ui.c:750
 msgid "PAL Controls"
 msgstr "Contrôles PAL"
 
-#: src/arch/unix/x11/gnome/x11ui.c:767
+#: src/arch/unix/x11/gnome/x11ui.c:769
 msgid "audio/video recording"
 msgstr "enregistrement Audio/Vidéo"
 
-#: src/arch/unix/x11/gnome/x11ui.c:781 src/arch/unix/x11/gnome/x11ui.c:800
+#: src/arch/unix/x11/gnome/x11ui.c:783 src/arch/unix/x11/gnome/x11ui.c:802
 msgid "click to stop recording"
 msgstr "cliquez pour arrêter l'enregistrement"
 
-#: src/arch/unix/x11/gnome/x11ui.c:786
+#: src/arch/unix/x11/gnome/x11ui.c:788
 msgid "event recording"
 msgstr "enregistrement d'événements"
 
-#: src/arch/unix/x11/gnome/x11ui.c:806
+#: src/arch/unix/x11/gnome/x11ui.c:808
 msgid "event playback"
 msgstr "lecture d'événements"
 
-#: src/arch/unix/x11/gnome/x11ui.c:820
+#: src/arch/unix/x11/gnome/x11ui.c:822
 msgid "click to stop playback"
 msgstr "cliquez pour arrêter la lecture"
 
-#: src/arch/unix/x11/gnome/x11ui.c:832
+#: src/arch/unix/x11/gnome/x11ui.c:834
 #, c-format
 msgid "Drive %d: "
 msgstr "Lecteur %d:"
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:942
+#: src/arch/unix/x11/gnome/x11ui.c:944
 msgid "Tape 000"
 msgstr "Datassette 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1011 src/arch/unix/x11/xaw/x11ui.c:597
+#: src/arch/unix/x11/gnome/x11ui.c:1013 src/arch/unix/x11/xaw/x11ui.c:599
 msgid "Maximum number of toplevel windows reached."
 msgstr "Nombre maximal de fenêtres \"toplevel\" atteint."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1192 src/arch/unix/x11/gnome/x11ui.c:1275
+#: src/arch/unix/x11/gnome/x11ui.c:1194 src/arch/unix/x11/gnome/x11ui.c:1277
 msgid "Commands"
 msgstr "Commandes"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1198
+#: src/arch/unix/x11/gnome/x11ui.c:1200
 msgid "Help"
 msgstr "Aide"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1318 src/arch/unix/x11/xaw/x11ui.c:1022
+#: src/arch/unix/x11/gnome/x11ui.c:1320 src/arch/unix/x11/xaw/x11ui.c:1024
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1325 src/arch/unix/x11/xaw/x11ui.c:1026
+#: src/arch/unix/x11/gnome/x11ui.c:1327 src/arch/unix/x11/xaw/x11ui.c:1028
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1332 src/arch/unix/x11/xaw/x11ui.c:1034
+#: src/arch/unix/x11/gnome/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1036
 msgid "Save the current settings?"
 msgstr "Enregistrer les paramètres courants?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1377 src/arch/unix/x11/xaw/x11ui.c:1075
+#: src/arch/unix/x11/gnome/x11ui.c:1379 src/arch/unix/x11/xaw/x11ui.c:1077
 msgid "Using private colormap."
 msgstr "Utilisation d'un \"colormap\" privé."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1397 src/arch/unix/x11/gnome/x11ui.c:1400
-#: src/arch/unix/x11/xaw/x11ui.c:1096 src/arch/unix/x11/xaw/x11ui.c:1102
+#: src/arch/unix/x11/gnome/x11ui.c:1399 src/arch/unix/x11/gnome/x11ui.c:1402
+#: src/arch/unix/x11/xaw/x11ui.c:1098 src/arch/unix/x11/xaw/x11ui.c:1104
 msgid "(warp)"
 msgstr "(Turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1684
+#: src/arch/unix/x11/gnome/x11ui.c:1686
 #, c-format
 msgid "Tape %03d"
 msgstr "Datassette %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1736 src/arch/unix/x11/xaw/x11ui.c:1323
+#: src/arch/unix/x11/gnome/x11ui.c:1738 src/arch/unix/x11/xaw/x11ui.c:1325
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausé)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1890
+#: src/arch/unix/x11/gnome/x11ui.c:1892
 msgid "VICE Message"
 msgstr "Message VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1901
+#: src/arch/unix/x11/gnome/x11ui.c:1903
 msgid "VICE Error"
 msgstr "Erreur VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1927
+#: src/arch/unix/x11/gnome/x11ui.c:1929
 msgid "Hard Reset"
 msgstr "Mettre hors tension, puis sous tension (OFF, ON)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1928
+#: src/arch/unix/x11/gnome/x11ui.c:1930
 msgid "Monitor"
 msgstr "Moniteur"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1972 src/arch/unix/x11/xaw/x11ui.c:1601
+#: src/arch/unix/x11/gnome/x11ui.c:1974 src/arch/unix/x11/xaw/x11ui.c:1603
 msgid "Extend disk image"
 msgstr "Étendre l'image de disque"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1973
+#: src/arch/unix/x11/gnome/x11ui.c:1975
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Désirez vous étendre l'image de disque à 40 pistes?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1986
+#: src/arch/unix/x11/gnome/x11ui.c:1988
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Démarrage automatique impossible pour le lecteur #%d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1994 src/arch/unix/x11/gnome/x11ui.c:2003
+#: src/arch/unix/x11/gnome/x11ui.c:1996 src/arch/unix/x11/gnome/x11ui.c:2005
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Impossible de démarrer automatiquement la sélection %d de l'image %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2130 src/arch/unix/x11/gnome/x11ui.c:2135
+#: src/arch/unix/x11/gnome/x11ui.c:2132 src/arch/unix/x11/gnome/x11ui.c:2137
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "AUCUN CONTENU D'IMAGE DISPONIBLE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2600
+#: src/arch/unix/x11/gnome/x11ui.c:2602
 msgid "Contents"
 msgstr "Contenu"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2647
+#: src/arch/unix/x11/gnome/x11ui.c:2649
 msgid "Attach write protected"
 msgstr "Protéger contre l'écriture"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2673
+#: src/arch/unix/x11/gnome/x11ui.c:2675
 msgid "Autostart"
 msgstr "Démarrage automatique"
 
@@ -3481,16 +3527,16 @@ msgstr "Enregistrer les ROMS présentement chargés:"
 msgid "Save snapshot"
 msgstr "Sauvegarder"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1188
+#: src/arch/unix/x11/xaw/x11ui.c:1190
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Piste %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1486
+#: src/arch/unix/x11/xaw/x11ui.c:1488
 msgid "VICE Error!"
 msgstr "Erreur VICE!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1669
+#: src/arch/unix/x11/xaw/x11ui.c:1671
 msgid "Unknown image type."
 msgstr "Type d'image inconnu."
 

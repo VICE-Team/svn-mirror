@@ -1,3 +1,36 @@
+2004-06-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.30.
+
+	* arch/unix/uiromset.c, arch/unix/uiromset.h, romset.c,
+	romset.h, arch/win32/res.h, arch/win32/res.rc,
+	arch/win32/uirom.c, machine.h, c64/c64romset.c,
+	c128/c128romset.c, vic20/vic20romset.c, pet/petromset.c,
+	plus4/plus4romset.c, cbm2/cbm2romset.c: More ROM set work.
+
+	* util.c, util.h (util_addline): New function.
+	(util_concat): Skip copy if list is empty.
+
+	* arch/unix/archdep.h, arch/win32/archdep.h,
+	arch/msdos/archdep.h, arch/riscos/archdep.h,
+	arch/os2/archdep.h, arch/beos/archdep.h: Added standard line
+	delimiter define.
+
+	* arch/unix/x11/xaw/x11ui.c, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/ui.c, arch/unix/ui.h (ui_common_init): New function.
+
+2004-06-14  Dag Lem  <resid@nimrod.no>
+
+	* sid/resid.cc (resid_state_write): Use defaults for
+	rate_period and exponential_counter_period in old snapshots.
+
+	* sid/sid-snapshot.c (sid_snapshot_read_module_extended):
+	Blank out sid_state before reading snapshot.
+
+2004-06-14  Dag Lem  <resid@nimrod.no>
+
+	* resid/: Compilation workaround for MSVC.
+
 2004-06-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.29.
