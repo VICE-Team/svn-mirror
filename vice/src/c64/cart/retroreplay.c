@@ -123,12 +123,16 @@ void REGPARM2 retroreplay_io1_store(ADDRESS addr, BYTE value)
                     switch (roml_bank & 3) {
                       case 0:
                         export_ram0[0x1e00 + (addr & 0xff)] = value;
+                        break;
                       case 1:
                         export_ram0[0x3e00 + (addr & 0xff)] = value;
+                        break;
                       case 2:
                         export_ram0[0x5e00 + (addr & 0xff)] = value;
+                        break;
                       case 3:
                         export_ram0[0x7e00 + (addr & 0xff)] = value;
+                        break;
                     }
                 } else {
                     export_ram0[0x1e00 + (addr & 0xff)] = value;
@@ -194,12 +198,16 @@ void REGPARM2 retroreplay_io2_store(ADDRESS addr, BYTE value)
                 switch (roml_bank & 3) {
                   case 0:
                     export_ram0[0x1f00 + (addr & 0xff)] = value;
+                    break;
                   case 1:
                     export_ram0[0x3f00 + (addr & 0xff)] = value;
+                    break;
                   case 2:
                     export_ram0[0x5f00 + (addr & 0xff)] = value;
+                    break;
                   case 3:
                     export_ram0[0x7f00 + (addr & 0xff)] = value;
+                    break;
                 }
             } else {
                 export_ram0[0x1f00 + (addr & 0xff)] = value;
@@ -237,12 +245,16 @@ void REGPARM2 retroreplay_roml_store(ADDRESS addr, BYTE value)
             switch (roml_bank & 3) {
               case 0:
                 export_ram0[addr & 0x1fff] = value;
+                break;
               case 1:
                 export_ram0[(addr & 0x1fff) + 0x2000] = value;
+                break;
               case 2:
                 export_ram0[(addr & 0x1fff) + 0x4000] = value;
+                break;
               case 3:
                 export_ram0[(addr & 0x1fff) + 0x6000] = value;
+                break;
             }
         } else {
             export_ram0[addr & 0x1fff] = value;
