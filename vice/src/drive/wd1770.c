@@ -470,7 +470,7 @@ void wd1770_handle_job_code(unsigned int dnr)
             if (dnr == 0)
                 drive_store(&drive0_context, (ADDRESS) (2 + buffer), rcode);
             else
-                drive_store(&drive0_context, (ADDRESS) (2 + buffer), rcode);
+                drive_store(&drive1_context, (ADDRESS) (2 + buffer), rcode);
         }
     }
 }
