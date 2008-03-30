@@ -18,5 +18,7 @@ libc128_a_SOURCES = \
 	c128cpu.c \
 	c128iec.c \
 	c128mem.c \
-	c128mem.h
+	c128mem.h \
+	c128mmu.c \
+	c128mmu.h
 
