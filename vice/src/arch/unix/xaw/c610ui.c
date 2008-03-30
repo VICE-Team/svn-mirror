@@ -118,10 +118,12 @@ static ui_menu_entry_t c610_keybd_submenu[] = {
 
 #endif
 
+UI_MENU_DEFINE_TOGGLE(Ram08)
 UI_MENU_DEFINE_TOGGLE(Ram1)
 UI_MENU_DEFINE_TOGGLE(Ram2)
 UI_MENU_DEFINE_TOGGLE(Ram4)
 UI_MENU_DEFINE_TOGGLE(Ram6)
+UI_MENU_DEFINE_TOGGLE(RamC)
 
 static ui_menu_entry_t model_settings_submenu[] = {
     { "Model defaults",
@@ -130,7 +132,9 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { "Memory size",
       NULL, NULL, c610_memsize_submenu },
     { "--" },
-    { "*Bank 15 $1*** RAM",
+    { "*Bank 15 $0800-$0FFF RAM",
+      (ui_callback_t) toggle_Ram08, NULL, NULL },
+    { "*Bank 15 $1000-$1FFF RAM",
       (ui_callback_t) toggle_Ram1, NULL, NULL },
     { "*Bank 15 $2000-$3FFF RAM",
       (ui_callback_t) toggle_Ram2, NULL, NULL },
@@ -138,6 +142,8 @@ static ui_menu_entry_t model_settings_submenu[] = {
       (ui_callback_t) toggle_Ram4, NULL, NULL },
     { "*Bank 15 $6000-$7FFF RAM",
       (ui_callback_t) toggle_Ram6, NULL, NULL },
+    { "*Bank 15 $C000-$CFFF RAM",
+      (ui_callback_t) toggle_RamC, NULL, NULL },
 #if 0
     { "--" },
     { "Keyboard type",
@@ -203,6 +209,8 @@ int c610_ui_init(void)
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
                                     ui_directory_commands_menu,
+                                    ui_menu_separator,
+                                    ui_snapshot_commands_menu,
                                     ui_menu_separator,
                                     ui_tool_commands_menu,
                                     ui_menu_separator,

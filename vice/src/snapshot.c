@@ -289,6 +289,8 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
     unsigned int name_len = strlen(name);
     off_t start_pos;
 
+    /* printf("snapshot_module_open(%s)\n", name); */
+
     if (fseek(s->file, s->first_module_offset, SEEK_SET) < 0)
         return NULL;
 
@@ -322,6 +324,8 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
     return m;
 
 fail:
+    /* printf("-> failed!\n"); */
+
     fseek(s->file, s->first_module_offset, SEEK_SET);
     free(m);
     return NULL;

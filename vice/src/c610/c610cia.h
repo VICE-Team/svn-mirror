@@ -42,6 +42,8 @@ extern int int_cia1tod(long offset);
 extern void cia1_prevent_clk_overflow(CLOCK sub);
 extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);
+extern int cia1_write_snapshot_module(snapshot_t *p);
+extern int cia1_read_snapshot_module(snapshot_t *p);
 
 void cia1_set_ieee_dir(int);
 

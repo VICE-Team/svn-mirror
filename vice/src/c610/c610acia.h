@@ -20,4 +20,7 @@ extern int int_acia1(long offset);
 extern int acia1_init_cmdline_options(void);
 extern int acia1_init_resources(void);
 
+extern int acia1_write_snapshot_module(snapshot_t *p);
+extern int acia1_read_snapshot_module(snapshot_t *p);
+
 

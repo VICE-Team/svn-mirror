@@ -120,4 +120,7 @@ extern void crtc_set_char(int crom);
 extern int crtc_offscreen(void);
 extern void crtc_screen_enable(int);
 
+extern int crtc_write_snapshot_module(snapshot_t *p);
+extern int crtc_read_snapshot_module(snapshot_t *p);
+
 #endif				/* _CRTC_H */

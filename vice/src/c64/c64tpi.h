@@ -32,4 +32,7 @@ extern void store_tpi(ADDRESS addr, BYTE byte);
 extern BYTE read_tpi(ADDRESS addr);
 extern BYTE peek_tpi(ADDRESS addr);
 
+extern int tpi_write_snapshot_module(snapshot_t *p);
+extern int tpi_read_snapshot_module(snapshot_t *p);
+
 #endif /* _C64TPI_H */

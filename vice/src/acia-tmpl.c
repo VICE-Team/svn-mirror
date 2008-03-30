@@ -18,6 +18,7 @@
 #include "types.h"
 #include "vmachine.h"
 #include "interrupt.h"
+#include "snapshot.h"
 #include "rs232.h"
 #include "acia.h"
 
@@ -167,14 +168,15 @@ void reset_myacia(void) {
  * DWORD	TICKS	ticks till the next TDR empty interrupt
  */
 
+static const char module_name[] = "MYACIA";
+
 /* FIXME!!!  Error check.  */
 /* FIXME!!!  If no connection, emulate carrier lost or so */
 int myacia_write_snapshot_module(snapshot_t * p)
 {
     snapshot_module_t *m;
-    int byte;
 
-    m = snapshot_module_create(p, "MYACIA",
+    m = snapshot_module_create(p, module_name,
                                ACIA_DUMP_VER_MAJOR, ACIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
@@ -195,17 +197,19 @@ int myacia_write_snapshot_module(snapshot_t * p)
 
 int myacia_read_snapshot_module(snapshot_t * p)
 {
-    char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
     BYTE byte;
     DWORD dword;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    mycpu_unset_alarm(A_MYACIA);   /* just in case we don't find module */
+    set_int_noclk(&mycpu_int_status, I_MYACIA, 0);
+
+    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
-    if (strcmp(name, "MYACIA") || vmajor != ACIA_DUMP_VER_MAJOR) {
+    if (vmajor != ACIA_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
         return -1;
     }

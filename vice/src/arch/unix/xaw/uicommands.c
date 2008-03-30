@@ -432,6 +432,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 
     if (machine_read_snapshot(filename) < 0)
         ui_error("Cannot load snapshot file\n`%s'", filename);
+    ui_update_menus();
 }
 
 static UI_CALLBACK(load_snapshot)
