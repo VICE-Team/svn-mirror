@@ -404,6 +404,7 @@ static TUI_MENU_CALLBACK(sound_oversample_submenu_callback)
         return "None";
 }
 
+#ifdef USE_MIDAS_SOUND
 static tui_menu_item_def_t sample_rate_submenu[] = {
     { "8000 Hz",
       "Set sampling rate to 8000 Hz",
@@ -423,6 +424,27 @@ static tui_menu_item_def_t sample_rate_submenu[] = {
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
+#else
+static tui_menu_item_def_t sample_rate_submenu[] = {
+    { "11906 Hz",
+      "Set sampling rate to 11906 Hz",
+      radio_SoundSampleRate_callback, (void *) 11906, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "16129 Hz",
+      "Set sampling rate to 16129 Hz",
+      radio_SoundSampleRate_callback, (void *) 16129, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "22727 Hz",
+      "Set sampling rate to 22727 Hz",
+      radio_SoundSampleRate_callback, (void *) 22727, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "45454 Hz",
+      "Set sampling rate to 45454 Hz",
+      radio_SoundSampleRate_callback, (void *) 45454, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+#endif
 
 static tui_menu_item_def_t sound_buffer_size_submenu[] = {
     { "50 msec",
@@ -1029,7 +1051,7 @@ tui_menu_item_def_t fsdevice_submenu[] = {
     { NULL }
 };
 
-TUI_MENU_DEFINE_TOGGLE(NoTraps);
+TUI_MENU_DEFINE_TOGGLE(NoTraps)
 
 /* ------------------------------------------------------------------------- */
 
@@ -1074,6 +1096,8 @@ static TUI_MENU_CALLBACK(speed_callback)
     return NULL;
 }
 
+TUI_MENU_DEFINE_TOGGLE(WarpMode)
+
 static void create_special_submenu(int has_serial_traps)
 {
     static tui_menu_t speed_submenu;
@@ -1115,6 +1139,11 @@ static void create_special_submenu(int has_serial_traps)
 			 speed_submenu, speed_submenu_callback,
 			 NULL, 5);
 
+    tui_menu_add_item(ui_special_submenu, "Enable _Warp Mode:",
+                      "Make the emulator run as fast as possible skipping lots of frames",
+                      toggle_WarpMode_callback, NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
+
     /* File system access.  */
     {
 	tui_menu_t tmp = tui_menu_create("MS-DOS Directory Access", 1);
@@ -1128,7 +1157,7 @@ static void create_special_submenu(int has_serial_traps)
     }
 
     if (has_serial_traps)
-        tui_menu_add_item(ui_special_submenu, "Disable Kernal _Traps",
+        tui_menu_add_item(ui_special_submenu, "Disable Kernal _Traps:",
                           "Disable the Kernal ROM patches used by tape and fast drive emulation",
                           toggle_NoTraps_callback, NULL, 4,
                           TUI_MENU_BEH_CONTINUE);

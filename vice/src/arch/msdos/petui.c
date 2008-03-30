@@ -317,7 +317,7 @@ static tui_menu_item_def_t special_menu_items[] = {
       toggle_EmuID_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
-    { "Choose _PET Model...",
+    { "Change _PET Model...",
       "Set options according to a specific PET model; THIS WILL RESET THE MACHINE",
       NULL, NULL, 0,
       TUI_MENU_BEH_CONTINUE, pet_model_items, "Change PET Model" },
