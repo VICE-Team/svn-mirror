@@ -174,8 +174,8 @@ static int log_archdep(const char *logtxt, const char *fmt, va_list ap)
     return rc;
 }
 
-static int log_helper(log_t log, unsigned int level,
-                      const char *format, va_list ap)
+static int log_helper(log_t log, unsigned int level, const char *format,
+                      va_list ap)
 {
     static const char *level_strings[3] = {
         "",
