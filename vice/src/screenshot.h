@@ -79,8 +79,6 @@ typedef struct screenshot_s {
 extern int screenshot_init(void);
 
 extern int screenshot_save(const char *drvname, const char *filename,
-                           unsigned int window_number);
-extern int screenshot_canvas_save(const char *drvname, const char *filename,
-                                  struct video_canvas_s *canvas);
+                           struct video_canvas_s *canvas);
 #endif
 

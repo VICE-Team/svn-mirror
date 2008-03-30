@@ -291,8 +291,8 @@ void validate_mode(int *device, int *width, int *height, int *bitdepth,
         while (mode != NULL) {
             if ((mode->devicenumber == *device)
                 && (mode->bitdepth == *bitdepth)) {
-                *width=mode->width;
-                *height=mode->height;
+                *width = mode->width;
+                *height = mode->height;
                 break;
             }
             mode = mode->next;
@@ -330,7 +330,7 @@ int fullscreen_width = 0;
 int fullscreen_height = 0;
 int fullscreen_refreshrate = 0;
 
-int GetIndexFromList (ValueList *list, int value)
+int GetIndexFromList(ValueList *list, int value)
 {
     ValueList *search;
     int pos;
@@ -346,7 +346,7 @@ int GetIndexFromList (ValueList *list, int value)
     return -1;
 }
 
-int GetValueFromList (ValueList * list, int index)
+int GetValueFromList(ValueList * list, int index)
 {
     ValueList *search;
     int pos;
@@ -362,7 +362,7 @@ int GetValueFromList (ValueList * list, int index)
     return 0;
 }
 
-void InsertInto (ValueList **list, ValueList *value)
+void InsertInto(ValueList **list, ValueList *value)
 {
     ValueList *after;
     ValueList *before;
@@ -391,7 +391,7 @@ void InsertInto (ValueList **list, ValueList *value)
     }
 }
 
-void DestroyList (ValueList **list)
+void DestroyList(ValueList **list)
 {
     ValueList *value;
     ValueList *value2;
@@ -689,7 +689,7 @@ void SwitchToFullscreenMode(HWND hwnd)
     GetCurrentModeParameters(&fullscreen_width, &fullscreen_height, &bitdepth,
                              &refreshrate);
     //  Get the Canvas for this window
-    c = canvas_find_canvas_for_hwnd(hwnd);
+    c = video_canvas_for_hwnd(hwnd);
 
     memset(&desc2, 0, sizeof(desc2));
     desc2.dwSize = sizeof(desc2);
@@ -818,7 +818,6 @@ void SwitchToFullscreenMode(HWND hwnd)
     fullscreen_active = 1;
 
     fullscreen_transition = 0;
-
 }
 
 void SwitchToWindowedMode(HWND hwnd)
@@ -832,7 +831,7 @@ void SwitchToWindowedMode(HWND hwnd)
     fullscreen_transition = 1;
 
     //  Get the Canvas for this window
-    c=canvas_find_canvas_for_hwnd(hwnd);
+    c = video_canvas_for_hwnd(hwnd);
 
     IDirectDrawSurface_Release(c->temporary_surface);
     IDirectDrawSurface_Release(c->primary_surface);
@@ -841,7 +840,6 @@ void SwitchToWindowedMode(HWND hwnd)
     IDirectDraw_RestoreDisplayMode(c->dd_object);
     IDirectDraw_Release(c->dd_object2);
     IDirectDraw_Release(c->dd_object);
-
 
     LockWindowUpdate(hwnd);
     SetWindowLong(hwnd, GWL_STYLE, old_style);

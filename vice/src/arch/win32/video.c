@@ -800,7 +800,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, const palette_t *p)
 
 char Region[2048];
 
-video_canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd)
+video_canvas_t *video_canvas_for_hwnd(HWND hwnd)
 {
     int i;
 
@@ -809,7 +809,8 @@ video_canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd)
             return video_canvases[i];
         }
     }
-    return 0;
+
+    return NULL;
 }
 
 static void clear(HDC hdc, int x1, int y1, int x2, int y2)
@@ -852,7 +853,7 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     int cut_rightline, cut_bottomline;
     unsigned int pixel_width, pixel_height;
 
-    c = canvas_find_canvas_for_hwnd(hwnd);
+    c = video_canvas_for_hwnd(hwnd);
 
     if (c == NULL)
         return;

@@ -4250,7 +4250,7 @@ void ui_trigger_snapshot_load(void)
 static int ui_make_screenshot(const char *name)
 {
   struct video_canvas_s *canvas = canvas_for_handle(LastHandle);
-  if ((canvas != NULL) && (screenshot_canvas_save("Sprite", name, canvas) == 0))
+  if ((canvas != NULL) && (screenshot_save("Sprite", name, canvas) == 0))
   {
     SetFileType(name, FileType_Sprite);
     return 0;

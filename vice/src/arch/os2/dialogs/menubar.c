@@ -56,7 +56,7 @@
 #include "cartridge.h"       // CARTRIDGE_*
 #include "resources.h"       // resource_value_t
 #include "interrupt.h"       // interrupt_interrupt_maincpu_trigger_trap
-#include "screenshot.h"      // screenshot_canvas_save
+#include "screenshot.h"      // screenshot_save
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
 
@@ -156,7 +156,7 @@ static void save_snapshot(ADDRESS addr, void *hwnd)
 void save_screenshot(HWND hwnd)
 {
     char *name = util_concat(archdep_boot_path(), "\\vice2.png", NULL);
-    if (!screenshot_canvas_save("PNG", name, (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)))
+    if (!screenshot_save("PNG", name, (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)))
         log_debug("Screenshot saved as '%s' successfully.", name);
     free(name);
 }

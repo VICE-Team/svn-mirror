@@ -78,7 +78,7 @@ const char *dd_error(HRESULT ddrval);
 extern int set_palette(video_canvas_t *c);
 extern int set_physical_colors(video_canvas_t *c);
 
-extern video_canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd);
+extern video_canvas_t *video_canvas_for_hwnd(HWND hwnd);
 
 extern void canvas_set_border_color(video_canvas_t *canvas, BYTE color);
 

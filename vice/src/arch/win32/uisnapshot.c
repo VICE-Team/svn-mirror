@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <windows.h>
 
@@ -43,6 +45,7 @@
 #include "uilib.h"
 #include "winmain.h"
 #include "utils.h"
+#include "videoarch.h"
 #include "vsync.h"
 
 
@@ -176,20 +179,14 @@ void ui_snapshot_load_dialog(HWND hwnd)
     }
 }
 
-extern HWND window_handles[2];
-
 void ui_screenshot_save_dialog(HWND hwnd)
 {
     char *s;
-    int window_id;
-    
-    for (window_id = 0; window_id < 2; window_id++) {
-        if (hwnd == window_handles[window_id])
-            break;
-    }
+
     s = ui_save_snapshot("Save screenshot image",
         "Picture files (*.bmp;*.png)\0*.bmp;*.png\0", hwnd,
         IDD_SCREENSHOT_SAVE_DIALOG);
+
     if (s != NULL) {
         gfxoutputdrv_t *selected_driver;
         selected_driver = gfxoutput_get_driver(screendrivername);
@@ -199,7 +196,8 @@ void ui_screenshot_save_dialog(HWND hwnd)
         }
         util_add_extension(&s, selected_driver->default_extension);
 
-        if (screenshot_save(selected_driver->name, s, window_id) < 0)
+        if (screenshot_save(selected_driver->name, s,
+            video_canvas_for_hwnd(hwnd)) < 0)
             ui_error("Cannot write screenshot file `%s'.", s);
         free(s);
     }

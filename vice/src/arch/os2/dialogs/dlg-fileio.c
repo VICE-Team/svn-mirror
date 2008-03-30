@@ -59,7 +59,7 @@
 #include "autostart.h"         // autostart_autodetect
 #include "cartridge.h"         // cartridge_attach_image
 #include "interrupt.h"         // interrupt_maincpu_trigger_trap
-#include "screenshot.h"        // screenshot_canvas_save
+#include "screenshot.h"        // screenshot_save
 #include "imagecontents.h"     // image_contents
 
 #include "dlg-fileio.h"
@@ -308,7 +308,7 @@ static int save_screenshot(trapaction_t *act)
     char drv[4];
     strupr(strcpy(drv, act->path+strlen(act->path)-3));
 
-    return screenshot_canvas_save(drv, act->path, canvas);
+    return screenshot_save(drv, act->path, canvas);
 }
 
 static void exec_func(ADDRESS addr, void *ptr)
