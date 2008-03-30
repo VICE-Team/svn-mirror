@@ -5,7 +5,8 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/c64
+	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/sid
 
 noinst_LIBRARIES = libc128.a
 

@@ -411,6 +411,7 @@ CLOCK mydrive_cpu_prevent_clk_overflow(CLOCK sub)
 	myvia2_prevent_clk_overflow(sub);
 	mycia1571_prevent_clk_overflow(sub);
 	mycia1581_prevent_clk_overflow(sub);
+	mywd1770_prevent_clk_overflow(sub);
     }
 
     /* Let the caller know what we have done.  */

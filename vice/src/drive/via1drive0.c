@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/via1drive0.c
- * This file is generated from ../../../src/via-tmpl.c and ../../../src/drive/via1drive0.def,
+ * ../../src/drive/via1drive0.c
+ * This file is generated from ../../src/via-tmpl.c and ../../src/drive/via1drive0.def,
  * Do not edit!
  */
 /*

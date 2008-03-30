@@ -1,7 +1,7 @@
 
 /*
- * ../../src/drive/drivecpu1.c
- * This file is generated from ../../src/drive/drivecpu-tmpl.c and ../../src/drive/drivecpu1.def,
+ * ../../../src/drive/drivecpu1.c
+ * This file is generated from ../../../src/drive/drivecpu-tmpl.c and ../../../src/drive/drivecpu1.def,
  * Do not edit!
  */
 /*
@@ -416,7 +416,8 @@ CLOCK drive1_cpu_prevent_clk_overflow(CLOCK sub)
 	via1d1_prevent_clk_overflow(sub);
 	via2d1_prevent_clk_overflow(sub);
 	cia1571d1_prevent_clk_overflow(sub);
-	cia1581d1_prevent_clk_overflow(sub);
+    cia1581d1_prevent_clk_overflow(sub);
+	wd1770d1_prevent_clk_overflow(sub);
     }
 
     /* Let the caller know what we have done.  */

@@ -12,7 +12,8 @@ INCLUDES = \
 	@RESID_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive
+	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/sid
 
 noinst_LIBRARIES = libc64.a libc64c128.a
 

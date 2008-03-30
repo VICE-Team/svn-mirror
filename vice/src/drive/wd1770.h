@@ -29,20 +29,39 @@
 
 #include "types.h"
 
-/* wd1770 register.  */
+/* WD1770 register.  */
 #define WD1770_STATUS  0
 #define WD1770_COMMAND 0
 #define WD1770_TRACK   1
 #define WD1770_SECTOR  2
 #define WD1770_DATA    3
 
-void REGPARM2 store_wd1770d0(ADDRESS addr, BYTE byte);
-BYTE REGPARM1 read_wd1770d0(ADDRESS addr);
-void reset_wd1770d0(void);
+typedef struct wd1770_s {
+    /* WD1770 register.  */
+    BYTE reg[4];
+    /* Busy bit clock counter.  */
+    CLOCK busy_clk;
+    /* Clock counter to control motor spinup.  */
+    CLOCK motor_spinup_clk;
+    /* Current track of the r/w head.  */
+    int current_track;
+    /* Current disk side.  */
+    int side;
+    /* Data register buffer.  */
+    BYTE data_buffer[512];
+    /* Data register buffer index.  */
+    int data_buffer_index;
+} wd1770_t;
 
-void REGPARM2 store_wd1770d1(ADDRESS addr, BYTE byte);
-BYTE REGPARM1 read_wd1770d1(ADDRESS addr);
-void reset_wd1770d1(void);
+extern void REGPARM2 store_wd1770d0(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 read_wd1770d0(ADDRESS addr);
+extern void reset_wd1770d0(void);
+extern void wd1770d0_prevent_clk_overflow(CLOCK sub);
+
+extern void REGPARM2 store_wd1770d1(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 read_wd1770d1(ADDRESS addr);
+extern void reset_wd1770d1(void);
+extern void wd1770d1_prevent_clk_overflow(CLOCK sub);
 
 #endif                          /* _WD1770_H */
 

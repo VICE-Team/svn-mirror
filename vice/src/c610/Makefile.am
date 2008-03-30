@@ -3,7 +3,8 @@ SUFFIXES = .def
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/sid
 
 noinst_LIBRARIES = libc610.a
 
@@ -14,6 +15,7 @@ libc610_a_SOURCES = \
 	c610.h \
 	c610acia.h \
 	c610acia1.c \
+	c610acia1.def \
 	c610cia.h \
 	c610cia1.c \
 	c610cia1.def \
