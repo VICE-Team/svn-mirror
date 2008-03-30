@@ -35,6 +35,7 @@
 #include "c128ui.h"
 #include "res.h"
 #include "ui.h"
+#include "uiacia.h"
 #include "uic128.h"
 #include "uic64cart.h"
 #include "uidrivec128.h"
@@ -190,6 +191,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_DRIVE_SETTINGS:
         uidrivec128_settings_dialog(hwnd);
+        break;
+      case IDM_ACIA_SETTINGS:
+        ui_acia_settings_dialog(hwnd, 1, NULL, 1);
         break;
      }
 }

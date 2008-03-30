@@ -33,6 +33,7 @@
 #include "petui.h"
 #include "res.h"
 #include "ui.h"
+#include "uiacia.h"
 #include "uidrivepetcbm2.h"
 #include "uipetset.h"
 #include "uirom.h"
@@ -110,6 +111,9 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_DRIVE_SETTINGS:
         uidrivepetcbm2_settings_dialog(hwnd);
+        break;
+      case IDM_ACIA_SETTINGS:
+        ui_acia_settings_dialog(hwnd, 0, NULL, 0);
         break;
     }
 }

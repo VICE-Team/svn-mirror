@@ -111,7 +111,7 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
     const int *hadr;
     HWND sid_hwnd = GetDlgItem(hwnd, IDC_SID_STEREOADDRESS);
     int cursel = SendMessage(GetDlgItem
-                (hwnd,IDC_SID_STEREOADDRESS),CB_GETCURSEL, 0, 0);
+                 (hwnd, IDC_SID_STEREOADDRESS), CB_GETCURSEL, 0, 0);
 
     resources_get_value("SidStereoAddressStart", (void *)&res_value);
 

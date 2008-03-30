@@ -35,6 +35,7 @@
 #include "res.h"
 #include "resources.h"
 #include "ui.h"
+#include "uiacia.h"
 #include "uiplus4cart.h"
 #include "uidriveplus4.h"
 #include "uilib.h"
@@ -115,6 +116,9 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_DRIVE_SETTINGS:
         uidriveplus4_settings_dialog(hwnd);
+        break;
+      case IDM_ACIA_SETTINGS:
+        ui_acia_settings_dialog(hwnd, 0, NULL, 0);
         break;
     }
 }
