@@ -78,8 +78,6 @@
  * disk geometry.
  */
 
-#define DEFAULT_DEVICE_TYPE	DT_1541
-
 #define NUM_TRACKS_1541        35
 #define NUM_BLOCKS_1541	       683	/* 664 free */
 #define EXT_TRACKS_1541        40
