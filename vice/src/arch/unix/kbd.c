@@ -74,7 +74,7 @@ static KeySym key_ctrl_restore2 = NoSymbol;
 
 /* Joystick status */
 
-BYTE joy[3] = { 0, 0, 0 };
+BYTE joystick_value[3] = { 0, 0, 0 };
 
 static keyconv joykeys  [2][10];
 static int joypad_status[2][10];
@@ -203,10 +203,10 @@ static int check_set_joykeys(KeySym key, int joynum)
     for (column = 0; column < 10; column++) {
         if (key == joykeys[joynum][column].sym) {
             if (joypad_bits[column]) {
-                joy[joyport] |= joypad_bits[column];
+                joystick_value[joyport] |= joypad_bits[column];
                 joypad_status[joynum][column]=1;
             } else {
-                joy[joyport] = 0;
+                joystick_value[joyport] = 0;
                 memset(joypad_status[joynum], 0, sizeof(joypad_status[joynum]));
             }
 #ifdef DEBUG_JOY
@@ -235,7 +235,8 @@ static int check_clr_joykeys(KeySym key, int joynum)
 
     for (column = 0; column < 10; column++) {
         if (key == joykeys[joynum][column].sym) {
-            joy[joyport] &= joyreleaseval(column, joypad_status[joynum]);
+            joystick_value[joyport] &= joyreleaseval(column,
+                                                     joypad_status[joynum]);
             joypad_status[joynum][column] = 0;
             return 1;
         }
@@ -401,7 +402,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	/* Clean up. */
 	memset(keyarr, 0, sizeof(keyarr));
 	memset(rev_keyarr, 0, sizeof(rev_keyarr));
-	memset(joy, 0, sizeof(joy));
+	memset(joystick_value, 0, sizeof(joystick_value));
 	virtual_shift_down = left_shift_down = right_shift_down = 0;
 	memset(joypad_status, 0, sizeof(joypad_status));
         meta_count = 0;
