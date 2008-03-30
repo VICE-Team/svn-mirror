@@ -1,3 +1,31 @@
+Fri Aug 28 11:40:06 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.73.
+
+	* arch/msdos/ui.c (ui_extend_image_dialog): Implemented, using
+ 	`tui_ask_confirmation()'.
+
+	* arch/msdos/tui.c (tui_ask): New function.
+
+	* 6510core.c (BRANCH): Do not increment PC before using `value'.
+
+	* sounddrv/soundsb.c (interrupt_function): When underflowing,
+ 	repeat the last sample instead of playing zeros.
+
+	* arch/msdos/vsync.c (my_timer_callback): Removed check for
+ 	`timer_patch' > 0.
+	(do_vsync): Moved here.
+
+Thu Aug 27 23:01:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* main.c (MAIN_PROGRAM) [__MSDOS__]: Do not print the boot path
+	debugging message anymore.
+
+Thu Aug 27 16:59:43 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* c64/sid.c (sid_reset): Oooops.  Use sound_store() instead of
+ 	store_sid().  Zero the siddata -array.
+
 Thu Aug 27 18:51:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.72.
