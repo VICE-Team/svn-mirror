@@ -316,8 +316,8 @@ int vic20_ui_init(void)
         Pixmap icon_pixmap;
 
         /* Create the icon pixmap. */
-        XpmCreatePixmapFromData(display, DefaultRootWindow(display), icon_data,
-                                &icon_pixmap, NULL, NULL);
+        XpmCreatePixmapFromData(display, DefaultRootWindow(display),
+                                (char **) icon_data, &icon_pixmap, NULL, NULL);
         ui_set_application_icon(icon_pixmap);
     }
 #endif

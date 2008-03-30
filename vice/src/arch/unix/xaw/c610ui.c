@@ -36,10 +36,11 @@
 #include "uisettings.h"
 #include "joystick.h"
 #include "c610mem.h"
+#include "vsync.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
-#include "c64icon.xpm"
+#include "c610icon.xpm"
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -328,8 +329,8 @@ int c610_ui_init(void)
         Pixmap icon_pixmap;
 
         /* Create the icon pixmap. */
-        XpmCreatePixmapFromData(display, DefaultRootWindow(display), icon_data,
-                                &icon_pixmap, NULL, NULL);
+        XpmCreatePixmapFromData(display, DefaultRootWindow(display),
+                                (char **) icon_data, &icon_pixmap, NULL, NULL);
         ui_set_application_icon(icon_pixmap);
     }
 #endif

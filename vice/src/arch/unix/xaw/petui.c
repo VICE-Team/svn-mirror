@@ -345,8 +345,11 @@ int pet_ui_init(void)
     {
         Pixmap icon_pixmap;
 
-        /* Create the icon pixmap. */
-        XpmCreatePixmapFromData(display, DefaultRootWindow(display), icon_data,
+        /* Create the icon pixmap.  The evil `char *' prototype is needed
+           because `XpmCreatePixmapFromData()' has a broken non-const-safe
+           prototype.  */
+        XpmCreatePixmapFromData(display, DefaultRootWindow(display),
+                                (char **) icon_data,
                                 &icon_pixmap, NULL, NULL);
         ui_set_application_icon(icon_pixmap);
     }

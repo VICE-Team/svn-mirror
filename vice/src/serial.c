@@ -102,13 +102,13 @@ static void (*attention_callback_func)(void);
 /* ------------------------------------------------------------------------- */
 
 /* Call this if device is not attached: -128 == device not present.  */
-static int fn()
+static int fn(void)
 {
     return (0x80);
 }
 
 /* Handle Serial Bus Commands under Attention.  */
-static int serialcommand()
+static int serialcommand(void)
 {
     serial_t *p;
     int channel;
@@ -543,7 +543,7 @@ int serial_init(const trap_t * trap_list)
 
 	p->getf = (int (*)(void *, BYTE *, int)) fn;
 	p->putf = (int (*)(void *, BYTE, int)) fn;
-	p->openf = (int (*)(void *, char *, int, int)) fn;
+	p->openf = (int (*)(void *, const char *, int, int)) fn;
 	p->closef = (int (*)(void *, int)) fn;
 	p->flushf = (void (*)(void *, int)) NULL;
     }
@@ -575,10 +575,10 @@ int serial_remove_traps(void)
     return 0;
 }
 
-int serial_attach_device(int device, char *var, char *name,
+int serial_attach_device(int device, char *var, const char *name,
 			 int (*getf) (void *, BYTE *, int),
 			 int (*putf) (void *, BYTE, int),
-			 int (*openf) (void *, char *, int, int),
+			 int (*openf) (void *, const char *, int, int),
 			 int (*closef) (void *, int),
 			 void (*flushf) (void *, int))
 {

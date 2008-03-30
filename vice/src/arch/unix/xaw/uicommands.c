@@ -47,9 +47,11 @@
 #include "info.h"
 #include "interrupt.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
 #include "resources.h"
+#include "sound.h"
 #include "tape.h"
 #include "uisnapshot.h"
 #include "utils.h"
@@ -218,12 +220,17 @@ static UI_CALLBACK(activate_monitor)
     suspend_speed_eval();
     ui_dispatch_events();		/* popdown the menu */
     ui_autorepeat_on();
-    maincpu_trigger_trap(mon_trap, (void *) 0);
+
+    if (!ui_emulation_is_paused())
+        maincpu_trigger_trap(mon_trap, (void *) 0);
+    else
+        mon_trap(MOS6510_REGS_GET_PC(&maincpu_regs), 0);
 }
 
 static UI_CALLBACK(run_c1541)
 {
     suspend_speed_eval();
+    sound_close();
     switch (system("xterm -sb -e c1541 &")) {
       case 127:
 	ui_error("Couldn't run /bin/sh???");
@@ -316,32 +323,25 @@ static UI_CALLBACK(browse_manual)
     }
 }
 
-static UI_CALLBACK(toggle_pause)
-{
-    static int paused;
-
-    if (paused) {
-	if (call_data == NULL) {
-	    ui_display_paused(0);
-	    paused = 0;
-	}
-    } else {			/* !paused */
-	if (call_data == NULL) {
-	    paused = 1;
-	    ui_menu_set_tick(w, 1);
-	    ui_display_paused(1);
-	    suspend_speed_eval();
-	    while (paused)
-		ui_dispatch_next_event();
-	}
-    }
-
-    ui_menu_set_tick(w, paused);
-}
-
 static UI_CALLBACK(do_exit)
 {
     ui_exit();
+}
+
+/* ------------------------------------------------------------------------- */
+
+static UI_CALLBACK(toggle_pause)
+{
+    if (call_data == NULL) {
+        if (ui_emulation_is_paused()) {
+            ui_pause_emulation(0);
+        } else {			/* !paused */
+            ui_menu_set_tick(w, 1);
+            ui_pause_emulation(1);
+        }
+    }
+
+    ui_menu_set_tick(w, ui_emulation_is_paused());
 }
 
 /* ------------------------------------------------------------------------- */
@@ -475,7 +475,10 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 
 static UI_CALLBACK(load_snapshot)
 {
-    maincpu_trigger_trap(load_snapshot_trap, (void *) 0);
+    if (!ui_emulation_is_paused())
+        maincpu_trigger_trap(load_snapshot_trap, (void *) 0);
+    else
+        load_snapshot_trap(0, 0);
 }
 
 static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)

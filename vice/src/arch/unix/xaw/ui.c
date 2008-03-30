@@ -4,7 +4,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat    (fachat@physik.tu-chemnitz.de)
+ *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
  * Support for multiple visuals and depths by
  *  Teemu Rantanen (tvr@cs.hut.fi)
@@ -67,6 +67,7 @@
 #include "cmdline.h"
 #include "log.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "uihotkey.h"
 #include "uimenu.h"
@@ -921,6 +922,7 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 	int nallocp;
 	PIXEL  *xpixel=malloc(sizeof(PIXEL)*palette->num_entries);
 	unsigned long *ypixel=malloc(sizeof(unsigned long)*n_allocated_pixels);
+
 #if X_DISPLAY_DEPTH == 0
         extern PIXEL  real_pixel1[];
         extern PIXEL2 real_pixel2[];
@@ -940,6 +942,7 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 	memcpy(my_real_pixel4, real_pixel4, sizeof(my_real_pixel4));
 	memcpy(my_shade_table, shade_table, sizeof(my_shade_table));
 #endif
+
 	/* save the list of already allocated X pixel values */
 	nallocp = n_allocated_pixels;
 	memcpy(ypixel, allocated_pixels, sizeof(unsigned long)*nallocp);
@@ -1098,7 +1101,7 @@ void ui_resize_canvas_window(ui_window_t w, int width, int height)
     /* Ok, form widgets are stupid animals; in a perfect world, I should be
        allowed to resize the canvas and let the Form do the rest.  Unluckily,
        this does not happen, so let's do things the dirty way then.  This
-       code sucks badly.  */
+       sucks badly.  */
 
     XtVaGetValues((Widget)w, XtNwidth, &canvas_width, XtNheight,
 		  &canvas_height, NULL);
@@ -1715,3 +1718,30 @@ static void close_action(Widget w, XEvent * event, String * params,
     ui_exit();
 }
 
+/* ------------------------------------------------------------------------- */
+
+static int is_paused = 0;
+
+static void pause_trap(ADDRESS addr, void *data)
+{
+    ui_display_paused(1);
+    is_paused = 1;
+    suspend_speed_eval();
+    while (is_paused)
+        ui_dispatch_next_event();
+}
+
+void ui_pause_emulation(int flag)
+{
+    if (flag) {
+        maincpu_trigger_trap(pause_trap, 0);
+    } else {
+        ui_display_paused(0);
+        is_paused = 0;
+    }
+}
+
+int ui_emulation_is_paused(void)
+{
+    return is_paused;
+}
