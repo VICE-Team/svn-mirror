@@ -32,132 +32,132 @@
 #include "types.h"
 
 /* Screen constants.  */
-#define VIC_II_PAL_SCREEN_HEIGHT        312
-#define VIC_II_NTSC_SCREEN_HEIGHT       263
-#define VIC_II_NTSCOLD_SCREEN_HEIGHT    262
+#define VICII_PAL_SCREEN_HEIGHT     312
+#define VICII_NTSC_SCREEN_HEIGHT    263
+#define VICII_NTSCOLD_SCREEN_HEIGHT 262
 
-#define VIC_II_PAL_OFFSET                       0
-#define VIC_II_NTSC_OFFSET                      0
-#define VIC_II_NTSCOLD_OFFSET                   0
+#define VICII_PAL_OFFSET                   0
+#define VICII_NTSC_OFFSET                  0
+#define VICII_NTSCOLD_OFFSET               0
 
-#define VIC_II_SCREEN_XPIX                      320
-#define VIC_II_SCREEN_YPIX                      200
-#define VIC_II_SCREEN_TEXTCOLS                  40
-#define VIC_II_SCREEN_TEXTLINES                 25
-#define VIC_II_SCREEN_PAL_BORDERWIDTH           32
-#define VIC_II_SCREEN_PAL_BORDERHEIGHT          51
-#define VIC_II_SCREEN_NTSC_BORDERWIDTH          32
-#define VIC_II_SCREEN_NTSC_BORDERHEIGHT         27
-#define VIC_II_SCREEN_NTSCOLD_BORDERWIDTH       32
-#define VIC_II_SCREEN_NTSCOLD_BORDERHEIGHT      27
-#define VIC_II_SCREEN_CHARHEIGHT                8
+#define VICII_SCREEN_XPIX                  320
+#define VICII_SCREEN_YPIX                  200
+#define VICII_SCREEN_TEXTCOLS              40
+#define VICII_SCREEN_TEXTLINES             25
+#define VICII_SCREEN_PAL_BORDERWIDTH       32
+#define VICII_SCREEN_PAL_BORDERHEIGHT      51
+#define VICII_SCREEN_NTSC_BORDERWIDTH      32
+#define VICII_SCREEN_NTSC_BORDERHEIGHT     27
+#define VICII_SCREEN_NTSCOLD_BORDERWIDTH   32
+#define VICII_SCREEN_NTSCOLD_BORDERHEIGHT  27
+#define VICII_SCREEN_CHARHEIGHT            8
 
-#define VIC_II_PAL_FIRST_DISPLAYED_LINE         0x10
-#define VIC_II_PAL_LAST_DISPLAYED_LINE          0x11f
-#define VIC_II_PAL_25ROW_START_LINE             0x33
-#define VIC_II_PAL_25ROW_STOP_LINE              0xfb
-#define VIC_II_PAL_24ROW_START_LINE             0x37
-#define VIC_II_PAL_24ROW_STOP_LINE              0xf7
+#define VICII_PAL_FIRST_DISPLAYED_LINE     0x10
+#define VICII_PAL_LAST_DISPLAYED_LINE      0x11f
+#define VICII_PAL_25ROW_START_LINE         0x33
+#define VICII_PAL_25ROW_STOP_LINE          0xfb
+#define VICII_PAL_24ROW_START_LINE         0x37
+#define VICII_PAL_24ROW_STOP_LINE          0xf7
 
-#define VIC_II_NTSC_FIRST_DISPLAYED_LINE        (0x20 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_LAST_DISPLAYED_LINE         0x102
-#define VIC_II_NTSC_25ROW_START_LINE            (0x33 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_25ROW_STOP_LINE             (0xfb - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_24ROW_START_LINE            (0x37 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_24ROW_STOP_LINE             (0xf7 - VIC_II_NTSC_OFFSET)
+#define VICII_NTSC_FIRST_DISPLAYED_LINE    (0x20 - VICII_NTSC_OFFSET)
+#define VICII_NTSC_LAST_DISPLAYED_LINE     0x102
+#define VICII_NTSC_25ROW_START_LINE        (0x33 - VICII_NTSC_OFFSET)
+#define VICII_NTSC_25ROW_STOP_LINE         (0xfb - VICII_NTSC_OFFSET)
+#define VICII_NTSC_24ROW_START_LINE        (0x37 - VICII_NTSC_OFFSET)
+#define VICII_NTSC_24ROW_STOP_LINE         (0xf7 - VICII_NTSC_OFFSET)
 
-#define VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE     (0x20 - VIC_II_NTSCOLD_OFFSET)
-#define VIC_II_NTSCOLD_LAST_DISPLAYED_LINE      0x102
-#define VIC_II_NTSCOLD_25ROW_START_LINE         (0x33 - VIC_II_NTSCOLD_OFFSET)
-#define VIC_II_NTSCOLD_25ROW_STOP_LINE          (0xfb - VIC_II_NTSCOLD_OFFSET)
-#define VIC_II_NTSCOLD_24ROW_START_LINE         (0x37 - VIC_II_NTSCOLD_OFFSET)
-#define VIC_II_NTSCOLD_24ROW_STOP_LINE          (0xf7 - VIC_II_NTSCOLD_OFFSET)
+#define VICII_NTSCOLD_FIRST_DISPLAYED_LINE (0x20 - VICII_NTSCOLD_OFFSET)
+#define VICII_NTSCOLD_LAST_DISPLAYED_LINE  0x102
+#define VICII_NTSCOLD_25ROW_START_LINE     (0x33 - VICII_NTSCOLD_OFFSET)
+#define VICII_NTSCOLD_25ROW_STOP_LINE      (0xfb - VICII_NTSCOLD_OFFSET)
+#define VICII_NTSCOLD_24ROW_START_LINE     (0x37 - VICII_NTSCOLD_OFFSET)
+#define VICII_NTSCOLD_24ROW_STOP_LINE      (0xf7 - VICII_NTSCOLD_OFFSET)
 
-#define VIC_II_40COL_START_PIXEL                0x20
-#define VIC_II_40COL_STOP_PIXEL                 0x160
-#define VIC_II_38COL_START_PIXEL                0x27
-#define VIC_II_38COL_STOP_PIXEL                 0x157
+#define VICII_40COL_START_PIXEL 0x20
+#define VICII_40COL_STOP_PIXEL  0x160
+#define VICII_38COL_START_PIXEL 0x27
+#define VICII_38COL_STOP_PIXEL  0x157
 
-#define VIC_II_NUM_SPRITES              8
-#define VIC_II_MAX_SPRITE_WIDTH         48
-#define VIC_II_NUM_COLORS               16
+#define VICII_NUM_SPRITES      8
+#define VICII_MAX_SPRITE_WIDTH 48
+#define VICII_NUM_COLORS       16
 
-#define VIC_II_PAL_SPRITE_WRAP_X        504
-#define VIC_II_NTSC_SPRITE_WRAP_X       520
-#define VIC_II_NTSCOLD_SPRITE_WRAP_X    512
+#define VICII_PAL_SPRITE_WRAP_X     504
+#define VICII_NTSC_SPRITE_WRAP_X    520
+#define VICII_NTSCOLD_SPRITE_WRAP_X 512
 
 
 /* Available video modes.  The number is given by
-   ((vic_ii.regs[0x11] & 0x60) | (vic_ii.regs[0x16] & 0x10)) >> 4.  */
+   ((vicii.regs[0x11] & 0x60) | (vicii.regs[0x16] & 0x10)) >> 4.  */
 enum vicii_video_mode_s {
-    VIC_II_NORMAL_TEXT_MODE,
-    VIC_II_MULTICOLOR_TEXT_MODE,
-    VIC_II_HIRES_BITMAP_MODE,
-    VIC_II_MULTICOLOR_BITMAP_MODE,
-    VIC_II_EXTENDED_TEXT_MODE,
-    VIC_II_ILLEGAL_TEXT_MODE,
-    VIC_II_ILLEGAL_BITMAP_MODE_1,
-    VIC_II_ILLEGAL_BITMAP_MODE_2,
-    VIC_II_IDLE_MODE,           /* Special mode for idle state.  */
-    VIC_II_NUM_VMODES
+    VICII_NORMAL_TEXT_MODE,
+    VICII_MULTICOLOR_TEXT_MODE,
+    VICII_HIRES_BITMAP_MODE,
+    VICII_MULTICOLOR_BITMAP_MODE,
+    VICII_EXTENDED_TEXT_MODE,
+    VICII_ILLEGAL_TEXT_MODE,
+    VICII_ILLEGAL_BITMAP_MODE_1,
+    VICII_ILLEGAL_BITMAP_MODE_2,
+    VICII_IDLE_MODE,           /* Special mode for idle state.  */
+    VICII_NUM_VMODES
 };
 typedef enum vicii_video_mode_s vicii_video_mode_t;
 
-#define VIC_II_IS_ILLEGAL_MODE(x) ((x) >= VIC_II_ILLEGAL_TEXT_MODE \
-                                  && (x) != VIC_II_IDLE_MODE)
-#define VIC_II_IS_BITMAP_MODE(x)  ((x) & 0x02)
+#define VICII_IS_ILLEGAL_MODE(x) ((x) >= VICII_ILLEGAL_TEXT_MODE \
+                                 && (x) != VICII_IDLE_MODE)
+#define VICII_IS_BITMAP_MODE(x)  ((x) & 0x02)
 
-#define VIC_II_IS_TEXT_MODE(x)    ((x) == VIC_II_NORMAL_TEXT_MODE \
-                                  || (x) == VIC_II_MULTICOLOR_TEXT_MODE \
-                                  || (x) == VIC_II_EXTENDED_TEXT_MODE)
+#define VICII_IS_TEXT_MODE(x)    ((x) == VICII_NORMAL_TEXT_MODE \
+                                 || (x) == VICII_MULTICOLOR_TEXT_MODE \
+                                 || (x) == VICII_EXTENDED_TEXT_MODE)
 
 /* These timings are taken from the ``VIC Article'' by Christian Bauer
    <bauec002@goofy.zdv.uni-mainz.de>.  Thanks Christian!
    Note: we measure cycles from 0 to 62, not from 1 to 63 as he does.  */
 
 /* Cycle # at which the VIC takes the bus in a bad line (BA goes low).  */
-#define VIC_II_FETCH_CYCLE          11
+#define VICII_FETCH_CYCLE          11
 
 /* Delay for the raster line interrupt.  This is not due to the VIC-II, since
    it triggers the IRQ line at the beginning of the line, but to the 6510
    that needs at least 2 cycles to detect it.  */
-#define VIC_II_RASTER_IRQ_DELAY     2
+#define VICII_RASTER_IRQ_DELAY     2
 
-/* Current char being drawn by the raster.  < 0 or >= VIC_II_SCREEN_TEXTCOLS
+/* Current char being drawn by the raster.  < 0 or >= VICII_SCREEN_TEXTCOLS
    if outside the visible range.  */
-#define VIC_II_RASTER_CHAR(cycle)   ((int)(cycle) - 15)
+#define VICII_RASTER_CHAR(cycle)   ((int)(cycle) - 15)
 
 /* Current horizontal position (in pixels) of the raster.  < 0 or >=
    SCREEN_WIDTH if outside the visible range.  */
-#define VIC_II_RASTER_X(cycle)      (((int)(cycle) - 13) * 8)
+#define VICII_RASTER_X(cycle)      (((int)(cycle) - 13) * 8)
 
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending drawing event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
-#define VIC_II_RASTER_Y(clk)        ((unsigned int)((clk) \
-                                     / vic_ii.cycles_per_line) \
-                                     % vic_ii.screen_height)
+#define VICII_RASTER_Y(clk)        ((unsigned int)((clk) \
+                                   / vicii.cycles_per_line) \
+                                   % vicii.screen_height)
 
 /* Cycle # within the current line.  */
-#define VIC_II_RASTER_CYCLE(clk)    ((unsigned int)((clk) \
-                                    % vic_ii.cycles_per_line))
+#define VICII_RASTER_CYCLE(clk)    ((unsigned int)((clk) \
+                                   % vicii.cycles_per_line))
 
 /* `clk' value for the beginning of the current line.  */
-#define VIC_II_LINE_START_CLK(clk)  (((clk) / vic_ii.cycles_per_line) \
-                                     * vic_ii.cycles_per_line)
+#define VICII_LINE_START_CLK(clk)  (((clk) / vicii.cycles_per_line) \
+                                   * vicii.cycles_per_line)
 
 /* # of the previous and next raster line.  Handles wrap over.  */
-#define VIC_II_PREVIOUS_LINE(line)  (((line) > 0) \
-                                     ? (line) - 1 : vic_ii.screen_height - 1)
-#define VIC_II_NEXT_LINE(line)      (((line) + 1) % vic_ii.screen_height)
+#define VICII_PREVIOUS_LINE(line)  (((line) > 0) \
+                                   ? (line) - 1 : vicii.screen_height - 1)
+#define VICII_NEXT_LINE(line)      (((line) + 1) % vicii.screen_height)
 
 /* Bad line range.  */
-#define VIC_II_PAL_FIRST_DMA_LINE      0x30
-#define VIC_II_PAL_LAST_DMA_LINE       0xf7
-#define VIC_II_NTSC_FIRST_DMA_LINE     (0x30 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_LAST_DMA_LINE      0xf7
-#define VIC_II_NTSCOLD_FIRST_DMA_LINE  (0x30 - VIC_II_NTSCOLD_OFFSET)
-#define VIC_II_NTSCOLD_LAST_DMA_LINE   0xf7
+#define VICII_PAL_FIRST_DMA_LINE      0x30
+#define VICII_PAL_LAST_DMA_LINE       0xf7
+#define VICII_NTSC_FIRST_DMA_LINE     (0x30 - VICII_NTSC_OFFSET)
+#define VICII_NTSC_LAST_DMA_LINE      0xf7
+#define VICII_NTSCOLD_FIRST_DMA_LINE  (0x30 - VICII_NTSCOLD_OFFSET)
+#define VICII_NTSCOLD_LAST_DMA_LINE   0xf7
 
 /* VIC-II structures.  This is meant to be used by VIC-II modules
    *exclusively*!  */
@@ -169,9 +169,9 @@ struct vicii_light_pen_s {
 typedef struct vicii_light_pen_s vicii_light_pen_t;
 
 enum vicii_fetch_idx_s {
-    VIC_II_FETCH_MATRIX,
-    VIC_II_CHECK_SPRITE_DMA,
-    VIC_II_FETCH_SPRITE
+    VICII_FETCH_MATRIX,
+    VICII_CHECK_SPRITE_DMA,
+    VICII_FETCH_SPRITE
 };
 typedef enum vicii_fetch_idx_s vicii_fetch_idx_t;
 
@@ -239,8 +239,8 @@ struct vicii_s {
     int buf_offset;
 
     /* Screen memory buffers (chars and color).  */
-    BYTE vbuf[VIC_II_SCREEN_TEXTCOLS];
-    BYTE cbuf[VIC_II_SCREEN_TEXTCOLS];
+    BYTE vbuf[VICII_SCREEN_TEXTCOLS];
+    BYTE cbuf[VICII_SCREEN_TEXTCOLS];
 
     /* If this flag is set, bad lines (DMA's) can happen.  */
     int allow_bad_lines;
@@ -392,7 +392,7 @@ struct vicii_s {
 };
 typedef struct vicii_s vicii_t;
 
-extern vicii_t vic_ii;
+extern vicii_t vicii;
 
 /* Private function calls, used by the other VIC-II modules.  */
 extern void vicii_update_memory_ptrs(unsigned int cycle);
@@ -404,26 +404,26 @@ extern void vicii_delay_oldclk(CLOCK num);
 
 /* Debugging options.  */
 
-/* #define VIC_II_VMODE_DEBUG */
-/* #define VIC_II_RASTER_DEBUG */
-/* #define VIC_II_REGISTERS_DEBUG */
+/* #define VICII_VMODE_DEBUG */
+/* #define VICII_RASTER_DEBUG */
+/* #define VICII_REGISTERS_DEBUG */
 
-#ifdef VIC_II_VMODE_DEBUG
-#define VIC_II_DEBUG_VMODE(x) log_debug x
+#ifdef VICII_VMODE_DEBUG
+#define VICII_DEBUG_VMODE(x) log_debug x
 #else
-#define VIC_II_DEBUG_VMODE(x)
+#define VICII_DEBUG_VMODE(x)
 #endif
 
-#ifdef VIC_II_RASTER_DEBUG
-#define VIC_II_DEBUG_RASTER(x) log_debug x
+#ifdef VICII_RASTER_DEBUG
+#define VICII_DEBUG_RASTER(x) log_debug x
 #else
-#define VIC_II_DEBUG_RASTER(x)
+#define VICII_DEBUG_RASTER(x)
 #endif
 
-#ifdef VIC_II_REGISTERS_DEBUG
-#define VIC_II_DEBUG_REGISTER(x) log_debug x
+#ifdef VICII_REGISTERS_DEBUG
+#define VICII_DEBUG_REGISTER(x) log_debug x
 #else
-#define VIC_II_DEBUG_REGISTER(x)
+#define VICII_DEBUG_REGISTER(x)
 #endif
 
 #endif

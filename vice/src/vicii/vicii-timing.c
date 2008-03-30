@@ -34,21 +34,21 @@
 
 
 /* Number of cycles per line.  */
-#define VIC_II_PAL_CYCLES_PER_LINE      C64_PAL_CYCLES_PER_LINE
-#define VIC_II_NTSC_CYCLES_PER_LINE     C64_NTSC_CYCLES_PER_LINE
-#define VIC_II_NTSCOLD_CYCLES_PER_LINE  C64_NTSCOLD_CYCLES_PER_LINE
+#define VICII_PAL_CYCLES_PER_LINE      C64_PAL_CYCLES_PER_LINE
+#define VICII_NTSC_CYCLES_PER_LINE     C64_NTSC_CYCLES_PER_LINE
+#define VICII_NTSCOLD_CYCLES_PER_LINE  C64_NTSCOLD_CYCLES_PER_LINE
 
 /* Cycle # at which sprite DMA is set.  */
-#define VIC_II_PAL_SPRITE_FETCH_CYCLE       54
-#define VIC_II_NTSC_SPRITE_FETCH_CYCLE      55
-#define VIC_II_NTSCOLD_SPRITE_FETCH_CYCLE   54
+#define VICII_PAL_SPRITE_FETCH_CYCLE       54
+#define VICII_NTSC_SPRITE_FETCH_CYCLE      55
+#define VICII_NTSCOLD_SPRITE_FETCH_CYCLE   54
 
 /* Cycle # at which the current raster line is re-drawn.  It is set to
-   `VIC_II_CYCLES_PER_LINE', so this actually happens at the very beginning
+   `VICII_CYCLES_PER_LINE', so this actually happens at the very beginning
    (i.e. cycle 0) of the next line.  */
-#define VIC_II_PAL_DRAW_CYCLE       VIC_II_PAL_CYCLES_PER_LINE
-#define VIC_II_NTSC_DRAW_CYCLE      VIC_II_NTSC_CYCLES_PER_LINE
-#define VIC_II_NTSCOLD_DRAW_CYCLE   VIC_II_NTSCOLD_CYCLES_PER_LINE
+#define VICII_PAL_DRAW_CYCLE       VICII_PAL_CYCLES_PER_LINE
+#define VICII_NTSC_DRAW_CYCLE      VICII_NTSC_CYCLES_PER_LINE
+#define VICII_NTSCOLD_DRAW_CYCLE   VICII_NTSCOLD_CYCLES_PER_LINE
 
 
 void vicii_timing_set(machine_timing_t *machine_timing)
@@ -59,58 +59,58 @@ void vicii_timing_set(machine_timing_t *machine_timing)
 
     switch ((int)mode) {
       case MACHINE_SYNC_NTSC:
-        vic_ii.screen_height = VIC_II_NTSC_SCREEN_HEIGHT;
-        vic_ii.first_displayed_line = VIC_II_NTSC_FIRST_DISPLAYED_LINE;
-        vic_ii.last_displayed_line = VIC_II_NTSC_LAST_DISPLAYED_LINE;
-        vic_ii.row_25_start_line = VIC_II_NTSC_25ROW_START_LINE;
-        vic_ii.row_25_stop_line = VIC_II_NTSC_25ROW_STOP_LINE;
-        vic_ii.row_24_start_line = VIC_II_NTSC_24ROW_START_LINE;
-        vic_ii.row_24_stop_line = VIC_II_NTSC_24ROW_STOP_LINE;
-        vic_ii.screen_borderwidth = VIC_II_SCREEN_NTSC_BORDERWIDTH;
-        vic_ii.screen_borderheight = VIC_II_SCREEN_NTSC_BORDERHEIGHT;
-        vic_ii.cycles_per_line = VIC_II_NTSC_CYCLES_PER_LINE;
-        vic_ii.draw_cycle = VIC_II_NTSC_DRAW_CYCLE;
-        vic_ii.sprite_fetch_cycle = VIC_II_NTSC_SPRITE_FETCH_CYCLE;
-        vic_ii.sprite_wrap_x = VIC_II_NTSC_SPRITE_WRAP_X;
-        vic_ii.first_dma_line = VIC_II_NTSC_FIRST_DMA_LINE;
-        vic_ii.last_dma_line = VIC_II_NTSC_LAST_DMA_LINE;
-        vic_ii.offset = VIC_II_NTSC_OFFSET;
+        vicii.screen_height = VICII_NTSC_SCREEN_HEIGHT;
+        vicii.first_displayed_line = VICII_NTSC_FIRST_DISPLAYED_LINE;
+        vicii.last_displayed_line = VICII_NTSC_LAST_DISPLAYED_LINE;
+        vicii.row_25_start_line = VICII_NTSC_25ROW_START_LINE;
+        vicii.row_25_stop_line = VICII_NTSC_25ROW_STOP_LINE;
+        vicii.row_24_start_line = VICII_NTSC_24ROW_START_LINE;
+        vicii.row_24_stop_line = VICII_NTSC_24ROW_STOP_LINE;
+        vicii.screen_borderwidth = VICII_SCREEN_NTSC_BORDERWIDTH;
+        vicii.screen_borderheight = VICII_SCREEN_NTSC_BORDERHEIGHT;
+        vicii.cycles_per_line = VICII_NTSC_CYCLES_PER_LINE;
+        vicii.draw_cycle = VICII_NTSC_DRAW_CYCLE;
+        vicii.sprite_fetch_cycle = VICII_NTSC_SPRITE_FETCH_CYCLE;
+        vicii.sprite_wrap_x = VICII_NTSC_SPRITE_WRAP_X;
+        vicii.first_dma_line = VICII_NTSC_FIRST_DMA_LINE;
+        vicii.last_dma_line = VICII_NTSC_LAST_DMA_LINE;
+        vicii.offset = VICII_NTSC_OFFSET;
         break;
       case MACHINE_SYNC_NTSCOLD:
-        vic_ii.first_displayed_line = VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE;
-        vic_ii.last_displayed_line = VIC_II_NTSCOLD_LAST_DISPLAYED_LINE;
-        vic_ii.row_25_start_line = VIC_II_NTSCOLD_25ROW_START_LINE;
-        vic_ii.row_25_stop_line = VIC_II_NTSCOLD_25ROW_STOP_LINE;
-        vic_ii.row_24_start_line = VIC_II_NTSCOLD_24ROW_START_LINE;
-        vic_ii.row_24_stop_line = VIC_II_NTSCOLD_24ROW_STOP_LINE;
-        vic_ii.screen_borderwidth = VIC_II_SCREEN_NTSCOLD_BORDERWIDTH;
-        vic_ii.screen_borderheight = VIC_II_SCREEN_NTSCOLD_BORDERHEIGHT;
-        vic_ii.cycles_per_line = VIC_II_NTSCOLD_CYCLES_PER_LINE;
-        vic_ii.draw_cycle = VIC_II_NTSCOLD_DRAW_CYCLE;
-        vic_ii.sprite_fetch_cycle = VIC_II_NTSCOLD_SPRITE_FETCH_CYCLE;
-        vic_ii.sprite_wrap_x = VIC_II_NTSCOLD_SPRITE_WRAP_X;
-        vic_ii.first_dma_line = VIC_II_NTSCOLD_FIRST_DMA_LINE;
-        vic_ii.last_dma_line = VIC_II_NTSCOLD_LAST_DMA_LINE;
-        vic_ii.offset = VIC_II_NTSCOLD_OFFSET;
+        vicii.first_displayed_line = VICII_NTSCOLD_FIRST_DISPLAYED_LINE;
+        vicii.last_displayed_line = VICII_NTSCOLD_LAST_DISPLAYED_LINE;
+        vicii.row_25_start_line = VICII_NTSCOLD_25ROW_START_LINE;
+        vicii.row_25_stop_line = VICII_NTSCOLD_25ROW_STOP_LINE;
+        vicii.row_24_start_line = VICII_NTSCOLD_24ROW_START_LINE;
+        vicii.row_24_stop_line = VICII_NTSCOLD_24ROW_STOP_LINE;
+        vicii.screen_borderwidth = VICII_SCREEN_NTSCOLD_BORDERWIDTH;
+        vicii.screen_borderheight = VICII_SCREEN_NTSCOLD_BORDERHEIGHT;
+        vicii.cycles_per_line = VICII_NTSCOLD_CYCLES_PER_LINE;
+        vicii.draw_cycle = VICII_NTSCOLD_DRAW_CYCLE;
+        vicii.sprite_fetch_cycle = VICII_NTSCOLD_SPRITE_FETCH_CYCLE;
+        vicii.sprite_wrap_x = VICII_NTSCOLD_SPRITE_WRAP_X;
+        vicii.first_dma_line = VICII_NTSCOLD_FIRST_DMA_LINE;
+        vicii.last_dma_line = VICII_NTSCOLD_LAST_DMA_LINE;
+        vicii.offset = VICII_NTSCOLD_OFFSET;
         break;
       case MACHINE_SYNC_PAL:
       default:
-        vic_ii.screen_height = VIC_II_PAL_SCREEN_HEIGHT;
-        vic_ii.first_displayed_line = VIC_II_PAL_FIRST_DISPLAYED_LINE;
-        vic_ii.last_displayed_line = VIC_II_PAL_LAST_DISPLAYED_LINE;
-        vic_ii.row_25_start_line = VIC_II_PAL_25ROW_START_LINE;
-        vic_ii.row_25_stop_line = VIC_II_PAL_25ROW_STOP_LINE;
-        vic_ii.row_24_start_line = VIC_II_PAL_24ROW_START_LINE;
-        vic_ii.row_24_stop_line = VIC_II_PAL_24ROW_STOP_LINE;
-        vic_ii.screen_borderwidth = VIC_II_SCREEN_PAL_BORDERWIDTH;
-        vic_ii.screen_borderheight = VIC_II_SCREEN_PAL_BORDERHEIGHT;
-        vic_ii.cycles_per_line = VIC_II_PAL_CYCLES_PER_LINE;
-        vic_ii.draw_cycle = VIC_II_PAL_DRAW_CYCLE;
-        vic_ii.sprite_fetch_cycle = VIC_II_PAL_SPRITE_FETCH_CYCLE;
-        vic_ii.sprite_wrap_x = VIC_II_PAL_SPRITE_WRAP_X;
-        vic_ii.first_dma_line = VIC_II_PAL_FIRST_DMA_LINE;
-        vic_ii.last_dma_line = VIC_II_PAL_LAST_DMA_LINE;
-        vic_ii.offset = VIC_II_PAL_OFFSET;
+        vicii.screen_height = VICII_PAL_SCREEN_HEIGHT;
+        vicii.first_displayed_line = VICII_PAL_FIRST_DISPLAYED_LINE;
+        vicii.last_displayed_line = VICII_PAL_LAST_DISPLAYED_LINE;
+        vicii.row_25_start_line = VICII_PAL_25ROW_START_LINE;
+        vicii.row_25_stop_line = VICII_PAL_25ROW_STOP_LINE;
+        vicii.row_24_start_line = VICII_PAL_24ROW_START_LINE;
+        vicii.row_24_stop_line = VICII_PAL_24ROW_STOP_LINE;
+        vicii.screen_borderwidth = VICII_SCREEN_PAL_BORDERWIDTH;
+        vicii.screen_borderheight = VICII_SCREEN_PAL_BORDERHEIGHT;
+        vicii.cycles_per_line = VICII_PAL_CYCLES_PER_LINE;
+        vicii.draw_cycle = VICII_PAL_DRAW_CYCLE;
+        vicii.sprite_fetch_cycle = VICII_PAL_SPRITE_FETCH_CYCLE;
+        vicii.sprite_wrap_x = VICII_PAL_SPRITE_WRAP_X;
+        vicii.first_dma_line = VICII_PAL_FIRST_DMA_LINE;
+        vicii.last_dma_line = VICII_PAL_LAST_DMA_LINE;
+        vicii.offset = VICII_PAL_OFFSET;
         break;
     }
 

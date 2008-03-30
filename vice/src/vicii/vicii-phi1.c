@@ -35,63 +35,63 @@
 
 inline static BYTE gfx_data_illegal_bitmap(unsigned int num)
 {
-    if (vic_ii.idle_state)
-        return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x39ff];
+    if (vicii.idle_state)
+        return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x39ff];
     else
-        return vic_ii.bitmap_ptr[((vic_ii.memptr << 3) + vic_ii.raster.ycounter
-                                 + num * 8) & 0x19ff];
+        return vicii.bitmap_ptr[((vicii.memptr << 3) + vicii.raster.ycounter
+                                + num * 8) & 0x19ff];
 }
 
 inline static BYTE gfx_data_hires_bitmap(unsigned int num)
 {
-    if (vic_ii.idle_state)
-        return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
+    if (vicii.idle_state)
+        return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x3fff];
     else
-        return vic_ii.bitmap_ptr[((vic_ii.memptr << 3) + vic_ii.raster.ycounter
-                                 + num * 8) & 0x1fff];
+        return vicii.bitmap_ptr[((vicii.memptr << 3) + vicii.raster.ycounter
+                                + num * 8) & 0x1fff];
 }
 
 inline static BYTE gfx_data_extended_text(unsigned int num)
 {
-    if (vic_ii.idle_state)
-        return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x39ff];
+    if (vicii.idle_state)
+        return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x39ff];
     else
-        return vic_ii.chargen_ptr[(vic_ii.vbuf[num] & 0x3f) * 8
-                                  + vic_ii.raster.ycounter];
+        return vicii.chargen_ptr[(vicii.vbuf[num] & 0x3f) * 8
+                                 + vicii.raster.ycounter];
 }
 
 inline static BYTE gfx_data_normal_text(unsigned int num)
 {
-    if (vic_ii.idle_state)
-        return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
+    if (vicii.idle_state)
+        return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x3fff];
     else
-        return vic_ii.chargen_ptr[vic_ii.vbuf[num] * 8
-                                  + vic_ii.raster.ycounter];
+        return vicii.chargen_ptr[vicii.vbuf[num] * 8
+                                 + vicii.raster.ycounter];
 }
 
 static BYTE gfx_data(unsigned int num)
 {
     BYTE value = 0;
 
-    switch (vic_ii.raster.video_mode) {
-      case VIC_II_NORMAL_TEXT_MODE:
-      case VIC_II_MULTICOLOR_TEXT_MODE:
+    switch (vicii.raster.video_mode) {
+      case VICII_NORMAL_TEXT_MODE:
+      case VICII_MULTICOLOR_TEXT_MODE:
         value = gfx_data_normal_text(num);
         break;
-      case VIC_II_HIRES_BITMAP_MODE:
-      case VIC_II_MULTICOLOR_BITMAP_MODE:
+      case VICII_HIRES_BITMAP_MODE:
+      case VICII_MULTICOLOR_BITMAP_MODE:
         value = gfx_data_hires_bitmap(num);
         break;
-      case VIC_II_EXTENDED_TEXT_MODE:
-      case VIC_II_ILLEGAL_TEXT_MODE:
+      case VICII_EXTENDED_TEXT_MODE:
+      case VICII_ILLEGAL_TEXT_MODE:
         value = gfx_data_extended_text(num);
         break;
-      case VIC_II_ILLEGAL_BITMAP_MODE_1:
-      case VIC_II_ILLEGAL_BITMAP_MODE_2:
+      case VICII_ILLEGAL_BITMAP_MODE_1:
+      case VICII_ILLEGAL_BITMAP_MODE_2:
         value = gfx_data_illegal_bitmap(num);
         break;
       default:
-        value = vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
+        value = vicii.ram_base_phi1[vicii.vbank_phi1 + 0x3fff];
     }
 
     return value;
@@ -99,30 +99,30 @@ static BYTE gfx_data(unsigned int num)
 
 static BYTE idle_gap(void)
 {
-    return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
+    return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x3fff];
 }
 
 static BYTE sprite_data(unsigned int num)
 {
-    return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
+    return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x3fff];
 }
 
 static BYTE sprite_pointer(unsigned int num)
 {
     WORD offset;
 
-    offset = ((vic_ii.regs[0x18] & 0xf0) << 6) + 0x3f8 + num;
+    offset = ((vicii.regs[0x18] & 0xf0) << 6) + 0x3f8 + num;
 
-    return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + offset];
+    return vicii.ram_base_phi1[vicii.vbank_phi1 + offset];
 }
 
 static BYTE refresh_counter(unsigned int num)
 {
     BYTE offset;
 
-    offset = 0xff - (VIC_II_RASTER_Y(maincpu_clk) * 5 + num);
+    offset = 0xff - (VICII_RASTER_Y(maincpu_clk) * 5 + num);
 
-    return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3f00 + offset];
+    return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x3f00 + offset];
 }
 
 BYTE vicii_read_phi1(void)
@@ -132,7 +132,7 @@ BYTE vicii_read_phi1(void)
 
     vicii_handle_pending_alarms(0);
 
-    cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
+    cycle = VICII_RASTER_CYCLE(maincpu_clk);
 
     switch (cycle) {
       case 0:

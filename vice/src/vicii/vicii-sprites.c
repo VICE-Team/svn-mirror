@@ -897,31 +897,31 @@ static inline void calculate_idle_sprite_data(BYTE *data, unsigned int n)
     data[0] = 0xff;
     data[2] = 0xff;
 
-    if (vic_ii.num_idle_3fff > 0) {
-        idle_cycle = (57 + n * 2) % vic_ii.cycles_per_line;
-        for (i = vic_ii.num_idle_3fff; i != 0; i--) {
-            line = VIC_II_RASTER_Y(vic_ii.idle_3fff[i - 1].cycle);
-            cycle = VIC_II_RASTER_CYCLE(vic_ii.idle_3fff[i - 1].cycle);
-            if (line <= vic_ii.raster.current_line && cycle <= idle_cycle) {
-                data[1] = vic_ii.idle_3fff[i - 1].value;
+    if (vicii.num_idle_3fff > 0) {
+        idle_cycle = (57 + n * 2) % vicii.cycles_per_line;
+        for (i = vicii.num_idle_3fff; i != 0; i--) {
+            line = VICII_RASTER_Y(vicii.idle_3fff[i - 1].cycle);
+            cycle = VICII_RASTER_CYCLE(vicii.idle_3fff[i - 1].cycle);
+            if (line <= vicii.raster.current_line && cycle <= idle_cycle) {
+                data[1] = vicii.idle_3fff[i - 1].value;
                 return;
             }                
         }
     }
 
-    if (vic_ii.num_idle_3fff_old > 0) {
-        idle_cycle = (57 + n * 2) % vic_ii.cycles_per_line;
-        for (i = vic_ii.num_idle_3fff_old; i != 0; i--) {
-            line = VIC_II_RASTER_Y(vic_ii.idle_3fff_old[i - 1].cycle);
-            cycle = VIC_II_RASTER_CYCLE(vic_ii.idle_3fff_old[i - 1].cycle);
-            if (line <= vic_ii.raster.current_line && cycle <= idle_cycle) {
-                data[1] = vic_ii.idle_3fff_old[i - 1].value;
+    if (vicii.num_idle_3fff_old > 0) {
+        idle_cycle = (57 + n * 2) % vicii.cycles_per_line;
+        for (i = vicii.num_idle_3fff_old; i != 0; i--) {
+            line = VICII_RASTER_Y(vicii.idle_3fff_old[i - 1].cycle);
+            cycle = VICII_RASTER_CYCLE(vicii.idle_3fff_old[i - 1].cycle);
+            if (line <= vicii.raster.current_line && cycle <= idle_cycle) {
+                data[1] = vicii.idle_3fff_old[i - 1].value;
                 return;
             }
         }
     }
 
-    data[1] = vic_ii.ram_base_phi2[vic_ii.vbank_phi2 + 0x3fff];
+    data[1] = vicii.ram_base_phi2[vicii.vbank_phi2 + 0x3fff];
 }
 
 
@@ -954,18 +954,18 @@ static inline void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
         }
     }
 
-    if (sprite_offset < vic_ii.sprite_wrap_x
+    if (sprite_offset < vicii.sprite_wrap_x
         && data_ptr != NULL) {
         BYTE *msk_ptr, *ptr, *sptr;
         int lshift;
 
         msk_ptr = gfx_msk_ptr
                   + ((sprite_offset
-                  - vic_ii.raster.xsmooth) / 8);
+                  - vicii.raster.xsmooth) / 8);
         ptr = line_ptr + sprite_offset;
         lshift = (sprite_offset
-                 - vic_ii.raster.xsmooth) & 0x7;
-        sptr = sprline - VIC_II_RASTER_X(0) + sprite_offset;
+                 - vicii.raster.xsmooth) & 0x7;
+        sptr = sprline - VICII_RASTER_X(0) + sprite_offset;
 
         if (sprite_status->sprites[n].multicolor)
             draw_mc_sprite(gfx_msk_ptr, data_ptr, n, msk_ptr, ptr,
@@ -986,7 +986,7 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
     int sprite_offset;
     int sprite_xs, sprite_xe;
 
-    sprite_status = vic_ii.raster.sprite_status;
+    sprite_status = vicii.raster.sprite_status;
 
     if (sprite_status->dma_msk || sprite_status->new_dma_msk) {
         int n;
@@ -1007,9 +1007,9 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
 
             /* Now shift the interval one screen left */
             /* to draw the wrapped part of the sprite */
-            sprite_xs += vic_ii.sprite_wrap_x;
-            sprite_xe += vic_ii.sprite_wrap_x;
-            sprite_offset -= vic_ii.sprite_wrap_x;
+            sprite_xs += vicii.sprite_wrap_x;
+            sprite_xe += vicii.sprite_wrap_x;
+            sprite_offset -= vicii.sprite_wrap_x;
 
             if (sprite_xe >= 0
                 && sprite_xs < (sprite_status->sprites[n].x_expanded ? 55 : 31))
@@ -1018,9 +1018,9 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
 
         }
 
-        vic_ii.sprite_sprite_collisions
+        vicii.sprite_sprite_collisions
             |= sprite_status->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
+        vicii.sprite_background_collisions
             |= sprite_status->sprite_background_collisions;
     }
 }
@@ -1028,7 +1028,7 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
 static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
 {
 #if 0
-    draw_all_sprites_partial(line_ptr, gfx_msk_ptr, VIC_II_RASTER_X(0), -1);
+    draw_all_sprites_partial(line_ptr, gfx_msk_ptr, VICII_RASTER_X(0), -1);
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 0, 95);
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 96, 191);
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 192, 287);
@@ -1036,87 +1036,87 @@ static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 384, 399);
 #else
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr,
-                    VIC_II_RASTER_X(0),
-                    vic_ii.cycles_per_line * 8 + VIC_II_RASTER_X(0) - 1);
+                    VICII_RASTER_X(0),
+                    vicii.cycles_per_line * 8 + VICII_RASTER_X(0) - 1);
 #endif
 }
 
 static void update_cached_sprite_collisions(raster_cache_t *cache)
 {
-    vic_ii.sprite_sprite_collisions |= cache->sprite_sprite_collisions;
-    vic_ii.sprite_background_collisions |= cache->sprite_background_collisions;
+    vicii.sprite_sprite_collisions |= cache->sprite_sprite_collisions;
+    vicii.sprite_background_collisions |= cache->sprite_background_collisions;
 }
 
 void vicii_sprites_init(void)
 {
     init_drawing_tables();
 
-    raster_sprite_status_set_draw_function(vic_ii.raster.sprite_status,
+    raster_sprite_status_set_draw_function(vicii.raster.sprite_status,
                                            draw_all_sprites);
 
-    raster_sprite_status_set_cache_function(vic_ii.raster.sprite_status,
+    raster_sprite_status_set_cache_function(vicii.raster.sprite_status,
                                             update_cached_sprite_collisions);
 
-    raster_sprite_status_set_draw_partial_function(vic_ii.raster.sprite_status,
+    raster_sprite_status_set_draw_partial_function(vicii.raster.sprite_status,
                                            draw_all_sprites_partial);
     return;
 }
 
 /* Set the X coordinate of the `num'th sprite to `new_x'; the current
-   vic_ii.raster X position is `raster_x'.  */
+   vicii.raster X position is `raster_x'.  */
 void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
 {
     raster_sprite_t *sprite;
 
-    sprite = vic_ii.raster.sprite_status->sprites + num;
+    sprite = vicii.raster.sprite_status->sprites + num;
 
     new_x += 8;
 
-    if (new_x >= vic_ii.sprite_wrap_x + VIC_II_RASTER_X(0)) {
+    if (new_x >= vicii.sprite_wrap_x + VICII_RASTER_X(0)) {
         /* Sprites in the $1F8 - $1FF range are not visible at all and never
            cause collisions.  */
         if (new_x >= 0x1f8 + 8)
-            new_x = vic_ii.sprite_wrap_x;
+            new_x = vicii.sprite_wrap_x;
         else
-            new_x -= vic_ii.sprite_wrap_x;
+            new_x -= vicii.sprite_wrap_x;
     }
 
     if (new_x < sprite->x) {
         if (raster_x + 8 <= new_x)
             sprite->x = new_x;
         else if (raster_x + 8 < sprite->x)
-            sprite->x = vic_ii.sprite_wrap_x;
-        raster_add_int_change_next_line(&vic_ii.raster, &sprite->x, new_x);
+            sprite->x = vicii.sprite_wrap_x;
+        raster_add_int_change_next_line(&vicii.raster, &sprite->x, new_x);
     } else {
         /* new_x >= sprite->x */
         if (raster_x + 8 < sprite->x)
             sprite->x = new_x;
-        raster_add_int_change_next_line(&vic_ii.raster, &sprite->x, new_x);
+        raster_add_int_change_next_line(&vicii.raster, &sprite->x, new_x);
     }
 }
 
-void vic_ii_sprites_reset_xshift(void)
+void vicii_sprites_reset_xshift(void)
 {
     int n;
 
     for (n = 0; n < 8; n++) {
-        vic_ii.raster.sprite_status->sprites[n].x_shift = 0;
-        vic_ii.raster.sprite_status->sprites[n].x_shift_sum = 0;
+        vicii.raster.sprite_status->sprites[n].x_shift = 0;
+        vicii.raster.sprite_status->sprites[n].x_shift_sum = 0;
     }
 
-    vic_ii.raster.sprite_status->sprite_sprite_collisions = 0;
-    vic_ii.raster.sprite_status->sprite_background_collisions = 0;
+    vicii.raster.sprite_status->sprite_sprite_collisions = 0;
+    vicii.raster.sprite_status->sprite_background_collisions = 0;
 
 }
 
-void vic_ii_sprites_reset_sprline(void)
+void vicii_sprites_reset_sprline(void)
 {
-    memset(sprline, 0, vic_ii.sprite_wrap_x);
+    memset(sprline, 0, vicii.sprite_wrap_x);
 }
 
 void vicii_sprites_init_sprline(void)
 {
-    sprline = lib_realloc(sprline, vic_ii.sprite_wrap_x);
+    sprline = lib_realloc(sprline, vicii.sprite_wrap_x);
 }
 
 void vicii_sprites_shutdown(void)

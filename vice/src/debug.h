@@ -36,6 +36,7 @@ typedef struct debug_s {
 #ifdef DEBUG
     int maincpu_traceflg;
     int drivecpu_traceflg[2];
+    int trace_small;
 #endif
     int do_core_dumps;
 } debug_t;

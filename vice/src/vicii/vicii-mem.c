@@ -74,7 +74,7 @@ inline void REGPARM2 vicii_local_store_vbank(WORD addr, BYTE value)
 {
     unsigned int f;
 
-    if (vic_ii.viciie != 0)
+    if (vicii.viciie != 0)
         vicii_delay_clk();
 
     do {
@@ -84,37 +84,37 @@ inline void REGPARM2 vicii_local_store_vbank(WORD addr, BYTE value)
         mclk = maincpu_clk - maincpu_rmw_flag - 1;
         f = 0;
 
-        if (mclk >= vic_ii.fetch_clk) {
+        if (mclk >= vicii.fetch_clk) {
             /* If the fetch starts here, the sprite fetch routine should
                get the new value, not the old one.  */
-            if (mclk == vic_ii.fetch_clk)
-                vic_ii.ram_base_phi2[addr] = value;
+            if (mclk == vicii.fetch_clk)
+                vicii.ram_base_phi2[addr] = value;
 
             /* The sprite DMA check can be followed by a real fetch.
                Save the location to execute the store if a real
                fetch actually happens.  */
-            if (vic_ii.fetch_idx == VIC_II_CHECK_SPRITE_DMA) {
-                vic_ii.store_clk = mclk;
-                vic_ii.store_value = value;
-                vic_ii.store_addr = addr;
+            if (vicii.fetch_idx == VICII_CHECK_SPRITE_DMA) {
+                vicii.store_clk = mclk;
+                vicii.store_value = value;
+                vicii.store_addr = addr;
             }
 
-            vicii_fetch_alarm_handler(maincpu_clk - vic_ii.fetch_clk);
+            vicii_fetch_alarm_handler(maincpu_clk - vicii.fetch_clk);
             f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
-            vic_ii.store_clk = CLOCK_MAX;
+            vicii.store_clk = CLOCK_MAX;
         }
 
-        if (mclk >= vic_ii.draw_clk) {
+        if (mclk >= vicii.draw_clk) {
             vicii_raster_draw_alarm_handler(0);
             f = 1;
         }
-        if (vic_ii.viciie != 0)
+        if (vicii.viciie != 0)
             vicii_delay_clk();
     } while (f);
 
-    vic_ii.ram_base_phi2[addr] = value;
+    vicii.ram_base_phi2[addr] = value;
 }
 
 /* Encapsulate inlined function for other modules */
@@ -128,11 +128,11 @@ void REGPARM2 vicii_mem_vbank_39xx_store(WORD addr, BYTE value)
 {
     vicii_local_store_vbank(addr, value);
 
-    if (vic_ii.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
+    if (vicii.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
         raster_add_int_change_foreground
-            (&vic_ii.raster,
-            VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(maincpu_clk)),
-            &vic_ii.idle_data,
+            (&vicii.raster,
+            VICII_RASTER_CHAR(VICII_RASTER_CYCLE(maincpu_clk)),
+            &vicii.idle_data,
             value);
 }
 
@@ -142,18 +142,18 @@ void REGPARM2 vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
     vicii_local_store_vbank(addr, value);
 
     if ((addr & 0x3fff) == 0x3fff) {
-        if (vic_ii.idle_data_location == IDLE_3FFF)
+        if (vicii.idle_data_location == IDLE_3FFF)
             raster_add_int_change_foreground
-                (&vic_ii.raster,
-                VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(maincpu_clk)),
-                &vic_ii.idle_data,
+                (&vicii.raster,
+                VICII_RASTER_CHAR(VICII_RASTER_CYCLE(maincpu_clk)),
+                &vicii.idle_data,
                 value);
 
-        if (vic_ii.raster.sprite_status->visible_msk != 0
-            || vic_ii.raster.sprite_status->dma_msk != 0) {
-            vic_ii.idle_3fff[vic_ii.num_idle_3fff].cycle = maincpu_clk;
-            vic_ii.idle_3fff[vic_ii.num_idle_3fff].value = value;
-            vic_ii.num_idle_3fff++;
+        if (vicii.raster.sprite_status->visible_msk != 0
+            || vicii.raster.sprite_status->dma_msk != 0) {
+            vicii.idle_3fff[vicii.num_idle_3fff].cycle = maincpu_clk;
+            vicii.idle_3fff[vicii.num_idle_3fff].value = value;
+            vicii.num_idle_3fff++;
         }
     }
 }
@@ -164,41 +164,41 @@ inline static void store_sprite_x_position_lsb(const WORD addr, BYTE value)
     int n;
     int new_x;
 
-    if (value == vic_ii.regs[addr])
+    if (value == vicii.regs[addr])
         return;
 
-    vic_ii.regs[addr] = value;
+    vicii.regs[addr] = value;
 
     n = addr >> 1;                /* Number of changed sprite.  */
 
-    VIC_II_DEBUG_REGISTER(("Sprite #%d X position LSB: $%02X", n, value));
+    VICII_DEBUG_REGISTER(("Sprite #%d X position LSB: $%02X", n, value));
 
-    new_x = (value | (vic_ii.regs[0x10] & (1 << n) ? 0x100 : 0));
+    new_x = (value | (vicii.regs[0x10] & (1 << n) ? 0x100 : 0));
     vicii_sprites_set_x_position(n, new_x,
-        VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)));
+        VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)));
 }
 
 inline static void store_sprite_y_position(const WORD addr, BYTE value)
 {
     int cycle;
 
-    VIC_II_DEBUG_REGISTER(("Sprite #%d Y position: $%02X", addr >> 1, value));
+    VICII_DEBUG_REGISTER(("Sprite #%d Y position: $%02X", addr >> 1, value));
 
-    if (vic_ii.regs[addr] == value)
+    if (vicii.regs[addr] == value)
         return;
 
-    cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
+    cycle = VICII_RASTER_CYCLE(maincpu_clk);
 
-    if (cycle == vic_ii.sprite_fetch_cycle + 1
-        && value == (vic_ii.raster.current_line & 0xff)) {
-        vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
-        vic_ii.fetch_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
-                            + vic_ii.sprite_fetch_cycle + 1);
-        alarm_set(vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+    if (cycle == vicii.sprite_fetch_cycle + 1
+        && value == (vicii.raster.current_line & 0xff)) {
+        vicii.fetch_idx = VICII_CHECK_SPRITE_DMA;
+        vicii.fetch_clk = (VICII_LINE_START_CLK(maincpu_clk)
+                          + vicii.sprite_fetch_cycle + 1);
+        alarm_set(vicii.raster_fetch_alarm, vicii.fetch_clk);
     }
 
-    vic_ii.raster.sprite_status->sprites[addr >> 1].y = value;
-    vic_ii.regs[addr] = value;
+    vicii.raster.sprite_status->sprites[addr >> 1].y = value;
+    vicii.regs[addr] = value;
 }
 
 static inline void store_sprite_x_position_msb(const WORD addr, BYTE value)
@@ -207,20 +207,20 @@ static inline void store_sprite_x_position_msb(const WORD addr, BYTE value)
     BYTE b;
     int raster_x;
 
-    VIC_II_DEBUG_REGISTER(("Sprite X position MSBs: $%02X", value));
+    VICII_DEBUG_REGISTER(("Sprite X position MSBs: $%02X", value));
 
-    if (value == vic_ii.regs[addr])
+    if (value == vicii.regs[addr])
         return;
 
-    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk));
+    raster_x = VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk));
 
-    vic_ii.regs[addr] = value;
+    vicii.regs[addr] = value;
 
     /* Recalculate the sprite X coordinates.  */
     for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
         int new_x;
 
-        new_x = (vic_ii.regs[2 * i] | (value & b ? 0x100 : 0));
+        new_x = (vicii.regs[2 * i] | (value & b ? 0x100 : 0));
         vicii_sprites_set_x_position(i, new_x, raster_x);
     }
 }
@@ -228,46 +228,46 @@ static inline void store_sprite_x_position_msb(const WORD addr, BYTE value)
 inline static void check_lower_upper_border(const BYTE value,
                                             unsigned int line, int cycle)
 {
-    if ((value ^ vic_ii.regs[0x11]) & 8) {
+    if ((value ^ vicii.regs[0x11]) & 8) {
         if (value & 0x8) {
             /* 24 -> 25 row mode switch.  */
 
-            vic_ii.raster.display_ystart = vic_ii.row_25_start_line;
-            vic_ii.raster.display_ystop = vic_ii.row_25_stop_line;
+            vicii.raster.display_ystart = vicii.row_25_start_line;
+            vicii.raster.display_ystop = vicii.row_25_stop_line;
 
-            if (line == vic_ii.row_24_stop_line && cycle > 0) {
+            if (line == vicii.row_24_stop_line && cycle > 0) {
                 /* If on the first line of the 24-line border, we
                    still see the 25-line (lowmost) border because the
                    border flip flop has already been turned on.  */
-                vic_ii.raster.blank_enabled = 1;
+                vicii.raster.blank_enabled = 1;
             } else {
-                if (!vic_ii.raster.blank && line == vic_ii.row_24_start_line
+                if (!vicii.raster.blank && line == vicii.row_24_start_line
                     && cycle > 0) {
                     /* A 24 -> 25 switch somewhere on the first line of
                        the 24-row mode is enough to disable screen
                        blanking.  */
-                    vic_ii.raster.blank_enabled = 0;
+                    vicii.raster.blank_enabled = 0;
                 }
             }
-            VIC_II_DEBUG_REGISTER(("25 line mode enabled"));
+            VICII_DEBUG_REGISTER(("25 line mode enabled"));
         } else {
             /* 25 -> 24 row mode switch.  */
 
-            vic_ii.raster.display_ystart = vic_ii.row_24_start_line;
-            vic_ii.raster.display_ystop = vic_ii.row_24_stop_line;
+            vicii.raster.display_ystart = vicii.row_24_start_line;
+            vicii.raster.display_ystop = vicii.row_24_stop_line;
 
             /* If on the last line of the 25-line border, we still see the
                24-line (upmost) border because the border flip flop has
                already been turned off.  */
-            if (!vic_ii.raster.blank && line == vic_ii.row_25_start_line
+            if (!vicii.raster.blank && line == vicii.row_25_start_line
                 && cycle > 0) {
-                vic_ii.raster.blank_enabled = 0;
+                vicii.raster.blank_enabled = 0;
             } else {
-                if (line == vic_ii.row_25_stop_line && cycle > 0)
-                    vic_ii.raster.blank_enabled = 1;
+                if (line == vicii.row_25_stop_line && cycle > 0)
+                    vicii.raster.blank_enabled = 1;
             }
 
-            VIC_II_DEBUG_REGISTER(("24 line mode enabled"));
+            VICII_DEBUG_REGISTER(("24 line mode enabled"));
         }
     }
 }
@@ -277,34 +277,34 @@ inline static void d011_store(BYTE value)
     int cycle, old_allow_bad_lines;
     unsigned int line;
 
-    cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
-    line = VIC_II_RASTER_Y(maincpu_clk);
+    cycle = VICII_RASTER_CYCLE(maincpu_clk);
+    line = VICII_RASTER_Y(maincpu_clk);
 
-    VIC_II_DEBUG_REGISTER(("Control register: $%02X", value));
-    VIC_II_DEBUG_REGISTER(("$D011 tricks at cycle %d, line $%04X, "
+    VICII_DEBUG_REGISTER(("Control register: $%02X", value));
+    VICII_DEBUG_REGISTER(("$D011 tricks at cycle %d, line $%04X, "
                           "value $%02X", cycle, line, value));
 
     vicii_irq_check_state(value, 1);
 
     /* This is the funniest part... handle bad line tricks.  */
-    old_allow_bad_lines = vic_ii.allow_bad_lines;
+    old_allow_bad_lines = vicii.allow_bad_lines;
 
-    if (line == vic_ii.first_dma_line && (value & 0x10) != 0)
-        vic_ii.allow_bad_lines = 1;
+    if (line == vicii.first_dma_line && (value & 0x10) != 0)
+        vicii.allow_bad_lines = 1;
 
-    if (vic_ii.raster.ysmooth != (value & 7)
-        && line >= vic_ii.first_dma_line
-        && line <= vic_ii.last_dma_line)
+    if (vicii.raster.ysmooth != (value & 7)
+        && line >= vicii.first_dma_line
+        && line <= vicii.last_dma_line)
         vicii_badline_check_state(value, cycle, line, old_allow_bad_lines);
 
-    vic_ii.raster.ysmooth = value & 0x7;
+    vicii.raster.ysmooth = value & 0x7;
 
     /* Check for 24 <-> 25 line mode switch.  */
     check_lower_upper_border(value, line, cycle);
 
-    vic_ii.raster.blank = !(value & 0x10); /* `DEN' bit.  */
+    vicii.raster.blank = !(value & 0x10); /* `DEN' bit.  */
 
-    vic_ii.regs[0x11] = value;
+    vicii.regs[0x11] = value;
 
     /* FIXME: save time.  */
     vicii_update_video_mode(cycle);
@@ -313,128 +313,128 @@ inline static void d011_store(BYTE value)
 inline static void d012_store(BYTE value)
 {
     /* FIXME: Not accurate as bit #8 is missing.  */
-    value = (value - vic_ii.offset) & 255;
+    value = (value - vicii.offset) & 255;
 
-    VIC_II_DEBUG_REGISTER(("Raster compare register: $%02X", value));
+    VICII_DEBUG_REGISTER(("Raster compare register: $%02X", value));
 
-    if (value == vic_ii.regs[0x12])
+    if (value == vicii.regs[0x12])
         return;
 
-    vic_ii.regs[0x12] = value;
+    vicii.regs[0x12] = value;
 
     vicii_irq_check_state(value, 0);
 
-    VIC_II_DEBUG_REGISTER(("Raster interrupt line set to $%04X",
-                          vic_ii.raster_irq_line));
+    VICII_DEBUG_REGISTER(("Raster interrupt line set to $%04X",
+                         vicii.raster_irq_line));
 }
 
 inline static void d015_store(const BYTE value)
 {
     int cycle;
 
-    VIC_II_DEBUG_REGISTER(("Sprite Enable register: $%02X", value));
+    VICII_DEBUG_REGISTER(("Sprite Enable register: $%02X", value));
 
-    cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
+    cycle = VICII_RASTER_CYCLE(maincpu_clk);
 
     /* On the real C64, sprite DMA is checked two times: first at
-       `VIC_II_SPRITE_FETCH_CYCLE', and then at `VIC_II_SPRITE_FETCH_CYCLE +
+       `VICII_SPRITE_FETCH_CYCLE', and then at `VICII_SPRITE_FETCH_CYCLE +
        1'.  In the average case, one DMA check is OK and there is no need to
        emulate both, but we have to kludge things a bit in case sprites are
-       activated at cycle `VIC_II_SPRITE_FETCH_CYCLE + 1'.  */
-    if (cycle == vic_ii.sprite_fetch_cycle + 1
-        && ((value ^ vic_ii.regs[0x15]) & value) != 0) {
-        vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
-        vic_ii.fetch_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
-                            + vic_ii.sprite_fetch_cycle + 1);
-        alarm_set(vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+       activated at cycle `VICII_SPRITE_FETCH_CYCLE + 1'.  */
+    if (cycle == vicii.sprite_fetch_cycle + 1
+        && ((value ^ vicii.regs[0x15]) & value) != 0) {
+        vicii.fetch_idx = VICII_CHECK_SPRITE_DMA;
+        vicii.fetch_clk = (VICII_LINE_START_CLK(maincpu_clk)
+                          + vicii.sprite_fetch_cycle + 1);
+        alarm_set(vicii.raster_fetch_alarm, vicii.fetch_clk);
     }
 
     /* Sprites are turned on: force a DMA check.  */
-    if (vic_ii.raster.sprite_status->visible_msk == 0
-        && vic_ii.raster.sprite_status->dma_msk == 0
+    if (vicii.raster.sprite_status->visible_msk == 0
+        && vicii.raster.sprite_status->dma_msk == 0
         && value != 0) {
-        if ((vic_ii.fetch_idx == VIC_II_FETCH_MATRIX
-             && vic_ii.fetch_clk > maincpu_clk
-             && cycle > VIC_II_FETCH_CYCLE
-             && cycle <= vic_ii.sprite_fetch_cycle)
-            || vic_ii.raster.current_line < vic_ii.first_dma_line
-            || vic_ii.raster.current_line > vic_ii.last_dma_line) {
+        if ((vicii.fetch_idx == VICII_FETCH_MATRIX
+             && vicii.fetch_clk > maincpu_clk
+             && cycle > VICII_FETCH_CYCLE
+             && cycle <= vicii.sprite_fetch_cycle)
+            || vicii.raster.current_line < vicii.first_dma_line
+            || vicii.raster.current_line > vicii.last_dma_line) {
             CLOCK new_fetch_clk;
 
-            new_fetch_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
-                             + vic_ii.sprite_fetch_cycle);
-            if (cycle > vic_ii.sprite_fetch_cycle)
-                new_fetch_clk += vic_ii.cycles_per_line;
-            if (new_fetch_clk < vic_ii.fetch_clk) {
-                vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
-                vic_ii.fetch_clk = new_fetch_clk;
-                alarm_set(vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+            new_fetch_clk = (VICII_LINE_START_CLK(maincpu_clk)
+                            + vicii.sprite_fetch_cycle);
+            if (cycle > vicii.sprite_fetch_cycle)
+                new_fetch_clk += vicii.cycles_per_line;
+            if (new_fetch_clk < vicii.fetch_clk) {
+                vicii.fetch_idx = VICII_CHECK_SPRITE_DMA;
+                vicii.fetch_clk = new_fetch_clk;
+                alarm_set(vicii.raster_fetch_alarm, vicii.fetch_clk);
             }
         }
     }
 
-    vic_ii.regs[0x15] = vic_ii.raster.sprite_status->visible_msk = value;
+    vicii.regs[0x15] = vicii.raster.sprite_status->visible_msk = value;
 }
 
 inline static void check_lateral_border(const BYTE value, int cycle,
                                         raster_t *raster)
 {
-    if ((value & 0x8) != (vic_ii.regs[0x16] & 0x8)) {
+    if ((value & 0x8) != (vicii.regs[0x16] & 0x8)) {
         if (value & 0x8) {
             /* 40 column mode.  */
             if (cycle <= 17)
-                raster->display_xstart = VIC_II_40COL_START_PIXEL;
+                raster->display_xstart = VICII_40COL_START_PIXEL;
             else
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstart,
-                                                VIC_II_40COL_START_PIXEL);
+                                                VICII_40COL_START_PIXEL);
             if (cycle <= 56)
-                raster->display_xstop = VIC_II_40COL_STOP_PIXEL;
+                raster->display_xstop = VICII_40COL_STOP_PIXEL;
             else
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstop,
-                                                VIC_II_40COL_STOP_PIXEL);
-            VIC_II_DEBUG_REGISTER(("40 column mode enabled"));
+                                                VICII_40COL_STOP_PIXEL);
+            VICII_DEBUG_REGISTER(("40 column mode enabled"));
 
             /* If CSEL changes from 0 to 1 at cycle 17, the border is
                not turned off and this line is blank.  */
-            if (cycle == 17 && !(vic_ii.regs[0x16] & 0x8))
+            if (cycle == 17 && !(vicii.regs[0x16] & 0x8))
                 raster->blank_this_line = 1;
         } else {
             /* 38 column mode.  */
             if (cycle <= 17)
-                raster->display_xstart = VIC_II_38COL_START_PIXEL;
+                raster->display_xstart = VICII_38COL_START_PIXEL;
             else
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstart,
-                                                VIC_II_38COL_START_PIXEL);
+                                                VICII_38COL_START_PIXEL);
             if (cycle <= 56)
-                raster->display_xstop = VIC_II_38COL_STOP_PIXEL;
+                raster->display_xstop = VICII_38COL_STOP_PIXEL;
             else
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstop,
-                                                VIC_II_38COL_STOP_PIXEL);
-            VIC_II_DEBUG_REGISTER(("38 column mode enabled"));
+                                                VICII_38COL_STOP_PIXEL);
+            VICII_DEBUG_REGISTER(("38 column mode enabled"));
 
             /* If CSEL changes from 1 to 0 at cycle 56, the lateral
                border is open.  */
-            if (cycle == 56 && (vic_ii.regs[0x16] & 0x8)
+            if (cycle == 56 && (vicii.regs[0x16] & 0x8)
                 && (!raster->blank_enabled || raster->open_left_border)) {
                 raster->open_right_border = 1;
-                switch (vic_ii.get_background_from_vbuf) {
-                  case VIC_II_HIRES_BITMAP_MODE:
+                switch (vicii.get_background_from_vbuf) {
+                  case VICII_HIRES_BITMAP_MODE:
                     raster_add_int_change_background(
-                    &vic_ii.raster,
-                    VIC_II_RASTER_X(56),
-                    &vic_ii.raster.xsmooth_color,
-                    vic_ii.background_color_source & 0x0f);
+                    &vicii.raster,
+                    VICII_RASTER_X(56),
+                    &vicii.raster.xsmooth_color,
+                    vicii.background_color_source & 0x0f);
                     break;
-                  case VIC_II_EXTENDED_TEXT_MODE:
+                  case VICII_EXTENDED_TEXT_MODE:
                     raster_add_int_change_background(
-                    &vic_ii.raster,
-                    VIC_II_RASTER_X(56),
-                    &vic_ii.raster.xsmooth_color,
-                    vic_ii.regs[0x21 + (vic_ii.background_color_source >> 6)]);
+                    &vicii.raster,
+                    VICII_RASTER_X(56),
+                    &vicii.raster.xsmooth_color,
+                    vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
                     break;
                 }
             }
@@ -448,28 +448,28 @@ inline static void d016_store(const BYTE value)
     int cycle;
     BYTE xsmooth;
 
-    VIC_II_DEBUG_REGISTER(("Control register: $%02X", value));
+    VICII_DEBUG_REGISTER(("Control register: $%02X", value));
 
-    raster = &vic_ii.raster;
-    cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
+    raster = &vicii.raster;
+    cycle = VICII_RASTER_CYCLE(maincpu_clk);
     xsmooth = value & 7;
 
-    if (xsmooth != (vic_ii.regs[0x16] & 7)) {
-        if (xsmooth < (vic_ii.regs[0x16] & 7)) {
+    if (xsmooth != (vicii.regs[0x16] & 7)) {
+        if (xsmooth < (vicii.regs[0x16] & 7)) {
             if (cycle < 56)
                 raster_add_int_change_foreground(raster,
-                             VIC_II_RASTER_CHAR(cycle) - 2,
+                             VICII_RASTER_CHAR(cycle) - 2,
                              &raster->xsmooth_shift_left,
-                             (vic_ii.regs[0x16] & 7) - xsmooth);
+                             (vicii.regs[0x16] & 7) - xsmooth);
 
         } else {
             raster_add_int_change_background(raster,
-                                             VIC_II_RASTER_X(cycle),
+                                             VICII_RASTER_X(cycle),
                                              &raster->xsmooth_shift_right,
-                                             xsmooth - (vic_ii.regs[0x16] & 7));
+                                             xsmooth - (vicii.regs[0x16] & 7));
         }
         raster_add_int_change_foreground(raster,
-                                         VIC_II_RASTER_CHAR(cycle) - 1,
+                                         VICII_RASTER_CHAR(cycle) - 1,
                                          &raster->xsmooth,
                                          xsmooth);
     }
@@ -477,7 +477,7 @@ inline static void d016_store(const BYTE value)
     /* Bit 4 (CSEL) selects 38/40 column mode.  */
     check_lateral_border(value, cycle, raster);
 
-    vic_ii.regs[0x16] = value;
+    vicii.regs[0x16] = value;
 
     vicii_update_video_mode(cycle);
 }
@@ -489,13 +489,13 @@ inline static void d017_store(const BYTE value)
     int i;
     BYTE b;
 
-    VIC_II_DEBUG_REGISTER(("Sprite Y Expand register: $%02X", value));
+    VICII_DEBUG_REGISTER(("Sprite Y Expand register: $%02X", value));
 
-    if (value == vic_ii.regs[0x17])
+    if (value == vicii.regs[0x17])
         return;
 
-    cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
-    sprite_status = vic_ii.raster.sprite_status;
+    cycle = VICII_RASTER_CYCLE(maincpu_clk);
+    sprite_status = vicii.raster.sprite_status;
 
     for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
         raster_sprite_t *sprite;
@@ -517,49 +517,49 @@ inline static void d017_store(const BYTE value)
         /* (Enabling sprite Y-expansion never causes side effects.)  */
     }
 
-    vic_ii.regs[0x17] = value;
+    vicii.regs[0x17] = value;
 }
 
 inline static void d018_store(const BYTE value)
 {
-    VIC_II_DEBUG_REGISTER(("Memory register: $%02X", value));
+    VICII_DEBUG_REGISTER(("Memory register: $%02X", value));
 
-    if (vic_ii.regs[0x18] == value)
+    if (vicii.regs[0x18] == value)
         return;
 
-    vic_ii.regs[0x18] = value;
-    vicii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
+    vicii.regs[0x18] = value;
+    vicii_update_memory_ptrs(VICII_RASTER_CYCLE(maincpu_clk));
 }
 
 inline static void d019_store(const BYTE value)
 {
     /* Emulates Read-Modify-Write behaviour. */
     if (maincpu_rmw_flag) {
-        vic_ii.irq_status &= ~((vic_ii.last_read & 0xf) | 0x80);
-        if (maincpu_clk - 1 > vic_ii.raster_irq_clk
-            && vic_ii.raster_irq_line < (unsigned int)vic_ii.screen_height) {
+        vicii.irq_status &= ~((vicii.last_read & 0xf) | 0x80);
+        if (maincpu_clk - 1 > vicii.raster_irq_clk
+            && vicii.raster_irq_line < (unsigned int)vicii.screen_height) {
             vicii_irq_next_frame();
         }
     }
 
-    if ((value & 1) && maincpu_clk > vic_ii.raster_irq_clk
-        && vic_ii.raster_irq_line < (unsigned int)vic_ii.screen_height) {
+    if ((value & 1) && maincpu_clk > vicii.raster_irq_clk
+        && vicii.raster_irq_line < (unsigned int)vicii.screen_height) {
         vicii_irq_next_frame();
     }
 
-    vic_ii.irq_status &= ~((value & 0xf) | 0x80);
+    vicii.irq_status &= ~((value & 0xf) | 0x80);
     vicii_irq_set_line();
 
-    VIC_II_DEBUG_REGISTER(("IRQ flag register: $%02X", vic_ii.irq_status));
+    VICII_DEBUG_REGISTER(("IRQ flag register: $%02X", vicii.irq_status));
 }
 
 inline static void d01a_store(const BYTE value)
 {
-    vic_ii.regs[0x1a] = value & 0xf;
+    vicii.regs[0x1a] = value & 0xf;
 
     vicii_irq_set_line();
 
-    VIC_II_DEBUG_REGISTER(("IRQ mask register: $%02X", vic_ii.regs[addr]));
+    VICII_DEBUG_REGISTER(("IRQ mask register: $%02X", vicii.regs[addr]));
 }
 
 inline static void d01b_store(const BYTE value)
@@ -568,27 +568,27 @@ inline static void d01b_store(const BYTE value)
     BYTE b;
     int raster_x;
 
-    VIC_II_DEBUG_REGISTER(("Sprite priority register: $%02X", value));
+    VICII_DEBUG_REGISTER(("Sprite priority register: $%02X", value));
 
-    if (value == vic_ii.regs[0x1b])
+    if (value == vicii.regs[0x1b])
         return;
 
-    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk));
+    raster_x = VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk));
 
     for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
         raster_sprite_t *sprite;
 
-        sprite = vic_ii.raster.sprite_status->sprites + i;
+        sprite = vicii.raster.sprite_status->sprites + i;
 
         if (sprite->x < raster_x)
-            raster_add_int_change_next_line(&vic_ii.raster,
+            raster_add_int_change_next_line(&vicii.raster,
                                             &sprite->in_background,
                                             value & b ? 1 : 0);
         else
             sprite->in_background = value & b ? 1 : 0;
     }
 
-    vic_ii.regs[0x1b] = value;
+    vicii.regs[0x1b] = value;
 }
 
 inline static void d01c_store(const BYTE value)
@@ -597,21 +597,21 @@ inline static void d01c_store(const BYTE value)
     BYTE b;
     int raster_x;
 
-    VIC_II_DEBUG_REGISTER(("Sprite Multicolor Enable register: $%02X", value));
+    VICII_DEBUG_REGISTER(("Sprite Multicolor Enable register: $%02X", value));
 
-    if (value == vic_ii.regs[0x1c])
+    if (value == vicii.regs[0x1c])
         return;
 
-    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk));
+    raster_x = VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk));
 
     for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
         raster_sprite_t *sprite;
 
-        sprite = vic_ii.raster.sprite_status->sprites + i;
+        sprite = vicii.raster.sprite_status->sprites + i;
 
 #if 0
         if (sprite->x < raster_x)
-            raster_add_int_change_next_line(&vic_ii.raster,
+            raster_add_int_change_next_line(&vicii.raster,
                                             &sprite->multicolor,
                                             value & b ? 1 : 0);
         else
@@ -619,13 +619,13 @@ inline static void d01c_store(const BYTE value)
 #else
         /* FIXME: This is not exact at the edge of the sprite */
         raster_add_int_change_sprites
-            (&vic_ii.raster,
-            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 6,
+            (&vicii.raster,
+            VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 6,
             &sprite->multicolor, value & b ? 1 : 0);
 #endif
     }
 
-    vic_ii.regs[0x1c] = value;
+    vicii.regs[0x1c] = value;
 }
 
 inline static void d01d_store(const BYTE value)
@@ -634,31 +634,31 @@ inline static void d01d_store(const BYTE value)
     int i;
     BYTE b;
 
-    VIC_II_DEBUG_REGISTER(("Sprite X Expand register: $%02X", value));
+    VICII_DEBUG_REGISTER(("Sprite X Expand register: $%02X", value));
 
-    if (value == vic_ii.regs[0x1d])
+    if (value == vicii.regs[0x1d])
         return;
 
     /* FIXME: The offset of 6 was calibrated with the GULP demo and CCS */
-    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 6;
+    raster_x = VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 6;
 
     for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
         raster_sprite_t *sprite;
 
-        sprite = vic_ii.raster.sprite_status->sprites + i;
+        sprite = vicii.raster.sprite_status->sprites + i;
 
 #if 0
         /* FIXME: how is this handled in the middle of one line?  */
         if (raster_x < sprite->x)
             sprite->x_expanded = value & b ? 1 : 0;
         else
-            raster_add_int_change_next_line(&vic_ii.raster,
+            raster_add_int_change_next_line(&vicii.raster,
                                             &sprite->x_expanded,
                                             value & b ? 1 : 0);
 #else
-        if ((value & b) != (vic_ii.regs[0x1d] & b)) {
+        if ((value & b) != (vicii.regs[0x1d] & b)) {
             raster_add_int_change_sprites
-                (&vic_ii.raster,
+                (&vicii.raster,
                 raster_x,
                 &sprite->x_expanded, value & b ? 1 : 0);
 
@@ -673,7 +673,7 @@ inline static void d01d_store(const BYTE value)
                 sprite->x_shift_sum += actual_shift;
 
                 raster_add_int_change_sprites
-                    (&vic_ii.raster,
+                    (&vicii.raster,
                     raster_x,
                     &sprite->x_shift, sprite->x_shift_sum);
             }
@@ -682,27 +682,27 @@ inline static void d01d_store(const BYTE value)
 #endif
     }
 
-    vic_ii.regs[0x1d] = value;
+    vicii.regs[0x1d] = value;
 }
 
 inline static void collision_store(const WORD addr, const BYTE value)
 {
-    VIC_II_DEBUG_REGISTER(("(collision register, Read Only)"));
+    VICII_DEBUG_REGISTER(("(collision register, Read Only)"));
 }
 
 inline static void d020_store(BYTE value)
 {
-    VIC_II_DEBUG_REGISTER(("Border color register: $%02X", value));
+    VICII_DEBUG_REGISTER(("Border color register: $%02X", value));
 
     value &= 0xf;
 
-    if (vic_ii.regs[0x20] == value)
+    if (vicii.regs[0x20] == value)
         return;
 
-    vic_ii.regs[0x20] = value;
-    raster_add_int_change_border(&vic_ii.raster,
-        VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
-        (int*)&vic_ii.raster.border_color,
+    vicii.regs[0x20] = value;
+    raster_add_int_change_border(&vicii.raster,
+        VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
+        (int *)&vicii.raster.border_color,
         value);
 }
 
@@ -712,28 +712,28 @@ inline static void d021_store(BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("Background #0 color register: $%02X",
+    VICII_DEBUG_REGISTER(("Background #0 color register: $%02X",
                           value));
 
-    if (vic_ii.regs[0x21] == value)
+    if (vicii.regs[0x21] == value)
         return;
 
-    x_pos = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk));
+    x_pos = VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk));
 
-    if (!vic_ii.force_black_overscan_background_color) {
+    if (!vicii.force_black_overscan_background_color) {
         raster_add_int_change_background
-            (&vic_ii.raster, x_pos,
-            &vic_ii.raster.overscan_background_color, value);
+            (&vicii.raster, x_pos,
+            &vicii.raster.overscan_background_color, value);
         raster_add_int_change_background
-            (&vic_ii.raster, x_pos,
-            &vic_ii.raster.xsmooth_color, value);
+            (&vicii.raster, x_pos,
+            &vicii.raster.xsmooth_color, value);
     }
 
-    raster_add_int_change_background(&vic_ii.raster, x_pos,
-                                     (int*)&vic_ii.raster.background_color,
+    raster_add_int_change_background(&vicii.raster, x_pos,
+                                     (int *)&vicii.raster.background_color,
                                      value);
 
-    vic_ii.regs[0x21] = value;
+    vicii.regs[0x21] = value;
 }
 
 inline static void ext_background_store(WORD addr, BYTE value)
@@ -742,32 +742,32 @@ inline static void ext_background_store(WORD addr, BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("Background color #%d register: $%02X",
+    VICII_DEBUG_REGISTER(("Background color #%d register: $%02X",
                           addr - 0x21, value));
 
-    if (vic_ii.regs[addr] == value)
+    if (vicii.regs[addr] == value)
         return;
 
-    vic_ii.regs[addr] = value;
+    vicii.regs[addr] = value;
 
-    char_num = VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(maincpu_clk));
+    char_num = VICII_RASTER_CHAR(VICII_RASTER_CYCLE(maincpu_clk));
 
-    if (vic_ii.video_mode == VIC_II_EXTENDED_TEXT_MODE) {
+    if (vicii.video_mode == VICII_EXTENDED_TEXT_MODE) {
         raster_add_int_change_background
-            (&vic_ii.raster,
-            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
-            &vic_ii.raster.overscan_background_color,
-            vic_ii.regs[0x21 + (vic_ii.background_color_source >> 6)]);
+            (&vicii.raster,
+            VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
+            &vicii.raster.overscan_background_color,
+            vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
         raster_add_int_change_background
-            (&vic_ii.raster,
-            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
-            &vic_ii.raster.xsmooth_color,
-            vic_ii.regs[0x21 + (vic_ii.background_color_source >> 6)]);
+            (&vicii.raster,
+            VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
+            &vicii.raster.xsmooth_color,
+            vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
     }
 
-    raster_add_int_change_foreground(&vic_ii.raster,
+    raster_add_int_change_foreground(&vicii.raster,
                                      char_num - 1,
-                                     &vic_ii.ext_background_color[addr - 0x22],
+                                     &vicii.ext_background_color[addr - 0x22],
                                      value);
 }
 
@@ -777,29 +777,29 @@ inline static void d025_store(BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("Sprite multicolor register #0: $%02X", value));
+    VICII_DEBUG_REGISTER(("Sprite multicolor register #0: $%02X", value));
 
-    if (vic_ii.regs[0x25] == value)
+    if (vicii.regs[0x25] == value)
         return;
 
-    sprite_status = vic_ii.raster.sprite_status;
+    sprite_status = vicii.raster.sprite_status;
 
 #if 0
     /* FIXME: this is approximated.  */
-    if (VIC_II_RASTER_CYCLE(maincpu_clk) > vic_ii.cycles_per_line / 2)
-        raster_add_int_change_next_line(&vic_ii.raster,
+    if (VICII_RASTER_CYCLE(maincpu_clk) > vicii.cycles_per_line / 2)
+        raster_add_int_change_next_line(&vicii.raster,
             (int *)&sprite_status->mc_sprite_color_1,
             (int)value);
     else
         sprite_status->mc_sprite_color_1 = value;
 #else
     raster_add_int_change_sprites
-        (&vic_ii.raster,
-        VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 1,
-        (int*)&sprite_status->mc_sprite_color_1, (int)value);
+        (&vicii.raster,
+        VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
+        (int *)&sprite_status->mc_sprite_color_1, (int)value);
 #endif
 
-    vic_ii.regs[0x25] = value;
+    vicii.regs[0x25] = value;
 }
 
 inline static void d026_store(BYTE value)
@@ -808,29 +808,29 @@ inline static void d026_store(BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("Sprite multicolor register #1: $%02X", value));
+    VICII_DEBUG_REGISTER(("Sprite multicolor register #1: $%02X", value));
 
-    if (vic_ii.regs[0x26] == value)
+    if (vicii.regs[0x26] == value)
         return;
 
-    sprite_status = vic_ii.raster.sprite_status;
+    sprite_status = vicii.raster.sprite_status;
 
 #if 0
     /* FIXME: this is approximated.  */
-    if (VIC_II_RASTER_CYCLE(maincpu_clk) > vic_ii.cycles_per_line / 2)
-        raster_add_int_change_next_line(&vic_ii.raster,
+    if (VICII_RASTER_CYCLE(maincpu_clk) > vicii.cycles_per_line / 2)
+        raster_add_int_change_next_line(&vicii.raster,
             (int *)&sprite_status->mc_sprite_color_2,
             (int)value);
     else
         sprite_status->mc_sprite_color_2 = value;
 #else
     raster_add_int_change_sprites
-        (&vic_ii.raster,
-        VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 1,
+        (&vicii.raster,
+        VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
         (int*)&sprite_status->mc_sprite_color_2, (int)value);
 #endif
 
-    vic_ii.regs[0x26] = value;
+    vicii.regs[0x26] = value;
 }
 
 inline static void sprite_color_store(WORD addr, BYTE value)
@@ -840,52 +840,52 @@ inline static void sprite_color_store(WORD addr, BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("Sprite #%d color register: $%02X",
-                          addr - 0x27, value));
+    VICII_DEBUG_REGISTER(("Sprite #%d color register: $%02X",
+                         addr - 0x27, value));
 
-    if (vic_ii.regs[addr] == value)
+    if (vicii.regs[addr] == value)
         return;
 
     n = addr - 0x27;
 
-    sprite = vic_ii.raster.sprite_status->sprites + n;
+    sprite = vicii.raster.sprite_status->sprites + n;
 
 #if 0
-    if (sprite->x < VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)))
-        raster_add_int_change_next_line(&vic_ii.raster,
+    if (sprite->x < VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)))
+        raster_add_int_change_next_line(&vicii.raster,
                                         (int *)&sprite->color,
                                         (int)value);
     else
         sprite->color = value;
 #else
         raster_add_int_change_sprites
-            (&vic_ii.raster,
-            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 1,
-            (int*)&sprite->color, value);
+            (&vicii.raster,
+            VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
+            (int *)&sprite->color, value);
 #endif
 
-    vic_ii.regs[addr] = value;
+    vicii.regs[addr] = value;
 }
 
 inline static void d02f_store(BYTE value)
 {
-    if (vic_ii.viciie) {
-        VIC_II_DEBUG_REGISTER(("Extended keyboard row enable: $%02X",
-                              value));
-        vic_ii.regs[0x2f] = value | 0xf8;
+    if (vicii.viciie) {
+        VICII_DEBUG_REGISTER(("Extended keyboard row enable: $%02X",
+                             value));
+        vicii.regs[0x2f] = value | 0xf8;
         cia1_set_extended_keyboard_rows_mask(value);
     } else {
-        VIC_II_DEBUG_REGISTER(("(unused)"));
+        VICII_DEBUG_REGISTER(("(unused)"));
     }
 }
 
 inline static void d030_store(BYTE value)
 {
-    if (vic_ii.viciie) {
-        VIC_II_DEBUG_REGISTER(("Store $D030: $%02X", value));
-        vic_ii.regs[0x30] = value | 0xfc;
+    if (vicii.viciie) {
+        VICII_DEBUG_REGISTER(("Store $D030: $%02X", value));
+        vicii.regs[0x30] = value | 0xfc;
     } else {
-        VIC_II_DEBUG_REGISTER(("(unused)"));
+        VICII_DEBUG_REGISTER(("(unused)"));
     }
 }
 
@@ -901,12 +901,12 @@ void REGPARM2 vicii_store(WORD addr, BYTE value)
        updated and `current_line' is actually set to the current Y position of
        the raster.  Otherwise we might mix the changes for this line with the
        changes for the previous one.  */
-    if (maincpu_clk >= vic_ii.draw_clk)
-        vicii_raster_draw_alarm_handler(maincpu_clk - vic_ii.draw_clk);
+    if (maincpu_clk >= vicii.draw_clk)
+        vicii_raster_draw_alarm_handler(maincpu_clk - vicii.draw_clk);
 
-    VIC_II_DEBUG_REGISTER(("WRITE $D0%02X at cycle %d of current_line $%04X",
-                          addr, VIC_II_RASTER_CYCLE(maincpu_clk),
-                          VIC_II_RASTER_Y(maincpu_clk)));
+    VICII_DEBUG_REGISTER(("WRITE $D0%02X at cycle %d of current_line $%04X",
+                         addr, VICII_RASTER_CYCLE(maincpu_clk),
+                         VICII_RASTER_Y(maincpu_clk)));
 
     switch (addr) {
       case 0x0:                   /* $D000: Sprite #0 X position LSB */
@@ -928,7 +928,7 @@ void REGPARM2 vicii_store(WORD addr, BYTE value)
       case 0xb:                   /* $D00B: Sprite #5 Y position */
       case 0xd:                   /* $D00D: Sprite #6 Y position */
       case 0xf:                   /* $D00F: Sprite #7 Y position */
-        store_sprite_y_position(addr, (BYTE)((value + vic_ii.offset) & 255));
+        store_sprite_y_position(addr, (BYTE)((value + vicii.offset) & 255));
         break;
 
       case 0x10:                  /* $D010: Sprite X position MSB */
@@ -1047,7 +1047,7 @@ void REGPARM2 vicii_store(WORD addr, BYTE value)
       case 0x3d:                  /* $D03D: Unused */
       case 0x3e:                  /* $D03E: Unused */
       case 0x3f:                  /* $D03F: Unused */
-        VIC_II_DEBUG_REGISTER(("(unused)"));
+        VICII_DEBUG_REGISTER(("(unused)"));
         break;
     }
 }
@@ -1058,13 +1058,13 @@ inline static unsigned int read_raster_y(void)
 {
     int raster_y;
 
-    raster_y = VIC_II_RASTER_Y(maincpu_clk);
+    raster_y = VICII_RASTER_Y(maincpu_clk);
 
     /* Line 0 is 62 cycles long, while line (SCREEN_HEIGHT - 1) is 64
        cycles long.  As a result, the counter is incremented one
        cycle later on line 0.  */
-    if (raster_y == 0 && VIC_II_RASTER_CYCLE(maincpu_clk) == 0)
-        raster_y = vic_ii.screen_height - 1;
+    if (raster_y == 0 && VICII_RASTER_CYCLE(maincpu_clk) == 0)
+        raster_y = vicii.screen_height - 1;
 
     return raster_y;
 }
@@ -1073,17 +1073,17 @@ inline static BYTE d01112_read(WORD addr)
 {
     unsigned int tmp;
 
-    tmp = (vic_ii.screen_height + read_raster_y() - vic_ii.offset)
-          % vic_ii.screen_height;
+    tmp = (vicii.screen_height + read_raster_y() - vicii.offset)
+          % vicii.screen_height;
 
-    VIC_II_DEBUG_REGISTER(("Raster Line register %svalue = $%04X",
-                          (addr == 0x11 ? "(highest bit) " : ""), tmp));
+    VICII_DEBUG_REGISTER(("Raster Line register %svalue = $%04X",
+                         (addr == 0x11 ? "(highest bit) " : ""), tmp));
     if (addr == 0x11)
-        vic_ii.last_read = (vic_ii.regs[addr] & 0x7f) | ((tmp & 0x100) >> 1);
+        vicii.last_read = (vicii.regs[addr] & 0x7f) | ((tmp & 0x100) >> 1);
     else
-        vic_ii.last_read = tmp & 0xff;
+        vicii.last_read = tmp & 0xff;
 
-    return vic_ii.last_read;
+    return vicii.last_read;
 }
 
 
@@ -1091,18 +1091,18 @@ inline static BYTE d019_read(void)
 {
     /* Manually set raster IRQ flag if the opcode reading $d019 has crossed
        the line end and the raster IRQ alarm has not been executed yet. */
-    if (VIC_II_RASTER_Y(maincpu_clk) == vic_ii.raster_irq_line
-        && vic_ii.raster_irq_clk != CLOCK_MAX
-        && maincpu_clk >= vic_ii.raster_irq_clk) {
-        if (vic_ii.regs[0x1a] & 0x1)
-            vic_ii.last_read = vic_ii.irq_status | 0xf1;
+    if (VICII_RASTER_Y(maincpu_clk) == vicii.raster_irq_line
+        && vicii.raster_irq_clk != CLOCK_MAX
+        && maincpu_clk >= vicii.raster_irq_clk) {
+        if (vicii.regs[0x1a] & 0x1)
+            vicii.last_read = vicii.irq_status | 0xf1;
         else
-            vic_ii.last_read = vic_ii.irq_status | 0x71;
+            vicii.last_read = vicii.irq_status | 0x71;
     } else {
-        vic_ii.last_read = vic_ii.irq_status | 0x70;
+        vicii.last_read = vicii.irq_status | 0x70;
     }
 
-    return vic_ii.last_read;
+    return vicii.last_read;
 }
 
 /* Read a value from a VIC-II register.  */
@@ -1113,9 +1113,9 @@ BYTE REGPARM1 vicii_read(WORD addr)
     /* Serve all pending events.  */
     vicii_handle_pending_alarms(0);
 
-    VIC_II_DEBUG_REGISTER(("READ $D0%02X at cycle %d of current_line $%04X:",
-                          addr, VIC_II_RASTER_CYCLE(maincpu_clk),
-                          VIC_II_RASTER_Y(maincpu_clk)));
+    VICII_DEBUG_REGISTER(("READ $D0%02X at cycle %d of current_line $%04X:",
+                         addr, VICII_RASTER_CYCLE(maincpu_clk),
+                         VICII_RASTER_Y(maincpu_clk)));
 
     /* Note: we use hardcoded values instead of `unused_bits_in_registers[]'
        here because this is a little bit faster.  */
@@ -1128,9 +1128,9 @@ BYTE REGPARM1 vicii_read(WORD addr)
       case 0xa:                   /* $D00a: Sprite #5 X position LSB */
       case 0xc:                   /* $D00c: Sprite #6 X position LSB */
       case 0xe:                   /* $D00e: Sprite #7 X position LSB */
-        VIC_II_DEBUG_REGISTER(("Sprite #%d X position LSB: $%02X",
-                              addr >> 1, vic_ii.regs[addr]));
-        return vic_ii.regs[addr];
+        VICII_DEBUG_REGISTER(("Sprite #%d X position LSB: $%02X",
+                             addr >> 1, vicii.regs[addr]));
+        return vicii.regs[addr];
 
       case 0x1:                   /* $D001: Sprite #0 Y position */
       case 0x3:                   /* $D003: Sprite #1 Y position */
@@ -1140,14 +1140,14 @@ BYTE REGPARM1 vicii_read(WORD addr)
       case 0xb:                   /* $D00B: Sprite #5 Y position */
       case 0xd:                   /* $D00D: Sprite #6 Y position */
       case 0xf:                   /* $D00F: Sprite #7 Y position */
-        VIC_II_DEBUG_REGISTER(("Sprite #%d Y position: $%02X",
-                              addr >> 1, vic_ii.regs[addr]));
-        return (256 + vic_ii.regs[addr] - vic_ii.offset) % 256;
+        VICII_DEBUG_REGISTER(("Sprite #%d Y position: $%02X",
+                             addr >> 1, vicii.regs[addr]));
+        return (256 + vicii.regs[addr] - vicii.offset) % 256;
 
       case 0x10:                  /* $D010: Sprite X position MSB */
-        VIC_II_DEBUG_REGISTER(("Sprite X position MSB: $%02X",
-                              vic_ii.regs[addr]));
-        return vic_ii.regs[addr];
+        VICII_DEBUG_REGISTER(("Sprite X position MSB: $%02X",
+                             vicii.regs[addr]));
+        return vicii.regs[addr];
 
       case 0x11:                /* $D011: video mode, Y scroll, 24/25 line mode
                                    and raster MSB */
@@ -1155,62 +1155,62 @@ BYTE REGPARM1 vicii_read(WORD addr)
         return d01112_read(addr);
 
       case 0x13:                  /* $D013: Light Pen X */
-        VIC_II_DEBUG_REGISTER(("Light pen X: %d", vic_ii.light_pen.x));
-        return vic_ii.light_pen.x;
+        VICII_DEBUG_REGISTER(("Light pen X: %d", vicii.light_pen.x));
+        return vicii.light_pen.x;
 
       case 0x14:                  /* $D014: Light Pen Y */
-        VIC_II_DEBUG_REGISTER(("Light pen Y: %d", vic_ii.light_pen.y));
-        return vic_ii.light_pen.y;
+        VICII_DEBUG_REGISTER(("Light pen Y: %d", vicii.light_pen.y));
+        return vicii.light_pen.y;
 
       case 0x15:                  /* $D015: Sprite Enable */
-        VIC_II_DEBUG_REGISTER(("Sprite Enable register: $%02X",
-                              vic_ii.regs[addr]));
-        return vic_ii.regs[addr];
+        VICII_DEBUG_REGISTER(("Sprite Enable register: $%02X",
+                             vicii.regs[addr]));
+        return vicii.regs[addr];
 
       case 0x16:                  /* $D016 */
-        VIC_II_DEBUG_REGISTER(("$D016 Control register read: $%02X",
-                              vic_ii.regs[addr]));
-        return vic_ii.regs[addr] | 0xc0;
+        VICII_DEBUG_REGISTER(("$D016 Control register read: $%02X",
+                             vicii.regs[addr]));
+        return vicii.regs[addr] | 0xc0;
 
       case 0x17:                  /* $D017: Sprite Y-expand */
-        VIC_II_DEBUG_REGISTER(("Sprite Y Expand register: $%02X",
-                              vic_ii.regs[addr]));
-        return vic_ii.regs[addr];
+        VICII_DEBUG_REGISTER(("Sprite Y Expand register: $%02X",
+                             vicii.regs[addr]));
+        return vicii.regs[addr];
 
       case 0x18:                /* $D018: Video and char matrix base address */
-        VIC_II_DEBUG_REGISTER(("Video memory address register: $%02X",
-                              vic_ii.regs[addr]));
-        return vic_ii.regs[addr] | 0x1;
+        VICII_DEBUG_REGISTER(("Video memory address register: $%02X",
+                             vicii.regs[addr]));
+        return vicii.regs[addr] | 0x1;
 
       case 0x19:                  /* $D019: IRQ flag register */
         {
             BYTE tmp;
 
             tmp = d019_read();
-            VIC_II_DEBUG_REGISTER(("Interrupt register: $%02X", tmp));
+            VICII_DEBUG_REGISTER(("Interrupt register: $%02X", tmp));
 
             return tmp;
         }
 
       case 0x1a:                  /* $D01A: IRQ mask register  */
-        VIC_II_DEBUG_REGISTER(("Mask register: $%02X",
-                              vic_ii.regs[addr] | 0xf0));
-        return vic_ii.regs[addr] | 0xf0;
+        VICII_DEBUG_REGISTER(("Mask register: $%02X",
+                             vicii.regs[addr] | 0xf0));
+        return vicii.regs[addr] | 0xf0;
 
       case 0x1b:                  /* $D01B: Sprite priority */
-        VIC_II_DEBUG_REGISTER(("Sprite Priority register: $%02X",
-                              vic_ii.regs[addr]));
-        return vic_ii.regs[addr];
+        VICII_DEBUG_REGISTER(("Sprite Priority register: $%02X",
+                             vicii.regs[addr]));
+        return vicii.regs[addr];
 
       case 0x1c:                  /* $D01C: Sprite Multicolor select */
-        VIC_II_DEBUG_REGISTER(("Sprite Multicolor Enable register: $%02X",
-                              vic_ii.regs[addr]));
-        return vic_ii.regs[addr];
+        VICII_DEBUG_REGISTER(("Sprite Multicolor Enable register: $%02X",
+                             vicii.regs[addr]));
+        return vicii.regs[addr];
 
       case 0x1d:                  /* $D01D: Sprite X-expand */
-        VIC_II_DEBUG_REGISTER(("Sprite X Expand register: $%02X",
-                              vic_ii.regs[addr]));
-        return vic_ii.regs[addr];
+        VICII_DEBUG_REGISTER(("Sprite X Expand register: $%02X",
+                             vicii.regs[addr]));
+        return vicii.regs[addr];
 
       case 0x1e:                  /* $D01E: Sprite-sprite collision */
         /* Remove the pending sprite-sprite interrupt, as the collision
@@ -1218,15 +1218,15 @@ BYTE REGPARM1 vicii_read(WORD addr)
         vicii_irq_sscoll_clear();
 
         if (vicii_resources.sprite_sprite_collisions_enabled) {
-            vic_ii.regs[addr] = vic_ii.sprite_sprite_collisions;
-            vic_ii.sprite_sprite_collisions = 0;
-            VIC_II_DEBUG_REGISTER(("Sprite-sprite collision mask: $%02X",
-                                  vic_ii.regs[addr]));
-            return vic_ii.regs[addr];
+            vicii.regs[addr] = vicii.sprite_sprite_collisions;
+            vicii.sprite_sprite_collisions = 0;
+            VICII_DEBUG_REGISTER(("Sprite-sprite collision mask: $%02X",
+                                 vicii.regs[addr]));
+            return vicii.regs[addr];
         } else {
-            VIC_II_DEBUG_REGISTER(("Sprite-sprite collision mask: $00 "
-                                  "(emulation disabled)"));
-            vic_ii.sprite_sprite_collisions = 0;
+            VICII_DEBUG_REGISTER(("Sprite-sprite collision mask: $00 "
+                                 "(emulation disabled)"));
+            vicii.sprite_sprite_collisions = 0;
             return 0;
         }
 
@@ -1236,42 +1236,42 @@ BYTE REGPARM1 vicii_read(WORD addr)
         vicii_irq_sbcoll_clear();
 
         if (vicii_resources.sprite_background_collisions_enabled) {
-            vic_ii.regs[addr] = vic_ii.sprite_background_collisions;
-            vic_ii.sprite_background_collisions = 0;
-            VIC_II_DEBUG_REGISTER(("Sprite-background collision mask: $%02X",
-                                  vic_ii.regs[addr]));
-#if defined (VIC_II_DEBUG_SB_COLLISIONS)
-            log_message(vic_ii.log,
-                        "vic_ii.sprite_background_collisions reset by $D01F "
+            vicii.regs[addr] = vicii.sprite_background_collisions;
+            vicii.sprite_background_collisions = 0;
+            VICII_DEBUG_REGISTER(("Sprite-background collision mask: $%02X",
+                                  vicii.regs[addr]));
+#if defined (VICII_DEBUG_SB_COLLISIONS)
+            log_message(vicii.log,
+                        "vicii.sprite_background_collisions reset by $D01F "
                         "read at line 0x%X.",
-                        VIC_II_RASTER_Y(clk));
+                        VICII_RASTER_Y(clk));
 #endif
-            return vic_ii.regs[addr];
+            return vicii.regs[addr];
         } else {
-            VIC_II_DEBUG_REGISTER(("Sprite-background collision mask: $00 "
-                                  "(emulation disabled)"));
-            vic_ii.sprite_background_collisions = 0;
+            VICII_DEBUG_REGISTER(("Sprite-background collision mask: $00 "
+                                 "(emulation disabled)"));
+            vicii.sprite_background_collisions = 0;
             return 0;
         }
 
       case 0x20:                  /* $D020: Border color */
-        VIC_II_DEBUG_REGISTER(("Border Color register: $%02X",
-                              vic_ii.regs[addr]));
-        return vic_ii.regs[addr] | 0xf0;
+        VICII_DEBUG_REGISTER(("Border Color register: $%02X",
+                             vicii.regs[addr]));
+        return vicii.regs[addr] | 0xf0;
 
       case 0x21:                  /* $D021: Background #0 color */
       case 0x22:                  /* $D022: Background #1 color */
       case 0x23:                  /* $D023: Background #2 color */
       case 0x24:                  /* $D024: Background #3 color */
-        VIC_II_DEBUG_REGISTER(("Background Color #%d register: $%02X",
-                              addr - 0x21, vic_ii.regs[addr]));
-        return vic_ii.regs[addr] | 0xf0;
+        VICII_DEBUG_REGISTER(("Background Color #%d register: $%02X",
+                             addr - 0x21, vicii.regs[addr]));
+        return vicii.regs[addr] | 0xf0;
 
       case 0x25:                  /* $D025: Sprite multicolor register #0 */
       case 0x26:                  /* $D026: Sprite multicolor register #1 */
-        VIC_II_DEBUG_REGISTER(("Multicolor register #%d: $%02X",
-                              addr - 0x22, vic_ii.regs[addr]));
-        return vic_ii.regs[addr] | 0xf0;
+        VICII_DEBUG_REGISTER(("Multicolor register #%d: $%02X",
+                             addr - 0x22, vicii.regs[addr]));
+        return vicii.regs[addr] | 0xf0;
 
       case 0x27:                  /* $D027: Sprite #0 color */
       case 0x28:                  /* $D028: Sprite #1 color */
@@ -1281,29 +1281,28 @@ BYTE REGPARM1 vicii_read(WORD addr)
       case 0x2c:                  /* $D02C: Sprite #5 color */
       case 0x2d:                  /* $D02D: Sprite #6 color */
       case 0x2e:                  /* $D02E: Sprite #7 color */
-        VIC_II_DEBUG_REGISTER(("Sprite #%d color: $%02X",
-                              addr - 0x22, vic_ii.regs[addr]));
-        return vic_ii.regs[addr] | 0xf0;
+        VICII_DEBUG_REGISTER(("Sprite #%d color: $%02X",
+                             addr - 0x22, vicii.regs[addr]));
+        return vicii.regs[addr] | 0xf0;
 
       case 0x2f:                  /* $D02F: Unused (or extended keyboard row
                                      select) */
-        if (vic_ii.viciie) {
-            VIC_II_DEBUG_REGISTER(("Extended keyboard row enable: $%02X",
-                                  vic_ii.regs[addr]));
-            return vic_ii.regs[addr];
+        if (vicii.viciie) {
+            VICII_DEBUG_REGISTER(("Extended keyboard row enable: $%02X",
+                                 vicii.regs[addr]));
+            return vicii.regs[addr];
         } else {
-            VIC_II_DEBUG_REGISTER(("(unused)"));
+            VICII_DEBUG_REGISTER(("(unused)"));
             return 0xff;
         }
         break;
 
       case 0x30:                  /* $D030: Unused (or VIC-IIe extension) */
-        if (vic_ii.viciie) {
-            VIC_II_DEBUG_REGISTER(("Read $D030: $%02X",
-                                  vic_ii.regs[addr]));
-            return vic_ii.regs[addr];
+        if (vicii.viciie) {
+            VICII_DEBUG_REGISTER(("Read $D030: $%02X", vicii.regs[addr]));
+            return vicii.regs[addr];
         } else {
-            VIC_II_DEBUG_REGISTER(("(unused)"));
+            VICII_DEBUG_REGISTER(("(unused)"));
             return 0xff;
         }
         break;
@@ -1335,18 +1334,18 @@ inline static BYTE d019_peek(void)
 {
     /* Manually set raster IRQ flag if the opcode reading $d019 has crossed
        the line end and the raster IRQ alarm has not been executed yet. */
-    if (VIC_II_RASTER_Y(maincpu_clk) == vic_ii.raster_irq_line
-        && vic_ii.raster_irq_clk != CLOCK_MAX
-        && maincpu_clk >= vic_ii.raster_irq_clk) {
-        if (vic_ii.regs[0x1a] & 0x1)
-            return vic_ii.irq_status | 0xf1;
+    if (VICII_RASTER_Y(maincpu_clk) == vicii.raster_irq_line
+        && vicii.raster_irq_clk != CLOCK_MAX
+        && maincpu_clk >= vicii.raster_irq_clk) {
+        if (vicii.regs[0x1a] & 0x1)
+            return vicii.irq_status | 0xf1;
         else
-            return vic_ii.irq_status | 0x71;
+            return vicii.irq_status | 0x71;
     } else {
-        return vic_ii.irq_status | 0x70;
+        return vicii.irq_status | 0x70;
     }
 
-    return vic_ii.irq_status;
+    return vicii.irq_status;
 }
 
 BYTE REGPARM1 vicii_peek(WORD addr)
@@ -1356,26 +1355,26 @@ BYTE REGPARM1 vicii_peek(WORD addr)
     switch (addr) {
       case 0x11:              /* $D011: video mode, Y scroll, 24/25 line mode
                                  and raster MSB */
-        return (vic_ii.regs[addr] & 0x7f) | ((read_raster_y () & 0x100) >> 1);
+        return (vicii.regs[addr] & 0x7f) | ((read_raster_y () & 0x100) >> 1);
       case 0x12:              /* $D012: Raster line LSB */
         return read_raster_y() & 0xff;
       case 0x13:              /* $D013: Light Pen X */
-        return vic_ii.light_pen.x;
+        return vicii.light_pen.x;
       case 0x14:              /* $D014: Light Pen Y */
-        return vic_ii.light_pen.y;
+        return vicii.light_pen.y;
       case 0x19:
         return d019_peek();
       case 0x1e:              /* $D01E: Sprite-sprite collision */
-        return vic_ii.sprite_sprite_collisions;
+        return vicii.sprite_sprite_collisions;
       case 0x1f:              /* $D01F: Sprite-background collision */
-        return vic_ii.sprite_background_collisions;
+        return vicii.sprite_background_collisions;
       case 0x2f:              /* Extended keyboard row select */
-        if (vic_ii.viciie)
-            return vic_ii.regs[addr] | 0xf8;
+        if (vicii.viciie)
+            return vicii.regs[addr] | 0xf8;
         else
-            return /* vic_ii.regs[addr] | */ 0xff;
+            return /* vicii.regs[addr] | */ 0xff;
       default:
-        return vic_ii.regs[addr] | unused_bits_in_registers[addr];
+        return vicii.regs[addr] | unused_bits_in_registers[addr];
     }
 }
 

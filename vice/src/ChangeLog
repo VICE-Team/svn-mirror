@@ -1,3 +1,34 @@
+2003-05-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.40.
+
+	* debug.c, debug.h: Added support for dense debug output.
+
+	* vsync.c (vsync_do_vsync): Do not warn if debug is enabled.
+
+	* vicii/vicii.c: Removed snapshot include.
+
+	* vicii/vicii.c, vicii/vicii.h, vicii/vicii-snapshot.c
+	c64/c64.c, c128/c128.c, cbm2/cbm2.c
+	(vicii_prepare_for_snapshot): Renamed and moved to snapshot
+	code.
+
+	* plus4/ted.c, plus4/ted.h, plus4/plus4.c,
+	plus4/ted-snapshot.c (ted_prepare_for_snapshot): Likewise.
+
+	* sound.c, sound.h, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, plus4/plus4.c, cbm2/cbm2.c
+	(sound_snapshot_prepare, sound_snapshot_finish): New
+	functions.
+
+	* video/video-color.c, vicii/vicii-badline.c,
+	vicii/vicii-cmdline-options.c, vicii/vicii-draw.c,
+	vicii/vicii-fetch.c, vicii/vicii-irq.c, vicii/vicii-mem.c,
+	vicii/vicii-phi1.c, vicii/vicii-resources.c,
+	vicii/vicii-snapshot.c, vicii/vicii-sprites.c,
+	vicii/vicii-timing.c, vicii/vicii.c, vicii/viciitypes.h,
+	vicii/vicii-sprites.h: Renamed `vic_ii*'.
+
 2003-04-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.39.
