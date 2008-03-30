@@ -31,6 +31,7 @@
 #include <windowsx.h>
 #include <stdlib.h>
 
+#include "utils.h"
 #include "winmain.h"
 
 HINSTANCE winmain_instance;
@@ -84,20 +85,20 @@ int     startpos;
     }
 
     _argc=0;
-    _argv=malloc(_argc*sizeof(char*));
+    _argv=xmalloc(_argc*sizeof(char*));
     scanmode=2;
     for (i=0; i<=strlen(cmd_line); i++) {
         switch(scanmode) {
             case 0:
                 /*  Search for end of argument */
                 if (cmd_line[i]==' ') {
-                    _argv[_argc]=malloc(i-startpos+1);
+                    _argv[_argc]=xmalloc(i-startpos+1);
                     memcpy(_argv[_argc],&cmd_line[startpos],i-startpos);
                     _argv[_argc][i-startpos]=0;
                     _argc++;
                     scanmode=2;
                 } else if (cmd_line[i]==0) {
-                    _argv[_argc]=malloc(i-startpos+1);
+                    _argv[_argc]=xmalloc(i-startpos+1);
                     memcpy(_argv[_argc],&cmd_line[startpos],i-startpos);
                     _argv[_argc][i-startpos]=0;
                     _argc++;
@@ -106,13 +107,13 @@ int     startpos;
             case 1:
                 /*  Search end of '"' */
                 if (cmd_line[i]=='"') {
-                    _argv[_argc]=malloc(i-startpos+1);
+                    _argv[_argc]=xmalloc(i-startpos+1);
                     memcpy(_argv[_argc],&cmd_line[startpos],i-startpos);
                     _argv[_argc][i-startpos]=0;
                     _argc++;
                     scanmode=2;
                 } else if (cmd_line[i]==0) {
-                    _argv[_argc]=malloc(i-startpos+1);
+                    _argv[_argc]=xmalloc(i-startpos+1);
                     memcpy(_argv[_argc],&cmd_line[startpos],i-startpos);
                     _argv[_argc][i-startpos]=0;
                     _argc++;

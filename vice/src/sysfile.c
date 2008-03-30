@@ -73,16 +73,13 @@ static int set_system_path(resource_value_t v)
 
     tmp_path = tmp_path_save; /* tmp_path points into tmp_path_save */
     do {
-        p=strstr(tmp_path,FINDPATH_SEPARATOR_STRING);
+        p = strstr(tmp_path,FINDPATH_SEPARATOR_STRING);
 
         if (p != NULL) {
             *p = 0;
         }
-        if (*tmp_path == FSDEV_DIR_SEP_CHR
-#ifdef __MSDOS__
-            || tmp_path[1] == ':'
-#endif
-            ) { /* absolute path */
+        if (!archdep_path_is_relative(tmp_path)) {
+            /* absolute path */
             if (expanded_system_path == NULL) {
                 s = concat(tmp_path, NULL ); /* concat allocs a new str. */
             } else {
@@ -206,7 +203,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
             *complete_path_return = NULL;
         return NULL;
     } else {
-        f = fopen(p, "rb");
+        f = fopen(p, MODE_READ);
 
         if (f == NULL || complete_path_return == NULL) {
             free(p);

@@ -73,17 +73,17 @@
 #include "ui.h"
 
 #include "cmdline.h"
+#include "drive.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mouse.h"
 #include "resources.h"
 #include "uihotkey.h"
 #include "uimenu.h"
 #include "uisettings.h"
 #include "utils.h"
 #include "vsync.h"
-#include "mouse.h"
-#include "drive.h"
 
 /* FIXME: We want these to be static.  */
 Display *display;
@@ -1294,8 +1294,8 @@ void ui_create_dynamic_menues()
 	buf[0] = '*';
 	buf[50] = '\0';
         resolutions_submenu = (ui_menu_entry_t*)
-	  xmalloc(sizeof(ui_menu_entry_t)*
-		 (size_t) (bestmode_counter + 1));
+        xmalloc(sizeof(ui_menu_entry_t)*
+                (size_t) (bestmode_counter + 1));
 
 	for(i = 0; i < bestmode_counter ; i++) {
 	    buf[1] = '\0';
@@ -1633,8 +1633,8 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 {
     if (!have_truecolor) {
 	int nallocp;
-	PIXEL  *xpixel=malloc(sizeof(PIXEL)*palette->num_entries);
-	unsigned long *ypixel=malloc(sizeof(unsigned long)*n_allocated_pixels);
+	PIXEL  *xpixel=xmalloc(sizeof(PIXEL)*palette->num_entries);
+	unsigned long *ypixel=xmalloc(sizeof(unsigned long)*n_allocated_pixels);
 
 #if X_DISPLAY_DEPTH == 0
         extern PIXEL  real_pixel1[];

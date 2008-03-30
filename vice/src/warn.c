@@ -56,14 +56,14 @@ warn_t *warn_init(const char *name, int nrwarnings)
 {
     warn_t		*p;
 
-    p = malloc(sizeof(*p));
+    p = xmalloc(sizeof(*p));
     p->name = stralloc(name);
     p->pnext = warnlist;
     warnlist = p;
     p->nrwarn = nrwarnings;
     if (nrwarnings)
     {
-	p->pwarn = malloc((p->nrwarn+7)/8);
+	p->pwarn = xmalloc((p->nrwarn+7)/8);
 	memset(p->pwarn, 0, (p->nrwarn+7)/8);
     }
     else

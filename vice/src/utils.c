@@ -34,15 +34,15 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
-#ifdef HAVE_STRINGS_H
-#include <strings.h>
-#endif
 #ifdef __riscos
 #include "ROlib.h"
 #else
 #include <fcntl.h>
 #include <sys/types.h>
 #endif
+#endif
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -320,27 +320,22 @@ char *subst(const char *s, const char *string, const char *replacement)
 char *make_backup_filename(const char *fname)
 {
 #ifndef __MSDOS__
-
-    /* Just add a '~' to the end of the name.  */
-    int l = strlen(fname);
-    char *p = (char *)xmalloc(l + 2);
-
-    memcpy(p, fname, l);
-    *(p + l) = '~';
-    *(p + l + 1) = '\0';
-    return p;
-
+    /* Return a malloced string with the name of the backup file
+       corresponding to `fname'.  */
+    return concat(fname, "~", NULL);
 #else  /* !__MSDOS__ */
+    /* Return a malloced string with the name of the backup file
+       corresponding to `fname'.  FIXME: Only works with 8+3 names.  */
+    static char backup_name[MAXPATH];
+    char drive[MAXDRIVE];
+    char dir[MAXDIR];
+    char name[MAXFILE];
+    char ext[MAXEXT];
 
-    /* FIXME: only works with 8+3 names.  */
-    char d[MAXDRIVE], p[MAXDIR], f[MAXFILE], e[MAXEXT];
-    char new[MAXPATH];
+    fnsplit(fname, drive, dir, name, ext);
+    fnmerge(backup_name, drive, dir, name, "BAK");
 
-    fnsplit(fname, d, p, f, e);
-    fnmerge(new, d, p, f, "BAK");
-
-    return stralloc(new);
-
+    return stralloc(backup_name);
 #endif /* !__MSDOS__ */
 }
 

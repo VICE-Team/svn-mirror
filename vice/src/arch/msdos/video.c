@@ -247,7 +247,7 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
 	log_error(video_log, "Too many colors requested.");
 	return (canvas_t) NULL;
     }
-    new_canvas = (canvas_t) malloc(sizeof(struct _canvas));
+    new_canvas = (canvas_t)xmalloc(sizeof(struct _canvas));
     if (!new_canvas)
 	return (canvas_t) NULL;
 

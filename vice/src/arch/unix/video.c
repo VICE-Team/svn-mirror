@@ -386,7 +386,7 @@ int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
     } else
 #endif
     {				/* !use_mitshm */
-	PIXEL *data = (PIXEL *) malloc(width * height * sizeofpixel);
+	PIXEL *data = (PIXEL *)xmalloc(width * height * sizeofpixel);
 
 	if (!data)
 	    return -1;

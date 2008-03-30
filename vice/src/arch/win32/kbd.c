@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "joystick.h"
 #include "machine.h"
+#include "utils.h"
 
 /* ------------------------------------------------------------------------ */
 
@@ -101,7 +102,7 @@ static int keymap_index;
 int kbd_init(int num, ...)
 {
     DEBUG(("Allocating keymaps"));
-    keyconvmaps=(struct _convmap*)malloc(num*sizeof(struct _convmap));
+    keyconvmaps=(struct _convmap*)xmalloc(num*sizeof(struct _convmap));
     DEBUG(("Installing keymaps"));
     {
         va_list p;

@@ -32,11 +32,11 @@
 #include <stdlib.h>
 #include <assert.h>
 #endif
-#include "types.h"
 #include "asm.h"
-#include "utils.h"
-#include "mon.h"
 #include "machine.h"
+#include "mon.h"
+#include "types.h"
+#include "utils.h"
 
 #define join_ints(x,y) (LO16_TO_HI16(x)|y)
 #define separate_int1(x) (HI16_TO_LO16(x))
@@ -439,7 +439,7 @@ void parse_and_execute_line(char *input)
    char *temp_buf;
    int i, rc;
 
-   temp_buf = (char *) malloc(strlen(input)+3);
+   temp_buf = (char *)xmalloc(strlen(input)+3);
    strcpy(temp_buf,input);
    i = strlen(input);
    temp_buf[i++] = '\n';

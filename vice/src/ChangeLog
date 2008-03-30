@@ -1,5 +1,45 @@
 1999-05-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.28.
+
+	* sysfile.c (set_system_path): Use `archdep_path_is_relative' to
+	determine type of path.
+
+	* resources.c (make_backup_file_name): Use the function from
+	`utils.c'.
+
+	* arch/unix/archdep.h, arch/msdos/archdep.h, arch/win32/archdep.h,
+	arch/riscos/archdep.h: Defined `fopen' text modes here.
+
+	* main.c (MAIN_PROGRAM): Removed some cruft.
+
+	* arch/win32/archdep.c, arch/msdos/archdep.c: Removed
+	#include "findpath.h".
+
+	* zfile.c, zfile.h (zopen, zclose): Removed.
+
+	* mon_parse.y, autostart.c, arch/unix/video.c, arch/unix/xaw/ui.c,
+	arch/msdos/tuifs.c, arch/msdos/video.c, warn.c, arch/win32/kbd.c,
+	arch/win32/winmain.c: Use `xmalloc'.
+
+1999-06-01  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/config.h, arch/riscos/Makefile.am: forgot to add
+	config.h to Makefile.am the last time.
+
+	* raster/raster.c: define RECALC_FRAME_BUFFER on RISC OS for now.
+
+1999-06-01  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am: Added crtc.dsp and raster.dsp.
+
+	* arch/win32/crtc.dsp, arch/win32/raster.dsp: Files were not
+	  included in last patch.
+
+	* sounddrv/sounddx.c (dx_init): Fixed 16/8 bit soundcard detection.
+
+1999-05-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.27.
 
 	* datasette.c (datasette_read_bit): Adjusted zero delay value.
