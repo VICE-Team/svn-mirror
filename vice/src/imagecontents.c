@@ -178,60 +178,6 @@ static int circular_check(unsigned int track, unsigned int sector)
 /* Argh!  Really ugly!  FIXME!  */
 extern char *slot_type[];
 
-#if 0
-static vdrive_t *open_image(const char *name)
-{
-    static BYTE fake_command_buffer[256];
-    vdrive_t *floppy;
-    hdrinfo hdr;
-    FILE *fd;
-    int image_format;
-
-    fd = zfopen(name, MODE_READ /*, 0*/);
-    if (fd == NULL)
-        return NULL;
-/*    if (check_header(fd, &hdr)) */
-        return NULL;
-
-    if (hdr.v_major > HEADER_VERSION_MAJOR
-        || (hdr.v_major == HEADER_VERSION_MAJOR
-	    && hdr.v_minor > HEADER_VERSION_MINOR)) {
-        zfclose(fd);
-        return 0;
-    }
-
-    image_format = get_diskformat(hdr.devtype);
-    if (image_format < 0 || hdr.gcr) {
-        zfclose(fd);
-        return NULL;
-    }
-
-    floppy = xmalloc(sizeof(vdrive_t));
-
-/*
-    floppy->ActiveFd = fd;
-*/
-    floppy->ImageFormat = image_format;
-    floppy->NumTracks = hdr.tracks;
-    floppy->NumBlocks = num_blocks(floppy->ImageFormat, hdr.tracks);
-    floppy->ErrFlg    = hdr.errblk;
-    floppy->D64_Header= hdr.d64 | hdr.d71 | hdr.d81 | hdr.d80 | hdr.d82;
-    floppy->ReadOnly = 1;	/* Just to be sure... */
-    floppy->unit = 0;
-
-    /* This fake is necessary to `open_1541'...  Ugly, but that is the only
-       way I know with the existing functions.  */
-    floppy->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
-    floppy->buffers[15].buffer = fake_command_buffer;
-    floppy->buffers[0].mode = BUFFER_NOT_IN_USE;
-
-    /* Initialize format constants.  */
-    set_disk_geometry(floppy, floppy->ImageFormat);
-
-    return floppy;
-}
-#endif
-
 static vdrive_t *open_disk_image(const char *name)
 {
     vdrive_t *vdrive;
@@ -262,7 +208,7 @@ static vdrive_t *open_disk_image(const char *name)
     vdrive->buffers[15].buffer = (BYTE *)xmalloc(256);
 
     /* Initialise format constants.  */
-    set_disk_geometry(vdrive, DT_DISK);
+    vdrive_set_disk_geometry(vdrive, DT_DISK);
 
     vdrive_command_set_error(&vdrive->buffers[15], IPE_DOS_VERSION, 0, 0);
 #endif
