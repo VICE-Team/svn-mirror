@@ -27,8 +27,12 @@
 #ifndef _UI_PERIPHERIAL_H
 #define _UI_PERIPHERIAL_H
 
-extern struct ui_menu_entry_s peripheral_settings_submenu[];
-extern struct ui_menu_entry_s ui_peripheral_settings_menu[];
+extern UI_CALLBACK(uiperipheral_set_fsdevice_directory);
+
+extern ui_menu_entry_t uiperipheral_set_device8_type_submenu[];
+extern ui_menu_entry_t uiperipheral_set_device9_type_submenu[];
+extern ui_menu_entry_t uiperipheral_set_device10_type_submenu[];
+extern ui_menu_entry_t uiperipheral_set_device11_type_submenu[];
 
 #endif
 

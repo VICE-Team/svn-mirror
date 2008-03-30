@@ -206,7 +206,6 @@ int drive_init(void)
         drive->attach_clk = (CLOCK)0;
         drive->detach_clk = (CLOCK)0;
         drive->attach_detach_clk = (CLOCK)0;
-        drive->have_new_disk = 0;
         drive->old_led_status = 0;
         drive->old_half_track = 0;
         drive->side = 0;
@@ -465,37 +464,32 @@ void drive_set_half_track(int num, drive_t *dptr)
 /* Return the write protect sense status. */
 inline BYTE drive_write_protect_sense(drive_t *dptr)
 {
-    /* Set the write protection bit for the time the disk is pulled out on
+    /* Clear the write protection bit for the time the disk is pulled out on
        detach.  */
     if (dptr->detach_clk != (CLOCK)0) {
         if (*(dptr->clk) - dptr->detach_clk < DRIVE_DETACH_DELAY)
-            return 0x10;
+            return 0x0;
         dptr->detach_clk = (CLOCK)0;
     }
-    /* Clear the write protection bit for the minimum time until a new disk
+    /* Set the write protection bit for the minimum time until a new disk
        can be inserted.  */
     if (dptr->attach_detach_clk != (CLOCK)0) {
         if (*(dptr->clk) - dptr->attach_detach_clk
             < DRIVE_ATTACH_DETACH_DELAY)
-            return 0x0;
+            return 0x10;
         dptr->attach_detach_clk = (CLOCK)0;
     }
-    /* Set the write protection bit for the time the disk is put in on
+    /* Clear the write protection bit for the time the disk is put in on
        attach.  */
     if (dptr->attach_clk != (CLOCK)0) {
         if (*(dptr->clk) - dptr->attach_clk < DRIVE_ATTACH_DELAY)
-            return 0x10;
+            return 0x0;
         dptr->attach_clk = (CLOCK)0;
     }
 
     if (dptr->GCR_image_loaded == 0) {
-        /* No disk in drive, write protection is on. */
-        return 0x0;
-    } else if (dptr->have_new_disk) {
-        /* Disk has changed, make sure the drive sees at least one change in
-           the write protect status. */
-        dptr->have_new_disk = 0;
-        return dptr->read_only ? 0x10 : 0x0;
+        /* No disk in drive, write protection is off. */
+        return 0x10;
     } else {
         return dptr->read_only ? 0x0 : 0x10;
     }

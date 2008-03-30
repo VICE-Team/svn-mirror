@@ -42,7 +42,7 @@
 #include "uidrive.h"
 #include "uidrivepetcbm2.h"
 #include "uijoystick2.h"
-#include "uiperipheral.h"
+#include "uiperipheralieee.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
@@ -442,7 +442,7 @@ int cbm2ui_init(void)
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drivepetcbm2_settings_menu,
-                                     ui_peripheral_settings_menu,
+                                     ui_peripheralieee_settings_menu,
                                      joystick_settings_menu,
                                      ui_menu_separator,
                                      cbm2_menu,
@@ -499,7 +499,7 @@ int cbm2ui_init(void)
 				  ui_keyboard_settings_menu,
 				  ui_sound_settings_menu,
 				  ui_drivepetcbm2_settings_menu,
-				  ui_peripheral_settings_menu,
+				  ui_peripheralieee_settings_menu,
 				  joystick_settings_menu,
                                   ui_menu_separator,
                                   cbm2_menu,

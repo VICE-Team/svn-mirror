@@ -23,6 +23,7 @@
  *
  */
 
+/*#include "log.h"*/
 #include "mouse.h"
 #include "mousedrv.h"
 #include "ui.h"
@@ -32,38 +33,52 @@
 #include <wimp.h>
 
 
-static int lastMouseX = 0, lastMouseY = 0;
+static int lastMouseX = 0, lastMouseY = 0, lastMouseButtons = 0;
 
 
 void mousedrv_sync(void)
 {
   if (ActiveCanvas != NULL)
   {
-    mouse_desc mdesc = {0, 0, 0, 0};
+    int newX, newY, newButtons;
 
-    ReadMouseState(&mdesc);
-    if (FullScreenMode == 0)
+    if (FullScreenMode != 0)
     {
-      video_full_screen_mousepos(&mdesc, &lastMouseX, &lastMouseY);
+      video_full_screen_mousepos(&newX, &newY, &newButtons);
     }
     else
     {
+      int mblock[MouseB_Icon+1];
       int block[WindowB_WFlags+1];
+      int mx, my, sx, sy;
+
+      Wimp_GetPointerInfo(mblock);
+      mx = mblock[MouseB_PosX]; my = mblock[MouseB_PosY];
+      newButtons = mblock[MouseB_Buttons];
+      video_canvas_get_scale(ActiveCanvas, &sx, &sy);
       block[WindowB_Handle] = ActiveCanvas->window->Handle;
       Wimp_GetWindowState(block);
       /* y direction inverted */
-      lastMouseX = (mdesc.x - (block[WindowB_VMinX] - block[WindowB_ScrollX])) >> ScreenMode.eigx;
-      lastMouseY = ((block[WindowB_VMaxY] - block[WindowB_ScrollY]) - mdesc.y) >> ScreenMode.eigy;
+      newX = ((mx - (block[WindowB_VMinX] - block[WindowB_ScrollX])) >> ScreenMode.eigx) / sx;
+      newY = (((block[WindowB_VMaxY] - block[WindowB_ScrollY]) - my) >> ScreenMode.eigy) / sy;
     }
 
-    if (lastMouseX < 0)
-      lastMouseX = 0;
-    if (lastMouseX >= ActiveCanvas->width)
-      lastMouseX = ActiveCanvas->width - 1;
-    if (lastMouseY < 0)
-      lastMouseY = 0;
-    if (lastMouseY >= ActiveCanvas->height)
-      lastMouseY = ActiveCanvas->height - 1;
+    if ((newX >= 0) && (newX < ActiveCanvas->width) &&
+        (newY >= 0) && (newY < ActiveCanvas->height))
+    {
+      lastMouseX = newX;
+      lastMouseY = newY;
+      /*log_message(LOG_DEFAULT, "POS%d: %d,%d", FullScreenMode, newX, newY);*/
+    }
+    else
+      newButtons = 0;
+
+    if (((newButtons ^ lastMouseButtons) & 1) != 0)
+      mouse_button_right((newButtons & 1));
+    if (((newButtons ^ lastMouseButtons) & 4) != 0)
+      mouse_button_left((newButtons & 4));
+
+    lastMouseButtons = newButtons;
   }
 }
 

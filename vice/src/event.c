@@ -436,8 +436,6 @@ int event_record_set_milestone(void)
     if (record_active == 0)
         return -1;
 
-    event_record(EVENT_LIST_END, NULL, 0);
-
     interrupt_maincpu_trigger_trap(event_record_set_milestone_trap, (void *)0);
 
     return 0;
@@ -629,10 +627,12 @@ int event_resources_init(void)
     return resources_register(resources);
 }
 
-void event_resources_shutdown(void)
+void event_shutdown(void)
 {
     lib_free(event_start_snapshot);
     lib_free(event_end_snapshot);
+    lib_free(event_milestone_snapshot);
+    destroy_list();
 }
 
 /*-----------------------------------------------------------------------*/

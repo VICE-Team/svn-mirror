@@ -42,7 +42,7 @@
 #include "uidrivec128.h"
 #include "uijoystick2.h"
 #include "uimenu.h"
-#include "uiperipheral.h"
+#include "uiperipheraliec.h"
 #include "uiscreenshot.h"
 #include "uireu.h"
 #include "uirs232.h"
@@ -400,7 +400,7 @@ int c128ui_init(void)
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drivec128_settings_menu,
-                                     ui_peripheral_settings_menu,
+                                     ui_peripheraliec_settings_menu,
                                      joystick_settings_menu,
                                      ui_menu_separator,
                                      c128_menu,
@@ -456,7 +456,7 @@ int c128ui_init(void)
 				  ui_keyboard_settings_menu,
 				  ui_sound_settings_menu,
 				  ui_drivec128_settings_menu,
-				  ui_peripheral_settings_menu,
+				  ui_peripheraliec_settings_menu,
 				  joystick_settings_menu,
                                   ui_menu_separator,
                                   c128_menu,

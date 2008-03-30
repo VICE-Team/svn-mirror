@@ -222,9 +222,6 @@ typedef struct drive_s {
     int snap_last_mode;
     CLOCK snap_rotation_last_clk;
 
-    /* Used for disk change detection.  */
-    int have_new_disk;
-
     /* UI stuff.  */
     int old_led_status;
     int old_half_track;

@@ -41,7 +41,7 @@
 #include "uidatasette.h"
 #include "uidrive.h"
 #include "uidrivec64vic20.h"
-#include "uiperipheral.h"
+#include "uiperipheraliec.h"
 #include "uimenu.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
@@ -451,7 +451,7 @@ int vic20ui_init(void)
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drivec64vic20_settings_menu,
-                                     ui_peripheral_settings_menu,
+                                     ui_peripheraliec_settings_menu,
 /*
                                      vic20_io_settings_menu,
 */
@@ -510,7 +510,7 @@ int vic20ui_init(void)
                                   ui_keyboard_settings_menu,
                                   ui_sound_settings_menu,
                                   ui_drivec64vic20_settings_menu,
-                                  ui_peripheral_settings_menu,
+                                  ui_peripheraliec_settings_menu,
                                   joystick_settings_menu,
                                   rs232_settings_menu,
                                   ui_menu_separator,

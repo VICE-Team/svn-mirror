@@ -475,6 +475,7 @@ int vicii_snapshot_read_module(snapshot_t *s)
     }
 
     raster_force_repaint(&vicii.raster);
+    snapshot_module_close(m);
     return 0;
 
 fail:

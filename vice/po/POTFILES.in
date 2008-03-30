@@ -33,7 +33,11 @@ src/arch/unix/uimon.c
 src/arch/unix/uipalemu.c
 src/arch/unix/uipalette.c
 src/arch/unix/uiperipheral.c
+src/arch/unix/uiperipheraliec.c
+src/arch/unix/uiperipheralieee.c
 src/arch/unix/uiprinter.c
+src/arch/unix/uiprinteriec.c
+src/arch/unix/uiprinterieee.c
 src/arch/unix/uireu.c
 src/arch/unix/uirs232.c
 src/arch/unix/uisettings.c

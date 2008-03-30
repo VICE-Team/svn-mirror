@@ -255,7 +255,6 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
         return -1;
 
     drive->read_only = image->read_only;
-    drive->have_new_disk = 1;
     drive->attach_clk = drive_clk[dnr];
     if (drive->detach_clk > (CLOCK)0)
         drive->attach_detach_clk = drive_clk[dnr];

@@ -212,7 +212,8 @@ void machine_shutdown(void)
 
     log_close_all();
 
-    event_resources_shutdown();
+    event_shutdown();
+
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
     machine_resources_shutdown();

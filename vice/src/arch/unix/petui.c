@@ -43,7 +43,7 @@
 #include "uidrivepetcbm2.h"
 #include "uijoystick2.h"
 #include "uimenu.h"
-#include "uiperipheral.h"
+#include "uiperipheralieee.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
@@ -365,7 +365,7 @@ int petui_init(void)
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drivepetcbm2_settings_menu,
-                                     ui_peripheral_settings_menu,
+                                     ui_peripheralieee_settings_menu,
                                      joystick_settings_menu,
                                      ui_menu_separator,
                                      pet_menu,
@@ -420,7 +420,7 @@ int petui_init(void)
 				  ui_keyboard_settings_menu,
 				  ui_sound_settings_menu,
 				  ui_drivepetcbm2_settings_menu,
-				  ui_peripheral_settings_menu,
+				  ui_peripheralieee_settings_menu,
 				  joystick_settings_menu,
                                   ui_menu_separator,
                                   pet_menu,

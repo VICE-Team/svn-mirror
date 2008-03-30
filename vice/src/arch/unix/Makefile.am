@@ -79,8 +79,16 @@ libarch_a_SOURCES = \
 	uipalette.h \
 	uiperipheral.c \
 	uiperipheral.h \
+	uiperipheraliec.c \
+	uiperipheraliec.h \
+	uiperipheralieee.c \
+	uiperipheralieee.h \
 	uiprinter.c \
 	uiprinter.h \
+	uiprinteriec.c \
+	uiprinteriec.h \
+	uiprinterieee.c \
+	uiprinterieee.h \
 	uireu.c \
 	uireu.h \
 	uirs232.c \

@@ -42,7 +42,7 @@
 #include "uidrivec64vic20.h"
 #include "uijoystick2.h"
 #include "uimenu.h"
-#include "uiperipheral.h"
+#include "uiperipheraliec.h"
 #include "uireu.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
@@ -377,7 +377,7 @@ int c64ui_init(void)
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drivec64vic20_settings_menu,
-                                     ui_peripheral_settings_menu,
+                                     ui_peripheraliec_settings_menu,
                                      joystick_settings_menu,
                                      ui_menu_separator,
                                      c64_menu,
@@ -433,7 +433,7 @@ int c64ui_init(void)
                                   ui_keyboard_settings_menu,
                                   ui_sound_settings_menu,
                                   ui_drivec64vic20_settings_menu,
-                                  ui_peripheral_settings_menu,
+                                  ui_peripheraliec_settings_menu,
                                   joystick_settings_menu,
                                   ui_menu_separator,
                                   c64_menu,

@@ -1,5 +1,5 @@
 /*
- * uiprinter.h
+ * uiperipheral.h
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,21 +24,11 @@
  *
  */
 
-#ifndef _UI_PRINTER_H
-#define _UI_PRINTER_H
+#ifndef _UI_PERIPHERIALIEEE_H
+#define _UI_PERIPHERIALIEEE_H
 
-extern UI_CALLBACK(uiprinter_set_printer_exec_file);
-extern UI_CALLBACK(uiprinter_flush_printer);
-
-extern ui_menu_entry_t uiprinter_pr4_driver_submenu[];
-extern ui_menu_entry_t uiprinter_pr4_device_submenu[];
-extern ui_menu_entry_t uiprinter_set_printer4_type_submenu[];
-
-extern ui_menu_entry_t uiprinter_pr5_driver_submenu[];
-extern ui_menu_entry_t uiprinter_pr5_device_submenu[];
-extern ui_menu_entry_t uiprinter_set_printer5_type_submenu[];
-
-extern ui_menu_entry_t uiprinter_pruser_driver_submenu[];
-extern ui_menu_entry_t uiprinter_pruser_device_submenu[];
+extern struct ui_menu_entry_s peripheralieee_settings_submenu[];
+extern struct ui_menu_entry_s ui_peripheralieee_settings_menu[];
 
 #endif
+

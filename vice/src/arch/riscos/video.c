@@ -183,7 +183,7 @@ static void video_canvas_apply_soft_scale(const video_canvas_t *canvas, int *sx,
 }
 
 
-static void video_canvas_get_scale(const video_canvas_t *canvas, int *sx, int *sy)
+void video_canvas_get_scale(const video_canvas_t *canvas, int *sx, int *sy)
 {
   video_canvas_get_full_scale(canvas, sx, sy);
   video_canvas_apply_soft_scale(canvas, sx, sy);
@@ -1651,6 +1651,29 @@ static void video_full_screen_colours(void)
   }
 }
 
+static int video_check_enable_mouse(void)
+{
+  resource_value_t val;
+
+  if (resources_get_value("Mouse", &val) == 0)
+  {
+    if ((int)val != 0)
+    {
+      short block[5];
+
+      block[0] = 0x0100;
+      block[1] = 0; block[2] = 0;
+      block[3] = (short)FullScrDesc.resx; block[4] = FullScrDesc.resy;
+
+      MouseBoundingBox(((unsigned char*)block)+1);
+      PutMouseAt(FullScrDesc.resx / 2, FullScrDesc.resy / 2);
+      log_message(LOG_DEFAULT, "Full screen mouse enabled");
+      return 1;
+    }
+  }
+  return 0;
+}
+
 
 int video_full_screen_on(int *sprites)
 {
@@ -1712,6 +1735,8 @@ int video_full_screen_on(int *sprites)
   raster_mode_change();
 
   video_full_screen_refresh();
+
+  video_check_enable_mouse();
 
   return 0;
 }
@@ -1858,11 +1883,19 @@ void video_full_screen_display_image(unsigned int num, const char *img)
 }
 
 
-void video_full_screen_mousepos(const mouse_desc *mdesc, int *x, int *y)
+void video_full_screen_mousepos(int *x, int *y, int *buttons)
 {
+  mouse_desc mdesc;
+  int scalex, scaley;
+
+  ReadMouseState(&mdesc);
+  video_canvas_get_full_scale(ActiveCanvas, &scalex, &scaley);
+
   /* y direction inverted */
-  *x = (mdesc->x >> FullScrDesc.eigx) - ((FullScrDesc.resx >> FullScrDesc.eigx) + ActiveCanvas->width) / 2;
-  *y = ((FullScrDesc.resy >> FullScrDesc.eigy) + ActiveCanvas->height) / 2 - (mdesc->y >> FullScrDesc.eigy);
+  *x = ((mdesc.x >> FullScrDesc.eigx) - ((FullScrDesc.resx >> FullScrDesc.eigx) - scalex * ActiveCanvas->width) / 2) / scalex;
+  *y = (((FullScrDesc.resy >> FullScrDesc.eigy) + scaley * ActiveCanvas->height) / 2 - (mdesc.y >> FullScrDesc.eigy)) / scaley;
+
+  *buttons = mdesc.buttons;
 }
 
 

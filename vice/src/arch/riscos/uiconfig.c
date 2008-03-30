@@ -188,7 +188,8 @@ static const char Rsrc_Brightness[] = "ColorBrightness";
 static const char Rsrc_Gamma[] = "ColorGamma";
 static const char Rsrc_LineShade[] = "PALScanLineShade";
 static const char Rsrc_PALMode[] = "PALMode";
-
+static const char Rsrc_Mouse[] = "Mouse";
+static const char Rsrc_MousePrt[] = "Mouseport";
 
 
 
@@ -1012,6 +1013,19 @@ static struct MenuSysKeyboard {
   }
 };
 
+#define Menu_SysMPort_Items     2
+#define Menu_SysMPort_Width     200
+static struct MenuSysMousePort {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_SysMPort_Items];
+} MenuSysMousePort = {
+  MENU_HEADER("\\MenMPrtT", Menu_SysMPort_Width),
+  {
+    MENU_ITEM("1"),
+    MENU_ITEM_LAST("2")
+  }
+};
+
 
 
 
@@ -1420,6 +1434,15 @@ static struct MenuDisplaySoundBuffer {
 DISP_JOYSTICK_DEVICE_MENU(1)
 DISP_JOYSTICK_DEVICE_MENU(2)
 
+static struct MenuDisplaySysMousePort {
+  disp_desc_t dd;
+  int values[Menu_SysMPort_Items];
+} MenuDisplaySysMousePort = {
+  {Rsrc_MousePrt, {CONF_WIN_SYSTEM, Icon_ConfSys_MousePortT},
+    (RO_MenuHead*)&MenuSysMousePort, Menu_SysMPort_Items, 0, 0},
+  {1, 2}
+};
+
 
 
 
@@ -1524,6 +1547,8 @@ menu_icon_t ConfigMenus[] = {
     {CONF_WIN_VIDEO, Icon_ConfVid_VCache}},		/* 52 */
   {(RO_MenuHead*)&MenuSidEngine, Rsrc_SidEngine, (disp_desc_t*)&MenuDisplaySidEngine,
     {CONF_WIN_SOUND, Icon_ConfSnd_SidEngine}},		/* 53 */
+  {(RO_MenuHead*)&MenuSysMousePort, Rsrc_MousePrt, (disp_desc_t*)&MenuDisplaySysMousePort,
+    {CONF_WIN_SYSTEM, Icon_ConfSys_MousePort}},         /* 54 */
   {NULL, NULL, NULL, {0, 0}}
 };
 
@@ -1601,5 +1626,6 @@ config_item_t Configurations[] = {
   {Rsrc_Brightness, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Brightness}},
   {Rsrc_Gamma, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Gamma}},
   {Rsrc_LineShade, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_LineShade}},
+  {Rsrc_Mouse, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_Mouse}},
   {NULL, 0, {0, 0}}
 };

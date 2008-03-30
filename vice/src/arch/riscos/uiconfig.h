@@ -103,6 +103,7 @@ struct RO_Window_s;
 #define CONF_MENU_PALMODE	51
 #define CONF_MENU_VIDCACHE	52
 #define CONF_MENU_SIDENGINE	53
+#define CONF_MENU_MOUSEPRT      54
 
 /* Configuration issues... */
 #define CONFIG_INT	1
@@ -292,7 +293,7 @@ typedef struct menu_icon_s {
 #define Icon_ConfSys_CharGen		3
 #define Icon_ConfSys_Kernal		5
 #define Icon_ConfSys_Basic		7
-#define Icon_ConfSys_REU		10
+#define Icon_ConfSys_REU		8
 #define Icon_ConfSys_IEEE488		11
 #define Icon_ConfSys_EmuID		12
 #define Icon_ConfSys_NoTraps		13
@@ -305,19 +306,22 @@ typedef struct menu_icon_s {
 #define Icon_ConfSys_CartType		14
 #define Icon_ConfSys_CartTypeT		15
 #define Icon_ConfSys_CartFile		16
-#define Icon_ConfSys_CheckSScoll	35
-#define Icon_ConfSys_CheckSBcoll	34
+#define Icon_ConfSys_CheckSScoll	10
+#define Icon_ConfSys_CheckSBcoll	32
 #define Icon_ConfSys_DosName		36
 #define Icon_ConfSys_DosNameT		37
 #define Icon_ConfSys_DosNameF		38
-#define Icon_ConfSys_AutoPause		40
+#define Icon_ConfSys_AutoPause		33
 #define Icon_ConfSys_ROMSet		39
 #define Icon_ConfSys_ROMSetT		43
 #define Icon_ConfSys_ROMAction		45
-#define Icon_ConfSys_VideoSync		48
-#define Icon_ConfSys_VideoSyncT		49
+#define Icon_ConfSys_VideoSync		34
+#define Icon_ConfSys_VideoSyncT		35
 #define Icon_ConfSys_Keyboard		46
 #define Icon_ConfSys_KeyboardT		47
+#define Icon_ConfSys_Mouse              40
+#define Icon_ConfSys_MousePort          48
+#define Icon_ConfSys_MousePortT         49
 
 /* Video config */
 #define Icon_ConfVid_UseBPlot		2
