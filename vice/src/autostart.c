@@ -73,11 +73,8 @@ static int orig_true1541_state = 0;
 /* Program name to load. NULL if default */
 static char *autostart_program_name = NULL;
 
-/* Start of screen memory.  */
-static int screen_addr;
-
-/* Number of columns on the screen.  */
-static int screen_cols;
+/* Minimum number of cycles before we feed BASIC with commands.  */
+static CLOCK min_cycles;
 
 /* ------------------------------------------------------------------------- */
 
@@ -129,7 +126,7 @@ static void settrue1541mode(int on)
 }
 
 /* Initialize autostart.  */
-int autostart_init(void)
+int autostart_init(CLOCK mincycles)
 {
     if (!pwarn)
     {
@@ -138,6 +135,7 @@ int autostart_init(void)
             return -1;
     }
 
+    min_cycles = mincycles;
     return 0;
 }
 
@@ -154,7 +152,7 @@ void autostart_advance(void)
 {
     char		*tmp;
 
-    if (clk <= 3 * CYCLES_PER_RFSH * RFSH_PER_SEC)
+    if (clk < min_cycles)
         return;
 
     switch (autostartmode)

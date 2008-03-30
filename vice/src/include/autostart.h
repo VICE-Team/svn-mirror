@@ -28,9 +28,7 @@
 #ifndef _AUTOSTART_H
 #define _AUTOSTART_H
 
-#ifdef AUTOSTART
-
-int autostart_init(void);
+int autostart_init(CLOCK mincycles);
 void autostart_disable(void);
 void autostart_advance(void);
 int autostart_tape(const char *file_name, const char *program_name);
@@ -38,7 +36,5 @@ int autostart_disk(const char *file_name, const char *program_name);
 int autostart_autodetect(const char *file_name, const char *program_name);
 int autostart_device(int num);
 void autostart_reset(void);
-
-#endif /* AUTOSTART */
 
 #endif /* !_AUTOSTART_H */

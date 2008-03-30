@@ -47,6 +47,9 @@ static int num_pending_location;
 /* Maximum number of characters that fit in the buffer.  */
 static int buffer_size;
 
+/* Number of cycles needed to initialize the Kernal.  */
+static CLOCK kernal_init_cycles;
+
 /* Characters in the queue.  */
 static char queue[QUEUE_SIZE];
 
@@ -59,11 +62,13 @@ static int num_pending;
 /* ------------------------------------------------------------------------- */
 
 /* Initialization.  */
-int kbd_buf_init(int location, int plocation, int size)
+int kbd_buf_init(int location, int plocation, int size,
+                 CLOCK mincycles)
 {
     buffer_location = location;
     num_pending_location = plocation;
     buffer_size = size;
+    kernal_init_cycles = mincycles;
 
     return 0;
 }
@@ -97,9 +102,7 @@ void kbd_buf_flush(void)
     BYTE *p;
     int i, n;
 
-    if (num_pending == 0
-        || clk < CYCLES_PER_RFSH * RFSH_PER_SEC
-	|| !kbd_buf_is_empty())
+    if (num_pending == 0 || clk < kernal_init_cycles || !kbd_buf_is_empty())
 	return;
 
     n = num_pending > buffer_size ? buffer_size : num_pending;

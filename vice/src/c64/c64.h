@@ -1,5 +1,5 @@
 /*
- * vsync.h - End-of-frame handling for Unix.
+ * c64.h
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -24,17 +24,23 @@
  *
  */
 
-#ifndef _VSYNC_UNIX_H
-#define _VSYNC_UNIX_H
+#ifndef _C64_H
+#define _C64_H
 
-#include "types.h"
+#define C64_PAL_CYCLES_PER_SEC	985248
+#define C64_PAL_CYCLES_PER_LINE 63
+#define C64_PAL_SCREEN_LINES    312
+#define C64_PAL_CYCLES_PER_RFSH (C64_PAL_SCREEN_LINES \
+                                 * C64_PAL_CYCLES_PER_LINE)
+#define C64_PAL_RFSH_PER_SEC    (1.0 / ((double)C64_PAL_CYCLES_PER_RFSH	\
+                                        / (double)C64_PAL_CYCLES_PER_SEC))
 
-extern void suspend_speed_eval(void);
-extern int vsync_init_resources(void);
-extern int vsync_init_cmdline_options(void);
-extern void vsync_init(double hz, long cycles, void (*hook)(void));
-extern int do_vsync(int been_skipped);
-extern int vsync_disable_timer(void);
-extern void vsync_prevent_clk_overflow(CLOCK sub);
+#define C64_NTSC_CYCLES_PER_SEC  1022730
+#define C64_NTSC_CYCLES_PER_LINE 65
+#define C64_NTSC_SCREEN_LINES	 262
+#define C64_NTSC_CYCLES_PER_RFSH (C64_NTSC_SCREEN_LINES \
+                                  * C64_NTSC_CYCLES_PER_LINE)
+#define C64_NTSC_RFSH_PER_SEC    (1.0 / ((double)C64_NTSC_CYCLES_PER_RFSH   \
+                                        / (double)C64_NTSC_CYCLES_PER_SEC))
 
-#endif /* !_VSYNC_UNIX_H */
+#endif

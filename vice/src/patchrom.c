@@ -32,6 +32,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 #include "mem.h"
 #include "patchrom.h"
@@ -231,15 +233,29 @@ static unsigned short patch_bytes[] = {
 
 int  patch_rom(const char *str)
 {
-    int   rev, curr, num, lcount;
+    int   rev, curr, num, lcount, isnum;
     short bytes, n, i = 0;
     ADDRESS a;
 
-    rev = atoi (str);
+    for (isnum = 0, i = 0; str[i] != '\0'; i++)
+        if (!isalnum((int) str[i]))
+            isnum = 0;
+
+    if (!isnum) {
+        if (strcasecmp(str, "sx") == 0) {
+            rev = 67;
+        } else {
+            fprintf(stderr, "Invalid ROM revision `%s'.\n", str);
+            return -1;
+        }
+    } else {
+        rev = atoi (str);
+    }
+
     curr = read_rom(0xff80);
 
     if (rev == curr) {
-	printf("\nROM not patched: Already revision #%d\n", curr);
+	printf("ROM not patched: Already revision #%d\n", curr);
 	return (0);
     }
 
@@ -252,6 +268,7 @@ int  patch_rom(const char *str)
     num = rev;
 
     switch (rev) {
+      case 4064:
       case 100:
         rev = 3; /* index for rev100 data */
 	break;
@@ -264,7 +281,7 @@ int  patch_rom(const char *str)
       case 0:
 	break;
       default:
-	printf("\nCannot patch ROM to revision #%d\n", rev);
+	printf("Cannot patch ROM to revision #%d\n", rev);
 	return (-1);
     }
 

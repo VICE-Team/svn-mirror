@@ -1040,16 +1040,16 @@ int int_cia1tod(long offset)
 /* -------------------------------------------------------------------------- */
 
 
-void cia1_prevent_clk_overflow()
+void cia1_prevent_clk_overflow(CLOCK sub)
 {
     update_cia1(clk);
 
     if (cia1_tau)
-	cia1_tau -= PREVENT_CLK_OVERFLOW_SUB;
+	cia1_tau -= sub;
     if (cia1_tbu)
-	cia1_tbu -= PREVENT_CLK_OVERFLOW_SUB;
-    if (cia1rdi > PREVENT_CLK_OVERFLOW_SUB)
-	cia1rdi -= PREVENT_CLK_OVERFLOW_SUB;
+	cia1_tbu -= sub;
+    if (cia1rdi > sub)
+	cia1rdi -= sub;
     else
 	cia1rdi = 0;
 }

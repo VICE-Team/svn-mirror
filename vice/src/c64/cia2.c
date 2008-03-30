@@ -1028,16 +1028,16 @@ int int_cia2tod(long offset)
 /* -------------------------------------------------------------------------- */
 
 
-void cia2_prevent_clk_overflow()
+void cia2_prevent_clk_overflow(CLOCK sub)
 {
     update_cia2(clk);
 
     if (cia2_tau)
-	cia2_tau -= PREVENT_CLK_OVERFLOW_SUB;
+	cia2_tau -= sub;
     if (cia2_tbu)
-	cia2_tbu -= PREVENT_CLK_OVERFLOW_SUB;
-    if (cia2rdi > PREVENT_CLK_OVERFLOW_SUB)
-	cia2rdi -= PREVENT_CLK_OVERFLOW_SUB;
+	cia2_tbu -= sub;
+    if (cia2rdi > sub)
+	cia2rdi -= sub;
     else
 	cia2rdi = 0;
 }

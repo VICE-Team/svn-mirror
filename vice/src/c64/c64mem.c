@@ -37,6 +37,7 @@
 #include "true1541.h"
 #include "c64mem.h"
 #include "resources.h"
+#include "cmdline.h"
 #include "vicii.h"
 #include "cia.h"
 #include "sid.h"
@@ -49,6 +50,7 @@
 #include "tapeunit.h"
 #include "mon.h"
 #include "utils.h"
+#include "patchrom.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -185,9 +187,40 @@ int c64_mem_init_resources(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Number of possible memory configurations. */
+/* C64 memory-related command-line options.  */
+/* FIXME: Maybe the `-kernal', `-basic' and `-chargen' options should not
+   really affect resources.  */
+
+static cmdline_option_t cmdline_options[] = {
+    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
+      "<name>", "Specify name of Kernal ROM image" },
+    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
+      "<name>", "Specify name of BASIC ROM image" },
+    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
+      "<name>", "Specify name of character generator ROM image" },
+    { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t) 1,
+      NULL, "Enable the 512K RAM expansion unit" },
+    { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t) 0,
+      NULL, "Disable the 512K RAM expansion unit" },
+    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 1,
+      NULL, "Enable the IEEE488 interface emulation" },
+    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 0,
+      NULL, "Disable the IEEE488 interface emulation" },
+    { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
+      "<revision>", "Patch the Kernal ROM to the specified <revision>" },
+    { NULL }
+};
+
+int c64_mem_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Number of possible memory configurations.  */
 #define NUM_CONFIGS	8
-/* Number of possible video banks (16K each). */
+/* Number of possible video banks (16K each).  */
 #define NUM_VBANKS	4
 
 /* The C64 memory. */
@@ -747,7 +780,8 @@ int mem_load(void)
     if (mem_load_sys_file(kernal_rom_name,
 			  kernal_rom, C64_KERNAL_ROM_SIZE,
 			  C64_KERNAL_ROM_SIZE) < 0) {
-	fprintf(stderr,"Couldn't load kernal ROM.\n\n");
+	fprintf(stderr,"Couldn't load kernal ROM `%s'.\n",
+                kernal_rom_name);
 	return -1;
     }
 
@@ -755,7 +789,7 @@ int mem_load(void)
     for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++)
 	sum += kernal_rom[i];
 
-    id = read_rom(0xFF80);
+    id = read_rom(0xff80);
 
     printf("Kernal rev #%d.\n", id);
 
@@ -768,15 +802,20 @@ int mem_load(void)
 	    && sum != C64_KERNAL_CHECKSUM_R43)
 	|| (id == 0x64
 	    && sum != C64_KERNAL_CHECKSUM_R64)) {
-	fprintf(stderr, "Warning: Unknown Kernal image.  Sum: %d ($%04X)\n",
-		sum, sum);
+	fprintf(stderr,
+                "Warning: Unknown Kernal image `%s'.  Sum: %d ($%04X)\n",
+		kernal_rom_name, sum, sum);
+    } else if (kernal_revision != NULL) {
+        if (patch_rom(kernal_revision) < 0)
+            return -1;
     }
 
     /* Load Basic ROM. */
     if (mem_load_sys_file(basic_rom_name,
 			  basic_rom, C64_BASIC_ROM_SIZE,
 			  C64_BASIC_ROM_SIZE) < 0) {
-	fprintf(stderr, "Couldn't load basic ROM.\n\n");
+	fprintf(stderr, "Couldn't load basic ROM `%s'.\n",
+                basic_rom_name);
 	return -1;
     }
 
@@ -786,15 +825,17 @@ int mem_load(void)
 	sum += basic_rom[i];
 
     if (sum != C64_BASIC_CHECKSUM)
-	fprintf(stderr, "Warning: Unknown Basic image.  Sum: %d ($%04X)\n",
-		sum, sum);
+	fprintf(stderr,
+                "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X)\n",
+		basic_rom_name, sum, sum);
 
     /* Load chargen ROM. */
 
     if (mem_load_sys_file(chargen_rom_name,
 			  chargen_rom, C64_CHARGEN_ROM_SIZE,
 			  C64_CHARGEN_ROM_SIZE) < 0) {
-	fprintf(stderr, "Couldn't load character ROM.\n");
+	fprintf(stderr, "Couldn't load character ROM `%s'.\n",
+                chargen_rom_name);
 	return -1;
     }
 
