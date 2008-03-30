@@ -713,7 +713,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.9.56
+VERSION=1.9.57
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6775,7 +6775,7 @@ done
 
     FULLSCREEN_DRIVERS=""
   if test x"$enable_fullscreen" != "xno"; then
-        ac_safe=`echo "X11/extensions/xf86vmode.h" | sed 'y%./+-%__p_%'`
+    ac_safe=`echo "X11/extensions/xf86vmode.h" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for X11/extensions/xf86vmode.h""... $ac_c" 1>&6
 echo "configure:6781: checking for X11/extensions/xf86vmode.h" >&5
 if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
@@ -7254,22 +7254,21 @@ else
 fi
 
 
-  FULLSCREEN_DRIVERS=""
+    FULLSCREEN_DRIVERS=""
   if test x"$enable_fullscreen" != "xno"; then
-        FULLSCREEN_DRIVERS="fullscreen-common.o"
     ac_safe=`echo "X11/extensions/xf86vmode.h" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for X11/extensions/xf86vmode.h""... $ac_c" 1>&6
-echo "configure:7263: checking for X11/extensions/xf86vmode.h" >&5
+echo "configure:7262: checking for X11/extensions/xf86vmode.h" >&5
 if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 7268 "configure"
+#line 7267 "configure"
 #include "confdefs.h"
 #include <X11/extensions/xf86vmode.h>
 EOF
 ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
-{ (eval echo configure:7273: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+{ (eval echo configure:7272: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
 ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
 if test -z "$ac_err"; then
   rm -rf conftest*
@@ -7292,7 +7291,7 @@ fi
 
     if test x"$ac_cv_header_X11_extensions_xf86vmode_h" = "xyes" ; then
       echo $ac_n "checking for XF86VidModeQueryVersion in -lXxf86vm""... $ac_c" 1>&6
-echo "configure:7296: checking for XF86VidModeQueryVersion in -lXxf86vm" >&5
+echo "configure:7295: checking for XF86VidModeQueryVersion in -lXxf86vm" >&5
 ac_lib_var=`echo Xxf86vm'_'XF86VidModeQueryVersion | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -7300,7 +7299,7 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lXxf86vm $X_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 7304 "configure"
+#line 7303 "configure"
 #include "confdefs.h"
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
@@ -7311,7 +7310,7 @@ int main() {
 XF86VidModeQueryVersion()
 ; return 0; }
 EOF
-if { (eval echo configure:7315: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:7314: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -7329,7 +7328,7 @@ if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
    X_LIBS="-lXxf86vm $X_LIBS";
                      LINK_X_LIBS="-lXxf86vm $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
-	 	     cat >> confdefs.h <<\EOF
+                     cat >> confdefs.h <<\EOF
 #define USE_XF86_VIDMODE_EXT 1
 EOF
 
@@ -7341,20 +7340,107 @@ else
   echo "$ac_t""no" 1>&6
 fi
 
-    fi
-    ac_safe=`echo "X11/extensions/xf86dga.h" | sed 'y%./+-%__p_%'`
+      if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
+        ac_safe=`echo "X11/extensions/xf86dga.h" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for X11/extensions/xf86dga.h""... $ac_c" 1>&6
-echo "configure:7348: checking for X11/extensions/xf86dga.h" >&5
+echo "configure:7347: checking for X11/extensions/xf86dga.h" >&5
 if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 7353 "configure"
+#line 7352 "configure"
 #include "confdefs.h"
 #include <X11/extensions/xf86dga.h>
 EOF
 ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
-{ (eval echo configure:7358: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+{ (eval echo configure:7357: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
+if test -z "$ac_err"; then
+  rm -rf conftest*
+  eval "ac_cv_header_$ac_safe=yes"
+else
+  echo "$ac_err" >&5
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  eval "ac_cv_header_$ac_safe=no"
+fi
+rm -f conftest*
+fi
+if eval "test \"`echo '$ac_cv_header_'$ac_safe`\" = yes"; then
+  echo "$ac_t""yes" 1>&6
+  :
+else
+  echo "$ac_t""no" 1>&6
+fi
+
+        if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
+          echo $ac_n "checking for XF86DGAQueryExtension in -lXxf86dga""... $ac_c" 1>&6
+echo "configure:7380: checking for XF86DGAQueryExtension in -lXxf86dga" >&5
+ac_lib_var=`echo Xxf86dga'_'XF86DGAQueryExtension | sed 'y%./+-%__p_%'`
+if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-lXxf86dga $X_LIBS $LIBS"
+cat > conftest.$ac_ext <<EOF
+#line 7388 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char XF86DGAQueryExtension();
+
+int main() {
+XF86DGAQueryExtension()
+; return 0; }
+EOF
+if { (eval echo configure:7399: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  eval "ac_cv_lib_$ac_lib_var=yes"
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  eval "ac_cv_lib_$ac_lib_var=no"
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+
+fi
+if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
+  echo "$ac_t""yes" 1>&6
+   X_LIBS="-lXxf86dga $X_LIBS";
+                         LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
+                         FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga1.o";
+                         cat >> confdefs.h <<\EOF
+#define USE_XF86_EXTENSIONS 1
+EOF
+
+                         cat >> confdefs.h <<\EOF
+#define USE_XF86_DGA1_EXTENSIONS 1
+EOF
+
+else
+  echo "$ac_t""no" 1>&6
+fi
+
+        fi
+      fi
+    fi
+    ac_safe=`echo "X11/extensions/xf86dga.h" | sed 'y%./+-%__p_%'`
+echo $ac_n "checking for X11/extensions/xf86dga.h""... $ac_c" 1>&6
+echo "configure:7434: checking for X11/extensions/xf86dga.h" >&5
+if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat > conftest.$ac_ext <<EOF
+#line 7439 "configure"
+#include "confdefs.h"
+#include <X11/extensions/xf86dga.h>
+EOF
+ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
+{ (eval echo configure:7444: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
 ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
 if test -z "$ac_err"; then
   rm -rf conftest*
@@ -7377,7 +7463,7 @@ fi
 
     if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
       echo $ac_n "checking for XDGAQueryExtension in -lXxf86dga""... $ac_c" 1>&6
-echo "configure:7381: checking for XDGAQueryExtension in -lXxf86dga" >&5
+echo "configure:7467: checking for XDGAQueryExtension in -lXxf86dga" >&5
 ac_lib_var=`echo Xxf86dga'_'XDGAQueryExtension | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -7385,7 +7471,7 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lXxf86dga $X_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 7389 "configure"
+#line 7475 "configure"
 #include "confdefs.h"
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
@@ -7396,7 +7482,7 @@ int main() {
 XDGAQueryExtension()
 ; return 0; }
 EOF
-if { (eval echo configure:7400: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:7486: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -7413,12 +7499,12 @@ if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
   echo "$ac_t""yes" 1>&6
    X_LIBS="-lXxf86dga $X_LIBS";
                      LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
-		     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
-		     cat >> confdefs.h <<\EOF
+                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
+                     cat >> confdefs.h <<\EOF
 #define USE_XF86_EXTENSIONS 1
 EOF
 
-		     cat >> confdefs.h <<\EOF
+                     cat >> confdefs.h <<\EOF
 #define USE_XF86_DGA2_EXTENSIONS 1
 EOF
 
