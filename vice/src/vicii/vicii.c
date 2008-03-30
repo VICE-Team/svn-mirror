@@ -294,7 +294,9 @@ static int init_raster(void)
     raster = &vicii.raster;
     video_color_set_raster(raster);
 
-    if (raster_init(raster, VICII_NUM_VMODES, VICII_NUM_SPRITES) < 0)
+    raster_sprite_status_new(raster, VICII_NUM_SPRITES);
+
+    if (raster_init(raster, VICII_NUM_VMODES) < 0)
         return -1;
     raster_modes_set_idle_mode(raster->modes, VICII_IDLE_MODE);
     raster_set_exposure_handler(raster, (void *)vicii_exposure_handler);
@@ -997,7 +999,8 @@ void vicii_shutdown(void)
     lib_free(vicii.idle_3fff);
     lib_free(vicii.idle_3fff_old);
     vicii_sprites_shutdown();
-    raster_free(&vicii.raster);
+    raster_sprite_status_destroy(&vicii.raster);
+    raster_shutdown(&vicii.raster);
 }
 
 void vicii_screenshot(screenshot_t *screenshot)

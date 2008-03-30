@@ -190,8 +190,8 @@ typedef struct raster_s raster_t;
 
 struct screenshot_s;
 
-extern int raster_init(raster_t *raster, unsigned int num_modes,
-                       unsigned int num_sprites);
+extern int raster_init(raster_t *raster, unsigned int num_modes);
+extern void raster_shutdown(raster_t *raster);
 extern raster_t *raster_new(unsigned int num_modes, unsigned int num_sprites);
 extern void raster_reset(raster_t *raster);
 extern int raster_realize(raster_t *raster);
@@ -227,7 +227,6 @@ extern void raster_screenshot(raster_t *raster,
                               struct screenshot_s *screenshot);
 extern void raster_async_refresh(raster_t *raster,
                                  struct canvas_refresh_s *ref);
-extern void raster_free(raster_t *raster);
 extern int raster_calc_frame_buffer_width(raster_t *raster);
 
 /* Inlined functions.  These need to be *fast*.  */

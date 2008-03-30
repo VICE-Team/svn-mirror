@@ -337,7 +337,8 @@ raster_t *crtc_init(void)
 
     raster = &crtc.raster;
 
-    if (raster_init(raster, CRTC_NUM_VMODES, 0) < 0)
+    raster->sprite_status = NULL;
+    if (raster_init(raster, CRTC_NUM_VMODES) < 0)
         return NULL;
 
     raster_modes_set_idle_mode(raster->modes, CRTC_IDLE_MODE);
@@ -727,7 +728,7 @@ static void crtc_exposure_handler(unsigned int width, unsigned int height)
 
 void crtc_shutdown(void)
 {
-    raster_free(&crtc.raster);
+    raster_shutdown(&crtc.raster);
 }
 
 /* ------------------------------------------------------------------- */

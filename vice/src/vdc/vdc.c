@@ -132,7 +132,8 @@ static int init_raster(void)
 
     raster = &vdc.raster;
 
-    if (raster_init(raster, VDC_NUM_VMODES, VDC_NUM_SPRITES) < 0)
+    raster->sprite_status = NULL;
+    if (raster_init(raster, VDC_NUM_VMODES) < 0)
         return -1;
 
     raster_modes_set_idle_mode(raster->modes, VDC_IDLE_MODE);
@@ -481,6 +482,6 @@ void vdc_async_refresh(struct canvas_refresh_s *refresh)
 
 void vdc_shutdown(void)
 {
-    raster_free(&vdc.raster);
+    raster_shutdown(&vdc.raster);
 }
 

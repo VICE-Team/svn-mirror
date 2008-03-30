@@ -78,7 +78,8 @@ inline static void update_sprite_collisions(raster_t *raster)
 {
     BYTE *fake_draw_buffer_ptr;
 
-    if (raster->sprite_status->draw_function == NULL)
+    if (raster->sprite_status == NULL
+        || raster->sprite_status->draw_function == NULL)
         return;
 
     fake_draw_buffer_ptr = raster->fake_draw_buffer_line
@@ -90,7 +91,8 @@ inline static void update_sprite_collisions(raster_t *raster)
 
 inline static void update_cached_sprite_collisions(raster_t *raster)
 {
-    if (raster->sprite_status->cache_function != NULL)
+    if (raster->sprite_status != NULL
+        && raster->sprite_status->cache_function != NULL)
         raster->sprite_status->cache_function(
         &(raster->cache[raster->current_line]));
 }
@@ -160,7 +162,8 @@ inline static void handle_blank_line(raster_t *raster)
 inline static void draw_sprites_when_cache_enabled(raster_t *raster,
                                                    raster_cache_t *cache)
 {
-    if (raster->sprite_status->draw_function == NULL)
+    if (raster->sprite_status == NULL
+        || raster->sprite_status->draw_function == NULL)
         return;
 
     raster->sprite_status->draw_function(raster->draw_buffer_ptr,
@@ -292,14 +295,16 @@ inline static int raster_fill_sprite_cache(raster_t *raster,
 
 inline static void draw_sprites(raster_t *raster)
 {
-    if (raster->sprite_status->draw_function != NULL)
+    if (raster->sprite_status != NULL
+        && raster->sprite_status->draw_function != NULL)
         raster->sprite_status->draw_function(raster->draw_buffer_ptr,
                                              raster->gfx_msk);
 }
 
 inline static void draw_sprites_partial(raster_t *raster, int xs, int xe)
 {
-    if (raster->sprite_status->draw_partial_function != NULL)
+    if (raster->sprite_status != NULL
+        && raster->sprite_status->draw_partial_function != NULL)
         raster->sprite_status->draw_partial_function(raster->draw_buffer_ptr,
                                              raster->gfx_msk, xs, xe);
 }
@@ -362,7 +367,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
            background color (necessary if xsmooth is > 0).  */
         fill_xsmooth_region(raster);
 
-        if (raster->sprite_status->num_sprites > 0) {
+        if (raster->sprite_status != NULL) {
             /* FIXME: Could be optimized better.  */
             draw_sprites_when_cache_enabled(raster, cache);
             draw_borders(raster);
@@ -468,7 +473,7 @@ inline static int update_for_minor_changes(raster_t *raster,
                                            unsigned int *changed_start,
                                            unsigned int *changed_end)
 {
-    if (raster->sprite_status->num_sprites > 0)
+    if (raster->sprite_status != NULL)
         return update_for_minor_changes_with_sprites(raster,
                                                      changed_start,
                                                      changed_end);
@@ -566,7 +571,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
 
         fill_background(raster);
 
-        if (raster->sprite_status->num_sprites > 0)
+        if (raster->sprite_status != NULL)
             raster_fill_sprite_cache(raster, cache,
                                      &changed_start_char,
                                      &changed_end_char);
@@ -585,7 +590,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
                                       changed_start_char,
                                       changed_end_char);
 
-        if (raster->sprite_status->num_sprites > 0)
+        if (raster->sprite_status != NULL)
             draw_sprites_when_cache_enabled(raster, cache);
 
         *changed_start = 0;
@@ -648,7 +653,8 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
     cache = &raster->cache[raster->current_line];
 
     if (raster->dont_cache
-        || raster->sprite_status->dma_msk != 0
+        || (raster->sprite_status != NULL
+        && raster->sprite_status->dma_msk != 0)
         || cache->is_dirty
         || cache->blank
         || cache->border_color != raster->border_color
@@ -897,7 +903,7 @@ void raster_line_emulate(raster_t *raster)
     raster->open_left_border = raster->open_right_border;
     raster->open_right_border = 0;
 
-    if (raster->sprite_status->num_sprites > 0)
+    if (raster->sprite_status != NULL)
         raster->sprite_status->dma_msk = raster->sprite_status->new_dma_msk;
 
     raster->blank_this_line = 0;

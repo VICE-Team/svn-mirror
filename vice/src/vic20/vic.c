@@ -272,7 +272,8 @@ static int init_raster(void)
     raster = &vic.raster;
     video_color_set_raster(raster);
 
-    if (raster_init(raster, VIC_NUM_VMODES, VIC_NUM_SPRITES) < 0)
+    raster->sprite_status = NULL;
+    if (raster_init(raster, VIC_NUM_VMODES) < 0)
         return -1;
 
     update_pixel_tables(raster);
@@ -452,7 +453,7 @@ void vic_update_memory_ptrs(void)
 
 void vic_shutdown(void)
 {
-    raster_free(&vic.raster);
+    raster_shutdown(&vic.raster);
 }
 
 void vic_screenshot(screenshot_t *screenshot)

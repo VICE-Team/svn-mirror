@@ -198,17 +198,12 @@ inline static void draw_borders(raster_t *raster)
 }
 
 int raster_init(raster_t *raster,
-                unsigned int num_modes,
-                unsigned int num_sprites)
+                unsigned int num_modes)
 {
     raster->intialized = 0;
 
     raster->modes = (raster_modes_t *)lib_malloc(sizeof(raster_modes_t));
     raster_modes_init(raster->modes, num_modes);
-
-    raster->sprite_status = (raster_sprite_status_t *)
-                            lib_malloc(sizeof(raster_sprite_status_t));
-    raster_sprite_status_init(raster->sprite_status, num_sprites);
 
     raster_reset(raster);
 
@@ -277,6 +272,7 @@ typedef struct raster_list_t {
 
 static raster_list_t *ActiveRasters = NULL;
 
+#if 0
 raster_t *raster_new(unsigned int num_modes,
                      unsigned int num_sprites)
 {
@@ -287,6 +283,7 @@ raster_t *raster_new(unsigned int num_modes,
 
     return new;
 }
+#endif
 
 void raster_mode_change(void)
 {
@@ -304,8 +301,7 @@ void raster_new_cache(raster_t *raster, unsigned int screen_height)
     unsigned int i;
 
     for (i = 0; i < screen_height; i++)
-        raster_cache_new(&(raster->cache)[i],
-                         raster->sprite_status->num_sprites);
+        raster_cache_new(&(raster->cache)[i], raster->sprite_status);
 }
 
 void raster_destroy_cache(raster_t *raster, unsigned int screen_height)
@@ -316,8 +312,7 @@ void raster_destroy_cache(raster_t *raster, unsigned int screen_height)
         return;
 
     for (i = 0; i < screen_height; i++)
-        raster_cache_destroy(&(raster->cache)[i],
-                             raster->sprite_status->num_sprites);
+        raster_cache_destroy(&(raster->cache)[i], raster->sprite_status);
 }
 
 void raster_set_geometry(raster_t *raster,
@@ -513,7 +508,7 @@ void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref)
         ref->y *= 2;
 }
 
-void raster_free(raster_t *raster)
+void raster_shutdown(raster_t *raster)
 {
     if (raster->canvas)
         raster_draw_buffer_free(raster->canvas);
@@ -521,12 +516,6 @@ void raster_free(raster_t *raster)
     if (raster->cache) {
         raster_destroy_cache(raster, raster->geometry->screen_size.height);
         lib_free(raster->cache);
-    }
-
-    if (raster->sprite_status) {
-        raster_sprite_status_shutdown(raster->sprite_status,
-                                      raster->sprite_status->num_sprites);
-        lib_free(raster->sprite_status);
     }
 
     if (raster->modes) {
