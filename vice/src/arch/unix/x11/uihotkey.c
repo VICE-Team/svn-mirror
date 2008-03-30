@@ -41,7 +41,7 @@ typedef struct {
     ui_callback_data_t client_data;
 } registered_hotkey_t;
 
-static registered_hotkey_t *registered_hotkeys;
+static registered_hotkey_t *registered_hotkeys = NULL;
 static int num_registered_hotkeys;
 static int num_allocated_hotkeys;
 
@@ -57,6 +57,11 @@ int ui_hotkey_init(void)
     return 0;
 }
 
+void ui_hotkey_shutdown(void)
+{
+    lib_free(registered_hotkeys);
+}
+
 /* ------------------------------------------------------------------------- */
 
 void ui_hotkey_register(ui_hotkey_modifier_t modifier, signed long keysym,
@@ -67,13 +72,13 @@ void ui_hotkey_register(ui_hotkey_modifier_t modifier, signed long keysym,
     if (registered_hotkeys == 0) {
         num_allocated_hotkeys = 32;
         registered_hotkeys = lib_malloc(num_allocated_hotkeys
-                                     * sizeof(registered_hotkey_t));
+                                        * sizeof(registered_hotkey_t));
         num_registered_hotkeys = 0;
     } else if (num_registered_hotkeys == num_allocated_hotkeys) {
         num_allocated_hotkeys *= 2;
         registered_hotkeys = lib_realloc(registered_hotkeys,
-                                      (num_allocated_hotkeys
-                                      * sizeof(registered_hotkey_t)));
+                                         (num_allocated_hotkeys
+                                         * sizeof(registered_hotkey_t)));
     }
 
     p = registered_hotkeys + num_registered_hotkeys;
