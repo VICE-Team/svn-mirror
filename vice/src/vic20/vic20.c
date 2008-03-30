@@ -250,8 +250,7 @@ void vic20_monitor_init(void)
 /* VIC20-specific initialization.  */
 int machine_init(void)
 {
-    if (vic20_log == LOG_ERR)
-        vic20_log = log_open("VIC20");
+    vic20_log = log_open("VIC20");
 
     maincpu_init();
 

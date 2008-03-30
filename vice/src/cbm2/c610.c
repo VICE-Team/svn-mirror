@@ -228,8 +228,7 @@ void c610_monitor_init(void)
 /* CBM-II-specific initialization.  */
 int machine_init(void)
 {
-    if (c610_log == LOG_ERR)
-        c610_log = log_open("CBM2");
+    c610_log = log_open("CBM2");
 
     cbm2_init_ok = 1;
 
