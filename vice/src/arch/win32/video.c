@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <windows.h>
 #include <ddraw.h>
@@ -247,7 +248,6 @@ const char *dd_error(HRESULT ddrval)
 /* Initialization.  */
 int video_init(void)
 {
-
     return 0;
 }
 
@@ -260,47 +260,16 @@ int video_frame_buffer_alloc(video_frame_buffer_t **f,
                        unsigned int width,
                        unsigned int height)
 {
-    DEBUG(("frame_buffer_alloc()"));
-
-    *f = (video_frame_buffer_t *)xmalloc(sizeof(struct video_frame_buffer_s));
-
-    (*f)->width = width;
-    (*f)->height = height;
-    (*f)->buffer = xmalloc(width * height * sizeof(PIXEL));
-
-    DEBUG(("Allocated frame buffer, %d x %d pixels.", width, height));
-
     return 0;
 }
 
 
 void video_frame_buffer_free(video_frame_buffer_t *f)
 {
-    if (!f)
-        return;
-
-    free(f->buffer);
-    free(f);
 }
 
 void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
-    memset(f->buffer, value, f->height * f->width);
-}
-
-void video_frame_buffer_translate(video_canvas_t *c)
-{
-    int i;
-    raster_t *r;
-
-    return;
-    r=video_find_raster_for_canvas(c);
-
-    if (r) {
-        for (i = 0; i < r->frame_buffer->width * r->frame_buffer->height; i++) {
-            r->frame_buffer->buffer[i] = c->pixel_translate[r->frame_buffer->buffer[i]];
-        }
-    }
 }
 
 /* ------------------------------------------------------------------------ */
@@ -336,95 +305,95 @@ int set_physical_colors(video_canvas_t *c)
     DDSURFACEDESC ddsd;
     int i;
     HRESULT result;
-    COLORREF    oldcolor;
-    DDPIXELFORMAT   format;
-    DWORD   mask=0;
-    int     rshift=0;
-    int     rbits=0;
-    int     gshift=0;
-    int     gbits=0;
-    int     bshift=0;
-    int     bbits=0;
-    DWORD   rmask=0;
-    DWORD   gmask=0;
-    DWORD   bmask=0;
+    COLORREF oldcolor;
+    DDPIXELFORMAT format;
+    DWORD mask = 0;
+    int rshift = 0;
+    int rbits = 0;
+    int gshift = 0;
+    int gbits = 0;
+    int bshift = 0;
+    int bbits = 0;
+    DWORD rmask = 0;
+    DWORD gmask = 0;
+    DWORD bmask = 0;
 
-    format.dwSize=sizeof(DDPIXELFORMAT);    
-    IDirectDrawSurface_GetPixelFormat(c->primary_surface,&format);
-    if (format.dwFlags&DDPF_RGB) {
+    format.dwSize = sizeof(DDPIXELFORMAT);    
+    IDirectDrawSurface_GetPixelFormat(c->primary_surface, &format);
+    if (format.dwFlags & DDPF_RGB) {
         log_debug("RGB surface...");
 #ifdef HAVE_UNNAMED_UNIONS
-        log_debug("dwRGBBitCount: %d",format.dwRGBBitCount);
-        log_debug("dwRBitMask: %08x",format.dwRBitMask);
-        log_debug("dwGBitMask: %08x",format.dwGBitMask);
-        log_debug("dwBBitMask: %08x",format.dwBBitMask);
+        log_debug("dwRGBBitCount: %d", format.dwRGBBitCount);
+        log_debug("dwRBitMask: %08x", format.dwRBitMask);
+        log_debug("dwGBitMask: %08x", format.dwGBitMask);
+        log_debug("dwBBitMask: %08x", format.dwBBitMask);
 #else
-        log_debug("dwRGBBitCount: %d",format.u1.dwRGBBitCount);
-        log_debug("dwRBitMask: %08x",format.u2.dwRBitMask);
-        log_debug("dwGBitMask: %08x",format.u3.dwGBitMask);
-        log_debug("dwBBitMask: %08x",format.u4.dwBBitMask);
+        log_debug("dwRGBBitCount: %d", format.u1.dwRGBBitCount);
+        log_debug("dwRBitMask: %08x", format.u2.dwRBitMask);
+        log_debug("dwGBitMask: %08x", format.u3.dwGBitMask);
+        log_debug("dwBBitMask: %08x", format.u4.dwBBitMask);
 #endif
-    if (c->depth!=8){
+    if (c->depth != 8){
 
 #ifdef HAVE_UNNAMED_UNIONS
-        mask=format.dwRBitMask;
+        mask = format.dwRBitMask;
 #else
-        mask=format.u2.dwRBitMask;
+        mask = format.u2.dwRBitMask;
 #endif
-        rshift=0;
-        while (!(mask&1)) {
+        rshift = 0;
+        while (!(mask & 1)) {
             rshift++;
-            mask>>=1;
+            mask >>= 1;
         }
-        rmask=mask;
-        rbits=8;
-        while(mask&1) {
+        rmask = mask;
+        rbits = 8;
+        while(mask & 1) {
             rbits--;
-            mask>>=1;
+            mask >>= 1;
         }
-        log_debug("rshift: %d",rshift);
-        log_debug("rmask: %02x",rmask);
-        log_debug("rbits: %d",rbits);
+        log_debug("rshift: %d", rshift);
+        log_debug("rmask: %02x", rmask);
+        log_debug("rbits: %d", rbits);
 
 #ifdef HAVE_UNNAMED_UNIONS
-        mask=format.dwGBitMask;
+        mask = format.dwGBitMask;
 #else
-        mask=format.u3.dwGBitMask;
+        mask = format.u3.dwGBitMask;
 #endif
-        gshift=0;
-        while (!(mask&1)) {
+        gshift = 0;
+        while (!(mask & 1)) {
             gshift++;
-            mask>>=1;
+            mask >>= 1;
         }
-        gmask=mask;
-        gbits=8;
-        while(mask&1) {
+        gmask = mask;
+        gbits = 8;
+        while(mask & 1) {
             gbits--;
-            mask>>=1;
+            mask >>= 1;
         }
-        log_debug("gshift: %d",gshift);
-        log_debug("gmask: %02x",gmask);
-        log_debug("gbits: %d",gbits);
+        log_debug("gshift: %d", gshift);
+        log_debug("gmask: %02x", gmask);
+        log_debug("gbits: %d", gbits);
 
 #ifdef HAVE_UNNAMED_UNIONS
-        mask=format.dwBBitMask;
+        mask = format.dwBBitMask;
 #else
-        mask=format.u4.dwBBitMask;
+        mask = format.u4.dwBBitMask;
 #endif
-        bshift=0;
-        while (!(mask&1)) {
+        bshift = 0;
+        while (!(mask & 1)) {
             bshift++;
-            mask>>=1;
+            mask >>= 1;
         }
-        bmask=mask;
-        bbits=8;
-        while(mask&1) {
+        bmask = mask;
+        bbits = 8;
+        while(mask & 1) {
             bbits--;
-            mask>>=1;
+            mask >>= 1;
         }
-        log_debug("bshift: %d",bshift);
-        log_debug("bmask: %02x",bmask);
-        log_debug("bbits: %d",bbits);
+        log_debug("bshift: %d", bshift);
+        log_debug("bmask: %02x", bmask);
+        log_debug("bbits: %d", bbits);
     }
     } else {
         log_debug("Non RGB surface...");
@@ -479,23 +448,27 @@ int set_physical_colors(video_canvas_t *c)
             p = *(DWORD *)ddsd.lpSurface;
         } else {
 //            log_debug("depth!=8");
-            p = (((c->palette->entries[i].red&(rmask<<rbits))>>rbits)<<rshift) +
-                (((c->palette->entries[i].green&(gmask<<gbits))>>gbits)<<gshift) +
-                (((c->palette->entries[i].blue&(bmask<<bbits))>>bbits)<<bshift);
+            p = (((c->palette->entries[i].red&(rmask<<rbits))>>rbits)
+                << rshift) +
+                (((c->palette->entries[i].green&(gmask<<gbits))>>gbits)
+                << gshift) +
+                (((c->palette->entries[i].blue&(bmask<<bbits))>>bbits)
+                << bshift);
         }
-        c->pixel_translate[c->pixels[i]]=i;
+        c->pixel_translate[c->pixels[i]] = i;
         c->pixels[i] = i;
-		video_render_setphysicalcolor(&c->videoconfig, i, p, c->depth);
+        video_render_setphysicalcolor(&c->videoconfig, i, p, c->depth);
 
-        DEBUG(("Physical color for %d is 0x%04X",i,c->videoconfig.physical_colors[i]));
+        DEBUG(("Physical color for %d is 0x%04X", i,
+              c->videoconfig.physical_colors[i]));
         DEBUG(("Pixel return %d 0x%02X", i, c->pixels[i]));
-        if (c->depth==8) {
+        if (c->depth == 8) {
             if (IDirectDrawSurface_Unlock(c->primary_surface, NULL)
                 == DDERR_SURFACELOST) {
                 IDirectDrawSurface_Restore(c->primary_surface);
                 IDirectDrawSurface_Unlock(c->primary_surface, NULL);
             }
-            IDirectDrawSurface_GetDC(c->primary_surface,&hdc);
+            IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
             SetPixel(hdc, 0, 0, oldcolor);
             IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
         }
@@ -528,12 +501,12 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
     int i;
     GUID *device_guid;
 
-    fullscreen_transition=1;
+    fullscreen_transition = 1;
 
     c = xmalloc(sizeof(struct video_canvas_s));
     memset(c, 0, sizeof(struct video_canvas_s));
 
-	video_render_initconfig(&c->videoconfig);
+    video_render_initconfig(&c->videoconfig);
 
     /* "Normal" window stuff.  */
     c->title = stralloc(title);
@@ -747,8 +720,8 @@ error:
         }
     }
 
-    ddresult=IDirectDraw_QueryInterface(c->dd_object, &IID_IDirectDraw2,
-                                        (LPVOID *)&c->dd_object2);
+    ddresult = IDirectDraw_QueryInterface(c->dd_object, &IID_IDirectDraw2,
+                                          (LPVOID *)&c->dd_object2);
     if (ddresult!=DD_OK) {
         log_debug("Can't get DirectDraw2 interface");
     }
@@ -777,7 +750,7 @@ error:
     } else {
         c->client_width = *width;
         c->client_height = *height;
-        fullscreen_active=0;
+        fullscreen_active = 0;
     }
 
     /*  Create Primary surface */
@@ -874,14 +847,14 @@ error:
         }
 
         result = IDirectDraw2_CreatePalette(c->dd_object2, DDPCAPS_8BIT,
-                                           ape, &c->dd_palette, NULL);
+                                            ape, &c->dd_palette, NULL);
         if (result != DD_OK) {
             DEBUG(("Cannot create palette: %s", dd_error(result)));
             goto error;
         }
     }
 
-    c->pixel_translate=malloc(sizeof(PIXEL) * 256);
+    c->pixel_translate = malloc(sizeof(PIXEL) * 256);
     if (set_palette(c) < 0)
         goto error;
     c->pixels = pixel_return;
@@ -1032,7 +1005,8 @@ void video_register_raster(raster_t *raster)
     int i;
     //  First check if already registered
     for (i = 0; i < number_of_rasters; i++) {
-        if (raster_cache[i] == raster) return;
+        if (raster_cache[i] == raster)
+            return;
     }
     if (number_of_rasters == 2) {
         log_debug("PANIC: too much rasters...");
@@ -1081,7 +1055,9 @@ static void clear(HDC hdc, int x1, int y1, int x2, int y2)
     FillRect(hdc, &clear_rect, back_color);
 }
 
-static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
+static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
+                         unsigned int draw_buffer_line_size,
+                         video_frame_buffer_t *f,
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h);
@@ -1109,17 +1085,17 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     if (c) {
         r = video_find_raster_for_canvas(c);
         if (r) {
-        for (window_index = 0; window_index < number_of_windows;
-            window_index++) {
-            if (window_handles[window_index] == hwnd)
-                break;
-        }
+            for (window_index = 0; window_index < number_of_windows;
+                window_index++) {
+                if (window_handles[window_index] == hwnd)
+                    break;
+            }
 
-        GetClientRect(hwnd, &rect);
-        if (fullscreen_active) {
-            rect.right = c->client_width;
-            rect.bottom = c->client_height;
-        }
+            GetClientRect(hwnd, &rect);
+            if (fullscreen_active) {
+                rect.right = c->client_width;
+                rect.bottom = c->client_height;
+            }
 
 /*
     DEBUG(("hey: xo-%i yo-%i xf-%i yf-%i xw-%i yh-%i xe-%i",
@@ -1133,76 +1109,82 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 		));
 */
 
-        //  Calculate upperleft point's framebuffer coords
-        xs = xclient - ((rect.right - window_canvas_xsize[window_index]) / 2)
-             - r->viewport.x_offset
-             + (r->viewport.first_x + r->geometry.extra_offscreen_border_left)
-             * r->viewport.pixel_size.width;
-        ys = yclient - ((rect.bottom - statusbar_get_status_height()
-             - window_canvas_ysize[window_index]) / 2)
-             - r->viewport.y_offset+r->viewport.first_line *
-             r->viewport.pixel_size.height;
-        //  Cut off areas outside of framebuffer and clear them
-        xi = xclient;
-        yi = yclient;
+            //  Calculate upperleft point's framebuffer coords
+            xs = xclient - ((rect.right - window_canvas_xsize[window_index])
+                 / 2) - r->viewport.x_offset
+                 + (r->viewport.first_x
+                 + r->geometry.extra_offscreen_border_left)
+                 * r->viewport.pixel_size.width;
+            ys = yclient - ((rect.bottom - statusbar_get_status_height()
+                 - window_canvas_ysize[window_index]) / 2)
+                 - r->viewport.y_offset+r->viewport.first_line *
+                 r->viewport.pixel_size.height;
+            //  Cut off areas outside of framebuffer and clear them
+            xi = xclient;
+            yi = yclient;
 
-        safex = (r->viewport.first_x + r->geometry.extra_offscreen_border_left)
-                * r->viewport.pixel_size.width - r->viewport.x_offset;
-        safey = r->viewport.first_line
-                * r->viewport.pixel_size.height-r->viewport.y_offset;
-        safey2 = r->viewport.last_line
-                 * r->viewport.pixel_size.height-r->viewport.y_offset;
+            safex = (r->viewport.first_x
+                    + r->geometry.extra_offscreen_border_left)
+                    * r->viewport.pixel_size.width - r->viewport.x_offset;
+            safey = r->viewport.first_line
+                    * r->viewport.pixel_size.height-r->viewport.y_offset;
+            safey2 = r->viewport.last_line
+                     * r->viewport.pixel_size.height-r->viewport.y_offset;
 
-        if (r->frame_buffer) {
+            if (r->draw_buffer) {
+                cut_rightline=safex + r->viewport.width;
+                cut_bottomline=safey + r->viewport.height;
+                if (cut_rightline > r->draw_buffer_width
+                    * r->viewport.pixel_size.width) {
+                    cut_rightline = r->draw_buffer_width
+                    *r->viewport.pixel_size.width;
+                }
+                if (cut_bottomline > r->draw_buffer_height
+                    * r->viewport.pixel_size.height) {
+                    cut_bottomline = r->draw_buffer_height
+                    * r->viewport.pixel_size.height;
+                }
 
-            cut_rightline=safex+r->viewport.width;
-            cut_bottomline=safey+r->viewport.height;
-            if (cut_rightline>r->frame_buffer->width*r->viewport.pixel_size.width) {
-                cut_rightline=r->frame_buffer->width*r->viewport.pixel_size.width;
-            }
-            if (cut_bottomline>r->frame_buffer->height*r->viewport.pixel_size.height) {
-                cut_bottomline=r->frame_buffer->height*r->viewport.pixel_size.height;
-            }
+                //  Check if it's out
+                if ((xs + w <= safex) || (xs >= cut_rightline) ||
+                    (ys + h <= safey) || (ys >= cut_bottomline)) {
+                    clear(hdc, xi, yi, xi + w, yi + h);
+                    return;
+                }
 
-            //  Check if it's out
-            if ((xs + w <= safex) || (xs >= cut_rightline) ||
-                (ys + h <= safey) || (ys >= cut_bottomline)) {
-                clear(hdc, xi, yi, xi + w, yi + h);
-                return;
-            }
+                //  Cut top
+                if (ys < safey) {
+                    clear(hdc, xi, yi, xi + w, yi - ys + safey);
+                    yi -= ys - safey;
+                    h += ys - safey;
+                    ys = safey;
+                }
+                //  Cut left
+                if (xs < safex) {
+                    clear(hdc, xi, yi, xi - xs + safex, yi + h);
+                    xi -= xs - safex;
+                    w += xs - safex;
+                    xs = safex;
+                }
+                //  Cut bottom
+                if (ys + h > safey2) {
+                    clear(hdc, xi, yi + safey2 - ys, xi + w, yi + h);
+                    h = safey2 - ys;
+                }
+                //  Cut right
+                if (xs + w > cut_rightline) {
+                    clear(hdc, xi + cut_rightline - xs, yi, xi + w,
+                          yi + h);
+                    w = cut_rightline - xs;
+                }
 
-            //  Cut top
-            if (ys < safey) {
-                clear(hdc, xi, yi, xi + w, yi - ys + safey);
-                yi -= ys - safey;
-                h += ys - safey;
-                ys = safey;
-            }
-            //  Cut left
-            if (xs < safex) {
-                clear(hdc, xi, yi, xi - xs + safex, yi + h);
-                xi -= xs - safex;
-                w += xs - safex;
-                xs = safex;
-            }
-            //  Cut bottom
-            if (ys + h > safey2) {
-                clear(hdc, xi, yi + safey2 - ys, xi + w, yi + h);
-                h = safey2 - ys;
-            }
-            //  Cut right
-            if (xs + w > cut_rightline) {
-                clear(hdc, xi + cut_rightline - xs, yi, xi + w,
-                      yi + h);
-                w = cut_rightline - xs;
-            }
+                //  Update remaining area from framebuffer....
 
-            //  Update remaining area from framebuffer....
-
-            if ((w > 0) && (h > 0)) {
-                real_refresh(c, r->frame_buffer, xs, ys, xi, yi, w, h);
+                if ((w > 0) && (h > 0)) {
+                    real_refresh(c, r->draw_buffer, r->draw_buffer_width,
+                                 r->frame_buffer, xs, ys, xi, yi, w, h);
+                }
             }
-        }
         }
     }
 }
@@ -1243,10 +1225,13 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
     client_y += (rect.bottom - statusbar_get_status_height()
                 - window_canvas_ysize[window_index]) / 2;
 
-    real_refresh(c, f, frame_buffer_x, frame_buffer_y, client_x, client_y, w, h);
+    real_refresh(c, draw_buffer, draw_buffer_line_size, f, frame_buffer_x,
+                 frame_buffer_y, client_x, client_y, w, h);
 }
 
-static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
+static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
+                         unsigned int draw_buffer_line_size,
+                         video_frame_buffer_t *xyzf,
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h)
@@ -1264,9 +1249,9 @@ static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
 */
     int bytesmoved;
     DWORD clipsize;
-    int regioncount,j;
+    int regioncount, j;
 
-    int px,py,ph,pw;
+    int px, py, ph, pw;
 /*
     DEBUG(("Entering canvas_render : xs=%d ys=%d xi=%d yi=%d w=%d h=%d",
           xs, ys, xi, yi, w, h));
@@ -1281,7 +1266,8 @@ static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
     bytesmoved = 0;
 
     {
-        extern int syscolorchanged, displaychanged, querynewpalette, palettechanged;
+        extern int syscolorchanged, displaychanged, querynewpalette,
+                   palettechanged;
 
         if (syscolorchanged) {
             ui_error("System colors changed!\n(not implemented yet)");
@@ -1332,17 +1318,17 @@ static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
         } while (result == DDERR_SURFACELOST);
         if (result == DD_OK)
             surface = c->primary_surface;
-                else {
-                        static int no_primary_lock_reported;
+        else {
+            static int no_primary_lock_reported;
 
-                        if (!no_primary_lock_reported
-                            && result == DDERR_CANTLOCKSURFACE) {
-                                ui_error("Your DirectDraw driver does not let me lock\n"
-                                         "the primary DirectDraw surface.\n\n"
-                                         "Performance will be poor!");
-                                no_primary_lock_reported = 1;
-                        }
-                }
+            if (!no_primary_lock_reported
+                && result == DDERR_CANTLOCKSURFACE) {
+                ui_error("Your DirectDraw driver does not let me lock\n"
+                         "the primary DirectDraw surface.\n\n"
+                         "Performance will be poor!");
+                no_primary_lock_reported = 1;
+            }
+        }
     }
     if (surface == NULL) {
         /* Try to lock the temporary surface (last resort).  */
@@ -1399,12 +1385,12 @@ static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
         ph = trect.bottom - trect.top;
 
         video_render_main(&c->videoconfig,
-                          (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
+                          draw_buffer,
                           (BYTE *)(desc.lpSurface),
                           pw, ph,
                           px, py,
                           trect.left, trect.top,
-                          VIDEO_FRAME_BUFFER_LINE_SIZE(f), pitch,
+                          draw_buffer_line_size, pitch,
                           depth);
     }
 

@@ -1,5 +1,25 @@
 2002-01-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.8.3.
+
+	* arch/win32/video.c (video_canvas_refresh, real_refresh): Use
+	draw buffer.
+	(video_frame_buffer_alloc, video_frame_buffer_free,
+	video_frame_buffer_clear): Removed temp frame buffer code.
+	(video_frame_buffer_translate): Removed.
+
+	* arch/win32/fullscreen.c (SwitchToFullscreenMode,
+	SwitchToWindowedMode): Removed call to
+	`video_frame_buffer_translate()'.
+
+	* arch/win32/videoarch.h: Removed `VIDEO_FRAME_BUFFER_*'
+	macros.
+
+	* plus4/plus4mem.c (fdxx_read, fdxx_store): Only call ACIA if
+	the arch supports RS232.
+
+2002-01-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.8.2.
 
 	* raster/raster.c, vicii/vicii-draw.c, vdc/vdc-draw.c,
