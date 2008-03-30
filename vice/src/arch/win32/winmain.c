@@ -171,7 +171,6 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
     MAIN_PROGRAM(_argc, _argv);
 #endif
 
-	console_shutdown(console_log);
-
     return 0;
 }
+

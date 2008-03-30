@@ -95,3 +95,8 @@ char *console_in(console_t *log)
     return p;
 }
 
+int console_close_all(void)
+{
+    return 0;
+}
+

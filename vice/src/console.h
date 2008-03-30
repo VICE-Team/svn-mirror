@@ -29,7 +29,7 @@
 
 typedef struct console_s {
     /* Console geometry.  */
-	/* be careful - geometry might change at run-time! */
+    /* Be careful - geometry might change at run-time!  */
     unsigned int console_xres;
     unsigned int console_yres;
 
@@ -43,8 +43,8 @@ extern int console_init(void);
 extern console_t *console_open(const char *id);
 extern int console_close(console_t *log);
 
-/* the following should be called when quitting VICE */
-extern int console_shutdown(console_t *log);
+/* The following should be called when quitting VICE.  */
+extern int console_close_all(void);
 
 extern int console_out(console_t *log, const char *format, ...);
 extern char *console_in(console_t *log);
