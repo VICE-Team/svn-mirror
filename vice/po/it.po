@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-23 16:40+0200\n"
+"POT-Creation-Date: 2006-09-25 21:09+0200\n"
 "PO-Revision-Date: 2006-08-25 12:21+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -391,72 +391,72 @@ msgstr ""
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Non è possibile commutare tra IPV4 e IPV6 mentre netplay è attivo."
 
-#: src/network.c:462
+#: src/network.c:461
 msgid "Testing best frame delay..."
 msgstr "Rileva il miglior ritardo tra frame..."
 
-#: src/network.c:510
+#: src/network.c:511
 #, c-format
 msgid "Using %d frames delay."
 msgstr "Utilizzo %d frame di ritardo."
 
-#: src/network.c:535
+#: src/network.c:536
 msgid "Cannot load snapshot file for transfer"
 msgstr "Non è possibile caricare il file di snapshot per il trasferimento"
 
-#: src/network.c:548
+#: src/network.c:549
 msgid "Sending snapshot to client..."
 msgstr "Invio dell'immagine dello snapshot al client in corso..."
 
-#: src/network.c:558
+#: src/network.c:559
 msgid "Cannot send snapshot to client"
 msgstr "Non è possibile inviare lo snapshot al client"
 
-#: src/network.c:588
+#: src/network.c:589
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Non è possibile creare il file di snapshot %s"
 
-#: src/network.c:628
+#: src/network.c:629
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Non è possibile aprire il file di snapshot %s"
 
-#: src/network.c:787
+#: src/network.c:779
 msgid "Server is waiting for a client..."
 msgstr "Il server è in attesa di un client..."
 
-#: src/network.c:825
+#: src/network.c:815
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Non è possibile creare il file di snapshot %s. Seleziona una directory "
 "diversa per la cronologia."
 
-#: src/network.c:845
+#: src/network.c:835
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Non è possibile risolvere %s"
 
-#: src/network.c:890
+#: src/network.c:880
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Non è possibile connettersi a %s (nessun server è attivo sulla porta %d)."
 
-#: src/network.c:904
+#: src/network.c:894
 msgid "Receiving snapshot from server..."
 msgstr "Ricezione dello snapshot dal server in corso..."
 
-#: src/network.c:1034
+#: src/network.c:981 src/network.c:1011
 msgid "Remote host disconnected."
 msgstr "Disconnesso dall'host remoto."
 
-#: src/network.c:1045
+#: src/network.c:1023
 msgid "Remote host suspending..."
 msgstr "Sospesione dell'host remoto in corso..."
 
-#: src/network.c:1087
+#: src/network.c:1067
 msgid "Network out of sync - disconnecting."
 msgstr "Rete non sincronizzata - disconnesione in corso."
 
@@ -3079,7 +3079,7 @@ msgstr "Vai al segnalibro"
 msgid "Recording start mode"
 msgstr "Modalità di avvio registrazione"
 
-#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:115
+#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:111
 msgid "Netplay (experimental)"
 msgstr "Netplay (sperimentale)"
 
@@ -3804,29 +3804,29 @@ msgstr "Nome host:"
 msgid "Error connecting to server."
 msgstr "Si è verificato un errore durante la connessione al server."
 
-#: src/arch/unix/gui/uinetplay.c:111
-msgid "*Enable IPV6"
-msgstr "*Attiva IPV6"
-
-#: src/arch/unix/gui/uinetplay.c:118
+#: src/arch/unix/gui/uinetplay.c:114
 msgid "TCP port"
 msgstr "Porta TCP"
 
-#: src/arch/unix/gui/uinetplay.c:120
+#: src/arch/unix/gui/uinetplay.c:116
 msgid "Start server"
 msgstr "Avvia server"
 
-#: src/arch/unix/gui/uinetplay.c:122
+#: src/arch/unix/gui/uinetplay.c:118
 msgid "Server to connect to"
 msgstr "Server connesso a"
 
-#: src/arch/unix/gui/uinetplay.c:125
+#: src/arch/unix/gui/uinetplay.c:121
 msgid "Connect to server"
 msgstr "Connetti al server"
 
-#: src/arch/unix/gui/uinetplay.c:127 src/arch/unix/x11/gnome/uinetplay.c:320
+#: src/arch/unix/gui/uinetplay.c:123 src/arch/unix/x11/gnome/uinetplay.c:320
 msgid "Disconnect"
 msgstr "Disconnetti"
+
+#: src/arch/unix/gui/uinetplay.c:128
+msgid "*Enable IPV6"
+msgstr "*Attiva IPV6"
 
 #: src/arch/unix/gui/uipalemu.c:79
 msgid "PAL Scanline shade"

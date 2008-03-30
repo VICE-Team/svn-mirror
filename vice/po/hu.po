@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-23 16:40+0200\n"
+"POT-Creation-Date: 2006-09-25 21:09+0200\n"
 "PO-Revision-Date: 2006-08-29 16:44+0200\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -385,71 +385,71 @@ msgstr ""
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Nem válthat IPV4/IPV6 között, amíg a hálózati játék aktív"
 
-#: src/network.c:462
+#: src/network.c:461
 msgid "Testing best frame delay..."
 msgstr "Legjobb képkocka késleltetés tesztelése..."
 
-#: src/network.c:510
+#: src/network.c:511
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d képkocka késleltetés használata."
 
-#: src/network.c:535
+#: src/network.c:536
 msgid "Cannot load snapshot file for transfer"
 msgstr "Nem sikerült az átküldendõ pillanatkép fájlt betölteni"
 
-#: src/network.c:548
+#: src/network.c:549
 msgid "Sending snapshot to client..."
 msgstr "Pillanatkép küldése a kliensnek..."
 
-#: src/network.c:558
+#: src/network.c:559
 msgid "Cannot send snapshot to client"
 msgstr "Nem sikerült pillanatképet elküldeni a klienshez"
 
-#: src/network.c:588
+#: src/network.c:589
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Nem sikerült a pillanatképfájlt létrehozni (%s)"
 
-#: src/network.c:628
+#: src/network.c:629
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Nem sikerült a pillanatképfájlt megnyitni (%s)"
 
-#: src/network.c:787
+#: src/network.c:779
 msgid "Server is waiting for a client..."
 msgstr "A kiszolgáló kliensre vár..."
 
-#: src/network.c:825
+#: src/network.c:815
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Nem sikerült a %s pillanatképfájlt létrehozni. Kérem válasszon más "
 "pillanatkép könyvtárat!"
 
-#: src/network.c:845
+#: src/network.c:835
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Nem sikerült %s-t feloldani"
 
-#: src/network.c:890
+#: src/network.c:880
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "Nem sikerült %s-hez kapcsolódni (a %d porton nem fut kiszolgáló)"
 
-#: src/network.c:904
+#: src/network.c:894
 msgid "Receiving snapshot from server..."
 msgstr "Pillanatkép fogadása a szerverrõl..."
 
-#: src/network.c:1034
+#: src/network.c:981 src/network.c:1011
 msgid "Remote host disconnected."
 msgstr "A távoli számítogép lekapcsolódott."
 
-#: src/network.c:1045
+#: src/network.c:1023
 msgid "Remote host suspending..."
 msgstr "A távoli számítógép felfüggesztést kért..."
 
-#: src/network.c:1087
+#: src/network.c:1067
 msgid "Network out of sync - disconnecting."
 msgstr "A hálózat kiesett a szinkronból - szétkapcsolódás"
 
@@ -3045,7 +3045,7 @@ msgstr "Visszaugrás az elõzõ kilóméterkõhöz"
 msgid "Recording start mode"
 msgstr "Rögzítés indításának módja"
 
-#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:115
+#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:111
 msgid "Netplay (experimental)"
 msgstr "Hálózati játék (szakértõ)"
 
@@ -3770,29 +3770,29 @@ msgstr "A gazdagép neve:"
 msgid "Error connecting to server."
 msgstr "Hiba történt a kapcsolódáskor."
 
-#: src/arch/unix/gui/uinetplay.c:111
-msgid "*Enable IPV6"
-msgstr "*IPV6 engedélyezése"
-
-#: src/arch/unix/gui/uinetplay.c:118
+#: src/arch/unix/gui/uinetplay.c:114
 msgid "TCP port"
 msgstr "TCP port"
 
-#: src/arch/unix/gui/uinetplay.c:120
+#: src/arch/unix/gui/uinetplay.c:116
 msgid "Start server"
 msgstr "Kiszolgáló elindítása"
 
-#: src/arch/unix/gui/uinetplay.c:122
+#: src/arch/unix/gui/uinetplay.c:118
 msgid "Server to connect to"
 msgstr "Kiszolgáló kapcsolódási címe"
 
-#: src/arch/unix/gui/uinetplay.c:125
+#: src/arch/unix/gui/uinetplay.c:121
 msgid "Connect to server"
 msgstr "Kapcsolódás a kiszolgálóhoz"
 
-#: src/arch/unix/gui/uinetplay.c:127 src/arch/unix/x11/gnome/uinetplay.c:320
+#: src/arch/unix/gui/uinetplay.c:123 src/arch/unix/x11/gnome/uinetplay.c:320
 msgid "Disconnect"
 msgstr "Szétkapcsolódás"
+
+#: src/arch/unix/gui/uinetplay.c:128
+msgid "*Enable IPV6"
+msgstr "*IPV6 engedélyezése"
 
 #: src/arch/unix/gui/uipalemu.c:79
 msgid "PAL Scanline shade"
