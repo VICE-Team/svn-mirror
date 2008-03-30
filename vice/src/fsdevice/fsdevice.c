@@ -40,6 +40,7 @@
 #include <string.h>
 
 #include "attach.h"
+#include "cbmdos.h"
 #include "fileio.h"
 #include "fsdevice-close.h"
 #include "fsdevice-flush.h"
@@ -99,7 +100,7 @@ char *fsdevice_get_path(unsigned int unit)
         return fsdevice_dir[unit - 8];
       default:
         log_error(LOG_DEFAULT,
-                  "fsdevice_get_pathi() called with invalid device %d.", unit);
+                  "fsdevice_get_path() called with invalid device %d.", unit);
         break;
     }
     return NULL;
@@ -114,23 +115,23 @@ void fsdevice_error(vdrive_t *vdrive, int code)
     dnr = vdrive->unit - 8;
 
     /* Only set an error once per command */
-    if (code != IPE_OK && last_code[dnr] != IPE_OK
-        && last_code[dnr] != IPE_DOS_VERSION)
+    if (code != CBMDOS_IPE_OK && last_code[dnr] != CBMDOS_IPE_OK
+        && last_code[dnr] != CBMDOS_IPE_DOS_VERSION)
         return;
 
     last_code[dnr] = code;
 
-    if (code != IPE_MEMORY_READ) {
-        if (code == IPE_DOS_VERSION)
+    if (code != CBMDOS_IPE_MEMORY_READ) {
+        if (code == CBMDOS_IPE_DOS_VERSION)
             message = "VICE FS DRIVER V2.0";
         else
-            message = vdrive_command_errortext(code);
+            message = cbmdos_errortext(code);
 
         sprintf(fs_errorl[dnr], "%02d,%s,00,00\015", code, message);
 
         fs_elen[dnr] = strlen(fs_errorl[dnr]);
 
-        if (code && code != IPE_DOS_VERSION)
+        if (code && code != CBMDOS_IPE_DOS_VERSION)
             log_message(LOG_DEFAULT, "Fsdevice: ERR = %02d, %s", code, message);
     } else {
         memcpy(fs_errorl[dnr], vdrive->mem_buf, vdrive->mem_length);
@@ -150,13 +151,13 @@ int fsdevice_error_get_byte(vdrive_t *vdrive, BYTE *data)
     rc = SERIAL_OK;
 
     if (!fs_elen[dnr])
-        fsdevice_error(vdrive, IPE_OK);
+        fsdevice_error(vdrive, CBMDOS_IPE_OK);
 
     if (fs_eptr[dnr] < fs_elen[dnr]) {
         *data = (BYTE)fs_errorl[dnr][fs_eptr[dnr]++];
         rc = SERIAL_OK;
     } else {
-        fsdevice_error(vdrive, IPE_OK);
+        fsdevice_error(vdrive, CBMDOS_IPE_OK);
         *data = 0xc7;
         rc = SERIAL_EOF;
     }
@@ -176,7 +177,7 @@ int fsdevice_attach(unsigned int device, const char *name)
         return 1;
 
     vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
-    fsdevice_error(vdrive, IPE_DOS_VERSION);
+    fsdevice_error(vdrive, CBMDOS_IPE_DOS_VERSION);
     return 0;
 }
 
