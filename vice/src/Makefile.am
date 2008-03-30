@@ -15,6 +15,7 @@ SUBDIRS = \
 	sounddrv \
 	drive \
 	vdrive \
+	video \
 	raster \
 	vicii \
         vdc \
@@ -109,9 +110,6 @@ noinst_HEADERS = \
 	viacore.h \
 	vice.h \
 	video.h \
-	video-color.h \
-	video-render.h \
-	video-resources.h \
 	vsidui.h \
 	vsync.h \
 	vsyncapi.h \
@@ -158,9 +156,6 @@ base_sources = \
 	tape.c \
 	traps.c \
 	utils.c \
-	video-color.c \
-	video-render.c \
-	video-resources.c \
 	vsync.c \
 	zfile.c \
 	zipcode.c
@@ -204,10 +199,11 @@ printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
-vdc_lib = $(top_builddir)/src/vdc/libvdc.a
+video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
 common_libs = $(rs232_ldadd) @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
@@ -229,6 +225,7 @@ x64_libs =  \
 	$(printerdrv_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
+	$(video_lib) \
 	$(monitor_lib) \
 	$(common_libs)
 
@@ -250,6 +247,7 @@ x64-all: \
         libgfxoutputdrv \
 	libprinterdrv \
 	libvicii \
+	libvideo \
 	libarch \
 	libmonitor \
 	x64
@@ -269,6 +267,7 @@ x128_libs =  \
 	$(vicii_lib) \
 	$(vdc_lib) \
 	$(raster_lib) \
+	$(video_lib) \
 	$(monitor_lib) \
 	$(common_libs)
 
@@ -292,6 +291,7 @@ x128-all: \
 	libvicii \
 	libvdc \
 	libraster \
+	libvideo \
 	libmonitor \
 	@RESID_DEP@ \
 	x128
@@ -306,6 +306,7 @@ xvic_libs =  \
         $(gfxoutputdrv_lib) \
 	$(printerdrv_lib) \
 	$(raster_lib) \
+	$(video_lib) \
 	$(monitor_lib) \
 	$(common_libs)
 
@@ -323,6 +324,7 @@ xvic-all: \
         libgfxoutputdrv \
 	libprinterdrv \
 	libvic20 \
+	libvideo \
 	libarch \
 	libmonitor \
 	xvic
@@ -338,6 +340,7 @@ xpet_libs =  \
 	$(printerdrv_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
+	$(video_lib) \
 	$(monitor_lib) \
 	$(common_libs)
 
@@ -356,6 +359,7 @@ xpet-all: \
         libgfxoutputdrv \
 	libprinterdrv \
 	libpet \
+	libvideo \
 	libarch \
 	libmonitor \
 	xpet 
@@ -370,6 +374,7 @@ xplus4_libs =  \
         $(gfxoutputdrv_lib) \
         $(printerdrv_lib) \
         $(raster_lib) \
+	$(video_lib) \
         $(monitor_lib) \
         $(common_libs)
 
@@ -387,6 +392,7 @@ xplus4-all: \
         libgfxoutputdrv \
         libprinterdrv \
         libplus4 \
+	libvideo \
         libarch \
         libmonitor \
         xplus4
@@ -404,6 +410,7 @@ xcbm2_libs = \
 	$(crtc_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
+	$(video_lib) \
 	$(monitor_lib) \
 	$(common_libs)
 
@@ -426,6 +433,7 @@ xcbm2-all: \
 	libraster \
 	libcrtc \
 	libvicii \
+	libvideo \
 	libmonitor \
 	xcbm2
 
@@ -476,7 +484,7 @@ petcat_LDADD = \
 
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv libgfxoutputdrv libsounddrv \
-	libarch libvicii libvdc libsid libcrtc @RESID_DEP@
+	libarch libvicii libvdc libsid libcrtc libvideo @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -518,6 +526,8 @@ libvdc:
 	(cd vdc && $(MAKE))
 libcrtc:
 	(cd crtc && $(MAKE))
+libvideo:
+	(cd video && $(MAKE))
 libmonitor:
 	(cd monitor && $(MAKE))
 
