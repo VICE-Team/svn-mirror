@@ -1,3 +1,42 @@
+2002-07-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.54.
+
+	* vicii/viciitypes.h, vicii/vicii-mem.c (read_d019): Also set
+	highest bit if a raster interrupt is pending.
+
+	* video/video-resources.c (video_resources_chip_init): Fixed
+	bug with multiple fullscreen devices.
+
+	* arch/unix/x11/dga1.c: Rewritten.
+
+	* arch/unix/x11/dga1.h: New file.
+
+	* arch/unix/x11/Makefile.am: Updated.
+
+	* arch/unix/x11/fullscreen.c: Added DGA1 support.
+
+	* arch/unix/uivicii.c, arch/unix/uivdc.c, arch/unix/uivic.c,
+	arch/unix/uicrtc.c, arch/unix/uited.c: Added DGA1 UI entries.
+
+	* arch/unix/x11/video.c, arch/unix/x11/videoarch.h
+	(video_set_refresh_func): New function.
+
+2002-07-05  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/video.cc (video_canvas_refresh): Removed odd/even
+	hack.
+
+	* arch/win32/Makefile.am,arch.dsp,fullscreen.h,fullscreen.c,
+	c128ui.c,ui.c,uilib.c,uimon.c,uivideo.c: Renamed fullscreen.*
+	to fullscrn.* to avoid conflict with common code.
+
+	* arch/win32/video.c (real_refresh): Added hack to call
+	video_canvas_render with even/odd pixel coordinates.
+
+	* video/render2x2.c, render2x2pal.c: Make wfirst depend on xt
+	and yys depend on yt.
+
 2002-07-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.53.
