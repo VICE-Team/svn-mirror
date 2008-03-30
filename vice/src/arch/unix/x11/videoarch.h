@@ -131,10 +131,16 @@ extern void video_convert_restore_pixel(void);
 extern void video_refresh_func(void (*rfunc)(void));
 extern int video_convert_func(video_frame_buffer_t *i, int depth,
                               unsigned int width, unsigned int height);
+#ifdef USE_COLOR_MANAGEMENT
+extern void video_convert_color_table(unsigned int i, PIXEL *pixel_return,
+                                      PIXEL *data, unsigned int bits_per_pixel,
+                                      unsigned int dither, long col);
+#else
 extern void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
                                       XImage *im,
                                       const struct palette_s *palette,
                                       long col, int depth);
+#endif
 
 #if C64UI == 1
 #include "c64icon.xpm"
