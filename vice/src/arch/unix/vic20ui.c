@@ -417,9 +417,12 @@ static ui_menu_entry_t palette_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
+UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICVideoCache)
 
 static ui_menu_entry_t vic_submenu[] = {
+    { N_("*Double size"),
+      (ui_callback_t)toggle_VICDoubleSize, NULL, NULL },
     { N_("*Double scan"),
       (ui_callback_t)toggle_VICDoubleScan, NULL, NULL },
     { N_("*Video cache"),

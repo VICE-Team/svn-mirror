@@ -86,47 +86,26 @@ static resource_t resources[] =
     { NULL }
 };
 
-
-static int set_double_size_enabled(resource_value_t v, void *param)
-{
-    vdc_resources.double_size_enabled = (int)v;
-
-    vdc_resize();
-
-    return 0;
-}
-
 /*    vdc.force_repaint = 1;*/
-
-static resource_t resources_2x[] =
-{
-    { "VDC_DoubleSize", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vdc_resources.double_size_enabled,
-      set_double_size_enabled, NULL },
-    { NULL }
-};
-
 
 int vdc_resources_init(void)
 {
-    video_chip_cap_t video_chip_cap;
+    video_chip_cap_t *video_chip_cap;
 
-    video_chip_cap.dsize_allowed = ARCHDEP_VDC_DSIZE;
-    video_chip_cap.dscan_allowed = ARCHDEP_VDC_DSCAN;
-    video_chip_cap.single_mode.sizex = 1;
-    video_chip_cap.single_mode.sizey = 1;
-    video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGB_1X1;
-    video_chip_cap.double_mode.sizex = 1;
-    video_chip_cap.double_mode.sizey = 2;
-    video_chip_cap.double_mode.rmode = VIDEO_RENDER_RGB_1X2;
+    video_chip_cap = (video_chip_cap_t *)xmalloc(sizeof(video_chip_cap_t));
+
+    video_chip_cap->dsize_allowed = ARCHDEP_VDC_DSIZE;
+    video_chip_cap->dscan_allowed = ARCHDEP_VDC_DSCAN;
+    video_chip_cap->single_mode.sizex = 1;
+    video_chip_cap->single_mode.sizey = 1;
+    video_chip_cap->single_mode.rmode = VIDEO_RENDER_RGB_1X1;
+    video_chip_cap->double_mode.sizex = 1;
+    video_chip_cap->double_mode.sizey = 2;
+    video_chip_cap->double_mode.rmode = VIDEO_RENDER_RGB_1X2;
 
     vdc_resources.palette_file_name = NULL;
 
-    if (resources_register(resources_2x) < 0)
-        return -1;
-
-    if (raster_resources_chip_init("VDC", &vdc.raster,
-        &video_chip_cap) < 0)
+    if (raster_resources_chip_init("VDC", &vdc.raster, video_chip_cap) < 0)
         return -1;
 
     return resources_register(resources);
