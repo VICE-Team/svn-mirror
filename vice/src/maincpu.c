@@ -66,7 +66,7 @@
 /* Implement the hack to make opcode fetches faster.  */
 #define JUMP(addr)                            \
     do {                                      \
-        reg_pc = (addr);                      \
+        reg_pc = (unsigned int)(addr);        \
         bank_base = mem_read_base(reg_pc);    \
         bank_limit = mem_read_limit(reg_pc);  \
         mem_old_reg_pc = reg_pc;              \
@@ -403,7 +403,7 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
         || SMW_W(m, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
         || SMW_B(m, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
-        || SMW_DW(m, (DWORD)(last_opcode_info)) < 0)
+        || SMW_DW(m, last_opcode_info) < 0)
         goto fail;
 
     if (interrupt_write_snapshot(&maincpu_int_status, m) < 0)
