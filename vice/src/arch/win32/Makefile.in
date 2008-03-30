@@ -262,6 +262,8 @@ libarch_a_SOURCES = \
 	kbd.h \
 	mousedrv.c \
 	mousedrv.h \
+	opencbm.h \
+	opencbmlib.c \
 	petui.c \
 	plus4ui.c \
 	res.h \
@@ -436,12 +438,13 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	c128ui.$(OBJEXT) c64ui.$(OBJEXT) catweaselmkiii.$(OBJEXT) \
 	cbm2ui.$(OBJEXT) console.$(OBJEXT) dirent.$(OBJEXT) \
 	ffmpeglib.$(OBJEXT) fullscrn.$(OBJEXT) hardsid.$(OBJEXT) \
-	joy.$(OBJEXT) kbd.$(OBJEXT) mousedrv.$(OBJEXT) petui.$(OBJEXT) \
-	plus4ui.$(OBJEXT) rs232.$(OBJEXT) signals.$(OBJEXT) \
-	statusbar.$(OBJEXT) system.$(OBJEXT) tfearch.$(OBJEXT) \
-	ui-resources.$(OBJEXT) ui.$(OBJEXT) uic128.$(OBJEXT) \
-	uic64cart.$(OBJEXT) uicart.$(OBJEXT) uicbm2set.$(OBJEXT) \
-	uicmdline.$(OBJEXT) uiconsole.$(OBJEXT) uidatasette.$(OBJEXT) \
+	joy.$(OBJEXT) kbd.$(OBJEXT) mousedrv.$(OBJEXT) \
+	opencbmlib.$(OBJEXT) petui.$(OBJEXT) plus4ui.$(OBJEXT) \
+	rs232.$(OBJEXT) signals.$(OBJEXT) statusbar.$(OBJEXT) \
+	system.$(OBJEXT) tfearch.$(OBJEXT) ui-resources.$(OBJEXT) \
+	ui.$(OBJEXT) uic128.$(OBJEXT) uic64cart.$(OBJEXT) \
+	uicart.$(OBJEXT) uicbm2set.$(OBJEXT) uicmdline.$(OBJEXT) \
+	uiconsole.$(OBJEXT) uidatasette.$(OBJEXT) \
 	uidrivec64vic20.$(OBJEXT) uidrivec128.$(OBJEXT) \
 	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
 	uifliplist.$(OBJEXT) uiide64.$(OBJEXT) uijoystick.$(OBJEXT) \
@@ -465,14 +468,15 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/ffmpeglib.Po ./$(DEPDIR)/fullscrn.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/hardsid.Po ./$(DEPDIR)/joy.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/mousedrv.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/rs232.Po ./$(DEPDIR)/signals.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/statusbar.Po ./$(DEPDIR)/system.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/ui-resources.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uic128.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicart.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicbm2set.Po ./$(DEPDIR)/uicmdline.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiconsole.Po ./$(DEPDIR)/uidatasette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/opencbmlib.Po ./$(DEPDIR)/petui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4ui.Po ./$(DEPDIR)/rs232.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/signals.Po ./$(DEPDIR)/statusbar.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/system.Po ./$(DEPDIR)/tfearch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ui-resources.Po ./$(DEPDIR)/ui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uic128.Po ./$(DEPDIR)/uic64cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicart.Po ./$(DEPDIR)/uicbm2set.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uiconsole.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidatasette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec128.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec64vic20.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
@@ -536,6 +540,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opencbmlib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rs232.Po@am__quote@

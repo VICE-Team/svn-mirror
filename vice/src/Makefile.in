@@ -326,6 +326,7 @@ noinst_HEADERS = \
 	monitor.h \
 	mos6510.h \
 	mouse.h \
+	opencbmlib.h \
 	palette.h \
 	parallel.h \
 	petui.h \
@@ -481,6 +482,9 @@ driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_l
 
 @HAVE_RAWDRIVE_TRUE@blockdev_lib = @ARCH_DIR@/blockdev.o
 @HAVE_RAWDRIVE_FALSE@blockdev_lib = 
+
+@HAVE_REALDEVICE_TRUE@realdevice_lib = @ARCH_DIR@/opencbmlib.o
+@HAVE_REALDEVICE_FALSE@realdevice_lib = 
 
 bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat
 
@@ -647,6 +651,7 @@ c1541_LDADD = \
 	@ARCH_DIR@/archdep.o \
 	@ARCH_DIR@/uicmdline.o \
 	$(blockdev_lib) \
+	$(realdevice_lib) \
 	$(vdrive_lib) \
 	$(imagecontents_lib) \
 	$(fileio_lib) \
@@ -693,23 +698,46 @@ am_c1541_OBJECTS = c1541.$(OBJEXT) cbmdos.$(OBJEXT) charset.$(OBJEXT) \
 	resources.$(OBJEXT) util.$(OBJEXT) zfile.$(OBJEXT) \
 	zipcode.$(OBJEXT)
 c1541_OBJECTS = $(am_c1541_OBJECTS)
-@HAVE_RAWDRIVE_TRUE@c1541_DEPENDENCIES = @ARCH_DIR@/archdep.o \
-@HAVE_RAWDRIVE_TRUE@	@ARCH_DIR@/uicmdline.o \
-@HAVE_RAWDRIVE_TRUE@	@ARCH_DIR@/blockdev.o \
-@HAVE_RAWDRIVE_TRUE@	$(top_builddir)/src/vdrive/libvdrive.a \
-@HAVE_RAWDRIVE_TRUE@	$(top_builddir)/src/imagecontents/libimagecontents.a \
-@HAVE_RAWDRIVE_TRUE@	$(top_builddir)/src/fileio/libfileio.a \
-@HAVE_RAWDRIVE_TRUE@	$(top_builddir)/src/diskimage/libdiskimage.a \
-@HAVE_RAWDRIVE_TRUE@	$(top_builddir)/src/tape/libtape.a \
-@HAVE_RAWDRIVE_TRUE@	$(top_builddir)/src/serial/libserial.a
-@HAVE_RAWDRIVE_FALSE@c1541_DEPENDENCIES = @ARCH_DIR@/archdep.o \
-@HAVE_RAWDRIVE_FALSE@	@ARCH_DIR@/uicmdline.o \
-@HAVE_RAWDRIVE_FALSE@	$(top_builddir)/src/vdrive/libvdrive.a \
-@HAVE_RAWDRIVE_FALSE@	$(top_builddir)/src/imagecontents/libimagecontents.a \
-@HAVE_RAWDRIVE_FALSE@	$(top_builddir)/src/fileio/libfileio.a \
-@HAVE_RAWDRIVE_FALSE@	$(top_builddir)/src/diskimage/libdiskimage.a \
-@HAVE_RAWDRIVE_FALSE@	$(top_builddir)/src/tape/libtape.a \
-@HAVE_RAWDRIVE_FALSE@	$(top_builddir)/src/serial/libserial.a
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@c1541_DEPENDENCIES = \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/archdep.o \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/uicmdline.o \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/opencbmlib.o \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/vdrive/libvdrive.a \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/imagecontents/libimagecontents.a \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/fileio/libfileio.a \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/diskimage/libdiskimage.a \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/tape/libtape.a \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/serial/libserial.a
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@c1541_DEPENDENCIES = \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	@ARCH_DIR@/archdep.o \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	@ARCH_DIR@/uicmdline.o \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/vdrive/libvdrive.a \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/imagecontents/libimagecontents.a \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/fileio/libfileio.a \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/diskimage/libdiskimage.a \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/tape/libtape.a \
+@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/serial/libserial.a
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@c1541_DEPENDENCIES = \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/archdep.o \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/uicmdline.o \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/blockdev.o \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/opencbmlib.o \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/vdrive/libvdrive.a \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/imagecontents/libimagecontents.a \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/fileio/libfileio.a \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/diskimage/libdiskimage.a \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/tape/libtape.a \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/serial/libserial.a
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@c1541_DEPENDENCIES = \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	@ARCH_DIR@/archdep.o \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	@ARCH_DIR@/uicmdline.o \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	@ARCH_DIR@/blockdev.o \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/vdrive/libvdrive.a \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/imagecontents/libimagecontents.a \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/fileio/libfileio.a \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/diskimage/libdiskimage.a \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/tape/libtape.a \
+@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/serial/libserial.a
 c1541_LDFLAGS =
 am_petcat_OBJECTS = charset.$(OBJEXT) cmdline.$(OBJEXT) \
 	findpath.$(OBJEXT) ioutil.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) \
