@@ -44,6 +44,8 @@
 #define IPE_BAD_NAME                    33
 #define IPE_NO_NAME                     34
 
+#define IPE_NO_RECORD                   50
+
 #define IPE_NOT_WRITE                   60
 #define IPE_NOT_OPEN                    61
 #define IPE_NOT_FOUND                   62
