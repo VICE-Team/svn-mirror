@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/drive 	
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c64ui.c 	c64ui.h 	console.c 	coproc.h 	coproc.c 	icon.h 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.c 	petui.h 	rs232.c 	types.h 	ui.h 	uicartridge.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c 	uicrtc.c 	uicrtc.h 	uidatasette.c 	uidatasette.h 	uiedisk.h 	uihotkey.h 	uimenu.h 	uimon.c 	uipalette.c 	uipalette.h 	uiprinter.c 	uiprinter.h 	uireu.c 	uireu.h 	uiscreenshot.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	uivicii.c 	uivicii.h 	vic20ui.c 	vic20ui.h 	videoarch.h 	vsyncarch.c 	vsidui.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c64ui.c 	c64ui.h 	console.c 	coproc.h 	coproc.c 	icon.h 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.c 	petui.h 	rs232.c 	types.h 	ui.h 	uic64cart.c 	uic64cart.h 	uicartridge.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c 	uicrtc.c 	uicrtc.h 	uidatasette.c 	uidatasette.h 	uiedisk.h 	uihotkey.h 	uimenu.h 	uimon.c 	uipalette.c 	uipalette.h 	uiprinter.c 	uiprinter.h 	uireu.c 	uireu.h 	uiscreenshot.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	uivicii.c 	uivicii.h 	vic20ui.c 	vic20ui.h 	videoarch.h 	vsyncarch.c 	vsidui.c
 
 
 bin_SCRIPTS = vsid
@@ -158,9 +158,9 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64ui.o console.o \
 coproc.o joystick.o kmap.o main_exit.o mouse.o petkmap.o petui.o \
-rs232.o uicmdline.o uicommands.o uicrtc.o uidatasette.o uimon.o \
-uipalette.o uiprinter.o uireu.o uisettings.o uivicii.o vic20ui.o \
-vsyncarch.o vsidui.o
+rs232.o uic64cart.o uicmdline.o uicommands.o uicrtc.o uidatasette.o \
+uimon.o uipalette.o uiprinter.o uireu.o uisettings.o uivicii.o \
+vic20ui.o vsyncarch.o vsidui.o
 SCRIPTS =  $(bin_SCRIPTS)
 
 CFLAGS = @CFLAGS@
@@ -361,11 +361,12 @@ archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h ui.h \
 	../../../src/log.h ../../../src/utils.h
 c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/log.h types.h icon.h \
-	joystick.h ../../../src/resources.h uicommands.h uidatasette.h \
-	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h uihotkey.h x11/xaw/../x11menu.h uipalette.h \
-	uiscreenshot.h uireu.h uisettings.h uivicii.h \
-	../../../src/utils.h ../../../src/vsync.h
+	joystick.h ../../../src/resources.h uic64cart.h uicommands.h \
+	uidatasette.h uimenu.h x11/xaw/uimenu.h ui.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \
+	x11/xaw/../x11menu.h uipalette.h uiscreenshot.h uireu.h \
+	uisettings.h uivicii.h ../../../src/utils.h \
+	../../../src/vsync.h
 c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cbm2/c610.h types.h ../../../src/cbm2/c610mem.h \
 	icon.h joystick.h ../../../src/drive/drive.h ../../../src/log.h \
@@ -375,13 +376,12 @@ c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h \
 	uihotkey.h x11/xaw/../x11menu.h uivicii.h ../../../src/vsync.h
 c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64mem.h ../../../src/mem.h types.h \
-	../../../src/c64/c64cart.h ../../../src/cartridge.h \
 	../../../src/drive/drive.h ../../../src/log.h icon.h joystick.h \
-	../../../src/resources.h uicartridge.h uicommands.h \
-	uidatasette.h uimenu.h x11/xaw/uimenu.h ui.h \
-	../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \
-	x11/xaw/../x11menu.h uireu.h uiscreenshot.h uisettings.h \
-	uivicii.h ../../../src/utils.h ../../../src/vsync.h
+	../../../src/resources.h uic64cart.h uicommands.h uidatasette.h \
+	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h uihotkey.h x11/xaw/../x11menu.h uireu.h \
+	uiscreenshot.h uisettings.h uivicii.h ../../../src/utils.h \
+	../../../src/vsync.h
 console.o: console.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/console.h ../../../src/utils.h types.h
 coproc.o: coproc.c coproc.h ../../../src/log.h
@@ -411,6 +411,11 @@ rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h coproc.h \
 	../../../src/log.h ../../../src/rs232.h types.h \
 	../../../src/utils.h
+uic64cart.o: uic64cart.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/c64/c64cart.h types.h ../../../src/cartridge.h \
+	ui.h ../../../src/uiapi.h x11/xaw/uiarch.h uicartridge.h \
+	uimenu.h x11/xaw/uimenu.h uihotkey.h x11/xaw/../x11menu.h \
+	../../../src/utils.h ../../../src/vsync.h
 uicmdline.o: uicmdline.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h
 uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \

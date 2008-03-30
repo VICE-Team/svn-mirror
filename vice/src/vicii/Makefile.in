@@ -266,7 +266,8 @@ vicii-draw.o: vicii-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/raster/raster-modes.h \
 	vicii-draw.h vicii.h viciitypes.h ../../src/alarm.h \
 	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h vicii-mem.h
+	../../src/raster/raster-changes.h vicii-mem.h \
+	../../src/video-render.h
 vicii-mem.o: vicii-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
@@ -279,7 +280,8 @@ vicii-resources.o: vicii-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/utils.h \
 	../../src/arch/unix/types.h vicii-resources.h viciitypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h vicii-mem.h vicii.h
+	../../src/raster/raster-changes.h vicii-mem.h vicii.h \
+	../../src/video-render.h
 vicii-snapshot.o: vicii-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/mem.h \
@@ -293,7 +295,8 @@ vicii-sprites.o: vicii-sprites.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/raster/raster-sprite.h \
 	vicii-sprites.h vicii.h viciitypes.h ../../src/alarm.h \
 	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h vicii-mem.h
+	../../src/raster/raster-changes.h vicii-mem.h \
+	../../src/video-render.h
 vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/c64/c64.h \
 	../../src/c64/c64cart.h ../../src/clkguard.h \

@@ -448,6 +448,8 @@ void cartridge_init_config(void)
       case CARTRIDGE_EXPERT:
         expert_config_init();
         break;
+      default:
+        cartridge_config_changed(2);
     }
 }
 

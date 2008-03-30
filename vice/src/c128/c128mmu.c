@@ -30,6 +30,7 @@
 
 #include "c128mem.h"
 #include "c128mmu.h"
+#include "c64cart.h"
 #include "cmdline.h"
 #include "functionrom.h"
 #include "interrupt.h"
@@ -80,8 +81,8 @@ static int set_column4080_key(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    { "40/80ColumnKey", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &mmu_column4080_key,
+    { "40/80ColumnKey", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&mmu_column4080_key,
       set_column4080_key, NULL },
     { NULL }
 };
@@ -184,7 +185,8 @@ BYTE REGPARM1 mmu_read(ADDRESS addr)
     if (addr < 0xb) {
         if (addr == 5) {
             /* 0x80 = 40/80 key released.  */
-            return (mmu[5] & 0x7f) | (mmu_column4080_key ? 0x80 : 0);
+            return (mmu[5] & 0x0f) | (mmu_column4080_key ? 0x80 : 0)
+                   | ((export.game ^ 1) << 4) | ((export.exrom ^ 1) << 5);
         } else {
             return mmu[addr];
         }

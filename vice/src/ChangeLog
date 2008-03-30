@@ -1,3 +1,78 @@
+2001-10-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.18.
+
+	* c128/c128.c (machine_init_resources): Added cart resources.
+	(machine_init_cmdline_options): Added cart cmdline options.
+	(machine_init): Initialize cart support.
+
+	* c64/cart/c64cartmem.c (cartridge_init_config): Initialize
+	expansion port even if no cart is attached.
+
+	* c128/c128mem.c (mem_initialize_memory): Initialize cartridge
+	mapping.
+	(mmu_read): Return status of exrom and game lines.
+
+	* cartridge.h: Define `cartridge_init' here.
+
+	* arch/unix/uic64cart.c, arch/unix/uic64cart.h: New files.
+
+	* arch/unix/c64ui.c: Moved cart specific code to separate
+	file.
+
+	* arch/unix/c128ui.c: Added cart menu.
+
+2001-10-27  John Selck  <graham@cruise.de>
+
+	* video-render.c: Removed U8, U16 and U32 typedefs, now using
+	BYTE, WORD and DWORD again. Added 2x2 render routines.
+
+	* video-render.h: New define VIDEO_REMOVE_2X which is supposed
+	to remove the doublesize/doublescan code from the raster,
+	vic-ii etc layers.
+
+	* vicii/vicii-draw.c: Now VIDEO_REMOVE_2X removes all
+	doublesize code here.
+
+	* vicii/vicii-sprites.c: Now VIDEO_REMOVE_2X removes all
+	doublesize code here.
+
+	* raster/raster.c: VIDEO_REMOVE_2X removes some doublesize and
+	doublescan code.
+
+	* arch/win32/video.c: canvas_updata() is slightly modified
+	when VIDEO_REMOVE_2X is defined, so that the new render code
+	gets correct coordinates.
+
+	* video-render.c: Added variables double_size_bad and
+	double_scan_bad for direct access. This is just a temporary
+	hack and will be changed.
+
+	* vicii/vicii-resources.c: set_double_size_enabled() and
+	set_double_scan_enabled() now also access the variables in
+	video-render.c.
+	Again: just a temporary hack, this will be changed.
+
+2001-10-27  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/Makefile.am: added new file c64cart.dsp
+
+	* arch/win32/c128.dsp,c64.dsp: added *io.c
+
+	* arch/win32/c64c128.dsp,c64.dsp: removed cartridge related
+	files
+
+	* arch/win32/c64cart.dsp: new project file for the c64cart
+	library
+
+	* arch/win32/sid.dsp: renamed sid.c to fastsid.c
+
+	* arch/win32/vice.dsw: added new project c64cart.dsp and
+	updated depedencies for c64.dsp and c128.dsp
+
+	* arch/win32/x128.dsp,x64.dsp,xcbm2.dsp,xpet.dsp,xvic.dsp:
+	added video-render.c
+
 2001-10-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.17.

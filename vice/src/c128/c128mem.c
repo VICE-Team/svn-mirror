@@ -1988,6 +1988,7 @@ void mem_initialize_memory(void)
 
     pport.data = 0x37;
     pport.dir = 0x2f;
+    cartridge_init_config();
 }
 
 #ifdef _MSC_VER
