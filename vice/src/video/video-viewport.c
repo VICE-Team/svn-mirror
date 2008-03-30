@@ -48,6 +48,9 @@ void video_viewport_resize(video_canvas_t *canvas)
     unsigned int gfx_height;
     unsigned width, height;
 
+    if (canvas->initialized == 0)
+        return;
+
     geometry = canvas->geometry;
     viewport = canvas->viewport;
 
