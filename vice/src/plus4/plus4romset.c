@@ -47,19 +47,19 @@ const char *machine_romset_resources_list[] = {
 };
 
 
-int machine_romset_file_load(char *filename)
+int machine_romset_file_load(const char *filename)
 {
     return romset_file_load(filename);
 }
 
-int machine_romset_file_save(char *filename)
+int machine_romset_file_save(const char *filename)
 {
     return romset_file_save(filename, machine_romset_resources_list);
 }
 
-char *machine_romset_file_list(const char *delim)
+char *machine_romset_file_list(void)
 {
-    return romset_file_list(machine_romset_resources_list, delim);
+    return romset_file_list(machine_romset_resources_list);
 }
 
 int machine_romset_archive_item_create(const char *romset_name)
