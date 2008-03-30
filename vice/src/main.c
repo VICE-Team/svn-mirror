@@ -200,7 +200,7 @@ int main_program(int argc, char **argv)
     init_done = 1;
 
     /* Let's go...  */
-    maincpu_trigger_reset();
+    log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
     maincpu_mainloop();
 
     log_error(LOG_DEFAULT, "perkele!");

@@ -34,7 +34,6 @@
 #include "clkguard.h"
 #include "debug.h"
 #include "interrupt.h"
-#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -43,9 +42,7 @@
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"
-#include "utils.h"
 
-/* ------------------------------------------------------------------------- */
 
 /* MACHINE_STUFF should define/undef
 
@@ -236,31 +233,11 @@ monitor_interface_t maincpu_monitor_interface = {
 
 /* ------------------------------------------------------------------------- */
 
-static void clk_overflow_callback(CLOCK sub, void *data)
-{
-    alarm_context_time_warp(maincpu_alarm_context, sub, -1);
-    interrupt_cpu_status_time_warp(&maincpu_int_status, sub, -1);
-}
-
-void maincpu_init(void)
-{
-    maincpu_alarm_context = (alarm_context_t *)xmalloc(sizeof(alarm_context_t));
-
-    alarm_context_init(maincpu_alarm_context, "MainCPU");
-
-    clk_guard_init(&maincpu_clk_guard, &maincpu_clk, CLOCK_MAX - 0x100000);
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
-}
-
-/* ------------------------------------------------------------------------- */
-
 static void cpu_reset(void)
 {
     int preserve_monitor;
 
     preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
-
-    log_message(LOG_DEFAULT, "Main CPU: RESET.");
 
     interrupt_cpu_status_init(&maincpu_int_status, NUMOFINT, &last_opcode_info);
     if (preserve_monitor)
@@ -344,7 +321,6 @@ void maincpu_mainloop(void)
     mem_set_bank_pointer(&bank_base, &bank_limit);
 
     maincpu_trigger_reset();
-    log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
 
     while (1) {
 
