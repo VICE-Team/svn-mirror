@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,8 +30,12 @@
 
 #include "types.h"
 
+struct raster_cache_s;
+
 typedef void (*raster_sprite_status_draw_function_t)(BYTE *line_ptr,
                                                      BYTE *gfx_msk_ptr);
+typedef void (*raster_sprite_status_cache_function_t)(struct raster_cache_s
+                                                      *cache);
 
 struct raster_sprite_s;
 
@@ -40,6 +45,7 @@ struct raster_sprite_status_s {
     struct raster_sprite_s *sprites;
 
     raster_sprite_status_draw_function_t draw_function;
+    raster_sprite_status_cache_function_t cache_function;
 
     /* Bit mask for the sprites that are activated.  */
     BYTE visible_msk;
@@ -78,6 +84,8 @@ void raster_sprite_status_init(raster_sprite_status_t *s,
 raster_sprite_status_t *raster_sprite_status_new(unsigned int num_sprites);
 void raster_sprite_status_set_draw_function(raster_sprite_status_t *status,
                              raster_sprite_status_draw_function_t function);
+void raster_sprite_status_set_cache_function(raster_sprite_status_t *status,
+                             raster_sprite_status_cache_function_t function);
 
 #endif
 
