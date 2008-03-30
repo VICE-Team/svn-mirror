@@ -47,6 +47,15 @@ extern const char machine_name[];
 #define MACHINE_SYNC_NTSC    -2
 #define MACHINE_SYNC_NTSCOLD -3
 
+struct machine_timing_s {
+    unsigned int cycles_per_line;
+    long cycles_per_rfsh;
+    long cycles_per_sec;
+    double rfsh_per_sec;
+    unsigned int screen_lines;
+};
+typedef struct machine_timing_s machine_timing_t;
+
 extern int machine_class;
 extern int vsid_mode;
 extern
