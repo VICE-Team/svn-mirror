@@ -584,7 +584,7 @@ c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h charset.h \
 charset.o: charset.c vice.h config.h charset.h arch/unix/types.h log.h \
 	utils.h
 ciatimer.o: ciatimer.c vice.h config.h alarm.h arch/unix/types.h \
-	ciatimer.h snapshot.h interrupt.h 6510core.h
+	ciatimer.h interrupt.h 6510core.h snapshot.h
 clkguard.o: clkguard.c vice.h config.h clkguard.h arch/unix/types.h \
 	utils.h
 cmdline.o: cmdline.c vice.h config.h arch/unix/archdep.h archapi.h \

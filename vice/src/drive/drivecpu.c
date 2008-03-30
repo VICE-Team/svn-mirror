@@ -70,10 +70,8 @@ static void drive_bank_store(drive_context_t *drv, int bank, ADDRESS address,
                              BYTE value);
 void drive_toggle_watchpoints(drive_context_t *drv, int flag);
 
-
-cpu_int_status_t *drive0_int_status_ptr = &drive0_context.cpu.int_status;
-cpu_int_status_t *drive1_int_status_ptr = &drive1_context.cpu.int_status;
-
+cpu_int_status_t *drive0_int_status_ptr;
+cpu_int_status_t *drive1_int_status_ptr;
 
 monitor_interface_t *drive0_get_monitor_interface_ptr(void)
 {
@@ -143,6 +141,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
     drv->cpu.alarm_context
         = (alarm_context_t *)xmalloc(sizeof(alarm_context_t));
     drv->cpu.clk_guard = (clk_guard_t *)xmalloc(sizeof(clk_guard_t));
+    drv->cpu.int_status = (cpu_int_status_t *)xmalloc(sizeof(cpu_int_status_t));
     drv->cpu.rmw_flag = 0;
     drv->cpu.d_bank_limit = -1;
     drv->cpu.pageone = NULL;
@@ -153,7 +152,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
     mi = drv->cpu.monitor_interface;
     mi->cpu_regs = &(drv->cpu.cpu_regs);
     mi->z80_cpu_regs = NULL;
-    mi->int_status = &(drv->cpu.int_status);
+    mi->int_status = drv->cpu.int_status;
     mi->clk = &(drive_clk[drv->mynumber]);
     mi->current_bank = 0;
     mi->mem_bank_list = NULL;
@@ -168,6 +167,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
         mi->set_bank_base = drive0_set_bank_base;
 
         drv->cpu.monspace = e_disk8_space;
+        drive0_int_status_ptr = drv->cpu.int_status;
     } else {
         mi->mem_bank_read = drive1_bank_read;
         mi->mem_bank_peek = drive1_bank_peek;
@@ -177,6 +177,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
         mi->set_bank_base = drive1_set_bank_base;
 
         drv->cpu.monspace = e_disk9_space;
+        drive1_int_status_ptr = drv->cpu.int_status;
     }
 }
 
@@ -266,10 +267,10 @@ static void cpu_reset(drive_context_t *drv)
 {
     int preserve_monitor;
 
-    preserve_monitor = drv->cpu.int_status.global_pending_int & IK_MONITOR;
+    preserve_monitor = drv->cpu.int_status->global_pending_int & IK_MONITOR;
 
     log_message(drv->drive_ptr->log, "RESET.");
-    interrupt_cpu_status_init(&(drv->cpu.int_status), DRIVE_NUMOFINT,
+    interrupt_cpu_status_init(drv->cpu.int_status, DRIVE_NUMOFINT,
                               &(drv->cpu.last_opcode_info));
 
     *(drv->clk_ptr) = 6;
@@ -285,7 +286,7 @@ static void cpu_reset(drive_context_t *drv)
     glue1551_reset(drv);
 
     if (preserve_monitor)
-        interrupt_monitor_trap_on(&(drv->cpu.int_status));
+        interrupt_monitor_trap_on(drv->cpu.int_status);
 }
 
 void drive_toggle_watchpoints(drive_context_t *drv, int flag)
@@ -316,17 +317,17 @@ void drive_cpu_reset(drive_context_t *drv)
     *(drv->clk_ptr) = 0;
     drive_cpu_reset_clk(drv);
 
-    preserve_monitor = drv->cpu.int_status.global_pending_int & IK_MONITOR;
+    preserve_monitor = drv->cpu.int_status->global_pending_int & IK_MONITOR;
 
-    interrupt_cpu_status_init(&(drv->cpu.int_status),
-                        DRIVE_NUMOFINT,
-                        &(drv->cpu.last_opcode_info));
+    interrupt_cpu_status_init(drv->cpu.int_status,
+                              DRIVE_NUMOFINT,
+                              &(drv->cpu.last_opcode_info));
 
     if (preserve_monitor)
-        interrupt_monitor_trap_on(&(drv->cpu.int_status));
+        interrupt_monitor_trap_on(drv->cpu.int_status);
 
     /* FIXME -- ugly, should be changed in interrupt.h */
-    interrupt_trigger_reset(&(drv->cpu.int_status), *(drv->clk_ptr));
+    interrupt_trigger_reset(drv->cpu.int_status, *(drv->clk_ptr));
 }
 
 void drive_cpu_early_init(drive_context_t *drv)
@@ -631,7 +632,7 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
         )
         goto fail;
 
-    if (interrupt_write_snapshot(&(drv->cpu.int_status), m) < 0)
+    if (interrupt_write_snapshot(drv->cpu.int_status, m) < 0)
         goto fail;
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1541
@@ -701,7 +702,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     log_message(drv->drive_ptr->log, "RESET (For undump).");
 
-    interrupt_cpu_status_init(&(drv->cpu.int_status), DRIVE_NUMOFINT,
+    interrupt_cpu_status_init(drv->cpu.int_status, DRIVE_NUMOFINT,
                               &(drv->cpu.last_opcode_info));
 
     via1d_reset(drv);
@@ -714,7 +715,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     tia1551_reset(drv);
     glue1551_reset(drv);
 
-    if (interrupt_read_snapshot(&(drv->cpu.int_status), m) < 0)
+    if (interrupt_read_snapshot(drv->cpu.int_status, m) < 0)
         goto fail;
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1541

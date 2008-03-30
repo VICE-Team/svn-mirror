@@ -277,8 +277,8 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/c128ui.h ../../src/c64/c64cia.h \
 	../../src/c64/c64rsuser.h ../../src/c64/c64tpi.h \
 	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/snapshot.h ../../src/clkguard.h ../../src/console.h \
-	../../src/datasette.h ../../src/drive/drive-cmdline-options.h \
+	../../src/clkguard.h ../../src/console.h ../../src/datasette.h \
+	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h functionrom.h \
@@ -289,11 +289,11 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/reu.h ../../src/screenshot.h ../../src/serial.h \
 	../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
-	../../src/sid/sid.h ../../src/sound.h ../../src/tape.h \
-	../../src/traps.h ../../src/mem.h ../../src/utils.h \
-	../../src/vicii/vicii.h ../../src/video.h ../../src/vdc/vdc.h \
-	../../src/vsync.h z80.h z80mem.h ../../src/rs232.h \
-	../../src/c64/c64acia.h ../../src/rsuser.h \
+	../../src/sid/sid.h ../../src/sound.h ../../src/snapshot.h \
+	../../src/tape.h ../../src/traps.h ../../src/mem.h \
+	../../src/utils.h ../../src/vicii/vicii.h ../../src/video.h \
+	../../src/vdc/vdc.h ../../src/vsync.h z80.h z80mem.h \
+	../../src/rs232.h ../../src/c64/c64acia.h ../../src/rsuser.h \
 	../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
