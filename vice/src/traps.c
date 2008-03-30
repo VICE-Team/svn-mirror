@@ -55,6 +55,8 @@ typedef struct _traplist_t {
 
 static traplist_t *traplist;
 
+static traplist_t *tmp_traplist;
+
 static int install_trap(const trap_t *t);
 static int remove_trap(const trap_t *t);
 
