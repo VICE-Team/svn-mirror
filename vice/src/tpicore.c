@@ -240,6 +240,8 @@ BYTE REGPARM1 mytpi_read(TPI_CONTEXT_PARAM WORD addr)
 {
     BYTE byte = 0xff;
 
+    addr &= 0x07;
+
     switch (addr) {
       case TPI_PA:
         byte = read_pa(TPI_CONTEXT_CALLVOID);
