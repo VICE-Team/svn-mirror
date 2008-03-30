@@ -607,7 +607,7 @@ int autostart_disk(const char *file_name, const char *program_name,
 int autostart_prg(const char *file_name, unsigned int runmode)
 {
     FILE *f;
-    char *cbm_name;
+    BYTE *cbm_name;
     char p00_header_file_name[20]; /* FIXME */
     int p00_type;
     char *directory;
@@ -649,10 +649,10 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     /* Prepare the CBM file name.  */
     if (p00_type != FT_PRG) {
         /* Then it must be a raw file.  */
-        cbm_name = stralloc(file);
+        cbm_name = (BYTE *)stralloc(file);
         charset_petconvstring(cbm_name, 0);
     } else {
-        cbm_name = stralloc(p00_header_file_name);
+        cbm_name = (BYTE *)stralloc(p00_header_file_name);
     }
 
     /* Setup FS-based drive emulation.  */
@@ -664,7 +664,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     ui_update_menus();
 
     /* Now it's the same as autostarting a disk image.  */
-    reboot_for_autostart(cbm_name, AUTOSTART_HASDISK, runmode);
+    reboot_for_autostart((char *)cbm_name, AUTOSTART_HASDISK, runmode);
 
     free(directory);
     free(file);

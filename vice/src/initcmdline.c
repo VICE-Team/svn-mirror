@@ -308,7 +308,7 @@ void initcmdline_check_attach(void)
                     char *name;
 
                     fclose(autostart_fd);
-                    charset_petconvstring(autostart_prg_name, 0);
+                    charset_petconvstring((BYTE *)autostart_prg_name, 0);
                     name = replace_hexcodes(autostart_prg_name);
                     autostart_autodetect(autostart_file, name, 0,
                                          AUTOSTART_MODE_RUN);

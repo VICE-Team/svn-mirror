@@ -118,7 +118,7 @@ static ui_menu_entry_t ui_load_commands_menu[] = {
 
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
-static ui_menu_entry_t set_video_standard_submenu[] = {
+static ui_menu_entry_t set_video_standard_submenu_vsid[] = {
     { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
     { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
@@ -130,7 +130,8 @@ static ui_menu_entry_t set_video_standard_submenu[] = {
 
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 
-static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
+/*
+static ui_menu_entry_t set_sound_buffer_size_submenu_vsid[] = {
   { N_("*3.00 sec"), (ui_callback_t)radio_SoundBufferSize,
     (ui_callback_data_t)3000, NULL },
   { N_("*1.00 sec"), (ui_callback_t)radio_SoundBufferSize,
@@ -141,23 +142,23 @@ static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
     (ui_callback_data_t)100, NULL },
   { NULL }
 };
-
+*/
 UI_MENU_DEFINE_TOGGLE(Sound)
-
-static ui_menu_entry_t sound_settings_submenu[] = {
+/*
+static ui_menu_entry_t sound_settings_submenu_vsid[] = {
   { N_("*Enable sound playback"),
     (ui_callback_t)toggle_Sound, NULL, NULL },
   { "--" },
   { N_("Sample rate"),
     NULL, NULL, set_sound_sample_rate_submenu },
   { N_("Buffer size"),
-    NULL, NULL, set_sound_buffer_size_submenu },
+    NULL, NULL, set_sound_buffer_size_submenu_vsid },
   { N_("Oversample"),
     NULL, NULL, set_sound_oversample_submenu },
   { NULL },
 };
-
-static ui_menu_entry_t ui_sound_settings_menu[] = {
+*/
+static ui_menu_entry_t ui_sound_settings_menu_vsid[] = {
   { N_("Sound settings"),
     NULL, NULL, sound_settings_submenu },
   { NULL }
@@ -171,7 +172,7 @@ static ui_menu_entry_t psid_menu[] = {
   { N_("SID settings"),
     NULL, NULL, sid_submenu },
   { N_("Video standard"),
-    NULL, NULL, set_video_standard_submenu },
+    NULL, NULL, set_video_standard_submenu_vsid },
   { NULL }
 };
 
@@ -245,7 +246,7 @@ static void vsid_create_menus(void)
                                          NULL));
 
     ui_set_right_menu(wr = ui_menu_create("RightMenu",
-                                          ui_sound_settings_menu,
+                                          ui_sound_settings_menu_vsid,
                                           ui_menu_separator,
                                           psid_menu,
                                           NULL));
@@ -267,7 +268,7 @@ static void vsid_create_menus(void)
                                   NULL),
                    _("Settings"),
                    ui_menu_create("File",
-                                  ui_sound_settings_menu,
+                                  ui_sound_settings_menu_vsid,
                                   ui_menu_separator,
                                   psid_menu,
                                   NULL),
