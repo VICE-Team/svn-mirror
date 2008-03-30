@@ -92,9 +92,10 @@ static int reu_coexist_cartridge(void)
     int result;
 
     switch (mem_cartridge_type) {
-      case (CARTRIDGE_NONE):
-      case (CARTRIDGE_SUPER_SNAPSHOT_V5):
-      case (CARTRIDGE_EXPERT):
+      case CARTRIDGE_NONE:
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+      case CARTRIDGE_EXPERT:
+      case CARTRIDGE_RETRO_REPLAY:
         result = 1;
         break;
       default:
@@ -248,11 +249,11 @@ static int reu_activate(void)
     log_message(reu_log, "%dKB unit installed.", reu_size >> 10);
 
     if (!util_check_null_string(reu_filename)) {
-        if (util_load_file(reu_filename, (void *)reu_ram, reu_size) < 0) {
+        if (util_file_load(reu_filename, reu_ram, (size_t)reu_size,
+                           UTIL_FILE_LOAD_RAW) < 0) {
             log_message(reu_log,
                         "Reading REU image %s failed.", reu_filename);
-            if (util_save_file(reu_filename, (const void *)reu_ram,
-                reu_size) < 0) {
+            if (util_file_save(reu_filename, reu_ram, reu_size) < 0) {
                 log_message(reu_log,
                             "Creating REU image %s failed.", reu_filename);
                 return -1;
@@ -273,7 +274,7 @@ static int reu_deactivate(void)
         return 0;
 
     if (!util_check_null_string(reu_filename)) {
-        if (util_save_file(reu_filename, (const void *)reu_ram, reu_size) < 0) {
+        if (util_file_save(reu_filename, reu_ram, reu_size) < 0) {
             log_message(reu_log,
                         "Writing REU image %s failed.", reu_filename);
             return -1;
