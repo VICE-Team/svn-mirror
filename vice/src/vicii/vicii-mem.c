@@ -697,6 +697,7 @@ inline static void d020_store(BYTE value)
         return;
 
     vicii.regs[0x20] = value;
+
     raster_add_int_change_border(&vicii.raster,
         VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
         (int *)&vicii.raster.border_color,
@@ -709,8 +710,7 @@ inline static void d021_store(BYTE value)
 
     value &= 0xf;
 
-    VICII_DEBUG_REGISTER(("Background #0 color register: $%02X",
-                          value));
+    VICII_DEBUG_REGISTER(("Background #0 color register: $%02X", value));
 
     if (vicii.regs[0x21] == value)
         return;
@@ -729,7 +729,6 @@ inline static void d021_store(BYTE value)
     raster_add_int_change_background(&vicii.raster, x_pos,
                                      (int *)&vicii.raster.background_color,
                                      value);
-
     vicii.regs[0x21] = value;
 }
 
@@ -1099,6 +1098,55 @@ inline static BYTE d019_read(void)
     return vicii.last_read;
 }
 
+inline static BYTE d01e_read(void)
+{
+    /* Remove the pending sprite-sprite interrupt, as the collision
+       register is reset upon read accesses.  */
+    vicii_irq_sscoll_clear();
+
+    if (!vicii_resources.sprite_sprite_collisions_enabled) {
+        VICII_DEBUG_REGISTER(("Sprite-sprite collision mask: $00 "
+                             "(emulation disabled)"));
+        vicii.sprite_sprite_collisions = 0;
+        return 0;
+    }
+
+    vicii.regs[0x1e] = vicii.sprite_sprite_collisions;
+    vicii.sprite_sprite_collisions = 0;
+    VICII_DEBUG_REGISTER(("Sprite-sprite collision mask: $%02X",
+                         vicii.regs[0x1e]));
+
+    return vicii.regs[0x1e];
+}
+
+inline static BYTE d01f_read(void)
+{
+    /* Remove the pending sprite-background interrupt, as the collision
+       register is reset upon read accesses.  */
+    vicii_irq_sbcoll_clear();
+
+    if (!vicii_resources.sprite_background_collisions_enabled) {
+        VICII_DEBUG_REGISTER(("Sprite-background collision mask: $00 "
+                             "(emulation disabled)"));
+        vicii.sprite_background_collisions = 0;
+        return 0;
+    }
+
+    vicii.regs[0x1f] = vicii.sprite_background_collisions;
+    vicii.sprite_background_collisions = 0;
+    VICII_DEBUG_REGISTER(("Sprite-background collision mask: $%02X",
+                          vicii.regs[0x1f]));
+
+#if defined (VICII_DEBUG_SB_COLLISIONS)
+    log_message(vicii.log,
+                "vicii.sprite_background_collisions reset by $D01F "
+                "read at line 0x%X.",
+                VICII_RASTER_Y(clk));
+#endif
+
+    return vicii.regs[0x1f];
+}
+
 /* Read a value from a VIC-II register.  */
 BYTE REGPARM1 vicii_read(WORD addr)
 {
@@ -1207,46 +1255,10 @@ BYTE REGPARM1 vicii_read(WORD addr)
         return vicii.regs[addr];
 
       case 0x1e:                  /* $D01E: Sprite-sprite collision */
-        /* Remove the pending sprite-sprite interrupt, as the collision
-           register is reset upon read accesses.  */
-        vicii_irq_sscoll_clear();
-
-        if (vicii_resources.sprite_sprite_collisions_enabled) {
-            vicii.regs[addr] = vicii.sprite_sprite_collisions;
-            vicii.sprite_sprite_collisions = 0;
-            VICII_DEBUG_REGISTER(("Sprite-sprite collision mask: $%02X",
-                                 vicii.regs[addr]));
-            return vicii.regs[addr];
-        } else {
-            VICII_DEBUG_REGISTER(("Sprite-sprite collision mask: $00 "
-                                 "(emulation disabled)"));
-            vicii.sprite_sprite_collisions = 0;
-            return 0;
-        }
+        return d01e_read();
 
       case 0x1f:                  /* $D01F: Sprite-background collision */
-        /* Remove the pending sprite-background interrupt, as the collision
-           register is reset upon read accesses.  */
-        vicii_irq_sbcoll_clear();
-
-        if (vicii_resources.sprite_background_collisions_enabled) {
-            vicii.regs[addr] = vicii.sprite_background_collisions;
-            vicii.sprite_background_collisions = 0;
-            VICII_DEBUG_REGISTER(("Sprite-background collision mask: $%02X",
-                                  vicii.regs[addr]));
-#if defined (VICII_DEBUG_SB_COLLISIONS)
-            log_message(vicii.log,
-                        "vicii.sprite_background_collisions reset by $D01F "
-                        "read at line 0x%X.",
-                        VICII_RASTER_Y(clk));
-#endif
-            return vicii.regs[addr];
-        } else {
-            VICII_DEBUG_REGISTER(("Sprite-background collision mask: $00 "
-                                 "(emulation disabled)"));
-            vicii.sprite_background_collisions = 0;
-            return 0;
-        }
+        return d01f_read();
 
       case 0x20:                  /* $D020: Border color */
         VICII_DEBUG_REGISTER(("Border Color register: $%02X",
