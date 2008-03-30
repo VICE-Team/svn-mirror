@@ -1,5 +1,90 @@
 1999-01-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.18.
+
+	* c64/c64mem.c (set_reu_enabled): Call `activate_reu' when REU is
+	enabled.
+
+	* drive/drive.c (drive_write_protect_sense): Clear attach clock
+	correctly.
+
+	* drive/via2drive0.c, drive/via2drive1.c (read_pra): Fixed long-
+	standing and stupid bug with drive data port and attach clock.
+
+1998-01-31  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/video.c (cmdline_options):
+	change wrong "XSync" resource name to "UseXSync", i.e.
+	make "-xsync" and "+xsync" work again.
+	(video_init): check for display number in the DISPLAY variable
+	when autodetecting local or remote execution. 
+	Now display number >= 10 is assumed to be a ssh connection,
+	thus not local.
+
+	* romset.c (romset_load, romset_dump): call log_message
+	instead of log()...
+
+1998-01-31  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* data/CBM-II/Makefile.am (cbm2_DATA): add .vrs files
+
+	* data/CBM-II/rom128h.vrs, data/CBM-II/rom128l.vrs, 
+	data/CBM-II/rom256h.vrs, data/CBM-II/rom256l.vrs,
+	
+	* data/PET/Makefile.am (romsets): remove default.vrs, because
+	there is no default.
+
+	* data/PET/default.vrs: removed
+
+	* data/VIC20/Makefile.am (vic20_DATA): added default.vrs
+
+	* data/VIC20/default.vrs: new file
+
+	* arch/unix/xaw/c128ui.c, arch/unix/xaw/c610ui.c,
+	arch/unix/xaw/c64ui.c, arch/unix/xaw/petui.c
+	(palette_submenu): add entry for custom load (why does VIC20 
+	does not have a palette menu?)
+
+	* arch/unix/xaw/c610ui.c (cbm2_romset_submenu: new submenu
+	(model_settings_submenu): new entry for romsets.
+
+	* arch/unix/xaw/petui.c (petui_dump_romset): removed (moved
+	to uisettings.c)
+	(pet_romset_submenu): adjusted to available romset files
+	
+	* arch/unix/xaw/uisettings.c (ui_load_palette): new function
+	to load a custom palette file.
+	(ui_dump_romset): new function to load custom romset
+	(set_printer_dump_file): replaced by set_printer_exec_file,
+	because file selector cannot select non-existing file :-(
+
+	* arch/unix/xaw/uisettings.h (ui_dump_romset,ui_load_palette):
+	new prototypes
+
+	* arch/unix/xaw/vic20ui.c (vic20_romset_submenu): new submenu
+	(memory_settings_submenu): new entry for romsets
+
+	* c128/c128iec.c, c64/c64iec.c, vic20/vic20iec.c: include stdio.h, 
+	because resources.h needs FILE*
+
+	* c128/c128mem.c, c64/c64mem.c, cbm2/c610mem.c, pet/petmem.c,
+	vic20/vic20mem.c (mem_romset_resources_list): new list of resources 
+	to be saved in a romset file
+
+	* mem.h (mem_romset_resources_list): new prototype
+
+	* romset.c (romset_load): log the load
+	(romset_dump): use char** instead of variable args list to get the
+	list of resources to save.
+	Log the save.
+
+	* romset.h (romset_dump): changed prototype
+
+	* vic20/vic20.c (rawaddrs): enter the allowed VIC20 Basic start
+	addresses.
+
+1999-01-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.17.
 
 	* resources.h: #include <stdio.h>.
