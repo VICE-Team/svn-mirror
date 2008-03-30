@@ -187,6 +187,7 @@ extern int video_resources_pal_init(void);
 extern int video_resources_chip_init(const char *chipname,
                                      struct video_canvas_s **canvas,
                                      video_chip_cap_t *video_chip_cap);
+extern void video_resources_chip_shutdown(struct video_canvas_s *canvas);
 extern int video_cmdline_options_chip_init(const char *chipname,
                                            video_chip_cap_t *video_chip_cap);
 extern int video_arch_resources_init(void);
