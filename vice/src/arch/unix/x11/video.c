@@ -204,9 +204,7 @@ static log_t video_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
-static void (*_convert_func) (BYTE *draw_buffer,
-                              unsigned int draw_buffer_line_size,
-                              video_canvas_t *canvas,
+static void (*_convert_func) (video_canvas_t *canvas,
 			      int xs, int ys, int xt, int yt,
 			      int w, int h);
 static BYTE shade_table[256];
@@ -237,24 +235,22 @@ void video_convert_color_table(unsigned int i, BYTE *data, unsigned int dither,
         shade_table[i] = dither;
 }
 
-static void convert_8to8n(BYTE *draw_buffer,
-			  unsigned int draw_buffer_line_size,
-			  video_canvas_t *canvas,
+static void convert_8to8n(video_canvas_t *canvas,
 			  int sx, int sy, int tx, int ty,
 			  int w, int h)
 {
-    video_render_main(canvas->videoconfig, draw_buffer,
-                      canvas->x_image->data,
-                      w, h, sx, sy, tx, ty, draw_buffer_line_size,
-                      canvas->x_image->bytes_per_line,
-		      canvas->x_image->bits_per_pixel);
+    video_canvas_render(canvas, canvas->x_image->data,
+                        w, h, sx, sy, tx, ty,
+                        canvas->x_image->bytes_per_line,
+                        canvas->x_image->bits_per_pixel);
 }
 
 #define SRCPTR(x, y) \
-        (draw_buffer + (y) * draw_buffer_line_size + (x))
+    (canvas->draw_buffer->draw_buffer \
+    + (y) * canvas->draw_buffer->draw_buffer_width + (x))
 #define DESTPTR(i, x, y, t) \
-        ((t *)((BYTE *)(i)->x_image->data + \
-               (i)->x_image->bytes_per_line * (y)) + (x))
+    ((t *)((BYTE *)(i)->x_image->data \
+    + (i)->x_image->bytes_per_line * (y)) + (x))
 
 /* Use dither on 1bit display. This is slow but who cares... */
 BYTE dither_table[4][4] = {
@@ -264,9 +260,7 @@ BYTE dither_table[4][4] = {
     { 15, 7, 13, 5 }
 };
 
-static void convert_8to1_dither(BYTE *draw_buffer,
-                                unsigned int draw_buffer_line_size,
-                                video_canvas_t *canvas,
+static void convert_8to1_dither(video_canvas_t *canvas,
 				int sx, int sy, int tx, int ty,
 				int w, int h)
 {
@@ -286,9 +280,7 @@ static void convert_8to1_dither(BYTE *draw_buffer,
 }
 
 /* And this is inefficient... */
-static void convert_8toall(BYTE *draw_buffer,
-                           unsigned int draw_buffer_line_size,
-                           video_canvas_t *canvas,
+static void convert_8toall(video_canvas_t *canvas,
 			   int sx, int sy, int tx, int ty,
 			   int w, int h)
 {
@@ -438,12 +430,8 @@ void video_register_raster(struct raster_s *raster)
 
 /* ------------------------------------------------------------------------- */
 
-video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
+void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    video_canvas_t *canvas;
-
-    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
-
     canvas->depth = x11ui_get_display_depth();
     canvas->video_draw_buffer_callback = NULL;
 
@@ -462,9 +450,6 @@ video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
     /* Request specified video format. */
     canvas->xv_format.id = fourcc;
 #endif
-    canvas->videoconfig = videoconfig;
-
-    return canvas;
 }
 
 int video_canvas_create(video_canvas_t *canvas, const char *win_name,
@@ -586,27 +571,13 @@ void video_refresh_func(void (*rfunc)(void))
 
 /* Refresh a canvas.  */
 void video_canvas_refresh(video_canvas_t *canvas,
-                          BYTE *draw_buffer,
-                          unsigned int draw_buffer_line_size,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
 {
     Display *display;
     /*log_debug("XS%i YS%i XI%i YI%i W%i H%i PS%i", xs, ys, xi, yi, w, h,
-              draw_buffer_line_size);*/
-
-    if (canvas->videoconfig->doublesizex) {
-        xs *= 2;
-        xi *= 2;
-        w *= 2;
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        ys *= 2;
-        yi *= 2;
-        h *= 2;
-    }
+              canvas->draw_buffer->draw_buffer_width);*/
 
 #ifdef HAVE_XVIDEO
     if (use_xvideo) {
@@ -626,17 +597,6 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	    return;
 	}
 
-	if (canvas->videoconfig->doublesizex) {
-            xs /= 2;
-            xi /= 2;
-            w /= 2;
-	}
-	if (canvas->videoconfig->doublesizey) {
-            ys /= 2;
-            yi /= 2;
-            h /= 2;
-	}
-
 	display = x11ui_get_display_ptr();
 
 	render_yuv_image(doublesize,
@@ -645,7 +605,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
 			 video_resources.pal_scanlineshade*1024/1000,
 			 canvas->xv_format,
 			 canvas->xv_image,
-			 draw_buffer, draw_buffer_line_size,
+			 canvas->draw_buffer->draw_buffer,
+                         canvas->draw_buffer->draw_buffer_width,
 			 yuv_table,
 			 xs, ys, w, h,
 			 xi, yi);
@@ -678,23 +639,39 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	return;
     }
 #endif
+
+    if (canvas->videoconfig->doublesizex) {
+        xi *= 2;
+        w *= 2;
+    }
+
+    if (canvas->videoconfig->doublesizey) {
+        yi *= 2;
+        h *= 2;
+    }
+
 #ifdef USE_XF86_DGA2_EXTENSIONS
     if (fullscreen_is_enabled) {
-        fullscreen_refresh_func(draw_buffer, draw_buffer_line_size, 
-				xs, ys, xi, yi, w, h);
+        /* API Compatibity cruft.  Likely to be removed.  */
+        if (canvas->videoconfig->doublesizex)
+            xs *= 2;
+
+        if (canvas->videoconfig->doublesizey)
+            ys *= 2;
+
+        fullscreen_refresh_func(canvas, xs, ys, xi, yi, w, h);
         return;
     }
 
 #endif
-    _convert_func(draw_buffer, draw_buffer_line_size, canvas,
-		  xs, ys, xi, yi, w, h);
+    _convert_func(canvas, xs, ys, xi, yi, w, h);
 
     /* This could be optimized away.  */
     display = x11ui_get_display_ptr();
 
-    _refresh_func(display, canvas->drawable, _video_gc,
-                  canvas->x_image, xi, yi, xi, yi, w, h, False,
-                  NULL, canvas);
+    _refresh_func(display, canvas->drawable, _video_gc, canvas->x_image,
+                  xi, yi, xi, yi, w, h, False, NULL, canvas);
     if (_video_use_xsync)
         XSync(display, False);
 }
+

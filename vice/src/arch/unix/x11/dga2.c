@@ -168,8 +168,7 @@ void set_alarm_timeout() {
 #endif
 }   
 
-void fullscreen_refresh_func(BYTE *draw_buffer, 
-			     unsigned int draw_buffer_line_size,
+void fullscreen_refresh_func(struct canvas_s *canvas, 
 			     int src_x, int src_y,
 			     int dest_x, int dest_y,
 			     unsigned int width, unsigned int height) 
@@ -178,10 +177,9 @@ void fullscreen_refresh_func(BYTE *draw_buffer,
     int oldp;
 
 #if 0
-    printf("curr page = %d, src_x = %d, src_y = %d, dest_x = %d, dest_y = %d, w = %d, h = %d, dbln = %d\n",
+    printf("curr page = %d, src_x = %d, src_y = %d, dest_x = %d, dest_y = %d, w = %d, h = %d\n",
 	   fb_current_page, 
-	   src_x, src_y, dest_x, dest_y, width, height,
-	   draw_buffer_line_size);
+	   src_x, src_y, dest_x, dest_y, width, height);
 #endif
 #ifdef FS_TRACE_REFRESH
     struct timespec ts1, ts2, d;
@@ -200,16 +198,14 @@ void fullscreen_refresh_func(BYTE *draw_buffer,
       width = fs_width;
 
     /* convert buffer for PAL emulation */
-    video_render_main(fs_cached_fb->videoconfig, 
-		      draw_buffer,
-		      fb_render_target,
-		      width, height, src_x, src_y, src_x, src_y, 
-		      fs_cached_db_width,
-		      fs_fb_bpl, fs_depth);
+    video_canvas_render(canvas, 
+		        fb_render_target,
+		        width, height, src_x, src_y, src_x, src_y, 
+		        fs_fb_bpl, fs_depth);
 
-    XDGASetViewport (display, screen, 
-		     0, fb_ybegin[fb_current_page], 
-		     XDGAFlipRetrace);
+    XDGASetViewport(display, screen, 
+		    0, fb_ybegin[fb_current_page], 
+		    XDGAFlipRetrace);
     oldp = fb_current_page;
     fb_current_page = ((++fb_current_page) % BB_DEPTH);
     XDGACopyArea(display, screen,
