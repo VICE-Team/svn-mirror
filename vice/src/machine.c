@@ -1,5 +1,5 @@
 /*
- * machine.c  - Interface to machine-specific implementations.
+ * machine.c - Interface to machine-specific implementations.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -48,6 +48,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
+#include "machine-video.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -162,6 +163,13 @@ void machine_early_init(void)
 
     clk_guard_add_callback(maincpu_clk_guard,
                            machine_maincpu_clk_overflow_callback, NULL);
+}
+
+int machine_init(void)
+{
+    machine_video_init();
+
+    return machine_specific_init();
 }
 
 static void machine_maincpu_shutdown(void)

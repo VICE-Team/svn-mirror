@@ -1,5 +1,5 @@
 /*
- * machine.h  - Interface to machine-specific implementations.
+ * machine.h - Interface to machine-specific implementations.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
@@ -76,6 +76,7 @@ extern int machine_cmdline_options_init(void);
 /* Initialize the machine.  */
 extern void machine_setup_context(void);
 extern int machine_init(void);
+extern int machine_specific_init(void);
 extern void machine_early_init(void);
 
 /* Initialize the main CPU of the machine.  */
