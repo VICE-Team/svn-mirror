@@ -54,6 +54,7 @@
 #include "utils.h"
 #include "vsync.h"
 #include "video.h"
+#include "videoarch.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
@@ -228,15 +229,18 @@ static void inline crtc_update_disp_char(void)
 /* update screen window */
 void crtc_update_window(void)
 {
-    unsigned int width, height;
-
     if (!crtc.initialized)
         return;
 
-    width = crtc.screen_width;
-    height = crtc.screen_height;
+    crtc.raster.display_ystart = CRTC_SCREEN_BORDERHEIGHT;
+    crtc.raster.display_ystop = crtc.screen_height
+                                - 2 * CRTC_SCREEN_BORDERHEIGHT;
+    crtc.raster.display_xstart = CRTC_SCREEN_BORDERWIDTH;
+    crtc.raster.display_xstop = crtc.screen_width
+                                - 2 * CRTC_SCREEN_BORDERWIDTH;
 
     raster_set_geometry(&crtc.raster,
+                        crtc.screen_width, crtc.screen_height,
                         crtc.screen_width, crtc.screen_height,
                         crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH,
                         crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
@@ -246,18 +250,6 @@ void crtc_update_window(void)
                         CRTC_SCREEN_BORDERHEIGHT,
                         crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
                         0, 0);
-
-    crtc.raster.display_ystart = CRTC_SCREEN_BORDERHEIGHT;
-    crtc.raster.display_ystop = crtc.screen_height
-                                - 2 * CRTC_SCREEN_BORDERHEIGHT;
-    crtc.raster.display_xstart = CRTC_SCREEN_BORDERWIDTH;
-    crtc.raster.display_xstop = crtc.screen_width
-                                - 2 * CRTC_SCREEN_BORDERWIDTH;
-
-#ifdef USE_XF86_EXTENSIONS
-  if (!fullscreen_is_enabled)
-#endif
-      raster_resize_viewport(&crtc.raster, width, height);
 }
 
 /*--------------------------------------------------------------------*/
@@ -417,7 +409,7 @@ raster_t *crtc_init(void)
 
 struct video_canvas_s *crtc_get_canvas(void)
 {
-    return crtc.raster.viewport.canvas;
+    return crtc.raster.canvas;
 }
 
 /* Reset the CRTC chip.  */
@@ -583,7 +575,7 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
         crtc.raster.current_line = 0;
         raster_canvas_handle_end_of_frame(&crtc.raster);
         raster_skip_frame(&crtc.raster,
-                          vsync_do_vsync(crtc.raster.viewport.canvas,
+                          vsync_do_vsync(crtc.raster.canvas,
                           crtc.raster.skip_frame));
     }
 
@@ -731,7 +723,9 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
 
 static void crtc_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&crtc.raster, width, height);
+    crtc.raster.canvas->draw_buffer->canvas_width = width;
+    crtc.raster.canvas->draw_buffer->canvas_height = height;
+    raster_resize_viewport(&crtc.raster);
 }
 
 void crtc_free(void)

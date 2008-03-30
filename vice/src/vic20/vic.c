@@ -59,9 +59,7 @@
 #include "vic.h"
 #include "vic20mem.h"
 #include "vsync.h"
-#ifdef __MSDOS__
 #include "videoarch.h"
-#endif
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
@@ -72,7 +70,9 @@ vic_t vic;
 
 static void vic_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&vic.raster, width, height);
+    vic.raster.canvas->draw_buffer->canvas_width = width;
+    vic.raster.canvas->draw_buffer->canvas_height = height;
+    raster_resize_viewport(&vic.raster);
 }
 
 void vic_change_timing(void)
@@ -110,7 +110,11 @@ static void vic_set_geometry(void)
 {
     unsigned int width, height;
 
+    width = vic.display_width * VIC_PIXEL_WIDTH;
+    height = vic.last_displayed_line - vic.first_displayed_line + 1;
+
     raster_set_geometry(&vic.raster,
+                        width, height,
                         vic.screen_width * VIC_PIXEL_WIDTH,
                         vic.screen_height,
                         22 * 8 * VIC_PIXEL_WIDTH,
@@ -124,19 +128,9 @@ static void vic_set_geometry(void)
                         vic.last_displayed_line,
                         vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8,
                         vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8);
-
-    width = vic.display_width * VIC_PIXEL_WIDTH;
-    height = vic.last_displayed_line - vic.first_displayed_line + 1;
-
-#ifdef USE_XF86_EXTENSIONS
-  if (!fullscreen_is_enabled)
-#endif
-      raster_resize_viewport(&vic.raster, width, height);
-
 #ifdef __MSDOS__
   video_ack_vga_mode();
 #endif
-
 }
 
 
@@ -213,7 +207,8 @@ void vic_raster_draw_alarm_handler(CLOCK offset)
     /* handle start of frame */
     if (vic.raster.current_line == 0) {
         raster_skip_frame(&vic.raster,
-                          vsync_do_vsync(vic.raster.viewport.canvas, vic.raster.skip_frame));
+                          vsync_do_vsync(vic.raster.canvas,
+                                         vic.raster.skip_frame));
         vic.raster.blank_enabled = 1;
         vic.row_counter = 0;
         vic.raster.ycounter = 0;
@@ -343,7 +338,7 @@ raster_t *vic_init(void)
 
 struct video_canvas_s *vic_get_canvas(void)
 {
-    return vic.raster.viewport.canvas;
+    return vic.raster.canvas;
 }
 
 /* Reset the VIC-I chip. */

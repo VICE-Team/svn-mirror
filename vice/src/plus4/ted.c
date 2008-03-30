@@ -61,9 +61,7 @@
 #include "types.h"
 #include "utils.h"
 #include "vsync.h"
-#ifdef __MSDOS__
 #include "videoarch.h"
-#endif
 #include "video.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
@@ -221,6 +219,7 @@ static void ted_set_geometry(void)
     height = ted.last_displayed_line - ted.first_displayed_line + 1;
 
     raster_set_geometry(&ted.raster,
+                        width, height,
                         TED_SCREEN_WIDTH, ted.screen_height,
                         TED_SCREEN_XPIX, TED_SCREEN_YPIX,
                         TED_SCREEN_TEXTCOLS, TED_SCREEN_TEXTLINES,
@@ -229,8 +228,6 @@ static void ted_set_geometry(void)
                         ted.first_displayed_line,
                         ted.last_displayed_line,
                         0, 0);
-    raster_resize_viewport(&ted.raster, width, height);
-
 #ifdef __MSDOS__
     video_ack_vga_mode();
 #endif
@@ -311,7 +308,7 @@ raster_t *ted_init(void)
 
 struct video_canvas_s *ted_get_canvas(void)
 {
-    return ted.raster.viewport.canvas;
+    return ted.raster.canvas;
 }
 
 /* Reset the TED chip.  */
@@ -405,7 +402,9 @@ void ted_powerup(void)
 /* Handle the exposure event.  */
 static void ted_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&ted.raster, width, height);
+    ted.raster.canvas->draw_buffer->canvas_width = width;
+    ted.raster.canvas->draw_buffer->canvas_height = height;
+    raster_resize_viewport(&ted.raster);
 }
 
 /* Make sure all the TED alarms are removed.  This just makes it easier to
@@ -690,7 +689,8 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
 
     if (ted.raster.current_line == 0) {
         raster_skip_frame(&ted.raster,
-                          vsync_do_vsync(ted.raster.viewport.canvas, ted.raster.skip_frame));
+                          vsync_do_vsync(ted.raster.canvas,
+                                         ted.raster.skip_frame));
         ted.memptr = 0;
         ted.memptr_col = 0;
         ted.mem_counter = 0;
@@ -699,9 +699,11 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
         ted.cursor_visible = ted.cursor_phase & 0x10;
 
 #ifdef __MSDOS__
-        if (ted.raster.viewport.width <= TED_SCREEN_XPIX
-            && ted.raster.viewport.height <= TED_SCREEN_YPIX)
-            canvas_set_border_color(ted.raster.viewport.canvas,
+        if (ted.raster.canvas->draw_buffer->canvas_width
+            <= TED_SCREEN_XPIX
+            && ted.raster.canvas->draw_buffer->canvas_height
+            <= TED_SCREEN_YPIX)
+            canvas_set_border_color(ted.raster.canvas,
                                     ted.raster.border_color);
 #endif
     }

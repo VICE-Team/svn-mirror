@@ -173,10 +173,10 @@ vidmode_set_mode(resource_value_t v, void *param)
 	log_message(vm_log, "Status bar: %dx%d", status_w, status_h);
 	raster_resize_viewport(fs_cached_raster, 
 			       vm->hdisplay + 10, vm->vdisplay-status_h + 10);
-	x11ui_move_canvas_window(((video_canvas_t *)fs_cached_raster->viewport.canvas)->emuwindow,
+	x11ui_move_canvas_window(((video_canvas_t *)fs_cached_raster->canvas)->emuwindow,
 			      0, 0);
 	ui_dispatch_events();
-	x11ui_canvas_position(((video_canvas_t *)fs_cached_raster->viewport.canvas)->emuwindow,
+	x11ui_canvas_position(((video_canvas_t *)fs_cached_raster->canvas)->emuwindow,
 			   &x, &y);
 	
 	XF86VidModeSwitchToMode(vm_display, vm_screen, vm);
