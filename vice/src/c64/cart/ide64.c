@@ -111,6 +111,7 @@ static char ide64_DS1302[65];
 static char *ide64_configuration_string = NULL;
 
 static unsigned int settings_cylinders, settings_heads, settings_sectors;
+static unsigned int settings_autodetect_size;
 
 static BYTE ide_identify[128] = {
     0x40, 0x00, 0x00, 0x01, 0x00, 0x00, 0x04, 0x00,
@@ -207,6 +208,13 @@ static int set_sectors(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_autodetect_size(resource_value_t v, void *param)
+{
+    settings_autodetect_size = (unsigned int)v;
+
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
       (void *)&ide64_image_file, set_ide64_image_file, NULL },
@@ -218,6 +226,8 @@ static const resource_t resources[] = {
       (void *)&settings_heads, set_heads, NULL },
     { "IDE64Sectors", RES_INTEGER, (resource_value_t)16,
       (void *)&settings_sectors, set_sectors, NULL },
+    { "IDE64AutodetectSize", RES_INTEGER, (resource_value_t)1,
+      (void *)&settings_autodetect_size, set_autodetect_size, NULL },
     { NULL }
 };
 
@@ -235,6 +245,12 @@ static const cmdline_option_t cmdline_options[] = {
       "<value>", "Set number of heads for the IDE64 emulation" },
     { "-IDE64sec", SET_RESOURCE, 1, NULL, NULL, "IDE64Sectors", NULL,
       "<value>", "Set number of sectors for the IDE64 emulation" },
+    { "-IDE64autosize", SET_RESOURCE, 0, NULL, NULL,
+      "IDE64AutodetectSize", (void *)1,
+      NULL, "Autodetect geometry of formatted images" },
+    { "+IDE64autosize", SET_RESOURCE, 0, NULL, NULL,
+      "IDE64AutodetectSize", (void *)0,
+      NULL, "Do not autoetect geometry of formatted images" },
     { NULL }
 };
 
@@ -247,15 +263,15 @@ int ide64_cmdline_options_init(void)
 /* drive reset response */
 static void ide64_reset(void)
 {
-    ide_error=1;
-    ide_sector_count=1;
-    ide_sector=1;
-    ide_cylinder_low=0;
-    ide_cylinder_high=0;
-    ide_head=0;
-    ide_status=IDE_DRDY | IDE_DSC;
-    ide_bufp=510;
-    ide_cmd=0x00;
+    ide_error = 1;
+    ide_sector_count = 1;
+    ide_sector = 1;
+    ide_cylinder_low = 0;
+    ide_cylinder_high = 0;
+    ide_head = 0;
+    ide_status = IDE_DRDY | IDE_DSC;
+    ide_bufp = 510;
+    ide_cmd = 0x00;
 }
 
 /* seek to a sector */
@@ -264,14 +280,22 @@ static int ide_seek_sector(void)
     unsigned int lba;
 
     if (ide_head & 0x40) {
-	lba=((ide_head & 0x0f) << 24) | (ide_cylinder_high << 16) | (ide_cylinder_low << 8) | ide_sector;
-	if (lba>(unsigned int)((ide_identify[117] << 24) | (ide_identify[116] << 16) | (ide_identify[115] << 8) | ide_identify[114])) return 1;
+        lba = ((ide_head & 0x0f) << 24) | (ide_cylinder_high << 16)
+              | (ide_cylinder_low << 8) | ide_sector;
+	if (lba > (unsigned int)((ide_identify[117] << 24)
+            | (ide_identify[116] << 16) | (ide_identify[115] << 8)
+            | ide_identify[114]))
+            return 1;
     } else {
-	if (ide_sector==0 ||
-    	    ide_sector>ide_identify[112] ||
-    	    (ide_head & 0xf)>=ide_identify[110] ||
-    	    (ide_cylinder_low | (ide_cylinder_high << 8))>=(ide_identify[108] | (ide_identify[109] << 8))) return 1;
-	lba=((ide_cylinder_low | (ide_cylinder_high << 8))*ide_identify[110]+(ide_head & 0xf))*ide_identify[112]+ide_sector-1;
+	if (ide_sector == 0 ||
+    	    ide_sector > ide_identify[112] ||
+    	    (ide_head & 0xf) >= ide_identify[110] ||
+    	    (ide_cylinder_low | (ide_cylinder_high << 8)) >= (ide_identify[108]
+            | (ide_identify[109] << 8)))
+            return 1;
+        lba = ((ide_cylinder_low | (ide_cylinder_high << 8)) *
+              ide_identify[110]+(ide_head & 0xf)) * ide_identify[112]
+              + ide_sector - 1;
     }
     return fseek(ide_disk, lba << 9, SEEK_SET);
 }
@@ -280,76 +304,111 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
 {
     int i;
 
-    if (kill_port & 1) if (addr>=0xde5f) return vicii_read_phi1();
-    if (addr>=0xde60) return roml_banks[(addr & 0x3fff) | (current_bank << 14)];
+    if (kill_port & 1)
+        if (addr >= 0xde5f)
+            return vicii_read_phi1();
+
+    if (addr >= 0xde60)
+        return roml_banks[(addr & 0x3fff) | (current_bank << 14)];
 
     switch (addr & 0xff) {
-    case 0x20:
-	switch (ide_cmd) {
-	case 0x20:
-	case 0xec:
-	    in_d030=export_ram0[ide_bufp | 0x200] | (export_ram0[ide_bufp | 0x201] << 8);
-    	    if (ide_bufp<510) ide_bufp+=2; else {
+      case 0x20:
+        switch (ide_cmd) {
+          case 0x20:
+          case 0xec:
+	    in_d030 = export_ram0[ide_bufp | 0x200]
+                      | (export_ram0[ide_bufp | 0x201] << 8);
+    	    if (ide_bufp < 510)
+                ide_bufp += 2;
+            else {
 		ide_sector_count_internal--;
 		if (!ide_sector_count_internal) {
-	    	    ide_status=ide_status & (~IDE_DRQ);
-	    	    ide_cmd=0x00;
+	    	    ide_status = ide_status & (~IDE_DRQ);
+	    	    ide_cmd = 0x00;
 		} else {
-        	    memset(&export_ram0[0x200],0,512);
-	            if (fread(&export_ram0[0x200],1,512,ide_disk)!=512) {
-			ide_error=IDE_UNC|IDE_ABRT;
-        		ide_status=(ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ)) | IDE_DRDY | IDE_ERR;
-        		ide_bufp=510;
-        		ide_cmd=0x00;
+        	    memset(&export_ram0[0x200], 0, 512);
+	            if (fread(&export_ram0[0x200], 1, 512, ide_disk) != 512) {
+			ide_error = IDE_UNC|IDE_ABRT;
+        		ide_status = (ide_status & (~IDE_BSY) & (~IDE_DF)
+                                     & (~IDE_DRQ)) | IDE_DRDY | IDE_ERR;
+        		ide_bufp = 510;
+        		ide_cmd = 0x00;
 		    }
-		    ide_bufp=0,ide_status=ide_status | IDE_DRQ;
+		    ide_bufp = 0, ide_status = ide_status | IDE_DRQ;
 		}
 	    }
 	    break;
-	default:in_d030=(WORD)rand();
+          default:
+            in_d030 = (WORD)vicii_read_phi1();
 	}
         break;
-    case 0x21:in_d030=ide_error;break;
-    case 0x22:in_d030=ide_sector_count;break;
-    case 0x23:in_d030=ide_sector;break;
-    case 0x24:in_d030=ide_cylinder_low;break;
-    case 0x25:in_d030=ide_cylinder_high;break;
-    case 0x26:in_d030=ide_head;break;
-    case 0x27:/* primary device only */
-    case 0x2e:in_d030=(ide_head & 0x10)?0:ide_status;break;
-    case 0x28:
-    case 0x29:
-    case 0x2a:
-    case 0x2b:
-    case 0x2c:
-    case 0x2d:
-    case 0x2f:in_d030=(WORD)rand();break;
-    case 0x30:return (unsigned char)in_d030;
-    case 0x31:return in_d030 >> 8;
-    case 0x32:return 0x10 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
-    case 0x5f:
-            if ((kill_port ^ 0x02) & 0x02) return 1;
+      case 0x21:
+        in_d030 = ide_error;
+        break;
+      case 0x22:
+        in_d030 = ide_sector_count;
+        break;
+      case 0x23:
+        in_d030 = ide_sector;
+        break;
+      case 0x24:
+        in_d030 = ide_cylinder_low;
+        break;
+      case 0x25:
+        in_d030 = ide_cylinder_high;
+        break;
+      case 0x26:
+        in_d030 = ide_head;
+        break;
+      case 0x27:
+        /* primary device only */
+      case 0x2e:
+        in_d030 = (ide_head & 0x10) ? 0 : ide_status;
+        break;
+      case 0x28:
+      case 0x29:
+      case 0x2a:
+      case 0x2b:
+      case 0x2c:
+      case 0x2d:
+      case 0x2f:
+        in_d030 = (WORD)vicii_read_phi1();
+        break;
+      case 0x30:
+        return (unsigned char)in_d030;
+      case 0x31:
+        return in_d030 >> 8;
+      case 0x32:
+        return 0x10 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1)
+               | (current_cfg >> 1);
+      case 0x5f:
+        if ((kill_port ^ 0x02) & 0x02)
+            return 1;
 
-            if (clock_tick<17) clock_tick++;
+        if (clock_tick < 17)
+            clock_tick++;
 
-            if (clock_tick==16) {
+        if (clock_tick == 16) {
 
-                if (clock_address & 0x01) {
+            if (clock_address & 0x01) {
 
-                    if (clock_address & 0x40) {
-			    i=(clock_burst & 0x1f)*2;
-			    clock_data=(ide64_DS1302[i] << 4) | (ide64_DS1302[i+1] & 0xf);/* data */
-			}
-                        else clock_data=export_ram0[clock_burst & 0x1f]; /* clock */
+                if (clock_address & 0x40) {
+                    i = (clock_burst & 0x1f) * 2;
+                    clock_data = (ide64_DS1302[i] << 4)
+                                 | (ide64_DS1302[i + 1] & 0xf);/* data */
+                } else
+                    clock_data = export_ram0[clock_burst & 0x1f]; /* clock */
 
-                    if (clock_burst & 0x20) clock_burst++;
+                if (clock_burst & 0x20)
+                    clock_burst++;
 
-                }
-                clock_tick=8;
             }
+            clock_tick = 8;
+        }
 
-            i=clock_data;clock_data>>=1;
-            return i;
+        i = clock_data;
+        clock_data >>= 1;
+        return i;
     }
     return vicii_read_phi1();
 }
@@ -359,191 +418,296 @@ void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
     int i;
 /*    log_debug("IDE64 write %02x:%02x", addr, value);*/
 
-    if (kill_port & 1) if (addr>=0xde5f) return;
+    if (kill_port & 1)
+        if (addr >= 0xde5f)
+            return;
+
     switch (addr & 0xff) {
-    case 0x20:
+      case 0x20:
         switch (ide_cmd) {
-        case 0x30:
-    	    export_ram0[ide_bufp | 0x200]=out_d030 & 0xff;
-    	    export_ram0[ide_bufp | 0x201]=out_d030 >> 8;
-    	    if (ide_bufp<510) ide_bufp+=2; else {
-            	    if (fwrite(&export_ram0[0x200],1,512,ide_disk)!=512) {
-			ide_error=IDE_UNC|IDE_ABRT;goto aborted_command;
-		    }
-		ide_sector_count_internal--;
-		if (!ide_sector_count_internal) {
-		    ide_status=ide_status & (~IDE_DRQ);
-        	    ide_cmd=0x00;
-		} else {
-		    ide_bufp=0,ide_status=ide_status | IDE_DRQ;
-		}
-	    }
-	    break;
+          case 0x30:
+    	    export_ram0[ide_bufp | 0x200] = out_d030 & 0xff;
+    	    export_ram0[ide_bufp | 0x201] = out_d030 >> 8;
+    	    if (ide_bufp < 510)
+                ide_bufp += 2;
+            else {
+                if (fwrite(&export_ram0[0x200], 1, 512, ide_disk) != 512) {
+                    ide_error = IDE_UNC|IDE_ABRT;
+                    goto aborted_command;
+                }
+                ide_sector_count_internal--;
+                if (!ide_sector_count_internal) {
+                    ide_status = ide_status & (~IDE_DRQ);
+                    ide_cmd = 0x00;
+                } else {
+                    ide_bufp = 0, ide_status = ide_status | IDE_DRQ;
+                }
+            }
+            break;
         }
         return;
-    case 0x21:ide_features=out_d030 & 0xff;return;
-    case 0x22:ide_sector_count=out_d030 & 0xff;return;
-    case 0x23:ide_sector=out_d030 & 0xff;return;
-    case 0x24:ide_cylinder_low=out_d030 & 0xff;return;
-    case 0x25:ide_cylinder_high=out_d030 & 0xff;return;
-    case 0x26:ide_head=out_d030 & 0xff;return;
-    case 0x27:
-	if (ide_head & 0x10) return; /* primary device only */
-        if (!ide_disk) return; /* if image file exists? */
+      case 0x21:
+        ide_features = out_d030 & 0xff;
+        return;
+      case 0x22:
+        ide_sector_count = out_d030 & 0xff;
+        return;
+      case 0x23:
+        ide_sector = out_d030 & 0xff;
+        return;
+      case 0x24:
+        ide_cylinder_low = out_d030 & 0xff;
+        return;
+      case 0x25:
+        ide_cylinder_high = out_d030 & 0xff;
+        return;
+      case 0x26:
+        ide_head = out_d030 & 0xff;
+        return;
+      case 0x27:
+	if (ide_head & 0x10)
+            return; /* primary device only */
+        if (!ide_disk)
+            return; /* if image file exists? */
         switch (out_d030 & 0xff) {
-        case 0x20:
-        case 0x21:
-	    ide_status=(ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ) & (~IDE_ERR)) | IDE_DRDY;
+          case 0x20:
+          case 0x21:
+            ide_status = (ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ)
+                         & (~IDE_ERR)) | IDE_DRDY;
 #ifdef IDE64_DEBUG
-	    if (ide_head & 0x40) log_debug("IDE64 READ (%d)*%d",(ide_cylinder_low << 8)|(ide_cylinder_high << 16)|((ide_head & 0xf) << 24)|ide_sector, ide_sector_count);
-	    else log_debug("IDE64 READ (%d/%d/%d)*%d",ide_cylinder_low|(ide_cylinder_high << 8), ide_head & 0xf, ide_sector, ide_sector_count);
+            if (ide_head & 0x40)
+                log_debug("IDE64 READ (%d)*%d", (ide_cylinder_low << 8)
+                          | (ide_cylinder_high << 16)
+                          | ((ide_head & 0xf) << 24) | ide_sector,
+                          ide_sector_count);
+	    else
+                log_debug("IDE64 READ (%d/%d/%d)*%d", ide_cylinder_low
+                          | (ide_cylinder_high << 8), ide_head & 0xf,
+                          ide_sector, ide_sector_count);
 #endif
-            if (ide_seek_sector()) {ide_error=IDE_IDNF;goto aborted_command;}
-            memset(&export_ram0[0x200],0,512);
-            if (fread(&export_ram0[0x200],1,512,ide_disk)!=512) {ide_error=IDE_UNC|IDE_ABRT;goto aborted_command;}
-	    ide_bufp=0,ide_status=ide_status | IDE_DRQ;
-	    ide_sector_count_internal=ide_sector_count;
-            ide_cmd=0x20;
+            if (ide_seek_sector()) {
+                ide_error = IDE_IDNF;
+                goto aborted_command;
+            }
+            memset(&export_ram0[0x200], 0, 512);
+            if (fread(&export_ram0[0x200], 1, 512, ide_disk) != 512) {
+                ide_error = IDE_UNC|IDE_ABRT;goto aborted_command;
+            }
+	    ide_bufp = 0, ide_status = ide_status | IDE_DRQ;
+	    ide_sector_count_internal = ide_sector_count;
+            ide_cmd = 0x20;
             break;
         case 0x30:
         case 0x31:
-	    ide_status=(ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ) & (~IDE_ERR)) | IDE_DRDY;
+	    ide_status = (ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ)
+                         & (~IDE_ERR)) | IDE_DRDY;
 #ifdef IDE64_DEBUG
-	    if (ide_head & 0x40) log_debug("IDE64 WRITE (%d)*%d",(ide_cylinder_low << 8)|(ide_cylinder_high << 16)|((ide_head & 0xf) << 24)|ide_sector, ide_sector_count);
-	    else log_debug("IDE64 WRITE (%d/%d/%d)*%d",ide_cylinder_low|(ide_cylinder_high << 8), ide_head & 0xf, ide_sector, ide_sector_count);
+	    if (ide_head & 0x40)
+                log_debug("IDE64 WRITE (%d)*%d",( ide_cylinder_low << 8)
+                          | (ide_cylinder_high << 16)
+                          | ((ide_head & 0xf) << 24) | ide_sector,
+                          ide_sector_count);
+	    else
+                log_debug("IDE64 WRITE (%d/%d/%d)*%d", ide_cylinder_low
+                          | (ide_cylinder_high << 8), ide_head & 0xf,
+                          ide_sector, ide_sector_count);
 #endif
-            if (ide_seek_sector()) {ide_error=IDE_IDNF;goto aborted_command;}
-            ide_bufp=0,ide_status=ide_status | IDE_DRQ;
-            ide_cmd=0x30;ide_sector_count_internal=ide_sector_count;
+            if (ide_seek_sector()) {
+                ide_error = IDE_IDNF;
+                goto aborted_command;
+            }
+            ide_bufp = 0, ide_status = ide_status | IDE_DRQ;
+            ide_cmd = 0x30;
+            ide_sector_count_internal = ide_sector_count;
             break;
-        case 0x91:
-	    ide_status=(ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ) & (~IDE_ERR)) | IDE_DRDY;
+          case 0x91:
+	    ide_status = (ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ)
+                         & (~IDE_ERR)) | IDE_DRDY;
             {
                 unsigned long size;
 #ifdef IDE64_DEBUG
-                log_debug("IDE64 SETMAX (%d/%d)", (ide_head & 0xf)+1, ide_sector_count);
+                log_debug("IDE64 SETMAX (%d/%d)", (ide_head & 0xf) + 1,
+                          ide_sector_count);
 #endif
-                size=(ide_identify[109]*256+ide_identify[108])*((ide_head & 0xf)+1)*ide_sector_count;
-		if (size==0 || size>(unsigned long)((ide_identify[123] << 24) | (ide_identify[122] << 16) | (ide_identify[121] << 8) | ide_identify[120])) {ide_error=IDE_ABRT;goto aborted_command;}
-                ide_identify[110]=(ide_head & 0xf)+1;
-                ide_identify[112]=ide_sector_count;
-                ide_identify[114]=(BYTE)(size & 0xff);size>>=8;
-                ide_identify[115]=(BYTE)(size & 0xff);size>>=8;
-                ide_identify[116]=(BYTE)(size & 0xff);size>>=8;
-                ide_identify[117]=(BYTE)(size & 0xff);
+                size = (ide_identify[109] *256 + ide_identify[108]) *
+                       ((ide_head & 0xf) + 1) * ide_sector_count;
+		if (size == 0
+                    || size > (unsigned long)((ide_identify[123] << 24)
+                    | (ide_identify[122] << 16) | (ide_identify[121] << 8)
+                    | ide_identify[120])) {
+                    ide_error = IDE_ABRT;
+                    goto aborted_command;
+                }
+                ide_identify[110] = (ide_head & 0xf) + 1;
+                ide_identify[112] = ide_sector_count;
+                ide_identify[114] = (BYTE)(size & 0xff); size >>= 8;
+                ide_identify[115] = (BYTE)(size & 0xff); size >>= 8;
+                ide_identify[116] = (BYTE)(size & 0xff); size >>= 8;
+                ide_identify[117] = (BYTE)(size & 0xff);
                 break;
             }
-        case 0xec:
-	    ide_status=(ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_ERR)) | IDE_DRDY | IDE_DRQ;
+          case 0xec:
+	    ide_status = (ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_ERR))
+                         | IDE_DRDY | IDE_DRQ;
 #ifdef IDE64_DEBUG
             log_debug("IDE64 IDENTIFY");
 #endif
-            ide_bufp=0;
-            memcpy(&export_ram0[0x200],&ide_identify,128);
-            memset(&export_ram0[0x280],0,512-128);
-            ide_cmd=0xec;ide_sector_count_internal=1;
+            ide_bufp = 0;
+            memcpy(&export_ram0[0x200], &ide_identify, 128);
+            memset(&export_ram0[0x280], 0, 512 - 128);
+            ide_cmd = 0xec;
+            ide_sector_count_internal = 1;
             break;
-        default:
+          default:
 #ifdef IDE64_DEBUG
     	    switch (out_d030 & 0xff) {
-    		case 0x00:log_debug("IDE64 NOP");break;
-    		case 0x08:log_debug("IDE64 ATAPI RESET");break;
-    		case 0x94:
-    		case 0xe0:log_debug("IDE64 STANDBY IMMEDIATE");break;
-    		case 0x97:
-    		case 0xe3:log_debug("IDE64 IDLE");break;
-    		case 0xef:log_debug("IDE64 SET FEATURES");break;
-		case 0xa0:log_debug("IDE64 PACKET");break;
-		case 0x95:
-		case 0xe1:log_debug("IDE64 IDLE IMMEDIATE");break;
-    		case 0xa1:log_debug("IDE64 IDENTIFY PACKET DEVICE");break;
-		default:log_debug("IDE64 COMMAND %02x",out_d030 & 0xff);
+              case 0x00:
+                log_debug("IDE64 NOP");
+                break;
+              case 0x08:
+                log_debug("IDE64 ATAPI RESET");
+                break;
+              case 0x94:
+              case 0xe0:
+                log_debug("IDE64 STANDBY IMMEDIATE");
+                break;
+              case 0x97:
+              case 0xe3:
+                log_debug("IDE64 IDLE");
+                break;
+              case 0xef:
+                log_debug("IDE64 SET FEATURES");
+                break;
+              case 0xa0:
+                log_debug("IDE64 PACKET");
+                break;
+              case 0x95:
+              case 0xe1:
+                log_debug("IDE64 IDLE IMMEDIATE");
+                break;
+              case 0xa1:
+                log_debug("IDE64 IDENTIFY PACKET DEVICE");
+                break;
+              default:
+                log_debug("IDE64 COMMAND %02x", out_d030 & 0xff);
 	    }
 #endif
-	    ide_error=IDE_ABRT;
+	    ide_error = IDE_ABRT;
 aborted_command:
-            ide_status=(ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ)) | IDE_DRDY | IDE_ERR;
-            ide_bufp=510;
-            ide_cmd=0x00;
+            ide_status = (ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ))
+                         | IDE_DRDY | IDE_ERR;
+            ide_bufp = 510;
+            ide_cmd = 0x00;
             break;
         }
         return;
-    case 0x2e:
-	if ((ide_control & 0x04) && ((value ^ 0x04) & 0x04)) {
+      case 0x2e:
+        if ((ide_control & 0x04) && ((value ^ 0x04) & 0x04)) {
             ide64_reset();
 #ifdef IDE64_DEBUG
             log_debug("IDE64 RESET");
 #endif
         }
-        ide_control=value;
+        ide_control = value;
         return;
-    case 0x30:out_d030=(out_d030 & 0xff00) | value;return;
-    case 0x31:out_d030=(out_d030 & 0x00ff) | (value << 8);return;
-    case 0x32:current_bank=0;break;
-    case 0x33:current_bank=1;break;
-    case 0x34:current_bank=2;break;
-    case 0x35:current_bank=3;break;
-    case 0x5f:
-            if ((kill_port ^ 0x02) & 0x02) break;
-            clock_data=(clock_data >> 1) | ((value & 1) << 7);
-            if (clock_tick<17) clock_tick++;
-            if (clock_tick==8) {
+      case 0x30:
+        out_d030 = (out_d030 & 0xff00) | value;
+        return;
+      case 0x31:
+        out_d030 = (out_d030 & 0x00ff) | (value << 8);
+        return;
+      case 0x32:
+        current_bank = 0;
+        break;
+      case 0x33:
+        current_bank = 1;
+        break;
+      case 0x34:
+        current_bank = 2;
+        break;
+      case 0x35:
+        current_bank = 3;
+        break;
+      case 0x5f:
+        if ((kill_port ^ 0x02) & 0x02)
+            break;
+        clock_data = (clock_data >> 1) | ((value & 1) << 7);
+        if (clock_tick < 17)
+            clock_tick++;
+        if (clock_tick == 8) {
 
-                clock_address=clock_data;
+            clock_address=clock_data;
 
-                clock_burst=(clock_address >> 1) & 0x1f;
-                if (clock_burst==0x1f) clock_burst=0x20;
+            clock_burst=(clock_address >> 1) & 0x1f;
+            if (clock_burst == 0x1f)
+                clock_burst = 0x20;
 
-                if (clock_address & 0x01) clock_tick=15;
+            if (clock_address & 0x01)
+                clock_tick = 15;
 
-            } else
+        } else
 
-            if (clock_tick==16) {
-                if (clock_address & 0x01) break;
+            if (clock_tick == 16) {
+                if (clock_address & 0x01)
+                    break;
 
                 if (clock_address & 0x40) {
-		    i=(clock_burst & 0x1f)*2;
+                    i = (clock_burst & 0x1f) * 2;
 
-		    ide64_DS1302[i]=(clock_data >> 4) | 0x40;/* data */
-		    ide64_DS1302[i+1]=(clock_data & 0xf) | 0x40;/* data */
-		    }
-                    else export_ram0[clock_burst & 0x1f]=clock_data; /* clock */
+                    ide64_DS1302[i] = (clock_data >> 4) | 0x40;/* data */
+                    ide64_DS1302[i + 1] = (clock_data & 0xf) | 0x40;/* data */
+                } else
+                    export_ram0[clock_burst & 0x1f] = clock_data; /* clock */
 
-                if (clock_burst & 0x20) clock_burst++;
+            if (clock_burst & 0x20)
+                clock_burst++;
 
-                clock_tick=8;
-            }
+            clock_tick = 8;
+        }
         return;
-    case 0xfb:if (((kill_port ^ 0x02) & 0x02) && (value & 0x02)) clock_tick=0;
-        kill_port=value;
-	if (kill_port & 1) current_cfg=2;
+      case 0xfb:
+        if (((kill_port ^ 0x02) & 0x02) && (value & 0x02))
+            clock_tick = 0;
+        kill_port = value;
+        if (kill_port & 1)
+            current_cfg = 2;
         break;
-    case 0xfc:current_cfg=1;break;
-    case 0xfd:current_cfg=0;break;
-    case 0xfe:current_cfg=3;break;
-    case 0xff:current_cfg=2;break;
-    default:return;
+      case 0xfc:
+        current_cfg = 1;
+        break;
+      case 0xfd:
+        current_cfg = 0;
+        break;
+      case 0xfe:
+        current_cfg = 3;
+        break;
+      case 0xff:
+        current_cfg = 2;
+        break;
+      default:
+        return;
     }
-    cartridge_config_changed(1, (BYTE)(current_cfg | (current_bank << 3)), CMODE_READ);
+    cartridge_config_changed(1, (BYTE)(current_cfg | (current_bank << 3)),
+                             CMODE_READ);
 }
 
 
 void ide64_config_init(void)
 {
     cartridge_config_changed(1, 0, CMODE_READ);
-    current_bank=0;
-    current_cfg=0;
-    kill_port=0;
-    clock_data=0;
+    current_bank = 0;
+    current_cfg = 0;
+    kill_port = 0;
+    clock_data = 0;
     ide64_reset();
 
-    export_ram0[0x0000]=0x80;
-    export_ram0[0x0001]=0x00;
-    export_ram0[0x0002]=0x00;
-    export_ram0[0x0003]=0x15;
-    export_ram0[0x0004]=0x08;
-    export_ram0[0x0005]=0x06;
-    export_ram0[0x0006]=0x03;
+    export_ram0[0x0000] = 0x80;
+    export_ram0[0x0001] = 0x00;
+    export_ram0[0x0002] = 0x00;
+    export_ram0[0x0003] = 0x15;
+    export_ram0[0x0004] = 0x08;
+    export_ram0[0x0005] = 0x06;
+    export_ram0[0x0006] = 0x03;
 }
 
 void ide64_config_setup(BYTE *rawcart)
@@ -567,13 +731,13 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
         UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0)
         return -1;
 
-    ide_disk = fopen(ide64_image_file,MODE_READ_WRITE);
+    ide_disk = fopen(ide64_image_file, MODE_READ_WRITE);
 
     if (!ide_disk)
-        ide_disk = fopen(ide64_image_file,MODE_APPEND);
+        ide_disk = fopen(ide64_image_file, MODE_APPEND);
 
     if (!ide_disk)
-        ide_disk = fopen(ide64_image_file,MODE_READ);
+        ide_disk = fopen(ide64_image_file, MODE_READ);
 
 #ifdef IDE64_DEBUG
     log_debug("IDE64 attached");
@@ -587,6 +751,9 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
                     _("IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"),
                     ide64_image_file);
 
+    if (!settings_autodetect_size)
+        return 0;
+
     if (ide_disk) {
         /* try to get drive geometry */
         unsigned char idebuf[24];
@@ -596,7 +763,7 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 
         /* read header */
         res = fread(idebuf, 1, 24, ide_disk);
-        if (res<24) {
+        if (res < 24) {
             log_message(LOG_DEFAULT, _("IDE64: Couldn't read disk geometry from image, using default 8MB."));
             return 0;
         }
@@ -606,7 +773,7 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 
     	    res = memcmp(idebuf,"C64-IDE V", 9);
 
-	    if (res==0) { /* old filesystem always CHS */
+	    if (res == 0) { /* old filesystem always CHS */
     		cyl = (idebuf[0x10] << 8) | idebuf[0x11];
     		heads = idebuf[0x12] & 0x0f;
     		sectors = idebuf[0x13];
@@ -616,16 +783,17 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 
     	    res = memcmp(idebuf+8,"C64 CFS V", 9);
 
-	    if (res==0) {
+	    if (res == 0) {
 		if (idebuf[0x04] & 0x40) { /* LBA */
-		    size=((idebuf[0x04] & 0x0f) << 24) | (idebuf[0x05] << 16) | (idebuf[0x06] << 8) | idebuf[0x07];
+		    size = ((idebuf[0x04] & 0x0f) << 24) | (idebuf[0x05] << 16)
+                           | (idebuf[0x06] << 8) | idebuf[0x07];
 		    cyl = heads = sectors = 1; /* fake */
-		    is_chs=0;
+		    is_chs = 0;
 		} else { /* CHS */
     		    cyl = (idebuf[0x05] << 8) | idebuf[0x06];
     		    heads = idebuf[0x04] & 0x0f;
     		    sectors = idebuf[0x07];
-		    is_chs=1;
+		    is_chs = 1;
 		}
 		break;		/* OK */
 	    }
@@ -643,19 +811,25 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
     	    log_message(LOG_DEFAULT, _("IDE64: LBA geometry, %lu sectors total."), size);
 	}
 
-	cyll = cyl & 0xff; cylh = cyl >> 8;
+        settings_cylinders = cyl;
+        settings_heads = heads;
+        settings_sectors = sectors;
+
+	cyll = cyl & 0xff;
+        cylh = cyl >> 8;
         ide_identify[0x02] = cyll;        ide_identify[108] = cyll;
         ide_identify[0x03] = cylh;        ide_identify[109] = cylh;
         ide_identify[0x06] = heads;       ide_identify[110] = heads;
         ide_identify[0x0c] = sectors;     ide_identify[112] = sectors;
 
-        ide_identify[114]=(BYTE)(size & 0xff);size>>=8;
-        ide_identify[115]=(BYTE)(size & 0xff);size>>=8;
-        ide_identify[116]=(BYTE)(size & 0xff);size>>=8;
-        ide_identify[117]=(BYTE)(size & 0xff);
+        ide_identify[114] = (BYTE)(size & 0xff);size >>= 8;
+        ide_identify[115] = (BYTE)(size & 0xff);size >>= 8;
+        ide_identify[116] = (BYTE)(size & 0xff);size >>= 8;
+        ide_identify[117] = (BYTE)(size & 0xff);
 
-	memcpy(ide_identify+120, ide_identify+114, 4);
+	memcpy(ide_identify + 120, ide_identify + 114, 4);
     }
 
     return 0;
 }
+
