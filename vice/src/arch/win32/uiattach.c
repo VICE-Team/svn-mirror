@@ -147,17 +147,15 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
         return TRUE;
       case WM_DESTROY:
           /* check if DISKIMAGE is selected? */
-          if (IsDlgButtonChecked( hwnd, IDC_SELECTDISK)!=BST_CHECKED)
-          {
+          if (IsDlgButtonChecked(hwnd, IDC_SELECTDISK) != BST_CHECKED) {
               /* no, detach the diskimage so a directory is possible as drive */
               file_system_detach_disk(num);
 
               /* check if DIR is selected? */
-              if (IsDlgButtonChecked( hwnd, IDC_SELECTDIR)!=BST_CHECKED)
-              {
+              if (IsDlgButtonChecked(hwnd, IDC_SELECTDIR) != BST_CHECKED) {
                   /* no, detach the virtual disk */
                   resources_set_sprintf("FSDevice%dDir",
-                    (resource_value_t)"", num);
+                                        (resource_value_t)"", num);
               }
           }
           break;
@@ -172,9 +170,8 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
             {
                 char s[MAX_PATH];
 
-                switch (HIWORD(wparam))
-                {
-                case CBN_KILLFOCUS:
+                switch (HIWORD(wparam)) {
+                  case CBN_KILLFOCUS:
                     GetDlgItemText(hwnd, IDC_DISKIMAGE, s, MAX_PATH);
                     if (s)
                         if (*s)
@@ -182,7 +179,7 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                                 ui_error("Cannot attach specified file");
                     break;
 
-                default:
+                  default:
                     break;
                 }
             }
