@@ -1,9 +1,3 @@
-if HAVE_RS232
-acia_libadd = plus4acia.o
-else
-acia_libadd =
-endif
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -23,6 +17,8 @@ libplus4_a_SOURCES = \
 	plus4-snapshot.h \
 	plus4.c \
 	plus4.h \
+        plus4acia.c \
+        plus4acia.h \
 	plus4cpu.c \
 	plus4datasette.c \
 	plus4iec.c \
@@ -62,10 +58,3 @@ libplus4_a_SOURCES = \
 	ted.c \
 	ted.h \
 	tedtypes.h
-
-EXTRA_libplus4_a_SOURCES = \
-        plus4acia.h \
-        plus4acia.c
-
-libplus4_a_LIBADD = $(acia_libadd)
-

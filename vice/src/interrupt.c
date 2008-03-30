@@ -212,7 +212,6 @@ void interrupt_maincpu_trigger_trap(void (*trap_func)(ADDRESS, void *data),
                                     void *data)
 {
     cpu_int_status_t *cs = &maincpu_int_status;
-    CLOCK cpu_clk = maincpu_clk;
 
     cs->global_pending_int |= IK_TRAP;
     cs->trap_func = trap_func;

@@ -1,11 +1,5 @@
 SUBDIRS = cart
 
-if HAVE_RS232
-acia_libadd = c64acia1.o c64rsuser.o
-else
-acia_libadd =
-endif
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -26,6 +20,8 @@ libc64_a_SOURCES = \
 	c64-snapshot.h \
 	c64.c \
 	c64.h \
+	c64acia.h \
+	c64acia1.c \
 	c64cart.h \
 	c64cia.h \
 	c64cia1.c \
@@ -43,25 +39,31 @@ libc64_a_SOURCES = \
 	c64pla.h \
 	c64rom.c \
 	c64rom.h \
-	patchrom.c \
-	patchrom.h \
-	reu.c \
-	reu.h \
+	c64rsuser.c \
+	c64rsuser.h \
 	c64tpi.c \
 	c64tpi.h \
-	psid.c \
-	psid.h \
-	psiddrv.a65 \
-	psiddrv.h \
-	reloc65.c
+	patchrom.c \
+	patchrom.h \
+        psid.c \
+        psid.h \
+        psiddrv.a65 \
+        psiddrv.h \
+        reloc65.c \
+	reu.c \
+	reu.h
 
 libc64c128_a_SOURCES = \
+	c64acia.h \
+	c64acia1.c \
 	c64cart.h \
 	c64cia.h \
 	c64cia2.c \
 	c64datasette.c \
 	c64pla.c \
 	c64pla.h \
+	c64rsuser.c \
+	c64rsuser.h \
 	c64tpi.c \
 	c64tpi.h \
 	patchrom.c \
@@ -69,24 +71,9 @@ libc64c128_a_SOURCES = \
 	reu.c \
 	reu.h
 
-EXTRA_libc64_a_SOURCES = \
-	c64acia.h \
-	c64acia1.c \
-	c64rsuser.c \
-	c64rsuser.h
-
-EXTRA_libc64c128_a_SOURCES = \
-	c64acia.h \
-	c64acia1.c \
-	c64rsuser.c \
-	c64rsuser.h
-
 BUILT_SOURCES = psiddrv.h
 
 EXTRA_DIST =
-
-libc64_a_LIBADD = $(acia_libadd)
-libc64c128_a_LIBADD = $(acia_libadd)
 
 SUFFIXES = .a65
 

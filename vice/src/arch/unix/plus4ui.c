@@ -92,10 +92,6 @@ static ui_menu_entry_t plus4_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t plus4_settings_menu[] = {
-    { NULL }
-};
-
 static void ui_create_dynamic_menus(void)
 {
     uited_create_menus();

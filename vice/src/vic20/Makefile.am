@@ -1,9 +1,3 @@
-if HAVE_RS232
-rs232_libadd = vic20rsuser.o
-else
-rs232_libadd =
-endif
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -55,6 +49,3 @@ libvic20_a_SOURCES = \
 	vic20ieeevia.h \
 	vic20ieeevia1.c \
 	vic20ieeevia2.c 
-
-libvic20_a_LIBADD = $(rs232_libadd)
-
