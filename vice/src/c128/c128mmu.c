@@ -207,7 +207,7 @@ BYTE REGPARM1 mmu_read(WORD addr)
 
 void REGPARM2 mmu_store(WORD address, BYTE value)
 {
-    vicii_handle_pending_alarms_external(maincpu_num_write_cycles());
+    vicii_handle_pending_alarms_external_write();
 
     address &= 0xf;
 

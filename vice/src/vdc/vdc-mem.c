@@ -104,7 +104,8 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
 {
     BYTE oldval;
 
-    machine_handle_pending_alarms(maincpu_num_write_cycles());
+    /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
+    machine_handle_pending_alarms(maincpu_rmw_flag + 1);
 
     /* $d600 sets the internal vdc address pointer */
     if ((addr & 1) == 0) {

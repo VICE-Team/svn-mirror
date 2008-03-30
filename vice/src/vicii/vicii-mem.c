@@ -884,8 +884,7 @@ void REGPARM2 vicii_store(WORD addr, BYTE value)
 {
     addr &= 0x3f;
 
-    /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
-    vicii_handle_pending_alarms(maincpu_rmw_flag + 1);
+    vicii_handle_pending_alarms_external_write();
 
     /* This is necessary as we must be sure that the previous line has been
        updated and `current_line' is actually set to the current Y position of

@@ -147,6 +147,7 @@ static void REGPARM3 sid_store_chip(WORD addr, BYTE byte, int chipno)
 
     siddata[chipno][addr] = byte;
 
+    /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
     machine_handle_pending_alarms(maincpu_rmw_flag + 1);
 
     if (maincpu_rmw_flag) {
