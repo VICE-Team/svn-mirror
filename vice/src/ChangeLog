@@ -1,3 +1,31 @@
+1999-11-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.27.
+
+	* vdrive/vdrive.c (vdrive_parse_name): Parse mode parameter.
+
+	* fsdevice.c, fsdevice.h (fs_error): Made static and made
+	memory read aware.
+	(flush_fs): Implemented block read command.
+
+	* vdrive/vdrive-command.c (vdrive_command_memory_read): New
+	function.
+
+	* vdrive/vdrive-iec.c (vdrive_open): Override mode if
+	secondary is 0 or 1.
+	* fsdevice.c (open_fs): Changed likewise.
+
+	* vdrive/vdrive-command.c, vdrive/vdrive-command.h: New files.
+
+	* vdrive/vdrive-iec.c (vdrive_flush): Do not set error code
+	after executing the command interpreter.
+
+	* drive/drive.c, drive/drive.h: Made drive firmware external.
+
+	* c1541.c, prdevice.c: #include "log.h".
+
+	* c1541.c, mon.h: #include "vdrive-command.h".
+
 1999-11-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.26.
