@@ -57,15 +57,15 @@ typedef struct wd1770_s {
     CLOCK set_drq;
 } wd1770_t;
 
+extern void wd1770d0_init(void);
 extern void REGPARM2 store_wd1770d0(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_wd1770d0(ADDRESS addr);
 extern void reset_wd1770d0(void);
-extern void wd1770d0_prevent_clk_overflow(CLOCK sub);
 
+extern void wd1770d1_init(void);
 extern void REGPARM2 store_wd1770d1(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_wd1770d1(ADDRESS addr);
 extern void reset_wd1770d1(void);
-extern void wd1770d1_prevent_clk_overflow(CLOCK sub);
 
 extern void wd1770_handle_job_code(int dnr);
 extern void wd1770_vsync_hook(void);
