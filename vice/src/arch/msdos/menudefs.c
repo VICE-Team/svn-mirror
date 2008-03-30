@@ -40,7 +40,6 @@
 #include "datasette.h"
 #include "drive.h"
 #include "grabkey.h"
-#include "fliplist.h"
 #include "fsdevice.h"
 #include "imagecontents.h"
 #include "info.h"
@@ -59,6 +58,7 @@
 #include "tuifs.h"
 #include "tuiview.h"
 #include "ui.h"
+#include "uiattach.h"
 #include "uisnapshot.h"
 #include "utils.h"
 #include "version.h"
@@ -67,66 +67,24 @@
 /* ------------------------------------------------------------------------- */
 
 tui_menu_t ui_attach_submenu;
-tui_menu_t ui_detach_submenu;
 tui_menu_t ui_datasette_submenu;
+tui_menu_t ui_detach_submenu;
 tui_menu_t ui_drive_submenu;
-tui_menu_t ui_flip_submenu;
 tui_menu_t ui_info_submenu;
 tui_menu_t ui_joystick_settings_submenu;
 tui_menu_t ui_main_menu;
 tui_menu_t ui_quit_submenu;
 tui_menu_t ui_reset_submenu;
 tui_menu_t ui_rom_submenu;
+tui_menu_t ui_settings_submenu;
 tui_menu_t ui_sound_buffer_size_submenu;
 tui_menu_t ui_sound_sample_rate_submenu;
 tui_menu_t ui_sound_submenu;
-tui_menu_t ui_special_submenu;
 tui_menu_t ui_snapshot_submenu;
+tui_menu_t ui_special_submenu;
 tui_menu_t ui_video_submenu;
-tui_menu_t ui_settings_submenu;
 
 /* ------------------------------------------------------------------------ */
-
-static TUI_MENU_CALLBACK(attach_disk_callback)
-{
-    char *s;
-
-    if (been_activated) {
-        char *default_item, *directory;
-        char *name, *file;
-
-        s = (char *)file_system_get_disk_name((unsigned int)param);
-        fname_split(s, &directory, &default_item);
-
-        name = tui_file_selector("Attach a disk image", directory,
-                                 "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.zip",
-                                 default_item, image_contents_read_disk, &file);
-
-        if (file != NULL) {
-            if (autostart_disk(name, file) < 0)
-                tui_error("Cannot autostart disk image.");
-            else
-                *behavior = TUI_MENU_BEH_RESUME;
-            free(file);
-        } else	if (name != NULL
-                    && (s == NULL || strcasecmp(name, s) != 0)
-                    && file_system_attach_disk((int)param, name) < 0) {
-            tui_error("Invalid disk image.");
-        }
-
-        ui_update_menus();
-
-        free(directory), free(default_item);
-        if (name != NULL)
-            free(name);
-    }
-
-    s = (char *)file_system_get_disk_name((unsigned int)param);
-    if (s == NULL || *s == '\0')
-        return "(none)";
-    else
-        return s;
-}
 
 static TUI_MENU_CALLBACK(attach_tape_callback)
 {
@@ -214,34 +172,6 @@ static TUI_MENU_CALLBACK(detach_tape_callback)
 	return "(none)";
     else
 	return s;
-}
-
-static TUI_MENU_CALLBACK(flip_add_callback)
-{
-    if (been_activated)
-        flip_add_image(8);
-    return NULL;
-}
-
-static TUI_MENU_CALLBACK(flip_remove_callback)
-{
-    if (been_activated)
-        flip_remove(-1, NULL);
-    return NULL;
-}
-
-static TUI_MENU_CALLBACK(flip_next_callback)
-{
-    if (been_activated)
-        flip_attach_head(8, 1);
-    return NULL;
-}
-
-static TUI_MENU_CALLBACK(flip_previous_callback)
-{
-    if (been_activated)
-        flip_attach_head(8, 0);
-    return NULL;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1558,47 +1488,7 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
     ui_main_menu = tui_menu_create(NULL, 1);
 
     ui_attach_submenu = tui_menu_create("Attach Images", 1);
-    tui_menu_add_item(ui_attach_submenu, "Drive #_8:",
-		      "Attach disk image for disk drive #8",
-		      attach_disk_callback, (void *)8, 30,
-		      TUI_MENU_BEH_CONTINUE);
-    tui_menu_add_item(ui_attach_submenu, "Drive #_9:",
-		      "Attach disk image for disk drive #9",
-		      attach_disk_callback, (void *)9, 30,
-		      TUI_MENU_BEH_CONTINUE);
-    tui_menu_add_item(ui_attach_submenu, "Drive #1_0:",
-		      "Attach disk image for disk drive #10",
-		      attach_disk_callback, (void *)10, 30,
-		      TUI_MENU_BEH_CONTINUE);
-    tui_menu_add_item(ui_attach_submenu, "Drive #1_1:",
-		      "Attach disk image for disk drive #11",
-		      attach_disk_callback, (void *)11, 30,
-		      TUI_MENU_BEH_CONTINUE);
-    tui_menu_add_item(ui_attach_submenu, "Autostart _Drive #8",
-		      "Reset the emulator and run the first program in the disk in drive 8",
-		      autostart_callback, (void *)8, 0,
-		      TUI_MENU_BEH_RESUME);
-    ui_flip_submenu = tui_menu_create("Fliplist for drive #8", 1);
-    tui_menu_add_submenu(ui_attach_submenu, "_Fliplist for Drive #8...",
-                         "Select, add or remove disk images from the flip list",
-                         ui_flip_submenu, NULL, 0,
-                         TUI_MENU_BEH_CONTINUE);
-    tui_menu_add_item(ui_flip_submenu,"_Add current image",
-              "Add current disk image to flip list (ALT-F3)",
-              flip_add_callback, NULL, 0,
-              TUI_MENU_BEH_CLOSE);
-    tui_menu_add_item(ui_flip_submenu,"_Remove current image",
-              "Remove current disk image from flip list (ALT-F4)",
-              flip_remove_callback, NULL, 0,
-              TUI_MENU_BEH_CLOSE);
-    tui_menu_add_item(ui_flip_submenu,"Attach _next image",
-              "Attach next disk image from flip list (ALT-F1)",
-              flip_next_callback, NULL, 0,
-              TUI_MENU_BEH_RESUME);
-    tui_menu_add_item(ui_flip_submenu,"Attach _previous image",
-              "Attach previous disk image from flip list (ALT-F2)",
-              flip_previous_callback, NULL, 0,
-              TUI_MENU_BEH_RESUME);
+    tui_menu_add(ui_attach_submenu, ui_attach_menu_def);
 
     if (has_tape) {
 	tui_menu_add_separator(ui_attach_submenu);
