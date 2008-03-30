@@ -413,8 +413,11 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
             XDestroyImage(canvas->x_image);
         if (shmdt(canvas->xshm_info.shmaddr))
             log_error(video_log, _("Cannot release shared memory!"));
-    } else if (canvas->x_image)
+    } 
+#ifndef USE_GNOMEUI
+    else if (canvas->x_image)
         XDestroyImage(canvas->x_image);
+#endif
 #else
 #ifndef USE_GNOMEUI
     if (canvas->x_image)

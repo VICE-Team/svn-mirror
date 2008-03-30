@@ -1,3 +1,32 @@
+2002-02-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.14.
+
+	* vicii/vicii-mem.c (check_bad_line_state_change_for_d011,
+	store_d011): Fixed the calculation of `was_bad_line'.
+
+	* c64/c64mem.c (ram_hi_store): Handle vbank access.
+
+	* zipcode.c (zipcode_read_sector): Use `unsigned char' for
+	parameters read from disk as we need to count up to 255.
+
+	* zfile.c (try_uncompress_zipcode): Handle directories.
+
+2002-02-09  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/dga2.c (fullscreen_set_mode): Setup up `fs_depth'.
+	(fullscreen_refresh_func): Use `fs_depth'.
+	(fullscreen_vidmode_available): Gather modes with 16bit or better
+	depth. This makes full PAL emulation work under DGA2.
+
+	* arch/unix/x11/videoarch.h: Adjusted prototypes for new alloc
+	callback interface.
+
+	* arch/unix/x11/dga2.c (fs_draw_buffer_alloc): Adjusted to new
+	alloc callback interface.
+	(fs_draw_buffer_free): Likewise.
+	(fs_draw_buffer_free): Likewise.
+
 2002-02-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.13.

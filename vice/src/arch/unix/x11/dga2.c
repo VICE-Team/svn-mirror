@@ -84,7 +84,7 @@ static int fs_vidmodecount;
 static video_canvas_t *fs_cached_fb;
 static int fs_canvas_width, fs_canvas_height;
 static BYTE *fs_fb_data;
-static int fs_fb_bpl, fs_cached_db_width;
+static int fs_fb_bpl, fs_cached_db_width, fs_depth;
 static int fs_bestmode_counter;
 static palette_t *fs_cached_palette;
 static DWORD *fs_saved_colors;
@@ -202,7 +202,7 @@ void fullscreen_refresh_func(BYTE *draw_buffer,
 		      fb_render_target,
 		      width, height, src_x, src_y, src_x, src_y, 
 		      fs_cached_db_width,
-		      fs_fb_bpl, 8);
+		      fs_fb_bpl, fs_depth);
 
     XDGASetViewport (display, screen, 
 		     0, fb_ybegin[fb_current_page], 
@@ -298,7 +298,7 @@ int fullscreen_vidmode_available(void)
 #if 0 /* works when you define a mode named "vice" in your XF86Config */
 	    (strcmp(fs_allmodes_dga2[i].name, "vice") == 0) &&
 #endif
-	    (fs_allmodes_dga2[i].depth == 8) && 
+	    (fs_allmodes_dga2[i].depth >= 16) && 
 	    (fs_allmodes_dga2[i].viewportFlags & XDGAFlipRetrace) && 
 	    (fs_allmodes_dga2[i].flags & XDGABlitRect)
 	    )
@@ -395,7 +395,8 @@ void fullscreen_set_raster (raster_t *raster)
     fs_cached_raster = raster;
 }
 
-int fs_draw_buffer_alloc(BYTE **draw_buffer, unsigned int w, unsigned int h)
+int fs_draw_buffer_alloc(struct video_canvas_s *c, BYTE **draw_buffer, 
+			 unsigned int w, unsigned int h, unsigned int *pitch)
 {
     *draw_buffer = xmalloc (w * h);
     fs_fb_data = *draw_buffer;
@@ -405,14 +406,16 @@ int fs_draw_buffer_alloc(BYTE **draw_buffer, unsigned int w, unsigned int h)
     return 1;
 }
 
-void fs_draw_buffer_free(BYTE *draw_buffer)
+void fs_draw_buffer_free(struct video_canvas_s *c, BYTE *draw_buffer)
 {
     free(draw_buffer);
 }
 
-void fs_draw_buffer_clear(BYTE *draw_buffer, unsigned int w, unsigned int h)
+void fs_draw_buffer_clear(struct video_canvas_s *c, BYTE *draw_buffer, 
+			  BYTE value, unsigned int w, unsigned int h,
+			  unsigned int pitch)
 {
-    memset(draw_buffer, 0, w * h);
+    memset(draw_buffer, value, w * h);
 }
 
 int fullscreen_set_mode(resource_value_t v, void *param)
@@ -551,7 +554,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 			     fs_cached_pixels[i]);
 #endif
 		video_render_setphysicalcolor(&fs_cached_fb->videoconfig, 
-					      i, color.pixel, 8);
+					      i, color.pixel, fs_depth);
 		fs_cached_pixels[i] = color.pixel;
 	    }
 	    
@@ -616,6 +619,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	    memset (fb_addr + i * offs, 0, offs);
 
 	fs_fb_bpl = dgadev->mode.bytesPerScanline;
+	fs_depth = dgadev->mode.depth;
 	fb_render_target = fb_dump = fb_addr + ((i - 1)* offs);
 	
 	raster_force_repaint(fs_cached_raster);
