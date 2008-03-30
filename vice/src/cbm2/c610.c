@@ -44,6 +44,7 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "crtc.h"
+#include "datasette.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
@@ -209,6 +210,9 @@ int machine_init(void)
     /* Initialize the keyboard.  */
     if (c610_kbd_init() < 0)
         return -1;
+
+    /* Initialize the datasette emulation.  */
+    datasette_init();
 
     /* Fire up the hardware-level 1541 emulation.  */
     drive_init(C610_PAL_CYCLES_PER_SEC, C610_NTSC_CYCLES_PER_SEC);
