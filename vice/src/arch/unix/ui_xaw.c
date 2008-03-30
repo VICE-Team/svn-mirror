@@ -100,13 +100,65 @@
 #include "reu.h"
 #endif
 
-extern void video_resize(void);
-
-/* These are used by video_x.[ch]. */
+/* These are used by video_x.[ch].  FIXME: I (EP) want these to be static.  */
 Display *display;
 int screen;
 Visual *visual;
 int depth = X_DISPLAY_DEPTH;
+
+/* ------------------------------------------------------------------------- */
+
+static char *html_browser_command;
+static int use_private_colormap;
+static int save_resources_on_exit;
+
+/* Warning: This cannot actually be changed at runtime.  */
+static int set_depth(resource_value_t v)
+{
+    int d = (int) v;
+
+    /* Minimal sanity check.  */
+    if (d < 0 || d > 32)
+        return -1;
+
+    depth = d;
+    return 0;
+}
+
+static int set_html_browser_command(resource_value_t v)
+{
+    string_set(&html_browser_command, (char *)v);
+    return 0;
+}
+
+static int set_use_private_colormap(resource_value_t v)
+{
+    use_private_colormap = (int) v;
+    return 0;
+}
+
+static int set_save_resources_on_exit(resource_value_t v)
+{
+    save_resources_on_exit = (int) v;
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "HTMLBrowserCommand", RES_STRING, (resource_value_t) "netscape %s",
+      (resource_value_t *) &html_browser_command, set_html_browser_command },
+    { "PrivateColormap", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &use_private_colormap, set_use_private_colormap },
+    { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &save_resources_on_exit, set_save_resources_on_exit },
+    { NULL }
+};
+
+int ui_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
 
 /* Application context. */
 static XtAppContext app_context;
@@ -412,10 +464,6 @@ int UiInitFinish(void)
 	{ NULL }
     };
     XVisualInfo visualinfo;
-
-#if X_DISPLAY_DEPTH == 0
-    depth = app_resources.displayDepth;
-#endif
 
     if (depth != 0) {
 	int i;
@@ -727,8 +775,7 @@ static int UiAllocColormap(void)
     if (colormap)
 	return 0;
 
-    if (!app_resources.privateColormap
-	&& depth == DefaultDepth(display, screen)) {
+    if (!use_private_colormap && depth == DefaultDepth(display, screen)) {
 	colormap = DefaultColormap(display, screen);
     } else {
 	colormap = XCreateColormap(display, RootWindow(display, screen),
@@ -888,6 +935,7 @@ void UiToggleDriveStatus(int state)
 {
     int i;
 
+    printf("%s(%d)\n", __FUNCTION__, state);
     for (i = 0; i < NumAppShells; i++) {
         if (state) {
             XtRealizeWidget(AppShells[i].drive_track_label);
@@ -1340,13 +1388,13 @@ UiButton UiAskConfirmation(const char *title, const char *text)
 }
 
 /* Update the menu items with a checkmark according to the current resource
-   values. */
+   values.  */
 void UiUpdateMenus(void)
 {
     int i;
 
     for (i = 0; i < NumCheckmarkMenuItems; i++)
-	XtCallCallbacks(CheckmarkMenuItems[i], XtNcallback, (XtPointer) ! NULL);
+	XtCallCallbacks(CheckmarkMenuItems[i], XtNcallback, (XtPointer) !NULL);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1966,8 +2014,6 @@ CallbackFunc(UiDetachDisk)
     }
 }
 
-#if defined CBM64 || defined C128
-
 CallbackFunc(UiAttachTape)
 {
     char *filename;
@@ -2040,8 +2086,6 @@ CallbackFunc(UiSmartAttach)
     }
 }
 
-#endif /* CBM64 || C128 */
-
 CallbackFunc(UiChangeWorkingDir)
 {
     PATH_VAR(wd);
@@ -2102,8 +2146,7 @@ CallbackFunc(UiPowerUpReset)
 
 CallbackFunc(UiBrowseManual)
 {
-    if (app_resources.htmlBrowserCommand == NULL
-	|| *app_resources.htmlBrowserCommand == '\0') {
+    if (html_browser_command == NULL || *html_browser_command == '\0') {
 	UiError("No HTML browser is defined.");
     } else {
 #define BROWSE_CMD_BUF_MAX 16384
@@ -2112,17 +2155,17 @@ CallbackFunc(UiBrowseManual)
 	char *res_ptr;
 	int manual_path_len, cmd_len;
 
-	cmd_len = strlen(app_resources.htmlBrowserCommand);
+	cmd_len = strlen(html_browser_command);
 	manual_path_len = strlen(manual_path);
 
-	res_ptr = strstr(app_resources.htmlBrowserCommand, "%s");
+	res_ptr = strstr(html_browser_command, "%s");
 	if (res_ptr == NULL) {
 	    /* No substitution. */
 	    if (cmd_len + 2 > BROWSE_CMD_BUF_MAX - 1) {
 		UiError("Browser command too long.");
 		return;
 	    }
-	    sprintf(buf, "%s &", app_resources.htmlBrowserCommand);
+	    sprintf(buf, "%s &", html_browser_command);
 	} else {
 	    char *tmp_ptr, *cmd_ptr;
 	    int offs;
@@ -2137,8 +2180,8 @@ CallbackFunc(UiBrowseManual)
 		return;
 	    }
 
-	    offs = res_ptr - app_resources.htmlBrowserCommand;
-	    memcpy(buf, app_resources.htmlBrowserCommand, offs);
+	    offs = res_ptr - html_browser_command;
+	    memcpy(buf, html_browser_command, offs);
 	    strcpy(buf + offs, manual_path);
 	    cmd_ptr = buf + offs + manual_path_len;
 	    res_ptr += 2;
@@ -2173,7 +2216,7 @@ CallbackFunc(UiExit)
 			  "Do you really want to exit?");
 
     if (b == Button_Yes) {
-	if (app_resources.saveResourcesOnExit && resources_have_changed) {
+	if (save_resources_on_exit && resources_have_changed) {
 	    b = UiAskConfirmation("Exit " EMULATOR " emulator",
 				  "Save the current settings?");
 	    if (b == Button_Yes)
@@ -2216,23 +2259,32 @@ CallbackFunc(UiInfo)
 
 CallbackFunc(UiSetRefreshRate)
 {
+    int current_refresh_rate;
+
+    resources_get_value("RefreshRate",
+                        (resource_value_t *) &current_refresh_rate);
     if (!call_data) {
-	if (app_resources.refreshRate != (int)client_data) {
-	    app_resources.refreshRate = (int)client_data;
+	if (current_refresh_rate != (int) client_data) {
+	    resources_set_value("RefreshRate", (resource_value_t) client_data);
 	    resources_have_changed = 1;
 	    UiUpdateMenus();
 	}
     } else {
 	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.refreshRate == (int)client_data
+		      (current_refresh_rate == (int)client_data
 		       ? CheckmarkBitmap : 0), NULL);
-	if (client_data == 0 && app_resources.speed == 0) {
-	    /* Cannot enable the `automatic' setting if a speed limit is not
-	       specified. */
-	    XtVaSetValues(w, XtNsensitive, False, NULL);
-	} else {
-	    XtVaSetValues(w, XtNsensitive, True, NULL);
-	}
+	if (client_data == 0) {
+            int speed;
+
+            resources_get_value("Speed", (resource_value_t *) &speed);
+            if (speed == 0) {
+                /* Cannot enable the `automatic' setting if a speed limit is
+                   not specified. */
+                XtVaSetValues(w, XtNsensitive, False, NULL);
+            } else {
+                XtVaSetValues(w, XtNsensitive, True, NULL);
+            }
+        }
     }
 }
 
@@ -2243,27 +2295,34 @@ CallbackFunc(UiSetCustomRefreshRate)
     UiButton button;
     int i, found;
     MenuEntry *m = &SetRefreshRateSubmenu[0];
+    int current_refresh_rate;
+
+    resources_get_value("RefreshRate",
+                        (resource_value_t *) &current_refresh_rate);
 
     if (!*input_string)
-	sprintf(input_string, "%d", app_resources.refreshRate);
+	sprintf(input_string, "%d", current_refresh_rate);
 
     if (call_data) {
 	for (found = i = 0; m[i].callback == UiSetRefreshRate; i++) {
-	    if (app_resources.refreshRate == (int)m[i].callback_data)
+	    if (current_refresh_rate == (int)m[i].callback_data)
 		found++;
 	}
 	XtVaSetValues(w, XtNleftBitmap, found ? 0 : CheckmarkBitmap, NULL);
     } else {
+        int current_speed;
+
 	suspend_speed_eval();
 	sprintf(msg_string, "Enter refresh rate");
 	button = UiInputString("Refresh rate", msg_string,
 			       input_string, 32);
 	if (button == Button_Ok) {
 	    i = atoi(input_string);
-	    if (!(app_resources.speed <= 0 && i <= 0) && i >= 0
-		&& app_resources.refreshRate != i) {
+            resources_get_value("Speed", (resource_value_t *) &current_speed);
+	    if (!(current_speed <= 0 && i <= 0) && i >= 0
+		&& current_refresh_rate != i) {
 		resources_have_changed = 1;
-		app_resources.refreshRate = i;
+                resources_set_value("RefreshRate", (resource_value_t) i);
 		UiUpdateMenus();
 	    }
 	}
@@ -2272,21 +2331,30 @@ CallbackFunc(UiSetCustomRefreshRate)
 
 CallbackFunc(UiSetMaximumSpeed)
 {
+    int current_speed;
+
+    resources_get_value("Speed", (resource_value_t *) &current_speed);
+
     if (!call_data) {
-	if (app_resources.speed != (int)client_data) {
-	    app_resources.speed = (int)client_data;
+	if (current_speed != (int)client_data) {
+	    current_speed = (int)client_data;
 	    resources_have_changed = 1;
 	    UiUpdateMenus();
 	}
     } else {
-	XtVaSetValues(w, XtNleftBitmap, app_resources.speed == (int) client_data
-		      ? CheckmarkBitmap : 0, NULL);
-	if (client_data == 0 && app_resources.refreshRate == 0) {
-	    /* Cannot enable the `no limit' setting if the refresh rate is set
-	       to `automatic'. */
-	    XtVaSetValues(w, XtNsensitive, False, NULL);
-	} else {
-	    XtVaSetValues(w, XtNsensitive, True, NULL);
+	XtVaSetValues(w, XtNleftBitmap,
+                      (current_speed == (int) client_data
+                       ? CheckmarkBitmap : 0),
+                      NULL);
+	if (client_data == 0) {
+            int current_refresh_rate;
+
+            resources_get_value("RefreshRate",
+                                (resource_value_t *) &current_refresh_rate);
+            if (current_refresh_rate == 0)
+                XtVaSetValues(w, XtNsensitive, False, NULL);
+            else
+                XtVaSetValues(w, XtNsensitive, True, NULL);
 	}
     }
 }
@@ -2298,13 +2366,15 @@ CallbackFunc(UiSetCustomMaximumSpeed)
     UiButton button;
     int i, found;
     MenuEntry *m = &SetMaximumSpeedSubmenu[0];
+    int current_speed;
 
+    resources_get_value("Speed", (resource_value_t *) &current_speed);
     if (!*input_string)
-	sprintf(input_string, "%d", app_resources.speed);
+	sprintf(input_string, "%d", current_speed);
 
     if (call_data) {
 	for (found = i = 0; m[i].callback == UiSetMaximumSpeed; i++) {
-	    if (app_resources.speed == (int)m[i].callback_data)
+	    if (current_speed == (int)m[i].callback_data)
 		found++;
 	}
 	XtVaSetValues(w, XtNleftBitmap, found ? 0 : CheckmarkBitmap, NULL);
@@ -2314,11 +2384,15 @@ CallbackFunc(UiSetCustomMaximumSpeed)
 	button = UiInputString("Maximum run speed", msg_string, input_string,
 			       32);
 	if (button == Button_Ok) {
+            int current_refresh_rate;
+
+            resources_get_value("RefreshRate",
+                                (resource_value_t *) &current_refresh_rate);
 	    i = atoi(input_string);
-	    if (!(app_resources.refreshRate <= 0 && i <= 0) && i >= 0
-		&& app_resources.speed != i) {
+	    if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0
+		&& current_speed != i) {
 		resources_have_changed = 1;
-		app_resources.speed = i;
+                resources_set_value("Speed", (resource_value_t) i);
 		UiUpdateMenus();
 	    } else
 		UiError("Invalid speed value");
@@ -2329,7 +2403,7 @@ CallbackFunc(UiSetCustomMaximumSpeed)
 CallbackFunc(UiSaveResources)
 {
     suspend_speed_eval();
-    if (resources_save(NULL, EMULATOR) < 0)
+    if (resources_save(NULL) < 0)
 	UiError("Cannot save settings.");
     else {
 	if (w != NULL)
@@ -2342,7 +2416,7 @@ CallbackFunc(UiSaveResources)
 CallbackFunc(UiLoadResources)
 {
     suspend_speed_eval();
-    if (resources_load(NULL, EMULATOR) < 0)
+    if (resources_load(NULL) < 0)
 	UiError("Cannot load settings.");
 #if 0
     else if (w != NULL)
@@ -2361,39 +2435,63 @@ CallbackFunc(UiSetDefaultResources)
 
 /* ------------------------------------------------------------------------- */
 
-/* These are the callbacks for the toggle menus (the ones with a checkmark on
-   the left).  If call_data is NULL, they simply set/unset the checkmark
-   according to the value of the corrisponding resource.  If not NULL, they
-   set the value of the corresponding resource before doing so.  For this
-   reason, to update the checkmarks, we simply have to call all the callbacks
-   with a NULL call_data parameter. */
+/* These are the callbacks for the toggle and radio menus (the ones with a
+   checkmark on the left).  If call_data is NULL, they simply set/unset the
+   checkmark according to the value of the corrisponding resource.  If not
+   NULL, they set the value of the corresponding resource before doing so.
+   For this reason, to update the checkmarks, we simply have to call all the
+   callbacks with a NULL `call_data' parameter.  */
 
-#define DEFINE_TOGGLE(f, resource, update_func)				\
-    CallbackFunc(f)							\
-    {									\
-	if (!call_data) {						\
-            void (*ff)() = update_func;					\
-	    app_resources.resource = !app_resources.resource;	        \
-	    resources_have_changed = 1;					\
-	    if (ff)							\
-		ff();							\
-	    UiUpdateMenus();						\
-	} else {							\
-	    XtVaSetValues(w, XtNleftBitmap,				\
-			  app_resources.resource ? CheckmarkBitmap	\
-			                         : 0, NULL);		\
-	}								\
+#define DEFINE_TOGGLE(f, resource)                                        \
+    CallbackFunc(f)                                                       \
+    {                                                                     \
+        int current_value;                                                \
+                                                                          \
+        if (resources_get_value(#resource,                                \
+                                (resource_value_t *) &current_value) < 0) \
+           return;                                                        \
+	if (!call_data) {                                                 \
+            printf("%s: Toggling resource `%s' %d -> %d\n",\
+                   __FUNCTION__, #resource, current_value, !current_value);\
+            resources_set_value(#resource,                                \
+                                (resource_value_t) !current_value);       \
+	    resources_have_changed = 1;                                   \
+	    UiUpdateMenus();                                              \
+	} else {                                                          \
+	    XtVaSetValues(w, XtNleftBitmap,                               \
+			  current_value ? CheckmarkBitmap : 0, NULL);     \
+	}                                                                 \
     }
 
-DEFINE_TOGGLE(UiToggleVideoCache, videoCache, video_resize)
+#define DEFINE_RADIO(f, resource)                                            \
+    CallbackFunc(f)                                                          \
+    {                                                                        \
+        int current_value;                                                   \
+                                                                             \
+        resources_get_value(#resource, (resource_value_t *) &current_value); \
+        if (!call_data) {                                                    \
+            if (current_value != (int) client_data) {                        \
+                resources_set_value(#resource,                               \
+                                    (resource_value_t) client_data);         \
+                UiUpdateMenus();                                             \
+                resources_have_changed = 1;                                  \
+            }                                                                \
+        } else {                                                             \
+            XtVaSetValues(w, XtNleftBitmap,                                  \
+                          current_value == (int) client_data                 \
+                          ? CheckmarkBitmap : 0, NULL);                      \
+        }                                                                    \
+    }
 
-DEFINE_TOGGLE(UiToggleDoubleSize, doubleSize, video_resize)
+DEFINE_TOGGLE(UiToggleVideoCache, VideoCache)
 
-DEFINE_TOGGLE(UiToggleDoubleScan, doubleScan, video_resize)
+DEFINE_TOGGLE(UiToggleDoubleSize, DoubleSize)
 
-DEFINE_TOGGLE(UiToggleUseXSync, useXSync, NULL)
+DEFINE_TOGGLE(UiToggleDoubleScan, DoubleScan)
 
-DEFINE_TOGGLE(UiToggleSaveResourcesOnExit, saveResourcesOnExit, NULL)
+DEFINE_TOGGLE(UiToggleUseXSync, UseXSync)
+
+DEFINE_TOGGLE(UiToggleSaveResourcesOnExit, SaveResourcesOnExit)
 
 CallbackFunc(UiTogglePause)
 {
@@ -2420,6 +2518,7 @@ CallbackFunc(UiTogglePause)
 
 CallbackFunc(UiToggleTurbo)
 {
+#if 0
     static int refresh = 0, speed = 100;
     suspend_speed_eval();
     if (!app_resources.speed && app_resources.refreshRate == 25)
@@ -2435,6 +2534,7 @@ CallbackFunc(UiToggleTurbo)
 	app_resources.refreshRate = 25;
     }
     UiUpdateMenus();
+#endif
 }
 
 CallbackFunc(UiSetKeymap)
@@ -2484,8 +2584,8 @@ CallbackFunc(UiDumpKeymap)
 
 #if defined(CBM64) || defined(C128) || defined(PET)
 
-DEFINE_TOGGLE(UiToggleSpriteToSpriteCollisions, checkSsColl, NULL)
-DEFINE_TOGGLE(UiToggleSpriteToBackgroundCollisions, checkSbColl, NULL)
+DEFINE_TOGGLE(UiToggleSpriteToSpriteCollisions, CheckSsColl)
+DEFINE_TOGGLE(UiToggleSpriteToBackgroundCollisions, CheckSbColl)
 
 #ifdef HAS_JOYSTICK
 
@@ -2532,6 +2632,7 @@ CallbackFunc(UiSwapJoystickPorts)
 
 CallbackFunc(UiSetNumpadJoystickPort)
 {
+#if 0
     suspend_speed_eval();
     if (!call_data) {
 	if (app_resources.joyPort != (int)client_data) {
@@ -2543,95 +2644,68 @@ CallbackFunc(UiSetNumpadJoystickPort)
 	XtVaSetValues(w, XtNleftBitmap,
 		      (app_resources.joyPort == (int) client_data
 		       ? CheckmarkBitmap : 0), NULL);
+#endif
 }
 
 CallbackFunc(UiSwapJoystickPorts)
 {
+#if 0
     suspend_speed_eval();
     app_resources.joyPort = 3 - app_resources.joyPort;
     printf("Numpad joystick now in port #%d.\n", app_resources.joyPort);
     UiUpdateMenus();
+#endif
 }
 
 #endif
 
-#endif
-#if defined(CBM64) || defined(C128)
+#endif /* HAS_JOYSTICK */
 
-DEFINE_TOGGLE(UiToggleEmuID, emuID, NULL)
+DEFINE_TOGGLE(UiToggleEmuID, EmuID)
 
-CallbackFunc(UiToggleIEEE488)
-{
-    if (!call_data) {
-        app_resources.ieee488 = !app_resources.ieee488;
-	/* The REU and the IEEE488 interface share the same address space, so
-	   they cannot be enabled at the same time. */
-	if (app_resources.ieee488)
-	    app_resources.reu = 0;
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      app_resources.ieee488 ? CheckmarkBitmap : 0, NULL);
-    }
-}
+DEFINE_TOGGLE(UiToggleIEEE488, IEEE488)
 
-CallbackFunc(UiToggleREU)
-{
-    if (!call_data) {
-        app_resources.reu = !app_resources.reu;
-	/* The REU and the IEEE488 interface share the same address space, so
-	   they cannot be enabled at the same time. */
-	if (app_resources.reu) {
-	    app_resources.ieee488 = 0;
-	    activate_reu();
-	}
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      app_resources.reu ? CheckmarkBitmap : 0, NULL);
-    }
-}
-
-#endif /* CBM64 || C128 */
+DEFINE_TOGGLE(UiToggleREU, REU)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAVE_TRUE1541
 /* True 1541 support items. */
 
-DEFINE_TOGGLE(UiToggleTrue1541, true1541, true1541_ack_switch)
+DEFINE_TOGGLE(UiToggleTrue1541, True1541)
 
-DEFINE_TOGGLE(UiToggleParallelCable, true1541ParallelCable, NULL)
+DEFINE_TOGGLE(UiToggleParallelCable, True1541ParallelCable)
 
 CallbackFunc(UiSetCustom1541SyncFactor)
 {
     static char input_string[256];
     char msg_string[256];
     UiButton button;
+    int sync_factor;
 
+    resources_get_value("True1541SyncFactor",
+                        (resource_value_t *) &sync_factor);
     if (!*input_string)
-	sprintf(input_string, "%d", app_resources.true1541SyncFactor);
+	sprintf(input_string, "%d", sync_factor);
 
     if (call_data) {
-	if (app_resources.true1541SyncFactor != TRUE1541_PAL_SYNC_FACTOR
-	    && app_resources.true1541SyncFactor != TRUE1541_NTSC_SYNC_FACTOR)
+	if (sync_factor != TRUE1541_SYNC_PAL
+            && sync_factor != TRUE1541_SYNC_NTSC)
 	    XtVaSetValues(w, XtNleftBitmap, CheckmarkBitmap, NULL);
 	else
 	    XtVaSetValues(w, XtNleftBitmap, 0, NULL);
     } else {
 	suspend_speed_eval();
 	sprintf(msg_string, "Enter factor (PAL %d, NTSC %d)",
-		TRUE1541_PAL_SYNC_FACTOR, TRUE1541_NTSC_SYNC_FACTOR);
+		TRUE1541_SYNC_PAL, TRUE1541_SYNC_NTSC);
 	button = UiInputString("1541 Sync Factor", msg_string, input_string,
 			       256);
 	if (button == Button_Ok) {
 	    int v;
 
 	    v = atoi(input_string);
-	    if (v != app_resources.true1541SyncFactor) {
-		true1541_set_sync_factor(atoi(input_string));
+	    if (v != sync_factor) {
+                resources_set_value("True1541SyncFactor",
+                                    (resource_value_t) v);
 		resources_have_changed = 1;
 		UiUpdateMenus();
 	    }
@@ -2639,59 +2713,17 @@ CallbackFunc(UiSetCustom1541SyncFactor)
     }
 }
 
-CallbackFunc(UiSet1541ExtendImage)
-{
-    if (!call_data) {
-	if (app_resources.true1541ExtendImage != (int)client_data) {
-	    app_resources.true1541ExtendImage = (int)client_data;
-	    UiUpdateMenus();
-	    resources_have_changed = 1;
-	}
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.true1541ExtendImage == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-    }
-}
+DEFINE_RADIO(UiSet1541ExtendImage, True1541ExtendImagePolicy)
 
-CallbackFunc(UiSet1541SyncFactor)
-{
-    if (!call_data) {
-	if (app_resources.true1541SyncFactor != (int)client_data) {
-	    true1541_set_sync_factor((int) client_data);
-	    UiUpdateMenus();
-	    resources_have_changed = 1;
-	}
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.true1541SyncFactor == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-    }
-}
+DEFINE_RADIO(UiSet1541SyncFactor, True1541SyncFactor)
 
-CallbackFunc(UiSet1541IdleMethod)
-{
-    if (!call_data) {
-	/* XXX: not sure this is needed */
-	if (app_resources.true1541)
-	    true1541_cpu_execute();
-	app_resources.true1541IdleMethod = (int)client_data;
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.true1541IdleMethod == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-    }
-}
-
-#endif /* HAVE_TRUE1541 */
+DEFINE_RADIO(UiSet1541IdleMethod, True1541IdleMethod)
 
 /* ------------------------------------------------------------------------- */
 
 /* PET stuff */
 
-#ifdef PET
+#if 0 /* def PET*/
 
 CallbackFunc(UiTogglePetDiag)
 {
@@ -2723,116 +2755,19 @@ CallbackFunc(UiToggleNumpadJoystick)
 
 /* Sound support. */
 
-#ifdef SOUND
-CallbackFunc(UiToggleSound)
-{
-    suspend_speed_eval();
-    if (!call_data) {
-	app_resources.sound = !app_resources.sound;
-	if (app_resources.sound) {
-	    /* Disable the vsync timer, or SIGALRM might happen while writing
-	       to the sound device. */
-	    vsync_disable_timer();
-	} else
-	    close_sound();
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else
-	XtVaSetValues(w, XtNleftBitmap,
-		      app_resources.sound ? CheckmarkBitmap : 0, NULL);
-}
+DEFINE_TOGGLE(UiToggleSound, Sound)
 
-CallbackFunc(UiToggleSoundSpeedAdjustment)
-{
-    if (!call_data) {
-	app_resources.soundSpeedAdjustment =
-	    !app_resources.soundSpeedAdjustment;
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else
-	XtVaSetValues(w, XtNleftBitmap,
-		      app_resources.soundSpeedAdjustment ? CheckmarkBitmap : 0,
-		      NULL);
-}
+DEFINE_TOGGLE(UiToggleSoundSpeedAdjustment, SoundSpeedAdjustment)
 
-CallbackFunc(UiSetSoundSampleRate)
-{
-    suspend_speed_eval();
-    if (!call_data) {
-	app_resources.soundSampleRate = (int) client_data;
-	close_sound();
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.soundSampleRate == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-    }
-}
+DEFINE_RADIO(UiSetSoundSampleRate, SoundSampleRate)
 
-CallbackFunc(UiSetSoundBufferSize)
-{
-    suspend_speed_eval();
-    if (!call_data) {
-	app_resources.soundBufferSize = (int) client_data;
-	close_sound();
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.soundBufferSize == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-    }
-}
+DEFINE_RADIO(UiSetSoundBufferSize, SoundBufferSize)
 
-CallbackFunc(UiSetSoundSuspendTime)
-{
-    suspend_speed_eval();
-    if (!call_data) {
-	app_resources.soundSuspendTime = (int) client_data;
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.soundSuspendTime == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-    }
-}
+DEFINE_RADIO(UiSetSoundSuspendTime, SoundSuspendTime)
 
-#if defined(CBM64) || defined(C128)
+DEFINE_TOGGLE(UiToggleSidFilters, SidFilters)
 
-DEFINE_TOGGLE(UiToggleSidFilters, sidFilters, close_sound)
+DEFINE_RADIO(UiSetSidModel, SidModel)
 
-CallbackFunc(UiSetSidModel)
-{
-    suspend_speed_eval();
-    if (!call_data) {
-	app_resources.sidModel = (int) client_data;
-	close_sound();
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.sidModel == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-    }
-}
+DEFINE_RADIO(UiSetSoundOversample, SoundOversample)
 
-CallbackFunc(UiSetSoundOversample)
-{
-    suspend_speed_eval();
-    if (!call_data) {
-	app_resources.soundOversample = (int) client_data;
-	close_sound();
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.soundOversample == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-    }
-}
-
-#endif /* CBM64 || C128 */
-
-#endif /* SOUND */
