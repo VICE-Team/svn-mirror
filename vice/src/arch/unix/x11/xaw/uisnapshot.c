@@ -107,7 +107,7 @@ static UI_CALLBACK(save_callback)
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
 
     filename = stralloc(name);
-    xadd_extension(&filename, "vsf");
+    util_add_extension(&filename, "vsf");
     
     if (machine_write_snapshot(filename, save_roms, save_disks) < 0)
         ui_error(_("Cannot write snapshot file\n`%s'\n"), filename);

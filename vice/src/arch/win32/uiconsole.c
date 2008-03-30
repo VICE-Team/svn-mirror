@@ -127,7 +127,7 @@ FILE *ui_console_save_dialog(HWND hwnd)
         "VICE console logging files (*.dbg)\0*.dbg\0",hwnd);
 
     if (s != NULL) {
-        xadd_extension(&s, "dbg");
+        util_add_extension(&s, "dbg");
 
         pfile = fopen(s, append_log ? "at+" : "wt");
 

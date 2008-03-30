@@ -160,7 +160,7 @@ static UI_CALLBACK(save_callback)
     XtVaGetValues(image_name_field, XtNstring, &iname, NULL);
 
     filename = stralloc(name);
-    xadd_extension(&filename, extensions[type_cnt]);
+    util_add_extension(&filename, extensions[type_cnt]);
 
     if (vdrive_internal_create_format_disk_image(filename, "VICE,01",
                                                  dtypes[type_cnt]) < 0)

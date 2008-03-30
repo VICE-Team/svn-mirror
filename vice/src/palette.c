@@ -116,7 +116,7 @@ static char *next_nonspace(const char *p)
 int palette_load(const char *file_name, palette_t *palette_return)
 {
     char buf[1024];
-    int line_num, entry_num, line_len;
+    int line_num, entry_num, line_len, err = -1;
     palette_t *tmp_palette;
     char *complete_path;
     FILE *f;
@@ -124,8 +124,9 @@ int palette_load(const char *file_name, palette_t *palette_return)
     f = sysfile_open(file_name, &complete_path, MODE_READ_TEXT);
     if (f == NULL) {
         /* Try to add the extension.  */
-        char *tmp = concat(file_name, FSDEV_EXT_SEP_STR "vpl", NULL);
+        char *tmp = stralloc(file_name);
 
+        util_add_extension(&tmp, "vpl");
         f = sysfile_open(tmp, &complete_path, MODE_READ_TEXT);
         free(tmp);
         if (f == NULL)
@@ -142,9 +143,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
 
     if (line_len < 0) {
         log_error(palette_log, "Could not read from palette file.");
-        fclose(f);
-        palette_free(tmp_palette);
-        return -1;
+        goto return_err;
     }
 
     while (line_len >= 0) {
@@ -163,9 +162,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
                 if (util_string_to_long(p1, &p2, 16, &result) < 0) {
                     log_error(palette_log, "%s, %d: number expected.",
                               file_name, line_num);
-                    fclose(f);
-                    palette_free(tmp_palette);
-                    return -1;
+                    goto return_err;
                 }
                 if (result < 0
                     || (i == 3 && result > 0xf)
@@ -173,9 +170,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
                     || result < 0) {
                     log_error(palette_log, "%s, %d: invalid value.",
                               file_name, line_num);
-                    fclose(f);
-                    palette_free(tmp_palette);
-                    return -1;
+                    goto return_err;
                 }
                 values[i] = (BYTE)result;
                 p1 = p2;
@@ -186,23 +181,17 @@ int palette_load(const char *file_name, palette_t *palette_return)
                     log_error(palette_log,
                               "%s, %d: garbage at end of line.",
                               file_name, line_num);
-                    fclose(f);
-                    palette_free(tmp_palette);
-                    return -1;
+                    goto return_err;
                 }
                 if (entry_num >= palette_return->num_entries) {
                     log_error(palette_log,
                               "%s: too many entries.", file_name);
-                    fclose(f);
-                    palette_free(tmp_palette);
-                    return -1;
+                    goto return_err;
                 }
                 if (palette_set_entry(tmp_palette, entry_num,
                     values[0], values[1], values[2], values[3]) < 0) {
                     log_error(palette_log, "Failed to set palette entry.");
-                    fclose(f);
-                    palette_free(tmp_palette);
-                    return -1;
+                    goto return_err;
                 }
                 entry_num++;
             }
@@ -210,23 +199,23 @@ int palette_load(const char *file_name, palette_t *palette_return)
         line_len = util_get_line(buf, 1024, f);
     }
 
-    fclose(f);
-
     if (entry_num < palette_return->num_entries) {
         log_error(palette_log, "%s: too few entries.", file_name);
-        palette_free(tmp_palette);
-        return -1;
+        goto return_err;
     }
 
     if (palette_copy(palette_return, tmp_palette) < 0) {
         log_error(palette_log, "Failed to copy palette.");
-        palette_free(tmp_palette);
-        return -1;
+        goto return_err;
     }
 
+    err = 0;
+
+return_err:
+    fclose(f);
     palette_free(tmp_palette);
 
-    return 0;
+    return err;
 }
 
 int palette_save(const char *file_name, const palette_t *palette)
