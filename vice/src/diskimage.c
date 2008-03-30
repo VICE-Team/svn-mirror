@@ -48,6 +48,21 @@ static log_t disk_image_log = LOG_ERR;
 #define IS_D80_LEN(x) ((x) == D80_FILE_SIZE)
 #define IS_D82_LEN(x) ((x) == D82_FILE_SIZE)
 
+/* X64 related defines.  */
+#define X64_HEADER_MAGIC_OFFSET     0       /* Length 4 bytes */
+#define X64_HEADER_MAGIC_1          'C'
+#define X64_HEADER_MAGIC_2          (0x15)
+#define X64_HEADER_MAGIC_3          (0x41)
+#define X64_HEADER_MAGIC_4          (0x64)
+#define X64_HEADER_VERSION_OFFSET   4       /* Length 2 bytes */
+#define X64_HEADER_VERSION_MAJOR    1
+#define X64_HEADER_VERSION_MINOR    2
+#define X64_HEADER_FLAGS_OFFSET     6       /* Disk Image Flags */
+#define X64_HEADER_FLAGS_LEN        4       /* Disk Image Flags */
+#define X64_HEADER_LABEL_OFFSET     32      /* Disk Description */
+#define X64_HEADER_LABEL_LEN        31
+#define X64_HEADER_LENGTH           64
+
 /*-----------------------------------------------------------------------*/
 /* Initialization.  */
 
@@ -264,6 +279,32 @@ static int disk_image_check_for_d82(disk_image_t *image)
     return 1;
 }
 
+static int disk_image_check_for_x64(disk_image_t *image)
+{
+    BYTE header[X64_HEADER_LENGTH];
+
+    rewind(image->fd);
+
+    if (fread(header, X64_HEADER_LENGTH, 1, image->fd) < 1)
+        return 0;
+
+    if (header[X64_HEADER_MAGIC_OFFSET + 0] != X64_HEADER_MAGIC_1 ||
+        header[X64_HEADER_MAGIC_OFFSET + 1] != X64_HEADER_MAGIC_2 ||
+        header[X64_HEADER_MAGIC_OFFSET + 2] != X64_HEADER_MAGIC_3 ||
+        header[X64_HEADER_MAGIC_OFFSET + 3] != X64_HEADER_MAGIC_4)
+        return 0;
+
+    if (header[X64_HEADER_FLAGS_OFFSET + 1] > MAX_TRACKS_1541)
+        return 0;
+
+    image->type = DISK_IMAGE_TYPE_X64;
+    image->tracks = header[X64_HEADER_FLAGS_OFFSET + 1];
+
+    log_message(disk_image_log, "X64 disk image recognised: %s%s.",
+                image->name, image->read_only ? " (read only)" : "");
+    return 1;
+}
+
 
 /*-----------------------------------------------------------------------*/
 /* GCR disk image probing and intial GCR buffer setup.  */
@@ -426,7 +467,10 @@ int disk_image_open(disk_image_t *image)
             return 0;
         if (disk_image_check_for_gcr(image))
             return 0;
+        if (disk_image_check_for_x64(image))
+            return 0;
     }
+    zfclose(image->fd);
     return -1;
 }
 
@@ -533,6 +577,7 @@ int disk_image_create(const char *name, int type)
 
     switch(type) {
       case DISK_IMAGE_TYPE_D64:
+      case DISK_IMAGE_TYPE_X64:
         size = D64_FILE_SIZE_35;
         break;
       case DISK_IMAGE_TYPE_D71:
@@ -569,6 +614,30 @@ int disk_image_create(const char *name, int type)
     memset(block, 0, 256);
 
     switch (type) {
+      case DISK_IMAGE_TYPE_X64:
+        {
+            BYTE header[X64_HEADER_LENGTH];
+
+            memset(header, 0, X64_HEADER_LENGTH);
+
+            header[X64_HEADER_MAGIC_OFFSET + 0] = X64_HEADER_MAGIC_1;
+            header[X64_HEADER_MAGIC_OFFSET + 1] = X64_HEADER_MAGIC_2;
+            header[X64_HEADER_MAGIC_OFFSET + 2] = X64_HEADER_MAGIC_3;
+            header[X64_HEADER_MAGIC_OFFSET + 3] = X64_HEADER_MAGIC_4;
+            header[X64_HEADER_VERSION_OFFSET + 0] = X64_HEADER_VERSION_MAJOR;
+            header[X64_HEADER_VERSION_OFFSET + 1] = X64_HEADER_VERSION_MINOR;
+            header[X64_HEADER_FLAGS_OFFSET + 0] = 1;
+            header[X64_HEADER_FLAGS_OFFSET + 1] = NUM_TRACKS_1541;
+            header[X64_HEADER_FLAGS_OFFSET + 2] = 1;
+            header[X64_HEADER_FLAGS_OFFSET + 3] = 0;
+            if (fwrite(header, X64_HEADER_LENGTH, 1, image->fd) < 1) {
+                log_error(disk_image_log,
+                          "Cannot write X64 header to disk image `%s'.",
+                          image->name);
+            }
+
+        }
+        /* Fall through.  */
       case DISK_IMAGE_TYPE_D64:
       case DISK_IMAGE_TYPE_D71:
       case DISK_IMAGE_TYPE_D81:
@@ -645,6 +714,7 @@ int disk_image_sector_per_track(int format, int track)
 {
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
+      case DISK_IMAGE_TYPE_X64:
         return sector_map_d64[track];
         break;
       case DISK_IMAGE_TYPE_D71:
@@ -671,6 +741,7 @@ int disk_image_check_sector(int format, int track, int sector)
 
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
+      case DISK_IMAGE_TYPE_X64:
         if (track > MAX_TRACKS_1541 || sector
             >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track))
             return -1;
@@ -795,6 +866,7 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
       case DISK_IMAGE_TYPE_D81:
       case DISK_IMAGE_TYPE_D80:
       case DISK_IMAGE_TYPE_D82:
+      case DISK_IMAGE_TYPE_X64:
         sectors = disk_image_check_sector(image->type, track, sector);
 
         if (sectors < 0) {
@@ -803,6 +875,10 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
             return -1;
         }
         offset = sectors << 8;
+
+        if (image->type == DISK_IMAGE_TYPE_X64)
+            offset += X64_HEADER_LENGTH;
+
         fseek(image->fd, offset, SEEK_SET);
 
         if (fread((char *)buf, 256, 1, image->fd) < 1) {
@@ -989,12 +1065,17 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, int track,
       case DISK_IMAGE_TYPE_D81:
       case DISK_IMAGE_TYPE_D80:
       case DISK_IMAGE_TYPE_D82:
+      case DISK_IMAGE_TYPE_X64:
         if (sectors < 0) {
             log_error(disk_image_log, "Track: %i, Sector: %i out of bounds.",
                       track, sector);
             return -1;
         }
         offset = sectors << 8;
+
+        if (image->type == DISK_IMAGE_TYPE_X64)
+            offset += X64_HEADER_LENGTH;
+
         fseek(image->fd, offset, SEEK_SET);
 
         if (fwrite((char *)buf, 256, 1, image->fd) < 1) {
