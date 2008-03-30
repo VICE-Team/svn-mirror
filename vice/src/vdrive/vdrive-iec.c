@@ -323,8 +323,11 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
             p->bufptr = 2;
             p->buffer = (BYTE *)xmalloc(256);
 
-            status = disk_image_read_sector(vdrive->image, p->buffer, track,
-                                            sector);
+            status = disk_image_read_sector(vdrive->image, p->buffer,
+                                            (unsigned int)track,
+                                            (unsigned int)sector);
+            vdrive_set_last_read((unsigned int)track, (unsigned int)sector,
+                                 p->buffer);
             if (status != 0) {
                 vdrive_iec_close(vdrive, secondary);
                 return SERIAL_ERROR;
@@ -514,8 +517,17 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
          */
         if (p->buffer[0]) {
             if (p->bufptr >= 256) {
-                if (disk_image_read_sector(vdrive->image, p->buffer,
-                    (int)p->buffer[0], (int)p->buffer[1]) == 0) {
+                int status;
+                unsigned int track, sector;
+
+                track = (unsigned int)p->buffer[0];
+                sector = (unsigned int)p->buffer[1];
+
+                status = disk_image_read_sector(vdrive->image, p->buffer,
+                                                track, sector);
+                vdrive_set_last_read(track, sector, p->buffer);
+
+                if (status == 0) {
                     p->bufptr = 2;
                 } else {
                     *data = 0xc7;
