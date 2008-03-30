@@ -59,7 +59,7 @@ int ultimax = 0;
 
 /* Super Snapshot configuration flags.  */
 static BYTE ramconfig = 0xff, romconfig = 9;
-static int ram_bank = 0;		/* Version 5 supports 4 - 8Kb RAM banks. */
+static int ram_bank = 0;        /* Version 5 supports 4 - 8Kb RAM banks. */
 
 /* Atomic Power RAM hack.  */
 static int export_ram_at_a000 = 0;
@@ -68,7 +68,7 @@ static int export_ram_at_a000 = 0;
 int mem_cartridge_type = CARTRIDGE_NONE;
 
 /* Cartridge mode. Expert cartridge only (at the moment..) */
-extern int cartmode; 
+extern int cartmode;
 
 /*
  * Remember whether or not the cartridge should be activated or not.
@@ -101,47 +101,44 @@ static void cartridge_config_changed(BYTE mode)
  */
 inline void REGPARM1 cartridge_decode_address(ADDRESS addr)
 {
-	BYTE config = (1 << 1);	/* Default: disable ~GAME, export_ram and enable ~EXROM */
+    /* Default: disable ~GAME, export_ram and enable ~EXROM */
+    BYTE config = (1 << 1);
 
-	switch (cartmode)
-		{
-		case CARTRIDGE_MODE_ON:
-			{
-			/*
-			 * Mask A15-A13.
-			 */
-			addr = addr & 0xe000;
+    switch (cartmode) {
+      case CARTRIDGE_MODE_ON:
+        {
+            /*
+             * Mask A15-A13.
+             */
+            addr = addr & 0xe000;
 
-			if (enable_trigger &&
-				((addr == 0x8000) || (addr = 0xe000)))
-				{
-				config = (1 << 0);		/* Enable ~GAME */
-				config |= (1 << 1);		/* Disable ~EXROM */
-				config |= (1 << 5);		/* Enable export_ram */
-				}
-			break;
-			}
+            if (enable_trigger &&
+                ((addr == 0x8000) || (addr = 0xe000))) {
+                config = (1 << 0);              /* Enable ~GAME */
+                config |= (1 << 1);             /* Disable ~EXROM */
+                config |= (1 << 5);             /* Enable export_ram */
+            }
+            break;
+        }
 
-		case CARTRIDGE_MODE_PRG:
-			{
-			/*
-			 * Mask A15-A13.
-			 */
-			if ((addr & 0xe000) == 0x8000)
-				{
-				config = (1 << 0);		/* Enable ~GAME */
-				config |= (1 << 1);		/* Disable ~EXROM */
-				config |= (1 << 5);		/* Enable export_ram */
-				}
-			break;
-			}
-		}
+      case CARTRIDGE_MODE_PRG:
+        {
+            /*
+             * Mask A15-A13.
+             */
+            if ((addr & 0xe000) == 0x8000) {
+                config = (1 << 0);              /* Enable ~GAME */
+                config |= (1 << 1);             /* Disable ~EXROM */
+                config |= (1 << 5);             /* Enable export_ram */
+            }
+            break;
+        }
+    }
 
-	if (ramconfig != config)
-		{
-		cartridge_config_changed(config);
-		ramconfig = config;
-		}
+    if (ramconfig != config) {
+        cartridge_config_changed(config);
+        ramconfig = config;
+    }
 }
 
 BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
@@ -183,27 +180,26 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
           case 3:
             return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
         }
-	  case CARTRIDGE_EXPERT:
-		switch (cartmode)
-			{
-			case CARTRIDGE_MODE_PRG:
-			case CARTRIDGE_MODE_OFF:
-				return 0;
-			case CARTRIDGE_MODE_ON:
-				/*
-				 * Reset the nmi/reset trigger.
-				 */
-				enable_trigger = 0;
-				return 0;
-			}
-	}
+      case CARTRIDGE_EXPERT:
+        switch (cartmode) {
+          case CARTRIDGE_MODE_PRG:
+          case CARTRIDGE_MODE_OFF:
+            return 0;
+          case CARTRIDGE_MODE_ON:
+            /*
+             * Reset the nmi/reset trigger.
+             */
+            enable_trigger = 0;
+            return 0;
+        }
+    }
     return rand();
 }
 
 void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
 {
     int banknr;
- 
+
 #ifdef DEBUG
     log_debug("Store IO1 %02x <- %02x.", addr, value);
 #endif
@@ -238,7 +234,7 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         break;
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
         if (((addr & 0xff) == 0)
-	    || ((addr & 0xff) == 1)) {
+            || ((addr & 0xff) == 1)) {
 
             if ((value & 1) == 1) {
                 cartridge_release_freeze();
@@ -247,20 +243,20 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
             /* D0 = ~GAME */
             romconfig = ((value & 1) ^ 1);
 
-			/* Calc RAM/ROM bank nr. */
-			banknr = ((value >> 2) & 0x1) | ((value >> 3) & 0x2);
+            /* Calc RAM/ROM bank nr. */
+            banknr = ((value >> 2) & 0x1) | ((value >> 3) & 0x2);
 
-			/* ROM ~OE set? */
-			if (((value >> 3) & 1) == 0) {
-				romconfig |= (banknr << 3);		/* Select ROM banknr. */
-			}
-				
-			/* RAM ~OE set? */
-			if (((value >> 1) & 1) == 0) {
-				ram_bank = banknr;				/* Select RAM banknr. */
-				romconfig |= (1 << 5);  		/* export_ram */
-				romconfig |= (1 << 1); 			/* exrom */
-			}
+            /* ROM ~OE set? */
+            if (((value >> 3) & 1) == 0) {
+                romconfig |= (banknr << 3); /* Select ROM banknr. */
+            }
+
+            /* RAM ~OE set? */
+            if (((value >> 1) & 1) == 0) {
+                ram_bank = banknr;          /* Select RAM banknr. */
+                romconfig |= (1 << 5);      /* export_ram */
+                romconfig |= (1 << 1);      /* exrom */
+            }
             cartridge_config_changed(romconfig);
         }
         break;
@@ -283,19 +279,18 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         export.game = 0;
         export.exrom = 1;
         break;
-	  case CARTRIDGE_EXPERT:
-		switch (cartmode)
-			{
-			case CARTRIDGE_MODE_PRG:
-			case CARTRIDGE_MODE_OFF:
-				break;
-			case CARTRIDGE_MODE_ON:
-				/*
-				 * Reset the nmi/reset trigger (= cartridge disabled).
-				 */
-				enable_trigger = 0;
-				break;
-			}   
+      case CARTRIDGE_EXPERT:
+        switch (cartmode) {
+          case CARTRIDGE_MODE_PRG:
+          case CARTRIDGE_MODE_OFF:
+            break;
+          case CARTRIDGE_MODE_ON:
+            /*
+             * Reset the nmi/reset trigger (= cartridge disabled).
+             */
+            enable_trigger = 0;
+            break;
+        }
     }
     return;
 }
@@ -447,7 +442,7 @@ BYTE REGPARM1 roml_read(ADDRESS addr)
     if (export_ram) {
         if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
             return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
-        else 
+        else
             return export_ram0[addr & 0x1fff];
     }
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
@@ -455,9 +450,9 @@ BYTE REGPARM1 roml_read(ADDRESS addr)
 
 BYTE REGPARM1 romh_read(ADDRESS addr)
 {
-	/*
-	 * CARTRIDGE_EXPERT: Mirror $8000-$9FFF at $E000-$FFFF in ultimax mode.
-	 */
+    /*
+     * CARTRIDGE_EXPERT: Mirror $8000-$9FFF at $E000-$FFFF in ultimax mode.
+     */
     if ((mem_cartridge_type == CARTRIDGE_EXPERT) || export_ram_at_a000)
         return export_ram0[addr & 0x1fff];
     else if (mem_cartridge_type == CARTRIDGE_OCEAN)
@@ -539,20 +534,22 @@ void cartridge_init_config(void)
         cartridge_config_changed(0);
         /* FIXME: Insert interface init here.  */
         break;
-	  case CARTRIDGE_EXPERT:
-		/*
-		 * Initialize nmi/reset trap functions.
-		 */
-		interrupt_set_nmi_trap_func(&maincpu_int_status, cartridge_ack_nmi_reset);
-		interrupt_set_reset_trap_func(&maincpu_int_status, cartridge_ack_nmi_reset);
+      case CARTRIDGE_EXPERT:
+        /*
+         * Initialize nmi/reset trap functions.
+         */
+        interrupt_set_nmi_trap_func(&maincpu_int_status,
+                                    cartridge_ack_nmi_reset);
+        interrupt_set_reset_trap_func(&maincpu_int_status,
+                                      cartridge_ack_nmi_reset);
 
-		/*
-		 * Set the nmi/reset trigger (= cartridge enabled).
-		 */
-		enable_trigger = 1;
-		ramconfig = (1 << 1);       /* Disable ~EXROM */
-		cartridge_config_changed(ramconfig);
-		break;
+        /*
+         * Set the nmi/reset trigger (= cartridge enabled).
+         */
+        enable_trigger = 1;
+        ramconfig = (1 << 1);       /* Disable ~EXROM */
+        cartridge_config_changed(ramconfig);
+        break;
     }
 }
 
@@ -684,19 +681,17 @@ void cartridge_freeze(int type)
 
 void cartridge_ack_nmi_reset(void)
 {
-	if (mem_cartridge_type == CARTRIDGE_EXPERT)
-		{
-		switch (cartmode)
-			{
-			case CARTRIDGE_MODE_PRG:
-			case CARTRIDGE_MODE_OFF:
-				break;
+    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
+        switch (cartmode) {
+          case CARTRIDGE_MODE_PRG:
+          case CARTRIDGE_MODE_OFF:
+            break;
 
-			case CARTRIDGE_MODE_ON:
-				enable_trigger = 1;
-				break;
-			}
-		}
+          case CARTRIDGE_MODE_ON:
+            enable_trigger = 1;
+            break;
+        }
+    }
 }
 
 /*
@@ -707,126 +702,119 @@ int cartridge_save_image(const char * filename)
     FILE *fd;
     BYTE header[0x40], chipheader[0x10];
 
-	fd = fopen(filename, MODE_WRITE);
-	if (!fd)
-		{
-		return -1;
-		}
+    fd = fopen(filename, MODE_WRITE);
+    if (!fd)
+        return -1;
 
-	/*
-	 * Initialize headers to zero.
-	 */
-	memset(header, 0x0, 0x40);
-	memset(chipheader, 0x0, 0x10);
+    /*
+     * Initialize headers to zero.
+     */
+    memset(header, 0x0, 0x40);
+    memset(chipheader, 0x0, 0x10);
 
-	/*
-	 * Construct CRT header.
-	 */
-	strcpy(header, CRT_HEADER);
+    /*
+     * Construct CRT header.
+     */
+    strcpy(header, CRT_HEADER);
 
-	/*
-	 * fileheader-length (= 0x0040)
-	 */
-	header[0x10] = 0x00;
-	header[0x11] = 0x00;
-	header[0x12] = 0x00;
-	header[0x13] = 0x40;
+    /*
+     * fileheader-length (= 0x0040)
+     */
+    header[0x10] = 0x00;
+    header[0x11] = 0x00;
+    header[0x12] = 0x00;
+    header[0x13] = 0x40;
 
-	/*
-	 * Version (= 0x0100)
-	 */
-	header[0x14] = 0x01;
-	header[0x15] = 0x00;
+    /*
+     * Version (= 0x0100)
+     */
+    header[0x14] = 0x01;
+    header[0x15] = 0x00;
 
-	/*
-	 * Hardware type (= CARTRIDGE_EXPERT)
-	 */
-	header[0x16] = 0x00;
-	header[0x17] = CARTRIDGE_EXPERT;
+    /*
+     * Hardware type (= CARTRIDGE_EXPERT)
+     */
+    header[0x16] = 0x00;
+    header[0x17] = CARTRIDGE_EXPERT;
 
-	/*
-	 * Exrom line
-	 */
-	header[0x18] = 0x01;		/* ? */
+    /*
+     * Exrom line
+     */
+    header[0x18] = 0x01;            /* ? */
 
-	/*
-	 * Game line
-	 */
-	header[0x19] = 0x01;		/* ? */
+    /*
+     * Game line
+     */
+    header[0x19] = 0x01;            /* ? */
 
-	/*
-	 * Set name.
-	 */
-	strcpy(&header[0x20], STRING_EXPERT);
+    /*
+     * Set name.
+     */
+    strcpy(&header[0x20], STRING_EXPERT);
 
-	/*
-	 * Write CRT header.
-	 */
-	if (fwrite(header, sizeof(BYTE), 0x40, fd) != 0x40)
-		{
-		fclose(fd);
+    /*
+     * Write CRT header.
+     */
+    if (fwrite(header, sizeof(BYTE), 0x40, fd) != 0x40) {
+        fclose(fd);
+        return -1;
+    }
 
-		return -1;
-		}
+    /*
+     * Construct chip packet.
+     */
+    strcpy(chipheader, CHIP_HEADER);
 
-	/*
-	 * Construct chip packet.
-	 */
-	strcpy(chipheader, CHIP_HEADER);
+    /*
+     * Packet length. (= 0x2010; 0x10 + 0x2000)
+     */
+    chipheader[0x04] = 0x00;
+    chipheader[0x05] = 0x00;
+    chipheader[0x06] = 0x20;
+    chipheader[0x07] = 0x10;
 
-	/*
-	 * Packet length. (= 0x2010; 0x10 + 0x2000)
-	 */
-	chipheader[0x04] = 0x00;
-	chipheader[0x05] = 0x00;
-	chipheader[0x06] = 0x20;
-	chipheader[0x07] = 0x10;
+    /*
+     * Chip type. (= FlashROM?)
+     */
+    chipheader[0x08] = 0x00;
+    chipheader[0x09] = 0x02;
 
-	/*
-	 * Chip type. (= FlashROM?)
-	 */
-	chipheader[0x08] = 0x00;
-	chipheader[0x09] = 0x02;
+    /*
+     * Bank nr. (= 0)
+     */
+    chipheader[0x0a] = 0x00;
+    chipheader[0x0b] = 0x00;
 
-	/*
-	 * Bank nr. (= 0)
-	 */
-	chipheader[0x0a] = 0x00;
-	chipheader[0x0b] = 0x00;
+    /*
+     * Address. (= 0x8000)
+     */
+    chipheader[0x0c] = 0x80;
+    chipheader[0x0d] = 0x00;
 
-	/*
-	 * Address. (= 0x8000)
-	 */
-	chipheader[0x0c] = 0x80;
-	chipheader[0x0d] = 0x00;
+    /*
+     * Length. (= 0x2000)
+     */
+    chipheader[0x0e] = 0x20;
+    chipheader[0x0f] = 0x00;
 
-	/*
-	 * Length. (= 0x2000)
-	 */
-	chipheader[0x0e] = 0x20;
-	chipheader[0x0f] = 0x00;
+    /*
+     * Write CHIP header.
+     */
+    if (fwrite(chipheader, sizeof(BYTE), 0x10, fd) != 0x10) {
+        fclose(fd);
+        return -1;
+    }
 
-	/*
-	 * Write CHIP header.
-	 */
-	if (fwrite(chipheader, sizeof(BYTE), 0x10, fd) != 0x10)
-		{
-		fclose(fd);
+    /*
+     * Write CHIP packet data.
+     */
+    if (fwrite(export_ram0, sizeof(char), 0x2000, fd) != 0x2000) {
+        fclose(fd);
+        return -1;
+    }
 
-		return -1;
-		}
+    fclose(fd);
 
-	/*
-	 * Write CHIP packet data.
-	 */
-	if (fwrite(export_ram0, sizeof(char), 0x2000, fd) != 0x2000)
-		{
-		fclose(fd);
-
-		return -1;
-		}
-
-	fclose(fd);
-
-	return 0;
+    return 0;
 }
+
