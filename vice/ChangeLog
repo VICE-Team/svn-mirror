@@ -1,3 +1,9 @@
+2004-02-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.5.
+
+	* configure.in: Fixed usleep test.
+
 2004-02-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.4.
