@@ -235,7 +235,8 @@ int machine_init(void)
         return -1;
 
     /* No traps installed on the CBM-II.  */
-    serial_init(NULL);
+    if (serial_init(NULL) < 0)
+        return -1;
 
     /* Initialize drives. */
     file_system_init();

@@ -577,7 +577,7 @@ int parallelreceivebyte(BYTE * data, int fake)
 
 int serial_init(const trap_t *trap_list)
 {
-    int i;
+    unsigned int i;
 
     serial_log = log_open("Serial");
 
@@ -597,14 +597,15 @@ int serial_init(const trap_t *trap_list)
         p = &serialdevices[i];
 
         p->inuse = 0;
-        p->getf = (int (*)(vdrive_t *, BYTE *, unsigned int)) fn;
-        p->putf = (int (*)(vdrive_t *, BYTE, unsigned int)) fn;
-        p->openf = (int (*)(vdrive_t *, const char *, int, unsigned int)) fn;
-        p->closef = (int (*)(vdrive_t *, unsigned int)) fn;
-        p->flushf = (void (*)(vdrive_t *, unsigned int)) NULL;
+        p->getf = (int (*)(vdrive_t *, BYTE *, unsigned int))fn;
+        p->putf = (int (*)(vdrive_t *, BYTE, unsigned int))fn;
+        p->openf = (int (*)(vdrive_t *, const char *, int, unsigned int))fn;
+        p->closef = (int (*)(vdrive_t *, unsigned int))fn;
+        p->flushf = (void (*)(vdrive_t *, unsigned int))NULL;
     }
 
-    printer_interface_serial_late_init();
+    if (printer_interface_serial_late_init() < 0)
+        return -1;
 
     return 0;
 }

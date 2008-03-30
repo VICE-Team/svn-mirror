@@ -240,7 +240,8 @@ int machine_init(void)
     log_message(pet_log, "Initializing IEEE488 bus...");
 
     /* No traps installed on the PET.  */
-    serial_init(NULL);
+    if (serial_init(NULL) < 0)
+        return -1;
 
     /* Initialize drives. */
     file_system_init();
