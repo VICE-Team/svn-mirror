@@ -149,7 +149,7 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDD_C128_MACHINE_SETTINGS_DIALOG,
 /* de */  IDD_C128_MACHINE_SETTINGS_DIALOG_DE,    /* size */
 /* fr */  IDD_C128_MACHINE_SETTINGS_DIALOG_FR,    /* size */
-/* hu */  IDD_C128_MACHINE_SETTINGS_DIALOG_HU,    /* fuzzy, size */
+/* hu */  IDD_C128_MACHINE_SETTINGS_DIALOG_HU,    /* size */
 /* it */  IDD_C128_MACHINE_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_C128_MACHINE_SETTINGS_DIALOG_NL,
 /* pl */  IDD_C128_MACHINE_SETTINGS_DIALOG_PL,    /* fuzzy, size */
@@ -484,6 +484,16 @@ static int intl_table[][countof(language_table)] = {
 /* nl */  IDD_DRIVE_SETTINGS_DIALOG_PLUS4_NL,
 /* pl */  IDD_DRIVE_SETTINGS_DIALOG_PLUS4_PL,    /* fuzzy, size */
 /* sv */  IDD_DRIVE_SETTINGS_DIALOG_PLUS4_SV},   /* size */
+
+/* resmmc64.rc */
+/* en */ {IDD_MMC64_SETTINGS_DIALOG,
+/* de */  IDD_MMC64_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_MMC64_SETTINGS_DIALOG_FR,    /* fuzzy, size */
+/* hu */  IDD_MMC64_SETTINGS_DIALOG_HU,    /* fuzzy, size */
+/* it */  IDD_MMC64_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_MMC64_SETTINGS_DIALOG_NL,    /* size */
+/* pl */  IDD_MMC64_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_MMC64_SETTINGS_DIALOG_SV},   /* fuzzy, size */
 
 /* resplus4.rc */
 /* en */ {IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG,
@@ -837,7 +847,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_VICE_ERROR,
 /* de */  IDS_VICE_ERROR_DE,
 /* fr */  IDS_VICE_ERROR_FR,
-/* hu */  IDS_VICE_ERROR_HU,    /* fuzzy */
+/* hu */  IDS_VICE_ERROR_HU,
 /* it */  IDS_VICE_ERROR_IT,
 /* nl */  IDS_VICE_ERROR_NL,
 /* pl */  IDS_VICE_ERROR_PL,    /* fuzzy */
@@ -847,7 +857,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_VICE_INFORMATION,
 /* de */  IDS_VICE_INFORMATION_DE,
 /* fr */  IDS_VICE_INFORMATION_FR,
-/* hu */  IDS_VICE_INFORMATION_HU,    /* fuzzy */
+/* hu */  IDS_VICE_INFORMATION_HU,
 /* it */  IDS_VICE_INFORMATION_IT,
 /* nl */  IDS_VICE_INFORMATION_NL,
 /* pl */  IDS_VICE_INFORMATION_PL,    /* fuzzy */
@@ -887,7 +897,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_CANNOT_SAVE_SETTINGS,
 /* de */  IDS_CANNOT_SAVE_SETTINGS_DE,
 /* fr */  IDS_CANNOT_SAVE_SETTINGS_FR,
-/* hu */  IDS_CANNOT_SAVE_SETTINGS_HU,    /* fuzzy */
+/* hu */  IDS_CANNOT_SAVE_SETTINGS_HU,
 /* it */  IDS_CANNOT_SAVE_SETTINGS_IT,
 /* nl */  IDS_CANNOT_SAVE_SETTINGS_NL,
 /* pl */  IDS_CANNOT_SAVE_SETTINGS_PL,    /* fuzzy */
@@ -1057,7 +1067,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_SETTINGS_SAVED_SUCCESS,
 /* de */  IDS_SETTINGS_SAVED_SUCCESS_DE,
 /* fr */  IDS_SETTINGS_SAVED_SUCCESS_FR,
-/* hu */  IDS_SETTINGS_SAVED_SUCCESS_HU,    /* fuzzy */
+/* hu */  IDS_SETTINGS_SAVED_SUCCESS_HU,
 /* it */  IDS_SETTINGS_SAVED_SUCCESS_IT,
 /* nl */  IDS_SETTINGS_SAVED_SUCCESS_NL,
 /* pl */  IDS_SETTINGS_SAVED_SUCCESS_PL,    /* fuzzy */
@@ -1127,7 +1137,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_INVALID_CARTRIDGE_IMAGE,
 /* de */  IDS_INVALID_CARTRIDGE_IMAGE_DE,
 /* fr */  IDS_INVALID_CARTRIDGE_IMAGE_FR,
-/* hu */  IDS_INVALID_CARTRIDGE_IMAGE_HU,    /* fuzzy */
+/* hu */  IDS_INVALID_CARTRIDGE_IMAGE_HU,
 /* it */  IDS_INVALID_CARTRIDGE_IMAGE_IT,
 /* nl */  IDS_INVALID_CARTRIDGE_IMAGE_NL,
 /* pl */  IDS_INVALID_CARTRIDGE_IMAGE_PL,    /* fuzzy */
@@ -1247,7 +1257,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_KEYBOARD_SETTINGS,
 /* de */  IDS_KEYBOARD_SETTINGS_DE,
 /* fr */  IDS_KEYBOARD_SETTINGS_FR,
-/* hu */  IDS_KEYBOARD_SETTINGS_HU,    /* fuzzy */
+/* hu */  IDS_KEYBOARD_SETTINGS_HU,
 /* it */  IDS_KEYBOARD_SETTINGS_IT,
 /* nl */  IDS_KEYBOARD_SETTINGS_NL,
 /* pl */  IDS_KEYBOARD_SETTINGS_PL,    /* fuzzy */
@@ -1557,7 +1567,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_ROM_SETTINGS,
 /* de */  IDS_ROM_SETTINGS_DE,
 /* fr */  IDS_ROM_SETTINGS_FR,
-/* hu */  IDS_ROM_SETTINGS_HU,    /* fuzzy */
+/* hu */  IDS_ROM_SETTINGS_HU,
 /* it */  IDS_ROM_SETTINGS_IT,
 /* nl */  IDS_ROM_SETTINGS_NL,
 /* pl */  IDS_ROM_SETTINGS_PL,    /* fuzzy */
@@ -1689,7 +1699,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_MACHINE_TYPE,
 /* de */  IDS_MACHINE_TYPE_DE,
 /* fr */  IDS_MACHINE_TYPE_FR,
-/* hu */  IDS_MACHINE_TYPE_HU,    /* fuzzy */
+/* hu */  IDS_MACHINE_TYPE_HU,
 /* it */  IDS_MACHINE_TYPE_IT,
 /* nl */  IDS_MACHINE_TYPE_NL,
 /* pl */  IDS_MACHINE_TYPE_PL,    /* fuzzy */
@@ -1719,7 +1729,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_ATTACH_CRT_CART_IMAGE,
 /* de */  IDS_ATTACH_CRT_CART_IMAGE_DE,
 /* fr */  IDS_ATTACH_CRT_CART_IMAGE_FR,
-/* hu */  IDS_ATTACH_CRT_CART_IMAGE_HU,    /* fuzzy */
+/* hu */  IDS_ATTACH_CRT_CART_IMAGE_HU,
 /* it */  IDS_ATTACH_CRT_CART_IMAGE_IT,
 /* nl */  IDS_ATTACH_CRT_CART_IMAGE_NL,
 /* pl */  IDS_ATTACH_CRT_CART_IMAGE_PL,    /* fuzzy */
@@ -2051,7 +2061,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_LICENSE,
 /* de */  IDS_LICENSE_DE,
 /* fr */  IDS_LICENSE_FR,
-/* hu */  IDS_LICENSE_HU,    /* fuzzy */
+/* hu */  IDS_LICENSE_HU,
 /* it */  IDS_LICENSE_IT,
 /* nl */  IDS_LICENSE_NL,
 /* pl */  IDS_LICENSE_PL,    /* fuzzy */
@@ -2061,7 +2071,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_NO_WARRANTY,
 /* de */  IDS_NO_WARRANTY_DE,
 /* fr */  IDS_NO_WARRANTY_FR,
-/* hu */  IDS_NO_WARRANTY_HU,    /* fuzzy */
+/* hu */  IDS_NO_WARRANTY_HU,
 /* it */  IDS_NO_WARRANTY_IT,
 /* nl */  IDS_NO_WARRANTY_NL,
 /* pl */  IDS_NO_WARRANTY_PL,    /* fuzzy */
@@ -2541,7 +2551,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_P_NUMBER,
 /* de */  IDS_P_NUMBER_DE,
 /* fr */  IDS_P_NUMBER_FR,
-/* hu */  IDS_P_NUMBER_HU,    /* fuzzy */
+/* hu */  IDS_P_NUMBER_HU,
 /* it */  IDS_P_NUMBER_IT,
 /* nl */  IDS_P_NUMBER_NL,
 /* pl */  IDS_P_NUMBER_PL,    /* fuzzy */
@@ -2571,7 +2581,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_SAVE_SETTINGS_ON_EXIT,
 /* de */  IDS_SAVE_SETTINGS_ON_EXIT_DE,
 /* fr */  IDS_SAVE_SETTINGS_ON_EXIT_FR,
-/* hu */  IDS_SAVE_SETTINGS_ON_EXIT_HU,    /* fuzzy */
+/* hu */  IDS_SAVE_SETTINGS_ON_EXIT_HU,
 /* it */  IDS_SAVE_SETTINGS_ON_EXIT_IT,
 /* nl */  IDS_SAVE_SETTINGS_ON_EXIT_NL,
 /* pl */  IDS_SAVE_SETTINGS_ON_EXIT_PL,    /* fuzzy */
@@ -2581,7 +2591,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_NO_SAVE_SETTINGS_ON_EXIT,
 /* de */  IDS_NO_SAVE_SETTINGS_ON_EXIT_DE,
 /* fr */  IDS_NO_SAVE_SETTINGS_ON_EXIT_FR,
-/* hu */  IDS_NO_SAVE_SETTINGS_ON_EXIT_HU,    /* fuzzy */
+/* hu */  IDS_NO_SAVE_SETTINGS_ON_EXIT_HU,
 /* it */  IDS_NO_SAVE_SETTINGS_ON_EXIT_IT,
 /* nl */  IDS_NO_SAVE_SETTINGS_ON_EXIT_NL,
 /* pl */  IDS_NO_SAVE_SETTINGS_ON_EXIT_PL,    /* fuzzy */
@@ -2591,7 +2601,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_CONFIRM_QUIT_VICE,
 /* de */  IDS_CONFIRM_QUIT_VICE_DE,
 /* fr */  IDS_CONFIRM_QUIT_VICE_FR,
-/* hu */  IDS_CONFIRM_QUIT_VICE_HU,    /* fuzzy */
+/* hu */  IDS_CONFIRM_QUIT_VICE_HU,
 /* it */  IDS_CONFIRM_QUIT_VICE_IT,
 /* nl */  IDS_CONFIRM_QUIT_VICE_NL,
 /* pl */  IDS_CONFIRM_QUIT_VICE_PL,    /* fuzzy */
@@ -2601,7 +2611,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_NO_CONFIRM_QUIT_VICE,
 /* de */  IDS_NO_CONFIRM_QUIT_VICE_DE,
 /* fr */  IDS_NO_CONFIRM_QUIT_VICE_FR,
-/* hu */  IDS_NO_CONFIRM_QUIT_VICE_HU,    /* fuzzy */
+/* hu */  IDS_NO_CONFIRM_QUIT_VICE_HU,
 /* it */  IDS_NO_CONFIRM_QUIT_VICE_IT,
 /* nl */  IDS_NO_CONFIRM_QUIT_VICE_NL,
 /* pl */  IDS_NO_CONFIRM_QUIT_VICE_PL,    /* fuzzy */
@@ -2664,7 +2674,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_IDLE,
 /* de */  IDS_IDLE_DE,
 /* fr */  IDS_IDLE_FR,    /* fuzzy */
-/* hu */  IDS_IDLE_HU,    /* fuzzy */
+/* hu */  IDS_IDLE_HU,
 /* it */  IDS_IDLE_IT,
 /* nl */  IDS_IDLE_NL,
 /* pl */  IDS_IDLE_PL,    /* fuzzy */
@@ -2674,7 +2684,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_SERVER_LISTENING,
 /* de */  IDS_SERVER_LISTENING_DE,
 /* fr */  IDS_SERVER_LISTENING_FR,    /* fuzzy */
-/* hu */  IDS_SERVER_LISTENING_HU,    /* fuzzy */
+/* hu */  IDS_SERVER_LISTENING_HU,
 /* it */  IDS_SERVER_LISTENING_IT,
 /* nl */  IDS_SERVER_LISTENING_NL,
 /* pl */  IDS_SERVER_LISTENING_PL,    /* fuzzy */
@@ -2694,7 +2704,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_CONNECTED_CLIENT,
 /* de */  IDS_CONNECTED_CLIENT_DE,
 /* fr */  IDS_CONNECTED_CLIENT_FR,    /* fuzzy */
-/* hu */  IDS_CONNECTED_CLIENT_HU,    /* fuzzy */
+/* hu */  IDS_CONNECTED_CLIENT_HU,
 /* it */  IDS_CONNECTED_CLIENT_IT,
 /* nl */  IDS_CONNECTED_CLIENT_NL,
 /* pl */  IDS_CONNECTED_CLIENT_PL,    /* fuzzy */

@@ -62,7 +62,9 @@ BEGIN
     END
 END
 
+#ifndef MSVC_RC
 1 RT_MANIFEST "vice.manifest"
+#endif
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1013,7 +1015,7 @@ BEGIN
     COMBOBOX        IDC_DATASETTE_ZERO_GAP_DELAY,9,61,48,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 90,90,50,14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -1246,7 +1248,7 @@ END
 #pragma code_page(28592)
 IDD_JOY_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystick settings"
+CAPTION "Botkormány beállítása"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick in port #&1",IDC_STATIC,7,5,102,113
@@ -1282,7 +1284,7 @@ BEGIN
     PUSHBUTTON      "&Calibrate Joystick(s)", IDC_JOY_CALIBRATE,
                     78,120,70,14, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 129,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 129,141,50,14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -1579,7 +1581,7 @@ BEGIN
     PUSHBUTTON      "&Fire button",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
     LTEXT           "",IDC_KEY_FIRE,80,152,100,8
     DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 70,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 70,170,50,14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -1820,7 +1822,7 @@ BEGIN
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 95,80,50,14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 95,80,50,14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -3077,20 +3079,20 @@ BEGIN
 END
 
 
-// HUNGARIEN version of dialog
+// HUNGARIAN version of dialog
 
 #pragma code_page(28592)
 IDD_VIDEO_COLORS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Saturation",IDC_STATIC,12,12,40,8
+    LTEXT           "Telítettség",IDC_STATIC,12,12,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
     EDITTEXT        IDC_VIDEO_COLORS_SAT, 85,10,32,12,WS_TABSTOP
-    LTEXT           "Contrast",IDC_STATIC,12,24,40,8
+    LTEXT           "Kontraszt",IDC_STATIC,12,24,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
     EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
-    LTEXT           "Brightness",IDC_STATIC,12,36,40,8
+    LTEXT           "Fényesség",IDC_STATIC,12,36,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
     EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
 END
@@ -3623,7 +3625,7 @@ BEGIN
     EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
                     ES_READONLY
     DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 90,187,50,14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -3788,7 +3790,7 @@ BEGIN
     EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 85,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 85,35,50,14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -4459,7 +4461,7 @@ BEGIN
     EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 95,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 95,35,50,14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -4604,7 +4606,7 @@ BEGIN
     LTEXT           "RS232 device 4",IDC_STATIC, 9,68,60,8
     EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 90,100,50,14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -4835,41 +4837,41 @@ END
 #pragma code_page(28592)
 IDD_NETWORK_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 260, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Netplay Settings"
+CAPTION "Hálózati játék beállítások"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
     EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
     LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
     EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
-    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
+    PUSHBUTTON      "Kiszolgáló indítása", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
     PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,50,14,WS_TABSTOP
     EDITTEXT        IDC_NETWORK_SERVERNAME, 65,55,70,12,WS_TABSTOP
-    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
-    GROUPBOX        "Control",IDC_STATIC,140,5,115,100
-    LTEXT           "Server", IDC_STATIC, 195,15,25,10
-    LTEXT           "Client", IDC_STATIC, 225,15,25,10
-    LTEXT           "Keyboard", IDC_STATIC, 150,30,45,10
+    PUSHBUTTON      "Szétkapcsolódás", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
+    GROUPBOX        "Vezérlõ",IDC_STATIC,140,5,115,100
+    LTEXT           "Kiszolgáló", IDC_STATIC, 195,15,25,10
+    LTEXT           "Kliens", IDC_STATIC, 225,15,25,10
+    LTEXT           "Billentyûzet", IDC_STATIC, 150,30,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_KEYB_SERVER,200,30,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_KEYB_CLIENT,230,30,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "Joystick 1", IDC_STATIC, 150,42,45,10
+    LTEXT           "Botkormány 1", IDC_STATIC, 150,42,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_JOY1_SERVER,200,42,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_JOY1_CLIENT,230,42,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "Joystick 2", IDC_STATIC, 150,54,45,10
+    LTEXT           "Botkormány 2", IDC_STATIC, 150,54,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_JOY2_SERVER,200,54,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_JOY2_CLIENT,230,54,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "Devices", IDC_STATIC, 150,66,45,10
+    LTEXT           "Eszközök", IDC_STATIC, 150,66,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_DEVC_SERVER,200,66,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_DEVC_CLIENT,230,66,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "Settings", IDC_STATIC, 150,78,45,10
+    LTEXT           "Beállítások", IDC_STATIC, 150,78,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_RSRC_SERVER,200,78,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_RSRC_CLIENT,230,78,10,10,
@@ -5655,12 +5657,12 @@ END
 #pragma code_page(28592)
 STRINGTABLE
 BEGIN
-  IDS_VICE_ERROR_HU                  "VICE Error!"
-  IDS_VICE_INFORMATION_HU            "VICE Information"
+  IDS_VICE_ERROR_HU                  "VICE hiba!"
+  IDS_VICE_INFORMATION_HU            "VICE információ"
   IDS_VICE_QUESTION_HU               "VICE question"
   IDS_FFMPEG_DLL_MISMATCH_HU         "Your ffmpeg dll version doesn't match."
   IDS_DIRECTDRAW_ERROR_HU            "DirectDraw error: Code:%8x Error:%s"
-  IDS_CANNOT_SAVE_SETTINGS_HU        "Cannot save settings."
+  IDS_CANNOT_SAVE_SETTINGS_HU        "A mentés nem sikerült."
   IDS_CANNOT_LOAD_SETTINGS_HU        "Cannot load settings."
   IDS_DEFAULT_SETTINGS_RESTORED_HU   "Default settings restored."
   IDS_CANNOT_ATTACH_FILE_HU          "Cannot attach specified file"
@@ -5677,14 +5679,14 @@ BEGIN
   IDS_REALLY_EXIT_HU                 "Do you really want to exit?\012\012All the data present in the emulated RAM will be lost."
   IDS_CANNOT_AUTOSTART_FILE_HU       "Cannot autostart specified file."
   IDS_ATTACHED_TAPE_S_HU             "Attached tape %s"
-  IDS_SETTINGS_SAVED_SUCCESS_HU      "Settings saved successfully."
+  IDS_SETTINGS_SAVED_SUCCESS_HU      "Beállítások sikeresen elmentve"
   IDS_SETTINGS_LOADED_SUCCESS_HU     "Settings loaded successfully."
   IDS_ATTACH_DISK_IMAGE_HU           "Attach disk image"
   IDS_ATTACH_TAPE_IMAGE_HU           "Attach tape image"
   IDS_AUTOSTART_IMAGE_HU             "Autostart disk/tape image"
   IDS_INVALID_CARTRIDGE_HU           "Invalid cartridge"
   IDS_BAD_CARTRIDGE_CONFIG_HU        "Bad cartridge config in UI!"
-  IDS_INVALID_CARTRIDGE_IMAGE_HU     "Invalid cartridge image"
+  IDS_INVALID_CARTRIDGE_IMAGE_HU     "Érvénytelen cartridge képmás"
   IDS_LOG_CONSOLE_OUTPUT_IMAGE_HU    "Logging console output image"
   IDS_LOG_FILES_TYPE_HU              "VICE console logging files (*.dbg)"
   IDS_CANNOT_WRITE_LOGFILE_S_HU      "Cannot write log file `%s'."
@@ -5696,7 +5698,7 @@ BEGIN
   IDS_SAVE_KEYMAP_FILE_HU            "Save keymap file"
   IDS_CANNOT_WRITE_KEYMAP_FILE_HU    "Cannot write keymap file"
   IDS_MAPPING_HU                     "Mapping"
-  IDS_KEYBOARD_SETTINGS_HU           "Keyboard settings"
+  IDS_KEYBOARD_SETTINGS_HU           "Billentyûzet beállítása"
   IDS_ATTACH_HU                      "&Attach"
   IDS_PLEASE_ENTER_A_FILENAME_HU     "Please enter a filename."
   IDS_OVERWRITE_EXISTING_IMAGE_HU    "Overwrite existing image?"
@@ -5727,7 +5729,7 @@ BEGIN
   IDS_ROMSET_HU                      "Romset"
   IDS_COMPUTER_HU                    "Computer"
   IDS_DRIVE_HU                       "Drive"
-  IDS_ROM_SETTINGS_HU                "ROM settings"
+  IDS_ROM_SETTINGS_HU                "ROM-ok beállítása"
   IDS_SAVE_SNAPSHOT_IMAGE_HU         "Save snapshot image"
   IDS_CANNOT_WRITE_SNAPSHOT_S_HU     "Cannot write snapshot file `%s'."
   IDS_LOAD_SNAPSHOT_IMAGE_HU         "Load snapshot image"
@@ -5741,7 +5743,7 @@ BEGIN
   IDS_REAL_IEC_DEVICE_HU             "Real IEC device"
 #endif
   IDS_RS232_DEVICE_I_HU              "RS232 device %i"
-  IDS_ATTACH_CRT_CART_IMAGE_HU       "Attach CRT cartridge image"
+  IDS_ATTACH_CRT_CART_IMAGE_HU       "CRT cartridge képmás csatolása"
   IDS_ATTACH_RAW_8KB_CART_IMAGE_HU   "Attach raw 8KB cartridge image"
   IDS_ATTACH_RAW_16KB_CART_IMG_HU    "Attach raw 16KB cartridge image"
   IDS_ATTACH_AR_CART_IMAGE_HU        "Attach Action Replay cartridge image"
@@ -5764,8 +5766,8 @@ BEGIN
 #endif
   IDS_VICE_CONTRIBUTORS_HU           "VICE contributors"
   IDS_WHO_MADE_WHAT_HU               "Who made what?"
-  IDS_LICENSE_HU                     "License"
-  IDS_NO_WARRANTY_HU                 "No warranty!"
+  IDS_LICENSE_HU                     "Licensz"
+  IDS_NO_WARRANTY_HU                 "Nincs garancia!"
   IDS_VICE_WITHOUT_WARRANTY_HU       "VICE is distributed WITHOUT ANY WARRANTY!"
   IDS_PRESS_KEY_NORTHWEST_HU         "Press key for NorthWest"
   IDS_PRESS_KEY_NORTH_HU             "Press key for North"
@@ -5810,13 +5812,13 @@ BEGIN
   IDS_RECORDING_HU                   "Recording\n%02d:%02d"
   IDS_PLAYBACK_HU                    "Playback\n%02d:%02d (%02d:%02d)"
   IDS_UNKNOWN_HU                     "Unknown"
-  IDS_P_NUMBER_HU                    "<number>"
+  IDS_P_NUMBER_HU                    "<szám>"
   IDS_SET_INPUT_JOYSTICK_1_HU        "Set input device for joystick #1"
   IDS_SET_INPUT_JOYSTICK_2_HU        "Set input device for joystick #2"
-  IDS_SAVE_SETTINGS_ON_EXIT_HU       "Save settings (resources) on exit"
-  IDS_NO_SAVE_SETTINGS_ON_EXIT_HU    "Never save settings (resources) on exit"
-  IDS_CONFIRM_QUIT_VICE_HU           "Confirm quiting VICE"
-  IDS_NO_CONFIRM_QUIT_VICE_HU        "Never confirm quiting VICE"
+  IDS_SAVE_SETTINGS_ON_EXIT_HU       "Erõforrásbeállítások mentése kilépéskor"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT_HU    "Sose mentse az erõforrásbeállításokat kilépéskor"
+  IDS_CONFIRM_QUIT_VICE_HU           "Megerõsítés kilépés elõtt"
+  IDS_NO_CONFIRM_QUIT_VICE_HU        "Sosem kér megerõsítést kilépés elõtt"
   IDS_USE_ALL_CPU_SMP_HU             "Use all CPU on SMP systems"
   IDS_USE_FIRST_CPU_SMP_HU           "Use only first CPU on SMP systems"
   IDS_START_VICE_FULLSCREEN_MODE_HU  "Start VICE in fullscreen mode"
@@ -5826,10 +5828,10 @@ BEGIN
   IDS_RECEIVED_SIGNAL_D_HU           "An unexpected error occured. Received signal %d."
 #endif
 #ifdef HAVE_NETWORK
-  IDS_IDLE_HU                        "Idle"
-  IDS_SERVER_LISTENING_HU            "Server listening"
-  IDS_CONNECTED_SERVER_HU            "Connected server"
-  IDS_CONNECTED_CLIENT_HU            "Connected Client"
+  IDS_IDLE_HU                        "Tétlen"
+  IDS_SERVER_LISTENING_HU            "Várakozás kliensre"
+  IDS_CONNECTED_SERVER_HU            "Kiszolgáló a kapcsolatban"
+  IDS_CONNECTED_CLIENT_HU            "Kliens a kapcsolatban"
   IDS_INVALID_PORT_NUMBER_HU         "Invalid port number"
   IDS_ERROR_STARTING_SERVER_HU       "An error occured starting the server."
   IDS_ERROR_CONNECTING_CLIENT_HU     "An error occured connecting the client."
@@ -5840,7 +5842,7 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_OK                          "OK"
-    IDS_CANCEL                      "Cancel"
+    IDS_CANCEL                      "Mégsem"
     IDS_NONE                        "None"
     IDS_BROWSE                      "&Browse..."
 END

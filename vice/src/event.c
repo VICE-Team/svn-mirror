@@ -214,7 +214,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
 
         if (fd == NULL) {
 #ifdef HAS_TRANSLATION
-            ui_error(translate_text(IDGS_CANNOT_CREATE_IMAGE_S), filename);
+            ui_error(translate_text(IDGS_CANNOT_CREATE_IMAGE), filename);
 #else
             ui_error(_("Cannot create image file!"));
 #endif

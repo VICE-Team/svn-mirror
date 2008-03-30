@@ -157,7 +157,7 @@ LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
   IDS_GENERAL               "General"
-  IDS_SID_SETTINGS          "SID settings"
+  IDS_SID_SETTINGS          "SID beállítása"
   IDS_FAST                  "fast"
   IDS_INTERPOLATING         "interpolating"
   IDS_RESAMPLING            "resampling"

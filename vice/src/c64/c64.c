@@ -68,6 +68,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mmc64.h"
 #include "monitor.h"
 #include "network.h"
 #include "parallel.h"
@@ -251,6 +252,7 @@ int machine_resources_init(void)
         || plus60k_resources_init() < 0
         || plus256k_resources_init() < 0
         || c64_256k_resources_init() < 0
+        || mmc64_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
@@ -292,6 +294,7 @@ void machine_resources_shutdown(void)
     plus60k_resources_shutdown();
     plus256k_resources_shutdown();
     c64_256k_resources_shutdown();
+    mmc64_resources_shutdown();
     sound_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
@@ -322,6 +325,7 @@ int machine_cmdline_options_init(void)
         || plus60k_cmdline_options_init() < 0
         || plus256k_cmdline_options_init() < 0
         || c64_256k_cmdline_options_init() < 0
+        || mmc64_cmdline_options_init() < 0
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
 #endif
@@ -489,6 +493,9 @@ int machine_specific_init(void)
         /* Initialize the C64 256K.  */
         c64_256k_init();
 
+        /* Initialize the C64 256K.  */
+        mmc64_init();
+
 #ifdef HAVE_TFE
         /* Initialize the TFE.  */
         tfe_init();
@@ -549,6 +556,7 @@ void machine_specific_reset(void)
     plus60k_reset();
     plus256k_reset();
     c64_256k_reset();
+    mmc64_reset();
 }
 
 void machine_specific_powerup(void)
@@ -577,6 +585,7 @@ void machine_specific_shutdown(void)
     plus60k_shutdown();
     plus256k_shutdown();
     c64_256k_shutdown();
+    mmc64_shutdown();
 
 #ifdef HAVE_TFE
     /* Shutdown the TFE.  */

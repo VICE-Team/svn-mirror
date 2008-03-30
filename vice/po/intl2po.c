@@ -186,7 +186,7 @@ void replace_string(char *text, FILE *file)
     fputc('(',file);
     fputc(text[i],file);
 
-    for (j=i+1;text[j]!='"';j++)
+    for (j=i+1;!(text[j]=='"' && (text[j-1]!='\\' || (text[j-1]=='\\' && text[j-2]=='\\')));j++)
     {
       fputc(text[j],file);
     }

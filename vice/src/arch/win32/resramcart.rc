@@ -83,7 +83,7 @@ BEGIN
     IDS_RAMCART_CAPTION         "RAMCART Settings"
     IDS_RAMCART_ENABLE          "&Enable RAMCART"
     IDS_RAMCART_READONLY        "&Read Only"
-    IDS_RAMCART_SIZE            "RAMCART size"
+    IDS_RAMCART_SIZE            "RAMCART mérete"
     IDS_RAMCART_FILE            "RAMCART file"
     IDS_RAMCART_SELECT_FILE     "Select file for RAMCART"
 END

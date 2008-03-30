@@ -7,7 +7,7 @@ IDGS_CANNOT_LOAD_SNAPSHOT_FILE
 IDGS_PLAYBACK_ERROR_DIFFERENT
 
 /* event.c */
-IDGS_CANNOT_CREATE_IMAGE_S
+IDGS_CANNOT_CREATE_IMAGE
 
 /* event.c */
 IDGS_CANNOT_WRITE_IMAGE_FILE_S
@@ -182,7 +182,8 @@ IDCLS_USE_NTSC_SYNC_FACTOR
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
-   c64/c64_256k.c, pet/petreu.c, c64/plus256k.c */
+   c64/c64_256k.c, pet/petreu.c, c64/plus256k.c,
+   c64/mmc64.c */
 IDCLS_P_NAME
 
 /* c128/c128-cmdline-options.c */
@@ -364,6 +365,27 @@ IDCLS_SPECIFY_RAMCART_NAME
 
 /* c64/ramcart.c */
 IDCLS_RAMCART_SIZE
+
+/* c64/mmc64.c */
+IDCLS_ENABLE_MMC64
+
+/* c64/mmc64.c */
+IDCLS_DISABLE_MMC64
+
+/* c64/mmc64.c */
+IDCLS_SPECIFY_MMC64_BIOS_NAME
+
+/* c64/mmc64.c */
+IDCLS_SPECIFY_MMC64_IMAGE_NAME
+
+/* c64/mmc64.c */
+IDCLS_MMC64_READONLY
+
+/* c64/mmc64.c */
+IDCLS_MMC64_READWRITE
+
+/* c64/mmc64.c */
+IDCLS_MMC64_BIOS_WRITE
 
 /* c64/reu.c */
 IDCLS_ENABLE_REU

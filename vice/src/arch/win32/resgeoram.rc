@@ -86,7 +86,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Enable GEORAM",IDC_GEORAM_ENABLE,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "GEORAM size",
+    LTEXT           "GEORAM mérete",
                     IDC_STATIC,9,24,50,8
     COMBOBOX        IDC_GEORAM_SIZE,65,22,50,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
@@ -96,7 +96,7 @@ BEGIN
     EDITTEXT        IDC_GEORAM_FILE, 9,58,160,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 90,90,50,14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
