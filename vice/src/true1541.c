@@ -162,6 +162,10 @@ static int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 static int read_write_mode;
 static int byte_ready_active;
 
+/* If the user does not want to extend the disk image and `ask mode' is
+   selected this flag gets cleared.  */
+static int ask_extend_disk_image;
+
 /* Tick when the disk image was attached.  */
 static CLOCK attach_clk = (CLOCK)0;
 
@@ -178,6 +182,7 @@ static warn_t *true1541_warn;
 
 static void GCR_data_writeback(void);
 static void initialize_rotation(void);
+static void true1541_extend_disk_image(void);
 
 /* ------------------------------------------------------------------------- */
 
@@ -565,6 +570,7 @@ int true1541_attach_floppy(DRIVE *floppy)
     true1541_floppy = floppy;
     have_new_disk = 1;
     attach_clk = true1541_clk;
+    ask_extend_disk_image = 1;
 
     if (setID() >= 0) {
 	read_image_GCR();
@@ -887,13 +893,38 @@ int true1541_write_protect_sense(void)
 
 static void GCR_data_writeback(void)
 {
-    int rc, track, sector;
+    int rc, extend, track, sector;
     BYTE buffer[260], *offset;
 
     track = true1541_current_half_track / 2;
 
-    if (!GCR_dirty_track || (track > true1541_floppy->NumTracks))
+    if (!GCR_dirty_track || (track > EXT_TRACKS_1541))
 	return;
+
+    if (track > true1541_floppy->NumTracks) {
+	switch (app_resources.true1541ExtendImage) {
+	  case TRUE1541_EXTEND_NEVER:
+	    ask_extend_disk_image = 1;
+	    return;
+	  case TRUE1541_EXTEND_ASK:
+	    if (ask_extend_disk_image == 1) {
+		extend = UiExtendImageDialog();
+		if (extend == 0) {
+		    ask_extend_disk_image = 0;
+		    return;
+		} else {
+		    true1541_extend_disk_image();
+		}
+	    } else {
+		return;
+	    }
+	    break;
+	  case TRUE1541_EXTEND_ACCESS:
+	    ask_extend_disk_image = 1;
+	    true1541_extend_disk_image();
+	    break;
+	}
+    }
 
     GCR_dirty_track = 0;
 
@@ -928,6 +959,27 @@ static void GCR_data_writeback(void)
 			"1541: Could not update T:%d S:%d.\n", track, sector);
 		}
 	    }
+	}
+    }
+}
+
+void true1541_extend_disk_image(void)
+{
+    int rc, track, sector;
+    BYTE buffer[256];
+
+    true1541_floppy->NumTracks = EXT_TRACKS_1541;
+    true1541_floppy->NumBlocks = EXT_BLOCKS_1541;
+    memset(buffer, 0, 256);
+    for (track = NUM_TRACKS_1541 + 1; track <= EXT_TRACKS_1541; track++) {
+	for (sector = 0; sector < sector_map[track]; sector++) {
+	    rc = floppy_write_block(true1541_floppy->ActiveFd,
+                            true1541_floppy->ImageFormat,
+                            buffer, track, sector,
+                            true1541_floppy->D64_Header);
+	if (rc < 0)
+	    fprintf(stderr,
+	    "1541: Could not update T:%d S:%d.\n", track, sector);
 	}
     }
 }

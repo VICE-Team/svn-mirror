@@ -165,6 +165,8 @@ static struct resource resources[] = {
 #ifdef CBM64
     { "True1541ParallelCable", &app_resources.true1541ParallelCable, RES_INTEGER, NULL },
 #endif
+    { "True1541ExtendImage", &app_resources.true1541ExtendImage,
+      RES_INTEGER, NULL },
     { "True1541IdleMethod", &app_resources.true1541IdleMethod, RES_INTEGER,
       NULL },
     { "True1541SyncFactor", &app_resources.true1541SyncFactor, RES_INTEGER,
@@ -630,6 +632,7 @@ void resources_set_defaults(void)
 
 #ifdef HAVE_TRUE1541
     app_resources.true1541 = 0;
+    app_resources.true1541ExtendImage = TRUE1541_EXTEND_NEVER;
     app_resources.true1541IdleMethod = TRUE1541_IDLE_TRAP_IDLE;
     app_resources.true1541SyncFactor = TRUE1541_PAL_SYNC_FACTOR;
 #ifdef CBM64

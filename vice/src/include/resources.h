@@ -154,6 +154,7 @@ typedef struct _AppResources {
     int useXSync;
 
     int true1541ParallelCable;
+    int true1541ExtendImage;
 } AppResources;
 
 extern AppResources app_resources;

@@ -76,5 +76,6 @@ extern UiButton UiAskConfirmation(const char *title, const char *text);
 extern void UiAutoRepeatOn(void);
 extern void UiAutoRepeatOff(void);
 extern void UiUpdateMenus(void);
+extern int UiExtendImageDialog(void);
 
 #endif /* !defined (_UI_XAW_H) */

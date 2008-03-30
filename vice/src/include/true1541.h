@@ -90,6 +90,11 @@
 
 #define TRUE1541_ROM_CHECKSUM		1976666
 
+/* Extended disk image handling.  */
+#define TRUE1541_EXTEND_NEVER		0
+#define TRUE1541_EXTEND_ASK		1	
+#define TRUE1541_EXTEND_ACCESS		2
+
 /* 1541 idling methods.  */
 #define TRUE1541_IDLE_SKIP_CYCLES	0
 #define TRUE1541_IDLE_TRAP_IDLE		1

@@ -146,6 +146,8 @@ struct FormatData {
 
 #define NUM_TRACKS_1541		35
 #define NUM_BLOCKS_1541		683	/* 664 free */
+#define EXT_TRACKS_1541 	40
+#define EXT_BLOCKS_1541 	768
 #define MAX_TRACKS_1541		42
 #define MAX_BLOCKS_1541		802
 
