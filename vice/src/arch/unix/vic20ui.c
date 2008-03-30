@@ -34,6 +34,7 @@
 #include "debug.h"
 #include "icon.h"
 #include "joy.h"
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "uicommands.h"
@@ -209,7 +210,7 @@ static UI_CALLBACK(attach_cartridge)
         if (cartridge_attach_image(type, filename) < 0)
             ui_error(_("Invalid cartridge image"));
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         ui_update_menus();
         break;
@@ -218,7 +219,7 @@ static UI_CALLBACK(attach_cartridge)
         break;
     }
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 static UI_CALLBACK(detach_cartridge)

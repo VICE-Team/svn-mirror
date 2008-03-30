@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include <X11/Xlib.h>
@@ -49,6 +50,7 @@
 #include "uicartridge.h"
 
 #include "cartridge.h"
+#include "lib.h"
 #include "machine.h"
 #include "ui.h"
 #include "uiarch.h"
@@ -81,7 +83,7 @@ static UI_CALLBACK(browse_callback)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);
 
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 static UI_CALLBACK(cancel_callback)

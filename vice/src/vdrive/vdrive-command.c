@@ -274,7 +274,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
 
     vdrive_command_set_error(vdrive, status, 0, 0);
 
-    free((char *)p);
+    lib_free((char *)p);
     return status;
 }
 
@@ -579,9 +579,9 @@ static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
         status = IPE_WRITE_ERROR;
 
 out2:
-    free(cmd_parse_src.parsecmd);
+    lib_free(cmd_parse_src.parsecmd);
 out1:
-    free(cmd_parse_dst.parsecmd);
+    lib_free(cmd_parse_dst.parsecmd);
 
     return status;
 }
@@ -640,7 +640,7 @@ static int vdrive_command_scratch(vdrive_t *vdrive, char *name, int length)
         vdrive_command_set_error(vdrive, status, 1, 0);
     }
 
-    free(cmd_parse.parsecmd);
+    lib_free(cmd_parse.parsecmd);
 
     return status;
 }
@@ -790,7 +790,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
 
     if (disk_image_write_sector(vdrive->image, tmp, vdrive->Dir_Track,
         vdrive->Dir_Sector) < 0) {
-        free(name);
+        lib_free(name);
         return IPE_WRITE_ERROR;
     }
 
@@ -800,7 +800,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     /* Validate is called to clear the BAM.  */
     status = vdrive_command_validate(vdrive);
 
-    free(name);
+    lib_free(name);
 
     return status;
 }

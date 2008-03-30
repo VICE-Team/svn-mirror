@@ -41,6 +41,7 @@
 #include "imagecontents.h"
 #include "interrupt.h"
 #include "ioutil.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -93,12 +94,12 @@ static UI_CALLBACK(attach_disk)
     int attach_wp = 0;
 
     vsync_suspend_speed_eval();
-    title = xmsprintf(_("Attach Disk Image as unit #%d"), unit);
+    title = lib_msprintf(_("Attach Disk Image as unit #%d"), unit);
     filename = ui_select_file(title, read_disk_image_contents, unit,
                               unit == 8 ? True : False, last_dir,
                               "*.[gdxGDX]*", &button, True, &attach_wp);
 
-    free(title);
+    lib_free(title);
     if (attach_wp) {
         printf("Write protect attach requested.\n");
         resources_set_sprintf("AttachDevice%dReadonly",
@@ -110,7 +111,7 @@ static UI_CALLBACK(attach_disk)
         if (file_system_attach_disk(unit, filename) < 0)
             ui_error(_("Invalid Disk Image"));
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
@@ -118,7 +119,7 @@ static UI_CALLBACK(attach_disk)
             AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Invalid Disk Image or Filename"));
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -127,7 +128,7 @@ static UI_CALLBACK(attach_disk)
     }
 
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 static UI_CALLBACK(attach_empty_disk)
@@ -186,7 +187,7 @@ static UI_CALLBACK(attach_tape)
         if (tape_image_attach(1, filename) < 0)
             ui_error(_("Invalid Tape Image"));
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
@@ -194,7 +195,7 @@ static UI_CALLBACK(attach_tape)
             AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Invalid Tape Image"));
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -202,7 +203,7 @@ static UI_CALLBACK(attach_tape)
         break;
     }
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 static UI_CALLBACK(detach_tape)
@@ -242,7 +243,7 @@ static UI_CALLBACK(smart_attach)
             ui_error(_("Unknown image type"));
         }
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
@@ -250,7 +251,7 @@ static UI_CALLBACK(smart_attach)
             AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Unknown image type"));
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -258,7 +259,7 @@ static UI_CALLBACK(smart_attach)
         break;
     }
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -266,7 +267,7 @@ static UI_CALLBACK(smart_attach)
 static UI_CALLBACK(change_working_directory)
 {
     char *wd;
-    wd = xmalloc(MAXPATHLEN);
+    wd = lib_malloc(MAXPATHLEN);
 
     ioutil_getcwd(wd, MAXPATHLEN);
     vsync_suspend_speed_eval();
@@ -276,7 +277,7 @@ static UI_CALLBACK(change_working_directory)
         if (ioutil_chdir(wd) < 0)
             ui_error(_("Directory not found"));
     }
-    free(wd);
+    lib_free(wd);
 }
 
 static void mon_trap(WORD addr, void *unused_data)
@@ -458,12 +459,12 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
                               "*.vsf", &button, False, NULL);
         if (button != UI_BUTTON_OK) {
             if (filename)
-                free(filename);
+                lib_free(filename);
             return;
         }
     }
     if (last_dir)
-        free(last_dir);
+        lib_free(last_dir);
     util_fname_split(filename, &last_dir, NULL);
 
     if (machine_read_snapshot(filename, 0) < 0)
@@ -471,7 +472,7 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
     ui_update_menus();
 
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 static UI_CALLBACK(load_snapshot)
@@ -501,7 +502,7 @@ static void save_snapshot_trap(WORD unused_addr, void *data)
         if (machine_write_snapshot(data, 1, 1, 0) < 0) {
             ui_error(_("Cannot write snapshot file\n`%s'\n"), data);
         }
-        free(data);
+        lib_free(data);
     } else {
         ui_snapshot_dialog();
     }
@@ -614,7 +615,7 @@ static UI_CALLBACK(load_save_fliplist)
                         NULL);
     filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vfl",
 			      &button, True, NULL);
-    free (title);
+    lib_free(title);
     switch (button)
     {
     case UI_BUTTON_OK:
@@ -633,7 +634,7 @@ static UI_CALLBACK(load_save_fliplist)
 		ui_error(_("Error writing `%s'."), filename);
 	}
 	if (last_dir)
-	    free(last_dir);
+	    lib_free(last_dir);
 	util_fname_split(filename, &last_dir, NULL);
 	break;
     default:
@@ -672,14 +673,14 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         t0 = t1 = t2 = t3 = t4 = t5 = NULL;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-        t0 = xmsprintf(_("Attach #%d"), drive + 8);
+        t0 = lib_msprintf(_("Attach #%d"), drive + 8);
         flipmenu[drive][i].string = t0;
         flipmenu[drive][i].callback = (ui_callback_t)attach_disk;
         flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
         i++;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-        t5 = xmsprintf(_("Detach #%d"), drive + 8);
+        t5 = lib_msprintf(_("Detach #%d"), drive + 8);
         flipmenu[drive][i].string = t5;
         flipmenu[drive][i].callback = (ui_callback_t)detach_disk;
         flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
@@ -729,9 +730,9 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         flipmenu[drive][i].callback_data =
             (ui_callback_data_t)&(cb_data[drive][CBD_NEXT]);
         if (dir)
-            free(dir);
+            lib_free(dir);
         if (image)
-            free(image);
+            lib_free(image);
         i++;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
@@ -744,9 +745,9 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         flipmenu[drive][i].callback_data =
             (ui_callback_data_t)&(cb_data[drive][CBD_PREV]);
         if (dir)
-            free(dir);
+            lib_free(dir);
         if (image)
-            free(image);
+            lib_free(image);
         i++;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
@@ -759,9 +760,9 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         flipmenu[drive][i].callback_data =
             (ui_callback_data_t)&(cb_data[drive][CBD_ADD]);
         if (dir)
-            free(dir);
+            lib_free(dir);
         if (image)
-            free(image);
+            lib_free(image);
         i++;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
@@ -774,9 +775,9 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         flipmenu[drive][i].callback_data =
             (ui_callback_data_t)&(cb_data[drive][CBD_REMOVE]);
         if (dir)
-            free(dir);
+            lib_free(dir);
         if (image)
-            free(image);
+            lib_free(image);
         i++;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
@@ -797,9 +798,9 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 
             fl_iterator = flip_next_iterate(drive + 8);
             if (dir)
-                free(dir);
+                lib_free(dir);
             if (image)
-                free(image);
+                lib_free(image);
             i++;
             if (i >= (FLIPLIST_MENU_LIMIT - 1)) {
                 /* the end delimitor must fit */ 
@@ -814,7 +815,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         /* make sure the menu is well terminated */
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 
-        menuname = xmsprintf("LeftDrive%iMenu%i", drive + 8, name_count);
+        menuname = lib_msprintf("LeftDrive%iMenu%i", drive + 8, name_count);
 
         /* ugly ... */
         if (drive == 0)
@@ -832,23 +833,23 @@ void ui_update_flip_menus(int from_unit, int to_unit)
                                               flipmenu[drive], NULL));
         }
 
-        free(menuname);
+        lib_free(menuname);
 
         if (t0)
-            free(t0);
+            lib_free(t0);
         if (t1)
-            free(t1);
+            lib_free(t1);
         if (t2)
-            free(t2);
+            lib_free(t2);
         if (t3)
-            free(t3);
+            lib_free(t3);
         if (t4)
-            free(t4);
+            lib_free(t4);
         if (t5)
-            free(t5);
+            lib_free(t5);
         while (fliplist_start < i) {
             if (flipmenu[drive][fliplist_start].string)
-                free(flipmenu[drive][fliplist_start].string);
+                lib_free(flipmenu[drive][fliplist_start].string);
             fliplist_start++;
         }
     }

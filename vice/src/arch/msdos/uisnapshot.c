@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "machine.h"
 #include "tui.h"
 #include "tuimenu.h"
@@ -37,6 +38,7 @@
 #include "ui.h"
 #include "uisnapshot.h"
 #include "utils.h"
+
 
 #define SNAPSHOT_EXTENSION      "vsf"
 
@@ -109,7 +111,7 @@ static TUI_MENU_CALLBACK(file_name_callback)
                 tmp = snapshot_selector("Save snapshot file");
                 if (tmp != NULL) {
                     strcpy(new_file_name, tmp);
-                    free(tmp);
+                    lib_free(tmp);
                 }
             } else {
                 char *extension;
@@ -145,8 +147,8 @@ static TUI_MENU_CALLBACK(file_name_callback)
                     file_name = util_concat(new_file_name, ".", extension,
                                             NULL);
                 } else {
-                    free(file_name);
-                    file_name = stralloc(new_file_name);
+                    lib_free(file_name);
+                    file_name = lib_stralloc(new_file_name);
                     util_add_extension(&file_name, extension);
                 }
                 break;
@@ -199,7 +201,7 @@ static TUI_MENU_CALLBACK(load_snapshot_callback)
                 tui_error("Cannot load snapshot.");
             else
                 *behavior = TUI_MENU_BEH_RESUME;
-			free(name);
+            lib_free(name);
         }
     }
 

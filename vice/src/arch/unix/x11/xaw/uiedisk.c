@@ -48,6 +48,7 @@
 #endif
 
 #include "diskimage.h"
+#include "lib.h"
 #include "machine.h"
 #include "ui.h"
 #include "uiarch.h"
@@ -97,7 +98,7 @@ static UI_CALLBACK(browse_callback)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);
 
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 static UI_CALLBACK(cancel_callback)
@@ -162,7 +163,7 @@ static UI_CALLBACK(save_callback)
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
     XtVaGetValues(image_name_field, XtNstring, &iname, NULL);
 
-    filename = stralloc(name);
+    filename = lib_stralloc(name);
     util_add_extension(&filename, extensions[type_cnt]);
 
     if (vdrive_internal_create_format_disk_image(filename, "VICE,01",
@@ -171,7 +172,7 @@ static UI_CALLBACK(save_callback)
     else
         strcpy(edisk_file_name, filename);
 
-    free(filename);
+    lib_free(filename);
 }
 
 static void build_emptydisk_dialog(void)

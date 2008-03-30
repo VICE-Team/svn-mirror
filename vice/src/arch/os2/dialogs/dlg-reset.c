@@ -31,6 +31,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "lib.h"
 #include "vsync.h"         // vsync_suspend_speed_eval
 #include "machine.h"       // machine_powerup
 #include "interrupt.h"     // maincpu_trigger_reset
@@ -57,7 +58,7 @@ ULONG ResetDialog(HWND hwnd, char *text)
 
     rc = WinMessageBox2(HWND_DESKTOP, hwnd,
                         text, "VICE/2 Reset", 0, mb);
-    free(mb);
+    lib_free(mb);
 
     return rc;
 

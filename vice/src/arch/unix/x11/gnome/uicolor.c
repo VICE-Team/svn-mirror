@@ -39,11 +39,11 @@
 #include <X11/Xlib.h>
 
 #include "color.h"
+#include "lib.h"
 #include "log.h"
 #include "palette.h"
 #include "types.h"
 #include "uicolor.h"
-#include "utils.h"
 #include "video.h"
 #include "videoarch.h"
 #include "x11ui.h"
@@ -58,11 +58,11 @@ extern GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel,
 
 static int uicolor_alloc_system_colors(void)
 {
-    palette_t *p = (palette_t *)xmalloc(sizeof(palette_t));
+    palette_t *p = (palette_t *)lib_malloc(sizeof(palette_t));
     unsigned long color_return[NUM_ENTRIES];
 
     p->num_entries = NUM_ENTRIES;
-    p->entries = xmalloc(sizeof(palette_entry_t) * NUM_ENTRIES);
+    p->entries = lib_malloc(sizeof(palette_entry_t) * NUM_ENTRIES);
     memset(p->entries, 0, sizeof(palette_entry_t) * NUM_ENTRIES);
 
     p->entries[0].red = 0;
@@ -93,8 +93,8 @@ static int uicolor_alloc_system_colors(void)
     motor_running_pixel = (GdkColor *)color_return[3];
     tape_control_pixel = (GdkColor *)color_return[4];
 
-    free(p->entries);
-    free(p);
+    lib_free(p->entries);
+    lib_free(p);
 
     return 0;
 }
@@ -136,10 +136,10 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
 {
     GdkColor *color;
     XImage *im;
-    BYTE *data = (BYTE *)xmalloc(4);
+    BYTE *data = (BYTE *)lib_malloc(4);
     Display *display = x11ui_get_display_ptr();
 
-    color = (GdkColor *)xmalloc(sizeof(GdkColor));
+    color = (GdkColor *)lib_malloc(sizeof(GdkColor));
 
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
@@ -181,7 +181,7 @@ void uicolor_free_color(unsigned int red, unsigned int green,
     gdk_colors_free(colormap, &(color->pixel), 1, 0);
 /*
     if (color_pixel != 0)
-        free((unsigned char *)color_pixel);
+        lib_free((unsigned char *)color_pixel);
 */
 }
 

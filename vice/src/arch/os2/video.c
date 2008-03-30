@@ -59,6 +59,7 @@
 #include "video.h"
 #include "videoarch.h"
 
+#include "lib.h"
 #include "log.h"
 #include "proc.h"
 #include "utils.h"
@@ -167,7 +168,7 @@ static void AddToWindowList(HWND hwnd)
     // copy old list to new list an delete old list
     //
     memcpy(newlist, hwndlist, sizeof(HWND)*i);
-    free (hwndlist);
+    lib_free (hwndlist);
 
     hwndlist = newlist;
 
@@ -240,11 +241,11 @@ void CanvasDisplaySpeed(int speed, int frame_rate, int warp_enabled)
         {
             const video_canvas_t *c = GetCanvas(hwndlist[i++]);
 
-            char *txt=xmsprintf("%s - %d%% - %dfps %s",
+            char *txt=lib_msprintf("%s - %d%% - %dfps %s",
                                 c->title, speed, frame_rate,
                                 warp_enabled?"(Warp)":"");
             WinSetWindowText(c->hwndTitlebar, txt);
-            free(txt);
+            lib_free(txt);
         }
     }
     /*
@@ -864,7 +865,7 @@ void VideoBufferFree(video_canvas_t *c)
     else
         log_message(vidlog,"Dive buffer #%d freed.", c->ulBuffer);
 
-    free(c->bitmaptrg);
+    lib_free(c->bitmaptrg);
 }
 
 void WmDestroy(HWND hwnd)
@@ -1909,16 +1910,16 @@ void video_canvas_destroy(video_canvas_t *c)
     //
     // Free the rectangles used for blitting
     //
-    free(c->divesetup.pVisDstRects);
+    lib_free(c->divesetup.pVisDstRects);
 
     log_message(vidlog, "Destroying data structure for '%s'.", c->title);
 
     //
     // Free title and canvas structure
     //
-    free(c->title);
+    lib_free(c->title);
     video_canvas_shutdown(c);
-    free(c);
+    lib_free(c);
 
     //    DosReleaseMutexSem(hmtx);
 
@@ -2125,7 +2126,7 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, R
             rc=DiveFreeImageBuffer(inst, ulTrg);
             if (rc)
                 log_error(vidlog, "VideoConvertPalette - DiveFreeImageBuffer (trg) failed, rc=0x%x", rc);
-            free(setup.pVisDstRects);
+            lib_free(setup.pVisDstRects);
         }
 
         rc=DiveFreeImageBuffer(inst, ulSrc);
@@ -2171,7 +2172,7 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p)
         else
             log_message(vidlog, "%d palette entries realized.", p->num_entries);
 
-        free(palette);
+        lib_free(palette);
     }
 
 #if 0

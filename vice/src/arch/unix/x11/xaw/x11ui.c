@@ -66,6 +66,7 @@
 #include "drive.h"
 #include "fullscreenarch.h"
 #include "ioutil.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "mouse.h"
@@ -368,7 +369,7 @@ static void prepare_wm_command_data(int argc, char **argv)
     for (i = 0; i < (unsigned int) argc; i++)
         wm_command_size += strlen(argv[i]) + 1;
 
-    wm_command_data = xmalloc(wm_command_size);
+    wm_command_data = lib_malloc(wm_command_size);
 
     offset = 0;
     for (i = 0; i < (unsigned int) argc; i++) {
@@ -650,7 +651,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
         for (i = 0; i < NUM_DRIVES; i++) {
             char *name;
 
-            name = xmsprintf("driveCurrentImage%d", i + 1);
+            name = lib_msprintf("driveCurrentImage%d", i + 1);
             drive_current_image[i] = XtVaCreateManagedWidget
                 (name,
                  labelWidgetClass, pane,
@@ -666,9 +667,9 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                  XtNjustify, XtJustifyLeft,
                  XtNborderWidth, 0,
                  NULL);
-            free(name);
+            lib_free(name);
 
-            name = xmsprintf("driveTrack%d", i + 1);
+            name = lib_msprintf("driveTrack%d", i + 1);
             drive_track_label[i] = XtVaCreateManagedWidget
                 (name,
                  labelWidgetClass, pane,
@@ -685,9 +686,9 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                  XtNjustify, XtJustifyRight,
                  XtNborderWidth, 0,
                  NULL);
-            free(name);
+            lib_free(name);
 
-            name = xmsprintf("driveLed%d", i + 1);
+            name = lib_msprintf("driveLed%d", i + 1);
             drive_led[i] = XtVaCreateManagedWidget
                 (name,
                  xfwfcanvasWidgetClass, pane,
@@ -704,11 +705,11 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                  XtNjustify, XtJustifyRight,
                  XtNborderWidth, 1,
                  NULL);
-            free(name);
+            lib_free(name);
 
 	    /* double LEDs */
 
-            name = xmsprintf("driveLedA%d", i + 1);
+            name = lib_msprintf("driveLedA%d", i + 1);
             drive_led1[i] = XtVaCreateManagedWidget
                 (name,
                  xfwfcanvasWidgetClass, pane,
@@ -725,9 +726,9 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                  XtNjustify, XtJustifyRight,
                  XtNborderWidth, 1,
                  NULL);
-            free(name);
+            lib_free(name);
 
-            name = xmsprintf("driveLedB%d", i + 1);
+            name = lib_msprintf("driveLedB%d", i + 1);
             drive_led2[i] = XtVaCreateManagedWidget
                 (name,
                  xfwfcanvasWidgetClass, pane,
@@ -744,7 +745,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                  XtNjustify, XtJustifyRight,
                  XtNborderWidth, 1,
                  NULL);
-            free(name);
+            lib_free(name);
         }
     }
 
@@ -790,7 +791,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 
     app_shells[num_app_shells - 1].shell = shell;
     app_shells[num_app_shells - 1].canvas = canvas;
-    app_shells[num_app_shells - 1].title = stralloc(title);
+    app_shells[num_app_shells - 1].title = lib_stralloc(title);
     app_shells[num_app_shells - 1].speed_label = speed_label;
     status_bar = speed_label;
     
@@ -849,7 +850,7 @@ void ui_set_left_menu(Widget w)
                NULL);
 
     left_menu_translations = XtParseTranslationTable(translation_table);
-    free(translation_table);
+    lib_free(translation_table);
 
     for (i = 0; i < num_app_shells; i++)
         XtOverrideTranslations(app_shells[i].canvas, left_menu_translations);
@@ -873,7 +874,7 @@ void ui_set_right_menu(Widget w)
                "@Scroll_Lock <Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                NULL);
     right_menu_translations = XtParseTranslationTable(translation_table);
-    free(translation_table);
+    lib_free(translation_table);
 
     for (i = 0; i < num_app_shells; i++)
         XtOverrideTranslations(app_shells[i].canvas, right_menu_translations);
@@ -918,7 +919,7 @@ void ui_set_drive8_menu (Widget w)
                "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                NULL);
     drive8_menu_translations = XtParseTranslationTable(translation_table);
-    free(translation_table);
+    lib_free(translation_table);
 
     for (i = 0; i < num_app_shells; i++)
         XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[0]].current_image, 
@@ -948,7 +949,7 @@ void ui_set_drive9_menu(Widget w)
                "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                NULL);
     drive9_menu_translations = XtParseTranslationTable(translation_table);
-    free(translation_table);
+    lib_free(translation_table);
 
     for (i = 0; i < num_app_shells; i++)
         XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[1]].current_image, 
@@ -1005,7 +1006,7 @@ void ui_exit(void)
                 if (resources_save(NULL) < 0)
                     ui_error(_("Cannot save settings."));
             } else if (b == UI_BUTTON_CANCEL) {
-                free(s);
+                lib_free(s);
                 return;
             }
         }
@@ -1018,7 +1019,7 @@ void ui_exit(void)
         exit(0);
     }
 
-    free(s);
+    lib_free(s);
     vsync_suspend_speed_eval();
 }
 
@@ -1067,10 +1068,10 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
         } else {
             char *str;
 
-            str = xmsprintf("%d%%, %d fps %s", percent_int, framerate_int,
-                            warp_flag ? _("(warp)") : "");
+            str = lib_msprintf("%d%%, %d fps %s", percent_int, framerate_int,
+                               warp_flag ? _("(warp)") : "");
             XtVaSetValues(app_shells[i].speed_label, XtNlabel, str, NULL);
-            free(str);
+            lib_free(str);
         }
     }
 }
@@ -1241,7 +1242,7 @@ static void ui_display_drive_current_image2 (void)
 
             util_fname_split(&(last_attached_images[j][0]), NULL, &name);
             XtVaSetValues(w, XtNlabel, name, NULL);
-            free(name);
+            lib_free(name);
         }
     }
 }
@@ -1278,9 +1279,9 @@ void ui_display_paused(int flag)
         if (flag) {
             char *str;
 
-            str = xmsprintf(_("%s (paused)"), app_shells[i].title);
+            str = lib_msprintf(_("%s (paused)"), app_shells[i].title);
             XtVaSetValues(app_shells[i].shell, XtNtitle, str, NULL);
-            free(str);
+            lib_free(str);
         } else {
             XtVaSetValues(app_shells[i].shell, XtNtitle,
                           app_shells[i].title, NULL);
@@ -1439,7 +1440,7 @@ void ui_error(const char *format,...)
     static ui_button_t button;
 
     va_start(ap, format);
-    str = xmvsprintf(format, ap);
+    str = lib_mvsprintf(format, ap);
     error_dialog = build_error_dialog(_ui_top_level, &button, str);
     ui_popup(XtParent(error_dialog), _("VICE Error!"), False);
     button = UI_BUTTON_NONE;
@@ -1450,7 +1451,7 @@ void ui_error(const char *format,...)
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
     vsync_suspend_speed_eval();
-    free(str);
+    lib_free(str);
 }
 
 /* Report a message to the user.  */
@@ -1462,7 +1463,7 @@ void ui_message(const char *format,...)
     static ui_button_t button;
 
     va_start(ap, format);
-    str = xmvsprintf(format, ap);
+    str = lib_mvsprintf(format, ap);
     error_dialog = build_error_dialog(_ui_top_level, &button, str);
     ui_popup(XtParent(error_dialog), "VICE", False);
     button = UI_BUTTON_NONE;
@@ -1474,7 +1475,7 @@ void ui_message(const char *format,...)
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
     vsync_suspend_speed_eval();
-    free(str);
+    lib_free(str);
 }
 
 /* Report a message to the user, allow different buttons. */
@@ -1498,7 +1499,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     mform = XtVaCreateManagedWidget
         ("messageForm", formWidgetClass, jam_dialog, NULL);
 
-    str = xmvsprintf(format, ap);
+    str = lib_mvsprintf(format, ap);
     tmp = XtVaCreateManagedWidget
         ("label", labelWidgetClass, mform,
          XtNresize, False, XtNjustify, XtJustifyCenter, XtNlabel, str,
@@ -1534,7 +1535,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     vsync_suspend_speed_eval();
     ui_dispatch_events();
-    free(str);
+    lib_free(str);
 
     switch (button) {
       case UI_BUTTON_MON:
@@ -1603,7 +1604,7 @@ char *ui_select_file(const char *title,
 
         XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
                                         newdir);
-        free(newdir);
+        lib_free(newdir);
     }
 
     ui_popup(XtParent(file_selector), title, False);
@@ -1620,10 +1621,10 @@ char *ui_select_file(const char *title,
             char *f = util_concat(fs_status.path, fs_status.file, NULL);
 
             contents = read_contents_func(f, unit);
-            free(f);
+            lib_free(f);
             if (contents != NULL) {
                 ui_show_text(fs_status.file, contents, 250, 240);
-                free(contents);
+                lib_free(contents);
             } else {
                 ui_error(_("Unknown image type."));
             }
@@ -1635,7 +1636,7 @@ char *ui_select_file(const char *title,
     if (fs_status.file_selected)
         ret = util_concat(fs_status.path, fs_status.file, NULL);
     else
-        ret = stralloc("");
+        ret = lib_stralloc("");
 
     ui_popdown(XtParent(file_selector));
 #ifndef __alpha
@@ -1643,12 +1644,12 @@ char *ui_select_file(const char *title,
     XtDestroyWidget(XtParent(file_selector));
 #endif
     if (filesel_dir != NULL) {
-        free(filesel_dir);
+        lib_free(filesel_dir);
     }
     filesel_dir = ioutil_current_dir();
     if (current_dir != NULL) {
         ioutil_chdir(current_dir);
-        free(current_dir);
+        lib_free(current_dir);
     }
 
     *button_return = button;
@@ -1656,7 +1657,7 @@ char *ui_select_file(const char *title,
         /* Caller has to free the filename.  */
         return ret;
     } else {
-        free(ret);
+        lib_free(ret);
         return NULL;
     }
 }

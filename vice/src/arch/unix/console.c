@@ -31,7 +31,8 @@
 #include <stdlib.h>
 
 #include "console.h"
-#include "utils.h"
+#include "lib.h"
+
 
 #if defined(HAVE_READLINE) && defined(HAVE_RLNAME)
 extern char *rl_readline_name;
@@ -50,7 +51,7 @@ console_t *console_open(const char *id)
 {
     console_t *console;
 
-    console = xmalloc(sizeof(console_t));
+    console = lib_malloc(sizeof(console_t));
 
     console->console_xres = 80;
     console->console_yres = 25;
@@ -61,7 +62,7 @@ console_t *console_open(const char *id)
 
 int console_close(console_t *log)
 {
-    free(log);
+    lib_free(log);
 
     return 0;
 }
@@ -82,7 +83,7 @@ extern void add_history ( const char *str );
 #else
 char *readline(const char *prompt)
 {
-    char *p = (char*)xmalloc(1024);
+    char *p = (char *)lib_malloc(1024);
 
     console_out(NULL, "%s", prompt);
 
@@ -94,9 +95,8 @@ char *readline(const char *prompt)
         int len;
 
         for (len = strlen(p);
-             len > 0 && (p[len - 1] == '\r'
-                         || p[len - 1] == '\n');
-             len--)
+            len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n');
+            len--)
             p[len - 1] = '\0';
     }
 

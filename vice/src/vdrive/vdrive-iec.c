@@ -139,7 +139,7 @@ static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
     if (retlen < 0) {
         /* Directory not valid.  */
         p->mode = BUFFER_NOT_IN_USE;
-        free(p->buffer);
+        lib_free(p->buffer);
         p->length = 0;
         vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
         return SERIAL_ERROR;
@@ -184,7 +184,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
 
     if (!e) {
         p->mode = BUFFER_NOT_IN_USE;
-        free((char *)p->buffer);
+        lib_free((char *)p->buffer);
         p->buffer = NULL;
         vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
         status = SERIAL_ERROR;
@@ -354,7 +354,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
         status = iec_open_write(vdrive, secondary, &cmd_parse, name);
 
 out:
-    free(cmd_parse.parsecmd);
+    lib_free(cmd_parse.parsecmd);
     return status;
 }
 
@@ -443,7 +443,7 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
 
         if (!slot) {
             p->mode = BUFFER_NOT_IN_USE;
-            free((char *)p->buffer);
+            lib_free((char *)p->buffer);
             p->buffer = NULL;
 
             vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
@@ -463,7 +463,7 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
         vdrive_bam_write_bam(vdrive);
     }
     p->mode = BUFFER_NOT_IN_USE;
-    free((char *)p->buffer);
+    lib_free((char *)p->buffer);
     p->buffer = NULL;
 
     return SERIAL_OK;
@@ -484,7 +484,7 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
 
       case BUFFER_MEMORY_BUFFER:
       case BUFFER_DIRECTORY_READ:
-        free((char *)p->buffer);
+        lib_free((char *)p->buffer);
         p->mode = BUFFER_NOT_IN_USE;
         p->buffer = NULL;
         p->slot = NULL;
@@ -495,7 +495,7 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
       case BUFFER_RELATIVE:
         /* FIXME !!! */
         p->mode = BUFFER_NOT_IN_USE;
-        free((char *)p->buffer);
+        lib_free((char *)p->buffer);
         p->buffer = NULL;
         break;
       case BUFFER_COMMAND_CHANNEL:

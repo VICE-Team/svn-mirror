@@ -42,8 +42,8 @@
 #include "dragndrop.h"
 #include "menubar.h"
 
+#include "lib.h"
 #include "psid.h"
-#include "utils.h"
 #include "resources.h"
 
 #include "snippets\pmwin2.h"
@@ -134,9 +134,9 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
     case WM_DISPLAY:
         {
-            char *txt=xmsprintf("Vice/2 SID Player - %d%%", mp1);
+            char *txt=lib_msprintf("Vice/2 SID Player - %d%%", mp1);
             WinSetDlgItemText(hwnd, FID_TITLEBAR, txt);
-            free(txt);
+            lib_free(txt);
         }
         return FALSE;
     }

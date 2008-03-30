@@ -94,7 +94,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
     log_debug("VDrive REL open with record length %i.", record_length);
 
     if (vdrive->side_sector != NULL)    
-        free(vdrive->side_sector);
+        lib_free(vdrive->side_sector);
 
     vdrive->side_sector = (BYTE *)lib_malloc(SIDE_SECTORS_MAX * 256);
     memset(vdrive->side_sector, 0, SIDE_SECTORS_MAX * 256);
@@ -171,7 +171,7 @@ static BYTE *vdrive_rel_read_buffer(vdrive_t *vdrive, unsigned int track,
     if (secdata[0] != 0) {
         if (disk_image_read_sector(vdrive->image, secdata, secdata[0],
             secdata[1]) != 0) {
-            free(recbuf);
+            lib_free(recbuf);
             return NULL;
         }
         memcpy(&recbuf[254], &secdata[2], 254);
@@ -245,7 +245,7 @@ log_debug("copy_len %i", copy_len);
 
     memcpy(p->buffer, &recdata[copy_start], copy_len);
     p->length = copy_len;
-    free(recdata);
+    lib_free(recdata);
 
     p->bufptr = 0;
 

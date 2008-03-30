@@ -114,7 +114,7 @@ void vdrive_device_shutdown(vdrive_t *vdrive)
 
     if (vdrive != NULL) {
         for (i = 0; i < 15; i++)
-            free(vdrive->buffers[i].buffer);
+            lib_free(vdrive->buffers[i].buffer);
     }
 }
 

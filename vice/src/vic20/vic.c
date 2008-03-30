@@ -38,6 +38,7 @@
 #include "alarm.h"
 #include "archdep.h"
 #include "clkguard.h"
+#include "lib.h"
 #include "log.h"
 #include "mem.h"
 #include "machine.h"
@@ -286,7 +287,7 @@ static int init_raster(void)
 
     title = util_concat("VICE: ", machine_name, " emulator", NULL);
     raster_set_title(raster, title);
-    free(title);
+    lib_free(title);
 
     if (raster_realize(raster) < 0)
         return -1;

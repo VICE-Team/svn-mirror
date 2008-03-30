@@ -33,8 +33,9 @@
 #include <string.h>
 
 #include "console.h"
+#include "lib.h"
 #include "ui.h"
-#include "utils.h"
+
 
 int console_out(console_t *log, const char *format, ...)
 {
@@ -52,7 +53,7 @@ extern void add_history ( const char *str );
 #else
 char *readline(const char *prompt)
 {
-    char *p = (char*)xmalloc(1024);
+    char *p = (char*)lib_malloc(1024);
 
     console_out(NULL, "%s", prompt);
 
@@ -88,7 +89,7 @@ console_t *console_open(const char *id)
 {
     console_t *console;
 
-    console = xmalloc(sizeof(console_t));
+    console = lib_malloc(sizeof(console_t));
 
     console->console_xres = 80;
     console->console_yres = 25;
@@ -99,7 +100,7 @@ console_t *console_open(const char *id)
 
 int console_close(console_t *log)
 {
-    free(log);
+    lib_free(log);
 
     return 0;
 }

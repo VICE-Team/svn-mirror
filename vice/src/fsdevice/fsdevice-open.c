@@ -61,6 +61,7 @@
 #include "fsdevice-resources.h"
 #include "fsdevice-write.h"
 #include "fsdevicetypes.h"
+#include "lib.h"
 #include "serial.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
@@ -361,7 +362,7 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
     fsdevice_error(vdrive, IPE_OK);
 
 out:
-    free(cmd_parse.parsecmd);
+    lib_free(cmd_parse.parsecmd);
 
     return status;
 }

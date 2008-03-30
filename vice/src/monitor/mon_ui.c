@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "mon_breakpoint.h"
 #include "mon_register.h"
 #include "mon_ui.h"
@@ -37,7 +38,6 @@
 #include "monitor.h"
 #include "montypes.h"
 #include "resources.h"
-#include "utils.h"
 
 
 struct mon_disassembly_private
@@ -54,7 +54,7 @@ struct mon_disassembly_private
 struct mon_disassembly_private *mon_disassembly_init(void)
 {
     struct mon_disassembly_private *pmdp
-        = xmalloc(sizeof(struct mon_disassembly_private));
+        = lib_malloc(sizeof(struct mon_disassembly_private));
 
     pmdp->memspace = e_comp_space;
     pmdp->StartAddress = -1;
@@ -69,7 +69,7 @@ struct mon_disassembly_private *mon_disassembly_init(void)
 
 void mon_disassembly_deinit(struct mon_disassembly_private *pmdp)
 {
-    free(pmdp);
+    lib_free(pmdp);
 }
 
 static
@@ -119,7 +119,7 @@ struct mon_disassembly *mon_disassembly_get_lines(
         struct mon_disassembly *newcont;
         mon_breakpoint_type_t bptype;
 
-        newcont = xmalloc(sizeof(struct mon_disassembly));
+        newcont = lib_malloc(sizeof(struct mon_disassembly));
 
         if (ret == NULL) {
             ret      =
@@ -166,7 +166,7 @@ WORD determine_address_of_line(struct mon_disassembly_private *pmdp,
         content = mon_disassemble_with_label(pmdp->memspace, loc, 1, &size,
                                              &have_label);
 
-        free(content);
+        lib_free(content);
 
         loc += size;
     }
@@ -198,7 +198,7 @@ WORD scroll_up_count(struct mon_disassembly_private *pmdp, WORD loc,
 
     WORD testloc = loc - 3 * count - 3;
 
-    unsigned int *disp = xmalloc( sizeof(unsigned int)*count );
+    unsigned int *disp = lib_malloc(sizeof(unsigned int) * count);
     unsigned int storepos = 0;
 
     while (testloc < loc) {
@@ -211,13 +211,13 @@ WORD scroll_up_count(struct mon_disassembly_private *pmdp, WORD loc,
 	    content = mon_disassemble_with_label(pmdp->memspace, testloc, 1,
                                                  &size, &have_label );
 
-        free(content);
+        lib_free(content);
         testloc += size;
     }
 
     loc -= disp[storepos];
 
-    free(disp);
+    lib_free(disp);
 
     return loc;
 }

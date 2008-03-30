@@ -50,9 +50,9 @@
 #include "fsdevice.h"
 #include "fsdevicetypes.h"
 #include "ioutil.h"
+#include "lib.h"
 #include "serial.h"
 #include "types.h"
-#include "utils.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 
@@ -84,7 +84,7 @@ static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
     } else { /* get full path and save */
         arg = ioutil_current_dir();
         fsdevice_set_directory(arg, vdrive->unit);
-        free(arg);
+        lib_free(arg);
     }
 
     return er;

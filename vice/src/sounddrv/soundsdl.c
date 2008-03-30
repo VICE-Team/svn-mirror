@@ -142,7 +142,7 @@ static int sdl_bufferspace(void)
 static void sdl_close(void)
 {
     SDL_CloseAudio();
-    free(sdl_buf);
+    lib_free(sdl_buf);
     sdl_buf = NULL;
     sdl_inptr = sdl_outptr = sdl_len = 0;
 }

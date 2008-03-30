@@ -462,7 +462,7 @@ int tape_image_attach(unsigned int unit, const char *name)
     tape_image.read_only = 0;
 
     if (tape_image_open(&tape_image) < 0) {
-        free(tape_image.name);
+        lib_free(tape_image.name);
         log_error(tape_log, "Cannot open file `%s'", name);
         return -1;
     }

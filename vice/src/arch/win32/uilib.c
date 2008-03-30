@@ -39,6 +39,7 @@
 #include "diskimage.h"
 #include "fullscrn.h"
 #include "imagecontents.h"
+#include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "ui.h"
@@ -397,14 +398,14 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                 }
                 GetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, disk_name, 17);
                 GetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, disk_id, 3);
-                format_name = xmsprintf("%s,%s", disk_name, disk_id);
+                format_name = lib_msprintf("%s,%s", disk_name, disk_id);
                 if (vdrive_internal_create_format_disk_image(filename,
                     format_name, image_type[counter]) < 0) {
                     ui_error("Cannot create image");
-                    free(format_name);
+                    lib_free(format_name);
                     return -1;
                 }
-                free(format_name);
+                lib_free(format_name);
                 /*  Select filter:
                     If we have a standard extension, select the disk filters,
                     but leave at 'All files' if it was already there, otherwise
@@ -632,11 +633,11 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     update_filter_history(ofn.nFilterIndex);
     if (result) {
         if (ui_file_selector_initialfile[style] != NULL)
-            free(ui_file_selector_initialfile[style]);
+            lib_free(ui_file_selector_initialfile[style]);
         util_fname_split(name, &initialdir, 
             &ui_file_selector_initialfile[style]);
         resources_set_value(styles[style].initialdir_resource, initialdir);
-        return stralloc(name);
+        return lib_stralloc(name);
     } else {
         return NULL;
     }

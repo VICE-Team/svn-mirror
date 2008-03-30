@@ -48,6 +48,7 @@
 #include "archdep.h"
 #include "findpath.h"
 #include "ioutil.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "ui.h"
@@ -58,7 +59,7 @@ static char *argv0;
 
 int archdep_startup(int *argc, char **argv)
 {
-    argv0 = stralloc(argv[0]);
+    argv0 = lib_stralloc(argv[0]);
 
     archdep_ui_init(*argc, argv);
     return 0;
@@ -73,9 +74,9 @@ const char *archdep_program_name(void)
 
         p = strrchr(argv0, '/');
         if (p == NULL)
-            program_name = stralloc(argv0);
+            program_name = lib_stralloc(argv0);
         else
-            program_name = stralloc(p + 1);
+            program_name = lib_stralloc(p + 1);
     }
 
     return program_name;
@@ -162,7 +163,7 @@ const char *archdep_default_resource_file_name(void)
     const char *home;
 
     if (fname != NULL)
-        free(fname);
+        lib_free(fname);
 
     home = archdep_home_path();
 
@@ -177,7 +178,7 @@ const char *archdep_default_fliplist_file_name(void)
     const char *home;
 
     if (fname != NULL)
-        free(fname);
+        lib_free(fname);
     home = archdep_home_path();
     fname = util_concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
     return fname;
@@ -190,7 +191,7 @@ const char *archdep_default_save_resource_file_name(void)
     char *viceuserdir;
 
     if (fname != NULL)
-        free(fname);
+        lib_free(fname);
 
     home = archdep_home_path();
 
@@ -202,7 +203,7 @@ const char *archdep_default_save_resource_file_name(void)
 
     fname = util_concat(viceuserdir, "/vicerc", NULL);
 
-    free(viceuserdir);
+    lib_free(viceuserdir);
 
     return fname;
 }
@@ -319,13 +320,13 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 {
     /* Unix version.  */
     if (*orig_name == '/') {
-        *return_path = stralloc(orig_name);
+        *return_path = lib_stralloc(orig_name);
     } else {
         static char *cwd;
 
         cwd = ioutil_current_dir();
         *return_path = util_concat(cwd, "/", orig_name, NULL);
-        free(cwd);
+        lib_free(cwd);
     }
     return 0;
 }
@@ -341,18 +342,18 @@ void archdep_startup_log_error(const char *format, ...)
 char *archdep_filename_parameter(const char *name)
 {
     /* nothing special(?) */
-    return stralloc(name);
+    return lib_stralloc(name);
 }
 
 char *archdep_quote_parameter(const char *name)
 {
     /*not needed(?) */
-    return stralloc(name);
+    return lib_stralloc(name);
 }
 
 char *archdep_tmpnam(void)
 {
-    return stralloc(tmpnam(NULL));
+    return lib_stralloc(tmpnam(NULL));
 }
 
 int archdep_file_is_gzip(const char *name)

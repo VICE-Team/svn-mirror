@@ -35,7 +35,7 @@
 #include <unistd.h>
 
 #include "console.h"
-#include "utils.h"
+#include "lib.h"
 #include "video.h"
 #include "videoarch.h"
 
@@ -64,7 +64,7 @@ console_t *console_open(const char *id)
     mon_input = fopen("CON", "rt");
     setbuf(mon_output, NULL); /* No buffering.  */
 
-    console = xmalloc(sizeof(console_t));
+    console = lib_malloc(sizeof(console_t));
 
     console->console_xres = 80;
     console->console_yres = 25;
@@ -83,7 +83,7 @@ int console_close(console_t *log)
     fclose(mon_input);
     fclose(mon_output);
 
-    free(log);
+    lib_free(log);
 
     return 0;
 }
@@ -100,7 +100,7 @@ int console_out(console_t *log, const char *format, ...)
 
 char *console_in(console_t *log, const char *prompt)
 {
-    char *p = (char*)xmalloc(1024);
+    char *p = (char *)lib_malloc(1024);
 
     console_out(log, "%s", prompt);
 
@@ -112,8 +112,7 @@ char *console_in(console_t *log, const char *prompt)
         int len;
 
         for (len = strlen(p);
-             len > 0 && (p[len - 1] == '\r'
-                         || p[len - 1] == '\n');
+             len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n');
              len--)
             p[len - 1] = '\0';
     }

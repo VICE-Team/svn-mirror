@@ -30,7 +30,9 @@
 #include <windows.h>
 
 #include "cmdline.h"
+#include "lib.h"
 #include "uilib.h"
+
 
 /* This does not work as stdout is directed to null.  */
 void ui_cmdline_show_help(int num_options, cmdline_option_t *options,
@@ -55,6 +57,6 @@ void ui_cmdline_show_options(HWND hwnd)
     options = cmdline_options_string();
     ui_show_text(hwnd, "Command line options",
                  "Which command line options are available?", options);
-    free(options);
+    lib_free(options);
 }
 

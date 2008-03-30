@@ -29,6 +29,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lib.h"
+
 #include "RegExp.h"
 
 #if defined HAVE_REGEX_H
@@ -89,7 +91,7 @@ void RegExpInit(r)
 void RegExpFree(r)
     fwf_regex_t *r;
 {
-    free(*r);
+    lib_free(*r);
     return;
 }
 

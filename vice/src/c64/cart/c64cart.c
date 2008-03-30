@@ -40,6 +40,7 @@
 #include "expert.h"
 #include "generic.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
@@ -222,7 +223,7 @@ int cartridge_attach_image(int type, const char *filename)
     }
 
     /* allocate temporary array */
-    rawcart = xmalloc(0x88000);
+    rawcart = lib_malloc(0x88000);
 
     /* Do not detach cartridge when attaching the same cart type again.  */
     if (type != carttype)
@@ -292,11 +293,11 @@ int cartridge_attach_image(int type, const char *filename)
     cartridge_type = carttype = type;       /* Resource value updated! */
     util_string_set(&cartfile, filename);
     cartridge_attach((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
-    free(rawcart);
+    lib_free(rawcart);
     return 0;
 
   done:
-    free(rawcart);
+    lib_free(rawcart);
     return -1;
 }
 
@@ -308,7 +309,7 @@ void cartridge_detach_image(void)
         crttype = CARTRIDGE_NONE;
         cartridge_type = CARTRIDGE_NONE;        /* Resource value updated! */
         if (cartfile != NULL)
-            free(cartfile), cartfile = NULL;
+            lib_free(cartfile), cartfile = NULL;
     }
 }
 

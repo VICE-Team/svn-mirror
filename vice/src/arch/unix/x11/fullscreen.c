@@ -32,9 +32,10 @@
 
 #include "fullscreen.h"
 #include "fullscreenarch.h"
+#include "lib.h"
 #include "video.h"
 #include "videoarch.h"
-#include "utils.h"
+
 
 #ifdef USE_XF86_EXTENSIONS
 
@@ -237,9 +238,9 @@ static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
     }
 
     if (canvas->fullscreenconfig->device)
-	free (canvas->fullscreenconfig->device);
+	lib_free(canvas->fullscreenconfig->device);
     
-    canvas->fullscreenconfig->device = stralloc(device);
+    canvas->fullscreenconfig->device = lib_stralloc(device);
 
     return 0;
 }

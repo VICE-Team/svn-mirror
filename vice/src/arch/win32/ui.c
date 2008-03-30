@@ -49,6 +49,7 @@
 #include "interrupt.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -569,7 +570,7 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
 {
     HWND hwnd;
 
-    hwnd_titles[number_of_windows] = stralloc(title);
+    hwnd_titles[number_of_windows] = lib_stralloc(title);
 /*    if (fullscreen) {
         hwnd = CreateWindow(APPLICATION_CLASS,
                             hwnd_titles[number_of_windows],
@@ -772,13 +773,13 @@ void ui_error(const char *format, ...)
     va_list args;
 
     va_start(args, format);
-    tmp = xmvsprintf(format, args);
+    tmp = lib_mvsprintf(format, args);
     va_end(args);
 
     log_debug(tmp);
     ui_messagebox(tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
     vsync_suspend_speed_eval();
-    free(tmp);
+    lib_free(tmp);
 }
 
 /* Report an error to the user (one string).  */
@@ -795,12 +796,12 @@ void ui_message(const char *format, ...)
     va_list args;
 
     va_start(args, format);
-    tmp = xmvsprintf(format, args);
+    tmp = lib_mvsprintf(format, args);
     va_end(args);
 
     ui_messagebox(tmp, "VICE Information", MB_OK | MB_ICONASTERISK);
     vsync_suspend_speed_eval();
-    free(tmp);
+    lib_free(tmp);
 }
 
 /* Handle the "CPU JAM" case.  */
@@ -811,11 +812,11 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
     va_list ap;
     va_start(ap, format);
-    txt = xmvsprintf(format, ap);
-    txt2 = xmsprintf("%s\n\nStart monitor?", txt );
+    txt = lib_mvsprintf(format, ap);
+    txt2 = lib_msprintf("%s\n\nStart monitor?", txt );
     ret = ui_messagebox(txt2, "VICE CPU JAM", MB_YESNO);
-    free(txt2);
-    free(txt);
+    lib_free(txt2);
+    lib_free(txt);
     return (ret == IDYES) ? UI_JAM_MONITOR : UI_JAM_HARD_RESET;
 //    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR
 }
@@ -868,12 +869,12 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     int index;
 
     for (index = 0; index < number_of_windows; index++) {
-        buf = xmsprintf("%s at %d%% speed, %d fps%s",
-                        hwnd_titles[index], (int)(percent + .5),
-                        (int)(framerate + .5),
-                        warp_flag ? " (warp)" : "");
+        buf = lib_msprintf("%s at %d%% speed, %d fps%s",
+                           hwnd_titles[index], (int)(percent + .5),
+                           (int)(framerate + .5),
+                           warp_flag ? " (warp)" : "");
         SetWindowText(window_handles[index], buf);
-        free(buf);
+        lib_free(buf);
     }
 
 }
@@ -918,12 +919,12 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
        	util_fname_split(image, &directory_name, &image_name);
         text = util_concat("Attached ", image_name, " to device ", 
             itoa(drivenum+8, device_str, 10), NULL);
-        free(image_name);
-        free(directory_name);
+        lib_free(image_name);
+        lib_free(directory_name);
     }
 
     ui_display_statustext(text);
-    free(text);
+    lib_free(text);
 }
 
 /* tape-status on*/
@@ -954,16 +955,16 @@ void ui_display_tape_current_image(const char *image)
 
     if (image == NULL || image[0] == 0)
     {
-        text = stralloc("Detached tape");
+        text = lib_stralloc("Detached tape");
     } else {
        	util_fname_split(image, &directory_name, &image_name);
         text = util_concat("Attached tape ", image_name, NULL);
-        free(image_name);
-        free(directory_name);
+        lib_free(image_name);
+        lib_free(directory_name);
     }
 
     ui_display_statustext(text);
-    free(text);
+    lib_free(text);
 }
 
 /* Toggle displaying of paused state.  */
@@ -973,10 +974,10 @@ void ui_display_paused(int flag)
     char *buf;
 
     for (index = 0; index < number_of_windows; index++) {
-        buf = xmsprintf("%s (%s)", hwnd_titles[index],
+        buf = lib_msprintf("%s (%s)", hwnd_titles[index],
             flag ? "paused" : "resumed");
         SetWindowText(window_handles[index], buf);
-        free(buf);
+        lib_free(buf);
     }
 }
 
@@ -1028,7 +1029,7 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
                 fullname = util_concat(archdep_boot_path(), "\\", machine_name,
                                        "\\", files[0].name, NULL);
                 DeleteFile(fullname);
-                free(fullname);
+                lib_free(fullname);
                 for (i = 1; i < 10; i++) {
                     fullname = util_concat(archdep_boot_path(), "\\",
                                            machine_name,
@@ -1037,8 +1038,8 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
                                             machine_name,
                                             "\\", files[i-1].name, NULL);
                     MoveFile(fullname, fullname2);
-                    free(fullname);
-                    free(fullname2);
+                    lib_free(fullname);
+                    lib_free(fullname2);
                 }
             } else {
                 for (i = 0; i < 10; i++) {
@@ -1055,8 +1056,8 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
                                                 machine_name, "\\",
                                                 files[i].name, NULL);
                         MoveFile(fullname, fullname2);
-                        free(fullname);
-                        free(fullname2);
+                        lib_free(fullname);
+                        lib_free(fullname2);
                         i++;
                     }
                 }
@@ -1077,7 +1078,7 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     if (machine_write_snapshot(fullname, 0, 0, 0) < 0) {
         ui_error("Can't write snapshot file.");
     }
-    free(fullname);
+    lib_free(fullname);
 }
 
 static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
@@ -1089,7 +1090,7 @@ static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     if (machine_read_snapshot(fullname, 0) < 0) {
         ui_error("Cannot read snapshot image");
     }
-    free(fullname);
+    lib_free(fullname);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1139,9 +1140,9 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
 
     switch (msg) {
       case WM_INITDIALOG:
-        version = xmsprintf("Version %s", VERSION);
+        version = lib_msprintf("Version %s", VERSION);
         SetDlgItemText(dialog, IDC_ABOUT_VERSION, version);
-        free(version);
+        lib_free(version);
         return TRUE;
       case WM_CLOSE:
         EndDialog(dialog,0);
@@ -1186,7 +1187,7 @@ static void scan_files(void)
         } while (FindNextFile(search_handle, &file_info));
         FindClose(search_handle);
     }
-    free(dirname);
+    lib_free(dirname);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1219,8 +1220,8 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         fname = util_concat(archdep_boot_path(), "\\DOC\\vice_toc.html", NULL);
         dname = util_concat(archdep_boot_path(), "\\DOC", NULL);
         ShellExecute(hwnd, "open", fname, NULL, dname, 0);
-        free(fname);
-        free(dname);
+        lib_free(fname);
+        lib_free(dname);
         break;
       case IDM_CONTRIBUTORS:
         ui_show_text(hwnd, "VICE contributors", "Who made what?",
@@ -1279,7 +1280,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                     if (file_system_attach_disk(unit, s) < 0)
                         ui_error("Cannot attach specified file");
                 }
-                free(s);
+                lib_free(s);
             }
             ResumeFullscreenModeKeep(hwnd);
         }
@@ -1337,7 +1338,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                     if (tape_image_attach(1, s) < 0)
                         ui_error("Cannot attach specified file");
                 }
-                free(s);
+                lib_free(s);
             }
             ResumeFullscreenModeKeep(hwnd);
         }
@@ -1379,7 +1380,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                 if (autostart_autodetect(s, NULL, autostart_index,
                     AUTOSTART_MODE_RUN) < 0)
                     ui_error("Cannot autostart specified file.");
-                free(s);
+                lib_free(s);
             }
         }
         break;

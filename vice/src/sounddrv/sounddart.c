@@ -425,7 +425,7 @@ static void dart_close()
 
     DartClose();
 
-    free(buffers);
+    lib_free(buffers);
     //log_message(LOG_DEFAULT, "sounddrv.c: Buffer freed.");
 
     DosReleaseMutexSem(hmtxOC);

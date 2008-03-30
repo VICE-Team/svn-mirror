@@ -1121,6 +1121,6 @@ void vicii_sprites_init_sprline(void)
 
 void vicii_sprites_shutdown(void)
 {
-    free(sprline);
+    lib_free(sprline);
 }
 

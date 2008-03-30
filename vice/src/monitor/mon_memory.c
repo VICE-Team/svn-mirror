@@ -35,11 +35,11 @@
 
 #include "charset.h"
 #include "console.h"
+#include "lib.h"
 #include "montypes.h"
 #include "mon_memory.h"
 #include "mon_util.h"
 #include "types.h"
-#include "utils.h"
 
 
 #define ADDR_LIMIT(x) ((WORD)(LO16(x)))
@@ -69,7 +69,7 @@ void mon_memory_move(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
     dst = addr_location(dest);
     dest_mem = addr_memspace(dest);
 
-    buf = (BYTE *)xmalloc(sizeof(BYTE) * len);
+    buf = (BYTE *)lib_malloc(sizeof(BYTE) * len);
 
     for (i = 0; (int)i < len; i++)
         buf[i] = mon_get_mem_val(src_mem, (WORD)ADDR_LIMIT(start + i));
@@ -77,7 +77,7 @@ void mon_memory_move(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
     for (i = 0; (int)i < len; i++)
         mon_set_mem_val(dest_mem, (WORD)ADDR_LIMIT(dst + i), buf[i]);
 
-    free(buf);
+    lib_free(buf);
 }
 
 void mon_memory_compare(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
@@ -163,7 +163,7 @@ void mon_memory_hunt(MON_ADDR start_addr, MON_ADDR end_addr,
     mem = addr_memspace(start_addr);
     start = addr_location(start_addr);
 
-    buf = (BYTE *)xmalloc(sizeof(BYTE) * data_buf_len);
+    buf = (BYTE *)lib_malloc(sizeof(BYTE) * data_buf_len);
 
     /* Fill buffer */
     for (i = 0; i < data_buf_len; i++)
@@ -182,7 +182,7 @@ void mon_memory_hunt(MON_ADDR start_addr, MON_ADDR end_addr,
     }
 
     clear_buffer();
-    free(buf);
+    lib_free(buf);
 }
 
 static int radix_chars_per_byte[] = { 2, /* default = hex */

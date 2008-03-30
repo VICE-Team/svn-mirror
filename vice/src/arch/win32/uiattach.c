@@ -41,6 +41,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "imagecontents.h"
+#include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "serial.h"
@@ -201,7 +202,7 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                     SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
                     if (file_system_attach_disk(num, s) < 0)
                         ui_error("Cannot attach specified file");
-                    free(s);
+                    lib_free(s);
                 }
             }
             break;
@@ -217,7 +218,7 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                     SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
                     if (autostart_autodetect(s, "*", 0, AUTOSTART_MODE_RUN) < 0)
                         ui_error("Cannot autostart specified file.");
-                    free(s);
+                    lib_free(s);
                 }
             }
             break;

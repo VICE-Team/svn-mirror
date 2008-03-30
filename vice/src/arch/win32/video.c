@@ -36,6 +36,7 @@
 #include <mmsystem.h>
 
 #include "cmdline.h"
+#include "lib.h"
 #include "log.h"
 #include "fullscrn.h"
 #include "fullscreen.h"
@@ -43,11 +44,11 @@
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 #include "video.h"
 #include "videoarch.h"
 #include "vsyncapi.h"
 #include "statusbar.h"
+
 
 void video_resize(void);
 
@@ -527,7 +528,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     fullscreen_transition = 1;
 
     /* "Normal" window stuff.  */
-    canvas->title = stralloc(canvas->viewport->title);
+    canvas->title = lib_stralloc(canvas->viewport->title);
     canvas->width = *width;
     canvas->height = *height;
 
@@ -698,9 +699,9 @@ void video_canvas_destroy(video_canvas_t *canvas)
             DestroyWindow(canvas->hwnd);
         }
         if (canvas->title != NULL) {
-            free(canvas->title);
+            lib_free(canvas->title);
         }
-        free(canvas);
+        lib_free(canvas);
     }
 }
 

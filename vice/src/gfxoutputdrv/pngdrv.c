@@ -62,7 +62,7 @@ int pngdrv_open(screenshot_t *screenshot, const char *filename)
                                              (void *)NULL, NULL, NULL);
 
     if (sdata->png_ptr == NULL) {
-        free(sdata);
+        lib_free(sdata);
         return -1;
     }
 
@@ -70,14 +70,14 @@ int pngdrv_open(screenshot_t *screenshot, const char *filename)
 
     if (sdata->info_ptr == NULL) {
         png_destroy_write_struct(&(sdata->png_ptr), (png_infopp)NULL);
-        free(sdata);
+        lib_free(sdata);
         return -1;
     }
 
     if (setjmp(screenshot->gfxoutputdrv_data->png_ptr->jmpbuf)) {
         png_destroy_write_struct(&(screenshot->gfxoutputdrv_data->png_ptr),
                                  &(screenshot->gfxoutputdrv_data->info_ptr));
-        free(sdata);
+        lib_free(sdata);
         return -1;
     }
 
@@ -87,8 +87,8 @@ int pngdrv_open(screenshot_t *screenshot, const char *filename)
     sdata->fd = fopen(sdata->ext_filename, MODE_WRITE);
 
     if (sdata->fd == NULL) {
-        free(sdata->ext_filename);
-        free(sdata);
+        lib_free(sdata->ext_filename);
+        lib_free(sdata);
         return -1;
     }
 
@@ -132,9 +132,9 @@ int pngdrv_close(screenshot_t *screenshot)
     png_destroy_write_struct(&(sdata->png_ptr), &(sdata->info_ptr));
 
     fclose(sdata->fd);
-    free(sdata->data);
-    free(sdata->ext_filename);
-    free(sdata);
+    lib_free(sdata->data);
+    lib_free(sdata->ext_filename);
+    lib_free(sdata);
 
     return 0;
 }

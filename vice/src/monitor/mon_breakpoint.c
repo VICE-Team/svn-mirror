@@ -33,13 +33,14 @@
 #include <string.h>
 
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "mon_breakpoint.h"
 #include "mon_disassemble.h"
 #include "mon_util.h"
 #include "montypes.h"
 #include "uimon.h"
-#include "utils.h"
+
 
 #define any_breakpoints(mem) (breakpoints[(mem)] != NULL)
 
@@ -99,7 +100,7 @@ static void remove_checkpoint_from_list(break_list_t **head, breakpoint_t *bp)
         } else {
              prev_entry->next = cur_entry->next;
         }
-        free(cur_entry);
+        lib_free(cur_entry);
     }
 }
 
@@ -225,8 +226,7 @@ void mon_breakpoint_delete_checkpoint(int brknum)
                 mon_breakpoint_delete_checkpoint(i);
         }
     }
-    else if ( !(bp = find_checkpoint(brknum)) )
-    {
+    else if (!(bp = find_checkpoint(brknum))) {
         mon_out("#%d not a valid breakpoint\n", brknum);
         return;
     } else {
@@ -256,7 +256,7 @@ void mon_breakpoint_delete_checkpoint(int brknum)
     if (bp != NULL) {
         mon_delete_conditional(bp->condition);
         if (bp->command)
-            free(bp->command);
+            lib_free(bp->command);
     }
 }
 
@@ -397,7 +397,7 @@ static void add_to_checkpoint_list(break_list_t **head, breakpoint_t *bp)
 {
     break_list_t *new_entry, *cur_entry, *prev_entry;
 
-    new_entry = (break_list_t *)xmalloc(sizeof(break_list_t));
+    new_entry = (break_list_t *)lib_malloc(sizeof(break_list_t));
     new_entry->brkpt = bp;
 
     cur_entry = *head;
@@ -434,7 +434,7 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
     long len;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE, 0);
-    new_bp = (breakpoint_t *)xmalloc(sizeof(breakpoint_t));
+    new_bp = (breakpoint_t *)lib_malloc(sizeof(breakpoint_t));
 
     new_bp->brknum = breakpoint_count++;
     new_bp->start_addr = start_addr;
@@ -561,3 +561,4 @@ void mon_disable_breakpoint(MON_ADDR address)
         ptr->brkpt->enabled = e_OFF;
     }
 }
+

@@ -30,6 +30,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "lib.h"
 #include "log.h"
 #include "utils.h"   // util_get_line
 #include "sysfile.h" // sysfile_open
@@ -54,15 +55,15 @@ int load_keymap_file(const char *fname)
     if (!fp)
     {
         char *tmp = util_concat(fname, ".vkm", NULL);
-        free(complete_path);
+        lib_free(complete_path);
         fp = sysfile_open(tmp, &complete_path, "r");
-        free(tmp);
+        lib_free(tmp);
     }
 
     if (fp)
         log_message(LOG_DEFAULT, "Loading keymap `%s'.", complete_path);
 
-    free(complete_path);
+    lib_free(complete_path);
 
     if (!fp)
         return -1;

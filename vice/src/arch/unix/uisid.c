@@ -30,10 +30,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lib.h"
 #include "resources.h"
 #include "sid.h"
 #include "uimenu.h"
-#include "utils.h"
 #include "vsync.h"
 
 
@@ -90,10 +90,10 @@ UI_CALLBACK(set_sid_resid_passband)
     resources_get_value("SidResidPassband", (resource_value_t *)&i);
 
     sprintf(input_string, "%d", i);
-    msg_string = stralloc(_("Enter passband in percentage of total bandwidth\n(0 - 90, lower is faster, higher is better)"));
+    msg_string = lib_stralloc(_("Enter passband in percentage of total bandwidth\n(0 - 90, lower is faster, higher is better)"));
     button = ui_input_string(_("Passband percentage"),
                              msg_string, input_string, 32);
-    free(msg_string);
+    lib_free(msg_string);
     if (button == UI_BUTTON_OK) {
         i = atoi(input_string);
         if (i < 0) {

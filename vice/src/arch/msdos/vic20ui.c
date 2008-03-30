@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "cartridge.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "menudefs.h"
@@ -44,7 +45,6 @@
 #include "utils.h"
 #include "vic20ui.h"
 
-/* ------------------------------------------------------------------------- */
 
 static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
 {
@@ -171,7 +171,7 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
             && cartridge_attach_image(type, name) < 0)
             tui_error("Invalid cartridge image.");
         ui_update_menus();
-        free(name);
+        lib_free(name);
     }
 
     /* This is redundant if `been_activated' is nonzero, but let's stay on
@@ -378,7 +378,7 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
         if (name != NULL) {
             if (resources_set_value(param, (resource_value_t)name) < 0)
                 ui_error("Could not load ROM file '%s'", name);
-            free(name);
+            lib_free(name);
         }
     }
     return NULL;

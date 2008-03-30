@@ -30,11 +30,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "log.h"
 #include "t64.h"
 #include "tap.h"
 #include "tape.h"
-#include "utils.h"
 
 
 int tape_image_close(tape_image_t *tape_image)
@@ -50,7 +50,7 @@ int tape_image_close(tape_image_t *tape_image)
         break;
     }
 
-    free(tape_image->name);
+    lib_free(tape_image->name);
     tape_image->name = NULL;
 
     return retval;

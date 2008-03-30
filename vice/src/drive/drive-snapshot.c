@@ -618,11 +618,11 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
         || SMW_BA(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0) {
         if (m != NULL)
             snapshot_module_close(m);
-        free(tmpbuf);
+        lib_free(tmpbuf);
         return -1;
     }
 
-    free(tmpbuf);
+    lib_free(tmpbuf);
 
     if (snapshot_module_close(m) < 0)
         return -1;
@@ -664,7 +664,7 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
 
         if (m != NULL)
             snapshot_module_close(m);
-        free(tmpbuf);
+        lib_free(tmpbuf);
         return -1;
     }
 
@@ -675,7 +675,7 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
         drive[dnr].gcr->track_size[i] = tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
             + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24);
 
-    free(tmpbuf);
+    lib_free(tmpbuf);
 
     drive[dnr].GCR_image_loaded = 1;
     drive[dnr].image = NULL;

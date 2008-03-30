@@ -44,6 +44,7 @@
 #include <string.h>            // strcpy
 #include <direct.h>            // chdir
 
+#include "lib.h"
 #include "log.h"
 #include "mem.h"               // mem_romset_resource_list
 #include "tape.h"              // tape_image_attach
@@ -593,7 +594,7 @@ static void LboxFreeContents(HWND hwnd)
             continue;
 
         WinLboxSetItemHandle(hwnd, idx, 0);
-        free(ptr);
+        lib_free(ptr);
     }
 
     WinLboxEmpty(hwnd);
@@ -752,7 +753,7 @@ static void FillFBox(HWND hwnd)
         char *txt = malloc(len);
         sprintf(txt, "<%s> %s", filter[i].desc, filter[i].ext);
         WinInsertLboxItem(fbox, LIT_END, txt);
-        free(txt);
+        lib_free(txt);
         i++;
     }
     WinInsertLboxItem(fbox, LIT_END, "<All Files> ");
@@ -811,7 +812,7 @@ static void NewFilter(HWND hwnd)
     char *txt = malloc(len);
     WinQueryLboxItemText(ebox, item, txt, len);
     WinSetWindowText(name, strrchr(txt, '>')+2);
-    free(txt);
+    lib_free(txt);
 
     //
     // set focus to entry field and simulate an Apply
@@ -880,7 +881,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             *(strrchr(szpath, '\\')+1)='\0';
 
             WinSetDlgItemText(hwnd, DID_DIR_SELECTED, szpath);
-            free (szpath);
+            lib_free (szpath);
 
             szpath = util_concat(archdep_boot_path(), "\\vice2.fon", NULL);
             if (!GpiLoadFonts(WinQueryAnchorBlock(hwnd), szpath))
@@ -888,7 +889,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 log_debug("dlg-fileio.c: GpiLoadFonts('%s') failed.", szpath);
                 WinEnableControl(hwnd, DID_FONTNAME_LB, FALSE);
             }
-            free(szpath);
+            lib_free(szpath);
         }
         return FALSE;
 
@@ -899,7 +900,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             LboxFreeContents(WinWindowFromID(hwnd, DID_CONTENTS_LB));
             if (!GpiUnloadFonts(WinQueryAnchorBlock(hwnd), szpath))
                 log_debug("dlg-fileio.c: GpiUnloadFonts('%s') failed.", szpath);
-            free (szpath);
+            lib_free (szpath);
         }
         break;
 
@@ -1109,7 +1110,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 };
 
                 WinMessageBox2(HWND_DESKTOP, hwnd, txt, "VICE/2 Error", 0, &mb);
-                free(txt);
+                lib_free(txt);
                 return FALSE;
             }
 

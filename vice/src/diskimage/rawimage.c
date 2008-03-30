@@ -85,9 +85,9 @@ void rawimage_media_destroy(disk_image_t *image)
 
     rawimage = (rawimage_t *)(image->media);
 
-    free(rawimage->name);
+    lib_free(rawimage->name);
 
-    free(rawimage);
+    lib_free(rawimage);
 }
 
 /*-----------------------------------------------------------------------*/

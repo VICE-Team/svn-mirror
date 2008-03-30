@@ -39,14 +39,15 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "ui.h"
 #include "uilib.h"
 #include "uivideo.h"
 #include "fullscrn.h"
-#include "utils.h"
 #include "winmain.h"
+
 
 static char *palette_file=NULL;
 static int  res_extpalette;
@@ -147,14 +148,14 @@ static void init_advanced_dialog(HWND hwnd)
 		n++;
 	}
     resources_get_value("PaletteFile", (resource_value_t *) &path);
-    palette_file = stralloc(path);
+    palette_file = lib_stralloc(path);
     SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, path);
 }
 
 static void update_palettename(char *name)
 {
-    free(palette_file);
-    palette_file = stralloc(name);
+    lib_free(palette_file);
+    palette_file = lib_stralloc(name);
 }
 
 static BOOL CALLBACK dialog_color_proc(HWND hwnd, UINT msg,
@@ -230,7 +231,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
                     SetWindowLong (hwnd, DWL_MSGRESULT, TRUE);
                     return TRUE;
                 }
-                free(palette_file);
+                lib_free(palette_file);
                 palette_file=NULL;
                 resources_set_value("ExternalPalette", (resource_value_t) res_extpalette);
                 SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
@@ -256,7 +257,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
                             FILE_SELECTOR_DEFAULT_STYLE,NULL)) != NULL) {
                             update_palettename(s);
                             SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, s);
-                            free(s);
+                            lib_free(s);
 							res_extpalette = 1;
 							CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, BST_CHECKED);
                         }

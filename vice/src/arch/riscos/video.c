@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "log.h"
 #include "wimp.h"
 #include "resources.h"
@@ -473,7 +474,7 @@ static void video_frame_buffer_flush_pal(video_canvas_t *canvas)
 
   if ((sarea = wlsprite_plot_get_sarea(&(canvas->fb.palplot))) != NULL)
   {
-    free(sarea);
+    lib_free(sarea);
     wlsprite_plot_bind(&(canvas->fb.palplot), (sprite_area_t*)NULL);
     canvas->fb.paldata = NULL;
   }
@@ -487,7 +488,7 @@ static void video_frame_buffer_free(video_canvas_t *canvas, BYTE *draw_buffer)
 
   if ((sarea = wlsprite_plot_get_sarea(&(canvas->fb.normplot))) != NULL)
   {
-    free(sarea);
+    lib_free(sarea);
     wlsprite_plot_bind(&(canvas->fb.normplot), (sprite_area_t*)NULL);
     canvas->fb.framedata = NULL;
   }
@@ -495,7 +496,7 @@ static void video_frame_buffer_free(video_canvas_t *canvas, BYTE *draw_buffer)
 
   if (fb->bplot_trans != NULL)
   {
-    free(fb->bplot_trans);
+    lib_free(fb->bplot_trans);
     fb->bplot_trans = NULL;
   }
 }
@@ -572,7 +573,7 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
 
       if (canvas->fb.bplot_trans == NULL)
       {
-        canvas->fb.bplot_trans = xmalloc(256*sizeof(int));
+        canvas->fb.bplot_trans = lib_malloc(256*sizeof(int));
       }
       trans = canvas->fb.bplot_trans;
       if (ldbpp == 4)
@@ -1030,13 +1031,13 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette)
 
   if (canvas->current_palette != NULL)
   {
-    free(canvas->current_palette);
+    lib_free(canvas->current_palette);
   }
   canvas->num_colours = palette->num_entries;
   if (canvas->num_colours > 256)
     canvas->num_colours = 256;
 
-  canvas->current_palette = xmalloc((canvas->num_colours)*sizeof(int));
+  canvas->current_palette = lib_malloc((canvas->num_colours)*sizeof(int));
 
   fb = &(canvas->fb);
   p = palette->entries;
@@ -1094,7 +1095,7 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette)
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
   canvas->video_draw_buffer_callback
-        = xmalloc(sizeof(video_draw_buffer_callback_t));
+        = lib_malloc(sizeof(video_draw_buffer_callback_t));
   canvas->video_draw_buffer_callback->draw_buffer_alloc
         = video_frame_buffer_alloc;
   canvas->video_draw_buffer_callback->draw_buffer_free
@@ -1111,7 +1112,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 {
   canvas_list_t *newCanvas;
 
-  canvas->name = stralloc(canvas->viewport->title);
+  canvas->name = lib_stralloc(canvas->viewport->title);
 
   canvas->width = *width; canvas->height = *height;
 
@@ -1135,7 +1136,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
   if ((newCanvas = (canvas_list_t*)malloc(sizeof(canvas_list_t))) == NULL)
   {
-    free(canvas);
+    lib_free(canvas);
     return NULL;
   }
 
@@ -1152,7 +1153,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
     if ((canvas->window = wimp_window_clone(EmuWindow)) == NULL)
     {
-      free(canvas); free(newCanvas);
+      lib_free(canvas); lib_free(newCanvas);
       return NULL;
     }
     canvas->window->Handle = Wimp_CreateWindow(((int*)(canvas->window)) + 1);
@@ -1188,7 +1189,7 @@ void video_canvas_destroy(video_canvas_t *s)
       else
         last->next = clist->next;
 
-      free(clist); break;
+      lib_free(clist); break;
     }
     last = clist; clist = clist->next;
   }
@@ -1197,21 +1198,21 @@ void video_canvas_destroy(video_canvas_t *s)
 
   NumberOfCanvases--;
 
-  free(s->name);
+  lib_free(s->name);
   s->name = NULL;
   fb = &(s->fb);
 
   if (s->video_draw_buffer_callback != NULL)
-    free(s->video_draw_buffer_callback);
+    lib_free(s->video_draw_buffer_callback);
 
   if (s->current_palette != NULL)
   {
-    free(s->current_palette);
+    lib_free(s->current_palette);
     s->current_palette = NULL;
   }
 
   video_canvas_shutdown(s);
-  free(s);
+  lib_free(s);
 }
 
 

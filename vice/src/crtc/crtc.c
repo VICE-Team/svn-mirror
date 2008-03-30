@@ -41,6 +41,7 @@
 #include "crtc-resources.h"
 #include "crtc.h"
 #include "crtctypes.h"
+#include "lib.h"
 #include "log.h"
 #include "palette.h"
 #include "machine.h"
@@ -380,7 +381,7 @@ raster_t *crtc_init(void)
 
     title = util_concat("VICE: ", machine_name, " emulator", NULL);
     raster_set_title(raster, title);
-    free(title);
+    lib_free(title);
 
     if (raster_realize(raster) < 0)
         return NULL;

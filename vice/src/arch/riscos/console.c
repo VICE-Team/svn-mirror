@@ -34,9 +34,9 @@
 #include "textwin.h"
 
 #include "console.h"
+#include "lib.h"
 #include "ui.h"
 #include "uimsgwin.h"
-#include "utils.h"
 #include "videoarch.h"
 
 
@@ -61,7 +61,7 @@ console_t *console_open(const char *id)
 
     mon_input = stdin; mon_output = stdout;
 
-    console = xmalloc(sizeof(console_t));
+    console = lib_malloc(sizeof(console_t));
 
     console->console_xres = 80;
     console->console_yres = 25;
@@ -92,7 +92,7 @@ int console_close(console_t *log)
       ui_message_window_close(msg_win_monitor);
     }
 
-    free(log);
+    lib_free(log);
 
     return 0;
 }
@@ -144,7 +144,7 @@ char *console_in(console_t *log, const char *prompt)
     {
       int len;
 
-      p = (char*)xmalloc(1024);
+      p = (char*)lib_malloc(1024);
 
       fflush(mon_output);
       fgets(p, 1024, mon_input);
@@ -166,7 +166,7 @@ char *console_in(console_t *log, const char *prompt)
         cmd = ui_message_window_get_last_command(msg_win_monitor);
       }
       while (cmd == NULL);
-      p = (char*)xmalloc(wimp_strlen(cmd) + 1);
+      p = (char*)lib_malloc(wimp_strlen(cmd) + 1);
       wimp_strcpy(p, cmd);
       ui_message_window_busy(msg_win_monitor, 1);
     }

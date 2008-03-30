@@ -88,9 +88,9 @@ void fsimage_media_destroy(disk_image_t *image)
 
     fsimage = (fsimage_t *)(image->media);
 
-    free(fsimage->name);
+    lib_free(fsimage->name);
 
-    free(fsimage);
+    lib_free(fsimage);
 }
 
 /*-----------------------------------------------------------------------*/
@@ -142,7 +142,7 @@ int fsimage_close(disk_image_t *image)
     zfclose(fsimage->fd);
 
     if (image->error_info != NULL) {
-        free(image->error_info);
+        lib_free(image->error_info);
         image->error_info = NULL;
     }
 

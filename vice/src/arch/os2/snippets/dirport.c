@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "lib.h"
+
 DIR *opendir (char *path)
 {
     APIRET ulrc;
@@ -16,11 +18,11 @@ DIR *opendir (char *path)
        dir->handle = HDIR_CREATE;
        ulrc = DosFindFirst (name, &(dir->handle), _A_ANY, &(dir->buffer),
                             sizeof(struct _FILEFINDBUF3), &cnt, FIL_STANDARD);
-       free(name);
+       lib_free(name);
     }
     if (!name || ulrc) {
        DosFindClose (dir->handle);
-       free(dir);
+       lib_free(dir);
        dir = NULL;
     }
     return dir;
@@ -35,7 +37,7 @@ struct dirent *readdir (DIR *dir)
 int closedir (DIR *dir)
 {
     APIRET ulrc = DosFindClose (dir->handle);
-    free(dir);
+    lib_free(dir);
     return (int)ulrc;
 }
 

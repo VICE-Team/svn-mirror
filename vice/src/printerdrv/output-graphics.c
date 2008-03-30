@@ -30,10 +30,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "log.h"
 #include "cmdline.h"
 #include "gfxoutput.h"
-#include "lib.h"
 #include "output-select.h"
 #include "output-graphics.h"
 #include "output.h"
@@ -143,7 +143,7 @@ static int output_graphics_open(unsigned int prnr,
     output_gfx[prnr].screenshot.y_offset = 0;
     output_gfx[prnr].screenshot.palette = output_parameter->palette;
 
-    free(output_gfx[prnr].line);
+    lib_free(output_gfx[prnr].line);
     output_gfx[prnr].line = (BYTE *)lib_malloc(output_parameter->maxcol);
     memset(output_gfx[prnr].line, OUTPUT_PIXEL_WHITE, output_parameter->maxcol);
 

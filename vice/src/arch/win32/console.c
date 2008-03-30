@@ -36,11 +36,12 @@
 
 #include "console.h"
 #include "fullscrn.h"
+#include "lib.h"
 #include "res.h"
 #include "ui.h"
 #include "uimon.h"
-#include "utils.h"
 #include "winmain.h"
+
 
 /*
  MAX_WIDTH is not allowed to be bigger than (MIN_XSIZE * MIN_YSIZE) !
@@ -171,10 +172,10 @@ static void add_to_history( console_private_t *pcp, const char *entry )
 		if (pcp->history[pcp->nHistory] != NULL)
 		{
 			/* delete old history entry */
-			free( pcp->history[pcp->nHistory] );
+			lib_free( pcp->history[pcp->nHistory] );
 		};
 
-		pcp->history[pcp->nHistory] = stralloc( entry );
+		pcp->history[pcp->nHistory] = lib_stralloc( entry );
 
 		pcp->nHistory = (pcp->nHistory+1) % MAX_HISTORY;
 	}
@@ -455,7 +456,7 @@ static console_private_t *allocate_window_memory( console_private_t* pcp )
 		n = pcp->xMax * pcp->yMax;
 
 		/* allocate buffer for window contents */
-		pcp->pchWindowBuffer = xmalloc(sizeof(char) * n );
+		pcp->pchWindowBuffer = lib_malloc(sizeof(char) * n );
 
 		/* clear the buffer with spaces */
 		memset( pcp->pchWindowBuffer, ' ', sizeof(char) * n );
@@ -488,7 +489,7 @@ static console_private_t *reallocate_window_memory( console_private_t* pcp, unsi
 	}
 
 	/* we're done, release the old buffer */
-	free( pOldBuffer );
+	lib_free( pOldBuffer );
 
 	return pcp;
 }
@@ -498,7 +499,7 @@ static void free_window_memory( console_private_t *pcp )
 {
 	if (pcp->pchWindowBuffer)
 	{
-		free( pcp->pchWindowBuffer);
+		lib_free( pcp->pchWindowBuffer);
 		pcp->pchWindowBuffer = NULL;
 	}
 
@@ -506,13 +507,13 @@ static void free_window_memory( console_private_t *pcp )
         FileClose( pcp );
 
 	if (pcp->pchName)
-		free( pcp->pchName );
+		lib_free( pcp->pchName );
 
 	if (pcp->pchOnClose)
-		free( pcp->pchOnClose );
+		lib_free( pcp->pchOnClose );
 
 	if (pcp->pConsole)
-		free( pcp->pConsole );
+		lib_free( pcp->pConsole );
 
 	if (pcp->history[0])
 	{
@@ -523,11 +524,11 @@ static void free_window_memory( console_private_t *pcp )
 			if (pcp->history[i] == NULL)
 				break;
 
-			free( pcp->history[i] );
+			lib_free( pcp->history[i] );
 		}
 	}
 
-	free( pcp );
+	lib_free( pcp );
 }
 
 
@@ -777,7 +778,7 @@ char *console_in(console_t *log, const char *prompt)
 	}
 	while (!pcp->bInputReady);
 
-	p = stralloc( pcp->achInputBuffer );
+	p = lib_stralloc( pcp->achInputBuffer );
 
 
     /* Remove trailing newlines.  */
@@ -900,7 +901,7 @@ void MarkModeInClipboard( console_private_t *pcp )
         2nd +1 because: we add a zero at the *beginning* (so that the removal
                         of the trailing spaces will not go before the buffer.
         */
-        char *buffer = xmalloc( (pcp->xMax+2)*pcp->yMax + 1 + 1);
+        char *buffer = lib_malloc( (pcp->xMax+2)*pcp->yMax + 1 + 1);
         char *p      = buffer + 1;
 
         unsigned xMin, yMin, xMax, yMax, row;
@@ -1000,7 +1001,7 @@ void MarkModeInClipboard( console_private_t *pcp )
 
         // +1 because we have written a leading zero at buffer[0]
         WriteInClipboard( pcp->hwndConsole, buffer+1 );
-        free(buffer);
+        lib_free(buffer);
     }
 }
 
@@ -1517,8 +1518,8 @@ static console_private_t *find_console_entry(const char *id)
 	{
 		console_t *pConsole;
 		
-		pConsole = xmalloc( sizeof(console_t) );
-		pcp = xmalloc( sizeof(console_private_t) );
+		pConsole = lib_malloc( sizeof(console_t) );
+		pcp = lib_malloc( sizeof(console_private_t) );
 
 		/* clear the whole structures */
 		memset( pConsole, 0, sizeof(console_t) );
@@ -1529,11 +1530,11 @@ static console_private_t *find_console_entry(const char *id)
 		pConsole->private = pcp;
 
 		/* copy the console name into the structure */
-		pcp->pchName = stralloc(id);
+		pcp->pchName = lib_stralloc(id);
 
 		/* set the input to be returned when window is closed */
 		/* @SRT TODO: this should be set by a function! */
-		pcp->pchOnClose = stralloc( "x" );
+		pcp->pchOnClose = lib_stralloc( "x" );
 
 		/* do first inits */
 		pcp->xMax                   =

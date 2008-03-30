@@ -38,6 +38,7 @@
 #include "fliplist.h"
 #include "ioutil.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
@@ -117,10 +118,10 @@ static UI_CALLBACK(set_custom_refresh_rate)
         int current_speed;
 
         vsync_suspend_speed_eval();
-        msg_string = stralloc(_("Enter refresh rate"));
+        msg_string = lib_stralloc(_("Enter refresh rate"));
         button = ui_input_string(_("Refresh rate"), msg_string, input_string,
                                  32);
-        free(msg_string);
+        lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
             resources_get_value("Speed", (resource_value_t *)&current_speed);
@@ -190,10 +191,10 @@ static UI_CALLBACK(set_custom_maximum_speed)
         have_custom_maximum_speed = 0;
     } else {
         vsync_suspend_speed_eval();
-        msg_string = stralloc(_("Enter speed"));
+        msg_string = lib_stralloc(_("Enter speed"));
         button = ui_input_string(_("Maximum run speed"), msg_string,
                                  input_string, 32);
-        free(msg_string);
+        lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             int current_refresh_rate;
 
@@ -309,7 +310,7 @@ static UI_CALLBACK(select_user_keymap)
       case UI_BUTTON_OK:
         resources_set_value(resname, (resource_value_t)filename);
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -317,13 +318,13 @@ static UI_CALLBACK(select_user_keymap)
         break;
     }
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 static UI_CALLBACK(dump_keymap)
 {
     char *wd;
-    wd = xmalloc(MAXPATHLEN);
+    wd = lib_malloc(MAXPATHLEN);
 
     ioutil_getcwd(wd, MAXPATHLEN);
     vsync_suspend_speed_eval();
@@ -332,7 +333,7 @@ static UI_CALLBACK(dump_keymap)
         if (keyboard_keymap_dump(wd) < 0)
             ui_error(strerror(errno));
     }
-    free(wd);
+    lib_free(wd);
 }
 
 static ui_menu_entry_t keyboard_settings_submenu[] = {
@@ -366,17 +367,17 @@ UI_CALLBACK(ui_load_romset)
     static char *last_dir;
 
     vsync_suspend_speed_eval();
-    title = stralloc(_("Load custom ROM set definition"));
+    title = lib_stralloc(_("Load custom ROM set definition"));
     filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vrs",
                               &button, False, NULL);
 
-    free(title);
+    lib_free(title);
     switch (button) {
       case UI_BUTTON_OK:
         if (romset_load(filename) < 0)
             ui_error(_("Could not load ROM set file\n'%s'"), filename);
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -385,7 +386,7 @@ UI_CALLBACK(ui_load_romset)
     }
     ui_update_menus();
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 UI_CALLBACK(ui_dump_romset)
@@ -395,18 +396,18 @@ UI_CALLBACK(ui_dump_romset)
     int len = 512;
 
     vsync_suspend_speed_eval();
-    title = stralloc(_("File to dump ROM set definition to"));
+    title = lib_stralloc(_("File to dump ROM set definition to"));
 
-    new_value = xmalloc(len + 1);
+    new_value = lib_malloc(len + 1);
     strcpy(new_value, "");
 
     button = ui_input_string(title, _("ROM set file:"), new_value, len);
-    free(title);
+    lib_free(title);
 
     if (button == UI_BUTTON_OK)
         romset_dump(new_value, mem_romset_resources_list);
 
-    free(new_value);
+    lib_free(new_value);
 }
 
 UI_CALLBACK(ui_load_rom_file)
@@ -416,18 +417,18 @@ UI_CALLBACK(ui_load_rom_file)
     static char *last_dir;
 
     vsync_suspend_speed_eval();
-    title = stralloc(_("Load ROM file"));
+    title = lib_stralloc(_("Load ROM file"));
     filename = ui_select_file(title, NULL, 0, False, last_dir, "*", &button,
                               False, NULL);
 
-    free(title);
+    lib_free(title);
     switch (button) {
       case UI_BUTTON_OK:
         if (resources_set_value(UI_MENU_CB_PARAM,
             (resource_value_t)filename) < 0)
             ui_error(_("Could not load ROM file\n'%s'"), filename);
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -436,7 +437,7 @@ UI_CALLBACK(ui_load_rom_file)
     }
     ui_update_menus();
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 UI_CALLBACK(ui_unload_rom_file)

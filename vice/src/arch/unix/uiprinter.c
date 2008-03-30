@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lib.h"
 #include "printer.h"
 #include "resources.h"
 #include "uimenu.h"
@@ -122,7 +123,7 @@ static UI_CALLBACK(set_printer_dump_file)
       case UI_BUTTON_OK:
         resources_set_value(resource, (resource_value_t)filename);
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -130,7 +131,7 @@ static UI_CALLBACK(set_printer_dump_file)
         break;
     }
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 #endif
 
@@ -144,23 +145,23 @@ static UI_CALLBACK(set_printer_exec_file)
     ui_button_t button;
 
     vsync_suspend_speed_eval();
-    title = stralloc(_("Command to execute for printing (preceed with '|')"));
+    title = lib_stralloc(_("Command to execute for printing (preceed with '|')"));
 
     resources_get_value(resname, (resource_value_t *)&value);
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
 
-    new_value = xmalloc(len + 1);
+    new_value = lib_malloc(len + 1);
     strcpy(new_value, value);
 
     button = ui_input_string(title, _("Command:"), new_value, len);
-    free(title);
+    lib_free(title);
 
     if (button == UI_BUTTON_OK)
         resources_set_value(resname, (resource_value_t)new_value);
 
-    free(new_value);
+    lib_free(new_value);
 }
 
 /* ------------------------------------------------------------------------- */

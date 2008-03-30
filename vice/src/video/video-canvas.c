@@ -63,10 +63,10 @@ video_canvas_t *video_canvas_init(void)
 void video_canvas_shutdown(video_canvas_t *canvas)
 {
     if (canvas != NULL) {
-        free(canvas->videoconfig);
-        free(canvas->draw_buffer);
-        free(canvas->viewport);
-        free(canvas->geometry);
+        lib_free(canvas->videoconfig);
+        lib_free(canvas->draw_buffer);
+        lib_free(canvas->viewport);
+        lib_free(canvas->geometry);
     }
 }
 

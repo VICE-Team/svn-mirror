@@ -29,8 +29,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "plus4ui.h"
+#include "lib.h"
 #include "menudefs.h"
+#include "plus4ui.h"
 #include "resources.h"
 #include "sidui.h"
 #include "tui.h"
@@ -74,7 +75,7 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
                 < 0)
                 tui_error("Invalid palette file");
             ui_update_menus();
-            free(name);
+            lib_free(name);
         }
     }
     return NULL;
@@ -147,7 +148,7 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
         if (name != NULL) {
             if (resources_set_value(param, (resource_value_t)name) < 0)
                 ui_error("Could not load ROM file '%s'", name);
-            free(name);
+            lib_free(name);
         }
     }
     return NULL;

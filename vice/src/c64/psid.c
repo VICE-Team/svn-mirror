@@ -34,13 +34,13 @@
 #include "c64mem.h"
 #include "cmdline.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "psid.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 #include "vsidui.h"
 #include "vsync.h"
 #include "zfile.h"
@@ -169,8 +169,8 @@ int psid_load_file(const char* filename)
     return -1;
   }
 
-  free(psid);
-  psid = xmalloc(sizeof(psid_t));
+  lib_free(psid);
+  psid = lib_malloc(sizeof(psid_t));
 
   if (fread(ptr, 1, 6, f) != 6
       || (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0))
@@ -315,7 +315,7 @@ int psid_load_file(const char* filename)
 
 fail:
   zfclose(f);
-  free(psid);
+  lib_free(psid);
   psid = NULL;
   return -1;
 }
@@ -441,7 +441,7 @@ void psid_set_tune(int tune)
 {
   if (tune == -1) {
     psid_tune = 0;
-    free(psid);
+    lib_free(psid);
     psid = NULL;
   }
   else {

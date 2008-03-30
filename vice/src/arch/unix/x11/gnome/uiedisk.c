@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <gnome.h>
 
+#include "lib.h"
 #include "uiedisk.h"
 #include "ui.h"
 #include "uiarch.h"
@@ -198,7 +199,7 @@ int ui_empty_disk_dialog(char *name)
 	ui_error(_("Can't create image `%s'."));
 	ret = -1;
     }
-    free(format_text);
+    lib_free(format_text);
 
     return ret;
 }

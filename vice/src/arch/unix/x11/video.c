@@ -65,13 +65,13 @@
 #include "color.h"
 #include "cmdline.h"
 #include "fullscreenarch.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
 #include "uicolor.h"
-#include "utils.h"
 #include "video.h"
 #include "videoarch.h"
 #include "x11ui.h"
@@ -458,7 +458,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 
 #ifdef USE_XF86_EXTENSIONS
     canvas->fullscreenconfig
-        = (fullscreenconfig_t *)xcalloc(1, sizeof(fullscreenconfig_t));
+        = (fullscreenconfig_t *)lib_calloc(1, sizeof(fullscreenconfig_t));
     fullscreen_init_alloc_hooks(canvas);
 #endif
 }
@@ -568,7 +568,7 @@ void video_canvas_destroy(video_canvas_t *canvas)
 #ifdef USE_XF86_EXTENSIONS
     if (canvas != NULL) {
         fullscreen_shutdown_alloc_hooks(canvas);
-        free(canvas->fullscreenconfig);
+        lib_free(canvas->fullscreenconfig);
     }
 #endif
 

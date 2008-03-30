@@ -34,6 +34,7 @@
 #include <windows.h>
 
 #include "drive.h"
+#include "lib.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
@@ -43,6 +44,7 @@
 #include "uilib.h"
 #include "winmain.h"
 #include "utils.h"
+
 
 /* Mingw & pre VC 6 headers doesn't have this definition */
 #ifndef OFN_ENABLESIZING
@@ -111,7 +113,7 @@ static char *ui_save_as_console(const char *title, const char *filter, HWND hwnd
     ofn.lpstrDefExt = NULL;
 
     if (GetSaveFileName(&ofn)) {
-        return stralloc(name);
+        return lib_stralloc(name);
     } else {
         return NULL;
     }
@@ -134,7 +136,7 @@ FILE *ui_console_save_dialog(HWND hwnd)
         if (!pfile)
             ui_error("Cannot write log filei `%s'.", s);
 
-        free(s);
+        lib_free(s);
     }
     return pfile;
 }

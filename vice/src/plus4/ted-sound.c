@@ -30,10 +30,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "maincpu.h"
 #include "sound.h"
 #include "ted-sound.h"
-#include "utils.h"
+
 
 static BYTE siddata[5];
 
@@ -107,7 +108,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 
 sound_t *sound_machine_open(int chipno)
 {
-    return (sound_t*)xcalloc(1, sizeof(sound_t));
+    return (sound_t *)lib_calloc(1, sizeof(sound_t));
 }
 
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
@@ -121,7 +122,7 @@ int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 
 void sound_machine_close(sound_t *psid)
 {
-    free(psid);
+    lib_free(psid);
 }
 
 void sound_machine_store(sound_t *psid, WORD addr, BYTE val)
@@ -195,7 +196,7 @@ void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 
 char *sound_machine_dump_state(sound_t *psid)
 {
-    return xmsprintf("#SID: clk=%d v=%d\n", maincpu_clk, psid->volume);
+    return lib_msprintf("#SID: clk=%d v=%d\n", maincpu_clk, psid->volume);
 }
 
 int sound_machine_cycle_based(void)

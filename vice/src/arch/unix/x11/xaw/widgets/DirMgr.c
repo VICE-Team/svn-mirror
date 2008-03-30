@@ -34,7 +34,7 @@
 
 #include <stdlib.h>		/* [EP] 05/04/97 */
 
-#include "utils.h"              /* [AB] 2000-07-18 Use xmalloc */
+#include "lib.h"
 
 #include "DirMgr.h"
 
@@ -127,14 +127,14 @@ int free_data;
 {
 	DirectoryMgr *dm;
 
-	dm = (DirectoryMgr *)xmalloc(sizeof(DirectoryMgr));
+	dm = (DirectoryMgr *)lib_malloc(sizeof(DirectoryMgr));
 	memset(dm, 0, sizeof(DirectoryMgr));
 
 	if (DirectoryOpen(path,DirectoryMgrDir(dm)) == FALSE)
 	{
 		fprintf(stderr,"DirectoryMgrOpen: can't open dir '%s'\n",
 			DirectoryMgrDir(dm)->path); /* [EP] 05/04/97 */
-		free(dm);
+		lib_free(dm);
                 RegExpFree(f_data);
 		return(NULL);
 	}
@@ -147,14 +147,14 @@ int free_data;
 void DirectoryMgrClose(dm)
 DirectoryMgr *dm;
 {
-	free(DirectoryMgrData(dm));
-	free(DirectoryMgrSortedPtrs(dm));
+	lib_free(DirectoryMgrData(dm));
+	lib_free(DirectoryMgrSortedPtrs(dm));
 	if (DirectoryMgrFreeFilterData(dm))
 	{
                 RegExpFree(&DirectoryMgrFilterData(dm));
 	}
 	DirectoryClose(DirectoryMgrDir(dm));
-	free(dm);
+	lib_free(dm);
 } /* End DirectoryMgrClose */
 
 
@@ -189,21 +189,23 @@ DirectoryMgr *dm;
 	DirectoryMgrTotalCount(dm) = 0;
 	DirectoryMgrFilteredCount(dm) = 0;
 	DirectoryRestart(DirectoryMgrDir(dm));
-	if (DirectoryMgrData(dm)) free(DirectoryMgrData(dm));
-	if (DirectoryMgrSortedPtrs(dm)) free(DirectoryMgrSortedPtrs(dm));
+	if (DirectoryMgrData(dm))
+            lib_free(DirectoryMgrData(dm));
+	if (DirectoryMgrSortedPtrs(dm))
+            lib_free(DirectoryMgrSortedPtrs(dm));
 	head = NULL;
 	f_func = DirectoryMgrFilterFunc(dm);
 	f_data = &DirectoryMgrFilterData(dm);
 	while (1)
 	{
-		cons = (DirEntryCons *)xmalloc(sizeof(DirEntryCons));
+		cons = (DirEntryCons *)lib_malloc(sizeof(DirEntryCons));
                 memset(cons, 0, sizeof(DirEntryCons));
 
 		err = DirectoryReadNextEntry(DirectoryMgrDir(dm),
 					     &(cons->dir_entry));
 		if (err == FALSE)
 		{
-			free(cons);
+			lib_free(cons);
 			break;
 		}
 		++ DirectoryMgrTotalCount(dm);
@@ -223,14 +225,14 @@ DirectoryMgr *dm;
 		}
 		    else			/* Filter Failed */
 		{
-			free(cons);
+			lib_free(cons);
 		}
 	}
 
 	data_size = sizeof(DirEntry) * DirectoryMgrFilteredCount(dm);
 	ptrs_size = sizeof(DirEntry *) * DirectoryMgrFilteredCount(dm);
-	dm_data = (DirEntry *)xmalloc(data_size);
-	dm_ptrs = (DirEntry **)xmalloc(ptrs_size);
+	dm_data = (DirEntry *)lib_malloc(data_size);
+	dm_ptrs = (DirEntry **)lib_malloc(ptrs_size);
 
 	DirectoryMgrData(dm) = dm_data;
 	DirectoryMgrSortedPtrs(dm) = dm_ptrs;
@@ -240,7 +242,7 @@ DirectoryMgr *dm;
 		DirectoryMgrData(dm)[i] = head->dir_entry;
 		DirectoryMgrSortedPtrs(dm)[i] = &(DirectoryMgrData(dm)[i]);
 		cons = head->next;
-		free(head);
+		lib_free(head);
 		head = cons;
 	}
 

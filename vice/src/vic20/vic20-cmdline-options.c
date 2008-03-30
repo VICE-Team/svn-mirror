@@ -32,11 +32,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "log.h"
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
-#include "utils.h"
 #include "vic20mem.h"
 
 
@@ -79,7 +79,7 @@ static int cmdline_memory(const char *param, void *extra_param)
     } else {
         char *opt;
 
-        opt = xmalloc(strlen(param) + 1);
+        opt = lib_malloc(strlen(param) + 1);
         while (*memstring) {
             for (optend = memstring; *optend && *optend != ','; optend++);
 
@@ -112,14 +112,14 @@ static int cmdline_memory(const char *param, void *extra_param)
             } else {
                 log_error(LOG_ERR,
                           "Unsupported memory extension option: `%s'.", opt);
-                free(opt);
+                lib_free(opt);
                 return -1;
             }
             memstring = optend;
             if (*memstring)
                 memstring++;    /* skip ',' */
         }
-        free(opt);
+        lib_free(opt);
     }
 
     /* FIXME: this is before log is initialized, right? */

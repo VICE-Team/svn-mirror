@@ -39,6 +39,7 @@
 #include "cartridge.h"
 #include "cmdline.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -276,7 +277,7 @@ static int reu_activate(void)
     if (!reu_size)
         return 0;
 
-    reu_ram = (BYTE *)xrealloc((void *)reu_ram, (size_t)reu_size);
+    reu_ram = (BYTE *)lib_realloc((void *)reu_ram, (size_t)reu_size);
     log_message(reu_log, "%dKB unit installed.", (int)(reu_size >> 10));
 
     if (!util_check_null_string(reu_filename)) {
@@ -313,7 +314,7 @@ static int reu_deactivate(void)
         log_message(reu_log, "Writing REU image %s.", reu_filename);
     }
 
-    free(reu_ram);
+    lib_free(reu_ram);
     reu_ram = NULL;
 
     return 0;

@@ -42,7 +42,7 @@
 #include <stdlib.h>            // free
 #include <direct.h>            // chdir
 
-#include "utils.h"             // xmsprintf
+#include "lib.h"               // lib_msprintf
 #include "drive.h"             // DRIVE_TYPE_*
 #include "attach.h"            // file_system_*
 #include "fliplist.h"          // FLIP_NEXT
@@ -57,9 +57,9 @@ static int toggle_drive_res(char *format, int drive)
 {
     int res;
     char *tmp;
-    tmp=xmsprintf(format, drive+8);
+    tmp=lib_msprintf(format, drive+8);
     resources_toggle(tmp, (resource_value_t*)&res);
-    free(tmp);
+    lib_free(tmp);
     return res;
 }
 

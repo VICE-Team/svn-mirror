@@ -56,11 +56,11 @@ static void dump_fb(char *wo);
 #include "resources.h"
 #include "raster/raster.h"
 #include "palette.h"
+#include "lib.h"
 #include "log.h"
 #include "ui.h"
 #include "uimenu.h"
 #include "uisettings.h"
-#include "utils.h"
 #include "video.h"
 #include "videoarch.h"
 #include "vsyncapi.h"
@@ -158,7 +158,7 @@ int dga2_init(void)
 int dga2_init_alloc_hooks(struct video_canvas_s *canvas)
 {
     canvas->video_draw_buffer_callback =
-        xmalloc(sizeof(struct video_draw_buffer_callback_s));
+        lib_malloc(sizeof(struct video_draw_buffer_callback_s));
     canvas->video_draw_buffer_callback->draw_buffer_alloc =
         dga2_draw_buffer_alloc;
     canvas->video_draw_buffer_callback->draw_buffer_free =
@@ -170,7 +170,7 @@ int dga2_init_alloc_hooks(struct video_canvas_s *canvas)
 
 void dga2_shutdown_alloc_hooks(struct video_canvas_s *canvas)
 {
-    free(canvas->video_draw_buffer_callback);
+    lib_free(canvas->video_draw_buffer_callback);
 }
 
 int dga2_available(void)
@@ -247,15 +247,15 @@ void dga2_create_menus(struct ui_menu_entry_s menu[])
     buf[0] = '*';
     buf[50] = '\0';
 
-    resolutions_submenu = (ui_menu_entry_t*)xmalloc(sizeof(ui_menu_entry_t) *
-                          (size_t)(fs_bestmode_counter + 1));
+    resolutions_submenu = (ui_menu_entry_t*)liv_malloc(sizeof(ui_menu_entry_t)
+                          * (size_t)(fs_bestmode_counter + 1));
 
     for(i = 0; i < fs_bestmode_counter ; i++) {
 
         buf[1] = '\0';
         strncat(buf + 1, fs_bestmodes[i].name, 48);
         resolutions_submenu[i].string =
-            (ui_callback_data_t) stralloc(buf);
+            (ui_callback_data_t)lib_stralloc(buf);
         resolutions_submenu[i].callback =
             (ui_callback_t) mode_callback;
         resolutions_submenu[i].callback_data =
@@ -520,7 +520,7 @@ static int dga2_draw_buffer_alloc(struct video_canvas_s *c,
 				  BYTE **draw_buffer, unsigned int w, 
 				  unsigned int h, unsigned int *pitch)
 {
-    *draw_buffer = xmalloc (w * h);
+    *draw_buffer = lib_malloc(w * h);
     fs_fb_data = *draw_buffer;
     fs_cached_db_width = w;
     if (*draw_buffer)
@@ -530,7 +530,7 @@ static int dga2_draw_buffer_alloc(struct video_canvas_s *c,
 
 static void dga2_draw_buffer_free(struct video_canvas_s *c, BYTE *draw_buffer)
 {
-    free(draw_buffer);
+    lib_free(draw_buffer);
 }
 
 static void dga2_draw_buffer_clear(struct video_canvas_s *c, 
@@ -697,7 +697,7 @@ static int dga2_set_mode(resource_value_t v, void *param)
 	    /* Save pixel values of fullscreen mode for reuse in case no new
 	       palette is allocated until next fullscreen activation */
 	    if (fs_saved_colors)
-		free(fs_saved_colors);
+		lib_free(fs_saved_colors);
 	    fs_saved_colors = (DWORD *)malloc (sizeof(DWORD) * 256);
 	    if (!fs_saved_colors)
 	    {

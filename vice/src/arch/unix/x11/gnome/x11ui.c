@@ -67,6 +67,7 @@
 #include "fullscreenarch.h"
 #include "imagecontents.h"
 #include "ioutil.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -479,7 +480,7 @@ void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 		    if (l8menu)
 			gtk_widget_destroy(l8menu);
 		    if (last8menu)
-			free(last8menu);
+			lib_free(last8menu);
 		    last8menu = NULL;
 		    return;
 		}
@@ -490,8 +491,8 @@ void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 		    if (l8menu)
 			gtk_widget_destroy(l8menu);
 		    if (last8menu)
-			free(last8menu);
-		    last8menu = stralloc(last_attached_images[0]);
+			lib_free(last8menu);
+		    last8menu = lib_stralloc(last_attached_images[0]);
 		    l8menu = rebuild_contents_menu(8, last8menu);
 		}
 		if (l8menu)
@@ -508,7 +509,7 @@ void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 		    if (l9menu)
 			gtk_widget_destroy(l9menu);
 		    if (last9menu)
-			free(last9menu);
+			lib_free(last9menu);
 		    last9menu = NULL;
 		    return;
 		}
@@ -519,8 +520,8 @@ void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 		    if (l9menu)
 			gtk_widget_destroy(l9menu);
 		    if (last9menu)
-			free(last9menu);
-		    last9menu = stralloc(last_attached_images[1]);
+			lib_free(last9menu);
+		    last9menu = lib_stralloc(last_attached_images[1]);
 		    l9menu = rebuild_contents_menu(9, last9menu);
 		}
 		if (l9menu)
@@ -552,7 +553,7 @@ static void tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 		if (ltapemenu)
 		    gtk_widget_destroy(ltapemenu);
 		if (lasttapemenu)
-		    free(lasttapemenu);
+		    lib_free(lasttapemenu);
 		lasttapemenu = NULL;
 		return;
 	    }
@@ -563,8 +564,8 @@ static void tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 		if (ltapemenu)
 		    gtk_widget_destroy(ltapemenu);
 		if (lasttapemenu)
-		    free(lasttapemenu);
-		lasttapemenu = stralloc(last_attached_tape);
+		    lib_free(lasttapemenu);
+		lasttapemenu = lib_stralloc(last_attached_tape);
 		ltapemenu = rebuild_contents_menu(1, lasttapemenu);
 	    }
 	    if (ltapemenu)
@@ -1050,7 +1051,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 
     app_shells[num_app_shells - 1].shell = new_window;
     app_shells[num_app_shells - 1].canvas = new_canvas;
-    app_shells[num_app_shells - 1].title = stralloc(title);
+    app_shells[num_app_shells - 1].title = lib_stralloc(title);
     app_shells[num_app_shells - 1].topmenu = topmenu;
 
     gtk_window_set_title(GTK_WINDOW(new_window),title);
@@ -1245,7 +1246,7 @@ void ui_exit(void)
 		    ui_error(_("Cannot save settings."));
 	    } 
 	    else if (b == UI_BUTTON_CANCEL) {
-                free(s);
+                lib_free(s);
 		return;
             }
 	}
@@ -1261,7 +1262,7 @@ void ui_exit(void)
 	
 	exit(0);
     }
-    free(s);
+    lib_free(s);
     vsync_suspend_speed_eval();
 }
 
@@ -1437,8 +1438,8 @@ void ui_display_drive_current_image(unsigned int drive_number,
     
     if (strcmp(name, "") == 0)
     {
-	free(name);
-	name = stralloc(_("<empty>"));
+	lib_free(name);
+	name = lib_stralloc(_("<empty>"));
     }
 
     for (i = 0; i < num_app_shells; i++) {
@@ -1454,7 +1455,7 @@ void ui_display_drive_current_image(unsigned int drive_number,
 	
     }
     if (name)
-	free(name);
+	lib_free(name);
     
     ui_enable_drive_status(enabled_drives, drive_active_led);
 }
@@ -1602,8 +1603,8 @@ void ui_display_tape_current_image(const char *image)
     int i;
     
     if (last_attached_tape)
-	free(last_attached_tape);
-    last_attached_tape = stralloc(image);
+	lib_free(last_attached_tape);
+    last_attached_tape = lib_stralloc(image);
     util_fname_split(image, NULL, &name);
 
     for (i = 0; i < num_app_shells; i++)
@@ -1613,7 +1614,7 @@ void ui_display_tape_current_image(const char *image)
 			     name, NULL);
     }
     if (name)
-	free(name);
+	lib_free(name);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1882,21 +1883,21 @@ UI_CALLBACK(ui_popup_selected_file)
     }
     else if (unit == 8)
     {
-	tmp = stralloc(last_attached_images[0]);
+	tmp = lib_stralloc(last_attached_images[0]);
 	if (autostart_disk(last_attached_images[0], NULL, selected,
             AUTOSTART_MODE_RUN) < 0)
 	    ui_error(_("Can't autostart selection %d in image %s"), selected,
 		     tmp);
-	free(tmp);
+	lib_free(tmp);
     }
     else if (unit == 1)
     {
-	tmp = stralloc(last_attached_tape);
+	tmp = lib_stralloc(last_attached_tape);
 	if (autostart_tape(last_attached_tape, NULL, selected,
             AUTOSTART_MODE_RUN) < 0)
 	    ui_error(_("Can't autostart selection %d in image %s"), selected,
 		     tmp);
-	free(tmp);
+	lib_free(tmp);
     }
 }
 
@@ -2000,9 +2001,9 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     }
 
     /* Cleanup */
-    free(title);
+    lib_free(title);
     g_free(menu);
-    free(s);
+    lib_free(s);
     
     return menu_widget;
 }
@@ -2021,12 +2022,12 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     fname = gtk_file_selection_get_filename(GTK_FILE_SELECTION(data));
 
     if (!fname || !current_image_contents_func)
-	contents = stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
+	contents = lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
     else
 	contents = current_image_contents_func(fname, 0);
 
     if (!contents)
-	contents = stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
+	contents = lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
 
     if (fixedfont)
     {
@@ -2083,7 +2084,7 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
 	GTK_FILE_SELECTION(last_file_selection)->ok_button);
     
     gtk_clist_thaw(GTK_CLIST(image_preview_list));
-    free(contents);
+    lib_free(contents);
 }
 
 static void ui_select_contents_cb(GtkWidget *w, int row, int col, 
@@ -2149,7 +2150,7 @@ char *ui_select_file(const char *title,
 					    path);
 	    gtk_file_selection_complete(GTK_FILE_SELECTION(file_selector),
 					path);
-	    free(path);
+	    lib_free(path);
 	} else {
 	    gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector), 
 					    default_dir);
@@ -2162,12 +2163,12 @@ char *ui_select_file(const char *title,
 					    path);
 	    gtk_file_selection_complete(GTK_FILE_SELECTION(file_selector),
 					path);
-	    free(path);
+	    lib_free(path);
 	} else {
 	    gtk_file_selection_complete(GTK_FILE_SELECTION(file_selector),
 					newdir);
 	}
-	free(newdir);
+	lib_free(newdir);
     }
     if (!allow_autostart)
 	gtk_widget_hide(asb);
@@ -2194,9 +2195,9 @@ char *ui_select_file(const char *title,
 
     /* `ret' gets always malloc'ed.  */
     if (filename)
-        ret = stralloc(filename);
+        ret = lib_stralloc(filename);
     else
-	ret = stralloc("");
+	ret = lib_stralloc("");
 
     ui_popdown(file_selector);
 
@@ -2210,12 +2211,12 @@ char *ui_select_file(const char *title,
     }
 
     if (filesel_dir != NULL) {
-        free(filesel_dir);
+        lib_free(filesel_dir);
     }
     filesel_dir = ioutil_current_dir();
     if (current_dir != NULL) {
         ioutil_chdir(current_dir);
-	free(current_dir);
+	lib_free(current_dir);
     }
 #if 0
     printf("filename %s\n",ret);
@@ -2230,7 +2231,7 @@ char *ui_select_file(const char *title,
         /* Caller has to free the filename.  */
         return ret;
     } else {
-        free(ret);
+        lib_free(ret);
         return NULL;
     }
 }
@@ -2255,7 +2256,7 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
 
     history_id = util_concat("vice: ", prompt, NULL);
     entry = gnome_entry_new(history_id);
-    free(history_id);
+    lib_free(history_id);
     
     label = gtk_label_new(prompt);
     gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(input_dialog)->vbox),

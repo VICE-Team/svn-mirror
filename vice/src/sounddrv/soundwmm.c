@@ -499,7 +499,7 @@ static int wmm_suspend(void)
     for (i = 0; i < num_fragments; i++)
         wmm_write(p, fragment_size * num_of_channels);
 
-    free(p);
+    lib_free(p);
 
     return 0;
 }

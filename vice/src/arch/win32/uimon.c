@@ -34,8 +34,8 @@
 #include <commctrl.h>
 
 #include "console.h"
-
 #include "fullscrn.h"
+#include "lib.h"
 #include "mon_register.h"
 #include "mon_ui.h"
 #include "mon_util.h"
@@ -43,8 +43,6 @@
 #include "resources.h"
 #include "ui.h"
 #include "uimon.h"
-
-#include "utils.h"
 #include "winmain.h"
 
 
@@ -68,12 +66,12 @@ static void uimon_debug(const char *format, ...)
         va_list args;
 
         va_start(args, format);
-        buffer = xmvsprintf(format, args);
+        buffer = lib_mvsprintf(format, args);
         va_end(args);
         OutputDebugString(buffer);
 	    log_message(LOG_DEFAULT,buffer);
         printf(buffer);
-        free(buffer);
+        lib_free(buffer);
 }
 #define UIM_DEBUG(x) uimon_debug x
 #else
@@ -118,7 +116,7 @@ static HWND hwndActive = NULL;
 /**/
 void add_client_window( HWND hwnd )
 {
-    uimon_client_windows_t *new_client = xmalloc( sizeof(uimon_client_windows_t) );
+    uimon_client_windows_t *new_client = lib_malloc( sizeof(uimon_client_windows_t) );
 
     new_client->hwnd = hwnd;
     new_client->next = first_client_window;
@@ -140,7 +138,7 @@ void delete_client_window( HWND hwnd )
             else
                 first_client_window = p->next;
 
-            free(p);
+            lib_free(p);
             break;
         }
     }
@@ -214,7 +212,7 @@ HWND CreateAToolbar( HWND hwnd )
     if (pData->wVersion != 1)
         goto unlock;
 
-    ptbb = (PTBBUTTON) xmalloc(pData->wItemCount*sizeof(TBBUTTON));
+    ptbb = (PTBBUTTON) lib_malloc(pData->wItemCount*sizeof(TBBUTTON));
     if (!ptbb)
         goto unlock;
 
@@ -256,7 +254,7 @@ HWND CreateAToolbar( HWND hwnd )
     if (hToolbar)
         ShowWindow(hToolbar,SW_SHOW);
 
-    free(ptbb);
+    lib_free(ptbb);
     
 unlock:
 #ifdef HAS_UNLOCKRESOURCE
@@ -464,7 +462,7 @@ for (i=size; i; i--)
 prefix |= (((long)xor) << 16); // put integrity check in prefix
 
 // make string
-buffer = xmalloc(((size+2)/3)*4+5);
+buffer = lib_malloc(((size+2)/3)*4+5);
 p = buffer;
 pb = (BYTE*) &prefix;
 n = 3;
@@ -548,7 +546,7 @@ if (content)
    if (ok)
       {
       BYTE *p;
-      p = buffer = xmalloc((strlen(content)*3)/4); // @SRT
+      p = buffer = lib_malloc((strlen(content)*3)/4); // @SRT
       xor = (BYTE) (prefix >> 16); // extract checksum from prefix
       *plen = size = (size_t)(prefix & 0xFFFF);  // extract size from prefix
 
@@ -718,8 +716,8 @@ void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
 		SetWindowPlacement( hwndOpened, &(wd->wpPlacement) );
     };
 
-    free(wd->pMonitorDimensionsBuffer);
-    free(wd);
+    lib_free(wd->pMonitorDimensionsBuffer);
+    lib_free(wd);
 }
 
 static
@@ -743,7 +741,7 @@ PWindowDimensions LoadMonitorDimensions(HWND hwnd)
             bError = TRUE;
         else
         {
-            ret    = xmalloc( sizeof(*ret) );
+            ret    = lib_malloc( sizeof(*ret) );
 			bError = GetPlacement((BYTE **)(&p), &len, &(ret->wpPlacement));
 			SetWindowPlacement( hwnd, &(ret->wpPlacement) );
 
@@ -754,7 +752,7 @@ PWindowDimensions LoadMonitorDimensions(HWND hwnd)
 	}
 
     if (bError)
-        free(buffer);
+        lib_free(buffer);
 
 	return ret;
 }
@@ -814,7 +812,7 @@ void StoreMonitorDimensions(HWND hwnd)
 
     dimensions = encode(buffer,(int)(p-buffer)); // @SRT
     resources_set_value("MonitorDimensions",(resource_value_t *)dimensions);
-    free(dimensions);
+    lib_free(dimensions);
 }
 
 static
@@ -1167,7 +1165,7 @@ void update_last_shown_regs( reg_private_t *prp )
         }
     }
 
-    free( pMonRegs );
+    lib_free( pMonRegs );
 }
 
 static
@@ -1187,7 +1185,7 @@ BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
             ;
 
         prp->RegCount      = cnt;
-        prp->LastShownRegs = xmalloc( sizeof(int) * cnt );
+        prp->LastShownRegs = lib_malloc( sizeof(int) * cnt );
 
         // ensure that ALL registers appear changed this time!
         for (p = pMonRegs, cnt = 0; p != NULL; p = p->next )
@@ -1288,14 +1286,14 @@ BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
 
     if (changed_dimensions)
     {
-        free( prp->LastShownRegs );
+        lib_free( prp->LastShownRegs );
         prp->LastShownRegs = NULL;
         prp->RegCount      = 0;
 
         /* we will be redrawn in the not so far future! */
     }
 
-    free( pMonRegs );
+    lib_free( pMonRegs );
 
     return changed_dimensions;
 }
@@ -1317,7 +1315,7 @@ long CALLBACK reg_window_proc(HWND hwnd,
 	case WM_DESTROY:
         delete_client_window(hwnd);
 		// free the reg_private info 
-		free(prp);
+		lib_free(prp);
 		SetWindowLong( hwnd, GWL_USERDATA, 0 );
 
 	    return DEF_REG_PROG(hwnd, msg, wParam, lParam);
@@ -1367,7 +1365,7 @@ long CALLBACK reg_window_proc(HWND hwnd,
             HDC hdc = GetDC( hwnd );
            	SIZE size;
 
-			prp = xmalloc(sizeof(reg_private_t));
+			prp = lib_malloc(sizeof(reg_private_t));
 
             prp->LastShownRegs = NULL;
             prp->RegCount      = 0;
@@ -1574,7 +1572,7 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         delete_client_window(hwnd);
 		// clear the dis_private info 
 		SetWindowLong( hwnd, GWL_USERDATA, 0 );
-		free(pdp);
+		lib_free(pdp);
 
 		return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
 
@@ -1623,7 +1621,7 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             HDC hdc = GetDC( hwnd );
            	SIZE size;
 
-			pdp = xmalloc(sizeof(dis_private_t));
+			pdp = lib_malloc(sizeof(dis_private_t));
 			
 			/* store pointer to structure with window */
 			SetWindowLong( hwnd, GWL_USERDATA, (long) pdp );
@@ -1763,7 +1761,7 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
                 if (result)
                 {
                     mon_disassembly_goto_string( pdp->pmdp, result );
-                    free( result );
+                    lib_free( result );
                 }
             }
 */
@@ -1895,8 +1893,8 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
                 SelectObject( hdc, hpenBack[lt]   );
                 Rectangle( hdc, md_contents->length*pdp->charwidth, i*pdp->charheight, rect.right+1, (i+1)*pdp->charheight );
 
-                free(md_contents->content);
-                free(md_contents);
+                lib_free(md_contents->content);
+                lib_free(md_contents);
                 md_contents = next;
             }
 
@@ -2156,9 +2154,9 @@ int uimon_out(const char *format, ...)
     if (console_log)
     {
         va_start(ap, format);
-        buffer = xmvsprintf(format, ap);
+        buffer = lib_mvsprintf(format, ap);
         rc = console_out(console_log, buffer);
-        free(buffer);
+        lib_free(buffer);
     }
     return rc;
 }

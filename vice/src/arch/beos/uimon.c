@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "console.h"
+#include "lib.h"
 #include "monitor.h"
 #include "uimon.h"
 
@@ -70,9 +71,9 @@ int uimon_out(const char *format, ...)
     if (console_log)
     {
         va_start(ap, format);
-        buffer = xmvsprintf(format, ap);
+        buffer = lib_mvsprintf(format, ap);
         rc = console_out(console_log, buffer);
-        free(buffer);
+        lib_free(buffer);
     }
     return rc;
 }

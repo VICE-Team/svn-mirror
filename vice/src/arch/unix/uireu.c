@@ -29,9 +29,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lib.h"
 #include "resources.h"
 #include "uimenu.h"
-#include "utils.h"
 #include "vsync.h"
 
 
@@ -48,7 +48,7 @@ UI_CALLBACK(set_reu_image_name)
     int len;
 
     vsync_suspend_speed_eval();
-    title = stralloc(_("REU image name"));
+    title = lib_stralloc(_("REU image name"));
 
     resources_get_value(resname, (resource_value_t *)&value);
 
@@ -59,16 +59,16 @@ UI_CALLBACK(set_reu_image_name)
     if (len < 255)
         len = 255;
 
-    new_value = xmalloc(len + 1);
+    new_value = lib_malloc(len + 1);
     strcpy(new_value, value);
 
     button = ui_input_string(title, _("Name:"), new_value, len);
-    free(title);
+    lib_free(title);
 
     if (button == UI_BUTTON_OK)
         resources_set_value(resname, (resource_value_t)new_value);
 
-    free(new_value);
+    lib_free(new_value);
 }
 
 static ui_menu_entry_t reu_size_submenu[] = {

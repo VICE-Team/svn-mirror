@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "attach.h"
+#include "lib.h"
 #include "resources.h"
 #include "uimenu.h"
 #include "uiprinter.h"
@@ -75,24 +76,24 @@ static UI_CALLBACK(set_fsdevice_directory)
 
     vsync_suspend_speed_eval();
 
-    title = xmsprintf("Attach file system directory to device #%d", unit);
+    title = lib_msprintf("Attach file system directory to device #%d", unit);
 
     resources_get_sprintf("FSDevice%dDir", (resource_value_t *)&value, unit);
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
 
-    new_value = xmalloc(len + 1);
+    new_value = lib_malloc(len + 1);
     strcpy(new_value, value);
 
     button = ui_input_string(title, _("Path:"), new_value, len);
-    free(title);
+    lib_free(title);
 
     if (button == UI_BUTTON_OK)
         resources_set_sprintf("FSDevice%dDir", (resource_value_t)new_value,
                               unit);
 
-    free(new_value);
+    lib_free(new_value);
 }
 
 static ui_menu_entry_t set_device8_type_submenu[] = {

@@ -32,11 +32,13 @@
 
 #include "c64cart.h"
 #include "cartridge.h"
+#include "lib.h"
 #include "ui.h"
 #include "uicartridge.h"
 #include "uimenu.h"
 #include "utils.h"
 #include "vsync.h"
+
 
 static UI_CALLBACK(attach_cartridge)
 {
@@ -70,7 +72,7 @@ static UI_CALLBACK(attach_cartridge)
                 if (cartridge_attach_image(type, filename) < 0)
                     ui_error(_("Invalid cartridge image"));
                 if (last_dir)
-                    free(last_dir);
+                    lib_free(last_dir);
                 util_fname_split(filename, &last_dir, NULL);
                 break;
               default:
@@ -78,7 +80,7 @@ static UI_CALLBACK(attach_cartridge)
                 break;
             }
             if (filename != NULL)
-                free(filename);
+                lib_free(filename);
         }
     }
     ui_update_menus();

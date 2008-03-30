@@ -34,12 +34,13 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
-#include "utils.h"
 #include "vsync.h"
 #include "x11menu.h"
 #include "uimenu.h"
+
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
@@ -90,8 +91,8 @@ static void delete_checkmark_cb(GtkWidget *w, gpointer data)
     
     cm = (checkmark_t *) data;
     checkmark_list = g_list_remove(checkmark_list, data);
-    free(cm->name);
-    free(cm);
+    lib_free(cm->name);
+    lib_free(cm);
 }
 
 GtkWidget* ui_menu_create(const char *menu_name, ...)
@@ -134,8 +135,8 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
 		    checkmark_t *cmt;
 		    new_item = gtk_check_menu_item_new_with_label(label+1);
 		    
-		    cmt = (checkmark_t *) xmalloc(sizeof(checkmark_t));
-		    cmt->name = stralloc(label+1);
+		    cmt = (checkmark_t *)lib_malloc(sizeof(checkmark_t));
+		    cmt->name = lib_stralloc(label+1);
 		    cmt->w = new_item;
 		    cmt->cb = list[i].callback;
 		    cmt->obj.value = (void*) list[i].callback_data;
@@ -154,7 +155,7 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
 		    new_item = gtk_menu_item_new_with_label(label+1);
 
 		j++;
-		free(label);
+		lib_free(label);
 		break;
 	    }
 	    default:
@@ -162,14 +163,14 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
 		char *label = make_menu_label(&list[i]);
 		new_item = gtk_menu_item_new_with_label(label);
 		if (list[i].callback) {
-		    obj = (ui_menu_cb_obj*) xmalloc(sizeof(ui_menu_cb_obj));
+		    obj = (ui_menu_cb_obj*)lib_malloc(sizeof(ui_menu_cb_obj));
 		    obj->value = (void*) list[i].callback_data;
 		    
 		    gtk_signal_connect(GTK_OBJECT(new_item),"activate",
 				       GTK_SIGNAL_FUNC(list[i].callback),
 				       (gpointer) obj); 
 		}
-		free(label);
+		lib_free(label);
 		j++;
 	    }
             }

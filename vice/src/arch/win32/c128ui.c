@@ -37,6 +37,7 @@
 #include "fullscrn.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "sid.h"
@@ -181,7 +182,7 @@ static void c128_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
         cartridges[i].filter, FILE_SELECTOR_CART_STYLE, NULL)) != NULL) {
         if (cartridge_attach_image(cartridges[i].type, s) < 0)
             ui_error("Invalid cartridge image");
-        free(s);
+        lib_free(s);
     }
 }
 
@@ -244,7 +245,7 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
                 (resource_value_t)s) <0) {
                 ui_error("Could not load function ROM image\n'%s'", s);
             }
-            free(s);
+            lib_free(s);
         }
         ResumeFullscreenMode(hwnd);
         break;
@@ -257,7 +258,7 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
                 (resource_value_t)s) < 0) {
                 ui_error("Could not load function ROM image\n'%s'", s);
             }
-            free(s);
+            lib_free(s);
         }
         ResumeFullscreenMode(hwnd);
         break;

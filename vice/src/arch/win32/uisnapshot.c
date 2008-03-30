@@ -34,6 +34,7 @@
 
 #include "drive.h"
 #include "gfxoutput.h"
+#include "lib.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
@@ -144,7 +145,7 @@ char *ui_save_snapshot(const char *title, const char *filter,
     vsync_suspend_speed_eval();
 
     if (GetSaveFileName(&ofn)) {
-        return stralloc(name);
+        return lib_stralloc(name);
     } else {
         return NULL;
     }
@@ -162,7 +163,7 @@ void ui_snapshot_save_dialog(HWND hwnd)
 
         if (machine_write_snapshot(s, save_roms, save_disks, 0) < 0)
             ui_error("Cannot write snapshot file `%s'.", s);
-        free(s);
+        lib_free(s);
     }
 }
 
@@ -175,7 +176,7 @@ void ui_snapshot_load_dialog(HWND hwnd)
             FILE_SELECTOR_SNAPSHOT_STYLE,NULL)) != NULL) {
          if (machine_read_snapshot(s, 0) < 0)
              ui_error("Cannot read snapshot image");
-         free(s);
+         lib_free(s);
     }
 }
 
@@ -199,7 +200,7 @@ void ui_screenshot_save_dialog(HWND hwnd)
         if (screenshot_save(selected_driver->name, s,
             video_canvas_for_hwnd(hwnd)) < 0)
             ui_error("Cannot write screenshot file `%s'.", s);
-        free(s);
+        lib_free(s);
     }
 }
 
@@ -228,7 +229,7 @@ void ui_soundshot_save_dialog(HWND hwnd)
             resources_set_value("SoundDeviceArg", s);
             resources_set_value("SoundDeviceName", "wav");
             resources_set_value("Sound", (resource_value_t)1);
-            free(s);
+            lib_free(s);
             ui_display_statustext("Recording wav...");
         }
     }

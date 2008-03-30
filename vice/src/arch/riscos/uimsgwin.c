@@ -34,6 +34,7 @@
 #include "textwin.h"
 
 #include "archdep.h"
+#include "lib.h"
 #include "monitor.h"
 #include "videoarch.h"
 #include "uimsgwin.h"
@@ -222,7 +223,7 @@ static void ui_msgwin_poll_logfile(void)
             if ((block[WindowB_WFlags] & (1<<16)) != 0)
               textwin_caret_to_end(tw);
           }
-          free(text);
+          lib_free(text);
         }
       }
       fseek(logfp, 0, SEEK_SET);

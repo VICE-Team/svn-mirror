@@ -855,7 +855,7 @@ int reload_rom_1541(char *name) {
     char *tmppath;
 
     if(dos_rom_name_1541)
-        free(dos_rom_name_1541);
+        lib_free(dos_rom_name_1541);
     if(name == NULL) {
         dos_rom_name_1541 = default_dos_rom_name_1541;
         drive_load_rom_images();

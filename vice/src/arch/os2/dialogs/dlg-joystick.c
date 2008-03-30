@@ -39,8 +39,8 @@
 #include <ctype.h>        // isprint
 #include <stdlib.h>       // free
 
+#include "lib.h"
 #include "log.h"
-#include "utils.h"        // xmsprintf
 #include "joy.h"
 #include "resources.h"
 #include "snippets\pmwin2.h"
@@ -335,18 +335,18 @@ static int ResGetKeyVal(int num, USHORT id)
 {
     long val;
 
-    char *res=xmsprintf("KeySet%d%s", num?1:2, GetDirection(id));
+    char *res=lib_msprintf("KeySet%d%s", num?1:2, GetDirection(id));
     resources_get_value(res, (resource_value_t*) &val);
-    free (res);
+    lib_free (res);
 
     return val;
 }
 
 static void ResSetKeyVal(int num, USHORT id, int val)
 {
-    char *res=xmsprintf("KeySet%d%s", num?1:2, GetDirection(id));
+    char *res=lib_msprintf("KeySet%d%s", num?1:2, GetDirection(id));
     resources_set_value(res, (resource_value_t) val);
-    free (res);
+    lib_free (res);
 }
 
 static void UpdateKeyVal(HWND hwnd, USHORT id, int num)
@@ -356,10 +356,10 @@ static void UpdateKeyVal(HWND hwnd, USHORT id, int num)
 
     val = ResGetKeyVal(num, id);
 
-    msg = xmsprintf("%03d", val);
+    msg = lib_msprintf("%03d", val);
     WinSendDlgMsg(hwnd, id, SPBM_SETARRAY, &msg, 1);
     WinSetDlgSpinVal(hwnd, id, 0);
-    free(msg);
+    lib_free(msg);
 }
 
 static void SetKeyVal(HWND hwnd, USHORT id, int num, int val)
@@ -368,10 +368,10 @@ static void SetKeyVal(HWND hwnd, USHORT id, int num, int val)
 
     ResSetKeyVal(num, id, val);
 
-    msg = xmsprintf("%03d", val);
+    msg = lib_msprintf("%03d", val);
     WinSendDlgMsg(hwnd, id, SPBM_SETARRAY, &msg, 1);
     WinSetDlgSpinVal(hwnd, id, 0);
-    free(msg);
+    lib_free(msg);
 }
 
 static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)

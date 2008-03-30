@@ -32,10 +32,10 @@
 
 #include "archdep.h"
 #include "gfxoutput.h"
+#include "lib.h"
 #include "palette.h"
 #include "screenshot.h"
 #include "types.h"
-#include "utils.h"
 
 #include "wlsprite.h"
 
@@ -54,7 +54,7 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
 {
   gfxoutputdrv_data_t *god;
 
-  god = (gfxoutputdrv_data_t*)xmalloc(sizeof(gfxoutputdrv_data_t));
+  god = (gfxoutputdrv_data_t*)lib_malloc(sizeof(gfxoutputdrv_data_t));
   screenshot->gfxoutputdrv_data = god;
 
   god->data = NULL;
@@ -122,21 +122,21 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
       god->pitch = (sprite->wwidth + 1) << 2;
       fwrite(&(sarea->numsprites), 1, header_size-4, god->fp);
 
-      god->data = (BYTE *)xmalloc((screenshot->width + 3) & ~3);
+      god->data = (BYTE *)lib_malloc((screenshot->width + 3) & ~3);
 
       if (god->ldbpp != 3)
-        god->linedata = (BYTE *)xmalloc(god->pitch);
+        god->linedata = (BYTE *)lib_malloc(god->pitch);
       else
         god->linedata = god->data;
 
       memset(god->linedata, 0, god->pitch);
 
-      free(sarea);
-      free(sprpalette);
+      lib_free(sarea);
+      lib_free(sprpalette);
 
       return 0;
     }
-    free(sprpalette);
+    lib_free(sprpalette);
   }
   return -1;
 }
@@ -206,12 +206,12 @@ static int sprite_close(screenshot_t *screenshot)
       fclose(god->fp);
 
     if ((god->ldbpp != 3) && (god->linedata != NULL))
-      free(god->linedata);
+      lib_free(god->linedata);
 
     if (god->data != NULL)
-      free(god->data);
+      lib_free(god->data);
 
-    free(god);
+    lib_free(god);
 
     return 0;
   }

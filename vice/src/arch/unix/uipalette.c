@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lib.h"
 #include "resources.h"
 #include "ui.h"
 #include "uimenu.h"
@@ -43,18 +44,18 @@ UI_CALLBACK(ui_load_palette)
     static char *last_dir;
 
     vsync_suspend_speed_eval();
-    title = stralloc(_("Load custom palette"));
+    title = lib_stralloc(_("Load custom palette"));
     filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vpl",
                               &button, False, NULL);
 
-    free(title);
+    lib_free(title);
     switch (button) {
       case UI_BUTTON_OK:
         if (resources_set_value(UI_MENU_CB_PARAM,
                 (resource_value_t)filename) < 0)
             ui_error(_("Could not load palette file\n'%s'"), filename);
         if (last_dir)
-            free(last_dir);
+            lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -63,6 +64,6 @@ UI_CALLBACK(ui_load_palette)
     }
     ui_update_menus();
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 

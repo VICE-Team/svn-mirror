@@ -57,6 +57,7 @@
 #include "archdep.h"
 #include "utils.h"
 
+#include "lib.h"
 #include "log.h"
 
 #include "ui.h"
@@ -121,7 +122,7 @@ void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState)
 {
     APIRET rc;
 
-    char *sem = xmalloc(13+strlen(pszName)+5+1);
+    char *sem = lib_malloc(13+strlen(pszName)+5+1);
 
     sprintf(sem, "\\SEM32\\VICE2\\%s_%04x", pszName, vsyncarch_gettime()&0xffff);
 
@@ -229,7 +230,7 @@ int archdep_default_logger(const char *lvl, const char *txt)
 #ifndef __X1541__
     char *text = util_concat(lvl, txt, NULL);
     WinSendMsg(hwndLog, WM_INSERT, text, FALSE);
-    free(text);
+    lib_free(text);
 #endif
     if (fLog)
         fprintf(fLog, "%s%s\n", lvl, txt);
@@ -242,7 +243,7 @@ FILE *archdep_open_default_log_file()
 
     char *fname = util_concat(archdep_boot_path(), "\\vice2.log", NULL);
     fLog = fopen(fname, "w");
-    free(fname);
+    lib_free(fname);
     if (fLog)
         setbuf(fLog, NULL);
 #ifndef __X1541__
@@ -283,8 +284,8 @@ extern int trigger_shutdown;
 static RETSIGTYPE break64(int sig)
 {
     char *sigtxt;
-    sigtxt = xmsprintf("Received signal %d (%s). Vice will be closed.",
-                       sig, sys_siglist[sig]);
+    sigtxt = lib_msprintf("Received signal %d (%s). Vice will be closed.",
+                          sig, sys_siglist[sig]);
     log_message(archlog, sigtxt);
 #if !defined __X1541__ && !defined __PETCAT__
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
@@ -292,7 +293,7 @@ static RETSIGTYPE break64(int sig)
     trigger_shutdown = TRUE;
 
 #endif
-    free(sigtxt);
+    lib_free(sigtxt);
     exit (-1);
 }
 
@@ -340,7 +341,7 @@ char *archdep_make_backup_filename(const char *fname)
 int archdep_expand_path(char **return_path, const char *filename)
 {
     if (filename[0] == '\\' || filename[1] == ':')
-        *return_path = stralloc(filename);
+        *return_path = lib_stralloc(filename);
     else
     {
         char *p = (char *)malloc(512);
@@ -348,7 +349,7 @@ int archdep_expand_path(char **return_path, const char *filename)
             return 0;
 
         *return_path = util_concat(p, "\\", filename, NULL);
-        free(p);
+        lib_free(p);
     }
     return 0;
 }
@@ -368,7 +369,7 @@ int archdep_search_path(const char *name, char *pBuf, int lBuf)
         log_error(archlog, "File \"%s\" not found.", pgmName);
         return -1;
     }
-    free(pgmName);
+    lib_free(pgmName);
 
     return 0;
 }
@@ -386,7 +387,7 @@ char *archdep_cmdline(const char *name, char **argv, const char *sout, const cha
         +(name?strlen(name):0)+3
         +(sout?strlen(sout):0)+5
         +(serr?strlen(serr):0)+6; // need space for the spaces
-    res = xcalloc(1,length);
+    res = lib_calloc(1,length);
 
     strcat(strcpy(res,"/c "),name);
 
@@ -478,7 +479,7 @@ int archdep_spawn(const char *name, char **argv,
 #if !defined __X1541__ && !defined __PETCAT__
     DosReleaseMutexSem(hmtxSpawn);
 #endif
-    free(cmdline);
+    lib_free(cmdline);
     return rc;
 }
 
@@ -487,14 +488,14 @@ void archdep_startup_log_error(const char *format, ...)
     char *txt;
     va_list ap;
     va_start(ap, format);
-    txt = xmvsprintf(format, ap);
+    txt = lib_mvsprintf(format, ap);
 #if !defined __X1541__ && !defined __PETCAT__
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
                   txt, "VICE/2 Startup Error", 0, MB_OK);
 #else
     printf(txt);
 #endif
-    free(txt);
+    lib_free(txt);
 }
 
 
@@ -510,14 +511,14 @@ char *archdep_filename_parameter(const char *name)
     char *a;
     archdep_expand_path(&exp, name);
     a = archdep_quote_parameter(exp);
-    free(exp);
+    lib_free(exp);
     return a;
 }
 
 
 char *archdep_tmpnam(void)
 {
-    return stralloc(tmpnam(NULL));
+    return lib_stralloc(tmpnam(NULL));
 }
 
 int archdep_file_is_gzip(const char *name)

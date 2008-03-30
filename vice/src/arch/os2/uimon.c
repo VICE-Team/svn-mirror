@@ -36,6 +36,7 @@
 
 #include "dialogs.h"
 #include "dlg-monitor.h"
+#include "lib.h"
 #include "uimon.h"
 #include "utils.h"
 #include "console.h"
@@ -60,7 +61,7 @@ void uimon_window_close()
     // WinSetDlgFocus(HWND_DESKTOP, IDM_VICE2);
     //
 
-    free(console);
+    lib_free(console);
     console = NULL;
 }
 
@@ -72,7 +73,7 @@ void uimon_notify_change()
 
 console_t *uimon_window_open()
 {
-    console = xmalloc(sizeof(console_t));
+    console = lib_malloc(sizeof(console_t));
 
     //
     // FIXME: THIS VALUE ISN'T UPDATED YET
@@ -113,10 +114,10 @@ int uimon_out(const char *format, ...)
     if (!hwndMonitor || !console)
         return 0;
 
-    if (!out) out = xcalloc(1,1);
+    if (!out) out = lib_calloc(1,1);
 
     va_start(ap, format);
-    in=xmvsprintf(format, ap);
+    in=lib_mvsprintf(format, ap);
 
     txt=in;
 
@@ -127,7 +128,7 @@ int uimon_out(const char *format, ...)
 
         tmp = util_concat(out, txt, NULL);
         WinSendMsg(hwndMonitor, WM_INSERT, tmp, NULL);
-        free(tmp);
+        lib_free(tmp);
 
         out[0]='\0';
 
@@ -143,11 +144,11 @@ int uimon_out(const char *format, ...)
     if (!flag)
     {
         char *line = util_concat(out, txt, NULL);
-        free(out);
+        lib_free(out);
         out = line;
     }
 
-    free(in);
+    lib_free(in);
 
     return 0;
 }
@@ -164,7 +165,7 @@ char *uimon_in(const char *prompt)
         DosSleep(1);
 
     if (trigger_shutdown || trigger_console_exit)
-        c=stralloc("exit");
+        c=lib_stralloc("exit");
 
     trigger_console_exit = FALSE;
 

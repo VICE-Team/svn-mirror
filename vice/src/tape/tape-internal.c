@@ -39,7 +39,7 @@ int tape_internal_close_tape_image(tape_image_t *tape_image)
     if (tape_image_close(tape_image) < 0)
         return -1;
 
-    free(tape_image);
+    lib_free(tape_image);
 
     return 0;
 }
@@ -54,8 +54,8 @@ tape_image_t *tape_internal_open_tape_image(const char *name,
     image->read_only = read_only;
 
     if (tape_image_open(image) < 0) {
-        free(image->name);
-        free(image);
+        lib_free(image->name);
+        lib_free(image);
         log_error(LOG_DEFAULT, "Cannot open file `%s'", name);
         return NULL;
     }

@@ -36,8 +36,8 @@
 #include "dlg-vsid.h"
 #include "dlg-emulator.h" // hwndVsidEmulator
 
+#include "lib.h"
 #include "log.h"
-#include "utils.h"
 #include "machine.h"            // MACHINE_SYNC_PAL
 #include "resources.h"
 #include "snippets\pmwin2.h"  // Win*Spin
@@ -118,9 +118,9 @@ int vsid_ui_init(void)
 
 void vsid_ui_display_irqtype(const char *irq)
 {
-    char *txt = xmsprintf("Interrupt: %s", irq);
+    char *txt = lib_msprintf("Interrupt: %s", irq);
     WinSetDlgItemText(hwndVsid, ID_TIRQ, txt);
-    free(txt);
+    lib_free(txt);
 }
 
 void vsid_ui_display_name(const char *name)

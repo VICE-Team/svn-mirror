@@ -59,7 +59,7 @@
 #include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
 
-#include "utils.h"              /* [AB] 2000-07-18 Use xmalloc */
+#include "lib.h"
 
 #include "MultiListP.h"
 #include "TabString.h"
@@ -89,7 +89,7 @@ extern void XawInitializeWidgetSet();
 #define min(a,b)		((a) < (b) ? (a) : (b))
 #define XtStrlen(s)		((s) ? strlen(s) : 0)
 
-#define	TypeAlloc(t,n)		(t *)xmalloc(sizeof(t) * n)
+#define	TypeAlloc(t,n)		(t *)lib_malloc(sizeof(t) * n)
 #define	StrCopy(s)		strcpy(TypeAlloc(char,strlen(s)+1),s)
 #define	StrCopyRetLength(s,lp)	strcpy(TypeAlloc(char,(*lp=(strlen(s)+1))),s)
 
@@ -615,12 +615,12 @@ XfwfMultiListWidget mlw;
 	{
 		for (i = 0; i < MultiListNumItems(mlw); i++)
 		{
-			free(MultiListItemString(MultiListNthItem(mlw,i)));
+			lib_free(MultiListItemString(MultiListNthItem(mlw,i)));
 		}
-		free((char *)MultiListItemArray(mlw));
+		lib_free((char *)MultiListItemArray(mlw));
 	}
 	if (MultiListSelArray(mlw) != NULL)
-	    free((char *)MultiListSelArray(mlw));
+	    lib_free((char *)MultiListSelArray(mlw));
 	MultiListSelArray(mlw) = NULL;
 	MultiListNumSelected(mlw) = 0;
 	MultiListItemArray(mlw) = NULL;
@@ -1452,7 +1452,7 @@ Cardinal *num_params;
 				item_index));
 			byte_count = byte_count + strlen(string) + 1;
 		}
-		buffer = (char *)xmalloc(byte_count);
+		buffer = (char *)lib_malloc(byte_count);
 		buffer[0] = '\0';
 		for (i = 0; i < MultiListNumSelected(mlw); i++)
 		{
@@ -1463,7 +1463,7 @@ Cardinal *num_params;
 			strcat(buffer,string);
 		}
 		XStoreBytes(XtDisplay(mlw),buffer,byte_count);
-		free(buffer);
+		lib_free(buffer);
 	}
 
 	ret_value.action = MultiListMostRecentAct(mlw);

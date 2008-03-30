@@ -132,11 +132,11 @@ static int bmpdrv_write_bitmap_info(screenshot_t *screenshot)
 
     if (fwrite(bcolor, screenshot->palette->num_entries * 4, 1,
                screenshot->gfxoutputdrv_data->fd) < 1) {
-        free(bcolor);
+        lib_free(bcolor);
         return -1;
     }
 
-    free(bcolor);
+    lib_free(bcolor);
     return 0;
 }
 
@@ -166,22 +166,22 @@ int bmpdrv_open(screenshot_t *screenshot, const char *filename)
     sdata->fd = fopen(sdata->ext_filename, MODE_WRITE);
 
     if (sdata->fd == NULL) {
-        free(sdata->ext_filename);
-        free(sdata);
+        lib_free(sdata->ext_filename);
+        lib_free(sdata);
         return -1;
     }
 
     if (bmpdrv_write_file_header(screenshot) < 0) {
         fclose(screenshot->gfxoutputdrv_data->fd);
-        free(screenshot->gfxoutputdrv_data->ext_filename);
-        free(screenshot->gfxoutputdrv_data);
+        lib_free(screenshot->gfxoutputdrv_data->ext_filename);
+        lib_free(screenshot->gfxoutputdrv_data);
         return -1;
     }
 
     if (bmpdrv_write_bitmap_info(screenshot) < 0) {
         fclose(sdata->fd);
-        free(sdata->ext_filename);
-        free(sdata);
+        lib_free(sdata->ext_filename);
+        lib_free(sdata);
         return -1;
     }
 
@@ -240,11 +240,11 @@ int bmpdrv_close(screenshot_t *screenshot)
                * screenshot->width, 1, screenshot->gfxoutputdrv_data->fd);
         break;
     }
-    free(screenshot->gfxoutputdrv_data->data);
-    free(screenshot->gfxoutputdrv_data->bmp_data);
+    lib_free(screenshot->gfxoutputdrv_data->data);
+    lib_free(screenshot->gfxoutputdrv_data->bmp_data);
     fclose(screenshot->gfxoutputdrv_data->fd);
-    free(screenshot->gfxoutputdrv_data->ext_filename);
-    free(screenshot->gfxoutputdrv_data);
+    lib_free(screenshot->gfxoutputdrv_data->ext_filename);
+    lib_free(screenshot->gfxoutputdrv_data);
     return 0;
 }
 
@@ -258,8 +258,8 @@ int bmpdrv_save(screenshot_t *screenshot, const char *filename)
     for (i = 0; i < screenshot->height; i++) {
         if (bmpdrv_write(screenshot) < 0) {
             fclose(screenshot->gfxoutputdrv_data->fd);
-            free(screenshot->gfxoutputdrv_data->ext_filename);
-            free(screenshot->gfxoutputdrv_data);
+            lib_free(screenshot->gfxoutputdrv_data->ext_filename);
+            lib_free(screenshot->gfxoutputdrv_data);
             return -1;
         }
     }

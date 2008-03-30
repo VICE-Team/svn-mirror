@@ -39,8 +39,8 @@
 #include "dialogs.h"
 #include "dlg-vsid.h"
 
+#include "lib.h"
 #include "log.h"
-#include "utils.h"     // xmsprintf
 #include "vsync.h"     // vsync_suspend_speed_eval
 #include "kbdbuf.h"    // kbd_buf_flush
 #include "machine.h"   // machine_shutdown
@@ -87,12 +87,12 @@ void vsyncarch_init()
 
     vsynclog = log_open("Vsync");
 
-    szSemName = xmsprintf("%s%x", "\\SEM32\\VICE2\\Vsync", vsyncarch_gettime());
+    szSemName = lib_msprintf("%s%x", "\\SEM32\\VICE2\\Vsync", vsyncarch_gettime());
     rc = DosCreateEventSem(szSemName,      // Name of semaphore to create
                            &hevTimer,      // Handle of semaphore returned
                            DC_SEM_SHARED,  // Shared semaphore
                            FALSE);         // Semaphore is in RESET state
-    free(szSemName);
+    lib_free(szSemName);
 
     if (!rc)
         return;

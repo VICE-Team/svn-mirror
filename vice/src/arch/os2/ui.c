@@ -55,6 +55,7 @@
 //#ifdef __EMX__
 //#include "dos.h"
 //#endif
+#include "lib.h"
 #include "log.h"
 #include "utils.h"
 #include "archdep.h"
@@ -234,14 +235,14 @@ void ui_error(const char *format,...)
 
     va_list ap;
     va_start(ap, format);
-    tmp = xmvsprintf(format, ap);
+    tmp = lib_mvsprintf(format, ap);
     txt = util_concat(" Error in emulation thread:\n ", tmp, NULL);
-    free(tmp);
+    lib_free(tmp);
 
     log_message(LOG_DEFAULT, txt);
     ViceErrorDlg(HWND_DESKTOP, PTR_SKULL, txt);
 
-    free(txt);
+    lib_free(txt);
 }
 
 ui_jam_action_t ui_jam_dialog(const char *format,...)
@@ -271,14 +272,14 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     mb->mb2d[2].flStyle  = 0;
 
     va_start(ap, format);
-    tmp = xmvsprintf(format, ap);
+    tmp = lib_mvsprintf(format, ap);
     txt = util_concat("    Chipset reported:\n ", tmp, NULL);
-    free(tmp);
+    lib_free(tmp);
 
     rc = WinMessageBox2(HWND_DESKTOP, HWND_DESKTOP,
                         txt, "VICE/2 Error", 0, mb);
-    free(txt);
-    free(mb);
+    lib_free(txt);
+    lib_free(mb);
 
     //
     // open monitor dialog

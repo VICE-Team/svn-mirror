@@ -30,11 +30,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "maincpu.h"
 #include "sound.h"
 #include "types.h"
-#include "utils.h"
 #include "vic20sound.h"
+
 
 /* argh */
 static BYTE siddata[16];
@@ -110,7 +111,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 /* SID initialization routine */
 sound_t *sound_machine_open(int chipno)
 {
-    return (sound_t*)xcalloc(1, sizeof(sound_t));
+    return (sound_t*)lib_calloc(1, sizeof(sound_t));
 }
 
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
@@ -136,7 +137,7 @@ int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 
 void sound_machine_close(sound_t *psid)
 {
-    free(psid);
+    lib_free(psid);
 }
 
 void vic_sound_reset(void)
@@ -208,7 +209,7 @@ BYTE sound_machine_read(sound_t *psid, WORD addr)
 
 char *sound_machine_dump_state(sound_t *psid)
 {
-    return xmsprintf("#SID: clk=%d v=%d\n", maincpu_clk, psid->vol);
+    return lib_msprintf("#SID: clk=%d v=%d\n", maincpu_clk, psid->vol);
 }
 
 int sound_machine_cycle_based(void)

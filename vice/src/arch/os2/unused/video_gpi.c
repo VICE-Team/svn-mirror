@@ -44,7 +44,7 @@
 #include "video.h"
 
 #include "ui.h"
-#include "utils.h"
+#include "lib.h"
 #include "resources.h"
 #include "cmdline.h"
 #include "log.h"
@@ -150,9 +150,9 @@ void frame_buffer_free(video_frame_buffer_t *f)
 {
     if (!f || !*f)       return;  // frame buffer not allocated
     //    log("bitmap free",1);
-    free((*f)->bitmap);
+    lib_free((*f)->bitmap);
     //    log("frame_buffer_free",1);
-    free(*f);
+    lib_free(*f);
     vidlog("FrameBufferFreed",0);
 }
 
@@ -293,7 +293,7 @@ void PM_mainloop(VOID *arg)
                               hdc, &sizelHps,
                               PU_PELS|GPIF_DEFAULT|GPIT_MICRO|GPIA_ASSOC); // GPIT_NORMAL does also work with vac++
 
-    (*ptr)->pbmi = (PBITMAPINFO2)xcalloc(1, 16+sizeof(RGB2)*256);
+    (*ptr)->pbmi = (PBITMAPINFO2)lib_calloc(1, 16+sizeof(RGB2)*256);
     (*ptr)->pbmi->cbFix      = 16; // Size of cbFix, cPlanes, cBitCount = Begin of RGB2
     (*ptr)->pbmi->cPlanes    =  1;
     (*ptr)->pbmi->cBitCount  =  8; // Using 8-bit color mode
@@ -313,8 +313,8 @@ void PM_mainloop(VOID *arg)
     WinDestroyWindow ((*ptr)->hwndFrame); // why was this commented out? --> WM_CLOSE ??
     WinDestroyMsgQueue(hmq);  // Destroy Msg Queue
     WinTerminate (hab);       // Release Anchor to PM
-    free((*ptr)->pbmi);       // is this the right moment to do this???
-    //    free(*ptr); // Vice crashes... why??? This must be done in the main thread!
+    lib_free((*ptr)->pbmi);   // is this the right moment to do this???
+    //    lib_free(*ptr); // Vice crashes... why??? This must be done in the main thread!
     exit(0);                  // Kill VICE, All went OK
 }
 
@@ -343,7 +343,7 @@ video_canvas_t video_canvas_create(const char *title, UINT *width,
     }
 
     vidlog("canvas alloc",1);
-    canvas_new = (video_canvas_t)xcalloc(1,sizeof(struct _canvas));
+    canvas_new = (video_canvas_t)lib_calloc(1,sizeof(struct _canvas));
     if (!canvas_new) return (video_canvas_t) NULL;
 
     canvas_new->init_ready       =  FALSE;  // canvas_new not yet initialized

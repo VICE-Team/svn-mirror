@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "serial-iec.h"
 #include "types.h"
 #include "utils.h"
@@ -64,7 +65,7 @@ int serial_iec_lib_read_sector(unsigned int unit, unsigned int track,
     char *command;
     unsigned int i;
 
-    command = xmsprintf("U1 2 0 %i %i", track, sector);
+    command = lib_msprintf("U1 2 0 %i %i", track, sector);
 
     serial_iec_open(unit, 2, "#", strlen("#"));
     serial_iec_open(unit, 15, command, strlen(command));
@@ -75,7 +76,7 @@ int serial_iec_lib_read_sector(unsigned int unit, unsigned int track,
     serial_iec_close(unit, 15);
     serial_iec_close(unit, 2);
 
-    free(command);
+    lib_free(command);
 
     return 0;
 }

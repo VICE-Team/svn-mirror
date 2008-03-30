@@ -311,7 +311,7 @@ static int init_raster(void)
     }
     title = util_concat("VICE: ", machine_name, " emulator", NULL);
     raster_set_title(raster, title);
-    free(title);
+    lib_free(title);
 
     if (raster_realize(raster) < 0)
         return -1;
@@ -1041,8 +1041,8 @@ void vicii_set_canvas_refresh(int enable)
 
 void vicii_shutdown(void)
 {
-    free(vic_ii.idle_3fff);
-    free(vic_ii.idle_3fff_old);
+    lib_free(vic_ii.idle_3fff);
+    lib_free(vic_ii.idle_3fff_old);
     vicii_sprites_shutdown();
     raster_free(&vic_ii.raster);
 }

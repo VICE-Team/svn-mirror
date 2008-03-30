@@ -37,7 +37,9 @@
 #endif
 
 #include "dirent.h"
+#include "lib.h"
 #include "utils.h"
+
 
 struct _vice_dir {
     WIN32_FIND_DATA find_data;
@@ -51,7 +53,7 @@ DIR *opendir(const char *path)
 {
     DIR *dir;
 
-    dir = xmalloc(sizeof(DIR));
+    dir = lib_malloc(sizeof(DIR));
     dir->filter = util_concat(path, "\\*", NULL);
     dir->handle = FindFirstFile(dir->filter, &dir->find_data);
     if (dir->handle == INVALID_HANDLE_VALUE)
@@ -79,7 +81,7 @@ struct dirent *readdir(DIR *dir)
 void closedir(DIR *dir)
 {
     FindClose(dir->handle);
-    free(dir->filter);
-    free(dir);
+    lib_free(dir->filter);
+    lib_free(dir);
 }
 

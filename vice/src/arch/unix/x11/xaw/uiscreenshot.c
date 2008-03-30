@@ -50,9 +50,10 @@
 #endif
 
 #include "gfxoutput.h"
+#include "lib.h"
 #include "screenshot.h"
 #include "uimenu.h"
-#include "utils.h"
+
 
 static Widget screenshot_dialog;
 static Widget screenshot_dialog_pane;
@@ -90,7 +91,7 @@ static UI_CALLBACK(browse_callback)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);
 
     if (filename != NULL)
-        free(filename);
+        lib_free(filename);
 }
 
 static UI_CALLBACK(cancel_callback)
@@ -210,7 +211,7 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
          NULL);
 
     num_buttons = gfxoutput_num_drivers();
-    driver_buttons = (Widget *)xmalloc(sizeof(Widget) * num_buttons);
+    driver_buttons = (Widget *)lib_malloc(sizeof(Widget) * num_buttons);
     driver = gfxoutput_drivers_iter_init();
 
     driver_buttons[0] = XtVaCreateManagedWidget

@@ -79,7 +79,7 @@ static void mmos2_close(void)
         sound_err(mlog, rc, "Closing MMOS2 Waveform Audio Device (MCI_CLOSE)");
     log_message(mlog, "MCI closed");
 
-    free(dataBuf);
+    lib_free(dataBuf);
 
     log_message(mlog, "dataBuf freed");
 }

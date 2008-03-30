@@ -59,7 +59,7 @@ static vdrive_t *open_fsimage(const char *name, unsigned int read_only)
 
     if (disk_image_open(image) < 0) {
         disk_image_media_destroy(image);
-        free(image);
+        lib_free(image);
         log_error(vdrive_internal_log, "Cannot open file `%s'", name);
         return NULL;
     }
@@ -111,8 +111,8 @@ static int close_fsimage(vdrive_t *vdrive)
         return -1;
 
     disk_image_media_destroy(image);
-    free(image);
-    free(vdrive);
+    lib_free(image);
+    lib_free(vdrive);
 
     return 0;
 }

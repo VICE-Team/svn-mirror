@@ -35,9 +35,9 @@
 #include "iec.h"
 #include "iecrom.h"
 #include "jobcode1581.h"
+#include "lib.h"
 #include "memiec.h"
 #include "resources.h"
-#include "utils.h"
 #include "viad.h"
 #include "wd1770.h"
 
@@ -83,11 +83,11 @@ void iec_drive_idling_method(unsigned int dnr)
 {
     char *tmp;
 
-    tmp = xmsprintf("Drive%iIdleMethod", dnr + 8);
+    tmp = lib_msprintf("Drive%iIdleMethod", dnr + 8);
 
     resources_touch(tmp);
 
-    free(tmp);
+    lib_free(tmp);
 }
 
 void iec_drive_vsync_hook(void)

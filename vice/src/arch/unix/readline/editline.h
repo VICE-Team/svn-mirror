@@ -41,7 +41,7 @@ typedef unsigned char   CHAR;
 #define MEM_INC         64
 #define SCREEN_INC      256
 
-#define DISPOSE(p)      free((char *)(p))
+#define DISPOSE(p)      lib_free((char *)(p))
 #define NEW(T, c)       \
         ((T *)malloc((unsigned int)(sizeof (T) * (c))))
 #define RENEW(p, T, c)  \

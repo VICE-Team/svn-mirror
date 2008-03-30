@@ -48,6 +48,7 @@
 #include "mon_register.h"    // mon_reg_list_t
 #include "mon_disassemble.h" // mon_disassemble_to_string_ex
 
+#include "lib.h"
 #include "utils.h"
 #include "mos6510.h"         // P_*
 #include "archdep.h"         // archdep_boot_path
@@ -174,10 +175,10 @@ static void UpdateDisassembly(HWND hwnd)
         //
         // create the output string and fill it into the list
         //
-        char *buffer = xmsprintf("%04X: %-30s%s%s%s", loc, p,
-                                 label?"[":"", label?label:"", label?"]":"");
+        char *buffer = lib_msprintf("%04X: %-30s%s%s%s", loc, p,
+                                    label?"[":"", label?label:"", label?"]":"");
         WinLboxInsertItem(lbox, buffer);
-        free(buffer);
+        lib_free(buffer);
 
         //
         // set the adress and size of the instruction as item handle
@@ -264,21 +265,21 @@ static void UpdateRegisters(HWND hwnd)
 
             strcpy(str+8-strlen(val), val);
 
-            txt = xmsprintf("%s: %08s", list->name, str);
+            txt = lib_msprintf("%s: %08s", list->name, str);
         }
         else
             switch (list->size)
             {
             case 16:
-                txt=xmsprintf("%s: 0x%04x", list->name, list->val);
+                txt=lib_msprintf("%s: 0x%04x", list->name, list->val);
                 break;
             case 8:
-                txt=xmsprintf("%s: 0x%02x", list->name, list->val);
+                txt=lib_msprintf("%s: 0x%02x", list->name, list->val);
                 break;
             }
 
         WinInsertLboxItem(lbox, LIT_END, txt);
-        free(txt);
+        lib_free(txt);
 
         list = list->next;
     }
@@ -555,7 +556,7 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 break;
 
             if (input)
-                *input=stralloc(txt);
+                *input=lib_stralloc(txt);
             WinSetDlgItemText(hwnd, EF_MONIN,"");
             input=NULL;
             *wait_for_input=FALSE;
@@ -565,7 +566,7 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
     case WM_INSERT:
         WinDlgLboxInsertItem(hwnd, LB_MONOUT, (char*)mp1);
-        // free(mp1);
+        // lib_free(mp1);
         WinDlgLboxSettop(hwnd, LB_MONOUT);
         return FALSE;
 
@@ -640,16 +641,16 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         switch (SHORT1FROMMP(mp1))
         {
         case DID_STEPOVER:              // n
-            *input=stralloc("next");
+            *input=lib_stralloc("next");
             break;
         case DID_STEPINTO:              // z
-            *input=stralloc("step");
+            *input=lib_stralloc("step");
             break;
         case DID_MONRETURN:             // ret
-            *input=stralloc("return");
+            *input=lib_stralloc("return");
             break;
         case DID_MONEXIT:               // x
-            *input=stralloc("exit");
+            *input=lib_stralloc("exit");
             break;
         case DID_MONREC:                // rec
             *input=util_concat("record \"", archdep_boot_path(), "\\vice2.dbg\"", NULL);
@@ -658,10 +659,10 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             *input=util_concat("playback \"", archdep_boot_path(), "\\vice2.dbg\"", NULL);
             break;
         case DID_MONSTOP:               // stop
-            *input=stralloc("stop");
+            *input=lib_stralloc("stop");
             break;
         case IDM_SIDEFX:                // sfx
-            *input=stralloc("sidefx");
+            *input=lib_stralloc("sidefx");
             break;
         default:
             return FALSE;
@@ -707,7 +708,7 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
             out = util_concat(tmp, mp1, NULL);
             WinLboxInsertItem(lbox, out);
-            free(out);
+            lib_free(out);
 
             WinLboxSettopIdx(lbox, pos);
         }

@@ -166,10 +166,10 @@ void t64_destroy(t64_t *t64)
     if (t64->fd != NULL)
         zfclose(t64->fd);
     if (t64->file_name != NULL)
-        free(t64->file_name);
+        lib_free(t64->file_name);
     if (t64->file_records != NULL)
-        free(t64->file_records);
-    free(t64);
+        lib_free(t64->file_records);
+    lib_free(t64);
 }
 
 t64_t *t64_open(const char *name, unsigned int *read_only)

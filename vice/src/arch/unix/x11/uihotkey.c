@@ -29,9 +29,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lib.h"
 #include "uihotkey.h"
 #include "uimenu.h"
-#include "utils.h"
+
 
 typedef struct {
     ui_hotkey_modifier_t modifier;
@@ -50,7 +51,7 @@ static int num_allocated_hotkeys;
 int ui_hotkey_init(void)
 {
     if (registered_hotkeys != NULL) {
-        free(registered_hotkeys);
+        lib_free(registered_hotkeys);
         num_registered_hotkeys = num_allocated_hotkeys = 0;
     }
     return 0;
@@ -65,12 +66,12 @@ void ui_hotkey_register(ui_hotkey_modifier_t modifier, signed long keysym,
 
     if (registered_hotkeys == 0) {
         num_allocated_hotkeys = 32;
-        registered_hotkeys = xmalloc(num_allocated_hotkeys
+        registered_hotkeys = lib_malloc(num_allocated_hotkeys
                                      * sizeof(registered_hotkey_t));
         num_registered_hotkeys = 0;
     } else if (num_registered_hotkeys == num_allocated_hotkeys) {
         num_allocated_hotkeys *= 2;
-        registered_hotkeys = xrealloc(registered_hotkeys,
+        registered_hotkeys = lib_realloc(registered_hotkeys,
                                       (num_allocated_hotkeys
                                       * sizeof(registered_hotkey_t)));
     }

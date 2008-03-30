@@ -46,6 +46,7 @@
 #include "widgets/TextField.h"
 #endif
 
+#include "lib.h"
 #include "machine.h"
 #include "ui.h"
 #include "uiarch.h"
@@ -87,7 +88,7 @@ static UI_CALLBACK(browse_callback)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);
 
     if (filename != NULL)
-       free(filename);
+       lib_free(filename);
 }
 
 static UI_CALLBACK(cancel_callback)
@@ -108,13 +109,13 @@ static UI_CALLBACK(save_callback)
     XtVaGetValues(save_disk_button, XtNstate, &save_disks, NULL);
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
 
-    filename = stralloc(name);
+    filename = lib_stralloc(name);
     util_add_extension(&filename, "vsf");
     
     if (machine_write_snapshot(filename, save_roms, save_disks, 0) < 0)
         ui_error(_("Cannot write snapshot file\n`%s'\n"), filename);
 
-    free(filename);
+    lib_free(filename);
 }
 
 static void build_snapshot_dialog(void)

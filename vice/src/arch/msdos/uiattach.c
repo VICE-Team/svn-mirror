@@ -35,6 +35,7 @@
 #include "diskimage.h"
 #include "fliplist.h"
 #include "imagecontents.h"
+#include "lib.h"
 #include "tui.h"
 #include "tuifs.h"
 #include "tuimenu.h"
@@ -213,13 +214,14 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
         }
 
         if (file != NULL)
-            free(file);
+            lib_free(file);
 
         ui_update_menus();
 
-        free(directory), free(default_item);
+        lib_free(directory);
+        lib_free(default_item);
         if (name != NULL)
-            free(name);
+            lib_free(name);
     }
 
     s = file_system_get_disk_name((unsigned int)param);
@@ -279,7 +281,7 @@ static TUI_MENU_CALLBACK(create_disk_image_name_callback)
                 tmp = create_image_selector("Create disk image");
                 if (tmp != NULL) {
                     strcpy(new_file_name, tmp);
-                    free(tmp);
+                    lib_free(tmp);
                 }
             } else {
                 char *extension;
@@ -316,8 +318,8 @@ static TUI_MENU_CALLBACK(create_disk_image_name_callback)
                 } else {
                     int len = strlen(new_file_name);
 
-                    file_name = xrealloc(file_name,
-                                         len + strlen(extension) + 1);
+                    file_name = lib_realloc(file_name,
+                                            len + strlen(extension) + 1);
                     memcpy(file_name, new_file_name, len);
                     strcpy(file_name + len, extension);
                 }
@@ -338,8 +340,8 @@ static TUI_MENU_CALLBACK(create_format_name_callback)
         tui_input_string("Format disk image", "Name and ID:",
                          new_format_name, 19);
         if (format_name)
-            free(format_name);
-        format_name = stralloc(new_format_name);
+            lib_free(format_name);
+        format_name = lib_stralloc(new_format_name);
     }
 
     return format_name;

@@ -49,6 +49,7 @@
 #include "interrupt.h"
 #include "ioutil.h"
 #include "kbdbuf.h"
+#include "lib.h"
 #include "log.h"
 #include "mem.h"
 #include "mon_breakpoint.h"
@@ -63,8 +64,8 @@
 #include "sysfile.h"
 #include "types.h"
 #include "uimon.h"
-#include "utils.h"
 #include "vsync.h"
+
 
 /* May be called different things on various platforms... */
 typedef void (*signal_handler_t)(int);
@@ -548,17 +549,18 @@ void mon_add_string_to_buffer(char *str)
     strcpy((char *) &(data_buf[data_buf_len]), str);
     data_buf_len += strlen(str);
     data_buf[data_buf_len] = '\0';
-    free(str);
+    lib_free(str);
 }
 
 static monitor_cpu_type_list_t *montor_list_new(void)
 {
-    return (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
+    return (monitor_cpu_type_list_t *)lib_malloc(
+        sizeof(monitor_cpu_type_list_t));
 }
 
 static void montor_list_destroy(monitor_cpu_type_list_t *list)
 {
-    free(list);
+    lib_free(list);
 }
 
 /* *** MISC COMMANDS *** */
@@ -640,12 +642,12 @@ void monitor_shutdown(void)
 
 monitor_interface_t *monitor_interface_new(void)
 {
-    return (monitor_interface_t *)xmalloc(sizeof(monitor_interface_t));
+    return (monitor_interface_t *)lib_malloc(sizeof(monitor_interface_t));
 }
 
 void monitor_interface_destroy(monitor_interface_t *monitor_interface)
 {
-    free(monitor_interface);
+    lib_free(monitor_interface);
 }
 
 void mon_start_assemble_mode(MON_ADDR addr, char *asm_line)
@@ -699,7 +701,7 @@ void mon_display_io_regs(void)
         mem_ioreg_list = mem_ioreg_list->next;
     } while (mem_ioreg_list != NULL);
 
-    free(mem_ioreg_list_base);
+    lib_free(mem_ioreg_list_base);
 }
 
 void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
@@ -717,7 +719,7 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
         curr = curr->next;
     }
 
-    base = (mem_ioreg_list_t *)xrealloc(base, sizeof(mem_ioreg_list_t)
+    base = (mem_ioreg_list_t *)lib_realloc(base, sizeof(mem_ioreg_list_t)
            * (n + 1));
 
     if (n > 0)
@@ -791,7 +793,7 @@ void mon_load_symbols(MEMSPACE mem, const char *filename)
             break;
         }
         /* FIXME: Check name is a valid label name */
-        name_ptr = (char *)xmalloc((strlen(name) + 1) * sizeof(char));
+        name_ptr = (char *)lib_malloc((strlen(name) + 1) * sizeof(char));
         strcpy(name_ptr, name);
         mon_out("Read ($%x:%s)\n", adr, name_ptr);
         mon_add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
@@ -903,17 +905,17 @@ static void free_symbol_table(MEMSPACE mem)
         /* Name memory is freed below. */
         temp = sym_ptr;
         sym_ptr = sym_ptr->next;
-        free(temp);
+        lib_free(temp);
     }
 
     /* Remove address hash table */
     for (i = 0; i < HASH_ARRAY_SIZE; i++) {
         sym_ptr = monitor_labels[mem].addr_hash_table[i];
         while (sym_ptr) {
-            free (sym_ptr->name);
+            lib_free (sym_ptr->name);
             temp = sym_ptr;
             sym_ptr = sym_ptr->next;
-            free(temp);
+            lib_free(temp);
         }
     }
 }
@@ -984,7 +986,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     }
 
     /* Add name to name list */
-    sym_ptr = (symbol_entry_t *)xmalloc(sizeof(symbol_entry_t));
+    sym_ptr = (symbol_entry_t *)lib_malloc(sizeof(symbol_entry_t));
     sym_ptr->name = name;
     sym_ptr->addr = loc;
 
@@ -992,7 +994,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     monitor_labels[mem].name_list = sym_ptr;
 
     /* Add address to hash table */
-    sym_ptr = (symbol_entry_t *)xmalloc(sizeof(symbol_entry_t));
+    sym_ptr = (symbol_entry_t *)lib_malloc(sizeof(symbol_entry_t));
     sym_ptr->name = name;
     sym_ptr->addr = addr;
 
@@ -1030,7 +1032,7 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
                 prev_ptr->next = sym_ptr->next;
             else
                 monitor_labels[mem].name_list = NULL;
-            free(sym_ptr);
+            lib_free(sym_ptr);
             break;
         }
         prev_ptr = sym_ptr;
@@ -1042,12 +1044,12 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
     prev_ptr = NULL;
     while (sym_ptr) {
         if (addr == sym_ptr->addr) {
-            free (sym_ptr->name);
+            lib_free(sym_ptr->name);
             if (prev_ptr)
                 prev_ptr->next = sym_ptr->next;
             else
                 monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)] = NULL;
-            free(sym_ptr);
+            lib_free(sym_ptr);
             return;
         }
         prev_ptr = sym_ptr;
@@ -1225,7 +1227,7 @@ void mon_delete_conditional(cond_node_t *cnode)
     if (cnode->child2)
         mon_delete_conditional(cnode->child2);
 
-    free(cnode);
+    lib_free(cnode);
 }
 
 
@@ -1462,9 +1464,9 @@ int mon_process(char *cmd)
         if (!cmd[0]) {
             if (!asm_mode) {
                 /* Repeat previous command */
-                free(cmd);
+                lib_free(cmd);
 
-                cmd = last_cmd ? stralloc(last_cmd) : NULL;
+                cmd = last_cmd ? lib_stralloc(last_cmd) : NULL;
 
             } else {
                 /* Leave asm mode */
@@ -1495,7 +1497,7 @@ int mon_process(char *cmd)
         }
     }
     if (last_cmd)
-        free(last_cmd);
+        lib_free(last_cmd);
 
     last_cmd = cmd;
 

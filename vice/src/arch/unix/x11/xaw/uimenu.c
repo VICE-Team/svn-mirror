@@ -42,11 +42,11 @@
 #include "right_arrow.xbm"
 
 #include "fullscreenarch.h"
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "uiarch.h"
 #include "uimenu.h"
-#include "utils.h"
 #include "vsync.h"
 #include "x11menu.h"
 
@@ -275,7 +275,7 @@ Widget ui_menu_create(const char *menu_name, ...)
             Widget new_item;
             char *name;
 
-            name = xmsprintf("MenuItem%d", j);
+            name = lib_msprintf("MenuItem%d", j);
             switch (*list[i].string) {
               case '-':         /* line */
                 new_item = XtCreateManagedWidget("separator",
@@ -309,7 +309,7 @@ Widget ui_menu_create(const char *menu_name, ...)
                     }
                     j++;
 
-                    free(label);
+                    lib_free(label);
                 }
                 break;
               default:
@@ -323,11 +323,11 @@ Widget ui_menu_create(const char *menu_name, ...)
                                                        XtNlabel,
                                                        label,
                                                        NULL);
-                    free(label);
+                    lib_free(label);
                     j++;
                 }
             }
-            free(name);
+            lib_free(name);
 
             if (list[i].callback)
                 XtAddCallback(new_item, XtNcallback,

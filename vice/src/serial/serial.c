@@ -427,7 +427,7 @@ int serial_attach_device(unsigned int unit, const char *name,
     p->inuse = 1;
 
     if (p->name != NULL)
-        free(p->name);
+        lib_free(p->name);
 
     p->name = lib_stralloc(name);
 

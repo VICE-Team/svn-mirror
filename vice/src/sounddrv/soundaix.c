@@ -79,7 +79,7 @@ static int aix_init(const char *param, int *speed,
     rc = UMSAudioDevice_set_time_format(audio_device, ev, UMSAudioTypes_Msecs);
 
     if (obyte_order)
-        free(obyte_order);
+        lib_free(obyte_order);
     rc = UMSAudioDevice_set_byte_order(audio_device, ev, "LSB");
 
     /* set 16bit */
@@ -115,7 +115,7 @@ fail:
     UMSAudioDevice_stop(audio_device, ev);
     UMSAudioDevice_close(audio_device, ev);
     _somFree(audio_device);
-    free(buffer._buffer);
+    lib_free(buffer._buffer);
     audio_device = NULL;
 
     return 1;
@@ -152,7 +152,7 @@ static void aix_close(void)
     UMSAudioDevice_stop(audio_device, ev);
     UMSAudioDevice_close(audio_device, ev);
     _somFree(audio_device);
-    free(buffer._buffer);
+    lib_free(buffer._buffer);
     audio_device = NULL;
 }
 

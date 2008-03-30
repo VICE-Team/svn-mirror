@@ -29,12 +29,12 @@
 #include <string.h>
 #include <windows.h>
 
+#include "lib.h"
 #include "ram.h"
 #include "res.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiram.h"
-#include "utils.h"
 #include "winmain.h"
 
 
@@ -59,7 +59,7 @@ static void update_preview(HWND hwnd)
 
     s = ram_init_print_pattern();
 
-    s_win = xmalloc(2 * lstrlen(s) + 1);
+    s_win = lib_malloc(2 * lstrlen(s) + 1);
     i = j =0;
     while(s[i] != '\0') {
         if(s[i] == '\n')
@@ -69,7 +69,7 @@ static void update_preview(HWND hwnd)
     s_win[j] = '\0';
 
     SetDlgItemText(hwnd, IDC_RAMINIT_PREVIEW, s_win);
-    free(s_win);
+    lib_free(s_win);
 }
 
 

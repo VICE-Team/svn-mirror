@@ -41,11 +41,12 @@
 
 #include <string.h>          // strcmp
 
+#include "lib.h"
 #include "log.h"
 
 #include "monitor.h"         // mon
 #include "tape.h"            // tape_image_detach
-#include "utils.h"           // xmsprintf
+#include "utils.h"           // 
 #include "sound.h"           // SOUND_ADJUST_*
 #include "attach.h"          // file_system_detach_disk
 #include "archdep.h"         // archdep_boot_path
@@ -137,7 +138,7 @@ static void load_snapshot(WORD addr, void *hwnd)
                       "Load Snapshot", 0, MB_OK);
     else
         log_debug("Snapshot '%s' loaded successfully.", name);
-    free(name);
+    lib_free(name);
 }
 
 static void save_snapshot(WORD addr, void *hwnd)
@@ -150,7 +151,7 @@ static void save_snapshot(WORD addr, void *hwnd)
                           "Save Snapshot", 0, MB_OK);
     else
         log_debug("Snapshot saved as '%s' successfully.", name);
-    free(name);
+    lib_free(name);
 }
 
 void save_screenshot(HWND hwnd)
@@ -158,7 +159,7 @@ void save_screenshot(HWND hwnd)
     char *name = util_concat(archdep_boot_path(), "\\vice2.png", NULL);
     if (!screenshot_save("PNG", name, (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)))
         log_debug("Screenshot saved as '%s' successfully.", name);
-    free(name);
+    lib_free(name);
 }
 
 // --------------------------------------------------------------------------
@@ -168,28 +169,28 @@ char *printer_res(const char *res, const int num)
     switch(num)
     {
     case 0:
-        return xmsprintf(res, "4");
+        return lib_msprintf(res, "4");
     case 1:
-        return xmsprintf(res, "5");
+        return lib_msprintf(res, "5");
     case 2:
-        return xmsprintf(res, "Userport");
+        return lib_msprintf(res, "Userport");
     }
     log_debug("Res: %d", num);
-    return xmsprintf(res, "ERROR");
+    return lib_msprintf(res, "ERROR");
 }
 
 void set_printer_res(const char *res, int num, resource_value_t *val)
 {
     char *txt = printer_res(res, num);
     resources_set_value(txt, val);
-    free(txt);
+    lib_free(txt);
 }
 
 void get_printer_res(const char *res, int num, resource_value_t *val)
 {
     char *txt = printer_res(res, num);
     resources_get_value(txt, val);
-    free(txt);
+    lib_free(txt);
 }
 
 // --------------------------------------------------------------------------
@@ -237,11 +238,11 @@ void ChangeSpeed(HWND hwnd, int idm)
     resources_set_value("Speed", (resource_value_t)speed);
 
     if (speed)
-        txt=xmsprintf("%s - Set Max.Speed: %d%%", c->title, speed);
+        txt=lib_msprintf("%s - Set Max.Speed: %d%%", c->title, speed);
     else
-        txt=xmsprintf("%s - Set Max.Speed: unlimited", c->title);
+        txt=lib_msprintf("%s - Set Max.Speed: unlimited", c->title);
     WinSetWindowText(c->hwndTitlebar, txt);
-    free(txt);
+    lib_free(txt);
 }
 
 // --------------------------------------------------------------------------
@@ -555,7 +556,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         {
             char *res = printer_res("Printer%s", (idm>>4)&0xf);
             toggle(res);
-            free(res);
+            lib_free(res);
         }
         return;
 

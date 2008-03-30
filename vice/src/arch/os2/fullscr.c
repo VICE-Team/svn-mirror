@@ -43,6 +43,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "log.h"
 
 static log_t fslog = LOG_ERR;
@@ -568,7 +569,7 @@ int FullscreenQueryCurrentMode(GDDMODEINFO *mode)
 void UninitModeInfo(void)
 {
     if (ModeInfo)
-        free(ModeInfo);
+        lib_free(ModeInfo);
     ModeInfo = NULL;
     NumVideoModes = 0;
 }
@@ -752,7 +753,7 @@ int FullscreenQueryVertRes(void)
 }
 
 // ------------------------- Vice specific ---------------------------
-#include "utils.h"
+#include "lib.h"
 #include "dialogs.h"
 
 void video_show_modes(HWND hwnd)
@@ -783,12 +784,12 @@ void video_show_modes(HWND hwnd)
     for (l=0; l<NumVideoModes; mode++,l++)
     {
         const int fcc = mode->fccColorEncoding;
-        char *txt = xmsprintf("Id=%4d, %4dx%4d/%2d (%3d Hz)  FourCC: %c%c%c%c (%d)",
+        char *txt = lib_msprintf("Id=%4d, %4dx%4d/%2d (%3d Hz)  FourCC: %c%c%c%c (%d)",
                               mode->ulModeId&0xff, mode->ulHorizResolution, mode->ulVertResolution,
                               mode->ulBpp, mode->ulRefreshRate,
                               fcc, fcc>>8, fcc>>16, fcc>>24, mode->cColors);
         WinSendMsg(hwnd, WM_INSERT, txt, (void*)TRUE);
-        free(txt);
+        lib_free(txt);
     }
 
     //

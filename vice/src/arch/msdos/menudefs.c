@@ -48,6 +48,7 @@
 #include "ioutil.h"
 #include "joy.h"
 #include "kbd.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -70,6 +71,7 @@
 #include "version.h"
 #include "video.h"
 #include "videoarch.h"
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -115,16 +117,17 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
                 tui_error("Cannot autostart tape image.");
             else
                 *behavior = TUI_MENU_BEH_RESUME;
-            free(file);
+            lib_free(file);
         } else if (name != NULL
                    && (s == NULL || strcasecmp(s, name) != 0)
                    && tape_image_attach(1, name) < 0) {
             tui_error("Invalid tape image.");
         }
         ui_update_menus();
-        free(directory), free(default_item);
+        lib_free(directory);
+        lib_free(default_item);
         if (name != NULL)
-            free(name);
+            lib_free(name);
     }
 
     s = tape_get_file_name();
@@ -252,9 +255,9 @@ static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
     char *rname;
     int v;
 
-    rname = xmsprintf("Drive%dExtendImagePolicy", unit);
+    rname = lib_msprintf("Drive%dExtendImagePolicy", unit);
     resources_get_value(rname, (resource_value_t *)&v);
-    free(rname);
+    lib_free(rname);
 
     switch (v) {
       case DRIVE_EXTEND_NEVER:
@@ -909,8 +912,8 @@ static TUI_MENU_CALLBACK(keyset_callback)
 
     number = (int)param >> 8;
     direction = (int)param & 0xff;
-    rname = xmsprintf("KeySet%d%s", number,
-                      joystick_direction_to_string(direction));
+    rname = lib_msprintf("KeySet%d%s", number,
+                         joystick_direction_to_string(direction));
 
     if (been_activated) {
         kbd_code_t key;
@@ -919,14 +922,14 @@ static TUI_MENU_CALLBACK(keyset_callback)
         tui_area_t backing_store = NULL;
         char *msg;
 
-        msg = xmsprintf("Press key for %s%s (Esc for none)...",
-                        direction == KEYSET_FIRE ? "" : "direction ",
-                        joystick_direction_to_string(direction));
+        msg = lib_msprintf("Press key for %s%s (Esc for none)...",
+                           direction == KEYSET_FIRE ? "" : "direction ",
+                           joystick_direction_to_string(direction));
         tui_display_window(x, y, width, height, MESSAGE_BORDER, MESSAGE_BACK,
                            NULL, &backing_store);
         tui_set_attr(MESSAGE_FORE, MESSAGE_BACK, 0);
         tui_display(CENTER_X(strlen(msg)), y + 2, 0, msg);
-        free(msg);
+        lib_free(msg);
 
         /* Do not allow Alt as we need it for hotkeys.  */
         do
@@ -942,7 +945,7 @@ static TUI_MENU_CALLBACK(keyset_callback)
     }
 
     resources_get_value(rname, (resource_value_t *)&value);
-    free(rname);
+    lib_free(rname);
     return kbd_code_to_string((kbd_code_t)value);
 }
 
@@ -1057,7 +1060,7 @@ static TUI_MENU_CALLBACK(load_romset_callback)
         if (name != NULL) {
             if (romset_load(name) < 0)
                 ui_error("Could not load ROM set file '%s'", name);
-            free(name);
+            lib_free(name);
         }
     }
     return NULL;
@@ -1318,20 +1321,20 @@ static void create_ui_video_submenu(void)
     for (i = 1; i <= 10; i++) {
         char *label, *desc;
         if (i != 10)
-            label = xmsprintf("1/_%d", i);
+            label = lib_msprintf("1/_%d", i);
         else
-            label = stralloc("1/1_0");
+            label = lib_stralloc("1/1_0");
         if (i == 1)
-            desc = xmsprintf("Set refresh rate to 1/%d (update every frame)",
-                             i);
+            desc = lib_msprintf("Set refresh rate to 1/%d (update every frame)",
+                                i);
         else
-            desc = xmsprintf("Set refresh rate to 1/%d (update once every %d frames)",
-                             i, i);
+            desc = lib_msprintf("Set refresh rate to 1/%d (update once every %d frames)",
+                                i, i);
         tui_menu_add_item(refresh_rate_submenu, label, desc,
                           radio_RefreshRate_callback, (void *)i, 0,
                           TUI_MENU_BEH_CLOSE);
-        free(label);
-        free(desc);
+        lib_free(label);
+        lib_free(desc);
     }
 
     tui_menu_add_separator(refresh_rate_submenu);
@@ -1346,13 +1349,14 @@ automagically",
         char *s1, *s2;
 
         /* FIXME: hotkeys work only for less than 11 elements. */
-        s1 = xmsprintf("Mode %s%d: %s",(i<10?" _":""), i, vga_modes[i].description);
-        s2 = xmsprintf("Set VGA resolution to %s", vga_modes[i].description);
+        s1 = lib_msprintf("Mode %s%d: %s",(i<10?" _":""), i,
+                          vga_modes[i].description);
+        s2 = lib_msprintf("Set VGA resolution to %s", vga_modes[i].description);
         tui_menu_add_item(vga_mode_submenu, s1, s2,
                           radio_VGAMode_callback, (void *)i, 0,
                           TUI_MENU_BEH_CLOSE);
-        free(s1);
-        free(s2);
+        lib_free(s1);
+        lib_free(s2);
     }
 
     ui_video_submenu = tui_menu_create("Video Settings", 1);
@@ -1403,7 +1407,7 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
     char *v;
     char *rname;
 
-    rname = xmsprintf("FSDevice%dDir", unit);
+    rname = lib_msprintf("FSDevice%dDir", unit);
 
     if (been_activated) {
         char *path;
@@ -1422,7 +1426,7 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
     }
 
     resources_get_value(rname, (resource_value_t *)&v);
-    free(rname);
+    lib_free(rname);
     return v;
 }
 
@@ -1569,17 +1573,17 @@ static void create_special_submenu(int has_serial_traps)
         speed_submenu = tui_menu_create("Speed Limit", 1);
         for (i = 0; i < 4; i++) {
             if (speed[i] == 100)
-                s1 = xmsprintf("Limit speed to the one of the real %s",
+                s1 = lib_msprintf("Limit speed to the one of the real %s",
                                machine_name);
             else
-                s1 = xmsprintf("Limit speed to %d%% of the real %s",
+                s1 = lib_msprintf("Limit speed to %d%% of the real %s",
                                speed[i], machine_name);
-            s2 = xmsprintf("_%d%%", speed[i]);
+            s2 = lib_msprintf("_%d%%", speed[i]);
             tui_menu_add_item(speed_submenu, s2, s1,
                               speed_callback, (void *)speed[i], 5,
                               TUI_MENU_BEH_CLOSE);
-            free(s1);
-            free(s2);
+            lib_free(s1);
+            lib_free(s2);
         }
         tui_menu_add_item(speed_submenu, "_No Limit",
                           "Run the emulator as fast as possible",

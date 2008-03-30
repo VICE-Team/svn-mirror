@@ -59,9 +59,9 @@ void image_contents_destroy(image_contents_t *contents)
 {
     image_contents_file_list_t *p, *h;
 
-    for (p = contents->file_list; p != NULL; h = p, p = p->next, free(h));
+    for (p = contents->file_list; p != NULL; h = p, p = p->next, lib_free(h));
 
-    free(contents);
+    lib_free(contents);
 }
 
 void image_contents_screencode_destroy(image_contents_screencode_t *c)
@@ -70,8 +70,8 @@ void image_contents_screencode_destroy(image_contents_screencode_t *c)
 
     while (c != NULL) {
         h = c->next;
-        free(c->line);
-        free(c);
+        lib_free(c->line);
+        lib_free(c);
         c = h;
     }
 }

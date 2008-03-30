@@ -446,7 +446,7 @@ static int dx_suspend(void)
     }
 
     i = dx_write(p, stream_buffer_size);
-    free(p);
+    lib_free(p);
 
     return 0;
 }

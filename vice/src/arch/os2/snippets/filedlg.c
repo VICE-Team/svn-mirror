@@ -38,6 +38,8 @@
 
 #include "filedlg.h"
 
+#include "lib.h"
+
 MRESULT EXPENTRY WinFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     switch (msg)
@@ -80,7 +82,7 @@ MRESULT EXPENTRY WinFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 char *txt = malloc(len);
                 sprintf(txt, "<%s> %s", list->fName[i], list->fExt[i]);
                 WinInsertLboxItem(lbox, LIT_END, txt);
-                free(txt);
+                lib_free(txt);
             }
 
             //
@@ -106,7 +108,7 @@ MRESULT EXPENTRY WinFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             char *txt = malloc(len);
             WinQueryLboxItemText((HWND)mp2, item, txt, len);
             WinSetWindowText(name, strrchr(txt, '>')+1);
-            free(txt);
+            lib_free(txt);
 
             //
             // set focus to entry field and simulate an Apply

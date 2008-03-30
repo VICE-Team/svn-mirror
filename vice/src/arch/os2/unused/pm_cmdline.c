@@ -43,7 +43,7 @@
 #include <string.h>
 
 #include "ui.h"
-#include "utils.h"
+#include "lib.h"
 #include "cmdline.h"
 #include "pm_cmdline.h"
 #include "pm/scrollbars.h"
@@ -163,8 +163,8 @@ void ui_cmdline_window(int optlen, int txtlen)
     HWND hwndFrame, hwndClient;
     QMSG qmsg;
 
-    ui_cmdline_textopt=(char*)xcalloc(1,optlen+1);
-    ui_cmdline_text   =(char*)xcalloc(1,txtlen+1);
+    ui_cmdline_textopt=(char*)lib_calloc(1,optlen+1);
+    ui_cmdline_text   =(char*)lib_calloc(1,txtlen+1);
 
     WinRegisterClass(habMain, szCmdClientClass, PM_scrollProc,
                      CS_SIZEREDRAW, 0);
@@ -179,6 +179,6 @@ void ui_cmdline_window(int optlen, int txtlen)
 
     WinDestroyWindow (hwndFrame);
 
-    free(ui_cmdline_text);
-    free(ui_cmdline_textopt);
+    lib_free(ui_cmdline_text);
+    lib_free(ui_cmdline_textopt);
 }

@@ -36,7 +36,7 @@
 #include "cmdline.h"
 
 #include "dialogs.h"
-#include "utils.h"
+#include "lib.h"
 
 void ui_cmdline_show_help(unsigned int num_options, cmdline_option_t *opt, void *arg)
 {
@@ -79,14 +79,14 @@ void ui_cmdline_show_help(unsigned int num_options, cmdline_option_t *opt, void 
     //
     for (i=0; i<num_options; i++)
     {
-        char *textopt = xmsprintf("%s %s", opt[i].name,
-                                  (opt[i].need_arg && opt[i].param_name)?
-                                  opt[i].param_name:"");
-        char *text = xmsprintf(format, textopt, opt[i].description);
-        free(textopt);
+        char *textopt = lib_msprintf("%s %s", opt[i].name,
+                                     (opt[i].need_arg && opt[i].param_name)?
+                                     opt[i].param_name:"");
+        char *text = lib_msprintf(format, textopt, opt[i].description);
+        lib_free(textopt);
 
         WinSendMsg(hwnd, WM_INSERT, text, (void*)TRUE);
-        free(text);
+        lib_free(text);
     }
 
     //

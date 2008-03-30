@@ -236,7 +236,7 @@ static void vidc_close(void)
   }
   if (VIDCSampleBuffer != NULL)
   {
-    free(VIDCSampleBuffer); VIDCSampleBuffer = NULL;
+    lib_free(VIDCSampleBuffer); VIDCSampleBuffer = NULL;
   }
   /* Use this to mark device inactive */
   SoundThreadActive = 0;

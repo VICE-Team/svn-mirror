@@ -48,6 +48,7 @@
 #include "interrupt.h"
 #include "joy.h"
 #include "kbd.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
@@ -1269,8 +1270,8 @@ int set_cbm2_model_by_name(const char *name, resource_value_t val)
 int set_romset_by_name(const char *name, resource_value_t val)
 {
   if (val == (resource_value_t)0) return -1;
-  if (ROMSetName != NULL) free(ROMSetName);
-  ROMSetName = stralloc((char*)val);
+  if (ROMSetName != NULL) lib_free(ROMSetName);
+  ROMSetName = lib_stralloc((char*)val);
   return romset_select_item((char*)val);
 }
 
@@ -1786,8 +1787,8 @@ static int ui_build_romset_menu(void)
 {
   int number;
 
-  if (MenuROMSet != NULL) free(MenuROMSet);
-  if (MenuDisplayROMSet != NULL) free(MenuDisplayROMSet);
+  if (MenuROMSet != NULL) lib_free(MenuROMSet);
+  if (MenuDisplayROMSet != NULL) lib_free(MenuDisplayROMSet);
   MenuROMSet = NULL; MenuDisplayROMSet = NULL;
   ConfigMenus[CONF_MENU_ROMSET].menu = (RO_MenuHead*)&MenuROMSetTmpl;
 
@@ -1839,8 +1840,8 @@ static int ui_build_fliplist_menu(int doread)
   FlipListNumber = 0;
   if (doread)
   {
-    if (MenuFlipImages != NULL) free(MenuFlipImages);
-    if (MenuFlipImgNames != NULL) free(MenuFlipImgNames);
+    if (MenuFlipImages != NULL) lib_free(MenuFlipImages);
+    if (MenuFlipImgNames != NULL) lib_free(MenuFlipImgNames);
     MenuFlipImages = NULL; MenuFlipImgNames = NULL;
     iter = flip_init_iterate(FlipListDrive + 8);
     while (iter != NULL)
@@ -2293,7 +2294,7 @@ int ui_init_finish(void)
   /* resid active? */
   resources_get_value(Rsrc_ReSid, (resource_value_t*)&CycleBasedSound);
 
-  ROMSetName = stralloc("Default");
+  ROMSetName = lib_stralloc("Default");
 
   if (sysfile_locate("romset/"RSETARCH_EXT, &ROMSetArchiveFile) == 0)
   {

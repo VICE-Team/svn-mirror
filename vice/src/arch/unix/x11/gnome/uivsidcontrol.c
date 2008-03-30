@@ -23,13 +23,14 @@
  *  02111-1307  USA.
  *
  */
+
 #include "vice.h"
 
 #include <stdlib.h>
 
+#include "lib.h"
 #include "ui.h"
 #include "uiarch.h"
-#include "utils.h"
 #include "vsiduiunix.h"
 
 
@@ -41,37 +42,37 @@ static char *line;
 static void update_line(void)
 {
     if (line)
-	free(line);
-    line = xmsprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n"
-		       "%s\nModel: %s\nIRQ: %s") ,
-		     name, tune,
-		     author, copyright, vsidsync, model, irq);
+        lib_free(line);
+    line = lib_msprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n"
+                       "%s\nModel: %s\nIRQ: %s") ,
+                     name, tune,
+                     author, copyright, vsidsync, model, irq);
     gtk_label_set_text(GTK_LABEL(current_line), line);
 }
 
 
-ui_window_t build_vsid_ctrl_widget(void) 
+ui_window_t build_vsid_ctrl_widget(void)
 {
     GtkWidget *event_box, *f;
-	
+
     event_box = gtk_event_box_new();
     f = gtk_frame_new("VSID");
-    
+
     current_line = gtk_label_new("");
     gtk_container_add(GTK_CONTAINER(f), current_line);
     gtk_widget_show(current_line);
 
     gtk_container_add(GTK_CONTAINER(event_box), f);
     gtk_widget_show(f);
-    
+
     return event_box;
 }
 
 void ui_vsid_setpsid(const char *psid)
 {
     if (name)
-	free(name);
-    name = stralloc(psid);
+        lib_free(name);
+    name = lib_stralloc(psid);
     update_line();
 }
 
@@ -84,38 +85,39 @@ void ui_vsid_settune(const int t)
 void ui_vsid_setauthor(const char *a)
 {
     if (author)
-	free(author);
-    author = stralloc(a);
+        lib_free(author);
+    author = lib_stralloc(a);
     update_line();
 }
 void ui_vsid_setcopyright(const char *c)
 {
     if (copyright)
-	free(copyright);
-    copyright = stralloc(c);
+        lib_free(copyright);
+    copyright = lib_stralloc(c);
     update_line();
 }
 
 void ui_vsid_setmodel(const char *c)
 {
     if (model)
-	free(model);
-    model = stralloc(c);
+        lib_free(model);
+    model = lib_stralloc(c);
     update_line();
 }
 
 void ui_vsid_setsync(const char *c)
 {
     if (vsidsync)
-	free(vsidsync);
-    vsidsync = stralloc(c);
+        lib_free(vsidsync);
+    vsidsync = lib_stralloc(c);
     update_line();
 }
 
 void ui_vsid_setirq(const char *c)
 {
     if (irq)
-	free(irq);
-    irq = stralloc(c);
+        lib_free(irq);
+    irq = lib_stralloc(c);
     update_line();
 }
+

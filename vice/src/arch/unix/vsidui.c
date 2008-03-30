@@ -39,6 +39,7 @@
 #include "c64ui.h"
 #include "icon.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "psid.h"
@@ -94,7 +95,7 @@ static UI_CALLBACK(psid_load)
         break;
     }
     if (filename != NULL)
-       free(filename);
+       lib_free(filename);
 }
 
 static UI_CALLBACK(psid_tune)
@@ -190,11 +191,11 @@ static void vsid_create_menus(void)
     int i;
     char *buf;
 
-    buf = stralloc(_("*Default Tune"));
+    buf = lib_stralloc(_("*Default Tune"));
 
     /* Free previously allocated memory. */
     for (i = 0; i <= tunes; i++) {
-        free(tune_menu[i].string);
+        lib_free(tune_menu[i].string);
     }
 
     /* Get number of tunes in current PSID. */
@@ -203,7 +204,7 @@ static void vsid_create_menus(void)
     /* Build tune menu. */
     for (i = 0; i <= tunes; i++) {
         tune_menu[i].string =
-            (ui_callback_data_t) stralloc(buf);
+            (ui_callback_data_t)lib_stralloc(buf);
         tune_menu[i].callback =
             (ui_callback_t) radio_PSIDTune;
         tune_menu[i].callback_data =
@@ -212,11 +213,11 @@ static void vsid_create_menus(void)
         tune_menu[i].hotkey_keysym = i < 10 ? XK_0 + i : 0;
         tune_menu[i].hotkey_modifier =
             (ui_hotkey_modifier_t) i < 10 ? UI_HOTMOD_META : 0;
-        free(buf);
-        buf = xmsprintf(_("*Tune %d"), i + 1);
+        lib_free(buf);
+        buf = lib_msprintf(_("*Tune %d"), i + 1);
     }
 
-    free(buf);
+    lib_free(buf);
 
     tune_menu[i].string =
         (ui_callback_data_t) NULL;

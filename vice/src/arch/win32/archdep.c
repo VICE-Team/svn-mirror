@@ -58,6 +58,7 @@
 #endif
 
 #include "archdep.h"
+#include "lib.h"
 #include "log.h"
 #include "utils.h"
 
@@ -68,7 +69,7 @@ int archdep_startup(int *argc, char **argv)
 {
     _fmode = O_BINARY;
 
-    argv0 = stralloc(argv[0]);
+    argv0 = lib_stralloc(argv[0]);
 
     orig_workdir = getcwd(NULL, GET_PATH_MAX);
 
@@ -93,7 +94,7 @@ const char *archdep_program_name(void)
             e = argv0 + strlen(argv0);
 
         len = e - s + 1;
-        program_name = xmalloc(len);
+        program_name = lib_malloc(len);
         memcpy(program_name, s, len - 1);
         program_name[len - 1] = 0;
     }
@@ -187,7 +188,7 @@ _GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
 
         /* This should not happen, but you never know...  */
         if (boot_path == NULL)
-            boot_path = stralloc(".\\");
+            boot_path = lib_stralloc(".\\");
     }
 
     return boot_path;
@@ -236,7 +237,7 @@ const char *archdep_default_resource_file_name(void)
     static char *fname;
 
     if (fname != NULL)
-        free(fname);
+        lib_free(fname);
 
     fname = util_concat(archdep_boot_path(), "\\vice.ini", NULL);
     return fname;
@@ -254,7 +255,7 @@ FILE *archdep_open_default_log_file(void)
 
     fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
     f = fopen(fname, "wt");
-    free(fname);
+    lib_free(fname);
 
     return f;
 }
@@ -384,7 +385,7 @@ cleanup:
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
     /*  Win32 version   */
-    *return_path = stralloc(orig_name);
+    *return_path = lib_stralloc(orig_name);
     return 0;
 }
 
@@ -394,11 +395,11 @@ void archdep_startup_log_error(const char *format, ...)
     va_list args;
 
     va_start(args, format);
-    tmp = xmvsprintf(format, args);
+    tmp = lib_mvsprintf(format, args);
     va_end(args);
 
     ui_error_string(tmp);
-    free(tmp);
+    lib_free(tmp);
 }
 
 
@@ -416,7 +417,7 @@ char *archdep_filename_parameter(const char *name)
     char *a;
     archdep_expand_path(&exp, name);
     a = archdep_quote_parameter(exp);
-    free(exp);
+    lib_free(exp);
     return a;
 }
 
@@ -427,7 +428,7 @@ char *archdep_tmpnam(void)
     else if (getenv("tmp"))
         return util_concat(getenv("tmp"), tmpnam(NULL), NULL);
     else
-        return stralloc(tmpnam(NULL));
+        return lib_stralloc(tmpnam(NULL));
 }
 
 int archdep_file_is_gzip(const char *name)

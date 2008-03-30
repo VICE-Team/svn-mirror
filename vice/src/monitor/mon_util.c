@@ -30,6 +30,7 @@
 
 #include "archdep.h"
 #include "console.h"
+#include "lib.h"
 #include "mem.h"
 #include "mon_disassemble.h"
 #include "mon_util.h"
@@ -46,9 +47,9 @@ int mon_out(const char *format, ...)
     int rc = 0;
 
     va_start(ap, format);
-    buffer = xmvsprintf(format, ap);
+    buffer = lib_mvsprintf(format, ap);
     rc = uimon_out(buffer);
-    free(buffer);
+    lib_free(buffer);
 
     if (rc < 0)
         mon_abort();
@@ -67,7 +68,7 @@ char *mon_disassemble_with_label(MEMSPACE memspace, WORD loc, int hex,
         if (p) {
             *label_p = 1;
             *opc_size_p = 0;
-            return xmsprintf("%s:",p);
+            return lib_msprintf("%s:",p);
         }
     } else {
         *label_p = 0;
@@ -85,7 +86,7 @@ char *mon_disassemble_with_label(MEMSPACE memspace, WORD loc, int hex,
                                      hex,
                                      opc_size_p);
 
-    return xmsprintf((hex ? "%04X: %s%10s" : "05u: %s%10s"), loc, p, "");
+    return lib_msprintf((hex ? "%04X: %s%10s" : "05u: %s%10s"), loc, p, "");
 }
 
 #ifndef __OS2__
@@ -117,9 +118,9 @@ char *uimon_in(const char *prompt)
         /* we have an "artificially" generated command line */
 
         if (p)
-            free(p);
+            lib_free(p);
 
-        p = stralloc(pchCommandLine);
+        p = lib_stralloc(pchCommandLine);
         pchCommandLine = NULL;
     }
 

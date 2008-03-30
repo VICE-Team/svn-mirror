@@ -33,6 +33,7 @@
 #include <string.h>
 #include <math.h>
 
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -42,7 +43,7 @@
 #include "sound.h"
 #include "snapshot.h"
 #include "types.h"
-#include "utils.h"
+
 
 #include "fixpoint.h"
 
@@ -454,7 +455,7 @@ char *fastsid_dump_state(sound_t *psid)
     for (i = 0; i < 3; i++)
         print_voice(buf + strlen(buf), &psid->v[i]);
 
-    return stralloc(buf);
+    return lib_stralloc(buf);
 }
 
 /* update SID structure */
@@ -795,7 +796,7 @@ sound_t *fastsid_open(BYTE *sidstate)
 {
     sound_t *psid;
 
-    psid = (sound_t*)xcalloc(1, sizeof(sound_t));
+    psid = (sound_t*)lib_calloc(1, sizeof(sound_t));
 
     memcpy(psid->d, sidstate, 32);
 
@@ -873,7 +874,7 @@ int fastsid_init(sound_t *psid, int speed, int cycles_per_sec)
 
 void fastsid_close(sound_t *psid)
 {
-    free(psid);
+    lib_free(psid);
 }
 
 

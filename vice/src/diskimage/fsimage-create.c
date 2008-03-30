@@ -176,9 +176,9 @@ int fsimage_create(const char *name, unsigned int type)
     if (fsimage->fd == NULL) {
         log_error(createdisk_log, "Cannot create disk image `%s'.",
                   fsimage->name);
-        free(fsimage->name);
-        free(fsimage);
-        free(image);
+        lib_free(fsimage->name);
+        lib_free(fsimage);
+        lib_free(image);
         return -1;
     }
 
@@ -221,9 +221,9 @@ int fsimage_create(const char *name, unsigned int type)
                           "Cannot seek to end of disk image `%s'.",
                           fsimage->name);
                 fclose(fsimage->fd);
-                free(fsimage->name);
-                free(fsimage);
-                free(image);
+                lib_free(fsimage->name);
+                lib_free(fsimage);
+                lib_free(image);
                 return -1;
             }
         }
@@ -231,9 +231,9 @@ int fsimage_create(const char *name, unsigned int type)
       case DISK_IMAGE_TYPE_G64:
         if (disk_image_create_gcr(image) < 0) {
             fclose(fsimage->fd);
-            free(fsimage->name);
-            free(fsimage);
-            free(image);
+            lib_free(fsimage->name);
+            lib_free(fsimage);
+            lib_free(image);
             return -1;
         }
         break;
@@ -244,18 +244,18 @@ int fsimage_create(const char *name, unsigned int type)
         util_dword_to_le_buf(&block[TAP_HDR_LEN], 4);
         if (fwrite(block, 24, 1, fsimage->fd) < 1) {
             fclose(fsimage->fd);
-            free(fsimage->name);
-            free(fsimage);
-            free(image);
+            lib_free(fsimage->name);
+            lib_free(fsimage);
+            lib_free(image);
             return -1;
         }
 
     }
 
     fclose(fsimage->fd);
-    free(fsimage->name);
-    free(fsimage);
-    free(image);
+    lib_free(fsimage->name);
+    lib_free(fsimage);
+    lib_free(image);
     return 0;
 }
 

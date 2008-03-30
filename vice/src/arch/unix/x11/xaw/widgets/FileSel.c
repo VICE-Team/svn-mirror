@@ -28,11 +28,14 @@
 #define VICE
 
 #include "vice.h"
-#include "utils.h"		/* [AF] 26jun98 */
-#include "archdep.h"		/* [AF] 19may99 */
 
 #include <stdio.h>
-#include <stdlib.h>		/* [EP] 10/15/96 */
+#include <stdlib.h>             /* [EP] 10/15/96 */
+
+#include "archdep.h"            /* [AF] 19may99 */
+#include "lib.h"
+#include "utils.h"		/* [AF] 26jun98 */
+
 #include <X11/Xos.h>
 #include <X11/Xlib.h>
 #include <X11/StringDefs.h>
@@ -452,9 +455,9 @@ XfwfFileSelectorWidget fsw;
 		for (i = 0; i < FSPathListCount(fsw); i++)
 {
 /*printf("PLC DEST %i POINTER %p\n",i,FSPathList(fsw)[i]);*/
-			free(FSPathList(fsw)[i]);
+			lib_free(FSPathList(fsw)[i]);
 }
-		free(FSPathList(fsw));
+		lib_free(FSPathList(fsw));
 	}
 /*printf("FLC DEST CNT %i\n",FSFileListCount(fsw));*/
 	if (FSFileList(fsw) != NULL)
@@ -462,9 +465,9 @@ XfwfFileSelectorWidget fsw;
 		for (i = 0; i < FSFileListCount(fsw); i++)
 {
 /*printf("FLC DEST %i POINTER %p\n",i,FSFileList(fsw)[i]);*/
-			free(FSFileList(fsw)[i]);
+			lib_free(FSFileList(fsw)[i]);
 }
-		free(FSFileList(fsw));
+		lib_free(FSFileList(fsw));
 	}
 } /* End Destroy */
 
@@ -1192,7 +1195,7 @@ XtPointer call_data;
 	  } else {
 	    strcpy(FSCurrentDirectory(fsw), "/");
 	  }
-	  free(fpath);
+	  lib_free(fpath);
 	} else {
 	  strcpy(FSCurrentDirectory(fsw), "/");
 	}
@@ -1203,7 +1206,7 @@ XtPointer call_data;
 	  } else {
 	    FSPattern(fsw) = StrCopy("*");
 	  }
-	  free(fpattern);
+	  lib_free(fpattern);
 	} else {
 	  FSPattern(fsw) = StrCopy("*");
 	}
@@ -1539,18 +1542,18 @@ XfwfFileSelectorWidget fsw;
 		for (i = 0; i < FSPathListCount(fsw); i++)
 {
 /*printf("PLC DEST %i POINTER %p\n",i,FSPathList(fsw)[i]);*/
-			free(FSPathList(fsw)[i]);
+			lib_free(FSPathList(fsw)[i]);
 }
-		free(FSPathList(fsw));
+		lib_free(FSPathList(fsw));
 	}
 	if (FSFileList(fsw) != NULL)
 	{
 		for (i = 0; i < FSFileListCount(fsw); i++)
 {
 /*printf("FLC DEST %i POINTER %p\n",i,FSFileList(fsw)[i]);*/
- 			free(FSFileList(fsw)[i]);
+ 			lib_free(FSFileList(fsw)[i]);
 }
-		free(FSFileList(fsw));
+		lib_free(FSFileList(fsw));
 	}
 
 	FSFileListCount(fsw) = DirectoryMgrFilteredCount(FSDirMgr(fsw));
@@ -1560,7 +1563,7 @@ XfwfFileSelectorWidget fsw;
 		if (*dir == '/') ++ FSPathListCount(fsw);
 	}
 
-	FSFileList(fsw) = (char **)xmalloc(sizeof(char *) *
+	FSFileList(fsw) = (char **)lib_malloc(sizeof(char *) *
 					   (FSFileListCount(fsw) + 1));
 
 /*printf("FLC MALLOC CNT %i\n",FSFileListCount(fsw));*/
@@ -1578,16 +1581,16 @@ XfwfFileSelectorWidget fsw;
 		    else if (DirEntryIsSymLink(dir_entry) && FSFlagLinks(fsw))
 			strcat(temp," @");
 
-		FSFileList(fsw)[i] = stralloc(temp);
+		FSFileList(fsw)[i] = lib_stralloc(temp);
 /*printf("FLC MALLOC %i POINTER %p\n",i,FSFileList(fsw)[i]);*/
 	}
 	FSFileList(fsw)[i] = NULL;
 
-	FSPathList(fsw) = (char **)xmalloc(sizeof(char *) *
+	FSPathList(fsw) = (char **)lib_malloc(sizeof(char *) *
 					   (FSPathListCount(fsw) + 1));
 /*printf("PLC MALLOC CNT %i\n",FSPathListCount(fsw));*/
 	start = FSCurrentDirectory(fsw);
-	FSPathList(fsw)[0] = stralloc("/");
+	FSPathList(fsw)[0] = lib_stralloc("/");
 	for (i = 1; i < FSPathListCount(fsw); i++)
 	{
 		while (*start != '\0' && *start == '/') ++start;
@@ -1595,7 +1598,7 @@ XfwfFileSelectorWidget fsw;
 		while (*start != '\0' && *start != '/')
 			temp[count++] = *start++;
 		temp[count++] = '\0';
-		FSPathList(fsw)[i] = stralloc(temp);
+		FSPathList(fsw)[i] = lib_stralloc(temp);
 /*printf("PLC MALLOC %i POINTER %p\n",i,FSPathList(fsw)[i]);*/
 	}
 	FSPathList(fsw)[i] = NULL;

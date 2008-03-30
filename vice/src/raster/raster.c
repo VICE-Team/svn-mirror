@@ -76,7 +76,7 @@ static void raster_draw_buffer_free(video_canvas_t *canvas)
 	return;
     }
 
-    free(canvas->draw_buffer->draw_buffer);
+    lib_free(canvas->draw_buffer->draw_buffer);
 }
 
 static void raster_draw_buffer_clear(video_canvas_t *canvas, BYTE value,
@@ -418,7 +418,7 @@ void raster_set_title(raster_t *raster, const char *title)
 
     viewport = raster->canvas->viewport;
 
-    free(viewport->title);
+    lib_free(viewport->title);
     viewport->title = lib_stralloc(title);
 
 #if 0                           /* FIXME: Not yet in the canvas API.  */
@@ -488,11 +488,11 @@ void raster_free(raster_t *raster)
 
     palette_free(raster->palette);
 
-    free(raster->modes);
-    free(raster->sprite_status);
-    free(raster->cache);
+    lib_free(raster->modes);
+    lib_free(raster->sprite_status);
+    lib_free(raster->cache);
 
-    free(raster->fake_draw_buffer_line);
+    lib_free(raster->fake_draw_buffer_line);
     /* FIXME: there may be more stuff to be freed */
 }
 

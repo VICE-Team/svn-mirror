@@ -36,6 +36,7 @@
 #include "cartridge.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "sid.h"
@@ -177,7 +178,7 @@ static void c64_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
         cartridges[i].filter, FILE_SELECTOR_CART_STYLE, NULL)) != NULL) {
         if (cartridge_attach_image(cartridges[i].type, s) < 0)
             ui_error("Invalid cartridge image");
-        free(s);
+        lib_free(s);
     }
 }
 

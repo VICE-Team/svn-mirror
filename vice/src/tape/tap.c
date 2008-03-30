@@ -117,7 +117,7 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
 
     if (tap_header_read(new, fd) < 0) {
         zfclose(fd);
-        free(new);
+        lib_free(new);
         return NULL;
     }
 
@@ -128,7 +128,7 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
 
     if (new->size < 3) {
         zfclose(new->fd);
-        free(new);
+        lib_free(new);
         return NULL;
     }
 
@@ -153,10 +153,10 @@ int tap_close(tap_t *tap)
     }
 
     if (tap->file_name != NULL)
-        free(tap->file_name);
+        lib_free(tap->file_name);
     if (tap->tap_file_record)
-        free(tap->tap_file_record);
-    free(tap);
+        lib_free(tap->tap_file_record);
+    lib_free(tap);
 
     return retval;
 }

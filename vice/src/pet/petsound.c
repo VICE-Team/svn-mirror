@@ -31,10 +31,11 @@
 #include <string.h>
 #include <math.h>
 
+#include "lib.h"
 #include "petsound.h"
 #include "sound.h"
 #include "types.h"
-#include "utils.h"
+
 
 struct sound_s
 {
@@ -96,7 +97,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 
 sound_t *sound_machine_open(int chipno)
 {
-    return (sound_t*)xcalloc(1, sizeof(sound_t));
+    return (sound_t*)lib_calloc(1, sizeof(sound_t));
 }
 
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
@@ -123,7 +124,7 @@ int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 
 void sound_machine_close(sound_t *psid)
 {
-    free(psid);
+    lib_free(psid);
 }
 
 void store_petsnd_onoff(int value)
@@ -191,8 +192,8 @@ void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 
 char *sound_machine_dump_state(sound_t *psid)
 {
-    return xmsprintf("on=%d sample=%d rate=%d\n",
-                     psid->on, psid->sample, psid->t);
+    return lib_msprintf("on=%d sample=%d rate=%d\n",
+                        psid->on, psid->sample, psid->t);
 }
 
 int sound_machine_cycle_based(void)
