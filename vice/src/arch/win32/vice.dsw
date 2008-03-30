@@ -138,6 +138,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "c64exp"=".\c64exp.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "cartconv"=".\cartconv.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -450,6 +465,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "plus4exp"=".\plus4exp.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "png"=".\png.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -729,6 +759,9 @@ Package=<4>
     Project_Dep_Name iec
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name c64exp
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name iec128dcr
     End Project Dependency
     Begin Project Dependency
@@ -841,6 +874,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64exp
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iecieee
@@ -1123,6 +1159,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name plus4exp
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iecieee
