@@ -34,10 +34,10 @@
 #include "tedtypes.h"
 #include "types.h"
 
-#define GFX_MSK_LEFTBORDER_SIZE   ((VIC_II_MAX_SPRITE_WIDTH +           \
-                                    ted.screen_borderwidth) / 8 + 1)
-#define GFX_MSK_SIZE              ((VIC_II_SCREEN_WIDTH                 \
-                                    + VIC_II_MAX_SPRITE_WIDTH) / 8 + 1)
+#define GFX_MSK_LEFTBORDER_SIZE   ((VIC_II_MAX_SPRITE_WIDTH +         \
+                                  ted.screen_borderwidth) / 8 + 1)
+#define GFX_MSK_SIZE              ((VIC_II_SCREEN_WIDTH               \
+                                  + VIC_II_MAX_SPRITE_WIDTH) / 8 + 1)
 
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */
@@ -200,7 +200,7 @@ static void draw_std_text_cached(raster_cache_t *cache,
 #endif
 }
 
-static void draw_std_text (void)
+static void draw_std_text(void)
 {
 #ifndef VIDEO_REMOVE_2X
   ALIGN_DRAW_FUNC(_draw_std_text, 0,
@@ -369,7 +369,7 @@ static void draw_hires_bitmap(void)
 
     /* Overscan color in HIRES is determined by last char of previous line */
     ted.raster.overscan_background_color = 
-        ted.vbuf[TED_SCREEN_TEXTCOLS - 1] & 0xf;
+        ted.vbuf[TED_SCREEN_TEXTCOLS - 1] & 0x7f;
 }
 
 static void draw_hires_bitmap_cached(raster_cache_t *cache, int xs, int xe)
@@ -383,7 +383,7 @@ static void draw_hires_bitmap_cached(raster_cache_t *cache, int xs, int xe)
     /* Overscan color in HIRES is determined by last char of previous line */
     if (xe == TED_SCREEN_TEXTCOLS - 1)
         ted.raster.overscan_background_color = 
-            ted.vbuf[TED_SCREEN_TEXTCOLS - 1] & 0xf;
+            ted.vbuf[TED_SCREEN_TEXTCOLS - 1] & 0x7f;
 }
 
 #ifndef VIDEO_REMOVE_2X
@@ -1271,7 +1271,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
         unsigned int offs;
         PIXEL4 c1, c2;
 
-        offs = ted.raster.overscan_background_color << 4;
+        offs = ted.raster.overscan_background_color << 7;
         c1 = *(hr_table + offs + (d >> 4));
         c2 = *(hr_table + offs + (d & 0xf));
 
@@ -1288,7 +1288,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
         PIXEL4 c1, c2, c3, c4;
 
         /* The foreground color is always black (0).  */
-        offs = ted.raster.overscan_background_color << 5;
+        offs = ted.raster.overscan_background_color << /*5*/ 8;
         c1 = *(hr_table_2x + offs + (d >> 4));
         c2 = *(hr_table_2x + 0x10 + offs + (d >> 4));
         c3 = *(hr_table_2x + offs + (d & 0xf));
