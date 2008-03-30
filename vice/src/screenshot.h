@@ -41,6 +41,8 @@ typedef struct screenshot_s {
     struct palette_s *palette;
     PIXEL *pixel_table_sing;
     PIXEL *color_map;
+    BYTE *draw_buffer;
+    unsigned int draw_buffer_line_size;
 
     /* Screen size we actually want to save.  */
     unsigned int width;
