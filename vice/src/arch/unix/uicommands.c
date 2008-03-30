@@ -684,7 +684,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         i++;
         /* Write protext UI controll */
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-        flipmenu[drive][i].string = "*Write Protect";
+        flipmenu[drive][i].string = _("*Write Protect");
         if (drive == 0)
             flipmenu[drive][i].callback = toggle_AttachDevice8Readonly;
         else

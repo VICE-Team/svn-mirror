@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-06-01 20:12+0200\n"
+"POT-Creation-Date: 2003-06-21 20:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -988,6 +988,10 @@ msgstr ""
 #: src/arch/unix/uicommands.c:671
 #, c-format
 msgid "Detach #%d"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:687
+msgid "*Write Protect"
 msgstr ""
 
 #: src/arch/unix/uicommands.c:713
