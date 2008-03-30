@@ -280,12 +280,12 @@ char    *fullname2;
     } else {
         if (lastindex==9) {
             if (snapcounter==10) {
-                fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[0].name,NULL);
+                fullname=util_concat(archdep_boot_path(),"/",machine_name,"/",files[0].name,NULL);
                 remove(fullname);
                 free(fullname);
                 for (i=1; i<10; i++) {
-                    fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[i].name,NULL);
-                    fullname2=concat(archdep_boot_path(),"/",machine_name,"/",files[i-1].name,NULL);
+                    fullname=util_concat(archdep_boot_path(),"/",machine_name,"/",files[i].name,NULL);
+                    fullname2=util_concat(archdep_boot_path(),"/",machine_name,"/",files[i-1].name,NULL);
                     rename(fullname,fullname2);
                     free(fullname);
                     free(fullname2);
@@ -298,8 +298,8 @@ char    *fullname2;
                     if (files[j].valid) {
                         strcpy(files[i].name,files[j].name);
                         files[i].name[strlen(files[i].name)-5]='0'+i;
-                        fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[j].name,NULL);
-                        fullname2=concat(archdep_boot_path(),"/",machine_name,"/",files[i].name,NULL);
+                        fullname=util_concat(archdep_boot_path(),"/",machine_name,"/",files[j].name,NULL);
+                        fullname2=util_concat(archdep_boot_path(),"/",machine_name,"/",files[i].name,NULL);
                         rename(fullname,fullname2);
                         free(fullname);
                         free(fullname2);
@@ -317,7 +317,7 @@ char    *fullname2;
         }
     }
 
-    fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[lastindex].name,NULL);
+    fullname=util_concat(archdep_boot_path(),"/",machine_name,"/",files[lastindex].name,NULL);
     if (machine_write_snapshot(fullname,0,0,0)<0) {
         ui_error("Can't write snapshot file %s.",fullname);
     }
@@ -328,7 +328,7 @@ static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
     char *fullname;
 
-    fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[lastindex].name,NULL);
+    fullname=util_concat(archdep_boot_path(),"/",machine_name,"/",files[lastindex].name,NULL);
     if (machine_read_snapshot(fullname,0)<0) {
         ui_error("Cannot read snapshot image");
     }
@@ -348,7 +348,7 @@ static void scan_files(void)
         files[i].valid=0;
     	filename = stralloc("quicksnap?.vsf");
     	filename[strlen(filename)-5] = '0'+i;
-    	fullname = concat(archdep_boot_path(),"/",machine_name,"/",filename,NULL);
+    	fullname = util_concat(archdep_boot_path(),"/",machine_name,"/",filename,NULL);
     	entry.SetTo(fullname);
     	if (entry.Exists()) {
 	        strcpy(files[i].name,filename);
@@ -601,7 +601,7 @@ void ui_dispatch_events(void)
 				break;
 			case MENU_ABOUT:
 				char *abouttext;
-				abouttext = concat(
+				abouttext = util_concat(
 					"BeVICE Version ", VERSION,"\n",
 					"(c) 1998-2003 Andreas Boose\n",
 					"(c) 1998-2003 Dag Lem\n",

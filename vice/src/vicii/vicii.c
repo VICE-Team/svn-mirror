@@ -308,7 +308,7 @@ static int init_raster(void)
         log_error(vic_ii.log, "Cannot load palette.");
         return -1;
     }
-    title = concat("VICE: ", machine_name, " emulator", NULL);
+    title = util_concat("VICE: ", machine_name, " emulator", NULL);
     raster_set_title(raster, title);
     free(title);
 

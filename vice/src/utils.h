@@ -45,7 +45,7 @@ extern void *xcalloc(size_t nmemb, size_t size);
 extern void *xrealloc(void *p, size_t s);
 extern char *xmsprintf(const char *fmt, ...);
 extern char *xmvsprintf(const char *fmt, va_list args);
-extern char *concat(const char *s1, ...);
+extern char *util_concat(const char *s1, ...);
 extern BYTE *util_bufcat(BYTE *buf, int *buf_size, size_t *max_buf_size,
                          const BYTE *src, int src_size);
 extern void util_remove_spaces(char *s);
@@ -54,6 +54,7 @@ extern char *util_add_extension_const(const char *filename,
                                       const char *extension);
 
 extern size_t util_file_length(FILE *fd);
+extern int util_file_exists(const char *name);
 extern int util_file_load(const char *name, BYTE *dest, size_t size,
                           unsigned int load_flag);
 extern int util_file_save(const char *name, BYTE *src, int size);
@@ -72,8 +73,6 @@ extern int util_check_null_string(const char *string);
 extern int util_dword_read(FILE *fd, DWORD *buf, size_t num);
 extern int util_dword_write(FILE *fd, DWORD *buf, size_t num);
 extern void util_dword_to_le_buf(BYTE *buf, DWORD data);
-
-extern int util_file_exists_p(const char *name);
 
 extern char *util_find_prev_line(const char *text, const char *pos);
 extern char *util_find_next_line(const char *pos);

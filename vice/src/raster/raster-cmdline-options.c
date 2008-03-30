@@ -54,9 +54,9 @@ int raster_cmdline_options_chip_init(const char *chipname,
     unsigned int i;
 
     for (i = 0; cname_chip[i * 3] != NULL; i++) {
-        cmdline_options_chip[i].name = concat(cname_chip[i * 3], chipname,
+        cmdline_options_chip[i].name = util_concat(cname_chip[i * 3], chipname,
                                        cname_chip[i * 3 + 1], NULL);
-        cmdline_options_chip[i].resource_name = concat(chipname,
+        cmdline_options_chip[i].resource_name = util_concat(chipname,
                                                 cname_chip[i * 3 + 2], NULL);
     }
 

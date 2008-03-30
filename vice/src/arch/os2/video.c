@@ -1730,8 +1730,8 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width,
 
     *strrchr(canvas->viewport->title, ' ') = 0; // FIXME?
 
-    canvini.title       =  concat(szTitleBarText, " - ",
-                                  canvas->viewport->title + 6, NULL);
+    canvini.title       =  util_concat(szTitleBarText, " - ",
+                                       canvas->viewport->title + 6, NULL);
     canvini.width       = *width;
     canvini.height      = *height;
     canvini.stretch     =  stretch;

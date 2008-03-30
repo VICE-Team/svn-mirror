@@ -110,7 +110,7 @@ FILE *archdep_get_default_log_file(void)
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)
 {
-    return concat(fname, "~", NULL);
+    return util_concat(fname, "~", NULL);
 }
 
 const char *archdep_default_resource_file_name(void)

@@ -65,7 +65,7 @@ static int set_system_path(resource_value_t v, void *param)
 
     tmp_path = tmp_path_save; /* tmp_path points into tmp_path_save */
     do {
-        p = strstr(tmp_path,FINDPATH_SEPARATOR_STRING);
+        p = strstr(tmp_path, FINDPATH_SEPARATOR_STRING);
 
         if (p != NULL) {
             *p = 0;
@@ -73,19 +73,19 @@ static int set_system_path(resource_value_t v, void *param)
         if (!archdep_path_is_relative(tmp_path)) {
             /* absolute path */
             if (expanded_system_path == NULL) {
-                s = concat(tmp_path, NULL ); /* concat allocs a new str. */
+                s = util_concat(tmp_path, NULL ); /* concat allocs a new str. */
             } else {
-                s = concat(expanded_system_path,
+                s = util_concat(expanded_system_path,
                     FINDPATH_SEPARATOR_STRING,
                     tmp_path, NULL );
             }
         } else { /* relative path */
             if (expanded_system_path == NULL) {
-                s = concat(current_dir,
+                s = util_concat(current_dir,
                     FSDEV_DIR_SEP_STR,
                     tmp_path, NULL );
             } else {
-                s = concat(expanded_system_path,
+                s = util_concat(expanded_system_path,
                     FINDPATH_SEPARATOR_STRING,
                     current_dir,
                     FSDEV_DIR_SEP_STR,
@@ -254,7 +254,7 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
         log_warning(LOG_DEFAULT,
                     "ROM `%s': two bytes too large - removing assumed "
                     "start address.", complete_path);
-        fread((char*)dest, 1, 2, fp);
+        fread((char *)dest, 1, 2, fp);
         rsize -= 2;
     }
     if (rsize < ((size_t)maxsize)) {

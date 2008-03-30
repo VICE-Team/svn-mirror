@@ -234,7 +234,7 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                     strcat(filename, ".");
                     strcat(filename, "tap");
                 }
-                if (util_file_exists_p(filename)) {
+                if (util_file_exists(filename)) {
                     int ret;
                     ret = ui_messagebox("Overwrite existing image?",
                                         "VICE question",
@@ -386,7 +386,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                     strcat(filename,".");
                     strcat(filename,image_type_name[counter]);
                 }
-                if (util_file_exists_p(filename)) {
+                if (util_file_exists(filename)) {
                     int ret;
                     ret = ui_messagebox("Overwrite existing image?",
                                         "VICE question",
@@ -485,7 +485,8 @@ static DWORD get_index_from_filterbit(DWORD filterbit, DWORD filterlist)
     int j = 0;
 
     for (b = 1; b <= filterbit; b <<=1) {
-        if (filterlist & b) j++;
+        if (filterlist & b)
+            j++;
         if (b == filterbit)
             break;
     }
@@ -497,8 +498,7 @@ static void update_filter_history(DWORD current_filter)
 {
     int i;
     DWORD b;
-    for (i = 0, b = 1; uilib_filefilter[i].name != NULL; i++, b <<= 1)
-    {
+    for (i = 0, b = 1; uilib_filefilter[i].name != NULL; i++, b <<= 1) {
         if ((b & last_filterlist) 
             && (get_index_from_filterbit(b, last_filterlist)
             == current_filter)) {
@@ -565,8 +565,8 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
         strcpy(name, ui_file_selector_initialfile[style]);
 
     if (fontfile == NULL)
-        fontfile = concat(archdep_boot_path(), 
-            "\\fonts\\cbm-directory-charset.fon", NULL);
+        fontfile = util_concat(archdep_boot_path(), 
+                               "\\fonts\\cbm-directory-charset.fon", NULL);
 
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
@@ -629,7 +629,7 @@ BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
     DWORD dwWndThread = GetWindowThreadProcessId(hwnd,NULL);
 
     if (dwWndThread == GetCurrentThreadId()) {
-        *(HWND*)lParam = hwnd;
+        *(HWND *)lParam = hwnd;
         return FALSE;
     }
 
@@ -669,7 +669,7 @@ void ui_show_text(HWND hWnd,
 
     szRNText = (char*)HeapAlloc(GetProcessHeap(), 0, 2 * lstrlen(szText) + 1);
     i = j =0;
-    while(szText[i] != '\0') {
+    while (szText[i] != '\0') {
         if(szText[i] == '\n')
             szRNText[j++] = '\r';
         szRNText[j++] = szText[i++];
@@ -705,14 +705,14 @@ void AutoHideScrollBar(HWND hWnd, int fnBar)
     UINT uiDiff;
 	
     scInfo.cbSize = sizeof(scInfo);
-    scInfo.fMask = SIF_RANGE|SIF_PAGE;
+    scInfo.fMask = SIF_RANGE | SIF_PAGE;
     bResult = GetScrollInfo(hWnd, fnBar, &scInfo);
 
-    if(!bResult)
+    if (!bResult)
         return;
 
     uiDiff = scInfo.nMax-scInfo.nMin;
-    if(scInfo.nPage > uiDiff)
+    if (scInfo.nPage > uiDiff)
         ShowScrollBar(hWnd, fnBar, 0);
 }
 

@@ -380,7 +380,7 @@ raster_t *crtc_init(void)
         return NULL;
     }
 
-    title = concat("VICE: ", machine_name, " emulator", NULL);
+    title = util_concat("VICE: ", machine_name, " emulator", NULL);
     raster_set_title(raster, title);
     free(title);
 

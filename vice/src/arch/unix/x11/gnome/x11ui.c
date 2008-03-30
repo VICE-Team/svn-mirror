@@ -1226,7 +1226,7 @@ void ui_set_application_icon(const char *icon_data[])
 void ui_exit(void)
 {
     ui_button_t b;
-    char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
+    char *s = util_concat("Exit ", machine_name, _(" emulator"), NULL);
 
 #ifdef USE_XF86_EXTENSIONS
     fullscreen_suspend(1);
@@ -2144,7 +2144,7 @@ char *ui_select_file(const char *title,
     
     if (default_dir != NULL) {
         if(default_pattern) {
-	    path = concat(default_dir,"/",default_pattern,NULL);
+	    path = util_concat(default_dir,"/",default_pattern,NULL);
 	    gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector),
 					    path);
 	    gtk_file_selection_complete(GTK_FILE_SELECTION(file_selector),
@@ -2157,7 +2157,7 @@ char *ui_select_file(const char *title,
     }  else {
         char *newdir = ioutil_current_dir();
         if(default_pattern) {
-	    path = concat(newdir,"/",default_pattern,NULL);
+	    path = util_concat(newdir,"/",default_pattern,NULL);
 	    gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector),
 					    path);
 	    gtk_file_selection_complete(GTK_FILE_SELECTION(file_selector),
@@ -2253,7 +2253,7 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
 		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
 		       &input_dialog);
 
-    history_id = concat ("vice: ", prompt, NULL);
+    history_id = util_concat("vice: ", prompt, NULL);
     entry = gnome_entry_new(history_id);
     free(history_id);
     

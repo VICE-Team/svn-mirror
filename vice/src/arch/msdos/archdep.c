@@ -117,12 +117,12 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
     if (default_path == NULL) {
         const char *boot_path = archdep_boot_path();
 
-        default_path = concat(boot_path, "/", emu_id,
-                              FINDPATH_SEPARATOR_STRING,
-                              boot_path, "/", "DRIVES",
-                              FINDPATH_SEPARATOR_STRING,
-                              boot_path, "/", "PRINTER",
-                              NULL);
+        default_path = util_concat(boot_path, "/", emu_id,
+                                   FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/", "DRIVES",
+                                   FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/", "PRINTER",
+                                   NULL);
     }
 
     return default_path;
@@ -154,7 +154,7 @@ const char *archdep_default_resource_file_name(void)
     if (fname != NULL)
         free(fname);
 
-    fname = concat(archdep_boot_path(), "\\vicerc", NULL);
+    fname = util_concat(archdep_boot_path(), "\\vicerc", NULL);
     return fname;
 }
 
@@ -168,7 +168,7 @@ FILE *archdep_open_default_log_file(void)
     char *fname;
     FILE *f;
 
-    fname = concat(archdep_boot_path(), "\\vice.log", NULL);
+    fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
     f = fopen(fname, "wt");
     free(fname);
 
@@ -333,9 +333,9 @@ char *archdep_quote_parameter(const char *name)
 char *archdep_tmpnam(void)
 {
     if (getenv("temp"))
-        return concat(getenv("temp"), tmpnam(NULL), NULL);
+        return util_concat(getenv("temp"), tmpnam(NULL), NULL);
     else if (getenv("tmp"))
-        return concat(getenv("tmp"), tmpnam(NULL), NULL);
+        return util_concat(getenv("tmp"), tmpnam(NULL), NULL);
     else
         return stralloc(tmpnam(NULL));
 }

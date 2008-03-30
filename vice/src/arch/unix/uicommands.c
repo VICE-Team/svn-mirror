@@ -484,7 +484,7 @@ static UI_CALLBACK(load_snapshot)
 
 static UI_CALLBACK(load_quicksnap)
 {
-    char *fname = concat(archdep_home_path(), "/", VICEUSERDIR, "/",
+    char *fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/",
         machine_name, ".vsf", NULL);
 
     if (!ui_emulation_is_paused())
@@ -516,7 +516,7 @@ static UI_CALLBACK(save_snapshot)
 
 static UI_CALLBACK(save_quicksnap)
 {
-    char *fname = concat(archdep_home_path(), "/", VICEUSERDIR, "/",
+    char *fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/",
         machine_name, ".vsf", NULL);
 
     interrupt_maincpu_trigger_trap(save_snapshot_trap, (void *)fname);
@@ -610,7 +610,8 @@ static UI_CALLBACK(load_save_fliplist)
     static char *last_dir;
 
     vsync_suspend_speed_eval();
-    title = concat (what?_("Load "):_("Save"), _("Fliplist File"), NULL);
+    title = util_concat(what ? _("Load ") : _("Save"), _("Fliplist File"),
+                        NULL);
     filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vfl",
 			      &button, True, NULL);
     free (title);
@@ -720,7 +721,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         util_fname_split(flip_get_next(drive + 8), &dir, &image);
-        t1 = concat(_("Next: "), image ? image : _("<empty>"), NULL);
+        t1 = util_concat(_("Next: "), image ? image : _("<empty>"), NULL);
         flipmenu[drive][i].string = t1;
         flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
         cb_data[drive][CBD_NEXT].unit = drive + 8;
@@ -735,7 +736,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         util_fname_split(flip_get_prev(drive + 8), &dir, &image);
-        t2 = concat(_("Previous: "), image ? image : _("<empty>"), NULL);
+        t2 = util_concat(_("Previous: "), image ? image : _("<empty>"), NULL);
         flipmenu[drive][i].string = t2;
         flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
         cb_data[drive][CBD_PREV].unit = drive + 8;
@@ -750,7 +751,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         util_fname_split(last_attached_images[drive], &dir, &image);
-        t3 = concat(_("Add: "), image, NULL);
+        t3 = util_concat(_("Add: "), image, NULL);
         flipmenu[drive][i].string = t3;
         flipmenu[drive][i].callback = (ui_callback_t)add2fliplist2;
         cb_data[drive][CBD_ADD].unit = drive + 8;
@@ -765,7 +766,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         util_fname_split(last_attached_images[drive], &dir, &image);
-        t4 = concat(_("Remove: "), image, NULL);
+        t4 = util_concat(_("Remove: "), image, NULL);
         flipmenu[drive][i].string = t4;
         flipmenu[drive][i].callback = (ui_callback_t)remove_from_fliplist2;
         cb_data[drive][CBD_REMOVE].unit = drive + 8;
@@ -788,7 +789,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         while (fl_iterator) {
             memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
             util_fname_split(flip_get_image(fl_iterator), &dir, &image);
-            flipmenu[drive][i].string = concat(NO_TRANS, image, NULL);
+            flipmenu[drive][i].string = util_concat(NO_TRANS, image, NULL);
             flipmenu[drive][i].callback =
                 (ui_callback_t)attach_from_fliplist2;
             flipmenu[drive][i].callback_data =

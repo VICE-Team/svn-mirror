@@ -130,7 +130,7 @@ static void toggle_async(ADDRESS addr, void *name)
 
 static void load_snapshot(ADDRESS addr, void *hwnd)
 {
-    char *name = concat(archdep_boot_path(), "\\vice2.vsf", NULL);
+    char *name = util_concat(archdep_boot_path(), "\\vice2.vsf", NULL);
     if (machine_read_snapshot(name,0) < 0)
         WinMessageBox(HWND_DESKTOP, (HWND)hwnd,
                       "Unable to load snapshot - sorry!",
@@ -143,7 +143,7 @@ static void load_snapshot(ADDRESS addr, void *hwnd)
 static void save_snapshot(ADDRESS addr, void *hwnd)
 {
     // FIXME !!!!! roms, disks
-    char *name = concat(archdep_boot_path(), "\\vice2.vsf", NULL);
+    char *name = util_concat(archdep_boot_path(), "\\vice2.vsf", NULL);
     if (machine_write_snapshot(name, 1, 1, 0) < 0)
             WinMessageBox(HWND_DESKTOP, (HWND)hwnd,
                           "Unable to save snapshot - sorry!",
@@ -155,7 +155,7 @@ static void save_snapshot(ADDRESS addr, void *hwnd)
 
 void save_screenshot(HWND hwnd)
 {
-    char *name = concat(archdep_boot_path(), "\\vice2.png", NULL);
+    char *name = util_concat(archdep_boot_path(), "\\vice2.png", NULL);
     if (!screenshot_canvas_save("PNG", name, (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)))
         log_debug("Screenshot saved as '%s' successfully.", name);
     free(name);

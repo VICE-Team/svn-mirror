@@ -52,7 +52,7 @@ DIR *opendir(const char *path)
     DIR *dir;
 
     dir = xmalloc(sizeof(DIR));
-    dir->filter = concat(path, "\\*", NULL);
+    dir->filter = util_concat(path, "\\*", NULL);
     dir->handle = FindFirstFile(dir->filter, &dir->find_data);
     if (dir->handle == INVALID_HANDLE_VALUE)
         return NULL;

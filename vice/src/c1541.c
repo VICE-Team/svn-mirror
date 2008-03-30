@@ -1039,7 +1039,7 @@ static int delete_cmd(int nargs, char **args)
             continue;
         }
 
-        command = concat("s:", name, NULL);
+        command = util_concat("s:", name, NULL);
         charset_petconvstring((BYTE *)command, 0);
 
         printf("Deleting `%s' on unit %d.\n", name, dnr + 8);
@@ -1239,7 +1239,7 @@ static int format_cmd(int nargs, char **args)
     if (check_drive(unit, CHK_RDY) < 0)
         return FD_NOTREADY;
 
-    command = concat("n:", args[1], NULL);
+    command = util_concat("n:", args[1], NULL);
     charset_petconvstring((BYTE *)command, 0);
 
     printf("Formatting in unit %d...\n", unit + 8);
@@ -2217,11 +2217,11 @@ static int rename_cmd(int nargs, char **args)
 
     printf("Renaming `%s' to `%s'\n", src_name, dest_name);
 
-    command = concat("r:", dest_name, "=", src_name, NULL);
+    command = util_concat("r:", dest_name, "=", src_name, NULL);
     charset_petconvstring((BYTE *)command, 0);
 
     vdrive_command_execute(drives[dest_unit],
-                           (BYTE *) command, strlen(command));
+                           (BYTE *)command, strlen(command));
 
     free(command), free(dest_name), free(src_name);
 

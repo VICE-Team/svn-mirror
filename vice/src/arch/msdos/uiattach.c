@@ -312,7 +312,7 @@ static TUI_MENU_CALLBACK(create_disk_image_name_callback)
                 }
 
                 if (file_name == NULL) {
-                    file_name = concat(new_file_name, extension, NULL);
+                    file_name = util_concat(new_file_name, extension, NULL);
                 } else {
                     int len = strlen(new_file_name);
 

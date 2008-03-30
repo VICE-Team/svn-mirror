@@ -369,7 +369,7 @@ void ui_select_file_action(BMessage *msg) {
 			return;
 		}
 		path = new BPath(&ref);
-		fullpath = concat(path->Path(),"/",name,NULL);
+		fullpath = util_concat(path->Path(),"/",name,NULL);
 		
 		/* now the action */
 		if (last_filetype[1] == SNAPSHOTSAVE_FILE) {

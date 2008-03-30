@@ -115,12 +115,12 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
 
     if (default_path == NULL) {
         const char *boot_path = archdep_boot_path();
-        default_path = concat(boot_path, "/", emu_id,
-                              FINDPATH_SEPARATOR_STRING,
-                              boot_path, "/", "DRIVES",
-                              FINDPATH_SEPARATOR_STRING,
-                              boot_path, "/", "PRINTER",
-                              NULL);
+        default_path = util_concat(boot_path, "/", emu_id,
+                                   FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/", "DRIVES",
+                                   FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/", "PRINTER",
+                                   NULL);
     }
 
     return default_path;
@@ -131,7 +131,7 @@ char *archdep_make_backup_filename(const char *fname)
 {
 char    *tmp;
 
-    tmp = concat(fname, NULL);
+    tmp = util_concat(fname, NULL);
     tmp[strlen(tmp) - 1] = '~';
     return tmp;
 }
@@ -147,7 +147,7 @@ const char *archdep_default_resource_file_name(void)
     if (fname != NULL)
         free(fname);
 
-    fname = concat(archdep_boot_path(), "/vice.ini", NULL);
+    fname = util_concat(archdep_boot_path(), "/vice.ini", NULL);
     return fname;
 }
 
@@ -161,7 +161,7 @@ FILE *archdep_open_default_log_file(void)
     char *fname;
     FILE *f;
 
-    fname = concat(archdep_boot_path(), "/vice.log", NULL);
+    fname = util_concat(archdep_boot_path(), "/vice.log", NULL);
     f = fopen(fname, "wt");
     free(fname);
 

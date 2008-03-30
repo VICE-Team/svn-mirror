@@ -186,15 +186,15 @@ int ui_empty_disk_dialog(char *name)
 
     /* type radio button */
     for (i = 0; type_radio[i].label; i++)
-	if (GTK_TOGGLE_BUTTON(type_radio[i].w)->active)
+	if (GTK_TOGGLE_BUTTON(type_radio[i].w)->active) {
 	{
 	    type = type_radio[i].type;
 	    break;
 	}
 
-    format_text = concat(fname, ",", id, NULL);
-    if (vdrive_internal_create_format_disk_image(name, format_text, type) < 0)
-    {
+    format_text = util_concat(fname, ",", id, NULL);
+    if (vdrive_internal_create_format_disk_image(name, format_text, type)
+        < 0) {
 	ui_error(_("Can't create image `%s'."));
 	ret = -1;
     }

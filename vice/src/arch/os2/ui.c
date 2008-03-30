@@ -235,7 +235,7 @@ void ui_error(const char *format,...)
     va_list ap;
     va_start(ap, format);
     tmp = xmvsprintf(format, ap);
-    txt = concat(" Error in emulation thread:\n ", tmp, NULL);
+    txt = util_concat(" Error in emulation thread:\n ", tmp, NULL);
     free(tmp);
 
     log_message(LOG_DEFAULT, txt);
@@ -272,7 +272,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
     va_start(ap, format);
     tmp = xmvsprintf(format, ap);
-    txt = concat("    Chipset reported:\n ", tmp, NULL);
+    txt = util_concat("    Chipset reported:\n ", tmp, NULL);
     free(tmp);
 
     rc = WinMessageBox2(HWND_DESKTOP, HWND_DESKTOP,

@@ -111,7 +111,7 @@ char *stralloc(const char *str)
 
 /* Malloc a new string whose contents concatenate the arguments until the
    first NULL pointer (max `_CONCAT_MAX_ARGS' arguments).  */
-char *concat(const char *s, ...)
+char *util_concat(const char *s, ...)
 {
 #define _CONCAT_MAX_ARGS 128
     const char *arg;
@@ -556,7 +556,7 @@ void util_dword_to_le_buf(BYTE *buf, DWORD data)
 /* ------------------------------------------------------------------------- */
 
 /* Check for existance of file named `name'.  */
-int util_file_exists_p(const char *name)
+int util_file_exists(const char *name)
 {
     FILE *f;
 

@@ -125,7 +125,7 @@ int uimon_out(const char *format, ...)
     {
         *eol='\0';
 
-        tmp = concat(out, txt, NULL);
+        tmp = util_concat(out, txt, NULL);
         WinSendMsg(hwndMonitor, WM_INSERT, tmp, NULL);
         free(tmp);
 
@@ -142,7 +142,7 @@ int uimon_out(const char *format, ...)
 
     if (!flag)
     {
-        char *line = concat(out, txt, NULL);
+        char *line = util_concat(out, txt, NULL);
         free(out);
         out = line;
     }

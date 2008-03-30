@@ -123,16 +123,16 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
 #if 1
         const char *boot_path = archdep_boot_path();
 
-        default_path = concat(boot_path, "\\", emu_id,
-                              FINDPATH_SEPARATOR_STRING,
-                              boot_path, "\\DRIVES",
-                              FINDPATH_SEPARATOR_STRING,
-                              boot_path, "\\PRINTER",
-                              NULL);
+        default_path = util_concat(boot_path, "\\", emu_id,
+                                   FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "\\DRIVES",
+                                   FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "\\PRINTER",
+                                   NULL);
 #else
-        default_path = concat(emu_id,
-                              FINDPATH_SEPARATOR_STRING,
-                              "DRIVES", NULL);
+        default_path = util_concat(emu_id,
+                                   FINDPATH_SEPARATOR_STRING,
+                                   "DRIVES", NULL);
 #endif
     }
 
@@ -144,7 +144,7 @@ char *archdep_make_backup_filename(const char *fname)
 {
     char *tmp;
 
-    tmp = concat(fname, NULL);
+    tmp = util_concat(fname, NULL);
     tmp[strlen(tmp) - 1] = '~';
     return tmp;
 }
@@ -160,7 +160,7 @@ const char *archdep_default_resource_file_name(void)
     if (fname != NULL)
         free(fname);
 
-    fname = concat(archdep_boot_path(), "\\vice.ini", NULL);
+    fname = util_concat(archdep_boot_path(), "\\vice.ini", NULL);
     return fname;
 }
 
@@ -174,7 +174,7 @@ FILE *archdep_open_default_log_file(void)
     char *fname;
     FILE *f;
 
-    fname = concat(archdep_boot_path(), "\\vice.log", NULL);
+    fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
     f = fopen(fname, "wt");
     free(fname);
 
@@ -327,7 +327,7 @@ void archdep_startup_log_error(const char *format, ...)
 char *archdep_quote_parameter(const char *name)
 {
     char *a;
-    a = concat("\"", name, "\"", NULL);
+    a = util_concat("\"", name, "\"", NULL);
     return a;
 }
 
@@ -345,9 +345,9 @@ char *archdep_filename_parameter(const char *name)
 char *archdep_tmpnam(void)
 {
     if (getenv("temp"))
-        return concat(getenv("temp"), tmpnam(NULL), NULL);
+        return util_concat(getenv("temp"), tmpnam(NULL), NULL);
     else if (getenv("tmp"))
-        return concat(getenv("tmp"), tmpnam(NULL), NULL);
+        return util_concat(getenv("tmp"), tmpnam(NULL), NULL);
     else
         return stralloc(tmpnam(NULL));
 }

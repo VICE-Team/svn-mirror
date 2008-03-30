@@ -575,7 +575,7 @@ static void ShowContents(HWND hwnd, char *image_name)
     //
     // don't call the all the vice stuff if file doesn't exist
     //
-    if (!util_file_exists_p(image_name))
+    if (!util_file_exists(image_name))
         return;
 
     //
@@ -829,13 +829,13 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             if (action || fdlg->fl&FDS_SAVEAS_DIALOG)
                 WinEnableControl(hwnd, DID_AUTOSTART_PB, FALSE);
 
-            szpath = concat(fdlg->pszIDrive, fdlg->szFullFile, NULL);
+            szpath = util_concat(fdlg->pszIDrive, fdlg->szFullFile, NULL);
             *(strrchr(szpath, '\\')+1)='\0';
 
             WinSetDlgItemText(hwnd, DID_DIR_SELECTED, szpath);
             free (szpath);
 
-            szpath = concat(archdep_boot_path(), "\\vice2.fon", NULL);
+            szpath = util_concat(archdep_boot_path(), "\\vice2.fon", NULL);
             if (!GpiLoadFonts(WinQueryAnchorBlock(hwnd), szpath))
             {
                 log_debug("dlg-fileio.c: GpiLoadFonts('%s') failed.", szpath);
@@ -847,7 +847,8 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
     case WM_DESTROY:
         {
-            char *szpath = concat(archdep_boot_path(), "\\vice2.fon", NULL);
+            char *szpath = util_concat(archdep_boot_path(), "\\vice2.fon",
+                           NULL);
             LboxFreeContents(WinWindowFromID(hwnd, DID_CONTENTS_LB));
             if (!GpiUnloadFonts(WinQueryAnchorBlock(hwnd), szpath))
                 log_debug("dlg-fileio.c: GpiUnloadFonts('%s') failed.", szpath);
@@ -1052,7 +1053,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             {
                 const action_t *action = fdlg->fl & FDS_OPEN_DIALOG ? LoadAction : SaveAction;
 
-                char    *txt = concat("The following action couldn't be performed:\n", action[act].type, " ", action[act].subact[sact].action, NULL);
+                char    *txt = util_concat("The following action couldn't be performed:\n", action[act].type, " ", action[act].subact[sact].action, NULL);
                 HPOINTER hpt = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, 0x101/*PTR_INFO*/);
                 MB2INFO  mb  =
                 {

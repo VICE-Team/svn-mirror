@@ -163,7 +163,7 @@ const char *archdep_program_name(void)
         char fname[_MAX_FNAME+_MAX_EXT];
         char ext  [_MAX_EXT];
         _splitpath(argv0, drive, dir, fname, ext);
-        name = concat(fname, ext, NULL);
+        name = util_concat(fname, ext, NULL);
     }
     return name;
 }
@@ -181,7 +181,7 @@ const char *archdep_boot_path(void)
         _splitpath(argv0, drive, dir, fname, ext);
         if (strlen(dir))
             *(dir+strlen(dir)-1) = '\0'; // cut last backslash
-        boot_path = concat(drive, dir, NULL);
+        boot_path = util_concat(drive, dir, NULL);
     }
     return boot_path;
 }
@@ -191,10 +191,10 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
     static char *pathlist=NULL;
 
     if (!pathlist)
-        pathlist = concat(emu_id,
-                          FINDPATH_SEPARATOR_STRING, "DRIVES",
-                          FINDPATH_SEPARATOR_STRING, "PRINTER",
-                          NULL);
+        pathlist = util_concat(emu_id,
+                               FINDPATH_SEPARATOR_STRING, "DRIVES",
+                               FINDPATH_SEPARATOR_STRING, "PRINTER",
+                               NULL);
 
     return pathlist;
 }
@@ -209,7 +209,7 @@ const char *archdep_default_resource_file_name(void)
     static char *filename=NULL;
 
     if (!filename)
-        filename = concat(archdep_boot_path(), "\\vice2.cfg", NULL);
+        filename = util_concat(archdep_boot_path(), "\\vice2.cfg", NULL);
 
     return filename;
 }
@@ -227,7 +227,7 @@ int archdep_default_logger(const char *lvl, const char *txt)
     // This is used if archdep_open_default_log_file returns NULL
     //
 #ifndef __X1541__
-    char *text = concat(lvl, txt, NULL);
+    char *text = util_concat(lvl, txt, NULL);
     WinSendMsg(hwndLog, WM_INSERT, text, FALSE);
     free(text);
 #endif
@@ -240,7 +240,7 @@ FILE *archdep_open_default_log_file()
 {
     long val;
 
-    char *fname = concat (archdep_boot_path(), "\\vice2.log", NULL);
+    char *fname = util_concat(archdep_boot_path(), "\\vice2.log", NULL);
     fLog = fopen(fname, "w");
     free(fname);
     if (fLog)
@@ -333,7 +333,7 @@ int archdep_path_is_relative(const char *path)
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)
 {
-    return concat(fname, "~", NULL);
+    return util_concat(fname, "~", NULL);
 }
 
 /* return malloced version of full pathname of filename */
@@ -347,7 +347,7 @@ int archdep_expand_path(char **return_path, const char *filename)
         while (getcwd(p, 512) == NULL)
             return 0;
 
-        *return_path = concat(p, "\\", filename, NULL);
+        *return_path = util_concat(p, "\\", filename, NULL);
         free(p);
     }
     return 0;
@@ -357,7 +357,7 @@ int archdep_search_path(const char *name, char *pBuf, int lBuf)
 {
     const int flags = SEARCH_CUR_DIRECTORY|SEARCH_IGNORENETERRS;
     char *path      = "";        /* PATH environment variable */
-    char *pgmName   = concat(name, ".exe", NULL);
+    char *pgmName   = util_concat(name, ".exe", NULL);
 
     // Search the program in the path
     if (DosScanEnv("PATH",&path))
@@ -500,7 +500,7 @@ void archdep_startup_log_error(const char *format, ...)
 
 char *archdep_quote_parameter(const char *name)
 {
-    return concat("\"", name, "\"", NULL);
+    return util_concat("\"", name, "\"", NULL);
 }
 
 

@@ -284,7 +284,7 @@ static int init_raster(void)
 
     vic_update_palette();
 
-    title = concat("VICE: ", machine_name, " emulator", NULL);
+    title = util_concat("VICE: ", machine_name, " emulator", NULL);
     raster_set_title(raster, title);
     free(title);
 

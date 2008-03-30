@@ -145,7 +145,7 @@ static int init_raster(void)
         return -1;
     }
 
-    title = concat("VICE: ", machine_name, " emulator VDC window", NULL);
+    title = util_concat("VICE: ", machine_name, " emulator VDC window", NULL);
     raster_set_title(raster, title);
     free(title);
 

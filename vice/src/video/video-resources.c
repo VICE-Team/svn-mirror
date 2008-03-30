@@ -450,7 +450,7 @@ int video_resources_chip_init(const char *chipname,
 
     if (video_chip_cap->dscan_allowed != 0) {
         resources_chip_scan[0].name
-            = concat(chipname, vname_chip_scan[0], NULL);
+            = util_concat(chipname, vname_chip_scan[0], NULL);
         resources_chip_scan[0].value_ptr
             = (resource_value_t *)&(resource_chip->double_scan_enabled);
         resources_chip_scan[0].param = (void *)resource_chip;
@@ -460,7 +460,7 @@ int video_resources_chip_init(const char *chipname,
 
     if (video_chip_cap->dsize_allowed != 0) {
         resources_chip_size[0].name
-            = concat(chipname, vname_chip_size[0], NULL);
+            = util_concat(chipname, vname_chip_size[0], NULL);
         resources_chip_size[0].factory_value
             = (resource_value_t)video_chip_cap->dsize_default;
         resources_chip_size[0].value_ptr
@@ -474,25 +474,25 @@ int video_resources_chip_init(const char *chipname,
         video_resource_chip_mode_t *resource_chip_mode;
 
         resources_chip_fullscreen[0].name
-            = concat(chipname, vname_chip_fullscreen[0], NULL);
+            = util_concat(chipname, vname_chip_fullscreen[0], NULL);
         resources_chip_fullscreen[0].value_ptr
             = (resource_value_t *)&(resource_chip->fullscreen_enabled);
         resources_chip_fullscreen[0].param = (void *)resource_chip;
 
         resources_chip_fullscreen[1].name
-            = concat(chipname, vname_chip_fullscreen[1], NULL);
+            = util_concat(chipname, vname_chip_fullscreen[1], NULL);
         resources_chip_fullscreen[1].value_ptr
             = (resource_value_t *)&(resource_chip->fullscreen_double_size_enabled);
         resources_chip_fullscreen[1].param = (void *)resource_chip;
 
         resources_chip_fullscreen[2].name
-            = concat(chipname, vname_chip_fullscreen[2], NULL);
+            = util_concat(chipname, vname_chip_fullscreen[2], NULL);
         resources_chip_fullscreen[2].value_ptr
             = (resource_value_t *)&(resource_chip->fullscreen_double_scan_enabled);
         resources_chip_fullscreen[2].param = (void *)resource_chip;
 
         resources_chip_fullscreen[3].name
-            = concat(chipname, vname_chip_fullscreen[3], NULL);
+            = util_concat(chipname, vname_chip_fullscreen[3], NULL);
         resources_chip_fullscreen[3].factory_value
             = (resource_value_t)(video_chip_cap->fullscreen.device_name[0]);
         resources_chip_fullscreen[3].value_ptr
@@ -509,7 +509,8 @@ int video_resources_chip_init(const char *chipname,
             resource_chip_mode->device = i;
 
             resources_chip_fullscreen_mode[0].name
-                = concat(chipname, video_chip_cap->fullscreen.device_name[i],
+                = util_concat(chipname,
+                    video_chip_cap->fullscreen.device_name[i],
                     vname_chip_fullscreen_mode[0], NULL);
             resources_chip_fullscreen_mode[0].value_ptr
                 = (resource_value_t *)&(resource_chip->fullscreen_mode[i]);

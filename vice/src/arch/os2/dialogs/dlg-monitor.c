@@ -652,10 +652,10 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             *input=stralloc("exit");
             break;
         case DID_MONREC:                // rec
-            *input=concat("record \"", archdep_boot_path(), "\\vice2.dbg\"", NULL);
+            *input=util_concat("record \"", archdep_boot_path(), "\\vice2.dbg\"", NULL);
             break;
         case DID_MONPLAY:               // pb
-            *input=concat("playback \"", archdep_boot_path(), "\\vice2.dbg\"", NULL);
+            *input=util_concat("playback \"", archdep_boot_path(), "\\vice2.dbg\"", NULL);
             break;
         case DID_MONSTOP:               // stop
             *input=stralloc("stop");
@@ -705,7 +705,7 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             WinQueryLboxItemText(lbox, pos, tmp, 90);
             WinDeleteLboxItem(lbox, pos);
 
-            out = concat(tmp, mp1, NULL);
+            out = util_concat(tmp, mp1, NULL);
             WinLboxInsertItem(lbox, out);
             free(out);
 

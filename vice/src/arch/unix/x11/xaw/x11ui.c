@@ -842,7 +842,7 @@ void ui_set_left_menu(Widget w)
     int i;
 
     translation_table =
-        concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+        util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
                "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
@@ -867,7 +867,7 @@ void ui_set_right_menu(Widget w)
     int i;
 
     translation_table =
-        concat("<Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+        util_concat("<Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                "@Num_Lock<Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                "Lock <Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
                "@Scroll_Lock <Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
@@ -912,7 +912,7 @@ void ui_set_drive8_menu (Widget w)
 	}
     
     translation_table =
-        concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+        util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
                "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
@@ -942,7 +942,7 @@ void ui_set_drive9_menu(Widget w)
 	}
 
     translation_table =
-        concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+        util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
                "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
@@ -991,7 +991,7 @@ void ui_set_application_icon(const char *icon_data[])
 void ui_exit(void)
 {
     ui_button_t b;
-    char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
+    char *s = util_concat("Exit ", machine_name, _(" emulator"), NULL);
 
     b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
@@ -1617,7 +1617,7 @@ char *ui_select_file(const char *title,
             && button == UI_BUTTON_CONTENTS
             && read_contents_func != NULL) {
             char *contents;
-            char *f = concat(fs_status.path, fs_status.file, NULL);
+            char *f = util_concat(fs_status.path, fs_status.file, NULL);
 
             contents = read_contents_func(f, unit);
             free(f);
@@ -1633,7 +1633,7 @@ char *ui_select_file(const char *title,
 
     /* `ret' gets always malloc'ed.  */
     if (fs_status.file_selected)
-        ret = concat(fs_status.path, fs_status.file, NULL);
+        ret = util_concat(fs_status.path, fs_status.file, NULL);
     else
         ret = stralloc("");
 

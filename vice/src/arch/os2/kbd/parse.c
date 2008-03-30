@@ -53,7 +53,7 @@ int load_keymap_file(const char *fname)
 
     if (!fp)
     {
-        char *tmp = concat(fname, ".vkm", NULL);
+        char *tmp = util_concat(fname, ".vkm", NULL);
         free(complete_path);
         fp = sysfile_open(tmp, &complete_path, "r");
         free(tmp);

@@ -853,11 +853,11 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 
     if (image == NULL || image[0] == 0)
     {
-        text = concat("Detached device ", 
-            itoa(drivenum+8, device_str, 10), NULL);
+        text = util_concat("Detached device ", 
+                           itoa(drivenum + 8, device_str, 10), NULL);
     } else {
        	util_fname_split(image, &directory_name, &image_name);
-        text = concat("Attached ", image_name, " to device ", 
+        text = util_concat("Attached ", image_name, " to device ", 
             itoa(drivenum+8, device_str, 10), NULL);
         free(image_name);
         free(directory_name);
@@ -898,7 +898,7 @@ void ui_display_tape_current_image(const char *image)
         text = stralloc("Detached tape");
     } else {
        	util_fname_split(image, &directory_name, &image_name);
-        text = concat("Attached tape ", image_name, NULL);
+        text = util_concat("Attached tape ", image_name, NULL);
         free(image_name);
         free(directory_name);
     }
@@ -966,15 +966,17 @@ static void save_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
     } else {
         if (lastindex == 9) {
             if (snapcounter == 10) {
-                fullname = concat(archdep_boot_path(), "\\", machine_name,
-                                  "\\", files[0].name, NULL);
+                fullname = util_concat(archdep_boot_path(), "\\", machine_name,
+                                       "\\", files[0].name, NULL);
                 DeleteFile(fullname);
                 free(fullname);
                 for (i = 1; i < 10; i++) {
-                    fullname = concat(archdep_boot_path(), "\\", machine_name,
-                                      "\\", files[i].name, NULL);
-                    fullname2 = concat(archdep_boot_path(), "\\", machine_name,
-                                       "\\", files[i-1].name, NULL);
+                    fullname = util_concat(archdep_boot_path(), "\\",
+                                           machine_name,
+                                           "\\", files[i].name, NULL);
+                    fullname2 = util_concat(archdep_boot_path(), "\\",
+                                            machine_name,
+                                            "\\", files[i-1].name, NULL);
                     MoveFile(fullname, fullname2);
                     free(fullname);
                     free(fullname2);
@@ -987,12 +989,12 @@ static void save_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
                     if (files[j].valid) {
                         strcpy(files[i].name,files[j].name);
                         files[i].name[strlen(files[i].name) - 5] = '0' + i;
-                        fullname = concat(archdep_boot_path(), "\\",
-                                          machine_name, "\\", files[j].name,
-                                          NULL);
-                        fullname2 = concat(archdep_boot_path(), "\\",
-                                           machine_name, "\\", files[i].name,
-                                           NULL);
+                        fullname = util_concat(archdep_boot_path(), "\\",
+                                               machine_name, "\\",
+                                               files[j].name, NULL);
+                        fullname2 = util_concat(archdep_boot_path(), "\\",
+                                                machine_name, "\\",
+                                                files[i].name, NULL);
                         MoveFile(fullname, fullname2);
                         free(fullname);
                         free(fullname2);
@@ -1011,7 +1013,7 @@ static void save_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
         }
     }
 
-    fullname = concat(archdep_boot_path(), "\\", machine_name, "\\",
+    fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\",
                       files[lastindex].name, NULL);
     if (machine_write_snapshot(fullname, 0, 0, 0) < 0) {
         ui_error("Can't write snapshot file.");
@@ -1023,8 +1025,8 @@ static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
     char *fullname;
 
-    fullname = concat(archdep_boot_path(), "\\", machine_name, "\\",
-                      files[lastindex].name, NULL);
+    fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\",
+                           files[lastindex].name, NULL);
     if (machine_read_snapshot(fullname, 0) < 0) {
         ui_error("Cannot read snapshot image");
     }
@@ -1102,8 +1104,8 @@ static void scan_files(void)
     int i;
     char *dirname;
 
-    dirname = concat(archdep_boot_path(), "\\", machine_name,
-                     "\\quicksnap?.vsf", NULL);
+    dirname = util_concat(archdep_boot_path(), "\\", machine_name,
+                          "\\quicksnap?.vsf", NULL);
     search_handle = FindFirstFile(dirname, &file_info);
     snapcounter = 0;
     lastindex = -1;
@@ -1155,8 +1157,8 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                   (DLGPROC)about_dialog_proc);
         break;
       case IDM_HELP:
-        fname = concat(archdep_boot_path(), "\\DOC\\vice_toc.html", NULL);
-        dname = concat(archdep_boot_path(), "\\DOC", NULL);
+        fname = util_concat(archdep_boot_path(), "\\DOC\\vice_toc.html", NULL);
+        dname = util_concat(archdep_boot_path(), "\\DOC", NULL);
         ShellExecute(hwnd, "open", fname, NULL, dname, 0);
         free(fname);
         free(dname);

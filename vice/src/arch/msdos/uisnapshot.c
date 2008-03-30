@@ -142,7 +142,8 @@ static TUI_MENU_CALLBACK(file_name_callback)
                 }
                 
                 if (file_name == NULL) {
-                    file_name = concat(new_file_name, ".", extension, NULL);
+                    file_name = util_concat(new_file_name, ".", extension,
+                                            NULL);
                 } else {
                     free(file_name);
                     file_name = stralloc(new_file_name);
@@ -174,7 +175,7 @@ static TUI_MENU_CALLBACK(write_snapshot_callback)
             return NULL;
         }
 
-        if (!util_file_exists_p(file_name)
+        if (!util_file_exists(file_name)
             || tui_ask_confirmation("The specified file already exists.  "
                                     "Replace?  (Y/N)")) {
             if (machine_write_snapshot(file_name,

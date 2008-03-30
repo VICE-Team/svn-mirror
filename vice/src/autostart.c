@@ -277,7 +277,7 @@ static void advance_hastape(void)
       case YES:
         log_message(autostart_log, "Loading file.");
         if (autostart_program_name) {
-            tmp = concat("LOAD\"", autostart_program_name, "\"\r", NULL);
+            tmp = util_concat("LOAD\"", autostart_program_name, "\"\r", NULL);
             kbd_buf_feed(tmp);
             free(tmp);
         } else {

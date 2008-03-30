@@ -50,8 +50,8 @@ int cmdline_init(void)
 
     num_allocated_options = 100;
     num_options = 0;
-    options = (cmdline_option_t*) xmalloc(sizeof(cmdline_option_t)
-                                          * num_allocated_options);
+    options = (cmdline_option_t *)xmalloc(sizeof(cmdline_option_t)
+              * num_allocated_options);
 
     return 0;
 }
@@ -64,8 +64,8 @@ int cmdline_register_options(const cmdline_option_t *c)
     for (; c->name != NULL; c++, p++) {
         if (num_allocated_options <= num_options) {
             num_allocated_options *= 2;
-            options = (cmdline_option_t*) xrealloc(options, (sizeof(cmdline_option_t)
-                                                             * num_allocated_options));
+            options = (cmdline_option_t *)xrealloc(options,
+                      (sizeof(cmdline_option_t) * num_allocated_options));
             p = options + num_options;
         }
 
@@ -151,7 +151,8 @@ int cmdline_parse(int *argc, char **argv)
                                                  p->resource_value);
                 break;
               case CALL_FUNCTION:
-                retval = p->set_func(p->need_arg?argv[i+1]:NULL, p->extra_param);
+                retval = p->set_func(p->need_arg ? argv[i+1] : NULL,
+                         p->extra_param);
                 break;
               default:
                 archdep_startup_log_error("Invalid type for option '%s'.\n",
@@ -204,12 +205,13 @@ char *cmdline_options_string(void)
         add_to_options3 = xmsprintf("\n\t%s\n", options[i].description);
         if (options[i].need_arg && options[i].param_name != NULL) {
             add_to_options2 = xmsprintf(" %s", options[i].param_name);
-            new_cmdline_string = concat(cmdline_string, add_to_options1,
-                                        add_to_options2, add_to_options3, NULL);
+            new_cmdline_string = util_concat(cmdline_string, add_to_options1,
+                                             add_to_options2, add_to_options3,
+                                             NULL);
             free(add_to_options2);
         } else {
-            new_cmdline_string = concat(cmdline_string, add_to_options1,
-                                        add_to_options3, NULL);
+            new_cmdline_string = util_concat(cmdline_string, add_to_options1,
+                                             add_to_options3, NULL);
         }
         free(add_to_options1);
         free(add_to_options3);

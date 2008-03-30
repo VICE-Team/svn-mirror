@@ -83,7 +83,7 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster,
     raster_resource_chip->raster = raster;
 
     for (i = 0; rname_chip[i] != NULL; i++) {
-        resources_chip[i].name = concat(chipname, rname_chip[i], NULL);
+        resources_chip[i].name = util_concat(chipname, rname_chip[i], NULL);
         resources_chip[i].value_ptr
             = (resource_value_t *)&(raster_resource_chip->video_cache_enabled);
         resources_chip[i].param = (void *)raster_resource_chip;

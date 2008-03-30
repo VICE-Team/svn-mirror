@@ -127,24 +127,24 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
 
         /* First search in the `LIBDIR' then the $HOME/.vice/ dir (home_path)
            and then in the `boot_path'.  */
-        default_path = concat(LIBDIR, "/", emu_id,
-                              FINDPATH_SEPARATOR_STRING,
-                              home_path, "/", VICEUSERDIR, "/", emu_id,
-                              FINDPATH_SEPARATOR_STRING,
-                              boot_path, "/", emu_id,
-                              FINDPATH_SEPARATOR_STRING,
-                              LIBDIR, "/DRIVES",
-                              FINDPATH_SEPARATOR_STRING,
-                              home_path, "/", VICEUSERDIR, "/DRIVES",
-                              FINDPATH_SEPARATOR_STRING,
-                              boot_path, "/DRIVES",
-                              FINDPATH_SEPARATOR_STRING,
-                              LIBDIR, "/PRINTER",
-                              FINDPATH_SEPARATOR_STRING,
-                              home_path, "/", VICEUSERDIR, "/PRINTER",
-                              FINDPATH_SEPARATOR_STRING,
-                              boot_path, "/PRINTER",
-                              NULL);
+        default_path = util_concat(LIBDIR, "/", emu_id,
+                                   FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/", emu_id,
+                                   FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/", emu_id,
+                                   FINDPATH_SEPARATOR_STRING,
+                                   LIBDIR, "/DRIVES",
+                                   FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/DRIVES",
+                                   FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/DRIVES",
+                                   FINDPATH_SEPARATOR_STRING,
+                                   LIBDIR, "/PRINTER",
+                                   FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/PRINTER",
+                                   FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/PRINTER",
+                                   NULL);
     }
 
     return default_path;
@@ -153,7 +153,7 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)
 {
-    return concat(fname, "~", NULL);
+    return util_concat(fname, "~", NULL);
 }
 
 const char *archdep_default_resource_file_name(void)
@@ -166,7 +166,7 @@ const char *archdep_default_resource_file_name(void)
 
     home = archdep_home_path();
 
-    fname = concat(home, "/.vice/vicerc", NULL);
+    fname = util_concat(home, "/.vice/vicerc", NULL);
 
     return fname;
 }
@@ -179,7 +179,7 @@ const char *archdep_default_fliplist_file_name(void)
     if (fname != NULL)
         free(fname);
     home = archdep_home_path();
-    fname = concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
+    fname = util_concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
     return fname;
 }
 
@@ -194,13 +194,13 @@ const char *archdep_default_save_resource_file_name(void)
 
     home = archdep_home_path();
 
-    viceuserdir = concat(home, "/.vice", NULL);
+    viceuserdir = util_concat(home, "/.vice", NULL);
 
     if (access(viceuserdir, F_OK)) {
         mkdir(viceuserdir, 0700);
     }
 
-    fname = concat(viceuserdir, "/vicerc", NULL);
+    fname = util_concat(viceuserdir, "/vicerc", NULL);
 
     free(viceuserdir);
 
@@ -324,7 +324,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
         static char *cwd;
 
         cwd = ioutil_current_dir();
-        *return_path = concat(cwd, "/", orig_name, NULL);
+        *return_path = util_concat(cwd, "/", orig_name, NULL);
         free(cwd);
     }
     return 0;

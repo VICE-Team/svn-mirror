@@ -145,7 +145,7 @@ VideoWindow::VideoWindow()
 	background->AddChild(new BScrollView("scroll", palettelistview,
 		B_FOLLOW_LEFT|B_FOLLOW_TOP,
 		0, false, true));
-	dirpath = concat(archdep_boot_path(), "/", machine_name, NULL);
+	dirpath = util_concat(archdep_boot_path(), "/", machine_name, NULL);
     dir = BDirectory(dirpath);
     free(dirpath);
     while (dir.GetNextEntry(&entry) != B_ENTRY_NOT_FOUND)
