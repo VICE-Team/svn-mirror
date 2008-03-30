@@ -49,7 +49,7 @@
 #include "types.h"
 #include "utils.h"
 
-/* #define REU_DEBUG */
+#define REU_DEBUG
 
 /*
  * Status and Command Registers
