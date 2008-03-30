@@ -128,6 +128,8 @@ static int raster_realize_frame_buffer(raster_t *raster)
     raster->fake_draw_buffer_line = lib_realloc(raster->fake_draw_buffer_line,
                                                 fb_width);
 
+    memset(raster->fake_draw_buffer_line, 0, fb_width);
+
     return 0;
 }
 
