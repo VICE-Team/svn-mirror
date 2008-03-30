@@ -55,7 +55,7 @@ static vdrive_t *open_fsimage(const char *name, unsigned int read_only)
 
     disk_image_media_create(image);
 
-    disk_image_fsimage_name_set(image, stralloc(name));
+    disk_image_name_set(image, stralloc(name));
 
     if (disk_image_open(image) < 0) {
         disk_image_media_destroy(image);
@@ -165,7 +165,7 @@ int vdrive_internal_create_format_disk_image(const char *filename,
                                              const char *diskname,
                                              unsigned int type)
 {
-    if (disk_image_create(filename, type) < 0)
+    if (disk_image_fsimage_create(filename, type) < 0)
         return -1;
     if (vdrive_internal_format_disk_image(filename, diskname) < 0)
         return -1;
