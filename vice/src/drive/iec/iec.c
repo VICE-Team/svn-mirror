@@ -39,6 +39,7 @@
 #include "iecdrive.h"
 #include "iecrom.h"
 #include "lib.h"
+#include "mc6821.h"
 #include "memiec.h"
 #include "resources.h"
 #include "types.h"
@@ -73,6 +74,7 @@ void iec_drive_init(struct drive_context_s *drv)
     cia1571_init(drv);
     cia1581_init(drv);
     wd1770d_init(drv);
+    mc6821_init(drv);
 }
 
 void iec_drive_reset(struct drive_context_s *drv)
@@ -105,6 +107,7 @@ void iec_drive_reset(struct drive_context_s *drv)
     }
     /* FIXME:  which drive type needs this chip?? */
     wd1770d_reset(drv);
+    mc6821_reset(drv);
 }
 
 void iec_drive_mem_init(struct drive_context_s *drv, unsigned int type)
