@@ -128,9 +128,6 @@ static int rom_9_loaded = 0;	/* 1 = $9*** ROM is loaded */
 static int rom_A_loaded = 0;	/* 1 = $A*** ROM is loaded */
 static int rom_B_loaded = 0;	/* 1 = $B*** ROM or Basic 4 is loaded */
 
-/* CRTC register pointer. */
-static BYTE crtc_ptr = 0;
-
 /* 8x96 mapping register */
 static BYTE map_reg = 0;
 static int bank8offset = 0;
@@ -760,10 +757,7 @@ void REGPARM2 store_io(ADDRESS addr, BYTE value)
         store_via(addr, value);
 
     if ((addr & 0x80) && petres.crtc) {
-        if (addr & 1)
-            store_crtc(crtc_ptr, value);
-        else
-            crtc_ptr = value;
+        store_crtc(addr, value);
     }
 }
 
@@ -793,10 +787,7 @@ BYTE REGPARM1 read_io(ADDRESS addr)
         return read_via(addr);  /* VIA */
       case 0x80:                /* CRTC */
         if (petres.crtc) {
-            if (addr & 1)
-                return read_crtc(crtc_ptr);
-            else
-                return 0x9f;    /* Status. */
+            return read_crtc(addr);
         }
       case 0x00:
         return addr >> 8;
@@ -815,10 +806,7 @@ BYTE REGPARM1 read_io(ADDRESS addr)
             v3 = 0xff;
         v4 = 0xff;
         if ((addr & 0x80) && petres.crtc) {
-            if (addr & 1)
-                v4 = read_crtc(crtc_ptr);
-            else
-                v4 = 0x9f;      /* Status. */
+            v4 = read_crtc(addr);
         }
         return v1 & v2 & v3 & v4;
     }
@@ -1726,6 +1714,7 @@ void set_screen(void)
 
     /* No CRTC -> assume 40 columns */
     if(!petres.crtc) {
+/* FIXME: store_crtc(0, reg); store_crtc(1, val); 
 	store_crtc(0,49);
 	store_crtc(1,40);
 	store_crtc(4,49);
@@ -1734,6 +1723,7 @@ void set_screen(void)
 	store_crtc(9,7);
 	store_crtc(12,0x10);
 	store_crtc(13,0);
+*/
     }
 }
 
@@ -1788,10 +1778,7 @@ static BYTE peek_bank_io(ADDRESS addr)
         return peek_via(addr);  /* VIA */
       case 0x80:                /* CRTC */
         if (petres.crtc) {
-            if (addr & 1)
-                return read_crtc(crtc_ptr);
-            else
-                return 0x9f;    /* Status. */
+            return read_crtc(addr);
         }
       case 0x00:
         return addr >> 8;
@@ -1810,10 +1797,7 @@ static BYTE peek_bank_io(ADDRESS addr)
             v3 = 0xff;
         v4 = 0xff;
         if ((addr & 0x80) && petres.crtc) {
-            if (addr & 1)
-                v4 = read_crtc(crtc_ptr);
-            else
-                v4 = 0x9f;      /* Status. */
+            v4 = read_crtc(addr);
         }
         return v1 & v2 & v3 & v4;
     }

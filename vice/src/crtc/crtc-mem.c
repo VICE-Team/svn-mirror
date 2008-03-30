@@ -32,7 +32,7 @@
 
 
 #include "vice.h"
-
+#include "maincpu.h"
 #include "types.h"
 
 #include "crtc.h"
@@ -47,27 +47,51 @@
 void REGPARM2
 store_crtc (ADDRESS addr, BYTE value)
 {
-#if 0
-    crtc[addr] = value;
+    int current_cycle = clk - crtc.rl_start;
 
-    switch (addr) {
+    addr &= 1;
+
+    if (!addr) {
+	crtc.regno = value;
+	return;
+    }
+
+    crtc.regs[crtc.regno] = value;
+
+    switch (crtc.regno) {
       case 0:			/* R00  Horizontal total (characters + 1) */
-	new_crtc_cycles_per_line = crtc[0] + 1;
+	if (current_cycle > value) {
+	    value = 255;
+	}
+	crtc.rl_len = value;
+	alarm_set(&crtc.raster_draw_alarm, crtc.rl_start + value);
+	break;
 
       case 1:			/* R01  Horizontal characters displayed */
-	if (!crtc[1])
-	    return;
-	new_memptr_inc = crtc[1];
-        if (hw_double_cols) {
-            new_memptr_inc *= 2;
-        }
-	/* catch screens to large for our text cache */
-	new_memptr_inc = crtc_min( SCREEN_MAX_TEXTCOLS, new_memptr_inc );
+	if (current_cycle < crtc.rl_visible) {
+	    /* the compare is not yet done */
+	    if ((crtc.regs[1]) > current_cycle) {
+		/* only if we write a higher value than the counter, 
+		   we can update disp_cycles here */
+                crtc.rl_visible = crtc.regs[1];
+		crtc.henable = 0;
+	    } else {
+		/* we write a value lower than the counter -> never reached,
+		   open border */
+		crtc.rl_visible = crtc.rl_len + 1;
+		crtc.henable = 1;
+	    }
+	}
+        crtc.disp_chars = (crtc.rl_visible << (crtc.hw_double_cols ? 1 : 0));
         break;
 
       case 2:			/* R02  Horizontal Sync Position */
+	if (current_cycle < crtc.rl_sync) {
+	    /* FIXME: middle of pulse, adjust from reg. 3 */   
+	    crtc.rl_sync = value;
+	}
 	break;
-
+#if 0
       case 3:			/* R03  Horizontal/Vertical Sync widths */
 	break;
 
@@ -76,15 +100,15 @@ store_crtc (ADDRESS addr, BYTE value)
 
       case 8:			/* R08  unused: Interlace and Skew */
 	break;
-
+#endif
       case 6:			/* R06  Number of display lines on screen */
-        new_crtc_screen_textlines = crtc[6] & 0x7f;
+        crtc.regs[6] &= 0x7f;
         break;
 
       case 9:			/* R09  Rasters between two display lines */
-	new_screen_charheight = crtc_min(16, crtc[9] + 1);
+	crtc.regs[9] &= 0x1f;
 	break;
-
+#if 0
       case 4:			/* R04  Vertical total (character) rows */
         new_crtc_vertical_total = crtc[4] + 1;
 	break;
@@ -164,8 +188,10 @@ store_crtc (ADDRESS addr, BYTE value)
       case 18:
       case 19:			/* R18-9 Update address HI/LO (only 6545)  */
 	break;
-    }
 #endif
+      default:
+	break;
+    }
 }
 
 BYTE REGPARM1

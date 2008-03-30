@@ -110,9 +110,6 @@ int cbm2_init_ok = 0;
 /* Flag: nonzero if the ROM has been loaded. */
 static int rom_loaded = 0;
 
-/* CRTC register pointer. */
-static BYTE crtc_ptr = 0;
-
 #define IS_NULL(s)  (s == NULL || *s == '\0')
 
 static log_t c610_mem_log = LOG_ERR;
@@ -768,10 +765,7 @@ void REGPARM2 store_io(ADDRESS addr, BYTE value)
     case 0xd800:
  	switch(addr & 0xff00) {
 	case 0xd800:
-            if (addr & 1)
-                store_crtc(crtc_ptr, value);
-            else
-                crtc_ptr = value;
+            store_crtc(addr, value);
 	    return;
 	case 0xd900:
 	    return;			/* disk units */
@@ -814,10 +808,7 @@ BYTE REGPARM1 read_io(ADDRESS addr)
     case 0xd800:
 	switch (addr & 0xff00) {
 	case 0xd800:
-            if (addr & 1)
-                return read_crtc(crtc_ptr);
-            else
-                return 0x9f;    /* Status. */
+            return read_crtc(addr);
 	case 0xd900:
 	    return read_unused(addr);
 	case 0xda00:
@@ -1320,10 +1311,7 @@ static BYTE peek_bank_io(ADDRESS addr)
     case 0xd800:
         switch (addr & 0xff00) {
         case 0xd800:
-            if (addr & 1)
-                return read_crtc(crtc_ptr);
-            else
-                return 0x9f;    /* Status. */
+            return read_crtc(addr);
         case 0xd900:
             return read_unused(addr);
         case 0xda00:

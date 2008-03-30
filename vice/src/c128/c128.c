@@ -57,6 +57,7 @@
 #include "traps.h"
 #include "utils.h"
 #include "vicii.h"
+#include "vdc.h"
 #include "vsync.h"
 #include "ciatimer.h"
 
@@ -169,6 +170,7 @@ int machine_init_resources(void)
         || video_init_resources() < 0
         || c128_mem_init_resources() < 0
         || vic_ii_init_resources() < 0
+        || vdc_init_resources() < 0
         || sound_init_resources() < 0
         || sid_init_resources() < 0
 #ifdef HAVE_RS232
@@ -199,6 +201,7 @@ int machine_init_cmdline_options(void)
         || video_init_cmdline_options() < 0
         || c128_mem_init_cmdline_options() < 0
         || vic_ii_init_cmdline_options() < 0
+        || vdc_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
         || sid_init_cmdline_options() < 0
 #ifdef HAVE_RS232
@@ -264,6 +267,10 @@ int machine_init(void)
     autostart_init(3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH, 1,
                    0xa27, 0xe0, 0xec, 0xee);
 
+    /* Initialize the VDC emulation.  */
+    if (vdc_init() == NULL)
+        return -1;
+
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)
         return -1;
@@ -328,6 +335,8 @@ void machine_reset(void)
 #ifdef HAVE_PRINTER
     print_reset();
 #endif
+
+    vdc_reset();
 
     /* The VIC-II must be the *last* to be reset.  */
     vic_ii_reset();

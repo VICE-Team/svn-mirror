@@ -116,7 +116,7 @@ void DRAW(int reverse_flag, int xs, int xe)
 	/* pointer to current chargen line */
 	chargen_ptr = crtc.chargen_base 				\
 		+ crtc.chargen_rel 					\
-		+ crtc.raster.ycounter;					\
+		+ (crtc.raster.ycounter & 0x0f);			\
 	/* pointer to current screen line */
 	screen_ptr = crtc.screen_base + crtc.screen_rel;
 #if 0
@@ -155,12 +155,12 @@ void DRAW(int reverse_flag, int xs, int xe)
 
 static void draw_standard_line(void)
 {
-    DRAW(0, 0, crtc.memptr_inc - 1);
+    DRAW(0, 0, crtc.disp_chars - 1);
 }
 
 static void draw_reverse_line(void)
 {
-    DRAW(1, 0, crtc.memptr_inc - 1);
+    DRAW(1, 0, crtc.disp_chars - 1);
 }
 
 #if 0

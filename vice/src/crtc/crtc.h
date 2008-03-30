@@ -97,11 +97,47 @@ struct _crtc
     int chargen_rel;	/* currently used charset rel. to chargen_base */
     int screen_rel;	/* current screen line rel. to screen_base */
 
-    int memptr_inc;	/* the number of displayed chars/line */
+    /* internal CRTC state variables */
+
+    int regno;		/* current register selected with store to addr 0 */
+
+    /* The alarm handler is called in the last cycles of a rasterline.
+       Some effects need better timing, though */
+
+    /* rasterline variables */
+    CLOCK rl_start;	/* clock when the current rasterline starts */
+    int rl_visible;	/* number of visible chars in this line */
+    int rl_sync;	/* character in line when the sync starts */
+    int rl_len;		/* length of line in cycles */
+
+    /* values of the previous rasterline */
+    int prev_rl_visible;
+    int prev_rl_sync;
+    int prev_rl_len;
+
+    int xoffset;	/* pixel-offset of current rasterline */
+
+    int henable;	/* flagged when horizontal enable flipflop has not
+			   been reset in line */
+
+    int venable;	/* flagged when vertical enable flipflop has not
+			   been reset in frame */
+
+    int cursor_lines;	/* flagged when rasterline within hw cursor lines */
+
+    int disp_chars;	/* number of displayed chars in current rasterline 
+			   (may be disp_cycles or double the value 
+			   (hw_double_cols) */
+
+    int current_charline; /* state of the current character line counter */
+
+    int visible_line;	/* flagged when VDispEnable active */
+
+    /*---------------------------------------------------------------*/
 
     /* this is the function to be called when the retrace signal
-       changes. type&1=0: old PET, type&1=1: CRTC-PET. Also used
-       by crtc_offscreen() */
+       changes. type&1=0: old PET, type&1=1: CRTC-PET. retrace_type 
+       Also used by crtc_offscreen() */
     machine_crtc_retrace_signal_t retrace_callback;
     int retrace_type;
 
@@ -115,9 +151,6 @@ struct _crtc
 
     /* CRTC registers.  */
     int regs[64];
-
-    /* Internal memory counter.  */
-/*    int mem_counter; */
 
     /* Alarm to update a raster line.  */
     alarm_t raster_draw_alarm;

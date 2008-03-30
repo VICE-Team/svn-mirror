@@ -25,6 +25,7 @@ SUBDIRS = \
 	vdrive \
 	raster \
 	vicii \
+        vdc \
 	crtc \
 	sid \
 	c64 \
@@ -199,6 +200,7 @@ sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
+vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
@@ -248,6 +250,7 @@ x128_libs =  \
 	$(sid_lib) \
 	$(sounddrv_lib) \
 	$(vicii_lib) \
+	$(vdc_lib) \
 	$(raster_lib) \
 	$(common_libs)
 
@@ -258,7 +261,7 @@ x128_LDFLAGS = @x128_LDFLAGS@
 
 .PHONY: x128-all
 x128-all: libc128 libc64c128 libsounddrv libdrive libvdrive libarch libsid \
-	libvicii @RESID_DEP@ x128
+	libvicii libvdc @RESID_DEP@ x128
 
 # xvic
 xvic_libs =  \
@@ -382,7 +385,7 @@ petcat_LDADD = @ARCH_DIR@/archdep.o
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libvdrive libsounddrv \
-	libarch libvicii libsid libcrtc @RESID_DEP@
+	libarch libvicii libvdc libsid libcrtc @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -412,6 +415,8 @@ libvic20:
 	(cd vic20 && $(MAKE))
 libvicii:
 	(cd vicii && $(MAKE))
+libvdc:
+	(cd vdc && $(MAKE))
 libcrtc:
 	(cd crtc && $(MAKE))
 

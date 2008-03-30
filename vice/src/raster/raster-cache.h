@@ -292,4 +292,61 @@ raster_cache_data_fill_text (BYTE *dest,
 #undef _GET_CHAR_DATA
 }
 
+
+/* This function is used for the VDC attributed text mode.  It checks for
+   differences in the character memory too.
+   This is just an _EXTREMLY UGLY HACK (TM)_ to make the VDC work
+   (Markus Brenner) */
+
+inline static int
+raster_cache_data_fill_attr_text (BYTE *dest,
+			     const BYTE *src,
+                             BYTE *attr,
+			     BYTE *char_mem,
+			     int bytes_per_char,
+			     int length,
+			     int l,
+			     int *xs, int *xe,
+			     int no_check)
+{
+#define _GET_ATTR_CHAR_DATA(c, a, l) (((a) & 0x80)?char_mem+0x1000:char_mem)[((c) * bytes_per_char) + (l)]
+  if (no_check)
+    {
+      int i;
+
+      *xs = 0;
+      *xe = length - 1;
+      for (i = 0; i < length; i++, src++, attr++)
+	dest[i] = _GET_ATTR_CHAR_DATA (src[0], attr[0], l);
+      return 1;
+    }
+  else
+    {
+      BYTE b;
+      int i;
+
+      for (i = 0;
+	   i < length && dest[i] == _GET_ATTR_CHAR_DATA (src[0], attr[0], l);
+	   i++, src++, attr++)
+	/* do nothing */ ;
+
+      if (i < length)
+	{
+	  *xs = *xe = i;
+
+	  for (; i < length; i++, src++, attr++)
+	    if (dest[i] != (b = _GET_ATTR_CHAR_DATA (src[0], attr[0], l)))
+	      {
+		dest[i] = b;
+		*xe = i;
+	      }
+
+	  return 1;
+	}
+      else
+	return 0;
+    }
+#undef _GET_ATTR_CHAR_DATA
+}
+
 #endif

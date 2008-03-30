@@ -12,6 +12,7 @@ c128_DATA = \
 	godot.vpl \
 	kernal \
 	pc64.vpl \
+        vdc_deft.vpl \
 	position.vkm 
 
 EXTRA_DIST = $(c128_DATA)

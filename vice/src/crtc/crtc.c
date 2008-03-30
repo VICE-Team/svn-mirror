@@ -198,13 +198,14 @@ static void inline crtc_update_chargen_rel(void)
 			& crtc.chargen_mask;
 }
 
-/* update memptr_inc after writing to register 1 */
-static void inline crtc_update_memptr_inc(void) 
+/* update disp_char after writing to register 1 */
+static void inline crtc_update_disp_char(void) 
 {
     if (!crtc.initialized)
 	return;
 
-    crtc.memptr_inc = (crtc.regs[1] << (crtc.hw_double_cols ? 1 : 0));
+    crtc.rl_visible = crtc.regs[1]; 
+    crtc.disp_chars = (crtc.rl_visible << (crtc.hw_double_cols ? 1 : 0));
 }
 
 /* update screen window */
@@ -257,7 +258,7 @@ void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
     crtc.vaddr_revswitch = vrevmask;
 
     crtc_update_chargen_rel();
-    crtc_update_memptr_inc();
+    crtc_update_disp_char();
 }
 
 void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback, 
@@ -290,8 +291,8 @@ canvas_t crtc_init (void)
   raster_enable_double_scan (raster, crtc_resources.double_scan_enabled);
 
   /* FIXME */
-  width = CRTC_SCREEN_WIDTH();
-  height = CRTC_SCREEN_HEIGHT();
+  width = CRTC_SCREEN_WIDTH() + 2 * CRTC_SCREEN_BORDERWIDTH;
+  height = CRTC_SCREEN_HEIGHT() + 2 * CRTC_SCREEN_BORDERHEIGHT;
 #if 0
   if (crtc_resources.double_size_enabled)
     {
@@ -303,6 +304,7 @@ canvas_t crtc_init (void)
 
   if (! crtc.regs[0]) crtc.regs[0] = 49;
   if (! crtc.regs[1]) crtc.regs[1] = 40;
+  if (! crtc.regs[2]) crtc.regs[2] = 45;
   if (! crtc.regs[6]) crtc.regs[6] = 25;
   if (! crtc.regs[9]) crtc.regs[9] = 7;
 
@@ -339,27 +341,36 @@ canvas_t crtc_init (void)
 
   crtc.initialized = 1;
   crtc_update_chargen_rel();
-  crtc_update_memptr_inc();
+  crtc_update_disp_char();
   crtc_reset_screen_ptr();
 
   crtc_draw_init ();
   crtc_draw_set_double_size (crtc_resources.double_size_enabled);
   crtc_reset ();
 
-  raster->display_ystart = 0;
-  raster->display_ystop = CRTC_SCREEN_YPIX();
-  raster->display_xstart = 0;
-  raster->display_xstop = CRTC_SCREEN_XPIX();
+  raster->display_ystart = CRTC_SCREEN_BORDERHEIGHT + 0;
+  raster->display_ystop = CRTC_SCREEN_BORDERHEIGHT + CRTC_SCREEN_YPIX();
+  raster->display_xstart = CRTC_SCREEN_BORDERWIDTH + 0;
+  raster->display_xstop = CRTC_SCREEN_BORDERWIDTH + CRTC_SCREEN_XPIX();
 
   return crtc.raster.viewport.canvas;
 }
 
-/* Reset the VIC-II chip.  */
+/* Reset the CRTC chip.  */
 void crtc_reset (void)
 {
   raster_reset (&crtc.raster);
 
   alarm_set (&crtc.raster_draw_alarm, CRTC_CYCLES_PER_LINE());
+
+  crtc.rl_visible = crtc.regs[1];
+  crtc.disp_chars = (crtc.rl_visible << (crtc.hw_double_cols ? 1 : 0));
+
+  crtc.rl_sync = crtc.regs[2];
+  crtc.rl_len = crtc.regs[0];
+  crtc.prev_rl_visible = crtc.rl_visible;
+  crtc.prev_rl_sync = crtc.rl_sync;
+  crtc.prev_rl_len = crtc.rl_len;
 
   crtc_reset_screen_ptr();
 }
@@ -367,7 +378,7 @@ void crtc_reset (void)
 
 
 /* WARNING: This does not change the resource value.  External modules are
-   expected to set the resource value to change the VIC-II palette instead of
+   expected to set the resource value to change the CRTC palette instead of
    calling this function directly.  */
 int crtc_load_palette (const char *name)
 {
@@ -475,7 +486,22 @@ void crtc_set_screen_mode (BYTE *screen,
    cycle of each line.  */
 int crtc_raster_draw_alarm_handler (long offset)
 {
+    CLOCK rclk = clk - offset;
+
     raster_emulate_line (&crtc.raster);
+
+    /* center the screen by centering the part between the syncs */
+    crtc.xoffset = (crtc.screen_width 
+		- ((crtc.prev_rl_sync + crtc.rl_sync) << 3))
+		>> 1;
+
+    crtc.prev_rl_visible = crtc.rl_visible;
+    crtc.prev_rl_sync = crtc.rl_sync;
+    crtc.prev_rl_len = crtc.rl_len;
+    crtc.rl_visible = crtc.regs[1];
+    crtc.disp_chars = (crtc.rl_visible << (crtc.hw_double_cols ? 1 : 0));
+    crtc.rl_sync = crtc.regs[2];
+    crtc.rl_len = crtc.regs[0];
 
     if (crtc.raster.current_line == 0)
     {
@@ -485,17 +511,37 @@ int crtc_raster_draw_alarm_handler (long offset)
         crtc_reset_screen_ptr();
 
 	crtc.raster.ycounter = 0;
+
     } else {
+	if (crtc.raster.current_line == CRTC_SCREEN_BORDERHEIGHT + 1) {
+	    crtc.current_charline = 0;
+	    crtc.venable = 1;
+	}
 	if (crtc.raster.current_line > CRTC_SCREEN_BORDERHEIGHT) {
 	    /* FIXME: charheight */
-	    if (crtc.raster.ycounter < 7) {
+	    if (crtc.raster.ycounter != crtc.regs[9] ) {
 	        crtc.raster.ycounter ++;
+	        crtc.raster.ycounter &= 0x1f;
 	    } else {
 	        crtc.raster.ycounter = 0;
+	        crtc.current_charline ++;
 
-	        crtc.screen_rel += crtc.memptr_inc;
+		if (crtc.henable) {
+	            crtc.screen_rel += crtc.disp_chars;
+		}
+	    }
+	    if (crtc.raster.ycounter == (crtc.regs[10] & 0x1f)) {
+		crtc.cursor_lines = 1;
+	    } else 
+	    if (crtc.raster.ycounter == ((crtc.regs[11] + 1) & 0x1f)) {
+		crtc.cursor_lines = 0;
+	    }
+	    if (crtc.current_charline == crtc.regs[4] + 1) {
+		crtc.venable = 0;
 	    }
 	}
+	crtc_update_disp_char();
+	crtc.henable = 1;
     }
 
     /* FIXME: old PET have full YPIX size signal, new PET only vert. retrace,
