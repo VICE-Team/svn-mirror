@@ -35,6 +35,7 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "event.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
 #include "initcmdline.h"
@@ -89,6 +90,10 @@ int init_resources(void)
     }
     if (disk_image_resources_init() < 0) {
         init_resource_fail("disk image");
+        return -1;
+    }
+    if (event_resources_init() < 0) {
+        init_resource_fail("event");
         return -1;
     }
 #ifdef DEBUG
@@ -148,6 +153,10 @@ int init_cmdline_options(void)
         init_cmdline_options_fail("disk image");
         return -1;
     }
+    if (event_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("event");
+        return -1;
+    }
 #ifdef DEBUG
     if (debug_cmdline_options_init() < 0) {
         init_cmdline_options_fail("debug");
@@ -197,6 +206,8 @@ int init_main(void)
     }
 
     machine_maincpu_init();
+
+    event_init();
 
     /* Machine-specific initialization.  */
     if (machine_init() < 0) {
