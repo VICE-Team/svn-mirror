@@ -7,6 +7,8 @@
 #ifndef _QNXIPC_H
 #define _QNXIPC_H
 
+#include <sys/types.h>
+
 #define IPC_CREAT	0001000
 #define IPC_EXCL	0002000
 #define IPC_NOWAIT	0004000

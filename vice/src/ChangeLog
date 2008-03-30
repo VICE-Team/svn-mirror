@@ -1,3 +1,52 @@
+2005-07-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.18.
+
+	* arch/unix/x11/vidmode.c, arch/unix/x11/vidmode.h,
+	arch/unix/x11/dga1.c, arch/unix/x11/dga1.h,
+	arch/unix/x11/dga2.c, arch/unix/x11/dga2.h,
+	arch/unix/x11/fullscreen.c, arch/unix/fullscreenarch.h:
+	Pass pointer instead of array.
+
+	* arch/unix/uiacia1.h, arch/unix/uidriveplus4.h,
+	arch/unix/uivicii.h, arch/unix/uipalemu.h, arch/unix/uicrtc.h,
+	arch/unix/uiramcart.h, arch/unix/uiide64.h,
+	arch/unix/uic64cart.h, arch/unix/uidrivec128.h,
+	arch/unix/uigeoram.h, arch/unix/uiperipheralieee.h,
+	arch/unix/uirs232c64c128.h, arch/unix/uisettings.h,
+	arch/unix/uireu.h, arch/unix/uited.h, arch/unix/uitfe.h,
+	arch/unix/uivdc.h, arch/unix/uivic.h, arch/unix/uidrive.h,
+	arch/unix/uidrivepetcbm2.h, arch/unix/uijoystick2.h,
+	arch/unix/uirs232user.h, arch/unix/uicommands.h,
+	arch/unix/uidriveiec.h, arch/unix/uiprinteriec.h,
+	arch/unix/uisound.h, arch/unix/uidatasette.h,
+	arch/unix/uidrivec64vic20.h, arch/unix/uikeyboard.h,
+	arch/unix/uiprinterieee.h, arch/unix/uiperipheraliec.h,
+	arch/unix/uiplus60k.h, arch/unix/uirs232petplus4cbm2.h,
+	arch/unix/uifliplist.h, arch/unix/uiattach.h:
+	#include "uimenu.h".
+
+	* vicii/vicii.c, plus4/ted.c: Fixed some gcc4 warnings.
+
+	* sid/sid-resources.c: Fixed warning if compiled without
+	resid support.
+
+	* raster/raster-line.c (handle_visible_line_without_cache):
+	Do not inline.
+
+	* translate.c: Fixed some translations.
+
+2005-07-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* info.c: Updated the information.
+
+	* translate.c: Added dutch translation of the new resid item.
+
+2005-07-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/x11/qnxipc.h: Added a formerly missing include
+	statement.
+
 2005-07-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.17.
@@ -67,21 +116,10 @@
 
 	* Version 1.16.15.
 
-2005-06-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
-
-	* configure.in: Fixed the detection of a cross-compiler
-	environment when using genwinres.
-
 2005-06-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* printerdrv/drv-nl10.c, printerdrv/output-graphics.c,
 	util.c: Changed some C++ type comments to C type comments.
-
-2005-06-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
-
-	* configure.in: Put checking of libXpm before checking libXaw,
-	this fixes the dependancy problem on some openbsd hardware
-	platforms.
 
 2005-06-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
 

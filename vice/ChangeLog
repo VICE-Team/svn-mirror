@@ -1,3 +1,7 @@
+2005-07-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.18.
+
 2005-07-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.17.
@@ -14,6 +18,17 @@
 2005-06-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.15.
+
+2005-06-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+        * configure.in: Fixed the detection of a cross-compiler
+        environment when using genwinres.
+
+2005-06-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+        * configure.in: Put checking of libXpm before checking libXaw,
+        this fixes the dependancy problem on some openbsd hardware
+        platforms.
 
 2005-06-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
 

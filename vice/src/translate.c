@@ -133,16 +133,16 @@ translate_t string_table[] = {
 
 /* event.c */
 /* en */ {IDGS_CANNOT_CREATE_IMAGE_S,    "Cannot create image file %s"},
-/* de */ {IDGS_CANNOT_CREATE_IMAGE_S_DE, "Kann Image `%s' nicht erzeugen."},  /* fuzzy */
-/* fr */ {IDGS_CANNOT_CREATE_IMAGE_S_FR, "Impossible de créer l'image `%s'."},  /* fuzzy */
-/* it */ {IDGS_CANNOT_CREATE_IMAGE_S_IT, "Non è possibile creare l'immagine `%s'."},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_CREATE_IMAGE_S_NL, "Kan bestand `%s' niet maken."},
+/* de */ {IDGS_CANNOT_CREATE_IMAGE_S_DE, "Kann Datei `%s' nicht erzeugen"},
+/* fr */ {IDGS_CANNOT_CREATE_IMAGE_S_FR, "Impossible de créer l'image `%s'"},  /* fuzzy */
+/* it */ {IDGS_CANNOT_CREATE_IMAGE_S_IT, "Non è possibile creare l'immagine `%s'"},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_CREATE_IMAGE_S_NL, "Kan bestand `%s' niet maken"},
 /* pl */ {IDGS_CANNOT_CREATE_IMAGE_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_CREATE_IMAGE_S_SV, ""},  /* fuzzy */
 
 /* event.c */
 /* en */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S,    "Cannot write image file %s"},
-/* de */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_DE, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_DE, "Kann Datei %s nicht schreiben"},
 /* fr */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_FR, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_NL, "Kan niet schrijven naar bestand %s"},
@@ -237,7 +237,7 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED,    "write to sound device failed."},
-/* de */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_DE, "Schreiben auf Sound Gerät ist fehlgeschlagen."},
+/* de */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_DE, "Schreiben auf Gerät Sound ist fehlgeschlagen."},
 /* fr */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_FR, "Impossible d'écriture sur le périphérique de son."},
 /* it */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_IT, "scrittura sulla scheda audio fallita."},
 /* nl */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_NL, "schrijf actie naar geluidsapparaat faalt."},
@@ -282,7 +282,7 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDGS_RECORD_DEVICE_S_NOT_EXIST,    "Recording device %s doesn't exist!"},
-/* de */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_DE, "Aufnahme Gerät %s existiert nicht!"},
+/* de */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_DE, "Aufnahmegerät %s existiert nicht!"},
 /* fr */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_FR, "Le périphérique d'enregistrement %s n'existe pas!"},
 /* it */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_IT, "Il device di registrazione %s non esiste!"},
 /* nl */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_NL, "Opname apparaat %s bestaat niet!"},
@@ -291,7 +291,7 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDGS_RECORD_DIFFERENT_PLAYBACK,    "Recording device must be different from playback device"},
-/* de */ {IDGS_RECORD_DIFFERENT_PLAYBACK_DE, "Aufnahme Gerät muß unteschiedlich vom Abspielgerät sein"},
+/* de */ {IDGS_RECORD_DIFFERENT_PLAYBACK_DE, "Aufnahmegerät muß unteschiedlich vom Abspielgerät sein"},
 /* fr */ {IDGS_RECORD_DIFFERENT_PLAYBACK_FR, "Le périphérique d'enregistrement doit être différent du "
                                              "périphérique de lecture"},
 /* it */ {IDGS_RECORD_DIFFERENT_PLAYBACK_IT, "Il device di registrazione deve essere differente da quello "
@@ -302,7 +302,7 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDGS_WARNING_RECORDING_REALTIME,    "Warning! Recording device %s seems to be a realtime device!"},
-/* de */ {IDGS_WARNING_RECORDING_REALTIME_DE, "Warnung! Aufnahme Gerät %s scheint ein Echtzeitgerät zu sein!"},
+/* de */ {IDGS_WARNING_RECORDING_REALTIME_DE, "Warnung! Aufnahmegerät %s scheint ein Echtzeitgerät zu sein!"},
 /* fr */ {IDGS_WARNING_RECORDING_REALTIME_FR, "Attention! Le périphérique d'enregistrement %s semble être un "
                                               "périphérique en temps réel"},
 /* it */ {IDGS_WARNING_RECORDING_REALTIME_IT, "Attenzione! Il device di registrazione %s sembra essere un "
@@ -377,7 +377,7 @@ translate_t string_table[] = {
 
 /* c64/c64export.c */
 /* en */ {IDGS_RESOURCE_S_BLOCKED_BY_S,    "Resource %s blocked by %s."},
-/* de */ {IDGS_RESOURCE_S_BLOCKED_BY_S_DE, ""},  /* fuzzy */
+/* de */ {IDGS_RESOURCE_S_BLOCKED_BY_S_DE, "Resource %s wird von %s blockiert."},
 /* fr */ {IDGS_RESOURCE_S_BLOCKED_BY_S_FR, ""},  /* fuzzy */
 /* it */ {IDGS_RESOURCE_S_BLOCKED_BY_S_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_RESOURCE_S_BLOCKED_BY_S_NL, "Bron %s geblokeerd door %s."},
@@ -385,13 +385,13 @@ translate_t string_table[] = {
 /* sv */ {IDGS_RESOURCE_S_BLOCKED_BY_S_SV, ""},  /* fuzzy */
 
 
-/* ----------------------------------- COMMAND LINE OPTION STRINGS ------------------------------- */
+/* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_USE_PAL_SYNC_FACTOR,    "Use PAL sync factor"},
-/* de */ {IDCLS_USE_PAL_SYNC_FACTOR_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_USE_PAL_SYNC_FACTOR_DE, "PAL Faktor zum Synchronisieren benutzen"},
 /* fr */ {IDCLS_USE_PAL_SYNC_FACTOR_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_USE_PAL_SYNC_FACTOR_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_USE_PAL_SYNC_FACTOR_NL, "Gebruik PAL synchronisatie faktor"},
@@ -402,7 +402,7 @@ translate_t string_table[] = {
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_USE_NTSC_SYNC_FACTOR,    "Use NTSC sync factor"},
-/* de */ {IDCLS_USE_NTSC_SYNC_FACTOR_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_USE_NTSC_SYNC_FACTOR_DE, "NTSC Faktor zum Synchronisieren benutzen"},  /* fuzzy */
 /* fr */ {IDCLS_USE_NTSC_SYNC_FACTOR_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_USE_NTSC_SYNC_FACTOR_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_USE_NTSC_SYNC_FACTOR_NL, "Gebruik NTSC synchronisatie faktor"},
@@ -422,7 +422,7 @@ translate_t string_table[] = {
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c */
 /* en */ {IDCLS_P_NAME,    "<name>"},
-/* de */ {IDCLS_P_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_NAME_DE, "<Name>"},
 /* fr */ {IDCLS_P_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_P_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_NAME_NL, "<naam>"},
@@ -431,7 +431,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_INT_KERNEL_NAME,    "Specify name of international Kernal ROM image"},
-/* de */ {IDCLS_SPECIFY_INT_KERNEL_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_INT_KERNEL_NAME_DE, "Dateiname des internationalen Kernal ROMs"},
 /* fr */ {IDCLS_SPECIFY_INT_KERNEL_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_INT_KERNEL_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_INT_KERNEL_NAME_NL, "Geef de naam van het internationaal Kernal ROM bestand"},
@@ -440,7 +440,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_DE_KERNEL_NAME,    "Specify name of German Kernal ROM image"},
-/* de */ {IDCLS_SPECIFY_DE_KERNEL_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_DE_KERNEL_NAME_DE, "Dateiname des deutschen Kernal ROMs"},
 /* fr */ {IDCLS_SPECIFY_DE_KERNEL_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_DE_KERNEL_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_DE_KERNEL_NAME_NL, "Geef de naam van het Duits Kernal ROM bestand"},
@@ -449,7 +449,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_FI_KERNEL_NAME,    "Specify name of Finnish Kernal ROM image"},
-/* de */ {IDCLS_SPECIFY_FI_KERNEL_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_FI_KERNEL_NAME_DE, "Dateiname des finnischen Kernal ROMs"},
 /* fr */ {IDCLS_SPECIFY_FI_KERNEL_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_FI_KERNEL_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_FI_KERNEL_NAME_NL, "Geef de naam van het Fins Kernal ROM bestand"},
@@ -458,7 +458,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_FR_KERNEL_NAME,    "Specify name of French Kernal ROM image"},
-/* de */ {IDCLS_SPECIFY_FR_KERNEL_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_FR_KERNEL_NAME_DE, "Dateiname des französischen Kernal ROMs"},
 /* fr */ {IDCLS_SPECIFY_FR_KERNEL_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_FR_KERNEL_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_FR_KERNEL_NAME_NL, "Geef de naam van het Frans Kernal ROM bestand"},
@@ -467,7 +467,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_IT_KERNEL_NAME,    "Specify name of Italian Kernal ROM image"},
-/* de */ {IDCLS_SPECIFY_IT_KERNEL_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_IT_KERNEL_NAME_DE, "Dateiname des italienischen Kernal ROMs"},
 /* fr */ {IDCLS_SPECIFY_IT_KERNEL_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_IT_KERNEL_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_IT_KERNEL_NAME_NL, "Geef de naam van het Italiaans Kernal ROM bestand"},
@@ -476,7 +476,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_NO_KERNEL_NAME,    "Specify name of Norwegain Kernal ROM image"},
-/* de */ {IDCLS_SPECIFY_NO_KERNEL_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_NO_KERNEL_NAME_DE, "Dateiname des norwegischen Kernal ROMs"},
 /* fr */ {IDCLS_SPECIFY_NO_KERNEL_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_NO_KERNEL_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_NO_KERNEL_NAME_NL, "Geef de naam van het Noors Kernal ROM bestand"},
@@ -485,7 +485,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SV_KERNEL_NAME,    "Specify name of Swedish Kernal ROM image"},
-/* de */ {IDCLS_SPECIFY_SV_KERNEL_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SV_KERNEL_NAME_DE, "Dateiname des schwedischen Kernal ROMs"},
 /* fr */ {IDCLS_SPECIFY_SV_KERNEL_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SV_KERNEL_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_SV_KERNEL_NAME_NL, "Geef de naam van het Zweeds Kernal ROM bestand"},
@@ -494,7 +494,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW,    "Specify name of BASIC ROM image (lower part)"},
-/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_DE, "Dateiname des Basic ROMs (oberer Adressbereich"},
 /* fr */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_NL, "Geef de naam van het BASIC ROM bestand (laag gedeelte)"},
@@ -503,7 +503,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH,    "Specify name of BASIC ROM image (higher part)"},
-/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_DE, "Dateiname des Basic ROMs (unterer Adressbereich)"},
 /* fr */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_NL, "Geef de naam van het BASIC ROM bestand (hoog gedeelte)"},
@@ -512,7 +512,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME,    "Specify name of international character generator ROM image"},
-/* de */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_DE, "Dateiname des internationalen Zeichensatz ROMs"},
 /* fr */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_NL, "Geef de naam van het internationaal CHARGEN ROM bestand"},
@@ -521,7 +521,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME,    "Specify name of German character generator ROM image"},
-/* de */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_DE, "Dateiname des deutschen Zeichensatz ROMs"},
 /* fr */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_NL, "Geef de naam van het Duits CHARGEN ROM bestand"},
@@ -530,7 +530,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME,    "Specify name of French character generator ROM image"},
-/* de */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_DE, "Dateiname des französischen Zeichensatz ROMs"},
 /* fr */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_NL, "Geef de naam van het Frans CHARGEN ROM bestand"},
@@ -539,7 +539,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME,    "Specify name of Swedish character generator ROM image"},
-/* de */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_DE, "Dateiname des swedischen Zeichensatz ROMs"},
 /* fr */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_NL, "Geef de naam van het Zweeds CHARGEN ROM bestand"},
@@ -548,7 +548,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME,    "Specify name of C64 mode Kernal ROM image"},
-/* de */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_DE, "Dateiname des Kernal ROMs im C64 Modus"},
 /* fr */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_NL, "Geef de naam van het C64 modus Kernal ROM bestand"},
@@ -557,7 +557,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME,    "Specify name of C64 mode BASIC ROM image"},
-/* de */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_DE, "Dateiname des Basic ROMs im C64 Modus"}, 
 /* fr */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_NL, "Geef de naam van het C64 modus BASIC ROM bestand"},
@@ -568,7 +568,7 @@ translate_t string_table[] = {
    cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_EMULATOR_ID,    "Enable emulator identification"},
-/* de */ {IDCLS_ENABLE_EMULATOR_ID_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_EMULATOR_ID_DE, "Emulatoridentifikation aktivieren"},
 /* fr */ {IDCLS_ENABLE_EMULATOR_ID_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_EMULATOR_ID_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_EMULATOR_ID_NL, "Aktiveer emulator identificatie"},
@@ -579,7 +579,7 @@ translate_t string_table[] = {
    cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_EMULATOR_ID,    "Disable emulator identification"},
-/* de */ {IDCLS_DISABLE_EMULATOR_ID_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_EMULATOR_ID_DE, "Emulatoridentifikation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_EMULATOR_ID_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_EMULATOR_ID_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_EMULATOR_ID_NL, "Emulator identificatie afsluiten"},
@@ -588,7 +588,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_IEE488,    "Enable the IEEE488 interface emulation"},
-/* de */ {IDCLS_ENABLE_IEE488_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IEE488_DE, "IEEE488 Schnittstellenemulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_IEE488_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_IEE488_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_IEE488_NL, "Aktiveer de IEEE488 interface emulatie"},
@@ -597,7 +597,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_IEE488,    "Disable the IEEE488 interface emulation"},
-/* de */ {IDCLS_DISABLE_IEE488_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IEE488_DE, "IEEE488 Schnittstellenemulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_IEE488_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_IEE488_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_IEE488_NL, "De IEEE488 interface emulatie afsluiten"},
@@ -606,7 +606,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
 /* en */ {IDCLS_P_REVISION,    "<revision>"},
-/* de */ {IDCLS_P_REVISION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_REVISION_DE, "<Revision>"},
 /* fr */ {IDCLS_P_REVISION_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_P_REVISION_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_REVISION_NL, "<revisie>"},
@@ -615,7 +615,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
 /* en */ {IDCLS_PATCH_KERNAL_TO_REVISION,    "Patch the Kernal ROM to the specified <revision>"},
-/* de */ {IDCLS_PATCH_KERNAL_TO_REVISION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_PATCH_KERNAL_TO_REVISION_DE, "Kernal ROM auf angegenbene Revision ändern"},
 /* fr */ {IDCLS_PATCH_KERNAL_TO_REVISION_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_PATCH_KERNAL_TO_REVISION_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_PATCH_KERNAL_TO_REVISION_NL, "Verbeter de Kernal ROM naar de opgegeven <revisie>"},
@@ -625,7 +625,7 @@ translate_t string_table[] = {
 #ifdef HAVE_RS232
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU,    "Enable the $DE** ACIA RS232 interface emulation"},
-/* de */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DE, "$DE** ACIA RS232 Schnittstellenemulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_NL, "Aktiveer de $DE** ACIA RS232 interface emulatie"},
@@ -634,7 +634,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU,    "Disable the $DE** ACIA RS232 interface emulation"},
-/* de */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DE, "$DE** ACIA RS232 Schnittstellenemulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_NL, "De $DE** ACIA RS232 interface emulatie afsluiten"},
@@ -647,7 +647,7 @@ translate_t string_table[] = {
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
    vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_P_NUMBER,    "<number>"},
-/* de */ {IDCLS_P_NUMBER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_NUMBER_DE, "<Nummer>"},
 /* fr */ {IDCLS_P_NUMBER_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_P_NUMBER_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_NUMBER_NL, "<nummer>"},
@@ -658,7 +658,7 @@ translate_t string_table[] = {
 /* c128/c128-cmdline-options.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX,    "Specify index of keymap file (0=symbol, 1=positional)"},
-/* de */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE, "Aktive Tastaturbelegung (0=symbolisch) (1=positionell)"},
 /* fr */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_NL, "Geef index van het keymap bestand (0=symbool, 1=positioneel)"},
@@ -668,7 +668,7 @@ translate_t string_table[] = {
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
    plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,    "Specify name of symbolic keymap file"},
-/* de */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE, "Dateiname für symbolische Tastaturbelegung"},
 /* fr */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_NL, "Geef naam van het symbolisch keymap bestand"},
@@ -678,7 +678,7 @@ translate_t string_table[] = {
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,    "Specify name of positional keymap file"},
-/* de */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DE, "Dateiname für positionelle Tastaturbelegung"},
 /* fr */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_NL, "Geef naam van het positioneel keymap bestand"},
@@ -688,7 +688,7 @@ translate_t string_table[] = {
 
 /* c128/c128mmu.c */
 /* en */ {IDCLS_ACTIVATE_40_COL_MODE,    "Activate 40 column mode"},
-/* de */ {IDCLS_ACTIVATE_40_COL_MODE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ACTIVATE_40_COL_MODE_DE, "40 Zeichen Modus"},
 /* fr */ {IDCLS_ACTIVATE_40_COL_MODE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ACTIVATE_40_COL_MODE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ACTIVATE_40_COL_MODE_NL, "Aktiveer 40 kolommen modus"},
@@ -697,7 +697,7 @@ translate_t string_table[] = {
 
 /* c128/c128mmu.c */
 /* en */ {IDCLS_ACTIVATE_80_COL_MODE,    "Activate 80 column mode"},
-/* de */ {IDCLS_ACTIVATE_80_COL_MODE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ACTIVATE_80_COL_MODE_DE, "80 Zeichen Modus"},
 /* fr */ {IDCLS_ACTIVATE_80_COL_MODE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ACTIVATE_80_COL_MODE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ACTIVATE_80_COL_MODE_NL, "Aktiveer 80 kolommen modus"},
@@ -706,7 +706,7 @@ translate_t string_table[] = {
 
 /* c128/functionrom.c */
 /* en */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME,    "Specify name of internal Function ROM image"},
-/* de */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_DE, "Dateiname des internen Funktions ROMs"},
 /* fr */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_NL, "Geef de naam van het intern Functie ROM bestand"},
@@ -715,7 +715,7 @@ translate_t string_table[] = {
 
 /* c128/functionrom.c */
 /* en */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME,    "Specify name of external Function ROM image"},
-/* de */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_DE, "Dateiname des externen Funktions ROMs"},
 /* fr */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_NL, "Geef de naam van het extern Functie ROM bestand"},
@@ -724,7 +724,7 @@ translate_t string_table[] = {
 
 /* c128/functionrom.c */
 /* en */ {IDCLS_ENABLE_INT_FUNC_ROM,    "Enable the internal Function ROM"},
-/* de */ {IDCLS_ENABLE_INT_FUNC_ROM_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_INT_FUNC_ROM_DE, "Internes Funktions ROM aktivieren"},
 /* fr */ {IDCLS_ENABLE_INT_FUNC_ROM_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_INT_FUNC_ROM_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_INT_FUNC_ROM_NL, "Aktiveer de interne Functie ROM"},
@@ -733,7 +733,7 @@ translate_t string_table[] = {
 
 /* c128/functionrom.c */
 /* en */ {IDCLS_DISABLE_INT_FUNC_ROM,    "Disable the internal Function ROM"},
-/* de */ {IDCLS_DISABLE_INT_FUNC_ROM_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_INT_FUNC_ROM_DE, "Internes Funktions ROM deaktivieren"},
 /* fr */ {IDCLS_DISABLE_INT_FUNC_ROM_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_INT_FUNC_ROM_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_INT_FUNC_ROM_NL, "De interne Functie ROM afsluiten"},
@@ -742,7 +742,7 @@ translate_t string_table[] = {
 
 /* c128/functionrom.c */
 /* en */ {IDCLS_ENABLE_EXT_FUNC_ROM,    "Enable the external Function ROM"},
-/* de */ {IDCLS_ENABLE_EXT_FUNC_ROM_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_EXT_FUNC_ROM_DE, "Externes Funktions ROM aktivieren"},
 /* fr */ {IDCLS_ENABLE_EXT_FUNC_ROM_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_EXT_FUNC_ROM_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_EXT_FUNC_ROM_NL, "Aktiveer de externe Functie ROM"},
@@ -751,7 +751,7 @@ translate_t string_table[] = {
 
 /* c128/functionrom.c */
 /* en */ {IDCLS_DISABLE_EXT_FUNC_ROM,    "Disable the external Function ROM"},
-/* de */ {IDCLS_DISABLE_EXT_FUNC_ROM_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_EXT_FUNC_ROM_DE, "Externes Funktions ROM deaktivieren"},
 /* fr */ {IDCLS_DISABLE_EXT_FUNC_ROM_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_EXT_FUNC_ROM_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_EXT_FUNC_ROM_NL, "De externe Functie ROM afsluiten"},
@@ -760,7 +760,7 @@ translate_t string_table[] = {
 
 /* c64/c64-cmdline-options.c, c64/psid.c */
 /* en */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR,    "Use old NTSC sync factor"},
-/* de */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_DE, "NTSC (alt) Faktor zum Synchronisieren benutzen"},
 /* fr */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_NL, "Gebruik oude NTSC synchronisatie faktor"},
@@ -771,7 +771,7 @@ translate_t string_table[] = {
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_KERNAL_ROM_NAME,    "Specify name of Kernal ROM image"},
-/* de */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DE, "Dateiname des Kernal ROMs"},
 /* fr */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_NL, "Geef de naam van het Kernal ROM bestand"},
@@ -782,7 +782,7 @@ translate_t string_table[] = {
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME,    "Specify name of BASIC ROM image"},
-/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DE, "Dateiname des Basic ROMs"},
 /* fr */ {IDCLS_SPECIFY_BASIC_ROM_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_BASIC_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_BASIC_ROM_NAME_NL, "Geef de naam van het BASIC ROM bestand"},
@@ -792,7 +792,7 @@ translate_t string_table[] = {
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME,    "Specify name of character generator ROM image"},
-/* de */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE, "Dateiname des Zeichensatz ROMs"},
 /* fr */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_NL, "Geef de naam van het CHARGEN ROM bestand"},
@@ -821,7 +821,7 @@ translate_t string_table[] = {
 
 /* c64/georam.c */
 /* en */ {IDCLS_ENABLE_GEORAM,    "Enable the GEORAM expansion unit"},
-/* de */ {IDCLS_ENABLE_GEORAM_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_GEORAM_DE, "GEORAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_GEORAM_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_GEORAM_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_GEORAM_NL, "Aktiveer de GEORAM uitbreidings eenheid"},
@@ -830,7 +830,7 @@ translate_t string_table[] = {
 
 /* c64/georam.c */
 /* en */ {IDCLS_DISABLE_GEORAM,    "Disable the GEORAM expansion unit"},
-/* de */ {IDCLS_DISABLE_GEORAM_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_GEORAM_DE, "GEORAM Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_GEORAM_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_GEORAM_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_GEORAM_NL, "De GEORAM uitbreidings eenheid aflsuiten"},
@@ -839,7 +839,7 @@ translate_t string_table[] = {
 
 /* c64/georam.c */
 /* en */ {IDCLS_SPECIFY_GEORAM_NAME,    "Specify name of GEORAM image"},
-/* de */ {IDCLS_SPECIFY_GEORAM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_GEORAM_NAME_DE, "Dateiname für GEORAM Erweiterung"},
 /* fr */ {IDCLS_SPECIFY_GEORAM_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_GEORAM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_GEORAM_NAME_NL, "Geef de naam van her GEORAM bestand"},
@@ -848,7 +848,7 @@ translate_t string_table[] = {
 
 /* c64/georam.c, c64/ramcart.c, c64/reu.c */
 /* en */ {IDCLS_P_SIZE_IN_KB,    "<size in KB>"},
-/* de */ {IDCLS_P_SIZE_IN_KB_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_SIZE_IN_KB_DE, "<Grösse in KB"},
 /* fr */ {IDCLS_P_SIZE_IN_KB_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_P_SIZE_IN_KB_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_SIZE_IN_KB_NL, "<grootte in KB>"},
@@ -857,7 +857,7 @@ translate_t string_table[] = {
 
 /* c64/georam.c */
 /* en */ {IDCLS_GEORAM_SIZE,    "Size of the GEORAM expansion unit"},
-/* de */ {IDCLS_GEORAM_SIZE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_GEORAM_SIZE_DE, "Grösse der GEORAM Erweiterung"},
 /* fr */ {IDCLS_GEORAM_SIZE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_GEORAM_SIZE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_GEORAM_SIZE_NL, "Grootte van de GEORAM uitbreidings eenheid"},
@@ -866,7 +866,7 @@ translate_t string_table[] = {
 
 /* c64/psid.c */
 /* en */ {IDCLS_SID_PLAYER_MODE,    "SID player mode"},
-/* de */ {IDCLS_SID_PLAYER_MODE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SID_PLAYER_MODE_DE, "SID player Modus"},
 /* fr */ {IDCLS_SID_PLAYER_MODE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SID_PLAYER_MODE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SID_PLAYER_MODE_NL, "SID player modus"},
@@ -875,7 +875,7 @@ translate_t string_table[] = {
 
 /* c64/psid.c */
 /* en */ {IDCLS_OVERWRITE_PSID_SETTINGS,    "Override PSID settings for Video standard and SID model"},
-/* de */ {IDCLS_OVERWRITE_PSID_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_OVERWRITE_PSID_SETTINGS_DE, "Überschreiben der PSID Einstellungen bezüglich Videostandard und SID Modell"},
 /* fr */ {IDCLS_OVERWRITE_PSID_SETTINGS_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_OVERWRITE_PSID_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_OVERWRITE_PSID_SETTINGS_NL, "Overschrijf PSID instellingen voor Video standaard en SID model"},
@@ -893,7 +893,7 @@ translate_t string_table[] = {
 
 /* c64/ramcart.c */
 /* en */ {IDCLS_ENABLE_RAMCART,    "Enable the RAMCART expansion"},
-/* de */ {IDCLS_ENABLE_RAMCART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_RAMCART_DE, "RAMCART Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_RAMCART_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_RAMCART_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_RAMCART_NL, "Aktiveer de RAMCART uitbreiding"},
@@ -902,7 +902,7 @@ translate_t string_table[] = {
 
 /* c64/ramcart.c */
 /* en */ {IDCLS_DISABLE_RAMCART,    "Disable the RAMCART expansion"},
-/* de */ {IDCLS_DISABLE_RAMCART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_RAMCART_DE, "RAMCART Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_RAMCART_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_RAMCART_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_RAMCART_NL, "De RAMCART uitbreiding aflsuiten"},
@@ -911,7 +911,7 @@ translate_t string_table[] = {
 
 /* c64/ramcart.c */
 /* en */ {IDCLS_SPECIFY_RAMCART_NAME,    "Specify name of RAMCART image"},
-/* de */ {IDCLS_SPECIFY_RAMCART_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_RAMCART_NAME_DE, "Dateiname für RAMCART Erweiterung"},
 /* fr */ {IDCLS_SPECIFY_RAMCART_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_RAMCART_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_RAMCART_NAME_NL, "Geef de naam van het RAMCART bestand"},
@@ -920,7 +920,7 @@ translate_t string_table[] = {
 
 /* c64/ramcart.c */
 /* en */ {IDCLS_RAMCART_SIZE,    "Size of the RAMCART expansion"},
-/* de */ {IDCLS_RAMCART_SIZE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_RAMCART_SIZE_DE, "Grösse der RAMCART Erweiterung"},
 /* fr */ {IDCLS_RAMCART_SIZE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_RAMCART_SIZE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_RAMCART_SIZE_NL, "Grootte van de RAMCART uitbreiding"},
@@ -929,7 +929,7 @@ translate_t string_table[] = {
 
 /* c64/reu.c */
 /* en */ {IDCLS_ENABLE_REU,    "Enable the RAM expansion unit"},
-/* de */ {IDCLS_ENABLE_REU_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_REU_DE, "REU Speichererweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_REU_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_REU_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_REU_NL, "Aktiveer de REU uitbreiding"},
@@ -938,7 +938,7 @@ translate_t string_table[] = {
 
 /* c64/reu.c */
 /* en */ {IDCLS_DISABLE_REU,    "Disable the RAM expansion unit"},
-/* de */ {IDCLS_DISABLE_REU_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_REU_DE, "REU Speichererweiterung deaktivieren"}, 
 /* fr */ {IDCLS_DISABLE_REU_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_REU_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_REU_NL, "De REU uitbreiding afsluiten"},
@@ -947,7 +947,7 @@ translate_t string_table[] = {
 
 /* c64/reu.c */
 /* en */ {IDCLS_SPECIFY_REU_NAME,    "Specify name of REU image"},
-/* de */ {IDCLS_SPECIFY_REU_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_REU_NAME_DE, "Dateiname für REU Speichererweiterung"},
 /* fr */ {IDCLS_SPECIFY_REU_NAME_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_REU_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_REU_NAME_NL, "Geef de naam van het REU bestand"},
@@ -956,7 +956,7 @@ translate_t string_table[] = {
 
 /* c64/reu.c */
 /* en */ {IDCLS_REU_SIZE,    "Size of the RAM expansion unit"},
-/* de */ {IDCLS_REU_SIZE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_REU_SIZE_DE, "Grösse der REU Speichererweiterung"},
 /* fr */ {IDCLS_REU_SIZE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_REU_SIZE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_REU_SIZE_NL, "Grootte van de REU uitbreiding"},
@@ -966,7 +966,7 @@ translate_t string_table[] = {
 #ifdef HAVE_TFE
 /* c64/tfe.c */
 /* en */ {IDCLS_ENABLE_TFE,    "Enable the TFE (\"The Final Ethernet\") unit"},
-/* de */ {IDCLS_ENABLE_TFE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TFE_DE, "TFE Ethernetemulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_TFE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_TFE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_TFE_NL, "Aktiveer de TFE (\"The Final Ethernet\") eenheid"},
@@ -975,7 +975,7 @@ translate_t string_table[] = {
 
 /* c64/tfe.c */
 /* en */ {IDCLS_DISABLE_TFE,    "Disable the TFE (\"The Final Ethernet\") unit"},
-/* de */ {IDCLS_DISABLE_TFE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TFE_DE, "TFE Ethernetemulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_TFE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_TFE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_TFE_NL, "De TFE (\"The Final Ethernet\") eenheid afsluiten"},
@@ -2625,7 +2625,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_RESID_GAIN_PERCENTAGE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_RESID_GAIN_PERCENTAGE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_RESID_GAIN_PERCENTAGE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_RESID_GAIN_PERCENTAGE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_RESID_GAIN_PERCENTAGE_NL, "reSID versterking procent (90 - 100)"},
 /* pl */ {IDCLS_RESID_GAIN_PERCENTAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_RESID_GAIN_PERCENTAGE_SV, ""},  /* fuzzy */
 #endif
