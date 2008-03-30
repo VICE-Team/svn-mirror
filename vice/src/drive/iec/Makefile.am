@@ -1,3 +1,7 @@
+SUBDIRS = \
+        c64exp \
+	plus4exp
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -22,9 +26,14 @@ libdriveiec_a_SOURCES = \
 	mc6821.c \
 	memiec.c \
 	memiec.h \
-	profdos.c \
-	profdos.h \
 	via1d1541.c \
 	via1d1541.h \
 	wd1770.c \
 	wd1770.h
+
+.PHONY: libdriveiecc64exp libdriveiecplus4exp
+
+libdriveiecc64exp:
+	(cd c64exp; $(MAKE))
+libdriveiecplus4exp:
+	(cd plus4exp; $(MAKE))

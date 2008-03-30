@@ -284,6 +284,8 @@ drive_lib = $(top_builddir)/src/drive/libdrive.a
 driveiec_lib = $(top_builddir)/src/drive/iec/libdriveiec.a
 driveiec128dcr_lib = $(top_builddir)/src/drive/iec128dcr/libdriveiec128dcr.a
 driveiecieee_lib = $(top_builddir)/src/drive/iecieee/libdriveiecieee.a
+driveiecc64exp_lib = $(top_builddir)/src/drive/iec/c64exp/libdriveiecc64exp.a
+driveiecplus4exp_lib = $(top_builddir)/src/drive/iec/plus4exp/libdriveiecplus4exp.a
 driveieee_lib = $(top_builddir)/src/drive/ieee/libdriveieee.a
 drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
@@ -336,6 +338,7 @@ x64_libs =  \
 	$(c64cart_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
+	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
 	$(iecbus_lib) \
@@ -360,6 +363,7 @@ x64-all: \
 	libc64cart \
 	libdriveiec \
 	libdriveiecieee \
+	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
 	libparallel \
@@ -393,6 +397,7 @@ x128_libs =  \
 	$(driveiec_lib) \
 	$(driveiec128dcr_lib) \
 	$(driveiecieee_lib) \
+	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
 	$(iecbus_lib) \
@@ -423,6 +428,7 @@ x128-all: \
 	libdriveiec \
 	libdriveiec128dcr \
 	libdriveiecieee \
+	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
 	libparallel \
@@ -545,6 +551,7 @@ xplus4_libs =  \
 	$(plus4_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
+	$(driveiecplus4exp_lib) \
 	$(drivetcbm_lib) \
 	$(drive_lib) \
 	$(iecbus_lib) \
@@ -563,6 +570,7 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xplus4-all: \
 	libdriveiec \
 	libdriveiecieee \
+	libdriveiecplus4exp \
 	libdrivetcbm \
 	libdrive \
 	libvdrive \
@@ -726,8 +734,12 @@ libdriveiec:
 	(cd drive && $(MAKE) libdriveiec)
 libdriveiec128dcr:
 	(cd drive && $(MAKE) libdriveiec128dcr)
+libdriveiecc64exp:
+	(cd drive && $(MAKE) libdriveiecc64exp)
 libdriveiecieee:
 	(cd drive && $(MAKE) libdriveiecieee)
+libdriveiecplus4exp:
+	(cd drive && $(MAKE) libdriveiecplus4exp)
 libdriveieee:
 	(cd drive && $(MAKE) libdriveieee)
 libdrivetcbm:

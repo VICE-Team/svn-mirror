@@ -39,6 +39,8 @@ libdrive_a_SOURCES = \
 	drivesync.c \
 	drivesync.h \
 	drivetypes.h \
+	iec-c64exp.h \
+	iec-plus4exp.h \
 	iec.h \
 	iec128dcr.h \
 	iecieee.h \
