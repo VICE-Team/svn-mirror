@@ -1,3 +1,69 @@
+2002-01-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.62.
+
+	* maincpu.c: Undefined `TRACE'.
+
+	* arch/unix/uimon.c: #include "utils.h".
+
+2002-01-15  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/vsidui.c: New toggle PSIDKeepEnv.
+
+	* c64/psid.c: Replaced resources PSIDDefaultVideoStandard and
+	PSIDDefaultSidModel with PSIDKeepEnv. New vsid command line
+	option -keepenv.
+
+	* main.c (init_cmdline_options): Skip calls to
+	ui_init_cmdline_options and file_system_init_cmdline_options
+	in vsid mode.
+
+2002-01-14  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/console.c, arch/riscos/uimsgwin.c: escape stops
+	monitor output
+
+	* arch/riscos/plus4ui.c: fixed CBM key in default keyboard
+	mapping
+
+	* arch/riscos/videoarch.h: removed depth from canvas_t
+
+2002-01-14  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/menubar.rc:
+	- excluded Fast Pal Emu entry for TED
+     
+	* arch/os2/makedist.cmd:
+	- changed BUGS, COPYING, NEWS and FEEDBACK to new location
+     
+	* arch/os2/video.c:
+	- removed comment when realizing palettes
+     
+	* imagecontents.c:
+	- removed a unnecessary memset
+     
+	* monitor/mon.c:
+	- simplified some pieces of code
+     
+	* monitor/mon.h:
+	- added declaration for mon_abort
+     
+2002-01-14  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/vsidui.c: include `vsiduiunix.h'.
+	arch/unix/x11/gnome/uivsidcontrol.c: ditto.
+	arch/unix/x11/xaw/uivsidcontrol.c: ditto.
+
+	* arch/unix/vsiduiunix.h: replaces `arc/unix/vsidui.h' to avoid
+	clash with `src/vsidui.h'. 
+
+	* arch/unix/Makefile.am (libarch_a_SOURCES): replaced `vsidui.h'
+	with `vsiduiunix.h'.
+
+	* arch/unix/x11/xaw/ui.c (ui_open_canvas_window): 
+	arch/unix/x11/gnome/ui.c (ui_open_canvas_window): Handle vsid
+	mode canvas creation.
+
 2002-01-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.61.
