@@ -32,12 +32,15 @@
 #include <math.h>
 
 #include "vice.h"
+
 #include "sid.h"
+
 #include "cmdline.h"
-#include "resources.h"
 #include "machine.h"
-#include "utils.h"
 #include "maincpu.h"
+#include "resources.h"
+#include "snapshot.h"
+#include "utils.h"
 
 #ifdef HAVE_RESID
 #include "resid.h"
@@ -1134,4 +1137,53 @@ void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
     else
 #endif
     psid->laststoreclk -= sub;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static char snap_module_name[] = "SID";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int sid_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
+        return -1;
+
+    if (snapshot_module_write_byte_array(m, siddata, 32) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int sid_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    sound_close();
+
+    m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
+    if (m == NULL)
+        return -1;
+
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        fprintf(stderr,
+                "SID: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                major_version, minor_version,
+                SNAP_MAJOR, SNAP_MINOR);
+        return snapshot_module_close(m);
+    }
+
+    if (snapshot_module_read_byte_array(m, siddata, 32) < 0)
+	return -1;
+
+    return snapshot_module_close(m);
 }
