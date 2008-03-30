@@ -81,7 +81,8 @@ static int mem_load_chargen(void);
 
 const char *mem_romset_resources_list[] = {
     "KernalName", "ChargenName", "BasicName",
-    "DosName2031", "DosName1541", "DosName1571", "DosName1581",
+    "DosName2031", "DosName1001",
+    "DosName1541", "DosName1571", "DosName1581", "DosName1541ii",
     NULL
 };
 
@@ -1144,22 +1145,22 @@ void initialize_memory(void)
         mem_write_tab[13][i] = store_hi;
         mem_write_tab[14][i] = store_hi;
         mem_write_tab[15][i] = store_hi;
-        mem_read_base_tab[0+j][i] = ram + (i << 8);
-        mem_read_base_tab[1+j][i] = ram + (i << 8);
-        mem_read_base_tab[2+j][i] = ram + (i << 8);
-        mem_read_base_tab[3+j][i] = ram + (i << 8);
-        mem_read_base_tab[4+j][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[5+j][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[6+j][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[7+j][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[8+j][i] = NULL;
-        mem_read_base_tab[9+j][i] = NULL;
-        mem_read_base_tab[10+j][i] = NULL;
-        mem_read_base_tab[11+j][i] = NULL;
-        mem_read_base_tab[12+j][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[13+j][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[14+j][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[15+j][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[0][i] = ram + (i << 8);
+        mem_read_base_tab[1][i] = ram + (i << 8);
+        mem_read_base_tab[2][i] = ram + (i << 8);
+        mem_read_base_tab[3][i] = ram + (i << 8);
+        mem_read_base_tab[4][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[5][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[6][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[7][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[8][i] = NULL;
+        mem_read_base_tab[9][i] = NULL;
+        mem_read_base_tab[10][i] = NULL;
+        mem_read_base_tab[11][i] = NULL;
+        mem_read_base_tab[12][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[13][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[14][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[15][i] = chargen_rom + ((i & 0xf) << 8);
     }
 
     for (j = (NUM_CONFIGS / 2); j < NUM_CONFIGS; j++) {
