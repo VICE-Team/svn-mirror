@@ -145,7 +145,7 @@ static mem_ioreg_list_t *drive_ioreg_list_get(unsigned int type)
         mon_ioreg_add_list(&drive_ioreg_list, "VIA2", 0x1c00, 0x1c0f);
         break;
       case DRIVE_TYPE_1551:
-        mon_ioreg_add_list(&drive_ioreg_list, "TIA", 0x4000, 0x4007);
+        mon_ioreg_add_list(&drive_ioreg_list, "TIA", 0x4000, 0x4005);
         break;
       case DRIVE_TYPE_1571:
         mon_ioreg_add_list(&drive_ioreg_list, "VIA1", 0x1800, 0x180f);
