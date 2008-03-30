@@ -188,7 +188,6 @@ struct _rotation_table {
 };
 
 struct gcr_s;
-
 struct disk_image_s;
 
 typedef struct drive_s {
@@ -199,13 +198,13 @@ typedef struct drive_s {
     int current_half_track;
 
     /* Is this drive enabled?  */
-    int enable;
+    unsigned int enable;
 
     /* What drive type we have to emulate?  */
-    int type;
+    unsigned int type;
 
     /* Disk side.  */
-    int side;
+    unsigned int side;
 
     /* What idling method?  (See `DRIVE_IDLE_*')  */
     int idling_method;
@@ -232,10 +231,10 @@ typedef struct drive_s {
     BYTE *GCR_track_start_ptr;
 
     /* Size of the GCR data for the current track.  */
-    int GCR_current_track_size;
+    unsigned int GCR_current_track_size;
 
     /* Offset of the R/W head on the current track.  */
-    int GCR_head_offset;
+    unsigned int GCR_head_offset;
 
     /* Are we in read or write mode?  */
     int read_write_mode;
@@ -353,33 +352,37 @@ extern unsigned int rom3040_loaded;
 extern unsigned int rom4040_loaded;
 
 extern int drive_init(CLOCK pal_hz, CLOCK ntsc_hz);
-extern int drive_enable(int dnr);
-extern void drive_disable(int dnr);
+extern int drive_enable(unsigned int dnr);
+extern void drive_disable(unsigned int dnr);
 extern void serial_bus_drive_write(BYTE data);
 extern BYTE serial_bus_drive_read(void);
+/*
 extern void drive0_mem_init(int type);
 extern void drive1_mem_init(int type);
-extern void drive_move_head(int step, int dnr);
+*/
+extern void drive_move_head(int step, unsigned int dnr);
 extern void drive_rotate_disk(drive_t *dptr);
 extern void drive_reset(void);
 extern int drive_attach_image(struct disk_image_s *image, unsigned int unit);
 extern int drive_detach_image(struct disk_image_s *image, unsigned int unit);
 extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);
 extern BYTE drive_read_viad2_prb(drive_t *dptr);
-extern CLOCK drive_prevent_clk_overflow(CLOCK sub, int dnr);
+extern CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr);
 extern void drive_vsync_hook(void);
-extern void drive_set_1571_sync_factor(int new_sync, int dnr);
-extern void drive_set_1571_side(int side, int dnr);
+extern void drive_set_1571_sync_factor(int new_sync, unsigned int dnr);
+extern void drive_set_1571_side(int side, unsigned int dnr);
 extern void drive_update_ui_status(void);
 extern void drive_gcr_data_writeback(unsigned int dnr);
-extern void drive_setup_rom_image(int dnr);
-extern void drive_initialize_rom_traps(int dnr);
-extern void drive_set_active_led_color(int type, int dnr);
-extern void drive_initialize_rotation_table(int freq, int dnr);
+extern void drive_setup_rom_image(unsigned int dnr);
+extern void drive_initialize_rom_traps(unsigned int dnr);
+extern void drive_set_active_led_color(unsigned int type, unsigned int dnr);
+extern void drive_initialize_rotation_table(int freq, unsigned int dnr);
 extern int drive_do_1541_checksum(void);
+/*
 extern int drive_read_block(int track, int sector, BYTE *readdata, int dnr);
 extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
-extern int drive_set_disk_drive_type(int drive_type, int dnr);
+*/
+extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);
 extern int reload_rom_1541(char *name);
 extern int drive_load_1541(void);
 extern int drive_load_1541ii(void);
@@ -402,9 +405,9 @@ extern void drive0_riot_set_atn(int);
 extern void drive1_riot_set_atn(int);
 
 extern int drive_match_bus(int drive_type, int drv, int bus_map);
-extern int drive_check_type(int drive_type, int dnr);
+extern int drive_check_type(unsigned int drive_type, unsigned int dnr);
 
-extern int drive_num_leds(int drv);
+extern int drive_num_leds(unsigned int dnr);
 
 extern void drive_setup_context(void);
 

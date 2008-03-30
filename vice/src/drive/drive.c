@@ -132,7 +132,7 @@ static int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 307692 },
                                    { 125000, 133333, 142857, 153846 } };
 
 /* Number of bytes per track size.  */
-static int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
+static unsigned int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 
 /* Clock speed of the PAL and NTSC versions of the connected computer.  */
 static CLOCK pal_cycles_per_sec;
@@ -143,14 +143,14 @@ static int drive_led_color[2];
 #define GCR_OFFSET(track, sector)  ((track - 1) * NUM_MAX_BYTES_TRACK \
 				    + sector * NUM_BYTES_SECTOR_GCR)
 
-static void initialize_rotation(int freq, int dnr);
-static void drive_extend_disk_image(int dnr);
+static void initialize_rotation(int freq, unsigned int dnr);
+static void drive_extend_disk_image(unsigned int dnr);
 static void drive_set_half_track(int num, drive_t *dptr);
 inline static BYTE drive_sync_found(drive_t *dptr);
 inline static BYTE drive_write_protect_sense(drive_t *dptr);
 static int drive_load_rom_images(void);
 static void drive_clk_overflow_callback(CLOCK sub, void *data);
-static void drive_set_clock_frequency(int type, int dnr);
+static void drive_set_clock_frequency(unsigned int type, unsigned int dnr);
 
 /* ------------------------------------------------------------------------- */
 
@@ -228,9 +228,9 @@ static void drive_read_image_d64_d71(unsigned int dnr)
             for (i = 2; i < 257; i++)
                 chksum ^= buffer[i];
             buffer[257] = (rc == 23) ? chksum ^ 0xff : chksum;
-            convert_sector_to_GCR(buffer, ptr, track, sector,
-                                  drive[dnr].diskID1, drive[dnr].diskID2,
-                                  (BYTE)(rc));
+            gcr_convert_sector_to_GCR(buffer, ptr, track, sector,
+                                      drive[dnr].diskID1, drive[dnr].diskID2,
+                                      (BYTE)(rc));
         }
     }
 }
@@ -261,7 +261,8 @@ CLOCK drive_clk[2];
    once before anything else).  Return 0 on success, -1 on error.  */
 int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 {
-    int track, i, sync_factor;
+    unsigned int track;
+    int i, sync_factor;
 
     if (rom_loaded)
         return 0;
@@ -379,7 +380,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     return 0;
 }
 
-void drive_set_active_led_color(int type, int dnr)
+void drive_set_active_led_color(unsigned int type, unsigned int dnr)
 {
     switch (type) {
       case DRIVE_TYPE_1541:
@@ -412,7 +413,7 @@ void drive_set_active_led_color(int type, int dnr)
     }
 }
 
-static void drive_set_clock_frequency(int type, int dnr)
+static void drive_set_clock_frequency(unsigned int type, unsigned int dnr)
 {
     switch (type) {
       case DRIVE_TYPE_1541:
@@ -443,7 +444,7 @@ static void drive_set_clock_frequency(int type, int dnr)
     }
 }
 
-int drive_set_disk_drive_type(int type, int dnr)
+int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
 {
     int sync_factor;
 
@@ -777,7 +778,7 @@ static int drive_load_rom_images(void)
     return 0;
 }
 
-void drive_setup_rom_image(int dnr)
+void drive_setup_rom_image(unsigned int dnr)
 {
     if (rom_loaded) {
         switch (drive[dnr].type) {
@@ -820,7 +821,7 @@ void drive_setup_rom_image(int dnr)
     }
 }
 
-void drive_initialize_rom_traps(int dnr)
+void drive_initialize_rom_traps(unsigned int dnr)
 {
     if (drive[dnr].type == DRIVE_TYPE_1541) {
         /* Save the ROM check.  */
@@ -856,7 +857,7 @@ void drive_initialize_rom_traps(int dnr)
 }
 
 /* Activate full drive emulation. */
-int drive_enable(int dnr)
+int drive_enable(unsigned int dnr)
 {
     int i, drive_true_emulation = 0;
 
@@ -906,7 +907,7 @@ int drive_enable(int dnr)
 }
 
 /* Disable full drive emulation.  */
-void drive_disable(int dnr)
+void drive_disable(unsigned int dnr)
 {
     int i, drive_true_emulation = 0;
 
@@ -1114,13 +1115,13 @@ int drive_detach_image(disk_image_t *image, unsigned int unit)
 
 /* Initialization.  */
 
-static void initialize_rotation(int freq, int dnr)
+static void initialize_rotation(int freq, unsigned int dnr)
 {
     drive_initialize_rotation_table(freq, dnr);
     drive[dnr].bits_moved = drive[dnr].accum = 0;
 }
 
-void drive_initialize_rotation_table(int freq, int dnr)
+void drive_initialize_rotation_table(int freq, unsigned int dnr)
 {
     int i, j;
 
@@ -1176,7 +1177,7 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
     }
 }
 
-CLOCK drive_prevent_clk_overflow(CLOCK sub, int dnr)
+CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr)
 {
     /* FIXME: Having to do this by hand sucks *big time*!  */
     switch (dnr) {
@@ -1208,15 +1209,20 @@ inline static BYTE drive_sync_found(drive_t *dptr)
     if (val != 0xff || dptr->last_mode == 0) {
         return 0x80;
     } else {
-        int previous_head_offset = (dptr->GCR_head_offset > 0
-            ? dptr->GCR_head_offset - 1
-            : dptr->GCR_current_track_size - 1);
+        unsigned int previous_head_offset;
+
+        previous_head_offset = (dptr->GCR_head_offset > 0
+                               ? dptr->GCR_head_offset - 1
+                               : dptr->GCR_current_track_size - 1);
 
         if (dptr->GCR_track_start_ptr[previous_head_offset] != 0xff) {
             if (dptr->shifter >= 2) {
-                int next_head_offset = ((dptr->GCR_head_offset
-                    < (dptr->GCR_current_track_size - 1))
-                    ? dptr->GCR_head_offset + 1 : 0);
+                unsigned int next_head_offset;
+
+                next_head_offset = ((dptr->GCR_head_offset
+                                   < (dptr->GCR_current_track_size - 1))
+                                   ? dptr->GCR_head_offset + 1 : 0);
+
                 if ((dptr->GCR_track_start_ptr[next_head_offset] & 0xc0)
                     == 0xc0)
                     return 0;
@@ -1393,22 +1399,28 @@ BYTE drive_read_viad2_prb(drive_t *dptr)
 /* End of time critical functions.  */
 /*-------------------------------------------------------------------------- */
 
-void drive_set_1571_side(int side, int dnr)
+void drive_set_1571_side(int side, unsigned int dnr)
 {
-    int num = drive[dnr].current_half_track;
+    unsigned int num;
+
+    num  = drive[dnr].current_half_track;
+
     if (drive[dnr].byte_ready_active == 0x06)
         drive_rotate_disk(&drive[dnr]);
+
     drive_gcr_data_writeback(dnr);
+
     drive[dnr].side = side;
     if (num > 70)
         num -= 70;
     num += side * 70;
+
     drive_set_half_track(num, &drive[dnr]);
 }
 
 /* Increment the head position by `step' half-tracks. Valid values
    for `step' are `+1' and `-1'.  */
-void drive_move_head(int step, int dnr)
+void drive_move_head(int step, unsigned int dnr)
 {
     drive_gcr_data_writeback(dnr);
     if (drive[dnr].type == DRIVE_TYPE_1571) {
@@ -1425,9 +1437,9 @@ static void gcr_data_writeback2(BYTE *buffer, BYTE *offset, unsigned int dnr,
 {
     int rc;
 
-    convert_GCR_to_sector(buffer, offset,
-                          drive[dnr].GCR_track_start_ptr,
-                          drive[dnr].GCR_current_track_size);
+    gcr_convert_GCR_to_sector(buffer, offset,
+                              drive[dnr].GCR_track_start_ptr,
+                              drive[dnr].GCR_current_track_size);
     if (buffer[0] != 0x7) {
         log_error(drive[dnr].log,
                   "Could not find data block id of T:%d S:%d.",
@@ -1457,7 +1469,7 @@ void drive_gcr_data_writeback(unsigned int dnr)
 
     if (drive[dnr].image->type == DISK_IMAGE_TYPE_G64) {
         BYTE *gcr_track_start_ptr;
-        int gcr_current_track_size;
+        unsigned int gcr_current_track_size;
 
         gcr_current_track_size = drive[dnr].gcr->track_size[track - 1];
 
@@ -1535,9 +1547,10 @@ void drive_gcr_data_writeback(unsigned int dnr)
     }
 }
 
-static void drive_extend_disk_image(int dnr)
+static void drive_extend_disk_image(unsigned int dnr)
 {
-    int rc, track, sector;
+    int rc;
+    unsigned int track, sector;
     BYTE buffer[256];
 
     drive[dnr].image->tracks = EXT_TRACKS_1541;
@@ -1566,7 +1579,7 @@ int drive_match_bus(int drive_type, int unit, int bus_map)
     return 0;
 }
 
-int drive_check_type(int drive_type, int dnr)
+int drive_check_type(unsigned int drive_type, unsigned int dnr)
 {
     if (!drive_match_bus(drive_type, dnr, iec_available_busses()))
         return 0;
@@ -1631,7 +1644,7 @@ void drive_set_ntsc_sync_factor(void)
     }
 }
 
-void drive_set_1571_sync_factor(int new_sync, int dnr)
+void drive_set_1571_sync_factor(int new_sync, unsigned int dnr)
 {
     int sync_factor;
 
@@ -1740,7 +1753,7 @@ void drive1_parallel_set_atn(int state)
     drive1_riot_set_atn(state);
 }
 
-int drive_num_leds(int dnr)
+int drive_num_leds(unsigned int dnr)
 {
     if (DRIVE_IS_OLDTYPE(drive[dnr].type)) {
 	return 2;

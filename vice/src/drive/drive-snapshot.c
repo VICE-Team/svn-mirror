@@ -56,12 +56,13 @@
 /* Logging.  */
 static log_t drive_snapshot_log = LOG_ERR;
 
-static int drive_write_image_snapshot_module(snapshot_t *s, int dnr);
-static int drive_write_gcrimage_snapshot_module(snapshot_t *s, int dnr);
-static int drive_read_image_snapshot_module(snapshot_t *s, int dnr);
-static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr);
-static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr);
-static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr);
+static int drive_write_image_snapshot_module(snapshot_t *s, unsigned int dnr);
+static int drive_write_gcrimage_snapshot_module(snapshot_t *s,
+                                                unsigned int dnr);
+static int drive_read_image_snapshot_module(snapshot_t *s, unsigned int dnr);
+static int drive_read_gcrimage_snapshot_module(snapshot_t *s, unsigned int dnr);
+static int drive_write_rom_snapshot_module(snapshot_t *s, unsigned int dnr);
+static int drive_read_rom_snapshot_module(snapshot_t *s, unsigned int dnr);
 
 /*
 This is the format of the DRIVE snapshot module.
@@ -492,7 +493,7 @@ int drive_read_snapshot_module(snapshot_t *s)
  *
  */
 
-static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
+static int drive_write_image_snapshot_module(snapshot_t *s, unsigned int dnr)
 {
     char snap_module_name[10];
     snapshot_module_t *m;
@@ -537,7 +538,7 @@ static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
     return 0;
 }
 
-static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
+static int drive_read_image_snapshot_module(snapshot_t *s, unsigned int dnr)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
@@ -653,7 +654,7 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
 #define GCRIMAGE_SNAP_MAJOR 1
 #define GCRIMAGE_SNAP_MINOR 0
 
-static int drive_write_gcrimage_snapshot_module(snapshot_t *s, int dnr)
+static int drive_write_gcrimage_snapshot_module(snapshot_t *s, unsigned int dnr)
 {
     char snap_module_name[10];
     snapshot_module_t *m;
@@ -694,7 +695,7 @@ static int drive_write_gcrimage_snapshot_module(snapshot_t *s, int dnr)
     return 0;
 }
 
-static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr)
+static int drive_read_gcrimage_snapshot_module(snapshot_t *s, unsigned int dnr)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
@@ -749,7 +750,7 @@ static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr)
 #define ROM_SNAP_MAJOR 1
 #define ROM_SNAP_MINOR 0
 
-static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr)
+static int drive_write_rom_snapshot_module(snapshot_t *s, unsigned int dnr)
 {
     char snap_module_name[10];
     snapshot_module_t *m;
@@ -816,7 +817,7 @@ static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr)
     return 0;
 }
 
-static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr)
+static int drive_read_rom_snapshot_module(snapshot_t *s, unsigned int dnr)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;

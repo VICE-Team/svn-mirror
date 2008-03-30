@@ -43,21 +43,21 @@
 
 /*-----------------------------------------------------------------------*/
 
-static void wd1770_store(ADDRESS addr, BYTE byte, int dnr);
-static BYTE wd1770_read(ADDRESS addr, int dnr);
-static void wd1770_reset(int dnr);
+static void wd1770_store(ADDRESS addr, BYTE byte, unsigned int dnr);
+static BYTE wd1770_read(ADDRESS addr, unsigned int dnr);
+static void wd1770_reset(int unsigned dnr);
 
-static void wd1770_command_restore(BYTE command, int dnr);
-static void wd1770_command_seek(BYTE command, int dnr);
-static void wd1770_command_step(BYTE command, int dnr);
-static void wd1770_command_stepin(BYTE command, int dnr);
-static void wd1770_command_stepout(BYTE command, int dnr);
-static void wd1770_command_readsector(BYTE command, int dnr);
-static void wd1770_command_writesector(BYTE command, int dnr);
-static void wd1770_command_readaddress(BYTE command, int dnr);
-static void wd1770_command_forceint(BYTE command, int dnr);
-static void wd1770_command_readtrack(BYTE command, int dnr);
-static void wd1770_command_writetrack(BYTE command, int dnr);
+static void wd1770_command_restore(BYTE command, unsigned int dnr);
+static void wd1770_command_seek(BYTE command, unsigned int dnr);
+static void wd1770_command_step(BYTE command, unsigned int dnr);
+static void wd1770_command_stepin(BYTE command, unsigned int dnr);
+static void wd1770_command_stepout(BYTE command, unsigned int dnr);
+static void wd1770_command_readsector(BYTE command, unsigned int dnr);
+static void wd1770_command_writesector(BYTE command, unsigned int dnr);
+static void wd1770_command_readaddress(BYTE command, unsigned int dnr);
+static void wd1770_command_forceint(BYTE command, unsigned int dnr);
+static void wd1770_command_readtrack(BYTE command, unsigned int dnr);
+static void wd1770_command_writetrack(BYTE command, unsigned int dnr);
 
 /* wd1770 disk controller structure.  */
 static wd1770_t wd1770[2];
@@ -165,7 +165,7 @@ void wd1770d_reset(drive_context_t *drv)
 /*-----------------------------------------------------------------------*/
 /* WD1770 register read/write access.  */
 
-static void wd1770_store(ADDRESS addr, BYTE byte, int dnr)
+static void wd1770_store(ADDRESS addr, BYTE byte, unsigned int dnr)
 {
 #ifdef WD_DEBUG
     log_debug("WD READ ADDR: %i DATA:%x CLK:%i\n", addr, byte, drive_clk[dnr]);
@@ -218,7 +218,7 @@ static void wd1770_store(ADDRESS addr, BYTE byte, int dnr)
     }
 }
 /* extern int drive0_traceflg;*/
-static BYTE wd1770_read(ADDRESS addr, int dnr)
+static BYTE wd1770_read(ADDRESS addr, unsigned int dnr)
 {
     BYTE tmp = 0;
 
@@ -267,7 +267,7 @@ static BYTE wd1770_read(ADDRESS addr, int dnr)
     return tmp;
 }
 
-static void wd1770_reset(int dnr)
+static void wd1770_reset(unsigned int dnr)
 {
     int i;
 
@@ -310,24 +310,24 @@ static void wd1770_motor_control(BYTE command, int dnr)
 /*-----------------------------------------------------------------------*/
 /* WD1770 commands.  */
 
-static void wd1770_command_restore(BYTE command, int dnr)
+static void wd1770_command_restore(BYTE command, unsigned int dnr)
 {
     wd1770[dnr].current_track = 0;
     wd1770_update_track_register(0x10, dnr);
     wd1770_motor_control(command, dnr);
 }
 
-static void wd1770_command_seek(BYTE command, int dnr)
+static void wd1770_command_seek(BYTE command, unsigned int dnr)
 {
     wd1770[dnr].set_drq = drive_clk[dnr];
 }
 
-static void wd1770_command_step(BYTE command, int dnr)
+static void wd1770_command_step(BYTE command, unsigned int dnr)
 {
 
 }
 
-static void wd1770_command_stepin(BYTE command, int dnr)
+static void wd1770_command_stepin(BYTE command, unsigned int dnr)
 {
     if (wd1770[dnr].current_track < 79)
         wd1770[dnr].current_track++;
@@ -335,7 +335,7 @@ static void wd1770_command_stepin(BYTE command, int dnr)
     wd1770_motor_control(command, dnr);
 }
 
-static void wd1770_command_stepout(BYTE command, int dnr)
+static void wd1770_command_stepout(BYTE command, unsigned int dnr)
 {
     if (wd1770[dnr].current_track > 0)
         wd1770[dnr].current_track--;
@@ -343,17 +343,17 @@ static void wd1770_command_stepout(BYTE command, int dnr)
     wd1770_motor_control(command, dnr);
 }
 
-static void wd1770_command_readsector(BYTE command, int dnr)
+static void wd1770_command_readsector(BYTE command, unsigned int dnr)
 {
 
 }
 
-static void wd1770_command_writesector(BYTE command, int dnr)
+static void wd1770_command_writesector(BYTE command, unsigned int dnr)
 {
 
 }
 
-static void wd1770_command_readaddress(BYTE command, int dnr)
+static void wd1770_command_readaddress(BYTE command, unsigned int dnr)
 {
     wd1770[dnr].data_buffer[0] = 0xff;
     wd1770[dnr].data_buffer[1] = 0xff;
@@ -365,18 +365,18 @@ static void wd1770_command_readaddress(BYTE command, int dnr)
     wd1770[dnr].data_buffer_index = 5;
 }
 
-static void wd1770_command_forceint(BYTE command, int dnr)
+static void wd1770_command_forceint(BYTE command, unsigned int dnr)
 {
     /* Abort any command immediately.  Clear status bits.  */
     wd1770[dnr].reg[WD1770_STATUS] = 0;
 }
 
-static void wd1770_command_readtrack(BYTE command, int dnr)
+static void wd1770_command_readtrack(BYTE command, unsigned int dnr)
 {
 
 }
 
-static void wd1770_command_writetrack(BYTE command, int dnr)
+static void wd1770_command_writetrack(BYTE command, unsigned int dnr)
 {
 
 }
@@ -428,7 +428,7 @@ static int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
     return 0;
 }
 
-void wd1770_handle_job_code(int dnr)
+void wd1770_handle_job_code(unsigned int dnr)
 {
     int buffer;
     BYTE command, track, sector;

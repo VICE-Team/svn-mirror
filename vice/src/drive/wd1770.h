@@ -78,7 +78,7 @@ extern void REGPARM3 wd1770d_store(struct drive_context_s *drv, ADDRESS addr, BY
 extern BYTE REGPARM2 wd1770d_read(struct drive_context_s *drv, ADDRESS addr);
 extern void wd1770d_reset(struct drive_context_s *drv);
 
-extern void wd1770_handle_job_code(int dnr);
+extern void wd1770_handle_job_code(unsigned int dnr);
 extern void wd1770_vsync_hook(void);
 
 extern int wd1770_attach_image(struct disk_image_s *image, unsigned int unit);

@@ -64,7 +64,7 @@ extern void disk_image_init(void);
 
 extern int disk_image_open(disk_image_t *image);
 extern int disk_image_close(disk_image_t *image);
-extern int disk_image_create(const char *name, int type);
+extern int disk_image_create(const char *name, unsigned int type);
 
 extern int disk_image_read_sector(disk_image_t *image, BYTE *buf,
                                   unsigned int track, unsigned int sector);
@@ -72,7 +72,7 @@ extern int disk_image_write_sector(disk_image_t *image, BYTE *buf,
                                    unsigned int track, unsigned int sector);
 extern int disk_image_check_sector(unsigned int format, unsigned int track,
                                    unsigned int sector);
-extern int disk_image_sector_per_track(int format, unsigned int track);
+extern int disk_image_sector_per_track(unsigned int format, unsigned int track);
 
 extern int disk_image_read_gcr_image(disk_image_t *image);
 extern int disk_image_write_track(disk_image_t *image, unsigned int track,

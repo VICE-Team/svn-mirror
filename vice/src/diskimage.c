@@ -573,8 +573,8 @@ static int disk_image_create_gcr(disk_image_t *image)
                 chksum ^= rawdata[i + 1];
             rawdata[257] = chksum;
 
-            convert_sector_to_GCR(rawdata, gcrptr, track + 1, sector,
-                                  id[0], id[1], 0);
+            gcr_convert_sector_to_GCR(rawdata, gcrptr, track + 1, sector,
+                                      id[0], id[1], 0);
             gcrptr += 360;
         }
         if (fwrite((char *)gcr_track, sizeof(gcr_track), 1, image->fd) < 1 ) {
@@ -589,7 +589,7 @@ static int disk_image_create_gcr(disk_image_t *image)
 /*-----------------------------------------------------------------------*/
 /* Create a disk image.  */
 
-int disk_image_create(const char *name, int type)
+int disk_image_create(const char *name, unsigned int type)
 {
     disk_image_t *image;
     long size = 0;
@@ -731,7 +731,7 @@ static char sector_map_d80[78] =
     23, 23, 23, 23, 23, 23, 23          /* 71 - 77 */
 };
 
-int disk_image_sector_per_track(int format, unsigned int track)
+int disk_image_sector_per_track(unsigned int format, unsigned int track)
 {
     switch (format) {
       case DISK_IMAGE_TYPE_D64:

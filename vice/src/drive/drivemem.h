@@ -27,7 +27,7 @@
 #ifndef _DRIVEMEM_H
 #define _DRIVEMEM_H
 
-extern void drive_mem_init(struct drive_context_s *drv, int type);
+extern void drive_mem_init(struct drive_context_s *drv, unsigned int type);
 
 #endif
 
