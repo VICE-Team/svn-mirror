@@ -117,6 +117,7 @@ X128_WINRES = @X128_WINRES@
 X64_WINRES = @X64_WINRES@
 XCBM2_WINRES = @XCBM2_WINRES@
 XPET_WINRES = @XPET_WINRES@
+XPLUS4_WINRES = @XPLUS4_WINRES@
 XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 artsc_config = @artsc_config@
@@ -126,6 +127,7 @@ x128_LDFLAGS = @x128_LDFLAGS@
 x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
+xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 EXTRA_DIST =  	X64.ICC         X128.ICC         Xcbm2.ICC         Xpet.ICC         Xvic.ICC         C1541.ICC         Fonts.icc         PETcat.ICC         RESID.ICC         VICE_INF.ICC         VICE_HLP.ICC         vicedll.ICC         lzlib.icc         lpng.icc         incl/archdep.icc         incl/c64.icc         incl/c128.icc         incl/crtc.icc         incl/cbm2.icc         incl/dialogs.icc         incl/drive.icc         incl/mainsrc.icc         incl/monitor.icc         incl/monz80.icc         incl/pet.icc         incl/kbd.icc         incl/raster.icc         incl/resid.icc         incl/sounddrv.icc         incl/gfxoutputdrv.icc         incl/printerdrv.icc         incl/vdc.icc         incl/vdrive.icc         incl/vic20.icc         incl/vicii.icc         incl/vsid.icc         incl/resources.icc         ctools/biosdump.icc         ctools/cformat.icc         ctools/ctools.icc         ctools/d64dump.icc

@@ -119,6 +119,7 @@ X128_WINRES = @X128_WINRES@
 X64_WINRES = @X64_WINRES@
 XCBM2_WINRES = @XCBM2_WINRES@
 XPET_WINRES = @XPET_WINRES@
+XPLUS4_WINRES = @XPLUS4_WINRES@
 XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 artsc_config = @artsc_config@
@@ -128,6 +129,7 @@ x128_LDFLAGS = @x128_LDFLAGS@
 x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
+xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 INCLUDES =  	@ARCH_INCLUDES@         -I$(top_builddir)/src 	-I$(top_srcdir)/src
@@ -276,6 +278,11 @@ sounddummy.o: sounddummy.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h
 sounddump.o: sounddump.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
+sounddx.o: sounddx.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/sound.h \
+	../../src/arch/win32/types.h ../../src/arch/win32/ui.h \
+	../../src/uiapi.h ../../src/video.h \
+	../../src/arch/win32/videoarch.h ../../src/utils.h
 soundesd.o: soundesd.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h
 soundfs.o: soundfs.c ../../src/vice.h ../../src/config.h \
@@ -288,6 +295,11 @@ sounduss.o: sounduss.c ../../src/vice.h ../../src/config.h \
 soundwav.o: soundwav.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h
+soundwmm.o: soundwmm.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/sound.h \
+	../../src/arch/win32/types.h ../../src/arch/win32/ui.h \
+	../../src/uiapi.h ../../src/video.h \
+	../../src/arch/win32/videoarch.h ../../src/utils.h
 
 info-am:
 info: info-am

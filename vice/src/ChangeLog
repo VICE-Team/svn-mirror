@@ -1,3 +1,47 @@
+2001-10-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.19.
+
+	* vicii/vicii-draw.c (ALIGN_DRAW_FUNC): Fixed the number of
+	arguments of `ALIGN_DRAW_FUNC' if `VIDEO_REMOVE_2X' and
+	`ALLOW_UNALIGNED_ACCESS' are defined both.
+
+	* plus4/*: New directory and files.
+
+	* Makefile.am: Added plus4 directory and library.
+
+	* machine.h: Added `VICE_MACHINE_PLUS4'.
+
+	* arch/unix/icon.h: Added plus4 icon stub.
+
+	* arch/unix/plus4ui.c, arch/unix/plus4ui.h,
+	arch/unix/x11/plus4icon.c, arch/win32/plus4ui.c,
+	arch/win32/plus4ui.h, arch/win32/resplus4.rc: New files.
+
+	* arch/unix/Makefile.am, arch/unix/x11/Makefile.am,
+	arch/win32/Makefile.am: Added new files.
+
+	* arch/win32/res.rc: Added plus4 menu define.
+
+	* arch/win32/ui.c: Added plus4 accelerators.
+
+2001-10-27  Dag Lem  <resid@nimrod.no>
+
+	* sound/sound.h (sound_machine_cycle_based,
+	sound_machine_channels): New functions.
+
+	* sound/sound.c (sid_init, sound_open): Removed machine
+	specific resource handling.
+
+	* sid/sid.c (sound_machine_cycle_based,
+	sound_machine_channels): Moved from sound.c.
+
+	* pet/petsound.c (sound_machine_cycle_based,
+	sound_machine_channels): New functions.
+
+	* vic20/vic20sound.c (sound_machine_cycle_based,
+	sound_machine_channels): Likewise.
+
 2001-10-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.18.

@@ -119,6 +119,7 @@ X128_WINRES = @X128_WINRES@
 X64_WINRES = @X64_WINRES@
 XCBM2_WINRES = @XCBM2_WINRES@
 XPET_WINRES = @XPET_WINRES@
+XPLUS4_WINRES = @XPLUS4_WINRES@
 XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 artsc_config = @artsc_config@
@@ -128,6 +129,7 @@ x128_LDFLAGS = @x128_LDFLAGS@
 x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
+xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 @GNOMEUI_TRUE@SUBDIRS = gnome
 @GNOMEUI_FALSE@SUBDIRS = xaw
@@ -140,7 +142,7 @@ noinst_LIBRARIES = libx11ui.a
 EXTRA_libx11ui_a_SOURCES =  	dga2.c         fullscreen.c
 
 
-libx11ui_a_SOURCES =  	c128icon.c 	c610icon.c 	c64icon.c 	kbd.c 	kbdef.h 	peticon.c 	ui-cmdline-options.c 	ui-resources.c 	uihotkey.c 	vic20icon.c 	video.c 	videoarch.h 	x11kbd.c 	x11kbd.h 	x11menu.c 	x11menu.h
+libx11ui_a_SOURCES =  	c128icon.c 	c610icon.c 	c64icon.c 	kbd.c 	kbdef.h 	peticon.c 	plus4icon.c 	ui-cmdline-options.c 	ui-resources.c 	uihotkey.c 	vic20icon.c 	video.c 	videoarch.h 	x11kbd.c 	x11kbd.h 	x11menu.c 	x11menu.h
 
 
 libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@
@@ -159,8 +161,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libx11ui_a_OBJECTS =  c128icon.o c610icon.o c64icon.o kbd.o peticon.o \
-ui-cmdline-options.o ui-resources.o uihotkey.o vic20icon.o video.o \
-x11kbd.o x11menu.o
+plus4icon.o ui-cmdline-options.o ui-resources.o uihotkey.o vic20icon.o \
+video.o x11kbd.o x11menu.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -349,6 +351,7 @@ kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
 	xaw/uiarch.h ../../../../src/utils.h ../../../../src/video.h
 peticon.o: peticon.c
+plus4icon.o: plus4icon.c
 ui-cmdline-options.o: ui-cmdline-options.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/cmdline.h \
 	../../../../src/resources.h

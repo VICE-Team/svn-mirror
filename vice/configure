@@ -721,7 +721,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.7.18
+VERSION=1.7.19
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -7877,12 +7877,14 @@ rm -f conftest*
   x128_LDFLAGS="-mwindows"
   xvic_LDFLAGS="-mwindows"
   xpet_LDFLAGS="-mwindows"
+  xplus4_LDFLAGS="-mwindows"
   xcbm2_LDFLAGS="-mwindows"
 
   X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
   X128_WINRES="\$(top_builddir)/src/arch/win32/resc128.o"
   XVIC_WINRES="\$(top_builddir)/src/arch/win32/resvic.o"
   XPET_WINRES="\$(top_builddir)/src/arch/win32/respet.o"
+  XPLUS4_WINRES="\$(top_builddir)/src/arch/win32/resplus4.o"
   XCBM2_WINRES="\$(top_builddir)/src/arch/win32/rescbm2.o"
 
   
@@ -7906,17 +7908,17 @@ EOF
   if test x"$enable_fullscreen" != "xno"; then
         ac_safe=`echo "X11/extensions/xf86vmode.h" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for X11/extensions/xf86vmode.h""... $ac_c" 1>&6
-echo "configure:7910: checking for X11/extensions/xf86vmode.h" >&5
+echo "configure:7912: checking for X11/extensions/xf86vmode.h" >&5
 if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 7915 "configure"
+#line 7917 "configure"
 #include "confdefs.h"
 #include <X11/extensions/xf86vmode.h>
 EOF
 ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
-{ (eval echo configure:7920: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+{ (eval echo configure:7922: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
 ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
 if test -z "$ac_err"; then
   rm -rf conftest*
@@ -7939,7 +7941,7 @@ fi
 
     if test x"$ac_cv_header_X11_extensions_xf86vmode_h" = "xyes" ; then
       echo $ac_n "checking for XF86VidModeQueryVersion in -lXxf86vm""... $ac_c" 1>&6
-echo "configure:7943: checking for XF86VidModeQueryVersion in -lXxf86vm" >&5
+echo "configure:7945: checking for XF86VidModeQueryVersion in -lXxf86vm" >&5
 ac_lib_var=`echo Xxf86vm'_'XF86VidModeQueryVersion | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -7947,7 +7949,7 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lXxf86vm $X_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 7951 "configure"
+#line 7953 "configure"
 #include "confdefs.h"
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
@@ -7958,7 +7960,7 @@ int main() {
 XF86VidModeQueryVersion()
 ; return 0; }
 EOF
-if { (eval echo configure:7962: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:7964: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -7991,17 +7993,17 @@ fi
     fi
     ac_safe=`echo "X11/extensions/xf86dga.h" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for X11/extensions/xf86dga.h""... $ac_c" 1>&6
-echo "configure:7995: checking for X11/extensions/xf86dga.h" >&5
+echo "configure:7997: checking for X11/extensions/xf86dga.h" >&5
 if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 8000 "configure"
+#line 8002 "configure"
 #include "confdefs.h"
 #include <X11/extensions/xf86dga.h>
 EOF
 ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
-{ (eval echo configure:8005: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+{ (eval echo configure:8007: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
 ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
 if test -z "$ac_err"; then
   rm -rf conftest*
@@ -8024,7 +8026,7 @@ fi
 
     if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
       echo $ac_n "checking for XDGAQueryExtension in -lXxf86dga""... $ac_c" 1>&6
-echo "configure:8028: checking for XDGAQueryExtension in -lXxf86dga" >&5
+echo "configure:8030: checking for XDGAQueryExtension in -lXxf86dga" >&5
 ac_lib_var=`echo Xxf86dga'_'XDGAQueryExtension | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -8032,7 +8034,7 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lXxf86dga $X_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 8036 "configure"
+#line 8038 "configure"
 #include "confdefs.h"
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
@@ -8043,7 +8045,7 @@ int main() {
 XDGAQueryExtension()
 ; return 0; }
 EOF
-if { (eval echo configure:8047: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:8049: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -8078,6 +8080,8 @@ fi
   
 
 fi
+
+
 
 
 
@@ -8520,6 +8524,7 @@ if false ; then
     mkdir -p gfxoutputdrv
     mkdir -p monitor
     mkdir -p pet
+    mkdir -p plus4
     mkdir -p printerdrv
     mkdir -p resid
     mkdir -p sid
@@ -8651,6 +8656,7 @@ trap 'rm -fr `echo "Makefile
            data/CBM-II/Makefile
            data/DRIVES/Makefile
            data/PET/Makefile
+           data/PLUS4/Makefile
            data/PRINTER/Makefile
            data/VIC20/Makefile
            data/fonts/Makefile
@@ -8684,6 +8690,7 @@ trap 'rm -fr `echo "Makefile
            src/gfxoutputdrv/Makefile
            src/monitor/Makefile
            src/pet/Makefile
+           src/plus4/Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
            src/sid/Makefile
@@ -8809,11 +8816,13 @@ s%@x64_LDFLAGS@%$x64_LDFLAGS%g
 s%@x128_LDFLAGS@%$x128_LDFLAGS%g
 s%@xvic_LDFLAGS@%$xvic_LDFLAGS%g
 s%@xpet_LDFLAGS@%$xpet_LDFLAGS%g
+s%@xplus4_LDFLAGS@%$xplus4_LDFLAGS%g
 s%@xcbm2_LDFLAGS@%$xcbm2_LDFLAGS%g
 s%@X64_WINRES@%$X64_WINRES%g
 s%@X128_WINRES@%$X128_WINRES%g
 s%@XVIC_WINRES@%$XVIC_WINRES%g
 s%@XPET_WINRES@%$XPET_WINRES%g
+s%@XPLUS4_WINRES@%$XPLUS4_WINRES%g
 s%@XCBM2_WINRES@%$XCBM2_WINRES%g
 s%@UNIX_COMPILE_TRUE@%$UNIX_COMPILE_TRUE%g
 s%@UNIX_COMPILE_FALSE@%$UNIX_COMPILE_FALSE%g
@@ -8886,6 +8895,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            data/CBM-II/Makefile
            data/DRIVES/Makefile
            data/PET/Makefile
+           data/PLUS4/Makefile
            data/PRINTER/Makefile
            data/VIC20/Makefile
            data/fonts/Makefile
@@ -8919,6 +8929,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/gfxoutputdrv/Makefile
            src/monitor/Makefile
            src/pet/Makefile
+           src/plus4/Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
            src/sid/Makefile
