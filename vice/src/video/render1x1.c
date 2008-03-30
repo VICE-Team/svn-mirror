@@ -49,7 +49,8 @@ void render_08_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
         wfast = 0;
         wend = 0;
     } else {
-        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        /* alignment: 8 pixels*/
+        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
         wfast = (width - wstart) >> 3;  /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
@@ -96,7 +97,8 @@ void render_16_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
         wfast = 0;
         wend = 0;
     } else {
-        wstart= 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        /* alignment: 8 pixels*/
+        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
         wfast = (width - wstart) >> 3;  /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
@@ -145,7 +147,8 @@ void render_24_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
         wfast = 0;
         wend = 0;
     } else {
-        wstart= 4 - ((unsigned int)trg & 3); /* alignment: 4 pixels*/
+        /* alignment: 4 pixels*/
+        wstart = (unsigned int)(4 - ((unsigned long)trg & 3));
         wfast = (width - wstart) >> 2; /* fast loop for 4 pixel segments*/
         wend = (width - wstart) & 0x03; /* do not forget the rest*/
     }
@@ -220,7 +223,8 @@ void render_32_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
         wfast = 0;
         wend = 0;
     } else {
-        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        /* alignment: 8 pixels*/
+        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
@@ -273,7 +277,8 @@ void render_08_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
         wfast = 0;
         wend = 0;
     } else {
-        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        /* alignment: 8 pixels*/
+        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
@@ -324,7 +329,8 @@ void render_16_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
         wfast = 0;
         wend = 0;
     } else {
-        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        /* alignment: 8 pixels*/
+        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
@@ -376,7 +382,8 @@ void render_24_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
         wfast = 0;
         wend = 0;
     } else {
-        wstart = 4 - ((unsigned int)trg & 3); /* alignment: 4 pixels*/
+        /* alignment: 4 pixels*/
+        wstart = (unsigned int)(4 - ((unsigned long)trg & 3));
         wfast = (width - wstart) >> 2; /* fast loop for 4 pixel segments*/
         wend = (width - wstart) & 0x03; /* do not forget the rest*/
     }
@@ -453,7 +460,8 @@ void render_32_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
         wfast = 0;
         wend = 0;
     } else {
-        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        /* alignment: 8 pixels*/
+        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
