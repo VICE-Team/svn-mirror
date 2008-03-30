@@ -64,14 +64,14 @@
 
 static float ted_luminances[8]=
 {
-	 40.0f,
-	 56.0f,
-	 64.0f,
-	 80.0f,
-	128.0f,
-	160.0f,
-	192.0f,
-	256.0f
+         40.0f,
+         56.0f,
+         64.0f,
+         80.0f,
+        128.0f,
+        160.0f,
+        192.0f,
+        256.0f
 };
 
 /* the base ted palette without luminances */
@@ -103,32 +103,30 @@ static video_cbm_palette_t ted_palette=
     TED_NUM_COLORS,
     ted_colors_with_lum,
     TED_SATURATION,
-    TED_PHASE,
+    TED_PHASE
 };
 
 int ted_update_palette(void)
 {
-	int col,lum,cl;
-	float tedlum;
-	video_cbm_color_t *vc;
+    int col,lum,cl;
+    float tedlum;
+    video_cbm_color_t *vc;
 
-	cl=0;
-	for (lum=0;lum<8;lum++)
-	{
-		tedlum = ted_luminances[lum] * 0.867f;
-		for (col=0;col<16;col++)
-		{
-			vc = &ted_colors_with_lum[cl];
-			if (col)
-				vc->luminance = tedlum;
-			else
-				vc->luminance = 0.0f;
-			vc->angle     = ted_colors[col].angle;
-			vc->direction = ted_colors[col].direction;
-			vc->name      = ted_colors[col].name;
-			cl++;
-		}
-	}
+    cl = 0;
+    for (lum = 0; lum < 8; lum++) {
+        tedlum = ted_luminances[lum] * 0.867f;
+        for (col = 0; col < 16; col++) {
+            vc = &ted_colors_with_lum[cl];
+            if (col)
+                vc->luminance = tedlum;
+            else
+                vc->luminance = 0.0f;
+            vc->angle = ted_colors[col].angle;
+            vc->direction = ted_colors[col].direction;
+            vc->name = ted_colors[col].name;
+            cl++;
+        }
+    }
 
     video_color_set_palette(&ted_palette);
     return video_color_update_palette();

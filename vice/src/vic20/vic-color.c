@@ -36,51 +36,51 @@
 
 /* base saturation of all colors except the grey tones */
 
-#define VIC_SATURATION	48.0f
+#define VIC_SATURATION  48.0f
 
 /* phase shift of all colors */
 
-#define VIC_PHASE		-4.5f
+#define VIC_PHASE               -4.5f
 
 /* chroma angles in UV space */
 
-#define ANGLE_RED	 112.5f
-#define ANGLE_GRN	-135.0f
-#define ANGLE_BLU	   0.0f
-#define ANGLE_ORN	 -45.0f	/* negative orange (orange is at +135.0 degree) */
-#define ANGLE_BRN	 157.5f
+#define ANGLE_RED        112.5f
+#define ANGLE_GRN       -135.0f
+#define ANGLE_BLU          0.0f
+#define ANGLE_ORN        -45.0f /* negative orange (orange is at +135.0 degree) */
+#define ANGLE_BRN        157.5f
 
 static video_cbm_color_t vic_colors[VIC_NUM_COLORS]=
 {
-	{   0.0f, ANGLE_ORN, -0, "Black"       },
-	{ 256.0f, ANGLE_BRN,  0, "White"       },
-	{  51.0f, ANGLE_RED,  1, "Red"         },
-	{ 157.0f, ANGLE_RED, -1, "Cyan"        },
-	{  75.0f, ANGLE_GRN, -1, "Purple"      },
+    {   0.0f, ANGLE_ORN, -0, "Black"       },
+    { 256.0f, ANGLE_BRN,  0, "White"       },
+    {  51.0f, ANGLE_RED,  1, "Red"         },
+    { 157.0f, ANGLE_RED, -1, "Cyan"        },
+    {  75.0f, ANGLE_GRN, -1, "Purple"      },
     { 129.0f, ANGLE_GRN,  1, "Green"       },
-	{  47.0f, ANGLE_BLU,  1, "Blue"        },
-	{ 183.0f, ANGLE_BLU, -1, "Yellow"      },
-	{  85.0f, ANGLE_ORN, -1, "Orange"      },
-	{ 161.0f, ANGLE_BRN,  1, "Light Orange"},
-	{ 144.0f, ANGLE_RED,  1, "Pink"        },
-	{ 208.0f, ANGLE_RED, -1, "Light Cyan"  },
-	{ 158.0f, ANGLE_GRN, -1, "Light Purple"},
-	{ 191.0f, ANGLE_GRN,  1, "Light Green" },
-	{ 129.0f, ANGLE_BLU,  1, "Light Blue"  },
-	{ 234.0f, ANGLE_BLU, -1, "Light Yellow"}
+    {  47.0f, ANGLE_BLU,  1, "Blue"        },
+    { 183.0f, ANGLE_BLU, -1, "Yellow"      },
+    {  85.0f, ANGLE_ORN, -1, "Orange"      },
+    { 161.0f, ANGLE_BRN,  1, "Light Orange"},
+    { 144.0f, ANGLE_RED,  1, "Pink"        },
+    { 208.0f, ANGLE_RED, -1, "Light Cyan"  },
+    { 158.0f, ANGLE_GRN, -1, "Light Purple"},
+    { 191.0f, ANGLE_GRN,  1, "Light Green" },
+    { 129.0f, ANGLE_BLU,  1, "Light Blue"  },
+    { 234.0f, ANGLE_BLU, -1, "Light Yellow"}
 };
 
 static video_cbm_palette_t vic_palette=
 {
-	VIC_NUM_COLORS,
-	vic_colors,
-	VIC_SATURATION,
-	VIC_PHASE,
+    VIC_NUM_COLORS,
+    vic_colors,
+    VIC_SATURATION,
+    VIC_PHASE
 };
 
 int vic_update_palette(void)
 {
-	video_color_set_palette(&vic_palette);
-	return video_color_update_palette();
+    video_color_set_palette(&vic_palette);
+    return video_color_update_palette();
 }
 

@@ -75,17 +75,19 @@
 
 /* default dithering */
 
-static char vic_ii_color_dither[16]=
+/*
+static char vic_ii_color_dither[16] =
 {
     0x00,0x0E,0x04,0x0C,
     0x08,0x04,0x04,0x0C,
     0x04,0x04,0x08,0x04,
     0x08,0x08,0x08,0x0C
 };
+*/
 
 /* very old vic-ii palette with less luminances */
 
-static video_cbm_color_t vic_ii_colors_old[VIC_II_NUM_COLORS]=
+static video_cbm_color_t vic_ii_colors_old[VIC_II_NUM_COLORS] =
 {
     { LUMO0, ANGLE_ORN, -0, "Black"       },
     { LUMO4, ANGLE_BRN,  0, "White"       },
@@ -105,17 +107,17 @@ static video_cbm_color_t vic_ii_colors_old[VIC_II_NUM_COLORS]=
     { LUMO3, ANGLE_BLU, -0, "Light Grey"  }
 };
 
-static video_cbm_palette_t vic_ii_palette_old=
+static video_cbm_palette_t vic_ii_palette_old =
 {
     VIC_II_NUM_COLORS,
     vic_ii_colors_old,
     VIC_II_SATURATION,
-    VIC_II_PHASE,
+    VIC_II_PHASE
 };
 
 /* the wellknown vic-ii palette used for 99% of all vic-ii chips */
 
-static video_cbm_color_t vic_ii_colors[VIC_II_NUM_COLORS]=
+static video_cbm_color_t vic_ii_colors[VIC_II_NUM_COLORS] =
 {
     { LUMN0, ANGLE_ORN, -0, "Black"       },
     { LUMN8, ANGLE_BRN,  0, "White"       },
@@ -135,12 +137,12 @@ static video_cbm_color_t vic_ii_colors[VIC_II_NUM_COLORS]=
     { LUMN6, ANGLE_BLU, -0, "Light Grey"  }
 };
 
-static video_cbm_palette_t vic_ii_palette=
+static video_cbm_palette_t vic_ii_palette =
 {
     VIC_II_NUM_COLORS,
     vic_ii_colors,
     VIC_II_SATURATION,
-    VIC_II_PHASE,
+    VIC_II_PHASE
 };
 
 int vic_ii_update_palette(void)
@@ -148,9 +150,9 @@ int vic_ii_update_palette(void)
     video_cbm_palette_t *cp;
 
     if (vic_ii_resources.new_luminances)
-        cp=&vic_ii_palette;
+        cp = &vic_ii_palette;
     else
-        cp=&vic_ii_palette_old;
+        cp = &vic_ii_palette_old;
 
     video_color_set_palette(cp);
 
