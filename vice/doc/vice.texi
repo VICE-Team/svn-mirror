@@ -7645,7 +7645,8 @@ emulation and did some small fixes.
 @b{ck!} provided a win32 cbm character font.
 
 @item
-@b{Fabrizio Gennari} added some improvements to the MSDOS port.
+@b{Fabrizio Gennari} added some improvements to the MSDOS- and GTK
+port.
 
 @item
 @b{Dirk Jagdmann} wrote the Catweasel sound driver.
@@ -7681,8 +7682,8 @@ AmigaOS ports.
 the Amiga ports.
 
 @item
-@b{Ilkka "itix" Lehtoranta} provided the routines for the cybergraphics
-support for the Amiga ports.
+@b{Ilkka "itix" Lehtoranta} provided the routines for the
+cybergraphics support for the Amiga ports.
 
 @item
 @b{Wolfgang Moser} provided small optimization fixes
@@ -7704,6 +7705,10 @@ package.
 
 @item
 @b{Markus Stehr} provided the MMC64 emulation.
+
+@item
+@b{Gunnar Ruthenberg} provided some VIC-II enhancements and improved
+the win32 port.
 
 @end itemize
 

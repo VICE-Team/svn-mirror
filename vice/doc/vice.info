@@ -6347,7 +6347,8 @@ in the development of X64 and VICE:
 
    * ck! provided a win32 cbm character font.
 
-   * Fabrizio Gennari added some improvements to the MSDOS port.
+   * Fabrizio Gennari added some improvements to the MSDOS- and GTK
+     port.
 
    * Dirk Jagdmann wrote the Catweasel sound driver.
 
@@ -6371,8 +6372,8 @@ in the development of X64 and VICE:
    * Harry "Piru" Sintonen provided lots of fixes and improvements for
      the Amiga ports.
 
-   * Ilkka "itix" Lehtoranta provided the routines for the cybergraphics
-     support for the Amiga ports.
+   * Ilkka "itix" Lehtoranta provided the routines for the
+     cybergraphics support for the Amiga ports.
 
    * Wolfgang Moser provided small optimization fixes to the GCR code.
 
@@ -6387,6 +6388,9 @@ in the development of X64 and VICE:
    * Andr351 'JoBBo' Siegel provided the native morphos icons.
 
    * Markus Stehr provided the MMC64 emulation.
+
+   * Gunnar Ruthenberg provided some VIC-II enhancements and improved
+     the win32 port.
 
 
    * Lutz Sammer
@@ -7233,14 +7237,14 @@ Node: T64 tape record223359
 Node: T64 file record224157
 Node: G64225417
 Node: Acknowledgments239411
-Node: Copyright250193
-Node: Contacts251818
-Node: Home page252330
-Node: Sending feedback252734
-Node: Contributing255084
-Node: Newsgroups256203
-Node: FAQs you should read256842
-Node: Concept Index257164
-Node: Resource Index278201
+Node: Copyright250299
+Node: Contacts251924
+Node: Home page252436
+Node: Sending feedback252840
+Node: Contributing255190
+Node: Newsgroups256309
+Node: FAQs you should read256948
+Node: Concept Index257270
+Node: Resource Index278307
 
 End Tag Table

@@ -1,3 +1,16 @@
+2007-08-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.
+
+	* configure.in: Do not define `UNSTABLE'.
+
+	* README, vice.spec, doc/html/plain/BUGS, doc/vice.texi:
+	Updated.
+
+2007-08-05  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* doc/html/index.html: removed obsolete Mac patch
+
 2007-08-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.13.
