@@ -430,10 +430,10 @@ uicmdline.o: uicmdline.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h
 uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	archdep.h ../../../src/archapi.h ../../../src/attach.h types.h \
-	../../../src/autostart.h ../../../src/fliplist.h \
-	fullscreenarch.h ../../../src/imagecontents.h \
-	../../../src/interrupt.h ../../../src/ioutil.h \
-	../../../src/log.h ../../../src/machine.h \
+	../../../src/autostart.h ../../../src/event.h \
+	../../../src/fliplist.h fullscreenarch.h \
+	../../../src/imagecontents.h ../../../src/interrupt.h \
+	../../../src/ioutil.h ../../../src/log.h ../../../src/machine.h \
 	../../../src/maincpu.h ../../../src/monitor/mon.h \
 	../../../src/mos6510.h ../../../src/resources.h \
 	../../../src/serial.h ../../../src/sound.h ../../../src/tape.h \

@@ -274,10 +274,11 @@ plus4.o: plus4.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/ioutil.h ../../src/kbdbuf.h \
-	../../src/keyboard.h ../../src/machine-drive.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/monitor/mon.h \
+	../../src/log.h ../../src/drive/drivecpu.h ../../src/event.h \
+	../../src/iecdrive.h ../../src/interrupt.h ../../src/ioutil.h \
+	../../src/kbdbuf.h ../../src/keyboard.h \
+	../../src/machine-drive.h ../../src/machine.h \
+	../../src/maincpu.h ../../src/monitor/mon.h \
 	plus4-cmdline-options.h plus4-resources.h plus4-snapshot.h \
 	plus4.h plus4acia.h plus4iec.h plus4mem.h \
 	../../src/arch/unix/plus4ui.h ../../src/printer.h \

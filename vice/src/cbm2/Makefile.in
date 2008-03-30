@@ -281,12 +281,12 @@ cbm2.o: cbm2.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/ioutil.h ../../src/kbdbuf.h \
-	../../src/keyboard.h ../../src/machine-drive.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
-	../../src/monitor/mon.h ../../src/printer.h \
-	../../src/resources.h ../../src/rs232drv.h \
+	../../src/log.h ../../src/drive/drivecpu.h ../../src/event.h \
+	../../src/iecdrive.h ../../src/interrupt.h ../../src/ioutil.h \
+	../../src/kbdbuf.h ../../src/keyboard.h \
+	../../src/machine-drive.h ../../src/machine.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
+	../../src/printer.h ../../src/resources.h ../../src/rs232drv.h \
 	../../src/screenshot.h ../../src/serial.h \
 	../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
