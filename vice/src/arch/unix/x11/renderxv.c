@@ -111,6 +111,9 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format)
 				     &num_formats);
 
     for (j = 0; j < sizeof(fourcc_list)/sizeof(*fourcc_list); j++) {
+      if (format->id && fourcc_list[j].id != format->id) {
+	continue;
+      }
       for (k = 0; k < num_formats; k++) {
 	if (format_list[k].id != fourcc_list[j].id) {
 	  continue;
@@ -265,6 +268,14 @@ inline static unsigned int V(unsigned int YUV)
 }
 
 
+typedef struct
+{
+  unsigned int Y0, Y1, U, V;
+} YUV_avg;
+
+YUV_avg yuv_lines[2][1024];
+
+
 /* Render packed YUV 4:2:2 formats. */
 void render_4_2_2(XvImage* image,
 		  int shift_y0, int shift_u, int shift_v, int shift_y1,
@@ -311,7 +322,7 @@ void render_4_2_2(XvImage* image,
 }
 
 
-/* Render double size packed YUV 4:2:2 formats. */
+/* Render packed YUV 4:2:2 formats, double size. */
 void render2x_4_2_2(XvImage* image,
 		    int shift_y0, int shift_u, int shift_v, int shift_y1,
 		    unsigned char* src,
@@ -320,11 +331,9 @@ void render2x_4_2_2(XvImage* image,
 		    int src_x, int src_y,
 		    unsigned int src_w, unsigned int src_h,
 		    int dest_x, int dest_y,
-		    int doublescan)
+		    int double_scan, int pal_scanline_shade)
 {
   int x, y;
-  unsigned int YUV;
-  unsigned int pixel2;
   unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
@@ -337,18 +346,23 @@ void render2x_4_2_2(XvImage* image,
   /* Render 2x1 blocks, YUV 4:2:2 */
   for (y = 0; y < src_h; y++) {
     for (x = 0; x < src_w; x++) {
-      YUV = src_color[*src++];
-      pixel2 =
-	(Y(YUV) << shift_y0)
-	| (U(YUV) << shift_u)
-	| (V(YUV) << shift_v)
-	| (Y(YUV) << shift_y1);
+      unsigned int YUV = src_color[*src++];
+      unsigned int Y0 = Y(YUV);
+      unsigned int color =
+	(U(YUV) << shift_u)
+	| (V(YUV) << shift_v);
+      unsigned int pixel2 =
+	(Y0 << shift_y0)
+	| color
+	| (Y0 << shift_y1);
       *dest = pixel2;
-      if (!doublescan) {
-	/* Zero intensity. */
+      if (!double_scan) {
+	/* Set scanline shade intensity. */
+	Y0 = Y0*pal_scanline_shade >> 10;
 	pixel2 =
-	  (U(YUV) << shift_u)
-	  | (V(YUV) << shift_v);
+	  (Y0 << shift_y0)
+	  | color
+	  | (Y0 << shift_y1);
       }
       *(dest + dest_pitch) = pixel2;
       dest++;
@@ -359,23 +373,16 @@ void render2x_4_2_2(XvImage* image,
 }
 
 
-typedef struct
-{
-  unsigned int Y0, Y1, U, V;
-} YUV_avg;
-
-YUV_avg yuv_lines[2][1024];
-
-
-/* Render packed YUV 4:2:2 formats - PAL Y/C emulation. */
-void render_4_2_2_yc(XvImage* image,
-		     int shift_y0, int shift_u, int shift_v, int shift_y1,
-		     unsigned char* src,
-		     int src_pitch,
-		     unsigned int* src_color,
-		     int src_x, int src_y,
-		     unsigned int src_w, unsigned int src_h,
-		     int dest_x, int dest_y)
+/* Render packed YUV 4:2:2 formats - PAL emulation. */
+void render_4_2_2_pal(XvImage* image,
+		      int shift_y0, int shift_u, int shift_v, int shift_y1,
+		      unsigned char* src,
+		      int src_pitch,
+		      unsigned int* src_color,
+		      int src_x, int src_y,
+		      unsigned int src_w, unsigned int src_h,
+		      int dest_x, int dest_y,
+		      int pal_mode)
 {
   int x, y;
   unsigned int YUVm1, YUV0, YUV1, YUV2;
@@ -476,8 +483,14 @@ void render_4_2_2_yc(XvImage* image,
       YUV1 = src_color[*++src];
       YUV2 = src_color[*++src];
 
-      line->Y0 = Y(YUV0);
-      line->Y1 = Y(YUV1);
+      if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
+	line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
+	line->Y1 = (Y(YUV0) + (Y(YUV1) << 1) + Y(YUV2)) >> 2;
+      }
+      else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+	line->Y0 = Y(YUV0);
+	line->Y1 = Y(YUV1);
+      }
       line->U = U(YUVm1) + U(YUV0) + U(YUV1) + U(YUV2);
       line->V = V(YUVm1) + V(YUV0) + V(YUV1) + V(YUV2);
 
@@ -494,8 +507,14 @@ void render_4_2_2_yc(XvImage* image,
     else {
       YUV2 = src_color[*src++];
     }
-    line->Y0 = Y(YUV0);
-    line->Y1 = Y(YUV1);
+    if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
+      line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
+      line->Y1 = (Y(YUV0) + (Y(YUV1) << 1) + Y(YUV2)) >> 2;
+    }
+    else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+      line->Y0 = Y(YUV0);
+      line->Y1 = Y(YUV1);
+    }
     line->U = U(YUVm1) + U(YUV0) + U(YUV1) + U(YUV2);
     line->V = V(YUVm1) + V(YUV0) + V(YUV1) + V(YUV2);
     src += src_pitch - src_w;
@@ -519,50 +538,48 @@ void render_4_2_2_yc(XvImage* image,
 }
 
 
-/* Render packed YUV 4:2:2 formats - PAL composite emulation. */
-void render_4_2_2_composite(XvImage* image,
-			    int shift_y0, int shift_u, int shift_v, int shift_y1,
-			    unsigned char* src,
-			    int src_pitch,
-			    unsigned int* src_color,
-			    int src_x, int src_y,
-			    unsigned int src_w, unsigned int src_h,
-			    int dest_x, int dest_y)
+/* Render packed YUV 4:2:2 formats - PAL emulation, double size. */
+void render2x_4_2_2_pal(XvImage* image,
+			int shift_y0, int shift_u, int shift_v, int shift_y1,
+			unsigned char* src,
+			int src_pitch,
+			unsigned int* src_color,
+			int src_x, int src_y,
+			unsigned int src_w, unsigned int src_h,
+			int dest_x, int dest_y,
+			int pal_mode,
+			int double_scan, int pal_scanline_shade)
 {
   int x, y;
-  unsigned int YUVm1, YUV0, YUV1, YUV2;
+  unsigned int YUVm2, YUVm1, YUV0, YUV1;
   int lineno = 0;
   YUV_avg* linepre;
   YUV_avg* line;
   unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
-  /* Normalize to 2x1 blocks. */
-  if (dest_x & 1) {
-    dest_x--;
-    src_x--;
-    src_w++;
-  }
-  if (src_w & 1) {
-    src_w++;
-  }
+  /* No need to normalize to 2x1 blocks because of size doubling. */
 
   /* Enlarge the rendered area to ensure that neighboring pixels are
      correctly averaged. */
-  if (dest_x > 0) {
-    dest_x -= 2;
-    src_x -= 2;
-    src_w += 2;
+  dest_x--;
+  src_x--;
+  src_w++;
+  if (dest_x < 0) {
+    src_x -= dest_x;
+    src_w += dest_x;
+    dest_x = 0;
   }
-  if (dest_x + src_w < image->width) {
-    src_w += 2;
+  src_w += 2;
+  if (dest_x + src_w > image->width >> 1) {
+    src_w = (image->width >> 1) - dest_x;
   }
-  if (dest_y + src_h < image->height) {
+  if (dest_y + src_h < image->height >> 1) {
     src_h++;
   }
 
   /* Add start offsets. */
-  dest += dest_pitch*dest_y + (dest_x >> 1);
+  dest += (dest_pitch << 1)*dest_y + dest_x;
   src += src_pitch*src_y + src_x;
 
   if (dest_y > 0) {
@@ -571,37 +588,36 @@ void render_4_2_2_composite(XvImage* image,
     line = linepre;
     src -= src_pitch;
 
-    /* Read first two pixels. */
+    /* Read first three pixels. */
+    YUVm2 = YUVm1 = YUV0 = src_color[*src];
     if (dest_x > 0) {
       YUVm1 = src_color[*(src - 1)];
+      if (dest_x > 1) {
+	YUVm2 = src_color[*(src - 2)];
+      }
     }
-    else {
-      YUVm1 = src_color[*src];
-    }
-    YUV0 = src_color[*src];
-    for (x = 0; x < src_w - 2; x += 2) {
-      /* Read next two pixels. */
+    for (x = 0; x < src_w - 1; x++) {
+      /* Read next pixel. */
       YUV1 = src_color[*++src];
-      YUV2 = src_color[*++src];
 
-      line->U = U(YUVm1) + U(YUV0) + U(YUV1) + U(YUV2);
-      line->V = V(YUVm1) + V(YUV0) + V(YUV1) + V(YUV2);
+      line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
+      line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
 
-      /* Prepare to read next two pixels. */
+      /* Prepare to read next pixel. */
       line++;
-      YUVm1 = YUV1;
-      YUV0 = YUV2;
+      YUVm2 = YUVm1;
+      YUVm1 = YUV0;
+      YUV0 = YUV1;
     }
-    /* Read last two pixels. */
-    YUV1 = src_color[*++src];
-    if (dest_x + src_w < image->width) {
-      YUV2 = src_color[*++src];
+    /* Read last pixel. */
+    if (dest_x + src_w < image->width >> 1) {
+      YUV1 = src_color[*++src];
     }
     else {
-      YUV2 = src_color[*src++];
+      YUV1 = src_color[*src++];
     }
-    line->U = U(YUVm1) + U(YUV0) + U(YUV1) + U(YUV2);
-    line->V = V(YUVm1) + V(YUV0) + V(YUV1) + V(YUV2);
+    line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
+    line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
 
     src += src_pitch - src_w;
   }
@@ -615,56 +631,76 @@ void render_4_2_2_composite(XvImage* image,
     lineno ^= 1;
     line = yuv_lines[lineno];
 
-    /* Read first two pixels. */
+    /* Read first three pixels. */
+    YUVm2 = YUVm1 = YUV0 = src_color[*src];
     if (dest_x > 0) {
       YUVm1 = src_color[*(src - 1)];
+      if (dest_x > 1) {
+	YUVm2 = src_color[*(src - 2)];
+      }
     }
-    else {
-      YUVm1 = src_color[*src];
-    }
-    YUV0 = src_color[*src];
-    for (x = 0; x < src_w - 2; x += 2) {
-      /* Read next two pixels. */
+    for (x = 0; x < src_w - 1; x++) {
+      /* Read next pixel. */
       YUV1 = src_color[*++src];
-      YUV2 = src_color[*++src];
 
-      line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
-      line->Y1 = (Y(YUV0) + (Y(YUV1) << 1) + Y(YUV2)) >> 2;
-      line->U = U(YUVm1) + U(YUV0) + U(YUV1) + U(YUV2);
-      line->V = V(YUVm1) + V(YUV0) + V(YUV1) + V(YUV2);
+      if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
+	line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
+      }
+      else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+	line->Y0 = Y(YUV0);
+      }
+      line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
+      line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
 
-      /* Prepare to read next two pixels. */
+      /* Prepare to read next pixel. */
       line++;
-      YUVm1 = YUV1;
-      YUV0 = YUV2;
+      YUVm2 = YUVm1;
+      YUVm1 = YUV0;
+      YUV0 = YUV1;
     }
-    /* Read last two pixels. */
-    YUV1 = src_color[*++src];
-    if (dest_x + src_w < image->width) {
-      YUV2 = src_color[*++src];
+    /* Read last pixel. */
+    if (dest_x + src_w < image->width >> 1) {
+      YUV1 = src_color[*++src];
     }
     else {
-      YUV2 = src_color[*src++];
+      YUV1 = src_color[*src++];
     }
-    line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
-    line->Y1 = (Y(YUV0) + (Y(YUV1) << 1) + Y(YUV2)) >> 2;
-    line->U = U(YUVm1) + U(YUV0) + U(YUV1) + U(YUV2);
-    line->V = V(YUVm1) + V(YUV0) + V(YUV1) + V(YUV2);
+    if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
+      line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
+    }
+    else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+      line->Y0 = Y(YUV0);
+    }
+    line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
+    line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
     src += src_pitch - src_w;
 
     line = yuv_lines[lineno];
 
     /* Render 2x1 blocks, YUV 4:2:2 */
-    for (x = 0; x < src_w; x += 2) {
-      *dest++ =
+    for (x = 0; x < src_w; x++) {
+      unsigned int color = 
+	(((line->U + linepre->U) >> 3) << shift_u)
+	| (((line->V + linepre->V) >> 3) << shift_v);
+      unsigned int pixel2 =
 	(line->Y0 << shift_y0)
-	| (((line->U + linepre->U) >> 3) << shift_u)
-	| (((line->V + linepre->V) >> 3) << shift_v)
-	| (line->Y1 << shift_y1);
+	| color
+	| (line->Y0 << shift_y1);
+      *dest = pixel2;
+      if (!double_scan) {
+	/* Set scanline shade intensity. */
+	unsigned int Y0 = line->Y0*pal_scanline_shade >> 10;
+	pixel2 =
+	  (Y0 << shift_y0)
+	  | color
+	  | (Y0 << shift_y1);
+      }
+      *(dest + dest_pitch) = pixel2;
+      dest++;
       line++;
       linepre++;
     }
-    dest += dest_pitch - (src_w >> 1);
+    dest += (dest_pitch << 1) - src_w;
 
     linepre = yuv_lines[lineno];
   }
@@ -738,15 +774,69 @@ void render_4_1_1(XvImage* image,
 }
 
 
-/* Render planar YUV 4:1:1 formats - PAL Y/C emulation. */
-void render_4_1_1_yc(XvImage* image,
-		     int plane_y, int plane_u, int plane_v,
-		     unsigned char* src,
-		     int src_pitch,
-		     unsigned int* src_color,
-		     int src_x, int src_y,
-		     unsigned int src_w, unsigned int src_h,
-		     int dest_x, int dest_y)
+/* Render planar YUV 4:1:1 formats, double size. */
+void render2x_4_1_1(XvImage* image,
+		    int plane_y, int plane_u, int plane_v,
+		    unsigned char* src,
+		    int src_pitch,
+		    unsigned int* src_color,
+		    int src_x, int src_y,
+		    unsigned int src_w, unsigned int src_h,
+		    int dest_x, int dest_y,
+		    int double_scan, int pal_scanline_shade)
+{
+  int x, y;
+  unsigned int YUV, Y0;
+  unsigned char* Yptr = image->data + image->offsets[plane_y];
+  unsigned char* Uptr = image->data + image->offsets[plane_u];
+  unsigned char* Vptr = image->data + image->offsets[plane_v];
+  int Ypitch = image->pitches[plane_y];
+  int Upitch = image->pitches[plane_u];
+  int Vpitch = image->pitches[plane_v];
+
+  /* No need to normalize to 2x2 blocks because of size doubling. */
+
+  /* Add start offsets. */
+  Yptr += (Ypitch*dest_y + dest_x) << 1;
+  Uptr += Upitch*dest_y + dest_x;
+  Vptr += Vpitch*dest_y + dest_x;
+  src += src_pitch*src_y + src_x;
+
+  /* Render 2x2 blocks, YUV 4:1:1 */
+  for (y = 0; y < src_h; y++) {
+    for (x = 0; x < src_w; x++) {
+      YUV = src_color[*src++];
+      Y0 = Y(YUV);
+      *Yptr = Y0;
+      *(Yptr + 1) = Y0;
+      if (!double_scan) {
+	/* Set scanline shade intensity. */
+	Y0 = Y0*pal_scanline_shade >> 10;
+      }
+      *(Yptr + Ypitch) = Y0;
+      *(Yptr + Ypitch + 1) = Y0;
+      Yptr += 2;
+      *Uptr++ = U(YUV);
+      *Vptr++ = V(YUV);
+    }
+    src += src_pitch - src_w;
+    Yptr += (Ypitch - src_w) << 1;
+    Uptr += Upitch - src_w;
+    Vptr += Vpitch - src_w;
+  }
+}
+
+
+/* Render planar YUV 4:1:1 formats - PAL emulation. */
+void render_4_1_1_pal(XvImage* image,
+		      int plane_y, int plane_u, int plane_v,
+		      unsigned char* src,
+		      int src_pitch,
+		      unsigned int* src_color,
+		      int src_x, int src_y,
+		      unsigned int src_w, unsigned int src_h,
+		      int dest_x, int dest_y,
+		      int pal_mode)
 {
   int x, y;
   unsigned int
@@ -815,10 +905,18 @@ void render_4_1_1_yc(XvImage* image,
       YUV21 = src_color[*(src + src_pitch + 2)];
       src += 2;
 
-      *Yptr = Y(YUV00);
-      *(Yptr + 1) = Y(YUV10);
-      *(Yptr + Ypitch) = Y(YUV01);
-      *(Yptr + Ypitch + 1) = Y(YUV11);
+      if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
+	*Yptr =               (Y(YUVm10) + (Y(YUV00) << 1) + Y(YUV10)) >> 2;
+	*(Yptr + 1) =          (Y(YUV00) + (Y(YUV10) << 1) + Y(YUV20)) >> 2;
+	*(Yptr + Ypitch) =    (Y(YUVm11) + (Y(YUV01) << 1) + Y(YUV11)) >> 2;
+	*(Yptr + Ypitch + 1) = (Y(YUV01) + (Y(YUV11) << 1) + Y(YUV21)) >> 2;
+      }
+      else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+	*Yptr = Y(YUV00);
+	*(Yptr + 1) = Y(YUV10);
+	*(Yptr + Ypitch) = Y(YUV01);
+	*(Yptr + Ypitch + 1) = Y(YUV11);
+      }
       Yptr += 2;
       *Uptr++ =
 	(U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
@@ -844,10 +942,18 @@ void render_4_1_1_yc(XvImage* image,
     }
     src += 2;
 
-    *Yptr = Y(YUV00);
-    *(Yptr + 1) = Y(YUV10);
-    *(Yptr + Ypitch) = Y(YUV01);
-    *(Yptr + Ypitch + 1) = Y(YUV11);
+    if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
+      *Yptr =               (Y(YUVm10) + (Y(YUV00) << 1) + Y(YUV10)) >> 2;
+      *(Yptr + 1) =          (Y(YUV00) + (Y(YUV10) << 1) + Y(YUV20)) >> 2;
+      *(Yptr + Ypitch) =    (Y(YUVm11) + (Y(YUV01) << 1) + Y(YUV11)) >> 2;
+      *(Yptr + Ypitch + 1) = (Y(YUV01) + (Y(YUV11) << 1) + Y(YUV21)) >> 2;
+    }
+    else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+      *Yptr = Y(YUV00);
+      *(Yptr + 1) = Y(YUV10);
+      *(Yptr + Ypitch) = Y(YUV01);
+      *(Yptr + Ypitch + 1) = Y(YUV11);
+    }
     Yptr += 2;
     *Uptr++ =
       (U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
@@ -864,20 +970,23 @@ void render_4_1_1_yc(XvImage* image,
 }
 
 
-/* Render planar YUV 4:1:1 formats - PAL Composite emulation. */
-void render_4_1_1_composite(XvImage* image,
-			    int plane_y, int plane_u, int plane_v,
-			    unsigned char* src,
-			    int src_pitch,
-			    unsigned int* src_color,
-			    int src_x, int src_y,
-			    unsigned int src_w, unsigned int src_h,
-			    int dest_x, int dest_y)
+/* Render planar YUV 4:1:1 formats - PAL Y/C emulation, double size. */
+void render2x_4_1_1_pal(XvImage* image,
+			int plane_y, int plane_u, int plane_v,
+			unsigned char* src,
+			int src_pitch,
+			unsigned int* src_color,
+			int src_x, int src_y,
+			unsigned int src_w, unsigned int src_h,
+			int dest_x, int dest_y,
+			int pal_mode,
+			int double_scan, int pal_scanline_shade)
 {
   int x, y;
-  unsigned int
-    YUVm10, YUV00, YUV10, YUV20,
-    YUVm11, YUV01, YUV11, YUV21;
+  unsigned int YUVm2, YUVm1, YUV0, YUV1;
+  int lineno = 0;
+  YUV_avg* linepre;
+  YUV_avg* line;
   unsigned char* Yptr = image->data + image->offsets[plane_y];
   unsigned char* Uptr = image->data + image->offsets[plane_u];
   unsigned char* Vptr = image->data + image->offsets[plane_v];
@@ -885,107 +994,151 @@ void render_4_1_1_composite(XvImage* image,
   int Upitch = image->pitches[plane_u];
   int Vpitch = image->pitches[plane_v];
 
-  /* Normalize to 2x2 blocks. */
-  if (dest_x & 1) {
-    dest_x--;
-    src_x--;
-    src_w++;
-  }
-  if (src_w & 1) {
-    src_w++;
-  }
-  if (dest_y & 1) {
-    dest_y--;
-    src_y--;
-    src_h++;
-  }
-  if (src_h & 1) {
-    src_h++;
-  }
+  /* No need to normalize to 2x2 blocks because of size doubling. */
 
   /* Enlarge the rendered area to ensure that neighboring pixels are
      correctly averaged. */
-  if (dest_x > 0) {
-    dest_x -= 2;
-    src_x -= 2;
-    src_w += 2;
+  dest_x--;
+  src_x--;
+  src_w++;
+  if (dest_x < 0) {
+    src_x -= dest_x;
+    src_w += dest_x;
+    dest_x = 0;
   }
-  if (dest_x + src_w < image->width) {
-    src_w += 2;
+  src_w += 2;
+  if (dest_x + src_w > image->width >> 1) {
+    src_w = (image->width >> 1) - dest_x;
+  }
+  if (dest_y + src_h < image->height >> 1) {
+    src_h++;
   }
 
   /* Add start offsets. */
-  Yptr += Ypitch*dest_y + dest_x;
-  Uptr += (Upitch*dest_y + dest_x) >> 1;
-  Vptr += (Vpitch*dest_y + dest_x) >> 1;
+  Yptr += (Ypitch*dest_y + dest_x) << 1;
+  Uptr += Upitch*dest_y + dest_x;
+  Vptr += Vpitch*dest_y + dest_x;
   src += src_pitch*src_y + src_x;
 
-  /* Render 2x2 blocks, YUV 4:1:1 */
-  for (y = 0; y < src_h; y += 2) {
-    /* Read first 2x2 block. */
+  if (dest_y > 0) {
+    /* Store previous line. */
+    linepre = yuv_lines[lineno];
+    line = linepre;
+    src -= src_pitch;
+
+    /* Read first three pixels. */
+    YUVm2 = YUVm1 = YUV0 = src_color[*src];
     if (dest_x > 0) {
-      YUVm10 = src_color[*(src - 1)];
-      YUVm11 = src_color[*(src + src_pitch - 1)];
+      YUVm1 = src_color[*(src - 1)];
+      if (dest_x > 1) {
+	YUVm2 = src_color[*(src - 2)];
+      }
+    }
+    for (x = 0; x < src_w - 1; x++) {
+      /* Read next pixel. */
+      YUV1 = src_color[*++src];
+
+      line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
+      line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
+
+      /* Prepare to read next pixel. */
+      line++;
+      YUVm2 = YUVm1;
+      YUVm1 = YUV0;
+      YUV0 = YUV1;
+    }
+    /* Read last pixel. */
+    if (dest_x + src_w < image->width >> 1) {
+      YUV1 = src_color[*++src];
     }
     else {
-      YUVm10 = src_color[*src];
-      YUVm11 = src_color[*(src + src_pitch)];
+      YUV1 = src_color[*src++];
     }
-    YUV00 =  src_color[*src];
-    YUV01 =  src_color[*(src + src_pitch)];
-    for (x = 0; x < src_w - 2; x += 2) {
-      /* Read next 2x2 block. */
-      YUV10 = src_color[*(src + 1)];
-      YUV20 = src_color[*(src + 2)];
-      YUV11 = src_color[*(src + src_pitch + 1)];
-      YUV21 = src_color[*(src + src_pitch + 2)];
-      src += 2;
+    line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
+    line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
 
-      *Yptr =               (Y(YUVm10) + (Y(YUV00) << 1) + Y(YUV10)) >> 2;
-      *(Yptr + 1) =          (Y(YUV00) + (Y(YUV10) << 1) + Y(YUV20)) >> 2;
-      *(Yptr + Ypitch) =    (Y(YUVm11) + (Y(YUV01) << 1) + Y(YUV11)) >> 2;
-      *(Yptr + Ypitch + 1) = (Y(YUV01) + (Y(YUV11) << 1) + Y(YUV21)) >> 2;
+    src += src_pitch - src_w;
+  }
+  else {
+    /* Trick main loop into averaging first line with itself. */
+    linepre = yuv_lines[lineno ^ 1];
+  }
+
+  for (y = 0; y < src_h; y++) {
+    /* Store current line. */
+    lineno ^= 1;
+    line = yuv_lines[lineno];
+
+    /* Read first three pixels. */
+    YUVm2 = YUVm1 = YUV0 = src_color[*src];
+    if (dest_x > 0) {
+      YUVm1 = src_color[*(src - 1)];
+      if (dest_x > 1) {
+	YUVm2 = src_color[*(src - 2)];
+      }
+    }
+    for (x = 0; x < src_w - 1; x++) {
+      /* Read next pixel. */
+      YUV1 = src_color[*++src];
+
+      if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
+	line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
+      }
+      else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+	line->Y0 = Y(YUV0);
+      }
+      line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
+      line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
+
+      /* Prepare to read next pixel. */
+      line++;
+      YUVm2 = YUVm1;
+      YUVm1 = YUV0;
+      YUV0 = YUV1;
+    }
+    /* Read last pixel. */
+    if (dest_x + src_w < image->width >> 1) {
+      YUV1 = src_color[*++src];
+    }
+    else {
+      YUV1 = src_color[*src++];
+    }
+    if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
+      line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
+    }
+    else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+      line->Y0 = Y(YUV0);
+    }
+    line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
+    line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
+    src += src_pitch - src_w;
+
+    line = yuv_lines[lineno];
+
+    /* Render 2x1 blocks, YUV 4:1:1 */
+    for (x = 0; x < src_w; x++) {
+      unsigned int Y0 = line->Y0; 
+      *Yptr = Y0;
+      *(Yptr + 1) = Y0;
+      if (!double_scan) {
+	/* Set scanline shade intensity. */
+	Y0 = line->Y0*pal_scanline_shade >> 10;
+      }
+      *(Yptr + Ypitch) = Y0;
+      *(Yptr + Ypitch + 1) = Y0;
       Yptr += 2;
       *Uptr++ =
-	(U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
-	 U(YUVm11) + U(YUV01) + U(YUV11) + U(YUV21)) >> 3;
+	(line->U + linepre->U) >> 3;
       *Vptr++ =
-	(V(YUVm10) + V(YUV00) + V(YUV10) + V(YUV20) +
-	 V(YUVm11) + V(YUV01) + V(YUV11) + V(YUV21)) >> 3;
-
-      /* Prepare to read next 2x2 block. */
-      YUVm10 = YUV10; YUV00 = YUV20;
-      YUVm11 = YUV11; YUV01 = YUV21;
+	(line->V + linepre->V) >> 3;
+      line++;
+      linepre++;
     }
-    /* Read last 2x2 block. */
-    YUV10 = src_color[*(src + 1)];
-    YUV11 = src_color[*(src + src_pitch + 1)];
-    if (dest_x + src_w < image->width) {
-      YUV20 = YUV10;
-      YUV21 = YUV11;
-    }
-    else {
-      YUV20 = src_color[*(src + 2)];
-      YUV21 = src_color[*(src + src_pitch + 2)];
-    }
-    src += 2;
+    Yptr += (Ypitch - src_w) << 1;
+    Uptr += Upitch - src_w;
+    Vptr += Vpitch - src_w;
 
-    *Yptr =               (Y(YUVm10) + (Y(YUV00) << 1) + Y(YUV10)) >> 2;
-    *(Yptr + 1) =          (Y(YUV00) + (Y(YUV10) << 1) + Y(YUV20)) >> 2;
-    *(Yptr + Ypitch) =    (Y(YUVm11) + (Y(YUV01) << 1) + Y(YUV11)) >> 2;
-    *(Yptr + Ypitch + 1) = (Y(YUV01) + (Y(YUV11) << 1) + Y(YUV21)) >> 2;
-    Yptr += 2;
-    *Uptr++ =
-      (U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
-       U(YUVm11) + U(YUV01) + U(YUV11) + U(YUV21)) >> 3;
-    *Vptr++ =
-      (V(YUVm10) + V(YUV00) + V(YUV10) + V(YUV20) +
-       V(YUVm11) + V(YUV01) + V(YUV11) + V(YUV21)) >> 3;
-
-    src += (src_pitch << 1) - src_w;
-    Yptr += (Ypitch << 1) - src_w;
-    Uptr += Upitch - (src_w >> 1);
-    Vptr += Vpitch - (src_w >> 1);
+    linepre = yuv_lines[lineno];
   }
 }
 
@@ -994,6 +1147,7 @@ void render_4_1_1_composite(XvImage* image,
 void render_yuv_image(int double_size,
 		      int double_scan,
 		      int pal_mode,
+		      int pal_scanline_shade,
 		      fourcc_t format,
 		      XvImage* image,
 		      unsigned char* src,
@@ -1046,82 +1200,77 @@ void render_yuv_image(int double_size,
   }
 
   if (double_size) {
-    /* 1x1 */
+    /* 2x2 */
     if (planar) {
       switch(pal_mode) {
-      default:
       case VIDEO_RESOURCE_PAL_MODE_FAST:
-	render_4_1_1(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-		     src_x, src_y, src_w, src_h, dest_x, dest_y);
+	render2x_4_1_1(image, plane_y, plane_u, plane_v,
+		       src, src_pitch, src_color,
+		       src_x, src_y, src_w, src_h, dest_x, dest_y,
+		       double_scan, pal_scanline_shade);
 	break;
+      default:
       case VIDEO_RESOURCE_PAL_MODE_SHARP:
-	render_4_1_1_yc(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-			src_x, src_y, src_w, src_h, dest_x, dest_y);
-	break;
       case VIDEO_RESOURCE_PAL_MODE_BLUR:
-	render_4_1_1_composite(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-			       src_x, src_y, src_w, src_h, dest_x, dest_y);
+	render2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
+			   src, src_pitch, src_color,
+			   src_x, src_y, src_w, src_h, dest_x, dest_y,
+			   pal_mode, double_scan, pal_scanline_shade);
 	break;
       }
     }
     else {
       switch(pal_mode) {
-      default:
       case VIDEO_RESOURCE_PAL_MODE_FAST:
 	render2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
 		       src, src_pitch, src_color,
 		       src_x, src_y, src_w, src_h, dest_x, dest_y,
-		       double_scan);
+		       double_scan, pal_scanline_shade);
 	break;
+      default:
       case VIDEO_RESOURCE_PAL_MODE_SHARP:
-	render_4_2_2_yc(image, shift_y0, shift_u, shift_v, shift_y1,
-			src, src_pitch, src_color,
-			src_x, src_y, src_w, src_h, dest_x, dest_y);
-	break;
       case VIDEO_RESOURCE_PAL_MODE_BLUR:
-	render_4_2_2_composite(image, shift_y0, shift_u, shift_v, shift_y1,
-			       src, src_pitch, src_color,
-			       src_x, src_y, src_w, src_h, dest_x, dest_y);
+	render2x_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
+			  src, src_pitch, src_color,
+			  src_x, src_y, src_w, src_h, dest_x, dest_y,
+			  pal_mode, double_scan, pal_scanline_shade);
 	break;
       }
     }
   }
   else {
-    /* 2x2 */
+    /* 1x1 */
     if (planar) {
       switch(pal_mode) {
-      default:
       case VIDEO_RESOURCE_PAL_MODE_FAST:
-	render_4_1_1(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+	render_4_1_1(image, plane_y, plane_u, plane_v,
+		     src, src_pitch, src_color,
 		     src_x, src_y, src_w, src_h, dest_x, dest_y);
 	break;
+      default:
       case VIDEO_RESOURCE_PAL_MODE_SHARP:
-	render_4_1_1_yc(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-			src_x, src_y, src_w, src_h, dest_x, dest_y);
-	break;
       case VIDEO_RESOURCE_PAL_MODE_BLUR:
-	render_4_1_1_composite(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-			       src_x, src_y, src_w, src_h, dest_x, dest_y);
+	render_4_1_1_pal(image, plane_y, plane_u, plane_v,
+			 src, src_pitch, src_color,
+			 src_x, src_y, src_w, src_h, dest_x, dest_y,
+			 pal_mode);
 	break;
       }
     }
     else {
       switch(pal_mode) {
-      default:
       case VIDEO_RESOURCE_PAL_MODE_FAST:
 	render_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
 		     src, src_pitch, src_color,
 		     src_x, src_y, src_w, src_h, dest_x, dest_y);
 	break;
+      default:
       case VIDEO_RESOURCE_PAL_MODE_SHARP:
-	render_4_2_2_yc(image, shift_y0, shift_u, shift_v, shift_y1,
-			src, src_pitch, src_color,
-			src_x, src_y, src_w, src_h, dest_x, dest_y);
-	break;
       case VIDEO_RESOURCE_PAL_MODE_BLUR:
-	render_4_2_2_composite(image, shift_y0, shift_u, shift_v, shift_y1,
-			       src, src_pitch, src_color,
-			       src_x, src_y, src_w, src_h, dest_x, dest_y);
+	render_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
+			 src, src_pitch, src_color,
+			 src_x, src_y, src_w, src_h, dest_x, dest_y,
+			 pal_mode);
 	break;
       }
     }

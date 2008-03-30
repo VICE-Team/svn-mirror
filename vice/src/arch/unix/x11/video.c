@@ -112,6 +112,19 @@ static int set_use_xvideo(resource_value_t v, void *param)
     return 0;
 }
 
+static unsigned int fourcc;
+static int set_fourcc(resource_value_t v, void *param)
+{
+    if (v && strlen((char *)v) == 4) {
+        memcpy(&fourcc, (char *)v, 4);
+    }
+    else {
+        fourcc = 0;
+    }
+    
+    return 0;
+}
+
 /* Video-related resources.  */
 static resource_t resources[] = {
     { "UseXSync", RES_INTEGER, (resource_value_t)1,
@@ -121,6 +134,8 @@ static resource_t resources[] = {
       (resource_value_t *)&try_mitshm, set_try_mitshm, NULL },
     { "XVIDEO", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&use_xvideo, set_use_xvideo, NULL },
+    { "FOURCC", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&fourcc, set_fourcc, NULL },
     { NULL }
 };
 
@@ -143,12 +158,16 @@ static cmdline_option_t cmdline_options[] = {
     { "-mitshm", SET_RESOURCE, 0, NULL, NULL,
       "MITSHM", (resource_value_t) 0,
       NULL, N_("Never use shared memory (slower)") },
+#ifdef HAVE_XVIDEO
     { "-xvideo", SET_RESOURCE, 0, NULL, NULL,
       "XVIDEO", (resource_value_t) 1,
       NULL, N_("Use XVideo Extension (hardware scaling)") },
     { "+xvideo", SET_RESOURCE, 0, NULL, NULL,
       "XVIDEO", (resource_value_t) 0,
       NULL, N_("Use software rendering") },
+    { "-fourcc", SET_RESOURCE, 1, NULL, NULL, "FOURCC", NULL,
+      "<fourcc>", N_("Request YUV FOURCC format") },
+#endif
     { NULL }
 };
 
@@ -427,15 +446,8 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 #endif
 }
 
-#ifdef HAVE_XVIDEO
-static struct raster_s *xv_raster;
-#endif
-
 void video_register_raster(struct raster_s *raster)
 {
-#ifdef HAVE_XVIDEO
-    xv_raster = raster;
-#endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_set_raster(raster);
 #endif
@@ -454,16 +466,6 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     ui_window_t w;
     XGCValues gc_values;
 
-#if 0
-#ifdef HAVE_XVIDEO
-    if (use_xvideo) {
-        *width = xv_raster->geometry.screen_size.width;
-	*height = xv_raster->geometry.last_displayed_line
-	  - xv_raster->geometry.first_displayed_line + 1;
-    }
-#endif
-#endif
-
     canvas = (video_canvas_t *)xmalloc(sizeof(video_canvas_t));
     memset(canvas, 0, sizeof(video_canvas_t));
 
@@ -479,7 +481,12 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
 	fs_draw_buffer_free;
     canvas->video_draw_buffer_callback->draw_buffer_clear = 
 	fs_draw_buffer_clear;
-#endif    
+#endif
+
+#ifdef HAVE_XVIDEO
+    /* Request specified video format. */
+    canvas->xv_format.id = fourcc;
+#endif
     if (video_arch_frame_buffer_alloc(canvas, *width, *height) < 0) {
         free(canvas);
         return NULL;
@@ -588,21 +595,34 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
 #ifdef HAVE_XVIDEO
     if (use_xvideo) {
-        int xmin = xv_raster->geometry.extra_offscreen_border_left;
-	int wmax = xv_raster->geometry.screen_size.width;
-	int ymin = xv_raster->geometry.first_displayed_line;
-	int hmax = xv_raster->geometry.last_displayed_line
-	  - xv_raster->geometry.first_displayed_line + 1;
+        raster_t *raster = raster_get_raster_from_canvas(canvas);
+
+        int doublesize = canvas->videoconfig.doublesizex
+	  && canvas->videoconfig.doublesizey;
 
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
         Window root;
 	int x, y;
 	unsigned int dest_w, dest_h, border_width, depth;
+        int xmin, wmax, ymin, hmax;
+
+	if (!raster) {
+	    log_error(video_log, "video_canvas_refresh called with raster == NULL");
+	    return;
+	}
+
+	xmin = raster->geometry.extra_offscreen_border_left;
+	wmax = raster->geometry.screen_size.width;
+	ymin = raster->geometry.first_displayed_line;
+	hmax = raster->geometry.last_displayed_line
+	  - raster->geometry.first_displayed_line + 1;
 
 	if (canvas->videoconfig.doublesizex) {
 	  xs /= 2;
-	  ys /= 2;
 	  w /= 2;
+	}
+	if (canvas->videoconfig.doublesizey) {
+	  ys /= 2;
 	  h /= 2;
 	}
 
@@ -610,9 +630,9 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
 	/* FIXME: raster.c passes off-screen areas! */
 	if (xs < xmin
-	    || xs + w >= xmin + wmax
+	    || xs + w > xmin + wmax
 	    || ys < ymin
-	    || ys + h >= ymin + hmax
+	    || ys + h > ymin + hmax
 	    )
 	{
             log_error(video_log, "Off-screen area passed to video_canvas_refresh: x=%i, y=%i, w=%i, h=%i",
@@ -625,9 +645,10 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	    h = hmax;
 	}
 
-	render_yuv_image(canvas->videoconfig.doublesizex,
+	render_yuv_image(doublesize,
 			 canvas->videoconfig.doublescan,
 			 video_resources.pal_mode,
+			 video_resources.pal_scanlineshade*1024/1000,
 			 canvas->xv_format,
 			 canvas->xv_image,
 			 draw_buffer, draw_buffer_line_size,
@@ -656,7 +677,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 			  canvas->xv_image, shminfo,
 			  0, 0,
 			  canvas->videoconfig.doublesizex ? wmax*2 : wmax,
-			  canvas->videoconfig.doublesizex ? hmax*2 : hmax,
+			  canvas->videoconfig.doublesizey ? hmax*2 : hmax,
 			  dest_w, dest_h);
 
 	if (_video_use_xsync)

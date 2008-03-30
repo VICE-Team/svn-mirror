@@ -239,7 +239,7 @@ static void video_calc_gammatable(void)
 
 /* ycbcr table calculation */
 
-/* YUV table for YV12 rendering: (Y << 16) | (U << 8) | V */
+/* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
 DWORD yuv_table[128];
 
 static void video_calc_ycbcrtable(video_cbm_palette_t *p)

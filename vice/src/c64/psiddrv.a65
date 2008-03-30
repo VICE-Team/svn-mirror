@@ -46,7 +46,7 @@ iomap	.byte 0
 
 	; User interrupt vectors
 irqusr	.word irqjob
-brkusr	.word nmijob
+brkusr	.word irqexit
 nmiusr	.word nmijob
 
 	; Cold start
@@ -191,7 +191,7 @@ irqjob	lda playvec+1
 noplay	lda $d019
 	sta $d019
 	lda $dc0d
-	pla
+irqexit	pla
 	tay
 	pla
 	tax
