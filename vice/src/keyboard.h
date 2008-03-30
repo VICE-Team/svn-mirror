@@ -73,6 +73,7 @@ extern int keyboard_snapshot_write_module(struct snapshot_s *s);
 extern int keyboard_snapshot_read_module(struct snapshot_s *s);
 extern void keyboard_event_delayed_playback(void *data);
 extern void keyboard_register_delay(unsigned int delay);
+extern void keyboard_register_clear(void);
 
 extern int keyboard_set_keymap_index(void *v, void *param);
 extern int keyboard_set_keymap_file(void *v, void *param);

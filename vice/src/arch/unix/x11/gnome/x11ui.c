@@ -1442,6 +1442,8 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
         if (statustext_display_time == 0)
             statusbar_setstatustext("");
     }
+    if (!screenshot_is_recording())
+	gtk_widget_hide(video_ctrl_checkbox);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1793,8 +1795,6 @@ void ui_dispatch_events(void)
 {
     while (gtk_events_pending())
 	ui_dispatch_next_event();
-    if (!screenshot_is_recording())
-	gtk_widget_hide(video_ctrl_checkbox);
 #ifdef USE_XF86_DGA2_EXTENSIONS
     {
 	void dga2_mode_update(void);

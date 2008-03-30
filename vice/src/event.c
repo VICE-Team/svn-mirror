@@ -291,6 +291,7 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
         break;
       case EVENT_LIST_END:
       case EVENT_OVERFLOW:
+      case EVENT_KEYBOARD_CLEAR:
         break;
       default:
         /*log_error(event_log, "Unknow event type %i.", type);*/
@@ -419,6 +420,9 @@ void event_playback_event_list(event_list_state_t *list)
                 break;
             case EVENT_KEYBOARD_RESTORE:
                 keyboard_restore_event_playback(0, current->data);
+                break;
+            case EVENT_KEYBOARD_CLEAR:
+                keyboard_register_clear();
                 break;
             case EVENT_JOYSTICK_DELAY:
                 joystick_register_delay(*(unsigned int*)current->data);

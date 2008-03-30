@@ -29,10 +29,24 @@ list of all the changes in the code.
 
 - Added missing DEN bit scrolling feature.
 
+** Unix changes
+---------------
+
+- The experimental netplay feature has been
+  extended to the Unix platforms for testing.
+
+- Added IPV6 support to netplay.
+
 ** MS-Windows changes
 ---------------------
 
 - Added "always on top" option.
+
+** MS-DOS changes
+-----------------
+
+- The experimental netplay feature has been
+  extended to MS-DOS for testing.
 
 ** Miscellaneous changes
 ------------------------

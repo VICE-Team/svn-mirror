@@ -37,6 +37,7 @@
 #include "ui.h"
 #include "uiarch.h"
 #include "uiscreenshot.h"
+#include "util.h"
 #ifdef HAVE_FFMPEG
 #include "gfxoutputdrv/ffmpegdrv.h"
 #endif
@@ -55,6 +56,7 @@ static void ffmpeg_details (GtkWidget *w, gpointer data);
 typedef struct 
 {
     const char *driver;
+    const char *ext;
     GtkWidget *w;
 } img_type_buttons;
 
@@ -243,6 +245,7 @@ static GtkWidget *build_screenshot_dialog(void)
 	gtk_widget_show(menu_item);
  	buttons[i].driver = driver->name;
 	buttons[i].w = menu_item;
+	buttons[i].ext = driver->default_extension;
 #ifdef HAVE_FFMPEG
 	gtk_signal_connect(GTK_OBJECT(menu_item), "activate",
 			   GTK_SIGNAL_FUNC(ffmpg_widget),
@@ -428,8 +431,8 @@ static GtkWidget *build_screenshot_dialog(void)
 int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 {
     int res, num_buttons, i;
-    char *fn;
-    const char *driver;
+    char *fn, *tmp;
+    const char *driver, *ext;
     
     if (screenshot_dialog) {
     	gdk_window_show(screenshot_dialog->window);
@@ -465,6 +468,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 	if (GTK_RADIO_MENU_ITEM(buttons[i].w)->check_menu_item.active)
 	{
 	    driver = buttons[i].driver;
+	    ext = buttons[i].ext;
 	    break;
 	}
     
@@ -489,15 +493,20 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 		    selected_driver, selected_ac, selected_vc);
     }
 #endif    
-    strcpy(name, fn);		/* What for? */
-    if (screenshot_save(driver, fn, wid) < 0) {
-	ui_error(_("Couldn't write screenshot to `%s' with driver `%s'."), fn, 
-		 driver);
+    tmp = NULL;
+    util_string_set(&tmp, fn);
+    if (!util_get_extension(tmp))
+	util_add_extension(&tmp, ext);
+    if (screenshot_save(driver, tmp, wid) < 0) {
+	ui_error(_("Couldn't write screenshot to `%s' with driver `%s'."), 
+		 tmp, driver);
+	lib_free(tmp);
 	return -1;
     } else {
 	if (screenshot_is_recording())
 	    gtk_widget_show(video_ctrl_checkbox);
-	ui_message(_("Successfully wrote `%s'"), fn);
+	ui_message(_("Successfully wrote `%s'"), tmp);
+	lib_free(tmp);
     }
 
     return 0;

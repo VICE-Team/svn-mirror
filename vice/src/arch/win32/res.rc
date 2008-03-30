@@ -2113,13 +2113,13 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,57,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
     LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,77,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
 END
 
 
@@ -2141,13 +2141,13 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,57,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
     LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,77,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
 END
 
 
@@ -2169,13 +2169,13 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,57,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
     LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,77,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
 END
 
 
@@ -2197,13 +2197,13 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,57,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
     LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,77,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
 END
 
 
@@ -2225,13 +2225,13 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,57,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
     LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,77,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
 END
 
 
@@ -2254,13 +2254,13 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,57,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
     LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,77,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -2283,13 +2283,13 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,57,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
     LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,77,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
-                        WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -5092,10 +5092,10 @@ BEGIN
   IDS_PRINTER_USERPORT_NL            "Printer Userport"
   IDS_PRINTER_4_NL                   "Printer 4"
   IDS_PRINTER_5_NL                   "Printer 5"
-  IDS_DRIVE_8_NL                     "Station 8"
-  IDS_DRIVE_9_NL                     "Station 9"
-  IDS_DRIVE_10_NL                    "Station 10"
-  IDS_DRIVE_11_NL                    "Station 11"
+  IDS_DRIVE_8_NL                     "Drive 8"
+  IDS_DRIVE_9_NL                     "Drive 9"
+  IDS_DRIVE_10_NL                    "Drive 10"
+  IDS_DRIVE_11_NL                    "Drive 11"
   IDS_PERIPHERAL_SETTINGS_NL         "Rand apparaat instellingen"
   IDS_CANT_WRITE_SNAPSHOT_FILE_NL    "Kan momentopname bestand niet schrijven."
   IDS_CANNOT_READ_SNAPSHOT_IMG_NL    "Kan momentopname bestand niet lezen"

@@ -79,6 +79,8 @@ static char *screenshot_file_name;
 #define OPTION_LABELS_WIDTH     50
 #define OPTION_LABELS_JUSTIFY   XtJustifyLeft
 
+extern Widget rec_button;
+
 static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
@@ -127,6 +129,11 @@ static UI_CALLBACK(save_callback)
  
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
     util_add_extension(&name, driver->default_extension);
+    if (name && (strcmp(driver->name, "FFMPEG") == 0))
+    {
+	XtRealizeWidget(rec_button);
+	XtManageChild(rec_button);
+    }
     screenshot_save(driver->name, name, canvas);
 }
 
@@ -232,8 +239,8 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
         driver_buttons[i] = XtVaCreateManagedWidget
             (driver->displayname,
              toggleWidgetClass, options_form,
-             XtNfromHoriz, driver_buttons[i-1],
-             XtNfromVert, browse_button,
+             XtNfromHoriz, driver_label,
+             XtNfromVert, driver_buttons[i-1],
              XtNwidth, 180,
              XtNheight, 20,
              XtNright, XtChainRight,

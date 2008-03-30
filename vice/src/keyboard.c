@@ -75,6 +75,8 @@ static keyboard_machine_func_t keyboard_machine_func = NULL;
 
 static CLOCK keyboard_delay;
 
+static int keyboard_clear = 0;
+
 static void keyboard_latch_matrix(CLOCK offset)
 {
     if (network_connected())
@@ -107,6 +109,7 @@ static int keyboard_set_latch_keyarr(int row, int col, int value)
 }
 
 /*-----------------------------------------------------------------------*/
+static void keyboard_key_clear_internal(void);
 
 static void keyboard_event_record(void)
 {
@@ -158,6 +161,11 @@ void keyboard_event_delayed_playback(void *data)
         }
     }
 
+    if (keyboard_clear == 1) {
+        keyboard_key_clear_internal();
+        keyboard_clear = 0;
+    }
+
     alarm_set(keyboard_alarm, maincpu_clk + keyboard_delay);
 }
 /*-----------------------------------------------------------------------*/
@@ -186,6 +194,11 @@ void keyboard_register_machine(keyboard_machine_func_t func)
 void keyboard_register_delay(unsigned int delay)
 {
     keyboard_delay = delay;
+}
+
+void keyboard_register_clear(void)
+{
+    keyboard_clear = 1;
 }
 /*-----------------------------------------------------------------------*/
 
@@ -447,16 +460,25 @@ void keyboard_key_released(signed long key)
     }
 }
 
+static void keyboard_key_clear_internal(void)
+{
+    keyboard_clear_keymatrix();
+    joystick_clear_all();
+    virtual_shift_down = left_shift_down = right_shift_down = 0;
+    joystick_joypad_clear();
+}
+
 void keyboard_key_clear(void)
 {
     if (event_playback_active())
         return;
 
-    keyboard_clear_keymatrix();
-    joystick_clear_all();
-    virtual_shift_down = left_shift_down = right_shift_down = 0;
-    joystick_joypad_clear();
-    return;
+    if (network_connected()) {
+        network_event_record(EVENT_KEYBOARD_CLEAR, NULL, 0);
+        return;
+    }
+
+    keyboard_key_clear_internal();
 }
 
 /*-----------------------------------------------------------------------*/

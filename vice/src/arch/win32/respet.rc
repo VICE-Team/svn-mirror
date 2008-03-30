@@ -863,7 +863,7 @@ BEGIN
             MENUITEM "Drive 1&0", IDM_DETACH_10
             MENUITEM "Drive &11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&Allemaal\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "&Alles\tAlt+A", IDM_DETACH_ALL
         END
         POPUP "&Flip lijst"
         BEGIN

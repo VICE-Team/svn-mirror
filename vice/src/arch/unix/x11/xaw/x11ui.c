@@ -87,7 +87,8 @@
 #include "widgets/TextField.h"
 #include "video.h"
 #include "videoarch.h"
-
+#include "screenshot.h"
+#include "event.h"
 
 /* FIXME: We want these to be static.  */
 Visual *visual;
@@ -219,6 +220,9 @@ static Atom wm_delete_window;
 /* Toplevel widget. */
 Widget _ui_top_level = NULL;
 Widget status_bar = NULL;
+Widget rec_button = NULL;
+static Widget event_recording_button = NULL;
+static int statustext_display_time = 0;
 
 /* Our colormap. */
 /*static*/ Colormap colormap;
@@ -241,6 +245,7 @@ static struct {
     Widget shell;
     Widget canvas;
     Widget speed_label;
+    Widget statustext_label;
     struct {
         Widget track_label;
         Widget driveled;
@@ -285,6 +290,17 @@ static void close_action(Widget w, XEvent *event, String *params,
 UI_CALLBACK(enter_window_callback);
 UI_CALLBACK(exposure_callback_shell);
 UI_CALLBACK(exposure_callback_canvas);
+static UI_CALLBACK(rec_button_callback)
+{
+    screenshot_stop_recording();
+    XtUnrealizeWidget(rec_button);
+}
+
+static UI_CALLBACK(event_recording_button_callback)
+{
+    event_record_stop();
+    XtUnrealizeWidget(event_recording_button);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -361,6 +377,7 @@ static String fallback_resources[] = {
     "*driveCurrentImage3.font:                   -*-helvetica-medium-r-*-*-12-*",
     "*driveCurrentImage4.font:                   -*-helvetica-medium-r-*-*-12-*",
     "*speedStatus.font:                         -*-helvetica-medium-r-*-*-12-*",
+    "*statustext.font:                         -*-helvetica-medium-r-*-*-8-*",
 
     NULL
 };
@@ -582,7 +599,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                              int width, int height, int no_autorepeat)
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
-    Widget shell, speed_label;
+    Widget shell, speed_label, statustext_label;
     Widget drive_track_label[NUM_DRIVES], drive_led[NUM_DRIVES];
     Widget drive_current_image[NUM_DRIVES];
     Widget drive_led1[NUM_DRIVES], drive_led2[NUM_DRIVES];
@@ -660,13 +677,12 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     {
         Dimension height;
         Dimension led_width = 14, led_height = 5;
-        Dimension w1 = width - 2 - led_width * NUM_DRIVES;
-
-        speed_label = XtVaCreateManagedWidget
+        
+	speed_label = XtVaCreateManagedWidget
             ("speedStatus",
              labelWidgetClass, pane,
              XtNlabel, "",
-             XtNwidth, (w1 - NUM_DRIVES * (w1 / 4)) / 2,
+             XtNwidth, width / 3,
              XtNfromVert, canvas,
              XtNtop, XawChainBottom,
              XtNbottom, XawChainBottom,
@@ -686,7 +702,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                 (name,
                  labelWidgetClass, pane,
                  XtNlabel, "",
-                 XtNwidth, (w1 / 2) + 13,
+                 XtNwidth, (width / 3)  - led_width - 2,
                  XtNfromVert, i == 0 ? canvas : drive_current_image[i-1],
                  XtNfromHoriz, speed_label,
                  XtNhorizDistance, 0,
@@ -704,7 +720,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                 (name,
                  labelWidgetClass, pane,
                  XtNlabel, "",
-                 XtNwidth, w1 / 4 + 4,
+                 XtNwidth, (width / 3) - led_width - 2,
                  XtNfromVert, canvas,
                  XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
                  XtNfromHoriz, drive_current_image[i],
@@ -777,6 +793,34 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                  NULL);
             lib_free(name);
         }
+	statustext_label = XtVaCreateManagedWidget 
+	    ("statustext",
+	     labelWidgetClass, pane,
+	     XtNwidth, width / 3 - 2,
+	     XtNfromVert, speed_label,
+	     XtNjustify, XtJustifyLeft,
+	     XtNlabel, "",
+	     XtNborderWidth, 0,
+	     NULL);
+	rec_button = XtVaCreateManagedWidget 
+	    ("recButton",
+	     commandWidgetClass, pane,
+	     XtNwidth, width / 3 - 2,
+	     XtNfromVert, statustext_label,
+	     XtNjustify, XtJustifyLeft,
+	     XtNlabel, _("recording..."),
+	     NULL);
+	XtAddCallback(rec_button, XtNcallback, rec_button_callback, NULL);
+	event_recording_button = XtVaCreateManagedWidget 
+	    ("eventRecButton",
+	     commandWidgetClass, pane,
+	     XtNwidth, width / 3 - 2,
+	     XtNfromVert, rec_button,
+	     XtNjustify, XtJustifyLeft,
+	     XtNlabel, _("event recording..."),
+	     NULL);
+	XtAddCallback(event_recording_button, XtNcallback, 
+		      event_recording_button_callback, NULL);
     }
 
     /* Assign proper translations to open the menus, if already
@@ -823,6 +867,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     app_shells[num_app_shells - 1].canvas = canvas;
     app_shells[num_app_shells - 1].title = lib_stralloc(title);
     app_shells[num_app_shells - 1].speed_label = speed_label;
+    app_shells[num_app_shells - 1].statustext_label = statustext_label;
     status_bar = speed_label;
     
     for (i = 0; i < NUM_DRIVES; i++) {
@@ -847,7 +892,9 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                       drive_widgets[i].current_image);
 
     }
-
+    XtUnrealizeWidget(rec_button);
+    XtUnrealizeWidget(event_recording_button);
+    
     XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
     XtOverrideTranslations(shell,
                            XtParseTranslationTable
@@ -1085,6 +1132,13 @@ static int alloc_colormap(void)
     return 0;
 }
 
+static void statusbar_setstatustext(const char *t)
+{
+    int i;
+    for (i = 0; i < num_app_shells; i++)
+	XtVaSetValues(app_shells[i].statustext_label, XtNlabel, t, NULL);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Show the speed index to the user.  */
@@ -1101,13 +1155,20 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
                           NULL);
         } else {
             char *str;
-
-            str = lib_msprintf("%d%%, %d fps %s", percent_int, framerate_int,
+            str = lib_msprintf("%d%%, %dfps %s", percent_int, framerate_int,
                                warp_flag ? _("(warp)") : "");
             XtVaSetValues(app_shells[i].speed_label, XtNlabel, str, NULL);
             lib_free(str);
         }
     }
+    if (statustext_display_time > 0) {
+        statustext_display_time--;
+        if (statustext_display_time == 0)
+            statusbar_setstatustext("");
+    }
+
+    if (!screenshot_is_recording())
+	XtUnrealizeWidget(rec_button);
 }
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
@@ -1308,6 +1369,13 @@ void ui_display_tape_current_image(const char *image)
 
 void ui_display_recording(int recording_status)
 {
+    if (recording_status)
+    {
+	XtRealizeWidget(event_recording_button);
+	XtManageChild(event_recording_button);
+    }
+    else
+	XtUnrealizeWidget(event_recording_button);
 }
 
 void ui_display_playback(int playback_status, char *version)
@@ -2104,4 +2172,9 @@ static void close_action(Widget w, XEvent * event, String * params,
 void ui_display_statustext(const char *text, int fade_out)
 {
     log_message(LOG_DEFAULT, text);
+    statusbar_setstatustext(text);
+    if (fade_out)
+	statustext_display_time = 5;
+    else
+	statustext_display_time = 0;
 }
