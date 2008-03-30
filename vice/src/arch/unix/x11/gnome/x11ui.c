@@ -1633,6 +1633,13 @@ void ui_display_tape_current_image(const char *image)
 }
 
 /* ------------------------------------------------------------------------- */
+void ui_display_recording(int recording_status)
+{
+}
+
+void ui_display_playback(int playback_status)
+{
+}
 
 /* Display a message in the title bar indicating that the emulation is
    paused.  */

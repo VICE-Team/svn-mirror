@@ -258,6 +258,8 @@ Pixel drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel;
 /* If != 0, we should save the settings. */
 /* static int resources_have_changed = 0; */
 
+static char *filesel_dir = NULL;
+
 /* ------------------------------------------------------------------------- */
 
 static int alloc_colormap(void);
@@ -436,6 +438,7 @@ void ui_shutdown(void)
         lib_free(app_shells[i].title);
 
     lib_free(wm_command_data);
+    lib_free(filesel_dir);
 }
 
 typedef struct {
@@ -1282,6 +1285,14 @@ void ui_display_tape_current_image(const char *image)
 {
 }
 
+void ui_display_recording(int recording_status)
+{
+}
+
+void ui_display_playback(int playback_status)
+{
+}
+
 /* Display a message in the title bar indicating that the emulation is
    paused.  */
 void ui_display_paused(int flag)
@@ -1588,7 +1599,6 @@ char *ui_select_file(const char *title,
     char *ret;
     Widget file_selector = NULL;
     XfwfFileSelectorStatusStruct fs_status;
-    static char *filesel_dir = NULL;
     char *current_dir;
 
     /* we preserve the current directory over the invocations */

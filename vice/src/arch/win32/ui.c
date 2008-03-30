@@ -982,7 +982,7 @@ void ui_display_tape_control_status(int control)
     statusbar_display_tape_control_status(control);
 }
 
-extern void ui_display_tape_counter(int counter)
+void ui_display_tape_counter(int counter)
 {
     statusbar_display_tape_counter(counter);
 }
@@ -1005,6 +1005,23 @@ void ui_display_tape_current_image(const char *image)
     ui_display_statustext(text);
     lib_free(text);
 }
+
+void ui_display_recording(int recording_status)
+{
+    if (recording_status)
+        ui_display_statustext("Recording started...");
+    else
+        ui_display_statustext("Recording stopped!");
+}
+
+void ui_display_playback(int playback_status)
+{
+    if (playback_status)
+        ui_display_statustext("Playback started...");
+    else
+        ui_display_statustext("Playback stopped!");
+}
+
 
 /* Toggle displaying of paused state.  */
 void ui_display_paused(int flag)
@@ -1613,28 +1630,20 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_TOGGLE_RECORD:
         {
-            static int recording = 0;
+            int recording_new = (event_record_active() ? 0 : 1);
 
-            recording = 1 - recording;
-            if (recording == 1)
-            {
-                ui_error("start recording");
+            if (recording_new)
                 event_record_start();
-            }
             else
                 event_record_stop();
         }
         break;
       case IDM_TOGGLE_PLAYBACK:
         {
-            static int playback = 0;
+            int playback_new = (event_playback_active() ? 0 : 1);
 
-            playback = 1 - playback;
-            if (playback == 1)
-            {
-                ui_error("start playback");
+            if (playback_new)
                 event_playback_start();
-            }
             else
                 event_playback_stop();
         }

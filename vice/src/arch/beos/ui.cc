@@ -1068,6 +1068,14 @@ void ui_display_tape_counter(int counter)
 	}
 }
 
+void ui_display_recording(int recording_status)
+{
+}
+
+void ui_display_playback(int playback_status)
+{
+}
+
 static BYTE ui_joystick_status[2] = { 255, 255 };
 
 static void ui_display_joyport(int port_num)

@@ -236,6 +236,15 @@ void ui_display_drive_current_image(unsigned int drive_number,
         strcpy(ui_status.lastImage[drive_number], image);
 }
 
+
+void ui_display_recording(int recording_status)
+{
+}
+
+void ui_display_playback(int playback_status)
+{
+}
+
 /* --------------------------- Dialog Windows --------------------------- */
 
 void ui_error(const char *format,...)

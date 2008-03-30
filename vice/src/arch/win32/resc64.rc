@@ -105,8 +105,8 @@ BEGIN
         MENUITEM "&Save quicksnapshot image\tAlt+S", IDM_SAVEQUICK
 #if 1
         MENUITEM SEPARATOR
-        MENUITEM "&Record", IDM_TOGGLE_RECORD
-        MENUITEM "Pl&ayback", IDM_TOGGLE_PLAYBACK
+        MENUITEM "Start/Stop &Recording", IDM_TOGGLE_RECORD
+        MENUITEM "Start/Stop Pl&ayback", IDM_TOGGLE_PLAYBACK
 #endif
         MENUITEM SEPARATOR
         MENUITEM "Save Screenshot\tAlt+C", IDM_SCREENSHOT

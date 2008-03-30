@@ -5268,6 +5268,15 @@ void ui_display_tape_current_image(const char *image)
 }
 
 
+void ui_display_recording(int recording_status)
+{
+}
+
+void ui_display_playback(int playback_status)
+{
+}
+
+
 void ui_display_paused(int flag)
 {
   const char *t;

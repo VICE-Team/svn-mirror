@@ -201,6 +201,8 @@ int event_record_start(void)
 
     interrupt_maincpu_trigger_trap(event_record_start_trap, (void *)0);
 
+    ui_display_recording(1);
+
     return 0;
 }
 
@@ -220,6 +222,8 @@ int event_record_stop(void)
         return -1;
 
     interrupt_maincpu_trigger_trap(event_record_stop_trap, (void *)0);
+
+    ui_display_recording(0);
 
     return 0;
 }
@@ -271,6 +275,8 @@ int event_playback_start(void)
 
     interrupt_maincpu_trigger_trap(event_playback_start_trap, (void *)0);
 
+    ui_display_playback(1);
+
     return 0;
 }
 
@@ -282,6 +288,8 @@ int event_playback_stop(void)
     playback_active = 0;
 
     alarm_unset(event_alarm);
+
+    ui_display_playback(0);
 
     return 0;
 }
