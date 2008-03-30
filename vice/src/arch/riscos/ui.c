@@ -280,7 +280,6 @@ static const char ResourceDriveDir[] = "DRIVES";
 #define Icon_Conf_SetPalette	49
 #define Icon_Conf_Keyboard	50
 #define Icon_Conf_KeyboardT	51
-#define Icon_Conf_Key8040	52
 
 /* Joystick conf */
 #define Icon_Conf_JoyPort1	2
@@ -333,6 +332,12 @@ static const char ResourceDriveDir[] = "DRIVES";
 #define Icon_Conf_CBM2CartT	13
 #define Icon_Conf_CBM2CartF	14
 
+/* C128 config */
+#define Icon_Conf_C128Palette	3
+#define Icon_Conf_C128Cache	4
+#define Icon_Conf_C128Size	5
+#define Icon_Conf_C1284080	6
+
 
 
 
@@ -360,7 +365,8 @@ static const char ResourceDriveDir[] = "DRIVES";
 #define CONF_WIN_PET		5
 #define CONF_WIN_VIC		6
 #define CONF_WIN_CBM2		7
-#define CONF_WIN_NUMBER		8
+#define CONF_WIN_C128		8
+#define CONF_WIN_NUMBER		9
 
 
 
@@ -517,15 +523,11 @@ static conf_icon_id SidDependentIcons[] = {
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9T},\
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar9},
 
-#define ICON_LIST_NOTVDC \
-  {CONF_WIN_SYSTEM, Icon_Conf_Key8040},
-
 
 /* Config icons that are greyed out in some CBM machines */
 static conf_icon_id conf_grey_x64[] = {
   ICON_LIST_PET
   ICON_LIST_VIC
-  ICON_LIST_NOTVDC
   {CONF_WIN_DEVICES, Icon_Conf_ACIAD67},
   {0xff, 0xff}
 };
@@ -543,7 +545,6 @@ static conf_icon_id conf_grey_xvic[] = {
   ICON_LIST_SID
   ICON_LIST_DEVICES
   ICON_LIST_PET
-  ICON_LIST_NOTVDC
   {0xff, 0xff}
 };
 
@@ -555,7 +556,6 @@ static conf_icon_id conf_grey_xpet[] = {
   ICON_LIST_DEVICES
   ICON_LIST_SID
   ICON_LIST_TRUE
-  ICON_LIST_NOTVDC
   {0xff, 0xff}
 };
 
@@ -566,7 +566,6 @@ static conf_icon_id conf_grey_xcbm2[] = {
   ICON_LIST_PET
   ICON_LIST_VIC
   ICON_LIST_DEVRSUSR
-  ICON_LIST_NOTVDC
   {0xff, 0xff}
 };
 
@@ -985,6 +984,9 @@ static const char Rsrc_FullScr[] = "ScreenMode";
 static const char Rsrc_FullSetPal[] = "ScreenSetPalette";
 static const char Rsrc_CoreDump[] = "DoCoreDump";
 static const char Rsrc_Key8040[] = "40/80ColumnKey";
+static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
+static const char Rsrc_VDCcache[] = "VDC_VideoCache";
+static const char Rsrc_VDCsize[] = "VDC_64KB";
 
 /*static const char Rsrc_PetKeymap[] = "KeymapIndex";*/
 
@@ -1865,7 +1867,10 @@ static config_item Configurations[] = {
   {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetRAMA}},
   {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetDiagPin}},
   {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetSuper}},
-  {Rsrc_Key8040, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_Key8040}},
+  {Rsrc_Key8040, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C1284080}},
+  {Rsrc_VDCpalette, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf_C128Palette}},
+  {Rsrc_VDCcache, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128Cache}},
+  {Rsrc_VDCsize, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128Size}},
   {NULL, 0, {0, 0}}
 };
 
@@ -3214,6 +3219,7 @@ int ui_init(int *argc, char *argv[])
     ui_load_template("PetConfig", ConfWindows + CONF_WIN_PET, msg);
     ui_load_template("VicConfig", ConfWindows + CONF_WIN_VIC, msg);
     ui_load_template("CBM2Config", ConfWindows + CONF_WIN_CBM2, msg);
+    ui_load_template("C128Config", ConfWindows + CONF_WIN_C128, msg);
     ui_load_template("Snapshot", &SnapshotWindow, msg);
     ui_load_template("CPUJamBox", &CpuJamWindow, msg);
     ui_load_template("SaveBox", &SaveBox, msg);
@@ -3340,7 +3346,7 @@ int ui_init_finish(void)
     ui_set_icons_grey(NULL, gi, 0);
   }
 
-  if ((machine_class != VICE_MACHINE_PET) && (machine_class != VICE_MACHINE_VIC20) && (machine_class != VICE_MACHINE_CBM2))
+  if ((machine_class != VICE_MACHINE_PET) && (machine_class != VICE_MACHINE_VIC20) && (machine_class != VICE_MACHINE_CBM2) && (machine_class != VICE_MACHINE_C128))
   {
     wimp_menu_set_grey_item((RO_MenuHead*)&MenuConfigure, Menu_Config_Machine, 1);
   }
@@ -3519,6 +3525,9 @@ static void ui_setup_config_window(int wnum)
         ui_setup_menu_display((disp_desc_t*)&MenuDisplayCBM2Cartridge);
         wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_Conf_CBM2Kbd, cbm2_get_keyboard_name());
       }
+      break;
+    case CONF_WIN_C128:
+      /* no menus yet, nothing to do */
       break;
     default: break;
   }
@@ -4643,6 +4652,16 @@ static void ui_key_press(int *b)
             Wimp_ProcessKey(key);
           }
           break;
+        case CONF_WIN_C128:
+          if (b[KeyPB_Icon] == Icon_Conf_C128Palette)
+          {
+            resources_set_value(Rsrc_VDCpalette, (resource_value_t)data);
+          }
+          else
+          {
+            Wimp_ProcessKey(key);
+          }
+          break;
         default: Wimp_ProcessKey(key); return;
       }
     }
@@ -4814,6 +4833,8 @@ static void ui_menu_selection(int *b)
             confWindow = CONF_WIN_VIC;
           else if (machine_class == VICE_MACHINE_CBM2)
             confWindow = CONF_WIN_CBM2;
+          else if (machine_class == VICE_MACHINE_C128)
+            confWindow = CONF_WIN_C128;
           break;
         case Menu_Config_Save:
           resources_save(NULL); break;
@@ -5404,6 +5425,20 @@ static void ui_user_message(int *b)
         if (b[6] == Icon_Conf_CBM2CartF)
         {
           ui_update_menu_disp_strshow((disp_desc_t*)&MenuDisplayCBM2Cartridge, (resource_value_t)(b + 11));
+          action = 1;
+        }
+      }
+      else if (b[5] == ConfWindows[CONF_WIN_C128]->Handle)
+      {
+        if (b[6] == Icon_Conf_C128Palette)
+        {
+          const char *filename;
+
+          filename = ui_check_for_syspath((char*)(b+11));
+          if (resources_set_value(Rsrc_VDCpalette, (resource_value_t)filename) == 0)
+          {
+            wimp_window_write_icon_text(ConfWindows[CONF_WIN_C128], Icon_Conf_C128Palette, filename);
+          }
           action = 1;
         }
       }
