@@ -55,7 +55,8 @@
 static int real_kbd_led_status = -1;
 static int kbd_led_status;
 
-#define DRIVE_LED_MSK 4
+#define DRIVE0_LED_MSK 4
+#define DRIVE1_LED_MSK 4
 #define WARP_LED_MSK 1
 
 /* ------------------------------------------------------------------------- */
@@ -235,22 +236,36 @@ void ui_update_menus(void)
         tui_menu_update(ui_main_menu);
 }
 
-void ui_toggle_drive_status(int state)
+void ui_enable_drive_status(ui_drive_enable_t state)
 {
-    if (!state)
-        ui_display_drive_led(0);
+    if (!(state & UI_DRIVE_ENABLE_0))
+        ui_display_drive_led(0, 0);
+    if (!(state & UI_DRIVE_ENABLE_1))
+        ui_display_drive_led(1, 0);
 }
 
-void ui_display_drive_track(double track_number)
+void ui_display_drive_track(int drive_number, double track_number)
 {
 }
 
-void ui_display_drive_led(int status)
+void ui_display_drive_led(int drive_number, int status)
 {
-    if (status)
-        kbd_led_status |= DRIVE_LED_MSK;
-    else
-        kbd_led_status &= ~DRIVE_LED_MSK;
+    switch (drive_number) {
+      case 0:
+        if (status)
+            kbd_led_status |= DRIVE0_LED_MSK;
+        else
+            kbd_led_status &= ~DRIVE0_LED_MSK;
+        break;
+      case 1:
+        if (status)
+            kbd_led_status |= DRIVE1_LED_MSK;
+        else
+            kbd_led_status &= ~DRIVE1_LED_MSK;
+        break;
+      default:
+        break;
+    }
 }
 
 void ui_set_warp_status(int status)

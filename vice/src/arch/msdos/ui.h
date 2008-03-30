@@ -34,6 +34,19 @@ typedef enum {
     UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_DEBUG
 } ui_jam_action_t;
 
+/* ------------------------------------------------------------------------- */
+
+/* This is used by `ui_enable_drive_status()'.  */
+typedef enum {
+    UI_DRIVE_ENABLE_NONE = 0,
+    UI_DRIVE_ENABLE_0 = 1 << 0,
+    UI_DRIVE_ENABLE_1 = 1 << 1,
+    UI_DRIVE_ENABLE_2 = 1 << 2,
+    UI_DRIVE_ENABLE_3 = 1 << 3
+} ui_drive_enable_t;
+
+/* ------------------------------------------------------------------------- */
+
 extern int ui_init_resources(void);
 extern int ui_init_cmdline_options(void);
 
@@ -44,9 +57,9 @@ extern ui_jam_action_t ui_jam_dialog(const char *format, ...);
 extern void ui_show_text(const char *title, const char *text);
 extern void ui_update_menus(void);
 extern void ui_main(char hotkey);
-extern void ui_toggle_drive_status(int state);
-extern void ui_display_drive_track(double track_number);
-extern void ui_display_drive_led(int status);
+extern void ui_enable_drive_status(ui_drive_enable_t state);
+extern void ui_display_drive_track(int drive_number, double track_number);
+extern void ui_display_drive_led(int drive_number, int status);
 extern void ui_set_warp_status(int status);
 extern void ui_dispatch_events(void);
 extern int ui_extend_image_dialog(void);
