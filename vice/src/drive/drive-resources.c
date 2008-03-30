@@ -28,26 +28,21 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <string.h>
 
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "drivemem.h"
 #include "driverom.h"
 #include "iecdrive.h"
 #include "log.h"
 #include "machine-drive.h"
-#include "machine.h"
 #include "resources.h"
-#include "utils.h"
 #include "vdrive-bam.h"
 
 
 /* Is true drive emulation switched on?  */
 static int drive_true_emulation;
 
-static int set_drive_idling_method(resource_value_t v, void *param);
 static int set_drive0_type(resource_value_t v, void *param);
 static int set_drive1_type(resource_value_t v, void *param);
 
@@ -139,8 +134,7 @@ static int set_drive0_type(resource_value_t v, void *param)
         }
         drive_set_disk_drive_type(type, 0);
         drive_rom_initialize_traps(0);
-        set_drive_idling_method((resource_value_t)drive[0].idling_method,
-                                 (void *)0);
+        machine_drive_idling_method(0);
         return 0;
       case DRIVE_TYPE_NONE:
         drive[0].type = type;
@@ -208,8 +202,7 @@ static int set_drive1_type(resource_value_t v, void *param)
         }
         drive_set_disk_drive_type(type, 1);
         drive_rom_initialize_traps(1);
-        set_drive_idling_method((resource_value_t)drive[1].idling_method,
-                                (void *)1);
+        machine_drive_idling_method(1);
         return 0;
       case DRIVE_TYPE_NONE:
         drive[1].type = type;
@@ -218,56 +211,6 @@ static int set_drive1_type(resource_value_t v, void *param)
       default:
         return -1;
     }
-}
-
-static int set_drive_parallel_cable_enabled(resource_value_t v, void *param)
-{
-    drive[(int)param].parallel_cable_enabled = (int)v;
-    return 0;
-}
-
-static int set_drive_extend_image_policy(resource_value_t v, void *param)
-{
-    switch ((int)v) {
-      case DRIVE_EXTEND_NEVER:
-      case DRIVE_EXTEND_ASK:
-      case DRIVE_EXTEND_ACCESS:
-        drive[(int)param].extend_image_policy = (int)v;
-        return 0;
-      default:
-        return -1;
-    }
-}
-
-static int set_drive_idling_method(resource_value_t v, void *param)
-{
-    unsigned int dnr;
-
-    dnr = (unsigned int)param;
-    /* FIXME: Maybe we should call `drive[01]_cpu_execute()' here?  */
-    if ((int) v != DRIVE_IDLE_SKIP_CYCLES
-        && (int) v != DRIVE_IDLE_TRAP_IDLE
-        && (int) v != DRIVE_IDLE_NO_IDLE)
-        return -1;
-
-    drive[dnr].idling_method = (int)v;
-
-    if (rom_loaded && drive[dnr].type == DRIVE_TYPE_1541) {
-        if (drive[dnr].idling_method == DRIVE_IDLE_TRAP_IDLE) {
-            drive[dnr].rom[0xeae4 - 0x8000] = 0xea;
-            drive[dnr].rom[0xeae5 - 0x8000] = 0xea;
-            drive[dnr].rom[0xeae8 - 0x8000] = 0xea;
-            drive[dnr].rom[0xeae9 - 0x8000] = 0xea;
-            drive[dnr].rom[0xec9b - 0x8000] = 0x00;
-        } else {
-            drive[dnr].rom[0xeae4 - 0x8000] = drive[dnr].rom_checksum[0];
-            drive[dnr].rom[0xeae5 - 0x8000] = drive[dnr].rom_checksum[1];
-            drive[dnr].rom[0xeae8 - 0x8000] = drive[dnr].rom_checksum[2];
-            drive[dnr].rom[0xeae9 - 0x8000] = drive[dnr].rom_checksum[3];
-            drive[dnr].rom[0xec9b - 0x8000] = drive[dnr].rom_idle_trap;
-        }
-    }
-    return 0;
 }
 
 static resource_t resources[] = {
@@ -280,26 +223,6 @@ static resource_t resources[] = {
     { "Drive9Type", RES_INTEGER, (resource_value_t)DRIVE_TYPE_NONE,
       (resource_value_t *)&(drive[1].type),
       set_drive1_type, NULL },
-    { "Drive8ParallelCable", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[0].parallel_cable_enabled),
-       set_drive_parallel_cable_enabled, (void *)0 },
-    { "Drive9ParallelCable", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[1].parallel_cable_enabled),
-       set_drive_parallel_cable_enabled, (void *)1 },
-    { "Drive8ExtendImagePolicy", RES_INTEGER,
-      (resource_value_t)DRIVE_EXTEND_NEVER, (resource_value_t *)
-      &(drive[0].extend_image_policy), set_drive_extend_image_policy,
-      (void *)0 },
-    { "Drive9ExtendImagePolicy", RES_INTEGER,
-      (resource_value_t)DRIVE_EXTEND_NEVER, (resource_value_t *)
-      &(drive[1].extend_image_policy), set_drive_extend_image_policy,
-      (void *)1 },
-    { "Drive8IdleMethod", RES_INTEGER, (resource_value_t)DRIVE_IDLE_TRAP_IDLE,
-      (resource_value_t *)&(drive[0].idling_method),
-      set_drive_idling_method, (void *)0 },
-    { "Drive9IdleMethod", RES_INTEGER, (resource_value_t)DRIVE_IDLE_TRAP_IDLE,
-      (resource_value_t *)&(drive[1].idling_method),
-      set_drive_idling_method, (void *)1 },
     { NULL }
 };
 
