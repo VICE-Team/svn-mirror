@@ -214,11 +214,19 @@ inline static void draw_borders(raster_t *raster)
                    raster->geometry->screen_size.width - 1);
 }
 
+#ifdef USE_XF86_VIDMODE_EXT
+extern raster_t *fs_cached_raster;
+#endif
+
 int raster_init(raster_t *raster,
                 unsigned int num_modes,
                 unsigned int num_sprites)
 {
     raster->intialized = 0;
+
+#ifdef USE_XF86_VIDMODE_EXT
+    fs_cached_raster = raster;
+#endif
 
     raster->modes = (raster_modes_t *)xmalloc(sizeof(raster_modes_t));
     raster_modes_init(raster->modes, num_modes);
@@ -506,7 +514,6 @@ void raster_free(raster_t *raster)
 
         video_canvas_destroy(raster->canvas);
     }
-    free(raster->canvas->viewport->title);
     free(raster->modes);
     free(raster->sprite_status);
     free(raster->cache);

@@ -1,3 +1,44 @@
+2002-06-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.48.
+
+	* arch/unix/x11/vidmode.c: Changed to new canvas API, partly
+	rewritten.
+
+	* video/video-resources.c: Added fullscreen resources.
+
+	* vicii/vicii-resources.c, vicii/vicii-resources.h,
+	vdc/vdc-resources.c, vdc/vdc-resources.h,
+	vic20/vic-resources.c, vic20/vic-resources.h,
+	crtc/crtc-resources.c, crtc/crtc-resources.h,
+	plus4/ted-resources.c, plus4/ted-resources.h: Removed
+	fullscreen resources.
+
+	* arch/unix/x11/video.c, arch/win32/video.c,
+	arch/msdos/video.c, arch/riscos/video.c,
+	arch/os2/video.c, arch/beos/video.cc (video_fullscreen_cap):
+	New function.
+
+	* raster/raster.c (raster_init): Small hack to get the
+	current raster for vidmode.  Will be removed very soon.
+
+2002-06-29  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/video.c: fixed coordinate translation for full
+	screen mode, clear full screen to black in all pixel depths.
+
+2002-06-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/video.cc (video_canvas_resize): Fixed typo.
+	(video_canvas_refresh): Switched to non scaled source.
+
+	* arch/win32/video.dsp: Added missing file.
+
+	* raster/raster.c (raster_free): canvas->viewport->title
+	mustn't be freed as the canvas doesn't exist anymore.
+
+	* vice.h: Don't define VIDEO_SCALE_SOURCE for BeOS.
+
 2002-06-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.47.
