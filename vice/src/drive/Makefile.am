@@ -1,5 +1,6 @@
 SUBDIRS = \
 	iec \
+	iec128dcr \
 	iecieee \
 	ieee \
 	tcbm
@@ -37,6 +38,7 @@ libdrive_a_SOURCES = \
 	drivesync.h \
 	drivetypes.h \
 	iec.h \
+	iec128dcr.h \
 	iecieee.h \
 	ieee.h \
 	rotation.c \
@@ -44,10 +46,12 @@ libdrive_a_SOURCES = \
 	tcbm.h \
 	viad.h
 
-.PHONY: libdriveiec libdriveiecieee libdriveieee libdrivetcbm
+.PHONY: libdriveiec libdriveiec128dcr libdriveiecieee libdriveieee libdrivetcbm
 
 libdriveiec:
 	(cd iec; $(MAKE))
+libdriveiec128dcr:
+	(cd iec128dcr; $(MAKE))
 libdriveiecieee:
 	(cd iecieee; $(MAKE))
 libdriveieee:
