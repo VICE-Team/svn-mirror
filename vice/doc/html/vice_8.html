@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 13 May 1999 -->
+     from ../vice.texi on 17 July 1999 -->
 
 <TITLE>VICE Manual - 8  Snapshots</TITLE>
 </HEAD>
@@ -42,6 +42,11 @@ the PET and the CBM-II emulators at this time.
 <P>
 The memory configuration of the emulator is saved in the snapshot file as
 well. This configuration is restored when the snapshot is loaded.
+
+</P>
+<P>
+A quick snapshot can now be made by pressing the <CODE>M-F11</CODE> key and
+reloaded by pressing the <CODE>M-F10</CODE> key. 
 
 </P>
 
@@ -303,7 +308,7 @@ The modules in the xpet emulator are:
 <TR><TD>CRTC</TD>
 
 <TD>6545</TD>
-<TD>The CRTC of the PET.  This can even be included if it is a dump of a PET without CRTC.</TD>
+<TD>The CRTC of the PET. This is also included if it is a dump of a PET without CRTC, because the video state is saved here anyway.</TD>
 </TR>
 <TR><TD>PIA1</TD>
 
@@ -404,7 +409,7 @@ The modules in the xcbm2 emulator are:
 
 <P>
 The snapshot either contains CRTC or VIC-II snapshot modules, but
-not both.  Depending on which module is found, a C5*0 or C6*0 is
+not both.  Depending on which module is found, a C5*0 or C6*0/C7*0 is
 emulated.
 
 </P>
@@ -1179,8 +1184,197 @@ TODO
 <H4><A NAME="SEC128" HREF="vice_toc.html#TOC128">8.2.2.12  CRTC module</A></H4>
 
 <P>
+<B>Warning:</B> After VICE version 1.0 the CRTC emulation has improved
+considerably. Especially it is now cycle exact. Therefore a lot more
+variables must be saved. The snapshot module version jumped from
+0.0 to 1.0. Newer versions of VICE can read the old snapshots, but
+older versions (1.0 and below) cannot read the new snapshots.
+
+</P>
+<P>
 <B>Warning:</B> This module is still under construction.  Especially the
 RASTERY and RASTERLINE values might be bogus.
+
+</P>
+<P>
+Version numbers: Major 1, Minor 0.
+
+</P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD></TD>
+
+<TD></TD>
+<TD>Hardware options</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>VADDR_MASK</TD>
+<TD>Mask of the address bits valid when accessing the video memory</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>VADDR_CHARSWITCH</TD>
+<TD>If one bit in the video address is used to switch the character generator, it is masked here.</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>VADDR_CHAROFFSET</TD>
+<TD>The offset in characters in the character generator that CHARSWITCH switches.</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>VADDR_REVSWITCH</TD>
+<TD>If one bit in the video address inverts the screen, it is masked here. If &#62; 0 then must be set for standard; if &#60; 0 then inverted bit must not be set.</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>CHARGEN_MASK</TD>
+<TD>size of character generator in byte - 1</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>CHARGEN_OFFSET</TD>
+<TD>offset given by external circuitry</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>HW_CURSOR</TD>
+<TD>external hardware cursor circuitry enabled</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>HW_COLS</TD>
+<TD>number of displayed columns during one character clock cycle</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>HW_BLANK</TD>
+<TD>set if the hardware blank feature is available</TD>
+</TR>
+<TR><TD></TD>
+
+<TD></TD>
+<TD>CRTC register</TD>
+</TR>
+<TR><TD>20 BYTE</TD>
+
+<TD>REGISTERS</TD>
+<TD>register DUMP of the CRTC registers 0-19.</TD>
+</TR>
+<TR><TD></TD>
+
+<TD></TD>
+<TD>CRTC internal registers</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>REGNO</TD>
+<TD>The current index in the CRTC register file</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CHAR</TD>
+<TD>The current cycle within the current rasterline</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CHARLINE</TD>
+<TD>The current character line</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>YCOUNTER</TD>
+<TD>The current rasterline in the character</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CRSRCNT</TD>
+<TD>Framecounter for the blinking cursor</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CRSRSTATE</TD>
+<TD>if set the hardware cursor is visible</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CRSRLINES</TD>
+<TD>set if ycounter is within the active cursor rasterlines for a char</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>CHARGEN_REL</TD>
+<TD>relative base of currently used character generator in ROM (in byte)</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>SCREEN_REL</TD>
+<TD>screen address to load the counter at the beginning of the next rasterline</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>VSYNC</TD>
+<TD>number of rasterlines left within vsync; 0 = not in vsync</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>VENABLE</TD>
+<TD>vertical enable flipflop; 1= display, 0= blank.</TD>
+</TR>
+<TR><TD></TD>
+
+<TD></TD>
+<TD>(VICE-dependent?) variables</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>SCREEN_WIDTH</TD>
+<TD>width of the current display window</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>SCREEN_HEIGHT</TD>
+<TD>height of the current display window</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>SCREEN_XOFFSET</TD>
+<TD>x position where the first character in a line starts in the window...</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>HJITTER</TD>
+<TD>...but only after adding this jitter</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>SCREEN_YOFFSET</TD>
+<TD>x position where the first character in a line starts in the window...</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>FRAMELINES</TD>
+<TD>expected number of rasterlines for the current frame</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>CURRENT_LINE</TD>
+<TD>current rasterline as seen from the CRTC</TD>
+</TR></TABLE>
+
+<P>
+Here is the reference for the previous CRTC snapshot module. It is outdated
+and should not be used anymore.
+
+</P>
+<P>
+Version numbers: Major 0, Minor 0.
 
 </P>
 <TABLE BORDER>
@@ -1556,7 +1750,7 @@ restored when the snapshot is loaded.
 
 </P>
 <P>
-Version numbers: Major 1, Minor 1
+Version numbers: Major 1, Minor 2
 
 </P>
 <TABLE BORDER>
@@ -1620,12 +1814,28 @@ Version numbers: Major 1, Minor 1
 
 <TD>POSITIONAL</TD>
 <TD>bit 0=0 = symbolic keyboard mapping, bit 0=1 = positional mapping.</TD>
+</TR>
+<TR><TD>--</TD>
+
+<TD>--</TD>
+<TD>The following item has been added in V1.1</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>EOIBLANK</TD>
+<TD>bit 0=0 = EOI does not blank screen, bit 0=1 = EOI blanks screen.</TD>
 </TR></TABLE>
 
 <P>
 The last item has been added in PETMEM snapshot version 1.1. It is
 ignored by earlier restore routines (V1.0) and the V1.1 restore routines
 do not change the current setting when reading a V1.0 snapshot.
+
+</P>
+<P>
+In V1.2 the new EOIBLANK variable has been added. This implements
+the "blank screen on EOI" feature that was previously linked to a wrong 
+resource.
 
 </P>
 <P>

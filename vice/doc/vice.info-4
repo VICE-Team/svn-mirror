@@ -47,7 +47,7 @@ SID     6581                          The CBM2s SID sound chip
                                       own modules *note Drive modules::.   
 
    The snapshot either contains CRTC or VIC-II snapshot modules, but
-not both.  Depending on which module is found, a C5*0 or C6*0 is
+not both.  Depending on which module is found, a C5*0 or C6*0/C7*0 is
 emulated.
 
 
@@ -404,8 +404,85 @@ File: vice.info,  Node: CRTC module,  Next: C64 memory module,  Prev: VIC-II mod
 CRTC module
 ...........
 
+   Warning: After VICE version 1.0 the CRTC emulation has improved
+considerably. Especially it is now cycle exact. Therefore a lot more
+variables must be saved. The snapshot module version jumped from 0.0 to
+1.0. Newer versions of VICE can read the old snapshots, but older
+versions (1.0 and below) cannot read the new snapshots.
+
    Warning: This module is still under construction.  Especially the
 RASTERY and RASTERLINE values might be bogus.
+
+   Version numbers: Major 1, Minor 0.
+
+Type    Name                          Description                          
+                                      Hardware options                     
+WORD    VADDR_MASK                    Mask of the address bits valid when  
+                                      accessing the video memory           
+WORD    VADDR_CHARSWITCH              If one bit in the video address is   
+                                      used to switch the character         
+                                      generator, it is masked here.        
+WORD    VADDR_CHAROFFSET              The offset in characters in the      
+                                      character generator that CHARSWITCH  
+                                      switches.                            
+WORD    VADDR_REVSWITCH               If one bit in the video address      
+                                      inverts the screen, it is masked     
+                                      here. If > 0 then must be set for    
+                                      standard; if < 0 then inverted bit   
+                                      must not be set.                     
+WORD    CHARGEN_MASK                  size of character generator in byte  
+                                      - 1                                  
+WORD    CHARGEN_OFFSET                offset given by external circuitry   
+BYTE    HW_CURSOR                     external hardware cursor circuitry   
+                                      enabled                              
+BYTE    HW_COLS                       number of displayed columns during   
+                                      one character clock cycle            
+BYTE    HW_BLANK                      set if the hardware blank feature    
+                                      is available                         
+                                      CRTC register                        
+20 BYTE REGISTERS                     register DUMP of the CRTC registers  
+                                      0-19.                                
+                                      CRTC internal registers              
+BYTE    REGNO                         The current index in the CRTC        
+                                      register file                        
+BYTE    CHAR                          The current cycle within the         
+                                      current rasterline                   
+BYTE    CHARLINE                      The current character line           
+BYTE    YCOUNTER                      The current rasterline in the        
+                                      character                            
+BYTE    CRSRCNT                       Framecounter for the blinking cursor 
+BYTE    CRSRSTATE                     if set the hardware cursor is        
+                                      visible                              
+BYTE    CRSRLINES                     set if ycounter is within the        
+                                      active cursor rasterlines for a char 
+WORD    CHARGEN_REL                   relative base of currently used      
+                                      character generator in ROM (in byte) 
+WORD    SCREEN_REL                    screen address to load the counter   
+                                      at the beginning of the next         
+                                      rasterline                           
+WORD    VSYNC                         number of rasterlines left within    
+                                      vsync; 0 = not in vsync              
+BYTE    VENABLE                       vertical enable flipflop; 1=         
+                                      display, 0= blank.                   
+                                      (VICE-dependent?) variables          
+WORD    SCREEN_WIDTH                  width of the current display window  
+WORD    SCREEN_HEIGHT                 height of the current display window 
+WORD    SCREEN_XOFFSET                x position where the first           
+                                      character in a line starts in the    
+                                      window...                            
+WORD    HJITTER                       ...but only after adding this jitter 
+WORD    SCREEN_YOFFSET                x position where the first           
+                                      character in a line starts in the    
+                                      window...                            
+WORD    FRAMELINES                    expected number of rasterlines for   
+                                      the current frame                    
+WORD    CURRENT_LINE                  current rasterline as seen from the  
+                                      CRTC                                 
+
+   Here is the reference for the previous CRTC snapshot module. It is
+outdated and should not be used anymore.
+
+   Version numbers: Major 0, Minor 0.
 
 Type    Name                          Description                          
 BYTE    RASTERY                       The number of clock cycles from      
@@ -569,7 +646,7 @@ restored when the snapshot is loaded.
 
    The PETMEM module
 
-   Version numbers: Major 1, Minor 1
+   Version numbers: Major 1, Minor 2
 
 Type    Name                          Description                          
 BYTE    CONFIG                        Configuration value. Bits 0-3: 0=    
@@ -601,10 +678,18 @@ ARRAY   RAM                           128k RAM (8296 only)
 BYTE    POSITIONAL                    bit 0=0 = symbolic keyboard          
                                       mapping, bit 0=1 = positional        
                                       mapping.                             
+-       -                             The following item has been added    
+                                      in V1.1                              
+BYTE    EOIBLANK                      bit 0=0 = EOI does not blank         
+                                      screen, bit 0=1 = EOI blanks screen. 
 
    The last item has been added in PETMEM snapshot version 1.1. It is
 ignored by earlier restore routines (V1.0) and the V1.1 restore routines
 do not change the current setting when reading a V1.0 snapshot.
+
+   In V1.2 the new EOIBLANK variable has been added. This implements
+the "blank screen on EOI" feature that was previously linked to a wrong
+resource.
 
    The PETROM module
 
@@ -934,184 +1019,4 @@ Checkpoint commands
      stopping on a read and/or write to an address or range of
      addresses.  If no addresses are given, a list of all the
      watchpoints is printed.
-
-
-File: vice.info,  Node: General commands,  Next: Disk commands,  Prev: Checkpoint commands,  Up: Monitor
-
-General commands
-================
-
-`cd <directory>'
-     Change the working directory.
-
-`device [c:|d:]'
-     Set the default memory device to either the computer (`c:') or the
-     disk (`d:').
-
-`radix [H|D|O|B]'
-     Set the default radix to hex, decimal, octal, or binary.  With no
-     argument, the current radix is printed.
-
-`sidefx [on|off|toggle]'
-     Control how monitor generated reads affect memory locations that
-     have read side-effects.  If the argument is 'on' then reads may
-     cause side-effects.  If the argument is 'off' then reads don't
-     cause side-effects.  If the argument is 'toggle' then the current
-     mode is switched.  No argument displays the current state.
-
-`system <system command>'
-     Nothing yet.
-
-
-File: vice.info,  Node: Disk commands,  Next: Command file commands,  Prev: General commands,  Up: Monitor
-
-Disk commands
-=============
-
-`br <track> <sector> [<address>]'
-     Read the block at the specified track and sector.  If an address is
-     specified, the data is loaded into memory.  If no address is
-     given, the data is displayed using the default datatype.
-
-`bw <track> <sector> <address>'
-     Write a block of data at `address' to the specified track and
-     sector of disk in drive 8.
-
-`@<disk command>'
-     Perform a disk command on the currently attached disk image on
-     drive 8.  The specified disk command is sent to the drive's
-     channel #15.
-
-`load "<filename>" <address>'
-     Load the specified file into memory at the specified address.
-
-`save "<filename>" <address1> <address2>'
-     Save the memory from address1 to address2 to the specified file.
-
-
-File: vice.info,  Node: Command file commands,  Next: Label commands,  Prev: Disk commands,  Up: Monitor
-
-Command file commands
-=====================
-
-`playback "<filename>"'
-     Monitor commands from the specified file are read and executed.
-     This command stops at the end of file or when a STOP command is
-     read.
-
-`record "<filename>"'
-     After this command, all commands entered are written to the
-     specified file until the STOP command is entered.
-
-`stop'
-     Stop recording commands.  See `record'.
-
-
-File: vice.info,  Node: Label commands,  Next: Miscellaneous commands,  Prev: Command file commands,  Up: Monitor
-
-Label commands
-==============
-
-`add_label <address> <label>'
-     Map a given address to a label.  This label can be used when
-     entering assembly code and is shown during disassembly.
-
-`delete_label [<memspace>] <label>'
-     Remove the specified label from the label tables.  If no memory
-     space is checked, all tables are checked.
-
-`load_labels [<memspace>] "<filename>"'
-     Load a file containing a mapping of labels to addresses.  If no
-     memory space is specified, the default readspace is used.
-
-`save_labels [<memspace>] "<filename>"'
-     Save labels to a file.  If no memory space is specified, all of the
-     labels are saved.
-
-`show_labels [<memspace>]'
-     Display current label mappings.  If no memory space is specified,
-     show all labels.
-
-
-File: vice.info,  Node: Miscellaneous commands,  Prev: Label commands,  Up: Monitor
-
-Miscellaneous commands
-======================
-
-`exit'
-     Leave the monitor and return to execution.
-
-`print <expression>'
-     Evaluate the specified expression and output the result.
-
-`quit'
-     Exit the emulator immediately.
-
-`~ <number>'
-     Display the specified number in decimal, hex, octal and binary.
-
-
-File: vice.info,  Node: c1541,  Next: File formats,  Prev: Monitor,  Up: Top
-
-c1541
-*****
-
-   VICE is provided with a complete stand-alone disk image maintenance
-utility, called `c1541'.
-
-   You can either invoke it from the command line or from within one of
-the VICE emulators, using the "Run c1541" command which will open a new
-`xterm' window with a running `c1541' in it.
-
-   The syntax is:
-
-     c1541 [IMAGE1 [IMAGE2]] [COMMAND1 COMMAND2 ... COMMANDN]
-
-   `IMAGE1' and `IMAGE2' are disk image names that can be attached
-before `c1541' starts.  `c1541' can handle up to two disk images at the
-same time by using two virtual built-in drives, numbered `8' and `9';
-`IMAGE1' (if present) is always attached to drive `8', while `IMAGE2'
-is attached to drive `9'.
-
-   `COMMAND's specified on the command-line all begin with the minus
-sign (`-'); if present, `c1541' executes them in the same order as they
-are on the command line and returns a zero error code if they were
-successful.  If any of the `COMMAND's fails, `c1541' stops and returns
-a nonzero error code.
-
-   If no `COMMAND's are specified at all, `c1541' enters interactive
-mode, where you can type commands manually.  Commands in interactive
-mode are the same as commands in batch mode, but do not require a
-leading `-'.  As with the monitor, file name completion and command
-line editing with history are provided via GNU `readline'.  Use the
-command `quit' or press `C-d' to exit.
-
-* Menu:
-
-* c1541 file specification::
-* c1541 quoting::
-* c1541 commands and options::
-* c1541 executing shell commands::
-
-
-File: vice.info,  Node: c1541 file specification,  Next: c1541 quoting,  Prev: c1541,  Up: c1541
-
-Specifying files in c1541
-=========================
-
-   When accessing CBM DOS files (i.e. files that reside on disk images),
-c1541 uses a special syntax that lets you access files on both drive 8
-and 9.  If you prepend the file name with `@8:' or `@9:', you will
-specified that file is to be found or created on drive 8 and 9,
-respectively.
-
-   For instance,
-
-     @8:somefile
-
-   will name file named `somefile' on unit 8, while
-
-     @9:somefile
-
-   will name file named `somefile' on unit 9.
 

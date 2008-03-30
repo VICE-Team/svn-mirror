@@ -21,9 +21,9 @@ Indirect:
 vice.info-1: 631
 vice.info-2: 50550
 vice.info-3: 100306
-vice.info-4: 148718
-vice.info-5: 197970
-vice.info-6: 246863
+vice.info-4: 150097
+vice.info-5: 199396
+vice.info-6: 242699
 
 Tag Table:
 (Indirect)
@@ -123,72 +123,72 @@ Node: VIC20 system ROM resources130341
 Node: VIC20 system ROM options130991
 Node: PET-specific131601
 Node: PET model132001
-Node: PET diagnostic pin134561
-Node: PET commandline options134895
-Node: PET colors135796
-Node: CBM-II-specific136361
-Node: CBM-II model136733
-Node: CBM-II commandline options138682
-Node: CBM-II colors139630
-Node: Snapshots140204
-Node: Snapshot usage140621
-Node: Snapshot format141421
-Node: Emulator modules141754
-Node: x64 modules142110
-Node: x128 modules144170
-Node: xvic modules146088
-Node: xpet modules147250
-Node: xcbm2 modules148718
-Node: Drive modules150564
-Node: Module formats151052
-Node: Module Terminology151884
-Node: Module framework152607
-Node: CPU 6502 module154608
-Node: CIA 6526 module156431
-Node: VIA 6522 module160407
-Node: PIA 6520 module162623
-Node: TPI 6525 module163728
-Node: SID 6581 module165241
-Node: ACIA 6551 module165387
-Node: VIC-I module166961
-Node: VIC-II module167106
-Node: CRTC module167247
-Node: C64 memory module168712
-Node: C128 memory module170156
-Node: VIC20 memory module171479
-Node: PET memory module175280
-Node: CBM-II memory module179563
-Node: Monitor183827
-Node: Terminology184670
-Node: Machine state commands186525
-Node: Memory commands187337
-Node: Assembly commands189287
-Node: Checkpoint commands190035
-Node: General commands192246
-Node: Disk commands193098
-Node: Command file commands193986
-Node: Label commands194509
-Node: Miscellaneous commands195399
-Node: c1541195800
-Node: c1541 file specification197373
-Node: c1541 quoting197970
-Node: c1541 commands and options198815
-Node: c1541 executing shell commands201951
-Node: File formats202347
-Node: T64202714
-Node: T64 file structure203119
-Node: T64 tape record203635
-Node: T64 file record204535
-Node: G64206242
-Node: Acknowledgments221165
-Node: Copyright228317
-Node: Contacts229514
-Node: Home page230020
-Node: Sending feedback230567
-Node: Contributing233312
-Node: Newsgroups234512
-Node: FAQs you should read235143
-Node: Concept Index235458
-Node: Resource Index246863
+Node: PET diagnostic pin135081
+Node: PET commandline options135553
+Node: PET colors136992
+Node: CBM-II-specific137557
+Node: CBM-II model137929
+Node: CBM-II commandline options139878
+Node: CBM-II colors140826
+Node: Snapshots141400
+Node: Snapshot usage141817
+Node: Snapshot format142724
+Node: Emulator modules143057
+Node: x64 modules143413
+Node: x128 modules145473
+Node: xvic modules147391
+Node: xpet modules148553
+Node: xcbm2 modules150097
+Node: Drive modules151948
+Node: Module formats152436
+Node: Module Terminology153268
+Node: Module framework153991
+Node: CPU 6502 module155992
+Node: CIA 6526 module157815
+Node: VIA 6522 module161791
+Node: PIA 6520 module164007
+Node: TPI 6525 module165112
+Node: SID 6581 module166625
+Node: ACIA 6551 module166771
+Node: VIC-I module168345
+Node: VIC-II module168490
+Node: CRTC module168631
+Node: C64 memory module175406
+Node: C128 memory module176850
+Node: VIC20 memory module178173
+Node: PET memory module181974
+Node: CBM-II memory module186713
+Node: Monitor190977
+Node: Terminology191820
+Node: Machine state commands193675
+Node: Memory commands194487
+Node: Assembly commands196437
+Node: Checkpoint commands197185
+Node: General commands199396
+Node: Disk commands200248
+Node: Command file commands201136
+Node: Label commands201659
+Node: Miscellaneous commands202549
+Node: c1541202950
+Node: c1541 file specification204523
+Node: c1541 quoting205120
+Node: c1541 commands and options205965
+Node: c1541 executing shell commands209101
+Node: File formats209497
+Node: T64209864
+Node: T64 file structure210269
+Node: T64 tape record210785
+Node: T64 file record211685
+Node: G64213392
+Node: Acknowledgments228315
+Node: Copyright235558
+Node: Contacts236755
+Node: Home page237261
+Node: Sending feedback237808
+Node: Contributing240553
+Node: Newsgroups241753
+Node: FAQs you should read242384
+Node: Concept Index242699
+Node: Resource Index254892
 
 End Tag Table
