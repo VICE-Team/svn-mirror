@@ -489,14 +489,16 @@ static int disk_image_check_for_gcr(disk_image_t *image)
 
 int disk_image_open(disk_image_t *image)
 {
-    image->fd = zfopen(image->name, MODE_READ_WRITE);
-
-    /* If we cannot open the image read/write, try to open it read only. */
-    if (image->fd == NULL) {
+    if (image->read_only) {
         image->fd = zfopen(image->name, MODE_READ);
-        image->read_only = 1;
-    } else {
-        image->read_only = 0;
+    } else  {
+        image->fd = zfopen(image->name, MODE_READ_WRITE);
+
+        /* If we cannot open the image read/write, try to open it read only. */
+        if (image->fd == NULL) {
+            image->fd = zfopen(image->name, MODE_READ);
+            image->read_only = 1;
+        }
     }
 
     image->error_info = NULL;
@@ -504,22 +506,23 @@ int disk_image_open(disk_image_t *image)
     if (image->fd == NULL) {
         log_error(disk_image_log, "Cannot open file `%s'.", image->name);
         return -1;
-    } else {
-        if (disk_image_check_for_d64(image))
-            return 0;        
-        if (disk_image_check_for_d71(image))
-            return 0;
-        if (disk_image_check_for_d81(image))
-            return 0;
-        if (disk_image_check_for_d80(image))
-            return 0;
-        if (disk_image_check_for_d82(image))
-            return 0;
-        if (disk_image_check_for_gcr(image))
-            return 0;
-        if (disk_image_check_for_x64(image))
-            return 0;
     }
+
+    if (disk_image_check_for_d64(image))
+        return 0;        
+    if (disk_image_check_for_d71(image))
+        return 0;
+    if (disk_image_check_for_d81(image))
+        return 0;
+    if (disk_image_check_for_d80(image))
+        return 0;
+    if (disk_image_check_for_d82(image))
+        return 0;
+    if (disk_image_check_for_gcr(image))
+        return 0;
+    if (disk_image_check_for_x64(image))
+        return 0;
+
     zfclose(image->fd);
     return -1;
 }
