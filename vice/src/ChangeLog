@@ -1,3 +1,14 @@
+2007-08-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.
+
+	* info.c: Updated.
+
+2007-08-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resvicii.rc, translate.c: Updated.
+
 2007-08-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.13.
