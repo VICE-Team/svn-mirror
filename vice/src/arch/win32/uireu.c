@@ -55,7 +55,7 @@ static void init_reu_dialog(HWND hwnd)
     int res_value_loop;
     int active_value;
 
-    resources_get_value("REU", (resource_value_t *)&res_value);
+    resources_get_value("REU", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_REU_ENABLE, 
         res_value ? BST_CHECKED : BST_UNCHECKED);
     
@@ -63,20 +63,20 @@ static void init_reu_dialog(HWND hwnd)
     for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE;
         res_value_loop++) {
         char st[10];
-        itoa(ui_reu_size[res_value_loop],st,10);
+        itoa(ui_reu_size[res_value_loop], st, 10);
         strcat(st, " kB");
         SendMessage(temp_hwnd,CB_ADDSTRING,0,(LPARAM)st);
     }
-    resources_get_value("REUsize", (resource_value_t *)&res_value);
+    resources_get_value("REUsize", (void *)&res_value);
     active_value = 0; /* default */
     for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE;
         res_value_loop++) {
         if (ui_reu_size[res_value_loop] == res_value)
             active_value = res_value_loop;
     }
-    SendMessage(temp_hwnd,CB_SETCURSEL,(WPARAM)active_value,0);
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
-    resources_get_value("REUfilename",(resource_value_t *)&reufile);
+    resources_get_value("REUfilename", (void *)&reufile);
     SetDlgItemText(hwnd, IDC_REU_FILE, reufile != NULL ? reufile : "");
 }
 

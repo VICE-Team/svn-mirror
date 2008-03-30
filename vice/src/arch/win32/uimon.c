@@ -730,7 +730,7 @@ PWindowDimensions LoadMonitorDimensions(HWND hwnd)
     int   len;
     BOOLEAN bError = FALSE;
 
-    resources_get_value("MonitorDimensions",(resource_value_t *)&dimensions);
+    resources_get_value("MonitorDimensions", (void *)&dimensions);
     buffer = decode(dimensions,&len);
 
 	if (len!=0)
@@ -874,8 +874,7 @@ void SetMemspace( HWND hwnd, MEMSPACE memspace )
     case e_invalid_space: break; 
 	}
 
-    resources_get_value("DriveTrueEmulation",
-        (resource_value_t *)&drive_true_emulation);
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     ENABLE( IDM_MON_COMPUTER, drive_true_emulation ? 1 : 0);
 	ENABLE( IDM_MON_DRIVE8,   drive_true_emulation ? 1 : 0);

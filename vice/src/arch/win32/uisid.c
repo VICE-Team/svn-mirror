@@ -64,13 +64,13 @@ static void enable_sid_controls(HWND hwnd)
 {
     int engine, is_enabled;
 
-    resources_get_value("SidEngine", (resource_value_t *)&engine);
+    resources_get_value("SidEngine", (void *)&engine);
     is_enabled = (engine == SID_ENGINE_RESID);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND), is_enabled);
 
-    resources_get_value("SidStereo", (resource_value_t *)&is_enabled);
+    resources_get_value("SidStereo", (void *)&is_enabled);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_STEREOADDRESS), is_enabled);
 }
@@ -82,11 +82,11 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
     int res_value;
     int adr, ladr, hi, index = -1;
     const int *hadr;
-    HWND sid_hwnd=GetDlgItem(hwnd, IDC_SID_STEREOADDRESS);
+    HWND sid_hwnd = GetDlgItem(hwnd, IDC_SID_STEREOADDRESS);
     int cursel = SendMessage(GetDlgItem
                 (hwnd,IDC_SID_STEREOADDRESS),CB_GETCURSEL, 0, 0);
-    resources_get_value("SidStereoAddressStart",
-        (resource_value_t *)&res_value);
+
+    resources_get_value("SidStereoAddressStart", (void *)&res_value);
 
     switch (machine_class) {
       case VICE_MACHINE_C64:
@@ -115,7 +115,7 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
                     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)index,0);
             } else if (index == cursel) {
                 resources_set_value("SidStereoAddressStart",
-                    (resource_value_t)adr);
+                                    (resource_value_t)adr);
                 return;
             }
         }
@@ -130,45 +130,39 @@ static void init_sid_dialog(HWND hwnd)
     int res_value_loop;
     TCHAR st[10];
 
-    resources_get_value("SidFilters",
-        (resource_value_t *)&res_value);
+    resources_get_value("SidFilters", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_SID_FILTERS, res_value
                    ? BST_CHECKED : BST_UNCHECKED);
     
-    resources_get_value("SidStereo",
-        (resource_value_t *)&res_value);
+    resources_get_value("SidStereo", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_SID_STEREO, res_value
                    ? BST_CHECKED : BST_UNCHECKED);
 
     CreateAndGetSidAddress(hwnd, 0);
 
-    resources_get_value("SidEngine",
-        (resource_value_t *)&res_value);
-    sid_hwnd=GetDlgItem(hwnd,IDC_SID_ENGINE);
+    resources_get_value("SidEngine", (void *)&res_value);
+    sid_hwnd = GetDlgItem(hwnd,IDC_SID_ENGINE);
     for (res_value_loop = 0; ui_sid_engine[res_value_loop];
         res_value_loop++) {
         SendMessage(sid_hwnd,CB_ADDSTRING,0,
             (LPARAM)ui_sid_engine[res_value_loop]);
     }
-    SendMessage(sid_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_value("SidModel",
-        (resource_value_t *)&res_value);
+    resources_get_value("SidModel", (void *)&res_value);
     CheckRadioButton(hwnd, IDC_SID_6581, IDC_SID_8580, 
                      res_value ? IDC_SID_8580 : IDC_SID_6581);
 
-    resources_get_value("SidResidSampling",
-        (resource_value_t *)&res_value);
-    sid_hwnd=GetDlgItem(hwnd,IDC_SID_RESID_SAMPLING);
+    resources_get_value("SidResidSampling", (void *)&res_value);
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING);
     for (res_value_loop = 0; ui_sid_samplemethod[res_value_loop];
         res_value_loop++) {
         SendMessage(sid_hwnd,CB_ADDSTRING,0,
             (LPARAM)ui_sid_samplemethod[res_value_loop]);
     }
-    SendMessage(sid_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_value("SidResidPassband",
-        (resource_value_t *)&res_value);
+    resources_get_value("SidResidPassband", (void *)&res_value);
     _stprintf(st, TEXT("%d"), res_value);
     SetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND, st);
 
@@ -190,7 +184,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
           case IDC_SID_ENGINE:
             resources_set_value("SidEngine", (resource_value_t)
                 SendMessage(GetDlgItem(hwnd, IDC_SID_ENGINE), 
-                    CB_GETCURSEL, 0, 0));
+                CB_GETCURSEL, 0, 0));
             enable_sid_controls(hwnd);
             break;
           case IDC_SID_STEREO:

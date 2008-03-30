@@ -209,7 +209,7 @@ void ui_soundshot_save_dialog(HWND hwnd)
     char *devicename;
     static char old_device[16] = "dx";
 
-    resources_get_value("SoundDeviceName",(resource_value_t *) &devicename);
+    resources_get_value("SoundDeviceName",(void *) &devicename);
     if (devicename && !strcmp(devicename,"wav")) {
         /* the recording is active; stop it by switching to the default device*/
         resources_set_value("SoundDeviceName", old_device);

@@ -86,7 +86,7 @@ static void init_ram_dialog(HWND hwnd)
         SendDlgItemMessage(hwnd,IDC_RAMINIT_PREVIEW,WM_SETFONT,
             (WPARAM)hfont,MAKELPARAM(TRUE,0));
 
-    resources_get_value("RAMInitStartValue", (resource_value_t *)&orig_startvalue);
+    resources_get_value("RAMInitStartValue", (void *)&orig_startvalue);
     temp_hwnd=GetDlgItem(hwnd,IDC_RAMINIT_STARTVALUE);
 
     for (i = 0; ui_ram_startvalue[i] >= 0; i++)
@@ -99,8 +99,8 @@ static void init_ram_dialog(HWND hwnd)
             SendMessage(temp_hwnd,CB_SETCURSEL,(WPARAM)i,0);
     }
 
-    resources_get_value("RAMInitValueInvert", (resource_value_t *)&orig_valueinvert);
-    resources_get_value("RAMInitPatternInvert", (resource_value_t *)&orig_patterninvert);
+    resources_get_value("RAMInitValueInvert", (void *)&orig_valueinvert);
+    resources_get_value("RAMInitPatternInvert", (void *)&orig_patterninvert);
     temp_hwnd=GetDlgItem(hwnd,IDC_RAMINIT_VALUEINVERT);
     temp_hwnd2=GetDlgItem(hwnd,IDC_RAMINIT_PATTERNINVERT);
     

@@ -49,7 +49,6 @@ static const int ui_datasette_zero_gap_delay[] = {
 };
 
 
-
 static void init_datasette_dialog(HWND hwnd)
 {
     HWND snd_hwnd;
@@ -57,34 +56,32 @@ static void init_datasette_dialog(HWND hwnd)
     int res_value_loop;
     int active_value;
 
-    resources_get_value("DatasetteResetWithCPU",
-        (resource_value_t *)&res_value);
+    resources_get_value("DatasetteResetWithCPU", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_DATASETTE_RESET_WITH_CPU, res_value
                    ? BST_CHECKED : BST_UNCHECKED);
     
-    snd_hwnd=GetDlgItem(hwnd,IDC_DATASETTE_ZERO_GAP_DELAY);
+    snd_hwnd=GetDlgItem(hwnd, IDC_DATASETTE_ZERO_GAP_DELAY);
     for (res_value_loop = 0; res_value_loop < 7; res_value_loop++) {
         TCHAR st[10];
-        _stprintf(st,TEXT("%d"),ui_datasette_zero_gap_delay[res_value_loop]);
-        SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)st);
+        _stprintf(st, TEXT("%d"), ui_datasette_zero_gap_delay[res_value_loop]);
+        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
-    resources_get_value("DatasetteZeroGapDelay",
-        (resource_value_t *)&res_value);
+    resources_get_value("DatasetteZeroGapDelay", (void *)&res_value);
     active_value = 4; /* default */
     for (res_value_loop = 0; res_value_loop < 7; res_value_loop++) {
         if (ui_datasette_zero_gap_delay[res_value_loop] == res_value)
             active_value = res_value_loop;
     }
-    SendMessage(snd_hwnd,CB_SETCURSEL,(WPARAM)active_value,0);
+    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
-    snd_hwnd=GetDlgItem(hwnd,IDC_DATASETTE_SPEED_TUNING);
+    snd_hwnd=GetDlgItem(hwnd, IDC_DATASETTE_SPEED_TUNING);
     for (res_value_loop = 0; res_value_loop < 8; res_value_loop++) {
         TCHAR st[10];
         _stprintf(st,TEXT("%d"),res_value_loop);
-        SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)st);
+        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
-    resources_get_value("DatasetteSpeedTuning",(resource_value_t *)&res_value);
-    SendMessage(snd_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    resources_get_value("DatasetteSpeedTuning",(void *)&res_value);
+    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
 
@@ -101,7 +98,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
           case IDOK:
             resources_set_value("DatasetteResetWithCPU", (resource_value_t)
                 (IsDlgButtonChecked
-                (hwnd,IDC_DATASETTE_RESET_WITH_CPU)==BST_CHECKED ?
+                (hwnd,IDC_DATASETTE_RESET_WITH_CPU) == BST_CHECKED ?
                 1 : 0 ));
             resources_set_value("DatasetteSpeedTuning",
                 (resource_value_t)

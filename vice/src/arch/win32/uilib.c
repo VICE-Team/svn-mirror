@@ -574,7 +574,7 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     int result;
 
     resources_get_value(styles[style].initialdir_resource,
-        (resource_value_t*)&initialdir);
+        (void *)&initialdir);
 
     if (ui_file_selector_initialfile[style] != NULL)
         strcpy(name, ui_file_selector_initialfile[style]);
@@ -583,7 +583,8 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
         fontfile = util_concat(archdep_boot_path(), 
                                "\\fonts\\cbm-directory-charset.fon", NULL);
         font_loaded = 0;
-        EnumFontFamilies(GetDC(NULL),"cbm-directory-charset/ck!",(FONTENUMPROC)EnumFontProc,(LPARAM)&font_loaded);
+        EnumFontFamilies(GetDC(NULL), "cbm-directory-charset/ck!",
+            (FONTENUMPROC)EnumFontProc, (LPARAM)&font_loaded);
         if (font_loaded == 0) {
             font_loaded = AddFontResource(fontfile);
         }

@@ -69,7 +69,7 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("11025 Hz"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("22050 Hz"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("44100 Hz"));
-    resources_get_value("SoundSampleRate", (resource_value_t *)&res_value);
+    resources_get_value("SoundSampleRate", (void *)&res_value);
     switch (res_value) {
       case 8000:
         res_value = 0;
@@ -94,7 +94,7 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("250 msec"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("300 msec"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("350 msec"));
-    resources_get_value("SoundBufferSize", (resource_value_t *)&res_value);
+    resources_get_value("SoundBufferSize", (void *)&res_value);
     switch (res_value) {
       case 100:
         res_value = 0;
@@ -123,14 +123,14 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("2x"));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("4x"));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("8x"));
-    resources_get_value("SoundOversample", (resource_value_t *)&res_value);
+    resources_get_value("SoundOversample", (void *)&res_value);
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_SYNCH);
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Flexible"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Adjusting"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Exact"));
-    resources_get_value("SoundSpeedAdjustment", (resource_value_t *)&res_value);
+    resources_get_value("SoundSpeedAdjustment", (void *)&res_value);
     switch (res_value) {
       case SOUND_ADJUST_FLEXIBLE:
       default:
@@ -145,7 +145,7 @@ static void init_sound_dialog(HWND hwnd)
     }
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_value("SoundDeviceName", (resource_value_t *)&devicename);
+    resources_get_value("SoundDeviceName", (void *)&devicename);
     if (devicename && !strcasecmp("wmm", devicename))
         res_value = IDC_SOUND_WMM;
     else

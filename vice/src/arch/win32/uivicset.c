@@ -90,38 +90,37 @@ static void update_config(HWND hwnd)
 {
     int memory_model;
 
-    current_config = 
+    current_config =
         (block0 ? BLOCK_0 : 0) |
         (block1 ? BLOCK_1 : 0) |
         (block2 ? BLOCK_2 : 0) |
         (block3 ? BLOCK_3 : 0) |
         (block5 ? BLOCK_5 : 0);
-    
-    switch (current_config) {
 
-    case MEM_NONE:
+    switch (current_config) {
+      case MEM_NONE:
         memory_model = IDC_VIC_NOEXPANSION;
         break;
-    case MEM_3K:
+      case MEM_3K:
         memory_model = IDC_VIC_3KEXPANSION;
         break;
-    case MEM_8K:
+      case MEM_8K:
         memory_model = IDC_VIC_8KEXPANSION;
         break;
-    case MEM_16K:
+      case MEM_16K:
         memory_model = IDC_VIC_16KEXPANSION;
         break;
-    case MEM_24K:
+      case MEM_24K:
         memory_model = IDC_VIC_24KEXPANSION;
         break;
-    case MEM_ALL:
+      case MEM_ALL:
         memory_model = IDC_VIC_FULLEXPANSION;
         break;
-    default:
+      default:
         memory_model = IDC_VIC_CUSTOMEXPANSION;
     }
     CheckRadioButton(hwnd,IDC_VIC_NOEXPANSION,
-        IDC_VIC_CUSTOMEXPANSION,memory_model);
+                     IDC_VIC_CUSTOMEXPANSION,memory_model);
     update_block_checkboxes(hwnd);
 
 }
@@ -130,11 +129,11 @@ static void update_config(HWND hwnd)
 static void init_dialog(HWND hwnd)
 {
 
-    resources_get_value("RAMBlock0", (resource_value_t *) &block0);
-    resources_get_value("RAMBlock1", (resource_value_t *) &block1);
-    resources_get_value("RAMBlock2", (resource_value_t *) &block2);
-    resources_get_value("RAMBlock3", (resource_value_t *) &block3);
-    resources_get_value("RAMBlock5", (resource_value_t *) &block5);
+    resources_get_value("RAMBlock0", (void *) &block0);
+    resources_get_value("RAMBlock1", (void *) &block1);
+    resources_get_value("RAMBlock2", (void *) &block2);
+    resources_get_value("RAMBlock3", (void *) &block3);
+    resources_get_value("RAMBlock5", (void *) &block5);
     
     update_config(hwnd);
 }
@@ -146,7 +145,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
 
     switch (msg) {
       case WM_COMMAND:
-        command=LOWORD(wparam);
+        command = LOWORD(wparam);
         switch (command) {
           case IDOK:
             resources_set_value("RAMBlock0", (resource_value_t) block0);
