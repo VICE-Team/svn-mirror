@@ -154,7 +154,7 @@ static void add_palette_submenu(tui_menu_t parent)
 
 int c128_ui_init(void)
 {
-    ui_create_main_menu(1, 1, 1, 2);
+    ui_create_main_menu(1, 1, 1, 2, 0);
 
     tui_menu_add_separator(ui_video_submenu);
     add_palette_submenu(ui_video_submenu);

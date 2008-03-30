@@ -1485,7 +1485,7 @@ static void create_special_submenu(int has_serial_traps)
 /* ------------------------------------------------------------------------- */
 
 void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
-                         int number_joysticks)
+                         int number_joysticks, int has_datasette)
 {
     /* Main menu. */
     ui_main_menu = tui_menu_create(NULL, 1);
@@ -1580,38 +1580,40 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                          ui_detach_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
-    ui_datasette_submenu = tui_menu_create("Datasette control", 1);
-    tui_menu_add_item(ui_datasette_submenu, "S_top",
-              "Press the STOP key of the datasette",
-              datasette_callback, (void *)DATASETTE_CONTROL_STOP, 0,
-              TUI_MENU_BEH_RESUME);
-    tui_menu_add_item(ui_datasette_submenu, "_Start",
-              "Press the START key of the datasette",
-              datasette_callback, (void *)DATASETTE_CONTROL_START, 0,
-              TUI_MENU_BEH_RESUME);
-    tui_menu_add_item(ui_datasette_submenu, "_Forward",
-              "Press the FORWARD key of the datasette",
-              datasette_callback, (void *)DATASETTE_CONTROL_FORWARD, 0,
-              TUI_MENU_BEH_RESUME);
-    tui_menu_add_item(ui_datasette_submenu, "_Rewind",
-              "Press the REWIND key of the datasette",
-              datasette_callback, (void *)DATASETTE_CONTROL_REWIND, 0,
-              TUI_MENU_BEH_RESUME);
+    if (has_datasette) {
+        ui_datasette_submenu = tui_menu_create("Datasette control", 1);
+        tui_menu_add_item(ui_datasette_submenu, "S_top",
+                  "Press the STOP key of the datasette",
+                  datasette_callback, (void *)DATASETTE_CONTROL_STOP, 0,
+                  TUI_MENU_BEH_RESUME);
+        tui_menu_add_item(ui_datasette_submenu, "_Start",
+                  "Press the START key of the datasette",
+                  datasette_callback, (void *)DATASETTE_CONTROL_START, 0,
+                  TUI_MENU_BEH_RESUME);
+        tui_menu_add_item(ui_datasette_submenu, "_Forward",
+                  "Press the FORWARD key of the datasette",
+                  datasette_callback, (void *)DATASETTE_CONTROL_FORWARD, 0,
+                  TUI_MENU_BEH_RESUME);
+        tui_menu_add_item(ui_datasette_submenu, "_Rewind",
+                  "Press the REWIND key of the datasette",
+                  datasette_callback, (void *)DATASETTE_CONTROL_REWIND, 0,
+                  TUI_MENU_BEH_RESUME);
 #if 0
-    tui_menu_add_item(ui_datasette_submenu, "Re_cord",
-              "Press the REWIND key of the datasette",
-              datasette_callback, (void *)DATASETTE_CONTROL_RECORD, 0,
-              TUI_MENU_BEH_RESUME);
-    tui_menu_add_item(ui_datasette_submenu, "R_eset",
-              "Press the REWIND key of the datasette",
-              datasette_callback, (void *)DATASETTE_CONTROL_RESET, 0,
-              TUI_MENU_BEH_RESUME);
+        tui_menu_add_item(ui_datasette_submenu, "Re_cord",
+                  "Press the REWIND key of the datasette",
+                  datasette_callback, (void *)DATASETTE_CONTROL_RECORD, 0,
+                  TUI_MENU_BEH_RESUME);
+        tui_menu_add_item(ui_datasette_submenu, "R_eset",
+                  "Press the REWIND key of the datasette",
+                  datasette_callback, (void *)DATASETTE_CONTROL_RESET, 0,
+                  TUI_MENU_BEH_RESUME);
 #endif
 
-    tui_menu_add_submenu(ui_main_menu, "Datasett_e Control...",
-                         "Press some buttons on the emulated datasette",
-                         ui_datasette_submenu, NULL, 0,
-                         TUI_MENU_BEH_CONTINUE);
+        tui_menu_add_submenu(ui_main_menu, "Datasett_e Control...",
+                             "Press some buttons on the emulated datasette",
+                             ui_datasette_submenu, NULL, 0,
+                             TUI_MENU_BEH_CONTINUE);
+    }
 
     tui_menu_add_item(ui_main_menu, "Change _Working Directory...",
 		      "Change the current working directory",

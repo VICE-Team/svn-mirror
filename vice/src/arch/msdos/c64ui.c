@@ -253,7 +253,7 @@ static void add_palette_submenu(tui_menu_t parent)
 
 int c64_ui_init(void)
 {
-    ui_create_main_menu(1, 1, 1, 2);
+    ui_create_main_menu(1, 1, 1, 2, 1);
 
     tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);

@@ -113,7 +113,7 @@ static tui_menu_item_def_t video_menu_items[] = {
 
 int c610_ui_init(void)
 {
-    ui_create_main_menu(0, 0, 0, 0);
+    ui_create_main_menu(0, 0, 0, 0, 0);
 
     tui_menu_add_separator(ui_video_submenu);
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
