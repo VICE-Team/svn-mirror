@@ -143,18 +143,18 @@ int main_program(int argc, char **argv)
 
     /* Load the user's default configuration file.  */
     if (vsid_mode) {
-        resources_set_value("Drive8Type", (resource_value_t)0);
-        resources_set_value("Sound", (resource_value_t)1);
+        resources_set_int("Drive8Type", 0);
+        resources_set_int("Sound", 1);
 #ifdef HAVE_RESID
         /* FIXME: Use `SID_ENGINE_RESID'. */
-        resources_set_value("SidEngine", (resource_value_t)1);
+        resources_set_int("SidEngine", 1);
 #endif
-        resources_set_value("SidModel", (resource_value_t)0);
-        resources_set_value("SidFilters", (resource_value_t)1);
-        resources_set_value("SoundSampleRate", (resource_value_t)44100);
-        resources_set_value("SoundSpeedAdjustment", (resource_value_t)2);
-        resources_set_value("SoundBufferSize", (resource_value_t)1000);
-        resources_set_value("SoundSuspendTime", (resource_value_t)0);
+        resources_set_int("SidModel", 0);
+        resources_set_int("SidFilters", 1);
+        resources_set_int("SoundSampleRate", 44100);
+        resources_set_int("SoundSpeedAdjustment", 2);
+        resources_set_int("SoundBufferSize", 1000);
+        resources_set_int("SoundSuspendTime", 0);
     } else {
         int retval;
 
