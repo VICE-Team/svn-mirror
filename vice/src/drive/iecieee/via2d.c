@@ -128,6 +128,11 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     via2p = (drivevia2_context_t *)(via_context->prv);
 
     via2p->drive->led_status = (byte & 8) ? 1 : 0;
+    if (via2p->drive->led_status)
+        via2p->drive->led_active_ticks += *(via_context->clk_ptr)
+                                          - via2p->drive->led_last_change_clk;
+    via2p->drive->led_last_change_clk = *(via_context->clk_ptr);
+
     if (((poldpb ^ byte) & 0x3) && (byte & 0x4)) {
         /* Stepper motor */
         if ((poldpb & 0x3) == ((byte + 1) & 0x3))
