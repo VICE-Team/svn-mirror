@@ -30,28 +30,10 @@
 
 #include "vice.h"
 
-#ifdef __hpux
-#define _INCLUDE_HPUX_SOURCE
-#define _INCLUDE_POSIX_SOURCE
-#define _INCLUDE_XOPEN_SOURCE
-#endif
-
+#include <stdio.h>
 #include <sys/time.h>
 #include <signal.h>
 #include <unistd.h>
-#include <stdio.h>
-
-#ifdef __hpux
-#define _INCLUDE_XOPEN_SOURCE
-#define _XPG2
-#include <limits.h>
-#undef  _INCLUDE_XOPEN_SOURCE
-#undef  _XPG2
-#else
-#include <limits.h>
-#endif
-
-#include "vsync.h"
 
 #include "clkguard.h"
 #include "cmdline.h"
@@ -63,6 +45,7 @@
 #include "sound.h"
 #include "ui.h"
 #include "video.h"
+#include "vsync.h"
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"
@@ -282,14 +265,17 @@ static void clk_overflow_callback(CLOCK amount, void *data)
 
 /* ------------------------------------------------------------------------- */
 
-void vsync_init(double hertz, long cycles, void (*hook)(void))
+void vsync_set_machine_parameter(double refresh_rate, long cycles)
+{
+    refresh_frequency = refresh_rate;
+    cycles_per_sec = cycles;
+}
+
+void vsync_init(void (*hook)(void))
 {
     vsync_hook = hook;
-    refresh_frequency = hertz;
-    cycles_per_sec = cycles;
-    suspend_speed_eval();
     vsync_disable_timer();
-
+    suspend_speed_eval();
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
