@@ -1,3 +1,34 @@
+2003-06-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.4.
+
+	* drive/drivetypes.h: Added private section to each VIA.
+
+	* drive/iecieee/via1d.c (via1d_setup_context): Initialize
+	private section.
+
+	* video/renderyuv.c, video/renderyuv.h, video/video-render.c:
+	Changed prototypes.
+
+	* video/video-render.c (render_yuv_image): Only compile if
+	`HAVE_XVIDEO' is defined.
+
+2003-06-23  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/c64c128.dsp: Added tape directory to include path
+	list.
+
+	* plus4/ted-sound.c (voice_t, sound_s): Added new struct tags.
+	(volume_tab): Updated values.
+	(sound_machine_calculate_samples): Updated to use reload
+	register approach instead of compare register. Added digital
+	sound, added noise generator.
+	(sound_machine_init): Calculate sample/clock ratios, use
+	fixpoint.
+	Restore state, this should be moved from here later.
+	(sound_machine_store): Updated to use reload approach.
+	(sound_machine_reset): Clear noise shift register.
+
 2003-06-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.3.
