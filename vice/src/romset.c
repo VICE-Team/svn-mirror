@@ -421,6 +421,19 @@ int romset_archive_item_save(const char *filename, const char *romset_name)
     return -1;
 }
 
+/*
+int romset_archive_item_valid(const char *romset_name)
+{
+    int i;
+    string_link_t *item;
+
+    for (i = 0, item = romsets; i < num_romsets; i++, item++) {
+        if (strcmp(romset_name, item->name) == 0)
+            return 0;
+    }
+    return -1;
+}
+*/
 
 int romset_archive_item_select(const char *romset_name)
 {
