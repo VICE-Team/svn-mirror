@@ -34,11 +34,13 @@ struct drive_context_s;
 struct snapshot_s;
 
 extern int machine_drive_resources_init(void);
+extern int machine_drive_cmdline_options_init(void);
 extern void machine_drive_init(struct drive_context_s *drv);
 extern void machine_drive_reset(struct drive_context_s *drv);
 extern void machine_drive_mem_init(struct drive_context_s *drv,
                                    unsigned int type);
 extern void machine_drive_setup_context(struct drive_context_s *drv);
+extern void machine_drive_idling_method(unsigned int dnr);
 extern void machine_drive_vsync_hook(void);
 extern void machine_drive_handle_job_code(unsigned int dnr);
 extern void machine_drive_rom_load(void);

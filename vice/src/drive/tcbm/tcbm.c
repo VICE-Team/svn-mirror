@@ -28,6 +28,7 @@
 
 #include "mem1551.h"
 #include "glue1551.h"
+#include "tcbm-cmdline-options.h"
 #include "tcbm-resources.h"
 #include "tcbm.h"
 #include "tcbmrom.h"
@@ -37,6 +38,11 @@
 int tcbm_drive_resources_init(void)
 {
     return tcbm_resources_init();
+}
+
+int tcbm_drive_cmdline_options_init(void)
+{
+    return tcbm_cmdline_options_init();
 }
 
 void tcbm_drive_init(struct drive_context_s *drv)

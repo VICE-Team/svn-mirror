@@ -11,6 +11,8 @@ libdrivetcbm_a_SOURCES = \
 	glue1551.h \
 	mem1551.c \
 	mem1551.h \
+	tcbm-cmdline-options.c \
+	tcbm-cmdline-options.h \
 	tcbm-resources.c \
 	tcbm-resources.h \
 	tcbm.c \

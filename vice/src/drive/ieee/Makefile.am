@@ -9,6 +9,8 @@ noinst_LIBRARIES = libdriveieee.a
 libdriveieee_a_SOURCES = \
 	fdc.c \
 	fdc.h \
+	ieee-cmdline-options.c \
+	ieee-cmdline-options.h \
 	ieee-resources.c \
 	ieee-resources.h \
 	ieee.c \

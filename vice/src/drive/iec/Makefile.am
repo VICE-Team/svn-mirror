@@ -7,6 +7,8 @@ INCLUDES = \
 noinst_LIBRARIES = libdriveiec.a
 
 libdriveiec_a_SOURCES = \
+	iec-cmdline-options.c \
+	iec-cmdline-options.h \
 	iec-resources.c \
 	iec-resources.h \
 	iec.c \

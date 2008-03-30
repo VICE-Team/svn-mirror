@@ -35,6 +35,11 @@ int machine_drive_resources_init(void)
     return ieee_drive_resources_init();
 }
 
+int machine_drive_cmdline_options_init(void)
+{
+    return ieee_drive_cmdline_options_init();
+}
+
 void machine_drive_init(struct drive_context_s *drv)
 {
     ieee_drive_init(drv);
@@ -55,14 +60,16 @@ void machine_drive_setup_context(struct drive_context_s *drv)
     ieee_drive_setup_context(drv);
 }
 
+void machine_drive_idling_method(unsigned int dnr)
+{
+}
+
 void machine_drive_vsync_hook(void)
 {
-
 }
 
 void machine_drive_handle_job_code(unsigned int dnr)
 {
-
 }
 
 void machine_drive_rom_load(void)

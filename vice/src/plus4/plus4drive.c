@@ -36,6 +36,12 @@ int machine_drive_resources_init(void)
     return iec_drive_resources_init() | tcbm_drive_resources_init();
 }
 
+int machine_drive_cmdline_options_init(void)
+{
+    return iec_drive_cmdline_options_init()
+        | tcbm_drive_cmdline_options_init();
+}
+
 void machine_drive_init(struct drive_context_s *drv)
 {
     iec_drive_init(drv);
@@ -58,6 +64,11 @@ void machine_drive_setup_context(struct drive_context_s *drv)
 {
     iec_drive_setup_context(drv);
     tcbm_drive_setup_context(drv);
+}
+
+void machine_drive_idling_method(unsigned int dnr)
+{
+    iec_drive_idling_method(dnr);
 }
 
 void machine_drive_vsync_hook(void)

@@ -26,12 +26,17 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include "ciad.h"
 #include "drivetypes.h"
+#include "iec-cmdline-options.h"
 #include "iec-resources.h"
 #include "iec.h"
 #include "iecrom.h"
 #include "memiec.h"
+#include "resources.h"
+#include "utils.h"
 #include "viad.h"
 #include "wd1770.h"
 
@@ -39,6 +44,11 @@
 int iec_drive_resources_init(void)
 {
     return iec_resources_init();
+}
+
+int iec_drive_cmdline_options_init(void)
+{
+    return iec_cmdline_options_init();
 }
 
 void iec_drive_init(struct drive_context_s *drv)
@@ -65,6 +75,17 @@ void iec_drive_setup_context(struct drive_context_s *drv)
 {
     cia1571_setup_context(drv);
     cia1581_setup_context(drv);
+}
+
+void iec_drive_idling_method(unsigned int dnr)
+{
+    char *tmp;
+
+    tmp = xmsprintf("Drive%iIdleMethod", dnr + 8);
+
+    resources_touch(tmp);
+
+    free(tmp);
 }
 
 void iec_drive_vsync_hook(void)

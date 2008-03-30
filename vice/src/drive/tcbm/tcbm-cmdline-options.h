@@ -1,5 +1,5 @@
 /*
- * tcbmrom.h
+ * tcbm-cmdline-options.h
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,17 +24,10 @@
  *
  */
 
-#ifndef _TCBMROM_H
-#define _TCBMROM_H
+#ifndef _TCBM_CMDLINE_OPTIONS_H
+#define _TCBM_CMDLINE_OPTIONS_H
 
-#include "types.h"
-
-extern void tcbmrom_init(void);
-extern void tcbmrom_setup_image(unsigned int dnr);
-extern int tcbmrom_read(unsigned int type, ADDRESS addr, BYTE *data);
-extern int tcbmrom_check_loaded(unsigned int type);
-
-extern int tcbmrom_load_1551(void);
+extern int tcbm_cmdline_options_init(void);
 
 #endif
 

@@ -34,6 +34,7 @@ struct drive_context_s;
 struct snapshot_s;
 
 extern int ieee_drive_resources_init(void);
+extern int ieee_drive_cmdline_options_init(void);
 extern void ieee_drive_init(struct drive_context_s *drv);
 extern void ieee_drive_reset(struct drive_context_s *drv);
 extern void ieee_drive_mem_init(struct drive_context_s *drv, unsigned int type);
