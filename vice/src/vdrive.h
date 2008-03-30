@@ -144,10 +144,10 @@ struct _DRIVE {
 
     /* File information */
 
-    BYTE Dir_buffer[256];	/* Current DIR sector */
+    BYTE Dir_buffer[256];  /* Current DIR sector */
     int SlotNumber;
 
-    char *find_name;		/* Search pattern */
+    const char *find_name; /* Search pattern */
     int find_length;
     int find_type;
 
@@ -284,7 +284,7 @@ extern int vdrive_bam_read_bam(DRIVE *floppy);
 extern int vdrive_bam_write_bam(DRIVE *floppy);
 
 /* Directory related functions.  */
-extern void  vdrive_dir_find_first_slot(DRIVE *floppy, char *name,
+extern void  vdrive_dir_find_first_slot(DRIVE *floppy, const char *name,
                                        int length, int type);
 extern BYTE *vdrive_dir_find_next_slot(DRIVE *floppy);
 extern void  vdrive_dir_no_a0_pads(BYTE *ptr, int l);
