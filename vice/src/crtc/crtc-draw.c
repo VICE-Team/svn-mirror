@@ -31,6 +31,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "crtc-draw.h"
 #include "crtc.h"
 #include "crtctypes.h"
@@ -401,8 +403,6 @@ static void draw_reverse_line_cached(raster_cache_t *l, int xs, int xe)
 }
 
 
-#ifndef VIDEO_REMOVE_2X
-
 #define DRAW_CACHED_2x(l, xs, xe, reverse_flag)                \
     do {                                                       \
         PIXEL *p = (frame_buffer_ptr                           \
@@ -444,10 +444,12 @@ static void draw_reverse_line_cached_2x(raster_cache_t *l, int xs, int xe)
 
 #endif
 
+#ifndef VIDEO_REMOVE_2X
+
 /***************************************************************************/
 
 #ifdef CRTC_NEED_2X
-static void setup_double_size_modes (void)
+static void setup_double_size_modes(void)
 {
     raster_modes_set(crtc.raster.modes, CRTC_STANDARD_MODE,
                      NULL /* get_std_text */,
