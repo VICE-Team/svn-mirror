@@ -22,6 +22,8 @@ libarch_a_SOURCES = \
 	joystick.h \
 	kbd.c \
 	kbd.h \
+	log.c \
+	log.h \
 	menudefs.c \
 	menudefs.h \
 	petkbd.c \
