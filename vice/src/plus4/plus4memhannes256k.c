@@ -100,16 +100,15 @@ static int set_h256k_enabled(resource_value_t v, void *param)
   }
 }
 
-static const resource_t resources[] = {
-    { "H256K", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&h256k_enabled, set_h256k_enabled, NULL },
+static const resource_int_t resources_int[] = {
+    { "H256K", 0, RES_EVENT_SAME, NULL,
+      &h256k_enabled, set_h256k_enabled, NULL },
     { NULL }
 };
 
 int h256k_resources_init(void)
 {
-  return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 /* ------------------------------------------------------------------------- */

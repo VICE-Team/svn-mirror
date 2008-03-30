@@ -89,16 +89,15 @@ static int set_cs256k_enabled(resource_value_t v, void *param)
   }
 }
 
-static const resource_t resources[] = {
-    { "CS256K", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&cs256k_enabled, set_cs256k_enabled, NULL },
+static const resource_int_t resources_int[] = {
+    { "CS256K", 0, RES_EVENT_SAME, NULL,
+      &cs256k_enabled, set_cs256k_enabled, NULL },
     { NULL }
 };
 
 int cs256k_resources_init(void)
 {
-  return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 /* ------------------------------------------------------------------------- */

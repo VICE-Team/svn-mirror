@@ -190,73 +190,65 @@ static int set_romset_firmware(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
-      RES_EVENT_SAME, NULL,
-      (void *)&sync_factor, set_sync_factor, NULL },
-    { "KernalName", RES_STRING, (resource_value_t)"kernal",
-      RES_EVENT_NO, NULL,
-      (void *)&kernal_rom_name, set_kernal_rom_name, NULL },
-    { "RomsetKernalName", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "BasicName", RES_STRING, (resource_value_t)"basic",
-      RES_EVENT_NO, NULL,
-      (void *)&basic_rom_name, set_basic_rom_name, NULL },
-    { "RomsetBasicName", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "FunctionLowName", RES_STRING, (resource_value_t)"3plus1lo",
-      RES_EVENT_NO, NULL,
-      (void *)&func_lo_rom_name, set_func_lo_rom_name, NULL },
-    { "RomsetFunctionLowName", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
-    { "FunctionHighName", RES_STRING, (resource_value_t)"3plus1hi",
-      RES_EVENT_NO, NULL,
-      (void *)&func_hi_rom_name, set_func_hi_rom_name, NULL },
-    { "RomsetFunctionHighName", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[3], set_romset_firmware, (void *)3 },
-    { "c1loName", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&c1lo_rom_name, set_c1lo_rom_name, NULL },
-    { "c1hiName", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&c1hi_rom_name, set_c1hi_rom_name, NULL },
-    { "c2loName", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&c2lo_rom_name, set_c2lo_rom_name, NULL },
-    { "c2hiName", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&c2hi_rom_name, set_c2hi_rom_name, NULL },
-    { "RamSize", RES_INTEGER, (resource_value_t)64,
-      RES_EVENT_SAME, NULL,
-      (void *)&ram_size_plus4, set_ram_size_plus4, NULL },
+static const resource_string_t resources_string[] = {
+    { "KernalName", "kernal", RES_EVENT_NO, NULL,
+      &kernal_rom_name, set_kernal_rom_name, NULL },
+    { "BasicName", "basic", RES_EVENT_NO, NULL,
+      &basic_rom_name, set_basic_rom_name, NULL },
+    { "FunctionLowName", "3plus1lo", RES_EVENT_NO, NULL,
+      &func_lo_rom_name, set_func_lo_rom_name, NULL },
+    { "FunctionHighName", "3plus1hi", RES_EVENT_NO, NULL,
+      &func_hi_rom_name, set_func_hi_rom_name, NULL },
+    { "c1loName", "", RES_EVENT_NO, NULL,
+      &c1lo_rom_name, set_c1lo_rom_name, NULL },
+    { "c1hiName", "", RES_EVENT_NO, NULL,
+      &c1hi_rom_name, set_c1hi_rom_name, NULL },
+    { "c2loName", "", RES_EVENT_NO, NULL,
+      &c2lo_rom_name, set_c2lo_rom_name, NULL },
+    { "c2hiName", "", RES_EVENT_NO, NULL,
+      &c2hi_rom_name, set_c2hi_rom_name, NULL },
 #ifdef COMMON_KBD
-    { "KeymapIndex", RES_INTEGER, (resource_value_t)KBD_INDEX_PLUS4_DEFAULT,
-      RES_EVENT_NO, NULL,
-      (void *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
-    { "KeymapSymFile", RES_STRING, (resource_value_t)KBD_PLUS4_SYM,
-      RES_EVENT_NO, NULL,
-      (void *)&machine_keymap_file_list[0],
+    { "KeymapSymFile", KBD_PLUS4_SYM, RES_EVENT_NO, NULL,
+      &machine_keymap_file_list[0],
       keyboard_set_keymap_file, (void *)0 },
-    { "KeymapPosFile", RES_STRING, (resource_value_t)KBD_PLUS4_POS,
-      RES_EVENT_NO, NULL,
-      (void *)&machine_keymap_file_list[1],
+    { "KeymapPosFile", KBD_PLUS4_POS, RES_EVENT_NO, NULL,
+      &machine_keymap_file_list[1],
       keyboard_set_keymap_file, (void *)1 },
+#endif
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
+      &sync_factor, set_sync_factor, NULL },
+    { "RomsetKernalName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[0], set_romset_firmware, (void *)0 },
+    { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[1], set_romset_firmware, (void *)1 },
+    { "RomsetFunctionLowName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[2], set_romset_firmware, (void *)2 },
+    { "RomsetFunctionHighName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[3], set_romset_firmware, (void *)3 },
+    { "RamSize", 64, RES_EVENT_SAME, NULL,
+      &ram_size_plus4, set_ram_size_plus4, NULL },
+#ifdef COMMON_KBD
+    { "KeymapIndex", KBD_INDEX_PLUS4_DEFAULT, RES_EVENT_NO, NULL,
+      (int *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
     { NULL }
 };
 
 int plus4_resources_init(void)
 {
-    if (h256k_resources_init()<0)
-      return -1;
-    if (cs256k_resources_init()<0)
-      return -1;
+    if (h256k_resources_init() < 0)
+        return -1;
+    if (cs256k_resources_init() < 0)
+        return -1;
 
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void plus4_resources_shutdown(void)
@@ -272,3 +264,4 @@ void plus4_resources_shutdown(void)
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
 }
+
