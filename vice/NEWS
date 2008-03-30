@@ -1,4 +1,4 @@
-                                                       -*- outline -*-
+                                                        -*- Outline -*-
 
 * About this file
 =================
@@ -67,9 +67,11 @@ list of all the changes in the code.
 
 - Support for 40-track disk images has been added.
 
-- Support for a new GCR-encoded disk format has been added.
+- Support for a new GCR-encoded ("G64") disk format has been added.
 
 - It is now possible to completely disable the idle trap.
+
+- Some little but possibly dangerous bugs have been fixed.
 
 ** Monitor changes
 ------------------
@@ -82,13 +84,13 @@ list of all the changes in the code.
 ** Unix changes
 ---------------
 
-- Sound and joystick should now be supported on NetBSD too (courtesy
-  of Krister Walfridsson <cato@df.lth.se>).
+- Sound and joystick is now supported on NetBSD too (courtesy of
+  Krister Walfridsson <cato@df.lth.se>).
 
 - Support for multiple keyboard layouts and joystick mappings has been
-  added.  A "positional" layout for US keyboards is provided.  Ctrl is
-  now mapped to Tab; the Commodore key is now mapped to left Alt or
-  left Meta.
+  added.  A "positional" layout for US keyboards is provided.  On the
+  C64, VIC20 and C128 emulators, Ctrl is now mapped to Tab; the
+  Commodore key is now mapped to left Ctrl.
 
 - The emulators and c1541 now use the real, full-featured GNU readline
   library if found.  Use `./configure --without-readline' for the old
@@ -100,7 +102,7 @@ list of all the changes in the code.
 
 - RS232 and printer support has been added.
 
-- The XDebugger has died.
+- The XDebugger has died (R.I.P.).
 
 ** MS-DOS changes
 -----------------
@@ -113,14 +115,16 @@ list of all the changes in the code.
 
 - The menu system has been made a bit more usable.  It is now possible
   to open a submenu directly from the emulator screen by pressing Alt
-  + the corresponding hotkey.
+  and the corresponding hotkey.
 
-- An Allegro-based sound driver has been implemented.
+- An Allegro-based sound driver has been implemented.  It replaces the
+  old MIDAS driver in binary distributions because of licensing
+  incompatibilities.
 
-- The video driver now uses triple buffering for much smoother
+- The video driver can now use triple buffering for much smoother
   animations.
 
-- 1351 mouse emulation has been implemented.  Just make sure a working
+- 1351 mouse emulation has been implemented.  Make sure a working
   mouse driver is installed.
 
 - It is now possible to use up to two "real" joysticks and to
@@ -128,14 +132,24 @@ list of all the changes in the code.
   result, it is now possible for two people to play together with two
   "real" joysticks or just with the keyboard.
 
+- A bug that could corrupt the file descriptor table has been fixed.
+
+- The file selector is now much faster when running under plain
+  MS-DOS, as it uses `findfirst()'/`findnext()' instead of DJGPP's
+  Unix-like `opendir()'/`stat()' calls.
+
 ** Miscellaneous changes
 ------------------------
 
-- A major cleanup of the code has been done (this is what took the
-  most time between 0.14.2 and 0.15.0).  Porting and adding features
-  or emulators is now much easier.
+- The file system can be accessed from any drive now, and complete
+  support for P00 files has been implemented.
 
-- "On the fly" Lynx and Zipcode support has been added.
+- A major cleanup of the code has been done (this is what took most of
+  the time between 0.14.2 and 0.15.0).  Porting and adding features or
+  emulators is now much easier.
+
+- "On the fly" Lynx and Zipcode support has been added (use with care,
+  though).
 
 - A couple of bugs in the fast serial emulation have been fixed
   (courtesy of Peter Andrew Felvegi <petschy@derceto.sch.bme.hu>).
@@ -149,10 +163,11 @@ list of all the changes in the code.
 
 - Palette files have been introduced.
 
-- Support for the new reSID engine has been added.
+- Support for Dag Lem's new reSID SID emulation engine has been added.
 
 - Automake is now being used.
 
+- Color palettes are now completely configurable via system files.
 
 * Changes in VICE 0.14.2
 ========================
