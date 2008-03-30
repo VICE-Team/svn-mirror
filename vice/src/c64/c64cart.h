@@ -79,5 +79,7 @@ extern int mem_cartridge_type;
 
 extern int c64cart_type;
 
+extern int try_cartridge_init(int c);
+
 #endif
 
