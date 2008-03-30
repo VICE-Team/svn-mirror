@@ -1906,7 +1906,7 @@ static int write_cmd(int nargs, char **args)
             && p00_read_header(f, (BYTE *)realname, &reclen) >= 0) {
             dest_name_petscii = stralloc(realname);
             dest_name_ascii = stralloc(dest_name_petscii);
-            petconvstring(dest_name_ascii, 0);
+            petconvstring(dest_name_ascii, 1);
         } else {
             char *slashp;
 
