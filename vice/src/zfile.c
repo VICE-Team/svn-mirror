@@ -309,10 +309,12 @@ static int is_valid_extension(char *end, int l, int nameoffset)
    succeeds, return the name of the temporary file; if the archive file is
    valid but `write_mode' is non-zero, return a zero-length string; in all
    the other cases, return NULL.  */
-static char *try_uncompress_archive(const char *name, int write_mode,
-				    char *program, char *listopts,
-				    char *extractopts, char *extension,
-				    char *search)
+static const char *try_uncompress_archive(const char *name, int write_mode,
+                                          const char *program,
+                                          const char *listopts,
+                                          const char *extractopts,
+                                          const char *extension,
+                                          const char *search)
 {
 #ifdef __riscos
     return NULL;
@@ -456,7 +458,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 
 /* If this file looks like a zipcode, try to extract is using c1541. We have
    to figure this out by reading the contents of the file */
-static char *try_uncompress_zipcode(const char *name, int write_mode)
+static const char *try_uncompress_zipcode(const char *name, int write_mode)
 {
     static char tmp_name[L_tmpnam];
     int i, count, sector, sectors = 0;
@@ -512,7 +514,7 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
 
 /* If the file looks like a lynx image, try to extract it using c1541. We have
    to figure this out by reading the contsnts of the file */
-static char *try_uncompress_lynx(const char *name, int write_mode)
+static const char *try_uncompress_lynx(const char *name, int write_mode)
 {
     static char tmp_name[L_tmpnam];
     int i, count;
@@ -605,11 +607,11 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
 
 /* List of archives we understand.  */
 static struct {
-    char	*program;
-    char	*listopts;
-    char	*extractopts;
-    char	*extension;
-    char	*search;
+    const char	*program;
+    const char	*listopts;
+    const char	*extractopts;
+    const char	*extension;
+    const char	*search;
 } valid_archives[] = {
 #if (!defined(__MSDOS__) && !defined(__riscos))
     { "unzip",	"-l",	"-p",		".zip",		"Name" },
@@ -635,8 +637,9 @@ static struct {
    temporary file in `tmp_name'.  If `write_mode' is non-zero and the
    returned `tmp_name' has zero length, then the file cannot be accessed in
    write mode.  */
-static enum compression_type try_uncompress(const char *name, char **tmp_name,
-					    int write_mode)
+static enum compression_type try_uncompress(const char *name,
+                                            const char **tmp_name,
+                                            int write_mode)
 {
     int i;
 
@@ -827,7 +830,7 @@ static int compress(const char *src, const char *dest,
 /* `open()' wrapper.  */
 file_desc_t zopen(const char *name, mode_t opt, int flags)
 {
-    char *tmp_name;
+    const char *tmp_name;
     file_desc_t fd;
     enum compression_type type;
     int write_mode;
@@ -883,7 +886,7 @@ file_desc_t zopen(const char *name, mode_t opt, int flags)
 /* `fopen()' wrapper.  */
 FILE *zfopen(const char *name, const char *mode)
 {
-    char *tmp_name;
+    const char *tmp_name;
     FILE *stream;
     enum compression_type type;
     int write_mode;

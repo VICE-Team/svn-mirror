@@ -37,9 +37,11 @@
 #include "utils.h"
 #include "winmain.h"
 
+/*
 static void enable_controls_for_cbm2_settings(HWND hwnd, int type)
 {
 }
+*/
 
 static void init_dialog(HWND hwnd)
 {
