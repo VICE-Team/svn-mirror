@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <tchar.h>
 #include <commdlg.h>
 
 #include "gfxoutput.h"
@@ -39,6 +40,7 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "sound.h"
+#include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "winmain.h"
@@ -79,13 +81,16 @@ static void init_mediafile_dialog(HWND hwnd)
 static UINT APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wparam,
                                         LPARAM lparam)
 {
+    TCHAR st_screendrivername[MAXSCRNDRVLEN];
+
     switch (uimsg) {
       case WM_INITDIALOG:
         init_mediafile_dialog(hwnd);
         break;
       case WM_NOTIFY:
         GetDlgItemText(hwnd,IDC_SCREENSHOT_DRIVER,
-                       screendrivername,MAXSCRNDRVLEN);
+                       st_screendrivername, MAXSCRNDRVLEN);
+        system_wcstombs(screendrivername, st_screendrivername, MAXSCRNDRVLEN);
         selected_driver = gfxoutput_get_driver(screendrivername);
         if (selected_driver)
             ofn.lpstrFilter = selected_driver->default_extension;
@@ -99,7 +104,8 @@ static UINT APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wparam,
 static char *ui_save_mediafile(const char *title, const char *filter, 
                        HWND hwnd, int dialog_template)
 {
-    char name[1024] = "";
+    TCHAR name[1024] = TEXT("");
+    char *ret = NULL;
 
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
@@ -132,11 +138,10 @@ static char *ui_save_mediafile(const char *title, const char *filter,
     ofn.lpstrDefExt = NULL;
     vsync_suspend_speed_eval();
 
-    if (GetSaveFileName(&ofn)) {
-        return lib_stralloc(name);
-    } else {
-        return NULL;
-    }
+    if (GetSaveFileName(&ofn))
+        ret = system_wcstombs_alloc(name);
+
+    return ret;
 }
 
 
