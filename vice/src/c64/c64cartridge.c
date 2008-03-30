@@ -84,11 +84,10 @@ static int set_cartridge_file(resource_value_t v)
 static int set_cartridge_mode(resource_value_t v)
 	{
 	/*
-	 *      * Set cartridge mode.
-	 *           */
+	 * Set cartridge mode.
+	 */
 	cartridge_mode = (int) v;
 	cartmode = cartridge_mode;
-
 	return 0;
 	}
 
@@ -175,7 +174,7 @@ int cartridge_attach_image(int type, const char *filename)
 		}
 	
     /* allocate temporary array */
-    rawcart = xmalloc(0x44000);
+    rawcart = xmalloc(0x88000);
 
     /* Do not detach cartridge when attaching the same cart type again.  */
     if (type != carttype)
@@ -242,6 +241,8 @@ int cartridge_attach_image(int type, const char *filename)
 	  case CARTRIDGE_EXPERT:
 		/* Clear initial RAM */
 		memset(rawcart, 0xff, 0x2000);
+		/* Set default mode */
+		resources_set_value("CartridgeMode", (resource_value_t) CARTRIDGE_MODE_PRG);
 		break; 
       case CARTRIDGE_IEEE488:
 	/* FIXME: ROM removed? */
@@ -268,9 +269,9 @@ int cartridge_attach_image(int type, const char *filename)
         }
         crttype = header[0x17] + header[0x16] * 256;
         switch (crttype) {
-          case 0:
-          case 11:
-          case 13:
+          case CARTRIDGE_CRT:
+          case CARTRIDGE_WESTERMANN:
+          case CARTRIDGE_FINAL_I:
             if (fread(chipheader, 0x10, 1, fd) < 1) {
                 fclose(fd);
                 goto done;
@@ -281,7 +282,7 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (crttype != 11 && crttype != 13)
+                if (crttype != CARTRIDGE_WESTERMANN && crttype != CARTRIDGE_FINAL_I)
                     crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
                               : CARTRIDGE_GENERIC_16KB;
                 fclose(fd);
@@ -300,8 +301,8 @@ int cartridge_attach_image(int type, const char *filename)
             }
             fclose(fd);
             goto done;
-          case 1:
-          case 9:
+          case CARTRIDGE_ACTION_REPLAY:
+          case CARTRIDGE_ATOMIC_POWER:
             for (i = 0; i <= 3; i++) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
                     fclose(fd);
@@ -311,14 +312,15 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {                    fclose(fd);
+                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+					fclose(fd);
                     goto done;
                 }
             }
             fclose(fd);
             break;
-          case 2:
-          case 4:
+          case CARTRIDGE_KCS_POWER:
+          case CARTRIDGE_SIMONS_BASIC:
             for (i = 0; i <= 1; i++) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
                     fclose(fd);
@@ -336,7 +338,7 @@ int cartridge_attach_image(int type, const char *filename)
             }
             fclose(fd);
             break;
-          case 3:
+          case CARTRIDGE_FINAL_III:
             for (i = 0; i <= 3; i++) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
                     fclose(fd);
@@ -346,29 +348,34 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {                    fclose(fd);
+                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
+					fclose(fd);
                     goto done;
                 }
             }
             fclose(fd);
             break;
-          case 5:
+          case CARTRIDGE_OCEAN:
+          case CARTRIDGE_GS:
             while (1) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
                     fclose(fd);
                     break;
                 }
-                if (chipheader[0xb] >= 32 || (chipheader[0xc] != 0x80
+                if (chipheader[0xb] >= 64 || (chipheader[0xc] != 0x80
                     && chipheader[0xc] != 0xa0)) {
                     fclose(fd);
                     goto done;
                 }
-                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {                    fclose(fd);
+                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+					fclose(fd);
                     goto done;
                 }
+                if ((crttype == CARTRIDGE_OCEAN) && (chipheader[0xb] >= 32))
+                    crttype = CARTRIDGE_OCEAN_HUGE;
             }
             break;
-          case 7:
+          case CARTRIDGE_FUNPLAY:
             while (1) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
                     fclose(fd);
@@ -385,7 +392,7 @@ int cartridge_attach_image(int type, const char *filename)
                 }
             }
             break;
-          case 8:
+          case CARTRIDGE_SUPER_GAMES:
             while (1) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
                     fclose(fd);
@@ -396,13 +403,15 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {                    fclose(fd);
+                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
+					fclose(fd);
                     goto done;
                 }
             }
             break;
-          case 10:
-          case 12:
+          case CARTRIDGE_EPYX_FASTLOAD:
+          case CARTRIDGE_REX:
+		  case CARTRIDGE_EXPERT:
             if (fread(chipheader, 0x10, 1, fd) < 1) {
                 fclose(fd);
                 goto done;
@@ -411,6 +420,9 @@ int cartridge_attach_image(int type, const char *filename)
                 fclose(fd);
                 goto done;
             }
+			if (crttype == CARTRIDGE_EXPERT) {
+				resources_set_value("CartridgeMode", (resource_value_t) CARTRIDGE_MODE_ON);
+			}
             break;
           default:
             fclose(fd);
@@ -468,15 +480,16 @@ void cartridge_init(void)
 
 void cartridge_trigger_freeze(void)
 {
-    if (crttype != CARTRIDGE_ACTION_REPLAY
-        && carttype != CARTRIDGE_ACTION_REPLAY
-        && crttype != CARTRIDGE_KCS_POWER
-        && crttype != CARTRIDGE_FINAL_III
-        && carttype != CARTRIDGE_SUPER_SNAPSHOT
-        && carttype != CARTRIDGE_SUPER_SNAPSHOT_V5
-        && carttype != CARTRIDGE_ATOMIC_POWER
-        && crttype != CARTRIDGE_FINAL_I
-		&& carttype != CARTRIDGE_EXPERT)
+    int type = ((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+
+    if (type != CARTRIDGE_ACTION_REPLAY
+        && type != CARTRIDGE_ACTION_REPLAY
+        && type != CARTRIDGE_KCS_POWER
+        && type != CARTRIDGE_FINAL_III
+        && type != CARTRIDGE_SUPER_SNAPSHOT
+        && type != CARTRIDGE_SUPER_SNAPSHOT_V5
+        && type != CARTRIDGE_ATOMIC_POWER
+        && type != CARTRIDGE_FINAL_I)
         return;
 
     maincpu_set_nmi(I_FREEZE, IK_NMI);

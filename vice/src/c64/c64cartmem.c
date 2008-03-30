@@ -30,6 +30,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "archdep.h"
 #include "c64cart.h"
 #include "c64mem.h"
 #include "c64tpi.h"
@@ -48,7 +49,7 @@ export_t export;
 #ifdef AVOID_STATIC_ARRAYS
 BYTE *roml_banks, *romh_banks;
 #else
-BYTE roml_banks[0x20000], romh_banks[0x20000];
+BYTE roml_banks[0x80000], romh_banks[0x20000];
 #endif
 
 /* Exansion port RAM images.  */
@@ -82,6 +83,13 @@ extern int cartmode;
  */
 static int enable_trigger = 0;          /* Needed by Expert cartridge... */
 
+/*
+ * CRT image "strings".
+ */
+static const char CRT_HEADER[] = "C64 CARTRIDGE   ";
+static const char CHIP_HEADER[] = "CHIP";
+static const char STRING_EXPERT[] = "Expert Cartridge";
+
 
 static void cartridge_config_changed(BYTE mode)
 {
@@ -96,61 +104,51 @@ static void cartridge_config_changed(BYTE mode)
     vic_ii_update_memory_ptrs_external();
 }
 
-void REGPARM1 cartridge_decode_address(ADDRESS addr)
+/*
+ * This function is CARTRIDGE_EXPERT specific!
+ */
+inline void REGPARM1 cartridge_decode_address(ADDRESS addr)
 {
-	BYTE config;
+	BYTE config = (1 << 1);	/* Default: disable ~GAME, export_ram and enable ~EXROM */
 
-	switch (mem_cartridge_type)
+	switch (cartmode)
 		{
-		case CARTRIDGE_EXPERT:
+		case CARTRIDGE_MODE_ON:
+			{
 			/*
 			 * Mask A15-A13.
 			 */
 			addr = addr & 0xe000;
 
-			/*
-			 * Default disable ~GAME, ~EXROM & export_ram
-			 * and do not mirror $8000-$9fff at $e000-$ffff in ultimax mode.
-			 */
-			config = (1 << 1);
-			export_ram_at_a000 = 0;
-
-			switch (cartmode)
+			if (enable_trigger &&
+				((addr == 0x8000) || (addr = 0xe000)))
 				{
-				case CARTRIDGE_MODE_ON:
-					if (enable_trigger &&
-						((addr == 0x8000) || (addr = 0xe000)))
-						{
-						config = (1 << 0);		/* Enable ~GAME */
-						config |= (1 << 1);		/* Disable ~EXROM */
-						config |= (1 << 5);		/* Enable export_ram */
-						/*
-						 * In ultimax mode: Mirror $8000-$9fff at $e000-$ffff
-						 */
-						export_ram_at_a000 = 1;
-						}
-					break;
-
-				case CARTRIDGE_MODE_PRG:
-					if (addr == 0x8000)
-						{
-						config = (1 << 0);		/* Enable ~GAME */
-						config |= (1 << 1);		/* Disable ~EXROM */
-						config |= (1 << 5);		/* Enable export_ram */
-						/*
-						 * In ultimax mode: Mirror $8000-$9fff at $e000-$ffff
-						 */
-						export_ram_at_a000 = 1;
-						}
-					break;
-				}
-
-			if (ramconfig != config)
-				{
-				cartridge_config_changed(config);
-				ramconfig = config;
+				config = (1 << 0);		/* Enable ~GAME */
+				config |= (1 << 1);		/* Disable ~EXROM */
+				config |= (1 << 5);		/* Enable export_ram */
 				}
 			break;
+			}
+
+		case CARTRIDGE_MODE_PRG:
+			{
+			/*
+			 * Mask A15-A13.
+			 */
+			if ((addr & 0xe000) == 0x8000)
+				{
+				config = (1 << 0);		/* Enable ~GAME */
+				config |= (1 << 1);		/* Disable ~EXROM */
+				config |= (1 << 5);		/* Enable export_ram */
+				}
+			break;
+			}
+		}
+
+	if (ramconfig != config)
+		{
+		cartridge_config_changed(config);
+		ramconfig = config;
 		}
 }
 
@@ -172,6 +170,7 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
         cartridge_config_changed(0x42);
         return roml_banks[0x1e00 + (addr & 0xff)];
       case CARTRIDGE_SIMONS_BASIC:
+      case CARTRIDGE_GS:
         cartridge_config_changed(0);
         return rand();
       case CARTRIDGE_SUPER_SNAPSHOT:
@@ -266,10 +265,14 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         }
         break;
       case CARTRIDGE_OCEAN:
+      case CARTRIDGE_OCEAN_HUGE:
       case CARTRIDGE_FUNPLAY:
         switch (mem_cartridge_type) {
           case CARTRIDGE_OCEAN:
-            romh_bank = roml_bank = value & 15;
+            romh_bank = roml_bank = value & 0x0f;
+            break;
+          case CARTRIDGE_OCEAN_HUGE:
+            roml_bank = value & 0x3f;
             break;
           case CARTRIDGE_FUNPLAY:
             romh_bank = roml_bank = ((value >> 2) | (value & 1)) & 15;
@@ -281,8 +284,18 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         } else {
             export.game = export.exrom = 1;
         }
+        if (mem_cartridge_type == CARTRIDGE_OCEAN_HUGE)
+        {
+            export.game = 0;
+            export.exrom = 1;
+        }
         pla_config_changed();
         ultimax = 0;
+        break;
+      case CARTRIDGE_GS:
+        roml_bank = addr & 0x3f;
+        export.game = 0;
+        export.exrom = 1;
         break;
 	  case CARTRIDGE_EXPERT:
 		switch (cartmode)
@@ -445,7 +458,10 @@ BYTE REGPARM1 read_roml(ADDRESS addr)
 
 BYTE REGPARM1 read_romh(ADDRESS addr)
 {
-    if (export_ram_at_a000)
+	/*
+	 * CARTRIDGE_EXPERT: Mirror $8000-$9FFF at $E000-$FFFF in ultimax mode.
+	 */
+    if ((mem_cartridge_type == CARTRIDGE_EXPERT) || export_ram_at_a000)
         return export_ram0[addr & 0x1fff];
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
@@ -506,7 +522,12 @@ void cartridge_init_config(void)
         break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
+      case CARTRIDGE_OCEAN_HUGE:
         cartridge_config_changed(1);
+        cartridge_store_io1((ADDRESS)0xde00, 0);
+        break;
+      case CARTRIDGE_GS:
+        cartridge_config_changed(0);
         cartridge_store_io1((ADDRESS)0xde00, 0);
         break;
       case CARTRIDGE_IEEE488:
@@ -520,6 +541,10 @@ void cartridge_init_config(void)
 		interrupt_set_nmi_trap_func(&maincpu_int_status, cartridge_ack_nmi_reset);
 		interrupt_set_reset_trap_func(&maincpu_int_status, cartridge_ack_nmi_reset);
 
+		/*
+		 * Set the nmi/reset trigger (= cartridge enabled).
+		 */
+		enable_trigger = 1;
 		ramconfig = (1 << 1);       /* Disable ~EXROM */
 		cartridge_config_changed(ramconfig);
 		break;
@@ -587,8 +612,10 @@ void cartridge_attach(int type, BYTE *rawcart)
         cartridge_store_io1((ADDRESS)0xde00, 2);
         break;
       case CARTRIDGE_OCEAN:
+      case CARTRIDGE_OCEAN_HUGE:
       case CARTRIDGE_FUNPLAY:
-        memcpy(roml_banks, rawcart, 0x2000 * 16);
+      case CARTRIDGE_GS:
+        memcpy(roml_banks, rawcart, 0x2000 * 64);
         memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
         break;
       case CARTRIDGE_ULTIMAX:
@@ -658,4 +685,136 @@ void cartridge_ack_nmi_reset(void)
 				break;
 			}
 		}
+}
+
+/*
+ * This function writes Expert .crt images ONLY!!!
+ */
+int cartridge_save_image(const char * filename)
+{
+    FILE *fd;
+    BYTE header[0x40], chipheader[0x10];
+
+	fd = fopen(filename, MODE_WRITE);
+	if (!fd)
+		{
+		return -1;
+		}
+
+	/*
+	 * Initialize headers to zero.
+	 */
+	memset(header, 0x0, 0x40);
+	memset(chipheader, 0x0, 0x10);
+
+	/*
+	 * Construct CRT header.
+	 */
+	strcpy(header, CRT_HEADER);
+
+	/*
+	 * fileheader-length (= 0x0040)
+	 */
+	header[0x10] = 0x00;
+	header[0x11] = 0x00;
+	header[0x12] = 0x00;
+	header[0x13] = 0x40;
+
+	/*
+	 * Version (= 0x0100)
+	 */
+	header[0x14] = 0x01;
+	header[0x15] = 0x00;
+
+	/*
+	 * Hardware type (= CARTRIDGE_EXPERT)
+	 */
+	header[0x16] = 0x00;
+	header[0x17] = CARTRIDGE_EXPERT;
+
+	/*
+	 * Exrom line
+	 */
+	header[0x18] = 0x01;		/* ? */
+
+	/*
+	 * Game line
+	 */
+	header[0x19] = 0x01;		/* ? */
+
+	/*
+	 * Set name.
+	 */
+	strcpy(&header[0x20], STRING_EXPERT);
+
+	/*
+	 * Write CRT header.
+	 */
+	if (fwrite(header, sizeof(BYTE), 0x40, fd) != 0x40)
+		{
+		fclose(fd);
+
+		return -1;
+		}
+
+	/*
+	 * Construct chip packet.
+	 */
+	strcpy(chipheader, CHIP_HEADER);
+
+	/*
+	 * Packet length. (= 0x2010; 0x10 + 0x2000)
+	 */
+	chipheader[0x04] = 0x00;
+	chipheader[0x05] = 0x00;
+	chipheader[0x06] = 0x20;
+	chipheader[0x07] = 0x10;
+
+	/*
+	 * Chip type. (= FlashROM?)
+	 */
+	chipheader[0x08] = 0x00;
+	chipheader[0x09] = 0x02;
+
+	/*
+	 * Bank nr. (= 0)
+	 */
+	chipheader[0x0a] = 0x00;
+	chipheader[0x0b] = 0x00;
+
+	/*
+	 * Address. (= 0x8000)
+	 */
+	chipheader[0x0c] = 0x80;
+	chipheader[0x0d] = 0x00;
+
+	/*
+	 * Length. (= 0x2000)
+	 */
+	chipheader[0x0e] = 0x20;
+	chipheader[0x0f] = 0x00;
+
+	/*
+	 * Write CHIP header.
+	 */
+	if (fwrite(chipheader, sizeof(BYTE), 0x10, fd) != 0x10)
+		{
+		fclose(fd);
+
+		return -1;
+		}
+
+	/*
+	 * Write CHIP packet data.
+	 */
+	if (fwrite(export_ram0, sizeof(char), 0x2000, fd) != 0x2000)
+		{
+		fclose(fd);
+
+		return -1;
+		}
+
+	fclose(fd);
+
+	return 0;
 }
