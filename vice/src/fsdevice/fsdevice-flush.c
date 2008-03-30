@@ -39,10 +39,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_ERRNO_H
-#include <errno.h>
-#endif
-
 #include "archdep.h"
 #include "cbmdos.h"
 #include "charset.h"
@@ -80,7 +76,7 @@ static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
     er = CBMDOS_IPE_OK;
     if (ioutil_chdir(fsdevice_get_path(vdrive->unit)) || ioutil_chdir(arg)) {
         er = CBMDOS_IPE_NOT_FOUND;
-        if (errno == EPERM)
+        if (ioutil_errno(IOUTIL_ERRNO_EPERM))
             er = CBMDOS_IPE_PERMISSION;
     } else { /* get full path and save */
         arg = ioutil_current_dir();
@@ -108,11 +104,11 @@ static int fsdevice_flush_mkdir(char *arg)
     er = CBMDOS_IPE_OK;
     if (ioutil_mkdir(arg, 0770)) {
         er = CBMDOS_IPE_INVAL;
-        if (errno == EEXIST)
+        if (ioutil_errno(IOUTIL_ERRNO_EEXIST))
             er = CBMDOS_IPE_FILE_EXISTS;
-        if (errno == EACCES)
+        if (ioutil_errno(IOUTIL_ERRNO_EACCES))
             er = CBMDOS_IPE_PERMISSION;
-        if (errno == ENOENT)
+        if (ioutil_errno(IOUTIL_ERRNO_ENOENT))
             er = CBMDOS_IPE_NOT_FOUND;
     }
 
@@ -147,7 +143,7 @@ static int fsdevice_flush_remove(char *arg)
     er = CBMDOS_IPE_OK;
     if (ioutil_remove(arg)) {
         er = CBMDOS_IPE_NOT_EMPTY;
-        if (errno == EPERM)
+        if (ioutil_errno(IOUTIL_ERRNO_EPERM))
             er = CBMDOS_IPE_PERMISSION;
     }
 

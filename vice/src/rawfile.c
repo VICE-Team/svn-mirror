@@ -36,6 +36,15 @@
 #include "util.h"
 
 
+struct rawfile_info_s {
+    FILE *fd;
+    char *name;
+    char *path;
+    unsigned int readonly;
+};
+typedef struct rawfile_info_s rawfile_info_t;
+
+
 rawfile_info_t *rawfile_open(const char *file_name, const char *path,
                              unsigned int command)
 {
@@ -75,7 +84,7 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
 
     info = (rawfile_info_t *)lib_malloc(sizeof(rawfile_info_t));
 
-    info->fd = (void *)fd;
+    info->fd = fd;
     util_fname_split(complete, &(info->path), &(info->name));
     info->readonly = 0;
 
@@ -87,21 +96,26 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
 void rawfile_destroy(rawfile_info_t *info)
 {
     if (info != NULL) {
-        fclose((FILE *)(info->fd));
+        fclose(info->fd);
         lib_free(info->name);
         lib_free(info->path);
         lib_free(info);
     }
 }
 
-unsigned int rawfile_read(rawfile_info_t *info, char *buf, unsigned int len)
+unsigned int rawfile_read(rawfile_info_t *info, BYTE *buf, unsigned int len)
 {
     return (unsigned int)fread(buf, 1, len, info->fd);
 }
 
-unsigned int rawfile_write(rawfile_info_t *info, char *buf, unsigned int len)
+unsigned int rawfile_write(rawfile_info_t *info, BYTE *buf, unsigned int len)
 {
     return (unsigned int)fwrite(buf, 1, len, info->fd);
+}
+
+int rawfile_seek_set(rawfile_info_t *info, int offset)
+{
+    return fseek(info->fd, offset, SEEK_SET);
 }
 
 unsigned int rawfile_ferror(rawfile_info_t *info)
@@ -130,7 +144,7 @@ unsigned int rawfile_rename(const char *src_name, const char *dst_name,
     lib_free(complete_dst);
 
     if (rc < 0) {
-        if (ioutil_errno(IOUTIL_ERRNO_EPERM) < 0)
+        if (ioutil_errno(IOUTIL_ERRNO_EPERM))
             return FILEIO_FILE_PERMISSION;
         return FILEIO_FILE_NOT_FOUND;
     }
