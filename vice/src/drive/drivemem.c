@@ -82,7 +82,7 @@ static void REGPARM3 drive_store_watch(drive_context_t *drv, WORD address,
 #pragma optimize("",off)
 #endif
 
-void drive_mem_init(drive_context_t *drv, unsigned int type)
+void drivemem_init(drive_context_t *drv, unsigned int type)
 {
     int i;
 
