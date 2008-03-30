@@ -103,17 +103,18 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
             if (mclk >= vic_ii.fetch_clk) {
                 /* If the fetch starts here, the sprite fetch routine should
                    get the new value, not the old one.  */
-                if (mclk == vic_ii.fetch_clk) {
-                  vic_ii.ram_base_phi2[addr] = value;
+                if (mclk == vic_ii.fetch_clk
+                    || mclk - 1 == vic_ii.fetch_clk) {
+                    vic_ii.ram_base_phi2[addr] = value;
                 }
-                vic_ii_raster_fetch_alarm_handler (clk - vic_ii.fetch_clk);
+                vic_ii_raster_fetch_alarm_handler(clk - vic_ii.fetch_clk);
                 f = 1;
                 /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
                 mclk = clk - rmw_flag - 1;
             }
 
             if (mclk >= vic_ii.draw_clk) {
-                vic_ii_raster_draw_alarm_handler (0);
+                vic_ii_raster_draw_alarm_handler(0);
                 f = 1;
             }
         } while (f);
@@ -189,7 +190,7 @@ inline static void store_sprite_y_position(ADDRESS addr, BYTE value)
     if (cycle == vic_ii.sprite_fetch_cycle + 1
         && value == (vic_ii.raster.current_line & 0xff)) {
         vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
-        vic_ii.fetch_clk = (VIC_II_LINE_START_CLK (clk)
+        vic_ii.fetch_clk = (VIC_II_LINE_START_CLK(clk)
                             + vic_ii.sprite_fetch_cycle + 1);
         alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
     }
@@ -548,9 +549,9 @@ inline static void store_d015(ADDRESS addr, BYTE value)
     if (cycle == vic_ii.sprite_fetch_cycle + 1
         && ((value ^ vic_ii.regs[addr]) & value) != 0) {
         vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
-        vic_ii.fetch_clk = (VIC_II_LINE_START_CLK (clk)
+        vic_ii.fetch_clk = (VIC_II_LINE_START_CLK(clk)
                             + vic_ii.sprite_fetch_cycle + 1);
-        alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+        alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
     }
 
     /* Sprites are turned on: force a DMA check.  */
@@ -565,7 +566,7 @@ inline static void store_d015(ADDRESS addr, BYTE value)
             || vic_ii.raster.current_line > vic_ii.last_dma_line) {
             CLOCK new_fetch_clk;
 
-            new_fetch_clk = (VIC_II_LINE_START_CLK (clk)
+            new_fetch_clk = (VIC_II_LINE_START_CLK(clk)
                              + vic_ii.sprite_fetch_cycle);
             if (cycle > vic_ii.sprite_fetch_cycle)
                 new_fetch_clk += vic_ii.cycles_per_line;
