@@ -51,6 +51,7 @@ struct canvas_s {
     GdkPixmap *drawable;
 #else
     Window drawable;
+    Colormap colormap;
 #endif
 
 };
