@@ -39,30 +39,30 @@
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
 #if 0
-typedef struct frame_buffer_s {
+typedef struct video_frame_buffer_s {
     LPDIRECTDRAWSURFACE dd_surface;
     DDSURFACEDESC dd_surface_desc;
-} *frame_buffer_t;
+} video_frame_buffer_t;
 /* Warning: This assumes the surface has been properly locked and
    corresponding values have been copied in the `dd_surface_desc' member.
    This is guarranteed by the module itself.  */
-#define FRAME_BUFFER_LINE_SIZE(f)        (f)->dd_surface_desc.dwWidth;
-#define FRAME_BUFFER_LINE_START(f, n)    ((PIXEL *) (f)->dd_surface_desc.lpSurface \
-                                          + (n) * (f)->dd_surface_desc.lPitch)
-#define FRAME_BUFFER_START(f)            (FRAME_BUFFER_LINE_START(f, 0))
+#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->dd_surface_desc.dwWidth;
+#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((PIXEL *)(f)->dd_surface_desc.lpSurface \
+                                            + (n) * (f)->dd_surface_desc.lPitch)
+#define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
 
 #else
 
-typedef struct frame_buffer_s {
+typedef struct video_frame_buffer_s {
     int     width;
     int     height;
     PIXEL   *buffer;
-} *frame_buffer_t;
+} video_frame_buffer_t;
 
-#define FRAME_BUFFER_POINTER_FIXUP(x)   (x)
-#define FRAME_BUFFER_LINE_SIZE(f)       (f)->width
-#define FRAME_BUFFER_LINE_START(f, n)   ((f)->buffer+(n)*(f)->width)
-#define FRAME_BUFFER_START(f)           (FRAME_BUFFER_LINE_START(f, 0))
+#define VIDEO_FRAME_BUFFER_POINTER_FIXUP(x) (x)
+#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->width
+#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer + (n) * (f)->width)
+#define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
 #endif
 
 typedef void (*canvas_redraw_t)(unsigned int width, unsigned int height);
@@ -79,7 +79,7 @@ typedef struct _canvas {
     DWORD physical_colors[256];
     PIXEL *pixels;
     HWND hwnd;
-//    frame_buffer_t      frame_buffer;
+//    video_frame_buffer_t      frame_buffer;
     LPDIRECTDRAWSURFACE primary_surface;
     LPDIRECTDRAWSURFACE back_surface;
     LPDIRECTDRAWSURFACE temporary_surface;
@@ -91,10 +91,10 @@ typedef struct _canvas {
 
 extern void canvas_set_border_color(canvas_t canvas, BYTE color);
 
-//extern  frame_buffer_t  main_fbuff;
+//extern  video_frame_buffer_t  main_fbuff;
 //extern  canvas_t        main_canvas;
 
-extern void canvas_render(canvas_t c, frame_buffer_t f,
+extern void canvas_render(canvas_t c, video_frame_buffer_t *f,
                            int xs, int ys, int xi, int yi, int w, int h);
 
 void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h);
