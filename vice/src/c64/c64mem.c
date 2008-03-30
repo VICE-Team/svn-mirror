@@ -444,8 +444,8 @@ static inline void pla_config_changed(void)
     if (tape_sense && !(pport.dir & 0x10))
       ram[1] &= 0xef;
 
-    if (((~pport.dir | pport.data) & 0x20) != old_port_data_out) {
-        old_port_data_out = (~pport.dir | pport.data) & 0x20;
+    if (((pport.dir & pport.data) & 0x20) != old_port_data_out) {
+        old_port_data_out = (pport.dir & pport.data) & 0x20;
         datasette_set_motor(!old_port_data_out);
     }
 
@@ -495,12 +495,14 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
       case 0:
         if (pport.dir != value) {
             pport.dir = value;
+/* printf("0: %i\n",pport.dir & 0x20);*/
             pla_config_changed();
         }
         break;
       case 1:
         if (pport.data != value) {
             pport.data = value;
+/*printf("1: %i\n",pport.data & 0x20);*/
             pla_config_changed();
         }
         break;

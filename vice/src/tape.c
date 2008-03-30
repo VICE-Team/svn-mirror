@@ -220,8 +220,7 @@ int tape_detach_image(void)
         attached_tap_tape = NULL;
         datasette_set_tape_image(NULL);
 
-        /* Tape detached: release play button.  */
-        mem_set_tape_sense(0);
+        tape_traps_install();
 
         return retval;
     }
@@ -262,8 +261,7 @@ int tape_attach_image(const char *name)
 
         log_message(tape_log, "TAP image '%s' attached.", name);
 
-        /* Tape attached: press play button.  */
-        /*mem_set_tape_sense(1);*/
+        tape_traps_deinstall();
 
         return 0;
     }
