@@ -117,11 +117,13 @@ static void deallocate_program_name(void)
 
 static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 {
-    int screen_addr = (int)(mem_read((ADDRESS)(pnt))
-                      | (mem_read((ADDRESS)(pnt + 1)) << 8));
-    int line_length = (int)(lnmx < 0 ? -lnmx : mem_read((ADDRESS)(lnmx)) + 1);
-    int cursor_column = (int)mem_read((ADDRESS)(pntr));
-    int addr, i;
+    int screen_addr, line_length, cursor_column, addr, i;
+
+    screen_addr = (int)(mem_read((ADDRESS)(pnt))
+                  | (mem_read((ADDRESS)(pnt + 1)) << 8));
+    cursor_column = (int)mem_read((ADDRESS)(pntr));
+
+    line_length = (int)(lnmx < 0 ? -lnmx : mem_read((ADDRESS)(lnmx)) + 1);
 
     if (!kbd_buf_is_empty())
         return NOT_YET;
@@ -129,7 +131,8 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
     if (blink_mode == AUTOSTART_WAIT_BLINK && cursor_column != 0)
         return NOT_YET;
 
-    if (blink_mode == AUTOSTART_WAIT_BLINK && mem_read(blnsw) != 0)
+    if (blink_mode == AUTOSTART_WAIT_BLINK && blnsw != 0
+        && mem_read(blnsw) != 0)
         return NOT_YET;
 
     if (blink_mode == AUTOSTART_WAIT_BLINK)
@@ -138,6 +141,7 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
         addr = screen_addr;
 
     for (i = 0; s[i] != '\0'; i++) {
+
         if (mem_read((ADDRESS)(addr + i)) != s[i] % 64) {
             if (mem_read((ADDRESS)(addr + i)) != (BYTE)32)
                 return NO;
