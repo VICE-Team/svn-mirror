@@ -841,9 +841,6 @@ int mem_load_chargen(void)
    `memory.c'. */
 int mem_load(void)
 {
-    WORD sum;			/* ROM checksum */
-    int i;
-
     if (vic20_mem_log == LOG_ERR)
         vic20_mem_log = log_open("VIC20MEM");
 
