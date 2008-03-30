@@ -57,6 +57,10 @@
 /* Joystick status. We use 3 elements to avoid `-1'.  */
 BYTE joystick_value[3] = { 0, 0, 0 };
 
+/* 40/80 column key.  */
+static unsinged int key_ctrl_column4080 = 0;
+static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+
 /* ------------------------------------------------------------------------- */
 
 /* Segment info for the standard keyboard handler.  */
@@ -575,3 +579,11 @@ const char *kbd_code_to_string(kbd_code_t kcode)
 
     return tab[(int) kcode];
 }
+
+/* ------------------------------------------------------------------------ */
+
+void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
+{
+    key_ctrl_column4080_func = func;
+}
+

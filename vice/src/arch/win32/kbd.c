@@ -76,6 +76,10 @@ BYTE _kbd_extended_key_tab[256] = {
 
 BYTE joystick_value[3];
 
+/* 40/80 column key.  */
+static int key_ctrl_column4080 = 0;
+static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+
 struct _convmap {
     /* Conversion map.  */
     keyconv *map;
@@ -237,3 +241,11 @@ const char *kbd_code_to_string(kbd_code_t kcode)
 
     return tab[(int) kcode];
 }
+
+/* ------------------------------------------------------------------------ */
+
+void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
+{
+    key_ctrl_column4080_func = func;
+}
+
