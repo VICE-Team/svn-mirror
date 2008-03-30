@@ -43,10 +43,14 @@
 
 void REGPARM2 io2_store(ADDRESS addr, BYTE value)
 {
-    if (mem_cartridge_type != CARTRIDGE_NONE)
+    if (mem_cartridge_type != CARTRIDGE_NONE) {
         cartridge_store_io2(addr, value);
-    if (reu_enabled)
+        return;
+    }
+    if (reu_enabled) {
         reu_store((ADDRESS)(addr & 0x0f), value);
+        return;
+    }
     return;
 }
 
