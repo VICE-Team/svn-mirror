@@ -1452,7 +1452,7 @@
         }
 
 #    define FETCH_OPCODE(o)                                                  \
-          ((reg_pc < bank_limit) ? ((o).ins = *(bank_base + reg_pc),         \
+          ((((int)reg_pc) < bank_limit) ? ((o).ins = *(bank_base + reg_pc),  \
                         (o).op.op16 = (*(bank_base + reg_pc + 1)             \
                                        | (*(bank_base + reg_pc + 2) << 8)))  \
                      : ((o).ins = LOAD(reg_pc),                              \

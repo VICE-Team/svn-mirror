@@ -39,6 +39,7 @@ noinst_HEADERS = \
 	cartridge.h \
 	charsets.h \
 	cia.h \
+	ciacore.h \
 	cmdline.h \
 	config.h.in \
 	crtc.h \
@@ -153,6 +154,7 @@ EXTRA_DIST = \
 	ChangeLog.2 \
 	aciacore.c \
 	cia-tmpl.c \
+	ciacore.c \
 	crtccore.c \
 	convio \
 	fixpoint.c \

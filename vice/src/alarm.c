@@ -132,46 +132,6 @@ void alarm_destroy(alarm_t *alarm)
     free(alarm);
 }
 
-void alarm_set(alarm_t *alarm, CLOCK clk)
-{
-    alarm_context_t *context;
-    int idx;
-
-    context = alarm->context;
-    idx = alarm->pending_idx;
-
-    if (idx < 0) {
-        unsigned int new_idx;
-
-        /* Not pending yet: add.  */
-
-        new_idx = context->num_pending_alarms;
-        if (new_idx >= ALARM_CONTEXT_MAX_PENDING_ALARMS) {
-            log_error(LOG_DEFAULT, "alarm_set(): Too many alarms set!\n");
-            return;
-        }
-
-        context->pending_alarms[new_idx].alarm = alarm;
-        context->pending_alarms[new_idx].clk = clk;
-
-        context->num_pending_alarms++;
-
-        if (clk < context->next_pending_alarm_clk) {
-            context->next_pending_alarm_clk = clk;
-            context->next_pending_alarm_idx = new_idx;
-        }
-
-        alarm->pending_idx = new_idx;
-    } else {
-        /* Already pending: modify.  */
-        
-        context->pending_alarms[idx].clk = clk;
-        if (context->next_pending_alarm_clk > clk
-            || idx == context->next_pending_alarm_idx)
-            alarm_context_update_next_pending(context);
-    }
-}
-
 void alarm_unset(alarm_t *alarm)
 {
     alarm_context_t *context;

@@ -18,6 +18,8 @@ list of all the changes in the code.
 - Attaching a non-existant image via command line does not crash the
   emulator anymore.
 
+- ROM snapshots do not save ROMs with "traps" anymore
+
 ** MS-DOS changes
 -----------------
 
@@ -76,6 +78,8 @@ list of all the changes in the code.
 
 ** CBM-II changes
 -----------------
+
+- Speed up emulation.
 
 ** C1541 changes
 ----------------

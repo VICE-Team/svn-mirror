@@ -28,6 +28,7 @@
 #define _ALARM_H
 
 #include "types.h"
+#include "log.h"
 
 #define ALARM_CONTEXT_MAX_PENDING_ALARMS 0x100
 
@@ -94,7 +95,6 @@ alarm_t *alarm_new(alarm_context_t *context, const char *name,
 void alarm_init(alarm_t *alarm, alarm_context_t *context, const char *name,
                 alarm_callback_t callback);
 void alarm_destroy(alarm_t *alarm);
-void alarm_set(alarm_t *alarm, CLOCK clk);
 void alarm_unset(alarm_t *alarm);
 
 /* ------------------------------------------------------------------------- */
@@ -139,6 +139,46 @@ inline static void alarm_context_dispatch(alarm_context_t *context, CLOCK clk)
     idx = context->next_pending_alarm_idx;
 
     (context->pending_alarms[idx].alarm->callback)(offset);
+}
+
+inline static void alarm_set(alarm_t *alarm, CLOCK clk)
+{
+    alarm_context_t *context;
+    int idx;
+
+    context = alarm->context;
+    idx = alarm->pending_idx;
+
+    if (idx < 0) {
+        unsigned int new_idx;
+
+        /* Not pending yet: add.  */
+
+        new_idx = context->num_pending_alarms;
+        if (new_idx >= ALARM_CONTEXT_MAX_PENDING_ALARMS) {
+            log_error(LOG_DEFAULT, "alarm_set(): Too many alarms set!\n");
+            return;
+        }
+
+        context->pending_alarms[new_idx].alarm = alarm;
+        context->pending_alarms[new_idx].clk = clk;
+
+        context->num_pending_alarms++;
+
+        if (clk < context->next_pending_alarm_clk) {
+            context->next_pending_alarm_clk = clk;
+            context->next_pending_alarm_idx = new_idx;
+        }
+
+        alarm->pending_idx = new_idx;
+    } else {
+        /* Already pending: modify.  */
+
+        context->pending_alarms[idx].clk = clk;
+        if (context->next_pending_alarm_clk > clk
+            || idx == context->next_pending_alarm_idx)
+            alarm_context_update_next_pending(context);
+    }
 }
 
 #endif
