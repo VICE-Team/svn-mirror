@@ -585,13 +585,13 @@ static ui_menu_entry_t set_file_system_device_submenu[] = {
 };
 
 static ui_menu_entry_t set_fsdevice_directory_submenu[] = {
-    { "Device #8", (ui_callback_t) set_fsdevice_directory,
+    { "Device #8...", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 8, NULL },
-    { "Device #9", (ui_callback_t) set_fsdevice_directory,
+    { "Device #9...", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 9, NULL },
-    { "Device #10", (ui_callback_t) set_fsdevice_directory,
+    { "Device #10...", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 10, NULL },
-    { "Device #11", (ui_callback_t) set_fsdevice_directory,
+    { "Device #11...", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 11, NULL },
     { NULL }
 };
