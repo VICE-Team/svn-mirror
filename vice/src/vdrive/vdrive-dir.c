@@ -39,6 +39,7 @@
 #include <string.h>
 
 #include "diskimage.h"
+#include "log.h"
 #include "vdrive-bam.h"
 #include "vdrive-dir.h"
 #include "vdrive.h"
@@ -137,8 +138,8 @@ static BYTE *find_next_directory_sector(vdrive_t *vdrive, int track, int sector)
         disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
                                 vdrive->Curr_track, vdrive->Curr_sector);
 #ifdef DEBUG_DRIVE
-        fprintf(logfile, "Found (%d %d) TR = %d SE = %d.\n",
-                track, sector, vdrive->Curr_track, vdrive->Curr_sector);
+        log_debug("Found (%d %d) TR = %d SE = %d.",
+                  track, sector, vdrive->Curr_track, vdrive->Curr_sector);
 #endif
         vdrive->SlotNumber = 0;
         memset(vdrive->Dir_buffer, 0, 256);
@@ -165,7 +166,7 @@ void vdrive_dir_remove_slot(vdrive_t *vdrive, BYTE *slot)
                                (char *)&slot[SLOT_NAME_OFFSET], tmp,
                                slot[SLOT_TYPE_OFFSET] & 0x07);
 
-    /* If slot slot found, remove.  */
+    /* If slot found, remove.  */
     if (vdrive_dir_find_next_slot(vdrive)) {
 
         /* Free all sector this file is using.  */
@@ -239,13 +240,12 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
                                             vdrive->Curr_sector);
         }
         while (vdrive->SlotNumber < 8) {
-            if (vdrive_dir_name_match(&vdrive->Dir_buffer[vdrive->SlotNumber * 32],
+            if (vdrive_dir_name_match(
+                                  &vdrive->Dir_buffer[vdrive->SlotNumber * 32],
                                   vdrive->find_name, vdrive->find_length,
                                   vdrive->find_type)) {
-                /* FIXME: This reads two byte past the size of `Dir_buffer'
-                          when `SlotNumber' is 7!  AB19981122 */
                 memcpy(return_slot,
-                           &vdrive->Dir_buffer[vdrive->SlotNumber * 32], 32);
+                       &vdrive->Dir_buffer[vdrive->SlotNumber * 32], 32);
                 return return_slot;
             }
             vdrive->SlotNumber++;
@@ -314,7 +314,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
             break;
           default:
             log_error(vdrive_log,
-                      "Unknown disk type %i.  Cannout find directory slot.",
+                      "Unknown disk type %i.  Cannot find directory slot.",
                       vdrive->image_format);
             break;
         }
@@ -338,8 +338,7 @@ void vdrive_dir_no_a0_pads(BYTE *ptr, int l)
  */
 
 int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
-                                int length, int filetype, int secondary,
-                                BYTE *outputptr)
+                                int length, int filetype, BYTE *outputptr)
 {
     BYTE *l, *p;
     BYTE *origptr = outputptr;
@@ -386,7 +385,6 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
     l += 5;
     *l++ = 0;
 
-
     /*
      * Pointer to the next line
      */
@@ -396,7 +394,6 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
     outputptr[2] = 1;   /* addr & 0xff; */
     outputptr[3] = 1;   /* (addr >>8) & 0xff; */
     outputptr = l;
-
 
     /*
      * Now, list files that match the pattern.
@@ -457,7 +454,7 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
              * Depending on the file size, there are more or less spaces
              */
 
-            sprintf ((char *)l, "%c%s%c%c",
+            sprintf((char *)l, "%c%s%c%c",
                     (p[SLOT_TYPE_OFFSET] & FT_CLOSED ? ' ' : '*'),
                     slot_type[p[SLOT_TYPE_OFFSET] & 0x07],
                     (p[SLOT_TYPE_OFFSET] & FT_LOCKED ? '<' : ' '),
