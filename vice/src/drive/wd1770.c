@@ -39,6 +39,7 @@
 #include "drivecpu.h"
 #include "interrupt.h"
 #include "log.h"
+#include "vdrive.h"
 #include "wd1770.h"
 
 /*-----------------------------------------------------------------------*/
@@ -61,6 +62,7 @@ static void wd1770_command_writetrack(BYTE command, int dnr);
 
 /* wd1770 disk controller structure.  */
 static wd1770_t wd1770[2];
+static DRIVE *vdrive[2];
 
 /*-----------------------------------------------------------------------*/
 /* WD1770 external interface.  */
@@ -357,12 +359,12 @@ static int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
     int rc, i, base;
     BYTE sector_data[256];
 
-    rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
-                           drive[dnr].drive_floppy->ImageFormat,
+    rc = floppy_read_block(vdrive[dnr]->ActiveFd,
+                           vdrive[dnr]->ImageFormat,
                            sector_data, track, sector,
-                           drive[dnr].drive_floppy->D64_Header,
-                           drive[dnr].drive_floppy->GCR_Header,
-                           drive[dnr].drive_floppy->unit);
+                           vdrive[dnr]->D64_Header,
+                           vdrive[dnr]->GCR_Header,
+                           vdrive[dnr]->unit);
     if (rc < 0) {
         log_error(drive[dnr].log, 
                   "Cannot read T:%d S:%d from disk image.",
@@ -391,12 +393,12 @@ static int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
         else
             sector_data[i] = drive1_read((ADDRESS) (base + i));
     }
-    rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
-                            drive[dnr].drive_floppy->ImageFormat,
+    rc = floppy_write_block(vdrive[dnr]->ActiveFd,
+                            vdrive[dnr]->ImageFormat,
                             sector_data, track, sector,
-                            drive[dnr].drive_floppy->D64_Header,
-                            drive[dnr].drive_floppy->GCR_Header,
-                            drive[dnr].drive_floppy->unit);
+                            vdrive[dnr]->D64_Header,
+                            vdrive[dnr]->GCR_Header,
+                            vdrive[dnr]->unit);
     if (rc < 0) {
         log_error(drive[dnr].log,
                   "Could not update T:%d S:%d on disk image.",
@@ -427,8 +429,8 @@ void wd1770_handle_job_code(int dnr)
             log_debug("WD1770 Buffer:%i Command:%x T:%i S:%i\n",
                       buffer, command, track, sector);
 #endif
-            if (drive[dnr].drive_floppy != NULL
-                && drive[dnr].drive_floppy->ImageFormat == 1581) {
+            if (vdrive[dnr] != NULL
+                && vdrive[dnr]->ImageFormat == 1581) {
                 drive[dnr].current_half_track = track * 2;
                 switch (command) {
                   case 0x80:
@@ -467,5 +469,29 @@ void wd1770_vsync_hook(void)
                 wd1770[1].led_delay_clk = (CLOCK)0;
         drive[1].led_status = (wd1770[1].led_delay_clk == (CLOCK) 0) ? 0 : 1;
     }
+}
+
+int wd1770_attach_disk(void *flp)
+{
+    DRIVE *floppy = (DRIVE *)flp;
+
+    if (floppy->unit != 8 && floppy->unit != 9)
+        return -1;
+
+    vdrive[floppy->unit - 8] = floppy;
+
+    return 0;
+}
+
+int wd1770_detach_disk(void *flp)
+{
+    DRIVE *floppy = (DRIVE *)flp;
+
+    if (floppy->unit != 8 && floppy->unit != 9)
+        return -1;
+
+    vdrive[floppy->unit] = NULL;
+
+    return 0;
 }
 

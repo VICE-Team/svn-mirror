@@ -56,11 +56,14 @@
 #include "alarm.h"
 #include "snapshot.h"
 
-void fdc_init(int fnum, BYTE *buffer_memory, BYTE *ipromp);
-void fdc_reset(int fnum, int enabled);
+extern void fdc_init(int fnum, BYTE *buffer_memory, BYTE *ipromp);
+extern void fdc_reset(int fnum, int enabled);
 
-int fdc_read_snapshot_module(snapshot_t *s, int drv);
-int fdc_write_snapshot_module(snapshot_t *s, int drv);
+extern int fdc_read_snapshot_module(snapshot_t *s, int drv);
+extern int fdc_write_snapshot_module(snapshot_t *s, int drv);
+
+extern int fdc_attach_disk(void *flp);
+extern int fdc_detach_disk(void *flp);
 
 #endif
 

@@ -70,5 +70,8 @@ extern void wd1770d1_reset(void);
 extern void wd1770_handle_job_code(int dnr);
 extern void wd1770_vsync_hook(void);
 
+extern int wd1770_attach_disk(void *flp);
+extern int wd1770_detach_disk(void *flp);
+
 #endif                          /* _WD1770_H */
 
