@@ -29,8 +29,6 @@
  *
  */
 
-#define _UI_XAW_C
-
 #include "vice.h"
 
 #include <stdio.h>
