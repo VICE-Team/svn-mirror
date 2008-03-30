@@ -1,3 +1,11 @@
+2006-05-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.11.
+
+2006-04-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added the HAVE_NTOHx defines for win32.
+
 2006-04-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.10.
