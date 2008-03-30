@@ -378,6 +378,17 @@ int set_physical_colors(video_canvas_t *c)
         log_debug("Non RGB surface...");
     }
 
+	if (c->depth > 8)
+	{
+		for (i=0;i<256;i++)
+		{
+			video_render_setrawrgb(i,
+				((i & (rmask << rbits)) >> rbits) << rshift,
+				((i & (gmask << gbits)) >> gbits) << gshift,
+				((i & (bmask << bbits)) >> bbits) << bshift);
+		}
+		video_render_initraw();
+	}
 
     for (i = 0; i < c->palette->num_entries; i++) {
         DWORD p;
@@ -628,7 +639,7 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
         }
     }
 
-    c->pixel_translate=malloc(sizeof(PIXEL)*256);
+    c->pixel_translate=malloc(sizeof(BYTE)*256);
     if (set_palette(c) < 0)
         goto error;
     c->pixels = pixel_return;

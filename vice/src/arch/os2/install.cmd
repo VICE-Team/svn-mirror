@@ -142,7 +142,9 @@ CALL createShadow "<VICE2_TEXT>", 'drive_info.txt'
 CALL createShadow "<VICE2_TEXT>", 'mon.txt'
 CALL createShadow "<VICE2_TEXT>", 'PETdoc.txt'
 CALL createShadow "<VICE2_TEXT>", 'serial.txt'
-CALL createShadow "<VICE2_TEXT>", 'Evaluation'
+/*
+ CALL createShadow "<VICE2_TEXT>", 'Evaluation'
+ */
 
 say 'Creating a Vice/2 subfolder ''Online''...'
 if SysCreateObject("WPFolder","Vice Online","<VICE2_DOC>","OBJECTID=<VICE2_ONLINE>","update")<>1 then

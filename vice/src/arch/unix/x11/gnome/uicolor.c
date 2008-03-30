@@ -135,11 +135,11 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette,
 
 int uicolor_alloc_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long *color_pixel,
-                        PIXEL *pixel_return)
+                        BYTE *pixel_return)
 {
     GdkColor *color;
     XImage *im;
-    PIXEL *data = (PIXEL *)xmalloc(4);
+    BYTE *data = (BYTE *)xmalloc(4);
     Display *display = ui_get_display_ptr();
 
     color = (GdkColor *)xmalloc(sizeof(GdkColor));

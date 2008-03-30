@@ -86,7 +86,7 @@
 #include "fullscreen.h"
 #endif
 #include "videoarch.h"
-#include "vsidui.h"
+#include "vsiduiunix.h"
 
 /* FIXME: We want these to be static.  */
 GdkVisual *visual;
@@ -968,14 +968,20 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
 		       GTK_SIGNAL_FUNC(update_menu_cb),NULL);
     gnome_app_set_menus(GNOME_APP(new_window), GTK_MENU_BAR(topmenu));
 
+    gtk_widget_show(new_window);
     if (vsid_mode)
 	new_canvas = build_vsid_ctrl_widget();
     else
+    {
+	alloc_colormap();
+	gtk_widget_push_visual (visual);
+        gtk_widget_push_colormap (colormap);
 	new_canvas = gtk_drawing_area_new();
+        gtk_widget_pop_visual ();
+        gtk_widget_pop_colormap ();
+    }
 
-    gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,FALSE,FALSE,0);
     
-    gtk_widget_show(new_canvas);
     gtk_widget_set_events(new_canvas,
 			  GDK_LEAVE_NOTIFY_MASK |
 			  GDK_ENTER_NOTIFY_MASK |			  
@@ -986,8 +992,8 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
 			  GDK_FOCUS_CHANGE_MASK |
 			  GDK_POINTER_MOTION_MASK |
 			  GDK_EXPOSURE_MASK);
-
-    gtk_widget_show(new_window);
+    gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,FALSE,FALSE,0);
+    gtk_widget_show(new_canvas);
 
     gtk_signal_connect(GTK_OBJECT(new_canvas),"expose-event",
 		       GTK_SIGNAL_FUNC(exposure_callback),
@@ -1040,7 +1046,6 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
     if (vsid_mode)
 	return (ui_window_t) NULL;
     
-    alloc_colormap();
     if (!app_gc)
 	app_gc = gdk_gc_new(new_window->window);
     if (uicolor_alloc_colors(c, palette, pixel_return) == -1)

@@ -58,6 +58,8 @@ typedef struct video_render_config_s video_render_config_t;
 
 extern void video_render_initconfig(video_render_config_t *config);
 extern void video_render_setphysicalcolor(video_render_config_t *config, int index, DWORD color, int depth);
+extern void video_render_setrawrgb(int index, DWORD r, DWORD g, DWORD b);
+extern void video_render_initraw(void);
 
 /**************************************************************/
 
@@ -75,6 +77,9 @@ extern struct video_canvas_s *video_canvas_create(const char *win_name,
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  BYTE *draw_buffer,
                                  unsigned int draw_buffer_line_size,
+#ifdef __OS2__
+                                 unsigned int draw_buffer_height,
+#endif
                                  unsigned int xs, unsigned int ys,
                                  unsigned int xi, unsigned int yi,
                                  unsigned int w, unsigned int h);

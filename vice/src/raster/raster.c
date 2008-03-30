@@ -227,7 +227,7 @@ static int realize_canvas(raster_t *raster)
 
         if (raster->pixel_table.sing[0] != 0)
             raster_force_repaint(raster);
-    } else {
+    } else { 
         video_canvas_resize(viewport->canvas, viewport->width,
                             viewport->height);
     }
@@ -327,7 +327,7 @@ static int perform_mode_change(raster_t *raster)
         raster->refresh_tables();
 
     raster_force_repaint(raster);
-
+    
     video_canvas_resize(canvas, viewport->width, viewport->height);
     raster_resize_viewport(raster, viewport->width, viewport->height);
 
@@ -395,6 +395,14 @@ static void update_canvas(raster_t *raster)
     w = update_area->xe - update_area->xs + 1;
     h = update_area->ye - update_area->ys + 1;
 
+    if (video_render_get_fake_pal_state()) {
+		/* if pal emu is activated, more pixels have to be updated */
+		x -= 4;
+		xx -= 4;
+		w += 8;
+		h ++;
+    }
+
     if (xx < 0) {
         x -= xx;
         w += xx;
@@ -409,12 +417,6 @@ static void update_canvas(raster_t *raster)
 
     x += raster->geometry.extra_offscreen_border_left;
 
-    if (video_render_get_fake_pal_state()) {
-        /* the fake pal emu needs one more pixel left and bottom update */
-        w++;
-        h++;
-    }
-
     x *= viewport->pixel_size.width;
     xx *= viewport->pixel_size.width;
     w *= viewport->pixel_size.width;
@@ -428,6 +430,9 @@ static void update_canvas(raster_t *raster)
     video_canvas_refresh(viewport->canvas,
                          raster->draw_buffer,
                          raster->draw_buffer_width,
+#ifdef __OS2__
+                         raster->draw_buffer_height,
+#endif
                          x, y,
                          xx + viewport->x_offset, yy + viewport->y_offset,
                          w, h);
@@ -450,6 +455,9 @@ static void update_canvas_all(raster_t *raster)
     video_canvas_refresh(viewport->canvas,
                          raster->draw_buffer,
                          raster->draw_buffer_width,
+#ifdef __OS2__
+                         raster->draw_buffer_height,
+#endif
                          (viewport->first_x * viewport->pixel_size.width
                          + raster->geometry.extra_offscreen_border_left),
                          viewport->first_line * viewport->pixel_size.height,
@@ -1603,10 +1611,12 @@ void raster_force_repaint(raster_t *raster)
                + raster->geometry.extra_offscreen_border_right;
     fb_height = (raster->geometry.screen_size.height);
 
+#ifndef __OS2__
     if (!console_mode && !vsid_mode && raster->draw_buffer) {
         raster_draw_buffer_clear(raster->draw_buffer, RASTER_PIXEL(raster, 0),
                                  fb_width, fb_height);
     }
+#endif
 }
 
 int raster_set_palette(raster_t *raster, palette_t *palette)
@@ -1699,6 +1709,9 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
         + raster->viewport.first_x;
     screenshot->draw_buffer = raster->draw_buffer;
     screenshot->draw_buffer_line_size = raster->draw_buffer_width;
+#ifdef __OS2__
+    screenshot->bufh = raster->draw_buffer_height;
+#endif
     return 0;
 }
 

@@ -124,17 +124,16 @@ static int set_delayloop_emulation(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_pal_emulation(resource_value_t v, void *param)
+static int set_pal_scanlineshade(resource_value_t v, void *param)
 {
-    int old = video_resources.pal_emulation;
-    video_resources.pal_emulation = (int)v;
+    video_resources.pal_scanlineshade = (int)v;
+    return video_color_update_palette();
+}
 
-    if (video_color_update_palette() < 0) {
-        video_resources.pal_emulation = old;
-        return -1;
-    }
-
-    return 0;
+static int set_pal_mode(resource_value_t v, void *param)
+{
+    video_resources.pal_mode = (int)v;
+	return 0;
 }
 
 static resource_t resources[] =
@@ -165,9 +164,12 @@ static resource_t resources_pal[] =
     { "DelayLoopEmulation", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&video_resources.delayloop_emulation,
       set_delayloop_emulation, NULL },
-    { "PALEmulation", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&video_resources.pal_emulation,
-      set_pal_emulation, NULL },
+    { "PALScanLineShade", RES_INTEGER, (resource_value_t)500,
+      (resource_value_t *)&video_resources.pal_scanlineshade,
+      set_pal_scanlineshade, NULL },
+    { "PALMode", RES_INTEGER, (resource_value_t)VIDEO_RESOURCE_PAL_MODE_BLUR,
+      (resource_value_t *)&video_resources.pal_mode,
+      set_pal_mode, NULL },
     { NULL }
 };
 

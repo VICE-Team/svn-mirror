@@ -191,9 +191,9 @@ static int set_stretch_factor(resource_value_t v, void *param)
         if (!DosRequestMutexSem(c->hmtx, SEM_INDEFINITE_WAIT))
         {
             //
-            // Disable drawing into window
+            // Disable drawing into window -> already in video_canvas_resize
             //
-            WmVrnDisabled(hwndlist[i]);
+            // WmVrnDisabled(hwndlist[i]);
 
             //
             // resize canvas
@@ -652,54 +652,6 @@ void video_close(void)
 }
 
 /* ------------------------------------------------------------------------ */
-/* Frame buffer functions.  */
-int video_frame_buffer_alloc(video_frame_buffer_t **f, UINT width, UINT height)
-{
-    APIRET rc;
-
-    //if (width<sizeof(ULONG))
-    //    width=sizeof(ULONG); // Sizeline Boundary, Workaround
-
-    (*f) = (video_frame_buffer_t*) calloc(1, sizeof(video_frame_buffer_t));
-    (*f)->bitmap = (char*) calloc(width*height, sizeof(BYTE));
-    (*f)->width  = width;
-    (*f)->height = height;
-
-    log_message(vidlog, "Video frame buffer %dx%d allocated %p",
-                width, height, *f);
-
-    return 0;
-}
-
-void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
-{
-    // raster_force_repaint, we needn't this
-    //    memset((*f)->bitmap, value, ((*f)->width)*((*f)->height)*sizeof(BYTE));
-}
-
-void video_frame_buffer_free(video_frame_buffer_t *f)
-{
-    //
-    // This is if video_close calls video_free before a frame_buffer is allocated
-    //
-    if (!f)
-        return;
-
-    DEBUG("FRAME BUFFER FREE 0");
-
-    //
-    // if f is valid also f->bitmap must be valid
-    // (see video_frame_buffer_alloc)
-    //
-    free(f->bitmap);
-    free(f);
-
-    log_message(vidlog, "Video frame buffer %p freed.", f);
-
-    DEBUG("FRAME BUFFER FREE 1");
-}
-
-/* ------------------------------------------------------------------------ */
 /* PM Window mainloop */
 
 MRESULT WmCreate(HWND hwnd)
@@ -920,7 +872,8 @@ void WmVrnDisabled(HWND hwnd)
     DEBUG("WM VRN DISABLED 1");
 }
 
-void VideoCanvasBlit(video_canvas_t *c, video_frame_buffer_t *f,
+void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
+                     unsigned int linesz, unsigned int bufh,
                      UINT xs, UINT ys, UINT xi, UINT yi, UINT w, UINT h)
 {
     ULONG rc;
@@ -944,16 +897,18 @@ void VideoCanvasBlit(video_canvas_t *c, video_frame_buffer_t *f,
     // scr write x x2: 0 + 1008 > 768
     // scr write y x2: 0 + 592 > 544
     //
-    if (xs+w > f->width*dsx)
+    if (xs+w > linesz*dsx)
     {
-        log_message(vidlog, "Debug - fbuf read x: %d + %d > %d * %d, c->width=%d", xs, w, f->width, dsx, c->width);
-        w = dsx*f->width-xs;
+        log_message(vidlog, "Debug - fbuf read x: %d + %d > %d * %d, c->width=%d", xs, w, linesz, dsx, c->width);
+        w = dsx*linesz-xs;
     }
-    if (ys+h > f->height*dsy)
+
+    if (ys+h > bufh*dsy)
     {
-        log_message(vidlog, "Debug - fbuf read y: %d + %d > %d * %d, c->height=%d", ys, h, f->height, dsy, c->height);
-        h = dsy*f->height-ys;
+        log_message(vidlog, "Debug - fbuf read y: %d + %d > %d * %d, c->height=%d", ys, h, bufh, dsy, c->height);
+        h = dsy*bufh-ys;
     }
+
 /*
     if (xi+w > c->width)
     {
@@ -1012,13 +967,13 @@ void VideoCanvasBlit(video_canvas_t *c, video_frame_buffer_t *f,
         return;
     }
 
-    video_render_main(&c->videoconfig,    // color table
-                      f->bitmap,         // bitmap source  (vice)
+    video_render_main(&c->videoconfig,   // color table
+                      buf,               // bitmap source  (vice)
                       targetbuffer,      // c->bitmaptrg,        // bitmap target (screen/dive)
                       w, h,              // f->width, f->height, // bitmap width, height (2copy)
                       xs, ys,            // 0, 0,                // top, left source
                       xi, yi,            // 0, 0,                // top, left target
-                      f->width,          // line size source
+                      linesz,            // line size source
                       scanlinesize,      // fccColorEncoding,    // c->width,            // line size target
 #ifdef USE_LUT8
                       8
@@ -1071,13 +1026,13 @@ void VideoCanvasBlit(video_canvas_t *c, video_frame_buffer_t *f,
         h = divecaps.ulVerticalResolution - (c->divesetup.lScreenPosY + yi);
 
     video_render_main(c->palette,
-                      f->bitmap,
+                      buf,
                       c->pVram,
                       w, h,
                       xs, ys,
                       c->divesetup.lScreenPosX+xi,
                       c->divesetup.lScreenPosY+yi,
-                      f->width,
+                      linesz,
                       divecaps.ulScanLineBytes,
                       divecaps.ulDepth
                      );
@@ -1132,11 +1087,12 @@ void WmPaint(HWND hwnd)
         WmVrnEnabled(hwnd);
 
         DEBUG("WM_PAINT 3");
-
+        
         //
         // blit to canvas (canvas_refresh should be thread safe by itself)
         //
-        VideoCanvasBlit(c, geom.frame_buffer,
+        VideoCanvasBlit(c, geom.draw_buffer, geom.draw_buffer_line_size,
+                        geom.bufh,
                         (c->videoconfig.doublesizex + 1) * geom.first_displayed_col,
                         (c->videoconfig.doublesizey + 1) * geom.first_displayed_line,
                         0, 0, c->width, c->height);
@@ -1830,7 +1786,7 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
     //
     WmVrnEnabled(c->hwndClient);
 
-    c->exposure(c->width, c->height);
+//    c->exposure(c->width, c->height);
 }
 
 void VideoConvertPalette(video_render_config_t *cfg, int num, palette_entry_t *src) //, RGB2 *trg)
@@ -1986,11 +1942,13 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p,
 }
 
 /* ------------------------------------------------------------------------ */
-void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
+void video_canvas_refresh(video_canvas_t *c,
+                          BYTE *draw_buffer,
                           unsigned int draw_buffer_line_size,
+                          unsigned int bufh,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
-                          unsigned int w,  unsigned int h)
+                          unsigned int w, unsigned int h)
 {
     // if (DosRequestMutexSem(c->hmtx, SEM_IMMEDIATE_RETURN) || !c->hDiveInst)
     //     return;
@@ -2008,7 +1966,8 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
     // changed, but it doesn't speed up anything
     //
     if (c->vrenabled)
-        VideoCanvasBlit(c, f, xs, ys, xi, yi, w, h);
+        VideoCanvasBlit(c, draw_buffer, draw_buffer_line_size, bufh,
+                        xs, ys, xi, yi, w, h);
 
     DosReleaseMutexSem(c->hmtx);
 

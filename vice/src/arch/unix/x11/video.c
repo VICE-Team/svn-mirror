@@ -425,7 +425,7 @@ void video_register_raster(struct raster_s *raster)
 #ifdef HAVE_XVIDEO
     xv_raster = raster;
 #endif
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_set_raster(raster);
 #endif
 }
@@ -601,7 +601,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	return;
     }
 #endif
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     if (fullscreen_is_enabled) {
         fullscreen_refresh_func(frame_buffer, xs, ys, xi, yi, w, h);
         return;

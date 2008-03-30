@@ -27,14 +27,15 @@
 #include "vice.h"
 
 #include "render1x1.h"
+#include "render1x1pal.h"
 #include "render1x2.h"
 #include "render2x2.h"
+#include "render2x2pal.h"
 #include "types.h"
 #include "video-render.h"
 #include "video-resources.h"
 #include "video.h"
 
-BYTE gammatable[256+256+256];
 SDWORD  ytable[128];
 SDWORD cbtable[128];
 SDWORD crtable[128];
@@ -46,8 +47,7 @@ SDWORD crtable[128];
 
 int video_render_get_fake_pal_state(void)
 {
-	return video_resources.delayloop_emulation
-               || video_resources.pal_emulation;
+	return video_resources.delayloop_emulation;
 }
 
 void video_render_initconfig(video_render_config_t *config)
@@ -84,7 +84,7 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg, int 
                        int pitcht, int depth)
 {
 	DWORD *colortab;
-	int doublescan,delayloop,rendermode;
+	int doublescan,delayloop,rendermode,palmode;
 
 #if 0
 printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
@@ -99,6 +99,8 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 
 	delayloop=video_resources.delayloop_emulation;
 	if (video_resources.ext_palette) delayloop = 0;
+	palmode=video_resources.pal_mode;
+	if (video_resources.pal_scanlineshade <= 0) doublescan = 0;
 
 	switch (rendermode)
 	{
@@ -112,16 +114,40 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 			{
 			case 8:
 				render_08_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
+				return;
 			case 16:
-				render_16_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
+				switch (palmode)
+				{
+				default:
+				case VIDEO_RESOURCE_PAL_MODE_FAST:
+					render_16_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					return;
+				case VIDEO_RESOURCE_PAL_MODE_SHARP:
+					render_16_1x1_palyc(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					return;
+				case VIDEO_RESOURCE_PAL_MODE_BLUR:
+					render_16_1x1_pal(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					return;
+				}
+				return;
 			case 24:
 				render_24_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
+				return;
 			case 32:
-				render_32_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
+				switch (palmode)
+				{
+				default:
+				case VIDEO_RESOURCE_PAL_MODE_FAST:
+					render_32_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					return;
+				case VIDEO_RESOURCE_PAL_MODE_SHARP:
+					render_32_1x1_palyc(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					return;
+				case VIDEO_RESOURCE_PAL_MODE_BLUR:
+					render_32_1x1_pal(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					return;
+				}
+				return;
 			}
 		}
 		else
@@ -130,19 +156,19 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 			{
 			case 8:
 				render_08_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
+				return;
 			case 16:
 				render_16_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
+				return;
 			case 24:
 				render_24_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
+				return;
 			case 32:
 				render_32_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
+				return;
 			}
 		}
-		break;
+		return;
 
 	case VIDEO_RENDER_PAL_2X2:
 		if (delayloop)
@@ -151,16 +177,40 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 			{
 			case 8:
 				render_08_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
+				return;
 			case 16:
-				render_16_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
+				switch (palmode)
+				{
+				default:
+				case VIDEO_RESOURCE_PAL_MODE_FAST:
+					render_16_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					return;
+				case VIDEO_RESOURCE_PAL_MODE_SHARP:
+					render_16_2x2_palyc(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					return;
+				case VIDEO_RESOURCE_PAL_MODE_BLUR:
+					render_16_2x2_pal(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					return;
+				}
+				return;
 			case 24:
 				render_24_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
+				return;
 			case 32:
-				render_32_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
+				switch (palmode)
+				{
+				default:
+				case VIDEO_RESOURCE_PAL_MODE_FAST:
+					render_32_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					return;
+				case VIDEO_RESOURCE_PAL_MODE_SHARP:
+					render_32_2x2_palyc(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					return;
+				case VIDEO_RESOURCE_PAL_MODE_BLUR:
+					render_32_2x2_pal(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					return;
+				}
+				return;
 			}
 		}
 		else
@@ -169,73 +219,73 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 			{
 			case 8:
 				render_08_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
+				return;
 			case 16:
 				render_16_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
+				return;
 			case 24:
 				render_24_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
+				return;
 			case 32:
 				render_32_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
+				return;
 			}
 		}
-		break;
+		return;
 
 	case VIDEO_RENDER_RGB_1X1:
 		switch (depth)
 		{
 		case 8:
 			render_08_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-			break;
+			return;
 		case 16:
 			render_16_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-			break;
+			return;
 		case 24:
 			render_24_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-			break;
+			return;
 		case 32:
 			render_32_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-			break;
+			return;
 		}
-		break;
+		return;
 
 	case VIDEO_RENDER_RGB_1X2:
 		switch (depth)
 		{
 		case 8:
 			render_08_1x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-			break;
+			return;
 		case 16:
 			render_16_1x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-			break;
+			return;
 		case 24:
 			render_24_1x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-			break;
+			return;
 		case 32:
 			render_32_1x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-			break;
+			return;
 		}
-		break;
+		return;
 
 	case VIDEO_RENDER_RGB_2X2:
 		switch (depth)
 		{
 		case 8:
 			render_08_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-			break;
+			return;
 		case 16:
 			render_16_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-			break;
+			return;
 		case 24:
 			render_24_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-			break;
+			return;
 		case 32:
 			render_32_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-			break;
+			return;
 		}
-		break;
+		return;
 	}
 }
 

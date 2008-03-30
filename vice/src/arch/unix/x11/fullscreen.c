@@ -45,6 +45,10 @@ int fullscreen_set_bestmode(resource_value_t v, void *param)
 
 #else  /* DGA2 support is in dga2.c; FIXME */
 
+#warning "Trying to compile fullscreen.c. This is not reworked for the new video code yet!"
+
+#if 0
+
 #ifdef FS_DEBUG
 #include <signal.h>
 #endif
@@ -684,4 +688,5 @@ static void fullscreen_dispatch_events(void)
 
 #endif
 
+#endif /* if 0 for warning */
 #endif /* USE_XF86_DGA2_EXTENSIONS */

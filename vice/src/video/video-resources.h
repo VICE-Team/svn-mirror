@@ -27,6 +27,10 @@
 #ifndef _VIDEO_RESOURCES_H
 #define _VIDEO_RESOURCES_H
 
+#define VIDEO_RESOURCE_PAL_MODE_FAST	0
+#define VIDEO_RESOURCE_PAL_MODE_SHARP	1
+#define VIDEO_RESOURCE_PAL_MODE_BLUR	2
+
 struct video_resources_s
 {
     int color_saturation;
@@ -38,7 +42,8 @@ struct video_resources_s
     char *palette_file_name;
 
     int delayloop_emulation;	/* fake PAL emu */
-    int pal_emulation;		/* real PAL emu */
+    int pal_scanlineshade;
+	int pal_mode;
 };
 
 typedef struct video_resources_s video_resources_t;

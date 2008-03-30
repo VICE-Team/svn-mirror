@@ -156,11 +156,13 @@ copy  ..\..\..\README                 Vice2\doc\readme
 copy  ..\..\..\doc\html\plain\TODO    Vice2\doc\readme
 
 md Vice2\doc\txt
-copy  ..\..\..\doc\Evaluation  Vice2\doc\txt\Evaluation
-xcopy ..\..\..\doc\*.txt       Vice2\doc\txt
+REM copy  ..\..\..\doc\Evaluation   Vice2\doc\txt\Evaluation
+copy  ..\..\..\doc\mon.txt          Vice2\doc\txt
+xcopy ..\..\..\doc\html\plain\*.txt Vice2\doc\txt
 
 md Vice2\doc\html
 xcopy ..\..\..\doc\html\*.html Vice2\doc\html
 
+del vice2.zip > NUL
 zip -r -9 vice2 Vice2\*.*
 

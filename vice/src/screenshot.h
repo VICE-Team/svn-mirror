@@ -41,6 +41,9 @@ typedef struct screenshot_s {
     BYTE *color_map;
     BYTE *draw_buffer;
     unsigned int draw_buffer_line_size;
+#ifdef __OS2__
+    unsigned int bufh;
+#endif
 
     /* Screen size we actually want to save.  */
     unsigned int width;

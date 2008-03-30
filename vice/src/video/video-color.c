@@ -36,6 +36,29 @@
 #include "video-resources.h"
 #include "video.h"
 
+SDWORD  ytable[128];
+SDWORD cbtable[128];
+SDWORD crtable[128];
+
+DWORD gamma_red[256*3];
+DWORD gamma_grn[256*3];
+DWORD gamma_blu[256*3];
+
+DWORD gamma_red_fac[256*3];
+DWORD gamma_grn_fac[256*3];
+DWORD gamma_blu_fac[256*3];
+
+DWORD color_red[256];
+DWORD color_grn[256];
+DWORD color_blu[256];
+
+void video_render_setrawrgb(int index, DWORD r, DWORD g, DWORD b)
+{
+	color_red[index] = r;
+	color_grn[index] = g;
+	color_blu[index] = b;
+}
+
 /* FIXME: Video layer should not call raster layer.  */
 extern int raster_set_palette(struct raster_s *raster,
                               struct palette_s *palette);
@@ -122,6 +145,23 @@ static void video_convert_cbm_to_ycbcr(video_cbm_color_t *src,float basesat,floa
 
 }
 
+/* gamma correction */
+
+static float video_gamma(float value, float gamma, float bri, float con)
+{
+	double factor;
+	float ret;
+
+	value += bri;
+	value *= con;
+
+	if (value <= 0.0f) return 0.0f;
+	factor = pow(255.0f,1.0f - gamma);
+	ret = (float)(factor * pow(value, gamma));
+	if (ret < 0.0f) ret = 0.0f;
+	return ret;
+}
+
 /* conversion of YCbCr to RGB */
 
 static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
@@ -129,7 +169,6 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
                                        palette_entry_t *dst)
 {
 	float rf,bf,gf;
-	double factor;
 	int r,g,b;
 
 	/* apply saturation */
@@ -143,21 +182,9 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
 	rf = src->cr + src->y;
 	gf = src->y - (0.1145f/0.5866f)*src->cb - (0.2989f/0.5866f)*src->cr;
 
-	/* apply brightness and contrast */
-
-	rf = (rf+bri) * con;
-	gf = (gf+bri) * con;
-	bf = (bf+bri) * con;
-
-	/* apply gamma correction */
-
-	factor=pow(255.0f,1.0f-gam);
-	if (rf < 0.0f) rf = 0.0f;
-	else rf = (float)(factor * pow(rf, gam));
-	if (gf < 0.0f) gf = 0.0f;
-	else gf = (float)(factor * pow(gf, gam));
-	if (bf < 0.0f) bf = 0.0f;
-	else bf = (float)(factor * pow(bf, gam));
+	rf = video_gamma(rf, gam, bri, con);
+	gf = video_gamma(gf, gam, bri, con);
+	bf = video_gamma(bf, gam, bri, con);
 
 	/* convert to int and clip to 8 bit boundaries */
 
@@ -181,31 +208,32 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
 
 /* gammatable calculation */
 
-extern BYTE gammatable[1024+256+1024];
-
 static void video_calc_gammatable(void)
 {
 	int i;
-	float bri,con,gam,v;
-	double factor;
+	float bri,con,gam,scn,v;
+	DWORD vi;
 
 	bri=((float)(video_resources.color_brightness-1000))*(128.0f/1000.0f);
 	con=((float)(video_resources.color_contrast       ))/1000.0f;
 	gam=((float)(video_resources.color_gamma          ))/1000.0f;
+	scn=((float)(video_resources.pal_scanlineshade    ))/1000.0f;
 
-	factor=pow(255.0f,1.0f-gam);
-	for (i=0;i<(256+256+256);i++)
+	for (i=0;i<(256*3);i++)
 	{
-		v=(((float)(i-256)) + bri) * con;
+		v = video_gamma((float)(i-256), gam, bri, con);
 
-		if (v < 0.0f) v=0.0f;
-		else
-		{
-			v=(float)(factor * pow(v, gam));
-			if (v <   0.0f) v =   0.0f;		/* security */
-			if (v > 255.0f) v = 255.0f;
-		}
-		gammatable[i]=(int)v;
+		vi = (DWORD)v;
+		if (vi > 255) vi = 255;
+		gamma_red[i] = color_red[vi];
+		gamma_grn[i] = color_grn[vi];
+		gamma_blu[i] = color_blu[vi];
+
+		vi = (DWORD)(v * scn);
+		if (vi > 255) vi = 255;
+		gamma_red_fac[i] = color_red[vi];
+		gamma_grn_fac[i] = color_grn[vi];
+		gamma_blu_fac[i] = color_blu[vi];
 	}
 }
 
@@ -334,5 +362,10 @@ int video_color_update_palette(void)
            return raster_set_palette(video_current_raster, palette);
 
 	return -1;
+}
+
+void video_render_initraw()
+{
+	video_calc_gammatable();
 }
 
