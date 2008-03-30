@@ -1,7 +1,8 @@
 /*
- * ui.c - The user interface for Vice/2.
+ * uicmdline.c - The command line user interface.
  *
  * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -23,10 +24,15 @@
  *  02111-1307  USA.
  *
  */
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
 
 #include "cmdline.h"
+#include "uilib.h"
 
+/* This does not work as stdout is directed to null.  */
 void ui_cmdline_show_help(int num_options, cmdline_option_t *options)
 {
     int i;
@@ -40,3 +46,14 @@ void ui_cmdline_show_help(int num_options, cmdline_option_t *options)
     }
     putchar('\n');
 }
+
+void ui_cmdline_show_options(HWND hwnd)
+{
+    char *options;
+
+    options = cmdline_options_string();
+    ui_show_text(hwnd, "Command line options",
+                 "Which command line options are available?", options);
+    free(options);
+}
+
