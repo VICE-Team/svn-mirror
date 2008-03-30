@@ -259,17 +259,16 @@ distdir: $(DISTFILES)
 cia1571d.o: cia1571d.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
 	../../src/arch/unix/types.h ciad.h ../../src/clkguard.h drive.h \
-	drivecpu.h drivetypes.h ../../src/6510core.h \
-	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
-	../../src/iecdrive.h ../../src/interrupt.h ../../src/utils.h \
-	../../src/ciacore.c ../../src/snapshot.h
+	drivecpu.h drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
+	../../src/mos6510.h ../../src/iecdrive.h ../../src/interrupt.h \
+	../../src/utils.h ../../src/ciacore.c ../../src/snapshot.h
 cia1581d.o: cia1581d.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
 	../../src/arch/unix/types.h ciad.h drive.h drivecpu.h \
-	drivetypes.h ../../src/6510core.h ../../src/ciatimer.h \
-	../../src/alarm.h ../../src/mos6510.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/ciacore.c ../../src/clkguard.h \
-	../../src/snapshot.h ../../src/utils.h
+	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
+	../../src/mos6510.h ../../src/iecdrive.h ../../src/interrupt.h \
+	../../src/ciacore.c ../../src/clkguard.h ../../src/snapshot.h \
+	../../src/utils.h
 drive-cmdline-options.o: drive-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h drive.h ../../src/log.h \
 	../../src/arch/unix/types.h
@@ -292,24 +291,25 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	ciad.h ../../src/arch/unix/types.h ../../src/clkguard.h \
 	../../src/diskconstants.h ../../src/diskimage.h drive.h \
 	../../src/log.h drivecpu.h driverom.h drivetypes.h \
-	../../src/6510core.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/mos6510.h fdc.h ../../src/gcr.h ../../src/iecdrive.h \
+	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
+	fdc.h ../../src/gcr.h ../../src/iecdrive.h \
 	../../src/interrupt.h ../../src/machine.h ../../src/parallel.h \
 	../../src/resources.h riotd.h ../../src/serial.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h \
 	viad.h wd1770.h
 drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
-	../../src/6510core.h ../../src/arch/unix/types.h \
-	../../src/alarm.h ciad.h ../../src/clkguard.h ../../src/debug.h \
-	drive.h ../../src/log.h drivecpu.h drivemem.h drivetypes.h \
-	../../src/ciatimer.h ../../src/mos6510.h fdc.h glue1551.h \
-	../../src/interrupt.h ../../src/machine.h ../../src/mem.h \
-	../../src/monitor/mon.h riotd.h ../../src/snapshot.h tia1551.h \
-	../../src/utils.h viad.h wd1770.h ../../src/6510core.c
+	../../src/6510core.h ../../src/alarm.h \
+	../../src/arch/unix/types.h ciad.h ../../src/clkguard.h \
+	../../src/debug.h drive.h ../../src/log.h drivecpu.h drivemem.h \
+	drivetypes.h ../../src/ciatimer.h ../../src/mos6510.h fdc.h \
+	glue1551.h ../../src/interrupt.h ../../src/machine.h \
+	../../src/mem.h ../../src/monitor/mon.h riotd.h \
+	../../src/snapshot.h tia1551.h ../../src/utils.h viad.h \
+	wd1770.h ../../src/6510core.c
 drivemem.o: drivemem.c ../../src/vice.h ../../src/config.h ciad.h \
 	../../src/arch/unix/types.h drive.h ../../src/log.h driverom.h \
-	drivetypes.h ../../src/6510core.h ../../src/ciatimer.h \
-	../../src/alarm.h ../../src/mos6510.h fdc.h ../../src/mem.h \
+	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
+	../../src/mos6510.h fdc.h ../../src/mem.h \
 	../../src/monitor/mon.h glue1551.h riotd.h tia1551.h \
 	../../src/utils.h viad.h wd1770.h
 driverom.o: driverom.c ../../src/vice.h ../../src/config.h drive.h \
@@ -318,52 +318,48 @@ driverom.o: driverom.c ../../src/vice.h ../../src/config.h drive.h \
 fdc.o: fdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
 	../../src/diskimage.h drive.h ../../src/log.h drivecpu.h \
-	drivetypes.h ../../src/6510core.h ../../src/ciatimer.h \
-	../../src/mos6510.h fdc.h ../../src/interrupt.h \
-	../../src/snapshot.h ../../src/vdrive/vdrive-bam.h \
-	../../src/vdrive/vdrive.h
+	drivetypes.h ../../src/ciatimer.h ../../src/mos6510.h fdc.h \
+	../../src/interrupt.h ../../src/snapshot.h \
+	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h
 glue1551.o: glue1551.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h drive.h \
-	../../src/log.h drivetypes.h ../../src/6510core.h \
-	../../src/ciatimer.h ../../src/mos6510.h glue1551.h \
-	../../src/interrupt.h
+	../../src/log.h drivetypes.h ../../src/ciatimer.h \
+	../../src/mos6510.h glue1551.h ../../src/interrupt.h
 riot1d.o: riot1d.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/log.h ../../src/riot.h \
 	../../src/arch/unix/types.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/clkguard.h drive.h drivecpu.h \
-	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/iecdrive.h ../../src/parallel.h \
-	riotd.h ../../src/utils.h ../../src/riotcore.c \
-	../../src/snapshot.h
-riot2d.o: riot2d.c ../../src/riotcore.h ../../src/vice.h \
-	../../src/config.h ../../src/log.h ../../src/riot.h \
-	../../src/arch/unix/types.h ../../src/interrupt.h \
-	../../src/6510core.h drive.h drivecpu.h drivetypes.h \
+	../../src/clkguard.h drive.h drivecpu.h drivetypes.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
 	../../src/iecdrive.h ../../src/parallel.h riotd.h \
-	../../src/riotcore.c ../../src/snapshot.h ../../src/utils.h
+	../../src/utils.h ../../src/riotcore.c ../../src/snapshot.h
+riot2d.o: riot2d.c ../../src/riotcore.h ../../src/vice.h \
+	../../src/config.h ../../src/log.h ../../src/riot.h \
+	../../src/arch/unix/types.h ../../src/interrupt.h drive.h \
+	drivecpu.h drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
+	../../src/mos6510.h ../../src/iecdrive.h ../../src/parallel.h \
+	riotd.h ../../src/riotcore.c ../../src/snapshot.h \
+	../../src/utils.h
 tia1551.o: tia1551.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/log.h ../../src/arch/unix/types.h drivetypes.h \
-	../../src/6510core.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/iecdrive.h
+	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
+	../../src/iecdrive.h
 via1d.o: via1d.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/arch/unix/types.h drive.h \
-	../../src/log.h drivecpu.h drivetypes.h ../../src/6510core.h \
-	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
-	../../src/iecdrive.h ../../src/interrupt.h ../../src/parallel.h \
-	../../src/utils.h ../../src/via.h viad.h ../../src/viacore.c \
-	../../src/snapshot.h
+	../../src/log.h drivecpu.h drivetypes.h ../../src/ciatimer.h \
+	../../src/alarm.h ../../src/mos6510.h ../../src/iecdrive.h \
+	../../src/interrupt.h ../../src/parallel.h ../../src/utils.h \
+	../../src/via.h viad.h ../../src/viacore.c ../../src/snapshot.h
 via2d.o: via2d.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/log.h ../../src/arch/unix/types.h drivetypes.h \
-	../../src/6510core.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/interrupt.h ../../src/via.h \
-	viad.h ../../src/viacore.c ../../src/clkguard.h \
-	../../src/snapshot.h ../../src/utils.h
+	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
+	../../src/interrupt.h ../../src/via.h viad.h \
+	../../src/viacore.c ../../src/clkguard.h ../../src/snapshot.h \
+	../../src/utils.h
 wd1770.o: wd1770.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/arch/unix/types.h \
 	../../src/diskimage.h drive.h ../../src/log.h drivecpu.h \
-	drivetypes.h ../../src/6510core.h ../../src/ciatimer.h \
-	../../src/alarm.h ../../src/mos6510.h ../../src/interrupt.h \
+	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
+	../../src/mos6510.h ../../src/interrupt.h \
 	../../src/vdrive/vdrive.h wd1770.h
 
 info-am:

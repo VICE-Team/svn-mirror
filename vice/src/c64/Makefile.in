@@ -383,12 +383,11 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
-	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/monitor/mon.h patchrom.h \
-	../../src/printer.h psid.h ../../src/resources.h reu.h \
-	../../src/screenshot.h ../../src/serial.h \
-	../../src/sid/sid-cmdline-options.h \
+	../../src/interrupt.h ../../src/kbdbuf.h ../../src/keyboard.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/monitor/mon.h patchrom.h ../../src/printer.h psid.h \
+	../../src/resources.h reu.h ../../src/screenshot.h \
+	../../src/serial.h ../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/snapshot.h \
 	../../src/tape.h ../../src/traps.h ../../src/utils.h \
@@ -398,25 +397,25 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/cmdline.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/log.h ../../src/machine.h ../../src/resources.h \
-	../../src/rs232.h ../../src/snapshot.h
+	../../src/cmdline.h ../../src/interrupt.h ../../src/log.h \
+	../../src/machine.h ../../src/resources.h ../../src/rs232.h \
+	../../src/snapshot.h
 c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
 	../../src/arch/unix/types.h c64cia.h ../../src/keyboard.h \
 	../../src/vicii/vicii.h ../../src/rsuser.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
-	../../src/ciacore.c ../../src/clkguard.h ../../src/ciatimer.h \
-	../../src/alarm.h ../../src/snapshot.h ../../src/utils.h
+	../../src/interrupt.h ../../src/maincpu.h ../../src/ciacore.c \
+	../../src/clkguard.h ../../src/ciatimer.h ../../src/alarm.h \
+	../../src/snapshot.h ../../src/utils.h
 c64cia2.o: c64cia2.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
 	../../src/arch/unix/types.h c64mem.h c64iec.h c64cia.h \
 	../../src/drive/drive.h ../../src/drive/drivecpu.h \
 	../../src/iecdrive.h ../../src/printer.h \
 	../../src/vicii/vicii.h ../../src/rsuser.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
-	../../src/ciacore.c ../../src/clkguard.h ../../src/ciatimer.h \
-	../../src/alarm.h ../../src/snapshot.h ../../src/utils.h
+	../../src/interrupt.h ../../src/maincpu.h ../../src/ciacore.c \
+	../../src/clkguard.h ../../src/ciatimer.h ../../src/alarm.h \
+	../../src/snapshot.h ../../src/utils.h
 c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
 	c64cia.h ../../src/arch/unix/types.h c64mem.h
 c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
@@ -459,18 +458,17 @@ patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 psid.o: psid.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c64mem.h \
 	../../src/arch/unix/types.h ../../src/cmdline.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
-	../../src/machine.h psid.h ../../src/resources.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h \
-	../../src/vsidui.h ../../src/vsync.h ../../src/zfile.h \
-	psiddrv.h
+	../../src/interrupt.h ../../src/log.h ../../src/machine.h \
+	psid.h ../../src/resources.h ../../src/arch/unix/ui.h \
+	../../src/uiapi.h ../../src/utils.h ../../src/vsidui.h \
+	../../src/vsync.h ../../src/zfile.h psiddrv.h
 reloc65.o: reloc65.c
 reu.o: reu.c ../../src/vice.h ../../src/config.h c64cart.h \
 	../../src/arch/unix/types.h ../../src/cartridge.h \
-	../../src/cmdline.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/resources.h reu.h \
-	../../src/snapshot.h ../../src/utils.h
+	../../src/cmdline.h ../../src/interrupt.h ../../src/log.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/resources.h reu.h ../../src/snapshot.h \
+	../../src/utils.h
 
 info-am:
 info: info-recursive

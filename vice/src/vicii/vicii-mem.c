@@ -166,7 +166,6 @@ void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
             vic_ii.idle_3fff[vic_ii.num_idle_3fff].cycle = maincpu_clk;
             vic_ii.idle_3fff[vic_ii.num_idle_3fff].value = value;
             vic_ii.num_idle_3fff++;
-printf("num_idle_3fff %i\n",vic_ii.num_idle_3fff);
         }
     }
 }
@@ -184,7 +183,7 @@ inline static void store_sprite_x_position_lsb(ADDRESS addr, BYTE value)
 
     n = addr >> 1;                /* Number of changed sprite.  */
 
-    VIC_II_DEBUG_REGISTER(("\tSprite #%d X position LSB: $%02X\n", n, value));
+    VIC_II_DEBUG_REGISTER(("Sprite #%d X position LSB: $%02X", n, value));
 
     new_x = (value | (vic_ii.regs[0x10] & (1 << n) ? 0x100 : 0));
     vic_ii_sprites_set_x_position(n, new_x,
@@ -195,8 +194,7 @@ inline static void store_sprite_y_position(ADDRESS addr, BYTE value)
 {
     int cycle;
 
-    VIC_II_DEBUG_REGISTER(("\tSprite #%d Y position: $%02X\n",
-                          addr >> 1, value));
+    VIC_II_DEBUG_REGISTER(("Sprite #%d Y position: $%02X", addr >> 1, value));
 
     if (vic_ii.regs[addr] == value)
         return;
@@ -221,7 +219,7 @@ static inline void store_sprite_x_position_msb(ADDRESS addr, BYTE value)
     BYTE b;
     int raster_x;
 
-    VIC_II_DEBUG_REGISTER(("\tSprite X position MSBs: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Sprite X position MSBs: $%02X", value));
 
     if (value == vic_ii.regs[addr])
         return;
@@ -450,10 +448,9 @@ inline static void store_d011(ADDRESS addr, BYTE value)
     cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
     line = VIC_II_RASTER_Y(maincpu_clk);
 
-    VIC_II_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Control register: $%02X", value));
     VIC_II_DEBUG_REGISTER(("$D011 tricks at cycle %d, line $%04X, "
-                          "value $%02X\n",
-                          cycle, line, value));
+                          "value $%02X", cycle, line, value));
 
     new_irq_line = ((vic_ii.raster_irq_line & 0xff) | ((value & 0x80) << 1));
 
@@ -500,7 +497,7 @@ inline static void store_d011(ADDRESS addr, BYTE value)
                     vic_ii.raster.blank_enabled = 0;
                 }
             }
-            VIC_II_DEBUG_REGISTER(("\t25 line mode enabled\n"));
+            VIC_II_DEBUG_REGISTER(("25 line mode enabled"));
         } else {
             /* 25 -> 24 row mode switch.  */
 
@@ -518,7 +515,7 @@ inline static void store_d011(ADDRESS addr, BYTE value)
                     vic_ii.raster.blank_enabled = 1;
             }
 
-            VIC_II_DEBUG_REGISTER(("\t24 line mode enabled\n"));
+            VIC_II_DEBUG_REGISTER(("24 line mode enabled"));
         }
     }
 
@@ -535,14 +532,14 @@ inline static void store_d012(ADDRESS addr, BYTE value)
     /* FIXME: Not accurate as bit #8 is missing.  */
     value = (value - vic_ii.offset) & 255;
 
-    VIC_II_DEBUG_REGISTER(("\tRaster compare register: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Raster compare register: $%02X", value));
 
     if (value == vic_ii.regs[addr])
         return;
 
     vic_ii.regs[addr] = value;
 
-    VIC_II_DEBUG_REGISTER(("\tRaster interrupt line set to $%04X\n",
+    VIC_II_DEBUG_REGISTER(("Raster interrupt line set to $%04X",
                           vic_ii.raster_irq_line));
 
     check_irq_line_state((vic_ii.raster_irq_line & 0x100) | value);
@@ -552,7 +549,7 @@ inline static void store_d015(ADDRESS addr, BYTE value)
 {
     int cycle;
 
-    VIC_II_DEBUG_REGISTER(("\tSprite Enable register: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Sprite Enable register: $%02X", value));
 
     cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
 
@@ -602,7 +599,7 @@ inline static void store_d016(ADDRESS addr, BYTE value)
     int cycle;
     BYTE xsmooth;
 
-    VIC_II_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Control register: $%02X", value));
 
     raster = &vic_ii.raster;
     cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
@@ -644,7 +641,7 @@ inline static void store_d016(ADDRESS addr, BYTE value)
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstop,
                                                 VIC_II_40COL_STOP_PIXEL);
-            VIC_II_DEBUG_REGISTER(("\t40 column mode enabled\n"));
+            VIC_II_DEBUG_REGISTER(("40 column mode enabled"));
 
             /* If CSEL changes from 0 to 1 at cycle 17, the border is
                not turned off and this line is blank.  */
@@ -664,7 +661,7 @@ inline static void store_d016(ADDRESS addr, BYTE value)
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstop,
                                                 VIC_II_38COL_STOP_PIXEL);
-            VIC_II_DEBUG_REGISTER(("\t38 column mode enabled\n"));
+            VIC_II_DEBUG_REGISTER(("38 column mode enabled"));
 
             /* If CSEL changes from 1 to 0 at cycle 56, the lateral
                border is open.  */
@@ -686,7 +683,7 @@ inline static void store_d017(ADDRESS addr, BYTE value)
     int i;
     BYTE b;
 
-    VIC_II_DEBUG_REGISTER(("\tSprite Y Expand register: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Sprite Y Expand register: $%02X", value));
 
     if (value == vic_ii.regs[0x17])
         return;
@@ -719,7 +716,7 @@ inline static void store_d017(ADDRESS addr, BYTE value)
 
 inline static void store_d018(ADDRESS addr, BYTE value)
 {
-    VIC_II_DEBUG_REGISTER(("\tMemory register: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Memory register: $%02X", value));
 
     if (vic_ii.regs[addr] == value)
         return;
@@ -758,7 +755,7 @@ inline static void store_d019(ADDRESS addr, BYTE value)
         vic_ii_set_irq(I_RASTER, 0);
     }
 
-    VIC_II_DEBUG_REGISTER(("\tIRQ flag register: $%02X\n", vic_ii.irq_status));
+    VIC_II_DEBUG_REGISTER(("IRQ flag register: $%02X", vic_ii.irq_status));
 }
 
 inline static void store_d01a(ADDRESS addr, BYTE value)
@@ -773,7 +770,7 @@ inline static void store_d01a(ADDRESS addr, BYTE value)
         vic_ii_set_irq(I_RASTER, 0);
     }
 
-    VIC_II_DEBUG_REGISTER(("\tIRQ mask register: $%02X\n", vic_ii.regs[addr]));
+    VIC_II_DEBUG_REGISTER(("IRQ mask register: $%02X", vic_ii.regs[addr]));
 }
 
 inline static void store_d01b(ADDRESS addr, BYTE value)
@@ -782,7 +779,7 @@ inline static void store_d01b(ADDRESS addr, BYTE value)
     BYTE b;
     int raster_x;
 
-    VIC_II_DEBUG_REGISTER(("\tSprite priority register: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Sprite priority register: $%02X", value));
 
     if (value == vic_ii.regs[addr])
         return;
@@ -811,8 +808,7 @@ inline static void store_d01c(ADDRESS addr, BYTE value)
     BYTE b;
     int raster_x;
 
-    VIC_II_DEBUG_REGISTER(("\tSprite Multicolor Enable register: $%02X\n",
-                          value));
+    VIC_II_DEBUG_REGISTER(("Sprite Multicolor Enable register: $%02X", value));
 
     if (value == vic_ii.regs[addr])
         return;
@@ -840,7 +836,7 @@ inline static void store_d01d(ADDRESS addr, BYTE value)
     int i;
     BYTE b;
 
-    VIC_II_DEBUG_REGISTER(("\tSprite X Expand register: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Sprite X Expand register: $%02X", value));
 
     if (value == vic_ii.regs[addr])
         return;
@@ -866,12 +862,12 @@ inline static void store_d01d(ADDRESS addr, BYTE value)
 
 inline static void store_collision(ADDRESS addr, BYTE value)
 {
-    VIC_II_DEBUG_REGISTER(("\t(collision register, Read Only)\n"));
+    VIC_II_DEBUG_REGISTER(("(collision register, Read Only)"));
 }
 
 inline static void store_d020(ADDRESS addr, BYTE value)
 {
-    VIC_II_DEBUG_REGISTER(("\tBorder color register: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Border color register: $%02X", value));
 
     value &= 0xf;
 
@@ -890,7 +886,7 @@ inline static void store_d021(ADDRESS addr, BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("\tBackground #0 color register: $%02X\n",
+    VIC_II_DEBUG_REGISTER(("Background #0 color register: $%02X",
                           value));
 
     if (vic_ii.regs[addr] == value)
@@ -924,7 +920,7 @@ inline static void store_ext_background(ADDRESS addr, BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("\tBackground color #%d register: $%02X\n",
+    VIC_II_DEBUG_REGISTER(("Background color #%d register: $%02X",
                           addr - 0x21, value));
 
     if (vic_ii.regs[addr] == value)
@@ -959,7 +955,7 @@ inline static void store_d025(ADDRESS addr, BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("\tSprite multicolor register #0: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Sprite multicolor register #0: $%02X", value));
 
     if (vic_ii.regs[addr] == value)
         return;
@@ -983,7 +979,7 @@ inline static void store_d026(ADDRESS addr, BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("\tSprite multicolor register #1: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("Sprite multicolor register #1: $%02X", value));
 
     if (vic_ii.regs[addr] == value)
         return;
@@ -1008,7 +1004,7 @@ inline static void store_sprite_color(ADDRESS addr, BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("\tSprite #%d color register: $%02X\n",
+    VIC_II_DEBUG_REGISTER(("Sprite #%d color register: $%02X",
                           addr - 0x27, value));
 
     if (vic_ii.regs[addr] == value)
@@ -1031,22 +1027,22 @@ inline static void store_sprite_color(ADDRESS addr, BYTE value)
 inline static void store_d02f(ADDRESS addr, BYTE value)
 {
     if (vic_ii.extended_keyboard_rows_enabled) {
-        VIC_II_DEBUG_REGISTER(("\tExtended keyboard row enable: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Extended keyboard row enable: $%02X",
                               value));
         vic_ii.regs[addr] = value | 0xf8;
         cia1_set_extended_keyboard_rows_mask(value);
     } else {
-        VIC_II_DEBUG_REGISTER(("\t(unused)\n"));
+        VIC_II_DEBUG_REGISTER(("(unused)"));
     }
 }
 
 inline static void store_d030(ADDRESS addr, BYTE value)
 {
     if (vic_ii.extended_keyboard_rows_enabled) {
-        VIC_II_DEBUG_REGISTER(("\tStore $D030: $%02X\n", value));
+        VIC_II_DEBUG_REGISTER(("Store $D030: $%02X", value));
         vic_ii.regs[addr] = value | 0xfc;
     } else {
-        VIC_II_DEBUG_REGISTER(("\t(unused)\n"));
+        VIC_II_DEBUG_REGISTER(("(unused)"));
     }
 }
 
@@ -1065,10 +1061,8 @@ void REGPARM2 vic_store(ADDRESS addr, BYTE value)
     if (maincpu_clk >= vic_ii.draw_clk)
         vic_ii_raster_draw_alarm_handler(maincpu_clk - vic_ii.draw_clk);
 
-    VIC_II_DEBUG_REGISTER(("VIC: WRITE $D0%02X at cycle %d of "
-                          "current_line $%04X\n",
-                          addr,
-                          VIC_II_RASTER_CYCLE(maincpu_clk),
+    VIC_II_DEBUG_REGISTER(("WRITE $D0%02X at cycle %d of current_line $%04X",
+                          addr, VIC_II_RASTER_CYCLE(maincpu_clk),
                           VIC_II_RASTER_Y(maincpu_clk)));
 
     switch (addr) {
@@ -1210,7 +1204,7 @@ void REGPARM2 vic_store(ADDRESS addr, BYTE value)
       case 0x3d:                  /* $D03D: Unused */
       case 0x3e:                  /* $D03E: Unused */
       case 0x3f:                  /* $D03F: Unused */
-        VIC_II_DEBUG_REGISTER(("\t(unused)\n"));
+        VIC_II_DEBUG_REGISTER(("(unused)"));
         break;
     }
 }
@@ -1255,10 +1249,8 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
     /* Serve all pending events.  */
     vic_ii_handle_pending_alarms(0);
 
-    VIC_II_DEBUG_REGISTER(("VIC: READ $D0%02X at cycle %d "
-                          "of current_line $%04X:\n",
-                          addr,
-                          VIC_II_RASTER_CYCLE(maincpu_clk),
+    VIC_II_DEBUG_REGISTER(("READ $D0%02X at cycle %d of current_line $%04X:",
+                          addr, VIC_II_RASTER_CYCLE(maincpu_clk),
                           VIC_II_RASTER_Y(maincpu_clk)));
 
     /* Note: we use hardcoded values instead of `unused_bits_in_registers[]'
@@ -1272,7 +1264,7 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
       case 0xa:                   /* $D00a: Sprite #5 X position LSB */
       case 0xc:                   /* $D00c: Sprite #6 X position LSB */
       case 0xe:                   /* $D00e: Sprite #7 X position LSB */
-          VIC_II_DEBUG_REGISTER(("\tSprite #%d X position LSB: $%02X\n",
+          VIC_II_DEBUG_REGISTER(("Sprite #%d X position LSB: $%02X",
                                 addr >> 1, vic_ii.regs[addr]));
           return vic_ii.regs[addr];
 
@@ -1284,12 +1276,12 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
       case 0xb:                   /* $D00B: Sprite #5 Y position */
       case 0xd:                   /* $D00D: Sprite #6 Y position */
       case 0xf:                   /* $D00F: Sprite #7 Y position */
-          VIC_II_DEBUG_REGISTER(("\tSprite #%d Y position: $%02X\n",
+          VIC_II_DEBUG_REGISTER(("Sprite #%d Y position: $%02X",
                                 addr >> 1, vic_ii.regs[addr]));
           return (256 + vic_ii.regs[addr] - vic_ii.offset) % 256;
 
       case 0x10:                  /* $D010: Sprite X position MSB */
-          VIC_II_DEBUG_REGISTER(("\tSprite X position MSB: $%02X\n",
+          VIC_II_DEBUG_REGISTER(("Sprite X position MSB: $%02X",
                                 vic_ii.regs[addr]));
           return vic_ii.regs[addr];
 
@@ -1300,7 +1292,7 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
             unsigned int tmp = (vic_ii.screen_height + read_raster_y()
                                - vic_ii.offset) % vic_ii.screen_height;
 
-            VIC_II_DEBUG_REGISTER(("\tRaster Line register %s value = $%04X\n",
+            VIC_II_DEBUG_REGISTER(("Raster Line register %svalue = $%04X",
                                   (addr == 0x11 ? "(highest bit) " : ""), tmp));
 
             if (addr == 0x11)
@@ -1310,30 +1302,30 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
         }
 
       case 0x13:                  /* $D013: Light Pen X */
-        VIC_II_DEBUG_REGISTER(("\tLight pen X: %d\n", vic_ii.light_pen.x));
+        VIC_II_DEBUG_REGISTER(("Light pen X: %d", vic_ii.light_pen.x));
         return vic_ii.light_pen.x;
 
       case 0x14:                  /* $D014: Light Pen Y */
-        VIC_II_DEBUG_REGISTER(("\tLight pen Y: %d\n", vic_ii.light_pen.y));
+        VIC_II_DEBUG_REGISTER(("Light pen Y: %d", vic_ii.light_pen.y));
         return vic_ii.light_pen.y;
 
       case 0x15:                  /* $D015: Sprite Enable */
-        VIC_II_DEBUG_REGISTER(("\tSprite Enable register: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Sprite Enable register: $%02X",
                               vic_ii.regs[addr]));
         return vic_ii.regs[addr];
 
       case 0x16:                  /* $D016 */
-        VIC_II_DEBUG_REGISTER(("\t$D016 Control register read: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("$D016 Control register read: $%02X",
                               vic_ii.regs[addr]));
         return vic_ii.regs[addr] | 0xc0;
 
       case 0x17:                  /* $D017: Sprite Y-expand */
-        VIC_II_DEBUG_REGISTER(("\tSprite Y Expand register: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Sprite Y Expand register: $%02X",
                               vic_ii.regs[addr]));
         return vic_ii.regs[addr];
 
       case 0x18:                /* $D018: Video and char matrix base address */
-        VIC_II_DEBUG_REGISTER(("\tVideo memory address register: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Video memory address register: $%02X",
                               vic_ii.regs[addr]));
         return vic_ii.regs[addr] | 0x1;
 
@@ -1342,28 +1334,28 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
             BYTE tmp;
 
             tmp = read_d019();
-            VIC_II_DEBUG_REGISTER(("\tInterrupt register: $%02X\n", tmp));
+            VIC_II_DEBUG_REGISTER(("Interrupt register: $%02X", tmp));
 
             return tmp;
         }
 
       case 0x1a:                  /* $D01A: IRQ mask register  */
-        VIC_II_DEBUG_REGISTER(("\tMask register: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Mask register: $%02X",
                               vic_ii.regs[addr] | 0xf0));
         return vic_ii.regs[addr] | 0xf0;
 
       case 0x1b:                  /* $D01B: Sprite priority */
-        VIC_II_DEBUG_REGISTER(("\tSprite Priority register: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Sprite Priority register: $%02X",
                               vic_ii.regs[addr]));
         return vic_ii.regs[addr];
 
       case 0x1c:                  /* $D01C: Sprite Multicolor select */
-        VIC_II_DEBUG_REGISTER(("\tSprite Multicolor Enable register: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Sprite Multicolor Enable register: $%02X",
                               vic_ii.regs[addr]));
         return vic_ii.regs[addr];
 
       case 0x1d:                  /* $D01D: Sprite X-expand */
-        VIC_II_DEBUG_REGISTER(("\tSprite X Expand register: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Sprite X Expand register: $%02X",
                               vic_ii.regs[addr]));
         return vic_ii.regs[addr];
 
@@ -1379,12 +1371,12 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
         if (vic_ii_resources.sprite_sprite_collisions_enabled) {
             vic_ii.regs[addr] = vic_ii.sprite_sprite_collisions;
             vic_ii.sprite_sprite_collisions = 0;
-            VIC_II_DEBUG_REGISTER(("\tSprite-sprite collision mask: $%02X\n",
+            VIC_II_DEBUG_REGISTER(("Sprite-sprite collision mask: $%02X",
                                   vic_ii.regs[addr]));
             return vic_ii.regs[addr];
         } else {
-            VIC_II_DEBUG_REGISTER(("\tSprite-sprite collision mask: $00 "
-                                  "(emulation disabled)\n"));
+            VIC_II_DEBUG_REGISTER(("Sprite-sprite collision mask: $00 "
+                                  "(emulation disabled)"));
             vic_ii.sprite_sprite_collisions = 0;
             return 0;
         }
@@ -1401,8 +1393,7 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
         if (vic_ii_resources.sprite_background_collisions_enabled) {
             vic_ii.regs[addr] = vic_ii.sprite_background_collisions;
             vic_ii.sprite_background_collisions = 0;
-            VIC_II_DEBUG_REGISTER(("\tSprite-background collision mask: "
-                                  "$%02X\n",
+            VIC_II_DEBUG_REGISTER(("Sprite-background collision mask: $%02X",
                                   vic_ii.regs[addr]));
 #if defined (VIC_II_DEBUG_SB_COLLISIONS)
             log_message(vic_ii.log,
@@ -1412,14 +1403,14 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
 #endif
             return vic_ii.regs[addr];
         } else {
-            VIC_II_DEBUG_REGISTER(("\tSprite-background collision mask: $00 "
-                                  "(emulation disabled)\n"));
+            VIC_II_DEBUG_REGISTER(("Sprite-background collision mask: $00 "
+                                  "(emulation disabled)"));
             vic_ii.sprite_background_collisions = 0;
             return 0;
         }
 
       case 0x20:                  /* $D020: Border color */
-        VIC_II_DEBUG_REGISTER(("\tBorder Color register: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Border Color register: $%02X",
                               vic_ii.regs[addr]));
         return vic_ii.regs[addr] | 0xf0;
 
@@ -1427,13 +1418,13 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
       case 0x22:                  /* $D022: Background #1 color */
       case 0x23:                  /* $D023: Background #2 color */
       case 0x24:                  /* $D024: Background #3 color */
-        VIC_II_DEBUG_REGISTER(("\tBackground Color #%d register: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Background Color #%d register: $%02X",
                               addr - 0x21, vic_ii.regs[addr]));
         return vic_ii.regs[addr] | 0xf0;
 
       case 0x25:                  /* $D025: Sprite multicolor register #0 */
       case 0x26:                  /* $D026: Sprite multicolor register #1 */
-        VIC_II_DEBUG_REGISTER(("\tMulticolor register #%d: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Multicolor register #%d: $%02X",
                               addr - 0x22, vic_ii.regs[addr]));
         return vic_ii.regs[addr] | 0xf0;
 
@@ -1445,29 +1436,29 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
       case 0x2c:                  /* $D02C: Sprite #5 color */
       case 0x2d:                  /* $D02D: Sprite #6 color */
       case 0x2e:                  /* $D02E: Sprite #7 color */
-        VIC_II_DEBUG_REGISTER(("\tSprite #%d color: $%02X\n",
+        VIC_II_DEBUG_REGISTER(("Sprite #%d color: $%02X",
                               addr - 0x22, vic_ii.regs[addr]));
         return vic_ii.regs[addr] | 0xf0;
 
       case 0x2f:                  /* $D02F: Unused (or extended keyboard row
                                      select) */
         if (vic_ii.extended_keyboard_rows_enabled) {
-            VIC_II_DEBUG_REGISTER(("\tExtended keyboard row enable: $%02X\n",
+            VIC_II_DEBUG_REGISTER(("Extended keyboard row enable: $%02X",
                                   vic_ii.regs[addr]));
             return vic_ii.regs[addr];
         } else {
-            VIC_II_DEBUG_REGISTER(("\t(unused)\n"));
+            VIC_II_DEBUG_REGISTER(("(unused)"));
             return 0xff;
         }
         break;
 
       case 0x30:                  /* $D030: Unused (or VIC-IIe extension) */
         if (vic_ii.extended_keyboard_rows_enabled) {
-            VIC_II_DEBUG_REGISTER(("\tRead $D030: $%02X\n",
+            VIC_II_DEBUG_REGISTER(("Read $D030: $%02X",
                                   vic_ii.regs[addr]));
             return vic_ii.regs[addr];
         } else {
-             VIC_II_DEBUG_REGISTER(("\t(unused)\n"));
+             VIC_II_DEBUG_REGISTER(("(unused)"));
             return 0xff;
         }
         break;

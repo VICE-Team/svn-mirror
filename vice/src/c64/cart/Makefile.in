@@ -268,19 +268,18 @@ c64cart.o: c64cart.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/alarm.h ../../../src/arch/unix/archdep.h \
 	../../../src/archapi.h ../../../src/cartridge.h \
 	../../../src/cmdline.h crt.h expert.h generic.h \
-	../../../src/interrupt.h ../../../src/6510core.h \
-	../../../src/maincpu.h ../../../src/mem.h \
-	../../../src/resources.h retroreplay.h ide64.h supersnapshot.h \
-	../../../src/utils.h
+	../../../src/interrupt.h ../../../src/maincpu.h \
+	../../../src/mem.h ../../../src/resources.h retroreplay.h \
+	ide64.h supersnapshot.h ../../../src/utils.h
 c64cartmem.o: c64cartmem.c ../../../src/vice.h ../../../src/config.h \
 	actionreplay.h ../../../src/arch/unix/types.h atomicpower.h \
 	../../../src/c64/c64cart.h ../../../src/c64/c64mem.h \
 	../../../src/c64/c64tpi.h c64cartmem.h ../../../src/cartridge.h \
 	crt.h epyxfastload.h expert.h final.h generic.h \
-	../../../src/interrupt.h ../../../src/6510core.h kcs.h \
-	../../../src/log.h ../../../src/machine.h \
-	../../../src/maincpu.h retroreplay.h ide64.h supergames.h \
-	supersnapshot.h ../../../src/vicii/vicii-phi1.h zaxxon.h
+	../../../src/interrupt.h kcs.h ../../../src/log.h \
+	../../../src/machine.h ../../../src/maincpu.h retroreplay.h \
+	ide64.h supergames.h supersnapshot.h \
+	../../../src/vicii/vicii-phi1.h zaxxon.h
 crt.o: crt.c ../../../src/vice.h ../../../src/config.h actionreplay.h \
 	../../../src/arch/unix/types.h atomicpower.h \
 	../../../src/arch/unix/archdep.h ../../../src/archapi.h \
@@ -293,14 +292,13 @@ epyxfastload.o: epyxfastload.c ../../../src/vice.h ../../../src/config.h \
 expert.o: expert.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h ../../../src/cartridge.h expert.h \
-	../../../src/interrupt.h ../../../src/6510core.h \
-	../../../src/resources.h ../../../src/c64/reu.h \
-	../../../src/utils.h ../../../src/vicii/vicii-phi1.h
+	../../../src/interrupt.h ../../../src/resources.h \
+	../../../src/c64/reu.h ../../../src/utils.h \
+	../../../src/vicii/vicii-phi1.h
 final.o: final.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h ../../../src/c64/c64mem.h final.h \
-	../../../src/interrupt.h ../../../src/6510core.h \
-	../../../src/utils.h
+	../../../src/interrupt.h ../../../src/utils.h
 generic.o: generic.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h ../../../src/cartridge.h crt.h generic.h \

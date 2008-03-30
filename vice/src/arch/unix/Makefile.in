@@ -431,15 +431,14 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	archdep.h ../../../src/archapi.h ../../../src/attach.h \
 	../../../src/autostart.h types.h ../../../src/fliplist.h \
 	../../../src/imagecontents.h ../../../src/interrupt.h \
-	../../../src/6510core.h ../../../src/log.h \
-	../../../src/machine.h ../../../src/maincpu.h \
-	../../../src/monitor/mon.h ../../../src/mos6510.h \
-	../../../src/resources.h ../../../src/sound.h \
-	../../../src/tape.h uicommands.h uiedisk.h uimenu.h \
-	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \
-	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h \
-	uisettings.h uisnapshot.h uidrive.h ../../../src/utils.h \
-	../../../src/vsync.h
+	../../../src/log.h ../../../src/machine.h \
+	../../../src/maincpu.h ../../../src/monitor/mon.h \
+	../../../src/mos6510.h ../../../src/resources.h \
+	../../../src/sound.h ../../../src/tape.h uicommands.h uiedisk.h \
+	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
+	x11/xaw/../xaw/uiarch.h uisettings.h uisnapshot.h uidrive.h \
+	../../../src/utils.h ../../../src/vsync.h
 uicrtc.o: uicrtc.c ../../../src/vice.h ../../../src/config.h uimenu.h \
 	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
@@ -527,12 +526,11 @@ vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/vsync.h
 vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/attach.h ../../../src/c64/c64mem.h types.h c64ui.h \
-	icon.h ../../../src/interrupt.h ../../../src/6510core.h \
-	../../../src/log.h ../../../src/machine.h \
-	../../../src/c64/psid.h ../../../src/resources.h uicommands.h \
-	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
-	x11/xaw/../xaw/uiarch.h uisettings.h uisound.h \
+	icon.h ../../../src/interrupt.h ../../../src/log.h \
+	../../../src/machine.h ../../../src/c64/psid.h \
+	../../../src/resources.h uicommands.h uimenu.h x11/xaw/uimenu.h \
+	ui.h ../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
+	uihotkey.h x11/xaw/../xaw/uiarch.h uisettings.h uisound.h \
 	../../../src/utils.h videoarch.h x11/xaw/videoarch.h \
 	x11/xaw/../videoarch.h ../../../src/fullscreen.h \
 	../../../src/video.h ../../../src/vsync.h ../../../src/vsidui.h \

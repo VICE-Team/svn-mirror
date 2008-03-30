@@ -278,10 +278,10 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
-	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/monitor/mon.h pet-cmdline-options.h \
-	pet-resources.h pet-snapshot.h pet.h petmem.h pets.h petsound.h \
+	../../src/interrupt.h ../../src/kbdbuf.h ../../src/keyboard.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/monitor/mon.h pet-cmdline-options.h pet-resources.h \
+	pet-snapshot.h pet.h petmem.h pets.h petsound.h \
 	../../src/arch/unix/petui.h petvia.h petacia.h petpia.h \
 	../../src/printer.h ../../src/resources.h \
 	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
@@ -291,9 +291,9 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 petacia1.o: petacia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/cmdline.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/log.h ../../src/machine.h ../../src/resources.h \
-	../../src/rs232.h ../../src/snapshot.h
+	../../src/cmdline.h ../../src/interrupt.h ../../src/log.h \
+	../../src/machine.h ../../src/resources.h ../../src/rs232.h \
+	../../src/snapshot.h
 petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
 	petpia.h ../../src/arch/unix/types.h
 petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
@@ -301,26 +301,24 @@ petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/iecdrive.h
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc-mem.h ../../src/arch/unix/types.h \
-	../../src/emuid.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/log.h ../../src/maincpu.h ../../src/mem.h \
-	../../src/monitor/mon.h pet.h petacia.h petmem.h petpia.h \
-	pets.h petvia.h ../../src/resources.h ../../src/utils.h \
-	../../src/vsync.h
+	../../src/emuid.h ../../src/interrupt.h ../../src/log.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
+	pet.h petacia.h petmem.h petpia.h pets.h petvia.h \
+	../../src/resources.h ../../src/utils.h ../../src/vsync.h
 petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/cmdline.h ../../src/crtc/crtc.h \
 	../../src/arch/unix/types.h ../../src/datasette.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/keyboard.h ../../src/maincpu.h \
-	../../src/parallel.h pets.h petmem.h petpia.h \
-	../../src/piacore.h ../../src/resources.h ../../src/piacore.c \
-	../../src/snapshot.h
+	../../src/keyboard.h ../../src/maincpu.h ../../src/parallel.h \
+	pets.h petmem.h petpia.h ../../src/piacore.h \
+	../../src/resources.h ../../src/piacore.c ../../src/snapshot.h
 petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
-	../../src/parallel.h petpia.h ../../src/piacore.h \
-	../../src/piacore.c ../../src/snapshot.h
+	../../src/interrupt.h ../../src/maincpu.h ../../src/parallel.h \
+	petpia.h ../../src/piacore.h ../../src/piacore.c \
+	../../src/snapshot.h
 petrom.o: petrom.c ../../src/vice.h ../../src/config.h \
 	../../src/autostart.h ../../src/arch/unix/types.h \
 	../../src/kbdbuf.h ../../src/crtc/crtc.h ../../src/log.h \
@@ -335,8 +333,7 @@ petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/parallel.h petsound.h petvia.h \
 	../../src/printer.h ../../src/viacore.h ../../src/via.h \
 	../../src/viacore.c ../../src/alarm.h ../../src/clkguard.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
-	../../src/utils.h
+	../../src/interrupt.h ../../src/snapshot.h ../../src/utils.h
 
 info-am:
 info: info-am

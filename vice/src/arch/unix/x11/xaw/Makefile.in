@@ -396,8 +396,7 @@ x11kbd.o: x11kbd.c ../../../../../src/vice.h ../../../../../src/config.h \
 x11ui.o: x11ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/drive/drive.h ../../../../../src/log.h \
 	../../../../../src/arch/unix/types.h \
-	../../../../../src/interrupt.h ../../../../../src/6510core.h \
-	../../../../../src/machine.h \
+	../../../../../src/interrupt.h ../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/c64/psid.h \
 	../../../../../src/raster/raster.h \
