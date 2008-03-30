@@ -147,6 +147,7 @@ base_sources = \
 	palette.c \
 	parallel.c \
 	resources.c \
+	print.c \
 	romset.c \
 	screenshot.c \
 	serial.c \
