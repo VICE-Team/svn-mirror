@@ -91,7 +91,8 @@ extern int true1541_enabled;
 extern int true1541_parallel_cable_enabled;
 
 extern int true1541_init_resources(void);
-extern int initialize_true1541(void);
+extern int true1541_init_cmdline_options(void);
+extern int initialize_true1541(CLOCK pal_hz, CLOCK ntsc_hz);
 extern void serial_bus_drive_write(BYTE data);
 extern BYTE serial_bus_drive_read(void);
 extern int true1541_trap_handler(void);
@@ -116,7 +117,7 @@ extern int true1541_attach_floppy(DRIVE *floppy);
 extern int true1541_detach_floppy(DRIVE *floppy);
 extern void true1541_update_zone_bits(int zone);
 extern void true1541_update_viad2_pcr(int pcrval);
-extern void true1541_prevent_clk_overflow(void);
+extern void true1541_prevent_clk_overflow(CLOCK sub);
 extern void true1541_motor_control(int flag);
 extern void true1541_update_ui_status(void);
 void true1541_vsync_hook(void);

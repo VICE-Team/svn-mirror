@@ -48,7 +48,7 @@
  *
  * Except for shift register and input latching everything should be ok now.
  */
-/* 
+/*
  * 01apr98 a.fachat
  * New timer code. Should be cycle-exact.
  *
@@ -146,10 +146,10 @@
 #include "interrupt.h"
 
 /*#define VIA1_TIMER_DEBUG */
-/*#define VIA1_NEED_PB7 */	/* when PB7 is really used, set this 
+/*#define VIA1_NEED_PB7 */	/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
-				   when port B is read - 
+				   when port B is read -
 				not yet implemented */
 
 /* global */
@@ -158,8 +158,8 @@ BYTE    via1[16];
 
 extern int keyarr[KBD_ROWS];
 
-/* 
- * local functions 
+/*
+ * local functions
  */
 
 /*
@@ -180,8 +180,8 @@ static CLOCK 		via1tbi;   /* time when next timer A alarm is */
 static int 		via1pb7;   /* state of PB7 for pulse output... */
 static int 		via1pb7x;  /* to be xored herewith  */
 static int 		via1pb7o;  /* to be ored herewith  */
-static int 		via1pb7xx; 
-static int 		via1pb7sx; 
+static int 		via1pb7xx;
+static int 		via1pb7sx;
 
 /* ------------------------------------------------------------------------- */
 /* VIA1 */
@@ -258,7 +258,7 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
     addr &= 0xf;
 #ifdef VIA1_TIMER_DEBUG
     if ((addr<10 && addr>3) || (addr==VIA_ACR) || app_resources.debugFlag)
-	printf("store via1[%x] %x, rmwf=%d, clk=%d, rclk=%d\n", 
+	printf("store via1[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
 		(int) addr, (int) byte, rmw_flag, clk, rclk);
 #endif
 
@@ -611,14 +611,14 @@ int    int_via1t2(long offset)
     return 0;
 }
 
-void via1_prevent_clk_overflow(void)
+void via1_prevent_clk_overflow(CLOCK sub)
 {
      unsigned int t;
-     t = (via1tau - (clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (via1tau - (clk + sub)) & 0xffff;
      via1tau = clk + t;
-     t = (via1tbu - (clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (via1tbu - (clk + sub)) & 0xffff;
      via1tbu = clk + t;
-     if(via1tai) via1tai -= PREVENT_CLK_OVERFLOW_SUB;
+     if(via1tai) via1tai -= sub;
 }
 
 

@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "vic20.h"
 #include "interrupt.h"
 #include "vic.h"
 #include "via.h"
@@ -41,6 +42,9 @@
 #include "sid.h"
 #include "vic20mem.h"
 #include "attach.h"
+#include "resources.h"
+#include "cmdline.h"
+#include "autostart.h"
 
 static void vsync_hook(void);
 
@@ -138,6 +142,20 @@ int machine_init_resources(void)
     return 0;
 }
 
+/* VIC20-specific command-line option initialization.  */
+int machine_init_cmdline_options(void)
+{
+    if (vsync_init_cmdline_options() < 0
+        || video_init_cmdline_options() < 0
+        || vic20_mem_init_cmdline_options() < 0
+        || vic_init_cmdline_options() < 0
+        || sid_init_cmdline_options() < 0
+        || true1541_init_cmdline_options() < 0)
+        return -1;
+
+    return 0;
+}
+
 /* VIC20-specific initialization.  */
 int machine_init(void)
 {
@@ -157,10 +175,10 @@ int machine_init(void)
     initialize_drives();
 
     /* Fire up the hardware-level 1541 emulation. */
-    initialize_true1541();
+    initialize_true1541(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
-    autostart_init(40);
+    autostart_init(3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH);
 
     /* Initialize the VIC-I emulation.  */
     vic_init();
@@ -173,10 +191,15 @@ int machine_init(void)
     monitor_init(&maincpu_monitor_interface, &true1541_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
-    vsync_init(RFSH_PER_SEC, CYCLES_PER_SEC, vsync_hook);
+    vsync_init(VIC20_PAL_RFSH_PER_SEC, VIC20_PAL_CYCLES_PER_SEC, vsync_hook);
+
+    /* Initialize sound.  Notice that this does not really open the audio
+       device yet.  */
+    initialize_sound(VIC20_PAL_CYCLES_PER_SEC, VIC20_PAL_CYCLES_PER_RFSH);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(631, 198, 10);
+    kbd_buf_init(631, 198, 10,
+                 VIC20_PAL_CYCLES_PER_RFSH * VIC20_PAL_RFSH_PER_SEC);
 
     return 0;
 }
@@ -189,7 +212,9 @@ void machine_reset(void)
     maincpu_int_status.alarm_handler[A_VIA1T2] = int_via1t2;
     maincpu_int_status.alarm_handler[A_VIA2T1] = int_via2t1;
     maincpu_int_status.alarm_handler[A_VIA2T2] = int_via2t2;
-    maincpu_set_alarm_clk(A_RASTERDRAW, CYCLES_PER_LINE);
+
+    maincpu_set_alarm_clk(A_RASTERDRAW, VIC20_PAL_CYCLES_PER_LINE);
+
     reset_via1();
     reset_via2();
 
@@ -213,16 +238,25 @@ int rom_trap_allowed(ADDRESS addr)
 /* This hook is called at the end of every frame.  */
 static void vsync_hook(void)
 {
+    CLOCK sub;
+
     true1541_vsync_hook();
 
     autostart_advance();
 
-    if (maincpu_prevent_clk_overflow()) {
-	vic_prevent_clk_overflow();
-	via1_prevent_clk_overflow();
-	via2_prevent_clk_overflow();
-	sid_prevent_clk_overflow();
-        vsync_prevent_clk_overflow();
+    /* We have to make sure the number of cycles subtracted is multiple of
+       `VIC20_PAL_CYCLES_PER_RFSH' here, or the VIC emulation could go
+       nuts.  */
+    sub = maincpu_prevent_clk_overflow(VIC20_PAL_CYCLES_PER_RFSH);
+    if (sub > 0) {
+	vic_prevent_clk_overflow(sub);
+	via1_prevent_clk_overflow(sub);
+	via2_prevent_clk_overflow(sub);
+	sid_prevent_clk_overflow(sub);
+        vsync_prevent_clk_overflow(sub);
     }
-    true1541_prevent_clk_overflow();
+
+    /* The 1541 has to deal both with our overflowing and its own one, so it
+       is called even when there is no overflowing in the main CPU.  */
+    true1541_prevent_clk_overflow(sub);
 }

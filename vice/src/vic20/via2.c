@@ -48,7 +48,7 @@
  *
  * Except for shift register and input latching everything should be ok now.
  */
-/* 
+/*
  * 01apr98 a.fachat
  * New timer code. Should be cycle-exact.
  *
@@ -146,10 +146,10 @@
 #include "interrupt.h"
 
 /*#define VIA2_TIMER_DEBUG */
-/*#define VIA2_NEED_PB7 */	/* when PB7 is really used, set this 
+/*#define VIA2_NEED_PB7 */	/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
-				   when port B is read - 
+				   when port B is read -
 				not yet implemented */
 
 /* global */
@@ -158,8 +158,8 @@ BYTE    via2[16];
 
 
 
-/* 
- * local functions 
+/*
+ * local functions
  */
 
 /*
@@ -180,8 +180,8 @@ static CLOCK 		via2tbi;   /* time when next timer A alarm is */
 static int 		via2pb7;   /* state of PB7 for pulse output... */
 static int 		via2pb7x;  /* to be xored herewith  */
 static int 		via2pb7o;  /* to be ored herewith  */
-static int 		via2pb7xx; 
-static int 		via2pb7sx; 
+static int 		via2pb7xx;
+static int 		via2pb7sx;
 
 /* ------------------------------------------------------------------------- */
 /* VIA2 */
@@ -258,7 +258,7 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
     addr &= 0xf;
 #ifdef VIA2_TIMER_DEBUG
     if ((addr<10 && addr>3) || (addr==VIA_ACR) || app_resources.debugFlag)
-	printf("store via2[%x] %x, rmwf=%d, clk=%d, rclk=%d\n", 
+	printf("store via2[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
 		(int) addr, (int) byte, rmw_flag, clk, rclk);
 #endif
 
@@ -605,14 +605,14 @@ int    int_via2t2(long offset)
     return 0;
 }
 
-void via2_prevent_clk_overflow(void)
+void via2_prevent_clk_overflow(CLOCK sub)
 {
      unsigned int t;
-     t = (via2tau - (clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (via2tau - (clk + sub)) & 0xffff;
      via2tau = clk + t;
-     t = (via2tbu - (clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (via2tbu - (clk + sub)) & 0xffff;
      via2tbu = clk + t;
-     if(via2tai) via2tai -= PREVENT_CLK_OVERFLOW_SUB;
+     if(via2tai) via2tai -= sub;
 }
 
 

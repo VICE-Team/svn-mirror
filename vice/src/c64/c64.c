@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "c64.h"
 #include "interrupt.h"
 #include "vicii.h"
 #include "cia.h"
@@ -52,6 +53,7 @@
 #include "vsync.h"
 #include "c64mem.h"
 #include "attach.h"
+#include "autostart.h"
 
 static void vsync_hook(void);
 
@@ -184,6 +186,20 @@ int machine_init_resources(void)
     return 0;
 }
 
+/* C64-specific command-line option initialization.  */
+int machine_init_cmdline_options(void)
+{
+    if (vsync_init_cmdline_options() < 0
+        || video_init_cmdline_options() < 0
+        || c64_mem_init_cmdline_options() < 0
+        || vic_ii_init_cmdline_options() < 0
+        || sid_init_cmdline_options() < 0
+        || true1541_init_cmdline_options() < 0)
+        return -1;
+
+    return 0;
+}
+
 /* C64-specific initialization.  */
 int machine_init(void)
 {
@@ -206,10 +222,10 @@ int machine_init(void)
     initialize_tape(c64_tape_traps);
 
     /* Fire up the hardware-level 1541 emulation.  */
-    initialize_true1541();
+    initialize_true1541(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
-    autostart_init();
+    autostart_init(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH);
 
     /* Initialize the VIC-II emulation.  */
     vic_ii_init();
@@ -222,10 +238,14 @@ int machine_init(void)
     monitor_init(&maincpu_monitor_interface, &true1541_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
-    vsync_init(RFSH_PER_SEC, CYCLES_PER_SEC, vsync_hook);
+    vsync_init(C64_PAL_RFSH_PER_SEC, C64_PAL_CYCLES_PER_SEC, vsync_hook);
+
+    /* Initialize sound.  Notice that this does not really open the audio
+       device yet.  */
+    initialize_sound(C64_PAL_CYCLES_PER_SEC, C64_PAL_CYCLES_PER_RFSH);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(631, 198, 10);
+    kbd_buf_init(631, 198, 10, C64_PAL_CYCLES_PER_RFSH * C64_PAL_RFSH_PER_SEC);
 
     return 0;
 }
@@ -279,16 +299,25 @@ int rom_trap_allowed(ADDRESS addr)
 /* This hook is called at the end of every frame.  */
 static void vsync_hook(void)
 {
+    CLOCK sub;
+
     true1541_vsync_hook();
 
     autostart_advance();
 
-    if (maincpu_prevent_clk_overflow()) {
-	vic_ii_prevent_clk_overflow();
-	cia1_prevent_clk_overflow();
-	cia2_prevent_clk_overflow();
-        sid_prevent_clk_overflow();
-        vsync_prevent_clk_overflow();
+    /* We have to make sure the number of cycles subtracted is multiple of
+       `C64_PAL_CYCLES_PER_RFSH' here, or the VIC-II emulation could go
+       nuts.  */
+    sub = maincpu_prevent_clk_overflow(C64_PAL_CYCLES_PER_RFSH);
+    if (sub > 0) {
+	vic_ii_prevent_clk_overflow(sub);
+	cia1_prevent_clk_overflow(sub);
+	cia2_prevent_clk_overflow(sub);
+        sid_prevent_clk_overflow(sub);
+        vsync_prevent_clk_overflow(sub);
     }
-    true1541_prevent_clk_overflow();
+
+    /* The 1541 has to deal both with our overflowing and its own one, so it
+       is called even when there is no overflowing in the main CPU.  */
+    true1541_prevent_clk_overflow(sub);
 }

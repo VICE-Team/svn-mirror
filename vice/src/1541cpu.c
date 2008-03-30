@@ -264,6 +264,7 @@ void true1541_cpu_set_sync_factor(unsigned int sync_factor)
 {
     unsigned long i;
 
+    printf("%s(%d)\n", __FUNCTION__, sync_factor);
     for (i = 0; i <= MAX_TICKS; i++) {
 	unsigned long tmp = i * (unsigned long)sync_factor;
 
@@ -373,26 +374,25 @@ inline void true1541_cpu_sleep(void)
 
 /* Make sure the 1541 clock counters never overflow; return nonzero if they
    have been decremented to prevent overflow.  */
-int true1541_cpu_prevent_clk_overflow(void)
+CLOCK true1541_cpu_prevent_clk_overflow(CLOCK sub)
 {
-    int retval = 0;
+    CLOCK our_sub;
 
-    /* If this happens, the CPU has prevented the clock overflow, so we have
-       to get in sync with it.  */
-    if (last_clk > clk) {
-	last_clk -= PREVENT_CLK_OVERFLOW_SUB;
-	retval = 1;
+    /* First, get in sync with what the main CPU has done.  */
+    last_clk -= sub;
+
+    /* Then, check our own clock counters, and subtract from them if they are
+       going to overflow.  The `baseval' is 1 because we don't need the
+       number of cycles subtracted to be multiple of a particular value
+       (unlike the main CPU).  */
+    our_sub = prevent_clk_overflow(&true1541_int_status, &true1541_clk, 1);
+    if (our_sub > 0) {
+	viaD1_prevent_clk_overflow(sub);
+	viaD2_prevent_clk_overflow(sub);
     }
 
-    /* Now check our own clock counters, and subtract from them if they are
-       going to overflow.  */
-    if (prevent_clk_overflow(&true1541_int_status, &true1541_clk)) {
-	viaD1_prevent_clk_overflow();
-	viaD2_prevent_clk_overflow();
-	retval = 1;
-    }
-
-    return retval;
+    /* Let the caller know what we have done.  */
+    return our_sub;
 }
 
 /* -------------------------------------------------------------------------- */
