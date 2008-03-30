@@ -514,11 +514,13 @@ compare_operand: register { $$ = new_cond;
                             $$->operation = e_INV;
                             $$->is_parenthized = FALSE;
                             $$->reg_num = $1; $$->is_reg = TRUE;
+                            $$->child1 = NULL; $$->child2 = NULL;
                           }
                | number   { $$ = new_cond;
                             $$->operation = e_INV;
                             $$->is_parenthized = FALSE;
                             $$->value = $1; $$->is_reg = FALSE;
+                            $$->child1 = NULL; $$->child2 = NULL;
                           }
                ;
 

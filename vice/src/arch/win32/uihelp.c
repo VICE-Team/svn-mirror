@@ -40,6 +40,7 @@
 #include "uihelp.h"
 #include "uilib.h"
 #include "util.h"
+#include "version.h"
 #include "winmain.h"
 
 

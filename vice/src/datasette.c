@@ -611,6 +611,7 @@ static void datasette_internal_reset(void)
         datasette_long_gap_pending = 0;
         datasette_long_gap_elapsed = 0;
         datasette_last_direction = 0;
+        motor_stop_clk = 0;
         datasette_update_ui_counter();
         fullwave = 0;
     }
