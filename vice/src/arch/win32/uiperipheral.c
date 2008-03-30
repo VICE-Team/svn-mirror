@@ -86,26 +86,24 @@ static void enable_controls_for_disk_device_type(HWND hwnd, int type)
 
 static void enable_controls(HWND hwnd)
 {
-  int drive_true_emulation, virtual_device_traps;
-  BOOL haveIECDevice;
+    int drive_true_emulation, virtual_device_traps;
+    BOOL haveIECDevice;
 
-  resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
-  resources_get_value("VirtualDevices", (void *)&virtual_device_traps);
-  haveIECDevice = IsDlgButtonChecked(hwnd, IDC_TOGGLE_USEIECDEVICE)==BST_CHECKED;
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
+    resources_get_value("VirtualDevices", (void *)&virtual_device_traps);
+    haveIECDevice = IsDlgButtonChecked(hwnd, IDC_TOGGLE_USEIECDEVICE)
+                    == BST_CHECKED;
   
-  if( (drive_true_emulation || !virtual_device_traps) && !haveIECDevice )
-    {
-      EnableWindow(GetDlgItem(hwnd, IDC_SELECTDISK),  FALSE);
-      EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR),   FALSE);
-      EnableWindow(GetDlgItem(hwnd, IDC_SELECTNONE),  FALSE);
-      CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, IDC_SELECTNONE);
-      enable_controls_for_disk_device_type(hwnd, IDC_SELECTNONE);
-    }
-  else
-    {
-      EnableWindow(GetDlgItem(hwnd, IDC_SELECTDISK),  TRUE);
-      EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR),   TRUE);
-      EnableWindow(GetDlgItem(hwnd, IDC_SELECTNONE),  TRUE);
+    if ((drive_true_emulation || !virtual_device_traps) && !haveIECDevice) {
+        EnableWindow(GetDlgItem(hwnd, IDC_SELECTDISK),  FALSE);
+        EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR),   FALSE);
+        EnableWindow(GetDlgItem(hwnd, IDC_SELECTNONE),  FALSE);
+        CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, IDC_SELECTNONE);
+        enable_controls_for_disk_device_type(hwnd, IDC_SELECTNONE);
+    } else {
+        EnableWindow(GetDlgItem(hwnd, IDC_SELECTDISK),  TRUE);
+        EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR),   TRUE);
+        EnableWindow(GetDlgItem(hwnd, IDC_SELECTNONE),  TRUE);
     }
 }
 
@@ -146,27 +144,24 @@ static void init_dialog(HWND hwnd, unsigned int num)
 
         
         resources_get_sprintf("FileSystemDevice%d", (void *)&enabled, num);
-        if( !enabled )
-          n = IDC_SELECTNONE;
-        else if( disk_image != NULL )
-          n = IDC_SELECTDISK;
+        if (!enabled)
+            n = IDC_SELECTNONE;
+        else if (disk_image != NULL)
+            n = IDC_SELECTDISK;
         else
-          n = IDC_SELECTDIR;
+            n = IDC_SELECTDIR;
 
         CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, n);
         enable_controls_for_disk_device_type(hwnd, n);
 
-        if( iec_available_busses() & IEC_BUS_IEC )
-          {
+        if (iec_available_busses() & IEC_BUS_IEC) {
             resources_get_sprintf("IECDevice%d", (void *)&n, num);
             CheckDlgButton(hwnd, IDC_TOGGLE_USEIECDEVICE,
                            n ? BST_CHECKED : BST_UNCHECKED);
-          }
-        else
-          {
+        } else {
             CheckDlgButton(hwnd, IDC_TOGGLE_USEIECDEVICE, BST_UNCHECKED);
             ShowWindow(GetDlgItem(hwnd, IDC_TOGGLE_USEIECDEVICE), FALSE);
-          }
+        }
         
         enable_controls(hwnd);
     }
@@ -430,10 +425,10 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     const char *res_string;
     int current = 0;
 
-    if( num==0 )
-      sprintf(printer_name, "PrinterUserport");
+    if (num == 0)
+        sprintf(printer_name, "PrinterUserport");
     else
-      sprintf(printer_name, "Printer%d", num);
+        sprintf(printer_name, "Printer%d", num);
 
     resources_get_value(printer_name, (void *)&res_value);
     printer_hwnd = GetDlgItem(hwnd, IDC_PRINTER_TYPE);
@@ -546,14 +541,18 @@ static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg,
             enable_printer_controls(num, hwnd);
             break;
           case IDC_PRINTER_FORMFEED:
-            {
-                switch(num) {
-                  case 4: printer_formfeed(0); break;
-                  case 5: printer_formfeed(1); break;
-                  case 0: printer_formfeed(2); break;
-                }
+            switch(num) {
+              case 4:
+                printer_formfeed(0);
+                break;
+              case 5:
+                printer_formfeed(1);
+                break;
+              case 0:
+                printer_formfeed(2);
                 break;
             }
+            break;
         }
         return FALSE;
 
