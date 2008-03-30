@@ -153,6 +153,7 @@ int cartridge_resources_init(void)
 void cartridge_resources_shutdown(void)
 {
     lib_free(cartridge_file);
+    lib_free(ide64_image_file);
 }
 
 static int attach_cartridge_cmdline(const char *param, void *extra_param)
