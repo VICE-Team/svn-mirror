@@ -64,7 +64,6 @@
 #include "log.h"
 #include "machine-drive.h"
 #include "machine.h"
-#include "parallel.h"
 #include "resources.h"
 #include "rotation.h"
 #include "serial.h"
