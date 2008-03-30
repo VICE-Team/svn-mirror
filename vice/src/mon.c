@@ -34,22 +34,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_STRINGS_H
-#include <strings.h>
-#endif
-#include <signal.h>
 #ifdef __riscos
 #include "ROlib.h"
 #endif
 #include <ctype.h>
 #include <assert.h>
+#endif
+
+#ifdef HAVE_ERRNO_H
 #include <errno.h>
+#endif
+#ifdef HAVE_SIGNAL_H
+#include <signal.h>
+#endif
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
-#ifdef __IBMC__ // OS/2 Visual Age C
+#ifdef __IBMC__
 #include <direct.h>
 #endif
 
@@ -306,7 +311,7 @@ struct mon_cmds mon_cmd_array[] = {
      "Set the default memory device to either the computer `c:' or the\n"
      "disk (`d:')." },
 
-   { "disable", 	"", 	CMD_CHECKPT_ONOFF, 	STATE_INITIAL,
+   { "disable", 	"", 	CMD_CHECKPT_OFF, 	STATE_INITIAL,
      "<checknum>",
      "Disable checkpoint `checknum'." },
 
@@ -314,7 +319,7 @@ struct mon_cmds mon_cmd_array[] = {
 
    { "dump", 		"", 	CMD_DUMP, 		STATE_FNAME },
 
-   { "enable", 		"", 	CMD_CHECKPT_ONOFF, 	STATE_INITIAL,
+   { "enable", 		"", 	CMD_CHECKPT_ON, 	STATE_INITIAL,
      "<checknum>",
      "Enable checkpoint `checknum'." },
 
@@ -2554,7 +2559,7 @@ static BREAK_LIST *search_checkpoint_list(BREAK_LIST *head, unsigned loc)
       is > than the search item, we can drop out early.
    */
    while (cur_entry) {
-      if (is_in_range(cur_entry->brkpt->start_addr, cur_entry->brkpt->start_addr, loc))
+      if (is_in_range(cur_entry->brkpt->start_addr, cur_entry->brkpt->end_addr, loc))
          return cur_entry;
 
       cur_entry = cur_entry->next;

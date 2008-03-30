@@ -45,9 +45,6 @@
 /* Define vfork as fork if vfork does not work.  */
 # define vfork fork
 
-/* Define if you have the <sys/file.h> header file.  */
-#define HAVE_SYS_FILE_H 1
-
 /* Define if you have the <sys/ioctl.h> header file.  */
 #define HAVE_SYS_IOCTL_H 1
 
@@ -268,4 +265,20 @@
 
 /* Define if you have the audio library (-laudio).  */
 /* #undef HAVE_LIBAUDIO */
+
+/* Define if you have the <errno.h> header file.  */
+#define HAVE_ERRNO_H 1
+
+/* Define if you have the <io.h> header file.  */
+#define HAVE_IO_H 1
+
+/* Define if you have the <sys/types.h> header file.  */
+#define HAVE_SYS_TYPES_H 1
+
+/* Define if you have the <sys/stat.h> header file.  */
+#define HAVE_SYS_STAT_H 1
+
+/* Define if you have the <signal.h> header file.  */
+#define HAVE_SIGNAL_H 1
+
 //#endif

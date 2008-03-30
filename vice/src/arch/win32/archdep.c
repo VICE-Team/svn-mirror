@@ -24,21 +24,31 @@
  *
  */
 
-#include <stdio.h>
 #include "vice.h"
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <signal.h>
 #include <string.h>
-#include <sys/stat.h>
 #include <windows.h>
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
+
 #ifdef HAVE_DIR_H
 #include <dir.h>
+#endif
+#ifdef HAVE_ERRNO_H
+#include <errno.h>
+#endif
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
+#ifdef HAVE_SIGNAL_H
+#include <signal.h>
+#endif
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
 #endif
 
 #include "archdep.h"
@@ -105,11 +115,13 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
     static char *default_path;
 
     if (default_path == NULL) {
+#if 0
         const char *boot_path = archdep_boot_path();
 
-/*        default_path = concat(boot_path, "\\", emu_id,
+        default_path = concat(boot_path, "\\", emu_id,
                               FINDPATH_SEPARATOR_STRING,
-                              boot_path, "\\DRIVES", NULL);*/
+                              boot_path, "\\DRIVES", NULL);
+#endif
         default_path = concat(emu_id,
                               FINDPATH_SEPARATOR_STRING,
                               "DRIVES", NULL);
