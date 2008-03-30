@@ -43,26 +43,26 @@ libarch_a_SOURCES = \
 
 EXTRA_DIST = \
 	vice.def \
-        install.cmd \
-        makedist.cmd \
-        unused/contentsdlg.c \
-        unused/contentsdlg.h \
-        unused/video_gpi.h \
-        unused/video_gpi.c \
-        unused/vsync.c \
-        unused/vsync.h \
-        icons/folder.pal \
-        icons/folder1.ico \
-        icons/folder2.ico \
-        icons/x64.ico \
-        icons/xpet.ico \
-        icons/x128.ico \
-        icons/xcbm2.ico \
-        icons/c1541.ico \
-        texi2ipf/readme \
-        texi2ipf/texi2ipf.exe \
-        texi2ipf/texi2ipf.INF
+	install.cmd \
+	makedist.cmd \
+	makeclean.cmd \
+	unused/contentsdlg.c \
+	unused/contentsdlg.h \
+	unused/video_gpi.h \
+	unused/video_gpi.c \
+	unused/vsync.c \
+	unused/vsync.h \
+	icons/folder.pal \
+	icons/folder1.ico \
+	icons/folder2.ico \
+	icons/x64.ico \
+	icons/xpet.ico \
+	icons/x128.ico \
+	icons/xvic.ico \
+	icons/xcbm2.ico \
+	icons/c1541.ico \
+	texi2ipf/readme \
+	texi2ipf/texi2ipf.exe \
+	texi2ipf/texi2ipf.INF \
+	doc/Vice_for_OS2.txt
 
-.PHONY: pm
-:pm
-	(cd pm; $(MAKE))
