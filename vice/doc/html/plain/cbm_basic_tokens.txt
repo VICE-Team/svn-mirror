@@ -1,9 +1,9 @@
 
-PETCAT version 2.11 PL 1					16 Oct 2005
+PETCAT version 2.12 PL 1					24 Jan 2006
 
 
   Listed below are keywords and token codes for all CBM Basic versions
-  supported on petcat v2.11 PL 1. They include the following:
+  supported on petcat v2.12 PL 1. They include the following:
  
 	Basic 1.0
 	Basic 2.0
@@ -26,6 +26,7 @@ PETCAT version 2.11 PL 1					16 Oct 2005
 	Basic 4.0 extension for C64
 	Basic 3.5
 	Basic 7.0
+	Basic 7.1 extension
 	Basic 10.0
 
 
@@ -212,7 +213,8 @@ fe					*prefix* 	*prefix*
 
   Prefixed Extension Keywords (Tokens CE02 - CE0A)
 
-  The following codes implement function keywords. Basics 7.0 and 10.0 only.
+  The following codes implement function keywords. Basics 7.0, 7.1 and
+  10.0 only.
 
 
 Token	Keyword
@@ -238,82 +240,82 @@ ce0a	pointer
   middle are commom.
 
 
-Token		Keyword
-	 7.0		   10.0
+Token   7.0          7.1          10.0
+        Keyword      Keyword      Keyword
 
 fe00
 fe01
-fe02		bank
-fe03		filter
-fe04		play
-fe05		tempo
-fe06		movspr
-fe07		sprite
+fe02    bank         bank         bank
+fe03    filter       filter       filter
+fe04    play         play         play
+fe05    tempo        tempo        tempo
+fe06    movspr       movspr       movspr
+fe07    sprite       sprite       sprite
 
-fe08		sprcolor
-fe09		rreg
-fe0a		envelope
-fe0b		sleep
-fe0c		catalog 4)
-fe0d		dopen 4)
-fe0e		append 4)
-fe0f		dclose 4)
+fe08    sprcolor     sprcolor     sprcolor
+fe09    rreg         rreg         rreg
+fe0a    envelope     envelope     envelope
+fe0b    sleep        sleep        sleep
+fe0c    catalog 4)   catalog 4)   catalog 4)
+fe0d    dopen 4)     dopen 4)     dopen 4)
+fe0e    append 4)    append 4)    append 4)
+fe0f    dclose 4)    dclose 4)    dclose 4)
 
-fe10		bsave
-fe11		bload
-fe12		record 4)
-fe13		concat 4)
-fe14		dverify
-fe15		dclear
-fe16		sprsav
-fe17		collision
+fe10    bsave        bsave        bsave
+fe11    bload        bload        bload
+fe12    record 4)    record 4)    record 4)
+fe13    concat 4)    concat 4)    concat 4)
+fe14    dverify      dverify      dverify
+fe15    dclear       dclear       dclear
+fe16    sprsav       sprsav       sprsav
+fe17    collision    collision    collision
 
-fe18		begin
-fe19		bend
-fe1a		window
-fe1b		boot
-fe1c		width  2)
-fe1d		sprdef 2)
-fe1e		quit 1) 2)
-fe1f	 stash		 dma
+fe18    begin        begin        begin
+fe19    bend         bend         bend
+fe1a    window       window       window
+fe1b    boot         boot         boot
+fe1c    width        width        width 2)
+fe1d    sprdef       sprdef       sprdef 2)
+fe1e    quit 1)      quit 1)      quit 2)
+fe1f    stash        stash        dma
 
 fe20
-fe21	 fetch		 dma
+fe21    fetch        fetch        dma
 fe22
-fe23	 swap		 dma
-fe24		off 1) 2)
-fe25		fast
-fe26		slow
-fe27			 type
+fe23    swap         swap         dma
+fe24    off 1)       off 1)       off 2)
+fe25    fast         fast
+fe26    slow         slow
+fe27                 cwind        type
 
-fe28			 bverify
-fe29			 ectory (diRectorY)
-fe2a			 erase
-fe2b			 find
-fe2c			 change
-fe2d			 set  3)
-fe2e			 screen
-fe2f			 polygon
+fe28                 sscrn        bverify
+fe29                 lscrn        ectory (diRectorY)
+fe2a                 hide         erase
+fe2b                 show         find
+fe2c                 sfont        change
+fe2d                 lfont        set 3)
+fe2e                 view         screen
+fe2f                 fcopy        polygon
 
-fe30			 ellipse
-fe31			 viewport 2)
-fe32			 gcopy 2)
-fe33			 pen
-fe34			 palette
-fe35			 dmode
-fe36			 dpat
-fe37			 pic  2)
+fe30                 esave        ellipse
+fe31                 send         viewport 2)
+fe32                 check        gcopy 2)
+fe33                 esc          pen
+fe34                 old          palette
+fe35                 find         dmode
+fe36                 dump         dpat
+fe37                 merge        pic 2)
 
-fe38			 genlock
-fe39			 foreground
+fe38                              genlock
+fe39                              foreground
 fe3a
-fe3b			 background
-fe3c			 border
-fe3d			 highlight
+fe3b                              background
+fe3c                              border
+fe3d                              highlight
 
 
  Notes:
-  1)	Gives "unimplemented command error" on BASIC 7.0
+  1)	Gives "unimplemented command error" on BASIC 7.0 and 7.1
   2)	Gives "unimplemented command error" on BASIC 10.0 v0.9
   3)	Only 'set def' is implemented.
   4)	Command also available on PET Basic 4.0, but the Token Code is

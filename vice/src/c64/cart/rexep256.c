@@ -81,10 +81,8 @@ void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
 
     if (rexep256_eprom[eprom_bank]==0x2000)
       eprom_part=0;
-    if (rexep256_eprom[eprom_bank]==0x4000 && (test_value==1 || test_value==3))
-      eprom_part=1;
-    if (rexep256_eprom[eprom_bank]==0x4000 && (test_value==0 || test_value==2))
-      eprom_part=0;
+    if (rexep256_eprom[eprom_bank]==0x4000)
+      eprom_part=test_value&1;
     if (rexep256_eprom[eprom_bank]==0x8000)
       eprom_part=test_value;
 

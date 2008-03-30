@@ -48,6 +48,8 @@ typedef int resource_set_func_t(resource_value_t v, void *param);
 typedef void resource_callback_func_t(const char *name, void *param);
 
 struct resource_callback_desc_s;
+struct event_list_state_s;
+
 
 /* Warning: all the pointers should point to areas that are valid throughout
    the execution.  No reallocation is performed.  */
@@ -93,6 +95,7 @@ extern int resources_init(const char *machine);
 extern int resources_register(const resource_t *r);
 extern void resources_shutdown(void);
 extern int resources_set_value(const char *name, resource_value_t value);
+extern void resources_set_value_event(void *data, int size);
 extern int resources_set_sprintf(const char *name, resource_value_t value, ...);
 extern int resources_set_value_string(const char *name, const char *value);
 extern int resources_toggle(const char *name,
@@ -111,6 +114,8 @@ extern char *resources_write_item_to_string(const char *name,
                                             const char *delim);
 
 extern int resources_set_defaults(void);
+extern int resources_set_event_safe(void);
+extern void resources_get_event_safe_list(struct event_list_state_s *list);
 
 /* Register a callback for a resource; use name=NULL to register a callback for all.
    Resource-specific callbacks are always called with a valid resource name as parameter.

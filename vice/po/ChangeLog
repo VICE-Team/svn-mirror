@@ -1,3 +1,7 @@
+2006-01-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in: Added some new files to the list.
+
 2006-01-22  pottendo  <pottendo@utanet.at>
 
 	* Makefile.in.in: Added `--from-code' to support UTF-8 source

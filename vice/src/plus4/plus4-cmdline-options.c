@@ -31,6 +31,9 @@
 #include "cmdline.h"
 #include "machine.h"
 #include "plus4-cmdline-options.h"
+#include "plus4memcsory256k.h"
+#include "plus4memhannes256k.h"
+
 
 #ifdef HAS_TRANSLATION
 #include "translate.h"
@@ -108,6 +111,10 @@ static const cmdline_option_t cmdline_options[] =
 
 int plus4_cmdline_options_init(void)
 {
+    if (h256k_cmdline_options_init()<0)
+      return -1;
+    if (cs256k_cmdline_options_init()<0)
+      return -1;
+
     return cmdline_register_options(cmdline_options);
 }
-

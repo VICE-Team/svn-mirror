@@ -40,6 +40,8 @@
 #include "plus4acia.h"
 #include "plus4iec.h"
 #include "plus4mem.h"
+#include "plus4memcsory256k.h"
+#include "plus4memhannes256k.h"
 #include "plus4memlimit.h"
 #include "plus4memrom.h"
 #include "plus4pio1.h"
@@ -218,7 +220,10 @@ BYTE REGPARM1 zero_read(WORD addr)
       case 1:
         return mem_proc_port_read(addr);
     }
-    return mem_ram[addr];
+    if (!cs256k_enabled)
+        return mem_ram[addr];
+    else
+        return cs256k_read(addr);
 }
 
 void REGPARM2 zero_store(WORD addr, BYTE value)
@@ -231,14 +236,20 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
             pport.dir = value & 0xdf;
             mem_proc_port_store();
         }
-        mem_ram[addr] = value;
+        if (!cs256k_enabled)
+            mem_ram[addr] = value;
+        else
+            cs256k_store(addr,value);
         break;
       case 1:
         if (pport.data != value) {
             pport.data = value;
             mem_proc_port_store();
         }
-        mem_ram[addr] = value;
+        if (!cs256k_enabled)
+            mem_ram[addr] = value;
+        else
+            cs256k_store(addr,value);
         break;
       default:
         mem_ram[addr] = value;
@@ -362,6 +373,12 @@ static BYTE REGPARM1 fdxx_read(WORD addr)
         return acia_read(addr);
 #endif
 
+    if (addr == 0xfd16 && h256k_enabled)
+        return h256k_reg_read(addr);
+
+    if (addr == 0xfd15 && cs256k_enabled)
+        return cs256k_reg_read(addr);
+
     if (addr >= 0xfd10 && addr <= 0xfd1f)
         return pio1_read(addr);
 
@@ -379,6 +396,14 @@ static void REGPARM2 fdxx_store(WORD addr, BYTE value)
         return;
     }
 #endif
+    if (addr == 0xfd16 && h256k_enabled) {
+        h256k_reg_store(addr, value);
+        return;
+    }
+    if (addr == 0xfd15 && cs256k_enabled) {
+        cs256k_reg_store(addr, value);
+        return;
+    }
     if (addr >= 0xfd10 && addr <= 0xfd1f) {
         pio1_store(addr, value);
         return;
@@ -523,6 +548,7 @@ void mem_initialize_memory(void)
 
     switch (ram_size) {
       default:
+      case 256:
       case 64:
         for (i = 0; i < 16; i++) {
             chargen_tab[1][i] = RAM4;
@@ -563,6 +589,23 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xff; j++) {
             switch (ram_size) {
+              case 4096:
+              case 1024:
+              case 256:
+                if (h256k_enabled && j<0x10) {
+                    mem_read_tab[i][j] = ram_read;
+                    mem_write_tab[i][j] = ted_mem_vbank_store;
+                }
+                if (h256k_enabled && j>=0x10) {
+                    mem_read_tab[i][j] = h256k_read;
+                    mem_write_tab[i][j] = h256k_store;
+                }
+                if (cs256k_enabled) {
+                    mem_read_tab[i][j] = cs256k_read;
+                    mem_write_tab[i][j] = cs256k_store;
+                }
+                mem_read_base_tab[i][j] = mem_ram + (j << 8);
+                break;
               default:
               case 64:
                 mem_read_tab[i][j] = ram_read;

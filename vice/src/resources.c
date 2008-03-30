@@ -46,9 +46,11 @@
 #endif
 
 #include "archdep.h"
+#include "event.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
+#include "network.h"
 #include "resources.h"
 #include "util.h"
 
@@ -317,6 +319,42 @@ char *resources_write_item_to_string(const char *name, const char *delim)
     return NULL;
 }
 
+static void resource_create_event_data(char **event_data, int *data_size,
+                                       resource_ram_t *r,
+                                       resource_value_t value)
+{
+    int name_size;
+    const char *name = r->name;
+
+    name_size = strlen(name) + 1;
+
+    if (r->type == RES_INTEGER)
+        *data_size = name_size + sizeof(DWORD);
+    else
+        *data_size = name_size + strlen((char *)value) + 1;
+
+    *event_data = lib_malloc(*data_size);
+    strcpy(*event_data, name);
+
+    if (r->type == RES_INTEGER)
+        *(DWORD *)(*event_data + name_size) = (DWORD)value;
+    else
+        strcpy(*event_data + name_size, (char *)value);
+}
+
+static void resource_record_event(resource_ram_t *r,
+                                  resource_value_t value)
+{
+    char *event_data;
+    int data_size;
+
+    resource_create_event_data(&event_data, &data_size, r, value);
+
+    network_event_record(EVENT_RESOURCE, event_data, data_size);
+
+    lib_free(event_data);
+}
+
 /* ------------------------------------------------------------------------- */
 
 int resources_init(const char *machine)
@@ -339,10 +377,20 @@ int resources_init(const char *machine)
     return 0;
 }
 
+static int resources_set_value_internal(resource_ram_t *r, 
+                                        resource_value_t value)
+{
+    int status;
+
+    if ((status = (*r->set_func)(value, r->param)) == 0)
+        resources_issue_callback(r, 1);
+
+    return status;
+}
+
 int resources_set_value(const char *name, resource_value_t value)
 {
     resource_ram_t *r = lookup(name);
-    int status;
 
     if (r == NULL) {
         log_warning(LOG_DEFAULT,
@@ -351,10 +399,32 @@ int resources_set_value(const char *name, resource_value_t value)
         return -1;
     }
 
-    if ((status = (*r->set_func)(value, r->param)) == 0)
-        resources_issue_callback(r, 1);
+    if (r->event_relevant == RES_EVENT_STRICT
+        && network_get_mode() != NETWORK_IDLE)
+        return -2;
 
-    return status;
+    if (r->event_relevant == RES_EVENT_SAME && network_connected())
+    {
+        resource_record_event(r, value);
+        return 0;
+    }
+
+    return resources_set_value_internal(r, value);
+}
+
+void resources_set_value_event(void *data, int size)
+{
+    const char *name;
+    const char *valueptr;
+    resource_ram_t *r;
+
+    name = (const char *)data;
+    valueptr = name + strlen(name) + 1;
+    r = lookup(name);
+    if (r->type == RES_INTEGER)
+        resources_set_value_internal(r, (resource_value_t)*(DWORD *)valueptr);
+    else
+        resources_set_value_internal(r, (resource_value_t)valueptr);
 }
 
 int resources_set_sprintf(const char *name, resource_value_t value, ...)
@@ -470,6 +540,7 @@ int resources_get_default_value(const char *name, void *value_return)
     return 0;
 }
 
+/* FIXME: make event safe */
 int resources_set_defaults(void)
 {
     unsigned int i;
@@ -490,11 +561,49 @@ int resources_set_defaults(void)
     return 0;
 }
 
+int resources_set_event_safe(void)
+{
+    unsigned int i;
+
+    for (i = 0; i < num_resources; i++) {
+        if (resources[i].event_relevant == RES_EVENT_STRICT)
+            if ((*resources[i].set_func)(resources[i].event_strict_value,
+                resources[i].param) < 0) {
+                return -1;
+            }
+
+        resources_issue_callback(resources + i, 0);
+    }
+
+    if (resource_modified_callback != NULL)
+        resources_exec_callback_chain(resource_modified_callback, NULL);
+
+    return 0;
+}
+
+void resources_get_event_safe_list(event_list_state_t *list)
+{
+    unsigned int i;
+    char *event_data;
+    int data_size;
+
+    for (i = 0; i < num_resources; i++) {
+        if (resources[i].event_relevant == RES_EVENT_SAME) {
+            resource_create_event_data(&event_data, &data_size,
+                                       &resources[i],
+                                       *(resources[i].value_ptr));
+            event_record_in_list(list, EVENT_RESOURCE,
+                                 event_data, data_size);
+            lib_free(event_data);
+        }
+    }
+    event_record_in_list(list, EVENT_LIST_END, NULL, 0);
+}
+
 int resources_toggle(const char *name, resource_value_t *new_value_return)
 {
     resource_ram_t *r = lookup(name);
     int value;
-    int status;
 
     if (r == NULL) {
         log_warning(LOG_DEFAULT,
@@ -505,13 +614,20 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
 
     value = !(*(int *)r->value_ptr);
 
+    if (r->event_relevant == RES_EVENT_STRICT
+        && network_get_mode() != NETWORK_IDLE)
+        return -2;
+
     if (new_value_return != NULL)
         *(int *)new_value_return = value;
 
-    if ((status = (*r->set_func)((resource_value_t)value, r->param)) == 0)
-        resources_issue_callback(r, 1);
+    if (r->event_relevant == RES_EVENT_SAME && network_connected())
+    {
+        resource_record_event(r, (resource_value_t)value);
+        return 0;
+    }
 
-    return status;
+    return resources_set_value_internal(r, (resource_value_t)value);
 }
 
 int resources_touch(const char *name)
@@ -553,6 +669,7 @@ static int check_emu_id(const char *buf)
 /* Read one resource line from the file descriptor `f'.  Return 1 on success,
    -1 on parse/type error, -2 on unknown resource error, 0 on EOF or
    end of emulator section.  */
+/* FIXME: make event safe */
 int resources_read_item_from_file(FILE *f)
 {
     char buf[1024];

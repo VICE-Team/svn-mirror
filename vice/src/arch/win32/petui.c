@@ -51,6 +51,7 @@ static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
 
 
 static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
+    { "EmuID", IDM_TOGGLE_EMUID },
     { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
     { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },

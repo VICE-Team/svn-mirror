@@ -17,8 +17,8 @@ libplus4_a_SOURCES = \
 	plus4-snapshot.h \
 	plus4.c \
 	plus4.h \
-        plus4acia.c \
-        plus4acia.h \
+	plus4acia.c \
+	plus4acia.h \
 	plus4bus.c \
 	plus4cart.c \
 	plus4cart.h \
@@ -29,6 +29,10 @@ libplus4_a_SOURCES = \
 	plus4iec.h \
 	plus4mem.c \
 	plus4mem.h \
+	plus4memcsory256k.c \
+	plus4memcsory256k.h \
+	plus4memhannes256k.c \
+	plus4memhannes256k.h \
 	plus4memlimit.c \
 	plus4memlimit.h \
 	plus4memrom.c \

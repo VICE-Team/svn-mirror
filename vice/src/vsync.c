@@ -287,6 +287,7 @@ void vsync_sync_reset(void)
 int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 {
     static unsigned long next_frame_start = 0;
+    unsigned long network_hook_time = 0;
 
     /*
      * this are the counters to show how many frames are skipped
@@ -323,7 +324,20 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     vsyncarch_presync();
 
     /* Run vsync jobs. */
+    if (network_connected())
+        network_hook_time = vsyncarch_gettime();
+
     vsync_hook();
+
+    if (network_connected()) {
+        network_hook_time = vsyncarch_gettime() - network_hook_time;
+
+        if (network_hook_time > (unsigned long)frame_ticks) {
+            next_frame_start += network_hook_time;
+            now += network_hook_time;
+            skipped_frames += network_hook_time / frame_ticks;
+        }
+    }
 
 #ifdef DEBUG
     /* switch between recording and playback in history debug mode */
@@ -475,7 +489,8 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         frames_adjust++;
     }
 
-    if ((signed long)(now - adjust_start) >= vsyncarch_freq) {
+    if (!network_connected()
+        && (signed long)(now - adjust_start) >= vsyncarch_freq) {
         if (min_sdelay != LONG_MAX) {
             /* Account for both relative and absolute delay. */
             signed long adjust = (min_sdelay - prev_sdelay + min_sdelay / 2)

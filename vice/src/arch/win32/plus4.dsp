@@ -130,6 +130,14 @@ SOURCE=..\..\plus4\plus4mem.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\plus4\plus4memcsory256k.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\plus4\plus4memhannes256k.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\plus4\plus4memlimit.c
 # End Source File
 # Begin Source File

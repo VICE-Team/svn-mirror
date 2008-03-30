@@ -35,6 +35,7 @@
 #include "resources.h"
 #include "uimenu.h"
 #include "uiprinteriec.h"
+#include "uiprinteriecplus4.h"
 #include "uiperipheral.h"
 #include "vsync.h"
 
@@ -149,9 +150,27 @@ ui_menu_entry_t peripheraliec_settings_submenu[] = {
     { NULL }
 };
 
+ui_menu_entry_t peripheraliec_plus4_settings_submenu[] = {
+    { N_("Device #8"), NULL, NULL, fsdevice_drive8_submenu },
+    { N_("Device #9"), NULL, NULL, fsdevice_drive9_submenu },
+    { N_("Device #10"), NULL, NULL, fsdevice_drive10_submenu },
+    { N_("Device #11"), NULL, NULL, fsdevice_drive11_submenu },
+    { "--" },
+    { N_("Printer settings"), NULL, NULL, printeriec_plus4_settings_menu },
+    { "--" },
+    { N_("*Enable Virtual Devices"), (ui_callback_t)toggle_VirtualDevices,
+      NULL, NULL },
+    { NULL }
+};
+
 ui_menu_entry_t ui_peripheraliec_settings_menu[] = {
     { N_("Peripheral settings"),
       NULL, NULL, peripheraliec_settings_submenu },
     { NULL }
 };
 
+ui_menu_entry_t ui_peripheraliec_plus4_settings_menu[] = {
+    { N_("Peripheral settings"),
+      NULL, NULL, peripheraliec_plus4_settings_submenu },
+    { NULL }
+};

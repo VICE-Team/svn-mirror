@@ -1,8 +1,8 @@
 /*
- * uiperipheraliec.h
+ * uiprinteriecplus4.h
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,14 +24,11 @@
  *
  */
 
-#ifndef _UIPERIPHERIALIEC_H
-#define _UIPERIPHERIALIEC_H
+#ifndef _UIPRINTERIECPLUS4_H
+#define _UIPRINTERIECPLUS4_H
 
 #include "uimenu.h"
 
-extern struct ui_menu_entry_s peripheraliec_settings_submenu[];
-extern struct ui_menu_entry_s ui_peripheraliec_settings_menu[];
-extern struct ui_menu_entry_s peripheraliec_plus4_settings_submenu[];
-extern struct ui_menu_entry_s ui_peripheraliec_plus4_settings_menu[];
+extern struct ui_menu_entry_s printeriec_plus4_settings_menu[];
 
 #endif

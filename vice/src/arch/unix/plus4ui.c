@@ -114,6 +114,8 @@ static ui_menu_entry_t plus4_romset_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_RADIO(RamSize)
+UI_MENU_DEFINE_RADIO(H256K)
+UI_MENU_DEFINE_RADIO(CS256K)
 
 ui_menu_entry_t set_ram_submenu[] = {
     { N_("*16KB"), (ui_callback_t)radio_RamSize,
@@ -122,6 +124,14 @@ ui_menu_entry_t set_ram_submenu[] = {
       (ui_callback_data_t)32, NULL },
     { N_("*64KB"), (ui_callback_t)radio_RamSize,
       (ui_callback_data_t)64, NULL },
+    { N_("*256KB (CSORY)"), (ui_callback_t)radio_CS256K,
+      (ui_callback_data_t)1, NULL },
+    { N_("*256KB (HANNES)"), (ui_callback_t)radio_H256K,
+      (ui_callback_data_t)1, NULL },
+    { N_("*1024KB (HANNES)"), (ui_callback_t)radio_H256K,
+      (ui_callback_data_t)2, NULL },
+    { N_("*4096KB (HANNES)"), (ui_callback_t)radio_H256K,
+      (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
@@ -182,7 +192,7 @@ int plus4ui_init(void)
                                      uikeyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_driveplus4_settings_menu,
-                                     ui_peripheraliec_settings_menu,
+                                     ui_peripheraliec_plus4_settings_menu,
                                      joystick_settings_menu,
                                      ui_menu_separator,
                                      plus4_menu,
@@ -232,7 +242,7 @@ int plus4ui_init(void)
 				  uikeyboard_settings_menu,
 				  ui_sound_settings_menu,
 				  ui_driveplus4_settings_menu,
-				  ui_peripheraliec_settings_menu,
+				  ui_peripheraliec_plus4_settings_menu,
 				  joystick_settings_menu,
                                   ui_menu_separator,
 				  plus4_menu,

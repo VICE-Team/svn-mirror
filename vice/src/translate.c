@@ -3981,7 +3981,43 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ATTACH_RAW_STB_CART_IT, "Seleziona l'immagine di una cartuccia Structured Basic"},
 /* nl */ {IDCLS_ATTACH_RAW_STB_CART_NL, "Koppel binair Structured Basic cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_STB_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_STB_CART_SV, "Anslut rå Structured Basic-insticksmodulfil"}
+/* sv */ {IDCLS_ATTACH_RAW_STB_CART_SV, "Anslut rå Structured Basic-insticksmodulfil"},
+
+/* plus4/plus4memcsory256k.c */
+/* en */ {IDCLS_ENABLE_CS256K_EXPANSION,    "Enable the CSORY 256K RAM expansion"},
+/* de */ {IDCLS_ENABLE_CS256K_EXPANSION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_CS256K_EXPANSION_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_CS256K_EXPANSION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_CS256K_EXPANSION_NL, "Aktiveer de CSORY 256K geheugen uitbreiding"},
+/* pl */ {IDCLS_ENABLE_CS256K_EXPANSION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_CS256K_EXPANSION_SV, ""},  /* fuzzy */
+
+/* plus4/plus4memhannes256k.c */
+/* en */ {IDCLS_ENABLE_H256K_EXPANSION,    "Enable the HANNES 256K RAM expansion"},
+/* de */ {IDCLS_ENABLE_H256K_EXPANSION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_H256K_EXPANSION_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_H256K_EXPANSION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_H256K_EXPANSION_NL, "Aktiveer de HANNES 256K geheugen uitbreiding"},
+/* pl */ {IDCLS_ENABLE_H256K_EXPANSION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_H256K_EXPANSION_SV, ""},  /* fuzzy */
+
+/* plus4/plus4memhannes256k.c */
+/* en */ {IDCLS_ENABLE_H1024K_EXPANSION,    "Enable the HANNES 1024K RAM expansion"},
+/* de */ {IDCLS_ENABLE_H1024K_EXPANSION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_H1024K_EXPANSION_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_H1024K_EXPANSION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_H1024K_EXPANSION_NL, "Aktiveer de HANNES 1024K geheugen uitbreiding"},
+/* pl */ {IDCLS_ENABLE_H1024K_EXPANSION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_H1024K_EXPANSION_SV, ""},  /* fuzzy */
+
+/* plus4/plus4memhannes256k.c */
+/* en */ {IDCLS_ENABLE_H4096K_EXPANSION,    "Enable the HANNES 4096K RAM expansion"},
+/* de */ {IDCLS_ENABLE_H4096K_EXPANSION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_H4096K_EXPANSION_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_H4096K_EXPANSION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_H4096K_EXPANSION_NL, "Aktiveer de HANNES 4096K geheugen uitbreiding"},
+/* pl */ {IDCLS_ENABLE_H4096K_EXPANSION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_H4096K_EXPANSION_SV, ""}   /* fuzzy */
 
 };
 
@@ -7765,7 +7801,43 @@ static int translate_text_table[][countof(language_table)] = {
 /* it */  IDCLS_ATTACH_RAW_STB_CART_IT,
 /* nl */  IDCLS_ATTACH_RAW_STB_CART_NL,
 /* pl */  IDCLS_ATTACH_RAW_STB_CART_PL,
-/* sv */  IDCLS_ATTACH_RAW_STB_CART_SV}
+/* sv */  IDCLS_ATTACH_RAW_STB_CART_SV},
+
+/* plus4/plus4memcsory256k.c */
+/* en */ {IDCLS_ENABLE_CS256K_EXPANSION,
+/* de */  IDCLS_ENABLE_CS256K_EXPANSION_DE,
+/* fr */  IDCLS_ENABLE_CS256K_EXPANSION_FR,
+/* it */  IDCLS_ENABLE_CS256K_EXPANSION_IT,
+/* nl */  IDCLS_ENABLE_CS256K_EXPANSION_NL,
+/* pl */  IDCLS_ENABLE_CS256K_EXPANSION_PL,
+/* sv */  IDCLS_ENABLE_CS256K_EXPANSION_SV},
+
+/* plus4/plus4memhannes256k.c */
+/* en */ {IDCLS_ENABLE_H256K_EXPANSION,
+/* de */  IDCLS_ENABLE_H256K_EXPANSION_DE,
+/* fr */  IDCLS_ENABLE_H256K_EXPANSION_FR,
+/* it */  IDCLS_ENABLE_H256K_EXPANSION_IT,
+/* nl */  IDCLS_ENABLE_H256K_EXPANSION_NL,
+/* pl */  IDCLS_ENABLE_H256K_EXPANSION_PL,
+/* sv */  IDCLS_ENABLE_H256K_EXPANSION_SV},
+
+/* plus4/plus4memhannes256k.c */
+/* en */ {IDCLS_ENABLE_H1024K_EXPANSION,
+/* de */  IDCLS_ENABLE_H1024K_EXPANSION_DE,
+/* fr */  IDCLS_ENABLE_H1024K_EXPANSION_FR,
+/* it */  IDCLS_ENABLE_H1024K_EXPANSION_IT,
+/* nl */  IDCLS_ENABLE_H1024K_EXPANSION_NL,
+/* pl */  IDCLS_ENABLE_H1024K_EXPANSION_PL,
+/* sv */  IDCLS_ENABLE_H1024K_EXPANSION_SV},
+
+/* plus4/plus4memhannes256k.c */
+/* en */ {IDCLS_ENABLE_H4096K_EXPANSION,
+/* de */  IDCLS_ENABLE_H4096K_EXPANSION_DE,
+/* fr */  IDCLS_ENABLE_H4096K_EXPANSION_FR,
+/* it */  IDCLS_ENABLE_H4096K_EXPANSION_IT,
+/* nl */  IDCLS_ENABLE_H4096K_EXPANSION_NL,
+/* pl */  IDCLS_ENABLE_H4096K_EXPANSION_PL,
+/* sv */  IDCLS_ENABLE_H4096K_EXPANSION_SV}
 
 };
 

@@ -117,6 +117,8 @@ libarch_a_SOURCES = \
 	uiprinter.h \
 	uiprinteriec.c \
 	uiprinteriec.h \
+	uiprinteriecplus4.c \
+	uiprinteriecplus4.h \
 	uiprinterieee.c \
 	uiprinterieee.h \
 	uiramcart.c \

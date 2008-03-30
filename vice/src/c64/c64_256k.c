@@ -97,14 +97,14 @@ BYTE *c64_256k_ram=NULL;
 
 static int set_c64_256k_enabled(resource_value_t v, void *param)
 {
+  if ((int)v == c64_256k_enabled)
+    return 0;
+
   if (!(int)v)
   {
-    if (c64_256k_enabled)
+    if (c64_256k_deactivate() < 0)
     {
-      if (c64_256k_deactivate() < 0)
-      {
-        return -1;
-      }
+      return -1;
     }
     if (c64_256k_start==0xdf00 || c64_256k_start==0xdf80)
       c64export_remove(&export_res1);
@@ -118,23 +118,20 @@ static int set_c64_256k_enabled(resource_value_t v, void *param)
   { 
     if (c64export_query((c64_256k_start==0xdf00 || c64_256k_start==0xdf80) ? &export_res1 : &export_res2) >= 0)
     {
-      if (!c64_256k_enabled)
+      if (plus60k_enabled || plus256k_enabled)
       {
-        if (plus60k_enabled || plus256k_enabled)
-        {
 #ifdef HAS_TRANSLATION
-          ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
+        ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
 #else
-          ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
+        ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
 #endif
-          return -1;
-        }
-        else
+        return -1;
+      }
+      else
+      {
+        if (c64_256k_activate() < 0)
         {
-          if (c64_256k_activate() < 0)
-          {
-            return -1;
-          }
+          return -1;
         }
       }
       if (c64export_add((c64_256k_start==0xdf00 || c64_256k_start==0xdf80) ? &export_res1 : &export_res2) < 0)

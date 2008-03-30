@@ -405,7 +405,7 @@ static void network_test_delay(void)
 #endif
         /* calculate delay with 90% of packets beeing fast enough */
         /* FIXME: This needs some further investigation */
-        new_frame_delta = 5 + 2 * (BYTE)(vsync_get_refresh_frequency()
+        new_frame_delta = 5 + (BYTE)(vsync_get_refresh_frequency()
                             * packet_delay[(int)(0.1 * NUM_OF_TESTPACKETS)]
                             / (float)vsyncarch_frequency());
         network_send_buffer(network_socket, &new_frame_delta, sizeof(new_frame_delta));
@@ -436,7 +436,11 @@ static void network_server_connect_trap(WORD addr, void *data)
     BYTE *buf;
     long buf_size;
     long i;
+    event_list_state_t settings_list;
 
+    vsync_suspend_speed_eval();
+
+    /* Create snapshot and send it */
     snapshotfilename = archdep_tmpnam();
     if (machine_write_snapshot(snapshotfilename, 1, 1, 0) == 0) {
         f = fopen(snapshotfilename, MODE_READ);
@@ -473,10 +477,20 @@ static void network_server_connect_trap(WORD addr, void *data)
             return;
         }
 
+        network_mode = NETWORK_SERVER_CONNECTED;
+
+        /* Send settings that need to be the same */
+        event_register_event_list(&settings_list);
+        resources_get_event_safe_list(&settings_list);
+        buf_size = network_create_event_buffer(&buf, &(settings_list));
+        network_send_buffer(network_socket, (BYTE*)&buf_size, sizeof(long));
+        network_send_buffer(network_socket, buf, buf_size);
+        event_clear_list(&settings_list);
+        lib_free(buf);
+
         current_send_frame = 0;
         last_received_frame = 0;
 
-        network_mode = NETWORK_SERVER_CONNECTED;
         network_test_delay();
     } else {
 #ifdef HAS_TRANSLATION
@@ -490,7 +504,32 @@ static void network_server_connect_trap(WORD addr, void *data)
 
 static void network_client_connect_trap(WORD addr, void *data)
 {
+    BYTE *buf;
+    long buf_size;
+    event_list_state_t *settings_list;
 
+    /* Set proper settings */
+    if (resources_set_event_safe() < 0)
+        ui_error("Warning! Failed to set netplay-safe settings.");
+
+    /* Receive settings that need to be same as on server */
+    if (network_recv_buffer(network_socket, (BYTE*)&buf_size, sizeof(long)) < 0)
+        return;
+
+    buf = lib_malloc(buf_size);
+
+    if (network_recv_buffer(network_socket, buf, buf_size) < 0)
+        return;
+
+    settings_list = network_create_event_list(buf);
+    lib_free(buf);
+
+    event_playback_event_list(settings_list);
+
+    event_clear_list(settings_list);
+    lib_free(settings_list);
+
+    /* read the snapshot */
     if (machine_read_snapshot(snapshotfilename, 0) != 0) {
 #ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S), snapshotfilename);
@@ -505,6 +544,7 @@ static void network_client_connect_trap(WORD addr, void *data)
     last_received_frame = 0;
 
     network_mode = NETWORK_CLIENT;
+
     network_test_delay();
     lib_free(snapshotfilename);
 }
@@ -597,6 +637,10 @@ int network_start_server(void)
         return -1;
     }
 
+    /* Set proper settings */
+    if (resources_set_event_safe() < 0)
+        ui_error("Warning! Failed to set netplay-safe settings.");
+
     network_mode = NETWORK_SERVER;
 
     vsync_suspend_speed_eval();
@@ -631,6 +675,8 @@ int network_connect_client(void)
 
     if (network_mode != NETWORK_IDLE)
         return -1;
+
+    vsync_suspend_speed_eval();
 
     snapshotfilename = archdep_tmpnam();
     f = fopen(snapshotfilename, MODE_WRITE);
@@ -784,6 +830,10 @@ void network_suspend(void)
 void network_hook(void)
 {
 #ifdef HAVE_NETWORK
+#ifdef NETWORK_DEBUG
+    long t1, t2, t3, t4;
+#endif
+
     TIMEVAL time_out = {0, 0};
     int fd_size;
 
@@ -807,9 +857,7 @@ void network_hook(void)
         }
     }
 
-    if (network_mode == NETWORK_SERVER_CONNECTED
-        || network_mode == NETWORK_CLIENT) 
-    {
+    if (network_connected()) {
         BYTE *local_event_buf = NULL, *remote_event_buf = NULL;
         unsigned int local_buf_len, remote_buf_len;
         event_list_state_t *remote_event_list;
@@ -821,12 +869,12 @@ void network_hook(void)
         network_event_record(EVENT_LIST_END, NULL, 0);
         local_buf_len = network_create_event_buffer(&local_event_buf, &(frame_event_list[current_frame]));
 #ifdef NETWORK_DEBUG
-        log_debug("network hook before send: %d",vsyncarch_gettime());
+        t1 = vsyncarch_gettime();
 #endif
         network_send_buffer(network_socket, (BYTE*)&local_buf_len, sizeof(unsigned int));
         network_send_buffer(network_socket, local_event_buf, local_buf_len);
 #ifdef NETWORK_DEBUG
-        log_debug("network hook after send : %d",vsyncarch_gettime());
+        t2 = vsyncarch_gettime();
 #endif
         lib_free(local_event_buf);
 
@@ -869,7 +917,7 @@ void network_hook(void)
                                     remote_buf_len) < 0)
                 return;
 #ifdef NETWORK_DEBUG
-            log_debug("network hook after recv : %d",vsyncarch_gettime());
+            t3 = vsyncarch_gettime();
 #endif
             remote_event_list = network_create_event_list(remote_event_buf);
             lib_free(remote_event_buf);
@@ -912,7 +960,9 @@ void network_hook(void)
         }
         network_prepare_next_frame();
 #ifdef NETWORK_DEBUG
-        log_debug("network hook end        : %d",vsyncarch_gettime());
+        t4 = vsyncarch_gettime();
+        log_debug("network_hook timing: %5d %5d %5d; total: %5d",
+                  t2-t1, t3-t2, t4-t3, t4-t1);
 #endif
     }
 #endif

@@ -58,7 +58,7 @@ BYTE REGPARM1 io1_read(WORD addr)
     if (georam_enabled)
         return georam_window_read((WORD)(addr & 0xff));
     if (ramcart_enabled)
-        return ramcart_reg_read(addr&1);
+        return ramcart_reg_read((WORD)(addr & 1));
 #ifdef HAVE_TFE
     if (tfe_enabled)
         return tfe_read((WORD)(addr & 0x0f));

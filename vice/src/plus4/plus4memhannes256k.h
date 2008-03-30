@@ -1,8 +1,8 @@
 /*
- * uiperipheraliec.h
+ * plus4memhannes256k.h - HANNES 256K EXPANSION emulation.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,14 +24,22 @@
  *
  */
 
-#ifndef _UIPERIPHERIALIEC_H
-#define _UIPERIPHERIALIEC_H
+#ifndef _H256K_H
+#define _H256K_H
 
-#include "uimenu.h"
+#include "types.h"
 
-extern struct ui_menu_entry_s peripheraliec_settings_submenu[];
-extern struct ui_menu_entry_s ui_peripheraliec_settings_menu[];
-extern struct ui_menu_entry_s peripheraliec_plus4_settings_submenu[];
-extern struct ui_menu_entry_s ui_peripheraliec_plus4_settings_menu[];
+extern int h256k_enabled;
+
+extern int h256k_resources_init(void);
+extern int h256k_cmdline_options_init(void);
+extern void h256k_init(void);
+extern void h256k_reset(void);
+extern void h256k_shutdown(void);
+
+extern BYTE REGPARM1 h256k_reg_read(WORD addr);
+extern void REGPARM2 h256k_reg_store(WORD addr, BYTE value);
+extern void REGPARM2 h256k_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 h256k_read(WORD addr);
 
 #endif

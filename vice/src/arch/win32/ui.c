@@ -119,7 +119,6 @@ static const ui_menu_toggle_t grayed_list[] = {
 static const ui_menu_toggle_t toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
     { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
-    { "EmuID", IDM_TOGGLE_EMUID },
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { "WarpMode", IDM_TOGGLE_WARP_MODE|0x00010000 },
     { "VirtualDevices", IDM_TOGGLE_VIRTUAL_DEVICES },
@@ -1236,6 +1235,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_TOGGLE_FULLSCREEN | 0x00010000:
       case IDM_TOGGLE_FULLSCREEN:
+        vsync_suspend_speed_eval();
         SwitchFullscreenMode(hwnd);
         break;
       case IDM_SETTINGS_SAVE:

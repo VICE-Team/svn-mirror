@@ -268,9 +268,6 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
 {
     void *event_data = NULL;
 
-    if (record_active == 0 && !network_connected())
-        return;
-
     /*log_debug("EVENT RECORD %i CLK %i", type, maincpu_clk);*/
 
     switch (type) {
@@ -286,6 +283,7 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
       case EVENT_ATTACHIMAGE:
       case EVENT_INITIAL:
       case EVENT_SYNC_TEST:
+      case EVENT_RESOURCE:
         event_data = lib_malloc(size);
         memcpy(event_data, data, size);
         break;
@@ -309,7 +307,7 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
 
 void event_record(unsigned int type, void *data, unsigned int size)
 {
-    if (!network_connected())
+    if (record_active == 1)
         event_record_in_list(event_list, type, data, size);
 }
 
@@ -452,6 +450,9 @@ void event_playback_event_list(event_list_state_t *list)
               }
             case EVENT_ATTACHIMAGE:
                 event_playback_attach_image(current->data, current->size);
+                break;
+            case EVENT_RESOURCE:
+                resources_set_value_event(current->data, current->size);
                 break;
             default:
                 log_error(event_log, "Unknow event type %i.", current->type);

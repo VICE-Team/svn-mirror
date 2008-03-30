@@ -36,6 +36,8 @@
 #include "mem.h"
 #include "plus4-resources.h"
 #include "plus4mem.h"
+#include "plus4memcsory256k.h"
+#include "plus4memhannes256k.h"
 #include "plus4rom.h"
 #include "plus4cart.h"
 #include "resources.h"
@@ -142,10 +144,14 @@ static int set_ram_size_plus4(resource_value_t v, void *param)
 {
     int rs = (int)v;
 
-    if ((rs != 64) && (rs != 32) && (rs !=16)) {
+    if ((rs != 64) && (rs != 32) && (rs != 16) && (rs != 256) && (rs != 1024) && (rs != 4096)) {
         return -1;
     }
     ram_size_plus4 = rs;
+    if (ram_size_plus4 < 256) {
+        resources_set_value("H256K", (resource_value_t)0);
+        resources_set_value("CS256K", (resource_value_t)0);
+    }
     vsync_suspend_speed_eval();
     mem_initialize_memory();
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
@@ -246,6 +252,11 @@ static const resource_t resources[] = {
 
 int plus4_resources_init(void)
 {
+    if (h256k_resources_init()<0)
+      return -1;
+    if (cs256k_resources_init()<0)
+      return -1;
+
     return resources_register(resources);
 }
 
@@ -262,4 +273,3 @@ void plus4_resources_shutdown(void)
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
 }
-

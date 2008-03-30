@@ -55,6 +55,8 @@
 #include "plus4acia.h"
 #include "plus4iec.h"
 #include "plus4mem.h"
+#include "plus4memcsory256k.h"
+#include "plus4memhannes256k.h"
 #include "plus4memrom.h"
 #include "plus4tcbm.h"
 #include "plus4ui.h"
@@ -383,6 +385,10 @@ int machine_specific_init(void)
 
     plus4ui_init();
 
+    cs256k_init();
+
+    h256k_init();
+
     plus4iec_init();
 
     machine_drive_stub();
@@ -405,6 +411,9 @@ void machine_specific_reset(void)
 
     ted_reset();
 
+    cs256k_reset();
+    h256k_reset();
+
     drive_reset();
     datasette_reset();
 }
@@ -421,6 +430,9 @@ void machine_specific_shutdown(void)
     tape_image_detach_internal(1);
 
     ted_shutdown();
+
+    cs256k_shutdown();
+    h256k_shutdown();
 
     plus4ui_shutdown();
 }
@@ -565,4 +577,3 @@ BYTE machine_tape_type_default(void)
 {
     return TAPE_CAS_TYPE_BAS;
 }
-

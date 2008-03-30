@@ -45,6 +45,8 @@ src/pet/pet-cmdline-options.c
 src/pet/petpia1.c
 src/pet/petreu.c
 src/plus4/plus4-cmdline-options.c
+src/plus4/plus4memcsory256k.c
+src/plus4/plus4memhannes256k.c
 src/plus4/ted-cmdline-options.c
 src/printerdrv/driver-select.c
 src/printerdrv/interface-serial.c
@@ -111,6 +113,7 @@ src/arch/unix/uiplus256k.c
 src/arch/unix/uiplus60k.c
 src/arch/unix/uiprinter.c
 src/arch/unix/uiprinteriec.c
+src/arch/unix/uiprinteriecplus4.c
 src/arch/unix/uiprinterieee.c
 src/arch/unix/uiramcart.c
 src/arch/unix/uireu.c
