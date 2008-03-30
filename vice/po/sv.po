@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-12-16 21:31+0100\n"
+"POT-Creation-Date: 2001-12-18 22:19+0100\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -1286,7 +1286,7 @@ msgid "Datassette control"
 msgstr "Datasettestyrning"
 
 #: src/arch/unix/uidrive.c:100 src/arch/unix/uidrive.c:128
-#: src/arch/unix/uijoystick2.c:80 src/arch/unix/uijoystick2.c:109
+#: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:113
 #: src/arch/unix/vic20ui.c:283
 msgid "*None"
 msgstr "*Ingen"
@@ -1392,49 +1392,49 @@ msgstr "Diskettyp i enhet 9"
 msgid "Drive settings"
 msgstr "Diskettenhetsinställningar"
 
-#: src/arch/unix/uijoystick2.c:83 src/arch/unix/uijoystick2.c:112
+#: src/arch/unix/uijoystick2.c:87 src/arch/unix/uijoystick2.c:116
 #: src/arch/unix/vic20ui.c:286
 msgid "*Numpad"
 msgstr "*Numeriskt tangentbord"
 
-#: src/arch/unix/uijoystick2.c:86 src/arch/unix/uijoystick2.c:115
+#: src/arch/unix/uijoystick2.c:90 src/arch/unix/uijoystick2.c:119
 #: src/arch/unix/vic20ui.c:289
 msgid "*Custom Keys"
 msgstr "*Användardefinierade tangenter"
 
-#: src/arch/unix/uijoystick2.c:90 src/arch/unix/uijoystick2.c:119
+#: src/arch/unix/uijoystick2.c:94 src/arch/unix/uijoystick2.c:123
 #: src/arch/unix/vic20ui.c:293
 msgid "*Analog Joystick 0"
 msgstr "*Analog styrspak 0"
 
-#: src/arch/unix/uijoystick2.c:93 src/arch/unix/uijoystick2.c:122
+#: src/arch/unix/uijoystick2.c:97 src/arch/unix/uijoystick2.c:126
 #: src/arch/unix/vic20ui.c:296
 msgid "*Analog Joystick 1"
 msgstr "*Analog styrspak 1"
 
-#: src/arch/unix/uijoystick2.c:97 src/arch/unix/uijoystick2.c:126
+#: src/arch/unix/uijoystick2.c:101 src/arch/unix/uijoystick2.c:130
 #: src/arch/unix/vic20ui.c:300
 msgid "*Digital Joystick 0"
 msgstr "*Digial styrspak 0"
 
-#: src/arch/unix/uijoystick2.c:100 src/arch/unix/uijoystick2.c:129
+#: src/arch/unix/uijoystick2.c:104 src/arch/unix/uijoystick2.c:133
 #: src/arch/unix/vic20ui.c:303
 msgid "*Digital Joystick 1"
 msgstr "*Digital styrspak 1"
 
-#: src/arch/unix/uijoystick2.c:139
+#: src/arch/unix/uijoystick2.c:143
 msgid "Joystick device in port 1"
 msgstr "Styrspak i spelport 1"
 
-#: src/arch/unix/uijoystick2.c:141
+#: src/arch/unix/uijoystick2.c:145
 msgid "Joystick device in port 2"
 msgstr "Styrspak i spelport 2"
 
-#: src/arch/unix/uijoystick2.c:144 src/arch/unix/uijoystick2.c:150
+#: src/arch/unix/uijoystick2.c:148 src/arch/unix/uijoystick2.c:154
 msgid "Swap joystick ports"
 msgstr "Växla spelportarna"
 
-#: src/arch/unix/uijoystick2.c:156 src/arch/unix/vic20ui.c:312
+#: src/arch/unix/uijoystick2.c:160 src/arch/unix/vic20ui.c:312
 msgid "Joystick settings"
 msgstr "Inställningar för styrspak"
 
