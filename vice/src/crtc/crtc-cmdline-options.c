@@ -30,30 +30,27 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "cmdline.h"
 #include "crtc-cmdline-options.h"
+#include "raster-cmdline-options.h"
 
 
 /* CRTC command-line options.  */
-
 static cmdline_option_t cmdline_options[] =
 {
-    { "-crtcvcache", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcVideoCache", (void *)1,
-      NULL, "Enable the video cache" },
-    { "+crtcvcache", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcVideoCache", (void *)0,
-      NULL, "Disable the video cache" },
     { "-crtcpalette", SET_RESOURCE, 1, NULL, NULL,
       "CrtcPaletteFile", NULL,
       "<name>", "Specify palette file name" },
-#ifdef CRTC_NEED_2X
+#if ARCHDEP_CRTC_DSIZE == 1
     { "-crtcdsize", SET_RESOURCE, 0, NULL, NULL,
       "CrtcDoubleSize", (void *)1,
       NULL, "Enable double size" },
     { "+crtcdsize", SET_RESOURCE, 0, NULL, NULL,
       "CrtcDoubleSize", (void *)0,
       NULL, "Disable double size" },
+#endif
+#if ARCHDEP_CRTC_DSCAN == 1
     { "-crtcdscan", SET_RESOURCE, 0, NULL, NULL,
       "CrtcDoubleScan", (void *)1,
       NULL, "Enable double scan" },
@@ -67,6 +64,9 @@ static cmdline_option_t cmdline_options[] =
 
 int crtc_cmdline_options_init(void)
 {
+    if (raster_cmdline_options_chip_init("Crtc") < 0)
+        return -1;
+
     return cmdline_register_options(cmdline_options);
 }
 

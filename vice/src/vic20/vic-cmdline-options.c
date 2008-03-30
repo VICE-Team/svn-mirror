@@ -28,52 +28,48 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "cmdline.h"
-#include "vic.h"
+#include "raster-cmdline-options.h"
 #include "vic-cmdline-options.h"
 
 
 /* VIC command-line options.  */
-
 static cmdline_option_t cmdline_options[] =
 {
-  { "-vcache", SET_RESOURCE, 0, NULL, NULL,
-    "VideoCache", (void *)1,
-    NULL, "Enable the video cache" },
-  { "+vcache", SET_RESOURCE, 0, NULL, NULL,
-    "VideoCache", (void *)0,
-    NULL, "Disable the video cache" },
-  { "-palette", SET_RESOURCE, 1, NULL, NULL,
-    "PaletteFile", NULL,
-    "<name>", "Specify palette file name" },
-  { NULL }
+    { "-palette", SET_RESOURCE, 1, NULL, NULL,
+      "PaletteFile", NULL,
+      "<name>", "Specify palette file name" },
+    { NULL }
 };
 
 /* VIC double-size-specific command-line options.  */
 
-#ifdef VIC_NEED_2X
-
 static cmdline_option_t cmdline_options_2x[] =
 {
+#if ARCHDEP_VIC_DSIZE == 1
     { "-dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
       (void *)1, NULL, "Enable double size" },
     { "+dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
       (void *)0, NULL, "Disable double size" },
+#endif
+#if ARCHDEP_VIC_DSCAN == 1
     { "-dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
       (void *)1, NULL, "Enable double scan" },
     { "+dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
       (void *)0, NULL, "Disable double scan" },
+#endif
     { NULL }
 };
 
-#endif /* VIC_NEED_2X */
-
 int vic_cmdline_options_init(void)
 {
-#ifdef VIC_NEED_2X
+#if (ARCHDEP_VIC_DSIZE == 1) || (ARCHDEP_VIC_DSCAN == 1)
     if (cmdline_register_options(cmdline_options_2x) < 0)
         return -1;
 #endif
+    if (raster_cmdline_options_chip_init("VIC") < 0)
+        return -1;
 
     return cmdline_register_options(cmdline_options);
 }
