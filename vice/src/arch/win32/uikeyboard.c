@@ -48,16 +48,16 @@
 #include "winmain.h"
 
 
-static unsigned int uikeyboard_mapping_num;
+static int uikeyboard_mapping_num;
 static const uikeyboard_mapping_entry_t *mapping_entry;
 static int mapping_idc_dump;
 
 
 static int mapping_index_get(void)
 {
-    unsigned int index;
+    int index;
 
-    resources_get_value("KeymapIndex", (void *)&index);
+    resources_get_int("KeymapIndex", &index);
 
     if (index >= uikeyboard_mapping_num)
         return mapping_entry[0].idc_select;
@@ -67,7 +67,7 @@ static int mapping_index_get(void)
 
 static void enable_mapping_controls(HWND hwnd, int idc_index)
 {
-    unsigned int i;
+    int i;
 
     for (i = 0; i < uikeyboard_mapping_num; i++) {
         EnableWindow(GetDlgItem(hwnd, mapping_entry[i].idc_filename),
@@ -79,8 +79,7 @@ static void enable_mapping_controls(HWND hwnd, int idc_index)
 
 static void init_mapping_dialog(HWND hwnd)
 {
-    int idc_index;
-    unsigned int i;
+    int idc_index, i;
 
     idc_index = mapping_index_get();
 
@@ -92,7 +91,7 @@ static void init_mapping_dialog(HWND hwnd)
         const char *fname;
         TCHAR *st_fname;
 
-        resources_get_value(mapping_entry[i].res_filename, (void *)&fname);
+        resources_get_string(mapping_entry[i].res_filename, &fname);
         st_fname = system_mbstowcs_alloc(fname);
         SetDlgItemText(hwnd, mapping_entry[i].idc_filename,
                        fname != NULL ? st_fname : TEXT(""));
@@ -104,7 +103,7 @@ static void init_mapping_dialog(HWND hwnd)
 
 static void end_mapping_dialog(HWND hwnd)
 {
-    unsigned int i;
+    int i;
 
     for (i = 0; i < uikeyboard_mapping_num; i++) {
         TCHAR st[MAX_PATH];
@@ -112,11 +111,10 @@ static void end_mapping_dialog(HWND hwnd)
 
         GetDlgItemText(hwnd, mapping_entry[i].idc_filename, st, MAX_PATH);
         system_wcstombs(s, st, MAX_PATH);
-        resources_set_value(mapping_entry[i].res_filename,
-                            (resource_value_t)s);
+        resources_set_string(mapping_entry[i].res_filename, s);
         if (IsDlgButtonChecked(hwnd, mapping_entry[i].idc_select)
             == BST_CHECKED)
-            resources_set_value("KeymapIndex", (resource_value_t)i);
+            resources_set_int("KeymapIndex", i);
     }
 }
 
@@ -170,7 +168,7 @@ static BOOL CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         return FALSE;
       case WM_COMMAND:
         {
-            unsigned int i;
+            int i;
 
             for (i = 0; i < uikeyboard_mapping_num; i++) {
                 if (LOWORD(wparam) == mapping_entry[i].idc_select)

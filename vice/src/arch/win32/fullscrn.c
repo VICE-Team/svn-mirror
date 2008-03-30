@@ -234,7 +234,7 @@ GUID *GetGUIDForActualDevice()
     int device;
     DirectDrawDeviceList *search_device;
 
-    resources_get_value("FullscreenDevice", (void *)&device);
+    resources_get_int("FullscreenDevice", &device);
     search_device = devices;
     while (search_device != NULL) {
         if (device == 0) {
@@ -553,33 +553,25 @@ static float fullscreen_refreshrate_buffer = -1.0f;
 
 static void fullscreen_dialog_end(void)
 {
-    resources_set_value("FullScreenDevice",
-                        (resource_value_t)fullscreen_device);
-    resources_set_value("FullScreenBitdepth",
-                        (resource_value_t)fullscreen_bitdepth);
-    resources_set_value("FullScreenWidth",
-                        (resource_value_t)fullscreen_width);
-    resources_set_value("FullScreenHeight",
-                        (resource_value_t)fullscreen_height);
-    resources_set_value("FullScreenRefreshRate",
-                        (resource_value_t)fullscreen_refreshrate);
-    resources_set_value("VBLANKSync",
-                        (resource_value_t)vblank_sync);
-    resources_set_value("DXPrimarySurfaceRendering",
-                        (resource_value_t)dx_primary);
+    resources_set_int("FullScreenDevice", fullscreen_device);
+    resources_set_int("FullScreenBitdepth", fullscreen_bitdepth);
+    resources_set_int("FullScreenWidth", fullscreen_width);
+    resources_set_int("FullScreenHeight", fullscreen_height);
+    resources_set_int("FullScreenRefreshRate", fullscreen_refreshrate);
+    resources_set_int("VBLANKSync", vblank_sync);
+    resources_set_int("DXPrimarySurfaceRendering", dx_primary);
     fullscreen_refreshrate_buffer = -1.0f;
 }
 
 static void fullscreen_dialog_init(HWND hwnd)
 {
-    resources_get_value("FullscreenDevice", (void *)&fullscreen_device);
-    resources_get_value("FullscreenBitdepth", (void *)&fullscreen_bitdepth);
-    resources_get_value("FullscreenWidth", (void *)&fullscreen_width);
-    resources_get_value("FullscreenHeight", (void *)&fullscreen_height);
-    resources_get_value("FullscreenRefreshRate",
-                        (void *)&fullscreen_refreshrate);
-    resources_get_value("VBLANKSync", (void *)&vblank_sync);
-    resources_get_value("DXPrimarySurfaceRendering", (void *)&dx_primary);
+    resources_get_int("FullscreenDevice", &fullscreen_device);
+    resources_get_int("FullscreenBitdepth", &fullscreen_bitdepth);
+    resources_get_int("FullscreenWidth", &fullscreen_width);
+    resources_get_int("FullscreenHeight", &fullscreen_height);
+    resources_get_int("FullscreenRefreshRate", &fullscreen_refreshrate);
+    resources_get_int("VBLANKSync", &vblank_sync);
+    resources_get_int("DXPrimarySurfaceRendering", &dx_primary);
     init_fullscreen_dialog(hwnd);
 }
 
@@ -682,17 +674,18 @@ int IsFullscreenEnabled(void)
 {
     int b;
 
-    resources_get_value("FullscreenEnabled", (void *)&b);
+    resources_get_int("FullscreenEnabled", &b);
+
     return b;
 }
 
 void GetCurrentModeParameters(int *width, int *height, int *bitdepth,
                               int *refreshrate)
 {
-    resources_get_value("FullscreenBitdepth", (void *)bitdepth);
-    resources_get_value("FullscreenWidth", (void *)width);
-    resources_get_value("FullscreenHeight", (void *)height);
-    resources_get_value("FullscreenRefreshRate", (void *)refreshrate);
+    resources_get_int("FullscreenBitdepth", bitdepth);
+    resources_get_int("FullscreenWidth", width);
+    resources_get_int("FullscreenHeight", height);
+    resources_get_int("FullscreenRefreshRate", refreshrate);
 }
 
 
@@ -910,14 +903,14 @@ void SwitchToWindowedMode(HWND hwnd)
 void StartFullscreenMode(HWND hwnd)
 {
     SwitchToFullscreenMode(hwnd);
-    resources_set_value("FullScreenEnabled", (resource_value_t)1);
+    resources_set_int("FullScreenEnabled", 1);
 }
 
 
 void EndFullscreenMode(HWND hwnd)
 {
     SwitchToWindowedMode(hwnd);
-    resources_set_value("FullScreenEnabled", (resource_value_t)0);
+    resources_set_int("FullScreenEnabled", 0);
 }
 
 void SwitchFullscreenMode(HWND hwnd)

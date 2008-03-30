@@ -484,7 +484,7 @@ return buffer;
 }
 
 static
-BOOLEAN getString3( BYTE **where, char **what, size_t* s, BYTE* xor )
+BOOLEAN getString3( BYTE **where, const char **what, size_t* s, BYTE* xor )
 {
 BOOLEAN ok = TRUE;
 
@@ -531,7 +531,7 @@ return ok;
 }
 
 static
-BYTE *decode( char *content, size_t* plen )
+BYTE *decode( const char *content, size_t* plen )
 {
 BOOLEAN ok = FALSE;
 size_t size;
@@ -730,12 +730,12 @@ PWindowDimensions LoadMonitorDimensions(HWND hwnd)
 {
     PWindowDimensions ret = NULL;
 
-    char *dimensions;
+    const char *dimensions;
     BYTE *buffer;
     int   len;
     BOOLEAN bError = FALSE;
 
-    resources_get_value("MonitorDimensions", (void *)&dimensions);
+    resources_get_string("MonitorDimensions", &dimensions);
     buffer = decode(dimensions,&len);
 
     if (len!=0)
@@ -816,7 +816,7 @@ void StoreMonitorDimensions(HWND hwnd)
     WindowStore(&p);
 
     dimensions = encode(buffer,(int)(p-buffer)); // @SRT
-    resources_set_value("MonitorDimensions",(resource_value_t *)dimensions);
+    resources_set_string("MonitorDimensions", dimensions);
     lib_free(dimensions);
 }
 
@@ -883,7 +883,7 @@ void SetMemspace( HWND hwnd, MEMSPACE memspace )
     case e_invalid_space: break; 
     }
 
-    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
+    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
     ENABLE( IDM_MON_COMPUTER, drive_true_emulation ? 1 : 0);
     ENABLE( IDM_MON_DRIVE8,   drive_true_emulation ? 1 : 0);

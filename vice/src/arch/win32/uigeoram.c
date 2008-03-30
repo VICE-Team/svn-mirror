@@ -67,7 +67,7 @@ static void init_georam_dialog(HWND hwnd)
     int res_value_loop;
     int active_value;
 
-    resources_get_value("GEORAM", (void *)&res_value);
+    resources_get_int("GEORAM", &res_value);
     CheckDlgButton(hwnd, IDC_GEORAM_ENABLE, 
         res_value ? BST_CHECKED : BST_UNCHECKED);
     
@@ -79,7 +79,7 @@ static void init_georam_dialog(HWND hwnd)
         _tcscat(st, translate_text(IDS_SPACE_KB));
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
-    resources_get_value("GEORAMsize", (void *)&res_value);
+    resources_get_int("GEORAMsize", &res_value);
     active_value = 0;
     for (res_value_loop = 0; res_value_loop < NUM_OF_GEORAM_SIZE;
         res_value_loop++) {
@@ -88,7 +88,7 @@ static void init_georam_dialog(HWND hwnd)
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
-    resources_get_value("GEORAMfilename", (void *)&georamfile);
+    resources_get_string("GEORAMfilename", &georamfile);
     st_georamfile = system_mbstowcs_alloc(georamfile);
     SetDlgItemText(hwnd, IDC_GEORAM_FILE,
                    georamfile != NULL ? st_georamfile : TEXT(""));
@@ -102,17 +102,15 @@ static void end_georam_dialog(HWND hwnd)
     TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
-    resources_set_value("GEORAM", (resource_value_t)
-                        (IsDlgButtonChecked
-                        (hwnd, IDC_GEORAM_ENABLE) == BST_CHECKED ?
-                        1 : 0 ));
-    resources_set_value("GEORAMsize",(resource_value_t)
-                        ui_georam_size[SendMessage(GetDlgItem(
-                        hwnd, IDC_GEORAM_SIZE), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("GEORAM", (IsDlgButtonChecked(hwnd,
+                      IDC_GEORAM_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("GEORAMsize",
+                      ui_georam_size[SendMessage(GetDlgItem(
+                      hwnd, IDC_GEORAM_SIZE), CB_GETCURSEL, 0, 0)]);
 
     GetDlgItemText(hwnd, IDC_GEORAM_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("GEORAMfilename", (resource_value_t)s);
+    resources_set_string("GEORAMfilename", s);
 }
 
 static void browse_georam_file(HWND hwnd)
