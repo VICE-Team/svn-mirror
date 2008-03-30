@@ -319,63 +319,63 @@ static BYTE SZP[256] = {
 
 /* Opcodes.  */
 
-#define ADCREG(reg_val, clk_inc, pc_inc)                            \
-  do {                                                              \
-      BYTE tmp, carry;                                              \
-                                                                    \
-      carry = LOCAL_CARRY();                                        \
-      tmp = reg_a + reg_val + carry;                                \
-      reg_f = SZP[tmp];                                             \
-      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val            \
-                      + (WORD)(carry)) & 0x100);                    \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);        \
-      LOCAL_SET_PARITY(~(reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
-      reg_a = tmp;                                                  \
-      CLK += clk_inc;                                               \
-      INC_PC(pc_inc);                                               \
+#define ADCREG(reg_val, clk_inc, pc_inc)                              \
+  do {                                                                \
+      BYTE tmp, carry;                                                \
+                                                                      \
+      carry = LOCAL_CARRY();                                          \
+      tmp = reg_a + reg_val + carry;                                  \
+      reg_f = SZP[tmp];                                               \
+      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val              \
+                      + (WORD)(carry)) & 0x100);                      \
+      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);          \
+      LOCAL_SET_PARITY((~(reg_a ^ reg_val)) & (reg_a ^ tmp) & 0x80);  \
+      reg_a = tmp;                                                    \
+      CLK += clk_inc;                                                 \
+      INC_PC(pc_inc);                                                 \
   } while (0)
 
-#define ADDHLREG(reg_valh, reg_vall)                              \
-  do {                                                            \
-      DWORD tmp;                                                  \
-                                                                  \
-      tmp = (DWORD)((reg_h << 8) + reg_l)                         \
-            + (DWORD)(((reg_valh << 8) + reg_vall));              \
-      reg_h = (BYTE)(tmp >> 8);                                   \
-      reg_l = (BYTE)(tmp & 0xff);                                 \
-      LOCAL_SET_NADDSUB(0);                                       \
-      LOCAL_SET_CARRY(tmp & 0x10000);                             \
-      LOCAL_SET_HALFCARRY((reg_h << 8) ^ (reg_valh << 8) ^ tmp);  \
-      CLK += 11;                                                  \
-      INC_PC(1);                                                  \
+#define ADDHLREG(reg_valh, reg_vall)                                  \
+  do {                                                                \
+      DWORD tmp;                                                      \
+                                                                      \
+      tmp = (DWORD)((reg_h << 8) + reg_l)                             \
+            + (DWORD)((reg_valh << 8) + reg_vall);                    \
+      LOCAL_SET_NADDSUB(0);                                           \
+      LOCAL_SET_CARRY(tmp & 0x10000);                                 \
+      LOCAL_SET_HALFCARRY(((tmp >> 8) ^ reg_valh ^ reg_h) & H_FLAG);  \
+      reg_h = (BYTE)(tmp >> 8);                                       \
+      reg_l = (BYTE)(tmp & 0xff);                                     \
+      CLK += 11;                                                      \
+      INC_PC(1);                                                      \
   } while (0)
 
-#define ADDHLSP()                                             \
-  do {                                                        \
-      DWORD tmp;                                              \
-                                                              \
-      tmp = (DWORD)((reg_h << 8) + reg_l) + (DWORD)(reg_sp);  \
-      reg_h = (BYTE)(tmp >> 8);                               \
-      reg_l = (BYTE)(tmp & 0xff);                             \
-      LOCAL_SET_NADDSUB(0);                                   \
-      LOCAL_SET_CARRY(tmp & 0x10000);                         \
-      LOCAL_SET_HALFCARRY((reg_h << 8) ^ reg_sp ^ tmp);       \
-      CLK += 11;                                              \
-      INC_PC(1);                                              \
+#define ADDHLSP()                                                          \
+  do {                                                                     \
+      DWORD tmp;                                                           \
+                                                                           \
+      tmp = (DWORD)((reg_h << 8) + reg_l) + (DWORD)(reg_sp);               \
+      LOCAL_SET_NADDSUB(0);                                                \
+      LOCAL_SET_CARRY(tmp & 0x10000);                                      \
+      LOCAL_SET_HALFCARRY(((tmp >> 8) ^ (reg_sp >> 8) ^ reg_h) & H_FLAG);  \
+      reg_h = (BYTE)(tmp >> 8);                                            \
+      reg_l = (BYTE)(tmp & 0xff);                                          \
+      CLK += 11;                                                           \
+      INC_PC(1);                                                           \
   } while (0)
 
-#define ADDREG(reg_val, clk_inc, pc_inc)                             \
-  do {                                                               \
-      BYTE tmp;                                                      \
-                                                                     \
-      tmp = reg_a + reg_val;                                         \
-      reg_f = SZP[tmp];                                              \
-      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val) & 0x100);  \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);         \
-      LOCAL_SET_PARITY(~(reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);   \
-      reg_a = tmp;                                                   \
-      CLK += clk_inc;                                                \
-      INC_PC(pc_inc);                                                \
+#define ADDREG(reg_val, clk_inc, pc_inc)                              \
+  do {                                                                \
+      BYTE tmp;                                                       \
+                                                                      \
+      tmp = reg_a + reg_val;                                          \
+      reg_f = SZP[tmp];                                               \
+      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val) & 0x100);   \
+      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);          \
+      LOCAL_SET_PARITY((~(reg_a ^ reg_val)) & (reg_a ^ tmp) & 0x80);  \
+      reg_a = tmp;                                                    \
+      CLK += clk_inc;                                                 \
+      INC_PC(pc_inc);                                                 \
   } while (0)
 
 #define ANDREG(value, clk_inc1, clk_inc2, pc_inc)  \
@@ -791,20 +791,14 @@ static BYTE SZP[256] = {
       CLK += 3;                                        \
   } while (0)
 
-#define RET_COND(cond)                                     \
-  do {                                                     \
-      if (cond) {                                          \
-          unsigned int tmp;                                \
-                                                           \
-          CLK += 7;                                        \
-          tmp = LOAD(reg_sp) | (LOAD((reg_sp + 1)) << 8);  \
-          reg_sp += 2;                                     \
-          JUMP(tmp);                                       \
-          CLK += 3;                                        \
-      } else {                                             \
-          CLK += 5;                                        \
-          INC_PC(1);                                       \
-      }                                                    \
+#define RET_COND(cond)  \
+  do {                  \
+      if (cond) {       \
+          RET();        \
+      } else {          \
+          CLK += 5;     \
+          INC_PC(1);    \
+      }                 \
   } while (0)
 
 #define RLA()                                \
@@ -870,7 +864,7 @@ static BYTE SZP[256] = {
       reg_f = N_FLAG;                                                        \
       LOCAL_SET_CARRY((DWORD)((DWORD)(reg_valh << 8) + (DWORD)(reg_vall)     \
                       + (DWORD)(carry)) > (DWORD)(HL_WORD()));               \
-      LOCAL_SET_HALFCARRY((reg_h ^ reg_valh ^ (tmp >> 8)) & 0x10);           \
+      LOCAL_SET_HALFCARRY((reg_h ^ reg_valh ^ (tmp >> 8)) & H_FLAG);         \
       LOCAL_SET_PARITY(((reg_h ^ (tmp >> 8)) & (reg_h ^ reg_valh)) & 0x80);  \
       LOCAL_SET_ZERO(!(tmp & 0xffff));                                       \
       LOCAL_SET_SIGN(tmp & 0x8000);                                          \
@@ -880,25 +874,25 @@ static BYTE SZP[256] = {
       INC_PC(2);                                                             \
   } while (0)
 
-#define SBCHLSP()                                                 \
-  do {                                                            \
-      DWORD tmp;                                                  \
-      BYTE carry;                                                 \
-                                                                  \
-      carry = LOCAL_CARRY();                                      \
-      tmp = (DWORD)(HL_WORD()) - (DWORD)reg_sp - (DWORD)(carry);  \
-      reg_f = N_FLAG;                                             \
-      LOCAL_SET_CARRY((DWORD)((DWORD)reg_sp + (DWORD)(carry))     \
-                      > ((DWORD)HL_WORD()));                      \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_sp ^ (tmp >> 8)) & 0x10);  \
-      LOCAL_SET_PARITY(((reg_h ^ (tmp >> 8))                      \
-                       & (reg_h ^ (reg_sp >> 8))) & 0x80);        \
-      LOCAL_SET_ZERO(!(tmp & 0xffff));                            \
-      LOCAL_SET_SIGN(tmp & 0x8000);                               \
-      reg_h = (BYTE)(tmp >> 8);                                   \
-      reg_l = (BYTE)(tmp & 0xff);                                 \
-      CLK += 15;                                                  \
-      INC_PC(2);                                                  \
+#define SBCHLSP()                                                          \
+  do {                                                                     \
+      DWORD tmp;                                                           \
+      BYTE carry;                                                          \
+                                                                           \
+      carry = LOCAL_CARRY();                                               \
+      tmp = (DWORD)(HL_WORD()) - (DWORD)reg_sp - (DWORD)(carry);           \
+      reg_f = N_FLAG;                                                      \
+      LOCAL_SET_CARRY((DWORD)((DWORD)reg_sp + (DWORD)(carry))              \
+                      > ((DWORD)HL_WORD()));                               \
+      LOCAL_SET_HALFCARRY((reg_h ^ (reg_sp >> 8) ^ (tmp >> 8)) & H_FLAG);  \
+      LOCAL_SET_PARITY(((reg_h ^ (tmp >> 8))                               \
+                       & (reg_h ^ (reg_sp >> 8))) & 0x80);                 \
+      LOCAL_SET_ZERO(!(tmp & 0xffff));                                     \
+      LOCAL_SET_SIGN(tmp & 0x8000);                                        \
+      reg_h = (BYTE)(tmp >> 8);                                            \
+      reg_l = (BYTE)(tmp & 0xff);                                          \
+      CLK += 15;                                                           \
+      INC_PC(2);                                                           \
   } while (0)
 
 #define SBCREG(reg_val, clk_inc, pc_inc)                           \
@@ -1035,7 +1029,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         BIT(LOAD(HL_WORD()), 0, 12);
         break;
       case 0x47: /* BIT A 0 */
-        BIT(reg_a, 1, 8);
+        BIT(reg_a, 0, 8);
         break;
       case 0x48: /* BIT B 1 */
         BIT(reg_b, 1, 8);
@@ -1227,7 +1221,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RESHL(0);
         break;
       case 0x87: /* RES A 0 */
-        RES(reg_a, 1);
+        RES(reg_a, 0);
         break;
       case 0x88: /* RES B 1 */
         RES(reg_b, 1);
@@ -1419,7 +1413,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SETHL(0);
         break;
       case 0xc7: /* SET A 0 */
-        SET(reg_a, 1);
+        SET(reg_a, 0);
         break;
       case 0xc8: /* SET B 1 */
         SET(reg_b, 1);
@@ -1645,9 +1639,11 @@ inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
       case 0x56: /* IM1 */
         IM(2);
         break;
+#if 0
       case 0x57: /* LD A I */
         LDAI();
         break;
+#endif
       case 0x58: /* IN E BC */
         INBC(reg_e, 12, 2);
         break;
@@ -1757,816 +1753,813 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
 
     do {
 
-    while (CLK >= alarm_context_next_pending_clk(cpu_alarm_context))
-        alarm_context_dispatch(cpu_alarm_context, CLK);
+        while (CLK >= alarm_context_next_pending_clk(cpu_alarm_context))
+            alarm_context_dispatch(cpu_alarm_context, CLK);
 
-    {
-        enum cpu_int pending_interrupt;
+        {
+            enum cpu_int pending_interrupt;
 
-        pending_interrupt = check_pending_interrupt(cpu_int_status);
-        if (pending_interrupt != IK_NONE) {
-            DO_INTERRUPT(pending_interrupt);
-            while (CLK >= alarm_context_next_pending_clk(cpu_alarm_context))
-                alarm_context_dispatch(cpu_alarm_context, CLK);
+            pending_interrupt = check_pending_interrupt(cpu_int_status);
+            if (pending_interrupt != IK_NONE) {
+                DO_INTERRUPT(pending_interrupt);
+                while (CLK >= alarm_context_next_pending_clk(cpu_alarm_context))
+                    alarm_context_dispatch(cpu_alarm_context, CLK);
+            }
         }
-    }
 
-    FETCH_OPCODE(opcode);
+        FETCH_OPCODE(opcode);
 
 #ifdef TRACE
-    log_message(LOG_DEFAULT,
-                "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
-                "H%02x L%02x SP%04x OP %02x %02x %02x %02x",
-                CLK, reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
-                reg_h, reg_l, reg_sp, p0, p1, p2, p3);
+        log_message(LOG_DEFAULT,
+                    "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
+                    "H%02x L%02x SP%04x OP %02x %02x %02x %02x",
+                    CLK, reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    reg_h, reg_l, reg_sp, p0, p1, p2, p3);
 #endif
 
-    switch (p0) {
+        switch (p0) {
 
-    case 0x00: /* NOP */
+          case 0x00: /* NOP */
     NOP();
     break;
-    case 0x01: /* LD BC # */
+          case 0x01: /* LD BC # */
     LDW(p12, reg_b, reg_c, 10, 0, 3);
     break;
-    case 0x02: /*  */
+          case 0x02: /*  */
     /*LD_xBC_A, */
     xit (-1);
     break;
-    case 0x03: /* INC BC */
+          case 0x03: /* INC BC */
     DECINC(INC_BC_WORD());
     break;
-    case 0x04: /* INC B */
+          case 0x04: /* INC B */
     INCREG(reg_b);
     break;
-    case 0x05: /* DEC B */
+          case 0x05: /* DEC B */
     DECREG(reg_b);
     break;
-    case 0x06: /* LD B # */
+          case 0x06: /* LD B # */
     LDREG(reg_b, p1, 4, 3, 2);
     break;
-    case 0x07: /* RLCA */
+          case 0x07: /* RLCA */
     RLCA();
     break;
-    case 0x08: /*  */
+          case 0x08: /*  */
     /*EX_AF_AF, */
     xit (-1);
     break;
-    case 0x09: /* ADD HL BC */
+          case 0x09: /* ADD HL BC */
     ADDHLREG(reg_b, reg_c);
     break;
-    case 0x0a: /* LD A (BC) */
+          case 0x0a: /* LD A (BC) */
     LDREG(reg_a, LOAD(BC_WORD()), 4, 3, 1);
     break;
-    case 0x0b: /* DEC BC */
+          case 0x0b: /* DEC BC */
     DECINC(DEC_BC_WORD());
     break;
-    case 0x0c: /* INC C */
+          case 0x0c: /* INC C */
     INCREG(reg_c);
     break;
-    case 0x0d: /* DEC C */
+          case 0x0d: /* DEC C */
     DECREG(reg_c);
     break;
-    case 0x0e: /* LD C # */
+          case 0x0e: /* LD C # */
     LDREG(reg_c, p1, 4, 3, 2);
     break;
-    case 0x0f: /* RRCA */
+          case 0x0f: /* RRCA */
     RRCA();
     break;
-    case 0x10: /* DJNZ */
+          case 0x10: /* DJNZ */
     DJNZ(p1);
     break;
-    case 0x11: /* LD DE # */
+          case 0x11: /* LD DE # */
     LDW(p12, reg_d, reg_e, 10, 0, 3);
     break;
-    case 0x12: /*  */
+          case 0x12: /*  */
     /*LD_xDE_A, */
     xit (-1);
     break;
-    case 0x13: /* INC DE */
+          case 0x13: /* INC DE */
     DECINC(INC_DE_WORD());
     break;
-    case 0x14: /* INC D */
+          case 0x14: /* INC D */
     INCREG(reg_d);
     break;
-    case 0x15: /* DEC D */
+          case 0x15: /* DEC D */
     DECREG(reg_d);
     break;
-    case 0x16: /* LD D # */
+          case 0x16: /* LD D # */
     LDREG(reg_d, p1, 4, 3, 2);
     break;
-    case 0x17: /* RLA */
+          case 0x17: /* RLA */
     RLA();
     break;
-    case 0x18: /* JR */
+          case 0x18: /* JR */
     BRANCH(1, p1);
     break;
-    case 0x19: /* ADD HL DE */
+          case 0x19: /* ADD HL DE */
     ADDHLREG(reg_d, reg_e);
     break;
-    case 0x1a: /* LD A DE */
+          case 0x1a: /* LD A DE */
     LDREG(reg_a, LOAD(DE_WORD()), 4, 3, 1);
     break;
-    case 0x1b: /* DEC DE */
+          case 0x1b: /* DEC DE */
     DECINC(DEC_DE_WORD());
     break;
-    case 0x1c: /* INC E */
+          case 0x1c: /* INC E */
     INCREG(reg_e);
     break;
-    case 0x1d: /* DEC E */
+          case 0x1d: /* DEC E */
     DECREG(reg_e);
     break;
-    case 0x1e: /* LD E # */
+          case 0x1e: /* LD E # */
     LDREG(reg_e, p1, 4, 3, 2);
     break;
-    case 0x1f: /* RRA */
+          case 0x1f: /* RRA */
     RRA();
     break;
-    case 0x20: /* JR NZ */
+          case 0x20: /* JR NZ */
     BRANCH(!LOCAL_ZERO(), p1);
     break;
-    case 0x21: /* LD HL # */
+          case 0x21: /* LD HL # */
     LDW(p12, reg_h, reg_l, 10, 0, 3);
     break;
-    case 0x22: /* LD (WORD) HL */
+          case 0x22: /* LD (WORD) HL */
     STW(p12, reg_h, reg_l, 13, 3, 3);
     break;
-    case 0x23: /* INC HL */
+          case 0x23: /* INC HL */
     DECINC(INC_HL_WORD());
     break;
-    case 0x24: /* INC H */
+          case 0x24: /* INC H */
     INCREG(reg_h);
     break;
-    case 0x25: /* DEC H */
+          case 0x25: /* DEC H */
     DECREG(reg_h);
     break;
-    case 0x26: /* LD H # */
+          case 0x26: /* LD H # */
     LDREG(reg_h, p1, 4, 3, 2);
     break;
-    case 0x27: /*  */
+          case 0x27: /*  */
     /*DAA, */
     xit (-1);
     break;
-    case 0x28: /* JR Z */
+          case 0x28: /* JR Z */
     BRANCH(LOCAL_ZERO(), p1);
     break;
-    case 0x29: /* ADD HL HL */
+          case 0x29: /* ADD HL HL */
     ADDHLREG(reg_h, reg_l);
     break;
-    case 0x2a: /* LD HL (WORD) */
+          case 0x2a: /* LD HL (WORD) */
     LDIND(p12, reg_h, reg_l, 13, 3, 3);
     break;
-    case 0x2b: /* DEC HL */
+          case 0x2b: /* DEC HL */
     DECINC(DEC_HL_WORD());
     break;
-    case 0x2c: /* INC L */
+          case 0x2c: /* INC L */
     INCREG(reg_l);
     break;
-    case 0x2d: /* DEC L */
+          case 0x2d: /* DEC L */
     DECREG(reg_l);
     break;
-    case 0x2e: /* LD L # */
+          case 0x2e: /* LD L # */
     LDREG(reg_l, p1, 4, 3, 2);
     break;
-    case 0x2f: /* CPL */
+          case 0x2f: /* CPL */
     CPL();
     break;
-    case 0x30: /* JR NC */
+          case 0x30: /* JR NC */
     BRANCH(!LOCAL_CARRY(), p1);
     break;
-    case 0x31: /* LD SP # */
+          case 0x31: /* LD SP # */
     LDSP(p12, 10, 0, 3);
     break;
-    case 0x32: /* LD ABS A */
+          case 0x32: /* LD ABS A */
     STA(p12, 10, 3, 3);
     break;
-    case 0x33: /* INC SP */
+          case 0x33: /* INC SP */
     DECINC(reg_sp++);
     break;
-    case 0x34: /* INC (HL) */
+          case 0x34: /* INC (HL) */
     INCHLIND();
     break;
-    case 0x35: /* DEC (HL) */
+          case 0x35: /* DEC (HL) */
     DECHLIND();
     break;
-    case 0x36: /* LD (HL) # */
+          case 0x36: /* LD (HL) # */
     STA(HL_WORD(), 8, 2, 2);
     break;
-    case 0x37: /* SCF */
+          case 0x37: /* SCF */
     SCF();
     break;
-    case 0x38: /* JR C */
+          case 0x38: /* JR C */
     BRANCH(LOCAL_CARRY(), p1);
     break;
-    case 0x39: /* ADD HL SP */
+          case 0x39: /* ADD HL SP */
     ADDHLSP();
     break;
-    case 0x3a: /* LD A (WORD) */
+          case 0x3a: /* LD A (WORD) */
     LDREG(reg_a, LOAD(p12), 10, 3, 3);
     break;
-    case 0x3b: /* DEC SP */
+          case 0x3b: /* DEC SP */
     DECINC(reg_sp--);
     break;
-    case 0x3c: /* INC A */
+          case 0x3c: /* INC A */
     INCREG(reg_a);
     break;
-    case 0x3d: /* DEC A */
+          case 0x3d: /* DEC A */
     DECREG(reg_a);
     break;
-    case 0x3e: /* LD A # */
+          case 0x3e: /* LD A # */
     LDREG(reg_a, p1, 4, 3, 2);
     break;
-    case 0x3f: /* CCF */
+          case 0x3f: /* CCF */
     CCF();
     break;
-    case 0x40: /* LD B B */
+          case 0x40: /* LD B B */
     MOVEREG(reg_b, reg_b);
     break;
-    case 0x41: /* LD B C */
+          case 0x41: /* LD B C */
     MOVEREG(reg_b, reg_c);
     break;
-    case 0x42: /* LD B D */
+          case 0x42: /* LD B D */
     MOVEREG(reg_b, reg_d);
     break;
-    case 0x43: /* LD B E */
+          case 0x43: /* LD B E */
     MOVEREG(reg_b, reg_e);
     break;
-    case 0x44: /* LD B H */
+          case 0x44: /* LD B H */
     MOVEREG(reg_b, reg_h);
     break;
-    case 0x45: /* LD B L */
+          case 0x45: /* LD B L */
     MOVEREG(reg_b, reg_l);
     break;
-    case 0x46: /* LD B (HL) */
+          case 0x46: /* LD B (HL) */
     LDREG(reg_b, LOAD(HL_WORD()), 4, 3, 1);
     break;
-    case 0x47: /* LD B A */
+          case 0x47: /* LD B A */
     MOVEREG(reg_b, reg_a);
     break;
-    case 0x48: /* LD C B */
+          case 0x48: /* LD C B */
     MOVEREG(reg_c, reg_b);
     break;
-    case 0x49: /* LD C C */
+          case 0x49: /* LD C C */
     MOVEREG(reg_c, reg_c);
     break;
-    case 0x4a: /* LD C D */
+          case 0x4a: /* LD C D */
     MOVEREG(reg_c, reg_d);
     break;
-    case 0x4b: /* LD C E */
+          case 0x4b: /* LD C E */
     MOVEREG(reg_c, reg_e);
     break;
-    case 0x4c: /* LD C H */
+          case 0x4c: /* LD C H */
     MOVEREG(reg_c, reg_h);
     break;
-    case 0x4d: /* LD C L */
+          case 0x4d: /* LD C L */
     MOVEREG(reg_c, reg_l);
     break;
-    case 0x4e: /* LD C (HL) */
+          case 0x4e: /* LD C (HL) */
     LDREG(reg_c, LOAD(HL_WORD()), 4, 3, 1);
     break;
-    case 0x4f: /* LD C A */
+          case 0x4f: /* LD C A */
     MOVEREG(reg_c, reg_a);
     break;
-    case 0x50: /* LD D B */
+          case 0x50: /* LD D B */
     MOVEREG(reg_d, reg_b);
     break;
-    case 0x51: /* LD D C */
+          case 0x51: /* LD D C */
     MOVEREG(reg_d, reg_c);
     break;
-    case 0x52: /* LD D D */
+          case 0x52: /* LD D D */
     MOVEREG(reg_d, reg_d);
     break;
-    case 0x53: /* LD D E */
+          case 0x53: /* LD D E */
     MOVEREG(reg_d, reg_e);
     break;
-    case 0x54: /* LD D H */
+          case 0x54: /* LD D H */
     MOVEREG(reg_d, reg_h);
     break;
-    case 0x55: /* LD D L */
+          case 0x55: /* LD D L */
     MOVEREG(reg_d, reg_l);
     break;
-    case 0x56: /* LD D (HL) */
+          case 0x56: /* LD D (HL) */
     LDREG(reg_d, LOAD(HL_WORD()), 4, 3, 1);
     break;
-    case 0x57: /* LD D A */
+          case 0x57: /* LD D A */
     MOVEREG(reg_d, reg_a);
     break;
-    case 0x58: /* LD E B */
+          case 0x58: /* LD E B */
     MOVEREG(reg_e, reg_b);
     break;
-    case 0x59: /* LD E C */
+          case 0x59: /* LD E C */
     MOVEREG(reg_e, reg_c);
     break;
-    case 0x5a: /* LD E D */
+          case 0x5a: /* LD E D */
     MOVEREG(reg_e, reg_d);
     break;
-    case 0x5b: /* LD E E */
+          case 0x5b: /* LD E E */
     MOVEREG(reg_e, reg_e);
     break;
-    case 0x5c: /* LD E H */
+          case 0x5c: /* LD E H */
     MOVEREG(reg_e, reg_h);
     break;
-    case 0x5d: /* LD E L */
+          case 0x5d: /* LD E L */
     MOVEREG(reg_e, reg_l);
     break;
-    case 0x5e: /* LD E (HL) */
+          case 0x5e: /* LD E (HL) */
     LDREG(reg_e, LOAD(HL_WORD()), 4, 3, 1);
     break;
-    case 0x5f: /* LD E A */
+          case 0x5f: /* LD E A */
     MOVEREG(reg_e, reg_a);
     break;
-    case 0x60: /* LD H B */
+          case 0x60: /* LD H B */
     MOVEREG(reg_h, reg_b);
     break;
-    case 0x61: /* LD H C */
+          case 0x61: /* LD H C */
     MOVEREG(reg_h, reg_c);
     break;
-    case 0x62: /* LD H D */
+          case 0x62: /* LD H D */
     MOVEREG(reg_h, reg_d);
     break;
-    case 0x63: /* LD H E */
+          case 0x63: /* LD H E */
     MOVEREG(reg_h, reg_e);
     break;
-    case 0x64: /* LD H H */
+          case 0x64: /* LD H H */
     MOVEREG(reg_h, reg_h);
     break;
-    case 0x65: /* LD H L */
+          case 0x65: /* LD H L */
     MOVEREG(reg_h, reg_l);
     break;
-    case 0x66: /* LD H (HL) */
+          case 0x66: /* LD H (HL) */
     LDREG(reg_h, LOAD(HL_WORD()), 4, 3, 1);
     break;
-    case 0x67: /* LD H A */
+          case 0x67: /* LD H A */
     MOVEREG(reg_h, reg_a);
     break;
-    case 0x68: /* LD L B */
+          case 0x68: /* LD L B */
     MOVEREG(reg_l, reg_b);
     break;
-    case 0x69: /* LD L C */
+          case 0x69: /* LD L C */
     MOVEREG(reg_l, reg_c);
     break;
-    case 0x6a: /* LD L D */
+          case 0x6a: /* LD L D */
     MOVEREG(reg_l, reg_d);
     break;
-    case 0x6b: /* LD L E */
+          case 0x6b: /* LD L E */
     MOVEREG(reg_l, reg_e);
     break;
-    case 0x6c: /* LD L H */
+          case 0x6c: /* LD L H */
     MOVEREG(reg_l, reg_h);
     break;
-    case 0x6d: /* LD L L */
+          case 0x6d: /* LD L L */
     MOVEREG(reg_l, reg_l);
     break;
-    case 0x6e: /* LD L (HL) */
+          case 0x6e: /* LD L (HL) */
     LDREG(reg_l, LOAD(HL_WORD()), 4, 3, 1);
     break;
-    case 0x6f: /* LD L A */
+          case 0x6f: /* LD L A */
     MOVEREG(reg_l, reg_a);
     break;
-    case 0x70: /* LD (HL) B */
+          case 0x70: /* LD (HL) B */
     STREG(HL_WORD(), reg_b);
     break;
-    case 0x71: /* LD (HL) C */
+          case 0x71: /* LD (HL) C */
     STREG(HL_WORD(), reg_c);
     break;
-    case 0x72: /* LD (HL) D */
+          case 0x72: /* LD (HL) D */
     STREG(HL_WORD(), reg_d);
     break;
-    case 0x73: /* LD (HL) E */
+          case 0x73: /* LD (HL) E */
     STREG(HL_WORD(), reg_e);
     break;
-    case 0x74: /* LD (HL) H */
+          case 0x74: /* LD (HL) H */
     STREG(HL_WORD(), reg_h);
     break;
-    case 0x75: /* LD (HL) L */
+          case 0x75: /* LD (HL) L */
     STREG(HL_WORD(), reg_l);
     break;
-    case 0x76: /*  */
+          case 0x76: /*  */
     /*HALT, */
     xit (-1);
     break;
-    case 0x77: /* LD (HL) A */
+          case 0x77: /* LD (HL) A */
     STREG(HL_WORD(), reg_a);
     break;
-    case 0x78: /* LD A B */
+          case 0x78: /* LD A B */
     MOVEREG(reg_a, reg_b);
     break;
-    case 0x79: /* LD A C */
+          case 0x79: /* LD A C */
     MOVEREG(reg_a, reg_c);
     break;
-    case 0x7a: /* LD A D */
+          case 0x7a: /* LD A D */
     MOVEREG(reg_a, reg_d);
     break;
-    case 0x7b: /* LD A E */
+          case 0x7b: /* LD A E */
     MOVEREG(reg_a, reg_e);
     break;
-    case 0x7c: /* LD A H */
+          case 0x7c: /* LD A H */
     MOVEREG(reg_a, reg_h);
     break;
-    case 0x7d: /* LD A L */
+          case 0x7d: /* LD A L */
     MOVEREG(reg_a, reg_l);
     break;
-    case 0x7e: /* LD A (HL) */
+          case 0x7e: /* LD A (HL) */
     LDREG(reg_a, LOAD(HL_WORD()), 4, 3, 1);
     break;
-    case 0x7f: /* LD A A */
+          case 0x7f: /* LD A A */
     MOVEREG(reg_a, reg_a);
     break;
-    case 0x80: /* ADD B */
+          case 0x80: /* ADD B */
     ADDREG(reg_b, 4, 1);
     break;
-    case 0x81: /* ADD C */
+          case 0x81: /* ADD C */
     ADDREG(reg_c, 4, 1);
     break;
-    case 0x82: /* ADD D */
+          case 0x82: /* ADD D */
     ADDREG(reg_d, 4, 1);
     break;
-    case 0x83: /* ADD E */
+          case 0x83: /* ADD E */
     ADDREG(reg_e, 4, 1);
     break;
-    case 0x84: /* ADD H */
+          case 0x84: /* ADD H */
     ADDREG(reg_h, 4, 1);
     break;
-    case 0x85: /* ADD L */
+          case 0x85: /* ADD L */
     ADDREG(reg_l, 4, 1);
     break;
-    case 0x86: /* ADD (HL) */
+          case 0x86: /* ADD (HL) */
     ADDREG(LOAD(HL_WORD()), 7, 1);
     break;
-    case 0x87: /* ADD A */
+          case 0x87: /* ADD A */
     ADDREG(reg_a, 4, 1);
     break;
-    case 0x88: /* ADC B */
+          case 0x88: /* ADC B */
     ADCREG(reg_b, 4, 1);
     break;
-    case 0x89: /* ADC C */
+          case 0x89: /* ADC C */
     ADCREG(reg_c, 4, 1);
     break;
-    case 0x8a: /* ADC D */
+          case 0x8a: /* ADC D */
     ADCREG(reg_d, 4, 1);
     break;
-    case 0x8b: /* ADC E */
+          case 0x8b: /* ADC E */
     ADCREG(reg_e, 4, 1);
     break;
-    case 0x8c: /* ADC H */
+          case 0x8c: /* ADC H */
     ADCREG(reg_h, 4, 1);
     break;
-    case 0x8d: /* ADC L */
+          case 0x8d: /* ADC L */
     ADCREG(reg_l, 4, 1);
     break;
-    case 0x8e: /* ADC (HL) */
+          case 0x8e: /* ADC (HL) */
     ADCREG(LOAD(HL_WORD()), 7, 1);
     break;
-    case 0x8f: /* ADC A */
+          case 0x8f: /* ADC A */
     ADCREG(reg_a, 4, 1);
     break;
-    case 0x90: /* SUB B */
+          case 0x90: /* SUB B */
     SUBREG(reg_b, 4, 1);
     break;
-    case 0x91: /* SUB C */
+          case 0x91: /* SUB C */
     SUBREG(reg_c, 4, 1);
     break;
-    case 0x92: /* SUB D */
+          case 0x92: /* SUB D */
     SUBREG(reg_d, 4, 1);
     break;
-    case 0x93: /* SUB E */
+          case 0x93: /* SUB E */
     SUBREG(reg_e, 4, 1);
     break;
-    case 0x94: /* SUB H */
+          case 0x94: /* SUB H */
     SUBREG(reg_h, 4, 1);
     break;
-    case 0x95: /* SUB L */
+          case 0x95: /* SUB L */
     SUBREG(reg_l, 4, 1);
     break;
-    case 0x96: /* SUB (HL) */
+          case 0x96: /* SUB (HL) */
     SUBREG(LOAD(HL_WORD()), 7, 1);
     break;
-    case 0x97: /* SUB A */
+          case 0x97: /* SUB A */
     SUBREG(reg_a, 4, 1);
     break;
-    case 0x98: /* SBC B */
+          case 0x98: /* SBC B */
     SBCREG(reg_b, 4, 1);
     break;
-    case 0x99: /* SBC C */
+          case 0x99: /* SBC C */
     SBCREG(reg_c, 4, 1);
     break;
-    case 0x9a: /* SBC D */
+          case 0x9a: /* SBC D */
     SBCREG(reg_d, 4, 1);
     break;
-    case 0x9b: /* SBC E */
+          case 0x9b: /* SBC E */
     SBCREG(reg_e, 4, 1);
     break;
-    case 0x9c: /* SBC H */
+          case 0x9c: /* SBC H */
     SBCREG(reg_h, 4, 1);
     break;
-    case 0x9d: /* SBC L */
+          case 0x9d: /* SBC L */
     SBCREG(reg_l, 4, 1);
     break;
-    case 0x9e: /* SBC (HL) */
+          case 0x9e: /* SBC (HL) */
     SBCREG(LOAD(HL_WORD()), 7, 1);
     break;
-    case 0x9f: /* SBC A */
+          case 0x9f: /* SBC A */
     SBCREG(reg_a, 4, 1);
     break;
-    case 0xa0: /* AND B */
+          case 0xa0: /* AND B */
     ANDREG(reg_b, 4, 0, 1);
     break;
-    case 0xa1: /* AND C */
+          case 0xa1: /* AND C */
     ANDREG(reg_c, 4, 0, 1);
     break;
-    case 0xa2: /* AND D */
+          case 0xa2: /* AND D */
     ANDREG(reg_d, 4, 0, 1);
     break;
-    case 0xa3: /* AND E */
+          case 0xa3: /* AND E */
     ANDREG(reg_e, 4, 0, 1);
     break;
-    case 0xa4: /* AND H */
+          case 0xa4: /* AND H */
     ANDREG(reg_h, 4, 0, 1);
     break;
-    case 0xa5: /* AND L */
+          case 0xa5: /* AND L */
     ANDREG(reg_l, 4, 0, 1);
     break;
-    case 0xa6: /*  */
+          case 0xa6: /*  */
     /*AND_xHL, */
     xit (-1);
     break;
-    case 0xa7: /* AND A */
+          case 0xa7: /* AND A */
     ANDREG(reg_a, 4, 0, 1);
     break;
-    case 0xa8: /* XOR B */
+          case 0xa8: /* XOR B */
     XORREG(reg_b);
     break;
-    case 0xa9: /* XOR C */
+          case 0xa9: /* XOR C */
     XORREG(reg_c);
     break;
-    case 0xaa: /* XOR D */
+          case 0xaa: /* XOR D */
     XORREG(reg_d);
     break;
-    case 0xab: /* XOR E */
+          case 0xab: /* XOR E */
     XORREG(reg_e);
     break;
-    case 0xac: /* XOR H */
+          case 0xac: /* XOR H */
     XORREG(reg_h);
     break;
-    case 0xad: /* XOR L */
+          case 0xad: /* XOR L */
     XORREG(reg_l);
     break;
-    case 0xae: /*  */
+          case 0xae: /*  */
     /*XOR_xHL, */
     xit (-1);
     break;
-    case 0xaf: /* XOR A */
+          case 0xaf: /* XOR A */
     XORREG(reg_a);
     break;
-    case 0xb0: /* OR B */
+          case 0xb0: /* OR B */
     ORREG(reg_b, 4, 0, 1);
     break;
-    case 0xb1: /* OR C */
+          case 0xb1: /* OR C */
     ORREG(reg_c, 4, 0, 1);
     break;
-    case 0xb2: /* OR D */
+          case 0xb2: /* OR D */
     ORREG(reg_d, 4, 0, 1);
     break;
-    case 0xb3: /* OR E */
+          case 0xb3: /* OR E */
     ORREG(reg_e, 4, 0, 1);
     break;
-    case 0xb4: /* OR H */
+          case 0xb4: /* OR H */
     ORREG(reg_h, 4, 0, 1);
     break;
-    case 0xb5: /* OR L */
+          case 0xb5: /* OR L */
     ORREG(reg_l, 4, 0, 1);
     break;
-    case 0xb6: /* OR (HL) */
+          case 0xb6: /* OR (HL) */
     ORREG(LOAD(HL_WORD()), 4, 3, 1);
     break;
-    case 0xb7: /* OR A */
+          case 0xb7: /* OR A */
     ORREG(reg_a, 4, 0, 1);
     break;
-    case 0xb8: /* CP B */
+          case 0xb8: /* CP B */
     CPREG(reg_b, 4, 1);
     break;
-    case 0xb9: /* CP C */
+          case 0xb9: /* CP C */
     CPREG(reg_c, 4, 1);
     break;
-    case 0xba: /* CP D */
+          case 0xba: /* CP D */
     CPREG(reg_d, 4, 1);
     break;
-    case 0xbb: /* CP E */
+          case 0xbb: /* CP E */
     CPREG(reg_e, 4, 1);
     break;
-    case 0xbc: /* CP H */
+          case 0xbc: /* CP H */
     CPREG(reg_h, 4, 1);
     break;
-    case 0xbd: /* CP L */
+          case 0xbd: /* CP L */
     CPREG(reg_l, 4, 1);
     break;
-    case 0xbe: /* CP (HL) */
+          case 0xbe: /* CP (HL) */
     CPREG(LOAD(HL_WORD()), 7, 1);
     break;
-    case 0xbf: /* CP A */
+          case 0xbf: /* CP A */
     CPREG(reg_a, 4, 1);
     break;
-    case 0xc0: /* RET NZ */
+          case 0xc0: /* RET NZ */
     RET_COND(!LOCAL_ZERO());
     break;
-    case 0xc1: /* POP BC */
+          case 0xc1: /* POP BC */
     POP(reg_b, reg_c);
     break;
-    case 0xc2: /* JP NZ */
+          case 0xc2: /* JP NZ */
     JMP_COND(p12, !LOCAL_ZERO(), 10, 10);
     break;
-    case 0xc3: /* JP */
+          case 0xc3: /* JP */
     JMP(p12, 10);
     break;
-    case 0xc4: /* CALL NZ */
+          case 0xc4: /* CALL NZ */
     CALL_COND(p12, !LOCAL_ZERO(), 10, 10, 3);
     break;
-    case 0xc5: /* PUSH BC */
+          case 0xc5: /* PUSH BC */
     PUSH(reg_b, reg_c);
     break;
-    case 0xc6: /* ADD # */
+          case 0xc6: /* ADD # */
     ADDREG(p1, 7, 2);
     break;
-    case 0xc7: /* RST 00 */
+          case 0xc7: /* RST 00 */
     CALL(0x00, 11, 1);
     break;
-    case 0xc8: /* RET Z */
+          case 0xc8: /* RET Z */
     RET_COND(LOCAL_ZERO());
     break;
-    case 0xc9: /* RET */
+          case 0xc9: /* RET */
     RET();
     break;
-    case 0xca: /* JP Z */
+          case 0xca: /* JP Z */
     JMP_COND(p12, LOCAL_ZERO(), 10, 10);
     break;
-    case 0xcb: /* OPCODE CB */
+          case 0xcb: /* OPCODE CB */
     opcode_cb((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12, (WORD)p23);
     break;
-    case 0xcc: /* CALL Z */
+          case 0xcc: /* CALL Z */
     CALL_COND(p12, LOCAL_ZERO(), 10, 10, 3);
     break;
-    case 0xcd: /* CALL */
+          case 0xcd: /* CALL */
     CALL(p12, 7, 3);
     break;
-    case 0xce: /* ADC # */
+          case 0xce: /* ADC # */
     ADCREG(p1, 4, 2);
     break;
-    case 0xcf: /* RST 08 */
+          case 0xcf: /* RST 08 */
     CALL(0x08, 11, 1);
     break;
-    case 0xd0: /* RET NC */
+          case 0xd0: /* RET NC */
     RET_COND(!LOCAL_CARRY());
     break;
-    case 0xd1: /* POP DE */
+          case 0xd1: /* POP DE */
     POP(reg_d, reg_e);
     break;
-    case 0xd2: /* JP NC */
-    log_message(LOG_DEFAULT, "DEBUG JP NC");
+          case 0xd2: /* JP NC */
     JMP_COND(p12, !LOCAL_CARRY(), 10, 10);
     break;
-    case 0xd3: /*  */
+          case 0xd3: /*  */
     /*OUTA, */
     xit (-1);
     break;
-    case 0xd4: /* CALL NC */
+          case 0xd4: /* CALL NC */
     CALL_COND(p12, !LOCAL_CARRY(), 10, 10, 3);
     break;
-    case 0xd5: /* PUSH DE */
+          case 0xd5: /* PUSH DE */
     PUSH(reg_d, reg_e);
     break;
-    case 0xd6: /* SUB # */
+          case 0xd6: /* SUB # */
     SUBREG(p1, 7, 2);
     break;
-    case 0xd7: /* RST 10 */
+          case 0xd7: /* RST 10 */
     CALL(0x10, 11, 1);
     break;
-    case 0xd8: /* RET C */
+          case 0xd8: /* RET C */
     RET_COND(LOCAL_CARRY());
     break;
-    case 0xd9: /*  */
+          case 0xd9: /*  */
     /*EXX, */
     xit (-1);
     break;
-    case 0xda: /* JP C */
-    log_message(LOG_DEFAULT, "DEBUG JP C");
+          case 0xda: /* JP C */
     JMP_COND(p12, LOCAL_CARRY(), 10, 10);
     break;
-    case 0xdb: /*  */
+          case 0xdb: /*  */
     /*INA, */
     xit (-1);
     break;
-    case 0xdc: /* CALL C */
+          case 0xdc: /* CALL C */
     CALL_COND(p12, LOCAL_CARRY(), 10, 10, 3);
     break;
-    case 0xdd: /*  */
+          case 0xdd: /*  */
     /*PFX_DD, */
     xit (-1);
     break;
-    case 0xde: /* SBC # */
+          case 0xde: /* SBC # */
     SBCREG(p1, 7, 2);
     break;
-    case 0xdf: /* RST 18 */
+          case 0xdf: /* RST 18 */
     CALL(0x18, 11, 1);
     break;
-    case 0xe0: /* RET PO */
+          case 0xe0: /* RET PO */
     RET_COND(!LOCAL_PARITY());
     break;
-    case 0xe1: /* POP HL */
+          case 0xe1: /* POP HL */
     POP(reg_h, reg_l);
     break;
-    case 0xe2: /* JP PO */
+          case 0xe2: /* JP PO */
     JMP_COND(p12, !LOCAL_PARITY(), 10, 10);
     break;
-    case 0xe3: /* EX HL (SP) */
+          case 0xe3: /* EX HL (SP) */
     EXHLSP();
     break;
-    case 0xe4: /* CALL PO */
+          case 0xe4: /* CALL PO */
     CALL_COND(p12, !LOCAL_PARITY(), 10, 10, 3);
     break;
-    case 0xe5: /* PUSH HL */
+          case 0xe5: /* PUSH HL */
     PUSH(reg_h, reg_l);
     break;
-    case 0xe6: /* AND # */
+          case 0xe6: /* AND # */
     ANDREG(p1, 7, 0, 2);
     break;
-    case 0xe7: /* RST 20 */
+          case 0xe7: /* RST 20 */
     CALL(0x20, 11, 1);
     break;
-    case 0xe8: /* RET PE */
+          case 0xe8: /* RET PE */
     RET_COND(LOCAL_PARITY());
     break;
-    case 0xe9: /* LD PC HL */
+          case 0xe9: /* LD PC HL */
     JMP((HL_WORD()), 4);
     break;
-    case 0xea: /* JP PE */
+          case 0xea: /* JP PE */
     JMP_COND(p12, LOCAL_PARITY(), 10, 10);
     break;
-    case 0xeb: /* EX DE HL */
+          case 0xeb: /* EX DE HL */
     EXDEHL();
     break;
-    case 0xec: /* CALL PE */
+          case 0xec: /* CALL PE */
     CALL_COND(p12, LOCAL_PARITY(), 10, 10, 3);
     break;
-    case 0xed: /* OPCODE ED */
+          case 0xed: /* OPCODE ED */
     opcode_ed((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12, (WORD)p23);
     break;
-    case 0xee: /*  */
+          case 0xee: /*  */
     /*XOR_BYTE, */
     xit (-1);
     break;
-    case 0xef: /* RST 28 */
+          case 0xef: /* RST 28 */
     CALL(0x28, 11, 1);
     break;
-    case 0xf0: /* RET P */
+          case 0xf0: /* RET P */
     RET_COND(!LOCAL_SIGN());
     break;
-    case 0xf1: /* POP AF */
+          case 0xf1: /* POP AF */
     POP(reg_a, reg_f);
     break;
-    case 0xf2: /* JP P */
+          case 0xf2: /* JP P */
     JMP_COND(p12, !LOCAL_SIGN(), 10, 10);
     break;
-    case 0xf3: /* DI */
+          case 0xf3: /* DI */
     DI();
     break;
-    case 0xf4: /* CALL P */
+          case 0xf4: /* CALL P */
     CALL_COND(p12, !LOCAL_SIGN(), 10, 10, 3);
     break;
-    case 0xf5: /* PUSH AF */
+          case 0xf5: /* PUSH AF */
     PUSH(reg_a, reg_f);
     break;
-    case 0xf6: /* OR # */
+          case 0xf6: /* OR # */
     ORREG(p1, 4, 3, 2);
     break;
-    case 0xf7: /* RST 30 */
+          case 0xf7: /* RST 30 */
     CALL(0x30, 11, 1);
     break;
-    case 0xf8: /* RET M */
+          case 0xf8: /* RET M */
     RET_COND(LOCAL_SIGN());
     break;
-    case 0xf9: /* LD SP HL */
+          case 0xf9: /* LD SP HL */
     LDSP(HL_WORD(), 4, 2, 1);
     break;
-    case 0xfa: /* JP M */
+          case 0xfa: /* JP M */
     JMP_COND(p12, LOCAL_SIGN(), 10, 10);
     break;
-    case 0xfb: /* EI */
+          case 0xfb: /* EI */
     EI();
     break;
-    case 0xfc: /* CALL M */
+          case 0xfc: /* CALL M */
     CALL_COND(p12, LOCAL_SIGN(), 10, 10, 3);
     break;
-    case 0xfd: /* OPCODE FD */
+          case 0xfd: /* OPCODE FD */
     opcode_fd((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12, (WORD)p23);
     break;
-    case 0xfe: /* CP # */
+          case 0xfe: /* CP # */
     CPREG(p1, 7, 2);
     break;
-    case 0xff: /* RST 38 */
+          case 0xff: /* RST 38 */
     CALL(0x38, 11, 1);
     break;
-    }
+        }
     } while (!dma_request);
 }
-
 
