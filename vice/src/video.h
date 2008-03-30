@@ -91,6 +91,7 @@ struct palette_s;
 
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
+extern void video_shutdown(void);
 
 extern struct video_canvas_s *video_canvas_create(struct video_canvas_s *canvas,
                                  unsigned int *width, unsigned int *height,

@@ -60,7 +60,7 @@ struct color_list_s {
 };
 typedef struct color_list_s color_list_t;
 
-static color_list_t *color_alloced;
+static color_list_t *color_alloced = NULL;
 
 static log_t color_log = LOG_ERR;
 
@@ -150,6 +150,9 @@ static void color_create_empty_entry(color_list_t **color_entry)
 static void color_free(color_list_t *list)
 {
     color_list_t *list_next;
+
+    if (list == NULL)
+        return;
 
     do {
         list_next = list->next;
@@ -393,6 +396,11 @@ void color_init(void)
     color_log = log_open("Color");
 
     color_create_empty_entry(&color_alloced);
+}
+
+void color_shutdown(void)
+{
+    color_free(color_alloced);
 }
 
 int color_alloc_colors(void *c, const palette_t *palette,

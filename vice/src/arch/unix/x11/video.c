@@ -390,6 +390,11 @@ int video_init(void)
     return 0;
 }
 
+void video_shutdown(void)
+{
+    color_shutdown();
+}
+
 #ifdef USE_MITSHM
 int mitshm_failed = 0; /* will be set to true if XShmAttach() failed */
 int shmmajor;          /* major number of MITSHM error codes */

@@ -693,6 +693,10 @@ int video_init(void) // initialize Dive
     return 0;
 }
 
+void video_shutdown(void)
+{
+}
+
 void video_close(void)
 {
     FullscreenFree();

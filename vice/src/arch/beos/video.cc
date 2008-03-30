@@ -107,6 +107,10 @@ int video_init(void)
     return 0;
 }
 
+void video_shutdown(void)
+{
+}
+
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
 

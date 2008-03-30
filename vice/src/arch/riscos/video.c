@@ -428,6 +428,9 @@ int video_init(void)
   return 0;
 }
 
+void video_shutdown(void)
+{
+}
 
 
 static int video_frame_buffer_alloc(video_canvas_t *canvas, BYTE **draw_buffer, unsigned int fb_width, unsigned int fb_height, unsigned int *fb_pitch)
