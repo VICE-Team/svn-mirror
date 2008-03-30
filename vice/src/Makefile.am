@@ -15,6 +15,8 @@ SUBDIRS = \
 	sounddrv \
 	drive \
 	vdrive \
+	diskimage \
+	tape \
 	video \
 	raster \
 	vicii \
@@ -131,7 +133,6 @@ base_sources = \
 	color.c \
 	datasette.c \
 	debug.c \
-	diskimage.c \
 	emuid.c \
 	findpath.c \
 	fsdevice.c \
@@ -157,9 +158,6 @@ base_sources = \
 	snapshot.c \
 	sound.c \
 	sysfile.c \
-	t64.c \
-	tap.c \
-	tape.c \
 	traps.c \
 	utils.c \
 	vsync.c \
@@ -196,6 +194,7 @@ c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
+diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
@@ -205,6 +204,7 @@ printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+tape_lib = $(top_builddir)/src/tape/libtape.a
 vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
@@ -227,12 +227,14 @@ x64_libs =  \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(sounddrv_lib) \
-        $(gfxoutputdrv_lib) \
+	$(gfxoutputdrv_lib) \
 	$(printerdrv_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(monitor_lib) \
+	$(diskimage_lib) \
+	$(tape_lib) \
 	$(common_libs)
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
@@ -250,12 +252,14 @@ x64-all: \
 	libraster \
 	libsid \
 	libsounddrv \
-        libgfxoutputdrv \
+	libgfxoutputdrv \
 	libprinterdrv \
 	libvicii \
 	libvideo \
 	libarch \
 	libmonitor \
+	libdiskimage \
+	libtape \
 	x64
 
 # x128
@@ -268,13 +272,15 @@ x128_libs =  \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(sounddrv_lib) \
-        $(gfxoutputdrv_lib) \
+	$(gfxoutputdrv_lib) \
 	$(printerdrv_lib) \
 	$(vicii_lib) \
 	$(vdc_lib) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(monitor_lib) \
+	$(diskimage_lib) \
+	$(tape_lib) \
 	$(common_libs)
 
 x128_SOURCES = $(base_sources)
@@ -288,7 +294,7 @@ x128-all: \
 	libc64c128 \
 	libc64cart \
 	libsounddrv \
-        libgfxoutputdrv \
+	libgfxoutputdrv \
 	libprinterdrv \
 	libdrive \
 	libvdrive \
@@ -299,6 +305,8 @@ x128-all: \
 	libraster \
 	libvideo \
 	libmonitor \
+	libdiskimage \
+	libtape \
 	@RESID_DEP@ \
 	x128
 
@@ -309,11 +317,13 @@ xvic_libs =  \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
-        $(gfxoutputdrv_lib) \
+	$(gfxoutputdrv_lib) \
 	$(printerdrv_lib) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(monitor_lib) \
+	$(diskimage_lib) \
+	$(tape_lib) \
 	$(common_libs)
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -327,12 +337,14 @@ xvic-all: \
 	libvdrive \
 	libraster \
 	libsounddrv \
-        libgfxoutputdrv \
+	libgfxoutputdrv \
 	libprinterdrv \
 	libvic20 \
 	libvideo \
 	libarch \
 	libmonitor \
+	libdiskimage \
+	libtape \
 	xvic
 
 # xpet
@@ -348,6 +360,8 @@ xpet_libs =  \
 	$(raster_lib) \
 	$(video_lib) \
 	$(monitor_lib) \
+	$(diskimage_lib) \
+	$(tape_lib) \
 	$(common_libs)
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -362,27 +376,31 @@ xpet-all: \
 	libraster \
 	libcrtc \
 	libsounddrv \
-        libgfxoutputdrv \
+	libgfxoutputdrv \
 	libprinterdrv \
 	libpet \
 	libvideo \
 	libarch \
 	libmonitor \
+	libdiskimage \
+	libtape \
 	xpet 
 
 # xplus4
 xplus4_libs =  \
-        @XPLUS4_WINRES@ \
-        $(plus4_lib) \
-        $(drive_lib) \
-        $(vdrive_lib) \
-        $(sounddrv_lib) \
-        $(gfxoutputdrv_lib) \
-        $(printerdrv_lib) \
-        $(raster_lib) \
+	@XPLUS4_WINRES@ \
+	$(plus4_lib) \
+	$(drive_lib) \
+	$(vdrive_lib) \
+	$(sounddrv_lib) \
+	$(gfxoutputdrv_lib) \
+	$(printerdrv_lib) \
+	$(raster_lib) \
 	$(video_lib) \
-        $(monitor_lib) \
-        $(common_libs)
+	$(monitor_lib) \
+	$(diskimage_lib) \
+	$(tape_lib) \
+	$(common_libs)
 
 xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) @X_LIBS@
@@ -401,6 +419,8 @@ xplus4-all: \
 	libvideo \
         libarch \
         libmonitor \
+	libdiskimage \
+	libtape \
         xplus4
 
 # xcbm2
@@ -410,7 +430,7 @@ xcbm2_libs = \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
-        $(gfxoutputdrv_lib) \
+	$(gfxoutputdrv_lib) \
 	$(printerdrv_lib) \
 	$(sid_lib) \
 	$(crtc_lib) \
@@ -418,6 +438,8 @@ xcbm2_libs = \
 	$(raster_lib) \
 	$(video_lib) \
 	$(monitor_lib) \
+	$(diskimage_lib) \
+	$(tape_lib) \
 	$(common_libs)
 
 xcbm2_SOURCES = $(base_sources)
@@ -441,6 +463,8 @@ xcbm2-all: \
 	libvicii \
 	libvideo \
 	libmonitor \
+	libdiskimage \
+	libtape \
 	xcbm2
 
 # c1541
@@ -448,14 +472,12 @@ c1541_SOURCES = \
 	c1541.c \
 	charset.c \
 	cmdline.c \
-	diskimage.c \
 	findpath.c \
 	gcr.c \
 	info.c \
 	log.c \
 	p00.c \
 	resources.c \
-	t64.c \
 	utils.c \
 	zfile.c \
 	zipcode.c
@@ -467,6 +489,8 @@ c1541_LDADD = \
 	@ARCH_DIR@/archdep.o \
 	@ARCH_DIR@/uicmdline.o \
 	$(vdrive_lib) \
+	$(diskimage_lib) \
+	$(tape_lib) \
 	@READLINE@
 
 # petcat
@@ -489,7 +513,7 @@ petcat_LDADD = \
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
-	libprinterdrv libgfxoutputdrv libsounddrv \
+	libprinterdrv libgfxoutputdrv libsounddrv libdiskimage libtape \
 	libarch libvicii libvdc libsid libcrtc libvideo @RESID_DEP@
 
 libarch:
@@ -504,6 +528,8 @@ libc64cart:
 	(cd c64 && $(MAKE) libc64cart)
 libcbm2:
 	(cd cbm2 && $(MAKE))
+libdiskimage:
+	(cd diskimage && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
 libpet:
@@ -520,6 +546,8 @@ libsid:
 	(cd sid && $(MAKE))
 libsounddrv:
 	(cd sounddrv && $(MAKE))
+libtape:
+	(cd tape && $(MAKE))
 libgfxoutputdrv:
 	(cd gfxoutputdrv && $(MAKE))
 libvdrive:
