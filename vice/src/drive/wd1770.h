@@ -56,12 +56,10 @@ typedef struct wd1770_s {
     struct disk_image_s *image;
 } wd1770_t;
 
-extern void wd1770d0_init(void);
 extern void REGPARM2 wd1770d0_store(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 wd1770d0_read(ADDRESS addr);
 extern void wd1770d0_reset(void);
 
-extern void wd1770d1_init(void);
 extern void REGPARM2 wd1770d1_store(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 wd1770d1_read(ADDRESS addr);
 extern void wd1770d1_reset(void);
