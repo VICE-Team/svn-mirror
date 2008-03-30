@@ -252,13 +252,7 @@ static UI_CALLBACK(set_default_resources)
 
 /* ------------------------------------------------------------------------- */
 
-/*UI_MENU_DEFINE_TOGGLE(UseXSync)*/
-
-UI_CALLBACK(toggle_UseXSync)
-{
-_ui_menu_toggle_helper(w, client_data, call_data, "UseXSync");
-}
-
+UI_MENU_DEFINE_TOGGLE(UseXSync)
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 UI_MENU_DEFINE_TOGGLE(WarpMode)
 

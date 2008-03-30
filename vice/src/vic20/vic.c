@@ -107,12 +107,6 @@ void vic_change_timing(void)
         vic.cycle_offset = VIC20_PAL_CYCLE_OFFSET;
         break;
     }
-
-    /* just to make sure that we don't write behind the framebuffer */
-    vic.text_lines = 0;
-    vic.text_cols = 0;
-    vic.raster.display_xstart = 0;
-    vic.raster.display_ystart = 0;
 }
 
 static void vic_set_geometry(void)
@@ -127,7 +121,7 @@ static void vic_set_geometry(void)
                          1,
                          vic.first_displayed_line,
                          vic.last_displayed_line,
-                         0);
+                         vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8);
 
     width = vic.display_width * VIC_PIXEL_WIDTH;
     height = vic.last_displayed_line - vic.first_displayed_line + 1;

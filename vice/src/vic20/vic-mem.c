@@ -61,7 +61,7 @@ vic_store(ADDRESS addr, BYTE value)
             
             value &= 0x7f;
 
-            xstart = value * 4;
+            xstart = MIN(value * 4, vic.screen_width);
             
             xstop = xstart + vic.text_cols * 8;
             if (xstop >= vic.screen_width)

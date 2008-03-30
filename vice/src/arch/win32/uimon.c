@@ -86,7 +86,7 @@ static HWND hwndMdiClient = NULL;
 static HWND hwndToolbar = NULL;
 
 static console_t *console_log = NULL;
-static console_t  console_log_for_mon;
+static console_t  console_log_for_mon = { -50, -50, -50 };
 static char *pchCommandLine   = NULL;
 
 #define REG_CLASS MONITOR_CLASS ":Reg"
@@ -1518,11 +1518,24 @@ console_t *uimon_window_open( void )
     if (!wd)
     {
         OpenConsole(hwnd,TRUE);
-        memcpy( &console_log_for_mon, console_log, sizeof( struct console_s ) );
     }
     else
     {
         OpenFromWindowDimensions(hwnd,wd);
+    }
+
+    if (console_log)
+    {
+        memcpy( &console_log_for_mon, console_log, sizeof( struct console_s ) );
+    }
+    else
+    {
+        /*
+         @SRT: Temporary work-around...
+        */
+        console_log_for_mon.console_xres          = 80;
+        console_log_for_mon.console_yres          = 5;
+        console_log_for_mon.console_can_stay_open = 1;
     }
 
     EnableCommands(GetMenu(hwnd),hwndToolbar);

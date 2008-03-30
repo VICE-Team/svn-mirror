@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "cartridge.h"
+#include "drive.h"
 #include "log.h"
 #include "menudefs.h"
 #include "resources.h"

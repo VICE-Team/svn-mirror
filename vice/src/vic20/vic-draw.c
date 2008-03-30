@@ -122,12 +122,11 @@ draw (PIXEL *p,
       int transparent) /* transparent>0: don't overwrite background */
 {
   static VIC_PIXEL c[4];
-  int b, i, x, bordercheck;
+  int b, i, x;
   BYTE d;
 
   /* Last character may exceed border, so we have some extra work */
   /* bordercheck asumes p pointing to display_xstart */
-  bordercheck = vic.raster.display_xstart;
   p += xs * 8 * VIC_PIXEL_WIDTH;
 
   c[0] = VIC_PIXEL (vic.raster.background_color);
@@ -144,12 +143,7 @@ draw (PIXEL *p,
       else
         d = GET_CHAR_DATA (*(vic.screen_ptr + vic.memptr + i),
                            vic.raster.ycounter);
-      for (x = 0; x<8; x++)
-      {
-        if (++bordercheck>vic.raster.display_xstop)
-            return;
-        PUT_PIXEL (p, d, c, b, x, transparent);
-      }
+      for (x = 0; x<8; x++) PUT_PIXEL (p, d, c, b, x, transparent);
     }
 }
 
@@ -210,11 +204,10 @@ draw_2x(PIXEL *p,
 {
   static VIC_PIXEL2 c[4];
   BYTE d, b;
-  int i, x, bordercheck;
+  int i, x;
 
   /* Last character may exceed border, so we have some extra work */
   /* bordercheck asumes p pointing to display_xstart */
-  bordercheck = vic.raster.display_xstart;
   p += xs * 16 * VIC_PIXEL_WIDTH;
 
   c[0] = VIC_PIXEL2 (vic.raster.background_color);
@@ -233,12 +226,7 @@ draw_2x(PIXEL *p,
         d = GET_CHAR_DATA ((vic.screen_ptr + vic.memptr)[i],
                            vic.raster.ycounter);
 
-      for (x = 0; x<8; x++)
-      {
-        if (++bordercheck>vic.raster.display_xstop)
-            return;
-        PUT_PIXEL2 (p, d, c, b, x, transparent);
-      }
+      for (x = 0; x<8; x++) PUT_PIXEL2 (p, d, c, b, x, transparent);
     }
 }
 

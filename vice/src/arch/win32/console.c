@@ -1349,6 +1349,11 @@ static long CALLBACK console_window_proc(HWND hwnd,
 		}
 		break;
 
+	case WM_MDIACTIVATE:
+        if (((HWND)lParam==hwnd) && !IsIconic(hwnd))
+            SetFocus(hwnd);
+        break;
+
 /*
 	case WM_MDIACTIVATE:
 		if ((HWND)wParam==hwnd)

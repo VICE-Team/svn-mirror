@@ -33,6 +33,7 @@
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
+UI_MENU_DEFINE_TOGGLE(UseXSync)
 
 static ui_menu_entry_t crtc_video_settings_submenu[] = {
     { N_("*Video cache"),
