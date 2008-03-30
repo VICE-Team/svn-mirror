@@ -28,8 +28,6 @@
 #ifndef _PET_H
 #define _PET_H
 
-#include "via.h"
-
 /* Except for the exact CYCLES_PER_SEC those are only reasonable defaults.
    They get overwritten when writing to the CRTC */
 
@@ -53,8 +51,10 @@
 
 extern void pet_crtc_set_screen(void);
 
+struct via_context_s;
+
 typedef struct machine_context_s {
-    via_context_t via;
+    struct via_context_s *via;
 } machine_context_t;
 
 extern machine_context_t machine_context;

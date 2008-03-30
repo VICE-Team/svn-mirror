@@ -44,21 +44,22 @@
 #include "petvia.h"
 #include "printer.h"
 #include "types.h"
+#include "via.h"
 
 
 void REGPARM2 via_store(WORD addr, BYTE data)
 {
-    viacore_store(&(machine_context.via), addr, data);
+    viacore_store(machine_context.via, addr, data);
 }
 
 BYTE REGPARM1 via_read(WORD addr)
 {
-    return viacore_read(&(machine_context.via), addr);
+    return viacore_read(machine_context.via, addr);
 }
 
 BYTE REGPARM1 via_peek(WORD addr)
 {
-    return viacore_peek(&(machine_context.via), addr);
+    return viacore_peek(machine_context.via, addr);
 }
 
 /* switching PET charrom with CA2 */
@@ -235,26 +236,28 @@ inline static BYTE read_prb(via_context_t *via_context)
 
 void printer_interface_userport_set_busy(int b)
 {
-    viacore_signal(&(machine_context.via),
+    viacore_signal(machine_context.via,
                    VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
 
 static void int_viat1(CLOCK c)
 {
-    viacore_intt1(&(machine_context.via), c);
+    viacore_intt1(machine_context.via, c);
 }
 
 static void int_viat2(CLOCK c)
 {
-    viacore_intt2(&(machine_context.via), c);
+    viacore_intt2(machine_context.via, c);
 }
 
-static const via_initdesc_t via_initdesc[1] = {
-    { &(machine_context.via), int_viat1, int_viat2 },
+static via_initdesc_t via_initdesc[1] = {
+    { NULL, int_viat1, int_viat2 },
 };
 
 void via_init(via_context_t *via_context)
 {
+    via_initdesc[0].via_ptr = machine_context.via;
+
     viacore_init(&via_initdesc[0], maincpu_alarm_context, maincpu_int_status,
                  maincpu_clk_guard);
 }
@@ -263,7 +266,8 @@ void petvia_setup_context(machine_context_t *machine_context)
 {
     via_context_t *via;
 
-    via = &(machine_context->via);
+    machine_context->via = lib_malloc(sizeof(via_context_t));
+    via = machine_context->via;
 
     via->context = NULL;
 

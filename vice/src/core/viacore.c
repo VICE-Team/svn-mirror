@@ -855,6 +855,7 @@ void viacore_shutdown(via_context_t *via_context)
     lib_free(via_context->my_module_name);
     lib_free(via_context->my_module_name_alt1);
     lib_free(via_context->my_module_name_alt2);
+    lib_free(via_context);
 }
 
 /*------------------------------------------------------------------------*/
