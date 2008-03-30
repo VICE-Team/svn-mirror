@@ -22,6 +22,7 @@ libarch_a_SOURCES = \
 	kbd.c \
 	kbd.h \
 	kbdef.h \
+	rs232.c \
 	ui.h \
 	video.c \
 	video.h \

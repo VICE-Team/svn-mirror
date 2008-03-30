@@ -11,6 +11,11 @@ noinst_LIBRARIES = libc64.a libc64c128.a
 libc64_a_SOURCES = \
 	c64.c \
 	c64.h \
+	c64acia.h \
+	c64acia1.c \
+	c64acia1.def\
+	c64acia2.c \
+	c64acia2.def\
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -37,6 +42,11 @@ libc64_a_SOURCES = \
 	wave8580.h
 
 libc64c128_a_SOURCES = \
+	c64acia.h \
+	c64acia1.c \
+	c64acia1.def \
+	c64acia2.c \
+	c64acia2.def \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -77,3 +87,21 @@ c64cia2.c: c64cia2.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
 	       	   $(top_srcdir)/src/cia-tmpl.c \
 	       	   $(c64dir)/c64cia2.def $(c64dir)/c64cia2.c; \
            fi )
+
+c64acia1.c: c64acia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c64acia1.c'..."; \
+           if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	       	   $(top_srcdir)/src/acia-tmpl.c \
+	       	   $(c64dir)/c64acia1.def $(c64dir)/c64acia1.c; \
+           fi )
+
+c64acia2.c: c64acia2.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c64acia2.c'..."; \
+           if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	       	   $(top_srcdir)/src/acia-tmpl.c \
+	       	   $(c64dir)/c64acia2.def $(c64dir)/c64acia2.c; \
+           fi )
+
+
