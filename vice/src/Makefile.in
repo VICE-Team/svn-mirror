@@ -568,7 +568,7 @@ datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h \
 	maincpu.h 6510core.h tap.h arch/unix/ui.h uiapi.h \
 	arch/unix/x11/xaw/uiarch.h
 diskimage.o: diskimage.c vice.h config.h arch/unix/archdep.h archapi.h \
-	diskimage.h arch/unix/types.h gcr.h log.h utils.h \
+	diskimage.h arch/unix/types.h gcr.h log.h tap.h utils.h \
 	vdrive/vdrive.h zfile.h
 emuid.o: emuid.c arch/unix/types.h vice.h config.h
 findpath.o: findpath.c vice.h config.h arch/unix/archdep.h archapi.h \

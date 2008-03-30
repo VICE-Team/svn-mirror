@@ -1,3 +1,75 @@
+2000-06-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.4.23.
+
+	* arch/unix/x11/gnome/uicolor.c (uicolor_convert_color_table):
+	Fixel pixel value.
+
+	* arch/unix/x11/video.c: Removed obsolete code.
+
+2000-06-26  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.rc: added "Create TAP image" button to
+	the OPENTAPE template
+
+	* arch/win32/uilib.c(tape_hook_proc): handles new button
+	by calling disk_image_create(filename, DISK_IMAGE_TYPE_TAP)
+	(hook_proc): default disk image name now 'vice' (no capital)
+
+	* diskimage.c,diskimage.h: new DISK_IMAGE_TYPE_TAP, only
+	supported by (disk_image_create) to create an empty tap
+
+2000-06-25  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/console.c: just a copy of the UNIX console makes
+	the monitor work
+
+	* arch/beos/constants.h: more id's for the new ui elements
+
+	* arch/beos/main.cc: use different application signatures for
+	each emulator to avoid problems running them at the same time
+
+	* arch/beos/ui.cc: traps for monitor start and snapshots
+	(ui_dispatch_events) implements monitor,fliplist and snapshots
+
+	* arch/beos/ui_file.cc,ui_file.h: handles file actions for
+	loading and saving snapshots
+
+	* arch/beos/vicemenu.cc: more menu entries for fliplist,
+	monitor and snapshots
+
+	* arch/beos/vicewindow.cc: calls suspend_speed_eval after
+	showing an alert box
+	creates a second filepanel, this one in save mode
+	ViceWindow::MessageReceived: checks for a focused menubar and
+	in this case unsets the focus to avoid misterious problems
+	with the keyboard input
+
+	* arch/beos/video.cc: uses the new video_frame_buffer_t
+	(canvas_resize): corrects width and height in the canvas_t
+	(canvas_refresh): checks if destinations area fits the canvas
+	to avoid crashes
+
+	* arch/beos/vsync.c: uses Dag's new vsync.c; additional test
+	if hardware can keep up with speed is not implemented so far
+
+	* arch/win32/ui.c(handle_wm_command): fixed call to
+	(flip_remove)
+
+2000-06-24  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/gnomevideo.c 
+	(ui_finish_canvas): Unref old drawable in case there's one.
+	(video_frame_buffer_alloc): Check if we have a dangling canvas,
+	and update sizes in case.
+
+	* arch/unix/x11/video.c 
+	(canvas_resize): Set canvas width/height to new values, and update
+	drawable of canvas.
+	(canvas_create): Initialize canvas with 0.
+	(video_frame_buffer_free): Remember canvas in a global
+	`dangling_canvas'. 
+
 2000-06-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.22.

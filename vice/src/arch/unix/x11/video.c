@@ -157,56 +157,14 @@ static PIXEL4 real_pixel4[256];
 static long real_pixel[256];
 static BYTE shade_table[256];
 
-#ifndef USE_COLOR_MANAGEMENT
-static PIXEL my_real_pixel1[256];
-static PIXEL2 my_real_pixel2[256];
-static PIXEL4 my_real_pixel4[256];
-static long my_real_pixel[256];
-static BYTE my_shade_table[256];
-
-void video_convert_save_pixel(void)
-{
-    memcpy(my_real_pixel, real_pixel, sizeof(my_real_pixel));
-    memcpy(my_real_pixel1, real_pixel1, sizeof(my_real_pixel1));
-    memcpy(my_real_pixel2, real_pixel2, sizeof(my_real_pixel2));
-    memcpy(my_real_pixel4, real_pixel4, sizeof(my_real_pixel4));
-    memcpy(my_shade_table, shade_table, sizeof(my_shade_table));
-}
-
-void video_convert_restore_pixel(void)
-{
-    memcpy(real_pixel, my_real_pixel, sizeof(my_real_pixel));
-    memcpy(real_pixel1, my_real_pixel1, sizeof(my_real_pixel1));
-    memcpy(real_pixel2, my_real_pixel2, sizeof(my_real_pixel2));
-    memcpy(real_pixel4, my_real_pixel4, sizeof(my_real_pixel4));
-    memcpy(shade_table, my_shade_table, sizeof(my_shade_table));
-}
-
-void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
-                               XImage *im, const palette_t *palette, long col,
-                               int depth)
-{
-    pixel_return[i] = i;
-    if (depth == 8)
-        pixel_return[i] = *data;
-    else if (im->bits_per_pixel == 8)
-        real_pixel1[i] = *(PIXEL *)data;
-    else if (im->bits_per_pixel == 16)
-        real_pixel2[i] = *(PIXEL2 *)data;
-    else if (im->bits_per_pixel == 32)
-        real_pixel4[i] = *(PIXEL4 *)data;
-    else
-        real_pixel[i] = col;
-    if (im->bits_per_pixel == 1)
-        shade_table[i] = palette->entries[i].dither;
-}
-#else
 void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
                                unsigned int bits_per_pixel,
                                unsigned int dither, long col)
 {
-/*log_message(LOG_DEFAULT, "DEPTH %i BPP %i DATA %x",
-              ui_get_display_depth(), bits_per_pixel, *data);*/
+    /* log_message(LOG_DEFAULT,
+                   "color num: %d, DEPTH %i BPP %i DATA %x COL 0x%lx", i,
+                   ui_get_display_depth(), bits_per_pixel, *data, col);
+     */
     *pixel_return = i;
     if (ui_get_display_depth() == 8)
         *pixel_return = *data;
@@ -221,7 +179,6 @@ void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
     if (bits_per_pixel == 1)
         shade_table[i] = dither;
 }
-#endif
 
 /* Conversion routines between 8bit and other sizes. */
 
@@ -323,7 +280,7 @@ int video_convert_func(video_frame_buffer_t *i, int depth, unsigned int width,
 #if X_DISPLAY_DEPTH == 0
     /* if display depth != 8 we need a temporary buffer */
     if (depth == 8) {
-        i->tmpframebuffer = (PIXEL *) i->x_image->data;
+        i->tmpframebuffer = (PIXEL *)i->x_image->data;
         i->tmpframebufferlinesize = i->x_image->bytes_per_line;
         _convert_func = NULL;
     } else {
@@ -384,9 +341,7 @@ int video_init(void)
     if (video_log == LOG_ERR)
 	video_log = log_open("Video");
 
-#ifdef USE_COLOR_MANAGEMENT
     color_init();
-#endif
 
 #ifdef USE_MITSHM
     if (!try_mitshm)
@@ -475,11 +430,8 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
 #endif
     {
 #ifdef USE_GNOMEUI
-	void *save = (void *) i->canvas;
-	memset(i, 0, sizeof(*i));
-	i->canvas = save;
-#else
-	memset(i, 0, sizeof(*i));
+	extern canvas_t *dangling_canvas;
+	dangling_canvas = i->canvas;
 #endif
     }
     free(i);
@@ -518,7 +470,7 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
     XGCValues gc_values;
 
     c = (canvas_t *)xmalloc(sizeof(struct canvas_s));
-
+    memset(c, 0, sizeof(struct canvas_s));
     w = ui_open_canvas_window(c, win_name, *width, *height, 1,
                               exposure_handler, palette, pixel_return);
 
@@ -542,8 +494,8 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
     return c;
 }
 
-int canvas_set_palette(canvas_t *c, const palette_t * palette,
-		       PIXEL * pixel_return)
+int canvas_set_palette(canvas_t *c, const palette_t *palette,
+                       PIXEL *pixel_return)
 {
     return ui_canvas_set_palette(c, c->emuwindow, palette, pixel_return);
 }
@@ -556,6 +508,9 @@ void canvas_resize(canvas_t *s, unsigned int width, unsigned int height)
     }
 
     ui_resize_canvas_window(s->emuwindow, width, height);
+    s->width = width;
+    s->height = height;
+    ui_finish_canvas(s);
 }
 
 void enable_text(void)
