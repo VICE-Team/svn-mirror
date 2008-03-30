@@ -487,21 +487,23 @@ File: vice.info,  Node: Copyright,  Next: Contacts,  Prev: Acknowledgments,  Up:
 Copyright
 *********
 
-   Copyright (C) 1996-1998 Ettore Perazzoli
+   Copyright (C) 1996-1999 Ettore Perazzoli
 
-   Copyright (C) 1996-1998 Andr'e Fachat
+   Copyright (C) 1996-1999 Andr'e Fachat
 
-   Copyright (C) 1993-1994, 1997-1998 Teemu Rantanen
+   Copyright (C) 1993-1994, 1997-1999 Teemu Rantanen
 
-   Copyright (C) 1997-1998 Daniel Sladic
+   Copyright (C) 1997-1999 Daniel Sladic
 
-   Copyright (C) 1998 Andreas Boose
+   Copyright (C) 1998-1999 Andreas Boose
+
+   Copyright (C) 1998-1999 Tibor Biczo
 
    Copyright (C) 1993-1996 Jouko Valta
 
    Copyright (C) 1993-1994 Jarkko Sonninen
 
-   The reSID engine: Copyright (C) 1998 Dag Lem
+   The reSID engine: Copyright (C) 1998-1999 Dag Lem
 
    This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -541,7 +543,7 @@ VICE home page
    You can find the latest news about VICE at the official VICE home
 page:
 
-     http://www.tu-chemnitz.de/~fachat/vice/vice.html
+     http://www.cs.cmu.edu/~dsladic/vice/vice.html
 
    Also the public patches and beta releases will be available there as
 well, so you might want to have a look at it periodically.  If you are
@@ -591,7 +593,7 @@ team.
 
         * the VICE FAQ (it is available on the Internet, and reachable
           from the VICE home page:
-          http://www.tu-chemnitz.de/~fachat/vice/vice.html);
+          http://www.cs.cmu.edu/~dsladic/vice/vice.html);
 
         * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (*note FAQs
           you should read::.).
