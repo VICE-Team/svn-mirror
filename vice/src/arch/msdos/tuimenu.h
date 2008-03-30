@@ -68,7 +68,7 @@ void tui_menu_add_item(tui_menu_t menu, const char *label, const char *help_stri
 void tui_menu_add_submenu(tui_menu_t menu, const char *label, const char *help_string, tui_menu_t submenu, tui_menu_callback_t callback, void *callback_param, int par_string_max_len);
 void tui_menu_add_separator(tui_menu_t menu);
 void tui_menu_add(tui_menu_t menu, const tui_menu_item_def_t *d);
-int tui_menu_handle(tui_menu_t menu);
+int tui_menu_handle(tui_menu_t menu, char hotkey);
 void tui_menu_update(tui_menu_t menu);
 
 /* ------------------------------------------------------------------------- */

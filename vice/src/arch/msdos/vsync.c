@@ -48,6 +48,7 @@
 #include "kbdbuf.h"
 #include "resources.h"
 #include "sid.h"
+#include "sound.h"
 #include "true1541.h"
 #include "ui.h"
 #include "vmachine.h"
@@ -86,6 +87,7 @@ static int set_refresh_rate(resource_value_t v)
 static int set_warp_mode(resource_value_t v)
 {
     warp_mode_enabled = (int) v;
+    sound_set_warp_mode(warp_mode_enabled);
     return 0;
 }
 

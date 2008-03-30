@@ -406,7 +406,7 @@ static void tui_menu_display_item(tui_menu_item_t *item, int width,
     }
 }
 
-int tui_menu_handle(tui_menu_t menu)
+int tui_menu_handle(tui_menu_t menu, char hotkey)
 {
     tui_menu_item_t *item_ptr;
     tui_area_t backing_store = NULL;
@@ -475,7 +475,14 @@ int tui_menu_handle(tui_menu_t menu)
 	    tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
 	    tui_display(0, tui_num_lines() - 1, tui_num_cols(), "");
 	}
-	key = getkey();
+
+        /* The first keypress is the caller-specified one.  */
+        if (hotkey != 0) {
+            key = hotkey;
+            hotkey = 0;
+        } else
+            key = getkey();
+
 	if (item_ptr != NULL)
 	    tui_menu_display_item(item_ptr, total_width - 2, menu_x + 1, y, 0);
 
@@ -530,7 +537,7 @@ int tui_menu_handle(tui_menu_t menu)
 				      menu_x + 1, y, 1);
 
 		if (item_ptr->type == TUI_MENU_SUBMENU)
-		    ret = tui_menu_handle(item_ptr->submenu);
+		    ret = tui_menu_handle(item_ptr->submenu, 0);
 
 		tui_menu_call_callback(item_ptr, 1, &become_default);
                 if (become_default)
@@ -570,7 +577,7 @@ int tui_menu_handle(tui_menu_t menu)
 			tui_menu_display_item(item_ptr, total_width - 2,
 					      menu_x + 1, y, 1);
 			if (p->type == TUI_MENU_SUBMENU)
-			    ret = tui_menu_handle(p->submenu);
+			    ret = tui_menu_handle(p->submenu, 0);
 
 			tui_menu_call_callback(p, 1, &become_default);
                         if (become_default)
