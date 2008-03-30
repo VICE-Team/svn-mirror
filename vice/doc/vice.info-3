@@ -302,7 +302,7 @@ itself.  Of course, it is also possible to detach a currently attached
 cartridge image ("Detach cartridge image").
 
    If you are using an Action Replay cartridge, you can emulate the
-cartridge's freeze button with the "Freeze" command.
+cartridge's freeze button with the "Cartridge freeze" command.
 
 
 File: vice.info,  Node: VIC-II settings,  Next: SID settings,  Prev: C64 cartridges,  Up: C64/128-specific
@@ -325,12 +325,18 @@ chip used in both the C64 and the C128.
 
         * `default.vpl' ("default"), the default VICE palette;
 
-        * `ccs64.vpl' ("CCS64"), palette taken from the CCS64 emulator
-          by Per H^akan Sundell (http://www.fatal-design.com/ccs64/).
+        * `c64s.vpl' ("C64S"), palette taken from the shareware C64S
+          emulator by Miha Peternel.
 
-        * `frodo.vpl' ("Frodo"), palette taken from the Frodo emulator
-          by Christian Bauer
+        * `ccs64.vpl' ("CCS64"), palette taken from the shareware CCS64
+          emulator by Per H^akan Sundell.
+
+        * `frodo.vpl' ("Frodo"), palette taken from the free Frodo
+          emulator by Christian Bauer
           (http://www.uni-mainz.de/~bauec002/FRMain.html).
+
+        * `pc64.vpl' ("PC64"), palette taken from the free PC64
+          emulator by Wolfgang Lorenz.
 
         * `godot.vpl' ("GoDot"), palette as suggested by the authors of
           the C64 graphics package GoDot

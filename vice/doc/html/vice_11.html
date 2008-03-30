@@ -1,336 +1,618 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 24 November 1998 -->
+     from ../vice.texi on 1 December 1998 -->
 
-<TITLE>VICE Manual - 11  Acknowledgments</TITLE>
+<TITLE>VICE Manual - 11  The emulator file formats</TITLE>
 </HEAD>
 <BODY BGCOLOR="#ffffff" TEXT="#00000">
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_10.html">previous</A>, <A HREF="vice_12.html">next</A>, <A HREF="vice_15.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_10.html">previous</A>, <A HREF="vice_12.html">next</A>, <A HREF="vice_16.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 <P><HR><P>
 
 
-<H1><A NAME="SEC143" HREF="vice_toc.html#TOC143">11  Acknowledgments</A></H1>
+<H1><A NAME="SEC143" HREF="vice_toc.html#TOC143">11  The emulator file formats</A></H1>
 
 <P>
-VICE derives from X64, the first Commodore 64 emulator for the X Window
-System.  Here is an informal list of the people who were mostly involved
-in the development of X64 and VICE:
-
-</P>
-<P>
-The VICE core team:
+This chapter gives a technical description of the various files
+supported by the emulators.
 
 </P>
 
-<P> <UL>
 
-<P> <LI>
 
-<B>Ettore Perazzoli</B> (<A HREF="mailto:ettore@comm2000.it">ettore@comm2000.it</A>)
-made the 6510, VIC-II, VIC-I and CRTC emulations, part of the
-hardware-level 1541 emulation, speed optimizations, bug fixes,
-the event-driven cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a
-general code reorganization, the new resource handling, most of the
-documentation and the MS-DOS port (well, somebody had to do it).
-
-<P> <LI>
-
-<B>Teemu Rantanen</B> (<A HREF="mailto:tvr@cs.hut.fi">tvr@cs.hut.fi</A>)
-implemented the SID emulation and the trap-based disk drive and serial bus
-implementation; added support for multiple display depths under X11.
-
-<P> <LI>
-
-<B>Andr&eacute; Fachat</B> (<A HREF="mailto:fachat@physik.tu-chemnitz.de">fachat@physik.tu-chemnitz.de</A>)
-wrote the PET and CBM-II emulators, the CIA and VIA emulation, the IEEE488
-interface, implemented the IEC serial bus in <CODE>xvic</CODE> and made tons
-of bug fixes.
-
-<P> <LI>
-
-<B>Daniel Sladic</B> (<A HREF="mailto:sladic@eecg.toronto.edu">sladic@eecg.toronto.edu</A>)
-started the work on hardware-level 1541 emulation and wrote the
-new monitor introduced with VICE 0.15.
-
-<P> <LI>
-
-<B>Andreas Boose</B> (<A HREF="mailto:boose@linux.rz.fh-hannover.de">boose@linux.rz.fh-hannover.de</A>)
-gave lots of information and bug reports about the VIC-II, the 6510 and
-the CIAs; moreover, he wrote several test-routines that were used to
-improve the emulation.  He also added cartridge support and has
-been the main head behind the drive emulation since version
-0.15.
-
-<P> <LI>
-
-<B>Dag Lem</B> (<A HREF="mailto:resid@nimrod.no">resid@nimrod.no</A>) implemented the reSID SID
-emulation engine.
-
-</UL> </P>
+<H2><A NAME="SEC144" HREF="vice_toc.html#TOC144">11.1  The T64 tape image format</A></H2>
 
 <P>
-Former team members:
-
-</P>
-
-<P> <UL>
-
-<P> <LI>
-
-<B>Jouko Valta</B> (<A HREF="mailto:jopi@stekt.oulu.fi">jopi@stekt.oulu.fi</A>) wrote <CODE>petcat</CODE> and
-<CODE>c1541</CODE>, <CODE>T64</CODE> handling, user service and
-maintenance (most of the work in x64 0.3.x was made by him); retired
-from the project in July 96, after VICE 0.10.0.
-
-<P> <LI>
-
-<B>Jarkko Sonninen</B> (<A HREF="mailto:sonninen@lut.fi">sonninen@lut.fi</A>) was the founder of the
-project, wrote the old version of the 6502 emulation and the XDebugger,
-and retired from the project after x64 0.2.1.
-
-</UL> </P>
-
-<P>
-External contributors:
-
-</P>
-
-<P> <UL>
-
-<P> <LI>
-
-<B>Michael Schwendt</B> (<A HREF="mailto:sidplay@geocities.com">sidplay@geocities.com</A>) helped with the
-SID (audio) chip emulation, bringing important suggestions and bug
-reports, as well as the wave tables and filter emulation from his
-SIDplay emulator.
-
-<P> <LI>
-
-<B>Christian Bauer</B> (<A HREF="mailto:bauec002@goofy.zdv.uni-mainz.de">bauec002@goofy.zdv.uni-mainz.de</A>) wrote
-the very interesting "VIC article" from which we got invaluable
-information about the VIC-II chip: without this, the VIC-II
-implementation would have not been possible.
-
-<P> <LI>
-
-<B>Wolfgang Lorenz</B> wrote an excellent 6510 test suite that helped us
-to debug the CPU emulation.
-
-<P> <LI>
-
-<B>Giuliano Procida</B> (<A HREF="mailto:gpp10@cam.ac.uk">gpp10@cam.ac.uk</A>) is the maintainer
-of the VICE <CODE>deb</CODE> package for the Debian distribution, and also
-helped proofreading the documentation.
-
-<P> <LI>
-
-<B>Marko M&auml;kel&auml;</B> (<A HREF="mailto:msmakela@nic.funet.fi">msmakela@nic.funet.fi</A>) wrote lots of CPU
-documentation.
-
-<P> <LI>
-
-<B>Martin Pottendorfer</B> (<A HREF="mailto:Martin.Pottendorfer@aut.alcatel.at">Martin.Pottendorfer@aut.alcatel.at</A>)
-implemented the "Contents" button in the file selector and provided us with
-several suggestions and constant testing of constantly broken snapshots.
-
-<P> <LI>
-
-<B>Chris Sharp</B> (<A HREF="mailto:sharpc@hurlsey.ibm.com">sharpc@hurlsey.ibm.com</A>) wrote the AIX sound
-driver.
-
-<P> <LI>
-
-<B>Krister Walfridsson</B> (<A HREF="mailto:cato@df.lth.se">cato@df.lth.se</A>) implemented joystick
-and sound support for NetBSD.
-
-<P> <LI>
-
-<B>Mattias Engdeg&acirc;rd</B> (<A HREF="mailto:f91-men@nada.kth.se">f91-men@nada.kth.se</A>) got non-default
-depths to work.
-
-<P> <LI>
-
-<B>Peter Andrew Felvegi aka Petschy</B> (<A HREF="mailto:petschy@derceto.sch.bme.hu">petschy@derceto.sch.bme.hu</A>)
-fixed a couple of bugs in the fast serial emulation.
-
-<P> <LI>
-
-<B>Olaf Seibert</B> (<A HREF="mailto:rhialto@polder.ubc.kun.nl">rhialto@polder.ubc.kun.nl</A>) contributed some PET,
-and disk drive patches.
-
-<P> <LI>
-
-<B>Daniel Fandrich</B> (<A HREF="mailto:dan@fch.wimsey.bc.ca">dan@fch.wimsey.bc.ca</A>) contributed some disk
-drive patches.
-
-<P> <LI>
-
-<B>Heiko Selber</B> (<A HREF="mailto:selber@fhi-berlin.mpg.de">selber@fhi-berlin.mpg.de</A>) contributed some VIC20
-I/O patches.
-
-<P> <LI>
-
-<B>Steven Tieu</B> (<A HREF="mailto:stieu@physics.ubc.ca">stieu@physics.ubc.ca</A>) added initial support for
-16/24 bpp X11 displays.
-
-<P> <LI>
-
-<B>Alexander Lehmann</B> (<A HREF="mailto:alex@mathematik.th-darmstadt.de">alex@mathematik.th-darmstadt.de</A>) added
-complete support for all the VIC20 memory configurations for the old
-VICE 0.12.
-
-<P> <LI>
-
-<B>Lionel Ulmer</B> implemented joystick support for Linux and a first try of a
-SID emulation for SGI machines.
-
-<P> <LI>
-
-<B>Bernhard Kuhn</B> (<A HREF="mailto:kuhn@eikon.e-technik.tu-muenchen.de">kuhn@eikon.e-technik.tu-muenchen.de</A>)
-made some joystick improvements for Linux.
-
-<P> <LI>
-
-<B>Gerhard Wesp</B> (<A HREF="mailto:gwesp@cosy.sbg.ac.at">gwesp@cosy.sbg.ac.at</A>) contributed the
-<CODE>extract</CODE> command in <CODE>c1541</CODE>.
-
-<P> <LI>
-
-<B>Ricardo Ferreira</B> (<A HREF="mailto:storm@esoterica.pt">storm@esoterica.pt</A>) contributed the
-<CODE>unlynx</CODE> and <CODE>system</CODE> commands in <CODE>c1541</CODE>.
-
-<P> <LI>
-
-<B>Tomi Ollila</B> (<A HREF="mailto:Tomi.Ollila@tfi.net">Tomi.Ollila@tfi.net</A>) donated <CODE>findpath.c</CODE>.
-
-<P> <LI>
-
-<B>Richard Hable</B> (<A HREF="mailto:hab@fim.uni-linz.ac.at">hab@fim.uni-linz.ac.at</A>) contributed the initial
-version of the REU Emulation.
-
-<P> <LI>
-
-<B>Vesa-Matti Puro</B> (<A HREF="mailto:vmp@lut.fi">vmp@lut.fi</A>) wrote the very first 6502 CPU
-emulator in x64 0.1.0.  That was the beginning of the story...
-
-<P> <LI>
-
-<B>Dan Miner</B> (<A HREF="mailto:dminer@nyx10.cs.du.edu">dminer@nyx10.cs.du.edu</A>) contributed some patches
-to the fast disk drive emulation.
-
-<P> <LI>
-
-<B>Frank Prindle</B> (<A HREF="mailto:Frank.Prindle@lambada.oit.unc.edu">Frank.Prindle@lambada.oit.unc.edu</A>)
-contributed some patches.
-
-<P> <LI>
-
-<B>Peter Weighill</B> (<A HREF="mailto:stuce@csv.warwick.ac.uk">stuce@csv.warwick.ac.uk</A>) gave many ideas and
-contributed the ROM patcher.
-
-<P> <LI>
-
-<B>Dominique Strigl</B> (<A HREF="mailto:strigl@sxb.bsf.alcatel.fr">strigl@sxb.bsf.alcatel.fr</A>), <B>Craig Jackson</B>
-(<A HREF="mailto:Craig.Jackson@lambada.oit.unc.edu">Craig.Jackson@lambada.oit.unc.edu</A>) and <B>Lasse Jyrkinen</B>
-((<A HREF="mailto:Lasse.Jyrkinen@uz.kuleuven.ac.be">Lasse.Jyrkinen@uz.kuleuven.ac.be</A>) contributed miscellaneous
-patches in the old X64 times.
-
-<P> <LI>
-
-<B>Per Olofsson</B> (<A HREF="mailto:MagerValp@Goth.Org">MagerValp@Goth.Org</A>) digitalized the C64 colors
-used in the default palette.
-
-<P> <LI>
-
-<B>Paul David Doherty</B> (<A HREF="mailto:h0142kdd@rz.hu-berlin.de">h0142kdd@rz.hu-berlin.de</A>) wrote
-<CODE>zip2disk</CODE>, on which the Zipcode support in <CODE>c1541</CODE> is based.
-
-<P> <LI>
-
-<B>Robert H. Forsman Jr.</B>, <B>Brian Totty</B> (<A HREF="mailto:totty@cs.uiuc.edu">totty@cs.uiuc.edu</A>)
-and <B>Robert W. McMullen</B> (<A HREF="mailto:rwmcm@orion.ae.utexas.edu">rwmcm@orion.ae.utexas.edu</A>) provided the
-widget set for implementing the <CODE>Xaw</CODE> GUI.
-
-<P> <LI>
-
-<B>Shawn Hargreaves</B> (<A HREF="mailto:shawn@talula.demon.co.uk">shawn@talula.demon.co.uk</A>) wrote
-Allegro, the graphics and audio library used in the MS-DOS version.
-
-</UL> </P>
-
-<P>
-(We hope we have not forgotten anybody; if you think we have, please
-tell us.)
+(This section was taken from the C64S distribution.)
 
 </P>
 <P>
-Thanks also to everyone else for sending suggestions, ideas,
-bug reports, questions and requests.  In particular, a warm thank
-goes to the following people:
+The <CODE>T64</CODE> File Structure was developed by Miha Peternel for use in
+the C64S emulator.  It is easy to use and allows future extensions.
+
+</P>
+
+
+
+<H3><A NAME="SEC145" HREF="vice_toc.html#TOC145">11.1.1  T64 File structure</A></H3>
+
+<TABLE BORDER>
+
+<TR><TD><B>Offset</B></TD>
+
+<TD><B>Size</B></TD>
+<TD><B>Description</B></TD>
+</TR>
+<TR><TD>0</TD>
+
+<TD>64</TD>
+<TD>tape record</TD>
+</TR>
+<TR><TD>64</TD>
+
+<TD>32*n</TD>
+<TD>file records for n directory entries</TD>
+</TR>
+<TR><TD>64+32*n</TD>
+
+<TD>varies</TD>
+<TD>binary contents of the files</TD>
+</TR></TABLE>
+
+
+
+<H3><A NAME="SEC146" HREF="vice_toc.html#TOC146">11.1.2  Tape Record</A></H3>
+
+<TABLE BORDER>
+
+<TR><TD><B>Offset</B></TD>
+
+<TD><B>Size</B></TD>
+<TD><B>Description</B></TD>
+</TR>
+<TR><TD>0</TD>
+
+<TD>32</TD>
+<TD>DOS tape description + EOF (for type)</TD>
+</TR>
+<TR><TD>32</TD>
+
+<TD>2</TD>
+<TD>tape version ($0200)</TD>
+</TR>
+<TR><TD>34</TD>
+
+<TD>2</TD>
+<TD>number of directory entries</TD>
+</TR>
+<TR><TD>36</TD>
+
+<TD>2</TD>
+<TD>number of used entries (can be 0 in my loader)</TD>
+</TR>
+<TR><TD>38</TD>
+
+<TD>2</TD>
+<TD>free</TD>
+</TR>
+<TR><TD>40</TD>
+
+<TD>4</TD>
+<TD>user description as displayed in tape menu</TD>
+</TR></TABLE>
+
+
+
+<H3><A NAME="SEC147" HREF="vice_toc.html#TOC147">11.1.3  File record</A></H3>
+
+<TABLE BORDER>
+
+<TR><TD><B>Offset</B></TD>
+
+<TD><B>Size</B></TD>
+<TD><B>Description</B></TD>
+</TR>
+<TR><TD>0</TD>
+
+<TD>1</TD>
+<TD>entry type (see below)</TD>
+</TR>
+<TR><TD>1</TD>
+
+<TD>1</TD>
+<TD>C64 file type</TD>
+</TR>
+<TR><TD>2</TD>
+
+<TD>2</TD>
+<TD>start address</TD>
+</TR>
+<TR><TD>4</TD>
+
+<TD>2</TD>
+<TD>end address</TD>
+</TR>
+<TR><TD>6</TD>
+
+<TD>2</TD>
+<TD>free</TD>
+</TR>
+<TR><TD>8</TD>
+
+<TD>4</TD>
+<TD>offset of file contents start within T64 file</TD>
+</TR>
+<TR><TD>12</TD>
+
+<TD>4</TD>
+<TD>free</TD>
+</TR>
+<TR><TD>16</TD>
+
+<TD>16</TD>
+<TD>C64 file name</TD>
+</TR></TABLE>
+
+<P>
+Valid file types are:
+
+</P>
+<TABLE BORDER>
+
+<TR><TD><B>Code</B></TD>
+
+<TD><B>Explanation</B></TD>
+</TR>
+<TR><TD><CODE>0</CODE></TD>
+
+<TD>free entry</TD>
+</TR>
+<TR><TD><CODE>1</CODE></TD>
+
+<TD>normal tape file</TD>
+</TR>
+<TR><TD><CODE>2</CODE></TD>
+
+<TD>tape file with header: header is saved just before file data</TD>
+</TR>
+<TR><TD><CODE>3</CODE></TD>
+
+<TD>memory snapshot v0.9, uncompressed</TD>
+</TR>
+<TR><TD><CODE>4</CODE></TD>
+
+<TD>tape block</TD>
+</TR>
+<TR><TD><CODE>5</CODE></TD>
+
+<TD>digitized stream</TD>
+</TR>
+<TR><TD><CODE>6</CODE> ... <CODE>255</CODE></TD>
+
+<TD>reserved</TD>
+</TR></TABLE>
+
+<P>
+Notes:
 
 </P>
 
 <P> <UL>
+<P> <LI>VICE only supports file type <CODE>1</CODE>.
 
-<P> <LI>
+<P> <LI>Types <CODE>3</CODE>, <CODE>4</CODE> and <CODE>5</CODE> are subject to change (and
 
-<B>Lutz Sammer</B>
-<P> <LI>
-
-<B>Ralph Mason</B> (<A HREF="mailto:RALPHM@msmail02.liffe.com">RALPHM@msmail02.liffe.com</A>)
-<P> <LI>
-
-<B>George Caswell</B> (<A HREF="mailto:timbuktu@the-eye.res.wpi.edu">timbuktu@the-eye.res.wpi.edu</A>)
-<P> <LI>
-
-<B>Per Olofsson</B> (<A HREF="mailto:MagerValp@goth.org">MagerValp@goth.org</A>)
-<P> <LI>
-
-<B>Jasper Phillips</B> (<A HREF="mailto:philljas@newt.cs.orst.edu">philljas@newt.cs.orst.edu</A>)
-<P> <LI>
-
-<B>Luca Forcucci</B> (<A HREF="mailto:frk@geocities.com">frk@geocities.com</A>)
-<P> <LI>
-
-<B>Asger Alstrup</B> (<A HREF="mailto:alstrup@diku.dk">alstrup@diku.dk</A>)
-<P> <LI>
-
-<B>Bernhard Schwall</B> (<A HREF="mailto:uzs484@uni-bonn.de">uzs484@uni-bonn.de</A>)
-<P> <LI>
-
-<B>Salvatore Valente</B> (<A HREF="mailto:svalente@mit.edu">svalente@mit.edu</A>)
-<P> <LI>
-
-<B>Arthur Hagen</B> (<A HREF="mailto:art@broomstick.com">art@broomstick.com</A>)
-<P> <LI>
-
-<B>Douglas Carmichael</B> (<A HREF="mailto:dcarmich@mcs.com">dcarmich@mcs.com</A>)
-<P> <LI>
-
-<B>Ferenc Veres</B> (<A HREF="mailto:lion@c64.rulez.org">lion@c64.rulez.org</A>)
-<P> <LI>
-
-<B>Andrea Musuruane</B> (<A HREF="mailto:musuruan@biella.alpcom.it">musuruan@biella.alpcom.it</A>)
-<P> <LI>
-
-<B>Frank Reichel</B> (<A HREF="mailto:Frank.Reichel@forchheim.baynet.de">Frank.Reichel@forchheim.baynet.de</A>)
-<P> <LI>
-
-<B>Ullrich von Bassewitz</B>
-<P> <LI>
-
-<B>Holger Busse</B>
+are rarely  used).
 </UL> </P>
 
+
+
+<H2><A NAME="SEC148" HREF="vice_toc.html#TOC148">11.2  The G64 GCR-encoded disk image format</A></H2>
+
 <P>
-Last but not least, a very special thank to Andreas Arens, Lutz Sammer,
-Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel and Per
-H&acirc;kan Sundell for writing cool emulators to compete with.  <TT>:-)</TT>
+(This section was contributed by Peter Schepers
+(<A HREF="mailto:schepers@ist.uwaterloo.ca">schepers@ist.uwaterloo.ca</A>) and slightly edited by Ettore
+Perazzoli (<A HREF="mailto:ettore@comm2000.it">ettore@comm2000.it</A>).)
+
+</P>
+<P>
+This format was defined in 1998 as a cooperative effort between several
+emulator people, mainly Per Hakan Sundell, author of the CCS64 C64
+emulator, Andreas Boose of the VICE CBM emulator team and Joe
+Forster/STA, the author of Star Commander.  It was the first real public
+attempt to create a format for the emulator community which removed
+almost all of the drawbacks of the other existing image formats, namely
+<CODE>D64</CODE>.
+
+</P>
+<P>
+The intention behind <CODE>G64</CODE> is not to replace the widely used
+<CODE>D64</CODE> format, as <CODE>D64</CODE> works fine with the vast majority of
+disks in existence.  It is intended for those small percentage of
+programs which demand to work with the 1541 drive in a non-standard way,
+such as reading or writing data in a custom format.  The best example is
+with speeder software such as Action Cartridge in Warp Save mode or
+Vorpal which write track/sector data in another format other than
+standard GCR.  The other obvious example is copy-protected software
+which looks for some specific data on a track, like the disk ID, which
+is not stored in a standard <CODE>D64</CODE> image.
+
+</P>
+<P>
+<CODE>G64</CODE> has a deceptively simply layout for what it is capable of
+doing.  We have a signature, version byte, some predefined size values,
+and a series of offsets to the track data and speed zones.  It is what's
+contained in the track data areas and speed zones which is really at the
+heart of this format.
+
+</P>
+<P>
+Each track entry in simply the raw stream of GCR data, just what a read
+head would see when a diskette is rotating past it.  How the data gets
+interpreted is up to the program trying to access the disk.  Because the
+data is stored in such a low-level manner, just about anything can be
+done.  Most of the time I would suspect the data in the track would be
+standard sectors, with SYNC, GAP, header, data and checksums.  The
+arrangement of the data when it is in a standard GCR sector layout is
+beyond the scope of this document.
+
+</P>
+<P>
+Since it is a flexible format in both track count and track byte size,
+there is no "standard" file size.  However, given a few constants like
+42 tracks and halftracks, a track size of 7928 bytes and no speed offset
+entries, the typical file size will a minimum of 333744 bytes.
+
+</P>
+<P>
+Below is a dump of the header, broken down into its various parts.
+After that will be an explanation of the track offset and speed zone
+offset areas, as they demand much more explanation.
 
 </P>
 
+<PRE>
+Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+----  -----------------------------------------------
+0000: 47 43 52 2D 31 35 34 31 00 54 F8 1E .. .. .. ..
+</PRE>
+
+<TABLE BORDER>
+
+<TR><TD><B>Offset</B></TD>
+
+<TD><B>Description</B></TD>
+</TR>
+<TR><TD>$0000-0007</TD>
+
+<TD>File signature (<CODE>GCR-1541</CODE>)</TD>
+</TR>
+<TR><TD>$0008</TD>
+
+<TD><CODE>G64</CODE> version (presently only $00 defined)</TD>
+</TR>
+<TR><TD>$0009</TD>
+
+<TD>Number of tracks in image (usually $54, decimal 84)</TD>
+</TR>
+<TR><TD>$000A-000B</TD>
+
+<TD>Size of each stored track in bytes (usually 7928, or $1EF8) in LO/HI format.</TD>
+</TR></TABLE>
+
+<P>
+An obvious question here is "why are there 84 tracks defined when a
+normal <CODE>D64</CODE> disk only has 35 tracks?"  Well, by definition, this
+image includes all half-tracks, so there are actually 42 tracks and 42
+half tracks.  The 1541 stepper motor can access up to 42 tracks and the
+in-between half-tracks.  Even though using more than 35 tracks is not
+typical, it was important to define this format from the start with what
+the 1541 is capable of doing, and not just what it typically does.
+
+</P>
+<P>
+At first, the defined track size value of 7928 bytes may seem to be
+arbitrary, but it is not.  It is determined by the fastest write speed
+possible (speed zone 0), coupled with the average rotation speed of the
+disk (300 rpm).  After some math, the answer that actually comes up is
+7692 bytes.  Why the discrepency between the actual size of 7692 and the
+defined size of 7928? Simply put, not all drives rotate at 300 rpm.
+Some can be faster or slower, so a upper safety margin of +3% was built
+added, in case some disks rotate slower and can write more data.  After
+applying this safety factor, and some rounding-up, 7928 bytes per track
+was arrived at.
+
+</P>
+<P>
+Also note that this upper limit of 7928 bytes per track really only
+applies to 1541 and compatible disks.  If this format were applied to
+another disk type like the SFD1001, this value would be higher.
+
+</P>
+<P>
+Below is a dump of the first section of a <CODE>G64</CODE> file, showing the offsets
+to the data portion for each track and half-track entry. Following that
+is a dump of the speed zone offsets.
+
+</P>
+
+<PRE>
+Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+----  -----------------------------------------------
+0000: .. .. .. .. .. .. .. .. .. .. .. .. AC 02 00 00
+0010: 00 00 00 00 A6 21 00 00 00 00 00 00 A0 40 00 00
+0020: 00 00 00 00 9A 5F 00 00 00 00 00 00 94 7E 00 00
+0030: 00 00 00 00 8E 9D 00 00 00 00 00 00 88 BC 00 00
+0040: 00 00 00 00 82 DB 00 00 00 00 00 00 7C FA 00 00
+0050: 00 00 00 00 76 19 01 00 00 00 00 00 70 38 01 00
+0060: 00 00 00 00 6A 57 01 00 00 00 00 00 64 76 01 00
+0070: 00 00 00 00 5E 95 01 00 00 00 00 00 58 B4 01 00
+0080: 00 00 00 00 52 D3 01 00 00 00 00 00 4C F2 01 00
+0090: 00 00 00 00 46 11 02 00 00 00 00 00 40 30 02 00
+00A0: 00 00 00 00 3A 4F 02 00 00 00 00 00 34 6E 02 00
+00B0: 00 00 00 00 2E 8D 02 00 00 00 00 00 28 AC 02 00
+00C0: 00 00 00 00 22 CB 02 00 00 00 00 00 1C EA 02 00
+00D0: 00 00 00 00 16 09 03 00 00 00 00 00 10 28 03 00
+00E0: 00 00 00 00 0A 47 03 00 00 00 00 00 04 66 03 00
+00F0: 00 00 00 00 FE 84 03 00 00 00 00 00 F8 A3 03 00
+0100: 00 00 00 00 F2 C2 03 00 00 00 00 00 EC E1 03 00
+0110: 00 00 00 00 E6 00 04 00 00 00 00 00 E0 1F 04 00
+0120: 00 00 00 00 DA 3E 04 00 00 00 00 00 D4 5D 04 00
+0130: 00 00 00 00 CE 7C 04 00 00 00 00 00 C8 9B 04 00
+0140: 00 00 00 00 C2 BA 04 00 00 00 00 00 BC D9 04 00
+0150: 00 00 00 00 B6 F8 04 00 00 00 00 00 .. .. .. ..
+</PRE>
+
+<TABLE BORDER>
+
+<TR><TD><B>Offset</B></TD>
+
+<TD><B>Description</B></TD>
+</TR>
+<TR><TD>$000C-000F</TD>
+
+<TD>Offset to stored track 1.0 ($000002AC, in LO/HI format, see below for more)</TD>
+</TR>
+<TR><TD>$0010-0013</TD>
+
+<TD>Offset to stored track 1.5 ($00000000)</TD>
+</TR>
+<TR><TD>$0014-0017</TD>
+
+<TD>Offset to stored track 2.0 ($000021A6)</TD>
+</TR>
+<TR><TD>...</TD>
+
+</TR>
+<TR><TD>$0154-0157</TD>
+
+<TD>Offset to stored track 42.0 ($0004F8B6)</TD>
+</TR>
+<TR><TD>$0158-015B</TD>
+
+<TD>Offset to stored track 42.5 ($00000000)</TD>
+</TR></TABLE>
+
+
+<PRE>
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+      -----------------------------------------------
+0150: .. .. .. .. .. .. .. .. .. .. .. .. 03 00 00 00
+0160: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+0170: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+0180: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+0190: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+01A0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+01B0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+01C0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+01D0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+01E0: 00 00 00 00 02 00 00 00 00 00 00 00 02 00 00 00
+01F0: 00 00 00 00 02 00 00 00 00 00 00 00 02 00 00 00
+0200: 00 00 00 00 02 00 00 00 00 00 00 00 02 00 00 00
+0210: 00 00 00 00 02 00 00 00 00 00 00 00 01 00 00 00
+0220: 00 00 00 00 01 00 00 00 00 00 00 00 01 00 00 00
+0230: 00 00 00 00 01 00 00 00 00 00 00 00 01 00 00 00
+0240: 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00
+0250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0260: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0270: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0290: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+02A0: 00 00 00 00 00 00 00 00 00 00 00 00 .. .. .. ..
+</PRE>
+
+<TABLE BORDER>
+
+<TR><TD><B>Offset</B></TD>
+
+<TD><B>Description</B></TD>
+</TR>
+<TR><TD>$015C-015F</TD>
+
+<TD>Speed zone entry for track 1 ($03, in LO/HI  format, see below for more)</TD>
+</TR>
+<TR><TD>$0160-0163</TD>
+
+<TD>Speed zone entry for track 1.5 ($03)</TD>
+</TR>
+<TR><TD>...</TD>
+
+</TR>
+<TR><TD>$02A4-02A7</TD>
+
+<TD>Speed zone entry for track 42 ($00)</TD>
+</TR>
+<TR><TD>$02A8-02AB</TD>
+
+<TD>Speed zone entry for track 42.5 ($00)</TD>
+</TR></TABLE>
+
+<P>
+Starting here at $02AC is the first track entry (from above, it is the
+first entry for track 1.0)
+
+</P>
+<P>
+The track offsets (from above) require some explanation.  When one is
+set to all 0's, no track data exists for this entry.  If there is a
+value, it is an absolute reference into the file (starting from the
+beginning of the file).  From the track 1.0 entry we see it is set for
+$000002AC.  Going to that file offset, here is what we see...
+
+</P>
+
+<PRE>
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+      -----------------------------------------------
+02A0: .. .. .. .. .. .. .. .. .. .. .. .. 0C 1E FF FF
+02B0: FF FF FF 52 54 B5 29 4B 7A 5E 95 55 55 55 55 55
+02C0: 55 55 55 55 55 55 FF FF FF FF FF 55 D4 A5 29 4A
+02D0: 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52
+</PRE>
+
+<TABLE BORDER>
+
+<TR><TD><B>Offset</B></TD>
+
+<TD><B>Description</B></TD>
+</TR>
+<TR><TD>$02AC-02AD</TD>
+
+<TD>Actual size of stored track (7692 or $1E0C, in LO/HI format)</TD>
+</TR>
+<TR><TD>$02AE-02AE+$1E0C</TD>
+
+<TD>Track data</TD>
+</TR></TABLE>
+
+<P>
+Following the track data is filler bytes.  In this case, there are 368
+bytes of unused space.  This space can contain anything, but for the
+sake of those wishing to compress these images for storage, they should
+all be set to the same value.  In the sample I used, these are all set
+to $FF.
+
+</P>
+<P>
+Below is a dump of the end of the track 1.0 data area.  Note the actual
+track data ends at address $20B9, with the rest of the block being
+unused, and set to $FF.
+
+</P>
+
+<PRE>
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+      -----------------------------------------------
+1FE0: 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52
+1FF0: 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94
+2000: A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5
+2010: 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29
+2020: 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A
+2030: 55 55 55 55 55 55 FF FF FF FF FF FF FF FF FF FF
+2040: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2050: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2060: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2070: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2080: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2090: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20A0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20B0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20C0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20D0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20E0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20F0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2100: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2110: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2120: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2130: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2140: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2150: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2160: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2170: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2180: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2190: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+21A0: FF FF FF FF FF FF .. .. .. .. .. .. .. .. .. ..
+</PRE>
+
+<P>
+The speed offset entries can be a little more complex. The 1541 has four
+speed zones defined, which means the drive can write data at four
+distinct speeds.  On a normal 1541 disk, these zones are as follows:
+
+</P>
+<TABLE BORDER>
+
+<TR><TD><B>Track Range</B></TD>
+
+<TD><B>Speed Zone</B></TD>
+</TR>
+<TR><TD>1-17</TD>
+
+<TD>3  (lowest writing speed)</TD>
+</TR>
+<TR><TD>18-24</TD>
+
+<TD>2</TD>
+</TR>
+<TR><TD>25-30</TD>
+
+<TD>1</TD>
+</TR>
+<TR><TD>31 and up</TD>
+
+<TD>0 (highest writing speed)</TD>
+</TR></TABLE>
+
+<P>
+Note that you can, through custom programming of the 1541, change the
+speed zone of any track to something different (change the 3 to a 0) and
+write data differently.  From the dump of the speed offset entries
+above, we see that all the entries are in the range of 0-3. If any entry
+is less than 4, this is not considered a speed offset but defines the
+whole track to be recorded at that one speed.
+
+</P>
+<P>
+In the example I had, there were no offsets defined, so no speed zone
+dump can be shown.  However, I can define what should be there.  You
+will have a block of data, 1982 bytes long.  Each byte is encoded to
+represent the speed of 4 bytes in the track offset area, and is broken
+down as follows:
+
+</P>
+
+<PRE>
+Speed entry $FF:  in binary %11111111
+                             |'|'|'|'
+                             | | | |
+                             | | | +- 4'th byte speed (binary 11, 3 dec)
+                             | | +--- 3'rd byte speed (binary 11, 3 dec)
+                             | +----- 2'nd byte speed (binary 11, 3 dec)
+                             +------- 1'st byte speed (binary 11, 3 dec)
+</PRE>
+
+<P>
+It was very smart thinking to allow for two speed zone settings, one in
+the offset block and another defining the speed on a per-byte basis.  If
+you are working with a normal disk, where each track is one constant
+speed, then you don't need the extra blocks of information hanging
+around the image, wasting space.
+
+</P>
+<P>
+What may not be obvious is the flexibility of this format to add tracks
+and speed offset zones at will.  If a program decides to write a track
+out with varying speeds, and no speed offset exist, a new block will be
+created by appending it to the end of the image, and the offset pointer
+for that track set to point to the new block.  If a track has no offset
+yet, meaning it doesn't exist (like a half-track), and one needs to be
+added, the same procedure applies.  The location of the actual track or
+speed zone data is not important, meaning they do not have to be in any
+particular order since they are all referenced by the offsets at the
+beginning of the image.
+
+</P>
 <P><HR><P>
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_10.html">previous</A>, <A HREF="vice_12.html">next</A>, <A HREF="vice_15.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_10.html">previous</A>, <A HREF="vice_12.html">next</A>, <A HREF="vice_16.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 </BODY>
 </HTML>

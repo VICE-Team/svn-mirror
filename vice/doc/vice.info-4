@@ -782,7 +782,7 @@ Miscellaneous commands
      Display the specified number in decimal, hex, octal and binary.
 
 
-File: vice.info,  Node: c1541,  Next: Acknowledgments,  Prev: Monitor,  Up: Top
+File: vice.info,  Node: c1541,  Next: File formats,  Prev: Monitor,  Up: Top
 
 c1541
 *****
@@ -919,266 +919,98 @@ standard output, depending on the context.
 are executed in the same order they have on the command line.
 
 
-File: vice.info,  Node: Acknowledgments,  Next: Copyright,  Prev: c1541,  Up: Top
+File: vice.info,  Node: File formats,  Next: Acknowledgments,  Prev: c1541,  Up: Top
 
-Acknowledgments
-***************
+The emulator file formats
+*************************
 
-   VICE derives from X64, the first Commodore 64 emulator for the X
-Window System.  Here is an informal list of the people who were mostly
-involved in the development of X64 and VICE:
-
-   The VICE core team:
-
-   * Ettore Perazzoli (<ettore@comm2000.it>) made the 6510, VIC-II,
-     VIC-I and CRTC emulations, part of the hardware-level 1541
-     emulation, speed optimizations, bug fixes, the event-driven
-     cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a general
-     code reorganization, the new resource handling, most of the
-     documentation and the MS-DOS port (well, somebody had to do it).
-
-   * Teemu Rantanen (<tvr@cs.hut.fi>) implemented the SID emulation and
-     the trap-based disk drive and serial bus implementation; added
-     support for multiple display depths under X11.
-
-   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) wrote the PET and
-     CBM-II emulators, the CIA and VIA emulation, the IEEE488
-     interface, implemented the IEC serial bus in `xvic' and made tons
-     of bug fixes.
-
-   * Daniel Sladic (<sladic@eecg.toronto.edu>) started the work on
-     hardware-level 1541 emulation and wrote the new monitor introduced
-     with VICE 0.15.
-
-   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) gave lots of
-     information and bug reports about the VIC-II, the 6510 and the
-     CIAs; moreover, he wrote several test-routines that were used to
-     improve the emulation.  He also added cartridge support and has
-     been the main head behind the drive emulation since version 0.15.
-
-   * Dag Lem (<resid@nimrod.no>) implemented the reSID SID emulation
-     engine.
-
-   Former team members:
-
-   * Jouko Valta (<jopi@stekt.oulu.fi>) wrote `petcat' and `c1541',
-     `T64' handling, user service and maintenance (most of the work in
-     x64 0.3.x was made by him); retired from the project in July 96,
-     after VICE 0.10.0.
-
-   * Jarkko Sonninen (<sonninen@lut.fi>) was the founder of the
-     project, wrote the old version of the 6502 emulation and the
-     XDebugger, and retired from the project after x64 0.2.1.
-
-   External contributors:
-
-   * Michael Schwendt (<sidplay@geocities.com>) helped with the SID
-     (audio) chip emulation, bringing important suggestions and bug
-     reports, as well as the wave tables and filter emulation from his
-     SIDplay emulator.
-
-   * Christian Bauer (<bauec002@goofy.zdv.uni-mainz.de>) wrote the very
-     interesting "VIC article" from which we got invaluable information
-     about the VIC-II chip: without this, the VIC-II implementation
-     would have not been possible.
-
-   * Wolfgang Lorenz wrote an excellent 6510 test suite that helped us
-     to debug the CPU emulation.
-
-   * Giuliano Procida (<gpp10@cam.ac.uk>) is the maintainer of the VICE
-     `deb' package for the Debian distribution, and also helped
-     proofreading the documentation.
-
-   * Marko M"akel"a (<msmakela@nic.funet.fi>) wrote lots of CPU
-     documentation.
-
-   * Martin Pottendorfer (<Martin.Pottendorfer@aut.alcatel.at>)
-     implemented the "Contents" button in the file selector and
-     provided us with several suggestions and constant testing of
-     constantly broken snapshots.
-
-   * Chris Sharp (<sharpc@hurlsey.ibm.com>) wrote the AIX sound driver.
-
-   * Krister Walfridsson (<cato@df.lth.se>) implemented joystick and
-     sound support for NetBSD.
-
-   * Mattias Engdeg^ard (<f91-men@nada.kth.se>) got non-default depths
-     to work.
-
-   * Peter Andrew Felvegi aka Petschy (<petschy@derceto.sch.bme.hu>)
-     fixed a couple of bugs in the fast serial emulation.
-
-   * Olaf Seibert (<rhialto@polder.ubc.kun.nl>) contributed some PET,
-     and disk drive patches.
-
-   * Daniel Fandrich (<dan@fch.wimsey.bc.ca>) contributed some disk
-     drive patches.
-
-   * Heiko Selber (<selber@fhi-berlin.mpg.de>) contributed some VIC20
-     I/O patches.
-
-   * Steven Tieu (<stieu@physics.ubc.ca>) added initial support for
-     16/24 bpp X11 displays.
-
-   * Alexander Lehmann (<alex@mathematik.th-darmstadt.de>) added
-     complete support for all the VIC20 memory configurations for the
-     old VICE 0.12.
-
-   * Lionel Ulmer implemented joystick support for Linux and a first
-     try of a SID emulation for SGI machines.
-
-   * Bernhard Kuhn (<kuhn@eikon.e-technik.tu-muenchen.de>) made some
-     joystick improvements for Linux.
-
-   * Gerhard Wesp (<gwesp@cosy.sbg.ac.at>) contributed the `extract'
-     command in `c1541'.
-
-   * Ricardo Ferreira (<storm@esoterica.pt>) contributed the `unlynx'
-     and `system' commands in `c1541'.
-
-   * Tomi Ollila (<Tomi.Ollila@tfi.net>) donated `findpath.c'.
-
-   * Richard Hable (<hab@fim.uni-linz.ac.at>) contributed the initial
-     version of the REU Emulation.
-
-   * Vesa-Matti Puro (<vmp@lut.fi>) wrote the very first 6502 CPU
-     emulator in x64 0.1.0.  That was the beginning of the story...
-
-   * Dan Miner (<dminer@nyx10.cs.du.edu>) contributed some patches to
-     the fast disk drive emulation.
-
-   * Frank Prindle (<Frank.Prindle@lambada.oit.unc.edu>) contributed
-     some patches.
-
-   * Peter Weighill (<stuce@csv.warwick.ac.uk>) gave many ideas and
-     contributed the ROM patcher.
-
-   * Dominique Strigl (<strigl@sxb.bsf.alcatel.fr>), Craig Jackson
-     (<Craig.Jackson@lambada.oit.unc.edu>) and Lasse Jyrkinen
-     ((<Lasse.Jyrkinen@uz.kuleuven.ac.be>) contributed miscellaneous
-     patches in the old X64 times.
-
-   * Per Olofsson (<MagerValp@Goth.Org>) digitalized the C64 colors
-     used in the default palette.
-
-   * Paul David Doherty (<h0142kdd@rz.hu-berlin.de>) wrote `zip2disk',
-     on which the Zipcode support in `c1541' is based.
-
-   * Robert H. Forsman Jr., Brian Totty (<totty@cs.uiuc.edu>) and
-     Robert W. McMullen (<rwmcm@orion.ae.utexas.edu>) provided the
-     widget set for implementing the `Xaw' GUI.
-
-   * Shawn Hargreaves (<shawn@talula.demon.co.uk>) wrote Allegro, the
-     graphics and audio library used in the MS-DOS version.
-
-   (We hope we have not forgotten anybody; if you think we have, please
-tell us.)
-
-   Thanks also to everyone else for sending suggestions, ideas, bug
-reports, questions and requests.  In particular, a warm thank goes to
-the following people:
-
-   * Lutz Sammer
-
-   * Ralph Mason (<RALPHM@msmail02.liffe.com>)
-
-   * George Caswell (<timbuktu@the-eye.res.wpi.edu>)
-
-   * Per Olofsson (<MagerValp@goth.org>)
-
-   * Jasper Phillips (<philljas@newt.cs.orst.edu>)
-
-   * Luca Forcucci (<frk@geocities.com>)
-
-   * Asger Alstrup (<alstrup@diku.dk>)
-
-   * Bernhard Schwall (<uzs484@uni-bonn.de>)
-
-   * Salvatore Valente (<svalente@mit.edu>)
-
-   * Arthur Hagen (<art@broomstick.com>)
-
-   * Douglas Carmichael (<dcarmich@mcs.com>)
-
-   * Ferenc Veres (<lion@c64.rulez.org>)
-
-   * Andrea Musuruane (<musuruan@biella.alpcom.it>)
-
-   * Frank Reichel (<Frank.Reichel@forchheim.baynet.de>)
-
-   * Ullrich von Bassewitz
-
-   * Holger Busse
-
-   Last but not least, a very special thank to Andreas Arens, Lutz
-Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel
-and Per H^akan Sundell for writing cool emulators to compete with.  :-)
-
-
-File: vice.info,  Node: Copyright,  Next: Contacts,  Prev: Acknowledgments,  Up: Top
-
-Copyright
-*********
-
-   Copyright (C) 1996-1998 Ettore Perazzoli
-
-   Copyright (C) 1996-1998 Andr'e Fachat
-
-   Copyright (C) 1993-1994, 1997-1998 Teemu Rantanen
-
-   Copyright (C) 1997-1998 Daniel Sladic
-
-   Copyright (C) 1998 Andreas Boose
-
-   Copyright (C) 1993-1996 Jouko Valta
-
-   Copyright (C) 1993-1994 Jarkko Sonninen
-
-   The reSID engine: Copyright (C) 1998 Dag Lem
-
-   This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or (at
-your option) any later version.
-
-   This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
-
-
-File: vice.info,  Node: Contacts,  Next: Concept Index,  Prev: Copyright,  Up: Top
-
-Contact information
-*******************
+   This chapter gives a technical description of the various files
+supported by the emulators.
 
 * Menu:
 
-* Home page::                   The official VICE WWW page.
-* Sending feedback::            How to report impressions and
-                                bugs to the authors.
-* Contributing::                How to help developing VICE.
-* Newsgroups::                  VICE-related Usenet groups.
-* FAQs you should read::        VICE-related Frequently Asked Questions.
+* T64::                         The tape image format
+* G64::                         The GCR-encoded disk image format
 
 
-File: vice.info,  Node: Home page,  Next: Sending feedback,  Prev: Contacts,  Up: Contacts
+File: vice.info,  Node: T64,  Next: G64,  Prev: File formats,  Up: File formats
 
-VICE home page
-==============
+The T64 tape image format
+=========================
 
-   You can find the latest news about VICE at the official VICE home
-page:
+   (This section was taken from the C64S distribution.)
 
-     http://www.tu-chemnitz.de/~fachat/vice/vice.html
+   The `T64' File Structure was developed by Miha Peternel for use in
+the C64S emulator.  It is easy to use and allows future extensions.
 
-   Also the public patches and beta releases will be available there as
-well, so you might want to have a look at it periodically.  If you are
-going to report a bug, please check those pages *first*; it is possible
-that the problem you encountered has already been fixed with a newer
-version.
+* Menu:
+
+* T64 file structure::
+* T64 tape record::
+* T64 file record::
+
+
+File: vice.info,  Node: T64 file structure,  Next: T64 tape record,  Prev: T64,  Up: T64
+
+T64 File structure
+------------------
+
+Offset                 Size                   Description                   
+0                      64                     tape record                   
+64                     32*n                   file records for n directory  
+                                              entries                       
+64+32*n                varies                 binary contents of the files  
+
+
+File: vice.info,  Node: T64 tape record,  Next: T64 file record,  Prev: T64 file structure,  Up: T64
+
+Tape Record
+-----------
+
+Offset                 Size                   Description                   
+0                      32                     DOS tape description + EOF    
+                                              (for type)                    
+32                     2                      tape version ($0200)          
+34                     2                      number of directory entries   
+36                     2                      number of used entries (can   
+                                              be 0 in my loader)            
+38                     2                      free                          
+40                     4                      user description as           
+                                              displayed in tape menu        
+
+
+File: vice.info,  Node: T64 file record,  Prev: T64 tape record,  Up: T64
+
+File record
+-----------
+
+Offset                 Size                   Description                   
+0                      1                      entry type (see below)        
+1                      1                      C64 file type                 
+2                      2                      start address                 
+4                      2                      end address                   
+6                      2                      free                          
+8                      4                      offset of file contents       
+                                              start within T64 file         
+12                     4                      free                          
+16                     16                     C64 file name                 
+
+   Valid file types are:
+
+Code                   Explanation                                        
+`0'                    free entry                                         
+`1'                    normal tape file                                   
+`2'                    tape file with header: header is saved just        
+                       before file data                                   
+`3'                    memory snapshot v0.9, uncompressed                 
+`4'                    tape block                                         
+`5'                    digitized stream                                   
+`6' ... `255'          reserved                                           
+
+   Notes:
+
+   * VICE only supports file type `1'.
+
+   * Types `3', `4' and `5' are subject to change (and are rarely
+     used).
 

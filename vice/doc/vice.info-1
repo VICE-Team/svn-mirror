@@ -19,7 +19,7 @@ permission notice identical to this one.
 
 File: vice.info,  Node: Top,  Next: License,  Prev: (dir),  Up: (dir)
 
-   This is the documentation for version 0.15 of VICE, the Versatile
+   This is the documentation for version 1.0 of VICE, the Versatile
 Commodore Emulator.
 
 * Menu:
@@ -43,6 +43,8 @@ Commodore Emulator.
 * Snapshots::                   Save the emulator state in one file
 * Monitor::                     The VICE built-in monitor.
 * c1541::                       The disk-image maintenance utility.
+
+* File formats::                Technical description of file formats.
 
 * Acknowledgments::             People involved in VICE.
 * Copyright::                   Legal stuff.
@@ -453,7 +455,7 @@ good as the C64 one, as they are still under construction.
 * Keyboard emulation::
 * Joystick emulation::
 * Disk drive emulation::
-* File formats::
+* Supported file formats::
 * Common problems::
 
 
@@ -664,7 +666,7 @@ and "custom".
 <c>, <v> for the directions and <space> for the fire button instead.
 
 
-File: vice.info,  Node: Disk drive emulation,  Next: File formats,  Prev: Joystick emulation,  Up: Preface
+File: vice.info,  Node: Disk drive emulation,  Next: Supported file formats,  Prev: Joystick emulation,  Up: Preface
 
 The disk drive emulation
 ========================
@@ -715,7 +717,7 @@ IEEE488 disk units, and no kernal traps are needed.  The same emulation
 of the Commodore IEEE488 bus interface is available for the C64.
 
 
-File: vice.info,  Node: File formats,  Next: Common problems,  Prev: Disk drive emulation,  Up: Preface
+File: vice.info,  Node: Supported file formats,  Next: Common problems,  Prev: Disk drive emulation,  Up: Preface
 
 Supported file formats
 ======================
@@ -742,8 +744,11 @@ that, although the emulators and utilities can both read and write on
 
      dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 
+   *Note File formats:: for a technical description of the supported
+file formats.
+
 
-File: vice.info,  Node: Common problems,  Prev: File formats,  Up: Preface
+File: vice.info,  Node: Common problems,  Prev: Supported file formats,  Up: Preface
 
 Common problems
 ===============
