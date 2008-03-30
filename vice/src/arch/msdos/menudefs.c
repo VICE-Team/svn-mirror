@@ -48,7 +48,7 @@
 #include "info.h"
 #include "machine.h"
 
-/* ------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------- */
 
 tui_menu_t ui_main_menu;
 tui_menu_t ui_attach_submenu;
@@ -63,14 +63,6 @@ tui_menu_t ui_reset_submenu;
 tui_menu_t ui_quit_submenu;
 tui_menu_t ui_info_submenu;
 
-#ifdef HAVE_TRUE1541
-tui_menu_t drive_submenu;
-#endif
-
-#ifdef CBM64
-tui_menu_t joystick_submenu;
-#endif
-
 /* ------------------------------------------------------------------------ */
 
 static TUI_MENU_CALLBACK(attach_disk_callback)
@@ -83,15 +75,13 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
 
 	s = (char *)serial_get_file_name((int)param);
 	fname_split(s, &directory, &default_item);
-	printf("directory = `%s', default_item = `%s'\n",
-	       directory, default_item);
-	
+
 	name = tui_file_selector("Attach a disk image", directory,
 				 "*.[dx]6[4z]", default_item,
 				 read_disk_image_contents);
 
 	if (name != NULL
-	    && strcasecmp(name, s) != 0
+	    && (s == NULL || strcasecmp(name, s) != 0)
 	    && serial_select_file(DT_DISK | DT_1541, (int)param, name) < 0) {
 	    tui_error("Invalid disk image.");
 	}
@@ -123,7 +113,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 				 read_tape_image_contents);
 
 	if (name != NULL
-	    && strcasecmp(s, name) != 0
+	    && (s == NULL || strcasecmp(s, name) != 0)
 	    && serial_select_file(DT_TAPE, 1, name) < 0) {
 	    tui_error("Invalid tape image.");
 	}
@@ -659,7 +649,7 @@ static tui_menu_item_def_t info_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-/* This is a bit of a hack, but I prefer this way instead of writing 1,000 
+/* This is a bit of a hack, but I prefer this way instead of writing 1,000
    menu entries...  */
 static void create_ui_video_submenu(void)
 {
@@ -728,6 +718,123 @@ static void create_ui_video_submenu(void)
 
 /* ------------------------------------------------------------------------- */
 
+TUI_MENU_DEFINE_TOGGLE(FileSystemDevice8)
+TUI_MENU_DEFINE_TOGGLE(FileSystemDevice9)
+TUI_MENU_DEFINE_TOGGLE(FileSystemDevice10)
+TUI_MENU_DEFINE_TOGGLE(FileSystemDevice11)
+
+TUI_MENU_DEFINE_TOGGLE(FSDevice8ConvertP00)
+TUI_MENU_DEFINE_TOGGLE(FSDevice9ConvertP00)
+TUI_MENU_DEFINE_TOGGLE(FSDevice10ConvertP00)
+TUI_MENU_DEFINE_TOGGLE(FSDevice11ConvertP00)
+
+TUI_MENU_DEFINE_TOGGLE(FSDevice8SaveP00)
+TUI_MENU_DEFINE_TOGGLE(FSDevice9SaveP00)
+TUI_MENU_DEFINE_TOGGLE(FSDevice10SaveP00)
+TUI_MENU_DEFINE_TOGGLE(FSDevice11SaveP00)
+
+static char *set_fsdevice_directory_callback(int been_activated,
+					     void *param)
+{
+    int unit = (int) param;
+    char *v;
+    char rname[256];
+
+    sprintf(rname, "FSDevice%dDir", unit);
+
+    if (been_activated) {
+	char *path;
+	int len = 255;
+
+	resources_get_value(rname, (resource_value_t *) &v);
+	if (len < strlen(v) * 2)
+	    len = strlen(v) * 2;
+	path = alloca(len + 1);
+	strcpy(path, v);
+	if (tui_input_string("Insert path",
+			     "Path:", path, len) != -1) {
+	    remove_spaces(path);
+	    fsdevice_set_directory(path, unit);
+	}
+    }
+
+    resources_get_value(rname, (resource_value_t *) &v);
+    return v;
+}
+
+tui_menu_item_def_t fsdevice_submenu[] = {
+    { "Device _8:  Allow access:",
+      "Allow device 8 to access the MS-DOS file system",
+      toggle_FileSystemDevice8_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Directory:",
+      "Specify access directory for device 8",
+      set_fsdevice_directory_callback, (void *) 8, 40,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Convert P00 names:",
+      "Handle P00 names on device 8",
+      toggle_FSDevice8ConvertP00_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Save P00 files:",
+      "Create P00 files on device 8",
+      toggle_FSDevice8SaveP00_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
+    { "Device _9:  Allow access:",
+      "Allow device 9 to access the MS-DOS file system",
+      toggle_FileSystemDevice9_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Directory:",
+      "Specify access directory for device 9",
+      set_fsdevice_directory_callback, (void *) 9, 40,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Convert P00 names:",
+      "Handle P00 names on device 9",
+      toggle_FSDevice9ConvertP00_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Save P00 files:",
+      "Create P00 files on device 9",
+      toggle_FSDevice9SaveP00_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
+    { "Device 1_0: Allow access:",
+      "Allow device 10 to access the MS-DOS file system",
+      toggle_FileSystemDevice10_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Directory:",
+      "Specify access directory for device 10",
+      set_fsdevice_directory_callback, (void *) 10, 40,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Convert P00 names:",
+      "Handle P00 names on device 10",
+      toggle_FSDevice10ConvertP00_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Save P00 files:",
+      "Create P00 files on device 10",
+      toggle_FSDevice10SaveP00_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
+    { "Device 1_1: Allow access:",
+      "Allow device 11 to access the MS-DOS file system",
+      toggle_FileSystemDevice11_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Directory:",
+      "Specify access directory for device 11",
+      set_fsdevice_directory_callback, (void *) 11, 40,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Convert P00 names:",
+      "Handle P00 names on device 11",
+      toggle_FSDevice11ConvertP00_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "           Save P00 files:",
+      "Create P00 files on device 11",
+      toggle_FSDevice11SaveP00_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static char *speed_submenu_callback(int been_activated,
 				    void *param_unused)
 {
@@ -750,6 +857,7 @@ static char *speed_callback(int been_activated, void *param)
 	if ((int)param < 0) {
 	    char buf[25];
 
+	    *buf = '\0';
 	    if (tui_input_string("Maximum Speed",
 				 "Enter maximum speed (%%):",
 				 buf, 25) == 0) {
@@ -808,6 +916,18 @@ static void create_special_submenu(void)
 			 "Specify a custom speed limit",
 			 speed_submenu, speed_submenu_callback,
 			 NULL, 5);
+
+
+    /* File system access.  */
+    {
+	tui_menu_t tmp = tui_menu_create("MS-DOS directory access", 1);
+
+	tui_menu_add(tmp, fsdevice_submenu);
+	tui_menu_add_submenu(ui_special_submenu,
+			     "MS-DOS _Directory Access",
+			     "Options to access MS-DOS directories from within the emulator",
+			     tmp, NULL, NULL, 0);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -952,7 +1072,7 @@ void ui_create_main_menu(int has_tape, int has_true1541)
 		      "Enter the built-in machine language monitor",
 		      monitor_callback, NULL, 0,
 		      TUI_MENU_BEH_RESUME);
-    
+
     ui_reset_submenu = tui_menu_create("Reset?", 1);
     tui_menu_add(ui_reset_submenu, reset_submenu);
     tui_menu_add_submenu(ui_main_menu, "_Reset " /* EMULATOR */,

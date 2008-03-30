@@ -1,3 +1,72 @@
+Fri Jun 12 17:47:37 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* fsdevice.c (flush_fs, open_fs, read_fs): Put a '/' after the
+ 	device-specific path.
+	(fs_test_pc64_name, fs_find_pc64_name): Likewise.
+	(fsdevice_compare_file_name, fsdevice_create_file_p00): Likewise.
+
+	* arch/unix/xaw/uisettings.c (UiSetCustom1541SyncFactor): Renamed
+ 	to `set_custom_true1541_sync_factor'.
+	(UiSetFSDeviceDirectory): Renamed to `set_fsdevice_directory'.
+  	Use a simple text requester instead of the file selector.
+
+	* c128/c128.c (machine_init): (Temporarily) call `c64_kbd_init()',
+ 	not `c128_kbd_init()'.
+
+	* arch/msdos/menudefs.c: New settings for FS/P00 access.
+
+	* arch/msdos/c128ui.c, arch/msdos/c128ui.h: New files.
+
+	* arch/msdos/video.c: New variable `in_gfx_mode'.
+	(enable_text, video_init): Set `in_gfx_mode' to 0.
+	(disable_text, canvas_set_vga_mode): Set `in_gfx_mode' to 1.
+	(canvas_set_palette): If in graphics mode, set the new VGA palette
+ 	colors.
+	(canvas_set_vga_mode): Set the VGA palette colors.
+
+Thu Jun 11 20:54:20 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/menudefs.c: Removed some unused conditionals.
+	(attach_disk_callback, attach_tape_callback): Handle the case when
+	no file is attached to the device and `serial_get_file_name()'
+	returns NULL.
+
+Wed Jun 10 22:26:59 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/petui.h: defined new PET model menues
+	(toggle_Crtc, toggle_Ram9, toggle_RamA, radio_VideoSize,
+	radio_RamSize, radio_IOSize, petui_set_model).
+
+	* pet/pet.c (set_model_name): Fixed `pet_set_model()' parameters.
+	Removed PET model resource/cmdline options.
+
+	* pet/petmem.c: Removed lots of single-variable resources moved
+ 	resource change functions and resource and cmdline option tables
+ 	to `pet/pets.c'.
+	(initialize_memory): Fixed to use `PetInfo pet' struct for mapping
+ 	info (`pet' is the new resource).
+	(mem_load): Use pet struct for ROM filenames.  Only set screen
+ 	width if video resource is set to Auto and we actually found a
+ 	known ROM
+	(set_screen): New function to set the screen width to the crtc.
+
+	* pet/pets.c (pet_table): Fixed up to new format.
+	(pet_set_model): Use resource fucntions to set all values from the
+ 	table to the pet struct (the new resource).
+	(check_info): New function.  Sets up derived variables in pet
+ 	struct
+	(set_iosize, set_crtc_enabled, set_kbd_type, set_ramsize,
+ 	set_video, set_ram_9_enabled, set_ram_a_enabled,
+ 	set_chargen_rom_name, set_kernal_rom_name, set_editor_rom_name,
+ 	set_rom_module_9_name, set_rom_module_a_name,
+ 	set_rom_module_b_name): resource change functions partly new and
+ 	partly moved from pet/petmem.c
+	(resources, pet_mem_init_resources, cmdline_options,
+ 	pet_mem_init_cmdline_options): PET hardware resources & cmdline
+ 	opts.
+
+	* pet/pets.h: New format of `struct PetInfo'.
+
 Mon Jun  8 11:08:16 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* maincpu.c: Use `mem_rom_trap_allowed()' instead of the removed

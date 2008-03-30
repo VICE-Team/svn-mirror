@@ -184,7 +184,7 @@ int machine_init(void)
     if (kbd_init("default.vkm") < 0)
         return -1;
 #else
-    if (c128_kbd_init() < 0)
+    if (c64_kbd_init() < 0)
         return -1;
 #endif
 
