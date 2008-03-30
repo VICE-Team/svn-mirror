@@ -193,8 +193,8 @@ al ae83 .bEVAL
 al aea8 .bPIVAL
 al aead .bQDOT
 al aef1 .bOARCHK
-al aef7 .bCHK)
-al aefa .bCHK(
+al aef7 .bCHKclose
+al aefa .bCHKopen
 al aefd .bCHKCMA
 al af08 .bSYNERR
 al af0d .bDOMIN

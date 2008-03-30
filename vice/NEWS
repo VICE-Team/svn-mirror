@@ -19,10 +19,20 @@ list of all the changes in the code.
 
 - Fixed a bug in NTSC sprite timing.
 
+- Pitfall 2 cartridge works again.
+
+- Added a symbol file for the built-in monitor which allows moni-
+  toring of ROM sections (use 'll "c64mem.sym"' inside the monitor)
+
 ** C128 changes
 ---------------
 
 - The Z80 emulation is almost complete now.
+
+** VIC20 changes
+----------------
+
+- Fixed geometry settings. Games that enlarge the screen work now.
 
 ** Drive changes
 ----------------
@@ -44,6 +54,13 @@ list of all the changes in the code.
 
 - Fixed bug in the drive dialog, now parallel drives can be selected.
 
+- Fixed NTSC timing.
+
+** MS-DOS changes
+-----------------
+
+- Fixed NTSC timing.
+
 ** BeOS changes
 ---------------
 
@@ -59,8 +76,14 @@ list of all the changes in the code.
 
 - display for the joystick state
 
+- preview for disk/tape images
+
 ** OS/2 changes
 ---------------
+
+- changed x64-icon
+
+- made icon visible as 'minimized icons'
 
 - added menu bar
 

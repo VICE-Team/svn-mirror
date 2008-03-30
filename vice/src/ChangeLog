@@ -1,3 +1,133 @@
+2000-12-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.23.
+
+	* arch/os2/Makefile.am: Removed reference to `vice2.ipf'.
+
+2000-12-10  Tibor Biczo  <crown@matavnet.hu>
+
+	* arch/win32/Makefile.am: Added statusbar.c and statusbar.h.
+
+	* arch/win32/arch.dsp: Removed print.c, added statusbar.c.
+
+	* arch/win32/c128ui.c, arch/win32/c64ui.c: Added shortcut key
+	to mouse emulation.
+
+	* arch/win32/fullscreen.c: Added compatibility code for old
+	Mingw headers (DUMMYUNIONNAME).
+	(fullscreen_transition): Signals transition into or from
+	fullscreen.
+	Removed DDSCL_NOWINDOWCHANGES flag from cooperation mode flags.
+	(SwitchToFullscreenMode): Perform color translation only when
+	the raster is existing.
+
+	* arch/win32/joystick.c: Define DIRECTINPUT_VERSION, this is
+	neccessary in order to compile with DX8 SDK.
+
+	* arch/win32/resc128.rc: Temporarily removed Fullscreen menu
+	entry from menu. Added shortcut to Mouse emulation menu entry.
+
+	* arch/win32/resc64.rc: Added shortcut to Mouse emulation menu
+	entry.
+
+	* arch/win32/statusbar.c: New file, moved codes related to the
+	statusbar to here from ui.c.
+
+	* arch/win32/statusbar.h: New file.
+
+	* arch/win32/ui.c: Removed all codes relating to statusbar.
+	Added shortcut for Mouse emulation.
+	(dummywindowproc): New function, is used for processing
+	messages for the dummy window.
+	Added safeguard checks for fullscreen_transition.
+
+	* arch/win32/ui.h: New class name for the Main window.
+
+	* arch/win32/video.c: Added compatibility code for old Mingw
+	headers (DUMMYUNIONNAME).
+	(video_frame_buffer_translate): Only translate frame buffer if
+	raster exists.
+	(canvas_create): Setup windows here.
+
+	* arch/win32/x128.dsp, arch/win32/x64.dsp, arch/win32/xcbm2.dsp,
+	arch/win32/xpet.dsp, arch/win32/xvic.dsp: Added print.c
+
+2000-12-07  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/Makefile.am: added new files ui_cbm2.cc/h,
+	ui_pet.cc/h,ui_vic20.cc/h
+
+	* arch/beos/c610ui.cc,petui.cc,vic20ui.cc(*_ui_specific):
+	calls the new machine specific setting function (ui_*)
+
+	* arch/beos/ui_cbm2.cc/h,ui_pet.cc/h,ui_vic20.cc/h: new files
+	that implement the setting dialogs for CBM2, PET and VIC20
+
+	* ui_file.cc/h: VicePreview remembers his father window (the
+	file panel) and closes it before autostarting the selected
+	file
+
+	* arch/beos/vicemenu.cc: small changes
+
+2000-12-06  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* info.c: added credit to David Holz for symbol file
+	"c64mem.sym".
+
+2000-12-06  Michael Klein  <nip@c64.org>
+
+        * sound.c, sounddrv/soundsdl.c: Updated SDL driver to compile
+        and work with recent SDL versions.
+
+        * info.c: Updated.
+
+2000-12-06  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+ 
+	* arch/os2/dialogs/dialogs.h: changes to cmdopt_dialog, 
+	vsid_dialog
+   
+	* arch/os2/dialogs/dialogs.rc: added icons, small changes
+ 
+	* arch/os2/dialogs/dlg-cmdopt.c: strip some unecessary code
+ 
+	* arch/os2/dialogs/dlg-vsid.c: added icon to dialog
+ 
+	* arch/os2/dialogs/menubar.c: added cmdline options
+ 
+	* arch/os2/install.cmd: small changes
+
+	* arch/os2/makedist.cmd: added copy for c1541.ico
+ 
+	* arch/os2/Makefile.am: added vice2.ipf
+ 
+	* arch/os2/uicmdline.c: added some comments replaces mainloop
+	with WinProcessDlg
+   
+	* arch/os2/uimon.c: removed a memory leak
+ 
+	* arch/os2/vac++/Makefile.am: VICE_HLP.ICC added
+ 
+	* arch/os2/vac++/VICE_HLP.ICC: added
+
+	* arch/os2/video.c: added comments and icon
+ 
+	* arch/os2/vsidui.c: replaced maioloop with WinProcessDlg
+
+2000-12-05  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: fixed bug in romset menu.
+
+	* arch/riscos/uimsgwin.c: limit number of lines in monitor
+	window.
+
+	sound.c, sound.h, fixpoint.c, fixpoint.h: moved
+	soundclk-related fixpoint code to fixpoint.* . Distinguish
+	between safe and unsafe casts from soundclk_t to long
+	(-> BIG_FLOAT_TO_INT() ).
+
+	sid/resid.cc: use safe and unsafe casts of soundclk_t to long
+	to get exactly the same code as before.
+
 2000-12-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.22.
