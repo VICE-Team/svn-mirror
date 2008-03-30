@@ -101,7 +101,9 @@ void drive_set_disk_memory(unsigned int dnr, BYTE *id, unsigned int track,
 {
     if (drive[dnr].type == DRIVE_TYPE_1541
         || drive[dnr].type == DRIVE_TYPE_1541II
-        || drive[dnr].type == DRIVE_TYPE_1571) {
+        || drive[dnr].type == DRIVE_TYPE_1570
+        || drive[dnr].type == DRIVE_TYPE_1571
+        || drive[dnr].type == DRIVE_TYPE_1571CR) {
         if (dnr == 0) {
             drive0_context.cpud.drive_ram[0x12] = id[0];
             drive0_context.cpud.drive_ram[0x13] = id[1];
@@ -130,7 +132,9 @@ void drive_set_last_read(unsigned int dnr, unsigned int track,
 
     if (drive[dnr].type == DRIVE_TYPE_1541
         || drive[dnr].type == DRIVE_TYPE_1541II
-        || drive[dnr].type == DRIVE_TYPE_1571) {
+        || drive[dnr].type == DRIVE_TYPE_1570
+        || drive[dnr].type == DRIVE_TYPE_1571
+        || drive[dnr].type == DRIVE_TYPE_1571CR) {
         if (dnr == 0) {
             memcpy(&(drive0_context.cpud.drive_ram[0x0400]), buffer, 256);
         } else {
@@ -274,7 +278,9 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
     switch (type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1551:
+      case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
+      case DRIVE_TYPE_1571CR:
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
         break;
       case DRIVE_TYPE_1541II:
@@ -494,10 +500,11 @@ CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr)
 void drive_set_half_track(int num, drive_t *dptr)
 {
     if ((dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_1541II
-        || dptr->type == DRIVE_TYPE_1551 || dptr->type == DRIVE_TYPE_2031)
-        && num > 84)
+        || dptr->type == DRIVE_TYPE_1551 || dptr->type == DRIVE_TYPE_1570
+        || dptr->type == DRIVE_TYPE_2031) && num > 84)
         num = 84;
-    if (dptr->type == DRIVE_TYPE_1571 && num > 140)
+    if ((dptr->type == DRIVE_TYPE_1571 || dptr->type == DRIVE_TYPE_1571CR)
+        && num > 140)
         num = 140;
     if (num < 2)
         num = 2;
@@ -590,7 +597,8 @@ void drive_set_1571_side(int side, unsigned int dnr)
 void drive_move_head(int step, unsigned int dnr)
 {
     drive_gcr_data_writeback(dnr);
-    if (drive[dnr].type == DRIVE_TYPE_1571) {
+    if (drive[dnr].type == DRIVE_TYPE_1571
+        || drive[dnr].type == DRIVE_TYPE_1571CR) {
         if (drive[dnr].current_half_track + step == 71)
             return;
     }
@@ -777,7 +785,9 @@ int drive_check_extend_policy(unsigned int drive_type)
     if ((drive_type == DRIVE_TYPE_1541) ||
         (drive_type == DRIVE_TYPE_1541II) ||
         (drive_type == DRIVE_TYPE_1551) ||
+        (drive_type == DRIVE_TYPE_1570) ||
         (drive_type == DRIVE_TYPE_1571) ||
+        (drive_type == DRIVE_TYPE_1571CR) ||
         (drive_type == DRIVE_TYPE_2031)) return 1;
     return 0;
 }

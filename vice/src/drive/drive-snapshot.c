@@ -283,7 +283,9 @@ int drive_snapshot_read_module(snapshot_t *s)
         drive[i].GCR_track_start_ptr = (drive[i].gcr->data
                            + ((drive[i].current_half_track / 2 - 1)
                               * NUM_MAX_BYTES_TRACK));
-        if (drive[i].type != DRIVE_TYPE_1571) {
+        if (drive[i].type != DRIVE_TYPE_1570
+            && drive[i].type != DRIVE_TYPE_1571
+            && drive[i].type != DRIVE_TYPE_1571CR) {
             if (drive[i].type == DRIVE_TYPE_1581) {
                 rotation_init_table(1, i);
                 resources_set_value("MachineVideoStandard",
@@ -300,7 +302,10 @@ int drive_snapshot_read_module(snapshot_t *s)
     switch (drive[0].type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
+      case DRIVE_TYPE_1551:
+      case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
+      case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
@@ -327,6 +332,8 @@ int drive_snapshot_read_module(snapshot_t *s)
     switch (drive[1].type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
+      case DRIVE_TYPE_1551:
+      case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
@@ -703,7 +710,19 @@ static int drive_snapshot_write_rom_module(snapshot_t *s, unsigned int dnr)
         base = &(drive[dnr].rom[0x4000]);
         len = DRIVE_ROM1541II_SIZE;
         break;
+      case DRIVE_TYPE_1551:
+        base = drive[dnr].rom;
+        len = DRIVE_ROM1551_SIZE;
+        break;
+      case DRIVE_TYPE_1570:
+        base = drive[dnr].rom;
+        len = DRIVE_ROM1571_SIZE;
+        break;
       case DRIVE_TYPE_1571:
+        base = drive[dnr].rom;
+        len = DRIVE_ROM1571_SIZE;
+        break;
+      case DRIVE_TYPE_1571CR:
         base = drive[dnr].rom;
         len = DRIVE_ROM1571_SIZE;
         break;
@@ -778,7 +797,19 @@ static int drive_snapshot_read_rom_module(snapshot_t *s, unsigned int dnr)
         base = &(drive[dnr].rom[0x4000]);
         len = DRIVE_ROM1541II_SIZE;
         break;
+      case DRIVE_TYPE_1551:
+        base = drive[dnr].rom;
+        len = DRIVE_ROM1571_SIZE;
+        break;
+      case DRIVE_TYPE_1570:
+        base = drive[dnr].rom;
+        len = DRIVE_ROM1571_SIZE;
+        break;
       case DRIVE_TYPE_1571:
+        base = drive[dnr].rom;
+        len = DRIVE_ROM1571_SIZE;
+        break;
+      case DRIVE_TYPE_1571CR:
         base = drive[dnr].rom;
         len = DRIVE_ROM1571_SIZE;
         break;

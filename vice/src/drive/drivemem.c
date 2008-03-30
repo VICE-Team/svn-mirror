@@ -122,7 +122,9 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
         drv->drive_ptr->rom_start = 0xc000;
         break;
       case DRIVE_TYPE_1541:
+      case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
+      case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
         drv->drive_ptr->rom_start = 0x8000;
         break;
@@ -148,7 +150,9 @@ static mem_ioreg_list_t *drive_ioreg_list_get(unsigned int type)
       case DRIVE_TYPE_1551:
         mon_ioreg_add_list(&drive_ioreg_list, "TPI", 0x4000, 0x4007);
         break;
+      case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
+      case DRIVE_TYPE_1571CR:
         mon_ioreg_add_list(&drive_ioreg_list, "VIA1", 0x1800, 0x180f);
         mon_ioreg_add_list(&drive_ioreg_list, "VIA2", 0x1c00, 0x1c0f);
         mon_ioreg_add_list(&drive_ioreg_list, "WD1770", 0x2000, 0x2003);

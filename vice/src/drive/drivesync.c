@@ -83,7 +83,9 @@ void drive_sync_clock_frequency(unsigned int type, unsigned int dnr)
     switch (type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
+      case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
+      case DRIVE_TYPE_1571CR:
         drive[dnr].clock_frequency = 1;
         break;
       case DRIVE_TYPE_1551:

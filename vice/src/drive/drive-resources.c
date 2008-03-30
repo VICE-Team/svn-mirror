@@ -119,7 +119,9 @@ int drive0_resources_type(resource_value_t v, void *param)
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1551:
+      case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
+      case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
@@ -186,7 +188,9 @@ int drive1_resources_type(resource_value_t v, void *param)
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1551:
+      case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
+      case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:

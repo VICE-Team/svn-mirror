@@ -568,8 +568,14 @@ static void drive_jam(drive_context_t *drv)
       case DRIVE_TYPE_1551:
         dname = "  1551";
         break;
+      case DRIVE_TYPE_1570:
+        dname = "  1570";
+        break;
       case DRIVE_TYPE_1571:
         dname = "  1571";
+        break;
+      case DRIVE_TYPE_1571CR:
+        dname = "  1571CR";
         break;
       case DRIVE_TYPE_1581:
         dname = "  1581";
@@ -653,7 +659,9 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
     if (drv->drive_ptr->type == DRIVE_TYPE_1541
         || drv->drive_ptr->type == DRIVE_TYPE_1541II
         || drv->drive_ptr->type == DRIVE_TYPE_1551
+        || drv->drive_ptr->type == DRIVE_TYPE_1570
         || drv->drive_ptr->type == DRIVE_TYPE_1571
+        || drv->drive_ptr->type == DRIVE_TYPE_1571CR
         || drv->drive_ptr->type == DRIVE_TYPE_2031) {
         if (SMW_BA(m, drv->cpud.drive_ram, 0x800) < 0)
             goto fail;
@@ -728,7 +736,9 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     if (drv->drive_ptr->type == DRIVE_TYPE_1541
         || drv->drive_ptr->type == DRIVE_TYPE_1541II
         || drv->drive_ptr->type == DRIVE_TYPE_1551
+        || drv->drive_ptr->type == DRIVE_TYPE_1570
         || drv->drive_ptr->type == DRIVE_TYPE_1571
+        || drv->drive_ptr->type == DRIVE_TYPE_1571CR
         || drv->drive_ptr->type == DRIVE_TYPE_2031) {
         if (SMR_BA(m, drv->cpud.drive_ram, 0x800) < 0)
             goto fail;

@@ -355,14 +355,18 @@ void iec_fast_cpu_write(BYTE data)
     if (fast_cpu_direction) {
         if (drive[0].enable) {
             drive0_cpu_execute(maincpu_clk);
-            if (drive[0].type == DRIVE_TYPE_1571)
+            if (drive[0].type == DRIVE_TYPE_1570
+                || drive[0].type == DRIVE_TYPE_1571
+                || drive[0].type == DRIVE_TYPE_1571CR)
                 ciacore_set_sdr(&(drive0_context.cia1571), data);
             if (drive[0].type == DRIVE_TYPE_1581)
                 ciacore_set_sdr(&(drive0_context.cia1581), data);
         }
         if (drive[1].enable) {
             drive1_cpu_execute(maincpu_clk);
-            if (drive[1].type == DRIVE_TYPE_1571)
+            if (drive[1].type == DRIVE_TYPE_1570
+                || drive[1].type == DRIVE_TYPE_1571
+                || drive[1].type == DRIVE_TYPE_1571CR)
                 ciacore_set_sdr(&(drive1_context.cia1571), data);
             if (drive[1].type == DRIVE_TYPE_1581)
                 ciacore_set_sdr(&(drive1_context.cia1581), data);

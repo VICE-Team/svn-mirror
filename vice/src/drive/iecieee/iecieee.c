@@ -59,7 +59,9 @@ int iecieee_drive_snapshot_read(struct drive_context_s *ctxptr,
 {
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
         || ctxptr->drive_ptr->type == DRIVE_TYPE_1541II
+        || ctxptr->drive_ptr->type == DRIVE_TYPE_1570
         || ctxptr->drive_ptr->type == DRIVE_TYPE_1571
+        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571CR
         || ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
         if (viacore_snapshot_read_module(&(ctxptr->via2), s) < 0)
             return -1;
@@ -73,7 +75,9 @@ int iecieee_drive_snapshot_write(struct drive_context_s *ctxptr,
 {
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
         || ctxptr->drive_ptr->type == DRIVE_TYPE_1541II
+        || ctxptr->drive_ptr->type == DRIVE_TYPE_1570
         || ctxptr->drive_ptr->type == DRIVE_TYPE_1571
+        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571CR
         || ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
         if (viacore_snapshot_write_module(&(ctxptr->via2), s) < 0)
             return -1;

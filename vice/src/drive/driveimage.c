@@ -104,11 +104,13 @@ static void drive_image_read_d64_d71(unsigned int dnr)
         && (drive[dnr].type == DRIVE_TYPE_1541
         || drive[dnr].type == DRIVE_TYPE_1541II
         || drive[dnr].type == DRIVE_TYPE_1551
+        || drive[dnr].type == DRIVE_TYPE_1570
         || drive[dnr].type == DRIVE_TYPE_2031)) {
         drive_image_init_track_size_d64(dnr);
     }
     if (drive[dnr].image->type == DISK_IMAGE_TYPE_D71
         || drive[dnr].type == DRIVE_TYPE_1571
+        || drive[dnr].type == DRIVE_TYPE_1571CR
         || drive[dnr].type == DRIVE_TYPE_2031) {
         drive_image_init_track_size_d71(dnr);
     }
@@ -184,7 +186,9 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
         if (drive[dnr].type != DRIVE_TYPE_1541
             && drive[dnr].type != DRIVE_TYPE_1541II
             && drive[dnr].type != DRIVE_TYPE_1551
+            && drive[dnr].type != DRIVE_TYPE_1570
             && drive[dnr].type != DRIVE_TYPE_1571
+            && drive[dnr].type != DRIVE_TYPE_1571CR
             && drive[dnr].type != DRIVE_TYPE_2031
             && drive[dnr].type != DRIVE_TYPE_2040 /* FIXME: only read compat */
             && drive[dnr].type != DRIVE_TYPE_3040
@@ -192,17 +196,22 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
             return -1;
         break;
       case DISK_IMAGE_TYPE_D67:
-        if (drive[dnr].type != DRIVE_TYPE_1541 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_1541II /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_1551 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_1571 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_2031 /* FIXME: only read compat */
+        /* New drives and 2031, 3040 and 4040 are only read compatible.  */
+        if (drive[dnr].type != DRIVE_TYPE_1541
+            && drive[dnr].type != DRIVE_TYPE_1541II
+            && drive[dnr].type != DRIVE_TYPE_1551
+            && drive[dnr].type != DRIVE_TYPE_1570
+            && drive[dnr].type != DRIVE_TYPE_1571
+            && drive[dnr].type != DRIVE_TYPE_1571CR
+            && drive[dnr].type != DRIVE_TYPE_2031
             && drive[dnr].type != DRIVE_TYPE_2040
-            && drive[dnr].type != DRIVE_TYPE_3040 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_4040) /* FIXME: only read compat */            return -1;
+            && drive[dnr].type != DRIVE_TYPE_3040
+            && drive[dnr].type != DRIVE_TYPE_4040)
+            return -1;
         break;
       case DISK_IMAGE_TYPE_D71:
-        if (drive[dnr].type != DRIVE_TYPE_1571)
+        if (drive[dnr].type != DRIVE_TYPE_1571
+            && drive[dnr].type != DRIVE_TYPE_1571CR)
             return -1;
         break;
       case DISK_IMAGE_TYPE_D81:
