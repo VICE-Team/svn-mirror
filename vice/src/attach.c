@@ -35,6 +35,7 @@
 #include "attach.h"
 #include "diskimage.h"
 #include "drive.h"
+#include "fdc.h"
 #include "fliplist.h"
 #include "resources.h"
 #include "serial.h"
@@ -76,31 +77,43 @@ int file_system_init_resources(void)
 void file_system_init(void)
 {
     serial_t *p;
+    vdrive_t *vdrive;
     int i;
 
     for (i = 0; i < 4; i++) {
-        initialize_1541(i + 8, ((file_system_device_enabled[0] 
-                        ? DT_FS : DT_DISK) | DT_1541), NULL);
         p = serial_get_device(i + 8);
+        p->info = xmalloc(sizeof(vdrive_t));
+        vdrive = (vdrive_t *)p->info;
+        vdrive->image = NULL;
+        vdrive_setup_device(vdrive, i + 8, ((file_system_device_enabled[0] 
+                            ? DT_FS : DT_DISK) | DT_1541));
         p->image = xmalloc(sizeof(disk_image_t));    
         p->image->name = NULL;
     }
 }
 
+char *file_system_get_disk_name(int unit)
+{
+    serial_t *p;
+    p = serial_get_device(unit);
+
+    return p->image->name;
+}
+
 static int set_file_system_device8(resource_value_t v)
 {
     serial_t *p;
-    DRIVE *floppy;
+    vdrive_t *floppy;
 
     file_system_device_enabled[0] = (int) v;
 
     p = serial_get_device(8);
-    floppy = (DRIVE *)p->info;
+    floppy = (vdrive_t *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd == NULL) {
+	if (floppy->image == NULL) {
 	    p->inuse = 0;
-	    initialize_1541(8, (file_system_device_enabled[0]
-                                ? DT_FS : DT_DISK) | DT_1541, floppy);
+	    vdrive_setup_device(floppy, 8, (file_system_device_enabled[0]
+                            ? DT_FS : DT_DISK) | DT_1541);
 	}
     }
     return 0;
@@ -109,17 +122,17 @@ static int set_file_system_device8(resource_value_t v)
 static int set_file_system_device9(resource_value_t v)
 {
     serial_t *p;
-    DRIVE *floppy;
+    vdrive_t *floppy;
 
     file_system_device_enabled[1] = (int) v;
 
     p = serial_get_device(9);
-    floppy = (DRIVE *)p->info;
+    floppy = (vdrive_t *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd == NULL) {
+	if (floppy->image == NULL) {
 	    p->inuse = 0;
-	    initialize_1541(9, (file_system_device_enabled[1]
-                                ? DT_FS : DT_DISK) | DT_1541, floppy);
+	    vdrive_setup_device(floppy, 9, (file_system_device_enabled[1]
+                                ? DT_FS : DT_DISK) | DT_1541);
 	}
     }
     return 0;
@@ -128,17 +141,17 @@ static int set_file_system_device9(resource_value_t v)
 static int set_file_system_device10(resource_value_t v)
 {
     serial_t *p;
-    DRIVE *floppy;
+    vdrive_t *floppy;
 
     file_system_device_enabled[2] = (int) v;
 
     p = serial_get_device(10);
-    floppy = (DRIVE *)p->info;
+    floppy = (vdrive_t *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd == NULL) {
+	if (floppy->image == NULL) {
 	    p->inuse = 0;
-	    initialize_1541(10, (file_system_device_enabled[2]
-                                 ? DT_FS : DT_DISK) | DT_1541, floppy);
+	    vdrive_setup_device(floppy, 10, (file_system_device_enabled[2]
+                                 ? DT_FS : DT_DISK) | DT_1541);
 	}
     }
     return 0;
@@ -147,17 +160,17 @@ static int set_file_system_device10(resource_value_t v)
 static int set_file_system_device11(resource_value_t v)
 {
     serial_t *p;
-    DRIVE *floppy;
+    vdrive_t *floppy;
 
     file_system_device_enabled[3] = (int) v;
 
     p = serial_get_device(11);
-    floppy = (DRIVE *)p->info;
+    floppy = (vdrive_t *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd == NULL) {
+	if (floppy->image == NULL) {
 	    p->inuse = 0;
-	    initialize_1541(11, (file_system_device_enabled[3]
-                                 ? DT_FS : DT_DISK) | DT_1541, floppy);
+	    vdrive_setup_device(floppy, 11, (file_system_device_enabled[3]
+                                 ? DT_FS : DT_DISK) | DT_1541);
 	}
     }
     return 0;
@@ -165,13 +178,13 @@ static int set_file_system_device11(resource_value_t v)
 
 /* ------------------------------------------------------------------------- */
 
-int attach_disk_image(disk_image_t *image, DRIVE *floppy, const char *filename,
+int attach_disk_image(disk_image_t *image, vdrive_t *floppy, const char *filename,
                       int unit)
 {
     disk_image_t new_image;
 
     if (!filename) {
-        log_error(LOG_ERR, "No name, cannot attach floppy image.");
+        log_error(LOG_ERR, "No name, cannot attach floppy image");
         return -1;
     }
 
@@ -186,12 +199,14 @@ int attach_disk_image(disk_image_t *image, DRIVE *floppy, const char *filename,
     switch (unit) {
       case 8:
         wd1770_detach_image(image, 8);
-        drive_detach_image(image, 8, (void *)floppy);
+        fdc_detach_image(image, 8);
+        drive_detach_image(image, 8);
         vdrive_detach_image(image, 8, floppy);
         break;
       case 9:
         wd1770_detach_image(image, 9);
-        drive_detach_image(image, 8, (void *)floppy);
+        fdc_detach_image(image, 9);
+        drive_detach_image(image, 9);
         vdrive_detach_image(image, 9, floppy);
         break;
       case 10:
@@ -207,12 +222,14 @@ int attach_disk_image(disk_image_t *image, DRIVE *floppy, const char *filename,
     switch (unit) {
       case 8:
         vdrive_attach_image(image, 8, floppy);
-        drive_attach_image(image, 8, (void *)floppy);
+        drive_attach_image(image, 8);
+        fdc_attach_image(image, 8);
         wd1770_attach_image(image, 8);
         break;
       case 9:
         vdrive_attach_image(image, 9, floppy);
-        drive_attach_image(image, 9, (void *)floppy);
+        drive_attach_image(image, 9);
+        fdc_attach_image(image, 9);
         wd1770_attach_image(image, 9);
         break;
       case 10:
@@ -225,18 +242,20 @@ int attach_disk_image(disk_image_t *image, DRIVE *floppy, const char *filename,
     return 0;
 }
 
-void detach_disk_image(disk_image_t *image, DRIVE *floppy, int unit)
+void detach_disk_image(disk_image_t *image, vdrive_t *floppy, int unit)
 {
     if (image->name != NULL) {
         switch (unit) {
           case 8:
             wd1770_detach_image(image, 8);
-            drive_detach_image(image, 8, (void *)floppy);
+            fdc_detach_image(image, 8);
+            drive_detach_image(image, 8);
             vdrive_detach_image(image, 8, floppy);
             break;
           case 9:
             wd1770_detach_image(image, 9);
-            drive_detach_image(image, 9, (void *)floppy);
+            fdc_detach_image(image, 9);
+            drive_detach_image(image, 9);
             vdrive_detach_image(image, 9, floppy);
             break;
           case 10:
@@ -257,16 +276,16 @@ void detach_disk_image(disk_image_t *image, DRIVE *floppy, int unit)
 int file_system_attach_disk(int unit, const char *filename)
 {
     serial_t *p;
-    DRIVE *floppy;
+    vdrive_t *floppy;
 
     p = serial_get_device(unit);
-    floppy = (DRIVE *)p->info;
+    floppy = (vdrive_t *)p->info;
     if ((floppy == NULL) || ((floppy->type & DT_FS) == DT_FS)) {
         p->inuse = 0;
-        initialize_1541(unit, DT_DISK | DT_1541, floppy);
+        vdrive_setup_device(floppy, unit, DT_DISK | DT_1541);
     }
 
-    if (attach_disk_image(p->image, (DRIVE *)p->info, filename, unit) < 0) {
+    if (attach_disk_image(p->image, (vdrive_t *)p->info, filename, unit) < 0) {
         file_system_detach_disk(unit);
         return -1;
     } else {
@@ -284,19 +303,19 @@ void file_system_detach_disk(int unit)
     
     if (unit < 0) {
         p = serial_get_device(8);
-        detach_disk_image(p->image, (DRIVE *)p->info, 8);
+        detach_disk_image(p->image, (vdrive_t *)p->info, 8);
         set_file_system_device8((resource_value_t)
                                 file_system_device_enabled[0]);
         p = serial_get_device(9);
-        detach_disk_image(p->image, (DRIVE *)p->info, 9);
+        detach_disk_image(p->image, (vdrive_t *)p->info, 9);
         set_file_system_device9((resource_value_t)
                                 file_system_device_enabled[1]);
         p = serial_get_device(10);
-        detach_disk_image(p->image, (DRIVE *)p->info, 10);
+        detach_disk_image(p->image, (vdrive_t *)p->info, 10);
         set_file_system_device10((resource_value_t)
                                  file_system_device_enabled[2]);
         p = serial_get_device(11);
-        detach_disk_image(p->image, (DRIVE *)p->info, 11);
+        detach_disk_image(p->image, (vdrive_t *)p->info, 11);
         set_file_system_device11((resource_value_t)
                                  file_system_device_enabled[3]);
 
@@ -306,7 +325,7 @@ void file_system_detach_disk(int unit)
 	    
     } else {
         p = serial_get_device(unit);
-        detach_disk_image(p->image, (DRIVE *)p->info, unit);
+        detach_disk_image(p->image, (vdrive_t *)p->info, unit);
         switch(unit) {
           case 8:
             set_file_system_device8((resource_value_t)
@@ -341,13 +360,13 @@ int vdrive_write_snapshot_module(snapshot_t *s, int start)
     char snap_module_name[14];
     snapshot_module_t *m;
     serial_t *p;
-    DRIVE *floppy;
+    vdrive_t *floppy;
 
     for (i = start; i <= 11; i++) {
 
         p = serial_get_device(i);
-        floppy = (DRIVE *)p->info;
-        if (floppy->ActiveFd > 0) {
+        floppy = (vdrive_t *)p->info;
+        if (floppy->image != NULL) {
             sprintf(snap_module_name, "VDRIVEIMAGE%i", i);
             m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR,
                                        SNAP_MINOR);
@@ -383,7 +402,7 @@ int vdrive_read_snapshot_module(snapshot_t *s, int start)
             return 0;
 
         if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-            log_message(vdrive_log,
+            log_message(LOG_ERR,
                         "Snapshot module version (%d.%d) newer than %d.%d.",
                         major_version, minor_version, SNAP_MAJOR, SNAP_MINOR);
         }
