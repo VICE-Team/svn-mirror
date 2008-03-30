@@ -40,20 +40,12 @@
 #include "vice.h"
 
 #ifdef STDC_HEADERS
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 #ifdef __riscos
 #include "ROlib.h"
-#else
-#include <fcntl.h>
-#include <sys/types.h>
 #endif
-#include <stdio.h>
-#include <ctype.h>
-#include <math.h>
-#include <string.h>
-#include <errno.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
 #endif
 
 #include "attach.h"
@@ -1187,10 +1179,11 @@ static int drive_enable(int dnr)
 
     if (drive[dnr].type == DRIVE_TYPE_NONE)
         return 0;
-/* FIXME!!
+
+    /* Recalculate drive geometry.  */
     if (drive[dnr].image != NULL)
-        drive_attach_floppy(drive[dnr].image);
-*/
+        drive_attach_image(drive[dnr].image, dnr + 8);
+
     if (dnr == 0)
         drive0_cpu_wake_up();
     if (dnr == 1)
@@ -2494,8 +2487,7 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
     }
     fp = fopen(filename, "w+b");
     if (!fp) {
-	log_error(drive_log, "Could not create temporary file (%s)",
-			strerror(errno));
+	log_error(drive_log, "Could not create temporary file");
 	log_error(drive_log, "filename=%s", filename);
         snapshot_module_close(m);
 	return -1;
