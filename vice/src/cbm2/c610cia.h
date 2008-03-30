@@ -29,8 +29,9 @@
 #ifndef _C610_CIA_H
 #define _C610_CIA_H
 
-#include "snapshot.h"
 #include "types.h"
+
+struct snapshot_s;
 
 extern void cia1_init(void);
 extern void cia1_reset(void);
@@ -40,8 +41,8 @@ extern BYTE REGPARM1 cia1_peek(ADDRESS addr);
 extern void cia1_prevent_clk_overflow(CLOCK sub);
 extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);
-extern int cia1_write_snapshot_module(snapshot_t *p);
-extern int cia1_read_snapshot_module(snapshot_t *p);
+extern int cia1_write_snapshot_module(struct snapshot_s *p);
+extern int cia1_read_snapshot_module(struct snapshot_s *p);
 
 extern void cia1_set_ieee_dir(int);
 

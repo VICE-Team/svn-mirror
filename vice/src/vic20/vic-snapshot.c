@@ -31,6 +31,7 @@
 
 #include "maincpu.h"
 #include "mem.h"
+#include "snapshot.h"
 #include "sound.h"
 #include "types.h"
 #include "vic.h"

@@ -29,7 +29,6 @@
 #include <stdio.h>
 
 #include "log.h"
-#include "snapshot.h"
 #include "tpi.h"
 #include "types.h"
 

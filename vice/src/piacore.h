@@ -29,7 +29,6 @@
 #define _PIACORE_H
 
 #include "log.h"
-#include "snapshot.h"
 #include "types.h"
 
 #if defined(NO_INLINE)

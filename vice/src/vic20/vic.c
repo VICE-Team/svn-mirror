@@ -35,10 +35,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "clkguard.h"
 #include "log.h"
 #include "mem.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "snapshot.h"
 #include "types.h"
 #include "utils.h"
 #include "vic.h"

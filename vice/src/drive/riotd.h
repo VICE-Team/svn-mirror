@@ -29,10 +29,10 @@
 #define _RIOTD_H
 
 #include "types.h"
-#include "snapshot.h"
 
 struct drive_context_s;
 struct driveriot_context_s;
+struct snapshot_s;
 
 extern void riot1_setup_context(struct drive_context_s *ctxptr);
 extern void riot2_setup_context(struct drive_context_s *ctxptr);
@@ -47,16 +47,20 @@ extern void riot1_signal(struct drive_context_s *ctxptr, int sig, int type);
 extern void riot1_reset(struct drive_context_s *ctxptr);
 extern void REGPARM3 riot1_store(struct drive_context_s *ctxptr, ADDRESS addr, BYTE byte);
 extern BYTE REGPARM2 riot1_read(struct drive_context_s *ctxptr, ADDRESS addr);
-extern int riot1_write_snapshot_module(struct drive_context_s *ctxptr, snapshot_t * p);
-extern int riot1_read_snapshot_module(struct drive_context_s *ctxptr, snapshot_t * p);
+extern int riot1_write_snapshot_module(struct drive_context_s *ctxptr,
+                                       struct snapshot_s *p);
+extern int riot1_read_snapshot_module(struct drive_context_s *ctxptr,
+                                      struct snapshot_s *p);
 
 extern void riot2_init(struct drive_context_s *ctxptr);
 extern void riot2_signal(struct drive_context_s *ctxptr, int sig, int type);
 extern void riot2_reset(struct drive_context_s *ctxptr);
 extern void REGPARM3 riot2_store(struct drive_context_s *ctxptr, ADDRESS addr, BYTE byte);
 extern BYTE REGPARM2 riot2_read(struct drive_context_s *ctxptr, ADDRESS addr);
-extern int riot2_write_snapshot_module(struct drive_context_s *ctxptr, snapshot_t * p);
-extern int riot2_read_snapshot_module(struct drive_context_s *ctxptr, snapshot_t * p);
+extern int riot2_write_snapshot_module(struct drive_context_s *ctxptr,
+                                       struct snapshot_s *p);
+extern int riot2_read_snapshot_module(struct drive_context_s *ctxptr,
+                                      struct snapshot_s *p);
 
 typedef struct riot_initdesc_s {
     struct driveriot_context_s *riot_ptr;

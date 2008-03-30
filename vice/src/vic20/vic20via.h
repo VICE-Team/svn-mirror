@@ -27,8 +27,9 @@
 #ifndef _VIC20_VIA_H
 #define _VIC20_VIA_H
 
-#include "snapshot.h"
 #include "types.h"
+
+struct snapshot_s;
 
 extern void via1_init(void);
 extern void via1_reset(void);
@@ -36,8 +37,8 @@ extern void via1_signal(int line, int edge);
 extern void REGPARM2 via1_store(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 via1_read(ADDRESS addr);
 extern BYTE REGPARM1 via1_peek(ADDRESS addr);
-extern int via1_write_snapshot_module(snapshot_t *p);
-extern int via1_read_snapshot_module(snapshot_t *p);
+extern int via1_write_snapshot_module(struct snapshot_s *p);
+extern int via1_read_snapshot_module(struct snapshot_s *p);
 
 extern void via2_init(void);
 extern void via2_reset(void);
@@ -45,9 +46,9 @@ extern void via2_signal(int line, int edge);
 extern void REGPARM2 via2_store(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 via2_read(ADDRESS addr);
 extern BYTE REGPARM1 via2_peek(ADDRESS addr);
-extern int via2_write_snapshot_module(snapshot_t *p);
-extern int via2_read_snapshot_module(snapshot_t *p);
+extern int via2_write_snapshot_module(struct snapshot_s *p);
+extern int via2_read_snapshot_module(struct snapshot_s *p);
 extern void via2_set_tape_sense(int v);
 
-#endif  /* _VIC20_VIA_H */
+#endif
 

@@ -27,8 +27,9 @@
 #ifndef _C610TPI_H
 #define _C610TPI_H
 
-#include "snapshot.h"
 #include "types.h"
+
+struct snapshot_s;
 
 extern void tpi1_init(void);
 extern void tpi1_reset(void);
@@ -38,8 +39,8 @@ extern BYTE tpi1_peek(ADDRESS addr);
 extern void tpi1_set_int(int bit, int state);
 extern void tpi1_restore_int(int bit, int state);
 extern void tpi1_set_tape_sense(int v);
-extern int tpi1_write_snapshot_module(snapshot_t *p);
-extern int tpi1_read_snapshot_module(snapshot_t *p);
+extern int tpi1_write_snapshot_module(struct snapshot_s *p);
+extern int tpi1_read_snapshot_module(struct snapshot_s *p);
 
 extern void tpi2_init(void);
 extern void tpi2_reset(void);
@@ -48,8 +49,8 @@ extern BYTE REGPARM1 tpi2_read(ADDRESS addr);
 extern BYTE tpi2_peek(ADDRESS addr);
 extern void tpi2_set_int(int bit, int state);
 extern void tpi2_restore_int(int bit, int state);
-extern int tpi2_write_snapshot_module(snapshot_t *p);
-extern int tpi2_read_snapshot_module(snapshot_t *p);
+extern int tpi2_write_snapshot_module(struct snapshot_s *p);
+extern int tpi2_read_snapshot_module(struct snapshot_s *p);
 
 extern void set_cbm2_model_port_mask(BYTE);
 

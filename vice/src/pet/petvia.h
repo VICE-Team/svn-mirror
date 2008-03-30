@@ -27,8 +27,9 @@
 #ifndef _PET_VIA_H
 #define _PET_VIA_H
 
-#include "snapshot.h"
 #include "types.h"
+
+struct snapshot_s;
 
 extern void via_reset(void);
 extern void via_init(void);
@@ -36,8 +37,8 @@ extern BYTE REGPARM1 via_read(ADDRESS addr);
 extern BYTE REGPARM1 via_peek(ADDRESS addr);
 extern void REGPARM2 via_store(ADDRESS addr, BYTE value);
 
-extern int via_read_snapshot_module(snapshot_t *);
-extern int via_write_snapshot_module(snapshot_t *);
+extern int via_read_snapshot_module(struct snapshot_s *);
+extern int via_write_snapshot_module(struct snapshot_s *);
 
 #endif
 

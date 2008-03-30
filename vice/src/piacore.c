@@ -25,6 +25,8 @@
  *
  */
 
+#include "snapshot.h"
+
 static BYTE pia_last_read = 0;
 
 void mypia_init(void)
