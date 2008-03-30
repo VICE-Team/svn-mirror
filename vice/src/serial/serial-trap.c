@@ -32,6 +32,8 @@
 #include "mem.h"
 #include "mos6510.h"
 #include "serial-iec-bus.h"
+/* Will be removed once serial.c is clean */
+#include "serial-iec-device.h"
 #include "serial-trap.h"
 #include "serial.h"
 #include "types.h"
@@ -179,9 +181,22 @@ int serial_trap_ready(void)
     return 1;
 }
 
+/* Initializing the IEC bus and IEC device will move once serial.c is not
+   referenced by PET and CBM2 anymore. */
+int serial_resources_init(void)
+{
+    return serial_iec_device_resources_init();
+}
+
+int serial_cmdline_options_init(void)
+{
+    return serial_iec_device_cmdline_options_init();
+}
+
 void serial_trap_init(WORD tmpin)
 {
     serial_iec_bus_init();
+    serial_iec_device_init();
 
     tmp_in = tmpin;
 }

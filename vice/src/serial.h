@@ -88,6 +88,8 @@ typedef struct serial_s
 } serial_t;
 
 extern int serial_init(const struct trap_s *trap_list);
+extern int serial_resources_init(void);
+extern int serial_cmdline_options_init(void);
 extern void serial_shutdown(void);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
@@ -104,17 +106,20 @@ extern int serial_attach_device(unsigned int unit, const char *name,
                                 void (*flushf)(struct vdrive_s *,
                                 unsigned int));
 extern int serial_detach_device(unsigned int unit);
-extern void serial_traps_reset(void);
+
 extern BYTE serial_get_st(void);
 extern void serial_set_st(BYTE st);
 
 extern void (*attention_callback_func)(void);
 extern void (*eof_callback_func)(void);
 
+extern void serial_trap_init(WORD tmpin);
 extern int serial_trap_attention(void);
 extern int serial_trap_send(void);
 extern int serial_trap_receive(void);
 extern int serial_trap_ready(void);
+extern void serial_traps_reset(void);
+
 
 extern void serial_set_eof_callback(void (*func)(void));
 extern void serial_set_attention_callback(void (*func)(void));
@@ -134,8 +139,6 @@ extern unsigned int serial_device_get_realdevice_state(unsigned int unit);
 extern serial_t *serial_device_get(unsigned int unit);
 extern unsigned int serial_device_type_get(unsigned int unit);
 extern void serial_device_type_set(unsigned int type, unsigned int unit);
-
-extern void serial_trap_init(WORD tmpin);
 
 extern int serial_truedrive;
 
