@@ -97,6 +97,7 @@ extern double sound_flush(int relative_speed);
 #endif
 extern void sound_suspend(void);
 extern void sound_resume(void);
+extern int sound_open(void);
 extern void sound_close(void);
 extern void sound_set_relative_speed(int value);
 extern void sound_set_warp_mode(int value);

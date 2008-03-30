@@ -45,6 +45,7 @@ static const char snap_module_name_simple[] = "SID";
 
 static int sid_snapshot_write_module_simple(snapshot_t *s)
 {
+    int sound, sid_engine;
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name_simple, SNAP_MAJOR_SIMPLE,
@@ -52,10 +53,24 @@ static int sid_snapshot_write_module_simple(snapshot_t *s)
     if (m == NULL)
         return -1;
 
-    /* FIXME: Only data for first SID stored. */
-    if (SMW_BA(m, sid_get_siddata(0), 32) < 0) {
+    resources_get_value("Sound", (void *)&sound);
+    if (SMW_B(m, (BYTE)sound) < 0) {
         snapshot_module_close(m);
         return -1;
+    }
+
+    if (sound) {
+        resources_get_value("SidEngine", (void *)&sid_engine);
+        if (SMW_B(m, (BYTE)sid_engine) < 0) {
+            snapshot_module_close(m);
+            return -1;
+        }
+
+        /* FIXME: Only data for first SID stored. */
+        if (SMW_BA(m, sid_get_siddata(0), 32) < 0) {
+            snapshot_module_close(m);
+            return -1;
+        }
     }
 
     snapshot_module_close(m);
@@ -65,6 +80,7 @@ static int sid_snapshot_write_module_simple(snapshot_t *s)
 static int sid_snapshot_read_module_simple(snapshot_t *s)
 {
     BYTE major_version, minor_version;
+    BYTE sound, sid_engine;
     snapshot_module_t *m;
 
     sound_close();
@@ -83,10 +99,28 @@ static int sid_snapshot_read_module_simple(snapshot_t *s)
         return snapshot_module_close(m);
     }
 
-    /* FIXME: Only data for first SID read. */
-    if (SMR_BA(m, sid_get_siddata(0), 32) < 0) {
+    if (SMR_B(m, &sound) < 0) {
         snapshot_module_close(m);
         return -1;
+    }
+
+    resources_set_value("Sound", (resource_value_t)sound);
+
+    if (sound) {
+        if (SMR_B(m, &sid_engine) < 0) {
+            snapshot_module_close(m);
+            return -1;
+        }
+        resources_set_value("SidEngine", (resource_value_t)sid_engine);
+
+
+        /* FIXME: Only data for first SID read. */
+        if (SMR_BA(m, sid_get_siddata(0), 32) < 0) {
+            snapshot_module_close(m);
+            return -1;
+        }
+
+        sound_open();
     }
 
     return snapshot_module_close(m);

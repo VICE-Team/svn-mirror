@@ -468,7 +468,7 @@ sound_t *sound_get_psid(unsigned int channel)
 }
 
 /* open sound device */
-static int sound_open(void)
+int sound_open(void)
 {
     int c, i, j;
     sound_device_t *pdev;
