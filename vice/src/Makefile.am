@@ -17,6 +17,7 @@ SUBDIRS = \
 	vdrive \
 	diskimage \
 	tape \
+	imagecontents \
 	video \
 	raster \
 	vicii \
@@ -143,7 +144,6 @@ base_sources = \
 	init.c \
 	initcmdline.c \
 	interrupt.c \
-	imagecontents.c \
 	kbdbuf.c \
 	keyboard.c \
 	log.c \
@@ -198,6 +198,7 @@ crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
+imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
@@ -236,6 +237,7 @@ x64_libs =  \
 	$(monitor_lib) \
 	$(diskimage_lib) \
 	$(tape_lib) \
+	$(imagecontents_lib) \
 	$(common_libs)
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
@@ -261,6 +263,7 @@ x64-all: \
 	libmonitor \
 	libdiskimage \
 	libtape \
+	libimagecontents \
 	x64
 
 # x128
@@ -282,6 +285,7 @@ x128_libs =  \
 	$(monitor_lib) \
 	$(diskimage_lib) \
 	$(tape_lib) \
+	$(imagecontents_lib) \
 	$(common_libs)
 
 x128_SOURCES = $(base_sources)
@@ -308,6 +312,7 @@ x128-all: \
 	libmonitor \
 	libdiskimage \
 	libtape \
+	libimagecontents \
 	@RESID_DEP@ \
 	x128
 
@@ -325,6 +330,7 @@ xvic_libs =  \
 	$(monitor_lib) \
 	$(diskimage_lib) \
 	$(tape_lib) \
+	$(imagecontents_lib) \
 	$(common_libs)
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -346,6 +352,7 @@ xvic-all: \
 	libmonitor \
 	libdiskimage \
 	libtape \
+	libimagecontents \
 	xvic
 
 # xpet
@@ -363,6 +370,7 @@ xpet_libs =  \
 	$(monitor_lib) \
 	$(diskimage_lib) \
 	$(tape_lib) \
+	$(imagecontents_lib) \
 	$(common_libs)
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -385,6 +393,7 @@ xpet-all: \
 	libmonitor \
 	libdiskimage \
 	libtape \
+	libimagecontents \
 	xpet 
 
 # xplus4
@@ -401,6 +410,7 @@ xplus4_libs =  \
 	$(monitor_lib) \
 	$(diskimage_lib) \
 	$(tape_lib) \
+	$(imagecontents_lib) \
 	$(common_libs)
 
 xplus4_SOURCES = $(base_sources)
@@ -422,6 +432,7 @@ xplus4-all: \
         libmonitor \
 	libdiskimage \
 	libtape \
+	libimagecontents \
         xplus4
 
 # xcbm2
@@ -441,6 +452,7 @@ xcbm2_libs = \
 	$(monitor_lib) \
 	$(diskimage_lib) \
 	$(tape_lib) \
+	$(imagecontents_lib) \
 	$(common_libs)
 
 xcbm2_SOURCES = $(base_sources)
@@ -466,6 +478,7 @@ xcbm2-all: \
 	libmonitor \
 	libdiskimage \
 	libtape \
+	libimagecontents \
 	xcbm2
 
 # c1541
