@@ -542,8 +542,9 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 	xa -R -G $< -o $(srcdir)/$*.o65
 	od -v -An -w8 -tx1 $(srcdir)/$*.o65 | sed 's/\w\w/0x&,/g' > $(srcdir)/$@
 
-.PHONY: cart
-cart:
+.PHONY: libc64cart
+
+libc64cart:
 	(cd cart; $(MAKE))
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

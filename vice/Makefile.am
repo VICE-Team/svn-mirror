@@ -5,7 +5,7 @@ SUBDIRS = po src data man doc
 EXTRA_DIST = AUTHORS COPYING INSTALL FEEDBACK NEWS TODO BUGS \
 		acconfig.h vice.spec
 
-.PHONY: x64 x128 xvic xpet xcbm2
+.PHONY: x64 x128 xvic xpet xplus4 xcbm2
 x64:
 	(cd src; $(MAKE) x64-all)
 
@@ -17,6 +17,9 @@ xvic:
 
 xpet:
 	(cd src; $(MAKE) xpet-all)
+
+xplus4:
+	(cd src; $(MAKE) xplus4-all)
 
 xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
