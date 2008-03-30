@@ -59,13 +59,13 @@
 
 #include "fsdevice.h"
 
+#include "archdep.h"
 #include "charsets.h"
 #include "cmdline.h"
 #include "file.h"
 #include "log.h"
+#include "p00.h"
 #include "resources.h"
-#include "archdep.h"
-#include "tape.h"
 #include "utils.h"
 #include "vdrive.h"
 
@@ -1167,7 +1167,7 @@ void fs_test_pc64_name(void *flp, char *rname, int secondary)
     FILE *fd;
     int tmptype;
 
-    tmptype = is_pc64name(rname);
+    tmptype = p00_check_name(rname);
     if (tmptype >= 0) {
         strcpy(pathname, fsdevice_get_path(floppy->unit));
         strcat(pathname, FSDEV_DIR_SEP_STR);
@@ -1218,7 +1218,7 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
             strcat(pname, FSDEV_DIR_SEP_STR);
 	    strcat(pname, dirp->d_name);
 	    p = pname;
-	    if (is_pc64name(p) >= 0) {
+	    if (p00_check_name(p) >= 0) {
 		fd = fopen(p, READ);
 		if (!fd)
 		    continue;
