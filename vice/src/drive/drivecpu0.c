@@ -3,8 +3,8 @@
  * 1541, 1541-II, 1571, 1581 and 2031 floppy disk drive.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,14 +30,11 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#endif
-
 #include "6510core.h"
 #include "alarm.h"
 #include "ciad.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "interrupt.h"
 #include "mon.h"
 #include "resources.h"
@@ -48,8 +45,6 @@
 #include "riotd.h"
 #include "wd1770.h"
 #include "fdc.h"
-
-#include "drivecpu.h"
 
 #define mynumber 0
 

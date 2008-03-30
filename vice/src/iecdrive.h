@@ -2,11 +2,11 @@
  * iecdrive.c - IEC bus handling for the true 1541 emulator.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Daniel Sladic    <sladic@eecg.toronto.edu>
+ *  Andreas Boose    <boose@linux.rz.fh-hannover.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat     <fachat@physik.tu-chemnitz.de>
+ *  Teemu Rantanen   <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

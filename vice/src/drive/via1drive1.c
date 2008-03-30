@@ -2,10 +2,10 @@
  * via1drive1.c - VIA1 emulation in the 1541, 1541II, 1571 and 2031 disk drive.
  *
  * Written by
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

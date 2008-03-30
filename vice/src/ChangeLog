@@ -1,3 +1,33 @@
+1999-06-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.38.
+
+	* c1541.c: Adapted to new attach routines.
+	(floppy_read_directory): Moved here.
+
+	* drive/drive.c (drive_enable): Reattach disk image.
+
+	* drive/drive-dir.c (vdrive_dir_create_directory): Removed
+	parameter `secondary'.
+
+	* vdrive/vdrive.c, vdrive/vdrive.h, vdrive/vdrive-iec.c,
+	(fsdevice.c,  vdrive_close_all_channels, vdrive_parse_name):
+	Renamed.
+
+	* vdrive/vdrive-iec.c, vdrive/vdrive-dir.c, vdrive/vdrive.c:
+	Use the new logging system.
+
+	* vdrive/vdrive.c, drive/drive.c, drive/drivecpu.h, attach.c,
+	drive/drivecpu0.c, drive/drivecpu1.c, drive/wd1770.c, tape.c:
+	Removed silly includes.
+
+	* utils.c, resources.c, zfile.c, archapi.h, arch/unix/archdep.c,
+	arch/msdos/archdep.c, arch/win32/archdep.c, arch/riscos/archdep.c
+	(make_backup_filename): Moved to architecture specific files.
+
+	* arch/msdos/menudefs.c (quit_callback): Call
+	`file_system_detach_disk'.
+
 1999-06-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.37.

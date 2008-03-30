@@ -5,7 +5,7 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *  Teemu Rantanen <tvr@cs.hut.fi>
- *  Andreas Boose <boose@unixserv.rz.fh-hannover.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

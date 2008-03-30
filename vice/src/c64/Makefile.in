@@ -368,7 +368,7 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/log.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/clkguard.h ../../src/datasette.h ../../src/tap.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/drive/drivecpu.h ../../src/mon.h ../../src/mos6510.h \
 	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
 	../../src/machine.h ../../src/maincpu.h patchrom.h psid.h \
 	../../src/resources.h reu.h ../../src/serial.h \
@@ -444,7 +444,7 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/snapshot.h ../../src/drive/ciad.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
-	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
 	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/iecdrive.h ../../src/maincpu.h ../../src/resources.h \
 	../../src/drive/viad.h ../../src/via.h
@@ -477,7 +477,7 @@ c64tpi.o: c64tpi.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/snapshot.h ../../src/tpi.h ../../src/parallel.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
 	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/maincpu.h ../../src/tpicore.c
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \

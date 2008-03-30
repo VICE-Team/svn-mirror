@@ -353,8 +353,8 @@ ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/drive/drive.h ../../../../src/diskimage.h \
 	../../../../src/gcr.h ../../../../src/drive/drivecpu.h \
 	../../../../src/alarm.h ../../../../src/log.h \
-	../../../../src/clkguard.h ../../../../src/mos6510.h \
-	../../../../src/mon.h ../../../../src/mem.h \
+	../../../../src/clkguard.h ../../../../src/mon.h \
+	../../../../src/mos6510.h ../../../../src/mem.h \
 	../../../../src/snapshot.h ../../../../src/interrupt.h \
 	../../../../src/6510core.h ../../../../src/machine.h \
 	../../../../src/maincpu.h ../../../../src/arch/unix/mouse.h \
@@ -401,7 +401,7 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/diskimage.h ../../../../src/gcr.h \
 	../../../../src/drive/drivecpu.h ../../../../src/alarm.h \
 	../../../../src/log.h ../../../../src/clkguard.h \
-	../../../../src/mos6510.h ../../../../src/mon.h \
+	../../../../src/mon.h ../../../../src/mos6510.h \
 	../../../../src/mem.h ../../../../src/snapshot.h \
 	../../../../src/interrupt.h ../../../../src/6510core.h \
 	../../../../src/arch/unix/vsync.h ../../../../src/utils.h \

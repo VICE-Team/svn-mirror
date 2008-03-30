@@ -2,19 +2,16 @@
  * fsdevice.c - File system device.
  *
  * Written by
- *  Teemu Rantanen      (tvr@cs.hut.fi)
- *  Jarkko Sonninen     (sonninen@lut.fi)
- *  Jouko Valta         (jopi@stekt.oulu.fi)
- *  Olaf Seibert        (rhialto@mbfys.kun.nl)
- *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
- *  Ettore Perazzoli    (ettore@comm2000.it)
- *  Martin Pottendorfer (Martin.Pottendorfer@aut.alcatel.at)
- *  Andreas Boose       (boose@unixserv.rz.fh-hannover.de)
+ *  Andreas Boose       <boose@linux.rz.fh-hannover.de>
  *
- * Patches by
- *  Dan Miner           (dminer@nyx10.cs.du.edu)
- *  Germano Caronni     (caronni@tik.ethz.ch)
- *  Daniel Fandrich     (dan@fch.wimsey.bc.ca)  /DF/
+ * Based on old code by
+ *  Teemu Rantanen      <tvr@cs.hut.fi>
+ *  Jarkko Sonninen     <sonninen@lut.fi>
+ *  Jouko Valta         <jopi@stekt.oulu.fi>
+ *  Olaf Seibert        <rhialto@mbfys.kun.nl>
+ *  André Fachat        <a.fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli    <ettore@comm2000.it>
+ *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -859,7 +856,7 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
 
     rl = 0;
 
-    if (floppy_parse_name(fsname2, length, fsname, &reallength, &readmode,
+    if (vdrive_parse_name(fsname2, length, fsname, &reallength, &readmode,
                           &fs_info[secondary].type, &rl) != SERIAL_OK)
         return SERIAL_ERROR;
 

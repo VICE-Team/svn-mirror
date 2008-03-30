@@ -47,9 +47,6 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifdef HAVE_DIR_H
-#include <dir.h>
-#endif
 
 #include <stdarg.h>
 
@@ -316,33 +313,10 @@ char *subst(const char *s, const char *string, const char *replacement)
 
 /* ------------------------------------------------------------------------- */
 
-/* Return a malloc'ed backup file name for file `fname'.  */
-char *make_backup_filename(const char *fname)
-{
-#ifndef __MSDOS__
-    /* Return a malloced string with the name of the backup file
-       corresponding to `fname'.  */
-    return concat(fname, "~", NULL);
-#else  /* !__MSDOS__ */
-    /* Return a malloced string with the name of the backup file
-       corresponding to `fname'.  FIXME: Only works with 8+3 names.  */
-    static char backup_name[MAXPATH];
-    char drive[MAXDRIVE];
-    char dir[MAXDIR];
-    char name[MAXFILE];
-    char ext[MAXEXT];
-
-    fnsplit(fname, drive, dir, name, ext);
-    fnmerge(backup_name, drive, dir, name, "BAK");
-
-    return stralloc(backup_name);
-#endif /* !__MSDOS__ */
-}
-
 /* Make a backup for file `fname'.  */
 int make_backup_file(const char *fname)
 {
-    char *backup_name = make_backup_filename(fname);
+    char *backup_name = archdep_make_backup_filename(fname);
     int retval;
 
     /* Cannot do it...  */

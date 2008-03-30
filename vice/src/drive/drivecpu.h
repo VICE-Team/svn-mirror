@@ -3,8 +3,8 @@
  * 1571 and 1581 floppy disk drives.
  *
  * Written by
- *   Ettore Perazzoli (ettore@comm2000.it)
- *   Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *   Ettore Perazzoli <ettore@comm2000.it>
+ *   Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,11 +33,9 @@
 
 #include "alarm.h"
 #include "clkguard.h"
-#include "mos6510.h"
 #include "mon.h"
 
 /* drive0, device #8.  */
-
 extern int drive0_traceflg;
 extern int drive0_rmw_flag;
 extern alarm_context_t drive0_alarm_context;
@@ -63,7 +61,6 @@ extern int drive0_cpu_write_snapshot_module(snapshot_t *s);
 extern int drive0_cpu_read_snapshot_module(snapshot_t *s);
 
 /* drive1, device #9.  */
-
 extern int drive1_traceflg;
 extern int drive1_rmw_flag;
 extern alarm_context_t drive1_alarm_context;

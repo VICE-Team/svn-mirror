@@ -2,9 +2,9 @@
  * uisettings.c - Implementation of common UI settings.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

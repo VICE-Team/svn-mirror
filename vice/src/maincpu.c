@@ -41,7 +41,6 @@
 #include "machine.h"
 #include "mem.h"
 #include "mon.h"
-#include "resources.h"
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"

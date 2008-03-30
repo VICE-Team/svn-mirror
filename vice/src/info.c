@@ -367,7 +367,7 @@ const char contrib_text[] =
 "  hardware-level 1541 emulation and wrote the new monitor\n"
 "  introduced with VICE 0.15.\n"
 "\n"
-"  Andreas Boose <boose@unixserv.rz.fh-hannover.de> gave lots of\n"
+"  Andreas Boose <boose@linux.rz.fh-hannover.de> gave lots of\n"
 "  information and bug reports about the VIC-II, the 6510 and the\n"
 "  CIAs; moreover, he wrote several test-routines that were used to\n"
 "  improve the emulation.  He also added cartridge support and has\n"
