@@ -326,7 +326,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
     raster_cache_t *cache;
     unsigned int video_mode;
     int sprite_changed_start, sprite_changed_end;
-    int changed_start_char, changed_end_char;
+    unsigned int changed_start_char, changed_end_char;
     int sprites_need_update;
     int needs_update;
 
@@ -335,7 +335,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
     cache = &(raster->cache)[raster->current_line];
 
     changed_start_char = raster->geometry->text_size.width;
-    changed_end_char = -1;
+    changed_end_char = 0;
 
     sprites_need_update = raster_fill_sprite_cache(raster,
                                                    cache,
@@ -421,7 +421,7 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
 {
     raster_cache_t *cache;
     unsigned int video_mode;
-    int changed_start_char, changed_end_char;
+    unsigned int changed_start_char, changed_end_char;
     int needs_update;
 
     video_mode = get_real_mode(raster);
@@ -429,7 +429,7 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
     cache = &(raster->cache)[raster->current_line];
 
     changed_start_char = raster->geometry->text_size.width;
-    changed_end_char = -1;
+    changed_end_char = 0;
 
     needs_update = raster_modes_fill_cache(raster->modes,
                                            video_mode,
@@ -544,7 +544,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
         || cache->overscan_background_color
         != raster->overscan_background_color) {
 
-        int changed_start_char, changed_end_char;
+        unsigned int changed_start_char, changed_end_char;
         int r;
 
         cache->n = line;

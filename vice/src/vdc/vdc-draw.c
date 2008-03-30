@@ -112,17 +112,18 @@ inline static int cache_data_fill_attr_text(BYTE *dest,
                                             BYTE *attr,
                                             BYTE *char_mem,
                                             int bytes_per_char,
-                                            int length,
+                                            unsigned int length,
                                             int l,
-                                            int *xs, int *xe,
+                                            unsigned int *xs,
+                                            unsigned int *xe,
                                             int no_check,
                                             int blink,
                                             int revers,
                                             int curpos)
 {
-    if (no_check) {
-        int i;
+    unsigned int i;
 
+    if (no_check) {
         *xs = 0;
         *xe = length - 1;
         for (i = 0; i < length; i++, src++, attr++)
@@ -132,7 +133,6 @@ inline static int cache_data_fill_attr_text(BYTE *dest,
         return 1;
     } else {
         BYTE b;
-        int i;
 
         for (i = 0; i < length; i++, src++, attr++) {
             if (dest[i] != get_attr_char_data(src[0], attr[0], l, char_mem,
@@ -163,17 +163,18 @@ inline static int cache_data_fill_attr_text_const(BYTE *dest,
                                                   BYTE attr,
                                                   BYTE *char_mem,
                                                   int bytes_per_char,
-                                                  int length,
+                                                  unsigned int length,
                                                   int l,
-                                                  int *xs, int *xe,
+                                                  unsigned int *xs,
+                                                  unsigned int *xe,
                                                   int no_check,
                                                   int blink,
                                                   int revers,
                                                   int curpos)
 {
-    if (no_check) {
-        int i;
+    unsigned int i;
 
+    if (no_check) {
         *xs = 0;
         *xe = length - 1;
         for (i = 0; i < length; i++, src++)
@@ -183,7 +184,6 @@ inline static int cache_data_fill_attr_text_const(BYTE *dest,
         return 1;
     } else {
         BYTE b;
-        int i;
 
         for (i = 0; i < length; i++, src++) {
             if (dest[i] != get_attr_char_data(src[0], attr, l, char_mem,
@@ -211,24 +211,22 @@ inline static int cache_data_fill_attr_text_const(BYTE *dest,
 
 inline static int cache_data_fill(BYTE *dest,
                                   const BYTE *src,
-                                  int length,
+                                  unsigned int length,
                                   int src_step,
-                                  int *xs,
-                                  int *xe,
+                                  unsigned int *xs,
+                                  unsigned int *xe,
                                   int no_check,
                                   int reverse)
 {
-    if (no_check) {
-        int i;
+    unsigned int i;
 
+    if (no_check) {
         *xs = 0;
         *xe = length - 1;
         for (i = 0; i < length; i++, src += src_step)
             dest[i] = src[0] ^ reverse;
         return 1;
     } else {
-        int i;
-
         for (i = 0; i < length && dest[i] == (src[0] ^ reverse);
             i++, src += src_step)
           /* do nothing */ ;
@@ -251,7 +249,8 @@ inline static int cache_data_fill(BYTE *dest,
 
 /*-----------------------------------------------------------------------*/
 
-static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_std_text(raster_cache_t *cache, unsigned int *xs,
+                        unsigned int *xe, int rr)
 {
     /* fill the line cache in text mode.
        The VDC combines text mode from
@@ -315,7 +314,8 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     return r;
 }
 
-static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
+                                 unsigned int xe)
 {
     BYTE *p;
     DWORD *table_ptr;
@@ -385,7 +385,8 @@ static void draw_std_text(void)
 }
 
 
-static int get_std_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_std_bitmap(raster_cache_t *cache, unsigned int *xs,
+                          unsigned int *xe, int rr)
 {
     /* fill the line cache in text mode.
        The VDC combines text mode from
@@ -423,7 +424,8 @@ static int get_std_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
     return r;
 }
 
-static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
+                                   unsigned int xe)
 {
     BYTE *p;
     DWORD *table_ptr, *ptr;
@@ -494,7 +496,8 @@ static void draw_std_bitmap(void)
 }
 
 
-static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_idle(raster_cache_t *cache, unsigned int *xs, unsigned int *xe,
+                    int rr)
 {
     if (rr || (vdc.regs[26] >> 4) != cache->color_data_1[0]) {
         *xs = 0;
@@ -506,7 +509,8 @@ static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
     return 0;
 }
 
-static void draw_idle_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_idle_cached(raster_cache_t *cache, unsigned int xs,
+                             unsigned int xe)
 {
     BYTE *p;
     DWORD idleval;

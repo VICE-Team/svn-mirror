@@ -1,3 +1,19 @@
+2003-01-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.1.
+
+	* sounddrv/soundsid.c: New file.
+
+	* sounddrv/Makefile.am: Added new file.
+
+	* raster/raster-modes.h, vicii/vicii-draw.c, vdc/vdc-draw.c,
+	crtc/crtc-draw.c, vic20/vic-draw.c, plus4/ted-draw.c,
+	raster/raster-cache-fill.h, raster/raster-cache-fill-1fff.h,
+	raster/raster-cache-fill-39ff.h, raster/raster-cache-const.h,
+	raster/raster-cache-nibbles.h, raster/raster-cache-text-ext.h,
+	raster/raster-cache-text-std.h, raster/raster-line.c: Changed
+	update range to `unsigned int'.
+	
 2003-01-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11a.
