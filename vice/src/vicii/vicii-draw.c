@@ -1393,7 +1393,7 @@ _draw_idle (unsigned int xs, unsigned int xe,
 #endif
 
 #ifndef ALLOW_UNALIGNED_ACCESS
-  vid_memcpy (frame_buffer_ptr + (VIC_II_SCREEN_BORDERWIDTH
+  vid_memcpy (vic_ii.raster.frame_buffer_ptr + (VIC_II_SCREEN_BORDERWIDTH
                                   + vic_ii.raster.xsmooth) * pixel_width,
               aligned_line_buffer + xs * 8 * pixel_width,
               (xe - xs + 1) * 8 * pixel_width);
