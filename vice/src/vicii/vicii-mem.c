@@ -746,24 +746,19 @@ inline static void store_d021(ADDRESS addr, BYTE value)
     if (vic_ii.regs[addr] == value)
         return;
 
+    x_pos = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk));
+
     if (!vic_ii.force_black_overscan_background_color) {
         raster_add_int_change_background
-            (&vic_ii.raster,
-            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
-            &vic_ii.raster.overscan_background_color,
-            value);
+            (&vic_ii.raster, x_pos,
+            &vic_ii.raster.overscan_background_color, value);
         raster_add_int_change_background
-            (&vic_ii.raster,
-            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
-            &vic_ii.raster.xsmooth_color,
-            value);
+            (&vic_ii.raster, x_pos,
+            &vic_ii.raster.xsmooth_color, value);
     }
 
-    x_pos = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk));
-    raster_add_int_change_background(&vic_ii.raster,
-                                     x_pos,
-                                     &vic_ii.raster.background_color,
-                                     value);
+    raster_add_int_change_background(&vic_ii.raster, x_pos,
+                                     &vic_ii.raster.background_color, value);
 
     vic_ii.regs[addr] = value;
 }
