@@ -367,7 +367,7 @@ static void scroll_up( console_private_t *pcp )
 
 static void move_downwards( console_private_t *pcp )
 {
-	if (++pcp->yPos == pcp->pConsole->console_yres)
+	if (++pcp->yPos >= pcp->pConsole->console_yres-1)
 	{
 		/* we must scroll the window */
 		scroll_up(pcp);
@@ -802,7 +802,7 @@ static void external_resize_window( console_private_t *pcp, int nWidth, int nHei
 	pcp->pConsole->console_yres = yDim;
 
     /* make sure the cursor is inside the visible area */
-	while (pcp->yPos >= yDim)
+	while (pcp->yPos >= yDim-1)
 	{
 		scroll_up( pcp );
 	}
@@ -1536,7 +1536,7 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
             pcp->yWindow,
             1,
             1,
-            pcp->hwndParent,
+            NULL, // @@@@@@ pcp->hwndParent,
             NULL,
             winmain_instance,
             NULL);
