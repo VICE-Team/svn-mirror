@@ -61,6 +61,7 @@ void printer_init(void)
     drv_ascii_init();
     drv_mps803_init();
     driver_select_init();
+    interface_serial_init();
 }
 
 void printer_reset(void)

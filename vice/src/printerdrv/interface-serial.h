@@ -27,6 +27,7 @@
 #ifndef _INTERFACE_SERIAL_H
 #define _INTERFACE_SERIAL_H
 
+extern void interface_serial_init(void);
 extern int interface_serial_init_resources(void);
 extern int interface_serial_init_cmdline_options(void);
 
