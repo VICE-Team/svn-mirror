@@ -45,8 +45,17 @@
 
 
 /* see interrupt.h; ugly, but more efficient... */
-#define via_set_int(a,b) interrupt_set_irq(ctxptr->cpu.int_status, a, b, \
-                         *(ctxptr->clk_ptr))
+#if 1
+#define via_set_int(a, b) interrupt_set_irq(ctxptr->cpu.int_status, a, b, \
+                          *(ctxptr->clk_ptr))
+#else
+#define via_set_int(a, b) \
+    do { \
+        log_debug("XX IRQ REQ INTNUM %i IK %i PEND %i", \
+                  a, b, ctxptr->cpu.int_status->pending_int[a]); \
+        interrupt_set_irq(ctxptr->cpu.int_status, a, b, *(ctxptr->clk_ptr)); \
+    } while (0)
+#endif
 
 #define myclk           (*(ctxptr->clk_ptr))
 #define myvia           (ctxptr->via2.via)
@@ -78,7 +87,7 @@
 #define snap_module_name (ctxptr->via2.my_module_name)
 
 #define myvia_init      via2d_init
-#define I_MYVIAFL       (ctxptr->via2.irq_type)
+#define myvia_int_num   (ctxptr->via2.int_num)
 #define MYVIA_NAME      (ctxptr->via2.myname)
 /*#define MYVIA_INT     (ctxptr->via2.irq_line)*/
 #define MYVIA_INT       IK_IRQ
@@ -109,7 +118,8 @@ void via2d_setup_context(drive_context_t *ctxptr)
     ctxptr->via2.read_offset = 0;
     ctxptr->via2.last_read = 0;
     ctxptr->via2.irq_line = IK_IRQ;
-    ctxptr->via2.irq_type = (ctxptr->mynumber == 0) ? I_VIA2D0FL : I_VIA2D1FL;
+    ctxptr->via2.int_num
+        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status);
 }
 
 
