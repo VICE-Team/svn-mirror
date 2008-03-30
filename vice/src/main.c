@@ -436,7 +436,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Written by");
     log_message(LOG_DEFAULT, "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,");
-    log_message(LOG_DEFAULT, "A. Boose, J. Valta and J. Sonninen.");
+    log_message(LOG_DEFAULT, "A. Boose, T. Biczo, J. Valta and J. Sonninen.");
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
     log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");

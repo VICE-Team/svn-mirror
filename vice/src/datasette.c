@@ -32,7 +32,6 @@
 #include "clkguard.h"
 #include "datasette.h"
 #include "maincpu.h"
-#include "mem.h"
 
 /* Attached TAP tape image.  */
 static tap_t *current_image = NULL;
@@ -173,29 +172,29 @@ void datasette_control(int command)
         switch(command) {
           case DATASETTE_CONTROL_STOP:
             current_image->mode = DATASETTE_CONTROL_STOP;
-            mem_set_tape_sense(0);
+            datasette_set_tape_sense(0);
             last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_START:
             current_image->mode = DATASETTE_CONTROL_START;
-            mem_set_tape_sense(1);
+            datasette_set_tape_sense(1);
             last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_FORWARD:
             current_image->mode = DATASETTE_CONTROL_FORWARD;
             datasette_forward();
-            mem_set_tape_sense(0);
+            datasette_set_tape_sense(0);
             last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_REWIND:
             current_image->mode = DATASETTE_CONTROL_REWIND;
             datasette_rewind();
-            mem_set_tape_sense(0);
+            datasette_set_tape_sense(0);
             last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_RECORD:
             current_image->mode = DATASETTE_CONTROL_RECORD;
-            mem_set_tape_sense(1);
+            datasette_set_tape_sense(1);
             last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_RESET:
@@ -206,6 +205,7 @@ void datasette_control(int command)
 
 void datasette_set_motor(int flag)
 {
+    /* printf("FL %i\n",flag); */
     if (current_image != NULL
         && current_image->mode != DATASETTE_CONTROL_REWIND
         && current_image->mode != DATASETTE_CONTROL_FORWARD) {

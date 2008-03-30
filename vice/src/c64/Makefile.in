@@ -416,7 +416,7 @@ c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/ciatimer.h
 c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
 	c64cia.h ../../src/arch/unix/types.h ../../src/cia.h \
-	../../src/snapshot.h ../../src/datasette.h ../../src/tap.h
+	../../src/snapshot.h c64mem.h ../../src/mem.h
 c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/drive/ciad.h \
 	../../src/arch/unix/types.h ../../src/cia.h \

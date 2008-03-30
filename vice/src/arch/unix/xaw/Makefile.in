@@ -319,11 +319,11 @@ c128ui.o: c128ui.c ../../../../src/vice.h ../../../../src/config.h \
 	uimenu.h uihotkey.h uisettings.h \
 	../../../../src/arch/unix/vsync.h c128icon.xpm
 c610ui.o: c610ui.c ../../../../src/vice.h ../../../../src/config.h \
-	petui.h uimenu.h ui.h ../../../../src/arch/unix/types.h \
-	../../../../src/palette.h uihotkey.h \
-	../../../../src/resources.h uicommands.h uisettings.h \
-	../../../../src/arch/unix/joystick.h \
 	../../../../src/cbm2/c610mem.h \
+	../../../../src/arch/unix/types.h ../../../../src/datasette.h \
+	../../../../src/tap.h ../../../../src/arch/unix/joystick.h \
+	petui.h ../../../../src/resources.h uicommands.h ui.h \
+	../../../../src/palette.h uimenu.h uihotkey.h uisettings.h \
 	../../../../src/arch/unix/vsync.h c610icon.xpm
 c64ui.o: c64ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cartridge.h ../../../../src/arch/unix/types.h \
@@ -335,9 +335,10 @@ c64ui.o: c64ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/c64/c64mem.h ../../../../src/mem.h \
 	../../../../src/snapshot.h c64icon.xpm
 petui.o: petui.c ../../../../src/vice.h ../../../../src/config.h \
+	../../../../src/datasette.h ../../../../src/tap.h \
+	../../../../src/arch/unix/types.h \
 	../../../../src/arch/unix/joystick.h ../../../../src/pet/pets.h \
-	../../../../src/arch/unix/types.h petui.h \
-	../../../../src/resources.h uicommands.h ui.h \
+	petui.h ../../../../src/resources.h uicommands.h ui.h \
 	../../../../src/palette.h uimenu.h uihotkey.h uisettings.h \
 	../../../../src/arch/unix/vsync.h peticon.xpm
 ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
@@ -406,6 +407,7 @@ uisnapshot.o: uisnapshot.c ../../../../src/vice.h \
 	ui.h ../../../../src/palette.h
 vic20ui.o: vic20ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cartridge.h ../../../../src/arch/unix/types.h \
+	../../../../src/datasette.h ../../../../src/tap.h \
 	../../../../src/arch/unix/joystick.h \
 	../../../../src/resources.h uicommands.h ui.h \
 	../../../../src/palette.h uimenu.h uihotkey.h uisettings.h \

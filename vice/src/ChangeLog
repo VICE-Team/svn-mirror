@@ -1,3 +1,57 @@
+1999-05-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.14.
+
+	* datasette.c, datasette.h, tape.c: Renamed `mem_set_tape_sense'
+	into `datasette_set_tape_sense'.
+
+	* c64/datasette.c (datasette_set_tape_sense): New function.
+
+	* c64/c64mem.h: Moved `mem_set_tape_sense' here.
+
+	* vic20/vic20datasette.c (datasette_set_tape_sense): New function.
+	(datasette_trigger_flux_change): Send signal to VIA1.
+
+	* vic20/vic20via2.c, vic20/vic20via.h (mem_set_tape_sense):
+	Renamed to `via2_set_tape_sense'.  #include "datasette.h".
+	(store_pcr): Added datasette motor signal.
+
+	* vic20/vic20via1.c (store_prb): Added datasette write signal.
+	#include "datasette.h".
+
+	* pet/petdatasette.c (datasette_set_tape_sense): New function.
+	* cbm2/c610datasette.c (datasette_set_tape_sense): New function.
+
+	* arch/unix/xaw/vic20ui.c: Added datasette controls.
+	* arch/unix/xaw/petui.c: Likewise.
+	* arch/unix/xaw/c610.c: Likewise.
+
+	* vic20/vic20.c (machine_init): Initialize datasette.
+	* pet/pet.c (machine_init): Likewise.
+	* cbm2/c610.c (machine_init): Likewise.
+
+	* pet/petpia1.c, pet/petpia.h (pia_set_cb2): Added datasette motor
+	signal.  #include "datasette.h".  Renamed `mem_set_tape_sense' to
+	`pia1_set_tape_sense'.
+
+	* pet/petpia.h: #include "types.h" and #include "snapshot.h".
+
+	* pet/petvia.c (store_prb): Added datasette write signal.
+
+	* cbm2/c610tpi1.c, cbm2/c610tpi.h (read_pb): Added datasette sense
+	signal.  (store_pb): Added datasette motor and write signal.
+	(tpi1_set_tape_sense): New function.
+
+	* arch/win32/resvic.rc, arch/win32/respet.rc: Commented in
+	datasette controls.
+
+	* arch/msdos/vic20ui.c (vic20_ui_init): Activated datasette
+	controls.
+	* arch/msdos/petui.c (pet_ui_init): Likewise.
+
+	* info.c: Updated.
+	* main.c (MAIN_PROGRAM): Updated init message.
+	
 1999-05-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.13.

@@ -39,19 +39,17 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Attach &tape image...\tAlt+T",    IDM_ATTACH_TAPE
         MENUITEM "Detac&h tape image",              IDM_DETACH_TAPE
-#if 0
         POPUP "Datassette contro&l"
         BEGIN
             MENUITEM "S&top",                     IDM_DATASETTE_CONTROL_STOP
             MENUITEM "&Start",                    IDM_DATASETTE_CONTROL_START
             MENUITEM "&Forward",                  IDM_DATASETTE_CONTROL_FORWARD
             MENUITEM "&Rewind",                   IDM_DATASETTE_CONTROL_REWIND
-#if 0
             MENUITEM "Re&cord",                   IDM_DATASETTE_CONTROL_RECORD
+#if 0
             MENUITEM "R&eset",                    IDM_DATASETTE_CONTROL_RESET
 #endif
         END
-#endif
         MENUITEM SEPARATOR
         MENUITEM "Monitor\tAlt+M",                  IDM_MONITOR
         POPUP "&Reset"

@@ -290,7 +290,7 @@ static tui_menu_item_def_t special_menu_items[] = {
 
 int vic20_ui_init(void)
 {
-    ui_create_main_menu(1, 1, 1, 1, 0);
+    ui_create_main_menu(1, 1, 1, 1, 1);
 
     tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
