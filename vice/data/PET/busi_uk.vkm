@@ -43,9 +43,10 @@ Shift_L 6 0 2
 Shift_R 6 6 4
 Return 3 4 0
 Escape 2 0 0
-Alt_L 8 0 8
-Meta_L 8 0 8
-Alt_R 7 6 8
+# RVS
+Page_Down 8 0 8
+# RPT
+Control_R 7 6 8
 Tab 4 0 8
 ISO_Left_Tab 4 0 1
 KP_0 7 4 8

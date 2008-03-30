@@ -29,6 +29,8 @@
 
 /* X11 keyboard driver. */
 
+#include "vice.h"
+
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
@@ -39,24 +41,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "vice.h"
-#include "vmachine.h"
-#include "machine.h"
-#include "video.h"
-#include "ui.h"
-#include "resources.h"
 #include "cmdline.h"
-#include "memutils.h"
+#include "interrupt.h"
+#include "joystick.h"
 #include "kbd.h"
 #include "kbdef.h"
-#include "interrupt.h"
+#include "machine.h"
+#include "memutils.h"
+#include "resources.h"
 #include "sysfile.h"
+#include "ui.h"
 #include "utils.h"
-#include "joystick.h"
+#include "video.h"
+#include "vmachine.h"
 
 /* ------------------------------------------------------------------------- */
 
-#define DEBUG_KBD
+/* #define DEBUG_KBD */
 /* #define DEBUG_JOY */
 
 /* Keyboard array. */
@@ -78,9 +79,8 @@ static short kbd_lshiftcol = 0;
 static short kbd_rshiftrow = 0;
 static short kbd_rshiftcol = 0;
 
-/* Right control status (used to filter out keypresses when right control is
-   pressed).  */
-static int right_control_count = 0;
+/* Meta status (used to filter out keypresses when meta is pressed).  */
+static int meta_count = 0;
 
 static int joypad_bits[10] = {
     0x10, 0x06, 0x02, 0x0a, 0x04, 0x00, 0x08, 0x05, 0x01, 0x09
@@ -239,7 +239,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
     count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
 
-    if (key == XK_Tab) {	/* Restore */
+    if (key == XK_Page_Up) {	/* Restore */
 	int retfl = 0;
 	if (report->type == KeyPress) {
 	    retfl = machine_set_restore_key(1);
@@ -262,10 +262,19 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	if (use_keypad[1] && check_set_joykeys(key, 1))
             break;
 
-        if (key == XK_Control_R)
-            right_control_count++;
+        if (key == XK_Meta_R
+            || key == XK_Meta_L
+#ifdef ALT_AS_META
+            || key == XK_Alt_R
+            || key == XK_Alt_L
+#endif
+#ifdef MODE_SWITCH_AS_META
+            || key == XK_Mode_switch
+#endif
+            )
+            meta_count++;
 
-        if (right_control_count != 0)
+        if (meta_count != 0)
             break;
 
         for (i = 0; keyconvmap[i].sym != 0; ++i) {
@@ -321,10 +330,20 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	    /* TODO: do we have to cleanup joypads here too? */
 	}
 
-        if (key == XK_Control_R)
-            right_control_count--;
+        if (meta_count > 0
+            && (key == XK_Meta_R
+                || key == XK_Meta_L
+#ifdef ALT_AS_META
+                || key == XK_Alt_R
+                || key == XK_Alt_L
+#endif
+#ifdef MODE_SWITCH_AS_META
+                || key == XK_Mode_switch
+#endif
+                ))
+            meta_count--;
 
-        if (right_control_count != 0)
+        if (meta_count != 0)
             break;
 
 	if (use_keypad[0] && check_clr_joykeys(key, 0))
@@ -360,6 +379,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	    set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
 	break;			/* KeyRelease */
 
+      case EnterNotify:
       case LeaveNotify:
 	/* Clean up. */
 	memset(keyarr, 0, sizeof(keyarr));
@@ -367,7 +387,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	memset(joy, 0, sizeof(joy));
 	virtual_shift_down = left_shift_down = right_shift_down = 0;
 	memset(joypad_status, 0, sizeof(joypad_status));
-        right_control_count = 0;
+        meta_count = 0;
 	break;			/* LeaveNotify */
 
       default:

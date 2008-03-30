@@ -271,7 +271,7 @@ static UI_CALLBACK(set_keymap_type)
 static ui_menu_entry_t keyboard_maptype_submenu[] = {
     { "*Symbolic mapping", (ui_callback_t) set_keymap_type,
 	(ui_callback_data_t) 0, NULL },
-    { "*Positional mapping", (ui_callback_t) set_keymap_type,
+    { "*Positional mapping (US)", (ui_callback_t) set_keymap_type,
 	(ui_callback_data_t) 1, NULL },
     { NULL }
 };
@@ -969,7 +969,7 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
     { "Maximum speed",
       NULL, NULL, set_maximum_speed_submenu },
     { "*Enable warp mode",
-      (ui_callback_t) toggle_WarpMode, NULL, NULL, XK_w, UI_HOTMOD_CTRL },
+      (ui_callback_t) toggle_WarpMode, NULL, NULL, XK_w, UI_HOTMOD_META },
     { NULL }
 };
 

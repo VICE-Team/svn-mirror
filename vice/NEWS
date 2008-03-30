@@ -67,7 +67,7 @@ list of all the changes in the code.
 
 - Support for 40-track disk images has been added.
 
-- Support for a new GCR-coded disk format has been added.
+- Support for a new GCR-encoded disk format has been added.
 
 - It is now possible to completely disable the idle trap.
 
@@ -85,8 +85,10 @@ list of all the changes in the code.
 - Sound and joystick should now be supported on NetBSD too (courtesy
   of Krister Walfridsson <cato@df.lth.se>).
 
-- Support for multiple keyboard layouts has been added.  A
-  "positional" layout for US keyboards is provided.
+- Support for multiple keyboard layouts and joystick mappings has been
+  added.  A "positional" layout for US keyboards is provided.  Ctrl is
+  now mapped to Tab; the Commodore key is now mapped to left Alt or
+  left Meta.
 
 - The emulators and c1541 now use the real, full-featured GNU readline
   library if found.  Use `./configure --without-readline' for the old
@@ -96,7 +98,9 @@ list of all the changes in the code.
   troubles on GNU/Linux systems which have both GNU libc 2 and 1
   installed, such as RedHat 5.x).
 
-- Serial and printer support has been added.
+- RS232 and printer support has been added.
+
+- The XDebugger has died.
 
 ** MS-DOS changes
 -----------------
@@ -144,6 +148,10 @@ list of all the changes in the code.
 - Serial traps can be enabled/disabled at runtime.
 
 - Palette files have been introduced.
+
+- Support for the new reSID engine has been added.
+
+- Automake is now being used.
 
 
 * Changes in VICE 0.14.2
