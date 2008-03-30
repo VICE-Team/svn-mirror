@@ -1,3 +1,25 @@
+2005-11-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.6.
+
+	* doc/html/plain/NEWS: Updated.
+
+2005-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+        * configure.in: Added unix/msdos tests for netplay support.
+
+2005-11-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added Minix-Vmd platform support.
+
+	* doc/Makefile.am, doc/MinixVmd-Howto.txt: Added a text file
+	describing how to compile VICE on Minix-Vmd.
+
+2005-11-07  Andreas Dehmel  <zarquon@t-online.de>
+
+	* configure.in: added --disable-zlibtest option for
+	crosscompiling.
+
 2005-11-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.17.5.

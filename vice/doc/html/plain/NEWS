@@ -5,6 +5,41 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.18
+======================
+
+** General
+----------
+
+- Fixed a bug that caused the emulator to crash after 72 minutes.
+
+** C64 changes
+--------------
+
+- Added Structured Basic, Comal 80 and Ross cart support.
+
+** C128 changes
+---------------
+
+- Improved the VDC emulation.
+
+** Unix changes
+---------------
+
+- New HardSid support (experimental).
+
+** MS-Windows changes
+---------------------
+
+- Added internal zlib and lpng support if no native libraries are
+  found at compile time.
+
+** OS/2 changes
+---------------
+
+- The OS/2 port works again now.
+
+
 * Changes in VICE 1.17
 ======================
 
