@@ -44,7 +44,6 @@
 #include "archdep.h"
 #include "resources.h"
 #include "mem.h"
-#include "vmachine.h"
 #include "interrupt.h"
 #include "utils.h"
 #include "cartridge.h"
@@ -309,7 +308,7 @@ int cartridge_attach_image(int type, const char *filename)
 
     carttype = type;
     string_set(&cartfile, filename);
-    mem_attach_cartridge((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
+    cartridge_attach((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
     free(rawcart);
     return 0;
  done:
@@ -320,7 +319,7 @@ int cartridge_attach_image(int type, const char *filename)
 void cartridge_detach_image(void)
 {
     if (carttype != CARTRIDGE_NONE) {
-	mem_detach_cartridge((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+	cartridge_detach((carttype == CARTRIDGE_CRT) ? crttype : carttype);
 	carttype = CARTRIDGE_NONE;
 	crttype = CARTRIDGE_NONE;
         if (cartfile != NULL)
@@ -342,8 +341,8 @@ void cartridge_trigger_freeze(void)
         && crttype != CARTRIDGE_KCS_POWER
         && crttype != CARTRIDGE_FINAL_III
         && carttype != CARTRIDGE_SUPER_SNAPSHOT)
-	return;
-    mem_freeze_cartridge((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+        return;
+    cartridge_freeze((carttype == CARTRIDGE_CRT) ? crttype : carttype);
     maincpu_set_nmi(I_FREEZE, IK_NMI);
 }
 

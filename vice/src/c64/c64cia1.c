@@ -54,7 +54,6 @@
  * CPU binding 
  */
 
-#include "vmachine.h"
 #include "maincpu.h"
 
 #include "interrupt.h"

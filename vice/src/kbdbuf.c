@@ -36,7 +36,6 @@
 #include "maincpu.h"
 #include "kbdbuf.h"
 #include "types.h"
-#include "vmachine.h"
 #include "charsets.h"
 
 /* Maximum number of characters we can queue.  */

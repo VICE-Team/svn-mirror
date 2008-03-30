@@ -4,7 +4,7 @@
  * See README for copyright notice
  *
  * ACIA 6551 register number declarations.
- * Interrupt signals are defined in vmachine.h.
+ * Interrupt signals are defined in interrupt.h.
  *
  * Written by
  *    Andre Fachat (a.fachat@physik.tu-chemnitz.de)

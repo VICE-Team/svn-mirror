@@ -80,7 +80,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "utils.h"
-#include "vmachine.h"
 
 /* FIXME: ugliest thing ever. */
 static void draw_sprites(void);

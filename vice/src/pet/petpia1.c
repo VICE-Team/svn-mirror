@@ -32,7 +32,6 @@
 
 #include "cmdline.h"
 #include "resources.h"
-#include "vmachine.h"
 
 #include "crtc.h"
 #include "kbd.h"

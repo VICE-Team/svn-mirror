@@ -51,7 +51,6 @@
 #include "emuid.h"
 #include "vic.h"
 #include "vic20via.h"
-#include "vmachine.h"
 #include "cartridge.h"
 
 #define IS_NULL(s)  (s == NULL || *s == '\0')

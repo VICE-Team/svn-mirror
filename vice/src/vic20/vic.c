@@ -48,7 +48,6 @@
 #include <stdio.h>
 
 #include "vic.h"
-#include "vmachine.h"
 #include "interrupt.h"
 #include "raster.h"
 #include "vic20sound.h"

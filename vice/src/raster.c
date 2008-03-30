@@ -44,7 +44,6 @@
 #include <string.h>
 #endif
 
-#include "vmachine.h"
 #include "resources.h"
 
 #ifndef _RASTER_H

@@ -59,7 +59,6 @@
 #include "tape.h"
 #include "types.h"
 #include "utils.h"
-#include "vmachine.h"
 #include "vsync.h"
 
 static int mem_load_chargen(void);

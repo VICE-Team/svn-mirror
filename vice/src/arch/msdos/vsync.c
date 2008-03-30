@@ -51,7 +51,6 @@
 #include "resources.h"
 #include "sound.h"
 #include "ui.h"
-#include "vmachine.h"
 
 #ifdef USE_MIDAS_SOUND
 #include "vmidas.h"

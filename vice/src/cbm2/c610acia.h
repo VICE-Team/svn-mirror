@@ -25,7 +25,7 @@
  */
 
 /* ACIA 6551 register number declarations.
- * Interrupt signals are defined in vmachine.h. */
+ * Interrupt signals are defined in interrupt.h. */
 
 #ifndef _C610ACIA_H
 #define _C610ACIA_H

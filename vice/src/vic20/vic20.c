@@ -52,7 +52,6 @@
 #include "vic20sound.h"
 #include "vic20ui.h"
 #include "vic20via.h"
-#include "vmachine.h"
 #include "vsync.h"
 #include "ciatimer.h"
 

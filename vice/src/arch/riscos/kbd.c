@@ -31,7 +31,6 @@
 #include "ROlib.h"
 #include "joystick.h"
 #include "ui.h"
-#include "vmachine.h"
 #include "interrupt.h"
 #include "resources.h"
 #include "video.h"

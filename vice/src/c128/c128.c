@@ -60,7 +60,6 @@
 #include "traps.h"
 #include "utils.h"
 #include "vicii.h"
-#include "vmachine.h"
 #include "vsync.h"
 #include "ciatimer.h"
 

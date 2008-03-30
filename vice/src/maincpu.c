@@ -46,7 +46,6 @@
 #include "types.h"
 #include "ui.h"
 #include "vdrive.h"
-#include "vmachine.h"
 
 /* ------------------------------------------------------------------------- */
 

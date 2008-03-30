@@ -55,7 +55,6 @@
  * CPU binding
  */
 
-#include "vmachine.h"
 #include "maincpu.h"
 
 #include "interrupt.h"
@@ -81,7 +80,6 @@
  * I/O
  */
 
-#include "vmachine.h"
 #include "vicii.h"
 #include "maincpu.h"
 #include "drive.h"

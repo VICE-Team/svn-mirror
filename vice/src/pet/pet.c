@@ -63,7 +63,6 @@
 #include "vdrive.h"
 #include "drive.h"
 #include "via.h"
-#include "vmachine.h"
 #include "vsync.h"
 
 #ifdef HAVE_RS232

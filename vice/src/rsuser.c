@@ -48,7 +48,6 @@
 #include "resources.h"
 #include "rs232.h"
 #include "rsuser.h"
-#include "vmachine.h"
 
 static int fd = -1;
 

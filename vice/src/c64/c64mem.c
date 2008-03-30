@@ -66,7 +66,6 @@
 #include "ui.h"
 #include "utils.h"
 #include "vicii.h"
-#include "vmachine.h"
 
 #ifdef HAVE_RS232
 #include "c64acia.h"
@@ -107,15 +106,10 @@ static int ieee488_enabled;
 /* Flag: Do we enable the external REU?  */
 static int reu_enabled;
 
-/* Type of the cartridge attached.  */
-static int mem_cartridge_type = CARTRIDGE_NONE;
-
 #ifdef HAVE_RS232
 /* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
 static int acia_de_enabled;
 #endif
-
-static void cartridge_config_changed(BYTE mode);
 
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
@@ -361,12 +355,6 @@ static struct {
     BYTE dir, data, data_out;
 } pport;
 
-/* Expansion port signals.  */
-static struct {
-    BYTE exrom;
-    BYTE game;
-} export;
-
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
@@ -378,29 +366,6 @@ static int tape_sense = 0;
 
 /* Tape motor status.  */
 static BYTE old_port_data_out = 0xff;
-
-/* Exansion port ROML/ROMH images.  */
-#ifdef AVOID_STATIC_ARRAYS
-BYTE *roml_banks, *romh_banks;
-#else
-BYTE roml_banks[0x20000], romh_banks[0x20000];
-#endif
-
-/* Exansion port RAM images.  */
-#ifdef AVOID_STATIC_ARRAYS
-BYTE *export_ram0;
-#else
-BYTE export_ram0[0x2000];
-#endif
-
-/* Expansion port ROML/ROMH/RAM banking.  */
-int roml_bank = 0, romh_bank = 0, export_ram = 0;
-
-/* Flag: Ultimax (VIC-10) memory configuration enabled.  */
-int ultimax = 0;
-
-/* Super Snapshot configuration flags.  */
-static BYTE ramconfig = 0xff, romconfig = 9;
 
 /* Logging goes here.  */
 static log_t c64_mem_log = LOG_ERR;
@@ -422,7 +387,7 @@ void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-static inline void pla_config_changed(void)
+inline void pla_config_changed(void)
 {
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3)
                   | (export.game << 4));
@@ -539,141 +504,36 @@ void REGPARM2 store_ram_hi(ADDRESS addr, BYTE value)
 
 void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 {
-    if ((addr & 0xff00) == 0xdf00) {
-        if (reu_enabled)
-            store_reu(addr & 0x0f, value);
-        if (ieee488_enabled)
-            store_tpi(addr & 0x07, value);
-    }
-    if ((mem_cartridge_type == CARTRIDGE_ACTION_REPLAY) && export_ram)
-        export_ram0[0x1f00 + (addr & 0xff)] = value;
-    if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
-        export_ram0[0x1f00 + (addr & 0xff)] = value;
-    if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT && (addr & 0xff) == 0) {
-        romconfig = (value == 2) ? 1 : 9;
-        romconfig = (romconfig & 0xdf) | ((ramconfig == 0) ? 0x20 : 0);
-	if ((value & 0x7f) == 0)
-	    romconfig = 35;
-	if ((value & 0x7f) == 1 || (value & 0x7f) == 3)
-	    romconfig = 0;
-	if ((value & 0x7f) == 6) {
-	    romconfig = 9;
-	    cartridge_release_freeze();
-	}
-	if ((value & 0x7f) == 9)
-	    romconfig = 6;
-        cartridge_config_changed(romconfig);
-    }
-    if (mem_cartridge_type == CARTRIDGE_FINAL_III) {
-        if ((addr & 0xff) == 0xff)  {
-            /* FIXME: Change this to call `cartridge_config_changed'.  */
-            romh_bank = roml_bank = value & 3;
-            export.game = ((value >> 5) & 1) ^ 1;
-            export.exrom = ((value >> 4) & 1) ^ 1;
-            pla_config_changed();
-            ultimax = export.game & (export.exrom ^ 1);
-            if ((value & 0x30) == 0x10)
-                maincpu_set_nmi(I_FREEZE, IK_NMI);
-            if (value & 0x40)
-                cartridge_release_freeze();    
-        }
-    }
-    if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT && (addr & 0xff) == 1) {
-        if(((ramconfig - 1) & 0xff) == value) {
-            ramconfig = value;
-            romconfig |= 35;
-        }
-        if(((ramconfig + 1) & 0xff) == value) {
-            ramconfig = value;
-            romconfig &= 0xdd;
-        }
-        cartridge_config_changed(romconfig);
-    }
-    if (mem_cartridge_type == CARTRIDGE_SUPER_GAMES) {
-        romh_bank = roml_bank = value & 3;
-        if (value & 0x4) {
-            export.game = 0;
-            export.exrom = 1;
-        } else {
-            export.game = export.exrom = 1;
-        }
-        if (value == 0xc)
-            export.game = export.exrom = 0;
-        pla_config_changed();
-    }
+    if (mem_cartridge_type != CARTRIDGE_NONE)
+        cartridge_store_io2(addr, value);
+    if (reu_enabled)
+        store_reu(addr & 0x0f, value);
+    if (ieee488_enabled)
+        store_tpi(addr & 0x07, value);
     return;
 }
 
 BYTE REGPARM1 read_io2(ADDRESS addr)
 {
+    if (mem_cartridge_type != CARTRIDGE_NONE)
+        return cartridge_read_io2(addr);
     if (emu_id_enabled && addr >= 0xdfa0) {
         addr &= 0xff;
         if (addr == 0xff)
             emulator_id[addr - 0xa0] ^= 0xff;
         return emulator_id[addr - 0xa0];
     }
-    if ((addr & 0xff00) == 0xdf00) {
-        if (reu_enabled)
-            return read_reu(addr & 0x0f);
-        if (ieee488_enabled)
-            return read_tpi(addr & 0x07);
-
-	if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY
-	    || mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT
-	    || mem_cartridge_type == CARTRIDGE_FINAL_III) {
-	    if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT
-	                           && (addr & 0xff) == 1)
-		return ramconfig;
-            if (export_ram && mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
-                return export_ram0[0x1f00 + (addr & 0xff)];
-            switch (roml_bank) {
-              case 0:
-                return roml_banks[addr & 0x1fff];
-              case 1:
-                return roml_banks[(addr & 0x1fff) + 0x2000];
-              case 2:
-                return roml_banks[(addr & 0x1fff) + 0x4000];
-              case 3:
-                return roml_banks[(addr & 0x1fff) + 0x6000];
-            }
-        }
-        if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
-            return export_ram0[0x1f00 + (addr & 0xff)];
-    }
+    if (reu_enabled)
+        return read_reu(addr & 0x0f);
+    if (ieee488_enabled)
+        return read_tpi(addr & 0x07);
     return rand();
 }
 
 void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 {
-    if ((addr & 0xff00) == 0xde00) {
-        if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
-            cartridge_config_changed(value);
-        if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
-            cartridge_config_changed(1);
-        if (mem_cartridge_type == CARTRIDGE_SIMONS_BASIC)
-            cartridge_config_changed(1);
-        if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT)
-            export_ram0[0x1e00 + (addr & 0xff)] = value;
-        if (mem_cartridge_type == CARTRIDGE_OCEAN ||
-            mem_cartridge_type == CARTRIDGE_FUNPLAY) {
-            switch (mem_cartridge_type) {
-              case CARTRIDGE_OCEAN:
-                romh_bank = roml_bank = value & 15;
-                break;
-              case CARTRIDGE_FUNPLAY:
-                romh_bank = roml_bank = ((value >> 2) | (value & 1)) & 15;
-                break;
-            }
-            if (value & 0x80) {
-                export.game = (value >> 4) & 1;
-                export.exrom = 1;
-            } else {
-                export.game = export.exrom = 1;
-            }
-            pla_config_changed();
-            ultimax = 0;
-        }
-    }
+    if (mem_cartridge_type != CARTRIDGE_NONE)
+        cartridge_store_io1(addr, value);
 #ifdef HAVE_RS232
     if (acia_de_enabled)
         store_acia1(addr & 0x03, value);
@@ -683,20 +543,8 @@ void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_io1(ADDRESS addr)
 {
-    if ((addr & 0xff00) == 0xde00) {
-	if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
-	    return rand();
-	if (mem_cartridge_type == CARTRIDGE_KCS_POWER) {
-	    cartridge_config_changed(0);
-	    return roml_banks[0x1e00 + (addr & 0xff)];
-	}
-        if (mem_cartridge_type == CARTRIDGE_FINAL_III)
-            return roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)];
-	if (mem_cartridge_type == CARTRIDGE_SIMONS_BASIC)
-	    cartridge_config_changed(0);
-	if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT)
-	    return export_ram0[0x1e00 + (addr & 0xff)];
-    }
+    if (mem_cartridge_type != CARTRIDGE_NONE)
+        return cartridge_read_io1(addr);
 #ifdef HAVE_RS232
     if (acia_de_enabled)
         return read_acia1(addr & 0x03);
@@ -735,33 +583,6 @@ void REGPARM2 store_rom(ADDRESS addr, BYTE value)
         kernal_rom[addr & 0x1fff] = value;
         break;
     }
-}
-
-BYTE REGPARM1 read_roml(ADDRESS addr)
-{
-    if (export_ram)
-        return export_ram0[addr & 0x1fff];
-#ifdef DEBUG
-    printf("RL: ADDR: %i\tVAL: %i\n",(addr & 0x1fff) + (roml_bank << 13),
-           roml_banks[(addr & 0x1fff) + (roml_bank << 13)]);
-#endif
-    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
-}
-
-BYTE REGPARM1 read_romh(ADDRESS addr)
-{
-#ifdef DEBUG
-    printf("RH: ADDR: %i\tVAL: %i\n",(addr & 0x1fff) + (romh_bank << 13),
-           romh_banks[(addr & 0x1fff) + (romh_bank << 13)]);
-#endif
-    return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
-}
-
-void REGPARM2 store_roml(ADDRESS addr, BYTE value)
-{
-    if (export_ram)
-        export_ram0[addr & 0x1fff] = value;
-    return;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1042,31 +863,7 @@ void initialize_memory(void)
 
     /* Setup initial memory configuration.  */
     pla_config_changed();
-
-    switch (mem_cartridge_type) {
-      case CARTRIDGE_ACTION_REPLAY:
-      case CARTRIDGE_KCS_POWER:
-      case CARTRIDGE_GENERIC_8KB:
-      case CARTRIDGE_SUPER_GAMES:
-        cartridge_config_changed(0);
-        break;
-      case CARTRIDGE_FINAL_III:
-      case CARTRIDGE_SIMONS_BASIC:
-      case CARTRIDGE_GENERIC_16KB:
-        cartridge_config_changed(1);
-        break;
-      case CARTRIDGE_ULTIMAX:
-        cartridge_config_changed(3);
-        break;
-      case CARTRIDGE_SUPER_SNAPSHOT:
-        cartridge_config_changed(9);
-        break;
-      case CARTRIDGE_OCEAN:
-      case CARTRIDGE_FUNPLAY:
-        cartridge_config_changed(1);
-        store_io1((ADDRESS) 0xde00, 0);
-        break;
-    }
+    cartridge_init_config();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1248,91 +1045,6 @@ int mem_load(void)
     return 0;
 }
 
-void mem_attach_cartridge(int type, BYTE * rawcart)
-{
-    mem_cartridge_type = type;
-    roml_bank = romh_bank = 0;
-    switch (type) {
-      case CARTRIDGE_GENERIC_8KB:
-        memcpy(roml_banks, rawcart, 0x2000);
-        cartridge_config_changed(0);
-        break;
-      case CARTRIDGE_SIMONS_BASIC:
-      case CARTRIDGE_GENERIC_16KB:
-        memcpy(roml_banks, rawcart, 0x2000);
-        memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-        cartridge_config_changed(1);
-        break;
-      case CARTRIDGE_ACTION_REPLAY:
-        memcpy(roml_banks, rawcart, 0x8000);
-        memcpy(romh_banks, rawcart, 0x8000);
-        cartridge_config_changed(0);
-        break;
-      case CARTRIDGE_KCS_POWER:
-        memcpy(roml_banks, rawcart, 0x2000);
-        memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-        cartridge_config_changed(0);
-        break;
-      case CARTRIDGE_FINAL_III:
-        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
-        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
-        memcpy(&roml_banks[0x4000], &rawcart[0x8000], 0x2000);
-        memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
-        memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
-        memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-        cartridge_config_changed(1);
-        break;
-      case CARTRIDGE_SUPER_SNAPSHOT:
-        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
-        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
-        cartridge_config_changed(9);
-        break;
-      case CARTRIDGE_OCEAN:
-      case CARTRIDGE_FUNPLAY:
-        memcpy(roml_banks, rawcart, 0x2000 * 16);
-        memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
-        break;
-      case CARTRIDGE_ULTIMAX:
-        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-        memcpy(&romh_banks[0x0000], &rawcart[0x0000], 0x2000);
-        cartridge_config_changed(3);
-        break;
-      case CARTRIDGE_SUPER_GAMES:
-        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
-        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
-        memcpy(&roml_banks[0x4000], &rawcart[0x8000], 0x2000);
-        memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
-        memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
-        memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-        cartridge_config_changed(0);
-        break;
-      default:
-        mem_cartridge_type = CARTRIDGE_NONE;
-    }
-    return;
-}
-
-void mem_detach_cartridge(int type)
-{
-    cartridge_config_changed(6);
-    mem_cartridge_type = CARTRIDGE_NONE;
-    return;
-}
-
-void mem_freeze_cartridge(int type)
-{
-    if (type == CARTRIDGE_ACTION_REPLAY || type == CARTRIDGE_SUPER_SNAPSHOT)
-	cartridge_config_changed(35);
-    if (type == CARTRIDGE_KCS_POWER || type == CARTRIDGE_FINAL_III)
-	cartridge_config_changed(3);
-}
-
 /* ------------------------------------------------------------------------- */
 
 /* Change the current video bank.  Call this routine only when the vbank
@@ -1367,18 +1079,6 @@ void mem_toggle_ieee488(int flag)
 void mem_toggle_emu_id(int flag)
 {
     emu_id_enabled = flag;
-}
-
-static void cartridge_config_changed(BYTE mode)
-{
-    export.game = mode & 1;
-    export.exrom = ((mode >> 1) & 1) ^ 1;
-    romh_bank = roml_bank = (mode >> 3) & 3;
-    export_ram = (mode >> 5) & 1;
-    pla_config_changed();
-    if (mode & 0x40)
-        cartridge_release_freeze();
-    ultimax = export.game & (export.exrom ^ 1);
 }
 
 void mem_set_bank_pointer(BYTE **base, int *limit)

@@ -50,9 +50,7 @@
  * CPU binding
  */
 
-#include "vmachine.h"
 #include "maincpu.h"
-
 #include "interrupt.h"
 
 #define MYCIA_INT       IK_IRQ

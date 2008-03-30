@@ -39,7 +39,6 @@
 #include "rs232.h"
 #include "snapshot.h"
 #include "types.h"
-#include "vmachine.h"
 
 #include "acia.h"
 

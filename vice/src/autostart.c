@@ -58,7 +58,6 @@
 #include "ui.h"
 #include "utils.h"
 #include "vdrive.h"
-#include "vmachine.h"
 #include "zfile.h"
 
 /* Kernal addresses.  Set by `autostart_init()'.  */

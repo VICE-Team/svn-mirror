@@ -47,7 +47,6 @@
 #include "mem.h"
 #include "resources.h"
 #include "ui.h"
-#include "vmachine.h"
 #include "vsync.h"
 
 /* #define DEBUG_KBD */

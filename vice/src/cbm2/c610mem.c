@@ -52,7 +52,6 @@
 #include "tape.h"
 #include "types.h"
 #include "utils.h"
-#include "vmachine.h"
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */

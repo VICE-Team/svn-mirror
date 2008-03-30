@@ -56,7 +56,6 @@
 #include "traps.h"
 #include "utils.h"
 #include "via.h"
-#include "vmachine.h"
 #include "vsync.h"
 #include "drive.h"
 #include "ciatimer.h"

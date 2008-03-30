@@ -34,7 +34,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "via.h"
-#include "vmachine.h"
 
 /* global */
 

@@ -54,7 +54,6 @@
 #include "snapshot.h"
 #include "utils.h"
 #include "vdc.h"
-#include "vmachine.h"
 #include "ui.h"
 #include "vicii.h"
 

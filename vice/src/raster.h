@@ -33,7 +33,6 @@
 #define _RASTER_H
 
 #include "types.h"
-#include "vmachine.h"
 #include "video.h"
 
 /* ------------------------------------------------------------------------- */

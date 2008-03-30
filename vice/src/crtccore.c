@@ -62,7 +62,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "utils.h"
-#include "vmachine.h"
 #include "alarm.h"
 #include "maincpu.h"
 
