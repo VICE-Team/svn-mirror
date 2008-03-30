@@ -236,28 +236,24 @@ BYTE *gcr_find_sector_data(BYTE *offset,
     return offset;
 }
 
-int gcr_read_sector(gcr_t *gcr, BYTE *readdata, int track, int sector)
+int gcr_read_sector(BYTE *gcr_track_start_ptr, int gcr_current_track_size,
+                    BYTE *readdata, int track, int sector)
 {
     BYTE buffer[260], *offset;
-    BYTE *GCR_track_start_ptr;
-    int GCR_current_track_size;
-
-    GCR_track_start_ptr = gcr->data
-                           + ((track - 1) * NUM_MAX_BYTES_TRACK);
-    GCR_current_track_size = gcr->track_size[track - 1];
 
     offset = gcr_find_sector_header(track, sector,
-                                    GCR_track_start_ptr,
-                                    GCR_current_track_size);
-    if (offset == NULL)
-        return -1;
-    offset = gcr_find_sector_data(offset, GCR_track_start_ptr,
-                                  GCR_current_track_size);
+                                    gcr_track_start_ptr,
+                                    gcr_current_track_size);
     if (offset == NULL)
         return -1;
 
-    convert_GCR_to_sector(buffer, offset, GCR_track_start_ptr,
-                          GCR_current_track_size);
+    offset = gcr_find_sector_data(offset, gcr_track_start_ptr,
+                                  gcr_current_track_size);
+    if (offset == NULL)
+        return -1;
+
+    convert_GCR_to_sector(buffer, offset, gcr_track_start_ptr,
+                          gcr_current_track_size);
     if (buffer[0] != 0x7)
         return -1;
 

@@ -35,7 +35,6 @@
 #include "archdep.h"
 #include "charsets.h"
 #include "diskimage.h"
-#include "gcr.h"
 #include "log.h"
 #include "serial.h"
 #include "t64.h"
@@ -186,7 +185,7 @@ static vdrive_t *open_disk_image(const char *name)
 
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
     image->name = stralloc(name);
-    image->gcr = gcr_create_image();
+    image->gcr = NULL; 
 
     if (disk_image_open(image) < 0) {
         free(image->name);
@@ -210,7 +209,6 @@ static void close_disk_image(vdrive_t *vdrive)
     image = vdrive->image;
 
     vdrive_detach_image(image, 100, vdrive);
-    gcr_destroy_image(image->gcr);
     disk_image_close(image);
 
     free(image);
