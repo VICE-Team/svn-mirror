@@ -27,13 +27,15 @@
 #ifndef _VSYNC_H
 #define _VSYNC_H
 
+struct video_canvas_s;
+
 extern void vsync_suspend_speed_eval(void);
 extern void vsync_sync_reset(void);
 extern int vsync_resources_init(void);
 extern int vsync_cmdline_options_init(void);
 extern void vsync_init(void (*hook)(void));
 extern void vsync_set_machine_parameter(double refresh_rate, long cycles);
-extern int vsync_do_vsync(int been_skipped);
+extern int vsync_do_vsync(struct video_canvas_s *c, int been_skipped);
 extern int vsync_disable_timer(void);
 
 #endif
