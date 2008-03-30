@@ -123,7 +123,7 @@ void ui_snapshot_dialog(void)
 	    
     /* ok button pressed */
     if (machine_write_snapshot(name, GTK_TOGGLE_BUTTON(attach_rom)->active, 
-			       GTK_TOGGLE_BUTTON(attach_disk)->active) < 0)
+			       GTK_TOGGLE_BUTTON(attach_disk)->active, 0) < 0)
         ui_error(_("Cannot write snapshot file\n`%s'\n"), name);
     else
 	ui_message(_("Successfully wrote `%s'\n"), name);

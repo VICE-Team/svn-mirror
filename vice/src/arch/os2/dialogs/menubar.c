@@ -131,7 +131,7 @@ static void toggle_async(ADDRESS addr, void *name)
 static void load_snapshot(ADDRESS addr, void *hwnd)
 {
     char *name = concat(archdep_boot_path(), "\\vice2.vsf", NULL);
-    if (machine_read_snapshot(name) < 0)
+    if (machine_read_snapshot(name, 0) < 0)
         WinMessageBox(HWND_DESKTOP, (HWND)hwnd,
                       "Unable to load snapshot - sorry!",
                       "Load Snapshot", 0, MB_OK);
@@ -144,7 +144,7 @@ static void save_snapshot(ADDRESS addr, void *hwnd)
 {
     // FIXME !!!!! roms, disks
     char *name = concat(archdep_boot_path(), "\\vice2.vsf", NULL);
-    if (machine_write_snapshot(name, 1, 1) < 0)
+    if (machine_write_snapshot(name, 1, 1, 0) < 0)
             WinMessageBox(HWND_DESKTOP, (HWND)hwnd,
                           "Unable to save snapshot - sorry!",
                           "Save Snapshot", 0, MB_OK);

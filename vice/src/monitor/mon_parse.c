@@ -1334,11 +1334,11 @@ case 25:
     break;}
 case 26:
 #line 201 "mon_parse.y"
-{ machine_write_snapshot(yyvsp[-1].str,0,0); /* FIXME */ ;
+{ machine_write_snapshot(yyvsp[-1].str,0,0,0); /* FIXME */ ;
     break;}
 case 27:
 #line 203 "mon_parse.y"
-{ machine_read_snapshot(yyvsp[-1].str); ;
+{ machine_read_snapshot(yyvsp[-1].str, 0); ;
     break;}
 case 28:
 #line 205 "mon_parse.y"

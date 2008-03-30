@@ -157,7 +157,7 @@ void ui_snapshot_save_dialog(HWND hwnd)
     if (s != NULL) {
         util_add_extension(&s, "vsf");
 
-        if (machine_write_snapshot(s, save_roms, save_disks) < 0)
+        if (machine_write_snapshot(s, save_roms, save_disks, 0) < 0)
             ui_error("Cannot write snapshot file `%s'.", s);
         free(s);
     }
@@ -170,13 +170,13 @@ void ui_snapshot_load_dialog(HWND hwnd)
     if ((s = ui_select_file(hwnd, "Load snapshot image",
             UI_LIB_FILTER_ALL | UI_LIB_FILTER_SNAPSHOT,
             FILE_SELECTOR_SNAPSHOT_STYLE,NULL)) != NULL) {
-         if (machine_read_snapshot(s) < 0)
+         if (machine_read_snapshot(s, 0) < 0)
              ui_error("Cannot read snapshot image");
          free(s);
     }
 }
 
-extern  HWND            window_handles[2];
+extern HWND window_handles[2];
 
 void ui_screenshot_save_dialog(HWND hwnd)
 {

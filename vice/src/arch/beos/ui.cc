@@ -317,7 +317,7 @@ char    *fullname2;
     }
 
     fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[lastindex].name,NULL);
-    if (machine_write_snapshot(fullname,0,0)<0) {
+    if (machine_write_snapshot(fullname,0,0,0)<0) {
         ui_error("Can't write snapshot file %s.",fullname);
     }
     free(fullname);
@@ -328,7 +328,7 @@ static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
     char *fullname;
 
     fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[lastindex].name,NULL);
-    if (machine_read_snapshot(fullname)<0) {
+    if (machine_read_snapshot(fullname,0)<0) {
         ui_error("Cannot read snapshot image");
     }
     free(fullname);

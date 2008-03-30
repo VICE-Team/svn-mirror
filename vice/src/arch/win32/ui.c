@@ -1013,7 +1013,7 @@ static void save_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
 
     fullname = concat(archdep_boot_path(), "\\", machine_name, "\\",
                       files[lastindex].name, NULL);
-    if (machine_write_snapshot(fullname,0,0) < 0) {
+    if (machine_write_snapshot(fullname, 0, 0, 0) < 0) {
         ui_error("Can't write snapshot file.");
     }
     free(fullname);
@@ -1025,7 +1025,7 @@ static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
 
     fullname = concat(archdep_boot_path(), "\\", machine_name, "\\",
                       files[lastindex].name, NULL);
-    if (machine_read_snapshot(fullname)<0) {
+    if (machine_read_snapshot(fullname, 0) < 0) {
         ui_error("Cannot read snapshot image");
     }
     free(fullname);
@@ -1386,9 +1386,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 */
 		{
             if (machine_class == VICE_MACHINE_PLUS4) {
-                if ((keyarr[7]&128)) {
+                if ((keyarr[7] & 128)) {
                     keyboard_clear_keymatrix();
-                    keyboard_set_keyarr_and_latch(7,7,1);
+                    keyboard_set_keyarr_and_latch(7, 7, 1);
                 } else {
                     keyboard_clear_keymatrix();
                 }

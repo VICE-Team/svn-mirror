@@ -1618,7 +1618,7 @@ static int ui_make_snapshot(const char *name)
   /* For reasons for this see true drive emulation */
   ui_temp_suspend_sound();
 
-  if ((status = machine_write_snapshot(name, save_roms, save_disks)) == 0)
+  if ((status = machine_write_snapshot(name, save_roms, save_disks, 0)) == 0)
   {
     /* if successful, close the menu (true for all varieties this can be called with) */
     Wimp_CreateMenu((int*)-1, 0, 0);
@@ -4205,7 +4205,7 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
 
   /*log_message(LOG_DEFAULT, "Load snapshot %s", ((char*)SnapshotMessage)+44);*/
 
-  status = machine_read_snapshot(((char*)SnapshotMessage)+44);
+  status = machine_read_snapshot(((char*)SnapshotMessage, 0)+44);
 
   /* In this case the scrap removal had to be delayed */
   if (WimpScrapUsed != 0)

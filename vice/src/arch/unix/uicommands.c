@@ -35,6 +35,7 @@
 #include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
+#include "event.h"
 #include "fliplist.h"
 #include "fullscreenarch.h"
 #include "imagecontents.h"
@@ -465,7 +466,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
         free(last_dir);
     util_fname_split(filename, &last_dir, NULL);
 
-    if (machine_read_snapshot(filename) < 0)
+    if (machine_read_snapshot(filename, 0) < 0)
         ui_error(_("Cannot load snapshot file\n`%s'"), filename);
     ui_update_menus();
 
@@ -497,7 +498,7 @@ static void save_snapshot_trap(ADDRESS unused_addr, void *data)
     if (data) {
         /* quick snapshot, save ROMs & disks (??) */
         log_debug(_("Quicksaving file %s."), (char *)data);
-        if (machine_write_snapshot(data, 1, 1) < 0) {
+        if (machine_write_snapshot(data, 1, 1, 0) < 0) {
             ui_error(_("Cannot write snapshot file\n`%s'\n"), data);
         }
         free(data);
@@ -520,6 +521,27 @@ static UI_CALLBACK(save_quicksnap)
 
     interrupt_maincpu_trigger_trap(save_snapshot_trap, (void *)fname);
 }
+
+static UI_CALLBACK(record_events_start)
+{
+    event_record_start();
+}
+
+static UI_CALLBACK(record_events_stop)
+{
+    event_record_stop();
+}
+
+static UI_CALLBACK(playback_events_start)
+{
+    event_playback_start();
+}
+
+static UI_CALLBACK(playback_events_stop)
+{
+    event_playback_stop();
+}
+
 
 /*  fliplist commands */
 extern char last_attached_images[NUM_DRIVES][256];
@@ -835,79 +857,79 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 
 static ui_menu_entry_t attach_empty_disk_image_submenu[] = {
     { N_("Unit #8..."),
-      (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 8, NULL, },
+      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)8, NULL, },
     { N_("Unit #9..."),
-      (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 9, NULL, },
+      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)9, NULL, },
     { N_("Unit #10..."),
-      (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 10, NULL, },
+      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)10, NULL, },
     { N_("Unit #11..."),
-      (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 11, NULL, },
+      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)11, NULL, },
     { NULL }
 };
 
 static ui_menu_entry_t attach_disk_image_submenu[] = {
     { N_("Unit #8..."),
-      (ui_callback_t) attach_disk, (ui_callback_data_t) 8, NULL,
+      (ui_callback_t)attach_disk, (ui_callback_data_t)8, NULL,
       XK_8, UI_HOTMOD_META },
     { N_("Unit #9..."),
-      (ui_callback_t) attach_disk, (ui_callback_data_t) 9, NULL,
+      (ui_callback_t)attach_disk, (ui_callback_data_t)9, NULL,
       XK_9, UI_HOTMOD_META },
     { N_("Unit #10..."),
-      (ui_callback_t) attach_disk, (ui_callback_data_t) 10, NULL,
+      (ui_callback_t)attach_disk, (ui_callback_data_t)10, NULL,
       XK_0, UI_HOTMOD_META },
     { N_("Unit #11..."),
-      (ui_callback_t) attach_disk, (ui_callback_data_t) 11, NULL,
+      (ui_callback_t)attach_disk, (ui_callback_data_t)11, NULL,
       XK_1, UI_HOTMOD_META },
     { NULL }
 };
 
 static ui_menu_entry_t detach_disk_image_submenu[] = {
     { N_("Unit #8"),
-      (ui_callback_t) detach_disk, (ui_callback_data_t) 8, NULL },
+      (ui_callback_t)detach_disk, (ui_callback_data_t)8, NULL },
     { N_("Unit #9"),
-      (ui_callback_t) detach_disk, (ui_callback_data_t) 9, NULL },
+      (ui_callback_t)detach_disk, (ui_callback_data_t)9, NULL },
     { N_("Unit #10"),
-      (ui_callback_t) detach_disk, (ui_callback_data_t) 10, NULL },
+      (ui_callback_t)detach_disk, (ui_callback_data_t)10, NULL },
     { N_("Unit #11"),
-      (ui_callback_t) detach_disk, (ui_callback_data_t) 11, NULL },
+      (ui_callback_t)detach_disk, (ui_callback_data_t)11, NULL },
     { "--" },
     { N_("All"),
-      (ui_callback_t) detach_disk, (ui_callback_data_t) -1, NULL },
+      (ui_callback_t)detach_disk, (ui_callback_data_t)-1, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t reset_submenu[] = {
     { N_("Soft"),
-      (ui_callback_t) reset, NULL, NULL,
+      (ui_callback_t)reset, NULL, NULL,
       XK_F9, UI_HOTMOD_META },
     { N_("Hard"),
-      (ui_callback_t) powerup_reset, NULL, NULL,
+      (ui_callback_t)powerup_reset, NULL, NULL,
       XK_F12, UI_HOTMOD_META },
     { "--" },
     { N_("Unit #8"),
-      (ui_callback_t) unit8_reset, NULL, NULL },
+      (ui_callback_t)unit8_reset, NULL, NULL },
     { N_("Unit #9"),
-      (ui_callback_t) unit9_reset, NULL, NULL },
+      (ui_callback_t)unit9_reset, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t flip_submenu[] = {
     { N_("Add current image (Unit 8)"),
-      (ui_callback_t) add2fliplist, (ui_callback_data_t) 0, NULL,
+      (ui_callback_t)add2fliplist, (ui_callback_data_t)0, NULL,
       XK_i, UI_HOTMOD_META },
     { N_("Remove current image (Unit 8)"),
-      (ui_callback_t) remove_from_fliplist, (ui_callback_data_t) 0, NULL,
+      (ui_callback_t)remove_from_fliplist, (ui_callback_data_t)0, NULL,
       XK_k, UI_HOTMOD_META },
     { N_("Attach next image (Unit 8)"),
-      (ui_callback_t) attach_from_fliplist3, (ui_callback_data_t) 1, NULL,
+      (ui_callback_t)attach_from_fliplist3, (ui_callback_data_t)1, NULL,
       XK_n, UI_HOTMOD_META },
     { N_("Attach previous image (Unit 8)"),
-      (ui_callback_t) attach_from_fliplist3, (ui_callback_data_t) 0, NULL,
+      (ui_callback_t)attach_from_fliplist3, (ui_callback_data_t)0, NULL,
       XK_N, UI_HOTMOD_META },
     { N_("Load fliplist file"),
-      (ui_callback_t) load_save_fliplist, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t)load_save_fliplist, (ui_callback_data_t)1, NULL },
     { N_("Save fliplist file"),
-      (ui_callback_t) load_save_fliplist, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t)load_save_fliplist, (ui_callback_data_t)0, NULL },
     { NULL }
 };
 
@@ -925,40 +947,49 @@ ui_menu_entry_t ui_disk_commands_menu[] = {
 
 ui_menu_entry_t ui_tape_commands_menu[] = {
     { N_("Attach a tape image..."),
-      (ui_callback_t) attach_tape, NULL, NULL,
+      (ui_callback_t)attach_tape, NULL, NULL,
       XK_t, UI_HOTMOD_META},
     { N_("Detach tape image"),
-      (ui_callback_t) detach_tape, NULL, NULL },
+      (ui_callback_t)detach_tape, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_smart_attach_commands_menu[] = {
     { N_("Smart-attach disk/tape..."),
-      (ui_callback_t) smart_attach, NULL, NULL,
+      (ui_callback_t)smart_attach, NULL, NULL,
       XK_a, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_directory_commands_menu[] = {
     { N_("Change working directory..."),
-      (ui_callback_t) change_working_directory, NULL, NULL },
+      (ui_callback_t)change_working_directory, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { N_("Load snapshot..."),
-      (ui_callback_t) load_snapshot, NULL, NULL,
+      (ui_callback_t)load_snapshot, NULL, NULL,
       XK_l, UI_HOTMOD_META },
     { N_("Save snapshot..."),
-      (ui_callback_t) save_snapshot, NULL, NULL,
+      (ui_callback_t)save_snapshot, NULL, NULL,
       XK_s, UI_HOTMOD_META },
     { "--" },
     { N_("Quickload snapshot"),
-      (ui_callback_t) load_quicksnap, NULL, NULL,
+      (ui_callback_t)load_quicksnap, NULL, NULL,
       XK_F10, UI_HOTMOD_META },
     { N_("Quicksave snapshot"),
-      (ui_callback_t) save_quicksnap, NULL, NULL,
+      (ui_callback_t)save_quicksnap, NULL, NULL,
       XK_F11, UI_HOTMOD_META },
+    { "--" },
+    { N_("Start recording events"),
+      (ui_callback_t)record_events_start, NULL, NULL },
+    { N_("Stop recording events"),
+      (ui_callback_t)record_events_stop, NULL, NULL },
+    { N_("Start playing back events"),
+      (ui_callback_t)playback_events_start, NULL, NULL },
+    { N_("Stop playing back events"),
+      (ui_callback_t)playback_events_stop, NULL, NULL },
     { NULL }
 };
 
@@ -970,10 +1001,10 @@ ui_menu_entry_t ui_snapshot_commands_menu[] = {
 
 ui_menu_entry_t ui_tool_commands_menu[] = {
     { N_("Activate monitor"),
-      (ui_callback_t) activate_monitor, NULL, NULL,
+      (ui_callback_t)activate_monitor, NULL, NULL,
       XK_h, UI_HOTMOD_META },
     { N_("Run C1541"),
-      (ui_callback_t) run_c1541, NULL, NULL },
+      (ui_callback_t)run_c1541, NULL, NULL },
     { NULL }
 };
 
@@ -981,9 +1012,9 @@ extern ui_callback_t about;
 
 ui_menu_entry_t ui_help_commands_menu[] = {
     { N_("Browse manuals"),
-      (ui_callback_t) browse_manual, NULL, NULL },
+      (ui_callback_t)browse_manual, NULL, NULL },
     { N_("About VICE..."),
-      (ui_callback_t) ui_about, NULL, NULL },
+      (ui_callback_t)ui_about, NULL, NULL },
     { NULL }
 };
 
@@ -991,14 +1022,14 @@ ui_menu_entry_t ui_run_commands_menu[] = {
     { N_("Reset"),
       NULL, NULL, reset_submenu },
     { N_("*Pause"),
-      (ui_callback_t) toggle_pause, NULL, NULL,
+      (ui_callback_t)toggle_pause, NULL, NULL,
       XK_p, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_exit_commands_menu[] = {
     { N_("Exit emulator"),
-      (ui_callback_t) do_exit, NULL, NULL,
+      (ui_callback_t)do_exit, NULL, NULL,
       XK_q, UI_HOTMOD_META },
     { NULL }
 };

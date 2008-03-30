@@ -333,7 +333,7 @@ void ui_select_file_action(BMessage *msg) {
 			if (autostart_autodetect(path->Path(), NULL, 0, AUTOSTART_MODE_RUN) < 0)
   				ui_error("Cannot autostart specified file.");
 		} else if (last_filetype[0] == SNAPSHOTLOAD_FILE) {
-	    	if (machine_read_snapshot(path->Path())<0) {
+	    	if (machine_read_snapshot(path->Path(),0)<0) {
         		ui_error("Cannot read snapshot image");
         	}
     	} else if (last_filetype[0] == C64_CARTRIDGE_FILE) {
@@ -373,7 +373,7 @@ void ui_select_file_action(BMessage *msg) {
 		
 		/* now the action */
 		if (last_filetype[1] == SNAPSHOTSAVE_FILE) {
-			if (machine_write_snapshot(fullpath, 1, 1) < 0)
+			if (machine_write_snapshot(fullpath, 1, 1, 0) < 0)
             	ui_error("Cannot write snapshot file.");
 		}
 		

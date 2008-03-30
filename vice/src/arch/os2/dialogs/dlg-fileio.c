@@ -274,12 +274,12 @@ static void check_extension(char path[CCHMAXPATH], const char *ext)
 
 static int load_snapshot(trapaction_t *act)
 {
-    return machine_read_snapshot(act->path);
+    return machine_read_snapshot(act->path, 0);
 }
 
 static int save_snapshot(trapaction_t *act)
 {
-    return machine_write_snapshot(act->path, 1, 1);
+    return machine_write_snapshot(act->path, 1, 1, 0);
 }
 
 static int save_screenshot(trapaction_t *act)
