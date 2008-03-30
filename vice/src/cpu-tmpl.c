@@ -65,17 +65,25 @@ MACHINE_STUFF
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef STORE
 #define STORE(addr, value) \
     (*_mem_write_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
+#endif
 
+#ifndef LOAD
 #define LOAD(addr) \
     (*_mem_read_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
+#endif
 
+#ifndef STORE_ZERO
 #define STORE_ZERO(addr, value) \
     store_zero((ADDRESS)(addr), (BYTE)(value))
+#endif
 
+#ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     PAGE_ZERO[(addr) & 0xff]
+#endif
 
 #define LOAD_ADDR(addr) \
     ((LOAD((addr) + 1) << 8) | LOAD(addr))

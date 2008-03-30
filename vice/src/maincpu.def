@@ -83,15 +83,15 @@ MACHINE_STUFF()
 
 /* Force `TRACE' in unstable versions.  */
 #if 0 && defined UNSTABLE && !defined TRACE
-#  define TRACE
+#define TRACE
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-/* Now, if EXTERN_PC is set, set NEED_REG_PC, because it's this one that's
-   being used. Do not change this one. */
+/* Now, if EXTERN_PC is set, set NEED_REG_PC, because it's this one
+   that's being used.  Do not change this one.  */
 #ifdef EXTERN_PC
-#  define	NEED_REG_PC
+#  define NEED_REG_PC
 #endif
 
 /* ------------------------------------------------------------------------- */
