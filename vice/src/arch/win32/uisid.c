@@ -246,6 +246,17 @@ static void init_hardsid_sid_dialog(HWND hwnd)
     enable_hardsid_sid_controls(hwnd);
 }
 
+static void end_general_dialog(HWND hwnd)
+{
+    resources_set_value("SidFilters", (resource_value_t)
+                        (IsDlgButtonChecked(hwnd, IDC_SID_FILTERS)
+                        == BST_CHECKED ? 1 : 0));
+    resources_set_value("SidStereo",
+                        (resource_value_t)(IsDlgButtonChecked
+                        (hwnd, IDC_SID_STEREO) == BST_CHECKED ? 1 : 0));
+    CreateAndGetSidAddress(hwnd, 1);
+}
+
 static BOOL CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                          LPARAM lparam)
 {
@@ -276,13 +287,7 @@ static BOOL CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
       case WM_NOTIFY:
         switch (((NMHDR FAR *)lparam)->code) {
           case PSN_KILLACTIVE:
-            resources_set_value("SidFilters", (resource_value_t)
-                                (IsDlgButtonChecked(hwnd, IDC_SID_FILTERS)
-                                == BST_CHECKED ? 1 : 0));
-            resources_set_value("SidStereo",
-                                (resource_value_t)(IsDlgButtonChecked
-                                (hwnd, IDC_SID_STEREO) == BST_CHECKED ? 1 : 0));
-            CreateAndGetSidAddress(hwnd, 1);
+            end_general_dialog(hwnd);
             return TRUE;
         }
         return FALSE;
@@ -297,11 +302,21 @@ static BOOL CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     return FALSE;
 }
 
-static BOOL CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                       LPARAM lparam)
+static void end_resid_dialog(HWND hwnd)
 {
     TCHAR st[4];
 
+    resources_set_value("SidResidSampling",(resource_value_t)
+                        SendMessage(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING),
+                        CB_GETCURSEL, 0, 0));
+
+    GetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND, st, 4);
+    resources_set_value("SidResidPassband", (resource_value_t)_ttoi(st));
+}
+
+static BOOL CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                       LPARAM lparam)
+{
     switch (msg) {
       case WM_NOTIFY:
         switch (((NMHDR FAR *)lparam)->code) {
@@ -309,14 +324,7 @@ static BOOL CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             enable_resid_sid_controls(hwnd);
             return TRUE;
           case PSN_KILLACTIVE:
-            resources_set_value("SidResidSampling",(resource_value_t)
-                                SendMessage(GetDlgItem(hwnd,
-                                IDC_SID_RESID_SAMPLING),
-                                CB_GETCURSEL, 0, 0));
-
-            GetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND, st, 4);
-            resources_set_value("SidResidPassband",
-                                (resource_value_t)_ttoi(st));
+            end_resid_dialog(hwnd);
             return TRUE;
         }
         return FALSE;
@@ -329,6 +337,18 @@ static BOOL CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         return TRUE;
     }
     return FALSE;
+}
+
+static void end_hardsid_dialog(HWND hwnd)
+{
+    resources_set_value("SidHardSIDMain", (resource_value_t)
+                        SendMessage(GetDlgItem(hwnd,
+                        IDC_SID_HARDSID_LEFT_ENGINE),
+                        CB_GETCURSEL, 0, 0));
+    resources_set_value("SidHardSIDRight", (resource_value_t)
+                        SendMessage(GetDlgItem(hwnd,
+                        IDC_SID_HARDSID_RIGHT_ENGINE),
+                        CB_GETCURSEL, 0, 0));
 }
 
 static BOOL CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
@@ -362,14 +382,7 @@ static BOOL CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             enable_hardsid_sid_controls(hwnd);
             return TRUE;
           case PSN_KILLACTIVE:
-            resources_set_value("SidHardSIDMain", (resource_value_t)
-                                SendMessage(GetDlgItem(hwnd,
-                                IDC_SID_HARDSID_LEFT_ENGINE),
-                                CB_GETCURSEL, 0, 0));
-            resources_set_value("SidHardSIDRight", (resource_value_t)
-                                SendMessage(GetDlgItem(hwnd,
-                                IDC_SID_HARDSID_RIGHT_ENGINE),
-                                CB_GETCURSEL, 0, 0));
+            end_hardsid_dialog(hwnd);
             return TRUE;
         }
         return FALSE;
