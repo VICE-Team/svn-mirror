@@ -27,4 +27,4 @@
 
 #include <stdio.h>
 
-ui_set_fullscreenmode_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
+ui_set_fullscreenmode_init() {fprintf(stderr, "** Function `ui_set_fullscreenmode_init' still unimplemented.\n");};

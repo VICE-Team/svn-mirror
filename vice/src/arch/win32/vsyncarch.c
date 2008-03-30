@@ -52,7 +52,11 @@ unsigned long vsyncarch_gettime()
 		return 0;
 	}
 	
+#ifdef HAS_LONGLONG_INTEGER
 	return (unsigned long)li.QuadPart;
+#else
+	return (unsigned long)li.LowPart;
+#endif
 		
 }
 
@@ -68,7 +72,11 @@ unsigned long vsyncarch_timescale()
 			ui_error("Can't get frequency of performance counter");
 			return -1;
 		}
+#ifdef HAS_LONGLONG_INTEGER
 		frequency = (unsigned long) li.QuadPart;
+#else
+		frequency = (unsigned long) li.LowPart;
+#endif
 	}
 	return frequency;
 }
@@ -92,7 +100,12 @@ void vsyncarch_sleep(long delay)
 	do {
 		Sleep(10);
 		QueryPerformanceCounter(&now);
+#ifdef HAS_LONGLONG_INTEGER
 	} while ((now.QuadPart - start.QuadPart) < delay);
+#else
+	} while ((now.LowPart - start.LowPart) < delay);
+#endif
+
 }
 
 void vsyncarch_presync()

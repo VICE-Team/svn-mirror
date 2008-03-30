@@ -54,7 +54,11 @@ void ui_about(gpointer data)
     GtkWidget *button;
     
     const gchar *authors[] = {
+#ifdef __GNUC__
 	_("The VICE Team"), 
+#else
+	"The VICE Team",
+#endif
 	"Copyright @ 1996-1999 Ettore Perazzoli\n",
 	"Copyright @ 1997-2000 Daniel Sladic\n",
 	"Copyright @ 1998-2000 Andreas Boose\n",
@@ -69,7 +73,11 @@ void ui_about(gpointer data)
 	"reSID engine Copyright © 1999 Dag Lem",
 #endif
 	"",
+#ifdef __GNUC__
 	_("Official VICE homepage:"),
+#else
+	"Official VICE homepage:",
+#endif
 	"http://www.cs.cmu.edu/~dsladic/vice/vice.html",
 	NULL};
     if (!about)

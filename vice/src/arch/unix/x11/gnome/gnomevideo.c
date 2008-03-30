@@ -137,13 +137,13 @@ void video_add_handlers(ui_window_t w)
 /* Make the canvas visible. */
 void canvas_map(canvas_t *s)
 {
-    fprintf(stderr, "**Function `%s' not implemented.\n", __FUNCTION__);
+    fprintf(stderr, "**Function `canvas_map' not implemented.\n");
 }
 
 /* Make the canvas not visible. */
 void canvas_unmap(canvas_t *s)
 {
-    fprintf(stderr, "**Function `%s' not implemented.\n", __FUNCTION__);
+    fprintf(stderr, "**Function `canvas_unmap' not implemented.\n");
 }
 
 void ui_finish_canvas(canvas_t *c)

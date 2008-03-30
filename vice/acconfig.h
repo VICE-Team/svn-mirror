@@ -88,3 +88,6 @@
 #undef HAVE_STPCPY
 #undef HAVE_LIBINTL_H
 #undef NLS_LOCALEDIR
+
+/* 64bit integer for Win32 performance counter */
+#undef HAS_LONGLONG_INTEGER

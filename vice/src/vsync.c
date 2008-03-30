@@ -33,6 +33,7 @@
 /* Port me... */
 #if defined OS2 || defined WIN32
 
+#include "log.h"
 #include "sound.h"      // sound_flush
 #include "maincpu.h"    // maincpu_clk_guard
 #include "clkguard.h"   // clk_guard_add_callback
@@ -130,6 +131,7 @@ static void (*vsync_hook)(void);
 
 /* ------------------------------------------------------------------------- */
 static unsigned long display_start;
+static unsigned long frame_start;
 static signed long frame_ticks;
 
 static int timer_speed = 0;
@@ -208,6 +210,12 @@ static void display_speed(int num_frames)
     double speed_index = diff_clk/(cycles_per_sec*diff_tm);
     double frame_rate  = num_frames/diff_tm;
 
+    if ((now - frame_start) / vsyncarch_timescale() >= 1.0)
+    {
+        log_warning(LOG_DEFAULT, "Missed more than 1 second. Your machine is too slow for current settings!");
+        suspend_speed_eval();
+    }
+
     vsyncarch_display_speed(speed_index*100, frame_rate, warp_mode_enabled);
 
     display_start       = now;
@@ -218,7 +226,6 @@ static void display_speed(int num_frames)
    audio buffer and keeps control of the emulation speed. */
 int do_vsync(int been_skipped)
 {
-    static unsigned long frame_start = 0;
     static int frame_counter  = 0;
     static int skipped_frames = 0;
     static int skipped_redraw = 0;
