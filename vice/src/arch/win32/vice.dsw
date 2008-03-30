@@ -63,6 +63,9 @@ Package=<4>
     Project_Dep_Name imagecontents
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fileio
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name serial
     End Project Dependency
 }}}
@@ -295,6 +298,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fileio
     End Project Dependency
 }}}
 
@@ -534,6 +540,9 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fileio
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name fsdevice
     End Project Dependency
     Begin Project Dependency
@@ -636,6 +645,9 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fileio
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name fsdevice
     End Project Dependency
     Begin Project Dependency
@@ -729,6 +741,9 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fileio
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name fsdevice
     End Project Dependency
     Begin Project Dependency
@@ -813,6 +828,9 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fileio
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name fsdevice
     End Project Dependency
     Begin Project Dependency
@@ -891,6 +909,9 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fileio
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name fsdevice
     End Project Dependency
     Begin Project Dependency
@@ -967,6 +988,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fileio
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name fsdevice
