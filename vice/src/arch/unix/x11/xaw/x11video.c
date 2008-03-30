@@ -35,8 +35,8 @@
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 
+#include "lib.h"
 #include "log.h"
-#include "utils.h"
 #include "videoarch.h"
 #include "video.h"
 #include "x11ui.h"
@@ -44,7 +44,9 @@
 #include "renderxv.h"
 #endif
 
+
 static log_t x11video_log = LOG_ERR;
+
 
 void video_init_arch(void)
 {
@@ -192,7 +194,7 @@ tryagain:
     {                           /* !i->using_mitshm */
         char *data;
 
-        data = (char *)xmalloc(width * height * sizeofpixel);
+        data = (char *)lib_malloc(width * height * sizeofpixel);
 
         if (data == NULL)
             return -1;
