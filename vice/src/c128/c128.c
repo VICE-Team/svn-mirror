@@ -330,7 +330,6 @@ void machine_reset(void)
 
     reset_cia1();
     reset_cia2();
-    reset_vic_ii();
     sid_reset();
     reset_tpi();
 
@@ -344,6 +343,9 @@ void machine_reset(void)
 #ifdef HAVE_PRINTER
     print_reset();
 #endif
+
+    /* The VIC-II must be the *last* to be reset.  */
+    reset_vic_ii();
 
     autostart_reset();
 

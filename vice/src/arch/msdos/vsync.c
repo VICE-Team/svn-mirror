@@ -140,18 +140,31 @@ static void (*vsync_hook)(void);
 
 /* ------------------------------------------------------------------------- */
 
+static volatile int timer_patch = 0;
 static volatile int elapsed_frames = 0;
 static int timer_speed = -1;
+
+static void my_timer_callback(void)
+{
+    if (timer_patch > 0) {
+	timer_patch--;
+	elapsed_frames++;
+    }
+    if (timer_patch < 0)
+	timer_patch++;
+    else
+	elapsed_frames++;
+}
+END_OF_FUNCTION(my_timer_callback)
+
+static void patch_timer(int patch)
+{
+    timer_patch += patch;
+}
 
 #ifdef USE_MIDAS_SOUND
 
 /* Version for MIDAS timer.  */
-
-static void MIDAS_CALL my_timer_callback(void)
-{
-    elapsed_frames++;
-}
-END_OF_FUNCTION(my_timer_callback)
 
 inline static void register_timer_callback(void)
 {
@@ -179,12 +192,6 @@ inline static void register_timer_callback(void)
 
 /* Version for Allegro timer.  */
 
-static void my_timer_callback(void)
-{
-    elapsed_frames++;
-}
-END_OF_FUNCTION(my_timer_callback)
-
 static void register_timer_callback(void)
 {
     if (timer_speed == 0) {
@@ -197,7 +204,6 @@ static void register_timer_callback(void)
 
         /* We use `install_int_ex()' instead of `install_int()' for increased
            accuracy.  */
-        printf("%s: rate = %d\n", __FUNCTION__, rate);
         if (install_int_ex(my_timer_callback, rate) < 0) {
             /* FIXME: Maybe we could handle this better?  Well, it is not
                very likely to happen after all...  */
@@ -328,7 +334,7 @@ int do_vsync(int been_skipped)
 	} else {
 	    skip_counter = elapsed_frames = 0;
 	}
-        sound_flush(relative_speed);
+        patch_timer(sound_flush(relative_speed));
     } else {                    /* Automatic refresh rate adjustment.  */
 	if (timer_speed && skip_counter >= elapsed_frames) {
 	    while (skip_counter >= elapsed_frames)
@@ -346,7 +352,7 @@ int do_vsync(int been_skipped)
 		elapsed_frames = 0;
 	    }
 	}
-        sound_flush(relative_speed);
+        patch_timer(sound_flush(relative_speed));
     }
 
     if (frame_counter >= refresh_frequency * 2) {
@@ -371,10 +377,7 @@ int do_vsync(int been_skipped)
 void vsync_init(double hz, long cycles, void (*hook)(void))
 {
     LOCK_VARIABLE(elapsed_frames);
-
-#ifndef USE_HARDCODED_TIMER
     LOCK_FUNCTION(my_timer_callback);
-#endif
 
 #ifdef USE_MIDAS_SOUND
     vmidas_startup();
