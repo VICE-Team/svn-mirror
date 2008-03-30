@@ -134,6 +134,11 @@ int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 	psid->sidclk += delta;
 	pbuf[i] = psid->sid.output();
     }
+    if (psid->sidclk > 0x70000000)
+    {
+	psid->sidclk -= 0x70000000 - 0x1000;
+	psid->clk -= 0x70000000 - 0x1000;
+    }
 }
 
 void resid_sound_machine_init(void)

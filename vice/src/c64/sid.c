@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "utils.h"
 #include "maincpu.h"
+#include "vicii.h"
 
 #ifdef HAVE_RESID
 #include "resid.h"
@@ -966,6 +967,7 @@ static BYTE lastsidread;
 BYTE REGPARM1 read_sid(ADDRESS addr)
 {
     int				val;
+    vic_ii_handle_pending_alarms(0);
     addr = addr & 0x1f;
 #ifdef HAVE_MOUSE
     if (addr == 0x19)
@@ -1054,6 +1056,7 @@ void REGPARM2 store_sid(ADDRESS addr, BYTE byte)
 {
     addr &= 0x1f;
     siddata[addr] = byte;
+    vic_ii_handle_pending_alarms(rmw_flag + 1);
     if (rmw_flag)
     {
 	clk--;
