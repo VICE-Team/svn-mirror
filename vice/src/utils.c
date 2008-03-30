@@ -753,3 +753,29 @@ int file_exists_p(const char *name)
         return 0;
     }
 }
+
+/* ------------------------------------------------------------------------- */
+
+char *find_next_line(const char *text, const char *pos)
+{
+    char *p = strchr(pos, '\n');
+
+    return (char *) (p == NULL ? pos : p + 1);
+}
+
+char *find_prev_line(const char *text, const char *pos)
+{
+    const char *p;
+
+    if (pos - text <= 2)
+	return (char *) text;
+    
+    for (p = pos - 2; p != text; p--)
+	if (*p == '\n')
+	    break;
+    
+    if (*p == '\n')
+	p++;
+
+    return (char *) p;
+}
