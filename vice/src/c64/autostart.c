@@ -147,7 +147,7 @@ void autostart_advance(void)
 	if (check("READY.", 1024+10*40))
 	{
 	    if (!app_resources.noTraps && orig_true1541_state)
-		warn(pwarn, -1, "switching true1541 on and starting program");
+		warn(pwarn, -1, "switching true 1541 on and starting program");
 	    else
 		warn(pwarn, -1, "starting program");
 	    settrue1541mode(orig_true1541_state);

@@ -4,10 +4,10 @@
  */
 
 /* Global VICE release version.  */
-#define VERSION		"0.14.1.8"
+#define VERSION		"0.14.2"
 
 /* Define this for unstable, untested versions for developers only.  */
-#define UNSTABLE
+/* #define UNSTABLE */
 
 /* Petcat version. */
 #define PETCATVERSION	2.02
