@@ -37,17 +37,20 @@
 #include "utils.h"
 #include "zfile.h"
 
-int tap_header_read(BYTE *version, FILE *fd)
+int tap_header_read(BYTE *version, BYTE *system, FILE *fd)
 {
     BYTE buf[TAP_HDR_SIZE];
 
     if (fread(buf, TAP_HDR_SIZE, 1, fd) != 1)
         return -1;
 
-    if (strncmp("C64-TAPE-RAW", (char*)&buf[TAP_HDR_MAGIC_OFFSET], 12))
+    if (strncmp("C64-TAPE-RAW", (char*)&buf[TAP_HDR_MAGIC_OFFSET], 12)
+        && strncmp("C16-TAPE-RAW", (char*)&buf[TAP_HDR_MAGIC_OFFSET], 12))
         return -1;
 
     *version = buf[TAP_HDR_VERSION];
+    *system = buf[TAP_HDR_SYSTEM];
+
     return 0;
 }
 
@@ -71,7 +74,7 @@ tap_t *tap_open(const char *name)
 
     new->file_name = NULL;
 
-    if (tap_header_read(&new->version, fd) < 0) {
+    if (tap_header_read(&new->version, &new->system, fd) < 0) {
         zfclose(fd);
         free(new);
         return NULL;

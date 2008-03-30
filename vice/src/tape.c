@@ -224,8 +224,7 @@ int tape_attach_image(const char *name)
         return -1;
 
     new_t64_tape = t64_open(name);
-    if (new_t64_tape != NULL)
-    {
+    if (new_t64_tape != NULL) {
         tape_detach_image();
         attached_t64_tape = new_t64_tape;
                 ui_display_tape_current_image(name);
@@ -239,8 +238,7 @@ int tape_attach_image(const char *name)
     }
 
     new_tap_tape = tap_open(name);
-    if (new_tap_tape != NULL)
-    {
+    if (new_tap_tape != NULL) {
         tape_detach_image();
         attached_tap_tape = new_tap_tape;
                 ui_display_tape_current_image(name);
@@ -248,6 +246,8 @@ int tape_attach_image(const char *name)
         datasette_set_tape_image(new_tap_tape);
 
         log_message(tape_log, "TAP image '%s' attached.", name);
+        log_message(tape_log, "TAP image version: %i, system: %i.",
+                    new_tap_tape->version, new_tap_tape->system);
 
         tape_traps_deinstall();
 

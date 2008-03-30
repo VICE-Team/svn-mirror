@@ -34,6 +34,7 @@
 #define TAP_HDR_SIZE         20
 #define TAP_HDR_MAGIC_OFFSET 0
 #define TAP_HDR_VERSION      12
+#define TAP_HDR_SYSTEM       13
 #define TAP_HDR_LEN          16
 
 typedef struct tap_s {
@@ -48,6 +49,9 @@ typedef struct tap_s {
 
     /* The TAP version byte.  */
     BYTE version;
+
+    /* System the image is made for.  */
+    BYTE system;
 
     /* Position in the current file.  */
     int current_file_seek_position;
