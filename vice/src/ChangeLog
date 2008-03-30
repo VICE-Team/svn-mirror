@@ -1,3 +1,106 @@
+1999-12-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.10.
+
+	* mon.c, mon.h: The console handle is a pointer now.
+
+	* arch/unix/console.c, arch/msdos/console.c,
+	arch/win32/console.c, arch/riscos/console.c,
+	arch/os2/console.c: Report console size and attributes on
+	`console_open'.
+
+	* main.c: Use `archdep_startup_log_error' instead of fprintf.
+
+	* arch/unix/archdep.c, arch/msdos/archdep.c,
+	arch/win32/archdep.c,, arch/riscos/archdep.c,
+	arch/os2/archdep.c (archdep_startup_log_error): New function.
+
+	* arch/win32/ui.c (ui_error_string): New function.
+
+1999-12-23  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* mon.c, mon_parse.y, mon.h: Don't close monitor window
+	except when exiting.
+
+1999-12-23  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/ui.c, arch/win32/resc64.rc, arch/win32/resc128.rc,
+	arch/win32/rescbm2.rc, arch/win32/respet.rc
+	arch/win32/resvic.rc: Changed accelerators: freeze from Alt+F
+	to Alt+Z, menu 'snapshot', and menu 'settings' (collision-
+	avoidance between accelerators); changed menu key for 'REU
+	emulation' from R to U (R conflictes with 'refresh rate'),
+	changed menu key for 'Enable resid' from R to E in
+	arch/win32/resc128.rc (R conflictes with 'refresh rate'; now
+	it's consistent with arch/win32/resc64.rc and
+	arch/win32/rescbm2.rc)
+
+1999-12-22  Daniel Sladic  <dsladic@cs.cmu.edu>
+
+	* mon_lex.l: Remove need for spaces after abbreviated commands.
+
+	* mon.h: Added extra parameter in mon_cmd_lookup_index prototype.
+
+	* mon.c (mon_cmd_array): Duplicated single letter commands in
+	abbreviation field.
+	(mon_cmd_lookup_index): Allow matching of abbreviated command names
+	against the head of the input. The new parameter push_back returns
+	the number of characters matched.
+	(mon_print_help): Updated call to mon_cmd_lookup_index to new
+	prototype.
+	(mon_display_memory): Don't print newlines and other control chars.
+
+1999-12-21  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/x11/gnome/gnomevideo.c: Added `#include "log.h"'.
+
+	* arch/unix/x11/gnome/ui.c:
+	(ui_create_status_bar): Changed popup widget for fliplist from
+	`button' to `event box'.
+	(ui_display_drive_current_image): Removed update of fliplist menu.
+	(fliplist_popup_cb): update proper fliplist menu.
+	(ui_enable_drive_status): Reworked a to hide inaccessible disks
+	drives.
+
+	* arch/unix/uicommands.c (ui_update_flip_menus): Added a `Detach'
+	menu entry.
+
+1999-12-19  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/x11/xaw/ui.c (ui_set_topmenu): New (dummy) function.
+
+	* arch/unix/x11/gnome/ui.c: 
+	(ui_create_status_bar): Implemented a neat status bar.
+	(ui_set_topmenu): New function, tie popup menu to a toplevel
+	menu. 
+	Implemented fliplist popup support.
+	Removed drive_mapping code. Let GTK take care about widget
+	mapping.
+	Added (but deactivated) menu-code for the gnome-API (struct
+	GnomeUIInfo based menu). To activat it add `-DGNOME_MENUS' to
+	CFLAGS. But this won't work, well (Checkmark support is broken).
+	Reworked resize and exposure code. Still not perfekt, but the
+	constants (+-30) have been removed.
+
+	* arch/unix/x11/gnome/uimenu.c: ALL: Added gnome-API menus
+	(disabled, see above). 
+
+	* arch/unix/x11/gnome/ui.h: Added gnome-API menus (disabled, see
+	above). 
+
+	* arch/unix/x11/gnome/dummies.c: Removed a few implemented
+	functions.
+
+	* arch/unix/uisettings.c: Removed erroneous `*' from
+	sound_settings_submenu. Those items aren't checkmarks.
+
+	* arch/unix/c128ui.c (c128_ui_init): Added call to
+	`ui_set_topmenu()'.
+	* arch/unix/c610ui.c (c610_ui_init): ditto.
+	* arch/unix/vic20ui.c (vic20_ui_init): ditto.
+	* arch/unix/petui.c (pet_ui_init): ditto.
+	* arch/unix/c64ui.c (c64_ui_init): ditto.
+
 1999-12-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.9.

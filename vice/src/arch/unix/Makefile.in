@@ -361,7 +361,7 @@ c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
 	x11/xaw/uimenu.h x11/xaw/uihotkey.h uisettings.h \
 	../../../src/utils.h ../../../src/vsync.h x11/xaw/c64icon.xpm
 console.o: console.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/console.h
+	../../../src/console.h ../../../src/utils.h types.h
 coproc.o: coproc.c coproc.h ../../../src/log.h
 joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h joystick.h \
@@ -414,14 +414,15 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	x11/xaw/uihotkey.h uiedisk.h uisnapshot.h ../../../src/utils.h \
 	../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
-	uisettings.h ui.h x11/xaw/ui.h types.h ../../../src/palette.h \
-	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
-	x11/xaw/uihotkey.h ../../../src/drive/drive.h \
-	../../../src/diskimage.h ../../../src/gcr.h ../../../src/log.h \
+	../../../src/drive/drive.h ../../../src/diskimage.h \
+	../../../src/gcr.h types.h ../../../src/log.h \
 	../../../src/fsdevice.h kbd.h ../../../src/mem.h \
 	../../../src/snapshot.h ../../../src/prdevice.h \
 	../../../src/resources.h ../../../src/romset.h \
-	../../../src/sound.h ../../../src/utils.h ../../../src/vsync.h
+	../../../src/sound.h uisettings.h ui.h x11/xaw/ui.h \
+	../../../src/palette.h ../../../src/uiapi.h uimenu.h \
+	x11/xaw/uimenu.h x11/xaw/uihotkey.h ../../../src/utils.h \
+	../../../src/vsync.h
 vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cartridge.h types.h ../../../src/datasette.h \
 	../../../src/tap.h joystick.h ../../../src/resources.h \
