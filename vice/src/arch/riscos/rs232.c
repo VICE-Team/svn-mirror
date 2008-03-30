@@ -29,7 +29,6 @@
 #include <stdio.h>
 
 #include "types.h"
-#include "rs232.h"
 #include "resources.h"
 #include "utils.h"
 

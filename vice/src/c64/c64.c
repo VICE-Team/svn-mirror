@@ -38,9 +38,11 @@
 #include "c64-resources.h"
 #include "c64-snapshot.h"
 #include "c64.h"
+#include "c64acia.h"
 #include "c64cart.h"
 #include "c64cia.h"
 #include "c64mem.h"
+#include "c64rsuser.h"
 #include "c64tpi.h"
 #include "c64ui.h"
 #include "cartridge.h"
@@ -69,6 +71,8 @@
 #include "psid.h"
 #include "resources.h"
 #include "reu.h"
+#include "rs232drv.h"
+#include "rsuser.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "sid-cmdline-options.h"
@@ -84,13 +88,6 @@
 #include "video.h"
 #include "vsidui.h"
 #include "vsync.h"
-
-#ifdef HAVE_RS232
-#include "c64acia.h"
-#include "c64rsuser.h"
-#include "rs232.h"
-#include "rsuser.h"
-#endif
 
 #ifdef HAVE_MOUSE
 #include "mouse.h"
@@ -238,11 +235,9 @@ int machine_resources_init(void)
         || vicii_resources_init() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
-#ifdef HAVE_RS232
         || acia1_resources_init() < 0
-        || rs232_resources_init() < 0
+        || rs232drv_resources_init() < 0
         || rsuser_resources_init() < 0
-#endif
         || printer_resources_init() < 0
 #ifdef HAVE_MOUSE
         || mouse_resources_init() < 0
@@ -283,11 +278,9 @@ int machine_cmdline_options_init(void)
         || vicii_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sid_cmdline_options_init() < 0
-#ifdef HAVE_RS232
         || acia1_cmdline_options_init() < 0
-        || rs232_cmdline_options_init() < 0
+        || rs232drv_cmdline_options_init() < 0
         || rsuser_cmdline_options_init() < 0
-#endif
         || printer_cmdline_options_init() < 0
 #ifdef HAVE_MOUSE
         || mouse_cmdline_options_init() < 0
@@ -342,11 +335,9 @@ int machine_init(void)
         /* Initialize drives. */
         file_system_init();
 
-#ifdef HAVE_RS232
         /* Initialize RS232 handler.  */
-        rs232_init();
+        rs232drv_init();
         c64_rsuser_init();
-#endif
 
         /* Initialize print devices.  */
         printer_init();
@@ -379,9 +370,7 @@ int machine_init(void)
     if (!vsid_mode) {
         tpi_init();
 
-#ifdef HAVE_RS232
         acia1_init();
-#endif
 
 #ifndef COMMON_KBD
         /* Initialize the keyboard.  */
@@ -444,11 +433,9 @@ void machine_specific_reset(void)
     if (!vsid_mode) {
         tpi_reset();
 
-#ifdef HAVE_RS232
         acia1_reset();
-        rs232_reset();
+        rs232drv_reset();
         rsuser_reset();
-#endif
 
         printer_reset();
 

@@ -43,6 +43,7 @@
 #include "c128mem.h"
 #include "c128mmu.h"
 #include "c128ui.h"
+#include "c64acia.h"
 #include "c64cia.h"
 #include "c64rsuser.h"
 #include "c64tpi.h"
@@ -70,6 +71,8 @@
 #include "patchrom.h"
 #include "printer.h"
 #include "reu.h"
+#include "rs232drv.h"
+#include "rsuser.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "sid-cmdline-options.h"
@@ -88,15 +91,10 @@
 #include "z80.h"
 #include "z80mem.h"
 
-#ifdef HAVE_RS232
-#include "rs232.h"
-#include "c64acia.h"
-#include "rsuser.h"
-#endif
-
 #ifdef HAVE_MOUSE
 #include "mouse.h"
 #endif
+
 
 #define NUM_KEYBOARD_MAPPINGS 2
 
@@ -312,11 +310,9 @@ int machine_resources_init(void)
         || vdc_init_resources() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
-#ifdef HAVE_RS232
         || acia1_resources_init() < 0
-        || rs232_resources_init() < 0
+        || rs232drv_resources_init() < 0
         || rsuser_resources_init() < 0
-#endif
         || printer_resources_init() < 0
 #ifdef HAVE_MOUSE
         || mouse_resources_init() < 0
@@ -347,11 +343,9 @@ int machine_cmdline_options_init(void)
         || vdc_init_cmdline_options() < 0
         || sound_cmdline_options_init() < 0
         || sid_cmdline_options_init() < 0
-#ifdef HAVE_RS232
         || acia1_cmdline_options_init() < 0
-        || rs232_cmdline_options_init() < 0
+        || rs232drv_cmdline_options_init() < 0
         || rsuser_cmdline_options_init() < 0
-#endif
         || printer_cmdline_options_init() < 0
 #ifdef HAVE_MOUSE
         || mouse_cmdline_options_init() < 0
@@ -408,11 +402,9 @@ int machine_init(void)
     /* Initialize drives. */
     file_system_init();
 
-#ifdef HAVE_RS232
     /* initialize RS232 handler */
-    rs232_init();
+    rs232drv_init();
     c64_rsuser_init();
-#endif
 
     /* initialize print devices */
     printer_init();
@@ -447,9 +439,7 @@ int machine_init(void)
 
     tpi_init();
 
-#ifdef HAVE_RS232
     acia1_init();
-#endif
 
 #ifndef COMMON_KBD
     /* Initialize the keyboard.  */
@@ -502,12 +492,9 @@ void machine_specific_reset(void)
     sid_reset();
     tpi_reset();
 
-#ifdef HAVE_RS232
     acia1_reset();
-
-    rs232_reset();
+    rs232drv_reset();
     rsuser_reset();
-#endif
 
     printer_reset();
 

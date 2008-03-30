@@ -69,6 +69,7 @@
 #include "petpia.h"
 #include "printer.h"
 #include "resources.h"
+#include "rs232drv.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "snapshot.h"
@@ -80,10 +81,6 @@
 #include "via.h"
 #include "video.h"
 #include "vsync.h"
-
-#ifdef HAVE_RS232
-#include "rs232.h"
-#endif
 
 
 #define NUM_KEYBOARD_MAPPINGS 6
@@ -170,9 +167,7 @@ int machine_resources_init(void)
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         || acia1_resources_init() < 0
-#ifdef HAVE_RS232
-        || rs232_resources_init() < 0
-#endif
+        || rs232drv_resources_init() < 0
         || printer_resources_init() < 0
 #ifndef COMMON_KBD
         || pet_kbd_resources_init() < 0
@@ -201,9 +196,7 @@ int machine_cmdline_options_init(void)
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         || acia1_cmdline_options_init() < 0
-#ifdef HAVE_RS232
-        || rs232_cmdline_options_init() < 0
-#endif
+        || rs232drv_cmdline_options_init() < 0
         || printer_cmdline_options_init() < 0
 #ifndef COMMON_KBD
         || pet_kbd_cmdline_options_init() < 0
@@ -267,9 +260,7 @@ int machine_init(void)
     /* Initialize drives. */
     file_system_init();
 
-#ifdef HAVE_RS232
-    rs232_init();
-#endif
+    rs232drv_init();
 
     /* initialize print devices */
     printer_init();
@@ -339,9 +330,7 @@ void machine_specific_reset(void)
     crtc_reset();
     petsnd_reset();
     petmem_reset();
-#ifdef HAVE_RS232
-    rs232_reset();
-#endif
+    rs232drv_reset();
     printer_reset();
     drive_reset();
     datasette_reset();

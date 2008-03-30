@@ -54,6 +54,8 @@
 #include "mon.h"
 #include "printer.h"
 #include "resources.h"
+#include "rs232drv.h"
+#include "rsuser.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "snapshot.h"
@@ -70,15 +72,11 @@
 #include "vic20ieeevia.h"
 #include "vic20mem.h"
 #include "vic20sound.h"
+#include "vic20rsuser.h"
 #include "vic20ui.h"
 #include "vic20via.h"
 #include "vsync.h"
 
-#ifdef HAVE_RS232
-#include "rs232.h"
-#include "rsuser.h"
-#include "vic20rsuser.h"
-#endif
 
 #define NUM_KEYBOARD_MAPPINGS 2
 
@@ -219,10 +217,8 @@ int machine_resources_init(void)
         || vic20_resources_init() < 0
         || vic_resources_init() < 0
         || sound_resources_init() < 0
-#ifdef HAVE_RS232
-        || rs232_resources_init() < 0
+        || rs232drv_resources_init() < 0
         || rsuser_resources_init() < 0
-#endif
         || printer_resources_init() < 0
 #ifndef COMMON_KBD
         || kbd_resources_init() < 0
@@ -244,10 +240,8 @@ int machine_cmdline_options_init(void)
         || vic20_cmdline_options_init() < 0
         || vic_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
-#ifdef HAVE_RS232
-        || rs232_cmdline_options_init() < 0
+        || rs232drv_cmdline_options_init() < 0
         || rsuser_cmdline_options_init() < 0
-#endif
         || printer_cmdline_options_init() < 0
 #ifndef COMMON_KBD
         || kbd_cmdline_options_init() < 0
@@ -294,11 +288,9 @@ int machine_init(void)
     /* Initialize drives. */
     file_system_init();
 
-#ifdef HAVE_RS232
     /* Initialize RS232 handler.  */
-    rs232_init();
+    rs232drv_init();
     vic20_rsuser_init();
-#endif
 
     /* initialize print devices.  */
     printer_init();
@@ -372,10 +364,9 @@ void machine_specific_reset(void)
     ieeevia1_reset();
     ieeevia2_reset();
 
-#ifdef HAVE_RS232
-    rs232_reset();
+    rs232drv_reset();
     rsuser_reset();
-#endif
+
     printer_reset();
     drive_reset();
     datasette_reset();

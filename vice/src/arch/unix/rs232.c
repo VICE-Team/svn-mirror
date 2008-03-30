@@ -53,7 +53,6 @@
 #include "coproc.h"
 #include "log.h"
 #include "resources.h"
-#include "rs232.h"
 #include "types.h"
 #include "utils.h"
 
@@ -160,6 +159,8 @@ static rs232_t fds[MAXRS232];
 static log_t rs232_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
+
+void rs232_close(int fd);
 
 /* initializes all RS232 stuff */
 void rs232_init(void)

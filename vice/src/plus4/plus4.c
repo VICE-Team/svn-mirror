@@ -58,6 +58,7 @@
 #include "plus4mem.h"
 #include "plus4ui.h"
 #include "printer.h"
+#include "rs232drv.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "snapshot.h"
@@ -70,10 +71,6 @@
 #include "types.h"
 #include "video.h"
 #include "vsync.h"
-
-#ifdef HAVE_RS232
-#include "rs232.h"
-#endif
 
 
 #define NUM_KEYBOARD_MAPPINGS 2
@@ -239,10 +236,8 @@ int machine_resources_init(void)
         || plus4_resources_init() < 0
         || ted_resources_init() < 0
         || sound_resources_init() < 0
-#ifdef HAVE_RS232
         || acia_resources_init() < 0
-        || rs232_resources_init() < 0
-#endif
+        || rs232drv_resources_init() < 0
         || printer_resources_init() < 0
 #ifndef COMMON_KBD
         || kbd_resources_init() < 0
@@ -264,10 +259,8 @@ int machine_cmdline_options_init(void)
         || plus4_cmdline_options_init() < 0
         || ted_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
-#ifdef HAVE_RS232
         || acia_cmdline_options_init() < 0
-        || rs232_cmdline_options_init() < 0
-#endif
+        || rs232drv_cmdline_options_init() < 0
         || printer_cmdline_options_init() < 0
 #ifndef COMMON_KBD
         || kbd_cmdline_options_init() < 0
@@ -313,9 +306,7 @@ int machine_init(void)
     /* Initialize drives. */
     file_system_init();
 
-#ifdef HAVE_RS232
-    rs232_init();
-#endif
+    rs232drv_init();
 
     /* Initialize print devices.  */
     printer_init();
@@ -336,9 +327,7 @@ int machine_init(void)
     if (!ted_init())
         return -1;
 
-#ifdef HAVE_RS232
     acia_init();
-#endif
 
 #ifndef COMMON_KBD
     if (plus4_kbd_init() < 0)
@@ -372,10 +361,8 @@ void machine_specific_reset(void)
 {
     serial_reset();
 
-#ifdef HAVE_RS232
     acia_reset();
-    rs232_reset();
-#endif
+    rs232drv_reset();
 
     printer_reset();
 
@@ -587,7 +574,7 @@ unsigned int machine_num_keyboard_mappings(void)
 /* ------------------------------------------------------------------------- */
 /* Temporary kluge: */
 
-void printer_interface_userport_set_busy(int flank)
+void printer_interface_userport_set_busy(int b)
 {
 }
 
