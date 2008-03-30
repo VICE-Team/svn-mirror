@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.11\n"
+"Project-Id-Version: VICE 1.12\n"
 "POT-Creation-Date: 2003-06-01 20:12+0200\n"
-"PO-Revision-Date: 2002-08-28 12:37+01:00\n"
+"PO-Revision-Date: 2003-05-14 19:56+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -58,9 +58,8 @@ msgstr "*NTSC-M"
 #: src/arch/unix/c128ui.c:144 src/arch/unix/c128ui.c:169
 #: src/arch/unix/c64ui.c:211 src/arch/unix/c64ui.c:236
 #: src/arch/unix/cbm2ui.c:282 src/arch/unix/cbm2ui.c:307
-#, fuzzy
 msgid "SID engine"
-msgstr "Impostazioni del SID"
+msgstr "Motore SID"
 
 #: src/arch/unix/c128ui.c:147 src/arch/unix/c128ui.c:173
 #: src/arch/unix/c64ui.c:214 src/arch/unix/c64ui.c:240
@@ -157,24 +156,20 @@ msgid "Load default ROMs"
 msgstr "Carica le ROM predefinite"
 
 #: src/arch/unix/c128ui.c:251
-#, fuzzy
 msgid "Load new Int. Kernal ROM"
-msgstr "Carica una nuova ROM del Kernal"
+msgstr "Carica una nuova ROM int. del Kernal"
 
 #: src/arch/unix/c128ui.c:254
-#, fuzzy
 msgid "Load new German Kernal ROM"
-msgstr "Carica una nuova ROM del Kernal"
+msgstr "Carica una nuova ROM tedesca del Kernal"
 
 #: src/arch/unix/c128ui.c:257
-#, fuzzy
 msgid "Load new Basic Lo ROM"
-msgstr "Carica una nuova ROM del Basic"
+msgstr "Carica una nuova Lo ROM del Basic"
 
 #: src/arch/unix/c128ui.c:260
-#, fuzzy
 msgid "Load new Basic Hi ROM"
-msgstr "Carica una nuova ROM del Basic"
+msgstr "Carica una nuova Hi ROM del Basic"
 
 #: src/arch/unix/c128ui.c:263
 msgid "Load new Chargen ROM"
@@ -182,9 +177,8 @@ msgstr "Carica una nuova ROM del Chargen"
 
 #: src/arch/unix/c128ui.c:267 src/arch/unix/c64ui.c:287
 #: src/arch/unix/vic20ui.c:128
-#, fuzzy
 msgid "Load new drive ROM"
-msgstr "Carica una nuova ROM dell'editor"
+msgstr "Carica una nuova ROM del drive"
 
 #: src/arch/unix/c128ui.c:270 src/arch/unix/c64ui.c:290
 #: src/arch/unix/cbm2ui.c:120 src/arch/unix/petui.c:225
@@ -211,9 +205,8 @@ msgid "Screenshots..."
 msgstr "Cattura schermo..."
 
 #: src/arch/unix/c128ui.c:332
-#, fuzzy
 msgid "Machine type"
-msgstr "Tipo di periferica"
+msgstr "Tipo di macchina"
 
 #: src/arch/unix/c128ui.c:334 src/arch/unix/cbm2ui.c:228
 #: src/arch/unix/petui.c:261 src/arch/unix/vic20ui.c:168
@@ -243,9 +236,8 @@ msgid "RS232 settings"
 msgstr "Impostazioni della RS232"
 
 #: src/arch/unix/c128ui.c:352
-#, fuzzy
 msgid "Model settings"
-msgstr "Carica le impostazioni"
+msgstr "Impostazioni del modello"
 
 #: src/arch/unix/c128ui.c:410 src/arch/unix/c64ui.c:388
 #: src/arch/unix/cbm2ui.c:456 src/arch/unix/petui.c:380
@@ -1086,7 +1078,7 @@ msgstr "Seleziona la prossima immagine (Unità 8)"
 
 #: src/arch/unix/uicommands.c:916
 msgid "Attach previous image (Unit 8)"
-msgstr "Seleziona l'immagine precedente (Unit 8)"
+msgstr "Seleziona l'immagine precedente (Unità 8)"
 
 #: src/arch/unix/uicommands.c:919
 msgid "Load fliplist file"
@@ -1946,17 +1938,16 @@ msgid "*Save settings on exit"
 msgstr "*Salva le impostazioni in uscita"
 
 #: src/arch/unix/uisid.c:43
-#, fuzzy
 msgid "*Fast SID"
-msgstr "*Veloce"
+msgstr "*SID Veloce"
 
 #: src/arch/unix/uisid.c:46
 msgid "*ReSID"
-msgstr ""
+msgstr "*ReSID"
 
 #: src/arch/unix/uisid.c:50
 msgid "*Catweasle MKIII"
-msgstr ""
+msgstr "*Catweasle MKIII"
 
 #: src/arch/unix/uisid.c:59
 msgid "*6581 (old)"

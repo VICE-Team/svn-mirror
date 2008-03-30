@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.11\n"
+"Project-Id-Version: VICE 1.12\n"
 "POT-Creation-Date: 2003-06-01 20:12+0200\n"
-"PO-Revision-Date: 2002-08-31 19:18+02:00\n"
-"Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
+"PO-Revision-Date: 2003-05-30 18:25+0200\n"
+"Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
@@ -58,7 +58,6 @@ msgstr "*NTSC-M"
 #: src/arch/unix/c128ui.c:144 src/arch/unix/c128ui.c:169
 #: src/arch/unix/c64ui.c:211 src/arch/unix/c64ui.c:236
 #: src/arch/unix/cbm2ui.c:282 src/arch/unix/cbm2ui.c:307
-#, fuzzy
 msgid "SID engine"
 msgstr "Ustawienia uk³adu SID"
 
@@ -158,22 +157,18 @@ msgid "Load default ROMs"
 msgstr "Za³aduj domy¶lne ROMy"
 
 #: src/arch/unix/c128ui.c:251
-#, fuzzy
 msgid "Load new Int. Kernal ROM"
 msgstr "Za³aduj nowy Kernal ROM"
 
 #: src/arch/unix/c128ui.c:254
-#, fuzzy
 msgid "Load new German Kernal ROM"
 msgstr "Za³aduj nowy Kernal ROM"
 
 #: src/arch/unix/c128ui.c:257
-#, fuzzy
 msgid "Load new Basic Lo ROM"
 msgstr "Za³aduj nowy ROM Basic"
 
 #: src/arch/unix/c128ui.c:260
-#, fuzzy
 msgid "Load new Basic Hi ROM"
 msgstr "Za³aduj nowy ROM Basic"
 
@@ -183,7 +178,6 @@ msgstr "Load new Chargen ROM"
 
 #: src/arch/unix/c128ui.c:267 src/arch/unix/c64ui.c:287
 #: src/arch/unix/vic20ui.c:128
-#, fuzzy
 msgid "Load new drive ROM"
 msgstr "Za³aduj nowy edytor ROM"
 
@@ -212,9 +206,8 @@ msgid "Screenshots..."
 msgstr "Zrzuty ekranu..."
 
 #: src/arch/unix/c128ui.c:332
-#, fuzzy
 msgid "Machine type"
-msgstr "Urz±dzenie #8"
+msgstr "Typ maszyny"
 
 #: src/arch/unix/c128ui.c:334 src/arch/unix/cbm2ui.c:228
 #: src/arch/unix/petui.c:261 src/arch/unix/vic20ui.c:168
@@ -244,7 +237,6 @@ msgid "RS232 settings"
 msgstr "Ustawienia RS232"
 
 #: src/arch/unix/c128ui.c:352
-#, fuzzy
 msgid "Model settings"
 msgstr "Za³aduj ustawienia"
 
@@ -1551,21 +1543,18 @@ msgstr "*Dostêp systemu plików"
 #: src/arch/unix/uiperipheral.c:103 src/arch/unix/uiperipheral.c:134
 #: src/arch/unix/uiperipheral.c:165 src/arch/unix/uiperipheral.c:196
 #: src/arch/unix/uiprinter.c:178 src/arch/unix/uiprinter.c:190
-#, fuzzy
 msgid "*Real device access"
-msgstr "*Dostêp tylko do odczytu"
+msgstr "*Prawdziwy dostêp urz¹dzenia"
 
 #: src/arch/unix/uiperipheral.c:106 src/arch/unix/uiperipheral.c:137
 #: src/arch/unix/uiperipheral.c:168 src/arch/unix/uiperipheral.c:199
-#, fuzzy
 msgid "*Raw device access"
-msgstr "*Dostêp tylko do odczytu"
+msgstr "*Surowy dostêp urz¹dzenia"
 
 #: src/arch/unix/uiperipheral.c:112 src/arch/unix/uiperipheral.c:143
 #: src/arch/unix/uiperipheral.c:174 src/arch/unix/uiperipheral.c:205
-#, fuzzy
 msgid "Device type"
-msgstr "Urz±dzenie #8"
+msgstr "Typ urz¹dzenia"
 
 #: src/arch/unix/uiperipheral.c:114 src/arch/unix/uiperipheral.c:145
 #: src/arch/unix/uiperipheral.c:176 src/arch/unix/uiperipheral.c:207
@@ -1975,17 +1964,16 @@ msgid "*Save settings on exit"
 msgstr "*Zapisz ustawienia przy wyj¶ciu"
 
 #: src/arch/unix/uisid.c:43
-#, fuzzy
 msgid "*Fast SID"
 msgstr "*Szybko"
 
 #: src/arch/unix/uisid.c:46
 msgid "*ReSID"
-msgstr ""
+msgstr "*ReSID"
 
 #: src/arch/unix/uisid.c:50
 msgid "*Catweasle MKIII"
-msgstr ""
+msgstr "*Catweasle MKIII"
 
 #: src/arch/unix/uisid.c:59
 msgid "*6581 (old)"
