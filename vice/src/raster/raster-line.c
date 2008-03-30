@@ -162,17 +162,6 @@ inline static void handle_blank_line(raster_t *raster)
     update_sprite_collisions(raster);
 }
 
-static void update_draw_buffer_ptr(raster_t *raster)
-{
-    if (console_mode || vsid_mode)
-        return;
-
-    raster->draw_buffer_ptr
-        = raster->draw_buffer
-        + raster->current_line * raster_calc_frame_buffer_width(raster)
-        + raster->geometry.extra_offscreen_border_left;
-}
-
 inline static void draw_sprites_when_cache_enabled(raster_t *raster,
                                                    raster_cache_t *cache)
 {
@@ -826,6 +815,8 @@ void raster_line_emulate(raster_t *raster)
 
     viewport = &raster->viewport;
 
+    raster_draw_buffer_ptr_update(raster);
+
     /* Emulate the vertical blank flip-flops.  (Well, sort of.)  */
     if (raster->current_line == raster->display_ystart && (!raster->blank
         || raster->blank_off))
@@ -863,9 +854,8 @@ void raster_line_emulate(raster_t *raster)
     raster->current_line++;
 
     if (raster->current_line == raster->geometry.screen_size.height) {
+        raster->current_line = 0;
         raster_canvas_handle_end_of_frame(raster);
-    } else {
-        update_draw_buffer_ptr(raster);
     }
 
     raster_changes_apply_all(&raster->changes.next_line);
