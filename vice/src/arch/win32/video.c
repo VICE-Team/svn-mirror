@@ -518,7 +518,7 @@ int video_canvas_create(video_canvas_t *canvas, const char *title,
     canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
     canvas->palette = palette;
     canvas->hwnd = ui_open_canvas_window(title, canvas->width, canvas->height,
-                                         exposure_handler,
+                                         (void *)exposure_handler,
                                          IsFullscreenEnabled());
 
     /*  Create the DirectDraw object */
@@ -675,234 +675,34 @@ int video_canvas_create(video_canvas_t *canvas, const char *title,
 error:
     video_canvas_destroy(canvas);
     return -1;
-
-#if 0
-    c = xmalloc(sizeof(struct video_canvas_s));
-    memset(c, 0, sizeof(struct video_canvas_s));
-
-    /* "Normal" window stuff.  */
-    c->title = stralloc(title);
-    c->width = *width;
-    c->height = *height;
-    if (IsFullscreenEnabled()) {
-        GetCurrentModeParameters(&fullscreen_width, &fullscreen_height,
-                                 &bitdepth, &refreshrate);
-    }
-    c->exposure_handler = (canvas_redraw_t)exposure_handler;
-    c->palette = palette;
-    c->hwnd = ui_open_canvas_window(title, c->width, c->height,
-                                    exposure_handler,
-                                    IsFullscreenEnabled());
-
-    /*  Create the DirectDraw object */
-    device_guid = GetGUIDForActualDevice();
-    ddresult = DirectDrawCreate(device_guid, &c->dd_object, NULL);
-
-    if (ddresult != DD_OK)
-        return CANVAS_ERROR;
-
-    if (IsFullscreenEnabled()) {
-        /*  Set cooperative level */
-        ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd,
-                                                   DDSCL_EXCLUSIVE
-                                                   | DDSCL_FULLSCREEN
-                                                   | DDSCL_NOWINDOWCHANGES);
-        if (ddresult != DD_OK) {
-            ui_error("Cannot set DirectDraw cooperative level:\n%s",
-                     dd_error(ddresult));
-            return CANVAS_ERROR;
-        }
-    } else {
-        ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, NULL,
-                                                   DDSCL_NORMAL);
-        if (ddresult != DD_OK) {
-            ui_error("Cannot set DirectDraw cooperative level:\n%s",
-                     dd_error(ddresult));
-            return CANVAS_ERROR;
-        }
-    }
-
-    ddresult = IDirectDraw_QueryInterface(c->dd_object, &IID_IDirectDraw2,
-                                          (LPVOID *)&c->dd_object2);
-    if (ddresult!=DD_OK) {
-        log_debug("Can't get DirectDraw2 interface");
-    }
-
-    if (IsFullscreenEnabled()) {
-        int w,h;
-        int wnow, hnow;
-
-        GetCurrentModeParameters(&fullscreen_width, &fullscreen_height,
-                                 &bitdepth, &refreshrate);
-        //  Cover up the larger area, so no messages sent to underlying windows
-        //  This should prevent rearrangement of icons on the desktop.
-        wnow = GetSystemMetrics(SM_CXSCREEN);
-        hnow = GetSystemMetrics(SM_CYSCREEN);
-        w = (fullscreen_width>wnow) ? fullscreen_width : wnow;
-        h = (fullscreen_height>hnow) ? fullscreen_height : hnow;
-        SetWindowPos(c->hwnd, HWND_TOPMOST, 0, 0, w, h, SWP_NOCOPYBITS);
-        ShowCursor(FALSE);
-        //  Set desired fullscreen mode
-        ddresult = IDirectDraw2_SetDisplayMode(c->dd_object2, fullscreen_width,
-                                               fullscreen_height, bitdepth,
-                                               refreshrate, 0);
-        c->client_width = fullscreen_width;
-        c->client_height = fullscreen_height;
-        fullscreen_active = 1;
-    } else {
-        c->client_width = *width;
-        c->client_height = *height;
-        fullscreen_active = 0;
-    }
-
-    /*  Create Primary surface */
-    memset(&desc, 0, sizeof(desc));
-    desc.dwSize = sizeof(desc);
-    desc.dwFlags = DDSD_CAPS;
-    desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
-
-    ddresult = IDirectDraw2_CreateSurface(c->dd_object2, &desc,
-                                          &c->primary_surface, NULL);
-    if (ddresult != DD_OK) {
-        DEBUG(("Cannot create primary surface: %s", dd_error(ddresult)));
-        return CANVAS_ERROR;
-    }
-
-    ddresult = IDirectDraw2_CreateClipper(c->dd_object2, 0, &c->clipper, NULL);
-    if (ddresult != DD_OK) {
-        ui_error("Cannot create clipper for primary surface:\n%s",
-                 dd_error(ddresult));
-        return CANVAS_ERROR;
-    }
-    ddresult = IDirectDrawSurface_SetClipper(c->primary_surface, c->clipper);
-    if (ddresult != DD_OK) {
-        ui_error("Cannot set clipper for primary surface:\n%s",
-                 dd_error(ddresult));
-        return CANVAS_ERROR;
-    }
-
-    memset(&desc, 0, sizeof(desc));
-    desc.dwSize = sizeof(desc);
-    desc.dwFlags = DDSD_CAPS;
-    desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
-
-    /* For now, the back surface is always NULL because we have not
-       implemented the full-screen mode yet.  */
-    c->back_surface = NULL;
-
-
-    memset(&desc2, 0, sizeof(desc2));
-    desc2.dwSize = sizeof(desc2);
-    ddresult = IDirectDraw2_GetDisplayMode(c->dd_object2, &desc2);
-
-    /* Create the temporary surface.  */
-    memset(&desc, 0, sizeof(desc));
-    desc.dwSize = sizeof(desc);
-    desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
-    /* FIXME: SYSTEMMEMORY?  */
-    desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
-    desc.dwWidth = desc2.dwWidth;
-    desc.dwHeight = desc2.dwHeight;
-    result = IDirectDraw2_CreateSurface(c->dd_object2, &desc,
-                                        &c->temporary_surface, NULL);
-    if (result != DD_OK) {
-        ui_error("Cannot create temporary DirectDraw surface:\n%s",
-                 dd_error(result));
-        goto error;
-    }
-
-    IDirectDrawSurface_GetCaps(c->temporary_surface, &desc.ddsCaps);
-    DEBUG(("Allocated working surface in %s memory successfully.",
-           (desc.ddsCaps.dwCaps & DDSCAPS_SYSTEMMEMORY
-            ? "system"
-            : (desc.ddsCaps.dwCaps & DDSCAPS_VIDEOMEMORY
-               ? "video"
-               : "unknown"))));
-
-    /* Find the color depth.  */
-#ifdef HAVE_UNNAMED_UNIONS
-    c->depth = desc2.ddpfPixelFormat.dwRGBBitCount;
-#else
-    c->depth = desc2.ddpfPixelFormat.u1.dwRGBBitCount;
-#endif
-
-
-    /* Create palette.  */
-    if (c->depth == 8) {
-        PALETTEENTRY ape[256];
-        HRESULT result;
-
-        /* Default to a 332 palette.  */
-        for (i = 0; i < 256; i++) {
-            ape[i].peRed   = (BYTE)(((i >> 5) & 0x07) * 255 / 7);
-            ape[i].peGreen = (BYTE)(((i >> 2) & 0x07) * 255 / 7);
-            ape[i].peBlue  = (BYTE)(((i >> 0) & 0x03) * 255 / 3);
-            ape[i].peFlags = (BYTE)0;
-        }
-
-        /* Overwrite first colors with the palette ones.  */
-        for (i = 0; i < c->palette->num_entries; i++) {
-            ape[i].peRed = c->palette->entries[i].red;
-            ape[i].peGreen = c->palette->entries[i].green;
-            ape[i].peBlue = c->palette->entries[i].blue;
-            ape[i].peFlags = 0;
-        }
-
-        result = IDirectDraw2_CreatePalette(c->dd_object2, DDPCAPS_8BIT,
-                                            ape, &c->dd_palette, NULL);
-        if (result != DD_OK) {
-            DEBUG(("Cannot create palette: %s", dd_error(result)));
-            goto error;
-        }
-    }
-
-    c->pixel_translate = malloc(sizeof(PIXEL) * 256);
-    if (set_palette(c) < 0)
-        goto error;
-    c->pixels = pixel_return;
-    for (i = 0; i < c->palette->num_entries; i++) {
-        c->pixels[i] = i;
-    }
-
-    if (set_physical_colors(c) < 0)
-        goto error;
-
-    video_canvases[video_number_of_canvases++] = c;
-
-    return c;
-
-error:
-    video_canvas_destroy(c);
-    return NULL;
-#endif
 }
 
 /* Destroy `s'.  */
-void video_canvas_destroy(video_canvas_t *c)
+void video_canvas_destroy(video_canvas_t *canvas)
 {
-    if (c != NULL) {
-        if (c->hwnd !=0) {
-            DestroyWindow(c->hwnd);
+    if (canvas != NULL) {
+        if (canvas->hwnd !=0) {
+            DestroyWindow(canvas->hwnd);
         }
-        if (c->title != NULL) {
-            free(c->title);
+        if (canvas->title != NULL) {
+            free(canvas->title);
         }
-        free(c);
+        free(canvas);
     }
 }
 
 /* Make `s' visible.  */
-void video_canvas_map(video_canvas_t *c)
+void video_canvas_map(video_canvas_t *canvas)
 {
 }
 
 /* Make `s' unvisible.  */
-void video_canvas_unmap(video_canvas_t *c)
+void video_canvas_unmap(video_canvas_t *canvas)
 {
 }
 
 /* Change the size of `s' to `width' * `height' pixels.  */
-void video_canvas_resize(video_canvas_t *c, unsigned int width,
+void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
                          unsigned int height)
 {
     int fullscreen_width;
@@ -916,28 +716,28 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
     if (canvas->videoconfig.doublesizey)
         height *= 2;
 
-    c->width = width;
-    c->height = height;
+    canvas->width = width;
+    canvas->height = height;
     if (IsFullscreenEnabled()) {
         GetCurrentModeParameters(&fullscreen_width, &fullscreen_height,
                                  &bitdepth, &refreshrate);
     } else {
-        c->client_width = width;
-        c->client_height = height;
-        ui_resize_canvas_window(c->hwnd, width, height);
+        canvas->client_width = width;
+        canvas->client_height = height;
+        ui_resize_canvas_window(canvas->hwnd, width, height);
     }
 }
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int video_canvas_set_palette(struct video_canvas_s *c, const palette_t *p)
+int video_canvas_set_palette(struct video_canvas_s *canvas, const palette_t *p)
 {
     int i;
 
     /* Always OK.  */
-    c->palette = p;
+    canvas->palette = p;
     /* Create palette.  */
-    if (c->depth == 8) {
+    if (canvas->depth == 8) {
         PALETTEENTRY ape[256];
         HRESULT result;
 
@@ -950,18 +750,18 @@ int video_canvas_set_palette(struct video_canvas_s *c, const palette_t *p)
         }
 
         /* Overwrite first colors with the palette ones.  */
-        for (i = 0; i < c->palette->num_entries; i++) {
-            ape[i].peRed = c->palette->entries[i].red;
-            ape[i].peGreen = c->palette->entries[i].green;
-            ape[i].peBlue = c->palette->entries[i].blue;
+        for (i = 0; i < canvas->palette->num_entries; i++) {
+            ape[i].peRed = canvas->palette->entries[i].red;
+            ape[i].peGreen = canvas->palette->entries[i].green;
+            ape[i].peBlue = canvas->palette->entries[i].blue;
             ape[i].peFlags = 0;
         }
 
-        result = IDirectDraw2_CreatePalette(c->dd_object2, DDPCAPS_8BIT,
-                                            ape, &c->dd_palette, NULL);
+        result = IDirectDraw2_CreatePalette(canvas->dd_object2, DDPCAPS_8BIT,
+                                            ape, &canvas->dd_palette, NULL);
     }
-    set_palette(c);
-    set_physical_colors(c);
+    set_palette(canvas);
+    set_physical_colors(canvas);
     return 0;
 }
 
@@ -1196,7 +996,7 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     }
 }
 
-void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
+void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
                           unsigned int draw_buffer_line_size,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
@@ -1209,20 +1009,20 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
     unsigned int client_y;
     RECT rect;
 
-    if (c->videoconfig.doublesizex) {
+    if (canvas->videoconfig.doublesizex) {
         xs *= 2;
         xi *= 2;
         w *= 2;
     }
 
-    if (c->videoconfig.doublesizey) {
+    if (canvas->videoconfig.doublesizey) {
         ys *= 2;
         yi *= 2;
         h *= 2;
     }
 
     for (window_index = 0; window_index < number_of_windows; window_index++) {
-        if (window_handles[window_index] == c->hwnd)
+        if (window_handles[window_index] == canvas->hwnd)
             break;
     }
     if (window_index == number_of_windows) {
@@ -1234,16 +1034,16 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
     client_x = xi;
     client_y = yi;
 
-    GetClientRect(c->hwnd, &rect);
+    GetClientRect(canvas->hwnd, &rect);
     if (fullscreen_active) {
-        rect.right = c->client_width;
-        rect.bottom = c->client_height;
+        rect.right = canvas->client_width;
+        rect.bottom = canvas->client_height;
     }
     client_x += (rect.right - window_canvas_xsize[window_index]) / 2;
     client_y += (rect.bottom - statusbar_get_status_height()
                 - window_canvas_ysize[window_index]) / 2;
 
-    real_refresh(c, draw_buffer, draw_buffer_line_size, frame_buffer_x,
+    real_refresh(canvas, draw_buffer, draw_buffer_line_size, frame_buffer_x,
                  frame_buffer_y, client_x, client_y, w, h);
 }
 

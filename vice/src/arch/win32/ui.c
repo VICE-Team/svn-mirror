@@ -70,6 +70,7 @@
 #include "uisound.h"
 #include "utils.h"
 #include "version.h"
+#include "videoarch.h"
 #include "vsync.h"
 #include "winmain.h"
 #include "statusbar.h"
@@ -474,7 +475,7 @@ void ui_exit(void)
 
 /*  Create a Window for the emulation.  */
 HWND ui_open_canvas_window(const char *title, unsigned int width,
-                           unsigned int height, void_t exp_handler,
+                           unsigned int height, void *exp_handler,
                            int fullscreen)
 {
     HWND hwnd;
@@ -509,19 +510,20 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
                             winmain_instance,
                             NULL);
     }
-    if (hwnd==NULL) log_debug("Window creation failed");
+    if (hwnd == NULL)
+        log_debug("Window creation failed");
 
-    window_handles[number_of_windows]=hwnd;
+    window_handles[number_of_windows] = hwnd;
     exposure_handler[number_of_windows] = (canvas_redraw_t)exp_handler;
-    window_canvas_xsize[number_of_windows]=width;
-    window_canvas_ysize[number_of_windows]=height;
+    window_canvas_xsize[number_of_windows] = width;
+    window_canvas_ysize[number_of_windows] = height;
     number_of_windows++;
 
     if (!fullscreen) {
         statusbar_create(hwnd);
 //        status_hwnd[number_of_windows]=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",hwnd,IDM_STATUS_WINDOW);
-//        GetClientRect(status_hwnd[number_of_windows],&rect);
-//        status_height=rect.bottom-rect.top;
+//        GetClientRect(status_hwnd[number_of_windows], &rect);
+//        status_height = rect.bottom-rect.top;
     }
 
     ui_resize_canvas_window(hwnd, width, height);

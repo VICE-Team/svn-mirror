@@ -28,9 +28,13 @@
 #define _UI_WIN32_H
 
 #include "uiapi.h"
-#include "video.h"
-#include "videoarch.h"
+
 #include <stdio.h>
+
+#undef BYTE
+#undef WORD
+#undef DWORD
+#include <ddraw.h>
 
 #define APPLICATION_CLASS "VICE"
 #define APPLICATION_CLASS_MAIN "VICE:Main"
@@ -88,7 +92,7 @@ void ui_register_res_values(ui_res_value_list *valuelist);
 extern HWND ui_get_main_hwnd(void);
 extern HWND ui_open_canvas_window(const char *title, unsigned int width,
                                   unsigned int height,
-                                  void_t exposure_handler,
+                                  void *exposure_handler,
                                   int fullscreen);
 extern void ui_resize_canvas_window(HWND w, unsigned int width,
                                     unsigned int height);

@@ -34,6 +34,8 @@
 #include "machine.h"
 #include "ui.h"
 #include "mouse.h"
+#include "videoarch.h"
+
 
 #ifdef HAS_JOYSTICK
 #include "joy.h"
