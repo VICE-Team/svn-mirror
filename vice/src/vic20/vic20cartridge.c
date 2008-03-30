@@ -75,8 +75,8 @@ static int set_cartridge_file_2(resource_value_t v, void *param)
 	&& strcmp(name, cartridge_file_2) == 0)
 	return 0;
 
-    string_set(&cartridge_file_2, name);
-    string_set(&cartfile2, name);
+    util_string_set(&cartridge_file_2, name);
+    util_string_set(&cartfile2, name);
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_2000, cartfile2);
 }
 
@@ -88,8 +88,8 @@ static int set_cartridge_file_4(resource_value_t v, void *param)
 	&& strcmp(name, cartridge_file_4) == 0)
 	return 0;
 
-    string_set(&cartridge_file_4, name);
-    string_set(&cartfile4, name);
+    util_string_set(&cartridge_file_4, name);
+    util_string_set(&cartfile4, name);
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_4000, cartfile4);
 }
 
@@ -101,8 +101,8 @@ static int set_cartridge_file_6(resource_value_t v, void *param)
 	&& strcmp(name, cartridge_file_6) == 0)
 	return 0;
 
-    string_set(&cartridge_file_6, name);
-    string_set(&cartfile6, name);
+    util_string_set(&cartridge_file_6, name);
+    util_string_set(&cartfile6, name);
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_6000, cartfile6);
 }
 
@@ -114,8 +114,8 @@ static int set_cartridge_file_A(resource_value_t v, void *param)
 	&& strcmp(name, cartridge_file_A) == 0)
 	return 0;
 
-    string_set(&cartridge_file_A, name);
-    string_set(&cartfileA, name);
+    util_string_set(&cartridge_file_A, name);
+    util_string_set(&cartfileA, name);
     return cartridge_attach_image(CARTRIDGE_VIC20_8KB_A000, cartfileA);
 }
 
@@ -127,8 +127,8 @@ static int set_cartridge_file_B(resource_value_t v, void *param)
 	&& strcmp(name, cartridge_file_B) == 0)
 	return 0;
 
-    string_set(&cartridge_file_B, name);
-    string_set(&cartfileB, name);
+    util_string_set(&cartridge_file_B, name);
+    util_string_set(&cartfileB, name);
     return cartridge_attach_image(CARTRIDGE_VIC20_4KB_B000, cartfileB);
 }
 
@@ -249,70 +249,70 @@ int cartridge_attach_image(int type, const char *filename)
 
     switch (type) {
       case CARTRIDGE_VIC20_16KB_4000:
-	  if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
-	      zfclose(fd);
-	      return -1;
-	  }
-	  if (n < 4) {
-	      type = CARTRIDGE_VIC20_8KB_4000;
-	      if (n < 2) {
-	          memcpy(rawcart + 0x1000, rawcart, 0x1000);
-	      }
-	  }
-	  string_set(&cartfile4, filename);
-	  break;
+        if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
+            zfclose(fd);
+            return -1;
+        }
+        if (n < 4) {
+            type = CARTRIDGE_VIC20_8KB_4000;
+            if (n < 2) {
+                memcpy(rawcart + 0x1000, rawcart, 0x1000);
+            }
+        }
+        util_string_set(&cartfile4, filename);
+        break;
       case CARTRIDGE_VIC20_16KB_2000:
-	  if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
-	      zfclose(fd);
-	      return -1;
-	  }
-	  if (n < 4) {
-	      type = CARTRIDGE_VIC20_8KB_2000;
-	      if (n < 2) {
-	          /* type = CARTRIDGE_VIC20_4KB_2000; */
-	          memcpy(rawcart + 0x1000, rawcart, 0x1000);
-	      }
-	  }
-	  string_set(&cartfile2, filename);
-	  break;
+        if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
+            zfclose(fd);
+            return -1;
+        }
+        if (n < 4) {
+            type = CARTRIDGE_VIC20_8KB_2000;
+            if (n < 2) {
+                /* type = CARTRIDGE_VIC20_4KB_2000; */
+                memcpy(rawcart + 0x1000, rawcart, 0x1000);
+            }
+        }
+        util_string_set(&cartfile2, filename);
+        break;
       case CARTRIDGE_VIC20_16KB_6000:
-	  if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
-	      zfclose(fd);
-	      return -1;
-	  }
-	  if (n < 4) {
-	      type = CARTRIDGE_VIC20_8KB_6000;
-	      if (n < 2) {
-	          /* type = CARTRIDGE_VIC20_4KB_6000; */
-	          memcpy(rawcart + 0x1000, rawcart, 0x1000);
-	      }
-	  }
-	  string_set(&cartfile6, filename);
-	  break;
+        if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
+            zfclose(fd);
+            return -1;
+        }
+        if (n < 4) {
+            type = CARTRIDGE_VIC20_8KB_6000;
+            if (n < 2) {
+                /* type = CARTRIDGE_VIC20_4KB_6000; */
+                memcpy(rawcart + 0x1000, rawcart, 0x1000);
+            }
+        }
+        util_string_set(&cartfile6, filename);
+        break;
       case CARTRIDGE_VIC20_8KB_A000:
-	  if ((n = fread(rawcart, 0x1000, 2, fd)) < 1) {
-	      zfclose(fd);
-	      return -1;
-	  }
-	  if (n < 2) {
-	      if (cartfileB) {
-		  type = CARTRIDGE_VIC20_4KB_A000;
-	      } else {
-		  memcpy(rawcart + 0x1000, rawcart, 0x1000);
-	      }
-	  }
-	  string_set(&cartfileA, filename);
-	  break;
+        if ((n = fread(rawcart, 0x1000, 2, fd)) < 1) {
+            zfclose(fd);
+            return -1;
+        }
+        if (n < 2) {
+            if (cartfileB) {
+                type = CARTRIDGE_VIC20_4KB_A000;
+            } else {
+                memcpy(rawcart + 0x1000, rawcart, 0x1000);
+            }
+        }
+        util_string_set(&cartfileA, filename);
+        break;
       case CARTRIDGE_VIC20_4KB_B000:
-	  if ((n = fread(rawcart, 0x1000, 1, fd)) < 1) {
-	      zfclose(fd);
-	      return -1;
-	  }
-	  string_set(&cartfileB, filename);
-	  break;
+        if ((n = fread(rawcart, 0x1000, 1, fd)) < 1) {
+            zfclose(fd);
+            return -1;
+        }
+        util_string_set(&cartfileB, filename);
+        break;
       default:
-	  zfclose(fd);
-	  return -1;
+        zfclose(fd);
+        return -1;
     }
 
     zfclose(fd);
@@ -328,11 +328,11 @@ void cartridge_detach_image(void)
     mem_detach_cartridge(CARTRIDGE_VIC20_8KB_4000);
     mem_detach_cartridge(CARTRIDGE_VIC20_8KB_6000);
     mem_detach_cartridge(CARTRIDGE_VIC20_8KB_A000);
-    string_set(&cartfile2, NULL);
-    string_set(&cartfile4, NULL);
-    string_set(&cartfile6, NULL);
-    string_set(&cartfileA, NULL);
-    string_set(&cartfileB, NULL);
+    util_string_set(&cartfile2, NULL);
+    util_string_set(&cartfile4, NULL);
+    util_string_set(&cartfile6, NULL);
+    util_string_set(&cartfileA, NULL);
+    util_string_set(&cartfileB, NULL);
 }
 
 void cartridge_set_default(void)
@@ -361,3 +361,4 @@ const char *cartridge_get_file_name(ADDRESS addr)
 	  return NULL;
     }
 }
+

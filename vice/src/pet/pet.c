@@ -110,7 +110,7 @@ static int set_model_name(resource_value_t v, void *param)
         return -1;
     }
 
-    string_set(&model_name, name);
+    util_string_set(&model_name, name);
     return 0;
 }
 
