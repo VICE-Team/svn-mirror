@@ -301,8 +301,8 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/vdrive/vdrive.h viad.h wd1770.h
 drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/arch/unix/types.h \
-	../../src/alarm.h ciad.h ../../src/clkguard.h drive.h \
-	../../src/log.h drivecpu.h drivemem.h drivetypes.h \
+	../../src/alarm.h ciad.h ../../src/clkguard.h ../../src/debug.h \
+	drive.h ../../src/log.h drivecpu.h drivemem.h drivetypes.h \
 	../../src/ciatimer.h ../../src/snapshot.h ../../src/interrupt.h \
 	../../src/mos6510.h fdc.h glue1551.h ../../src/machine.h \
 	../../src/mem.h ../../src/monitor/mon.h riotd.h tia1551.h \

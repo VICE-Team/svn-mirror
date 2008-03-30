@@ -1,5 +1,5 @@
 /*
- * version.h
+ * debug.h - Various debugging options.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
@@ -24,15 +24,23 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _DEBUG_H
+#define _DEBUG_H
 
-#ifndef VERSION
-#define VERSION "1.8.21"
+/* This enables debugging.  Attention: It makes things a bit slower.  */
+/* #define DEBUG */
+
+typedef struct debug_s {
+#ifdef DEBUG
+    int maincpu_traceflg;
+    int drivecpu_traceflg[2];
+#endif
+    int do_core_dumps;
+} debug_t;
+
+extern debug_t debug;
+
+extern int debug_resources_init(void);
+
 #endif
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
-
-#endif
