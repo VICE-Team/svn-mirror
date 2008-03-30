@@ -693,6 +693,19 @@ TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist,
                                        NULL);
 }
 
+void uilib_select_browse(HWND hwnd, const TCHAR *title, unsigned int type,
+                         int idc)
+{
+    TCHAR *st_name;
+
+    st_name = uilib_select_file(hwnd, title, UILIB_FILTER_ALL, type,
+                                UILIB_SELECTOR_STYLE_DEFAULT);
+    if (st_name != NULL) {
+        SetDlgItemText(hwnd, idc, st_name);
+        lib_free(st_name);
+    }
+}
+
 BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
 {
     DWORD dwWndThread = GetWindowThreadProcessId(hwnd,NULL);

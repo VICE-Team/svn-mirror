@@ -163,18 +163,9 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         command = LOWORD(wparam);
         switch (command) {
           case IDC_IDE64_HDIMAGE_BROWSE:
-            {
-                TCHAR *st_name;
-
-                st_name = uilib_select_file(hwnd, TEXT("Select HD image file"),
-                                            UILIB_FILTER_ALL,
-                                            UILIB_SELECTOR_TYPE_FILE_SAVE,
-                                            UILIB_SELECTOR_STYLE_DEFAULT);
-                if (st_name != NULL) {
-                    SetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_FILE, st_name);
-                    lib_free(st_name);
-                }
-            }
+            uilib_select_browse(hwnd, TEXT("Select HD image file"),
+                                UILIB_SELECTOR_TYPE_FILE_SAVE,
+                                IDC_IDE64_HDIMAGE_FILE);
             break;
           case IDC_TOGGLE_IDE64_SIZEAUTODETECT:
             enable_ide64_controls(hwnd);

@@ -167,24 +167,16 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             enable_functionrom_controls(hwnd);
             break;
           case IDC_C128_FUNCTIONROM_INTERNAL_BROWSE:
+            uilib_select_browse(hwnd,
+                                TEXT("Select internal function ROM image"),
+                                UILIB_SELECTOR_TYPE_FILE_LOAD,
+                                IDC_C128_FUNCTIONROM_INTERNAL_NAME);
+            break;
           case IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE:
-            {
-                TCHAR *st_name;
-
-                st_name = uilib_select_file(hwnd, TEXT("Select ROM image"),
-                                            UILIB_FILTER_ALL,
-                                            UILIB_SELECTOR_TYPE_FILE_LOAD,
-                                            UILIB_SELECTOR_STYLE_DEFAULT);
-                if (st_name != NULL) {
-                    if (command == IDC_C128_FUNCTIONROM_INTERNAL_BROWSE)
-                        SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
-                                       st_name);
-                    else
-                        SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
-                                       st_name);
-                    lib_free(st_name);
-                }
-            }
+            uilib_select_browse(hwnd,
+                                TEXT("Select external function ROM image"),
+                                UILIB_SELECTOR_TYPE_FILE_LOAD,
+                                IDC_C128_FUNCTIONROM_EXTERNAL_NAME);
             break;
         }
         return FALSE;
