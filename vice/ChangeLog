@@ -1,3 +1,12 @@
+2005-02-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.1.
+
+	* configure.in: Define `UNSTABLE'.
+
+	* data/PET/x11_bdep.vkm, data/PET/x11_bdes.vkm: Fixed
+	includes.
+
 2005-01-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.
