@@ -12,7 +12,6 @@ noinst_LIBRARIES = libc610.a
 libc610_a_SOURCES = \
 	crtc.c \
 	crtc.def \
-	crtc.h \
 	c610.c \
 	c610.h \
 	c610acia.h \
