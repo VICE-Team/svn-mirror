@@ -37,8 +37,7 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/vdrive \
-	-I$(top_srcdir)/src/monitor 
+	-I$(top_srcdir)/src/vdrive
 
 noinst_HEADERS = \
 	6510core.h \
@@ -206,6 +205,7 @@ crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
 driveiec_lib = $(top_builddir)/src/drive/iec/libdriveiec.a
+driveiecieee_lib = $(top_builddir)/src/drive/iecieee/libdriveiecieee.a
 driveieee_lib = $(top_builddir)/src/drive/ieee/libdriveieee.a
 drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
@@ -249,6 +249,7 @@ x64_libs =  \
 	$(c64cart_lib) \
 	$(drive_lib) \
 	$(driveiec_lib) \
+	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
@@ -270,6 +271,7 @@ x64-all: \
 	libc64cart \
 	libdrive \
 	libdriveiec \
+	libdriveiecieee \
 	libdriveieee \
 	libvdrive \
 	libraster \
@@ -297,6 +299,7 @@ x128_libs =  \
 	$(c64cart_lib) \
 	$(drive_lib) \
 	$(driveiec_lib) \
+	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
@@ -323,6 +326,7 @@ x128-all: \
 	librs232drv \
 	libdrive \
 	libdriveiec \
+	libdriveiecieee \
 	libdriveieee \
 	libvdrive \
 	libarch \
@@ -346,6 +350,7 @@ xvic_libs =  \
 	$(vic20_lib) \
 	$(drive_lib) \
 	$(driveiec_lib) \
+	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
@@ -362,6 +367,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 xvic-all: \
 	libdrive \
 	libdriveiec \
+	libdriveiecieee \
 	libdriveieee \
 	libvdrive \
 	libraster \
@@ -385,6 +391,7 @@ xpet_libs =  \
 	@XPET_WINRES@ \
 	$(pet_lib) \
 	$(drive_lib) \
+	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
@@ -401,6 +408,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 .PHONY: xpet-all
 xpet-all: \
 	libdrive \
+	libdriveiecieee \
 	libdriveieee \
 	libvdrive \
 	libraster \
@@ -426,6 +434,7 @@ xplus4_libs =  \
 	$(plus4_lib) \
 	$(drive_lib) \
 	$(driveiec_lib) \
+	$(driveiecieee_lib) \
 	$(drivetcbm_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
@@ -442,6 +451,7 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xplus4-all: \
 	libdrive \
 	libdriveiec \
+	libdriveiecieee \
 	libdrivetcbm \
 	libvdrive \
 	libraster \
@@ -465,6 +475,7 @@ xcbm2_libs = \
 	@XCBM2_WINRES@ \
 	$(xcbm2_lib) \
 	$(drive_lib) \
+	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
@@ -491,6 +502,7 @@ xcbm2-all: \
 	libsid \
 	@RESID_DEP@ \
 	libdrive \
+	libdriveiecieee \
 	libdriveieee \
 	libvdrive \
 	libraster \
@@ -582,6 +594,8 @@ libdrive:
 	(cd drive && $(MAKE))
 libdriveiec:
 	(cd drive && $(MAKE) libdriveiec)
+libdriveiecieee:
+	(cd drive && $(MAKE) libdriveiecieee)
 libdriveieee:
 	(cd drive && $(MAKE) libdriveieee)
 libdrivetcbm:
