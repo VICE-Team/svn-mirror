@@ -155,8 +155,8 @@ void vic_raster_draw_alarm_handler(CLOCK offset)
         vic.raster.display_ystop++;
 
     /* check if row step is pending */
-    if (vic.row_increase_line == vic.raster.ycounter
-        || 2 * vic.row_increase_line == vic.raster.ycounter) {
+    if (vic.row_increase_line == (unsigned int)vic.raster.ycounter
+        || 2 * vic.row_increase_line == (unsigned int)vic.raster.ycounter) {
         vic.row_counter++;
         
         vic.raster.ycounter = 0;
@@ -186,15 +186,16 @@ void vic_raster_draw_alarm_handler(CLOCK offset)
     /* xstart may have changed; recalculate xstop */
     vic.raster.display_xstop = vic.raster.display_xstart + vic.text_cols * 8
                                * VIC_PIXEL_WIDTH;
-    if (vic.raster.display_xstop >= vic.screen_width * VIC_PIXEL_WIDTH)
-        vic.raster.display_xstop = (vic.screen_width - 1) * VIC_PIXEL_WIDTH;
+    if (vic.raster.display_xstop >= (int)(vic.screen_width * VIC_PIXEL_WIDTH))
+        vic.raster.display_xstop = (int)((vic.screen_width - 1)
+                                   * VIC_PIXEL_WIDTH);
 
     /* increment ycounter and set offset for memptr */
     if (vic.area == 1 && !blank_this_line) {
         vic.raster.ycounter++;
 
         if (vic.row_offset != 0
-            || vic.raster.ycounter == vic.row_increase_line) {
+            || (unsigned int)vic.raster.ycounter == vic.row_increase_line) {
             /* this only happens if char_height changes between 8 and 16
                within line 7 */
             pending_mem_offset = 

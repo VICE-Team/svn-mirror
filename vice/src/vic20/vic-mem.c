@@ -59,10 +59,10 @@ vic_store(ADDRESS addr, BYTE value)
 
             value &= 0x7f;
 
-            xstart = MIN(value * 4, vic.screen_width);
+            xstart = MIN((unsigned int)(value * 4), vic.screen_width);
 
             xstop = xstart + vic.text_cols * 8;
-            if (xstop >= vic.screen_width)
+            if (xstop >= (int)vic.screen_width)
                 xstop = vic.screen_width - 1;
                 /* FIXME: SCREEN-MIXUP not handled */
 
@@ -149,9 +149,9 @@ vic_store(ADDRESS addr, BYTE value)
         {
             int new_text_cols = MIN(value & 0x7f, VIC_SCREEN_MAX_TEXT_COLS);
 
-            int new_xstop = MIN(vic.raster.display_xstart
-                                + new_text_cols * 8 * VIC_PIXEL_WIDTH,
-                (vic.screen_width - 1) * VIC_PIXEL_WIDTH);
+            int new_xstop = MIN((int)(vic.raster.display_xstart
+                                + new_text_cols * 8 * VIC_PIXEL_WIDTH),
+                (int)((vic.screen_width - 1) * VIC_PIXEL_WIDTH));
 
             if (VIC_RASTER_CYCLE(maincpu_clk) <= 1) {
                 /* changes up to cycle 1 are visible in the current line */

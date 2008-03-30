@@ -484,7 +484,7 @@ static void export_registers(void)
       BYTE tmp, carry, value;                                       \
                                                                     \
       CLK += clk_inc1;                                              \
-      value = loadval;                                              \
+      value = (BYTE)(loadval);                                      \
       carry = LOCAL_CARRY();                                        \
       tmp = reg_a + value + carry;                                  \
       reg_f = SZP[tmp];                                             \
@@ -541,7 +541,7 @@ static void export_registers(void)
       BYTE tmp, value;                                              \
                                                                     \
       CLK += clk_inc1;                                              \
-      value = loadval;                                              \
+      value = (BYTE)(loadval);                                      \
       tmp = reg_a + value;                                          \
       reg_f = SZP[tmp];                                             \
       LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)value) & 0x100);   \
@@ -654,7 +654,7 @@ static void export_registers(void)
       BYTE tmp, value;                                           \
                                                                  \
       CLK += clk_inc1;                                           \
-      value = loadval;                                           \
+      value = (BYTE)(loadval);                                   \
       tmp = reg_a - value;                                       \
       reg_f = N_FLAG | SZP[tmp];                                 \
       LOCAL_SET_CARRY(value > reg_a);                            \
@@ -1467,7 +1467,7 @@ static void export_registers(void)
       BYTE tmp, carry, value;                                    \
                                                                  \
       CLK += clk_inc1;                                           \
-      value = loadval;                                           \
+      value = (BYTE)(loadval);                                   \
       carry = LOCAL_CARRY();                                     \
       tmp = reg_a - value - carry;                               \
       reg_f = N_FLAG | SZP[tmp];                                 \
@@ -1724,7 +1724,7 @@ static void export_registers(void)
       BYTE tmp, value;                                           \
                                                                  \
       CLK += clk_inc1;                                           \
-      value = loadval;                                           \
+      value = (BYTE)(loadval);                                   \
       tmp = reg_a - value;                                       \
       reg_f = N_FLAG | SZP[tmp];                                 \
       LOCAL_SET_HALFCARRY((reg_a ^ value ^ tmp) & H_FLAG);       \
@@ -3927,7 +3927,7 @@ static void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         IM(2);
         break;
       case 0x5f: /* LD A R */
-        LDAIR((CLK & 0xff));
+        LDAIR((BYTE)(CLK & 0xff));
         break;
       case 0x60: /* IN H BC */
         INBC(reg_h, 4, 8, 2);

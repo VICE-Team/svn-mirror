@@ -309,7 +309,7 @@ void vdc_update_memory_ptrs(unsigned int cycle)
 static void vdc_increment_memory_pointer(void)
 {
     vdc.mem_counter_inc = vdc.screen_text_cols;
-    if (vdc.raster.ycounter >= vdc.raster_ycounter_max)
+    if (vdc.raster.ycounter >= (int)vdc.raster_ycounter_max)
         vdc.mem_counter += vdc.mem_counter_inc + vdc.regs[27];
 
     vdc.raster.ycounter = (vdc.raster.ycounter + 1)

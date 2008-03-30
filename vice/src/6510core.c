@@ -163,7 +163,7 @@
 
 /* Stack operations. */
 
-#define PUSH(val) ((PAGE_ONE)[(reg_sp--)] = (val))
+#define PUSH(val) ((PAGE_ONE)[(reg_sp--)] = ((BYTE)(val)))
 #define PULL()    ((PAGE_ONE)[(++reg_sp)])
 
 #ifdef DEBUG

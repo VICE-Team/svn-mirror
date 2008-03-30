@@ -266,7 +266,7 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     if (vdc.cursor_visible) {
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
 
-        if (crsrpos >= 0 && crsrpos < vdc.screen_text_cols
+        if (crsrpos >= 0 && crsrpos < (int)vdc.screen_text_cols
             && (int)vdc.raster.ycounter >= (int)(vdc.regs[10] & 0x1f)
             && (int)vdc.raster.ycounter < (int)(vdc.regs[11] & 0x1f))
             cursor_pos = crsrpos;
@@ -326,7 +326,7 @@ static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
         + vdc.raster.xsmooth + xs * 8;
     table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
-    for (i = xs; i <= xe; i++, p += 8) {
+    for (i = xs; i <= (unsigned int)xe; i++, p += 8) {
         DWORD *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
         int d = cache->foreground_data[i];
 
@@ -347,7 +347,7 @@ static void draw_std_text(void)
     if (vdc.cursor_visible) {
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
 
-        if (crsrpos >= 0 && crsrpos < vdc.screen_text_cols
+        if (crsrpos >= 0 && crsrpos < (int)vdc.screen_text_cols
             && (int)(vdc.raster.ycounter) >= (int)(vdc.regs[10] & 0x1f)
             && (int)(vdc.raster.ycounter) < (int)(vdc.regs[11] & 0x1f))
             cpos = crsrpos;
@@ -434,7 +434,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
         + vdc.raster.xsmooth + xs * 8;
 
     if (vdc.regs[25] & 0x40) {
-        for (i = xs; i <= xe; i++, p += 8) {
+        for (i = xs; i <= (unsigned int)xe; i++, p += 8) {
             int d = cache->foreground_data[i];
 
             table_ptr = hr_table + (cache->color_data_1[i] & 0xf0);
@@ -446,7 +446,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
     } else {
         table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
-        for (i = xs; i <= xe; i++, p += 8) {
+        for (i = xs; i <= (unsigned int)xe; i++, p += 8) {
             int d = cache->foreground_data[i];
 
             ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
@@ -518,7 +518,7 @@ static void draw_idle_cached(raster_cache_t *cache, int xs, int xe)
 
     idleval = *(hr_table + ((cache->color_data_1[0] & 0x0f) << 8));
 
-    for (i = xs; i <= xe; i++, p += 8) {
+    for (i = xs; i <= (unsigned int)xe; i++, p += 8) {
         *((DWORD *)p) = idleval;
         *((DWORD *)p + 1) = idleval;
     }

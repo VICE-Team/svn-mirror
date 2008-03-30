@@ -287,8 +287,9 @@ struct ted_s {
     int screen_borderheight;
     int cycles_per_line;
     int draw_cycle;
-    int first_dma_line;
-    int last_dma_line;
+
+    unsigned int first_dma_line;
+    unsigned int last_dma_line;
 
     /* Number of lines the whole screen is shifted up.  */
     int offset;

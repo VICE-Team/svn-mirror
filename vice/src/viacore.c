@@ -368,10 +368,10 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         }
         if(IS_CA2_HANDSHAKE()) {
             ca2_state = 0;
-            VIA_SET_CA2( ca2_state )
-            if(IS_CA2_PULSE_MODE()) {
+            VIA_SET_CA2(ca2_state)
+            if (IS_CA2_PULSE_MODE()) {
                 ca2_state = 1;
-                VIA_SET_CA2( ca2_state )
+                VIA_SET_CA2(ca2_state)
             }
         }
         if (myviaier & (VIA_IM_CA1 | VIA_IM_CA2))
@@ -392,12 +392,12 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         if ((myvia[VIA_PCR] & 0xa0) != 0x20) {
             myviaifr &= ~VIA_IM_CB2;
         }
-        if(IS_CB2_HANDSHAKE()) {
+        if (IS_CB2_HANDSHAKE()) {
             cb2_state = 0;
             VIA_SET_CB2( cb2_state )
-            if(IS_CB2_PULSE_MODE()) {
+            if (IS_CB2_PULSE_MODE()) {
                 cb2_state = 1;
-                VIA_SET_CB2( cb2_state )
+                VIA_SET_CB2(cb2_state)
             }
         }
         if (myviaier & (VIA_IM_CB1 | VIA_IM_CB2))
