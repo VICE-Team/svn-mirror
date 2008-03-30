@@ -13,8 +13,8 @@
 /* The number of bytes in an unsigned short.  */
 #undef SIZEOF_UNSIGNED_SHORT
 
-/* Does libXext have XShmPutImage?  */
-#undef HAVE_XSHMPUTIMAGE
+/* Do we use MITSHM extensions?  */
+#undef USE_MITSHM
 
 /* Is libXpm available?  */
 #undef HAVE_LIBXPM
@@ -33,6 +33,9 @@
 
 /* Do we want to enable the ReSID code support?  */
 #undef HAVE_RESID
+
+/* Do we support a 1351 mouse?  */
+#undef HAVE_MOUSE
 
 /* Do you want to use MIDAS Sound System instead of Allegro for sound
    playback?  */

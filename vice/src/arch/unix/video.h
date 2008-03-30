@@ -32,7 +32,7 @@
 #include "palette.h"
 
 #include <X11/Xlib.h>
-#if defined( MITSHM )
+#ifdef USE_MITSHM
 #include <X11/extensions/XShm.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
@@ -54,7 +54,7 @@ typedef struct _canvas *canvas_t;
 
 struct _frame_buffer {
     XImage *x_image;
-#if defined (MITSHM)
+#ifdef USE_MITSHM
     XShmSegmentInfo xshm_info;
 #endif
 #if X_DISPLAY_DEPTH == 0

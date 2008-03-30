@@ -250,7 +250,7 @@ int video_init(void)
     if (video_log == LOG_ERR)
 	video_log = log_open("Video");
 
-#ifdef MITSHM
+#ifdef USE_MITSHM
 
     /* if < 0 then no initialization, neither 0 (don't use) or 1 (use) */
     if (try_mitshm < 0) {
@@ -341,7 +341,7 @@ int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 	sizeofpixel *= 2;
 #endif
 
-#ifdef MITSHM
+#ifdef USE_MITSHM
     if (use_mitshm) {
 	DEBUG_MITSHM(("frame_buffer_alloc(): allocating XImage with MITSHM, "
 		      "%d x %d pixels...", width, height));
@@ -428,7 +428,7 @@ void frame_buffer_free(frame_buffer_t * i)
     if (!i)
 	return;
 
-#ifdef MITSHM
+#ifdef USE_MITSHM
     if (use_mitshm) {
 	XShmDetach(display, &(i->xshm_info));
 	if (i->x_image)

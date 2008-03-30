@@ -78,14 +78,6 @@
 #define EDIT
 #endif
 
-#if defined HAVE_X11_EXTENSIONS_XSHM_H && defined HAVE_XSHMPUTIMAGE
-#define MITSHM
-#endif
-
-#if defined __MSDOS__
-#define HAVE_MOUSE
-#endif
-
 #if defined HAVE_LIBXPM && defined HAVE_X11_XPM_H
 #define XPM
 #endif
