@@ -1,5 +1,12 @@
 2005-12-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
+	* POTFILES.in: Added c64/c64_256.c to the files to be
+	translated.
+
+	* nl.po: Updated dutch translations.
+
+2005-12-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
 	* POTFILES.in: Added some entries that need to be included for
 	translations.
 

@@ -19,6 +19,7 @@ src/c128/functionrom.c
 src/c64/c64-cmdline-options.c
 src/c64/cart/c64cart.c
 src/c64/cart/ide64.c
+src/c64/c64_256k.c
 src/c64/georam.c
 src/c64/plus60k.c
 src/c64/psid.c

@@ -553,12 +553,12 @@ static int intl_table[][countof(language_table)] = {
 
 /* res.rc */
 /* en */ {IDD_MEDIAFILE_DIALOG,
-/* de */  IDD_MEDIAFILE_DIALOG_DE,    /* size */
-/* fr */  IDD_MEDIAFILE_DIALOG_FR,    /* size */
-/* it */  IDD_MEDIAFILE_DIALOG_IT,    /* size */
-/* nl */  IDD_MEDIAFILE_DIALOG_NL,
+/* de */  IDD_MEDIAFILE_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_MEDIAFILE_DIALOG_FR,    /* fuzzy, size */
+/* it */  IDD_MEDIAFILE_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_MEDIAFILE_DIALOG_NL,    /* size */
 /* pl */  IDD_MEDIAFILE_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_MEDIAFILE_DIALOG_SV},   /* size */
+/* sv */  IDD_MEDIAFILE_DIALOG_SV},   /* fuzzy, size */
 
 /* res.rc */
 /* en */ {IDD_CONSOLE_SAVE_DIALOG,

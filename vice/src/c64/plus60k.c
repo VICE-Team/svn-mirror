@@ -113,7 +113,7 @@ static int plus60k_deactivate(void);
 
 int plus60k_enabled=0;
 
-int plus60k_base=0xd100;
+unsigned int plus60k_base=0xd100;
 
 /* Filename of the +60K image.  */
 static char *plus60k_filename = NULL;
@@ -192,7 +192,7 @@ static int set_plus60k_base(resource_value_t v, void *param)
         break;
       default:
         log_message(plus60k_log, "Unknown +60K base address $%X.",
-                    (unsigned int)v);
+                    (DWORD)v);
         return -1;
     }
 

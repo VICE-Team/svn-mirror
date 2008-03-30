@@ -408,7 +408,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_FR, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_IT, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_NL, "Kan het momentopname bestand voor versturen laden"},
+/* nl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_NL, "Kan het momentopname bestand voor versturen niet laden"},
 /* pl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_SV, ""},  /* fuzzy */
 

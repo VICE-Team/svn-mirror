@@ -71,7 +71,7 @@ BYTE c64_256k_DDB;
 BYTE c64_256k_PRB;
 BYTE c64_256k_CRB;
 
-int c64_256k_start;
+unsigned int c64_256k_start;
 
 static log_t c64_256k_log = LOG_ERR;
 
@@ -181,7 +181,7 @@ static int set_c64_256k_base(resource_value_t v, void *param)
     case 0xdf80:
       break;
     default:
-      log_message(c64_256k_log, "Unknown 256K base %X.", (long)v);
+      log_message(c64_256k_log, "Unknown 256K base %X.", (DWORD)v);
       return -1;
   }
 
@@ -296,7 +296,7 @@ void c64_256k_cia_set_vbank(int ciabank)
   mem_set_vbank(0);
 }
 
-void pia_set_vbank()
+void pia_set_vbank(void)
 {
   video_bank_segment=((c64_256k_PRB&0xc0)>>4)+cia_vbank;
   vicii_set_ram_base(c64_256k_ram+(video_bank_segment*0x4000));
@@ -355,7 +355,7 @@ void c64_256k_shutdown(void)
 
 BYTE REGPARM1 c64_256k_read(WORD addr)
 {
-  BYTE retval;
+  BYTE retval=0;
 
   if (addr==1)
     retval=c64_256k_CRA;
