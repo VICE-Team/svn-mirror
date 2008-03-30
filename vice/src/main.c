@@ -206,6 +206,9 @@ static cmdline_option_t cmdline_options[] = {
 
 /* ------------------------------------------------------------------------- */
 
+/* This is the main program entry point.  When not compiling for Windows,
+   this is `main()'; on Windows we have to #define the name to something
+   different because the standard entry point is `WinMain()' there.  */
 int MAIN_PROGRAM(int argc, char **argv)
 {
     if (atexit (exit64) < 0) {
@@ -248,7 +251,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     printf ("This is free software with ABSOLUTELY NO WARRANTY.\n");
     printf ("See the \"About VICE\" command for more info.\n\n");
 
-    /* Initialize the user interface.  UiInit() might need to handle the
+    /* Initialize the user interface.  `ui_init()' might need to handle the
        command line somehow, so we call it before parsing the options.
        (e.g. under X11, the `-display' option is handled independently).  */
     if (ui_init(&argc, argv) < 0) {
