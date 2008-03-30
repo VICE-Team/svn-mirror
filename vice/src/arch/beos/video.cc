@@ -83,7 +83,6 @@ int video_init_cmdline_options(void)
 /* Initialization.  */
 int video_init(void)
 {
-
     return 0;
 }
 
@@ -93,28 +92,15 @@ int video_frame_buffer_alloc(video_frame_buffer_t **f,
                        unsigned int width,
                        unsigned int height)
 {
-	*f = (video_frame_buffer_t *) xmalloc(sizeof(video_frame_buffer_t));
-	(*f)->width = width;
-	(*f)->height = height;
-	(*f)->buffer = (PIXEL*) xmalloc(width*height);
-	DEBUG(("video_frame_buffer_alloc: %dx%d at %x",width,height,(*f)->buffer)); 
-	  	
     return 0;
 }
 
 void video_frame_buffer_free(video_frame_buffer_t *f)
 {
-	if (!f)
-		return;
-
-	DEBUG(("video_frame_buffer_free: %x",f->buffer)); 
-	free(f->buffer);
-	free(f);
 }
 
 void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
-	memset(f->buffer, value, f->height * f->width);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -146,7 +132,7 @@ static void canvas_create_bitmap(video_canvas_t *c,
 video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
                               unsigned int *height, int mapped,
                               void_t exposure_handler,
-                              const palette_t *palette, PIXEL *pixel_return,
+                              const palette_t *palette, BYTE *pixel_return,
                               struct video_frame_buffer_s *fb)
 {
     video_canvas_t *new_canvas;
@@ -221,7 +207,7 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, PIXEL *pixel_return)
+int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, BYTE *pixel_return)
 {
 	int i;
 	c->palette = p;
@@ -255,21 +241,23 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, PIXEL *pixel
 }
 
 /* ------------------------------------------------------------------------ */
-void video_canvas_refresh(video_canvas_t *c, video_frame_buffer_t *f,
-                          unsigned int xs, unsigned int ys,
-                          unsigned int xi, unsigned int yi,
-                          unsigned int w, unsigned int h)
+void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
+							unsigned int draw_buffer_line_size,
+							video_frame_buffer_t *f,
+                          	unsigned int xs, unsigned int ys,
+                          	unsigned int xi, unsigned int yi,
+                          	unsigned int w, unsigned int h)
 {
 	w = MIN(w, c->width - xi);
 	h = MIN(h, c->height - yi);
 
 	video_render_main(&c->videoconfig,
-                          (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
+                          draw_buffer,
                           (BYTE *)(c->vicewindow->bitmap->Bits()),
                           w, h,
                           xs, ys,
                           xi, yi,
-                          VIDEO_FRAME_BUFFER_LINE_SIZE(f),
+                          draw_buffer_line_size,
                           c->vicewindow->bitmap->BytesPerRow(),
                           c->depth);
 

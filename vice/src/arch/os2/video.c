@@ -1641,7 +1641,7 @@ video_canvas_t *video_canvas_create(const char *title,
                                     UINT *width, UINT *height, int mapped,
                                     void_t exposure_handler,
                                     const palette_t *palette,
-                                    PIXEL *pixel_return,
+                                    BYTE *pixel_return,
                                     video_frame_buffer_t *fb)
 {
     canvas_init_t canvini;
@@ -1941,7 +1941,7 @@ void VideoConvertPalette(video_render_config_t *cfg, int num, palette_entry_t *s
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
 int video_canvas_set_palette(video_canvas_t *c, const palette_t *p,
-                             PIXEL *pixel_return)
+                             BYTE *pixel_return)
 {
     int i;
 

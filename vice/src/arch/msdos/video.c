@@ -187,42 +187,17 @@ int video_init(void)
 int video_frame_buffer_alloc(video_frame_buffer_t **i, unsigned int width,
                              unsigned int height)
 {
-   	*i = (video_frame_buffer_t *) xmalloc(sizeof(video_frame_buffer_t));
-
-    if (*i == NULL) {
-        DEBUG(("Bitmap allocation failed."));
-        return -1;
-    } else {
-        DEBUG(("Bitmap allocation successful. Buffer at %p", *i));
-    	(*i)->width = width;
-	    (*i)->height = height;
-	    (*i)->buffer = (PIXEL*) xmalloc(width*height);
         return 0;
-    }
 }
 
 
 void video_frame_buffer_free(video_frame_buffer_t *i)
 {
-    if (!i)
-        return;
-
-    DEBUG(("Freeing frame buffer %x with buffer at %p", (unsigned int)i, i->buffer));
-    free(i->buffer);
-    free(i);
 }
 
 
 void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
-    int i;
-
-    DEBUG(("Clearing frame buffer 0x%x with value 0x%x",
-           (unsigned int)f, value));
-    DEBUG(("width=%d, height=%d", f->width, f->height));
-    for (i = 0; i < f->height; i++) {
-        memset(VIDEO_FRAME_BUFFER_LINE_START(f,i), value, f->width);
-    }
 }
 
 
@@ -329,7 +304,7 @@ static int canvas_set_vga_mode(struct video_canvas_s *c)
 video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
                               unsigned int *height, int mapped,
                               void_t exposure_handler,
-                              const palette_t *palette, PIXEL *pixel_return,
+                              const palette_t *palette, BYTE *pixel_return,
                               struct video_frame_buffer_s *fb)
 {
     video_canvas_t *new_canvas;
@@ -437,7 +412,7 @@ static void canvas_change_palette(video_canvas_t *c)
 
 
 int video_canvas_set_palette(struct video_canvas_s *c, const palette_t *palette,
-                             PIXEL *pixel_return)
+                             BYTE *pixel_return)
 {
     int i;
 
@@ -586,12 +561,12 @@ inline void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
     }
 
     video_render_main(&c->videoconfig,
-                      (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
+                      draw_buffer,
                       (BYTE *)(c->render_bitmap->line[0]),
                       w, h,
                       xs, ys,
                       xi, yi,
-                      VIDEO_FRAME_BUFFER_LINE_SIZE(f),
+                      draw_buffer_line_size,
                       c->bytes_per_line,
                       c->depth);
 

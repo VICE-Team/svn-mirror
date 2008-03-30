@@ -29,8 +29,8 @@
 
 #include "types.h"
 
-typedef void (*raster_sprite_status_draw_function_t) (PIXEL * line_ptr,
-                                                      BYTE * gfx_msk_ptr);
+typedef void (*raster_sprite_status_draw_function_t)(BYTE *line_ptr,
+                                                     BYTE *gfx_msk_ptr);
 
 struct raster_sprite_s;
 

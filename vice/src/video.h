@@ -77,7 +77,7 @@ extern struct video_canvas_s *video_canvas_create(const char *win_name,
                                             unsigned int *height, int mapped,
                                             void_t exposure_handler,
                                             const struct palette_s *palette,
-                                            PIXEL *pixel_return,
+                                            BYTE *pixel_return,
                                             struct video_frame_buffer_s *fb);
 
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
@@ -89,7 +89,7 @@ extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  unsigned int w, unsigned int h);
 extern int video_canvas_set_palette(struct video_canvas_s *c,
                                     const struct palette_s *palette,
-                                    PIXEL *pixel_return);
+                                    BYTE *pixel_return);
 extern void video_canvas_destroy(struct video_canvas_s *s);
 extern void video_canvas_map(struct video_canvas_s *s);
 extern void video_canvas_unmap(struct video_canvas_s *s);
