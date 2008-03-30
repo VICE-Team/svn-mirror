@@ -29,7 +29,11 @@
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef __riscos
+typedef int off_t;
+#else
 #include <unistd.h>
+#endif
 #endif
 
 #include "snapshot.h"

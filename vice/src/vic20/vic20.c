@@ -27,7 +27,9 @@
 #include "vice.h"
 
 #include <stdio.h>
+#ifndef __riscos
 #include <unistd.h>
+#endif
 
 #include "attach.h"
 #include "autostart.h"
@@ -374,21 +376,6 @@ int machine_set_restore_key(int v)
     return 1;
 }
 
-
-#ifdef __riscos
-/* Dummies */
-CLOCK vic_ii_fetch_clk, vic_ii_draw_clk;
-
-int int_rasterfetch(long offset)
-{
-  return 0;
-}
-
-int pet_set_model(const char *name, void *extra)
-{
-  return 0;
-}
-#endif
 
 /* ------------------------------------------------------------------------- */
 

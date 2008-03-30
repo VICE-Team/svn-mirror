@@ -70,6 +70,7 @@
 #include "cmdline.h"
 #include "fsdevice.h"
 
+
 enum fsmode {
     Write, Read, Append, Directory
 };

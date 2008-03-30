@@ -31,7 +31,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef __riscos
 #include <unistd.h>
+#endif
 
 #include "c128.h"
 
@@ -416,17 +418,6 @@ int machine_set_restore_key(int v)
     maincpu_set_nmi(I_RESTORE, v?1:0);
     return 1;
 }
-
-#ifdef __riscos
-void cartridge_detach_image(void)
-{
-}
-
-int pet_set_model(const char *name, void *extra)
-{
-  return 0;
-}
-#endif
 
 /* ------------------------------------------------------------------------- */
 

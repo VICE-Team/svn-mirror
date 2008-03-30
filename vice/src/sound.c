@@ -42,12 +42,6 @@
 #include "maincpu.h"
 #include "utils.h"
 
-/* Move to header files later on */
-#ifdef __riscos
-/* Hack; we defined write as fwrite at another place */
-#undef write
-#undef close
-#endif
 
 
 /* ------------------------------------------------------------------------- */

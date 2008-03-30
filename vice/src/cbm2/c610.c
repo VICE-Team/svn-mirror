@@ -27,7 +27,9 @@
 #include "vice.h"
 
 #include <stdio.h>
+#ifndef __riscos
 #include <unistd.h>
+#endif
 
 #include "c610.h"
 

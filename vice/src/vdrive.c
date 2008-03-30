@@ -882,15 +882,33 @@ static int  floppy_name_match (BYTE *slot, char *name, int length, int type)
  * Return the number of free blocks on disk.
  */
 
-int  floppy_free_block_count (DRIVE *floppy)
+int floppy_free_block_count(DRIVE *floppy)
 {
     int blocks, i;
 
     for (blocks = 0, i = 1; i <= floppy->NumTracks; i++) {
-	if (i != floppy->Dir_Track)
-	    blocks += (i <= NUM_TRACKS_1541) ?
-		floppy->bam[BAM_BIT_MAP + 4 * (i - 1)] :
-		floppy->bam[BAM_EXT_BIT_MAP + 4 * (i - NUM_TRACKS_1541 - 1)];
+        switch(floppy->ImageFormat) {
+          case 1541:
+            if (i != floppy->Dir_Track)
+                blocks += (i <= NUM_TRACKS_1541) ?
+                    floppy->bam[BAM_BIT_MAP + 4 * (i - 1)] :
+                    floppy->bam[BAM_EXT_BIT_MAP_1541 + 4 * 
+                                (i - NUM_TRACKS_1541 - 1)];
+            break;
+          case 1571:
+            if (i != floppy->Dir_Track && i != floppy->Dir_Track + 35)
+                blocks += (i <= NUM_TRACKS_1571 / 2) ?
+                    floppy->bam[BAM_BIT_MAP + 4 * (i - 1)] :
+                    floppy->bam[BAM_EXT_BIT_MAP_1571 + i - 1 
+                                - NUM_TRACKS_1571 / 2];
+            break;
+          case 1581:
+            if (i != floppy->Dir_Track)
+                blocks += (i <= NUM_TRACKS_1581 / 2) ?
+                    floppy->bam[BAM_BIT_MAP_1581 + 256 + 6 * (i - 1)] :
+                    floppy->bam[BAM_BIT_MAP_1581 + 512 + 6 * (i - 1
+                    - NUM_TRACKS_1581 / 2)];
+        }
     }
 
     return blocks;
@@ -1101,7 +1119,7 @@ int  do_validate(DRIVE *floppy)
 
 	b = (t <= NUM_TRACKS_1541) ?
 	(BYTE *) floppy->bam + BAM_BIT_MAP + 4 * (t - 1) :
-	(BYTE *) floppy->bam + BAM_EXT_BIT_MAP +
+	(BYTE *) floppy->bam + BAM_EXT_BIT_MAP_1541 +
 	    4 * (t - NUM_TRACKS_1541 - 1);
 
 	*b++ = 0;
@@ -1506,11 +1524,31 @@ void set_find_first_slot(DRIVE *floppy, char *name, int length, int type)
 		      floppy->D64_Header);
 }
 
+static BYTE *find_next_directory_sector(DRIVE *floppy, int track, int sector)
+{
+    if (allocate_sector(floppy->bam, track, sector)) {
+        floppy->Dir_buffer[0] = track;
+        floppy->Dir_buffer[1] = sector;
+        floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+                           floppy->Dir_buffer, floppy->Curr_track,
+                           floppy->Curr_sector, floppy->D64_Header);
+#ifdef DEBUG_DRIVE
+        fprintf(logfile, "Found (%d %d) TR = %d SE = %d.\n",
+                track, sector, floppy->Curr_track, floppy->Curr_sector);
+#endif
+        floppy->SlotNumber = 0;
+        memset(floppy->Dir_buffer, 0, 256);
+        floppy->Dir_buffer[1] = 0xff;
+        floppy->Curr_sector = sector;
+        return floppy->Dir_buffer;
+    }
+    return NULL;
+}
 
 BYTE *find_next_slot(DRIVE *floppy)
 {
     static BYTE return_slot[32];
-    int     status;
+    int status;
 
     floppy->SlotNumber++;
 
@@ -1525,87 +1563,97 @@ BYTE *find_next_slot(DRIVE *floppy)
      */
 
     do {
-	/*
-	 * Load next(first) directory block ?
-	 */
+        /*
+         * Load next(first) directory block ?
+         */
 
-	if (floppy->SlotNumber >= 8) {
-	    if (!(*(floppy->Dir_buffer))) {
+        if (floppy->SlotNumber >= 8) {
+            if (!(*(floppy->Dir_buffer))) {
 #ifdef DEBUG_DRIVE
-		fprintf(logfile, "error.\n");
+            fprintf(logfile, "error.\n");
 #endif
-		return NULL;
-	    }
+            return NULL;
+            }
 
-	    floppy->SlotNumber = 0;
+            floppy->SlotNumber = 0;
+            floppy->Curr_track  = (int) floppy->Dir_buffer[0];
+            floppy->Curr_sector = (int) floppy->Dir_buffer[1];
 
-	    floppy->Curr_track  = (int) floppy->Dir_buffer[0];
-	    floppy->Curr_sector = (int) floppy->Dir_buffer[1];
-
-	    status = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-				       floppy->Dir_buffer,
-				       floppy->Curr_track,
-				       floppy->Curr_sector,
-				       floppy->D64_Header);
-	}
-
-	while (floppy->SlotNumber < 8) {
-	    if (floppy_name_match(&floppy->Dir_buffer[floppy->SlotNumber * 32],
-				  floppy->find_name, floppy->find_length,
-				  floppy->find_type)) {
-		memcpy(return_slot,
-		    &floppy->Dir_buffer[floppy->SlotNumber * 32], 32);
+            status = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                       floppy->Dir_buffer, floppy->Curr_track,
+                                       floppy->Curr_sector, floppy->D64_Header);
+        }
+        while (floppy->SlotNumber < 8) {
+            if (floppy_name_match(&floppy->Dir_buffer[floppy->SlotNumber * 32],
+                                  floppy->find_name, floppy->find_length,
+                                  floppy->find_type)) {
+                /* FIXME: This reads two byte past the size of `Dir_buffer'
+                          when `SlotNumber' is 7!  AB19981122 */
+                memcpy(return_slot,
+	                   &floppy->Dir_buffer[floppy->SlotNumber * 32], 32);
 #ifdef DEBUG_DRIVE
-		fprintf(logfile, "found slot %d  on %d %d.\n",
-		       floppy->SlotNumber,
-		       floppy->Curr_track,
-		       floppy->Curr_sector);
+                fprintf(logfile, "found slot %d  on %d %d.\n",
+                        floppy->SlotNumber, floppy->Curr_track,
+                        floppy->Curr_sector);
 #endif
-		return return_slot;
-	    }
-	    floppy->SlotNumber++;
-	}
+                return return_slot;
+            }
+            floppy->SlotNumber++;
+        }
     } while (*(floppy->Dir_buffer));
-
 
     /*
      * If length < 0, create new directory-entry if possible
      */
 
     if (floppy->find_length < 0) {
-	int     s;
-
+        int sector;
 #ifdef DEBUG_DRIVE
         printf(logfile, "create a new entry.\n");
 #endif
-
-	for (s = 1; s < sector_map_1541[DIR_TRACK_1541]; s++) {
-	    if (allocate_sector(floppy->bam, DIR_TRACK_1541, s)) {
-		floppy->Dir_buffer[0] = DIR_TRACK_1541;
-		floppy->Dir_buffer[1] = s;
-		floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-				   floppy->Dir_buffer,
-				   floppy->Curr_track,
-				   floppy->Curr_sector,
-				   floppy->D64_Header);
-
-#ifdef DEBUG_DRIVE
-		fprintf(logfile, "Found (%d %d) TR = %d SE = %d.\n",
-		       DIR_TRACK_1541, s,
-		       floppy->Curr_track,
-		       floppy->Curr_sector);
-#endif
-
-		floppy->SlotNumber = 0;
-		memset(floppy->Dir_buffer, 0, 256);
-		floppy->Dir_buffer[1] = 0xff;
-		floppy->Curr_sector = s;
-		return floppy->Dir_buffer;
-	    }
-	}
-
+        switch (floppy->ImageFormat) {
+          case 1541:
+            for (sector = 1; sector < sector_map_1541[DIR_TRACK_1541]; 
+                sector++) {
+                BYTE *dirbuf;
+                dirbuf = find_next_directory_sector(floppy, DIR_TRACK_1541,
+                                                    sector);
+                if (dirbuf != NULL)
+                    return dirbuf;
+            }
+            break;
+          case 1571:
+            for (sector = 1; sector < sector_map_1571[DIR_TRACK_1571];
+                sector++) {
+                BYTE *dirbuf;
+                dirbuf = find_next_directory_sector(floppy, DIR_TRACK_1571,
+                                                    sector);
+                if (dirbuf != NULL)
+                    return dirbuf;
+            }
+            for (sector = 0; sector < sector_map_1571[DIR_TRACK_1571 + 35];
+                sector++) {
+                BYTE *dirbuf;
+                dirbuf = find_next_directory_sector(floppy, DIR_TRACK_1571 + 35,
+                                                    sector);
+                if (dirbuf != NULL)
+                    return dirbuf;
+            }
+            break;
+          case 1581:
+            for (sector = 3; sector < NUM_SECTORS_1581; sector++) {
+                BYTE *dirbuf;
+                dirbuf = find_next_directory_sector(floppy, DIR_TRACK_1581,
+                                                    sector);
+                if (dirbuf != NULL)
+                    return dirbuf;
+            }
+            break;
+          default:
+            fprintf(errfile, "Unknown disk type!\n");
+            break;
+        }
     } /* length */
-
     return NULL;
 }
 
@@ -1693,9 +1741,6 @@ void remove_slot(DRIVE *floppy, BYTE *slot)
 
 /* ------------------------------------------------------------------------- */
 
-
-#define DSK_HALF_MAX_TRACKS	MAX(DIR_TRACK_1541-1, MAX_TRACKS_1541-DIR_TRACK_1541)
-
 static int vdrive_calculate_disk_half(int type)
 {
     switch (type) {
@@ -1708,7 +1753,7 @@ static int vdrive_calculate_disk_half(int type)
     }
     return -1;
 }
- 
+
 static int vdrive_get_max_sectors(int type, int track)
 {
     switch (type) {
@@ -1721,11 +1766,12 @@ static int vdrive_get_max_sectors(int type, int track)
     }
     return -1;
 }
- 
+
 /*
  * Select a free first sector
  */
-int  alloc_first_free_sector(DRIVE *floppy, BYTE *bam, int *track, int *sector)
+
+int alloc_first_free_sector(DRIVE *floppy, BYTE *bam, int *track, int *sector)
 {
     int t, s, d, max_tracks;
 
@@ -1771,13 +1817,12 @@ int  alloc_first_free_sector(DRIVE *floppy, BYTE *bam, int *track, int *sector)
     return -1;
 }
 
-
 /*
  * This algorithm is used to select a continuation sector.
  * track and sector must be given.
  * XXX the interleave is not taken into account yet.
  */
-int  alloc_next_free_sector(DRIVE *floppy, BYTE *bam, int *track, int *sector)
+int alloc_next_free_sector(DRIVE *floppy, BYTE *bam, int *track, int *sector)
 {
     int t, s, d;
     int dir, diskhalf;
@@ -1811,10 +1856,10 @@ int  alloc_next_free_sector(DRIVE *floppy, BYTE *bam, int *track, int *sector)
 #ifdef DEBUG_DRIVE
                     fprintf(logfile, "alloc_next_free_sector: %d,%d\n", t, s);
 #endif
-		    return 0;
-		}
-	    }
-	}
+                    return 0;
+                }
+            }
+        }
     }
     return -1;
 }
@@ -1825,7 +1870,7 @@ int allocate_sector(BYTE *bam, int track, int sector)
 
     bamp = (track <= NUM_TRACKS_1541) ?
                &bam[BAM_BIT_MAP + 4 * (track - 1)] :
-               &bam[BAM_EXT_BIT_MAP + 4 * (track - NUM_TRACKS_1541 - 1)];
+               &bam[BAM_EXT_BIT_MAP_1541 + 4 * (track - NUM_TRACKS_1541 - 1)];
 
     if (BAM_ISSET(sector)) {
         (*bamp)--;
@@ -1835,14 +1880,13 @@ int allocate_sector(BYTE *bam, int track, int sector)
     return 0;
 }
 
-
 int free_sector(BYTE *bam, int track, int sector)
 {
     BYTE   *bamp;
 
     bamp = (track <= NUM_TRACKS_1541) ?
 	&bam[BAM_BIT_MAP + 4 * (track - 1)] :
-	&bam[BAM_EXT_BIT_MAP + 4 * (track - NUM_TRACKS_1541 - 1)];
+	&bam[BAM_EXT_BIT_MAP_1541 + 4 * (track - NUM_TRACKS_1541 - 1)];
 
     if (!(BAM_ISSET(sector))) {
 	BAM_SET(sector);
@@ -2012,7 +2056,7 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
             if (floppy->attach_func(floppy) < 0) {
                 fprintf(errfile, "VDRIVE#%i: Wrong disk type.\n", floppy->unit);
                 zclose(floppy->ActiveFd);
-                floppy->ActiveFd = -1;
+                floppy->ActiveFd = ILLEGAL_FILE_DESC;
                 floppy->ActiveName[0] = 0;
                 return -1;
             }

@@ -43,7 +43,7 @@
 
 #include <stdarg.h>
 
-#ifndef WIN32
+#if (!defined(WIN32) && !defined(__riscos))
 #include <sys/wait.h>
 #endif
 
@@ -592,10 +592,14 @@ int spawn(const char *name, char **argv,
     retval = spawnvp(P_WAIT, name, argv);
 
 cleanup:
-    if (old_stdout >= 0)
+    if (old_stdout >= 0) {
 	dup2(old_stdout, STDOUT_FILENO);
-    if (old_stderr >= 0)
+        close(old_stdout);
+    }
+    if (old_stderr >= 0) {
 	dup2(old_stderr, STDERR_FILENO);
+        close(old_stderr);
+    }
     if (old_stdout_mode >= 0)
 	setmode(STDOUT_FILENO, old_stdout_mode);
     if (old_stderr_mode >= 0)

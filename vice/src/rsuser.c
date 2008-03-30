@@ -43,7 +43,7 @@
 #include "interrupt.h"
 #include "vmachine.h"
 
-static int fd = -1;
+static file_desc_t fd = ILLEGAL_FILE_DESC;
 
 static int dtr;
 static int rts;
@@ -82,15 +82,15 @@ static int set_up_enabled(resource_value_t v) {
     if(newval && !rsuser_enabled) {
 	dtr = DTR_OUT;	/* inactive */
 	rts = RTS_OUT;	/* inactive */
-	fd = -1;
+        fd = ILLEGAL_FILE_DESC;
     }
     if(rsuser_enabled && !newval) {
-	if(fd>=0) {
+	if(fd != ILLEGAL_FILE_DESC) {
 	    /* if(clk_start_tx) rs232_putc(fd, rxdata); */
 	    rs232_close(fd);
 	}
 	maincpu_unset_alarm(A_RSUSER);
-	fd = -1;
+	fd = ILLEGAL_FILE_DESC;
     }
 
     rsuser_enabled = newval;
@@ -109,7 +109,7 @@ static int set_up_enabled(resource_value_t v) {
 
 static int set_up_device(resource_value_t v) {
     rsuser_device = (int) v;
-    if(fd>=0) {
+    if(fd != ILLEGAL_FILE_DESC) {
 	rs232_close(fd);
 	fd = rs232_open(rsuser_device);
     }
@@ -175,7 +175,7 @@ void rsuser_init(long cycles, void (*startfunc)(void),
 
 	dtr = DTR_OUT;	/* inactive */
 	rts = RTS_OUT;	/* inactive */
-	fd = -1;
+	fd = ILLEGAL_FILE_DESC;
 
 	buf = ~0;	/* all 1s */
 	valid = 0;
@@ -186,11 +186,11 @@ void rsuser_reset(void) {
 	clk_start_rx = 0;
 	clk_start_tx = 0;
 	clk_start_bit = 0;
-	if(fd >= 0) {
+	if(fd != ILLEGAL_FILE_DESC) {
 	    rs232_close(fd);
 	}
 	maincpu_unset_alarm(A_RSUSER);
-	fd = -1;
+	fd = ILLEGAL_FILE_DESC;
 
 	maincpu_unset_alarm(A_RSUSER);
 }
@@ -221,14 +221,14 @@ fprintf(logfile, "userport_serial_write_ctrl(b=%02x (dtr=%02x, rts=%02x)\n",
         if(dtr && !new_dtr) {
 	    rsuser_setup();
         }
-        if(new_dtr && !dtr && fd>=0) {
+        if(new_dtr && !dtr && fd != ILLEGAL_FILE_DESC) {
 #if 0	/* This is a bug in the X-line handshake of the C64... */
 #ifdef DEBUG
             fprintf(logfile, "switch rs232 off\n");
 #endif
 	    maincpu_unset_alarm(A_RSUSER);
             rs232_close(fd);
-	    fd = -1;
+	    fd = ILLEGAL_FILE_DESC;
 #endif
         }
     }
@@ -251,7 +251,7 @@ static void check_tx_buffer(void) {
 	    c = (buf >> (valid-9)) & 0xff;
 	    /*fprintf(logfile, "rsuser_send %c (%02x), buf=%x, valid=%d\n",
 						code[c],code[c], buf, valid);*/
-	    if(fd>=0) {
+	    if(fd != ILLEGAL_FILE_DESC) {
 #ifdef DEBUG
 		fprintf(logfile, "\"%c\" (%02x)\n", code[c], code[c]);
 #endif
@@ -361,7 +361,7 @@ int int_rsuser(long offset) {
 
 	switch(rxstate) {
 	case 0:
-        	if( fd>=0 && rs232_getc(fd, &rxdata)) {
+        	if( fd != ILLEGAL_FILE_DESC && rs232_getc(fd, &rxdata)) {
 		  /* byte received, signal startbit on flag */
                   rxstate ++;
 		  if(start_bit_trigger) start_bit_trigger();

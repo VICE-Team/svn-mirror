@@ -474,7 +474,7 @@ inline static int _fill_cache(BYTE *dest, BYTE *src, int length, int srcstep,
     } else {
 	int x = 0, i;
 
-	for (i = 0; dest[i] == src[0] && i < length; i++, src += srcstep)
+	for (i = 0; i < length && dest[i] == src[0]; i++, src += srcstep)
 	    /* do nothing */ ;
 
 	if (i < length) {
@@ -558,7 +558,7 @@ inline static int _fill_cache_text(BYTE * dest, BYTE * src, BYTE * charmem,
 	int i;
 
 	for (i = 0;
-	     dest[i] == GET_CHAR_DATA(charmem, src[0], l) && i < length;
+	     i < length && dest[i] == GET_CHAR_DATA(charmem, src[0], l);
 	     i++, src++)
 	    /* do nothing */ ;
 

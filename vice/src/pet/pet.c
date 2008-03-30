@@ -435,18 +435,3 @@ int machine_read_snapshot(const char *name)
     }
     return ef;
 }
-
-#ifdef __riscos
-/* Dummies needed for RISC OS version (accessed by ui.c) */
-void cartridge_detach_image(void)
-{
-}
-
-CLOCK vic_ii_fetch_clk, vic_ii_draw_clk;
-
-int int_rasterfetch(long offset)
-{
-  return 0;
-}
-#endif
-

@@ -137,6 +137,13 @@ static void set_boot_path(const char *prg_path)
 {
   /* We don't need this, we use system variables */
 }
+
+int cmdline_logfile(const char *value, void *extra_params)
+{
+  /* just a dummy, as this argument has to be checked before everything else. */
+  return 0;
+}
+
 #else
 
 /* Warning!  This must be called *once*.  */
@@ -228,6 +235,10 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Allow production of core dumps" },
     { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
       NULL, "Do not produce core dumps" },
+#ifdef __riscos
+    { "-logfile", CALL_FUNCTION, 0, cmdline_logfile, NULL, NULL, NULL,
+      NULL, "Write log to Vice:<machine>.log" },
+#endif
     { NULL }
 };
 
@@ -265,7 +276,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     if (i < argc) {
        char basename[256];
 
-       sprintf(basename, "Vice:%s", machine_name);
+       sprintf(basename, "Vice:%s.log", machine_name);
        if ((logfile = open_logfile(basename)) == NULL) {
            logfile = stdout;
            errfile = stderr;
@@ -273,8 +284,8 @@ int MAIN_PROGRAM(int argc, char **argv)
            errfile = logfile;
        }
     } else {
-       logfile = stdout;
-       errfile = stderr;
+       logfile = fopen("null:", "w");
+       errfile = logfile;
     }
 #else
     logfile = stdout;
@@ -452,7 +463,6 @@ int MAIN_PROGRAM(int argc, char **argv)
     signal(SIGINT,   break64);
     signal(SIGTERM,  break64);
 #endif
-#endif
 
     if (!do_core_dumps) {
         signal(SIGSEGV,  break64);
@@ -465,6 +475,7 @@ int MAIN_PROGRAM(int argc, char **argv)
         signal(SIGQUIT,  break64);
 #endif
     }
+#endif
 
 
     /* Initialize real joystick.  */

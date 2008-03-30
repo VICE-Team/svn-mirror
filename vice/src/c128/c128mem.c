@@ -1490,6 +1490,7 @@ int mem_write_snapshot_module(snapshot_t *s, int save_roms)
 
     if (snapshot_module_close(m) < 0)
         goto fail;
+    m = NULL;
 
     if (save_roms && mem_write_rom_snapshot_module(s) <0)
 	goto fail;
@@ -1553,6 +1554,7 @@ int mem_read_snapshot_module(snapshot_t *s)
 
     if (snapshot_module_close(m) < 0)
         goto fail;
+    m = NULL;
 
     if (mem_read_rom_snapshot_module(s) < 0)
 	goto fail;

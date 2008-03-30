@@ -120,14 +120,20 @@ int sysfile_init_cmdline_options(void)
    complete path if the file was found or is NULL if not.  */
 FILE *sysfile_open(const char *name, char **complete_path_return)
 {
-/* Does not work on Unix!
     char *p = NULL;
+    FILE *f;
 
 #ifdef __riscos
-    FILE *f = NULL;
+    f = NULL;
 
     p = (char*)malloc(strlen(default_path) + strlen(name) + 1);
     sprintf(p, "%s%s", default_path, name);
+    if (access(p, R_OK))
+    {
+        free(p);
+        p = (char*)malloc(strlen("Vice:DRIVES.") + strlen(name) + 1);
+        sprintf(p, "Vice:DRIVES.%s", name);
+    }
     if (complete_path_return != NULL)
        f = fopen(p, "r");
     if (f == NULL)
@@ -143,15 +149,15 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
           *complete_path_return = p;
        return f;
     }
-#elsea*/
-    char *p = findpath(name, expanded_system_path, R_OK);
+#else
+    p = findpath(name, expanded_system_path, R_OK);
 
     if (p == NULL) {
         if (complete_path_return != NULL)
             *complete_path_return = NULL;
         return NULL;
     } else {
-        FILE *f = fopen(p, "r");
+        f = fopen(p, "r");
 
         if (f == NULL || complete_path_return == NULL) {
             free(p);
@@ -161,7 +167,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
             *complete_path_return = p;
         return f;
     }
-/*#endif*/
+#endif
 }
 
 /* As `sysfile_open', but do not open the file.  Just return 0 if the file is

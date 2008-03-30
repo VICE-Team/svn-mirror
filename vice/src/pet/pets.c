@@ -259,7 +259,7 @@ static int set_video(resource_value_t v)
     int col = (int) v;
 
     if (col != petres.video) {
-	printf("Setting screen width to %d columns.\n", col);
+	fprintf(logfile, "Setting screen width to %d columns.\n", col);
 
 	if (col == 0 || col == 40 || col == 80) {
 	    petres.video = col;

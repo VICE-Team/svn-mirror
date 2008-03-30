@@ -30,7 +30,9 @@
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef __riscos
 #include <unistd.h>
+#endif
 #endif
 
 #include "machine.h"
@@ -414,13 +416,6 @@ int machine_set_restore_key(int v)
     maincpu_set_nmi(I_RESTORE, v ? 1 : 0);
     return 1;
 }
-
-#ifdef __riscos
-int pet_set_model(const char *name, void *extra)
-{
-  return 0;
-}
-#endif
 
 /* ------------------------------------------------------------------------- */
 

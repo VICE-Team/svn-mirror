@@ -1612,6 +1612,30 @@ void drive_move_head(int step, int dnr)
     drive_set_half_track(drive[dnr].current_half_track + step, &drive[dnr]);
 }
 
+/* Hack... otherwise you get internal compiler errors when optimizing on gcc2.7.2 on RISC OS */
+static void GCR_data_writeback2(BYTE *buffer, BYTE *offset, int dnr, int track, int sector)
+{
+    int rc;
+
+    convert_GCR_to_sector(buffer, offset,
+                          drive[dnr].GCR_track_start_ptr,
+                          drive[dnr].GCR_current_track_size);
+    if (buffer[0] != 0x7) {
+        fprintf(errfile,
+                "DRIVE#%i: Could not find data block id of T:%d S:%d.\n",
+                dnr + 8, track, sector);
+    } else {
+        rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
+                                drive[dnr].drive_floppy->ImageFormat,
+                                buffer + 1, track, sector,
+                                drive[dnr].drive_floppy->D64_Header);
+        if (rc < 0)
+            fprintf(errfile,
+                    "DRIVE#%i: Could not update T:%d S:%d.\n",
+                    dnr + 8, track, sector);
+    }
+}
+
 static void GCR_data_writeback(int dnr)
 {
     int rc, extend, track, sector, max_sector = 0;
@@ -1684,24 +1708,7 @@ static void GCR_data_writeback(int dnr)
 		"DRIVE#%i: Could not find data sync of T:%d S:%d.\n",
 		dnr + 8, track, sector);
 	    else {
-
-		convert_GCR_to_sector(buffer, offset,
-		    drive[dnr].GCR_track_start_ptr,
-		    drive[dnr].GCR_current_track_size);
-		if (buffer[0] != 0x7)
-		    fprintf(errfile,
-			"DRIVE#%i: Could not find data block id of T:%d S:%d.\n",
-			dnr + 8, track, sector);
-		else {
-		    rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
-                                drive[dnr].drive_floppy->ImageFormat,
-                                buffer + 1, track, sector,
-                                drive[dnr].drive_floppy->D64_Header);
-		    if (rc < 0)
-			fprintf(errfile,
-			    "DRIVE#%i: Could not update T:%d S:%d.\n",
-			    dnr + 8, track, sector);
-		}
+                GCR_data_writeback2(buffer, offset, dnr, track, sector);
 	    }
 	}
     }
@@ -2102,6 +2109,7 @@ int drive_read_snapshot_module(snapshot_t *s)
         }
     }
     snapshot_module_close(m);
+    m = NULL;
 
     for (i = 0; i < 2; i++) {
         drive[i].rotation_table_ptr = drive[i].rotation_table[0]
@@ -2307,6 +2315,7 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
         return -1;
     } 
     snapshot_module_close(m);
+    m = NULL;
 
     for (i = 0; i < MAX_TRACKS_1571; i++)
         drive[dnr].GCR_track_size[i] = tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
