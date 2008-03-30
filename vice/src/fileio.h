@@ -45,6 +45,13 @@
 #define FILEIO_TYPE_USR 3
 #define FILEIO_TYPE_REL 4
 #define FILEIO_TYPE_CBM 5
+#define FILEIO_TYPE_ANY 255
+
+#define FILEIO_FILE_OK         0
+#define FILEIO_FILE_NOT_FOUND  1
+#define FILEIO_FILE_EXISTS     2
+#define FILEIO_FILE_PERMISSION 3
+#define FILEIO_FILE_SCRATCHED  4
 
 struct rawfile_info_s;
 
@@ -61,6 +68,9 @@ extern fileio_info_t *fileio_open(const char *file_name, const char *path,
                                   unsigned int format, unsigned int command,
                                   unsigned int type);
 extern void fileio_close(fileio_info_t *info);
-
+extern unsigned int fileio_rename(const char *src_name, const char *dest_name,
+                                  const char *path, unsigned int format);
+extern unsigned int fileio_scratch(const char *file_name, const char *path,
+                                   unsigned int format);
 #endif
 

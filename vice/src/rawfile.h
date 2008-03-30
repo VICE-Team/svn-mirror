@@ -39,6 +39,9 @@ extern struct rawfile_info_s *rawfile_open(const char *file_name,
                                            const char *path,
                                            unsigned int command);
 extern void rawfile_destroy(struct rawfile_info_s *info);
+extern unsigned int rawfile_rename(const char *src_name, const char *dst_name,
+                            const char *path);
+extern unsigned int rawfile_remove(const char *src_name, const char *path);
 
 #endif
 
