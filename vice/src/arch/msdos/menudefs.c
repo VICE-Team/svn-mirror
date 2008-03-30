@@ -73,6 +73,7 @@
 
 tui_menu_t ui_attach_submenu;
 tui_menu_t ui_datasette_submenu;
+tui_menu_t ui_datasette_settings_submenu;
 tui_menu_t ui_detach_submenu;
 tui_menu_t ui_drive_submenu;
 tui_menu_t ui_info_submenu;
@@ -476,7 +477,121 @@ static tui_menu_item_def_t drive_settings_submenu[] = {
 };
 
 /* ------------------------------------------------------------------------- */
+/* Datasette settings */
 
+TUI_MENU_DEFINE_TOGGLE(DatasetteResetWithCPU)
+TUI_MENU_DEFINE_RADIO(DatasetteSpeedTuning)
+TUI_MENU_DEFINE_RADIO(DatasetteZeroGapDelay)
+
+static TUI_MENU_CALLBACK(datasette_speedtuning_submenu_callback)
+{
+    int value;
+    static char s[5];
+
+    resources_get_value("DatasetteSpeedTuning", (resource_value_t *) &value);
+    sprintf(s,"%d",value);
+    return s;
+}
+
+static TUI_MENU_CALLBACK(datasette_zerogapdelay_submenu_callback)
+{
+    int value;
+    static char s[5];
+
+    resources_get_value("DatasetteZeroGapDelay", (resource_value_t *) &value);
+    sprintf(s,"%8d",value);
+    return s;
+}
+
+static tui_menu_item_def_t datasette_speedtuning_submenu[] = {
+    { "_0 cycles",
+      NULL,
+      radio_DatasetteSpeedTuning_callback, (void *) 0, 5,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_1 cycle",
+      NULL,
+      radio_DatasetteSpeedTuning_callback, (void *) 1, 5,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_2 cycles",
+      NULL,
+      radio_DatasetteSpeedTuning_callback, (void *) 2, 5,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_3 cycles",
+      NULL,
+      radio_DatasetteSpeedTuning_callback, (void *) 3, 5,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_4 cycles",
+      NULL,
+      radio_DatasetteSpeedTuning_callback, (void *) 4, 5,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_5 cycles",
+      NULL,
+      radio_DatasetteSpeedTuning_callback, (void *) 5, 5,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_6 cycles",
+      NULL,
+      radio_DatasetteSpeedTuning_callback, (void *) 6, 5,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_7 cycles",
+      NULL,
+      radio_DatasetteSpeedTuning_callback, (void *) 7, 5,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t datasette_zerogapdelay_submenu[] = {
+    { "_1:   1000 cycles",
+      NULL,
+      radio_DatasetteZeroGapDelay_callback, (void *) 1000, 8,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_2:   2000 cycles",
+      NULL,
+      radio_DatasetteZeroGapDelay_callback, (void *) 2000, 8,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_3:   5000 cycles",
+      NULL,
+      radio_DatasetteZeroGapDelay_callback, (void *) 5000, 8,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_4:  10000 cycles",
+      NULL,
+      radio_DatasetteZeroGapDelay_callback, (void *) 10000, 8,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_5:  20000 cycles",
+      NULL,
+      radio_DatasetteZeroGapDelay_callback, (void *) 20000, 8,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_6:  50000 cycles",
+      NULL,
+      radio_DatasetteZeroGapDelay_callback, (void *) 50000, 8,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_7: 100000 cycles",
+      NULL,
+      radio_DatasetteZeroGapDelay_callback, (void *) 100000, 8,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+
+static tui_menu_item_def_t datasette_settings_submenu[] = {
+    { "_Reset Datasette with CPU:",
+      "Reset the datasette when main CPU resets",
+      toggle_DatasetteResetWithCPU_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Cycles _delay each trigger:",
+      "Finetuning for the speed of datasette",
+      datasette_speedtuning_submenu_callback, NULL, 2,
+      TUI_MENU_BEH_CONTINUE, datasette_speedtuning_submenu,
+      "Delay each trigger:" },
+    { "A _zero in the tap is:",
+      "How many cyles delay are represented by a zero in the tap?",
+      datasette_zerogapdelay_submenu_callback, NULL, 8,
+      TUI_MENU_BEH_CONTINUE, datasette_zerogapdelay_submenu,
+      "A zero in tap is..." },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+/* sound settings */
 TUI_MENU_DEFINE_TOGGLE(Sound)
 
 static TUI_MENU_CALLBACK(sound_sample_rate_submenu_callback)
@@ -1564,12 +1679,14 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                   "Press the RECORD key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_RECORD, 0,
                   TUI_MENU_BEH_RESUME);
-#if 0
         tui_menu_add_item(ui_datasette_submenu, "R_eset",
-                  "Press the REWIND key of the datassette",
+                  "Rewind the tape and stop the datasette",
                   datasette_callback, (void *)DATASETTE_CONTROL_RESET, 0,
                   TUI_MENU_BEH_RESUME);
-#endif
+        tui_menu_add_item(ui_datasette_submenu, "Reset C_ounter",
+                  "Set the datasette counter to '000'",
+                  datasette_callback, (void *)DATASETTE_CONTROL_RESET_COUNTER, 0,
+                  TUI_MENU_BEH_RESUME);
 
         tui_menu_add_submenu(ui_main_menu, "Datassett_e Control...",
                              "Press some buttons on the emulated datassette",
@@ -1594,6 +1711,15 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
 			     TUI_MENU_BEH_CONTINUE);
     }
 
+    if (has_datasette) {
+        ui_datasette_settings_submenu = tui_menu_create("Datasette Settings", 1);
+        tui_menu_add(ui_datasette_settings_submenu,datasette_settings_submenu);
+    	tui_menu_add_submenu(ui_main_menu, "Da_tasette Settings...",
+			     "Datasette settings",
+			     ui_datasette_settings_submenu, NULL, 0,
+			     TUI_MENU_BEH_CONTINUE);
+    }        
+    
     ui_sound_submenu = tui_menu_create("Audio Settings", 1);
     tui_menu_add(ui_sound_submenu, sound_submenu);
     tui_menu_add_submenu(ui_main_menu, "_Sound Settings...",

@@ -288,12 +288,14 @@ int canvas_set_palette(canvas_t c, const palette_t *palette,
                        PIXEL *pixel_return)
 {
     int i;
-    RGB rgb_white = {63, 63, 63};
+    RGB rgb_white = {55, 55, 55};
     RGB rgb_black = {0, 0, 0};
     RGB rgb_red = {63, 0, 0};
     RGB rgb_green = {0, 63, 0};
     RGB rgb_yellow = {63, 63, 0};
     RGB rgb_grey = {31, 31, 31};
+    RGB rgb_darkgrey = {15, 15, 15};
+    RGB rgb_blue = {10, 10, 50 };
 
     DEBUG(("Allocating colors"));
 
@@ -312,6 +314,8 @@ int canvas_set_palette(canvas_t c, const palette_t *palette,
     c->colors[STATUSBAR_COLOR_YELLOW] = rgb_yellow;
     c->colors[STATUSBAR_COLOR_GREEN] = rgb_green;
     c->colors[STATUSBAR_COLOR_GREY] = rgb_grey;
+    c->colors[STATUSBAR_COLOR_DARKGREY] = rgb_darkgrey;
+    c->colors[STATUSBAR_COLOR_BLUE] = rgb_blue;
 
     for (i = STATUSBAR_COLOR_BLACK; i < NUM_AVAILABLE_COLORS; i++)
         set_color(i, &c->colors[i]);

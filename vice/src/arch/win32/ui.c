@@ -1076,7 +1076,7 @@ char *dname;
         datasette_control(DATASETTE_CONTROL_RESET);
         break;
       case IDM_DATASETTE_RESET_COUNTER:
-        datasette_reset_counter();
+        datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
         break;
       case IDM_AUTOSTART:
         {

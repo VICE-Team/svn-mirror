@@ -32,10 +32,19 @@
 #define STATUSBAR_HEIGHT    12
 #define STATUSBAR_WIDTH     320
 
+/* current use of the bar:
+    speed info:       2 -  98
+    tape info:      112 - 166
+    drive 1:        180 - 240
+    drive 2:        250 - 310
+*/
+
 enum {
     STATUSBAR_COLOR_BLACK  = 230, /* this should be free */
     STATUSBAR_COLOR_WHITE,
     STATUSBAR_COLOR_GREY,
+    STATUSBAR_COLOR_DARKGREY,
+    STATUSBAR_COLOR_BLUE,
     STATUSBAR_COLOR_YELLOW,
     STATUSBAR_COLOR_RED,
     STATUSBAR_COLOR_GREEN

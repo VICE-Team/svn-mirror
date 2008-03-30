@@ -272,12 +272,62 @@ void ui_update_menus(void)
         tui_menu_update(ui_main_menu);
 }
 
+static ui_drive_enable_t    ui_drive_enabled;
+static int                  ui_status_led[2];
+static double               ui_status_track[2];
+static int                 *ui_drive_active_led;
+
+static void ui_draw_drive_status(int drive_bar)
+{
+    BITMAP *drive_bitmap;
+    int current_led_color;
+
+    if (status_bitmap == NULL)
+        return;
+
+    drive_bitmap = create_sub_bitmap(status_bitmap,180+drive_bar*70,2,60,8);
+
+    if ((drive_bar == 0) && (ui_drive_enabled & UI_DRIVE_ENABLE_0)
+        || (drive_bar == 1) && (ui_drive_enabled & UI_DRIVE_ENABLE_1))
+    {
+        textprintf(drive_bitmap,font,2,0,STATUSBAR_COLOR_BLUE,"%d",drive_bar+8);
+
+        /* track */
+        textprintf(drive_bitmap,font,14,0,STATUSBAR_COLOR_WHITE,"%2d",
+            (int) ui_status_track[drive_bar]);
+        textprintf(drive_bitmap,font,30,0,STATUSBAR_COLOR_WHITE,".");
+        textprintf(drive_bitmap,font,36,0,STATUSBAR_COLOR_WHITE,"%01d",
+            (int)(ui_status_track[drive_bar] * 10) % 10);
+
+        /* drive-led */
+        if (!ui_status_led[drive_bar])
+        {
+            current_led_color = STATUSBAR_COLOR_DARKGREY;
+        } else {
+            current_led_color =
+                ui_drive_active_led[drive_bar] ? 
+                    STATUSBAR_COLOR_GREEN : STATUSBAR_COLOR_RED;
+        }
+        rectfill(drive_bitmap, 48,2, 55,4, current_led_color);
+        
+    } else {
+        clear(drive_bitmap);
+    }
+    destroy_bitmap(drive_bitmap);
+    statusbar_update();
+}
+
+
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     if (!(state & UI_DRIVE_ENABLE_0))
         ui_display_drive_led(0, 0);
     if (!(state & UI_DRIVE_ENABLE_1))
         ui_display_drive_led(1, 0);
+    ui_drive_enabled = state;
+    ui_drive_active_led = drive_led_color;
+    ui_draw_drive_status(0);
+    ui_draw_drive_status(1);
 }
 
 /* drive_base is either 8 or 0 depending on unit or drive display.
@@ -285,6 +335,9 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 void ui_display_drive_track(int drive_number, int drive_base, 
 						double track_number)
 {
+    ui_status_track[drive_number] = track_number;
+    ui_draw_drive_status(drive_number);
+
 }
 
 void ui_display_drive_led(int drive_number, int status)
@@ -305,6 +358,9 @@ void ui_display_drive_led(int drive_number, int status)
       default:
         break;
     }
+    ui_status_led[drive_number]=status;
+    ui_draw_drive_status(drive_number);
+
 }
 
 /* display current image */
@@ -314,7 +370,7 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 }
 
 
-/* tape-related ui, dummies so far */
+/* tape-related ui */
 
 static int ui_tape_enabled = 0;
 static int ui_tape_counter = -1;
@@ -327,54 +383,55 @@ static void ui_draw_tape_status()
     int motor_color;
     int record_led;
 
-    tape_bitmap = create_sub_bitmap(status_bitmap,130,2,100,8);
+    if (status_bitmap == NULL)
+        return;
+    tape_bitmap = create_sub_bitmap(status_bitmap,112,2,54,8);
     if (ui_tape_enabled == 0)
     {
         clear(tape_bitmap);
     } else {
+
+        textprintf(tape_bitmap,font,0,0,STATUSBAR_COLOR_BLUE,"T");
 
         /* motor */
         if (ui_tape_motor)
             motor_color = STATUSBAR_COLOR_YELLOW;
         else
             motor_color = STATUSBAR_COLOR_GREY;
-        rectfill(tape_bitmap, 0, 0, 7, 6, motor_color);
+        rectfill(tape_bitmap, 10, 0, 17, 6, motor_color);
 
         /* control */
         record_led = STATUSBAR_COLOR_BLACK;
         switch (ui_tape_control) {
             case DATASETTE_CONTROL_STOP:
-                rectfill(tape_bitmap, 2,2, 5,4, STATUSBAR_COLOR_BLACK);
+                rectfill(tape_bitmap, 12,2, 15,4, STATUSBAR_COLOR_BLACK);
                 break;
             case DATASETTE_CONTROL_RECORD:
                 record_led = STATUSBAR_COLOR_RED;
             case DATASETTE_CONTROL_START:
-                triangle(tape_bitmap, 2,1, 2,5, 4,3, STATUSBAR_COLOR_BLACK);
-                line(tape_bitmap, 2,1, 2,5, STATUSBAR_COLOR_BLACK);
+                triangle(tape_bitmap, 12,1, 12,5, 14,3, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 12,1, 12,5, STATUSBAR_COLOR_BLACK);
                 break;
             case DATASETTE_CONTROL_REWIND:
-                line(tape_bitmap, 3,1, 1,3, STATUSBAR_COLOR_BLACK);
-                line(tape_bitmap, 1,3, 3,5, STATUSBAR_COLOR_BLACK);
-                line(tape_bitmap, 6,1, 4,3, STATUSBAR_COLOR_BLACK);
-                line(tape_bitmap, 4,3, 6,5, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 13,1, 11,3, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 11,3, 13,5, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 16,1, 14,3, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 14,3, 16,5, STATUSBAR_COLOR_BLACK);
                 break;
             case DATASETTE_CONTROL_FORWARD:
-                line(tape_bitmap, 1,1, 3,3, STATUSBAR_COLOR_BLACK);
-                line(tape_bitmap, 3,3, 1,5, STATUSBAR_COLOR_BLACK);
-                line(tape_bitmap, 4,1, 6,3, STATUSBAR_COLOR_BLACK);
-                line(tape_bitmap, 6,3, 4,5, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 11,1, 13,3, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 13,3, 11,5, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 14,1, 16,3, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 16,3, 14,5, STATUSBAR_COLOR_BLACK);
                 break;
         }
-        rectfill(tape_bitmap, 11,2, 13,4, record_led);
+        rectfill(tape_bitmap, 20,2, 22,4, record_led);
 
         /* counter */
-        textprintf(tape_bitmap,font,20,0,STATUSBAR_COLOR_WHITE,
+        textprintf(tape_bitmap,font,26,0,STATUSBAR_COLOR_WHITE,
             "%03d",ui_tape_counter);
-
-        statusbar_update();
-
     }
-
+    destroy_bitmap(tape_bitmap);
     statusbar_update();
 }
 
@@ -400,7 +457,7 @@ void ui_display_tape_control_status(int control)
 
 void ui_display_tape_counter(int counter)
 {   
-    if ((status_bitmap == NULL) || (counter == ui_tape_counter))
+    if (counter == ui_tape_counter)
         return;
 
     ui_tape_counter = counter;
@@ -432,20 +489,24 @@ int ui_extend_image_dialog(void)
 
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
-    char buf[256];
+    BITMAP *speed_bitmap;
 
     if (status_bitmap == NULL)
         return;
-    
+    speed_bitmap = create_sub_bitmap(status_bitmap,2,2,96,8);
+
     if ((percent < 0) || (framerate < 0)) 
     {
-        sprintf(buf, "suspended");
+        textout(speed_bitmap,font,"suspended",0,0,STATUSBAR_COLOR_WHITE);
     } else {
-        sprintf(buf, "%4d%% %2dfps %s",
-            (int)(percent + .5), (int)(framerate + .5),
-            warp_flag ? "W " : "  ");
+        textprintf(speed_bitmap,font, 0,0, STATUSBAR_COLOR_WHITE,
+            "%4d%%", (int)(percent + .5));
+        textprintf(speed_bitmap,font, 44,0, STATUSBAR_COLOR_WHITE,
+            "%2dfps", (int)(framerate + .5));
+        textprintf(speed_bitmap,font, 88,0, STATUSBAR_COLOR_WHITE,
+            "%s", warp_flag ? "W " : "  ");
     }
-    textout(status_bitmap,font,buf,5,2,STATUSBAR_COLOR_WHITE);
+    destroy_bitmap(speed_bitmap);
     statusbar_update();
 }
 

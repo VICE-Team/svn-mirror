@@ -480,6 +480,9 @@ void datasette_control(int command)
 {
     if (current_image != NULL) {
         switch(command) {
+          case DATASETTE_CONTROL_RESET_COUNTER:
+            datasette_reset_counter();
+            break;
           case DATASETTE_CONTROL_RESET:
               datasette_reset();
           case DATASETTE_CONTROL_STOP:
@@ -539,6 +542,11 @@ void datasette_set_motor(int flag)
         }
     }
     datasette_motor = flag;
+
+    if (console_mode || psid_mode) {
+        return;
+    }
+
     ui_display_tape_motor_status(flag);
 }
 
