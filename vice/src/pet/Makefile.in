@@ -278,10 +278,10 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/kbdbuf.h ../../src/keyboard.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
-	../../src/monitor/mon.h pet-cmdline-options.h pet-resources.h \
-	pet-snapshot.h pet.h petmem.h pets.h petsound.h \
+	../../src/interrupt.h ../../src/ioutil.h ../../src/kbdbuf.h \
+	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/monitor/mon.h pet-cmdline-options.h \
+	pet-resources.h pet-snapshot.h pet.h petmem.h pets.h petsound.h \
 	../../src/arch/unix/petui.h petvia.h petacia.h petpia.h \
 	../../src/printer.h ../../src/resources.h \
 	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \

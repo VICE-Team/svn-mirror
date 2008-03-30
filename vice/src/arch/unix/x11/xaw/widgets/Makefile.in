@@ -261,7 +261,8 @@ DirMgr.o: DirMgr.c ../../../../../../src/vice.h \
 	../../../../../../src/arch/unix/types.h DirMgr.h Directory.h \
 	RegExp.h
 Directory.o: Directory.c ../../../../../../src/vice.h \
-	../../../../../../src/config.h Directory.h RegExp.h
+	../../../../../../src/config.h ../../../../../../src/ioutil.h \
+	Directory.h RegExp.h
 DrawImageString.o: DrawImageString.c TabString.h
 DrawString.o: DrawString.c TabString.h
 FileSel.o: FileSel.c ../../../../../../src/vice.h \

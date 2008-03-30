@@ -138,10 +138,10 @@ SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	fsdevice 	diskimage 	tape 	ima
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor 
 
 
-noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	cartridge.h 	charset.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	debug.h 	diskconstants.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	gfxoutput.h 	iecdrive.h 	imagecontents.h 	info.h 	init.h 	initcmdline.h 	interrupt.h 	joystick.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	printer.h 	ram.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	uicolor.h 	uimon.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	viewport.h 	vsidui.h 	vsync.h 	vsyncapi.h 	z80regs.h 	zfile.h 	zipcode.h
+noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	cartridge.h 	charset.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	debug.h 	diskconstants.h 	diskimage.h 	emuid.h 	findpath.h 	fixpoint.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	gfxoutput.h 	iecdrive.h 	imagecontents.h 	info.h 	init.h 	initcmdline.h 	interrupt.h 	ioutil.h 	joystick.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	printer.h 	ram.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	uicolor.h 	uimon.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	viewport.h 	vsidui.h 	vsync.h 	vsyncapi.h 	z80regs.h 	zfile.h 	zipcode.h
 
 
-base_sources =  	alarm.c 	attach.c 	autostart.c 	charset.c 	ciatimer.c 	clkguard.c 	cmdline.c 	color.c 	datasette.c 	debug.c 	emuid.c 	findpath.c 	fliplist.c 	gcr.c 	info.c 	init.c 	initcmdline.c 	interrupt.c 	joystick.c 	kbdbuf.c 	keyboard.c 	log.c 	machine.c 	main.c 	p00.c 	palette.c 	parallel.c 	ram.c 	resources.c 	romset.c 	screenshot.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	traps.c 	utils.c 	vsync.c 	zfile.c 	zipcode.c
+base_sources =  	alarm.c 	attach.c 	autostart.c 	charset.c 	ciatimer.c 	clkguard.c 	cmdline.c 	color.c 	datasette.c 	debug.c 	emuid.c 	findpath.c 	fliplist.c 	gcr.c 	info.c 	init.c 	initcmdline.c 	interrupt.c 	ioutil.c 	joystick.c 	kbdbuf.c 	keyboard.c 	log.c 	machine.c 	main.c 	p00.c 	palette.c 	parallel.c 	ram.c 	resources.c 	romset.c 	screenshot.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	traps.c 	utils.c 	vsync.c 	zfile.c 	zipcode.c
 
 
 cpucore_sources =  	6510core.c
@@ -242,7 +242,7 @@ xcbm2_DEPENDENCIES = $(xcbm2_libs)
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 
 # c1541
-c1541_SOURCES =  	c1541.c 	charset.c 	cmdline.c 	findpath.c 	gcr.c 	info.c 	log.c 	p00.c 	resources.c 	utils.c 	zfile.c 	zipcode.c
+c1541_SOURCES =  	c1541.c 	charset.c 	cmdline.c 	findpath.c 	gcr.c 	info.c 	ioutil.c 	log.c 	p00.c 	resources.c 	utils.c 	zfile.c 	zipcode.c
 
 
 # FIXME: I don't like linking `archdep.o' this way, but we cannot use
@@ -252,7 +252,7 @@ c1541_LDADD =  	@ARCH_DIR@/archdep.o 	@ARCH_DIR@/uicmdline.o 	$(vdrive_lib) 	$(d
 
 
 # petcat
-petcat_SOURCES =  	charset.c 	cmdline.c 	findpath.c 	log.c 	p00.c 	petcat.c 	resources.c 	utils.c 	zfile.c 	zipcode.c
+petcat_SOURCES =  	charset.c 	cmdline.c 	findpath.c 	ioutil.c 	log.c 	p00.c 	petcat.c 	resources.c 	utils.c 	zfile.c 	zipcode.c
 
 
 petcat_LDADD =  	@ARCH_DIR@/archdep.o 	@ARCH_DIR@/uicmdline.o
@@ -271,49 +271,49 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 x64_OBJECTS =  alarm.o attach.o autostart.o charset.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o debug.o emuid.o findpath.o \
-fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o joystick.o \
-kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
-ram.o resources.o romset.o screenshot.o serial.o snapshot.o sound.o \
-sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o maincpu.o
+fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o ioutil.o \
+joystick.o kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o \
+parallel.o ram.o resources.o romset.o screenshot.o serial.o snapshot.o \
+sound.o sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o maincpu.o
 x128_OBJECTS =  alarm.o attach.o autostart.o charset.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o debug.o emuid.o findpath.o \
-fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o joystick.o \
-kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
-ram.o resources.o romset.o screenshot.o serial.o snapshot.o sound.o \
-sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o
+fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o ioutil.o \
+joystick.o kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o \
+parallel.o ram.o resources.o romset.o screenshot.o serial.o snapshot.o \
+sound.o sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o
 xvic_OBJECTS =  alarm.o attach.o autostart.o charset.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o debug.o emuid.o findpath.o \
-fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o joystick.o \
-kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
-ram.o resources.o romset.o screenshot.o serial.o snapshot.o sound.o \
-sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o maincpu.o
+fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o ioutil.o \
+joystick.o kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o \
+parallel.o ram.o resources.o romset.o screenshot.o serial.o snapshot.o \
+sound.o sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o maincpu.o
 xpet_OBJECTS =  alarm.o attach.o autostart.o charset.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o debug.o emuid.o findpath.o \
-fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o joystick.o \
-kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
-ram.o resources.o romset.o screenshot.o serial.o snapshot.o sound.o \
-sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o maincpu.o
+fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o ioutil.o \
+joystick.o kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o \
+parallel.o ram.o resources.o romset.o screenshot.o serial.o snapshot.o \
+sound.o sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o maincpu.o
 xplus4_OBJECTS =  alarm.o attach.o autostart.o charset.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o debug.o emuid.o findpath.o \
-fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o joystick.o \
-kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
-ram.o resources.o romset.o screenshot.o serial.o snapshot.o sound.o \
-sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o
+fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o ioutil.o \
+joystick.o kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o \
+parallel.o ram.o resources.o romset.o screenshot.o serial.o snapshot.o \
+sound.o sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o
 xcbm2_OBJECTS =  alarm.o attach.o autostart.o charset.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o debug.o emuid.o findpath.o \
-fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o joystick.o \
-kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
-ram.o resources.o romset.o screenshot.o serial.o snapshot.o sound.o \
-sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o
+fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o ioutil.o \
+joystick.o kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o \
+parallel.o ram.o resources.o romset.o screenshot.o serial.o snapshot.o \
+sound.o sysfile.o traps.o utils.o vsync.o zfile.o zipcode.o
 c1541_OBJECTS =  c1541.o charset.o cmdline.o findpath.o gcr.o info.o \
-log.o p00.o resources.o utils.o zfile.o zipcode.o
+ioutil.o log.o p00.o resources.o utils.o zfile.o zipcode.o
 c1541_DEPENDENCIES =  @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o \
 $(top_builddir)/src/vdrive/libvdrive.a \
 $(top_builddir)/src/diskimage/libdiskimage.a \
 $(top_builddir)/src/tape/libtape.a
 c1541_LDFLAGS = 
-petcat_OBJECTS =  charset.o cmdline.o findpath.o log.o p00.o petcat.o \
-resources.o utils.o zfile.o zipcode.o
+petcat_OBJECTS =  charset.o cmdline.o findpath.o ioutil.o log.o p00.o \
+petcat.o resources.o utils.o zfile.o zipcode.o
 petcat_DEPENDENCIES =  @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o
 petcat_LDFLAGS = 
 CFLAGS = @CFLAGS@
@@ -615,6 +615,7 @@ initcmdline.o: initcmdline.c vice.h config.h arch/unix/archdep.h \
 	utils.h
 interrupt.o: interrupt.c vice.h config.h interrupt.h arch/unix/types.h \
 	log.h snapshot.h
+ioutil.o: ioutil.c vice.h config.h utils.h arch/unix/types.h
 joystick.o: joystick.c vice.h config.h alarm.h arch/unix/types.h \
 	keyboard.h arch/unix/joy.h joystick.h maincpu.h
 kbdbuf.o: kbdbuf.c vice.h config.h cmdline.h maincpu.h arch/unix/types.h \
@@ -647,7 +648,7 @@ petcat.o: petcat.c vice.h config.h charset.h arch/unix/types.h p00.h
 ram.o: ram.c vice.h config.h cmdline.h ram.h arch/unix/types.h \
 	resources.h
 resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
-	log.h resources.h utils.h arch/unix/types.h
+	ioutil.h log.h resources.h utils.h arch/unix/types.h
 romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	mem.h arch/unix/types.h resources.h romset.h sysfile.h utils.h
 rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
@@ -660,12 +661,13 @@ serial.o: serial.c vice.h config.h attach.h drive/drive.h log.h \
 	arch/unix/types.h maincpu.h mem.h mos6510.h parallel.h \
 	printer.h serial.h traps.h utils.h vdrive/vdrive.h
 snapshot.o: snapshot.c vice.h config.h arch/unix/archdep.h archapi.h \
-	log.h snapshot.h arch/unix/types.h utils.h vsync.h zfile.h
+	ioutil.h log.h snapshot.h arch/unix/types.h utils.h vsync.h \
+	zfile.h
 sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	fixpoint.h log.h machine.h maincpu.h resources.h sound.h \
 	arch/unix/ui.h uiapi.h utils.h vsync.h
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
-	cmdline.h findpath.h log.h resources.h sysfile.h \
+	cmdline.h findpath.h ioutil.h log.h resources.h sysfile.h \
 	arch/unix/types.h utils.h
 traps.o: traps.c vice.h config.h cmdline.h interrupt.h arch/unix/types.h \
 	log.h maincpu.h mem.h mos6510.h parallel.h resources.h traps.h \
@@ -678,8 +680,8 @@ vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
 	arch/unix/x11/xaw/../videoarch.h video.h viewport.h \
 	arch/unix/x11/xaw/../xaw/uiarch.h
-zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
-	utils.h arch/unix/types.h zfile.h zipcode.h
+zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h ioutil.h \
+	log.h utils.h arch/unix/types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h
 
 info-am:

@@ -358,10 +358,10 @@ distdir: $(DISTFILES)
 	      || exit 1; \
 	  fi; \
 	done
-archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h ui.h \
-	types.h ../../../src/uiapi.h archdep.h ../../../src/archapi.h \
-	../../../src/findpath.h ../../../src/log.h ../../../src/utils.h \
-	../../../src/machine.h
+archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h archdep.h \
+	../../../src/archapi.h ../../../src/findpath.h \
+	../../../src/ioutil.h ../../../src/log.h ../../../src/machine.h \
+	ui.h types.h ../../../src/uiapi.h ../../../src/utils.h
 c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/debug.h types.h icon.h ../../../src/machine.h \
 	../../../src/resources.h uic64cart.h uicommands.h uidatasette.h \
@@ -431,15 +431,15 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	archdep.h ../../../src/archapi.h ../../../src/attach.h \
 	../../../src/autostart.h types.h ../../../src/fliplist.h \
 	fullscreenarch.h ../../../src/imagecontents.h \
-	../../../src/interrupt.h ../../../src/log.h \
-	../../../src/machine.h ../../../src/maincpu.h \
-	../../../src/monitor/mon.h ../../../src/mos6510.h \
-	../../../src/resources.h ../../../src/sound.h \
-	../../../src/tape.h uicommands.h uiedisk.h uimenu.h \
-	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \
-	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h \
-	uisnapshot.h uidrive.h ../../../src/utils.h \
-	../../../src/vsync.h
+	../../../src/interrupt.h ../../../src/ioutil.h \
+	../../../src/log.h ../../../src/machine.h \
+	../../../src/maincpu.h ../../../src/monitor/mon.h \
+	../../../src/mos6510.h ../../../src/resources.h \
+	../../../src/sound.h ../../../src/tape.h uicommands.h uiedisk.h \
+	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
+	x11/xaw/../xaw/uiarch.h uisnapshot.h uidrive.h \
+	../../../src/utils.h ../../../src/vsync.h
 uicrtc.o: uicrtc.c ../../../src/vice.h ../../../src/config.h \
 	fullscreenarch.h uimenu.h x11/xaw/uimenu.h ui.h types.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \

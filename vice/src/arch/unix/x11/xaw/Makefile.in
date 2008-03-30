@@ -399,7 +399,7 @@ x11ui.o: x11ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/interrupt.h \
 	../../../../../src/arch/unix/fullscreenarch.h \
-	../../../../../src/machine.h \
+	../../../../../src/ioutil.h ../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/c64/psid.h ../../../../../src/resources.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \

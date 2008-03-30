@@ -343,12 +343,12 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/kbdbuf.h ../../src/keyboard.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/monitor/mon.h \
-	../../src/printer.h ../../src/resources.h \
-	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
-	../../src/sound.h ../../src/tape.h ../../src/traps.h \
-	../../src/mem.h ../../src/utils.h ../../src/via.h vic.h \
+	../../src/interrupt.h ../../src/ioutil.h ../../src/kbdbuf.h \
+	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/monitor/mon.h ../../src/printer.h \
+	../../src/resources.h ../../src/screenshot.h ../../src/serial.h \
+	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
+	../../src/traps.h ../../src/mem.h ../../src/via.h vic.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/viewport.h vic-mem.h vic20.h ../../src/video.h \
 	vic20-cmdline-options.h vic20-resources.h vic20-snapshot.h \

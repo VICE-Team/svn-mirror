@@ -283,15 +283,15 @@ plus4.o: plus4.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/kbdbuf.h ../../src/keyboard.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/monitor/mon.h \
-	plus4-cmdline-options.h plus4-resources.h plus4-snapshot.h \
-	plus4.h plus4acia.h plus4mem.h ../../src/arch/unix/plus4ui.h \
-	../../src/printer.h ../../src/screenshot.h ../../src/serial.h \
-	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
-	ted-cmdline-options.h ted-resources.h ted.h ../../src/traps.h \
-	../../src/mem.h ../../src/utils.h ../../src/video.h \
-	../../src/viewport.h ../../src/vsync.h
+	../../src/interrupt.h ../../src/ioutil.h ../../src/kbdbuf.h \
+	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/monitor/mon.h plus4-cmdline-options.h \
+	plus4-resources.h plus4-snapshot.h plus4.h plus4acia.h \
+	plus4mem.h ../../src/arch/unix/plus4ui.h ../../src/printer.h \
+	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
+	../../src/sound.h ../../src/tape.h ted-cmdline-options.h \
+	ted-resources.h ted.h ../../src/traps.h ../../src/mem.h \
+	../../src/video.h ../../src/viewport.h ../../src/vsync.h
 plus4acia.o: plus4acia.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
