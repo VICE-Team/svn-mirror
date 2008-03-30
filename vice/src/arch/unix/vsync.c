@@ -362,5 +362,9 @@ int do_vsync(int been_skipped)
 
     kbd_buf_flush();
 
+#ifdef HAS_JOYSTICK
+    joystick();
+#endif
+
     return skip_next_frame;
 }

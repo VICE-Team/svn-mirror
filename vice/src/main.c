@@ -329,12 +329,10 @@ int MAIN_PROGRAM(int argc, char **argv)
         exit(-1);
     }
 
-#ifdef JOYSTICK
     if (joystick_init_cmdline_options() < 0) {
         fprintf(stderr, "Cannot initialize joystick-specific command-line options.\n");
         exit(-1);
     }
-#endif
 
     if (cmdline_parse(&argc, argv) < 0) {
         fprintf(stderr, "Error parsing command-line options, bailing out.\n");
