@@ -27,19 +27,5 @@
 #ifndef _CRTC_RESOURCES_H
 #define _CRTC_RESOURCES_H
 
-
-struct crtc_resources_s;
-
-/* CRTC resources.  */
-struct crtc_resources_s
-{
-    /* Name of palette file.  */
-    char *palette_file_name;
-};
-
-typedef struct crtc_resources_s crtc_resources_t;
-
-extern struct crtc_resources_s crtc_resources;
-
 #endif
 
