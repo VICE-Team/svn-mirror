@@ -30,10 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "archdep.h"
 #include "c64mem.h"
 #include "cmdline.h"
@@ -48,6 +44,7 @@
 #include "vsidui.h"
 #include "vsync.h"
 #include "zfile.h"
+
 
 static log_t vlog = LOG_ERR;
 

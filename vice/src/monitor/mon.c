@@ -38,12 +38,6 @@
 #else
 #error "Need signals"
 #endif
-#ifdef HAVE_STRINGS_H
-#include <strings.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 
 #ifdef __IBMC__
 #include <direct.h>
