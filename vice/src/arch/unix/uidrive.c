@@ -79,6 +79,48 @@ UI_CALLBACK(radio_Drive9Type)
     }
 }
 
+UI_CALLBACK(radio_Drive10Type)
+{
+    int current_value;
+
+    resources_get_value("Drive10Type", (void *)&current_value);
+    if (!CHECK_MENUS) {
+        if (current_value != (int)UI_MENU_CB_PARAM) {
+            resources_set_value("Drive10Type",
+                                (resource_value_t)UI_MENU_CB_PARAM);
+            ui_update_menus();
+        }
+    } else {
+        ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
+        if (drive_check_type((int)UI_MENU_CB_PARAM, 2)) {
+            ui_menu_set_sensitive(w, True);
+        } else {
+            ui_menu_set_sensitive(w, False);
+        }
+    }
+}
+
+UI_CALLBACK(radio_Drive11Type)
+{
+    int current_value;
+
+    resources_get_value("Drive11Type", (void *)&current_value);
+    if (!CHECK_MENUS) {
+        if (current_value != (int)UI_MENU_CB_PARAM) {
+            resources_set_value("Drive11Type",
+                                (resource_value_t)UI_MENU_CB_PARAM);
+            ui_update_menus();
+        }
+    } else {
+        ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
+        if (drive_check_type((int)UI_MENU_CB_PARAM, 3)) {
+            ui_menu_set_sensitive(w, True);
+        } else {
+            ui_menu_set_sensitive(w, False);
+        }
+    }
+}
+
 ui_menu_entry_t ui_drive_options_submenu[] = {
     { N_("*Enable true drive emulation"),
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },

@@ -31,7 +31,9 @@
 
 extern UI_CALLBACK(radio_Drive8Type);
 extern UI_CALLBACK(radio_Drive9Type);
-
+extern UI_CALLBACK(radio_Drive10Type);
+extern UI_CALLBACK(radio_Drive11Type);
+ 
 struct ui_menu_entry_s;
 
 extern struct ui_menu_entry_s ui_drive_options_submenu[];

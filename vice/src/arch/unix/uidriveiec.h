@@ -31,10 +31,16 @@ struct ui_menu_entry_s;
 
 extern struct ui_menu_entry_s set_drive0_expansion_submenu[];
 extern struct ui_menu_entry_s set_drive1_expansion_submenu[];
+extern struct ui_menu_entry_s set_drive2_expansion_submenu[];
+extern struct ui_menu_entry_s set_drive3_expansion_submenu[];
 extern struct ui_menu_entry_s set_drive0_extend_image_policy_submenu[];
 extern struct ui_menu_entry_s set_drive1_extend_image_policy_submenu[];
+extern struct ui_menu_entry_s set_drive2_extend_image_policy_submenu[];
+extern struct ui_menu_entry_s set_drive3_extend_image_policy_submenu[];
 extern struct ui_menu_entry_s set_drive0_idle_method_submenu[];
 extern struct ui_menu_entry_s set_drive1_idle_method_submenu[];
+extern struct ui_menu_entry_s set_drive2_idle_method_submenu[];
+extern struct ui_menu_entry_s set_drive3_idle_method_submenu[];
 
 #endif
 
