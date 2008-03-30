@@ -98,6 +98,17 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
         return rand();
       case CARTRIDGE_SUPER_SNAPSHOT:
         return export_ram0[0x1e00 + (addr & 0xff)];
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        switch (roml_bank) {
+          case 0:
+            return roml_banks[0x1e00 + (addr & 0xff)];
+          case 1:
+            return roml_banks[0x1e00 + (addr & 0xff) + 0x2000];
+          case 2:
+            return roml_banks[0x1e00 + (addr & 0xff) + 0x4000];
+          case 3:
+            return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
+        }
     }
     return rand();
 }
@@ -125,6 +136,54 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         export_ram0[0x1e00 + (addr & 0xff)] = value;
+        break;
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        if (((addr & 0xff) == 0)
+	    || ((addr & 0xff) == 1)) {
+
+            romconfig = 0;
+
+            if ((value & 1) == 1) {
+                cartridge_release_freeze();
+            }
+
+            /* D0 = ~GAME */
+            romconfig |= ((value & 1) ^ 1);
+
+            /*
+             * Mask: D1, D2 & D4
+             */
+            value = value & 0x16;
+
+            switch (value) {
+              /* ROM mapping */
+              case (0x02) :
+                romconfig |= (0 << 3);  /* Bank 0 */
+                break;
+              case (0x06) :
+                romconfig |= (1 << 3);  /* Bank 1 */
+                break;
+              case (0x12) :
+                romconfig |= (2 << 3);  /* Bank 2 */
+                break;
+              case (0x16) :
+                romconfig |= (3 << 3);  /* Bank 3 */
+                break;
+
+              /* RAM mapping */
+              case (0x00) :
+              case (0x04) :
+              case (0x10) :
+              case (0x14) :
+                /* Map RAM only when NOT in normal mode! */
+                if ((value & 1) == 0) {
+                    romconfig |= (1 << 1);  /* exrom */
+                    romconfig |= (1 << 5);  /* export */
+                }
+                break;
+            }
+            cartridge_config_changed(romconfig);
+        }
         break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
@@ -321,6 +380,9 @@ void cartridge_init_config(void)
       case CARTRIDGE_SUPER_SNAPSHOT:
         cartridge_config_changed(9);
         break;
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        cartridge_store_io1((ADDRESS)0xde00, 2);
+        break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
         cartridge_config_changed(1);
@@ -380,6 +442,17 @@ void cartridge_attach(int type, BYTE *rawcart)
         memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
         cartridge_config_changed(9);
         break;
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
+        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
+        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
+        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
+        memcpy(&roml_banks[0x4000], &rawcart[0x8000], 0x2000);
+        memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
+        memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
+        memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
+        cartridge_store_io1((ADDRESS)0xde00, 2);
+        break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
         memcpy(roml_banks, rawcart, 0x2000 * 16);
@@ -422,7 +495,8 @@ void cartridge_detach(int type)
 void cartridge_freeze(int type)
 {
     if (type == CARTRIDGE_ACTION_REPLAY || type == CARTRIDGE_ATOMIC_POWER
-        || type == CARTRIDGE_SUPER_SNAPSHOT)
+        || type == CARTRIDGE_SUPER_SNAPSHOT
+        || type == CARTRIDGE_SUPER_SNAPSHOT_V5)
         cartridge_config_changed(35);
     if (type == CARTRIDGE_KCS_POWER || type == CARTRIDGE_FINAL_III)
         cartridge_config_changed(3);

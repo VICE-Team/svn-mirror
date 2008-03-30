@@ -265,6 +265,8 @@ c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h lose32.h ui.h \
 	../../../src/uiapi.h ../../../src/video.h types.h videoarch.h \
 	../../../src/palette.h c64ui.h ../../../src/cartridge.h kbd.h \
 	../../../src/keyboard.h res.h uilib.h uivicii.h winmain.h
+console.o: console.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	../../../src/console.h ../../../src/utils.h types.h
 dirent.o: dirent.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	dirent.h ../../../src/utils.h types.h
 joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
@@ -303,13 +305,13 @@ ui.o: ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/snapshot.h kbd.h ../../../src/keyboard.h \
 	../../../src/machine.h ../../../src/maincpu.h \
 	../../../src/alarm.h ../../../src/clkguard.h ../../../src/mon.h \
-	../../../src/mos6510.h ../../../src/mem.h mouse.h res.h \
-	../../../src/tape.h ../../../src/traps.h ui.h \
-	../../../src/uiapi.h ../../../src/video.h videoarch.h \
-	../../../src/palette.h uiattach.h uidrive.h uidatasette.h \
-	uijoystick.h uilib.h uisnapshot.h uisound.h \
-	../../../src/utils.h ../../../src/version.h \
-	../../../src/vsync.h winmain.h
+	../../../src/console.h ../../../src/mos6510.h \
+	../../../src/mem.h mouse.h res.h ../../../src/tape.h \
+	../../../src/traps.h ui.h ../../../src/uiapi.h \
+	../../../src/video.h videoarch.h ../../../src/palette.h \
+	uiattach.h uidrive.h uidatasette.h uijoystick.h uilib.h \
+	uisnapshot.h uisound.h ../../../src/utils.h \
+	../../../src/version.h ../../../src/vsync.h winmain.h
 uiattach.o: uiattach.c ../../../src/vice.h ../../../src/config.h \
 	lose32.h ../../../src/attach.h ../../../src/autostart.h types.h \
 	../../../src/imagecontents.h res.h ../../../src/resources.h \
@@ -391,10 +393,10 @@ vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/resources.h ../../../src/interrupt.h \
 	../../../src/6510core.h ../../../src/snapshot.h joystick.h \
 	kbd.h ../../../src/kbdbuf.h ../../../src/maincpu.h \
-	../../../src/alarm.h ../../../src/mon.h ../../../src/mos6510.h \
-	mouse.h ../../../src/sound.h ui.h ../../../src/uiapi.h \
-	../../../src/video.h videoarch.h ../../../src/palette.h \
-	../../../src/vsync.h
+	../../../src/alarm.h ../../../src/mon.h ../../../src/console.h \
+	../../../src/mos6510.h mouse.h ../../../src/sound.h ui.h \
+	../../../src/uiapi.h ../../../src/video.h videoarch.h \
+	../../../src/palette.h ../../../src/vsync.h
 winmain.o: winmain.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/utils.h types.h winmain.h
 

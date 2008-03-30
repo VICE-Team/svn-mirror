@@ -638,7 +638,7 @@ romset.o: romset.c vice.h config.h log.h mem.h snapshot.h \
 	arch/unix/types.h resources.h romset.h sysfile.h utils.h
 rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
 	cmdline.h resources.h interrupt.h 6510core.h snapshot.h log.h \
-	maincpu.h mon.h mos6510.h rs232.h rsuser.h
+	maincpu.h mon.h console.h mos6510.h rs232.h rsuser.h
 serial.o: serial.c vice.h config.h attach.h drive/drive.h diskimage.h \
 	gcr.h arch/unix/types.h log.h maincpu.h 6510core.h alarm.h \
 	clkguard.h mon.h console.h interrupt.h snapshot.h mos6510.h \

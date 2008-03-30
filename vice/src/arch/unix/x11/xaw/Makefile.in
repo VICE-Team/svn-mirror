@@ -308,7 +308,8 @@ about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/info.h ../../../../../src/version.h \
 	videoarch.h ../videoarch.h ../../../../../src/palette.h \
 	../../../../../src/arch/unix/types.h \
-	../../../../../src/resources.h ui.h ../../../../../src/uiapi.h
+	../../../../../src/resources.h ui.h ../../../../../src/uiapi.h \
+	../../../../../src/vsync.h
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/cmdline.h ../../../../../src/resources.h \
 	../../../../../src/drive/drive.h ../../../../../src/diskimage.h \
