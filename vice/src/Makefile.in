@@ -115,6 +115,7 @@ noinst_HEADERS = \
 	cia.h \
 	cmdline.h \
 	config.h.in \
+	emuid.h \
 	drive.h \
 	file.h \
 	findpath.h \
@@ -149,6 +150,7 @@ noinst_HEADERS = \
 	sysfile.h \
 	tape.h \
 	tapeunit.h \
+	tpi.h \
 	traps.h \
 	types.h \
 	utils.h \
@@ -167,6 +169,7 @@ base_sources = \
 	charsets.c \
 	cmdline.c \
 	drive.c \
+	emuid.c \
 	findpath.c \
 	fsdevice.c \
 	gcr.c \
@@ -206,6 +209,7 @@ EXTRA_DIST = \
 	cia-tmpl.c \
 	convio \
 	raster.c \
+	tpi-tmpl.c \
 	via-tmpl.c
 
 BUILT_SOURCES = mon_parse.h mon_parse.c
@@ -285,26 +289,26 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 x64_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
-cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
-memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
+main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
 tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 x64_LDFLAGS = 
 x128_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
-cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
-memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
+main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
 tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o
 x128_LDFLAGS = 
 xvic_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
-cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
-memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
+main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
 tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 xvic_LDFLAGS = 
 xpet_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
-cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
-memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
+main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
 tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 xpet_LDFLAGS = 
@@ -544,6 +548,7 @@ charsets.o: charsets.c vice.h config.h charsets.h types.h
 cmdline.o: cmdline.c vice.h config.h utils.h cmdline.h resources.h
 drive.o: drive.c vice.h config.h serial.h types.h traps.h drive.h \
 	fs_cbm.h file.h zfile.h utils.h charsets.h fsdevice.h
+emuid.o: emuid.c vice.h config.h types.h
 findpath.o: findpath.c vice.h config.h findpath.h utils.h
 fsdevice.o: fsdevice.c vice.h config.h resources.h drive.h types.h \
 	fs_cbm.h serial.h traps.h file.h charsets.h tape.h utils.h \

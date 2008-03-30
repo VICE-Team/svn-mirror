@@ -1,3 +1,7 @@
+Tue Jul  7 21:46:06 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.47.
+
 Mon Jun 29 18:52:21 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.46.
@@ -13,7 +17,7 @@ Thu Jun 25 11:24:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
 Tue Jun 23 17:17:38 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 
 	* configure.in: Changed reSID configuration to search for
-	installed files. Fixed libmos6581.h -typo too.
+	installed files.  Fixed libmos6581.h -typo too.
 
 Tue Jun 23 00:05:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 

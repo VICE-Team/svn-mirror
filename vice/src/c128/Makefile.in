@@ -278,14 +278,13 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
 	../../src/machine.h ../../src/maincpu.h \
 	../../src/c64/patchrom.h ../../src/c64/sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/tapeunit.h ../../src/tape.h \
-	../../src/c64/tpi.h ../../src/true1541/true1541.h \
-	../../src/utils.h ../../src/c64/vicii.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/arch/unix/vsync.h \
-	../../src/rs232.h ../../src/c64/c64acia.h \
-	../../src/c64/rsuser.h ../../src/print.h ../../src/prdevice.h \
-	../../src/pruser.h
+	../../src/tpi.h ../../src/true1541/true1541.h ../../src/utils.h \
+	../../src/c64/vicii.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
+	../../src/arch/unix/vsync.h ../../src/rs232.h \
+	../../src/c64/c64acia.h ../../src/c64/rsuser.h \
+	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
 c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/types.h ../../src/mem.h \
 	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
@@ -304,7 +303,7 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/cmdline.h ../../src/c64/c64cia.h ../../src/cia.h \
 	../../src/c64/sid.h ../../src/sound.h ../../src/warn.h \
 	../../src/memutils.h ../../src/maincpu.h ../../src/parallel.h \
-	../../src/c64/tpi.h ../../src/tapeunit.h ../../src/tape.h \
+	../../src/tpi.h ../../src/tapeunit.h ../../src/tape.h \
 	../../src/utils.h vdc.h ../../src/rs232.h ../c64/vicii.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \

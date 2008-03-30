@@ -302,7 +302,8 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	vic20mem.h ../../src/arch/unix/xaw/vic20ui.h vic20via.h \
-	../../src/via.h ../../src/arch/unix/vsync.h ../../src/print.h \
+	../../src/via.h ../../src/tapeunit.h ../../src/tape.h \
+	../../src/arch/unix/vsync.h ../../src/print.h \
 	../../src/prdevice.h ../../src/pruser.h
 vic20iec.o: vic20iec.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/iecdrive.h ../../src/resources.h \
@@ -317,9 +318,10 @@ vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h vic20mem.h \
 	../../src/resources.h ../../src/interrupt.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/maincpu.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/memutils.h \
-	../../src/utils.h vic.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h vic20via.h ../../src/via.h
+	../../src/utils.h ../../src/emuid.h vic.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	vic20via.h ../../src/via.h
 vic20sound.o: vic20sound.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/types.h ../../src/warn.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \

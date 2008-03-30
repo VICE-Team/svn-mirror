@@ -302,14 +302,15 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
 	../../src/utils.h ../../src/via.h ../../src/arch/unix/vsync.h \
 	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h ../../src/types.h \
-	../../src/memutils.h pia.h petvia.h crtc.h \
+	../../src/memutils.h pia.h pet.h petvia.h crtc.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/resources.h ../../src/arch/unix/kbd.h \
-	../../src/cmdline.h pets.h ../../src/interrupt.h \
-	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
-	../../src/maincpu.h ../../src/mos6510.h ../../src/mon.h \
-	petmem.h ../../src/utils.h
+	../../src/kbdbuf.h ../../src/autostart.h ../../src/cmdline.h \
+	../../src/tapeunit.h ../../src/tape.h ../../src/traps.h pets.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/mem.h ../../src/maincpu.h ../../src/mos6510.h \
+	../../src/mon.h petmem.h ../../src/utils.h
 pets.o: pets.c ../../src/vice.h ../../src/config.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/interrupt.h ../../src/types.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
@@ -325,15 +326,14 @@ petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/warn.h ../../src/arch/unix/kbd.h \
 	crtc.h ../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/pruser.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/mem.h
+	../../src/pruser.h petvia.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h
 pia.o: pia.c ../../src/vice.h ../../src/config.h ../../src/types.h \
-	../../src/cmdline.h ../../src/resources.h crtc.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/mem.h \
+	crtc.h ../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
-	../../src/mem.h ../../src/arch/unix/kbd.h ../../src/parallel.h \
-	pets.h pia.h
+	../../src/arch/unix/kbd.h ../../src/parallel.h pets.h pia.h
 
 info: info-recursive
 dvi: dvi-recursive

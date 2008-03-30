@@ -135,8 +135,9 @@ libc64_a_SOURCES = \
 	sprcrunch.h \
 	sprcycles.h \
 	sprites.h \
-	tpi.c \
-	tpi.h \
+	c64tpi.c \
+	c64tpi.def \
+	c64tpi.h \
 	vicii.c \
 	vicii.h \
 	wave6581.h \
@@ -162,8 +163,9 @@ libc64c128_a_SOURCES = \
 	sprcrunch.h \
 	sprcycles.h \
 	sprites.h \
-	tpi.c \
-	tpi.h \
+	c64tpi.c \
+	c64tpi.def \
+	c64tpi.h \
 	vicii.c \
 	vicii.h \
 	wave6581.h \
@@ -189,11 +191,11 @@ X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RESID_TRUE@libc64_a_DEPENDENCIES =  resid.o
 @HAVE_RESID_FALSE@libc64_a_DEPENDENCIES = 
 libc64_a_OBJECTS =  c64.o c64acia1.o c64cia1.o c64cia2.o c64iec.o \
-c64mem.o patchrom.o reu.o rsuser.o sid.o tpi.o vicii.o
+c64mem.o patchrom.o reu.o rsuser.o sid.o c64tpi.o vicii.o
 @HAVE_RESID_TRUE@libc64c128_a_DEPENDENCIES =  resid.o
 @HAVE_RESID_FALSE@libc64c128_a_DEPENDENCIES = 
 libc64c128_a_OBJECTS =  c64acia1.o c64cia1.o c64cia2.o c64iec.o \
-patchrom.o rsuser.o sid.o tpi.o vicii.o
+patchrom.o rsuser.o sid.o c64tpi.o vicii.o
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CXXFLAGS)
 CXXLINK = $(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@
@@ -354,7 +356,7 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/resources.h ../../src/kbdbuf.h sid.h \
-	../../src/sound.h ../../src/warn.h reu.h tpi.h \
+	../../src/sound.h ../../src/warn.h reu.h ../../src/tpi.h \
 	../../src/true1541/true1541.h ../../src/drive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
 	../../src/true1541/1541cpu.h ../../src/tapeunit.h \
@@ -364,10 +366,6 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	c64acia.h rsuser.h ../../src/print.h ../../src/prdevice.h \
 	../../src/pruser.h
 c64acia1.o: c64acia1.c ../../src/resources.h ../../src/cmdline.h \
-	../../src/vice.h ../../src/config.h ../../src/types.h \
-	../../src/vmachine.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/mem.h ../../src/rs232.h ../../src/acia.h
-c64acia2.o: c64acia2.c ../../src/resources.h ../../src/cmdline.h \
 	../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/vmachine.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/rs232.h ../../src/acia.h
@@ -411,8 +409,11 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/memutils.h ../../src/parallel.h \
-	tpi.h reu.h ../../src/tapeunit.h ../../src/tape.h \
-	../../src/utils.h patchrom.h ../../src/cartridge.h c64acia.h
+	../../src/tpi.h reu.h ../../src/tapeunit.h ../../src/tape.h \
+	../../src/emuid.h ../../src/utils.h patchrom.h \
+	../../src/cartridge.h c64acia.h
+c64tpi.o: c64tpi.c ../../src/vice.h ../../src/config.h ../../src/types.h \
+	../../src/tpi.h ../../src/parallel.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/types.h patchrom.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h ../../src/types.h \
@@ -429,8 +430,6 @@ sid.o: sid.c ../../src/vice.h ../../src/config.h sid.h ../../src/sound.h \
 	../../src/mem.h ../../src/mos6510.h ../../src/6510core.h \
 	../../src/mon.h ../../src/interrupt.h ../../src/vmachine.h \
 	wave6581.h wave8580.h
-tpi.o: tpi.c ../../src/vice.h ../../src/config.h ../../src/types.h \
-	../../src/parallel.h tpi.h
 vicii.o: vicii.c ../../src/vice.h ../../src/config.h vicii.h \
 	../../src/maincpu.h ../../src/types.h ../../src/mem.h \
 	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
@@ -540,6 +539,14 @@ c64acia1.c: c64acia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	       	   $(top_srcdir)/src/acia-tmpl.c \
 	       	   $(c64dir)/c64acia1.def $(c64dir)/c64acia1.c; \
+           fi )
+
+c64tpi.c: c64tpi.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c64tpi.c'..."; \
+           if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	       	   $(top_srcdir)/src/tpi-tmpl.c \
+	       	   $(c64dir)/c64tpi.def $(c64dir)/c64tpi.c; \
            fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
