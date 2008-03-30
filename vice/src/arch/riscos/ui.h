@@ -36,7 +36,6 @@
 struct conf_iconid_s;
 
 typedef unsigned int ui_window_t;
-typedef void (*ui_exposure_handler_t) (unsigned int width, unsigned int height);
 
 extern int ui_init_named_app(const char *appname, const char *iconname);
 

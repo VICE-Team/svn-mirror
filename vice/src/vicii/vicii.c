@@ -137,14 +137,6 @@ vicii_t vicii;
 
 static void vicii_set_geometry(void);
 
-/* Handle the exposure event.  */
-static void vicii_exposure_handler(unsigned int width, unsigned int height)
-{
-    vicii.raster.canvas->draw_buffer->canvas_width = width;
-    vicii.raster.canvas->draw_buffer->canvas_height = height;
-    video_viewport_resize(vicii.raster.canvas);
-}
-
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
     vicii.raster_irq_clk -= sub;
@@ -300,7 +292,6 @@ static int init_raster(void)
     if (raster_init(raster, VICII_NUM_VMODES) < 0)
         return -1;
     raster_modes_set_idle_mode(raster->modes, VICII_IDLE_MODE);
-    raster_set_exposure_handler(raster, (void *)vicii_exposure_handler);
     resources_touch("VICIIVideoCache");
 
     vicii_set_geometry();

@@ -38,8 +38,6 @@
 
 #define NUM_AVAILABLE_COLORS	0x100
 
-typedef void (*canvas_redraw_t)();
-
 struct video_draw_buffer_callback_s;
 struct palette_s;
 
@@ -52,7 +50,6 @@ struct video_canvas_s {
     struct geometry_s *geometry;
     const struct palette_s *palette;
     RGB colors[NUM_AVAILABLE_COLORS];
-    canvas_redraw_t exposure_handler;
 
     /* If set to nonzero, it means we are doing triple buffering on this
        canvas.  */
