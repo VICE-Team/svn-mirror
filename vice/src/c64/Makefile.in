@@ -118,7 +118,8 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/sid
+	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/vicii
 
 noinst_LIBRARIES = libc64.a libc64c128.a
 
@@ -139,14 +140,9 @@ libc64_a_SOURCES = \
 	patchrom.h \
 	reu.c \
 	reu.h \
-	sprcrunch.h \
-	sprcycles.h \
-	sprites.h \
 	c64tpi.c \
 	c64tpi.def \
-	c64tpi.h \
-	vicii.c \
-	vicii.h
+	c64tpi.h
 
 libc64c128_a_SOURCES = \
 	c64cia.h \
@@ -154,14 +150,9 @@ libc64c128_a_SOURCES = \
 	c64datasette.c \
 	patchrom.c \
 	patchrom.h \
-	sprcrunch.h \
-	sprcycles.h \
-	sprites.h \
 	c64tpi.c \
 	c64tpi.def \
-	c64tpi.h \
-	vicii.c \
-	vicii.h
+	c64tpi.h
 
 BUILT_SOURCES = \
 	c64tpi.c
@@ -197,11 +188,10 @@ X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RS232_FALSE@libc64_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
 libc64_a_OBJECTS =  c64.o c64cia1.o c64cia2.o c64datasette.o c64iec.o \
-c64mem.o cartridge.o patchrom.o reu.o c64tpi.o vicii.o
+c64mem.o cartridge.o patchrom.o reu.o c64tpi.o
 @HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
-libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o patchrom.o c64tpi.o \
-vicii.o
+libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o patchrom.o c64tpi.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -362,12 +352,12 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
 	../../src/maincpu.h patchrom.h reu.h ../../src/sid/sid.h \
 	../../src/sound.h ../../src/warn.h ../../src/tape.h \
-	../../src/utils.h vicii.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
-	../../src/arch/unix/vsync.h c64acia.h c64rsuser.h \
-	../../src/rs232.h ../../src/rsuser.h ../../src/print.h \
-	../../src/prdevice.h ../../src/pruser.h
+	../../src/utils.h ../../src/vicii/vicii.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/resources.h ../../src/arch/unix/vsync.h c64acia.h \
+	c64rsuser.h ../../src/rs232.h ../../src/rsuser.h \
+	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
 c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h ../../src/types.h \
 	../../src/snapshot.h ../../src/alarm.h ../../src/log.h \
@@ -380,7 +370,7 @@ c64cia1.o: c64cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/mem.h ../../src/maincpu.h \
-	../../src/mon.h ../../src/mos6510.h vicii.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/vicii/vicii.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/arch/unix/kbd.h c64cia.h ../../src/rsuser.h \
@@ -390,7 +380,7 @@ c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/mem.h ../../src/maincpu.h \
-	../../src/mon.h ../../src/mos6510.h vicii.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/vicii/vicii.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
@@ -424,8 +414,8 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/parallel.h patchrom.h reu.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/warn.h \
 	../../src/tape.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/palette.h vicii.h \
-	../../src/arch/unix/video.h c64acia.h
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/vicii/vicii.h ../../src/arch/unix/video.h c64acia.h
 c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/types.h c64.h c64cia.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/rsuser.h
@@ -449,17 +439,6 @@ reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h ../../src/types.h \
 	../../src/6510core.h ../../src/mem.h ../../src/alarm.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
 	../../src/vmachine.h ../../src/utils.h
-vicii.o: vicii.c ../../src/vice.h ../../src/config.h vicii.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
-	../../src/types.h ../../src/snapshot.h ../../src/alarm.h \
-	../../src/log.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/interrupt.h ../../src/vmachine.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h c64.h c64cart.h c64cia.h ../../src/cia.h \
-	../../src/cmdline.h ../../src/machine.h ../../src/utils.h \
-	../../src/raster.h sprites.h sprcycles.h sprcrunch.h \
-	../../src/raster.c ../../src/arch/unix/vsync.h
 
 info: info-recursive
 dvi: dvi-recursive

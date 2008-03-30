@@ -18,7 +18,7 @@ endif
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet cbm2 sid arch
+SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet cbm2 sid vicii arch
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -175,6 +175,7 @@ BUILT_SOURCES = mon_parse.h mon_parse.c
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
+vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
@@ -188,26 +189,27 @@ bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
-	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-        @X_LIBS@ @READLINE@ @LEXLIB@ @X64_WINRES@
+	$(sid_lib) @RESID_LIBS@ $(vicii_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
+	@SOUND_LIBS@ @X_LIBS@ @READLINE@ @LEXLIB@ @X64_WINRES@
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(sid_lib) \
 	@RESID_LIBS@ $(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 x64_LDFLAGS = @x64_LDFLAGS@
 .PHONY: x64-all
-x64-all: libc64 libsounddrv libdrive libarch libsid @RESID_DEP@ x64
+x64-all: libc64 libsounddrv libdrive libarch libsid libvicii @RESID_DEP@ x64
 
 # x128
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(drive_lib) \
-	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
-	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ @READLINE@ @X128_WINRES@
+	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ $(vicii_lib) @ALLOCA@ \
+	@LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ @READLINE@ \
+	@X128_WINRES@
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(drive_lib) $(sid_lib) @RESID_LIBS@ @ALLOCA@ \
 	@LIBOBJS@ @ARCH_LIBS@
 x128_LDFLAGS = @x128_LDFLAGS@ 
 .PHONY: x128-all
-x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid @RESID_DEP@ \
-	x128
+x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid \
+	libvicii @RESID_DEP@ x128
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -308,4 +310,6 @@ libsid:
 	(cd sid && $(MAKE))
 libresid:
 	(cd resid && $(MAKE))
+libvicii:
+	(cd vicii && $(MAKE))
 

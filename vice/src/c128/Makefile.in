@@ -116,7 +116,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/sid
+	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/vicii
 
 noinst_LIBRARIES = libc128.a
 
@@ -305,7 +306,7 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
 	../../src/machine.h ../../src/maincpu.h \
 	../../src/c64/patchrom.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/tape.h ../../src/c64/c64tpi.h \
-	../../src/utils.h ../../src/c64/vicii.h \
+	../../src/utils.h ../../src/vicii/vicii.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/resources.h ../../src/arch/unix/vsync.h \
@@ -316,7 +317,7 @@ c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/mem.h ../../src/maincpu.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/c64/vicii.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/vicii/vicii.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/arch/unix/kbd.h ../../src/c64/c64cia.h \
@@ -355,8 +356,9 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/warn.h \
 	../../src/tape.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
-	../../src/utils.h vdc.h ../c64/c64cart.h ../c64/vicii.h \
-	../../src/arch/unix/video.h ../../src/c64/c64acia.h
+	../../src/utils.h vdc.h ../c64/c64cart.h \
+	../../src/vicii/vicii.h ../../src/arch/unix/video.h \
+	../../src/c64/c64acia.h
 vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/types.h ../../src/snapshot.h
 

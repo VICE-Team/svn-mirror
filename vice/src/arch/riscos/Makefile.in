@@ -144,6 +144,8 @@ libarch_a_SOURCES = \
 	ui.c \
 	ui.h \
 	uidummy.c \
+	uiimage.c \
+	uiimage.h \
 	vic20ui.c \
 	vic20ui.h \
 	video.c \
@@ -168,7 +170,7 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64c128ui.o c64ui.o \
 joystick.o kbd.o petdummy.o petui.o print.o rs232.o ui.o uidummy.o \
-vic20ui.o video.o vsync.o
+uiimage.o vic20ui.o video.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
