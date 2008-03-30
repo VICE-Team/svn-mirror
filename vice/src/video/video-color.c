@@ -251,8 +251,8 @@ static void video_calc_ycbcrtable(const video_cbm_palette_t *p)
     unsigned int i, lf, hf;
     float sat;
 
-	lf = 64*video_resources.pal_blur/1000;
-	hf = 256 - (lf << 1);
+    lf = 64*video_resources.pal_blur/1000;
+    hf = 256 - (lf << 1);
     sat = ((float)(video_resources.color_saturation)) * (256.0f / 1000.0f);
     for (i = 0;i < p->num_entries; i++) {
         video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation,

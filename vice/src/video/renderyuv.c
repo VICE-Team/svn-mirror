@@ -164,7 +164,7 @@ void renderyuv_4_2_2_pal(image_t* image,
                          int src_x, int src_y,
                          unsigned int src_w, unsigned int src_h,
                          int dest_x, int dest_y,
-                         int pal_mode)
+                         int pal_blur)
 {
   unsigned int x, y;
   unsigned int YUVm1, YUV0, YUV1, YUV2;
@@ -173,6 +173,7 @@ void renderyuv_4_2_2_pal(image_t* image,
   YUV_avg* line;
   unsigned int *dest = (unsigned int *)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
+  int pal_sharp = 256 - (pal_blur << 1);
 
   /* Normalize to 2x1 blocks. */
   if (dest_x & 1) {
@@ -264,16 +265,8 @@ void renderyuv_4_2_2_pal(image_t* image,
       /* Read next two pixels. */
       YUV1 = src_color[*++src];
       YUV2 = src_color[*++src];
-/*
-      if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
-        line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
-        line->Y1 = (Y(YUV0) + (Y(YUV1) << 1) + Y(YUV2)) >> 2;
-      }
-      else */
-	  { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
-        line->Y0 = Y(YUV0);
-        line->Y1 = Y(YUV1);
-      }
+      line->Y0 = (Y(YUV0)*pal_sharp + (Y(YUVm1) + Y(YUV1))*pal_blur) >> 8;
+      line->Y1 = (Y(YUV1)*pal_sharp + (Y(YUV0) + Y(YUV2))*pal_blur) >> 8;
       line->U = U(YUVm1) + U(YUV0) + U(YUV1) + U(YUV2);
       line->V = V(YUVm1) + V(YUV0) + V(YUV1) + V(YUV2);
 
@@ -290,16 +283,8 @@ void renderyuv_4_2_2_pal(image_t* image,
     else {
       YUV2 = src_color[*src++];
     }
-/*
-    if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
-      line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
-      line->Y1 = (Y(YUV0) + (Y(YUV1) << 1) + Y(YUV2)) >> 2;
-    }
-    else */
-	{ /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
-      line->Y0 = Y(YUV0);
-      line->Y1 = Y(YUV1);
-    }
+    line->Y0 = (Y(YUV0)*pal_sharp + (Y(YUVm1) + Y(YUV1))*pal_blur) >> 8;
+    line->Y1 = (Y(YUV1)*pal_sharp + (Y(YUV0) + Y(YUV2))*pal_blur) >> 8;
     line->U = U(YUVm1) + U(YUV0) + U(YUV1) + U(YUV2);
     line->V = V(YUVm1) + V(YUV0) + V(YUV1) + V(YUV2);
     src += src_pitch - src_w;
@@ -332,7 +317,7 @@ void renderyuv_2x_4_2_2_pal(image_t* image,
                             int src_x, int src_y,
                             unsigned int src_w, unsigned int src_h,
                             int dest_x, int dest_y,
-                            int pal_mode,
+                            int pal_blur,
                             int double_scan, int pal_scanline_shade)
 {
   unsigned int x, y;
@@ -342,6 +327,7 @@ void renderyuv_2x_4_2_2_pal(image_t* image,
   YUV_avg* line;
   unsigned int *dest = (unsigned int *)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
+  int pal_sharp = 256 - (pal_blur << 1);
 
   /* No need to normalize to 2x1 blocks because of size doubling. */
 
@@ -427,14 +413,7 @@ void renderyuv_2x_4_2_2_pal(image_t* image,
     for (x = 0; x < src_w - 1; x++) {
       /* Read next pixel. */
       YUV1 = src_color[*++src];
-/*
-      if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
-        line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
-      }
-      else */
-	  { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
-        line->Y0 = Y(YUV0);
-      }
+      line->Y0 = (Y(YUV0)*pal_sharp + (Y(YUVm1) + Y(YUV1))*pal_blur) >> 8;
       line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
       line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
 
@@ -451,14 +430,7 @@ void renderyuv_2x_4_2_2_pal(image_t* image,
     else {
       YUV1 = src_color[*src++];
     }
-/*
-    if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
-      line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
-    }
-    else */
-	{ /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
-      line->Y0 = Y(YUV0);
-    }
+    line->Y0 = (Y(YUV0)*pal_sharp + (Y(YUVm1) + Y(YUV1))*pal_blur) >> 8;
     line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
     line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
     src += src_pitch - src_w;
@@ -622,7 +594,7 @@ void renderyuv_4_1_1_pal(image_t* image,
                          int src_x, int src_y,
                          unsigned int src_w, unsigned int src_h,
                          int dest_x, int dest_y,
-                         int pal_mode)
+                         int pal_blur)
 {
   unsigned int x, y;
   unsigned int
@@ -634,6 +606,7 @@ void renderyuv_4_1_1_pal(image_t* image,
   int Ypitch = image->pitches[plane_y];
   int Upitch = image->pitches[plane_u];
   int Vpitch = image->pitches[plane_v];
+  int pal_sharp = 256 - (pal_blur << 1);
 
   /* Normalize to 2x2 blocks. */
   if (dest_x & 1) {
@@ -690,20 +663,10 @@ void renderyuv_4_1_1_pal(image_t* image,
       YUV11 = src_color[*(src + src_pitch + 1)];
       YUV21 = src_color[*(src + src_pitch + 2)];
       src += 2;
-/*
-      if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
-        *Yptr =               (Y(YUVm10) + (Y(YUV00) << 1) + Y(YUV10)) >> 2;
-        *(Yptr + 1) =          (Y(YUV00) + (Y(YUV10) << 1) + Y(YUV20)) >> 2;
-        *(Yptr + Ypitch) =    (Y(YUVm11) + (Y(YUV01) << 1) + Y(YUV11)) >> 2;
-        *(Yptr + Ypitch + 1) = (Y(YUV01) + (Y(YUV11) << 1) + Y(YUV21)) >> 2;
-      }
-      else */
-	  { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
-        *Yptr = Y(YUV00);
-        *(Yptr + 1) = Y(YUV10);
-        *(Yptr + Ypitch) = Y(YUV01);
-        *(Yptr + Ypitch + 1) = Y(YUV11);
-      }
+      *Yptr =               (Y(YUV00)*pal_sharp + (Y(YUVm10) + Y(YUV10))*pal_blur) >> 8;
+      *(Yptr + 1) =          (Y(YUV10)*pal_sharp + (Y(YUV00) + Y(YUV20))*pal_blur) >> 8;
+      *(Yptr + Ypitch) =    (Y(YUV01)*pal_sharp + (Y(YUVm11) + Y(YUV11))*pal_blur) >> 8;
+      *(Yptr + Ypitch + 1) = (Y(YUV11)*pal_sharp + (Y(YUV01) + Y(YUV21))*pal_blur) >> 8;
       Yptr += 2;
       *Uptr++ =
         (U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
@@ -728,20 +691,10 @@ void renderyuv_4_1_1_pal(image_t* image,
       YUV21 = src_color[*(src + src_pitch + 2)];
     }
     src += 2;
-/*
-    if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
-      *Yptr =               (Y(YUVm10) + (Y(YUV00) << 1) + Y(YUV10)) >> 2;
-      *(Yptr + 1) =          (Y(YUV00) + (Y(YUV10) << 1) + Y(YUV20)) >> 2;
-      *(Yptr + Ypitch) =    (Y(YUVm11) + (Y(YUV01) << 1) + Y(YUV11)) >> 2;
-      *(Yptr + Ypitch + 1) = (Y(YUV01) + (Y(YUV11) << 1) + Y(YUV21)) >> 2;
-    }
-    else */
-	{ /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
-      *Yptr = Y(YUV00);
-      *(Yptr + 1) = Y(YUV10);
-      *(Yptr + Ypitch) = Y(YUV01);
-      *(Yptr + Ypitch + 1) = Y(YUV11);
-    }
+    *Yptr =               (Y(YUV00)*pal_sharp + (Y(YUVm10) + Y(YUV10))*pal_blur) >> 8;
+    *(Yptr + 1) =          (Y(YUV10)*pal_sharp + (Y(YUV00) + Y(YUV20))*pal_blur) >> 8;
+    *(Yptr + Ypitch) =    (Y(YUV01)*pal_sharp + (Y(YUVm11) + Y(YUV11))*pal_blur) >> 8;
+    *(Yptr + Ypitch + 1) = (Y(YUV11)*pal_sharp + (Y(YUV01) + Y(YUV21))*pal_blur) >> 8;
     Yptr += 2;
     *Uptr++ =
       (U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
@@ -767,7 +720,7 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
                             int src_x, int src_y,
                             unsigned int src_w, unsigned int src_h,
                             int dest_x, int dest_y,
-                            int pal_mode,
+                            int pal_blur,
                             int double_scan, int pal_scanline_shade)
 {
   unsigned int x, y;
@@ -781,6 +734,7 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
   int Ypitch = image->pitches[plane_y];
   int Upitch = image->pitches[plane_u];
   int Vpitch = image->pitches[plane_v];
+  int pal_sharp = 256 - (pal_blur << 1);
 
   /* No need to normalize to 2x2 blocks because of size doubling. */
 
@@ -868,14 +822,7 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
     for (x = 0; x < src_w - 1; x++) {
       /* Read next pixel. */
       YUV1 = src_color[*++src];
-/*
-      if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
-        line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
-      }
-      else */
-	  { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
-        line->Y0 = Y(YUV0);
-      }
+      line->Y0 = (Y(YUV0)*pal_sharp + (Y(YUVm1) + Y(YUV1))*pal_blur) >> 8;
       line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
       line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
 
@@ -892,14 +839,7 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
     else {
       YUV1 = src_color[*src++];
     }
-/*
-    if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
-      line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
-    }
-    else */
-	{ /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
-      line->Y0 = Y(YUV0);
-    }
+    line->Y0 = (Y(YUV0)*pal_sharp + (Y(YUVm1) + Y(YUV1))*pal_blur) >> 8;
     line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
     line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
     src += src_pitch - src_w;
@@ -932,4 +872,3 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
     linepre = yuv_lines[lineno];
   }
 }
-

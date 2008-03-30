@@ -77,6 +77,7 @@ typedef union {
 extern void render_yuv_image(int double_size,
                              int double_scan,
                              int pal_mode,
+                             int pal_blur,
                              int pal_scanline_shade,
                              fourcc_t format,
                              image_t* image,
@@ -117,7 +118,7 @@ extern void renderyuv_4_2_2_pal(image_t* image,
                                 int src_x, int src_y,
                                 unsigned int src_w, unsigned int src_h,
                                 int dest_x, int dest_y,
-                                int pal_mode);
+                                int pal_blur);
 
 extern void renderyuv_2x_4_2_2_pal(image_t* image,
                                    int shift_y0, int shift_u,
@@ -128,7 +129,7 @@ extern void renderyuv_2x_4_2_2_pal(image_t* image,
                                    int src_x, int src_y,
                                    unsigned int src_w, unsigned int src_h,
                                    int dest_x, int dest_y,
-                                   int pal_mode,
+                                   int pal_blur,
                                    int double_scan, int pal_scanline_shade);
 
 extern void renderyuv_4_1_1(image_t* image,
@@ -158,7 +159,7 @@ extern void renderyuv_4_1_1_pal(image_t* image,
                                 int src_x, int src_y,
                                 unsigned int src_w, unsigned int src_h,
                                 int dest_x, int dest_y,
-                                int pal_mode);
+                                int pal_blur);
 
 extern void renderyuv_2x_4_1_1_pal(image_t* image,
                                    int plane_y, int plane_u, int plane_v,
@@ -168,8 +169,7 @@ extern void renderyuv_2x_4_1_1_pal(image_t* image,
                                    int src_x, int src_y,
                                    unsigned int src_w, unsigned int src_h,
                                    int dest_x, int dest_y,
-                                   int pal_mode,
+                                   int pal_blur,
                                    int double_scan, int pal_scanline_shade);
 
 #endif
-

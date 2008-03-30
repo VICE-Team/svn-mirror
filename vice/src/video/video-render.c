@@ -191,6 +191,7 @@ void video_render_palfunc_set(void(*func)(video_render_config_t *,
 void render_yuv_image(int double_size,
                       int double_scan,
                       int pal_mode,
+                      int pal_blur,
                       int pal_scanline_shade,
                       fourcc_t format,
                       image_t* image,
@@ -263,7 +264,7 @@ void render_yuv_image(int double_size,
         renderyuv_2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
                                src, src_pitch, src_color,
                                src_x, src_y, src_w, src_h, dest_x, dest_y,
-                               pal_mode, double_scan, pal_scanline_shade);
+                               pal_blur, double_scan, pal_scanline_shade);
         break;
       }
     }
@@ -280,7 +281,7 @@ void render_yuv_image(int double_size,
         renderyuv_2x_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
                                src, src_pitch, src_color,
                                src_x, src_y, src_w, src_h, dest_x, dest_y,
-                               pal_mode, double_scan, pal_scanline_shade);
+                               pal_blur, double_scan, pal_scanline_shade);
         break;
       }
     }
@@ -299,7 +300,7 @@ void render_yuv_image(int double_size,
         renderyuv_4_1_1_pal(image, plane_y, plane_u, plane_v,
                             src, src_pitch, src_color,
                             src_x, src_y, src_w, src_h, dest_x, dest_y,
-                            pal_mode);
+                            pal_blur);
         break;
       }
     }
@@ -315,7 +316,7 @@ void render_yuv_image(int double_size,
         renderyuv_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
                             src, src_pitch, src_color,
                             src_x, src_y, src_w, src_h, dest_x, dest_y,
-                            pal_mode);
+                            pal_blur);
         break;
       }
     }

@@ -38,7 +38,7 @@ struct video_resources_s
     int color_gamma;
     int delayloop_emulation;	/* fake PAL emu */
     int pal_scanlineshade;
-	int pal_blur;
+    int pal_blur;
     int pal_mode;
 };
 
