@@ -59,11 +59,11 @@ static UI_CALLBACK(set_refresh_rate)
     int current_refresh_rate;
 
     resources_get_value("RefreshRate",
-                        (resource_value_t *) &current_refresh_rate);
+                        (resource_value_t *)&current_refresh_rate);
     if (!CHECK_MENUS) {
-        if (current_refresh_rate != (int) UI_MENU_CB_PARAM) {
+        if (current_refresh_rate != (int)UI_MENU_CB_PARAM) {
             resources_set_value("RefreshRate",
-                                (resource_value_t) UI_MENU_CB_PARAM);
+                                (resource_value_t)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
@@ -78,7 +78,7 @@ static UI_CALLBACK(set_refresh_rate)
         if (UI_MENU_CB_PARAM == 0) {
             int speed;
 
-            resources_get_value("Speed", (resource_value_t *) &speed);
+            resources_get_value("Speed", (resource_value_t *)&speed);
             if (speed == 0) {
                 /* Cannot enable the `automatic' setting if a speed limit is
                    not specified. */
@@ -99,7 +99,7 @@ static UI_CALLBACK(set_custom_refresh_rate)
     int current_refresh_rate;
 
     resources_get_value("RefreshRate",
-                        (resource_value_t *) &current_refresh_rate);
+                        (resource_value_t *)&current_refresh_rate);
 
     if (!*input_string)
         sprintf(input_string, "%d", current_refresh_rate);
@@ -120,10 +120,10 @@ static UI_CALLBACK(set_custom_refresh_rate)
         free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
-            resources_get_value("Speed", (resource_value_t *) &current_speed);
+            resources_get_value("Speed", (resource_value_t *)&current_speed);
             if (!(current_speed <= 0 && i <= 0) && i >= 0
                 && current_refresh_rate != i) {
-                resources_set_value("RefreshRate", (resource_value_t) i);
+                resources_set_value("RefreshRate", (resource_value_t)i);
                 ui_update_menus();
             }
         }
@@ -141,7 +141,7 @@ static UI_CALLBACK(set_maximum_speed)
 {
     int current_speed;
 
-    resources_get_value("Speed", (resource_value_t *) &current_speed);
+    resources_get_value("Speed", (resource_value_t *)&current_speed);
 
     if (!CHECK_MENUS) {
         if (current_speed != (int)UI_MENU_CB_PARAM) {
@@ -199,7 +199,7 @@ static UI_CALLBACK(set_custom_maximum_speed)
             i = atoi(input_string);
             if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0
                 && current_speed != i) {
-                resources_set_value("Speed", (resource_value_t) i);
+                resources_set_value("Speed", (resource_value_t)i);
                 ui_update_menus();
             } else {
                 ui_error(_("Invalid speed value"));
@@ -252,14 +252,9 @@ static UI_CALLBACK(set_default_resources)
 
 /* ------------------------------------------------------------------------- */
 
-
 UI_MENU_DEFINE_TOGGLE(UseXSync)
-
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
-
 UI_MENU_DEFINE_TOGGLE(WarpMode)
-
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -267,7 +262,7 @@ UI_MENU_DEFINE_TOGGLE(WarpMode)
 
 static UI_CALLBACK(set_keymap_type)
 {
-     int kindex, newindex = (int) UI_MENU_CB_PARAM;
+     int kindex, newindex = (int)UI_MENU_CB_PARAM;
 
      if (resources_get_value("KeymapIndex", (resource_value_t*)&kindex) < 0)
          return;
@@ -284,9 +279,9 @@ static UI_CALLBACK(set_keymap_type)
 }
 
 static ui_menu_entry_t keyboard_maptype_submenu[] = {
-    { N_("*Symbolic mapping"), (ui_callback_t) set_keymap_type,
+    { N_("*Symbolic mapping"), (ui_callback_t)set_keymap_type,
 	(ui_callback_data_t) 0, NULL },
-    { N_("*Positional mapping (US)"), (ui_callback_t) set_keymap_type,
+    { N_("*Positional mapping (US)"), (ui_callback_t)set_keymap_type,
 	(ui_callback_data_t) 1, NULL },
     { NULL }
 };
@@ -368,7 +363,7 @@ UI_CALLBACK(ui_load_palette)
     switch (button) {
       case UI_BUTTON_OK:
         if (resources_set_value(UI_MENU_CB_PARAM,
-                (resource_value_t) filename) < 0)
+                (resource_value_t)filename) < 0)
             ui_error(_("Could not load palette file\n'%s'"), filename);
         if (last_dir)
             free(last_dir);
@@ -487,13 +482,13 @@ UI_MENU_DEFINE_RADIO(RsUserDev)
 
 ui_menu_entry_t rsuser_device_submenu[] = {
     { N_("*Serial 1"),
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t)0, NULL },
     { N_("*Serial 2"),
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t)1, NULL },
     { N_("*Dump to file"),
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 2, NULL },
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t)2, NULL },
     { N_("*Exec process"),
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 3, NULL },
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
@@ -501,13 +496,13 @@ UI_MENU_DEFINE_RADIO(Acia1Dev)
 
 ui_menu_entry_t acia1_device_submenu[] = {
     { N_("*Serial 1"),
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t)0, NULL },
     { N_("*Serial 2"),
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t)1, NULL },
     { N_("*Dump to file"),
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 2, NULL },
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t)2, NULL },
     { N_("*Exec process"),
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 3, NULL },
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
@@ -515,11 +510,11 @@ UI_MENU_DEFINE_RADIO(Acia1Irq)
 
 ui_menu_entry_t acia1_irq_submenu[] = {
     { N_("*No IRQ/NMI"),
-      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t)0, NULL },
     { N_("*IRQ"),
-      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t)1, NULL },
     { N_("*NMI"),
-      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) 2, NULL },
+      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
@@ -527,15 +522,15 @@ UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 
 ui_menu_entry_t ser1_baud_submenu[] = {
   { "*300",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)   300, NULL },
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
   { "*1200",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  1200, NULL },
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)1200, NULL },
   { "*2400",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  2400, NULL },
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)2400, NULL },
   { "*9600",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  9600, NULL },
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)9600, NULL },
   { "*19200",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t) 19200, NULL },
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)19200, NULL },
   { NULL }
 };
 
@@ -543,15 +538,15 @@ UI_MENU_DEFINE_RADIO(RsDevice2Baud)
 
 ui_menu_entry_t ser2_baud_submenu[] = {
   { "*300",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)   300, NULL },
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
   { "*1200",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  1200, NULL },
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)1200, NULL },
   { "*2400",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  2400, NULL },
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)2400, NULL },
   { "*9600",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  9600, NULL },
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)9600, NULL },
   { "*19200",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t) 19200, NULL },
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)19200, NULL },
   { NULL }
 };
 
@@ -609,7 +604,7 @@ UI_CALLBACK(set_rs232_exec_file)
 
 UI_CALLBACK(set_rs232_dump_file)
 {
-    char *resname = (char*) UI_MENU_CB_PARAM;
+    char *resname = (char *)UI_MENU_CB_PARAM;
     char *title;
     ui_button_t button;
     char *value;
@@ -649,31 +644,31 @@ ui_menu_entry_t rs232_submenu[] = {
       NULL, NULL, acia1_irq_submenu },
     { "--" },
     { N_("*No Userport RS232 emulation"),
-      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t)radio_RsUser, (ui_callback_data_t)0, NULL },
     { N_("*Userport 300 baud RS232 emulation"),
-      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 300, NULL },
+      (ui_callback_t)radio_RsUser, (ui_callback_data_t)300, NULL },
     { N_("*Userport 1200 baud RS232 emulation"),
-      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 1200, NULL },
+      (ui_callback_t)radio_RsUser, (ui_callback_data_t)1200, NULL },
     { N_("*CIA 9600 baud RS232 emulation"),
-      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 9600, NULL },
+      (ui_callback_t)radio_RsUser, (ui_callback_data_t)9600, NULL },
     { N_("Userport RS232 device"),
       NULL, NULL, rsuser_device_submenu },
     { "--" },
-    { N_("Serial 1 device..."), (ui_callback_t) set_rs232_device_file,
-      (ui_callback_data_t) "RsDevice1", NULL },
+    { N_("Serial 1 device..."), (ui_callback_t)set_rs232_device_file,
+      (ui_callback_data_t)"RsDevice1", NULL },
     { N_("Serial 1 baudrate"),
       NULL, NULL, ser1_baud_submenu },
     { "--" },
-    { "Serial 2 device...", (ui_callback_t) set_rs232_device_file,
-      (ui_callback_data_t) "RsDevice2", NULL },
+    { "Serial 2 device...", (ui_callback_t)set_rs232_device_file,
+      (ui_callback_data_t)"RsDevice2", NULL },
     { N_("Serial 2 baudrate"),
       NULL, NULL, ser2_baud_submenu },
     { "--" },
-    { N_("Dump filename..."), (ui_callback_t) set_rs232_dump_file,
-      (ui_callback_data_t) "RsDevice3", NULL },
+    { N_("Dump filename..."), (ui_callback_t)set_rs232_dump_file,
+      (ui_callback_data_t)"RsDevice3", NULL },
     { "--" },
-    { N_("Program name to exec..."), (ui_callback_t) set_rs232_exec_file,
-      (ui_callback_data_t) "RsDevice4", NULL },
+    { N_("Program name to exec..."), (ui_callback_t)set_rs232_exec_file,
+      (ui_callback_data_t)"RsDevice4", NULL },
     { NULL }
 };
 
@@ -721,6 +716,10 @@ UI_MENU_DEFINE_TOGGLE(FSDevice8HideCBMFiles)
 UI_MENU_DEFINE_TOGGLE(FSDevice9HideCBMFiles)
 UI_MENU_DEFINE_TOGGLE(FSDevice10HideCBMFiles)
 UI_MENU_DEFINE_TOGGLE(FSDevice11HideCBMFiles)
+UI_MENU_DEFINE_TOGGLE(AttachDevice8Readonly)
+UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
+UI_MENU_DEFINE_TOGGLE(AttachDevice10Readonly)
+UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
 
 static UI_CALLBACK(set_fsdevice_directory)
 {
@@ -768,49 +767,49 @@ UI_MENU_DEFINE_RADIO(SoundOversample)
 
 static ui_menu_entry_t set_refresh_rate_submenu[] = {
     { N_("*Auto"),
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)0, NULL },
     { "*1/1",
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)1, NULL },
     { "*1/2",
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 2, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)2, NULL },
     { "*1/3",
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 3, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)3, NULL },
     { "*1/4",
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 4, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)4, NULL },
     { "*1/5",
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 5, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)5, NULL },
     { "*1/6",
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 6, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)6, NULL },
     { "*1/7",
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 7, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)7, NULL },
     { "*1/8",
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 8, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)8, NULL },
     { "*1/9",
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 9, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)9, NULL },
     { "*1/10",
-      (ui_callback_t) set_refresh_rate, (ui_callback_data_t) 10, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)10, NULL },
     { "--" },
     { N_("*Custom..."),
-      (ui_callback_t) set_custom_refresh_rate, NULL, NULL },
+      (ui_callback_t)set_custom_refresh_rate, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_maximum_speed_submenu[] = {
     { "*200%",
-      (ui_callback_t) set_maximum_speed, (ui_callback_data_t) 200, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)200, NULL },
     { "*100%",
-      (ui_callback_t) set_maximum_speed, (ui_callback_data_t) 100, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)100, NULL },
     { "*50%",
-      (ui_callback_t) set_maximum_speed, (ui_callback_data_t) 50, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)50, NULL },
     { "*20%",
-      (ui_callback_t) set_maximum_speed, (ui_callback_data_t) 20, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)20, NULL },
     { "*10%",
-      (ui_callback_t) set_maximum_speed, (ui_callback_data_t) 10, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)10, NULL },
     { N_("*No limit"),
-      (ui_callback_t) set_maximum_speed, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)0, NULL },
     { "--" },
     { N_("*Custom..."),
-      (ui_callback_t) set_custom_maximum_speed, NULL, NULL },
+      (ui_callback_t)set_custom_maximum_speed, NULL, NULL },
     { NULL }
 };
 
@@ -859,197 +858,197 @@ static UI_CALLBACK(radio_Drive9Type)
 }
 
 static ui_menu_entry_t set_drive0_type_submenu[] = {
-    { N_("*None"), (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_NONE, NULL },
-    { "*1541", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_1541, NULL },
-    { "*1541-II", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_1541II, NULL },
-    { "*1571", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_1571, NULL },
-    { "*1581", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_1581, NULL },
-    { "*2031", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
-    { "*2040", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_2040, NULL },
-    { "*3040", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_3040, NULL },
-    { "*4040", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_4040, NULL },
-    { "*1001", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_1001, NULL },
-    { "*8050", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_8050, NULL },
-    { "*8250", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_8250, NULL },
+    { N_("*None"), (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
+    { "*1541", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
+    { "*1541-II", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_1541II, NULL },
+    { "*1571", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
+    { "*1581", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
+    { "*2031", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_2031, NULL },
+    { "*2040", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_2040, NULL },
+    { "*3040", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_3040, NULL },
+    { "*4040", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_4040, NULL },
+    { "*1001", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_1001, NULL },
+    { "*8050", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_8050, NULL },
+    { "*8250", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_8250, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive1_type_submenu[] = {
-    { N_("*None"), (ui_callback_t) radio_Drive9Type,
-      (ui_callback_data_t) DRIVE_TYPE_NONE, NULL },
-    { "*1541", (ui_callback_t) radio_Drive9Type,
-      (ui_callback_data_t) DRIVE_TYPE_1541, NULL },
-    { "*1541-II", (ui_callback_t) radio_Drive9Type,
-      (ui_callback_data_t) DRIVE_TYPE_1541II, NULL },
-    { "*1571", (ui_callback_t) radio_Drive9Type,
-      (ui_callback_data_t) DRIVE_TYPE_1571, NULL },
-    { "*1581", (ui_callback_t) radio_Drive9Type,
-      (ui_callback_data_t) DRIVE_TYPE_1581, NULL },
-    { "*2031", (ui_callback_t) radio_Drive9Type,
-      (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
-    { "*1001", (ui_callback_t) radio_Drive9Type,
-      (ui_callback_data_t) DRIVE_TYPE_1001, NULL },
+    { N_("*None"), (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
+    { "*1541", (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
+    { "*1541-II", (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_1541II, NULL },
+    { "*1571", (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
+    { "*1581", (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
+    { "*2031", (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_2031, NULL },
+    { "*1001", (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_1001, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive0_expansion_submenu[] = {
     { N_("*$2000-$3FFF RAM expansion"),
-      (ui_callback_t) toggle_Drive8RAM2000, NULL, NULL },
+      (ui_callback_t)toggle_Drive8RAM2000, NULL, NULL },
     { N_("*$4000-$5FFF RAM expansion"),
-      (ui_callback_t) toggle_Drive8RAM4000, NULL, NULL },
+      (ui_callback_t)toggle_Drive8RAM4000, NULL, NULL },
     { N_("*$6000-$7FFF RAM expansion"),
-      (ui_callback_t) toggle_Drive8RAM6000, NULL, NULL },
+      (ui_callback_t)toggle_Drive8RAM6000, NULL, NULL },
     { N_("*$8000-$9FFF RAM expansion"),
-      (ui_callback_t) toggle_Drive8RAM8000, NULL, NULL },
+      (ui_callback_t)toggle_Drive8RAM8000, NULL, NULL },
     { N_("*$A000-$BFFF RAM expansion"),
-      (ui_callback_t) toggle_Drive8RAMA000, NULL, NULL },
+      (ui_callback_t)toggle_Drive8RAMA000, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive1_expansion_submenu[] = {
     { N_("*$2000-$3FFF RAM expansion"),
-      (ui_callback_t) toggle_Drive9RAM2000, NULL, NULL },
+      (ui_callback_t)toggle_Drive9RAM2000, NULL, NULL },
     { N_("*$4000-$5FFF RAM expansion"),
-      (ui_callback_t) toggle_Drive9RAM4000, NULL, NULL },
+      (ui_callback_t)toggle_Drive9RAM4000, NULL, NULL },
     { N_("*$6000-$7FFF RAM expansion"),
-      (ui_callback_t) toggle_Drive9RAM6000, NULL, NULL },
+      (ui_callback_t)toggle_Drive9RAM6000, NULL, NULL },
     { N_("*$8000-$9FFF RAM expansion"),
-      (ui_callback_t) toggle_Drive9RAM8000, NULL, NULL },
+      (ui_callback_t)toggle_Drive9RAM8000, NULL, NULL },
     { N_("*$A000-$BFFF RAM expansion"),
-      (ui_callback_t) toggle_Drive9RAMA000, NULL, NULL },
+      (ui_callback_t)toggle_Drive9RAMA000, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive0_extend_image_policy_submenu[] = {
-    { N_("*Never extend"), (ui_callback_t) radio_Drive8ExtendImagePolicy,
-      (ui_callback_data_t) DRIVE_EXTEND_NEVER, NULL },
-    { N_("*Ask on extend"), (ui_callback_t) radio_Drive8ExtendImagePolicy,
-      (ui_callback_data_t) DRIVE_EXTEND_ASK, NULL },
-    { N_("*Extend on access"), (ui_callback_t) radio_Drive8ExtendImagePolicy,
-      (ui_callback_data_t) DRIVE_EXTEND_ACCESS, NULL },
+    { N_("*Never extend"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
+    { N_("*Ask on extend"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
+    { N_("*Extend on access"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive1_extend_image_policy_submenu[] = {
-    { N_("*Never extend"), (ui_callback_t) radio_Drive9ExtendImagePolicy,
-      (ui_callback_data_t) DRIVE_EXTEND_NEVER, NULL },
-    { N_("*Ask on extend"), (ui_callback_t) radio_Drive9ExtendImagePolicy,
-      (ui_callback_data_t) DRIVE_EXTEND_ASK, NULL },
-    { N_("*Extend on access"), (ui_callback_t) radio_Drive9ExtendImagePolicy,
-      (ui_callback_data_t) DRIVE_EXTEND_ACCESS, NULL },
+    { N_("*Never extend"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
+    { N_("*Ask on extend"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
+    { N_("*Extend on access"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
+      (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive0_idle_method_submenu[] = {
-    { N_("*No traps"), (ui_callback_t) radio_Drive8IdleMethod,
-      (ui_callback_data_t) DRIVE_IDLE_NO_IDLE, NULL },
-    { N_("*Skip cycles"), (ui_callback_t) radio_Drive8IdleMethod,
-      (ui_callback_data_t) DRIVE_IDLE_SKIP_CYCLES, NULL },
-    { N_("*Trap idle"), (ui_callback_t) radio_Drive8IdleMethod,
-      (ui_callback_data_t) DRIVE_IDLE_TRAP_IDLE, NULL },
+    { N_("*No traps"), (ui_callback_t)radio_Drive8IdleMethod,
+      (ui_callback_data_t)DRIVE_IDLE_NO_IDLE, NULL },
+    { N_("*Skip cycles"), (ui_callback_t)radio_Drive8IdleMethod,
+      (ui_callback_data_t)DRIVE_IDLE_SKIP_CYCLES, NULL },
+    { N_("*Trap idle"), (ui_callback_t)radio_Drive8IdleMethod,
+      (ui_callback_data_t)DRIVE_IDLE_TRAP_IDLE, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive1_idle_method_submenu[] = {
-    { N_("*No traps"), (ui_callback_t) radio_Drive9IdleMethod,
-      (ui_callback_data_t) DRIVE_IDLE_NO_IDLE, NULL },
-    { N_("*Skip cycles"), (ui_callback_t) radio_Drive9IdleMethod,
-      (ui_callback_data_t) DRIVE_IDLE_SKIP_CYCLES, NULL },
-    { N_("*Trap idle"), (ui_callback_t) radio_Drive9IdleMethod,
-      (ui_callback_data_t) DRIVE_IDLE_TRAP_IDLE, NULL },
+    { N_("*No traps"), (ui_callback_t)radio_Drive9IdleMethod,
+      (ui_callback_data_t)DRIVE_IDLE_NO_IDLE, NULL },
+    { N_("*Skip cycles"), (ui_callback_t)radio_Drive9IdleMethod,
+      (ui_callback_data_t)DRIVE_IDLE_SKIP_CYCLES, NULL },
+    { N_("*Trap idle"), (ui_callback_t)radio_Drive9IdleMethod,
+      (ui_callback_data_t)DRIVE_IDLE_TRAP_IDLE, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_sound_sample_rate_submenu[] = {
-    { "*8000Hz", (ui_callback_t) radio_SoundSampleRate,
-      (ui_callback_data_t) 8000, NULL },
-    { "*11025Hz", (ui_callback_t) radio_SoundSampleRate,
-      (ui_callback_data_t) 11025, NULL },
-    { "*22050Hz", (ui_callback_t) radio_SoundSampleRate,
-      (ui_callback_data_t) 22050, NULL },
-    { "*44100Hz", (ui_callback_t) radio_SoundSampleRate,
-      (ui_callback_data_t) 44100, NULL },
-    { "*48000Hz", (ui_callback_t) radio_SoundSampleRate,
-      (ui_callback_data_t) 48000, NULL },
+    { "*8000Hz", (ui_callback_t)radio_SoundSampleRate,
+      (ui_callback_data_t)8000, NULL },
+    { "*11025Hz", (ui_callback_t)radio_SoundSampleRate,
+      (ui_callback_data_t)11025, NULL },
+    { "*22050Hz", (ui_callback_t)radio_SoundSampleRate,
+      (ui_callback_data_t)22050, NULL },
+    { "*44100Hz", (ui_callback_t)radio_SoundSampleRate,
+      (ui_callback_data_t)44100, NULL },
+    { "*48000Hz", (ui_callback_t)radio_SoundSampleRate,
+      (ui_callback_data_t)48000, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
-    { N_("*1.00 sec"), (ui_callback_t) radio_SoundBufferSize,
-      (ui_callback_data_t) 1000, NULL },
-    { N_("*0.75 sec"), (ui_callback_t) radio_SoundBufferSize,
-      (ui_callback_data_t) 750, NULL },
-    { N_("*0.50 sec"), (ui_callback_t) radio_SoundBufferSize,
-      (ui_callback_data_t) 500, NULL },
-    { N_("*0.35 sec"), (ui_callback_t) radio_SoundBufferSize,
-      (ui_callback_data_t) 350, NULL },
-    { N_("*0.30 sec"), (ui_callback_t) radio_SoundBufferSize,
-      (ui_callback_data_t) 300, NULL },
-    { N_("*0.25 sec"), (ui_callback_t) radio_SoundBufferSize,
-      (ui_callback_data_t) 250, NULL },
-    { N_("*0.20 sec"), (ui_callback_t) radio_SoundBufferSize,
-      (ui_callback_data_t) 200, NULL },
-    { N_("*0.15 sec"), (ui_callback_t) radio_SoundBufferSize,
-      (ui_callback_data_t) 150, NULL },
-    { N_("*0.10 sec"), (ui_callback_t) radio_SoundBufferSize,
-      (ui_callback_data_t) 100, NULL },
+    { N_("*1.00 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)1000, NULL },
+    { N_("*0.75 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)750, NULL },
+    { N_("*0.50 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)500, NULL },
+    { N_("*0.35 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)350, NULL },
+    { N_("*0.30 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)300, NULL },
+    { N_("*0.25 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)250, NULL },
+    { N_("*0.20 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)200, NULL },
+    { N_("*0.15 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)150, NULL },
+    { N_("*0.10 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)100, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sound_suspend_time_submenu[] = {
-    { N_("*Keep going"), (ui_callback_t) radio_SoundSuspendTime,
-      (ui_callback_data_t) 0, NULL },
-    { N_("*1 sec suspend"), (ui_callback_t) radio_SoundSuspendTime,
-      (ui_callback_data_t) 1, NULL },
-    { N_("*2 sec suspend"), (ui_callback_t) radio_SoundSuspendTime,
-      (ui_callback_data_t) 2, NULL },
-    { N_("*5 sec suspend"), (ui_callback_t) radio_SoundSuspendTime,
-      (ui_callback_data_t) 5, NULL },
-    { N_("*10 sec suspend"), (ui_callback_t) radio_SoundSuspendTime,
-      (ui_callback_data_t) 10, NULL },
+    { N_("*Keep going"), (ui_callback_t)radio_SoundSuspendTime,
+      (ui_callback_data_t)0, NULL },
+    { N_("*1 sec suspend"), (ui_callback_t)radio_SoundSuspendTime,
+      (ui_callback_data_t)1, NULL },
+    { N_("*2 sec suspend"), (ui_callback_t)radio_SoundSuspendTime,
+      (ui_callback_data_t)2, NULL },
+    { N_("*5 sec suspend"), (ui_callback_t)radio_SoundSuspendTime,
+      (ui_callback_data_t)5, NULL },
+    { N_("*10 sec suspend"), (ui_callback_t)radio_SoundSuspendTime,
+      (ui_callback_data_t)10, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_sound_oversample_submenu [] = {
     { "*1x",
-      (ui_callback_t) radio_SoundOversample, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t)radio_SoundOversample, (ui_callback_data_t)0, NULL },
     { "*2x",
-      (ui_callback_t) radio_SoundOversample, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t)radio_SoundOversample, (ui_callback_data_t)1, NULL },
     { "*4x",
-      (ui_callback_t) radio_SoundOversample, (ui_callback_data_t) 2, NULL },
+      (ui_callback_t)radio_SoundOversample, (ui_callback_data_t)2, NULL },
     { "*8x",
-      (ui_callback_t) radio_SoundOversample, (ui_callback_data_t) 3, NULL },
+      (ui_callback_t)radio_SoundOversample, (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sound_adjustment_submenu [] = {
     { N_("*Flexible"),
-      (ui_callback_t) radio_SoundSpeedAdjustment,
-      (ui_callback_data_t) SOUND_ADJUST_FLEXIBLE, NULL },
+      (ui_callback_t)radio_SoundSpeedAdjustment,
+      (ui_callback_data_t)SOUND_ADJUST_FLEXIBLE, NULL },
     { N_("*Adjusting"),
-      (ui_callback_t) radio_SoundSpeedAdjustment,
-      (ui_callback_data_t) SOUND_ADJUST_ADJUSTING, NULL },
+      (ui_callback_t)radio_SoundSpeedAdjustment,
+      (ui_callback_data_t)SOUND_ADJUST_ADJUSTING, NULL },
     { N_("*Exact"),
-      (ui_callback_t) radio_SoundSpeedAdjustment,
-      (ui_callback_data_t) SOUND_ADJUST_EXACT, NULL },
+      (ui_callback_t)radio_SoundSpeedAdjustment,
+      (ui_callback_data_t)SOUND_ADJUST_EXACT, NULL },
     { NULL }
 };
 
 ui_menu_entry_t sound_settings_submenu[] = {
     { N_("*Enable sound playback"),
-      (ui_callback_t) toggle_Sound, NULL, NULL },
+      (ui_callback_t)toggle_Sound, NULL, NULL },
     { "--" },
     { N_("Sound synchronization"),
       NULL, NULL, set_sound_adjustment_submenu },
@@ -1071,11 +1070,11 @@ UI_MENU_DEFINE_RADIO(PrUserDev)
 
 static ui_menu_entry_t pruser_device_submenu[] = {
     { N_("*Printer 1 (file dump)"),
-      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t)radio_PrUserDev, (ui_callback_data_t)0, NULL },
     { N_("*Printer 2 (exec)"),
-      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t)radio_PrUserDev, (ui_callback_data_t)1, NULL },
     { N_("*Printer 3 (exec)"),
-      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 2, NULL },
+      (ui_callback_t)radio_PrUserDev, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
@@ -1083,11 +1082,11 @@ UI_MENU_DEFINE_RADIO(Printer4Device)
 
 static ui_menu_entry_t pr4_device_submenu[] = {
     { N_("*Printer 1 (file dump)"),
-      (ui_callback_t) radio_Printer4Device, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t)radio_Printer4Device, (ui_callback_data_t)0, NULL },
     { N_("*Printer 2 (exec)"),
-      (ui_callback_t) radio_Printer4Device, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t)radio_Printer4Device, (ui_callback_data_t)1, NULL },
     { N_("*Printer 3 (exec)"),
-      (ui_callback_t) radio_Printer4Device, (ui_callback_data_t) 2, NULL },
+      (ui_callback_t)radio_Printer4Device, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
@@ -1161,85 +1160,97 @@ static UI_CALLBACK(flush_printer4)
 
 static ui_menu_entry_t printer_settings_menu[] = {
     { N_("*IEC device 4 printer emulation"),
-      (ui_callback_t) toggle_Printer4, NULL, NULL },
+      (ui_callback_t)toggle_Printer4, NULL, NULL },
     { N_("IEC printer device"),
       NULL, NULL, pr4_device_submenu  },
     { N_("Flush IEC printer device"),
-      (ui_callback_t) flush_printer4, NULL, NULL },
+      (ui_callback_t)flush_printer4, NULL, NULL },
     { "--" },
     { N_("*Userport printer emulation"),
-      (ui_callback_t) toggle_PrUser, NULL, NULL },
+      (ui_callback_t)toggle_PrUser, NULL, NULL },
     { N_("Userport printer device"),
       NULL, NULL, pruser_device_submenu  },
     { "--" },
-    { N_("Printer device 1..."), (ui_callback_t) set_printer_exec_file,
-      (ui_callback_data_t) "PrinterDevice1", NULL },
-    { N_("Printer device 2..."), (ui_callback_t) set_printer_exec_file,
-      (ui_callback_data_t) "PrinterDevice2", NULL },
-    { N_("Printer device 3..."), (ui_callback_t) set_printer_exec_file,
-      (ui_callback_data_t) "PrinterDevice3", NULL },
+    { N_("Printer device 1..."), (ui_callback_t)set_printer_exec_file,
+      (ui_callback_data_t)"PrinterDevice1", NULL },
+    { N_("Printer device 2..."), (ui_callback_t)set_printer_exec_file,
+      (ui_callback_data_t)"PrinterDevice2", NULL },
+    { N_("Printer device 3..."), (ui_callback_t)set_printer_exec_file,
+      (ui_callback_data_t)"PrinterDevice3", NULL },
     { NULL }
 };
 
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t fsdevice_drive8_submenu[] = {
-    { N_("*File system access"), (ui_callback_t) toggle_FileSystemDevice8,
+    { N_("*File system access"), (ui_callback_t)toggle_FileSystemDevice8,
       NULL, NULL },
     { "--" },
-    { N_("File system directory..."), (ui_callback_t) set_fsdevice_directory,
+    { N_("*Read only access"),
+      (ui_callback_t)toggle_AttachDevice8Readonly, NULL, NULL },
+    { "--" },
+    { N_("File system directory..."), (ui_callback_t)set_fsdevice_directory,
       (ui_callback_data_t) 8, NULL },
-    { N_("*Convert P00 file names"), (ui_callback_t) toggle_FSDevice8ConvertP00,
+    { N_("*Convert P00 file names"), (ui_callback_t)toggle_FSDevice8ConvertP00,
       NULL, NULL },
-    { N_("*Create P00 files on save"), (ui_callback_t) toggle_FSDevice8SaveP00,
+    { N_("*Create P00 files on save"), (ui_callback_t)toggle_FSDevice8SaveP00,
       NULL, NULL },
-    { N_("*Hide raw CBM files"), (ui_callback_t) toggle_FSDevice8HideCBMFiles,
+    { N_("*Hide raw CBM files"), (ui_callback_t)toggle_FSDevice8HideCBMFiles,
       NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t fsdevice_drive9_submenu[] = {
-    { N_("*File system access"), (ui_callback_t) toggle_FileSystemDevice9,
-      NULL, NULL },
+    { N_("*File system access"),
+      (ui_callback_t)toggle_FileSystemDevice9, NULL, NULL },
     { "--" },
-    { N_("File system directory..."), (ui_callback_t) set_fsdevice_directory,
+    { N_("*Read only access"),
+      (ui_callback_t) toggle_AttachDevice9Readonly, NULL, NULL },
+    { "--" },
+    { N_("File system directory..."), (ui_callback_t)set_fsdevice_directory,
       (ui_callback_data_t) 9, NULL },
-    { N_("*Convert P00 file names"), (ui_callback_t) toggle_FSDevice9ConvertP00,
+    { N_("*Convert P00 file names"), (ui_callback_t)toggle_FSDevice9ConvertP00,
       NULL, NULL },
-    { N_("*Create P00 files on save"), (ui_callback_t) toggle_FSDevice9SaveP00,
+    { N_("*Create P00 files on save"), (ui_callback_t)toggle_FSDevice9SaveP00,
       NULL, NULL },
-    { N_("*Hide raw CBM files"), (ui_callback_t) toggle_FSDevice9HideCBMFiles,
+    { N_("*Hide raw CBM files"), (ui_callback_t)toggle_FSDevice9HideCBMFiles,
       NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t fsdevice_drive10_submenu[] = {
     { N_("*File system access"),
-      (ui_callback_t) toggle_FileSystemDevice10, NULL, NULL },
+      (ui_callback_t)toggle_FileSystemDevice10, NULL, NULL },
+    { "--" },
+    { N_("*Read only access"),
+      (ui_callback_t)toggle_AttachDevice10Readonly, NULL, NULL },
     { "--" },
     { N_("File system directory..."),
-      (ui_callback_t) set_fsdevice_directory, (ui_callback_data_t) 10, NULL },
+      (ui_callback_t)set_fsdevice_directory, (ui_callback_data_t) 10, NULL },
     { N_("*Convert P00 file names"),
-      (ui_callback_t) toggle_FSDevice10ConvertP00, NULL, NULL },
+      (ui_callback_t)toggle_FSDevice10ConvertP00, NULL, NULL },
     { N_("*Create P00 files on save"),
-      (ui_callback_t) toggle_FSDevice10SaveP00, NULL, NULL },
+      (ui_callback_t)toggle_FSDevice10SaveP00, NULL, NULL },
     { N_("*Hide raw CBM files"),
-      (ui_callback_t) toggle_FSDevice10HideCBMFiles, NULL, NULL },
+      (ui_callback_t)toggle_FSDevice10HideCBMFiles, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t fsdevice_drive11_submenu[] = {
     { N_("*File system access"),
-      (ui_callback_t) toggle_FileSystemDevice11, NULL, NULL },
+      (ui_callback_t)toggle_FileSystemDevice11, NULL, NULL },
+    { "--" },
+    { N_("*Read only access"),
+      (ui_callback_t)toggle_AttachDevice11Readonly, NULL, NULL },
     { "--" },
     { N_("File system directory..."),
-      (ui_callback_t) set_fsdevice_directory, (ui_callback_data_t) 11, NULL },
+      (ui_callback_t)set_fsdevice_directory, (ui_callback_data_t) 11, NULL },
     { N_("*Convert P00 file names"),
-      (ui_callback_t) toggle_FSDevice11ConvertP00, NULL, NULL },
+      (ui_callback_t)toggle_FSDevice11ConvertP00, NULL, NULL },
     { N_("*Create P00 files on save"),
-      (ui_callback_t) toggle_FSDevice11SaveP00, NULL, NULL },
+      (ui_callback_t)toggle_FSDevice11SaveP00, NULL, NULL },
     { N_("*Hide raw CBM files"),
-      (ui_callback_t) toggle_FSDevice11HideCBMFiles, NULL, NULL },
+      (ui_callback_t)toggle_FSDevice11HideCBMFiles, NULL, NULL },
     { NULL }
 };
 
@@ -1251,22 +1262,22 @@ static ui_menu_entry_t peripheral_settings_submenu[] = {
     { "--" },
     { N_("Printer settings"), NULL, NULL, printer_settings_menu },
     { "--" },
-    { N_("*Enable Virtual Devices"), (ui_callback_t) toggle_VirtualDevices, 
-								NULL, NULL },
+    { N_("*Enable Virtual Devices"), (ui_callback_t)toggle_VirtualDevices, 
+      NULL, NULL },
     { NULL }
 };
 
 /* This menu is for the C64 */
 static ui_menu_entry_t drive_settings_submenu[] = {
     { N_("*Enable true drive emulation"),
-      (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
+      (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
     { "--" },
     { N_("Drive #8 model"),
       NULL, NULL, set_drive0_type_submenu },
     { N_("Drive #8 RAM expansion"),
       NULL, NULL, set_drive0_expansion_submenu },
     { N_("*Drive #8 enable parallel cable"),
-      (ui_callback_t) toggle_Drive8ParallelCable, NULL, NULL },
+      (ui_callback_t)toggle_Drive8ParallelCable, NULL, NULL },
     { N_("Drive #8 40-track image support"),
       NULL, NULL, set_drive0_extend_image_policy_submenu },
     { N_("Drive #8 idle method"),
@@ -1277,7 +1288,7 @@ static ui_menu_entry_t drive_settings_submenu[] = {
     { N_("Drive #9 RAM expansion"),
       NULL, NULL, set_drive1_expansion_submenu },
     { N_("*Drive #9 enable parallel cable"),
-      (ui_callback_t) toggle_Drive9ParallelCable, NULL, NULL },
+      (ui_callback_t)toggle_Drive9ParallelCable, NULL, NULL },
     { N_("Drive #9 40-track image support"),
       NULL, NULL, set_drive1_extend_image_policy_submenu },
     { N_("Drive #9 idle method"),
@@ -1288,7 +1299,7 @@ static ui_menu_entry_t drive_settings_submenu[] = {
 /* This menu is for the PET/C610 */
 static ui_menu_entry_t par_drive_settings_submenu[] = {
     { N_("*Enable true drive emulation"),
-      (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
+      (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
     { "--" },
     { N_("Drive #8 floppy disk type"),
       NULL, NULL, set_drive0_type_submenu },
@@ -1312,7 +1323,7 @@ static ui_menu_entry_t par_drive_settings_submenu[] = {
 
 ui_menu_entry_t ui_drive_options_submenu[] = {
     { N_("*Enable true drive emulation"),
-      (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
+      (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
     { NULL }
 };
 
@@ -1329,7 +1340,7 @@ UI_MENU_DEFINE_TOGGLE(FullscreenDoubleScan)
 
 ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
     { N_("*Enable"),
-      (ui_callback_t) toggle_UseFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
+      (ui_callback_t)toggle_UseFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
     { "--"},
     { N_("*Double size"),
       (ui_callback_t) toggle_FullscreenDoubleSize, NULL, NULL },
@@ -1352,13 +1363,13 @@ UI_MENU_DEFINE_TOGGLE(DoubleScan)
 
 ui_menu_entry_t video_settings_submenu[] = {
     { N_("*Video cache"),
-      (ui_callback_t) toggle_VideoCache, NULL, NULL },
+      (ui_callback_t)toggle_VideoCache, NULL, NULL },
     { N_("*Double size"),
-      (ui_callback_t) toggle_DoubleSize, NULL, NULL },
+      (ui_callback_t)toggle_DoubleSize, NULL, NULL },
     { N_("*Double scan"),
-      (ui_callback_t) toggle_DoubleScan, NULL, NULL },
+      (ui_callback_t)toggle_DoubleScan, NULL, NULL },
     { N_("*Use XSync()"),
-      (ui_callback_t) toggle_UseXSync, NULL, NULL },
+      (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { NULL }
 };
 
@@ -1377,20 +1388,18 @@ ui_menu_entry_t ui_vic_video_settings_menu[] = {
 /*---- CRTC -----------*/
 
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
-
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
-
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 
 static ui_menu_entry_t crtc_video_settings_submenu[] = {
     { N_("*Video cache"),
-      (ui_callback_t) toggle_CrtcVideoCache, NULL, NULL },
+      (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
     { N_("*Double size"),
-      (ui_callback_t) toggle_CrtcDoubleSize, NULL, NULL },
+      (ui_callback_t)toggle_CrtcDoubleSize, NULL, NULL },
     { N_("*Double scan"),
-      (ui_callback_t) toggle_CrtcDoubleScan, NULL, NULL },
+      (ui_callback_t)toggle_CrtcDoubleScan, NULL, NULL },
     { N_("*Use XSync()"),
-      (ui_callback_t) toggle_UseXSync, NULL, NULL },
+      (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { NULL }
 };
 
@@ -1408,7 +1417,7 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
     { N_("Maximum speed"),
       NULL, NULL, set_maximum_speed_submenu },
     { N_("*Enable warp mode"),
-      (ui_callback_t) toggle_WarpMode, NULL, NULL, XK_w, UI_HOTMOD_META },
+      (ui_callback_t)toggle_WarpMode, NULL, NULL, XK_w, UI_HOTMOD_META },
     { NULL }
 };
 
@@ -1423,7 +1432,7 @@ static UI_CALLBACK(FullscreenMenu)
 
 ui_menu_entry_t ui_fullscreen_settings_menu[] = {
     { N_("*Fullscreen settings"),
-      (ui_callback_t) FullscreenMenu, NULL, ui_fullscreen_settings_submenu },
+      (ui_callback_t)FullscreenMenu, NULL, ui_fullscreen_settings_submenu },
     { NULL }
 };
 #endif 
@@ -1464,13 +1473,13 @@ ui_menu_entry_t ui_peripheral_settings_menu[] = {
 
 ui_menu_entry_t ui_settings_settings_menu[] = {
     { N_("Save settings"),
-      (ui_callback_t) save_resources, NULL, NULL },
+      (ui_callback_t)save_resources, NULL, NULL },
     { N_("Load settings"),
-      (ui_callback_t) load_resources, NULL, NULL },
+      (ui_callback_t)load_resources, NULL, NULL },
     { N_("Restore default settings"),
-      (ui_callback_t) set_default_resources, NULL, NULL },
+      (ui_callback_t)set_default_resources, NULL, NULL },
     { N_("*Save settings on exit"),
-      (ui_callback_t) toggle_SaveResourcesOnExit, NULL, NULL },
+      (ui_callback_t)toggle_SaveResourcesOnExit, NULL, NULL },
     { NULL }
 };
 
