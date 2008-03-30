@@ -51,7 +51,7 @@
 #include "vdctypes.h"
 #include "video.h"
 
-#ifdef __MSDOS__
+#if defined(__MSDOS__) || defined(GP2X)
 #include "videoarch.h"
 #endif
 
@@ -181,6 +181,10 @@ int vdc_init_cmdline_options(void)
 raster_t *vdc_init(void)
 {
     vdc.initialized = 0;
+
+#ifdef GP2X
+    vicii_setup_delay=1;
+#endif
 
     vdc.log = log_open("VDC");
 

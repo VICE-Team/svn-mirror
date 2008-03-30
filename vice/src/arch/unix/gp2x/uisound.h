@@ -1,8 +1,8 @@
 /*
- * videoarch.h
+ * uisound.h
  *
  * Written by
- *  Mike Dawson <mike@gp2x.org>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,35 +24,15 @@
  *
  */
 
-#ifndef _VIDEOARCH_H
-#define _VIDEOARCH_H
+#ifndef _UISOUND_H
+#define _UISOUND_H
 
-#include "vice.h"
-#include "types.h"
-#include "video.h"
+#include "uimenu.h"
 
-struct video_canvas_s {
-    unsigned int initialized;
-    unsigned int created;
-    unsigned int width, height;
-    struct video_render_config_s *videoconfig;
-    struct draw_buffer_s *draw_buffer;
-    struct viewport_s *viewport;
-    struct geometry_s *geometry;
-    struct palette_s *palette;
-    struct video_resource_chip_s *video_resource_chip;
-
-    unsigned int depth;
-
-    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
-};
-typedef struct video_canvas_s video_canvas_t;
-
-extern int machine_ui_done;
-extern int vicii_setup_delay;
-extern int xoffset, yoffset;
-extern int xoffset_centred, yoffset_centred;
-extern int xoffset_uncentred, yoffset_uncentred;
-extern video_canvas_t *current_canvas;
+extern struct ui_menu_entry_s sound_settings_submenu[];
+extern struct ui_menu_entry_s set_sound_sample_rate_submenu[];
+extern struct ui_menu_entry_s set_sound_oversample_submenu[];
+extern struct ui_menu_entry_s ui_sound_settings_menu[];
 
 #endif
+

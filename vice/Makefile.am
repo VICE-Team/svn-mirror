@@ -24,20 +24,12 @@ xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
 
 
-if MSDOS_COMPILE
+if AMIGA_COMPILE
 bindist:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(EXEEXT)
 
 bindistzip:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip
-endif
-
-if WIN32_COMPILE
-bindist:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
-
-bindistzip:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(EXEEXT)
 endif
 
 if BEOS_COMPILE
@@ -46,6 +38,30 @@ bindist:
 
 bindistzip:
 	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+endif
+
+if MSDOS_COMPILE
+bindist:
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip
+
+bindistzip:
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip
+endif
+
+if UNIX_GP2X_COMPILE
+bindist:
+	$(SHELL) @ARCH_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+
+bindistzip:
+	$(SHELL) @ARCH_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+endif
+
+if UNIX_MACOSX_COMPILE
+bindist:
+	$(SHELL) @ARCH_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) nozip
+
+bindistzip:
+	$(SHELL) @ARCH_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) zip
 endif
 
 if UNIX_QNX_COMPILE
@@ -58,11 +74,11 @@ bindist:
 	$(SHELL) @ARCH_DIR@/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
 endif
 
-if AMIGA_COMPILE
+if WIN32_COMPILE
 bindist:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(EXEEXT)
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
 
 bindistzip:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(EXEEXT)
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 endif
 

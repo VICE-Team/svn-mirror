@@ -253,7 +253,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
         c = (char *)memchr(p, ',', cmdlen);
         if (c) {
             cmdlen -= (c - (const char *)p);
-            p = c;
+            p = (BYTE *)c;
         } else {
             cmdlen = 0;
         }

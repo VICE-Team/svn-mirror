@@ -39,6 +39,7 @@ libarchgp2x_a_SOURCES = \
 	uicmdline.c \
 	uimenu.h \
 	uimon.c \
+	uisound.h \
 	uitext_gp2x.c \
 	uitext_gp2x.h \
 	vic20ui.c \

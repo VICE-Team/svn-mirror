@@ -43,9 +43,7 @@
 #include "machine.h"
 #include "psid.h"
 #include "resources.h"
-#include "uicommands.h"
 #include "uimenu.h"
-#include "uisettings.h"
 #include "uisound.h"
 #include "videoarch.h"
 #include "vsync.h"
@@ -172,9 +170,9 @@ static void vsid_create_menus(void)
         tune_menu[i].callback_data =
             (ui_callback_data_t) i;
         tune_menu[i].sub_menu = NULL;
-        tune_menu[i].hotkey_keysym = i < 10 ? XK_0 + i : 0;
+        tune_menu[i].hotkey_keysym = (i < 10) ? XK_0 + i : 0;
         tune_menu[i].hotkey_modifier =
-            (ui_hotkey_modifier_t) i < 10 ? UI_HOTMOD_META : 0;
+            (ui_hotkey_modifier_t) (i < 10) ? UI_HOTMOD_META : 0;
         lib_free(buf);
         buf = lib_msprintf(_("*Tune %d"), i + 1);
     }

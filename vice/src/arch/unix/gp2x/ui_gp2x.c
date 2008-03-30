@@ -45,8 +45,6 @@ char *drive8_image, *drive9_image;
 
 float emu_speed, emu_fps;
 
-int machine_type=UNKNOWN;
-
 void ui_error(const char *text)
 {
 	fprintf(stderr, "ui_error: %s\n", text);
@@ -101,13 +99,6 @@ void ui_display_playback()
 void ui_init()
 {
 	gp2x_init(1000, 8, 11025,16,1,60);
-
-	if(!strcmp(machine_name, "C64")) machine_type=C64;
-	else if(!strcmp(machine_name, "C128")) machine_type=C128;
-	else if(!strcmp(machine_name, "CBM-II")) machine_type=CBM2;
-	else if(!strcmp(machine_name, "PET")) machine_type=PET;
-	else if(!strcmp(machine_name, "PLUS4")) machine_type=PLUS4;
-	else if(!strcmp(machine_name, "VIC20")) machine_type=VIC20;
 }
 
 void archdep_ui_init()

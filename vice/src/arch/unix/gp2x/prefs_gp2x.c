@@ -45,6 +45,7 @@
 #include "imagecontents.h"
 #include "cartridge.h"
 #include "screenshot.h"
+#include "uiarch.h"
 
 extern unsigned short *gp2x_memregs;
 
@@ -59,6 +60,13 @@ int hwscaling;
 int centred=1;
 int tvout=0;
 int tvout_pal;
+
+void (*ui_handle_sidengine_resource)(int);
+int (*ui_handle_X)(int);
+void (*ui_draw_resid_string)(unsigned char *, int, int);
+void (*ui_draw_memory_string)(unsigned char *, int, int, int);
+int (*ui_set_ramblocks)(int);
+void (*ui_attach_cart)(char *,int);
 
 int vic20_mem=5;
 
@@ -514,6 +522,8 @@ char *file_req(unsigned char *screen, char *dir) {
 	return NULL;
 }
 
+char *option_txt[255];
+
 void draw_prefs(unsigned char *screen) {
 	static int cursor_pos=0;
 	unsigned char bg, fg;
@@ -526,7 +536,6 @@ void draw_prefs(unsigned char *screen) {
 	static int manual_start=0;
 	static int attach_unit=0;
 	static int attach_cart=0;
-	static int attach_cart_vic20=0;
 	static int attach_cart_vic20_2000=0;
 	static int attach_cart_vic20_4000=0;
 	static int attach_cart_vic20_6000=0;
@@ -540,33 +549,10 @@ void draw_prefs(unsigned char *screen) {
 	int i,j;
 	char zip_error_str[255];
 
-        enum {
-                AUTOSTART, START, 
-		ATTACH8, ATTACH9, 
-		X1, X2, X3, X4, X5, X6, X7, X8,
-		RESET, BLANK1,
-		SAVE_SNAP,
-		JOYSTICK, FRAMESKIP, WARP,
-		TRUEDRIVE, VDEVICES, SIDENGINE,
-		SCALED, CENTRED, CPUSPEED,
-                BLANK2,
-                EXITVICE,
-                NUM_OPTIONS,
-		D64, LOADSTAR, LOADER,
-                SOUND, LIMITSPEED,
-                RCONTROL,
-		BRIGHTNESS, CONTRAST,
-                BLANK3, BLANK4,
-		LOAD_SNAP,
-		PRG, TVOUT
-        };
-
-        char *option_txt[255];
 	option_txt[AUTOSTART]=		"Autostart image...               ";
 	option_txt[START]=		"Browse d64...                    ";
 	option_txt[ATTACH8]=            "Attach unit8...                  ";
 	option_txt[ATTACH9]=            "Attach unit9...                  ";
-	option_txt[X1]=blank_line;
         option_txt[SOUND]=              "Sound                            ";
 	option_txt[SIDENGINE]=		"SID engine                       ";
         option_txt[BRIGHTNESS]=         "Brightness                       ";
@@ -599,33 +585,6 @@ void draw_prefs(unsigned char *screen) {
         option_txt[NUM_OPTIONS+2]=blank_line;
         option_txt[NUM_OPTIONS+3]=blank_line;
         option_txt[NUM_OPTIONS+4]=      NULL;
-
-	option_txt[X1]=blank_line;
-	option_txt[X2]=blank_line;
-	option_txt[X3]=blank_line;
-	option_txt[X4]=blank_line;
-	option_txt[X5]=blank_line;
-	option_txt[X6]=blank_line;
-	option_txt[X7]=blank_line;
-	option_txt[X8]=blank_line;
-
-	if(machine_type==C64||machine_type==C128) {
-		/* ATTACH_CART */
-		option_txt[X1]=        "Attach cartridge...              ";
-		/* DETACH_CART */
-		option_txt[X2]=        "Detach cartridge                 ";
-		/* FREEZE_CART */
-		option_txt[X3]=        "Cartridge freeze                 ";
-	} else if(machine_type==VIC20) {
-		option_txt[X1]=        "Smart-attach cartridge...        ";
-		option_txt[X2]=        "Attach cartridge $2000...        ";
-		option_txt[X3]=        "Attach cartridge $4000...        ";
-		option_txt[X4]=        "Attach cartridge $6000...        ";
-		option_txt[X5]=        "Attach cartridge $A000...        ";
-		option_txt[X6]=        "Attach cartridge $B000...        ";
-		option_txt[X7]=        "Detach cartridge                 ";
-		option_txt[X8]=        "Memory expansions                ";
-	}
 
 	if(getfilename) {
 		if(!gotfilename) imagefile=file_req(screen, NULL);
@@ -736,37 +695,32 @@ void draw_prefs(unsigned char *screen) {
 				gotfilename=0;
 				prefs_open=0;
 			} else if(attach_cart) {
-				/*cartridge_attach_image(0, imagefile);*/
+				ui_attach_cart(imagefile,0);
 				attach_cart=0;
 				getfilename=0;
 				gotfilename=0;
-			} else if(attach_cart_vic20) {
-				/*cartridge_attach_image(CARTRIDGE_VIC20_DETECT, imagefile);*/
-				attach_cart_vic20=0;
-				getfilename=0;
-				gotfilename=0;
 			} else if(attach_cart_vic20_2000) {
-				/*cartridge_attach_image(CARTRIDGE_VIC20_16KB_2000, imagefile);*/
+				ui_attach_cart(imagefile,2);
 				attach_cart_vic20_2000=0;
 				getfilename=0;
 				gotfilename=0;
 			} else if(attach_cart_vic20_4000) {
-				/*cartridge_attach_image(CARTRIDGE_VIC20_16KB_4000, imagefile);*/
+				ui_attach_cart(imagefile,4);
 				attach_cart_vic20_4000=0;
 				getfilename=0;
 				gotfilename=0;
 			} else if(attach_cart_vic20_6000) {
-				/*cartridge_attach_image(CARTRIDGE_VIC20_16KB_6000, imagefile);*/
+				ui_attach_cart(imagefile,6);
 				attach_cart_vic20_6000=0;
 				getfilename=0;
 				gotfilename=0;
 			} else if(attach_cart_vic20_a000) {
-				/*cartridge_attach_image(CARTRIDGE_VIC20_8KB_A000, imagefile);*/
+				ui_attach_cart(imagefile,0xa);
 				attach_cart=0;
 				getfilename=0;
 				gotfilename=0;
 			} else if(attach_cart_vic20_b000) {
-				/*cartridge_attach_image(CARTRIDGE_VIC20_4KB_B000, imagefile);*/
+				ui_attach_cart(imagefile,0xb);
 				attach_cart_vic20_b000=0;
 				getfilename=0;
 				gotfilename=0;
@@ -799,8 +753,8 @@ void draw_prefs(unsigned char *screen) {
 			resources_set_value("DriveTrueEmulation", (resource_value_t)0);
 		} else if(cursor_pos==VDEVICES) {
 			resources_set_value("VirtualDevices", (resource_value_t)0);
-		} else if((machine_type==C64||machine_type==C128) && cursor_pos==SIDENGINE) {
-			resources_set_value("SidEngine", 0);
+		} else if(cursor_pos==SIDENGINE) {
+			ui_handle_sidengine_resource(0);
 		} else if(cursor_pos==SCALED) {
 #if 0
 			gp2x_memregs[0x2906>>1]=1024; /* scale horizontal */
@@ -829,13 +783,8 @@ void draw_prefs(unsigned char *screen) {
 				cpu_speed=166;
 				set_FCLK(cpu_speed);
 			}
-		} else if(machine_type==VIC20 && cursor_pos==X8) {
-			vic20_mem=0;
-			resources_set_value("RamBlock0", (resource_value_t)0);
-			resources_set_value("RamBlock1", (resource_value_t)0);
-			resources_set_value("RamBlock2", (resource_value_t)0);
-			resources_set_value("RamBlock3", (resource_value_t)0);
-			resources_set_value("RamBlock5", (resource_value_t)0);
+		} else if(cursor_pos==X8) {
+			if (ui_set_ramblocks(0)==1) vic20_mem=0;
 		}
 	} else if(input_right) {
 		input_right=0;
@@ -854,8 +803,8 @@ void draw_prefs(unsigned char *screen) {
 			resources_set_value("DriveTrueEmulation", (resource_value_t)1);
 		} else if(cursor_pos==VDEVICES) {
 			resources_set_value("VirtualDevices", (resource_value_t)1);
-		} else if((machine_type==C64||machine_type==C128) && cursor_pos==SIDENGINE) {
-			resources_set_value("SidEngine", (resource_value_t)1);
+		} else if(cursor_pos==SIDENGINE) {
+			ui_handle_sidengine_resource(1);
 		} else if(cursor_pos==SCALED) {
 #if 0
 			gp2x_memregs[0x2906>>1]=1228; /* scale horizontal */
@@ -886,13 +835,8 @@ void draw_prefs(unsigned char *screen) {
 				cpu_speed=250;
 				set_FCLK(cpu_speed);
 			}
-		} else if(machine_type==VIC20 && cursor_pos==X8) {
-			vic20_mem=5;
-			resources_set_value("RamBlock0", (resource_value_t)1);
-			resources_set_value("RamBlock1", (resource_value_t)1);
-			resources_set_value("RamBlock2", (resource_value_t)1);
-			resources_set_value("RamBlock3", (resource_value_t)1);
-			resources_set_value("RamBlock5", (resource_value_t)1);
+		} else if(cursor_pos==X8) {
+			if (ui_set_ramblocks(1)==1) vic20_mem=5;
 		}
 #if 0
 		if(cursor_pos==LIMITSPEED) {
@@ -916,42 +860,39 @@ void draw_prefs(unsigned char *screen) {
 
 	if(input_b) {
 		input_b=0;
-		if(machine_type==C64||machine_type==C128) {
-			if(cursor_pos==X1) {
- 				/* ATTACH_CART */
+		if(cursor_pos==X1) {
+			if (ui_handle_X(1)==1) {
 				getfilename=1;
 				attach_cart=1;
-			} else if(cursor_pos==X2) {
- 				/* DETACH_CART */
-				/*cartridge_detach_image();*/
-			} else if(cursor_pos==X3) {
-				/* FREEZE_CART */
-				/*cartridge_trigger_freeze();*/
 			}
-		} else if(machine_type==VIC20) {
-			if(cursor_pos==X1) {
-				getfilename=1;
-				attach_cart_vic20=1;
-			} else if(cursor_pos==X2) {
+		} else if(cursor_pos==X2) {
+			if (ui_handle_X(2)==1) {
 				getfilename=1;
 				attach_cart_vic20_2000=1;
-			} else if(cursor_pos==X3) {
+			}
+		} else if(cursor_pos==X3) {
+			if (ui_handle_X(3)==1) {
 				getfilename=1;
 				attach_cart_vic20_4000=1;
-			} else if(cursor_pos==X4) {
+			}
+		} else if(cursor_pos==X4) {
+			if (ui_handle_X(4)==1) {
 				getfilename=1;
 				attach_cart_vic20_6000=1;
-			} else if(cursor_pos==X5) {
+			}
+		} else if(cursor_pos==X5) {
+			if (ui_handle_X(5)==1) {
 				getfilename=1;
 				attach_cart_vic20_a000=1;
-			} else if(cursor_pos==X6) {
+			}
+		} else if(cursor_pos==X6) {
+			if (ui_handle_X(6)==1) {
 				getfilename=1;
 				attach_cart_vic20_b000=1;
-			} else if(cursor_pos==X7) {
-				/*cartridge_detach_image();*/
 			}
-		}
-		if(cursor_pos==AUTOSTART) {
+		} else if(cursor_pos==X7) {
+			ui_handle_X(7);
+		} else if(cursor_pos==AUTOSTART) {
 			getfilename=1;
 			auto_start=1;
 		} else if(cursor_pos==START) {
@@ -1111,17 +1052,7 @@ void draw_prefs(unsigned char *screen) {
 			MENU_Y+(8*VDEVICES), "Off", menu_fg, menu_bg);
 
 	/* sid engine */
-	if(machine_type==C64||machine_type==C128) {
-		int sidengine;
-		resources_get_value("SidEngine", (void *)&sidengine);
-		if(sidengine) {
-       		 	draw_ascii_string(screen, display_width, MENU_X+(8*21), MENU_Y+(8*SIDENGINE), 
-				"ReSID", menu_fg, menu_bg);
-		} else {
-       		 	draw_ascii_string(screen, display_width, MENU_X+(8*21), MENU_Y+(8*SIDENGINE), 
-				"FastSID", menu_fg, menu_bg);
-		}
-	}
+	ui_draw_resid_string(screen, MENU_X+(8*21), MENU_Y+(8*SIDENGINE));
 
 	/* screen scaling */
 	if(hwscaling) {
@@ -1167,15 +1098,7 @@ void draw_prefs(unsigned char *screen) {
 	}
 #endif
 
-	/* vic20 memory config */
-	if(machine_type==VIC20) {
-		char *mem_str;
-		if(vic20_mem==0) mem_str="none";
-		else if(vic20_mem==5) mem_str="all";
-        	draw_ascii_string(screen, display_width, 
-			MENU_X+(8*21), MENU_Y+(8*X8), 
-			mem_str, menu_fg, menu_bg);
-	}
+	ui_draw_memory_string(screen,MENU_X+(8*21), MENU_Y+(8*X8), vic20_mem);
 
 	/* cpu speed */
 	sprintf(tmp_string, "%dmhz", cpu_speed);

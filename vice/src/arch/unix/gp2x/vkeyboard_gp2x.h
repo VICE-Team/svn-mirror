@@ -28,5 +28,15 @@
 #define _VKEYBOARD_GP2X_H
 
 extern void draw_vkeyb(unsigned char *screen);
+extern char **keyb;
+extern int *keytable;
+extern int kb_fg;
+extern int kb_bg;
+extern int cursor_fg;
+extern int cursor_bg;
+extern int kb_height;
+extern int kb_width;
+
+extern void (*ui_set_keyarr)(int);
 
 #endif

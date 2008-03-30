@@ -37,6 +37,9 @@
 #include "palette.h"
 #include "machine.h"
 
+int machine_ui_done=0;
+int vicii_setup_delay=0;
+
 extern unsigned short *gp2x_memregs;
 
 video_canvas_t *current_canvas;
@@ -58,7 +61,7 @@ void video_shutdown() {
 
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, 
 		unsigned int *width, unsigned int *height, int mapped) {
-	fprintf(stderr, "calling %s\n", __func__);
+	static int vicii_setup=0;
 
 	display_width=320;
 
@@ -68,94 +71,11 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 
 	video_canvas_set_palette(canvas, canvas->palette);
 
-#if 0
-	if(!strcmp(machine_name, "C64")) {
-#endif
-	if(machine_type==C64) {
-		xoffset_centred=104+32;
-		yoffset_centred=16+16;
-		xoffset_uncentred=104;
-		yoffset_uncentred=16;
-		menu_bg=C64_WHITE;
-		menu_fg=C64_BLACK;
-		menu_hl=C64_YELLOW;
-#if 0
-	} else if(!strcmp(machine_name, "C128")) {
-#endif
-	} else if(machine_type==C128) {
-		static int vicii_setup=0;
-		if(!vicii_setup) canvas->width=0;
+	if (vicii_setup_delay==1)
+	{
+		if (!vicii_setup) canvas->width=0;
 		vicii_setup=1;
-		xoffset_centred=104+32;
-		yoffset_centred=16+16;
-		xoffset_uncentred=104;
-		yoffset_uncentred=16;
-		menu_bg=C64_WHITE;
-		menu_fg=C64_BLACK;
-		menu_hl=C64_YELLOW;
-#if 0
-	} else if(!strcmp(machine_name, "VIC20")) {
-#endif
-	} else if(machine_type==VIC20) {
-		xoffset_centred=(canvas->draw_buffer->draw_buffer_width-320)/2;
-		yoffset_centred=48;
-		xoffset_uncentred=584;
-		yoffset_uncentred=32;
-		menu_bg=C64_WHITE;
-		menu_fg=C64_BLACK;
-		menu_hl=C64_YELLOW;
-#if 0
-	} else if(!strcmp(machine_name, "PLUS4")) {
-#endif
-	} else if(machine_type==PLUS4) {
-		xoffset_centred=(canvas->draw_buffer->draw_buffer_width-320)/2;
-		yoffset_centred=40;
-		xoffset_uncentred=104;
-		yoffset_uncentred=16;
-		menu_bg=1;
-		menu_fg=123;
-		menu_hl=122;
-#if 0
-	} else if(!strcmp(machine_name, "PET")) {
-#endif
-	} else if(machine_type==PET) {
-		xoffset_centred=(canvas->draw_buffer->draw_buffer_width-320)/2;
-		yoffset_centred=(canvas->draw_buffer->draw_buffer_height-240)/2;
-		xoffset_uncentred=104;
-		yoffset_uncentred=16;
-#if 0
-		yoffset=48;
-#endif
-		menu_bg=1;
-		menu_fg=0;
-		menu_hl=2;
-#if 0
-	} else if(!strcmp(machine_name, "CBM-II")) {
-#endif
-	} else if(machine_type==CBM2) {
-		xoffset_centred=(canvas->draw_buffer->draw_buffer_width-320)/2;
-		yoffset_centred=(canvas->draw_buffer->draw_buffer_height-240)/2;
-		xoffset_uncentred=104;
-		yoffset_uncentred=16;
-#if 0
-		yoffset=48;
-#endif
-		menu_bg=1;
-		menu_fg=0;
-		menu_hl=2;
 	}
-#if 0
-      else {
-		xoffset=(canvas->draw_buffer->draw_buffer_width-320)/2;
-		yoffset=(canvas->draw_buffer->draw_buffer_height-240)/2;
-		menu_bg=C64_WHITE;
-		menu_fg=C64_BLACK;
-		menu_hl=C64_YELLOW;
-		fprintf(stderr, "unknown machine\n");
-	}
-#endif
-	xoffset=xoffset_centred;
-	yoffset=yoffset_centred;
 
 	tvout_pal=1;
 	if(gp2x_memregs[0x2800>>1]&0x100) {
@@ -198,11 +118,26 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 #if 0
 	register BYTE pixel;
 #endif
-
-	register int xoff=xoffset;
-	register int yoff=yoffset;
+	register int xoff;
+	register int yoff;
 
 	if(canvas->width==0) return;
+
+	if (machine_ui_done==0) return;
+
+      if (xoffset_centred==0)
+	{
+		xoffset_centred=(canvas->draw_buffer->draw_buffer_width-320)/2;
+		xoffset=xoffset_centred;
+	}
+	if (yoffset_centred==0)
+	{
+		yoffset_centred=(canvas->draw_buffer->draw_buffer_height-240)/2;
+		yoffset=xoffset_centred;
+	}
+
+	xoff=xoffset;
+	yoff=yoffset;
 
 	source=canvas->draw_buffer->draw_buffer;
 	buf_width=canvas->draw_buffer->draw_buffer_width;

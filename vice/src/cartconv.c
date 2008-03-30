@@ -90,11 +90,7 @@ unsigned int loadfile_size=0;
 char *output_filename=NULL;
 char *input_filename[33];
 char *cart_name=NULL;
-#if defined(AMIGA_OS4) || defined(AMIGA_MORPHOS)
 signed char cart_type=-1;
-#else
-char cart_type=-1;
-#endif
 char convert_to_bin=0;
 char convert_to_prg=0;
 char convert_to_ultimax=0;
