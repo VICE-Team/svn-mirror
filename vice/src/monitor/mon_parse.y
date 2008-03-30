@@ -195,7 +195,7 @@ machine_state_rules: CMD_BANK opt_memspace opt_bankname end_cmd
                    | CMD_IO end_cmd
                      { mon_display_io_regs(); }
                    | CMD_CPU CPUTYPE end_cmd
-                     { mon_cpu_type($2); }
+                     { monitor_cpu_type_set($2); }
                    | CMD_RETURN end_cmd
                      { mon_instruction_return(); }
                    | CMD_DUMP filename end_cmd
@@ -480,10 +480,9 @@ cputype : CPUTYPE_6502 { $$ = CPU_6502; }
         | CPUTYPE_Z80 { $$ = CPU_Z80 }
         ;
 
-memloc: memaddr { $$ = $1; if (!CHECK_ADDR($1)) return ERR_ADDR_TOO_BIG; }
-      ;
+memloc: memaddr { $$ = $1; if (!CHECK_ADDR($1)) return ERR_ADDR_TOO_BIG; };
 
-memaddr: number { $$ = $1; }
+memaddr: number { $$ = $1; };
 
 expression: expression '+' expression { $$ = $1 + $3; }
           | expression '-' expression { $$ = $1 - $3; }
@@ -564,7 +563,7 @@ assembly_instruction: OPCODE asm_operand_mode { $$ = 0;
                                                     asm_mode = 0;
                                                 }
                                                 opt_asm = 0;
-                                              }
+                                              };
 
 post_assemble: assembly_instruction
              | assembly_instr_list { asm_mode = 0; }
@@ -701,7 +700,6 @@ void parse_and_execute_line(char *input)
 
 static int yyerror(char *s)
 {
-   YYABORT;
    fprintf(stderr, "ERR:%s\n", s);
    return 0;
 }
