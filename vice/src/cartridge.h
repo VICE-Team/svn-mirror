@@ -54,6 +54,8 @@ extern const char *cartridge_get_file_name(ADDRESS addr);
 #define CARTRIDGE_FINAL_III          3
 #define CARTRIDGE_SIMONS_BASIC       4
 #define CARTRIDGE_OCEAN              5
+#define CARTRIDGE_FUNPLAY            7
+#define CARTRIDGE_SUPER_GAMES        8
 
 /* VIC20: &1 -> 0=4k, 1=8k */
 #define	CARTRIDGE_VIC20_DETECT		0
