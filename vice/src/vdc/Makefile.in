@@ -264,40 +264,20 @@ vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/raster/raster-modes.h \
 	vdc-draw.h vdc-resources.h vdc.h vdctypes.h ../../src/alarm.h \
 	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h
+	../../src/raster/raster-changes.h
 vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h vdc-mem.h vdc.h vdctypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h
+	../../src/raster/raster-changes.h
 vdc-resources.o: vdc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/utils.h \
 	../../src/arch/unix/types.h vdc-resources.h vdc.h vdctypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h
+	../../src/raster/raster-changes.h
 vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h ../../src/arch/unix/types.h vdc-snapshot.h \
 	vdc.h vdctypes.h ../../src/alarm.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h
+	../../src/raster/raster.h ../../src/raster/raster-changes.h
 vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/log.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/palette.h \

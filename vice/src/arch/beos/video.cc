@@ -134,17 +134,17 @@ void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
 
-canvas_t canvas_create(const char *title, unsigned int *width,
-                       unsigned int *height, int mapped,
-                       canvas_redraw_t exposure_handler,
-                       const palette_t *palette, PIXEL *pixel_return)
+canvas_t *canvas_create(const char *title, unsigned int *width,
+                        unsigned int *height, int mapped,
+                        canvas_redraw_t exposure_handler,
+                        const palette_t *palette, PIXEL *pixel_return)
 {
-	canvas_t new_canvas;
+    canvas_t *new_canvas;
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
 
-    new_canvas = (canvas_t)xmalloc(sizeof(struct _canvas));
+    new_canvas = (canvas_t *)xmalloc(sizeof(struct canvas_s));
     if (!new_canvas)
-	return (canvas_t) NULL;
+	return (canvas_t *) NULL;
 
     new_canvas->title = stralloc(title);
     canvas_set_palette(new_canvas, palette, pixel_return);
@@ -164,24 +164,24 @@ canvas_t canvas_create(const char *title, unsigned int *width,
 }
 
 /* Destroy `s'.  */
-void canvas_destroy(canvas_t c)
+void canvas_destroy(canvas_t *c)
 {
 	delete c->vicewindow;
 	free(c->title);
 }
 
 /* Make `s' visible.  */
-void canvas_map(canvas_t c)
+void canvas_map(canvas_t *c)
 {
 }
 
 /* Make `s' unvisible.  */
-void canvas_unmap(canvas_t c)
+void canvas_unmap(canvas_t *c)
 {
 }
 
 /* Change the size of `s' to `width' * `height' pixels.  */
-void canvas_resize(canvas_t c, unsigned int width, unsigned int height)
+void canvas_resize(canvas_t *c, unsigned int width, unsigned int height)
 {
 	c->vicewindow->Resize(width,height);
 	DEBUG(("canvas_resize to %d x %d",width,height));
@@ -189,7 +189,7 @@ void canvas_resize(canvas_t c, unsigned int width, unsigned int height)
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
+int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 {
 	int i;
 	DEBUG(("Allocating colors"));
@@ -205,7 +205,7 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 }
 
 /* ------------------------------------------------------------------------ */
-void canvas_refresh(canvas_t c, frame_buffer_t f,
+void canvas_refresh(canvas_t *c, frame_buffer_t f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)

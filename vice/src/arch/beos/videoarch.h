@@ -35,7 +35,7 @@
 
 typedef void (*canvas_redraw_t)();
 
-struct _canvas {
+struct canvas_s {
     char *title;
     unsigned int width, height;
     canvas_redraw_t exposure_handler;
@@ -50,7 +50,7 @@ struct _canvas {
  
     int use_triple_buffering;
 };
-typedef struct _canvas *canvas_t;
+typedef struct canvas_s canvas_t;
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) (c->use_triple_buffering)
 
