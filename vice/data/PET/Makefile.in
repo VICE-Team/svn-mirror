@@ -126,12 +126,14 @@ roms = \
 	edit4g40 \
 	edit4b40 \
 	edit4b80 \
-	chargen
+	chargen \
+	chargen.de
 
 keymaps = \
 	busi_uk.vkm \
 	graphics.vkm \
-	posg_de.vkm
+	posg_de.vkm \
+	busi_de.vkm
 
 romsets = \
 	rom1g.vrs \
