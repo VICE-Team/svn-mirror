@@ -34,6 +34,8 @@
 
 #include "utils.h"
 #include "winmain.h"
+#include "console.h"
+#include "mon.h"
 
 HINSTANCE winmain_instance;
 HINSTANCE winmain_prev_instance;
@@ -168,6 +170,8 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
 #else
     MAIN_PROGRAM(_argc, _argv);
 #endif
+
+	console_shutdown(console_log);
 
     return 0;
 }

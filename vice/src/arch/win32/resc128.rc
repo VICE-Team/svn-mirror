@@ -52,7 +52,7 @@ BEGIN
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "Monitor\tAlt+M",                  IDM_MONITOR
+        MENUITEM "&Monitor\tAlt+M",                 IDM_MONITOR
         POPUP "&Reset"
         BEGIN
             MENUITEM "&Hard\tCtrl+Alt+R",           IDM_HARD_RESET
@@ -63,10 +63,10 @@ BEGIN
     END
     POPUP "Sna&pshot"
     BEGIN
-        MENUITEM "Load snapshot image...\tAlt+L",   IDM_SNAPSHOT_LOAD
-        MENUITEM "Save snapshot image\tAlt+S",      IDM_SNAPSHOT_SAVE
-        MENUITEM "Load quicksnapshot image\tCtrl+Alt+L", IDM_LOADQUICK
-        MENUITEM "Save quicksnapshot image\tCtrl+Alt+S", IDM_SAVEQUICK
+        MENUITEM "Load snapshot &image...\tAlt+L",  IDM_SNAPSHOT_LOAD
+        MENUITEM "Save sna&pshot image...\tAlt+S",  IDM_SNAPSHOT_SAVE
+        MENUITEM "&Load quicksnapshot image\tCtrl+Alt+L", IDM_LOADQUICK
+        MENUITEM "&Save quicksnapshot image\tCtrl+Alt+S", IDM_SAVEQUICK
     END
     POPUP "&Options"
     BEGIN
@@ -108,14 +108,14 @@ BEGIN
         , CHECKED
         MENUITEM "&Double size",                    IDM_TOGGLE_DOUBLESIZE
         , CHECKED
-        MENUITEM "D&ouble scan",                    IDM_TOGGLE_DOUBLESCAN
+        MENUITEM "Dou&ble scan",                    IDM_TOGGLE_DOUBLESCAN
         , CHECKED
-        POPUP "&VDC settings"
+        POPUP "VDC settin&gs"
         BEGIN
-            MENUITEM "Double size",                 IDM_TOGGLE_VDC_DOUBLESIZE
-            MENUITEM "Double scan",                 IDM_TOGGLE_VDC_DOUBLESCAN
+            MENUITEM "&Double size",                IDM_TOGGLE_VDC_DOUBLESIZE
+            MENUITEM "Dou&ble scan",                IDM_TOGGLE_VDC_DOUBLESCAN
             MENUITEM SEPARATOR
-            MENUITEM "64KB video memory",           IDM_TOGGLE_VDC_64KB
+            MENUITEM "64KB video &memory",          IDM_TOGGLE_VDC_64KB
         END
         MENUITEM SEPARATOR
 	MENUITEM "Swap &Joystick\tAlt+J",           IDM_SWAP_JOYSTICK
@@ -127,10 +127,10 @@ BEGIN
 #endif
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
         , CHECKED
-        POPUP "SID Model"
+        POPUP "SID Mode&l"
         BEGIN
-            MENUITEM "6581 (Old)",                  IDM_SIDTYPE_6581
-            MENUITEM "8580 (New)",                  IDM_SIDTYPE_8580
+            MENUITEM "&6581 (Old)",                 IDM_SIDTYPE_6581
+            MENUITEM "&8580 (New)",                 IDM_SIDTYPE_8580
         END
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
@@ -187,7 +187,7 @@ BEGIN
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "&Custom",IDC_SELECT_VICII_CUSTOM,15,25,35,10,
                             BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&C64S",IDC_SELECT_VICII_C64S,15,40,35,10,
+    AUTORADIOBUTTON "C&64S",IDC_SELECT_VICII_C64S,15,40,35,10,
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "CC&S64",IDC_SELECT_VICII_CCS64,15,55,35,10,
                             BS_AUTORADIOBUTTON
@@ -208,6 +208,6 @@ FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "Sprite-&sprite collisions", IDC_TOGGLE_VICII_SSC,
                     15,10,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Sprite-&background collisions", IDC_TOGGLE_VICII_SBC,
+    AUTOCHECKBOX    "Sprite-background &collisions", IDC_TOGGLE_VICII_SBC,
                     15,25,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END

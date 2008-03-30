@@ -156,9 +156,6 @@ static BOOL CALLBACK keyset_dialog(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lp
 int     command;
 
     switch (msg) {
-        case WM_CLOSE:
-            EndDialog(hwnd,0);
-            return TRUE;
         case WM_INITDIALOG:
             init_keyset_dialog(hwnd);
             return TRUE;
@@ -212,6 +209,7 @@ int     command;
                     return TRUE;
                 case IDOK:
                     set_keyset();
+				case IDCANCEL:
                 case IDC_CANCEL:
                     EndDialog(hwnd,0);
                     return TRUE;
@@ -254,9 +252,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
 int     command;
 
     switch (msg) {
-        case WM_CLOSE:
-            EndDialog(hwnd,0);
-            return TRUE;
         case WM_INITDIALOG:
             init_joystick_dialog(hwnd);
             return TRUE;
@@ -277,6 +272,7 @@ int     command;
                 case IDOK:
                     resources_set_value("JoyDevice1",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_DEV1),CB_GETCURSEL,0,0));
                     resources_set_value("JoyDevice2",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_DEV2),CB_GETCURSEL,0,0));
+				case IDCANCEL:
                 case IDC_CANCEL:
                     EndDialog(hwnd,0);
                     return TRUE;

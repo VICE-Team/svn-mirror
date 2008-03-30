@@ -144,9 +144,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
 int     command;
 
     switch (msg) {
-        case WM_CLOSE:
-            EndDialog(hwnd,0);
-            return TRUE;
         case WM_INITDIALOG:
             init_sound_dialog(hwnd);
             return TRUE;
@@ -158,6 +155,7 @@ int     command;
                     resources_set_value("SoundBufferSize",(resource_value_t)ui_sound_buffer[SendMessage(GetDlgItem(hwnd,IDC_SOUND_BUFFER),CB_GETCURSEL,0,0)]);
                     resources_set_value("SoundOversample",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_SOUND_OVERSAMPLE),CB_GETCURSEL,0,0));
                     resources_set_value("SoundSpeedAdjustment",(resource_value_t)ui_sound_adjusting[SendMessage(GetDlgItem(hwnd,IDC_SOUND_SYNCH),CB_GETCURSEL,0,0)]);
+				case IDCANCEL:
                 case IDC_CANCEL:
                     EndDialog(hwnd,0);
                     return TRUE;

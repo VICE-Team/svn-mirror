@@ -29,6 +29,18 @@
 #define TEXT(txt,x,y,w,h) CONTROL txt, ID_NONE, x, y, w, h, WC_STATIC, \
                                        SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
 
+#ifdef __X64__
+DEFAULTICON icons\x64.ico
+#endif
+
+#ifdef __XPET__
+DEFAULTICON icons\xpet.ico
+#endif
+
+#ifdef __X128__
+//DEFAULTICON icons\x128.ico
+#endif
+
 #ifdef HAS_JOYSTICK
 DLGTEMPLATE DLG_JOYSTICK 850 MOVEABLE DISCARDABLE
 BEGIN
@@ -253,13 +265,13 @@ END
 
 DLGTEMPLATE DLG_MONITOR 850 MOVEABLE DISCARDABLE 
 BEGIN
-    DIALOG  "Monitor", DLG_MONITOR, 141, 95, 148, 84, STY_DIALOG
+    DIALOG  "Monitor", DLG_MONITOR, 141, 95, 340, 180, STY_DIALOG
     BEGIN
 //        CONTROL "",     MLE_MONITOR, 0, 0, 148, 84, WC_MLE, MLS_READONLY | 
 //                        MLS_WORDWRAP | MLS_VSCROLL | MLS_IGNORETAB | 
 //                        WS_GROUP | WS_TABSTOP | WS_VISIBLE
-        LISTBOX         LB_MONOUT, 1, 12, 146, 73, LS_MULTIPLESEL
-        ENTRYFIELD "",  EF_MONIN,  2,  2, 144,  8, ES_MARGIN
+        LISTBOX         LB_MONOUT, 1, 12, 338, 169, LS_MULTIPLESEL
+        ENTRYFIELD "",  EF_MONIN,  2,  2, 336,   8, ES_MARGIN
 
     END
 END

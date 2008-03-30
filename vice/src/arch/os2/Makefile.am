@@ -1,6 +1,6 @@
 # Makefile.am for the OS2 version of `libarch.a'.
 
-SUBDIRS = pm snippets vac++ kbd dialogs
+SUBDIRS = pm snippets vac++ kbd dialogs icons
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -55,7 +55,8 @@ libarch_a_SOURCES = \
 	vsync_old.h
 
 EXTRA_DIST = \
-	vice.def
+	vice.def \
+        install.cmd
 
 .PHONY: pm
 :pm

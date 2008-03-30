@@ -33,9 +33,15 @@
 #include "console.h"
 #include "utils.h"
 
+
+static FILE *mon_input, *mon_output;
+
+
 console_t *console_open(const char *id)
 {
     console_t *console;
+
+    mon_input = stdin; mon_output = stdout;
 
     console = xmalloc(sizeof(console_t));
 

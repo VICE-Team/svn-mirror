@@ -31,6 +31,7 @@
 #include "video.h"
 
 #define APPLICATION_CLASS "VICE"
+#define CONSOLE_CLASS "VICE:Monitor"
 
 typedef enum {
     UI_BUTTON_NONE, UI_BUTTON_CLOSE, UI_BUTTON_OK, UI_BUTTON_CANCEL,

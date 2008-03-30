@@ -1,5 +1,5 @@
 /*
- * uipetset.c - Implementation of VIC settings dialog box.
+ * uivicset.c - Implementation of VIC settings dialog box.
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@arcormail.de>
@@ -153,6 +153,8 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
                     resources_set_value("RAMBlock2", (resource_value_t) block2);
                     resources_set_value("RAMBlock3", (resource_value_t) block3);
                     resources_set_value("RAMBlock5", (resource_value_t) block5);
+
+				case IDCANCEL:
                 case IDC_CANCEL:
                     EndDialog(hwnd,0);
                     break;
@@ -195,10 +197,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
             update_config(hwnd);
             return TRUE;
 
-        
-        case WM_CLOSE:
-            EndDialog(hwnd,0);
-            return TRUE;
         case WM_INITDIALOG:
             init_dialog(hwnd);
             return TRUE;

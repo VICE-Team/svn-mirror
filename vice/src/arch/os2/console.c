@@ -24,20 +24,29 @@
  *
  */
 
+#define INCL_DOS_PROCESS
 #include "vice.h"
 
 #include <stdarg.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "console.h"
+#include "log.h"
+
 #include "utils.h"
+#include "dialogs.h"
+#include "console.h"
+
+HWND hwndMonitor=NULLHANDLE;
 
 console_t *console_open(const char *id)
 {
     console_t *console;
 
     console = xmalloc(sizeof(console_t));
+
+    log_debug("console_open");
 
     console->console_xres = 80;
     console->console_yres = 25;
@@ -48,6 +57,11 @@ console_t *console_open(const char *id)
 
 int console_close(console_t *log)
 {
+    if (!hwndMonitor) return 0;
+    WinSendMsg(hwndMonitor, WM_CLOSE, 0, 0);
+    hwndMonitor=NULLHANDLE;
+    log_debug("console_close");
+
     free(log);
 
     return 0;
@@ -55,32 +69,53 @@ int console_close(console_t *log)
 
 int console_out(console_t *log, const char *format, ...)
 {
+    char text[1024];
+    char *c;
+    static char out[1024];
+    char *d;
+
     va_list ap;
 
+    if (!hwndMonitor) return 0;
+
     va_start(ap, format);
-    vfprintf(stdout, format, ap);
+    vsprintf(text, format, ap);
+
+    if (strlen(text)+strlen(out)>1023)
+    {
+        out[0]='\0';
+        return 0;
+    }
+
+    strcat(out, text);
+
+    if (out[strlen(out)-1]=='\n')
+    {
+        out[strlen(out)-1]='\0';
+        WinSendMsg(hwndMonitor, WM_INSERT, out, NULL);
+        log_debug(out);
+        out[0]='\0';
+    }
 
     return 0;
 }
 
 char *console_in(console_t *log)
 {
-    char *p = (char*)xmalloc(1024);
+    char *c = xmalloc(1024);
+    int wait_for_input = TRUE;
 
-    fflush(mon_output);
-    fgets(p, 1024, mon_input);
+    *c = '\0';
 
-    /* Remove trailing newlines.  */
-    {
-        int len;
+    console_out(log, "\n");
+    WinSendMsg(hwndMonitor, WM_INPUT, c, &wait_for_input);
 
-        for (len = strlen(p);
-             len > 0 && (p[len - 1] == '\r'
-                         || p[len - 1] == '\n');
-             len--)
-            p[len - 1] = '\0';
-    }
+    while (wait_for_input) DosSleep(1);
 
-    return p;
+    log_debug("console_in %s", c);
+
+    if (!strcmp(c,"quit")) strcpy(c,"exit");
+
+    return c;
 }
 

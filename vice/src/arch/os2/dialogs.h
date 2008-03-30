@@ -140,6 +140,7 @@
 #define LB_MONOUT      0x10a1
 #define EF_MONIN       0x10a2
 #define WM_INSERT      WM_USER+0x1
+#define WM_INPUT       WM_USER+0x2
 
 // Contents Dialog
 #define DLG_CONTENTS   0x10b0
@@ -209,7 +210,7 @@ extern void sound_dialog     (HWND hwnd);
 extern void about_dialog     (HWND hwnd);
 extern void datasette_dialog (HWND hwnd);
 extern void emulator_dialog  (HWND hwnd);
-extern void monitor_dialog   (HWND hwnd);
+extern HWND monitor_dialog   (HWND hwnd);
 extern void contents_dialog  (HWND hwnd, char *szFullFile);
 
 #ifdef HAS_JOYSTICK

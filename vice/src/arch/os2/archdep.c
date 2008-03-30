@@ -406,9 +406,10 @@ int os2_p00_check_name(const char *name)
 
 void archdep_startup_log_error(const char *format, ...)
 {
+    char txt[1024];
     va_list ap;
-
     va_start(ap, format);
-    vfprintf(stderr, format, ap);
+    vsprintf(txt, format, ap);
+    ui_OK_dialog("VICE/2 Startup Error", txt);
 }
 

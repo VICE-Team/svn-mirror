@@ -320,11 +320,11 @@ extern void delDlgOpen(int dlg);
 
 MRESULT EXPENTRY FNWP2(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-#define ID_LIST     3
-#define ID_DRIVE8   8
-#define ID_DRIVE9   9
-#define ID_DRIVE10 10
-#define ID_DRIVE11 11
+#define ID_LIST     0x1001
+//#define ID_DRIVE8   8
+//#define ID_DRIVE9   9
+//#define ID_DRIVE10 10
+//#define ID_DRIVE11 11
     static int first  =TRUE;
     static int suspend=FALSE;
     static char szFullFile[CCHMAXPATH];
@@ -339,6 +339,17 @@ MRESULT EXPENTRY FNWP2(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_COMMAND: // 32 0x20
         if ((int)mp1==ID_LIST)
         {
+/*            char txt[80];
+            WinQueryWindowText(WinWindowFromID(hwnd, EF_MONIN),
+                               70, txt);
+            if (strlen(txt))
+            {
+                if (input) strcpy(input, txt);
+                *wait_for_input=FALSE;
+                wait_for_input=NULL;
+                input=NULL;
+                log_debug("text: %s",txt);
+            }*/
             suspend=TRUE;
             WinDefFileDlgProc (hwnd, msg, (MPARAM)DID_OK, mp2);
             suspend=FALSE;

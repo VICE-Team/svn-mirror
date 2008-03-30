@@ -24,6 +24,7 @@
  *
  */
 
+#define INCL_WINSYS
 #define INCL_WININPUT
 #define INCL_WINDIALOGS
 #define INCL_WINLISTBOXES
@@ -32,11 +33,16 @@
 #include "vice.h"
 #include "dialogs.h"
 
+#include <string.h>
+
 #include "log.h"
 
 static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     static int first = TRUE;
+
+    static int  *wait_for_input;
+    static char *input;
 
     switch (msg)
     {
@@ -46,35 +52,67 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         break;
     case WM_CHAR:
         if (SHORT1FROMMP(mp1)&KC_CHAR)
-            log_debug("wmchar %x ",  SHORT1FROMMP(mp2));
+        {
+            char txt[80];
+            // cbTextLen  = WinQueryWindowTextLength(hwndEntryField);
+            WinQueryWindowText(WinWindowFromID(hwnd, EF_MONIN),
+                               70, txt);
+            if (strlen(txt))
+            {
+                if (input) strcpy(input, txt);
+                WinSetWindowText(WinWindowFromID(hwnd, EF_MONIN),"");
+                *wait_for_input=FALSE;
+                wait_for_input=NULL;
+                input=NULL;
+                log_debug("text: %s",txt);
+            }
+        }
         break;
     case WM_COMMAND:
         switch (LONGFROMMP(mp1))
         {
         case DID_CLOSE:
             delDlgOpen(DLGO_MONITOR);
+            if (wait_for_input)
+            {
+                if (input) strcpy(input, "exit");
+                *wait_for_input=FALSE;
+                wait_for_input=NULL;
+                input=NULL;
+            }
             break;
         }
         break;
     case WM_CLOSE:
         delDlgOpen(DLGO_MONITOR);
+        if (wait_for_input)
+        {
+            if (input) strcpy(input, "exit");
+            *wait_for_input=FALSE;
+            wait_for_input=NULL;
+            input=NULL;
+        }
         break;
     case WM_PAINT:
         {
             if (first)
             {
-                WinEnableControl(hwnd, LB_MONOUT, 0);
+                CHAR achFont[] = "11.System VIO";
+                WinSetDlgFont(hwnd, LB_MONOUT, achFont);
+//                WinEnableControl(hwnd, LB_MONOUT, 0);
                 first=FALSE;
             }
         }
         break;
-    case WM_BUTTON1DOWN:
+/*    case WM_BUTTON1DOWN:
         log_debug("button1");
         return FALSE;
 
     case WM_CONTROL:
         {
             int ctrl = SHORT1FROMMP(mp1);
+            switch(ctrl)
+            {
             case LB_MONOUT:
                 if (SHORT2FROMMP(mp1)==LN_SELECT)
                 {
@@ -86,72 +124,33 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     log_debug("ln_setfocus");
                     return FALSE;
                 }
-
                 break;
-        case EF_MONIN:
-            log_debug("entry: %x %x", mp1, mp2);
-/*            switch (ctrl)
-            {
-            }*/
-/*            BEI WM_CHAR 0xd oder 0x9 (return and tab)
-
- An application can use the WinQueryWindowTextLength and WinQueryWindowText functions to retrieve the text from an entry field.  WinQueryWindowTextLength
- returns the length of the text; WinQueryWindowText copies the window text to a buffer.
-
- Typically, an application needs to retrieve the text from an entry field only if the user changes the text.  An entry field sends an EN_CHANGE notification code
- in the low word of the first message parameter of the WM_CONTROL message whenever the text changes.  The following code fragment sets a flag when it
- receives the EN_CHANGE code, checks the flag during the WM_COMMAND message and, if it is set, retrieves the text of the entry field:
-
-
-     HWND hwnd;
-     ULONG msg;
-     MPARAM mp1;
-     CHAR chBuf[64];
-     HWND hwndEntryField;
-     LONG cbTextLen;
-     LONG cbTextRead;
-     static BOOL fFieldChanged = FALSE;
-
-     switch (msg) {
-         case WM_CONTROL:
-             switch (SHORT1FROMMP(mp1)) {
-                 case IDD_ENTRYFIELD:
-
-                 /* Check if t
-                  he user changed the entry-field text.
-                     if ((USHORT) SHORT2FROMMP(mp1) == EN_CHANGE)
-                         fFieldChanged = TRUE;
-                     return 0;
-             }
-
-         case WM_COMMAND:
-             switch (SHORT1FROMMP(mp1)) {
-                 case DID_OK:
-
-                     /* If the user changed the entry-field text,
-                     /* obtain the text and store it in a buffer.
-                     if (fFieldChanged) {
-                         hwndEntryField = WinWindowFromID(hwnd,
-                             IDD_ENTRYFIELD);
-                         cbTextLen = WinQueryWindowTextLength(hwndEntryField);
-                         cbTextRead = WinQueryWindowText(hwndEntryField,
-                             sizeof(chBuf), chBuf);
-                         .
-                         . /* Do something with the text.
-                         .
-                     }
-                     WinDismissDlg(hwnd, 1);
-                     return 0;
-             }
-     }
-
-*/
-
-            break;
+            case EF_MONIN:
+                switch (SHORT2FROMMP(mp1))
+                {
+                case EN_CHANGE:
+                    {
+                    char txt[80];
+                    WinQueryWindowText(WinWindowFromID(hwnd, EF_MONIN),
+                                       70, txt);
+                    log_debug("change: %s", txt);
+                    }
+                    break;
+                }
+                break;
+            }
         }
-    case WM_INSERT:
-        WinLboxInsertItem(hwnd, LB_MONOUT, (char*)mp1);
         break;
+*/    case WM_INSERT:
+        WinLboxInsertItem(hwnd, LB_MONOUT, (char*)mp1);
+        WinSendDlgMsg(hwnd, LB_MONOUT, LM_SETTOPINDEX, WinLboxQueryCount(hwnd, LB_MONOUT),0);
+        return FALSE;
+    case WM_INPUT:
+        input          = mp1;
+        wait_for_input = mp2;
+
+//        *wait_for_input = FALSE;
+        return FALSE;
 
     }
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
@@ -160,12 +159,10 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 /* call to open dialog                                              */
 /*----------------------------------------------------------------- */
 
-HWND hwndMonitor;
-
-void monitor_dialog(HWND hwnd)
+HWND monitor_dialog(HWND hwnd)
 {
-    if (dlgOpen(DLGO_MONITOR)) return;
-    hwndMonitor=WinLoadDlg(HWND_DESKTOP, hwnd, pm_monitor, NULLHANDLE,
-                           DLG_MONITOR, NULL);
+    if (dlgOpen(DLGO_MONITOR)) return NULLHANDLE;
+    return WinLoadDlg(HWND_DESKTOP, hwnd, pm_monitor, NULLHANDLE,
+                      DLG_MONITOR, NULL);
 }
 

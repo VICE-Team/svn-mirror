@@ -218,6 +218,8 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 
 #include "console.h"
 
+extern HWND hwndMonitor;
+
 void wmChar(HWND hwnd, MPARAM mp1)
 {   // super warp mode? ohne status window?
     USHORT fsFlags    = SHORT1FROMMP(mp1);
@@ -255,7 +257,9 @@ void wmChar(HWND hwnd, MPARAM mp1)
         case K_J: joystick_dialog (hwnd);    break;
 #endif
         case K_M:
-            monitor_dialog(hwnd);
+            //            monitor_dialog(hwnd);
+            hwndMonitor=monitor_dialog(HWND_DESKTOP/*hwnd*/);
+
             maincpu_trigger_trap(mon_trap, (void *) 0);
             //mon(MOS6510_REGS_GET_PC(&maincpu_regs));
             break;

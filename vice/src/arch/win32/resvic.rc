@@ -60,7 +60,7 @@ BEGIN
         END
         MENUITEM "Detach c&artridge image",         IDM_CART_DETACH
         MENUITEM SEPARATOR
-        MENUITEM "Monitor\tAlt+M",                  IDM_MONITOR
+        MENUITEM "&Monitor\tAlt+M",                 IDM_MONITOR
         POPUP "&Reset"
         BEGIN
             MENUITEM "&Hard\tCtrl+Alt+R",           IDM_HARD_RESET
@@ -71,10 +71,10 @@ BEGIN
     END
     POPUP "Sna&pshot"
     BEGIN
-        MENUITEM "Load snapshot image...\tAlt+L",   IDM_SNAPSHOT_LOAD
-        MENUITEM "Save snapshot image\tAlt+S",      IDM_SNAPSHOT_SAVE
-        MENUITEM "Load quicksnapshot image\tCtrl+Alt+L", IDM_LOADQUICK
-        MENUITEM "Save quicksnapshot image\tCtrl+Alt+S", IDM_SAVEQUICK
+        MENUITEM "Load snapshot &image...\tAlt+L",  IDM_SNAPSHOT_LOAD
+        MENUITEM "Save sna&pshot image...\tAlt+S",  IDM_SNAPSHOT_SAVE
+        MENUITEM "&Load quicksnapshot image\tCtrl+Alt+L", IDM_LOADQUICK
+        MENUITEM "&Save quicksnapshot image\tCtrl+Alt+S", IDM_SAVEQUICK
     END
     POPUP "&Options"
     BEGIN
@@ -116,7 +116,7 @@ BEGIN
         , CHECKED
         MENUITEM "&Double size",                    IDM_TOGGLE_DOUBLESIZE
         , CHECKED
-        MENUITEM "D&ouble scan",                    IDM_TOGGLE_DOUBLESCAN
+        MENUITEM "Dou&ble scan",                    IDM_TOGGLE_DOUBLESCAN
         , CHECKED
         MENUITEM SEPARATOR
 	MENUITEM "Swap &Joystick\tAlt+J",           IDM_SWAP_JOYSTICK
@@ -132,7 +132,7 @@ BEGIN
         END
 	MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
-	MENUITEM "VIC-1112 IEEE 488 module",	    IDM_IEEE488
+	MENUITEM "VIC-1112 IEEE &488 module",	    IDM_IEEE488
     END
     POPUP "S&ettings"
     BEGIN
@@ -174,29 +174,29 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,30,110,50,14
     PUSHBUTTON      "Cancel",IDC_CANCEL,130,110,50,14
     GROUPBOX        "&Memory",IDC_STATIC,7,7,200,95
-    AUTORADIOBUTTON "no expansion memory",IDC_VIC_NOEXPANSION,
+    AUTORADIOBUTTON "&no expansion memory",IDC_VIC_NOEXPANSION,
                     12,23,90,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "3K (block 0)",IDC_VIC_3KEXPANSION,
+    AUTORADIOBUTTON "3&K (block 0)",IDC_VIC_3KEXPANSION,
                     12,36,90,10,BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "8K (block 1)",IDC_VIC_8KEXPANSION,
+    AUTORADIOBUTTON "&8K (block 1)",IDC_VIC_8KEXPANSION,
                     12,49,90,10,BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "16K (blocks 1/2)",IDC_VIC_16KEXPANSION,
+    AUTORADIOBUTTON "1&6K (blocks 1/2)",IDC_VIC_16KEXPANSION,
                     12,62,90,10,BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "24K (blocks 1/2/3)",IDC_VIC_24KEXPANSION,
+    AUTORADIOBUTTON "2&4K (blocks 1/2/3)",IDC_VIC_24KEXPANSION,
                     12,75,90,10,BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "Full (blocks 0/1/2/3/5)",IDC_VIC_FULLEXPANSION,
+    AUTORADIOBUTTON "&Full (blocks 0/1/2/3/5)",IDC_VIC_FULLEXPANSION,
                     12,88,90,10,BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "custom",IDC_VIC_CUSTOMEXPANSION,
+    AUTORADIOBUTTON "&custom",IDC_VIC_CUSTOMEXPANSION,
                     120,23,50,10,BS_AUTORADIOBUTTON
-    AUTOCHECKBOX    "Block 0",IDC_VIC_MEMORY_BLOCK0,
+    AUTOCHECKBOX    "Block &0",IDC_VIC_MEMORY_BLOCK0,
                     132,35,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Block 1",IDC_VIC_MEMORY_BLOCK1,
+    AUTOCHECKBOX    "Block &1",IDC_VIC_MEMORY_BLOCK1,
                     132,47,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Block 2",IDC_VIC_MEMORY_BLOCK2,
+    AUTOCHECKBOX    "Block &2",IDC_VIC_MEMORY_BLOCK2,
                     132,59,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Block 3",IDC_VIC_MEMORY_BLOCK3,
+    AUTOCHECKBOX    "Block &3",IDC_VIC_MEMORY_BLOCK3,
                     132,71,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Block 5",IDC_VIC_MEMORY_BLOCK5,
+    AUTOCHECKBOX    "Block &5",IDC_VIC_MEMORY_BLOCK5,
                     132,83,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
 

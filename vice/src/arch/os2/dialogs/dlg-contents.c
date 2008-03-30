@@ -36,6 +36,7 @@
 #include <string.h>
 
 #include "charsets.h"
+#include "autostart.h"
 #include "imagecontents.h"
 
 #include "log.h"
@@ -69,7 +70,7 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         {
             if (first)
             {
-                static CHAR achFont[] = "11.System VIO";
+                CHAR achFont[] = "11.System VIO";
                 char text[1024];
                 image_contents_file_list_t *entry=image->file_list;
 
