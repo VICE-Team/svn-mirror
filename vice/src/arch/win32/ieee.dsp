@@ -112,5 +112,9 @@ SOURCE=..\..\drive\ieee\riot1d.c
 
 SOURCE=..\..\drive\ieee\riot2d.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\ieee\via1d2031.c
+# End Source File
 # End Target
 # End Project

@@ -112,8 +112,8 @@ typedef struct via_context_s {
     int irq_line;                 /* IK_... */
     unsigned int int_num;
 
-    char myname[12];              /* init to "DriveXViaY" */
-    char my_module_name[8];       /* init to "VIAXDY" */
+    char myname[16];              /* init to "DriveXViaY" */
+    char my_module_name[12];      /* init to "VIAXDY" */
 
     CLOCK *clk_ptr;
     int *rmw_flag;

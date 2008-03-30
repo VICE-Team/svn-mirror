@@ -86,10 +86,6 @@ SOURCE=..\..\drive\iecieee\iecieee.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\iecieee\via1d.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\drive\iecieee\via2d.c
 # End Source File
 # End Target
