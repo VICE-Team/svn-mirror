@@ -61,6 +61,10 @@
 #include "pruser.h"
 #endif
 
+#ifdef __MSDOS__
+#include "petkbd.h"
+#endif
+
 static void vsync_hook(void);
 
 const char machine_name[] = "PET";
