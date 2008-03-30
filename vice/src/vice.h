@@ -2,8 +2,9 @@
  * vice.h - Main header file for VICE.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Jouko Valta      (jopi@stekt.oulu.fi)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,7 +31,7 @@
 
 /* AIX requires this to be the first thing in the file.  */
 #if defined (_AIX) && !defined (__GNUC__)
- #pragma alloca
+#pragma alloca
 #endif
 
 /* We use <config.h> instead of "config.h" so that a compilation using
@@ -40,10 +41,6 @@
    configured, so this should not be an issue anymore.  */
 
 #include <config.h> /* Automagically created by the `configure' script.  */
-
-#define _CONFIG_H
-
-#define APPLICATION_CLASS "VICE"
 
 /* ------------------------------------------------------------------------- */
 
@@ -147,18 +144,5 @@ extern char *alloca ();
 #define MAIN_PROGRAM(argc, argv)        main(argc, argv)
 #endif
 
-/* ------------------------------------------------------------------------- */
-
-/* Some platforms (e.g. RISC OS) throw floating exceptions when attempting
-   a float-to-int cast where the floating point value is outside the range of
-   an int. Use these macros when casting potentially large FP-values. */
-
-#ifdef __riscos
-#define BIG_FLOAT_TO_INT(f)	fmod(f, 2147483648.0)
-#define BIG_FLOAT_TO_UINT(f)	fmod(f, 4294967296.0)
-#else
-#define BIG_FLOAT_TO_INT(f)	(f)
-#define BIG_FLOAT_TO_UINT(f)	(f)
-#endif
-
 #endif  /* _VICE_H */
+

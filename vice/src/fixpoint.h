@@ -51,4 +51,17 @@ typedef float vreal_t;
 #define REAL_TO_INT(x)  ((int)(x))
 #endif
 
+/* Some platforms (e.g. RISC OS) throw floating exceptions when attempting
+   a float-to-int cast where the floating point value is outside the range of
+   an int. Use these macros when casting potentially large FP-values. */
+
+#ifdef __riscos
+#define BIG_FLOAT_TO_INT(f)     fmod(f, 2147483648.0)
+#define BIG_FLOAT_TO_UINT(f)    fmod(f, 4294967296.0)
+#else
+#define BIG_FLOAT_TO_INT(f)     (f)
+#define BIG_FLOAT_TO_UINT(f)    (f)
 #endif
+
+#endif
+
