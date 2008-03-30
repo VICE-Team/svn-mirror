@@ -137,7 +137,7 @@ static void vic_ii_exposure_handler(unsigned int width, unsigned int height)
 {
     vic_ii.raster.canvas->draw_buffer->canvas_width = width;
     vic_ii.raster.canvas->draw_buffer->canvas_height = height;
-    raster_resize_viewport(&vic_ii.raster);
+    video_viewport_resize(vic_ii.raster.canvas);
 }
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)

@@ -28,12 +28,10 @@
 #define _VIDEO_H
 
 #include "types.h"
+#include "viewport.h"
 
-typedef void (*void_t)(void);
 
-struct palette_s;
-
-/* these constants are used to configure the video output */
+/* These constants are used to configure the video output.  */
 
 /* PAL is for PAL based video outputs, like VIC, VIC-II or TED */
 /* RGB is for anything which doesn't need any color filtering  */
@@ -58,6 +56,16 @@ struct canvas_refresh_s
 };
 typedef struct canvas_refresh_s canvas_refresh_t;
 
+struct draw_buffer_s {
+    BYTE *draw_buffer;
+    unsigned int draw_buffer_width;
+    unsigned int draw_buffer_height;
+    unsigned int draw_buffer_pitch;
+    unsigned int canvas_width;
+    unsigned int canvas_height;
+};
+typedef struct draw_buffer_s draw_buffer_t;
+
 struct video_render_config_s {
     int rendermode;             /* what renderers are allowed? */
     int doublesizex;            /* doublesizex enabled?        */
@@ -73,47 +81,12 @@ extern void video_render_setphysicalcolor(video_render_config_t *config,
 extern void video_render_setrawrgb(int index, DWORD r, DWORD g, DWORD b);
 extern void video_render_initraw(void);
 
-struct viewport_s {
-    /* Title for the viewport.  FIXME: Duplicated info from the canvas?  */
-    char *title;
-
-    /* Offset of the screen on the window.  */
-    unsigned int x_offset, y_offset;
-
-    /* First and last lines shown in the output window.  */
-    unsigned int first_line, last_line;
-
-    /* First pixel in one line of the frame buffer to be shown on the output
-       window.  */
-    unsigned int first_x;
-
-    /* Exposure handler.  */
-    void *exposure_handler;
-
-    /* Only display canvas if this flag is set.  */
-    int update_canvas;
-
-    /* Total size of the screen.  */
-    unsigned int screen_width, screen_height;
-
-    unsigned int extra_offscreen_border_left;
-    unsigned int extra_offscreen_border_right;
-};
-typedef struct viewport_s viewport_t;
-
-struct draw_buffer_s {
-    BYTE *draw_buffer;
-    unsigned int draw_buffer_width;
-    unsigned int draw_buffer_height;
-    unsigned int draw_buffer_pitch;
-    unsigned int canvas_width;
-    unsigned int canvas_height;
-};
-typedef struct draw_buffer_s draw_buffer_t;
-
 /**************************************************************/
 
 struct video_canvas_s;
+struct viewport_s;
+struct geometry_s;
+struct palette_s;
 
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
@@ -138,6 +111,13 @@ extern void video_canvas_resize(struct video_canvas_s *canvas,
 extern void video_canvas_render(struct video_canvas_s *canvas, BYTE *trg,
                                 int width, int height, int xs, int ys,
                                 int xt, int yt, int pitcht, int depth);
+extern void video_canvas_refresh_all(struct video_canvas_s *canvas);
+extern void video_canvas_redraw_size(struct video_canvas_s *canvas,
+                                     unsigned int width, unsigned int height);
+extern void video_viewport_get(struct video_canvas_s *canvas,
+                               struct viewport_s **viewport,
+                               struct geometry_s **geometry);
+extern void video_viewport_resize(struct video_canvas_s *canvas);
 
 typedef struct video_draw_buffer_callback_s {
     int (*draw_buffer_alloc)(struct video_canvas_s *canvas, BYTE **draw_buffer,
@@ -204,7 +184,6 @@ extern void video_color_set_palette(video_cbm_palette_t *palette);
 extern int video_color_update_palette(void);
 extern void video_color_set_raster(struct raster_s *raster);
 extern int video_render_get_fake_pal_state(void);
-extern void video_refresh_all(struct video_canvas_s *c);
 
 #endif
 
