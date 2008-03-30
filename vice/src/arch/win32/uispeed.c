@@ -45,7 +45,7 @@ int ui_speed_current(void)
 {
     int res_value;
 
-    resources_get_value("Speed", (void *)&res_value);
+    resources_get_int("Speed", &res_value);
 
     return res_value;
 }
@@ -56,7 +56,7 @@ static void init_speed_dialog(HWND hwnd)
     char *speedstr;
     TCHAR *st_speedstr;
 
-    resources_get_value("Speed", (void *)&res_value);
+    resources_get_int("Speed", &res_value);
 
     speedstr = lib_msprintf("%i", res_value);
     st_speedstr = system_mbstowcs_alloc(speedstr);
@@ -80,7 +80,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             GetDlgItemText(hwnd, IDC_CUSTOM_SPEED, st, 20);
             speed = _ttoi(st);
             if (speed > 0 && speed < 1000000)
-                resources_set_value("Speed", (resource_value_t)speed);
+                resources_set_int("Speed", speed);
           case IDCANCEL:
             EndDialog(hwnd,0);
             return TRUE;
@@ -106,7 +106,7 @@ void ui_speed_settings_dialog(HWND hwnd)
     uilib_dialogbox_param_t param;
     int speed;
 
-    resources_get_value("Speed", (void *)&speed);
+    resources_get_int("Speed", &speed);
 
     param.hwnd = hwnd;
     param.idd_dialog = translate_res(IDD_CUSTOM_SPEED_DIALOG);
@@ -118,7 +118,7 @@ void ui_speed_settings_dialog(HWND hwnd)
     if (param.updated > 0) {
         speed = _ttoi(param.string);
         if (speed > 0 && speed < 1000000)
-            resources_set_value("Speed", (resource_value_t)speed);
+            resources_set_int("Speed", speed);
 
     }
 }

@@ -91,22 +91,22 @@ static int uiplus4cart_attach_image(int type, char *s)
 {
     switch (type) {
       case IDM_CART_ATTACH_FUNCLO:
-        resources_set_value("FunctionLowName", s);
+        resources_set_string("FunctionLowName", s);
         return plus4cart_load_func_lo(s);
       case IDM_CART_ATTACH_FUNCHI:
-        resources_set_value("FunctionHighName", s);
+        resources_set_string("FunctionHighName", s);
         return plus4cart_load_func_lo(s);
       case IDM_CART_ATTACH_C1LO:
-        resources_set_value("c1loName", s);
+        resources_set_string("c1loName", s);
         return plus4cart_load_c1lo(s);
       case IDM_CART_ATTACH_C1HI:
-        resources_set_value("c1hiName", s);
+        resources_set_string("c1hiName", s);
         return plus4cart_load_c1hi(s);
       case IDM_CART_ATTACH_C2LO:
-        resources_set_value("c2loName", s);
+        resources_set_string("c2loName", s);
         return plus4cart_load_c2lo(s);
       case IDM_CART_ATTACH_C2HI:
-        resources_set_value("c2hiName", s);
+        resources_set_string("c2hiName", s);
         return plus4cart_load_c2hi(s);
     }
     return -1;

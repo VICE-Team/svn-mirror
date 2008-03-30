@@ -89,11 +89,11 @@ static void init_plus256k_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, plus256k_leftgroup);
     uilib_move_group(hwnd, plus256k_rightgroup, xsize + 30);
 
-    resources_get_value("PLUS256K", (void *)&res_value);
+    resources_get_int("PLUS256K", &res_value);
     CheckDlgButton(hwnd, IDC_PLUS256K_ENABLE, 
         res_value ? BST_CHECKED : BST_UNCHECKED);
     
-    resources_get_value("PLUS256Kfilename", (void *)&plus256kfile);
+    resources_get_string("PLUS256Kfilename", &plus256kfile);
     st_plus256kfile = system_mbstowcs_alloc(plus256kfile);
     SetDlgItemText(hwnd, IDC_PLUS256K_FILE,
                    plus256kfile != NULL ? st_plus256kfile : TEXT(""));
@@ -107,14 +107,12 @@ static void end_plus256k_dialog(HWND hwnd)
     TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
-    resources_set_value("PLUS256K", (resource_value_t)
-                        (IsDlgButtonChecked
-                        (hwnd, IDC_PLUS256K_ENABLE) == BST_CHECKED ?
-                        1 : 0 ));
+    resources_set_int("PLUS256K", (IsDlgButtonChecked(hwnd,
+                      IDC_PLUS256K_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
     GetDlgItemText(hwnd, IDC_PLUS256K_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("PLUS256Kfilename", (resource_value_t)s);
+    resources_set_string("PLUS256Kfilename", s);
 }
 
 static void browse_plus256k_file(HWND hwnd)

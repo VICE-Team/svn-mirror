@@ -43,7 +43,7 @@ static void init_dialog(HWND hwnd)
 {
     int n, res, res256k;
 
-    resources_get_value("RamSize", (void *)&res);
+    resources_get_int("RamSize", &res);
     switch (res) {
       case 16:
         n = IDC_SELECT_PLUS4_MEM_16;
@@ -58,8 +58,8 @@ static void init_dialog(HWND hwnd)
         n = IDC_SELECT_PLUS4_MEM_1024_HANNES;
         break;
       case 256:
-        resources_get_value("H256K", (void *)&res256k);
-        if (res256k==0)
+        resources_get_int("H256K", &res256k);
+        if (res256k == 0)
             n = IDC_SELECT_PLUS4_MEM_256_CSORY;
         else
             n = IDC_SELECT_PLUS4_MEM_256_HANNES;
@@ -80,16 +80,16 @@ static void init_dialog(HWND hwnd)
 static void end_dialog(void)
 {
     if (orig_ramsize != set_ramsize) {
-        if (set_ramsize==257)
-            resources_set_value("CS256K", (resource_value_t)1);
-        if (set_ramsize==256)
-            resources_set_value("H256K", (resource_value_t)1);
-        if (set_ramsize==1024)
-            resources_set_value("H256K", (resource_value_t)2);
-        if (set_ramsize==4096)
-            resources_set_value("H256K", (resource_value_t)3);
-        if (set_ramsize<256)
-            resources_set_value("RamSize", (resource_value_t)set_ramsize);
+        if (set_ramsize == 257)
+            resources_set_int("CS256K", 1);
+        if (set_ramsize == 256)
+            resources_set_int("H256K", 1);
+        if (set_ramsize == 1024)
+            resources_set_int("H256K", 2);
+        if (set_ramsize == 4096)
+            resources_set_int("H256K", 3);
+        if (set_ramsize < 256)
+            resources_set_int("RamSize", set_ramsize);
     }
 }
 

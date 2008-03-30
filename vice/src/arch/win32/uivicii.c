@@ -55,36 +55,33 @@ static uilib_localize_dialog_param vicii_dialog[] = {
 
 static void init_vicii_dialog(HWND hwnd)
 {
-int n;
+    int n;
 
     uilib_localize_dialog(hwnd, vicii_dialog);
 
-    resources_get_value("VICIICheckSsColl", (void *)&n);
+    resources_get_int("VICIICheckSsColl", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC,
                    n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("VICIICheckSbColl", (void *)&n);
+    resources_get_int("VICIICheckSbColl", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SBC,
                    n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("VICIINewLuminances", (void *)&n);
+    resources_get_int("VICIINewLuminances", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_NEWLUM,
                    n ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static void end_vicii_dialog(HWND hwnd)
 {
-    resources_set_value("VICIICheckSsColl", (resource_value_t)
-                        (IsDlgButtonChecked
-                        (hwnd, IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("VICIICheckSsColl", (IsDlgButtonChecked(hwnd,
+                      IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
 
-    resources_set_value("VICIICheckSbColl", (resource_value_t)
-                        (IsDlgButtonChecked
-                        (hwnd, IDC_TOGGLE_VICII_SBC) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("VICIICheckSbColl", (IsDlgButtonChecked(hwnd,
+                      IDC_TOGGLE_VICII_SBC) == BST_CHECKED ? 1 : 0 ));
 
-    resources_set_value("VICIINewLuminances", (resource_value_t)
-                        (IsDlgButtonChecked
-                        (hwnd, IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("VICIINewLuminances", (IsDlgButtonChecked(hwnd,
+                      IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,

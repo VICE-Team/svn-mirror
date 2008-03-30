@@ -95,7 +95,7 @@ static void init_plus60k_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, plus60k_leftgroup);
     uilib_move_group(hwnd, plus60k_rightgroup, xsize + 30);
 
-    resources_get_value("PLUS60K", (void *)&res_value);
+    resources_get_int("PLUS60K", &res_value);
     CheckDlgButton(hwnd, IDC_PLUS60K_ENABLE, 
         res_value ? BST_CHECKED : BST_UNCHECKED);
     
@@ -106,7 +106,7 @@ static void init_plus60k_dialog(HWND hwnd)
         _stprintf(st, "$%X", ui_plus60k_base[res_value_loop]);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
-    resources_get_value("PLUS60Kbase", (void *)&res_value);
+    resources_get_int("PLUS60Kbase", &res_value);
     active_value = 0;
     for (res_value_loop = 0; res_value_loop < NUM_OF_PLUS60K_BASE;
         res_value_loop++) {
@@ -115,7 +115,7 @@ static void init_plus60k_dialog(HWND hwnd)
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
-    resources_get_value("PLUS60Kfilename", (void *)&plus60kfile);
+    resources_get_string("PLUS60Kfilename", &plus60kfile);
     st_plus60kfile = system_mbstowcs_alloc(plus60kfile);
     SetDlgItemText(hwnd, IDC_PLUS60K_FILE,
                    plus60kfile != NULL ? st_plus60kfile : TEXT(""));
@@ -129,18 +129,15 @@ static void end_plus60k_dialog(HWND hwnd)
     TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
-    resources_set_value("PLUS60K", (resource_value_t)
-                        (IsDlgButtonChecked
-                        (hwnd, IDC_PLUS60K_ENABLE) == BST_CHECKED ?
-                        1 : 0 ));
+    resources_set_int("PLUS60K", (IsDlgButtonChecked(hwnd,
+                      IDC_PLUS60K_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
-    resources_set_value("PLUS60Kbase",(resource_value_t)
-                        ui_plus60k_base[SendMessage(GetDlgItem(
-                        hwnd, IDC_PLUS60K_BASE), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("PLUS60Kbase", ui_plus60k_base[SendMessage(GetDlgItem(
+                      hwnd, IDC_PLUS60K_BASE), CB_GETCURSEL, 0, 0)]);
 
     GetDlgItemText(hwnd, IDC_PLUS60K_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("PLUS60Kfilename", (resource_value_t)s);
+    resources_set_string("PLUS60Kfilename", s);
 }
 
 static void browse_plus60k_file(HWND hwnd)

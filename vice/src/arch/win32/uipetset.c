@@ -51,20 +51,20 @@ static void init_dialog(HWND hwnd)
 {
     int n, res;
 
-    resources_get_value("Crtc", (void *)&n);
+    resources_get_int("Crtc", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_CRTC,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("SuperPET", (void *)&n);
+    resources_get_int("SuperPET", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_SUPER_IO_ENABLE,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("Ram9", (void *)&n);
+    resources_get_int("Ram9", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAM9,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("RamA", (void *)&n);
+    resources_get_int("RamA", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAMA,
                    n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("RamSize", (void *)&res);
+    resources_get_int("RamSize", &res);
     switch (res) {
       case 4:
         n = IDC_SELECT_PET_MEM4K;
@@ -87,7 +87,7 @@ static void init_dialog(HWND hwnd)
     }
     CheckRadioButton(hwnd, IDC_SELECT_PET_MEM4K, IDC_SELECT_PET_MEM128K, n);
 
-    resources_get_value("VideoSize", (void *)&res);
+    resources_get_int("VideoSize", &res);
     switch (res) {
       case 0:
         n = IDC_SELECT_PET_VIDEO_AUTO;
@@ -102,7 +102,7 @@ static void init_dialog(HWND hwnd)
     CheckRadioButton(hwnd, IDC_SELECT_PET_VIDEO_AUTO, IDC_SELECT_PET_VIDEO_80,
                      n);
 
-    resources_get_value("IOSize", (void *)&res);
+    resources_get_int("IOSize", &res);
     switch (res) {
       case 0x100:
         n = IDC_SELECT_PET_IO256;
@@ -113,7 +113,7 @@ static void init_dialog(HWND hwnd)
     }
     CheckRadioButton(hwnd, IDC_SELECT_PET_IO2K, IDC_SELECT_PET_IO256, n);
 
-    resources_get_value("KeymapIndex", (void *)&res);
+    resources_get_int("KeymapIndex", &res);
     switch (res) {
       case 2:
         n = IDC_SELECT_PET_KEYB_GRAPHICS;
@@ -175,72 +175,56 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
               pet_set_model("SuperPET", NULL);
               break;
             case IDC_SELECT_PET_MEM4K:
-              resources_set_value("RamSize", (resource_value_t) 4);
+              resources_set_int("RamSize", 4);
               break;
             case IDC_SELECT_PET_MEM8K:
-              resources_set_value("RamSize", (resource_value_t) 8);
+              resources_set_int("RamSize", 8);
               break;
             case IDC_SELECT_PET_MEM16K:
-              resources_set_value("RamSize", (resource_value_t) 16);
+              resources_set_int("RamSize", 16);
               break;
             case IDC_SELECT_PET_MEM32K:
-              resources_set_value("RamSize", (resource_value_t) 32);
+              resources_set_int("RamSize", 32);
               break;
             case IDC_SELECT_PET_MEM96K:
-              resources_set_value("RamSize", (resource_value_t) 96);
+              resources_set_int("RamSize", 96);
               break;
             case IDC_SELECT_PET_MEM128K:
-              resources_set_value("RamSize", (resource_value_t) 128);
+              resources_set_int("RamSize", 128);
               break;
             case IDC_SELECT_PET_VIDEO_AUTO:
-              resources_set_value("VideoSize", (resource_value_t) 0);
+              resources_set_int("VideoSize", 0);
               break;
             case IDC_SELECT_PET_VIDEO_40:
-              resources_set_value("VideoSize", (resource_value_t) 40);
+              resources_set_int("VideoSize", 40);
               break;
             case IDC_SELECT_PET_VIDEO_80:
-              resources_set_value("VideoSize", (resource_value_t) 80);
+              resources_set_int("VideoSize", 80);
               break;
             case IDC_SELECT_PET_IO256:
-              resources_set_value("IOSize", (resource_value_t) 0x100);
+              resources_set_int("IOSize", 0x100);
               break;
             case IDC_SELECT_PET_IO2K:
-              resources_set_value("IOSize", (resource_value_t) 0x800);
+              resources_set_int("IOSize", 0x800);
               break;
             case IDC_SELECT_PET_KEYB_GRAPHICS:
-              resources_set_value("KeymapIndex", (resource_value_t) 2);
+              resources_set_int("KeymapIndex", 2);
               break;
             case IDC_SELECT_PET_KEYB_BUSINESS:
-              resources_set_value("KeymapIndex", (resource_value_t) 0);
+              resources_set_int("KeymapIndex", 0);
               break;
             case IDC_TOGGLE_PET_CRTC:
-              {
-                  int n;
-                  resources_get_value("Crtc", (void *)&n);
-                  resources_set_value("Crtc", (resource_value_t)!n);
-                  break;
-              }
+              resources_toggle("Crtc", NULL);
+              break;
             case IDC_TOGGLE_PET_SUPER_IO_ENABLE:
-              {
-                  int n;
-                  resources_get_value("SuperPET", (void *)&n);
-                  resources_set_value("SuperPET", (resource_value_t)!n);
-                  break;
-              }
+              resources_toggle("SuperPET", NULL);
+              break;
             case IDC_TOGGLE_PET_8296_RAM9:
-              {
-                  int n;
-                  resources_get_value("Ram9", (void *)&n);
-                  resources_set_value("Ram9", (resource_value_t)!n);
-                  break;
-              }
+              resources_toggle("Ram9", NULL);
+              break;
             case IDC_TOGGLE_PET_8296_RAMA:
-              {
-                  int n;
-                  resources_get_value("RamA", (void *)&n);
-                  resources_set_value("RamA", (resource_value_t)!n);
-                  break;
-              }
+              resources_toggle("RamA", NULL);
+              break;
           }
           return TRUE;
     }
