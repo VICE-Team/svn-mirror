@@ -60,6 +60,9 @@ typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 
+/* problems with REGPARM */
+#define NO_REGPARM 1
+
 #if defined(__GNUC__) && !defined(NO_REGPARM)
 #define REGPARM1 __attribute__((regparm(1)))
 #define REGPARM2 __attribute__((regparm(2)))

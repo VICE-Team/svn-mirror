@@ -48,6 +48,7 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
     { "VDCDoubleScan", MENU_TOGGLE_VDC_DOUBLESCAN },
     { "VDC64KB", MENU_TOGGLE_VDC64KB },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
+    { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
     { NULL, 0 }
 };
 

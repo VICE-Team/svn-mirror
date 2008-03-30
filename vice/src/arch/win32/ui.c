@@ -416,7 +416,7 @@ int ui_cmdline_options_init(void)
 #define UI_DEBUG_HOTKEYS
 #endif /* DEBUG*/
 
-#define NUM_OF_COMMON_HOTKEYS 22
+#define NUM_OF_COMMON_HOTKEYS 23
 #define UI_COMMON_HOTKEYS                                               \
     { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_RESET_HARD },    \
     { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_RESET_SOFT },               \
@@ -1825,8 +1825,6 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         }
         break;
       case WM_KEYDOWN:
-        if (wparam == VK_PAUSE)
-            log_debug("WM_KEYDOWN PAUSE!!!");
         kbd_handle_keydown(wparam, lparam);
         return 0;
       case WM_SYSKEYUP:

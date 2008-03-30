@@ -39,6 +39,7 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "TEDScale2x", MENU_TOGGLE_SCALE2X },
     { NULL, 0 }
 };
 

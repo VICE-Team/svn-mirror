@@ -260,7 +260,7 @@ DriveView::DriveView(BRect r, int drive_num)
 	/* at last drive type, so we can enable/disable other controls */
 	r.OffsetTo(0,0);
 	r.right = 80;
-	r.bottom = 295;
+	r.bottom = 345;
 	box = new BBox(r);
 	box->SetLabel("Drive type");
 	AddChild(box);
@@ -300,7 +300,7 @@ static DriveWindow *drivewindow = NULL;
 
 
 DriveWindow::DriveWindow() 
-	: BWindow(BRect(50,50,400,385),"Drive settings",
+	: BWindow(BRect(50,50,400,435),"Drive settings",
 		B_TITLED_WINDOW, 
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {

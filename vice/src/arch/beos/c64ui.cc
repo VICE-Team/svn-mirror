@@ -54,6 +54,7 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "REU", MENU_TOGGLE_REU },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
+    { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
     { NULL, 0 }
 };
 

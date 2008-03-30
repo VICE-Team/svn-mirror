@@ -45,6 +45,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[]={
     { "VICDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
+    { "VICScale2x", MENU_TOGGLE_SCALE2X },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { NULL, 0 }
 };

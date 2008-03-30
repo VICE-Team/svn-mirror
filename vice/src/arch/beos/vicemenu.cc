@@ -281,6 +281,13 @@ BMenuBar *menu_create(int machine_class) {
 			menu->AddItem(new BMenuItem("PAL emulation", 
 				new BMessage(MENU_TOGGLE_FASTPAL), 'P', B_CONTROL_KEY));
 		}
+		if (machine_class == VICE_MACHINE_C64
+			|| machine_class == VICE_MACHINE_C128
+			|| machine_class == VICE_MACHINE_PLUS4
+			|| machine_class == VICE_MACHINE_VIC20) {
+			menu->AddItem(new BMenuItem("Scale2x", 
+				new BMessage(MENU_TOGGLE_SCALE2X), 'S'));
+		}
 		if (machine_class == VICE_MACHINE_C128) {
 			menu->AddItem(submenu = new BMenu("VDC"));
 			submenu->AddItem(new BMenuItem("Double Size",
