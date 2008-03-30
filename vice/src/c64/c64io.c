@@ -43,7 +43,9 @@
 
 BYTE REGPARM1 io1_read(ADDRESS addr)
 {
-    if (sid_stereo)
+    if (sid_stereo
+        && addr >= sid_stereo_address_start
+        && addr < sid_stereo_address_end)
         return sid2_read(addr);
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io1(addr);
@@ -56,7 +58,9 @@ BYTE REGPARM1 io1_read(ADDRESS addr)
 
 void REGPARM2 io1_store(ADDRESS addr, BYTE value)
 {
-    if (sid_stereo)
+    if (sid_stereo
+        && addr >= sid_stereo_address_start
+        && addr < sid_stereo_address_end)
         sid2_store(addr, value);
     if (mem_cartridge_type != CARTRIDGE_NONE)
         cartridge_store_io1(addr, value);
@@ -69,6 +73,10 @@ void REGPARM2 io1_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 io2_read(ADDRESS addr)
 {
+    if (sid_stereo
+        && addr >= sid_stereo_address_start
+        && addr < sid_stereo_address_end)
+        return sid2_read(addr);
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io2(addr);
     if (emu_id_enabled && addr >= 0xdfa0) {
@@ -84,6 +92,10 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
 
 void REGPARM2 io2_store(ADDRESS addr, BYTE value)
 {
+    if (sid_stereo
+        && addr >= sid_stereo_address_start
+        && addr < sid_stereo_address_end)
+        sid2_store(addr, value);
     if (mem_cartridge_type != CARTRIDGE_NONE) {
         cartridge_store_io2(addr, value);
         return;
