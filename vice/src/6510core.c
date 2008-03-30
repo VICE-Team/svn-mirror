@@ -210,7 +210,7 @@
             }                                                            \
             if (ik & IK_RESET) {                                         \
                 ack_reset(&CPU_INT_STATUS);                              \
-                reset();                                                 \
+                cpu_reset();                                             \
                 JUMP(LOAD_ADDR(0xfffc));                                 \
                 DMA_ON_RESET;                                            \
             }                                                            \

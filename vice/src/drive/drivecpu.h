@@ -1,6 +1,6 @@
 /*
- * drivecpu.h - Definitions of the 6502 processor in the Commodore 1541,
- * 1571 and 1581 floppy disk drives.
+ * drivecpu.h - 6502 processor emulation of the Commodore 1541, 1541-II,
+ *              1571, 1581, 2031 and 1001 floppy disk drive.
  *
  * Written by
  *   Ettore Perazzoli <ettore@comm2000.it>
@@ -58,8 +58,6 @@ extern void drivex_cpu_execute(struct drive_context_s *drv, CLOCK clk_value);
 extern void drive_set_bank_base(struct drive_context_s *drv);
 extern int drive_cpu_write_snapshot_module(struct drive_context_s *drv, snapshot_t *s);
 extern int drive_cpu_read_snapshot_module(struct drive_context_s *drv, snapshot_t *s);
-
-extern void drive_mem_init(struct drive_context_s *drv, int type);
 
 /* to minimize changes in other modules */
 #define drive0_cpu_execute(c)	drivex_cpu_execute(&drive0_context, c)

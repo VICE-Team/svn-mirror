@@ -32,6 +32,7 @@
 
 #include "ciad.h"
 #include "drive.h"
+#include "drivemem.h"
 #include "fdc.h"
 #include "iecdrive.h"
 #include "log.h"
