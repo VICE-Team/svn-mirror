@@ -310,7 +310,7 @@ void keyboard_key_released(signed long key)
 void keyboard_key_clear(void)
 {
     keyboard_clear_keymatrix();
-    memset(joystick_value, 0, sizeof(joystick_value));
+    joystick_clear_all();
     virtual_shift_down = left_shift_down = right_shift_down = 0;
     joystick_joypad_clear();
     return;

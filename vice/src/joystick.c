@@ -36,6 +36,7 @@
 #include <string.h>
 
 #include "alarm.h"
+#include "event.h"
 #include "keyboard.h"
 #include "joy.h"
 #include "joystick.h"
@@ -45,27 +46,58 @@
 
 #define JOYSTICK_RAND() (rand() & 0x3fff)
 
+#define JOYSTICK_NUM 3
+
 /* Global joystick value.  */
-BYTE joystick_value[3] = { 0, 0, 0 };
+BYTE joystick_value[JOYSTICK_NUM] = { 0, 0, 0 };
 
 /* Latched joystick status.  */
-static BYTE latch_joystick_value[3] = { 0, 0, 0 };
+static BYTE latch_joystick_value[JOYSTICK_NUM] = { 0, 0, 0 };
 
 static alarm_t joystick_alarm;
 
 
 static void joystick_latch_matrix(CLOCK offset)
 {
+    memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
+}
+
+/*-----------------------------------------------------------------------*/
+
+static void joystick_event_record(void)
+{
+    event_record(EVENT_JOYSTICK_VALUE, (void *)joystick_value,
+                 sizeof(joystick_value));
+}
+
+void joystick_event_playback(CLOCK offset, void *data)
+{
+    memcpy(latch_joystick_value, data, sizeof(joystick_value));
+
+    joystick_latch_matrix(offset);
+}
+
+static void joystick_latch_handler(CLOCK offset)
+{
     alarm_unset(&joystick_alarm);
     alarm_context_update_next_pending(joystick_alarm.context);
 
-    memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
+    joystick_latch_matrix(offset);
+
+    joystick_event_record(); 
 }
+
+/*-----------------------------------------------------------------------*/
 
 void joystick_set_value_absolute(unsigned int joyport, BYTE value)
 {
     latch_joystick_value[joyport] = value;
     alarm_set(&joystick_alarm, maincpu_clk + JOYSTICK_RAND());
+}
+
+BYTE joystick_get_value_absolute(unsigned int joyport)
+{
+    return latch_joystick_value[joyport];
 }
 
 void joystick_set_value_or(unsigned int joyport, BYTE value)
@@ -83,6 +115,13 @@ void joystick_set_value_and(unsigned int joyport, BYTE value)
 void joystick_clear(unsigned int joyport)
 {
     latch_joystick_value[joyport] = 0;
+    joystick_latch_matrix(0);
+}
+
+void joystick_clear_all(void)
+{
+    memset(latch_joystick_value, 0, JOYSTICK_NUM);
+    joystick_latch_matrix(0);
 }
 
 /*-----------------------------------------------------------------------*/
@@ -185,7 +224,7 @@ void joystick_joypad_clear(void)
 int joystick_init(void)
 {
     alarm_init(&joystick_alarm, maincpu_alarm_context,
-               "Joystick", joystick_latch_matrix);
+               "Joystick", joystick_latch_handler);
 
     return joy_arch_init();
 }

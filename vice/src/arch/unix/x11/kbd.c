@@ -163,7 +163,6 @@ void x11kbd_release(signed long key)
            when a modifier has been released, but this heavily simplifies
            the behavior of multiple keys.  Does anybody know a way to
            avoid this X11 oddity?  */
-        keyboard_clear_keymatrix();
         /*virtual_shift_down = 0;*/
         keyboard_key_clear();
         /* TODO: do we have to cleanup joypads here too? */

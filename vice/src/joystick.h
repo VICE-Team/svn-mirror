@@ -39,6 +39,10 @@ extern void joystick_set_value_absolute(unsigned int joyport, BYTE value);
 extern void joystick_set_value_or(unsigned int joyport, BYTE value);
 extern void joystick_set_value_and(unsigned int joyport, BYTE value);
 extern void joystick_clear(unsigned int joyport);
+extern void joystick_clear_all(void);
+extern BYTE joystick_get_value_absolute(unsigned int joyport);
+
+extern void joystick_event_playback(CLOCK offset, void *data);
 
 #endif
 

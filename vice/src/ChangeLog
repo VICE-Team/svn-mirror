@@ -1,3 +1,28 @@
+2002-12-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.38.
+
+	* joystick.c, joystick.h (joystick_event_record,
+	joystick_event_playback, joystick_latch_handler): New
+	functions.
+
+	* arch/unix/joy.c: Use functions provided by the joystick
+	emulation to manipulate the joystick value.
+
+	* keyboard.c (keyboard_key_clear): Likewise.
+
+	* arch/unix/x11/kbd.c (x11kbd_release): Removed redundant call
+	to `keyboard_clear_keymatrix()'.
+
+	* drive/drive-snapshot.c, vicii/vicii-snapshot.c, snapshot.c,
+	snapshot.h: Moved read helper functions to snapshot code.
+
+	* ciatimer.c, event.c, interrupt.c, maincpu.c, aciacore.c,
+	ciacore.c, piacore.c, riotcore.c, tpicore.c, viacore.c,
+	drive/drive-snapshot.c, drive/drivecpu.c, drive/ieee/fdc.c,
+	vicii/vicii-snapshot.c, crtc/crtc-snapshot.c,
+	sid/sid-snapshot.c: Use new snapshot function naming.
+
 2002-12-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.37.
