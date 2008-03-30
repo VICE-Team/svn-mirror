@@ -72,12 +72,6 @@
 #endif
 #endif  /* __hpux */
 
-#if defined(__MSDOS__) || defined(WIN32)
-#undef EDIT
-#elif !defined EDIT
-#define EDIT
-#endif
-
 #if defined HAVE_LIBXPM && defined HAVE_X11_XPM_H
 #define XPM
 #endif

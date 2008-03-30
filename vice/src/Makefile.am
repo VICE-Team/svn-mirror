@@ -86,7 +86,6 @@ noinst_HEADERS = \
 	tpi.h \
 	tpicore.h \
 	traps.h \
-	types.h \
 	usleep.h \
 	utils.h \
 	vdrive.h \
@@ -293,7 +292,7 @@ petcat_LDADD = @ARCH_DIR@/archdep.o
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch \
-	libsid @RESID_DEP@
+	libvicii libsid @RESID_DEP@
 
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
