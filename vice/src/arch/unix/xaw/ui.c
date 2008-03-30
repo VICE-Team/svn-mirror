@@ -76,6 +76,7 @@ Display *display;
 int screen;
 Visual *visual;
 int depth = X_DISPLAY_DEPTH;
+int have_truecolor;
 
 /* ------------------------------------------------------------------------- */
 
@@ -359,8 +360,10 @@ int ui_init_finish(void)
 #endif
 		    depth);
 	    return -1;
-	} else
+	} else {
 	    printf("Found %dbit/%s visual.\n", depth, classes[i].name);
+            have_truecolor = (classes[i].class == TrueColor);
+        }
     } else {
 	/* Autodetect. */
 	int i, j, done;
@@ -376,6 +379,7 @@ int ui_init_finish(void)
 		    depth = depths[i];
 		    printf("Found %dbit/%s visual.\n",
 			   depth, classes[j].name);
+                    have_truecolor = (classes[j].class == TrueColor);
 		    done = 1;
 		    break;
 		}
@@ -431,10 +435,10 @@ int ui_init_finish(void)
 		wm_command_present = 1;
 	}
 
-	/* Goodbye... */
+	/* Goodbye...  */
 	XtDestroyWidget(_ui_top_level);
 
-	/* Create the new _ui_top_level. */
+	/* Create the new `_ui_top_level'.  */
 	_ui_top_level = XtVaAppCreateShell(machine_name, "VICE",
                                            applicationShellWidgetClass, display,
                                            XtNvisual, visual,
@@ -624,8 +628,6 @@ void ui_set_left_menu(Widget w)
     char *name = XtName(w);
     int i;
 
-    printf("Attaching left menu, name `%s'\n", name);
-
     translation_table =
         concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
@@ -649,8 +651,6 @@ void ui_set_right_menu(Widget w)
     char *translation_table;
     char *name = XtName(w);
     int i;
-
-    printf("Attaching right menu, name `%s'\n", name);
 
     translation_table =
         concat("<Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
@@ -679,6 +679,33 @@ void ui_set_application_icon(Pixmap icon_pixmap)
 
 /* ------------------------------------------------------------------------- */
 
+void ui_exit(void)
+{
+    ui_button_t b;
+    char *s = concat ("Exit ", machine_name, " emulator", NULL);
+
+    b = ui_ask_confirmation(s, "Do you really want to exit?");
+
+    if (b == UI_BUTTON_YES) {
+	if (_ui_resources.save_resources_on_exit) {
+	    b = ui_ask_confirmation(s, "Save the current settings?");
+	    if (b == UI_BUTTON_YES) {
+		if (resources_save(NULL) < 0)
+		    ui_error("Cannot save settings.");
+	    } else if (b == UI_BUTTON_CANCEL) {
+                free(s);
+		return;
+            }
+	}
+	ui_autorepeat_on();
+	exit(-1);
+    }
+
+    free(s);
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Set the colormap variable.  The user must tell us whether he wants the
    default one or not using the `privateColormap' resource.  */
 static int alloc_colormap(void)
@@ -687,9 +714,11 @@ static int alloc_colormap(void)
 	return 0;
 
     if (!_ui_resources.use_private_colormap
-	&& depth == DefaultDepth(display, screen)) {
+	&& depth == DefaultDepth(display, screen)
+        && !have_truecolor) {
 	colormap = DefaultColormap(display, screen);
     } else {
+        printf("Using private colormap.\n");
 	colormap = XCreateColormap(display, RootWindow(display, screen),
 				   visual, AllocNone);
     }
@@ -720,7 +749,6 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
     color.flags = DoRed | DoGreen | DoBlue;
     for (i = 0, failed = 0; i < palette->num_entries; allocated_colors++, i++)
     {
-        printf("Allocating color `%s'...\n", palette->entries[i].name);
         color.red = palette->entries[i].red << 8;
         color.green = palette->entries[i].green << 8;
         color.blue = palette->entries[i].blue << 8;
@@ -819,6 +847,18 @@ Window ui_canvas_get_drawable(ui_window_t w)
     return XtWindow(w);
 }
 
+/* Change the colormap of window `w' on the fly.  This only works for
+   TrueColor visuals.  Otherwise, it would be too messy to re-allocate the
+   new colormap.  */
+int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
+                          PIXEL *pixel_return)
+{
+    if (!have_truecolor)
+        return -1;
+
+    return alloc_colors(palette, pixel_return);
+}
+
 /* Show the speed index to the user.  */
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
@@ -844,7 +884,6 @@ void ui_toggle_drive_status(int state)
 {
     int i;
 
-    printf("%s(%d)\n", __FUNCTION__, state);
     for (i = 0; i < num_app_shells; i++) {
         if (state) {
             XtRealizeWidget(app_shells[i].drive_track_label);
@@ -1304,6 +1343,8 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 	Dimension my_width, my_height, shell_width, shell_height;
 	Dimension my_x, my_y;
 	Position tlx, tly;
+        int root_width, root_height, foo;
+        Window foowin;
 
 	XtRealizeWidget(w);
 	XtVaGetValues(w, XtNwidth, &my_width, XtNheight, &my_height, NULL);
@@ -1312,6 +1353,22 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 	XtTranslateCoords(XtParent(s), tlx, tly, &tlx, &tly);
 	my_x = tlx + (shell_width - my_width) / 2;
 	my_y = tly + (shell_height - my_height) / 2;
+
+        /* Now make sure the whole widget is visible.  */
+        XGetGeometry(display, RootWindow(display, screen), &foowin, &foo,
+                     &foo, &root_width, &root_height, &foo, &foo);
+
+        /* FIXME: Is it really OK to cast to `signed short'?  */
+        if ((signed short)my_x < 0)
+            my_x = 0;
+        else if ((signed short)my_x + my_width > root_width)
+            my_x = root_width - my_width;
+
+        if ((signed short)my_y < 0)
+            my_y = 0;
+        else if ((signed short)my_y + my_height > root_height)
+            my_y = root_height - my_height;
+
 	XtVaSetValues(w, XtNx, my_x, XtNy, my_y, NULL);
     }
     XtVaSetValues(w, XtNtitle, title, NULL);
@@ -1513,10 +1570,7 @@ static void close_action(Widget w, XEvent * event, String * params,
                          Cardinal * num_params)
 {
     suspend_speed_eval();
-#if 0
-    for (i = 0; i < num_app_shells; i++)
-        if (app_shells[i].shell == w)
-            UiExit(w, NULL, NULL);
-#endif
+
+    ui_exit();
 }
 

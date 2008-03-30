@@ -301,27 +301,7 @@ static UI_CALLBACK(toggle_pause)
 
 static UI_CALLBACK(do_exit)
 {
-    ui_button_t b;
-    char *s = concat ("Exit ", machine_name, " emulator", NULL);
-
-    b = ui_ask_confirmation(s, "Do you really want to exit?");
-
-    if (b == UI_BUTTON_YES) {
-	if (_ui_resources.save_resources_on_exit) {
-	    b = ui_ask_confirmation(s, "Save the current settings?");
-	    if (b == UI_BUTTON_YES) {
-		if (resources_save(NULL) < 0)
-		    ui_error("Cannot save settings.");
-	    } else if (b == UI_BUTTON_CANCEL) {
-                free(s);
-		return;
-            }
-	}
-	ui_autorepeat_on();
-	exit(-1);
-    }
-
-    free(s);
+    ui_exit();
 }
 
 /* ------------------------------------------------------------------------- */

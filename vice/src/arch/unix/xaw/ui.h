@@ -87,6 +87,8 @@ extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
 extern void ui_map_canvas_window(ui_window_t w);
 extern void ui_unmap_canvas_window(ui_window_t w);
 extern Window ui_canvas_get_drawable(ui_window_t w);
+extern int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
+                                 PIXEL *pixel_return);
 extern void ui_display_speed(float percent, float framerate, int warp_flag);
 extern void ui_toggle_drive_status(int state);
 extern void ui_display_drive_track(double track_number);
@@ -95,6 +97,7 @@ extern void ui_display_paused(int flag);
 extern void ui_dispatch_next_event(void);
 extern void ui_dispatch_events(void);
 extern void ui_error(const char *format,...);
+extern void ui_exit(void);
 extern ui_jam_action_t ui_jam_dialog(const char *format,...);
 extern void ui_message(const char *format,...);
 extern void ui_show_text(const char *title, const char *text, int width, int height);
