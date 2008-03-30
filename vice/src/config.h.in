@@ -52,6 +52,9 @@
    don't. */
 #undef HAVE_DECL_SYS_SIGLIST
 
+/* Define to 1 if you have the <direct.h> header file. */
+#undef HAVE_DIRECT_H
+
 /* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
    */
 #undef HAVE_DIRENT_H
@@ -178,9 +181,6 @@
 
 /* Define to 1 if you have the <SDL/SDL_audio.h> header file. */
 #undef HAVE_SDL_SDL_AUDIO_H
-
-/* Define to 1 if you have the <sgtty.h> header file. */
-#undef HAVE_SGTTY_H
 
 /* Define to 1 if you have the <shlobj.h> header file. */
 #undef HAVE_SHLOBJ_H

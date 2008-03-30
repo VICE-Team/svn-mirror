@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.13.22)
+AM_INIT_AUTOMAKE(vice, 1.13.23)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
@@ -495,9 +495,9 @@ AC_PROG_GCC_TRADITIONAL
 dnl Check for header files.
 
 AC_HEADER_DIRENT
-AC_CHECK_HEADERS(fcntl.h limits.h strings.h sgtty.h regex.h \
-unistd.h sys/param.h sys/types.h sys/ioctl.h sys/time.h sys/dirent.h \
-dir.h commctrl.h shlobj.h errno.h io.h sys/stat.h signal.h winioctl.h)
+AC_CHECK_HEADERS(direct.h errno.h fcntl.h limits.h regex.h unistd.h \
+sys/dirent.h sys/ioctl.h sys/param.h sys/stat.h sys/time.h sys/types.h \
+dir.h commctrl.h shlobj.h io.h signal.h winioctl.h)
 
 AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
 #define	GETC()		(*sp++)
@@ -1142,6 +1142,7 @@ if false ; then
     mkdir -p drive/tcbm
     mkdir -p fsdevice
     mkdir -p gfxoutputdrv
+    mkdir -p iecbus
     mkdir -p imagecontents
     mkdir -p monitor
     mkdir -p parallel
@@ -1220,6 +1221,7 @@ AC_OUTPUT([Makefile
            src/drive/tcbm/Makefile
            src/fsdevice/Makefile
            src/gfxoutputdrv/Makefile
+           src/iecbus/Makefile
            src/imagecontents/Makefile
            src/monitor/Makefile
            src/parallel/Makefile
