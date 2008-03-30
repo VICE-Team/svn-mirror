@@ -53,6 +53,7 @@
 #include "uisettings.h"
 #include "uisid.h"
 #include "uisound.h"
+#include "uitfe.h"
 #include "uivicii.h"
 #include "vsync.h"
 
@@ -261,8 +262,12 @@ UI_MENU_DEFINE_TOGGLE(Mouse)
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("RAM Expansion Unit"),
       NULL, NULL, reu_submenu },
-    { N_("IDE64 Emulation"),
+    { N_("IDE64 emulation"),
       NULL, NULL, ide64_submenu },
+#ifdef HAVE_TFE
+    { N_("Ethernet emulation"),
+      NULL, NULL, tfe_submenu },
+#endif
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
 #ifdef HAVE_MOUSE

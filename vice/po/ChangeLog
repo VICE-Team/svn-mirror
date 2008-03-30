@@ -1,3 +1,7 @@
+2004-03-21  Andreas Boose  <viceteam@t-online.de>
+
+	* POTFILES.in: Added `uitfe.c' and `uilib.c'.
+
 2004-03-15  Andreas Boose  <viceteam@t-online.de>
 
 	* POTFILES.in: Added `uiattach.c' and `uikeyboard.c'.

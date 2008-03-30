@@ -27,15 +27,12 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "attach.h"
 #include "lib.h"
-#include "resources.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uiprinter.h"
-#include "vsync.h"
 
 
 UI_MENU_DEFINE_RADIO(FileSystemDevice8)
@@ -46,35 +43,17 @@ UI_MENU_DEFINE_RADIO(FileSystemDevice11)
 
 UI_CALLBACK(uiperipheral_set_fsdevice_directory)
 {
-    /* FIXME: We need a real directory browser here.  */
     int unit = (int)UI_MENU_CB_PARAM;
+    char *resname;
     char *title;
-    char *value, *new_value;
-    int len;
-    ui_button_t button;
 
-    vsync_suspend_speed_eval();
-
+    resname = lib_msprintf("FSDevice%dDir", unit);
     title = lib_msprintf("Attach file system directory to device #%d", unit);
 
-    resources_get_sprintf("FSDevice%dDir", (void *)&value, unit);
+    uilib_select_string(resname, title, _("Path:"));
 
-    len = strlen(value) * 2;
-
-    if (len < 255)
-        len = 255;
-
-    new_value = lib_malloc(len + 1);
-    strcpy(new_value, value);
-
-    button = ui_input_string(title, _("Path:"), new_value, len);
+    lib_free(resname);
     lib_free(title);
-
-    if (button == UI_BUTTON_OK)
-        resources_set_sprintf("FSDevice%dDir", (resource_value_t)new_value,
-                              unit);
-
-    lib_free(new_value);
 }
 
 ui_menu_entry_t uiperipheral_set_device8_type_submenu[] = {
