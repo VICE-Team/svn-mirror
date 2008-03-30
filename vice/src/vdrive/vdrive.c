@@ -37,25 +37,11 @@
 
 /* #define DEBUG_DRIVE */
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
+
 #ifdef __riscos
 #include "ROlib.h"
 #include "ui.h"
-#else
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <dirent.h>
-#include <memory.h>
-#endif
-#include <errno.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
 #endif
 
 #include "archdep.h"
@@ -174,8 +160,8 @@ void vdrive_command_set_error(bufferinfo_t *p, int code, int track, int sector)
     static int last_code;
 
 #ifdef DEBUG_DRIVE
-    printf("Set error channel: code =%d, last_code =%d, track =%d, sector =%d\n",
-           code, last_code, track, sector);
+    log_debug("Set error channel: code =%d, last_code =%d, track =%d, "
+              "sector =%d.", code, last_code, track, sector);
 #endif
 
     /* Only set an error once per command */
@@ -269,15 +255,15 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, int length)
              * those 2 files.
              */
 
-            if (floppy_parse_name(name, length, realname, &reallength,
+            if (vdrive_parse_name(name, length, realname, &reallength,
                                   &readmode, &filetype, NULL) != SERIAL_OK) {
                 status = IPE_NO_NAME;
             } else if (vdrive->read_only) {
                 status = IPE_WRITE_PROTECT_ON;
             } else {
 #ifdef DEBUG_DRIVE
-                fprintf(errlog, "remove name= '%s' len=%d (%d) type= %d.\n",
-                        realname, reallength, length, filetype);
+                log_debug("remove name= '%s' len=%d (%d) type= %d.",
+                          realname, reallength, length, filetype);
 #endif
                 deleted_files = 0;
 
@@ -369,13 +355,13 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, int length)
  	        if (p[2] == '-' || p[2] == '+') {
  		    status = IPE_OK;	/* Set IEC bus speed */
  	        } else {
- 		    floppy_close_all_channels(vdrive); /* Warm reset */
+ 		    vdrive_close_all_channels(vdrive); /* Warm reset */
  		    status = IPE_DOS_VERSION;
  	        }
  	        break;
 
  	      case 9: /* UJ */
- 	        floppy_close_all_channels(vdrive); /* Cold reset */
+ 	        vdrive_close_all_channels(vdrive); /* Cold reset */
  	        status = IPE_DOS_VERSION;
  	        break;
 
@@ -447,9 +433,9 @@ static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
 
         if (l < 0) {
 #ifdef DEBUG_DRIVE
-            fprintf(errfile, "B-R/W parsed ok. (l=%d) channel %d mode %d, "
-                    "drive=%d, track=%d sector=%d\n", l, channel,
-                    vdrive->buffers[channel].mode, drive, track, sector);
+            log_debug("B-R/W parsed ok. (l=%d) channel %d mode %d, "
+                      "drive=%d, track=%d sector=%d.", l, channel,
+                      vdrive->buffers[channel].mode, drive, track, sector);
 #endif
 
             if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER)
@@ -563,7 +549,7 @@ static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer, int length)
  * be checked elsewhere
  */
 
-int floppy_parse_name(const char *name, int length, char *ptr,
+int vdrive_parse_name(const char *name, int length, char *ptr,
                       int *reallength, int *readmode, int *filetype,
                       int *rl)
 {
@@ -584,7 +570,7 @@ int floppy_parse_name(const char *name, int length, char *ptr,
             p = name + strlen(name);	/* set to null byte */
     }
 #ifdef DEBUG_DRIVE
-    fprintf(logfile, "Name (%d): '%s'\n", length, p);
+    log_debug("Name (%d): '%s'.", length, p);
 #endif
 
 #if 0
@@ -599,7 +585,7 @@ int floppy_parse_name(const char *name, int length, char *ptr,
 	(*reallength)++;
 	*(ptr++) = *(p++);	/* realname pointer */
 #ifdef DEBUG_DRIVE
-	fprintf(logfile, "parsing... [%d] %02x  t=%d\n", *reallength, *(ptr-1), t);
+	log_debug("parsing... [%d] %02x  t=%d.", *reallength, *(ptr-1), t);
 #endif
     }  /* while */
 
@@ -615,8 +601,8 @@ int floppy_parse_name(const char *name, int length, char *ptr,
 
 	if (t == 0) {
 #ifdef DEBUG_DRIVE
-	    fprintf(logfile, "done. [%d] %02x  t=%d\n", *reallength, *p, t);
-	    fprintf(logfile, "No type.\n");
+	    log_debug("done. [%d] %02x  t=%d.", *reallength, *p, t);
+	    log_debug("No type.");
 #endif
 	    return FLOPPY_ERROR;
 	}
@@ -671,7 +657,7 @@ int floppy_parse_name(const char *name, int length, char *ptr,
 
 	  default:
 #ifdef DEBUG_DRIVE
-	    fprintf(logfile, "No way. p='%s'\n", p);
+	    log_debug("No way. p='%s'.", p);
 #endif
 	    return FLOPPY_ERROR;
 	}
@@ -685,13 +671,10 @@ int floppy_parse_name(const char *name, int length, char *ptr,
 	    t = 0;
     }  /* while (t) */
 
-
 #ifdef DEBUG_DRIVE
-    fprintf (logfile, "Type = %s  %s\n",
-	    slot_type[*filetype],
+    log_debug("Type = %s  %s.", slot_type[*filetype],
 	    (*readmode == FAM_READ ?  "read" : "write"));
 #endif
-
 
     return FLOPPY_COMMAND_OK;
 }
@@ -713,7 +696,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
         dest = strchr (dest, ':') +1;
 
 #ifdef DEBUG_DRIVE
-    fprintf(logfile, "COPY: dest= '%s'\n      orig= '%s'\n", dest, files);
+    log_debug("COPY: dest= '%s', orig= '%s'.", dest, files);
 #endif
 
     if (vdrive_open(vdrive, dest, strlen(dest), 1))
@@ -729,7 +712,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
             name = strchr (name, ':') +1;
 
 #ifdef DEBUG_DRIVE
-        fprintf(logfile, "searching for file '%s'\n", name);
+        log_debug("searching for file '%s'.", name);
 #endif
         if (vdrive_open(vdrive, name, strlen(name), 0)) {
             vdrive_close(vdrive, 1);
@@ -773,13 +756,13 @@ static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
         dest = strchr (dest, ':') +1;
 
 #ifdef DEBUG_DRIVE
-    fprintf(logfile, "RENAME: dest= '%s'\n      orig= '%s'\n", dest, src);
+    log_debug("RENAME: dest= '%s', orig= '%s'.", dest, src);
 #endif
 
-    if (!floppy_parse_name(dest, strlen(dest), dest_name, &dest_reallength,
+    if (!vdrive_parse_name(dest, strlen(dest), dest_name, &dest_reallength,
         &dest_readmode, &dest_filetype, &dest_rl) == FLOPPY_ERROR)
         return IPE_SYNTAX;
-    if (!floppy_parse_name(src, strlen(src), src_name, &src_reallength,
+    if (!vdrive_parse_name(src, strlen(src), src_name, &src_reallength,
         &src_readmode, &src_filetype, &src_rl) == FLOPPY_ERROR)
         return IPE_SYNTAX;
 
@@ -825,24 +808,21 @@ static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
  * channel close.
  */
 
-void floppy_close_all_channels(vdrive_t *vdrive)
+void vdrive_close_all_channels(vdrive_t *vdrive)
 {
-    int     i;
+    int i;
     bufferinfo_t *p;
 
-
     for (i = 0; i <= 15; i++) {
-	p = &(vdrive->buffers[i]);
-
-	if (p->mode != BUFFER_NOT_IN_USE && p->mode != BUFFER_COMMAND_CHANNEL)
-	    vdrive_close(vdrive, i);
+        p = &(vdrive->buffers[i]);
+        if (p->mode != BUFFER_NOT_IN_USE && p->mode != BUFFER_COMMAND_CHANNEL)
+            vdrive_close(vdrive, i);
     }
 }
 
-
 static int vdrive_command_initialize(vdrive_t *vdrive)
 {
-    floppy_close_all_channels(vdrive);
+    vdrive_close_all_channels(vdrive);
 
     /* Update BAM in memory.  */
     if (vdrive->image != NULL)
@@ -1097,7 +1077,7 @@ void vdrive_detach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
       default:
         return;
     }
-    floppy_close_all_channels(vdrive);
+    vdrive_close_all_channels(vdrive);
     vdrive->image = NULL;
 }
 
@@ -1306,48 +1286,5 @@ static int compare_filename (char *name, char *pattern)
     }  /* while */
 
     return (!*p && !*q);		/* Match */
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Read the directory and return it as a long malloc'ed ASCII string.
-   FIXME: Should probably be made more robust.  */
-char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
-{
-    BYTE *p;
-    int outbuf_size, max_outbuf_size, len;
-    char line[256], *outbuf;
-
-    /* Open the directory. */
-    if (pattern != NULL)
-	sprintf(line, "$:%s", pattern);
-    else
-	sprintf(line, "$");
-    if (vdrive_open(vdrive, line, 1, 0) != SERIAL_OK)
-	return NULL;
-
-    /* Allocate a buffer. */
-    max_outbuf_size = 4096;
-    outbuf = xmalloc(max_outbuf_size);
-    outbuf_size = 0;
-
-    p = vdrive->buffers[0].buffer + 2; /* Skip load address. */
-    while ((p[0] | (p[1] << 8)) != 0) {
-	len = sprintf(line, "%d ", p[2] | (p[3] << 8));
-	p += 4;
-	while (*p != '\0') {
-	    line[len++] = p_toascii(*p, 0);
-	    p++;
-	}
-	p++;
-	line[len++] = '\n';
-	bufcat(outbuf, &outbuf_size, &max_outbuf_size, line, len);
-    }
-    vdrive_close(vdrive, 0);
-
-    /* Add trailing zero. */
-    *(outbuf + outbuf_size) = '\0';
-
-    return outbuf;
 }
 

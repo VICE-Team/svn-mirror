@@ -29,8 +29,8 @@
 
 #include "attach.h"
 #include "diskimage.h"
-#include "types.h"
 #include "log.h"
+#include "types.h"
 
 /* High level disk formats.  They can be different than the disk image type.  */
 #define VDRIVE_IMAGE_FORMAT_1541 0
@@ -47,36 +47,6 @@
 #define BUFFER_COMMAND_CHANNEL		5
 
 #define WRITE_BLOCK     	        512
-
-/*
- * At the beginning of each image is header that makes sure
- * only c1541 images are used. There is room for additional
- * information that is not used yet (errors, drive types etc.)
- */
-
-#define HEADER_MAGIC_OFFSET	0	/* Length 4 bytes */
-
-#define HEADER_MAGIC_1		'C'
-#define HEADER_MAGIC_2		(0x15)
-#define HEADER_MAGIC_3		(0x41)
-#define HEADER_MAGIC_4		(0x64)
-
-
-#define HEADER_VERSION_OFFSET	4	/* Length 2 bytes */
-
-#define HEADER_VERSION_MAJOR	1
-#define HEADER_VERSION_MINOR	2
-
-#define HEADER_FLAGS_OFFSET	6	/* Disk Image Flags */
-#define HEADER_FLAGS_LEN	4	/* Disk Image Flags */
-  /* These 4 bytes are disk type flags (set upon create or format)
-   * They contain: Device Type, Max Tracks, Side, and Error Flag.
-   */
-
-#define HEADER_LABEL_OFFSET	32	/* Disk Description */
-#define HEADER_LABEL_LEN	31
-
-#define HEADER_LENGTH		64
 
 /*
  * Disk Drive Specs
@@ -148,27 +118,6 @@
 #define MAX_TRACKS_ANY         MAX_TRACKS_8250
 #define MAX_BLOCKS_ANY         MAX_BLOCKS_8250
 
-typedef struct {
-    int  v_major;
-    int  v_minor;
-
-    int  wprot;		/* From stat() + mtime() */
-
-    int  devtype;
-    int  format;
-    int  sides;
-    int  tracks;
-    int  errblk;
-    int  d64;
-    int  d71;
-    int  d81;
-    int  d80;	/* 8050 */
-    int  d82;	/* 8250 */
-    int  gcr;
-    char description[HEADER_LABEL_LEN+1];
-} hdrinfo;
-
-
 #define SET_LO_HI(p, val)                       \
     do {                                        \
 	*((p)++) = (val) & 0xff;                \
@@ -181,7 +130,6 @@ typedef struct {
 #define DIR_MAXBUF  (40 * 256)
 
 /* File Types */
-
 #define FT_DEL		0
 #define FT_SEQ		1
 #define FT_PRG		2
@@ -195,7 +143,6 @@ typedef struct {
 #define FT_CLOSED	0x80
 
 /* Access Control Methods */
-
 #define FAM_READ	0
 #define FAM_WRITE	1
 #define FAM_APPEND	2
@@ -234,17 +181,12 @@ typedef struct {
     /* Drive information */
     int NumBlocks;		/* Total Count (683) */
     int NumTracks;
-    int BSideTrack;		/* First track on the second side (1571: 36) */
 
-    BYTE *dosrom;
-    BYTE *dosram;
     /* FIXME: bam sizeof define */
     BYTE bam[5*256];    /* The 1581 uses 3 secs as BAM - but the 8250 uses 5. */
     bufferinfo_t buffers[16];
 
-
     /* File information */
-
     BYTE Dir_buffer[256];  /* Current DIR sector */
     int SlotNumber;
 
@@ -339,14 +281,11 @@ extern void vdrive_detach_image(disk_image_t *image, int unit,
                                 vdrive_t *vdrive);
 
 extern int vdrive_check_track_sector(int format, int track, int sector);
-extern int get_diskformat(int devtype);
 extern int vdrive_calc_num_blocks(int format, int tracks);
-extern char *floppy_read_directory(vdrive_t *vdrive, const char *pattern);
-extern int floppy_parse_name(const char *name, int length, char *realname,
+extern int vdrive_parse_name(const char *name, int length, char *realname,
                              int *reallength, int *readmode,
                              int *filetype, int *rl );
-extern void floppy_close_all_channels(vdrive_t *vdrive);
-
+extern void vdrive_close_all_channels(vdrive_t *vdrive);
 extern void vdrive_set_disk_geometry(vdrive_t *vdrive, int type);
 extern int vdrive_calculate_disk_half(int type);
 extern int vdrive_get_max_sectors(int type, int track);
@@ -357,5 +296,5 @@ extern void vdrive_command_set_error(bufferinfo_t *p, int code,
                                      int track, int sector);
 extern int  vdrive_command_validate(vdrive_t *vdrive);
 
-#endif				/* _VDRIVE_H */
+#endif /* _VDRIVE_H */
 

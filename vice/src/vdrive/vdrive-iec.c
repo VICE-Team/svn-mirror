@@ -2,6 +2,9 @@
  * vdrive-iec.c - Virtual disk-drive IEC implementation.
  *
  * Written by
+ *  Andreas Boose       <boose@linux.rz.fh-hannover.de>
+ *
+ * Based on old code by
  *  Teemu Rantanen      (tvr@cs.hut.fi)
  *  Jarkko Sonninen     (sonninen@lut.fi)
  *  Jouko Valta         (jopi@stekt.oulu.fi)
@@ -9,7 +12,6 @@
  *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
  *  Ettore Perazzoli    (ettore@comm2000.it)
  *  Martin Pottendorfer (Martin.Pottendorfer@aut.alcatel.at)
- *  Andreas Boose       (boose@unixserv.rz.fh-hannover.de)
  *
  * Patches by
  *  Dan Miner           (dminer@nyx10.cs.du.edu)
@@ -40,24 +42,14 @@
 
 /* #define DEBUG_DRIVE */
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
+
 #ifdef __riscos
 #include "ROlib.h"
 #include "ui.h"
-#else
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <dirent.h>
-#include <memory.h>
-#endif
-#include <errno.h>
 #endif
 
+#include "log.h"
 #include "serial.h"
 #include "utils.h"
 #include "vdrive-bam.h"
@@ -73,8 +65,7 @@ void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
     memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
     memcpy(p->slot + SLOT_NAME_OFFSET, realname, reallength);
 #ifdef DEBUG_DRIVE
-    fprintf(logfile, "DIR: Created dir slot. Name (%d) '%s'\n",
-            reallength, realname);
+    log_debug("DIR: Created dir slot. Name (%d) '%s'\n", reallength, realname);
 #endif
     p->slot[SLOT_TYPE_OFFSET] = filetype;       /* unclosed */
 
@@ -180,8 +171,8 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
    }
 
 #ifdef DEBUG_DRIVE
-    fprintf(logfile, "VDRIVE#%i: OPEN: FD = %p - Name '%s' (%d) on ch %d\n",
-	        vdrive->unit, vdrive->image->fd, name, length, secondary);
+    log_debug("VDRIVE#%i: OPEN: FD = %p - Name '%s' (%d) on ch %d.",
+	          vdrive->unit, vdrive->image->fd, name, length, secondary);
 #endif
 #ifdef __riscos
     ui_set_drive_leds(vdrive->unit - 8, 1);
@@ -214,7 +205,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
      */
     if (p->mode != BUFFER_NOT_IN_USE) {
 #ifdef DEBUG_DRIVE
-	printf (logfile, "Cannot open channel %d. Mode is %d.\n", secondary, p->mode);
+	log_debug("Cannot open channel %d. Mode is %d.", secondary, p->mode);
 #endif
 	vdrive_command_set_error(&vdrive->buffers[15], IPE_NO_CHANNEL, 0, 0);
         return SERIAL_ERROR;
@@ -231,7 +222,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
     filetype = 0;
     rl = 0;  /* REL */
 
-    if (floppy_parse_name(name, length, realname, &reallength,
+    if (vdrive_parse_name(name, length, realname, &reallength,
                           &readmode, &filetype, &rl) != SERIAL_OK)
         return SERIAL_ERROR;
 
@@ -264,9 +255,8 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 
         p->mode = BUFFER_DIRECTORY_READ;
         p->buffer = (BYTE *)xmalloc(DIR_MAXBUF);
-        p->length = vdrive_dir_create_directory(vdrive,
-                                                realname, reallength, filetype,
-                                                secondary, p->buffer);
+        p->length = vdrive_dir_create_directory(vdrive, realname, reallength,
+                                                filetype, p->buffer);
         if (p->length < 0) {
             /* Directory not valid. */
             p->mode = BUFFER_NOT_IN_USE;
@@ -349,7 +339,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
     /*
      * Unsupported filetype
      */
-    return SERIAL_ERROR;
+        return SERIAL_ERROR;
     }
 
     /*
@@ -379,10 +369,6 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
     /* XXX keeping entry until close not implemented */
     /* Write the directory entry to disk as an UNCLOSED file. */
 
-#ifdef DEBUG_DRIVE
-    fprintf(logfile, "DEBUG: find empty DIR slot.\n");
-#endif
-
     vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
     e = vdrive_dir_find_next_slot(vdrive);
 
@@ -397,10 +383,6 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
     memcpy(&vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2],
            p->slot + 2, 30);
 
-#ifdef DEBUG_DRIVE
-    fprintf(logfile, "DEBUG: create, write DIR slot (%d %d).\n",
-            vdrive->Curr_track, vdrive->Curr_sector);
-#endif
     disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
                             vdrive->Curr_track, vdrive->Curr_sector);
     /*vdrive_bam_write_bam(vdrive);*/
@@ -415,9 +397,6 @@ int vdrive_close(void *flp, int secondary)
     BYTE *e;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
-#ifdef DEBUG_DRIVE
-    fprintf(logfile, "DEBUG: closing file #%d.\n", secondary);
-#endif
 #ifdef __riscos
     ui_set_drive_leds(vdrive->unit - 8, 0);
 #endif
@@ -446,12 +425,12 @@ int vdrive_close(void *flp, int secondary)
             }
 
 #ifdef DEBUG_DRIVE
-            fprintf(logfile, "DEBUG: flush.\n");
+            log_debug("DEBUG: flush.");
 #endif
             write_sequential_buffer(vdrive, p, p->bufptr);
 
 #ifdef DEBUG_DRIVE
-            fprintf(logfile, "DEBUG: find empty DIR slot.\n");
+            log_debug("DEBUG: find empty DIR slot.");
 #endif
             vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
             e = vdrive_dir_find_next_slot(vdrive);
@@ -471,8 +450,8 @@ int vdrive_close(void *flp, int secondary)
                    p->slot + 2, 30);
 
 #ifdef DEBUG_DRIVE
-            fprintf(logfile, "DEBUG: closing, write DIR slot (%d %d) and BAM.\n",
-                    vdrive->Curr_track, vdrive->Curr_sector);
+            log_debug("DEBUG: closing, write DIR slot (%d %d) and BAM.",
+                      vdrive->Curr_track, vdrive->Curr_sector);
 #endif
             disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
                                     vdrive->Curr_track, vdrive->Curr_sector);
@@ -487,7 +466,7 @@ int vdrive_close(void *flp, int secondary)
            should reset the read pointer to the beginning for the next
            write! */
         vdrive_command_set_error(&vdrive->buffers[15], IPE_OK, 0, 0);
-        floppy_close_all_channels(vdrive);
+        vdrive_close_all_channels(vdrive);
         break;
       default:
         log_error(vdrive_log, "Fatal: unknown floppy-close-mode: %i.",
@@ -505,7 +484,7 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 
 #ifdef DEBUG_DRIVE
     if (p->mode == BUFFER_COMMAND_CHANNEL)
-	fprintf(logfile, "Disk read  %d [%02d %02d]\n", p->mode, 0, 0);
+        log_debug("Disk read  %d [%02d %02d].", p->mode, 0, 0);
 #endif
 
     switch (p->mode) {
@@ -559,7 +538,7 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 	if (p->bufptr > p->length) {
 	    vdrive_command_set_error(&vdrive->buffers[15], IPE_OK, 0, 0);
 #ifdef DEBUG_DRIVE
-	    fprintf(logfile, "end of buffer in command channel\n" );
+	    log_debug("End of buffer in command channel.");
 #endif
             *data = 0xc7;
 	    return SERIAL_EOF;
@@ -590,8 +569,8 @@ int vdrive_write(void *flp, BYTE data, int secondary)
 
 #ifdef DEBUG_DRIVE
     if (p -> mode == BUFFER_COMMAND_CHANNEL)
-        printf("Disk write %d [%02d %02d] data %02x (%c)\n",
-               p->mode, 0, 0, data, (isprint(data) ? data : '.') );
+        log_debug("Disk write %d [%02d %02d] data %02x (%c).",
+                  p->mode, 0, 0, data, (isprint(data) ? data : '.') );
 #endif
 
     switch (p->mode) {
@@ -643,9 +622,9 @@ void vdrive_flush(void *flp, int secondary)
     int status;
 
 #ifdef DEBUG_DRIVE
-printf("VDRIVE#%i: FLUSH:, secondary = %d, buffer=%s\n   bufptr=%d, length=%d, "
-       "read?=%d\n", vdrive->unit, secondary, p->buffer, p->bufptr, p->length,
-       p->readmode==FAM_READ);
+       log_debug("FLUSH:, secondary = %d, buffer=%s\n "
+                 "  bufptr=%d, length=%d, read?=%d.", secondary, p->buffer,
+                 p->bufptr, p->length, p->readmode==FAM_READ);
 #endif
 
     if (p->mode != BUFFER_COMMAND_CHANNEL)
