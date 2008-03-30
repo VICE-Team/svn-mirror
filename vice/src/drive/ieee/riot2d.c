@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,111 +25,63 @@
  *
  */
 
-struct drive_context_s;
-#define RIOT_SHARED_CODE
-#define RIOTCONTEXT     struct drive_context_s
-
-#include "riotcore.h"
-
-#undef RIOT_TIMER_DEBUG
-
-/*************************************************************************
- * Renaming exported functions
- */
-
-#define myriot_init     riot2_init
-#define myriot_signal   riot2_signal
-#define myriot_reset    riot2_reset
-#define myriot_store    riot2_store
-#define myriot_read     riot2_read
-#define myriot_peek     riot2_peek
-#define myriot_set_flag riot2_set_flag
-#define myriot_snapshot_write_module riot2_snapshot_write_module
-#define myriot_snapshot_read_module riot2_snapshot_read_module
-
-/*************************************************************************
- * CPU binding
- */
-
-#include "interrupt.h"
-#include "types.h"
-
-#define myclk           (*(ctxptr->clk_ptr))
-#define mycpu_clk_guard (ctxptr->cpu.clk_guard)
-#define mycpu_rmw_flag  (ctxptr->cpu.rmw_flag)
-#define mycpu_alarm_context (ctxptr->cpu.alarm_context)
-
-/*
-#define my_set_irq(fl, clk)                         \
-        do {                                        \
-        printf("set_int_d0(%d)\n",(fl));            \
-        interrupt_set_irq(ctxptr->cpu.int_status,   \
-                          (ctxptr->riot2p.int_num), \
-                          (fl) ? IK_IRQ : 0, (clk)) \
-        ; } while(0)
-*/
-#define my_set_irq(fl, clk)                         \
-        interrupt_set_irq(ctxptr->cpu.int_status,   \
-                          (ctxptr->riot2p.int_num), \
-                          (fl) ? IK_IRQ : 0, (clk))
-
-#define my_restore_irq(fl)                              \
-        interrupt_restore_irq(ctxptr->cpu.int_status,   \
-                                ctxptr->riot2p.int_num, (fl) ? IK_IRQ : 0)
-
-/*************************************************************************
- * I/O
- */
+#include "vice.h"
 
 #include <stdio.h>
 
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
-#include "iecdrive.h"
+#include "interrupt.h"
+#include "lib.h"
 #include "parallel.h"
 #include "riot.h"
 #include "riotd.h"
+#include "types.h"
 
 
-/* renaming formerly global symbols */
-#define riotio          (ctxptr->riot2.riot_io)
-#define oldpa           (ctxptr->riot2.old_pa)
-#define oldpb           (ctxptr->riot2.old_pb)
-#define riot_log        (ctxptr->riot2.log)
-#define riot_alarm      (ctxptr->riot2.alarm)
-#define riot_read_clk   (ctxptr->riot2.read_clk)
-#define riot_read_offset (ctxptr->riot2.read_offset)
-#define riot_last_read  (ctxptr->riot2.last_read)
-#define edgectrl        (ctxptr->riot2.r_edgectrl)
-#define irqfl           (ctxptr->riot2.r_irqfl)
-#define irqline         (ctxptr->riot2.r_irqline)
-#define ti_write_clk    (ctxptr->riot2.r_write_clk)
-#define ti_N            (ctxptr->riot2.r_N)
-#define ti_divider      (ctxptr->riot2.r_divider)
-#define ti_irqen        (ctxptr->riot2.r_irqen)
-#define atn_active      (ctxptr->riot2p.r_atn_active)
-#define MYRIOT_NAME     (ctxptr->riot2.myname)
-
-void riot2_setup_context(drive_context_t *ctxptr)
+void REGPARM3 riot2_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    ctxptr->riot2.log = LOG_ERR;
-    ctxptr->riot2.read_clk = 0;
-    ctxptr->riot2.read_offset = 0;
-    ctxptr->riot2.last_read = 0;
-    ctxptr->riot2.r_edgectrl = 0;
-    ctxptr->riot2.r_irqfl = 0;
-    ctxptr->riot2.r_irqline = 0;
-    ctxptr->riot2p.r_atn_active = 0;
-    sprintf(ctxptr->riot2.myname, "RIOT2D%d", ctxptr->mynumber);
-    ctxptr->riot2p.int_num =
-        interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
-                                     ctxptr->riot2.myname);
+    riotcore_store(&(ctxptr->riot2), addr, data);
 }
 
-
-_RIOT_FUNC void set_handshake(drive_context_t *ctxptr, BYTE pa)
+BYTE REGPARM2 riot2_read(drive_context_t *ctxptr, WORD addr)
 {
+    return riotcore_read(&(ctxptr->riot2), addr);
+}
+
+static void set_irq(riot_context_t *riot_context, int fl, CLOCK clk)
+{
+    drive_context_t *drive_context;
+    driveriot2_context_t *riot2p;
+
+    drive_context = (drive_context_t *)(riot_context->context);
+    riot2p = (driveriot2_context_t *)(riot_context->prv);
+
+    interrupt_set_irq(drive_context->cpu.int_status, (riot2p->int_num),
+                      (fl) ? IK_IRQ : 0, clk);
+}
+
+static void restore_irq(riot_context_t *riot_context, int fl)
+{
+    drive_context_t *drive_context;
+    driveriot2_context_t *riot2p;
+
+    drive_context = (drive_context_t *)(riot_context->context);
+    riot2p = (driveriot2_context_t *)(riot_context->prv);
+
+    interrupt_restore_irq(drive_context->cpu.int_status, riot2p->int_num,
+                          (fl) ? IK_IRQ : 0);
+}
+
+static void set_handshake(riot_context_t *riot_context, BYTE pa)
+{
+    drive_context_t *drive_context;
+    driveriot2_context_t *riot2p;
+
+    drive_context = (drive_context_t *)(riot_context->context);
+    riot2p = (driveriot2_context_t *)(riot_context->prv);
+
     /* IEEE handshake logic (named as in schematics):
         Inputs: /ATN    = inverted IEEE atn (true = active)
                 ATNA    = pa bit 0
@@ -138,92 +91,120 @@ _RIOT_FUNC void set_handshake(drive_context_t *ctxptr, BYTE pa)
                 RFDO    = (/ATN == ATNA) & RFDO -> to IEEE via MC3446
     */
     /* RFDO = (/ATN == ATNA) & RFDO */
-    ctxptr->func.parallel_set_nrfd((char)(
-        !( ((atn_active ? 1 : 0) == (pa & 1)) && (pa & 4) )
+    drive_context->func.parallel_set_nrfd((char)(
+        !( ((riot2p->r_atn_active ? 1 : 0) == (pa & 1)) && (pa & 4) )
         ));
     /* DACO = /DACO & (ATNA | ATN) */
-    ctxptr->func.parallel_set_ndac((char)(
-        !( (!(pa & 2)) && ((pa & 1) || (!atn_active)) )
+    drive_context->func.parallel_set_ndac((char)(
+        !( (!(pa & 2)) && ((pa & 1) || (!(riot2p->r_atn_active))) )
         ));
 }
 
-void drive_riot_set_atn(drive_context_t *ctxptr, int state)
+void drive_riot_set_atn(riot_context_t *riot_context, int state)
 {
-    if (DRIVE_IS_OLDTYPE(ctxptr->drive_ptr->type)) {
-        if (atn_active && !state) {
-            riot2_signal(ctxptr, RIOT_SIG_PA7, RIOT_SIG_FALL);
+    drive_context_t *drive_context;
+    driveriot2_context_t *riot2p;
+
+    drive_context = (drive_context_t *)(riot_context->context);
+    riot2p = (driveriot2_context_t *)(riot_context->prv);
+
+    if (DRIVE_IS_OLDTYPE(riot2p->drive_ptr->type)) {
+        if (riot2p->r_atn_active && !state) {
+            riotcore_signal(riot_context, RIOT_SIG_PA7, RIOT_SIG_FALL);
         } else
-        if (state && !atn_active) {
-            riot2_signal(ctxptr, RIOT_SIG_PA7, RIOT_SIG_RISE);
+        if (state && !(riot2p->r_atn_active)) {
+            riotcore_signal(riot_context, RIOT_SIG_PA7, RIOT_SIG_RISE);
         }
-        atn_active = state;
-        riot1_set_pardata(ctxptr);
-        set_handshake(ctxptr, oldpa);
+        riot2p->r_atn_active = state;
+        riot1_set_pardata(&(drive_context->riot1));
+        set_handshake(riot_context, riot_context->old_pa);
     }
 }
 
-_RIOT_FUNC void undump_pra(drive_context_t *ctxptr, BYTE byte)
+static void undump_pra(riot_context_t *riot_context, BYTE byte)
 {
+    drive_context_t *drive_context;
+
+    drive_context = (drive_context_t *)(riot_context->context);
+
     /* bit 0 = atna */
-    set_handshake(ctxptr, byte);
-    ctxptr->func.parallel_set_eoi((BYTE)(!(byte & 0x08)));
-    ctxptr->func.parallel_set_dav((BYTE)(!(byte & 0x10)));
+    set_handshake(riot_context, byte);
+    drive_context->func.parallel_set_eoi((BYTE)(!(byte & 0x08)));
+    drive_context->func.parallel_set_dav((BYTE)(!(byte & 0x10)));
 }
 
-_RIOT_FUNC void store_pra(drive_context_t *ctxptr, BYTE byte)
+static void store_pra(riot_context_t *riot_context, BYTE byte)
 {
+    drive_context_t *drive_context;
+
+    drive_context = (drive_context_t *)(riot_context->context);
+
     /* bit 0 = atna */
     /* bit 1 = /daco */
     /* bit 2 = rfdo */
     /* bit 3 = eoio */
     /* bit 4 = davo */
-    set_handshake(ctxptr, byte);  /* handle atna, nrfd, ndac */
-    ctxptr->func.parallel_set_eoi((BYTE)(!(byte & 0x08)));
-    ctxptr->func.parallel_set_dav((BYTE)(!(byte & 0x10)));
+    set_handshake(riot_context, byte);  /* handle atna, nrfd, ndac */
+    drive_context->func.parallel_set_eoi((BYTE)(!(byte & 0x08)));
+    drive_context->func.parallel_set_dav((BYTE)(!(byte & 0x10)));
 }
 
-_RIOT_FUNC void undump_prb(drive_context_t *ctxptr, BYTE byte)
+static void undump_prb(riot_context_t *riot_context, BYTE byte)
 {
+    driveriot2_context_t *riot2p;
+
+    riot2p = (driveriot2_context_t *)(riot_context->prv);
+
     /* bit 3 Act LED 1 */
     /* bit 4 Act LED 0 */
     /* bit 5 Error LED */
 
     /* 1001 only needs LED 0 and Error LED */
-    ctxptr->drive_ptr->led_status = (byte >> 4) & 0x03;
+    riot2p->drive_ptr->led_status = (byte >> 4) & 0x03;
 
-    if ((ctxptr->mynumber == 0) && (DRIVE_IS_DUAL(ctxptr->drive_ptr->type))) {
+    if ((riot2p->number == 0) && (DRIVE_IS_DUAL(riot2p->drive_ptr->type))) {
         drive[1].led_status = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
 }
 
-_RIOT_FUNC void store_prb(drive_context_t *ctxptr, BYTE byte)
+static void store_prb(riot_context_t *riot_context, BYTE byte)
 {
+    driveriot2_context_t *riot2p;
+
+    riot2p = (driveriot2_context_t *)(riot_context->prv);
+
     /* bit 3 Act LED 1 */
     /* bit 4 Act LED 0 */
     /* bit 5 Error LED */
 
     /* 1001 only needs LED 0 and Error LED */
-    ctxptr->drive_ptr->led_status = (byte >> 4) & 0x03;
+    riot2p->drive_ptr->led_status = (byte >> 4) & 0x03;
 
-    if ((ctxptr->mynumber == 0) && (DRIVE_IS_DUAL(ctxptr->drive_ptr->type))) {
+    if ((riot2p->number == 0) && (DRIVE_IS_DUAL(riot2p->drive_ptr->type))) {
         drive[1].led_status = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
 }
 
-_RIOT_FUNC void riot_reset(drive_context_t *ctxptr)
+static void reset(riot_context_t *riot_context)
 {
-    atn_active = 0;
+    drive_context_t *drive_context;
+    driveriot2_context_t *riot2p;
 
-    ctxptr->func.parallel_set_dav(0);
-    ctxptr->func.parallel_set_eoi(0);
+    drive_context = (drive_context_t *)(riot_context->context);
+    riot2p = (driveriot2_context_t *)(riot_context->prv);
 
-    set_handshake(ctxptr, oldpa);
+    riot2p->r_atn_active = 0;
+
+    drive_context->func.parallel_set_dav(0);
+    drive_context->func.parallel_set_eoi(0);
+
+    set_handshake(riot_context, riot_context->old_pa);
 
     /* 1001 only needs LED 0 and Error LED */
-    ctxptr->drive_ptr->led_status = 3;
+    riot2p->drive_ptr->led_status = 3;
 }
 
-_RIOT_FUNC BYTE read_pra(drive_context_t *ctxptr)
+static BYTE read_pra(riot_context_t *riot_context)
 {
     BYTE byte = 0xff;
     if (!parallel_atn)
@@ -232,48 +213,49 @@ _RIOT_FUNC BYTE read_pra(drive_context_t *ctxptr)
         byte -= 0x40;
     if (parallel_eoi)
         byte -= 0x20;
-    return (byte & ~riotio[1]) | (riotio[0] & riotio[1]);
+    return (byte & ~(riot_context->riot_io)[1])
+        | ((riot_context->riot_io)[0] & (riot_context->riot_io)[1]);
 }
 
-_RIOT_FUNC BYTE read_prb(drive_context_t *ctxptr)
+static BYTE read_prb(riot_context_t *riot_context)
 {
+    driveriot2_context_t *riot2p;
     BYTE byte = 0xff;
+
+    riot2p = (driveriot2_context_t *)(riot_context->prv);
+
     if (parallel_nrfd)
         byte -= 0x80;
     if (parallel_ndac)
         byte -= 0x40;
 
-    if (ctxptr->mynumber == 0)
+    if (riot2p->number == 0)
         byte -= 1;        /* device address bit 0 */
     byte -= 2;          /* device address bit 1 */
     byte -= 4;          /* device address bit 2 */
 
-    return (byte & ~riotio[3]) | (riotio[2] & riotio[3]);
+    return (byte & ~(riot_context->riot_io)[3])
+        | ((riot_context->riot_io)[2] & (riot_context->riot_io)[3]);
 }
-
-
-/* special callback handling */
-static void clk_overflow_callback(drive_context_t *, CLOCK, void*);
-static void int_riot(drive_context_t *, CLOCK);
 
 static void clk0_overflow_callback(CLOCK sub, void *data)
 {
-    clk_overflow_callback(&drive0_context, sub, data);
+    riotcore_clk_overflow_callback(&(drive0_context.riot2), sub, data);
 }
 
 static void clk1_overflow_callback(CLOCK sub, void *data)
 {
-    clk_overflow_callback(&drive1_context, sub, data);
+    riotcore_clk_overflow_callback(&(drive1_context.riot2), sub, data);
 }
 
 static void int_riot2d0(CLOCK c)
 {
-    int_riot(&drive0_context, c);
+    riotcore_int_riot(&(drive0_context.riot2), c);
 }
 
 static void int_riot2d1(CLOCK c)
 {
-    int_riot(&drive1_context, c);
+    riotcore_int_riot(&(drive1_context.riot2), c);
 }
 
 static const riot_initdesc_t riot2_initdesc[] = {
@@ -283,8 +265,42 @@ static const riot_initdesc_t riot2_initdesc[] = {
 
 void riot2_init(drive_context_t *ctxptr)
 {
-    riot_drive_init(ctxptr, riot2_initdesc);
+    riotcore_init(riot2_initdesc, ctxptr->cpu.alarm_context,
+                  ctxptr->cpu.clk_guard, ctxptr->mynumber);
 }
 
-#include "riotcore.c"
+void riot2_setup_context(drive_context_t *ctxptr)
+{
+    riot_context_t *riot;
+    driveriot2_context_t *riot2p;
+
+    riot = &(ctxptr->riot2);
+
+    riot->prv = lib_malloc(sizeof(driveriot2_context_t));
+    riot2p = (driveriot2_context_t *)(riot->prv);
+    riot2p->number = ctxptr->mynumber;
+
+    riot->context = (void *)ctxptr;
+
+    riot->rmw_flag = &(ctxptr->cpu.rmw_flag);
+    riot->clk_ptr = ctxptr->clk_ptr;
+
+    riotcore_setup_context(riot);
+
+    sprintf(riot->myname, "RIOT2D%d", ctxptr->mynumber);
+
+    riot2p->drive_ptr = ctxptr->drive_ptr;
+    riot2p->r_atn_active = 0;
+    riot2p->int_num = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+                                                   ctxptr->riot2.myname);
+    riot->undump_pra = undump_pra;
+    riot->undump_prb = undump_prb;
+    riot->store_pra = store_pra;
+    riot->store_prb = store_prb;
+    riot->read_pra = read_pra;
+    riot->read_prb = read_prb;
+    riot->reset = reset;
+    riot->set_irq = set_irq;
+    riot->restore_irq = restore_irq;
+}
 

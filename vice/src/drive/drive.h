@@ -312,11 +312,6 @@ extern void drive_set_disk_memory(unsigned int dnr, BYTE *id,
 extern void drive_set_last_read(unsigned int dnr, unsigned int track,
                                 unsigned int sector, BYTE *buffer);
 
-extern void drive0_via_set_atn(int);
-extern void drive1_via_set_atn(int);
-extern void drive0_riot_set_atn(int);
-extern void drive1_riot_set_atn(int);
-
 extern int drive_match_bus(unsigned int drive_type, unsigned int drv,
                            int bus_map);
 extern int drive_check_type(unsigned int drive_type, unsigned int dnr);

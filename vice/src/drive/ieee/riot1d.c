@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,151 +25,102 @@
  *
  */
 
-struct drive_context_s;
-#define RIOT_SHARED_CODE
-#define RIOTCONTEXT     struct drive_context_s
-
-#include "riotcore.h"
-
-#undef RIOT_TIMER_DEBUG
-
-/*************************************************************************
- * Renaming exported functions
- */
-
-#define myriot_init     riot1_init
-#define myriot_signal   riot1_signal
-#define myriot_reset    riot1_reset
-#define myriot_store    riot1_store
-#define myriot_read     riot1_read
-#define myriot_peek     riot1_peek
-#define myriot_set_flag riot1_set_flag
-#define myriot_snapshot_write_module riot1_snapshot_write_module
-#define myriot_snapshot_read_module riot1_snapshot_read_module
-
-/*************************************************************************
- * CPU binding
- */
-
-#include "interrupt.h"
-
-#define myclk           (*(ctxptr->clk_ptr))
-#define mycpu_clk_guard (ctxptr->cpu.clk_guard)
-#define mycpu_rmw_flag  (ctxptr->cpu.rmw_flag)
-#define mycpu_alarm_context (ctxptr->cpu.alarm_context)
-
-#define my_set_irq(fl, clk)
-
-#define my_restore_irq(fl)
-
-/*************************************************************************
- * I/O
- */
+#include "vice.h"
 
 #include <stdio.h>
 
-#include "clkguard.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "drivetypes.h"
-#include "iecdrive.h"
 #include "parallel.h"
+#include "riot.h"
 #include "riotd.h"
 #include "types.h"
 
 
-/* renaming formerly global symbols */
-#define riotio          (ctxptr->riot1.riot_io)
-#define oldpa           (ctxptr->riot1.old_pa)
-#define oldpb           (ctxptr->riot1.old_pb)
-#define riot_log        (ctxptr->riot1.log)
-#define riot_alarm      (ctxptr->riot1.alarm)
-#define riot_read_clk   (ctxptr->riot1.read_clk)
-#define riot_read_offset (ctxptr->riot1.read_offset)
-#define riot_last_read  (ctxptr->riot1.last_read)
-#define edgectrl        (ctxptr->riot1.r_edgectrl)
-#define irqfl           (ctxptr->riot1.r_irqfl)
-#define irqline         (ctxptr->riot1.r_irqline)
-#define ti_write_clk    (ctxptr->riot1.r_write_clk)
-#define ti_N            (ctxptr->riot1.r_N)
-#define ti_divider      (ctxptr->riot1.r_divider)
-#define ti_irqen        (ctxptr->riot1.r_irqen)
-#define MYRIOT_NAME     (ctxptr->riot1.myname)
-
-void riot1_setup_context(drive_context_t *ctxptr)
+void REGPARM3 riot1_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    ctxptr->riot1.log = LOG_ERR;
-    ctxptr->riot1.read_clk = 0;
-    ctxptr->riot1.read_offset = 0;
-    ctxptr->riot1.last_read = 0;
-    ctxptr->riot1.r_edgectrl = 0;
-    ctxptr->riot1.r_irqfl = 0;
-    ctxptr->riot1.r_irqline = 0;
-    sprintf(ctxptr->riot1.myname, "RIOT1D%d", ctxptr->mynumber);
+    riotcore_store(&(ctxptr->riot1), addr, data);
 }
 
+BYTE REGPARM2 riot1_read(drive_context_t *ctxptr, WORD addr)
+{
+    return riotcore_read(&(ctxptr->riot1), addr);
+}
 
-static void undump_pra(drive_context_t *ctxptr, BYTE byte)
+static void set_irq(riot_context_t *riot_context, int fl, CLOCK clk)
 {
 }
 
-inline static void store_pra(drive_context_t *ctxptr, BYTE byte)
+static void restore_irq(riot_context_t *riot_context, int fl)
 {
 }
 
-static void undump_prb(drive_context_t *ctxptr, BYTE byte)
+static void undump_pra(riot_context_t *riot_context, BYTE byte)
 {
-    ctxptr->func.parallel_set_bus(byte);
 }
 
-inline static void store_prb(drive_context_t *ctxptr, BYTE byte)
+static void store_pra(riot_context_t *riot_context, BYTE byte)
 {
-    ctxptr->func.parallel_set_bus((BYTE)(parallel_atn ? 0xff : byte));
 }
 
-void riot1_set_pardata(drive_context_t *ctxptr)
+static void undump_prb(riot_context_t *riot_context, BYTE byte)
 {
-    store_prb(ctxptr, oldpb);
+    drive_context_t *drive_context;
+
+    drive_context = (drive_context_t *)(riot_context->context);
+
+    drive_context->func.parallel_set_bus(byte);
 }
 
-static void riot_reset(drive_context_t *ctxptr)
+static void store_prb(riot_context_t *riot_context, BYTE byte)
 {
-    store_prb(ctxptr, 0xff);
+    drive_context_t *drive_context;
+
+    drive_context = (drive_context_t *)(riot_context->context);
+
+    drive_context->func.parallel_set_bus((BYTE)(parallel_atn ? 0xff : byte));
 }
 
-inline static BYTE read_pra(drive_context_t *ctxptr)
+void riot1_set_pardata(riot_context_t *riot_context)
 {
-    return (parallel_bus & ~riotio[1]) | (riotio[0] & riotio[1]);
+    store_prb(riot_context, riot_context->old_pb);
 }
 
-inline static BYTE read_prb(drive_context_t *ctxptr)
+static void reset(riot_context_t *riot_context)
 {
-    return (0xff & ~riotio[3]) | (riotio[2] & riotio[3]);
+    store_prb(riot_context, 0xff);
 }
 
+static BYTE read_pra(riot_context_t *riot_context)
+{
+    return (parallel_bus & ~(riot_context->riot_io)[1])
+        | (riot_context->riot_io[0] & riot_context->riot_io[1]);
+}
 
-/* special callback handling */
-static void clk_overflow_callback(drive_context_t *, CLOCK, void*);
-static void int_riot(drive_context_t *, CLOCK);
+static BYTE read_prb(riot_context_t *riot_context)
+{
+    return (0xff & ~(riot_context->riot_io)[3])
+        | (riot_context->riot_io[2] & riot_context->riot_io[3]);
+}
 
 static void clk0_overflow_callback(CLOCK sub, void *data)
 {
-    clk_overflow_callback(&drive0_context, sub, data);
+    riotcore_clk_overflow_callback(&(drive0_context.riot1), sub, data);
 }
 
 static void clk1_overflow_callback(CLOCK sub, void *data)
 {
-    clk_overflow_callback(&drive1_context, sub, data);
+    riotcore_clk_overflow_callback(&(drive1_context.riot1), sub, data);
 }
 
 static void int_riot1d0(CLOCK c)
 {
-    int_riot(&drive0_context, c);
+    riotcore_int_riot(&(drive0_context.riot1), c);
 }
 
 static void int_riot1d1(CLOCK c)
 {
-    int_riot(&drive1_context, c);
+    riotcore_int_riot(&(drive1_context.riot1), c);
 }
 
 static const riot_initdesc_t riot1_initdesc[] = {
@@ -178,22 +130,34 @@ static const riot_initdesc_t riot1_initdesc[] = {
 
 void riot1_init(drive_context_t *ctxptr)
 {
-    riot_drive_init(ctxptr, riot1_initdesc);
+    riotcore_init(riot1_initdesc, ctxptr->cpu.alarm_context,
+                  ctxptr->cpu.clk_guard, ctxptr->mynumber);
 }
 
-void riot_drive_init(drive_context_t *ctxptr, const riot_initdesc_t *riot_desc)
+void riot1_setup_context(drive_context_t *ctxptr)
 {
-    char buffer[16];
-    const riot_initdesc_t *rd = &riot_desc[ctxptr->mynumber];
+    riot_context_t *riot;
 
-    if (rd->riot_ptr->log == LOG_ERR)
-        rd->riot_ptr->log = log_open(rd->riot_ptr->myname);
+    riot = &(ctxptr->riot1);
 
-    sprintf(buffer, "%sT1", rd->riot_ptr->myname);
-    rd->riot_ptr->alarm = alarm_new(mycpu_alarm_context, buffer, rd->int_t1);
+    riot->prv = NULL;
+    riot->context = (void *)ctxptr;
 
-    clk_guard_add_callback(mycpu_clk_guard, rd->clk, NULL);
+    riot->rmw_flag = &(ctxptr->cpu.rmw_flag);
+    riot->clk_ptr = ctxptr->clk_ptr;
+
+    riotcore_setup_context(riot);
+
+    sprintf(riot->myname, "RIOT1D%d", ctxptr->mynumber);
+
+    riot->undump_pra = undump_pra;
+    riot->undump_prb = undump_prb;
+    riot->store_pra = store_pra;
+    riot->store_prb = store_prb;
+    riot->read_pra = read_pra;
+    riot->read_prb = read_prb;
+    riot->reset = reset;
+    riot->set_irq = set_irq;
+    riot->restore_irq = restore_irq;
 }
-
-#include "riotcore.c"
 
