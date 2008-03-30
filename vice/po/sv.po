@@ -1,14 +1,14 @@
 # Swedish translation file for VICE
 # Peter Karlsson <peter@softwolves.pp.se>
-# Copyright 2000-2002
+# Copyright 2000-2003
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-05-25 21:35+0200\n"
-"PO-Revision-Date: 2001-08-15 18:33+0100\n"
-"Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
-"Language-Team: Swedish <sv@li.org>\\n\n"
+"Project-Id-Version: VICE 1.12\n"
+"POT-Creation-Date: 2003-05-29 18:52+0200\n"
+"PO-Revision-Date: 2003-05-26 21:52+0200\n"
+"Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
+"Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -58,9 +58,8 @@ msgstr "*NTSC-M"
 #: src/arch/unix/c128ui.c:144 src/arch/unix/c128ui.c:169
 #: src/arch/unix/c64ui.c:211 src/arch/unix/c64ui.c:236
 #: src/arch/unix/cbm2ui.c:282 src/arch/unix/cbm2ui.c:307
-#, fuzzy
 msgid "SID engine"
-msgstr "SID-inställningar"
+msgstr "SID-motor"
 
 #: src/arch/unix/c128ui.c:147 src/arch/unix/c128ui.c:173
 #: src/arch/unix/c64ui.c:214 src/arch/unix/c64ui.c:240
@@ -157,24 +156,20 @@ msgid "Load default ROMs"
 msgstr "Ladda standard-ROM"
 
 #: src/arch/unix/c128ui.c:251
-#, fuzzy
 msgid "Load new Int. Kernal ROM"
-msgstr "Ladda ny Kernal-ROM"
+msgstr "Ladda ny Int. Kernal-ROM"
 
 #: src/arch/unix/c128ui.c:254
-#, fuzzy
 msgid "Load new German Kernal ROM"
-msgstr "Ladda ny Kernal-ROM"
+msgstr "Ladda ny tysk Kernal-ROM"
 
 #: src/arch/unix/c128ui.c:257
-#, fuzzy
 msgid "Load new Basic Lo ROM"
-msgstr "Ladda ny Basic-ROM"
+msgstr "Ladda ny låg Basic-ROM"
 
 #: src/arch/unix/c128ui.c:260
-#, fuzzy
 msgid "Load new Basic Hi ROM"
-msgstr "Ladda ny Basic-ROM"
+msgstr "Ladda ny hög Basic-ROM"
 
 #: src/arch/unix/c128ui.c:263
 msgid "Load new Chargen ROM"
@@ -182,9 +177,8 @@ msgstr "Ladda ny teckengenerator-ROM"
 
 #: src/arch/unix/c128ui.c:267 src/arch/unix/c64ui.c:287
 #: src/arch/unix/vic20ui.c:128
-#, fuzzy
 msgid "Load new drive ROM"
-msgstr "Ladda ny editor-ROM"
+msgstr "Ladda ny diskettstation-ROM"
 
 #: src/arch/unix/c128ui.c:270 src/arch/unix/c64ui.c:290
 #: src/arch/unix/cbm2ui.c:120 src/arch/unix/petui.c:225
@@ -211,9 +205,8 @@ msgid "Screenshots..."
 msgstr "Skärmdump..."
 
 #: src/arch/unix/c128ui.c:332
-#, fuzzy
 msgid "Machine type"
-msgstr "Enhetstyp"
+msgstr "Maskintyp"
 
 #: src/arch/unix/c128ui.c:334 src/arch/unix/cbm2ui.c:228
 #: src/arch/unix/petui.c:261 src/arch/unix/vic20ui.c:168
@@ -243,9 +236,8 @@ msgid "RS232 settings"
 msgstr "RS232-inställningar"
 
 #: src/arch/unix/c128ui.c:352
-#, fuzzy
 msgid "Model settings"
-msgstr "Ladda inställningar"
+msgstr "Modellinställningar"
 
 #: src/arch/unix/c128ui.c:410 src/arch/unix/c64ui.c:388
 #: src/arch/unix/cbm2ui.c:456 src/arch/unix/petui.c:380
@@ -1947,17 +1939,16 @@ msgid "*Save settings on exit"
 msgstr "*Spara inställningar vid avslut"
 
 #: src/arch/unix/uisid.c:43
-#, fuzzy
 msgid "*Fast SID"
-msgstr "*Snabbt"
+msgstr "*Snabb SID"
 
 #: src/arch/unix/uisid.c:46
 msgid "*ReSID"
-msgstr ""
+msgstr "*ReSID"
 
 #: src/arch/unix/uisid.c:50
 msgid "*Catweasle MKIII"
-msgstr ""
+msgstr "*Catweasle MKIII"
 
 #: src/arch/unix/uisid.c:59
 msgid "*6581 (old)"

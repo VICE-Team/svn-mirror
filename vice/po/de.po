@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.12\n"
-"POT-Creation-Date: 2003-05-25 21:35+0200\n"
+"POT-Creation-Date: 2003-05-29 18:52+0200\n"
 "PO-Revision-Date: 2003-04-24 16:13+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
