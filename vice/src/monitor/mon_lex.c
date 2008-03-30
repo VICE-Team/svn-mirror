@@ -10,7 +10,6 @@
 
 #include <stdio.h>
 
-
 /* cfront 1.2 defines "c_plusplus" instead of "__cplusplus" */
 #ifdef c_plusplus
 #ifndef __cplusplus
@@ -19,7 +18,7 @@
 #endif
 
 
-#ifdef __cplusplus
+#if defined __cplusplus
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -32,7 +31,7 @@
 
 #else	/* ! __cplusplus */
 
-#if __STDC__
+#if __STDC__ || defined __IBMC__
 
 #define YY_USE_PROTOS
 #define YY_USE_CONST
@@ -636,6 +635,7 @@ char *yytext;
 #include "utils.h"
 #include "types.h"
 
+#undef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
 
 int new_cmd = 1, quote = 0, opt_asm = 0, cur_len = 0, last_len = 0, dont_match_reg_a = 0;
@@ -960,7 +960,7 @@ YY_RULE_SETUP
                          opt_asm = 1;
                       return yylval.i;
                    }
-                 } 
+                 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
@@ -1726,6 +1726,7 @@ register char *yy_bp;
 #ifdef __cplusplus
 static int yyinput()
 #else
+extern int input(void);
 static int input()
 #endif
 	{

@@ -31,10 +31,10 @@
 #define INCL_WINSTDDLGS
 #define INCL_WINSTDSPIN
 
-// Don't change the order of the include files!
 #include "../config.h"
-#include "dialogs.h"
 #include "../../../version.h"
+
+#include "dialogs.h"
 
 // My Styles
 #define STY_STD               WS_TABSTOP | WS_VISIBLE
@@ -68,6 +68,10 @@ DEFAULTICON "..\icons\xcbm2.ico"
 
 #ifdef __X128__
 DEFAULTICON "..\icons\x128.ico"
+#endif
+
+#ifdef __XVIC__
+DEFAULTICON "..\icons\xvic.ico"
 #endif
 
 #ifdef HAS_JOYSTICK
@@ -148,13 +152,11 @@ BEGIN
         CONTROL "2x",           RB_2X,      77, 105, 25, 10, STY_AUTORADIOBUTTON
         CONTROL "4x",           RB_4X,      77,  95, 25, 10, STY_AUTORADIOBUTTON
         CONTROL "8x",           RB_8X,      77,  85, 25, 10, STY_AUTORADIOBUTTON
-#if defined __X64__ || defined __X128__ || defined __XCBM__
         TEXT("SID:", 17, 70, 20, 8)
         CONTROL "6581",         RB_6581,    37,  69, 30, 10, STY_AUTORADIOBUTTON |
                                 WS_GROUP
         CONTROL "8580",         RB_8580,    77,  69, 30, 10, STY_AUTORADIOBUTTON
         CONTROL "Sid Filters",  CB_SIDFILTER, 17, 55, 50, 9, STY_AUTOCHECKBOX
-#endif
 #ifdef HAVE_RESID
         CONTROL "HiFi (reSID)", CB_RESID,   70,  55, 60,  9, STY_AUTOCHECKBOX
 #endif
@@ -169,7 +171,7 @@ DLGTEMPLATE DLG_DRIVE 850 MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "Drive Setup", DLG_DRIVE, 106, 46, 263, 145, STY_DIALOG
     BEGIN
-        CONTROL "Close",       DID_CLOSE,    5,   5,  38, 12, STY_CLOSEBUTTON |
+        CONTROL "Close",       DID_CLOSE,    5,   4,  40, 12, STY_CLOSEBUTTON |
                                                               WS_GROUP 
         CONTROL "Drive",       ID_NONE,      5, 104, 251, 38, STY_GROUPBOX
         CONTROL "True Drive Emulation",
@@ -190,8 +192,8 @@ BEGIN
                                CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
                                WS_VISIBLE
         CONTROL "...",         PB_ATTACH, 232, 86, 16, 11, STY_PUSHBUTTON
-        TEXT("Drive Type:", 151, 73, 45, 8)
-        CONTROL "",            CBS_TYPE,   198, 41,  50, 42, WC_COMBOBOX, 
+        TEXT("Drive Type:", 86, 73, 45, 8)
+        CONTROL "",            CBS_TYPE,   133, 41, 115, 42, WC_COMBOBOX, 
                                CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
                                WS_VISIBLE
         CONTROL "Parallel Cable",
@@ -214,10 +216,11 @@ BEGIN
                                CB_SAVEP00,    135, 25,  88, 10, STY_AUTOCHECKBOX
         CONTROL "Hide non-p00-Files",
         		       CB_HIDENONP00,  13, 24,  85, 10, STY_AUTOCHECKBOX
-        TEXT("Image:", 142/*97*/, 4, 29, 8)
-//        CONTROL "Attach",      PB_ATTACH, 128, 2, 40, 14, STY_PUSHBUTTON
-        CONTROL "Detach",      PB_DETACH, 173, 2, 40, 14, STY_PUSHBUTTON
-        CONTROL "Flip",        PB_FLIP,   217, 2, 40, 14, STY_PUSHBUTTON
+        TEXT("Image:", 54, 6, 29, 8)
+        CONTROL "Create",      PB_CREATE,  85, 4, 40, 12, STY_PUSHBUTTON
+        CONTROL "Attach",      PB_ATTACH, 129, 4, 40, 12, STY_PUSHBUTTON
+        CONTROL "Detach",      PB_DETACH, 173, 4, 40, 12, STY_PUSHBUTTON
+        CONTROL "Flip",        PB_FLIP,   217, 4, 40, 12, STY_PUSHBUTTON
     END
 END
 

@@ -371,6 +371,8 @@ const char contrib_text[] =
 "\n"
 "  Tibor Biczo <crown@mail.matav.hu> improved the MS-Windows port.\n"
 "\n"
+"  Thomas Bretz <tbretz@ph.tum.de> responsible for the OS/2 port.\n"
+"\n"
 "  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de> wrote the Acorn\n"
 "  RISC OS port.\n"
 "\n"

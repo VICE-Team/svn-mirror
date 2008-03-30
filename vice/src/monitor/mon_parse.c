@@ -130,6 +130,8 @@ static int yyerror(char *s);
 static int temp;
 static int resolve_datatype(unsigned guess_type, char *num);
 
+static void __yy_memcpy (char *to, char *from, int count);
+
 /* Defined in the lexer */
 extern int new_cmd, opt_asm;
 extern void free_buffer(void);
@@ -850,7 +852,7 @@ int yydebug;			/*  nonzero means print parse trace	*/
 #endif
 
 /* Prevent warning if -Wstrict-prototypes.  */
-#ifdef __GNUC__
+#if defined __GNUC__ || defined __IBMC__
 YYPARSE_RETURN_TYPE yyparse (void);
 #endif
 

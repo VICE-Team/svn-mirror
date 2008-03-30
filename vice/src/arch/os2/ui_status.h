@@ -49,7 +49,8 @@ typedef struct _ui_status
     float lastSpeed;
     float lastFps;
     float lastTrack[4];
-    CHAR  lastImage[4][255];
+    CHAR  lastImage[4][CCHMAXPATH];
+    CHAR  lastPath [4][CCHMAXPATH];
     int   lastTapeMotor;
     int   lastTapeCounter;
     ui_drive_enable_t lastDriveState;

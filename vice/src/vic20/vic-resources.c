@@ -31,11 +31,7 @@
 #include "vic-resources.h"
 #include "vic.h"
 
-
-
 vic_resources_t vic_resources;
-
-
 
 #ifdef __MSDOS__
 #define DEFAULT_VideoCache_VALUE 0
@@ -43,10 +39,7 @@ vic_resources_t vic_resources;
 #define DEFAULT_VideoCache_VALUE 1
 #endif
 
-
-
-static int 
-set_video_cache_enabled (resource_value_t v)
+static int set_video_cache_enabled (resource_value_t v)
 {
   vic_resources.video_cache_enabled = (int) v;
   if (vic.initialized)
@@ -55,8 +48,7 @@ set_video_cache_enabled (resource_value_t v)
   return 0;
 }
 
-static int 
-set_palette_file_name (resource_value_t v)
+static int set_palette_file_name (resource_value_t v)
 {
   string_set (&vic_resources.palette_file_name, (char *) v);
   if (vic.initialized)
@@ -76,12 +68,9 @@ static resource_t resources[] =
     { NULL }
   };
 
-
-
 #ifdef VIC_NEED_2X
 
-static int 
-set_double_size_enabled (resource_value_t v)
+static int set_double_size_enabled (resource_value_t v)
 {
   vic_resources.double_size_enabled = (int) v;
   vic_resize ();
@@ -89,8 +78,7 @@ set_double_size_enabled (resource_value_t v)
   return 0;
 }
 
-static int 
-set_double_scan_enabled (resource_value_t v)
+static int set_double_scan_enabled (resource_value_t v)
 {
   vic_resources.double_scan_enabled = (int) v;
   if (vic.initialized)
@@ -102,15 +90,13 @@ set_double_scan_enabled (resource_value_t v)
 }
 
 #ifdef USE_VIDMODE_EXTENSION
-static int
-set_fullscreen_double_size_enabled(resource_value_t v)
+static int set_fullscreen_double_size_enabled(resource_value_t v)
 {
   vic_resources.fullscreen_double_size_enabled = (int) v;
   return 0;
 }
 
-static int
-set_fullscreen_double_scan_enabled(resource_value_t v)
+static int set_fullscreen_double_scan_enabled(resource_value_t v)
 {
   vic_resources.fullscreen_double_scan_enabled = (int) v;
   return 0;
@@ -138,10 +124,7 @@ static resource_t resources_2x[] =
 
 #endif /* VIC_NEED_2X */
 
-
-
-int 
-vic_resources_init (void)
+int vic_resources_init (void)
 {
 #ifdef VIC_NEED_2X
   if (resources_register (resources_2x) < 0)

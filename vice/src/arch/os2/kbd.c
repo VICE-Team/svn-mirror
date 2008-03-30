@@ -26,24 +26,18 @@
  *
  */
 
-//#define INCL_WININPUT
 #include "vice.h"
 
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <direct.h>
-
 
 #include "ui.h"
 #include "kbd.h"
 #include "log.h"
 #include "mon.h"
 #include "vsync.h"         //suspend_speed_eval
-#include "tape.h"          // tape_attach
 #include "utils.h"
-#include "attach.h"        // file_system_attach_disk
 #include "machine.h"       // machine_powerup
 #include "cmdline.h"
 #include "resources.h"
@@ -147,42 +141,6 @@ void switch_capslock_led_off(void)
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
 }
 
-#ifdef __EMXC__
-#define _getcwd _getcwd2
-#endif
-// _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
-void ui_attach(HWND hwnd, int number)
-{
-    static char drive[3]="g:";                        // maybe a resource
-    static char path[CCHMAXPATH-2]="\\c64\\images";   // maybe a resource
-    char   result [CCHMAXPATH];
-    char   dirname[CCHMAXPATH];
-
-    _getcwd(dirname, CCHMAXPATH);        // store working dir
-
-    strcat(strcpy(result, drive),path);
-    if (chdir(result))                   // try if actual image dir exist
-    {                                    // if it doesn't exist, set
-        drive[0]=dirname[0];             // imagedir to working dir
-        drive[1]=':';                    // maybe drive is empty at first call
-        strcpy(path, dirname+2);
-    }
-    chdir(dirname);                      // change back to working dir
-
-    if (!ui_file_dialog(hwnd,        number?"Attach disk image":"Attach tape image",
-                        drive, path, number?"*.d64*; *.d71*; *.d81*; *.g64*; *.x64*":"*.t64*; *.tap*",
-                        "Attach", result))
-        return;
-    if ((number?file_system_attach_disk(number, result):tape_attach_image(result)) < 0)
-    {
-        WinError(hwnd, "Cannot attach specified file.");
-        return;
-    }
-    drive[0]=result[0];
-    *strrchr(result,'\\')='\0';
-    strcpy(path, result+2);
-}
-
 static void ui_hard_reset(HWND hwnd)
 {
     if (ui_yesno_dialog(hwnd, "Hard Reset",
@@ -240,9 +198,9 @@ void wmChar(HWND hwnd, MPARAM mp1)
     if (fsFlags&KC_ALT && release) {
         switch (usScancode)
         {
-        case K_8: ui_attach       (hwnd, 8); break;
-        case K_9: ui_attach       (hwnd, 9); break;
-        case K_0: ui_attach       (hwnd, 0); break;
+        case K_8: attach_dialog   (hwnd, 8); break;
+        case K_9: attach_dialog   (hwnd, 9); break;
+        case K_0: attach_dialog   (hwnd, 0); break;
         case K_A: about_dialog    (hwnd);    break;
         case K_C: datasette_dialog(hwnd);    break;
         case K_D: drive_dialog    (hwnd);    break;

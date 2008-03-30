@@ -3,5 +3,6 @@ source type(c)
     "vdrive-iec.c",
     "vdrive-bam.c",
     "vdrive-dir.c",
+    "vdrive-rel.c",
     "vdrive-command.c",
     "vdrive-snapshot.c"

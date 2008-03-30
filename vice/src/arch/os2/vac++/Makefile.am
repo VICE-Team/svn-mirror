@@ -19,6 +19,7 @@ EXTRA_DIST = \
         incl/monitor.icc\
         incl/pet.icc \
         incl/raster.icc \
+        incl/resid.icc \
         incl/sounddrv.icc \
         incl/vdc.icc \
         incl/vdrive.icc \

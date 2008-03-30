@@ -12,6 +12,8 @@ libdialogs_a_SOURCES = \
         dialogs.rc \
 	dlg-sound.c \
 	dlg-drive.c \
+        dlg-create.c \
+        dlg-attach.c \
 	dlg-monitor.c \
 	dlg-emulator.c \
 	dlg-joystick.c \

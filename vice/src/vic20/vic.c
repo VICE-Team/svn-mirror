@@ -53,19 +53,12 @@
 #include "vic-snapshot.h"
 #include "vsync.h"
 
-
-
 vic_t vic;
-
-
 
 static int raster_draw_alarm_handler (CLOCK offset);
 static void vic_exposure_handler (unsigned int width, unsigned int height);
 
-
-
-static void 
-vic_exposure_handler (unsigned int width, unsigned int height)
+static void vic_exposure_handler (unsigned int width, unsigned int height)
 {
   raster_resize_viewport (&vic.raster, width, height);
 
@@ -77,8 +70,7 @@ vic_exposure_handler (unsigned int width, unsigned int height)
 /* Notice: The screen origin X register has a 4-pixel granularity, so our
    write accesses are always aligned. */
 
-static int 
-raster_draw_alarm_handler (CLOCK offset)
+static int raster_draw_alarm_handler (CLOCK offset)
 {
   int in_visible_area;
 
@@ -112,10 +104,7 @@ raster_draw_alarm_handler (CLOCK offset)
   return 0;
 }
 
-
-
-static int
-init_raster (void)
+static int init_raster (void)
 {
   raster_t *raster;
   unsigned int width, height;
@@ -173,8 +162,7 @@ init_raster (void)
 }
 
 /* Initialization. */
-canvas_t 
-vic_init (void)
+canvas_t vic_init (void)
 {
   vic.log = log_open ("VIC");
 
@@ -212,8 +200,7 @@ vic_init (void)
 }
 
 /* Reset the VIC-I chip. */
-void 
-vic_reset (void)
+void vic_reset (void)
 {
   raster_reset (&vic.raster);
   alarm_set (&vic.raster_draw_alarm, VIC_CYCLES_PER_LINE);
@@ -221,13 +208,10 @@ vic_reset (void)
   vic.memptr = 0;
 }
 
-
-
 /* WARNING: This does not change the resource value.  External modules are
    expected to set the resource value to change the VIC-II palette instead of
    calling this function directly.  */
-int
-vic_load_palette (const char *name)
+int vic_load_palette (const char *name)
 {
   static const char *color_names[] =
     {
@@ -251,14 +235,11 @@ vic_load_palette (const char *name)
   return 0;
 }
 
-
-
 /* This hook is called whenever the screen parameters (eg. window size) are
    changed.  */
-void 
-vic_resize (void)
+void vic_resize (void)
 {
-  if (! vic.initialized)
+  if (!vic.initialized)
     return;
 
   if (vic_resources.double_size_enabled)
@@ -291,12 +272,9 @@ vic_resize (void)
     }
 }
 
-
-
 /* Set the memory pointers according to the values stored in the VIC
    registers. */
-void 
-vic_update_memory_ptrs (void)
+void vic_update_memory_ptrs (void)
 {
   ADDRESS char_addr;
   int tmp;
@@ -330,45 +308,33 @@ vic_update_memory_ptrs (void)
   VIC_DEBUG_REGISTER (("Screen memory at $%04X.", vic.screen_ptr - ram));
 }
 
-
-
-int
-vic_init_resources (void)
+int vic_init_resources (void)
 {
   return vic_resources_init ();
 }
 
-int
-vic_init_cmdline_options (void)
+int vic_init_cmdline_options (void)
 {
   return vic_cmdline_options_init ();
 }
 
-
-
-int
-vic_write_snapshot_module (snapshot_t *s)
+int vic_write_snapshot_module (snapshot_t *s)
 {
   return vic_snapshot_write_module (s);
 }
 
-int
-vic_read_snapshot_module (snapshot_t *s)
+int vic_read_snapshot_module (snapshot_t *s)
 {
   return vic_snapshot_read_module (s);
 }
 
-
-
 /* FIXME: Just a dummy.  */
-void 
-video_setfullscreen (int v, int width, int height)
+void video_setfullscreen (int v, int width, int height)
 {
 }
 
 /* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
-void 
-video_free (void)
+void video_free (void)
 {
   video_frame_buffer_free (&vic.raster.frame_buffer);
 }

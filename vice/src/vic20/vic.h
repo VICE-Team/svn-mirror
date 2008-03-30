@@ -57,9 +57,9 @@
 /* On MS-DOS, do not duplicate pixels.  Otherwise, we would always need at
    least 466 horizontal pixels to contain the whole screen.  */
 /* But this is no problem as 320*200 does not fit anyhow.  */
-/*#ifndef OS2*/
+#ifndef OS2
 #define VIC_DUPLICATES_PIXELS
-/*#endif*/
+#endif
 
 #ifdef VIC_DUPLICATES_PIXELS
 typedef PIXEL2 VIC_PIXEL;

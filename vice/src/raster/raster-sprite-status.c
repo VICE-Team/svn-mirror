@@ -31,8 +31,6 @@
 #include "types.h"
 #include "utils.h"
 
-
-
 void
 raster_sprite_status_init (raster_sprite_status_t *s,
 			   unsigned int num_sprites)

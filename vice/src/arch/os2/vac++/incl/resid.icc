@@ -1,0 +1,8 @@
+option reSid = opt(level, "0")
+{
+   source type(cpp) "resid.cc"
+}
+
+source type(c) "sid.c"
+
+source type(lib) "resid.lib"

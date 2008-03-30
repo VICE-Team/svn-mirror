@@ -88,9 +88,8 @@ void *xcalloc(size_t nmemb, size_t size)
     if (!p) {
 	log_error(LOG_DEFAULT,
                   "xcalloc - virtual memory exhausted: cannot allocate %lux%lu bytes.",
-                  (unsigned long)nmemb, (unsigned long)size);
-        if (!size)
-            return NULL;
+                  (unsigned long)nmemb,(unsigned long)size);
+        if (!size) return NULL;
 	exit(-1);
     }
 
@@ -170,13 +169,11 @@ char *bufcat(char *buf, int *buf_size, size_t *max_buf_size,
 	     const char *src, int src_size)
 {
 #define BUFCAT_GRANULARITY 0x1000
-
     if (*buf_size + src_size > *max_buf_size) {
 	char *new_buf;
 
 	*max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
 			  * BUFCAT_GRANULARITY);
-
 	new_buf = (char *)xrealloc(buf, *max_buf_size);
 	buf = new_buf;
     }

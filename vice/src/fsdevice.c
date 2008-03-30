@@ -891,7 +891,7 @@ static int open_fs(vdrive_t *vdrive, const char *name, int length,
     rl = 0;
 
     if (vdrive_parse_name(fsname2, length, fsname, &reallength, &readmode,
-                          &fs_info[secondary].type, &rl) != SERIAL_OK)
+                          (unsigned int*)&fs_info[secondary].type, &rl) != SERIAL_OK)
         return SERIAL_ERROR;
 
     if (fs_info[secondary].type == FT_DEL)

@@ -383,9 +383,17 @@ struct mon_cmds mon_cmd_array[] = {
      "<expression>",
      "Evaluate the specified expression and output the result." },
 
+/* If we want 'quit' for OS/2 I couldn't leave the emulator by calling exit(0) */
+/* So I decided to skip this (I think it's unnecessary for OS/2                */
+#ifdef OS2
+   { "quit", 		"", 	CMD_EXIT, 		STATE_INITIAL,
+     NULL,
+     "Leave the monitor and return to execution." },
+#else
    { "quit", 		"", 	CMD_QUIT, 		STATE_INITIAL,
      NULL,
      "Exit the emulator immediately."},
+#endif
 
    { "radix", 		"rad", 	CMD_RADIX, 		STATE_INITIAL,
      "[H|D|O|B]",
@@ -1919,7 +1927,7 @@ static void playback_commands(char *filename)
    FILE *fp;
    char string[256], *rc;
 
-   if (NULL == (fp = fopen(filename, MODE_READ))) {
+   if (NULL == (fp = fopen(filename, MODE_READ_TEXT))) {
        console_out(console_log, "Playback for `%s' failed: %s.\n",
                    filename, strerror(errno));
        return;

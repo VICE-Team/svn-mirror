@@ -1,5 +1,5 @@
 source type(c)
-	"cartridge20.c",
+	"vic20cartridge.c",
 	"vic-cmdline-options.c",
 	"vic-draw.c",
 	"vic-mem.c",

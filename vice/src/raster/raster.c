@@ -46,10 +46,7 @@ static int realize_frame_buffer (raster_t *raster);
 static void update_canvas (raster_t *raster);
 static void update_canvas_all (raster_t *raster);
 
-
-
-inline static int
-raster_fill_sprite_cache (raster_t *raster,
+inline static int raster_fill_sprite_cache (raster_t *raster,
                           raster_cache_t *cache,
                           int *xs, int *xe)
 {
@@ -181,10 +178,7 @@ raster_fill_sprite_cache (raster_t *raster,
   return rr;
 }
 
-
-
-static void
-update_pixel_tables (raster_t *raster)
+static void update_pixel_tables (raster_t *raster)
 {
   unsigned int i;
 
@@ -200,8 +194,7 @@ update_pixel_tables (raster_t *raster)
       = raster->pixel_table.doub[i];
 }
 
-static int
-realize_canvas (raster_t *raster)
+static int realize_canvas (raster_t *raster)
 {
   raster_viewport_t *viewport;
 
@@ -243,8 +236,7 @@ realize_canvas (raster_t *raster)
   return 0;
 }
 
-static int
-realize_frame_buffer (raster_t *raster)
+static int realize_frame_buffer (raster_t *raster)
 {
   unsigned int fb_width, fb_height;
 
@@ -288,8 +280,7 @@ realize_frame_buffer (raster_t *raster)
 #endif
 #endif
 
-static void
-perform_mode_change(raster_t *raster)
+static void perform_mode_change(raster_t *raster)
 {
   raster_viewport_t *viewport;
   canvas_t canvas;
@@ -336,12 +327,9 @@ perform_mode_change(raster_t *raster)
   raster_resize_viewport(raster, viewport->width, viewport->height);
 }
 
-
-
 /* Increase `area' so that it also includes [xs; xe] at line y.  WARNING:
    this must be called in order, from top to bottom.  */
-inline static void
-add_line_to_area (raster_area_t *area,
+inline static void add_line_to_area (raster_area_t *area,
                   unsigned int y,
                   unsigned int xs,
                   unsigned int xe)
@@ -361,10 +349,7 @@ add_line_to_area (raster_area_t *area,
     }
 }
 
-
-
-inline static unsigned int
-get_real_mode (raster_t *raster)
+inline static unsigned int get_real_mode (raster_t *raster)
 {
   if (raster->draw_idle_state)
     return raster_modes_get_idle_mode (raster->modes);
@@ -372,8 +357,7 @@ get_real_mode (raster_t *raster)
     return raster->video_mode;
 }
 
-static void
-update_canvas (raster_t *raster)
+static void update_canvas (raster_t *raster)
 {
   raster_area_t *update_area;
   raster_viewport_t *viewport;
@@ -429,8 +413,7 @@ update_canvas (raster_t *raster)
   update_area->is_null = 1;
 }
 
-static void
-update_canvas_all (raster_t *raster)
+static void update_canvas_all (raster_t *raster)
 {
   raster_viewport_t *viewport;
 
@@ -458,18 +441,14 @@ update_canvas_all (raster_t *raster)
                         * viewport->pixel_size.height)));
 }
 
-
-
-inline static void
-draw_sprites (raster_t *raster)
+inline static void draw_sprites (raster_t *raster)
 {
   if (raster->sprite_status->draw_function != NULL)
     raster->sprite_status->draw_function (raster->frame_buffer_ptr,
                                           raster->gfx_msk);
 }
 
-inline static void
-draw_sprites_when_cache_enabled (raster_t *raster,
+inline static void draw_sprites_when_cache_enabled (raster_t *raster,
                                  raster_cache_t *cache)
 {
   if (raster->sprite_status->draw_function == NULL)
@@ -486,8 +465,7 @@ draw_sprites_when_cache_enabled (raster_t *raster,
 /* This kludge updates the sprite-sprite collisions without writing to the
    real frame buffer.  We might write a function that actually checks for
    collisions only, but we are lazy.  */
-inline static void
-update_sprite_collisions (raster_t *raster)
+inline static void update_sprite_collisions (raster_t *raster)
 {
   PIXEL *fake_frame_buffer_ptr;
 
@@ -504,8 +482,7 @@ update_sprite_collisions (raster_t *raster)
                                        raster->zero_gfx_msk);
 }
 
-inline static void
-draw_blank (raster_t *raster,
+inline static void draw_blank (raster_t *raster,
             unsigned int start,
             unsigned int end)
 {
@@ -517,8 +494,7 @@ draw_blank (raster_t *raster,
               (end - start + 1) * pixel_width);
 }
 
-inline static void
-add_line_and_double_scan (raster_t *raster,
+inline static void add_line_and_double_scan (raster_t *raster,
                           unsigned int start,
                           unsigned int end)
 {
@@ -545,10 +521,7 @@ add_line_and_double_scan (raster_t *raster,
                     start, end);
 }
 
-
-
-inline static void
-handle_blank_line (raster_t *raster)
+inline static void handle_blank_line (raster_t *raster)
 {
   unsigned int pixel_width;
 
@@ -635,8 +608,7 @@ handle_blank_line (raster_t *raster)
 }
 
 /* Draw the borders.  */
-inline static void
-draw_borders (raster_t *raster)
+inline static void draw_borders (raster_t *raster)
 {
   if (!raster->open_left_border)
     draw_blank (raster, 0, raster->display_xstart - 1);
@@ -646,8 +618,7 @@ draw_borders (raster_t *raster)
                 raster->geometry.screen_size.width - 1);
 }
 
-inline static int
-check_for_major_changes_and_update (raster_t *raster,
+inline static int check_for_major_changes_and_update (raster_t *raster,
                                     int *changed_start,
                                     int *changed_end)
 {
@@ -752,8 +723,7 @@ check_for_major_changes_and_update (raster_t *raster,
     return 0;
 }
 
-inline static int
-update_for_minor_changes_without_sprites (raster_t *raster,
+inline static int update_for_minor_changes_without_sprites (raster_t *raster,
                                           int *changed_start,
                                           int *changed_end)
 {
@@ -806,8 +776,7 @@ update_for_minor_changes_without_sprites (raster_t *raster,
   return needs_update;
 }
 
-inline static int
-update_for_minor_changes_with_sprites (raster_t *raster,
+inline static int update_for_minor_changes_with_sprites (raster_t *raster,
                                        int *changed_start,
                                        int *changed_end)
 {
@@ -883,7 +852,7 @@ update_for_minor_changes_with_sprites (raster_t *raster,
                          + raster->geometry.gfx_size.width + 8));
 
         }
- 
+
       /* Calculate the interval in pixel coordinates.  */
 
       if (cache->overscan_background_color
@@ -942,8 +911,7 @@ update_for_minor_changes_with_sprites (raster_t *raster,
   return needs_update;
 }
 
-inline static int
-update_for_minor_changes (raster_t *raster,
+inline static int update_for_minor_changes (raster_t *raster,
                           int *changed_start,
                           int *changed_end)
 {
@@ -957,8 +925,7 @@ update_for_minor_changes (raster_t *raster,
                                                      changed_end);
 }
 
-inline static void
-handle_visible_line_with_cache (raster_t *raster)
+inline static void handle_visible_line_with_cache (raster_t *raster)
 {
   int needs_update;
   int changed_start, changed_end;
@@ -986,8 +953,7 @@ handle_visible_line_with_cache (raster_t *raster)
   cache->is_dirty = 0;
 }
 
-inline static void
-handle_visible_line_without_cache (raster_t *raster)
+inline static void handle_visible_line_without_cache (raster_t *raster)
 {
   unsigned int pixel_width;
   raster_geometry_t *geometry;
@@ -1062,8 +1028,7 @@ handle_visible_line_without_cache (raster_t *raster)
     }
 }
 
-inline static void
-handle_visible_line_with_changes (raster_t *raster)
+inline static void handle_visible_line_with_changes (raster_t *raster)
 {
   unsigned int i;
   unsigned int pixel_width;
@@ -1200,8 +1165,7 @@ handle_visible_line_with_changes (raster_t *raster)
 #endif
 }
 
-inline static void
-handle_visible_line (raster_t *raster)
+inline static void handle_visible_line (raster_t *raster)
 {
   if (console_mode || psid_mode)
     return;
@@ -1217,8 +1181,7 @@ handle_visible_line (raster_t *raster)
     handle_visible_line_without_cache (raster);
 }
 
-inline static void
-handle_end_of_frame (raster_t *raster)
+inline static void handle_end_of_frame (raster_t *raster)
 {
   /* FIXME for SCREEN_MAX_SPRITE_WIDTH */
   raster->frame_buffer_ptr = (FRAME_BUFFER_START (raster->frame_buffer)
@@ -1241,10 +1204,7 @@ void raster_handle_end_of_frame(raster_t *raster)
     handle_end_of_frame(raster);
 }
 
-
-
-static void
-raster_viewport_init (raster_viewport_t *viewport)
+static void raster_viewport_init (raster_viewport_t *viewport)
 {
   viewport->canvas = NULL;
   viewport->width = viewport->height = 0;
@@ -1256,8 +1216,7 @@ raster_viewport_init (raster_viewport_t *viewport)
   viewport->exposure_handler = NULL;
 }
 
-static void
-raster_geometry_init (raster_geometry_t *geometry)
+static void raster_geometry_init (raster_geometry_t *geometry)
 {
   geometry->screen_size.width = geometry->screen_size.height = 0;
   geometry->gfx_size.width = geometry->gfx_size.height = 0;
@@ -1272,15 +1231,14 @@ raster_geometry_init (raster_geometry_t *geometry)
 void video_register_raster(raster_t *raster);
 #endif
 
-void
-raster_init (raster_t *raster,
+void raster_init (raster_t *raster,
              unsigned int num_modes,
              unsigned int num_sprites)
 {
 /*  FIXME: This is a WORKAROUND, I need access to fields in the
     raster struct when window has to be updated in certain cases...
     So I have to register it in the video module and do a lookup.
-*/
+    */
 #ifdef WIN32
     video_register_raster(raster);
 #endif
@@ -1327,8 +1285,7 @@ raster_init (raster_t *raster,
   memset (raster->zero_gfx_msk, 0, RASTER_GFX_MSK_SIZE);
 }
 
-void
-raster_reset (raster_t *raster)
+void raster_reset (raster_t *raster)
 {
   raster_changes_remove_all (&raster->changes.background);
   raster_changes_remove_all (&raster->changes.foreground);
@@ -1361,14 +1318,12 @@ typedef struct raster_list_t {
 
 static raster_list_t *ActiveRasters = NULL;
 
-raster_t *
-raster_new (unsigned int num_modes,
+raster_t *raster_new (unsigned int num_modes,
             unsigned int num_sprites)
 {
   raster_t *new;
 
   new = xmalloc (sizeof (raster_t));
-
   raster_init (new, num_modes, num_sprites);
 
 /*  FIXME: This is a WORKAROUND, I need access to fields in the
@@ -1382,8 +1337,7 @@ raster_new (unsigned int num_modes,
   return new;
 }
 
-void
-raster_mode_change(void)
+void raster_mode_change(void)
 {
   raster_list_t *rasters = ActiveRasters;
 
@@ -1395,8 +1349,7 @@ raster_mode_change(void)
 }
 
 
-void
-raster_set_geometry (raster_t *raster,
+void raster_set_geometry (raster_t *raster,
                      unsigned int screen_width, unsigned int screen_height,
                      unsigned int gfx_width, unsigned int gfx_height,
                      unsigned int text_width, unsigned int text_height,
@@ -1442,23 +1395,20 @@ raster_set_geometry (raster_t *raster,
   geometry->last_displayed_line = last_displayed_line;
 }
 
-void
-raster_set_exposure_handler (raster_t *raster,
+void raster_set_exposure_handler (raster_t *raster,
                              canvas_redraw_t exposure_handler)
 {
   raster->viewport.exposure_handler = exposure_handler;
 }
 
-void
-raster_set_table_refresh_handler (raster_t *raster,
+void raster_set_table_refresh_handler (raster_t *raster,
                              void (*handler)(void))
 {
   raster->refresh_tables = handler;
 }
 
 
-int
-raster_realize (raster_t *raster)
+int raster_realize (raster_t *raster)
 {
   raster_list_t *rlist;
 
@@ -1487,111 +1437,113 @@ raster_realize (raster_t *raster)
 /* Resize the canvas with the specified values and center the screen image on
    it.  The actual size can be different if the parameters are not
    suitable.  */
-void
-raster_resize_viewport (raster_t *raster,
-                        unsigned int width,
-                        unsigned int height)
+void raster_resize_viewport (raster_t *raster,
+                             unsigned int width,
+                             unsigned int height)
 {
-  raster_geometry_t *geometry;
-  raster_viewport_t *viewport;
-  raster_rectangle_t *screen_size;
-  raster_rectangle_t *pixel_size;
-  raster_rectangle_t *gfx_size;
-  raster_position_t *gfx_position;
+    raster_geometry_t *geometry;
+    raster_viewport_t *viewport;
+    raster_rectangle_t *screen_size;
+    raster_rectangle_t *pixel_size;
+    raster_rectangle_t *gfx_size;
+    raster_position_t *gfx_position;
 
-  geometry = &raster->geometry;
+    geometry = &raster->geometry;
 
-  screen_size = &geometry->screen_size;
-  gfx_size = &geometry->gfx_size;
-  gfx_position = &geometry->gfx_position;
+    screen_size  = &geometry->screen_size;
+    gfx_size     = &geometry->gfx_size;
+    gfx_position = &geometry->gfx_position;
 
-  viewport = &raster->viewport;
+    viewport = &raster->viewport;
 
-  pixel_size = &viewport->pixel_size;
+    pixel_size = &viewport->pixel_size;
 
-  if (width >= screen_size->width * pixel_size->width)
+    if (width >= screen_size->width * pixel_size->width)
     {
-      viewport->x_offset = (width
-                            - (screen_size->width * pixel_size->width)) / 2;
-      viewport->first_x = 0;
+        viewport->x_offset = (width
+                              - (screen_size->width * pixel_size->width)) / 2;
+        viewport->first_x = 0;
     }
-  else
+    else
     {
-      viewport->x_offset = 0;
+        viewport->x_offset = 0;
 
-      if (geometry->gfx_area_moves)
-        viewport->first_x = (screen_size->width
-                             - width / pixel_size->width) / 2;
-      else if (width > gfx_size->width * pixel_size->width)
-        viewport->first_x = (gfx_position->x
-                             - (width / pixel_size->width
-                                - gfx_size->width) / 2);
-      else
-        viewport->first_x = gfx_position->x;
-    }
-
-  if (height >= screen_size->height * pixel_size->height)
-    {
-      viewport->y_offset = (height
-                            - screen_size->height * pixel_size->height) / 2;
-      viewport->first_line = 0;
-      viewport->last_line = viewport->first_line + screen_size->height - 1;
-    }
-  else
-    {
-      viewport->y_offset = 0;
-
-      if (geometry->gfx_area_moves)
-        viewport->first_line = (screen_size->height
-                                - height / pixel_size->height) / 2;
-      /* FIXME: Somewhat buggy.  */
-      else if (height > gfx_size->height * pixel_size->height)
-        viewport->first_line = (gfx_position->y
-                                - (height / pixel_size->height
-                                   - gfx_size->height) / 2);
-      else
-        viewport->first_line = gfx_position->y;
-
-      viewport->last_line = (viewport->first_line
-                             + height / pixel_size->height);
+        if (geometry->gfx_area_moves)
+        {
+            viewport->first_x = (screen_size->width
+                                 - width / pixel_size->width) / 2;
+        }
+        else if (width > gfx_size->width * pixel_size->width)
+        {
+          viewport->first_x = (gfx_position->x - (width / pixel_size->width
+                                                  - gfx_size->width) / 2);
+        }
+        else
+            viewport->first_x = gfx_position->x;
     }
 
-  /* Hmmm....  FIXME?  */
-  if (viewport->canvas != NULL)
-    canvas_resize (viewport->canvas, width, height);
-
-  viewport->width = width;
-  viewport->height = height;
-
-  /* Make sure we don't waste space showing unused lines.  */
-  if ((viewport->first_line < geometry->first_displayed_line
-       && viewport->last_line < geometry->last_displayed_line)
-      || (viewport->first_line > geometry->first_displayed_line
-          && viewport->last_line > geometry->last_displayed_line))
+    if (height >= screen_size->height * pixel_size->height)
     {
-      viewport->first_line = geometry->first_displayed_line;
-      viewport->last_line = (geometry->first_displayed_line
-                             + height / pixel_size->height);
+        viewport->y_offset = (height
+                              - screen_size->height * pixel_size->height) / 2;
+        viewport->first_line = 0;
+        viewport->last_line = viewport->first_line + screen_size->height - 1;
+    }
+    else
+    {
+        viewport->y_offset = 0;
+
+        if (geometry->gfx_area_moves)
+        {
+            viewport->first_line = (screen_size->height
+                                    - height / pixel_size->height) / 2;
+        }
+        /* FIXME: Somewhat buggy.  */
+        else
+            if (height > gfx_size->height * pixel_size->height)
+            {
+                viewport->first_line = (gfx_position->y - (height / pixel_size->height
+                                                           - gfx_size->height) / 2);
+            }
+            else
+                viewport->first_line = gfx_position->y;
+
+        viewport->last_line = (viewport->first_line
+                               + height / pixel_size->height);
+    }
+
+    /* Hmmm....  FIXME?  */
+    if (viewport->canvas != NULL)
+        canvas_resize (viewport->canvas, width, height);
+
+    viewport->width = width;
+    viewport->height = height;
+
+    /* Make sure we don't waste space showing unused lines.  */
+    if ((viewport->first_line < geometry->first_displayed_line
+         && viewport->last_line < geometry->last_displayed_line)
+        || (viewport->first_line > geometry->first_displayed_line
+            && viewport->last_line > geometry->last_displayed_line))
+    {
+        viewport->first_line = geometry->first_displayed_line;
+        viewport->last_line = (geometry->first_displayed_line
+                               + height / pixel_size->height);
     }
 }
 
-void
-raster_set_pixel_size (raster_t *raster,
-                       unsigned int width,
-                       unsigned int height)
+void raster_set_pixel_size (raster_t *raster,
+                            unsigned int width,
+                            unsigned int height)
 {
-  raster->viewport.pixel_size.width = width;
-  raster->viewport.pixel_size.height = height;
+    raster->viewport.pixel_size.width = width;
+    raster->viewport.pixel_size.height = height;
 
-  realize_frame_buffer (raster);
-  raster_force_repaint (raster);
+    realize_frame_buffer (raster);
+    raster_force_repaint (raster);
 }
 
-
-
 /* Emulate one raster line.  */
-void
-raster_emulate_line (raster_t *raster)
+void raster_emulate_line (raster_t *raster)
 {
   raster_viewport_t *viewport;
 
@@ -1680,10 +1632,7 @@ raster_emulate_line (raster_t *raster)
   raster->blank_this_line = 0;
 }
 
-
-
-void
-raster_force_repaint (raster_t *raster)
+void raster_force_repaint (raster_t *raster)
 {
   raster->dont_cache = 1;
   raster->num_cached_lines = 0;
@@ -1693,8 +1642,7 @@ raster_force_repaint (raster_t *raster)
                                 RASTER_PIXEL (raster, 0));
 }
 
-void
-raster_set_palette (raster_t *raster,
+void raster_set_palette (raster_t *raster,
                     palette_t *palette)
 {
   if (raster->viewport.canvas != NULL)
@@ -1713,8 +1661,7 @@ raster_set_palette (raster_t *raster,
   raster_force_repaint (raster);
 }
 
-void
-raster_set_title (raster_t *raster,
+void raster_set_title (raster_t *raster,
                   const char *title)
 {
   raster_viewport_t *viewport;
@@ -1730,31 +1677,27 @@ raster_set_title (raster_t *raster,
 #endif
 }
 
-void
-raster_skip_frame (raster_t *raster,
+void raster_skip_frame (raster_t *raster,
                    int skip)
 {
   raster->skip_frame = skip;
 }
 
-void
-raster_enable_cache (raster_t *raster,
+void raster_enable_cache (raster_t *raster,
                      int enable)
 {
   raster->cache_enabled = enable;
   raster_force_repaint (raster);
 }
 
-void
-raster_enable_double_scan (raster_t *raster,
+void raster_enable_double_scan (raster_t *raster,
                            int enable)
 {
   raster->do_double_scan = enable;
   raster_force_repaint (raster);
 }
 
-void
-raster_set_canvas_refresh (raster_t *raster,
+void raster_set_canvas_refresh (raster_t *raster,
                            int enable)
 {
   raster_viewport_t *viewport;

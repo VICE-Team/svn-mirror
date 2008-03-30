@@ -42,7 +42,6 @@ void main_exit(void)
     signal(SIGINT, SIG_IGN);
 
     log_message(LOG_DEFAULT, "\nExiting...");
-
     //---    resources_set_value("Sound", (resource_value_t)FALSE);
     //---    DosSleep(500);
 

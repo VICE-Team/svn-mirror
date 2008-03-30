@@ -27,29 +27,23 @@
 
 #include "resid/sid.h"
 
-#include <stdio.h>
-#include <math.h>
-
 extern "C" {
-
-#include "vice.h"
-
-#include "fixpoint.h"
+    
 #include "log.h"
-#include "sid.h"
-#include "sound.h"
 #include "utils.h"
+#include "sound.h"
+#include "fixpoint.h"
 
 struct sound_s
 {
-    /* resid sid implementation */
-    SID			sid;
     /* time of last sid.clock() */
     CLOCK		sidclk;
     /* clock */
     double		clk;
     /* clock step / sample */
     double		clkstep;
+    /* resid sid implementation */
+    SID			sid;
 };
 
 sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
@@ -120,6 +114,7 @@ void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte,
 int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 {
     int					i, delta;
+
     psid->clk += psid->clkstep;
     delta = (int) (psid->clk - psid->sidclk);
     if (delta > 0)

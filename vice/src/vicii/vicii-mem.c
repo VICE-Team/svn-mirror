@@ -65,7 +65,7 @@ static int unused_bits_in_registers[64] =
 
 
 /* Store a value in the video bank (it is assumed to be in RAM).  */
-inline void REGPARM2 
+inline void REGPARM2
 vic_ii_local_store_vbank (ADDRESS addr, BYTE value)
 {
   /* This can only cause "aesthetical" errors, so let's save some time if
@@ -109,14 +109,14 @@ vic_ii_local_store_vbank (ADDRESS addr, BYTE value)
 }
 
 /* Encapsulate inlined function for other modules */
-void REGPARM2 
+void REGPARM2
 store_vbank (ADDRESS addr, BYTE value)
 {
   vic_ii_local_store_vbank(addr, value);
 }
 
 /* As `store_vbank()', but for the $3900...$39FF address range.  */
-void REGPARM2 
+void REGPARM2
 store_vbank_39xx (ADDRESS addr, BYTE value)
 {
   vic_ii_local_store_vbank (addr, value);
@@ -130,7 +130,7 @@ store_vbank_39xx (ADDRESS addr, BYTE value)
 }
 
 /* As `store_vbank()', but for the $3F00...$3FFF address range.  */
-void REGPARM2 
+void REGPARM2
 store_vbank_3fxx (ADDRESS addr, BYTE value)
 {
   vic_ii_local_store_vbank (addr, value);
@@ -374,7 +374,7 @@ check_bad_line_state_change_for_d011 (BYTE value, int cycle, int line)
 }
 
 /* Here we try to emulate $D011...  */
-inline static void 
+inline static void
 store_d011 (ADDRESS addr, BYTE value)
 {
   int new_irq_line;
@@ -1013,7 +1013,7 @@ store_d02f (ADDRESS addr, BYTE value)
 }
 
 /* Store a value in a VIC-II register.  */
-void REGPARM2 
+void REGPARM2
 vic_store(ADDRESS addr, BYTE value)
 {
   addr &= 0x3f;
@@ -1178,7 +1178,7 @@ vic_store(ADDRESS addr, BYTE value)
 
 
 /* Helper function for reading from $D011/$D012.  */
-inline static unsigned int 
+inline static unsigned int
 read_raster_y (void)
 {
   int raster_y;
@@ -1195,7 +1195,7 @@ read_raster_y (void)
 }
 
 /* Helper function for reading from $D019.  */
-inline static BYTE 
+inline static BYTE
 read_d019 (void)
 {
   if (VIC_II_RASTER_Y (clk) == vic_ii.raster_irq_line
@@ -1209,7 +1209,7 @@ read_d019 (void)
 }
 
 /* Read a value from a VIC-II register.  */
-BYTE REGPARM1 
+BYTE REGPARM1
 vic_read (ADDRESS addr)
 {
   addr &= 0x3f;
@@ -1458,11 +1458,12 @@ vic_read (ADDRESS addr)
     default:
       return 0xff;
     }
+   return 0xff;  /* make compiler happy */
 }
 
 
 
-BYTE REGPARM1 
+BYTE REGPARM1
 vic_peek(ADDRESS addr)
 {
   addr &= 0x3f;
@@ -1495,13 +1496,13 @@ vic_peek(ADDRESS addr)
 
 
 
-void REGPARM2 
+void REGPARM2
 colorram_store(ADDRESS addr, BYTE value)
 {
   vic_ii.color_ram[addr & 0x3ff] = value & 0xf;
 }
 
-BYTE REGPARM1 
+BYTE REGPARM1
 colorram_read(ADDRESS addr)
 {
   return vic_ii.color_ram[addr & 0x3ff] | (rand () & 0xf0);

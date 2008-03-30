@@ -97,13 +97,15 @@ int console_out(console_t *log, const char *format, ...)
     if (out[strlen(out)-1]=='\n')
     {
         out[strlen(out)-1]='\0';
-        WinSendMsg(hwndMonitor, WM_INSERT, out, NULL);
+        WinSendMsg(hwndMonitor, WM_INSERT, out[0]=='\n'?out+1:out, NULL);
         log_debug(out);
         out[0]='\0';
     }
 
     return 0;
 }
+
+extern int trigger_shutdown;
 
 char *console_in(console_t *log)
 {
@@ -115,11 +117,13 @@ char *console_in(console_t *log)
     console_out(log, "\n");
     WinSendMsg(hwndMonitor, WM_INPUT, c, &wait_for_input);
 
-    while (wait_for_input) DosSleep(1);
+    while (wait_for_input && !trigger_shutdown) DosSleep(1);
+
+    if (trigger_shutdown) strcpy(c,"exit");
 
     log_debug("console_in %s", c);
 
-    if (!strcmp(c,"quit")) strcpy(c,"exit");
+    // if (!strcmp(c,"quit")) strcpy(c,"exit");
 
     return c;
 }

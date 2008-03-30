@@ -27,7 +27,7 @@
 #include "vice.h"
 
 #include "joystick.h"
-#include "keyboard.h"
+#include "kbd.h"
 #include "types.h"
 #include "resources.h"
 #include "vsyncarch.h"

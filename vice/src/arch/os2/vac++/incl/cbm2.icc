@@ -1,5 +1,4 @@
 source type(c)
-	"crtc610.c",
 	"c610.c",
 	"c610acia1.c",
 	"c610cia1.c",

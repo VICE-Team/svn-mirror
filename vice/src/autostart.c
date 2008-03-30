@@ -489,13 +489,7 @@ int autostart_prg(const char *file_name)
         return -1;
     }
 
-/* FIXME: I'm sorry, i don't find the reason, why I need this here */
-#ifdef OS2
-    p00_type = os2_p00_check_name(file_name);
-#else
-    /* First check if it's a P00 file.  */
     p00_type = p00_check_name(file_name);
-#endif
     if (p00_type >= 0)
     {
         if (p00_type == FT_PRG &&

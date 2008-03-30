@@ -55,16 +55,14 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         {
             char txt[80];
             // cbTextLen  = WinQueryWindowTextLength(hwndEntryField);
-            WinQueryWindowText(WinWindowFromID(hwnd, EF_MONIN),
-                               70, txt);
+            WinQueryDlgText(hwnd, EF_MONIN, txt, 70);
             if (strlen(txt))
             {
                 if (input) strcpy(input, txt);
-                WinSetWindowText(WinWindowFromID(hwnd, EF_MONIN),"");
+                WinSetDlgText(hwnd, EF_MONIN,"");
                 *wait_for_input=FALSE;
                 wait_for_input=NULL;
                 input=NULL;
-                log_debug("text: %s",txt);
             }
         }
         break;
@@ -143,7 +141,8 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         break;
 */    case WM_INSERT:
         WinLboxInsertItem(hwnd, LB_MONOUT, (char*)mp1);
-        WinSendDlgMsg(hwnd, LB_MONOUT, LM_SETTOPINDEX, WinLboxQueryCount(hwnd, LB_MONOUT),0);
+        WinSendDlgMsg(hwnd, LB_MONOUT, LM_SETTOPINDEX,
+                      WinLboxQueryCount(hwnd, LB_MONOUT),0);
         return FALSE;
     case WM_INPUT:
         input          = mp1;

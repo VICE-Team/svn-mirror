@@ -139,8 +139,10 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 }
                 break;
             case CB_PAUSE:
-                if (isEmulatorPaused()) emulator_resume();
-                else                    emulator_pause();
+                if (isEmulatorPaused())
+                    emulator_resume();
+                else
+                    emulator_pause();
                 break;
             case CB_VCACHE:
                 toggle(VIDEO_CACHE);

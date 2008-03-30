@@ -79,9 +79,10 @@
 #define CB_CONVERTP00  0x1037
 #define CB_SAVEP00     0x1038
 #define CB_HIDENONP00  0x1039
-#define PB_ATTACH      0x103a
-#define PB_DETACH      0x103b
-#define PB_FLIP        0x103c
+#define PB_CREATE      0x103a
+#define PB_ATTACH      0x103b
+#define PB_DETACH      0x103c
+#define PB_FLIP        0x103d
 #define WM_SWITCH      WM_USER+0x1
 #define WM_DRIVEIMAGE  WM_USER+0x2
 
@@ -132,9 +133,9 @@
 #define CBS_REFRATE    0x1093
 #define CB_PAUSE       0x1094
 #define CB_VCACHE      0x1095
-#define CB_EMUID       0x1096
-#define CB_SBCOLL      0x1097
-#define CB_SSCOLL      0x1098
+#define CB_SBCOLL      0x1096
+#define CB_SSCOLL      0x1097
+#define CB_EMUID       0x1098
 
 // Monitor Dialog
 #define DLG_MONITOR    0x10a0
@@ -180,6 +181,10 @@
     WinSetPresParam(WinWindowFromID(hwnd, id), PP_FONTNAMESIZE, strlen(font)+1,font);
 #define WinLboxQuerySelectedItemText(hwnd, id, psz, max) \
     WinLboxQueryItem(hwnd, id, WinLboxQuerySelectedItem(hwnd, id), psz, max)
+#define WinQueryDlgText(hwnd, id, psz, max) \
+    WinQueryWindowText(WinWindowFromID(hwnd, id), max, psz)
+#define WinSetDlgText(hwnd, id, psz) \
+    WinSetWindowText(WinWindowFromID(hwnd, id), psz)
 
 /* Is-this-dialog-open handling                                     */
 /*----------------------------------------------------------------- */
@@ -213,6 +218,8 @@ extern void datasette_dialog (HWND hwnd);
 extern void emulator_dialog  (HWND hwnd);
 extern HWND monitor_dialog   (HWND hwnd);
 extern void contents_dialog  (HWND hwnd, char *szFullFile);
+extern void attach_dialog    (HWND hwnd, int drive);
+extern void create_dialog    (HWND hwnd);
 
 #ifdef HAS_JOYSTICK
 extern void joystick_dialog  (HWND hwnd);

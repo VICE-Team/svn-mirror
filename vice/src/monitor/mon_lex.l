@@ -40,6 +40,7 @@
 #include "utils.h"
 #include "types.h"
 
+#undef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
 
 int new_cmd = 1, quote = 0, opt_asm = 0, cur_len = 0, last_len = 0, dont_match_reg_a = 0;

@@ -15,8 +15,15 @@ typedef struct _frame_buffer {
 } *frame_buffer_t;
 
 #define FRAME_BUFFER_SIZE(f)         (f->width)
-#define FRAME_BUFFER_LINE_START(f,n) (((f->bitmap)+(f->width)*n*sizeof(BYTE)))
 #define FRAME_BUFFER_START(f)        (f->bitmap)
+
+
+/* FIXME: Tell me why this stupid workaround is needed!! */
+#ifdef __XVIC__
+#define FRAME_BUFFER_LINE_START(f,n) (((f->bitmap)+(f->width)*n*sizeof(BYTE))+3*n)
+#else
+#define FRAME_BUFFER_LINE_START(f,n) (((f->bitmap)+(f->width)*n*sizeof(BYTE)))
+#endif
 
 typedef void (*canvas_redraw_t)(UINT width, UINT height);
 

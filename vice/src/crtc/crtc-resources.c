@@ -33,11 +33,7 @@
 #include "resources.h"
 #include "utils.h"
 
-
-
 crtc_resources_t crtc_resources;
-
-
 
 static int 
 set_palette_file_name (resource_value_t v)

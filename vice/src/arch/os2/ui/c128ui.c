@@ -1,5 +1,5 @@
 /*
- * c64ui.c - Definition of the C64-specific part of the UI.
+ * c128ui.c - Definition of the C128-specific part of the UI.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>

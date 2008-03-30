@@ -27,6 +27,8 @@
 #ifndef _RASTER_CHANGES_H
 #define _RASTER_CHANGES_H
 
+#include "types.h"
+
 /* This should be a lot more than what is actually needed.  */
 #define RASTER_CHANGES_MAX 512
 
@@ -84,12 +86,8 @@ struct _raster_changes
   };
 typedef struct _raster_changes raster_changes_t;
 
-
-
 void raster_changes_init (raster_changes_t *changes);
 raster_changes_t *raster_changes_new (void);
-
-
 
 /* Inline functions.  These need to be *fast*.  */
 

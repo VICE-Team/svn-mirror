@@ -30,8 +30,6 @@
 #include "vic.h"
 #include "vic-cmdline-options.h"
 
-
-
 /* VIC command-line options.  */
 
 static cmdline_option_t cmdline_options[] =
@@ -47,8 +45,6 @@ static cmdline_option_t cmdline_options[] =
     "<name>", "Specify palette file name"},
   { NULL }
 };
-
-
 
 /* VIC double-size-specific command-line options.  */
 
@@ -73,10 +69,7 @@ static cmdline_option_t cmdline_options_2x[] =
 
 #endif /* VIC_NEED_2X */
 
-
-
-int 
-vic_cmdline_options_init (void)
+int vic_cmdline_options_init (void)
 {
 #ifdef VIC_NEED_2X
   if (cmdline_register_options (cmdline_options_2x) < 0)

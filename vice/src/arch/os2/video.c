@@ -60,7 +60,7 @@ static CHAR  szTitleBarText[] = "VICE/2 " VERSION;
 static ULONG flFrameFlags =
     FCF_TITLEBAR | FCF_SYSMENU | FCF_SHELLPOSITION | FCF_TASKLIST;
 
-#undef __XVIC__
+//#undef __XVIC__
 
 /* ------------------------------------------------------------------------ */
 /* Video-related resources.  */
@@ -389,7 +389,6 @@ void PM_mainloop(VOID *arg)
 
     (*ptr)->palette = xcalloc(1, 256*sizeof(RGB2));
 
-    // DiveAllocImageBuffer(hDiveInst, &ulBuffer, FOURCC_LUT8, testw, testh, 0, fbData))
 
     WinSetVisibleRegionNotify((*ptr)->hwndClient, TRUE);
     (*ptr)->vrenabled = TRUE;
@@ -397,7 +396,7 @@ void PM_mainloop(VOID *arg)
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
         WinDispatchMsg (hab, &qmsg);
 
-    //    resources_set_value("Sound", (resource_value_t)FALSE);
+    log_debug("Window: Quit!");
 
     /*
      ----------------------------------------------------------
@@ -405,18 +404,25 @@ void PM_mainloop(VOID *arg)
      ----------------------------------------------------------
      if (WinDestroyWindow ((*ptr)->hwndFrame))
      log_message(LOG_DEFAULT,"video.c: Error! Graphic window destroy. (rc=%li)",rc);*/
+
+    /*
+     ----------------------------------------------------------
+     Do I need another solution for x128?
+     ---------------------------------------------------------- */
+#ifndef __X128__
     DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
+#endif
+
     if (!WinDestroyMsgQueue(hmq))
         log_message(LOG_DEFAULT,"video.c: Error! Msg Queue destroy.");
     if (!WinTerminate (hab))
         log_message(LOG_DEFAULT,"video.c: Error! PM anchor release.");
-    //    machine_shutdown();  // detach all disks
-    //    sound_close();
+
     //      free((*ptr)->palette);       // cannot be destroyed because main thread is already working!!
     //      free(*ptr);
     trigger_shutdown = 1;
     //    exit(0); // Kill VICE, All went OK
-    DosSleep(10*1000); // wait 10 seconds
+    DosSleep(1000); // wait 10 seconds
     exit(0);           // end VICE in all cases
     
 }
@@ -454,6 +460,9 @@ canvas_t canvas_create(const char *title, UINT *width,
     _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
 
     while (!canvas_new->vrenabled) DosSleep(1);
+
+    log_debug("video.c: PM Window (canvas) created. (%ix%i)", *width, *height);
+
     canvas_set_palette(canvas_new, palette, pixel_return);
 
     return canvas_new;
@@ -469,6 +478,7 @@ void canvas_unmap(canvas_t c)
 
 void canvas_resize(canvas_t c, UINT width, UINT height)
 {
+    //    log_debug("canvas_resize: %i x %i", width, height);
 }
 
 /* Set the palette of `c' to `p', and return the pixel values in

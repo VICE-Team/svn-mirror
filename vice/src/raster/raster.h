@@ -51,8 +51,6 @@ struct palette_s;
    much space anyway.  */
 #define RASTER_GFX_MSK_SIZE 0x100
 
-
-
 /* A simple convenience type for defining rectangular areas.  */
 struct raster_rectangle_s
  {
@@ -270,8 +268,6 @@ typedef struct raster_s raster_t;
 #define RASTER_PIXEL2(raster, c) (raster)->pixel_table.doub[(c)]
 #define RASTER_PIXEL4(raster, c) (raster)->pixel_table.quad[(c)]
 
-
-
 extern void raster_init (raster_t *raster, unsigned int num_modes,
                          unsigned int num_sprites);
 extern raster_t *raster_new (unsigned int num_modes, unsigned int num_sprites);
@@ -310,12 +306,9 @@ extern void raster_handle_end_of_frame(raster_t *raster);
 extern void raster_set_canvas_refresh(raster_t *raster, int enable);
 
 
-
-
 /* Inlined functions.  These need to be *fast*.  */
 
-inline static void
-raster_add_int_change_next_line (raster_t *raster,
+inline static void raster_add_int_change_next_line (raster_t *raster,
                                  int *ptr,
                                  int new_value)
 {
@@ -325,8 +318,7 @@ raster_add_int_change_next_line (raster_t *raster,
     raster_changes_add_int (&raster->changes.next_line, 0, ptr, new_value);
 }
 
-inline static void
-raster_add_ptr_change_next_line (raster_t *raster,
+inline static void raster_add_ptr_change_next_line (raster_t *raster,
                                  void **ptr,
                                  void *new_value)
 {
@@ -336,8 +328,7 @@ raster_add_ptr_change_next_line (raster_t *raster,
     raster_changes_add_ptr (&raster->changes.next_line, 0, ptr, new_value);
 }
 
-inline static void
-raster_add_int_change_foreground (raster_t *raster,
+inline static void raster_add_int_change_foreground (raster_t *raster,
                                   int char_x,
                                   int *ptr,
                                   int new_value)
@@ -354,8 +345,7 @@ raster_add_int_change_foreground (raster_t *raster,
     raster_add_int_change_next_line (raster, ptr, new_value);
 }
 
-inline static void
-raster_add_ptr_change_foreground (raster_t *raster,
+inline static void raster_add_ptr_change_foreground (raster_t *raster,
                                   int char_x,
                                   void **ptr,
                                   void *new_value)
@@ -372,8 +362,7 @@ raster_add_ptr_change_foreground (raster_t *raster,
     raster_add_ptr_change_next_line (raster, ptr, new_value);
 }
 
-inline static void
-raster_add_int_change_background (raster_t *raster,
+inline static void raster_add_int_change_background (raster_t *raster,
                                   int raster_x,
                                   int *ptr,
                                   int new_value)
@@ -390,8 +379,7 @@ raster_add_int_change_background (raster_t *raster,
     raster_add_int_change_next_line (raster, ptr, new_value);
 }
 
-inline static void
-raster_add_ptr_change_background (raster_t *raster,
+inline static void raster_add_ptr_change_background (raster_t *raster,
                                   int raster_x,
                                   void **ptr,
                                   void *new_value)
@@ -408,8 +396,7 @@ raster_add_ptr_change_background (raster_t *raster,
     raster_add_ptr_change_next_line (raster, ptr, new_value);
 }
 
-inline static void
-raster_add_int_change_border (raster_t *raster,
+inline static void raster_add_int_change_border (raster_t *raster,
                               int raster_x,
                               int *ptr,
                               int new_value)
@@ -426,10 +413,7 @@ raster_add_int_change_border (raster_t *raster,
     raster_add_int_change_next_line (raster, ptr, new_value);
 }
 
-
-
-inline static void
-vid_memcpy (PIXEL *dst,
+inline static void vid_memcpy (PIXEL *dst,
             PIXEL *src,
             unsigned int count)
 {
@@ -438,8 +422,7 @@ vid_memcpy (PIXEL *dst,
 
 #if X_DISPLAY_DEPTH > 8
 
-inline static void
-vid_memset (PIXEL *dst,
+inline static void vid_memset (PIXEL *dst,
             PIXEL value,
             unsigned int count)
 {
@@ -451,8 +434,7 @@ vid_memset (PIXEL *dst,
 
 #else
 
-inline static void
-vid_memset (PIXEL *dst,
+inline static void vid_memset (PIXEL *dst,
             PIXEL value,
             unsigned int count)
 {

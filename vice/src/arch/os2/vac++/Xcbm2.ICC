@@ -1,7 +1,7 @@
 option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     link(pmtype, "pm"),     gen(arch, "pentium"),
     link(debug, "yes"),     gen(debug, "yes"),
-    opt(level, "1"),        opt(tune, "pentium"),
+    opt(level, "2"),        opt(tune, "pentium"),
     opt(autoinline, "yes"), opt(inline, "yes"),
     info(cnd, "no"),        info(ppc, "no"),
     info(ppt, "no"),        file(genobject, "Yes"),

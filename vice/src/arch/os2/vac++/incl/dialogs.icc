@@ -1,5 +1,7 @@
 source type(c)
     "dialogs\\dlg-drive.c",
+    "dialogs\\dlg-create.c",
+    "dialogs\\dlg-attach.c",
     "dialogs\\dlg-sound.c",
     "dialogs\\dlg-monitor.c",
     "dialogs\\dlg-emulator.c",
