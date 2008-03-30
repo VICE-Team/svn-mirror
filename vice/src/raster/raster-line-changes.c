@@ -61,7 +61,6 @@ static int update_for_minor_changes(raster_t *raster,
                                       cache,
                                       changed_start_char,
                                       changed_end_char);
-        /*draw_sprites_when_cache_enabled(raster, cache);*/
 
         /* Convert from character to pixel coordinates.  FIXME: Hardcoded
            `8'.  */
@@ -70,9 +69,6 @@ static int update_for_minor_changes(raster_t *raster,
 
         *changed_end = raster->geometry->gfx_position.x + raster->xsmooth
                        + 8 * (changed_end_char + 1) - 1;
-    } else {
-        /* Is this really necessary?  */
-        /*update_cached_sprite_collisions(raster);*/
     }
 
     /* FIXME: Why always doing so?  */
