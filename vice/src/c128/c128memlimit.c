@@ -30,15 +30,15 @@
 #define NUM_SEGMENTS 14
 #define NUM_CONFIGS 256
 
-static int mstart[NUM_SEGMENTS] = {
+static const int mstart[NUM_SEGMENTS] = {
     0x00, 0x02, 0x04, 0x10, 0x20, 0x40, 0x80, 0xa0,
     0xc0, 0xd0, 0xe0, 0xf0, 0xfc, 0xff };
 
-static int mend[NUM_SEGMENTS] = {
+static const int mend[NUM_SEGMENTS] = {
     0x01, 0x03, 0x0f, 0x1f, 0x3f, 0x7f, 0x9f, 0xbf,
     0xcf, 0xdf, 0xef, 0xfb, 0xfe, 0xff };
 
-static int limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
+static const int limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
     /* 0000-01ff */
     {     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
           -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
