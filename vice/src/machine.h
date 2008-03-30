@@ -100,5 +100,11 @@ struct canvas_s;
 extern int machine_screenshot(struct screenshot_s *screenshot, unsigned int wn);
 extern int machine_canvas_screenshot(struct screenshot_s *screenshot, struct canvas_s *canvas);
 
+#define JAM_NONE       0
+#define JAM_RESET      1
+#define JAM_HARD_RESET 2
+#define JAM_MONITOR    3
+unsigned int machine_jam(const char *format, ...);
+
 #endif /* _MACHINE_H */
 
