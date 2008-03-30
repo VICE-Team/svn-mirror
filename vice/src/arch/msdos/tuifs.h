@@ -32,7 +32,8 @@ struct image_contents_s;
 extern char *tui_file_selector(const char *title, const char *directory,
 			       const char *pattern, const char *default_item,
 			       struct image_contents_s *(*contents_func)(const char*),
-                               char **browse_file_return);
+                               char **browse_file_return,
+                               unsigned int *browse_file_number_return);
 
 #endif
 
