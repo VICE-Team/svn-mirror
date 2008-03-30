@@ -82,6 +82,7 @@
 #include "uimenu.h"
 #include "autostart.h"
 #include "video.h"
+#include "raster/raster.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
@@ -1009,7 +1010,7 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
 
     gtk_signal_connect(GTK_OBJECT(new_canvas),"expose-event",
 		       GTK_SIGNAL_FUNC(exposure_callback),
-		       (void*) exposure_proc);
+		       (void*) c);
     gtk_signal_connect(GTK_OBJECT(new_canvas),"enter-notify-event",
 		       GTK_SIGNAL_FUNC(enter_window_callback),
 		       NULL);
@@ -2679,13 +2680,11 @@ UI_CALLBACK(exposure_callback)
 	gdk_window_resize(gdk_window_get_toplevel(w->window), 
 			  req.width, req.height);
     }
-    
-#if 0    
     if (client_data)
-	((ui_exposure_handler_t) client_data)((unsigned int)req.width,
-						   (unsigned int)req.height);
-#endif
-
+    {
+	raster_force_repaint(raster_get_raster_from_canvas(client_data));
+    }
+	    
 }
 
 /* ------------------------------------------------------------------------- */
