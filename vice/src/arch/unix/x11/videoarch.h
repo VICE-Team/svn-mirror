@@ -91,16 +91,6 @@ typedef ui_exposure_handler_t canvas_redraw_t;
 extern GC _video_gc;
 extern int _video_use_xsync;
 
-#if VIDEO_DISPLAY_DEPTH == 0
-#else
-#define VIDEO_FRAME_BUFFER_START(i)         ((PIXEL *)((i)->x_image->data))
-#define VIDEO_FRAME_BUFFER_LINE_SIZE(i)     ((i)->x_image->bytes_per_line \
-                                            / sizeof(PIXEL))
-#define VIDEO_FRAME_BUFFER_LINE_START(i, n) (PIXEL *)((i)->x_image->data \
-                                            + (n) \
-                                            * (i)->x_image->bytes_per_line)
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 extern void enable_text(void);
@@ -135,17 +125,10 @@ extern int video_convert_func(video_frame_buffer_t *i, int depth,
                               unsigned int width, unsigned int height);
 extern void video_register_raster(raster_t *raster);
 
-#ifdef USE_COLOR_MANAGEMENT
-extern void video_convert_color_table(unsigned int i, PIXEL *pixel_return,
+extern void video_convert_color_table(unsigned int i, BYTE *pixel_return,
                                       PIXEL *data, unsigned int bits_per_pixel,
                                       unsigned int dither, long col,
                                       video_canvas_t *c);
-#else
-extern void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
-                                      XImage *im,
-                                      const struct palette_s *palette,
-                                      long col, int depth);
-#endif
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
 #define fullscreen_on() fullscreen_mode_on_restore()

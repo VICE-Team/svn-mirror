@@ -153,24 +153,23 @@ static log_t video_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
-#if VIDEO_DISPLAY_DEPTH == 0
 static void (*_convert_func) (BYTE *draw_buffer,
                               unsigned int draw_buffer_line_size,
                               video_frame_buffer_t *p,
                               int x, int y, int w, int h);
 static BYTE shade_table[256];
 
-void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
+void video_convert_color_table(unsigned int i, BYTE *pixel_return, PIXEL *data,
                                unsigned int bits_per_pixel,
                                unsigned int dither, long col,
                                video_canvas_t *c)
 {
-    *pixel_return = i;
+    *pixel_return = (BYTE)i;
 
     switch (bits_per_pixel) {
       case 8:
         video_render_setphysicalcolor(&c->videoconfig, i,
-                                      (DWORD)(*(PIXEL *)data), 8);
+                                      (DWORD)(*(BYTE *)data), 8);
         break;
       case 16:
         video_render_setphysicalcolor(&c->videoconfig, i, (DWORD)(col), 16);
@@ -226,7 +225,7 @@ static void convert_8to32(BYTE *draw_buffer,
 #define SRCPTR(x, y) \
         (draw_buffer + (y) * draw_buffer_line_size + (x))
 #define DESTPTR(i, x, y, t) \
-        ((t *)((PIXEL *)(i)->x_image->data + \
+        ((t *)((BYTE *)(i)->x_image->data + \
                (i)->x_image->bytes_per_line * (y)) + (x))
 
 /* Use dither on 1bit display. This is slow but who cares... */
@@ -242,7 +241,7 @@ static void convert_8to1_dither(BYTE *draw_buffer,
                                 video_frame_buffer_t *p,
                                 int sx, int sy, int w, int h)
 {
-    PIXEL *src, *dither;
+    BYTE *src, *dither;
     int x, y;
     for (y = 0; y < h; y++) {
         src = SRCPTR(sx, sy + y);
@@ -262,7 +261,7 @@ static void convert_8toall(BYTE *draw_buffer,
                            video_frame_buffer_t * p,
                            int sx, int sy, int w, int h)
 {
-    PIXEL *src;
+    BYTE *src;
     int x, y;
     for (y = 0; y < h; y++) {
         src = SRCPTR(sx, sy + y);
@@ -272,13 +271,24 @@ static void convert_8toall(BYTE *draw_buffer,
     }
 }
 
-#endif
-
 
 int video_convert_func(video_frame_buffer_t *i, int depth, unsigned int width,
                        unsigned int height)
 {
-#if VIDEO_DISPLAY_DEPTH == 0
+#if VIDEO_DISPLAY_DEPTH != 0
+    unsigned int sup_depth = VIDEO_DISPLAY_DEPTH;
+    if (sup_depth != i->x_image->bits_per_pixel) {
+        log_error(video_log,
+                  _("Only %ibpp supported by this emulator."), sup_depth);
+        log_error(video_log,
+                  _("Current X server depth is %ibpp."),
+                  i->x_image->bits_per_pixel);
+        log_error(video_log,
+                  _("Switch X server depth or recompile with --enable-autobpp."));
+        return -1;
+    }
+
+#endif
     switch (i->x_image->bits_per_pixel) {
       case 1:
         _convert_func = convert_8to1_dither;
@@ -295,28 +305,6 @@ int video_convert_func(video_frame_buffer_t *i, int depth, unsigned int width,
       default:
         _convert_func = convert_8toall;
     }
-#else
-/* VIDEO_DISPLAY_DEPTH == 24 should really be 32.  */
-#if VIDEO_DISPLAY_DEPTH == 24
-    unsigned int sup_depth = 32;
-#endif
-#if VIDEO_DISPLAY_DEPTH == 16
-    unsigned int sup_depth = 16;
-#endif
-#if VIDEO_DISPLAY_DEPTH == 8
-    unsigned int sup_depth = 8;
-#endif
-    if (sup_depth != i->x_image->bits_per_pixel) {
-        log_error(video_log,
-                  _("Only %ibpp supported by this emulator."), sup_depth);
-        log_error(video_log,
-                  _("Current X server depth is %ibpp."),
-                  i->x_image->bits_per_pixel);
-        log_error(video_log,
-                  _("Switch X server depth or recompile with --enable-autobpp."));
-        return -1;
-    }
-#endif
     return 0;
 }
 
@@ -421,8 +409,7 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
 
 void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
-#if VIDEO_DISPLAY_DEPTH == 0
-#else
+#if 0
     int i;
 
     for (i = 0; i < f->x_image->height * f->x_image->bytes_per_line;
@@ -445,7 +432,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
                                     unsigned int *height, int mapped,
                                     void_t exposure_handler,
                                     const palette_t *palette,
-                                    PIXEL *pixel_return,
+                                    BYTE *pixel_return,
                                     video_frame_buffer_t *fb)
 {
     video_canvas_t *c;
@@ -493,7 +480,7 @@ void video_canvas_destroy(video_canvas_t *c)
 
 
 int video_canvas_set_palette(video_canvas_t *c, const palette_t *palette,
-                             PIXEL *pixel_return)
+                             BYTE *pixel_return)
 {
     int res;
     
@@ -561,11 +548,9 @@ void video_canvas_refresh(video_canvas_t *canvas,
     }
 
 #endif
-#if VIDEO_DISPLAY_DEPTH == 0
     if (_convert_func)
         _convert_func(draw_buffer, draw_buffer_line_size, frame_buffer,
                       xs, ys, w, h);
-#endif
 
     /* This could be optimized away.  */
     display = ui_get_display_ptr();

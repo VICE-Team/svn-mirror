@@ -272,7 +272,7 @@ static void color_copy_list_without_owner(color_list_t *dest, color_list_t *src)
 }
 
 static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
-                                    PIXEL pixel_return[],
+                                    BYTE pixel_return[],
                                     unsigned long *col_return, void *c)
 {
     unsigned int colnr, dest_colnr;
@@ -396,7 +396,7 @@ void color_init(void)
 }
 
 int color_alloc_colors(void *c, const palette_t *palette,
-                       PIXEL pixel_return[], unsigned long *col_return)
+                       BYTE pixel_return[], unsigned long *col_return)
 {
     color_list_t *color_new, *color_to_alloc, *color_no_alloc,
                  *color_alloced_owner, *color_without_owner;

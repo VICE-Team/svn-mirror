@@ -53,7 +53,7 @@ static video_canvas_t ui_canvas;
 static int uicolor_alloc_system_colors(void)
 {
     palette_t *p = (palette_t *)xmalloc(sizeof(palette_t));
-    PIXEL pixel_return[NUM_ENTRIES];
+    BYTE pixel_return[NUM_ENTRIES];
     unsigned long color_return[NUM_ENTRIES];
 
     p->num_entries = NUM_ENTRIES;
@@ -87,7 +87,7 @@ static int uicolor_alloc_system_colors(void)
 /*-----------------------------------------------------------------------*/
 
 int uicolor_alloc_colors(video_canvas_t *c, const palette_t *palette,
-                         PIXEL pixel_return[])
+                         BYTE pixel_return[])
 {
     if (uicolor_alloc_system_colors() < 0
         || color_alloc_colors(c, palette, pixel_return, NULL) < 0) {
@@ -105,7 +105,7 @@ int uicolor_alloc_colors(video_canvas_t *c, const palette_t *palette,
 }
 
 int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette,
-                        PIXEL *pixel_return)
+                        BYTE *pixel_return)
 {
     return color_alloc_colors(c, palette, pixel_return, NULL);
 }
@@ -162,15 +162,11 @@ void uicolor_free_color(unsigned int red, unsigned int green,
         log_error(LOG_DEFAULT, _("XFreeColors failed."));
 }
 
-void uicolor_convert_color_table(unsigned int colnr, PIXEL *pixel_return,
+void uicolor_convert_color_table(unsigned int colnr, BYTE *pixel_return,
                                  PIXEL *data, unsigned int dither,
                                  long color_pixel, void *c)
 {
-#if VIDEO_DISPLAY_DEPTH == 0
     video_convert_color_table(colnr, pixel_return, data, bits_per_pixel,
                               dither, color_pixel, (video_canvas_t *)c);
-#else
-    *pixel_return = *data;
-#endif
 }
 
