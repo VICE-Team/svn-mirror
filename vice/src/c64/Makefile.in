@@ -380,7 +380,8 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/snapshot.h \
 	../../src/tape.h ../../src/traps.h ../../src/vicii/vicii.h \
 	../../src/video.h ../../src/viewport.h ../../src/vsidui.h \
-	../../src/vsync.h ../../src/arch/unix/mouse.h
+	../../src/vsync.h ../../src/arch/unix/mouse.h \
+	../../src/realdrive.h
 c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \

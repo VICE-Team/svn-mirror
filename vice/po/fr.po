@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.10\n"
-"POT-Creation-Date: 2002-10-27 22:01+0100\n"
+"POT-Creation-Date: 2002-11-10 18:01+0100\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -1503,66 +1503,70 @@ msgstr ""
 "Impossible de charger le fichier palette\n"
 "'%s'"
 
-#: src/arch/unix/uiperipheral.c:83
+#: src/arch/unix/uiperipheral.c:86
 msgid "Path:"
-msgstr ""
-
-#: src/arch/unix/uiperipheral.c:95 src/arch/unix/uiperipheral.c:113
-#: src/arch/unix/uiperipheral.c:131 src/arch/unix/uiperipheral.c:149
-msgid "*File system access"
 msgstr ""
 
 #: src/arch/unix/uiperipheral.c:98 src/arch/unix/uiperipheral.c:116
 #: src/arch/unix/uiperipheral.c:134 src/arch/unix/uiperipheral.c:152
-msgid "*Read only access"
+msgid "*File system access"
 msgstr ""
 
 #: src/arch/unix/uiperipheral.c:101 src/arch/unix/uiperipheral.c:119
 #: src/arch/unix/uiperipheral.c:137 src/arch/unix/uiperipheral.c:155
+msgid "*Read only access"
+msgstr ""
+
+#: src/arch/unix/uiperipheral.c:104 src/arch/unix/uiperipheral.c:122
+#: src/arch/unix/uiperipheral.c:140 src/arch/unix/uiperipheral.c:158
 msgid "File system directory..."
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:103 src/arch/unix/uiperipheral.c:121
-#: src/arch/unix/uiperipheral.c:139 src/arch/unix/uiperipheral.c:157
+#: src/arch/unix/uiperipheral.c:106 src/arch/unix/uiperipheral.c:124
+#: src/arch/unix/uiperipheral.c:142 src/arch/unix/uiperipheral.c:160
 msgid "*Convert P00 file names"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:105 src/arch/unix/uiperipheral.c:123
-#: src/arch/unix/uiperipheral.c:141 src/arch/unix/uiperipheral.c:159
+#: src/arch/unix/uiperipheral.c:108 src/arch/unix/uiperipheral.c:126
+#: src/arch/unix/uiperipheral.c:144 src/arch/unix/uiperipheral.c:162
 msgid "*Create P00 files on save"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:107 src/arch/unix/uiperipheral.c:125
-#: src/arch/unix/uiperipheral.c:143 src/arch/unix/uiperipheral.c:161
+#: src/arch/unix/uiperipheral.c:110 src/arch/unix/uiperipheral.c:128
+#: src/arch/unix/uiperipheral.c:146 src/arch/unix/uiperipheral.c:164
 msgid "*Hide raw CBM files"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:167
+#: src/arch/unix/uiperipheral.c:170
 msgid "Device #8"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:168
+#: src/arch/unix/uiperipheral.c:171
 msgid "Device #9"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:169
+#: src/arch/unix/uiperipheral.c:172
 msgid "Device #10"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:170
+#: src/arch/unix/uiperipheral.c:173
 msgid "Device #11"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:172
+#: src/arch/unix/uiperipheral.c:175
 #, fuzzy
 msgid "Printer settings"
 msgstr "Paramètres Mémoire"
 
-#: src/arch/unix/uiperipheral.c:174
+#: src/arch/unix/uiperipheral.c:177
 msgid "*Enable Virtual Devices"
 msgstr ""
 
 #: src/arch/unix/uiperipheral.c:180
+msgid "*Enable CBM4Linux drive access"
+msgstr ""
+
+#: src/arch/unix/uiperipheral.c:187
 #, fuzzy
 msgid "Peripheral settings"
 msgstr "Paramètres du modèle PET"
