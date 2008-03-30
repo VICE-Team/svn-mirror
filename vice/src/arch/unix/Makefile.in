@@ -415,7 +415,8 @@ rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h coproc.h \
 	../../../src/log.h ../../../src/rs232.h types.h \
 	../../../src/utils.h
-uicmdline.o: uicmdline.c ../../../src/cmdline.h ../../../src/resources.h
+uicmdline.o: uicmdline.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cmdline.h ../../../src/resources.h
 uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	archdep.h ../../../src/archapi.h ../../../src/attach.h \
 	../../../src/autostart.h types.h ../../../src/fliplist.h \
