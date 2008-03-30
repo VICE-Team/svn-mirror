@@ -62,6 +62,8 @@ libarch_a_SOURCES = \
 	tuiview.h \
 	ui.c \
 	ui.h \
+	uisnapshot.c \
+	uisnapshot.h \
 	vic20kbd.c \
 	vic20kbd.h \
 	vic20ui.c \
