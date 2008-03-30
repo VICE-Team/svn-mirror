@@ -46,11 +46,9 @@
 
 #include "lib.h"
 #include "log.h"
-#include "mem.h"               // mem_romset_resource_list
 #include "tape.h"              // tape_image_attach
 #include "util.h"              // xmsprintf
 #include "attach.h"            // file_system_attach_disk
-#include "romset.h"            // romset_*
 #include "machine.h"           // machine_read/write_snapshot
 #include "dialogs.h"           // WinLbox*
 #include "archdep.h"           // archdep_boot_path
@@ -460,7 +458,7 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         }
         return -1;
     case 8:
-        return romset_load(szpath);
+        return machine_romset_load(szpath);
     case 9:
         return resources_load(szpath);
 #if defined __X64__ || defined __X128__
@@ -574,7 +572,7 @@ static BOOL FdmDoSaveAction(HWND hwnd, char *szpath, int act, int sact)
         check_extension(szpath, ".vfl");
         return flip_save_list(sact+8, szpath);
     case 4:
-        return romset_dump(szpath, mem_romset_resources_list);
+        return machine_romset_save(szpath);
 #if defined __X64__ || defined __X128__
     case 5:
         return cartridge_save_image(szpath);

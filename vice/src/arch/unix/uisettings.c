@@ -35,9 +35,8 @@
 #include "debug.h"
 #include "fliplist.h"
 #include "lib.h"
-#include "mem.h"
+#include "machine.h"
 #include "resources.h"
-#include "romset.h"
 #include "types.h"
 #include "uimenu.h"
 #include "uiperipheral.h"
@@ -265,7 +264,7 @@ UI_MENU_DEFINE_TOGGLE(WarpMode)
 
 UI_CALLBACK(ui_set_romset)
 {
-    romset_load(UI_MENU_CB_PARAM);
+    machine_romset_load(UI_MENU_CB_PARAM);
     ui_update_menus();
 }
 
@@ -283,7 +282,7 @@ UI_CALLBACK(ui_load_romset)
     lib_free(title);
     switch (button) {
       case UI_BUTTON_OK:
-        if (romset_load(filename) < 0)
+        if (machine_romset_load(filename) < 0)
             ui_error(_("Could not load ROM set file\n'%s'"), filename);
         if (last_dir)
             lib_free(last_dir);
@@ -314,7 +313,7 @@ UI_CALLBACK(ui_dump_romset)
     lib_free(title);
 
     if (button == UI_BUTTON_OK)
-        romset_dump(new_value, mem_romset_resources_list);
+        machine_romset_save(new_value);
 
     lib_free(new_value);
 }

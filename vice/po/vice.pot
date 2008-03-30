@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-03-27 18:42+0100\n"
+"POT-Creation-Date: 2004-04-03 17:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2137,118 +2137,118 @@ msgstr ""
 msgid "Userport RS232 device"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:115
+#: src/arch/unix/uisettings.c:114
 msgid "Enter refresh rate"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:116 src/arch/unix/uisettings.c:410
+#: src/arch/unix/uisettings.c:115 src/arch/unix/uisettings.c:409
 msgid "Refresh rate"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:188
+#: src/arch/unix/uisettings.c:187
 msgid "Enter speed"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:189
+#: src/arch/unix/uisettings.c:188
 msgid "Maximum run speed"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:203
+#: src/arch/unix/uisettings.c:202
 msgid "Invalid speed value"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:217 src/arch/unix/x11/gnome/x11ui.c:1336
+#: src/arch/unix/uisettings.c:216 src/arch/unix/x11/gnome/x11ui.c:1336
 #: src/arch/unix/x11/xaw/x11ui.c:1037
 msgid "Cannot save settings."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:220
+#: src/arch/unix/uisettings.c:219
 msgid "Settings saved successfully."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:237
+#: src/arch/unix/uisettings.c:236
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:239
+#: src/arch/unix/uisettings.c:238
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:243
+#: src/arch/unix/uisettings.c:242
 msgid "Settings loaded."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:279
+#: src/arch/unix/uisettings.c:278
 msgid "Load custom ROM set definition"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:287
+#: src/arch/unix/uisettings.c:286
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
 "'%s'"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:308
+#: src/arch/unix/uisettings.c:307
 msgid "File to dump ROM set definition to"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:313
+#: src/arch/unix/uisettings.c:312
 msgid "ROM set file:"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:329
+#: src/arch/unix/uisettings.c:328
 msgid "Load ROM file"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:338
+#: src/arch/unix/uisettings.c:337
 #, c-format
 msgid ""
 "Could not load ROM file\n"
 "'%s'"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:360
+#: src/arch/unix/uisettings.c:359
 msgid "*Auto"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:383 src/arch/unix/uisettings.c:402
+#: src/arch/unix/uisettings.c:382 src/arch/unix/uisettings.c:401
 msgid "*Custom..."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:399
+#: src/arch/unix/uisettings.c:398
 msgid "*No limit"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:412
+#: src/arch/unix/uisettings.c:411
 msgid "Maximum speed"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:414
+#: src/arch/unix/uisettings.c:413
 msgid "*Enable warp mode"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:420
+#: src/arch/unix/uisettings.c:419
 msgid "Save settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:422
+#: src/arch/unix/uisettings.c:421
 msgid "Load settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:424
+#: src/arch/unix/uisettings.c:423
 msgid "Restore default settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:426
+#: src/arch/unix/uisettings.c:425
 msgid "*Save settings on exit"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:428
+#: src/arch/unix/uisettings.c:427
 msgid "*Confirm on exit"
 msgstr ""
 

@@ -50,8 +50,6 @@ extern BYTE *mem_color_ram_vicii;
 extern unsigned int mem_old_reg_pc;
 extern BYTE *mem_chargen_rom_ptr;
 
-extern const char *mem_romset_resources_list[];
-
 extern void mem_initialize_memory(void);
 extern void mem_powerup(void);
 extern int mem_load(void);

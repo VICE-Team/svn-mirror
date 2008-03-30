@@ -156,5 +156,10 @@ extern unsigned int machine_num_keyboard_mappings(void);
 struct image_contents_s;
 extern struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit);
 
+/* Romset handling.  */
+extern int machine_romset_load(char *filename);
+extern int machine_romset_save(char *filename);
+extern void machine_romset_init(void);
+
 #endif
 
