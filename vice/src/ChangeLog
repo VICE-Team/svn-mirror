@@ -1,3 +1,68 @@
+2000-01-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.18.
+
+	* vicii/vicii.c (vic_ii_update_memory_ptrs_external): New
+	function.
+
+	* c64/c64cartmem.c (cartridge_config_changed): Let the VIC-II
+	recalculate its pointers changing ultimax mode.
+
+	* diskimage.c (disk_image_write_sector,
+	disk_image_write_track): Rewritten to work without GCR cache
+	too.
+
+	* gcr.c, gcr.h (gcr_write_sector): Rewritten to work without
+	GCR cache too.
+
+	* drive/drive.c (drive_gcr_data_writeback): Calcualte track
+	size.
+
+	* drive/drive.h: Changed drive struct to eliminate the
+	inclusion of "gcr.h" and "diskimage.h".
+
+	* drive/drive-snapshot.c: #include "gcr.h".
+
+	* vdrive/vdrive-bam.c, arch/unix/x11/xaw/uiedisk.c,
+	vdrive/vdrive-command.c, vdrive/vdrive-iec.c, vdrive/vdrive.c,
+	drive/drive-snapshot.c, arch/msdos/uiattach.c: #include
+	"diskimage.h".
+
+	* serial.h: Changed serial struct to eliminate the inclusion
+	of "gcr.h" and "diskimage.h".
+
+	* drive/fdc.c, drive/fdc.h, drive/wd1770.c, drive/wd1770.h,
+	drive/drive.h, drive/drive.c:
+	Unit is unsigned.
+
+	* c64/c64cia2.c: #include "iecdrive.h".
+
+	* snapshot.c, snapshot.h, interrupt.h, drive/drivetypes.h,
+	mos6510.h, alarm.h, clkguard.h, palette.h: Changed structs to
+	standard naming.
+
+	* arch/unix/uicommands.c, maincpu.c, serial.c, tape.c, traps.c:
+	#include "mos6510.h".
+
+	* vicii/vicii.c, crtc/crtc.c, aciacore.c, vic20/vic.c:
+	#include "clkguard.h".
+
+	* pet/petpia1.ci, pet/petpia2.c, cbm2/c610tpi1.c: #include
+	"interrupt.h".
+
+	* raster/raster.h: Do not #include "palette.h".
+
+	* arch/msdos/c64ui.c (attach_cartridge_callback): Set filter
+	to "*.crt" if cartridge type is CRT.
+
+	* arch/msdos/menudefs.c: #include <stdlib.h>.
+
+	* arch/msdos/tuimenu.c, arch/msdos/tuiimagebrowser.c,
+	arch/msdos/tuiview.c: #include <stdio.h>.
+
+	* arch/msdos/tuifs.c, arch/msdos/vicesb.c: Do not #include
+	<limits.h>.
+
 2000-01-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.17.

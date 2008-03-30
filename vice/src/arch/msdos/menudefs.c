@@ -27,13 +27,14 @@
 
 #include "vice.h"
 
+#include <conio.h>
 #include <dir.h>
 #include <fcntl.h>
 #include <io.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <stdlib.h>
 #include <string.h>
-#include <conio.h>
+#include <unistd.h>
 
 #include "attach.h"
 #include "autostart.h"
@@ -52,6 +53,7 @@
 #include "mem.h"
 #include "menudefs.h"
 #include "mon.h"
+#include "mos6510.h"
 #include "romset.h"
 #include "sound.h"
 #include "tape.h"

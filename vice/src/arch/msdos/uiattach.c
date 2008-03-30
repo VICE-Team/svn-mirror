@@ -32,6 +32,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "diskimage.h"
 #include "fliplist.h"
 #include "tuifs.h"
 #include "tuimenu.h"
@@ -98,7 +99,7 @@ static tui_menu_item_def_t ui_create_disk_menu_def[] = {
       create_disk_image_name_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Format name",
-      "Specify name and ID used to format the disk.",
+      "Specify name and ID used to format the disk",
       create_format_name_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
