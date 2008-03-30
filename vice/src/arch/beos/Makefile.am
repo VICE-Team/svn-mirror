@@ -23,11 +23,8 @@ libarch_a_SOURCES = \
 	archdep.h \
 	blockdev.c \
 	c128ui.cc \
-	c128ui.h \
-	cbm2ui.cc \
-	cbm2ui.h \
 	c64ui.cc \
-	c64ui.h \
+	cbm2ui.cc \
 	console.c \
 	constants.h \
 	joy.cc \
@@ -37,9 +34,7 @@ libarch_a_SOURCES = \
 	mouse.cc \
 	mouse.h \
 	petui.cc \
-	petui.h \
 	plus4ui.cc \
-	plus4ui.h \
 	statusbar.cc \
 	statusbar.h \
 	types.h \
@@ -74,7 +69,6 @@ libarch_a_SOURCES = \
 	uicmdline.c \
 	uimon.c \
 	vic20ui.cc \
-	vic20ui.h \
 	viceapp.cc \
 	viceapp.h \
 	vicemenu.cc \

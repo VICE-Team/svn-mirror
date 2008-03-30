@@ -49,8 +49,11 @@ noinst_HEADERS = \
 	attach.h \
 	autostart.h \
 	blockdev.h \
+	c128ui.h \
+	c64ui.h \
 	cartridge.h \
 	catweaselmkiii.h \
+	cbm2ui.h \
 	cbmimage.h \
 	charset.h \
 	cia.h \
@@ -96,7 +99,9 @@ noinst_HEADERS = \
 	p00.h \
 	palette.h \
 	parallel.h \
+	petui.h \
 	piacore.h \
+	plus4ui.h \
 	printer.h \
 	ram.h \
 	resources.h \
@@ -122,6 +127,7 @@ noinst_HEADERS = \
 	version.h.in \
 	version.h \
 	via.h \
+	vic20ui.h \
 	vice.h \
 	video.h \
 	viewport.h \

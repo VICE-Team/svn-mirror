@@ -25,12 +25,9 @@ libarch_a_SOURCES = \
 	archdep.h \
 	blockdev.c \
 	c128ui.c \
-	c128ui.h \
 	c64ui.c \
-	c64ui.h \
 	catweaselmkiii.c \
 	cbm2ui.c \
-	cbm2ui.h \
 	console.c \
 	coproc.h \
 	coproc.c \
@@ -42,9 +39,7 @@ libarch_a_SOURCES = \
 	mouse.c \
 	mouse.h \
 	petui.c \
-	petui.h \
 	plus4ui.c \
-	plus4ui.h \
 	rs232.c \
 	types.h \
 	ui.c \
@@ -107,7 +102,6 @@ libarch_a_SOURCES = \
 	uivicii.h \
 	unixmain.c \
 	vic20ui.c \
-	vic20ui.h \
 	videoarch.h \
 	vsyncarch.c \
 	vsidui.c \

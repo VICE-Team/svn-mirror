@@ -25,11 +25,8 @@ libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
 	c128ui.c \
-	c128ui.h \
 	c64ui.c \
-	c64ui.h \
 	cbm2ui.c \
-	cbm2ui.h \
 	cbmcharsets.c \
 	cbmcharsets.h \
 	console.c \
@@ -45,9 +42,7 @@ libarch_a_SOURCES = \
 	mouse.h \
 	msdosmain.c \
 	petui.c \
-	petui.h \
 	plus4ui.c \
-	plus4ui.h \
 	statusbar.c \
 	statusbar.h \
 	tui.c \
@@ -76,7 +71,6 @@ libarch_a_SOURCES = \
 	uisnapshot.c \
 	uisnapshot.h \
 	vic20ui.c \
-	vic20ui.h \
 	video.c \
 	videoarch.h \
 	vsidui.c \

@@ -26,12 +26,9 @@ libarch_a_SOURCES = \
 	archdep.h \
 	blockdev.c \
 	c128ui.c \
-	c128ui.h \
-	cbm2ui.c \
-	cbm2ui.h \
 	c64ui.c \
-	c64ui.h \
 	catweaselmkiii.c \
+	cbm2ui.c \
 	console.c \
 	dirent.c \
 	dirent.h \
@@ -46,9 +43,7 @@ libarch_a_SOURCES = \
 	mouse.c \
 	mouse.h \
 	petui.c \
-	petui.h \
 	plus4ui.c \
-	plus4ui.h \
 	res.h \
 	res.rc \
 	resc128.rc \
@@ -119,7 +114,6 @@ libarch_a_SOURCES = \
 	uivideo.c \
 	uivideo.h \
 	vic20ui.c \
-	vic20ui.h \
 	video.c \
 	videoarch.h \
 	vsidui.c \

@@ -17,14 +17,11 @@ libarch_a_SOURCES = \
 	archdep.h \
 	blockdev.c \
 	c128ui.c \
-	c128ui.h \
-	cbm2ui.c \
-	cbm2ui.h \
 	c64c128ui.c \
 	c64c128ui.h \
 	c64ui.c \
-	c64ui.h \
 	cbm2dummy.c \
+	cbm2ui.c \
 	config.h \
 	console.c \
 	joy.c \
@@ -33,9 +30,7 @@ libarch_a_SOURCES = \
 	kbd.h \
 	petdummy.c \
 	petui.c \
-	petui.h \
 	plus4ui.c \
-	plus4ui.h \
 	rs232.c \
 	riscosmain.c \
 	spritedrv.c \
@@ -55,7 +50,6 @@ libarch_a_SOURCES = \
 	uimsgwin.h \
 	uisharedef.h \
 	vic20ui.c \
-	vic20ui.h \
 	video.c \
 	videoarch.h \
 	vsidarch.h \
