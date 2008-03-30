@@ -2,17 +2,17 @@
  * joystick.c - Linux/BSD joystick support.
  *
  * Written by
- *  Bernhard Kuhn    (kuhn@eikon.e-technik.tu-muenchen.de)
- *  Ulmer Lionel     (ulmer@poly.polytechnique.fr)
+ *  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
+ *  Ulmer Lionel <ulmer@poly.polytechnique.fr>
  *
  * Patches by
- *  Daniel Sladic    (sladic@eecg.toronto.edu)
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
  *
  * NetBSD support by
- *  Krister Walfridsson (cato@df.lth.se)
+ *  Krister Walfridsson <cato@df.lth.se>
  *
  * 1.1.xxx Linux API by
- *   Luca Montecchiani	(m.luca@usa.net) (http://i.am/m.luca)
+ *   Luca Montecchiani	<m.luca@usa.net> (http://i.am/m.luca)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,19 +34,20 @@
  *
  */
 
-#include <unistd.h>
+#include "vice.h"
+
+#include <fcntl.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
+#include <unistd.h>
 
-#include "vice.h"
-#include "types.h"
+#include "cmdline.h"
+#include "joystick.h"
 #include "kbd.h"
 #include "log.h"
 #include "resources.h"
-#include "cmdline.h"
-#include "joystick.h"
+#include "types.h"
 
 /* (Used by `kbd.c').  */
 int joystick_port_map[2];
@@ -360,7 +361,7 @@ void new_joystick_init (void)
 	      log_message (joystick_log, "Kernel driver version  : 0.8 ??");
 	      log_message (joystick_log, "Please update your Joystick driver !");
 	      log_message (joystick_log, "Fall back to old api routine");
-	      use_old_api = TRUE;
+	      use_old_api = 1;
 	      old_joystick_init ();
 	      return;
 	    }
