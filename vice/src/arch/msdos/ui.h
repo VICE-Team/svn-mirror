@@ -38,5 +38,8 @@ extern void UiUpdateMenus(void);
 extern void UiAutoRepeatOn(void);
 extern void UiAutoRepeatOff(void);
 extern void UiMain(ADDRESS);
+extern void UiToggleDriveStatus(int state);
+extern void UiDisplayDriveTrack(double track_number);
+extern void UiDisplayDriveLed(int status);
 
 #endif

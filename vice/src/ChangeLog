@@ -1,3 +1,15 @@
+Fri Apr  3 13:39:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.1.8.
+
+	* arch/msdos/ui.c (UiDisplayDriveTrack, UiDisplayDriveLed): New
+ 	(dummy) functions.
+	(UiToggleDriveStatus): Likewise.
+	* arch/msdos/ui.h: Prototypes here.
+
+	* resources.c (resources_set_defaults) [HAVE_TRUE1541 && CBM64]:
+	Set `app_resources.true1541ParallelCable' to 0.
+
 Thu Apr  2 16:01:18 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.1.7.
@@ -315,7 +327,7 @@ Sun Mar 22 17:46:12 1998  Ettore Perazzoli  <ettore@comm2000.it>
 Sun Mar 22 17:19:01 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
 
 	* true1541.c (GCR_find_sector_header): If the header is not the
-	one we look for try again instead of abording the search.
+ 	one we look for try again instead of aborting the search.
 	(convert_sector_to_GCR): Added gap between sectors.
 
 	* true1541.c: New constants `speed_map', `raw_track_size'.

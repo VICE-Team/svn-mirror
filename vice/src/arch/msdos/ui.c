@@ -962,7 +962,7 @@ int UiInitFinish(void)
 		      toggle_true1541_parallel_cable_callback, NULL, 3,
 		      TUI_MENU_BEH_CONTINUE);
 #endif
-	
+
 #endif /* HAVE_TRUE1541 */
 
     sound_submenu = tui_menu_create("Audio Settings", 1);
@@ -1327,3 +1327,14 @@ void UiAutoRepeatOff(void)
 {
 }
 
+void UiToggleDriveStatus(int state)
+{
+}
+
+void UiDisplayDriveTrack(double track_number)
+{
+}
+
+void UiDisplayDriveLed(int status)
+{
+}
