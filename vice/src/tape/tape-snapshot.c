@@ -143,7 +143,8 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
     if (m == NULL)
         return 0;
 
-    if (major_version > TAPIMAGE_SNAP_MAJOR || minor_version > TAPIMAGE_SNAP_MINOR) {
+    if (major_version > TAPIMAGE_SNAP_MAJOR
+        || minor_version > TAPIMAGE_SNAP_MINOR) {
         log_error(tape_snapshot_log,
                   "Snapshot module version (%d.%d) newer than %d.%d.",
                   major_version, minor_version,
@@ -165,7 +166,7 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
         return -1;
     }
 
-    SMR_DW(m, &tap_size);
+    SMR_DW_UL(m, (unsigned long *)&tap_size);
 
     buffer = lib_malloc(tap_size);
 
