@@ -53,6 +53,7 @@ noinst_HEADERS = \
 	fsdevice.h \
 	gcr.h \
 	iecdrive.h \
+	imagecontents.h \
 	info.h \
 	interrupt.h \
 	kbdbuf.h \
@@ -101,6 +102,7 @@ base_sources = \
 	gcr.c \
 	info.c \
 	interrupt.c \
+	imagecontents.c \
 	kbdbuf.c \
 	main.c \
 	memutils.c \

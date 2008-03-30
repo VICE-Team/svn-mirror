@@ -46,6 +46,7 @@
 
 #include "tui.h"
 #include "utils.h"
+#include "tuiimagebrowser.h"
 #include "tuiview.h"
 
 /* ------------------------------------------------------------------------- */
@@ -365,20 +366,11 @@ static void slashize_path(char **path)
     }
 }
 
-/* Display a file selector with title `title' and containing the files
-   that match `pattern' in directory `directory' (if NULL, uses the
-   current one).  If `default_item' is not NULL, position the file
-   selector bar to the file whose name is the same as `default_item',
-   if present.  `read_contents_func', if not NULL, is a function that
-   returns the contents of the file (as a malloced ASCII string)
-   passed as the parameter; then if the user can press `space' on a
-   file name, contents are extracted with this function and displayed.
-   Return the name of the selected file, or NULL if the user pressed
-   ESC to leave with no selection.  */
-
+/* FIXME: documentation.  */
 char *tui_file_selector(const char *title, const char *directory,
 			const char *pattern, const char *default_item,
-			char *(*read_contents_func)(const char*))
+			image_contents_t *(*contents_func)(const char*),
+                        char **browse_file_return)
 {
     static char *return_path = NULL;
     struct file_list *fl;
@@ -388,6 +380,8 @@ char *tui_file_selector(const char *title, const char *directory,
     char str[0x100];
     int str_len = 0;
     tui_area_t backing_store = NULL;
+
+    *browse_file_return = NULL;
 
     if (return_path == NULL)
 	free(return_path);
@@ -445,7 +439,7 @@ char *tui_file_selector(const char *title, const char *directory,
             tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
             tui_display(0, tui_num_lines() - 1, tui_num_cols(),
                         "\030\031\033\032: Move  <enter>: Select  %s<alt>-<letter>: Change drive",
-                        read_contents_func != NULL ? "<space>: Preview  " : "");
+                        contents_func != NULL ? "<space>: Preview  " : "");
 	    need_update = 0;
 	}
 	tui_set_attr(MENU_FORE, MENU_HIGHLIGHT, 0);
@@ -610,23 +604,32 @@ char *tui_file_selector(const char *title, const char *directory,
 	    }
 	    break;
 	  case ' ':
-	    if (read_contents_func != NULL) {
+	    if (contents_func != NULL && browse_file_return != NULL) {
 		char *name;
 		char *contents;
 
 		name = alloca(strlen(return_path)
-			      + strlen(fl->items[curr_item].name)
-			      + 1);
+                              + strlen(fl->items[curr_item].name) + 1);
 		sprintf(name, "%s%s", return_path, fl->items[curr_item].name);
 
-		contents = read_contents_func(name);
                 tui_display(0, tui_num_lines() - 1, tui_num_cols(), "");
-		if (contents != NULL)
-		    tui_view_text(40, 20, fl->items[curr_item].name, contents);
+                *browse_file_return = tui_image_browser(fl->items[curr_item].name,
+                                                        contents_func);
+                if (*browse_file_return != NULL) {
+                    char *p = concat(return_path, fl->items[curr_item].name,
+                                     NULL);
+
+                    free(return_path);
+                    return_path = p;
+                    tui_area_put(backing_store, x, y);
+                    tui_area_free(backing_store);
+                    return return_path;
+                }
                 need_update = 1;
 		break;
-	    } else
+	    } else {
                 tui_beep();
+            }
 	  default:
             {
                 int drive_num;
