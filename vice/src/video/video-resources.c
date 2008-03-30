@@ -201,25 +201,43 @@ int video_resources_init(int mode)
 /*-----------------------------------------------------------------------*/
 /* Per chip resources.  */
 #if 0
+struct video_resource_chip_s {
+    /*raster_t *raster;*/
+    int double_scan_enabled;
+};
+typedef struct video_resource_chip_s video_resource_chip_t;
 
-#ifdef __MSDOS__
-#define DEFAULT_VideoCache_VALUE 0
-#else
-#define DEFAULT_VideoCache_VALUE 1
-#endif
+static video_resource_chip_t video_resource_chip;
 
-static char[] rname_chip = { "VideoCache", NULL };
+int set_double_scan_enabled(resource_value_t v, void *param)
+{
+    return 0;
+}
+
+static const char *rname_chip[] = { "DoubleScan", NULL };
 
 static resource_t resources_chip[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
-      (resource_value_t *)&vic_ii_resources.video_cache_enabled,
-      set_video_cache_enabled, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&(video_resource_chip.double_scan_enabled),
+      set_double_scan_enabled, NULL },
+    { NULL }
+};
+#endif
+int video_resources_chip_init(const char *chipname, struct raster_s *raster)
+{
+    /*unsigned int i;*/
+
+    /*video_resource_chip.raster = raster;*/
+/*
+    for (i = 0; rname_chip[i] != NULL; i++) {
+        resources_chip[i].name = concat(chipname, rname_chip[i], NULL);
+        resources_chip[i].param = (void *)&raster_resource_chip;
+    }
+*/
+    /*return resources_register(resources_chip);*/
+    return 0;
 }
 
-int video_resources_chip_init(const char *chipname)
-{
-    for (i = 0; rname_chip[i] != NULL; i++)
-        resources_chip[i].name = concat(chipname, rname_chip[i], NULL);
-}
-#endif
+
+

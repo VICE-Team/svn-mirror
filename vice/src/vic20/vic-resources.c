@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "raster-resources.h"
 #include "resources.h"
 #include "utils.h"
@@ -41,8 +42,7 @@
 vic_resources_t vic_resources;
 
 
-#ifdef VIC_NEED_2X
-
+#if ARCHDEP_VIC_DSIZE == 1
 static int set_double_size_enabled(resource_value_t v, void *param)
 {
     vic_resources.double_size_enabled = (int)v;
@@ -55,6 +55,18 @@ static int set_double_size_enabled(resource_value_t v, void *param)
     return 0;
 }
 
+#ifdef USE_XF86_EXTENSIONS
+static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
+{
+    vic_resources.fullscreen_double_size_enabled = (int)v;
+    if (fullscreen_is_enabled)
+        vic_resize();
+    return 0;
+}
+#endif
+#endif
+
+#if ARCHDEP_VIC_DSCAN == 1
 static int set_double_scan_enabled(resource_value_t v, void *param)
 {
     vic_resources.double_scan_enabled = (int)v;
@@ -71,48 +83,44 @@ static int set_double_scan_enabled(resource_value_t v, void *param)
 }
 
 #ifdef USE_XF86_EXTENSIONS
-static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
-{
-    vic_resources.fullscreen_double_size_enabled = (int)v;
-    if (fullscreen_is_enabled)
-        vic_resize();
-    return 0;
-}
-
 static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
     vic_resources.fullscreen_double_scan_enabled = (int)v;
     if (vic.initialized && fullscreen_is_enabled)
         raster_enable_double_scan(&vic.raster,
-                                  vic_resources.fullscreen_double_scan_enabled);
-    return 0;
+                                  vic_resources.fullscreen_double_scan_enabled);    return 0;
 }
+#endif
 #endif
 
 static resource_t resources_2x[] =
 {
+#if ARCHDEP_VIC_DSIZE == 1
     { "DoubleSize", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&vic_resources.double_size_enabled,
       set_double_size_enabled, NULL },
-    { "DoubleScan", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vic_resources.double_scan_enabled,
-      set_double_scan_enabled, NULL },
 #ifdef USE_XF86_EXTENSIONS
     { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&vic_resources.fullscreen_double_size_enabled,
       set_fullscreen_double_size_enabled, NULL },
+#endif
+#endif
+#if ARCHDEP_VIC_DSCAN == 1
+    { "DoubleScan", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&vic_resources.double_scan_enabled,
+      set_double_scan_enabled, NULL },
+#ifdef USE_XF86_EXTENSIONS
     { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&vic_resources.fullscreen_double_scan_enabled,
       set_fullscreen_double_scan_enabled, NULL },
 #endif
+#endif
     { NULL }
 };
 
-#endif /* VIC_NEED_2X */
-
 int vic_resources_init(void)
 {
-#ifdef VIC_NEED_2X
+#if (ARCHDEP_VIC_DSIZE == 1) || (ARCHDEP_VIC_DSCAN == 1)
     if (resources_register(resources_2x) < 0)
         return -1;
 #endif

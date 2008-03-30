@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "crtc-resources.h"
 #include "crtc.h"
 #include "crtctypes.h"
@@ -52,8 +53,7 @@ static int set_palette_file_name(resource_value_t v, void *param)
     return 0;
 }
 
-#ifdef CRTC_NEED_2X
-
+#if ARCHDEP_CRTC_DSIZE == 1
 static int set_double_size_enabled(resource_value_t v, void *param)
 {
     crtc_resources.double_size_enabled = (int)v;
@@ -65,9 +65,19 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 
     return 0;
 }
+
+#ifdef USE_XF86_EXTENSIONS
+static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
+{
+    crtc_resources.fullscreen_double_size_enabled = (int)v;
+    if (fullscreen_is_enabled)
+        crtc_resize();
+    return 0;
+}
+#endif
 #endif
 
-#if defined CRTC_NEED_2X || defined __MSDOS__
+#if ARCHDEP_CRTC_DSCAN == 1
 static int set_double_scan_enabled(resource_value_t v, void *param)
 {
     crtc_resources.double_scan_enabled = (int)v;
@@ -83,17 +93,8 @@ static int set_double_scan_enabled(resource_value_t v, void *param)
     }
     return 0;
 }
-#endif
 
 #ifdef USE_XF86_EXTENSIONS
-static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
-{
-    crtc_resources.fullscreen_double_size_enabled = (int)v;
-    if (fullscreen_is_enabled)
-        crtc_resize();
-    return 0;
-}
-
 static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
     crtc_resources.fullscreen_double_scan_enabled = (int)v;
@@ -103,13 +104,14 @@ static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
     return 0;
 }
 #endif
+#endif
 
 static resource_t resources[] =
 {
   { "CrtcPaletteFile", RES_STRING, (resource_value_t)"green",
     (resource_value_t *)&crtc_resources.palette_file_name,
     set_palette_file_name, NULL },
-#ifdef CRTC_NEED_2X
+#if ARCHDEP_CRTC_DSIZE == 1
   { "CrtcDoubleSize", RES_INTEGER, (resource_value_t)0,
     (resource_value_t *)&crtc_resources.double_size_enabled,
     set_double_size_enabled, NULL },
@@ -117,15 +119,17 @@ static resource_t resources[] =
   { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t)0,
     (resource_value_t *)&crtc_resources.fullscreen_double_size_enabled,
     set_fullscreen_double_size_enabled, NULL },
+#endif
+#endif
+#if ARCHDEP_CRTC_DSCAN == 1
+  { "CrtcDoubleScan", RES_INTEGER, (resource_value_t)0,
+    (resource_value_t *)&crtc_resources.double_scan_enabled,
+    set_double_scan_enabled, NULL },
+#ifdef USE_XF86_EXTENSIONS
   { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t)0,
     (resource_value_t *)&crtc_resources.fullscreen_double_scan_enabled,
     set_fullscreen_double_scan_enabled, NULL },
 #endif
-#endif
-#if defined CRTC_NEED_2X || defined __MSDOS__
-  { "CrtcDoubleScan", RES_INTEGER, (resource_value_t)0,
-    (resource_value_t *)&crtc_resources.double_scan_enabled,
-    set_double_scan_enabled, NULL },
 #endif
   { NULL }
 };

@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "alarm.h"
+#include "archdep.h"
 #include "clkguard.h"
 #include "interrupt.h"
 #include "log.h"
@@ -189,7 +190,8 @@ static void ted_set_geometry(void)
 
     width = TED_SCREEN_XPIX + ted.screen_borderwidth * 2;
     height = ted.last_displayed_line - ted.first_displayed_line + 1;
-#ifdef VIC_II_NEED_2X
+
+#if ARCHDEP_TED_DSIZE == 1
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled
         ? ted_resources.fullscreen_double_size_enabled
@@ -234,7 +236,7 @@ static int init_raster(void)
     raster_modes_set_idle_mode(raster->modes, TED_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)ted_exposure_handler);
     resources_touch("TEDVideoCache");
-#ifdef VIC_II_NEED_2X
+#if ARCHDEP_TED_DSCAN == 1
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan(raster, fullscreen_is_enabled
                               ? ted_resources.fullscreen_double_scan_enabled
@@ -778,7 +780,7 @@ void ted_resize(void)
     if (!ted.initialized)
         return;
 
-#ifdef VIC_II_NEED_2X
+#if ARCHDEP_TED_DSIZE == 1
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled
         ? ted_resources.fullscreen_double_size_enabled
@@ -811,7 +813,7 @@ void ted_resize(void)
         }
     }
 
-#ifdef VIC_II_NEED_2X
+#if ARCHDEP_TED_DSCAN == 1
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
         raster_enable_double_scan(&ted.raster,

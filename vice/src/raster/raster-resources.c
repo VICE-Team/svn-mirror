@@ -32,6 +32,7 @@
 #include "resources.h"
 #include "types.h"
 #include "utils.h"
+#include "video.h"
 
 
 #ifdef __MSDOS__
@@ -45,6 +46,8 @@ struct raster_resource_chip_s {
     int video_cache_enabled;
 };
 typedef struct raster_resource_chip_s raster_resource_chip_t;
+
+static raster_resource_chip_t raster_resource_chip;
 
 
 int raster_set_video_cache_enabled(resource_value_t v, void *param)
@@ -67,28 +70,23 @@ static const char *rname_chip[] = { "VideoCache", NULL };
 static resource_t resources_chip[] =
 {
     { NULL, RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
-      (resource_value_t *)NULL, raster_set_video_cache_enabled, NULL },
+      (resource_value_t *)&(raster_resource_chip.video_cache_enabled),
+      raster_set_video_cache_enabled, NULL },
     { NULL }
 };
 
 int raster_resources_chip_init(const char *chipname, raster_t *raster)
 {
     unsigned int i;
-    raster_resource_chip_t *raster_resource_chip;
 
-    raster_resource_chip
-        = (raster_resource_chip_t *)xmalloc(sizeof(raster_resource_chip_t));
-
-    raster_resource_chip->raster = raster;
+    raster_resource_chip.raster = raster;
 
     for (i = 0; rname_chip[i] != NULL; i++) {
         resources_chip[i].name = concat(chipname, rname_chip[i], NULL);
-        resources_chip[i].param = (void *)raster_resource_chip;
+        resources_chip[i].param = (void *)&raster_resource_chip;
     }
 
-    resources_chip[0].value_ptr
-        = (resource_value_t *)&(raster_resource_chip->video_cache_enabled);
-
-    return resources_register(resources_chip);
+    return resources_register(resources_chip)
+        | video_resources_chip_init(chipname, raster);
 }
 

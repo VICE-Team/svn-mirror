@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "raster-resources.h"
 #include "resources.h"
 #include "ted-resources.h"
@@ -43,8 +44,7 @@
 ted_resources_t ted_resources;
 
 
-#ifdef VIC_II_NEED_2X
-
+#if ARCHDEP_TED_DSIZE == 1
 static int set_double_size_enabled(resource_value_t v, void *param)
 {
     ted_resources.double_size_enabled = (int)v;
@@ -56,7 +56,18 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 
     return 0;
 }
+#ifdef USE_XF86_EXTENSIONS
+static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
+{
+    ted_resources.fullscreen_double_size_enabled = (int)v;
+    if (fullscreen_is_enabled)
+        ted_resize();
+    return 0;
+}
+#endif
+#endif
 
+#if ARCHDEP_TED_DSCAN == 1
 static int set_double_scan_enabled (resource_value_t v, void *param)
 {
     ted_resources.double_scan_enabled = (int)v;
@@ -72,14 +83,6 @@ static int set_double_scan_enabled (resource_value_t v, void *param)
 }
 
 #ifdef USE_XF86_EXTENSIONS
-static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
-{
-    ted_resources.fullscreen_double_size_enabled = (int)v;
-    if (fullscreen_is_enabled)
-        ted_resize();
-    return 0;
-}
-
 static int
 set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
@@ -90,32 +93,37 @@ set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
     return 0;
 }
 #endif
+#endif
 
 static resource_t resources_2x[] =
 {
+#if ARCHDEP_TED_DSIZE == 1
     { "DoubleSize", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&ted_resources.double_size_enabled,
       set_double_size_enabled, NULL },
-    { "DoubleScan", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&ted_resources.double_scan_enabled,
-      set_double_scan_enabled, NULL },
 #ifdef USE_XF86_EXTENSIONS
     { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&ted_resources.fullscreen_double_size_enabled,
       set_fullscreen_double_size_enabled, NULL },
+#endif
+#endif
+#if ARCHDEP_TED_DSCAN == 1
+    { "DoubleScan", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&ted_resources.double_scan_enabled,
+      set_double_scan_enabled, NULL },
+#ifdef USE_XF86_EXTENSIONS
     { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&ted_resources.fullscreen_double_scan_enabled,
       set_fullscreen_double_scan_enabled, NULL },
 #endif
+#endif
     { NULL }
 };
-
-#endif /* VIC_II_NEED_2X */
 
 
 int ted_resources_init(void)
 {
-#ifdef VIC_II_NEED_2X
+#if (ARCHDEP_TED_DSIZE == 1) || (ARCHDEP_TED_DSCAN == 1)
     if (resources_register(resources_2x) < 0)
         return -1;
 #endif
