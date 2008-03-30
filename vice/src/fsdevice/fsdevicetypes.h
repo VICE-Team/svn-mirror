@@ -56,6 +56,7 @@ struct fs_buffer_info_s {
     BYTE buffered;  /* Buffered Byte: Added to buffer reads to remove buffering from iec code */
     int isbuffered; /* TRUE is a byte exists in the buffer above */
     int iseof;      /* TRUE if an EOF is detected on a buffered read */
+    char fs_dirmask[PATH_MAX];
 };
 typedef struct fs_buffer_info_s fs_buffer_info_t;
 
@@ -67,8 +68,6 @@ extern void fsdevice_error(struct vdrive_s *vdrive, int code);
 extern char *fsdevice_get_path(unsigned int unit);
 extern int fsdevice_error_get_byte(struct vdrive_s *vdrive, BYTE *data);
 extern int fsdevice_flush_write_byte(struct vdrive_s *vdrive, BYTE data);
-
-extern char fs_dirmask[];
 
 #endif
 

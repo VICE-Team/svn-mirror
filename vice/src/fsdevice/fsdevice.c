@@ -65,8 +65,6 @@ static char fs_errorl[4][PATH_MAX];
 static unsigned int fs_eptr[4];
 static size_t fs_elen[4];
 
-char fs_dirmask[PATH_MAX];
-
 /* ------------------------------------------------------------------------- */
 
 void fsdevice_set_directory(char *filename, unsigned int unit)
