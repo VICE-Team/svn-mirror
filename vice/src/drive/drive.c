@@ -213,7 +213,8 @@ int drive_init(void)
 
     for (i = 0; i < 2; i++) {
         drive[i].gcr = gcr_create_image();
-        drive[i].byte_ready = 1;
+        drive[i].byte_ready_level = 1;
+        drive[i].byte_ready_edge = 1;
         drive[i].GCR_dirty_track = 0;
         drive[i].GCR_write_value = 0x55;
         drive[i].GCR_track_start_ptr = drive[i].gcr->data;
@@ -639,8 +640,10 @@ void drive_rotate_disk(drive_t *dptr)
         dptr->shifter = dptr->bits_moved;
 
         /* The byte ready line is only set when no sync is found.  */
-        if (drive_sync_found(dptr))
-            dptr->byte_ready = 1;
+        if (drive_sync_found(dptr)) {
+            dptr->byte_ready_level = 1;
+            dptr->byte_ready_edge = 1;
+        }
     } /* if (dptr->shifter >= 8) */
 }
 

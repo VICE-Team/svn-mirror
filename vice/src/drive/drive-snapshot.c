@@ -150,7 +150,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             || snapshot_module_write_dword(m, (DWORD)drive[i].accum) < 0
             || snapshot_module_write_dword(m, (DWORD)drive[i].attach_clk) < 0
             || snapshot_module_write_dword(m, (DWORD)drive[i].bits_moved) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].byte_ready) < 0
+            || snapshot_module_write_byte(m, (BYTE)drive[i].byte_ready_level) < 0
             || snapshot_module_write_byte(m, (BYTE)drive[i].clock_frequency) < 0
             || snapshot_module_write_word(m, (WORD)drive[i].current_half_track) < 0
             || snapshot_module_write_dword(m, (DWORD)drive[i].detach_clk) < 0
@@ -316,7 +316,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             || read_dword_into_unsigned_long(m, &drive[i].accum) < 0
             || snapshot_module_read_dword(m, &drive[i].attach_clk) < 0
             || read_dword_into_unsigned_long(m, &drive[i].bits_moved) < 0
-            || read_byte_into_int(m, &drive[i].byte_ready) < 0
+            || read_byte_into_int(m, &drive[i].byte_ready_level) < 0
             || read_byte_into_int(m, &drive[i].clock_frequency) < 0
             || read_word_into_int(m, &drive[i].current_half_track) < 0
             || snapshot_module_read_dword(m, &drive[i].detach_clk) < 0
