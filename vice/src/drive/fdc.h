@@ -27,9 +27,9 @@
 #ifndef _FDC_H
 #define _FDC_H
 
-#include "diskimage.h"
-#include "snapshot.h"
 #include "types.h"
+
+struct snapshot_s;
 
 /* FDC states */
 #define	FDC_UNUSED	0
@@ -58,11 +58,13 @@
 extern void fdc_init(int fnum, BYTE *buffer_memory, BYTE *ipromp);
 extern void fdc_reset(int fnum, int enabled);
 
-extern int fdc_read_snapshot_module(snapshot_t *s, int drv);
-extern int fdc_write_snapshot_module(snapshot_t *s, int drv);
+extern int fdc_read_snapshot_module(struct snapshot_s *s, int drv);
+extern int fdc_write_snapshot_module(struct snapshot_s *s, int drv);
 
-extern int fdc_attach_image(disk_image_t *image, int unit);
-extern int fdc_detach_image(disk_image_t *image, int unit);
+struct disk_image_s;
+
+extern int fdc_attach_image(struct disk_image_s *image, unsigned int unit);
+extern int fdc_detach_image(struct disk_image_s *image, unsigned int unit);
 
 #endif
 

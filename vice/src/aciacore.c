@@ -30,6 +30,7 @@
 
 #include "acia.h"
 #include "alarm.h"
+#include "clkguard.h"
 #include "cmdline.h"
 #include "interrupt.h"
 #include "log.h"

@@ -28,10 +28,10 @@
 #ifndef _VIC_II_SNAPSHOT_H
 #define _VIC_II_SNAPSHOT_H
 
-#include "snapshot.h"
+struct snapshot_s;
 
-int vic_ii_snapshot_write_module (snapshot_t *s);
-int vic_ii_snapshot_read_module (snapshot_t *s);
+int vic_ii_snapshot_write_module (struct snapshot_s *s);
+int vic_ii_snapshot_read_module (struct snapshot_s *s);
 
 #endif
 

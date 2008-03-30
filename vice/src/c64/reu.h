@@ -30,8 +30,9 @@
 #ifndef _REU_H
 #define _REU_H
 
-#include "snapshot.h"
 #include "types.h"
+
+struct snapshot_s;
 
 extern void reu_init(void);
 extern int reu_reset(int size);
@@ -40,8 +41,8 @@ extern void close_reu(void);
 extern BYTE REGPARM1 reu_read(ADDRESS addr);
 extern void REGPARM2 reu_store(ADDRESS addr, BYTE byte);
 extern void reu_dma(int immed);
-extern int reu_read_snapshot_module(snapshot_t *s);
-extern int reu_write_snapshot_module(snapshot_t *s);
+extern int reu_read_snapshot_module(struct snapshot_s *s);
+extern int reu_write_snapshot_module(struct snapshot_s *s);
 
 #endif
 

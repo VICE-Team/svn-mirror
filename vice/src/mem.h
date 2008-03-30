@@ -29,7 +29,6 @@
 #ifndef _MEM_H_
 #define _MEM_H_
 
-#include "snapshot.h"
 #include "types.h"
 
 typedef BYTE REGPARM1 read_func_t(ADDRESS addr);
@@ -86,8 +85,9 @@ extern void mem_bank_write(int bank, ADDRESS addr, BYTE byte);
 extern void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns);
 
 /* Snapshots.  */
-extern int mem_write_snapshot_module(snapshot_t *s, int save_roms);
-extern int mem_read_snapshot_module(snapshot_t *s);
+struct snapshot_s;
+extern int mem_write_snapshot_module(struct snapshot_s *s, int save_roms);
+extern int mem_read_snapshot_module(struct snapshot_s *s);
 
 #endif
 

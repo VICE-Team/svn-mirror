@@ -34,7 +34,6 @@
 #include "log.h"
 #include "maincpu.h"
 #include "raster.h"
-#include "snapshot.h"
 #include "types.h"
 #include "vicii-mem.h"
 #include "video.h"

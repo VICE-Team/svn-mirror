@@ -29,13 +29,11 @@
 #ifndef _DRIVECPU_H
 #define _DRIVECPU_H
 
-#include "interrupt.h"
-#include "snapshot.h"
 #include "types.h"
-
 
 /* avoid having to include drivetypes.h */
 struct drive_context_s;
+struct snapshot_s;
 
 extern void drive_cpu_setup_context(struct drive_context_s *drv);
 
@@ -53,8 +51,10 @@ extern BYTE REGPARM2 drive_read(struct drive_context_s *drv, ADDRESS addr);
 extern void drive_toggle_watchpoints(struct drive_context_s *drv, int flag);
 extern void drivex_cpu_execute(struct drive_context_s *drv, CLOCK clk_value);
 extern void drive_set_bank_base(struct drive_context_s *drv);
-extern int drive_cpu_write_snapshot_module(struct drive_context_s *drv, snapshot_t *s);
-extern int drive_cpu_read_snapshot_module(struct drive_context_s *drv, snapshot_t *s);
+extern int drive_cpu_write_snapshot_module(struct drive_context_s *drv,
+                                           struct snapshot_s *s);
+extern int drive_cpu_read_snapshot_module(struct drive_context_s *drv,
+                                          struct snapshot_s *s);
 
 /* to minimize changes in other modules */
 #define drive0_cpu_execute(c)	drivex_cpu_execute(&drive0_context, c)
@@ -68,8 +68,9 @@ extern int drive_cpu_read_snapshot_module(struct drive_context_s *drv, snapshot_
 struct monitor_interface_s;
 extern struct monitor_interface_s *drive0_monitor_interface_ptr;
 extern struct monitor_interface_s *drive1_monitor_interface_ptr;
-extern cpu_int_status_t *drive0_int_status_ptr;
-extern cpu_int_status_t *drive1_int_status_ptr;
+struct cpu_int_status_s;
+extern struct cpu_int_status_s *drive0_int_status_ptr;
+extern struct cpu_int_status_s *drive1_int_status_ptr;
 
 #endif
 

@@ -29,6 +29,7 @@
 
 #include "drive.h"
 #include "drivecpu.h"
+#include "interrupt.h"
 #include "maincpu.h"
 #include "parallel.h"
 #include "petpia.h"

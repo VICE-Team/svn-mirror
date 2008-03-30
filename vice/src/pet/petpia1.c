@@ -32,6 +32,7 @@
 #include "datasette.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "interrupt.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "maincpu.h"

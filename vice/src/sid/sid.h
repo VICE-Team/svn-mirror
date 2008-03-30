@@ -27,8 +27,9 @@
 #ifndef _SID_H
 #define _SID_H
 
-#include "snapshot.h"
 #include "types.h"
+
+struct snapshot_s;
 
 extern int sid_init_resources(void);
 extern int sid_init_cmdline_options(void);
@@ -38,8 +39,8 @@ extern BYTE REGPARM1 sid_read(ADDRESS address);
 
 extern void sid_reset(void);
 
-extern int sid_write_snapshot_module(snapshot_t *s);
-extern int sid_read_snapshot_module(snapshot_t *s);
+extern int sid_write_snapshot_module(struct snapshot_s *s);
+extern int sid_read_snapshot_module(struct snapshot_s *s);
 
 #endif
 

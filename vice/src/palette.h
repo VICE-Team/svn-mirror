@@ -29,7 +29,7 @@
 
 #include "types.h"
 
-typedef struct palette_entry {
+typedef struct palette_entry_s {
     char *name;
     BYTE red;
     BYTE green;
@@ -37,7 +37,7 @@ typedef struct palette_entry {
     BYTE dither;
 } palette_entry_t;
 
-typedef struct palette {
+typedef struct palette_s {
     int num_entries;
     palette_entry_t *entries;
 } palette_t;
@@ -50,5 +50,5 @@ extern int palette_copy(palette_t *dest, const palette_t *src);
 extern int palette_load(const char *file_name, palette_t *palette_return);
 extern int palette_save(const char *file_name, const palette_t *palette);
 
-#endif /* _PALETTE_H */
+#endif
 

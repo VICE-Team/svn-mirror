@@ -32,7 +32,7 @@
 /* A callback function to call to prevent the overflow.  */
 typedef void (*clk_guard_callback_t) (CLOCK amount, void *data);
 
-typedef struct _clk_guard_callback_list {
+typedef struct clk_guard_callback_list_s {
     /* Callback function.  */
     clk_guard_callback_t function;
 
@@ -40,10 +40,10 @@ typedef struct _clk_guard_callback_list {
     void *data;
 
     /* Pointer to the next item in the list.  */
-    struct _clk_guard_callback_list *next;
+    struct clk_guard_callback_list_s *next;
 } clk_guard_callback_list_t;
 
-typedef struct _clk_guard {
+typedef struct clk_guard_s {
     /* Pointer to the clock counter to prevent overflows for.  */
     CLOCK *clk_ptr;
 

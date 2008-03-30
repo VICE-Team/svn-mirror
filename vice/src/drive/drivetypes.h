@@ -32,6 +32,7 @@
 #include "ciatimer.h"
 #include "clkguard.h"
 #include "drive.h"
+#include "interrupt.h"
 #include "log.h"
 #include "mon.h"
 #include "mos6510.h"
@@ -70,7 +71,7 @@ typedef struct drivecpu_context_s {
   int rmw_flag;	/* init to 0 */
 
   /* Interrupt/alarm status.  */
-  struct cpu_int_status int_status;
+  struct cpu_int_status_s int_status;
   alarm_context_t alarm_context;
   /* Clk guard.  */
   clk_guard_t clk_guard;

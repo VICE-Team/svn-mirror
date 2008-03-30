@@ -38,6 +38,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
+#include "mos6510.h"
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"
@@ -220,7 +221,7 @@ void maincpu_generic_dma(void)
 
 /* ------------------------------------------------------------------------- */
 
-struct cpu_int_status maincpu_int_status;
+struct cpu_int_status_s maincpu_int_status;
 alarm_context_t maincpu_alarm_context;
 clk_guard_t maincpu_clk_guard;
 

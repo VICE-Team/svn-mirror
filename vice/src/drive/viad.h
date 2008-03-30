@@ -28,12 +28,11 @@
 #ifndef _VIAD_H
 #define _VIAD_H
 
-#include "drivecpu.h"
-#include "snapshot.h"
 #include "types.h"
 
 struct drive_context_s;
 struct drivevia_context_s;
+struct snapshot_s;
 
 extern void drive_via1_setup_context(struct drive_context_s *ctxptr);
 extern void drive_via2_setup_context(struct drive_context_s *ctxptr);
@@ -46,16 +45,20 @@ extern void via1d_reset(struct drive_context_s *ctxptr);
 extern void via1d_signal(struct drive_context_s *ctxptr, int line, int edge);
 extern void REGPARM3 via1d_store(struct drive_context_s *ctxptr, ADDRESS addr, BYTE byte);
 extern BYTE REGPARM2 via1d_read(struct drive_context_s *ctxptr, ADDRESS addr);
-extern int via1d_write_snapshot_module(struct drive_context_s *ctxptr, snapshot_t * p);
-extern int via1d_read_snapshot_module(struct drive_context_s *ctxptr, snapshot_t * p);
+extern int via1d_write_snapshot_module(struct drive_context_s *ctxptr,
+                                       struct snapshot_s *p);
+extern int via1d_read_snapshot_module(struct drive_context_s *ctxptr,
+                                      struct snapshot_s *p);
 
 extern void via2d_init(struct drive_context_s *ctxptr);
 extern void via2d_reset(struct drive_context_s *ctxptr);
 extern void via2d_signal(struct drive_context_s *ctxptr, int line, int edge);
 extern void REGPARM3 via2d_store(struct drive_context_s *ctxptr, ADDRESS addr, BYTE byte);
 extern BYTE REGPARM2 via2d_read(struct drive_context_s *ctxptr, ADDRESS addr);
-extern int via2d_write_snapshot_module(struct drive_context_s *ctxptr, snapshot_t * p);
-extern int via2d_read_snapshot_module(struct drive_context_s *ctxptr, snapshot_t * p);
+extern int via2d_write_snapshot_module(struct drive_context_s *ctxptr,
+                                       struct snapshot_s *p);
+extern int via2d_read_snapshot_module(struct drive_context_s *ctxptr,
+                                      struct snapshot_s *p);
 
 typedef struct via_initdesc_s {
     struct drivevia_context_s *via_ptr;

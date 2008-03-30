@@ -48,6 +48,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "fsdevice.h"
+#include "interrupt.h"
 #include "joystick.h"
 #include "kbd.h"
 #include "kbdbuf.h"

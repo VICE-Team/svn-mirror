@@ -36,7 +36,6 @@
 #include "alarm.h"
 #include "log.h"
 #include "raster.h"
-#include "snapshot.h"
 #include "types.h"
 #include "vic-mem.h"
 #include "vic20.h"
@@ -115,6 +114,9 @@ typedef enum _vic_video_mode vic_video_mode_t;
 
 
 
+struct snapshot_s;
+struct palette_s;
+
 struct _vic
   {
     int initialized;
@@ -123,7 +125,7 @@ struct _vic
 
     raster_t raster;
 
-    palette_t *palette;
+    struct palette_s *palette;
 
     BYTE regs[64];
 
@@ -152,8 +154,8 @@ extern void vic_reset (void);
 extern int vic_init_resources (void);
 extern int vic_init_cmdline_options (void);
 
-extern int vic_write_snapshot_module (snapshot_t *s);
-extern int vic_read_snapshot_module (snapshot_t *s);
+extern int vic_write_snapshot_module (struct snapshot_s *s);
+extern int vic_read_snapshot_module (struct snapshot_s *s);
 
 
 

@@ -28,12 +28,12 @@
 #ifndef _VDRIVE_SNAPSHOT_H
 #define _VDRIVE_SNAPSHOT_H
 
-#include "snapshot.h"
+struct snapshot_s;
 
 extern void vdrive_snapshot_init(void);
 
-extern int vdrive_snapshot_module_write(snapshot_t *s, int start);
-extern int vdrive_snapshot_module_read(snapshot_t *s, int start);
+extern int vdrive_snapshot_module_write(struct snapshot_s *s, int start);
+extern int vdrive_snapshot_module_read(struct snapshot_s *s, int start);
 
 #endif
 

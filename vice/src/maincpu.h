@@ -29,10 +29,6 @@
 #define _MAINCPU_H
 
 #include "6510core.h"
-#include "alarm.h"
-#include "clkguard.h"
-#include "mos6510.h"
-#include "snapshot.h"
 #include "types.h"
 
 /* ------------------------------------------------------------------------- */
@@ -51,7 +47,8 @@ extern DWORD last_opcode_info;
 #define EXTERN_PC
 extern unsigned int reg_pc;
 
-extern mos6510_regs_t maincpu_regs;
+struct mos6510_regs_s;
+extern struct mos6510_regs_s maincpu_regs;
 
 struct monitor_interface_s;
 extern struct monitor_interface_s maincpu_monitor_interface;
@@ -61,9 +58,13 @@ extern CLOCK clk;
 
 /* ------------------------------------------------------------------------- */
 
+struct alarm_context_s;
+struct snapshot_s;
+struct clk_guard_s;
+
 extern CLOCK _maincpu_opcode_write_cycles[];
-extern alarm_context_t maincpu_alarm_context;
-extern clk_guard_t maincpu_clk_guard;
+extern struct alarm_context_s maincpu_alarm_context;
+extern struct clk_guard_s maincpu_clk_guard;
 
 /* Return the number of write accesses in the last opcode emulated. */
 inline static CLOCK maincpu_num_write_cycles(void)
@@ -74,8 +75,8 @@ inline static CLOCK maincpu_num_write_cycles(void)
 extern void maincpu_init(void);
 extern void maincpu_reset(void);
 extern void mainloop(ADDRESS start_address);
-extern int maincpu_read_snapshot_module(snapshot_t *s);
-extern int maincpu_write_snapshot_module(snapshot_t *s);
+extern int maincpu_read_snapshot_module(struct snapshot_s *s);
+extern int maincpu_write_snapshot_module(struct snapshot_s *s);
 
 #endif
 

@@ -27,8 +27,9 @@
 #ifndef _C64TPI_H
 #define _C64TPI_H
 
-#include "snapshot.h"
 #include "types.h"
+
+struct snapshot_s;
 
 extern void tpi_init(void);
 extern void tpi_reset(void);
@@ -36,8 +37,8 @@ extern void REGPARM2 tpi_store(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 tpi_read(ADDRESS addr);
 extern BYTE tpi_peek(ADDRESS addr);
 
-extern int tpi_write_snapshot_module(snapshot_t *p);
-extern int tpi_read_snapshot_module(snapshot_t *p);
+extern int tpi_write_snapshot_module(struct snapshot_s *p);
+extern int tpi_read_snapshot_module(struct snapshot_s *p);
 
-#endif /* _C64TPI_H */
+#endif
 

@@ -37,6 +37,7 @@
 #ifndef _PARALLEL_H
 #define _PARALLEL_H
 
+#include "maincpu.h"
 #include "types.h"
 
 /* debug variable - set to 1 to generate output */

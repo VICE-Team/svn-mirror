@@ -32,9 +32,12 @@
 
 #include "attach.h"
 #include "ciad.h"
+#include "diskimage.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "drivemem.h"
 #include "fdc.h"
+#include "gcr.h"
 #include "iecdrive.h"
 #include "log.h"
 #include "resources.h"
@@ -114,8 +117,8 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
         return 0;
 
     /* Save changes to disk before taking a snapshot.  */
-    drive_GCR_data_writeback(0);
-    drive_GCR_data_writeback(1);
+    drive_gcr_data_writeback(0);
+    drive_gcr_data_writeback(1);
 
     for (i = 0; i < 2; i++) {
         rotation_table_ptr[i] = (DWORD) (drive[i].rotation_table_ptr

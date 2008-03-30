@@ -45,6 +45,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
+#include "mos6510.h"
 #include "resources.h"
 #include "sound.h"
 #include "tape.h"

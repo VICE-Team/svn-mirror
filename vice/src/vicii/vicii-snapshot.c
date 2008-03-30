@@ -29,6 +29,7 @@
 
 #include "interrupt.h"
 #include "mem.h"
+#include "snapshot.h"
 #include "types.h"
 #include "vicii-snapshot.h"
 #include "vicii-sprites.h"

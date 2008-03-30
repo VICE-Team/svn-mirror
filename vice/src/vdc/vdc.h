@@ -31,8 +31,9 @@
 
 #include "vice.h"
 
-#include "snapshot.h"
 #include "vdc-mem.h"
+
+struct snapshot_s;
 
 extern int vdc_init_resources(void);
 extern int vdc_init_cmdline_options (void);
@@ -43,8 +44,8 @@ extern void vdc_prepare_for_snapshot (void);
 extern void vdc_powerup (void);
 extern void vdc_resize (void);
 
-extern int vdc_write_snapshot_module (snapshot_t *s);
-extern int vdc_read_snapshot_module (snapshot_t *s);
+extern int vdc_write_snapshot_module (struct snapshot_s *s);
+extern int vdc_read_snapshot_module (struct snapshot_s *s);
 
 extern void vdc_set_canvas_refresh(int enable);
 

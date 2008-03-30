@@ -33,8 +33,10 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
+#include "clkguard.h"
 #include "crtc-cmdline-options.h"
 #include "crtc-draw.h"
 #include "crtc-resources.h"

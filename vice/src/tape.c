@@ -44,6 +44,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mos6510.h"
 #include "serial.h"
 #include "t64.h"
 #include "tap.h"

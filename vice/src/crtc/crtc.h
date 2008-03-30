@@ -35,10 +35,11 @@
 #include "vice.h"
 
 #include "crtc-mem.h"
-#include "snapshot.h"
 #include "types.h"
 
 typedef void (*machine_crtc_retrace_signal_t)(unsigned int);
+
+struct snapshot_s;
 
 extern void *crtc_init(void);
 extern void crtc_reset(void);
@@ -46,8 +47,8 @@ extern void crtc_reset(void);
 extern int crtc_init_resources(void);
 extern int crtc_init_cmdline_options(void);
 
-extern int crtc_write_snapshot_module(snapshot_t *s);
-extern int crtc_read_snapshot_module(snapshot_t *s);
+extern int crtc_write_snapshot_module(struct snapshot_s *s);
+extern int crtc_read_snapshot_module(struct snapshot_s *s);
 
 extern void crtc_set_screen_addr(BYTE *screen);
 extern void crtc_set_chargen_offset(int offset);

@@ -37,6 +37,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mos6510.h"
 #include "parallel.h"
 #include "resources.h"
 #include "traps.h"

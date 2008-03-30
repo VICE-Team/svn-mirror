@@ -14,20 +14,21 @@
 #ifndef _PETACIA_H
 #define _PETACIA_H
 
-#include "snapshot.h"
 #include "types.h"
+
+struct snapshot_s;
 
 extern void acia1_init(void);
 extern BYTE REGPARM1 acia1_read(ADDRESS a);
 extern BYTE REGPARM1 acia1_peek(ADDRESS a);
-extern void REGPARM2 acia1_store(ADDRESS a,BYTE b);
+extern void REGPARM2 acia1_store(ADDRESS a, BYTE b);
 extern void acia1_reset(void);
 
 extern int acia1_init_cmdline_options(void);
 extern int acia1_init_resources(void);
 
-extern int acia1_read_snapshot_module(snapshot_t *);
-extern int acia1_write_snapshot_module(snapshot_t *);
+extern int acia1_read_snapshot_module(struct snapshot_s *);
+extern int acia1_write_snapshot_module(struct snapshot_s *);
 
 #endif
 

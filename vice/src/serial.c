@@ -55,6 +55,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mos6510.h"
 #include "parallel.h"
 #include "prdevice.h"
 #include "serial.h"

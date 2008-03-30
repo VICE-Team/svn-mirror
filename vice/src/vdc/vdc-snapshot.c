@@ -28,6 +28,7 @@
 
 #include "vice.h"
 
+#include "snapshot.h"
 #include "types.h"
 #include "vdc-snapshot.h"
 #include "vdc.h"
