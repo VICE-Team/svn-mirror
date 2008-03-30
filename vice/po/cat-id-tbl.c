@@ -1152,7 +1152,8 @@ Peter Karlsson - Swedish\n\
 Andrea Musuruane - Italian\n\
 Paul Dube - French\n\
 Marco van den Heuvel - Dutch\n\
-Flooder - Polish\n", 1109},
+Flooder - Polish\n\
+Karai Csaba - Hungarian\n", 1109},
   {"(c) 1998 - 2006 The Vice Team", 1110},
   {"License", 1111},
   {"Warranty", 1112},
