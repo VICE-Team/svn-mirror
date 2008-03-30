@@ -192,6 +192,8 @@
 #define IDC_PREVIEW                     1251
 #define IDC_BLANK_IMAGE                 1252
 #define IDC_BLANK_IMAGE_TYPE            1253
+#define IDC_BLANK_IMAGE_NAME            1254
+#define IDC_BLANK_IMAGE_ID              1255
 
 #define IDD_DATASETTE_SETTINGS_DIALOG   1260
 #define IDC_DATASETTE_RESET_WITH_CPU    1261

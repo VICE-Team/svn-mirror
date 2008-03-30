@@ -5,6 +5,7 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Manfred Spraul <manfreds@colorfullife.com>
+ *  Andreas Matthies <andreas.matthies@arcormail.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -114,6 +115,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
     
     HWND    preview;
     HWND    image_type_list;
+    HFONT   hfont;
     char    *contents;
     char    filename[256];
     char    *image_type_name[] = 
@@ -124,7 +126,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
         DISK_IMAGE_TYPE_D80,
         DISK_IMAGE_TYPE_D81,
         DISK_IMAGE_TYPE_D82,
-        DISK_IMAGE_TYPE_GCR,
+        DISK_IMAGE_TYPE_G64,
         DISK_IMAGE_TYPE_X64
     };
     int counter;
@@ -141,11 +143,20 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                     (LPARAM)image_type_name[counter]);
             }
             SendMessage(image_type_list,CB_SETCURSEL,(WPARAM)0,0);
+            /* maybe there's a better font-definition (FIXME) */
+            hfont = CreateFont(-12,0,0,0,700,0,0,0,0,0,0,
+                DRAFT_QUALITY ,FIXED_PITCH|FF_MODERN,NULL);
+            if (hfont)
+                SendDlgItemMessage(hwnd,IDC_PREVIEW,WM_SETFONT,
+                    (WPARAM)hfont,MAKELPARAM(TRUE,0));
+            SetDlgItemText(hwnd,IDC_BLANK_IMAGE_NAME,"Vice");
+            SetDlgItemText(hwnd,IDC_BLANK_IMAGE_ID,"1a");
             break;
         case WM_NOTIFY:
             if (((OFNOTIFY*)lparam)->hdr.code==CDN_SELCHANGE) {
                 SendMessage(preview,LB_RESETCONTENT,0,0);
-                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
+                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
+                    CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
                     if (read_content_func!=NULL) {
                         contents=read_content_func(filename);
                         create_content_list(contents,preview);
@@ -167,6 +178,10 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                     if (SendMessage(GetParent(hwnd),
                         CDM_GETFILEPATH,256,(LPARAM)filename)>=0)
                     {
+                        char disk_name[32];
+                        char disk_id[3];
+                        char format_name[40];
+
                         counter = 
                             SendMessage(GetDlgItem(hwnd,IDC_BLANK_IMAGE_TYPE),
                                 CB_GETCURSEL,0,0);
@@ -181,8 +196,11 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                             if (ret != IDYES)
                                 return -1;
                         }
+                        GetDlgItemText(hwnd,IDC_BLANK_IMAGE_NAME,disk_name,17);
+                        GetDlgItemText(hwnd,IDC_BLANK_IMAGE_ID,disk_id,3);
+                        sprintf(format_name,"%s,%s",disk_name,disk_id);
                         if (vdrive_internal_create_format_disk_image(filename,
-                            "VICE,01", image_type[counter])<0)
+                            format_name, image_type[counter])<0)
                         {
                             ui_error("Cannot create image");
                             return -1;
