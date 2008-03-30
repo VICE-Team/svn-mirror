@@ -1,3 +1,74 @@
+2004-02-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.7.
+
+	* sounddrv/soundsdl.c (sdl_write): Added big endian patch
+	provided by Daniel Aarno.
+
+	* arch/win32/dirent.c, arch/win32/evc/system.h,
+	arch/win32/ui.c, arch/win32/uic128.c, arch/win32/uiconsole.c,
+	arch/win32/uilib.c, arch/win32/uimediafile.c,
+	arch/win32/uiperipheral.c, arch/win32/uisnapshot.c,
+	arch/win32/uisnapshot.h, arch/win32/uispeed.c,
+	arch/win32/uivideo.c, arch/win32/archdep.c: Use multi byte
+	functions.
+
+	* c1541.c, petcat.c: Added some temporary kludge.
+
+2004-02-28  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/resc128.rc, resc64.rc, rescbm2.rc, respet.rc,
+	resplus4,rc, resvic.rc, ui.c: Fixed shortcuts to avoid
+	conflicts with menu navigation. Debugging toggles are on
+	Alt+F10..Alt+F12 now, milestone shortcuts are Alt+G, Alt+H.
+
+2004-02-26  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/Makefile.am: Added new files to makefile.
+
+	* arch/win32/arch.dsp: Added new files to project.
+
+	* arch/win32/plus4.dsp: Added new files to project.
+
+	* arch/win32/plus4ui.c (plus4_ui_specific, plus4_ui_init):
+	Call cart ui functions.
+
+	* arch/win32/res.h: Added IDs for Plus4 cartridge menu items.
+
+	* arch/win32/resplus4.rc: Added Plus4 cartridge menu items.
+
+	* arch/win32/uiplus4cart.c, arch/win32/uiplus4cart.h: New
+	files, handles Plus4 cartridge UI.
+
+	* gfxoutput.h (gfxoutput_early_init): New function.
+
+	* gfxoutputdrv/gfxoutput.c (gfxoutput_early_init,
+	gfxoutput_init): Split initializations into to functions.
+
+	* main.c (main_program): Call gfxoutput_early_init.
+
+	* plus4/Makefile.am: Added new files to makefile.
+
+	* plus4/plus4-cmdline-options.c: Added new commandline options
+	for cartridges.
+
+	* plus4/plus4-resources.c: Added new resources for cartridge
+	support.
+
+	* plus4/plus4cart.c, plus4/plus4cart.h: New files, implements
+	plus4 cartridge support.
+
+	* plus4/plus4rom.c (plus4rom_load_3plus1lo,
+	plus4rom_load_3plus1hi):
+	Empty resources are accepted for C16 support.
+	(mem_load): Load cartridges as well.
+
+	* plus4/ted-mem.c (ted06_store, ted07_store): Recalculate
+	memory pointers if certain bits do change.
+
+	* plus4/ted.c (ted_update_memory_ptrs): Fixed char base
+	address calculation for all cases.
+
 2004-02-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.6.

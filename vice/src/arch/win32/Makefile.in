@@ -317,6 +317,8 @@ libarch_a_SOURCES = \
 	uimon.c \
 	uipetset.c \
 	uipetset.h \
+        uiplus4cart.c \
+	uiplus4cart.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
 	uiram.c \
@@ -438,8 +440,8 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
 	uifliplist.$(OBJEXT) uiide64.$(OBJEXT) uijoystick.$(OBJEXT) \
 	uilib.$(OBJEXT) uimediafile.$(OBJEXT) uimon.$(OBJEXT) \
-	uipetset.$(OBJEXT) uiplus4mem.$(OBJEXT) uiram.$(OBJEXT) \
-	uireu.$(OBJEXT) uirom.$(OBJEXT) uisid.$(OBJEXT) \
+	uipetset.$(OBJEXT) uiplus4cart.$(OBJEXT) uiplus4mem.$(OBJEXT) \
+	uiram.$(OBJEXT) uireu.$(OBJEXT) uirom.$(OBJEXT) uisid.$(OBJEXT) \
 	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) uispeed.$(OBJEXT) \
 	uitfe.$(OBJEXT) uivicii.$(OBJEXT) uivicset.$(OBJEXT) \
 	uivideo.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
@@ -470,6 +472,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po ./$(DEPDIR)/uilib.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uimediafile.Po ./$(DEPDIR)/uimon.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po ./$(DEPDIR)/uipetset.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiplus4cart.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiplus4mem.Po ./$(DEPDIR)/uiram.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uireu.Po ./$(DEPDIR)/uirom.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisnapshot.Po \
@@ -548,6 +551,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheral.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetset.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus4cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus4mem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
