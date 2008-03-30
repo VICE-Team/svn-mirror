@@ -27,6 +27,7 @@ SUBDIRS = \
 	c128 \
 	vic20 \
 	pet \
+	plus4 \
 	cbm2 \
 	arch
 
@@ -194,6 +195,7 @@ drive_lib = $(top_builddir)/src/drive/libdrive.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
+plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
@@ -206,7 +208,7 @@ xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
 common_libs = $(rs232_ldadd) @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
-bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
+bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat
 
 EXTRA_PROGRAMS =
 
@@ -354,6 +356,37 @@ xpet-all: \
 	libmonitor \
 	xpet 
 
+# xplus4
+xplus4_libs =  \
+        @XPLUS4_WINRES@ \
+        $(plus4_lib) \
+        $(drive_lib) \
+        $(vdrive_lib) \
+        $(sounddrv_lib) \
+        $(gfxoutputdrv_lib) \
+        $(printerdrv_lib) \
+        $(raster_lib) \
+        $(monitor_lib) \
+        $(common_libs)
+
+xplus4_SOURCES = $(base_sources) $(maincpu_sources)
+xplus4_LDADD = $(xplus4_libs) @X_LIBS@
+xplus4_DEPENDENCIES = $(xplus4_libs)
+xplus4_LDFLAGS = @xplus4_LDFLAGS@
+
+.PHONY: xplus4-all
+xplus4-all: \
+        libdrive \
+        libvdrive \
+        libraster \
+        libsounddrv \
+        libgfxoutputdrv \
+        libprinterdrv \
+        libplus4 \
+        libarch \
+        libmonitor \
+        xplus4
+
 # xcbm2
 xcbm2_libs = \
 	@XCBM2_WINRES@ \
@@ -437,7 +470,7 @@ petcat_LDADD = \
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libvdrive
+.PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv libgfxoutputdrv libsounddrv \
 	libarch libvicii libvdc libsid libcrtc @RESID_DEP@
 
@@ -455,6 +488,8 @@ libdrive:
 	(cd drive && $(MAKE))
 libpet:
 	(cd pet && $(MAKE))
+libplus4:
+	(cd plus4 && $(MAKE))
 libprinterdrv:
 	(cd printerdrv && $(MAKE))
 libraster:
