@@ -1,3 +1,14 @@
+2000-12-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.1.
+
+	* zfile.c (compress): Renamed to `zfile_compress'.
+	(try_uncompress_with_gzip): Use zlib.
+
+2000-12-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* 6510core.c(RLA_IND_Y): clear RMW_FLAG after execution
+
 2000-12-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.

@@ -50,6 +50,9 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#ifdef HAVE_ZLIB
+#include <zlib.h>
+#endif
 
 #include "archdep.h"
 #include "log.h"
@@ -156,12 +159,46 @@ static void zfile_list_add(const char *tmp_name,
 /* Uncompression.  */
 
 /* If `name' has a gzip-like extension, try to uncompress it into a temporary
-   file using gzip.  If this succeeds, return the name of the temporary file;
-   return NULL otherwise.  */
+   file using gzip or zlib if available.  If this succeeds, return the name
+   of the temporary file; return NULL otherwise.  */
 static char *try_uncompress_with_gzip(const char *name)
 {
-#ifdef __riscos
-    return NULL;
+#ifdef HAVE_ZLIB
+    FILE *fdsrc, *fddest;
+    char *tmp_name;
+    int l = strlen(name);
+    int len;
+
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
+        && (l < 3 || strcasecmp(name + l - 2, ".z"))
+        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
+        return NULL;
+
+    tmp_name = archdep_tmpnam();
+
+    fddest = fopen(tmp_name, MODE_WRITE);
+    if (fddest == NULL)
+        return NULL;
+
+    fdsrc = gzopen(name, MODE_READ);
+    if (fdsrc == NULL) {
+        fclose(fddest);
+        remove_file(tmp_name);
+    }
+
+    do {
+       char buf[256];
+
+       len = gzread(fdsrc, (void *)buf, 256);
+       if (len > 0) {
+         fwrite((void *)buf, 1, (size_t)len, fddest);
+       }
+    } while (len > 0);
+
+    gzclose(fdsrc);
+    fclose(fddest);
+
+    return tmp_name;
 #else
     char *tmp_name;
     int l = strlen(name);
@@ -773,7 +810,7 @@ static int compress_with_bzip(const char *src, const char *dest)
 }
 
 /* Compress `src' into `dest' using algorithm `type'.  */
-static int compress(const char *src, const char *dest,
+static int zfile_compress(const char *src, const char *dest,
             enum compression_type type)
 {
     char *dest_backup_name;
@@ -961,7 +998,7 @@ static int handle_close(struct zfile *ptr)
         /* Recompress into the original file.  */
         if (ptr->orig_name
             && ptr->write_mode
-            && compress(ptr->tmp_name, ptr->orig_name, ptr->type))
+            && zfile_compress(ptr->tmp_name, ptr->orig_name, ptr->type))
             return -1;
 
         /* Remove temporary file.  */

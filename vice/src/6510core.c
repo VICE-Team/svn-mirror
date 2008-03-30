@@ -951,7 +951,7 @@
       LOCAL_SET_NZ(reg_a);                                      \
       INC_PC(2);                                                \
       STORE_ABS(tmp_addr, tmp, 2);                              \
-      RMW_FLAG = 1;                                             \
+      RMW_FLAG = 0;                                             \
   } while (0)
 
 #define ROL(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
