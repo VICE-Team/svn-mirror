@@ -1,6 +1,26 @@
+1998-09-11  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.5.
+
+1998-09-11  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* configure.in: Fix `--with-readline' and `--without-readline'
+	behavior; link `curses' in only if needed.
+
+1998-09-10  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Disable configuration of reSID if --without-resid
+ 	is specified.  Output help for --without-resid instead of
+ 	--with-resid=PATH.
+
 1998-09-08  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.4.
+
+1998-09-08  Tibor Biczo <crown@mail.matav.hu>
+
+        * configure.in: Added -lm into LIBS when compiling for
+        UNIX or MSDOS.
 
 1998-09-07  Ettore Perazzoli  <ettore@comm2000.it>
 
