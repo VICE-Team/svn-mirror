@@ -67,9 +67,9 @@ static int set_joystick_device_2(resource_value_t v, void *param)
 }
 
 #define DEFINE_SET_KEYSET(num, dir)              \
-    static int set_keyset##num##_##dir##(resource_value_t v, void *param) \
+    static int set_keyset##num##_##dir(resource_value_t v, void *param) \
     {                                            \
-        keyset##num##[KEYSET_##dir##] = (int)v;  \
+        keyset##num[KEYSET_##dir] = (int)v;      \
                                                  \
         return 0;                                \
     }
