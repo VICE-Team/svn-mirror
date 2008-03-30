@@ -259,7 +259,7 @@ inline static void dofilter(voice_t *pVoice)
             pVoice->filtRef +=
                 REAL_MULT(REAL_VALUE(pVoice->filtIO) - pVoice->filtLow -
                           REAL_MULT(pVoice->filtRef, pVoice->s->filterResDy),
-                          pVoice->s->filterDy );
+                          pVoice->s->filterDy);
             pVoice->filtIO = (signed char)
                              (REAL_TO_INT(pVoice->filtRef-pVoice->filtLow / 4));
         } else 
@@ -272,7 +272,7 @@ inline static void dofilter(voice_t *pVoice)
                     REAL_MULT(REAL_VALUE(pVoice->filtIO) - pVoice->filtLow -
                               REAL_MULT(pVoice->filtRef,
                               pVoice->s->filterResDy),
-                              pVoice->s->filterDy );
+                              pVoice->s->filterDy);
                 sample = pVoice->filtRef - REAL_VALUE(pVoice->filtIO / 8);
                 if (sample < REAL_VALUE(-128))
                     sample = REAL_VALUE(-128);
@@ -306,8 +306,7 @@ inline static void dofilter(voice_t *pVoice)
                                  ? (signed char)
                                  (REAL_TO_INT(sample) - (tmp >> 1)) : 0))));
             }
-    }
-    else /* filterType == 0x00 */
+    } else /* filterType == 0x00 */
         pVoice->filtIO = 0;
 }
 
@@ -356,6 +355,7 @@ static DWORD doosc(voice_t *pv)
 static void set_adsr(voice_t *pv, BYTE fm)
 {
     int i;
+
     switch (fm) {
       case ATTACK:
         pv->adsrs = pv->s->adrs[pv->attack];
@@ -382,8 +382,7 @@ static void set_adsr(voice_t *pv, BYTE fm)
         pv->adsrz = 0;
         break;
       case RELEASE:
-        if (!pv->adsr)
-        {
+        if (!pv->adsr) {
             set_adsr(pv, IDLE);
             return;
         }
@@ -514,8 +513,7 @@ inline static void setup_voice(voice_t *pv)
     pv->sync = pv->d[4] & 0x02 ? 1 : 0;
     pv->fs = pv->s->speed1 * (pv->d[0] + pv->d[1] * 0x100);
 #ifdef WAVETABLES
-    if (pv->d[4] & 0x08)
-    {
+    if (pv->d[4] & 0x08) {
         pv->f = pv->fs = 0;
         pv->rv = NSEED;
     }
@@ -568,12 +566,12 @@ inline static void setup_voice(voice_t *pv)
         if (pv->d[4] & 0x04 && pv->s->newsid)
             pv->wtr[1] = 0x7fff;
         break;
-    case 8:
+      case 8:
         pv->noise = 1;
         pv->wt = NULL;
         pv->wtl = 0;
         break;
-    default:
+      default:
         /* XXX: noise locking correct? */
         pv->rv = 0;
         pv->wt = wavetable00;
