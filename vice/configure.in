@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=17
-VICE_VERSION_BUILD=3
+VICE_VERSION_BUILD=4
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -135,6 +135,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
   AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
   AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
+  AC_DEFINE(HAVE_NETWORK,,[Enable network support])
 
   AC_TRY_LINK([#include <windows.h>],
               [LARGE_INTEGER li; return (int) li.QuadPart],
@@ -240,6 +241,7 @@ fi
 
 AM_CONDITIONAL(USE_MIDAS_SOUND, test x"$with_midas" = "xyes")
 AM_CONDITIONAL(DOS_OR_WIN, test x"$is_dos" = "xyes" -o x"$is_win32" = "xyes")
+AM_CONDITIONAL(HAVE_NETWORK, test x"$is_win32" = "xyes")
 
 dnl Check for needed external programs.
 
@@ -605,13 +607,33 @@ AC_CHECK_LIB(m, sinf,,,$LIBS)
 
 dnl Check for zlib
 
-AC_CHECK_HEADER(zlib.h,,)
-if test x"$ac_cv_header_zlib_h" = "xyes" ; then
-  AC_CHECK_LIB(z, zlibVersion,
-               [ LIBS="-lz $LIBS";
-                 AC_DEFINE(HAVE_ZLIB,,
-                           [Can we use the ZLIB compression library?]) ],,)
+
+VICE_ZLIB=
+VICE_ZLIB_DIR=
+VICE_ZLIB_DEP=
+VICE_ZLIB_INCLUDES=
+
+if test x"$with_zlib" != "xno" ; then
+  AC_CHECK_HEADER(zlib.h,,)
+  if test x"$ac_cv_header_zlib_h" = "xyes" ; then
+    AC_CHECK_LIB(z, zlibVersion,
+                 [ LIBS="-lz $LIBS";
+                   AC_DEFINE(HAVE_ZLIB,,
+                             [Can we use the ZLIB compression library?]) ],,)
+  fi
+  if test x"$ac_cv_lib_z_zlibVersion" != "xyes"; then
+    AC_DEFINE(HAVE_ZLIB,, [Can we use the ZLIB compression library?])
+    VICE_ZLIB="\$(top_builddir)/src/lib/zlib/libz.a"
+    VICE_ZLIB_DEP=libz
+    VICE_ZLIB_INCLUDES="-I\$(top_srcdir)/src/lib/zlib"
+    VICE_ZLIB_DIR=lib/zlib
+  fi
 fi
+
+AC_SUBST(VICE_ZLIB)
+AC_SUBST(VICE_ZLIB_DIR)
+AC_SUBST(VICE_ZLIB_DEP)
+AC_SUBST(VICE_ZLIB_INCLUDES)
 
 dnl Configure sound drivers
 
@@ -849,28 +871,48 @@ AC_SUBST(READLINE)
 
 dnl Configure graphics output drivers
 
-if test x"$is_dos" != "xyes" -a x"$is_beos" != "xyes"; then
-  dnl Check for the PNG library.
-  AC_CHECK_HEADER(png.h,,)
-  if test x"$ac_cv_header_png_h" = "xyes" ; then
-    unset ac_cv_lib_png_png_check_sig
-    AC_CHECK_LIB(png, png_check_sig,
-                 [ LIBS="-lpng $LIBS";
-                   GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-                   AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?]) ],,)
-    if test "$ac_cv_lib_png_png_check_sig" = "no"; then
+VICE_LIBPNG=
+VICE_LIBPNG_DIR=
+VICE_LIBPNG_DEP=
+VICE_LIBPNG_INCLUDES=
+
+if test x"$is_beos" != "xyes"; then
+  if test x"$with_png" != "xno" ; then
+    dnl Check for the PNG library.
+    AC_CHECK_HEADER(png.h,,)
+    if test x"$ac_cv_header_png_h" = "xyes" ; then
       unset ac_cv_lib_png_png_check_sig
       AC_CHECK_LIB(png, png_check_sig,
-                   [ LIBS="-lpng -lz $LIBS";
+                   [ LIBS="-lpng $LIBS";
                      GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-                     AC_DEFINE(HAVE_PNG,,
-                               [Can we use the PNG library?]) ],,"-lz")
+                     AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?]) ],,)
+      if test "$ac_cv_lib_png_png_check_sig" = "no"; then
+        unset ac_cv_lib_png_png_check_sig
+        AC_CHECK_LIB(png, png_check_sig,
+                     [ LIBS="-lpng -lz $LIBS";
+                       GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
+                       AC_DEFINE(HAVE_PNG,,
+                                 [Can we use the PNG library?]) ],,"-lz")
+      fi
+    fi
+    if test x"$ac_cv_lib_png_png_check_sig" != "xyes"; then
+      if test x"$with_zlib" != "xno" ; then
+        AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?])
+        VICE_LIBPNG="\$(top_builddir)/src/lib/lpng/libpng.a"
+        VICE_LIBPNG_DEP=libpng
+        GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o"
+        VICE_LIBPNG_INCLUDES="-I\$(top_srcdir)/src/lib/lpng"
+        VICE_LIBPNG_DIR=lib/lpng
+      fi
     fi
   fi
 fi
 
+AC_SUBST(VICE_LIBPNG)
+AC_SUBST(VICE_LIBPNG_DIR)
+AC_SUBST(VICE_LIBPNG_DEP)
 AC_SUBST(GFXOUTPUT_DRIVERS)
-
+AC_SUBST(VICE_LIBPNG_INCLUDES)
 
 dnl Check for X11 libraries and header files
 
@@ -1395,6 +1437,9 @@ AC_OUTPUT([Makefile
            src/gfxoutputdrv/Makefile
            src/iecbus/Makefile
            src/imagecontents/Makefile
+           src/lib/Makefile
+           src/lib/lpng/Makefile
+           src/lib/zlib/Makefile
            src/monitor/Makefile
            src/parallel/Makefile
            src/pet/Makefile

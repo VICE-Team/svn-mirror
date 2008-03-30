@@ -1,3 +1,23 @@
+2005-10-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.4.
+
+	* configure.in: Moved definition of `HAS_NETWORK' to win32
+	section.
+
+2005-10-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added built-in support for libpng and libz.
+
+2005-10-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Resurrected the OS/2 port and made a
+	download link to the OS/2 VICE 1.17 binary file.
+
+2005-10-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Cosmetic fix.
+
 2005-10-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.17.3.
