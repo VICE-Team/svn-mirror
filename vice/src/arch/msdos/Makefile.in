@@ -149,6 +149,8 @@ libarch_a_SOURCES = \
 	tui.h \
 	tui_backend.c \
 	tui_backend.h \
+	tuiimagebrowser.c \
+	tuiimagebrowser.h \
 	tuifs.c \
 	tuifs.h \
 	tuimenu.c \
@@ -189,8 +191,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 @USE_MIDAS_SOUND_FALSE@libarch_a_DEPENDENCIES =  vicesb.o
 libarch_a_OBJECTS =  c128kbd.o c128ui.o c610ui.o c610kbd.o c64kbd.o \
 c64ui.o grabkey.o joystick.o kbd.o log.o mouse.o menudefs.o petkbd.o \
-petui.o sidui.o tui.o tui_backend.o tuifs.o tuimenu.o tuiview.o ui.o \
-uisnapshot.o vic20kbd.o vic20ui.o video.o vsync.o
+petui.o sidui.o tui.o tui_backend.o tuiimagebrowser.o tuifs.o tuimenu.o \
+tuiview.o ui.o uisnapshot.o vic20kbd.o vic20ui.o video.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@

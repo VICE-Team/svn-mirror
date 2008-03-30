@@ -1,5 +1,5 @@
 /*
- * tuifs.c - A simple text-based file selector.
+ * tuiimagebrowser.h - Explore disk contents.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -24,13 +24,12 @@
  *
  */
 
-#ifndef _TUIFS_H
+#ifndef TUIDISKBROWSER_H
+#define TUIDISKBROWSER_H
 
 #include "imagecontents.h"
 
-extern char *tui_file_selector(const char *title, const char *directory,
-			       const char *pattern, const char *default_item,
-			       image_contents_t *(*contents_func)(const char*),
-                               char **browse_file_return);
+char *tui_image_browser(const char *filename,
+                        image_contents_t *(*contents_func)(const char *));
 
 #endif

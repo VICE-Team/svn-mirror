@@ -140,6 +140,7 @@ noinst_HEADERS = \
 	fsdevice.h \
 	gcr.h \
 	iecdrive.h \
+	imagecontents.h \
 	info.h \
 	interrupt.h \
 	kbdbuf.h \
@@ -188,6 +189,7 @@ base_sources = \
 	gcr.c \
 	info.c \
 	interrupt.c \
+	imagecontents.c \
 	kbdbuf.c \
 	main.c \
 	memutils.c \
@@ -335,32 +337,32 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 x64_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o interrupt.o kbdbuf.o main.o \
-memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
+main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
 x64_LDFLAGS = 
 x128_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o interrupt.o kbdbuf.o main.o \
-memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
+main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o
 x128_LDFLAGS = 
 xvic_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o interrupt.o kbdbuf.o main.o \
-memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
+main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
 xvic_LDFLAGS = 
 xpet_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o interrupt.o kbdbuf.o main.o \
-memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
+main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
 xpet_LDFLAGS = 
 xcbm2_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o interrupt.o kbdbuf.o main.o \
-memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
+main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o
 xcbm2_LDFLAGS = 
