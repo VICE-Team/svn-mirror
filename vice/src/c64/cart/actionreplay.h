@@ -42,6 +42,7 @@ extern void REGPARM2 actionreplay_roml_store(WORD addr, BYTE value);
 extern void actionreplay_freeze(void);
 
 extern void actionreplay_config_init(void);
+extern void actionreplay_reset(void);
 extern void actionreplay_config_setup(BYTE *rawcart);
 extern int actionreplay_bin_attach(const char *filename, BYTE *rawcart);
 extern int actionreplay_crt_attach(FILE *fd, BYTE *rawcart);

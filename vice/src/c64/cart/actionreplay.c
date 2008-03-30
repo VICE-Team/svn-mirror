@@ -37,6 +37,9 @@
 #include "vicii-phi1.h"
 
 
+static unsigned int ar_active;
+
+
 BYTE REGPARM1 actionreplay_io1_read(WORD addr)
 {
     return vicii_read_phi1();
@@ -44,11 +47,19 @@ BYTE REGPARM1 actionreplay_io1_read(WORD addr)
 
 void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
 {
-    cartridge_config_changed(value, value, CMODE_WRITE);
+    if (ar_active) {
+        cartridge_config_changed(value, value, CMODE_WRITE);
+
+        if (value & 4)
+            ar_active = 0;
+    }
 }
 
 BYTE REGPARM1 actionreplay_io2_read(WORD addr)
 {
+    if (!ar_active)
+        return vicii_read_phi1();
+
     if (export_ram)
         return export_ram0[0x1f00 + (addr & 0xff)];
 
@@ -67,8 +78,9 @@ BYTE REGPARM1 actionreplay_io2_read(WORD addr)
 
 void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value)
 {
-    if (export_ram)
-        export_ram0[0x1f00 + (addr & 0xff)] = value;
+    if (ar_active)
+        if (export_ram)
+            export_ram0[0x1f00 + (addr & 0xff)] = value;
 }
 
 BYTE REGPARM1 actionreplay_roml_read(WORD addr)
@@ -87,12 +99,19 @@ void REGPARM2 actionreplay_roml_store(WORD addr, BYTE value)
 
 void actionreplay_freeze(void)
 {
+    ar_active = 1;
     cartridge_config_changed(35, 35, CMODE_READ);
 }
 
 void actionreplay_config_init(void)
 {
+    ar_active = 1;
     cartridge_config_changed(0, 0, CMODE_READ);
+}
+
+void actionreplay_reset(void)
+{
+    ar_active = 1;
 }
 
 void actionreplay_config_setup(BYTE *rawcart)

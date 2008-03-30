@@ -55,7 +55,7 @@ static int cartridge_type;
 static char *cartridge_file = NULL;
 static char *ide64_configuration_string = NULL;
 static int cartridge_mode;
-static int cartridge_reset;
+static int c64cartridge_reset;
 
 int c64cart_type = CARTRIDGE_NONE;
 int cartmode = CARTRIDGE_MODE_OFF;
@@ -107,7 +107,7 @@ static int set_cartridge_mode(resource_value_t v, void *param)
 
 static int set_cartridge_reset(resource_value_t v, void *param)
 {
-    cartridge_reset = (int)v;
+    c64cartridge_reset = (int)v;
 
     return 0;
 }
@@ -145,7 +145,7 @@ static const resource_t resources[] = {
     { "CartridgeMode", RES_INTEGER, (resource_value_t)CARTRIDGE_MODE_OFF,
       (void *)&cartridge_mode, set_cartridge_mode, NULL },
     { "CartridgeReset", RES_INTEGER, (resource_value_t)1,
-      (void *)&cartridge_reset, set_cartridge_reset, NULL },
+      (void *)&c64cartridge_reset, set_cartridge_reset, NULL },
     { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
       (void *)&ide64_image_file, set_ide64_image_file, NULL },
     { "IDE64Config", RES_STRING, (resource_value_t)"",

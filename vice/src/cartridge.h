@@ -30,6 +30,7 @@
 #include "types.h"
 
 extern void cartridge_init(void);
+extern void cartridge_reset(void);
 extern int cartridge_resources_init(void);
 extern void cartridge_resources_shutdown(void);
 extern int cartridge_cmdline_options_init(void);

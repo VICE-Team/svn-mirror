@@ -81,6 +81,7 @@
 #include "sid.h"
 #include "sound.h"
 #include "tape.h"
+#include "tpi.h"
 #include "traps.h"
 #include "types.h"
 #include "vicii.h"
@@ -509,7 +510,7 @@ void machine_specific_reset(void)
     ciacore_reset(&(machine_context.cia1));
     ciacore_reset(&(machine_context.cia2));
     sid_reset();
-    tpi_reset(&(machine_context.tpi1));
+    tpicore_reset(&(machine_context.tpi1));
 
     acia1_reset();
     rs232drv_reset();
@@ -522,6 +523,7 @@ void machine_specific_reset(void)
     /* The VIC-II must be the *last* to be reset.  */
     vicii_reset();
 
+    cartridge_reset();
     drive_reset();
     datasette_reset();
     reu_reset();
