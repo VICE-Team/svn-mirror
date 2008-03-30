@@ -38,6 +38,7 @@
 #include "plus4tia1.h"
 #include "ted-resources.h"
 #include "ted-mem.h"
+#include "ted-sound.h"
 #include "ted-timer.h"
 #include "ted.h"
 #include "tedtypes.h"
@@ -82,8 +83,7 @@ static int unused_bits_in_registers[64] =
 };
 
 
-/* Store a value in the video bank (it is assumed to be in RAM).  */
-inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
+inline void REGPARM2 ted_local_store_vbank(ADDRESS addr, BYTE value)
 {
     /* This can only cause "aesthetical" errors, so let's save some time if
        the current frame will not be visible.  */
@@ -112,7 +112,7 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
             }
 
             if (mclk >= ted.draw_clk) {
-                ted_raster_draw_alarm_handler (0);
+                ted_raster_draw_alarm_handler(0);
                 f = 1;
             }
         } while (f);
@@ -121,17 +121,17 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
     ram[addr] = value;
 }
 
-#if 0
 /* Encapsulate inlined function for other modules */
-void REGPARM2 vicii_mem_vbank_store(ADDRESS addr, BYTE value)
+void REGPARM2 ted_mem_vbank_store(ADDRESS addr, BYTE value)
 {
-    vic_ii_local_store_vbank(addr, value);
+    ted_local_store_vbank(addr, value);
 }
 
+#if 0
 /* As `store_vbank()', but for the $3900...$39FF address range.  */
-void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
+void REGPARM2 ted_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
 {
-    vic_ii_local_store_vbank(addr, value);
+    ted_local_store_vbank(addr, value);
 
     if (ted.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
         raster_add_int_change_foreground
@@ -142,9 +142,9 @@ void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
 }
 
 /* As `store_vbank()', but for the $3F00...$3FFF address range.  */
-void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
+void REGPARM2 ted_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
 {
-    vic_ii_local_store_vbank (addr, value);
+    ted_local_store_vbank (addr, value);
 
     if (ted.idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
         raster_add_int_change_foreground
@@ -155,8 +155,7 @@ void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
 }
 #endif
 
-inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
-                                                        int line)
+inline static void check_bad_line_state_change(BYTE value, int cycle, int line)
 {
     int was_bad_line, now_bad_line;
 
@@ -171,7 +170,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
         /* Bad line becomes good.  */
         ted.bad_line = 0;
 
-        /* By changing the values in the registers, one can make the VIC
+        /* By changing the values in the registers, one can make the TED 
            switch from idle to display state, but not from display to
            idle state.  So we are always in display state if this
            happens.  This is only true if the value changes in some
@@ -179,7 +178,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
         if (cycle > 0) {
             ted.raster.draw_idle_state = ted.idle_state = 0;
             ted.idle_data_location = IDLE_NONE;
-            if (cycle > VIC_II_FETCH_CYCLE + 2
+            if (cycle > TED_FETCH_CYCLE + 2
                 && !ted.ycounter_reset_checked) {
                 ted.raster.ycounter = 0;
                 ted.ycounter_reset_checked = 1;
@@ -187,8 +186,8 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
         }
 
     } else if (!was_bad_line && now_bad_line) {
-        if (cycle >= VIC_II_FETCH_CYCLE
-            && cycle <= VIC_II_FETCH_CYCLE + TED_SCREEN_TEXTCOLS + 3) {
+        if (cycle >= TED_FETCH_CYCLE
+            && cycle <= TED_FETCH_CYCLE + TED_SCREEN_TEXTCOLS + 3) {
             int pos;            /* Value of line counter when this happens.  */
             int inc;            /* Total increment for the line counter.  */
             int num_chars;      /* Total number of characters to fetch.  */
@@ -196,16 +195,16 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
 
             ted.bad_line = 1;
 
-            if (cycle <= VIC_II_FETCH_CYCLE + 2)
+            if (cycle <= TED_FETCH_CYCLE + 2)
                 ted.raster.ycounter = 0;
 
             ted.ycounter_reset_checked = 1;
 
             num_chars = (TED_SCREEN_TEXTCOLS
-                         - (cycle - (VIC_II_FETCH_CYCLE + 3)));
+                         - (cycle - (TED_FETCH_CYCLE + 3)));
 
             if (num_chars <= TED_SCREEN_TEXTCOLS) {
-                /* Matrix fetches starts immediately, but the VIC needs
+                /* Matrix fetches starts immediately, but the TED needs
                    at least 3 cycles to become the bus master.  Before
                    this happens, it fetches 0xff.  */
                 num_0xff_fetches = 3;
@@ -218,7 +217,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
                     if (inc < 0)
                         inc = 0;
                 } else {
-                    pos = cycle - (VIC_II_FETCH_CYCLE + 3);
+                    pos = cycle - (TED_FETCH_CYCLE + 3);
                     if (pos > TED_SCREEN_TEXTCOLS - 1)
                         pos = TED_SCREEN_TEXTCOLS - 1;
                     inc = TED_SCREEN_TEXTCOLS;
@@ -226,10 +225,10 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
             } else {
                 pos = 0;
                 num_chars = inc = TED_SCREEN_TEXTCOLS;
-                num_0xff_fetches = cycle - VIC_II_FETCH_CYCLE;
+                num_0xff_fetches = cycle - TED_FETCH_CYCLE;
             }
 
-            /* This is normally done at cycle `VIC_II_FETCH_CYCLE + 2'.  */
+            /* This is normally done at cycle `TED_FETCH_CYCLE + 2'.  */
             ted.mem_counter = ted.memptr;
 
             /* Force the DMA.  */
@@ -245,6 +244,8 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
                        num_0xff_fetches);
                 ted_fetch_matrix(pos + num_0xff_fetches,
                                  num_chars - num_0xff_fetches);
+                ted_fetch_color(pos + num_0xff_fetches,
+                                num_chars - num_0xff_fetches);
             }
 
             /* Set the value by which `ted.mem_counter' is incremented on
@@ -252,7 +253,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
             ted.mem_counter_inc = inc;
 
             /* Take over the bus until the memory fetch is done.  */
-            clk = (TED_LINE_START_CLK(clk) + VIC_II_FETCH_CYCLE
+            clk = (TED_LINE_START_CLK(clk) + TED_FETCH_CYCLE
                    + TED_SCREEN_TEXTCOLS + 3);
 
             /* Remember we have done a DMA.  */
@@ -267,7 +268,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
                 ted.raster.draw_idle_state = 0;
                 ted.idle_data_location = IDLE_NONE;
             }
-        } else if (cycle <= VIC_II_FETCH_CYCLE + TED_SCREEN_TEXTCOLS + 6) {
+        } else if (cycle <= TED_FETCH_CYCLE + TED_SCREEN_TEXTCOLS + 6) {
             /* Bad line has been generated after fetch interval, but
                before `ted.raster.ycounter' is incremented.  */
 
@@ -292,7 +293,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
     }
 }
 
-inline static void store_ted06(BYTE value)
+inline static void ted06_store(BYTE value)
 {
     int cycle;
     int line;
@@ -312,7 +313,7 @@ inline static void store_ted06(BYTE value)
     if (ted.raster.ysmooth != (value & 7)
         && line >= ted.first_dma_line
         && line <= ted.last_dma_line)
-        check_bad_line_state_change_for_d011(value, cycle, line);
+        check_bad_line_state_change(value, cycle, line);
 
     ted.raster.ysmooth = value & 0x7;
 
@@ -367,7 +368,7 @@ inline static void store_ted06(BYTE value)
     ted_update_video_mode(cycle);
 }
 
-inline static void store_ted07(BYTE value)
+inline static void ted07_store(BYTE value)
 {
     raster_t *raster;
     int cycle;
@@ -445,7 +446,7 @@ inline static void store_ted07(BYTE value)
     ted_update_video_mode(cycle);
 }
 
-inline static void store_ted08(BYTE value)
+inline static void ted08_store(BYTE value)
 {
     BYTE val = 0xff;
     BYTE msk = tia_kbd;
@@ -471,7 +472,7 @@ inline static void store_ted08(BYTE value)
     ted.kbdval = val;
 }
 
-inline static void store_ted09(BYTE value)
+inline static void ted09_store(BYTE value)
 {
     if (rmw_flag) { /* (emulates the Read-Modify-Write bug) */
         ted.irq_status = 0;
@@ -493,7 +494,7 @@ inline static void store_ted09(BYTE value)
     TED_DEBUG_REGISTER(("\tIRQ flag register: $%02X\n", ted.irq_status));
 }
 
-inline static void store_ted0a(BYTE value)
+inline static void ted0a_store(BYTE value)
 {
     int new_irq_line;
 
@@ -513,7 +514,7 @@ inline static void store_ted0a(BYTE value)
     TED_DEBUG_REGISTER(("\tIRQ mask register: $%02X\n", ted.regs[addr]));
 }
 
-inline static void store_ted0b(BYTE value)
+inline static void ted0b_store(BYTE value)
 {
     unsigned int line;
     unsigned int old_raster_irq_line;
@@ -566,7 +567,7 @@ inline static void store_ted0b(BYTE value)
     }
 }
 
-inline static void store_ted0c0d(ADDRESS addr, BYTE value)
+inline static void ted0c0d_store(ADDRESS addr, BYTE value)
 {
     int pos;
 
@@ -589,8 +590,10 @@ inline static void store_ted0c0d(ADDRESS addr, BYTE value)
     ted.regs[addr] = value;
 }
 
-inline static void store_ted12(BYTE value)
+inline static void ted12_store(BYTE value)
 {
+    value &= 0x3c;
+
     if (ted.regs[0x12] == value)
         return;
 
@@ -598,16 +601,23 @@ inline static void store_ted12(BYTE value)
     ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
 }
 
-inline static void store_ted13(BYTE value)
+inline static void ted13_store(BYTE value)
 {
     if ((ted.regs[0x13] & 0xfe) == (value & 0xfe))
         return;
+
+    if ((ted.regs[0x13] & 2) ^ (value & 2)) {
+        if (value & 2)
+            log_debug("Slow mode");
+        else
+            log_debug("Fast mode");
+    }
 
     ted.regs[0x13] = (ted.regs[0x13] & 0x01) | (value & 0xfe);
     ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
 }
 
-inline static void store_ted14(BYTE value)
+inline static void ted14_store(BYTE value)
 {
     if (ted.regs[0x14] == value)
         return;
@@ -616,7 +626,7 @@ inline static void store_ted14(BYTE value)
     ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
 }
 
-inline static void store_ted15(BYTE value)
+inline static void ted15_store(BYTE value)
 {
     int x_pos;
 
@@ -643,7 +653,7 @@ inline static void store_ted15(BYTE value)
     ted.regs[0x15] = value;
 }
 
-inline static void store_ted161718(ADDRESS addr, BYTE value)
+inline static void ted161718_store(ADDRESS addr, BYTE value)
 {
     int char_num;
 
@@ -665,7 +675,7 @@ inline static void store_ted161718(ADDRESS addr, BYTE value)
     ted.regs[addr] = value;
 }
 
-inline static void store_ted19(BYTE value)
+inline static void ted19_store(BYTE value)
 {
     TED_DEBUG_REGISTER(("\tBorder color register: $%02X\n", value));
 
@@ -680,13 +690,13 @@ inline static void store_ted19(BYTE value)
     }
 }
 
-inline static void store_ted3e(void)
+inline static void ted3e_store(void)
 {
     ted.regs[0x13] |= 0x01;
     mem_config_ram_set(1);
 }
 
-inline static void store_ted3f(void)
+inline static void ted3f_store(void)
 {
     ted.regs[0x13] &= 0xfe;
     mem_config_ram_set(0);
@@ -717,52 +727,59 @@ void REGPARM2 ted_store(ADDRESS addr, BYTE value)
         ted_timer_store(addr, value);
         break;
       case 0x06:
-        store_ted06(value);
+        ted06_store(value);
         break;
       case 0x07:
-        store_ted07(value);
+        ted07_store(value);
         break;
       case 0x08:
-        store_ted08(value);
+        ted08_store(value);
         break;
       case 0x09:
-        store_ted09(value);
+        ted09_store(value);
         break;
       case 0x0a:
-        store_ted0a(value);
+        ted0a_store(value);
         break;
       case 0x0b:
-        store_ted0b(value);
+        ted0b_store(value);
         break;
       case 0x0c:
       case 0x0d:
-        store_ted0c0d(addr, value);
+        ted0c0d_store(addr, value);
+        break;
+      case 0x0e:
+      case 0x0f:
+      case 0x10:
+      case 0x11:
+        ted_sound_store(addr, value);
         break;
       case 0x12:
-        store_ted12(value);
+        ted12_store(value);
+        ted_sound_store(addr, value);
         break;
       case 0x13:
-        store_ted13(value);
+        ted13_store(value);
         break;
       case 0x14:
-        store_ted14(value);
+        ted14_store(value);
         break;
       case 0x15:
-        store_ted15(value);
+        ted15_store(value);
         break;
       case 0x16:
       case 0x17:
       case 0x18:
-        store_ted161718(addr, value);
+        ted161718_store(addr, value);
         break;
       case 0x19:
-        store_ted19(value);
+        ted19_store(value);
         break;
       case 0x3e:
-        store_ted3e();
+        ted3e_store();
         break;
       case 0x3f:
-        store_ted3f();
+        ted3f_store();
         break;
     }
 }
@@ -783,12 +800,12 @@ inline static unsigned int read_raster_y(void)
     return raster_y;
 }
 
-inline static BYTE read_ted08(void)
+inline static BYTE ted08_read(void)
 {
     return ted.kbdval;
 }
 
-inline static BYTE read_ted09(void)
+inline static BYTE ted09_read(void)
 {
     if (TED_RASTER_Y(clk) == ted.raster_irq_line
         && (ted.regs[0x0a] & 0x2))
@@ -800,13 +817,18 @@ inline static BYTE read_ted09(void)
         return ted.irq_status | 0x22;
 }
 
-inline static BYTE read_ted0a(void)
+inline static BYTE ted0a_read(void)
 {
     return (ted.regs[0x0a] & 0x5f) | 0xa0;
 
 }
 
-inline static BYTE read_ted1a1b(ADDRESS addr)
+inline static BYTE ted12_read(void)
+{
+    return ted.regs[0x12] | 0xc0;
+}
+
+inline static BYTE ted1a1b_read(ADDRESS addr)
 {
     if (addr == 0x1a)
         return (ted.mem_counter & 0x100) >> 8;
@@ -814,7 +836,7 @@ inline static BYTE read_ted1a1b(ADDRESS addr)
         return ted.mem_counter & 0xff;
 }
 
-inline static BYTE read_ted1c1d(ADDRESS addr)
+inline static BYTE ted1c1d_read(ADDRESS addr)
 {
     unsigned int tmp = (ted.screen_height + read_raster_y()
                        - ted.offset) % ted.screen_height;
@@ -825,7 +847,7 @@ inline static BYTE read_ted1c1d(ADDRESS addr)
         return tmp & 0xff;
 }
 
-inline static BYTE read_ted1e(void)
+inline static BYTE ted1e_read(void)
 {
     int xpos;
 
@@ -838,7 +860,7 @@ inline static BYTE read_ted1e(void)
     return (BYTE)xpos;
 }
 
-inline static BYTE read_ted1f(void)
+inline static BYTE ted1f_read(void)
 {
     return 0x80 | ((ted.cursor_phase & 0x0f) << 3) | ted.raster.ycounter;
 }
@@ -860,21 +882,28 @@ BYTE REGPARM1 ted_read(ADDRESS addr)
       case 0x05:
         return ted_timer_read(addr);
       case 0x08: 
-        return read_ted08();
+        return ted08_read();
       case 0x09:
-        return read_ted09();
+        return ted09_read();
       case 0x0a:
-        return read_ted0a();
+        return ted0a_read();
+      case 0x0e:
+      case 0x0f:
+      case 0x10:
+      case 0x11:
+        return ted_sound_read(addr);
+      case 0x12:
+        return ted_sound_read(addr) | ted12_read();
       case 0x1a:
       case 0x1b:
-        return read_ted1a1b(addr);
+        return ted1a1b_read(addr);
       case 0x1c:
       case 0x1d:
-        return read_ted1c1d(addr);
+        return ted1c1d_read(addr);
       case 0x1e:
-        return read_ted1e();
+        return ted1e_read();
       case 0x1f:
-        return read_ted1f();
+        return ted1f_read();
     }
 
     return ted.regs[addr] | unused_bits_in_registers[addr];
@@ -886,19 +915,26 @@ BYTE REGPARM1 ted_peek(ADDRESS addr)
 
     switch (addr) {
       case 0x08:
-        return read_ted08();
+        return ted08_read();
       case 0x09:
-        return read_ted09();
+        return ted09_read();
+      case 0x0e:
+      case 0x0f:
+      case 0x10:
+      case 0x11:
+        return ted_sound_read(addr);
+      case 0x12:
+        return ted_sound_read(addr) | ted12_read();
       case 0x1a:
       case 0x1b:
-        return read_ted1a1b(addr);
+        return ted1a1b_read(addr);
       case 0x1c:
       case 0x1d:
-        return read_ted1c1d(addr);
+        return ted1c1d_read(addr);
       case 0x1e:
-        return read_ted1e();
+        return ted1e_read();
       case 0x1f:
-        return read_ted1f();
+        return ted1f_read();
       default:
         return ted.regs[addr] | unused_bits_in_registers[addr];
     }
