@@ -1,3 +1,39 @@
+1998-12-16  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* petcat.c: Added prototypes for static functions.  #include
+ 	"p00.h".
+
+	* c1541.c (attach_cmd): Removed unused variables.
+	(block_cmd): Likewise.
+	(show_cmd): Likewise.
+	(validate_cmd): Likewise.
+	(rename_cmd): Setup `dest_name' and `src_name' properly.
+
+	* vic20/vic20mem.c (mem_read_rom_snapshot_module): Removed some
+	unused variables.
+
+1998-12-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/unix/xaw/c64ui.c (attach_cartridge_image_submenu): Removed
+	separate menu entry for Ocean cartridges.
+
+	* c64/c64mem.c: Reduced `roml_banks' and `romh_banks' to 16 banks.
+	(store_io1, mem_attach_cartridge): Removed bank 16 handling for
+	Ocean cartridges.
+
+	* c64/cartridge.c (cartridge_attach_image): Moved attach code for
+	Ocean cartridges to the CRT section.
+
+	* cartridge.h: Changed number for Ocean cartridges to `5'.
+
+1998-12-15  Tibor Biczo <crown@mail.matav.hu>
+
+	* arch/win32/archdep.c (archdep_num_text_lines): New function.
+        (archdep_num_text_columns): New function.
+
+	* arch/win32/video.c (canvas_refresh): Speeds up 8 and 16 bit
+ 	screencopy. Handling of clip lists are implemented.
+
 1998-12-15  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.38.
