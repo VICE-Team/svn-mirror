@@ -28,7 +28,6 @@
 #define _C610_H
 
 #include "types.h"
-#include "snapshot.h"
 
 /* except for the exact CYCLES_PER_SEC those values are reasonable default
    values. they get overwritten when writing to the CRTC */

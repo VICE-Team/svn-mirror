@@ -30,7 +30,6 @@
 #include "vice.h"
 
 #define VSIDUI 1
-#include "videoarch.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,6 +38,7 @@
 #include "c64mem.h"
 #include "c64ui.h"
 #include "drive.h"
+#include "icon.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -48,6 +48,7 @@
 #include "uimenu.h"
 #include "uisettings.h"
 #include "utils.h"
+#include "videoarch.h"
 #include "vsync.h"
 
 static log_t vsid_log = LOG_ERR;
@@ -113,26 +114,26 @@ static ui_menu_entry_t ui_load_commands_menu[] = {
 UI_MENU_DEFINE_RADIO(VideoStandard)
 
 static ui_menu_entry_t set_video_standard_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t) radio_VideoStandard,
-      (ui_callback_data_t) DRIVE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t) radio_VideoStandard,
-      (ui_callback_data_t) DRIVE_SYNC_NTSC, NULL },
-    { N_("*Old NTSC-M"), (ui_callback_t) radio_VideoStandard,
-      (ui_callback_data_t) DRIVE_SYNC_NTSCOLD, NULL },
+    { N_("*PAL-G"), (ui_callback_t)radio_VideoStandard,
+      (ui_callback_data_t)DRIVE_SYNC_PAL, NULL },
+    { N_("*NTSC-M"), (ui_callback_t)radio_VideoStandard,
+      (ui_callback_data_t)DRIVE_SYNC_NTSC, NULL },
+    { N_("*Old NTSC-M"), (ui_callback_t)radio_VideoStandard,
+      (ui_callback_data_t)DRIVE_SYNC_NTSCOLD, NULL },
     { NULL }
 };
 
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 
 static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
-  { N_("*3.00 sec"), (ui_callback_t) radio_SoundBufferSize,
-    (ui_callback_data_t) 3000, NULL },
-  { N_("*1.00 sec"), (ui_callback_t) radio_SoundBufferSize,
-    (ui_callback_data_t) 1000, NULL },
-  { N_("*0.50 sec"), (ui_callback_t) radio_SoundBufferSize,
-    (ui_callback_data_t) 500, NULL },
-  { N_("*0.10 sec"), (ui_callback_t) radio_SoundBufferSize,
-    (ui_callback_data_t) 100, NULL },
+  { N_("*3.00 sec"), (ui_callback_t)radio_SoundBufferSize,
+    (ui_callback_data_t)3000, NULL },
+  { N_("*1.00 sec"), (ui_callback_t)radio_SoundBufferSize,
+    (ui_callback_data_t)1000, NULL },
+  { N_("*0.50 sec"), (ui_callback_t)radio_SoundBufferSize,
+    (ui_callback_data_t)500, NULL },
+  { N_("*0.10 sec"), (ui_callback_t)radio_SoundBufferSize,
+    (ui_callback_data_t)100, NULL },
   { NULL }
 };
 
@@ -140,7 +141,7 @@ UI_MENU_DEFINE_TOGGLE(Sound)
 
 static ui_menu_entry_t sound_settings_submenu[] = {
   { N_("*Enable sound playback"),
-    (ui_callback_t) toggle_Sound, NULL, NULL },
+    (ui_callback_t)toggle_Sound, NULL, NULL },
   { "--" },
   { N_("Sample rate"),
     NULL, NULL, set_sound_sample_rate_submenu },
@@ -269,7 +270,8 @@ static void vsid_create_menus(void)
 
 int vsid_ui_init(void)
 {
-    ui_set_application_icon(icon_data);
+    /* FIXME: There might be a separte vsid icon.  */
+    ui_set_application_icon(c64_icon_data);
 
     vsid_create_menus();
 #ifdef LATER
@@ -296,7 +298,8 @@ void vsid_ui_display_copyright(const char *copyright)
 
 void vsid_ui_display_sync(int sync)
 {
-    log_message(LOG_DEFAULT, "Using %s sync", sync==DRIVE_SYNC_PAL?"PAL":"NTSC");
+    log_message(LOG_DEFAULT, "Using %s sync",
+                sync == DRIVE_SYNC_PAL ? "PAL" : "NTSC");
 }
 
 void vsid_ui_set_default_tune(int nr)

@@ -29,7 +29,8 @@
 #define _FULLSCREEN_H
 
 #include "resources.h"
-#include "videoarch.h"
+
+struct video_frame_buffer_s;
 
 extern int fullscreen_is_enabled;
 extern char *fullscreen_selected_videomode;
@@ -48,7 +49,7 @@ extern int fullscreen_available_modes(void);
 extern char *fullscreen_mode_name(int);
 extern int fullscreen_set_bestmode(resource_value_t, void*);
 extern int fullscreen_set_mode(resource_value_t, void*);
-extern void fullscreen_refresh_func(video_frame_buffer_t *f,
+extern void fullscreen_refresh_func(struct video_frame_buffer_s *f,
                                     int src_x, int src_y,
                                     int dest_x, int dest_y,
                                     unsigned int width, unsigned int height);

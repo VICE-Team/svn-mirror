@@ -45,9 +45,9 @@
 #  undef INLINE_INTERRUPT_FUNCS
 #endif
 
-/* If this is defined, the interrupt routines take account of the 2-cycle delay
-   required by the CPU to detect the NMI/IRQ line transition (otherwise, it
-   must be handled somewhere else).  */
+/* If this is defined, the interrupt routines take account of the 2-cycle
+   delay required by the CPU to detect the NMI/IRQ line transition
+   (otherwise, it must be handled somewhere else).  */
 #define HANDLE_INTERRUPT_DELAY
 
 #ifdef DEBUG
@@ -171,35 +171,35 @@ extern void interrupt_ack_dma(cpu_int_status_t *cs);
 _INT_FUNC void interrupt_set_irq(cpu_int_status_t *cs, int int_num, int value,
                                  CLOCK cpu_clk)
 {
-    if (value) {		/* Trigger the IRQ.  */
-	if (!(cs->pending_int[int_num] & IK_IRQ)) {
-	    cs->nirq++;
-	    cs->global_pending_int = (enum cpu_int)
-	    	(cs->global_pending_int | IK_IRQ);
-	    cs->pending_int[int_num] = (enum cpu_int)
-	    	(cs->pending_int[int_num] | IK_IRQ);
+    if (value) {                /* Trigger the IRQ.  */
+        if (!(cs->pending_int[int_num] & IK_IRQ)) {
+            cs->nirq++;
+            cs->global_pending_int = (enum cpu_int)
+                (cs->global_pending_int | IK_IRQ);
+            cs->pending_int[int_num] = (enum cpu_int)
+                (cs->pending_int[int_num] | IK_IRQ);
 
 #ifdef HANDLE_INTERRUPT_DELAY
-	    /* This makes sure that IRQ delay is correctly emulated when
+            /* This makes sure that IRQ delay is correctly emulated when
                cycles are stolen from the CPU.  */
-	    if (cs->last_stolen_cycles_clk <= cpu_clk) {
-  	        cs->irq_clk = cpu_clk;
-	    } else {
-		cs->irq_clk = cs->last_stolen_cycles_clk - 1;
-	    }
+            if (cs->last_stolen_cycles_clk <= cpu_clk) {
+                cs->irq_clk = cpu_clk;
+            } else {
+                cs->irq_clk = cs->last_stolen_cycles_clk - 1;
+            }
 #endif
-	}
-    } else {			/* Remove the IRQ condition.  */
-	if (cs->pending_int[int_num] & IK_IRQ) {
-	    if (cs->nirq > 0) {
-		cs->pending_int[int_num] = (enum cpu_int)
-			(cs->pending_int[int_num] & ~IK_IRQ);
- 		if (--cs->nirq == 0)
-		    cs->global_pending_int = (enum cpu_int)
-		    	(cs->global_pending_int & ~IK_IRQ);
-	    } else
-		interrupt_log_wrong_nirq();
-	}
+        }
+    } else {                    /* Remove the IRQ condition.  */
+        if (cs->pending_int[int_num] & IK_IRQ) {
+            if (cs->nirq > 0) {
+                cs->pending_int[int_num] = (enum cpu_int)
+                        (cs->pending_int[int_num] & ~IK_IRQ);
+                if (--cs->nirq == 0)
+                    cs->global_pending_int = (enum cpu_int)
+                        (cs->global_pending_int & ~IK_IRQ);
+            } else
+                interrupt_log_wrong_nirq();
+        }
     }
 }
 
@@ -211,7 +211,7 @@ _INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
         if (!(cs->pending_int[int_num] & IK_NMI)) {
             if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI)) {
                 cs->global_pending_int = (enum cpu_int)
-                	(cs->global_pending_int | IK_NMI);
+                        (cs->global_pending_int | IK_NMI);
 #ifdef HANDLE_INTERRUPT_DELAY
                 /* This makes sure that NMI delay is correctly emulated when
                    cycles are stolen from the CPU.  */
@@ -226,17 +226,17 @@ _INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
                 cs->nmi_trap_func();
             cs->nnmi++;
             cs->pending_int[int_num] = (enum cpu_int)
-            	(cs->pending_int[int_num] | IK_NMI);
+                (cs->pending_int[int_num] | IK_NMI);
         }
     } else {                    /* Remove the NMI condition.  */
         if (cs->pending_int[int_num] & IK_NMI) {
             if (cs->nnmi > 0) {
                 cs->nnmi--;
                 cs->pending_int[int_num] = (enum cpu_int)
-                	(cs->pending_int[int_num] & ~IK_NMI);
+                        (cs->pending_int[int_num] & ~IK_NMI);
                 if (cpu_clk == cs->nmi_clk)
                     cs->global_pending_int = (enum cpu_int)
-                    	(cs->global_pending_int & ~IK_NMI);
+                        (cs->global_pending_int & ~IK_NMI);
             } else
                 interrupt_log_wrong_nnmi();
         }
@@ -248,7 +248,7 @@ _INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
    `interrupt_set_irq()', but is left for backward compatibility (it works
    like the old `setirq()').  */
 _INT_FUNC void interrupt_set_int(cpu_int_status_t *cs, int int_num,
-		                 enum cpu_int value, CLOCK cpu_clk)
+                                 enum cpu_int value, CLOCK cpu_clk)
 {
     interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), cpu_clk);
     interrupt_set_irq(cs, int_num, (int)(value & IK_IRQ), cpu_clk);
@@ -272,10 +272,10 @@ _INT_FUNC int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
     /* Branch instructions delay IRQs and NMI by one cycle if branch
        is taken with no page boundary crossing.  */
     if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr))
-	nmi_clk++;
+        nmi_clk++;
 
     if (cpu_clk >= nmi_clk)
-	return 1;
+        return 1;
 
     return 0;
 }
@@ -290,12 +290,12 @@ _INT_FUNC int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
     /* Branch instructions delay IRQs and NMI by one cycle if branch
        is taken with no page boundary crossing.  */
     if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr))
-	irq_clk++;
+        irq_clk++;
 
     /* If an opcode changes the I flag from 1 to 0, the 6510 needs
        one more opcode before it triggers the IRQ routine.  */
     if (cpu_clk >= irq_clk && !OPINFO_ENABLES_IRQ(*cs->last_opcode_info_ptr))
-	return 1;
+        return 1;
 
     return 0;
 }
@@ -305,21 +305,21 @@ _INT_FUNC int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
 _INT_FUNC void interrupt_ack_nmi(cpu_int_status_t *cs)
 {
     cs->global_pending_int = (enum cpu_int)
-    	(cs->global_pending_int & ~IK_NMI);
+        (cs->global_pending_int & ~IK_NMI);
 }
 
 /* Asynchronously steal `num' cycles from the CPU, starting from cycle
    `start_clk'.  */
 _INT_FUNC void interrupt_steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
-			              CLOCK *clk_ptr, int num)
+                                      CLOCK *clk_ptr, int num)
 {
     if (num == 0)
-	return;
+        return;
 
     if (start_clk == cs->last_stolen_cycles_clk)
-	cs->num_last_stolen_cycles += num;
+        cs->num_last_stolen_cycles += num;
     else
-	cs->num_last_stolen_cycles = num;
+        cs->num_last_stolen_cycles = num;
 
     *clk_ptr += num;
     cs->last_stolen_cycles_clk = start_clk + num;
@@ -339,7 +339,7 @@ extern void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
 extern void interrupt_set_dma(cpu_int_status_t *cs, int int_num, int value,
                               CLOCK clk);
 extern void interrupt_set_int(cpu_int_status_t *cs, int int_num,
-		              enum cpu_int value, CLOCK clk);
+                              enum cpu_int value, CLOCK clk);
 extern int interrupt_check_pending_interrupt(cpu_int_status_t *cs);
 extern void interrupt_steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
                                    CLOCK *clk_ptr, int num);
@@ -403,7 +403,7 @@ extern CLOCK drive_clk[2];
 
 /* For convenience...  */
 
-#define maincpu_set_irq(int_num, value)	\
+#define maincpu_set_irq(int_num, value) \
     interrupt_set_irq(&maincpu_int_status, (int_num), (value), clk)
 #define maincpu_set_irq_clk(int_num, value, clk) \
     interrupt_set_irq(&maincpu_int_status, (int_num), (value), (clk))
