@@ -36,7 +36,7 @@
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
-#include "rs232.h"
+#include "rs232drv.h"
 #include "snapshot.h"
 #include "types.h"
 
@@ -63,33 +63,6 @@ static BYTE acia_last_read = 0;  /* the byte read the last time (for RMW) */
 
 /******************************************************************/
 
-/* rs232.h replacement functions if no rs232 device available */
-
-#ifndef HAVE_RS232
-
-int rs232_open(int device)
-{
-    return -1;
-}
-
-void rs232_close(int fd)
-{
-}
-
-int rs232_putc(int fd, BYTE b)
-{
-    return -1;
-}
-
-int rs232_getc(int fd, BYTE *b)
-{
-    return -1;
-}
-
-#endif
-
-/******************************************************************/
-
 static CLOCK acia_alarm_clk = 0;
 
 static int acia_device;
@@ -113,7 +86,8 @@ static int acia_set_irq(resource_value_t v, void *param)
     int new_irq;
     static const int irq_tab[] = { IK_NONE, IK_IRQ, IK_NMI };
 
-    if (new_irq_res < 0 || new_irq_res > 2) return -1;
+    if (new_irq_res < 0 || new_irq_res > 2)
+        return -1;
 
     new_irq = irq_tab[new_irq_res];
 
@@ -191,7 +165,7 @@ void myacia_reset(void)
     intx = 0;
 
     if (fd >= 0)
-        rs232_close(fd);
+        rs232drv_close(fd);
     fd = -1;
 
     alarm_unset(&acia_alarm);
@@ -282,7 +256,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
 
     irq = 0;
     snapshot_module_read_byte(m, &status);
-    if(status & 0x80) {
+    if (status & 0x80) {
         status &= 0x7f;
         irq = 1;
         mycpu_set_int_noclk(I_MYACIA, acia_irq);
@@ -291,11 +265,11 @@ int myacia_snapshot_read_module(snapshot_t *p)
     }
 
     snapshot_module_read_byte(m, &cmd);
-    if((cmd & 1) && (fd < 0)) {
-        fd = rs232_open(acia_device);
+    if ((cmd & 1) && (fd < 0)) {
+        fd = rs232drv_open(acia_device);
     } else
-        if((fd >= 0) && !(cmd&1)) {
-        rs232_close(fd);
+        if ((fd >= 0) && !(cmd & 1)) {
+        rs232drv_close(fd);
         fd = -1;
     }
 
@@ -326,7 +300,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
 void REGPARM2 myacia_store(ADDRESS a, BYTE b)
 {
 #ifdef DEBUG
-    log_message(acia_log, "store_myacia(%04x,%02x)",a,b);
+    log_message(acia_log, "store_myacia(%04x,%02x)", a, b);
 #endif
     if (mycpu_rmw_flag) {
         myclk --;
@@ -353,7 +327,7 @@ void REGPARM2 myacia_store(ADDRESS a, BYTE b)
         break;
       case ACIA_SR:
         if (fd >= 0)
-            rs232_close(fd);
+            rs232drv_close(fd);
         fd = -1;
         status &= ~4;
         cmd &= 0xe0;
@@ -371,13 +345,13 @@ void REGPARM2 myacia_store(ADDRESS a, BYTE b)
       case ACIA_CMD:
         cmd = b;
         if ((cmd & 1) && (fd < 0)) {
-            fd = rs232_open(acia_device);
+            fd = rs232drv_open(acia_device);
             acia_alarm_clk = myclk + acia_ticks;
             alarm_set(&acia_alarm, acia_alarm_clk);
             alarm_active = 1;
         } else
-            if ((fd >= 0) && !(cmd&1)) {
-                rs232_close(fd);
+            if ((fd >= 0) && !(cmd & 1)) {
+                rs232drv_close(fd);
                 alarm_unset(&acia_alarm);
                 alarm_active = 0;
                 fd = -1;
@@ -394,8 +368,8 @@ BYTE REGPARM1 myacia_read(ADDRESS a)
     static ADDRESS lasta = 0;
     static BYTE lastb = 0;
 
-    if ((a!=lasta) || (b!=lastb)) {
-        log_message(acia_log, "read_myacia(%04x) -> %02x",a,b);
+    if ((a != lasta) || (b != lastb)) {
+        log_message(acia_log, "read_myacia(%04x) -> %02x", a, b);
     }
     lasta = a; lastb = b;
     return b;
@@ -410,7 +384,7 @@ BYTE myacia_read_(ADDRESS a)
         return rxdata;
       case ACIA_SR:
         {
-            BYTE c = status | (irq?0x80:0);
+            BYTE c = status | (irq ? 0x80 : 0);
             mycpu_set_int(I_MYACIA, 0);
             irq = 0;
             acia_last_read = c;
@@ -434,8 +408,8 @@ BYTE myacia_peek(ADDRESS a)
         return rxdata;
       case ACIA_SR:
         {
-          BYTE c = status | (irq?0x80:0);
-          return c;
+            BYTE c = status | (irq ? 0x80 : 0);
+            return c;
         }
       case ACIA_CTRL:
         return ctrl;
@@ -453,12 +427,12 @@ static void int_acia(CLOCK offset)
     log_message(acia_log, "int_acia(offset=%ld, myclk=%d", offset, myclk);
 #endif
     if ((intx == 2) && (fd >= 0))
-        rs232_putc(fd,txdata);
+        rs232drv_putc(fd,txdata);
     if (intx)
         intx--;
 
     rxirq = 0;
-    if ((fd >= 0) && (!(status&8)) && rs232_getc(fd, &rxdata)) {
+    if ((fd >= 0) && (!(status&8)) && rs232drv_getc(fd, &rxdata)) {
         status |= 8;
         rxirq = 1;
     }
@@ -468,7 +442,7 @@ static void int_acia(CLOCK offset)
         irq = 1;
     }
 
-    if(!(status&0x10)) {
+    if (!(status & 0x10)) {
         status |= 0x10;
     }
 
