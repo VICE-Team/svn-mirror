@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2000  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,14 +23,23 @@
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
-WaveformGenerator::WaveformGenerator(WaveformGenerator* source)
+WaveformGenerator::WaveformGenerator()
 {
-  sync_source = source;
-  source->sync_dest = this;
+  sync_source = this;
 
   set_chip_model(MOS6581);
 
   reset();
+}
+
+
+// ----------------------------------------------------------------------------
+// Set sync source.
+// ----------------------------------------------------------------------------
+void WaveformGenerator::set_sync_source(WaveformGenerator* source)
+{
+  sync_source = source;
+  source->sync_dest = this;
 }
 
 

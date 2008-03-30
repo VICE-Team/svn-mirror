@@ -82,6 +82,11 @@ static int sdev_open           = FALSE;
    the OS/2 Multithreaded environment                              */
 int sound_state_changed;
 
+/* Sample based or cycle based sound engine. */
+static int cycle_based;
+/* Speed in percent, tracks relative_speed from vsync.c */
+static int speed_factor;
+
 static int set_playback_enabled(resource_value_t v, void *param)
 {
     if ((int)v) vsync_disable_timer();
@@ -346,6 +351,12 @@ static int initsid(void)
     if (suspend_time > 0 && disabletime)
         return 1;
 
+    /* Special handling for cycle based as opposed to sample based sound
+       engines. reSID is cycle based. */
+    resources_get_value("SidUseResid", (resource_value_t*)&cycle_based);
+    log_message(LOG_DEFAULT, cycle_based ?
+		"SOUND: Cycle based engine" : "SOUND: Sample based engine");
+
     name = device_name;
     if (name && !strcmp(name, ""))
 	name = NULL;
@@ -391,11 +402,30 @@ static int initsid(void)
 		 pdev->name, speed, (double)fragsize / speed,
 		 (double)snddata.bufsize / speed);
 	    sample_rate = speed;
-	    snddata.oversampleshift = oversampling_factor;
-	    snddata.oversamplenr = 1 << snddata.oversampleshift;
-	    snddata.psid = sound_machine_open((int)
-                                              (speed * snddata.oversamplenr),
-					      cycles_per_sec);
+	    /* Cycle based sound engines must do their own filtering,
+	       and handle sample rate conversion. */
+	    if (cycle_based) {
+	        resources_get_value("Speed", (resource_value_t*)&speed_factor);
+		/* "No limit" doesn't make sense for cycle based sound engines,
+		   which have a fixed sampling rate. */
+		if (speed_factor == 0) {
+		    speed_factor = 1;
+		}
+	        snddata.oversampleshift = 0;
+		snddata.oversamplenr = 1;
+		snddata.psid = sound_machine_open((int)
+						  (speed*100/speed_factor),
+						  cycles_per_sec);
+	    }
+	    /* For sample based sound engines, both simple average filtering
+	       and sample rate conversion is handled here. */
+	    else {
+	        snddata.oversampleshift = oversampling_factor;
+		snddata.oversamplenr = 1 << snddata.oversampleshift;
+		snddata.psid = sound_machine_open((int)
+						  (speed * snddata.oversamplenr),
+						  cycles_per_sec);
+	    }
             if (!snddata.psid)
             {
                 return closesound("Audio: Cannot initialize sound module");
@@ -430,6 +460,8 @@ static int initsid(void)
 static int sound_run_sound(void)
 {
     int	nr, i;
+    int delta_t = 0;
+
     /* XXX: implement the exact ... */
     if (!playback_enabled || (suspend_time > 0 && disabletime))
         return 1;
@@ -445,24 +477,35 @@ static int sound_run_sound(void)
     SoundMachineReady = 1;
     if (SoundThreadActive != 0) return 0;
 #endif
-    nr = (int)((SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep);
-    if (!nr)
-	return 0;
-    if (snddata.bufptr + nr > BUFSIZE)
-    {
-#ifdef SOUNDCLK_PREC
-        /* can happen on a hard reset (lag between CPU reset and call to sound_reset() ) */
-        if ((long)(clk - snddata.lastclk) < 0)
-            return 0;
-#endif
-        return closesound("Audio: sound buffer overflow.");
+
+    /* Handling of cycle based sound engines. */
+    if (cycle_based) {
+        delta_t = clk - snddata.lastclk;
+	nr = sound_machine_calculate_samples(snddata.psid,
+					     snddata.buffer + snddata.bufptr,
+					     BUFSIZE - snddata.bufptr,
+					     &delta_t);
+	if (delta_t) {
+	    return closesound("Audio: sound buffer overflow.");
+	}
     }
-    sound_machine_calculate_samples(snddata.psid,
-				    snddata.buffer + snddata.bufptr,
-				    nr);
+    /* Handling of sample based sound engines. */
+    else {
+        nr = (int)((SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep);
+	if (!nr)
+	    return 0;
+	if (snddata.bufptr + nr > BUFSIZE) {
+	    return closesound("Audio: sound buffer overflow.");
+	}
+	sound_machine_calculate_samples(snddata.psid,
+					snddata.buffer + snddata.bufptr,
+					nr, &delta_t);
+	snddata.fclk   += nr*snddata.clkstep;
+    }
+      
     snddata.bufptr += nr;
-    snddata.fclk   += nr*snddata.clkstep;
     snddata.lastclk = clk;
+
     return 0;
 }
 
@@ -479,6 +522,7 @@ void sound_reset(void)
 
 static void prevent_clk_overflow_callback(CLOCK sub, void *data)
 {
+    snddata.lastclk -= sub;
     snddata.fclk -= SOUNDCLK_CONSTANT(sub);
     snddata.wclk -= sub;
     if (snddata.psid)
@@ -488,8 +532,23 @@ static void prevent_clk_overflow_callback(CLOCK sub, void *data)
 #ifdef __riscos
 void sound_synthesize(SWORD *buffer, int length)
 {
-    sound_machine_calculate_samples(snddata.psid, buffer, length);
-    snddata.fclk += length * snddata.clkstep;
+    /* Handling of cycle based sound engines. */
+    if (cycle_based) {
+        /* FIXME: This is not implemented yet. A possible solution is
+	 to make the main thread call sound_run at shorter intervals,
+	 and reduce the responsibility of the sound thread to only
+	 flush the sample buffer. On the other hand if sound_run were
+	 called at shorter intervals the sound thread would probably
+	 not be necessary at all. */
+	snddata.lastclk = clk;
+    }
+    /* Handling of sample based sound engines. */
+    else {
+        delta_t = 0;
+        sound_machine_calculate_samples(snddata.psid, buffer, length,
+					&delta_t);
+	snddata.fclk += length * snddata.clkstep;
+    }
 }
 #endif
 
@@ -499,9 +558,11 @@ int sound_flush(int relative_speed)
 {
     int	i, nr, space, used, fill = 0, dir = 0;
 
-    if (!playback_enabled || sound_state_changed)
+    if (!playback_enabled || sound_state_changed ||
+	(cycle_based && !warp_mode_enabled && relative_speed != speed_factor))
     {
         if (sdev_open) sound_close();
+	speed_factor = relative_speed;
         sound_state_changed = FALSE;
         return 0;
     }
@@ -591,7 +652,7 @@ int sound_flush(int relative_speed)
 	    }
 	    j = snddata.fragsize*snddata.fragnr - nr;
 	    if (j > snddata.bufsize / 2
-                && speed_adjustment_setting != SOUND_ADJUST_ADJUSTING
+                && (cycle_based || speed_adjustment_setting != SOUND_ADJUST_ADJUSTING)
                 && relative_speed)
 	    {
 		j = snddata.fragsize*(snddata.fragnr/2);
@@ -614,7 +675,7 @@ int sound_flush(int relative_speed)
 	    }
 	    fill = j;
 	}
-	if (speed_adjustment_setting != SOUND_ADJUST_ADJUSTING) {
+	if (cycle_based || speed_adjustment_setting != SOUND_ADJUST_ADJUSTING) {
             if (relative_speed > 0)
 	        snddata.clkfactor = SOUNDCLK_CONSTANT(relative_speed) / 100;
 	}
@@ -627,7 +688,7 @@ int sound_flush(int relative_speed)
 	}
 	snddata.prevused = used;
 	snddata.prevfill = fill;
-	if (speed_adjustment_setting == SOUND_ADJUST_EXACT)
+	if (cycle_based || speed_adjustment_setting == SOUND_ADJUST_EXACT)
 	{
 	    /* finetune VICE timer */
 	    static int lasttime = 0;
@@ -814,17 +875,13 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 long sound_sample_position(void)
 {
-#ifdef SOUNDCLK_PREC
-    /* can happen after a hard reset (lag between CPU reset and call to sound_reset() ) */
-    if ((long)(clk - snddata.lastclk) < 0)
-        return 0;
-#endif
     return (snddata.clkstep==0) ? 0 : (long)(SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep;
 }
 
 int sound_read(ADDRESS addr)
 {
-    return sound_run_sound() ? -1 : sound_machine_read(snddata.psid, addr);
+    if (sound_run_sound()) return -1;
+    return sound_machine_read(snddata.psid, addr);
 }
 
 void sound_store(ADDRESS addr, BYTE val)

@@ -60,8 +60,20 @@ static ui_res_possible_values SidType[] = {
     {-1,0}
 };
 
+#ifdef HAVE_RESID
+static ui_res_possible_values SidResidSampling[] = {
+    {0, MENU_RESID_SAMPLE_FAST},
+    {1, MENU_RESID_SAMPLE_INTERPOLATE},
+    {2, MENU_RESID_SAMPLE_RESAMPLE},
+    {-1,0}
+};
+#endif
+
 ui_res_value_list c128_ui_res_values[] = {
     {"SidModel", SidType},
+#ifdef HAVE_RESID
+    {"SidResidSampling", SidResidSampling},
+#endif
     {NULL,NULL}
 };
 
@@ -75,9 +87,18 @@ void c128_ui_specific(void *msg, void *window)
 		case MENU_SIDTYPE_8580:
         	resources_set_value("SidModel", (resource_value_t) 1);
         	break;
+		case MENU_RESID_SAMPLE_FAST:
+    		resources_set_value("SidResidSampling", (resource_value_t) 0);
+        	break;
+		case MENU_RESID_SAMPLE_INTERPOLATE:
+    		resources_set_value("SidResidSampling", (resource_value_t) 1);
+        	break;
+		case MENU_RESID_SAMPLE_RESAMPLE:
+    		resources_set_value("SidResidSampling", (resource_value_t) 2);
+        	break;
 		case MENU_VICII_SETTINGS:
         	ui_vicii();
-        break;
+        	break;
 
     	default: ;
     }

@@ -31,16 +31,16 @@
 #include "types.h"
 
 extern sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
-                                         int filters_enabled, BYTE *sidstate,
-                                         int model, CLOCK clk);
+					 int filters_enabled, int model,
+					 int sampling, int passband_percentage,
+					 BYTE *sidstate);
 extern void resid_sound_machine_close(sound_t *psid);
-extern BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr, CLOCK clk);
-extern void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte,
-                                      CLOCK clk);
+extern BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr);
+extern void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte);
 extern int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf,
-                                                 int nr);
+                                                 int nr, int *delta_t);
 extern void resid_sound_machine_init(void);
-extern void resid_sound_machine_reset(sound_t *psid, CLOCK clk);
+extern void resid_sound_machine_reset(sound_t *psid);
 extern void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
 extern char *resid_sound_machine_dump_state(sound_t *psid);
 

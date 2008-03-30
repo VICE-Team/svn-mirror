@@ -50,6 +50,7 @@ extern "C" {
 #include "ui_file.h"
 #include "utils.h"
 #include "vic20ui.h"
+#include "vicemenu.h"
 }
 
 static int last_fileparam[2]; /* 0=filepanel, 1=savepanel */
@@ -276,6 +277,8 @@ void ui_select_file(BFilePanel *filepanel,
 			((ui_cartridge_t*)fileparam)->cart_name);
 		last_fileparam[panelnr] = ((ui_cartridge_t*)fileparam)->cart_type;
 	}
+	if (filetype == VSID_FILE)
+		sprintf(title,"Load psid file");
 
 	filepanel->Window()->SetTitle(title);
 
@@ -326,7 +329,12 @@ void ui_select_file_action(BMessage *msg) {
     		msg->AddInt32("type", last_fileparam[0]);
     		msg->AddString("filename", path->Path());
     		ui_add_event(msg);
-    	}
+    	} else if (last_filetype[0] == VSID_FILE) {
+    		BMessage *msg = new BMessage(PLAY_VSID);
+    		msg->AddString("filename", path->Path());
+    		ui_add_event(msg);
+   		}
+		
 		delete path;	
 	}
 	

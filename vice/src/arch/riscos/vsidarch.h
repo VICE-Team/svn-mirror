@@ -1,8 +1,8 @@
 /*
- * vicemenu.h - Interface of the BeVICE's menubar
+ * vsidarch.h - UI for sidplayer
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@arcormail.de>
+ *  Andreas Dehmel (dehmel@forwiss.tu-muenchen)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,16 +24,31 @@
  *
  */
 
-#ifndef _VICEMENU_H
-#define _VICEMENU_H
+#ifndef _VSID_ARCH_H_
+#define _VSID_ARCH_H_
 
-#include <MenuBar.h>
 
-extern BMenuBar *menu_create(int machine_class);
+/* Window icons */
+#define Icon_VSid_Name		1
+#define Icon_VSid_Author	2
+#define Icon_VSid_Copyright	3
+#define Icon_VSid_TotalTunes	7
+#define Icon_VSid_Speed		8
+#define Icon_VSid_Tune		11
+#define Icon_VSid_NextTune	12
+#define Icon_VSid_PrevTune	13
+#define Icon_VSid_StopTune	14
+#define Icon_VSid_Default	15
+#define Icon_VSid_PlayTime	17
+#define Icon_VSid_Pause		19
 
-extern "C" {
-extern void vicemenu_free_tune_menu(void);
-extern void vicemenu_tune_menu_add(int tune);
-}
+
+/* Additional VSid interface */
+struct wimp_msg_desc_s;
+extern int  vsid_ui_load_file(const char *file);
+extern int  vsid_ui_mouse_click(int *block);
+extern int  vsid_ui_key_press(int *block);
+extern int  vsid_ui_message_hook(struct wimp_msg_desc_s *msg);
+extern void vsid_ui_display_speed(int percent);
 
 #endif

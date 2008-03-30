@@ -73,6 +73,8 @@ static int useresid;
 static int sid_filters_enabled;       /* app_resources.sidFilters */
 static int sid_model;                 /* app_resources.sidModel */
 static int sid_useresid;
+static int sid_resid_sampling;
+static int sid_resid_passband;
 
 static int set_sid_filters_enabled(resource_value_t v, void *param)
 {
@@ -95,6 +97,29 @@ static int set_sid_useresid(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_sid_resid_sampling(resource_value_t v, void *param)
+{
+    sid_resid_sampling = (int)v;
+    sound_state_changed = TRUE;
+    return 0;
+}
+
+static int set_sid_resid_passband(resource_value_t v, void *param)
+{
+    int i = (int)v;
+
+    if (i < 0) {
+        i = 0;
+    }
+    else if (i > 90) {
+        i = 90;
+    }
+
+    sid_resid_passband = i;
+    sound_state_changed = TRUE;
+    return 0;
+}
+
 static resource_t resources[] = {
     { "SidFilters", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &sid_filters_enabled,
@@ -105,6 +130,12 @@ static resource_t resources[] = {
     { "SidUseResid", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &sid_useresid,
       set_sid_useresid, NULL },
+    { "SidResidSampling", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &sid_resid_sampling,
+      set_sid_resid_sampling, NULL },
+    { "SidResidPassband", RES_INTEGER, (resource_value_t) 90,
+      (resource_value_t *) &sid_resid_passband,
+      set_sid_resid_passband, NULL },
     { NULL }
 };
 
@@ -128,6 +159,10 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Use reSID emulation" },
     { "+resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid", (resource_value_t) 0,
       NULL, "Use fast SID emulation" },
+    { "-residsamp <method>", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling", (resource_value_t) 0,
+      NULL, "reSID sampling method (0: fast, 1: interpolating, 2: resampling)" },
+    { "-residpass <bandwidth percentage>", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband", (resource_value_t) 90,
+      NULL, "reSID resampling passband in percentage of total bandwidth (0 - 90)" },
 #endif
     { NULL }
 };
@@ -715,7 +750,8 @@ inline static void setup_voice(voice_t *pv)
     pv->gateflip = 0;
 }
 
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
+int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+				    int *delta_t)
 {
     register DWORD		o0, o1, o2;
     register int		dosync1, dosync2, i;
@@ -723,7 +759,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 
 #ifdef HAVE_RESID
     if (useresid)
-	return resid_sound_machine_calculate_samples(psid, pbuf, nr);
+        return resid_sound_machine_calculate_samples(psid, pbuf, nr, delta_t);
 #endif
 
     setup_sid(psid);
@@ -810,7 +846,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 
         pbuf[i] = ((SDWORD)((o0+o1+o2)>>20)-0x600)*psid->vol;
     }
-    return 0;
+    return nr;
 }
 
 
@@ -889,8 +925,9 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     useresid = sid_useresid;
     if (useresid)
 	return resid_sound_machine_open(speed, cycles_per_sec,
-					sid_filters_enabled, siddata,
-					sid_model, clk);
+					sid_filters_enabled, sid_model,
+					sid_resid_sampling, sid_resid_passband,
+					siddata);
 #endif
     psid = xmalloc(sizeof(*psid));
     memset(psid, 0, sizeof(*psid));
@@ -1006,7 +1043,7 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 
 #ifdef HAVE_RESID
     if (useresid)
-	return resid_sound_machine_read(psid, addr, clk);
+	return resid_sound_machine_read(psid, addr);
 #endif
     switch (addr)
     {
@@ -1088,7 +1125,7 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
 #ifdef HAVE_RESID
     if (useresid)
     {
-	resid_sound_machine_store(psid, addr, byte, clk);
+	resid_sound_machine_store(psid, addr, byte);
 	return;
     }
 #endif
@@ -1124,18 +1161,19 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
 void sid_reset(void)
 {
     int				i;
+
+    sound_reset();
+
     memset(siddata, 0, 32);
     for (i = 0; i < 32; i++)
 	sound_store(i, 0);
-
-    sound_reset();
 }
 
 void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
 #ifdef HAVE_RESID
     if (useresid)
-	resid_sound_machine_reset(psid, cpu_clk);
+	resid_sound_machine_reset(psid);
     else
 #endif
     psid->laststoreclk = cpu_clk;

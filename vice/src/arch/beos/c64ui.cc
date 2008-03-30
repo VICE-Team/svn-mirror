@@ -34,12 +34,17 @@ extern "C" {
 #include "c64ui.h"
 #include "cartridge.h"
 #include "constants.h"
+#include "interrupt.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "machine.h"
+#include "psid.h"
 #include "resources.h"
 #include "ui.h"
 #include "ui_file.h"
 #include "ui_vicii.h"
+#include "vicemenu.h"
+#include "vsync.h"
 }
 
 ui_menu_toggle  c64_ui_menu_toggles[]={
@@ -60,6 +65,15 @@ static ui_res_possible_values SidType[] = {
     {1, MENU_SIDTYPE_8580},
     {-1,0}
 };
+
+#ifdef HAVE_RESID
+static ui_res_possible_values SidResidSampling[] = {
+    {0, MENU_RESID_SAMPLE_FAST},
+    {1, MENU_RESID_SAMPLE_INTERPOLATE},
+    {2, MENU_RESID_SAMPLE_RESAMPLE},
+    {-1,0}
+};
+#endif
 
 static ui_cartridge_t c64_ui_cartridges[]={
     {
@@ -115,11 +129,14 @@ static ui_cartridge_t c64_ui_cartridges[]={
 
 ui_res_value_list c64_ui_res_values[] = {
     {"SidModel", SidType},
+#ifdef HAVE_RESID
+    {"SidResidSampling", SidResidSampling},
+#endif
     {NULL,NULL}
 };
 
 
-void c64_ui_attach_cartridge(void *msg, void *window)
+static void c64_ui_attach_cartridge(void *msg, void *window)
 {
 	int menu = ((BMessage*)msg)->what;
 	BFilePanel *filepanel = ((ViceWindow*)window)->filepanel;
@@ -137,6 +154,28 @@ void c64_ui_attach_cartridge(void *msg, void *window)
 	ui_select_file(filepanel,C64_CARTRIDGE_FILE, &c64_ui_cartridges[i]);
 }	
 
+
+static void c64_play_vsid(const char *filename) {
+	
+	int tunes, default_tune, i;
+    		
+	if (machine_autodetect_psid(filename) < 0) {
+    	ui_error("`%s' is not a valid PSID file.", filename);
+      	return;
+    }
+    machine_play_psid(0);
+    maincpu_trigger_reset();
+
+	vicemenu_free_tune_menu();
+	/* Get number of tunes in current PSID. */
+	tunes = psid_tunes(&default_tune);
+
+	/* Build tune menu. */
+	vicemenu_tune_menu_add(-default_tune);
+	for (i = 0; i < tunes; i++) {
+		vicemenu_tune_menu_add(i+1);
+	}
+}
 
 
 void c64_ui_specific(void *msg, void *window)
@@ -159,7 +198,6 @@ void c64_ui_specific(void *msg, void *window)
         case MENU_CART_DETACH:
             cartridge_detach_image();
             break;
-        case MENU_CART_FREEZE|0x00010000:
         case MENU_CART_FREEZE:
             keyboard_clear_keymatrix();
             cartridge_trigger_freeze();
@@ -181,9 +219,42 @@ void c64_ui_specific(void *msg, void *window)
 		case MENU_SIDTYPE_8580:
         	resources_set_value("SidModel", (resource_value_t) 1);
         	break;
+		case MENU_RESID_SAMPLE_FAST:
+    		resources_set_value("SidResidSampling", (resource_value_t) 0);
+			suspend_speed_eval();
+        	break;
+		case MENU_RESID_SAMPLE_INTERPOLATE:
+    		resources_set_value("SidResidSampling", (resource_value_t) 1);
+			suspend_speed_eval();
+        	break;
+		case MENU_RESID_SAMPLE_RESAMPLE:
+    		resources_set_value("SidResidSampling", (resource_value_t) 2);
+			suspend_speed_eval();
+        	break;
 		case MENU_VICII_SETTINGS:
         	ui_vicii();
-        break;
+        	break;
+        case MENU_VSID_LOAD:
+        	ui_select_file(((ViceWindow*)window)->filepanel, VSID_FILE, 0);
+			break;
+        case MENU_VSID_TUNE:
+		{
+			int32 tune;
+			
+			((BMessage*)msg)->FindInt32("nr", &tune);
+			machine_play_psid(tune);
+			suspend_speed_eval();
+			maincpu_trigger_reset();
+			break;
+        }
+		case PLAY_VSID:
+		{
+			const char *filename;
+			
+			((BMessage*)msg)->FindString("filename", &filename);
+			c64_play_vsid(filename);
+			break;
+		}
 
     	default: ;
     }

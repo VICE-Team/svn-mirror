@@ -210,6 +210,12 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 }
 
 ViceWindow::~ViceWindow() {
+	BView *vsid = FindView("vsid");
+	
+	if (vsid) {
+		RemoveChild(vsid);
+		delete vsid;
+	}
 	RemoveChild(menubar);
 	delete menubar;
 	RemoveChild(view);

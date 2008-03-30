@@ -61,7 +61,7 @@ status_t exit_value;
 
 	switch(message->what) {
 		case WINDOW_CLOSED:
-			/* Finish the Application after emulation thread has finished*/
+			/* Finish the Application after emulation thread has finished */
 			wait_for_thread(vicethread, &exit_value);
 			Quit();
 			break;

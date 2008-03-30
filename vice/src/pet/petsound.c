@@ -72,7 +72,8 @@ static WORD pet_makesample(double s, double e, BYTE sample)
     return ((WORD)(v * 4095.0 / (e-s)));
 }
 
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
+int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+				    int *delta_t)
 {
     int				 i;
     WORD			 v = 0;

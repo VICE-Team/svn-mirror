@@ -32,23 +32,10 @@
 #include "resources.h"
 #include "ui.h"
 #include "vsidui.h"
+#include "vsidarch.h"
 
 #include "drive/drive.h"
 #include "c64/psid.h"
-
-
-#define Icon_VSid_Name		1
-#define Icon_VSid_Author	2
-#define Icon_VSid_Copyright	3
-#define Icon_VSid_TotalTunes	7
-#define Icon_VSid_Speed		8
-#define Icon_VSid_Tune		11
-#define Icon_VSid_NextTune	12
-#define Icon_VSid_PrevTune	13
-#define Icon_VSid_StopTune	14
-#define Icon_VSid_Default	15
-#define Icon_VSid_PlayTime	17
-#define Icon_VSid_Pause		19
 
 
 
@@ -205,12 +192,28 @@ int vsid_ui_mouse_click(int *block)
   switch (block[MouseB_Icon])
   {
     case Icon_VSid_NextTune:
-      if (++number <= NumTunes)
-        vsid_set_tune(number);
+      if (block[MouseB_Buttons] == 1)
+      {
+        if (--number > 0)
+          vsid_set_tune(number);
+      }
+      else
+      {
+        if (++number <= NumTunes)
+          vsid_set_tune(number);
+      }
       break;;
     case Icon_VSid_PrevTune:
-      if (--number > 0)
-        vsid_set_tune(number);
+      if (block[MouseB_Buttons] == 1)
+      {
+        if (++number <= NumTunes)
+          vsid_set_tune(number);
+      }
+      else
+      {
+        if (--number > 0)
+          vsid_set_tune(number);
+      }
       break;;
     case Icon_VSid_StopTune:
       VSidStopped ^= 1;

@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2000  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -42,12 +42,12 @@ public:
 
   void enable_filter(bool enable);
 
-  void clock(sound_sample Vi);
-  void clock(cycle_count delta_t, sound_sample Vi);
+  RESID_INLINE void clock(sound_sample Vi);
+  RESID_INLINE void clock(cycle_count delta_t, sound_sample Vi);
   void reset();
 
   // Audio output (20 bits).
-  sound_sample output();
+  RESID_INLINE sound_sample output();
 
 protected:
   // Filter enabled.
@@ -72,14 +72,12 @@ friend class SID;
 // time a sample is calculated.
 // ----------------------------------------------------------------------------
 
-#if RESID_INLINE || defined(__EXTFILT_CC__)
+#if RESID_INLINING || defined(__EXTFILT_CC__)
 
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 void ExternalFilter::clock(sound_sample Vi)
 {
   // This is handy for testing.
@@ -109,9 +107,7 @@ void ExternalFilter::clock(sound_sample Vi)
 // ----------------------------------------------------------------------------
 // SID clocking - delta_t cycles.
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 void ExternalFilter::clock(cycle_count delta_t,
 			   sound_sample Vi)
 {
@@ -155,14 +151,12 @@ void ExternalFilter::clock(cycle_count delta_t,
 // ----------------------------------------------------------------------------
 // Audio output (19.5 bits).
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 sound_sample ExternalFilter::output()
 {
   return Vo;
 }
 
-#endif // RESID_INLINE || defined(__EXTFILT_CC__)
+#endif // RESID_INLINING || defined(__EXTFILT_CC__)
 
 #endif // not __EXTFILT_H__

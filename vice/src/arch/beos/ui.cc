@@ -624,12 +624,12 @@ void ui_dispatch_events(void)
 			case B_KEY_DOWN:
 			case B_UNMAPPED_KEY_DOWN:
 				message_queue[i].FindInt32("key",(int32*)&key);
-				kbd_handle_keydown(key);
+				if (!vsid_mode) kbd_handle_keydown(key);
 				break;
 			case B_KEY_UP:
 			case B_UNMAPPED_KEY_UP:
 				message_queue[i].FindInt32("key",(int32*)&key);
-				kbd_handle_keyup(key);
+				if (!vsid_mode) kbd_handle_keyup(key);
 				break;
 			case B_SAVE_REQUESTED:
 			case B_REFS_RECEIVED:

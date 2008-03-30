@@ -395,6 +395,10 @@ void ui_image_contents_click(int *block)
         autostart_disk(image_content_file, NULL, filenum);
       else if (image_content_type == IMAGE_CONTENT_TAPE)
         autostart_tape(image_content_file, NULL, filenum);
+
+      /* adjust double-click */
+      if (block[MouseB_Buttons] == 1)
+        ui_image_contents_close();
     }
   }
 }

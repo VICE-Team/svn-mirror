@@ -54,6 +54,7 @@ libarch_a_SOURCES = \
 	vic20ui.h \
 	video.c \
 	videoarch.h \
+	vsidarch.h \
 	vsidui.c \
 	vsiddummy.c \
 	vsync.c \

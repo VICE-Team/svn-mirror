@@ -1,3 +1,44 @@
+Changes in reSID version 0.11
+-----------------------------
+
+A new clock() interface has been added. This function generates audio
+samples into a buffer, greatly simplifying the task of writing driver
+code for reSID. It also facilitates more advanced audio sample
+generation, as described below.
+
+Three clocking methods are available: clocking at output sample
+frequency, clocking at cycle frequency with linear sample
+interpolation, and clocking at cycle frequency with audio resampling.
+
+Clocking at output sample frequency is fast, and yields acceptable
+sound quality, except for the SID combined waveforms, which have a
+very high frequency content.
+
+Clocking at cycle frequency with linear sample interpolation is
+approximately five to ten times slower at 44.1kHz sampling frequency,
+but the sound quality is improved because of the linear sample
+interpolation, and because some sampling noise is removed by the SID
+external filter, which attenuates signals above 16kHz.
+
+Finally, clocking at cycle frequency with audio resampling has a work
+rate which is independent of the sampling frequency; it is rather
+inversely proportional to the percentage of the bandwidth allocated
+to the filter transition band. This implies that e.g. with the
+transition band starting at ~ 20kHz, it is faster to generate 48kHz
+than 44.1kHz samples.
+
+Audio resampling is the theoretically correct method for sample
+generation, and delivers SID sound quality previously unheard of. This
+should make connoisseurs nod in appreciation, and for some time to
+come it could possibly also make people tear their hair over having to
+buy state of the art hardware to handle the obscene workload in real
+time. By trading off passband bandwidth for speed, real time
+processing is possible on current hardware. A 60% passband bandwidth
+is within the reach of reasonably fast machines, while maximum sound
+quality at 90% passband bandwidth, requiring four times the processing
+power, is not. Yet.
+
+
 Changes in reSID version 0.10
 -----------------------------
 

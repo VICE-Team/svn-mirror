@@ -1,3 +1,40 @@
+2001-03-02  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.11 released.
+
+	* configure.in: Disable building of shared library by default.
+	Control inlining with RESID_INLINING (0 or 1) and RESID_INLINE
+	(blank or "inline").
+
+	* envelope.h, extfilt.h, filter.h, voice.h, wave.h: inline keyword
+	in both function declarations and function definitions.
+
+	* samp2src.pl: Beautified Perl code.
+	
+	* sid.h, sid.cc: Replaced voice variables with array. Removed
+	filter variables from SID::State.
+	(SID::clock): New audio sample generating interface. Three
+	clocking methods are available; clocking at output sample
+	frequency, clocking at cycle frequency with linear sample
+	interpolation, and clocking at cycle frequency with audio
+	resampling.
+	(SID::clock_fast, SID::clock_interpolate, SID::clock_resample):
+	New functions called by SID::clock.
+	(SID::set_sampling_parameters): New function to set up SID for
+	sample generation. The FIR table used in SID::clock_resample is
+	calculated here.
+	(SID::I0): 0th order modified Bessel function to calculate Kaiser
+	window.
+
+	* siddefs.h: Control inlining with RESID_INLINING (0 or 1) and
+	RESID_INLINE (blank or "inline"). Added enum sampling_method.
+	
+	* voice.h, voice.cc (Voice::set_sync_source): Moved setting of
+	sync source from constructor.
+	
+	* wave.h, wave.cc (WaveformGenerator::set_sync_source): Moved
+	setting of sync source from constructor.
+	
 2000-11-22  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.10 released.

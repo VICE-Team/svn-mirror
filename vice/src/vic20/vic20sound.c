@@ -76,7 +76,8 @@ struct sound_s
     DWORD		 speed1;
 };
 
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
+int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+				    int *delta_t)
 {
     int			i;
     DWORD		o0, o1, o2, o3;

@@ -83,5 +83,5 @@ libarch_a_SOURCES = \
 	vicewindow.h \
 	video.cc \
 	videoarch.h \
-	vsidui.c \
+	vsidui.cc \
 	vsync.c

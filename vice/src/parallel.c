@@ -374,11 +374,11 @@ static State_t State[NSTATE] = {
 
 #define PARALLEL_LINE_DEBUG_CLR(line, linecap)				\
     if(parallel_debug) {						\
-	if (old && !parallel_##line##) 					\
+	if (old && !parallel_##line) 					\
 	    log_warning(LOG_DEFAULT, "clr_" #line "(%02x) -> " #linecap "hi", ~mask & 0xff); \
 	else								\
 	    if (old & ~mask) 						\
-	        log_warning(LOG_DEFAULT, "clr_" #line "(%02x) -> %02x", ~mask & 0xff, parallel_##line##); \
+	        log_warning(LOG_DEFAULT, "clr_" #line "(%02x) -> %02x", ~mask & 0xff, parallel_##line); \
     }
 
 #define PARALLEL_LINE_DEBUG_SET(line, linecap)				\
@@ -387,7 +387,7 @@ static State_t State[NSTATE] = {
 	    log_warning(LOG_DEFAULT, "set_" #line "(%02x) -> " #linecap "lo", mask); \
 	else								\
 	    if ( ! (old & mask))					\
-	         log_warning(LOG_DEFAULT, "set_" #line "(%02x) -> %02x", mask, parallel_##line##); \
+	         log_warning(LOG_DEFAULT, "set_" #line "(%02x) -> %02x", mask, parallel_##line); \
     }
 
 void parallel_set_eoi(BYTE mask) 
@@ -602,13 +602,13 @@ void parallel_drive_cpu_execute(CLOCK cpu_clk)
 }
 
 #define PARALLEL_CPU_SET_LINE(line,dev,mask)                            \
-    void parallel_##dev##_set_##line##( char val )                      \
+    void parallel_##dev##_set_##line( char val )                        \
     {                                                                   \
         parallel_drive_cpu_execute(clk);                                \
         if (val) {                                                      \
-            parallel_set_##line##(PARALLEL_##mask##);                   \
+            parallel_set_##line(PARALLEL_##mask);                       \
         } else {                                                        \
-            parallel_clr_##line##(~PARALLEL_##mask##);                  \
+            parallel_clr_##line(~PARALLEL_##mask);                      \
         }                                                               \
     }
 

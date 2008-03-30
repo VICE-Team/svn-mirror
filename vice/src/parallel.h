@@ -81,22 +81,22 @@ extern void parallel_restore_clr_atn(BYTE mask);
 
 /* methods to set output lines for the computer */
 #define	PARALLEL_SET_LINE(line,dev,mask)				\
-    static inline void parallel_##dev##_set_##line##( char val ) 	\
+    static inline void parallel_##dev##_set_##line( char val )		\
     {									\
     	if (val) {							\
-	    parallel_set_##line##(PARALLEL_##mask##);			\
+	    parallel_set_##line(PARALLEL_##mask);			\
         } else {							\
-	    parallel_clr_##line##(~PARALLEL_##mask##);			\
+	    parallel_clr_##line(~PARALLEL_##mask);			\
     	}								\
     }
 
 #define	PARALLEL_RESTORE_LINE(line,dev,mask)				\
-    static inline void parallel_##dev##_restore_##line##( char val ) 	\
+    static inline void parallel_##dev##_restore_##line( char val ) 	\
     {									\
     	if (val) {							\
-	    parallel_restore_set_##line##(PARALLEL_##mask##);		\
+	    parallel_restore_set_##line(PARALLEL_##mask);		\
         } else {							\
-	    parallel_restore_clr_##line##(~PARALLEL_##mask##);		\
+	    parallel_restore_clr_##line(~PARALLEL_##mask);		\
     	}								\
     }
 

@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2000  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -34,12 +34,15 @@ public:
   void set_chip_model(chip_model model);
   void enable_filter(bool enable);
   void enable_external_filter(bool enable);
+  bool set_sampling_parameters(double clock_freq, sampling_method method,
+			       double sample_freq, double pass_freq = -1);
 
   void fc_default(const fc_point*& points, int& count);
   PointPlotter<sound_sample> fc_plotter();
 
   void clock();
   void clock(cycle_count delta_t);
+  int clock(cycle_count& delta_t, short* buf, int n);
   void reset();
   
   // Read/write registers.
@@ -63,13 +66,6 @@ public:
     reg16 exponential_counter[3];
     reg8 envelope_counter[3];
     bool hold_zero[3];
-    
-    sound_sample Vhp;
-    sound_sample Vbp;
-    sound_sample Vlp;
-
-    sound_sample extVhp;
-    sound_sample extVlp;
   };
     
   State read_state();
@@ -81,9 +77,12 @@ public:
   int output(int bits);
 
 protected:
-  Voice voice1;
-  Voice voice2;
-  Voice voice3;
+  static double I0(double x);
+  RESID_INLINE int clock_fast(cycle_count& delta_t, short* buf, int n);
+  RESID_INLINE int clock_interpolate(cycle_count& delta_t, short* buf, int n);
+  RESID_INLINE int clock_resample(cycle_count& delta_t, short* buf, int n);
+
+  Voice voice[3];
   Filter filter;
   ExternalFilter extfilt;
   Potentiometer potx;
@@ -91,7 +90,26 @@ protected:
 
   reg8 bus_value;
   cycle_count bus_value_ttl;
-  Voice* voice[3];
+
+  // Sampling variables.
+  cycle_count sample_offset;
+  short sample_prev;
+  unsigned int sample_index;
+  short sample[16384];
+
+  // Sampling constants.
+  enum { FIR_ORDER = 123 };
+  enum { FIR_N = FIR_ORDER/2 + 1 };
+  enum { FIR_RES = 512 };
+  enum { FIR_SHIFT = 16 };
+  sampling_method sampling;
+  cycle_count cycles_per_sample;
+  cycle_count fstep_per_cycle;
+  cycle_count sample_delay;
+  int fir_N;
+  int foffset_max;
+  short fir[FIR_N*FIR_RES + 1];
+  short fir_diff[FIR_N*FIR_RES + 1];
 };
 
 #endif // not __SID_H__

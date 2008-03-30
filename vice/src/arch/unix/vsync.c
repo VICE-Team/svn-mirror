@@ -191,7 +191,9 @@ static void display_speed(int num_frames)
   if ((now.tv_sec - frame_start.tv_sec)
       + (now.tv_usec - frame_start.tv_usec)/1000000.0 >= 3)
   {
-    log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
+    if (!warp_mode_enabled) {
+        log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
+    }
     frame_start.tv_sec = now.tv_sec;
     frame_start.tv_usec = now.tv_usec;
   }

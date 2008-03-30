@@ -136,7 +136,8 @@ extern void sound_machine_init(void);
 typedef struct sound_s sound_t;
 extern sound_t *sound_machine_open(int speed, int cycles_per_sec);
 extern void sound_machine_close(sound_t *psid);
-extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr);
+extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+					   int *delta_t);
 extern void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val);
 extern BYTE sound_machine_read(sound_t *psid, ADDRESS addr);
 extern char *sound_machine_dump_state(sound_t *psid);

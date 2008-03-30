@@ -29,6 +29,7 @@
 
 extern "C" {
 
+#include <string.h>
 #include "log.h"
 #include "utils.h"
 #include "sound.h"
@@ -36,42 +37,60 @@ extern "C" {
 
 struct sound_s
 {
-    /* time of last sid.clock() */
-    CLOCK		sidclk;
-    /* clock */
-    soundclk_t		clk;
-    /* clock step / sample */
-    soundclk_t		clkstep;
     /* resid sid implementation */
     SID			sid;
 };
 
 sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
-				  int filters_enabled, BYTE *siddata,
-				  int model, CLOCK clk)
+				  int filters_enabled, int model,
+				  int sampling, int passband_percentage,
+				  BYTE *sidstate)
 {
     sound_t			*psid;
     int				 i;
+    sampling_method method;
+    char method_text[100];
+    double passband = speed*passband_percentage/200.0;
 
     psid = new sound_t;
+
+    psid->sid.set_chip_model(model == 0 ? MOS6581 : MOS8580);
     psid->sid.enable_filter(filters_enabled);
     psid->sid.enable_external_filter(filters_enabled);
-    psid->clk = SOUNDCLK_CONSTANT(0.0);
-    psid->sidclk = 0;
-    psid->clkstep = SOUNDCLK_CONSTANT(cycles_per_sec) / speed;
-    if (model == 0)
-    {
-	psid->sid.set_chip_model(MOS6581);
-	log_message(LOG_DEFAULT, "reSID: Using MOS6581 emulation");
+
+    switch (sampling) {
+    default:
+    case 0:
+        method = SAMPLE_FAST;
+	strcpy(method_text, "fast");
+	break;
+    case 1:
+        method = SAMPLE_INTERPOLATE;
+	strcpy(method_text, "interpolating");
+	break;
+    case 2:
+        method = SAMPLE_RESAMPLE;
+	sprintf(method_text, "resampling, pass to %dHz", (int)passband);
+	break;
     }
-    else
+
+    if (!psid->sid.set_sampling_parameters(cycles_per_sec, method,
+					   speed, passband))
     {
-	psid->sid.set_chip_model(MOS8580);
-	log_message(LOG_DEFAULT, "reSID: Using MOS8580 emulation");
+        log_warning(LOG_DEFAULT, "reSID: Out of spec, increase sampling rate or decrease maximum speed");
+	delete psid;
+	return NULL;
     }
+
+    log_message(LOG_DEFAULT, "reSID: %s, filter %s, sampling rate %dHz - %s",
+		model == 0 ? "MOS6581" : "MOS8580",
+		filters_enabled ? "on" : "off",
+		speed, method_text);
+
     for (i = 0x00; i <= 0x18; i++) {
-	psid->sid.write(i, siddata[i]);
+	psid->sid.write(i, sidstate[i]);
     }
+
     return psid;
 }
 
@@ -80,71 +99,20 @@ void resid_sound_machine_close(sound_t *psid)
     delete psid;
 }
 
-BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr, CLOCK clk)
+BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr)
 {
-    int					delta;
-
-    delta = (int)SOUNDCLK_LONG(psid->clk + sound_sample_position() * psid->clkstep
-                               - SOUNDCLK_CONSTANT(psid->sidclk));
-    if (delta > 0)
-    {
-	psid->sid.clock(delta);
-	psid->sidclk += delta;
-    }
-
     return psid->sid.read(addr);
 }
 
-void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte,
-			       CLOCK clk)
+void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
 {
-    int					delta;
-
-    delta = (int)SOUNDCLK_LONG(psid->clk + sound_sample_position() * psid->clkstep
-                               - SOUNDCLK_CONSTANT(psid->sidclk));
-    if (delta > 0)
-    {
-	psid->sid.clock(delta);
-	psid->sidclk += delta;
-    }
-
     psid->sid.write(addr, byte);
 }
 
-int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
+int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+					  int *delta_t)
 {
-    int					i, delta;
-
-    psid->clk += psid->clkstep;
-    delta = (int)SOUNDCLK_LONG(psid->clk - SOUNDCLK_CONSTANT(psid->sidclk));
-    if (delta > 0)
-    {
-	psid->sid.clock(delta);
-	psid->sidclk += delta;
-    }
-    pbuf[0] = psid->sid.output();
-    for (i = 1; i < nr; i++)
-    {
-	psid->clk += psid->clkstep;
-	delta = (int)SOUNDCLK_LONG_RAW(psid->clk - SOUNDCLK_CONSTANT(psid->sidclk));
-	psid->sid.clock(delta);
-	psid->sidclk += delta;
-	pbuf[i] = psid->sid.output();
-#ifdef SOUNDCLK_PREC
-	/* in fixpoint mode, resync every sample to avoid overflows */
-	psid->sidclk -= (psid->clk >> SOUNDCLK_PREC);
-	psid->clk &= ((1<<SOUNDCLK_PREC)-1);
-#endif
-    }
-#ifndef SOUNDCLK_PREC
-    if (psid->sidclk > 0x70000000)
-    {
-	psid->sidclk -= 0x70000000 - 0x1000;
-	psid->clk -= 0x70000000 - 0x1000;
-    }
-#endif
-
-    return 0;
+    return psid->sid.clock(*delta_t, pbuf, nr);
 }
 
 void resid_sound_machine_init(void)
@@ -155,7 +123,7 @@ void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
 }
 
-void resid_sound_machine_reset(sound_t *psid, CLOCK clk)
+void resid_sound_machine_reset(sound_t *psid)
 {
 }
 

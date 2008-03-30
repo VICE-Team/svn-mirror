@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2000  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -37,8 +37,8 @@ class EnvelopeGenerator
 public:
   EnvelopeGenerator();
 
-  void clock();
-  void clock(cycle_count delta_t);
+  RESID_INLINE void clock();
+  RESID_INLINE void clock(cycle_count delta_t);
   void reset();
 
   void writeCONTROL_REG(reg8);
@@ -47,7 +47,7 @@ public:
   reg8 readENV();
 
   // 8-bit envelope output.
-  reg8 output();
+  RESID_INLINE reg8 output();
 
 protected:
   reg16 rate_counter;
@@ -86,14 +86,12 @@ friend class SID;
 // time a sample is calculated.
 // ----------------------------------------------------------------------------
 
-#if RESID_INLINE || defined(__ENVELOPE_CC__)
+#if RESID_INLINING || defined(__ENVELOPE_CC__)
 
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 void EnvelopeGenerator::clock()
 {
   // Check for ADSR delay bug.
@@ -172,9 +170,7 @@ void EnvelopeGenerator::clock()
 // ----------------------------------------------------------------------------
 // SID clocking - delta_t cycles.
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 void EnvelopeGenerator::clock(cycle_count delta_t)
 {
   // Check for ADSR delay bug.
@@ -264,14 +260,12 @@ void EnvelopeGenerator::clock(cycle_count delta_t)
 // ----------------------------------------------------------------------------
 // Read the envelope generator output.
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg8 EnvelopeGenerator::output()
 {
   return envelope_counter;
 }
 
-#endif // RESID_INLINE || defined(__ENVELOPE_CC__)
+#endif // RESID_INLINING || defined(__ENVELOPE_CC__)
 
 #endif // not __ENVELOPE_H__

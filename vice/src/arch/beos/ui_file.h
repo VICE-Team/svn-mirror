@@ -39,6 +39,7 @@ enum filetype_t {
 	SNAPSHOTLOAD_FILE,
 	C64_CARTRIDGE_FILE,
 	VIC20_CARTRIDGE_FILE,
+	VSID_FILE
 };
 
 class ViceFilePanel;

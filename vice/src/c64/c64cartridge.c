@@ -445,6 +445,42 @@ int cartridge_attach_image(int type, const char *filename)
 				resources_set_value("CartridgeMode", (resource_value_t) CARTRIDGE_MODE_ON);
 			}
             break;
+          case CARTRIDGE_ZAXXON:
+            /* first CHIP header holds $8000-$a000 data */
+            if (fread(chipheader, 0x10, 1, fd) < 1)
+            {
+                fclose(fd);
+                goto done;
+            }
+            if (chipheader[0xc] != 0x80
+                || (chipheader[0xe] != 0x10 && chipheader[0xe] != 0x20)
+                || fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1)
+            {
+                fclose(fd);
+                goto done;
+            }
+            /* 4kB ROM is mirrored to $9000 */
+            if (chipheader[0xe] == 0x10)
+                memcpy(&rawcart[0x1000], &rawcart[0x0000], 0x1000);
+
+            /* second/third CHIP headers hold $a000-$c000 banked data */
+            for (i = 0; i <= 1; i++)
+            {
+                if (fread(chipheader, 0x10, 1, fd) < 1)
+                {
+                    fclose(fd);
+                    goto done;
+                }
+                if (chipheader[0xc] != 0xa0 || chipheader[0xe] != 0x20
+                    || fread(&rawcart[0x2000+(chipheader[0xb] << 13)],
+                             0x2000, 1, fd) < 1)
+                {
+                    fclose(fd);
+                    goto done;
+                }
+            }
+            fclose(fd);
+            break;
           default:
             fclose(fd);
             goto done;

@@ -515,15 +515,16 @@ int resources_save(const char *fname)
 	    if (check_emu_id(buf))
 		break;
 
-	    fprintf(out_file, "%s\n", buf);
+		fprintf(out_file, "%s\n", buf);
 	}
     } else
         in_file = NULL;
 
     /* Write our current configuration.  */
-    fprintf(out_file,"\n[%s]\n", machine_id);
+    fprintf(out_file,"[%s]\n", machine_id);
     for (i = 0; i < num_resources; i++)
 	write_resource_item(out_file, i);
+	fprintf(out_file, "\n");
 
     if (have_old) {
 	char buf[1024];

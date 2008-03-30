@@ -133,6 +133,10 @@ const uint32 MENU_SYNC_FACTOR_NTSCOLD			= 'M142';
 const uint32 MENU_SIDTYPE_6581					= 'M145';
 const uint32 MENU_SIDTYPE_8580					= 'M146';
 
+const uint32 MENU_RESID_SAMPLE_FAST				= 'M150';
+const uint32 MENU_RESID_SAMPLE_INTERPOLATE		= 'M151';
+const uint32 MENU_RESID_SAMPLE_RESAMPLE			= 'M152';
+
 const uint32 MENU_DRIVE_SETTINGS				= 'M200';
 const uint32 MENU_DEVICE_SETTINGS				= 'M201';
 const uint32 MENU_SOUND_SETTINGS				= 'M202';
@@ -146,6 +150,10 @@ const uint32 MENU_VIC20_SETTINGS				= 'M208';
 const uint32 MENU_SETTINGS_LOAD					= 'M210';
 const uint32 MENU_SETTINGS_SAVE					= 'M211';
 const uint32 MENU_SETTINGS_DEFAULT				= 'M212';
+
+const uint32 MENU_VSID_LOAD						= 'M300';
+const uint32 PLAY_VSID							= 'M301';
+const uint32 MENU_VSID_TUNE						= 'M302';
 
 const uint32 MENU_ABOUT							= 'M901';
 const uint32 MENU_CONTRIBUTORS					= 'M902';

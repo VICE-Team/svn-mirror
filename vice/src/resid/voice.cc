@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2000  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,9 +23,16 @@
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
-Voice::Voice(Voice* source)
-  : wave(&source->wave)
+Voice::Voice()
 {
+}
+
+// ----------------------------------------------------------------------------
+// Set sync source.
+// ----------------------------------------------------------------------------
+void Voice::set_sync_source(Voice* source)
+{
+  wave.set_sync_source(&source->wave);
 }
 
 // ----------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2000  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -113,7 +113,9 @@ public:
 
   void enable_filter(bool enable);
 
+  RESID_INLINE
   void clock(sound_sample voice1, sound_sample voice2, sound_sample voice3);
+  RESID_INLINE
   void clock(cycle_count delta_t,
   	     sound_sample voice1, sound_sample voice2, sound_sample voice3);
   void reset();
@@ -185,14 +187,12 @@ friend class SID;
 // time a sample is calculated.
 // ----------------------------------------------------------------------------
 
-#if RESID_INLINE || defined(__FILTER_CC__)
+#if RESID_INLINING || defined(__FILTER_CC__)
 
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 void Filter::clock(sound_sample voice1,
 		   sound_sample voice2,
 		   sound_sample voice3)
@@ -279,9 +279,7 @@ void Filter::clock(sound_sample voice1,
 // ----------------------------------------------------------------------------
 // SID clocking - delta_t cycles.
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 void Filter::clock(cycle_count delta_t,
 		   sound_sample voice1,
 		   sound_sample voice2,
@@ -387,9 +385,7 @@ void Filter::clock(cycle_count delta_t,
 // ----------------------------------------------------------------------------
 // SID audio output (20 bits).
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 sound_sample Filter::output()
 {
   const sound_sample Vmax = 4096*3;
@@ -446,6 +442,6 @@ sound_sample Filter::output()
   return -((Vnf - Vf + Vmax)*static_cast<sound_sample>(vol));
 }
 
-#endif // RESID_INLINE || defined(__FILTER_CC__)
+#endif // RESID_INLINING || defined(__FILTER_CC__)
 
 #endif // not __FILTER_H__

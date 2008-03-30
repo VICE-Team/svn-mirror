@@ -54,34 +54,6 @@ typedef struct {
 	char *cart_name; 
 } ui_cartridge_t;
 
-
-/* ------------------------------------------------------------------------- */
-/* These are the commands that cannot be handled within a keyboard
-   interrupt.  They are dispatched via 'ui_dispatch_events' and queued
-   via 'ui_add_event'.  */
-
-typedef	enum {
-		UICMD_EXIT,
-		UICMD_AUTOSTART,
-		UICMD_ATTACH,
-		UICMD_DETACH,
-        UICMD_RESET,
-        UICMD_HARD_RESET,
-        UICMD_LOAD_SETTINGS,
-        UICMD_SAVE_SETTINGS,
-        UICMD_FREEZE,
-        UICMD_FLIP_NEXT,
-        UICMD_FLIP_PREVIOUS,
-        UICMD_FLIP_ADD,
-        UICMD_FLIP_REMOVE,
-        UICMD_TOGGLE_RESOURCE
-} uicmd_t;
-
-typedef struct {
-	uicmd_t nr;
-    char *param;
-} ui_command_type_t;
-
 typedef void (*ui_machine_specific_t) (void* msg, void* window);
 
 /*-------------------------------------------------------------------------*/

@@ -65,6 +65,7 @@
 #include "utils.h"
 #include "version.h"
 #include "videoarch.h"
+#include "vsidarch.h"
 #include "vsync.h"
 #include "vsyncarch.h"
 
@@ -245,7 +246,8 @@ unsigned int TaskHandle;
 
 static int WimpMessages[] = {
   Message_DataSave, Message_DataSaveAck, Message_DataLoad, Message_DataLoadAck,
-  Message_DataOpen, Message_PaletteChange, Message_ModeChange, Message_MenuWarning, 0
+  Message_DataOpen, Message_PaletteChange, Message_ModeChange, Message_MenuWarning,
+  Message_HelpRequest, 0
 };
 
 /* General wimp variable */
@@ -350,6 +352,9 @@ static const conf_icon_id SidDependentIcons[] = {
   {CONF_WIN_SOUND, Icon_Conf_UseResid},
   {CONF_WIN_SOUND, Icon_Conf_SidModel},
   {CONF_WIN_SOUND, Icon_Conf_SidModelT},
+  {CONF_WIN_SOUND, Icon_Conf_ResidSamp},
+  {CONF_WIN_SOUND, Icon_Conf_ResidSampT},
+  {CONF_WIN_SOUND, Icon_Conf_ResidPass},
   {0xff, 0xff}
 };
 
@@ -385,7 +390,9 @@ static const conf_icon_id SidDependentIcons[] = {
 
 #define ICON_LIST_SID \
   {CONF_WIN_SOUND, Icon_Conf_SidFilter}, {CONF_WIN_SOUND, Icon_Conf_SidModel},\
-  {CONF_WIN_SOUND, Icon_Conf_SidModelT}, {CONF_WIN_SOUND, Icon_Conf_UseResid},
+  {CONF_WIN_SOUND, Icon_Conf_SidModelT}, {CONF_WIN_SOUND, Icon_Conf_UseResid},\
+  {CONF_WIN_SOUND, Icon_Conf_ResidSamp}, {CONF_WIN_SOUND, Icon_Conf_ResidSampT}, \
+  {CONF_WIN_SOUND, Icon_Conf_ResidPass},
 
 #define ICON_LIST_SYSTEM \
   {CONF_WIN_SYSTEM, Icon_Conf_REU}, {CONF_WIN_SYSTEM, Icon_Conf_IEEE488},\
@@ -830,12 +837,13 @@ static RO_IconDesc IBarIcon = {
 static const char Rsrc_Sound[] = "Sound";
 static const char Rsrc_SndRate[] = "SoundSampleRate";
 static const char Rsrc_SndBuff[] = "SoundBufferSize";
+static const char Rsrc_ReSidPass[] = "SidResidPassband";
 static const char Rsrc_True[] = "DriveTrueEmulation";
 static const char Rsrc_Poll[] = "PollEvery";
 static const char Rsrc_Speed[] = "SpeedEvery";
 static const char Rsrc_SndEvery[] = "SoundEvery";
 static const char Rsrc_AutoPause[] = "AutoPause";
-static const char Rsrc_SpeedLimit[] = "SpeedLimit";
+static const char Rsrc_SpeedLimit[] = "Speed";
 static const char Rsrc_DriveT8[] = "DriveType8";
 static const char Rsrc_DriveT9[] = "DriveType9";
 static const char Rsrc_DriveT10[] = "DriveType10";
@@ -903,9 +911,364 @@ static struct MenuDisplayROMSetTmpl {
 
 
 
+/*
+ *  Interactive help messages
+ */
+
+typedef struct help_icon_s {
+  int icon;
+  const char *sym;
+  char *msg;
+} help_icon_t;
+
+
+#define HELPBUFFSIZE	512
+/* Note: -1 must still legal for help on entire windows, so just use something very big */
+#define Help_Icon_End	0x10000
+
+/*
+ *  Help text. sym is the symbol to look up; if sym is NULL, it's the same as the
+ *  previous entry.
+ */
+
+/* Emu pane */
+static help_icon_t Help_EmuPane[] = {
+  {-1, "\\HelpPaneWindow"},
+  {Icon_Pane_LED0, "\\HelpPaneDrives|M\\HelpPaneDrv0"},
+  {Icon_Pane_Drive0, NULL},
+  {Icon_Pane_LED1, "\\HelpPaneDrives"},
+  {Icon_Pane_Drive1, NULL},
+  {Icon_Pane_LED2, NULL},
+  {Icon_Pane_Drive2, NULL},
+  {Icon_Pane_LED3, NULL},
+  {Icon_Pane_Drive3, NULL},
+  {Icon_Pane_Reset, "\\HelpPaneReset"},
+  {Icon_Pane_Pause, "\\HelpPanePause"},
+  {Icon_Pane_Speed, "\\HelpPaneSpeed"},
+  {Icon_Pane_Toggle, "\\HelpPaneToggle"},
+  {Icon_Pane_TrkSec, "\\HelpPaneTrkSec"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_EmuWindow[] = {
+  {-1, "\\HelpEmuWindow"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_InfoWindow[] = {
+  {-1, "\\HelpInfoWindow"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ImgContWindow[] = {
+  {-1, "\\HelpImageContents"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_CreateWindow[] = {
+  {-1, "\\HelpCreateWindow"},
+  {Icon_Create_Type, "\\HelpCreateType"},
+  {Icon_Create_TypeT, "\\HelpCreateTypeT"},
+  {Icon_Create_Name, "\\HelpCreateName"},
+  {Icon_Create_Sprite, "\\HelpCreateSprite"},
+  {Icon_Create_OK, "\\HelpCreateOK"},
+  {Icon_Create_File, "\\HelpCreateFile"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_VSidWindow[] = {
+  {-1, "\\HelpVSidWindow"},
+  {Icon_VSid_TotalTunes, "\\HelpVSidTotal"},
+  {Icon_VSid_Tune, "\\HelpVSidTune"},
+  {Icon_VSid_NextTune, "\\HelpVSidNext"},
+  {Icon_VSid_PrevTune, "\\HelpVSidPrev"},
+  {Icon_VSid_StopTune, "\\HelpVSidStop"},
+  {Icon_VSid_Default, "\\HelpVSidDefault"},
+  {Icon_VSid_PlayTime, "\\HelpVSidTime"},
+  {Icon_VSid_Pause, "\\HelpVSidPause"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_MonitorWindow[] = {
+  {-1, "\\HelpMonitorWindow"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ConfigDrives[] = {
+  {-1, "\\HelpConfDrive"},
+  {Icon_Conf_DriveType8, "\\HelpConfDrvType"},
+  {Icon_Conf_DriveType9, NULL},
+  {Icon_Conf_DriveType10, NULL},
+  {Icon_Conf_DriveType11, NULL},
+  {Icon_Conf_DriveFile8, "\\HelpConfDrvFile"},
+  {Icon_Conf_DriveFile9, NULL},
+  {Icon_Conf_DriveFile10, NULL},
+  {Icon_Conf_DriveFile11, NULL},
+  {Icon_Conf_DriveRdOnly8, "\\HelpConfDrvRO"},
+  {Icon_Conf_DriveRdOnly9, NULL},
+  {Icon_Conf_DriveRdOnly10, NULL},
+  {Icon_Conf_DriveRdOnly11, NULL},
+  {Icon_Conf_TrueDrv, "\\HelpConfDrvTrue"},
+  {Icon_Conf_TrueDrvPar8, "\\HelpConfDrvPar"},
+  {Icon_Conf_TrueDrvPar9, NULL},
+  {Icon_Conf_TrueDrvExt8, "\\HelpConfDrvExt"},
+  {Icon_Conf_TrueDrvExt9, NULL},
+  {Icon_Conf_TrueDrvExt8T, "\\HelpConfDrvExtT"},
+  {Icon_Conf_TrueDrvExt9T, NULL},
+  {Icon_Conf_TrueDrvIdle8, "\\HelpConfDrvIdle"},
+  {Icon_Conf_TrueDrvIdle9, NULL},
+  {Icon_Conf_TrueDrvIdle8T, "\\HelpConfDrvIdleT"},
+  {Icon_Conf_TrueDrvIdle9T, NULL},
+  {Icon_Conf_TrueDrvType8, "\\HelpConfDrvTT"},
+  {Icon_Conf_TrueDrvType9, NULL},
+  {Icon_Conf_TrueDrvType8T, "\\HelpConfDrvTTT"},
+  {Icon_Conf_TrueDrvType9T, NULL},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ConfigTape[] = {
+  {-1, "\\HelpConfTape"},
+  {Icon_Conf_TapeFile, "\\HelpConfTapeFile"},
+  {Icon_Conf_TapeDetach, "\\HelpConfTapeDet"},
+  {Icon_Conf_DataDoReset, "\\HelpConfTapeRst"},
+  {Icon_Conf_DataCounter, "\\HelpConfTapeCtr"},
+  {Icon_Conf_DataStop, "\\HelpConfTapeStop"},
+  {Icon_Conf_DataRewind, "\\HelpConfTapeRwd"},
+  {Icon_Conf_DataPlay, "\\HelpConfTapePlay"},
+  {Icon_Conf_DataForward, "\\HelpConfTapeFwd"},
+  {Icon_Conf_DataRecord, "\\HelpConfTapeRec"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ConfigDevices[] = {
+  {-1, "\\HelpConfDevice"},
+  {Icon_Conf_ACIAIrq, "\\HelpConfDevACIAIrq"},
+  {Icon_Conf_ACIADev, "\\HelpConfDevACIADev"},
+  {Icon_Conf_ACIADevT, "\\HelpConfDevACIADevT"},
+  {Icon_Conf_ACIADE, "\\HelpConfDevACIADE"},
+  {Icon_Conf_ACIAD67, "\\HelpConfDevACIA67"},
+  {Icon_Conf_RsUsr, "\\HelpConfDevRsUsr"},
+  {Icon_Conf_RsUsrDev, "\\HelpConfDevRsUsrDev"},
+  {Icon_Conf_RsUsrDevT, "\\HelpConfDevRsUsrDevT"},
+  {Icon_Conf_Serial, "\\HelpConfDevSerial"},
+  {Icon_Conf_SerialT, "\\HelpConfDevSerialT"},
+  {Icon_Conf_FileRsOK, "\\HelpConfDevOK"},
+  {Icon_Conf_FilePrOK, NULL},
+  {Icon_Conf_FileRsPath, "\\HelpConfDevPath"},
+  {Icon_Conf_FilePrPath, NULL},
+  {Icon_Conf_FileRsIcon, "\\HelpConfDevIcon"},
+  {Icon_Conf_FilePrIcon, NULL},
+  {Icon_Conf_PrntOn, "\\HelpConfDevPrntOn"},
+  {Icon_Conf_PrntDev, "\\HelpConfDevPrntDev"},
+  {Icon_Conf_PrntDevT, "\\HelpConfDevPrntDevT"},
+  {Icon_Conf_PrntUsrOn, "\\HelpConfDevPrntUsrOn"},
+  {Icon_Conf_PrntUsrDev, "\\HelpConfDevPrntUsrDev"},
+  {Icon_Conf_PrntUsrDevT, "\\HelpConfDevPrntUsrDevT"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ConfigSound[] = {
+  {-1, "\\HelpConfSound"},
+  {Icon_Conf_SoundOn, "\\HelpConfSndOn"},
+  {Icon_Conf_SampleRate, "\\HelpConfSndRate"},
+  {Icon_Conf_SampleRateT, "\\HelpConfSndRateT"},
+  {Icon_Conf_SoundDev, "\\HelpConfSndDev"},
+  {Icon_Conf_SoundDevT, "\\HelpConfSndDevT"},
+  {Icon_Conf_Oversample, "\\HelpConfSndOver"},
+  {Icon_Conf_OversampleT, "\\HelpConfSndOverT"},
+  {Icon_Conf_SidModel, "\\HelpConfSndMod"},
+  {Icon_Conf_SidModelT, "\\HelpConfSndModT"},
+  {Icon_Conf_SidFilter, "\\HelpConfSndFilter"},
+  {Icon_Conf_FileSndOK, "\\HelpConfSndOK"},
+  {Icon_Conf_FileSndPath, "\\HelpConfSndFile"},
+  {Icon_Conf_FileSndIcon, "\\HelpConfSndIcon"},
+  {Icon_Conf_Volume, "\\HelpConfSndVol"},
+  {Icon_Conf_SoundBuff, "\\HelpConfSndBuff"},
+  {Icon_Conf_SoundBuffT, "\\HelpConfSndBuffT"},
+  {Icon_Conf_UseResid, "\\HelpConfSndReSID"},
+  {Icon_Conf_SpeedAdjust, "\\HelpConfSndAdj"},
+  {Icon_Conf_SpeedAdjustT, "\\HelpConfSndAdjT"},
+  {Icon_Conf_ResidSamp, "\\HelpConfSndReSamp"},
+  {Icon_Conf_ResidSampT, "\\HelpConfSndReSampT"},
+  {Icon_Conf_ResidPass, "\\HelpConfSndRePass"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ConfigSystem[] = {
+  {-1, "\\HelpConfSystem"},
+  {Icon_Conf_CharGen, "\\HelpConfSysCharGen"},
+  {Icon_Conf_Kernal, "\\HelConfSysKernal"},
+  {Icon_Conf_Basic, "\\HelpConfSysBasic"},
+  {Icon_Conf_Palette, "\\HelpConfSysPal"},
+  {Icon_Conf_REU, "\\HelpConfSysREU"},
+  {Icon_Conf_IEEE488, "\\HelpConfSysIEEE"},
+  {Icon_Conf_EmuID, "\\HelpConfSysID"},
+  {Icon_Conf_NoTraps, "\\HelpConfSysTraps"},
+  {Icon_Conf_VideoCache, "\\HelpConfSysVCache"},
+  {Icon_Conf_PollEvery, "\\HelpConfSysPlEv"},
+  {Icon_Conf_SpeedEvery, "\\HelpConfSysSpEv"},
+  {Icon_Conf_SoundEvery, "\\HelpConfSysSndEv"},
+  {Icon_Conf_SpeedLmt, "\\HelpConfSysSpdLmt"},
+  {Icon_Conf_SpeedLmtT, "\\HelpConfSysSpdLmtT"},
+  {Icon_Conf_Refresh, "\\HelpConfSysRefresh"},
+  {Icon_Conf_RefreshT, "\\HelpConfSysRefreshT"},
+  {Icon_Conf_WarpMode, "\\HelpConfSysWarpMode"},
+  {Icon_Conf_CartType, "\\HelpConfSysCrtType"},
+  {Icon_Conf_CartTypeT, "\\HelpConfSysCrtTypeT"},
+  {Icon_Conf_CartFile, "\\HelpConfSysCrtFile"},
+  {Icon_Conf_CheckSScoll, "\\HelpConfSysSScl"},
+  {Icon_Conf_CheckSBcoll, "\\HelpConfSysSbcl"},
+  {Icon_Conf_DosName, "\\HelpConfSysDosName"},
+  {Icon_Conf_DosNameT, "\\HelpConfSysDosNameT"},
+  {Icon_Conf_DosNameF, "\\HelpConfSysDosNameF"},
+  {Icon_Conf_AutoPause, "\\HelpConfSysAutoPs"},
+  {Icon_Conf_ROMSet, "\\HelpConfSysROMSet"},
+  {Icon_Conf_ROMSetT, "\\HelpConfSysROMSetT"},
+  {Icon_Conf_ROMAction, "\\HelpConfSysROMAct"},
+  {Icon_Conf_FullScreen, "\\HelpConfSysFullScr"},
+  {Icon_Conf_SetPalette, "\\HelpConfSysSetPal"},
+  {Icon_Conf_Keyboard, "\\HelpConfSysKbd"},
+  {Icon_Conf_KeyboardT, "\\HelpConfSysKbdT"},
+  {Icon_Conf_VideoSync, "\\HelpConfSysVsync"},
+  {Icon_Conf_VideoSyncT, "\\HelpConfSysVsyncT"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ConfigJoystick[] = {
+  {-1, "\\HelpConfJoystick"},
+  {Icon_Conf_JoyPort1, "\\HelpConfJoyPort"},
+  {Icon_Conf_JoyPort2, NULL},
+  {Icon_Conf_JoyPort1T, "\\HelpConfJoyPortT"},
+  {Icon_Conf_JoyPort2T, NULL},
+  {Icon_Conf_JoyKey1U, "\\HelpConfJoyKeymap"},
+  {Icon_Conf_JoyKey1D, NULL},
+  {Icon_Conf_JoyKey1L, NULL},
+  {Icon_Conf_JoyKey1R, NULL},
+  {Icon_Conf_JoyKey1F, NULL},
+  {Icon_Conf_JoyKey2U, NULL},
+  {Icon_Conf_JoyKey2D, NULL},
+  {Icon_Conf_JoyKey2L, NULL},
+  {Icon_Conf_JoyKey2R, NULL},
+  {Icon_Conf_JoyKey2F, NULL},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ConfigMachinePET[] = {
+  {-1, "\\HelpConfPET"},
+  {Icon_Conf_PetMem, "\\HelpConfPETMem"},
+  {Icon_Conf_PetMemT, "\\HelpConfPETMemT"},
+  {Icon_Conf_PetIO, "\\HelpConfPETIO"},
+  {Icon_Conf_PetIOT, "\\HelpConfPETIOT"},
+  {Icon_Conf_PetVideo, "\\HelpConfPETVideo"},
+  {Icon_Conf_PetVideoT, "\\HelpConfPETVideoT"},
+  {Icon_Conf_PetModel, "\\HelpConfPETModel"},
+  {Icon_Conf_PetModelT, "\\HelpConfPETModelT"},
+  {Icon_Conf_PetKbd, "\\HelpConfPETKbd"},
+  {Icon_Conf_PetCrt, "\\HelpConfPETCrt"},
+  {Icon_Conf_PetRAM9, "\\HelpConfPETRAM9"},
+  {Icon_Conf_PetRAMA, "\\HelpConfPETRAMA"},
+  {Icon_Conf_PetDiagPin, "\\HelpConfPETDiag"},
+  {Icon_Conf_PetSuper, "\\HelpConfPETSuper"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ConfigMachineVIC[] = {
+  {-1, "\\HelpConfVIC"},
+  {Icon_Conf_VICCart, "\\HelpConfVICCart"},
+  {Icon_Conf_VICCartT, "\\HelpConfVICCartT"},
+  {Icon_Conf_VICCartF, "\\HelpConfVICCartF"},
+  {Icon_Conf_VICMem, "\\HelpConfVICMem"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ConfigMachineCBM2[] = {
+  {-1, "\\HelpConfCBM2"},
+  {Icon_Conf_CBM2Line, "\\HelpConfCBMLine"},
+  {Icon_Conf_CBM2LineT, "\\HelpConfCBMLineT"},
+  {Icon_Conf_CBM2Mem, "\\HelpConfCBMMem"},
+  {Icon_Conf_CBM2MemT, "\\HelpConfCBMMemT"},
+  {Icon_Conf_CBM2Model, "\\HelpConfCBMModel"},
+  {Icon_Conf_CBM2ModelT, "\\HelpConfCBMModelT"},
+  {Icon_Conf_CBM2RAM, "\\HelpConfCBMRAM"},
+  {Icon_Conf_CBM2Kbd, "\\HelpConfCBMKbd"},
+  {Icon_Conf_CBM2Cart, "\\HelpConfCBMCart"},
+  {Icon_Conf_CBM2CartT, "\\HelpConfCBMCartT"},
+  {Icon_Conf_CBM2CartF, "\\HelpConfCBMCartF"},
+  {Help_Icon_End, NULL}
+};
+
+static help_icon_t Help_ConfigMachineC128[] = {
+  {-1, "\\HelpConfC128"},
+  {Icon_Conf_C128Palette, "\\HelpConf128Pal"},
+  {Icon_Conf_C128Cache, "\\HelpConf128Cache"},
+  {Icon_Conf_C128Size, "\\HelpConf128Size"},
+  {Icon_Conf_C1284080, "\\HelpConf1284080"},
+  {Icon_Conf_C128dblsize, "\\HelpConf128dsize"},
+  {Icon_Conf_C128dblscan, "\\HelpConf128dscan"},
+  {Help_Icon_End, NULL}
+};
+
+
+static help_icon_t *Help_ConfigWindows[CONF_WIN_NUMBER] = {
+  Help_ConfigDrives,
+  Help_ConfigTape,
+  Help_ConfigDevices,
+  Help_ConfigSound,
+  Help_ConfigSystem,
+  Help_ConfigJoystick,
+  Help_ConfigMachinePET,
+  Help_ConfigMachineVIC,
+  Help_ConfigMachineCBM2,
+  Help_ConfigMachineC128,
+};
+
+
+static void ui_translate_icon_help_msgs(const wimp_msg_desc *msg, help_icon_t *hi)
+{
+  char buffer[HELPBUFFSIZE];
+  unsigned int i;
+
+  /*log_message(LOG_DEFAULT, "Translate interactive help messages...\n");*/
+  for (i=0; hi[i].icon != Help_Icon_End; i++)
+  {
+    hi[i].msg = NULL;
+    if (hi[i].sym != NULL)
+    {
+      wimp_message_translate_string(msg, hi[i].sym, buffer, HELPBUFFSIZE);
+      if ((hi[i].msg = (char*)malloc(strlen(buffer)+1)) != NULL)
+      {
+        strcpy(hi[i].msg, buffer);
+        /*log_message(LOG_DEFAULT, "%s = %s\n", hi[i].sym, hi[i].msg);*/
+      }
+    }
+  }
+}
+
+static void ui_translate_help_messages(const wimp_msg_desc *msg)
+{
+  unsigned int i;
+
+  ui_translate_icon_help_msgs(msg, Help_EmuPane);
+  ui_translate_icon_help_msgs(msg, Help_EmuWindow);
+  ui_translate_icon_help_msgs(msg, Help_InfoWindow);
+  ui_translate_icon_help_msgs(msg, Help_ImgContWindow);
+  ui_translate_icon_help_msgs(msg, Help_CreateWindow);
+  ui_translate_icon_help_msgs(msg, Help_VSidWindow);
+  ui_translate_icon_help_msgs(msg, Help_MonitorWindow);
+
+  for (i=0; i<CONF_WIN_NUMBER; i++)
+  {
+    if (Help_ConfigWindows[i] != NULL)
+      ui_translate_icon_help_msgs(msg, Help_ConfigWindows[i]);
+  }
+}
 
 
 
+
+/*
+ *  Resource functions
+ */
 static int set_poll_every(resource_value_t v, void *param)
 {
   PollEvery = (int)v;
@@ -2265,6 +2628,8 @@ int ui_init(int *argc, char *argv[])
       }
     }
   }
+
+  ui_translate_help_messages(msg);
 
   wimp_message_delete(msg);
 
@@ -3659,6 +4024,8 @@ static void ui_key_press_config(int *b)
       case CONF_WIN_SOUND:
         if (b[KeyPB_Icon] == Icon_Conf_FileSndPath)
           ui_set_sound_file(data);
+        else if (b[KeyPB_Icon] == Icon_Conf_ResidPass)
+          resources_set_value(Rsrc_ReSidPass, (resource_value_t)atoi(data));
         else
         {
           Wimp_ProcessKey(key); return;
@@ -3995,6 +4362,10 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
 {
   *menu = (int*)(ConfigMenus[mnum].menu);
 
+  /* must execute cartridge detach before calling ui_set_menu_display_value() */
+  if ((mnum == CONF_MENU_CARTTYPE) && (b[0] == 0) && !vsid_mode)
+    cartridge_detach_image();
+
   if (ConfigDispDescs[mnum] != NULL)
     ui_set_menu_display_value(ConfigDispDescs[mnum], b[0]);
 
@@ -4080,10 +4451,6 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
           }
         }
       }
-    case CONF_MENU_CARTTYPE:
-      if ((b[0] == 0) && !vsid_mode)
-        cartridge_detach_image();
-      break;
     case CONF_MENU_PETMODEL:
       {
         int i;
@@ -4699,6 +5066,98 @@ static void ui_user_msg_data_save_ack(int *b)
 }
 
 
+static void ui_user_msg_help_request(int *b)
+{
+  const help_icon_t *hi = NULL;
+
+  if (canvas_for_handle(b[8]) != NULL)
+  {
+    hi = Help_EmuWindow;
+  }
+  else if (b[8] == EmuPane->Handle)
+  {
+    hi = Help_EmuPane;
+  }
+  else if (b[8] == InfoWindow->Handle)
+  {
+    hi = Help_InfoWindow;
+  }
+  else if (b[8] == ImgContWindow->Handle)
+  {
+    hi = Help_ImgContWindow;
+  }
+  else if (b[8] == CreateDiscWindow->Handle)
+  {
+    hi = Help_CreateWindow;
+  }
+  else if ((vsid_mode) && (b[8] == VSidWindow->Handle))
+  {
+    hi = Help_VSidWindow;
+  }
+  else if (ui_message_window_for_handle(b[8]) == msg_win_monitor)
+  {
+    hi = Help_MonitorWindow;
+  }
+  else
+  {
+    unsigned int i;
+
+    for (i=0; i<CONF_WIN_NUMBER; i++)
+    {
+      if ((ConfWindows[i] != NULL) && (b[8] == ConfWindows[i]->Handle))
+      {
+        hi = Help_ConfigWindows[i];
+      }
+    }
+  }
+
+  if (hi != NULL)
+  {
+    unsigned int i;
+    const char *msg=NULL;
+    const char *winmsg=NULL;
+
+    for (i=0; hi[i].icon != Help_Icon_End; i++)
+    {
+      if (hi[i].sym != NULL)
+      {
+        /* help for entire window? */
+        if (hi[i].icon == -1)
+          winmsg = hi[i].msg;
+
+        msg = hi[i].msg;
+      }
+
+      if (hi[i].icon == b[9])
+        break;
+    }
+
+    /* no exact match found? */
+    if (hi[i].icon == Help_Icon_End)
+      msg = NULL;
+
+    /* if no exact match then use the help text for the entire window */
+    if (msg == NULL)
+      msg = winmsg;
+
+    if (msg != NULL)
+    {
+      unsigned int len;
+
+      len = strlen(msg);
+      if (len >= (256-20))
+        len = 256-21;
+
+      strncpy(((char*)b)+20, msg, len+1);
+      /*log_message(LOG_DEFAULT, "Help (%d): %s", len, ((char*)b)+20);*/
+      b[0] = (20 + len + 4) & ~3;
+      b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_HelpReply;
+      Wimp_SendMessage(17, b, b[MsgB_Sender], b[6]);
+    }
+  }
+}
+
+
 static void ui_user_message(int *b)
 {
   switch (b[MsgB_Action])
@@ -4723,6 +5182,9 @@ static void ui_user_message(int *b)
       break;
     case Message_DataSaveAck:
       ui_user_msg_data_save_ack(b);
+      break;
+    case Message_HelpRequest:
+      ui_user_msg_help_request(b);
       break;
     case Message_MenuWarning:
       if (LastMenu == CONF_MENU_ROMACT + 0x100)

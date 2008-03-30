@@ -71,7 +71,7 @@ static const char Rsrc_Poll[] = "PollEvery";
 static const char Rsrc_Speed[] = "SpeedEvery";
 static const char Rsrc_SndEvery[] = "SoundEvery";
 static const char Rsrc_AutoPause[] = "AutoPause";
-static const char Rsrc_SpeedLimit[] = "SpeedLimit";
+static const char Rsrc_SpeedLimit[] = "Speed";
 static const char Rsrc_Refresh[] = "RefreshRate";
 static const char Rsrc_WarpMode[] = "WarpMode";
 static const char Rsrc_DriveT8[] = "DriveType8";
@@ -93,6 +93,8 @@ static const char Rsrc_AciaIrq[] = "Acia1Irq";
 static const char Rsrc_AciaDev[] = "Acia1Dev";
 static const char Rsrc_SidFilt[] = "SidFilters";
 static const char Rsrc_ReSid[] = "SidUseResid";
+static const char Rsrc_ReSidSamp[] = "SidResidSampling";
+static const char Rsrc_ReSidPass[] = "SidResidPassband";
 static const char Rsrc_SidMod[] = "SidModel";
 static const char Rsrc_CharGen[] = "CharGenName";
 static const char Rsrc_Kernal[] = "KernalName";
@@ -290,6 +292,23 @@ static struct MenuSpeedAdjust {
   }
 };
 
+#define Menu_ResidSamp_Items	3
+#define Menu_ResidSamp_Width	200
+#define Menu_ResidSamp_Fast	0
+#define Menu_ResidSamp_Inter	1
+#define Menu_ResidSamp_Resamp	2
+static struct MenuResidSampling {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_ResidSamp_Items];
+} MenuResidSampling = {
+  MENU_HEADER("\\MenRSmpTit", Menu_ResidSamp_Width),
+  {
+    MENU_ITEM("\\MenRSmpFst"),
+    MENU_ITEM("\\MenRSmpInt"),
+    MENU_ITEM_LAST("\\MenRSmpRes")
+  }
+};
+
 
 #define Menu_TrueExtend_Items	3
 #define Menu_TrueExtend_Width	200
@@ -301,7 +320,7 @@ static struct MenuSpeedAdjust {
 #define Menu_TrueIdle_NoTraps	0
 #define Menu_TrueIdle_SkipC	1
 #define Menu_TrueIdle_Trap	2
-#define Menu_TrueType_Items	9
+#define Menu_TrueType_Items	12
 #define Menu_TrueType_Width	200
 #define Menu_TrueType_None	0
 #define Menu_TrueType_1541	1
@@ -309,9 +328,12 @@ static struct MenuSpeedAdjust {
 #define Menu_TrueType_1571	3
 #define Menu_TrueType_1581	4
 #define Menu_TrueType_2031	5
-#define Menu_TrueType_1001	6
-#define Menu_TrueType_8050	7
-#define Menu_TrueType_8250	8
+#define Menu_TrueType_2040	6
+#define Menu_TrueType_3040	7
+#define Menu_TrueType_4040	8
+#define Menu_TrueType_1001	9
+#define Menu_TrueType_8050	10
+#define Menu_TrueType_8250	11
 
 #define TRUE_DRIVE_EXTEND_MENU(name, title) \
   static struct name { \
@@ -352,6 +374,9 @@ static struct MenuSpeedAdjust {
       MENU_ITEM("\\MenDtp1571"), \
       MENU_ITEM("\\MenDtp1581"), \
       MENU_ITEM("\\MenDtp2031"), \
+      MENU_ITEM("\\MenDtp2040"), \
+      MENU_ITEM("\\MenDtp3040"), \
+      MENU_ITEM("\\MenDtp4040"), \
       MENU_ITEM("\\MenDtp1001"), \
       MENU_ITEM("\\MenDtp8050"), \
       MENU_ITEM_LAST("\\MenDtp8250") \
@@ -533,7 +558,7 @@ static struct MenuSerialBaud {
   }
 };
 
-#define Menu_Cartridge_Items	22
+#define Menu_Cartridge_Items	24
 #define Menu_Cartridge_Width	200
 static struct MenuCartridgeType {
   RO_MenuHead head;
@@ -563,7 +588,9 @@ static struct MenuCartridgeType {
     MENU_ITEM("\\MenCrtWest"),
     MENU_ITEM("\\MenCrtExpt"),
     MENU_ITEM("\\MenCrtRex"),
-    MENU_ITEM_LAST("\\MenCrtGS")
+    MENU_ITEM("\\MenCrtGS"),
+    MENU_ITEM("\\MenCrtWrp"),
+    MENU_ITEM_LAST("\\MenCrtDin")
   }
 };
 
@@ -865,7 +892,9 @@ static struct MenuDisplayVideoSync {
   } MenuDisplayTrueType##n = { \
     {Rsrc_TrueType##n, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvType##n##T}, \
       (RO_MenuHead*)&MenuTrueType##n, Menu_TrueType_Items, 0, 0}, \
-    {DRIVE_TYPE_NONE, DRIVE_TYPE_1541, DRIVE_TYPE_1541II, DRIVE_TYPE_1571, DRIVE_TYPE_1581, DRIVE_TYPE_2031, DRIVE_TYPE_1001, DRIVE_TYPE_8050, DRIVE_TYPE_8250} \
+    {DRIVE_TYPE_NONE, DRIVE_TYPE_1541, DRIVE_TYPE_1541II, DRIVE_TYPE_1571, DRIVE_TYPE_1581, \
+     DRIVE_TYPE_2031, DRIVE_TYPE_2040, DRIVE_TYPE_3040, DRIVE_TYPE_4040, DRIVE_TYPE_1001, \
+     DRIVE_TYPE_8050, DRIVE_TYPE_8250} \
   };
 
 DISP_TRUE_DRIVE_EXTEND_MENU(8)
@@ -927,6 +956,15 @@ static struct MenuDisplaySpeedAdjust {
   {Rsrc_SpdAdjust, {CONF_WIN_SOUND, Icon_Conf_SpeedAdjustT},
     (RO_MenuHead*)&MenuSpeedAdjust, Menu_SpeedAdjust_Items, 0, 0},
   {SOUND_ADJUST_FLEXIBLE, SOUND_ADJUST_ADJUSTING, SOUND_ADJUST_EXACT}
+};
+
+static struct MenuDisplayResidSampling {
+  disp_desc_t dd;
+  int values[Menu_ResidSamp_Items];
+} MenuDisplayResidSampling = {
+  {Rsrc_ReSidSamp, {CONF_WIN_SOUND, Icon_Conf_ResidSampT},
+    (RO_MenuHead*)&MenuResidSampling, Menu_ResidSamp_Items, 0, 0},
+  { 0, 1, 2 }
 };
 
 static struct MenuDisplaySpeedLimit {
@@ -1005,7 +1043,7 @@ static struct MenuDisplayCartridgeType {
    CARTRIDGE_FINAL_I, CARTRIDGE_FINAL_III, CARTRIDGE_OCEAN, /*CARTRIDGE_OCEAN_HUGE,*/
    CARTRIDGE_FUNPLAY, CARTRIDGE_SUPER_GAMES, CARTRIDGE_IEEE488, CARTRIDGE_ATOMIC_POWER,
    CARTRIDGE_EPYX_FASTLOAD, CARTRIDGE_WESTERMANN, CARTRIDGE_WESTERMANN, CARTRIDGE_REX,
-   CARTRIDGE_GS}
+   CARTRIDGE_GS, CARTRIDGE_WARPSPEED, CARTRIDGE_DINAMIC}
 };
 
 static struct MenuDisplayPetMemory {
@@ -1264,6 +1302,8 @@ menu_icon ConfigMenus[] = {
     {CONF_WIN_SYSTEM, Icon_Conf_Keyboard}},		/* 40 */
   {(RO_MenuHead*)&MenuSpeedAdjust, Rsrc_SpdAdjust,
     {CONF_WIN_SOUND, Icon_Conf_SpeedAdjust}},		/* 41 */
+  {(RO_MenuHead*)&MenuResidSampling, Rsrc_ReSidSamp,
+    {CONF_WIN_SOUND, Icon_Conf_ResidSamp}},		/* 42 */
   {NULL, NULL, {0, 0}}
 };
 
@@ -1311,6 +1351,7 @@ disp_desc_t *ConfigDispDescs[] = {
   NULL,
   NULL,
   (disp_desc_t*)&MenuDisplaySpeedAdjust,
+  (disp_desc_t*)&MenuDisplayResidSampling,
   NULL
 };
 
@@ -1352,6 +1393,7 @@ config_item Configurations[] = {
   {Rsrc_AciaIrq, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_Conf_ACIAIrq}},	/* c64acia.c */
   {Rsrc_SidFilt, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_SidFilter}},	/* sid.c */
   {Rsrc_ReSid, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_UseResid}},
+  {Rsrc_ReSidPass, CONFIG_INT, {CONF_WIN_SOUND, Icon_Conf_ResidPass}},
   {Rsrc_SScoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_CheckSScoll}},/* vicii.c */
   {Rsrc_SBcoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_CheckSBcoll}},
   {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_Palette}},

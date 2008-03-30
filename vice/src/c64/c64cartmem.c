@@ -438,6 +438,8 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_roml(ADDRESS addr)
 {
+    if (mem_cartridge_type == CARTRIDGE_ZAXXON)
+        romh_bank = (addr & 0x1000) ? 1 : 0;
     if (export_ram) {
         if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
             return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
@@ -504,6 +506,7 @@ void cartridge_init_config(void)
       case CARTRIDGE_GENERIC_16KB:
       case CARTRIDGE_WESTERMANN:
       case CARTRIDGE_WARPSPEED:
+      case CARTRIDGE_ZAXXON:
         cartridge_config_changed(1);
         break;
       case CARTRIDGE_ULTIMAX:
@@ -635,13 +638,17 @@ void cartridge_attach(int type, BYTE *rawcart)
         memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
         cartridge_config_changed(0);
         break;
-	  case CARTRIDGE_EXPERT:
-		memcpy(export_ram0, rawcart, 0x2000);
-
-		ramconfig = (1 << 1);       /* Disable ~EXROM */
-		enable_trigger = 0;
-		cartridge_config_changed(ramconfig);
-		break;
+      case CARTRIDGE_EXPERT:
+        memcpy(export_ram0, rawcart, 0x2000);
+        ramconfig = (1 << 1);       /* Disable ~EXROM */
+        enable_trigger = 0;
+        cartridge_config_changed(ramconfig);
+        break;
+      case CARTRIDGE_ZAXXON:
+        memcpy(roml_banks, rawcart, 0x2000);
+        memcpy(romh_banks, &rawcart[0x2000], 0x4000);
+        cartridge_config_changed(1);
+        break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;
     }

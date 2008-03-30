@@ -89,6 +89,7 @@
 #define CONF_MENU_ROMACT	39
 #define CONF_MENU_SYSKBD	40
 #define CONF_MENU_SPDADJUST	41
+#define CONF_MENU_RESIDSAMP	42
 
 /* Configuration issues... */
 #define CONFIG_INT	1
@@ -249,6 +250,9 @@ typedef struct {
 #define Icon_Conf_UseResid	20
 #define Icon_Conf_SpeedAdjust	21
 #define Icon_Conf_SpeedAdjustT	22
+#define Icon_Conf_ResidSamp	25
+#define Icon_Conf_ResidSampT	26
+#define Icon_Conf_ResidPass	27
 
 /* System config */
 #define Icon_Conf_CharGen	3
