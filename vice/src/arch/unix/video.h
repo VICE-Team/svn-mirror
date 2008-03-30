@@ -49,6 +49,9 @@ struct _canvas {
 };
 typedef struct _canvas *canvas_t;
 
+/* Triple buffering is never available on X11.  */
+#define CANVAS_USES_TRIPLE_BUFFERING(c) 0
+
 struct _frame_buffer {
     XImage *x_image;
 #if defined (MITSHM)
