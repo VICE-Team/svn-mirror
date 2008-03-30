@@ -191,7 +191,6 @@ static resource_t resources[] =
 
 #ifdef VIC_II_NEED_2X
 
-#include "video-render.h"      /* bad */
 #ifdef VIDEO_REMOVE_2X         /* bad */
 extern int double_size_bad;    /* bad */
 extern int double_scan_bad;    /* bad */
