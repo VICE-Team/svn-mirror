@@ -318,11 +318,11 @@ dnl Setup the system-specific object files.
 if test "$host_vendor" != "go32" -a "$host_vendor" != "msdos"; then
   ARCHDIR="\$(UNIXDIR)"
   ARCHODIR="\$(UNIXODIR)"
-  SYSPEC_OBJS="$SYSPEC_OBJS \$(ARCHODIR)/video.o"
+  SYSPEC_OBJS="$SYSPEC_OBJS \$(ARCHODIR)/video.o \$(ARCHODIR)/xdebug.o"
   COMMON_LIBS="\$(READLINE) \$(WIDGETS)"
-  X64_SYSPEC_OBJS="\$(ARCHODIR)/ui_xaw.o \$(ARCHODIR)/xdebug.o \$(ARCHODIR)/vsync.o \$(ARCHODIR)/kbd.o"
-  XVIC_SYSPEC_OBJS="\$(ARCHODIR)/ui_xaw_VIC20.o \$(ARCHODIR)/xdebug_VIC20.o \$(ARCHODIR)/kbd_VIC20.o \$(ARCHODIR)/vsync_VIC20.o"
-  XPET_SYSPEC_OBJS="\$(ARCHODIR)/ui_xaw_PET.o \$(ARCHODIR)/xdebug_PET.o \$(ARCHODIR)/kbd_PET.o \$(ARCHODIR)/vsync_PET.o"
+  X64_SYSPEC_OBJS="\$(ARCHODIR)/ui_xaw.o \$(ARCHODIR)/vsync.o \$(ARCHODIR)/kbd.o"
+  XVIC_SYSPEC_OBJS="\$(ARCHODIR)/ui_xaw_VIC20.o \$(ARCHODIR)/kbd_VIC20.o \$(ARCHODIR)/vsync_VIC20.o"
+  XPET_SYSPEC_OBJS="\$(ARCHODIR)/ui_xaw_PET.o \$(ARCHODIR)/kbd_PET.o \$(ARCHODIR)/vsync_PET.o"
 else
   ARCHDIR="\$(MSDOSDIR)"
   ARCHODIR="\$(MSDOSODIR)"
