@@ -65,11 +65,11 @@ static int unused_bits_in_registers[64] =
 {
     0x00 /* $FF00 */ , 0x00 /* $FF01 */ , 0x00 /* $FF02 */ , 0x00 /* $FF03 */ ,
     0x00 /* $FF04 */ , 0x00 /* $FF05 */ , 0x00 /* $FF06 */ , 0x00 /* $FF07 */ ,
-    0x00 /* $FF08 */ , 0x00 /* $FF09 */ , 0x00 /* $FF0A */ , 0x00 /* $FF0B */ ,
-    0x00 /* $FF0C */ , 0x00 /* $FF0D */ , 0x00 /* $FF0E */ , 0x00 /* $FF0F */ ,
+    0x00 /* $FF08 */ , 0x00 /* $FF09 */ , 0xa0 /* $FF0A */ , 0x00 /* $FF0B */ ,
+    0xfc /* $FF0C */ , 0x00 /* $FF0D */ , 0x00 /* $FF0E */ , 0x00 /* $FF0F */ ,
     0x00 /* $FF10 */ , 0x00 /* $FF11 */ , 0x00 /* $FF12 */ , 0x00 /* $FF13 */ ,
-    0x00 /* $FF14 */ , 0x00 /* $FF15 */ , 0x00 /* $FF16 */ , 0x00 /* $FF17 */ ,
-    0x00 /* $FF18 */ , 0x00 /* $FF19 */ , 0x00 /* $FF1A */ , 0x00 /* $FF1B */ ,
+    0x00 /* $FF14 */ , 0x80 /* $FF15 */ , 0x80 /* $FF16 */ , 0x80 /* $FF17 */ ,
+    0x80 /* $FF18 */ , 0x80 /* $FF19 */ , 0x00 /* $FF1A */ , 0x00 /* $FF1B */ ,
     0x00 /* $FF1C */ , 0x00 /* $FF1D */ , 0x00 /* $FF1E */ , 0x00 /* $FF1F */ ,
     0x00 /* $FF20 */ , 0x00 /* $FF21 */ , 0x00 /* $FF22 */ , 0x00 /* $FF23 */ ,
     0x00 /* $FF24 */ , 0x00 /* $FF25 */ , 0x00 /* $FF26 */ , 0x00 /* $FF27 */ ,
@@ -448,7 +448,7 @@ inline static void store_ted07(BYTE value)
 inline static void store_ted08(BYTE value)
 {
     BYTE val = 0xff;
-    BYTE msk = tia_kbd /*& ~joystick_value[1]*/;
+    BYTE msk = tia_kbd;
     BYTE m;
     int i;
 
@@ -456,7 +456,19 @@ inline static void store_ted08(BYTE value)
         if (!(msk & m))
            val &= ~keyarr[i];
 
-    ted.kbdval = val /*& ~joystick_value[1]*/;
+    if (!(value & 4)) {
+        val = val & ~(joystick_value[1] & 15);
+        if (joystick_value[1] & 16)
+            val = val & ~64;
+    }
+
+    if (!(value & 2)) {
+        val = val & ~(joystick_value[2] & 15);
+        if (joystick_value[2] & 16)
+            val = val & ~128;
+    }
+
+    ted.kbdval = val;
 }
 
 inline static void store_ted09(BYTE value)
@@ -554,6 +566,29 @@ inline static void store_ted0b(BYTE value)
     }
 }
 
+inline static void store_ted0c0d(ADDRESS addr, BYTE value)
+{
+    int pos;
+
+    if (ted.regs[addr] == value)
+        return;
+
+    if (addr & 1)
+        pos = (ted.crsrpos & 0x300) | value;
+    else
+        pos = (ted.crsrpos & 0xff) | ((value & 3) << 8);
+
+#if 0
+    raster_add_int_change_background(&ted.raster,
+                                     TED_RASTER_CHAR(TED_RASTER_CYCLE(clk)),
+                                     &ted.crsrpos,
+                                     pos);
+#else
+    ted.crsrpos = pos;
+#endif
+    ted.regs[addr] = value;
+}
+
 inline static void store_ted12(BYTE value)
 {
     if (ted.regs[0x12] == value)
@@ -565,10 +600,10 @@ inline static void store_ted12(BYTE value)
 
 inline static void store_ted13(BYTE value)
 {
-    if (ted.regs[0x13] == value)
+    if ((ted.regs[0x13] & 0xfe) == (value & 0xfe))
         return;
 
-    ted.regs[0x13] = value;
+    ted.regs[0x13] = (ted.regs[0x13] & 0x01) | (value & 0xfe);
     ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
 }
 
@@ -645,6 +680,18 @@ inline static void store_ted19(BYTE value)
     }
 }
 
+inline static void store_ted3e(void)
+{
+    ted.regs[0x13] |= 0x01;
+    mem_config_ram_set(1);
+}
+
+inline static void store_ted3f(void)
+{
+    ted.regs[0x13] &= 0xfe;
+    mem_config_ram_set(0);
+}
+
 /* Store a value in a TED register.  */
 void REGPARM2 ted_store(ADDRESS addr, BYTE value)
 {
@@ -687,6 +734,10 @@ void REGPARM2 ted_store(ADDRESS addr, BYTE value)
       case 0x0b:
         store_ted0b(value);
         break;
+      case 0x0c:
+      case 0x0d:
+        store_ted0c0d(addr, value);
+        break;
       case 0x12:
         store_ted12(value);
         break;
@@ -708,10 +759,10 @@ void REGPARM2 ted_store(ADDRESS addr, BYTE value)
         store_ted19(value);
         break;
       case 0x3e:
-        mem_config_ram_set(1);
+        store_ted3e();
         break;
       case 0x3f:
-        mem_config_ram_set(0);
+        store_ted3f();
         break;
     }
 }
@@ -751,8 +802,16 @@ inline static BYTE read_ted09(void)
 
 inline static BYTE read_ted0a(void)
 {
-    return ted.regs[0x0a] & 0x5f;
+    return (ted.regs[0x0a] & 0x5f) | 0xa0;
 
+}
+
+inline static BYTE read_ted1a1b(ADDRESS addr)
+{
+    if (addr == 0x1a)
+        return (ted.mem_counter & 0x100) >> 8;
+    else
+        return ted.mem_counter & 0xff;
 }
 
 inline static BYTE read_ted1c1d(ADDRESS addr)
@@ -764,7 +823,6 @@ inline static BYTE read_ted1c1d(ADDRESS addr)
         return (tmp & 0x100) >> 8;
     else
         return tmp & 0xff;
-
 }
 
 inline static BYTE read_ted1e(void)
@@ -778,6 +836,11 @@ inline static BYTE read_ted1e(void)
     xpos = xpos / 2 + 2;
 
     return (BYTE)xpos;
+}
+
+inline static BYTE read_ted1f(void)
+{
+    return 0x80 | ((ted.cursor_phase & 0x0f) << 3) | ted.raster.ycounter;
 }
 
 /* Read a value from a TED register.  */
@@ -802,11 +865,16 @@ BYTE REGPARM1 ted_read(ADDRESS addr)
         return read_ted09();
       case 0x0a:
         return read_ted0a();
+      case 0x1a:
+      case 0x1b:
+        return read_ted1a1b(addr);
       case 0x1c:
       case 0x1d:
         return read_ted1c1d(addr);
       case 0x1e:
         return read_ted1e();
+      case 0x1f:
+        return read_ted1f();
     }
 
     return ted.regs[addr] | unused_bits_in_registers[addr];
@@ -817,13 +885,20 @@ BYTE REGPARM1 ted_peek(ADDRESS addr)
     addr &= 0x3f;
 
     switch (addr) {
+      case 0x08:
+        return read_ted08();
       case 0x09:
         return read_ted09();
+      case 0x1a:
+      case 0x1b:
+        return read_ted1a1b(addr);
       case 0x1c:
       case 0x1d:
         return read_ted1c1d(addr);
       case 0x1e:
         return read_ted1e();
+      case 0x1f:
+        return read_ted1f();
       default:
         return ted.regs[addr] | unused_bits_in_registers[addr];
     }
