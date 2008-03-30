@@ -28,7 +28,7 @@
 
 #include <stdio.h>
 
-#include "fullscreen.h"
+#include "fullscreenarch.h"
 #include "machine.h"
 #include "uimenu.h"
 #include "uipalemu.h"

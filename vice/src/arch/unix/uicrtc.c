@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-#include "fullscreen.h"
+#include "fullscreenarch.h"
 #include "uimenu.h"
 #include "uipalette.h"
 
