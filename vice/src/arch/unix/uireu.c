@@ -32,6 +32,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "uimenu.h"
+#include "uireu.h"
 #include "vsync.h"
 
 
