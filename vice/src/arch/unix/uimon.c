@@ -78,7 +78,7 @@ int uimon_out(const char *format, ...)
     return rc;
 }
 
-char *uimon_get_in( char **ppchCommandLine, const char *prompt )
+char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
     return console_in(console_log, prompt);
 }

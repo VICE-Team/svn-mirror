@@ -106,11 +106,14 @@ char *readline(const char *prompt)
 
 char *console_in(console_t *log, const char *prompt)
 {
-    char *p;
+    char *p, *ret_sting;
 
     p = readline(prompt);
 
-    return p;
+    ret_sting = lib_stralloc(p);
+    free(p);
+
+    return ret_sting;
 }
 
 int console_close_all(void)

@@ -34,7 +34,7 @@
 #include "types.h"
 
 
-/*#define LIB_DEBUG*/
+#define LIB_DEBUG
 
 
 #ifdef LIB_DEBUG
@@ -111,7 +111,7 @@ static void lib_debug_alloc(void *ptr, size_t size, int level)
     lib_debug_caller[index] = func;
 #endif
 #if 0
-    if (ptr == (void *)0x857ba78)
+    if (ptr == (void *)0x85c2c80)
         *(int *)0 = 0;
 #endif
 #if 0
