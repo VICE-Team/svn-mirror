@@ -180,7 +180,7 @@ static inline void store_ciapb(drive_context_t *ctxptr, CLOCK rclk, BYTE byte)
                 | (iec_info->cpu_port >> 7)
                 | ((iec_info->cpu_bus << 3) & 0x80));
         } else {
-            ctxptr->func.iec_write(~byte);
+            ctxptr->func.iec_write((BYTE)(~byte));
         }
     }
 }
