@@ -638,6 +638,17 @@ void drive_gcr_data_writeback(drive_t *drive)
     }
 }
 
+void drive_gcr_data_writeback_all(void)
+{
+    drive_t *drive;
+    unsigned int i;
+
+    for (i = 0; i < DRIVE_NUM; i++) {
+        drive = drive_context[i]->drive;
+        drive_gcr_data_writeback(drive);
+    }
+}
+
 static void drive_extend_disk_image(drive_t *drive)
 {
     int rc;

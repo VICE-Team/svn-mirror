@@ -255,6 +255,7 @@ extern void drive_shutdown(void);
 extern void drive_vsync_hook(void);
 extern void drive_update_ui_status(void);
 extern void drive_gcr_data_writeback(struct drive_s *drive);
+extern void drive_gcr_data_writeback_all(void);
 extern void drive_set_active_led_color(unsigned int type, unsigned int dnr);
 extern BYTE drive_write_protect_sense(drive_t *dptr);
 extern int drive_set_disk_drive_type(unsigned int drive_type,

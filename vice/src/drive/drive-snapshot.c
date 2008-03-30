@@ -120,10 +120,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     if (!drive_true_emulation)
         return 0;
 
-    for (i = 0; i < 2; i++) {
-        drive = drive_context[i]->drive;
-        drive_gcr_data_writeback(drive);
-    }
+    drive_gcr_data_writeback_all();
 
     rotation_table_get(rotation_table_ptr);
 
@@ -235,6 +232,8 @@ int drive_snapshot_read_module(snapshot_t *s)
         resources_set_value("DriveTrueEmulation", (resource_value_t)0);
         return 0;
     }
+
+    drive_gcr_data_writeback_all();
 
     if (major_version > DRIVE_SNAP_MAJOR || minor_version > DRIVE_SNAP_MINOR) {
         log_error(drive_snapshot_log,
