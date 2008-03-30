@@ -46,6 +46,7 @@ AMIGA_COMPILE_TRUE = @AMIGA_COMPILE_TRUE@
 AMTAR = @AMTAR@
 AR = @AR@
 ARCH_DIR = @ARCH_DIR@
+ARCH_EXTRA_SUBDIR = @ARCH_EXTRA_SUBDIR@
 ARCH_INCLUDES = @ARCH_INCLUDES@
 ARCH_LIBS = @ARCH_LIBS@
 ARCH_SRC_DIR = @ARCH_SRC_DIR@
@@ -646,28 +647,28 @@ xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
 
 @AMIGA_COMPILE_TRUE@bindist:
-@AMIGA_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(EXEEXT)
+@AMIGA_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(top_srcdir) $(EXEEXT)
 
 @AMIGA_COMPILE_TRUE@bindistzip:
-@AMIGA_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(EXEEXT)
+@AMIGA_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(top_srcdir) $(EXEEXT)
 
 @BEOS_COMPILE_TRUE@bindist:
-@BEOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+@BEOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
 
 @BEOS_COMPILE_TRUE@bindistzip:
-@BEOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+@BEOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
 
 @MSDOS_COMPILE_TRUE@bindist:
-@MSDOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip
+@MSDOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip $(top_srcdir)
 
 @MSDOS_COMPILE_TRUE@bindistzip:
-@MSDOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip
+@MSDOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip $(top_srcdir)
 
 @UNIX_GP2X_COMPILE_TRUE@bindist:
-@UNIX_GP2X_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+@UNIX_GP2X_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
 
 @UNIX_GP2X_COMPILE_TRUE@bindistzip:
-@UNIX_GP2X_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+@UNIX_GP2X_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
 
 @UNIX_MACOSX_COMPILE_TRUE@bindist:
 @UNIX_MACOSX_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) nozip
@@ -676,16 +677,22 @@ xcbm2:
 @UNIX_MACOSX_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) zip
 
 @UNIX_QNX_COMPILE_TRUE@bindist:
-@UNIX_QNX_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+@UNIX_QNX_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip $(top_srcdir)
+
+@UNIX_QNX_COMPILE_TRUE@bindistzip:
+@UNIX_QNX_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip $(top_srcdir)
 
 @UNIX_SOLARIS_COMPILE_TRUE@bindist:
-@UNIX_SOLARIS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+@UNIX_SOLARIS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip $(top_srcdir)
+
+@UNIX_SOLARIS_COMPILE_TRUE@bindistzip:
+@UNIX_SOLARIS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip $(top_srcdir)
 
 @WIN32_COMPILE_TRUE@bindist:
-@WIN32_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+@WIN32_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
 
 @WIN32_COMPILE_TRUE@bindistzip:
-@WIN32_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+@WIN32_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

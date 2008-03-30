@@ -46,6 +46,7 @@ AMIGA_COMPILE_TRUE = @AMIGA_COMPILE_TRUE@
 AMTAR = @AMTAR@
 AR = @AR@
 ARCH_DIR = @ARCH_DIR@
+ARCH_EXTRA_SUBDIR = @ARCH_EXTRA_SUBDIR@
 ARCH_INCLUDES = @ARCH_INCLUDES@
 ARCH_LIBS = @ARCH_LIBS@
 ARCH_SRC_DIR = @ARCH_SRC_DIR@
@@ -302,8 +303,8 @@ libarch_a_SOURCES = \
 	pointer.h \
 	private.h \
 	rs232.c \
-	screenshot.c \
-	screenshot.h \
+	screen-shot.c \
+	screen-shot.h \
 	signals.c \
 	statusbar.c \
 	statusbar.h \
@@ -410,7 +411,7 @@ am_libarch_a_OBJECTS = ahi.$(OBJEXT) amigamain.$(OBJEXT) \
 	intl.$(OBJEXT) joy.$(OBJEXT) joyai.$(OBJEXT) joyll.$(OBJEXT) \
 	kbd.$(OBJEXT) mousedrv.$(OBJEXT) petui.$(OBJEXT) \
 	plus4ui.$(OBJEXT) pointer.$(OBJEXT) rs232.$(OBJEXT) \
-	screenshot.$(OBJEXT) signals.$(OBJEXT) statusbar.$(OBJEXT) \
+	screen-shot.$(OBJEXT) signals.$(OBJEXT) statusbar.$(OBJEXT) \
 	tfearch.$(OBJEXT) timer.$(OBJEXT) ui.$(OBJEXT) uiapi.$(OBJEXT) \
 	uiattach.$(OBJEXT) uic64cart.$(OBJEXT) uicart.$(OBJEXT) \
 	uicmdline.$(OBJEXT) uicolor.$(OBJEXT) uilib.$(OBJEXT) \
@@ -441,7 +442,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/mousedrv.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/mui.Po ./$(DEPDIR)/petui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4ui.Po ./$(DEPDIR)/pointer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/rs232.Po ./$(DEPDIR)/screenshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/rs232.Po ./$(DEPDIR)/screen-shot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/signals.Po ./$(DEPDIR)/statusbar.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/timer.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiacia.Po \
@@ -519,7 +520,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pointer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rs232.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/screenshot.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/screen-shot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statusbar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tfearch.Po@am__quote@

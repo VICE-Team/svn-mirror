@@ -44,6 +44,7 @@ AMIGA_COMPILE_TRUE = @AMIGA_COMPILE_TRUE@
 AMTAR = @AMTAR@
 AR = @AR@
 ARCH_DIR = @ARCH_DIR@
+ARCH_EXTRA_SUBDIR = @ARCH_EXTRA_SUBDIR@
 ARCH_INCLUDES = @ARCH_INCLUDES@
 
 ARCH_LIBS = @ARCH_LIBS@
@@ -726,6 +727,7 @@ c1541_LDADD = \
 	$(diskimage_lib) \
 	$(tape_lib) \
 	$(serial_lib) \
+	@INTLLIBS@ \
 	@READLINE@ \
 	@VICE_ZLIB@
 
@@ -748,6 +750,7 @@ petcat_SOURCES = \
 petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
 	$(fileio_lib) \
+	@INTLLIBS@ \
 	@VICE_ZLIB@
 
 

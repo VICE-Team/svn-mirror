@@ -44,6 +44,7 @@ AMIGA_COMPILE_TRUE = @AMIGA_COMPILE_TRUE@
 AMTAR = @AMTAR@
 AR = @AR@
 ARCH_DIR = @ARCH_DIR@
+ARCH_EXTRA_SUBDIR = @ARCH_EXTRA_SUBDIR@
 ARCH_INCLUDES = @ARCH_INCLUDES@
 ARCH_LIBS = @ARCH_LIBS@
 ARCH_SRC_DIR = @ARCH_SRC_DIR@
@@ -246,7 +247,9 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 EXTRA_DIST = \
 	mingw32/linux-cross.sh \
-	macosx/make-ub.sh
+	macosx/make-ub.sh \
+	minix3/build.sh \
+	minix3/build-package.sh
 
 subdir = build
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -275,7 +278,7 @@ top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/macosx $(distdir)/mingw32
+	$(mkinstalldirs) $(distdir)/macosx $(distdir)/mingw32 $(distdir)/minix3
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

@@ -5,8 +5,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-07-22 18:29+0200\n"
+"Project-Id-Version: 1.20\n"
+"POT-Creation-Date: 2006-08-06 18:12+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -1933,64 +1933,64 @@ msgstr "<modus>"
 msgid "Select fullscreen mode"
 msgstr "Aktiveer volscherm modus"
 
-#: src/arch/unix/joy.c:85
+#: src/arch/unix/joy.c:87
 msgid "Set device for joystick port 1"
 msgstr "Zet apparaat voor joystick poort 1"
 
-#: src/arch/unix/joy.c:87
+#: src/arch/unix/joy.c:89
 msgid "Set device for joystick port 2"
 msgstr "Zet apparaat voor joystick poort 2"
 
-#: src/arch/unix/joy.c:217 src/arch/unix/joy.c:266 src/arch/unix/joy.c:422
+#: src/arch/unix/joy.c:213 src/arch/unix/joy.c:262 src/arch/unix/joy.c:418
 #, c-format
 msgid "Cannot open joystick device `%s'."
 msgstr "Kan joystick apparaat `%s' niet openen."
 
-#: src/arch/unix/joy.c:228
+#: src/arch/unix/joy.c:224
 #, c-format
 msgid "Error reading joystick device `%s'."
 msgstr "Fout bij het lezen van joystick apparaat `%s'."
 
-#: src/arch/unix/joy.c:247
+#: src/arch/unix/joy.c:243
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
 msgstr "Hardware joystick calibratie voor apparaat `%s':"
 
-#: src/arch/unix/joy.c:300
+#: src/arch/unix/joy.c:296
 msgid "Error reading digital joystick device."
 msgstr "Fout bij het lezen van het digitale joystick apparaat."
 
-#: src/arch/unix/joy.c:320
+#: src/arch/unix/joy.c:316
 msgid "Error reading joystick device."
 msgstr "Fout bij het lezen van het joystick apparaat."
 
-#: src/arch/unix/joy.c:370
+#: src/arch/unix/joy.c:366
 msgid "Linux joystick interface initialization..."
 msgstr "Linux Joystick interface initialisatie..."
 
-#: src/arch/unix/joy.c:396
+#: src/arch/unix/joy.c:392
 #, c-format
 msgid "%s unknown type"
 msgstr "%s onbekent type"
 
-#: src/arch/unix/joy.c:398 src/arch/unix/joy.c:414
+#: src/arch/unix/joy.c:394 src/arch/unix/joy.c:410
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
 msgstr "Ingebouwt stuurprogramma versie: %d.%d.%d"
 
-#: src/arch/unix/joy.c:401
+#: src/arch/unix/joy.c:397
 msgid "Kernel driver version  : 0.8 ??"
 msgstr "Kernel stuurprogramma versie : 0.8 ??"
 
-#: src/arch/unix/joy.c:403
+#: src/arch/unix/joy.c:399
 msgid "Please update your Joystick driver !"
 msgstr "Vernieuw aub uw joystick stuurprogramma !"
 
-#: src/arch/unix/joy.c:404
+#: src/arch/unix/joy.c:400
 msgid "Fall back to old api routine"
 msgstr "Terug vallen op oude api routine"
 
-#: src/arch/unix/joy.c:417
+#: src/arch/unix/joy.c:413
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kernel stuurprogramma versie : %d.%d.%d"
@@ -5112,24 +5112,20 @@ msgid "Exact Emulation"
 msgstr "Exacte Emulatie"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54
-#, fuzzy
 msgid "Keyboard"
-msgstr "&Toetsenbord"
+msgstr "Toetsenbord"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:57
-#, fuzzy
 msgid "Joystick 1"
-msgstr "Joystick:"
+msgstr "Joystick 1"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:60
-#, fuzzy
 msgid "Joystick 2"
-msgstr "Joystick:"
+msgstr "Joystick 2"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:63
-#, fuzzy
 msgid "Devices"
-msgstr "Apparaat #8"
+msgstr "Apparaten"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:119
 msgid "Invalid Port number"
@@ -5190,18 +5186,16 @@ msgid "Connect to "
 msgstr "Maak verbinding naar "
 
 #: src/arch/unix/x11/gnome/uinetplay.c:274
-#, fuzzy
 msgid "Control"
-msgstr "PAL Bediening"
+msgstr "Bediening"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:279
-#, fuzzy
 msgid "Server"
-msgstr "Start Server"
+msgstr "Server"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:284
 msgid "Client"
-msgstr ""
+msgstr "Client"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:239
 msgid "No gfxoutputdrivers available"
@@ -5479,7 +5473,7 @@ msgstr "Koppel schrijf beveiligd"
 #. show hidden files
 #: src/arch/unix/x11/gnome/x11ui.c:2753
 msgid "Show hidden files"
-msgstr ""
+msgstr "Toon verborgen bestanden"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2765
 msgid "Autostart"

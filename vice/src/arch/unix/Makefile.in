@@ -46,6 +46,7 @@ AMIGA_COMPILE_TRUE = @AMIGA_COMPILE_TRUE@
 AMTAR = @AMTAR@
 AR = @AR@
 ARCH_DIR = @ARCH_DIR@
+ARCH_EXTRA_SUBDIR = @ARCH_EXTRA_SUBDIR@
 ARCH_INCLUDES = @ARCH_INCLUDES@
 ARCH_LIBS = @ARCH_LIBS@
 ARCH_SRC_DIR = @ARCH_SRC_DIR@
@@ -246,10 +247,12 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
+@UNIX_GP2X_COMPILE_TRUE@@UNIX_MACOSX_COMPILE_FALSE@SUBDIRS = gp2x
+@NEED_READLINE_FALSE@@UNIX_MACOSX_COMPILE_TRUE@SUBDIRS = gui x11 macosx
+@NEED_READLINE_FALSE@@UNIX_GP2X_COMPILE_FALSE@@UNIX_MACOSX_COMPILE_FALSE@SUBDIRS = gui x11
 
-@UNIX_GP2X_COMPILE_TRUE@SUBDIRS = gp2x
-@NEED_READLINE_FALSE@@UNIX_GP2X_COMPILE_FALSE@SUBDIRS = gui x11
-@NEED_READLINE_TRUE@@UNIX_GP2X_COMPILE_FALSE@SUBDIRS = gui x11 readline
+@NEED_READLINE_TRUE@@UNIX_MACOSX_COMPILE_TRUE@SUBDIRS = gui x11 readline macosx
+@NEED_READLINE_TRUE@@UNIX_GP2X_COMPILE_FALSE@@UNIX_MACOSX_COMPILE_FALSE@SUBDIRS = gui x11 readline
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -302,14 +305,13 @@ libarch_a_SOURCES = \
 bin_SCRIPTS = vsid
 
 EXTRA_DIST = \
-	joy_mac.c \
-	macosx/Info.plist \
-	macosx/VICE.icns \
-	macosx/make-bindist.sh \
 	minix/minix-ar.sh \
+	minix/descr \
+	qnx/getlibs.c \
+	qnx/getsize.c \
 	qnx/make-bindist.sh \
+	solaris/convertprototype.c \
 	solaris/make-bindist.sh \
-	solaris/make_package.pl \
 	vsid
 
 subdir = src/arch/unix
@@ -354,7 +356,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	installdirs-recursive install-recursive uninstall-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = Makefile.am Makefile.in
-DIST_SUBDIRS = gp2x gui x11 readline
+DIST_SUBDIRS = gp2x gui x11 macosx readline
 SOURCES = $(libarch_a_SOURCES)
 
 all: all-recursive
@@ -567,7 +569,7 @@ top_distdir = ../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/macosx $(distdir)/minix $(distdir)/qnx $(distdir)/solaris
+	$(mkinstalldirs) $(distdir)/minix $(distdir)/qnx $(distdir)/solaris
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -714,6 +716,10 @@ gp2x:
 .PHONY: gui
 gui:
 	(cd gui; $(MAKE))
+
+.PHONY: macosx
+macosx:
+	(cd macosx; $(MAKE))
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

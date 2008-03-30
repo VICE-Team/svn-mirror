@@ -309,7 +309,7 @@ ac_includes_default="\
 #endif"
 
 ac_subdirs_all="$ac_subdirs_all src/resid"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES FFMPEG_INCLUDES DOS_TFE_PCAP_LIB WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE AMIGA_COMPILE_TRUE AMIGA_COMPILE_FALSE UNIX_QNX_COMPILE_TRUE UNIX_QNX_COMPILE_FALSE UNIX_SOLARIS_COMPILE_TRUE UNIX_SOLARIS_COMPILE_FALSE UNIX_GP2X_COMPILE_TRUE UNIX_GP2X_COMPILE_FALSE UNIX_MACOSX_COMPILE_TRUE UNIX_MACOSX_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR ARCH_SRC_DIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ VICEDIR BINDIR LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES FFMPEG_INCLUDES DOS_TFE_PCAP_LIB WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE AMIGA_COMPILE_TRUE AMIGA_COMPILE_FALSE UNIX_QNX_COMPILE_TRUE UNIX_QNX_COMPILE_FALSE UNIX_SOLARIS_COMPILE_TRUE UNIX_SOLARIS_COMPILE_FALSE UNIX_GP2X_COMPILE_TRUE UNIX_GP2X_COMPILE_FALSE UNIX_MACOSX_COMPILE_TRUE UNIX_MACOSX_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR ARCH_SRC_DIR ARCH_EXTRA_SUBDIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ VICEDIR BINDIR LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1316,7 +1316,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=25
+VICE_VERSION_BUILD=26
 
 
 
@@ -1747,6 +1747,7 @@ is_unix_x11=no
 is_unix_macosx=no
 is_dos=no
 is_win32=no
+is_win32_x11=no
 is_riscos=no
 is_os2=no
 is_beos=no
@@ -3002,6 +3003,13 @@ cat >>confdefs.h <<\_ACEOF
 #define MINIX_SUPPORT
 _ACEOF
 
+fi
+
+if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
+  if test x"$with_x" = "xyes"; then
+    host_os=cygwin-x11
+    is_win32_x11=yes
+  fi
 fi
 
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
@@ -5831,7 +5839,7 @@ done
 
 
 
-if test x"$enable_nls" != x"no" ; then
+if test x"$enable_nls" != "xno" -a x"$is_unix" = "xyes"; then
   if test "${ac_cv_header_libintl_h+set}" = set; then
   echo "$as_me:$LINENO: checking for libintl.h" >&5
 echo $ECHO_N "checking for libintl.h... $ECHO_C" >&6
@@ -6371,12 +6379,14 @@ echo "${ECHO_T}found xgettext program is not GNU xgettext; ignore it" >&6
     GENCAT=
 
 else
-  { echo "$as_me:$LINENO: WARNING: disabling NLS on user request" >&5
+  if test x"$is_unix" = "xyes"; then
+    { echo "$as_me:$LINENO: WARNING: disabling NLS on user request" >&5
 echo "$as_me: WARNING: disabling NLS on user request" >&2;}
+  fi
   USE_NLS=no
 fi
 
-if test x"$USE_NLS" = x"" ; then
+if test x"$USE_NLS" = "x" ; then
   USE_NLS=no
 fi
 if test "$MSGFMT" = "no" ; then
@@ -20582,7 +20592,7 @@ fi
   PATH_X_LIBS=$X_LIBS
   LINK_X_LIBS=""
 
-  if [ x"${enable_gnomeui}" = x"yes" ] ; then
+  if [ x"${enable_gnomeui}" = "xyes" ] ; then
 
     LIBS="${LIBS} `pkg-config --libs libgnomeui-2.0`"
 
@@ -22304,7 +22314,7 @@ _ACEOF
 
 fi
 
-if test x"$enable_realdevice" != x"no"; then
+if test x"$enable_realdevice" != "xno"; then
   if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32"; then
 
 cat >>confdefs.h <<\_ACEOF
@@ -22576,25 +22586,38 @@ fi
 if test x"$is_unix" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/unix"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/unix"
+  ARCH_EXTRA_SUBDIR="gui x11"
 
   if test x"$is_unix_x11" = "xyes" ; then
     if test x"$enable_gnomeui" != "xyes" ; then
       ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a"
-      ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
+      ARCH_INCLUDES="-I$ARCH_SRC_DIR"
     else
       ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a"
-      ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `pkg-config --cflags libgnomeui-2.0`"
+      ARCH_INCLUDES="-I$ARCH_SRC_DIR `pkg-config --cflags libgnomeui-2.0`"
     fi
+
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_READLINE
 _ACEOF
 
+    if test x"$READLINE" != x ; then
+      ARCH_EXTRA_SUBDIR="$ARCH_EXTRA_SUBDIR readline"
+    fi
+
   fi
 
   if test x"$is_unix_gp2x" = "xyes" ; then
     ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gp2x/libarchgp2x.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR"
+    ARCH_EXTRA_SUBDIR="gp2x"
+  fi
+
+  if test x"$is_unix_macosx" = "xyes" ; then
+    ARCH_LIBS="$ARCH_DIR/macosx/libarchmacosx.a $ARCH_LIBS"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx $ARCH_INCLUDES"
+    ARCH_EXTRA_SUBDIR="$ARCH_EXTRA_SUBDIR macosx"
   fi
 
 
@@ -23498,6 +23521,7 @@ fi
 
 
 
+
 if test "$prefix" = NONE && test "$exec_prefix" = NONE; then
   PREFIX="$ac_default_prefix"
 elif test "$prefix" = NONE; then
@@ -23535,6 +23559,7 @@ if false ; then
     mkdir -p arch/unix/x11/gnome
     mkdir -p arch/unix/x11/xaw
     mkdir -p arch/unix/x11/xaw/widgets
+    mkdir -p arch/unix/macosx
     mkdir -p arch/win32
     mkdir -p arch/win32/utils
     mkdir -p c128
@@ -23590,7 +23615,7 @@ if false ; then
 
 fi
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ac_config_files="$ac_config_files Makefile build/Makefile data/Makefile data/C128/Makefile data/C64/Makefile data/CBM-II/Makefile data/DRIVES/Makefile data/PET/Makefile data/PLUS4/Makefile data/PRINTER/Makefile data/VIC20/Makefile data/fonts/Makefile doc/Makefile doc/html/Makefile man/Makefile src/Makefile src/arch/Makefile src/arch/amigaos/Makefile src/arch/beos/Makefile src/arch/msdos/Makefile src/arch/os2/Makefile src/arch/os2/dialogs/Makefile src/arch/os2/kbd/Makefile src/arch/os2/snippets/Makefile src/arch/os2/vac++/Makefile src/arch/riscos/Makefile src/arch/unix/Makefile src/arch/unix/gp2x/Makefile src/arch/unix/gui/Makefile src/arch/unix/readline/Makefile src/arch/unix/x11/Makefile src/arch/unix/x11/gnome/Makefile src/arch/unix/x11/xaw/Makefile src/arch/unix/x11/xaw/widgets/Makefile src/arch/win32/Makefile src/arch/win32/utils/Makefile src/c128/Makefile src/c64/Makefile src/c64/cart/Makefile src/cbm2/Makefile src/core/Makefile src/crtc/Makefile src/diskimage/Makefile src/drive/Makefile src/drive/iec/Makefile src/drive/iec128dcr/Makefile src/drive/iecieee/Makefile src/drive/ieee/Makefile src/drive/tcbm/Makefile src/fileio/Makefile src/fsdevice/Makefile src/gfxoutputdrv/Makefile src/iecbus/Makefile src/imagecontents/Makefile src/lib/Makefile src/lib/lpng/Makefile src/lib/zlib/Makefile src/monitor/Makefile src/parallel/Makefile src/pet/Makefile src/plus4/Makefile src/printerdrv/Makefile src/raster/Makefile src/rs232drv/Makefile src/serial/Makefile src/sid/Makefile src/sounddrv/Makefile src/tape/Makefile src/vdc/Makefile src/vdrive/Makefile src/vic20/Makefile src/vicii/Makefile src/video/Makefile src/version.h po/Makefile.in"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ac_config_files="$ac_config_files Makefile build/Makefile data/Makefile data/C128/Makefile data/C64/Makefile data/CBM-II/Makefile data/DRIVES/Makefile data/PET/Makefile data/PLUS4/Makefile data/PRINTER/Makefile data/VIC20/Makefile data/fonts/Makefile doc/Makefile doc/html/Makefile man/Makefile src/Makefile src/arch/Makefile src/arch/amigaos/Makefile src/arch/beos/Makefile src/arch/msdos/Makefile src/arch/os2/Makefile src/arch/os2/dialogs/Makefile src/arch/os2/kbd/Makefile src/arch/os2/snippets/Makefile src/arch/os2/vac++/Makefile src/arch/riscos/Makefile src/arch/unix/Makefile src/arch/unix/gp2x/Makefile src/arch/unix/gui/Makefile src/arch/unix/readline/Makefile src/arch/unix/x11/Makefile src/arch/unix/x11/gnome/Makefile src/arch/unix/x11/xaw/Makefile src/arch/unix/x11/xaw/widgets/Makefile src/arch/unix/macosx/Makefile src/arch/win32/Makefile src/arch/win32/utils/Makefile src/c128/Makefile src/c64/Makefile src/c64/cart/Makefile src/cbm2/Makefile src/core/Makefile src/crtc/Makefile src/diskimage/Makefile src/drive/Makefile src/drive/iec/Makefile src/drive/iec128dcr/Makefile src/drive/iecieee/Makefile src/drive/ieee/Makefile src/drive/tcbm/Makefile src/fileio/Makefile src/fsdevice/Makefile src/gfxoutputdrv/Makefile src/iecbus/Makefile src/imagecontents/Makefile src/lib/Makefile src/lib/lpng/Makefile src/lib/zlib/Makefile src/monitor/Makefile src/parallel/Makefile src/pet/Makefile src/plus4/Makefile src/printerdrv/Makefile src/raster/Makefile src/rs232drv/Makefile src/serial/Makefile src/sid/Makefile src/sounddrv/Makefile src/tape/Makefile src/vdc/Makefile src/vdrive/Makefile src/vic20/Makefile src/vicii/Makefile src/video/Makefile src/version.h po/Makefile.in"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -24937,6 +24962,7 @@ do
   "src/arch/unix/x11/gnome/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/x11/gnome/Makefile" ;;
   "src/arch/unix/x11/xaw/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/x11/xaw/Makefile" ;;
   "src/arch/unix/x11/xaw/widgets/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/x11/xaw/widgets/Makefile" ;;
+  "src/arch/unix/macosx/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/macosx/Makefile" ;;
   "src/arch/win32/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/win32/Makefile" ;;
   "src/arch/win32/utils/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/win32/utils/Makefile" ;;
   "src/c128/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/c128/Makefile" ;;
@@ -25236,6 +25262,7 @@ s,@ARCH_INCLUDES@,$ARCH_INCLUDES,;t t
 s,@ARCH_LIBS@,$ARCH_LIBS,;t t
 s,@ARCH_DIR@,$ARCH_DIR,;t t
 s,@ARCH_SRC_DIR@,$ARCH_SRC_DIR,;t t
+s,@ARCH_EXTRA_SUBDIR@,$ARCH_EXTRA_SUBDIR,;t t
 s,@SOUND_USS_OBJ@,$SOUND_USS_OBJ,;t t
 s,@SOUND_SGI_OBJ@,$SOUND_SGI_OBJ,;t t
 s,@SOUND_HPUX_OBJ@,$SOUND_HPUX_OBJ,;t t

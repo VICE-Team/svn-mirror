@@ -14,13 +14,15 @@
 
 @SET_MAKE@
 
+# Makefile.am for the Mac OS X library `libarchmacosx.a'.
+
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-top_builddir = ../..
+top_builddir = ../../../..
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = @INSTALL@
@@ -245,94 +247,54 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
+	@FFMPEG_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/crtc \
 	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/tape
+	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c128 \
+	-I$(top_srcdir)/src/vic20 \
+	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/cbm2 \
+	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src
 
 
-noinst_LIBRARIES = libpet.a
+noinst_LIBRARIES = libarchmacosx.a
 
-libpet_a_SOURCES = \
-	pet-cmdline-options.c \
-	pet-cmdline-options.h \
-	pet-resources.c \
-	pet-resources.h \
-	pet-snapshot.c \
-	pet-snapshot.h \
-	pet.c \
-	pet.h \
-	petacia.h \
-	petacia1.c \
-	petbus.c \
-	petdatasette.c \
-	petdrive.c \
-	petiec.c \
-	petiec.h \
-	petmem.c \
-	petmem.h \
-	petmemsnapshot.c \
-	petmemsnapshot.h \
-	petpia.h \
-	petpia1.c \
-	petpia2.c \
-	petprinter.c \
-	petreu.c \
-	petreu.h \
-	petrom.c \
-	petrom.h \
-	petromset.c \
-	petromset.h \
-	pets.h \
-	petsound.c \
-	petsound.h \
-	petvia.c \
-	petvia.h \
-	petvideo.c
+libarchmacosx_a_SOURCES = \
+	joy.c
 
-subdir = src/pet
+
+EXTRA_DIST = \
+	VICE.icns \
+	Info.plist \
+	make-bindist.sh
+
+subdir = src/arch/unix/macosx
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
-libpet_a_AR = $(AR) cru
-libpet_a_LIBADD =
-am_libpet_a_OBJECTS = pet-cmdline-options.$(OBJEXT) \
-	pet-resources.$(OBJEXT) pet-snapshot.$(OBJEXT) pet.$(OBJEXT) \
-	petacia1.$(OBJEXT) petbus.$(OBJEXT) petdatasette.$(OBJEXT) \
-	petdrive.$(OBJEXT) petiec.$(OBJEXT) petmem.$(OBJEXT) \
-	petmemsnapshot.$(OBJEXT) petpia1.$(OBJEXT) petpia2.$(OBJEXT) \
-	petprinter.$(OBJEXT) petreu.$(OBJEXT) petrom.$(OBJEXT) \
-	petromset.$(OBJEXT) petsound.$(OBJEXT) petvia.$(OBJEXT) \
-	petvideo.$(OBJEXT)
-libpet_a_OBJECTS = $(am_libpet_a_OBJECTS)
+libarchmacosx_a_AR = $(AR) cru
+libarchmacosx_a_LIBADD =
+am_libarchmacosx_a_OBJECTS = joy.$(OBJEXT)
+libarchmacosx_a_OBJECTS = $(am_libarchmacosx_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/pet-cmdline-options.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/pet-resources.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/pet-snapshot.Po ./$(DEPDIR)/pet.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petacia1.Po ./$(DEPDIR)/petbus.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petdatasette.Po ./$(DEPDIR)/petdrive.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petiec.Po ./$(DEPDIR)/petmem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petmemsnapshot.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petpia1.Po ./$(DEPDIR)/petpia2.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petprinter.Po ./$(DEPDIR)/petreu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petrom.Po ./$(DEPDIR)/petromset.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petsound.Po ./$(DEPDIR)/petvia.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petvideo.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/joy.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libpet_a_SOURCES)
+DIST_SOURCES = $(libarchmacosx_a_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(libpet_a_SOURCES)
+SOURCES = $(libarchmacosx_a_SOURCES)
 
 all: all-am
 
@@ -340,16 +302,16 @@ all: all-am
 .SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/pet/Makefile
+	  $(AUTOMAKE) --gnu  src/arch/unix/macosx/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-libpet.a: $(libpet_a_OBJECTS) $(libpet_a_DEPENDENCIES) 
-	-rm -f libpet.a
-	$(libpet_a_AR) libpet.a $(libpet_a_OBJECTS) $(libpet_a_LIBADD)
-	$(RANLIB) libpet.a
+libarchmacosx.a: $(libarchmacosx_a_OBJECTS) $(libarchmacosx_a_DEPENDENCIES) 
+	-rm -f libarchmacosx.a
+	$(libarchmacosx_a_AR) libarchmacosx.a $(libarchmacosx_a_OBJECTS) $(libarchmacosx_a_LIBADD)
+	$(RANLIB) libarchmacosx.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -357,26 +319,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pet-cmdline-options.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pet-resources.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pet-snapshot.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pet.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petacia1.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petbus.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petdatasette.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petdrive.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petiec.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petmem.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petmemsnapshot.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petpia1.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petpia2.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petprinter.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petreu.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petrom.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petromset.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petsound.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petvia.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petvideo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -459,7 +402,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-top_distdir = ../..
+top_distdir = ../../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
@@ -575,6 +518,7 @@ uninstall-am: uninstall-info-am
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
 	uninstall-am uninstall-info-am
 
+	joy.h
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

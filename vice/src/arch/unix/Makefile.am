@@ -1,5 +1,12 @@
 # Makefile.am for the Unix version of `libarch.a'.
 
+if UNIX_MACOSX_COMPILE
+if NEED_READLINE
+SUBDIRS = gui x11 readline macosx
+else
+SUBDIRS = gui x11 macosx
+endif
+else
 if UNIX_GP2X_COMPILE
 SUBDIRS = gp2x
 else
@@ -7,6 +14,7 @@ if NEED_READLINE
 SUBDIRS = gui x11 readline
 else
 SUBDIRS = gui x11
+endif
 endif
 endif
 
@@ -59,14 +67,13 @@ libarch_a_SOURCES = \
 bin_SCRIPTS = vsid
 
 EXTRA_DIST = \
-	joy_mac.c \
-	macosx/Info.plist \
-	macosx/VICE.icns \
-	macosx/make-bindist.sh \
 	minix/minix-ar.sh \
+	minix/descr \
+	qnx/getlibs.c \
+	qnx/getsize.c \
 	qnx/make-bindist.sh \
+	solaris/convertprototype.c \
 	solaris/make-bindist.sh \
-	solaris/make_package.pl \
 	vsid
 
 .PHONY: x11
@@ -80,4 +87,8 @@ gp2x:
 .PHONY: gui
 gui:
 	(cd gui; $(MAKE))
+
+.PHONY: macosx
+macosx:
+	(cd macosx; $(MAKE))
 
