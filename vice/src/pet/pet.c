@@ -298,6 +298,8 @@ int machine_set_restore_key(int v)
 
 /* ------------------------------------------------------------------------- */
 
+#if 0	/* this should not be in the snapshot */
+
 /* PET machine config dump
  *
  *
@@ -375,6 +377,8 @@ int pet_undump(FILE *p)
 
     return snapshot_module_close(m);
 }
+
+#endif
 
 /* ------------------------------------------------------------------------- */
 

@@ -156,6 +156,8 @@ READ_PRA()
                    (int) byte, (int) via[VIA_PRB],
                    (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
 #endif
+	    /* joystick always pulls low, even if high output, so no
+	       masking with DDRA */
             /*return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));*/
         }
 }
@@ -173,7 +175,8 @@ READ_PRB()
                        (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
-            /* byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));*/
+	    /* none of the load changes output register value -> std. masking */
+            byte = ((byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
         }
 }
 

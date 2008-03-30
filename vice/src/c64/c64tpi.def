@@ -26,6 +26,8 @@
 
 #define	mytpi	tpi
 
+#define	MYTPI	TPI
+
 INCLUDES()
 {
 #include "parallel.h"
@@ -84,17 +86,24 @@ UNDUMP_PB()
 
 READ_PA()
 {
-	byte = par_atn ? 0 : 8;
+	byte = 0x07;
+	byte += par_atn ? 0 : 8;
 	byte += par_dav ? 0 : 16;
 	byte += par_eoi ? 0 : 32;
 	byte += par_ndac ? 0 : 64;
 	byte += par_nrfd ? 0 : 128;
+
+	byte = (byte & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
 }
 
 READ_PB()
 {
 	byte = par_bus;
+	byte = (byte & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
 }
 
-#define	READ_PC
+READ_PC()
+{
+	byte = (0xff & ~tpi[TPI_DDPC]) | (tpi[TPI_PC] & tpi[TPI_DDPC]);
+}
 

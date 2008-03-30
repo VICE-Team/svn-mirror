@@ -27,7 +27,7 @@
 
 #define mycpu maincpu
 
-#define myclk maincpu_clk
+#define myclk clk
 
 #define myacia acia1
 

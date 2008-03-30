@@ -100,15 +100,15 @@ STORE_SDR()
 
 READ_CIAPA()
 {
-    byte = 8;
+    byte = (8 & ~cia1581d1[CIA_DDRA]) | (cia1581d1[CIA_PRA] & cia1581d1[CIA_DDRA]);
 }
 
 READ_CIAPB()
 {
     if (iec_info != NULL)
-        byte = (/*(cia1581d1[CIA_PRB] & 0x1a) |*/ iec_info->drive_port) ^ 0x85;
+        byte = ((cia1581d1[CIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
     else
-        byte = (/*(cia1581d1[CIA_PRB] & 0x1a) |*/ iec_drive_read()) ^ 0x85;
+        byte = ((cia1581d1[CIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
 }
 
 READ_CIAICR()

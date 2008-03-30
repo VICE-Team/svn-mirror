@@ -118,8 +118,8 @@ STORE_PCR()
 READ_PRA()
 {
     {
-        byte = ((drive_read_disk_byte(0) /* & ~via2d0[VIA_DDRA])
-            | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] */ ));
+        byte = ((drive_read_disk_byte(0) & ~via2d0[VIA_DDRA])
+            | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
         if (drive[0].type == DRIVE_TYPE_1571)
             if (drive_byte_ready(0))
                 drive_set_byte_ready(0, 0);
@@ -128,8 +128,8 @@ READ_PRA()
 
 READ_PRB()
 {
-	byte = (drive_read_viad2_prb(0) /* & ~via2d0[VIA_DDRB])
-			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] */ );
+	byte = (drive_read_viad2_prb(0) & ~via2d0[VIA_DDRB])
+			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] );
 }
 
 #define POST_VIA_FUNCS

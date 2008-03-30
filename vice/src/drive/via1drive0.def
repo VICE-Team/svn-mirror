@@ -140,19 +140,16 @@ READ_PRA()
             ? parallel_cable_drive_read((((addr == VIA_PRA) &&
                                           (via1d0[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0)
-	    : 0xff );
-/*
             : ((via1d0[VIA_PRA] & via1d0[VIA_DDRA])
                | (0xff & ~via1d0[VIA_DDRA])) );
-*/
 }
 
 READ_PRB()
 {
     if (iec_info != NULL)
-	byte = (/*(via1d0[VIA_PRB] & 0x1a) |*/ iec_info->drive_port) ^ 0x85;
+	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
     else
-	byte = (/*(via1d0[VIA_PRB] & 0x1a) |*/ iec_drive_read()) ^ 0x85;
+	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
 }
 
 #define POST_VIA_FUNCS

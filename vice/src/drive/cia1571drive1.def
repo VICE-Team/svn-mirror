@@ -82,12 +82,12 @@ STORE_CIAPB()
 
 READ_CIAPA()
 {
-    byte = 0xff;
+    byte = (0xff & ~cia1571d1[CIA_DDRA]) | (cia1571d1[CIA_PRA] & cia1571d1[CIA_DDRA]);
 }
 
 READ_CIAPB()
 {
-    byte = 0xff;
+    byte = (0xff & ~cia1571d1[CIA_DDRB]) | (cia1571d1[CIA_PRB] & cia1571d1[CIA_DDRB]);
 }
 
 READ_CIAICR()

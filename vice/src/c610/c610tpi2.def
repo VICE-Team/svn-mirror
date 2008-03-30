@@ -53,10 +53,12 @@ STORE_PB()
 
 READ_PA()
 {
+        byte = (0xff & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
 }
 
 READ_PB()
 {
+        byte = (0xff & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
 }
 
 READ_PC()

@@ -170,9 +170,8 @@ READ_PRA()
 
 	/* We assume `iec_pa_read()' returns the non-IEC bits
 	   as zeroes. */
-	/* return ((via2[VIA_PRA] & via2[VIA_DDRA])
-		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); */
-	byte = iec_pa_read() | joy_bits;
+	byte = ((via2[VIA_PRA] & via2[VIA_DDRA])
+		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); 
     }
 }
 

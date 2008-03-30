@@ -95,8 +95,7 @@ READ_PRA()
 	    if (!(msk & m))
 		val &= ~rev_keyarr[i];
 
-	/* return val | (via1[VIA_PRA] & via1[VIA_DDRA]); */
-	byte = val;
+	byte = val | (via1[VIA_PRA] & via1[VIA_DDRA]); 
     }
 }
 
@@ -117,7 +116,7 @@ READ_PRB()
 	if ((joy[1] | joy[2]) & 0x8)
 	    val &= 0x7f;
 
-	byte = val /*| (via1[VIA_PRB] & via1[VIA_DDRB])*/ ;
+	byte = val | (via1[VIA_PRB] & via1[VIA_DDRB]) ;
     }
 }
 
