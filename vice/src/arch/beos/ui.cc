@@ -1081,6 +1081,10 @@ void ui_display_playback(int playback_status)
 {
 }
 
+void ui_display_event_time(unsigned int current, unsigned int total)
+{
+}
+
 static BYTE ui_joystick_status[3] = { 255, 255, 255 };
 
 static void ui_display_joyport(int port_num)

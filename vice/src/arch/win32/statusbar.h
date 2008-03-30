@@ -27,6 +27,10 @@
 #ifndef _STATUSBAR_H_
 #define _STATUSBAR_H_
 
+#define EVENT_OFF       0
+#define EVENT_RECORDING 1
+#define EVENT_PLAYBACK  2
+
 void statusbar_create(HWND hwnd);
 void statusbar_destroy(void);
 void statusbar_create_brushes(void);
@@ -40,6 +44,8 @@ void statusbar_display_tape_motor_status(int motor);
 void statusbar_display_tape_control_status(int control);
 void statusbar_display_tape_counter(int counter);
 void statusbar_display_joyport(BYTE *ui_joystick_status);
+void statusbar_event_status(int mode);
+void statusbar_event_time(unsigned int current, unsigned int total);
 void statusbar_handle_WMSIZE(UINT msg, WPARAM wparam, LPARAM lparam, int window_index);
 void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam);
 

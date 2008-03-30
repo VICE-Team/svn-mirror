@@ -81,6 +81,8 @@
 
 
 
+extern const char *machine_romset_resources_list[];
+
 extern void screenshot_init_sprite(void);
 
 /* Defined in soundacorn.c. Important for timer handling! */
@@ -5152,6 +5154,10 @@ void ui_display_recording(int recording_status)
 }
 
 void ui_display_playback(int playback_status)
+{
+}
+
+void ui_display_event_time(unsigned int current, unsigned int total)
 {
 }
 

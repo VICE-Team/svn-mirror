@@ -33,6 +33,7 @@
 
 #include "datasette.h"
 #include "drive.h"
+#include "lib.h"
 #include "res.h"
 #include "system.h"
 #include "ui.h"
@@ -43,6 +44,7 @@ static HWND status_hwnd[2];
 static int number_of_status_windows = 0;
 static int status_height;
 
+static unsigned int enabled_drives;
 static ui_drive_enable_t    status_enabled;
 static int status_led[DRIVE_NUM];
 /* Translate from window index -> drive index */
@@ -59,6 +61,10 @@ static int tape_control;
 
 static BYTE joyport[3] = { 0, 0, 0 };
 
+static int event_part;
+static int event_mode;
+static unsigned int event_time_current, event_time_total;
+
 static char  emu_status_text[1024];
 static TCHAR st_emu_status_text[1024];
 
@@ -72,16 +78,17 @@ static HBRUSH b_grey;
 static void SetStatusWindowParts(HWND hwnd)
 {
     int last_part;
-    int enabled_drives;
     RECT rect;
-    int posx[6];
+    int *posx;
     int width;
     int i;
+    int disk_update_part;
 
     /* one part for statusinfo, one for joystick and tape */
-    last_part = 1;
-    enabled_drives = 0;
+    last_part = 2;
 
+    /* the disk parts */
+    enabled_drives = 0;
     for (i = 0; i < DRIVE_NUM; i++) {
         int the_drive = 1 << i;
 
@@ -91,20 +98,40 @@ static void SetStatusWindowParts(HWND hwnd)
                 last_part++;
                 status_map[enabled_drives] = -1;
             }
-            status_partindex[i] = last_part;
+            status_partindex[i] = last_part - 1;
         }
     }
+    disk_update_part = last_part - 1;
+
+    /* the event history part */
+    if (event_mode != EVENT_OFF) {
+        event_part = last_part;
+        last_part++;
+    }
+
+    posx = lib_malloc(last_part * sizeof(int));
+    i = last_part - 1;
     GetWindowRect(hwnd, &rect);
     width = rect.right-rect.left;
-    for (i = last_part; i > 0; i--) {
-        posx[i] = width;
+
+    if (event_mode != EVENT_OFF) {
+        posx[i--] = width;
+        width -= 80;
+    }
+
+    while(i > 0) {
+        posx[i--] = width;
         width -= 70;
     }
+
     posx[0] = width - 20;
 
-    SendMessage(hwnd, SB_SETPARTS, last_part + 1, (LPARAM)posx);
-    SendMessage(hwnd, SB_SETTEXT, last_part|SBT_OWNERDRAW,0);
+    SendMessage(hwnd, SB_SETPARTS, last_part, (LPARAM)posx);
+    SendMessage(hwnd, SB_SETTEXT, disk_update_part|SBT_OWNERDRAW,0);
     SendMessage(hwnd, SB_SETTEXT, 1|SBT_OWNERDRAW, 0);
+    SendMessage(hwnd, SB_SETTEXT, last_part - 1|SBT_OWNERDRAW,0);
+
+    lib_free(posx);
 }
 
 
@@ -116,9 +143,10 @@ void statusbar_create(HWND hwnd)
         CreateStatusWindow(WS_CHILD | WS_VISIBLE, TEXT(""), hwnd,
                            IDM_STATUS_WINDOW);
     SendMessage(status_hwnd[number_of_status_windows], SB_SETMINHEIGHT, 40, (LPARAM)0);
+    SendMessage(status_hwnd[number_of_status_windows], WM_SIZE, 0, (LPARAM)0);
     
     GetClientRect(status_hwnd[number_of_status_windows], &rect);
-    status_height = rect.bottom-rect.top;
+    status_height = rect.bottom - rect.top;
     SetStatusWindowParts(status_hwnd[number_of_status_windows]);
     number_of_status_windows++;
 }
@@ -246,6 +274,28 @@ void statusbar_display_joyport(BYTE *joystick_status)
         SendMessage(status_hwnd[i], SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
 }
 
+void statusbar_event_status(int mode)
+{
+    int i;
+
+    event_time_current = 0;
+    event_time_total = 0;
+    event_mode = mode;
+    for (i = 0; i < number_of_status_windows; i++) {
+        SetStatusWindowParts(status_hwnd[i]);
+    }
+}
+
+void statusbar_event_time(unsigned int current, unsigned int total)
+{
+    int i;
+
+    event_time_current = current;
+    event_time_total = total;
+    for (i = 0; i < number_of_status_windows; i++)
+        SendMessage(status_hwnd[i], SB_SETTEXT, event_part | SBT_OWNERDRAW, 0);
+}
+
 void statusbar_handle_WMSIZE(UINT msg, WPARAM wparam, LPARAM lparam,
                              int window_index)
 {
@@ -261,31 +311,27 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
     if (wparam == IDM_STATUS_WINDOW) {
         int part_top = ((DRAWITEMSTRUCT*)lparam)->rcItem.top;
         int part_left = ((DRAWITEMSTRUCT*)lparam)->rcItem.left;
+        HDC hDC = ((DRAWITEMSTRUCT*)lparam)->hDC;
+        UINT itemID = ((DRAWITEMSTRUCT*)lparam)->itemID;
 
-        if (((DRAWITEMSTRUCT*)lparam)->itemID == 0) {
+        SetBkColor(hDC, (COLORREF)GetSysColor(COLOR_3DFACE));
+        SetTextColor(hDC, (COLORREF)GetSysColor(COLOR_MENUTEXT));
+
+        if (itemID == 0) {
             /* it's the status info */
             led = ((DRAWITEMSTRUCT*)lparam)->rcItem;
             led.left += 2;
-            led.right += 2;
+            led.right -= 2;
             led.top += 2;
-            led.bottom += 2;
-            SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                       (COLORREF)GetSysColor(COLOR_3DFACE));
-            SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                         (COLORREF)GetSysColor(COLOR_MENUTEXT));
+            led.bottom -= 2;
             system_mbstowcs(st_emu_status_text, emu_status_text, 1024);
-            DrawText(((DRAWITEMSTRUCT*)lparam)->hDC, st_emu_status_text, -1,
-                     &led, 0);
+            DrawText(hDC, st_emu_status_text, -1, &led, DT_WORDBREAK);
+            return;
         }
-        if ((((DRAWITEMSTRUCT*)lparam)->itemID == 1)) {
+        if (itemID == 1) {
             const int offset_x[] = { 5, 0, -5, 10, -5 };
             const int offset_y[] = { 0, 10, -5, 0, 0 };
             int dir_index, joynum;
-
-            SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                       (COLORREF)GetSysColor(COLOR_3DFACE));
-            SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                         (COLORREF)GetSysColor(COLOR_MENUTEXT));
 
             if (tape_enabled) {
                 /* tape status */
@@ -296,16 +342,14 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 led.bottom = part_top + 18;
                 led.left = part_left + 2;
                 led.right = part_left + 34;
-                DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,
-                            TEXT("Tape:"), -1, &led, 0);
+                DrawText(hDC, TEXT("Tape:"), -1, &led, 0);
 
                 /* the tape-motor */
                 led.top = part_top + 1;
                 led.bottom = part_top + 15;
                 led.left = part_left + 36;
                 led.right = part_left + 50;
-                FillRect(((DRAWITEMSTRUCT*)lparam)->hDC, &led,
-                         tape_motor ? b_yellow : b_grey);
+                FillRect(hDC, &led, tape_motor ? b_yellow : b_grey);
 
                 /* the tape-control */
                 led.top += 3;
@@ -320,21 +364,16 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 tape_control_sign[2].y = led.top+8;
                 switch (tape_control) {
                 case DATASETTE_CONTROL_STOP:
-                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                &led, b_black);
+                    FillRect(hDC, &led, b_black);
                     break;
                 case DATASETTE_CONTROL_START:
                 case DATASETTE_CONTROL_RECORD:
-                    SelectObject(((DRAWITEMSTRUCT*)lparam)->hDC, b_black);
-                    Polygon(((DRAWITEMSTRUCT*)lparam)->hDC,
-                            tape_control_sign, 3);
+                    SelectObject(hDC, b_black);
+                    Polygon(hDC, tape_control_sign, 3);
                     if (tape_control == DATASETTE_CONTROL_RECORD) {
-                        SelectObject(((DRAWITEMSTRUCT*)lparam)->hDC, b_red);
-                        Ellipse(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                led.left + 16,
-                                led.top + 1,
-                                led.left + 23,
-                                led.top + 8);
+                        SelectObject(hDC, b_red);
+                        Ellipse(hDC, led.left + 16, led.top + 1,
+                                led.left + 23, led.top + 8);
                     }
                     break;
                 case DATASETTE_CONTROL_REWIND:
@@ -342,13 +381,11 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                     tape_control_sign[1].x -= 4;
                     tape_control_sign[2].x += 4;
                 case DATASETTE_CONTROL_FORWARD:
-                    Polyline(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                tape_control_sign, 3);
+                    Polyline(hDC, tape_control_sign, 3);
                     tape_control_sign[0].x += 4;
                     tape_control_sign[1].x += 4;
                     tape_control_sign[2].x += 4;
-                    Polyline(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                tape_control_sign, 3);
+                    Polyline(hDC, tape_control_sign, 3);
                 }
 
                 /* the tape-counter */
@@ -357,7 +394,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 led.left = part_left + 65;
                 led.right = part_left + 100;
                 _stprintf(text, TEXT("%03i"), tape_counter);
-                DrawText(((DRAWITEMSTRUCT*)lparam)->hDC, text, -1, &led, 0);
+                DrawText(hDC, text, -1, &led, 0);
             }
 
             /* the joysticks */
@@ -366,8 +403,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             led.top = part_top + 22;
             led.bottom = part_top + 38;
 
-            DrawText(((DRAWITEMSTRUCT*)lparam)->hDC, TEXT("Joystick:"), -1,
-                     &led, 0);
+            DrawText(hDC, TEXT("Joystick:"), -1, &led, 0);
 
             for (joynum = 1; joynum <= 2; joynum ++) {
 
@@ -386,15 +422,16 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
 
                     OffsetRect(&led, offset_x[dir_index], offset_y[dir_index]);
 
-                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC, &led, brush);
+                    FillRect(hDC, &led, brush);
 
                 }
             }
+            return;
         }
-        if ((int)((DRAWITEMSTRUCT*)lparam)->itemID > 1) {
+        if (itemID > 1 && itemID <= ((enabled_drives + 3) >> 1)) {
             /* it's a disk part*/
             int y;
-            int index = ((((DRAWITEMSTRUCT*)lparam)->itemID - 2) << 1);
+            int index = ((itemID - 2) << 1);
             for (y = 0; y < 2 && status_map[index] >= 0; y++, index++) {
                 led.top = part_top + 20 * y + 2 ;
                 led.bottom = led.top + 16;
@@ -402,20 +439,41 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 led.right = part_left + 45;
                 _stprintf(text, TEXT("%2d: %.1f"), status_map[index] + 8,
                           status_track[status_map[index]]);
-                SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                           (COLORREF)GetSysColor(COLOR_3DFACE));
-                SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,
-                            (COLORREF)GetSysColor(COLOR_MENUTEXT));
-                DrawText(((DRAWITEMSTRUCT*)lparam)->hDC, text, -1, &led, 0);
+                DrawText(hDC, text, -1, &led, 0);
 
                 led.bottom = led.top + 12;
                 led.left = part_left + 47;
                 led.right = part_left + 47 + 16;
-                FillRect(((DRAWITEMSTRUCT*)lparam)->hDC, &led,
-                         status_led[status_map[index]]
-                         ? (drive_active_led[status_map[index]] 
-                        ? b_green : b_red ) : b_black);
+                FillRect(hDC, &led, status_led[status_map[index]] ? 
+                            (drive_active_led[status_map[index]] ? 
+                                b_green : b_red ) : b_black);
             }
+            return;
+        }
+        if (itemID > ((enabled_drives + 3) >> 1)) {
+            /* it's the event history part */
+            switch (event_mode) {
+                case EVENT_RECORDING:
+                    _stprintf(text, TEXT("Recording\n%02d:%02d"),
+                        event_time_current / 60,
+                        event_time_current % 60);
+                    break;
+                case EVENT_PLAYBACK:
+                    _stprintf(text, TEXT("Playback\n%02d:%02d (%02d:%02d)"),
+                        event_time_current / 60,
+                        event_time_current % 60,
+                        event_time_total / 60,
+                        event_time_total % 60);
+                    break;
+                default:
+                    _stprintf(text, TEXT("Unknown"));
+            }
+            led = ((DRAWITEMSTRUCT*)lparam)->rcItem;
+            led.left += 2;
+            led.right -= 2;
+            led.top += 2;
+            led.bottom -= 2;
+            DrawText(hDC, text, -1, &led, DT_WORDBREAK);
         }
     }
 }

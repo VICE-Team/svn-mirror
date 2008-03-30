@@ -36,6 +36,7 @@
 #define EVENT_ATTACHDISK        6
 #define EVENT_ATTACHTAPE        7
 #define EVENT_RESETCPU          8
+#define EVENT_TIMESTAMP         9
 
 #define EVENT_START_MODE_FILE_SAVE 0
 #define EVENT_START_MODE_FILE_LOAD 1
@@ -57,7 +58,7 @@ extern int event_playback_active(void);
 extern int event_record_set_milestone(void);
 extern int event_record_reset_milestone(void);
 
-extern void event_playback_reset_ack(void);
+extern void event_reset_ack(void);
 
 extern void event_record(unsigned int type, void *data, unsigned int size);
 

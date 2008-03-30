@@ -770,7 +770,7 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
                            itoa(drivenum + 8, device_str, 10), NULL);
     } else {
        	util_fname_split(image, &directory_name, &image_name);
-        text = util_concat("Attached ", image_name, " to device ", 
+        text = util_concat("Attached ", image_name, " to device#", 
             itoa(drivenum+8, device_str, 10), NULL);
         lib_free(image_name);
         lib_free(directory_name);
@@ -826,19 +826,23 @@ void ui_display_tape_current_image(const char *image)
 void ui_display_recording(int recording_status)
 {
     if (recording_status)
-        ui_display_statustext("Recording started...");
+        statusbar_event_status(EVENT_RECORDING);
     else
-        ui_display_statustext("Recording stopped!");
+        statusbar_event_status(EVENT_OFF);
 }
 
 void ui_display_playback(int playback_status)
 {
     if (playback_status)
-        ui_display_statustext("Playback started...");
+        statusbar_event_status(EVENT_PLAYBACK);
     else
-        ui_display_statustext("Playback stopped!");
+        statusbar_event_status(EVENT_OFF);
 }
 
+void ui_display_event_time(unsigned int current, unsigned int total)
+{
+    statusbar_event_time(current, total);
+}
 
 /* ------------------------------------------------------------------------- */
 /* Dispay the joystick status.  */
