@@ -296,7 +296,7 @@ static int closesound(const char *msg)
 
     /* Closing the sound device might take some time, and the UI
        dialog below definitely does. */
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     if (msg && msg[0])
     {
@@ -354,7 +354,7 @@ static int initsid(void)
 
     /* Opening the sound device and initializing the sound engine
        might take some time. */
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     /* Special handling for cycle based as opposed to sample based sound
        engines. reSID is cycle based. */
@@ -375,8 +375,10 @@ static int initsid(void)
 	param = NULL;
 
     /* Calculate buffer size in seconds. */
-    bufsize = ((buffer_size<100 || buffer_size>1000)?SOUND_SAMPLE_BUFFER_SIZE:buffer_size)/1000.0;
-    speed   = (sample_rate<8000 || sample_rate>50000)?SOUND_SAMPLE_RATE:sample_rate;
+    bufsize = ((buffer_size<100 || buffer_size>1000)
+              ? SOUND_SAMPLE_BUFFER_SIZE : buffer_size) / 1000.0;
+    speed = (sample_rate<8000 || sample_rate>50000)
+            ? SOUND_SAMPLE_RATE : sample_rate;
 
     /* Calculate optimal fragments.
        fragsize is rounded up to 2^i.

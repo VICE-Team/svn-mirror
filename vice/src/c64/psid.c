@@ -325,7 +325,7 @@ int psid_ui_set_tune(resource_value_t tune, void *param)
   psid_tune = (int)tune == -1 ? 0 : (int)tune;
 
   machine_play_psid(psid_tune);
-  suspend_speed_eval();
+  vsync_suspend_speed_eval();
   maincpu_trigger_reset();
 
   return 0;

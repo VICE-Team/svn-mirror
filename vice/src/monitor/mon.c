@@ -2763,7 +2763,7 @@ void mon_open(ADDRESS a)
     old_handler = signal(SIGINT, handle_abort);
 
     inside_monitor = TRUE;
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     uimon_notify_change();
 
@@ -2849,7 +2849,7 @@ int mon_process(char *cmd)
 void mon_close(int check)
 {
     inside_monitor = FALSE;
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     exit_mon--;
 
