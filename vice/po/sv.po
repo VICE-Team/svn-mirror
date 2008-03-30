@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-08-02 00:04+0200\n"
+"POT-Creation-Date: 2002-08-17 22:10+0200\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -44,12 +44,14 @@ msgid "Received signal %d."
 msgstr "Tog emot signal %d."
 
 #: src/arch/unix/c128ui.c:59 src/arch/unix/c64ui.c:59
-#: src/arch/unix/cbm2ui.c:58 src/arch/unix/vsidui.c:122
+#: src/arch/unix/cbm2ui.c:58 src/arch/unix/uited.c:42 src/arch/unix/uivic.c:41
+#: src/arch/unix/vsidui.c:122
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:61
-#: src/arch/unix/cbm2ui.c:60 src/arch/unix/vsidui.c:124
+#: src/arch/unix/cbm2ui.c:60 src/arch/unix/uited.c:44 src/arch/unix/uivic.c:43
+#: src/arch/unix/vsidui.c:124
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -261,8 +263,8 @@ msgstr "Alternativ"
 #: src/arch/unix/c128ui.c:441 src/arch/unix/c64ui.c:455
 #: src/arch/unix/cbm2ui.c:493 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:181 src/arch/unix/vic20ui.c:495
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1092
-#: src/arch/unix/x11/gnome/x11ui.c:1184
+#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1099
+#: src/arch/unix/x11/gnome/x11ui.c:1191
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -1022,8 +1024,8 @@ msgid "Next: "
 msgstr "Nästa: "
 
 #: src/arch/unix/uicommands.c:715 src/arch/unix/uicommands.c:730
-#: src/arch/unix/x11/gnome/x11ui.c:770 src/arch/unix/x11/gnome/x11ui.c:780
-#: src/arch/unix/x11/gnome/x11ui.c:1427
+#: src/arch/unix/x11/gnome/x11ui.c:777 src/arch/unix/x11/gnome/x11ui.c:787
+#: src/arch/unix/x11/gnome/x11ui.c:1434
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -1182,7 +1184,7 @@ msgid "About VICE..."
 msgstr "Om VICE..."
 
 #: src/arch/unix/uicommands.c:1004 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1805
+#: src/arch/unix/x11/gnome/x11ui.c:1814
 msgid "Reset"
 msgstr "Återställ"
 
@@ -1206,21 +1208,30 @@ msgstr "*Bärnstensfärgad"
 msgid "*White"
 msgstr "*Vit"
 
-#: src/arch/unix/uicrtc.c:47 src/arch/unix/uivicii.c:58
+#: src/arch/unix/uicrtc.c:47 src/arch/unix/uivdc.c:44 src/arch/unix/uivic.c:53
+#: src/arch/unix/uivicii.c:58
 msgid "Load custom"
 msgstr "Ladda egen"
 
 #: src/arch/unix/uicrtc.c:90 src/arch/unix/uicrtc.c:102
-#: src/arch/unix/uivicii.c:104 src/arch/unix/uivicii.c:114
+#: src/arch/unix/uited.c:86 src/arch/unix/uited.c:96 src/arch/unix/uivdc.c:99
+#: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:95
+#: src/arch/unix/uivic.c:105 src/arch/unix/uivicii.c:104
+#: src/arch/unix/uivicii.c:114
 msgid "*Double size"
 msgstr "*Dubbel storlek"
 
 #: src/arch/unix/uicrtc.c:92 src/arch/unix/uicrtc.c:104
-#: src/arch/unix/uivicii.c:106 src/arch/unix/uivicii.c:116
+#: src/arch/unix/uited.c:88 src/arch/unix/uited.c:98 src/arch/unix/uivdc.c:101
+#: src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:97
+#: src/arch/unix/uivic.c:107 src/arch/unix/uivicii.c:106
+#: src/arch/unix/uivicii.c:116
 msgid "*Double scan"
 msgstr "*Dubbelskanning"
 
-#: src/arch/unix/uicrtc.c:94 src/arch/unix/uivicii.c:108
+#: src/arch/unix/uicrtc.c:94 src/arch/unix/uited.c:90
+#: src/arch/unix/uivdc.c:103 src/arch/unix/uivic.c:99
+#: src/arch/unix/uivicii.c:108
 msgid "*Video cache"
 msgstr "*Grafikcache"
 
@@ -1228,27 +1239,37 @@ msgstr "*Grafikcache"
 msgid "*Use XSync()"
 msgstr "*Använd XSync()"
 
-#: src/arch/unix/uicrtc.c:100 src/arch/unix/uivicii.c:112
+#: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:94
+#: src/arch/unix/uivdc.c:107 src/arch/unix/uivic.c:103
+#: src/arch/unix/uivicii.c:112
 #, fuzzy
 msgid "*Enable fullscreen"
 msgstr "Aktivera fullskärm"
 
-#: src/arch/unix/uicrtc.c:106 src/arch/unix/uivicii.c:118
+#: src/arch/unix/uicrtc.c:106 src/arch/unix/uited.c:100
+#: src/arch/unix/uivdc.c:113 src/arch/unix/uivic.c:109
+#: src/arch/unix/uivicii.c:118
 #, fuzzy
 msgid "Fullscreen device"
 msgstr "*Fullskärmsinställningar"
 
-#: src/arch/unix/uicrtc.c:111 src/arch/unix/uivicii.c:123
+#: src/arch/unix/uicrtc.c:111 src/arch/unix/uited.c:105
+#: src/arch/unix/uivdc.c:118 src/arch/unix/uivic.c:114
+#: src/arch/unix/uivicii.c:123
 #, fuzzy
 msgid "VidMode Resolutions"
 msgstr "Upplösningar"
 
-#: src/arch/unix/uicrtc.c:115 src/arch/unix/uivicii.c:127
+#: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:109
+#: src/arch/unix/uivdc.c:122 src/arch/unix/uivic.c:118
+#: src/arch/unix/uivicii.c:127
 #, fuzzy
 msgid "DGA1 Resolutions"
 msgstr "Upplösningar"
 
-#: src/arch/unix/uicrtc.c:119 src/arch/unix/uivicii.c:131
+#: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:113
+#: src/arch/unix/uivdc.c:126 src/arch/unix/uivic.c:122
+#: src/arch/unix/uivicii.c:131
 #, fuzzy
 msgid "DGA2 Resolutions"
 msgstr "Upplösningar"
@@ -1450,6 +1471,36 @@ msgstr "Växla spelportarna"
 #: src/arch/unix/uijoystick2.c:154 src/arch/unix/vic20ui.c:310
 msgid "Joystick settings"
 msgstr "Inställningar för styrspak"
+
+#: src/arch/unix/uipalemu.c:75
+msgid "PAL Scanline shade"
+msgstr ""
+
+#: src/arch/unix/uipalemu.c:76
+msgid "Scanline Shade in percent"
+msgstr ""
+
+#: src/arch/unix/uipalemu.c:97
+#, fuzzy
+msgid "*Activate PAL emulation"
+msgstr "*Använd reSID-emulering"
+
+#: src/arch/unix/uipalemu.c:100
+#, fuzzy
+msgid "*Fake PAL Emulation"
+msgstr "*Använd reSID-emulering"
+
+#: src/arch/unix/uipalemu.c:102
+msgid "*Sharp PAL Emulation (Y/C Input)"
+msgstr ""
+
+#: src/arch/unix/uipalemu.c:104
+msgid "*Blurry PAL Emulation (Composite Input)"
+msgstr ""
+
+#: src/arch/unix/uipalemu.c:107
+msgid "PAL Scanline Shade"
+msgstr ""
 
 #: src/arch/unix/uipalette.c:46
 msgid "Load custom palette"
@@ -1728,7 +1779,7 @@ msgstr "Maximal hastighet"
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1231
+#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1238
 #: src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
@@ -2000,9 +2051,63 @@ msgstr "Översampling"
 msgid "Sound settings"
 msgstr "Ljudinställningar"
 
+#: src/arch/unix/uited.c:118 src/arch/unix/uivicii.c:146
+msgid "*External color set"
+msgstr ""
+
+#: src/arch/unix/uited.c:121 src/arch/unix/uivicii.c:151
+#, fuzzy
+msgid "PAL Emulation"
+msgstr "-emulator"
+
+#: src/arch/unix/uited.c:124 src/arch/unix/uivdc.c:136
+#: src/arch/unix/uivic.c:130 src/arch/unix/uivicii.c:148
+msgid "Color set"
+msgstr "Färguppsättning"
+
+#: src/arch/unix/uited.c:127
+#, fuzzy
+msgid "*Fast PAL emulation"
+msgstr "*Använd reSID-emulering"
+
+#: src/arch/unix/uivdc.c:40 src/arch/unix/uivic.c:51
 #: src/arch/unix/uivicii.c:45
 msgid "*Default"
 msgstr "*Förval"
+
+#: src/arch/unix/uivdc.c:53
+#, fuzzy
+msgid "*Revison 0"
+msgstr "Upplösningar"
+
+#: src/arch/unix/uivdc.c:55
+#, fuzzy
+msgid "*Revison 1"
+msgstr "Upplösningar"
+
+#: src/arch/unix/uivdc.c:57
+#, fuzzy
+msgid "*Revison 2"
+msgstr "Upplösningar"
+
+#: src/arch/unix/uivdc.c:131
+msgid "*64KB display memory"
+msgstr "*64KB grafikminne"
+
+#: src/arch/unix/uivdc.c:133
+#, fuzzy
+msgid "Revision"
+msgstr "Upplösningar"
+
+#: src/arch/unix/uivic.c:127 src/arch/unix/uivicii.c:136
+#: src/arch/unix/vsidui.c:173
+msgid "Video standard"
+msgstr "Grafikstandard"
+
+#: src/arch/unix/uivic.c:133
+#, fuzzy
+msgid "PAL Emulation Settings"
+msgstr "Inställningar"
 
 #: src/arch/unix/uivicii.c:49
 msgid "*CCS64"
@@ -2016,10 +2121,6 @@ msgstr "*Frodo"
 msgid "*GoDot"
 msgstr "*GoDot"
 
-#: src/arch/unix/uivicii.c:136 src/arch/unix/vsidui.c:173
-msgid "Video standard"
-msgstr "Grafikstandard"
-
 #: src/arch/unix/uivicii.c:139
 msgid "*Sprite-sprite collisions"
 msgstr "*Sprite-till-sprite-kollision"
@@ -2030,49 +2131,6 @@ msgstr "*Sprite-till-bakgrund-kollision"
 
 #: src/arch/unix/uivicii.c:144
 msgid "*New Luminances"
-msgstr ""
-
-#: src/arch/unix/uivicii.c:146
-msgid "*External color set"
-msgstr ""
-
-#: src/arch/unix/uivicii.c:148
-msgid "Color set"
-msgstr "Färguppsättning"
-
-#: src/arch/unix/uivicii.c:151
-#, fuzzy
-msgid "PAL Emulation"
-msgstr "-emulator"
-
-#: src/arch/unix/uipalemu.c:75
-msgid "PAL Scanline shade"
-msgstr ""
-
-#: src/arch/unix/uipalemu.c:76
-msgid "Scanline Shade in percent"
-msgstr ""
-
-#: src/arch/unix/uipalemu.c:97
-#, fuzzy
-msgid "*Activate PAL emulation"
-msgstr "*Använd reSID-emulering"
-
-#: src/arch/unix/uipalemu.c:100
-#, fuzzy
-msgid "*Fake PAL Emulation"
-msgstr "*Använd reSID-emulering"
-
-#: src/arch/unix/uipalemu.c:102
-msgid "*Sharp PAL Emulation (Y/C Input)"
-msgstr ""
-
-#: src/arch/unix/uipalemu.c:104
-msgid "*Blurry PAL Emulation (Composite Input)"
-msgstr ""
-
-#: src/arch/unix/uipalemu.c:107
-msgid "PAL Scanline Shade"
 msgstr ""
 
 #. Shouldn't happen.
@@ -2322,6 +2380,33 @@ msgstr "Skapa tom diskettavbildningsfil"
 msgid "Can't create image `%s'."
 msgstr "Kan inte skapa avbildningsfil \"%s\"."
 
+#: src/arch/unix/x11/gnome/uipalcontrol.c:51
+msgid "Saturation"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:52
+#, fuzzy
+msgid "Contrast"
+msgstr "Innehåll"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:53
+msgid "Brightness"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:54
+msgid "Gamma"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:123
+#, fuzzy
+msgid "PAL Settings"
+msgstr "Inställningar"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:186
+#, fuzzy
+msgid "Reset PAL Settings"
+msgstr "Inställningar"
+
 #: src/arch/unix/x11/gnome/uiscreenshot.c:54
 #: src/arch/unix/x11/gnome/uiscreenshot.c:65
 #: src/arch/unix/x11/gnome/uiscreenshot.c:137
@@ -2353,33 +2438,6 @@ msgstr "Spara anslutna disketter"
 #: src/arch/unix/x11/gnome/uisnapshot.c:76
 msgid "Save currently attached ROMs"
 msgstr "Spara anslutna ROMar"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:51
-msgid "Saturation"
-msgstr ""
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:52
-#, fuzzy
-msgid "Contrast"
-msgstr "Innehåll"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:53
-msgid "Brightness"
-msgstr ""
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:54
-msgid "Gamma"
-msgstr ""
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:123
-#, fuzzy
-msgid "PAL Settings"
-msgstr "Inställningar"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:186
-#, fuzzy
-msgid "Reset PAL Settings"
-msgstr "Inställningar"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:45
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:45
@@ -2413,218 +2471,254 @@ msgstr "Dina grafikinställningar stöder inte %d-bitarsläge."
 msgid "Please select a bit depth supported by your display."
 msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
-#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/gnome/x11ui.c:644
+#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/gnome/x11ui.c:650
 #: src/arch/unix/x11/xaw/x11ui.c:462 src/arch/unix/x11/xaw/x11ui.c:479
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Hittade %d-bitars/%s-läge."
 
-#: src/arch/unix/x11/gnome/x11ui.c:652 src/arch/unix/x11/xaw/x11ui.c:487
+#: src/arch/unix/x11/gnome/x11ui.c:635
+#, fuzzy, c-format
+msgid "Found %dbit visual."
+msgstr "Hittade %d-bitars/%s-läge."
+
+#: src/arch/unix/x11/gnome/x11ui.c:658 src/arch/unix/x11/xaw/x11ui.c:487
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
-#: src/arch/unix/x11/gnome/x11ui.c:659
+#: src/arch/unix/x11/gnome/x11ui.c:666
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan inte ladda texttypsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:666
+#: src/arch/unix/x11/gnome/x11ui.c:673
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan inte ladda CBM-typsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:731
+#: src/arch/unix/x11/gnome/x11ui.c:738
 msgid "PAL Controls"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:756
+#: src/arch/unix/x11/gnome/x11ui.c:763
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:866
+#: src/arch/unix/x11/gnome/x11ui.c:873
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:935 src/arch/unix/x11/xaw/x11ui.c:568
+#: src/arch/unix/x11/gnome/x11ui.c:942 src/arch/unix/x11/xaw/x11ui.c:568
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1090 src/arch/unix/x11/gnome/x11ui.c:1173
+#: src/arch/unix/x11/gnome/x11ui.c:1097 src/arch/unix/x11/gnome/x11ui.c:1180
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1096
+#: src/arch/unix/x11/gnome/x11ui.c:1103
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1215 src/arch/unix/x11/xaw/x11ui.c:990
+#: src/arch/unix/x11/gnome/x11ui.c:1222 src/arch/unix/x11/xaw/x11ui.c:990
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1220 src/arch/unix/x11/xaw/x11ui.c:992
+#: src/arch/unix/x11/gnome/x11ui.c:1227 src/arch/unix/x11/xaw/x11ui.c:992
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1228 src/arch/unix/x11/xaw/x11ui.c:999
+#: src/arch/unix/x11/gnome/x11ui.c:1235 src/arch/unix/x11/xaw/x11ui.c:999
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1273 src/arch/unix/x11/xaw/x11ui.c:1040
+#: src/arch/unix/x11/gnome/x11ui.c:1280 src/arch/unix/x11/xaw/x11ui.c:1040
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1293 src/arch/unix/x11/gnome/x11ui.c:1296
+#: src/arch/unix/x11/gnome/x11ui.c:1300 src/arch/unix/x11/gnome/x11ui.c:1303
 #: src/arch/unix/x11/xaw/x11ui.c:1061 src/arch/unix/x11/xaw/x11ui.c:1067
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1579
+#: src/arch/unix/x11/gnome/x11ui.c:1586
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1616 src/arch/unix/x11/xaw/x11ui.c:1277
+#: src/arch/unix/x11/gnome/x11ui.c:1623 src/arch/unix/x11/xaw/x11ui.c:1277
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1768
+#: src/arch/unix/x11/gnome/x11ui.c:1777
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1779
+#: src/arch/unix/x11/gnome/x11ui.c:1788
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1805
+#: src/arch/unix/x11/gnome/x11ui.c:1814
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1806
+#: src/arch/unix/x11/gnome/x11ui.c:1815
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1850 src/arch/unix/x11/xaw/x11ui.c:1552
+#: src/arch/unix/x11/gnome/x11ui.c:1859 src/arch/unix/x11/xaw/x11ui.c:1555
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1851
+#: src/arch/unix/x11/gnome/x11ui.c:1860
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1864
+#: src/arch/unix/x11/gnome/x11ui.c:1873
 msgid "Autostart not possible for unit 9"
 msgstr "Kan inte starta automatiskt från enhet 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1872 src/arch/unix/x11/gnome/x11ui.c:1881
+#: src/arch/unix/x11/gnome/x11ui.c:1881 src/arch/unix/x11/gnome/x11ui.c:1890
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2009 src/arch/unix/x11/gnome/x11ui.c:2014
+#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/gnome/x11ui.c:2023
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2476
+#: src/arch/unix/x11/gnome/x11ui.c:2485
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2523
+#: src/arch/unix/x11/gnome/x11ui.c:2532
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2549
+#: src/arch/unix/x11/gnome/x11ui.c:2558
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
-#: src/arch/unix/x11/dga2.c:154
+#: src/arch/unix/x11/dga1.c:84
+#, c-format
+msgid "Attach debugger to pid %d...\n"
+msgstr "Ansluter felsökare till pid %d...\n"
+
+#: src/arch/unix/x11/dga1.c:129
+#, fuzzy
+msgid "Successfully forked DGA."
+msgstr "Lyckades grena DGA\n"
+
+#: src/arch/unix/x11/dga1.c:132
+msgid "Unable to query DGA1 version."
+msgstr ""
+
+#: src/arch/unix/x11/dga1.c:137
+msgid "Unable to query DGA1 information."
+msgstr ""
+
+#: src/arch/unix/x11/dga1.c:142
+msgid "Root permissions required to use DGA1."
+msgstr ""
+
+#: src/arch/unix/x11/dga1.c:148
+msgid "Problems with DGA - disabling fullscreen."
+msgstr "Problem med DGA - deaktiverar fullskärmsläge."
+
+#: src/arch/unix/x11/dga1.c:201
+#, fuzzy, c-format
+msgid "Error switching to fullscreen%s"
+msgstr "Fel vid växling till fullskärm %ix%i\n"
+
+#: src/arch/unix/x11/dga1.c:212
+#, c-format
+msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
+msgstr "DGA-utökning: adr:%p, bredd %d, bankstorlek %d minnesstorlek %d\n"
+
+#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:772
+msgid "Switch to windowmode"
+msgstr "Växla till fönsterläge"
+
+#: src/arch/unix/x11/dga2.c:189
+#, c-format
+msgid "Selected mode: %s"
+msgstr ""
+
+#: src/arch/unix/x11/dga2.c:308
 #, fuzzy, c-format
 msgid "Attach debugger to pid %d..."
 msgstr "Ansluter felsökare till pid %d...\n"
 
-#: src/arch/unix/x11/dga2.c:189
+#: src/arch/unix/x11/dga2.c:344
 msgid "refresh, not ready, skipping frame"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:252
+#: src/arch/unix/x11/dga2.c:413
 #, fuzzy
 msgid "Successfully forked DGA"
 msgstr "Lyckades grena DGA\n"
 
-#: src/arch/unix/x11/dga2.c:257
+#: src/arch/unix/x11/dga2.c:418
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 "Kunde inte fråga efter version för grafikutökningar - deaktiverar "
 "fullskämsläge."
 
-#: src/arch/unix/x11/dga2.c:262
+#: src/arch/unix/x11/dga2.c:423
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 "Kunde inte fråga efter information om grafikutökningar - deaktiverar "
 "fullskärmsläge."
 
-#: src/arch/unix/x11/dga2.c:271
+#: src/arch/unix/x11/dga2.c:432
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr "X-server kör en gammal XFree86-DGA-version (%d.%d)"
 
-#: src/arch/unix/x11/dga2.c:274
+#: src/arch/unix/x11/dga2.c:435
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr "Minst version %d.%d krävs - deaktiverar fullskärmsläge."
 
-#: src/arch/unix/x11/dga2.c:304
-#, fuzzy
-msgid "Found suitable mode for fullscreen."
-msgstr "Aktivera fullskärm"
-
-#: src/arch/unix/x11/dga2.c:388
-#, fuzzy
-msgid "Couldn't allocate pixel value cache."
-msgstr "Kunde inte skapa diskettavbildningsfil"
-
-#: src/arch/unix/x11/dga2.c:452
-#, c-format
-msgid "Switch to fullscreen %ix%i"
+#: src/arch/unix/x11/dga2.c:566
+#, fuzzy, c-format
+msgid "Switch to fullscreen%s"
 msgstr "Växla till fullskärm %ix%i"
 
-#: src/arch/unix/x11/dga2.c:459
+#: src/arch/unix/x11/dga2.c:572
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:469
+#: src/arch/unix/x11/dga2.c:586
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "Fel vid växling till fullskärm %ix%i\n"
 
-#: src/arch/unix/x11/dga2.c:479
+#: src/arch/unix/x11/dga2.c:596
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "Fel vid växling till fullskärm %ix%i\n"
 
-#: src/arch/unix/x11/dga2.c:513
+#: src/arch/unix/x11/dga2.c:630
 #, fuzzy, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 "Fel vid hämtning av information om grafikläge - deaktiverar fullskärmsläge."
 
-#: src/arch/unix/x11/dga2.c:525
+#: src/arch/unix/x11/dga2.c:644
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "Fel vid växling till fullskärm %ix%i\n"
 
-#: src/arch/unix/x11/dga2.c:569
+#: src/arch/unix/x11/dga2.c:699
 #, fuzzy
 msgid "Couldn't allocate color cache"
 msgstr "Kunde inte skapa diskettavbildningsfil"
-
-#: src/arch/unix/x11/dga2.c:635
-msgid "Switch to windowmode"
-msgstr "Växla till fönsterläge"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:38
 msgid "Specify an HTML browser for the on-line help"
@@ -2699,6 +2793,12 @@ msgstr "MITSHM-utökningar version %d.%d hittades."
 #: src/arch/unix/x11/video.c:410
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
+
+#: src/arch/unix/x11/vidmode.c:75
+#, fuzzy
+msgid "Error getting video mode information - disabling vidmode extension."
+msgstr ""
+"Fel vid hämtning av information om grafikläge - deaktiverar fullskärmsläge."
 
 #: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"
@@ -2801,11 +2901,11 @@ msgstr "Spara ögonblicksbild"
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1437
+#: src/arch/unix/x11/xaw/x11ui.c:1440
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1620
+#: src/arch/unix/x11/xaw/x11ui.c:1623
 msgid "Unknown image type."
 msgstr "Okänd avbildningsfiltyp."
 
@@ -2852,16 +2952,13 @@ msgstr "Prestanda kommer att bli dålig."
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 
-#~ msgid "*64KB display memory"
-#~ msgstr "*64KB grafikminne"
+#, fuzzy
+#~ msgid "Found suitable mode for fullscreen."
+#~ msgstr "Aktivera fullskärm"
 
 #, fuzzy
-#~ msgid "Revision"
-#~ msgstr "Upplösningar"
-
-#, fuzzy
-#~ msgid "*Fast PAL emulation"
-#~ msgstr "*Använd reSID-emulering"
+#~ msgid "Couldn't allocate pixel value cache."
+#~ msgstr "Kunde inte skapa diskettavbildningsfil"
 
 #, fuzzy
 #~ msgid "*PAL emulation"
@@ -2878,22 +2975,11 @@ msgstr "Initierade utan delat minne."
 #~ msgid "*Fullscreen settings"
 #~ msgstr "*Fullskärmsinställningar"
 
-#, fuzzy
-#~ msgid "PAL Emulation Settings"
-#~ msgstr "Inställningar"
-
-#~ msgid "Attach debugger to pid %d...\n"
-#~ msgstr "Ansluter felsökare till pid %d...\n"
-
 #~ msgid "Successfully forked DGA\n"
 #~ msgstr "Lyckades grena DGA\n"
 
 #~ msgid "Xserver is running an old XFree86-VidMode version (%d.  %d)"
 #~ msgstr "X-server kör en gammal XFree86-VidMode-version (%d.  %d)"
-
-#~ msgid "Error getting video mode information - disabling fullscreen."
-#~ msgstr ""
-#~ "Fel vid hämtning av information om grafikläge - deaktiverar fullskärmsläge."
 
 #~ msgid ""
 #~ "Vice is not running as root, DGA extension not possible - disabling "
@@ -2901,15 +2987,6 @@ msgstr "Initierade utan delat minne."
 #~ msgstr ""
 #~ "Vice körs inte som root, DGA-utökning inte möjlig - deaktiverar "
 #~ "fullskärmsläge."
-
-#~ msgid "Problems with DGA - disabling fullscreen."
-#~ msgstr "Problem med DGA - deaktiverar fullskärmsläge."
-
-#~ msgid "Error switching to fullscreen %ix%i\n"
-#~ msgstr "Fel vid växling till fullskärm %ix%i\n"
-
-#~ msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
-#~ msgstr "DGA-utökning: adr:%p, bredd %d, bankstorlek %d minnesstorlek %d\n"
 
 #~ msgid "Specify name of symbolic keymap file"
 #~ msgstr "Ange fil för symbolisk tangentbordsemulering"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-08-02 00:04+0200\n"
+"POT-Creation-Date: 2002-08-17 22:10+0200\n"
 "PO-Revision-Date: 2001-12-02 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -44,12 +44,14 @@ msgid "Received signal %d."
 msgstr "Ricevuto il segnale %d."
 
 #: src/arch/unix/c128ui.c:59 src/arch/unix/c64ui.c:59
-#: src/arch/unix/cbm2ui.c:58 src/arch/unix/vsidui.c:122
+#: src/arch/unix/cbm2ui.c:58 src/arch/unix/uited.c:42 src/arch/unix/uivic.c:41
+#: src/arch/unix/vsidui.c:122
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:61
-#: src/arch/unix/cbm2ui.c:60 src/arch/unix/vsidui.c:124
+#: src/arch/unix/cbm2ui.c:60 src/arch/unix/uited.c:44 src/arch/unix/uivic.c:43
+#: src/arch/unix/vsidui.c:124
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -261,8 +263,8 @@ msgstr "Opzioni"
 #: src/arch/unix/c128ui.c:441 src/arch/unix/c64ui.c:455
 #: src/arch/unix/cbm2ui.c:493 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:181 src/arch/unix/vic20ui.c:495
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1092
-#: src/arch/unix/x11/gnome/x11ui.c:1184
+#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1099
+#: src/arch/unix/x11/gnome/x11ui.c:1191
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -460,9 +462,8 @@ msgid "CBM-II model settings"
 msgstr "Impostazioni del modello di CBM-II"
 
 #: src/arch/unix/cbm2ui.c:373 src/arch/unix/petui.c:302
-#, fuzzy
 msgid "Crtc settings"
-msgstr "Impostazioni video del CRTC"
+msgstr "Impostazioni del Crtc"
 
 #: src/arch/unix/cbm2ui.c:375
 msgid "*VIC-II settings"
@@ -817,9 +818,8 @@ msgid "Attach Retro Replay image..."
 msgstr "Seleziona una immagine Retro Replay..."
 
 #: src/arch/unix/uic64cart.c:165
-#, fuzzy
 msgid "Attach IDE64 interface image..."
-msgstr "Seleziona una immagine dell'interfaccia IEEE488..."
+msgstr "Seleziona una immagine dell'interfaccia IDE64..."
 
 #: src/arch/unix/uic64cart.c:168
 msgid "Attach Super Snapshot 4 image..."
@@ -1018,8 +1018,8 @@ msgid "Next: "
 msgstr "Prossimo: "
 
 #: src/arch/unix/uicommands.c:715 src/arch/unix/uicommands.c:730
-#: src/arch/unix/x11/gnome/x11ui.c:770 src/arch/unix/x11/gnome/x11ui.c:780
-#: src/arch/unix/x11/gnome/x11ui.c:1427
+#: src/arch/unix/x11/gnome/x11ui.c:777 src/arch/unix/x11/gnome/x11ui.c:787
+#: src/arch/unix/x11/gnome/x11ui.c:1434
 msgid "<empty>"
 msgstr "<vuoto>"
 
@@ -1172,7 +1172,7 @@ msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
 #: src/arch/unix/uicommands.c:1004 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1805
+#: src/arch/unix/x11/gnome/x11ui.c:1814
 msgid "Reset"
 msgstr "Reset"
 
@@ -1196,21 +1196,30 @@ msgstr "*Ambra"
 msgid "*White"
 msgstr "*Bianco"
 
-#: src/arch/unix/uicrtc.c:47 src/arch/unix/uivicii.c:58
+#: src/arch/unix/uicrtc.c:47 src/arch/unix/uivdc.c:44 src/arch/unix/uivic.c:53
+#: src/arch/unix/uivicii.c:58
 msgid "Load custom"
 msgstr "Personalizzata"
 
 #: src/arch/unix/uicrtc.c:90 src/arch/unix/uicrtc.c:102
-#: src/arch/unix/uivicii.c:104 src/arch/unix/uivicii.c:114
+#: src/arch/unix/uited.c:86 src/arch/unix/uited.c:96 src/arch/unix/uivdc.c:99
+#: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:95
+#: src/arch/unix/uivic.c:105 src/arch/unix/uivicii.c:104
+#: src/arch/unix/uivicii.c:114
 msgid "*Double size"
 msgstr "*Dimensione doppia"
 
 #: src/arch/unix/uicrtc.c:92 src/arch/unix/uicrtc.c:104
-#: src/arch/unix/uivicii.c:106 src/arch/unix/uivicii.c:116
+#: src/arch/unix/uited.c:88 src/arch/unix/uited.c:98 src/arch/unix/uivdc.c:101
+#: src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:97
+#: src/arch/unix/uivic.c:107 src/arch/unix/uivicii.c:106
+#: src/arch/unix/uivicii.c:116
 msgid "*Double scan"
 msgstr "*Scansione doppia"
 
-#: src/arch/unix/uicrtc.c:94 src/arch/unix/uivicii.c:108
+#: src/arch/unix/uicrtc.c:94 src/arch/unix/uited.c:90
+#: src/arch/unix/uivdc.c:103 src/arch/unix/uivic.c:99
+#: src/arch/unix/uivicii.c:108
 msgid "*Video cache"
 msgstr "*Video cache"
 
@@ -1218,30 +1227,37 @@ msgstr "*Video cache"
 msgid "*Use XSync()"
 msgstr "*Usa XSync()"
 
-#: src/arch/unix/uicrtc.c:100 src/arch/unix/uivicii.c:112
+#: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:94
+#: src/arch/unix/uivdc.c:107 src/arch/unix/uivic.c:103
+#: src/arch/unix/uivicii.c:112
 #, fuzzy
 msgid "*Enable fullscreen"
-msgstr "Attiva schermo intero"
+msgstr "*Attiva schermo intero"
 
-#: src/arch/unix/uicrtc.c:106 src/arch/unix/uivicii.c:118
+#: src/arch/unix/uicrtc.c:106 src/arch/unix/uited.c:100
+#: src/arch/unix/uivdc.c:113 src/arch/unix/uivic.c:109
+#: src/arch/unix/uivicii.c:118
 #, fuzzy
 msgid "Fullscreen device"
-msgstr "*Impostazioni a schermo intero"
+msgstr "Dispositivo per lo schermo intero"
 
-#: src/arch/unix/uicrtc.c:111 src/arch/unix/uivicii.c:123
-#, fuzzy
+#: src/arch/unix/uicrtc.c:111 src/arch/unix/uited.c:105
+#: src/arch/unix/uivdc.c:118 src/arch/unix/uivic.c:114
+#: src/arch/unix/uivicii.c:123
 msgid "VidMode Resolutions"
-msgstr "Risoluzioni"
+msgstr "Risoluzioni VidMode"
 
-#: src/arch/unix/uicrtc.c:115 src/arch/unix/uivicii.c:127
-#, fuzzy
+#: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:109
+#: src/arch/unix/uivdc.c:122 src/arch/unix/uivic.c:118
+#: src/arch/unix/uivicii.c:127
 msgid "DGA1 Resolutions"
-msgstr "Risoluzioni"
+msgstr "Risoluzioni DGA1"
 
-#: src/arch/unix/uicrtc.c:119 src/arch/unix/uivicii.c:131
-#, fuzzy
+#: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:113
+#: src/arch/unix/uivdc.c:126 src/arch/unix/uivic.c:122
+#: src/arch/unix/uivicii.c:131
 msgid "DGA2 Resolutions"
-msgstr "Risoluzioni"
+msgstr "Risoluzioni DGA2"
 
 #: src/arch/unix/uicrtc.c:124
 msgid "*CRTC Screen color"
@@ -1440,6 +1456,34 @@ msgstr "Scambia le porte dei joystick"
 #: src/arch/unix/uijoystick2.c:154 src/arch/unix/vic20ui.c:310
 msgid "Joystick settings"
 msgstr "Impostazioni dei joystick"
+
+#: src/arch/unix/uipalemu.c:75
+msgid "PAL Scanline shade"
+msgstr "Ombra delle scanline PAL"
+
+#: src/arch/unix/uipalemu.c:76
+msgid "Scanline Shade in percent"
+msgstr "Ombra della scanline in percentuale"
+
+#: src/arch/unix/uipalemu.c:97
+msgid "*Activate PAL emulation"
+msgstr "*Attiva l'emulazione PAL"
+
+#: src/arch/unix/uipalemu.c:100
+msgid "*Fake PAL Emulation"
+msgstr "*Emulazione PAL veloce"
+
+#: src/arch/unix/uipalemu.c:102
+msgid "*Sharp PAL Emulation (Y/C Input)"
+msgstr "*Emulazione PAL nitida (Y/C Input)"
+
+#: src/arch/unix/uipalemu.c:104
+msgid "*Blurry PAL Emulation (Composite Input)"
+msgstr "*Emulazione PAL sbavata (Composite Input)"
+
+#: src/arch/unix/uipalemu.c:107
+msgid "PAL Scanline Shade"
+msgstr "Ombra della scanline PAL"
 
 #: src/arch/unix/uipalette.c:46
 msgid "Load custom palette"
@@ -1712,7 +1756,7 @@ msgstr "Velocità di esecuzione massima"
 msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
-#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1231
+#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1238
 #: src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
@@ -1981,9 +2025,56 @@ msgstr "Sovracampionamento"
 msgid "Sound settings"
 msgstr "Impostazioni del suono"
 
+#: src/arch/unix/uited.c:118 src/arch/unix/uivicii.c:146
+msgid "*External color set"
+msgstr "*Palette esterna"
+
+#: src/arch/unix/uited.c:121 src/arch/unix/uivicii.c:151
+msgid "PAL Emulation"
+msgstr "Emulazione PAL"
+
+#: src/arch/unix/uited.c:124 src/arch/unix/uivdc.c:136
+#: src/arch/unix/uivic.c:130 src/arch/unix/uivicii.c:148
+msgid "Color set"
+msgstr "Palette"
+
+#: src/arch/unix/uited.c:127
+msgid "*Fast PAL emulation"
+msgstr "*Emulazione PAL veloce"
+
+#: src/arch/unix/uivdc.c:40 src/arch/unix/uivic.c:51
 #: src/arch/unix/uivicii.c:45
 msgid "*Default"
 msgstr "*Predefinita"
+
+#: src/arch/unix/uivdc.c:53
+msgid "*Revison 0"
+msgstr "*Revisione 0"
+
+#: src/arch/unix/uivdc.c:55
+msgid "*Revison 1"
+msgstr "*Revisione 1"
+
+#: src/arch/unix/uivdc.c:57
+msgid "*Revison 2"
+msgstr "*Revisione 2"
+
+#: src/arch/unix/uivdc.c:131
+msgid "*64KB display memory"
+msgstr "*64KB di memoria video"
+
+#: src/arch/unix/uivdc.c:133
+msgid "Revision"
+msgstr "Revisione"
+
+#: src/arch/unix/uivic.c:127 src/arch/unix/uivicii.c:136
+#: src/arch/unix/vsidui.c:173
+msgid "Video standard"
+msgstr "Standard video"
+
+#: src/arch/unix/uivic.c:133
+msgid "PAL Emulation Settings"
+msgstr "Impostazioni dell'emulazione PAL"
 
 #: src/arch/unix/uivicii.c:49
 msgid "*CCS64"
@@ -1997,10 +2088,6 @@ msgstr "*Frodo"
 msgid "*GoDot"
 msgstr "*GoDot"
 
-#: src/arch/unix/uivicii.c:136 src/arch/unix/vsidui.c:173
-msgid "Video standard"
-msgstr "Standard video"
-
 #: src/arch/unix/uivicii.c:139
 msgid "*Sprite-sprite collisions"
 msgstr "*Collisioni sprite-sprite"
@@ -2011,47 +2098,7 @@ msgstr "*Collisioni sprite-sfondo"
 
 #: src/arch/unix/uivicii.c:144
 msgid "*New Luminances"
-msgstr ""
-
-#: src/arch/unix/uivicii.c:146
-msgid "*External color set"
-msgstr "*Palette Esterna"
-
-#: src/arch/unix/uivicii.c:148
-msgid "Color set"
-msgstr "Palette"
-
-#: src/arch/unix/uivicii.c:151
-msgid "PAL Emulation"
-msgstr "Emulazione PAL"
-
-#: src/arch/unix/uipalemu.c:75
-msgid "PAL Scanline shade"
-msgstr "Ombra delle scanline PAL"
-
-#: src/arch/unix/uipalemu.c:76
-msgid "Scanline Shade in percent"
-msgstr "Ombra della scanline in percentuale"
-
-#: src/arch/unix/uipalemu.c:97
-msgid "*Activate PAL emulation"
-msgstr "*Attiva l'emulazione PAL"
-
-#: src/arch/unix/uipalemu.c:100
-msgid "*Fake PAL Emulation"
-msgstr "*Emulazione PAL veloce"
-
-#: src/arch/unix/uipalemu.c:102
-msgid "*Sharp PAL Emulation (Y/C Input)"
-msgstr "*Emulazione PAL nitida (Y/C Input)"
-
-#: src/arch/unix/uipalemu.c:104
-msgid "*Blurry PAL Emulation (Composite Input)"
-msgstr "*Emulazione PAL sbavata (Composite Input)"
-
-#: src/arch/unix/uipalemu.c:107
-msgid "PAL Scanline Shade"
-msgstr "Ombra della scanline PAL"
+msgstr "*Nuove luminanze"
 
 #. Shouldn't happen.
 #: src/arch/unix/vic20ui.c:94
@@ -2299,6 +2346,30 @@ msgstr "Crea l'immagine di un disco vuoto"
 msgid "Can't create image `%s'."
 msgstr "Non è possibile creare l'immagine `%s'."
 
+#: src/arch/unix/x11/gnome/uipalcontrol.c:51
+msgid "Saturation"
+msgstr "Saturazione"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:52
+msgid "Contrast"
+msgstr "Contrasto"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:53
+msgid "Brightness"
+msgstr "Luminosità"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:54
+msgid "Gamma"
+msgstr "Gamma"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:123
+msgid "PAL Settings"
+msgstr "Impostazioni PAL"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:186
+msgid "Reset PAL Settings"
+msgstr "Reset impostazioni PAL"
+
 #: src/arch/unix/x11/gnome/uiscreenshot.c:54
 #: src/arch/unix/x11/gnome/uiscreenshot.c:65
 #: src/arch/unix/x11/gnome/uiscreenshot.c:137
@@ -2331,30 +2402,6 @@ msgstr "Salva i dischi attualmente selezionati"
 #: src/arch/unix/x11/gnome/uisnapshot.c:76
 msgid "Save currently attached ROMs"
 msgstr "Salva le ROM attualmente selezionate"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:51
-msgid "Saturation"
-msgstr "Saturazione"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:52
-msgid "Contrast"
-msgstr "Contrasto"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:53
-msgid "Brightness"
-msgstr "Luminosità"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:54
-msgid "Gamma"
-msgstr "Gamma"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:123
-msgid "PAL Settings"
-msgstr "Impostazioni PAL"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:186
-msgid "Reset PAL Settings"
-msgstr "Reset impostazioni PAL"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:45
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:45
@@ -2395,216 +2442,256 @@ msgstr "Questo display non supporta visuali di %dbit adatte."
 msgid "Please select a bit depth supported by your display."
 msgstr "Per favore seleziona una profondita supportata dal tuo display"
 
-#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/gnome/x11ui.c:644
+#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/gnome/x11ui.c:650
 #: src/arch/unix/x11/xaw/x11ui.c:462 src/arch/unix/x11/xaw/x11ui.c:479
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Trovata una visuale %dbit/%s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:652 src/arch/unix/x11/xaw/x11ui.c:487
+#: src/arch/unix/x11/gnome/x11ui.c:635
+#, fuzzy, c-format
+msgid "Found %dbit visual."
+msgstr "Trovata una visuale %dbit/%s."
+
+#: src/arch/unix/x11/gnome/x11ui.c:658 src/arch/unix/x11/xaw/x11ui.c:487
 msgid "Cannot autodetect a proper visual."
 msgstr "Non è possibile determinare una visuale appropriata."
 
-#: src/arch/unix/x11/gnome/x11ui.c:659
+#: src/arch/unix/x11/gnome/x11ui.c:666
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Non è possibile caricare il font %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:666
+#: src/arch/unix/x11/gnome/x11ui.c:673
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Non è possibile caricare il font CBM %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:731
+#: src/arch/unix/x11/gnome/x11ui.c:738
 msgid "PAL Controls"
 msgstr "Controlli PAL"
 
-#: src/arch/unix/x11/gnome/x11ui.c:756
+#: src/arch/unix/x11/gnome/x11ui.c:763
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:866
+#: src/arch/unix/x11/gnome/x11ui.c:873
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:935 src/arch/unix/x11/xaw/x11ui.c:568
+#: src/arch/unix/x11/gnome/x11ui.c:942 src/arch/unix/x11/xaw/x11ui.c:568
 msgid "Maximum number of toplevel windows reached."
 msgstr "E' stato raggiunto il numero massimo di finestre di toplevel."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1090 src/arch/unix/x11/gnome/x11ui.c:1173
+#: src/arch/unix/x11/gnome/x11ui.c:1097 src/arch/unix/x11/gnome/x11ui.c:1180
 msgid "Commands"
 msgstr "Comandi"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1096
+#: src/arch/unix/x11/gnome/x11ui.c:1103
 msgid "Help"
 msgstr "Aiuto"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1215 src/arch/unix/x11/xaw/x11ui.c:990
+#: src/arch/unix/x11/gnome/x11ui.c:1222 src/arch/unix/x11/xaw/x11ui.c:990
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1220 src/arch/unix/x11/xaw/x11ui.c:992
+#: src/arch/unix/x11/gnome/x11ui.c:1227 src/arch/unix/x11/xaw/x11ui.c:992
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1228 src/arch/unix/x11/xaw/x11ui.c:999
+#: src/arch/unix/x11/gnome/x11ui.c:1235 src/arch/unix/x11/xaw/x11ui.c:999
 msgid "Save the current settings?"
 msgstr "Salva le impostazioni attuali?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1273 src/arch/unix/x11/xaw/x11ui.c:1040
+#: src/arch/unix/x11/gnome/x11ui.c:1280 src/arch/unix/x11/xaw/x11ui.c:1040
 msgid "Using private colormap."
 msgstr "Uso una palette privata."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1293 src/arch/unix/x11/gnome/x11ui.c:1296
+#: src/arch/unix/x11/gnome/x11ui.c:1300 src/arch/unix/x11/gnome/x11ui.c:1303
 #: src/arch/unix/x11/xaw/x11ui.c:1061 src/arch/unix/x11/xaw/x11ui.c:1067
 msgid "(warp)"
 msgstr "(turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1579
+#: src/arch/unix/x11/gnome/x11ui.c:1586
 #, c-format
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1616 src/arch/unix/x11/xaw/x11ui.c:1277
+#: src/arch/unix/x11/gnome/x11ui.c:1623 src/arch/unix/x11/xaw/x11ui.c:1277
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1768
+#: src/arch/unix/x11/gnome/x11ui.c:1777
 msgid "VICE Message"
 msgstr "Messaggio di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1779
+#: src/arch/unix/x11/gnome/x11ui.c:1788
 msgid "VICE Error"
 msgstr "Errore di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1805
+#: src/arch/unix/x11/gnome/x11ui.c:1814
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1806
+#: src/arch/unix/x11/gnome/x11ui.c:1815
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1850 src/arch/unix/x11/xaw/x11ui.c:1552
+#: src/arch/unix/x11/gnome/x11ui.c:1859 src/arch/unix/x11/xaw/x11ui.c:1555
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1851
+#: src/arch/unix/x11/gnome/x11ui.c:1860
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vuoi estendere l'immagine del disco a 40 tracce?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1864
+#: src/arch/unix/x11/gnome/x11ui.c:1873
 msgid "Autostart not possible for unit 9"
 msgstr "L'avvio automatico non è possibile per l'unità 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1872 src/arch/unix/x11/gnome/x11ui.c:1881
+#: src/arch/unix/x11/gnome/x11ui.c:1881 src/arch/unix/x11/gnome/x11ui.c:1890
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 "Non è possibile far partire automaticamente la selezione %d nell'immagine %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2009 src/arch/unix/x11/gnome/x11ui.c:2014
+#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/gnome/x11ui.c:2023
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2476
+#: src/arch/unix/x11/gnome/x11ui.c:2485
 msgid "Contents"
 msgstr "Contenuti"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2523
+#: src/arch/unix/x11/gnome/x11ui.c:2532
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2549
+#: src/arch/unix/x11/gnome/x11ui.c:2558
 msgid "Autostart"
 msgstr "Avvio automatico"
 
-#: src/arch/unix/x11/dga2.c:154
+#: src/arch/unix/x11/dga1.c:84
+#, c-format
+msgid "Attach debugger to pid %d...\n"
+msgstr "Allega il debugger al pid %d...\n"
+
+#: src/arch/unix/x11/dga1.c:129
+#, fuzzy
+msgid "Successfully forked DGA."
+msgstr "Fork della DGA riuscito"
+
+#: src/arch/unix/x11/dga1.c:132
+msgid "Unable to query DGA1 version."
+msgstr ""
+
+#: src/arch/unix/x11/dga1.c:137
+msgid "Unable to query DGA1 information."
+msgstr ""
+
+#: src/arch/unix/x11/dga1.c:142
+msgid "Root permissions required to use DGA1."
+msgstr ""
+
+#: src/arch/unix/x11/dga1.c:148
+msgid "Problems with DGA - disabling fullscreen."
+msgstr "Problemi con la DGA - schermo intero disabilitato."
+
+#: src/arch/unix/x11/dga1.c:201
+#, fuzzy, c-format
+msgid "Error switching to fullscreen%s"
+msgstr "Errore durante la commutazione a schermo intero %ix%i\n"
+
+#: src/arch/unix/x11/dga1.c:212
+#, c-format
+msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
+msgstr ""
+"Estensioni DGA: ind:%p, profondità %d, dimensione del banco %d dimensione "
+"della memoria %d\n"
+
+#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:772
+msgid "Switch to windowmode"
+msgstr "Commutazione alla modalità a finestre"
+
+#: src/arch/unix/x11/dga2.c:189
+#, c-format
+msgid "Selected mode: %s"
+msgstr ""
+
+#: src/arch/unix/x11/dga2.c:308
 #, c-format
 msgid "Attach debugger to pid %d..."
 msgstr "Allega il debugger al pid %d..."
 
-#: src/arch/unix/x11/dga2.c:189
+#: src/arch/unix/x11/dga2.c:344
 msgid "refresh, not ready, skipping frame"
 msgstr "aggiorno, non pronto, salto frame"
 
-#: src/arch/unix/x11/dga2.c:252
+#: src/arch/unix/x11/dga2.c:413
 msgid "Successfully forked DGA"
 msgstr "Fork della DGA riuscito"
 
-#: src/arch/unix/x11/dga2.c:257
+#: src/arch/unix/x11/dga2.c:418
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 "Non è possibile ottenere la versione delle estensioni video - schermo intero "
 "disabilitato."
 
-#: src/arch/unix/x11/dga2.c:262
+#: src/arch/unix/x11/dga2.c:423
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 "Non è possibile ottenere le infomazioni sulle estensioni video - schermo "
 "intero disabilitato."
 
-#: src/arch/unix/x11/dga2.c:271
+#: src/arch/unix/x11/dga2.c:432
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr "Xserver sta eseguendo una vecchia versione di XFree86-DGA (%d.%d) "
 
-#: src/arch/unix/x11/dga2.c:274
+#: src/arch/unix/x11/dga2.c:435
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr "La versione minima richiesta è la %d.%d - Schermo intero disabilitato"
 
-#: src/arch/unix/x11/dga2.c:304
-msgid "Found suitable mode for fullscreen."
-msgstr "Trovata una modalità adatta allo schermo intero."
-
-#: src/arch/unix/x11/dga2.c:388
-msgid "Couldn't allocate pixel value cache."
-msgstr "Non è possibile allocare la cache coi valori dei pixel."
-
-#: src/arch/unix/x11/dga2.c:452
-#, c-format
-msgid "Switch to fullscreen %ix%i"
+#: src/arch/unix/x11/dga2.c:566
+#, fuzzy, c-format
+msgid "Switch to fullscreen%s"
 msgstr "Commutazione a schermo intero %ix%i"
 
-#: src/arch/unix/x11/dga2.c:459
+#: src/arch/unix/x11/dga2.c:572
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr "Servono i privilegi di root per lo schermo intero DGA2"
 
-#: src/arch/unix/x11/dga2.c:469
+#: src/arch/unix/x11/dga2.c:586
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "Errore durante la commutazione a schermo intero (SetMode) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:479
+#: src/arch/unix/x11/dga2.c:596
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "Errore durante la commutazione a schermo intero (pixmap) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:513
-#, fuzzy, c-format
+#: src/arch/unix/x11/dga2.c:630
+#, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 "Non si sono abbastanza pagine di memoria video nella modalità %s, schermo "
-"intero disabilitato."
+"intero disabilitato (%d,%d)."
 
-#: src/arch/unix/x11/dga2.c:525
+#: src/arch/unix/x11/dga2.c:644
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "Errore durante la commutazione a schermo intero (CreateGC) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:569
+#: src/arch/unix/x11/dga2.c:699
 msgid "Couldn't allocate color cache"
 msgstr "Non è possibile allocare la cache dei colori"
-
-#: src/arch/unix/x11/dga2.c:635
-msgid "Switch to windowmode"
-msgstr "Commutazione alla modalità a finestre"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:38
 msgid "Specify an HTML browser for the on-line help"
@@ -2678,6 +2765,13 @@ msgstr "Rilevata la versione %d.%d delle estensioni MITSHM."
 #: src/arch/unix/x11/video.c:410
 msgid "Cannot release shared memory!"
 msgstr "Non è possibile rilasciare la memoria condivisa!"
+
+#: src/arch/unix/x11/vidmode.c:75
+#, fuzzy
+msgid "Error getting video mode information - disabling vidmode extension."
+msgstr ""
+"Errore durante la lettura delle infomazioni sulla modalità video - schermo "
+"intero disabilitato."
 
 #: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"
@@ -2780,11 +2874,11 @@ msgstr "Salva snapshot"
 msgid "%d: Track %.1f"
 msgstr "%d: Traccia %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1437
+#: src/arch/unix/x11/xaw/x11ui.c:1440
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1620
+#: src/arch/unix/x11/xaw/x11ui.c:1623
 msgid "Unknown image type."
 msgstr "Tipo di immagine sconosciuto."
 
@@ -2839,23 +2933,11 @@ msgstr "Le prestazioni saranno scarse."
 msgid "Successfully initialized without shared memory."
 msgstr "Inizializzato con successo senza memoria condivisa."
 
-#~ msgid "*Revison 0"
-#~ msgstr "*Revisione 0"
+#~ msgid "Found suitable mode for fullscreen."
+#~ msgstr "Trovata una modalità adatta allo schermo intero."
 
-#~ msgid "*Revison 1"
-#~ msgstr "*Revisione 1"
-
-#~ msgid "*Revison 2"
-#~ msgstr "*Revisione 2"
-
-#~ msgid "*64KB display memory"
-#~ msgstr "*64KB di memoria video"
-
-#~ msgid "Revision"
-#~ msgstr "Revisione"
-
-#~ msgid "*Fast PAL emulation"
-#~ msgstr "*Emulazione PAL veloce"
+#~ msgid "Couldn't allocate pixel value cache."
+#~ msgstr "Non è possibile allocare la cache coi valori dei pixel."
 
 #~ msgid "*PAL emulation"
 #~ msgstr "*Emulazione PAL"
@@ -2871,12 +2953,6 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "*Fullscreen settings"
 #~ msgstr "*Impostazioni a schermo intero"
 
-#~ msgid "PAL Emulation Settings"
-#~ msgstr "Impostazioni dell'emulazione PAL"
-
-#~ msgid "Attach debugger to pid %d...\n"
-#~ msgstr "Allega il debugger al pid %d...\n"
-
 #~ msgid "Successfully forked DGA\n"
 #~ msgstr "Fork della DGA riuscito\n"
 
@@ -2884,28 +2960,12 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr ""
 #~ "Xserver sta eseguendo una vecchia versione di XFree86-VidMode (%d.  %d)"
 
-#~ msgid "Error getting video mode information - disabling fullscreen."
-#~ msgstr ""
-#~ "Errore durante la lettura delle infomazioni sulla modalità video - schermo "
-#~ "intero disabilitato."
-
 #~ msgid ""
 #~ "Vice is not running as root, DGA extension not possible - disabling "
 #~ "fullscreen."
 #~ msgstr ""
 #~ "Vice non è eseguto come root, le estesioni DGA non sono possibili - schermo "
 #~ "intero disabilitato."
-
-#~ msgid "Problems with DGA - disabling fullscreen."
-#~ msgstr "Problemi con la DGA - schermo intero disabilitato."
-
-#~ msgid "Error switching to fullscreen %ix%i\n"
-#~ msgstr "Errore durante la commutazione a schermo intero %ix%i\n"
-
-#~ msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
-#~ msgstr ""
-#~ "Estensioni DGA: ind:%p, profondità %d, dimensione del banco %d dimensione "
-#~ "della memoria %d\n"
 
 #~ msgid "Specify name of symbolic keymap file"
 #~ msgstr "Specifica il nome del file della mappa simbolica della tastiera"

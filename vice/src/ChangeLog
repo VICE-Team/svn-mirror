@@ -1,3 +1,80 @@
+2002-08-17  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.9.68.
+
+	* drive/drive.c (drive_set_half_track): Reverted to old
+	inaccurate calculation of the GCR track offset for now.
+
+	* arch/unix/x11/videoarch.h: Do not #include
+	fullscreenarch.h".
+
+	* raster/raster.c (raster_set_palette): Do not set the palette
+	pointer in the video canvas struct.
+
+	* arch/unix/x11/video.c (video_canvas_set_palette): Set the
+	palette pointer in the video canvas struct.
+
+2002-08-16  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c (ui_init_finish): Simplified
+	autodetection of visuals by using gdk_visual_get_system().
+
+2002-08-15  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xaw/x11video.c (video_arch_frame_buffer_alloc):
+	Removed DGA2 specifics.
+	
+	* main.c (MAIN_PROGRAM): Removed DGA2 specifics.
+
+	* arch/unix/x11/videoarch.h: #include "fullscreenarch.h"
+	Removed `CANVAS_USES_TRIPLE_BUFFERING' macro. Not used anymore.
+
+	* arch/unix/x11/video.c (video_arch_canvas_init): Initialize
+	fullscreen alloc hooks.
+	(video_canvas_create): Removed DGA2 specifics.
+	(video_canvas_set_palette): Likewise.
+	(video_canvas_resize): Likewise.
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc): Removed DGA2 specifics.
+
+	* arch/unix/x11/gnome/x11ui.c (ui_dispatch_events): Added call to
+	dga2_mode_update().
+	* arch/unix/x11/xaw/x11ui.c (ui_dispatch_events): Likewise.
+
+	* arch/unix/x11/fullscreen.c (fullscreen_init_alloc_hooks): New
+	function. 
+	(fullscreen_enable): toggle `fullscreen_is_enabled'.
+
+	* arch/unix/fullscreenarch.h: Removed const qualifier for device
+	within fullscreenconfig_s.
+	(fullscreen_init_alloc_hooks): New prototype.
+
+2002-08-14  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* info.c: Updated.
+
+	* debug.h: Removed DEBUG.
+
+2002-08-11  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/joy.c (new_joystick): Read out all pending events,
+	fixing huge lag.
+
+2002-08-04  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc): Call `x11ui_get_display_ptr()'
+	instead of `ui_get_display_ptr()'.
+
+	* arch/unix/x11/dga2.c (dga2_set_palette): Reworked globally for
+	new fullscreen API.
+	* arch/unix/x11/dga2.h: Likewise.
+
+	* arch/unix/x11/dga1.c (dga1_refresh_func): renamed function to
+	dga1_refresh_func.
+	(dga1_enable): ditto.
+	
 2002-08-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.68.

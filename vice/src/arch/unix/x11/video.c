@@ -430,16 +430,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 #ifdef USE_XF86_EXTENSIONS
     canvas->fullscreenconfig
         = (fullscreenconfig_t *)xcalloc(1, sizeof(fullscreenconfig_t));
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    canvas->video_draw_buffer_callback =
-        xmalloc(sizeof(struct video_draw_buffer_callback_s));
-    canvas->video_draw_buffer_callback->draw_buffer_alloc =
-        fs_draw_buffer_alloc;
-    canvas->video_draw_buffer_callback->draw_buffer_free =
-        fs_draw_buffer_free;
-    canvas->video_draw_buffer_callback->draw_buffer_clear =
-        fs_draw_buffer_clear;
-#endif
+    fullscreen_init_alloc_hooks(canvas);
 #endif
 }
 
@@ -490,9 +481,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
     video_add_handlers(canvas);
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_set_palette(canvas, palette);
-#endif
     return canvas;
 }
 
@@ -507,11 +495,9 @@ int video_canvas_set_palette(video_canvas_t *c,
 {
     int res;
     
+    c->palette = palette;
+
     res = uicolor_set_palette(c, palette);
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    if (res != -1)
-	fullscreen_set_palette(c, palette);
-#endif
     return res;
 }
 
@@ -530,13 +516,6 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
 
     video_arch_frame_buffer_free(canvas);
     video_arch_frame_buffer_alloc(canvas, width, height);
-
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    /* printf("%s: w = %d, h = %d\n", __FUNCTION__, width, height); */
-    if (fullscreen_is_enabled)
-	return;
-    fullscreen_resize(width, height);
-#endif
 
     x11ui_resize_canvas_window(canvas->emuwindow, width, height);
     canvas->width = width;

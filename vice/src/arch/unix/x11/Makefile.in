@@ -343,7 +343,8 @@ fullscreen.o: fullscreen.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/fullscreen.h \
 	../../../../src/arch/unix/fullscreenarch.h \
 	../../../../src/video.h ../../../../src/arch/unix/types.h \
-	../../../../src/viewport.h videoarch.h xaw/uiarch.h
+	../../../../src/viewport.h videoarch.h xaw/uiarch.h \
+	../../../../src/utils.h
 kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/kbd.h ../../../../src/keyboard.h \
 	../../../../src/arch/unix/types.h ../../../../src/machine.h \
