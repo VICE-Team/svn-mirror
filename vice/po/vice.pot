@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-08-27 15:54+0200\n"
+"POT-Creation-Date: 2000-09-03 23:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -376,7 +376,7 @@ msgid "*Use reSID emulation"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:168 src/arch/unix/c64ui.c:330
-#: src/arch/unix/uisettings.c:1051 src/arch/unix/vsidui.c:129
+#: src/arch/unix/uisettings.c:1051 src/arch/unix/vsidui.c:130
 msgid "*Enable sound playback"
 msgstr ""
 
@@ -549,7 +549,7 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:406 src/arch/unix/c128ui.c:422
 #: src/arch/unix/c64ui.c:537 src/arch/unix/c64ui.c:551
-#: src/arch/unix/vsidui.c:148
+#: src/arch/unix/vsidui.c:149
 msgid "SID settings"
 msgstr ""
 
@@ -1157,7 +1157,7 @@ msgstr ""
 msgid "*Trap idle"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:990 src/arch/unix/vsidui.c:117
+#: src/arch/unix/uisettings.c:990 src/arch/unix/vsidui.c:118
 msgid "*1.00 sec"
 msgstr ""
 
@@ -1165,7 +1165,7 @@ msgstr ""
 msgid "*0.75 sec"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:994 src/arch/unix/vsidui.c:119
+#: src/arch/unix/uisettings.c:994 src/arch/unix/vsidui.c:120
 msgid "*0.50 sec"
 msgstr ""
 
@@ -1189,7 +1189,7 @@ msgstr ""
 msgid "*0.15 sec"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1006 src/arch/unix/vsidui.c:121
+#: src/arch/unix/uisettings.c:1006 src/arch/unix/vsidui.c:122
 msgid "*0.10 sec"
 msgstr ""
 
@@ -1229,11 +1229,11 @@ msgstr ""
 msgid "Sound synchronization"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1057 src/arch/unix/vsidui.c:132
+#: src/arch/unix/uisettings.c:1057 src/arch/unix/vsidui.c:133
 msgid "Sample rate"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1059 src/arch/unix/vsidui.c:134
+#: src/arch/unix/uisettings.c:1059 src/arch/unix/vsidui.c:135
 msgid "Buffer size"
 msgstr ""
 
@@ -1241,7 +1241,7 @@ msgstr ""
 msgid "Suspend time"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1063 src/arch/unix/vsidui.c:136
+#: src/arch/unix/uisettings.c:1063 src/arch/unix/vsidui.c:137
 msgid "Oversample"
 msgstr ""
 
@@ -1439,7 +1439,7 @@ msgstr ""
 msgid "Keyboard settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1435 src/arch/unix/vsidui.c:142
+#: src/arch/unix/uisettings.c:1435 src/arch/unix/vsidui.c:143
 msgid "Sound settings"
 msgstr ""
 
@@ -1815,32 +1815,32 @@ msgstr ""
 msgid "Attempt to read from non-open fd %d."
 msgstr ""
 
-#: src/arch/unix/vsidui.c:60
+#: src/arch/unix/vsidui.c:61
 msgid "Tunes"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:70
+#: src/arch/unix/vsidui.c:71
 msgid "Load PSID file"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:78
+#: src/arch/unix/vsidui.c:79
 #, c-format
 msgid "`%s' is not a valid PSID file."
 msgstr ""
 
-#: src/arch/unix/vsidui.c:103
+#: src/arch/unix/vsidui.c:104
 msgid "Load PSID file..."
 msgstr ""
 
-#: src/arch/unix/vsidui.c:115
+#: src/arch/unix/vsidui.c:116
 msgid "*3.00 sec"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:167
+#: src/arch/unix/vsidui.c:168
 msgid "*Default Tune"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:190
+#: src/arch/unix/vsidui.c:191
 #, c-format
 msgid "*Tune %d"
 msgstr ""
