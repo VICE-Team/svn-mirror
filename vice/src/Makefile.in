@@ -591,13 +591,14 @@ log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	resources.h log.h utils.h arch/unix/types.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	snapshot.h arch/unix/types.h autostart.h cartridge.h charsets.h \
-	cmdline.h resources.h diskimage.h gcr.h drive/drivecpu.h \
-	alarm.h clkguard.h mon.h interrupt.h 6510core.h mos6510.h \
-	fsdevice.h arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h \
-	keyboard.h log.h machine.h maincpu.h arch/unix/main_exit.h \
-	sysfile.h tape.h traps.h arch/unix/ui.h arch/unix/x11/xaw/ui.h \
-	palette.h uiapi.h utils.h video.h arch/unix/videoarch.h \
-	arch/unix/x11/xaw/videoarch.h arch/unix/mouse.h
+	cmdline.h resources.h diskimage.h gcr.h drive/drive.h log.h \
+	drive/drivecpu.h alarm.h clkguard.h mon.h interrupt.h \
+	6510core.h mos6510.h fsdevice.h arch/unix/joystick.h \
+	arch/unix/kbd.h kbdbuf.h keyboard.h machine.h maincpu.h \
+	arch/unix/main_exit.h sysfile.h tape.h traps.h arch/unix/ui.h \
+	arch/unix/x11/xaw/ui.h palette.h uiapi.h utils.h video.h \
+	arch/unix/videoarch.h arch/unix/x11/xaw/videoarch.h \
+	arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h clkguard.h datasette.h tap.h interrupt.h snapshot.h \
 	log.h machine.h maincpu.h mon.h mos6510.h mem.h traps.h \
@@ -606,8 +607,8 @@ maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	snapshot.h arch/unix/types.h asm.h charsets.h diskimage.h gcr.h \
 	drive/drivecpu.h alarm.h clkguard.h mon.h interrupt.h \
-	6510core.h mos6510.h mem.h mon_parse.h resources.h utils.h \
-	vdrive/vdrive.h log.h vsync.h
+	6510core.h mos6510.h log.h mem.h mon_parse.h resources.h \
+	utils.h vdrive/vdrive.h vsync.h
 mon_lex.o: mon_lex.c vice.h config.h mon.h interrupt.h 6510core.h \
 	arch/unix/types.h snapshot.h mos6510.h mon_parse.h utils.h
 mon_parse.o: mon_parse.c vice.h config.h asm.h arch/unix/types.h \
@@ -631,9 +632,9 @@ resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
 	log.h resources.h utils.h arch/unix/types.h
 romset.o: romset.c vice.h config.h log.h mem.h snapshot.h \
 	arch/unix/types.h resources.h romset.h sysfile.h utils.h
-rsuser.o: rsuser.c vice.h config.h alarm.h log.h arch/unix/types.h \
-	clkguard.h cmdline.h resources.h interrupt.h 6510core.h \
-	snapshot.h maincpu.h mon.h mos6510.h rs232.h rsuser.h
+rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
+	cmdline.h resources.h interrupt.h 6510core.h snapshot.h log.h \
+	maincpu.h mon.h mos6510.h rs232.h rsuser.h
 serial.o: serial.c vice.h config.h drive/drive.h diskimage.h gcr.h \
 	arch/unix/types.h log.h snapshot.h maincpu.h 6510core.h alarm.h \
 	clkguard.h mon.h interrupt.h mos6510.h mem.h parallel.h \
