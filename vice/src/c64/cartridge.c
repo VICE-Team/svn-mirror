@@ -110,6 +110,11 @@ static int attach_action(const char *param, void *extra_param)
     return cartridge_attach_image(CARTRIDGE_ACTION_REPLAY, param);
 }
 
+static int attach_atomic(const char *param, void *extra_param)
+{
+    return cartridge_attach_image(CARTRIDGE_ATOMIC_POWER, param);
+}
+
 static int attach_ss(const char *param, void *extra_param)
 {
     return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT, param);
@@ -125,6 +130,8 @@ static cmdline_option_t cmdline_options[] =
      "<name>", "Attach generic 16KB cartridge image"},
     {"-cartar", CALL_FUNCTION, 1, attach_action, NULL, NULL, NULL,
      "<name>", "Attach raw 32KB Action Replay cartridge image"},
+    {"-cartap", CALL_FUNCTION, 1, attach_atomic, NULL, NULL, NULL,
+     "<name>", "Attach raw 32KB Atomic Power cartridge image"},
     {"-cartss4", CALL_FUNCTION, 1, attach_ss, NULL, NULL, NULL,
      "<name>", "Attach raw 64KB Super Snapshot cartridge image"},
     {NULL}
@@ -146,56 +153,57 @@ int cartridge_attach_image(int type, const char *filename)
 
     /* Attaching no cartridge always works.  */
     if (type == CARTRIDGE_NONE || *filename == '\0')
-	return 0;
+        return 0;
 
     /* allocate temporary array */
     rawcart = xmalloc(0x44000);
 
     /* Do not detach cartridge when attaching the same cart type again.  */
     if (type != carttype)
-	cartridge_detach_image();
+        cartridge_detach_image();
 
     switch(type) {
       case CARTRIDGE_GENERIC_8KB:
-	fd = fopen(filename, MODE_READ);
-	if (!fd)
-	    goto done;
-	if (fread(rawcart, 0x2000, 1, fd) < 1) {
-	    fclose(fd);
-	    goto done;
-	}
-	fclose(fd);
-	break;
+        fd = fopen(filename, MODE_READ);
+        if (!fd)
+            goto done;
+        if (fread(rawcart, 0x2000, 1, fd) < 1) {
+            fclose(fd);
+            goto done;
+        }
+        fclose(fd);
+        break;
       case CARTRIDGE_GENERIC_16KB:
-	fd = fopen(filename, MODE_READ);
-	if (!fd)
-	    goto done;
-	if (fread(rawcart, 0x4000, 1, fd) < 1) {
-	    fclose(fd);
-	    goto done;
-	}
-	fclose(fd);
-	break;
+        fd = fopen(filename, MODE_READ);
+        if (!fd)
+            goto done;
+        if (fread(rawcart, 0x4000, 1, fd) < 1) {
+            fclose(fd);
+            goto done;
+        }
+        fclose(fd);
+        break;
       case CARTRIDGE_ACTION_REPLAY:
-	fd = fopen(filename, MODE_READ);
-	if (!fd)
-	    goto done;
-	if (fread(rawcart, 0x8000, 1, fd) < 1) {
-	    fclose(fd);
-	    goto done;
-	}
-	fclose(fd);
-	break;
+      case CARTRIDGE_ATOMIC_POWER:
+        fd = fopen(filename, MODE_READ);
+        if (!fd)
+            goto done;
+        if (fread(rawcart, 0x8000, 1, fd) < 1) {
+            fclose(fd);
+            goto done;
+        }
+        fclose(fd);
+        break;
       case CARTRIDGE_SUPER_SNAPSHOT:
-	fd = fopen(filename, MODE_READ);
-	if (!fd)
-	    goto done;
-	if (fread(rawcart, 0x8000, 1, fd) < 1) {
-	    fclose(fd);
-	    goto done;
-	}
-	fclose(fd);
-	break;
+        fd = fopen(filename, MODE_READ);
+        if (!fd)
+            goto done;
+        if (fread(rawcart, 0x8000, 1, fd) < 1) {
+            fclose(fd);
+            goto done;
+        }
+        fclose(fd);
+        break;
       case CARTRIDGE_CRT:
         fd = fopen(filename, MODE_READ);
         if (!fd)
@@ -239,42 +247,41 @@ int cartridge_attach_image(int type, const char *filename)
             }
             fclose(fd);
             goto done;
-	  case 1:
-	    for (i = 0; i <= 3; i++) {
-		if (fread(chipheader, 0x10, 1, fd) < 1) {
-		    fclose(fd);
-		    goto done;
-		}
-		if (chipheader[0xb] > 3) {
-		    fclose(fd);
-		    goto done;
-		}
-		if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
-		    fclose(fd);
-		    goto done;
-		}
-	    }
-	    fclose(fd);
-	    break;
-	  case 2:
-	  case 4:
-	    for (i = 0; i <= 1; i++) {
-		if (fread(chipheader, 0x10, 1, fd) < 1) {
-		    fclose(fd);
-		    goto done;
-		}
-		if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0) {
-		    fclose(fd);
-		    goto done;
-		}
-		if (fread(&rawcart[(chipheader[0xc] << 8) - 0x8000], 0x2000,
-		          1, fd) < 1) {
-		    fclose(fd);
-		    goto done;
-		}
-	    }
-	    fclose(fd);
-	    break;
+          case 1:
+            for (i = 0; i <= 3; i++) {
+                if (fread(chipheader, 0x10, 1, fd) < 1) {
+                    fclose(fd);
+                    goto done;
+                }
+                if (chipheader[0xb] > 3) {
+                    fclose(fd);
+                    goto done;
+                }
+                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {                    fclose(fd);
+                    goto done;
+                }
+            }
+            fclose(fd);
+            break;
+          case 2:
+          case 4:
+            for (i = 0; i <= 1; i++) {
+                if (fread(chipheader, 0x10, 1, fd) < 1) {
+                    fclose(fd);
+                    goto done;
+                }
+                if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0) {
+                    fclose(fd);
+                    goto done;
+                }
+                if (fread(&rawcart[(chipheader[0xc] << 8) - 0x8000], 0x2000,
+                          1, fd) < 1) {
+                    fclose(fd);
+                    goto done;
+                }
+            }
+            fclose(fd);
+            break;
           case 3:
             for (i = 0; i <= 3; i++) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
@@ -285,8 +292,7 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
-                    fclose(fd);
+                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {                    fclose(fd);
                     goto done;
                 }
             }
@@ -303,8 +309,7 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
-                    fclose(fd);
+                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {                    fclose(fd);
                     goto done;
                 }
             }
@@ -337,8 +342,7 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
-                    fclose(fd);
+                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {                    fclose(fd);
                     goto done;
                 }
             }
@@ -357,7 +361,8 @@ int cartridge_attach_image(int type, const char *filename)
     cartridge_attach((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
     free(rawcart);
     return 0;
- done:
+
+  done:
     free(rawcart);
     return -1;
 }
@@ -386,7 +391,8 @@ void cartridge_trigger_freeze(void)
         && carttype != CARTRIDGE_ACTION_REPLAY
         && crttype != CARTRIDGE_KCS_POWER
         && crttype != CARTRIDGE_FINAL_III
-        && carttype != CARTRIDGE_SUPER_SNAPSHOT)
+        && carttype != CARTRIDGE_SUPER_SNAPSHOT
+        && carttype != CARTRIDGE_ATOMIC_POWER)
         return;
     cartridge_freeze((carttype == CARTRIDGE_CRT) ? crttype : carttype);
     maincpu_set_nmi(I_FREEZE, IK_NMI);
@@ -401,3 +407,4 @@ const char *cartridge_get_file_name(ADDRESS addr_ignored)
 {
     return cartfile;
 }
+
