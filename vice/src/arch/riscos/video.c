@@ -328,6 +328,17 @@ static int parse_screen_mode_string(const char *str, char **modestr, screen_mode
 }
 
 
+static void video_update_all_palette(void)
+{
+  canvas_list_t *clist = CanvasList;
+
+  while (clist != NULL)
+  {
+    video_color_update_palette(clist->canvas);
+    clist = clist->next;
+  }
+}
+
 static int set_screen_mode_norm(resource_value_t v, void *param)
 {
   if (parse_screen_mode_string((const char *)v, &ScreenModeNormString, &newScreenModeNorm) == 0)
@@ -377,7 +388,7 @@ static int set_pal_emu_depth(resource_value_t v, void *param)
 {
   PALEmuDepth = (int)v;
   video_init_pal_depth();
-  video_color_update_palette();
+  video_update_all_palette();
   /* to rescale canvases if necessary */
   video_init_pal_double();
   canvas_redraw_all();
@@ -1433,10 +1444,10 @@ void canvas_mode_change(void)
     fb->transdirty = 1;
     clist->canvas->redraw_wimp = NULL;
     clist->canvas->redraw_full = NULL;
+    video_color_update_palette(clist->canvas);
     clist = clist->next;
   }
   video_init_pal_depth();
-  video_color_update_palette();
 }
 
 

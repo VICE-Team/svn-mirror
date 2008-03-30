@@ -206,30 +206,47 @@ void ui_screenshot_save_dialog(HWND hwnd)
 void ui_soundshot_save_dialog(HWND hwnd)
 {
     char *s;
-    char *devicename;
-    static char old_device[16] = "dx";
+    const char *devicename;
 
-    resources_get_value("SoundDeviceName",(void *) &devicename);
+    resources_get_value("SoundRecordDeviceName",(void *) &devicename);
     if (devicename && !strcmp(devicename,"wav")) {
-        /* the recording is active; stop it by switching to the default device*/
-        resources_set_value("SoundDeviceName", old_device);
+        /* the recording is active; stop it  */
+        resources_set_value("SoundRecordDeviceName", "");
         ui_display_statustext("");
     } else {
-        /* get the filename and switch to wav device */
-        if (devicename)
-            strcpy(old_device, devicename);
-        else
-            strcpy(old_device, "");
-
         s = ui_save_snapshot("Save sound file",
             "Sound files (*.wav)\0*.wav\0",hwnd,0);
         if (s != NULL) {
             util_add_extension(&s, "wav");
-            resources_set_value("SoundDeviceArg", s);
-            resources_set_value("SoundDeviceName", "wav");
+            resources_set_value("SoundRecordDeviceArg", s);
+            resources_set_value("SoundRecordDeviceName", "wav");
             resources_set_value("Sound", (resource_value_t)1);
             lib_free(s);
             ui_display_statustext("Recording wav...");
+        }
+    }
+}
+
+void ui_movie_save_dialog(HWND hwnd)
+{
+    char *s;
+    const char *devicename;
+
+    resources_get_value("SoundRecordDeviceName",(void *) &devicename);
+    if (devicename && !strcmp(devicename,"movie")) {
+        /* the recording is active; stop it  */
+        resources_set_value("SoundRecordDeviceName", "");
+        ui_display_statustext("");
+    } else {
+        s = ui_save_snapshot("Save movie file",
+            "Sound files (*.avi)\0*.avi\0",hwnd,0);
+        if (s != NULL) {
+//            util_add_extension(&s, "avi");
+            resources_set_value("SoundRecordDeviceArg", s);
+            resources_set_value("SoundRecordDeviceName", "movie");
+            resources_set_value("Sound", (resource_value_t)1);
+            lib_free(s);
+            ui_display_statustext("Recording movie...");
         }
     }
 }

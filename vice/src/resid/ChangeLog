@@ -1,4 +1,6 @@
 	* envelope.h (EnvelopeGenerator): Added public State enum.
+	(EnvelopeGenerator::clock): Rate counter is 15 bits, count
+	rate_period - 1 after wrapping from 0x8000 to 0 in ADSR delay bug.
 
 	* sid.cc, sid.h (SID::State): Added envelope_state.
 	(SID::State::write_state): Restore register 0x18.

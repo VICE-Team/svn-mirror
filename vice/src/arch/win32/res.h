@@ -402,6 +402,7 @@
 #define IDM_SETTINGS_LOAD               40091
 #define IDM_SETTINGS_DEFAULT            40092
 #define IDM_DEVICEMANAGER               40093
+#define IDM_MOVIE                       40094
 #define IDM_REFRESH_RATE_AUTO           40100
 #define IDM_REFRESH_RATE_1              40101
 #define IDM_REFRESH_RATE_2              40102

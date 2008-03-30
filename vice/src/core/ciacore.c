@@ -1068,12 +1068,12 @@ void ciacore_init(const cia_initdesc_t *cd, alarm_context_t *alarm_context,
     clk_guard_add_callback(clk_guard, ciacore_clk_overflow_callback,
                            cd->cia_ptr);
 
-    buffer = lib_msprintf(buffer, "%s_TA", cd->cia_ptr->myname);
+    buffer = lib_msprintf("%s_TA", cd->cia_ptr->myname);
     ciat_init(cd->cia_ptr->ta, buffer, *(cd->cia_ptr->clk_ptr),
               cd->cia_ptr->ta_alarm);
     lib_free(buffer);
 
-    buffer = lib_msprintf(buffer, "%s_TB", cd->cia_ptr->myname);
+    buffer = lib_msprintf("%s_TB", cd->cia_ptr->myname);
     ciat_init(cd->cia_ptr->tb, buffer, *(cd->cia_ptr->clk_ptr),
               cd->cia_ptr->tb_alarm);
     lib_free(buffer);

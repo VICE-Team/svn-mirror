@@ -1,6 +1,7 @@
 docdir = $(prefix)/lib/vice/doc
 
 doc_DATA = \
+	MSDOS-Howto.txt \
 	NLS-Howto.txt \
 	Readme.beos \
 	Readme.dos \

@@ -1,3 +1,29 @@
+Changes in reSID version 0.15
+-----------------------------
+
+An error in the emulation of the ADSR delay bug has been fixed. When
+emulation of the ADSR delay bug was introduced in reSID 0.2, the delay
+was one cycle too long. One cycle was subtracted from the delay in
+reSID 0.4, however unfortunately one rate counter period was added as
+well, thus increasing the error. At the time there was no method to
+fully synchronize the CPU with envelope 3, so the measurements relied
+on averaging. Because of pipelining in the envelope logic the effects
+of a write are delayed, and this caused the test code to miss the
+target by exactly one rate counter period on a real SID. The current
+test code does achieves full synchronization with envelope 3, so this
+time the delay should be 100% correct. There are still side effects
+caused by pipelining which are not implemented in reSID, however these
+effects are not controllable without full synchronization with the
+envelope, something which is hard to achieve with envelope 3, and
+impossible with envelope 1 and 2.
+
+The envelope state (ADSR) has been added to the SID state, and the
+volume setting is now restored from the SID state.
+
+Filter scaling and clipping has been added to avoid sample overflows
+in the resampling filter.
+
+
 Changes in reSID version 0.14
 -----------------------------
 

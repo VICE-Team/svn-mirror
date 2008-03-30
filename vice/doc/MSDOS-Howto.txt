@@ -1,0 +1,81 @@
+Compiling MS-DOS VICE with DJGPP
+================================
+
+By Fabrizio Gennari (fabrizio.ge@tiscalinet.it)
+
+A way of compiling the MS-DOS version of VICE is to use a cross-compiler
+which runs on Linux. But it is also possible to compile VICE with a native
+MS-DOS compiler, DJGPP. The only limitation is that VICE cannot be compiled
+on native MS-DOS, only on an MS-DOS prompt under Windows. Why? Because VICE
+sources use long filenames, while MS-DOS only supports "8+3" filenames: when
+unpacking VICE sources, often two different filenames become identical after
+8+3 truncation, and it is impossible to distinguish between them. Luckily,
+DJGPP supports long filenames when run in a Windows environment.
+
+First of all, download the required DJGPP files form Simtel
+(http://www.simtel.net/pub/djgpp/) or a mirror. These are the files for a
+minimum installation, newer version of the files should be fine:
+* from directory v2, djdev203.zip
+* from directory v2gnu, bnu213b.zip, bsh204b.zip, dif272b.zip, fil41b.zip,
+flx254b.zip, gcc321b.zip, gpp321b.zip, grep24b.zip, mak3791b.zip,
+sed302b.zip, shl2011b.zip, txt20b.zip
+* from directory v2tk/allegro, alleg30.zip . You need Allegro 3.0 to have a
+functional VICE. With Allegro 4.0, VICE just won't compile. With Allegro
+3.1, 3.11 or 3.12, VICE will compile, and will run if sound playback is
+disabled, but it will just hang if sound playback is enabled. Also note that
+Allegro is distributed as source only, so you will have to compile it.
+Allegro 3.0 does not compile with gcc 2.95.2 or upper, while it will if you
+use gcc 2.8.1 (gcc 2.7.2 is untested but it should work).
+Follow the instructions to install DJGPP. In short, unpack all the DJGPP ZIP
+files in the same directory (remember to preserve the directory structure
+while unpacking!), which will be called DJDIR from now on, add DJDIR\bin to
+the PATH variable, and run the command
+
+setdjgpp DJDIR DJDIR
+
+where the first DJDIR has MS-DOS directory separators (\), and the second
+DJDIR has Unix directory separators (/). Example:
+
+setdjgpp C:\DJGPP C:/DJGPP
+
+If you want those command to be automatically executed at boot, add them in
+the AUTOEXEC.BAT file.
+
+Now, unpack VICE sources in a directory: all VICE files will be in a
+sub-directory called vice-<version number>. Open an MS-DOS prompt window,
+go to the vice-<version number> dir and type
+
+bash
+
+. From now on, you just have to follow the instructions to compile Unix
+VICE: the simplest way is to type
+
+./configure
+make
+make install
+
+After that, you have VICE binaries and accompanying files in the
+installation directory, which will be called VICEDIR form now on
+(C:\usr\local by default, you can change that by passing the
+option --prefix=a_different_installation_directory to the configure script,
+where a_different_installation_directory has to be replaced with the full
+path of the installation directory of your choice). The only missing thing
+is a configuration file. From an MS-DOS prompt window (no need to be
+inside bash), go to the directory VICEDIR\bin and type
+
+x64 -directory VICEDIR\lib\vice\c64
+
+(replace x64 and c64 with the name of the emulator and the emulated machine,
+if you want to run an emulator other than the C64 one). VICEDIR should be in
+MS-DOS format, i.e. <drive_letter>:\<path with \ as dir separator> .
+
+If everything went well, you should have your emulator up and running. Press
+ESC, choose the option "Configuration commands" then "Write configuration",
+and a configuration file will be created, so from now on jou can just type
+"x64" or double-click on the x64.exe icon.
+
+But that's not all: the compiled emulator can be run on native MS-DOS mode
+with a little addition. Download from subdir v2misc of DJGPP website the
+file csdpmi5b.zip (older version should be OK, too) and unzip the file
+CWSDPMI.EXE in the same directory as the VICE .EXE files, or in a directory
+in the path.

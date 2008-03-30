@@ -23,14 +23,13 @@
 #include "siddefs.h"
 
 // ----------------------------------------------------------------------------
-// A 16 bit counter is used to implement the envelope rates, in effect
+// A 15 bit counter is used to implement the envelope rates, in effect
 // dividing the clock to the envelope counter by the currently selected rate
 // period.
 // In addition, another counter is used to implement the exponential envelope
 // decay, in effect further dividing the clock to the envelope counter.
-// The period of this counter is set to 1 in the attack state, and is
-// successively set to 1, 2, 4, 8, 16, 30 at the envelope counter values
-// 255, 93, 54, 26, 14, 6 in the decay and release states.
+// The period of this counter is set to 1, 2, 4, 8, 16, 30 at the envelope
+// counter values 255, 93, 54, 26, 14, 6, respectively
 // ----------------------------------------------------------------------------
 class EnvelopeGenerator
 {
@@ -95,20 +94,16 @@ void EnvelopeGenerator::clock()
 {
   // Check for ADSR delay bug.
   // If the rate counter comparison value is set below the current value of the
-  // rate counter, the counter will continue counting up to 2^15 = 0x8000,
-  // and then count rate_period twice before the envelope can finally be
-  // stepped. In this process one extra rate_counter step is taken.
+  // rate counter, the counter will continue counting up until it wraps around
+  // to zero at 2^15 = 0x8000, and then count rate_period - 1 before the
+  // envelope can finally be stepped.
   // This has been verified by sampling ENV3.
-  // A possible explanation for this behavior is that the 16 bit rate counter
-  // is compared with a 15 bit comparator for reset and with a 16 bit
-  // comparator for envelope steps.
   //
-  if ((++rate_counter & 0x7fff) != rate_period) {
-    return;
+  if (++rate_counter & 0x8000) {
+    ++rate_counter &= 0x7fff;
   }
 
-  if (rate_counter & 0x8000) {
-    rate_counter = 1;
+  if (rate_counter != rate_period) {
     return;
   }
 
@@ -195,33 +190,25 @@ void EnvelopeGenerator::clock(cycle_count delta_t)
 {
   // Check for ADSR delay bug.
   // If the rate counter comparison value is set below the current value of the
-  // rate counter, the counter will continue counting up to 2^15 = 0x8000,
-  // and then count rate_period twice before the envelope can finally be
-  // stepped. In this process one extra rate_counter step is taken.
+  // rate counter, the counter will continue counting up until it wraps around
+  // to zero at 2^15 = 0x8000, and then count rate_period - 1 before the
+  // envelope can finally be stepped.
   // This has been verified by sampling ENV3.
-  // A possible explanation for this behavior is that the 16 bit rate counter
-  // is compared with a 15 bit comparator for reset and with a 16 bit
-  // comparator for envelope steps.
   //
-  reg16 rate_counter_15 = rate_counter & 0x7fff;
 
   // NB! This requires two's complement integer.
-  int rate_step = rate_period - rate_counter_15;
+  int rate_step = rate_period - rate_counter;
   if (rate_step < 0) {
-    rate_step += 0x8000;
+    rate_step += 0x7fff;
   }
 
   while (delta_t) {
     if (delta_t < rate_step) {
       rate_counter += delta_t;
+      if (rate_counter & 0x8000) {
+	++rate_counter &= 0x7fff;
+      }
       return;
-    }
-
-    if ((rate_counter + rate_step) & 0x8000) {
-      rate_counter = 1;
-      delta_t -= rate_step;
-      rate_step = rate_period - 1;
-      continue;
     }
 
     rate_counter = 0;

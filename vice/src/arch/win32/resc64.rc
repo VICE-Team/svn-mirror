@@ -127,6 +127,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Save Screenshot\tAlt+C", IDM_SCREENSHOT
         MENUITEM "Start/Stop Soundshot\tAlt+U", IDM_SOUNDSHOT
+        MENUITEM "Start/Stop Movie recording\tAlt+N", IDM_MOVIE
     END
     POPUP "&Options"
     BEGIN

@@ -269,7 +269,7 @@ int kbd_update_joykeys(int port)
   char b[12];
   const char *rsrc;
 
-  sprintf(b, "%2x%2x%2x%2x%2x", JoystickKeys[port].up, JoystickKeys[port].down, JoystickKeys[port].left, JoystickKeys[port].right, JoystickKeys[port].fire);
+  sprintf(b, "%02x%02x%02x%02x%02x", JoystickKeys[port].up, JoystickKeys[port].down, JoystickKeys[port].left, JoystickKeys[port].right, JoystickKeys[port].fire);
   rsrc = (port == 0) ? Rsrc_JoyKeys1 : Rsrc_JoyKeys2;
   return resources_set_value(rsrc, b);
 }
@@ -321,8 +321,8 @@ static const resource_t resources[] = {
 
 int kbd_resources_init(void)
 {
-  sprintf(DefaultJoyKeys1, "%2x%2x%2x%2x%2x", KeyJoy1_Up, KeyJoy1_Down, KeyJoy1_Left, KeyJoy1_Right, KeyJoy1_Fire);
-  sprintf(DefaultJoyKeys2, "%2x%2x%2x%2x%2x", KeyJoy2_Up, KeyJoy2_Down, KeyJoy2_Left, KeyJoy2_Right, KeyJoy2_Fire);
+  sprintf(DefaultJoyKeys1, "%02x%02x%02x%02x%02x", KeyJoy1_Up, KeyJoy1_Down, KeyJoy1_Left, KeyJoy1_Right, KeyJoy1_Fire);
+  sprintf(DefaultJoyKeys2, "%02x%02x%02x%02x%02x", KeyJoy2_Up, KeyJoy2_Down, KeyJoy2_Left, KeyJoy2_Right, KeyJoy2_Fire);
 
   return resources_register(resources);
 }

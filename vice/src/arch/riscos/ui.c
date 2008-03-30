@@ -1768,6 +1768,31 @@ void ui_set_sound_volume(void)
 }
 
 
+static void ui_sound_set_best_sample_rate(void)
+{
+  resource_value_t val;
+  if (resources_get_value(Rsrc_SndRate, (void *)&val) == 0)
+  {
+    int rate = (int)val;
+    int i, bestIdx, bestError;
+    const disp_desc_t *dd = ConfigMenus[CONF_MENU_SAMPRATE].desc;
+    const int *values = (const int*)(dd + 1);
+
+    bestError = INT_MAX; bestIdx = 0;
+    for (i=0; i<dd->items; i++)
+    {
+      int err = rate - values[i];
+      if (err < 0) err = -err;
+      if (bestError > err)
+      {
+        bestError = err; bestIdx = i;
+      }
+    }
+    wimp_window_write_icon_number(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_SampleRateT, values[bestIdx]);
+  }
+}
+
+
 static const char *ui_check_for_syspath(const char *path)
 {
   const char *vicepath;
@@ -2205,7 +2230,6 @@ void ui_shutdown(void)
 int ui_init_finish(void)
 {
   resource_value_t val;
-  disp_desc_t *dd;
   int i;
 
   if (machine_class != VICE_MACHINE_PET)
@@ -2278,21 +2302,6 @@ int ui_init_finish(void)
 
   memset(SnapshotMessage, 0, 256);
 
-  /* adjust sample frequency approximations to actual VIDC frequencies */
-  dd = ConfigMenus[CONF_MENU_SAMPRATE].desc;
-  for (i=0; i<dd->items; i++)
-  {
-    int *values = (int*)(dd + 1);
-
-    sound_get_vidc_frequency(values + i, NULL);
-  }
-  if (resources_get_value(Rsrc_SndRate, (void *)&val) == 0)
-  {
-    int rate = (int)val;
-
-    sound_get_vidc_frequency(&rate, NULL);
-    resources_set_value(Rsrc_SndRate, (resource_value_t)rate);
-  }
   /* Sound buffer size sanity check */
   if (resources_get_value(Rsrc_SndBuff, (void *)&val) == 0)
   {
@@ -2407,6 +2416,9 @@ static void ui_setup_config_window(int wnum)
           wimp_window_write_icon_text(w, JoyToIcon[i].fire, kbd_intkey_to_string(jk->fire));
         }
       }
+      break;
+    case CONF_WIN_SOUND:
+      ui_sound_set_best_sample_rate();
       break;
     case CONF_WIN_PET:
       if (machine_class == VICE_MACHINE_PET)

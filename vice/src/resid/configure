@@ -1528,7 +1528,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=resid
- VERSION=0.14vice
+ VERSION=0.15vice
 
 
 cat >>confdefs.h <<_ACEOF
@@ -1654,7 +1654,7 @@ INSTALL_STRIP_PROGRAM="\${SHELL} \$(install_sh) -c -s"
 
 
 
-LTVERSION=3:0:0
+LTVERSION=4:0:0
 
 ac_ext=cc
 ac_cpp='$CXXCPP $CPPFLAGS'

@@ -1528,6 +1528,11 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         ui_soundshot_save_dialog(hwnd);
         ResumeFullscreenModeKeep(hwnd);
         break;
+      case IDM_MOVIE:
+        SuspendFullscreenModeKeep(hwnd);
+        ui_movie_save_dialog(hwnd);
+        ResumeFullscreenModeKeep(hwnd);
+        break;
       case IDM_PAUSE:
       case IDM_PAUSE | 0x00010000:
         ui_pause_emulation();

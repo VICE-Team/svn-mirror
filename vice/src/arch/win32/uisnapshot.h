@@ -31,6 +31,7 @@ void ui_snapshot_load_dialog(HWND hwnd);
 void ui_snapshot_save_dialog(HWND hwnd);
 void ui_screenshot_save_dialog(HWND hwnd);
 void ui_soundshot_save_dialog(HWND hwnd);
+void ui_movie_save_dialog(HWND hwnd);
 char *ui_save_snapshot(const char *title, const char *filter, 
                        HWND hwnd, int dialog_template);
 

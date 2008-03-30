@@ -20,6 +20,7 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundhpux.c \
 	soundmidas.c \
 	soundmmos2.c \
+	soundmovie.c \
 	soundsb.c \
 	soundsdl.c \
 	soundsgi.c \

@@ -74,6 +74,8 @@ static int playback_enabled;          /* app_resources.sound */
 static int sample_rate;               /* app_resources.soundSampleRate */
 static char *device_name = NULL;      /* app_resources.soundDeviceName */
 static char *device_arg = NULL;       /* app_resources.soundDeviceArg */
+static char *recorddevice_name = NULL;/* app_resources.soundDeviceName */
+static char *recorddevice_arg = NULL; /* app_resources.soundDeviceArg */
 static int buffer_size;               /* app_resources.soundBufferSize */
 static int suspend_time;              /* app_resources.soundSuspendTime */
 static int speed_adjustment_setting;  /* app_resources.soundSpeedAdjustment */
@@ -121,6 +123,20 @@ static int set_device_arg(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_recorddevice_name(resource_value_t v, void *param)
+{
+    util_string_set(&recorddevice_name, (char *)v);
+    sound_state_changed = TRUE;
+    return 0;
+}
+
+static int set_recorddevice_arg(resource_value_t v, void *param)
+{
+    util_string_set(&recorddevice_arg, (char *)v);
+    sound_state_changed = TRUE;
+    return 0;
+}
+
 static int set_buffer_size(resource_value_t v, void *param)
 {
     buffer_size   = (int)v;
@@ -164,6 +180,10 @@ static const resource_t resources[] = {
       (void *)&device_name, set_device_name, NULL },
     { "SoundDeviceArg", RES_STRING, (resource_value_t)"",
       (void *)&device_arg, set_device_arg, NULL },
+    { "SoundRecordDeviceName", RES_STRING, (resource_value_t)"",
+      (void *)&recorddevice_name, set_recorddevice_name, NULL },
+    { "SoundRecordDeviceArg", RES_STRING, (resource_value_t)"",
+      (void *)&recorddevice_arg, set_recorddevice_arg, NULL },
     { "SoundBufferSize", RES_INTEGER,
       (resource_value_t)SOUND_SAMPLE_BUFFER_SIZE,
       (void *)&buffer_size, set_buffer_size, NULL },
@@ -203,6 +223,10 @@ static const cmdline_option_t cmdline_options[] = {
       "<name>", "Specify sound driver" },
     { "-soundarg", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceArg", NULL,
       "<args>", "Specify initialization parameters for sound driver" },
+    { "-soundrecdev", SET_RESOURCE, 1, NULL, NULL, "SoundRecordDeviceName",
+      NULL, "<name>", "Specify recording sound driver" },
+    { "-soundrecarg", SET_RESOURCE, 1, NULL, NULL, "SoundRecordDeviceArg", NULL,
+      "<args>", "Specify initialization parameters for recording sound driver" },
     { "-soundsync", SET_RESOURCE, 1, NULL, NULL, "SoundSpeedAdjustment", NULL,
       "<sync>", "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)" },
     { NULL }
@@ -259,8 +283,11 @@ typedef struct
     /* sample buffer pointer */
     int bufptr;
 
-    /* pointer to device structure in use */
-    sound_device_t *pdev;
+    /* pointer to playback device structure in use */
+    sound_device_t *playdev;
+
+    /* pointer to playback device structure in use */
+    sound_device_t *recdev;
 
     /* number of samples in a fragment */
     int fragsize;
@@ -375,7 +402,7 @@ static void fill_buffer(int size, int rise)
         }
     }
 
-    i = snddata.pdev->write(p, size * snddata.channels);
+    i = snddata.playdev->write(p, size * snddata.channels);
 
     lib_free(p);
 
@@ -468,9 +495,9 @@ sound_t *sound_get_psid(unsigned int channel)
 int sound_open(void)
 {
     int c, i, j;
-    sound_device_t *pdev;
-    char *name;
-    char *param;
+    sound_device_t *pdev, *rdev;
+    char *playname, *recname;
+    char *playparam, *recparam;
     int speed;
     int fragsize;
     int fragnr;
@@ -486,14 +513,21 @@ int sound_open(void)
     /* Second SID. */
     snddata.channels = sound_machine_channels();
 
-    name = device_name;
+    playname = device_name;
+    if (playname && playname[0] == '\0')
+        playname = NULL;
 
-    if (name && name[0] == '\0')
-        name = NULL;
+    playparam = device_arg;
+    if (playparam && playparam[0] == '\0')
+        playparam = NULL;
 
-    param = device_arg;
-    if (param && param[0] == '\0')
-        param = NULL;
+    recname = recorddevice_name;
+    if (recname && recname[0] == '\0')
+        recname = NULL;
+
+    recparam = recorddevice_arg;
+    if (recparam && recparam[0] == '\0')
+        recparam = NULL;
 
     /* Calculate buffer size in seconds. */
     bufsize = ((buffer_size < 100 || buffer_size > 1000)
@@ -512,12 +546,14 @@ int sound_open(void)
         fragnr = 3;
 
     for (i = 0; (pdev = sound_devices[i]); i++) {
-        if (name && (!pdev->name || strcasecmp(name, pdev->name)))
-            continue;
+        if (!playname || (pdev->name && !strcasecmp(playname, pdev->name)))
+            break;
+    }
 
+    if (pdev) {
         if (pdev->init) {
             int channels_cap = snddata.channels;
-            if (pdev->init(param, &speed, &fragsize, &fragnr, &channels_cap)) {
+            if (pdev->init(playparam, &speed, &fragsize, &fragnr, &channels_cap)) {
                 char *err;
                 err = lib_msprintf("initialization failed for device `%s'.",
                                    pdev->name);
@@ -537,7 +573,7 @@ int sound_open(void)
             snddata.lastsample[c] = 0;
         }
 
-        snddata.pdev = pdev;
+        snddata.playdev = pdev;
         snddata.fragsize = fragsize;
         snddata.fragnr = fragnr;
         snddata.bufsize = fragsize*fragnr;
@@ -565,34 +601,74 @@ int sound_open(void)
         if (pdev->bufferspace) {
             /* Fill to bufsize - fragsize. */
             j = pdev->bufferspace() - snddata.fragsize;
-            if (j <= 0) {
-                return 0;
+            if (j > 0) {
+                /* Whole fragments. */
+                j -= j % snddata.fragsize;
+
+                fill_buffer(j, 0);
             }
-            /* Whole fragments. */
-            j -= j % snddata.fragsize;
-
-            fill_buffer(j, 0);
         }
-
-        return 0;
-    }
-    {
+    } else {
         char *err = lib_msprintf("device '%s' not found or not supported.",
-                                 name);
+                                 playname);
         sound_error(err);
         lib_free(err);
         return 1;
     }
+
+    for (i = 0; (rdev = sound_devices[i]); i++) {
+        if (recname && rdev->name && !strcasecmp(recname, rdev->name))
+            break;
+    }
+
+    if (rdev) {
+        if (rdev == pdev) {
+            ui_error("Recording device must be different from playback device");
+            resources_set_value("SoundRecordDeviceName", "");
+            return 0;
+        }
+        if (rdev->init) {
+            int channels_cap = snddata.channels;
+            if (rdev->init(recparam, &speed, &fragsize, &fragnr, &channels_cap)) {
+                ui_error("Initialization failed for device `%s'.",
+                                   rdev->name);
+                resources_set_value("SoundRecordDeviceName", "");
+                return 0;
+            }
+
+            if (sample_rate != speed
+                || snddata.fragsize != fragsize
+                || snddata.fragnr != fragnr
+                || snddata.channels != channels_cap)
+            {
+                ui_error("The recording device doesn't support current sound parameters");
+                rdev->close();
+                resources_set_value("SoundRecordDeviceName", "");
+            } else {
+                snddata.recdev = rdev;
+                log_message(sound_log,
+                    "Opened recording device device `%s'", rdev->name);
+            }
+        }
+    }
+    return 0;
 }
 
 /* close sid */
 void sound_close(void)
 {
-    if (snddata.pdev) {
-        log_message(sound_log, "Closing device `%s'", snddata.pdev->name);
-        if (snddata.pdev->close)
-            snddata.pdev->close();
-        snddata.pdev = NULL;
+    if (snddata.playdev) {
+        log_message(sound_log, "Closing device `%s'", snddata.playdev->name);
+        if (snddata.playdev->close)
+            snddata.playdev->close();
+        snddata.playdev = NULL;
+    }
+
+    if (snddata.recdev) {
+        log_message(sound_log, "Closing recording device `%s'", snddata.recdev->name);
+        if (snddata.recdev->close)
+            snddata.recdev->close();
+        snddata.recdev = NULL;
     }
 
     sid_close();
@@ -617,7 +693,7 @@ static int sound_run_sound(void)
     if (!playback_enabled || (suspend_time > 0 && disabletime))
         return 1;
 
-    if (!snddata.pdev) {
+    if (!snddata.playdev) {
         i = sound_open();
         if (i)
             return i;
@@ -762,15 +838,17 @@ double sound_flush(int relative_speed)
         sid_state_changed = FALSE;
     }
 
-    if (warp_mode_enabled && snddata.pdev->bufferspace != NULL) {
+    if (warp_mode_enabled 
+        && snddata.playdev->bufferspace != NULL
+        && snddata.recdev == NULL) {
         snddata.bufptr = 0;
         return 0;
     }
     sound_resume();
 
-    if (snddata.pdev->flush) {
+    if (snddata.playdev->flush) {
         char *state = sound_machine_dump_state(snddata.psid[0]);
-        i = snddata.pdev->flush(state);
+        i = snddata.playdev->flush(state);
         lib_free(state);
         if (i) {
             sound_error("cannot flush.");
@@ -812,8 +890,8 @@ double sound_flush(int relative_speed)
         nr = newnr;
     }
     /* adjust speed */
-    if (snddata.pdev->bufferspace) {
-        space = snddata.pdev->bufferspace();
+    if (snddata.playdev->bufferspace) {
+        space = snddata.playdev->bufferspace();
         if (space < 0 || space > snddata.bufsize) {
             log_warning(sound_log, "fragment problems %d %d",
                  space, snddata.bufsize);
@@ -868,7 +946,8 @@ double sound_flush(int relative_speed)
         snddata.prevused = used;
         snddata.prevfill = 0;
 
-        if (!cycle_based && speed_adjustment_setting != SOUND_ADJUST_EXACT) {
+        if (!cycle_based && speed_adjustment_setting != SOUND_ADJUST_EXACT
+            && snddata.recdev == NULL) {
             snddata.clkfactor = SOUNDCLK_MULT(snddata.clkfactor,
                                               SOUNDCLK_CONSTANT(0.9)
                                               + ((used+nr)
@@ -893,9 +972,16 @@ double sound_flush(int relative_speed)
     }
 
     /* Flush buffer, all channels are already mixed into it. */
-    if (snddata.pdev->write(snddata.buffer, nr * snddata.channels)) {
+    if (snddata.playdev->write(snddata.buffer, nr * snddata.channels)) {
         sound_error("write to sounddevice failed.");
         return 0;
+    }
+
+    if (snddata.recdev) {
+        if (snddata.recdev->write(snddata.buffer, nr * snddata.channels)) {
+            sound_error("write to sounddevice failed.");
+            return 0;
+        }
     }
 
     snddata.bufptr -= nr;
@@ -909,7 +995,7 @@ double sound_flush(int relative_speed)
         }
     }
 
-    if (snddata.pdev->bufferspace
+    if (snddata.playdev->bufferspace
         && (cycle_based || speed_adjustment_setting == SOUND_ADJUST_EXACT))
 #if defined(__MSDOS__) || (__riscos)
     {
@@ -935,7 +1021,7 @@ double sound_flush(int relative_speed)
            of getting interrupted before vsync delay calculation. */
         /* Aim for utilization of bufsize - fragsize. */
         int remspace =
-            snddata.pdev->bufferspace() - snddata.fragsize - snddata.bufptr;
+            snddata.playdev->bufferspace() - snddata.fragsize - snddata.bufptr;
         /* Return delay in seconds. */
         return (double)remspace/sample_rate;
     }
@@ -947,15 +1033,15 @@ double sound_flush(int relative_speed)
 /* suspend sid (eg. before pause) */
 void sound_suspend(void)
 {
-    if (!snddata.pdev)
+    if (!snddata.playdev)
         return;
 
-    if (snddata.pdev->write && !snddata.issuspended
-        && snddata.pdev->need_attenuation) {
+    if (snddata.playdev->write && !snddata.issuspended
+        && snddata.playdev->need_attenuation) {
         fill_buffer(snddata.fragsize, -1);
     }
-    if (snddata.pdev->suspend && !snddata.issuspended) {
-        if (snddata.pdev->suspend())
+    if (snddata.playdev->suspend && !snddata.issuspended) {
+        if (snddata.playdev->suspend())
             return;
     }
     snddata.issuspended = 1;
@@ -964,19 +1050,19 @@ void sound_suspend(void)
 /* resume sid */
 void sound_resume(void)
 {
-    if (!snddata.pdev)
+    if (!snddata.playdev)
         return;
 
     if (snddata.issuspended) {
-        if (snddata.pdev->resume) {
-            snddata.issuspended = snddata.pdev->resume();
+        if (snddata.playdev->resume) {
+            snddata.issuspended = snddata.playdev->resume();
         }
         else {
             snddata.issuspended = 0;
         }
 
-        if (snddata.pdev->write && !snddata.issuspended
-            && snddata.pdev->need_attenuation) {
+        if (snddata.playdev->write && !snddata.issuspended
+            && snddata.playdev->need_attenuation) {
             fill_buffer(snddata.fragsize, 1);
         }
     }
@@ -1070,6 +1156,10 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     sound_init_dump_device();
     sound_init_wav_device();
 
+#ifdef HAVE_AVFORMAT_H
+    sound_init_movie_device();
+#endif
+
 #if 0
     sound_init_test_device();   /* XXX: missing */
 #endif
@@ -1105,10 +1195,10 @@ void sound_store(WORD addr, BYTE val, int chipno)
 
     sound_machine_store(snddata.psid[chipno], addr, val);
 
-    if (!snddata.pdev->dump)
+    if (!snddata.playdev->dump)
         return;
 
-    i = snddata.pdev->dump(addr, val, maincpu_clk - snddata.wclk);
+    i = snddata.playdev->dump(addr, val, maincpu_clk - snddata.wclk);
 
     snddata.wclk = maincpu_clk;
 
