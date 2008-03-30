@@ -58,7 +58,7 @@
 #include "vdc.h"
 #include "vmachine.h"
 #include "../c64/c64cart.h"
-#include "../c64/vicii.h"
+#include "vicii.h"
 
 #ifdef HAVE_RS232
 #include "c64acia.h"
