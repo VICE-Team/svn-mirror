@@ -43,6 +43,7 @@
 #include "log.h"
 #include "machine-drive.h"
 #include "resources.h"
+#include "rotation.h"
 #include "snapshot.h"
 #include "types.h"
 #include "utils.h"
@@ -121,9 +122,9 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     drive_gcr_data_writeback(0);
     drive_gcr_data_writeback(1);
 
+    rotation_table_get(rotation_table_ptr);
+
     for (i = 0; i < 2; i++) {
-        rotation_table_ptr[i] = (DWORD)(drive[i].rotation_table_ptr
-                                        - drive[i].rotation_table[0]);
         GCR_image[i] = (drive[i].GCR_image_loaded == 0
                        || !save_disks) ? 0 : 1;
     }
@@ -144,9 +145,9 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 
     for (i = 0; i < 2; i++) {
         if (0
-            || SMW_DW(m, (DWORD)drive[i].accum) < 0
+            || SMW_DW(m, (DWORD)drive[i].snap_accum) < 0
             || SMW_DW(m, (DWORD)drive[i].attach_clk) < 0
-            || SMW_DW(m, (DWORD)drive[i].bits_moved) < 0
+            || SMW_DW(m, (DWORD)drive[i].snap_bits_moved) < 0
             || SMW_B(m, (BYTE)drive[i].byte_ready_level) < 0
             || SMW_B(m, (BYTE)drive[i].clock_frequency) < 0
             || SMW_W(m, (WORD)drive[i].current_half_track) < 0
@@ -154,15 +155,15 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             || SMW_B(m, (BYTE)drive[i].diskID1) < 0
             || SMW_B(m, (BYTE)drive[i].diskID2) < 0
             || SMW_B(m, (BYTE)drive[i].extend_image_policy) < 0
-            || SMW_B(m, (BYTE)drive[i].finish_byte) < 0
+            || SMW_B(m, (BYTE)drive[i].snap_finish_byte) < 0
             || SMW_DW(m, (DWORD)drive[i].GCR_head_offset) < 0
             || SMW_B(m, (BYTE)drive[i].GCR_read) < 0
             || SMW_B(m, (BYTE)drive[i].GCR_write_value) < 0
             || SMW_B(m, (BYTE)drive[i].idling_method) < 0
-            || SMW_B(m, (BYTE)drive[i].last_mode) < 0
+            || SMW_B(m, (BYTE)drive[i].snap_last_mode) < 0
             || SMW_B(m, (BYTE)drive[i].parallel_cable_enabled) < 0
             || SMW_B(m, (BYTE)drive[i].read_only) < 0
-            || SMW_DW(m, (DWORD)drive[i].rotation_last_clk) < 0
+            || SMW_DW(m, (DWORD)drive[i].snap_rotation_last_clk) < 0
             || SMW_DW(m, (DWORD)(rotation_table_ptr[i])) < 0
             || SMW_DW(m, (DWORD)drive[i].type) < 0
         ) {
@@ -256,9 +257,9 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     for (i = 0; i < 2; i++) {
         if (0
-            || SMR_DW_UL(m, &drive[i].accum) < 0
+            || SMR_DW_UL(m, &drive[i].snap_accum) < 0
             || SMR_DW(m, &drive[i].attach_clk) < 0
-            || SMR_DW_UL(m, &drive[i].bits_moved) < 0
+            || SMR_DW_UL(m, &drive[i].snap_bits_moved) < 0
             || SMR_B_INT(m, (int*)&drive[i].byte_ready_level) < 0
             || SMR_B_INT(m, &drive[i].clock_frequency) < 0
             || SMR_W_INT(m, &drive[i].current_half_track) < 0
@@ -266,15 +267,15 @@ int drive_snapshot_read_module(snapshot_t *s)
             || SMR_B(m, &drive[i].diskID1) < 0
             || SMR_B(m, &drive[i].diskID2) < 0
             || SMR_B_INT(m, &drive[i].extend_image_policy) < 0
-            || SMR_B_INT(m, &drive[i].finish_byte) < 0
+            || SMR_B_INT(m, &drive[i].snap_finish_byte) < 0
             || SMR_DW_INT(m, (int*)&drive[i].GCR_head_offset) < 0
             || SMR_B(m, &drive[i].GCR_read) < 0
             || SMR_B(m, &drive[i].GCR_write_value) < 0
             || SMR_B_INT(m, &drive[i].idling_method) < 0
-            || SMR_B_INT(m, &drive[i].last_mode) < 0
+            || SMR_B_INT(m, &drive[i].snap_last_mode) < 0
             || SMR_B_INT(m, &drive[i].parallel_cable_enabled) < 0
             || SMR_B_INT(m, &drive[i].read_only) < 0
-            || SMR_DW(m, &drive[i].rotation_last_clk) < 0
+            || SMR_DW(m, &drive[i].snap_rotation_last_clk) < 0
             || SMR_DW(m, &rotation_table_ptr[i]) < 0
             || SMR_DW_INT(m, (int*)&drive[i].type) < 0
         ) {
@@ -286,21 +287,20 @@ int drive_snapshot_read_module(snapshot_t *s)
     snapshot_module_close(m);
     m = NULL;
 
+    rotation_table_set(rotation_table_ptr);
+
     for (i = 0; i < 2; i++) {
-        drive[i].shifter = drive[i].bits_moved;
-        drive[i].rotation_table_ptr = drive[i].rotation_table[0]
-            + rotation_table_ptr[i];
         drive[i].GCR_track_start_ptr = (drive[i].gcr->data
                            + ((drive[i].current_half_track / 2 - 1)
                               * NUM_MAX_BYTES_TRACK));
         if (drive[i].type != DRIVE_TYPE_1571) {
             if (drive[i].type == DRIVE_TYPE_1581) {
-                drive_initialize_rotation_table(1, i);
+                rotation_init_table(1, i);
                 resources_set_value("MachineVideoStandard",
                                     (resource_value_t)sync_factor);
             } else {
                 drive[i].side = 0;
-                drive_initialize_rotation_table(0, i);
+                rotation_init_table(0, i);
                 resources_set_value("MachineVideoStandard",
                                     (resource_value_t)sync_factor);
             }
