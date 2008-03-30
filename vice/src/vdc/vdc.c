@@ -124,8 +124,6 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
     raster->display_xstart = vdc_80col_start_pixel;
     raster->display_xstop = vdc_80col_stop_pixel;
 
-    raster_enable_double_scan(raster, vdc_resources.double_scan_enabled);
-
     raster_resize_viewport(raster, displayed_width, displayed_height);
 }
 

@@ -309,7 +309,6 @@ extern int raster_set_palette(raster_t *raster, struct palette_s *palette);
 extern void raster_set_title(raster_t *raster, const char *title);
 extern void raster_skip_frame(raster_t *raster, int skip);
 extern void raster_enable_cache(raster_t *raster, int enable);
-extern void raster_enable_double_scan(raster_t *raster, int enable);
 extern void raster_mode_change(void);
 extern void raster_rebuild_tables(raster_t *raster);
 extern void raster_set_canvas_refresh(raster_t *raster, int enable);
