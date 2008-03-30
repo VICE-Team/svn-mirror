@@ -1,8 +1,12 @@
 1999-09-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-        * Version 1.1.1.
+	* Version 1.1.2.
 
-        * configure.in: Define `UNSTABLE'.
+1999-09-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.1.
+
+ 	* configure.in: Define `UNSTABLE'.
 
 	* data/C128/z80bios: New file.
 

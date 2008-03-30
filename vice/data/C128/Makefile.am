@@ -13,7 +13,8 @@ c128_DATA = \
 	kernal \
 	pc64.vpl \
         vdc_deft.vpl \
-	position.vkm 
+	position.vkm \
+	z80bios
 
 EXTRA_DIST = $(c128_DATA)
 
