@@ -46,7 +46,7 @@
 
 BYTE REGPARM2 drive_read_rom(drive_context_t *drv, WORD address)
 {
-    return drv->drive_ptr->rom[address & 0x7fff];
+    return drv->drive->rom[address & 0x7fff];
 }
 
 static BYTE REGPARM2 drive_read_free(drive_context_t *drv, WORD address)
@@ -107,11 +107,11 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
       case DRIVE_TYPE_NONE:
         break;
       case DRIVE_TYPE_2040:
-        drv->drive_ptr->rom_start = 0xe000;
+        drv->drive->rom_start = 0xe000;
         break;
       case DRIVE_TYPE_3040:
       case DRIVE_TYPE_4040:
-        drv->drive_ptr->rom_start = 0xd000;
+        drv->drive->rom_start = 0xd000;
         break;
       case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1551:
@@ -119,14 +119,14 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
-        drv->drive_ptr->rom_start = 0xc000;
+        drv->drive->rom_start = 0xc000;
         break;
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
-        drv->drive_ptr->rom_start = 0x8000;
+        drv->drive->rom_start = 0x8000;
         break;
       default:
         log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
@@ -181,11 +181,11 @@ static mem_ioreg_list_t *drive_ioreg_list_get(unsigned int type)
 
 mem_ioreg_list_t *drive0_ioreg_list_get(void)
 {
-    return drive_ioreg_list_get(drive0_context.drive_ptr->type);
+    return drive_ioreg_list_get(drive0_context.drive->type);
 }
 
 mem_ioreg_list_t *drive1_ioreg_list_get(void)
 {
-    return drive_ioreg_list_get(drive1_context.drive_ptr->type);
+    return drive_ioreg_list_get(drive1_context.drive->type);
 }
 

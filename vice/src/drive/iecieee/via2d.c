@@ -43,7 +43,7 @@
 
 typedef struct drivevia2_context_s {
     unsigned int number;
-    struct drive_s *drive_ptr;
+    struct drive_s *drive;
 } drivevia2_context_t;
 
 
@@ -106,12 +106,12 @@ inline static void store_pra(via_context_t *via_context, BYTE byte,
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    if (via2p->drive_ptr->byte_ready_active == 0x06)
-        rotation_rotate_disk(via2p->drive_ptr);
+    if (via2p->drive->byte_ready_active == 0x06)
+        rotation_rotate_disk(via2p->drive);
 
-    via2p->drive_ptr->GCR_write_value = byte;
+    via2p->drive->GCR_write_value = byte;
 
-    via2p->drive_ptr->byte_ready_level = 0;
+    via2p->drive->byte_ready_level = 0;
 }
 
 static void undump_pra(via_context_t *via_context, BYTE byte)
@@ -126,7 +126,7 @@ inline static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    via2p->drive_ptr->led_status = (byte & 8) ? 1 : 0;
+    via2p->drive->led_status = (byte & 8) ? 1 : 0;
     if (((poldpb ^ byte) & 0x3) && (byte & 0x4)) {
         /* Stepper motor */
         if ((poldpb & 0x3) == ((byte + 1) & 0x3))
@@ -137,11 +137,11 @@ inline static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     if ((poldpb ^ byte) & 0x60)     /* Zone bits */
         rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
     if ((poldpb ^ byte) & 0x04)     /* Motor on/off */
-        via2p->drive_ptr->byte_ready_active
-            = (via2p->drive_ptr->byte_ready_active & ~0x04)
+        via2p->drive->byte_ready_active
+            = (via2p->drive->byte_ready_active & ~0x04)
                                      | (byte & 0x04);
 
-    via2p->drive_ptr->byte_ready_level = 0;
+    via2p->drive->byte_ready_level = 0;
 }
 
 static void undump_prb(via_context_t *via_context, BYTE byte)
@@ -150,10 +150,10 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    via2p->drive_ptr->led_status = (byte & 8) ? 1 : 0;
+    via2p->drive->led_status = (byte & 8) ? 1 : 0;
     rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
-    via2p->drive_ptr->byte_ready_active
-        = (via2p->drive_ptr->byte_ready_active & ~0x04) | (byte & 0x04);
+    via2p->drive->byte_ready_active
+        = (via2p->drive->byte_ready_active & ~0x04) | (byte & 0x04);
 }
 
 inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
@@ -173,10 +173,10 @@ inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
         /* insert_your_favourite_drive_function_here(tmp);
         bit 5 is the write output to the analog circuitry:
         0 = writing, 0x20 = reading */
-        viad2_update_pcr(tmp, via2p->drive_ptr);
+        viad2_update_pcr(tmp, via2p->drive);
         if ((byte & 0x20) != (via_context->via[addr] & 0x20)) {
-            if (via2p->drive_ptr->byte_ready_active == 0x06)
-                rotation_rotate_disk(via2p->drive_ptr);
+            if (via2p->drive->byte_ready_active == 0x06)
+                rotation_rotate_disk(via2p->drive);
             rotation_change_mode(via2p->number);
         }
     }
@@ -189,7 +189,7 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    viad2_update_pcr(byte, via2p->drive_ptr);
+    viad2_update_pcr(byte, via2p->drive);
 }
 
 static void undump_acr(via_context_t *via_context, BYTE byte)
@@ -214,7 +214,7 @@ static void reset(via_context_t *via_context)
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    via2p->drive_ptr->led_status = 1;
+    via2p->drive->led_status = 1;
     drive_update_ui_status();
 }
 
@@ -225,12 +225,12 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    rotation_byte_read(via2p->drive_ptr);
+    rotation_byte_read(via2p->drive);
 
-    byte = ((via2p->drive_ptr->GCR_read & ~(via_context->via[VIA_DDRA]))
+    byte = ((via2p->drive->GCR_read & ~(via_context->via[VIA_DDRA]))
            | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]));
 
-    via2p->drive_ptr->byte_ready_level = 0;
+    via2p->drive->byte_ready_level = 0;
 
     return byte;
 }
@@ -242,16 +242,16 @@ inline static BYTE read_prb(via_context_t *via_context)
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    if (via2p->drive_ptr->byte_ready_active == 0x06)
-        rotation_rotate_disk(via2p->drive_ptr);
+    if (via2p->drive->byte_ready_active == 0x06)
+        rotation_rotate_disk(via2p->drive);
 
-    byte = ((rotation_sync_found(via2p->drive_ptr)
-           | drive_write_protect_sense(via2p->drive_ptr))
+    byte = ((rotation_sync_found(via2p->drive)
+           | drive_write_protect_sense(via2p->drive))
            & ~(via_context->via[VIA_DDRB]))
            | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
 
 
-    via2p->drive_ptr->byte_ready_level = 0;
+    via2p->drive->byte_ready_level = 0;
 
     return byte;
 }
@@ -303,7 +303,7 @@ void via2d_setup_context(drive_context_t *ctxptr)
 
     via2p = (drivevia2_context_t *)(via->prv);
     via2p->number = ctxptr->mynumber;
-    via2p->drive_ptr = ctxptr->drive_ptr;
+    via2p->drive = ctxptr->drive;
 
     via->context = (void *)ctxptr;
 

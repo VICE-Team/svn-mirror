@@ -41,7 +41,7 @@
 
 typedef struct drivetpi_context_s {
     unsigned int number;
-    struct drive_s *drive_ptr;
+    struct drive_s *drive;
 } drivetpi_context_t;
 
 
@@ -102,10 +102,10 @@ static void store_pb(tpi_context_t *tpi_context, BYTE byte)
 
     tpip = (drivetpi_context_t *)(tpi_context->prv);
 
-    if (tpip->drive_ptr->byte_ready_active == 0x06)
-        rotation_rotate_disk(tpip->drive_ptr);
+    if (tpip->drive->byte_ready_active == 0x06)
+        rotation_rotate_disk(tpip->drive);
 
-    tpip->drive_ptr->GCR_write_value = byte;
+    tpip->drive->GCR_write_value = byte;
 }
 
 static void undump_pa(tpi_context_t *tpi_context, BYTE byte)
@@ -124,11 +124,11 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
 
     plus4tcbm_update_pc(byte, tpip->number);
 
-    tpip->drive_ptr->read_write_mode = byte & 0x10;
+    tpip->drive->read_write_mode = byte & 0x10;
 
     if ((byte & 0x10) != (tpi_context->oldpc & 0x10)) {
-        if (tpip->drive_ptr->byte_ready_active == 0x06)
-            rotation_rotate_disk(tpip->drive_ptr);
+        if (tpip->drive->byte_ready_active == 0x06)
+            rotation_rotate_disk(tpip->drive);
         rotation_change_mode(tpip->number);
     }
 }
@@ -148,7 +148,7 @@ static BYTE read_pa(tpi_context_t *tpi_context)
     byte = (tpi_context->c_tpi[TPI_PA] | ~(tpi_context->c_tpi)[TPI_DDPA])
            & plus4tcbm_outputa[tpip->number];
 
-    tpip->drive_ptr->byte_ready_level = 0;
+    tpip->drive->byte_ready_level = 0;
 
     return byte;
 }
@@ -161,12 +161,12 @@ static BYTE read_pb(tpi_context_t *tpi_context)
 
     tpip = (drivetpi_context_t *)(tpi_context->prv);
 
-    rotation_byte_read(tpip->drive_ptr);
+    rotation_byte_read(tpip->drive);
 
     byte = (tpi_context->c_tpi[TPI_PB] | ~(tpi_context->c_tpi)[TPI_DDPB])
-           & tpip->drive_ptr->GCR_read;
+           & tpip->drive->GCR_read;
 
-    tpip->drive_ptr->byte_ready_level = 0;
+    tpip->drive->byte_ready_level = 0;
 
     return byte;
 }
@@ -179,8 +179,8 @@ static BYTE read_pc(tpi_context_t *tpi_context)
 
     tpip = (drivetpi_context_t *)(tpi_context->prv);
 
-    if (tpip->drive_ptr->byte_ready_active == 0x06)
-        rotation_rotate_disk(tpip->drive_ptr);
+    if (tpip->drive->byte_ready_active == 0x06)
+        rotation_rotate_disk(tpip->drive);
 
     byte = (tpi_context->c_tpi[TPI_PC] | ~(tpi_context->c_tpi)[TPI_DDPC])
            /* Bit 0, 1 */
@@ -190,7 +190,7 @@ static BYTE read_pc(tpi_context_t *tpi_context)
            /* Bit 5 */
            & (~0x20)
            /* Bit 6 */
-           & (rotation_sync_found(tpip->drive_ptr) ? 0xff : ~0x40)
+           & (rotation_sync_found(tpip->drive) ? 0xff : ~0x40)
            /* Bit 7 */
            & ((plus4tcbm_outputc[tpip->number] << 1) | ~0x80);
 
@@ -230,7 +230,7 @@ void tpid_setup_context(drive_context_t *ctxptr)
     tpi->tpi_int_num = interrupt_cpu_status_int_new(ctxptr->cpu->int_status,
                                                     tpi->myname);
     tpi->irq_line = IK_IRQ;
-    tpip->drive_ptr = ctxptr->drive_ptr;
+    tpip->drive = ctxptr->drive;
 
     tpi->store_pa = store_pa;
     tpi->store_pb = store_pb;

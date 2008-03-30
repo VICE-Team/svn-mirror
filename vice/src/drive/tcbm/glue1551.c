@@ -69,19 +69,19 @@ static void glue_pport_update(drive_context_t *drv)
 
     /* Motor on/off.  */
     if ((old_output ^ output) & 0x04)
-        drv->drive_ptr->byte_ready_active = (output & 0x04) ? 0x06 : 0;
+        drv->drive->byte_ready_active = (output & 0x04) ? 0x06 : 0;
 
     /* Drive active LED.  */
-    drv->drive_ptr->led_status = (output & 8) ? 0 : 1;
+    drv->drive->led_status = (output & 8) ? 0 : 1;
 
     if ((old_output ^ output) & 0x60)
         rotation_speed_zone_set((output >> 5) & 0x3, drv->mynumber);
 
-    if (drv->drive_ptr->byte_ready_active == 0x06)
-        rotation_rotate_disk(drv->drive_ptr);
+    if (drv->drive->byte_ready_active == 0x06)
+        rotation_rotate_disk(drv->drive);
 
-    input = drive_write_protect_sense(drv->drive_ptr)
-            | (drv->drive_ptr->byte_ready_level ? 0x80 : 0);
+    input = drive_write_protect_sense(drv->drive)
+            | (drv->drive->byte_ready_level ? 0x80 : 0);
 
     drv->cpud->drive_ram[1] = output & (input | ~0x90);
 
@@ -179,7 +179,7 @@ void glue1551_reset(drive_context_t *drv)
         glue1551d1_irq_line = 0;
     }
 
-    drv->drive_ptr->led_status = 1;
+    drv->drive->led_status = 1;
     drive_update_ui_status();
 }
 

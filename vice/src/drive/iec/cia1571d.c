@@ -41,7 +41,7 @@
 
 typedef struct drivecia1571_context_s {
     unsigned int number;
-    struct drive_s *drive_ptr;
+    struct drive_s *drive;
 } drivecia1571_context_t;
 
 
@@ -208,7 +208,7 @@ void cia1571_setup_context(drive_context_t *ctxptr)
     cia->irq_line = IK_IRQ;
     cia->myname = lib_msprintf("CIA1571D%d", ctxptr->mynumber);
 
-    cia1571p->drive_ptr = ctxptr->drive_ptr;
+    cia1571p->drive = ctxptr->drive;
 
     cia->undump_ciapa = undump_ciapa;
     cia->undump_ciapb = undump_ciapb;

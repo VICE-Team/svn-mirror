@@ -75,57 +75,57 @@ static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
 
 static BYTE REGPARM2 drive_read_ram2(drive_context_t *drv, WORD address)
 {
-    return drv->drive_ptr->drive_ram_expand2[address & 0x1fff];
+    return drv->drive->drive_ram_expand2[address & 0x1fff];
 }
 
 static void REGPARM3 drive_store_ram2(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
-    drv->drive_ptr->drive_ram_expand2[address & 0x1fff] = value;
+    drv->drive->drive_ram_expand2[address & 0x1fff] = value;
 }
 
 static BYTE REGPARM2 drive_read_ram4(drive_context_t *drv, WORD address)
 {
-    return drv->drive_ptr->drive_ram_expand4[address & 0x1fff];
+    return drv->drive->drive_ram_expand4[address & 0x1fff];
 }
 
 static void REGPARM3 drive_store_ram4(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
-    drv->drive_ptr->drive_ram_expand4[address & 0x1fff] = value;
+    drv->drive->drive_ram_expand4[address & 0x1fff] = value;
 }
 
 static BYTE REGPARM2 drive_read_ram6(drive_context_t *drv, WORD address)
 {
-    return drv->drive_ptr->drive_ram_expand6[address & 0x1fff];
+    return drv->drive->drive_ram_expand6[address & 0x1fff];
 }
 
 static void REGPARM3 drive_store_ram6(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
-    drv->drive_ptr->drive_ram_expand6[address & 0x1fff] = value;
+    drv->drive->drive_ram_expand6[address & 0x1fff] = value;
 }
 
 static BYTE REGPARM2 drive_read_ram8(drive_context_t *drv, WORD address)
 {
-    return drv->drive_ptr->drive_ram_expand8[address & 0x1fff];
+    return drv->drive->drive_ram_expand8[address & 0x1fff];
 }
 
 static void REGPARM3 drive_store_ram8(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
-    drv->drive_ptr->drive_ram_expand8[address & 0x1fff] = value;
+    drv->drive->drive_ram_expand8[address & 0x1fff] = value;
 }
 
 static BYTE REGPARM2 drive_read_rama(drive_context_t *drv, WORD address)
 {
-    return drv->drive_ptr->drive_ram_expanda[address & 0x1fff];
+    return drv->drive->drive_ram_expanda[address & 0x1fff];
 }
 
 static void REGPARM3 drive_store_rama(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
-    drv->drive_ptr->drive_ram_expanda[address & 0x1fff] = value;
+    drv->drive->drive_ram_expanda[address & 0x1fff] = value;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -226,46 +226,46 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
     }
 
     if (rom_loaded && (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II)) {
-        if (drv->drive_ptr->drive_ram2_enabled) {
-            if (drv->drive_ptr->drive_ram_expand2 != NULL)
-                lib_free(drv->drive_ptr->drive_ram_expand2);
-            drv->drive_ptr->drive_ram_expand2 = lib_calloc(1, 0x2000);
+        if (drv->drive->drive_ram2_enabled) {
+            if (drv->drive->drive_ram_expand2 != NULL)
+                lib_free(drv->drive->drive_ram_expand2);
+            drv->drive->drive_ram_expand2 = lib_calloc(1, 0x2000);
             for (i = 0x20; i < 0x40; i++) {
                 cpud->read_func_nowatch[i] = drive_read_ram2;
                 cpud->store_func_nowatch[i] = drive_store_ram2;
             }
         }
-        if (drv->drive_ptr->drive_ram4_enabled) {
-            if (drv->drive_ptr->drive_ram_expand4 != NULL)
-                lib_free(drv->drive_ptr->drive_ram_expand4);
-            drv->drive_ptr->drive_ram_expand4 = lib_calloc(1, 0x2000);
+        if (drv->drive->drive_ram4_enabled) {
+            if (drv->drive->drive_ram_expand4 != NULL)
+                lib_free(drv->drive->drive_ram_expand4);
+            drv->drive->drive_ram_expand4 = lib_calloc(1, 0x2000);
             for (i = 0x40; i < 0x60; i++) {
                 cpud->read_func_nowatch[i] = drive_read_ram4;
                 cpud->store_func_nowatch[i] = drive_store_ram4;
             }
         }
-        if (drv->drive_ptr->drive_ram6_enabled) {
-            if (drv->drive_ptr->drive_ram_expand6 != NULL)
-                lib_free(drv->drive_ptr->drive_ram_expand6);
-            drv->drive_ptr->drive_ram_expand6 = lib_calloc(1, 0x2000);
+        if (drv->drive->drive_ram6_enabled) {
+            if (drv->drive->drive_ram_expand6 != NULL)
+                lib_free(drv->drive->drive_ram_expand6);
+            drv->drive->drive_ram_expand6 = lib_calloc(1, 0x2000);
             for (i = 0x60; i < 0x80; i++) {
                 cpud->read_func_nowatch[i] = drive_read_ram6;
                 cpud->store_func_nowatch[i] = drive_store_ram6;
             }
         }
-        if (drv->drive_ptr->drive_ram8_enabled) {
-            if (drv->drive_ptr->drive_ram_expand8 != NULL)
-                lib_free(drv->drive_ptr->drive_ram_expand8);
-            drv->drive_ptr->drive_ram_expand8 = lib_calloc(1, 0x2000);
+        if (drv->drive->drive_ram8_enabled) {
+            if (drv->drive->drive_ram_expand8 != NULL)
+                lib_free(drv->drive->drive_ram_expand8);
+            drv->drive->drive_ram_expand8 = lib_calloc(1, 0x2000);
             for (i = 0x80; i < 0xa0; i++) {
                 cpud->read_func_nowatch[i] = drive_read_ram8;
                 cpud->store_func_nowatch[i] = drive_store_ram8;
             }
         }
-        if (drv->drive_ptr->drive_rama_enabled) {
-            if (drv->drive_ptr->drive_ram_expanda != NULL)
-                lib_free(drv->drive_ptr->drive_ram_expanda);
-            drv->drive_ptr->drive_ram_expanda = lib_calloc(1, 0x2000);
+        if (drv->drive->drive_rama_enabled) {
+            if (drv->drive->drive_ram_expanda != NULL)
+                lib_free(drv->drive->drive_ram_expanda);
+            drv->drive->drive_ram_expanda = lib_calloc(1, 0x2000);
             for (i = 0xa0; i < 0xc0; i++) {
                 cpud->read_func_nowatch[i] = drive_read_rama;
                 cpud->store_func_nowatch[i] = drive_store_rama;

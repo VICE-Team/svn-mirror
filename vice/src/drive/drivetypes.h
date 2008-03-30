@@ -155,7 +155,7 @@ struct via_context_s;
 typedef struct drive_context_s {
     int mynumber;         /* init to [01] */
     CLOCK *clk_ptr;       /* shortcut to drive_clk[mynumber] */
-    struct drive_s *drive_ptr;    /* shortcut to drive[mynumber] */
+    struct drive_s *drive;    /* shortcut to drive[mynumber] */
 
     struct drivecpu_context_s *cpu;
     struct drivecpud_context_s *cpud;

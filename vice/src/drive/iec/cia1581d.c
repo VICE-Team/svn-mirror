@@ -44,7 +44,7 @@
 
 typedef struct drivecia1581_context_s {
     unsigned int number;
-    struct drive_s *drive_ptr;
+    struct drive_s *drive;
     struct iec_info_s *iec_info;
 } drivecia1581_context_t;
 
@@ -96,7 +96,7 @@ static void do_reset_cia(cia_context_t *cia_context)
 
     /*cia1581p->iec_info = iec_get_drive_port();*/
 
-    cia1581p->drive_ptr->led_status = 1;
+    cia1581p->drive->led_status = 1;
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
@@ -113,7 +113,7 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
 
-    cia1581p->drive_ptr->led_status = (b & 0x40) ? 1 : 0;
+    cia1581p->drive->led_status = (b & 0x40) ? 1 : 0;
 }
 
 static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE b)
@@ -127,7 +127,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
 
     wd1770[cia1581p->number].side = (byte & 0x01) ? 1 : 0;
-    cia1581p->drive_ptr->led_status = (byte & 0x40) ? 1 : 0;
+    cia1581p->drive->led_status = (byte & 0x40) ? 1 : 0;
 }
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
@@ -198,11 +198,11 @@ static BYTE read_ciapb(cia_context_t *cia_context)
                      ? &(cia1581p->iec_info->drive_port)
                      : &(cia1581p->iec_info->drive2_port);
         return (((cia_context->c_cia[CIA_PRB] & 0x1a) | (*drive_port)) ^ 0x85)
-            | (cia1581p->drive_ptr->read_only ? 0 : 0x40);
+            | (cia1581p->drive->read_only ? 0 : 0x40);
     } else {
         return (((cia_context->c_cia[CIA_PRB] & 0x1a)
             | drive_context->func->iec_read()) ^ 0x85)
-            | (cia1581p->drive_ptr->read_only ? 0 : 0x40);
+            | (cia1581p->drive->read_only ? 0 : 0x40);
     }
 }
 
@@ -294,7 +294,7 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     cia->irq_line = IK_IRQ;
     cia->myname = lib_msprintf("CIA1581D%d", ctxptr->mynumber);
 
-    cia1581p->drive_ptr = ctxptr->drive_ptr;
+    cia1581p->drive = ctxptr->drive;
     cia1581p->iec_info = iec_get_drive_port();
     /*cia1581p->iec_info = ctxptr->c_iec_info;*/
 
