@@ -51,7 +51,6 @@
 
 #include "cmdline.h"
 #include "coproc.h"
-#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "types.h"
@@ -65,14 +64,8 @@
 
 #define NUM_DEVICES 4
 
-static char *devfile[NUM_DEVICES] = { NULL, NULL, NULL, NULL };
+extern char *devfile[NUM_DEVICES];
 static int devbaud[NUM_DEVICES];
-
-static int set_devfile(resource_value_t v, void *param)
-{
-    util_string_set(&devfile[(int)param], (const char *)v);
-    return 0;
-}
 
 static int set_devbaud(resource_value_t v, void *param)
 {
@@ -83,20 +76,12 @@ static int set_devbaud(resource_value_t v, void *param)
 /* ------------------------------------------------------------------------- */
 
 static const resource_t resources[] = {
-    { "RsDevice1", RES_STRING, (resource_value_t)"/dev/ttyS0",
-      (void *)&devfile[0], set_devfile, (void *)0 },
     { "RsDevice1Baud", RES_INTEGER, (resource_value_t)9600,
       (void *)&devbaud[0], set_devbaud, (void *)0 },
-    { "RsDevice2", RES_STRING, (resource_value_t)"/dev/ttyS1",
-      (void *)&devfile[1], set_devfile, (void *)1 },
     { "RsDevice2Baud", RES_INTEGER, (resource_value_t)9600,
       (void *)&devbaud[1], set_devbaud, (void *)1 },
-    { "RsDevice3", RES_STRING, (resource_value_t)"rs232.dump",
-      (void *)&devfile[2], set_devfile, (void *)2 },
     { "RsDevice3Baud", RES_INTEGER, (resource_value_t)9600,
       (void *)&devbaud[2], set_devbaud, (void *)2 },
-    { "RsDevice4", RES_STRING, (resource_value_t)"|lpr",
-      (void *)&devfile[3], set_devfile, (void *)3 },
     { "RsDevice4Baud", RES_INTEGER, (resource_value_t)9600,
       (void *)&devbaud[3], set_devbaud, (void *)3 },
     { NULL }
@@ -109,27 +94,15 @@ int rs232_resources_init(void)
 
 void rs232_resources_shutdown(void)
 {
-    lib_free(devfile[0]);
-    lib_free(devfile[1]);
-    lib_free(devfile[2]);
-    lib_free(devfile[3]);
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-rsdev1", SET_RESOURCE, 1, NULL, NULL, "RsDevice1", NULL,
-      "<name>", N_("Specify name of first RS232 device (/dev/ttyS0)") },
     { "-rsdev1baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice1Baud", NULL,
       "<baudrate>", N_("Specify baudrate of first RS232 device") },
-    { "-rsdev2", SET_RESOURCE, 1, NULL, NULL, "RsDevice2", NULL,
-      "<name>", N_("Specify name of second RS232 device (/dev/ttyS1)") },
     { "-rsdev2baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice2Baud", NULL,
       "<baudrate>", N_("Specify baudrate of second RS232 device") },
-    { "-rsdev3", SET_RESOURCE, 1, NULL, NULL, "RsDevice3", NULL,
-      "<name>", N_("Specify name of third RS232 device (rs232.dump)") },
     { "-rsdev3baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice3Baud", NULL,
       "<baudrate>", N_("Specify baudrate of third RS232 device") },
-    { "-rsdev4", SET_RESOURCE, 1, NULL, NULL, "RsDevice4", NULL,
-      "<name>", N_("Specify command to pipe data in/out, preceed with '|' (|lpr)") },
     { "-rsdev4baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice4Baud", NULL,
       "<baudrate>", N_("Specify baudrate of 4th RS232 device") },
     { NULL }
