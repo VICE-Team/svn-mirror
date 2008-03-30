@@ -5,6 +5,7 @@ cbm2_DATA = \
 	basic.128 \
 	basic.256 \
 	basic.500 \
+	beos_bukp.vkm \
 	beos_buks.vkm \
 	ccs64.vpl \
 	c64s.vpl \
@@ -12,6 +13,7 @@ cbm2_DATA = \
 	chargen.600 \
 	chargen.700 \
 	default.vpl \
+	dos_bukp.vkm \
 	dos_buks.vkm \
 	frodo.vpl \
 	godot.vpl \
@@ -26,6 +28,7 @@ cbm2_DATA = \
 	rom256l.vrs \
 	rom256h.vrs \
 	white.vpl \
+	win_bukp.vkm \
 	win_buks.vkm \
 	x11_buks.vkm
 

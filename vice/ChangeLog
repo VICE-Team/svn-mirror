@@ -1,3 +1,14 @@
+2003-07-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.13.
+
+	* data/CBM-II/beos_bukp.vkm, data/CBM-II/dos_bukp.vkm,
+	data/CBM-II/win_bukp.vkm: New files.
+
+	* data/CBM-II/Makefile.am: Added new files.
+
+	* data/PLUS4/kernal: Changed Kernal.
+
 2003-07-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.12.
