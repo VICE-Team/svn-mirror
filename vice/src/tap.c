@@ -108,7 +108,7 @@ int tap_close(tap_t *tap)
     if (tap->fd != NULL) {
         if (tap->has_changed)
             if (!fseek(tap->fd,TAP_HDR_LEN,SEEK_SET))
-                fwrite(&tap->size,4,1,tap->fd);
+                write_dword(tap->fd, (DWORD *)&tap->size, 4);
         retval = zfclose(tap->fd);
         tap->fd = NULL;
     } else {

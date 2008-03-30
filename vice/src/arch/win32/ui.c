@@ -1038,7 +1038,7 @@ char *dname;
             char    *autostart_filename=NULL;
 
             if ((s = ui_select_file(hwnd,"Attach tape image",
-                "Tape image files (*.t64;*.tap)\0*.t64;*.tap\0"
+                "Tape image files (*.t64;*.p00;*.tap;*.prg)\0*.t64;*.p00;*.tap;*.prg\0"
                 "All files (*.*)\0*.*\0", FILE_SELECTOR_TAPE_STYLE,
                 &autostart_filename)) != NULL) {
                 if (autostart_filename!=NULL) {
@@ -1085,7 +1085,7 @@ char *dname;
 
             if ((s = ui_select_file(hwnd,"Autostart disk/tape image",
                 "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82\0"
-                "Tape image files (*.t64;*.p00;*.tap)\0*.t64;*.p00;*.tap\0"
+                "Tape image files (*.t64;*.p00;*.tap;*.prg)\0*.t64;*.p00;*.tap;*.prg\0"
                 "All files (*.*)\0*.*\0",
                 FILE_SELECTOR_DISK_AND_TAPE_STYLE,
                 &autostart_filename)) != NULL) {

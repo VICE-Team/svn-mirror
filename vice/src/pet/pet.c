@@ -64,6 +64,7 @@
 #include "serial.h"
 #include "snapshot.h"
 #include "sound.h"
+#include "tape.h"
 #include "traps.h"
 #include "types.h"
 #include "utils.h"
@@ -333,6 +334,9 @@ void machine_shutdown(void)
 {
     /* Detach all disks.  */
     file_system_detach_disk(-1);
+
+    /* and the tape */
+    tape_detach_image();
 
     console_close_all();
 }

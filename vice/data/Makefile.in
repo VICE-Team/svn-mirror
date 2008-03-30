@@ -108,7 +108,7 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUBDIRS = C64 C128 VIC20 PET CBM-II DRIVES
+SUBDIRS = C64 C128 VIC20 PET CBM-II DRIVES fonts
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../src/config.h
 CONFIG_CLEAN_FILES = 

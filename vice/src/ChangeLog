@@ -1,3 +1,27 @@
+2000-03-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.3.3.
+
+	* arch/win32/ui.c (handle_wm_command): Added "*.prg" to
+	autostart dialog.
+
+	* pet/pet.c, cbm2/c610.c: #include "tape.h".
+
+2000-03-14  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* tap.c(tap_close): uses write_dword to write the new tap size
+	with little endian
+
+	* c64/c64.c,c128/c128.c,vic20/vic20.c,cbm2/c610.c,pet/pet.c
+	(machine_shutdown): detaches tape images
+
+2000-03-14  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/x11/gnome/ui.c:
+	(var fixedfontname): Changed font name.
+	(archdep_ui_init): Added fontpath handling.
+	(ui_exit): ditto.
+
 2000-03-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.3.2.
