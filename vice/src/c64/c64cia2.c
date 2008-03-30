@@ -1,7 +1,7 @@
 
 /*
- * ../../../vice-0.14.2.38/src/c64/c64cia2.c
- * This file is generated from ../../../vice-0.14.2.38/src/cia-tmpl.c and ../../../vice-0.14.2.38/src/c64/c64cia2.def,
+ * ../../../src/c64/c64cia2.c
+ * This file is generated from ../../../src/cia-tmpl.c and ../../../src/c64/c64cia2.def,
  * Do not edit!
  */
 /*
@@ -844,7 +844,12 @@ int int_cia2ta(long offset)
 		(!maincpu_int_status.pending_int[I_CIA2TA]))
 	    || (cia2[CIA_CRA] & 0x42)
 	    || (cia2_tbs == CIAT_COUNTTA)) {
-	    maincpu_set_alarm_clk(A_CIA2TA, rclk + cia2_tal + 1 /*+ 1*/);
+	    if(offset > cia2_tal+1) {
+	        maincpu_set_alarm_clk(A_CIA2TA, 
+			clk - (offset % (cia2_tal+1)) + cia2_tal + 1 );
+	    } else {
+	        maincpu_set_alarm_clk(A_CIA2TA, rclk + cia2_tal + 1 );
+	    }
 	} else {
 	    maincpu_unset_alarm(A_CIA2TA);
 	}
@@ -926,7 +931,12 @@ int int_cia2tb(long offset)
 #endif
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (cia2ier & CIA_IM_TB) {
-		maincpu_set_alarm_clk(A_CIA2TB, rclk + cia2_tbl + 1 /*+ 1*/);
+		if(offset > cia2_tbl+1) {
+		    maincpu_set_alarm_clk(A_CIA2TB, 
+			clk - (offset % (cia2_tbl+1)) + cia2_tbl + 1);
+		} else {
+		    maincpu_set_alarm_clk(A_CIA2TB, rclk + cia2_tbl + 1);
+		}
 	    } else {
 		maincpu_unset_alarm(A_CIA2TB);
 	    }

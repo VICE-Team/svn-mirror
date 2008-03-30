@@ -811,7 +811,12 @@ int int_myciata(long offset)
 		(!mycpu_int_status.pending_int[I_MYCIATA]))
 	    || (mycia[CIA_CRA] & 0x42)
 	    || (mycia_tbs == CIAT_COUNTTA)) {
-	    mycpu_set_alarm_clk(A_MYCIATA, rclk + mycia_tal + 1 /*+ 1*/);
+	    if(offset > mycia_tal+1) {
+	        mycpu_set_alarm_clk(A_MYCIATA, 
+			clk - (offset % (mycia_tal+1)) + mycia_tal + 1 );
+	    } else {
+	        mycpu_set_alarm_clk(A_MYCIATA, rclk + mycia_tal + 1 );
+	    }
 	} else {
 	    mycpu_unset_alarm(A_MYCIATA);
 	}
@@ -893,7 +898,12 @@ int int_myciatb(long offset)
 #endif
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (myciaier & CIA_IM_TB) {
-		mycpu_set_alarm_clk(A_MYCIATB, rclk + mycia_tbl + 1 /*+ 1*/);
+		if(offset > mycia_tbl+1) {
+		    mycpu_set_alarm_clk(A_MYCIATB, 
+			clk - (offset % (mycia_tbl+1)) + mycia_tbl + 1);
+		} else {
+		    mycpu_set_alarm_clk(A_MYCIATB, rclk + mycia_tbl + 1);
+		}
 	    } else {
 		mycpu_unset_alarm(A_MYCIATB);
 	    }

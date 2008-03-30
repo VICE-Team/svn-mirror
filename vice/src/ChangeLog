@@ -1,3 +1,20 @@
+Wed Jun 17 13:59:22 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/coproc.c (sigignore): Renamed to ignore, do not
+ 	initialize statically.
+	(fork_coproc): Renamed sigignore to ignore, initialize on runtime
+ 	with appropriate functions.
+
+	* arch/unix/rs232.c: #undef "DEBUG".
+	(rs232_close, rs232_putc, rs232_getc): Change error output to use
+ 	stderr.
+
+	* acia-tmpl.c: Changed printout on cmdline option myaciadev
+
+	* cia-tmpl.c (int_myciata, int_myciatb): If offset is larger than
+ 	the timer period, skip int_myciata calls when setting up the next
+ 	timer alarm.
+
 Wed Jun 17 00:01:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/unix/coproc.c: #include <sys/types.h>

@@ -34,7 +34,7 @@
  *
  */
 
-#define        DEBUG
+#undef        DEBUG
 
 #include <stdio.h>
 
@@ -312,12 +312,12 @@ void rs232_close(int fd) {
        fprintf(stderr,"RS232 close(fd=%d)\n",fd);
 #endif
        if(fd<0 || fd>=MAXRS232) {
-         printf("RS232: close with invalid fd %d!\n", fd);
+         fprintf(stderr, "RS232: close with invalid fd %d!\n", fd);
          return;
        }
 
        if(!fds[fd].inuse) {
-         printf("RS232: close with non-open fd %d!\n", fd);
+         fprintf(stderr, "RS232: close with non-open fd %d!\n", fd);
          return;
        }
 
@@ -336,7 +336,7 @@ int rs232_putc(int fd, BYTE b) {
        size_t n;
 
        if(fd<0 || fd>=MAXRS232 || !fds[fd].inuse) {
-         printf("RS232: putc with invalid or non-open fd %d!\n", fd);
+         fprintf(stderr, "RS232: putc with invalid or non-open fd %d!\n", fd);
          return -1;
        }
 
@@ -363,7 +363,7 @@ int rs232_getc(int fd, BYTE *b) {
        struct timeval ti;
 
        if(fd<0 || fd>=MAXRS232 || !fds[fd].inuse) {
-         printf("RS232: getc with invalid or non-open fd %d!\n", fd);
+         fprintf(stderr, "RS232: getc with invalid or non-open fd %d!\n", fd);
          return 0;
        }
        if(fds[fd].type == T_FILE) return 0;

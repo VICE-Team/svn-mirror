@@ -1,7 +1,7 @@
 
 /*
- * ../../../vice-0.14.2.38/src/c64/c64acia1.c
- * This file is generated from ../../../vice-0.14.2.38/src/acia-tmpl.c and ../../../vice-0.14.2.38/src/c64/c64acia1.def,
+ * ../../../src/c64/c64acia1.c
+ * This file is generated from ../../../src/acia-tmpl.c and ../../../src/c64/c64acia1.def,
  * Do not edit!
  */
 
@@ -80,7 +80,7 @@ int acia1_init_resources(void) {
 
 static cmdline_option_t cmdline_options[] = {
     { "-acia1dev", SET_RESOURCE, 1, NULL, NULL, "Acia1Dev", NULL,
-	"<device>", "Specify RS232 device this ACIA should work on" },
+	"<0-3>", "Specify RS232 device this ACIA should work on" },
     { NULL }
 };
 

@@ -74,7 +74,7 @@ int myacia_init_resources(void) {
 
 static cmdline_option_t cmdline_options[] = {
     { "-myaciadev", SET_RESOURCE, 1, NULL, NULL, "MyAciaDev", NULL,
-	"<device>", "Specify RS232 device this ACIA should work on" },
+	"<0-3>", "Specify RS232 device this ACIA should work on" },
     { NULL }
 };
 
