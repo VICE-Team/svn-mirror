@@ -24,6 +24,10 @@
  *
  */
 
+#include "vice.h"
+
+#ifndef COMMON_KBD
+
 #include "cartridge.h"
 #include "kbd.h"
 
@@ -144,4 +148,5 @@ int c64_kbd_init(void)
     return kbd_init(1,
                     1, 7, c64_keyboard, sizeof(c64_keyboard));
 }
+#endif
 

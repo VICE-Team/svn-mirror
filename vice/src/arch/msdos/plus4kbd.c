@@ -24,6 +24,10 @@
  *
  */
 
+#include "vice.h"
+
+#ifndef COMMON_KBD
+
 #include "kbd.h"
 
 static keyconv plus4_keyboard[256] = {
@@ -142,4 +146,5 @@ int plus4_kbd_init(void)
     return kbd_init(1,
                     1, 7, plus4_keyboard, sizeof(plus4_keyboard));
 }
+#endif
 

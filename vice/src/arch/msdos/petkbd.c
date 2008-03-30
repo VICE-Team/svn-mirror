@@ -24,6 +24,10 @@
  *
  */
 
+#include "vice.h"
+
+#ifndef COMMON_KBD
+
 #include "kbd.h"
 #include "keyboard.h"
 
@@ -267,4 +271,5 @@ int pet_kbd_cmdline_options_init(void)
 {
     return kbd_cmdline_options_init();
 }
+#endif
 

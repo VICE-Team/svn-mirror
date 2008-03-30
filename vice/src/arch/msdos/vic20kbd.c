@@ -24,6 +24,10 @@
  *
  */
 
+#include "vice.h"
+
+#ifndef COMMON_KBD
+
 #include "kbd.h"
 
 static keyconv vic20_keyboard[256] = {
@@ -142,3 +146,5 @@ int vic20_kbd_init(void)
     return kbd_init(1,
                     1, 3, vic20_keyboard, sizeof(vic20_keyboard));
 }
+#endif
+
