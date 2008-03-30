@@ -52,6 +52,7 @@
 #include "drivecpu.h"
 #include "fsdevice.h"
 #include "fullscreen.h"
+#include "gfxoutput.h"
 #include "interrupt.h"
 #include "joystick.h"
 #include "kbd.h"
@@ -553,6 +554,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 #endif
 
         palette_init();
+        gfxoutput_init();
         screenshot_init();
 
         drive0_cpu_early_init();

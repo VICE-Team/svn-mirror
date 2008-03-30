@@ -19,7 +19,7 @@ SUBDIRS = \
 	vicii \
         vdc \
 	crtc \
-	screendrv \
+	gfxoutputdrv \
 	printerdrv \
 	sid \
 	monitor \
@@ -64,6 +64,7 @@ noinst_HEADERS = \
 	fliplist.h \
 	fullscreen.h \
 	gcr.h \
+	gfxoutput.h \
 	iecdrive.h \
 	imagecontents.h \
 	info.h \
@@ -187,13 +188,13 @@ c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
+gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
-screendrv_lib = $(top_builddir)/src/screendrv/libscreendrv.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
@@ -214,7 +215,7 @@ x64_libs =  \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(sounddrv_lib) \
-        $(screendrv_lib) \
+        $(gfxoutputdrv_lib) \
 	$(printerdrv_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
@@ -235,7 +236,7 @@ x64-all: \
 	libraster \
 	libsid \
 	libsounddrv \
-        libscreendrv \
+        libgfxoutputdrv \
 	libprinterdrv \
 	libvicii \
 	libarch \
@@ -251,7 +252,7 @@ x128_libs =  \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(sounddrv_lib) \
-        $(screendrv_lib) \
+        $(gfxoutputdrv_lib) \
 	$(printerdrv_lib) \
 	$(vicii_lib) \
 	$(vdc_lib) \
@@ -269,7 +270,7 @@ x128-all: \
 	libc128 \
 	libc64c128 \
 	libsounddrv \
-        libscreendrv \
+        libgfxoutputdrv \
 	libprinterdrv \
 	libdrive \
 	libvdrive \
@@ -289,7 +290,7 @@ xvic_libs =  \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
-        $(screendrv_lib) \
+        $(gfxoutputdrv_lib) \
 	$(printerdrv_lib) \
 	$(raster_lib) \
 	$(monitor_lib) \
@@ -306,7 +307,7 @@ xvic-all: \
 	libvdrive \
 	libraster \
 	libsounddrv \
-        libscreendrv \
+        libgfxoutputdrv \
 	libprinterdrv \
 	libvic20 \
 	libarch \
@@ -320,7 +321,7 @@ xpet_libs =  \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
-        $(screendrv_lib) \
+        $(gfxoutputdrv_lib) \
 	$(printerdrv_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
@@ -339,7 +340,7 @@ xpet-all: \
 	libraster \
 	libcrtc \
 	libsounddrv \
-        libscreendrv \
+        libgfxoutputdrv \
 	libprinterdrv \
 	libpet \
 	libarch \
@@ -353,7 +354,7 @@ xcbm2_libs = \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
-        $(screendrv_lib) \
+        $(gfxoutputdrv_lib) \
 	$(printerdrv_lib) \
 	$(sid_lib) \
 	$(crtc_lib) \
@@ -371,7 +372,7 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xcbm2-all: \
 	libcbm2 \
 	libsounddrv \
-        libscreendrv \
+        libgfxoutputdrv \
 	libprinterdrv \
 	libarch \
 	libsid \
@@ -430,7 +431,7 @@ petcat_LDADD = \
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libvdrive
-	libprinterdrv libscreendrv libsounddrv \
+	libprinterdrv libgfxoutputdrv libsounddrv \
 	libarch libvicii libvdc libsid libcrtc @RESID_DEP@
 
 libarch:
@@ -457,8 +458,8 @@ libsid:
 	(cd sid && $(MAKE))
 libsounddrv:
 	(cd sounddrv && $(MAKE))
-libscreendrv:
-	(cd screendrv && $(MAKE))
+libgfxoutputdrv:
+	(cd gfxoutputdrv && $(MAKE))
 libvdrive:
 	(cd vdrive && $(MAKE))
 libvic20:
