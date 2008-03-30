@@ -199,7 +199,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
                                  default_item, image_contents_read_disk, &file,
                                  &file_number);
         if (file_number > 0) {
-            if (autostart_disk(name, NULL, file_number) < 0)
+            if (autostart_disk(name, NULL, file_number, AUTOSTART_MODE_RUN) < 0)
                 tui_error("Cannot autostart disk image.");
             else
                 *behavior = TUI_MENU_BEH_RESUME;
