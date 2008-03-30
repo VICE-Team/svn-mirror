@@ -38,6 +38,11 @@
 #include "utils.h"
 #include "maincpu.h"
 
+#ifdef HAVE_RESID
+#include "resid.h"
+static int useresid;
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* Resource handling -- Added by Ettore 98-04-26.  */
@@ -80,7 +85,13 @@ int sid_init_resources(void)
 /* Command-line options -- Added by Ettore 98-05-09.  */
 static cmdline_option_t cmdline_options[] = {
     { "-sidmodel", SET_RESOURCE, 1, NULL, NULL, "SidModel", NULL,
-      "<model>", "Specify SID model (1: 8580, 0: 6581)" },
+      "<model>",
+#ifdef HAVE_RESID
+      "Specify SID model (2: 6581 (reSID), 1: 8580, 0: 6581)"
+#else
+      "Specify SID model (1: 8580, 0: 6581)"
+#endif
+    },
     { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters", (resource_value_t) 1,
       NULL, "Emulate SID filters" },
     { "+sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters", (resource_value_t) 0,
@@ -691,6 +702,11 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
     register DWORD		o0, o1, o2;
     register int		dosync1, dosync2, i;
 
+#ifdef HAVE_RESID
+    if (useresid)
+	return resid_sound_machine_calculate_samples(psid, pbuf, nr);
+#endif
+
     setup_sid(psid);
     setup_voice(&psid->v[0]);
     setup_voice(&psid->v[1]);
@@ -843,7 +859,13 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
 {
     DWORD		 i;
     sound_t		*psid;
-    
+
+#ifdef HAVE_RESID
+    useresid = sid_model == 2;
+    if (useresid)
+	return resid_sound_machine_open(speed, cycles_per_sec,
+					sid_filters_enabled, siddata, clk);
+#endif
     psid = xmalloc(sizeof(*psid));
     psid->speed1 = (cycles_per_sec << 8) / speed;
     for (i = 0; i < 16; i++)
@@ -870,7 +892,7 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
 	setup_voice(&psid->v[i]);
     }
 #ifdef WAVETABLES
-    psid->newsid = sid_model;
+    psid->newsid = sid_model == 1;
     for (i = 0; i < 4096; i++)
     {
 	wavetable10[i] = i < 2048 ? i << 4 : 0xffff - (i << 4);
@@ -907,6 +929,11 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
 
 void sound_machine_close(sound_t *psid)
 {
+#ifdef HAVE_RESID
+    if (useresid)
+	resid_sound_machine_close(psid);
+    else
+#endif
     free(psid);
 }
 
@@ -937,6 +964,10 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
     register WORD	rvstore;
     register CLOCK	tmp;
 
+#ifdef HAVE_RESID
+    if (useresid)
+	return resid_sound_machine_read(psid, addr, clk);
+#endif
     switch (addr)
     {
     case 0x19:
@@ -987,11 +1018,19 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 void REGPARM2 store_sid(ADDRESS addr, BYTE byte)
 {
     addr &= 0x1f;
+    siddata[addr] = byte;
     sound_store(addr, byte);
 }
 
 void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
 {
+#ifdef HAVE_RESID
+    if (useresid)
+    {
+	resid_sound_machine_store(psid, addr, byte, clk);
+	return;
+    }
+#endif
     switch (addr)
     {
     case 4:
@@ -1033,9 +1072,17 @@ void sid_reset(void)
 void sound_machine_init(void)
 {
     pwarn = warn_init("SID", 128);
+#ifdef HAVE_RESID
+    resid_sound_machine_init();
+#endif
 }
 
 void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
+#ifdef HAVE_RESID
+    if (useresid)
+	resid_sound_machine_prevent_clk_overflow(psid, sub);
+    else
+#endif
     psid->laststoreclk -= sub;
 }

@@ -79,6 +79,10 @@ static ui_menu_entry_t sid_model_submenu[] = {
       (ui_callback_t) radio_SidModel, (ui_callback_data_t) 0, NULL },
     { "*8580 (new)",
       (ui_callback_t) radio_SidModel, (ui_callback_data_t) 1, NULL },
+#ifdef HAVE_RESID
+    { "*6581 (old) reSID emulation",
+      (ui_callback_t) radio_SidModel, (ui_callback_data_t) 2, NULL },
+#endif
     { NULL }
 };
 
@@ -93,6 +97,22 @@ static ui_menu_entry_t sid_submenu[] = {
 };
 
 /* ------------------------------------------------------------------------- */
+
+#if 0
+
+UI_MENU_DEFINE_RADIO(RsUserDev)
+
+static ui_menu_entry_t rsuser_device_submenu[] = {
+    { "*Serial 1",
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 0, NULL },
+    { "*Serial 2",
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 1, NULL },
+    { "*Dump to file",
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 2, NULL },
+    { "*Exec process",
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 3, NULL },
+    { NULL }
+};
 
 UI_MENU_DEFINE_RADIO(Acia1Dev)
 
@@ -154,22 +174,6 @@ static ui_menu_entry_t ser2_baud_submenu[] = {
   { NULL }
 };
 
-UI_MENU_DEFINE_RADIO(RsDevice3Baud)
-
-static ui_menu_entry_t ser3_baud_submenu[] = {
-  { "*300",
-      (ui_callback_t) radio_RsDevice3Baud, (ui_callback_data_t)   300, NULL },
-  { "*1200",
-      (ui_callback_t) radio_RsDevice3Baud, (ui_callback_data_t)  1200, NULL },
-  { "*2400",
-      (ui_callback_t) radio_RsDevice3Baud, (ui_callback_data_t)  2400, NULL },
-  { "*9600",
-      (ui_callback_t) radio_RsDevice3Baud, (ui_callback_data_t)  9600, NULL },
-  { "*19200",
-      (ui_callback_t) radio_RsDevice3Baud, (ui_callback_data_t) 19200, NULL },
-  { NULL }
-};
-
 static UI_CALLBACK(set_rs232_device_file)
 {
     char *resource = (char*) client_data;
@@ -209,7 +213,7 @@ static UI_CALLBACK(set_rs232_exec_file)
         new_value = alloca(len + 1);
         strcpy(new_value, value);
 
-        if (ui_input_string(title, "Path:", new_value, len) != UI_BUTTON_OK)
+        if (ui_input_string(title, "Command:", new_value, len) != UI_BUTTON_OK)
             return;
 
         resources_set_value(resname, (resource_value_t) new_value);
@@ -218,6 +222,7 @@ static UI_CALLBACK(set_rs232_exec_file)
 
 UI_MENU_DEFINE_TOGGLE(AciaDE)
 UI_MENU_DEFINE_TOGGLE(AciaD6)
+UI_MENU_DEFINE_TOGGLE(RsUser)
 
 ui_menu_entry_t rs232_submenu[] = {
     { "*ACIA $DExx RS232 interface emulation",
@@ -229,6 +234,11 @@ ui_menu_entry_t rs232_submenu[] = {
       (ui_callback_t) toggle_AciaD6, NULL, NULL },
     { "ACIA $D6** device",
       NULL, NULL, acia2_device_submenu },
+    { "--" },
+    { "*Userport 9600 baud RS232 emulation",
+      (ui_callback_t) toggle_RsUser, NULL, NULL },
+    { "Userport RS232 device",
+      NULL, NULL, rsuser_device_submenu },
     { "--" },
     { "Serial 1 device...", (ui_callback_t) set_rs232_device_file,
       (ui_callback_data_t) "RsDevice1", NULL },
@@ -247,6 +257,8 @@ ui_menu_entry_t rs232_submenu[] = {
       (ui_callback_data_t) "RsDevice4", NULL },
     { NULL }
 };
+
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -373,6 +385,8 @@ static ui_menu_entry_t c64_menu[] = {
       NULL, NULL, io_extensions_submenu },
     { "RS232 settings",
       NULL, NULL, rs232_submenu },
+    { "Printer settings",
+      NULL, NULL, ui_print_settings_menu },
     { "Joystick settings",
       NULL, NULL, joystick_settings_submenu },
     { NULL }
