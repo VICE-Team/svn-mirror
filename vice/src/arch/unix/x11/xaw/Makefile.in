@@ -71,6 +71,7 @@ CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
+FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
@@ -334,8 +335,8 @@ about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/drive/drive.h ../../../../../src/log.h \
 	../../../../../src/arch/unix/types.h \
-	../../../../../src/interrupt.h ../../../../../src/6510core.h \
-	../../../../../src/machine.h \
+	../../../../../src/fullscreen.h ../../../../../src/interrupt.h \
+	../../../../../src/6510core.h ../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/palette.h ../../../../../src/c64/psid.h \
 	../../../../../src/resources.h \
@@ -368,9 +369,9 @@ uihotkey.o: uihotkey.c ../../../../../src/vice.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h ../../../../../src/utils.h
 uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
-	checkmark.xbm right_arrow.xbm ../../../../../src/machine.h \
-	../../../../../src/resources.h uimenu.h \
-	../../../../../src/arch/unix/ui.h \
+	checkmark.xbm right_arrow.xbm ../../../../../src/fullscreen.h \
+	../../../../../src/machine.h ../../../../../src/resources.h \
+	uimenu.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h uihotkey.h ../../../../../src/utils.h \
 	../../../../../src/vsync.h

@@ -71,6 +71,7 @@ CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
+FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
@@ -274,9 +275,10 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h uiarch.h ../../../../../src/datasette.h \
-	../../../../../src/interrupt.h ../../../../../src/6510core.h \
-	../../../../../src/log.h ../../../../../src/arch/unix/kbd.h \
-	../../../../../src/machine.h ../../../../../src/maincpu.h \
+	../../../../../src/fullscreen.h ../../../../../src/interrupt.h \
+	../../../../../src/6510core.h ../../../../../src/log.h \
+	../../../../../src/arch/unix/kbd.h ../../../../../src/machine.h \
+	../../../../../src/maincpu.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/palette.h ../../../../../src/resources.h \
 	../../../../../src/arch/unix/uihotkey.h uimenu.h \

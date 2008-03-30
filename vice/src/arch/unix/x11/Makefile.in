@@ -73,6 +73,7 @@ CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
+FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
@@ -139,8 +140,15 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libx11ui.a
 
-libx11ui_a_SOURCES =  	kbd.c 	kbdef.h 	video.c 	videoarch.h 	c128icon.xpm 	c610icon.xpm 	c64icon.xpm 	peticon.xpm 	vic20icon.xpm 	ui-cmdline-options.c
+EXTRA_libx11ui_a_SOURCES =          fullscreen.c
 
+
+libx11ui_a_SOURCES =  	kbd.c 	kbdef.h 	ui-cmdline-options.c 	ui-resources.c 	video.c 	videoarch.h 	c128icon.xpm 	c610icon.xpm 	c64icon.xpm 	peticon.xpm 	vic20icon.xpm
+
+
+libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@
+
+libx11ui_a_LIBADD = @FULLSCREEN_DRIVERS@
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -153,8 +161,7 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libx11ui_a_LIBADD = 
-libx11ui_a_OBJECTS =  kbd.o video.o ui-cmdline-options.o
+libx11ui_a_OBJECTS =  kbd.o ui-cmdline-options.o ui-resources.o video.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -167,7 +174,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = tar
 GZIP_ENV = --best
 DIST_SUBDIRS =  gnome xaw
-SOURCES = $(libx11ui_a_SOURCES)
+SOURCES = $(libx11ui_a_SOURCES) $(EXTRA_libx11ui_a_SOURCES)
 OBJECTS = $(libx11ui_a_OBJECTS)
 
 all: all-redirect
@@ -328,6 +335,11 @@ distdir: $(DISTFILES)
 	      || exit 1; \
 	  fi; \
 	done
+fullscreen.o: fullscreen.c ../../../../src/vice.h \
+	../../../../src/config.h ../../../../src/arch/unix/mouse.h \
+	../../../../src/arch/unix/types.h ../../../../src/resources.h \
+	../../../../src/log.h ../../../../src/arch/unix/ui.h \
+	../../../../src/uiapi.h xaw/uiarch.h ../../../../src/utils.h
 kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/archdep.h ../../../../src/archapi.h \
 	../../../../src/cmdline.h ../../../../src/resources.h \
@@ -343,6 +355,11 @@ kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 ui-cmdline-options.o: ui-cmdline-options.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/cmdline.h \
 	../../../../src/resources.h
+ui-resources.o: ui-resources.c ../../../../src/vice.h \
+	../../../../src/config.h ../../../../src/resources.h \
+	../../../../src/arch/unix/ui.h \
+	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \
+	xaw/uiarch.h ../../../../src/utils.h
 video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cmdline.h ../../../../src/resources.h \
 	../../../../src/arch/unix/kbd.h \
