@@ -300,25 +300,30 @@ void mainloop(ADDRESS start_address)
      maincpu_int_status.trap_func(addr);
 
 #  define ROM_TRAP_HANDLER() \
-     trap_handler()
+     traps_handler()
 
-#  define JAM()								\
-     do {								\
-        int tmp;							\
-									\
-        EXPORT_REGISTERS();						\
-        tmp = UiJamDialog("   " CPU_STR ": JAM at $%04X   ", reg_pc);	\
-        if (tmp == 0) {							\
-	    DO_INTERRUPT(IK_RESET);					\
-        } else {							\
-	    if (tmp == 1) {						\
-		caller_space = e_comp_space;				\
-	        mon(maincpu_regs.pc);  					\
-	        IMPORT_REGISTERS();					\
-            } else {							\
-	        CLK++;							\
-            }								\
-        }								\
+#  define JAM()                                                         \
+     do {                                                               \
+        int tmp;                                                        \
+                                                                        \
+        EXPORT_REGISTERS();                                             \
+        tmp = UiJamDialog("   " CPU_STR ": JAM at $%04X   ", reg_pc);   \
+        switch (tmp) {                                                  \
+          case UI_JAM_RESET:                                            \
+            DO_INTERRUPT(IK_RESET);                                     \
+            break;                                                      \
+          case UI_JAM_HARD_RESET:                                       \
+            mem_powerup();                                              \
+            DO_INTERRUPT(IK_RESET);                                     \
+            break;                                                      \
+          case UI_JAM_MONITOR:                                          \
+            caller_space = e_comp_space;                                \
+            mon(maincpu_regs.pc);                                       \
+            IMPORT_REGISTERS();                                         \
+            break;                                                      \
+          default:                                                      \
+            CLK++;                                                      \
+        }                                                               \
      } while (0)
 
 #  define CALLER		e_comp_space

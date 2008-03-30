@@ -58,4 +58,14 @@ typedef struct _mos6510_regs {
 #define S_ZERO		0x02
 #define S_CARRY		0x01
 
+/* Mmmh...  It would be much nicer to have a union instead.  */
+#define MOS6510_GET_P(r)                        \
+    ((r.p.z ? S_ZERO : 0)                       \
+     | (r.p.n ? S_SIGN : 0)                     \
+     | (r.p.v ? S_OVERFLOW : 0)                 \
+     | (r.p.b ? S_BREAK : 0)                    \
+     | (r.p.d ? S_DECIMAL : 0)                  \
+     | (r.p.i ? S_INTERRUPT : 0)                \
+     | (r.p.c ? S_CARRY : 0))
+
 #endif
