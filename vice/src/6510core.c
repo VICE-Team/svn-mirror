@@ -1568,18 +1568,18 @@ static BYTE fetch_tab[] = {
 #define SET_OPCODE(o) (opcode) = o;
 #else
 #if !defined WORDS_BIGENDIAN
-#define SET_OPCODE(o)                                       \
-    do {                                                    \
-        opcode.ins = (o)&0xff;                              \
-        opcode.op.op8[0] = ((o)>>8)&0xff;                   \ 
-        opcode.op.op8[1] = ((o)>>16)&0xff;                  \
+#define SET_OPCODE(o)                          \
+    do {                                       \
+        opcode.ins = (o) & 0xff;               \
+        opcode.op.op8[0] = ((o) >> 8) & 0xff;  \
+        opcode.op.op8[1] = ((o) >> 16) & 0xff; \
     } while (0)
 #else
-#define SET_OPCODE(o)                                       \
-    do {                                                    \
-        opcode.ins = (o)&0xff;                              \
-        opcode.op.op8[1] = ((o)>>8)&0xff;                   \ 
-        opcode.op.op8[0] = ((o)>>16)&0xff;                  \
+#define SET_OPCODE(o)                          \
+    do {                                       \
+        opcode.ins = (o) & 0xff;               \
+        opcode.op.op8[1] = ((o) >> 8) & 0xff;  \
+        opcode.op.op8[0] = ((o) >> 16) & 0xff; \
     } while (0)
 #endif
 

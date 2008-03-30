@@ -118,7 +118,15 @@ SOURCE="..\..\video\video-color.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\video\video-render-pal.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\video\video-render.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\video\video-resources-pal.c"
 # End Source File
 # Begin Source File
 
