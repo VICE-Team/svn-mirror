@@ -1,5 +1,117 @@
 2001-01-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.6.3.
+
+	* arch/os2/Makefile.am: Added `fonts/header.FNT', removed
+	`doc/vice2.ipf' as this file is missing.
+
+	* arch/msdos/tuifs.c (file_list_find): Use `strncasecmp'.
+
+	* arch/unix/c128ui.c: Added tape UI.
+
+	* c128/z80mem.c (z80mem_initialize): Use new functions
+	`z80_read_zero' and `z80_store_zero'.
+
+	* c128/c128mem.c (pla_config_changed): New function.
+	(mem_set_tape_sense): Call `pla_config_changed'.
+	(initialize_memory): Initialize processor port.
+
+2001-01-20  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/archdep.h: MODE_WRITE_TEXT now is really a text
+	mode.
+
+	* arch/win32/uiattach.c: 1. Fixed the following bug:
+	if a disk image was selected in settings/device
+	settings/drive x, no directory could be selected.
+	2. If true drive emulation is enabled, don't allow to attach a
+	directory.
+
+	* arch/win32/ui.c, arch/win32/uimon.c: Added some func-
+	tionality to the monitor window, fixed some bugs.
+
+2001-01-20  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+ 
+	* arch/os2/config.h: added HAVE_ZLIB
+ 
+	* arch/os2/dialogs/dialogs.[h,c,rc]: removed sound dialog,
+	hardware dialog, enhanced menubar, removed dialog open flags
+   
+	* arch/os2/dialogs/dlg-attach.c: uses new filedlg.h,
+	changed includes
+   
+	* arch/os2/dialogs/dlg-autostart.c: added
+
+	* arch/os2/dialogs/dlg-cartridge.c: added
+ 
+	* arch/os2/dialogs/dlg-cmdopt.c: removed dlg open flag,
+
+	* arch/os2/dialogs/dlg-contents.c: changed includes,
+	WM_PAINT -> WM_INITDLG,  removed dlg open flag
+   
+	* arch/os2/dialogs/dlg-create.c:  changed includes,
+	uses new filedlg.h, new outfit for dialog
+   
+	* arch/os2/dialogs/dlg-datasette.c: changed includes,
+	WM_PAINT -> WM_INITDLG,  removed dlg open flag
+   
+	* arch/os2/dialogs/dlg-drive.c: changed includes,
+	WM_PAINT -> WM_INITDLG,  removed dlg open flag
+
+	* arch/os2/dialogs/dlg-emulator.c: changed includes,
+	WM_PAINT -> WM_INITDLG,  removed dlg open flag, moved
+	most of the statements to menubar
+   
+	* arch/os2/dialogs/dlg-hardware.c: removed
+ 
+	* arch/os2/dialogs/dlg-joystick.c: removed dlg open flag
+
+	* arch/os2/dialogs/dlg-monitor.c: removed dlg open flag
+
+	* arch/os2/dialogs/dlg-reset.c: small changes
+ 
+	* arch/os2/dialogs/dlg-screenshot.c: small changes, 
+	changed includes
+   
+	* arch/os2/dialogs/dlg-snapshot.c: changed includes
+ 
+	* arch/os2/dialogs/dlg-sound.c: removed
+ 
+	* arch/os2/dialogs/dlg-vsid.c: removed sound_dialog
+ 
+	* arch/os2/dialogs/menubar.c: many new features
+ 
+	* arch/os2/fonts/bdf2fnt.cc: works again
+ 
+	* arch/os2/fonts/vice-cbm.cmd: make work
+ 
+	* arch/os2/install.cmd: small changes
+ 
+	* arch/os2/kbd/proc.c: moved most thing to menubar
+
+	* arch/os2/makedist.cmd: c64mem.sym added
+ 
+	* arch/os2/snippets/filedlg.[c,h]: added
+ 
+	* arch/os2/uicmdline.c: added check for open dialog
+ 
+	* arch/os2/vac++/incl/*.icc: added/removed files
+ 
+	* arch/os2/vac++/lpng.icc: optimized
+ 
+	* arch/os2/vac++/lzlib.icc: optimized
+ 
+	* arch/os2/video.c: added status bar, drag&drop feature,
+	help system
+ 
+	* autostart.c: changed a bug in cartridge autostart and
+	snapshot autostart, added detach to prg-autostart
+   
+	* sound.h diff/src/sound.h: changed sample buffer size for
+	os/2
+ 
+2001-01-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.6.2.
 
 	* arch/unix/x11/fullscreen.c: Only define `CHECK_DGA_V2' if
