@@ -54,6 +54,12 @@
 #include "vdrive.h"
 
 
+static void init_resource_fail(const char *module)
+{
+    archdep_startup_log_error("Cannot initialize %s resources.\n",
+                              module);
+}
+
 int init_resources(void)
 {
     if (resources_init(machine_name)) {
@@ -61,81 +67,95 @@ int init_resources(void)
         return -1;
     }
     if (log_resources_init() < 0) {
-        archdep_startup_log_error("Cannot initialize log resource handling.\n");
+        init_resource_fail("log");
         return -1;
     }
     if (sysfile_resources_init() < 0) {
-        archdep_startup_log_error("Cannot initialize resources for the system file locator.\n");
+        init_resource_fail("system file locator");
         return -1;
     }
     if (ui_resources_init() < 0) {
-        archdep_startup_log_error("Cannot initialize UI-specific resources.\n");
+        init_resource_fail("UI");
         return -1;
     }
     if (file_system_resources_init() < 0) {
-        archdep_startup_log_error("Cannot initialize file system-specific resources.\n");
+        init_resource_fail("file system");
         return -1;
     }
     /* Initialize file system device-specific resources.  */
     if (fsdevice_resources_init() < 0) {
-        archdep_startup_log_error("Cannot initialize file system device-specific resources.\n");
+        init_resource_fail("file system device");
+        return -1;
+    }
+    if (disk_image_resources_init() < 0) {
+        init_resource_fail("disk image");
         return -1;
     }
 #ifdef DEBUG
     if (debug_resources_init() < 0) {
-        archdep_startup_log_error("Cannot initialize debug resources.\n");
+        init_resource_fail("debug");
         return -1;
     }
 #endif
     if (machine_resources_init() < 0) {
-        archdep_startup_log_error("Cannot initialize machine-specific resources.\n");
+        init_resource_fail("machine");
         return -1;
     }
     if (joystick_init_resources() < 0) {
-        archdep_startup_log_error("Cannot initialize joystick-specific resources.\n");
+        init_resource_fail("joystick");
         return -1;
     }
     if (ram_resources_init() < 0) {
-        archdep_startup_log_error("Cannot initialize RAM-specific resources.\n");
+        init_resource_fail("RAM");
         return -1;
     }
     return 0;
 }
 
+static void init_cmdline_options_fail(const char *module)
+{
+    archdep_startup_log_error("Cannot initialize %s command-line options.\n",
+                              module);
+}
+
 int init_cmdline_options(void)
 {
     if (cmdline_init()) {
-        archdep_startup_log_error("Cannot initialize resource handling.\n");
+        archdep_startup_log_error("Cannot initialize command-line handling.\n");
         return -1;
     }
     if (log_cmdline_options_init() < 0) {
-        archdep_startup_log_error("Cannot initialize log command-line option handling.\n");
+        init_cmdline_options_fail("log");
         return -1;
     }
     if (initcmdline_init() < 0) {
-        archdep_startup_log_error("Cannot initialize main command-line options.\n");
+        init_cmdline_options_fail("main");
         return -1;
     }
     if (sysfile_cmdline_options_init() < 0) {
-        archdep_startup_log_error("Cannot initialize command-line options for system file locator.\n");
+        init_cmdline_options_fail("system file locator");
         return -1;
     }
     if (!vsid_mode && ui_cmdline_options_init() < 0) {
-        archdep_startup_log_error("Cannot initialize UI-specific command-line options.\n");
+        init_cmdline_options_fail("UI");
         return -1;
     }
     if (!vsid_mode && file_system_cmdline_options_init() < 0) {
-        archdep_startup_log_error("Cannot initialize Attach-specific command-line options.\n");
+        init_cmdline_options_fail("attach");
+        return -1;
+    }
+    if (!vsid_mode && disk_image_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("disk image");
         return -1;
     }
 #ifdef DEBUG
     if (debug_cmdline_options_init() < 0) {
-        archdep_startup_log_error("Cannot initialize debug-specific command-line options.\n");
+        init_cmdline_options_fail("debug");
         return -1;
     }
 #endif
     if (machine_cmdline_options_init() < 0) {
-        archdep_startup_log_error("Cannot initialize machine-specific command-line options.\n");
+        init_cmdline_options_fail("machine");
         return -1;
     }
 
@@ -144,19 +164,19 @@ int init_cmdline_options(void)
     }
 
     if (fsdevice_cmdline_options_init() < 0) {
-        archdep_startup_log_error("Cannot initialize file system-specific command-line options.\n");
+        init_cmdline_options_fail("file system");
         return -1;
     }
     if (joystick_init_cmdline_options() < 0) {
-        archdep_startup_log_error("Cannot initialize joystick-specific command-line options.\n");
+        init_cmdline_options_fail("joystick");
         return -1;
     }
     if (kbd_buf_cmdline_options_init() < 0) {
-        archdep_startup_log_error("Cannot initialize keyboard buffer-specific command-line options.\n");
+        init_cmdline_options_fail("keyboard");
         return -1;
     }
     if (ram_cmdline_options_init() < 0) {
-        archdep_startup_log_error("Cannot initialize RAM-specific command-line options.\n");
+        init_cmdline_options_fail("RAM");
         return -1;
     }
 
