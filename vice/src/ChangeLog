@@ -2,6 +2,61 @@
 
 	* Version 0.16.1.21.
 
+	* 6510core.c: Reduced code duplication of `NOOP' commands.
+	Removed some old debugging cruft.
+
+	* arch/msdos/tuimenu.c (tui_menu_handle): Handle `K_Left' and
+	`K_Right'.
+	* arch/msdos/tuiimagebrowser.c (tui_image_browser): Changed
+	likewise.
+
+	* c128/c128mem.c (mem_load_kernal, mem_load_basic,
+	mem_load_chargen): Return `0' on success.
+
+	* vic20/vic20mem.c (mem_load): Removed unused variables.
+
+	* c1541.c (name_cmd): Corrected pointer mismatch.
+
+	* vdrive-iec (floppy_create_directory): `name' made const.
+	* vdrive.c, vdrive.h (vdrive_dir_find_first_slot): Likewise.
+
+	* vdrive.h: Made const `find_name' of struct `_DRIVE'.
+
+	* vdrive.c (floppy_name_match): Made const parameter `name'.
+
+	* drive/via1drive0.c, drive/via1drive1.c, drive/via2drive0.c,
+	drive/via2drive1.c (store_pra): Use `oldpa_value' instead of
+	`old_pa'.
+
+	* traps.h: Made const `name' of struct `trap_t'.
+
+	* pet/pets.h: Made const `chargenName', `kernalName', `editorName',
+	`memBname', `memAname', `mem9name' of struct `PetInfo'.
+
+	* parallel.c: Made const `name' of struct `State_t'.
+
+	* sound.c (closesound, suspendsound): Parameter is const.
+
+	* vic20/vic20sound.c (sound_machine_store): Use `divide' instead
+	of `div'.
+
+	* zfile.c: Made const strings in struct `valid_archives'.
+	(try_uncompress_archive, try_uncompress_zipcode,
+	try_uncompress_lynx, try_uncompress): Made const.
+
+	* imagecontents.c (image_contents_read_disk): Do not use nested
+	variable names.
+	* arch/unix/xaw/uimenu.c (ui_menu_create): Likewise.
+
+	* arch/unix/xaw/vic20ui.c: Removed unused `toggle_RAMBlock4'.
+
+	* c128/c128iec.c: #include "c64iec.h".
+
+	* arch/win32/uicbm2set.c (enable_controls_for_cbm2_settings):
+	Commented out unused function.
+
+	* mon.h (mon_disassemble_to_string): Added prototype.
+
 1998-02-05  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* data/C128/Makefile.am [c128_DATA]: added file default.vrs

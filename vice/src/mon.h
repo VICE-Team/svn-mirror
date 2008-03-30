@@ -313,4 +313,7 @@ extern void mon_set_checkpoint_command(int brk_num, char *cmd);
 extern void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
 extern void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
 
+extern const char *mon_disassemble_to_string(ADDRESS addr, BYTE x, BYTE p1,
+                                             BYTE p2, int hex_mode);
+
 #endif
