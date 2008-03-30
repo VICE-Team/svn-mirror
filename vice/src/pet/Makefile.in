@@ -269,6 +269,8 @@ libpet_a_SOURCES = \
 	petpia1.c \
 	petpia2.c \
 	petprinter.c \
+	petreu.c \
+	petreu.h \
 	petrom.c \
 	petrom.h \
 	petromset.c \
@@ -293,8 +295,9 @@ am_libpet_a_OBJECTS = pet-cmdline-options.$(OBJEXT) \
 	petacia1.$(OBJEXT) petbus.$(OBJEXT) petdatasette.$(OBJEXT) \
 	petdrive.$(OBJEXT) petiec.$(OBJEXT) petmem.$(OBJEXT) \
 	petmemsnapshot.$(OBJEXT) petpia1.$(OBJEXT) petpia2.$(OBJEXT) \
-	petprinter.$(OBJEXT) petrom.$(OBJEXT) petromset.$(OBJEXT) \
-	petsound.$(OBJEXT) petvia.$(OBJEXT) petvideo.$(OBJEXT)
+	petprinter.$(OBJEXT) petreu.$(OBJEXT) petrom.$(OBJEXT) \
+	petromset.$(OBJEXT) petsound.$(OBJEXT) petvia.$(OBJEXT) \
+	petvideo.$(OBJEXT)
 libpet_a_OBJECTS = $(am_libpet_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -308,9 +311,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/petiec.Po ./$(DEPDIR)/petmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/petmemsnapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/petpia1.Po ./$(DEPDIR)/petpia2.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petprinter.Po ./$(DEPDIR)/petrom.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petromset.Po ./$(DEPDIR)/petsound.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petvia.Po ./$(DEPDIR)/petvideo.Po
+@AMDEP_TRUE@	./$(DEPDIR)/petprinter.Po ./$(DEPDIR)/petreu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/petrom.Po ./$(DEPDIR)/petromset.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/petsound.Po ./$(DEPDIR)/petvia.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/petvideo.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -356,6 +360,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petpia1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petpia2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petprinter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petreu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petrom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petromset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petsound.Po@am__quote@

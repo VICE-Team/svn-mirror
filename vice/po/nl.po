@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-01-08 20:33+0100\n"
+"POT-Creation-Date: 2006-01-16 00:29+0100\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -124,23 +124,24 @@ msgstr "Zet de geluid buffer grootte naar <waarde> msec"
 #: src/pet/pet-cmdline-options.c:163 src/pet/pet-cmdline-options.c:166
 #: src/pet/pet-cmdline-options.c:169 src/pet/pet-cmdline-options.c:172
 #: src/pet/pet-cmdline-options.c:175 src/pet/pet-cmdline-options.c:178
-#: src/plus4/plus4-cmdline-options.c:80 src/plus4/plus4-cmdline-options.c:82
-#: src/plus4/plus4-cmdline-options.c:84 src/plus4/plus4-cmdline-options.c:86
-#: src/plus4/plus4-cmdline-options.c:88 src/plus4/plus4-cmdline-options.c:90
-#: src/plus4/plus4-cmdline-options.c:92 src/plus4/plus4-cmdline-options.c:94
-#: src/plus4/plus4-cmdline-options.c:101 src/plus4/plus4-cmdline-options.c:103
-#: src/printerdrv/driver-select.c:126 src/printerdrv/driver-select.c:128
-#: src/printerdrv/driver-select.c:130 src/printerdrv/output-select.c:121
-#: src/printerdrv/output-select.c:123 src/printerdrv/output-select.c:126
-#: src/printerdrv/output-text.c:113 src/printerdrv/output-text.c:115
-#: src/printerdrv/output-text.c:117 src/rs232drv/rs232drv.c:101
-#: src/rs232drv/rs232drv.c:103 src/rs232drv/rs232drv.c:105
-#: src/rs232drv/rs232drv.c:107 src/vic20/vic20-cmdline-options.c:209
-#: src/vic20/vic20-cmdline-options.c:211 src/vic20/vic20-cmdline-options.c:213
-#: src/vic20/vic20-cmdline-options.c:228 src/vic20/vic20-cmdline-options.c:230
-#: src/vic20/vic20cartridge.c:216 src/vic20/vic20cartridge.c:218
-#: src/vic20/vic20cartridge.c:220 src/vic20/vic20cartridge.c:222
-#: src/vic20/vic20cartridge.c:224 src/video/video-cmdline-options.c:192
+#: src/pet/petreu.c:215 src/plus4/plus4-cmdline-options.c:80
+#: src/plus4/plus4-cmdline-options.c:82 src/plus4/plus4-cmdline-options.c:84
+#: src/plus4/plus4-cmdline-options.c:86 src/plus4/plus4-cmdline-options.c:88
+#: src/plus4/plus4-cmdline-options.c:90 src/plus4/plus4-cmdline-options.c:92
+#: src/plus4/plus4-cmdline-options.c:94 src/plus4/plus4-cmdline-options.c:101
+#: src/plus4/plus4-cmdline-options.c:103 src/printerdrv/driver-select.c:126
+#: src/printerdrv/driver-select.c:128 src/printerdrv/driver-select.c:130
+#: src/printerdrv/output-select.c:121 src/printerdrv/output-select.c:123
+#: src/printerdrv/output-select.c:126 src/printerdrv/output-text.c:113
+#: src/printerdrv/output-text.c:115 src/printerdrv/output-text.c:117
+#: src/rs232drv/rs232drv.c:101 src/rs232drv/rs232drv.c:103
+#: src/rs232drv/rs232drv.c:105 src/rs232drv/rs232drv.c:107
+#: src/vic20/vic20-cmdline-options.c:209 src/vic20/vic20-cmdline-options.c:211
+#: src/vic20/vic20-cmdline-options.c:213 src/vic20/vic20-cmdline-options.c:228
+#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:216
+#: src/vic20/vic20cartridge.c:218 src/vic20/vic20cartridge.c:220
+#: src/vic20/vic20cartridge.c:222 src/vic20/vic20cartridge.c:224
+#: src/video/video-cmdline-options.c:192
 msgid "<name>"
 msgstr "<naam>"
 
@@ -437,7 +438,7 @@ msgstr "Andere computer halt de netplay..."
 msgid "Network out of sync - disconnecting."
 msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 
-#: src/aciacore.c:142
+#: src/aciacore.c:208
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Geef het RS232 apparaat waarmee deze ACIA moet werken"
 
@@ -812,6 +813,7 @@ msgid "Specify name of GEORAM image"
 msgstr "Geef de naam van het GEORAM bestand"
 
 #: src/c64/georam.c:217 src/c64/ramcart.c:230 src/c64/reu.c:252
+#: src/pet/petreu.c:217
 msgid "<size in KB>"
 msgstr "<grootte in KB>"
 
@@ -1357,6 +1359,26 @@ msgstr "Aktiveer PET userport diagnostic pin"
 #: src/pet/petpia1.c:123
 msgid "Disable userport diagnostic pin"
 msgstr "PET userport diagnostic pin afsluiten"
+
+#: src/pet/petreu.c:211
+#, fuzzy
+msgid "Enable the PET Ram and Expansion Unit"
+msgstr "Aktiveer de RAM Uitbreidings Eenheid (REU)"
+
+#: src/pet/petreu.c:213
+#, fuzzy
+msgid "Disable the PET Ram and Expansion Unit"
+msgstr "De RAM Uitbreidings Eenheid (REU) afsluiten"
+
+#: src/pet/petreu.c:215
+#, fuzzy
+msgid "Specify name of PET Ram and Expansion Unit image"
+msgstr "Geef de naam van het REU bestand"
+
+#: src/pet/petreu.c:217
+#, fuzzy
+msgid "Size of the PET Ram and Expansion Unit"
+msgstr "Grootte van de RAM Uitbreidings Eenheid (REU)"
 
 #: src/plus4/plus4-cmdline-options.c:84
 msgid "Specify name of Function low ROM image"
@@ -1935,7 +1957,7 @@ msgid "Ethernet emulation"
 msgstr "Ethernet emulatie"
 
 #: src/arch/unix/c128ui.c:250 src/arch/unix/c64ui.c:284
-#: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:201
+#: src/arch/unix/petui.c:187 src/arch/unix/vic20ui.c:201
 msgid "*Emulator identification"
 msgstr "*Emulator identificatie"
 
@@ -1973,31 +1995,31 @@ msgid "Load default ROMs"
 msgstr "Laad standaard ROMs"
 
 #: src/arch/unix/c128ui.c:287 src/arch/unix/c64ui.c:313
-#: src/arch/unix/cbm2ui.c:96 src/arch/unix/petui.c:200
+#: src/arch/unix/cbm2ui.c:96 src/arch/unix/petui.c:211
 #: src/arch/unix/plus4ui.c:99 src/arch/unix/vic20ui.c:136
 msgid "Load new computer ROM"
 msgstr "Laad nieuw computer ROM"
 
 #: src/arch/unix/c128ui.c:289 src/arch/unix/c64ui.c:315
-#: src/arch/unix/cbm2ui.c:98 src/arch/unix/petui.c:202
+#: src/arch/unix/cbm2ui.c:98 src/arch/unix/petui.c:213
 #: src/arch/unix/plus4ui.c:101 src/arch/unix/vic20ui.c:138
 msgid "Load new drive ROM"
 msgstr "Laad nieuw drive ROM"
 
 #: src/arch/unix/c128ui.c:292 src/arch/unix/c64ui.c:318
-#: src/arch/unix/cbm2ui.c:101 src/arch/unix/petui.c:205
+#: src/arch/unix/cbm2ui.c:101 src/arch/unix/petui.c:216
 #: src/arch/unix/plus4ui.c:104 src/arch/unix/vic20ui.c:141
 msgid "ROM set type"
 msgstr "ROM set type"
 
 #: src/arch/unix/c128ui.c:295 src/arch/unix/c64ui.c:321
-#: src/arch/unix/cbm2ui.c:132 src/arch/unix/petui.c:239
+#: src/arch/unix/cbm2ui.c:132 src/arch/unix/petui.c:250
 #: src/arch/unix/plus4ui.c:107 src/arch/unix/vic20ui.c:144
 msgid "ROM set archive"
 msgstr "ROM set archief"
 
 #: src/arch/unix/c128ui.c:297 src/arch/unix/c64ui.c:323
-#: src/arch/unix/cbm2ui.c:134 src/arch/unix/petui.c:241
+#: src/arch/unix/cbm2ui.c:134 src/arch/unix/petui.c:252
 #: src/arch/unix/plus4ui.c:109 src/arch/unix/vic20ui.c:146
 msgid "ROM set file"
 msgstr "ROM set bestand"
@@ -2019,7 +2041,7 @@ msgid "Machine type"
 msgstr "Machine soort"
 
 #: src/arch/unix/c128ui.c:359 src/arch/unix/cbm2ui.c:240
-#: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:187
+#: src/arch/unix/petui.c:263 src/arch/unix/vic20ui.c:187
 msgid "ROM sets"
 msgstr "ROM sets"
 
@@ -2051,36 +2073,36 @@ msgid "Model settings"
 msgstr "Model instellingen"
 
 #: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:425
-#: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:378
+#: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:388
 #: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:501
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Bestand"
 
 #: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:444
-#: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:395
+#: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:405
 #: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:520
 msgid "Snapshot"
 msgstr "Momentopname"
 
 #: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:451
-#: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:402
+#: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:412
 #: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:527
 msgid "Options"
 msgstr "Opties"
 
 #: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:463
-#: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
+#: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:422
 #: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:533
-#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1230
-#: src/arch/unix/x11/gnome/x11ui.c:1322
+#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1251
+#: src/arch/unix/x11/gnome/x11ui.c:1343
 msgid "Settings"
 msgstr "Instellingen"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:494 src/arch/unix/c64ui.c:477
-#: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:424
+#: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:436
 #: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:548
 msgid "RJHelp"
 msgstr "RJHelp"
@@ -2097,22 +2119,22 @@ msgstr "+60K geheugen uitbreiding"
 msgid "256K RAM Expansion Hack"
 msgstr "256K geheugen uitbreiding"
 
-#: src/arch/unix/c64ui.c:296 src/arch/unix/petui.c:169
+#: src/arch/unix/c64ui.c:296 src/arch/unix/petui.c:170
 #: src/arch/unix/plus4ui.c:79
 msgid "Load new kernal ROM"
 msgstr "Laad nieuw kernal ROM"
 
-#: src/arch/unix/c64ui.c:299 src/arch/unix/petui.c:175
+#: src/arch/unix/c64ui.c:299 src/arch/unix/petui.c:176
 #: src/arch/unix/plus4ui.c:82
 msgid "Load new BASIC ROM"
 msgstr "Laad nieuw BASIC ROM"
 
-#: src/arch/unix/c64ui.c:302 src/arch/unix/petui.c:208
+#: src/arch/unix/c64ui.c:302 src/arch/unix/petui.c:219
 msgid "Load new character ROM"
 msgstr "Laad nieuw karakter ROM"
 
 #: src/arch/unix/c64ui.c:346 src/arch/unix/cbm2ui.c:384
-#: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
+#: src/arch/unix/petui.c:322 src/arch/unix/plus4ui.c:71
 #: src/arch/unix/vic20ui.c:421
 msgid "Save media file"
 msgstr "Opslaan media bestand"
@@ -2121,7 +2143,7 @@ msgstr "Opslaan media bestand"
 msgid "ROM settings"
 msgstr "ROM instellingen"
 
-#: src/arch/unix/c64ui.c:360
+#: src/arch/unix/c64ui.c:360 src/arch/unix/petui.c:296
 msgid "I/O extensions"
 msgstr "I/O extenties"
 
@@ -2185,19 +2207,19 @@ msgstr "Laad nieuw Cart $6-7***"
 msgid "Unload Cart $6-7***"
 msgstr "Verwijder Cart $6-7***"
 
-#: src/arch/unix/cbm2ui.c:213 src/arch/unix/petui.c:119
+#: src/arch/unix/cbm2ui.c:213 src/arch/unix/petui.c:120
 msgid "*Graphics"
 msgstr "*Beeld"
 
-#: src/arch/unix/cbm2ui.c:215 src/arch/unix/petui.c:121
+#: src/arch/unix/cbm2ui.c:215 src/arch/unix/petui.c:122
 msgid "*Business (UK)"
 msgstr "*Business (UK)"
 
-#: src/arch/unix/cbm2ui.c:237 src/arch/unix/petui.c:250
+#: src/arch/unix/cbm2ui.c:237 src/arch/unix/petui.c:260
 msgid "Model defaults"
 msgstr "Model standaard instellingen"
 
-#: src/arch/unix/cbm2ui.c:243 src/arch/unix/petui.c:258
+#: src/arch/unix/cbm2ui.c:243 src/arch/unix/petui.c:268
 msgid "Memory size"
 msgstr "Geheugen grootte"
 
@@ -2229,7 +2251,7 @@ msgstr "*Bank 15 $6000-$7FFF RAM"
 msgid "*Bank 15 $C000-$CFFF RAM"
 msgstr "*Bank 15 $C000-$CFFF RAM"
 
-#: src/arch/unix/cbm2ui.c:262 src/arch/unix/petui.c:275
+#: src/arch/unix/cbm2ui.c:262 src/arch/unix/petui.c:285
 msgid "Keyboard type"
 msgstr "Toetsenbord type"
 
@@ -2237,7 +2259,7 @@ msgstr "Toetsenbord type"
 msgid "CBM-II model settings"
 msgstr "CBM-II model instellingen"
 
-#: src/arch/unix/cbm2ui.c:357 src/arch/unix/petui.c:289
+#: src/arch/unix/cbm2ui.c:357 src/arch/unix/petui.c:299
 msgid "Crtc settings"
 msgstr "Crtc instellingen"
 
@@ -2307,123 +2329,128 @@ msgstr "Terug vallen op oude api routine"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kernel stuurprogramma versie : %d.%d.%d"
 
-#: src/arch/unix/petui.c:95
+#: src/arch/unix/petui.c:96
 msgid "*4 kByte"
 msgstr "*4 kByte"
 
-#: src/arch/unix/petui.c:97
+#: src/arch/unix/petui.c:98
 msgid "*8 kByte"
 msgstr "*8 kByte"
 
-#: src/arch/unix/petui.c:99
+#: src/arch/unix/petui.c:100
 msgid "*16 kByte"
 msgstr "*16 kByte"
 
-#: src/arch/unix/petui.c:101
+#: src/arch/unix/petui.c:102
 msgid "*32 kByte"
 msgstr "*32 kByte"
 
-#: src/arch/unix/petui.c:103
+#: src/arch/unix/petui.c:104
 msgid "*96 kByte"
 msgstr "*96 kByte"
 
-#: src/arch/unix/petui.c:105
+#: src/arch/unix/petui.c:106
 msgid "*128 kByte"
 msgstr "*128 kByte"
 
-#: src/arch/unix/petui.c:111
+#: src/arch/unix/petui.c:112
 msgid "*2 kByte"
 msgstr "*2 kByte"
 
-#: src/arch/unix/petui.c:113
+#: src/arch/unix/petui.c:114
 msgid "*256 Byte"
 msgstr "*256 Byte"
 
-#: src/arch/unix/petui.c:123
+#: src/arch/unix/petui.c:124
 msgid "*Business (DE)"
 msgstr "*Business (DE)"
 
-#: src/arch/unix/petui.c:129
+#: src/arch/unix/petui.c:130
 msgid "*Auto (from ROM)"
 msgstr "*Automatisch (van ROM)"
 
-#: src/arch/unix/petui.c:131
+#: src/arch/unix/petui.c:132
 msgid "*40 Columns"
 msgstr "*40 Kolommen"
 
-#: src/arch/unix/petui.c:133
+#: src/arch/unix/petui.c:134
 msgid "*80 Columns"
 msgstr "*80 Kolommen"
 
-#: src/arch/unix/petui.c:172
+#: src/arch/unix/petui.c:173
 msgid "Load new editor ROM"
 msgstr "Laad nieuw editor ROM"
 
-#: src/arch/unix/petui.c:211
+#: src/arch/unix/petui.c:185
+#, fuzzy
+msgid "PET RAM and Expansion Unit"
+msgstr "RAM Uitbreidings Eenheid (REU)"
+
+#: src/arch/unix/petui.c:222
 msgid "*Original character set"
 msgstr "*orginele karakter set"
 
-#: src/arch/unix/petui.c:214
+#: src/arch/unix/petui.c:225
 msgid "*German character set"
 msgstr "*Duitse karakter set"
 
-#: src/arch/unix/petui.c:218
+#: src/arch/unix/petui.c:229
 msgid "Load new $9*** ROM"
 msgstr "Laad nieuw $9*** ROM"
 
-#: src/arch/unix/petui.c:221
+#: src/arch/unix/petui.c:232
 msgid "Unload $9*** ROM"
 msgstr "Verwijder $9*** ROM"
 
-#: src/arch/unix/petui.c:225
+#: src/arch/unix/petui.c:236
 msgid "Load new $A*** ROM"
 msgstr "Laad nieuw $A*** ROM"
 
-#: src/arch/unix/petui.c:228
+#: src/arch/unix/petui.c:239
 msgid "Unload $A*** ROM"
 msgstr "Verwijder $A*** ROM"
 
-#: src/arch/unix/petui.c:232
+#: src/arch/unix/petui.c:243
 msgid "Load new $B*** ROM"
 msgstr "Laad nieuw $B*** ROM"
 
-#: src/arch/unix/petui.c:235
+#: src/arch/unix/petui.c:246
 msgid "Unload $B*** ROM"
 msgstr "Verwijder $B*** ROM"
 
-#: src/arch/unix/petui.c:256
+#: src/arch/unix/petui.c:266
 msgid "Video size"
 msgstr "Video grootte"
 
-#: src/arch/unix/petui.c:260
+#: src/arch/unix/petui.c:270
 msgid "I/O size"
 msgstr "I/O grootte"
 
-#: src/arch/unix/petui.c:262
+#: src/arch/unix/petui.c:272
 msgid "*CRTC chip enable"
 msgstr "*CRTC chip aan"
 
-#: src/arch/unix/petui.c:265
+#: src/arch/unix/petui.c:275
 msgid "*SuperPET I/O enable (disables 8x96)"
 msgstr "*SuperPET I/O aan (zet 8x96 uit)"
 
-#: src/arch/unix/petui.c:267
+#: src/arch/unix/petui.c:277
 msgid "SuperPET ACIA"
 msgstr "SuperPET ACIA"
 
-#: src/arch/unix/petui.c:270
+#: src/arch/unix/petui.c:280
 msgid "*$9*** as RAM (8296 only)"
 msgstr "*$9*** als RAM (alleen 8296)"
 
-#: src/arch/unix/petui.c:272
+#: src/arch/unix/petui.c:282
 msgid "*$A*** as RAM (8296 only)"
 msgstr "*$A*** als RAM (alleen 8296)"
 
-#: src/arch/unix/petui.c:284
+#: src/arch/unix/petui.c:291
 msgid "PET model settings"
 msgstr "PET model instellingen"
 
-#: src/arch/unix/petui.c:286
+#: src/arch/unix/petui.c:293
 msgid "*PET userport diagnostic pin"
 msgstr "*PET userport diagnostic pin"
 
@@ -2575,19 +2602,19 @@ msgstr "Drive #10..."
 msgid "Unit #11..."
 msgstr "Drive #11..."
 
-#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:404
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:413
 msgid "Unit #8"
 msgstr "Drive #8"
 
-#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:406
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:415
 msgid "Unit #9"
 msgstr "Drive #9"
 
-#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:408
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:417
 msgid "Unit #10"
 msgstr "Drive #10"
 
-#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:410
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:419
 msgid "Unit #11"
 msgstr "Drive #11"
 
@@ -2645,9 +2672,9 @@ msgid "256K image name"
 msgstr "256K bestand naam"
 
 #: src/arch/unix/uic64_256k.c:41 src/arch/unix/uigeoram.c:42
-#: src/arch/unix/uiide64.c:43 src/arch/unix/uiplus60k.c:42
-#: src/arch/unix/uiramcart.c:43 src/arch/unix/uireu.c:42
-#: src/arch/unix/uitfe.c:44
+#: src/arch/unix/uiide64.c:43 src/arch/unix/uipetreu.c:42
+#: src/arch/unix/uiplus60k.c:42 src/arch/unix/uiramcart.c:43
+#: src/arch/unix/uireu.c:42 src/arch/unix/uitfe.c:44
 msgid "Name:"
 msgstr "Naam:"
 
@@ -2757,59 +2784,60 @@ msgstr ""
 "Beschikbare command-line opties:\n"
 "\n"
 
-#: src/arch/unix/uicommands.c:67 src/arch/unix/uicommands.c:324
-#: src/arch/unix/uikeyboard.c:112
+#: src/arch/unix/uicommands.c:68 src/arch/unix/uicommands.c:75
+#: src/arch/unix/uicommands.c:333 src/arch/unix/uikeyboard.c:112
 msgid "VICE setting"
 msgstr "VICE instelling"
 
-#: src/arch/unix/uicommands.c:68
+#: src/arch/unix/uicommands.c:69 src/arch/unix/uicommands.c:76
 msgid "Change current working directory"
 msgstr "Verander de huidige werk directory"
 
-#: src/arch/unix/uicommands.c:71 src/arch/unix/uicommands.c:329
+#: src/arch/unix/uicommands.c:72 src/arch/unix/uicommands.c:79
+#: src/arch/unix/uicommands.c:338
 msgid "Directory not found"
 msgstr "Directory niet gevonden"
 
-#: src/arch/unix/uicommands.c:103
+#: src/arch/unix/uicommands.c:112
 msgid "Couldn't run /bin/sh???"
 msgstr "Kon /bin/sh niet uitvoeren???"
 
-#: src/arch/unix/uicommands.c:106
+#: src/arch/unix/uicommands.c:115
 msgid "Couldn't run xterm"
 msgstr "Kon xterm niet uitvoeren"
 
-#: src/arch/unix/uicommands.c:111
+#: src/arch/unix/uicommands.c:120
 msgid "Unknown error while running c1541"
 msgstr "Onbekende fout tijdens het uitvoeren van c1541"
 
-#: src/arch/unix/uicommands.c:141
+#: src/arch/unix/uicommands.c:150
 msgid "No HTML browser is defined."
 msgstr "Er is geen HTML browser opgegeven"
 
-#: src/arch/unix/uicommands.c:160 src/arch/unix/uicommands.c:174
-#: src/arch/unix/uicommands.c:187
+#: src/arch/unix/uicommands.c:169 src/arch/unix/uicommands.c:183
+#: src/arch/unix/uicommands.c:196
 msgid "Browser command too long."
 msgstr "Browser commando te lang."
 
-#: src/arch/unix/uicommands.c:200
+#: src/arch/unix/uicommands.c:209
 #, c-format
 msgid "Executing `%s'..."
 msgstr "`%s' aan het uitvoeren..."
 
-#: src/arch/unix/uicommands.c:202
+#: src/arch/unix/uicommands.c:211
 msgid "Cannot run HTML browser."
 msgstr "Kan de HTML browser niet uitvoeren."
 
-#: src/arch/unix/uicommands.c:241
+#: src/arch/unix/uicommands.c:250
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Snelladen bestand %s."
 
-#: src/arch/unix/uicommands.c:244
+#: src/arch/unix/uicommands.c:253
 msgid "Load snapshot"
 msgstr "Laad momentopname"
 
-#: src/arch/unix/uicommands.c:258
+#: src/arch/unix/uicommands.c:267
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -2819,12 +2847,12 @@ msgstr ""
 "`%s'"
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:288
+#: src/arch/unix/uicommands.c:297
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Snelopslaan bestand %s."
 
-#: src/arch/unix/uicommands.c:290 src/arch/unix/x11/gnome/uisnapshot.c:126
+#: src/arch/unix/uicommands.c:299 src/arch/unix/x11/gnome/uisnapshot.c:122
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -2834,125 +2862,125 @@ msgstr ""
 "Kan momentopname bestand niet schrijven\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:450
+#: src/arch/unix/uicommands.c:334 src/arch/unix/uicommands.c:459
 msgid "Select history directory"
 msgstr "Selecteer geschiedenis directory"
 
-#: src/arch/unix/uicommands.c:381
+#: src/arch/unix/uicommands.c:390
 msgid "Record sound to file"
 msgstr "Opname van geluid naar bestand"
 
-#: src/arch/unix/uicommands.c:397
+#: src/arch/unix/uicommands.c:406
 msgid "Soft"
 msgstr "Zacht"
 
-#: src/arch/unix/uicommands.c:400
+#: src/arch/unix/uicommands.c:409
 msgid "Hard"
 msgstr "Hard"
 
-#: src/arch/unix/uicommands.c:416
+#: src/arch/unix/uicommands.c:425
 msgid "Change working directory..."
 msgstr "Verander werk directory..."
 
-#: src/arch/unix/uicommands.c:424
+#: src/arch/unix/uicommands.c:433
 msgid "*Save new snapshot"
 msgstr "*Opslaan nieuw momentopname"
 
-#: src/arch/unix/uicommands.c:426
+#: src/arch/unix/uicommands.c:435
 msgid "*Load existing snapshot"
 msgstr "*Laad bestaand momentopname"
 
-#: src/arch/unix/uicommands.c:428
+#: src/arch/unix/uicommands.c:437
 msgid "*Start with reset"
 msgstr "*start met reset"
 
-#: src/arch/unix/uicommands.c:430
+#: src/arch/unix/uicommands.c:439
 msgid "*Overwrite running playback"
 msgstr "*Overschrijf huidige weergave"
 
-#: src/arch/unix/uicommands.c:436
+#: src/arch/unix/uicommands.c:445
 msgid "Load snapshot..."
 msgstr "Laad momentopname..."
 
-#: src/arch/unix/uicommands.c:439
+#: src/arch/unix/uicommands.c:448
 msgid "Save snapshot..."
 msgstr "Opslaan momentopname..."
 
-#: src/arch/unix/uicommands.c:443
+#: src/arch/unix/uicommands.c:452
 msgid "Quickload snapshot"
 msgstr "Snellaad momentopname"
 
-#: src/arch/unix/uicommands.c:446
+#: src/arch/unix/uicommands.c:455
 msgid "Quicksave snapshot"
 msgstr "Snelopslaan momentopname"
 
-#: src/arch/unix/uicommands.c:452
+#: src/arch/unix/uicommands.c:461
 msgid "Start recording events"
 msgstr "Start opname gebeurtenissen"
 
-#: src/arch/unix/uicommands.c:454
+#: src/arch/unix/uicommands.c:463
 msgid "Stop recording events"
 msgstr "Stop opname gebeurtenissen"
 
-#: src/arch/unix/uicommands.c:456
+#: src/arch/unix/uicommands.c:465
 msgid "Start playing back events"
 msgstr "Start weergave gebeurtenissen"
 
-#: src/arch/unix/uicommands.c:458
+#: src/arch/unix/uicommands.c:467
 msgid "Stop playing back events"
 msgstr "Stop weergave gebeurtenissen"
 
-#: src/arch/unix/uicommands.c:460
+#: src/arch/unix/uicommands.c:469
 msgid "Set recording milestone"
 msgstr "Zet opname mijlpaal"
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:471
 msgid "Return to milestone"
 msgstr "Ga terug naar mijlpaal"
 
-#: src/arch/unix/uicommands.c:465
+#: src/arch/unix/uicommands.c:474
 msgid "Recording start mode"
 msgstr "Opname start modus"
 
-#: src/arch/unix/uicommands.c:469 src/arch/unix/uinetplay.c:117
+#: src/arch/unix/uicommands.c:478 src/arch/unix/uinetplay.c:117
 msgid "Netplay (experimental)"
 msgstr "Netplay (experimenteel)"
 
-#: src/arch/unix/uicommands.c:476
+#: src/arch/unix/uicommands.c:485
 msgid "Snapshot commands"
 msgstr "Momentopname commandos"
 
-#: src/arch/unix/uicommands.c:482
+#: src/arch/unix/uicommands.c:491
 msgid "Sound record..."
 msgstr "Geluid opname..."
 
-#: src/arch/unix/uicommands.c:489
+#: src/arch/unix/uicommands.c:498
 msgid "Activate monitor"
 msgstr "Aktiveer monitor"
 
-#: src/arch/unix/uicommands.c:492
+#: src/arch/unix/uicommands.c:501
 msgid "Run C1541"
 msgstr "Start C1541"
 
-#: src/arch/unix/uicommands.c:500
+#: src/arch/unix/uicommands.c:509
 msgid "Browse manuals"
 msgstr "Blader handboeken"
 
-#: src/arch/unix/uicommands.c:502
+#: src/arch/unix/uicommands.c:511
 msgid "About VICE..."
 msgstr "Over VICE..."
 
-#: src/arch/unix/uicommands.c:508 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:517 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1973
+#: src/arch/unix/x11/gnome/x11ui.c:2015
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:510
+#: src/arch/unix/uicommands.c:519
 msgid "*Pause"
 msgstr "*Pauze"
 
-#: src/arch/unix/uicommands.c:517
+#: src/arch/unix/uicommands.c:526
 msgid "Exit emulator"
 msgstr "Emulator afsluiten"
 
@@ -3406,25 +3434,25 @@ msgstr "Ontkoppel #%d"
 msgid "*Write Protect"
 msgstr "*Schrijf beveilig"
 
-#: src/arch/unix/uifliplist.c:243
+#: src/arch/unix/uifliplist.c:245
 msgid "Next: "
 msgstr "Volgende: "
 
-#: src/arch/unix/uifliplist.c:243 src/arch/unix/uifliplist.c:258
-#: src/arch/unix/x11/gnome/x11ui.c:882 src/arch/unix/x11/gnome/x11ui.c:892
-#: src/arch/unix/x11/gnome/x11ui.c:1575
+#: src/arch/unix/uifliplist.c:245 src/arch/unix/uifliplist.c:260
+#: src/arch/unix/x11/gnome/x11ui.c:903 src/arch/unix/x11/gnome/x11ui.c:913
+#: src/arch/unix/x11/gnome/x11ui.c:1596
 msgid "<empty>"
 msgstr "<leeg>"
 
-#: src/arch/unix/uifliplist.c:258
+#: src/arch/unix/uifliplist.c:260
 msgid "Previous: "
 msgstr "Vorige: "
 
-#: src/arch/unix/uifliplist.c:273
+#: src/arch/unix/uifliplist.c:275
 msgid "Add: "
 msgstr "Toevoegen: "
 
-#: src/arch/unix/uifliplist.c:288
+#: src/arch/unix/uifliplist.c:290
 msgid "Remove: "
 msgstr "Verwijder: "
 
@@ -3648,7 +3676,7 @@ msgstr "Server om mee te verbinden"
 msgid "Connect to server"
 msgstr "maak verbinding met de server"
 
-#: src/arch/unix/uinetplay.c:129 src/arch/unix/x11/gnome/uinetplay.c:207
+#: src/arch/unix/uinetplay.c:129 src/arch/unix/x11/gnome/uinetplay.c:203
 msgid "Disconnect"
 msgstr "Verbreek verbinding"
 
@@ -3793,6 +3821,26 @@ msgstr "*Aktiveer Virtuele Apparaten"
 msgid "Peripheral settings"
 msgstr "Rand apparaten instellingen"
 
+#: src/arch/unix/uipetreu.c:41
+#, fuzzy
+msgid "PETREU image name"
+msgstr "REU bestand naam"
+
+#: src/arch/unix/uipetreu.c:52
+#, fuzzy
+msgid "*Enable PET REU"
+msgstr "*Aktiveer REU"
+
+#: src/arch/unix/uipetreu.c:54
+#, fuzzy
+msgid "PET REU size"
+msgstr "REU grootte"
+
+#: src/arch/unix/uipetreu.c:56
+#, fuzzy
+msgid "PET REU image name..."
+msgstr "REU bestand naam..."
+
 #: src/arch/unix/uiplus60k.c:41
 msgid "+60K image name"
 msgstr "+60K bestand naam"
@@ -3832,7 +3880,7 @@ msgstr "Selecteer printer dump bestand"
 msgid "Command to execute for printing (preceed with '|')"
 msgstr "Commando voor printen (begin met '|')"
 
-#: src/arch/unix/uiprinter.c:149 src/arch/unix/uirs232.c:100
+#: src/arch/unix/uiprinter.c:149 src/arch/unix/uirs232.c:140
 msgid "Command:"
 msgstr "Commando:"
 
@@ -4059,19 +4107,31 @@ msgstr "Dump ROM set difinitie naar bestand"
 msgid "List current ROM set"
 msgstr "Toon huidige ROM set"
 
-#: src/arch/unix/uirs232.c:81
+#: src/arch/unix/uirs232.c:54 src/arch/unix/uirs232.c:90
+msgid "*38400 (Swiftlink/Turbo232 only)"
+msgstr ""
+
+#: src/arch/unix/uirs232.c:56 src/arch/unix/uirs232.c:92
+msgid "*57600 (Turbo232 only)"
+msgstr ""
+
+#: src/arch/unix/uirs232.c:58 src/arch/unix/uirs232.c:94
+msgid "*115200 (Turbo232 only)"
+msgstr ""
+
+#: src/arch/unix/uirs232.c:121
 msgid "Select RS232 device file"
 msgstr "Selecteer RS232 apparaat bestand"
 
-#: src/arch/unix/uirs232.c:99
+#: src/arch/unix/uirs232.c:139
 msgid "Command to execute for RS232 (preceed with '|')"
 msgstr "Uit te voeren commando for RS232 (begin met '|')"
 
-#: src/arch/unix/uirs232.c:105
+#: src/arch/unix/uirs232.c:145
 msgid "File to dump RS232 to"
 msgstr "Bestand voor de RS232 dump"
 
-#: src/arch/unix/uirs232.c:106
+#: src/arch/unix/uirs232.c:146
 msgid "Dump file:"
 msgstr "Dump bestand:"
 
@@ -4087,51 +4147,71 @@ msgstr "*IRQ"
 msgid "*NMI"
 msgstr "*NMI"
 
-#: src/arch/unix/uirs232c64c128.c:55
+#: src/arch/unix/uirs232c64c128.c:54
+#, fuzzy
+msgid "*Normal"
+msgstr "&Normaal"
+
+#: src/arch/unix/uirs232c64c128.c:56
+msgid "*Swiftlink"
+msgstr ""
+
+#: src/arch/unix/uirs232c64c128.c:58
+msgid "*Turbo232"
+msgstr ""
+
+#: src/arch/unix/uirs232c64c128.c:67
 msgid "*ACIA $DExx RS232 interface emulation"
 msgstr "*ACIA $DExx RS232 interface emulatie"
 
-#: src/arch/unix/uirs232c64c128.c:57
+#: src/arch/unix/uirs232c64c128.c:69
 msgid "ACIA $DExx device"
 msgstr "ACIA $DExx apparaat"
 
-#: src/arch/unix/uirs232c64c128.c:59
+#: src/arch/unix/uirs232c64c128.c:71
 msgid "ACIA $DExx Interrupt"
 msgstr "ACIA $DExx Interrupt"
 
-#: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:354
+#: src/arch/unix/uirs232c64c128.c:73
+#, fuzzy
+msgid "ACIA $DExx Emulation Mode"
+msgstr "ACIA $DExx apparaat"
+
+#: src/arch/unix/uirs232c64c128.c:76 src/arch/unix/vic20ui.c:354
 msgid "*Userport RS232 emulation"
 msgstr "*Userport RS232 emulatie"
 
-#: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:356
+#: src/arch/unix/uirs232c64c128.c:78 src/arch/unix/vic20ui.c:356
 msgid "Userport RS232 baud rate"
 msgstr "Userport RS232 baudrate"
 
-#: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:358
+#: src/arch/unix/uirs232c64c128.c:80 src/arch/unix/vic20ui.c:358
 msgid "Userport RS232 device"
 msgstr "Userport RS232 apparaat"
 
-#: src/arch/unix/uirs232c64c128.c:69 src/arch/unix/uirs232petplus4cbm2.c:42
+#: src/arch/unix/uirs232c64c128.c:83 src/arch/unix/uirs232petplus4cbm2.c:42
 #: src/arch/unix/vic20ui.c:361
 msgid "Serial 1 device..."
 msgstr "Serieel 1 apparaat..."
 
-#: src/arch/unix/uirs232c64c128.c:71 src/arch/unix/uirs232petplus4cbm2.c:44
+#: src/arch/unix/uirs232c64c128.c:85 src/arch/unix/uirs232petplus4cbm2.c:44
 #: src/arch/unix/vic20ui.c:363
 msgid "Serial 1 baudrate"
 msgstr "Serieel 1 baudrate"
 
-#: src/arch/unix/uirs232c64c128.c:76 src/arch/unix/uirs232petplus4cbm2.c:49
-#: src/arch/unix/vic20ui.c:368
-msgid "Serial 2 baudrate"
-msgstr "Serieel 2 baudrate"
-
-#: src/arch/unix/uirs232c64c128.c:79 src/arch/unix/uirs232petplus4cbm2.c:52
+#.
+#. { "Serial 2 device...", (ui_callback_t)set_rs232_device_file,
+#. (ui_callback_data_t)"RsDevice2", NULL },
+#. { N_("Serial 2 baudrate"),
+#. NULL, NULL, ser2_c64c128_baud_submenu },
+#. { "--" },
+#.
+#: src/arch/unix/uirs232c64c128.c:95 src/arch/unix/uirs232petplus4cbm2.c:52
 #: src/arch/unix/vic20ui.c:371
 msgid "Dump filename..."
 msgstr "Dump bestandsnaam..."
 
-#: src/arch/unix/uirs232c64c128.c:82 src/arch/unix/uirs232petplus4cbm2.c:55
+#: src/arch/unix/uirs232c64c128.c:98 src/arch/unix/uirs232petplus4cbm2.c:55
 #: src/arch/unix/vic20ui.c:374
 msgid "Program name to exec..."
 msgstr "Programma naam om uit te voeren..."
@@ -4143,6 +4223,10 @@ msgstr "ACIA apparaat"
 #: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:366
 msgid "Serial 2 device..."
 msgstr "Serieel 2 apparaat..."
+
+#: src/arch/unix/uirs232petplus4cbm2.c:49 src/arch/unix/vic20ui.c:368
+msgid "Serial 2 baudrate"
+msgstr "Serieel 2 baudrate"
 
 #: src/arch/unix/uirs232user.c:53
 msgid "*300 baud"
@@ -4188,7 +4272,7 @@ msgstr "Maximale snelheid"
 msgid "Invalid speed value"
 msgstr "Ongeldige snelheid waarde"
 
-#: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1371
+#: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1392
 #: src/arch/unix/x11/xaw/x11ui.c:1088
 msgid "Cannot save settings."
 msgstr "Kan de instellingen niet opslaan."
@@ -4673,15 +4757,29 @@ msgstr "Het VICE Team"
 msgid "Official VICE homepage:"
 msgstr "Officiële VICE homepage:"
 
-#: src/arch/unix/x11/gnome/about.c:89
+#: src/arch/unix/x11/gnome/about.c:86
+msgid ""
+"Martin Pottendorfer - German\n"
+"Peter Karlsson - Swedish\n"
+"Andrea Musuruane - Italian\n"
+"Paul Dube - French\n"
+"Marco van den Heuvel - Dutch\n"
+"Flooder - Polish\n"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/about.c:98
+msgid "(c) 1998 - 2006 The Vice Team"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/about.c:109
 msgid "License"
 msgstr "Licensie"
 
-#: src/arch/unix/x11/gnome/about.c:95
+#: src/arch/unix/x11/gnome/about.c:113
 msgid "Warranty"
 msgstr "Garantie"
 
-#: src/arch/unix/x11/gnome/about.c:101
+#: src/arch/unix/x11/gnome/about.c:117
 msgid "Contributors"
 msgstr "Medewerkers"
 
@@ -4695,26 +4793,19 @@ msgstr "Met succes geinitialiseerd met gebruik van XVideo (%dx%d %.4s)."
 msgid "Successfully initialized video."
 msgstr "Met succes video geinitialiseerd."
 
-#: src/arch/unix/x11/gnome/uicartridge.c:42
-#: src/arch/unix/x11/gnome/uicartridge.c:52
-#: src/arch/unix/x11/gnome/uicartridge.c:88
+#: src/arch/unix/x11/gnome/uicartridge.c:43
+#: src/arch/unix/x11/gnome/uicartridge.c:51
+#: src/arch/unix/x11/gnome/uicartridge.c:85
 msgid "Save Cartridge"
 msgstr "Opslaan Cartridge"
 
-#: src/arch/unix/x11/gnome/uicartridge.c:48
-#: src/arch/unix/x11/gnome/uiedisk.c:65
-#: src/arch/unix/x11/gnome/uiscreenshot.c:212
-#: src/arch/unix/x11/gnome/uisnapshot.c:49
-msgid "Filename: "
-msgstr "Bestandsnaam: "
-
-#: src/arch/unix/x11/gnome/uicartridge.c:98
-#: src/arch/unix/x11/gnome/uiscreenshot.c:461
-#: src/arch/unix/x11/gnome/uisnapshot.c:119
+#: src/arch/unix/x11/gnome/uicartridge.c:95
+#: src/arch/unix/x11/gnome/uiscreenshot.c:464
+#: src/arch/unix/x11/gnome/uisnapshot.c:115
 msgid "Invalid filename"
 msgstr "Ongeldige bestandsnaam"
 
-#: src/arch/unix/x11/gnome/uicartridge.c:103
+#: src/arch/unix/x11/gnome/uicartridge.c:100
 #: src/arch/unix/x11/xaw/uicartridge.c:103
 #, c-format
 msgid ""
@@ -4724,8 +4815,8 @@ msgstr ""
 "Kan cartridge bestand niet schrijven\n"
 "`%s'\n"
 
-#: src/arch/unix/x11/gnome/uicartridge.c:105
-#: src/arch/unix/x11/gnome/uisnapshot.c:128
+#: src/arch/unix/x11/gnome/uicartridge.c:102
+#: src/arch/unix/x11/gnome/uisnapshot.c:124
 #, c-format
 msgid "Successfully wrote `%s'\n"
 msgstr "Met succes `%s' geschreven\n"
@@ -4742,29 +4833,28 @@ msgstr "XCreateImage faalt."
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr "Kan de kleur \"#%04X%04X%04X\" niet toewijzen."
 
-#: src/arch/unix/x11/gnome/uiedisk.c:59 src/arch/unix/x11/xaw/uiedisk.c:428
+#: src/arch/unix/x11/gnome/uiedisk.c:61 src/arch/unix/x11/xaw/uiedisk.c:428
 msgid "Create empty disk"
 msgstr "Maak lege disk"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:69
-#: src/arch/unix/x11/gnome/uisnapshot.c:43
-#: src/arch/unix/x11/gnome/uisnapshot.c:53
-msgid "Save Snapshot"
-msgstr "Opslaan Momentopname"
+#, fuzzy
+msgid "Create disk"
+msgstr "Maak lege disk"
 
-#: src/arch/unix/x11/gnome/uiedisk.c:82
+#: src/arch/unix/x11/gnome/uiedisk.c:80
 msgid "Disk options"
 msgstr "Disk opties"
 
-#: src/arch/unix/x11/gnome/uiedisk.c:87
+#: src/arch/unix/x11/gnome/uiedisk.c:85
 msgid "Diskname: "
 msgstr "Disknaam: "
 
-#: src/arch/unix/x11/gnome/uiedisk.c:164
+#: src/arch/unix/x11/gnome/uiedisk.c:166
 msgid "Create empty Diskimage"
 msgstr "Maak leeg Disk bestand"
 
-#: src/arch/unix/x11/gnome/uiedisk.c:199
+#: src/arch/unix/x11/gnome/uiedisk.c:202
 #, c-format
 msgid "Can't create image `%s'."
 msgstr "Kan bestand `%s' niet maken."
@@ -4805,132 +4895,141 @@ msgstr "Snelle Emulatie"
 msgid "Exact Emulation"
 msgstr "Exacte Emulatie"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:58
+#: src/arch/unix/x11/gnome/uinetplay.c:54
 msgid "Invalid Port number"
 msgstr "Ongeldige Poort nummer"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:79
+#: src/arch/unix/x11/gnome/uinetplay.c:74
 msgid "Idle"
 msgstr "Idle"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:84
+#: src/arch/unix/x11/gnome/uinetplay.c:79
 msgid "Server listening"
 msgstr "Server wacht op verbinding"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:89
+#: src/arch/unix/x11/gnome/uinetplay.c:84
 msgid "Connected Server"
 msgstr "Verbonden Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:94
+#: src/arch/unix/x11/gnome/uinetplay.c:89
 msgid "Connected Client"
 msgstr "Verbonden Client"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:107
+#: src/arch/unix/x11/gnome/uinetplay.c:101
 #, c-format
 msgid "Status: %s, Server: %s, Port: %d"
 msgstr "Status: %s, Server: %s, Poort: %d"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:116
+#: src/arch/unix/x11/gnome/uinetplay.c:110
 msgid "Couldn't start netplay server."
 msgstr "Kon de netplay server niet starten."
 
-#: src/arch/unix/x11/gnome/uinetplay.c:126
+#: src/arch/unix/x11/gnome/uinetplay.c:120
 msgid "Couldn't connect client."
 msgstr "Kon de client niet verbinden."
 
+#: src/arch/unix/x11/gnome/uinetplay.c:139
 #: src/arch/unix/x11/gnome/uinetplay.c:145
-#: src/arch/unix/x11/gnome/uinetplay.c:149
 msgid "Netplay Settings"
 msgstr "netplay Instellingen"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:154
+#: src/arch/unix/x11/gnome/uinetplay.c:150
 msgid "Current mode: "
 msgstr "Huidige modus: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:157
+#: src/arch/unix/x11/gnome/uinetplay.c:153
 msgid "<unknown>"
 msgstr "<onbekent>"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:164
+#: src/arch/unix/x11/gnome/uinetplay.c:160
 msgid "Start Server"
 msgstr "Start Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:172
+#: src/arch/unix/x11/gnome/uinetplay.c:168
 msgid "TCP-Port: "
 msgstr "TCP-Poort: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:185
+#: src/arch/unix/x11/gnome/uinetplay.c:181
 msgid "Connect to "
 msgstr "Maak verbinding naar "
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:202
+#: src/arch/unix/x11/gnome/uiscreenshot.c:239
 msgid "No gfxoutputdrivers available"
 msgstr "Geen scherm afdruk struurprogrammas beschikbaar"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:206
-#: src/arch/unix/x11/gnome/uiscreenshot.c:217
-#: src/arch/unix/x11/gnome/uiscreenshot.c:452
+#: src/arch/unix/x11/gnome/uiscreenshot.c:243
+#: src/arch/unix/x11/gnome/uiscreenshot.c:455
 msgid "Save Screenshot"
 msgstr "Scherm afdruk opslaan"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:230
+#: src/arch/unix/x11/gnome/uiscreenshot.c:251
+#, fuzzy
+msgid "Save Media File..."
+msgstr "Opslaan media bestand"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:268
 msgid "Image Format"
 msgstr "Beeld Formaat"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:301
+#: src/arch/unix/x11/gnome/uiscreenshot.c:310
 #, c-format
 msgid "FFMPEG Driver: %s"
 msgstr "FFMPEG Driver: %s"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:323
+#: src/arch/unix/x11/gnome/uiscreenshot.c:320
 #, c-format
 msgid "\tAC: %s(%d)"
 msgstr "\tAC: %s(%d)"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:348
+#: src/arch/unix/x11/gnome/uiscreenshot.c:333
 #, c-format
 msgid "\tVC: %s(%d)"
 msgstr "\tVC: %s(%d)"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:359
+#: src/arch/unix/x11/gnome/uiscreenshot.c:352
 msgid "Format"
 msgstr "Formaat"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:368
+#: src/arch/unix/x11/gnome/uiscreenshot.c:366
 msgid "Audio Codec"
 msgstr "Audio Codec"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:377
+#: src/arch/unix/x11/gnome/uiscreenshot.c:380
 msgid "Video Codec"
 msgstr "Video Codec"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:394
+#: src/arch/unix/x11/gnome/uiscreenshot.c:397
 msgid "Audio Bitrate"
 msgstr "Geluid Bitrate"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:409
+#: src/arch/unix/x11/gnome/uiscreenshot.c:412
 msgid "Video Bitrate"
 msgstr "Video Bitrate"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:501
+#: src/arch/unix/x11/gnome/uiscreenshot.c:499
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Kon beeld afdruk niet opslaan naar `%s' met stuurprogramma `%s'."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:508
+#: src/arch/unix/x11/gnome/uiscreenshot.c:506
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Met succes `%s' geschreven"
 
-#: src/arch/unix/x11/gnome/uisnapshot.c:66
+#: src/arch/unix/x11/gnome/uisnapshot.c:44
+#: src/arch/unix/x11/gnome/uisnapshot.c:52
+msgid "Save Snapshot"
+msgstr "Opslaan Momentopname"
+
+#: src/arch/unix/x11/gnome/uisnapshot.c:62
 msgid "Snapshot options"
 msgstr "Momentopname opties"
 
-#: src/arch/unix/x11/gnome/uisnapshot.c:70
+#: src/arch/unix/x11/gnome/uisnapshot.c:66
 msgid "Save currently attached disks"
 msgstr "Opslaan huidig gekoppelde disks"
 
-#: src/arch/unix/x11/gnome/uisnapshot.c:75
+#: src/arch/unix/x11/gnome/uisnapshot.c:71
 msgid "Save currently attached ROMs"
 msgstr "Opslaan huidig gekoppelde ROMs"
 
@@ -4954,178 +5053,188 @@ msgstr ""
 "Model: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:411
+#: src/arch/unix/x11/gnome/uifileentry.c:52
+#: src/arch/unix/x11/gnome/x11ui.c:2650
+#, fuzzy
+msgid "all files"
+msgstr "Alle bestanden (*.*)"
+
+#: src/arch/unix/x11/gnome/x11ui.c:428
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Kan fontpad `%s' niet toevoegen.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:413
+#: src/arch/unix/x11/gnome/x11ui.c:430
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Zet fontpad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/xaw/x11ui.c:506
+#: src/arch/unix/x11/gnome/x11ui.c:638 src/arch/unix/x11/xaw/x11ui.c:506
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Deze monitor ondersteunt geen %dbit afbeeldingen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:629 src/arch/unix/x11/xaw/x11ui.c:509
+#: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:509
 msgid "Please select a bit depth supported by your display."
 msgstr "Selecteer aub een bit diepte die ondersteunt wordt door uw monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:632 src/arch/unix/x11/gnome/x11ui.c:656
+#: src/arch/unix/x11/gnome/x11ui.c:644 src/arch/unix/x11/gnome/x11ui.c:668
 #: src/arch/unix/x11/xaw/x11ui.c:512 src/arch/unix/x11/xaw/x11ui.c:529
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Gevonden %dbit/%s beeld."
 
-#: src/arch/unix/x11/gnome/x11ui.c:641
+#: src/arch/unix/x11/gnome/x11ui.c:653
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Gevonden %dbit beeld."
 
-#: src/arch/unix/x11/gnome/x11ui.c:664 src/arch/unix/x11/xaw/x11ui.c:537
+#: src/arch/unix/x11/gnome/x11ui.c:676 src/arch/unix/x11/xaw/x11ui.c:537
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan het beeld niet automatisch detecteren."
 
-#: src/arch/unix/x11/gnome/x11ui.c:672
+#: src/arch/unix/x11/gnome/x11ui.c:684
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan de tekst font %s niet laden."
 
-#: src/arch/unix/x11/gnome/x11ui.c:679
+#: src/arch/unix/x11/gnome/x11ui.c:691
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan de CBM font %s niet laden."
 
-#: src/arch/unix/x11/gnome/x11ui.c:784
+#: src/arch/unix/x11/gnome/x11ui.c:805
 msgid "PAL Controls"
 msgstr "PAL Bediening"
 
-#: src/arch/unix/x11/gnome/x11ui.c:803
+#: src/arch/unix/x11/gnome/x11ui.c:824
 msgid "audio/video recording"
 msgstr "geluid/beeld opname"
 
-#: src/arch/unix/x11/gnome/x11ui.c:817 src/arch/unix/x11/gnome/x11ui.c:836
+#: src/arch/unix/x11/gnome/x11ui.c:838 src/arch/unix/x11/gnome/x11ui.c:857
 msgid "click to stop recording"
 msgstr "klik om de opname te stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:822
+#: src/arch/unix/x11/gnome/x11ui.c:843
 msgid "event recording"
 msgstr "gebeurtenis opname"
 
-#: src/arch/unix/x11/gnome/x11ui.c:842
+#: src/arch/unix/x11/gnome/x11ui.c:863
 msgid "event playback"
 msgstr "gebeurtenis terugspelen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:856
+#: src/arch/unix/x11/gnome/x11ui.c:877
 msgid "click to stop playback"
 msgstr "klik om het terugspelen te stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:868
+#: src/arch/unix/x11/gnome/x11ui.c:889
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:978
+#: src/arch/unix/x11/gnome/x11ui.c:1000
 msgid "Tape 000"
 msgstr "Tape 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1047 src/arch/unix/x11/xaw/x11ui.c:618
+#: src/arch/unix/x11/gnome/x11ui.c:1070 src/arch/unix/x11/xaw/x11ui.c:618
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale aantal van bovenliggende vensters."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1228 src/arch/unix/x11/gnome/x11ui.c:1311
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/gnome/x11ui.c:1332
 msgid "Commands"
 msgstr "Commandos"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1234
+#: src/arch/unix/x11/gnome/x11ui.c:1255
 msgid "Help"
 msgstr "Help"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1354 src/arch/unix/x11/xaw/x11ui.c:1073
+#: src/arch/unix/x11/gnome/x11ui.c:1375 src/arch/unix/x11/xaw/x11ui.c:1073
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1361 src/arch/unix/x11/xaw/x11ui.c:1077
+#: src/arch/unix/x11/gnome/x11ui.c:1382 src/arch/unix/x11/xaw/x11ui.c:1077
 msgid "Do you really want to exit?"
 msgstr "Wilt U echt afsluiten?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1368 src/arch/unix/x11/xaw/x11ui.c:1085
+#: src/arch/unix/x11/gnome/x11ui.c:1389 src/arch/unix/x11/xaw/x11ui.c:1085
 msgid "Save the current settings?"
 msgstr "De huidige instellingen opslaan?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1413 src/arch/unix/x11/xaw/x11ui.c:1126
+#: src/arch/unix/x11/gnome/x11ui.c:1434 src/arch/unix/x11/xaw/x11ui.c:1126
 msgid "Using private colormap."
 msgstr "Prive kleurenmap wordt gebruikt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1433 src/arch/unix/x11/gnome/x11ui.c:1436
+#: src/arch/unix/x11/gnome/x11ui.c:1454 src/arch/unix/x11/gnome/x11ui.c:1457
 #: src/arch/unix/x11/xaw/x11ui.c:1154 src/arch/unix/x11/xaw/x11ui.c:1159
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1727
+#: src/arch/unix/x11/gnome/x11ui.c:1748
 #, c-format
 msgid "Tape %03d"
 msgstr "Tape %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1779 src/arch/unix/x11/xaw/x11ui.c:1395
+#: src/arch/unix/x11/gnome/x11ui.c:1814 src/arch/unix/x11/xaw/x11ui.c:1395
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1936
+#: src/arch/unix/x11/gnome/x11ui.c:1974
 msgid "VICE Message"
 msgstr "VICE Bericht"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1947
+#: src/arch/unix/x11/gnome/x11ui.c:1985
 msgid "VICE Error"
 msgstr "Vice Fout"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1973
+#: src/arch/unix/x11/gnome/x11ui.c:2016
 msgid "Hard Reset"
 msgstr "Harde Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1974
+#: src/arch/unix/x11/gnome/x11ui.c:2017
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/xaw/x11ui.c:1673
+#: src/arch/unix/x11/gnome/x11ui.c:2061 src/arch/unix/x11/xaw/x11ui.c:1673
 msgid "Extend disk image"
 msgstr "40-sporen disk bestand"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2019
+#: src/arch/unix/x11/gnome/x11ui.c:2062
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Wilt U her disk bestand uitbreiden naar 40 sporen?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2032
+#: src/arch/unix/x11/gnome/x11ui.c:2075
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostarten niet mogelijk voor drive %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2040 src/arch/unix/x11/gnome/x11ui.c:2049
+#: src/arch/unix/x11/gnome/x11ui.c:2083 src/arch/unix/x11/gnome/x11ui.c:2092
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan de selectie %d in disk bestand %s niet autostarten"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2176 src/arch/unix/x11/gnome/x11ui.c:2181
+#: src/arch/unix/x11/gnome/x11ui.c:2218 src/arch/unix/x11/gnome/x11ui.c:2228
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "GEEN BESTAND INHOUD BESCHIKBAAR"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2650
+#: src/arch/unix/x11/gnome/x11ui.c:2673
 msgid "Contents"
 msgstr "Inhoud"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2697
+#: src/arch/unix/x11/gnome/x11ui.c:2719
 msgid "Attach write protected"
 msgstr "Koppel schrijf beveiligd"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2723
+#: src/arch/unix/x11/gnome/x11ui.c:2727
 msgid "Autostart"
 msgstr "Autostarten"
+
+#: src/arch/unix/x11/gnome/x11ui.c:2744
+msgid "Text cannot be displayed.\n"
+msgstr ""
 
 #: src/arch/unix/x11/dga1.c:82
 #, c-format
@@ -5486,6 +5595,9 @@ msgstr "Prestatie zal slecht zijn."
 #: src/arch/unix/x11/xaw/x11video.c:222
 msgid "Successfully initialized without shared memory."
 msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
+
+#~ msgid "Filename: "
+#~ msgstr "Bestandsnaam: "
 
 #~ msgid "&File"
 #~ msgstr "&Bestand"
@@ -6254,9 +6366,6 @@ msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
 #~ msgid "No button - Autofire disabled"
 #~ msgstr "Geen knop - Autovuren is uit"
 
-#~ msgid "All files (*.*)"
-#~ msgstr "Alle bestanden (*.*)"
-
 #~ msgid "VICE palette files (*.vpl)"
 #~ msgstr "VICE palette bestanden (*.vpl)"
 
@@ -6572,9 +6681,6 @@ msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
 
 #~ msgid "M&ode"
 #~ msgstr "Modus"
-
-#~ msgid "&Normal"
-#~ msgstr "&Normaal"
 
 #~ msgid "&Small"
 #~ msgstr "&Klein"

@@ -59,6 +59,7 @@ static BYTE ctrl;
 static BYTE rxdata;     /* data that has been received last */
 static BYTE txdata;     /* data prepared to send */
 static BYTE status;
+static BYTE ectrl;
 static int alarm_active = 0;    /* if alarm is set or not */
 
 static log_t acia_log = LOG_ERR;
@@ -74,6 +75,25 @@ static CLOCK acia_alarm_clk = 0;
 static int acia_device;
 static int acia_irq = IK_NONE;
 static int acia_irq_res;
+static int acia_mode = ACIA_MODE_NORMAL;
+
+/******************************************************************/
+
+/* note: the first value is bogus. It should be 16*external clock.
+   note: swiftlink mode uses the same table except it doubles the values. */
+static const double acia_baud_table[16] = {
+    10, 50, 75, 109.92, 134.58, 150, 300, 600, 1200, 1800,
+    2400, 3600, 4800, 7200, 9600, 19200
+};
+
+/* turbo232 support, these values are used as enhanced baud rates.
+   note: the last value is a bogus value and in the real module
+   that value is reserved for future use. */
+static const double t232_baud_table[4] = {
+    230400, 115200, 57600, 28800
+};
+
+/******************************************************************/
 
 static int acia_set_device(resource_value_t v, void *param)
 {
@@ -118,6 +138,42 @@ static int acia_set_irq(resource_value_t v, void *param)
     return 0;
 }
 
+static int get_acia_ticks(void)
+{
+    switch(acia_mode) {
+
+      case ACIA_MODE_NORMAL:
+        return (int)(machine_get_cycles_per_second() / acia_baud_table[ctrl & 0xf]);
+        break;
+
+      case ACIA_MODE_SWIFTLINK:
+        return (int)(machine_get_cycles_per_second() / (acia_baud_table[ctrl & 0xf]*2));
+        break;
+
+      case ACIA_MODE_TURBO232:
+        if ((ctrl & 0xf)==0)
+            return (int)(machine_get_cycles_per_second() / t232_baud_table[ectrl & 0x3]);
+        else
+            return (int)(machine_get_cycles_per_second() / (acia_baud_table[ctrl & 0xf]*2));
+        break;
+    }
+
+    return 0;
+}
+
+static int acia_set_mode(resource_value_t v, void *param)
+{
+    int new_mode = (int)v;
+
+    if (new_mode < 0 || new_mode > 2)
+        return -1;
+
+    acia_mode = new_mode;
+    acia_ticks=get_acia_ticks();
+    return 0;
+
+}
+
 static const resource_t resources[] = {
     { MYACIA "Dev", RES_INTEGER, (resource_value_t)MyDevice,
       (void *)&acia_device, acia_set_device, NULL },
@@ -128,6 +184,16 @@ static const resource_t resources[] = {
 
 int myacia_init_resources(void) {
     return resources_register(resources);
+}
+
+static const resource_t mode_resources[] = {
+    { MYACIA "Mode", RES_INTEGER, (resource_value_t)ACIA_MODE_NORMAL,
+      (void *)&acia_mode, acia_set_mode, NULL },
+    { NULL }
+};
+
+int myacia_init_mode_resources(void) {
+    return resources_register(mode_resources);
 }
 
 #ifdef HAS_TRANSLATION
@@ -147,14 +213,6 @@ static const cmdline_option_t cmdline_options[] = {
 int myacia_init_cmdline_options(void) {
     return cmdline_register_options(cmdline_options);
 }
-
-/******************************************************************/
-
-/* note: the first value is bogus. It should be 16*external clock. */
-static const double acia_baud_table[16] = {
-    10, 50, 75, 109.92, 134.58, 150, 300, 600, 1200, 1800,
-    2400, 3600, 4800, 7200, 9600, 19200
-};
 
 /******************************************************************/
 
@@ -183,9 +241,9 @@ void myacia_reset(void)
 #endif
     cmd = 0;
     ctrl = 0;
+    ectrl = 0;
 
-    acia_ticks = (int)(machine_get_cycles_per_second()
-                 / acia_baud_table[ctrl & 0xf]);
+    acia_ticks=get_acia_ticks();
 
     status = 0x10;
     intx = 0;
@@ -300,8 +358,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
     }
 
     SMR_B(m, &ctrl);
-    acia_ticks = (int)(machine_get_cycles_per_second()
-                                / acia_baud_table[ctrl & 0xf]);
+    acia_ticks=get_acia_ticks();
 
     SMR_B(m, &byte);
     intx = byte;
@@ -325,6 +382,8 @@ int myacia_snapshot_read_module(snapshot_t *p)
 
 void REGPARM2 myacia_store(WORD a, BYTE b)
 {
+    int acia_register_size;
+
 #ifdef DEBUG
     log_message(acia_log, "store_myacia(%04x,%02x)", a, b);
 #endif
@@ -335,7 +394,12 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
         myclk ++;
     }
 
-    switch(a & 3) {
+    if (acia_mode==2)
+      acia_register_size=7;
+    else
+      acia_register_size=3;
+
+    switch(a & acia_register_size) {
       case ACIA_DR:
         txdata = b;
         if (cmd & 1) {
@@ -365,8 +429,7 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
         break;
       case ACIA_CTRL:
         ctrl = b;
-        acia_ticks = (int)(machine_get_cycles_per_second()
-                     / acia_baud_table[ctrl & 0xf]);
+        acia_ticks=get_acia_ticks();
         break;
       case ACIA_CMD:
         cmd = b;
@@ -383,7 +446,10 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
                 fd = -1;
             }
         break;
-        }
+      case T232_ECTRL:
+        if ((ctrl & 0xf)==0)
+          ectrl=b;
+    }
 }
 
 BYTE REGPARM1 myacia_read(WORD a)
@@ -403,7 +469,14 @@ BYTE REGPARM1 myacia_read(WORD a)
 BYTE myacia_read_(WORD a)
 {
 #endif
-    switch(a & 3) {
+    int acia_register_size;
+
+    if (acia_mode==2)
+      acia_register_size=7;
+    else
+      acia_register_size=3;
+
+    switch(a & acia_register_size) {
       case ACIA_DR:
         status &= ~8;
         acia_last_read = rxdata;
@@ -422,6 +495,12 @@ BYTE myacia_read_(WORD a)
       case ACIA_CMD:
         acia_last_read = cmd;
         return cmd;
+      case T232_NDEF1:
+      case T232_NDEF2:
+      case T232_NDEF3:
+        return 0xff;
+      case T232_ECTRL:
+        return ectrl+((ctrl & 0xf)==0) ? 4 : 0;
     }
     /* should never happen */
     return 0;
@@ -476,4 +555,3 @@ static void int_acia(CLOCK offset, void *data)
     alarm_set(acia_alarm, acia_alarm_clk);
     alarm_active = 1;
 }
-

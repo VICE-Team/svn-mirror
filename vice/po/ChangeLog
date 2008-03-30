@@ -1,3 +1,7 @@
+2006-01-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in: Added PET REU related files.
+
 2006-01-08  Andreas Boose  <viceteam@t-online.de>
 
 	* it.po: Reverted some multi byte changes.

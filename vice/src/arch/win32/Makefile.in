@@ -302,6 +302,7 @@ libarch_a_SOURCES = \
 	resgeoram.rc \
 	reside64.rc \
 	respet.rc \
+	respetreu.rc \
 	resplus4.rc \
 	resplus60k.rc \
 	resramcart.rc \
@@ -371,6 +372,8 @@ libarch_a_SOURCES = \
 	uinetwork.h \
 	uiperipheral.c \
 	uiperipheral.h \
+	uipetreu.c \
+	uipetreu.h \
 	uipetset.c \
 	uipetset.h \
 	uiplus4cart.c \
@@ -521,14 +524,15 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uihelp.$(OBJEXT) uiide64.$(OBJEXT) uijoystick.$(OBJEXT) \
 	uikeyboard.$(OBJEXT) uilib.$(OBJEXT) uimediafile.$(OBJEXT) \
 	uimon.$(OBJEXT) uinetwork.$(OBJEXT) uiperipheral.$(OBJEXT) \
-	uipetset.$(OBJEXT) uiplus4cart.$(OBJEXT) uiplus4mem.$(OBJEXT) \
-	uiplus60k.$(OBJEXT) uiquicksnapshot.$(OBJEXT) uiram.$(OBJEXT) \
-	uiramcart.$(OBJEXT) uireu.$(OBJEXT) uirom.$(OBJEXT) \
-	uirs232.$(OBJEXT) uirs232user.$(OBJEXT) uisid.$(OBJEXT) \
-	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) uispeed.$(OBJEXT) \
-	uitfe.$(OBJEXT) uivicii.$(OBJEXT) uivicset.$(OBJEXT) \
-	uivideo.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
-	vsidui.$(OBJEXT) vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
+	uipetreu.$(OBJEXT) uipetset.$(OBJEXT) uiplus4cart.$(OBJEXT) \
+	uiplus4mem.$(OBJEXT) uiplus60k.$(OBJEXT) \
+	uiquicksnapshot.$(OBJEXT) uiram.$(OBJEXT) uiramcart.$(OBJEXT) \
+	uireu.$(OBJEXT) uirom.$(OBJEXT) uirs232.$(OBJEXT) \
+	uirs232user.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uisound.$(OBJEXT) uispeed.$(OBJEXT) uitfe.$(OBJEXT) \
+	uivicii.$(OBJEXT) uivicset.$(OBJEXT) uivideo.$(OBJEXT) \
+	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
+	vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -561,8 +565,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po ./$(DEPDIR)/uikeyboard.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uilib.Po ./$(DEPDIR)/uimediafile.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uinetwork.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po ./$(DEPDIR)/uipetset.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiplus4cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po ./$(DEPDIR)/uipetreu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uipetset.Po ./$(DEPDIR)/uiplus4cart.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiplus4mem.Po ./$(DEPDIR)/uiplus60k.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiquicksnapshot.Po ./$(DEPDIR)/uiram.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiramcart.Po ./$(DEPDIR)/uireu.Po \
@@ -664,6 +668,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetwork.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheral.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetreu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus4cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus4mem.Po@am__quote@
@@ -1030,9 +1035,9 @@ rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	rm -f rescbm2.res rescbm2cat.rc
 
 respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
-	$(srcdir)/resdrivepetcbm2.rc
+	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc
 	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
-	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc
+	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc
 	$(WRC) -i respetcat.rc -o respet.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \

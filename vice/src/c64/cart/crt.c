@@ -37,6 +37,7 @@
 #include "cartridge.h"
 #include "comal80.h"
 #include "crt.h"
+#include "delaep64.h"
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
@@ -238,6 +239,12 @@ int crt_attach(const char *filename, BYTE *rawcart)
         break;
       case CARTRIDGE_ROSS:
         rc = ross_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_DELA_EP64:
+        rc = delaep64_crt_attach(fd, rawcart);
         fclose(fd);
         if (rc < 0)
             return -1;

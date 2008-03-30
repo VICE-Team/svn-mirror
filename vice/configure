@@ -1312,11 +1312,16 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=0
+VICE_VERSION_BUILD=1
 
 
 
 
+
+
+cat >>confdefs.h <<\_ACEOF
+#define UNSTABLE
+_ACEOF
 
 
 if test x"$VICE_VERSION_BUILD" == "x" -o x"$VICE_VERSION_BUILD" == "x0" ; then
@@ -3248,7 +3253,7 @@ else
       if test x"$enable_gnomeui" != "xyes" ; then
           warnings="-Wall -Wstrict-prototypes -Winline"
       else
-	  	  warnings="-Wall -Winline"
+	  	  	  warnings="-Wall -Winline"
       fi
 
 
@@ -19748,7 +19753,7 @@ _ACEOF
 
 elif [ x"${enable_gnomeui}" = x"yes" ] ; then
 
-  LIBS="${LIBS} `gnome-config --libs gnomeui`"
+  LIBS="${LIBS} `pkg-config --libs libgnomeui-2.0`"
 
 
 cat >>confdefs.h <<\_ACEOF
@@ -20509,7 +20514,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes
     ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
   else
     ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/libarch.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `gnome-config --cflags gnomeui`"
+    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `pkg-config --cflags libgnomeui-2.0`"
   fi
 
 

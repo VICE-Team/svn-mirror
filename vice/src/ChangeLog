@@ -1,3 +1,72 @@
+2006-01-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.1.
+
+	* arch/unix/uirs232c64c128.c: Commented out undefined
+	reference to `ser2_c64c128_baud_submenu'.
+
+	* aciacore.c (get_acia_ticks): Fixed prototype, added dummy
+	return value.
+
+	* c64/cart/crt.c: #include "delaep64.h".
+
+2006-01-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/constants.h, arch/beos/petui.cc,
+	arch/beos/vicemenu.cc, arch/msdos/Makefile.am,
+	arch/msdos/petui.c, arch/msdos/uipetreu.c,
+	arch/msdos/uipetreu.h, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/menubar.h, arch/os2/dialogs/menubar.rc,
+	arch/unix/Makefile.am, arch/unix/petui.c,
+	arch/unix/uipetreu.c, arch/unix/uipetreu.h,
+	arch/win32/Makefile.am, arch/win32/arch.dsp,
+	arch/win32/pet.dsp, arch/win32/petui.c,
+	arch/win32/resdialogs.txt, arch/win32/resmenu.txt,
+	arch/win32/respet.rc, arch/win32/respetreu.rc,
+	arch/win32/resstrings.txt, arch/win32/uipetreu.c,
+	arch/win32/uipetreu.h, arch/win32/xpet.dsp, pet/Makefile.am,
+	pet/pet.c, pet/petmem.c, pet/petreu.c, pet/petreu.h,
+	translate.c, translate.h: Added PET REU 128kb memory expansion
+	support.
+
+2006-01-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* acia.h: Added the extra registers definitions and added mode
+	definitions for swiftlink and turbo232 support.
+
+	* aciacore.c: Added swiftlink and turbo232 support.
+
+	* arch/unix/uirs232.c, arch/unix/uirs232.h: Added an enhanced
+	baud rate menu for swiftlink and turbo232 support.
+
+	* arch/unix/uirs232c64c128.c: Added mode selection and
+	enhanced baud rate menus for swiftlink and turbo232 support.
+
+	* arch/win32/c128ui.c, arch/win32/c64ui.c,
+	arch/win32/cbm2ui.c, arch/win32/petui.c,
+	arch/win32/plus4ui.c: Enhanced the acia dialog for swiftlink
+	and turbo232 support.
+
+	* arch/win32/resacia.rc, arch/win32/uiacia.c,
+	arch/win32/uiacia.h: Added acia mode selection for swiftlink
+	and turbo232 support.
+
+	* arch/win32/resdialogs.txt, arch/win32/resstrings.txt: Added
+	swiftlink and turbo232 support.
+
+	* c128/c128.c, c64/c64.c, c64/c64acia.h,
+	c64/c64acia1.c: Added a seperate swiftlink/turbo232 resource
+	init, so that only x64/x128 would init these.
+
+2006-01-15  Michael Klein <michael.klein@puffin.lb.shuttle.de>
+
+	* c64/cart/Makefile.am: Added new files.
+
+	* c64/cart/delaep64.c, c64/cart/delaep64.h: New files.
+
+	* cartridge.h, c64/cartmem.c, c64/cart/crt.c: Added
+	support for Dela EP-64.
+
 2006-01-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.

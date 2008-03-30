@@ -245,7 +245,6 @@ noinst_LIBRARIES = libgnomeui.a
 
 libgnomeui_a_SOURCES = \
 	about.c \
-	dummies.c \
 	gnomekbd.c \
 	gnomevideo.c \
 	uiarch.h \
@@ -259,6 +258,8 @@ libgnomeui_a_SOURCES = \
 	uiscreenshot.c \
 	uisnapshot.c \
 	uivsidcontrol.c \
+	uifileentry.c \
+	uifileentry.h \
 	videoarch.h \
 	x11ui.c
 
@@ -270,22 +271,22 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libgnomeui_a_AR = $(AR) cru
 libgnomeui_a_LIBADD =
-am_libgnomeui_a_OBJECTS = about.$(OBJEXT) dummies.$(OBJEXT) \
-	gnomekbd.$(OBJEXT) gnomevideo.$(OBJEXT) uicartridge.$(OBJEXT) \
-	uicolor.$(OBJEXT) uiedisk.$(OBJEXT) uimenu.$(OBJEXT) \
-	uinetplay.$(OBJEXT) uipalcontrol.$(OBJEXT) \
-	uiscreenshot.$(OBJEXT) uisnapshot.$(OBJEXT) \
-	uivsidcontrol.$(OBJEXT) x11ui.$(OBJEXT)
+am_libgnomeui_a_OBJECTS = about.$(OBJEXT) gnomekbd.$(OBJEXT) \
+	gnomevideo.$(OBJEXT) uicartridge.$(OBJEXT) uicolor.$(OBJEXT) \
+	uiedisk.$(OBJEXT) uimenu.$(OBJEXT) uinetplay.$(OBJEXT) \
+	uipalcontrol.$(OBJEXT) uiscreenshot.$(OBJEXT) \
+	uisnapshot.$(OBJEXT) uivsidcontrol.$(OBJEXT) \
+	uifileentry.$(OBJEXT) x11ui.$(OBJEXT)
 libgnomeui_a_OBJECTS = $(am_libgnomeui_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/about.Po ./$(DEPDIR)/dummies.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/gnomekbd.Po ./$(DEPDIR)/gnomevideo.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/about.Po ./$(DEPDIR)/gnomekbd.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/gnomevideo.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uicartridge.Po ./$(DEPDIR)/uicolor.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiedisk.Po ./$(DEPDIR)/uimenu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uinetplay.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiedisk.Po ./$(DEPDIR)/uifileentry.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimenu.Po ./$(DEPDIR)/uinetplay.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uipalcontrol.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiscreenshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisnapshot.Po \
@@ -322,12 +323,12 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/about.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dummies.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gnomekbd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gnomevideo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicartridge.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicolor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiedisk.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uifileentry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetplay.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalcontrol.Po@am__quote@
