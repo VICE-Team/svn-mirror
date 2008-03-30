@@ -45,14 +45,13 @@ static ui_menu_entry_t set_video_standard_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
+UI_MENU_DEFINE_STRING_RADIO(VICPaletteFile)
 
 static ui_menu_entry_t palette_submenu[] = {
-    { N_("*Default"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"default", NULL },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"PaletteFile", NULL },
+    { N_("*Default"), (ui_callback_t)radio_VICPaletteFile,
+      (ui_callback_data_t)"default", NULL },
+    { N_("Load custom"), (ui_callback_t)ui_load_palette,
+      (ui_callback_data_t)"VICPaletteFile", NULL },
     { NULL }
 };
 

@@ -34,16 +34,14 @@
 #include "uivdc.h"
 
 
-UI_MENU_DEFINE_STRING_RADIO(VDC_PaletteFile)
+UI_MENU_DEFINE_STRING_RADIO(VDCPaletteFile)
 
 static ui_menu_entry_t vdc_palette_submenu[] = {
-    { N_("*Default"),
-      (ui_callback_t)radio_VDC_PaletteFile,
+    { N_("*Default"), (ui_callback_t)radio_VDCPaletteFile,
       (ui_callback_data_t)"vdc_deft", NULL },
     { "--" },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"VDC_PaletteFile", NULL },
+    { N_("Load custom"), (ui_callback_t)ui_load_palette,
+      (ui_callback_data_t)"VDCPaletteFile", NULL },
     { NULL }
 };
 

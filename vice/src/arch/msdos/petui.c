@@ -77,8 +77,8 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
                                  NULL, "*.vpl", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_value("PaletteFile", (resource_value_t *)name)
-                < 0)
+            if (resources_set_value("CrtcPaletteFile",
+                (resource_value_t *)name) < 0)
                 tui_error("Invalid palette file");
             ui_update_menus();
             lib_free(name);
@@ -92,7 +92,7 @@ static TUI_MENU_CALLBACK(palette_menu_callback)
     char *s;
     int i;
 
-    resources_get_value("PaletteFile", (void *)&s);
+    resources_get_value("CrtcPaletteFile", (void *)&s);
     for (i = 0; palette_items[i].name != NULL; i++) {
         if (strcmp(s, palette_items[i].name) == 0)
            return palette_items[i].brief_description;

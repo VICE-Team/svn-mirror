@@ -39,27 +39,26 @@
 #include "uipalemu.h"
 
 
-UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
+UI_MENU_DEFINE_STRING_RADIO(VICIIPaletteFile)
 
 static ui_menu_entry_t palette_submenu[] = {
-    { N_("*Default"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"default", NULL },
-    { "*C64S",
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"c64s", NULL },
-    { N_("*CCS64"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"ccs64", NULL },
-    { N_("*Frodo"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"frodo", NULL },
-    { N_("*GoDot"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"godot", NULL },
-    { "*PC64",
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"pc64", NULL },
-    { "*C64HQ",
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"c64hq", NULL },
+    { N_("*Default"), (ui_callback_t)radio_VICIIPaletteFile,
+      (ui_callback_data_t)"default", NULL },
+    { "*C64S", (ui_callback_t)radio_VICIIPaletteFile,
+      (ui_callback_data_t)"c64s", NULL },
+    { N_("*CCS64"), (ui_callback_t)radio_VICIIPaletteFile,
+      (ui_callback_data_t)"ccs64", NULL },
+    { N_("*Frodo"), (ui_callback_t)radio_VICIIPaletteFile,
+      (ui_callback_data_t)"frodo", NULL },
+    { N_("*GoDot"), (ui_callback_t)radio_VICIIPaletteFile,
+      (ui_callback_data_t)"godot", NULL },
+    { "*PC64", (ui_callback_t)radio_VICIIPaletteFile,
+      (ui_callback_data_t)"pc64", NULL },
+    { "*C64HQ", (ui_callback_t)radio_VICIIPaletteFile,
+      (ui_callback_data_t)"c64hq", NULL },
     { "--" },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"PaletteFile", NULL },
+    { N_("Load custom"), (ui_callback_t)ui_load_palette,
+      (ui_callback_data_t)"VICIIPaletteFile", NULL },
     { NULL }
 };
 
@@ -67,7 +66,7 @@ UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
-UI_MENU_DEFINE_TOGGLE(ExternalPalette)
+UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
 UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
@@ -117,7 +116,7 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("*New Luminances"),
       (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
     { N_("*External color set"),
-      (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
+      (ui_callback_t)toggle_VICIIExternalPalette, NULL, NULL },
     { N_("Color set"),
       NULL, NULL, palette_submenu },
     { "--" },

@@ -73,7 +73,7 @@ static int set_vdc_revision(resource_value_t v, void *param)
 
 static const resource_t resources[] =
 {
-    { "VDC_PaletteFile", RES_STRING, (resource_value_t)"vdc_deft",
+    { "VDCPaletteFile", RES_STRING, (resource_value_t)"vdc_deft",
       (void *)&vdc_resources.palette_file_name, set_palette_file_name, NULL },
     { "VDC64KB", RES_INTEGER, (resource_value_t)1,
       (void *)&vdc_resources.vdc_64kb_expansion, set_64kb_expansion, NULL },
@@ -90,6 +90,7 @@ int vdc_resources_init(void)
     video_chip_cap.dsize_limit_height = 0;
     video_chip_cap.dscan_allowed = ARCHDEP_VDC_DSCAN;
     video_chip_cap.scale2x_allowed = 0;
+    video_chip_cap.internal_palette_allowed = 0;
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
     video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGB_1X1;

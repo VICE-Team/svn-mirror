@@ -44,8 +44,7 @@ static ui_menu_entry_t crtc_palette_submenu[] = {
     { N_("*White"), (ui_callback_t)radio_CrtcPaletteFile,
       (ui_callback_data_t)"white", NULL },
     { "--" },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
+    { N_("Load custom"), (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"CrtcPaletteFile", NULL },
     { NULL }
 };
