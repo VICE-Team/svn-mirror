@@ -408,12 +408,12 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/autostart.h ../../src/cartridge.h \
 	../../src/clkguard.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/datasette.h ../../src/tap.h ../../src/drive/drive.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
-	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/interrupt.h ../../src/6510core.h \
-	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/serial.h \
-	../../src/diskimage.h ../../src/traps.h ../../src/tape.h \
+	../../src/diskimage.h ../../src/drive/drivecpu.h \
+	../../src/alarm.h ../../src/log.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/arch/unix/kbd.h \
+	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/serial.h ../../src/traps.h ../../src/tape.h \
 	../../src/utils.h vic.h vic20.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
@@ -434,10 +434,11 @@ vic20datasette.o: vic20datasette.c ../../src/vice.h ../../src/config.h \
 vic20iec.o: vic20iec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/ciad.h ../../src/arch/unix/types.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/drive/drive.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
-	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
-	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/iecdrive.h ../../src/maincpu.h ../../src/resources.h \
+	../../src/diskimage.h ../../src/drive/drivecpu.h \
+	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/iecdrive.h \
+	../../src/maincpu.h ../../src/resources.h \
 	../../src/drive/viad.h ../../src/via.h
 vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h vic20mem.h \
 	../../src/arch/unix/types.h ../../src/mem.h \
@@ -473,19 +474,21 @@ vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/resources.h \
 	../../src/via.h ../../src/maincpu.h ../../src/mon.h \
 	../../src/mos6510.h ../../src/datasette.h ../../src/tap.h \
-	../../src/drive/drive.h ../../src/drive/drivecpu.h \
-	../../src/arch/unix/kbd.h ../../src/keyboard.h vic20iec.h \
-	../../src/iecdrive.h vic20via.h ../../src/viacore.c
+	../../src/drive/drive.h ../../src/diskimage.h \
+	../../src/drive/drivecpu.h ../../src/arch/unix/kbd.h \
+	../../src/keyboard.h vic20iec.h ../../src/iecdrive.h vic20via.h \
+	../../src/viacore.c
 vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
 	../../src/viacore.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/resources.h \
 	../../src/via.h ../../src/datasette.h ../../src/tap.h \
-	../../src/drive/drive.h ../../src/drive/drivecpu.h \
-	../../src/mos6510.h ../../src/mon.h ../../src/arch/unix/kbd.h \
-	../../src/maincpu.h vic20iec.h ../../src/iecdrive.h vic20via.h \
-	../../src/pruser.h ../../src/rsuser.h ../../src/viacore.c
+	../../src/drive/drive.h ../../src/diskimage.h \
+	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/arch/unix/kbd.h ../../src/maincpu.h vic20iec.h \
+	../../src/iecdrive.h vic20via.h ../../src/pruser.h \
+	../../src/rsuser.h ../../src/viacore.c
 
 info: info-recursive
 dvi: dvi-recursive

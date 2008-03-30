@@ -693,9 +693,11 @@ distdir: $(DISTFILES)
 alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
 asm.o: asm.c vice.h config.h asm.h arch/unix/types.h
 attach.o: attach.c vice.h config.h attach.h arch/unix/types.h snapshot.h \
-	diskimage.h fliplist.h resources.h serial.h traps.h \
-	arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h utils.h \
-	vdrive/vdrive.h log.h
+	diskimage.h drive/drive.h drive/drivecpu.h alarm.h log.h \
+	clkguard.h mos6510.h mon.h mem.h interrupt.h 6510core.h \
+	fliplist.h resources.h serial.h traps.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h uiapi.h utils.h vdrive/vdrive.h \
+	drive/wd1770.h
 autostart.o: autostart.c vice.h config.h autostart.h arch/unix/types.h \
 	arch/unix/archdep.h archapi.h attach.h snapshot.h charsets.h \
 	datasette.h tap.h fsdevice.h interrupt.h 6510core.h mem.h \
@@ -749,10 +751,10 @@ log.o: log.c vice.h config.h log.h cmdline.h resources.h \
 	arch/unix/archdep.h archapi.h utils.h arch/unix/types.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	arch/unix/types.h snapshot.h autostart.h cartridge.h charsets.h \
-	cmdline.h resources.h drive/drivecpu.h alarm.h log.h clkguard.h \
-	mos6510.h mon.h mem.h interrupt.h 6510core.h fsdevice.h \
-	arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h keyboard.h \
-	machine.h maincpu.h serial.h diskimage.h traps.h sound.h warn.h \
+	cmdline.h resources.h diskimage.h drive/drivecpu.h alarm.h \
+	log.h clkguard.h mos6510.h mon.h mem.h interrupt.h 6510core.h \
+	fsdevice.h arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h \
+	keyboard.h machine.h maincpu.h serial.h traps.h sound.h warn.h \
 	sysfile.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h \
 	uiapi.h utils.h arch/unix/video.h arch/unix/vsync.h \
 	arch/unix/mouse.h
@@ -779,10 +781,9 @@ parallel.o: parallel.c vice.h config.h arch/unix/types.h parallel.h \
 	serial.h diskimage.h traps.h drive/drive.h drive/drivecpu.h \
 	alarm.h log.h clkguard.h mos6510.h mon.h mem.h snapshot.h \
 	interrupt.h 6510core.h
-petcat.o: petcat.c vice.h config.h charsets.h arch/unix/types.h p00.h
 prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h \
-	vdrive/vdrive.h attach.h arch/unix/types.h snapshot.h log.h \
-	charsets.h utils.h prdevice.h print.h serial.h traps.h
+	vdrive/vdrive.h attach.h arch/unix/types.h snapshot.h serial.h \
+	diskimage.h traps.h log.h charsets.h utils.h prdevice.h print.h
 pruser.o: pruser.c vice.h config.h arch/unix/types.h print.h pruser.h \
 	resources.h cmdline.h
 resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
@@ -793,10 +794,10 @@ rsuser.o: rsuser.c vice.h config.h arch/unix/types.h alarm.h log.h \
 	clkguard.h cmdline.h resources.h interrupt.h 6510core.h mem.h \
 	snapshot.h maincpu.h mon.h mos6510.h rs232.h rsuser.h
 serial.o: serial.c vice.h config.h drive/drive.h arch/unix/types.h \
-	drive/drivecpu.h alarm.h log.h clkguard.h mos6510.h mon.h mem.h \
-	snapshot.h interrupt.h 6510core.h maincpu.h parallel.h serial.h \
-	diskimage.h traps.h tape.h utils.h vdrive/vdrive.h attach.h \
-	prdevice.h
+	diskimage.h drive/drivecpu.h alarm.h log.h clkguard.h mos6510.h \
+	mon.h mem.h snapshot.h interrupt.h 6510core.h maincpu.h \
+	parallel.h serial.h traps.h tape.h utils.h vdrive/vdrive.h \
+	attach.h prdevice.h
 snapshot.o: snapshot.c vice.h config.h log.h snapshot.h \
 	arch/unix/types.h utils.h zfile.h
 sound.o: sound.c vice.h config.h sound.h arch/unix/types.h warn.h \

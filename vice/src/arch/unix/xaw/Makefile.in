@@ -350,14 +350,15 @@ ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	widgets/TextField.h ui.h ../../../../src/arch/unix/types.h \
 	../../../../src/palette.h ../../../../src/uiapi.h \
 	../../../../src/cmdline.h ../../../../src/resources.h \
-	../../../../src/drive/drive.h ../../../../src/drive/drivecpu.h \
-	../../../../src/alarm.h ../../../../src/log.h \
-	../../../../src/clkguard.h ../../../../src/mos6510.h \
-	../../../../src/mon.h ../../../../src/mem.h \
-	../../../../src/snapshot.h ../../../../src/interrupt.h \
-	../../../../src/6510core.h ../../../../src/machine.h \
-	../../../../src/maincpu.h ../../../../src/arch/unix/mouse.h \
-	uihotkey.h uimenu.h uisettings.h ../../../../src/utils.h \
+	../../../../src/drive/drive.h ../../../../src/diskimage.h \
+	../../../../src/drive/drivecpu.h ../../../../src/alarm.h \
+	../../../../src/log.h ../../../../src/clkguard.h \
+	../../../../src/mos6510.h ../../../../src/mon.h \
+	../../../../src/mem.h ../../../../src/snapshot.h \
+	../../../../src/interrupt.h ../../../../src/6510core.h \
+	../../../../src/machine.h ../../../../src/maincpu.h \
+	../../../../src/arch/unix/mouse.h uihotkey.h uimenu.h \
+	uisettings.h ../../../../src/utils.h \
 	../../../../src/arch/unix/vsync.h
 uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
@@ -397,14 +398,14 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/fsdevice.h ../../../../src/arch/unix/kbd.h \
 	../../../../src/resources.h ../../../../src/sound.h \
 	../../../../src/warn.h ../../../../src/drive/drive.h \
-	../../../../src/drive/drivecpu.h ../../../../src/alarm.h \
-	../../../../src/log.h ../../../../src/clkguard.h \
-	../../../../src/mos6510.h ../../../../src/mon.h \
-	../../../../src/mem.h ../../../../src/snapshot.h \
-	../../../../src/interrupt.h ../../../../src/6510core.h \
-	../../../../src/arch/unix/vsync.h ../../../../src/utils.h \
-	../../../../src/iecdrive.h ../../../../src/romset.h \
-	../../../../src/prdevice.h
+	../../../../src/diskimage.h ../../../../src/drive/drivecpu.h \
+	../../../../src/alarm.h ../../../../src/log.h \
+	../../../../src/clkguard.h ../../../../src/mos6510.h \
+	../../../../src/mon.h ../../../../src/mem.h \
+	../../../../src/snapshot.h ../../../../src/interrupt.h \
+	../../../../src/6510core.h ../../../../src/arch/unix/vsync.h \
+	../../../../src/utils.h ../../../../src/iecdrive.h \
+	../../../../src/romset.h ../../../../src/prdevice.h
 uisnapshot.o: uisnapshot.c ../../../../src/vice.h \
 	../../../../src/config.h widgets/TextField.h uisnapshot.h \
 	../../../../src/machine.h ../../../../src/arch/unix/types.h \

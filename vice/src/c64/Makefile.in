@@ -367,17 +367,17 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
 	../../src/log.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/clkguard.h ../../src/datasette.h ../../src/tap.h \
-	../../src/drive/drive.h ../../src/drive/drivecpu.h \
-	../../src/mos6510.h ../../src/mon.h ../../src/arch/unix/kbd.h \
-	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
-	patchrom.h psid.h ../../src/resources.h reu.h \
-	../../src/serial.h ../../src/diskimage.h ../../src/traps.h \
-	../../src/sid/sid.h ../../src/sound.h ../../src/warn.h \
-	../../src/tape.h ../../src/utils.h ../../src/vicii/vicii.h \
-	../../src/raster/raster.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
-	../../src/raster/raster-cache.h \
+	../../src/drive/drive.h ../../src/diskimage.h \
+	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/machine.h ../../src/maincpu.h patchrom.h psid.h \
+	../../src/resources.h reu.h ../../src/serial.h \
+	../../src/traps.h ../../src/sid/sid.h ../../src/sound.h \
+	../../src/warn.h ../../src/tape.h ../../src/utils.h \
+	../../src/vicii/vicii.h ../../src/raster/raster.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -432,8 +432,9 @@ c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/vicii/vicii-mem.h \
-	../../src/drive/drive.h ../../src/drive/drivecpu.h c64mem.h \
-	c64iec.h ../../src/iecdrive.h c64cia.h ../../src/pruser.h \
+	../../src/drive/drive.h ../../src/diskimage.h \
+	../../src/drive/drivecpu.h c64mem.h c64iec.h \
+	../../src/iecdrive.h c64cia.h ../../src/pruser.h \
 	../../src/rsuser.h ../../src/ciacore.c ../../src/ciatimer.h
 c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
 	c64cia.h ../../src/arch/unix/types.h ../../src/cia.h \
@@ -441,11 +442,11 @@ c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
 c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/arch/unix/types.h ../../src/cia.h \
 	../../src/snapshot.h ../../src/drive/ciad.h \
-	../../src/drive/drive.h ../../src/drive/drivecpu.h \
-	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
-	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/iecdrive.h \
-	../../src/maincpu.h ../../src/resources.h \
+	../../src/drive/drive.h ../../src/diskimage.h \
+	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/iecdrive.h ../../src/maincpu.h ../../src/resources.h \
 	../../src/drive/viad.h ../../src/via.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c64cart.h \
@@ -474,10 +475,11 @@ c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h \
 c64tpi.o: c64tpi.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/config.h ../../src/arch/unix/types.h ../../src/log.h \
 	../../src/snapshot.h ../../src/tpi.h ../../src/parallel.h \
-	../../src/drive/drive.h ../../src/drive/drivecpu.h \
-	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
-	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/maincpu.h ../../src/tpicore.c
+	../../src/drive/drive.h ../../src/diskimage.h \
+	../../src/drive/drivecpu.h ../../src/alarm.h \
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/maincpu.h ../../src/tpicore.c
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/cartridge.h ../../src/arch/unix/types.h \
