@@ -52,7 +52,7 @@ extern void convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr);
 extern void convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr);
 extern void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr,
 				  int track, int sector,
-				  BYTE diskID1, BYTE diskID2);
+				  BYTE diskID1, BYTE diskID2, BYTE error_code);
 extern void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
 				  BYTE *GCR_track_start_ptr,
 				  int GCR_current_track_size);
