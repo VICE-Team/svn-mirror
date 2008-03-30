@@ -88,6 +88,8 @@ libarch_a_SOURCES = \
 	uisound.h \
 	uivicii.c \
 	uivicii.h \
+	uipalemu.c \
+	uipalemu.h \
 	vic20ui.c \
 	vic20ui.h \
 	videoarch.h \

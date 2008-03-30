@@ -57,6 +57,9 @@ video_canvas_t *ActiveCanvas = NULL;
 int FullScreenMode = 0;
 int FullScreenStatLine = 1;
 
+/* last canvas (belonging to pending frame buffer) */
+static video_canvas_t *nextCanvas = NULL;
+
 static int NumberOfCanvases = 0;
 static screen_mode_t newScreenMode;
 static screen_mode_t oldScreenMode;
@@ -192,18 +195,19 @@ int video_init(void)
 }*/
 
 
+#if 0
 int video_frame_buffer_alloc(video_frame_buffer_t **i, unsigned int width,
                              unsigned int height)
 {
   video_frame_buffer_t *fb;
-  PIXEL *data;
+  BYTE *data;
 
   if ((fb = (video_frame_buffer_t *)malloc(sizeof(video_frame_buffer_t))) == NULL)
     return -1;
 
   width = (width + 3) & ~3;
 
-  if ((data = (PIXEL*)malloc(width * height * sizeof(PIXEL))) == NULL)
+  if ((data = (BYTE*)malloc(width * height * sizeof(BYTE))) == NULL)
     return -1;
 
   fb->tmpframebuffer = data;
@@ -232,14 +236,77 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
 }
 
 
-void video_frame_buffer_clear(video_frame_buffer_t *i, PIXEL value)
+void video_frame_buffer_clear(video_frame_buffer_t *i, BYTE value)
 {
   if (ModeChanging == 0)
     memset(i->tmpframebuffer, value, i->width * i->height);
 }
 
+#else
 
-int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, PIXEL *BYTE)
+static int video_frame_buffer_alloc(BYTE **draw_buffer, unsigned int fb_width, unsigned int fb_height)
+{
+  unsigned int palette[256];
+  unsigned int i;
+  sprite_area_t *sarea;
+
+  for (i=0; i<256; i++) palette[i] = 0x10;
+  /*log_message(LOG_DEFAULT, "Alloc %d x %d", fb_width, fb_height);*/
+
+  if ((sarea = SpriteCreateAreaSprite(fb_width, fb_height, 8, "viceframe", palette, 0)) != NULL)
+  {
+    sprite_desc_t *sprite = SpriteGetSprite(sarea);
+
+    if (nextCanvas != NULL)
+    {
+      nextCanvas->fb.width = fb_width;
+      nextCanvas->fb.height = fb_height;
+      nextCanvas->fb.depth = 8;
+      nextCanvas->fb.pitch = (sprite->wwidth+1)*4;
+      nextCanvas->fb.framedata = (BYTE*)SpriteGetImage(sprite);
+      nextCanvas->fb.spritebase = sarea;
+
+      /*log_message(LOG_DEFAULT, "width = %d, height = %d, pitch = %d", nextCanvas->fb.width, nextCanvas->fb.height, nextCanvas->fb.pitch);*/
+      nextCanvas = NULL;
+    }
+    *draw_buffer = (BYTE*)SpriteGetImage(sprite);
+  }
+  return -1;
+}
+
+
+static void video_frame_buffer_free(BYTE *draw_buffer)
+{
+  canvas_list_t *cl = CanvasList;
+
+  while (cl != NULL)
+  {
+    if (cl->canvas != NULL)
+    {
+      video_frame_buffer_t *fb = &(cl->canvas->fb);
+      if (fb->framedata == draw_buffer)
+      {
+        free(fb->spritebase);
+        fb->spritebase = NULL;
+        fb->framedata = NULL;
+        break;
+      }
+    }
+    cl = cl->next;
+  }
+}
+
+
+static void video_frame_buffer_clear(BYTE *draw_buffer, unsigned int fb_width, unsigned int fb_height)
+{
+  memset(draw_buffer, 0, fb_width * fb_height);
+}
+#endif
+
+
+
+
+int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, BYTE *pixel_return)
 {
   int i;
   palette_entry_t *p;
@@ -259,7 +326,7 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, P
       {
         for (i=0; i<palette->num_entries; i++)
         {
-          pixel_return[i] = (PIXEL)ColourTrans_ReturnColourNumber((p[i].red << 8) | (p[i].green << 16) | (p[i].blue << 24));
+          pixel_return[i] = (BYTE)ColourTrans_ReturnColourNumber((p[i].red << 8) | (p[i].green << 16) | (p[i].blue << 24));
           ct[i] = p[i].red | (p[i].green << 8) | (p[i].blue << 16);/*pixel_return[i];*/
         }
       }
@@ -290,10 +357,10 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, P
   }
   if (canvas->pixel_translation == NULL)
   {
-    if ((canvas->pixel_translation = (PIXEL*)malloc(palette->num_entries * sizeof(PIXEL))) == NULL)
+    if ((canvas->pixel_translation = (BYTE*)malloc(palette->num_entries * sizeof(BYTE))) == NULL)
       return -1;
   }
-  memcpy(canvas->pixel_translation, pixel_return, palette->num_entries * sizeof(PIXEL));
+  memcpy(canvas->pixel_translation, pixel_return, palette->num_entries * sizeof(BYTE));
 
   return 0;
 }
@@ -307,14 +374,21 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
   if ((canvas = (video_canvas_t *)malloc(sizeof(struct video_canvas_s))) == NULL)
     return (video_canvas_t *)0;
 
-  canvas->video_draw_buffer_callback = NULL;
+  /* make a note for the frame buffer creation */
+  nextCanvas = canvas;
+
+  canvas->video_draw_buffer_callback = xmalloc(sizeof(video_draw_buffer_callback_t));
+  canvas->video_draw_buffer_callback->draw_buffer_alloc = video_frame_buffer_alloc;
+  canvas->video_draw_buffer_callback->draw_buffer_free = video_frame_buffer_free;
+  canvas->video_draw_buffer_callback->draw_buffer_clear = video_frame_buffer_clear;
+
   canvas->width = *width; canvas->height = *height;
 
   canvas->num_colours = (palette == NULL) ? 16 : palette->num_entries;
   canvas->pixel_translation = NULL;
   memset(canvas->colour_table, 0, 256*sizeof(int));
   canvas->shiftx = 0; canvas->shifty = 0; canvas->scale = 1;
-  canvas->fb.tmpframebuffer = NULL;
+  memset(&(canvas->fb), 0, sizeof(video_frame_buffer_t));
 
   video_canvas_set_palette(canvas, palette, pixel_return);
 
@@ -379,6 +453,9 @@ void video_canvas_destroy(video_canvas_t *s)
 
   NumberOfCanvases--;
 
+  if (s->video_draw_buffer_callback != NULL)
+    free(s->video_draw_buffer_callback);
+
   free(s);
 }
 
@@ -424,14 +501,11 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
 
   if (ModeChanging != 0) return;
 
-  FrameBufferUpdate = 0;
-  ge.dimx = frame_buffer->width; ge.dimy = frame_buffer->height;
-  canvas->shiftx = (xi - xs); canvas->shifty = - (yi - ys);
+  if (canvas->fb.framedata == NULL) return;
 
-  if ((canvas->fb.tmpframebuffer == NULL) || (canvas->fb.tmpframebuffer != frame_buffer->tmpframebuffer))
-  {
-    memcpy(&(canvas->fb), frame_buffer, sizeof(video_frame_buffer_t));
-  }
+  FrameBufferUpdate = 0;
+  ge.dimx = canvas->fb.pitch; ge.dimy = canvas->fb.height;
+  canvas->shiftx = (xi - xs); canvas->shifty = - (yi - ys);
 
   if (FullScreenMode == 0)
   {
@@ -456,11 +530,11 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
 
       if (canvas->scale == 1)
       {
-        PlotZoom1(&ge, block + RedrawB_CMinX, frame_buffer->tmpframebuffer, canvas->colour_table);
+        PlotZoom1(&ge, block + RedrawB_CMinX, draw_buffer, canvas->colour_table);
       }
       else
       {
-        PlotZoom2(&ge, block + RedrawB_CMinX, frame_buffer->tmpframebuffer, canvas->colour_table);
+        PlotZoom2(&ge, block + RedrawB_CMinX, draw_buffer, canvas->colour_table);
       }
       more = Wimp_GetRectangle(block);
     }
@@ -492,7 +566,7 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
     if (clip[1] < clipYlow) clip[1] = clipYlow;
     if (clip[3] > FullScrDesc.resy) clip[3] = FullScrDesc.resy;
 
-    PlotZoom1(&ge, clip, frame_buffer->tmpframebuffer, canvas->colour_table);
+    PlotZoom1(&ge, clip, draw_buffer, canvas->colour_table);
 
   }
 }
@@ -687,7 +761,7 @@ int video_full_screen_refresh(void)
   ColourTrans_SetGCOL(0, 0x100, 0);
   OS_Plot(0x04, 0, 0); OS_Plot(0x65, FullScrDesc.resx, FullScrDesc.resy);
 
-  video_canvas_refresh(canvas, &(canvas->fb), -canvas->shiftx, canvas->shifty, 0, 0, canvas->width, canvas->height);
+  video_canvas_refresh(canvas, canvas->fb.framedata, canvas->fb.pitch, -canvas->shiftx, canvas->shifty, 0, 0, canvas->width, canvas->height);
 
   video_full_screen_init_status();
 

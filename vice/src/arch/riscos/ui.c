@@ -3053,7 +3053,7 @@ static void ui_redraw_window(int *b)
     more = Wimp_RedrawWindow(b);
     while (more != 0)
     {
-      if (fb->tmpframebuffer != NULL)
+      if (fb->framedata != NULL)
       {
         ge.x = b[RedrawB_VMinX] - b[RedrawB_ScrollX] + (canvas->shiftx << UseEigen)*(canvas->scale);
         ge.y = b[RedrawB_VMaxY] - b[RedrawB_ScrollY] + (canvas->shifty << UseEigen)*(canvas->scale);
@@ -3061,11 +3061,11 @@ static void ui_redraw_window(int *b)
 
         if (canvas->scale == 1)
         {
-          PlotZoom1(&ge, b + RedrawB_CMinX, fb->tmpframebuffer, ct);
+          PlotZoom1(&ge, b + RedrawB_CMinX, fb->framedata, ct);
         }
         else
         {
-          PlotZoom2(&ge, b + RedrawB_CMinX, fb->tmpframebuffer, ct);
+          PlotZoom2(&ge, b + RedrawB_CMinX, fb->framedata, ct);
         }
       }
       more = Wimp_GetRectangle(b);

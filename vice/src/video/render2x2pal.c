@@ -29,7 +29,6 @@
 #include "render2x2.h"
 #include "types.h"
 
-extern BYTE gammatable[256+256+256];
 extern SDWORD  ytable[128];
 extern SDWORD cbtable[128];
 extern SDWORD crtable[128];

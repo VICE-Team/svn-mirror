@@ -46,6 +46,7 @@
 #include "uisettings.h"
 #include "uisound.h"
 #include "utils.h"
+#include "uipalemu.h"
 #include "vsync.h"
 
 
@@ -422,6 +423,9 @@ static ui_menu_entry_t vic_submenu[] = {
     { "--" },
     { N_("Color set"),
       NULL, NULL, palette_submenu },
+    { "--" },
+    { N_("PAL Emulation Settings"),
+      NULL, NULL, PALMode_submenu },
     { NULL }
 };
 

@@ -35,7 +35,10 @@
 #include <X11/extensions/Xv.h>
 #include <X11/extensions/Xvlib.h>
 
-typedef void (*xv_render_function_t)(XvImage* image,
+#include "video/video-resources.h"
+
+typedef void (*xv_render_function_t)(int pal_mode,
+				     XvImage* image,
 				     unsigned char* src,
 				     int src_pitch,
 				     unsigned int* src_color,

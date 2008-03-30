@@ -44,6 +44,7 @@
 #include "uisound.h"
 #include "utils.h"
 #include "vsync.h"
+#include "uipalemu.h"
 
 
 /* ------------------------------------------------------------------------- */
@@ -88,6 +89,9 @@ UI_MENU_DEFINE_TOGGLE(ExternalPalette)
 ui_menu_entry_t ted_submenu[] = {
     { N_("*External color set"),
       (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
+    { "--" },
+    { N_("PAL Emulation"),
+      NULL, NULL, PALMode_submenu },
 #if 0
     { N_("Color set"),
       NULL, NULL, palette_submenu },

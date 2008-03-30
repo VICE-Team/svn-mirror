@@ -373,9 +373,10 @@ uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/utils.h ../../../../../src/vdrive/vdrive.h
 uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
 	checkmark.xbm right_arrow.xbm ../../../../../src/fullscreen.h \
-	../../../../../src/resources.h ../../../../../src/machine.h \
-	uimenu.h ../../../../../src/arch/unix/ui.h \
-	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	../../../../../src/resources.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/machine.h uimenu.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
 	uiarch.h ../../../../../src/arch/unix/uihotkey.h ../x11menu.h \
 	../../../../../src/utils.h ../../../../../src/vsync.h \
 	../../../../../src/arch/unix/x11/x11menu.h

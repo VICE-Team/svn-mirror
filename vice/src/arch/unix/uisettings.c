@@ -34,6 +34,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "types.h"
 #include "fullscreen.h"
 #include "kbd.h"
 #include "mem.h"

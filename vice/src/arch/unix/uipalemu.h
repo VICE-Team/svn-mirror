@@ -1,8 +1,8 @@
 /*
- * version.h
+ * uipalemu.h
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Martin Pottendorfer <pottendo@utanet.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,10 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _UI_PALEMU_H
+#define _UI_PALEMU_H
 
-#ifndef VERSION
-#define VERSION "1.8.12"
-#endif
-
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+extern struct ui_menu_entry_s PALMode_submenu[];
 
 #endif
+

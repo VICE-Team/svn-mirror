@@ -239,10 +239,6 @@ static void video_calc_gammatable(void)
 
 /* ycbcr table calculation */
 
-extern SDWORD  ytable[128];
-extern SDWORD cbtable[128];
-extern SDWORD crtable[128];
-
 /* YUV table for YV12 rendering: (Y << 16) | (U << 8) | V */
 DWORD yuv_table[128];
 

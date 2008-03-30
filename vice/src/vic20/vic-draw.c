@@ -189,8 +189,7 @@ static void draw_reverse_line_cached(raster_cache_t *cache, int xs, int xe)
 static void draw_std_background(int start_pixel, int end_pixel)
 {
     vid_memset(vic.raster.draw_buffer_ptr + start_pixel * VIC_PIXEL_WIDTH,
-               RASTER_PIXEL(&vic.raster,
-               vic.raster.background_color),
+               vic.raster.background_color,
                (end_pixel - start_pixel + 1) * VIC_PIXEL_WIDTH);
 }
 

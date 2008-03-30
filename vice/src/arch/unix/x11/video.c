@@ -464,6 +464,16 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     canvas->depth = ui_get_display_depth();
     canvas->video_draw_buffer_callback = NULL;
 
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    canvas->video_draw_buffer_callback = 
+	xmalloc(sizeof(struct video_draw_buffer_callback_s));
+    canvas->video_draw_buffer_callback->draw_buffer_alloc = 
+	fs_draw_buffer_alloc;
+    canvas->video_draw_buffer_callback->draw_buffer_free = 
+	fs_draw_buffer_free;
+    canvas->video_draw_buffer_callback->draw_buffer_clear = 
+	fs_draw_buffer_clear;
+#endif    
     if (video_arch_frame_buffer_alloc(canvas, *width, *height) < 0) {
         free(canvas);
         return NULL;
@@ -494,7 +504,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
         return canvas;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_set_palette(fb->canvas, palette, pixel_return);
+    fullscreen_set_palette(canvas, (struct palette_s *) palette, pixel_return);
 #endif
     return canvas;
 }
@@ -592,7 +602,9 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	    h = xv_raster->geometry.last_displayed_line
 	      - xv_raster->geometry.first_displayed_line + 1;
 	}
-	canvas->xv_render.render_function(canvas->xv_image,
+
+	canvas->xv_render.render_function(video_resources.pal_mode,
+					  canvas->xv_image,
 					  draw_buffer, draw_buffer_line_size,
 					  yuv_table,
 					  xs, ys, w, h,
@@ -628,7 +640,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     if (fullscreen_is_enabled) {
-        fullscreen_refresh_func(frame_buffer, xs, ys, xi, yi, w, h);
+        fullscreen_refresh_func(draw_buffer, draw_buffer_line_size, 
+				xs, ys, xi, yi, w, h);
         return;
     }
 

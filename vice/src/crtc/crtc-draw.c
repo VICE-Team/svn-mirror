@@ -52,37 +52,37 @@ static void init_drawing_tables(void)
     for (byte = 0; byte < 0x0100; byte++) {
         *((BYTE *)(dwg_table2x_0 + byte))
             = *((BYTE *)(dwg_table2x_0 + byte) + 1)
-            = RASTER_PIXEL(&crtc.raster, byte & 0x80 ? 1 : 0);
+            = (byte & 0x80 ? 1 : 0);
         *((BYTE *)(dwg_table2x_0 + byte) + 2)
             = *((BYTE *)(dwg_table2x_0 + byte) + 3)
-            = RASTER_PIXEL(&crtc.raster, byte & 0x40 ? 1 : 0);
+            = (byte & 0x40 ? 1 : 0);
         *((BYTE *)(dwg_table2x_1 + byte))
             = *((BYTE *)(dwg_table2x_1 + byte) + 1)
-            = RASTER_PIXEL(&crtc.raster, byte & 0x20 ? 1 : 0);
+            = (byte & 0x20 ? 1 : 0);
         *((BYTE *)(dwg_table2x_1 + byte) + 2)
             = *((BYTE *)(dwg_table2x_1 + byte) + 3)
-            = RASTER_PIXEL(&crtc.raster, byte & 0x10 ? 1 : 0);
+            = (byte & 0x10 ? 1 : 0);
         *((BYTE *)(dwg_table2x_2 + byte))
             = *((BYTE *)(dwg_table2x_2 + byte) + 1)
-            = RASTER_PIXEL(&crtc.raster, byte & 0x08 ? 1 : 0);
+            = (byte & 0x08 ? 1 : 0);
         *((BYTE *)(dwg_table2x_2 + byte) + 2)
             = *((BYTE *)(dwg_table2x_2 + byte) + 3)
-            = RASTER_PIXEL(&crtc.raster, byte & 0x04 ? 1 : 0);
+            = (byte & 0x04 ? 1 : 0);
         *((BYTE *)(dwg_table2x_3 + byte))
             = *((BYTE *)(dwg_table2x_3 + byte) + 1)
-            = RASTER_PIXEL(&crtc.raster, byte & 0x02 ? 1 : 0);
+            = (byte & 0x02 ? 1 : 0);
         *((BYTE *)(dwg_table2x_3 + byte) + 2)
             = *((BYTE *)(dwg_table2x_3 + byte) + 3)
-            = RASTER_PIXEL(&crtc.raster, byte & 0x01 ? 1 : 0);
+            = (byte & 0x01 ? 1 : 0);
     }
 
     for (byte = 0; byte < 0x0100; byte++) {
         for (msk = 0x80, p = 0; p < 4; msk >>= 1, p++)
             *((BYTE *)(dwg_table_0 + byte) + p)
-                = RASTER_PIXEL(&crtc.raster, byte & msk ? 1 : 0);
+                = (byte & msk ? 1 : 0);
         for (p = 0; p < 4; msk >>= 1, p++)
             *((BYTE *)(dwg_table_1 + byte) + p)
-                = RASTER_PIXEL(&crtc.raster, byte & msk ? 1 : 0);
+                = (byte & msk ? 1 : 0);
     }
 }
 
@@ -92,7 +92,7 @@ static void init_drawing_tables(void)
 static void draw_standard_background (int start_pixel, int end_pixel)
 {
     vid_memset(crtc.raster.draw_buffer_ptr + start_pixel,
-               RASTER_PIXEL(&crtc.raster, 0),
+               0,
                end_pixel - start_pixel + 1);
 }
 

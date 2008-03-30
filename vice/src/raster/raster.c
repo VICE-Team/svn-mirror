@@ -77,7 +77,10 @@ static void raster_draw_buffer_free(video_draw_buffer_callback_t
                                     BYTE *draw_buffer)
 {
     if (video_draw_buffer_callback)
+    {
         video_draw_buffer_callback->draw_buffer_free(draw_buffer);
+	return;
+    }
 
     free(draw_buffer);
 }
@@ -89,8 +92,11 @@ static void raster_draw_buffer_clear(video_draw_buffer_callback_t
                                      unsigned int fb_height)
 {
     if (video_draw_buffer_callback)
+    {
         video_draw_buffer_callback->draw_buffer_clear(draw_buffer,
             fb_width, fb_height);
+	return;
+    }
 
     memset(draw_buffer, value, fb_width * fb_height);
 }
@@ -295,8 +301,12 @@ static int realize_frame_buffer(raster_t *raster)
         raster->draw_buffer_width = fb_width;
         raster->draw_buffer_height = fb_height;
 
+#if defined (USE_XF86_DGA2_EXTENSIONS)
+	video_register_raster(raster);
+#endif
+
         raster_draw_buffer_clear(canvas->video_draw_buffer_callback,
-                                 raster->draw_buffer, RASTER_PIXEL(raster, 0),
+                                 raster->draw_buffer, 0,
                                  fb_width, fb_height);
     }
 
@@ -306,24 +316,11 @@ static int realize_frame_buffer(raster_t *raster)
     return 0;
 }
 
-/* Recalculate frame buffer for new display mode? */
-#ifdef __riscos
-#define RECALC_FRAME_BUFFER
-#endif
 
 static int perform_mode_change(raster_t *raster)
 {
     raster_viewport_t *viewport;
     struct video_canvas_s *canvas;
-#ifdef RECALC_FRAME_BUFFER
-    PIXEL old_colours[256];
-    PIXEL colour_map[256];
-    unsigned int i, num_pixels;
-    unsigned int num_colours;
-    PIXEL *fb;
-
-    memcpy(old_colours, raster->pixel_table.sing, 256);
-#endif
 
     viewport = &raster->viewport;
 
@@ -334,21 +331,6 @@ static int perform_mode_change(raster_t *raster)
         if (video_canvas_set_palette(canvas, raster->palette,
             raster->pixel_table.sing) < 0)
             return -1;
-
-#ifdef RECALC_FRAME_BUFFER
-        memset(colour_map, 0, 256);
-        num_colours = raster->palette->num_entries;
-
-        for (i = 0; i < num_colours; i++)
-            colour_map[old_colours[i]] = i;
-        for (i = 0; i < 256; i++)
-            colour_map[i] = (raster->pixel_table.sing)[colour_map[i]];
-
-        num_pixels = raster->frame_buffer->width * raster->frame_buffer->height;
-        fb = raster->frame_buffer->tmpframebuffer;
-        for (i = 0; i < num_pixels; i++)
-            fb[i] = colour_map[fb[i]];
-#endif
     }
 
     update_pixel_tables(raster);
@@ -550,7 +532,7 @@ inline static void draw_blank(raster_t *raster,
                               unsigned int end)
 {
     vid_memset(raster->draw_buffer_ptr + start,
-               RASTER_PIXEL(raster, raster->border_color),
+               raster->border_color,
                end - start + 1);
 }
 
@@ -686,12 +668,12 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
         if (raster->xsmooth != 0)
             vid_memset((raster->draw_buffer_ptr
                        + raster->geometry.gfx_position.x),
-                       RASTER_PIXEL(raster, raster->overscan_background_color),
+                       raster->overscan_background_color,
                        raster->xsmooth);
 
         if (raster->open_left_border)
             vid_memset(raster->draw_buffer_ptr,
-                       RASTER_PIXEL(raster, raster->overscan_background_color),
+                       raster->overscan_background_color,
                        (raster->geometry.gfx_position.x + raster->xsmooth));
 
         if (raster->open_right_border)
@@ -699,7 +681,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
                        ( raster->geometry.gfx_position.x
                        + raster->geometry.gfx_size.width
                        + raster->xsmooth)),
-                       RASTER_PIXEL(raster, raster->overscan_background_color),
+                       raster->overscan_background_color,
                        ( raster->geometry.screen_size.width
                        - raster->geometry.gfx_position.x
                        - raster->geometry.gfx_size.width
@@ -835,7 +817,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
            background color (necessary if xsmooth is > 0).  */
         vid_memset(raster->draw_buffer_ptr
                    + raster->geometry.gfx_position.x,
-                   RASTER_PIXEL(raster, raster->overscan_background_color),
+                   raster->overscan_background_color,
                    raster->xsmooth);
 
         if (raster->sprite_status->num_sprites > 0) {
@@ -962,12 +944,12 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
 
     vid_memset((raster->draw_buffer_ptr
                + geometry->gfx_position.x),
-               RASTER_PIXEL(raster, raster->overscan_background_color),
+               raster->overscan_background_color,
                raster->xsmooth);
 
     if (raster->open_left_border)
         vid_memset(raster->draw_buffer_ptr,
-                   RASTER_PIXEL(raster, raster->overscan_background_color),
+                   raster->overscan_background_color,
                    ((geometry->gfx_position.x
                    + raster->xsmooth)));
     if (raster->open_right_border)
@@ -975,7 +957,7 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
                    ((geometry->gfx_position.x
                    + geometry->gfx_size.width
                    + raster->xsmooth))),
-                   RASTER_PIXEL(raster, raster->overscan_background_color),
+                   raster->overscan_background_color,
                    (geometry->screen_size.width
                    - geometry->gfx_position.x
                    - geometry->gfx_size.width
@@ -1136,7 +1118,7 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
     /* This is a dirty hack for use with GDB.  */
     if (raster->current_line == _hidden_hideous_raster_check)
         vid_memset(raster->draw_buffer_ptr,
-                   RASTER_PIXEL(raster, 0),
+                   0,
                    geometry->screen_size.width - 1);
 #endif
 }
@@ -1626,7 +1608,7 @@ void raster_force_repaint(raster_t *raster)
         if (canvas != NULL)
             raster_draw_buffer_clear(canvas->video_draw_buffer_callback,
                                      raster->draw_buffer,
-                                     RASTER_PIXEL(raster, 0),
+                                     0,
                                      fb_width, fb_height);
     }
 #endif

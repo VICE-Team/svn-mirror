@@ -1,3 +1,92 @@
+2002-02-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.12.
+
+	* fullscreen.h: #include "types.h".
+
+	* drive/driverom.c, drive/driverom.h, drive/tia1551.c,
+	drive/tia1551.h, drive/glue1551.c, drive/glue1551.h,
+	plus4/tcbm.c, plus4/tcbm.h: New files.
+
+	* drive/Makefile.am, plus4/Makefile.am: Added new files.
+
+	* drive/drive.c, drive/drive-resources.c, drive/drivemem.c,
+	drive/drive-snapshot.c: Changed to new image rom reorg.
+
+	* drive/drivemem.c (drive_mem_init, drive_ioreg_list_get):
+	Added 1551 support.
+	(drive_read_zero): New function.
+
+	* drive/drivecpu.c (drive_cpu_snapshot_write_module,
+	drive_cpu_snapshot_read_module, drive_jam, cpu_reset,
+	drive_cpu_early_init): Likewise.
+	(drive_read_zero, drive_read_1551zero, drive_store_zero,
+	drive_store_1551zero): New functions.
+
+	* drive/drive.c, drive/drive.h (drive_set_active_led_color,
+	drive_read_image_d64_d71, ve_set_clock_frequency,
+	drive_check_image_format, drive_set_half_track,
+	drive_check_type): Likewise.
+	(drive_sync_found, drive_write_protect_sense): Made external.
+
+2002-02-06  John Selck  <graham@cruise.de>
+
+	* video/render1x1pal.c: Removed extern gammatable[].
+	Removed code from all 1x1 pal renderers which was
+	supposed to be for 2x2 pal only.
+
+	* video/render2x2pal.c: Removed extern gammatable[].
+
+	* video/video-color.c: Removed obsolete extern definitions.
+
+	* raster/raster.c: Changed all RASTER_PIXEL() calls into
+	direct usage of the color.
+
+	* crtc/crtc-draw.c: Changed all RASTER_PIXEL() calls into
+	direct usage of the color.
+
+	* vdc/vdc-draw.c: Changed all RASTER_PIXEL() calls into
+	direct usage of the color.
+
+	* vic20/vic-draw.c: Changed all RASTER_PIXEL() calls into
+	direct usage of the color. There are still RASTER_PIXEL()
+	calls used in vic.h.
+
+2002-02-04  pottendo  <pottendo@utanet.at>
+
+	* raster/raster.c (raster_draw_buffer_free): Return in case a
+	callback has been called.
+	(raster_draw_buffer_clear): Likewise.
+	(realize_frame_buffer): Call `video_register_raster()' to setup
+	hooks for DGA2.
+
+	* fullscreen.h: Fixed for DGA2.
+
+	* arch/unix/x11/video.c (video_canvas_create): Use allocation
+	callback hooks to allocate draw_buffer in case of DGA2
+	availability. 
+	Fixed for DGA2.
+	(video_canvas_refresh): Fixed for DGA2.
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc): Fixed for DGA2.
+
+	* arch/unix/uivicii.c: Moved PAL Emulation menu definition in
+	separate files.
+
+	* arch/unix/uisettings.c: Added `types.h'.
+
+	* arch/unix/uipalemu.c: New file. Setup PAL emulation menu
+	entries. 
+	* arch/unix/uipalemu.h: Define PAL Emulation menu.
+
+	* arch/unix/plus4ui.c: Added PAL Emulation submenu.
+	* arch/unix/vic20ui.c: Likewise.
+
+
+	* arch/unix/Makefile.am (libarch_a_SOURCES): Added
+	`uipalemu.[ch]'. 
+
 2002-02-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.11.

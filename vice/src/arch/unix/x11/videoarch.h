@@ -146,9 +146,13 @@ extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
 #define fullscreen_off() fullscreen_mode_off_restore()
 #define fullscreen_update() fullscreen_mode_update()
 extern void fullscreen_set_raster(struct raster_s *raster);
-extern void fullscreen_set_framebuffer(video_frame_buffer_t *fb);
-extern void fullscreen_set_palette(video_canvas_t *fp,
-                                   struct palette_s *p, PIXEL *pixel_return);
+extern void fullscreen_set_canvas(video_canvas_t *c);
+extern void fullscreen_set_palette(video_canvas_t *vc,
+                                   struct palette_s *p, BYTE *pixel_return);
+extern int fs_draw_buffer_alloc(BYTE **db, unsigned int w, unsigned int h);
+extern void fs_draw_buffer_free(BYTE *db);
+extern void fs_draw_buffer_clear(BYTE *db, unsigned int w, unsigned int h);
+
 #else
 #define fullscreen_on()
 #define fullscreen_off()

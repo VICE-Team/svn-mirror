@@ -97,7 +97,8 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 	}
 
 	log_message(x11video_log,
-		    _("Successfully initialized using X Video."));
+		    _("Successfully initialized using XVideo (%s)."),
+		    canvas->xv_render.format);
 
 	return 0;
     }

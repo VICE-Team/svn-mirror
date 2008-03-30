@@ -35,6 +35,7 @@ src/arch/unix/uisettings.c
 src/arch/unix/uisid.c
 src/arch/unix/uisound.c
 src/arch/unix/uivicii.c
+src/arch/unix/uipalemu.c
 src/arch/unix/vic20ui.c
 src/arch/unix/vsidui.c
 src/arch/unix/vsyncarch.c

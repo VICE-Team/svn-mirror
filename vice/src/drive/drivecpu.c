@@ -44,12 +44,14 @@
 #include "drivemem.h"
 #include "drivetypes.h"
 #include "fdc.h"
+#include "glue1551.h"
 #include "interrupt.h"
 #include "machine.h"
 #include "mem.h"
 #include "mon.h"
 #include "riotd.h"
 #include "snapshot.h"
+#include "tia1551.h"
 #include "types.h"
 #include "utils.h"
 #include "viad.h"
@@ -60,12 +62,7 @@
 
 /* Define this to enable tracing of drive CPU instructions.
    Warning: this slows it down!  */
-#undef TRACE
-
-/* Force `TRACE' in unstable versions.  */
-#if 0 && defined UNSTABLE && !defined TRACE
-#define TRACE
-#endif
+/* #define TRACE */
 
 static void drive_jam(drive_context_t *drv);
 
@@ -191,10 +188,10 @@ void drive_cpu_setup_context(drive_context_t *drv)
 #define LOAD_ZERO(a)      (drv->cpud.drive_ram[(a) & 0xff])
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
-#define STORE(a, b)       (drv->cpud.store_func[(a) >> 8](drv, (ADDRESS)(a), (BYTE)(b)))
-#define STORE_ZERO(a, b)  (drv->cpud.drive_ram[(a) & 0xff] = (b))
-
-#define pagezero (drv->cpud.drive_ram)
+#define STORE(a, b)       (drv->cpud.store_func[(a) >> 8](drv, (ADDRESS)(a), \
+                          (BYTE)(b)))
+#define STORE_ZERO(a, b)  (drv->cpud.store_func[0](drv, (ADDRESS)(a), \
+                          (BYTE)(b)))
 
 /* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
 /* FIXME: SFD1001 does not use bank_base at all due to messy memory mapping.
@@ -286,6 +283,8 @@ static void cpu_reset(drive_context_t *drv)
     riot1_reset(drv);
     riot2_reset(drv);
     fdc_reset(drv->mynumber, drv->drive_ptr->type);
+    tia1551_reset(drv);
+    glue1551_reset(drv);
 
     if (preserve_monitor)
         interrupt_monitor_trap_on(&(drv->cpu.int_status));
@@ -350,6 +349,8 @@ void drive_cpu_early_init(drive_context_t *drv)
        Why donlly get a table for that...! */
     fdc_init(drv->mynumber, drv->cpud.drive_ram + 0x100,
              &(drv->drive_ptr->rom[0x4000]));
+    tia1551_init(drv);
+    glue1551_init(drv);
 }
 
 void drive_cpu_init(drive_context_t *drv, int type)
@@ -541,6 +542,9 @@ static void drive_jam(drive_context_t *drv)
       case DRIVE_TYPE_1541II:
         dname = "1541-II";
         break;
+      case DRIVE_TYPE_1551:
+        dname = "  1551";
+        break;
       case DRIVE_TYPE_1571:
         dname = "  1571";
         break;
@@ -626,6 +630,7 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1541
         || drv->drive_ptr->type == DRIVE_TYPE_1541II
+        || drv->drive_ptr->type == DRIVE_TYPE_1551
         || drv->drive_ptr->type == DRIVE_TYPE_1571
         || drv->drive_ptr->type == DRIVE_TYPE_2031) {
         if (snapshot_module_write_byte_array(m, drv->cpud.drive_ram, 0x800) < 0)
@@ -700,12 +705,15 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     wd1770d_reset(drv);
     riot1_reset(drv);
     riot2_reset(drv);
+    tia1551_reset(drv);
+    glue1551_reset(drv);
 
     if (interrupt_read_snapshot(&(drv->cpu.int_status), m) < 0)
         goto fail;
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1541
         || drv->drive_ptr->type == DRIVE_TYPE_1541II
+        || drv->drive_ptr->type == DRIVE_TYPE_1551
         || drv->drive_ptr->type == DRIVE_TYPE_1571
         || drv->drive_ptr->type == DRIVE_TYPE_2031) {
         if (snapshot_module_read_byte_array(m, drv->cpud.drive_ram, 0x800) < 0)

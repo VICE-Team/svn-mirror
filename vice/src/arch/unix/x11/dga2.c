@@ -81,15 +81,15 @@ static Colormap cm;
 static void_hook_t old_ui_hook;
 
 static int fs_vidmodecount;
-static video_frame_buffer_t *fs_cached_fb;
+static video_canvas_t *fs_cached_fb;
 static int fs_canvas_width, fs_canvas_height;
-static PIXEL *fs_fb_data;
-static int fs_fb_bpl;
+static BYTE *fs_fb_data;
+static int fs_fb_bpl, fs_cached_db_width;
 static int fs_bestmode_counter;
 static palette_t *fs_cached_palette;
 static DWORD *fs_saved_colors;
 static int new_palette;
-static PIXEL *fs_cached_pixels;
+static BYTE *fs_cached_pixels;
 static raster_t *fs_cached_raster;
 static int fs_vidmodeavail = 0;
 static int fs_selected_videomode_index = -1;
@@ -105,8 +105,7 @@ char *fs_selected_videomode_at_start;
 int fs_width, fs_height;
 
 static unsigned char *fb_addr, *fb_dump;
-static unsigned char *fb_emulation_buffer, *fb_render_target;
-static int pal_emu;
+static unsigned char *fb_render_target;
 static unsigned offs, pitch;
 
 #define BB_DEPTH 2
@@ -166,7 +165,8 @@ void set_alarm_timeout() {
 #endif
 }   
 
-void fullscreen_refresh_func(video_frame_buffer_t *f,
+void fullscreen_refresh_func(BYTE *draw_buffer, 
+			     unsigned int draw_buffer_line_size,
 			     int src_x, int src_y,
 			     int dest_x, int dest_y,
 			     unsigned int width, unsigned int height) 
@@ -175,9 +175,10 @@ void fullscreen_refresh_func(video_frame_buffer_t *f,
     int oldp;
 
 #if 0
-    printf("curr page = %d, src_x = %d, src_y = %d, dest_x = %d, dest_y = %d, w = %d, h = %d\n",
+    printf("curr page = %d, src_x = %d, src_y = %d, dest_x = %d, dest_y = %d, w = %d, h = %d, dbln = %d\n",
 	   fb_current_page, 
-	   src_x, src_y, dest_x, dest_y, width, height);
+	   src_x, src_y, dest_x, dest_y, width, height,
+	   draw_buffer_line_size);
 #endif
 #ifdef FS_TRACE_REFRESH
     struct timespec ts1, ts2, d;
@@ -195,16 +196,14 @@ void fullscreen_refresh_func(video_frame_buffer_t *f,
     if ((dest_x + width) > fs_width)
       width = fs_width;
 
-    if (pal_emu)
-    {
-        /* convert buffer for PAL emulation */
-	video_render_main(&f->canvas->videoconfig, f->tmpframebuffer,
-			  fb_render_target,
-			  width, height, src_x, src_y, src_x, src_y, 
-			  f->tmpframebufferlinesize,
-			  f->tmpframebufferlinesize, 8);
-    }
-    
+    /* convert buffer for PAL emulation */
+    video_render_main(&fs_cached_fb->videoconfig, 
+		      draw_buffer,
+		      fb_render_target,
+		      width, height, src_x, src_y, src_x, src_y, 
+		      fs_cached_db_width,
+		      fs_fb_bpl, 8);
+
     XDGASetViewport (display, screen, 
 		     0, fb_ybegin[fb_current_page], 
 		     XDGAFlipRetrace);
@@ -356,11 +355,9 @@ int fullscreen_request_set_mode(resource_value_t v, void *param)
     return 0;
 }
 
-void fullscreen_set_framebuffer(video_frame_buffer_t *fb)
+void fullscreen_set_canvas(video_canvas_t *c)
 {
-    fs_cached_fb = fb;
-    fs_fb_data = fb->tmpframebuffer;
-    fs_fb_bpl = fb->tmpframebufferlinesize;
+    fs_cached_fb = c;
 }
 
 void fullscreen_resize(int w, int h)
@@ -369,17 +366,17 @@ void fullscreen_resize(int w, int h)
     fs_canvas_height = h;
 }
 
-static PIXEL *fs_cached_pixel_values;
+static BYTE *fs_cached_pixel_values;
 static DWORD fs_cached_physical_colors[256]; /* from video.h */
 
 void fullscreen_set_palette (video_canvas_t *c, palette_t *palette, 
-			     PIXEL *pixels)
+			     BYTE *pixels)
 {
     fs_cached_palette = palette;
     fs_cached_pixels = pixels;
     if (fs_cached_pixel_values)
 	free(fs_cached_pixel_values);
-    fs_cached_pixel_values = malloc(palette->num_entries * sizeof(PIXEL));
+    fs_cached_pixel_values = malloc(palette->num_entries * sizeof(BYTE));
     if (!fs_cached_pixel_values)
     {
 	log_error(dga_log, _("Couldn't allocate pixel value cache."));
@@ -387,7 +384,7 @@ void fullscreen_set_palette (video_canvas_t *c, palette_t *palette,
     }
     
     memcpy(fs_cached_pixel_values, pixels, 
-	   palette->num_entries * sizeof(PIXEL));
+	   palette->num_entries * sizeof(BYTE));
     memcpy(fs_cached_physical_colors, c->videoconfig.physical_colors,
 	   sizeof(DWORD) * 256);
     new_palette = 1;
@@ -396,6 +393,26 @@ void fullscreen_set_palette (video_canvas_t *c, palette_t *palette,
 void fullscreen_set_raster (raster_t *raster)
 {
     fs_cached_raster = raster;
+}
+
+int fs_draw_buffer_alloc(BYTE **draw_buffer, unsigned int w, unsigned int h)
+{
+    *draw_buffer = xmalloc (w * h);
+    fs_fb_data = *draw_buffer;
+    fs_cached_db_width = w;
+    if (*draw_buffer)
+	return 0;
+    return 1;
+}
+
+void fs_draw_buffer_free(BYTE *draw_buffer)
+{
+    free(draw_buffer);
+}
+
+void fs_draw_buffer_clear(BYTE *draw_buffer, unsigned int w, unsigned int h)
+{
+    memset(draw_buffer, 0, w * h);
 }
 
 int fullscreen_set_mode(resource_value_t v, void *param)
@@ -533,7 +550,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 			     fs_cached_palette->entries[i].name, 
 			     fs_cached_pixels[i]);
 #endif
-		video_render_setphysicalcolor(&fs_cached_fb->canvas->videoconfig, 
+		video_render_setphysicalcolor(&fs_cached_fb->videoconfig, 
 					      i, color.pixel, 8);
 		fs_cached_pixels[i] = color.pixel;
 	    }
@@ -550,7 +567,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	    }
 	    
 	    memcpy(fs_saved_colors, 
-		   fs_cached_fb->canvas->videoconfig.physical_colors, 
+		   fs_cached_fb->videoconfig.physical_colors, 
 		   sizeof(DWORD) * 256);
 
 	    new_palette = 0;
@@ -563,7 +580,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 		log_error(dga_log, "inconsistent view for color management, disabling fullscreen.");
 		goto nodga;
 	    }
-	    memcpy(fs_cached_fb->canvas->videoconfig.physical_colors,
+	    memcpy(fs_cached_fb->videoconfig.physical_colors,
 		   fs_saved_colors, sizeof(DWORD) * 256);
 	}
 	
@@ -582,12 +599,6 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 		       fs_allmodes_dga2[fs_selected_videomode_index].maxViewportY);
 #endif
 	XFlush(display);
-	resources_get_value("DelayLoopEmulation", 
-			    (resource_value_t *) &pal_emu);
-	if (!pal_emu)
-	    resources_get_value("PALEmulation", 
-				(resource_value_t *) &pal_emu);
-
 	fullscreen_is_enabled = 1;
 
 #ifdef FS_DEBUG
@@ -604,24 +615,8 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	for (i = 0; i < (BB_DEPTH + 1); i++)
 	    memset (fb_addr + i * offs, 0, offs);
 
-	fs_cached_fb->tmpframebufferlinesize = dgadev->mode.bytesPerScanline;
-	if (pal_emu)
-	{
-	    fb_emulation_buffer = malloc(offs * sizeof(char) * 4);
-	    if (!fb_emulation_buffer)
-	    {
-		log_error(dga_log, _("Couldn't allocate backbuffer for DGA PAL rendering; disabling fullscreen."));
-		goto nodga;
-	    }
-	    memset(fb_emulation_buffer, 0, offs * sizeof(char) * 4);
-	    fb_render_target = fb_dump = fb_addr + ((i - 1)* offs);
-	    fs_cached_fb->tmpframebuffer = fb_emulation_buffer + 
-		fs_cached_fb->tmpframebufferlinesize * 10;
-	}
-	else
-	{
-	    fs_cached_fb->tmpframebuffer = fb_dump = fb_addr + ((i - 1)* offs);
-	}
+	fs_fb_bpl = dgadev->mode.bytesPerScanline;
+	fb_render_target = fb_dump = fb_addr + ((i - 1)* offs);
 	
 	raster_force_repaint(fs_cached_raster);
 	raster_rebuild_tables(fs_cached_raster);
@@ -637,20 +632,13 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 
 	/* Restore framebuffer details */
 #ifndef FS_DEBUG_BUFFER
-	fs_cached_fb->tmpframebuffer = fs_fb_data;
-	fs_cached_fb->tmpframebufferlinesize = fs_fb_bpl;
 	fb_addr = (unsigned char *)0;
-	if (pal_emu)
-	{
-	    free(fb_emulation_buffer);
-	    fb_emulation_buffer = NULL;
-	}
 	/* Restore pixel values of window mode */
-	memcpy(fs_cached_fb->canvas->videoconfig.physical_colors,
+	memcpy(fs_cached_fb->videoconfig.physical_colors,
 	       fs_cached_physical_colors,
 	       sizeof(DWORD) * 256);
 	memcpy(fs_cached_pixels, fs_cached_pixel_values,
-	       fs_cached_palette->num_entries * sizeof(PIXEL));
+	       fs_cached_palette->num_entries * sizeof(BYTE));
 #endif
 	raster_resize_viewport(fs_cached_raster, fs_canvas_width, 
 			       fs_canvas_height);

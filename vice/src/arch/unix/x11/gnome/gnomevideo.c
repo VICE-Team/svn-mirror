@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "log.h"
+#include "types.h"
 #include "videoarch.h"
 #include "video.h"
 
@@ -102,7 +103,8 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 	}
 
 	log_message(gnomevideo_log,
-		    _("Successfully initialized using X Video."));
+		    _("Successfully initialized using XVideo (%s)."),
+		    canvas->xv_render.format);
 
 	return 0;
     }
@@ -125,7 +127,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
                 _("Successfully initialized video."));
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_set_framebuffer(i);
+    fullscreen_set_canvas(canvas);
 #endif 
     return 0;
 }

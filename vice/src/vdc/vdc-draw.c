@@ -56,8 +56,7 @@ static void draw_std_background(unsigned int start_pixel,
                                 unsigned int end_pixel)
 {
     vid_memset(vdc.raster.draw_buffer_ptr + start_pixel,
-               RASTER_PIXEL(&vdc.raster,
-               vdc.raster.overscan_background_color),
+               vdc.raster.overscan_background_color,
                end_pixel - start_pixel + 1);
 }
 
@@ -66,8 +65,7 @@ static void draw_std_background_2x(unsigned int start_pixel,
                                    unsigned int end_pixel)
 {
     vid_memset(vdc.raster.draw_buffer_ptr + 2 * start_pixel,
-               RASTER_PIXEL(&vdc.raster,
-               vdc.raster.overscan_background_color),
+               vdc.raster.overscan_background_color,
                2 * (end_pixel - start_pixel + 1));
 }
 #endif
@@ -86,8 +84,8 @@ static void init_drawing_tables(void)
                 BYTE *p;
                 int offset;
 
-                fp = RASTER_PIXEL(&vdc.raster, f);
-                bp = RASTER_PIXEL(&vdc.raster, b);
+                fp = f;
+                bp = b;
                 offset = (f << 8) | (b << 4);
                 p = (BYTE *)(hr_table + offset + i);
 

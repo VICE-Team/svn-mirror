@@ -29,7 +29,6 @@
 #include "render1x1.h"
 #include "types.h"
 
-extern BYTE gammatable[256+256+256];
 extern SDWORD  ytable[128];
 extern SDWORD cbtable[128];
 extern SDWORD crtable[128];
@@ -220,32 +219,6 @@ void render_32_1x1_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		line += 3;
 	}
 
-	if (ys & 1)
-	{
-		line = lineptr0;
-		lineptr0 = lineptr1;
-		lineptr1 = line;
-
-		tmpsrc=src;
-		line = lineptr0;
-		for (x=0;x<wint;x++)
-		{
-			register DWORD cl0, cl1, cl2, cl3;
-
-			cl0 = tmpsrc[0];
-			cl1 = tmpsrc[1];
-			cl2 = tmpsrc[2];
-			cl3 = tmpsrc[3];
-			line[0] = ytable[cl2];
-			line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-			line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-			tmpsrc++;
-			line += 3;
-		}
-	}
-	line = lineptr1;
-
-
 	for (y=0;y<height;y++)
 	{
 		tmpsrc=src;
@@ -346,32 +319,6 @@ void render_16_1x1_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		line += 3;
 	}
 
-	if (ys & 1)
-	{
-		line = lineptr0;
-		lineptr0 = lineptr1;
-		lineptr1 = line;
-
-		tmpsrc=src;
-		line = lineptr0;
-		for (x=0;x<wint;x++)
-		{
-			register DWORD cl0, cl1, cl2, cl3;
-
-			cl0 = tmpsrc[0];
-			cl1 = tmpsrc[1];
-			cl2 = tmpsrc[2];
-			cl3 = tmpsrc[3];
-			line[0] = (ytable[cl1] + ytable[cl2] + ytable[cl2] + ytable[cl3]) >> 2;
-			line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-			line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-			tmpsrc++;
-			line += 3;
-		}
-	}
-	line = lineptr1;
-
-
 	for (y=0;y<height;y++)
 	{
 		tmpsrc=src;
@@ -471,32 +418,6 @@ void render_32_1x1_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
 		tmpsrc++;
 		line += 3;
 	}
-
-	if (ys & 1)
-	{
-		line = lineptr0;
-		lineptr0 = lineptr1;
-		lineptr1 = line;
-
-		tmpsrc=src;
-		line = lineptr0;
-		for (x=0;x<wint;x++)
-		{
-			register DWORD cl0, cl1, cl2, cl3;
-
-			cl0 = tmpsrc[0];
-			cl1 = tmpsrc[1];
-			cl2 = tmpsrc[2];
-			cl3 = tmpsrc[3];
-			line[0] = (ytable[cl1] + ytable[cl2] + ytable[cl2] + ytable[cl3]) >> 2;
-			line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-			line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-			tmpsrc++;
-			line += 3;
-		}
-	}
-	line = lineptr1;
-
 
 	for (y=0;y<height;y++)
 	{
