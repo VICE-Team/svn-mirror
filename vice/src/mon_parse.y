@@ -34,6 +34,7 @@
 #include <stdlib.h>
 
 #include "asm.h"
+#include "console.h"
 #include "machine.h"
 #include "mon.h"
 #include "types.h"
@@ -97,7 +98,7 @@ extern int cur_len, last_len;
 %token<i> CMD_LOAD_LABELS CMD_SAVE_LABELS CMD_ADD_LABEL CMD_DEL_LABEL CMD_SHOW_LABELS
 %token<i> CMD_RECORD CMD_STOP CMD_PLAYBACK CMD_CHAR_DISPLAY CMD_SPRITE_DISPLAY
 %token<i> CMD_TEXT_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA
-%token<i> CMD_BLOAD CMD_BSAVE CMD_SCREEN
+%token<i> CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<str> STRING FILENAME R_O_L OPCODE LABEL BANKNAME
 %token<reg> REGISTER
@@ -199,14 +200,16 @@ memory_rules: CMD_MOVE address address address end_cmd 		  { mon_move_memory($2,
             | CMD_TEXT_DISPLAY end_cmd 				  { mon_display_memory(0, BAD_ADDR, BAD_ADDR); }
             ;
 
-checkpoint_rules: CMD_BREAK address opt_address end_cmd { mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE); }
+checkpoint_rules: CMD_BREAK address opt_address end_cmd { mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE, FALSE); }
+                | CMD_UNTIL address opt_address end_cmd { mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE, TRUE); }
                 | CMD_BREAK address opt_address IF cond_expr end_cmd {
-                          temp = mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE);
+                          temp = mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE, FALSE);
                           mon_set_checkpoint_condition(temp, $5); }
                 | CMD_WATCH opt_mem_op address opt_address end_cmd { mon_add_checkpoint($3, $4, FALSE,
-                              ($2 == e_load || $2 == e_load_store), ($2 == e_store || $2 == e_load_store)); }
-                | CMD_TRACE address opt_address end_cmd { mon_add_checkpoint($2, $3, TRUE, FALSE, FALSE); }
+                              ($2 == e_load || $2 == e_load_store), ($2 == e_store || $2 == e_load_store), FALSE); }
+                | CMD_TRACE address opt_address end_cmd { mon_add_checkpoint($2, $3, TRUE, FALSE, FALSE, FALSE); }
                 | CMD_BREAK end_cmd { mon_print_checkpoints(); }
+                | CMD_UNTIL end_cmd { mon_print_checkpoints(); }
                 | CMD_TRACE end_cmd { mon_print_checkpoints(); }
                 | CMD_WATCH end_cmd { mon_print_checkpoints(); }
                 ;
@@ -223,7 +226,7 @@ checkpoint_control_rules: CMD_CHECKPT_ON breakpt_num end_cmd 	 { mon_switch_chec
                         ;
 
 monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd 	       { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
-                   | CMD_SIDEFX end_cmd 	       { fprintf(mon_output, "I/O side effects are %s\n",sidefx ? "enabled" : "disabled"); }
+                   | CMD_SIDEFX end_cmd 	       { console_out(console_log, "I/O side effects are %s\n", sidefx ? "enabled" : "disabled"); }
                    | CMD_RADIX RADIX_TYPE end_cmd      { default_radix = $2; }
                    | CMD_RADIX end_cmd
                      {
@@ -240,17 +243,17 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd 	       { sidefx = (($2==e_TOGGLE
                          else
                              p = "Unknown";
 
-                         fprintf(mon_output, "Default radix is %s\n", p);
+                         console_out(console_log, "Default radix is %s\n", p);
                      }
 
-                   | CMD_DEVICE memspace end_cmd       { fprintf(mon_output,"Setting default device to `%s'\n",
+                   | CMD_DEVICE memspace end_cmd       { console_out(console_log, "Setting default device to `%s'\n",
                                                          _mon_space_strings[(int) $2]); default_memspace = $2; }
                    | CMD_QUIT end_cmd 		       { exit_mon = 2; YYACCEPT; }
                    | CMD_EXIT end_cmd 		       { exit_mon = 1; YYACCEPT; }
                    ;
 
 monitor_misc_rules: CMD_DISK rest_of_line end_cmd 	{ mon_execute_disk_command($2); }
-                  | CMD_PRINT expression end_cmd 	{ fprintf(mon_output, "\t%d\n",$2); }
+                  | CMD_PRINT expression end_cmd 	{ console_out(console_log, "\t%d\n",$2); }
                   | CMD_HELP end_cmd 			{ mon_print_help(NULL); }
                   | CMD_HELP rest_of_line end_cmd 	{ mon_print_help($2); }
                   | CMD_SYSTEM rest_of_line end_cmd 	{ printf("SYSTEM COMMAND: %s\n",$2); }
@@ -451,52 +454,52 @@ void parse_and_execute_line(char *input)
 
    make_buffer(temp_buf);
    if ( (rc =yyparse()) != 0) {
-       fprintf(mon_output, "ERROR -- ");
+       console_out(console_log, "ERROR -- ");
        switch(rc) {
            case ERR_BAD_CMD:
-               fprintf(mon_output, "Bad command:\n");
+               console_out(console_log, "Bad command:\n");
                break;
            case ERR_RANGE_BAD_START:
-               fprintf(mon_output, "Bad first address in range:\n");
+               console_out(console_log, "Bad first address in range:\n");
                break;
            case ERR_RANGE_BAD_END:
-               fprintf(mon_output, "Bad second address in range:\n");
+               console_out(console_log, "Bad second address in range:\n");
                break;
            case ERR_EXPECT_BRKNUM:
-               fprintf(mon_output, "Checkpoint number expected:\n");
+               console_out(console_log, "Checkpoint number expected:\n");
                break;
            case ERR_EXPECT_END_CMD:
-               fprintf(mon_output, "Unexpected token:\n");
+               console_out(console_log, "Unexpected token:\n");
                break;
            case ERR_MISSING_CLOSE_PAREN:
-               fprintf(mon_output, "')' expected:\n");
+               console_out(console_log, "')' expected:\n");
                break;
            case ERR_INCOMPLETE_COMPARE_OP:
-               fprintf(mon_output, "Compare operation missing an operand:\n");
+               console_out(console_log, "Compare operation missing an operand:\n");
                break;
            case ERR_EXPECT_FILENAME:
-               fprintf(mon_output, "Expecting a filename:\n");
+               console_out(console_log, "Expecting a filename:\n");
                break;
            case ERR_ADDR_TOO_BIG:
-               fprintf(mon_output, "Address too large:\n");
+               console_out(console_log, "Address too large:\n");
                break;
            case ERR_IMM_TOO_BIG:
-               fprintf(mon_output, "Immediate argument too large:\n");
+               console_out(console_log, "Immediate argument too large:\n");
                break;
            case ERR_EXPECT_STRING:
-               fprintf(mon_output, "Expecting a string.\n");
+               console_out(console_log, "Expecting a string.\n");
                break;
            case ERR_UNDEFINED_LABEL:
-               fprintf(mon_output, "Found an undefined label.\n");
+               console_out(console_log, "Found an undefined label.\n");
                break;
            case ERR_ILLEGAL_INPUT:
            default:
-               fprintf(mon_output, "Wrong syntax:\n");
+               console_out(console_log, "Wrong syntax:\n");
        }
-       fprintf(mon_output, "  %s\n", input);
+       console_out(console_log, "  %s\n", input);
        for (i = 0; i < last_len; i++)
-           fprintf(mon_output, " ");
-       fprintf(mon_output, "  ^\n");
+           console_out(console_log, " ");
+       console_out(console_log, "  ^\n");
        asm_mode = 0;
        new_cmd = 1;
    }

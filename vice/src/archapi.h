@@ -60,10 +60,6 @@ extern int archdep_default_logger(const char *level_string, const char *format,
 extern int archdep_spawn(const char *name, char **argv,
                          const char *stdout_redir, const char *stderr_redir);
 
-/* Monitor console functions.  */
-extern void archdep_open_monitor_console(FILE **mon_input, FILE **mon_output);
-extern void archdep_close_monitor_console(FILE *mon_input, FILE *mon_output);
-
 extern int archdep_num_text_lines(void);
 extern int archdep_num_text_columns(void);
 

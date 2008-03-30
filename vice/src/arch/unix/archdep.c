@@ -286,7 +286,7 @@ int archdep_spawn(const char *name, char **argv,
     return -1;
 }
 
-/* return malloc´d version of full pathname of orig_name */
+/* return malloc'd version of full pathname of orig_name */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
     /* Unix version.  */
@@ -300,15 +300,5 @@ int archdep_expand_path(char **return_path, const char *orig_name)
         free(cwd);
     }
     return 0;
-}
-
-void archdep_open_monitor_console(FILE **mon_input, FILE **mon_output)
-{
-    *mon_output = stdout;
-    *mon_input = stdin;
-}
-
-void archdep_close_monitor_console(FILE *mon_input, FILE *mon_output)
-{
 }
 

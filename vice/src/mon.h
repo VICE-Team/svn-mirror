@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 
+#include "console.h"
 #include "interrupt.h"
 #include "mos6510.h"
 #include "types.h"
@@ -127,14 +128,15 @@ struct t_breakpoint {
    int brknum;
    MON_ADDR start_addr;
    MON_ADDR end_addr;
-   bool trace;
-   bool enabled;
-   bool watch_load;
-   bool watch_store;
    int hit_count;
    int ignore_count;
    CONDITIONAL_NODE *condition;
    char *command;
+   bool trace;
+   bool enabled;
+   bool watch_load;
+   bool watch_store;
+   bool temporary;
 };
 typedef struct t_breakpoint breakpoint;
 
@@ -227,7 +229,7 @@ extern const char *_mon_space_strings[];
 
 extern struct mon_cmds mon_cmd_array[];
 
-extern FILE *mon_output;
+extern console_t console_log;
 extern int sidefx;
 extern int exit_mon;
 extern RADIXTYPE default_radix;
@@ -302,7 +304,8 @@ extern void mon_record_commands(char *filename);
 extern void mon_end_recording(void);
 
 extern int mon_check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list);
-extern int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace, bool is_load, bool is_store);
+extern int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace,
+                              bool is_load, bool is_store, bool is_temp);
 extern void mon_delete_checkpoint(int brknum);
 extern void mon_print_checkpoints(void);
 extern void mon_switch_checkpoint(int op, int breakpt_num);
