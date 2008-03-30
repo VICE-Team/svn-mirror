@@ -98,16 +98,19 @@ void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
         return;
     }
 
-    line_base = VIDEO_FRAME_BUFFER_LINE_START((screenshot->frame_buffer), line);
+    line_base = VIDEO_FRAME_BUFFER_LINE_START((screenshot->frame_buffer),
+                                              line * screenshot->size_height);
 
     switch (mode) {
       case SCREENSHOT_MODE_PALETTE:
         for (i = 0; i < screenshot->width; i++)
-            data[i] = screenshot->color_map[line_base[i + screenshot->x_offset]];
+            data[i] = screenshot->color_map[line_base[i
+                      * screenshot->size_width + screenshot->x_offset]];
         break;
       case SCREENSHOT_MODE_RGB32:
         for (i = 0; i < screenshot->width; i++) {
-            color = screenshot->color_map[line_base[i + screenshot->x_offset]];
+            color = screenshot->color_map[line_base[i
+                    * screenshot->size_width + screenshot->x_offset]];
             data[i * 4] = screenshot->palette->entries[color].red;
             data[i * 4 + 1] = screenshot->palette->entries[color].green;
             data[i * 4 + 2] = screenshot->palette->entries[color].blue;
@@ -149,8 +152,8 @@ int screenshot_save(const char *drvname, const char *filename,
         return -1;
     }
 
-    screenshot.width = screenshot.max_width;
-    screenshot.height = screenshot.max_height;
+    screenshot.width = screenshot.max_width & ~3;
+    screenshot.height = screenshot.max_height & ~3;
 
     screenshot.color_map = (PIXEL *)xmalloc(256 * sizeof(PIXEL));
     memset(screenshot.color_map, 0, 256 * sizeof(PIXEL));
