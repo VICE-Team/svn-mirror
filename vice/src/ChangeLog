@@ -1,3 +1,22 @@
+1999-09-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.8.
+
+	* c128/z80.c: Fixed IM and LDIA opcodes.
+
+	* c64/cartridge.c (cartridge_attach_image): New cartridge
+	`CARTRIDGE_EPYX_FASTLOAD'.
+	* cartridge.h: Likewise.
+	* c64/c64cartmem.c (cartridge_read_io2, cartridge_attach):
+	Likewise.
+
+	* arch/unix/xaw/c64ui.c, arch/msdos/c64ui.c, arch/win32/res.h,
+	arch/win32/resc64.rc, arch/win32/c64ui.c: Added UI controls
+	for Epyx fastload cartridge.
+
+	* Makefile.am: Added `uicmdline.o' to `c1541_LDADD' and
+	`petcat_LDADD'.
+
 1999-09-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.7.
@@ -14,7 +33,7 @@
 
 	* arch/os2/Snippets/Dirport.H: Renamed to `dirport.h'.
 
-        * arch/os2/Snippets/Dirport.C: Renamed to `dirport.c'.
+	* arch/os2/Snippets/Dirport.C: Renamed to `dirport.c'.
 
 1999-09-17  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
 

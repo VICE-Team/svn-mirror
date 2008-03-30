@@ -376,7 +376,11 @@ c1541_SOURCES = \
 # FIXME: I don't like linking `archdep.o' this way, but we cannot use
 # the generic `ARCH_LIBS', because we would have to link against X11
 # libs too then.
-c1541_LDADD = @ARCH_DIR@/archdep.o $(vdrive_lib) @READLINE@
+c1541_LDADD = \
+	@ARCH_DIR@/archdep.o \
+	@ARCH_DIR@/uicmdline.o \
+	$(vdrive_lib) \
+	@READLINE@
 
 # petcat
 petcat_SOURCES = \
@@ -391,7 +395,9 @@ petcat_SOURCES = \
 	zfile.c \
 	zipcode.c
 
-petcat_LDADD = @ARCH_DIR@/archdep.o
+petcat_LDADD = \
+	@ARCH_DIR@/archdep.o \
+	@ARCH_DIR@/uicmdline.o
 
 # Special targets to build libraries in subdirectories.
 

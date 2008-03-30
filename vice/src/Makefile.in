@@ -217,13 +217,15 @@ c1541_SOURCES =  	c1541.c 	charsets.c 	cmdline.c 	diskimage.c 	findpath.c 	gcr.c
 # FIXME: I don't like linking `archdep.o' this way, but we cannot use
 # the generic `ARCH_LIBS', because we would have to link against X11
 # libs too then.
-c1541_LDADD = @ARCH_DIR@/archdep.o $(vdrive_lib) @READLINE@
+c1541_LDADD =  	@ARCH_DIR@/archdep.o 	@ARCH_DIR@/uicmdline.o 	$(vdrive_lib) 	@READLINE@
+
 
 # petcat
 petcat_SOURCES =  	charsets.c 	cmdline.c 	findpath.c 	log.c 	p00.c 	petcat.c 	resources.c 	utils.c 	zfile.c 	zipcode.c
 
 
-petcat_LDADD = @ARCH_DIR@/archdep.o
+petcat_LDADD =  	@ARCH_DIR@/archdep.o 	@ARCH_DIR@/uicmdline.o
+
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = 
@@ -269,12 +271,12 @@ snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o warn.o \
 zfile.o zipcode.o
 c1541_OBJECTS =  c1541.o charsets.o cmdline.o diskimage.o findpath.o \
 gcr.o info.o log.o p00.o resources.o t64.o utils.o zfile.o zipcode.o
-c1541_DEPENDENCIES =  @ARCH_DIR@/archdep.o \
+c1541_DEPENDENCIES =  @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o \
 $(top_builddir)/src/vdrive/libvdrive.a
 c1541_LDFLAGS = 
 petcat_OBJECTS =  charsets.o cmdline.o findpath.o log.o p00.o petcat.o \
 resources.o utils.o zfile.o zipcode.o
-petcat_DEPENDENCIES =  @ARCH_DIR@/archdep.o
+petcat_DEPENDENCIES =  @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o
 petcat_LDFLAGS = 
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LEXLIB = @LEXLIB@
