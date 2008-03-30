@@ -88,6 +88,10 @@ SOURCE=..\..\c1541.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\cbmdos.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\cbmimage.c
 # End Source File
 # Begin Source File

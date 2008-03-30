@@ -98,6 +98,10 @@ SOURCE="..\..\charset.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\cbmdos.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\cbmimage.c"
 # End Source File
 # Begin Source File

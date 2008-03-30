@@ -57,26 +57,6 @@
 
 #define DIR_MAXBUF  (40 * 256)
 
-/* File Types */
-#define FT_DEL          0
-#define FT_SEQ          1
-#define FT_PRG          2
-#define FT_USR          3
-#define FT_REL          4
-#define FT_CBM          5       /* 1581 partition */
-#define FT_DJJ          6       /* 1581 */
-#define FT_FAB          7       /* 1581 - Fred's format */
-#define FT_REPLACEMENT  0x20
-#define FT_LOCKED       0x40
-#define FT_CLOSED       0x80
-
-/* Access Control Methods */
-#define FAM_READ        0
-#define FAM_WRITE       1
-#define FAM_APPEND      2
-#define FAM_M           4
-#define FAM_F           8
-
 /* Serial Error Codes. */
 #define SERIAL_OK               0
 #define SERIAL_WRITE_TIMEOUT    1
