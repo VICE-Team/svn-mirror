@@ -165,7 +165,7 @@ HRESULT result;
 
     result=IDirectInputDevice_SetCooperativeLevel(di_mouse,ui_active_window,DISCL_EXCLUSIVE|DISCL_FOREGROUND);
     if (result!=DI_OK) {
-        log_debug("Warning: couldn't set cooperation level of mice to exclusive! %d",ui_active_window);
+        log_debug("Warning: couldn't set cooperation level of mice to exclusive! %i",(int)ui_active_window);
         di_mouse=NULL;
     }
 }

@@ -344,8 +344,8 @@ static int frame_buffer_lock(frame_buffer_t f)
     return 0;
 }
 
-int frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
-                       unsigned int height)
+int video_frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
+                             unsigned int height)
 {
     HRESULT result;
     DDSURFACEDESC desc;
@@ -374,7 +374,7 @@ int frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
 
 /* This is the real version...  Without using DirectDrawSurfaces.  */
 
-int frame_buffer_alloc(frame_buffer_t *f,
+int video_frame_buffer_alloc(frame_buffer_t *f,
                        unsigned int width,
                        unsigned int height)
 {
@@ -391,7 +391,7 @@ int frame_buffer_alloc(frame_buffer_t *f,
 
 #endif
 
-void frame_buffer_free(frame_buffer_t *f)
+void video_frame_buffer_free(frame_buffer_t *f)
 {
     frame_buffer_t  tempf;
 
@@ -404,7 +404,7 @@ void frame_buffer_free(frame_buffer_t *f)
 
 }
 
-void frame_buffer_clear(frame_buffer_t *f, BYTE value)
+void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
 {
     memset((*f)->buffer,value,(*f)->height*(*f)->width);
 }
@@ -904,10 +904,15 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     InvalidateRect(c->hwnd,&rect,FALSE);
 }
 
-void canvas_render(canvas_t c, frame_buffer_t f, int xs, int ys, int xi, int yi, int w, int h)
+void canvas_render(canvas_t c, frame_buffer_t f,
+                   unsigned int xs, unsigned int ys,
+                   unsigned int xi, unsigned int yi,
+                   unsigned int w, unsigned int h)
 #else
 void canvas_refresh(canvas_t c, frame_buffer_t f,
-                    int xs, int ys, int xi, int yi, int w, int h)
+                    unsigned int xs, unsigned int ys,
+                    unsigned int xi, unsigned int yi,
+                    unsigned int w, unsigned int h)
 {
     HRESULT result;
     DDSURFACEDESC desc;
