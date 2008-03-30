@@ -1,3 +1,67 @@
+2001-06-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.39.
+
+	* printerdrv/driver-select.c, printerdrv/driver-select.h,
+	printerdrv/drv-ascii.c, printerdrv/drv-ascii.h,
+	printerdrv/drv-mps803.c, printerdrv/drv-mps803.h,
+	printerdrv/interface-serial.c, printerdrv/interface-serial.h,
+	printerdrv/interface-userport.c,
+	printerdrv/interface-userport.h, printerdrv/output-file.c,
+	printerdrv/output-file.h, printerdrv/printer.c, printer.h: New
+	files.
+
+	* print.c, print.h, prdevice.c, prdevice.h, pruser.c,
+	pruser.h, printerdrv/prt-mps803.c: Files removed, some code
+	reused for new printer files.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c, arch/unix/uisettings.c, serial.c, c64/c64cia2.c,
+	vic20/vic20via2.c, pet/petvia.c, cbm2/c610cia1.c: Changed to
+	new printer API.
+
+	* Makefile.am, printerdrv/Makefile.am: Updated.
+
+	* arch/unix/c64ui.h, arch/unix/uicommands.h,
+	arch/unix/uidatasette.h, arch/unix/uicrtc.h,
+	arch/unix/uireu.h, arch/unix/uisettings.h,
+	arch/unix/uivicii.h, arch/unix/x11/xaw/uimenu.h,
+	arch/unix/x11/gnome/uimenu.h, arch/unix/uiscreenshot.h: Do not
+	include `uimenu.h'.
+
+	* arch/unix/uicommands.c, arch/unix/uisettings.c:
+	#include "uimenu.h".
+
+	* arch/unix/uipalette.c: #include <stdlib.h>.
+
+	* arch/unix/x11/x11menu.c (make_menu_label): Cleaned up.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/vic20ui.c,
+	arch/unix/petui.c, arch/unix/c610ui.c, arch/unix/vsidui.c,
+	arch/unix/x11/videoarch.h: Icons are now referenced without
+	ugly defines.
+
+	* arch/unix/icon.h: New file.
+
+	* arch/unix/Makefile.am, arch/unix/x11/Makefile.am: Updated.
+
+	* arch/unix/x11/c128icon.xpm, arch/unix/x11/c610icon.xpm,
+	arch/unix/x11/c64icon.xpm, arch/unix/x11/vic20icon.xpm,
+	arch/unix/x11/peticon.xpm: Renamed to *.c files.
+
+	* cbm2/c610.h: Do not include "snapshot.h".
+
+	* fullscreen.h: Do not include "videoarch.h"
+
+	* drive/drivecpu.c, drive/drivetypes.h, drive/cia1571d.c,
+	drive/drive.c, drive/fdc.c, drive/riot1d.c, drive/via1d.c,
+	drive/wd1770.c, 6510core.c, maincpu.c, c128/c128cpu.c,
+	viacore.c, viacore.h, ciacore.c, ciacore.h, riotcore.c,
+	riotcore.h, maincpu.h, datasette.c, keyboard.c, rsuser.c,
+	vicii/vicii.c, vdc/vdc.c, crtc/crtc.c, c64/c64cartridge.c,
+	vic20/vic.c, cbm2/c610.c, aciacore.c [clk_guard, alarm_*]:
+	Made dynamic.
+
 2001-06-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.38.

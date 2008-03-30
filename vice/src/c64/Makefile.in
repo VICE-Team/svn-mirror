@@ -293,11 +293,7 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/arch/unix/types.h ../../src/attach.h \
 	../../src/autostart.h c64-cmdline-options.h c64-resources.h \
 	c64.h c64cart.h c64cia.h c64mem.h ../../src/mem.h c64tpi.h \
-	../../src/arch/unix/c64ui.h ../../src/arch/unix/uimenu.h \
-	../../src/arch/unix/x11/xaw/uimenu.h ../../src/arch/unix/ui.h \
-	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/uihotkey.h \
-	../../src/arch/unix/x11/xaw/../x11menu.h ../../src/cartridge.h \
+	../../src/arch/unix/c64ui.h ../../src/cartridge.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/snapshot.h \
 	../../src/clkguard.h ../../src/console.h ../../src/datasette.h \
 	../../src/drive/drive-cmdline-options.h \
@@ -306,8 +302,7 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/monitor/mon.h patchrom.h ../../src/prdevice.h \
-	../../src/print.h ../../src/pruser.h psid.h \
+	../../src/monitor/mon.h patchrom.h ../../src/printer.h psid.h \
 	../../src/resources.h reu.h ../../src/screenshot.h \
 	../../src/serial.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/tape.h ../../src/traps.h ../../src/utils.h \
@@ -332,22 +327,21 @@ c64cartridge.o: c64cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/utils.h
 c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h \
-	../../src/ciacore.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
-	c64cia.h ../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
+	../../src/arch/unix/types.h c64cia.h ../../src/arch/unix/kbd.h \
+	../../src/keyboard.h ../../src/vicii/vicii.h ../../src/rsuser.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
+	../../src/ciacore.c ../../src/clkguard.h ../../src/ciatimer.h \
+	../../src/alarm.h ../../src/snapshot.h ../../src/utils.h
+c64cia2.o: c64cia2.c ../../src/vice.h ../../src/config.h \
+	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
+	../../src/arch/unix/types.h c64mem.h ../../src/mem.h c64iec.h \
+	c64cia.h ../../src/drive/drive.h ../../src/drive/drivecpu.h \
+	../../src/iecdrive.h ../../src/printer.h \
 	../../src/vicii/vicii.h ../../src/rsuser.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
 	../../src/ciacore.c ../../src/clkguard.h ../../src/ciatimer.h \
-	../../src/snapshot.h
-c64cia2.o: c64cia2.c ../../src/vice.h ../../src/config.h \
-	../../src/ciacore.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
-	c64mem.h ../../src/mem.h c64iec.h c64cia.h \
-	../../src/drive/drive.h ../../src/drive/drivecpu.h \
-	../../src/iecdrive.h ../../src/pruser.h ../../src/vicii/vicii.h \
-	../../src/rsuser.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/maincpu.h ../../src/ciacore.c ../../src/clkguard.h \
-	../../src/ciatimer.h ../../src/snapshot.h
+	../../src/alarm.h ../../src/snapshot.h ../../src/utils.h
 c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
 	c64cia.h ../../src/arch/unix/types.h c64mem.h ../../src/mem.h
 c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
