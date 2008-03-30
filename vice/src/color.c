@@ -326,15 +326,27 @@ static void color_print_list(const char *name, color_list_t *list)
 
 int color_alloc_new_colors(color_list_t *list)
 {
+    color_list_t *list_start;
     PIXEL data;
     unsigned long color_pixel;
 
+    list_start = list;
+
     while (list->next != NULL) {
-        uicolor_alloc_color(list->color_rgb_req.red,
+        if (uicolor_alloc_color(list->color_rgb_req.red,
                             list->color_rgb_req.green,
                             list->color_rgb_req.blue,
                             &color_pixel,
-                            &data);
+                            &data) < 0) {
+            while (list_start != list) {
+                uicolor_free_color(list->color_rgb_req.red,
+                                   list->color_rgb_req.green,
+                                   list->color_rgb_req.blue,
+                                   list->color_pixel);
+                list_start = list_start->next;
+            }
+            return -1;
+        }
         list->color_pixel = color_pixel;
         list->pixel_data = data;
         list = list->next;
@@ -379,7 +391,12 @@ int color_alloc_colors(void *c, const palette_t *palette,
                        color_no_alloc);
 
     /* Allocate only colors we do not have.  */
-    color_alloc_new_colors(color_to_alloc);
+    if (color_alloc_new_colors(color_to_alloc) < 0) {
+        color_free(color_new);
+        color_free(color_to_alloc);
+        color_free(color_no_alloc);
+        return -1;
+    }
 
     /* Remove the current owner from allocated colors list.  */
     color_remove_owner_from_list(color_alloced, c);
