@@ -58,6 +58,7 @@ noinst_HEADERS = \
 	config.h.in \
 	console.h \
 	datasette.h \
+	debug.h \
 	diskimage.h \
 	emuid.h \
 	fixpoint.h \
@@ -70,6 +71,8 @@ noinst_HEADERS = \
 	iecdrive.h \
 	imagecontents.h \
 	info.h \
+	init.h \
+	initcmdline.h \
 	interrupt.h \
 	kbdbuf.h \
 	keyboard.h \
@@ -127,6 +130,7 @@ base_sources = \
 	cmdline.c \
 	color.c \
 	datasette.c \
+	debug.c \
 	diskimage.c \
 	emuid.c \
 	findpath.c \
@@ -134,6 +138,8 @@ base_sources = \
 	fliplist.c \
 	gcr.c \
 	info.c \
+	init.c \
+	initcmdline.c \
 	interrupt.c \
 	imagecontents.c \
 	kbdbuf.c \
