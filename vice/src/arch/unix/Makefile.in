@@ -287,7 +287,11 @@ libarch_a_SOURCES = \
 	uidriveplus4.c \
 	uidriveplus4.h \
 	uiedisk.h \
+	uifliplist.c \
+	uifliplist.h \
 	uihotkey.h \
+	uiide64.c \
+	uiide64.h \
 	uijoystick2.c \
 	uijoystick2.h \
 	uimenu.h \
@@ -357,8 +361,9 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uicrtc.$(OBJEXT) uidatasette.$(OBJEXT) uidrive.$(OBJEXT) \
 	uidrivec128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
 	uidriveiec.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
-	uidriveplus4.$(OBJEXT) uijoystick2.$(OBJEXT) uimon.$(OBJEXT) \
-	uipalemu.$(OBJEXT) uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
+	uidriveplus4.$(OBJEXT) uifliplist.$(OBJEXT) uiide64.$(OBJEXT) \
+	uijoystick2.$(OBJEXT) uimon.$(OBJEXT) uipalemu.$(OBJEXT) \
+	uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
 	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
 	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
 	uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) uirs232.$(OBJEXT) \
@@ -389,6 +394,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveiec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uiide64.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uijoystick2.Po ./$(DEPDIR)/uimon.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uipalemu.Po ./$(DEPDIR)/uipalette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po \
@@ -489,6 +495,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveiec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uifliplist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiide64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalemu.Po@am__quote@

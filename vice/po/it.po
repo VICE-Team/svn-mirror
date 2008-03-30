@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-03-06 17:05+0100\n"
+"POT-Creation-Date: 2004-03-14 14:20+0100\n"
 "PO-Revision-Date: 2004-01-20 20:33+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -152,68 +152,68 @@ msgstr "Non è possibile trovare la sezione eventi nel file di file snapshot."
 msgid "Error reading end snapshot file."
 msgstr "Errore durante la lettura del file di fine snapshot."
 
-#: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:60
+#: src/arch/unix/c128ui.c:62 src/arch/unix/c64ui.c:61
 #: src/arch/unix/cbm2ui.c:61 src/arch/unix/uited.c:52 src/arch/unix/uivic.c:41
 #: src/arch/unix/vsidui.c:125
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
-#: src/arch/unix/c128ui.c:63 src/arch/unix/c64ui.c:62
+#: src/arch/unix/c128ui.c:64 src/arch/unix/c64ui.c:63
 #: src/arch/unix/cbm2ui.c:63 src/arch/unix/uited.c:54 src/arch/unix/uivic.c:43
 #: src/arch/unix/vsidui.c:127
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
-#: src/arch/unix/c128ui.c:144 src/arch/unix/c128ui.c:169
-#: src/arch/unix/c64ui.c:211 src/arch/unix/c64ui.c:236
+#: src/arch/unix/c128ui.c:145 src/arch/unix/c128ui.c:170
+#: src/arch/unix/c64ui.c:212 src/arch/unix/c64ui.c:237
 #: src/arch/unix/cbm2ui.c:284 src/arch/unix/cbm2ui.c:309
 msgid "SID engine"
 msgstr "Motore SID"
 
-#: src/arch/unix/c128ui.c:147 src/arch/unix/c128ui.c:173
-#: src/arch/unix/c64ui.c:214 src/arch/unix/c64ui.c:240
+#: src/arch/unix/c128ui.c:148 src/arch/unix/c128ui.c:174
+#: src/arch/unix/c64ui.c:215 src/arch/unix/c64ui.c:241
 #: src/arch/unix/cbm2ui.c:287 src/arch/unix/cbm2ui.c:313
 msgid "*Second SID"
 msgstr "*Secondo SID"
 
-#: src/arch/unix/c128ui.c:149 src/arch/unix/c128ui.c:175
-#: src/arch/unix/c64ui.c:216 src/arch/unix/c64ui.c:242
+#: src/arch/unix/c128ui.c:150 src/arch/unix/c128ui.c:176
+#: src/arch/unix/c64ui.c:217 src/arch/unix/c64ui.c:243
 #: src/arch/unix/cbm2ui.c:289 src/arch/unix/cbm2ui.c:315
 msgid "*Second SID base address"
 msgstr "*Indirizzo secondo SID"
 
-#: src/arch/unix/c128ui.c:152 src/arch/unix/c128ui.c:177
-#: src/arch/unix/c64ui.c:219 src/arch/unix/c64ui.c:244
+#: src/arch/unix/c128ui.c:153 src/arch/unix/c128ui.c:178
+#: src/arch/unix/c64ui.c:220 src/arch/unix/c64ui.c:245
 #: src/arch/unix/cbm2ui.c:292 src/arch/unix/cbm2ui.c:318
 msgid "*Emulate filters"
 msgstr "*Emula i filtri"
 
-#: src/arch/unix/c128ui.c:154 src/arch/unix/c128ui.c:179
-#: src/arch/unix/c64ui.c:221 src/arch/unix/c64ui.c:246
+#: src/arch/unix/c128ui.c:155 src/arch/unix/c128ui.c:180
+#: src/arch/unix/c64ui.c:222 src/arch/unix/c64ui.c:247
 #: src/arch/unix/cbm2ui.c:294 src/arch/unix/cbm2ui.c:320
 msgid "Chip model"
 msgstr "Modello"
 
-#: src/arch/unix/c128ui.c:158 src/arch/unix/c64ui.c:225
+#: src/arch/unix/c128ui.c:159 src/arch/unix/c64ui.c:226
 #: src/arch/unix/cbm2ui.c:298
 msgid "reSID sampling method"
 msgstr "Metodo di campionamento del reSID"
 
-#: src/arch/unix/c128ui.c:160 src/arch/unix/c64ui.c:227
+#: src/arch/unix/c128ui.c:161 src/arch/unix/c64ui.c:228
 #: src/arch/unix/cbm2ui.c:300
 msgid "reSID resampling passband..."
 msgstr "Banda passante di ricampionamento del reSID"
 
-#: src/arch/unix/c128ui.c:171 src/arch/unix/c64ui.c:238
+#: src/arch/unix/c128ui.c:172 src/arch/unix/c64ui.c:239
 #: src/arch/unix/cbm2ui.c:311 src/arch/unix/uisound.c:120
 msgid "*Enable sound playback"
 msgstr "*Attiva la riproduzione del suono"
 
-#: src/arch/unix/c128ui.c:203
+#: src/arch/unix/c128ui.c:204
 msgid "Function ROM image"
 msgstr "Immagine della Function ROM"
 
-#: src/arch/unix/c128ui.c:208
+#: src/arch/unix/c128ui.c:209
 #, c-format
 msgid ""
 "Could not load function ROM image\n"
@@ -222,152 +222,157 @@ msgstr ""
 "Non è possibile caricarie l'immagine della Function ROM\n"
 "'%s'"
 
-#: src/arch/unix/c128ui.c:213
+#: src/arch/unix/c128ui.c:214
 msgid "*Enable internal Function ROM"
 msgstr "*Attiva la Function ROM interna"
 
-#: src/arch/unix/c128ui.c:215
+#: src/arch/unix/c128ui.c:216
 msgid "Internal Function ROM name..."
 msgstr "Nome della Function ROM interna..."
 
-#: src/arch/unix/c128ui.c:219
+#: src/arch/unix/c128ui.c:220
 msgid "*Enable external Function ROM"
 msgstr "*Attiva la Function ROM esterna"
 
-#: src/arch/unix/c128ui.c:221
+#: src/arch/unix/c128ui.c:222
 msgid "External Function ROM name..."
 msgstr "Nome della Function ROM esterna..."
 
-#: src/arch/unix/c128ui.c:228
+#: src/arch/unix/c128ui.c:229
 msgid "Function ROM"
 msgstr "Function ROM"
 
-#: src/arch/unix/c128ui.c:231 src/arch/unix/c64ui.c:259
+#: src/arch/unix/c128ui.c:232 src/arch/unix/c64ui.c:260
 msgid "RAM Expansion Unit"
 msgstr "Espansione RAM"
 
-#: src/arch/unix/c128ui.c:233 src/arch/unix/c64ui.c:261
+#: src/arch/unix/c128ui.c:234 src/arch/unix/c64ui.c:262
+#, fuzzy
+msgid "IDE64 Emulation"
+msgstr "Emulazione esatta"
+
+#: src/arch/unix/c128ui.c:236 src/arch/unix/c64ui.c:264
 #: src/arch/unix/petui.c:286 src/arch/unix/vic20ui.c:182
 msgid "*Emulator identification"
 msgstr "*Identificazione dell'emulatore"
 
-#: src/arch/unix/c128ui.c:235
+#: src/arch/unix/c128ui.c:238
 msgid "*IEEE488 interface emulation"
 msgstr "*Emulazione dell'interfaccia IEEE488"
 
-#: src/arch/unix/c128ui.c:238 src/arch/unix/c64ui.c:264
+#: src/arch/unix/c128ui.c:241 src/arch/unix/c64ui.c:267
 msgid "*1351 Mouse Emulation"
 msgstr "*Emulazione del mouse 1351"
 
-#: src/arch/unix/c128ui.c:247 src/arch/unix/c64ui.c:273
+#: src/arch/unix/c128ui.c:250 src/arch/unix/c64ui.c:276
 #: src/arch/unix/vic20ui.c:115
 msgid "Load default ROMs"
 msgstr "Carica le ROM predefinite"
 
-#: src/arch/unix/c128ui.c:251
+#: src/arch/unix/c128ui.c:254
 msgid "Load new Int. Kernal ROM"
 msgstr "Carica una nuova ROM int. del Kernal"
 
-#: src/arch/unix/c128ui.c:254
+#: src/arch/unix/c128ui.c:257
 msgid "Load new German Kernal ROM"
 msgstr "Carica una nuova ROM tedesca del Kernal"
 
-#: src/arch/unix/c128ui.c:257
+#: src/arch/unix/c128ui.c:260
 msgid "Load new Basic Lo ROM"
 msgstr "Carica una nuova Lo ROM del Basic"
 
-#: src/arch/unix/c128ui.c:260
+#: src/arch/unix/c128ui.c:263
 msgid "Load new Basic Hi ROM"
 msgstr "Carica una nuova Hi ROM del Basic"
 
-#: src/arch/unix/c128ui.c:263
+#: src/arch/unix/c128ui.c:266
 msgid "Load new Chargen ROM"
 msgstr "Carica una nuova ROM del Chargen"
 
-#: src/arch/unix/c128ui.c:267 src/arch/unix/c64ui.c:287
+#: src/arch/unix/c128ui.c:270 src/arch/unix/c64ui.c:290
 #: src/arch/unix/vic20ui.c:128
 msgid "Load new drive ROM"
 msgstr "Carica una nuova ROM del drive"
 
-#: src/arch/unix/c128ui.c:270 src/arch/unix/c64ui.c:290
+#: src/arch/unix/c128ui.c:273 src/arch/unix/c64ui.c:293
 #: src/arch/unix/cbm2ui.c:122 src/arch/unix/petui.c:225
 #: src/arch/unix/vic20ui.c:131
 msgid "Load custom ROM set from file"
 msgstr "Carica un ROM set da file"
 
-#: src/arch/unix/c128ui.c:272 src/arch/unix/c64ui.c:292
+#: src/arch/unix/c128ui.c:275 src/arch/unix/c64ui.c:295
 #: src/arch/unix/cbm2ui.c:124 src/arch/unix/petui.c:227
 #: src/arch/unix/vic20ui.c:133
 msgid "Dump ROM set definition to file"
 msgstr "Scrivi il ROM set su file"
 
-#: src/arch/unix/c128ui.c:295
+#: src/arch/unix/c128ui.c:298
 msgid "VIC II Screenshot"
 msgstr "Cattura schermo del VIC II"
 
-#: src/arch/unix/c128ui.c:297
+#: src/arch/unix/c128ui.c:300
 msgid "VDC Screenshot"
 msgstr "Cattura schermo del VDC"
 
-#: src/arch/unix/c128ui.c:303
+#: src/arch/unix/c128ui.c:306
 msgid "Screenshots..."
 msgstr "Cattura schermo..."
 
-#: src/arch/unix/c128ui.c:332
+#: src/arch/unix/c128ui.c:335
 msgid "Machine type"
 msgstr "Tipo di macchina"
 
-#: src/arch/unix/c128ui.c:334 src/arch/unix/cbm2ui.c:230
+#: src/arch/unix/c128ui.c:337 src/arch/unix/cbm2ui.c:230
 #: src/arch/unix/petui.c:261 src/arch/unix/vic20ui.c:168
 msgid "ROM sets"
 msgstr "ROM set"
 
-#: src/arch/unix/c128ui.c:342 src/arch/unix/c64ui.c:325
+#: src/arch/unix/c128ui.c:345 src/arch/unix/c64ui.c:328
 msgid "VIC-II settings"
 msgstr "Impostazioni del VIC-II"
 
-#: src/arch/unix/c128ui.c:344
+#: src/arch/unix/c128ui.c:347
 msgid "VDC settings"
 msgstr "Impostazioni del VDC"
 
-#: src/arch/unix/c128ui.c:346 src/arch/unix/c64ui.c:327
+#: src/arch/unix/c128ui.c:349 src/arch/unix/c64ui.c:330
 #: src/arch/unix/cbm2ui.c:376 src/arch/unix/vsidui.c:175
 msgid "SID settings"
 msgstr "Impostazioni del SID"
 
-#: src/arch/unix/c128ui.c:348
+#: src/arch/unix/c128ui.c:351
 msgid "Memory and I/O extensions"
 msgstr "Memoria ed estensioni di I/O"
 
-#: src/arch/unix/c128ui.c:350 src/arch/unix/c64ui.c:331
+#: src/arch/unix/c128ui.c:353 src/arch/unix/c64ui.c:334
 #: src/arch/unix/cbm2ui.c:369 src/arch/unix/vic20ui.c:355
 msgid "RS232 settings"
 msgstr "Impostazioni della RS232"
 
-#: src/arch/unix/c128ui.c:352
+#: src/arch/unix/c128ui.c:355
 msgid "Model settings"
 msgstr "Impostazioni del modello"
 
-#: src/arch/unix/c128ui.c:417 src/arch/unix/c64ui.c:394
+#: src/arch/unix/c128ui.c:420 src/arch/unix/c64ui.c:397
 #: src/arch/unix/cbm2ui.c:465 src/arch/unix/petui.c:386
 #: src/arch/unix/plus4ui.c:153 src/arch/unix/vic20ui.c:476
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "File"
 
-#: src/arch/unix/c128ui.c:436 src/arch/unix/c64ui.c:413
+#: src/arch/unix/c128ui.c:439 src/arch/unix/c64ui.c:416
 #: src/arch/unix/cbm2ui.c:482 src/arch/unix/petui.c:403
 #: src/arch/unix/plus4ui.c:170 src/arch/unix/vic20ui.c:495
 msgid "Snapshot"
 msgstr "Snapshot"
 
-#: src/arch/unix/c128ui.c:443 src/arch/unix/c64ui.c:420
+#: src/arch/unix/c128ui.c:446 src/arch/unix/c64ui.c:423
 #: src/arch/unix/cbm2ui.c:489 src/arch/unix/petui.c:410
 #: src/arch/unix/plus4ui.c:177 src/arch/unix/vic20ui.c:502
 msgid "Options"
 msgstr "Opzioni"
 
-#: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:432
+#: src/arch/unix/c128ui.c:458 src/arch/unix/c64ui.c:435
 #: src/arch/unix/cbm2ui.c:499 src/arch/unix/petui.c:418
 #: src/arch/unix/plus4ui.c:185 src/arch/unix/vic20ui.c:508
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1195
@@ -377,40 +382,41 @@ msgstr "Impostazioni"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:469 src/arch/unix/c64ui.c:446
+#: src/arch/unix/c128ui.c:472 src/arch/unix/c64ui.c:449
 #: src/arch/unix/cbm2ui.c:513 src/arch/unix/petui.c:432
 #: src/arch/unix/plus4ui.c:199 src/arch/unix/vic20ui.c:523
 msgid "RJHelp"
 msgstr "RJAiuto"
 
-#: src/arch/unix/c64ui.c:64 src/arch/unix/vsidui.c:129
+#: src/arch/unix/c64ui.c:65 src/arch/unix/vsidui.c:129
 msgid "*Old NTSC-M"
 msgstr "*NTSC-M vecchio"
 
-#: src/arch/unix/c64ui.c:277 src/arch/unix/petui.c:184
+#: src/arch/unix/c64ui.c:280 src/arch/unix/petui.c:184
 msgid "Load new kernal ROM"
 msgstr "Carica una nuova ROM del Kernal"
 
-#: src/arch/unix/c64ui.c:280 src/arch/unix/petui.c:190
+#: src/arch/unix/c64ui.c:283 src/arch/unix/petui.c:190
 msgid "Load new BASIC ROM"
 msgstr "Carica una nuova ROM del Basic"
 
-#: src/arch/unix/c64ui.c:283 src/arch/unix/petui.c:194
+#: src/arch/unix/c64ui.c:286 src/arch/unix/petui.c:194
 msgid "Load new character ROM"
 msgstr "Carica una nuova ROM del Chargen"
 
-#: src/arch/unix/c64ui.c:315 src/arch/unix/cbm2ui.c:399
+#: src/arch/unix/c64ui.c:318 src/arch/unix/cbm2ui.c:399
 #: src/arch/unix/petui.c:320 src/arch/unix/plus4ui.c:68
 #: src/arch/unix/vic20ui.c:396
 msgid "Screenshot..."
 msgstr "Cattura schermo..."
 
-#: src/arch/unix/c64ui.c:323
+#: src/arch/unix/c64ui.c:326
 msgid "ROM settings"
 msgstr "Impostazioni delle ROM"
 
-#: src/arch/unix/c64ui.c:329
-msgid "I/O extensions at $DFxx"
+#: src/arch/unix/c64ui.c:332
+#, fuzzy
+msgid "I/O extensions"
 msgstr "Estensioni di I/O a $DFxx"
 
 #: src/arch/unix/cbm2ui.c:71
@@ -985,7 +991,7 @@ msgstr "Selezione intelligente di un file"
 msgid "Unknown image type"
 msgstr "Tipo di immagine sconosciuto"
 
-#: src/arch/unix/uicommands.c:274 src/arch/unix/uicommands.c:531
+#: src/arch/unix/uicommands.c:274 src/arch/unix/uicommands.c:525
 #: src/arch/unix/uisettings.c:335
 msgid "VICE setting"
 msgstr "Impostazioni di VICE"
@@ -994,7 +1000,7 @@ msgstr "Impostazioni di VICE"
 msgid "Change current working directory"
 msgstr "Cambia la directory di lavoro"
 
-#: src/arch/unix/uicommands.c:278 src/arch/unix/uicommands.c:536
+#: src/arch/unix/uicommands.c:278 src/arch/unix/uicommands.c:530
 msgid "Directory not found"
 msgstr "Directory non trovata"
 
@@ -1010,34 +1016,34 @@ msgstr "Non è possibile eseguire xterm"
 msgid "Unknown error while running c1541"
 msgstr "Errore sconosciuto durante l'esecuzione di c1541"
 
-#: src/arch/unix/uicommands.c:351
+#: src/arch/unix/uicommands.c:345
 msgid "No HTML browser is defined."
 msgstr "Non è specificato nessun browser HTML."
 
-#: src/arch/unix/uicommands.c:370 src/arch/unix/uicommands.c:384
-#: src/arch/unix/uicommands.c:397
+#: src/arch/unix/uicommands.c:364 src/arch/unix/uicommands.c:378
+#: src/arch/unix/uicommands.c:391
 msgid "Browser command too long."
 msgstr "Il comando inviato al browser è troppo lungo."
 
-#: src/arch/unix/uicommands.c:410
+#: src/arch/unix/uicommands.c:404
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Esecuzione di `%s'..."
 
-#: src/arch/unix/uicommands.c:412
+#: src/arch/unix/uicommands.c:406
 msgid "Cannot run HTML browser."
 msgstr "Non è possibile eseguire il browser HTML."
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:445
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Caricamento veloce del file %s."
 
-#: src/arch/unix/uicommands.c:454
+#: src/arch/unix/uicommands.c:448
 msgid "Load snapshot"
 msgstr "Carica snapshot"
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:462
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -1047,12 +1053,12 @@ msgstr ""
 "`%s'"
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:498
+#: src/arch/unix/uicommands.c:492
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Salvataggio veloce del file %s."
 
-#: src/arch/unix/uicommands.c:500 src/arch/unix/x11/gnome/uisnapshot.c:126
+#: src/arch/unix/uicommands.c:494 src/arch/unix/x11/gnome/uisnapshot.c:126
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -1062,276 +1068,181 @@ msgstr ""
 "Non è possibile scrivere il file di snapshot\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:532 src/arch/unix/uicommands.c:1058
+#: src/arch/unix/uicommands.c:526 src/arch/unix/uicommands.c:725
 msgid "Select history directory"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:588
+#: src/arch/unix/uicommands.c:582
 msgid "Record sound to file"
 msgstr "Registra l'audio su file"
 
-#: src/arch/unix/uicommands.c:670
-msgid "Load "
-msgstr "Carica "
-
-#: src/arch/unix/uicommands.c:670 src/arch/unix/x11/xaw/uicartridge.c:167
-#: src/arch/unix/x11/xaw/uiedisk.c:404
-#: src/arch/unix/x11/xaw/uiscreenshot.c:254
-#: src/arch/unix/x11/xaw/uisnapshot.c:285
-msgid "Save"
-msgstr "Salva"
-
-#: src/arch/unix/uicommands.c:670
-msgid "Fliplist File"
-msgstr "File della Fliplist"
-
-#: src/arch/unix/uicommands.c:680
-#, c-format
-msgid "Successfully read `%s'."
-msgstr "Lettura di `%s' riuscita."
-
-#: src/arch/unix/uicommands.c:682
-#, c-format
-msgid "Error reading `%s'."
-msgstr "Errore durante la lettura di `%s'."
-
-#: src/arch/unix/uicommands.c:685
-#, c-format
-msgid "Successfully wrote `%s'."
-msgstr "Scruttura di `%s' riuscita."
-
-#: src/arch/unix/uicommands.c:687
-#, c-format
-msgid "Error writing `%s'."
-msgstr "Errore durante la scrittura di `%s'."
-
-#: src/arch/unix/uicommands.c:728
-#, c-format
-msgid "Attach #%d"
-msgstr "Seleziona #%d"
-
-#: src/arch/unix/uicommands.c:735
-#, c-format
-msgid "Detach #%d"
-msgstr "Rimuovi #%d"
-
-#: src/arch/unix/uicommands.c:751
-msgid "*Write Protect"
-msgstr "*Prottetto da scrittura"
-
-#: src/arch/unix/uicommands.c:777
-msgid "Next: "
-msgstr "Prossimo: "
-
-#: src/arch/unix/uicommands.c:777 src/arch/unix/uicommands.c:792
-#: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:857
-#: src/arch/unix/x11/gnome/x11ui.c:1533
-msgid "<empty>"
-msgstr "<vuoto>"
-
-#: src/arch/unix/uicommands.c:792
-msgid "Previous: "
-msgstr "Precedente: "
-
-#: src/arch/unix/uicommands.c:807
-msgid "Add: "
-msgstr "Aggiungi: "
-
-#: src/arch/unix/uicommands.c:822
-msgid "Remove: "
-msgstr "Rimuovi: "
-
-#: src/arch/unix/uicommands.c:920 src/arch/unix/uicommands.c:932
+#: src/arch/unix/uicommands.c:603 src/arch/unix/uicommands.c:615
 msgid "Unit #8..."
 msgstr "Unità #8..."
 
-#: src/arch/unix/uicommands.c:922 src/arch/unix/uicommands.c:935
+#: src/arch/unix/uicommands.c:605 src/arch/unix/uicommands.c:618
 msgid "Unit #9..."
 msgstr "Unità #9..."
 
-#: src/arch/unix/uicommands.c:924 src/arch/unix/uicommands.c:938
+#: src/arch/unix/uicommands.c:607 src/arch/unix/uicommands.c:621
 msgid "Unit #10..."
 msgstr "Unità #10..."
 
-#: src/arch/unix/uicommands.c:926 src/arch/unix/uicommands.c:941
+#: src/arch/unix/uicommands.c:609 src/arch/unix/uicommands.c:624
 msgid "Unit #11..."
 msgstr "Unità #11..."
 
-#: src/arch/unix/uicommands.c:948 src/arch/unix/uicommands.c:970
+#: src/arch/unix/uicommands.c:631 src/arch/unix/uicommands.c:653
 msgid "Unit #8"
 msgstr "Unità #8"
 
-#: src/arch/unix/uicommands.c:950 src/arch/unix/uicommands.c:972
+#: src/arch/unix/uicommands.c:633 src/arch/unix/uicommands.c:655
 msgid "Unit #9"
 msgstr "Unità #9"
 
-#: src/arch/unix/uicommands.c:952
+#: src/arch/unix/uicommands.c:635 src/arch/unix/uicommands.c:657
 msgid "Unit #10"
 msgstr "Unità #10"
 
-#: src/arch/unix/uicommands.c:954
+#: src/arch/unix/uicommands.c:637 src/arch/unix/uicommands.c:659
 msgid "Unit #11"
 msgstr "Unità #11"
 
-#: src/arch/unix/uicommands.c:957
+#: src/arch/unix/uicommands.c:640
 msgid "All"
 msgstr "Tutti"
 
-#: src/arch/unix/uicommands.c:963
+#: src/arch/unix/uicommands.c:646
 msgid "Soft"
 msgstr "Soft"
 
-#: src/arch/unix/uicommands.c:966
+#: src/arch/unix/uicommands.c:649
 msgid "Hard"
 msgstr "Hard"
 
-#: src/arch/unix/uicommands.c:978
-msgid "Add current image (Unit 8)"
-msgstr "Aggiungi l'immagine attuale (Unità 8)"
-
-#: src/arch/unix/uicommands.c:981
-msgid "Remove current image (Unit 8)"
-msgstr "Rimuovi l'immagine attuale (Unità 8)"
-
-#: src/arch/unix/uicommands.c:984
-msgid "Attach next image (Unit 8)"
-msgstr "Seleziona la prossima immagine (Unità 8)"
-
-#: src/arch/unix/uicommands.c:987
-msgid "Attach previous image (Unit 8)"
-msgstr "Seleziona l'immagine precedente (Unità 8)"
-
-#: src/arch/unix/uicommands.c:990
-msgid "Load fliplist file"
-msgstr "Carica il file della fliplist"
-
-#: src/arch/unix/uicommands.c:992
-msgid "Save fliplist file"
-msgstr "Salva il file della fliplist"
-
-#: src/arch/unix/uicommands.c:998
+#: src/arch/unix/uicommands.c:665
 msgid "Attach a disk image"
 msgstr "Seleziona l'immagine di un disco"
 
-#: src/arch/unix/uicommands.c:1000
+#: src/arch/unix/uicommands.c:667
 msgid "Create and attach an empty disk"
 msgstr "Crea e seleziona un disco vuoto"
 
-#: src/arch/unix/uicommands.c:1002
+#: src/arch/unix/uicommands.c:669
 msgid "Detach disk image"
 msgstr "Rimuovi l'immagine di un disco"
 
-#: src/arch/unix/uicommands.c:1004
+#: src/arch/unix/uicommands.c:671
 msgid "Fliplist"
 msgstr "Fliplist"
 
-#: src/arch/unix/uicommands.c:1010
+#: src/arch/unix/uicommands.c:677
 msgid "Attach a tape image..."
 msgstr "Seleziona l'immagine di una cassetta..."
 
-#: src/arch/unix/uicommands.c:1013
+#: src/arch/unix/uicommands.c:680
 msgid "Detach tape image"
 msgstr "Rimuovi l'immagine della cassetta"
 
-#: src/arch/unix/uicommands.c:1019
+#: src/arch/unix/uicommands.c:686
 msgid "Smart-attach disk/tape..."
 msgstr "Selezione intelligente..."
 
-#: src/arch/unix/uicommands.c:1026
+#: src/arch/unix/uicommands.c:693
 msgid "Change working directory..."
 msgstr "Cambia la directory di lavoro..."
 
-#: src/arch/unix/uicommands.c:1034
+#: src/arch/unix/uicommands.c:701
 msgid "*Save new snapshot"
 msgstr "*Salva nuovo snapshot"
 
-#: src/arch/unix/uicommands.c:1036
+#: src/arch/unix/uicommands.c:703
 msgid "*Load existing snapshot"
 msgstr "*Carica snapshot esistente"
 
-#: src/arch/unix/uicommands.c:1038
+#: src/arch/unix/uicommands.c:705
 msgid "*Start with reset"
 msgstr "*Inizia con reset"
 
-#: src/arch/unix/uicommands.c:1044
+#: src/arch/unix/uicommands.c:711
 msgid "Load snapshot..."
 msgstr "Carica snapshot..."
 
-#: src/arch/unix/uicommands.c:1047
+#: src/arch/unix/uicommands.c:714
 msgid "Save snapshot..."
 msgstr "Salva snapshot..."
 
-#: src/arch/unix/uicommands.c:1051
+#: src/arch/unix/uicommands.c:718
 msgid "Quickload snapshot"
 msgstr "Caricamento veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:1054
+#: src/arch/unix/uicommands.c:721
 msgid "Quicksave snapshot"
 msgstr "Salvataggio veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:1060
+#: src/arch/unix/uicommands.c:727
 msgid "Start recording events"
 msgstr "Inizia la registrazione degli eventi"
 
-#: src/arch/unix/uicommands.c:1062
+#: src/arch/unix/uicommands.c:729
 msgid "Stop recording events"
 msgstr "Termina la registrazione degli eventi"
 
-#: src/arch/unix/uicommands.c:1064
+#: src/arch/unix/uicommands.c:731
 msgid "Start playing back events"
 msgstr "Inizia la riproduzione degli eventi"
 
-#: src/arch/unix/uicommands.c:1066
+#: src/arch/unix/uicommands.c:733
 msgid "Stop playing back events"
 msgstr "Termina la riproduzione degli eventi"
 
-#: src/arch/unix/uicommands.c:1068
+#: src/arch/unix/uicommands.c:735
 msgid "Set recording milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1070
+#: src/arch/unix/uicommands.c:737
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1073
+#: src/arch/unix/uicommands.c:740
 msgid "Recording start mode"
 msgstr "Modalità di inizio registrazione"
 
-#: src/arch/unix/uicommands.c:1079
+#: src/arch/unix/uicommands.c:746
 msgid "Snapshot commands"
 msgstr "Comandi snapshot"
 
-#: src/arch/unix/uicommands.c:1085
+#: src/arch/unix/uicommands.c:752
 msgid "Sound record..."
 msgstr "Registra audio..."
 
-#: src/arch/unix/uicommands.c:1092
+#: src/arch/unix/uicommands.c:759
 msgid "Activate monitor"
 msgstr "Attiva il monitor"
 
-#: src/arch/unix/uicommands.c:1095
+#: src/arch/unix/uicommands.c:762
 msgid "Run C1541"
 msgstr "Esegui C1541"
 
-#: src/arch/unix/uicommands.c:1103
+#: src/arch/unix/uicommands.c:770
 msgid "Browse manuals"
 msgstr "Sfoglia i manuali"
 
-#: src/arch/unix/uicommands.c:1105
+#: src/arch/unix/uicommands.c:772
 msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
-#: src/arch/unix/uicommands.c:1111 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:778 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1928
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:1113
+#: src/arch/unix/uicommands.c:780
 msgid "*Pause"
 msgstr "*Pausa"
 
-#: src/arch/unix/uicommands.c:1120
+#: src/arch/unix/uicommands.c:787
 msgid "Exit emulator"
 msgstr "Esci dall'emulatore"
 
@@ -1686,6 +1597,156 @@ msgstr "Drive #10: Tipo di floppy disk"
 msgid "Drive #11 floppy disk type"
 msgstr "Drive #11: Tipo di floppy disk"
 
+#: src/arch/unix/uifliplist.c:86
+msgid "Load "
+msgstr "Carica "
+
+#: src/arch/unix/uifliplist.c:86 src/arch/unix/x11/xaw/uicartridge.c:167
+#: src/arch/unix/x11/xaw/uiedisk.c:404
+#: src/arch/unix/x11/xaw/uiscreenshot.c:254
+#: src/arch/unix/x11/xaw/uisnapshot.c:285
+msgid "Save"
+msgstr "Salva"
+
+#: src/arch/unix/uifliplist.c:86
+msgid "Fliplist File"
+msgstr "File della Fliplist"
+
+#: src/arch/unix/uifliplist.c:96
+#, c-format
+msgid "Successfully read `%s'."
+msgstr "Lettura di `%s' riuscita."
+
+#: src/arch/unix/uifliplist.c:98
+#, c-format
+msgid "Error reading `%s'."
+msgstr "Errore durante la lettura di `%s'."
+
+#: src/arch/unix/uifliplist.c:101
+#, c-format
+msgid "Successfully wrote `%s'."
+msgstr "Scruttura di `%s' riuscita."
+
+#: src/arch/unix/uifliplist.c:103
+#, c-format
+msgid "Error writing `%s'."
+msgstr "Errore durante la scrittura di `%s'."
+
+#: src/arch/unix/uifliplist.c:116
+msgid "Add current image (Unit 8)"
+msgstr "Aggiungi l'immagine attuale (Unità 8)"
+
+#: src/arch/unix/uifliplist.c:119
+msgid "Remove current image (Unit 8)"
+msgstr "Rimuovi l'immagine attuale (Unità 8)"
+
+#: src/arch/unix/uifliplist.c:122
+msgid "Attach next image (Unit 8)"
+msgstr "Seleziona la prossima immagine (Unità 8)"
+
+#: src/arch/unix/uifliplist.c:125
+msgid "Attach previous image (Unit 8)"
+msgstr "Seleziona l'immagine precedente (Unità 8)"
+
+#: src/arch/unix/uifliplist.c:128
+msgid "Load fliplist file"
+msgstr "Carica il file della fliplist"
+
+#: src/arch/unix/uifliplist.c:130
+msgid "Save fliplist file"
+msgstr "Salva il file della fliplist"
+
+#: src/arch/unix/uifliplist.c:188
+#, c-format
+msgid "Attach #%d"
+msgstr "Seleziona #%d"
+
+#: src/arch/unix/uifliplist.c:195
+#, c-format
+msgid "Detach #%d"
+msgstr "Rimuovi #%d"
+
+#: src/arch/unix/uifliplist.c:211
+msgid "*Write Protect"
+msgstr "*Prottetto da scrittura"
+
+#: src/arch/unix/uifliplist.c:237
+msgid "Next: "
+msgstr "Prossimo: "
+
+#: src/arch/unix/uifliplist.c:237 src/arch/unix/uifliplist.c:252
+#: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:857
+#: src/arch/unix/x11/gnome/x11ui.c:1533
+msgid "<empty>"
+msgstr "<vuoto>"
+
+#: src/arch/unix/uifliplist.c:252
+msgid "Previous: "
+msgstr "Precedente: "
+
+#: src/arch/unix/uifliplist.c:267
+msgid "Add: "
+msgstr "Aggiungi: "
+
+#: src/arch/unix/uifliplist.c:282
+msgid "Remove: "
+msgstr "Rimuovi: "
+
+#: src/arch/unix/uiide64.c:49
+#, fuzzy
+msgid "IDE64 image name"
+msgstr "Nome dell'immagine REU"
+
+#: src/arch/unix/uiide64.c:63 src/arch/unix/uireu.c:66
+msgid "Name:"
+msgstr "Nome:"
+
+#: src/arch/unix/uiide64.c:99
+msgid "Enter number of cylinders"
+msgstr ""
+
+#: src/arch/unix/uiide64.c:100
+msgid "IDE64 cylinders"
+msgstr ""
+
+#: src/arch/unix/uiide64.c:138
+msgid "Enter number of heads"
+msgstr ""
+
+#: src/arch/unix/uiide64.c:139
+msgid "IDE64 heads"
+msgstr ""
+
+#: src/arch/unix/uiide64.c:177
+msgid "Enter number of sectors"
+msgstr ""
+
+#: src/arch/unix/uiide64.c:178
+msgid "IDE64 sectors"
+msgstr ""
+
+#: src/arch/unix/uiide64.c:192
+#, fuzzy
+msgid "IDE64 image name..."
+msgstr "Nome dell'immagine REU..."
+
+#: src/arch/unix/uiide64.c:195
+msgid "*Autodetect image size"
+msgstr ""
+
+#: src/arch/unix/uiide64.c:197
+msgid "*Cylinders..."
+msgstr ""
+
+#: src/arch/unix/uiide64.c:199
+msgid "*Heads..."
+msgstr ""
+
+#: src/arch/unix/uiide64.c:201
+#, fuzzy
+msgid "*Sectors..."
+msgstr "Registra audio..."
+
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:110
 #: src/arch/unix/vic20ui.c:291
 msgid "*Numpad"
@@ -1969,23 +2030,19 @@ msgstr "Dispositivo di stampa 2..."
 msgid "Printer text device 3..."
 msgstr "Dispositivo di stampa 3..."
 
-#: src/arch/unix/uireu.c:51
+#: src/arch/unix/uireu.c:52
 msgid "REU image name"
 msgstr "Nome dell'immagine REU"
 
-#: src/arch/unix/uireu.c:65
-msgid "Name:"
-msgstr "Nome:"
-
-#: src/arch/unix/uireu.c:95
+#: src/arch/unix/uireu.c:96
 msgid "*Enable REU"
 msgstr "*Attiva REU"
 
-#: src/arch/unix/uireu.c:97
+#: src/arch/unix/uireu.c:98
 msgid "REU size"
 msgstr "Dimensione"
 
-#: src/arch/unix/uireu.c:99
+#: src/arch/unix/uireu.c:100
 msgid "REU image name..."
 msgstr "Nome dell'immagine REU..."
 
@@ -2082,7 +2139,7 @@ msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
 #: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/x11ui.c:1336
-#: src/arch/unix/x11/xaw/x11ui.c:1036
+#: src/arch/unix/x11/xaw/x11ui.c:1037
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
 
@@ -2804,17 +2861,17 @@ msgstr "Non è possibile aggiungere il percorso per i font `%s'.\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Imposto il percorso per i font: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:610 src/arch/unix/x11/xaw/x11ui.c:484
+#: src/arch/unix/x11/gnome/x11ui.c:610 src/arch/unix/x11/xaw/x11ui.c:485
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Questo display non supporta visuali di %dbit adatte."
 
-#: src/arch/unix/x11/gnome/x11ui.c:613 src/arch/unix/x11/xaw/x11ui.c:487
+#: src/arch/unix/x11/gnome/x11ui.c:613 src/arch/unix/x11/xaw/x11ui.c:488
 msgid "Please select a bit depth supported by your display."
 msgstr "Per favore seleziona una profondita supportata dal tuo display"
 
 #: src/arch/unix/x11/gnome/x11ui.c:616 src/arch/unix/x11/gnome/x11ui.c:640
-#: src/arch/unix/x11/xaw/x11ui.c:490 src/arch/unix/x11/xaw/x11ui.c:507
+#: src/arch/unix/x11/xaw/x11ui.c:491 src/arch/unix/x11/xaw/x11ui.c:508
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Trovata una visuale %dbit/%s."
@@ -2824,7 +2881,7 @@ msgstr "Trovata una visuale %dbit/%s."
 msgid "Found %dbit visual."
 msgstr "Trovata una visuale %dbit."
 
-#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/xaw/x11ui.c:515
+#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/xaw/x11ui.c:516
 msgid "Cannot autodetect a proper visual."
 msgstr "Non è possibile determinare una visuale appropriata."
 
@@ -2872,7 +2929,7 @@ msgstr "Drive %d: "
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1012 src/arch/unix/x11/xaw/x11ui.c:596
+#: src/arch/unix/x11/gnome/x11ui.c:1012 src/arch/unix/x11/xaw/x11ui.c:597
 msgid "Maximum number of toplevel windows reached."
 msgstr "E' stato raggiunto il numero massimo di finestre di toplevel."
 
@@ -2884,24 +2941,24 @@ msgstr "Comandi"
 msgid "Help"
 msgstr "Aiuto"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1319 src/arch/unix/x11/xaw/x11ui.c:1021
+#: src/arch/unix/x11/gnome/x11ui.c:1319 src/arch/unix/x11/xaw/x11ui.c:1022
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1326 src/arch/unix/x11/xaw/x11ui.c:1025
+#: src/arch/unix/x11/gnome/x11ui.c:1326 src/arch/unix/x11/xaw/x11ui.c:1026
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1033
+#: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1034
 msgid "Save the current settings?"
 msgstr "Salva le impostazioni attuali?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1378 src/arch/unix/x11/xaw/x11ui.c:1074
+#: src/arch/unix/x11/gnome/x11ui.c:1378 src/arch/unix/x11/xaw/x11ui.c:1075
 msgid "Using private colormap."
 msgstr "Uso una palette privata."
 
 #: src/arch/unix/x11/gnome/x11ui.c:1398 src/arch/unix/x11/gnome/x11ui.c:1401
-#: src/arch/unix/x11/xaw/x11ui.c:1095 src/arch/unix/x11/xaw/x11ui.c:1101
+#: src/arch/unix/x11/xaw/x11ui.c:1096 src/arch/unix/x11/xaw/x11ui.c:1102
 msgid "(warp)"
 msgstr "(turbo)"
 
@@ -2912,7 +2969,7 @@ msgstr "(turbo)"
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1737 src/arch/unix/x11/xaw/x11ui.c:1322
+#: src/arch/unix/x11/gnome/x11ui.c:1737 src/arch/unix/x11/xaw/x11ui.c:1323
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
@@ -2933,7 +2990,7 @@ msgstr "Hard Reset"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1973 src/arch/unix/x11/xaw/x11ui.c:1600
+#: src/arch/unix/x11/gnome/x11ui.c:1973 src/arch/unix/x11/xaw/x11ui.c:1601
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
@@ -3271,16 +3328,16 @@ msgstr "Salva le ROM attualmente caricate:"
 msgid "Save snapshot"
 msgstr "Salva snapshot"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1187
+#: src/arch/unix/x11/xaw/x11ui.c:1188
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Traccia %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1485
+#: src/arch/unix/x11/xaw/x11ui.c:1486
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1668
+#: src/arch/unix/x11/xaw/x11ui.c:1669
 msgid "Unknown image type."
 msgstr "Tipo di immagine sconosciuto."
 
