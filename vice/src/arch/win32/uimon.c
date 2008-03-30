@@ -37,6 +37,7 @@
 
 #include "fullscreen.h"
 #include "mon.h"
+#include "mon_register.h"
 #include "mon_util.h"
 #include "res.h"
 #include "resources.h"
@@ -49,6 +50,8 @@
 
 
 /**/
+// @@@SRT: TODO: This is just a quick hack!
+
 #include "asm.h"
 extern monitor_cpu_type_t monitor_cpu_type;
 
@@ -56,7 +59,7 @@ extern monitor_cpu_type_t monitor_cpu_type;
    ((monitor_cpu_type.mon_register_get_val)(_a_, _b_))
 /**/
 
-#define DEBUG_UIMON
+// #define DEBUG_UIMON
 
 /* Debugging stuff.  */
 #ifdef DEBUG_UIMON
@@ -86,12 +89,24 @@ static void uimon_debug(const char *format, ...)
 
 #ifdef UIMON_EXPERIMENTAL
 
-// #define OPEN_DISASSEMBLY_AS_POPUP
-// #define OPEN_REGISTRY_AS_POPUP
+   #define OPEN_DISASSEMBLY_AS_POPUP
+   #define OPEN_REGISTRY_AS_POPUP
 
 static HWND hwndConsole   = NULL;
 static HWND hwndMdiClient = NULL;
-static HWND hwndToolbar = NULL;
+static HWND hwndToolbar   = NULL;
+static HWND hwndMonitor   = NULL;
+
+
+typedef
+struct uimon_client_windows_s
+{
+    HWND hwnd;
+    struct uimon_client_windows_s *next;
+} uimon_client_windows_t;
+
+uimon_client_windows_t *first_client_window = NULL;
+
 
 static console_t *console_log = NULL;
 static console_t  console_log_for_mon = { -50, -50, -50 };
@@ -104,6 +119,37 @@ static HWND hwndParent = NULL;
 static HWND hwndActive = NULL;
 
 
+/**/
+void add_client_window( HWND hwnd )
+{
+    uimon_client_windows_t *new_client = xmalloc( sizeof(uimon_client_windows_t) );
+
+    new_client->hwnd = hwnd;
+    new_client->next = first_client_window;
+
+    first_client_window = new_client;
+}
+
+void delete_client_window( HWND hwnd )
+{
+    uimon_client_windows_t *pold = NULL;
+    uimon_client_windows_t *p;
+
+    for (p = first_client_window; p; pold = p, p = p->next)
+    {
+        if (p->hwnd == hwnd)
+        {
+            if (pold)
+                pold->next = p->next;
+            else
+                first_client_window = p->next;
+
+            free(p);
+            break;
+        }
+    }
+}
+/**/
 
 static monitor_interface_t **monitor_interface;
 static int                   count_monitor_interface;
@@ -126,6 +172,7 @@ void uimon_set_interface(monitor_interface_t **monitor_interface_init,
 #define WM_OWNCOMMAND (WM_USER+0x100)
 #define WM_CHANGECOMPUTERDRIVE (WM_OWNCOMMAND+1)
 #define WM_GETWINDOWTYPE       (WM_OWNCOMMAND+2)
+#define WM_UPDATEVAL           (WM_OWNCOMMAND+3)
 
 /*
  The following definitions (RT_TOOLBAR, CToolBarData) are from the MFC sources
@@ -228,27 +275,31 @@ quit:
 static
 HWND iOpenDisassembly( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 {
+    HWND hwndDis;
+
 #ifdef OPEN_DISASSEMBLY_AS_POPUP
     #define DEF_DIS_PROG DefWindowProc
-    HWND hwndReg = CreateWindowEx(
+    hwndDis = CreateWindowEx(
         WS_EX_TOOLWINDOW,
         DIS_CLASS,
         "Disassembly",
-        WS_CAPTION|WS_POPUPWINDOW|dwStyle,
+        WS_OVERLAPPEDWINDOW|WS_VSCROLL|dwStyle, // WS_CAPTION|WS_POPUPWINDOW|WS_THICKFRAME|WS_SYSMENU|dwStyle,
         x,
         y,
         dx,
         dy,
-        hwndMdiClient,
+        hwndMonitor, // hwndMdiClient,
         NULL,
         winmain_instance,
         NULL);
 
-    ShowWindow( hwndReg, SW_SHOW );
-    return hwndReg;
+    add_client_window( hwndDis );
+
+    ShowWindow( hwndDis, SW_SHOW );
+
 #else /* #ifdef OPEN_DISASSEMBLY_AS_POPUP */
     #define DEF_DIS_PROG DefMDIChildProc
-    return CreateMDIWindow(DIS_CLASS,
+    hwndDis = CreateMDIWindow(DIS_CLASS,
         "Disassembly",
         dwStyle,
         x,
@@ -258,14 +309,19 @@ HWND iOpenDisassembly( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
         hwndMdiClient,
         winmain_instance,
         0);
+
+    add_client_window( hwndDis );
+
 #endif /* #ifdef OPEN_DISASSEMBLY_AS_POPUP */
+
+    return hwndDis;
 }
 
 static
 HWND OpenDisassembly( HWND hwnd )
 {
 	// @SRT: TODO: Adjust parameter!
-    return iOpenDisassembly( hwnd, 0, 0, 0, 500, 500 );
+    return iOpenDisassembly( hwnd, 0, 0, 0, 300, 300 );
 }
 
 static
@@ -301,9 +357,12 @@ HWND OpenConsole( HWND hwnd, BOOLEAN bOpen )
 static
 HWND iOpenRegistry( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 {
+    HWND hwndReg;
+
 #ifdef OPEN_REGISTRY_AS_POPUP
+
     #define DEF_REG_PROG DefWindowProc
-    HWND hwndReg = CreateWindowEx(
+    hwndReg = CreateWindowEx(
         WS_EX_TOOLWINDOW,
         REG_CLASS,
         "Register",
@@ -317,11 +376,14 @@ HWND iOpenRegistry( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
         winmain_instance,
         NULL);
 
+    add_client_window( hwndReg );
     ShowWindow( hwndReg, SW_SHOW );
     return hwndReg;
+
 #else /* #ifdef OPEN_REGISTRY_AS_POPUP */
+
     #define DEF_REG_PROG DefMDIChildProc
-    return CreateMDIWindow(REG_CLASS,
+    hwndReg = CreateMDIWindow(REG_CLASS,
         "Register",
         dwStyle,
         x,  // 0 is sufficient here
@@ -331,14 +393,19 @@ HWND iOpenRegistry( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
         hwndMdiClient,
         winmain_instance,
         0);
+
+    add_client_window( hwndReg );
+
 #endif /* #ifdef OPEN_REGISTRY_AS_POPUP */
+
+    return hwndReg;
 }
 
 static
 HWND OpenRegistry( HWND hwnd )
 {
 	// @SRT: TODO: Adjust parameter!
-    return iOpenRegistry( hwnd, 0, 30, 100, 0, 0 );
+    return iOpenRegistry( hwnd, 0, 30, 100, 100, 100 );
 }
 
 /**********************************************************************************
@@ -731,6 +798,7 @@ void StoreMonitorDimensions(HWND hwnd)
     char *dimensions;
     BYTE  buffer[1024]; // @SRT
     BYTE *p = buffer;
+    uimon_client_windows_t *clients;
 
 	WINDOWPLACEMENT wpPlacement;
 	wpPlacement.length = sizeof(WINDOWPLACEMENT);
@@ -741,6 +809,10 @@ void StoreMonitorDimensions(HWND hwnd)
 
 	// store info for open windows in structure
 	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowStoreProc,0);
+
+    for (clients = first_client_window; clients; clients=clients->next )
+        WindowStoreProc( clients->hwnd, 0 );
+
 	WindowStore(&p);
 
     dimensions = encode(buffer,(int)(p-buffer)); // @SRT
@@ -970,10 +1042,10 @@ long CALLBACK mon_window_proc(HWND hwnd,
 	{
 	case WM_CLOSE:
         SET_COMMAND("x");
+        StoreMonitorDimensions(hwnd);
 		break;
 
 	case WM_DESTROY:
-        StoreMonitorDimensions(hwnd);
         return DefFrameProc(hwnd, hwndMdiClient, msg, wParam, lParam);
 
     case WM_CONSOLE_RESIZED:
@@ -1065,14 +1137,167 @@ void ActivateChild( BOOL bActivated, HWND hwndOwn, MEMSPACE memspace )
 	}
 }
 
+
 typedef
 struct reg_private
 {
-    int charwidth;
-    int charheight;
-	MEMSPACE memspace;
-	int LastShownRegs[16];
+    int           charwidth;
+    int           charheight;
+	MEMSPACE      memspace;
+	unsigned int *LastShownRegs;
+    unsigned int  RegCount;
 } reg_private_t;
+
+static
+void update_last_shown_regs( reg_private_t *prp )
+{
+    mon_reg_list_t *pMonRegs = mon_register_list_get(prp->memspace);
+    mon_reg_list_t *p;
+    unsigned int    cnt;
+
+    if (prp->LastShownRegs!=NULL)
+    {
+        for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++ )
+        {
+            if (cnt < prp->RegCount)
+            {
+                prp->LastShownRegs[cnt] = p->val;
+            }
+        }
+    }
+
+    free( pMonRegs );
+}
+
+static
+BOOLEAN output_register(HDC hdc, reg_private_t *prp, PRECT clientrect)
+{
+    mon_reg_list_t *pMonRegs = mon_register_list_get(prp->memspace);
+    mon_reg_list_t *p;
+
+    BOOLEAN      changed_dimensions = FALSE;
+    int          x                  = 0;
+    unsigned int cnt;
+
+    if (prp->LastShownRegs==NULL)
+    {
+        // initialize the values which have been last shown
+        for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++ )
+            ;
+
+        prp->RegCount      = cnt;
+        prp->LastShownRegs = xmalloc( sizeof(int) * cnt );
+
+        // ensure that ALL registers appear changed this time!
+        for (p = pMonRegs, cnt = 0; p != NULL; p = p->next )
+        {
+            prp->LastShownRegs[cnt++] = ~(p->val);
+        }
+    }
+
+    // clear client area of window
+    {
+        HGDIOBJ hg = SelectObject( hdc, GetStockObject( NULL_PEN ) );
+        Rectangle( hdc, clientrect->left, clientrect->top, 
+            clientrect->right, clientrect->bottom );
+        SelectObject( hdc, hg );
+    }
+
+    for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++ )
+    {
+        char  buffer[5];
+        int   namelen    = strlen(p->name);
+        int   center     = 0;
+        int   vallen;
+
+        int   changedbits = 0;
+
+        if (cnt < prp->RegCount)
+        {
+            changedbits = prp->LastShownRegs[cnt] ^ p->val;
+        }
+
+        if (p->flags)
+        {
+            unsigned int i;
+            unsigned int val       = p->val << (16-p->size);
+            unsigned int changed_i = changedbits << (16-p->size);
+
+            for (i=0;i<p->size;i++)
+            {
+                char pw = val & 0x8000 ? '1' : '0';
+                BOOL changed = changed_i & 0x8000 ? TRUE : FALSE;
+
+                val       <<= 1;
+                changed_i <<= 1;
+
+                // output value of register
+                SetTextColor(hdc,RGB(changed?0xFF:0,0,0));
+                TextOut( hdc, (x+i)*prp->charwidth, prp->charheight, &pw, 1 );
+            }
+
+            vallen = p->size;
+        }
+        else
+        {
+            switch (p->size)
+            {
+            case 8:
+                vallen = 2;
+                sprintf(buffer, "%02X ", p->val );
+                break;
+
+            case 16:
+                vallen = 4;
+                sprintf(buffer, "%04X ", p->val );
+                break;
+
+            default:
+                vallen    = namelen;
+                buffer[0] = 0;
+                break;
+            };
+
+            // output value of register
+            SetTextColor(hdc,RGB(changedbits?0xFF:0,0,0));
+            TextOut( hdc, x*prp->charwidth, prp->charheight, buffer, vallen );
+        }
+
+        center = (vallen-namelen)/2;
+
+        // output name of register
+        SetTextColor(hdc,RGB(0,0,0));
+        TextOut( hdc, (x+center)*prp->charwidth, 0, p->name, namelen );
+
+        x += vallen+1;
+    }
+
+    --x;
+    if ( x*prp->charwidth != clientrect->right)
+    {
+        clientrect->right = x*prp->charwidth;
+        changed_dimensions = TRUE;
+    }
+
+    if ( 2*prp->charheight != clientrect->bottom)
+    {
+        clientrect->bottom = 2*prp->charheight;
+        changed_dimensions = TRUE;
+    }
+
+    if (changed_dimensions)
+    {
+        free( prp->LastShownRegs );
+        prp->LastShownRegs = NULL;
+        prp->RegCount      = 0;
+
+        /* we will be redrawn in the not so far future! */
+    }
+
+    free( pMonRegs );
+
+    return changed_dimensions;
+}
 
 /* window procedure */
 static 
@@ -1084,20 +1309,31 @@ long CALLBACK reg_window_proc(HWND hwnd,
 
 	switch (msg)
 	{
+    case WM_UPDATEVAL:
+        update_last_shown_regs(prp);
+        return 0;
+
 	case WM_DESTROY:
-		// clear the dis_private info 
+        delete_client_window(hwnd);
+		// free the reg_private info 
 		free(prp);
 		SetWindowLong( hwnd, GWL_USERDATA, 0 );
 
 	    return DEF_REG_PROG(hwnd, msg, wParam, lParam);
 
+#ifdef OPEN_REGISTRY_AS_POPUP
+
     case WM_ACTIVATE:
         ActivateChild( (LOWORD(wParam)!=WA_INACTIVE) ? TRUE:FALSE, hwnd, prp->memspace );
         break;
 
+#else  // #ifdef OPEN_REGISTRY_AS_POPUP
+
 	case WM_MDIACTIVATE:
         ActivateChild( ((HWND) wParam==hwnd)?FALSE:TRUE, hwnd, prp->memspace );
 		break;
+
+#endif  // #ifdef OPEN_REGISTRY_AS_POPUP
 
     case WM_GETWINDOWTYPE:
         {
@@ -1129,9 +1365,11 @@ long CALLBACK reg_window_proc(HWND hwnd,
         {
             HDC hdc = GetDC( hwnd );
            	SIZE size;
-            RECT rect;
 
 			prp = xmalloc(sizeof(reg_private_t));
+
+            prp->LastShownRegs = NULL;
+            prp->RegCount      = 0;
 			
 			/* store pointer to structure with window */
 			SetWindowLong( hwnd, GWL_USERDATA, (long) prp );
@@ -1145,15 +1383,6 @@ long CALLBACK reg_window_proc(HWND hwnd,
 
 			prp->memspace = e_comp_space;
 
-            // resize window
-            GetWindowRect( hwnd, &rect );
-            rect.right  = rect.left + prp->charwidth*34;
-            rect.bottom = rect.top  + prp->charheight*2;
-            AdjustWindowRectEx( &rect, 
-                GetWindowLong( hwnd, GWL_STYLE ), FALSE, GetWindowLong( hwnd, GWL_EXSTYLE ) );
-
-        	MoveWindow( hwnd, rect.left, rect.top,
-		        rect.right - rect.left, rect.bottom - rect.top, TRUE );
             break;
         }
 
@@ -1179,68 +1408,37 @@ long CALLBACK reg_window_proc(HWND hwnd,
 	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
-			HDC hdc;
-            char buffer[5];
-            int lastRegValue;
+			HDC         hdc;
+            RECT        rect;
+            BOOLEAN     changed_dimension;
+
+            GetClientRect( hwnd, &rect );
 
 			hdc = BeginPaint(hwnd,&ps);
+            changed_dimension = output_register( hdc, prp, &rect );
+            EndPaint(hwnd,&ps);
 
-            SetTextColor(hdc,RGB(0,0,0));
-            TextOut( hdc, 0, 0,        " PC  FL NV-BDIZC AC XR YR SP 00 01", 34 );
-
-#define DO_OUT(_bCond,_x,_val,_len) \
-    SetTextColor(hdc,RGB((_bCond)?0xFF:0,0,0)); \
-    TextOut( hdc,  (_x)*prp->charwidth, 0+prp->charheight, _val, _len )
-
-#define DO_OUT_REG(_no,_x,_reg,_len) \
-    lastRegValue = mon_get_reg_val(prp->memspace,_reg); \
-    sprintf(buffer,"%0" #_len "X", lastRegValue ); \
-    DO_OUT(lastRegValue!=prp->LastShownRegs[_no],_x,buffer,_len); \
-    prp->LastShownRegs[_no]=lastRegValue
-
-#define DO_OUT_FLG(_no,_x,_val) \
-    DO_OUT((lastRegValue&_val)!=prp->LastShownRegs[_no],_x,(lastRegValue & _val)?"1":"0",1); \
-    prp->LastShownRegs[_no]=lastRegValue & _val
-
-#define DO_OUT_MEM(_no,_x,_addr) \
-    lastRegValue = mon_get_mem_val(prp->memspace,_addr); \
-    sprintf(buffer,"%02X", lastRegValue ); \
-    DO_OUT(lastRegValue!=prp->LastShownRegs[_no],_x,buffer,2); \
-    prp->LastShownRegs[_no]=lastRegValue
-
-            DO_OUT_REG(0,  0, e_PC, 4 );
-
-            DO_OUT_REG(1,  5, e_FLAGS,  2 );
-            DO_OUT_FLG(2,  8, 0x80 );
-            DO_OUT_FLG(3,  9, 0x40 );
-            DO_OUT_FLG(4, 10, 0x20 );
-            DO_OUT_FLG(5, 11, 0x10 );
-            DO_OUT_FLG(6, 12, 0x08 );
-            DO_OUT_FLG(7, 13, 0x04 );
-            DO_OUT_FLG(8, 14, 0x02 );
-            DO_OUT_FLG(9, 15, 0x01 );
-
-            DO_OUT_REG(10, 17, e_A,  2 );
-            DO_OUT_REG(11, 20, e_X,  2 );
-            DO_OUT_REG(12, 23, e_Y,  2 );
-            DO_OUT_REG(13, 26, e_SP, 2 );
-
-            if (prp->memspace == e_comp_space)
+            if (changed_dimension)
             {
-                DO_OUT_MEM(14, 29, 0x00 );
-                DO_OUT_MEM(15, 32, 0x01 );
-            }
-            else
-            {
-                DO_OUT( FALSE, 29, "     ", 5 );
-            }
+                // resize the window
 
-#undef DO_OUT
-#undef DO_OUT_REG
-#undef DO_OUT_FLG
-#undef DO_OUT_MEM
+            	ClientToScreen( hwnd,  (LPPOINT) &rect);
+	            ClientToScreen( hwnd, ((LPPOINT) &rect) + 1);
 
-			EndPaint(hwnd,&ps);
+/**/
+#ifdef OPEN_REGISTRY_AS_POPUP
+#else  // #ifdef OPEN_REGISTRY_AS_POPUP
+                ScreenToClient( hwndMdiClient,  (LPPOINT) &rect);
+		        ScreenToClient( hwndMdiClient, ((LPPOINT) &rect) + 1);
+#endif // #ifdef OPEN_REGISTRY_AS_POPUP
+/**/
+
+                AdjustWindowRectEx( &rect, 
+                    GetWindowLong( hwnd, GWL_STYLE ), FALSE, GetWindowLong( hwnd, GWL_EXSTYLE ) );
+
+            	MoveWindow( hwnd, rect.left, rect.top,
+	    	        rect.right - rect.left, rect.bottom - rect.top, TRUE );
+            }
 
 			return 0;
 		}
@@ -1272,19 +1470,26 @@ long CALLBACK dis_window_proc(HWND hwnd,
 	switch (msg)
 	{
 	case WM_DESTROY:
+        delete_client_window(hwnd);
 		// clear the dis_private info 
 		SetWindowLong( hwnd, GWL_USERDATA, 0 );
 		free(pdp);
 
 		return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
 
+#ifdef OPEN_DISASSEMBLY_AS_POPUP
+
     case WM_ACTIVATE:
         ActivateChild( (LOWORD(wParam)!=WA_INACTIVE) ? TRUE:FALSE, hwnd, pdp->memspace );
         break;
 
+#else  // #ifdef OPEN_DISASSEMBLY_AS_POPUP
+
 	case WM_MDIACTIVATE:
         ActivateChild( ((HWND) wParam==hwnd)?FALSE:TRUE, hwnd, pdp->memspace );
 		break;
+
+#endif // #ifdef OPEN_DISASSEMBLY_AS_POPUP
 
     case WM_GETWINDOWTYPE:
         {
@@ -1329,6 +1534,18 @@ long CALLBACK dis_window_proc(HWND hwnd,
         	pdp->charwidth    = size.cx;
 	        pdp->charheight   = size.cy;
 
+            {
+            SCROLLINFO ScrollInfo;
+            ScrollInfo.cbSize = sizeof(ScrollInfo);
+            ScrollInfo.fMask  = SIF_RANGE;
+//          GetScrollInfo( hwnd, SB_VERT, &ScrollInfo );
+
+            ScrollInfo.nMin = 0;
+            ScrollInfo.nMax = 0x10000;
+
+            SetScrollInfo( hwnd, SB_VERT, &ScrollInfo, FALSE );
+            }
+
 			// initialize some window parameter
 			pdp->memspace     = e_comp_space;
 			pdp->StartAddress = -1;
@@ -1354,6 +1571,16 @@ long CALLBACK dis_window_proc(HWND hwnd,
             {
                 pdp->StartAddress = uAddress;
                 pdp->EndAddress = 0;
+            }
+
+            {
+            SCROLLINFO ScrollInfo;
+            ScrollInfo.cbSize = sizeof(ScrollInfo);
+            ScrollInfo.fMask  = SIF_POS;
+
+            ScrollInfo.nPos = pdp->StartAddress;          
+
+            SetScrollInfo( hwnd, SB_VERT, &ScrollInfo, TRUE );
             }
 
             loc = pdp->StartAddress;
@@ -1444,8 +1671,6 @@ void uimon_init( void )
     }
 }
 
-static HWND hwnd = NULL;
-
 static
 BOOL CALLBACK WindowUpdateProc( HWND hwnd, LPARAM lParam )
 {
@@ -1457,9 +1682,34 @@ BOOL CALLBACK WindowUpdateProc( HWND hwnd, LPARAM lParam )
 static
 void UpdateAll(void)
 {
-	InvalidateRect(hwnd,NULL,FALSE);
-    UpdateWindow( hwnd );
+    uimon_client_windows_t *p;
+
 	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowUpdateProc,(LPARAM)NULL);
+
+    for (p = first_client_window; p; p=p->next )
+        WindowUpdateProc( p->hwnd, 0 );
+
+	InvalidateRect(hwndMonitor,NULL,FALSE);
+    UpdateWindow( hwndMonitor );
+}
+
+static
+BOOL CALLBACK WindowUpdateShown( HWND hwnd, LPARAM lParam )
+{
+    SendMessage( hwnd, WM_UPDATEVAL, 0, 0 );
+	return TRUE;
+}
+ 
+static
+void update_shown(void)
+{
+    uimon_client_windows_t *p;
+
+	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowUpdateShown,(LPARAM)NULL);
+
+    for (p = first_client_window; p; p=p->next )
+        WindowUpdateProc( p->hwnd, 0 );
+
 }
 
 #endif // #ifdef UIMON_EXPERIMENTAL
@@ -1477,8 +1727,11 @@ void uimon_window_close( void )
 {
 #ifdef UIMON_EXPERIMENTAL
 
-	DestroyWindow(hwnd);
-	hwnd          =
+    update_shown();
+
+    StoreMonitorDimensions(hwndMonitor);
+	DestroyWindow(hwndMonitor);
+	hwndMonitor   =
     hwndMdiClient = NULL;
 
 	ResumeFullscreenMode( hwndParent );
@@ -1509,27 +1762,27 @@ console_t *uimon_window_open( void )
 
     uimon_init();
 
-    hwnd = CreateWindow(MONITOR_CLASS,
+    hwndMonitor = CreateWindow(MONITOR_CLASS,
 		"VICE monitor",
 		WS_OVERLAPPED|WS_CLIPCHILDREN/*|WS_CLIPSIBLINGS*/|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
         x,
         y,
         dx,
         dy,
-        GetActiveWindow(),
+        NULL, // @SRT GetActiveWindow(),
         NULL,
         winmain_instance,
         NULL);
 
-    wd = LoadMonitorDimensions(hwnd);
+    wd = LoadMonitorDimensions(hwndMonitor);
 
     if (!wd)
     {
-        OpenConsole(hwnd,TRUE);
+        OpenConsole(hwndMonitor,TRUE);
     }
     else
     {
-        OpenFromWindowDimensions(hwnd,wd);
+        OpenFromWindowDimensions(hwndMonitor,wd);
     }
 
     if (console_log)
@@ -1546,11 +1799,11 @@ console_t *uimon_window_open( void )
         console_log_for_mon.console_can_stay_open = 1;
     }
 
-    EnableCommands(GetMenu(hwnd),hwndToolbar);
+    EnableCommands(GetMenu(hwndMonitor),hwndToolbar);
 
-	SetActiveWindow( hwnd );
+	SetActiveWindow( hwndMonitor );
 
-	ShowWindow( hwnd, SW_SHOW );
+	ShowWindow( hwndMonitor, SW_SHOW );
 
     return &console_log_for_mon;
 
@@ -1566,6 +1819,8 @@ void uimon_window_suspend( void )
 {
 #ifdef UIMON_EXPERIMENTAL
 
+    update_shown();
+    
 #else // #ifdef UIMON_EXPERIMENTAL
 
     uimon_window_close();
