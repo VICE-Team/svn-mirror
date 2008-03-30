@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-06-29 19:25+0200\n"
+"POT-Creation-Date: 2003-06-30 18:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1116,68 +1116,84 @@ msgstr ""
 msgid "Change working directory..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:961
+#: src/arch/unix/uicommands.c:963
+msgid "*Save new snapshot"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:965
+msgid "*Load existing snapsot"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:967
+msgid "*Start with reset"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:973
 msgid "Load snapshot..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:964
+#: src/arch/unix/uicommands.c:976
 msgid "Save snapshot..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:968
+#: src/arch/unix/uicommands.c:980
 msgid "Quickload snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:971
+#: src/arch/unix/uicommands.c:983
 msgid "Quicksave snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:975
+#: src/arch/unix/uicommands.c:987
 msgid "Start recording events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:977
+#: src/arch/unix/uicommands.c:989
 msgid "Stop recording events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:979
+#: src/arch/unix/uicommands.c:991
 msgid "Start playing back events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:981
+#: src/arch/unix/uicommands.c:993
 msgid "Stop playing back events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:987
+#: src/arch/unix/uicommands.c:996
+msgid "Recording start mode"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:1002
 msgid "Snapshot commands"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:993
+#: src/arch/unix/uicommands.c:1008
 msgid "Activate monitor"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:996
+#: src/arch/unix/uicommands.c:1011
 msgid "Run C1541"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1004
+#: src/arch/unix/uicommands.c:1019
 msgid "Browse manuals"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1006
+#: src/arch/unix/uicommands.c:1021
 msgid "About VICE..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1012 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:1027 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/x11ui.c:1843
 msgid "Reset"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1014
+#: src/arch/unix/uicommands.c:1029
 msgid "*Pause"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1021
+#: src/arch/unix/uicommands.c:1036
 msgid "Exit emulator"
 msgstr ""
 
