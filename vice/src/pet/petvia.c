@@ -63,13 +63,20 @@
 #include "types.h"
 #include "viacore.h"
 
+
 void myvia_signal(int line, int edge);
 
-                /* switching PET charrom with CA2 */
-#define VIA_SET_CA2(byte) crtc_set_chargen_offset(byte ? 256 : 0); 
+/* switching PET charrom with CA2 */
+static void via_set_ca2(int state)
+{
+    crtc_set_chargen_offset(state ? 256 : 0);
+}
 
-                /* switching userport strobe with CB2 */
-#define VIA_SET_CB2(byte) printer_interface_userport_write_strobe(byte);
+/* switching userport strobe with CB2 */
+static void via_set_cb2(int state)
+{
+    printer_interface_userport_write_strobe(state);
+}
 
 #define via_set_int             maincpu_set_irq
 #define VIA_INT                 IK_IRQ
@@ -138,26 +145,26 @@ inline static void store_pcr(BYTE byte, WORD addr)
 
 static void undump_acr(BYTE byte)
 {
-        store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
+    store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
 }
 
 inline void static store_acr(BYTE byte)
 {
-        store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
+    store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
 }
 
 inline void static store_sr(BYTE byte)
 {
-        store_petsnd_sample(byte);
+    store_petsnd_sample(byte);
 }
 
 inline void static store_t2l(BYTE byte)
 {
-    store_petsnd_rate(2*byte+4);
+    store_petsnd_rate(2 * byte + 4);
     if (!byte) {
         store_petsnd_onoff(0);
     } else {
-        store_petsnd_onoff(((via[VIA_ACR] & 0x1c)==0x10)?1:0);
+        store_petsnd_onoff(((via[VIA_ACR] & 0x1c) == 0x10) ? 1 : 0);
     }
 }
 
@@ -204,11 +211,11 @@ inline static BYTE read_prb(void)
 
     /* read parallel IEC interface line states */
     byte = 255
-           - (parallel_nrfd ? 64:0)
-           - (parallel_ndac ? 1:0)
-           - (parallel_dav ? 128:0);
+           - (parallel_nrfd ? 64 : 0)
+           - (parallel_ndac ? 1 : 0)
+           - (parallel_dav ? 128 : 0);
     /* vertical retrace */
-    byte -= crtc_offscreen() ? 32:0;
+    byte -= crtc_offscreen() ? 32 : 0;
 
     /* none of the load changes output register value -> std. masking */
     byte = ((byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));

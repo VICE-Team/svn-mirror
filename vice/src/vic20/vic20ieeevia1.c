@@ -58,9 +58,14 @@
 #include "types.h"
 #include "viacore.h"
 
-#define VIA_SET_CA2(a)
-#define VIA_SET_CB2(a)
 
+static void via_set_ca2(int state)
+{
+}
+
+static void via_set_cb2(int state)
+{
+}
 
 /* #define VIA1_TIMER_DEBUG */
 

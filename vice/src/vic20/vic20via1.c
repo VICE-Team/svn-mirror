@@ -64,8 +64,14 @@
 #include "vic20iec.h"
 #include "vic20via.h"
 
-#define VIA_SET_CA2(a)
-#define VIA_SET_CB2(a)
+
+static void via_set_ca2(int state)
+{
+}
+
+static void via_set_cb2(int state)
+{
+}
 
 #define via_set_int maincpu_set_irq
 #define VIA1_INT IK_IRQ
@@ -119,7 +125,7 @@ static void res_via(void)
 
 inline static BYTE store_pcr(BYTE byte, WORD addr)
 {
-    /* FIXME: this should use VIA_SET_CA2() and VIA_SET_CB2() */
+    /* FIXME: this should use via_set_ca2() and via_set_cb2() */
     if (byte != via1[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */

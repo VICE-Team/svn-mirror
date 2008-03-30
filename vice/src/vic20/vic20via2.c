@@ -70,8 +70,14 @@
 #include "rsuser.h"
 #endif
 
-#define VIA_SET_CB2(a)
-#define VIA_SET_CA2(a)
+
+static void via_set_ca2(int state)
+{
+}
+
+static void via_set_cb2(int state)
+{
+}
 
 static int tape_sense = 0;
 
@@ -131,7 +137,7 @@ static void res_via(void)
 
 inline static BYTE store_pcr(BYTE byte, WORD addr)
 {
-    /* FIXME: should use VIA_SET_CA2() and VIA_SET_CB2() */
+    /* FIXME: should use via_set_ca2() and via_set_cb2() */
     if (byte != via2[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */
