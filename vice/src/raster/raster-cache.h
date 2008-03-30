@@ -44,7 +44,7 @@
 
 
 /* This defines the screen cache.  It includes the sprite cache too.  */
-struct _raster_cache
+struct raster_cache_s
   {
     /* Number of line shown (referred to drawable area) */
     int n;
@@ -109,7 +109,7 @@ struct _raster_cache
     /* Flags for open left/right borders.  */
     int open_right_border, open_left_border;
   };
-typedef struct _raster_cache raster_cache_t;
+typedef struct raster_cache_s raster_cache_t;
 
 
 
