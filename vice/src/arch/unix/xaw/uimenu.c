@@ -215,7 +215,7 @@ static char *make_menu_label(ui_menu_entry_t *e)
     char *tmp = alloca(1024);
 
     if (e->hotkey_keysym == (KeySym) 0)
-        return e->string;
+        return stralloc(e->string);
 
     *tmp = '\0';
     if (e->hotkey_modifier & UI_HOTMOD_CONTROL)
@@ -303,35 +303,46 @@ Widget ui_menu_create(const char *name, ...)
                                                  NULL, 0);
                 break;
               case '*':		/* toggle */
-                new_item = XtVaCreateManagedWidget(name,
-                                                   smeBSBObjectClass, w,
-                                                   XtNrightMargin, 20,
-                                                   XtNleftMargin, 20,
-                                                   XtNlabel,
-                                                   make_menu_label(&list[i]) + 1,
-                                                   NULL);
-                /* Add this item to the list of calls to perform to update the
-                   menu status. */
-                if (list[i].callback) {
-                    if (num_checkmark_menu_items < MAX_UPDATE_MENU_LIST_SIZE)
-                        checkmark_menu_items[num_checkmark_menu_items++] = new_item;
-                    else {
-                        fprintf(stderr,
-                                "Maximum number of menus reached!  "
-                                "Please fix the code.\n");
-                        exit(-1);
+                {
+                    char *label = make_menu_label(&list[i]);
+                    
+                    new_item = XtVaCreateManagedWidget(name,
+                                                       smeBSBObjectClass, w,
+                                                       XtNrightMargin, 20,
+                                                       XtNleftMargin, 20,
+                                                       XtNlabel,
+                                                       label + 1,
+                                                       NULL);
+                    /* Add this item to the list of calls to perform to update the
+                       menu status. */
+                    if (list[i].callback) {
+                        if (num_checkmark_menu_items < MAX_UPDATE_MENU_LIST_SIZE)
+                            checkmark_menu_items[num_checkmark_menu_items++] = new_item;
+                        else {
+                            fprintf(stderr,
+                                    "Maximum number of menus reached!  "
+                                    "Please fix the code.\n");
+                            exit(-1);
+                        }
                     }
+                    j++;
+
+                    free(label);
                 }
-                j++;
                 break;
               default:
-                new_item = XtVaCreateManagedWidget(name, smeBSBObjectClass, w,
-                                                   XtNleftMargin, 20,
-                                                   XtNrightMargin, 20,
-                                                   XtNlabel,
-                                                   make_menu_label(&list[i]),
-                                                   NULL);
-                j++;
+                {
+                    char *label = make_menu_label(&list[i]);
+                    
+                    new_item = XtVaCreateManagedWidget(name, smeBSBObjectClass, w,
+                                                       XtNleftMargin, 20,
+                                                       XtNrightMargin, 20,
+                                                       XtNlabel,
+                                                       label,
+                                                       NULL);
+                    free(label);
+                    j++;
+                }
             }
             if (list[i].callback)
                 XtAddCallback(new_item, XtNcallback,

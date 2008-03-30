@@ -89,6 +89,8 @@ char *boot_path;
 static RETSIGTYPE break64(int sig);
 static void exit64(void);
 
+static int init_done;
+
 /* ------------------------------------------------------------------------- */
 
 #if defined __MSDOS__ || defined WIN32
@@ -452,6 +454,8 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     putchar ('\n');
 
+    init_done = 1;
+
     /* Let's go...  */
     maincpu_trigger_reset();
     mainloop(0);
@@ -470,6 +474,11 @@ static RETSIGTYPE break64(int sig)
 
 #ifndef __MSDOS__
     if (sig != SIGINT && sig != SIGTERM) {
+
+        /* If we crash during initialization, we are really broken.  */
+        if (!init_done)
+            exit(-1);
+
         if (ui_ask_confirmation(
 #ifdef SYS_SIGLIST_DECLARED
                                 sys_siglist[sig],
