@@ -100,5 +100,7 @@ extern void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
                               int pitchs, int pitcht, int depth);
 extern int video_render_get_fake_pal_state(void);
 
+extern void video_color_set_raster(struct raster_s *raster);
+
 #endif
 

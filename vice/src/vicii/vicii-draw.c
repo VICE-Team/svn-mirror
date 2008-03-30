@@ -112,20 +112,20 @@ static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
 #else /* VIDEO_REMOVE_2X */
 
 /* Pointer to the start of the graphics area on the frame buffer.  */
-#define GFX_PTR()                               \
-    (vic_ii.raster.frame_buffer_ptr                        \
+#define GFX_PTR()                   \
+    (vic_ii.raster.frame_buffer_ptr \
     + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth))
 
 #ifdef ALLOW_UNALIGNED_ACCESS
 #define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr) \
    name(GFX_PTR(), (xs), (xe), (gfx_msk_ptr))
 #else
-#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)                 \
-   do {                                                            \
-       name(aligned_line_buffer, (xs), (xe), (gfx_msk_ptr));       \
-       vid_memcpy(GFX_PTR() + (xs) * 8, \
-                  aligned_line_buffer + (xs) * 8,  \
-                  ((xe) - (xs) + 1) * 8 *);          \
+#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)           \
+   do {                                                      \
+       name(aligned_line_buffer, (xs), (xe), (gfx_msk_ptr)); \
+       vid_memcpy(GFX_PTR() + (xs) * 8,                      \
+                  aligned_line_buffer + (xs) * 8,            \
+                  ((xe) - (xs) + 1) * 8);                    \
    } while (0)
 #endif
 
@@ -1339,10 +1339,17 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
 #endif /* VIDEO_REMOVE_2X */
 
 #ifndef ALLOW_UNALIGNED_ACCESS
+#ifndef VIDEO_REMOVE_2X
     vid_memcpy(vic_ii.raster.frame_buffer_ptr + (vic_ii.screen_borderwidth
                + vic_ii.raster.xsmooth) * pixel_width,
                aligned_line_buffer + xs * 8 * pixel_width,
                (xe - xs + 1) * 8 * pixel_width);
+#else
+    vid_memcpy(vic_ii.raster.frame_buffer_ptr + (vic_ii.screen_borderwidth
+               + vic_ii.raster.xsmooth),
+               aligned_line_buffer + xs * 8,
+               (xe - xs + 1) * 8);
+#endif
 #endif
 
     memset(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE, d, VIC_II_SCREEN_TEXTCOLS);

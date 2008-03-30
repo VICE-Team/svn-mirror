@@ -3,8 +3,7 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/raster \
-	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/video
+	-I$(top_srcdir)/src/c64
 
 noinst_LIBRARIES = libvicii.a
 
