@@ -13,7 +13,8 @@ list of all the changes in the code.
 
 - Audio and video streams can be recorded now. 
   Unix users: Use configure parameter `--enable-ffmpeg'; make sure you
-  have the required libraries installed (package ffmpeg-0.4.8 or newer).
+  have the required libraries installed (package ffmpeg-0.4.8 ori
+  newer).
 
 - Added IEC devices which allow to access printer or file system
   devices even if true drive emulation is enabled.
@@ -24,12 +25,12 @@ list of all the changes in the code.
 - Fixed some severe sprite collision detection bugs.
 
 ** Drive changes
------------------
+----------------
 
 - Increased the number of true drives to four.
 
 - Support for 1570 and 1571CR drives has been added (1571CR is not
-  fully implemted though).
+  fully implemented though).
 
 - 1581 emulation is much more accurate now.
 
@@ -39,7 +40,7 @@ list of all the changes in the code.
 - Added Star NL10 printer emulation.
 
 ** Unix Changes
-
+---------------
 - Gnome UI:
   fixed resizing bug when PAL controls are hidden
   Improved PAL control widget
@@ -49,7 +50,8 @@ list of all the changes in the code.
 ** MS-Windows changes
 ---------------------
 
-- Added common peripherial devices and firmware ROM settings dialog.
+- Added common peripherial devices, firmware ROM and IDE64 settings
+  dialog.
 
 ** MS-DOS changes
 -----------------
