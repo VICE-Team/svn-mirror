@@ -41,6 +41,7 @@ extern void rotation_overflow_callback(CLOCK sub, unsigned int dnr);
 extern void rotation_change_mode(unsigned int dnr);
 extern void rotation_rotate_disk(struct drive_s *dptr);
 extern BYTE rotation_sync_found(struct drive_s *dptr);
+extern void rotation_byte_read(struct drive_s *dptr);
 
 #endif
 
