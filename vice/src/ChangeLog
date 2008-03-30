@@ -1,4 +1,73 @@
-1999-10-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-10-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.21.
+
+	* arch/riscos/config.h: Define `HAVE_LIMITS_H'.
+
+	* fsdevice.c, imagecontents.c, vdrive/vdrive-bam.c,
+	vdrive/vdrive-bam.h, vdc/vdc-draw.c: Removed some warnings.
+
+1999-10-26  Andreas Matthies <andreas.matthies@arcormail.de>
+
+	* win32/arch.dsp: added uidatasette.c to project.
+
+	* win32/res.h: new identifiers for datasette-settings-dialog:
+	IDD_DATASETTE_SETTINGS_DIALOG,IDC_DATASETTE_RESET_WITH_CPU,
+	IDC_DATASETTE_SPEED_TUNING,IDC_DATASETTE_ZERO_GAP_DELAY;
+	deleted menu-id IDM_DATASETTE_RESET_WITH_CPU, new is
+	IDM_DATASETTE_SETTINGS.
+
+	* win32/res.rc: added resource-definition for
+	datasette-settings-dialog.
+
+	* win32/res64.rc,res128.rc,respet.rc,rescbm2.rc,resvic.rc:
+	deleted "Reset with Main-CPU" in File-menu, added "Datasette
+	settings" in the settings-menu.
+
+	* win32/ui.c: includes uidatasette.h; no more toggle-menu
+	"Reset with CPU"; 
+	(handle_wm_command) new handler for the datasette-settings.
+
+	* win32/uidatasette.h,uidatasette.c: new files to implement the
+	datasette-settings in the style of uisound.
+
+	* datasette.c: changed delay for motor acceleration from 10000
+	to 1000 cycles, which seems to work better on some taps; maybe
+	this should also become a resource in the future.
+
+1999-10-26  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/kbd.c: added ui_attach_tape
+
+	* arch/os2/config.h: #define FIXPOINT_ARITHMETIC added
+
+	* arch/os2/pm/pbar.[ch]: deleted
+
+	* arch/os2/pm/winaddon.[ch]: added
+
+	* arch/os2/sounddrv.c: extended error handling
+
+	* arch/os2/ui.c: added tape support, new log message
+
+	* arch/os2/ui_status.[ch]: added some funtions to calculate
+	rectangles, using them.
+
+	* sounddrv/sounddart.c: function bodies addded
+
+	* mon_lex.c: added stdlib-support for OS/2
+
+	* utils.[ch]: using size_t for size at bufcat,
+	#ifdef-OS2-block moved to os2/config.h
+
+	* log.c: flush every msg direct to the file.
+
+1999-10-25  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/petui.c: fixed some includes.
+
+	* snapshot.c: removed RISC OS specific definition of off_t.
+
+1999-10-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.20.
 

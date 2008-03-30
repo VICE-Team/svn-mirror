@@ -115,7 +115,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libpm.a
 
-libpm_a_SOURCES =  	pbar.c 	pbar.h 	scrollbars.c 	scrollbars.h
+libpm_a_SOURCES =  	scrollbars.c 	scrollbars.h         winaddon.c         winaddon.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
@@ -130,7 +130,7 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libpm_a_LIBADD = 
-libpm_a_OBJECTS =  pbar.o scrollbars.o
+libpm_a_OBJECTS =  scrollbars.o winaddon.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
