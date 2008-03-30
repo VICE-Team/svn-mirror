@@ -1,5 +1,5 @@
-- Xaw UI context popup menu for drive attach is broken if more than two drives
-  are active.
+- Xaw UI context popup menu for drive attach is broken if more than
+  two drives are active.
 
 - Screenshots with activated PAL emulation do not deliver the expected
   (blurry) result. 
@@ -69,4 +69,9 @@
 
 - In the C510 emulation the VIC-II timing is not exact, i.e. the
   stopping of the CPU during bad lines is wrong.
+
+- Snapshots are not supported by the plus4 emulation.
+
+- Using X11 XAW it is not possible to enter the disk name in the
+  create empty disc image dialog.
 

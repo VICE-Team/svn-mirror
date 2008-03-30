@@ -1,3 +1,14 @@
+2006-10-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.11.
+
+	* doc/html/plain/BUGS: Updated.
+
+2006-10-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added automatic generation of the intl header
+	files.
+
 2006-10-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.10.
