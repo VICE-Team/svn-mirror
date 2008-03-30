@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-03-29 15:20+0200\n"
+"POT-Creation-Date: 2001-04-02 23:37+0200\n"
 "PO-Revision-Date: 2000-12-07 07:35+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Aktivera warpläge"
 msgid "Disable warp mode"
 msgstr "Deaktivera warpläge"
 
-#: src/vsync.c:344
+#: src/vsync.c:342
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
@@ -1561,7 +1561,7 @@ msgstr "Återställ förvalda inställningar"
 msgid "*Save settings on exit"
 msgstr "*Spara inställningar vid avslut"
 
-#: src/arch/unix/uicmdline.c:36
+#: src/arch/unix/uicmdline.c:37
 msgid ""
 "\n"
 "Available command-line options:\n"
@@ -1762,11 +1762,11 @@ msgstr "Faller tillbaka till gammal API-rutin"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kärnans drivrutinsversion: %d.%d.%d"
 
-#: src/arch/unix/kmap.c:118
+#: src/arch/unix/kmap.c:119
 msgid "Specify name of symbolic keymap file"
 msgstr "Ange fil för symbolisk tangentbordsemulering"
 
-#: src/arch/unix/kmap.c:120
+#: src/arch/unix/kmap.c:121
 msgid "Specify name of positional keymap file"
 msgstr "Ange fil för positionsriktig tangentbordsemulering"
 
@@ -2013,12 +2013,12 @@ msgstr "Anslut 4KB-fil vid $B000..."
 msgid "Detach cartridge image(s)"
 msgstr "Koppla från insticksmodulfil(er)"
 
-#: src/arch/unix/archdep.c:227
+#: src/arch/unix/archdep.c:226
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr "Tog emot signal %d (%s)."
 
-#: src/arch/unix/archdep.c:230
+#: src/arch/unix/archdep.c:229
 #, c-format
 msgid "Received signal %d."
 msgstr "Tog emot signal %d."

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-03-29 15:20+0200\n"
+"POT-Creation-Date: 2001-04-02 23:37+0200\n"
 "PO-Revision-Date: 2000-12-01 21:31+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -33,7 +33,7 @@ msgstr "*Warp Mode Aktivieren"
 msgid "Disable warp mode"
 msgstr "*Warp Mode Deaktivieren"
 
-#: src/vsync.c:344
+#: src/vsync.c:342
 msgid "Your machine is too slow for current settings!"
 msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 
@@ -1552,7 +1552,7 @@ msgstr "Wiederherstellen Standard Einstellungen"
 msgid "*Save settings on exit"
 msgstr "*Einstellungen beim Beenden speichern"
 
-#: src/arch/unix/uicmdline.c:36
+#: src/arch/unix/uicmdline.c:37
 msgid ""
 "\n"
 "Available command-line options:\n"
@@ -1753,11 +1753,11 @@ msgstr "Benutze alte API Routinen"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kernel Treiber Version  : %d.%d.%d"
 
-#: src/arch/unix/kmap.c:118
+#: src/arch/unix/kmap.c:119
 msgid "Specify name of symbolic keymap file"
 msgstr "Bitte Namen für symbolische Keymap Datei definieren"
 
-#: src/arch/unix/kmap.c:120
+#: src/arch/unix/kmap.c:121
 msgid "Specify name of positional keymap file"
 msgstr "Bitte Namen für positions Keymap Datei definieren"
 
@@ -1993,12 +1993,12 @@ msgstr "4KB Modul Image bei $B000..."
 msgid "Detach cartridge image(s)"
 msgstr "Erweiterungsmodul Image(s) entfernen"
 
-#: src/arch/unix/archdep.c:227
+#: src/arch/unix/archdep.c:226
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr "Received signal %d (%s)."
 
-#: src/arch/unix/archdep.c:230
+#: src/arch/unix/archdep.c:229
 #, c-format
 msgid "Received signal %d."
 msgstr "Received signal %d."
