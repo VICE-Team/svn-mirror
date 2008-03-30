@@ -1,3 +1,50 @@
+2004-09-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.2.
+
+	* arch/win32/resdrivepetcbm2.rc: New files.
+
+	* arch/win32/Makefile.am, arch/win32/xvic.dsp: Updated.
+
+	* arch/win32/res.h, arch/win32/res.rc, arch/win32/respet.rc,
+	arch/win32/rescbm2.rc, arch/win32/resc64.rc,
+	arch/win32/uidrivec64vic20.c: Moved resources.
+
+	* arch/win32/resvic.rc: Renamed.
+
+	* plus4/plus4acia.c: Changed `MYACIA' define.
+
+	* arch/unix/uirs232c64c128.c, arch/unix/uirs232c64c128.h,
+	arch/unix/uirs232petplus4cbm2.c, arch/unix/uiacia1.c,
+	arch/unix/uirs232petplus4cbm2.h, arch/unix/uiacia1.h,
+	arch/unix/uirs232user.c, arch/unix/uirs232user.h: New files.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/petui.c,
+	arch/unix/cbm2ui.c, arch/unix/vic20ui.c, arch/unix/plus4ui.c:
+	Moved RS232 specific code.
+
+	* arch/unix/Makefile.am: Added new files.
+
+2004-09-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* datasette.c (datasette_read_bit): Stops motor if
+	motor_stop_clk is reached.
+	(datasette_start_motor): Use MOTOR_DELAY instead of 1000.
+	(datasette_set_motor): flag=1 will reset motor_stop_clk,
+	flag=0 won't stop the motor immediatlely but delay it by
+	setting motor_stop_clk.
+
+2004-09-01  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/c64export.c: In c64export_query(), do not reject as busy
+	if the ressource is queried by the one who is actually holding
+	the ressource.
+
+2004-09-01  EMILIANO PERUCH <EMILIANO.PERUCH@softway.it>
+
+	* fsdevice/fsdevice-read.c (command_directory_get): Fixed some
+	crash.
+
 2004-09-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.1.

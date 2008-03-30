@@ -266,6 +266,8 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.c \
 	ui.h \
+	uiacia1.c \
+	uiacia1.h \
 	uiattach.c \
 	uiattach.h \
 	uic64cart.c \
@@ -326,6 +328,12 @@ libarch_a_SOURCES = \
 	uiromset.h \
 	uirs232.c \
 	uirs232.h \
+	uirs232c64c128.c \
+	uirs232c64c128.h \
+	uirs232petplus4cbm2.c \
+	uirs232petplus4cbm2.h \
+	uirs232user.c \
+	uirs232user.h \
 	uiscreenshot.h \
 	uisettings.h \
 	uisettings.c \
@@ -369,20 +377,22 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	ffmpeglib.$(OBJEXT) joy.$(OBJEXT) joy_usb.$(OBJEXT) \
 	mousedrv.$(OBJEXT) opencbmlib.$(OBJEXT) petui.$(OBJEXT) \
 	plus4ui.$(OBJEXT) rs232.$(OBJEXT) signals.$(OBJEXT) \
-	tfearch.$(OBJEXT) ui.$(OBJEXT) uiattach.$(OBJEXT) \
-	uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) uicommands.$(OBJEXT) \
-	uicrtc.$(OBJEXT) uidatasette.$(OBJEXT) uidrive.$(OBJEXT) \
-	uidrivec128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
-	uidriveiec.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
-	uidriveplus4.$(OBJEXT) uifliplist.$(OBJEXT) uiide64.$(OBJEXT) \
-	uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) uilib.$(OBJEXT) \
-	uimon.$(OBJEXT) uipalemu.$(OBJEXT) uipalette.$(OBJEXT) \
-	uiperipheral.$(OBJEXT) uiperipheraliec.$(OBJEXT) \
-	uiperipheralieee.$(OBJEXT) uiprinter.$(OBJEXT) \
-	uiprinteriec.$(OBJEXT) uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) \
-	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uisettings.$(OBJEXT) \
-	uisid.$(OBJEXT) uisound.$(OBJEXT) uited.$(OBJEXT) \
-	uitfe.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
+	tfearch.$(OBJEXT) ui.$(OBJEXT) uiacia1.$(OBJEXT) \
+	uiattach.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
+	uicommands.$(OBJEXT) uicrtc.$(OBJEXT) uidatasette.$(OBJEXT) \
+	uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) \
+	uidrivec64vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
+	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
+	uifliplist.$(OBJEXT) uiide64.$(OBJEXT) uijoystick2.$(OBJEXT) \
+	uikeyboard.$(OBJEXT) uilib.$(OBJEXT) uimon.$(OBJEXT) \
+	uipalemu.$(OBJEXT) uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
+	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
+	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
+	uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) uiromset.$(OBJEXT) \
+	uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
+	uirs232petplus4cbm2.$(OBJEXT) uirs232user.$(OBJEXT) \
+	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
+	uited.$(OBJEXT) uitfe.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
 	uivicii.$(OBJEXT) unixmain.$(OBJEXT) vic20ui.$(OBJEXT) \
 	vsyncarch.$(OBJEXT) vsidui.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
@@ -401,11 +411,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/opencbmlib.Po ./$(DEPDIR)/petui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4ui.Po ./$(DEPDIR)/rs232.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/signals.Po ./$(DEPDIR)/tfearch.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiattach.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicmdline.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicommands.Po ./$(DEPDIR)/uicrtc.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidatasette.Po ./$(DEPDIR)/uidrive.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidrivec128.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiacia1.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiattach.Po ./$(DEPDIR)/uic64cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uicommands.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicrtc.Po ./$(DEPDIR)/uidatasette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrive.Po ./$(DEPDIR)/uidrivec128.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec64vic20.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveiec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
@@ -422,6 +432,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinteriec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinterieee.Po ./$(DEPDIR)/uireu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiromset.Po ./$(DEPDIR)/uirs232.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uirs232c64c128.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uirs232petplus4cbm2.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uirs232user.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisettings.Po ./$(DEPDIR)/uisid.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisound.Po ./$(DEPDIR)/uited.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uitfe.Po ./$(DEPDIR)/uivdc.Po \
@@ -505,6 +518,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tfearch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiacia1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiattach.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
@@ -534,6 +548,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiromset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232c64c128.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232petplus4cbm2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisettings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisound.Po@am__quote@

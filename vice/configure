@@ -1568,7 +1568,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.15.1
+ VERSION=1.15.2
 
 
 cat >>confdefs.h <<_ACEOF
@@ -15918,7 +15918,7 @@ rm -f conftest.$ac_objext conftest.$ac_ext
 
   X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
   X128_WINRES="\$(top_builddir)/src/arch/win32/resc128.o"
-  XVIC_WINRES="\$(top_builddir)/src/arch/win32/resvic.o"
+  XVIC_WINRES="\$(top_builddir)/src/arch/win32/resvic20.o"
   XPET_WINRES="\$(top_builddir)/src/arch/win32/respet.o"
   XPLUS4_WINRES="\$(top_builddir)/src/arch/win32/resplus4.o"
   XCBM2_WINRES="\$(top_builddir)/src/arch/win32/rescbm2.o"

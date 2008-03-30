@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.15\n"
-"POT-Creation-Date: 2004-08-29 17:41+0200\n"
+"POT-Creation-Date: 2004-09-05 15:08+0200\n"
 "PO-Revision-Date: 2004-08-22 11:01+0200\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -267,7 +267,7 @@ msgid "Ethernet emulation"
 msgstr "Émulation ethernet"
 
 #: src/arch/unix/c128ui.c:244 src/arch/unix/c64ui.c:272
-#: src/arch/unix/petui.c:300 src/arch/unix/vic20ui.c:194
+#: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:195
 msgid "*Emulator identification"
 msgstr "*Identification de l'émulateur"
 
@@ -300,37 +300,37 @@ msgid "Load new Chargen ROM"
 msgstr "Charger la nouvelle ROM Chargen"
 
 #: src/arch/unix/c128ui.c:277 src/arch/unix/c64ui.c:297
-#: src/arch/unix/plus4ui.c:95 src/arch/unix/vic20ui.c:132
+#: src/arch/unix/plus4ui.c:95 src/arch/unix/vic20ui.c:133
 msgid "Load default ROMs"
 msgstr "Charger les ROMs par défaut"
 
 #: src/arch/unix/c128ui.c:281 src/arch/unix/c64ui.c:301
 #: src/arch/unix/cbm2ui.c:96 src/arch/unix/petui.c:200
-#: src/arch/unix/plus4ui.c:99 src/arch/unix/vic20ui.c:135
+#: src/arch/unix/plus4ui.c:99 src/arch/unix/vic20ui.c:136
 msgid "Load new computer ROM"
 msgstr "Charger la nouvelle ROM de caractères"
 
 #: src/arch/unix/c128ui.c:283 src/arch/unix/c64ui.c:303
 #: src/arch/unix/cbm2ui.c:98 src/arch/unix/petui.c:202
-#: src/arch/unix/plus4ui.c:101 src/arch/unix/vic20ui.c:137
+#: src/arch/unix/plus4ui.c:101 src/arch/unix/vic20ui.c:138
 msgid "Load new drive ROM"
 msgstr "Charger le nouveau lecteur ROM"
 
 #: src/arch/unix/c128ui.c:286 src/arch/unix/c64ui.c:306
 #: src/arch/unix/cbm2ui.c:101 src/arch/unix/petui.c:205
-#: src/arch/unix/plus4ui.c:104 src/arch/unix/vic20ui.c:140
+#: src/arch/unix/plus4ui.c:104 src/arch/unix/vic20ui.c:141
 msgid "ROM set type"
 msgstr "Type du fichier image ROM:"
 
 #: src/arch/unix/c128ui.c:289 src/arch/unix/c64ui.c:309
 #: src/arch/unix/cbm2ui.c:132 src/arch/unix/petui.c:239
-#: src/arch/unix/plus4ui.c:107 src/arch/unix/vic20ui.c:143
+#: src/arch/unix/plus4ui.c:107 src/arch/unix/vic20ui.c:144
 msgid "ROM set archive"
 msgstr "Fichier archive image ROM:"
 
 #: src/arch/unix/c128ui.c:291 src/arch/unix/c64ui.c:311
 #: src/arch/unix/cbm2ui.c:134 src/arch/unix/petui.c:241
-#: src/arch/unix/plus4ui.c:109 src/arch/unix/vic20ui.c:145
+#: src/arch/unix/plus4ui.c:109 src/arch/unix/vic20ui.c:146
 msgid "ROM set file"
 msgstr "Fichier image ROM:"
 
@@ -351,7 +351,7 @@ msgid "Machine type"
 msgstr "Type de machine"
 
 #: src/arch/unix/c128ui.c:353 src/arch/unix/cbm2ui.c:240
-#: src/arch/unix/petui.c:275 src/arch/unix/vic20ui.c:180
+#: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:181
 msgid "ROM sets"
 msgstr "ROMs"
 
@@ -364,7 +364,7 @@ msgid "VDC settings"
 msgstr "Paramètres VDC"
 
 #: src/arch/unix/c128ui.c:365 src/arch/unix/c64ui.c:346
-#: src/arch/unix/cbm2ui.c:386 src/arch/unix/vsidui.c:175
+#: src/arch/unix/cbm2ui.c:361 src/arch/unix/vsidui.c:175
 msgid "SID settings"
 msgstr "Paramètres SID"
 
@@ -373,7 +373,8 @@ msgid "Memory and I/O extensions"
 msgstr "Extentions mémoire et E/S"
 
 #: src/arch/unix/c128ui.c:369 src/arch/unix/c64ui.c:350
-#: src/arch/unix/cbm2ui.c:379 src/arch/unix/vic20ui.c:375
+#: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:137
+#: src/arch/unix/vic20ui.c:376
 msgid "RS232 settings"
 msgstr "Paramètres RS232"
 
@@ -382,27 +383,27 @@ msgid "Model settings"
 msgstr "Paramètres du modèle"
 
 #: src/arch/unix/c128ui.c:436 src/arch/unix/c64ui.c:413
-#: src/arch/unix/cbm2ui.c:475 src/arch/unix/petui.c:400
-#: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:496
+#: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:378
+#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:497
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Fichier"
 
 #: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:432
-#: src/arch/unix/cbm2ui.c:492 src/arch/unix/petui.c:417
-#: src/arch/unix/plus4ui.c:213 src/arch/unix/vic20ui.c:515
+#: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:395
+#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:516
 msgid "Snapshot"
 msgstr "Sauvegardes"
 
 #: src/arch/unix/c128ui.c:462 src/arch/unix/c64ui.c:439
-#: src/arch/unix/cbm2ui.c:499 src/arch/unix/petui.c:424
-#: src/arch/unix/plus4ui.c:220 src/arch/unix/vic20ui.c:522
+#: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:402
+#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:523
 msgid "Options"
 msgstr "Options"
 
 #: src/arch/unix/c128ui.c:474 src/arch/unix/c64ui.c:451
-#: src/arch/unix/cbm2ui.c:509 src/arch/unix/petui.c:432
-#: src/arch/unix/plus4ui.c:228 src/arch/unix/vic20ui.c:528
+#: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
+#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:529
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1209
 #: src/arch/unix/x11/gnome/x11ui.c:1301
 msgid "Settings"
@@ -411,8 +412,8 @@ msgstr "Paramètres"
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:488 src/arch/unix/c64ui.c:465
-#: src/arch/unix/cbm2ui.c:523 src/arch/unix/petui.c:446
-#: src/arch/unix/plus4ui.c:242 src/arch/unix/vic20ui.c:543
+#: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:424
+#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:544
 msgid "RJHelp"
 msgstr "RJ?"
 
@@ -434,9 +435,9 @@ msgstr "Charger la nouvelle ROM BASIC"
 msgid "Load new character ROM"
 msgstr "Charger la nouvelle ROM de caractères"
 
-#: src/arch/unix/c64ui.c:334 src/arch/unix/cbm2ui.c:409
-#: src/arch/unix/petui.c:334 src/arch/unix/plus4ui.c:71
-#: src/arch/unix/vic20ui.c:416
+#: src/arch/unix/c64ui.c:334 src/arch/unix/cbm2ui.c:384
+#: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
+#: src/arch/unix/vic20ui.c:417
 msgid "Screenshot..."
 msgstr "Capture d'écran..."
 
@@ -516,11 +517,11 @@ msgstr "*Graphiques"
 msgid "*Business (UK)"
 msgstr "*Business (UK)"
 
-#: src/arch/unix/cbm2ui.c:237 src/arch/unix/petui.c:272
+#: src/arch/unix/cbm2ui.c:237 src/arch/unix/petui.c:250
 msgid "Model defaults"
 msgstr "Valeurs par défaut du modèle"
 
-#: src/arch/unix/cbm2ui.c:243 src/arch/unix/petui.c:280
+#: src/arch/unix/cbm2ui.c:243 src/arch/unix/petui.c:258
 msgid "Memory size"
 msgstr "Taille de la mémoire"
 
@@ -552,53 +553,19 @@ msgstr "*Banque 15 $6000-$7FFF RAM"
 msgid "*Bank 15 $C000-$CFFF RAM"
 msgstr "*Banque 15 $C000-$CFFF RAM"
 
-#: src/arch/unix/cbm2ui.c:262 src/arch/unix/petui.c:297
+#: src/arch/unix/cbm2ui.c:262 src/arch/unix/petui.c:275
 msgid "Keyboard type"
 msgstr "Type de clavier"
 
-#: src/arch/unix/cbm2ui.c:338 src/arch/unix/petui.c:250
-msgid "ACIA device"
-msgstr "Périphérique ACIA"
-
-#: src/arch/unix/cbm2ui.c:341 src/arch/unix/petui.c:253
-#: src/arch/unix/uirs232.c:172 src/arch/unix/vic20ui.c:356
-msgid "Serial 1 device..."
-msgstr "Port série #1..."
-
-#: src/arch/unix/cbm2ui.c:343 src/arch/unix/petui.c:255
-#: src/arch/unix/uirs232.c:174 src/arch/unix/vic20ui.c:358
-msgid "Serial 1 baudrate"
-msgstr "Vitesse du port série #1 (bps)"
-
-#: src/arch/unix/cbm2ui.c:346 src/arch/unix/petui.c:258
-#: src/arch/unix/vic20ui.c:361
-msgid "Serial 2 device..."
-msgstr "Port série #2..."
-
-#: src/arch/unix/cbm2ui.c:348 src/arch/unix/petui.c:260
-#: src/arch/unix/uirs232.c:179 src/arch/unix/vic20ui.c:363
-msgid "Serial 2 baudrate"
-msgstr "Vitesse du port série #2"
-
-#: src/arch/unix/cbm2ui.c:351 src/arch/unix/petui.c:263
-#: src/arch/unix/uirs232.c:182 src/arch/unix/vic20ui.c:366
-msgid "Dump filename..."
-msgstr "Nom du fichier..."
-
-#: src/arch/unix/cbm2ui.c:354 src/arch/unix/petui.c:266
-#: src/arch/unix/uirs232.c:185 src/arch/unix/vic20ui.c:369
-msgid "Program name to exec..."
-msgstr "Nom du programme à exécuter..."
-
-#: src/arch/unix/cbm2ui.c:377
+#: src/arch/unix/cbm2ui.c:352
 msgid "CBM-II model settings"
 msgstr "Paramètres du modèle CBM-II"
 
-#: src/arch/unix/cbm2ui.c:382 src/arch/unix/petui.c:311
+#: src/arch/unix/cbm2ui.c:357 src/arch/unix/petui.c:289
 msgid "Crtc settings"
 msgstr "Paramètres CRTC"
 
-#: src/arch/unix/cbm2ui.c:384
+#: src/arch/unix/cbm2ui.c:359
 msgid "*VIC-II settings"
 msgstr "*Paramètres VIC-II"
 
@@ -748,39 +715,39 @@ msgstr "Charger la nouvelle ROM $B***"
 msgid "Unload $B*** ROM"
 msgstr "Décharger la ROM $B***"
 
-#: src/arch/unix/petui.c:278
+#: src/arch/unix/petui.c:256
 msgid "Video size"
 msgstr "Taille vidéo"
 
-#: src/arch/unix/petui.c:282
+#: src/arch/unix/petui.c:260
 msgid "I/O size"
 msgstr "Taille d'E/S"
 
-#: src/arch/unix/petui.c:284
+#: src/arch/unix/petui.c:262
 msgid "*CRTC chip enable"
 msgstr "*Puce CRTC activée"
 
-#: src/arch/unix/petui.c:287
+#: src/arch/unix/petui.c:265
 msgid "*SuperPET I/O enable (disables 8x96)"
 msgstr "*E/S SuperPET activé (empêche 8x96 de fonctionner)"
 
-#: src/arch/unix/petui.c:289
+#: src/arch/unix/petui.c:267
 msgid "SuperPET ACIA"
 msgstr "ACIA SuperPET"
 
-#: src/arch/unix/petui.c:292
+#: src/arch/unix/petui.c:270
 msgid "*$9*** as RAM (8296 only)"
 msgstr "*$9*** comme RAM (8296 seulement)"
 
-#: src/arch/unix/petui.c:294
+#: src/arch/unix/petui.c:272
 msgid "*$A*** as RAM (8296 only)"
 msgstr "*$A*** comme RAM (8296 seulement)"
 
-#: src/arch/unix/petui.c:306
+#: src/arch/unix/petui.c:284
 msgid "PET model settings"
 msgstr "Paramètres du modèle PET"
 
-#: src/arch/unix/petui.c:308
+#: src/arch/unix/petui.c:286
 msgid "*PET userport diagnostic pin"
 msgstr "*Pin de diagnostique userport PET"
 
@@ -904,6 +871,22 @@ msgstr "Signal %d (%s) reçu."
 msgid "Received signal %d."
 msgstr "Signal %d reçu."
 
+#: src/arch/unix/uiacia1.c:39 src/arch/unix/uirs232user.c:39
+msgid "*Serial 1"
+msgstr "*Port série #1"
+
+#: src/arch/unix/uiacia1.c:41 src/arch/unix/uirs232user.c:41
+msgid "*Serial 2"
+msgstr "*Port série #2"
+
+#: src/arch/unix/uiacia1.c:43 src/arch/unix/uirs232user.c:43
+msgid "*Dump to file"
+msgstr "*Rediriger vers un fichier"
+
+#: src/arch/unix/uiacia1.c:45 src/arch/unix/uirs232user.c:45
+msgid "*Exec process"
+msgstr "*Exécuter le processus"
+
 #: src/arch/unix/uiattach.c:74
 #, c-format
 msgid "Attach Disk Image as unit #%d"
@@ -1001,7 +984,7 @@ msgstr "Insertion intelligente d'un(e) image de disque/datassette"
 msgid "Cannot attach cartridge"
 msgstr "Impossible d'attacher la cassette"
 
-#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:217
+#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:218
 msgid "Attach cartridge image"
 msgstr "Insérer une image de cartouche"
 
@@ -1057,11 +1040,11 @@ msgstr "Insérer une image de cartouche Super Snapshot 5..."
 msgid "Enable Expert Cartridge..."
 msgstr "Activer les paramètres des cartouches experts..."
 
-#: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:269
+#: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:270
 msgid "Set cartridge as default"
 msgstr "Définir cette cartouche par défaut"
 
-#: src/arch/unix/uic64cart.c:188 src/arch/unix/vic20ui.c:275
+#: src/arch/unix/uic64cart.c:188 src/arch/unix/vic20ui.c:276
 msgid "Attach a cartridge image"
 msgstr "Insérer une image de cartouch"
 
@@ -1425,7 +1408,7 @@ msgstr "*Activer l'émulation réelle de lecteur"
 #: src/arch/unix/uiperipheral.c:60 src/arch/unix/uiperipheral.c:74
 #: src/arch/unix/uiperipheral.c:88 src/arch/unix/uiperipheral.c:102
 #: src/arch/unix/uiprinter.c:158 src/arch/unix/uiprinter.c:170
-#: src/arch/unix/vic20ui.c:300
+#: src/arch/unix/vic20ui.c:301
 msgid "*None"
 msgstr "*Aucun"
 
@@ -1808,42 +1791,42 @@ msgid "*Sectors..."
 msgstr "*Secteurs..."
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:118
-#: src/arch/unix/vic20ui.c:303
+#: src/arch/unix/vic20ui.c:304
 msgid "*Numpad"
 msgstr "*Clavier numérique"
 
 #: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:121
-#: src/arch/unix/vic20ui.c:306
+#: src/arch/unix/vic20ui.c:307
 msgid "*Custom Keys"
 msgstr "*Touches personnalisées"
 
 #: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:125
-#: src/arch/unix/vic20ui.c:310
+#: src/arch/unix/vic20ui.c:311
 msgid "*Analog Joystick 0"
 msgstr "*Joystick analogue 0"
 
 #: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:128
-#: src/arch/unix/vic20ui.c:313
+#: src/arch/unix/vic20ui.c:314
 msgid "*Analog Joystick 1"
 msgstr "*Joystick analogue 1"
 
 #: src/arch/unix/uijoystick2.c:95 src/arch/unix/uijoystick2.c:132
-#: src/arch/unix/vic20ui.c:317
+#: src/arch/unix/vic20ui.c:318
 msgid "*Digital Joystick 0"
 msgstr "*Joystick digital 0"
 
 #: src/arch/unix/uijoystick2.c:98 src/arch/unix/uijoystick2.c:135
-#: src/arch/unix/vic20ui.c:320
+#: src/arch/unix/vic20ui.c:321
 msgid "*Digital Joystick 1"
 msgstr "*Joystick digital 1"
 
 #: src/arch/unix/uijoystick2.c:103 src/arch/unix/uijoystick2.c:140
-#: src/arch/unix/vic20ui.c:325
+#: src/arch/unix/vic20ui.c:326
 msgid "*USB Joystick 0"
 msgstr "*USB Joystick 0"
 
 #: src/arch/unix/uijoystick2.c:106 src/arch/unix/uijoystick2.c:143
-#: src/arch/unix/vic20ui.c:328
+#: src/arch/unix/vic20ui.c:329
 msgid "*USB Joystick 1"
 msgstr "*USB Joystick 1"
 
@@ -1859,7 +1842,7 @@ msgstr "Joystick dans le port #2"
 msgid "Swap joystick ports"
 msgstr "Échanger les joysticks de ports"
 
-#: src/arch/unix/uijoystick2.c:170 src/arch/unix/vic20ui.c:337
+#: src/arch/unix/uijoystick2.c:170 src/arch/unix/vic20ui.c:338
 msgid "Joystick settings"
 msgstr "Paramètres des joysticks"
 
@@ -2063,7 +2046,7 @@ msgstr "Sélectionnez le fichier de sortie d'imprimante"
 msgid "Command to execute for printing (preceed with '|')"
 msgstr "Commande à exécuter pour imprimer (précédé de '|')"
 
-#: src/arch/unix/uiprinter.c:149 src/arch/unix/uirs232.c:140
+#: src/arch/unix/uiprinter.c:149 src/arch/unix/uirs232.c:100
 msgid "Command:"
 msgstr "Commande:"
 
@@ -2270,81 +2253,98 @@ msgstr "Dupliquer une ROM dans un fichier"
 msgid "List current ROM set"
 msgstr "Lister le fichier image"
 
-#: src/arch/unix/uirs232.c:44 src/arch/unix/uirs232.c:58
-msgid "*Serial 1"
-msgstr "*Port série #1"
-
-#: src/arch/unix/uirs232.c:46 src/arch/unix/uirs232.c:60
-msgid "*Serial 2"
-msgstr "*Port série #2"
-
-#: src/arch/unix/uirs232.c:48 src/arch/unix/uirs232.c:62
-msgid "*Dump to file"
-msgstr "*Rediriger vers un fichier"
-
-#: src/arch/unix/uirs232.c:50 src/arch/unix/uirs232.c:64
-msgid "*Exec process"
-msgstr "*Exécuter le processus"
-
-#: src/arch/unix/uirs232.c:72
-msgid "*No IRQ/NMI"
-msgstr "*Sans IRQ/NMI"
-
-#: src/arch/unix/uirs232.c:74
-msgid "*IRQ"
-msgstr "*IRQ"
-
-#: src/arch/unix/uirs232.c:76
-msgid "*NMI"
-msgstr "*NMI"
-
-#: src/arch/unix/uirs232.c:121
+#: src/arch/unix/uirs232.c:81
 msgid "Select RS232 device file"
 msgstr "Sélectionnez le fichier du périphérique RS232"
 
-#: src/arch/unix/uirs232.c:139
+#: src/arch/unix/uirs232.c:99
 msgid "Command to execute for RS232 (preceed with '|')"
 msgstr "Commande à exécuter pour le port RS232 (précédé de '|')"
 
-#: src/arch/unix/uirs232.c:145
+#: src/arch/unix/uirs232.c:105
 msgid "File to dump RS232 to"
 msgstr "Fichier de sortie du port RS232"
 
-#: src/arch/unix/uirs232.c:146
+#: src/arch/unix/uirs232.c:106
 msgid "Dump file:"
 msgstr "Rediriger vers un fichier"
 
-#: src/arch/unix/uirs232.c:154
+#: src/arch/unix/uirs232c64c128.c:42
+msgid "*No IRQ/NMI"
+msgstr "*Sans IRQ/NMI"
+
+#: src/arch/unix/uirs232c64c128.c:44
+msgid "*IRQ"
+msgstr "*IRQ"
+
+#: src/arch/unix/uirs232c64c128.c:46
+msgid "*NMI"
+msgstr "*NMI"
+
+#: src/arch/unix/uirs232c64c128.c:55
 msgid "*ACIA $DExx RS232 interface emulation"
 msgstr "*Émulation d'interface ACIA $DExx RS232"
 
-#: src/arch/unix/uirs232.c:156
+#: src/arch/unix/uirs232c64c128.c:57
 msgid "ACIA $DExx device"
 msgstr "Périphérique ACIA $DExx"
 
-#: src/arch/unix/uirs232.c:158
+#: src/arch/unix/uirs232c64c128.c:59
 msgid "ACIA $DExx Interrupt"
 msgstr "Interruption ACIA $DExx"
 
-#: src/arch/unix/uirs232.c:161 src/arch/unix/vic20ui.c:347
+#: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:348
 msgid "*No Userport RS232 emulation"
 msgstr "*Pas d'émulation de port utilisateur RS232"
 
-#: src/arch/unix/uirs232.c:163 src/arch/unix/vic20ui.c:349
+#: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:350
 msgid "*Userport 300 baud RS232 emulation"
 msgstr "*Émulation d'un port utilisateur RS232 de 300 bauds"
 
-#: src/arch/unix/uirs232.c:165 src/arch/unix/vic20ui.c:351
+#: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:352
 msgid "*Userport 1200 baud RS232 emulation"
 msgstr "*Émulation d'un port utilisateur RS232 de 1200 bauds"
 
-#: src/arch/unix/uirs232.c:167
+#: src/arch/unix/uirs232c64c128.c:68
 msgid "*CIA 9600 baud RS232 emulation"
 msgstr "*Émulation d'un port utilisateur RS232 CIA de 9600 bauds"
 
-#: src/arch/unix/uirs232.c:169 src/arch/unix/vic20ui.c:353
+#: src/arch/unix/uirs232c64c128.c:70 src/arch/unix/vic20ui.c:354
 msgid "Userport RS232 device"
 msgstr "Périphérique de port utilisateur RS232"
+
+#: src/arch/unix/uirs232c64c128.c:73 src/arch/unix/uirs232petplus4cbm2.c:42
+#: src/arch/unix/vic20ui.c:357
+msgid "Serial 1 device..."
+msgstr "Port série #1..."
+
+#: src/arch/unix/uirs232c64c128.c:75 src/arch/unix/uirs232petplus4cbm2.c:44
+#: src/arch/unix/vic20ui.c:359
+msgid "Serial 1 baudrate"
+msgstr "Vitesse du port série #1 (bps)"
+
+#: src/arch/unix/uirs232c64c128.c:80 src/arch/unix/uirs232petplus4cbm2.c:49
+#: src/arch/unix/vic20ui.c:364
+msgid "Serial 2 baudrate"
+msgstr "Vitesse du port série #2"
+
+#: src/arch/unix/uirs232c64c128.c:83 src/arch/unix/uirs232petplus4cbm2.c:52
+#: src/arch/unix/vic20ui.c:367
+msgid "Dump filename..."
+msgstr "Nom du fichier..."
+
+#: src/arch/unix/uirs232c64c128.c:86 src/arch/unix/uirs232petplus4cbm2.c:55
+#: src/arch/unix/vic20ui.c:370
+msgid "Program name to exec..."
+msgstr "Nom du programme à exécuter..."
+
+#: src/arch/unix/uirs232petplus4cbm2.c:39
+msgid "ACIA device"
+msgstr "Périphérique ACIA"
+
+#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:362
+msgid "Serial 2 device..."
+msgstr "Port série #2..."
 
 #: src/arch/unix/uisettings.c:112
 msgid "Enter refresh rate"
@@ -2679,107 +2679,107 @@ msgstr ""
 "Sortie..."
 
 #. Shouldn't happen.
-#: src/arch/unix/vic20ui.c:101
+#: src/arch/unix/vic20ui.c:102
 msgid "What?!\n"
 msgstr "Pardon?!\n"
 
-#: src/arch/unix/vic20ui.c:119
+#: src/arch/unix/vic20ui.c:120
 msgid "Load new Kernal ROM"
 msgstr "Charger le nouveau ROM Kernal"
 
-#: src/arch/unix/vic20ui.c:122
+#: src/arch/unix/vic20ui.c:123
 msgid "Load new Basic ROM"
 msgstr "Charger le nouveau ROM Basic"
 
-#: src/arch/unix/vic20ui.c:125
+#: src/arch/unix/vic20ui.c:126
 msgid "Load new Character ROM"
 msgstr "Charger le nouveau ROM de caractères"
 
-#: src/arch/unix/vic20ui.c:151
+#: src/arch/unix/vic20ui.c:152
 msgid "No expansion memory"
 msgstr "Aucune expansion de mémoire"
 
-#: src/arch/unix/vic20ui.c:154
+#: src/arch/unix/vic20ui.c:155
 msgid "3K (block 0)"
 msgstr "3Ko (block 0)"
 
-#: src/arch/unix/vic20ui.c:156
+#: src/arch/unix/vic20ui.c:157
 msgid "8K (block 1)"
 msgstr "8Ko (block 1)"
 
-#: src/arch/unix/vic20ui.c:158
+#: src/arch/unix/vic20ui.c:159
 msgid "16K (blocks 1/2)"
 msgstr "16Ko (block 1/2)"
 
-#: src/arch/unix/vic20ui.c:160
+#: src/arch/unix/vic20ui.c:161
 msgid "24K (blocks 1/2/3)"
 msgstr "24Ko (block 1/2/3)"
 
-#: src/arch/unix/vic20ui.c:163
+#: src/arch/unix/vic20ui.c:164
 msgid "All (blocks 0/1/2/3/5)"
 msgstr "Tous (blocks 0/1/2/3/5)"
 
-#: src/arch/unix/vic20ui.c:177
+#: src/arch/unix/vic20ui.c:178
 msgid "Common configurations"
 msgstr "Configurations communes"
 
-#: src/arch/unix/vic20ui.c:183
+#: src/arch/unix/vic20ui.c:184
 msgid "*Block 0 (3K at $0400-$0FFF)"
 msgstr "*Block 0 (3Ko à $0400-$0FFF)"
 
-#: src/arch/unix/vic20ui.c:185
+#: src/arch/unix/vic20ui.c:186
 msgid "*Block 1 (8K at $2000-$3FFF)"
 msgstr "*Block 1 (8Ko à $2000-$3FFF)"
 
-#: src/arch/unix/vic20ui.c:187
+#: src/arch/unix/vic20ui.c:188
 msgid "*Block 2 (8K at $4000-$5FFF)"
 msgstr "*Block 2 (8Ko à $4000-$5FFF)"
 
-#: src/arch/unix/vic20ui.c:189
+#: src/arch/unix/vic20ui.c:190
 msgid "*Block 3 (8K at $6000-$7FFF)"
 msgstr "*Block 3 (8Ko à $6000-$7FFF)"
 
-#: src/arch/unix/vic20ui.c:191
+#: src/arch/unix/vic20ui.c:192
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Block 5 (8Ko à $A000-$BFFF)"
 
-#: src/arch/unix/vic20ui.c:201 src/arch/unix/vic20ui.c:424
+#: src/arch/unix/vic20ui.c:202 src/arch/unix/vic20ui.c:425
 msgid "Memory expansions"
 msgstr "Expansions de mémoire"
 
-#: src/arch/unix/vic20ui.c:223
+#: src/arch/unix/vic20ui.c:224
 msgid "Invalid cartridge image"
 msgstr "Image de cartouche invalide"
 
-#: src/arch/unix/vic20ui.c:248
+#: src/arch/unix/vic20ui.c:249
 msgid "Smart-attach cartridge image..."
 msgstr "Insertion intelligente d'images de cartouches..."
 
-#: src/arch/unix/vic20ui.c:253
+#: src/arch/unix/vic20ui.c:254
 msgid "Attach 4/8/16KB image at $2000..."
 msgstr "Insertion d'une image 4/8/16Ko à $2000..."
 
-#: src/arch/unix/vic20ui.c:256
+#: src/arch/unix/vic20ui.c:257
 msgid "Attach 4/8/16KB image at $4000..."
 msgstr "Insertion d'une image 4/8/16Ko à $4000..."
 
-#: src/arch/unix/vic20ui.c:259
+#: src/arch/unix/vic20ui.c:260
 msgid "Attach 4/8/16KB image at $6000..."
 msgstr "Insertion d'une image 4/8/16Ko à $6000..."
 
-#: src/arch/unix/vic20ui.c:262
+#: src/arch/unix/vic20ui.c:263
 msgid "Attach 4/8KB image at $A000..."
 msgstr "Insertion d'une image 4/8Ko à $A000..."
 
-#: src/arch/unix/vic20ui.c:265
+#: src/arch/unix/vic20ui.c:266
 msgid "Attach 4KB image at $B000..."
 msgstr "Insertion d'une image 4Ko à $B000..."
 
-#: src/arch/unix/vic20ui.c:277
+#: src/arch/unix/vic20ui.c:278
 msgid "Detach cartridge image(s)"
 msgstr "Retirer une image de cartouche"
 
-#: src/arch/unix/vic20ui.c:422
+#: src/arch/unix/vic20ui.c:423
 msgid "VIC settings"
 msgstr "Paramètres VIC"
 
