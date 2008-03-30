@@ -28,13 +28,16 @@
 #define _RAWFILE_H
 
 struct rawfile_info_s {
+    void *fd;
     char *name;
     char *path;
     unsigned int readonly;
 };
 typedef struct rawfile_info_s rawfile_info_t;
 
-extern struct rawfile_info_s *rawfile_info(const char *file_name);
+extern struct rawfile_info_s *rawfile_open(const char *file_name,
+                                           const char *path,
+                                           unsigned int command);
 extern void rawfile_destroy(struct rawfile_info_s *info);
 
 #endif

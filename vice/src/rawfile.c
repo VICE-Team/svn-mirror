@@ -28,25 +28,38 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "lib.h"
-#include "log.h"
 #include "rawfile.h"
 #include "util.h"
 
 
-rawfile_info_t *rawfile_info(const char *file_name)
+rawfile_info_t *rawfile_open(const char *file_name, const char *path,
+                             unsigned int command)
 {
     rawfile_info_t *info;
+    char *complete;
+    FILE *fd;
 
-    if (util_file_exists(file_name) == 0) {
-        log_error(LOG_DEFAULT, "Cannot open `%s'.", file_name);
+    if (path == NULL)
+        complete = lib_stralloc(file_name);
+    else
+        complete = util_concat(path, FSDEV_DIR_SEP_STR, file_name, NULL);
+
+    fd = fopen(complete, MODE_READ);
+
+    if (fd == NULL) {
+        lib_free(complete);
         return NULL;
     }
 
     info = (rawfile_info_t *)lib_malloc(sizeof(rawfile_info_t));
 
-    util_fname_split(file_name, &(info->path), &(info->name));
+    info->fd = (void *)fd;
+    util_fname_split(complete, &(info->path), &(info->name));
     info->readonly = 0;
+
+    lib_free(complete);
 
     return info;
 }
@@ -54,6 +67,7 @@ rawfile_info_t *rawfile_info(const char *file_name)
 void rawfile_destroy(rawfile_info_t *info)
 {
     if (info != NULL) {
+        fclose((FILE *)(info->fd));
         lib_free(info->name);
         lib_free(info->path);
         lib_free(info);
