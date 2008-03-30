@@ -39,8 +39,10 @@
 int toggle(const char *resource_name)
 {
     int val;
-    if (resources_toggle(resource_name, (resource_value_t*)&val)<0)
+
+    if (resources_toggle(resource_name, &val) < 0)
         return -1;
+
     return val;
 }
 

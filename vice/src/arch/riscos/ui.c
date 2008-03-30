@@ -2633,10 +2633,10 @@ void ui_toggle_truedrv_emulation(void)
 
 void ui_toggle_sid_emulation(void)
 {
-  resource_value_t new_state;
+  int new_state;
 
   resources_toggle(Rsrc_Sound, &new_state);
-  ui_set_sound_enable((int)new_state);
+  ui_set_sound_enable(new_state);
 }
 
 
