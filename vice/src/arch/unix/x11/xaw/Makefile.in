@@ -340,6 +340,8 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/palette.h ../../../../../src/c64/psid.h \
+	../../../../../src/raster/raster.h \
+	../../../../../src/raster/raster-changes.h \
 	../../../../../src/resources.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
 	uiarch.h ../../../../../src/uicolor.h \

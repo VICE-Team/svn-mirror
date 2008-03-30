@@ -1,3 +1,58 @@
+2002-03-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.26.
+
+	* vicii/vicii-mem.c (check_bad_line_state_change_for_d011):
+	Do not reset bad line state after a bad line has happened,
+	this is only possible before matrix fetch.
+
+2002-03-10 Dag Lem <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/ui.c (ui_open_canvas_window): Refresh
+	canvas when application window is moved - required for XVideo.
+
+	* arch/unix/x11/xaw/ui.c (ui_open_canvas_window): Likewise.
+
+2002-03-08 Dag Lem <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomevideo.c (frame_buffer_alloc): Don't
+	double size of target image.
+
+	* arch/unix/x11/xaw/x11video.c (frame_buffer_alloc): Likewise.
+
+	* arch/unix/x11/video.c (convert_*): Use correct target image
+	positions.
+	(video_canvas_refresh): Removed XVideo clipping. Pass correct
+	image positions to _convert_func and _refresh_func.
+
+	* arch/unix/x11/xaw/ui.c: Removed old exposure cruft.
+
+2002-03-07  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/uihelp.{c,h}: new files for interactive help
+
+	* arch/riscos/uisharedef.h: new file for shared ui-specific
+	defs
+
+	* arch/riscos/uiconfig.{c,h}: added resources for video layer,
+	mangled config icon window names into config icon names
+
+	* arch/riscos/ui.{c,h}: adapted to changed config icon names,
+	exported interactive help to uihelp.{c,h}, shared defs to
+	uisharedef.h, grey-out icon lists and icon bar icon names
+	to machine-specific ui stubs and window->canvas coordinate
+	translation to video.c
+
+	* arch/riscos/video.c, arch/riscos/videoarch.h: do window to
+	canvas coordinate translation here now
+
+	* arch/riscos/c128ui.c, arch/riscos/c610ui.c,
+	arch/riscos/c64ui.c, arch/riscos/petui.c,
+	arch/riscos/plus4ui.c, arch/riscos/vic20ui.c:
+	handle grey-out icon lists and icon bar icon names
+
+	* arch/riscos/Makefile.am: added uihelp.{c,h} and uisharedef.h
+
 2002-03-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.25.

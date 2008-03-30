@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-03-02 15:37+0100\n"
+"POT-Creation-Date: 2002-03-10 16:30+0100\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -314,8 +314,8 @@ msgstr "Alternativ"
 #: src/arch/unix/c128ui.c:493 src/arch/unix/c610ui.c:498
 #: src/arch/unix/c64ui.c:460 src/arch/unix/petui.c:421
 #: src/arch/unix/plus4ui.c:205 src/arch/unix/vic20ui.c:537
-#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1143
-#: src/arch/unix/x11/gnome/ui.c:1235
+#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1147
+#: src/arch/unix/x11/gnome/ui.c:1239
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -1079,7 +1079,7 @@ msgstr "Nästa: "
 
 #: src/arch/unix/uicommands.c:679 src/arch/unix/uicommands.c:694
 #: src/arch/unix/x11/gnome/ui.c:785 src/arch/unix/x11/gnome/ui.c:795
-#: src/arch/unix/x11/gnome/ui.c:1487
+#: src/arch/unix/x11/gnome/ui.c:1491
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -1224,7 +1224,7 @@ msgid "About VICE..."
 msgstr "Om VICE..."
 
 #: src/arch/unix/uicommands.c:964 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1855
+#: src/arch/unix/x11/gnome/ui.c:1859
 msgid "Reset"
 msgstr "Återställ"
 
@@ -1727,8 +1727,8 @@ msgstr "Maximal hastighet"
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/uisettings.c:221 src/arch/unix/x11/gnome/ui.c:1282
-#: src/arch/unix/x11/xaw/ui.c:1065
+#: src/arch/unix/uisettings.c:221 src/arch/unix/x11/gnome/ui.c:1286
+#: src/arch/unix/x11/xaw/ui.c:1064
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
 
@@ -2235,13 +2235,12 @@ msgstr "Garanti"
 msgid "Contributors"
 msgstr "Bidragslämnare"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:104
-#: src/arch/unix/x11/xaw/x11video.c:99
+#: src/arch/unix/x11/gnome/gnomevideo.c:87 src/arch/unix/x11/xaw/x11video.c:95
 #, fuzzy, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Grafiken har initierats."
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:125
+#: src/arch/unix/x11/gnome/gnomevideo.c:108
 msgid "Successfully initialized video."
 msgstr "Grafiken har initierats."
 
@@ -2255,22 +2254,22 @@ msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Sätt typsnittssökväg: \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/ui.c:640 src/arch/unix/x11/xaw/ui.c:473
+#: src/arch/unix/x11/gnome/ui.c:640 src/arch/unix/x11/xaw/ui.c:474
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dina grafikinställningar stöder inte %d-bitarsläge."
 
-#: src/arch/unix/x11/gnome/ui.c:643 src/arch/unix/x11/xaw/ui.c:476
+#: src/arch/unix/x11/gnome/ui.c:643 src/arch/unix/x11/xaw/ui.c:477
 msgid "Please select a bit depth supported by your display."
 msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
 #: src/arch/unix/x11/gnome/ui.c:646 src/arch/unix/x11/gnome/ui.c:664
-#: src/arch/unix/x11/xaw/ui.c:479 src/arch/unix/x11/xaw/ui.c:496
+#: src/arch/unix/x11/xaw/ui.c:480 src/arch/unix/x11/xaw/ui.c:497
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Hittade %d-bitars/%s-läge."
 
-#: src/arch/unix/x11/gnome/ui.c:672 src/arch/unix/x11/xaw/ui.c:504
+#: src/arch/unix/x11/gnome/ui.c:672 src/arch/unix/x11/xaw/ui.c:505
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
@@ -2298,97 +2297,97 @@ msgstr "Enhet %d: "
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/ui.c:954 src/arch/unix/x11/xaw/ui.c:588
+#: src/arch/unix/x11/gnome/ui.c:954 src/arch/unix/x11/xaw/ui.c:589
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
-#: src/arch/unix/x11/gnome/ui.c:1141 src/arch/unix/x11/gnome/ui.c:1224
+#: src/arch/unix/x11/gnome/ui.c:1145 src/arch/unix/x11/gnome/ui.c:1228
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/ui.c:1147
+#: src/arch/unix/x11/gnome/ui.c:1151
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/ui.c:1266 src/arch/unix/x11/xaw/ui.c:1049
+#: src/arch/unix/x11/gnome/ui.c:1270 src/arch/unix/x11/xaw/ui.c:1048
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1268 src/arch/unix/x11/xaw/ui.c:1055
+#: src/arch/unix/x11/gnome/ui.c:1272 src/arch/unix/x11/xaw/ui.c:1054
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/ui.c:1278 src/arch/unix/x11/xaw/ui.c:1062
+#: src/arch/unix/x11/gnome/ui.c:1282 src/arch/unix/x11/xaw/ui.c:1061
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/ui.c:1325 src/arch/unix/x11/xaw/ui.c:1099
+#: src/arch/unix/x11/gnome/ui.c:1329 src/arch/unix/x11/xaw/ui.c:1098
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
-#: src/arch/unix/x11/gnome/ui.c:1345 src/arch/unix/x11/gnome/ui.c:1348
-#: src/arch/unix/x11/xaw/ui.c:1120 src/arch/unix/x11/xaw/ui.c:1126
+#: src/arch/unix/x11/gnome/ui.c:1349 src/arch/unix/x11/gnome/ui.c:1352
+#: src/arch/unix/x11/xaw/ui.c:1119 src/arch/unix/x11/xaw/ui.c:1125
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1639
+#: src/arch/unix/x11/gnome/ui.c:1643
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1676 src/arch/unix/x11/xaw/ui.c:1336
+#: src/arch/unix/x11/gnome/ui.c:1680 src/arch/unix/x11/xaw/ui.c:1335
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/ui.c:1814
+#: src/arch/unix/x11/gnome/ui.c:1818
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/ui.c:1829
+#: src/arch/unix/x11/gnome/ui.c:1833
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/ui.c:1855
+#: src/arch/unix/x11/gnome/ui.c:1859
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/ui.c:1855
+#: src/arch/unix/x11/gnome/ui.c:1859
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1899 src/arch/unix/x11/xaw/ui.c:1576
+#: src/arch/unix/x11/gnome/ui.c:1903 src/arch/unix/x11/xaw/ui.c:1575
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/ui.c:1900
+#: src/arch/unix/x11/gnome/ui.c:1904
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/ui.c:1913
+#: src/arch/unix/x11/gnome/ui.c:1917
 msgid "Autostart not possible for unit 9"
 msgstr "Kan inte starta automatiskt från enhet 9"
 
-#: src/arch/unix/x11/gnome/ui.c:1921 src/arch/unix/x11/gnome/ui.c:1930
+#: src/arch/unix/x11/gnome/ui.c:1925 src/arch/unix/x11/gnome/ui.c:1934
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/ui.c:2058 src/arch/unix/x11/gnome/ui.c:2063
+#: src/arch/unix/x11/gnome/ui.c:2062 src/arch/unix/x11/gnome/ui.c:2067
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/ui.c:2521
+#: src/arch/unix/x11/gnome/ui.c:2525
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/ui.c:2568
+#: src/arch/unix/x11/gnome/ui.c:2572
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
-#: src/arch/unix/x11/gnome/ui.c:2594
+#: src/arch/unix/x11/gnome/ui.c:2598
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
@@ -2755,16 +2754,16 @@ msgstr ""
 msgid "Request YUV FOURCC format"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:372
+#: src/arch/unix/x11/video.c:378
 msgid "The MITSHM extension is not supported on this display."
 msgstr "MTSHM-utökningarna stöds inte för denna display."
 
-#: src/arch/unix/x11/video.c:376
+#: src/arch/unix/x11/video.c:382
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/video.c:437
+#: src/arch/unix/x11/video.c:443
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 
@@ -2772,16 +2771,16 @@ msgstr "Kan inte släppa delat minne!"
 msgid "VICE Information"
 msgstr "VICE-information"
 
-#: src/arch/unix/x11/xaw/ui.c:1209
+#: src/arch/unix/x11/xaw/ui.c:1208
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/ui.c:1464
+#: src/arch/unix/x11/xaw/ui.c:1463
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
-#: src/arch/unix/x11/xaw/ui.c:1644
+#: src/arch/unix/x11/xaw/ui.c:1643
 msgid "Unknown image type."
 msgstr "Okänd avbildningsfiltyp."
 
@@ -2883,46 +2882,46 @@ msgstr "Spara laddade ROMar:"
 msgid "Save snapshot"
 msgstr "Spara ögonblicksbild"
 
-#: src/arch/unix/x11/xaw/x11video.c:115
+#: src/arch/unix/x11/xaw/x11video.c:111
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr "Kunde inte allokera XImage med XShm; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:128
+#: src/arch/unix/x11/xaw/x11video.c:124
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr "Fick inte tillgång till delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:139
+#: src/arch/unix/x11/xaw/x11video.c:135
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr "Fick inte adress till delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:154 src/arch/unix/x11/xaw/x11video.c:171
+#: src/arch/unix/x11/xaw/x11video.c:150 src/arch/unix/x11/xaw/x11video.c:167
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr "Kunde inte ansluta delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:178
+#: src/arch/unix/x11/xaw/x11video.c:174
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM-initiering färdig.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:199
+#: src/arch/unix/x11/xaw/x11video.c:195
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Initierade%s delat minne."
 
-#: src/arch/unix/x11/xaw/x11video.c:200
+#: src/arch/unix/x11/xaw/x11video.c:196
 msgid ", using"
 msgstr " med"
 
-#: src/arch/unix/x11/xaw/x11video.c:200
+#: src/arch/unix/x11/xaw/x11video.c:196
 msgid " without"
 msgstr " utan"
 
-#: src/arch/unix/x11/xaw/x11video.c:203
+#: src/arch/unix/x11/xaw/x11video.c:199
 msgid "Performance will be poor."
 msgstr "Prestanda kommer att bli dålig."
 
-#: src/arch/unix/x11/xaw/x11video.c:206
+#: src/arch/unix/x11/xaw/x11video.c:202
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 
