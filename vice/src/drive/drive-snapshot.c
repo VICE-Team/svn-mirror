@@ -40,6 +40,7 @@
 #include "driverom.h"
 #include "drivetypes.h"
 #include "gcr.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "lib.h"
 #include "log.h"
@@ -397,7 +398,7 @@ int drive_snapshot_read_module(snapshot_t *s)
              drive_enable(drive_context[i]);
     }
 
-    iec_calculate_callback_index();
+    iecbus_calculate_callback_index();
     iec_update_ports_embedded();
     drive_update_ui_status();
 

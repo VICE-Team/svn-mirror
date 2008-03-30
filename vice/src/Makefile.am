@@ -11,6 +11,7 @@ SUBDIRS = \
 	vdrive \
 	fsdevice \
 	diskimage \
+	iecbus \
 	serial \
 	parallel \
 	tape \
@@ -77,6 +78,7 @@ noinst_HEADERS = \
 	gcr.h \
 	gfxoutput.h \
 	hardsid.h \
+	iecbus.h \
 	iecdrive.h \
 	imagecontents.h \
 	info.h \
@@ -215,6 +217,7 @@ driveieee_lib = $(top_builddir)/src/drive/ieee/libdriveieee.a
 drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
+iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 parallel_lib = $(top_builddir)/src/parallel/libparallel.a
@@ -257,6 +260,7 @@ x64_libs =  \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
@@ -293,6 +297,7 @@ x64-all: \
 	libarch \
 	libmonitor \
 	libdiskimage \
+	libiecbus \
 	libserial \
 	libfsdevice \
 	libtape \
@@ -310,6 +315,7 @@ x128_libs =  \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
@@ -348,6 +354,7 @@ x128-all: \
 	libvideo \
 	libmonitor \
 	libdiskimage \
+	libiecbus \
 	libserial \
 	libfsdevice \
 	libtape \
@@ -364,6 +371,7 @@ xvic_libs =  \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
@@ -394,6 +402,7 @@ xvic-all: \
 	libarch \
 	libmonitor \
 	libdiskimage \
+	libiecbus \
 	libserial \
 	libfsdevice \
 	libtape \
@@ -454,6 +463,7 @@ xplus4_libs =  \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(drivetcbm_lib) \
+	$(iecbus_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(raster_lib) \
@@ -482,6 +492,7 @@ xplus4-all: \
 	libarch \
 	libmonitor \
 	libdiskimage \
+	libiecbus \
 	libserial \
 	libfsdevice \
 	libtape \
@@ -595,7 +606,7 @@ petcat_LDADD = \
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libvdc libsid libcrtc
-	libvideo libserial libparallel libcore @RESID_DEP@
+	libvideo libserial libparallel libcore libiecbus @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -629,6 +640,8 @@ libgfxoutputdrv:
 	(cd gfxoutputdrv && $(MAKE))
 libfsdevice:
 	(cd fsdevice && $(MAKE))
+libiecbus:
+	(cd iecbus && $(MAKE))
 libimagecontents:
 	(cd imagecontents && $(MAKE))
 libmonitor:

@@ -33,6 +33,7 @@
 #include "drivecpu.h"
 #include "driverom.h"
 #include "drivetypes.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "lib.h"
 #include "log.h"
@@ -65,7 +66,7 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             drive_enable(drive_context[dnr]);
         }
-        iec_calculate_callback_index();
+        iecbus_calculate_callback_index();
     } else {
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             drive = drive_context[dnr]->drive;
@@ -147,7 +148,7 @@ static int drive0_resources_type(resource_value_t v, void *param)
         if (drive_true_emulation) {
             drive->enable = 1;
             drive_enable(drive_context[0]);
-            iec_calculate_callback_index();
+            iecbus_calculate_callback_index();
         }
         drive_set_disk_drive_type(type, drive_context[0]);
         drive_rom_initialize_traps(drive);
@@ -221,7 +222,7 @@ static int drive1_resources_type(resource_value_t v, void *param)
         if (drive_true_emulation) {
             drive->enable = 1;
             drive_enable(drive_context[dnr]);
-            iec_calculate_callback_index();
+            iecbus_calculate_callback_index();
         }
         drive_set_disk_drive_type(type, drive_context[dnr]);
         drive_rom_initialize_traps(drive);
