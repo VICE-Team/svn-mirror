@@ -1,5 +1,36 @@
 2003-08-17  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.12.25.
+
+	* arch/win32/ressid.rc, arch/win32/resreu.rc,
+	arch/win32/resvicii.rc: New files.
+
+	* arch/win32/resc64.rc, arch/win32/resc128.rc,
+	arch/win32/rescbm2.rc: Added separate resource files.
+
+	* arch/win32/uisid.c, arch/win32/res.h, sid/sid-resources.c,
+	arch/win32/hardsid.c, hardsid.h, sid/sid-resources.h: Added
+	support for multiple HardSID devices.
+
+	* arch/win32/Makefile.am: Added new files.
+
+	* arch/win32/arch.dsp: Added `hardsid.c'.
+
+	* sid/sid.c, sid/sid.h  (sid_set_machine_parameter): New
+	function.
+
+	* sound.c (sound_set_machine_parameter): Removed SID specific
+	calls.
+
+	* c64/c64.c, c128/c128.c (machine_change_timing): Change SID
+	timings.
+
+	* arch/win32/ui.c, arch/win32/c64ui.c, arch/win32/c128ui.c,
+	arch/win32/cbm2ui.c: Moved SID UI initialization to separate
+	files.
+
+2003-08-17  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.12.24.
 
 	* sound.c, sid/sid.h, sid/sid.c, sid/sid-cmdline-options.c,
