@@ -110,17 +110,17 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUBDIRS = pm snippets vac++ kbd dialogs ui
+SUBDIRS = snippets vac++ kbd dialogs ui 
 
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/monitor
 
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	config.h 	console.c 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	main_exit.c 	main_exit.h         makedist.cmd         pm_cmdline.c         pm_cmdline.h 	rs232.c 	signals.h 	sounddrv.c 	sounddrv.h 	types.h 	ui.c 	ui.h 	ui_status.h 	uicmdline.c 	uicmdline.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c 
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	config.h 	console.c 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	main_exit.c 	main_exit.h         makedist.cmd         mouse.c         mouse.h 	rs232.c 	signals.h 	sounddrv.c 	sounddrv.h 	types.h 	ui.c 	ui.h 	ui_status.h 	uicmdline.c 	uicmdline.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c 
 
 
-EXTRA_DIST =  	vice.def 	install.cmd 	makedist.cmd 	makeclean.cmd 	unused/contentsdlg.c 	unused/contentsdlg.h 	unused/ui_status.c 	unused/video_gpi.h 	unused/video_gpi.c 	unused/vsync.c 	unused/vsync.h 	icons/folder.pal 	icons/folder1.ico 	icons/folder2.ico 	icons/x64.ico 	icons/xpet.ico 	icons/x128.ico 	icons/xvic.ico 	icons/xcbm2.ico 	icons/c1541.ico 	texi2ipf/readme 	texi2ipf/texi2ipf.exe 	texi2ipf/texi2ipf.INF 	doc/Vice_for_OS2.txt
+EXTRA_DIST =  	vice.def         install.cmd         makedist.cmd         makeclean.cmd 	unused/pm/winaddon.c 	unused/pm/winaddon.h 	unused/pm/scrollbars.c 	unused/pm/scrollbars.h         unused/contentsdlg.c         unused/contentsdlg.h         unused/video_gpi.h         unused/video_gpi.c         unused/pm_cmdline.c         unused/pm_cmdline.h         unused/vsync.c         unused/vsync.h         unused/ui_status.c         icons/folder.pal         icons/folder1.ico         icons/folder2.ico         icons/x64.ico         icons/xpet.ico         icons/x128.ico         icons/xcbm2.ico         icons/c1541.ico         texi2ipf/readme         texi2ipf/texi2ipf.exe         texi2ipf/texi2ipf.INF         doc/Vice_for_OS2.txt
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -136,8 +136,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o console.o joystick.o kbd.o main_exit.o \
-pm_cmdline.o rs232.o sounddrv.o ui.o uicmdline.o video.o vsidui.o \
-vsync.o
+mouse.o rs232.o sounddrv.o ui.o uicmdline.o video.o vsidui.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -291,7 +290,7 @@ subdir = src/arch/os2
 
 distdir: $(DISTFILES)
 	$(mkinstalldirs) $(distdir)/doc $(distdir)/icons $(distdir)/texi2ipf \
-	   $(distdir)/unused
+	   $(distdir)/unused $(distdir)/unused/pm
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \

@@ -715,7 +715,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.3.3
+VERSION=1.3.4
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -7128,9 +7128,9 @@ else
   OS2_COMPILE_FALSE=
 fi
 elif [ x"$is_os2" != "xno" ]; then
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2/ -I\$(top_srcdir)/src/arch/os2/pm"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2/"
   ARCH_DIR="\$(top_builddir)/src/arch/os2"
-  ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/pm/libpm.a"
+  ARCH_LIBS="$ARCH_DIR/libarch.a"
   
 
 if false; then
@@ -7264,7 +7264,6 @@ if false ; then
     mkdir -p arch/os2/icons
     mkdir -p arch/os2/kbd
     mkdir -p arch/os2/snippets
-    mkdir -p arch/os2/pm
     mkdir -p arch/os2/vac++
     mkdir -p arch/riscos
     mkdir -p arch/unix
@@ -7422,7 +7421,6 @@ trap 'rm -fr `echo "Makefile
            src/arch/os2/Makefile
            src/arch/os2/dialogs/Makefile
            src/arch/os2/kbd/Makefile
-           src/arch/os2/pm/Makefile
            src/arch/os2/snippets/Makefile
            src/arch/os2/ui/Makefile
            src/arch/os2/vac++/Makefile
@@ -7631,7 +7629,6 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/arch/os2/Makefile
            src/arch/os2/dialogs/Makefile
            src/arch/os2/kbd/Makefile
-           src/arch/os2/pm/Makefile
            src/arch/os2/snippets/Makefile
            src/arch/os2/ui/Makefile
            src/arch/os2/vac++/Makefile
