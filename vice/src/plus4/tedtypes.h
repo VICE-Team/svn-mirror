@@ -299,6 +299,9 @@ struct ted_s {
     /* TED clock mode.  */
     unsigned int fastmode;
 
+    /* Last value read from TED (used for RMW access).  */
+    BYTE last_read;
+
     /* Video chip capabilities.  */
     struct video_chip_cap_s *video_chip_cap;
 
