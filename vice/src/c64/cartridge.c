@@ -217,6 +217,8 @@ void cartridge_detach_image(void)
 	mem_detach_cartridge((carttype == CARTRIDGE_CRT) ? crttype : carttype);
 	carttype = CARTRIDGE_NONE;
 	crttype = CARTRIDGE_NONE;
+        if (cartfile != NULL)
+            free(cartfile), cartfile = NULL;
     }
 }
 
@@ -229,7 +231,7 @@ void cartridge_set_default(void)
 
 void cartridge_trigger_freeze(void)
 {
-    if (crttype != CARTRIDGE_ACTION_REPLAY 
+    if (crttype != CARTRIDGE_ACTION_REPLAY
         && carttype != CARTRIDGE_ACTION_REPLAY
         && crttype != CARTRIDGE_KCS_POWER)
 	return;
@@ -242,3 +244,7 @@ void cartridge_release_freeze(void)
     maincpu_set_nmi(I_FREEZE, 0);
 }
 
+const char *cartridge_get_file_name(ADDRESS addr_ignored)
+{
+    return cartfile;
+}

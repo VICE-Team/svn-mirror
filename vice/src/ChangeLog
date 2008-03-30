@@ -1,3 +1,137 @@
+Fri Jul 24 13:18:59 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/kbd.c: New variable `freeze_function'; new command
+ 	`KCMD_FREEZE'.
+	(kbd_set_freeze_function): New function.
+	(kbd_flush_commands): Handle `KCMD_FREEZE', calling
+ 	`freeze_function()' if not NULL.
+	(my_kbd_interrupt_handler): Added handling for the Pause key
+	(`K_PAUSE').  `K_PAUSE' now triggers `KCMD_FREEZE'.
+	(my_kbd_interrupt_handler): Hard reset moved from `Ctrl-F12' to
+ 	`Alt-F12'.
+
+	* arch/msdos/c64ui.c (toggle_REU_callback): Switched to standard
+ 	`TUI_MENU_DEFINE_TOGGLE'.
+	(toggle_IEEE488_callback): Likewise.
+
+	* arch/msdos/tuimenu.h (TUI_MENU_DEFINE_TOGGLE): If
+	`resources_toggle()' returns -1, simply get the current value with
+	`resources_get_value()'.
+
+	* arch/msdos/ui.c: New variable `drive_led_status'.
+ 	(ui_display_drive_led): Store `status' into `drive_led_status'.
+
+	* arch/msdos/kbd.c (_led_set, kbd_led_set): Removed.
+
+	* arch/msdos/tuifs.c (file_selector_display_item): Display
+	directory items with a trailing `\' instead of a trailing `/'.
+	(tui_file_selector): `chdir()' to the new path when it changes.
+
+	* vic20/cartridge.c (cartridge_get_file_name): New function.
+
+	* cartridge.h: Prevent multiple #inclusion via CPP.  #include
+ 	"types.h".
+
+	* arch/msdos/menudefs.c (hard_reset_callback): Always set
+	`*become_default' to zero.
+	(soft_reset_callback): Likewise.
+
+	* arch/msdos/petui.c: Added model options under "Special Options";
+	added double-size switch to the video submenu.
+
+	* pet/crtc.c [__MSDOS__ || NEED_2x]: Enable the `DoubleScan'
+ 	resource.
+
+	* pet/crtc.c (crtc_set_screen_mode) [__MSDOS__]: Enable double
+	size when in 80-column mode; disable it in 40-column mode.
+
+	* arch/msdos/petui.c (pet_ui_init): Enable support for two
+ 	joysticks.
+
+	* c64/cartridge.c (cartridge_detach_image): Free `cartfile' and
+	set it to NULL.
+
+	* arch/msdos/c64ui.c (c64_ui_init): Cartridge menu entries.
+
+	* arch/msdos/joystick.c (joystick_handle_key): Added diagonal
+ 	directions.
+
+	* c64/cartridge.c (cartridge_get_file_name): New function.
+
+	* arch/msdos/menudefs.c (attach_disk_callback): Free `name'.
+	(attach_tape_callback): Free `name', `directory', `default_item'.
+
+	* arch/msdos/petui.c (pet_ui_init): Enable tape in UI.
+
+	* arch/msdos/vic20ui.c (vic20_ui_init): Enable tape in UI.
+
+	* utils.c (get_current_dir): If `getcwd()' returns NULL and
+ 	`errno' is not `ERANGE', return NULL.
+	(string_to_long): Initialize `last_letter' to make compilers
+ 	happy.
+
+	* pet/petvia.def (show_keyarr): Removed.
+
+	* c64/c64cia1.def (READ_CIAPA, READ_CIAPB): Use `8' instead of
+	`KBD_ROWS' and `KBD_COLS'.
+	(show_keyarr): Removed.
+
+	* vic20/vic20via1.def (READ_PRA, READ_PRB): Use `8' instead of
+	`KBD_ROWS' and `KBD_COLS'.
+
+	* emuid.c: Updated `emulator_id'.
+
+	* emuid.h: Prevent multiple #inclusion using CPP.
+
+	* arch/msdos/petkbd.h (pet_kbd_init): Removed parameters.
+
+	* arch/msdos/c64kbd.c (c64_kbd_init): Adapted to the new
+ 	`kbd_init()'.
+
+	* arch/msdos/vic20kbd.c (vic20_kbd_init): Adapted to the new
+ 	`kbd_init()'.
+
+	* arch/msdos/petkbd.c (pet_kbd_init): Install the 40-column and
+	80-column keyboard maps.
+
+	* arch/msdos/kbd.c: Renamed `keyconvmap' to `keyconvmaps'; it is
+ 	now an array of available convmaps.
+	(kbd_init): Store vararg keyconvmaps into `keyconvmaps'.
+	(my_kbd_interrupt_handler): Access the right convmap through
+	`keyconv_base'.
+
+	* arch/msdos/tuifs.c (tui_file_selector): When handling Ctrl +
+ 	letter, don't switch drive if the working directory on the
+ 	requested drive cannot be read.
+
+	* arch/msdos/menudefs.c (detach_disk_callback): Detach with
+	`file_system_attach_disk()' instead of `serial_remove()'.
+
+Thu Jul 23 17:12:51 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/kbd.c, arch/msdos/kbd.h (kbd_init): Added vararg
+	parameters to install more than one keyboard map.
+
+Thu Jul 23 16:51:05 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* pet/pet.c (machine_init) [__MSDOS__]: Call `pet_kbd_init()' with
+	`PET_KBD_80' as the `type' parameter.
+
+	* arch/msdos/petkbd.h, arch/msdos/petkbd.c: New type
+	`pet_kbd_type_t'.
+	(pet_kbd_init): New parameter `type'.
+
+	* arch/msdos/kbd.c (kbd_init): Do not call `kbd_install()'.
+
+	* arch/msdos/petui.c: Added `menu_item' member to `palette_items'.
+	(add_palette_submenu): Use it.
+
+	* arch/msdos/kbd.h: Always #define `KBD_ROWS' to be 11 (maximum
+	value needed).
+
+	* pet/crtc.c (crtc_set_screen_mode) [__MSDOS__]: Set `VGAMode'
+	according to the screen mode being set.
+
 Thu Jul 23 02:42:00 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/msdos/tuifs.c (file_selector_display_path): New parameters

@@ -26,25 +26,32 @@
 
 #include "vice.h"
 
-#include <sys/farptr.h>
-#include <pc.h>
-#include <time.h>
-#include <go32.h>
 #include <dos.h>
 #include <dpmi.h>
+#include <go32.h>
+#include <pc.h>
+#include <stdarg.h>
 #include <stdlib.h>
+#include <sys/farptr.h>
+#include <time.h>
 
-#include "vmachine.h"
-#include "machine.h"
 #include "kbd.h"
+
+#include "cmdline.h"
 #include "interrupt.h"
 #include "joystick.h"
-#include "resources.h"
-#include "vsync.h"
+#include "machine.h"
 #include "mem.h"
+#include "resources.h"
+#include "resources.h"
+#include "vmachine.h"
+#include "vsync.h"
 
 /* #define DEBUG_KBD */
 
+/* ------------------------------------------------------------------------- */
+
+/* Keyboard status.  */
 int keyarr[KBD_ROWS];
 int rev_keyarr[KBD_COLS];
 
@@ -53,6 +60,8 @@ BYTE joy[3] = { 0, 0, 0 };
 
 /* This is nonzero if the user wants the menus.  */
 int _escape_requested = 0;
+
+/* ------------------------------------------------------------------------- */
 
 /* Segment info for the custom keyboard handler.  */
 static _go32_dpmi_seginfo std_kbd_handler_seginfo;
@@ -68,11 +77,18 @@ static struct {
     unsigned int right_alt:1;
 } modifiers;
 
-/* Pointer to the keyboard conversion map.  */
-static keyconv *keyconvmap;
+/* Pointer to the keyboard conversion maps.  Fixed-length arrays suck, but
+   for now we don't care.  */
+#define MAX_CONVMAPS 10
+static keyconv *keyconvmaps[MAX_CONVMAPS];
+static int num_keyconvmaps;
+static keyconv *keyconv_base;
 
 /* What is the location of the virtual shift key in the keyboard matrix?  */
 static int virtual_shift_column, virtual_shift_row;
+
+/* Function for triggering cartridge (e.g. AR) freezing.  */
+static void (*freeze_function)(void);
 
 #ifdef DEBUG_KBD
 #define DEBUG(x)					\
@@ -87,16 +103,51 @@ static int virtual_shift_column, virtual_shift_row;
 
 /* ------------------------------------------------------------------------- */
 
-/* For now, no resources and no command-line options.  */
+static int keymap_index;
 
-int kbd_init_resources(void)
+static int set_keymap_index(resource_value_t v)
 {
+    int real_index;
+
+    keymap_index = (int) v;
+
+    /* The `>> 1' is a temporary hack to avoid the positional/symbol mapping
+       which is not implemented in the MS-DOS version.  */
+    real_index = keymap_index >> 1;
+
+#if 0
+    if (real_index >= num_keyconvmaps)
+        return -1;
+#else
+    /* Argh, we cannot do the sanity check because we initialize the keyboard
+       /after/ this resource is set.  FIXME: Something we should definitely
+       fix some day.  */
+#endif
+
+    keyconv_base = keyconvmaps[real_index];
     return 0;
 }
 
+static resource_t resources[] = {
+    { "KeymapIndex", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &keymap_index, set_keymap_index },
+    { NULL }
+};
+
+int kbd_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+static cmdline_option_t cmdline_options[] = {
+    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
+      "<number>", "Specify index of used keymap" },
+    { NULL },
+};
+
 int kbd_init_cmdline_options(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -108,7 +159,8 @@ typedef enum {
     KCMD_RESET,
     KCMD_HARD_RESET,
     KCMD_RESTORE_PRESSED,
-    KCMD_RESTORE_RELEASED
+    KCMD_RESTORE_RELEASED,
+    KCMD_FREEZE
 } kbd_command_t;
 
 #define MAX_COMMAND_QUEUE_SIZE	256
@@ -152,6 +204,11 @@ void kbd_flush_commands(void)
 	    machine_set_restore_key(0);
 	    break;
 
+          case KCMD_FREEZE:
+            if (freeze_function != NULL)
+                freeze_function();
+            break;
+
 	  default:
 	    fprintf(stderr, "Warning: Unknown keyboard command %d\n",
 		    (int)command_queue[i]);
@@ -160,28 +217,6 @@ void kbd_flush_commands(void)
     num_queued_commands = 0;
 
     DEBUG(("Successful"));
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* The following functions handle the keyboard LEDs.  */
-
-inline static void _led_set(unsigned char value)
-{
-    DEBUG(("Setting LED %s", value ? "on" : "off"));
-
-    /* FIXME: Is this the 100% correct way to do it?  */
-    outportb(0x60, 0xed);
-    delay(1);
-    outportb(0x60, value);
-    delay(1);
-
-    DEBUG(("Successful"));
-}
-
-void kbd_led_set(int status)
-{
-    _led_set(status ? 1 : 0);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -202,16 +237,28 @@ inline static void set_keyarr(int row, int col, int value)
 static void my_kbd_interrupt_handler(void)
 {
     static int extended = 0;	/* Extended key count.  */
+    static int skip_count = 0;
     unsigned int kcode;
 
     kcode = inportb(0x60);
 
-    if (kcode == 0xe0) {
+    if (skip_count > 0) {
+        skip_count--;
+        outportb(0x20, 0x20);
+        return;
+    } else if (kcode == 0xe0) {
 	/* Extended key: at the next interrupt we'll get its extended keycode
 	   or 0xe0 again.  */
 	extended++;
 	outportb(0x20, 0x20);
 	return;
+    } else if (kcode == 0xe1) {
+        /* Damn Pause key.  It sends 0xe1 0x1d 0x52 0xe1 0x9d 0xd2.  This is
+           awesome, but at least we know it's the only sequence starting by
+           0xe1, so we can just skip the next 5 codes.  Btw, there is no
+           release code.  */
+        skip_count = 5;
+        kcode = K_PAUSE;
     }
 
     if (!(kcode & 0x80)) {	/* Key pressed.  */
@@ -250,17 +297,22 @@ static void my_kbd_interrupt_handler(void)
 	    queue_command(KCMD_RESTORE_PRESSED);
 	    break;
 	  case K_F12:
-	    /* F12 does a reset, Ctrl-F12 does a reset and clears the
+	    /* F12 does a reset, Alt-F12 does a reset and clears the
                memory.  */
-	    if (modifiers.left_ctrl || modifiers.right_ctrl)
+	    if (modifiers.left_alt || modifiers.right_alt)
 		queue_command(KCMD_HARD_RESET);
 	    else
 		queue_command(KCMD_RESET);
 	    break;
+          case K_PAUSE:
+            /* Freeze.  */
+            queue_command(KCMD_FREEZE);
+            break;
 	  default:
 	    if (!joystick_handle_key(kcode, 1)) {
-		set_keyarr(keyconvmap[kcode].row, keyconvmap[kcode].column, 1);
-		if (keyconvmap[kcode].vshift)
+		set_keyarr(keyconv_base[kcode].row,
+                           keyconv_base[kcode].column, 1);
+		if (keyconv_base[kcode].vshift)
 		    set_keyarr(virtual_shift_row, virtual_shift_column, 1);
 	    }
 	}
@@ -304,8 +356,9 @@ static void my_kbd_interrupt_handler(void)
 	    break;
 	  default:
 	    if (!joystick_handle_key(kcode, 0)) {
-		set_keyarr(keyconvmap[kcode].row, keyconvmap[kcode].column, 0);
-		if (keyconvmap[kcode].vshift)
+		set_keyarr(keyconv_base[kcode].row,
+                           keyconv_base[kcode].column, 0);
+		if (keyconv_base[kcode].vshift)
 		    set_keyarr(virtual_shift_row, virtual_shift_column, 0);
 	    }
 	}
@@ -374,8 +427,8 @@ static void kbd_exit(void)
 }
 
 /* Initialize the keyboard driver.  */
-int kbd_init(keyconv *map, int sizeof_map,
-	     int shift_column, int shift_row)
+/* keyconv *map, int sizeof_map, */
+int kbd_init(int shift_column, int shift_row, ...)
 {
     DEBUG(("Getting standard int 9 seginfo"));
     _go32_dpmi_get_protected_mode_interrupt_vector(9, &std_kbd_handler_seginfo);
@@ -386,8 +439,27 @@ int kbd_init(keyconv *map, int sizeof_map,
     _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command_end - (unsigned long)queue_command);
 
     DEBUG(("Locking keyboard handler variables"));
-    _go32_dpmi_lock_data(map, sizeof_map);
-    _go32_dpmi_lock_data(keyconvmap, sizeof(keyconvmap));
+    {
+        va_list p;
+
+        va_start(p, shift_row);
+        for (num_keyconvmaps = 0;
+             num_keyconvmaps < MAX_CONVMAPS;
+             num_keyconvmaps++) {
+            keyconv *map;
+            unsigned int sizeof_map;
+
+            map = va_arg(p, keyconv *);
+            if (map == NULL)
+                break;
+            sizeof_map = va_arg(p, unsigned int);
+            _go32_dpmi_lock_data(map, sizeof_map);
+            keyconvmaps[num_keyconvmaps] = map;
+        }
+    }
+
+    _go32_dpmi_lock_data(&keymap_index, sizeof(keymap_index));
+    _go32_dpmi_lock_data(keyconvmaps, sizeof(keyconvmaps));
     _go32_dpmi_lock_data(keyarr, sizeof(keyarr));
     _go32_dpmi_lock_data(rev_keyarr, sizeof(rev_keyarr));
     _go32_dpmi_lock_data(joy, sizeof(joy));
@@ -398,14 +470,22 @@ int kbd_init(keyconv *map, int sizeof_map,
     _go32_dpmi_lock_data(&num_queued_commands, sizeof(num_queued_commands));
     _go32_dpmi_lock_data(&command_queue, sizeof(command_queue));
 
-    kbd_install();
     num_queued_commands = 0;
 
-    keyconvmap = map;
     virtual_shift_row = shift_row;
     virtual_shift_column = shift_column;
+
+    /* FIXME: argh, another hack.  */
+    keyconv_base = keyconvmaps[keymap_index >> 1];
+
+    kbd_install();
 
     DEBUG(("Successful"));
 
     return 0;
+}
+
+void kbd_set_freeze_function(void (*f)())
+{
+    freeze_function = f;
 }
