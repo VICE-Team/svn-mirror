@@ -34,6 +34,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
@@ -184,6 +185,26 @@ int util_check_null_string(const char *string)
         return 0;
 
     return -1;
+}
+
+int util_check_filename_access(const char *filename)
+{
+    FILE *file = NULL;
+
+    file = fopen(filename, MODE_READ);
+    if (file == NULL) {
+        file = fopen(filename, MODE_WRITE);
+        if (file == NULL) {
+            return -1;
+        } else {
+            fclose(file);
+            ioutil_remove(filename);
+            return 0;
+        }
+    } else {
+        fclose(file);
+        return 0;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
