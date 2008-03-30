@@ -55,8 +55,8 @@ struct snapshot_s;
 #define	FDC_ERR_DRIVE	15
 #define	FDC_ERR_DECODE	16
 
-extern void fdc_init(int fnum, BYTE *buffer_memory, BYTE *ipromp);
-extern void fdc_reset(int fnum, int enabled);
+extern void fdc_init(unsigned int fnum, BYTE *buffer_memory, BYTE *ipromp);
+extern void fdc_reset(unsigned int fnum, unsigned int enabled);
 
 extern int fdc_read_snapshot_module(struct snapshot_s *s, int drv);
 extern int fdc_write_snapshot_module(struct snapshot_s *s, int drv);
