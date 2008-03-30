@@ -47,14 +47,15 @@ inline static void update_ports(void)
 {
     iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus;
     iec_info.drive_port = (((iec_info.cpu_port >> 4) & 0x4)
-		  | (iec_info.cpu_port >> 7)
-		  | ((iec_info.cpu_bus << 3) & 0x80));
+                           | (iec_info.cpu_port >> 7)
+                           | ((iec_info.cpu_bus << 3) & 0x80));
 }
 
 void iec_drive_write(BYTE data)
 {
     iec_info.drive_bus = (((data << 3) & 0x40)
-		 | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3) & 0x80));
+                          | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
+                             & 0x80));
     iec_info.drive_data = data;
     update_ports();
 }
@@ -78,22 +79,18 @@ void iec_cpu_write(BYTE data)
     true1541_cpu_execute();
 
     iec_info.cpu_bus = (((data << 2) & 0x80)
-	       | ((data << 2) & 0x40)
-	       | ((data << 1) & 0x10));
-#if 0
-    /* FIXME: this is slow, we should avoid doing it when not necessary.  */
-    set_atn(!(iec_info.cpu_bus & 0x10));
-#else
+                        | ((data << 2) & 0x40)
+                        | ((data << 1) & 0x10));
+
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
 	iec_old_atn = iec_info.cpu_bus & 0x10;
 	viaD1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
     }
-#endif
 
     iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
-		 | ((iec_info.drive_data << 6)
-		    & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
-		    & 0x80));
+                          | ((iec_info.drive_data << 6)
+                             & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
+                             & 0x80));
 
     update_ports();
 }
@@ -101,7 +98,7 @@ void iec_cpu_write(BYTE data)
 BYTE iec_cpu_read(void)
 {
     if (!true1541_enabled)
-	return ((iec_info.iec_fast_1541 & 0x30) << 2);
+	return (iec_info.iec_fast_1541 & 0x30) << 2;
 
     true1541_cpu_execute();
     return iec_info.cpu_port;
