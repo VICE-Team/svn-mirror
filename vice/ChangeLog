@@ -1,3 +1,10 @@
+2001-11-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.26.
+
+	* acconfig.h, configure.in: Changed `X_DISPLAY_DEPTH' to
+	`VIDEO_DISPLAY_DEPTH'.
+
 2001-11-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.25.
