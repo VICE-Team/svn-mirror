@@ -55,9 +55,8 @@ struct mps_s
 };
 typedef struct mps_s mps_t;
 
-static BYTE charset[256][7];
-
 /* We will make this dynamic later.  */
+static BYTE charset[256][7];
 static mps_t drv_mps803[3];
 
 #define MPS_REVERSE 0x01
@@ -128,20 +127,20 @@ static void write_line(mps_t *mps, unsigned int prnr)
     unsigned int x, y;
 
     for (y = 0; y < 7; y++) {
-        for (x = 0; x < 480; x++)
+        for (x = 0; x < MAX_COL; x++)
             output_file_putc(prnr, mps->line[x][y] ? '*' : ' ');
 
-        output_file_putc(prnr, 10);
+        output_file_putc(prnr, '\n');
     }
 
-    mps->pos = 0;
+    mps->pos=0;
 }
 
 static void clear_buffer(mps_t *mps)
 {
     unsigned int x, y;
 
-    for (x = 0; x < 480; x++)
+    for (x = 0; x < MAX_COL; x++)
         for (y = 0; y < 7; y++)
             mps->line[x][y] = 0;
 }
@@ -175,7 +174,7 @@ static void print_bitmask(mps_t *mps, const char c)
 static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
 {
 
-    if (mps->pos > 479) {  /* flush buffer*/
+    if (mps->pos >= MAX_COL) {  /* flush buffer*/
         write_line(mps, prnr);
         clear_buffer(mps);
     }
@@ -220,6 +219,8 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
       case 13:  /* CR*/
         mps->pos = 0;
         del_mode(mps, MPS_CRSRUP);
+        write_line(mps, prnr);
+        clear_buffer(mps);
         return;
 
         /*
@@ -245,7 +246,7 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
          * until an even number of quotes [CHR$(34)] has been received or until
          * end of this line.
          */
-	 
+	
       case 14:  /* EN on*/
         set_mode(mps, MPS_DBLWDTH);
         if (is_mode(mps, MPS_BITMODE))
@@ -358,6 +359,6 @@ void drv_mps803_init(void)
 {
     drv803_log = log_open("MPS803");
 
-    init_charset((BYTE*)charset, "mps803");
+    init_charset((BYTE *)charset, "mps803");
 }
 

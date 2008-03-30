@@ -1,3 +1,150 @@
+2001-07-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.45.
+
+	* c128/functionrom.c (functionrom_load_internal,
+	functionrom_load_external): Fixed loading odd sized images.
+
+2001-07-15  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/fullscreen.c (fullscreen_mode_update): Moved
+	fullscreen_upate -> fullscreen_mode_update.
+
+	* info.c: Updated credits.
+
+	* arch/unix/x11/videoarch.h: Adjusted fullscreen control macros.
+
+2001-07-14  Dag Lem  <resid@nimrod.no>
+
+	* c64/psid.c (psid_load_file): Fixed && and || warning.
+
+	* c64/psiddrv.a65: Proper bank switching.
+
+2001-07-14  Dag Lem  <resid@nimrod.no>
+
+	* arch/beos/c64ui.cc (c64_play_vsid): Added call to psid_init_driver.
+
+	* arch/beos/vsidui.cc (vsid_ui_display_sid_model): New stub.
+
+	* arch/msdos/vsidui.c (vsid_ui_display_sid_model): New stub.
+
+	* arch/os2/vsidui.c (vsid_ui_display_sid_model): New stub.
+
+	* arch/riscos/vsidui.c: Added call to psid_init_driver.
+	(vsid_ui_display_sid_model): New stub.
+
+	* arch/unix/vsidui.c: Added call to psid_init_driver.
+	(vsid_ui_display_sid_model): New stub.
+
+	* arch/win32/vsidui.c (vsid_ui_display_sid_model): New stub.
+
+	* c64/Makefile.am: Added reloc64.c, assemble psiddrv.a64 with
+	xa in relocating mode.
+
+	* c64/c64.c (machine_init): Load ROMs even in vsid mode.
+	(machine_specific_reset): Removed init of PSID driver.
+	(machine_powerup): Unload PSID in vsid mode.
+
+	* c64/c64mem.h: Added prototype for ram_read.
+
+	* c64/psid.c: Major rewrite; use relocating PSID driver.
+
+	* c64/psid.h (reloc65): New function.
+
+	* c64/psiddrv.a65: Rewrite; relocating PSID driver.
+
+	* c64/reloc65.c: Andre Fachats o65 relocation utility modified for
+	use with VICE vsid.
+
+	* vsidui.h (vsid_ui_display_sid_model): New function.
+
+	* vsync.c (vsync_do_vsync): Reverted change skipping redraws in
+	vsid mode, it broke fps statistics. This should not have any impact
+	on performance since there is no redraw in vsid mode anyway.
+	Removed debug logging.
+
+2001-07-13  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/beos/vsidui.cc, arch/msdos/vsidui.c,
+	arch/riscos/vsidui.c, arch/unix/vsidui.c,
+	arch/win32/vsidui.c
+	added dummy for vsid_ui_display_irqtype
+   
+	* arch/os2/dialogs/dlg-fileio.c:
+	added videoarch.h
+   
+	* arch/os2/dialogs/menubar.c:
+	made Speed change aware of possible negative numbers
+   
+	* arch/os2/dialogs/menubar.rc:
+	small changes
+   
+	* arch/os2/install.cmd:
+	changed URL to new location
+   
+	* arch/os2/makedist.cmd:
+	moved c64mem.syn to C&$, added C64/vice.vpl, 
+	C128/vice.vpl, PRINTER/mps803, removed cbm-ii/kernal.500+
+   
+	* arch/os2/vac++/incl/mainsrc.icc:
+	renamed charsets.c to charset.c, removed old printer files
+   
+	* arch/os2/vac++/incl/printerdrv.icc:
+	added
+
+	* arch/os2/vac++/X*.ICC:
+	added printerdrv
+   
+	* c64/psid.c
+	added vsid_ui_display_irqtype
+    
+	* charset.c
+	included string.h
+   
+	* printerdrv/drv-ascii.c
+	changed ifdef OS2 to __OS2__
+   
+	* printerdrv/drv-mps803.c:
+	changed 480 to MAXCOL
+   
+	* sound.c:
+	made sound_set_relative_speed thread safe for OS/2
+
+2001-07-13  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/archdep.c (archdep_default_logger) writes to stdout
+	(archdep_setup_signals) signal handling activated
+	(archdep_startup_log_error) writes to stdout
+
+	* arch/beos/c128ui.cc,c64.cc: reu_size with possible values
+	registered; removed handling of messages related to a common
+	resource (this is now done in ui.cc in a more general way)
+
+	* arch/beos/constants.h: new ids for 'pause' and reu size
+
+	* arch/beos/main.cc (vice_start_main): send a WINDOW_CLOSED
+	message if emulation thread returns to close the application
+
+	* arch/beos/statusbar.cc (ViceStatusbar::DisplaySpeed): display
+	'paused' and 'resumed'
+
+	* arch/beos/ui.cc: #inlude "usleep.h"; new functions pause_trap, 
+	 ui_display_paused, ui_pause_emulation, ui_emulation_is_paused
+	(ui_dispatch_events) handles MENU_PAUSE, removed obsolete hack
+	of suspending and resuming sound when warp is toggled, handles
+	MENU messages registered in the ui_res_possible_values lists
+
+	* arch/beos/ui_drive.cc: fixed drive_num parameter in call of
+	drive_check_type
+
+	* arch/beos/vicemenu.cc: new menuitems for pause, reu size and
+	IEEE488
+
+	* arch/win32/ui.c (ui_display_paused): free allocated buffer;
+	removed some unused code
+
+	* main.c: don't register commandline option '-console' under BeOS
+
 2001-07-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.44.
