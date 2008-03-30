@@ -177,13 +177,15 @@ void fsdrive_untalk(unsigned int device, BYTE secondary)
 
 }
 
-void fsdrive_write(unsigned int device, BYTE secondary, BYTE data)
+void fsdrive_write(unsigned int device, BYTE secondary, BYTE data,
+                   void(*st_func)(BYTE))
 {
     BYTE st;
     serial_t *p;
     void *vdrive;
 
     p = serial_get_device(device & 0x0f);
+
     if ((device & 0x0f) >= 8)
         vdrive = file_system_get_vdrive(device & 0x0f);
     else
@@ -197,14 +199,14 @@ void fsdrive_write(unsigned int device, BYTE secondary, BYTE data)
         } else {
             /* Send to device */
             st = (*(p->putf))(vdrive, data, (int)(secondary & 0x0f));
-            serial_set_st(st);
+            st_func(st);
         }
     } else {                    /* Not present */
-        serial_set_st(0x83);
+        st_func(0x83);
     }
 }
 
-BYTE fsdrive_read(unsigned int device, BYTE secondary)
+BYTE fsdrive_read(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
 {
     int st = 0, secadr = secondary & 0x0f;
     BYTE data;
@@ -212,6 +214,7 @@ BYTE fsdrive_read(unsigned int device, BYTE secondary)
     void *vdrive;
 
     p = serial_get_device(device & 0x0f);
+
     if ((device & 0x0f) >= 8)
         vdrive = file_system_get_vdrive(device & 0x0f);
     else
@@ -231,9 +234,7 @@ BYTE fsdrive_read(unsigned int device, BYTE secondary)
             p->nextok[secadr] = 1;
     }
 
-    /* Set up serial success / data.  */
-    if (st)
-        serial_set_st(st);
+    st_func(st);
 
     return data;
 }

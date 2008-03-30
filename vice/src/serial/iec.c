@@ -83,24 +83,25 @@ void iec_untalk(unsigned int device, BYTE secondary)
         fsdrive_untalk(device, secondary);
 }
 
-void iec_write(unsigned int device, BYTE secondary, BYTE data)
+void iec_write(unsigned int device, BYTE secondary, BYTE data,
+               void(*st_func)(BYTE))
 {
 #if HAVE_OPENCBM
     if (serial_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
-        realdevice_write(data);
+        realdevice_write(data, st_func);
     else
 #endif
-        fsdrive_write(device, secondary, data);
+        fsdrive_write(device, secondary, data, st_func);
 }
 
-BYTE iec_read(unsigned int device, BYTE secondary)
+BYTE iec_read(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
 {
 #if HAVE_OPENCBM
     if (serial_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
-        return realdevice_read();
+        return realdevice_read(st_func);
     else
 #endif
-        return fsdrive_read(device, secondary);
+        return fsdrive_read(device, secondary, st_func);
 }
 
 void iec_reset(void)

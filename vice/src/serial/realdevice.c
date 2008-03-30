@@ -87,7 +87,7 @@ void realdevice_untalk(void)
     cbm_untalk(realdevice_fd);
 }
 
-void realdevice_write(BYTE data)
+void realdevice_write(BYTE data, void(*st_func)(BYTE))
 {
     BYTE st;
 
@@ -95,10 +95,10 @@ void realdevice_write(BYTE data)
 
     st = (cbm_raw_write(realdevice_fd, &data, 1) == 1) ? 0 : 0x83;
 
-    serial_set_st(st);
+    st_func(st);
 }
 
-BYTE realdevice_read(void)
+BYTE realdevice_read(void(*st_func)(BYTE))
 {
     BYTE st, data;
 
@@ -109,8 +109,7 @@ BYTE realdevice_read(void)
     if (cbm_get_eoi(realdevice_fd))
         st |= 0x40;
 
-    if (st)
-        serial_set_st(st);
+    st_func(st);
 
     return data;
 }

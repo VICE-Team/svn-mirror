@@ -36,8 +36,10 @@ extern void iec_close(unsigned int device, BYTE secondary);
 extern void iec_listentalk(unsigned int device, BYTE secondary);
 extern void iec_unlisten(unsigned int device, BYTE secondary);
 extern void iec_untalk(unsigned int device, BYTE secondary);
-extern void iec_write(unsigned int device, BYTE secondary, BYTE data);
-extern BYTE iec_read(unsigned int device, BYTE secondary);
+extern void iec_write(unsigned int device, BYTE secondary, BYTE data,
+                      void(*st_func)(BYTE));
+extern BYTE iec_read(unsigned int device, BYTE secondary,
+                     void(*st_func)(BYTE));
 
 #endif
 

@@ -36,8 +36,10 @@ extern void fsdrive_close(unsigned int device, BYTE secondary);
 extern void fsdrive_listentalk(unsigned int device, BYTE secondary);
 extern void fsdrive_unlisten(unsigned int device, BYTE secondary);
 extern void fsdrive_untalk(unsigned int device, BYTE secondary);
-extern void fsdrive_write(unsigned int device, BYTE secondary, BYTE data);
-extern BYTE fsdrive_read(unsigned int device, BYTE secondary);
+extern void fsdrive_write(unsigned int device, BYTE secondary, BYTE data,
+                          void(*st_func)(BYTE));
+extern BYTE fsdrive_read(unsigned int device, BYTE secondary,
+                         void(*st_func)(BYTE));
 
 #endif
 
