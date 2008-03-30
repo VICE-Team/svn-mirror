@@ -87,17 +87,17 @@ static char *read_disk_image_contents(const char *name)
 static UI_CALLBACK(attach_disk)
 {
     int unit = (int)UI_MENU_CB_PARAM;
-    char *filename;
-    char title[1024];
+    char *filename, *title;
     ui_button_t button;
     static char *last_dir;
 
     suspend_speed_eval();
-    sprintf(title, _("Attach Disk Image as unit #%d"), unit);
+    title = xmsprintf(_("Attach Disk Image as unit #%d"), unit);
     filename = ui_select_file(title, read_disk_image_contents,
                               unit == 8 ? True : False, last_dir,
                               "*.[gdxGDX]*", &button, True);
 
+    free(title);
     switch (button) {
       case UI_BUTTON_OK:
  	if (file_system_attach_disk(unit, filename) < 0)
@@ -598,20 +598,14 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	t0 = t1 = t2 = t3 = t4 = t5 = NULL;
 	
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-	t0 = xmalloc(1024);
-	/* Translators: the string is fixed with 1024 byte! Don't exceed this
-	   limit !*/
-	sprintf(t0, _("Attach #%d"), drive + 8);
+	t0 = xmsprintf(_("Attach #%d"), drive + 8);
 	flipmenu[drive][i].string = t0;
 	flipmenu[drive][i].callback = (ui_callback_t) attach_disk;
 	flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
 	i++;
 
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-	t5 = xmalloc(1024);
-	/* Translators: the string is fixed with 1024 byte! Don't exceed this
-	   limit !*/
-	sprintf(t5, _("Detach #%d"), drive + 8);
+	t5 = xmsprintf(_("Detach #%d"), drive + 8);
 	flipmenu[drive][i].string = t5;
 	flipmenu[drive][i].callback = (ui_callback_t) detach_disk;
 	flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
@@ -736,8 +730,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	/* make sure the menu is well terminated */
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	
-        menuname = xmalloc(100);
-        sprintf(menuname, "LeftDrive%iMenu%i", drive + 8, name_count);
+        menuname = xmsprintf("LeftDrive%iMenu%i", drive + 8, name_count);
 
 	/* ugly ... */
 	if (drive == 0)
