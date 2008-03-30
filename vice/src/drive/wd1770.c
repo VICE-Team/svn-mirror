@@ -30,10 +30,6 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#endif
-
 #include "clkguard.h"
 #include "diskimage.h"
 #include "drive.h"

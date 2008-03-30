@@ -37,16 +37,10 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+
 #ifdef __riscos
 #include "ROlib.h"
-#else
-#include <errno.h>
-#endif
 #endif
 
 #include "datasette.h"

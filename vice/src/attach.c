@@ -26,11 +26,7 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
-#endif
 
 #include "attach.h"
 #include "diskimage.h"
