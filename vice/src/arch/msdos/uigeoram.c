@@ -43,7 +43,7 @@ static TUI_MENU_CALLBACK(georam_size_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value("GEORAMsize", (void *)&value);
+    resources_get_int("GEORAMsize", &value);
     sprintf(s, "%dKB",value);
     return s;
 }
@@ -68,7 +68,8 @@ static tui_menu_item_def_t georam_size_submenu[] = {
 
 static TUI_MENU_CALLBACK(georam_image_file_callback)
 {
-    char s[256], *v;
+    char s[256];
+    const char *v;
 
     if (been_activated) {
 
@@ -81,10 +82,11 @@ static TUI_MENU_CALLBACK(georam_image_file_callback)
         if (*s == '\0')
             return NULL;
 
-        resources_set_value("GEORAMfilename", (resource_value_t)s);
+        resources_set_string("GEORAMfilename", s);
     }
 
-    resources_get_value("GEORAMfilename", (void *)&v);
+    resources_get_string("GEORAMfilename", &v);
+
     return v;
 }
 

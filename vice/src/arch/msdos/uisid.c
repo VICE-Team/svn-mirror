@@ -43,7 +43,7 @@ static TUI_MENU_CALLBACK(sid_model_submenu_callback)
     static char s[256];
     int value;
 
-    resources_get_value("SidModel", (void *)&value);
+    resources_get_int("SidModel", &value);
 
     switch (value) {
       case SID_MODEL_6581:
@@ -80,10 +80,10 @@ static TUI_MENU_CALLBACK(toggle_ResidSampling_callback)
 {
     int value;
 
-    resources_get_value("SidResidSampling", (void *)&value);
+    resources_get_int("SidResidSampling", &value);
     if (been_activated) {
         value = (value + 1) % 4;
-        resources_set_value("SidResidSampling", (resource_value_t) value);
+        resources_set_int("SidResidSampling", value);
     }
 
     return (value == 0) ? "fast" : ((value == 1) ? "interpolate" : "resample");
@@ -98,7 +98,7 @@ static TUI_MENU_CALLBACK(sid_engine_submenu_callback)
 {
     int value;
 
-    resources_get_value("SidEngine", (void *)&value);
+    resources_get_int("SidEngine", &value);
 
     switch (value) {
       case SID_ENGINE_FASTSID:

@@ -311,7 +311,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         result += canvas_set_vga_mode(canvas);
         if (result == -1) {
             log_error(video_log, "Falling back to default VGA mode.");
-            resources_set_value("VGAMode", (resource_value_t)VGA_640x480x32);
+            resources_set_int("VGAMode", (int)VGA_640x480x32);
         }
         if (result == -2) {
             log_error(video_log,
@@ -483,7 +483,7 @@ void disable_text(void)
         if (canvas != NULL) {
             video_canvas_resize(canvas,0,0);
             if (canvas_set_vga_mode(canvas) < 0) {
-                resources_set_value("VGAMode", (resource_value_t)VGA_320x200x8);
+                resources_set_int("VGAMode", (int)VGA_320x200x8);
                 video_canvas_resize(canvas,0,0);
                 canvas_set_vga_mode(canvas);
                 ui_error("Cannot enable the selected VGA mode, falling back to default.");

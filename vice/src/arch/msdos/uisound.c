@@ -47,7 +47,7 @@ static TUI_MENU_CALLBACK(sound_sample_rate_submenu_callback)
     static char s[256];
     int value;
 
-    resources_get_value("SoundSampleRate", (void *)&value);
+    resources_get_int("SoundSampleRate", &value);
     sprintf(s, "%d Hz", value);
     return s;
 }
@@ -61,7 +61,7 @@ static TUI_MENU_CALLBACK(sound_buffer_size_submenu_callback)
     static char s[256];
     int value;
 
-    resources_get_value("SoundBufferSize", (void *)&value);
+    resources_get_int("SoundBufferSize", &value);
     sprintf(s, "%d msec", value);
     return s;
 }
@@ -73,7 +73,7 @@ static TUI_MENU_CALLBACK(sound_oversample_submenu_callback)
     static char s[40];
     int value;
 
-    resources_get_value("SoundOversample", (void *)&value);
+    resources_get_int("SoundOversample", &value);
     if (value != 0) {
         int n = 1, i;
 
@@ -91,7 +91,7 @@ static TUI_MENU_CALLBACK(sound_synchronization_submenu_callback)
 {
     int value;
 
-    resources_get_value("SoundSpeedAdjustment", (void *)&value);
+    resources_get_int("SoundSpeedAdjustment", &value);
 
     switch (value) {
       case SOUND_ADJUST_FLEXIBLE:

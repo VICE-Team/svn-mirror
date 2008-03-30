@@ -45,7 +45,7 @@ static TUI_MENU_CALLBACK(ethernet_as_rr_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value("ETHERNET_AS_RR", (void *)&value);
+    resources_get_int("ETHERNET_AS_RR", &value);
     sprintf(s, "%s",(value==0) ? "TFE" : "RRNET");
     return s;
 }

@@ -46,9 +46,9 @@ static TUI_MENU_CALLBACK(form_feed_callback)
 
 static TUI_MENU_CALLBACK(printer_driver_submenu_callback)
 {
-    char *s;
+    const char *s;
 
-    resources_get_value((char *)param, (void *)&s);
+    resources_get_string((char *)param, &s);
 
     return s;
 }
@@ -58,7 +58,7 @@ static TUI_MENU_CALLBACK(printer_text_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value((char *)param, (void *)&value);
+    resources_get_int((char *)param, &value);
 
     sprintf(s, "%d", value + 1);
 
@@ -116,7 +116,7 @@ static TUI_MENU_CALLBACK(printer_device_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value((char *)param, (void *)&value);
+    resources_get_int((char *)param, &value);
 
     switch (value) {
       case PRINTER_DEVICE_NONE:
@@ -265,9 +265,9 @@ static tui_menu_item_def_t printer5_submenu[] = {
 
 static TUI_MENU_CALLBACK(text_output_file_callback)
 {
-    char *s;
+    const char *s;
 
-    resources_get_value((char *)param, (void *)&s);
+    resources_get_string((char *)param, &s);
 
     return s;
 }

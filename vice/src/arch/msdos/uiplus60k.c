@@ -41,7 +41,7 @@ static TUI_MENU_CALLBACK(plus60k_base_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value("PLUS60Kbase", (void *)&value);
+    resources_get_int("PLUS60Kbase", &value);
     sprintf(s, "$%X",value);
     return s;
 }
@@ -56,7 +56,8 @@ static tui_menu_item_def_t plus60k_base_submenu[] = {
 
 static TUI_MENU_CALLBACK(plus60k_image_file_callback)
 {
-    char s[256], *v;
+    char s[256];
+    const char *v;
 
     if (been_activated) {
 
@@ -69,10 +70,10 @@ static TUI_MENU_CALLBACK(plus60k_image_file_callback)
         if (*s == '\0')
             return NULL;
 
-        resources_set_value("PLUS60Kfilename", (resource_value_t)s);
+        resources_set_string("PLUS60Kfilename", s);
     }
 
-    resources_get_value("PLUS60Kfilename", (void *)&v);
+    resources_get_string("PLUS60Kfilename", &v);
     return v;
 }
 

@@ -78,15 +78,15 @@ static TUI_MENU_CALLBACK(ui_netplay_set_host_callback)
 {
   if (been_activated)
   {
-    char *current_host;
+    const char *current_host;
     char buf[40];
 
-    resources_get_value("NetworkServerName", (void *)&current_host);
+    resources_get_string("NetworkServerName", &current_host);
     sprintf(buf,"%040s\0",current_host);
 
     if (tui_input_string("Hostname", "Enter the name of the netplay server:", buf, 40) == 0)
     {
-      resources_set_value("NetworkServerName", (resource_value_t)buf);
+      resources_set_string("NetworkServerName", buf);
       tui_message("Hostname set to : %s",buf);
     }
     else
@@ -102,7 +102,7 @@ static TUI_MENU_CALLBACK(ui_netplay_set_port_callback)
     int current_port, value;
     char buf[10];
 
-    resources_get_value("NetworkServerPort", (void *)&current_port);
+    resources_get_int("NetworkServerPort", &current_port);
     sprintf(buf,"%d\0",current_port);
 
     if (tui_input_string("TCP Port", "Enter TCP Port to use:", buf, 10) == 0)
@@ -112,7 +112,7 @@ static TUI_MENU_CALLBACK(ui_netplay_set_port_callback)
         value = 65535;
       else if (value < 1)
         value = 1;
-      resources_set_value("NetworkServerPort", (resource_value_t)value);
+      resources_set_int("NetworkServerPort", value);
       tui_message("TPC Port set to : %d",value);
     }
     else

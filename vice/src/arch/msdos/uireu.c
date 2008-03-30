@@ -43,7 +43,7 @@ static TUI_MENU_CALLBACK(reu_size_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value("REUsize", (void *)&value);
+    resources_get_int("REUsize", &value);
     sprintf(s, "%dKB",value);
     return s;
 }
@@ -70,7 +70,8 @@ static tui_menu_item_def_t reu_size_submenu[] = {
 
 static TUI_MENU_CALLBACK(reu_image_file_callback)
 {
-    char s[256], *v;
+    char s[256];
+    const char *v;
 
     if (been_activated) {
 
@@ -83,10 +84,10 @@ static TUI_MENU_CALLBACK(reu_image_file_callback)
         if (*s == '\0')
             return NULL;
 
-        resources_set_value("REUfilename", (resource_value_t)s);
+        resources_set_string("REUfilename", s);
     }
 
-    resources_get_value("REUfilename", (void *)&v);
+    resources_get_string("REUfilename", &v);
     return v;
 }
 

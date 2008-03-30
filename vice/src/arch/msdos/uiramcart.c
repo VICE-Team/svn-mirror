@@ -43,7 +43,7 @@ static TUI_MENU_CALLBACK(ramcart_size_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value("RAMCARTsize", (void *)&value);
+    resources_get_int("RAMCARTsize", &value);
     sprintf(s, "%dKB",value);
     return s;
 }
@@ -58,7 +58,8 @@ static tui_menu_item_def_t ramcart_size_submenu[] = {
 
 static TUI_MENU_CALLBACK(ramcart_image_file_callback)
 {
-    char s[256], *v;
+    char s[256];
+    const char *v;
 
     if (been_activated) {
 
@@ -71,10 +72,10 @@ static TUI_MENU_CALLBACK(ramcart_image_file_callback)
         if (*s == '\0')
             return NULL;
 
-        resources_set_value("RAMCARTfilename", (resource_value_t)s);
+        resources_set_string("RAMCARTfilename", s);
     }
 
-    resources_get_value("RAMCARTfilename", (void *)&v);
+    resources_get_string("RAMCARTfilename", &v);
     return v;
 }
 

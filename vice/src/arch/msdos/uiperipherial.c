@@ -61,7 +61,7 @@ TUI_MENU_DEFINE_TOGGLE(FSDevice11HideCBMFiles)
 static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
 {
     int unit = (int)param;
-    char *v;
+    const char *v;
     char *rname;
 
     rname = lib_msprintf("FSDevice%dDir", unit);
@@ -70,7 +70,7 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
         char *path;
         int len = 255;
 
-        resources_get_value(rname, (void *)&v);
+        resources_get_string(rname, &v);
         if (len < strlen(v) * 2)
             len = strlen(v) * 2;
         path = alloca(len + 1);
@@ -82,7 +82,7 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
         }
     }
 
-    resources_get_value(rname, (void *)&v);
+    resources_get_string(rname, &v);
     lib_free(rname);
     return v;
 }

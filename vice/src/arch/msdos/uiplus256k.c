@@ -37,7 +37,8 @@ TUI_MENU_DEFINE_TOGGLE(PLUS256K)
 
 static TUI_MENU_CALLBACK(plus256k_image_file_callback)
 {
-    char s[256], *v;
+    char s[256];
+    const char *v;
 
     if (been_activated) {
 
@@ -50,10 +51,10 @@ static TUI_MENU_CALLBACK(plus256k_image_file_callback)
         if (*s == '\0')
             return NULL;
 
-        resources_set_value("PLUS256Kfilename", (resource_value_t)s);
+        resources_set_string("PLUS256Kfilename", s);
     }
 
-    resources_get_value("PLUS256Kfilename", (void *)&v);
+    resources_get_string("PLUS256Kfilename", &v);
     return v;
 }
 

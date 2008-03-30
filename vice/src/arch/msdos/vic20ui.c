@@ -50,7 +50,7 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
 {
     int value;
 
-    resources_get_value("MachineVideoStandard", (void *)&value);
+    resources_get_int("MachineVideoStandard", &value);
 
     if (been_activated) {
 	    if (value == MACHINE_SYNC_PAL)
@@ -58,7 +58,7 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
         else
 	        value = MACHINE_SYNC_PAL;
 
-        resources_set_value("MachineVideoStandard", (resource_value_t)value);
+        resources_set_int("MachineVideoStandard", value);
     }
 
     switch (value) {
@@ -78,11 +78,11 @@ static TUI_MENU_CALLBACK(toggle_PALMode_callback)
 {
     int value;
 
-    resources_get_value("PALMode", (void *)&value);
+    resources_get_int("PALMode", &value);
 
     if (been_activated) {
         value = (value + 1) % 3;
-        resources_set_value("PALMode", (resource_value_t)value);
+        resources_set_int("PALMode", value);
     }
 
     switch (value) {
@@ -273,16 +273,11 @@ static TUI_MENU_CALLBACK(set_common_memory_configuration_callback)
             log_debug("What?!");
             blocks = 0;         /* Make compiler happy.  */
         }
-        resources_set_value("RamBlock0",
-                            (resource_value_t)(blocks & BLOCK_0 ? 1 : 0));
-        resources_set_value("RamBlock1",
-                            (resource_value_t)(blocks & BLOCK_1 ? 1 : 0));
-        resources_set_value("RamBlock2",
-                            (resource_value_t)(blocks & BLOCK_2 ? 1 : 0));
-        resources_set_value("RamBlock3",
-                            (resource_value_t)(blocks & BLOCK_3 ? 1 : 0));
-        resources_set_value("RamBlock5",
-                            (resource_value_t)(blocks & BLOCK_5 ? 1 : 0));
+        resources_set_int("RamBlock0", blocks & BLOCK_0 ? 1 : 0);
+        resources_set_int("RamBlock1", blocks & BLOCK_1 ? 1 : 0);
+        resources_set_int("RamBlock2", blocks & BLOCK_2 ? 1 : 0);
+        resources_set_int("RamBlock3", blocks & BLOCK_3 ? 1 : 0);
+        resources_set_int("RamBlock5", blocks & BLOCK_5 ? 1 : 0);
         ui_update_menus();
     }
 
@@ -376,7 +371,7 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
                                  NULL, "*", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_value(param, (resource_value_t)name) < 0)
+            if (resources_set_string(param, name) < 0)
                 ui_error("Could not load ROM file '%s'", name);
             lib_free(name);
         }
