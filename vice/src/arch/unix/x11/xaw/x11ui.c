@@ -452,6 +452,8 @@ void ui_shutdown(void)
     lib_free(filesel_dir);
 
     ui_common_shutdown();
+
+    uimenu_shutdown();
 }
 
 typedef struct {

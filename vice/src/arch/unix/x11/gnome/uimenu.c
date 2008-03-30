@@ -316,3 +316,4 @@ void _ui_menu_string_radio_helper(GtkWidget *w,
 				   (const char *) UI_MENU_CB_PARAM) == 0);
     }
 }
+

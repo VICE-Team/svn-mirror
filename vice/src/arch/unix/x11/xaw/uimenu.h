@@ -44,6 +44,7 @@ extern void ui_menu_set_tick(Widget w, int flag);
 extern int ui_menu_any_open(void);
 extern void ui_menu_update_all(void);
 extern Widget ui_menu_create(const char *name, ...);
+extern void uimenu_shutdown(void);
 
 /* ------------------------------------------------------------------------- */
 

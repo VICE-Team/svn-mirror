@@ -76,10 +76,8 @@ static int submenu_popped_up = 0;
 
 static Widget top_menu;
 
-/* This keeps a list of the menus with a checkmark on the left.  Each time
-   some setting is changed, we have to update them. */
-#define MAX_UPDATE_MENU_LIST_SIZE 1024
-static Widget checkmark_menu_items[MAX_UPDATE_MENU_LIST_SIZE];
+static Widget *checkmark_menu_items = NULL;
+static int num_checkmark_menu_items_max = 0;
 int num_checkmark_menu_items = 0;
 
 static Display *my_display;
@@ -295,16 +293,16 @@ Widget ui_menu_create(const char *menu_name, ...)
                     /* Add this item to the list of calls to perform to update
                        the menu status. */
                     if (list[i].callback) {
-                        if (num_checkmark_menu_items
-                            < MAX_UPDATE_MENU_LIST_SIZE)
-                            checkmark_menu_items[num_checkmark_menu_items++]
-                                = new_item;
-                        else {
-                            fprintf(stderr,
-                                    "Maximum number of menus reached!  "
-                                    "Please fix the code.\n");
-                            exit(-1);
+                        if (num_checkmark_menu_items >=
+                            num_checkmark_menu_items_max) {
+                            num_checkmark_menu_items_max += 100;
+                            checkmark_menu_items = lib_realloc(
+                                checkmark_menu_items,
+                                num_checkmark_menu_items_max
+                                * sizeof(Widget));
                         }
+                        checkmark_menu_items[num_checkmark_menu_items++]
+                            = new_item;
                     }
                     j++;
 
@@ -386,7 +384,7 @@ void ui_menu_update_all(void)
 
     for (i = 0; i < num_checkmark_menu_items; i++)
         XtCallCallbacks(checkmark_menu_items[i],
-                        XtNcallback, (XtPointer) !NULL);
+                        XtNcallback, (XtPointer)!NULL);
 }
 
 void ui_menu_set_tick(Widget w, int flag)
@@ -465,5 +463,10 @@ void _ui_menu_string_radio_helper(Widget w,
         ui_menu_set_tick(w, strcmp((const char *)current_value,
                                    (const char *)client_data) == 0);
     }
+}
+
+void uimenu_shutdown(void)
+{
+    lib_free(checkmark_menu_items);
 }
 
