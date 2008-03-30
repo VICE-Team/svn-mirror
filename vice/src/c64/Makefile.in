@@ -155,7 +155,9 @@ libc64c128_a_SOURCES = \
 	patchrom.c \
 	patchrom.h \
 	c64tpi.c \
-	c64tpi.h
+	c64tpi.h \
+	reu.c \
+	reu.h
 
 EXTRA_libc64_a_SOURCES = \
 	c64acia.h \
@@ -196,7 +198,8 @@ c64datasette.o c64iec.o c64mem.o cartridge.o patchrom.o reu.o c64tpi.o \
 psid.o
 @HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
-libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o patchrom.o c64tpi.o
+libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o patchrom.o c64tpi.o \
+reu.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@

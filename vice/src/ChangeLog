@@ -1,3 +1,28 @@
+1999-07-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.51.
+
+	* c64/reu.c (read_reu): Added missing `break'!
+
+	* c64/Makefile.am: Added REU support to C128 library.
+
+	* arch/unix/xaw/c128ui.c, arch/msdos/c128ui.c: Added REU UI
+	controls.
+
+	* c128/c128mem.c (set_reu_enabled, store_io2, read_io2): Added REU
+	support.
+	* c128/c128.c (machine_init): Likewise.
+
+	* interrupt.h, interrupt.c (trigger_reset, ack_reset,
+	trigger_trap, do_trap, monitor_trap_on, monitor_trap_off): Moved
+	out of the header file.
+
+	* mon.c (mon_watch_push_store_addr): Fixed typo.
+
+	* 6510core.c: Removed some cruft.
+
+	* c1541.c (format_cmd): Fixed number of arguments.
+
 1999-07-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.50.
