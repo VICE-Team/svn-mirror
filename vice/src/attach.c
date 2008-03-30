@@ -180,7 +180,7 @@ int file_system_attach_disk(int unit, char *filename)
 	p->inuse = 0;
         initialize_1541(unit, DT_DISK | DT_1541,
                         attach_hooks[unit - 8],
-                        attach_hooks[unit - 8],
+                        detach_hooks[unit - 8],
                         floppy);
     }
     return serial_select_file(DT_DISK | DT_1541, unit, filename);
