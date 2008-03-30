@@ -50,7 +50,6 @@ static void update_pixel_tables(raster_t *raster);
 static int realize_canvas(raster_t *raster);
 static int realize_frame_buffer(raster_t *raster);
 static void update_canvas(raster_t *raster);
-static void update_canvas_all(raster_t *raster);
 
 static int calc_frame_buffer_width(raster_t *raster)
 {
@@ -283,15 +282,14 @@ static int realize_frame_buffer(raster_t *raster)
         return 0;
 
     if (!console_mode && !vsid_mode)
-        raster_draw_buffer_free(canvas,
-                                raster->draw_buffer);
+        raster_draw_buffer_free(canvas, raster->draw_buffer);
 
     fb_width = calc_frame_buffer_width(raster);;
     fb_height = raster->geometry.screen_size.height;
 
     if (!console_mode && !vsid_mode && fb_width>0 && fb_height>0) {
         if (raster_draw_buffer_alloc(canvas, &raster->draw_buffer,
-            fb_width, fb_height, &fb_pitch))
+                                     fb_width, fb_height, &fb_pitch))
         return -1;
 
         raster->draw_buffer_width = fb_width;
@@ -299,13 +297,11 @@ static int realize_frame_buffer(raster_t *raster)
         raster->draw_buffer_pitch = fb_pitch;
 
 #if defined (USE_XF86_DGA2_EXTENSIONS)
-	video_register_raster(raster);
+        video_register_raster(raster);
 #endif
 
-        raster_draw_buffer_clear(canvas,
-                                 raster->draw_buffer,
-                                 0,
-                                 fb_width, fb_height, fb_pitch);
+        raster_draw_buffer_clear(canvas, raster->draw_buffer,
+                                 0, fb_width, fb_height, fb_pitch);
     }
 
     raster->fake_draw_buffer_line = xrealloc(raster->fake_draw_buffer_line,
@@ -313,7 +309,6 @@ static int realize_frame_buffer(raster_t *raster)
 
     return 0;
 }
-
 
 static int perform_mode_change(raster_t *raster)
 {
@@ -452,7 +447,7 @@ static void update_canvas(raster_t *raster)
     update_area->is_null = 1;
 }
 
-static void update_canvas_all(raster_t *raster)
+void raster_update_canvas_all(raster_t *raster)
 {
     raster_viewport_t *viewport;
 
@@ -530,8 +525,7 @@ inline static void draw_blank(raster_t *raster,
                               unsigned int end)
 {
     vid_memset(raster->draw_buffer_ptr + start,
-               raster->border_color,
-               end - start + 1);
+               raster->border_color, end - start + 1);
 }
 
 inline static void add_line_and_double_scan(raster_t *raster,
@@ -1111,8 +1105,7 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
     /* This is a dirty hack for use with GDB.  */
     if (raster->current_line == _hidden_hideous_raster_check)
         vid_memset(raster->draw_buffer_ptr,
-                   0,
-                   geometry->screen_size.width - 1);
+                   0, geometry->screen_size.width - 1);
 #endif
 }
 
@@ -1146,7 +1139,7 @@ inline static void handle_end_of_frame(raster_t *raster)
         return;
 
     if (raster->dont_cache)
-        update_canvas_all(raster);
+        raster_update_canvas_all(raster);
     else
         update_canvas(raster);
 }
@@ -1382,7 +1375,7 @@ int raster_realize(raster_t *raster)
         if (realize_canvas(raster) < 0)
             return -1;
 
-    update_canvas_all(raster);
+    raster_update_canvas_all(raster);
 
     rlist = (raster_list_t*)xmalloc(sizeof(raster_list_t));
     rlist->raster = raster;
@@ -1601,10 +1594,8 @@ void raster_force_repaint(raster_t *raster)
         canvas = raster->viewport.canvas;
 
         if (canvas != NULL)
-            raster_draw_buffer_clear(canvas,
-                                     raster->draw_buffer,
-                                     0,
-                                     fb_width, fb_height);
+            raster_draw_buffer_clear(canvas, raster->draw_buffer,
+                                     0, fb_width, fb_height);
     }
 #endif
     }
@@ -1741,3 +1732,17 @@ void raster_free(raster_t *raster)
     /* FIXME: there may be more stuff to be freed */
 }
 
+raster_t *raster_get_raster_from_canvas(struct video_canvas_s *canvas)
+{
+	raster_list_t *rasters = ActiveRasters;
+	
+    while (rasters != NULL)
+    {
+    	if (rasters->raster->viewport.canvas == canvas)
+    		return rasters->raster;
+    		
+        rasters = rasters->next;
+	}
+	
+	return NULL;	
+}
