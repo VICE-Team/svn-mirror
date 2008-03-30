@@ -2,11 +2,13 @@
  * drive.c - Hardware-level Commodore disk drive emulation.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *
+ * Based on old code by
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -658,9 +660,9 @@ static void drive_read_image_d64_d71(int dnr)
         || drive[dnr].type == DRIVE_TYPE_1541II
         || drive[dnr].type == DRIVE_TYPE_2031)) {
         for (track = 0; track < MAX_TRACKS_1541; track++) {
-            drive[dnr].GCR_track_size[track] =
+            drive[dnr].gcr->track_size[track] =
                 raw_track_size[speed_map_1541[track]];
-            memset(drive[dnr].GCR_speed_zone, speed_map_1541[track],
+            memset(drive[dnr].gcr->speed_zone, speed_map_1541[track],
                 NUM_MAX_BYTES_TRACK);
         }
     }
@@ -668,9 +670,9 @@ static void drive_read_image_d64_d71(int dnr)
         || drive[dnr].type == DRIVE_TYPE_1571
         || drive[dnr].type == DRIVE_TYPE_2031) {
         for (track = 0; track < MAX_TRACKS_1571; track++) {
-            drive[dnr].GCR_track_size[track] =
+            drive[dnr].gcr->track_size[track] =
                 raw_track_size[speed_map_1571[track]];
-            memset(drive[dnr].GCR_speed_zone, speed_map_1571[track],
+            memset(drive[dnr].gcr->speed_zone, speed_map_1571[track],
                 NUM_MAX_BYTES_TRACK);
         }
     }
@@ -680,14 +682,14 @@ static void drive_read_image_d64_d71(int dnr)
     for (track = 1; track <= drive[dnr].image->tracks; track++) {
         int max_sector = 0;
 
-        ptr = drive[dnr].GCR_data + GCR_OFFSET(track, 0);
+        ptr = drive[dnr].gcr->data + GCR_OFFSET(track, 0);
         max_sector = disk_image_sector_per_track(drive[dnr].image->type,
                                                  track);
         /* Clear track to avoid read errors.  */
         memset(ptr, 0xff, NUM_MAX_BYTES_TRACK);
 
 	for (sector = 0; sector < max_sector; sector++) {
-	    ptr = drive[dnr].GCR_data + GCR_OFFSET(track, sector);
+	    ptr = drive[dnr].gcr->data + GCR_OFFSET(track, sector);
 
             rc = disk_image_read_sector(drive[dnr].image, buffer + 1, track,
                                         sector);
@@ -735,11 +737,11 @@ static int drive_read_image_gcr(int dnr)
 
     for (track = 0; track < MAX_TRACKS_1541; track++) {
 
-	track_data = drive[dnr].GCR_data + track * NUM_MAX_BYTES_TRACK;
-	zone_data = drive[dnr].GCR_speed_zone + track * NUM_MAX_BYTES_TRACK;
+	track_data = drive[dnr].gcr->data + track * NUM_MAX_BYTES_TRACK;
+	zone_data = drive[dnr].gcr->speed_zone + track * NUM_MAX_BYTES_TRACK;
 	memset(track_data, 0xff, NUM_MAX_BYTES_TRACK);
 	memset(zone_data, 0x00, NUM_MAX_BYTES_TRACK / 4);
-	drive[dnr].GCR_track_size[track] = 6250;
+	drive[dnr].gcr->track_size[track] = 6250;
 
 	if (track <= NumTracks && gcr_track_p[track * 2] != 0) {
 
@@ -760,7 +762,7 @@ static int drive_read_image_gcr(int dnr)
 		return 0;
 	    }
 
-	    drive[dnr].GCR_track_size[track] = track_len;
+	    drive[dnr].gcr->track_size[track] = track_len;
 
 	    fseek(drive[dnr].image->fd, offset + 2, SEEK_SET);
 	    if (fread((char *)track_data, track_len, 1,
@@ -797,6 +799,7 @@ static int drive_read_image_gcr(int dnr)
     return 1;
 }
 
+#if 0
 static void write_track_gcr(int track, int dnr)
 {
     int gap, i, NumTracks;
@@ -832,8 +835,8 @@ static void write_track_gcr(int track, int dnr)
 
     offset = gcr_track_p[(track - 1) * 2];
 
-    len[0] = drive[dnr].GCR_track_size[track - 1] % 256;
-    len[1] = drive[dnr].GCR_track_size[track - 1] / 256;
+    len[0] = drive[dnr].gcr->track_size[track - 1] % 256;
+    len[1] = drive[dnr].gcr->track_size[track - 1] / 256;
 
     if (fseek(drive[dnr].image->fd, offset, SEEK_SET) < 0
         || fwrite((char *)len, 2, 1, drive[dnr].image->fd) < 1) {
@@ -843,9 +846,9 @@ static void write_track_gcr(int track, int dnr)
 
     /* Clear gap between the end of the actual track and the start of
        the next track.  */
-    gap = NUM_MAX_BYTES_TRACK - drive[dnr].GCR_track_size[track - 1];
+    gap = NUM_MAX_BYTES_TRACK - drive[dnr].gcr->track_size[track - 1];
     if (gap > 0)
-	memset(drive[dnr].GCR_track_start_ptr + drive[dnr].GCR_track_size[track - 1], 0, gap);
+	memset(drive[dnr].GCR_track_start_ptr + drive[dnr].gcr->track_size[track - 1], 0, gap);
 
     if (fseek(drive[dnr].image->fd, offset + 2, SEEK_SET) < 0
         || fwrite((char *)drive[dnr].GCR_track_start_ptr, NUM_MAX_BYTES_TRACK,
@@ -854,11 +857,11 @@ static void write_track_gcr(int track, int dnr)
 	return;
     }
 
-    for (i = 0; (drive[dnr].GCR_speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK]
-                 == drive[dnr].GCR_speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK + i])
+    for (i = 0; (drive[dnr].gcr->speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK]
+                 == drive[dnr].gcr->speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK + i])
              && i < NUM_MAX_BYTES_TRACK; i++);
 
-    if (i < drive[dnr].GCR_track_size[track - 1]) {
+    if (i < drive[dnr].gcr->track_size[track - 1]) {
 	/* This will change soon.  */
 	log_error(drive[dnr].log,
                   "Saving different speed zones is not supported yet.");
@@ -882,11 +885,11 @@ static void write_track_gcr(int track, int dnr)
 
 #if 0  /* We do not support writing different speeds yet.  */
     for (i = 0; i < (NUM_MAX_BYTES_TRACK / 4); i++)
-        zone_len = (drive[dnr].GCR_track_size[track - 1] + 3) / 4;
-    zone_data = drive[dnr].GCR_speed_zone + (track - 1) * NUM_MAX_BYTES_TRACK;
+        zone_len = (drive[dnr].gcr->track_size[track - 1] + 3) / 4;
+    zone_data = drive[dnr].-gcr->speed_zone + (track - 1) * NUM_MAX_BYTES_TRACK;
 
     if (gap > 0)
-	memset(zone_data + drive[dnr].GCR_track_size[track - 1], 0, gap);
+	memset(zone_data + drive[dnr].gcr->track_size[track - 1], 0, gap);
 
     for (i = 0; i < (NUM_MAX_BYTES_TRACK / 4); i++)
 	comp_speed[i] = (zone_data[i * 4]
@@ -902,6 +905,7 @@ static void write_track_gcr(int track, int dnr)
     }
 #endif
 }
+#endif
 
 static int setID(int dnr)
 {
@@ -918,76 +922,6 @@ static int setID(int dnr)
     }
 
     return rc;
-}
-
-static BYTE *GCR_find_sector_header(int track, int sector, int dnr,
-                                    BYTE *GCR_track_start_ptr,
-                                    int GCR_current_track_size)
-{
-    BYTE *offset = GCR_track_start_ptr;
-    BYTE *GCR_track_end = GCR_track_start_ptr + GCR_current_track_size;
-    BYTE GCR_header[5], header_data[4];
-    int i, sync_count = 0, wrap_over = 0;
-
-    while ((offset < GCR_track_end) && !wrap_over) {
-	while (*offset != 0xff)	{
-	    offset++;
-	    if (offset >= GCR_track_end)
-		return NULL;
-	}
-
-	while (*offset == 0xff)	{
-	    offset++;
-	    if (offset == GCR_track_end) {
-		offset = drive[dnr].GCR_track_start_ptr;
-		wrap_over = 1;
-	    }
-	    /* Check for killer tracks.  */
-	    if((++sync_count) >= GCR_current_track_size)
-		return NULL;
-	}
-
-	for (i = 0; i < 5; i++) {
-	    GCR_header[i] = *(offset++);
-	    if (offset >= GCR_track_end) {
-		offset = GCR_track_start_ptr;
-		wrap_over = 1;
-	    }
-	}
-
-	convert_GCR_to_4bytes(GCR_header, header_data);
-
-	if (header_data[0] == 0x08) {
-	    /* FIXME: Add some sanity checks here.  */
-	    if (header_data[2] == sector && header_data[3] == track)
-		return offset;
-	}
-    }
-    return NULL;
-}
-
-static BYTE *GCR_find_sector_data(BYTE *offset, int dnr,
-                                  BYTE *GCR_track_start_ptr,
-                                  int GCR_current_track_size)
-{
-    BYTE *GCR_track_end = GCR_track_start_ptr + GCR_current_track_size;
-    int header = 0;
-
-    while (*offset != 0xff) {
-	offset++;
-	if (offset >= GCR_track_end)
-	    offset = GCR_track_start_ptr;
-	header++;
-	if (header >= 500)
-	    return NULL;
-    }
-
-    while (*offset == 0xff) {
-	offset++;
-	if (offset == GCR_track_end)
-	    offset = GCR_track_start_ptr;
-    }
-    return offset;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1052,10 +986,11 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
                            (void *) 1);
 
     for (i = 0; i < 2; i++) {
+        drive[i].gcr = gcr_create_image();
         drive[i].byte_ready = 1;
         drive[i].GCR_dirty_track = 0;
         drive[i].GCR_write_value = 0x55;
-        drive[i].GCR_track_start_ptr = drive[i].GCR_data;
+        drive[i].GCR_track_start_ptr = drive[i].gcr->data;
         drive[i].attach_clk = (CLOCK)0;
         drive[i].detach_clk = (CLOCK)0;
         drive[i].attach_detach_clk = (CLOCK)0;
@@ -1071,9 +1006,11 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
         drive[i].GCR_image_loaded = 0;
         drive[i].read_only = 0;
         drive[i].clock_frequency = 1;
+
         for (track = 0; track < MAX_TRACKS_1541; track++)
-            drive[i].GCR_track_size[track] =
+            drive[i].gcr->track_size[track] =
                 raw_track_size[speed_map_1541[track]];
+
         /* Position the R/W head on the directory track.  */
         drive_set_half_track(36, &drive[i]);
         drive_led_color[i] = DRIVE_ACTIVE_RED;
@@ -1589,10 +1526,12 @@ int drive_attach_image(disk_image_t *image, int unit)
     }
 
     drive[dnr].image = image;
+    drive[dnr].image->gcr = drive[dnr].gcr;
 
     if (drive[dnr].image->type == DISK_IMAGE_TYPE_GCR) {
-        if (!drive_read_image_gcr(dnr))
+        if (!drive_read_image_gcr(dnr)) {
             return -1;
+        }
     } else {
         if (setID(dnr) >= 0) {
             drive_read_image_d64_d71(dnr);
@@ -1635,11 +1574,8 @@ int drive_detach_image(disk_image_t *image, int unit)
             return -1;
         }
 
-        if (drive[dnr].image->type == DISK_IMAGE_TYPE_D64
-            || drive[dnr].image->type == DISK_IMAGE_TYPE_D71) {
-            drive_GCR_data_writeback(dnr);
-            memset(drive[dnr].GCR_data, 0, sizeof(drive[dnr].GCR_data));
-        }
+        drive_GCR_data_writeback(dnr);
+        memset(drive[dnr].gcr->data, 0, sizeof(drive[dnr].gcr->data));
         drive[dnr].detach_clk = drive_clk[dnr];
         drive[dnr].GCR_image_loaded = 0;
         drive[dnr].image = NULL;
@@ -1868,11 +1804,11 @@ static void drive_set_half_track(int num, drive_t *dptr)
         num = 2;
 
     dptr->current_half_track = num;
-    dptr->GCR_track_start_ptr = (dptr->GCR_data
+    dptr->GCR_track_start_ptr = (dptr->gcr->data
 			   + ((dptr->current_half_track / 2 - 1) * NUM_MAX_BYTES_TRACK));
 
     dptr->GCR_current_track_size =
-        dptr->GCR_track_size[dptr->current_half_track / 2 - 1];
+        dptr->gcr->track_size[dptr->current_half_track / 2 - 1];
     dptr->GCR_head_offset = 0;
 }
 
@@ -1992,7 +1928,9 @@ void drive_GCR_data_writeback(int dnr)
         return;
 
     if (drive[dnr].image->type == DISK_IMAGE_TYPE_GCR) {
-        write_track_gcr(track, dnr);
+        disk_image_write_track(drive[dnr].image, track,
+                               drive[dnr].gcr->track_size,
+                               drive[dnr].gcr->speed_zone);
         drive[dnr].GCR_dirty_track = 0;
         return;
     }
@@ -2037,7 +1975,7 @@ void drive_GCR_data_writeback(int dnr)
 
     for (sector = 0; sector < max_sector; sector++) {
 
-        offset = GCR_find_sector_header(track, sector, dnr,
+        offset = gcr_find_sector_header(track, sector,
                                         drive[dnr].GCR_track_start_ptr,
                                         drive[dnr].GCR_current_track_size);
         if (offset == NULL) {
@@ -2045,7 +1983,7 @@ void drive_GCR_data_writeback(int dnr)
                       "Could not find header of T:%d S:%d.",
                       track, sector);
         } else {
-            offset = GCR_find_sector_data(offset, dnr,
+            offset = gcr_find_sector_data(offset,
                                           drive[dnr].GCR_track_start_ptr,
                                           drive[dnr].GCR_current_track_size);
             if (offset == NULL) {
@@ -2057,94 +1995,6 @@ void drive_GCR_data_writeback(int dnr)
             }
         }
     }
-}
-
-int drive_read_block(int track, int sector, BYTE *readdata, int dnr)
-{
-    BYTE buffer[260], *offset;
-    BYTE *GCR_track_start_ptr;
-    int GCR_current_track_size;
-
-    if (track > drive[dnr].image->tracks)
-        return -1;
-
-    /* Make sure data is flushed to the file before reading.  */
-    drive_GCR_data_writeback(dnr);
-
-    GCR_track_start_ptr = drive[dnr].GCR_data
-               + ((track - 1) * NUM_MAX_BYTES_TRACK);
-    GCR_current_track_size = drive[dnr].GCR_track_size[track - 1];
-
-    offset = GCR_find_sector_header(track, sector, dnr,
-                                    GCR_track_start_ptr,
-                                    GCR_current_track_size);
-    if (offset == NULL)
-        return -1;
-    offset = GCR_find_sector_data(offset, dnr, GCR_track_start_ptr,
-                                  GCR_current_track_size);
-    if (offset == NULL)
-        return -1;
-
-    convert_GCR_to_sector(buffer, offset, GCR_track_start_ptr,
-                          GCR_current_track_size);
-    if (buffer[0] != 0x7)
-        return -1;
-
-    memcpy(readdata, &buffer[1], 256);
-    return 0;
-}
-
-int drive_write_block(int track, int sector, BYTE *writedata, int dnr)
-{
-    BYTE buffer[260], gcr_buffer[325], *offset, *buf, *gcr;
-    BYTE chksum;
-    BYTE *GCR_track_start_ptr;
-    int GCR_current_track_size;
-    int i;
-
-    if (track > drive[dnr].image->tracks)
-        return -1;
-
-    GCR_track_start_ptr = drive[dnr].GCR_data
-               + ((track - 1) * NUM_MAX_BYTES_TRACK);
-    GCR_current_track_size = drive[dnr].GCR_track_size[track - 1];
-
-    offset = GCR_find_sector_header(track, sector, dnr,
-                                    GCR_track_start_ptr,
-                                    GCR_current_track_size);
-    if (offset == NULL)
-        return -1;
-    offset = GCR_find_sector_data(offset, dnr, GCR_track_start_ptr,
-                                  GCR_current_track_size);
-    if (offset == NULL)
-        return -1;
-
-    buffer[0] = 0x7;
-    memcpy(&buffer[1], writedata, 256);
-    chksum = buffer[1];
-    for (i = 2; i < 257; i++)
-        chksum ^= buffer[i];
-    buffer[257] = chksum;
-    buffer[258] = buffer[259] = 0;
-
-    buf = buffer;
-    gcr = gcr_buffer;
-
-    for (i = 0; i < 65; i++) {
-        convert_4bytes_to_GCR(buf, gcr);
-        buf += 4;
-        gcr += 5;
-    }
-
-    for (i = 0; i < 325; i++) {
-        *offset = gcr_buffer[i];
-        offset++;
-        if (offset == GCR_track_start_ptr + GCR_current_track_size)
-            offset = GCR_track_start_ptr;
-    }
-
-    write_track_gcr(track, dnr);
-    return 0;
 }
 
 static void drive_extend_disk_image(int dnr)
@@ -2573,7 +2423,7 @@ int drive_read_snapshot_module(snapshot_t *s)
         drive[i].shifter = drive[i].bits_moved;
         drive[i].rotation_table_ptr = drive[i].rotation_table[0]
             + rotation_table_ptr[i];
-        drive[i].GCR_track_start_ptr = (drive[i].GCR_data
+        drive[i].GCR_track_start_ptr = (drive[i].gcr->data
                            + ((drive[i].current_half_track / 2 - 1)
                               * NUM_MAX_BYTES_TRACK));
         if (drive[i].type != DRIVE_TYPE_1571) {
@@ -2909,17 +2759,17 @@ static int drive_write_gcrimage_snapshot_module(snapshot_t *s, int dnr)
     tmpbuf = xmalloc(MAX_TRACKS_1571 * 4);
 
     for (i = 0; i < MAX_TRACKS_1571; i++) {
-        tmpbuf[i * 4] = drive[dnr].GCR_track_size[i] & 0xff;
-        tmpbuf[i * 4 + 1] = (drive[dnr].GCR_track_size[i] >> 8) & 0xff;
-        tmpbuf[i * 4 + 2] = (drive[dnr].GCR_track_size[i] >> 16) & 0xff;
-        tmpbuf[i * 4 + 3] = (drive[dnr].GCR_track_size[i] >> 24) & 0xff;
+        tmpbuf[i * 4] = drive[dnr].gcr->track_size[i] & 0xff;
+        tmpbuf[i * 4 + 1] = (drive[dnr].gcr->track_size[i] >> 8) & 0xff;
+        tmpbuf[i * 4 + 2] = (drive[dnr].gcr->track_size[i] >> 16) & 0xff;
+        tmpbuf[i * 4 + 3] = (drive[dnr].gcr->track_size[i] >> 24) & 0xff;
     }
 
     if (0
-        || snapshot_module_write_byte_array(m, drive[dnr].GCR_data,
-            sizeof(drive[dnr].GCR_data)) < 0
-        || snapshot_module_write_byte_array(m, drive[dnr].GCR_speed_zone,
-            sizeof(drive[dnr].GCR_speed_zone)) < 0
+        || snapshot_module_write_byte_array(m, drive[dnr].gcr->data,
+            sizeof(drive[dnr].gcr->data)) < 0
+        || snapshot_module_write_byte_array(m, drive[dnr].gcr->speed_zone,
+            sizeof(drive[dnr].gcr->speed_zone)) < 0
         || snapshot_module_write_byte_array(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0
         ) {
         if (m != NULL)
@@ -2959,10 +2809,10 @@ static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr)
     tmpbuf = xmalloc(MAX_TRACKS_1571 * 4);
 
     if (0
-        || snapshot_module_read_byte_array(m, drive[dnr].GCR_data,
-            sizeof(drive[dnr].GCR_data)) < 0
-        || snapshot_module_read_byte_array(m, drive[dnr].GCR_speed_zone,
-            sizeof(drive[dnr].GCR_speed_zone)) < 0
+        || snapshot_module_read_byte_array(m, drive[dnr].gcr->data,
+            sizeof(drive[dnr].gcr->data)) < 0
+        || snapshot_module_read_byte_array(m, drive[dnr].gcr->speed_zone,
+            sizeof(drive[dnr].gcr->speed_zone)) < 0
         || snapshot_module_read_byte_array(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0
         ) {
         if (m != NULL)
@@ -2974,7 +2824,7 @@ static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr)
     m = NULL;
 
     for (i = 0; i < MAX_TRACKS_1571; i++)
-        drive[dnr].GCR_track_size[i] = tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
+        drive[dnr].gcr->track_size[i] = tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
             + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24);
 
     free(tmpbuf);
