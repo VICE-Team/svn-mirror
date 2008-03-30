@@ -835,9 +835,9 @@ void initialize_memory(void)
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
 
-    pport.data = 0xff;
+    pport.data = 0;
     pport.dir = 0x0;
-    pport.data_out = 0xff;
+    pport.data_out = 0;
     export.exrom = 0;
     export.game = 0;
 

@@ -1,3 +1,27 @@
+1999-08-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.60.
+
+	* c64/c64mem.c (initialize_memory): Initialize CPU port with
+	`0'.
+
+	* vic20/vic.c (exposure_handler): Renamed to
+	`vic_exposure_handler'.
+
+	* vic20/vic.h: Removed `exposure_handler'.
+
+	* vic20/vic-resources.c (set_double_scan_enabled): Notify the
+	raster code.
+
+1999-08-15  Ettore Perazzoli  <ettore@comm2000.it>
+ 
+	* raster/raster.c (handle_blank_line): Draw one more pixel on the
+	right for double-scan lines in the upper/lower borders.
+ 
+1999-08-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+  
+  	* Version 1.0.59.
+
 1999-08-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.59.
