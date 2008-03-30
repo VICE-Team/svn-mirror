@@ -4207,7 +4207,7 @@ BEGIN
     PUSHBUTTON      "Maak verbinding naar", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
     EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,90,12,WS_TABSTOP
     PUSHBUTTON      "Verbreek verbinding", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 99,78,70,14,WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 99,78,70,14,WS_TABSTOP
 END
 
 
@@ -4401,7 +4401,7 @@ BEGIN
   IDS_EXACT                       "Exact"
   IDS_SOUND_DRIVER_DIRECTX        "Sound driver: DirectX"
   IDS_SOUND_DRIVER_WMM            "Sound driver: WMM"
-  IDS_MEDIA_FILES_FILTER          "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_MEDIA_FILES_FILTER          "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kB"
   IDS_CONFIGURE_KEYSET_A          "Configure Keyset A"
   IDS_CONFIGURE_KEYSET_B          "Configure Keyset B"
@@ -4596,7 +4596,7 @@ BEGIN
   IDS_EXACT_DE                       "Exakt"
   IDS_SOUND_DRIVER_DIRECTX_DE        "Sound Treiber: DirectX"
   IDS_SOUND_DRIVER_WMM_DE            "Sound Treiber: WMM"
-  IDS_MEDIA_FILES_FILTER_DE          "Media Dateien (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_MEDIA_FILES_FILTER_DE          "Media Dateien (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB_DE                    " kB"
   IDS_CONFIGURE_KEYSET_A_DE          "Konfiguriere Tastaturbelegung A"
   IDS_CONFIGURE_KEYSET_B_DE          "Konfiguriere Tastaturbelegung B"
@@ -4791,7 +4791,7 @@ BEGIN
   IDS_EXACT_FR                       "Exact"
   IDS_SOUND_DRIVER_DIRECTX_FR        "Pilote son: DirectX"
   IDS_SOUND_DRIVER_WMM_FR            "Pilote son: WMM"
-  IDS_MEDIA_FILES_FILTER_FR          "Fichiers média (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_MEDIA_FILES_FILTER_FR          "Fichiers média (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB_FR                    " kO"
   IDS_CONFIGURE_KEYSET_A_FR          "Configurer Touches A"
   IDS_CONFIGURE_KEYSET_B_FR          "Configurer Touches B"
@@ -4986,7 +4986,7 @@ BEGIN
   IDS_EXACT_IT                       "Esatta"
   IDS_SOUND_DRIVER_DIRECTX_IT        "Driver sonoro: DirectX"
   IDS_SOUND_DRIVER_WMM_IT            "Driver sonoro: WMM"
-  IDS_MEDIA_FILES_FILTER_IT          "File multimediali (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_MEDIA_FILES_FILTER_IT          "File multimediali (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB_IT                    " kB"
   IDS_CONFIGURE_KEYSET_A_IT          "Configura Keyset A"
   IDS_CONFIGURE_KEYSET_B_IT          "Configura Keyset B"
@@ -5181,7 +5181,7 @@ BEGIN
   IDS_EXACT_NL                       "Exact"
   IDS_SOUND_DRIVER_DIRECTX_NL        "Geluid stuurprogramma: DirectX"
   IDS_SOUND_DRIVER_WMM_NL            "Geluid stuurprogramma: WMM"
-  IDS_MEDIA_FILES_FILTER_NL          "Media bestanden (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_MEDIA_FILES_FILTER_NL          "Media bestanden (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB_NL                    " kB"
   IDS_CONFIGURE_KEYSET_A_NL          "Configureer Keyset A"
   IDS_CONFIGURE_KEYSET_B_NL          "Configureer Keyset B"
@@ -5378,7 +5378,7 @@ BEGIN
   IDS_EXACT_PL                       "Exact"
   IDS_SOUND_DRIVER_DIRECTX_PL        "Sound driver: DirectX"
   IDS_SOUND_DRIVER_WMM_PL            "Sound driver: WMM"
-  IDS_MEDIA_FILES_FILTER_PL          "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_MEDIA_FILES_FILTER_PL          "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB_PL                    " kB"
   IDS_CONFIGURE_KEYSET_A_PL          "Configure Keyset A"
   IDS_CONFIGURE_KEYSET_B_PL          "Configure Keyset B"
@@ -5576,7 +5576,7 @@ BEGIN
   IDS_EXACT_SV                       "Exakt"
   IDS_SOUND_DRIVER_DIRECTX_SV        "Ljuddrivrutin: DirectX"
   IDS_SOUND_DRIVER_WMM_SV            "Ljuddrivrutin: WMM"
-  IDS_MEDIA_FILES_FILTER_SV          "Mediafiler (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_MEDIA_FILES_FILTER_SV          "Mediafiler (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB_SV                    " kB"
   IDS_CONFIGURE_KEYSET_A_SV          "Konfigurera uppsättning A"
   IDS_CONFIGURE_KEYSET_B_SV          "Konfigurera uppsättning B"

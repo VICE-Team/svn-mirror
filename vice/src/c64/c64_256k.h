@@ -29,7 +29,7 @@
 
 #include "types.h"
 
-extern int c64_256k_start;
+extern unsigned int c64_256k_start;
 extern int c64_256k_enabled;
 
 extern int c64_256k_resources_init(void);

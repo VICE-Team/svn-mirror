@@ -281,7 +281,7 @@ void ui_mediafile_save_dialog(HWND hwnd)
     int filter_len,mask_len;
     char *s;
     char filter[100];
-    char mask[]="*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg";
+    char mask[]="*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg";
 
     if (screenshot_is_recording()) {
         /* the recording is active; stop it  */

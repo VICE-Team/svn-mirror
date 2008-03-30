@@ -420,7 +420,7 @@ void tap_cbm_print_error(int ret)
     case  0: log_debug("OK\n"); break;
     case -1: log_debug("ERROR (tape end)\n"); break;
     case -2: log_debug("ERROR (sync read)\n"); break;
-    case -3: log_debug("ERROR (short block)\n"); break;
+/*    case -3: log_debug("ERROR (short block)\n"); break; */
     case -4: log_debug("ERROR (long block)\n"); break;
     case -5: log_debug("ERROR (too many single errors)\n"); break;
     case -6: log_debug("ERROR (double read error)\n"); break;
@@ -430,7 +430,7 @@ void tap_cbm_print_error(int ret)
 }
 #endif
 
-static int tap_cbm_read_block_once(tap_t *tap, int *pass, BYTE *buffer, int size, int *error_buf, int *error_count)
+static int tap_cbm_read_block_once(tap_t *tap, int *pass, BYTE *buffer, int *size, int *error_buf, int *error_count)
 {
   int count, data, ecount, found_pass;
 
@@ -438,7 +438,7 @@ static int tap_cbm_read_block_once(tap_t *tap, int *pass, BYTE *buffer, int size
       0 : ok
      -1 : tape end reached
      -2 : error reading sync 
-     -3 : short block
+     (-3 : short block) short blocks are okay, size will be adapted (iAN CooG, AndrerasM)
      -4 : long block
      -5 : too many single errors
      -6 : unrecoverable read error */
@@ -510,21 +510,19 @@ static int tap_cbm_read_block_once(tap_t *tap, int *pass, BYTE *buffer, int size
       else if( data==-3 )
         {
           /* found L-S sequence (end-of-block) */
-          if( count<size )
-            return -3; /* error: small block */
-          else
-            return 0;
+          *size = count; /* set size */
+          return 0;
         }
       else
         {
           /* byte ok */
-          if( count<size ) 
+          if( count < *size ) 
             {
 #if TAP_DEBUG > 1
               log_debug(" %02x", (BYTE) data);
 #endif
               buffer[count++] = (BYTE) data;
-              if ((tap->system == 2) && (count == size)) {
+              if ((tap->system == 2) && (count == *size)) {
                   /*  On the C16 a block is finished with 1 Medium pulse
                       followed by 450 Small pulse
                       Return here, because the byte read expects a Long pulse
@@ -555,7 +553,7 @@ static int tap_cbm_read_block(tap_t *tap, BYTE *buffer, int size)
     {
       /* try to read data.  If tap_cbm_read_block_once() finds a sync countdown 
          it will reset 'pass' to the value indicated by the countdown. */
-      ret = tap_cbm_read_block_once(tap, &pass, buffer, size, error_buf, &error_count);
+      ret = tap_cbm_read_block_once(tap, &pass, buffer, &size, error_buf, &error_count);
 
 #if TAP_DEBUG>0 
       log_debug(" PASS%i:%i/%i ", pass, ret, error_count);
@@ -613,10 +611,10 @@ static int tap_cbm_read_block(tap_t *tap, BYTE *buffer, int size)
 static int tap_cbm_read_header(tap_t *tap)
 {
   int ret;
-  BYTE buffer[193];
+  BYTE buffer[255];
 
   /* read header data */
-  ret = tap_cbm_read_block(tap, buffer, 193);
+  ret = tap_cbm_read_block(tap, buffer, 255);
   if( ret<0 ) return ret;
 
   /* first byte of header must represent a valid file type (1, 3 or 4) */
