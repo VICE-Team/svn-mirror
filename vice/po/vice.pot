@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-02-29 20:53+0100\n"
+"POT-Creation-Date: 2004-03-06 17:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -848,12 +848,12 @@ msgstr ""
 msgid "Attempt to read from non-open fd %d."
 msgstr ""
 
-#: src/arch/unix/signals.c:40
+#: src/arch/unix/signals.c:41
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr ""
 
-#: src/arch/unix/signals.c:43
+#: src/arch/unix/signals.c:44
 #, c-format
 msgid "Received signal %d."
 msgstr ""
