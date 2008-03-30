@@ -622,7 +622,7 @@ void ui_display_drive_led(int drivenum, int status)
 }
 
 /* display current image */
-void ui_display_drive_current_image(int drivenum, const char *image)
+void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 {
     /* just a dummy so far */
 }

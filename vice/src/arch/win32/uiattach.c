@@ -68,7 +68,7 @@ static void enable_controls_for_disk_device_type(HWND hwnd, int type)
                  type == IDC_SELECTDIR);
 }
 
-static void init_dialog(HWND hwnd, int num)
+static void init_dialog(HWND hwnd, unsigned int num)
 {
     const char *disk_image, *dir;
     int n;
@@ -104,7 +104,7 @@ static void init_dialog(HWND hwnd, int num)
     enable_controls_for_disk_device_type(hwnd, n);
 }
 
-static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
+static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
     switch (msg) {

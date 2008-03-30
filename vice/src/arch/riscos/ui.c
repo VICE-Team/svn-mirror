@@ -6033,6 +6033,8 @@ void ui_activate_monitor(void)
 }
 
 
-void ui_display_drive_current_image(int drive_number, const char *image)
+void ui_display_drive_current_image(unsigned int drive_number,
+                                    const char *image)
 {
 }
+

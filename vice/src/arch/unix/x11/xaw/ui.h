@@ -115,7 +115,6 @@ extern int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 extern void ui_display_speed(float percent, float framerate, int warp_flag);
 extern void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color);
 extern void ui_display_drive_track(int drive_number, int drive_base, double track_number);
-extern void ui_display_drive_current_image(int drive_number, const char *image);
 extern void ui_display_paused(int flag);
 extern void ui_dispatch_next_event(void);
 extern void ui_dispatch_events(void);

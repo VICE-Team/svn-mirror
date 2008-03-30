@@ -209,7 +209,8 @@ extern void ui_enable_drive_status(ui_drive_enable_t state,
     ui_status.lastDriveState=state;
 }
 
-void ui_display_drive_current_image(int drive_number, const char *image)
+void ui_display_drive_current_image(unsigned int drive_number,
+                                    const char *image)
 {
     const ULONG flCmd =
         DT_TEXTATTRS|DT_VCENTER|DT_LEFT|DT_ERASERECT|DT_WORDBREAK;
