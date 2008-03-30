@@ -110,7 +110,7 @@ machine_context_t machine_context;
 #define NUM_KEYBOARD_MAPPINGS 3
 
 const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
-    "KeymapSymFile", "KeymapSymDeFile", "KeymapPosFile"
+    "KeymapSymFile", "KeymapPosFile", "KeymapSymDeFile"
 };
 
 char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
