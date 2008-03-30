@@ -31,6 +31,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "crtc.h"
 #include "crtctypes.h"
 #include "maincpu.h"
@@ -52,7 +54,7 @@ int crtc_snapshot_write_module(snapshot_t * s)
     snapshot_module_t *m;
 
     /* derive some values */
-    current_char = clk - crtc.rl_start;
+    current_char = maincpu_clk - crtc.rl_start;
     screen_rel = crtc.screen_rel;
     if ((crtc.raster.ycounter == crtc.regs[9])
         && (current_char > crtc.rl_visible)
@@ -211,7 +213,7 @@ int crtc_snapshot_read_module(snapshot_t * s)
     if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
         crtc.hw_blank = b;
 
-    crtc.rl_start = clk;        /* just to be sure */
+    crtc.rl_start = maincpu_clk;        /* just to be sure */
 
     /* read the registers */
     for (i = 0; (!ef) && (i < 20); i++) {
@@ -225,7 +227,7 @@ int crtc_snapshot_read_module(snapshot_t * s)
     if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
         crtc.regno = b;
     if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
-        crtc.rl_start = clk - b;
+        crtc.rl_start = maincpu_clk - b;
     if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
         crtc.current_charline = b;
     if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))

@@ -455,7 +455,7 @@ char *fastsid_dump_state(sound_t *psid)
     char		buf[1024];
 
     sprintf(buf, "#SID: clk=%ld v=%d s3=%d\n",
-            (long)clk, psid->vol, psid->has3);
+            (long)maincpu_clk, psid->vol, psid->has3);
     for (i = 0; i < 3; i++)
 	print_voice(buf + strlen(buf), &psid->v[i]);
     return stralloc(buf);
@@ -938,7 +938,7 @@ BYTE fastsid_read(sound_t *psid, ADDRESS addr)
 	break;
     default:
 	while ((tmp = psid->laststorebit) &&
-	       (tmp = psid->laststoreclk + sidreadclocks[tmp]) < clk)
+	       (tmp = psid->laststoreclk + sidreadclocks[tmp]) < maincpu_clk)
 	{
 	    psid->laststoreclk = tmp;
 	    psid->laststore &= 0xfeff >> psid->laststorebit--;
@@ -992,7 +992,7 @@ void fastsid_store(sound_t *psid, ADDRESS addr, BYTE byte)
     psid->d[addr] = byte;
     psid->laststore = byte;
     psid->laststorebit = 8;
-    psid->laststoreclk = clk;
+    psid->laststoreclk = maincpu_clk;
 }
 
 void fastsid_reset(sound_t *psid, CLOCK cpu_clk)

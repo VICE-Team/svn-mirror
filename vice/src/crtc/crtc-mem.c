@@ -42,7 +42,9 @@
 
 void REGPARM2 crtc_store(ADDRESS addr, BYTE value)
 {
-    int current_cycle = clk - crtc.rl_start;
+    int current_cycle;
+
+    current_cycle = maincpu_clk - crtc.rl_start;
 
     addr &= 1;
 
@@ -199,19 +201,19 @@ BYTE REGPARM1 crtc_read(ADDRESS addr)
 
     /* internal registers */
     switch (crtc.regno) {
-    case 14:
-    case 15:                        /* Cursor location HI/LO */
+      case 14:
+      case 15:                        /* Cursor location HI/LO */
         if (addr >= 64) {
             /*log_debug("crtc_read: ERROR");*/
             return 0;
         }
         return crtc.regs[addr];
 
-    case 16:
-    case 17:                        /* Light Pen X,Y */
+      case 16:
+      case 17:                        /* Light Pen X,Y */
         return 0xff;
 
-    default:
+      default:
         return 0;           /* All the rest are write-only registers */
     }
 

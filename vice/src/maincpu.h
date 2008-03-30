@@ -52,8 +52,8 @@ extern struct mos6510_regs_s maincpu_regs;
 struct monitor_interface_s;
 extern struct monitor_interface_s maincpu_monitor_interface;
 
-extern int rmw_flag;
-extern CLOCK clk;
+extern int maincpu_rmw_flag;
+extern CLOCK maincpu_clk;
 
 /* ------------------------------------------------------------------------- */
 

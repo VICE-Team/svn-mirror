@@ -474,8 +474,8 @@ void crtc_reset(void)
     crtc.prev_rl_sync = crtc.rl_sync;
     crtc.prev_rl_len = crtc.rl_len;
 
-    crtc.rl_start = clk;
-    crtc.frame_start = clk;
+    crtc.rl_start = maincpu_clk;
+    crtc.frame_start = maincpu_clk;
 
     crtc_reset_screen_ptr();
 
@@ -714,7 +714,7 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
     crtc.rl_sync = crtc.regs[2];
     crtc.rl_len = crtc.regs[0];
 
-    crtc.rl_start = clk - offset;
+    crtc.rl_start = maincpu_clk - offset;
 
     /******************************************************************
      * handle the rasterline numbering

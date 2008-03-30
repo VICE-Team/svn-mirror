@@ -125,7 +125,7 @@ void iec_cpu_write_conf0(BYTE data)
 /* Only the first drive is enabled.  */
 void iec_cpu_write_conf1(BYTE data)
 {
-    drive0_cpu_execute(clk);
+    drive0_cpu_execute(maincpu_clk);
 
     iec_update_cpu_bus(data);
 
@@ -158,7 +158,7 @@ void iec_cpu_write_conf1(BYTE data)
 /* Only the second drive is enabled.  */
 void iec_cpu_write_conf2(BYTE data)
 {
-    drive1_cpu_execute(clk);
+    drive1_cpu_execute(maincpu_clk);
 
     iec_update_cpu_bus(data);
 
@@ -190,8 +190,8 @@ void iec_cpu_write_conf2(BYTE data)
 /* Both drive are enabled.  */
 void iec_cpu_write_conf3(BYTE data)
 {
-    drive0_cpu_execute(clk);
-    drive1_cpu_execute(clk);
+    drive0_cpu_execute(maincpu_clk);
+    drive1_cpu_execute(maincpu_clk);
 
     iec_update_cpu_bus(data);
 
@@ -251,9 +251,9 @@ BYTE iec_cpu_read(void)
 	return (iec_info.iec_fast_1541 & 0x30) << 2;
 
     if (drive[0].enable)
-	drive0_cpu_execute(clk);
+	drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-	drive1_cpu_execute(clk);
+	drive1_cpu_execute(maincpu_clk);
     return iec_info.cpu_port;
 }
 
@@ -290,9 +290,9 @@ void parallel_cable_cpu_write(BYTE data)
         return;
 
     if (drive[0].enable)
-	drive0_cpu_execute(clk);
+	drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-	drive1_cpu_execute(clk);
+	drive1_cpu_execute(maincpu_clk);
 
     parallel_cable_cpu_value = data;
 }
@@ -303,9 +303,9 @@ BYTE parallel_cable_cpu_read(void)
         return 0;
 
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
@@ -316,9 +316,9 @@ void parallel_cable_cpu_pulse(void)
         return;
 
     if (drive[0].enable)
-	drive0_cpu_execute(clk);
+	drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-	drive1_cpu_execute(clk);
+	drive1_cpu_execute(maincpu_clk);
 
     via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
     via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
@@ -339,7 +339,7 @@ int iec_available_busses(void)
 void iec_calculate_callback_index(void)
 {
     iec_callback_index = (drive[0].enable ? 1 : 0)
-                           | (drive[1].enable ? 2 : 0);
+                         | (drive[1].enable ? 2 : 0);
 }
 
 void iec_fast_drive_write(BYTE data)

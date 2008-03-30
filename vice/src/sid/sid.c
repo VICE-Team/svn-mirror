@@ -27,14 +27,18 @@
  *
  */
 
+#include "vice.h"
+
+#include <stdio.h>
 #include <string.h>
 
+#include "fastsid.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
 #include "sid-resources.h"
 #include "sid.h"
-#include "fastsid.h"
+#include "types.h"
 
 #ifdef HAVE_MOUSE
 #include "mouse.h"
@@ -67,12 +71,10 @@ BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
     val = sound_read(addr, chipno);
 
     /* Fallback when sound is switched off. */
-    if (val < 0)
-    {
+    if (val < 0) {
         if (addr == 0x19 || addr == 0x1a)
 	    val = 0xff;
-	else
-	{
+	else {
 	    if (addr == 0x1b || addr == 0x1c)
 		val = rand();
 	    else
@@ -90,11 +92,11 @@ void REGPARM3 sid_store_chip(ADDRESS addr, BYTE byte, int chipno)
     addr &= 0x1f;
     siddata[chipno][addr] = byte;
 
-    machine_handle_pending_alarms(rmw_flag + 1);
-    if (rmw_flag) {
-	clk--;
+    machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+    if (maincpu_rmw_flag) {
+	maincpu_clk--;
 	sound_store(addr, lastsidread, chipno);
-	clk++;
+	maincpu_clk++;
     }
     sound_store(addr, byte, chipno);
 }
@@ -212,3 +214,4 @@ int sound_machine_channels(void)
     resources_get_value("SidStereo", (resource_value_t*)&stereo);
     return stereo ? 2 : 1;
 }
+

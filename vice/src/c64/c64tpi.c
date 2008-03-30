@@ -54,8 +54,8 @@
 #define mycpu_set_int(a,b)              do {} while(0)
 #define mycpu_restore_int(a,b)          do {} while(0)
 
-#define mycpu_rmw_flag  rmw_flag
-#define myclk           clk
+#define mycpu_rmw_flag  maincpu_rmw_flag
+#define myclk           maincpu_clk
 
 /*----------------------------------------------------------------------*/
 /* I/O */
@@ -165,9 +165,9 @@ _TPI_FUNC BYTE read_pa(void)
     BYTE byte;
 
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 
     byte = 0xff;
     if (ieee_is_out) {
@@ -196,9 +196,9 @@ _TPI_FUNC BYTE read_pb(void)
     BYTE byte;
 
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 
     byte = ieee_is_out ? 0xff : parallel_bus;
     byte = (byte & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);

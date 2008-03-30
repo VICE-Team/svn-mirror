@@ -230,7 +230,7 @@ static void vdc_set_next_alarm(CLOCK offset)
     next_line_accu -= (next_alarm << 16);
 
     /* Set the next draw event. */
-    alarm_set(&vdc.raster_draw_alarm, clk + (CLOCK)next_alarm - offset);
+    alarm_set(&vdc.raster_draw_alarm, maincpu_clk + (CLOCK)next_alarm - offset);
 }
 
 static void vdc_update_geometry(void)
