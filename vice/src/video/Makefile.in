@@ -266,15 +266,13 @@ render2x2.o: render2x2.c ../../src/vice.h ../../src/config.h render2x2.h \
 render2x2pal.o: render2x2pal.c ../../src/vice.h ../../src/config.h \
 	render2x2.h ../../src/arch/unix/types.h
 video-canvas.o: video-canvas.c ../../src/vice.h ../../src/config.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/arch/unix/types.h ../../src/viewport.h \
-	../../src/utils.h video-render.h ../../src/video.h \
+	../../src/arch/unix/types.h ../../src/utils.h video-render.h \
+	../../src/video.h ../../src/viewport.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/fullscreenarch.h \
 	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 video-cmdline-options.o: video-cmdline-options.c ../../src/vice.h \
 	../../src/config.h
@@ -283,21 +281,18 @@ video-color.o: video-color.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h video-color.h video-resources.h \
 	../../src/video.h ../../src/viewport.h
 video-render.o: video-render.c ../../src/vice.h ../../src/config.h \
-	../../src/raster/raster-canvas.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
-	../../src/viewport.h render1x1.h render1x1pal.h render1x2.h \
-	render2x2.h render2x2pal.h video-render.h video-resources.h \
-	../../src/video.h
+	render1x1.h ../../src/arch/unix/types.h render1x1pal.h \
+	render1x2.h render2x2.h render2x2pal.h video-render.h \
+	video-resources.h ../../src/video.h ../../src/viewport.h
 video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/arch/unix/types.h ../../src/viewport.h \
-	../../src/resources.h ../../src/utils.h video-resources.h \
-	video-color.h ../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/resources.h ../../src/utils.h \
+	../../src/arch/unix/types.h video-resources.h video-color.h \
+	../../src/video.h ../../src/viewport.h \
+	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/fullscreenarch.h \
 	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 video-viewport.o: video-viewport.c ../../src/vice.h ../../src/config.h \
 	../../src/video.h ../../src/arch/unix/types.h \
@@ -306,7 +301,6 @@ video-viewport.o: video-viewport.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/fullscreenarch.h \
 	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 
 info-am:

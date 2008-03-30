@@ -331,10 +331,9 @@ about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/info.h ../../../../../src/version.h \
 	videoarch.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
-	uiarch.h ../videoarch.h \
-	../../../../../src/arch/unix/fullscreenarch.h \
-	../../../../../src/video.h ../../../../../src/viewport.h \
-	../xaw/uiarch.h ../../../../../src/vsync.h
+	uiarch.h ../videoarch.h ../../../../../src/video.h \
+	../../../../../src/viewport.h ../xaw/uiarch.h \
+	../../../../../src/vsync.h
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h
 uicartridge.o: uicartridge.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
@@ -351,8 +350,8 @@ uicolor.o: uicolor.c ../../../../../src/vice.h \
 	../../../../../src/video.h ../../../../../src/viewport.h \
 	videoarch.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/uiapi.h uiarch.h ../videoarch.h \
-	../../../../../src/arch/unix/fullscreenarch.h ../xaw/uiarch.h \
-	../../../../../src/arch/unix/x11/x11ui.h uiarch.h
+	../xaw/uiarch.h ../../../../../src/arch/unix/x11/x11ui.h \
+	uiarch.h
 uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/diskimage.h \
@@ -419,7 +418,6 @@ x11video.o: x11video.c ../../../../../src/vice.h \
 	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \
 	videoarch.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/uiapi.h uiarch.h ../videoarch.h \
-	../../../../../src/arch/unix/fullscreenarch.h \
 	../../../../../src/video.h ../../../../../src/viewport.h \
 	../xaw/uiarch.h ../../../../../src/arch/unix/x11/x11ui.h \
 	uiarch.h

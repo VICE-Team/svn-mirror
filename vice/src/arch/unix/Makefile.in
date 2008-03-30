@@ -548,7 +548,7 @@ vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
 	ui.h ../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
 	uihotkey.h x11/xaw/../xaw/uiarch.h uisettings.h uisound.h \
 	../../../src/utils.h videoarch.h x11/xaw/videoarch.h \
-	x11/xaw/../videoarch.h fullscreenarch.h ../../../src/video.h \
+	x11/xaw/../videoarch.h ../../../src/video.h \
 	../../../src/viewport.h ../../../src/vsync.h \
 	../../../src/vsidui.h vsiduiunix.h x11/x11ui.h
 vsyncarch.o: vsyncarch.c ../../../src/vice.h ../../../src/config.h \

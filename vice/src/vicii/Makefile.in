@@ -334,8 +334,7 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/fullscreenarch.h ../../src/video.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/video.h \
 	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 
 info-am:

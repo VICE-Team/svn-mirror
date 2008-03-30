@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-07-01 01:38+0200\n"
+"POT-Creation-Date: 2002-07-02 23:29+0200\n"
 "PO-Revision-Date: 2002-03-23 19:55+01:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -262,8 +262,8 @@ msgstr "Opcje"
 #: src/arch/unix/c128ui.c:441 src/arch/unix/c64ui.c:455
 #: src/arch/unix/cbm2ui.c:493 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:181 src/arch/unix/vic20ui.c:495
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1088
-#: src/arch/unix/x11/gnome/x11ui.c:1180
+#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1087
+#: src/arch/unix/x11/gnome/x11ui.c:1179
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -1021,7 +1021,7 @@ msgstr "Nastêpny: "
 
 #: src/arch/unix/uicommands.c:715 src/arch/unix/uicommands.c:730
 #: src/arch/unix/x11/gnome/x11ui.c:765 src/arch/unix/x11/gnome/x11ui.c:775
-#: src/arch/unix/x11/gnome/x11ui.c:1431
+#: src/arch/unix/x11/gnome/x11ui.c:1430
 msgid "<empty>"
 msgstr "<pusty>"
 
@@ -1176,7 +1176,7 @@ msgid "About VICE..."
 msgstr "O VICE..."
 
 #: src/arch/unix/uicommands.c:1004 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1816
+#: src/arch/unix/x11/gnome/x11ui.c:1815
 msgid "Reset"
 msgstr "Reset"
 
@@ -1723,8 +1723,8 @@ msgstr "Maksymalna prêdko¶æ dzia³ania"
 msgid "Invalid speed value"
 msgstr "Nieprawid³owa warto¶æ prêdko¶ci"
 
-#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1224
-#: src/arch/unix/x11/xaw/x11ui.c:1006
+#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1223
+#: src/arch/unix/x11/xaw/x11ui.c:1005
 msgid "Cannot save settings."
 msgstr "Nie mo¿na zapisaæ ustawieñ."
 
@@ -2454,97 +2454,97 @@ msgstr "Napêd %d: "
 msgid "Tape 000"
 msgstr "Kaseta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:931 src/arch/unix/x11/xaw/x11ui.c:569
+#: src/arch/unix/x11/gnome/x11ui.c:930 src/arch/unix/x11/xaw/x11ui.c:568
 msgid "Maximum number of toplevel windows reached."
 msgstr "Osi±gniêto maksymalny limit okien najwy¿szego stopnia."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1086 src/arch/unix/x11/gnome/x11ui.c:1169
+#: src/arch/unix/x11/gnome/x11ui.c:1085 src/arch/unix/x11/gnome/x11ui.c:1168
 msgid "Commands"
 msgstr "Komendy"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1092
+#: src/arch/unix/x11/gnome/x11ui.c:1091
 msgid "Help"
 msgstr "Pomoc"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1211 src/arch/unix/x11/xaw/x11ui.c:991
+#: src/arch/unix/x11/gnome/x11ui.c:1210 src/arch/unix/x11/xaw/x11ui.c:990
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1213 src/arch/unix/x11/xaw/x11ui.c:996
+#: src/arch/unix/x11/gnome/x11ui.c:1212 src/arch/unix/x11/xaw/x11ui.c:995
 msgid "Do you really want to exit?"
 msgstr "Czy naprawdê chcesz wyj¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1221 src/arch/unix/x11/xaw/x11ui.c:1003
+#: src/arch/unix/x11/gnome/x11ui.c:1220 src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "Save the current settings?"
 msgstr "Czy zapisaæ obecne ustawienia?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1269 src/arch/unix/x11/xaw/x11ui.c:1044
+#: src/arch/unix/x11/gnome/x11ui.c:1268 src/arch/unix/x11/xaw/x11ui.c:1043
 msgid "Using private colormap."
 msgstr "U¿yj prywatnej mapy kolorów."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1289 src/arch/unix/x11/gnome/x11ui.c:1292
-#: src/arch/unix/x11/xaw/x11ui.c:1065 src/arch/unix/x11/xaw/x11ui.c:1071
+#: src/arch/unix/x11/gnome/x11ui.c:1288 src/arch/unix/x11/gnome/x11ui.c:1291
+#: src/arch/unix/x11/xaw/x11ui.c:1064 src/arch/unix/x11/xaw/x11ui.c:1070
 msgid "(warp)"
 msgstr "(przyspieszony)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1583
+#: src/arch/unix/x11/gnome/x11ui.c:1582
 #, c-format
 msgid "Tape %03d"
 msgstr "Ta¶ma %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1620 src/arch/unix/x11/xaw/x11ui.c:1281
+#: src/arch/unix/x11/gnome/x11ui.c:1619 src/arch/unix/x11/xaw/x11ui.c:1280
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pauza)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1775
+#: src/arch/unix/x11/gnome/x11ui.c:1774
 msgid "VICE Message"
 msgstr "Wiadomo¶æ VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1790
+#: src/arch/unix/x11/gnome/x11ui.c:1789
 msgid "VICE Error"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1816
+#: src/arch/unix/x11/gnome/x11ui.c:1815
 msgid "Hard Reset"
 msgstr "Zimny reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1816
+#: src/arch/unix/x11/gnome/x11ui.c:1815
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1860 src/arch/unix/x11/xaw/x11ui.c:1556
+#: src/arch/unix/x11/gnome/x11ui.c:1859 src/arch/unix/x11/xaw/x11ui.c:1555
 msgid "Extend disk image"
 msgstr "Rozszerzenie obrazu dyskietki"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1861
+#: src/arch/unix/x11/gnome/x11ui.c:1860
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Czy chcesz rozszerzyæ obraz dysku do 40 ¶cie¿ek?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1874
+#: src/arch/unix/x11/gnome/x11ui.c:1873
 msgid "Autostart not possible for unit 9"
 msgstr "Autostart nie mo¿liwy w jednostce 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1882 src/arch/unix/x11/gnome/x11ui.c:1891
+#: src/arch/unix/x11/gnome/x11ui.c:1881 src/arch/unix/x11/gnome/x11ui.c:1890
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Nie mo¿na automatycznie wystartowaæ zaznaczonego %d w obrazie %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2019 src/arch/unix/x11/gnome/x11ui.c:2024
+#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/gnome/x11ui.c:2023
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "Nie ma dostêpnej zawarto¶ci obrazu"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2482
+#: src/arch/unix/x11/gnome/x11ui.c:2481
 msgid "Contents"
 msgstr "Zawarto¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2529
+#: src/arch/unix/x11/gnome/x11ui.c:2528
 msgid "Attach write protected"
 msgstr "W³ó¿ zabezpieczone przed zapisem"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2555
+#: src/arch/unix/x11/gnome/x11ui.c:2554
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -2798,16 +2798,16 @@ msgstr "Zapisz obecnie za³adowany ROM"
 msgid "Save snapshot"
 msgstr "Zapisz obraz"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1154
+#: src/arch/unix/x11/xaw/x11ui.c:1153
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: ¦cie¿ka %.1f "
 
-#: src/arch/unix/x11/xaw/x11ui.c:1444
+#: src/arch/unix/x11/xaw/x11ui.c:1443
 msgid "VICE Error!"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1624
+#: src/arch/unix/x11/xaw/x11ui.c:1623
 msgid "Unknown image type."
 msgstr "Nieznany typ obrazu."
 
