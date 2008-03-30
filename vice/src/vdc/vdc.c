@@ -92,16 +92,6 @@ static void vdc_set_geometry(void)
     vdc_80col_start_pixel = border_width;
     vdc_80col_stop_pixel = vdc_80col_start_pixel + 8 * vdc.screen_text_cols;
 
-    if (vdc_resources.double_size_enabled) {
-        screen_height *= 2;
-        first_displayed_line *= 2;
-        last_displayed_line = last_displayed_line * 2 + 1;
-        screen_ypix *= 2;
-        border_height *= 2;
-        vdc_25row_start_line *= 2;
-        vdc_25row_stop_line *= 2;
-    }
-
     displayed_width = VDC_SCREEN_WIDTH;
     displayed_height = last_displayed_line - first_displayed_line + 1;
 
@@ -124,19 +114,24 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         last_displayed_line,
                         0, 0);
 
+    if (vdc_resources.double_size_enabled) {
+        displayed_height *= 2;
+        raster_set_pixel_size(&vdc.raster, 1, 2, VIDEO_RENDER_RGB_1X2);
+    }
+
     raster_resize_viewport(raster, displayed_width, displayed_height);
 
     raster->display_ystart = vdc_25row_start_line;
     raster->display_ystop = vdc_25row_stop_line;
     raster->display_xstart = vdc_80col_start_pixel;
     raster->display_xstop = vdc_80col_stop_pixel;
+
+    raster_enable_double_scan(&vdc.raster,
+                              vdc_resources.double_scan_enabled);
 }
 
 static void vdc_invalidate_cache(raster_t *raster, unsigned int screen_height)
 {
-    if (vdc_resources.double_size_enabled)
-        screen_height *= 2;
-
     raster_invalidate_cache(raster, screen_height);
 }
 
@@ -153,7 +148,7 @@ static int init_raster(void)
     raster_modes_set_idle_mode(raster->modes, VDC_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)vdc_exposure_handler);
     raster_enable_cache(raster, vdc_resources.video_cache_enabled);
-    raster_enable_double_scan(raster, 0);
+    raster_enable_double_scan(raster, vdc_resources.double_scan_enabled);
     raster_set_canvas_refresh(raster, 1);
 
     vdc_set_geometry();
@@ -346,23 +341,13 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset)
 {
     int in_visible_area, in_idle_state;
 
-    if (vdc_resources.double_size_enabled) {
-        in_visible_area = (vdc.raster.current_line
-                          >= (vdc.first_displayed_line * 2 + 1)
-                          && vdc.raster.current_line
-                          <= vdc.last_displayed_line * 2);
-        in_idle_state = (vdc.raster.current_line < vdc.border_height * 2)
-                        || (vdc.raster.current_line >
-                        (vdc.border_height + vdc.screen_ypix) * 2);
-    } else {
-        in_visible_area = (vdc.raster.current_line
-                          >= vdc.first_displayed_line
-                          && vdc.raster.current_line
-                          <= vdc.last_displayed_line);
-        in_idle_state = (vdc.raster.current_line < vdc.border_height)
-                        || (vdc.raster.current_line >
-                        (vdc.border_height + vdc.screen_ypix));
-    }
+    in_visible_area = (vdc.raster.current_line
+                      >= vdc.first_displayed_line
+                      && vdc.raster.current_line
+                      <= vdc.last_displayed_line);
+    in_idle_state = (vdc.raster.current_line < vdc.border_height)
+                    || (vdc.raster.current_line >
+                    (vdc.border_height + vdc.screen_ypix));
 
     if (vdc.raster.current_line == vdc.first_displayed_line * 2 + 1) {
         vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
@@ -418,23 +403,18 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset)
 
     raster_emulate_line(&vdc.raster);
 
-    if (!vdc_resources.double_size_enabled || vdc.raster.current_line & 1) {
-
 #ifdef __MSDOS__
-        if (vdc.raster.viewport.update_canvas)
-            canvas_set_border_color(vdc.raster.viewport.canvas,
-                                    vdc.raster.border_color);
+    if (vdc.raster.viewport.update_canvas)
+        canvas_set_border_color(vdc.raster.viewport.canvas,
+                                vdc.raster.border_color);
 #endif
 
-        if (in_visible_area && !in_idle_state) {
-            vdc_increment_memory_pointer();
-            vdc_set_video_mode();
-        }
-
-        vdc_set_next_alarm(offset);
-    } else {
-        alarm_set(&vdc.raster_draw_alarm, clk - offset);
+    if (in_visible_area && !in_idle_state) {
+        vdc_increment_memory_pointer();
+        vdc_set_video_mode();
     }
+
+    vdc_set_next_alarm(offset);
 }
 
 
@@ -485,6 +465,11 @@ void vdc_resize(void)
 {
     if (!vdc.initialized)
         return;
+
+    if (vdc_resources.double_size_enabled)
+        raster_set_pixel_size(&vdc.raster, 1, 2, VIDEO_RENDER_RGB_1X2);
+    else
+        raster_set_pixel_size(&vdc.raster, 1, 1, VIDEO_RENDER_RGB_1X1);
 
     vdc_set_geometry();
 }
