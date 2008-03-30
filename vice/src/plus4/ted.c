@@ -421,6 +421,9 @@ void ted_reset(void)
 
     ted.raster.display_ystart = ted.row_25_start_line;
     ted.raster.display_ystop = ted.row_25_stop_line;
+
+    ted.cursor_visible = 0;
+    ted.cursor_phase = 0;
 }
 
 void ted_reset_registers(void)
@@ -548,25 +551,32 @@ void ted_update_memory_ptrs(unsigned int cycle)
     BYTE *bitmap_base;            /* Pointer to bitmap memory.  */
     BYTE *color_base;             /* Pointer to color memory.  */
     int tmp;
+    unsigned int romsel;
+
+    romsel = ted.regs[0x12] & 4;
 
     screen_addr = ((ted.regs[0x14] & 0xf8) << 8) | 0x400;
-    screen_base = ram + screen_addr;
+    screen_base = mem_get_tedmem_base((screen_addr >> 14) | romsel)
+                  + (screen_addr& 0x3fff);
+
     TED_DEBUG_REGISTER(("\tVideo memory at $%04X\n", screen_addr));
 
     bitmap_addr = (ted.regs[0x12] & 0x38) << 10;
-    bitmap_base = ram + bitmap_addr;
+    bitmap_base = mem_get_tedmem_base((bitmap_addr >> 14) | romsel)
+                  + (bitmap_addr & 0x3fff);
+
     TED_DEBUG_REGISTER(("\tBitmap memory at $%04X\n", bitmap_addr));
 
     char_addr = (ted.regs[0x13] & 0xfc) << 8;
-    if (char_addr >= 0xc000) {
-        char_base = kernal_rom + (char_addr & 0x3fff);
-    } else {
-        char_base = ram + char_addr;
-    }
+    char_base = mem_get_tedmem_base((char_addr >> 14) | romsel)
+                + (char_addr & 0x3fff);
+
     TED_DEBUG_REGISTER(("\tUser-defined character set at $%04X\n", char_addr));
 
     color_addr = ((ted.regs[0x14] & 0xf8) << 8);
-    color_base = ram + color_addr;
+    color_base = mem_get_tedmem_base((color_addr >> 14) | romsel)
+                 + (color_addr & 0x3fff);
+
     TED_DEBUG_REGISTER(("\tColor memory at $%04X\n", color_addr));
 
 
@@ -752,6 +762,9 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
                           vsync_do_vsync(ted.raster.skip_frame));
         ted.memptr = 0;
         ted.mem_counter = 0;
+
+        ted.cursor_phase = (ted.cursor_phase + 1) & 0x1f;
+        ted.cursor_visible = ted.cursor_phase & 0x10;
 
 #ifdef __MSDOS__
         if (ted.raster.viewport.width <= TED_SCREEN_XPIX
