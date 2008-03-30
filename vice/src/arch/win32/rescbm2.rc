@@ -1,7 +1,9 @@
 // CBM2 specific resources.
 //
+
 #include "debug.h"
 #include "res.rc"
+#include "resacia.rc"
 #include "resdrivepetcbm2.rc"
 #include "ressid.rc"
 #include "resvicii.rc"
@@ -174,13 +176,17 @@ BEGIN
         MENUITEM "S&ID settings...",       IDM_SID_SETTINGS
         MENUITEM "&ROM settings...",       IDM_ROM_SETTINGS
         MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
+        POPUP "&Cartridge/IO Settings"
+        BEGIN
+            MENUITEM "&ACIA settings...",  IDM_ACIA_SETTINGS
+        END
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",   IDM_SETTINGS_LOAD
         MENUITEM "Set de&fault settings",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-    MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-    MENUITEM "&Confirm on exit",       IDM_TOGGLE_CONFIRM_ON_EXIT
+        MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "&Confirm on exit",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
     POPUP "&Help"
     BEGIN

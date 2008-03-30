@@ -1,8 +1,10 @@
 // C128 specific resources.
 //
+
 #include "config.h"
 #include "debug.h"
 #include "res.rc"
+#include "resacia.rc"
 #include "reside64.rc"
 #include "resreu.rc"
 #include "ressid.rc"
@@ -230,6 +232,7 @@ BEGIN
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS
 #endif
+            MENUITEM "&ACIA settings...",     IDM_ACIA_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE

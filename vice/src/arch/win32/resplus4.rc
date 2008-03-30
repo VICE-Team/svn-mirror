@@ -1,7 +1,9 @@
 // Plus4 specific resources.
 //
+
 #include "debug.h"
 #include "res.rc"
+#include "resacia.rc"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -184,6 +186,10 @@ BEGIN
         MENUITEM "S&ound settings...",     IDM_SOUND_SETTINGS
         MENUITEM "&ROM settings...",       IDM_ROM_SETTINGS
         MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
+        POPUP "&Cartridge/IO Settings"
+        BEGIN
+            MENUITEM "&ACIA settings...",  IDM_ACIA_SETTINGS
+        END
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",   IDM_SETTINGS_LOAD

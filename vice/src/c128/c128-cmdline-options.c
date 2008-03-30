@@ -79,16 +79,10 @@ static const cmdline_option_t cmdline_options[] = {
     { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
       "<revision>", "Patch the Kernal ROM to the specified <revision>" },
 #ifdef HAVE_RS232
-    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (void *)1,
+    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "Acia1Enable", (void *)1,
       NULL, "Enable the $DE** ACIA RS232 interface emulation" },
-    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (void *)0,
+    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "Acia1Enable", (void *)0,
       NULL, "Disable the $DE** ACIA RS232 interface emulation" },
-#if 0
-    { "-acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (void *)1,
-      NULL, "Enable the $D7** ACIA RS232 interface emulation" },
-    { "+acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (void *)0,
-      NULL, "Disable the $D7** ACIA RS232 interface emulation" },
-#endif
 #endif
 #ifdef COMMON_KBD
     { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,

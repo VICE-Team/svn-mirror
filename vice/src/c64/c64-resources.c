@@ -191,7 +191,7 @@ static const resource_t resources[] = {
     { "KernalRev", RES_STRING, (resource_value_t)"",
       (void *)&kernal_revision, set_kernal_revision, NULL },
 #ifdef HAVE_RS232
-    { "AciaDE", RES_INTEGER, (resource_value_t)0,
+    { "Acia1Enable", RES_INTEGER, (resource_value_t)0,
       (void *)&acia_de_enabled, set_acia_de_enabled, NULL },
 #endif
 #ifdef COMMON_KBD

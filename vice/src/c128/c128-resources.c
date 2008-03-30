@@ -483,12 +483,8 @@ static const resource_t resources[] =
     { "EmuID", RES_INTEGER, (resource_value_t)0,
       (void *)&emu_id_enabled, set_emu_id_enabled, NULL },
 #ifdef HAVE_RS232
-    { "AciaDE", RES_INTEGER, (resource_value_t)0,
+    { "Acia1Enable", RES_INTEGER, (resource_value_t)0,
       (void *)&acia_de_enabled, set_acia_de_enabled, NULL },
-#if 0
-    { "AciaD7", RES_INTEGER, (resource_value_t)0,
-      (void *)&acia_d7_enabled, set_acia_d7_enabled, NULL },
-#endif
 #endif
 #ifdef COMMON_KBD
     { "KeymapIndex", RES_INTEGER, (resource_value_t)KBD_INDEX_C128_SYM,
