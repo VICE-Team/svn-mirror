@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.30)
+AM_INIT_AUTOMAKE(vice, 0.14.2.31)
 AM_CONFIG_HEADER(src/config.h)
 
 dnl Try to find out which system we are on...
@@ -44,22 +44,23 @@ fi
 
 dnl Setup go32 crosscompiling.
 
-if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos"; then
+if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
 
   dnl Some GCC cross-compilers are installed with a different name
   dnl instead of using the GCC architecture targeting features.
   dnl Check for the most common ones.
-  AC_CHECK_PROG(CC, gcc-dos, gcc-dos, gcc)
+  AC_PROG_CC
 
   if test "x$CC" = "xgcc" ; then
-    CFLAGS="-b i386-go32"
-    LDFLAGS="-b i386-go32"
+    CFLAGS="$CFLAGS -b i386-go32"
+    LDFLAGS="$CFLAGS -b i386-go32"
   fi
-  CFLAGS="$CFLAGS -g -Wall -O5 -fomit-frame-pointer -funroll-loops -finline-functions -fno-strength-reduce"
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
   GCC=yes
+
+  is_dos=yes
 
 else
 
@@ -107,6 +108,7 @@ else
 
   fi
 
+  is_dos=no
 fi
 
 dnl Check for needed external programs.
@@ -139,13 +141,16 @@ fi
 
 dnl Define the type sizes.
 
-if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+if [[ x"$ac_cv_prog_cc_cross" != "xyes" ]]; then
   AC_C_BIGENDIAN
   AC_CHECK_SIZEOF(unsigned short)
   AC_CHECK_SIZEOF(unsigned int)
   AC_CHECK_SIZEOF(unsigned long)
 else
   dnl if cross-compiling, we have to do this by hand
+  echo "Warning: assuming sizeof(unsigned short) == 2,"
+  echo "                  sizeof(unsigned int) == 4,"
+  echo "                  sizeof(unsigned long) == 4"
   AC_DEFINE(SIZEOF_UNSIGNED_SHORT, 2)
   AC_DEFINE(SIZEOF_UNSIGNED_INT, 4)
   AC_DEFINE(SIZEOF_UNSIGNED_LONG, 4)
@@ -184,42 +189,33 @@ if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
 
 fi
 
-# FIXME: MIDAS missing.
+SOUND_DRIVERS=""
 
-tmp=""
-AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h, [tmp="yes"; break])
-AM_CONDITIONAL(SOUND_USS, test ! -z "$tmp")
-
-tmp=""
-AC_CHECK_HEADER(dmedia/audio.h, [tmp="yes"; break])
-AM_CONDITIONAL(SOUND_SGI, test ! -z "$tmp")
-
-tmp=""
-AC_CHECK_HEADERS(SDL_audio.h SDL_sleep.h, [tmp="yes"; break])
-AM_CONDITIONAL(SOUND_SDL, test ! -z "$tmp")
-
-tmp=""
-AC_CHECK_HEADERS(sys/audioio.h, [tmp="yes"; break])
-AM_CONDITIONAL(SOUND_SUN, test ! -z "$tmp")
-
-tmp=""
-AC_CHECK_HEADERS(sys/audio.h, [tmp="yes"; break])
-AM_CONDITIONAL(SOUND_HPUX, test ! -z "$tmp")
-
-tmp=""
-AC_CHECK_HEADERS(UMS/UMSAudioDevice.h, [tmp="yes"; break])
-AM_CONDITIONAL(SOUND_AIX, test ! -z "$tmp")
+AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h,
+                 [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o"; break])
+AC_CHECK_HEADER(dmedia/audio.h,
+                 [SOUND_DRIVERS="$SOUND_DRIVERS soundsgi.o"; break])
+AC_CHECK_HEADERS(SDL_audio.h SDL_sleep.h,
+                 [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"; break])
+AC_CHECK_HEADERS(sys/audioio.h,
+                 [SOUND_DRIVERS="$SOUND_DRIVERS soundsun.o"; break])
+AC_CHECK_HEADERS(sys/audio.h,
+                 [SOUND_DRIVERS="$SOUND_DRIVERS soundhpux.o"; break])
+AC_CHECK_HEADERS(UMS/UMSAudioDevice.h,
+                 [SOUND_DRIVERS="$SOUND_DRIVERS soundaix.o"; break])
+AC_CHECK_HEADERS(midasdll.h,
+                 [SOUND_DRIVERS="$SOUND_DRIVERS soundmidas.o"; break])
+AC_SUBST(SOUND_DRIVERS)
 
 AC_CHECK_LIB(audio, ALseterrorhandler,,,$SOUND_LIBS)
 AC_CHECK_LIB(UMSobj, UMSAudioDevice_initialize,,,$SOUND_LIBS)
 AC_CHECK_LIB(SDL, SDL_OpenAudio,,,$SOUND_LIBS)
 
 AC_SUBST(SOUND_LIBS)
-AC_SUBST(SOUND_DRIVERS)
 
 dnl Check for library functions
 
-if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+if [[ x"$is_dos" = "xno" ]] ; then
   AC_FUNC_MEMCMP
 fi
 AC_TYPE_SIGNAL
@@ -252,7 +248,7 @@ AC_SUBST(READLINE)
 
 dnl Check for X11 libraries and header files
 
-if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+if [[ x"$is_dos" != "xyes" ]]; then
 
   AC_PATH_XTRA
 
@@ -310,15 +306,18 @@ fi
 
 dnl Setup the system-specific object files.
 
-if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+if [[ x"$is_dos" != "xyes" ]]; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix/ -I\$(top_srcdir)/src/arch/unix/xaw"
   ARCH_LIBS="$READLINE \$(top_builddir)/src/arch/unix/libarch.a \$(top_builddir)/src/arch/unix/xaw/libxawui.a \$(top_builddir)/src/arch/unix/xaw/widgets/libwidgets.a"
   AM_CONDITIONAL(UNIX_COMPILE, true)
+  AC_DEFINE(HAVE_READLINE)
 else
-  ARCH_INCLUDES=
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos/"
+  ARCH_LIBS="\$(top_builddir)/src/arch/msdos/libarch.a"
   AM_CONDITIONAL(MSDOS_COMPILE, true)
 fi
 
+AC_SUBST(HAVE_READLINE)
 AC_SUBST(ARCH_INCLUDES)
 AC_SUBST(ARCH_LIBS)
 AC_SUBST(LIBOBJS)
@@ -359,6 +358,7 @@ AC_OUTPUT(Makefile
           src/Makefile \
           src/sounddrv/Makefile \
           src/arch/Makefile \
+          src/arch/msdos/Makefile \
           src/arch/unix/Makefile \
           src/arch/unix/xaw/Makefile \
           src/arch/unix/xaw/widgets/Makefile \

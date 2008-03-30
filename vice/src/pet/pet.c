@@ -149,10 +149,15 @@ int machine_init(void)
     crtc_init();
 
     /* Initialize the keyboard.  FIXME!  */
+#ifdef __MSDOS__
+    if (pet_kbd_init() < 0)
+        return -1;
+#else
     if (1)
         kbd_init("busi_uk.vkm");
     else
         kbd_init("graphics.vkm");
+#endif
 
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, NULL);

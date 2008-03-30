@@ -162,8 +162,13 @@ int machine_init(void)
     vic_init();
 
     /* Load the default keymap file.  */
+#ifndef __MSDOS__
     if (kbd_init("vice.vkm") < 0)
         return -1;
+#else
+    if (vic20_kbd_init() < 0)
+        return -1;
+#endif
 
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, &true1541_monitor_interface);

@@ -88,6 +88,88 @@ static void update_sprite_collisions(void);
 
 /* ------------------------------------------------------------------------- */
 
+/* VIC-II palette.  */
+static palette_t *palette;
+
+/* VIC-II registers.  */
+static int vic[64];
+
+/* Interrupt register.  */
+static int videoint = 0;
+
+/* Line for raster compare IRQ.  */
+static int int_raster_line = 0;
+/* Clock value for raster compare IRQ. */
+static CLOCK int_raster_clk;
+
+/* Internal color memory.  */
+static BYTE color_ram[0x400];
+
+/* Video memory pointers.  */
+static BYTE *screen_ptr;
+static BYTE *chargen_ptr;
+static BYTE *bitmap_ptr;
+static BYTE * const color_ptr = color_ram;
+
+/* Screen memory buffers (chars and color).  */
+static BYTE vbuf[SCREEN_TEXTCOLS];
+static BYTE cbuf[SCREEN_TEXTCOLS];
+
+/* If this flag is set, bad lines (DMA's) can happen.  */
+static int allow_bad_lines;
+
+/* Sprite-sprite and sprite-background collision registers.  */
+static BYTE ss_collmask = 0;
+static BYTE sb_collmask = 0;
+
+/* Extended background colors (1, 2 and 3).  */
+static int ext_background_color[3];
+
+/* Tick when int_rasterfetch() is called.  */
+CLOCK vic_ii_fetch_clk;
+
+/* Tick when int_rasterdraw() is called.  */
+CLOCK vic_ii_draw_clk;
+
+/* What do we do when the `A_RASTERFETCH' event happens?  */
+static enum {
+    FETCH_MATRIX,
+    CHECK_SPRITE_DMA,
+    FETCH_SPRITE
+} fetch_idx = FETCH_MATRIX;
+
+/* Flag: Check for ycounter reset already done on this line? (cycle 13) */
+static int ycounter_reset_checked;
+
+/* Flag: Does the currently selected video mode force the overscan background
+   color to be black?  (This happens with the hires bitmap and illegal
+   modes.)  */
+static int force_black_overscan_background_color;
+
+/* C128 MMU... unluckily, this is not used yet.  This can result in on-screen
+   garbage when the VIC-II is being used.  */
+#if defined (C128)
+extern BYTE mmu[];
+#endif
+
+/* Light pen.  */
+static struct {
+    int triggered;
+    int x, y;
+} light_pen;
+
+/* Start of the memory bank seen by the VIC-II.  */
+static int vbank = 0;
+
+/* Data to display in idle state.  */
+static int idle_data;
+
+/* Where do we currently fetch idle stata from?  If `IDLE_NONE', we are not
+   in idle state and thus do not need to update `idle_data'.  */
+static enum { IDLE_NONE, IDLE_3FFF, IDLE_39FF } idle_data_location;
+
+/* ------------------------------------------------------------------------- */
+
 /* VIC-II resources.  */
 
 /* Flag: Do we emulate the sprite-sprite collision register and IRQ?  */
@@ -128,6 +210,18 @@ static int set_video_cache_enabled(resource_value_t v)
 
 static int set_palette_file_name(resource_value_t v)
 {
+#ifdef __MSDOS__
+    if (palette == NULL)
+        return 0;
+
+    if (palette_load(palette_file_name, palette) < 0)
+        return -1;
+    canvas_set_palette(canvas, palette, pixel_table);
+
+    /* Make sure the pixel tables are recalculated properly.  */
+    video_resize();
+#endif
+
     string_set(&palette_file_name, (char *) v);
     return 0;
 }
@@ -294,88 +388,6 @@ int vic_ii_init_cmdline_options(void)
 /* Bad line range.  */
 #define FIRST_DMA_LINE	0x30
 #define LAST_DMA_LINE   0xf7
-
-/* ------------------------------------------------------------------------- */
-
-/* VIC-II palette.  */
-static palette_t *palette;
-
-/* VIC-II registers.  */
-static int vic[64];
-
-/* Interrupt register.  */
-static int videoint = 0;
-
-/* Line for raster compare IRQ.  */
-static int int_raster_line = 0;
-/* Clock value for raster compare IRQ. */
-static CLOCK int_raster_clk;
-
-/* Internal color memory.  */
-static BYTE color_ram[0x400];
-
-/* Video memory pointers.  */
-static BYTE *screen_ptr;
-static BYTE *chargen_ptr;
-static BYTE *bitmap_ptr;
-static BYTE * const color_ptr = color_ram;
-
-/* Screen memory buffers (chars and color).  */
-static BYTE vbuf[SCREEN_TEXTCOLS];
-static BYTE cbuf[SCREEN_TEXTCOLS];
-
-/* If this flag is set, bad lines (DMA's) can happen.  */
-static int allow_bad_lines;
-
-/* Sprite-sprite and sprite-background collision registers.  */
-static BYTE ss_collmask = 0;
-static BYTE sb_collmask = 0;
-
-/* Extended background colors (1, 2 and 3).  */
-static int ext_background_color[3];
-
-/* Tick when int_rasterfetch() is called.  */
-CLOCK vic_ii_fetch_clk;
-
-/* Tick when int_rasterdraw() is called.  */
-CLOCK vic_ii_draw_clk;
-
-/* What do we do when the `A_RASTERFETCH' event happens?  */
-static enum {
-    FETCH_MATRIX,
-    CHECK_SPRITE_DMA,
-    FETCH_SPRITE
-} fetch_idx = FETCH_MATRIX;
-
-/* Flag: Check for ycounter reset already done on this line? (cycle 13) */
-static int ycounter_reset_checked;
-
-/* Flag: Does the currently selected video mode force the overscan background
-   color to be black?  (This happens with the hires bitmap and illegal
-   modes.)  */
-static int force_black_overscan_background_color;
-
-/* C128 MMU... unluckily, this is not used yet.  This can result in on-screen
-   garbage when the VIC-II is being used.  */
-#if defined (C128)
-extern BYTE mmu[];
-#endif
-
-/* Light pen.  */
-static struct {
-    int triggered;
-    int x, y;
-} light_pen;
-
-/* Start of the memory bank seen by the VIC-II.  */
-static int vbank = 0;
-
-/* Data to display in idle state.  */
-static int idle_data;
-
-/* Where do we currently fetch idle stata from?  If `IDLE_NONE', we are not
-   in idle state and thus do not need to update `idle_data'.  */
-static enum { IDLE_NONE, IDLE_3FFF, IDLE_39FF } idle_data_location;
 
 #include "raster.c"
 
@@ -616,6 +628,7 @@ canvas_t vic_ii_init(void)
     palette = palette_create(VIC_II_NUM_COLORS, color_names);
     if (palette == NULL)
         return NULL;
+
     if (palette_load(palette_file_name, palette) < 0) {
         printf("Cannot load palette file `%s'.\n", palette_file_name);
         return NULL;

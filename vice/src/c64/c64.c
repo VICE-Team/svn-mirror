@@ -209,8 +209,14 @@ int machine_init(void)
         return -1;
 
     /* Initialize the keyboard.  */
+    /* FIXME */
+#ifndef __MSDOS__
     if (kbd_init("vice.vkm") < 0)
         return -1;
+#else
+    if (c64_kbd_init() < 0)
+        return -1;
+#endif
 
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, &true1541_monitor_interface);
