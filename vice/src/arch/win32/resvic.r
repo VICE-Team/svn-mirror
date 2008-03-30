@@ -39,6 +39,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Attach &tape image...\tAlt+T",    IDM_ATTACH_TAPE
         MENUITEM "Detac&h tape image",              IDM_DETACH_TAPE
+#if 0
         POPUP "Datasette contro&l"
         BEGIN
             MENUITEM "S&top",                     IDM_DATASETTE_CONTROL_STOP
@@ -50,6 +51,7 @@ BEGIN
             MENUITEM "R&eset",                    IDM_DATASETTE_CONTROL_RESET
 #endif
         END
+#endif
         MENUITEM SEPARATOR
         POPUP "Attach &cartridge image..."
         BEGIN
