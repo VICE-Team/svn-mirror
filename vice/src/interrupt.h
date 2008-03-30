@@ -242,47 +242,6 @@ _INT_FUNC void set_int(cpu_int_status_t *cs, int int_num,
     set_irq(cs, int_num, value & IK_IRQ, clk);
 }
 
-/* Trigger a RESET.  This resets the machine.  */
-_INT_FUNC void trigger_reset(cpu_int_status_t *cs, CLOCK clk)
-{
-    cs->global_pending_int |= IK_RESET;
-}
-
-/* Acknowledge a RESET condition, by removing it.  */
-_INT_FUNC void ack_reset(cpu_int_status_t *cs)
-{
-    cs->global_pending_int &= ~IK_RESET;
-}
-
-/* Trigger a TRAP.  This is a special condition that can be used for
-   debugging.  `trap_func' will be called with PC as the argument when this
-   condition is detected.  */
-_INT_FUNC void trigger_trap(cpu_int_status_t *cs,
-			    void (*trap_func)(ADDRESS, void *data),
-                            void *data, CLOCK clk)
-{
-    cs->global_pending_int |= IK_TRAP;
-    cs->trap_func = trap_func;
-    cs->trap_data = data;
-}
-
-/* Dispatch the TRAP condition.  */
-_INT_FUNC void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc)
-{
-    cs->global_pending_int &= ~IK_TRAP;
-    cs->trap_func(reg_pc, cs->trap_data);
-}
-
-_INT_FUNC void monitor_trap_on(cpu_int_status_t *cs)
-{
-    cs->global_pending_int |= IK_MONITOR;
-}
-
-_INT_FUNC void monitor_trap_off(cpu_int_status_t *cs)
-{
-    cs->global_pending_int &= ~IK_MONITOR;
-}
-
 /* ------------------------------------------------------------------------- */
 
 /* Return the current status of the IRQ, NMI, RESET and TRAP lines.  */
@@ -367,24 +326,28 @@ extern void set_nmi(cpu_int_status_t *cs, int int_num, int value,
 		    CLOCK clk);
 extern void set_int(cpu_int_status_t *cs, int int_num,
 		    enum cpu_int value, CLOCK clk);
-extern void trigger_reset(cpu_int_status_t *cs, CLOCK clk);
-extern void trigger_trap(cpu_int_status_t *cs,
-			 void (*trap_func)(ADDRESS addr, void *data),
-                         void *data, CLOCK clk);
 extern int check_pending_interrupt(cpu_int_status_t *cs);
 extern void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
 			 CLOCK *clk_ptr, int num);
 extern int check_irq_delay(cpu_int_status_t *cs, CLOCK clk);
 extern int check_nmi_delay(cpu_int_status_t *cs, CLOCK clk);
 extern void ack_nmi(cpu_int_status_t *cs);
-extern void ack_reset(cpu_int_status_t *cs);
-extern void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc);
 
 #endif /* defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C */
 
 /* ------------------------------------------------------------------------- */
 
 /* Extern functions.  These are defined in `interrupt.c'.  */
+
+extern void trigger_reset(cpu_int_status_t *cs, CLOCK clk);
+extern void ack_reset(cpu_int_status_t *cs);
+extern void trigger_trap(cpu_int_status_t *cs,
+                         void (*trap_func)(ADDRESS, void *data),
+                         void *data, CLOCK clk);
+extern void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc);
+
+extern void monitor_trap_on(cpu_int_status_t *cs);
+extern void monitor_trap_off(cpu_int_status_t *cs);
 
 extern void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
 				opcode_info_t *last_opcode_info_ptr);
