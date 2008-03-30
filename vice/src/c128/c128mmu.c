@@ -32,6 +32,7 @@
 #include "c128mmu.h"
 #include "c64mem.h"
 #include "cmdline.h"
+#include "functionrom.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "log.h"
@@ -218,23 +219,26 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
             break;
         }
 
-        mem_update_config(((basic_lo_in) ? 1 : 0) | ((basic_hi_in) ? 2 : 0)
-                          | ((kernal_in) ? 4 : 0) | ((mmu[0] & 0x40) ? 8 : 0)
-                          | ((io_in) ? 16 : 0));
+        mem_update_config(((basic_lo_in) ? 1 : 0) | ((mmu[0] & 0x0c) >> 1)
+                          | ((mmu[0] & 0x30) >> 1) | ((mmu[0] & 0x40) ? 32 : 0)
+                          | ((io_in) ? 64 : 0));
         z80mem_update_config(((io_in) ? 1 : 0) | ((mmu[0] & 0x40) ? 2 : 0)
                           | ((mmu[0] & 0x80) ? 4 : 0));
     }
 }
 
-/* $FF00 - $FFFF: RAM or Kernal, with MMU at $FF00 - $FF04.  */
+/* $FF00 - $FFFF: RAM, Kernal or internal function ROM, with MMU at
+   $FF00 - $FF04.  */
 BYTE REGPARM1 mmu_ffxx_read(ADDRESS addr)
 {
     if (addr == 0xff00)
         return mmu[0];
 
-    if (kernal_in)
+    if ((mmu[0] & 0x30) == 0x00)
         return read_kernal(addr);
-   
+    if ((mmu[0] & 0x30) == 0x10)
+        return internal_function_rom_read(addr);
+ 
     return read_top_shared(addr);
 }
 
