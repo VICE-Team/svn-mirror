@@ -341,3 +341,15 @@ char *archdep_tmpnam(void)
     else
         return stralloc(tmpnam(NULL));
 }
+
+int archdep_file_is_gzip(const char *name)
+{
+    size_t l = strlen(name);
+
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
+        && (l < 3 || strcasecmp(name + l - 2, ".z"))
+        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
+        return 0;
+    return 1;
+}
+

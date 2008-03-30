@@ -166,12 +166,9 @@ static char *try_uncompress_with_gzip(const char *name)
 #ifdef HAVE_ZLIB
     FILE *fdsrc, *fddest;
     char *tmp_name;
-    int l = strlen(name);
     int len;
 
-    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
-        && (l < 3 || strcasecmp(name + l - 2, ".z"))
-        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
+    if (!archdep_file_is_gzip(name))
         return NULL;
 
     tmp_name = archdep_tmpnam();
@@ -184,6 +181,7 @@ static char *try_uncompress_with_gzip(const char *name)
     if (fdsrc == NULL) {
         fclose(fddest);
         remove_file(tmp_name);
+        return NULL;
     }
 
     do {
@@ -201,17 +199,10 @@ static char *try_uncompress_with_gzip(const char *name)
     return tmp_name;
 #else
     char *tmp_name;
-    int l = strlen(name);
     int exit_status;
     char *argv[4];
 
-    /* Check whether the name sounds like a gzipped file by checking the
-       extension.  The last case (3-character extensions whose last character
-       is a `z' (or 'Z'), is the standard convention for the MS-DOS version
-       of gzip.  */
-    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
-        && (l < 3 || strcasecmp(name + l - 2, ".z"))
-        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
+    if (!archdep_file_is_gzip(name))
         return NULL;
 
     /* `exec*()' does not want these to be constant...  */
@@ -756,6 +747,34 @@ static enum compression_type try_uncompress(const char *name,
 /* Compress `src' into `dest' using gzip.  */
 static int compress_with_gzip(const char *src, const char *dest)
 {
+#ifdef HAVE_ZLIB
+    FILE *fdsrc, *fddest;
+    int len;
+
+    fdsrc = fopen(src, MODE_READ);
+    if (fdsrc == NULL)
+        return -1;
+
+    fddest = gzopen(dest, MODE_WRITE);
+    if (fddest == NULL) {
+        fclose(fdsrc);
+        return -1;
+    }
+
+    do {
+       char buf[256];
+
+       len = fread((void *)buf, 1, 256, fdsrc);
+       if (len > 0) {
+         gzwrite(fddest, (void *)buf, len);
+       }
+    } while (len > 0);
+
+    gzclose(fddest);
+    fclose(fdsrc);
+
+    return 0;
+#else
     static char *argv[4];
     int exit_status;
 
@@ -779,6 +798,7 @@ static int compress_with_gzip(const char *src, const char *dest)
         ZDEBUG(("compress_with_gzip: failed."));
         return -1;
     }
+#endif
 }
 
 /* Compress `src' into `dest' using bzip.  */
