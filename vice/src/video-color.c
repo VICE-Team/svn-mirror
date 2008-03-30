@@ -30,13 +30,13 @@
 
   RGB to YCbCr:
 
-  Y  = 0.299*R + 0.587*G + 0.114*B
+  Y  = 0.2989*R + 0.5866*G + 0.1145*B
   Cb = B - Y
   Cr = R - Y
 
   YCbCr to RGB:
 
-  G = Y - (0.114/0.587)*Cb - (0.299/0.587)*Cr
+  G = Y - (0.1145/0.5866)*Cb - (0.2989/0.5866)*Cr
   B = Cb + Y
   R = Cr + Y
 
@@ -127,7 +127,7 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src,float sat,float 
 
 	bf = src->cb + src->y;
 	rf = src->cr + src->y;
-	gf = src->y - (0.114f/0.587f)*src->cb - (0.299f/0.587f)*src->cr;
+	gf = src->y - (0.1145f/0.5866f)*src->cb - (0.2989f/0.5866f)*src->cr;
 
 	/* apply brightness and contrast */
 
