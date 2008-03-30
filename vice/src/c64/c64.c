@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include "c64.h"
+#include "c64ui.h"
 #include "interrupt.h"
 #include "vicii.h"
 #include "cia.h"
@@ -250,6 +251,8 @@ int machine_init(void)
     /* Initialize keyboard buffer.  */
     kbd_buf_init(631, 198, 10, C64_PAL_CYCLES_PER_RFSH * C64_PAL_RFSH_PER_SEC);
 
+    /* Initialize the C64-specific part of the UI.  */
+    c64_ui_init();
     return 0;
 }
 
