@@ -35,14 +35,20 @@ struct drive_context_s;
 struct drive_s;
 struct via_context_s;
 
-extern void via1d_setup_context(struct drive_context_s *ctxptr);
+extern void via1d1541_setup_context(struct drive_context_s *ctxptr);
+extern void via1d2031_setup_context(struct drive_context_s *ctxptr);
 extern void via2d_setup_context(struct drive_context_s *ctxptr);
 
-extern void via1d_init(struct drive_context_s *ctxptr);
-extern void REGPARM3 via1d_store(struct drive_context_s *ctxptr, WORD addr,
-                                 BYTE byte);
-extern BYTE REGPARM2 via1d_read(struct drive_context_s *ctxptr, WORD addr);
-extern BYTE REGPARM2 via1d_peek(struct drive_context_s *ctxptr, WORD addr);
+extern void via1d1541_init(struct drive_context_s *ctxptr);
+extern void via1d2031_init(struct drive_context_s *ctxptr);
+extern void REGPARM3 via1d1541_store(struct drive_context_s *ctxptr, WORD addr,
+                                     BYTE byte);
+extern BYTE REGPARM2 via1d1541_read(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE REGPARM2 via1d1541_peek(struct drive_context_s *ctxptr, WORD addr);
+extern void REGPARM3 via1d2031_store(struct drive_context_s *ctxptr, WORD addr,
+                                     BYTE byte);
+extern BYTE REGPARM2 via1d2031_read(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE REGPARM2 via1d2031_peek(struct drive_context_s *ctxptr, WORD addr);
 
 extern void via2d_init(struct drive_context_s *ctxptr);
 extern void REGPARM3 via2d_store(struct drive_context_s *ctxptr, WORD addr,
@@ -50,7 +56,7 @@ extern void REGPARM3 via2d_store(struct drive_context_s *ctxptr, WORD addr,
 extern BYTE REGPARM2 via2d_read(struct drive_context_s *ctxptr, WORD addr);
 extern BYTE REGPARM2 via2d_peek(struct drive_context_s *ctxptr, WORD addr);
 
-extern void drive_via_set_atn(struct via_context_s *via_context, int state);
+extern void via1d2031_set_atn(struct via_context_s *via_context, int state);
 
 extern void viad2_update_pcr(int pcrval, struct drive_s *dptr);
 
