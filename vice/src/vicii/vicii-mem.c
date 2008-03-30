@@ -930,8 +930,8 @@ store_d025 (ADDRESS addr, BYTE value)
   /* FIXME: this is approximated.  */
   if (VIC_II_RASTER_CYCLE (clk) > VIC_II_CYCLES_PER_LINE / 2)
     raster_add_int_change_next_line (&vic_ii.raster,
-				     &sprite_status->mc_sprite_color_1,
-				     value);
+				     (int *)&sprite_status->mc_sprite_color_1,
+				     (int)value);
   else
     sprite_status->mc_sprite_color_1 = value;
 
@@ -955,8 +955,8 @@ store_d026 (ADDRESS addr, BYTE value)
   /* FIXME: this is approximated.  */
   if (VIC_II_RASTER_CYCLE (clk) > VIC_II_CYCLES_PER_LINE / 2)
     raster_add_int_change_next_line (&vic_ii.raster,
-				     &sprite_status->mc_sprite_color_2,
-				     value);
+				     (int *)&sprite_status->mc_sprite_color_2,
+				     (int)value);
   else
     sprite_status->mc_sprite_color_2 = value;
 
@@ -982,7 +982,9 @@ store_sprite_color (ADDRESS addr, BYTE value)
   sprite = vic_ii.raster.sprite_status.sprites + n;
 
   if (sprite->x < VIC_II_RASTER_X (VIC_II_RASTER_CYCLE (clk)))
-    raster_add_int_change_next_line (&vic_ii.raster, &sprite->color, value);
+    raster_add_int_change_next_line (&vic_ii.raster,
+                                     (int *)&sprite->color,
+                                     (int)value);
   else
     sprite->color = value;
 
@@ -1477,7 +1479,7 @@ peek_vic (ADDRESS addr)
       if (vic_ii.extended_keyboard_rows_enabled)
 	return vic_ii.regs[addr] | 0xf8;
       else
-	return vic_ii.regs[addr] | 0xff;
+	return /* vic_ii.regs[addr] | */ 0xff;
     default:
       return vic_ii.regs[addr] | unused_bits_in_registers[addr];
     }
