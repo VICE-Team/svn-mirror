@@ -34,20 +34,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __IBMC__
-#include <direct.h>
-#endif
-
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "archdep.h"
 #include "findpath.h"
+#include "ioutil.h"
 #include "utils.h"
+
 
 /*
  * This function is checked to be robust with all path 3 types possible
@@ -56,9 +47,9 @@
  * Overflow testing for internal buffer is always done.
  */
 
-char * findpath(const char *cmd, const char *syspath, int mode)
+char *findpath(const char *cmd, const char *syspath, int mode)
 {
-    char * pd = NULL;
+    char *pd = NULL;
     char *c;
     char buf[MAXPATHLEN];
 
@@ -70,7 +61,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
         const char *ps;
 
         if (archdep_path_is_relative(cmd)) {
-            if (getcwd(buf + 1, sizeof(buf) - 128) == (int)NULL)
+            if (ioutil_getcwd(buf + 1, sizeof(buf) - 128) == (int)NULL)
                 goto fail;
 
             l = strlen(buf + 1);
@@ -94,24 +85,46 @@ char * findpath(const char *cmd, const char *syspath, int mode)
         state = 1;
 
         /* delete extra `/./', '/../' and '//':s from the path */
-        while (*ps)
-        {
-            switch (state)
-            {
-            case 0: if (*ps == '/') state = 1; else state = 0; break;
-            case 1:
-                if (*ps == '.') { state = 2; break; }
-                if (*ps == '/') pd--; else state = 0; break;
-            case 2:
-                if (*ps == '/') { state = 1; pd -= 2; break; }
-                if (*ps == '.') state = 3; else state = 0; break;
-            case 3:
-                if (*ps != '/') { state = 0; break; }
+        while (*ps) {
+            switch (state) {
+              case 0:
+                if (*ps == '/')
+                    state = 1;
+                else
+                    state = 0;
+                break;
+              case 1:
+                if (*ps == '.') {
+                    state = 2;
+                    break;
+                }
+                if (*ps == '/')
+                    pd--;
+                else
+                    state = 0;
+                break;
+              case 2:
+                if (*ps == '/') {
+                    state = 1;
+                    pd -= 2;
+                    break;
+                }
+                if (*ps == '.')
+                    state = 3;
+                else
+                    state = 0;
+                break;
+              case 3:
+                if (*ps != '/') {
+                    state = 0;
+                    break;
+                }
                 state = 1;
                 pd -= 4;
                 while (*pd != '/' && *pd != '\0')
                     pd--;
-                if (*pd == '\0') pd++;
+                if (*pd == '\0')
+                    pd++;
                 state = 1;
                 break;
             }
@@ -121,20 +134,17 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 
         *pd = '\0';
         pd = buf + 1;
-    }
-    else
-    {
-        const char * path = syspath;
-        const char * s;
+    } else {
+        const char *path = syspath;
+        const char *s;
         size_t cl = strlen(cmd) + 1;
 
-        for (s = path; s; path = s + 1)
-        {
+        for (s = path; s; path = s + 1) {
             char * p;
             int l;
 
             s = strchr(path, FINDPATH_SEPARATOR_CHAR);
-            l = s? (s - path): strlen(path);
+            l = s ? (s - path) : strlen(path);
 
             if (l + cl > sizeof buf - 5)
                 continue;
@@ -148,14 +158,15 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 
             memcpy(p, cmd, cl);
 
-            for(c= buf + 1; *c !='\0'; c++)
+            for(c = buf + 1; *c != '\0'; c++)
 #if defined (__MSDOS__) || defined (WIN32) || defined (__OS2__)
-                if(*c=='/') *c='\\';
+                if(*c == '/')
+                    *c = '\\';
 #else
-                if(*c=='\\') *c='/';
+                if(*c == '\\')
+                    *c ='/';
 #endif
-            if (access(buf + 1, mode) == 0)
-            {
+            if (ioutil_access(buf + 1, mode) == 0) {
                 pd = p /* + cl*/ ;
                 break;
             }
@@ -163,8 +174,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
     }
 
 
-    if (pd)
-    {
+    if (pd) {
 #if 0
         do pd--;
         while (*pd != '/'); /* there is at least one '/' */

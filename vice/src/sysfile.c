@@ -30,16 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "archdep.h"
 #include "cmdline.h"
 #include "findpath.h"
@@ -133,6 +123,7 @@ static cmdline_option_t cmdline_options[] = {
 
 int sysfile_init(const char *emu_id)
 {
+
     default_path = stralloc(archdep_default_sysfile_pathlist(emu_id));
 
     return 0;
@@ -163,13 +154,12 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
     char buffer[256];
 
     p = (char*)name;
-    while (*p != '\0')
-    {
-      if ((*p == ':') || (*p == '$')) break;
-      p++;
+    while (*p != '\0') {
+        if ((*p == ':') || (*p == '$'))
+            break;
+        p++;
     }
-    if (*p != '\0')
-    {
+    if (*p != '\0') {
         if (complete_path_return != NULL)
             *complete_path_return = stralloc(name);
         return fopen(name, open_mode);
@@ -177,33 +167,30 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
 
     f = NULL;
     sprintf(buffer, "%s%s",default_path, name);
-    if (access(buffer, R_OK))
-    {
+
+    if (ioutil_access(buffer, IOUTIL_ACCESS_R_OK)) {
         sprintf(buffer, "Vice:DRIVES.%s", name);
-        if (access(buffer, R_OK))
-        {
+        if (ioutil_access(buffer, IOUTIL_ACCESS_R_OK)) {
             sprintf(buffer, "Vice:PRINTER.%s", name);
-            if (access(buffer, R_OK))
-            {
+            if (ioutil_access(buffer, IOUTIL_ACCESS_R_OK)) {
                 buffer[0] = '\0';
             }
         }
     }
-    if (buffer[0] != '\0') f = fopen(buffer, open_mode);
-    if (f == NULL)
-    {
+    if (buffer[0] != '\0')
+        f = fopen(buffer, open_mode);
+
+    if (f == NULL) {
         if (complete_path_return != NULL)
             *complete_path_return = NULL;
         return NULL;
-    }
-    else
-    {
+    } else {
         if (complete_path_return != NULL)
             *complete_path_return = stralloc(buffer);
         return f;
     }
 #else
-    p = findpath(name, expanded_system_path, R_OK);
+    p = findpath(name, expanded_system_path, IOUTIL_ACCESS_R_OK);
 
     if (p == NULL) {
         if (complete_path_return != NULL)

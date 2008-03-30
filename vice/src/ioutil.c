@@ -44,14 +44,41 @@
 #include <unistd.h>
 #endif
 
+#include "ioutil.h"
 #include "utils.h"
 
 
 /* Mostly POSIX compatibily */
 
+int ioutil_access(const char *pathname, int mode)
+{
+    int access_mode = 0;
+
+    if ((mode & IOUTIL_ACCESS_R_OK) == IOUTIL_ACCESS_R_OK)
+        access_mode |= R_OK;
+    if ((mode & IOUTIL_ACCESS_W_OK) == IOUTIL_ACCESS_W_OK)
+        access_mode |= W_OK;
+    if ((mode & IOUTIL_ACCESS_X_OK) == IOUTIL_ACCESS_X_OK)
+        access_mode |= X_OK;
+    if ((mode & IOUTIL_ACCESS_F_OK) == IOUTIL_ACCESS_F_OK)
+        access_mode |= F_OK;
+
+    return access(pathname, access_mode);
+}
+
 int ioutil_chdir(const char *path)
 {
     return chdir(path);
+}
+
+char *ioutil_getcwd(char *buf, int size)
+{
+    return getcwd(buf, (size_t)size);
+}
+
+int ioutil_isatty(int desc)
+{
+    return isatty(desc);
 }
 
 int ioutil_mkdir(const char *pathname, int mode)
@@ -68,6 +95,7 @@ int ioutil_rename(const char *oldpath, const char *newpath)
 {
     return rename(oldpath, newpath);
 }
+
 
 /* ------------------------------------------------------------------------- */
 /* IO helper functions.  */

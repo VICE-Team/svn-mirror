@@ -168,6 +168,7 @@ static int uss_init(const char *param, int *speed,
 fail:
     close(uss_fd);
     uss_fd = -1;
+    uss_duplicate = 0;
     uss_8bit = 0;
     uss_bufsize = 0;
     uss_fragsize = 0;
@@ -245,6 +246,7 @@ static void uss_close(void)
 {
     close(uss_fd);
     uss_fd = -1;
+    uss_duplicate = 0;
     uss_8bit = 0;
     uss_bufsize = 0;
     uss_fragsize = 0;

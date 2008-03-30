@@ -32,13 +32,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif
-
 #include "gcr.h"
 #include "types.h"
 #include "utils.h"
+
 
 /* GCR handling.  */
 

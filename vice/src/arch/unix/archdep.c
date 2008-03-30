@@ -86,7 +86,7 @@ const char *archdep_boot_path(void)
     static char *boot_path;
 
     if (boot_path == NULL) {
-        boot_path = findpath(argv0, getenv("PATH"), X_OK);
+        boot_path = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
 
         /* Remove the program name.  */
         *strrchr(boot_path, '/') = '\0';
