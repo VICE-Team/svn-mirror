@@ -883,13 +883,13 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
         old_vbank_p2 != vic_ii.vbank_phi2) {
         if (vic_ii.idle_data_location == IDLE_39FF)
             raster_add_int_change_foreground(&vic_ii.raster,
-                                             VIC_II_RASTER_CHAR (cycle),
+                                             VIC_II_RASTER_CHAR(cycle),
                                              &vic_ii.idle_data,
                                              vic_ii.ram_base_phi2[vic_ii.vbank_phi2
                                              + 0x39ff]);
         else
             raster_add_int_change_foreground(&vic_ii.raster,
-                                             VIC_II_RASTER_CHAR (cycle),
+                                             VIC_II_RASTER_CHAR(cycle),
                                              &vic_ii.idle_data,
                                              vic_ii.ram_base_phi2[vic_ii.vbank_phi2
                                              + 0x3fff]);
