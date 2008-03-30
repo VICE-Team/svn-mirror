@@ -126,6 +126,7 @@ EXTRA_DIST = \
 	diskimage.dsp \
 	drive.dsp \
 	gfxoutputdrv.dsp \
+	imagecontents.dsp \
 	monitor.dsp \
 	pet.dsp \
 	petcat.dsp \

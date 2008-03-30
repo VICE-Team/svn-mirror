@@ -64,6 +64,7 @@ int tape_image_open(tape_image_t *tape_image)
 {
     t64_t *new_t64_tape;
     tap_t *new_tap_tape;
+    int initial_read_only = tape_image->read_only;
 
     new_t64_tape = t64_open(tape_image->name, &tape_image->read_only);
     if (new_t64_tape != NULL) {
@@ -72,6 +73,7 @@ int tape_image_open(tape_image_t *tape_image)
         return 0;
     }
 
+    tape_image->read_only = initial_read_only;
     new_tap_tape = tap_open(tape_image->name, &tape_image->read_only);
     if (new_tap_tape != NULL) {
         tape_image->data = (void *)new_tap_tape;
