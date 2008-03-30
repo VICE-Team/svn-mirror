@@ -1,3 +1,42 @@
+1999-08-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.
+
+	* vicii/vicii.c (vic_ii_raster_draw_alarm_handler) [__MSDOS__]:
+	Pass canvas and color value to `canvas_set_border_color'.
+	Only set border color if this canvas is displayed.
+
+	* vdc/vdc.c (vdc_raster_draw_alarm_handler) [__MSDOS__]: Call
+	`canvas_set_border_color'.  Only set border color if this
+	canvas is displayed.
+	(init_raster): Initialize border color.
+
+1999-08-31  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/res.h (IDC_SELECT_DRIVE_TYPE_1001)
+	  (IDC_SELECT_DRIVE_TYPE_8050) (IDC_SELECT_DRIVE_TYPE_8250):
+	  New commands for extra drive types.
+
+	* arch/win32/res.rc (IDD_DRIVE_SETTINGS_DIALOG): Added radio
+	  buttons for extra drive types.
+
+	* arch/win32/uidrive.c (init_dialog) (dialog_proc): Added code
+	  to handle extra drive types.
+
+	* arch/win32/video.c (frame_buffer_alloc) (frame_buffer_free)
+	  (frame_buffer_clear) (canvas_refresh): Changed frame_buffer
+	  organization into linear buffer.
+
+	* arch/win32/video.h (_frame_buffer): Frame buffer is now
+	  one linear memory buffer.
+	  (FRAME_BUFFER_LINE_START): Updated macro.
+
+1999-08-30  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* vicii/vicii.c (vic_ii_raster_draw_alarm_handler) [__MSDOS__]:
+	Set the border color if the viewport is smaller than the screen
+	graphics area.
+
 1999-08-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.65.

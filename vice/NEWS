@@ -24,7 +24,7 @@ list of all the changes in the code.
 ** C64 changes
 ---------------
 
-- Fixed a bug in the REU emulation. GoDot now works.
+- Fixed a bug in the REU emulation.  GoDot now works.
 
 - Atomic Power cartridge is supported now.
 
