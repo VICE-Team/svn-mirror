@@ -891,6 +891,7 @@ static ui_menu_entry_t printer_settings_menu[] = {
 static ui_menu_entry_t fsdevice_drive8_submenu[] = {
     { "*File system access", (ui_callback_t) toggle_FileSystemDevice8,
       NULL, NULL },
+    { "--" },
     { "File system directory...", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 8, NULL },
     { "*Convert P00 file names", (ui_callback_t) toggle_FSDevice8ConvertP00,
@@ -920,6 +921,7 @@ static ui_menu_entry_t fsdevice_drive9_submenu[] = {
 static ui_menu_entry_t fsdevice_drive10_submenu[] = {
     { "*File system access", (ui_callback_t) toggle_FileSystemDevice10,
       NULL, NULL },
+    { "--" },
     { "File system directory...", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 10, NULL },
     { "*Convert P00 file names", (ui_callback_t) toggle_FSDevice10ConvertP00,
@@ -934,6 +936,7 @@ static ui_menu_entry_t fsdevice_drive10_submenu[] = {
 static ui_menu_entry_t fsdevice_drive11_submenu[] = {
     { "*File system access", (ui_callback_t) toggle_FileSystemDevice11,
       NULL, NULL },
+    { "--" },
     { "File system directory...", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 11, NULL },
     { "*Convert P00 file names", (ui_callback_t) toggle_FSDevice11ConvertP00,

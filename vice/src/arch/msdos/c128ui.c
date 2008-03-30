@@ -82,46 +82,6 @@ static tui_menu_item_def_t special_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAVE_RESID
-
-static TUI_MENU_CALLBACK(SidModel_submenu_callback)
-{
-    int value;
-
-    resources_get_value("SidModel", (resource_value_t *) &value);
-
-    switch (value) {
-      case 0:
-        return "6581 (old)";
-      case 1:
-        return "8580 (new)";
-      case 2:
-        return "6581 (old) with reSID";
-      default:
-        return "Unknown";
-    }
-}
-
-TUI_MENU_DEFINE_RADIO(SidModel)
-
-static tui_menu_item_def_t SidModel_submenu_items[] = {
-    { "_0: 6581 (old)",
-      "Emulate an old 6581 SID chip",
-      radio_SidModel_callback, (void *) 0, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_1: 8580 (new)",
-      "Emulate a new 8580 SID chip",
-      radio_SidModel_callback, (void *) 1, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_2: 6851 (old) with reSID",
-      "Emulate an old 6581 SID chip, with the enhanced reSID engine",
-      radio_SidModel_callback, (void *) 2, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-#else  /* !HAVE_RESID */
-
 static TUI_MENU_CALLBACK(toggle_SidModel_callback)
 {
     int value;
@@ -135,27 +95,28 @@ static TUI_MENU_CALLBACK(toggle_SidModel_callback)
     return value ? "8580 (New)" : "6581 (Old)";
 }
 
-#endif /* !HAVE_RESID */
-
 TUI_MENU_DEFINE_TOGGLE(SidFilters)
+
+#ifdef USE_RESID
+TUI_MENU_DEFINE_TOGGLE(SidUseResid)
+#endif
 
 static tui_menu_item_def_t sid_menu_items[] = {
     { "--" },
-#ifdef HAVE_RESID
-    { "SID _Model:",
-      "Select the SID model to emulate",
-      SidModel_submenu_callback, NULL, 21,
-      TUI_MENU_BEH_CONTINUE, SidModel_submenu_items, "SID Model" },
-#else
     { "SID _Model:",
       "Select the SID model to emulate",
       toggle_SidModel_callback, NULL, 10,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-#endif
     { "SID _Filters:",
       "Enable/disable emulation of the SID built-in programmable filters",
       toggle_SidFilters_callback, NULL, 4,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+#ifdef HAVE_RESID
+    { "_Hi-Fi reSID engine:",
+      "Enable/disable usage of the slower reSID engine",
+      toggle_SidUseResid_callback, NULL, 4,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+#endif
     { NULL }
 };
 
