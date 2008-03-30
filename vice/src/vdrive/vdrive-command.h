@@ -63,6 +63,16 @@
 #define IPE_NOT_EMPTY                   80      /* dir to remove not empty */
 #define IPE_PERMISSION                  81      /* permission denied */
 
+typedef struct cmd_parse_s {
+    const char *cmd;
+    unsigned int cmdlength;
+    char *parsecmd;
+    unsigned int parselength;
+    unsigned int readmode;
+    unsigned int filetype;
+    unsigned int recordlength;
+} cmd_parse_t;
+
 struct vdrive_s;
 
 extern void vdrive_command_init(void);
@@ -75,6 +85,7 @@ extern void vdrive_command_set_error(struct vdrive_s *vdrive, int code,
                                      unsigned int track, unsigned int sector);
 extern int vdrive_command_memory_read(struct vdrive_s *vdrive, ADDRESS addr,
                                       unsigned int length);
+extern int vdrive_command_parse(cmd_parse_t *cmd_parse);
 
 #endif
 
