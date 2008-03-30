@@ -2904,7 +2904,8 @@ int machine_bus_device_attach(unsigned int device, const char *name,
                               int (*openf)(vdrive_t *, const char *, int,
                               unsigned int),
                               int (*closef)(vdrive_t *, unsigned int),
-                              void (*flushf)(vdrive_t *, unsigned int))
+                              void (*flushf)(vdrive_t *, unsigned int),
+                              void (*listenf)(vdrive_t *, unsigned int))
 {
     return 0;
 }

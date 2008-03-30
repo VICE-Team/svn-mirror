@@ -38,6 +38,7 @@
 #include "event.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "mos6510.h"
@@ -58,11 +59,6 @@
 #define CAS_STAD_OFFSET 1       /* start address */
 #define CAS_ENAD_OFFSET 3       /* end address */
 #define CAS_NAME_OFFSET 5       /* filename */
-
-#define CAS_TYPE_PRG    1       /* Binary Program */
-#define CAS_TYPE_BAS    3       /* Relocatable Program */
-#define CAS_TYPE_DATA   4       /* Data Record */
-#define CAS_TYPE_EOF    5       /* End of Tape marker */
 
 /* CPU addresses for tape routine variables.  */
 static WORD buffer_pointer_addr;
@@ -214,7 +210,7 @@ int tape_find_header_trap(void)
         } while (rec->entry_type != T64_FILE_RECORD_NORMAL);
 
         if (!err) {
-            cassette_buffer[CAS_TYPE_OFFSET] = CAS_TYPE_BAS;
+            cassette_buffer[CAS_TYPE_OFFSET] = machine_tape_type_default();
             cassette_buffer[CAS_STAD_OFFSET] = rec->start_addr & 0xff;
             cassette_buffer[CAS_STAD_OFFSET + 1] = rec->start_addr >> 8;
             cassette_buffer[CAS_ENAD_OFFSET] = rec->end_addr & 0xff;
@@ -225,7 +221,7 @@ int tape_find_header_trap(void)
     }
 
     if (err)
-        cassette_buffer[CAS_TYPE_OFFSET] = CAS_TYPE_EOF;
+        cassette_buffer[CAS_TYPE_OFFSET] = TAPE_CAS_TYPE_EOF;
 
     mem_store(st_addr, 0);      /* Clear the STATUS word.  */
     mem_store(verify_flag_addr, 0);
@@ -280,7 +276,7 @@ int tape_find_header_trap_plus4(void)
         } while (rec->entry_type != T64_FILE_RECORD_NORMAL);
 
         if (!err) {
-            mem_store(0xF8, CAS_TYPE_BAS);
+            mem_store(0xF8, TAPE_CAS_TYPE_BAS);
             cassette_buffer[CAS_STAD_OFFSET - 1] = rec->start_addr & 0xff;
             cassette_buffer[CAS_STAD_OFFSET] = rec->start_addr >> 8;
             cassette_buffer[CAS_ENAD_OFFSET - 1] = rec->end_addr & 0xff;
@@ -291,7 +287,7 @@ int tape_find_header_trap_plus4(void)
     }
 
     if (err)
-        mem_store(0xF8, CAS_TYPE_EOF);
+        mem_store(0xF8, TAPE_CAS_TYPE_EOF);
 
     mem_store(0xb6, 0x33);
     mem_store(0xb7, 0x03);

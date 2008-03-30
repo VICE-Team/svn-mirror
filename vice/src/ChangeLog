@@ -1,3 +1,186 @@
+2004-06-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.34.
+
+	* cbmdos.c (cbmdos_command_parse): Fixed compile errors.
+
+	* dma.c (dma_maincpu_steal_cycles): Fixed write cycles.
+
+	* vicii/vicii-fetch.c (do_matrix_fetch): Pass `sub' parameter
+	to DMA function.
+
+	* machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	plus4/plus4.c, pet/pet.c, cbm2/cbm2.c
+	(machine_tape_type_default): New function.
+
+	* tape.h: Moved tape program type defines here.
+
+	* tape/tape.c (tape_find_header_trap): Get machine specific
+	program type define.
+
+2004-06-25  Roberto Muscedere  <cococommie@cogeco.ca>
+
+	* vdrive/vdrive-command.c: Changed argument type in
+	declaration and function vdrive_command_block() to keep
+	command chars unsigned.  Also added B-(shift)R and B-(shift)W
+	(from 1581) to function since they operate as U1/UA and U2/UB.
+	Also corrected bufferpointers for U1/UA and U2/UB.
+
+	* vdrive/vdrive-command.c: vdrive_command_position() corrected
+	to return DOS Error 50.
+
+	* vdrive/vdrive-dir.c: Made vdrive_dir_free_chain() global so
+	that save/replace can use it.
+
+	* vdrive/vdrive-dir.h: Added SLOT entries for save and replace
+	as well as GEOS slots for date/time.  CMD uses same slots.
+	Also added vdrive_dir_free_chain() declaration.
+
+	* vdrive/vdrive-command.c: vdrive_command_execute() added true
+	B-R and B-W, corrected U1/UA and U2/UB.
+
+	* vdrive/vdrive-command.c: added cursor-left to white-space in
+	vdrive_get_block_parameters() - this is used in 1541 firmware.
+
+	* vdrive/vdrive-iec.c: vdrive_iec_open() The buffer pointer of
+	a newly opened buffer set to 1, not 0.  Probably relates to
+	DOS1 and B-R, B-W commands.  Also fixed vdrive_iec_read() for
+	this too as well as vdrive_iec_write().
+
+	* vdrive/vdrive-iec.c: iec_open_write() changed to support
+	append and save and replace.  Also creates directory entry
+	before close to support SPLAT files.
+
+	* vdrive/vdrive-iec.c: vdrive_iec_open() corrected NULL
+	pointer reference if a new REL file was created.
+
+	* vdrive/vdrive-iec.c: iec_write_sequential() changed to
+	support save/replace as well as append mode.
+
+	* vdrive/vdrive-iec.c: iec_close_sequential() changed to
+	support save/replace as well as append mode.
+
+	* vdrive/vdrive-iec.c: moved iec_read_relative() to
+	vdrive-rel.c and renamed to vdrive_rel_read().
+
+	* vdrive/vdrive-iec.c: Changed vdrive_iec_write() to call
+	REL file write routing.
+
+	* vdrive/vdrive-iec.c: Added vdrive_iec_listen() to call
+	vdrive_rel_listen.
+
+	* vdrive/vdrive-iec.c: Added vdrive_iec_update_dirent() to
+	update REL and SEQ/PRG/USR directory entries (ie. splat files,
+	block sizes).
+
+	* cbmdos.c: cbmdos_command_parse() corrected signed
+	declaration of input text to unsigned. This caused problems
+	with the REL file length.  Also a case for append (",a").
+
+	* vdrive/vdrive-iec.h: added declaration for
+	vdrive_iec_listen(), and vdrive_iec_update_dirent().
+
+	* vdrive/vdrive-rel.c: created vdrive_close_relative() to
+	clean up closing of REL files (flushed side sectors and write
+	buffers).
+
+	* vdrive/vdrive-rel.c: vdrive_rel_read() changed to support
+	REL file writing.  Added some code to return DOS Error 50 if
+	we go past the end of a file.  Also added buffer wrapping if
+	we position the REL pointer past the end of record on the last
+	record.  On 1541/71/81, we end up getting data from another
+	buffer (e.g. directory).
+
+	* vdrive/vdrive-rel.c: Added vdrive_rel_write() to support
+	REL file writes.
+
+	* vdrive/vdrive-rel.c: Added vdrive_rel_listen() to move
+	REL file to next record when an listen occurs.  Function
+	performs other house keeping operations.
+
+	* vdrive/vdrive-rel.c: Added vdrive_rel_has_super() to
+	determine if the disk image requires a super-side-sector.
+
+	* vdrive/vdrive-rel.c: Added vdrive_rel_blocks_max() to limit
+	the size of growing REL files for a particular disk image.
+
+	* vdrive/vdrive-rel.c: Changed vdrive_rel_open_existing() to
+	support REL writing.
+
+	* vdrive/vdrive-rel.c: Changed vdrive_rel_open() to support
+	REL file creation and writing.  Also changed arguments so that
+	name is passed so directory slot can be created.
+
+	* vdrive/vdrive-rel.c: Changed vdrive_rel_record_max() to
+ 	support REL file creation and fixed an error with
+	super-side-sectors.
+
+	* vdrive/vdrive-rel.c: Added vdrive_rel_add_sector() to add
+	one sector (254 bytes) to the end of a REL file.
+
+	* vdrive/vdrive-rel.c: Added vdrive_rel_grow() to grow a REL
+	file to a specific number of records.
+
+	* vdrive/vdrive-rel.c: Added vdrive_rel_commit() to commit
+	dirty buffers.
+
+	* vdrive/vdrive-rel.c: Added vdrive_rel_fillrecord() to fill
+	the remainer of a record with zeros.
+
+	* vdrive/vdrive-rel.c: Changed vdrive_rel_position() toi
+	support REL file writes and creation.
+
+	* vdrive/vdrive-rel.h: Added declaration of:
+	vdrive_rel_listen().
+
+	* vdrive/vdrive.h: Added dir_track, dir_sector and dir_slot to
+	struct bufferinfo_s so that we can remember where the
+	directory entry is on the disk for the current REL or
+	SEQ/PRG/USR file.  Also added *needsupdate to indicate if
+	memory buffers are dirty.
+
+	* cbmdos.h: Added DOS Error 52 - File Too Large.
+
+	* drive/ieee/memieee.c: memieee_init() corrected oversight in
+	memory read/write function that would map $5000 - $50ff out
+	to RAM instead of unconnected.
+
+	* fsdevice/fsdevice.c: fsdevice_error_get_byte() corrected to
+	handle buffered reads to support CBM EOFs.  Missed this when
+	all others were corrected back in 1.14.25.
+
+	*** In order to support REL file reads, a new function had to
+	added so that when an listen occured on the serial bus during
+	a REL write, the REL pointer has to move to the next record.
+	The following are the files change for this.
+
+	* machine-bus.h: Added "listenf" to
+	machine_bus_device_attach() prototype.
+
+	* machine-bus.c: machine_bus_device_attach() Added "listenf"
+	to argument list and code for setup.	
+
+	* machine-bus.c: machine_bus_init() Added default
+	initialization of new "listenf" member.
+
+	* fsdevice/fsdevice.c: fsdevice_attach() Added NULL to
+	argument list for new "listenf" function.
+
+	* serial/fsdrive.c: fsdrive_listentalk() added code to call
+	"p->listen" when an listen is sent.
+
+	* parallel/parallel-trap.c: parallelattention() added code to
+	call "p->listen" when an listen/talk is sent.
+
+	* serial.h: added "listenf" member to struct serial_s.
+
+	* printerdrv/interface-serial.c: interface_serial_attach()
+	Added NULL to argument list for "listen" function for
+	device 4 and 5.
+
+	* c1541.c: machine_bus_device_attach() added "listenf"
+	to function arguments.
+
 2004-06-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.33.
