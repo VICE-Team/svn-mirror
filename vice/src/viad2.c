@@ -276,9 +276,7 @@ void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte)
       case VIA_DDRA:
 
 	viaD2[addr] = byte;
-#ifdef TRUE1541_ROTATE
         true1541_rotate_disk(0);
-#endif
 	true1541_write_gcr(viaD2[VIA_PRA] | ~viaD2[VIA_DDRA]);
 	break;
 
@@ -458,14 +456,11 @@ byte, viaD2pb7, viaD2pb7x, viaD2pb7o, viaD2pb7xx, viaD2pb7sx);*/
 	     bit 5 is the write output to the analog circuitry:
 	     0 = writing, 0x20 = reading */
 	     true1541_update_viad2_pcr(tmp);
-#ifdef TRUE1541_ROTATE
           if ((byte&0x20) != (viaD2[addr]&0x20)) {
              true1541_rotate_disk(0);
              true1541_rotate_disk(1);
           }
           byte = tmp;
-#endif
-
         }
 	viaD2[addr] = byte;
 	break;
@@ -522,9 +517,7 @@ BYTE REGPARM1 read_viaD2_(ADDRESS addr)
 	{
 	  BYTE byte;
 
-#ifdef TRUE1541_ROTATE
 	true1541_rotate_disk(0);
-#endif
 	/* I hope I got the polarities right */
 	byte = (true1541_sync_found() ? 0 : 0x80)
 		| (true1541_write_protect_sense() ? 0 : 0x10);
