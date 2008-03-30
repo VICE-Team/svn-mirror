@@ -77,18 +77,20 @@ enum compression_type {
 
 /* This defines a linked list of all the compressed files that have been
    opened.  */
-struct zfile {
-    char *tmp_name;             /* Name of the temporary file.  */
-    char *orig_name;            /* Name of the original file.  */
-    int write_mode;             /* Non-zero if the file is open for writing.*/
-    FILE *stream;               /* Associated stdio-style stream.  */
-    FILE *fd;                   /* Associated file descriptor.  */
-    enum compression_type type; /* Compression algorithm.  */
-    struct zfile *prev, *next;  /* Link to the previous and next nodes.  */
-    zfile_action_t action;      /* action on close */
-    char *request_string;       /* ui string for action=ZFILE_REQUEST */
+struct zfile_s {
+    char *tmp_name;              /* Name of the temporary file.  */
+    char *orig_name;             /* Name of the original file.  */
+    int write_mode;              /* Non-zero if the file is open for writing.*/
+    FILE *stream;                /* Associated stdio-style stream.  */
+    FILE *fd;                    /* Associated file descriptor.  */
+    enum compression_type type;  /* Compression algorithm.  */
+    struct zfile_s *prev, *next; /* Link to the previous and next nodes.  */
+    zfile_action_t action;       /* action on close */
+    char *request_string;        /* ui string for action=ZFILE_REQUEST */
 };
-struct zfile *zfile_list = NULL;
+typedef struct zfile_s zfile_t;
+
+zfile_t *zfile_list = NULL;
 
 static log_t zlog = LOG_ERR;
 
@@ -98,13 +100,13 @@ static int zinit_done = 0;
 
 static int zinit(void)
 {
-    struct zfile *p;
+    zfile_t *p;
 
     zlog = log_open("ZFile");
 
     /* Free the `zfile_list' if not empty.  */
     for (p = zfile_list; p != NULL; ) {
-        struct zfile *next;
+        zfile_t *next;
 
         lib_free(p->orig_name);
         lib_free(p->tmp_name);
@@ -127,7 +129,7 @@ static void zfile_list_add(const char *tmp_name,
                            int write_mode,
                            FILE *stream, FILE *fd)
 {
-    struct zfile *new_zfile = (struct zfile *)lib_malloc(sizeof(struct zfile));
+    zfile_t *new_zfile = (zfile_t *)lib_malloc(sizeof(zfile_t));
 
     /* Make sure we have the complete path of the file.  */
     archdep_expand_path(&new_zfile->orig_name, orig_name);
@@ -666,14 +668,16 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
     return tmp_name;
 }
 
-/* List of archives we understand.  */
-static struct {
-    const char  *program;
-    const char  *listopts;
-    const char  *extractopts;
-    const char  *extension;
-    const char  *search;
-} valid_archives[] = {
+struct valid_archives_s {
+    const char *program;
+    const char *listopts;
+    const char *extractopts;
+    const char *extension;
+    const char *search;
+};
+typedef struct valid_archives_s valid_archives_t;
+
+const valid_archives_t valid_archives[] = {
 #if (!defined(__MSDOS__) && !defined(__riscos))
     { "unzip",   "-l",   "-p",    ".zip",    "Name" },
     { "lha",     "lv",   "pq",    ".lzh",    NULL },
@@ -694,7 +698,6 @@ static struct {
 #endif
     { NULL }
 };
-
 
 /* Try to uncompress file `name' using the algorithms we now of.  If this is
    not possible, return `COMPR_NONE'.  Otherwise, uncompress the file into a
@@ -991,7 +994,7 @@ FILE *zfopen(const char *name, const char *mode)
 }
 
 /* Handle close-action of a file.  `ptr' points to the zfile to close.  */
-static int handle_close_action(struct zfile *ptr)
+static int handle_close_action(zfile_t *ptr)
 {
     if (ptr == NULL || ptr->orig_name == NULL)
         return -1;
@@ -1014,7 +1017,7 @@ static int handle_close_action(struct zfile *ptr)
 }
 
 /* Handle close of a (compressed file). `ptr' points to the zfile to close.  */
-static int handle_close(struct zfile *ptr)
+static int handle_close(zfile_t *ptr)
 {
     ZDEBUG(("handle_close: closing `%s' (`%s'), write_mode = %d",
             ptr->tmp_name ? ptr->tmp_name : "(null)",
@@ -1059,7 +1062,7 @@ static int handle_close(struct zfile *ptr)
 /* `fclose()' wrapper.  */
 int zfclose(FILE *stream)
 {
-    struct zfile *ptr;
+    zfile_t *ptr;
 
     if (!zinit_done) {
         errno = EBADF;
@@ -1090,7 +1093,7 @@ int zfile_close_action(const char *filename, zfile_action_t action,
                        const char *request_str)
 {
     char *fullname = NULL;
-    struct zfile *p = zfile_list;
+    zfile_t *p = zfile_list;
 
     archdep_expand_path(&fullname, filename);
 
