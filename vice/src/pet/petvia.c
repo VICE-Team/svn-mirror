@@ -139,11 +139,13 @@
 #include "resources.h"
 
 
-#include "parallel.h"
-#include "../c64/sid.h"
-#include "kbd.h"
-#include "crtc.h"
 #include "petvia.h"
+
+#include "../c64/sid.h"
+#include "crtc.h"
+#include "kbd.h"
+#include "parallel.h"
+#include "petsound.h"
 
 #ifdef HAVE_PRINTER
 #include "pruser.h"

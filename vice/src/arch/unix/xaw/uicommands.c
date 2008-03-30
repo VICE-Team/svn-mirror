@@ -172,12 +172,17 @@ static UI_CALLBACK(change_working_directory)
 	ui_error("Directory not found");
 }
 
+static void mon_trap(ADDRESS addr, void *unused_data)
+{
+    mon(addr);
+}
+
 static UI_CALLBACK(activate_monitor)
 {
     suspend_speed_eval();
     ui_dispatch_events();		/* popdown the menu */
     ui_autorepeat_on();
-    maincpu_trigger_trap(mon);
+    maincpu_trigger_trap(mon_trap, (void *) 0);
 }
 
 static UI_CALLBACK(run_c1541)
