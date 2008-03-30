@@ -287,12 +287,10 @@ int MAIN_PROGRAM(int argc, char **argv)
         exit(-1);
     }
 
-#ifdef JOYSTICK
     if (joystick_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize joystick-specific resources.\n");
         exit(-1);
     }
-#endif
 
     /* Set factory defaults.  */
     resources_set_defaults();

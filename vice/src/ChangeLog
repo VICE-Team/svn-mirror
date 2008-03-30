@@ -1,3 +1,53 @@
+Tue Jul 28 00:08:13 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* main.c (MAIN_PROGRAM): Initialize joystick resources (even if
+	`JOYSTICK' is not #defined).
+
+	* arch/msdos/vsync.c (do_vsync): Do not flush sound when in warp
+ 	mode.
+
+	* mon.c (readline): Remove all the trailing '\n's and '\r's, if
+ 	present.
+
+	* arch/msdos/menudefs.c: Added menu to use and define keysets for
+	joystick emulation.
+
+	* arch/msdos/joystick.h: Added `JOYDEV_KEYSET1' and
+	`JOYDEV_KEYSET2' to `joystick_device_t'.
+
+	* arch/msdos/grabkey.h, arch/msdos/grabkey.c: New files.
+
+	* arch/msdos/joystick.c (joystick_handle_key): Type of `kcode'
+	changed to `kbd_code_t'.
+
+	* arch/msdos/joystick.h: #include "kbd.h".
+
+	* arch/msdos/kbd.h: enum `doskbd_codes' changed to a typedef
+ 	(`kbd_code_t').
+
+	* arch/msdos/kbd.h: Removed `extended_key_tab'.
+	* arch/msdos/kbd.c: Moved here; renamed to `_kbd_extended_key_tab'.
+
+	* sounddrv/soundallegro.c: New variable `written_samples'.
+	(allegro_bufferstatus): Never return a value greater than
+ 	`written_samples'.
+	(allegro_write): Update `written_samples'.
+	(allegro_resume): Set `written_samples' to zero.
+	(allegro_init_sound): Likewise.
+
+	* arch/msdos/joystick.c (joystick_update): Fixed `1' -> `2' typo.
+
+Mon Jul 27 11:30:13 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/video.c (enable_text): Uninstall keyboard interrupt
+	before setting gfx mode, instead of after it.
+
+	* sound.c: If audio is running too slow, just don't write anything
+	to the sound device.
+
+	* arch/msdos/joystick.c: Default for `JoyDevice1' changed to
+ 	`JOYDEV_NONE'.
+
 Sun Jul 26 01:52:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* sounddrv/soundallegro.c (allegro_resume): New function.
