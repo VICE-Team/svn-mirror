@@ -20,17 +20,18 @@ What are we going to do next (or not)
 - Some more Kernal patches, for instance for changing colors and
   patching the reset routine to make it faster (maybe configurable).
 
-- Filtering video output to make it look more like an old monitor or
-  a TV set. This is work in progress. As of 1.8 there is a fast PAL
-  emulation.
 
-- More ports.  Any volunteers?  A BEOS port is in the works; if you
-  want to help, please let us know.
+* C64 improvements
+------------------
+
+- Cycle exact sprite emulation.
 
 * C128 improvements
 -------------------
 
-- Support missing keys (Caps Lock).
+- Fast serial support.
+
+- Support for fast mode (2MHz).
 
 * VIC20 improvements
 --------------------

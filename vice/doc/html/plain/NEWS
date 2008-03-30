@@ -5,6 +5,71 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.10
+======================
+
+** General
+----------
+
+- The keyboard handling has been reworked. In most ports the keys can
+  be assigned by *.vkm files.
+
+- Fixed display bugs during warp mode.
+
+- The autostart function prepares the drive with last accessed track,
+  sector and buffer data now.
+
+- The opcode fetch of the 65xx CPU emulation is more accurate now.
+
+** C64 changes
+--------------
+
+- A processor port bug has been fixed, so IWM Diamonds works again.
+
+- Fixed a bug in the Retro Replay emulation.
+
+- Added support for IDE64 interface emulation.
+
+** C128 changes
+---------------
+
+- Added DIN charset support.
+
+- Added support for second color bank.
+
+** VIC20 changes
+-----------------
+
+- Access to unconnected address space has been fixed.
+
+** VIC-II
+---------
+
+- $d016 xsmooth emulation is cycle exact now!
+
+- Many small bugs in the VIC-II emulation have been fixed.
+
+- Accessing unconnected address space returns last phi1 data read by
+  the VIC-II now.
+
+- Fixed bug loading a snapshot image with sprites enabled.
+
+** Drive changes
+-----------------
+
+- Implemented firmware ROM mirrors.
+
+** Tape changes
+---------------
+
+- The image content lister lists the contents of TAP images too.
+
+** Unix changes
+---------------
+
+- Reworked fullscreen support.
+
+
 * Changes in VICE 1.9
 =====================
 
