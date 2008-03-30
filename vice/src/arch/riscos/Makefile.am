@@ -36,6 +36,8 @@ libarch_a_SOURCES = \
 	ui.c \
 	ui.h \
 	uidummy.c \
+	uiimage.c \
+	uiimage.h \
 	vic20ui.c \
 	vic20ui.h \
 	video.c \
