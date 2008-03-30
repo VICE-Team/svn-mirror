@@ -194,11 +194,12 @@ BYTE REGPARM1 mmu_read(ADDRESS addr)
     }
 }
 
+
 void REGPARM2 mmu_store(ADDRESS address, BYTE value)
 {
     vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
-    address &= 0xff;
+    address &= 0xf;
 
 #ifdef MMU_DEBUG
     log_message(mmu_log, "MMU STORE $%x <- #$%x.", address, value);
@@ -259,8 +260,8 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
    $FF00 - $FF04.  */
 BYTE REGPARM1 mmu_ffxx_read(ADDRESS addr)
 {
-    if (addr == 0xff00)
-        return mmu[0];
+    if (addr >= 0xff00 && addr <= 0xff04)
+        return mmu[addr & 0xf];
 
     if ((mmu[0] & 0x30) == 0x00)
         return kernal_read(addr);
@@ -272,25 +273,25 @@ BYTE REGPARM1 mmu_ffxx_read(ADDRESS addr)
 
 BYTE REGPARM1 mmu_ffxx_read_z80(ADDRESS addr)
 {
-    if (addr == 0xff00)
-        return mmu[0];
+    if (addr >= 0xff00 && addr <= 0xff04)
+        return mmu[addr & 0xf];
 
     return top_shared_read(addr);
 }
 
 void REGPARM2 mmu_ffxx_store(ADDRESS addr, BYTE value)
 {
-    if (addr == 0xff00)
-    {
+    if (addr == 0xff00) {
         mmu_store(0, value);
         /* FIXME? [SRT] does reu_dma(-1) work here, or should
         it be deferred until later? */
         reu_dma(-1);
+    } else {
+        if (addr <= 0xff04)
+            mmu_store(0, mmu[addr & 0xf]);
+        else
+            top_shared_store(addr, value);
     }
-    else if (addr <= 0xff04)
-        mmu_store(0, mmu[addr & 0xf]);
-    else
-        top_shared_store(addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -307,10 +308,10 @@ void mmu_init(void)
 
 void mmu_reset(void)
 {
-    /* FIXME?  Is this the real configuration?  */
-    basic_lo_in = basic_hi_in = kernal_in = editor_in = 1;
-    io_in = 1;
-    chargen_in = 0;
+    ADDRESS i;
+
+    for (i = 0; i < 0xb; i++)
+        mmu[i] = 0;
 
     kbd_register_column4080_key(mmu_toggle_column4080_key);
 }
