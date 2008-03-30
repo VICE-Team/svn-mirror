@@ -694,8 +694,6 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	done
 alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
-archdep.o: arch/unix/archdep.c vice.h config.h arch/unix/archdep.h \
-	archapi.h findpath.h log.h utils.h arch/unix/types.h
 asm.o: asm.c vice.h config.h asm.h arch/unix/types.h
 attach.o: attach.c vice.h config.h attach.h arch/unix/types.h snapshot.h \
 	diskimage.h gcr.h drive/drive.h drive/drivecpu.h alarm.h log.h \

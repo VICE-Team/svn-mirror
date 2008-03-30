@@ -1,5 +1,30 @@
 1999-07-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.42.
+
+	* attach.c (file_system_detach_disk): Do not attach disks without
+	vdrive emulation enabled.
+
+	* arch/unix/xaw/ui.c (ui_display_drive_current_image): Discard
+	drive 2 and 3.
+
+	* c1541.c (format_cmd): Added support for G64 images.
+	(gcrformat_cmd, set_label, set_disk_size): Removed.
+	(zcreate_cmd, block_cmd): Rewritten.
+
+	* diskimage.c (disk_image_create): Also create G64 images.
+
+	* vdrive/vdrive.c (vdrive_command_format): Only format disk if
+	some disk image is attached.
+	(vdrive_attach_image): Virtual drive emulation has to calculate
+	with the logical number of sectors.
+
+	* vdrive/vdrive.h: `NumBlocks' removed.
+
+	* c64/Makefile.am: Removed `libc64vsid.a'.
+
+1999-07-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.41.
 
 	* c1541.c (check_drive, info_cmd): Changed to new disk image
@@ -405,7 +430,6 @@
 
 	* drive/drive.c, drive/drive.h: Do not mix drive and vdrive
 	related varibales anymore.
-	(drive_attach_floppy, drive_detach_floppy): Call ...
 
 	* drive/fdc.c, drive/fdc.h (fdc_attach_disk, fdc_detach_disk):
 	New functions.  Use own vdrive struct instead of using the one of

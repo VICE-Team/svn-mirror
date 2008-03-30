@@ -13,7 +13,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vicii \
 	-I$(top_srcdir)/src/raster
 
-noinst_LIBRARIES = libc64.a libc64c128.a libc64vsid.a
+noinst_LIBRARIES = libc64.a libc64c128.a
 
 libc64_a_SOURCES = \
 	c64.c \
@@ -48,15 +48,6 @@ libc64c128_a_SOURCES = \
 	patchrom.h \
 	c64tpi.c \
 	c64tpi.h
-
-libc64vsid_a_SOURCES = \
-	c64cia.h \
-	c64cia1.c \
-	c64cia2.c \
-	c64mem.c \
-	c64mem.h \
-	patchrom.c \
-	patchrom.h
 
 EXTRA_libc64_a_SOURCES = \
 	c64acia.h \
