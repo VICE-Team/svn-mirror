@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "datasette.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
@@ -45,6 +46,7 @@
 #include "types.h"
 #include "utils.h"
 
+static int hard_reset_flag=0;
 
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
@@ -167,22 +169,87 @@ BYTE *mem_get_tedmem_base(unsigned int segment)
 
 /* ------------------------------------------------------------------------- */
 
+/* Tape motor status.  */
+static BYTE old_port_data_out = 0xff;
+
+/* Tape read input.  */
+static BYTE tape_read = 0xff;
+
 inline static void mem_proc_port_store(void)
 {
-    BYTE tmp;
+    pport.data_out = (pport.data_out & ~pport.dir)
+                     | (pport.data & pport.dir);
 
-    tmp = ~(pport.data | ~pport.dir);
+    iec_cpu_write_callback[iec_callback_index]((BYTE)~pport.data_out);
 
-    iec_cpu_write_callback[iec_callback_index]((BYTE)tmp);
+    if (((pport.dir & pport.data) & 0x08) != old_port_data_out) {
+        old_port_data_out = (pport.dir & pport.data) & 0x08;
+        datasette_set_motor(!old_port_data_out);
+    }
 }
 
 inline static BYTE mem_proc_port_read(ADDRESS addr)
 {
+    BYTE tmp;
+
     if (addr == 0)
         return pport.dir;
 
-    return iec_cpu_read() | ((pport.data | ~pport.dir) & 0x3f);
+    tmp = (pport.data | ~pport.dir) & (pport.data_out | 0x3f);
+
+    tmp |= iec_cpu_read();
+
+    if (tape_read)
+        tmp &= ~0x10;
+
+    return tmp;
 }
+
+void mem_proc_port_trigger_flux_change(unsigned int on)
+{
+   /*printf("FLUXCHANGE\n");*/
+   tape_read = on; 
+}
+
+/* ------------------------------------------------------------------------- */
+
+BYTE REGPARM1 read_zero(ADDRESS addr)
+{
+    addr &= 0xff;
+
+    switch ((BYTE)addr) {
+      case 0:
+      case 1:
+        return mem_proc_port_read(addr);
+    }
+    return ram[addr];
+}
+
+void REGPARM2 store_zero(ADDRESS addr, BYTE value)
+{
+    addr &= 0xff;
+
+    switch ((BYTE)addr) {
+      case 0:
+        if (pport.dir != value) {
+            pport.dir = value;
+            mem_proc_port_store();
+        }
+        ram[addr] = value;
+        break;
+      case 1:
+        if (pport.data != value) {
+            pport.data = value;
+            mem_proc_port_store();
+        }
+        ram[addr] = value;
+        break;
+      default:
+        ram[addr] = value;
+    }
+}
+
+/* ------------------------------------------------------------------------- */
 
 static void mem_config_set(unsigned int config)
 {
@@ -245,42 +312,6 @@ void mem_toggle_watchpoints(int flag)
 }
 
 /* ------------------------------------------------------------------------- */
-
-BYTE REGPARM1 read_zero(ADDRESS addr)
-{
-    addr &= 0xff;
-
-    switch ((BYTE)addr) {
-      case 0:
-      case 1:
-        return mem_proc_port_read(addr);
-    }
-    return ram[addr];
-}
-
-void REGPARM2 store_zero(ADDRESS addr, BYTE value)
-{
-    addr &= 0xff;
-
-    switch ((BYTE)addr) {
-      case 0:
-        if (pport.dir != value) {
-            pport.dir = value;
-            mem_proc_port_store();
-        }
-        ram[addr] = value;
-        break;
-      case 1:
-        if (pport.data != value) {
-            pport.data = value;
-            mem_proc_port_store();
-        }
-        ram[addr] = value;
-        break;
-      default:
-        ram[addr] = value;
-    }
-}
 
 BYTE REGPARM1 basic_read(ADDRESS addr)
 {
@@ -411,6 +442,11 @@ BYTE REGPARM1 pio1_read(ADDRESS addr)
 void REGPARM2 pio1_store(ADDRESS addr, BYTE value)
 {
     pio1_data = value;
+}
+
+void pio1_set_tape_sense(int sense)
+{
+    pio1_data = (BYTE)(pio1_data & ~4) | (BYTE)(sense ? 0 : 4);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -627,7 +663,10 @@ void mem_initialize_memory(void)
         mem_write_tab[i + 1][0x100] = mem_write_tab[i + 1][0];
         mem_read_base_tab[i + 1][0x100] = mem_read_base_tab[i + 1][0];
     }
-    mem_config = 1;
+    if (hard_reset_flag) {
+        hard_reset_flag=0;
+        mem_config = 1;
+    }
     _mem_read_tab_ptr = mem_read_tab[mem_config];
     _mem_write_tab_ptr = mem_write_tab[mem_config];
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
@@ -645,6 +684,8 @@ void mem_powerup(void)
         memset(ram + i, 0, 0x40);
         memset(ram + i + 0x40, 0xff, 0x40);
     }
+
+    hard_reset_flag = 1;
 }
 
 
