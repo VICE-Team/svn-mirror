@@ -41,8 +41,13 @@ libarch_a_SOURCES = \
 	petui.c \
 	petui.h \
 	print.c \
+	res.h \
+	res.r \
+	resc128.r \
 	resc64.r \
-	resc64.h \
+	rescbm2.r \
+	respet.r \
+	resvic.r \
 	ui.c \
 	ui.h \
 	uiattach.c \
@@ -67,12 +72,24 @@ libarch_a_SOURCES = \
 	winmain.h
 
 libarch_a_DEPENDENCIES = \
-	resc64.o
+	resc128.o resc64.o rescbm2.o respet.o resvic.o
 
 EXTRA_DIST = \
         c64.ico
 
-resc64.o : resc64.r resc64.h
+resc128.o : resc128.r res.h
+	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+		--include-dir $(top_srcdir)/src/arch/win32
+resc64.o : resc64.r res.h
+	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+		--include-dir $(top_srcdir)/src/arch/win32
+rescbm2.o : rescbm2.r res.h
+	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+		--include-dir $(top_srcdir)/src/arch/win32
+respet.o : respet.r res.h
+	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+		--include-dir $(top_srcdir)/src/arch/win32
+resvic.o : resvic.r res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 

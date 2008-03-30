@@ -1996,7 +1996,7 @@ void mon_execute_disk_command(char *cmd)
    floppy = (DRIVE *)p->info;
 
    len = strlen(cmd);
-   rc = ip_execute(floppy, (BYTE*)cmd, len);
+   rc = vdrive_command_execute(floppy, (BYTE*)cmd, len);
 }
 
 

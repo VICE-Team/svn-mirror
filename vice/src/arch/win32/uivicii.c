@@ -29,7 +29,7 @@
 
 #include <windows.h>
 
-#include "resc64.h"
+#include "res.h"
 #include "resources.h"
 #include "ui.h"
 #include "uilib.h"

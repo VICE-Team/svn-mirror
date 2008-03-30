@@ -34,7 +34,7 @@
 #include "ui.h"
 
 #include "cartridge.h"
-#include "resc64.h"
+#include "res.h"
 #include "uilib.h"
 #include "vic20ui.h"
 #include "winmain.h"

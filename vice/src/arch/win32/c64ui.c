@@ -35,7 +35,7 @@
 
 #include "c64ui.h"
 #include "cartridge.h"
-#include "resc64.h"
+#include "res.h"
 #include "uilib.h"
 #include "uivicii.h"
 #include "winmain.h"

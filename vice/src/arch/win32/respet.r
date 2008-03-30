@@ -1,4 +1,4 @@
-// C64 specific resources.
+// PET specific resources.
 //
 #include "res.r"
 
@@ -7,7 +7,7 @@
 // Menu
 //
 
-IDR_MENUC64 MENU DISCARDABLE
+IDR_MENUPET MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
@@ -32,19 +32,6 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Attach &tape image...",           IDM_ATTACH_TAPE
         MENUITEM "Detac&h tape image",              IDM_DETACH_TAPE
-        MENUITEM SEPARATOR
-        POPUP "Attach &cartridge image..."          
-        BEGIN
-            MENUITEM "&CRT image...",               IDM_CART_ATTACH_CRT
-            MENUITEM SEPARATOR
-            MENUITEM "Generic &8KB image...",       IDM_CART_ATTACH_8KB
-            MENUITEM "Generic &16KB image...",      IDM_CART_ATTACH_16KB
-            MENUITEM "&Action Replay image...",     IDM_CART_ATTACH_AR
-            MENUITEM "&Super Snapshot 4 image...",  IDM_CART_ATTACH_SS4
-            MENUITEM SEPARATOR
-            MENUITEM "Set cartridge as &default",   IDM_CART_SET_DEFAULT
-        END
-        MENUITEM "Detach cartridge &image",         IDM_CART_DETACH
         MENUITEM SEPARATOR
         MENUITEM "Load snapshot image...",          IDM_SNAPSHOT_LOAD
         MENUITEM "Save snapshot image",             IDM_SNAPSHOT_SAVE
@@ -101,10 +88,6 @@ BEGIN
         , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
-#ifdef HAVE_RESID
-        MENUITEM "&Enable resid",                   IDM_TOGGLE_SOUND_RESID
-        , CHECKED
-#endif
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
         , CHECKED
         MENUITEM SEPARATOR
@@ -114,7 +97,6 @@ BEGIN
     BEGIN
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
-        MENUITEM "&VIC-II settings...",             IDM_VICII_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
@@ -124,44 +106,5 @@ BEGIN
     BEGIN
         MENUITEM "&About...",                       IDM_ABOUT
     END
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_VICII_PALETTE_DIALOG DIALOG DISCARDABLE  0, 0, 180, 120
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTORADIOBUTTON "&Default",IDC_SELECT_VICII_DEFAULT,15,10,35,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Custom",IDC_SELECT_VICII_CUSTOM,15,25,35,10,
-                            BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_VICII_CUSTOM_NAME,80,25,120,12,CBS_DROPDOWN | CBS_SORT |
-                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Browse...",IDC_VICII_CUSTOM_BROWSE,80,43,50,14,WS_GROUP
-    AUTORADIOBUTTON "&C64S",IDC_SELECT_VICII_C64S,15,40,35,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "CC&S64",IDC_SELECT_VICII_CCS64,15,55,35,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&Frodo",IDC_SELECT_VICII_FRODO,15,70,35,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&Godot",IDC_SELECT_VICII_GODOT,15,85,35,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&PC64",IDC_SELECT_VICII_PC64,15,100,35,10,
-                            BS_AUTORADIOBUTTON
-END
-
-IDD_VICII_SPRITES_DIALOG DIALOG DISCARDABLE  0, 0, 180, 117
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Sprite-&sprite collisions", IDC_TOGGLE_VICII_SSC,
-                    15,10,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Sprite-&background collisions", IDC_TOGGLE_VICII_SBC,
-                    15,25,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 

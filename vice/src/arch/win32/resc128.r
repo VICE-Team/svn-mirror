@@ -1,4 +1,4 @@
-// C64 specific resources.
+// C128 specific resources.
 //
 #include "res.r"
 
@@ -7,7 +7,7 @@
 // Menu
 //
 
-IDR_MENUC64 MENU DISCARDABLE
+IDR_MENUC128 MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
@@ -32,19 +32,6 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Attach &tape image...",           IDM_ATTACH_TAPE
         MENUITEM "Detac&h tape image",              IDM_DETACH_TAPE
-        MENUITEM SEPARATOR
-        POPUP "Attach &cartridge image..."          
-        BEGIN
-            MENUITEM "&CRT image...",               IDM_CART_ATTACH_CRT
-            MENUITEM SEPARATOR
-            MENUITEM "Generic &8KB image...",       IDM_CART_ATTACH_8KB
-            MENUITEM "Generic &16KB image...",      IDM_CART_ATTACH_16KB
-            MENUITEM "&Action Replay image...",     IDM_CART_ATTACH_AR
-            MENUITEM "&Super Snapshot 4 image...",  IDM_CART_ATTACH_SS4
-            MENUITEM SEPARATOR
-            MENUITEM "Set cartridge as &default",   IDM_CART_SET_DEFAULT
-        END
-        MENUITEM "Detach cartridge &image",         IDM_CART_DETACH
         MENUITEM SEPARATOR
         MENUITEM "Load snapshot image...",          IDM_SNAPSHOT_LOAD
         MENUITEM "Save snapshot image",             IDM_SNAPSHOT_SAVE
@@ -102,7 +89,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
 #ifdef HAVE_RESID
-        MENUITEM "&Enable resid",                   IDM_TOGGLE_SOUND_RESID
+        MENUITEM "Enable &resid",                   IDM_TOGGLE_SOUND_RESID
         , CHECKED
 #endif
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
@@ -125,7 +112,6 @@ BEGIN
         MENUITEM "&About...",                       IDM_ABOUT
     END
 END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

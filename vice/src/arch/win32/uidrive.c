@@ -30,7 +30,7 @@
 #include <windows.h>
 
 #include "drive.h"
-#include "resc64.h"
+#include "res.h"
 #include "resources.h"
 #include "serial.h"
 #include "ui.h"

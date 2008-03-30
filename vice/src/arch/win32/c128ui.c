@@ -28,7 +28,7 @@
 #include "vice.h"
 
 #include "c128ui.h"
-#include "resc64.h"
+#include "res.h"
 #include "ui.h"
 #include "uivicii.h"
 

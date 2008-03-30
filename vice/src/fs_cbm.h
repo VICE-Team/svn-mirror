@@ -76,7 +76,8 @@
 #define BAM_FORMAT_TYPE         2
 #define BAM_BIT_MAP             4
 #define BAM_BIT_MAP_1581        16
-#define BAM_VERSION             165
+#define BAM_VERSION_1541        165
+#define BAM_VERSION_1581        25
 
 /*
  * At the beginning of each image is header that makes sure
