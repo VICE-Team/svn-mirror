@@ -84,7 +84,10 @@ LIB32=link.exe -lib
 
 SOURCE="..\..\core\ciacore.c"
 # End Source File
-# End Target
+# Begin Source File
+
+SOURCE="..\..\core\ciatimer.c"
+# End Source File
 # Begin Source File
 
 SOURCE="..\..\core\viacore.c"
