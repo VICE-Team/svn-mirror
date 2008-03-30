@@ -566,42 +566,6 @@ void vicii_prepare_for_snapshot(void)
     alarm_unset(vic_ii.raster_irq_alarm);
 }
 
-void vicii_set_raster_irq(unsigned int line)
-{
-    if (line == vic_ii.raster_irq_line && vic_ii.raster_irq_clk != CLOCK_MAX)
-        return;
-
-    if (line < vic_ii.screen_height) {
-        unsigned int current_line = VIC_II_RASTER_Y(maincpu_clk);
-
-        vic_ii.raster_irq_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
-                                 + VIC_II_RASTER_IRQ_DELAY - INTERRUPT_DELAY
-                                 + (vic_ii.cycles_per_line
-                                 * (line - current_line)));
-
-        /* Raster interrupts on line 0 are delayed by 1 cycle.  */
-        if (line == 0)
-            vic_ii.raster_irq_clk++;
-
-        if (line <= current_line)
-            vic_ii.raster_irq_clk += (vic_ii.screen_height
-                                     * vic_ii.cycles_per_line);
-        alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
-    } else {
-        VIC_II_DEBUG_RASTER(("update_raster_irq(): "
-                            "raster compare out of range ($%04X)!", line));
-        alarm_unset(vic_ii.raster_irq_alarm);
-    }
-
-    VIC_II_DEBUG_RASTER(("update_raster_irq(): "
-                        "vic_ii.raster_irq_clk = %ul, "
-                        "line = $%04X, "
-                        "vic_ii.regs[0x1a] & 1 = %d",
-                        vic_ii.raster_irq_clk, line, vic_ii.regs[0x1a] & 1));
-
-    vic_ii.raster_irq_line = line;
-}
-
 /* Change the base of RAM seen by the VIC-II.  */
 static inline void vicii_set_ram_bases(BYTE *base_p1, BYTE *base_p2)
 {

@@ -18,6 +18,8 @@ libvicii_a_SOURCES = \
 	vicii-draw.h \
 	vicii-fetch.c \
 	vicii-fetch.h \
+	vicii-irq.c \
+	vicii-irq.h \
 	vicii-mem.c \
 	vicii-mem.h \
 	vicii-phi1.c \
