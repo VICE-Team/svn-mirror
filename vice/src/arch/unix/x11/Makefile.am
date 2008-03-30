@@ -17,22 +17,22 @@ EXTRA_libx11ui_a_SOURCES = \
         fullscreen.c
 
 libx11ui_a_SOURCES = \
+	c128icon.c \
+	c610icon.c \
+	c64icon.c \
 	kbd.c \
 	kbdef.h \
+	peticon.c \
 	ui-cmdline-options.c \
 	ui-resources.c \
+	uihotkey.c \
+	vic20icon.c \
 	video.c \
 	videoarch.h \
 	x11kbd.c \
 	x11kbd.h \
-	uihotkey.c \
 	x11menu.c \
-	x11menu.h \
-	c128icon.xpm \
-	c610icon.xpm \
-	c64icon.xpm \
-	peticon.xpm \
-	vic20icon.xpm
+	x11menu.h
 
 libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@
 
