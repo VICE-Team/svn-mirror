@@ -128,7 +128,7 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/crtc 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/monitor
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/crtc 	-I$(top_srcdir)/src/vicii 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/monitor
 
 
 noinst_LIBRARIES = libcbm2.a
@@ -254,12 +254,11 @@ distdir: $(DISTFILES)
 	done
 c610.o: c610.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/autostart.h ../../src/arch/unix/types.h c610.h \
-	c610acia.h c610cia.h c610mem.h c610tpi.h \
+	../../src/snapshot.h c610acia.h c610cia.h c610mem.h c610tpi.h \
 	../../src/arch/unix/c610ui.h ../../src/ciatimer.h \
-	../../src/alarm.h ../../src/snapshot.h ../../src/clkguard.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/console.h \
-	../../src/crtc/crtc.h ../../src/datasette.h \
-	../../src/drive/drive-cmdline-options.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/console.h ../../src/crtc/crtc.h \
+	../../src/datasette.h ../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
@@ -269,7 +268,7 @@ c610.o: c610.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/print.h ../../src/pruser.h ../../src/screenshot.h \
 	../../src/serial.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/tape.h ../../src/traps.h ../../src/utils.h \
-	../../src/via.h ../../src/video.h \
+	../../src/via.h ../../src/vicii/vicii.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
@@ -312,18 +311,19 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/kbdbuf.h ../../src/log.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/monitor/mon.h ../../src/sid/sid.h \
 	../../src/snapshot.h ../../src/sysfile.h ../../src/tape.h \
-	../../src/utils.h ../../src/vsync.h
+	../../src/utils.h ../../src/vsync.h ../../src/vicii/vicii-mem.h \
+	../../src/vicii/vicii.h
 c610tpi1.o: c610tpi1.c c610cia.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/crtc/crtc.h \
-	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/maincpu.h ../../src/parallel.h \
-	../../src/tpicore.h ../../src/tpi.h ../../src/tpicore.c \
-	../../src/snapshot.h
+	c610mem.h ../../src/datasette.h ../../src/drive/drive.h \
+	../../src/log.h ../../src/drive/drivecpu.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
+	../../src/parallel.h ../../src/tpicore.h ../../src/tpi.h \
+	../../src/tpicore.c ../../src/snapshot.h
 c610tpi2.o: c610tpi2.c ../../src/arch/unix/kbd.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
 	../../src/keyboard.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/tpicore.h ../../src/log.h ../../src/tpi.h \
+	../../src/tpicore.h ../../src/log.h ../../src/tpi.h c610mem.h \
 	../../src/tpicore.c ../../src/snapshot.h
 
 info-am:

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-01-20 18:46+0100\n"
+"POT-Creation-Date: 2001-01-28 20:05+0100\n"
 "PO-Revision-Date: 2000-12-01 21:31+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -278,7 +278,7 @@ msgstr "Dokumentation durchstöbern"
 msgid "About VICE..."
 msgstr "Über VICE..."
 
-#: src/arch/unix/c128ui.c:64 src/arch/unix/c610ui.c:407
+#: src/arch/unix/c128ui.c:64 src/arch/unix/c610ui.c:411
 #: src/arch/unix/c64ui.c:133 src/arch/unix/petui.c:432
 #: src/arch/unix/uicommands.c:936 src/arch/unix/vic20ui.c:275
 #: src/arch/unix/x11/gnome/ui.c:1785
@@ -293,37 +293,37 @@ msgstr "*Pause"
 msgid "Exit emulator"
 msgstr "Emulator beenden"
 
-#: src/arch/unix/c128ui.c:54 src/arch/unix/c610ui.c:397
+#: src/arch/unix/c128ui.c:54 src/arch/unix/c610ui.c:401
 #: src/arch/unix/c64ui.c:123 src/arch/unix/petui.c:422
 #: src/arch/unix/vic20ui.c:265
 msgid "Stop"
 msgstr "Stop"
 
-#: src/arch/unix/c128ui.c:56 src/arch/unix/c610ui.c:399
+#: src/arch/unix/c128ui.c:56 src/arch/unix/c610ui.c:403
 #: src/arch/unix/c64ui.c:125 src/arch/unix/petui.c:424
 #: src/arch/unix/vic20ui.c:267
 msgid "Play"
 msgstr "Play"
 
-#: src/arch/unix/c128ui.c:58 src/arch/unix/c610ui.c:401
+#: src/arch/unix/c128ui.c:58 src/arch/unix/c610ui.c:405
 #: src/arch/unix/c64ui.c:127 src/arch/unix/petui.c:426
 #: src/arch/unix/vic20ui.c:269
 msgid "Forward"
 msgstr "Forward"
 
-#: src/arch/unix/c128ui.c:60 src/arch/unix/c610ui.c:403
+#: src/arch/unix/c128ui.c:60 src/arch/unix/c610ui.c:407
 #: src/arch/unix/c64ui.c:129 src/arch/unix/petui.c:428
 #: src/arch/unix/vic20ui.c:271
 msgid "Rewind"
 msgstr "Rewind"
 
-#: src/arch/unix/c128ui.c:62 src/arch/unix/c610ui.c:405
+#: src/arch/unix/c128ui.c:62 src/arch/unix/c610ui.c:409
 #: src/arch/unix/c64ui.c:131 src/arch/unix/petui.c:430
 #: src/arch/unix/vic20ui.c:273
 msgid "Record"
 msgstr "Record"
 
-#: src/arch/unix/c128ui.c:70 src/arch/unix/c610ui.c:413
+#: src/arch/unix/c128ui.c:70 src/arch/unix/c610ui.c:417
 #: src/arch/unix/c64ui.c:231 src/arch/unix/petui.c:438
 #: src/arch/unix/vic20ui.c:281
 msgid "Datassette control"
@@ -382,12 +382,12 @@ msgid "Color set"
 msgstr "Farbpallette..."
 
 #: src/arch/unix/c128ui.c:153 src/arch/unix/uisettings.c:1334
-#: src/arch/unix/uisettings.c:1356 src/arch/unix/uisettings.c:1382
+#: src/arch/unix/uisettings.c:1356 src/arch/unix/uisettings.c:1388
 msgid "*Double size"
 msgstr "*Doppelte Größe"
 
 #: src/arch/unix/c128ui.c:155 src/arch/unix/uisettings.c:1336
-#: src/arch/unix/uisettings.c:1358 src/arch/unix/uisettings.c:1384
+#: src/arch/unix/uisettings.c:1358 src/arch/unix/uisettings.c:1390
 msgid "*Double scan"
 msgstr "*Doppelt Scan"
 
@@ -610,25 +610,25 @@ msgstr "RS232 Einstellungen"
 msgid "Memory settings"
 msgstr "Speicher Einstellungen"
 
-#: src/arch/unix/c128ui.c:506 src/arch/unix/c610ui.c:490
+#: src/arch/unix/c128ui.c:506 src/arch/unix/c610ui.c:495
 #: src/arch/unix/c64ui.c:604 src/arch/unix/petui.c:517
 #: src/arch/unix/vic20ui.c:466 src/arch/unix/vsidui.c:245
 msgid "File"
 msgstr "Datei"
 
-#: src/arch/unix/c128ui.c:523 src/arch/unix/c610ui.c:507
+#: src/arch/unix/c128ui.c:523 src/arch/unix/c610ui.c:512
 #: src/arch/unix/c64ui.c:623 src/arch/unix/petui.c:534
 #: src/arch/unix/vic20ui.c:485
 msgid "Snapshot"
 msgstr "Snapshot"
 
-#: src/arch/unix/c128ui.c:529 src/arch/unix/c610ui.c:513
+#: src/arch/unix/c128ui.c:529 src/arch/unix/c610ui.c:518
 #: src/arch/unix/c64ui.c:629 src/arch/unix/petui.c:540
 #: src/arch/unix/vic20ui.c:491
 msgid "Options"
 msgstr "Optionen"
 
-#: src/arch/unix/c128ui.c:547 src/arch/unix/c610ui.c:525
+#: src/arch/unix/c128ui.c:547 src/arch/unix/c610ui.c:530
 #: src/arch/unix/c64ui.c:647 src/arch/unix/petui.c:552
 #: src/arch/unix/vic20ui.c:501 src/arch/unix/vsidui.c:258
 #: src/arch/unix/x11/gnome/ui.c:1088 src/arch/unix/x11/gnome/ui.c:1180
@@ -637,9 +637,9 @@ msgstr "Einstellungen"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:561 src/arch/unix/c610ui.c:541
+#: src/arch/unix/c128ui.c:561 src/arch/unix/c610ui.c:547
 #: src/arch/unix/c64ui.c:661 src/arch/unix/petui.c:568
-#: src/arch/unix/vic20ui.c:517
+#: src/arch/unix/vic20ui.c:518
 msgid "RJHelp"
 msgstr "RJHilfe"
 
@@ -810,11 +810,12 @@ msgstr "Auszuführendes Programm..."
 msgid "CBM-II model settings"
 msgstr "CBM-II Modell Einstellungen"
 
-#: src/arch/unix/c610ui.c:383 src/arch/unix/petui.c:410
-msgid "Screen color"
+#: src/arch/unix/c610ui.c:383
+#, fuzzy
+msgid "CRTC Screen color"
 msgstr "Bildschirmfarbe"
 
-#: src/arch/unix/c610ui.c:436 src/arch/unix/c64ui.c:525
+#: src/arch/unix/c610ui.c:440 src/arch/unix/c64ui.c:525
 #: src/arch/unix/petui.c:461 src/arch/unix/vic20ui.c:404
 msgid "Screenshot..."
 msgstr "Screenshot..."
@@ -919,7 +920,7 @@ msgstr "ROM Einstellungen"
 msgid "Enter refresh rate"
 msgstr "Wiederholrate einstellen"
 
-#: src/arch/unix/uisettings.c:117 src/arch/unix/uisettings.c:1400
+#: src/arch/unix/uisettings.c:117 src/arch/unix/uisettings.c:1406
 msgid "Refresh rate"
 msgstr "Wiederholrate"
 
@@ -1424,63 +1425,69 @@ msgstr "*Aktivieren"
 msgid "Resolutions"
 msgstr "Auflösungen"
 
-#: src/arch/unix/uisettings.c:1354 src/arch/unix/uisettings.c:1380
+#: src/arch/unix/uisettings.c:1354 src/arch/unix/uisettings.c:1386
 msgid "*Video cache"
 msgstr "*Video Cache"
 
-#: src/arch/unix/uisettings.c:1360 src/arch/unix/uisettings.c:1386
+#: src/arch/unix/uisettings.c:1360 src/arch/unix/uisettings.c:1392
 msgid "*Use XSync()"
 msgstr "*XSync() benutzen"
 
 #: src/arch/unix/uisettings.c:1366
-msgid "Video settings"
+#, fuzzy
+msgid "VIC-II Video settings"
+msgstr "VIC-II Einstellungen"
+
+#: src/arch/unix/uisettings.c:1372
+#, fuzzy
+msgid "VIC Video settings"
 msgstr "Video Einstellungen"
 
-#: src/arch/unix/uisettings.c:1392
+#: src/arch/unix/uisettings.c:1398
 msgid "Crtc Video settings"
 msgstr "Crtc Video Einstellungen"
 
-#: src/arch/unix/uisettings.c:1402
+#: src/arch/unix/uisettings.c:1408
 msgid "Maximum speed"
 msgstr "Maximale Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:1404
+#: src/arch/unix/uisettings.c:1410
 msgid "*Enable warp mode"
 msgstr "*Warp Mode Aktivieren"
 
-#: src/arch/unix/uisettings.c:1419
+#: src/arch/unix/uisettings.c:1425
 msgid "*Fullscreen settings"
 msgstr "*Vollbild Einstellungen"
 
-#: src/arch/unix/uisettings.c:1428
+#: src/arch/unix/uisettings.c:1434
 msgid "Keyboard settings"
 msgstr "Tastatur Einstellungen"
 
-#: src/arch/unix/uisettings.c:1434 src/arch/unix/vsidui.c:155
+#: src/arch/unix/uisettings.c:1440 src/arch/unix/vsidui.c:155
 msgid "Sound settings"
 msgstr "Sound Einstellungen"
 
-#: src/arch/unix/uisettings.c:1441 src/arch/unix/uisettings.c:1448
+#: src/arch/unix/uisettings.c:1447 src/arch/unix/uisettings.c:1454
 msgid "Drive settings"
 msgstr "Floppy Einstellungen"
 
-#: src/arch/unix/uisettings.c:1454
+#: src/arch/unix/uisettings.c:1460
 msgid "Peripheral settings"
 msgstr "Peripherie Einstellungen"
 
-#: src/arch/unix/uisettings.c:1460
+#: src/arch/unix/uisettings.c:1466
 msgid "Save settings"
 msgstr "Einstellungen speichern"
 
-#: src/arch/unix/uisettings.c:1462
+#: src/arch/unix/uisettings.c:1468
 msgid "Load settings"
 msgstr "Einstellungen Laden"
 
-#: src/arch/unix/uisettings.c:1464
+#: src/arch/unix/uisettings.c:1470
 msgid "Restore default settings"
 msgstr "Wiederherstellen Standard Einstellungen"
 
-#: src/arch/unix/uisettings.c:1466
+#: src/arch/unix/uisettings.c:1472
 msgid "*Save settings on exit"
 msgstr "*Einstellungen beim Beenden speichern"
 
@@ -1613,6 +1620,10 @@ msgstr "PET Modell Einstellungen"
 #: src/arch/unix/petui.c:407
 msgid "*PET userport diagnostic pin"
 msgstr "*PET Userport Diagnose Pin"
+
+#: src/arch/unix/petui.c:410
+msgid "Screen color"
+msgstr "Bildschirmfarbe"
 
 #: src/arch/unix/joystick.c:81
 msgid "Set device for joystick port 1"
@@ -1937,12 +1948,12 @@ msgstr "4KB Modul Image bei $B000..."
 msgid "Detach cartridge image(s)"
 msgstr "Erweiterungsmodul Image(s) entfernen"
 
-#: src/arch/unix/archdep.c:226
+#: src/arch/unix/archdep.c:227
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr "Received signal %d (%s)."
 
-#: src/arch/unix/archdep.c:229
+#: src/arch/unix/archdep.c:230
 #, c-format
 msgid "Received signal %d."
 msgstr "Received signal %d."

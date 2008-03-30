@@ -128,7 +128,7 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-palettes =  	amber.vpl 	default.vpl 	white.vpl
+palettes =  	amber.vpl 	green.vpl 	white.vpl
 
 
 roms =  	basic1 	basic2 	basic4 	kernal1 	kernal2 	kernal4 	edit1g 	edit2g 	edit2b 	edit4g40 	edit4b40 	edit4b80 	chargen 	chargen.de
