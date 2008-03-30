@@ -8,13 +8,89 @@ list of all the changes in the code.
 * Changes in VICE 1.12
 ======================
 
+** General
+----------
+
+- Added -autoload switch which acts like -autostart but without
+  actually starting the program.
+
+- It is possible to use the printer emulation without switching off
+  true drive emulation now.
+
+** C64 changes
+--------------
+
+- Mouse emulation should work again.
+
+- Improved trap emulation compatibility.
+
+** C128 changes
+---------------
+
+- Fixed some VDC crashs.
+
+- Added support for national firmware and keyboard mappings.
+
+- Implemented fast IEC bus.
+
+** PLUS4 changes
+----------------
+
+- New emulator.  Currently it contains many bugs and several features
+  are missing.  Do not send any bug reports for now.
+
+** VIC-II
+---------
+
+- Fixed some raster interrupt emulation bugs.
+
+- Some minor NTSC fixes.
+
+- Reset should properly reset the VIC-II now.
+
+** SID changes
+--------------
+
+- The ReSID state is saved in snapshots now.
+
+** Drive changes
+-----------------
+
+- Improved GCR sync detection.
+
+- Added some more jobcodes to the 1581 emulation.
+
+- RAM mirrors are properly emulated now.
+
 ** Unix changes
 ---------------
 
+- Added Catweasel MKIII SID support.
+
 - The Gnome popup dialogs now have titles again. This now can be used
   to hook up WM actions.
-- Key events are passed to a focused Vice window even when the mouse is not
-  inside the emulator window.
+
+- Key events are passed to a focused Vice window even when the mouse
+  is not inside the emulator window.
+
+** MS-Windows changes
+---------------------
+
+- Added Catweasel MKIII SID support.
+
+- Next try to fix synchronization on very fast machines.
+
+** Miscellaneous changes
+------------------------
+
+- Each file system drive has a separate error channel now.
+
+- Added a command to the monitor to put a string into the keyboard
+  buffer.
+
+- The PC of the drive CPU emulation is correctly shown in the monitor
+  prompt now.
+
 
 * Changes in VICE 1.11
 ======================
