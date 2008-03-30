@@ -5,13 +5,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2000-11-26 15:38+0100\n"
-"PO-Revision-Date: 2000-07-16 13:41+02:00\n"
+"POT-Creation-Date: 2000-12-02 18:44+0100\n"
+"PO-Revision-Date: 2000-12-01 21:31+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/print.c:78 src/print.c:80 src/print.c:82
+msgid "Specify name of printer device or dump file"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
 
 #: src/arch/unix/uicommands.c:96
 #, c-format
@@ -571,29 +575,26 @@ msgstr "Speicher Einstellungen"
 
 #: src/arch/unix/c128ui.c:472 src/arch/unix/c610ui.c:490
 #: src/arch/unix/c64ui.c:604 src/arch/unix/petui.c:517
-#: src/arch/unix/vic20ui.c:466
-#, fuzzy
+#: src/arch/unix/vic20ui.c:466 src/arch/unix/vsidui.c:245
 msgid "File"
-msgstr "*Flexibel"
+msgstr "Datei"
 
 #: src/arch/unix/c128ui.c:486 src/arch/unix/c610ui.c:507
 #: src/arch/unix/c64ui.c:623 src/arch/unix/petui.c:534
 #: src/arch/unix/vic20ui.c:485
-#, fuzzy
 msgid "Snapshot"
-msgstr "Snapshot Speichern"
+msgstr "Snapshot"
 
 #: src/arch/unix/c128ui.c:492 src/arch/unix/c610ui.c:513
 #: src/arch/unix/c64ui.c:629 src/arch/unix/petui.c:540
 #: src/arch/unix/vic20ui.c:491
-#, fuzzy
 msgid "Options"
-msgstr "Disk Optionen"
+msgstr "Optionen"
 
 #: src/arch/unix/c128ui.c:510 src/arch/unix/c610ui.c:525
 #: src/arch/unix/c64ui.c:647 src/arch/unix/petui.c:552
-#: src/arch/unix/vic20ui.c:501 src/arch/unix/x11/gnome/ui.c:1105
-#: src/arch/unix/x11/gnome/ui.c:1197
+#: src/arch/unix/vic20ui.c:501 src/arch/unix/vsidui.c:258
+#: src/arch/unix/x11/gnome/ui.c:1105 src/arch/unix/x11/gnome/ui.c:1197
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -602,9 +603,8 @@ msgstr "Einstellungen"
 #: src/arch/unix/c128ui.c:524 src/arch/unix/c610ui.c:541
 #: src/arch/unix/c64ui.c:661 src/arch/unix/petui.c:568
 #: src/arch/unix/vic20ui.c:517
-#, fuzzy
 msgid "RJHelp"
-msgstr "Hilfe"
+msgstr "RJHilfe"
 
 #: src/arch/unix/c610ui.c:51
 msgid "*Default (Green)"
@@ -2125,7 +2125,7 @@ msgstr "Verzeichnis"
 
 #: src/arch/unix/x11/gnome/ui.c:2512
 msgid "Attach write protected"
-msgstr ""
+msgstr "Attach schreibgeschützt"
 
 #: src/arch/unix/x11/gnome/ui.c:2538
 msgid "Autostart"
@@ -2533,9 +2533,6 @@ msgstr "Performance wird nicht optimal sein."
 #: src/arch/unix/x11/xaw/x11video.c:186
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
-
-#~ msgid "Specify name of printer dump file (print.dump)"
-#~ msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
 
 #~ msgid "Specify command for printer 1 (|petlp |lpr)"
 #~ msgstr "Command für Drucker 1 definieren (|petlp |lpr)"

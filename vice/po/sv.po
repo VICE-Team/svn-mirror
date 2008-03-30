@@ -5,13 +5,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2000-11-26 15:38+0100\n"
+"POT-Creation-Date: 2000-12-02 18:44+0100\n"
 "PO-Revision-Date: 2000-08-13 23:39+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: svenska <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/print.c:78 src/print.c:80 src/print.c:82
+#, fuzzy
+msgid "Specify name of printer device or dump file"
+msgstr "Ange fil för utskriftsdump (print.dump)"
 
 #: src/arch/unix/uicommands.c:96
 #, c-format
@@ -575,7 +580,7 @@ msgstr "Minnesinställningar"
 
 #: src/arch/unix/c128ui.c:472 src/arch/unix/c610ui.c:490
 #: src/arch/unix/c64ui.c:604 src/arch/unix/petui.c:517
-#: src/arch/unix/vic20ui.c:466
+#: src/arch/unix/vic20ui.c:466 src/arch/unix/vsidui.c:245
 #, fuzzy
 msgid "File"
 msgstr "*Flexibel"
@@ -596,8 +601,8 @@ msgstr "Alternativ för diskett"
 
 #: src/arch/unix/c128ui.c:510 src/arch/unix/c610ui.c:525
 #: src/arch/unix/c64ui.c:647 src/arch/unix/petui.c:552
-#: src/arch/unix/vic20ui.c:501 src/arch/unix/x11/gnome/ui.c:1105
-#: src/arch/unix/x11/gnome/ui.c:1197
+#: src/arch/unix/vic20ui.c:501 src/arch/unix/vsidui.c:258
+#: src/arch/unix/x11/gnome/ui.c:1105 src/arch/unix/x11/gnome/ui.c:1197
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -2554,9 +2559,6 @@ msgstr "Prestanda kommer att bli dålig."
 #: src/arch/unix/x11/xaw/x11video.c:186
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
-
-#~ msgid "Specify name of printer dump file (print.dump)"
-#~ msgstr "Ange fil för utskriftsdump (print.dump)"
 
 #~ msgid "Specify command for printer 1 (|petlp |lpr)"
 #~ msgstr "Ange kommando för skrivare 1 (|petlp |lpr)"
