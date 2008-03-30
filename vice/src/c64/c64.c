@@ -298,13 +298,11 @@ int machine_init(void)
     if (mem_load() < 0)
         return -1;
 
-    if (vsid_mode)
-    {
+    if (vsid_mode) {
         psid_init_driver();
     }
 
-    if (!vsid_mode)
-    {
+    if (!vsid_mode) {
         /* Setup trap handling.  */
         traps_init();
 
@@ -351,8 +349,7 @@ int machine_init(void)
     cia1_init();
     cia2_init();
 
-    if (!vsid_mode)
-    {
+    if (!vsid_mode) {
         tpi_init();
 
 #ifdef HAVE_RS232
@@ -414,8 +411,7 @@ void machine_specific_reset(void)
     cia2_reset();
     sid_reset();
 
-    if (!vsid_mode)
-    {
+    if (!vsid_mode) {
         tpi_reset();
 
 #ifdef HAVE_RS232
@@ -481,7 +477,7 @@ void machine_shutdown(void)
 
 void machine_handle_pending_alarms(int num_write_cycles)
 {
-     vic_ii_handle_pending_alarms(num_write_cycles);
+    vic_ii_handle_pending_alarms_external(num_write_cycles);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -681,12 +677,12 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
 
 void machine_video_refresh(void)
 {
-     vic_ii_video_refresh();
+    vic_ii_video_refresh();
 }
 
 void machine_update_memory_ptrs(void)
 {
-     vic_ii_update_memory_ptrs_external();
+    vic_ii_update_memory_ptrs_external();
 }
 
 int machine_sid2_check_range(unsigned int sid2_adr)

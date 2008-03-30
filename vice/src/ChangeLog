@@ -1,3 +1,23 @@
+2002-04-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.3.
+
+	* c64/cart/c64cartmem.c, c64/cart/c64cartmem.h
+	(cartridge_config_changed): Added write mode flag.
+
+	* c64/cart/actionreplay.c, c64/cart/atomicpower.c,
+	c64/cart/epyxfastload.c, c64/cart/expert.c, c64/cart/final.c,
+	c64/cart/generic.c, c64/cart/kcs.c, c64/cart/retroreplay.c,
+	c64/cart/supergames.c, c64/cart/supersnapshot.c,
+	c64/cart/zaxxon.c: Use `cartridge_config_changed()' with write
+	mode flag.
+
+	* vicii/vicii.c, vicii/vicii.h
+	(vic_ii_handle_pending_alarms_external): New function.
+
+	* c64/c64.c, c64/c64cia1.c, c64/c64cia2.c, c128/c128cia1.c,
+	c128/c128mmu.c: Use `vic_ii_handle_pending_alarms_external()'.
+
 2002-04-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.2.
