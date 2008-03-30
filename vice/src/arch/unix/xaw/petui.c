@@ -272,7 +272,27 @@ static ui_menu_entry_t model_defaults_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(SuperPET)
 
-extern ui_menu_entry_t pet_rs232_submenu[];
+static ui_menu_entry_t pet_rs232_submenu[] = {
+    { "ACIA device",
+      NULL, NULL, acia1_device_submenu },
+    { "--" },
+    { "Serial 1 device...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice1", NULL },
+    { "Serial 1 baudrate",
+      NULL, NULL, ser1_baud_submenu },
+    { "--" },
+    { "Serial 2 device...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice2", NULL },
+    { "Serial 2 baudrate",
+      NULL, NULL, ser2_baud_submenu },
+    { "--" },
+    { "Dump filename...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice3", NULL },
+    { "--" },
+    { "Program name to exec...", (ui_callback_t) set_rs232_exec_file,
+      (ui_callback_data_t) "RsDevice4", NULL },
+    { NULL }
+};
 
 static ui_menu_entry_t model_settings_submenu[] = {
     { "Model defaults",

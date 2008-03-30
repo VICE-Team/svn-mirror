@@ -797,8 +797,8 @@ fi
 
 
 if test "$ac_cv_install_resid" = no; then
-  exec_prefix=$srcdir/tmp
-  includedir=$srcdir/tmp/include
+  exec_prefix="\$(top_builddir)/tmp"
+  includedir="\$(top_builddir)/tmp/include"
 fi
 
 for ac_prog in $CCC c++ g++ gcc CC cxx cc++

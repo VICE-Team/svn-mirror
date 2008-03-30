@@ -346,7 +346,7 @@ static ui_menu_entry_t keyboard_settings_submenu[] = {
 
 UI_MENU_DEFINE_RADIO(RsUserDev)
 
-static ui_menu_entry_t rsuser_device_submenu[] = {
+ui_menu_entry_t rsuser_device_submenu[] = {
     { "*Serial 1",
       (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 0, NULL },
     { "*Serial 2",
@@ -360,7 +360,7 @@ static ui_menu_entry_t rsuser_device_submenu[] = {
 
 UI_MENU_DEFINE_RADIO(Acia1Dev)
 
-static ui_menu_entry_t acia1_device_submenu[] = {
+ui_menu_entry_t acia1_device_submenu[] = {
     { "*Serial 1",
       (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 0, NULL },
     { "*Serial 2",
@@ -390,7 +390,7 @@ static ui_menu_entry_t acia2_device_submenu[] = {
 
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 
-static ui_menu_entry_t ser1_baud_submenu[] = {
+ui_menu_entry_t ser1_baud_submenu[] = {
   { "*300",
       (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)   300, NULL },
   { "*1200",
@@ -406,7 +406,7 @@ static ui_menu_entry_t ser1_baud_submenu[] = {
 
 UI_MENU_DEFINE_RADIO(RsDevice2Baud)
 
-static ui_menu_entry_t ser2_baud_submenu[] = {
+ui_menu_entry_t ser2_baud_submenu[] = {
   { "*300",
       (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)   300, NULL },
   { "*1200",
@@ -420,7 +420,7 @@ static ui_menu_entry_t ser2_baud_submenu[] = {
   { NULL }
 };
 
-static UI_CALLBACK(set_rs232_device_file)
+UI_CALLBACK(set_rs232_device_file)
 {
     char *resource = (char*) client_data;
     char *filename;
@@ -440,7 +440,7 @@ static UI_CALLBACK(set_rs232_device_file)
     }
 }
 
-static UI_CALLBACK(set_rs232_exec_file)
+UI_CALLBACK(set_rs232_exec_file)
 {
     char *resname = (char*) client_data;
     char title[1024];
@@ -503,29 +503,6 @@ ui_menu_entry_t rs232_submenu[] = {
       (ui_callback_data_t) "RsDevice4", NULL },
     { NULL }
 };
-
-ui_menu_entry_t pet_rs232_submenu[] = {
-    { "ACIA device",
-      NULL, NULL, acia1_device_submenu },
-    { "--" },
-    { "Serial 1 device...", (ui_callback_t) set_rs232_device_file,
-      (ui_callback_data_t) "RsDevice1", NULL },
-    { "Serial 1 baudrate",
-      NULL, NULL, ser1_baud_submenu },
-    { "--" },
-    { "Serial 2 device...", (ui_callback_t) set_rs232_device_file,
-      (ui_callback_data_t) "RsDevice2", NULL },
-    { "Serial 2 baudrate",
-      NULL, NULL, ser2_baud_submenu },
-    { "--" },
-    { "Dump filename...", (ui_callback_t) set_rs232_device_file,
-      (ui_callback_data_t) "RsDevice3", NULL },
-    { "--" },
-    { "Program name to exec...", (ui_callback_t) set_rs232_exec_file,
-      (ui_callback_data_t) "RsDevice4", NULL },
-    { NULL }
-};
-
 
 /* ------------------------------------------------------------------------- */
 

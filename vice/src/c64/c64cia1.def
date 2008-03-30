@@ -96,7 +96,7 @@ STORE_SDR()
 {
 #ifdef HAVE_RS232
     if (rsuser_enabled) {
-	userport_serial_write_sr(cia1[CIA_SDR]);
+	rsuser_tx_byte(cia1[CIA_SDR]);
     }
 #endif
 }

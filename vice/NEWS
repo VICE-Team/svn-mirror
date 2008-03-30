@@ -21,6 +21,17 @@ list of all the changes in the code.
 
 - Dag Lem's enhanched reSID engine is now part of VICE.
 
+** Unix changes
+---------------
+
+- The "Custom" joystick mapping is now compatible with the German
+  keyboard layout, and possibly other non-US layouts.
+
+** Miscellaneous changes
+------------------------
+
+- It is now possible to save the emulator's state into a file, and
+  load it back at any time.
 
 * Changes in VICE 0.15.0
 ========================

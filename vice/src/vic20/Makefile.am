@@ -1,3 +1,9 @@
+if HAVE_RS232
+rs232_libadd = vic20rsuser.o
+else
+rs232_libadd = 
+endif
+
 SUFFIXES = .def
 
 INCLUDES = \
@@ -24,9 +30,12 @@ libvic20_a_SOURCES = \
 	vic20via1.c \
 	vic20via1.def \
 	vic20via2.c \
-	vic20via2.def
+	vic20via2.def \
+	vic20rsuser.c
 
 BUILT_SOURCES = vic20via1.c vic20via2.c
+
+libvic20_a_LIBADD = $(rs232_libadd)
 
 vic20dir = $(top_srcdir)/src/vic20
 

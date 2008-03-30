@@ -40,4 +40,11 @@ extern ui_menu_entry_t ui_peripheral_settings_menu[];
 extern ui_menu_entry_t ui_settings_settings_menu[];
 extern ui_menu_entry_t rs232_submenu[];
 
+extern ui_menu_entry_t ser1_baud_submenu[];
+extern ui_menu_entry_t ser2_baud_submenu[];
+extern ui_menu_entry_t rsuser_device_submenu[];
+extern ui_menu_entry_t acia1_device_submenu[];
+extern UI_CALLBACK(set_rs232_device_file);
+extern UI_CALLBACK(set_rs232_exec_file);
+
 #endif

@@ -49,6 +49,9 @@ INCLUDES()
 #ifdef HAVE_PRINTER
 #include "pruser.h"
 #endif
+#ifdef HAVE_RS232
+#include "rsuser.h"
+#endif
 }
 
 
@@ -75,6 +78,9 @@ STORE_PRB()
 #ifdef HAVE_PRINTER
     userport_printer_write_data(byte);
 #endif
+#ifdef HAVE_RS232
+    rsuser_write_ctrl(byte);
+#endif
 }
 
 UNDUMP_PRB()
@@ -94,6 +100,11 @@ STORE_PCR()
 	if ((tmp & 0xc0) != 0xc0)
 	    tmp |= 0x20;
 	/* switching userport strobe with CB2 */
+#ifdef HAVE_RS232
+	if(rsuser_enabled) {
+	    rsuser_set_tx_bit(byte & 0x20);
+	}
+#endif
 #ifdef HAVE_PRINTER
 	userport_printer_write_strobe(byte & 0x20);
 #endif
@@ -111,6 +122,10 @@ RESET_VIA()
 #ifdef HAVE_PRINTER
     userport_printer_write_data(0xff);
     userport_printer_write_strobe(1);
+#endif
+#ifdef HAVE_RS232
+    rsuser_write_ctrl(0xff);
+    rsuser_set_tx_bit(1);
 #endif
 }
 
@@ -163,7 +178,11 @@ READ_PRA()
 
 READ_PRB()
 {
+#ifdef HAVE_RS232
+    byte = rsuser_read_ctrl();
+#else
     byte = 0xff;
+#endif
 }
 
 POST_VIA_FUNCS()

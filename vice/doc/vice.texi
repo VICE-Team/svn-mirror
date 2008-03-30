@@ -932,8 +932,8 @@ The @dfn{numpad} layout uses the numeric keypad keys, i.e. the numbers
 @key{1}@dots{}@key{9} which emulate all the directions including the
 diagonal ones; @key{0} emulates the fire button.
 
-The @dfn{custom} layout uses the keys @key{q}, @key{w}, @key{e},
-@key{a}, @key{s}, @key{d}, @key{z}, @key{x}, @key{c} for the directions
+The @dfn{custom} layout uses the keys @key{w}, @key{e}, @key{r},
+@key{s}, @key{d}, @key{f}, @key{x}, @key{c}, @key{v} for the directions
 and @key{space} for the fire button instead.
 
 

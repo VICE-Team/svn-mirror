@@ -21,8 +21,8 @@ AC_SUBST(RESID_INLINE)
 
 dnl Hack to allow "disabling" installation of reSID by setting cache variable.
 if test "$ac_cv_install_resid" = no; then
-  exec_prefix=$srcdir/tmp
-  includedir=$srcdir/tmp/include
+  exec_prefix="\$(top_builddir)/tmp"
+  includedir="\$(top_builddir)/tmp/include"
 fi
 
 dnl Checks for programs.

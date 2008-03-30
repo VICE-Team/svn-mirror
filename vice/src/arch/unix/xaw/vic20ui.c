@@ -273,6 +273,42 @@ static ui_menu_entry_t joystick_settings_menu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(RsUser)
+
+static ui_menu_entry_t vic20_rs232_submenu[] = {
+    { "*No Userport RS232 emulation",
+      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 0, NULL },
+    { "*Userport 300 baud RS232 emulation",
+      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 300, NULL },
+    { "*Userport 1200 baud RS232 emulation",
+      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 1200, NULL },
+    { "Userport RS232 device",
+      NULL, NULL, rsuser_device_submenu },
+    { "--" },
+    { "Serial 1 device...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice1", NULL },
+    { "Serial 1 baudrate",
+      NULL, NULL, ser1_baud_submenu },
+    { "--" },
+    { "Serial 2 device...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice2", NULL },
+    { "Serial 2 baudrate",
+      NULL, NULL, ser2_baud_submenu },
+    { "--" },
+    { "Dump filename...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice3", NULL },
+    { "--" },
+    { "Program name to exec...", (ui_callback_t) set_rs232_exec_file,
+      (ui_callback_data_t) "RsDevice4", NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t rs232_settings_menu[] = {
+    { "RS232 settings",
+      NULL, NULL, vic20_rs232_submenu },
+    { NULL }
+};
+
 int vic20_ui_init(void)
 {
 #ifdef XPM
@@ -315,6 +351,7 @@ int vic20_ui_init(void)
                                      ui_drive_settings_menu,
                                      ui_peripheral_settings_menu,
                                      joystick_settings_menu,
+                                     rs232_settings_menu,
                                      ui_menu_separator,
                                      memory_settings_menu,
                                      ui_menu_separator,

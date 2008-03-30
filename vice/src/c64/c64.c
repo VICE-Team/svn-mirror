@@ -250,7 +250,7 @@ int machine_init(void)
 #ifdef HAVE_RS232
     /* Initialize RS232 handler.  */
     rs232_init();
-    rsuser_init();
+    c64_rsuser_init();
 #endif
 
 #ifdef HAVE_PRINTER

@@ -69,6 +69,8 @@ lib_LIBRARIES = libresid.a
 
 libresid_a_SOURCES = sid.cc voice.cc wave.cc envelope.cc filter.cc pot.cc version.cc $(noinst_DATA:.dat=.cc)
 
+BUILT_SOURCES = $(noinst_DATA:.dat=.cc)
+
 pkginclude_HEADERS = siddefs.h sid.h voice.h wave.h envelope.h filter.h pot.h
 
 noinst_DATA = wave6581_PST.dat wave6581_PS_.dat wave6581_P_T.dat wave6581__ST.dat wave8580_PST.dat wave8580_PS_.dat wave8580_P_T.dat wave8580__ST.dat
@@ -141,6 +143,8 @@ clean-libLIBRARIES:
 	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
 
 distclean-libLIBRARIES:
+
+maintainer-clean-libLIBRARIES:
 
 install-libLIBRARIES: $(lib_LIBRARIES)
 	@$(NORMAL_INSTALL)
@@ -273,7 +277,6 @@ distdir: $(DISTFILES)
 	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	  || cp -p $$d/$$file $(distdir)/$$file; \
 	done
-
 info:
 dvi:
 check: all
@@ -339,10 +342,7 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 .dat.cc:
-	$(PERL) ./samp2src.pl $* $< $@
-
-maintainer-clean-libLIBRARIES:
-	rm -f $(noinst_DATA:.dat=.cc)
+	$(PERL) $(srcdir)/samp2src.pl $* $< $(srcdir)/$@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

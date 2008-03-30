@@ -1,10 +1,18 @@
 
 READLINE = @READLINE@
 
+if HAVE_RS232
 if HAVE_PRINTER
-printer_ldadd = pruser.o prdevice.o
+rs232_printer_ldadd = pruser.o prdevice.o rsuser.o
 else
-printer_ldadd =
+rs232_printer_ldadd = rsuser.o
+endif
+else
+if HAVE_PRINTER
+rs232_printer_ldadd = pruser.o prdevice.o
+else
+rs232_printer_ldadd =
+endif
 endif
 
 ARCH_LIBS = @ARCH_LIBS@
@@ -121,6 +129,10 @@ printer_sources = \
 	pruser.c \
 	pruser.h
 
+rs232_sources = \
+	rsuser.c \
+	rsuser.h
+
 EXTRA_DIST = \
 	6510core.c \
 	ChangeLog \
@@ -132,7 +144,8 @@ EXTRA_DIST = \
 	raster.c \
 	tpi-tmpl.c \
 	via-tmpl.c \
-	$(printer_sources)
+	$(printer_sources) \
+	$(rs232_sources)
 
 BUILT_SOURCES = mon_parse.h mon_parse.c
 
@@ -149,39 +162,39 @@ bin_PROGRAMS = x64 x128 xvic xpet c1541 petcat
 
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
-x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(printer_ldadd) \
+x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-        @X_LIBS@ $(READLINE) -lm
+        @X_LIBS@ $(READLINE)
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) \
-	$(printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x64-all
 x64-all: libc64 libsounddrv libdrive libarch x64
 
 # x128
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(drive_lib) \
-	$(printer_ldadd) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
-	@SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
+	$(rs232_printer_ldadd) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
+	@SOUND_LIBS@ @X_LIBS@ $(READLINE)
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
-	$(printer_ldadd) $(drive_lib) @ALLOCA@ @LIBOBJS@ \
+	$(rs232_printer_ldadd) $(drive_lib) @ALLOCA@ @LIBOBJS@ \
 	@ARCH_LIBS@
 .PHONY: x128-all
 x128-all: libc128 libc64c128 libsounddrv libdrive libarch x128
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
-xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(drive_lib) $(printer_ldadd) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
+xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE)
 xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(drive_lib) \
-	$(printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: xvic-all
 xvic-all: libvic20 libsounddrv libdrive libarch xvic
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(pet_lib) $(sounddrv_lib) $(printer_ldadd) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
-xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) $(printer_ldadd) \
+xpet_LDADD = $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE)
+xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: xpet-all
 xpet-all: libpet libsounddrv libarch xpet

@@ -56,6 +56,11 @@
 #include "pruser.h"
 #endif
 
+#ifdef HAVE_RS232
+#include "rs232.h"
+#include "rsuser.h"
+#endif
+
 static void vsync_hook(void);
 
 const char machine_name[] = "VIC20";
@@ -151,6 +156,10 @@ int machine_init_resources(void)
         || vic20_mem_init_resources() < 0
         || vic_init_resources() < 0
         || sound_init_resources() < 0
+#ifdef HAVE_RS232
+        || rs232_init_resources() < 0
+        || rsuser_init_resources() < 0
+#endif
 #ifdef HAVE_PRINTER
         || print_init_resources() < 0
         || prdevice_init_resources() < 0
@@ -173,6 +182,10 @@ int machine_init_cmdline_options(void)
         || vic20_mem_init_cmdline_options() < 0
         || vic_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
+#ifdef HAVE_RS232
+        || rs232_init_cmdline_options() < 0
+        || rsuser_init_cmdline_options() < 0
+#endif
 #ifdef HAVE_PRINTER
         || print_init_cmdline_options() < 0
         || prdevice_init_cmdline_options() < 0
@@ -206,6 +219,12 @@ int machine_init(void)
     file_system_set_hooks(8, drive_attach_floppy, drive_detach_floppy);
     file_system_set_hooks(9, drive_attach_floppy, drive_detach_floppy);
     file_system_init();
+
+#ifdef HAVE_RS232
+    /* Initialize RS232 handler.  */
+    rs232_init();
+    vic20_rsuser_init();
+#endif
 
 #ifdef HAVE_PRINTER
     /* initialize print devices */
@@ -263,7 +282,9 @@ void machine_reset(void)
     maincpu_int_status.alarm_handler[A_VIA1T2] = int_via1t2;
     maincpu_int_status.alarm_handler[A_VIA2T1] = int_via2t1;
     maincpu_int_status.alarm_handler[A_VIA2T2] = int_via2t2;
-
+#ifdef HAVE_RS232
+    maincpu_int_status.alarm_handler[A_RSUSER] = int_rsuser;
+#endif
     maincpu_set_alarm_clk(A_RASTERDRAW, VIC20_PAL_CYCLES_PER_LINE);
 
     reset_via1();
@@ -272,6 +293,11 @@ void machine_reset(void)
     drive_reset();
 
     sound_reset();
+
+#ifdef HAVE_RS232
+    rs232_reset();
+    rsuser_reset();
+#endif
 
 #ifdef HAVE_PRINTER
     print_reset();
@@ -307,6 +333,9 @@ static void vsync_hook(void)
     sub = maincpu_prevent_clk_overflow(VIC20_PAL_CYCLES_PER_RFSH);
     if (sub > 0) {
 	vic_prevent_clk_overflow(sub);
+#ifdef HAVE_RS232
+        rsuser_prevent_clk_overflow(sub);
+#endif
 	via1_prevent_clk_overflow(sub);
 	via2_prevent_clk_overflow(sub);
 	sound_prevent_clk_overflow(sub);
