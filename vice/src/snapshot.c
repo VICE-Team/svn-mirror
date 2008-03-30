@@ -50,7 +50,7 @@ char snapshot_magic_string[] = "VICE Snapshot File\032";
 
 #define SNAPSHOT_MAGIC_LEN              19
 
-struct snapshot_module {
+struct snapshot_module_s {
     /* File descriptor.  */
     FILE *file;
 
@@ -67,7 +67,7 @@ struct snapshot_module {
     long size_offset;
 };
 
-struct snapshot {
+struct snapshot_s {
     /* File descriptor.  */
     FILE *file;
 

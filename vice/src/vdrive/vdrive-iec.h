@@ -27,8 +27,9 @@
 #ifndef _VDRIVEIEC_H
 #define _VDRIVEIEC_H
 
-#include "vdrive.h"
 #include "types.h"
+
+struct bufferinfo_s;
 
 extern void vdrive_iec_init(void);
 
@@ -41,7 +42,7 @@ extern int vdrive_write(void *vdrive, BYTE data, unsigned int secondary);
 extern void vdrive_flush(void *vdrive, unsigned int secondary);
 
 /* Low level access to IEC interface.  */
-extern void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
+extern void vdrive_open_create_dir_slot(struct bufferinfo_s *p, char *realname,
                                         int reallength, int filetype);
 extern int vdrive_iec_attach(unsigned int unit, const char *name);
 

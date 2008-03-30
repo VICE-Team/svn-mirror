@@ -29,7 +29,6 @@
 #define _VDRIVE_DIR_H
 
 #include "types.h"
-#include "vdrive.h"
 
 #define SLOT_TYPE_OFFSET      2
 #define SLOT_FIRST_TRACK      3
@@ -39,15 +38,19 @@
 #define SLOT_SIDE_SECTOR      22
 #define SLOT_NR_BLOCKS        30
 
+struct vdrive_s;
+
 extern void vdrive_dir_init(void);
-extern int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
+extern int vdrive_dir_create_directory(struct vdrive_s *vdrive,
+                                       const char *name,
                                        int length, int filetype,
                                        BYTE *outputptr);
-extern void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
+extern void vdrive_dir_find_first_slot(struct vdrive_s *vdrive,
+                                       const char *name,
                                        unsigned int length, unsigned int type);
-extern BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive);
+extern BYTE *vdrive_dir_find_next_slot(struct vdrive_s *vdrive);
 extern void vdrive_dir_no_a0_pads(BYTE *ptr, int l);
-extern void vdrive_dir_remove_slot(vdrive_t *vdrive, BYTE *slot);
+extern void vdrive_dir_remove_slot(struct vdrive_s *vdrive, BYTE *slot);
 
 #endif
 

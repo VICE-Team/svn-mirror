@@ -28,7 +28,6 @@
 #define _VDRIVE_COMMAND_H
 
 #include "types.h"
-#include "vdrive.h"
 
 /* Input Processor Error Codes.  */
 #define IPE_OK                          0
@@ -62,14 +61,17 @@
 #define IPE_NOT_EMPTY                   80      /* dir to remove not empty */
 #define IPE_PERMISSION                  81      /* permission denied */
 
+struct vdrive_s;
+
 extern void vdrive_command_init(void);
-extern int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf,
+extern int vdrive_command_execute(struct vdrive_s *vdrive, BYTE *buf,
                                   unsigned int length);
-extern int vdrive_command_format(vdrive_t *vdrive, const char *disk_name);
-extern int vdrive_command_validate(vdrive_t *vdrive);
-extern void vdrive_command_set_error(vdrive_t *vdrive, int code,
+extern int vdrive_command_format(struct vdrive_s *vdrive,
+                                 const char *disk_name);
+extern int vdrive_command_validate(struct vdrive_s *vdrive);
+extern void vdrive_command_set_error(struct vdrive_s *vdrive, int code,
                                      unsigned int track, unsigned int sector);
-extern int vdrive_command_memory_read(vdrive_t *vdrive, ADDRESS addr,
+extern int vdrive_command_memory_read(struct vdrive_s *vdrive, ADDRESS addr,
                                       unsigned int length);
 
 #endif

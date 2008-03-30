@@ -27,7 +27,6 @@
 #ifndef _VDRIVE_H
 #define _VDRIVE_H
 
-#include "diskimage.h"
 #include "types.h"
 
 /* High level disk formats.  They can be different than the disk image type.  */
@@ -157,10 +156,11 @@ typedef struct bufferinfo_s {
     unsigned int length;   /* Directory-read length */
 } bufferinfo_t;
 
+struct disk_image_s;
 
 /* Run-time data struct for each drive. */
-typedef struct {
-    disk_image_t *image;
+typedef struct vdrive_s {
+    struct disk_image_s *image;
 
     /* Current image file */
     unsigned int mode;         /* Read/Write */
@@ -242,9 +242,9 @@ typedef struct errortext_s {
 
 extern void vdrive_init(void);
 extern int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit);
-extern int vdrive_attach_image(disk_image_t *image, unsigned int unit,
+extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit,
                                vdrive_t *vdrive);
-extern void vdrive_detach_image(disk_image_t *image, unsigned int unit,
+extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit,
                                 vdrive_t *vdrive);
 extern int vdrive_calc_num_blocks(int format, int tracks);
 extern int vdrive_parse_name(const char *name, unsigned int length,

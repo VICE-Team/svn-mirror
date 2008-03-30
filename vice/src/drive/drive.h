@@ -29,8 +29,6 @@
 #ifndef _DRIVE_H
 #define _DRIVE_H
 
-#include "diskimage.h"
-#include "gcr.h"
 #include "log.h"
 #include "types.h"
 
@@ -168,6 +166,10 @@ struct _rotation_table {
     unsigned long accum;
 };
 
+struct gcr_s;
+
+struct disk_image_s;
+
 typedef struct drive_s {
 
     int led_status;
@@ -276,10 +278,10 @@ typedef struct drive_s {
     log_t log;
 
     /* Pointer to the attached disk image.  */
-    disk_image_t *image;
+    struct disk_image_s *image;
 
     /* Pointer to the gcr image.  */
-    gcr_t *gcr;
+    struct gcr_s *gcr;
 
     /* Pointer to 8KB RAM expansion.  */
     BYTE *drive_ram_expand2, *drive_ram_expand4, *drive_ram_expand6,
@@ -333,8 +335,8 @@ extern void drive1_mem_init(int type);
 extern void drive_move_head(int step, int dnr);
 extern void drive_rotate_disk(drive_t *dptr);
 extern void drive_reset(void);
-extern int drive_attach_image(disk_image_t *image, int unit);
-extern int drive_detach_image(disk_image_t *image, int unit);
+extern int drive_attach_image(struct disk_image_s *image, unsigned int unit);
+extern int drive_detach_image(struct disk_image_s *image, unsigned int unit);
 extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);
 extern BYTE drive_read_viad2_prb(drive_t *dptr);
 extern CLOCK drive_prevent_clk_overflow(CLOCK sub, int dnr);
@@ -343,7 +345,7 @@ extern void drive_set_1571_sync_factor(int new_sync, int dnr);
 extern void drive_set_1571_side(int side, int dnr);
 extern void drive_update_ui_status(void);
 extern void drive_cpu_execute(CLOCK clk_value);
-extern void drive_GCR_data_writeback(int dnr);
+extern void drive_gcr_data_writeback(unsigned int dnr);
 extern void drive_setup_rom_image(int dnr);
 extern void drive_initialize_rom_traps(int dnr);
 extern void drive_set_active_led_color(int type, int dnr);

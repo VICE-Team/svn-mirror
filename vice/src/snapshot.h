@@ -32,8 +32,8 @@
 #define SNAPSHOT_MACHINE_NAME_LEN       16
 #define SNAPSHOT_MODULE_NAME_LEN        16
 
-typedef struct snapshot_module snapshot_module_t;
-typedef struct snapshot snapshot_t;
+typedef struct snapshot_module_s snapshot_module_t;
+typedef struct snapshot_s snapshot_t;
 
 extern int snapshot_module_write_byte(snapshot_module_t *m, BYTE b);
 extern int snapshot_module_write_word(snapshot_module_t *m, WORD w);

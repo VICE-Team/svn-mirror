@@ -48,14 +48,14 @@ extern int console_close(console_t *log);
 
 /* the following must be called before any other 
   console_...() function is used */
-extern int console_init( void );
+extern int console_init(void);
 
 /* The following should be called when quitting VICE 
  after calling console_close_all(), the console_...()
  functions cannot be accessed unless console_init()
  is called again.
 */
-extern int console_close_all( void );
+extern int console_close_all(void);
 
 extern int console_out(console_t *log, const char *format, ...);
 extern char *console_in(console_t *log);

@@ -28,11 +28,11 @@
 #ifndef _DRIVE_SNAPSHOT_H
 #define _DRIVE_SNAPSHOT_H
 
-#include "snapshot.h"
+struct snapshot_s;
 
-extern int drive_write_snapshot_module(snapshot_t *s, int save_disks,
+extern int drive_write_snapshot_module(struct snapshot_s *s, int save_disks,
                                        int save_roms);
-extern int drive_read_snapshot_module(snapshot_t *s);
+extern int drive_read_snapshot_module(struct snapshot_s *s);
 
 #endif
 

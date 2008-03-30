@@ -30,7 +30,8 @@
 #define _VIC20IEC_H
 
 #include "types.h"
-#include "iecdrive.h"
+
+struct iec_info_s;
 
 extern BYTE iec_pa_read(void);
 extern void iec_pa_write(BYTE data);
@@ -40,7 +41,7 @@ extern void iec_pcr_write(BYTE data);
 extern void parallel_cable_cpu_write(BYTE data, int handshake);
 extern BYTE parallel_cable_cpu_read(void);
 
-extern iec_info_t *iec_get_drive_port(void);
+extern struct iec_info_s *iec_get_drive_port(void);
 
 #endif
 
