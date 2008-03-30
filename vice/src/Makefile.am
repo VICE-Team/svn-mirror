@@ -20,6 +20,7 @@ SUBDIRS = \
         vdc \
 	crtc \
 	screendrv \
+	printerdrv \
 	sid \
 	monitor \
 	c64 \
@@ -189,9 +190,11 @@ EXTRA_DIST = \
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
+crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
+printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
@@ -200,7 +203,6 @@ vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 vdc_lib = $(top_builddir)/src/vdc/libvdc.a
-crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
 common_libs = $(rs232_ldadd) @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
@@ -218,6 +220,7 @@ x64_libs =  \
 	$(sid_lib) \
 	$(sounddrv_lib) \
         $(screendrv_lib) \
+	$(printerdrv_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(monitor_lib) \
@@ -238,6 +241,7 @@ x64-all: \
 	libsid \
 	libsounddrv \
         libscreendrv \
+	libprinterdrv \
 	libvicii \
 	libarch \
 	libmonitor \
@@ -253,6 +257,7 @@ x128_libs =  \
 	$(sid_lib) \
 	$(sounddrv_lib) \
         $(screendrv_lib) \
+	$(printerdrv_lib) \
 	$(vicii_lib) \
 	$(vdc_lib) \
 	$(raster_lib) \
@@ -270,6 +275,7 @@ x128-all: \
 	libc64c128 \
 	libsounddrv \
         libscreendrv \
+	libprinterdrv \
 	libdrive \
 	libvdrive \
 	libarch \
@@ -289,6 +295,7 @@ xvic_libs =  \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
         $(screendrv_lib) \
+	$(printerdrv_lib) \
 	$(raster_lib) \
 	$(monitor_lib) \
 	$(common_libs)
@@ -305,6 +312,7 @@ xvic-all: \
 	libraster \
 	libsounddrv \
         libscreendrv \
+	libprinterdrv \
 	libvic20 \
 	libarch \
 	libmonitor \
@@ -318,6 +326,7 @@ xpet_libs =  \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
         $(screendrv_lib) \
+	$(printerdrv_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(monitor_lib) \
@@ -336,6 +345,7 @@ xpet-all: \
 	libcrtc \
 	libsounddrv \
         libscreendrv \
+	libprinterdrv \
 	libpet \
 	libarch \
 	libmonitor \
@@ -349,6 +359,7 @@ xcbm2_libs = \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
         $(screendrv_lib) \
+	$(printerdrv_lib) \
 	$(sid_lib) \
 	$(crtc_lib) \
 	$(vicii_lib) \
@@ -366,6 +377,7 @@ xcbm2-all: \
 	libcbm2 \
 	libsounddrv \
         libscreendrv \
+	libprinterdrv \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
