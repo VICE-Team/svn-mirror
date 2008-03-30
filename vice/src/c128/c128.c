@@ -50,6 +50,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mon.h"
+#include "parallel.h"
 #include "patchrom.h"
 #include "serial.h"
 #include "sid.h"
@@ -188,6 +189,7 @@ int machine_init_resources(void)
         || mouse_init_resources() < 0
 #endif
         || kbd_init_resources() < 0
+        || parallel_init_resources() < 0
         || drive_init_resources() < 0
         || mmu_init_resources() < 0)
         return -1;
@@ -220,6 +222,7 @@ int machine_init_cmdline_options(void)
         || mouse_init_cmdline_options() < 0
 #endif
         || kbd_init_cmdline_options() < 0
+        || parallel_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
         || mmu_init_cmdline_options() < 0)
         return -1;

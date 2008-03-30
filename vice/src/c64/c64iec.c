@@ -325,7 +325,11 @@ void parallel_cable_cpu_undump(BYTE data)
 
 int iec_available_busses(void) 
 {
-    return IEC_BUS_IEC | IEC_BUS_IEEE;
+    int pariec;
+
+    resources_get_value("IEEE488", (resource_value_t*) & pariec);
+
+    return IEC_BUS_IEC | (pariec ? IEC_BUS_IEEE : 0);
 }
 
 void iec_calculate_callback_index(void)

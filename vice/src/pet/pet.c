@@ -47,6 +47,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "parallel.h"
 #include "petmem.h"
 #include "pets.h"
 #include "petsound.h"
@@ -150,7 +151,8 @@ int machine_init_resources(void)
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
 #endif
-        || pet_kbd_init_resources() < 0)
+        || pet_kbd_init_resources() < 0
+        || parallel_init_resources() < 0)
         return -1;
 
     return 0;
@@ -181,7 +183,8 @@ int machine_init_cmdline_options(void)
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
 #endif
-        || pet_kbd_init_cmdline_options() < 0)
+        || pet_kbd_init_cmdline_options() < 0
+        || parallel_init_cmdline_options() < 0)
         return -1;
 
     return 0;

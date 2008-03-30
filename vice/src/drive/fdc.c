@@ -75,8 +75,9 @@ typedef struct fdc_t {
     BYTE 	*buffer;
     BYTE 	*iprom;
     int		drive_type;
-    int	last_track;
-    int	last_sector;
+    int		last_track;
+    int		last_sector;
+    int		last_wps;	/* save write protect switch */
     disk_image_t *image;
 } fdc_t;
 	
@@ -331,6 +332,7 @@ static int int_fdc(int fnum, long offset)
 {
     CLOCK rclk = drive_clk[fnum] - offset;
     int i, j;
+    int drv_wps;
 
 #ifdef FDC_DEBUG
     if (fdc[fnum].fdc_state < FDC_RUN) {
@@ -378,6 +380,20 @@ static int int_fdc(int fnum, long offset)
 	alarm_set(&fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
 	break;
     case FDC_RUN:
+	/* check write protect switch */
+	drv_wps = drive_read_viad2_prb(&drive[fnum]) & 0x10;
+	if (drv_wps != fdc[fnum].last_wps) {
+	    fdc[fnum].buffer[0xA6 + fnum] = 1;
+	    fdc[fnum].last_wps = drv_wps;
+	}
+	if (fnum == 0 && DRIVE_IS_DUAL(fdc[0].drive_type)) {
+	    drv_wps = drive_read_viad2_prb(&drive[1]) & 0x10;
+	    if (drv_wps != fdc[1].last_wps) {
+	        fdc[1].buffer[0xA6 + 1] = 1;
+	        fdc[1].last_wps = drv_wps;
+	    }
+	}
+
 	/* check buffers */
 	for (i=14; i >= 0; i--) {
 	    /* job there? */
