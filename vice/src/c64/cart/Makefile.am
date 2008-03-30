@@ -25,12 +25,12 @@ libc64cart_a_SOURCES = \
 	final.h \
 	generic.c \
 	generic.h \
+	ide64.c \
+	ide64.h \
 	kcs.c \
 	kcs.h \
 	retroreplay.c \
 	retroreplay.h \
-       ide64.c \
-       ide64.h \
 	supergames.c \
 	supergames.h \
 	supersnapshot.c \
