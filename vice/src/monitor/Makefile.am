@@ -18,13 +18,25 @@ libmonitor_a_SOURCES = \
         asm.h \
         mon.c \
         mon.h \
-        mon_assemble.c \
-        mon_assemble.h \
-        mon_disassemble.c \
-        mon_disassemble.h \
-        mon_util.c \
-        mon_util.h \
-        mon_lex.l \
-        mon_parse.y
+        mon_assemble6502.c \
+	mon_assemblez80.c \
+	mon_assemble.h \
+	mon_breakpoint.c \
+	mon_breakpoint.h \
+	mon_command.c \
+	mon_command.h \
+	mon_disassemble.c \
+	mon_disassemble.h \
+	mon_drive.c \
+	mon_drive.h \
+	mon_file.c \
+	mon_file.h \
+	mon_register6502.c \
+	mon_registerz80.c \
+	mon_register.h \
+	mon_util.c \
+	mon_util.h \
+	mon_lex.l \
+	mon_parse.y
 
 BUILT_SOURCES = mon_parse.h mon_parse.c

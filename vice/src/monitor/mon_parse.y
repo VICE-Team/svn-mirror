@@ -55,8 +55,11 @@ extern char *alloca ();
 #include "uimon.h"
 #include "machine.h"
 #include "mon.h"
-#include "mon_assemble.h"
+#include "mon_breakpoint.h"
+#include "mon_command.h"
 #include "mon_disassemble.h"
+#include "mon_drive.h"
+#include "mon_file.h"
 #include "types.h"
 #include "utils.h"
 
@@ -126,6 +129,7 @@ extern int cur_len, last_len;
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> REG_B REG_C REG_D REG_E REG_H REG_L
 %token<i> REG_AF REG_BC REG_DE REG_HL REG_IX REG_IY REG_SP
+%token<i> REG_IXH REG_IXL REG_IYH REG_IYL
 %token<i> CPUTYPE_6502 CPUTYPE_Z80
 %token<str> STRING FILENAME R_O_L OPCODE LABEL BANKNAME CPUTYPE
 %token<reg> REGISTER
@@ -195,8 +199,8 @@ machine_state_rules: CMD_BANK opt_memspace opt_bankname end_cmd { mon_bank($2,$3
                    | register_mod
                    ;
 
-register_mod: CMD_REGISTERS end_cmd                { mon_print_registers(default_memspace); }
-            | CMD_REGISTERS memspace end_cmd    { mon_print_registers($2); }
+register_mod: CMD_REGISTERS end_cmd                { (monitor_cpu_type.mon_register_print)(default_memspace); }
+            | CMD_REGISTERS memspace end_cmd    { (monitor_cpu_type.mon_register_print)($2); }
             | CMD_REGISTERS reg_list end_cmd
             ;
 
@@ -228,28 +232,28 @@ memory_rules: CMD_MOVE address address address end_cmd                   { mon_m
             | CMD_TEXT_DISPLAY end_cmd                                   { mon_display_memory(0, BAD_ADDR, BAD_ADDR); }
             ;
 
-checkpoint_rules: CMD_BREAK address opt_address end_cmd { mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE, FALSE); }
-                | CMD_UNTIL address opt_address end_cmd { mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE, TRUE); }
+checkpoint_rules: CMD_BREAK address opt_address end_cmd { mon_breakpoint_add_checkpoint($2, $3, FALSE, FALSE, FALSE, FALSE); }
+                | CMD_UNTIL address opt_address end_cmd { mon_breakpoint_add_checkpoint($2, $3, FALSE, FALSE, FALSE, TRUE); }
                 | CMD_BREAK address opt_address IF cond_expr end_cmd {
-                          temp = mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE, FALSE);
-                          mon_set_checkpoint_condition(temp, $5); }
-                | CMD_WATCH opt_mem_op address opt_address end_cmd { mon_add_checkpoint($3, $4, FALSE,
+                          temp = mon_breakpoint_add_checkpoint($2, $3, FALSE, FALSE, FALSE, FALSE);
+                          mon_breakpoint_set_checkpoint_condition(temp, $5); }
+                | CMD_WATCH opt_mem_op address opt_address end_cmd { mon_breakpoint_add_checkpoint($3, $4, FALSE,
                               ($2 == e_load || $2 == e_load_store), ($2 == e_store || $2 == e_load_store), FALSE); }
-                | CMD_TRACE address opt_address end_cmd { mon_add_checkpoint($2, $3, TRUE, FALSE, FALSE, FALSE); }
-                | CMD_BREAK end_cmd { mon_print_checkpoints(); }
-                | CMD_UNTIL end_cmd { mon_print_checkpoints(); }
-                | CMD_TRACE end_cmd { mon_print_checkpoints(); }
-                | CMD_WATCH end_cmd { mon_print_checkpoints(); }
+                | CMD_TRACE address opt_address end_cmd { mon_breakpoint_add_checkpoint($2, $3, TRUE, FALSE, FALSE, FALSE); }
+                | CMD_BREAK end_cmd { mon_breakpoint_print_checkpoints(); }
+                | CMD_UNTIL end_cmd { mon_breakpoint_print_checkpoints(); }
+                | CMD_TRACE end_cmd { mon_breakpoint_print_checkpoints(); }
+                | CMD_WATCH end_cmd { mon_breakpoint_print_checkpoints(); }
                 ;
 
 
-checkpoint_control_rules: CMD_CHECKPT_ON breakpt_num end_cmd          { mon_switch_checkpoint(e_ON, $2); }
-                        | CMD_CHECKPT_OFF breakpt_num end_cmd          { mon_switch_checkpoint(e_OFF, $2); }
-                        | CMD_IGNORE breakpt_num opt_count end_cmd          { mon_set_ignore_count($2, $3); }
-                        | CMD_DELETE breakpt_num end_cmd                  { mon_delete_checkpoint($2); }
-                        | CMD_DELETE end_cmd                                 { mon_delete_checkpoint(-1); }
-                        | CMD_CONDITION breakpt_num IF cond_expr end_cmd { mon_set_checkpoint_condition($2, $4); }
-                        | CMD_COMMAND breakpt_num STRING end_cmd          { mon_set_checkpoint_command($2, $3); }
+checkpoint_control_rules: CMD_CHECKPT_ON breakpt_num end_cmd          { mon_breakpoint_switch_checkpoint(e_ON, $2); }
+                        | CMD_CHECKPT_OFF breakpt_num end_cmd          { mon_breakpoint_switch_checkpoint(e_OFF, $2); }
+                        | CMD_IGNORE breakpt_num opt_count end_cmd          { mon_breakpoint_set_ignore_count($2, $3); }
+                        | CMD_DELETE breakpt_num end_cmd                  { mon_breakpoint_delete_checkpoint($2); }
+                        | CMD_DELETE end_cmd                                 { mon_breakpoint_delete_checkpoint(-1); }
+                        | CMD_CONDITION breakpt_num IF cond_expr end_cmd { mon_breakpoint_set_checkpoint_condition($2, $4); }
+                        | CMD_COMMAND breakpt_num STRING end_cmd          { mon_breakpoint_set_checkpoint_command($2, $3); }
                         | CMD_COMMAND breakpt_num error end_cmd          { return ERR_EXPECT_STRING; }
                         ;
 
@@ -280,22 +284,22 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd                { sidefx = (($2==e
                    | CMD_EXIT end_cmd                        { exit_mon = 1; YYACCEPT; }
                    ;
 
-monitor_misc_rules: CMD_DISK rest_of_line end_cmd         { mon_execute_disk_command($2); }
+monitor_misc_rules: CMD_DISK rest_of_line end_cmd         { mon_drive_execute_disk_cmd($2); }
                   | CMD_PRINT expression end_cmd         { uimon_out("\t%d\n",$2); }
-                  | CMD_HELP end_cmd                         { mon_print_help(NULL); }
-                  | CMD_HELP rest_of_line end_cmd         { mon_print_help($2); }
+                  | CMD_HELP end_cmd                         { mon_command_print_help(NULL); }
+                  | CMD_HELP rest_of_line end_cmd         { mon_command_print_help($2); }
                   | CMD_SYSTEM rest_of_line end_cmd         { printf("SYSTEM COMMAND: %s\n",$2); }
                   | CONVERT_OP expression end_cmd         { mon_print_convert($2); }
                   | CMD_CHDIR rest_of_line end_cmd         { mon_change_dir($2); }
                   ;
 
-disk_rules: CMD_LOAD filename opt_address end_cmd                         { mon_load_file($2,$3,FALSE); }
-          | CMD_BLOAD filename opt_address end_cmd                         { mon_load_file($2,$3,TRUE); }
-          | CMD_SAVE filename address address end_cmd                 { mon_save_file($2,$3,$4,FALSE); }
-          | CMD_BSAVE filename address address end_cmd                 { mon_save_file($2,$3,$4,TRUE); }
-          | CMD_VERIFY filename address end_cmd                 { mon_verify_file($2,$3); }
-          | CMD_BLOCK_READ expression expression opt_address end_cmd        { mon_block_cmd(0,$2,$3,$4); }
-          | CMD_BLOCK_WRITE expression expression address end_cmd        { mon_block_cmd(1,$2,$3,$4); }
+disk_rules: CMD_LOAD filename opt_address end_cmd                         { mon_file_load($2,$3,FALSE); }
+          | CMD_BLOAD filename opt_address end_cmd                         { mon_file_load($2,$3,TRUE); }
+          | CMD_SAVE filename address address end_cmd                 { mon_file_save($2,$3,$4,FALSE); }
+          | CMD_BSAVE filename address address end_cmd                 { mon_file_save($2,$3,$4,TRUE); }
+          | CMD_VERIFY filename address end_cmd                 { mon_file_verify($2,$3); }
+          | CMD_BLOCK_READ expression expression opt_address end_cmd        { mon_drive_block_cmd(0,$2,$3,$4); }
+          | CMD_BLOCK_WRITE expression expression address end_cmd        { mon_drive_block_cmd(1,$2,$3,$4); }
           ;
 
 cmd_file_rules: CMD_RECORD filename end_cmd         { mon_record_commands($2); }
@@ -330,7 +334,7 @@ reg_list: reg_list REG_ASGN_SEP reg_asgn
         | reg_asgn
         ;
 
-reg_asgn: register EQUALS number { mon_set_reg_val(reg_memspace($1), reg_regid($1), $3); }
+reg_asgn: register EQUALS number { (monitor_cpu_type.mon_register_set_val)(reg_memspace($1), reg_regid($1), $3); }
         ;
 
 opt_count: expression { $$ = $1; }
@@ -405,7 +409,7 @@ data_element: number { mon_add_number_to_buffer($1); }
             ;
 
 value: number { $$ = $1; }
-     | register { $$ = mon_get_reg_val(reg_memspace($1), reg_regid($1)); }
+     | register { $$ = (monitor_cpu_type.mon_register_get_val)(reg_memspace($1), reg_regid($1)); }
      ;
 
 d_number: D_NUMBER { $$ = $1; }
@@ -433,7 +437,7 @@ assembly_instr_list: assembly_instr_list INST_SEP assembly_instruction
 
 assembly_instruction: OPCODE asm_operand_mode { $$ = 0;
                                                 if ($1) {
-                                                    mon_assemble_instr($1, $2);
+                                                    (monitor_cpu_type.mon_assemble_instr)($1, $2);
                                                 } else {
                                                     new_cmd = 1;
                                                     asm_mode = 0;
@@ -470,6 +474,8 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff)
   | L_PAREN REG_BC R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_BC,0); }
   | L_PAREN REG_DE R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_DE,0); }
   | L_PAREN REG_HL R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_HL,0); }
+  | L_PAREN REG_IX R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_IX,0); }
+  | L_PAREN REG_IY R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_IY,0); }
   | L_PAREN REG_SP R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_SP,0); }
   | L_PAREN number R_PAREN COMMA REG_A { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_A,$2); }
   | L_PAREN number R_PAREN COMMA REG_HL { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_HL,$2); }
@@ -482,11 +488,17 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff)
   | REG_D { $$ = join_ints(ASM_ADDR_MODE_REG_D,0); }
   | REG_E { $$ = join_ints(ASM_ADDR_MODE_REG_E,0); }
   | REG_H { $$ = join_ints(ASM_ADDR_MODE_REG_H,0); }
+  | REG_IXH { $$ = join_ints(ASM_ADDR_MODE_REG_IXH,0); }
+  | REG_IYH { $$ = join_ints(ASM_ADDR_MODE_REG_IYH,0); }
   | REG_L { $$ = join_ints(ASM_ADDR_MODE_REG_L,0); }
+  | REG_IXL { $$ = join_ints(ASM_ADDR_MODE_REG_IXL,0); }
+  | REG_IYL { $$ = join_ints(ASM_ADDR_MODE_REG_IYL,0); }
   | REG_AF { $$ = join_ints(ASM_ADDR_MODE_REG_AF,0); }
   | REG_BC { $$ = join_ints(ASM_ADDR_MODE_REG_BC,0); }
   | REG_DE { $$ = join_ints(ASM_ADDR_MODE_REG_DE,0); }
   | REG_HL { $$ = join_ints(ASM_ADDR_MODE_REG_HL,0); }
+  | REG_IX { $$ = join_ints(ASM_ADDR_MODE_REG_IX,0); }
+  | REG_IY { $$ = join_ints(ASM_ADDR_MODE_REG_IY,0); }
   | REG_SP { $$ = join_ints(ASM_ADDR_MODE_REG_SP,0); }
  ;
 
