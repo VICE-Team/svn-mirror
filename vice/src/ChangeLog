@@ -1,3 +1,56 @@
+2005-10-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.2.
+
+	* arch/unix/hardsid.c: New file submitted by Simon White.
+
+	* hardsid.h: Added patch submitted by Simon White.
+
+	* arch/unix/Makefile.am: Added new file.
+
+	* arch/win32/hardsid.c (hardsid_reset): New function.
+
+	* arch/unix/hardsid.c: Added some logging.
+
+	* arch/unix/uisid.c: Added HardSID UI.
+
+	* drive/rotation.c (rotation_rotate_disk): Added some
+	workaround for GCR zero bytes.  Not enabled for now.
+
+	* c64/cart/c64cart.c: Fixed STB command line option.
+
+	* arch/win32/resdrivec128.rc, arch/win32/resdriveplus4.rc: New
+	files.
+
+	* arch/win32/resc128.rc, arch/win32/resplus4.rc: Moved drive
+	specific resources to separate file.
+
+	* arch/win32/Makefile.am, arch/win32/x128.dsp: Added new files.	
+
+2005-10-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/Makefile.am: Fixes the res*.txt dependancies.
+
+2005-10-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resvic20.rc: Updated the
+	some dutch translations.
+
+2005-10-09  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/cart/c64cartmem.c, c64/cart/crt.c,
+	c64/cart/epyxfastload.c, c64/cart/epyxfastload.h,
+	c64/cart/final.c, c64/cart/final.h, c64/cart/kcs.c,
+	c64/cart/kcs.h: Fixed some attach/detach problems with certain
+	.crt type carts.
+
+2005-10-09  John Selck  <selck_j@informatik.haw-hamburg.de>
+
+	* vdc/vdc-mem.c (vdc_read): Improved behaviour of vertical
+	blank bit.
+
 2005-10-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.17.1.
@@ -35,18 +88,18 @@
 
 2005-10-09  John Selck  <selck_j@informatik.haw-hamburg.de>
 
-	* vdc.c: (vdc_raster_draw_alarm_handler) Attribute RAM pointer
-	is now updated on first displayed line.
+	* vdc/vdc.c (vdc_raster_draw_alarm_handler): Attribute RAM
+	pointer is now updated on first displayed line.
 
-	* vdc-mem.c: (vdc_store) Attribute RAM pointer now isn't
+	* vdc/vdc-mem.c (vdc_store): Attribute RAM pointer now isn't
 	update on register 20/21 access. Fixed the force_refresh
-	condition of the register 26 access. Inverted the access to the
-	horizontal soft scroll register in register 25.
+	condition of the register 26 access. Inverted the access to
+	the horizontal soft scroll register in register 25.
 
 2005-10-09  John Selck  <selck_j@informatik.haw-hamburg.de>
 
-	* driverom.c: (driverom_initialize_traps) Added patch for fast
-	drive reset for 1541 drives.
+	* drive/driverom.c (driverom_initialize_traps): Added patch
+	for fast drive reset for 1541 drives.
 
 2005-10-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
