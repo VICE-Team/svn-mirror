@@ -340,8 +340,8 @@ static BYTE SZP[256] = {
                                                                   \
       tmp = (DWORD)((reg_h << 8) + reg_l)                         \
             + (DWORD)(((reg_valh << 8) + reg_vall));              \
-      reg_h = tmp >> 8;                                           \
-      reg_l = tmp & 0xff;                                         \
+      reg_h = (BYTE)(tmp >> 8);                                   \
+      reg_l = (BYTE)(tmp & 0xff);                                 \
       LOCAL_SET_NADDSUB(0);                                       \
       LOCAL_SET_CARRY(tmp & 0x10000);                             \
       LOCAL_SET_HALFCARRY((reg_h << 8) ^ (reg_valh << 8) ^ tmp);  \
@@ -354,8 +354,8 @@ static BYTE SZP[256] = {
       DWORD tmp;                                              \
                                                               \
       tmp = (DWORD)((reg_h << 8) + reg_l) + (DWORD)(reg_sp);  \
-      reg_h = tmp >> 8;                                       \
-      reg_l = tmp & 0xff;                                     \
+      reg_h = (BYTE)(tmp >> 8);                               \
+      reg_l = (BYTE)(tmp & 0xff);                             \
       LOCAL_SET_NADDSUB(0);                                   \
       LOCAL_SET_CARRY(tmp & 0x10000);                         \
       LOCAL_SET_HALFCARRY((reg_h << 8) ^ reg_sp ^ tmp);       \
@@ -873,8 +873,8 @@ static BYTE SZP[256] = {
       LOCAL_SET_PARITY(((reg_h ^ (tmp >> 8)) & (reg_h ^ reg_valh)) & 0x80);  \
       LOCAL_SET_ZERO(!(tmp & 0xffff));                                       \
       LOCAL_SET_SIGN(tmp & 0x8000);                                          \
-      reg_h = tmp >> 8;                                                      \
-      reg_l = tmp & 0xff;                                                    \
+      reg_h = (BYTE)(tmp >> 8);                                              \
+      reg_l = (BYTE)(tmp & 0xff);                                            \
       CLK += 15;                                                             \
       INC_PC(2);                                                             \
   } while (0)
@@ -894,8 +894,8 @@ static BYTE SZP[256] = {
                        & (reg_h ^ (reg_sp >> 8))) & 0x80);        \
       LOCAL_SET_ZERO(!(tmp & 0xffff));                            \
       LOCAL_SET_SIGN(tmp & 0x8000);                               \
-      reg_h = tmp >> 8;                                           \
-      reg_l = tmp & 0xff;                                         \
+      reg_h = (BYTE)(tmp >> 8);                                   \
+      reg_l = (BYTE)(tmp & 0xff);                                 \
       CLK += 15;                                                  \
       INC_PC(2);                                                  \
   } while (0)
@@ -2399,7 +2399,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
     JMP_COND(p12, LOCAL_ZERO(), 10, 10);
     break;
     case 0xcb: /* OPCODE CB */
-    opcode_cb(p0, p1, p2, p3, p12, p23);
+    opcode_cb((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12, (WORD)p23);
     break;
     case 0xcc: /* CALL Z */
     CALL_COND(p12, LOCAL_ZERO(), 10, 10, 3);
@@ -2507,7 +2507,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
     CALL_COND(p12, LOCAL_PARITY(), 10, 10, 3);
     break;
     case 0xed: /* OPCODE ED */
-    opcode_ed(p0, p1, p2, p3, p12, p23);
+    opcode_ed((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12, (WORD)p23);
     break;
     case 0xee: /*  */
     /*XOR_BYTE, */
@@ -2556,7 +2556,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
     CALL_COND(p12, LOCAL_SIGN(), 10, 10, 3);
     break;
     case 0xfd: /* OPCODE FD */
-    opcode_fd(p0, p1, p2, p3, p12, p23);
+    opcode_fd((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12, (WORD)p23);
     break;
     case 0xfe: /* CP # */
     CPREG(p1, 7, 2);
