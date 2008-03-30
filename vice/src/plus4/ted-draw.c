@@ -871,10 +871,11 @@ static int get_idle(raster_cache_t *cache, unsigned int *xs, unsigned int *xe,
 inline static void _draw_idle(unsigned int xs, unsigned int xe)
 {
     BYTE *p;
-    BYTE d;
+    BYTE d = 0;
     unsigned int i;
 
-    d = (BYTE)ted.idle_data;
+    if (!ted.raster.blank_enabled)
+        d = (BYTE)ted.idle_data;
 
 #ifdef ALLOW_UNALIGNED_ACCESS
     p = GFX_PTR();
@@ -920,12 +921,13 @@ static void draw_idle_foreground(unsigned int start_char,
 {
     BYTE *p;
     BYTE c;
-    BYTE d;
+    BYTE d = 0;
     unsigned int i;
 
     p = GFX_PTR();
     c = 0;
-    d = (BYTE)ted.idle_data;
+    if (!ted.raster.blank_enabled)
+        d = (BYTE)ted.idle_data;
 
     for (i = start_char; i <= end_char; i++) {
         DRAW_STD_TEXT_BYTE(p + i * 8, d, c);

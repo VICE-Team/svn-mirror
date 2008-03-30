@@ -1266,10 +1266,11 @@ inline static void _draw_idle(BYTE *p, unsigned int xs, unsigned int xe,
                               BYTE *gfx_msk_ptr)
 {
     BYTE *msk_ptr;
-    BYTE d;
+    BYTE d = 0;
     unsigned int i;
 
-    d = (BYTE)vicii.idle_data;
+    if (!vicii.raster.blank_enabled)
+        d = (BYTE)vicii.idle_data;
 
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
 
@@ -1337,12 +1338,13 @@ static void draw_idle_foreground(unsigned int start_char,
                                  unsigned int end_char)
 {
     BYTE *p, *msk_ptr;
-    BYTE d;
+    BYTE d = 0;
     unsigned int i;
 
     p = GFX_PTR();
     msk_ptr = vicii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
-    d = (BYTE)vicii.idle_data;
+    if (!vicii.raster.blank_enabled)
+        d = (BYTE)vicii.idle_data;
 
     if (vicii.raster.xsmooth_shift_left > 0) {
         d = (d >> vicii.raster.xsmooth_shift_left) 
