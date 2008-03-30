@@ -84,8 +84,9 @@ void drive_cpu_setup_context(struct drive_context_s *drv)
     drv->func = lib_malloc(sizeof(drivefunc_context_t));
 
     cpu->int_status = interrupt_cpu_status_new();
-    interrupt_cpu_status_init(cpu->int_status,
-                              &(cpu->last_opcode_info));
+    interrupt_cpu_status_init(cpu->int_status, &(cpu->last_opcode_info));
+    drivecpu_int_status_ptr[drv->mynumber] = cpu->int_status;
+
     cpu->rmw_flag = 0;
     cpu->d_bank_limit = -1;
     cpu->pageone = NULL;
@@ -108,7 +109,6 @@ void drive_cpu_setup_context(struct drive_context_s *drv)
     mi->mem_ioreg_list_get = drivemem_ioreg_list_get;
     mi->toggle_watchpoints_func = drivecpu_toggle_watchpoints;
     mi->set_bank_base = drivecpu_set_bank_base;
-    drivecpu_int_status_ptr[drv->mynumber] = cpu->int_status;
     cpu->monspace = monitor_diskspace_mem(drv->mynumber);
 }
 
