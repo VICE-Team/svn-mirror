@@ -27,6 +27,8 @@
 #ifndef _VIC_II_RESOURCES_H
 #define _VIC_II_RESOURCES_H
 
+#include "vice.h"
+
 /* VIC-II resources.  */
 struct _vic_ii_resources
   {
