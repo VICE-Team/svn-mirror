@@ -1,3 +1,47 @@
+2002-05-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.15.
+
+	* tape/tape.c (tape_seek_start, tape_seek_to_file): New
+	functions.
+
+	* tape/tap.c (tap_seek_to_file): New function.
+	(tap_read_byte, tap_read_header): Added checksum support.
+
+	* autostart.c (autostart_tape): Seek to selected file if a
+	TAP image is attached.
+
+	* machine.c, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/c610.c: Reset autostart in `machine.c'.
+
+	* datasette.c (datasette_internal_reset): Only rewind tape if
+	there is no autostart in progress.
+
+	* tape/t64.c, t64.h (t64_rewind): Renamed.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/petmem.c,
+	plus4/plus4.c, cbm2/c610mem.c [tapeinit]: Increased long pulse
+	max to 100 cycles.
+
+2002-05-11  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* imagecontents/tapecontents.c (image_contents_read_tape):
+	Return if tape_image is NULL.
+
+	* tape/tape.c (tape_internal_open_tape_image):
+	Free image if open wasn't successful.
+
+	* tape/tap.c: Corrected TAP_PILOT_HEADER_MIN.
+
+2002-05-11  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/imagecontents.dsp: Introduced again.
+
+	* arch/win32/Makefile.am: Added imagecontents.dsp.
+
+	* tape/tapeimage.c (tape_image_open): Reset initial
+	read_only flag before opening as a tap.
+
 2002-05-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.14.

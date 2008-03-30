@@ -241,7 +241,7 @@ static tape_init_t tapeinit1 = {
     55 * 8,
     73 * 8,
     74 * 8,
-    92 * 8
+    100 * 8
 };
 
 static tape_init_t tapeinit2 = {
@@ -260,7 +260,7 @@ static tape_init_t tapeinit2 = {
     55 * 8,
     73 * 8,
     74 * 8,
-    92 * 8
+    100 * 8
 };
 
 static tape_init_t tapeinit4 = {
@@ -279,7 +279,7 @@ static tape_init_t tapeinit4 = {
     55 * 8,
     73 * 8,
     74 * 8,
-    92 * 8
+    100 * 8
 };
 
 /* ------------------------------------------------------------------------- */

@@ -207,7 +207,7 @@ static tape_init_t tapeinit = {
     55 * 8,
     73 * 8,
     74 * 8,
-    92 * 8
+    100 * 8
 };
 
 static log_t c64_log = LOG_ERR;
@@ -445,13 +445,11 @@ void machine_specific_reset(void)
     /* The VIC-II must be the *last* to be reset.  */
     vic_ii_reset();
 
-    if (vsid_mode)
-    {
+    if (vsid_mode) {
         psid_init_tune();
         return;
     }
 
-    autostart_reset();
     drive_reset();
     datasette_reset();
     reu_reset();

@@ -192,7 +192,7 @@ static tape_init_t tapeinit = {
     55 * 8,
     73 * 8,
     74 * 8,
-    92 * 8
+    100 * 8
 };
 
 static log_t vic20_log = LOG_ERR;
@@ -364,7 +364,6 @@ void machine_specific_reset(void)
     rsuser_reset();
 #endif
     printer_reset();
-    autostart_reset();
     drive_reset();
     datasette_reset();
 }
