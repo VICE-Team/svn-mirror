@@ -47,18 +47,18 @@ ui_menu_entry_t crtc_palette_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
+UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 
 static ui_menu_entry_t crtc_video_settings_submenu[] = {
-    { N_("*Video cache"),
-      (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
     { N_("*Double size"),
       (ui_callback_t)toggle_CrtcDoubleSize, NULL, NULL },
     { N_("*Double scan"),
       (ui_callback_t)toggle_CrtcDoubleScan, NULL, NULL },
+    { N_("*Video cache"),
+      (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { NULL }
