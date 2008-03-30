@@ -280,9 +280,20 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/vmachine.h ../../../src/machine.h \
+	../../../src/types.h video.h ../../../src/palette.h ui.h \
+	xaw/ui.h ../../../src/resources.h ../../../src/cmdline.h \
+	../../../src/memutils.h kbd.h kbdef.h ../../../src/interrupt.h \
+	../../../src/6510core.h ../../../src/mem.h \
+	../../../src/sysfile.h ../../../src/utils.h joystick.h
 petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/types.h ../../../src/utils.h \
 	../../../src/resources.h ../../../src/cmdline.h kbd.h
+print.o: print.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/types.h ../../../src/resources.h \
+	../../../src/cmdline.h ../../../src/print.h \
+	../../../src/utils.h
 rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/types.h ../../../src/resources.h \
 	../../../src/cmdline.h ../../../src/rs232.h \

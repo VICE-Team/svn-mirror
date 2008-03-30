@@ -93,6 +93,9 @@ SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
+@USE_MIDAS_SOUND_TRUE@libarch_a_LIBADD = vmidas.o
+@USE_MIDAS_SOUND_FALSE@libarch_a_LIBADD = vicesb.o
+
 INCLUDES = \
 	-DPREFIX=\"@prefix@\" \
 	@ARCH_INCLUDES@ \
@@ -147,14 +150,16 @@ libarch_a_SOURCES = \
 	vic20kbd.h \
 	vic20ui.c \
 	vic20ui.h \
-        vicesb.c \
-        vicesb.h \
 	video.c \
 	video.h \
-	vmidas.c \
-	vmidas.h \
 	vsync.c \
         vsync.h
+
+EXTRA_DIST = \
+        vicesb.c \
+        vicesb.h \
+	vmidas.c \
+	vmidas.h
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -167,11 +172,12 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libarch_a_LIBADD = 
+@USE_MIDAS_SOUND_TRUE@libarch_a_DEPENDENCIES =  vmidas.o
+@USE_MIDAS_SOUND_FALSE@libarch_a_DEPENDENCIES =  vicesb.o
 libarch_a_OBJECTS =  c128kbd.o c128ui.o c64kbd.o c64ui.o grabkey.o \
 joystick.o kbd.o log.o mouse.o menudefs.o petkbd.o petui.o tui.o \
 tui_backend.o tuifs.o tuimenu.o tuiview.o ui.o vic20kbd.o vic20ui.o \
-vicesb.o video.o vmidas.o vsync.o
+video.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
