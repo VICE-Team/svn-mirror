@@ -199,6 +199,7 @@ t64_t *t64_open(const char *name)
         }
 
     new->file_name = stralloc(name);
+
     return new;
 }
 
@@ -242,7 +243,7 @@ int t64_seek_to_next_file(t64_t *t64, int allow_rewind)
         return -1;
 
     if (t64->current_file_number < 0)
-        n = 0;
+        n = -1;
     else
         n = t64->current_file_number;
 
