@@ -30,11 +30,6 @@
 #include "types.h"
 #include "warn.h"
 
-/* XXX: this must be fixed and moved to types.h */
-typedef short SWORD;
-typedef int SDWORD;
-
-
 /* device structure */
 typedef struct
 {
@@ -63,6 +58,11 @@ typedef struct
     /* resume device */
     int				(*resume)(warn_t *s);
 } sound_device_t;
+
+/* Sound adjustment types.  */
+#define SOUND_ADJUST_FLEXIBLE   0
+#define SOUND_ADJUST_ADJUSTING  1
+#define SOUND_ADJUST_EXACT      2
 
 /* external functions for vice */
 extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);

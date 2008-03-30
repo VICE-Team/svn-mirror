@@ -38,9 +38,11 @@ typedef signed char SIGNED_CHAR;
 typedef unsigned char BYTE;
 
 #if SIZEOF_UNSIGNED_SHORT == 2
-typedef unsigned short 	WORD;
+typedef unsigned short WORD;
+typedef signed short SWORD;
 #elif SIZEOF_UNSIGNED_INT == 2
-typedef unsigned int  WORD;
+typedef unsigned int WORD;
+typedef signed int SWORD;
 #else
 #error Cannot find a proper 16-bit type!
 #endif
@@ -48,9 +50,11 @@ typedef unsigned int  WORD;
 typedef WORD ADDRESS;
 
 #if SIZEOF_UNSIGNED_INT == 4
-typedef unsigned int    DWORD;
+typedef unsigned int DWORD;
+typedef signed int SDWORD;
 #elif SIZEOF_UNSIGNED_LONG == 4
-typedef unsigned long   DWORD;
+typedef unsigned long DWORD;
+typedef signed long SWORD;
 #else
 #error Cannot find a proper 32-bit type!
 #endif
