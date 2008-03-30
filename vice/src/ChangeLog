@@ -1,3 +1,15 @@
+1999-01-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.9.
+
+1999-01-19  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* arch/unix/xaw/ui.c: Fixed some fullscreenmode bugs.
+	
+	* arch/unix/xaw/ui.c, c64/c64ui.c, arch/unix/xaw/uimenu.c,
+	c64/c64mem.c, c64/c64mem.h: Make 'ticks' in RomSet- and
+	Fullscreen-menus.
+		
 1999-01-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.8.
@@ -19,11 +31,11 @@
 
 	* Version 0.16.1.7.
 
-	* cpu-tmpl, c128/c128cpu.def: Do not include include the function
+	* cpu-tmpl, c128/c128cpu.def: Do not include the function
 	`mem_read_base' when `_mem_read_base_tab_ptr' is not used.
 	Otherwise the native IRIX 6.2 compiler barfs.
 
-	* arch/unix/xaw/c64ui.c: #include "utils.h"
+	* arch/unix/xaw/c64ui.c: #include "utils.h".
 
 	* arch/Makefile.am: Added RISC OS directory.
 
@@ -32,7 +44,7 @@
 1998-01-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* doc/vice.texi (RS232 usage): new section to explain step by step
-	how to use the RS232 emulatio
+	how to use the RS232 emulation
 
 	* crtc-tmpl.c (crsr_set_dirty): add checks whether crsr address
 	is out of screen and whether crsr is enabled at all

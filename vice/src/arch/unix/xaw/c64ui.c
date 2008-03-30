@@ -285,6 +285,7 @@ static ui_menu_entry_t set_joystick_device_2_submenu[] = {
     { NULL }
 };
 
+
 static ui_menu_entry_t joystick_settings_submenu[] = {
     { "Joystick device in port 1",
       NULL, NULL, set_joystick_device_1_submenu },
@@ -304,14 +305,24 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+/*
 static UI_CALLBACK(radio_RomSet)
 {
-  mem_load_romset((char*) client_data);
+}
+*/
+static UI_CALLBACK(radio_RomSet)
+{
+    if (!call_data) {
+        mem_set_romset((char*) client_data);
+	ui_update_menus();
+	mem_romset_loader();
+    } else {
+        ui_menu_set_tick(w, strcmp((const char *) mem_get_romset_name(),
+                                   (const char *) client_data) == 0);
+    }
 }
 
 
-/*UI_MENU_DEFINE_RADIO(RomSet)
- */
 static ui_menu_entry_t* romset_submenu;
 
 
@@ -336,7 +347,11 @@ int c64_ui_init(void)
 {
 
     int num_romsets;
+    volatile int offset;
     mem_romset_t** romsets;
+    char buf[50];
+    buf[0] = '*';
+    buf[50] = '\0';
 
 #ifdef XPM
     {
@@ -353,25 +368,24 @@ int c64_ui_init(void)
     romset_submenu = (ui_menu_entry_t*) xcalloc(mem_get_numromsets() + 4,
 						sizeof(ui_menu_entry_t));
 
-    romset_submenu[0].string = "Default";
-    romset_submenu[0].callback = (ui_callback_t) radio_RomSet;
-    romset_submenu[0].callback_data = (ui_callback_data_t) "Default";
-    romset_submenu[0].sub_menu = NULL;
-    romset_submenu[0].hotkey_keysym = 0;
-    romset_submenu[0].hotkey_modifier = (ui_hotkey_modifier_t) 0;      
-
-    romset_submenu[1].string = "--";
-        
-    for(num_romsets = 0; num_romsets < mem_get_numromsets(); num_romsets++) {
-        romset_submenu[2+num_romsets].string = romsets[num_romsets]->name; 
-	romset_submenu[2+num_romsets].callback = (ui_callback_t) radio_RomSet;
-	romset_submenu[2+num_romsets].callback_data = (ui_callback_data_t) 
-	  romsets[num_romsets]->name;
-	romset_submenu[2+num_romsets].sub_menu = NULL;
-	romset_submenu[2+num_romsets].hotkey_keysym = 0;
-	romset_submenu[2+num_romsets].hotkey_modifier = (ui_hotkey_modifier_t) 0;
+    for(num_romsets = 0, offset = 0;
+	num_romsets < mem_get_numromsets() + offset; num_romsets++) {
+        buf[1] = '\0';
+	strncat(buf+1,romsets[num_romsets-offset]->name,48);
+        romset_submenu[num_romsets].string = stralloc(buf);
+	romset_submenu[num_romsets].callback = (ui_callback_t) radio_RomSet;
+	romset_submenu[num_romsets].callback_data = (ui_callback_data_t) 
+	  romsets[num_romsets-offset]->name;
+	romset_submenu[num_romsets].sub_menu = NULL;
+	romset_submenu[num_romsets].hotkey_keysym = 0;
+	romset_submenu[num_romsets].hotkey_modifier = (ui_hotkey_modifier_t) 0;
+	if(num_romsets == 0) {
+            romset_submenu[++num_romsets].string = "--";
+	    offset = 1;
+	}
     }
-
+    romset_submenu[num_romsets].string = NULL;
+    
     c64_menu[0].sub_menu = romset_submenu;
 
     ui_set_left_menu(ui_menu_create("LeftMenu",

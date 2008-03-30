@@ -59,6 +59,8 @@ extern store_func_t store_roml;
 
 extern mem_romset_t** mem_get_romsets(void);
 extern int mem_get_numromsets(void);
-extern int mem_load_romset(char *name);
+extern char* mem_get_romset_name(void);
+extern int mem_romset_loader(void);
+extern int mem_set_romset(char *name);
 
 #endif /* _C64MEM_H */

@@ -124,6 +124,8 @@ static mem_romset_t **romsets;
 
 static int number_romsets; 
 
+static char *romset_name = 0;
+
 /* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
 {
@@ -1007,17 +1009,20 @@ void mem_powerup(void)
 /* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
    `memory.c'.  */
 
+char* mem_get_romset_name() {
+    return(romset_name);
+}
+
 mem_romset_t** mem_get_romsets()
 {
-  return romsets;
+    return romsets;
 } 
 
 int mem_get_numromsets()
 {
-  return number_romsets;
+    return number_romsets;
 } 
 
-#define ELIMINATE_NEWLINES(s)\
 
 int mem_load_romset_file(const char *name)
 {
@@ -1035,7 +1040,13 @@ int mem_load_romset_file(const char *name)
 
     log_message(LOG_DEFAULT, "Loading RomSets `%s'.", complete_path);
 
-    number_romsets = 0;
+    romsets[0] = (mem_romset_t*) xmalloc(sizeof(mem_romset_t));
+    romsets[0]->name = stralloc("Default");
+    romsets[0]->path = 0;
+    log_message(LOG_DEFAULT, "Adding Default RomSet");
+
+    number_romsets = 1;
+
     while (! feof(fp) && number_romsets < 20) {      
       if(!fgets(romsetpath,100,fp) || !fgets(romsetname,100,fp)) {
 	break;
@@ -1145,8 +1156,7 @@ int mem_romset_loader()
     return 0;
 }
 
-int mem_load_romset(char *name)
-{
+int mem_set_romset(char *name) {
   int num_romsets;
   char path[256];
   char *tmppath;
@@ -1154,32 +1164,33 @@ int mem_load_romset(char *name)
   if(strcmp(name,"Default")) {
     for(num_romsets = 0; num_romsets < number_romsets ; num_romsets++) {
       if (!strcmp(romsets[num_romsets]->name,name)) {
-	strcpy(path,romsets[num_romsets]->path);
-	strcat(path,"char.rom");
+	romset_name = romsets[num_romsets]->name;
+	strncpy(path,romsets[num_romsets]->path,255);
+	strncat(path,"char.rom", 256 - strlen(path) - 1);
 	if ( sysfile_locate(path, &tmppath) ) {
 	  set_chargen_rom_name((resource_value_t) "chargen");
 	} else {
 	  set_chargen_rom_name((resource_value_t) path);
 	}
-	
-	strcpy(path,romsets[num_romsets]->path);
-	strcat(path,"kernal.rom");
+
+	strncpy(path,romsets[num_romsets]->path,255);
+	strncat(path,"kernal.rom",256 - strlen(path) - 1);
 	if ( sysfile_locate(path, &tmppath) ) {
 	  set_kernal_rom_name((resource_value_t) "kernal");
 	} else {
 	  set_kernal_rom_name((resource_value_t) path);
 	}
-	
-	strcpy(path,romsets[num_romsets]->path);
-	strcat(path,"basic.rom");
+
+	strncpy(path,romsets[num_romsets]->path,255);
+	strncat(path,"basic.rom",256 - strlen(path) - 1);
 	if ( sysfile_locate(path, &tmppath) ) {
 	  set_basic_rom_name((resource_value_t) "basic");
 	} else {
 	  set_basic_rom_name((resource_value_t) path);
 	}
 
-	strcpy(path,romsets[num_romsets]->path);
-	strcat(path,"c1541.rom");
+	strncpy(path,romsets[num_romsets]->path,255);
+	strncat(path,"c1541.rom",256 - strlen(path) - 1);
 	if ( sysfile_locate(path, &tmppath) ) {
 	  reload_rom_1541("dos1541");
 	} else {
@@ -1187,27 +1198,41 @@ int mem_load_romset(char *name)
 	}
 
 	log_message(LOG_DEFAULT, "Changing to RomSet %s",name);
-
-	return(mem_romset_loader());
       }      
     }
   } else {
+    romset_name = romsets[0]->name;
     set_chargen_rom_name((resource_value_t) "chargen");
     set_kernal_rom_name((resource_value_t) "kernal");
     set_basic_rom_name((resource_value_t) "basic");    
     reload_rom_1541("dos1541");
     log_message(LOG_DEFAULT, "Changing to Default RomSet",name);
-    return(mem_romset_loader());
   }
-  return(-1);
+  return(0);
 }
+
 
 int mem_load(void)
 {
+    int back,num_romsets;
+    char *temp;
     mem_powerup();
 
     mem_load_romset_file("rom.cfg");
-    return(mem_romset_loader());
+    back = mem_romset_loader();
+    for(num_romsets = 1; num_romsets < number_romsets ; num_romsets++) {
+        temp = romsets[num_romsets]->path;
+	if((chargen_rom_name && !strncmp(temp,chargen_rom_name,strlen(temp)))||
+	   (basic_rom_name && !strncmp(temp,basic_rom_name,strlen(temp)))||
+	   (kernal_rom_name && !strncmp(temp,kernal_rom_name,strlen(temp))) ) {
+            romset_name = romsets[num_romsets]->name;
+	    break;
+      }
+    }
+    if(num_romsets == number_romsets) {
+      romset_name = romsets[0]->name;
+    }
+    return back;
 }
 
 void mem_attach_cartridge(int type, BYTE * rawcart)

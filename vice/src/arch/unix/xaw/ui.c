@@ -251,7 +251,7 @@ static int set_fullscreen(resource_value_t v)
     if(v && ! use_fullscreen) {    
         XtAddEventHandler(canvas,
 			  PointerMotionMask | ButtonPressMask |
-			  ButtonReleaseMask | LeaveWindowMask | ButtonMotionMask,
+			  LeaveWindowMask,
 			  True,
 			  (XtEventHandler) mouse_handler, NULL);
 	
@@ -298,8 +298,7 @@ static int set_fullscreen(resource_value_t v)
 		      GrabModeAsync,  CurrentTime);
 	XGrabPointer(display, XtWindow(canvas), 1,
 		     PointerMotionMask | ButtonPressMask |
-		     ButtonReleaseMask | FocusChangeMask |
-		     PointerMotionMask,
+		     ButtonReleaseMask,
 		     GrabModeAsync, GrabModeAsync,
 		     XtWindow(canvas),
 		     None, CurrentTime);
@@ -386,7 +385,7 @@ static int set_fullscreen(resource_value_t v)
 
 	XtRemoveEventHandler(canvas,
 			     PointerMotionMask | ButtonPressMask |
-			     ButtonReleaseMask | LeaveWindowMask,
+			     LeaveWindowMask,
 			     True,
 			     (XtEventHandler) mouse_handler,
 			     NULL);
@@ -1080,16 +1079,20 @@ void ui_create_dynamic_menues()
 {
 
 #ifdef USE_VIDMODE_EXTENSION
-
     {
 	int i;
+	char buf[50];
+	buf[0] = '*';
+	buf[50] = '\0';
         resolutions_submenu = (ui_menu_entry_t*)
 	  xmalloc(sizeof(ui_menu_entry_t)*
 		 (size_t) (bestmode_counter + 1));
 
 	for(i = 0; i < bestmode_counter ; i++) {
+	    buf[1] = '\0';
+	    strncat(buf+1,bestmodes[i].name,48);
 	    resolutions_submenu[i].string =
-	      (ui_callback_data_t) bestmodes[i].name;
+	      (ui_callback_data_t) stralloc(buf);
 	    resolutions_submenu[i].callback =
 	      (ui_callback_t) radio_SelectedFullscreenMode;
 	    resolutions_submenu[i].callback_data = 
@@ -1103,7 +1106,8 @@ void ui_create_dynamic_menues()
 	resolutions_submenu[i].string =
 	  (ui_callback_data_t) NULL;
     }
-    ui_fullscreen_settings_submenu[5].sub_menu = resolutions_submenu;
+    if(bestmode_counter > 0)
+        ui_fullscreen_settings_submenu[5].sub_menu = resolutions_submenu;
 #endif
 
 }
