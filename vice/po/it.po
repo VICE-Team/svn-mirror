@@ -5,9 +5,9 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.15\n"
-"POT-Creation-Date: 2004-12-29 20:08+0100\n"
-"PO-Revision-Date: 2004-08-16 23:29+0200\n"
+"Project-Id-Version: VICE 1.16\n"
+"POT-Creation-Date: 2005-01-22 14:47+0100\n"
+"PO-Revision-Date: 2005-01-17 18:49+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -162,13 +162,13 @@ msgid "Error reading start snapshot file."
 msgstr "Errore durante la lettura del file di inizio snapshot."
 
 #: src/arch/unix/c128ui.c:66 src/arch/unix/c64ui.c:65
-#: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:52 src/arch/unix/uivic.c:41
+#: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:53 src/arch/unix/uivic.c:42
 #: src/arch/unix/vsidui.c:125
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:67
-#: src/arch/unix/cbm2ui.c:66 src/arch/unix/uited.c:54 src/arch/unix/uivic.c:43
+#: src/arch/unix/cbm2ui.c:66 src/arch/unix/uited.c:55 src/arch/unix/uivic.c:44
 #: src/arch/unix/vsidui.c:127
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
@@ -970,6 +970,7 @@ msgid "Smart-attach a file"
 msgstr "Selezione intelligente di un file"
 
 #: src/arch/unix/uiattach.c:284 src/arch/unix/uiattach.c:293
+#: src/arch/unix/x11/xaw/x11ui.c:1673
 msgid "Unknown image type"
 msgstr "Tipo di immagine sconosciuto"
 
@@ -1178,7 +1179,7 @@ msgstr "*Inizia con reset"
 
 #: src/arch/unix/uicommands.c:429
 msgid "*Overwrite running playback"
-msgstr ""
+msgstr "*Sovrascrivi la riproduzione in corso"
 
 #: src/arch/unix/uicommands.c:435
 msgid "Load snapshot..."
@@ -1274,64 +1275,64 @@ msgstr "*Ambra"
 msgid "*White"
 msgstr "*Bianco"
 
-#: src/arch/unix/uicrtc.c:48 src/arch/unix/uited.c:44 src/arch/unix/uivdc.c:43
-#: src/arch/unix/uivic.c:53 src/arch/unix/uivicii.c:62
+#: src/arch/unix/uicrtc.c:48 src/arch/unix/uited.c:45 src/arch/unix/uivdc.c:43
+#: src/arch/unix/uivic.c:54 src/arch/unix/uivicii.c:62
 msgid "Load custom"
 msgstr "Personalizzata"
 
 #: src/arch/unix/uicrtc.c:93 src/arch/unix/uicrtc.c:106
-#: src/arch/unix/uited.c:119 src/arch/unix/uited.c:148
+#: src/arch/unix/uited.c:120 src/arch/unix/uited.c:149
 #: src/arch/unix/uivdc.c:98 src/arch/unix/uivdc.c:111
-#: src/arch/unix/uivic.c:118 src/arch/unix/uivic.c:143
+#: src/arch/unix/uivic.c:119 src/arch/unix/uivic.c:144
 #: src/arch/unix/uivicii.c:130 src/arch/unix/uivicii.c:157
 msgid "*Double size"
 msgstr "*Dimensione doppia"
 
 #: src/arch/unix/uicrtc.c:95 src/arch/unix/uicrtc.c:108
-#: src/arch/unix/uited.c:121 src/arch/unix/uited.c:150
+#: src/arch/unix/uited.c:122 src/arch/unix/uited.c:151
 #: src/arch/unix/uivdc.c:100 src/arch/unix/uivdc.c:113
-#: src/arch/unix/uivic.c:120 src/arch/unix/uivic.c:145
+#: src/arch/unix/uivic.c:121 src/arch/unix/uivic.c:146
 #: src/arch/unix/uivicii.c:132 src/arch/unix/uivicii.c:159
 msgid "*Double scan"
 msgstr "*Scansione doppia"
 
-#: src/arch/unix/uicrtc.c:97 src/arch/unix/uited.c:123
-#: src/arch/unix/uivdc.c:102 src/arch/unix/uivic.c:122
+#: src/arch/unix/uicrtc.c:97 src/arch/unix/uited.c:124
+#: src/arch/unix/uivdc.c:102 src/arch/unix/uivic.c:123
 #: src/arch/unix/uivicii.c:134
 msgid "*Video cache"
 msgstr "*Video cache"
 
-#: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:142
-#: src/arch/unix/uivic.c:137 src/arch/unix/uivicii.c:151
+#: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:143
+#: src/arch/unix/uivic.c:138 src/arch/unix/uivicii.c:151
 msgid "*Scale 2x render"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:146
-#: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:141
+#: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:147
+#: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:142
 #: src/arch/unix/uivicii.c:155
 msgid "*Enable fullscreen"
 msgstr "*Attiva schermo intero"
 
-#: src/arch/unix/uicrtc.c:110 src/arch/unix/uited.c:152
-#: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:147
+#: src/arch/unix/uicrtc.c:110 src/arch/unix/uited.c:153
+#: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:148
 #: src/arch/unix/uivicii.c:161
 msgid "Fullscreen device"
 msgstr "Dispositivo per lo schermo intero"
 
-#: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:157
-#: src/arch/unix/uivdc.c:120 src/arch/unix/uivic.c:152
+#: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:158
+#: src/arch/unix/uivdc.c:120 src/arch/unix/uivic.c:153
 #: src/arch/unix/uivicii.c:166
 msgid "VidMode Resolutions"
 msgstr "Risoluzioni VidMode"
 
-#: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:161
-#: src/arch/unix/uivdc.c:124 src/arch/unix/uivic.c:156
+#: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:162
+#: src/arch/unix/uivdc.c:124 src/arch/unix/uivic.c:157
 #: src/arch/unix/uivicii.c:170
 msgid "DGA1 Resolutions"
 msgstr "Risoluzioni DGA1"
 
-#: src/arch/unix/uicrtc.c:123 src/arch/unix/uited.c:165
-#: src/arch/unix/uivdc.c:128 src/arch/unix/uivic.c:160
+#: src/arch/unix/uicrtc.c:123 src/arch/unix/uited.c:166
+#: src/arch/unix/uivdc.c:128 src/arch/unix/uivic.c:161
 #: src/arch/unix/uivicii.c:174
 msgid "DGA2 Resolutions"
 msgstr "Risoluzioni DGA2"
@@ -1340,8 +1341,8 @@ msgstr "Risoluzioni DGA2"
 msgid "*CRTC Screen color"
 msgstr "*Tinta dello schermo CRTC"
 
-#: src/arch/unix/uicrtc.c:131 src/arch/unix/uited.c:170
-#: src/arch/unix/uivdc.c:105 src/arch/unix/uivic.c:168
+#: src/arch/unix/uicrtc.c:131 src/arch/unix/uited.c:171
+#: src/arch/unix/uivdc.c:105 src/arch/unix/uivic.c:169
 #: src/arch/unix/uivicii.c:187
 msgid "*Use XSync()"
 msgstr "*Usa XSync()"
@@ -2289,14 +2290,12 @@ msgid "ACIA $DExx Interrupt"
 msgstr "Interrupt dell'ACIA a $DExx"
 
 #: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:348
-#, fuzzy
 msgid "*Userport RS232 emulation"
-msgstr "*Nessuna emulazione della RS232 su Userport"
+msgstr "*Emulazione della RS232 su Userport"
 
 #: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:350
-#, fuzzy
 msgid "Userport RS232 baud rate"
-msgstr "RS232 su Userport"
+msgstr "Velocit‡ della RS232 su Userport"
 
 #: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:352
 msgid "Userport RS232 device"
@@ -2337,27 +2336,27 @@ msgstr "Dispositivo seriale 2..."
 
 #: src/arch/unix/uirs232user.c:53
 msgid "*300 baud"
-msgstr ""
+msgstr "*300 baud"
 
 #: src/arch/unix/uirs232user.c:55
 msgid "*600 baud"
-msgstr ""
+msgstr "*600 baud"
 
 #: src/arch/unix/uirs232user.c:57
 msgid "*1200 baud"
-msgstr ""
+msgstr "*1200 baud"
 
 #: src/arch/unix/uirs232user.c:59
 msgid "*2400 baud"
-msgstr ""
+msgstr "*2400 baud"
 
 #: src/arch/unix/uirs232user.c:61
 msgid "*4800 baud"
-msgstr ""
+msgstr "*4800 baud"
 
 #: src/arch/unix/uirs232user.c:63
 msgid "*9600 baud"
-msgstr ""
+msgstr "*9600 baud"
 
 #: src/arch/unix/uisettings.c:112
 msgid "Enter refresh rate"
@@ -2592,27 +2591,26 @@ msgstr "Sovracampionamento"
 msgid "Sound settings"
 msgstr "Impostazioni del suono"
 
-#: src/arch/unix/uited.c:126 src/arch/unix/uivic.c:125
+#: src/arch/unix/uited.c:127 src/arch/unix/uivic.c:126
 #: src/arch/unix/uivicii.c:139
 msgid "*External color set"
 msgstr "*Palette esterna"
 
-#: src/arch/unix/uited.c:128 src/arch/unix/uivic.c:127
+#: src/arch/unix/uited.c:129 src/arch/unix/uivic.c:128
 #: src/arch/unix/uivicii.c:141
-#, fuzzy
 msgid "*Color set"
-msgstr "Palette"
+msgstr "*Palette"
 
-#: src/arch/unix/uited.c:132
+#: src/arch/unix/uited.c:133
 msgid "*Fast PAL emulation"
 msgstr "*Emulazione PAL veloce"
 
-#: src/arch/unix/uited.c:136 src/arch/unix/uivic.c:131
+#: src/arch/unix/uited.c:137 src/arch/unix/uivic.c:132
 #: src/arch/unix/uivicii.c:145
 msgid "*Hardware scaling"
 msgstr ""
 
-#: src/arch/unix/uited.c:139 src/arch/unix/uivicii.c:148
+#: src/arch/unix/uited.c:140 src/arch/unix/uivicii.c:148
 msgid "PAL Emulation"
 msgstr "Emulazione PAL"
 
@@ -2632,7 +2630,7 @@ msgstr "*Modalit‡ compatibile RR-NET"
 msgid "Interface..."
 msgstr "Interfaccia..."
 
-#: src/arch/unix/uivdc.c:40 src/arch/unix/uivic.c:51
+#: src/arch/unix/uivdc.c:40 src/arch/unix/uivic.c:52
 #: src/arch/unix/uivicii.c:47
 msgid "*Default"
 msgstr "*Predefinita"
@@ -2661,11 +2659,11 @@ msgstr "Revisione"
 msgid "Color set"
 msgstr "Palette"
 
-#: src/arch/unix/uivic.c:134
+#: src/arch/unix/uivic.c:135
 msgid "PAL Emulation Settings"
 msgstr "Impostazioni dell'emulazione PAL"
 
-#: src/arch/unix/uivic.c:165 src/arch/unix/uivicii.c:179
+#: src/arch/unix/uivic.c:166 src/arch/unix/uivicii.c:179
 #: src/arch/unix/vsidui.c:177
 msgid "Video standard"
 msgstr "Standard video"
@@ -2857,19 +2855,19 @@ msgstr "Collaboratori del progetto VICE"
 msgid "The VICE Team"
 msgstr "Il team di VICE"
 
-#: src/arch/unix/x11/gnome/about.c:76 src/arch/unix/x11/xaw/about.c:147
+#: src/arch/unix/x11/gnome/about.c:75 src/arch/unix/x11/xaw/about.c:146
 msgid "Official VICE homepage:"
 msgstr "Homepage ufficiale di VICE:"
 
-#: src/arch/unix/x11/gnome/about.c:89
+#: src/arch/unix/x11/gnome/about.c:88
 msgid "License"
 msgstr "Licenza"
 
-#: src/arch/unix/x11/gnome/about.c:95
+#: src/arch/unix/x11/gnome/about.c:94
 msgid "Warranty"
 msgstr "Garanzia"
 
-#: src/arch/unix/x11/gnome/about.c:101
+#: src/arch/unix/x11/gnome/about.c:100
 msgid "Contributors"
 msgstr "Collaboratori"
 
@@ -3216,15 +3214,15 @@ msgstr ""
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2615
+#: src/arch/unix/x11/gnome/x11ui.c:2619
 msgid "Contents"
 msgstr "Contenuti"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2662
+#: src/arch/unix/x11/gnome/x11ui.c:2666
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2688
+#: src/arch/unix/x11/gnome/x11ui.c:2692
 msgid "Autostart"
 msgstr "Avvio automatico"
 
@@ -3429,7 +3427,7 @@ msgstr ""
 "Errore durante la lettura delle infomazioni sulla modalit‡ video - "
 "disabilitazione della estensione vidmode."
 
-#: src/arch/unix/x11/xaw/about.c:153
+#: src/arch/unix/x11/xaw/about.c:152
 msgid "VICE Information"
 msgstr "Informazioni su VICE"
 
@@ -3534,10 +3532,6 @@ msgstr "%d: Traccia %.1f"
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1673
-msgid "Unknown image type."
-msgstr "Tipo di immagine sconosciuto."
-
 #: src/arch/unix/x11/xaw/x11video.c:127
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
@@ -3589,6 +3583,9 @@ msgstr "Le prestazioni saranno scarse."
 msgid "Successfully initialized without shared memory."
 msgstr "Inizializzato con successo senza memoria condivisa."
 
+#~ msgid "Unknown image type."
+#~ msgstr "Tipo di immagine sconosciuto."
+
 #~ msgid "Use XVideo Extension (hardware scaling)"
 #~ msgstr "Usa le estensioni XVideo (scaling hardware)"
 
@@ -3616,7 +3613,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #, fuzzy
 #~ msgid "Could not create milestone snapshot file."
 #~ msgstr ""
-#~ "Non Ë possibile caricare il file di snapshot\n"
+#~ "Non √É≈° possibile caricare il file di snapshot\n"
 #~ "`%s'"
 
 #~ msgid "Flush IEC printer #4 device"
@@ -3665,10 +3662,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Impostazioni video del TED"
 
 #~ msgid "Found suitable mode for fullscreen."
-#~ msgstr "Trovata una modalit‡ adatta allo schermo intero."
+#~ msgstr "Trovata una modalit√É¬† adatta allo schermo intero."
 
 #~ msgid "Couldn't allocate pixel value cache."
-#~ msgstr "Non Ë possibile allocare la cache coi valori dei pixel."
+#~ msgstr "Non √É≈° possibile allocare la cache coi valori dei pixel."
 
 #~ msgid "*PAL emulation"
 #~ msgstr "*Emulazione PAL"
@@ -3695,7 +3692,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ "Vice is not running as root, DGA extension not possible - disabling "
 #~ "fullscreen."
 #~ msgstr ""
-#~ "Vice non Ë eseguto come root, le estesioni DGA non sono possibili - "
+#~ "Vice non √É≈° eseguto come root, le estesioni DGA non sono possibili - "
 #~ "schermo intero disabilitato."
 
 #~ msgid "Specify name of symbolic keymap file"
@@ -3733,7 +3730,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ "business tedesca"
 
 #~ msgid "Could not find KeySym `%s'!"
-#~ msgstr "Non Ë possibile trovare il simbolo `%s'!"
+#~ msgstr "Non √É≈° possibile trovare il simbolo `%s'!"
 
 #~ msgid "Bad row/column value (%d/%d) for keysym `%s'."
 #~ msgstr "Coppia riga/colonna (%d/%d) non valida per il simbolo `%s'."
@@ -3742,7 +3739,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Caricamento della mappa della tastiera `%s'."
 
 #~ msgid "Cannot load keymap `%s'."
-#~ msgstr "Non Ë possibile caricare la mappa della tastiera `%s'."
+#~ msgstr "Non √É≈° possibile caricare la mappa della tastiera `%s'."
 
 #~ msgid "(null)"
 #~ msgstr "(null)"
@@ -3758,7 +3755,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid ""
 #~ "Couldn't allocate backbuffer for DGA PAL rendering; disabling fullscreen."
 #~ msgstr ""
-#~ "Non Ë possibile allocare il backbuffer per il rendering PAL DGA; schemo "
+#~ "Non √É≈° possibile allocare il backbuffer per il rendering PAL DGA; schemo "
 #~ "intero disabilitato."
 
 #~ msgid "Please recompile the program for a supported bit depth."
@@ -3768,7 +3765,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Solo %ibpp sono supportati da questo emulatore."
 
 #~ msgid "Current X server depth is %ibpp."
-#~ msgstr "La profondita attuale dell'X server Ë %ibpp."
+#~ msgstr "La profondita attuale dell'X server √É≈° %ibpp."
 
 #~ msgid "Switch X server depth or recompile with --enable-autobpp."
 #~ msgstr ""
