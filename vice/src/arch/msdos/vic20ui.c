@@ -120,7 +120,7 @@ static tui_menu_item_def_t vic_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static ADDRESS cartridge_type_to_address(int type)
+static WORD cartridge_type_to_address(int type)
 {
     /* We might use a simple AND here, but it's safer to use `switch()' as
        speed does not matter in this case.  */

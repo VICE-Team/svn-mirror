@@ -31,7 +31,7 @@
 #include <stdlib.h>
 
 #include "console.h"
-#include "mon.h"
+#include "monitor.h"
 #include "uimon.h"
 #include "utils.h"
 

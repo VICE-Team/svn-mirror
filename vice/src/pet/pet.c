@@ -56,7 +56,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "mon.h"
+#include "monitor.h"
 #include "pet-cmdline-options.h"
 #include "pet-resources.h"
 #include "pet-snapshot.h"

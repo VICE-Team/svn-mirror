@@ -30,12 +30,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "mon.h"
-#include "montypes.h"
 #include "mon_breakpoint.h"
 #include "mon_register.h"
 #include "mon_ui.h"
 #include "mon_util.h"
+#include "monitor.h"
+#include "montypes.h"
 #include "resources.h"
 #include "utils.h"
 

@@ -1693,7 +1693,7 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         	    return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
 
             case SB_THUMBTRACK:
-                ScrollInfo.nPos = mon_disassembly_scroll_to( pdp->pmdp, (ADDRESS) ScrollInfo.nTrackPos );
+                ScrollInfo.nPos = mon_disassembly_scroll_to( pdp->pmdp, (WORD)ScrollInfo.nTrackPos );
                 changed         = TRUE;
         	    break;
 

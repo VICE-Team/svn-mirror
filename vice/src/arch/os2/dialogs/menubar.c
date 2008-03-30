@@ -43,7 +43,7 @@
 
 #include "log.h"
 
-#include "mon.h"             // mon
+#include "monitor.h"         // mon
 #include "tape.h"            // tape_image_detach
 #include "utils.h"           // xmsprintf
 #include "sound.h"           // SOUND_ADJUST_*

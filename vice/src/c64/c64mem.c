@@ -44,7 +44,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "mon.h"
+#include "monitor.h"
 #include "parallel.h"
 #include "ram.h"
 #include "reu.h"

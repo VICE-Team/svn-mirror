@@ -68,7 +68,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "mon.h"
+#include "monitor.h"
 #include "patchrom.h"
 #include "printer.h"
 #include "psid.h"

@@ -37,7 +37,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "mon.h"
+#include "monitor.h"
 #include "mos6510.h"
 #include "snapshot.h"
 #include "traps.h"

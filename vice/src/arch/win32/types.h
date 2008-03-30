@@ -46,8 +46,6 @@ typedef signed char SIGNED_CHAR;
 typedef signed short SWORD;
 typedef signed int SDWORD;
 
-typedef WORD ADDRESS;
-
 typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
@@ -62,5 +60,5 @@ typedef DWORD CLOCK;
 #define REGPARM3
 #endif
 
-#endif  /* _TYPES_H */
+#endif
 

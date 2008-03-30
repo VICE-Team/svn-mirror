@@ -33,7 +33,7 @@
 
 static int is_paused = 0;
 
-static void pause_trap(ADDRESS addr, void *data)
+static void pause_trap(WORD addr, void *data)
 {
     ui_display_paused(1);
     is_paused = 1;

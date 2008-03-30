@@ -27,7 +27,7 @@
 #ifndef _MON_FILE_H
 #define _MON_FILE_H
 
-#include "mon.h"
+#include "monitor.h"
 
 extern void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
                           bool is_bload);

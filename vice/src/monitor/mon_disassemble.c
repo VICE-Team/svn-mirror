@@ -32,11 +32,12 @@
 
 #include "asm.h"
 #include "log.h"
-#include "mon.h"
 #include "mon_disassemble.h"
 #include "mon_util.h"
+#include "monitor.h"
 #include "types.h"
 #include "uimon.h"
+
 
 const char *mon_disassemble_to_string(MEMSPACE memspace, WORD addr,
                                       BYTE x, BYTE p1, BYTE p2, BYTE p3,

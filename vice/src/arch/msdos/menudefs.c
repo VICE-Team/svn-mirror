@@ -53,7 +53,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "menudefs.h"
-#include "mon.h"
+#include "monitor.h"
 #include "mos6510.h"
 #include "resources.h"
 #include "romset.h"

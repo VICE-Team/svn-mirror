@@ -48,7 +48,7 @@
 #include "machine-drive.h"
 #include "machine.h"
 #include "mem.h"
-#include "mon.h"
+#include "monitor.h"
 #include "mos6510.h"
 #include "rotation.h"
 #include "snapshot.h"

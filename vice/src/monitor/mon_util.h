@@ -27,7 +27,7 @@
 #ifndef _MON_UTIL_H
 #define _MON_UTIL_H
 
-#include "mon.h"
+#include "monitor.h"
 #include "types.h"
 
 struct console_s;

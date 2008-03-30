@@ -121,7 +121,7 @@ int catweaselmkiii_close(void)
 }
 
 /* read value from SIDs */
-int catweaselmkiii_read(ADDRESS addr, int chipno)
+int catweaselmkiii_read(WORD addr, int chipno)
 {
   /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -143,7 +143,7 @@ int catweaselmkiii_read(ADDRESS addr, int chipno)
 }
 
 /* write value into SID */
-void catweaselmkiii_store(ADDRESS addr, BYTE val, int chipno)
+void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
 {
   /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr <= 0x18) {

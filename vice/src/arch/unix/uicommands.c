@@ -44,7 +44,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "mon.h"
+#include "monitor.h"
 #include "mos6510.h"
 #include "resources.h"
 #include "serial.h"
@@ -279,7 +279,7 @@ static UI_CALLBACK(change_working_directory)
     free(wd);
 }
 
-static void mon_trap(ADDRESS addr, void *unused_data)
+static void mon_trap(WORD addr, void *unused_data)
 {
     mon(addr);
 }
@@ -442,7 +442,7 @@ static UI_CALLBACK(toggle_pause)
 
 /* Snapshot commands.  */
 
-static void load_snapshot_trap(ADDRESS unused_addr, void *data)
+static void load_snapshot_trap(WORD unused_addr, void *data)
 {
     ui_button_t button;
     char *filename;
@@ -493,7 +493,7 @@ static UI_CALLBACK(load_quicksnap)
         load_snapshot_trap(0, (void *)fname);
 }
 
-static void save_snapshot_trap(ADDRESS unused_addr, void *data)
+static void save_snapshot_trap(WORD unused_addr, void *data)
 {
     if (data) {
         /* quick snapshot, save ROMs & disks (??) */

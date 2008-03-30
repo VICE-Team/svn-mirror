@@ -17,7 +17,6 @@ libmonitor_a_SOURCES = \
         asmz80.c \
         asm.h \
         mon.c \
-        mon.h \
         mon_assemble6502.c \
 	mon_assemblez80.c \
 	mon_assemble.h \

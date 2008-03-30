@@ -34,7 +34,7 @@
 #include "textwin.h"
 
 #include "archdep.h"
-#include "monitor/mon.h"
+#include "monitor.h"
 #include "videoarch.h"
 #include "uimsgwin.h"
 #include "ui.h"

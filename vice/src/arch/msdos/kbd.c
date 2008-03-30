@@ -147,9 +147,9 @@ static void queue_command(kbd_command_type_t type,
 static void queue_command_end(void) { }
 
 /* CPU trap to enter the main menu.  */
-static void menu_trap(ADDRESS addr, void *data)
+static void menu_trap(WORD addr, void *data)
 {
-    ui_main((char) (unsigned long)data);
+    ui_main((char)(unsigned long)data);
 }
 
 /* Dispatch all the pending keyboard commands.  */

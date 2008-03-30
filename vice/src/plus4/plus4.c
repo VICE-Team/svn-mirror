@@ -50,7 +50,7 @@
 #include "machine-drive.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "mon.h"
+#include "monitor.h"
 #include "plus4-cmdline-options.h"
 #include "plus4-resources.h"
 #include "plus4-snapshot.h"

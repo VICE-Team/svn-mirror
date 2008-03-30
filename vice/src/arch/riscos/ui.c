@@ -51,6 +51,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
+#include "monitor.h"
 #include "petui.h"
 #include "resources.h"
 #include "romset.h"
@@ -76,7 +77,6 @@
 /* module includes */
 #include "c64/c64mem.h"
 #include "drive/drive.h"
-#include "monitor/mon.h"
 #include "raster/raster.h"
 #include "vdrive/vdrive-internal.h"
 #include "vicii/vicii.h"
@@ -1642,7 +1642,7 @@ static int ui_make_snapshot(const char *name)
 }
 
 
-static void ui_save_snapshot_trap(ADDRESS unused_address, void *unused_data)
+static void ui_save_snapshot_trap(WORD unused_address, void *unused_data)
 {
   ui_make_snapshot(((char*)SnapshotMessage)+44);
 }
@@ -3308,7 +3308,7 @@ static void ui_mouse_click(int *b)
  *  because the emulator must NOT be allowed to continue running once the machine
  *  is ready for the snapshot.
  */
-static void ui_drag_snapshot_trap(ADDRESS unused_address, void *unused_data)
+static void ui_drag_snapshot_trap(WORD unused_address, void *unused_data)
 {
   int block[64];
 
@@ -4194,7 +4194,7 @@ static void ui_menu_selection(int *b)
 }
 
 
-static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
+static void ui_load_snapshot_trap(WORD unused_address, void *unused_data)
 {
   int status;
 
@@ -5311,7 +5311,7 @@ void ui_update_menus(void)
 }
 
 
-static void mon_trap_full(ADDRESS addr, void *unused_data)
+static void mon_trap_full(WORD addr, void *unused_data)
 {
   ui_temp_suspend_sound();
   OS_FlushBuffer(0);
@@ -5321,7 +5321,7 @@ static void mon_trap_full(ADDRESS addr, void *unused_data)
 }
 
 
-static void mon_trap_wimp(ADDRESS addr, void *unused_data)
+static void mon_trap_wimp(WORD addr, void *unused_data)
 {
   /* no reentrancy! */
   if (!ui_message_window_is_open(msg_win_monitor))

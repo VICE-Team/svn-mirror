@@ -72,7 +72,7 @@ extern void ui_error_string(const char *text);
 extern void ui_show_text(const char *caption, const char *header,const char *text);
 extern void ui_cmdline_show_options(void);
 extern void ui_update_menus(void);
-extern void mon(ADDRESS a);
+extern void mon(WORD a);
 extern void ui_display_joyport_abs(int port_num, BYTE status);
 extern void ui_display_joyport_or(int port_num, BYTE status);
 extern void ui_display_joyport_and(int port_num, BYTE status);

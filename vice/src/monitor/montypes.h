@@ -29,7 +29,7 @@
 #ifndef _MONTYPES_H
 #define _MONTYPES_H
 
-#include "mon.h"
+#include "monitor.h"
 #include "types.h"
 
 /* Types */

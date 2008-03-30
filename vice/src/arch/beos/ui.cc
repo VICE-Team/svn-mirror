@@ -240,17 +240,17 @@ static void ui_exit_early(void)
 }
 
 
-static void mon_trap(ADDRESS addr, void *unused_data)
+static void mon_trap(WORD addr, void *unused_data)
 {
     mon(addr);
 }
 
-static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+static void save_snapshot_trap(WORD unused_addr, void *unused_data)
 {
 	ui_select_file(windowlist[0]->savepanel,SNAPSHOTSAVE_FILE,(void*)0);
 }
 
-static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+static void load_snapshot_trap(WORD unused_addr, void *unused_data)
 {
 	ui_select_file(windowlist[0]->filepanel,SNAPSHOTLOAD_FILE,(void*)0);
 }
@@ -264,7 +264,7 @@ static snapfiles    files[10];
 static int          lastindex;
 static int          snapcounter;
 
-static void save_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
+static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
 {
 int     i,j;
 char    *fullname;
@@ -320,7 +320,7 @@ char    *fullname2;
     free(fullname);
 }
 
-static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
+static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
 {
     char *fullname;
 
@@ -373,7 +373,7 @@ void ui_display_paused(int flag)
 		ui_display_speed(0,0,-2);
 }
 
-static void pause_trap(ADDRESS addr, void *data)
+static void pause_trap(WORD addr, void *data)
 {
     ui_display_paused(1);
     vsync_suspend_speed_eval();

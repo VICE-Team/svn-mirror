@@ -53,7 +53,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "mon.h"
+#include "monitor.h"
 #include "mos6510.h"
 #include "mouse.h"
 #include "res.h"
@@ -834,7 +834,7 @@ int ui_extend_image_dialog(void)
 /* ------------------------------------------------------------------------- */
 static int is_paused = 0;
 
-static void pause_trap(ADDRESS addr, void *data)
+static void pause_trap(WORD addr, void *data)
 {
     ui_display_paused(1);
     vsync_suspend_speed_eval();
@@ -985,19 +985,19 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
     return UI_BUTTON_NONE;
 }
 
-static void mon_trap(ADDRESS addr, void *unused_data)
+static void mon_trap(WORD addr, void *unused_data)
 {
     mon(addr);
 }
 
-static void save_snapshot_trap(ADDRESS unused_addr, void *hwnd)
+static void save_snapshot_trap(WORD unused_addr, void *hwnd)
 {
     SuspendFullscreenModeKeep(hwnd);
     ui_snapshot_save_dialog(hwnd);
     ResumeFullscreenModeKeep(hwnd);
 }
 
-static void load_snapshot_trap(ADDRESS unused_addr, void *hwnd)
+static void load_snapshot_trap(WORD unused_addr, void *hwnd)
 {
     SuspendFullscreenModeKeep(hwnd);
     ui_snapshot_load_dialog(hwnd);
@@ -1013,7 +1013,7 @@ static snapfiles files[10];
 static int lastindex;
 static int snapcounter;
 
-static void save_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
+static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
 {
     int i,j;
     char *fullname;
@@ -1080,7 +1080,7 @@ static void save_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
     free(fullname);
 }
 
-static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
+static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
 {
     char *fullname;
 
@@ -1430,7 +1430,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         else
             /* 
             FIXME: Following is copied from UNIX but doesn't run well
-            mon_trap((ADDRESS)MOS6510_REGS_GET_PC(&maincpu_regs), 0);
+            mon_trap((WORD)MOS6510_REGS_GET_PC(&maincpu_regs), 0);
             */
             ;
         break;

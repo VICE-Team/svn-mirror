@@ -56,8 +56,6 @@ typedef signed long SWORD;
 #error Cannot find a proper 32-bit type!
 #endif
 
-typedef WORD ADDRESS;
-
 typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))

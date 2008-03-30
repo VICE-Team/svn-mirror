@@ -44,7 +44,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "mon.h"             // e_*
+#include "monitor.h"         // e_*
 #include "mon_register.h"    // mon_reg_list_t
 #include "mon_disassemble.h" // mon_disassemble_to_string_ex
 

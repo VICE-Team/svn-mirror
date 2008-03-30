@@ -158,7 +158,7 @@ int catweaselmkiii_close(void)
 /* read register from sid. only the four read registers from $19 to
    $1C are read from the real SID chip, all other bytes are read from
    sidbuf[] */
-int catweaselmkiii_read(ADDRESS addr, int chipno)
+int catweaselmkiii_read(WORD addr, int chipno)
 {
   /* check if chipno is valid */
   if(chipno<MAXCARDS)
@@ -181,7 +181,7 @@ int catweaselmkiii_read(ADDRESS addr, int chipno)
 }
 
 /* write a value */
-void catweaselmkiii_store(ADDRESS addr, BYTE val, int chipno)
+void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
 {
   /* check if chipno is valid */
   if(chipno<MAXCARDS)

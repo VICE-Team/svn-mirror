@@ -27,7 +27,7 @@
 #include "vice.h"
 
 #include "console.h"
-#include "mon.h"
+#include "monitor.h"
 #include "uimon.h"
 #include "utils.h"
 
@@ -35,7 +35,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 static console_t *console_log = NULL;
+
 
 void uimon_window_close( void )
 {

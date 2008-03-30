@@ -89,6 +89,7 @@ noinst_HEADERS = \
 	main.h \
 	maincpu.h \
 	mem.h \
+	monitor.h \
 	mos6510.h \
 	p00.h \
 	palette.h \
