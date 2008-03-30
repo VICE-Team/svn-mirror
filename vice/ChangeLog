@@ -1,3 +1,9 @@
+2004-08-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.39.
+
+	* configure.in: Fixed opencbm definitions.
+
 2004-08-07  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.38.
