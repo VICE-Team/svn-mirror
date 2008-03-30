@@ -57,19 +57,24 @@ static int set_romset_firmware(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "DosName1551", RES_STRING, (resource_value_t)"dos1551",
-      RES_EVENT_NO, NULL,
-      (void *)&dos_rom_name_1551, set_dos_rom_name_1551, NULL },
-    { "RomsetDosName1551", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
+static const resource_string_t resources_string[] = {
+    { "DosName1551", "dos1551", RES_EVENT_NO, NULL,
+      &dos_rom_name_1551, set_dos_rom_name_1551, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "RomsetDosName1551", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[0], set_romset_firmware, (void *)0 },
     { NULL }
 };
 
 int tcbm_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void tcbm_resources_shutdown(void)

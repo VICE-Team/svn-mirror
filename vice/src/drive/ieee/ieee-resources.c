@@ -93,43 +93,41 @@ static int set_romset_firmware(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "DosName2031", RES_STRING, (resource_value_t)"dos2031",
-      RES_EVENT_NO, NULL, /* FIXME: should be same but names may differ */
-      (void *)&dos_rom_name_2031, set_dos_rom_name_2031, NULL },
-    { "RomsetDosName2031", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "DosName2040", RES_STRING, (resource_value_t)"dos2040",
-      RES_EVENT_NO, NULL,
-      (void *)&dos_rom_name_2040, set_dos_rom_name_2040, NULL },
-    { "RomsetDosName2040", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "DosName3040", RES_STRING, (resource_value_t)"dos3040",
-      RES_EVENT_NO, NULL,
-      (void *)&dos_rom_name_3040, set_dos_rom_name_3040, NULL },
-    { "RomsetDosName3040", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
-    { "DosName4040", RES_STRING, (resource_value_t)"dos4040",
-      RES_EVENT_NO, NULL,
-      (void *)&dos_rom_name_4040, set_dos_rom_name_4040, NULL },
-    { "RomsetDosName4040", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[3], set_romset_firmware, (void *)3 },
-    { "DosName1001", RES_STRING, (resource_value_t)"dos1001",
-      RES_EVENT_NO, NULL,
-      (void *)&dos_rom_name_1001, set_dos_rom_name_1001, NULL },
-    { "RomsetDosName1001", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[4], set_romset_firmware, (void *)4 },
+static const resource_string_t resources_string[] = {
+    { "DosName2031", "dos2031", RES_EVENT_NO, NULL,
+      /* FIXME: should be same but names may differ */
+      &dos_rom_name_2031, set_dos_rom_name_2031, NULL },
+    { "DosName2040", "dos2040", RES_EVENT_NO, NULL,
+      &dos_rom_name_2040, set_dos_rom_name_2040, NULL },
+    { "DosName3040", "dos3040", RES_EVENT_NO, NULL,
+      &dos_rom_name_3040, set_dos_rom_name_3040, NULL },
+    { "DosName4040", "dos4040", RES_EVENT_NO, NULL,
+      &dos_rom_name_4040, set_dos_rom_name_4040, NULL },
+    { "DosName1001", "dos1001", RES_EVENT_NO, NULL,
+      &dos_rom_name_1001, set_dos_rom_name_1001, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "RomsetDosName2031", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[0], set_romset_firmware, (void *)0 },
+    { "RomsetDosName2040", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[1], set_romset_firmware, (void *)1 },
+    { "RomsetDosName3040", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[2], set_romset_firmware, (void *)2 },
+    { "RomsetDosName4040", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[3], set_romset_firmware, (void *)3 },
+    { "RomsetDosName1001", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[4], set_romset_firmware, (void *)4 },
     { NULL }
 };
 
 int ieee_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void ieee_resources_shutdown(void)

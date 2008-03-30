@@ -213,61 +213,49 @@ static int set_romset_firmware(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "DosName1541", RES_STRING, (resource_value_t)"dos1541",
-      RES_EVENT_NO, NULL, /* FIXME: should be same but names may differ */
-      (void *)&dos_rom_name_1541, set_dos_rom_name_1541, NULL },
-    { "RomsetDosName1541", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "DosName1541ii", RES_STRING, (resource_value_t)"d1541II",
-      RES_EVENT_NO, NULL,
-      (void *)&dos_rom_name_1541ii, set_dos_rom_name_1541ii, NULL },
-    { "RomsetDosName1541ii", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "DosName1570", RES_STRING, (resource_value_t)"dos1570",
-      RES_EVENT_NO, NULL,
-      (void *)&dos_rom_name_1570, set_dos_rom_name_1570, NULL },
-    { "RomsetDosName1570", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
-    { "DosName1571", RES_STRING, (resource_value_t)"dos1571",
-      RES_EVENT_NO, NULL,
-      (void *)&dos_rom_name_1571, set_dos_rom_name_1571, NULL },
-    { "RomsetDosName1571", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[3], set_romset_firmware, (void *)3 },
-    { "DosName1581", RES_STRING, (resource_value_t)"dos1581",
-      RES_EVENT_NO, NULL,
-      (void *)&dos_rom_name_1581, set_dos_rom_name_1581, NULL },
-    { "RomsetDosName1581", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_firmware[4], set_romset_firmware, (void *)4 },
+static const resource_string_t resources_string[] = {
+    { "DosName1541", "dos1541", RES_EVENT_NO, NULL,
+      /* FIXME: should be same but names may differ */
+      &dos_rom_name_1541, set_dos_rom_name_1541, NULL },
+    { "DosName1541ii", "d1541II", RES_EVENT_NO, NULL,
+      &dos_rom_name_1541ii, set_dos_rom_name_1541ii, NULL },
+    { "DosName1570", "dos1570", RES_EVENT_NO, NULL,
+      &dos_rom_name_1570, set_dos_rom_name_1570, NULL },
+    { "DosName1571", "dos1571", RES_EVENT_NO, NULL,
+      &dos_rom_name_1571, set_dos_rom_name_1571, NULL },
+    { "DosName1581", "dos1581", RES_EVENT_NO, NULL,
+      &dos_rom_name_1581, set_dos_rom_name_1581, NULL },
     { NULL }
 };
 
-static resource_t res_drive[] = {
-    { NULL, RES_INTEGER, (resource_value_t)0, 
-      RES_EVENT_SAME, NULL,
+static const resource_int_t resources_int[] = {
+    { "RomsetDosName1541", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[0], set_romset_firmware, (void *)0 },
+    { "RomsetDosName1541ii", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[1], set_romset_firmware, (void *)1 },
+    { "RomsetDosName1570", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[2], set_romset_firmware, (void *)2 },
+    { "RomsetDosName1571", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[3], set_romset_firmware, (void *)3 },
+    { "RomsetDosName1581", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[4], set_romset_firmware, (void *)4 },
+    { NULL }
+};
+
+static resource_int_t res_drive[] = {
+    { NULL, 0,  RES_EVENT_SAME, NULL,
       NULL, set_drive_parallel_cable_enabled, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)DRIVE_IDLE_TRAP_IDLE,
-      RES_EVENT_SAME, NULL,
+    { NULL, DRIVE_IDLE_TRAP_IDLE, RES_EVENT_SAME, NULL,
       NULL, set_drive_idling_method, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
+    { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, set_drive_ram2, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
+    { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, set_drive_ram4, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
+    { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, set_drive_ram6, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
+    { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, set_drive_ram8, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
+    { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, set_drive_rama, NULL },
     { NULL }
 };
@@ -281,28 +269,28 @@ int iec_resources_init(void)
         drive = drive_context[dnr]->drive;
 
         res_drive[0].name = lib_msprintf("Drive%iParallelCable", dnr + 8);
-        res_drive[0].value_ptr = (void *)&(drive->parallel_cable_enabled);
+        res_drive[0].value_ptr = &(drive->parallel_cable_enabled);
         res_drive[0].param = (void *)dnr;
         res_drive[1].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
-        res_drive[1].value_ptr = (void *)&(drive->idling_method);
+        res_drive[1].value_ptr = &(drive->idling_method);
         res_drive[1].param = (void *)dnr;
         res_drive[2].name = lib_msprintf("Drive%iRAM2000", dnr + 8);
-        res_drive[2].value_ptr = (void *)&(drive->drive_ram2_enabled);
+        res_drive[2].value_ptr = &(drive->drive_ram2_enabled);
         res_drive[2].param = (void *)dnr;
         res_drive[3].name = lib_msprintf("Drive%iRAM4000", dnr + 8);
-        res_drive[3].value_ptr = (void *)&(drive->drive_ram4_enabled);
+        res_drive[3].value_ptr = &(drive->drive_ram4_enabled);
         res_drive[3].param = (void *)dnr;
         res_drive[4].name = lib_msprintf("Drive%iRAM6000", dnr + 8);
-        res_drive[4].value_ptr = (void *)&(drive->drive_ram6_enabled);
+        res_drive[4].value_ptr = &(drive->drive_ram6_enabled);
         res_drive[4].param = (void *)dnr;
         res_drive[5].name = lib_msprintf("Drive%iRAM8000", dnr + 8);
-        res_drive[5].value_ptr = (void *)&(drive->drive_ram8_enabled);
+        res_drive[5].value_ptr = &(drive->drive_ram8_enabled);
         res_drive[5].param = (void *)dnr;
         res_drive[6].name = lib_msprintf("Drive%iRAMA000", dnr + 8);
-        res_drive[6].value_ptr = (void *)&(drive->drive_rama_enabled);
+        res_drive[6].value_ptr = &(drive->drive_rama_enabled);
         res_drive[6].param = (void *)dnr;
 
-        if (resources_register(res_drive) < 0)
+        if (resources_register_int(res_drive) < 0)
             return -1;
 
         lib_free((char *)(res_drive[0].name));
@@ -314,7 +302,10 @@ int iec_resources_init(void)
         lib_free((char *)(res_drive[6].name));
     }
 
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void iec_resources_shutdown(void)
