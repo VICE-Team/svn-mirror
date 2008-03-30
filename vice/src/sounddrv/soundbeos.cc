@@ -24,10 +24,6 @@
  *
  */
 
-/* This implements a pseudo-streaming device using the Allegro library.  It
-   is not real streaming, though, as it basically cannot tell underflowing
-   from overflowing.  */
-
 #include "vice.h"
 
 #include <PushGameSound.h>
@@ -60,23 +56,24 @@ static unsigned int buffer_len;
 /* Size of fragment (bytes).  */
 static unsigned int fragment_size;
 
+/* Number of channels */
+static unsigned int num_of_channels;
+
 /* ------------------------------------------------------------------------- */
 
 static int beos_init(const char *param, int *speed,
-                              int *fragsize, int *fragnr, int *channels)
+						int *fragsize, int *fragnr, int *channels)
 {
-	/* No stereo capability. */
-	*channels = 1;
-
 	gs_audio_format audio_format;
 
 	fragment_size = *fragsize;
+	num_of_channels = *channels;
 	
 	audio_format.frame_rate = (float)*speed;
-	audio_format.channel_count = 1;
+	audio_format.channel_count = *channels;
 	audio_format.format = gs_audio_format::B_GS_S16;
 	audio_format.byte_order = B_MEDIA_LITTLE_ENDIAN;
-	audio_format.buffer_size = (size_t) *fragsize * *fragnr;
+	audio_format.buffer_size = (size_t) *fragsize * *fragnr * *channels;
 	
 	game_sound = new BPushGameSound(*fragsize,
 					&audio_format, *fragnr);
@@ -94,6 +91,8 @@ static int beos_init(const char *param, int *speed,
 	game_sound->StartPlaying();
 	
 	write_position = game_sound->CurrentPosition();
+	log_debug("fragsize=%d, fragnr=%d, channels=%d results in bufferlength=%d",
+		*fragsize, *fragnr, *channels, bufferlength);
 
     return 0;
 }
@@ -110,9 +109,10 @@ static int beos_write(SWORD *pbuf, size_t nr)
 	for (i=0; i<count; i++) {
 		p = (SWORD*) (soundbuffer+write_position);
 		memcpy(p,pbuf,fragment_size*2);
-		write_position += fragment_size;
+		write_position += fragment_size);
 		if (write_position*2 >= bufferlength)
 			write_position = 0;
+		pbuf+=fragment_size;
 	}
 	
 	return 0;
@@ -123,11 +123,9 @@ static int beos_bufferspace(void)
 	int ret;
 	int current = game_sound->CurrentPosition();
 
-	ret = current - write_position;
+	ret = current - (write_position / num_of_channels);
 	if (ret < 0)
-		ret += bufferlength;
-
-	ret /= 2;
+		ret += (bufferlength/(2*num_of_channels));
 
 	return ret;			
 }

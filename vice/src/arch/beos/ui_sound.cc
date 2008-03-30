@@ -25,6 +25,7 @@
  */
  
 #include <Box.h>
+#include <CheckBox.h>
 #include <RadioButton.h>
 #include <string.h>
 #include <Window.h>
@@ -46,9 +47,9 @@ static int ui_sound_freq[]={
 
 static int ui_sound_buffer_count = 5;
 static int ui_sound_buffer[]={
+    100,
     150,
     200,
-    250,
     300,
     350
 };
@@ -94,6 +95,7 @@ SoundWindow::SoundWindow()
 	BView *background;
 	BRect r;
 	BBox *box;
+	BCheckBox *checkbox;
 	BMessage *msg;
 	BRadioButton *radiobutton;
 	char str[128];
@@ -153,6 +155,7 @@ SoundWindow::SoundWindow()
 	r.right = r.left + r.Width()/4;
 	r.OffsetBy(2*r.Width(),0);
 	r.InsetBy(5,5);
+	r.bottom -= 20;
 	box = new BBox(r, "Oversample");
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Oversample");
@@ -174,6 +177,7 @@ SoundWindow::SoundWindow()
 	r.right = r.left + r.Width()/4;
 	r.OffsetBy(3*r.Width(),0);
 	r.InsetBy(5,5);
+	r.bottom -= 20;
 	box = new BBox(r, "Sync Method");
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Sync Method");
@@ -189,6 +193,16 @@ SoundWindow::SoundWindow()
 		box->AddChild(radiobutton);
 	}
 	background->AddChild(box);
+	
+	/* Stereo SID */
+	r = Bounds();
+	r.OffsetBy(r.Width()/2+5,r.Height()-25);
+    resources_get_value("SidStereo",
+    	(resource_value_t *)&res_value);
+	checkbox = new BCheckBox(r,"STEREO","Enable second SID at $DE00",
+		new BMessage(MESSAGE_SOUND_SIDSTEREO));
+	checkbox->SetValue(res_value);
+	background->AddChild(checkbox);
 
 	Show();
 }
@@ -222,6 +236,10 @@ void SoundWindow::MessageReceived(BMessage *msg) {
 			msg->FindInt32("sync", &res_value);
             resources_set_value("SoundSpeedAdjustment",
             	(resource_value_t)res_value);
+			break;
+		case MESSAGE_SOUND_SIDSTEREO:
+            resources_toggle("SidStereo",
+            	(resource_value_t *) &res_value);
 			break;
 		default:
 			BWindow::MessageReceived(msg);

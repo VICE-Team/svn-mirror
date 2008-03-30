@@ -1,9 +1,10 @@
 /*
  * soundwmm.c - Implementation of a Windows Waveout sound device.
- * Version 1.07
+ * Version 1.07 + stereo sid support
  *
  * Written by
  *  Lasse ™”rni <loorni@student.oulu.fi>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * Based on the DirectSound driver by
  *  Tibor Biczo <crown@mail.matav.hu>
@@ -80,6 +81,9 @@ static int fragment_bytesize;
 
 /* Number of fragments */
 static int num_fragments;
+
+/* Channels */
+static int num_of_channels;
 
 /*  Flag: is soundcard a 16bit or 8bit card? */
 static int is16bit;
@@ -164,8 +168,7 @@ static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, i
     DEBUG(("Windows Multimedia sound driver initialization: speed = %d, fragsize = %d, fragnr = %d\n",
            *speed, *fragsize, *fragnr));
 
-    /* No stereo capability. */
-    *channels = 1;
+    num_of_channels = *channels;
 
     /* If wanted to re-initialize, shutdown first */
     wmm_close();
@@ -176,11 +179,11 @@ static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, i
     /* Set sound buffer properties */
     memset(&wavfmt, 0, sizeof wavfmt);
     wavfmt.wFormatTag = WAVE_FORMAT_PCM;
-    wavfmt.nChannels = 1;
+    wavfmt.nChannels = *channels;
     wavfmt.wBitsPerSample = 16;
     wavfmt.nSamplesPerSec = *speed;
-    wavfmt.nAvgBytesPerSec = *speed*2;
-    wavfmt.nBlockAlign = 2;
+    wavfmt.nAvgBytesPerSec = *speed * 2 * *channels;
+    wavfmt.nBlockAlign = 2 * *channels;
 
 
     /* Try to open as 16bit */
@@ -191,8 +194,8 @@ static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, i
     /* If not successful, then try 8-bit */
     is16bit = 0;
     wavfmt.wBitsPerSample = 8;
-    wavfmt.nAvgBytesPerSec = *speed;
-    wavfmt.nBlockAlign = 1;
+    wavfmt.nAvgBytesPerSec = *speed* *channels;
+    wavfmt.nBlockAlign = 1 * *channels;
 
     /* Try to open as 8bit */
     if (waveOutOpen(&hwaveout, WAVE_MAPPER, &wavfmt, 0, 0, CALLBACK_NULL | WAVE_ALLOWSYNC) != MMSYSERR_NOERROR)
@@ -207,7 +210,7 @@ static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, i
 
     /* Calculate buffer size */
     fragment_size = *fragsize;
-    fragment_bytesize = fragment_size * (is16bit ? sizeof(SWORD) : 1);
+    fragment_bytesize = fragment_size * (is16bit ? sizeof(SWORD) : 1) * num_of_channels;
     num_fragments = *fragnr;
     buffer_size = fragment_bytesize * num_fragments;
 
@@ -345,7 +348,7 @@ static int wmm_bufferspace(void)
     value = buffer_size - value;
 
     if (is16bit) value >>= 1;
-    return value;
+    return value / num_of_channels;
 }
 
 static int wmm_write(SWORD *pbuf, size_t nr)

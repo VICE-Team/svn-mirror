@@ -31,6 +31,7 @@ const uint32 MESSAGE_SOUND_FREQ				= 'MS01';
 const uint32 MESSAGE_SOUND_BUFF				= 'MS02';
 const uint32 MESSAGE_SOUND_SAMPLE			= 'MS03';
 const uint32 MESSAGE_SOUND_SYNC				= 'MS04';
+const uint32 MESSAGE_SOUND_SIDSTEREO		= 'MS05';
 
 extern void ui_sound(void);
 
