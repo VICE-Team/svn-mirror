@@ -105,7 +105,7 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
     screenshot->color_map = (BYTE *)xcalloc(1, 256);
 
     for (i = 0; i < screenshot->palette->num_entries; i++)
-        screenshot->color_map[screenshot->pixel_table_sing[i]] = i;
+        screenshot->color_map[i] = i;
 
     screenshot->convert_line = screenshot_line_data;
 

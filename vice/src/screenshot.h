@@ -37,7 +37,6 @@ struct gfxoutputdrv_data_s;
 
 typedef struct screenshot_s {
     struct palette_s *palette;
-    BYTE *pixel_table_sing;
     BYTE *color_map;
     BYTE *draw_buffer;
     unsigned int draw_buffer_line_size;
