@@ -32,7 +32,6 @@
 #include <string.h>
 
 #include "alarm.h"
-#include "interrupt.h"
 #include "keyboard.h"
 #include "log.h"
 #include "maincpu.h"
@@ -50,12 +49,6 @@
 #include "tedtypes.h"
 #include "types.h"
 
-
-/* ---------------------------------------------------------------------*/
-
-#define ted_set_irq(irq, state) maincpu_set_irq(irq, state)
-
-/* ---------------------------------------------------------------------*/
 
 /* Unused bits in TED registers: these are always 1 when read.  */
 static int unused_bits_in_registers[64] =
@@ -228,8 +221,8 @@ void REGPARM2 ted_mem_vbank_3fxx_store(WORD addr, BYTE value)
 }
 #endif
 
-inline static void check_lower_upper_border(BYTE value, unsigned int line,
-                                            int cycle)
+inline static void check_lower_upper_border(const BYTE value,
+                                            unsigned int line, int cycle)
 {
     if ((value ^ ted.regs[0x06]) & 8) {
         if (value & 0x8) {
@@ -252,7 +245,7 @@ inline static void check_lower_upper_border(BYTE value, unsigned int line,
                     ted.raster.blank_enabled = 0;
                 }
             }
-            TED_DEBUG_REGISTER(("\t25 line mode enabled\n"));
+            TED_DEBUG_REGISTER(("25 line mode enabled"));
         } else {
             /* 25 -> 24 row mode switch.  */
 
@@ -270,12 +263,12 @@ inline static void check_lower_upper_border(BYTE value, unsigned int line,
                     ted.raster.blank_enabled = 1;
             }
 
-            TED_DEBUG_REGISTER(("\t24 line mode enabled\n"));
+            TED_DEBUG_REGISTER(("24 line mode enabled"));
         }
     }
 }
 
-inline static void ted06_store(BYTE value)
+inline static void ted06_store(const BYTE value)
 {
     int cycle;
     unsigned int line;
@@ -283,9 +276,9 @@ inline static void ted06_store(BYTE value)
     cycle = TED_RASTER_CYCLE(maincpu_clk);
     line = TED_RASTER_Y(maincpu_clk);
 
-    TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
+    TED_DEBUG_REGISTER(("Control register: $%02X", value));
     TED_DEBUG_REGISTER(("$FF06 tricks at cycle %d, line $%04X, "
-                       "value $%02X\n", cycle, line, value));
+                       "value $%02X", cycle, line, value));
 
     /* This is the funniest part... handle bad line tricks.  */
 
@@ -310,7 +303,7 @@ inline static void ted06_store(BYTE value)
     ted_update_video_mode(cycle);
 }
 
-inline static void check_lateral_border(BYTE value, int cycle,
+inline static void check_lateral_border(const BYTE value, int cycle,
                                         raster_t *raster)
 {
     if ((value & 0x8) != (ted.regs[0x07] & 0x8)) {
@@ -328,7 +321,7 @@ inline static void check_lateral_border(BYTE value, int cycle,
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstop,
                                                 TED_40COL_STOP_PIXEL);
-            TED_DEBUG_REGISTER(("\t40 column mode enabled\n"));
+            TED_DEBUG_REGISTER(("40 column mode enabled"));
 
             /* If CSEL changes from 0 to 1 at cycle 17, the border is
                not turned off and this line is blank.  */
@@ -348,7 +341,7 @@ inline static void check_lateral_border(BYTE value, int cycle,
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstop,
                                                 TED_38COL_STOP_PIXEL);
-            TED_DEBUG_REGISTER(("\t38 column mode enabled\n"));
+            TED_DEBUG_REGISTER(("38 column mode enabled"));
 
             /* If CSEL changes from 1 to 0 at cycle 56, the lateral
                border is open.  */
@@ -364,7 +357,7 @@ inline static void ted07_store(BYTE value)
     raster_t *raster;
     int cycle;
 
-    TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
+    TED_DEBUG_REGISTER(("Control register: $%02X", value));
 
     raster = &ted.raster;
     cycle = TED_RASTER_CYCLE(maincpu_clk);
@@ -396,7 +389,7 @@ inline static void ted07_store(BYTE value)
     ted_update_video_mode(cycle);
 }
 
-inline static void ted08_store(BYTE value)
+inline static void ted08_store(const BYTE value)
 {
     BYTE val = 0xff;
     BYTE msk = pio2_kbd;
@@ -422,53 +415,37 @@ inline static void ted08_store(BYTE value)
     ted.kbdval = val;
 }
 
-inline static void ted09_store(BYTE value)
+inline static void ted09_store(const BYTE value)
 {
     /* Emulates Read-Modify-Write behaviour. */
     if (maincpu_rmw_flag) {
-        ted.irq_status = 0;
-        if (maincpu_clk >= ted.raster_irq_clk) {
-            ted_irq_next_frame();
-        }
-    } else {
-        ted.irq_status &= ~((value & 0x5e) | 0x80);
-        if (ted.irq_status & ted.regs[0x0a])
-            ted.irq_status |= 0x80;
-        if ((value & 1) && maincpu_clk >= ted.raster_irq_clk) {
+        ted.irq_status &= ~((ted.last_read & 0x5e) | 0x80);
+        if (maincpu_clk - 1 > ted.raster_irq_clk
+            && ted.raster_irq_line < (unsigned int)ted.screen_height) {
             ted_irq_next_frame();
         }
     }
 
-    /* Update the IRQ line accordingly...
-       The external TED IRQ line is an AND of the internal collision and
-       ted.raster IRQ lines.  */
-    if (ted.irq_status & 0x80) {
-        ted_set_irq(ted.int_num, 1);
-    } else {
-        ted_set_irq(ted.int_num, 0);
+    if ((value & 2) && maincpu_clk > ted.raster_irq_clk
+        && ted.raster_irq_line < (unsigned int)ted.screen_height) {
+        ted_irq_next_frame();
     }
 
-    TED_DEBUG_REGISTER(("\tIRQ flag register: $%02X\n", ted.irq_status));
+    ted.irq_status &= ~((value & 0x5e) | 0x80);
+    ted_irq_set_line();
+
+    TED_DEBUG_REGISTER(("IRQ flag register: $%02X", ted.irq_status));
 }
 
 inline static void ted0a_store(BYTE value)
 {
-    int new_irq_line;
-
-    new_irq_line = ((ted.raster_irq_line & 0xff) | ((value & 1) << 8));
-    ted_irq_set_raster_line(new_irq_line);
-
     ted.regs[0x0a] = value & 0x5f;
 
-    if (ted.regs[0x0a] & ted.irq_status) {
-        ted.irq_status |= 0x80;
-        ted_set_irq(ted.int_num, 1);
-    } else {
-        ted.irq_status &= 0x7f;
-        ted_set_irq(ted.int_num, 0);
-    }
+    ted_irq_set_line();
 
-    TED_DEBUG_REGISTER(("\tIRQ mask register: $%02X\n", ted.regs[0x0a]));
+    ted_irq_check_state(value, 1);
+
+    TED_DEBUG_REGISTER(("IRQ mask register: $%02X", ted.regs[0x0a]));
 }
 
 inline static void ted0b_store(BYTE value)
@@ -476,20 +453,20 @@ inline static void ted0b_store(BYTE value)
     /* FIXME: Not accurate as bit #8 is missing.  */
     value = (value - ted.offset) & 255;
 
-    TED_DEBUG_REGISTER (("Raster compare register: $%02X", value));
+    TED_DEBUG_REGISTER(("Raster compare register: $%02X", value));
 
     if (value == ted.regs[0x0b])
         return;
 
     ted.regs[0x0b] = value;
 
+    ted_irq_check_state(value, 0);
+
     TED_DEBUG_REGISTER(("Raster interrupt line set to $%04X",
                        ted.raster_irq_line));
-
-    ted_irq_check_state(value, 0);
 }
 
-inline static void ted0c0d_store(WORD addr, BYTE value)
+inline static void ted0c0d_store(const WORD addr, const BYTE value)
 {
     int pos;
 
@@ -523,7 +500,7 @@ inline static void ted12_store(BYTE value)
     ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
 }
 
-inline static void ted13_store(BYTE value)
+inline static void ted13_store(const BYTE value)
 {
     if ((ted.regs[0x13] & 0xfe) == (value & 0xfe))
         return;
@@ -542,7 +519,7 @@ inline static void ted13_store(BYTE value)
     ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
 }
 
-inline static void ted14_store(BYTE value)
+inline static void ted14_store(const BYTE value)
 {
     if (ted.regs[0x14] == value)
         return;
@@ -557,8 +534,7 @@ inline static void ted15_store(BYTE value)
 
     value &= 0x7f;
 
-    TED_DEBUG_REGISTER(("\tBackground #0 color register: $%02X\n",
-                          value));
+    TED_DEBUG_REGISTER(("Background #0 color register: $%02X", value));
 
     if (ted.regs[0x15] == value)
         return;
@@ -589,8 +565,8 @@ inline static void ted161718_store(WORD addr, BYTE value)
 
     value &= 0x7f;
 
-    TED_DEBUG_REGISTER(("\tBackground color #%d register: $%02X\n",
-                          addr - 0x15, value));
+    TED_DEBUG_REGISTER(("Background color #%d register: $%02X",
+                       addr - 0x15, value));
 
     if (ted.regs[addr] == value)
         return;
@@ -607,7 +583,7 @@ inline static void ted161718_store(WORD addr, BYTE value)
 
 inline static void ted19_store(BYTE value)
 {
-    TED_DEBUG_REGISTER(("\tBorder color register: $%02X\n", value));
+    TED_DEBUG_REGISTER(("Border color register: $%02X", value));
 
     value &= 0x7f;
 
@@ -737,14 +713,20 @@ inline static BYTE ted08_read(void)
 
 inline static BYTE ted09_read(void)
 {
+    /* Manually set raster IRQ flag if the opcode reading $19 has crossed
+       the line end and the raster IRQ alarm has not been executed yet. */
     if (TED_RASTER_Y(maincpu_clk) == ted.raster_irq_line
-        && (ted.regs[0x0a] & 0x2))
-        /* As int_raster() is called 2 cycles later than it should be to
-           emulate the 6510 internal IRQ delay, `ted.irq_status' might not
-           have bit 0 set as it should.  */
-        return ted.irq_status | 0x23;
-    else
-        return ted.irq_status | 0x22;
+        && ted.raster_irq_clk != CLOCK_MAX
+        && maincpu_clk >= ted.raster_irq_clk) {
+        if (ted.regs[0x0a] & 0x2)
+            ted.last_read = ted.irq_status | 0xa3;
+        else
+            ted.last_read = ted.irq_status | 0x23;
+    } else {
+        ted.last_read = ted.irq_status | 0x21;
+    }
+
+    return ted.last_read;
 }
 
 inline static BYTE ted0a_read(void)
@@ -839,6 +821,24 @@ BYTE REGPARM1 ted_read(WORD addr)
     return ted.regs[addr] | unused_bits_in_registers[addr];
 }
 
+inline static BYTE ted09_peek(void)
+{
+    /* Manually set raster IRQ flag if the opcode reading $19 has crossed
+       the line end and the raster IRQ alarm has not been executed yet. */
+    if (TED_RASTER_Y(maincpu_clk) == ted.raster_irq_line
+        && ted.raster_irq_clk != CLOCK_MAX
+        && maincpu_clk >= ted.raster_irq_clk) {
+        if (ted.regs[0x0a] & 0x2)
+            return ted.irq_status | 0xa3;
+        else
+            return ted.irq_status | 0x23;
+    } else {
+        return ted.irq_status | 0x21;
+    }
+
+    return ted.irq_status;
+}
+
 BYTE REGPARM1 ted_peek(WORD addr)
 {
     addr &= 0x3f;
@@ -847,7 +847,7 @@ BYTE REGPARM1 ted_peek(WORD addr)
       case 0x08:
         return ted08_read();
       case 0x09:
-        return ted09_read();
+        return ted09_peek();
       case 0x0e:
       case 0x0f:
       case 0x10:

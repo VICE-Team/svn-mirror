@@ -159,7 +159,7 @@ void REGPARM2 vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
 }
 
 
-inline static void store_sprite_x_position_lsb(WORD addr, BYTE value)
+inline static void store_sprite_x_position_lsb(const WORD addr, BYTE value)
 {
     int n;
     int new_x;
@@ -178,7 +178,7 @@ inline static void store_sprite_x_position_lsb(WORD addr, BYTE value)
         VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)));
 }
 
-inline static void store_sprite_y_position(WORD addr, BYTE value)
+inline static void store_sprite_y_position(const WORD addr, BYTE value)
 {
     int cycle;
 
@@ -201,7 +201,7 @@ inline static void store_sprite_y_position(WORD addr, BYTE value)
     vic_ii.regs[addr] = value;
 }
 
-static inline void store_sprite_x_position_msb(WORD addr, BYTE value)
+static inline void store_sprite_x_position_msb(const WORD addr, BYTE value)
 {
     int i;
     BYTE b;
@@ -225,8 +225,8 @@ static inline void store_sprite_x_position_msb(WORD addr, BYTE value)
     }
 }
 
-inline static void check_lower_upper_border(BYTE value, unsigned int line,
-                                            int cycle)
+inline static void check_lower_upper_border(const BYTE value,
+                                            unsigned int line, int cycle)
 {
     if ((value ^ vic_ii.regs[0x11]) & 8) {
         if (value & 0x8) {
@@ -272,7 +272,7 @@ inline static void check_lower_upper_border(BYTE value, unsigned int line,
     }
 }
 
-inline static void store_d011(BYTE value)
+inline static void d011_store(BYTE value)
 {
     int cycle, old_allow_bad_lines;
     unsigned int line;
@@ -310,7 +310,7 @@ inline static void store_d011(BYTE value)
     vicii_update_video_mode(cycle);
 }
 
-inline static void store_d012(BYTE value)
+inline static void d012_store(BYTE value)
 {
     /* FIXME: Not accurate as bit #8 is missing.  */
     value = (value - vic_ii.offset) & 255;
@@ -322,13 +322,13 @@ inline static void store_d012(BYTE value)
 
     vic_ii.regs[0x12] = value;
 
+    vicii_irq_check_state(value, 0);
+
     VIC_II_DEBUG_REGISTER(("Raster interrupt line set to $%04X",
                           vic_ii.raster_irq_line));
-
-    vicii_irq_check_state(value, 0);
 }
 
-inline static void store_d015(BYTE value)
+inline static void d015_store(const BYTE value)
 {
     int cycle;
 
@@ -376,7 +376,7 @@ inline static void store_d015(BYTE value)
     vic_ii.regs[0x15] = vic_ii.raster.sprite_status->visible_msk = value;
 }
 
-inline static void check_lateral_border(BYTE value, int cycle,
+inline static void check_lateral_border(const BYTE value, int cycle,
                                         raster_t *raster)
 {
     if ((value & 0x8) != (vic_ii.regs[0x16] & 0x8)) {
@@ -442,7 +442,7 @@ inline static void check_lateral_border(BYTE value, int cycle,
     }
 }
 
-inline static void store_d016(BYTE value)
+inline static void d016_store(const BYTE value)
 {
     raster_t *raster;
     int cycle;
@@ -482,7 +482,7 @@ inline static void store_d016(BYTE value)
     vicii_update_video_mode(cycle);
 }
 
-inline static void store_d017(BYTE value)
+inline static void d017_store(const BYTE value)
 {
     raster_sprite_status_t *sprite_status;
     int cycle;
@@ -520,7 +520,7 @@ inline static void store_d017(BYTE value)
     vic_ii.regs[0x17] = value;
 }
 
-inline static void store_d018(BYTE value)
+inline static void d018_store(const BYTE value)
 {
     VIC_II_DEBUG_REGISTER(("Memory register: $%02X", value));
 
@@ -531,7 +531,7 @@ inline static void store_d018(BYTE value)
     vicii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
 }
 
-inline static void store_d019(BYTE value)
+inline static void d019_store(const BYTE value)
 {
     /* Emulates Read-Modify-Write behaviour. */
     if (maincpu_rmw_flag) {
@@ -553,7 +553,7 @@ inline static void store_d019(BYTE value)
     VIC_II_DEBUG_REGISTER(("IRQ flag register: $%02X", vic_ii.irq_status));
 }
 
-inline static void store_d01a(BYTE value)
+inline static void d01a_store(const BYTE value)
 {
     vic_ii.regs[0x1a] = value & 0xf;
 
@@ -562,7 +562,7 @@ inline static void store_d01a(BYTE value)
     VIC_II_DEBUG_REGISTER(("IRQ mask register: $%02X", vic_ii.regs[addr]));
 }
 
-inline static void store_d01b(BYTE value)
+inline static void d01b_store(const BYTE value)
 {
     int i;
     BYTE b;
@@ -591,7 +591,7 @@ inline static void store_d01b(BYTE value)
     vic_ii.regs[0x1b] = value;
 }
 
-inline static void store_d01c(BYTE value)
+inline static void d01c_store(const BYTE value)
 {
     int i;
     BYTE b;
@@ -628,7 +628,7 @@ inline static void store_d01c(BYTE value)
     vic_ii.regs[0x1c] = value;
 }
 
-inline static void store_d01d(BYTE value)
+inline static void d01d_store(const BYTE value)
 {
     int raster_x;
     int i;
@@ -656,16 +656,14 @@ inline static void store_d01d(BYTE value)
                                             &sprite->x_expanded,
                                             value & b ? 1 : 0);
 #else
-        if ((value & b) != (vic_ii.regs[0x1d] & b))
-        {
+        if ((value & b) != (vic_ii.regs[0x1d] & b)) {
             raster_add_int_change_sprites
                 (&vic_ii.raster,
                 raster_x,
                 &sprite->x_expanded, value & b ? 1 : 0);
 
             /* We have to shift the sprite virtually for the drawing code */
-            if (raster_x > sprite->x)
-            {
+            if (raster_x > sprite->x) {
                 int actual_shift;
                 if (value & b)
                     actual_shift = sprite->x - raster_x;
@@ -687,12 +685,12 @@ inline static void store_d01d(BYTE value)
     vic_ii.regs[0x1d] = value;
 }
 
-inline static void store_collision(WORD addr, BYTE value)
+inline static void collision_store(const WORD addr, const BYTE value)
 {
     VIC_II_DEBUG_REGISTER(("(collision register, Read Only)"));
 }
 
-inline static void store_d020(BYTE value)
+inline static void d020_store(BYTE value)
 {
     VIC_II_DEBUG_REGISTER(("Border color register: $%02X", value));
 
@@ -708,7 +706,7 @@ inline static void store_d020(BYTE value)
         value);
 }
 
-inline static void store_d021(BYTE value)
+inline static void d021_store(BYTE value)
 {
     int x_pos;
 
@@ -732,12 +730,13 @@ inline static void store_d021(BYTE value)
     }
 
     raster_add_int_change_background(&vic_ii.raster, x_pos,
-                                     (int*)&vic_ii.raster.background_color, value);
+                                     (int*)&vic_ii.raster.background_color,
+                                     value);
 
     vic_ii.regs[0x21] = value;
 }
 
-inline static void store_ext_background(WORD addr, BYTE value)
+inline static void ext_background_store(WORD addr, BYTE value)
 {
     int char_num;
 
@@ -772,7 +771,7 @@ inline static void store_ext_background(WORD addr, BYTE value)
                                      value);
 }
 
-inline static void store_d025(BYTE value)
+inline static void d025_store(BYTE value)
 {
     raster_sprite_status_t *sprite_status;
 
@@ -803,7 +802,7 @@ inline static void store_d025(BYTE value)
     vic_ii.regs[0x25] = value;
 }
 
-inline static void store_d026(BYTE value)
+inline static void d026_store(BYTE value)
 {
     raster_sprite_status_t *sprite_status;
 
@@ -834,7 +833,7 @@ inline static void store_d026(BYTE value)
     vic_ii.regs[0x26] = value;
 }
 
-inline static void store_sprite_color(WORD addr, BYTE value)
+inline static void sprite_color_store(WORD addr, BYTE value)
 {
     raster_sprite_t *sprite;
     int n;
@@ -868,7 +867,7 @@ inline static void store_sprite_color(WORD addr, BYTE value)
     vic_ii.regs[addr] = value;
 }
 
-inline static void store_d02f(BYTE value)
+inline static void d02f_store(BYTE value)
 {
     if (vic_ii.viciie) {
         VIC_II_DEBUG_REGISTER(("Extended keyboard row enable: $%02X",
@@ -880,7 +879,7 @@ inline static void store_d02f(BYTE value)
     }
 }
 
-inline static void store_d030(BYTE value)
+inline static void d030_store(BYTE value)
 {
     if (vic_ii.viciie) {
         VIC_II_DEBUG_REGISTER(("Store $D030: $%02X", value));
@@ -938,11 +937,11 @@ void REGPARM2 vicii_store(WORD addr, BYTE value)
 
       case 0x11:                  /* $D011: video mode, Y scroll, 24/25 line
                                      mode and raster MSB */
-        store_d011(value);
+        d011_store(value);
         break;
 
       case 0x12:                  /* $D012: Raster line compare */
-        store_d012(value);
+        d012_store(value);
         break;
 
       case 0x13:                  /* $D013: Light Pen X */
@@ -950,67 +949,67 @@ void REGPARM2 vicii_store(WORD addr, BYTE value)
         break;
 
       case 0x15:                  /* $D015: Sprite Enable */
-        store_d015(value);
+        d015_store(value);
         break;
 
       case 0x16:                  /* $D016 */
-        store_d016(value);
+        d016_store(value);
         break;
 
       case 0x17:                  /* $D017: Sprite Y-expand */
-        store_d017(value);
+        d017_store(value);
         break;
 
       case 0x18:                  /* $D018: Video and char matrix base
                                      address */
-        store_d018(value);
+        d018_store(value);
         break;
 
       case 0x19:                  /* $D019: IRQ flag register */
-        store_d019(value);
+        d019_store(value);
         break;
 
       case 0x1a:                  /* $D01A: IRQ mask register */
-        store_d01a(value);
+        d01a_store(value);
         break;
 
       case 0x1b:                  /* $D01B: Sprite priority */
-        store_d01b(value);
+        d01b_store(value);
         break;
 
       case 0x1c:                  /* $D01C: Sprite Multicolor select */
-        store_d01c(value);
+        d01c_store(value);
         break;
 
       case 0x1d:                  /* $D01D: Sprite X-expand */
-        store_d01d(value);
+        d01d_store(value);
         break;
 
       case 0x1e:                  /* $D01E: Sprite-sprite collision */
       case 0x1f:                  /* $D01F: Sprite-background collision */
-        store_collision(addr, value);
+        collision_store(addr, value);
         break;
 
       case 0x20:                  /* $D020: Border color */
-        store_d020(value);
+        d020_store(value);
         break;
 
       case 0x21:                  /* $D021: Background #0 color */
-        store_d021(value);
+        d021_store(value);
         break;
 
       case 0x22:                  /* $D022: Background #1 color */
       case 0x23:                  /* $D023: Background #2 color */
       case 0x24:                  /* $D024: Background #3 color */
-        store_ext_background(addr, value);
+        ext_background_store(addr, value);
         break;
 
       case 0x25:                  /* $D025: Sprite multicolor register #0 */
-        store_d025(value);
+        d025_store(value);
         break;
 
       case 0x26:                  /* $D026: Sprite multicolor register #1 */
-        store_d026(value);
+        d026_store(value);
         break;
 
       case 0x27:                  /* $D027: Sprite #0 color */
@@ -1021,16 +1020,16 @@ void REGPARM2 vicii_store(WORD addr, BYTE value)
       case 0x2c:                  /* $D02C: Sprite #5 color */
       case 0x2d:                  /* $D02D: Sprite #6 color */
       case 0x2e:                  /* $D02E: Sprite #7 color */
-        store_sprite_color(addr, value);
+        sprite_color_store(addr, value);
         break;
 
       case 0x2f:                  /* $D02F: Unused (or extended keyboard row
                                      select) */
-        store_d02f(value);
+        d02f_store(value);
         break;
 
       case 0x30:                  /* $D030: Unused (or VIC-IIe extension) */
-        store_d030(value);
+        d030_store(value);
         break;
 
       case 0x31:                  /* $D031: Unused */
@@ -1070,7 +1069,7 @@ inline static unsigned int read_raster_y(void)
     return raster_y;
 }
 
-inline static BYTE read_d01112(WORD addr)
+inline static BYTE d01112_read(WORD addr)
 {
     unsigned int tmp;
 
@@ -1088,7 +1087,7 @@ inline static BYTE read_d01112(WORD addr)
 }
 
 
-inline static BYTE read_d019(void)
+inline static BYTE d019_read(void)
 {
     /* Manually set raster IRQ flag if the opcode reading $d019 has crossed
        the line end and the raster IRQ alarm has not been executed yet. */
@@ -1153,7 +1152,7 @@ BYTE REGPARM1 vicii_read(WORD addr)
       case 0x11:                /* $D011: video mode, Y scroll, 24/25 line mode
                                    and raster MSB */
       case 0x12:                /* $D012: Raster line compare */
-        return read_d01112(addr);
+        return d01112_read(addr);
 
       case 0x13:                  /* $D013: Light Pen X */
         VIC_II_DEBUG_REGISTER(("Light pen X: %d", vic_ii.light_pen.x));
@@ -1187,7 +1186,7 @@ BYTE REGPARM1 vicii_read(WORD addr)
         {
             BYTE tmp;
 
-            tmp = read_d019();
+            tmp = d019_read();
             VIC_II_DEBUG_REGISTER(("Interrupt register: $%02X", tmp));
 
             return tmp;
@@ -1332,6 +1331,24 @@ BYTE REGPARM1 vicii_read(WORD addr)
     return 0xff;  /* make compiler happy */
 }
 
+inline static BYTE d019_peek(void)
+{
+    /* Manually set raster IRQ flag if the opcode reading $d019 has crossed
+       the line end and the raster IRQ alarm has not been executed yet. */
+    if (VIC_II_RASTER_Y(maincpu_clk) == vic_ii.raster_irq_line
+        && vic_ii.raster_irq_clk != CLOCK_MAX
+        && maincpu_clk >= vic_ii.raster_irq_clk) {
+        if (vic_ii.regs[0x1a] & 0x1)
+            return vic_ii.irq_status | 0xf1;
+        else
+            return vic_ii.irq_status | 0x71;
+    } else {
+        return vic_ii.irq_status | 0x70;
+    }
+
+    return vic_ii.irq_status;
+}
+
 BYTE REGPARM1 vicii_peek(WORD addr)
 {
     addr &= 0x3f;
@@ -1347,7 +1364,7 @@ BYTE REGPARM1 vicii_peek(WORD addr)
       case 0x14:              /* $D014: Light Pen Y */
         return vic_ii.light_pen.y;
       case 0x19:
-        return read_d019();
+        return d019_peek();
       case 0x1e:              /* $D01E: Sprite-sprite collision */
         return vic_ii.sprite_sprite_collisions;
       case 0x1f:              /* $D01F: Sprite-background collision */
