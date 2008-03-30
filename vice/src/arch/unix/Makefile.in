@@ -495,13 +495,14 @@ uirs232.o: uirs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/archapi.h ../../../src/debug.h types.h \
-	../../../src/fliplist.h ../../../src/keyboard.h \
-	../../../src/machine.h ../../../src/mem.h \
-	../../../src/resources.h ../../../src/romset.h uimenu.h \
-	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \
-	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h \
-	uiperipheral.h uirs232.h uisettings.h uisound.h \
-	../../../src/utils.h ../../../src/vsync.h
+	../../../src/fliplist.h ../../../src/ioutil.h \
+	../../../src/keyboard.h ../../../src/machine.h \
+	../../../src/mem.h ../../../src/resources.h \
+	../../../src/romset.h uimenu.h x11/xaw/uimenu.h ui.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
+	uihotkey.h x11/xaw/../xaw/uiarch.h uiperipheral.h uirs232.h \
+	uisettings.h uisound.h ../../../src/utils.h \
+	../../../src/vsync.h
 uisid.o: uisid.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/resources.h uimenu.h x11/xaw/uimenu.h ui.h types.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \

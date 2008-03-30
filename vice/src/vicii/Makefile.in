@@ -257,9 +257,9 @@ distdir: $(DISTFILES)
 	done
 vicii-badline.o: vicii-badline.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/arch/unix/types.h \
-	../../src/maincpu.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/viewport.h \
-	vicii-badline.h vicii-fetch.h viciitypes.h ../../src/log.h
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h vicii-badline.h vicii-fetch.h viciitypes.h \
+	../../src/log.h
 vicii-cmdline-options.o: vicii-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h \
 	../../src/raster/raster-cmdline-options.h \

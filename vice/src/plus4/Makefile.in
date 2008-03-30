@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libplus4.a
 
-libplus4_a_SOURCES =  	plus4-cmdline-options.c 	plus4-cmdline-options.h 	plus4-resources.c 	plus4-resources.h 	plus4-snapshot.c 	plus4-snapshot.h 	plus4.c 	plus4.h 	plus4cpu.c 	plus4datasette.c 	plus4iec.c 	plus4iec.h 	plus4mem.c 	plus4mem.h 	plus4memlimit.c 	plus4memlimit.h 	plus4pio1.c 	plus4pio1.h 	plus4pio2.c 	plus4pio2.h 	plus4rom.c 	plus4rom.h 	tcbm.c 	tcbm.h 	ted-cmdline-options.c 	ted-cmdline-options.h 	ted-color.c 	ted-color.h 	ted-draw.c 	ted-draw.h 	ted-fetch.c 	ted-fetch.h 	ted-mem.c 	ted-mem.h 	ted-resources.c 	ted-resources.h 	ted-snapshot.c 	ted-snapshot.h 	ted-sound.c 	ted-sound.h 	ted-timer.c 	ted-timer.h 	ted.c 	ted.h 	tedtypes.h
+libplus4_a_SOURCES =  	plus4-cmdline-options.c 	plus4-cmdline-options.h 	plus4-resources.c 	plus4-resources.h 	plus4-snapshot.c 	plus4-snapshot.h 	plus4.c 	plus4.h 	plus4cpu.c 	plus4datasette.c 	plus4iec.c 	plus4iec.h 	plus4mem.c 	plus4mem.h 	plus4memlimit.c 	plus4memlimit.h 	plus4pio1.c 	plus4pio1.h 	plus4pio2.c 	plus4pio2.h 	plus4rom.c 	plus4rom.h 	tcbm.c 	tcbm.h 	ted-badline.c 	ted-badline.h 	ted-cmdline-options.c 	ted-cmdline-options.h 	ted-color.c 	ted-color.h 	ted-draw.c 	ted-draw.h 	ted-fetch.c 	ted-fetch.h 	ted-mem.c 	ted-mem.h 	ted-resources.c 	ted-resources.h 	ted-snapshot.c 	ted-snapshot.h 	ted-sound.c 	ted-sound.h 	ted-timer.c 	ted-timer.h 	ted.c 	ted.h 	tedtypes.h
 
 
 EXTRA_libplus4_a_SOURCES =          plus4acia.h         plus4acia.c
@@ -161,8 +161,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libplus4_a_OBJECTS =  plus4-cmdline-options.o plus4-resources.o \
 plus4-snapshot.o plus4.o plus4cpu.o plus4datasette.o plus4iec.o \
 plus4mem.o plus4memlimit.o plus4pio1.o plus4pio2.o plus4rom.o tcbm.o \
-ted-cmdline-options.o ted-color.o ted-draw.o ted-fetch.o ted-mem.o \
-ted-resources.o ted-snapshot.o ted-sound.o ted-timer.o ted.o
+ted-badline.o ted-cmdline-options.o ted-color.o ted-draw.o ted-fetch.o \
+ted-mem.o ted-resources.o ted-snapshot.o ted-sound.o ted-timer.o ted.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -332,6 +332,11 @@ tcbm.o: tcbm.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
 	../../src/maincpu.h tcbm.h ../../src/drive/tia1551.h
+ted-badline.o: ted-badline.c ../../src/vice.h ../../src/config.h \
+	../../src/interrupt.h ../../src/arch/unix/types.h \
+	../../src/maincpu.h ../../src/mem.h ted-badline.h ted-fetch.h \
+	tedtypes.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/viewport.h
 ted-cmdline-options.o: ted-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h \
 	../../src/raster/raster-cmdline-options.h ted-cmdline-options.h \
@@ -362,9 +367,9 @@ ted-fetch.o: ted-fetch.c ../../src/vice.h ../../src/config.h \
 ted-mem.o: ted-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/keyboard.h ../../src/maincpu.h \
-	../../src/mem.h plus4mem.h plus4pio2.h ted-fetch.h \
-	ted-resources.h ted-mem.h ted-sound.h ted-timer.h ted.h \
-	tedtypes.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/mem.h plus4mem.h plus4pio2.h ted-badline.h \
+	ted-fetch.h ted-resources.h ted-mem.h ted-sound.h ted-timer.h \
+	ted.h tedtypes.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \

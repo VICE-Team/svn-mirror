@@ -576,8 +576,8 @@ autostart.o: autostart.c vice.h config.h arch/unix/archdep.h archapi.h \
 	tape.h arch/unix/ui.h uiapi.h utils.h vdrive/vdrive.h \
 	vdrive/vdrive-bam.h zfile.h
 c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h charset.h \
-	arch/unix/types.h diskimage.h gcr.h info.h log.h p00.h serial.h \
-	snapshot.h t64.h utils.h vdrive/vdrive-bam.h \
+	arch/unix/types.h diskimage.h gcr.h info.h ioutil.h log.h p00.h \
+	serial.h snapshot.h t64.h utils.h vdrive/vdrive-bam.h \
 	vdrive/vdrive-command.h vdrive/vdrive-dir.h vdrive/vdrive-iec.h \
 	vdrive/vdrive.h zipcode.h
 charset.o: charset.c vice.h config.h charset.h arch/unix/types.h log.h \
@@ -598,7 +598,7 @@ debug.o: debug.c vice.h config.h cmdline.h debug.h arch/unix/types.h \
 	log.h resources.h
 emuid.o: emuid.c arch/unix/types.h vice.h config.h
 findpath.o: findpath.c vice.h config.h arch/unix/archdep.h archapi.h \
-	findpath.h utils.h arch/unix/types.h
+	findpath.h ioutil.h utils.h arch/unix/types.h
 fliplist.o: fliplist.c vice.h config.h arch/unix/archdep.h archapi.h \
 	attach.h fliplist.h log.h utils.h arch/unix/types.h
 gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h utils.h
@@ -615,7 +615,7 @@ initcmdline.o: initcmdline.c vice.h config.h arch/unix/archdep.h \
 	utils.h
 interrupt.o: interrupt.c vice.h config.h interrupt.h arch/unix/types.h \
 	log.h snapshot.h
-ioutil.o: ioutil.c vice.h config.h utils.h arch/unix/types.h
+ioutil.o: ioutil.c vice.h config.h ioutil.h utils.h arch/unix/types.h
 joystick.o: joystick.c vice.h config.h alarm.h arch/unix/types.h \
 	keyboard.h arch/unix/joy.h joystick.h maincpu.h
 kbdbuf.o: kbdbuf.c vice.h config.h cmdline.h maincpu.h arch/unix/types.h \
