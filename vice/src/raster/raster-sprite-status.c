@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -41,6 +42,7 @@ void raster_sprite_status_init(raster_sprite_status_t *s,
     s->num_sprites = num_sprites;
 
     s->draw_function = NULL;
+    s->cache_function = NULL;
 
     s->visible_msk = 0;
     s->dma_msk = 0;
@@ -81,5 +83,11 @@ void raster_sprite_status_set_draw_function(raster_sprite_status_t *status,
                                 raster_sprite_status_draw_function_t function)
 {
     status->draw_function = function;
+}
+
+void raster_sprite_status_set_cache_function(raster_sprite_status_t *status,
+                                raster_sprite_status_cache_function_t function)
+{
+    status->cache_function = function;
 }
 
