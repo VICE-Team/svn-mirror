@@ -1,3 +1,11 @@
+2003-09-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.30.
+
+2003-09-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* configure.in: Define HAVE_TFE for windows.
+
 2003-09-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.29.

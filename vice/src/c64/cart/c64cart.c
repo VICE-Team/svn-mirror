@@ -59,32 +59,36 @@ static int c64cartridge_reset;
 
 int c64cart_type = CARTRIDGE_NONE;
 int cartmode = CARTRIDGE_MODE_OFF;
+int cartres = 0;
 static char *cartfile;
 
 static alarm_t *cartridge_alarm = NULL;
 
 static unsigned int cartridge_int_num;
 
+static int try_cartridge_init(int c)
+{
+    cartres^=c;
+    if (cartres) return 0;
+    return cartridge_attach_image(c64cart_type, cartfile);
+}
 
 static int set_cartridge_type(resource_value_t v, void *param)
 {
     cartridge_type = (int)v;
     c64cart_type = cartridge_type;
 
-    return cartridge_attach_image(c64cart_type, cartfile);
+    return try_cartridge_init(1);
 }
 
 static int set_cartridge_file(resource_value_t v, void *param)
 {
     const char *name = (const char *)v;
 
-    if (cartridge_file != NULL && name != NULL
-        && strcmp(name, cartridge_file) == 0)
-        return 0;
-
     util_string_set(&cartridge_file, name);
     util_string_set(&cartfile, name);
-    return cartridge_attach_image(c64cart_type, cartfile);
+
+    return try_cartridge_init(2);
 }
 
 static int set_cartridge_mode(resource_value_t v, void *param)
@@ -102,14 +106,15 @@ static int set_cartridge_mode(resource_value_t v, void *param)
         expert_mode_changed(cartridge_mode);
         break;
     }
-    return 0;
+
+    return try_cartridge_init(4);
 }
 
 static int set_cartridge_reset(resource_value_t v, void *param)
 {
     c64cartridge_reset = (int)v;
 
-    return 0;
+    return try_cartridge_init(8);
 }
 
 static int set_ide64_config(resource_value_t v, void *param)
@@ -125,7 +130,7 @@ static int set_ide64_config(resource_value_t v, void *param)
         for (i = 0; cfg[i] && i < 64; i++)
             ide64_DS1302[i] = cfg[i];
 
-    return 0;
+    return try_cartridge_init(16);
 }
 
 static int set_ide64_image_file(resource_value_t v, void *param)
@@ -134,7 +139,7 @@ static int set_ide64_image_file(resource_value_t v, void *param)
 
     util_string_set(&ide64_image_file, name);
 
-    return 0;
+    return try_cartridge_init(32);
 }
 
 static const resource_t resources[] = {

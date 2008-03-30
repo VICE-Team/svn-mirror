@@ -1,5 +1,6 @@
 // C64 specific resources.
 //
+#include "config.h"
 #include "debug.h"
 #include "res.rc"
 #include "resreu.rc"
