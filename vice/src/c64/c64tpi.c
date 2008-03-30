@@ -2,7 +2,7 @@
  * c64tpi.c - IEEE488 interface for the C64.
  *
  * Written by
- *   André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
