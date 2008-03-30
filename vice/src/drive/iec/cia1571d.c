@@ -1,5 +1,4 @@
 /*
- *
  * cia1571d.c - Definitions for the MOS6526 (CIA) chip in the 1571
  * disk drive ($4000).
  *
@@ -23,7 +22,8 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- * */
+ *
+ */
 
 #include "vice.h"
 
@@ -133,10 +133,11 @@ void cia1571_setup_context(drive_context_t *ctxptr)
 
 static inline void do_reset_cia(drive_context_t *ctxptr)
 {
-
 }
 
-static inline void pulse_ciapc(drive_context_t *ctxptr, CLOCK rclk) { }
+static inline void pulse_ciapc(drive_context_t *ctxptr, CLOCK rclk)
+{
+}
 
 #define PRE_STORE_CIA
 #define PRE_READ_CIA

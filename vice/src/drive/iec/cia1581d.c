@@ -41,6 +41,7 @@ struct drive_context_s;
 #include "interrupt.h"
 #include "types.h"
 
+
 /* set mycia_debugFlag to 1 to get output */
 #undef CIA_TIMER_DEBUG
 
@@ -112,17 +113,17 @@ struct drive_context_s;
 
 void cia1581_setup_context(drive_context_t *ctxptr)
 {
-   ctxptr->cia1581.todticks = 100000;
-   ctxptr->cia1581.log = LOG_ERR;
-   ctxptr->cia1581.read_clk = 0;
-   ctxptr->cia1581.read_offset = 0;
-   ctxptr->cia1581.last_read = 0;
-   ctxptr->cia1581.debugFlag = 0;
-   ctxptr->cia1581.irq_line = IK_IRQ;
-   sprintf(ctxptr->cia1581.myname, "CIA1581D%d", ctxptr->mynumber);
-   ctxptr->cia1581.int_num
-       = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
-                                      ctxptr->cia1581.myname);
+    ctxptr->cia1581.todticks = 100000;
+    ctxptr->cia1581.log = LOG_ERR;
+    ctxptr->cia1581.read_clk = 0;
+    ctxptr->cia1581.read_offset = 0;
+    ctxptr->cia1581.last_read = 0;
+    ctxptr->cia1581.debugFlag = 0;
+    ctxptr->cia1581.irq_line = IK_IRQ;
+    sprintf(ctxptr->cia1581.myname, "CIA1581D%d", ctxptr->mynumber);
+    ctxptr->cia1581.int_num
+        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+                                       ctxptr->cia1581.myname);
 }
 
 
@@ -137,7 +138,9 @@ static inline void do_reset_cia(drive_context_t *ctxptr)
     ctxptr->drive_ptr->led_status = 1;
 }
 
-static inline void pulse_ciapc(drive_context_t *ctxptr, CLOCK rclk) { }
+static inline void pulse_ciapc(drive_context_t *ctxptr, CLOCK rclk)
+{
+}
 
 #define PRE_STORE_CIA
 #define PRE_READ_CIA
@@ -150,7 +153,6 @@ static inline void undump_ciapa(drive_context_t *ctxptr, CLOCK rclk, BYTE b)
 
 static inline void undump_ciapb(drive_context_t *ctxptr, CLOCK rclk, BYTE b)
 {
-
 }
 
 static inline void store_ciapa(drive_context_t *ctxptr, CLOCK rclk, BYTE byte)
@@ -196,16 +198,15 @@ static inline BYTE read_ciapa(drive_context_t *ctxptr)
 
 static inline BYTE read_ciapb(drive_context_t *ctxptr)
 {
-    if (iec_info != NULL)
-    {
+    if (iec_info != NULL) {
         BYTE *drive_port = (ctxptr->mynumber == 0) ? &(iec_info->drive_port)
                                                    : &(iec_info->drive2_port);
         return (((cia[CIA_PRB] & 0x1a) | (*drive_port)) ^ 0x85)
                | (ctxptr->drive_ptr->read_only ? 0 : 0x40);
-    }
-    else
+    } else {
         return (((cia[CIA_PRB] & 0x1a) | ctxptr->func.iec_read()) ^ 0x85)
                | (ctxptr->drive_ptr->read_only ? 0 : 0x40);
+    }
 }
 
 static inline void read_ciaicr(drive_context_t *ctxptr)
