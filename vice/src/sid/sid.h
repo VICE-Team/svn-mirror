@@ -29,6 +29,9 @@
 
 #include "types.h"
 
+#define SID_ENGINE_FASTSID        0
+#define SID_ENGINE_CATWEASELMKIII 1
+
 extern BYTE REGPARM1 sid_read(ADDRESS address);
 extern BYTE REGPARM1 sid2_read(ADDRESS address);
 extern void REGPARM2 sid_store(ADDRESS address, BYTE byte);
@@ -36,6 +39,7 @@ extern void REGPARM2 sid2_store(ADDRESS address, BYTE byte);
 extern void sid_reset(void);
 
 extern BYTE *sid_get_siddata(unsigned int channel);
+extern void sid_engine_set(int engine);
 
 struct sound_s;
 

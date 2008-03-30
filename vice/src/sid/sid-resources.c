@@ -33,6 +33,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "sid-resources.h"
+#include "sid.h"
 #include "sound.h"
 #include "types.h"
 
@@ -50,6 +51,27 @@ static int sid_resid_passband;
 int sid_stereo;
 unsigned int sid_stereo_address_start;
 unsigned int sid_stereo_address_end;
+static int sid_engine;
+
+static int set_sid_engine(resource_value_t v, void *param)
+{
+    int engine;
+
+    engine = (int)v;
+
+    if (engine != SID_ENGINE_FASTSID
+#ifdef HAVE_CATWEASELMKIII
+        && engine != SID_ENGINE_CATWEASELMKIII
+#endif
+        )
+        return -1;
+
+    sid_engine = engine;
+
+    sid_engine_set(engine);
+
+    return 0;
+}
 
 static int set_sid_filters_enabled(resource_value_t v, void *param)
 {
@@ -117,6 +139,9 @@ static int set_sid_resid_passband(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
+    { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_FASTSID,
+      (resource_value_t *)&sid_engine,
+      set_sid_engine, NULL },
     { "SidFilters", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&sid_filters_enabled,
       set_sid_filters_enabled, NULL },

@@ -16,6 +16,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/cbm2 \
+	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarch.a
@@ -28,6 +29,8 @@ libarch_a_SOURCES = \
 	c128ui.h \
 	c64ui.c \
 	c64ui.h \
+	catweaselmkiii.c \
+	catweaselmkiii.h \
 	cbm2ui.c \
 	cbm2ui.h \
 	console.c \
