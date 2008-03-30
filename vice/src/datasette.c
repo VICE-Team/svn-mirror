@@ -27,16 +27,27 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <math.h>
 
 #include "alarm.h"
 #include "clkguard.h"
+#include "cmdline.h"
 #include "datasette.h"
+#include "log.h"
+#include "machine.h"
 #include "maincpu.h"
+#include "resources.h"
 #include "types.h"
 #include "ui.h"
 
 /* Attached TAP tape image.  */
 static tap_t *current_image = NULL;
+
+/* Buffer for the TAP */
+static BYTE tap_buffer[TAP_BUFFER_LENGTH];
+
+/* Pointer and length of the tap-buffer */
+static long next_tap, last_tap;
 
 /* State of the datasette motor.  */
 static int datasette_motor = 0;
@@ -48,88 +59,255 @@ static alarm_t datasette_alarm;
 
 static int datasette_alarm_pending = 0;
 
+static long datasette_cycles_per_second;
+
+/* Remember the reset of tape-counter.  */
+static int datasette_counter_offset = 0;
+
+/* app_ressource datasette */
+static int reset_datasette_with_maincpu;
+
+static log_t datasette_log = LOG_ERR;
+
+static int set_reset_datasette_with_maincpu(resource_value_t v)
+{
+    reset_datasette_with_maincpu = (int)v;
+    return 0;
+}
+
+/*---------- Resources ---------------------------------------
+*/
+static resource_t resources[] = {
+    { "DatasetteResetWithCPU", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &reset_datasette_with_maincpu, set_reset_datasette_with_maincpu },
+    { NULL }
+};
+
+
+int datasette_init_resources(void)
+{
+    return resources_register(resources);
+}
+/*---------------------------------------------------------------------
+*/
+
+
+/*---------- Commandline options ---------------------------------------
+*/
+static cmdline_option_t cmdline_options[] = {
+    { "-dsresetwithcpu", SET_RESOURCE, 0, NULL, NULL, "DatasetteResetWithCPU", (resource_value_t) 0,
+      NULL, "Disable automatic Datasette-Reset" },
+    { "+dsresetwithcpu", SET_RESOURCE, 0, NULL, NULL, "DatasetteResetWithCPU", (resource_value_t) 1,
+      NULL, "Disable automatic Datasette-Reset" },
+    { NULL }
+};
+
+
+int datasette_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+/*---------------------------------------------------------------------
+*/
+
+/* constants to make the counter-calculation a little faster */
+/* see datasette.h for the complete formular                 */
+const double ds_c1 = DS_V_PLAY/DS_D/PI;
+const double ds_c2 = (DS_R*DS_R)/(DS_D*DS_D);
+const double ds_c3 = DS_R/DS_D;
+
+
 static void datasette_update_ui_counter(void)
 {
-    /* 3-digit-counter of seconds is guessed with an average tap-value of 50 */
-    current_image->counter = (current_image->current_file_seek_position*400/985248)%1000;
+    current_image->counter = (int)(1000 - datasette_counter_offset + DS_G *
+                             (sqrt((current_image->cycle_counter
+                             / (datasette_cycles_per_second / 8.0)
+                             * ds_c1) + ds_c2)- ds_c3)) % 1000;
+
     ui_display_tape_counter(current_image->counter);
 }
 
+
+void datasette_reset_counter(void)
+{
+    datasette_counter_offset = (int)(1000 + DS_G *
+                               (sqrt((current_image->cycle_counter
+                               / (datasette_cycles_per_second / 8.0)
+                               * ds_c1) + ds_c2)- ds_c3)) % 1000;
+                               datasette_update_ui_counter();
+}
+
+
+inline static void datasette_move_buffer_forward(int offset)
+{
+    /* reads buffer to fit the next gap-read
+       tap_buffer[next_tap] ~ current_file_seek_position
+    */
+    if (next_tap + offset >= last_tap) {
+        fseek(current_image->fd, current_image->current_file_seek_position
+             + current_image->offset, SEEK_SET);
+        last_tap = fread(tap_buffer, 1, TAP_BUFFER_LENGTH, current_image->fd);
+        next_tap = 0;
+    }
+}
+
+
+inline static void datasette_move_buffer_back(int offset)
+{
+    /* reads buffer to fit the next gap-read at current_file_seek_position-1
+       tap_buffer[next_tap] ~ current_file_seek_position
+    */
+    if (next_tap+offset < 0) {
+        if (current_image->current_file_seek_position >= TAP_BUFFER_LENGTH)
+            next_tap = TAP_BUFFER_LENGTH;
+        else
+            next_tap = current_image->current_file_seek_position;
+        fseek(current_image->fd, current_image->current_file_seek_position
+              - next_tap + current_image->offset, SEEK_SET);
+        last_tap = fread(tap_buffer, 1, TAP_BUFFER_LENGTH, current_image->fd);
+    }
+}
+
+
+static CLOCK datasette_read_gap(int direction)
+{   
+    /* direction 1: forward, -1: rewind */
+    long read_tap;
+    CLOCK gap;
+
+    if (direction < 0)
+        datasette_move_buffer_back(direction * 4);
+    else
+        datasette_move_buffer_forward(direction * 4);
+
+    if (direction > 0)
+        read_tap = next_tap;
+    else if ((current_image->version == 0) || (next_tap < 4)
+        || tap_buffer[next_tap-4])
+        read_tap = next_tap - 1;
+    else {
+        /* examine, if previous gap was long
+           by rewinding until 3 non-zero-values 
+           in a row found, then reading forward (FIXME???)
+        */
+        int non_zeros_in_a_row = 0;
+        long remember_file_seek_position = current_image->current_file_seek_position;
+        current_image->current_file_seek_position -= 4;
+        next_tap -= 4;
+        while ((non_zeros_in_a_row < 3) 
+            && current_image->current_file_seek_position) {
+            datasette_move_buffer_back(-1);
+            current_image->current_file_seek_position--;
+            next_tap--;
+            if (tap_buffer[next_tap])
+                non_zeros_in_a_row++;
+            else
+                non_zeros_in_a_row = 0;
+        }
+        /* now forward */
+        while (current_image->current_file_seek_position
+            < remember_file_seek_position - 4) {
+            datasette_move_buffer_forward(1);
+            if (tap_buffer[next_tap]) {
+                current_image->current_file_seek_position++;
+                next_tap++;
+            } else {
+                current_image->current_file_seek_position += 4;
+                next_tap += 4;
+            }
+        }
+        datasette_move_buffer_forward(4);
+        read_tap = next_tap;
+        next_tap += (remember_file_seek_position 
+                    - current_image->current_file_seek_position);
+        current_image->current_file_seek_position = remember_file_seek_position;
+    }
+    if ((read_tap >= last_tap) || (read_tap < 0))
+        return 0;
+    gap = tap_buffer[read_tap];
+    if ((current_image->version == 0) || gap) {
+        gap = (gap ? (CLOCK)gap : (CLOCK)TAPV0_ZERO_GAP) * 8;
+    } else {
+        if (read_tap >= last_tap - 3) {
+            return 0;
+        }
+        direction *= 4;
+        gap = tap_buffer[read_tap + 1]
+            + (tap_buffer[read_tap + 2] << 8)
+            + (tap_buffer[read_tap + 3] << 16);
+        if (!gap)
+            gap = TAPV0_ZERO_GAP;
+    }
+    next_tap += direction;
+    current_image->current_file_seek_position += direction;
+    return gap;
+}
+
+
 static int datasette_read_bit(long offset)
 {
+    double v = 1;  /* speed of tape */
+    int direction = 1;
+    CLOCK gap;
+    
     alarm_unset(&datasette_alarm);
     datasette_alarm_pending = 0;
 
-    if (current_image == NULL)
+    if ((current_image == NULL) || !datasette_motor)
         return 0;
-    datasette_update_ui_counter();
     switch (current_image->mode) {
       case DATASETTE_CONTROL_START:
-        if (datasette_motor)
-        {
-            BYTE comp_gap;
-            CLOCK gap;
-
-            datasette_trigger_flux_change();
-
-            if (fread(&comp_gap, 1, 1, current_image->fd) < 1) {
-                datasette_control(DATASETTE_CONTROL_STOP);
-                return 0;
-            }
-
-            current_image->current_file_seek_position++;
-  
-            if (current_image->version >= 1 && !comp_gap) {
-                BYTE long_gap[3];
-                int i;
-                for (i = 0; i < 3; i++) {
-                    if (fread(&long_gap[i], 1, 1, current_image->fd) < 1) {
-                        datasette_control(DATASETTE_CONTROL_STOP);
-                        return 0;
-                    }
-                    current_image->current_file_seek_position++;
-                }
-                gap = long_gap[0] + (long_gap[1] << 8) + (long_gap[2] << 16);
-            } else {
-                gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)2500) * 8 - offset;
-            }
-
-            if (gap > 0) {
-                alarm_set(&datasette_alarm, clk + gap);
-                datasette_alarm_pending = 1;
-            } else {
-                /* If the offset is geater than the gap to the next flux
-                   change, the change happend during DMA.  Schedule it now.  */
-                alarm_set(&datasette_alarm, clk);
-                datasette_alarm_pending = 1;
-            }
-            return 0;
-        }
+        direction = 1;
+        v = DS_V_PLAY;
+        datasette_trigger_flux_change();
         break;
       case DATASETTE_CONTROL_FORWARD:
-        if (current_image->current_file_seek_position
-            >= (current_image->size - 200)) {
-            current_image->current_file_seek_position = current_image->size;
-            datasette_control(DATASETTE_CONTROL_STOP);
-        } else {
-            current_image->current_file_seek_position += 200;
-            alarm_set(&datasette_alarm, clk + 10000);
-            datasette_alarm_pending = 1;
-        }
+        direction = 1;
+        v = DS_RPS_FAST / DS_G
+            * sqrt(4 * PI * DS_D
+            * DS_V_PLAY / datasette_cycles_per_second * 8
+            * current_image->cycle_counter 
+            + 4 * PI * PI * DS_R * DS_R);
         break;
       case DATASETTE_CONTROL_REWIND:
-        if (current_image->current_file_seek_position <= 200) {
-            current_image->current_file_seek_position = 0;
-            datasette_control(DATASETTE_CONTROL_STOP);
-        } else {
-            current_image->current_file_seek_position -= 200;
-            alarm_set(&datasette_alarm, clk + 10000);
-            datasette_alarm_pending = 1;
-        }
+        direction = -1;
+        v = DS_RPS_FAST / DS_G
+            * sqrt(4 * PI * DS_D
+            * DS_V_PLAY / datasette_cycles_per_second * 8
+            * (current_image->cycle_counter_total
+            - current_image->cycle_counter)
+            + 4 * PI * PI * DS_R * DS_R);
         break;
+      case DATASETTE_CONTROL_RECORD:
+      case DATASETTE_CONTROL_STOP:
+        return 0;
+      default:
+        log_error(datasette_log, "Unknown datasette mode.");
+        return 0;
     }
+    gap = datasette_read_gap(direction);
+    if (!gap) {
+        datasette_control(DATASETTE_CONTROL_STOP);
+        return 0;
+    }
+    if (direction > 0)
+        current_image->cycle_counter += gap / 8;
+    else
+        current_image->cycle_counter -= gap / 8;
+    gap -= offset;    
+    if (gap > 0) {
+        alarm_set(&datasette_alarm, clk + (CLOCK)(gap * (DS_V_PLAY/v)));
+        datasette_alarm_pending = 1;
+    } else {
+        /* If the offset is geater than the gap to the next flux
+           change, the change happend during DMA.  Schedule it now.  */
+        alarm_set(&datasette_alarm, clk);
+        datasette_alarm_pending = 1;
+    }
+    datasette_update_ui_counter();
     return 0;
 }
+
 
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
@@ -139,24 +317,46 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 
 void datasette_init(void)
 {
+    if (datasette_log == LOG_ERR)
+        datasette_log = log_open("Datasette");
+
     alarm_init(&datasette_alarm, &maincpu_alarm_context,
                "Datasette", datasette_read_bit);
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+
+    datasette_cycles_per_second = machine_get_cycles_per_second();
+    if (!datasette_cycles_per_second) {
+        log_error(datasette_log,
+                  "Cannot get cycles per second for this machine.");
+        datasette_cycles_per_second = 985248;
+    }
 }
 
 void datasette_set_tape_image(tap_t *image)
 {
-    current_image = image;
-    ui_set_tape_status(current_image?1:0);
+    CLOCK gap;
 
+    current_image = image;
+    last_tap = next_tap = 0;
+    datasette_reset();
+
+    if (image != NULL) {
+        /* We need the length of tape for realistic counter. */
+        while (gap = datasette_read_gap(1))
+            current_image->cycle_counter_total += gap / 8;
+        current_image->current_file_seek_position = 0;
+        last_tap = next_tap = 0;
+    }
+
+    ui_set_tape_status(current_image?1:0);
 }
+
 
 static void datasette_forward(void)
 {
     if (current_image->mode == DATASETTE_CONTROL_START
-       || current_image->mode == DATASETTE_CONTROL_REWIND)
-    {
+        || current_image->mode == DATASETTE_CONTROL_REWIND) {
         alarm_unset(&datasette_alarm);
         datasette_alarm_pending = 0;
     }
@@ -167,14 +367,14 @@ static void datasette_forward(void)
 static void datasette_rewind(void)
 {
     if (current_image->mode == DATASETTE_CONTROL_START 
-       || current_image->mode == DATASETTE_CONTROL_FORWARD)
-    {
+        || current_image->mode == DATASETTE_CONTROL_FORWARD) {
         alarm_unset(&datasette_alarm);
         datasette_alarm_pending = 0;
     }
     alarm_set(&datasette_alarm, clk + 1000);
     datasette_alarm_pending = 1;
 }
+
 
 void datasette_reset(void)
 {
@@ -187,16 +387,20 @@ void datasette_reset(void)
         }
         datasette_control(DATASETTE_CONTROL_STOP);
         current_image->current_file_seek_position = 0;
+		current_image->cycle_counter = 0;
         fseek(current_image->fd, current_image->offset, SEEK_SET);
+        datasette_counter_offset = 0;
         datasette_update_ui_counter();
-
     }
 }
+
 
 void datasette_control(int command)
 {
     if (current_image != NULL) {
         switch(command) {
+          case DATASETTE_CONTROL_RESET:
+              datasette_reset();
           case DATASETTE_CONTROL_STOP:
             current_image->mode = DATASETTE_CONTROL_STOP;
             datasette_set_tape_sense(0);
@@ -210,13 +414,13 @@ void datasette_control(int command)
           case DATASETTE_CONTROL_FORWARD:
             current_image->mode = DATASETTE_CONTROL_FORWARD;
             datasette_forward();
-            datasette_set_tape_sense(0);
+            datasette_set_tape_sense(1);
             last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_REWIND:
             current_image->mode = DATASETTE_CONTROL_REWIND;
             datasette_rewind();
-            datasette_set_tape_sense(0);
+            datasette_set_tape_sense(1);
             last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_RECORD:
@@ -226,19 +430,17 @@ void datasette_control(int command)
                 last_write_clk = (CLOCK)0;
             }
             break;
-          case DATASETTE_CONTROL_RESET:
-            break;
         }
-        ui_display_tape_control_status(command);
+        ui_display_tape_control_status(current_image->mode);
+        /* clear the tap-buffer */
+        last_tap = next_tap = 0;
     }
 
 }
 
 void datasette_set_motor(int flag)
 {
-    if (current_image != NULL
-        && current_image->mode != DATASETTE_CONTROL_REWIND
-        && current_image->mode != DATASETTE_CONTROL_FORWARD) {
+    if (current_image != NULL) {
         if (flag && !datasette_motor)
         {
             fseek(current_image->fd, current_image->current_file_seek_position
@@ -263,7 +465,6 @@ void datasette_toggle_write_bit(int write_bit)
 {
     if (current_image != NULL && datasette_motor && write_bit
         && current_image->mode == DATASETTE_CONTROL_RECORD) {
-        datasette_update_ui_counter();
         if (last_write_clk == (CLOCK)0) {
             last_write_clk = clk;
         } else {
@@ -290,6 +491,7 @@ void datasette_toggle_write_bit(int write_bit)
                     long_gap[0] = write_time & 0xff;
                     long_gap[1] = (write_time >> 8) & 0xff;
                     long_gap[2] = (write_time >> 16) & 0xff;
+                    write_time = write_time & 0xffffff;
                     bytes_written = fwrite(long_gap, 1, 3, current_image->fd);
                     current_image->current_file_seek_position += bytes_written;
                     if (bytes_written < 3) {
@@ -298,6 +500,12 @@ void datasette_toggle_write_bit(int write_bit)
                     }
                 }
             }
+            if (current_image->size < current_image->current_file_seek_position)
+                current_image->size = current_image->current_file_seek_position;
+			current_image->cycle_counter += write_time/8;
+            if (current_image->cycle_counter_total < current_image->cycle_counter)
+                current_image->cycle_counter_total = current_image->cycle_counter;
+	        datasette_update_ui_counter();
         }
     }
 }
