@@ -127,22 +127,22 @@ int cartridge_init_resources(void)
     return resources_register(resources);
 }
 
-static int attach_cartB(const char *param, void *extra_param) 
+static int attach_cartB(const char *param, void *extra_param)
 {
     return cartridge_attach_image(CARTRIDGE_VIC20_4KB_B000, param);
 }
 
-static int attach_cartA(const char *param, void *extra_param) 
+static int attach_cartA(const char *param, void *extra_param)
 {
     return cartridge_attach_image(CARTRIDGE_VIC20_8KB_A000, param);
 }
 
-static int attach_cart6(const char *param, void *extra_param) 
+static int attach_cart6(const char *param, void *extra_param)
 {
     return cartridge_attach_image(CARTRIDGE_VIC20_8KB_6000, param);
 }
 
-static int attach_cart2(const char *param, void *extra_param) 
+static int attach_cart2(const char *param, void *extra_param)
 {
     return cartridge_attach_image(CARTRIDGE_VIC20_8KB_2000, param);
 }
@@ -183,8 +183,8 @@ int cartridge_attach_image(int type, const char *filename)
     if (!fd)
         return -1;
 
-    addr = fgetc(fd); 
-    addr = (addr & 0xff) | ((fgetc(fd) << 8) & 0xff00); 
+    addr = fgetc(fd);
+    addr = (addr & 0xff) | ((fgetc(fd) << 8) & 0xff00);
 
     if (type==CARTRIDGE_VIC20_DETECT) {
 	if (addr == 0x6000) {
@@ -278,3 +278,18 @@ void cartridge_set_default(void)
     set_cartridge_file_B((resource_value_t) cartfileB);
 }
 
+const char *cartridge_get_file_name(ADDRESS addr)
+{
+    switch (addr) {
+      case 0x2000:
+        return cartfile2;
+      case 0x6000:
+        return cartfile6;
+      case 0xa000:
+        return cartfileA;
+      case 0xb000:
+        return cartfileB;
+      default:
+        return NULL;
+    }
+}
