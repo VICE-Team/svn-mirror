@@ -171,11 +171,11 @@ static int set_stretch_factor(resource_value_t v, void *param)
     i = 0;
     while (hwndlist[i])
     {
-        canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwndlist[i], QWL_USER);
+        video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr(hwndlist[i], QWL_USER);
         //
         // resize canvas
         //
-        canvas_resize(c, c->width, c->height);
+        video_canvas_resize(c, c->width, c->height);
 
         //
         // set visible region (start blitting again)
@@ -201,7 +201,7 @@ void CanvasDisplaySpeed(int speed, int frame_rate, int warp_enabled)
     i = 0;
     while (hwndlist[i])
     {
-        const canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwndlist[i++], QWL_USER);
+        const video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr(hwndlist[i++], QWL_USER);
 
         char *txt=xmsprintf("%s - %d%% - %dfps %s",
                             c->title, speed, frame_rate,
@@ -301,7 +301,7 @@ static UINT canvas_fullwidth(UINT width)
 
 /* ------------------------------------------------------------------------ */
 /*
-static void status_resize(canvas_t *c)
+static void status_resize(video_canvas_t *c)
 {
     SWP swp;
     WinQueryWindowPos(WinWindowFromID(c->hwndFrame, FID_STATUS), &swp);
@@ -321,7 +321,7 @@ static void status_resize(canvas_t *c)
 static int set_status(resource_value_t v, void *hwnd)
 {
     SWP swp;
-    canvas_t *c = (canvas_t *)WinQueryWindowPtr((HWND)hwnd, QWL_USER);
+    video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr((HWND)hwnd, QWL_USER);
 
     status = (int)v;
 
@@ -370,7 +370,7 @@ static int set_menu(resource_value_t v, void *param)
 
     while (hwndlist[i])
     {
-        canvas_t *c = (canvas_t *)WinQueryWindowPtr((HWND)hwndlist[i++], QWL_USER);
+        video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr((HWND)hwndlist[i++], QWL_USER);
         //
         // correct window size
         //
@@ -769,7 +769,7 @@ void wmVrn(HWND hwnd)
 
 void wmVrnEnabled(HWND hwnd)
 {
-    canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
+    video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
 
     DEBUG("WM VRN ENABLED 0");
 
@@ -792,7 +792,7 @@ void wmVrnEnabled(HWND hwnd)
 
 void wmVrnDisabled(HWND hwnd)
 {
-    canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER);
+    video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER);
 
     DEBUG("WM VRN DISABLED 0");
 
@@ -822,7 +822,7 @@ void wmPaint(HWND hwnd)
     //
     // get pointer to actual canvas from user data area
     //
-    canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
+    video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
 
     DEBUG("WM_PAINT 0");
 
@@ -854,9 +854,9 @@ void wmPaint(HWND hwnd)
         wmVrnEnabled(hwnd);
 
         //
-        // blit to canvas (canvas_refresh should be thread safe by itself)
+        // blit to canvas (video_canvas_refresh should be thread safe by itself)
         //
-        canvas_refresh(c, geom.frame_buffer, x, y, 0, 0, cx, cy);
+        video_canvas_refresh(c, geom.frame_buffer, x, y, 0, 0, cx, cy);
     }
 }
 
@@ -888,7 +888,7 @@ static int wmTranslateAccel(HWND hwnd, MPARAM mp1)
 
 static void DisplayPopupMenu(HWND hwnd, POINTS *pts)
 {
-    const canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
+    const video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
 
     WinPopupMenu(hwnd, hwnd, c->hwndPopupMenu, pts->x, pts->y, 0,
                  PU_MOUSEBUTTON2DOWN|PU_HCONSTRAIN|PU_VCONSTRAIN);
@@ -995,7 +995,7 @@ static void InitHelp(HWND hwndFrame, int id, PSZ title, PSZ libname)
 
 extern int trigger_shutdown;
 
-static void InitMenuBar(canvas_t *c)
+static void InitMenuBar(video_canvas_t *c)
 {
     //
     // Load popup menu from resource file (this is attached to the frame)
@@ -1020,7 +1020,7 @@ static void InitMenuBar(canvas_t *c)
     set_menu((void*)menu, (void*)c->hwndClient);
 }
 /*
-void InitStatusBar(canvas_t *c)
+void InitStatusBar(video_canvas_t *c)
 {
     HWND hwnd=WinCreateWindow(c->hwndFrame,       // Parent window
                               WC_FRAME,           // Class name
@@ -1058,7 +1058,7 @@ void PM_mainloop(VOID *arg)
     HMQ    hmq;  // Handle to Msg Queue
     QMSG   qmsg; // Msg Queue Event
 
-    canvas_t *c=(canvas_t *)arg;
+    video_canvas_t *c=(video_canvas_t *)arg;
 
     // archdep_setup_signals(0); // signals are not shared between threads!
 
@@ -1199,24 +1199,24 @@ void PM_mainloop(VOID *arg)
 
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
-/* Create a `canvas_t' with tile `win_name', of widht `*width' x `*height'
+/* Create a `video_canvas_t' with tile `win_name', of widht `*width' x `*height'
    pixels, exposure handler callback `exposure_handler' and palette
    `palette'.  If specified width/height is not possible, return an
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
-canvas_t *canvas_create(const char *title, UINT *width,
-                        UINT *height, int mapped, void_t exposure_handler,
-                        const palette_t *palette, PIXEL *pixel_return)
+video_canvas_t *canvas_create(const char *title, UINT *width,
+                              UINT *height, int mapped, void_t exposure_handler,
+                              const palette_t *palette, PIXEL *pixel_return)
 {
-    canvas_t *canvas_new;
+    video_canvas_t *canvas_new;
 
     if (palette->num_entries > 0x10)
     {
         log_error(vidlog, "More than 16 colors requested for '%s'", title);
-        return (canvas_t *) NULL;
+        return (video_canvas_t *) NULL;
     }
 
-    canvas_new = (canvas_t *)xcalloc(1, sizeof(canvas_t));
+    canvas_new = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
 
     *strrchr(title, ' ')=0; // FIXME?
 
@@ -1239,28 +1239,28 @@ canvas_t *canvas_create(const char *title, UINT *width,
     log_message(vidlog, "Canvas '%s' (%ix%i) created: hwnd=0x%x.",
                 title, *width, *height, canvas_new->hwndClient);
 
-    canvas_set_palette(canvas_new, palette, pixel_return);
+    video_canvas_set_palette(canvas_new, palette, pixel_return);
 
     return canvas_new;
 }
 
-void canvas_destroy(canvas_t *c)
+void video_canvas_destroy(video_canvas_t *c)
 {
 	/* FIXME: Just a dummy so far */
 }
 
 
-void canvas_map(canvas_t *c)
+void video_canvas_map(video_canvas_t *c)
 {
     WinShowWindow(c->hwndFrame, TRUE);
 }
 
-void canvas_unmap(canvas_t *c)
+void video_canvas_unmap(video_canvas_t *c)
 {
     WinShowWindow(c->hwndFrame, FALSE);
 }
 
-void canvas_resize(canvas_t *c, UINT width, UINT height)
+void video_canvas_resize(video_canvas_t *c, UINT width, UINT height)
 {
     //
     // if this function is called from outside the main thread
@@ -1299,7 +1299,7 @@ void canvas_resize(canvas_t *c, UINT width, UINT height)
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
+int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 {
     //
     // The palette is ordered in blocks a 16 colors.
@@ -1362,10 +1362,10 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 }
 
 /* ------------------------------------------------------------------------ */
-void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
-                    unsigned int xs, unsigned int ys,
-                    unsigned int xi, unsigned int yi,
-                    unsigned int w,  unsigned int h)
+void video_canvas_refresh(video_canvas_t *c, video_frame_buffer_t *f,
+                          unsigned int xs, unsigned int ys,
+                          unsigned int xi, unsigned int yi,
+                          unsigned int w,  unsigned int h)
 {
     if (DosRequestMutexSem(hmtx, SEM_IMMEDIATE_RETURN) || !hDiveInst || !initialized)
         return;

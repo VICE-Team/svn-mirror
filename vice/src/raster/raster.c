@@ -214,7 +214,8 @@ static int realize_canvas(raster_t *raster)
         if (raster->pixel_table.sing[0] != 0)
             raster_force_repaint(raster);
     } else {
-        canvas_resize(viewport->canvas, viewport->width, viewport->height);
+        video_canvas_resize(viewport->canvas, viewport->width,
+                            viewport->height);
     }  
 
     /* The canvas might give us something different from what we
@@ -272,10 +273,10 @@ static int realize_frame_buffer(raster_t *raster)
 #endif
 #endif
 
-static void perform_mode_change(raster_t *raster)
+static int perform_mode_change(raster_t *raster)
 {
     raster_viewport_t *viewport;
-    struct canvas_s *canvas;
+    struct video_canvas_s *canvas;
 #ifdef RECALC_FRAME_BUFFER
     PIXEL old_colours[256];
     PIXEL colour_map[256];
@@ -289,10 +290,12 @@ static void perform_mode_change(raster_t *raster)
     viewport = &raster->viewport;
 
     if ((canvas = viewport->canvas) == NULL)
-        return;
+        return 0;
 
     if (raster->palette != NULL) {
-        canvas_set_palette(canvas, raster->palette, raster->pixel_table.sing);
+        if (video_canvas_set_palette(canvas, raster->palette,
+            raster->pixel_table.sing) < 0)
+            return -1;
 
 #ifdef RECALC_FRAME_BUFFER
         memset(colour_map, 0, 256);
@@ -317,8 +320,10 @@ static void perform_mode_change(raster_t *raster)
 
     raster_force_repaint(raster);
 
-    canvas_resize(canvas, viewport->width, viewport->height);
+    video_canvas_resize(canvas, viewport->width, viewport->height);
     raster_resize_viewport(raster, viewport->width, viewport->height);
+
+    return 0;
 }
 
 /*  Rebuild Color tables of raster. It's used when colordepth
@@ -420,11 +425,11 @@ static void update_canvas(raster_t *raster)
     x += raster->geometry.extra_offscreen_border;
 #endif /* VIDEO_REMOVE_2X */
 
-    canvas_refresh(raster->viewport.canvas,
-                   raster->frame_buffer,
-                   x, y,
-                   xx + viewport->x_offset, yy + viewport->y_offset,
-                   w, h);
+    video_canvas_refresh(raster->viewport.canvas,
+                         raster->frame_buffer,
+                         x, y,
+                         xx + viewport->x_offset, yy + viewport->y_offset,
+                         w, h);
 
     update_area->is_null = 1;
 }
@@ -441,19 +446,19 @@ static void update_canvas_all(raster_t *raster)
     if (!(viewport->update_canvas))
         return;
 
-    canvas_refresh(viewport->canvas,
-                   raster->frame_buffer,
-                   (viewport->first_x * viewport->pixel_size.width
-                   + raster->geometry.extra_offscreen_border),
-                   viewport->first_line * viewport->pixel_size.height,
-                   viewport->x_offset,
-                   viewport->y_offset,
-                   MIN(viewport->width,
-                       (raster->geometry.screen_size.width
-                       * viewport->pixel_size.width)),
-                   MIN(viewport->height,
-                       (raster->geometry.screen_size.height
-                       * viewport->pixel_size.height)));
+    video_canvas_refresh(viewport->canvas,
+                         raster->frame_buffer,
+                         (viewport->first_x * viewport->pixel_size.width
+                         + raster->geometry.extra_offscreen_border),
+                         viewport->first_line * viewport->pixel_size.height,
+                         viewport->x_offset,
+                         viewport->y_offset,
+                         MIN(viewport->width,
+                             (raster->geometry.screen_size.width
+                             * viewport->pixel_size.width)),
+                         MIN(viewport->height,
+                             (raster->geometry.screen_size.height
+                             * viewport->pixel_size.height)));
 }
 
 inline static void draw_sprites(raster_t *raster)
@@ -1602,7 +1607,7 @@ void raster_resize_viewport(raster_t *raster,
 
     /* Hmmm....  FIXME?  */
     if (viewport->canvas != NULL)
-        canvas_resize(viewport->canvas, width, height);
+        video_canvas_resize(viewport->canvas, width, height);
 
     viewport->width = width;
     viewport->height = height;
@@ -1746,9 +1751,9 @@ int raster_set_palette(raster_t *raster, palette_t *palette)
 {
 
     if (raster->viewport.canvas != NULL) {
-        if (canvas_set_palette(raster->viewport.canvas,
-                               palette,
-                               raster->pixel_table.sing) < 0)
+        if (video_canvas_set_palette(raster->viewport.canvas,
+                                     palette,
+                                     raster->pixel_table.sing) < 0)
             return -1;
         update_pixel_tables(raster);
     }
@@ -1823,7 +1828,7 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
 
 void raster_free(raster_t *raster)
 {
-    canvas_destroy(raster->viewport.canvas);
+    video_canvas_destroy(raster->viewport.canvas);
     video_frame_buffer_free(raster->frame_buffer);
     free(raster->viewport.title);
     free(raster->modes);

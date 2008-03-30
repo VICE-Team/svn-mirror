@@ -48,7 +48,7 @@
 #include "statusbar.h"
 
 void video_resize(void);
-raster_t *video_find_raster_for_canvas(canvas_t *canvas);
+raster_t *video_find_raster_for_canvas(video_canvas_t *canvas);
 
 #ifndef HAVE_GUIDLIB
 extern const GUID IID_IDirectDraw2;
@@ -288,7 +288,7 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
     memset(f->buffer, value, f->height * f->width);
 }
 
-void video_frame_buffer_translate(canvas_t *c)
+void video_frame_buffer_translate(video_canvas_t *c)
 {
     int i;
     raster_t *r;
@@ -307,7 +307,7 @@ void video_frame_buffer_translate(canvas_t *c)
 /* Canvas functions.  */
 
 /* Set the palettes for canvas `c'.  */
-int set_palette(canvas_t *c)
+int set_palette(video_canvas_t *c)
 {
     if (c->depth == 8) {
         HRESULT result;
@@ -329,13 +329,14 @@ int set_palette(canvas_t *c)
     return 0;
 }
 
-int set_physical_colors(canvas_t *c)
+int set_physical_colors(video_canvas_t *c)
 {
     HDC hdc;
     DDSURFACEDESC ddsd;
     int i;
     HRESULT result;
     COLORREF    oldcolor;
+	DWORD pcol;
 
     for (i = 0; i < c->palette->num_entries; i++) {
         DWORD p;
@@ -380,28 +381,30 @@ int set_physical_colors(canvas_t *c)
         }
 
         p = *(DWORD *)ddsd.lpSurface;
-        c->physical_colors[i] = p;
+        c->pixel_translate[c->pixels[i]]=i;
+        c->pixels[i] = i;
+        pcol = p;
         if (c->depth==24) {
-            c->physical_colors[i]&=0xffffff;
-        }
-        if (c->depth==15) {
-            c->physical_colors[i]&=0x7fff;
+			pcol &= 0x00FFFFFF;
         }
         if (c->depth==16) {
-            c->physical_colors[i]&=0xffff;
+			pcol &= 0x0000FFFF;
+			pcol = (pcol << 16) | pcol;
+        }
+        if (c->depth==15) {
+			pcol &= 0x00007FFF;
+			pcol = (pcol << 16) | pcol;
         }
         if (c->depth== 8) {
-            c->physical_colors[i]&=0xff;
-            c->pixel_translate[c->pixels[i]]=i;
-            c->pixels[i] = i;
+			pcol &= 0x000000FF;
+			pcol = (pcol << 8) | pcol;
 /*
             c->pixel_translate[c->pixels[i]]=(BYTE) p & 0xff;
             c->pixels[i] = (BYTE) p & 0xff;
 */
-        } else {
-            c->pixel_translate[c->pixels[i]]=i;
-            c->pixels[i] = i;
         }
+        c->physical_colors[i] = pcol;
+
         DEBUG(("Physical color for %d is 0x%04X",i,c->physical_colors[i]));
         DEBUG(("Pixel return %d 0x%02X", i, c->pixels[i]));
         if (IDirectDrawSurface_Unlock(c->primary_surface, NULL)
@@ -417,33 +420,33 @@ int set_physical_colors(canvas_t *c)
 }
 
 int video_number_of_canvases;
-canvas_t *video_canvases[2];
+video_canvas_t *video_canvases[2];
 extern int fullscreen_active;
 extern int fullscreen_transition;
 
-/* Create a `canvas_t' with tile `win_name', of widht `*width' x `*height'
+/* Create a `video_canvas_t' with tile `win_name', of widht `*width' x `*height'
    pixels, exposure handler callback `exposure_handler' and palette
    `palette'.  If specified width/height is not possible, return an
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
-#define CANVAS_ERROR ((canvas_t *) -1)
-canvas_t *canvas_create(const char *title, unsigned int *width,
-                        unsigned int *height, int mapped,
-                        void_t exposure_handler,
-                        const palette_t *palette, PIXEL *pixel_return)
+#define CANVAS_ERROR ((video_canvas_t *) -1)
+video_canvas_t *canvas_create(const char *title, unsigned int *width,
+                              unsigned int *height, int mapped,
+                              void_t exposure_handler,
+                              const palette_t *palette, PIXEL *pixel_return)
 {
     HRESULT result;
     HRESULT ddresult;
     DDSURFACEDESC desc;
     DDSURFACEDESC desc2;
-    canvas_t *c;
+    video_canvas_t *c;
     int i;
     GUID *device_guid;
 
     fullscreen_transition=1;
 
-    c = xmalloc(sizeof(struct canvas_s));
-    memset(c, 0, sizeof(struct canvas_s));
+    c = xmalloc(sizeof(struct video_canvas_s));
+    memset(c, 0, sizeof(struct video_canvas_s));
 
     /* "Normal" window stuff.  */
     c->title = stralloc(title);
@@ -608,12 +611,12 @@ canvas_t *canvas_create(const char *title, unsigned int *width,
     return c;
 
 error:
-    canvas_destroy(c);
+    video_canvas_destroy(c);
     return NULL;
 
 #if 0
-    c = xmalloc(sizeof(struct canvas_s));
-    memset(c, 0, sizeof(struct canvas_s));
+    c = xmalloc(sizeof(struct video_canvas_s));
+    memset(c, 0, sizeof(struct video_canvas_s));
 
     /* "Normal" window stuff.  */
     c->title = stralloc(title);
@@ -807,13 +810,13 @@ error:
     return c;
 
 error:
-    canvas_destroy(c);
+    video_canvas_destroy(c);
     return NULL;
 #endif
 }
 
 /* Destroy `s'.  */
-void canvas_destroy(canvas_t *c)
+void video_canvas_destroy(video_canvas_t *c)
 {
     if (c != NULL) {
         if (c->hwnd !=0) {
@@ -827,17 +830,18 @@ void canvas_destroy(canvas_t *c)
 }
 
 /* Make `s' visible.  */
-void canvas_map(canvas_t *c)
+void video_canvas_map(video_canvas_t *c)
 {
 }
 
 /* Make `s' unvisible.  */
-void canvas_unmap(canvas_t *c)
+void video_canvas_unmap(video_canvas_t *c)
 {
 }
 
 /* Change the size of `s' to `width' * `height' pixels.  */
-void canvas_resize(canvas_t *c, unsigned int width, unsigned int height)
+void video_canvas_resize(video_canvas_t *c, unsigned int width,
+                         unsigned int height)
 {
     int fullscreen_width;
     int fullscreen_height;
@@ -858,7 +862,8 @@ void canvas_resize(canvas_t *c, unsigned int width, unsigned int height)
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
+int video_canvas_set_palette(struct video_canvas_s *c, const palette_t *p,
+                             PIXEL *pixel_return)
 {
     int i;
 
@@ -949,7 +954,7 @@ void video_register_raster(raster_t *raster)
     raster_cache[number_of_rasters++] = raster;
 }
 
-raster_t *video_find_raster_for_canvas(canvas_t *canvas)
+raster_t *video_find_raster_for_canvas(video_canvas_t *canvas)
 {
     int i;
 
@@ -961,7 +966,7 @@ raster_t *video_find_raster_for_canvas(canvas_t *canvas)
     return 0;
 }
 
-canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd)
+video_canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd)
 {
     int i;
 
@@ -989,7 +994,7 @@ static void clear(HDC hdc, int x1, int y1, int x2, int y2)
     FillRect(hdc, &clear_rect, back_color);
 }
 
-static void real_refresh(canvas_t *c, video_frame_buffer_t *f,
+static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h);
@@ -1002,7 +1007,7 @@ extern int window_canvas_ysize[2];
 
 void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 {
-    canvas_t *c;
+    video_canvas_t *c;
     raster_t *r;
     int xs;   //  upperleft x in framebuffer
     int ys;   //  upperleft y in framebuffer
@@ -1106,10 +1111,10 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     }
 }
 
-void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
-                    unsigned int xs, unsigned int ys,
-                    unsigned int xi, unsigned int yi,
-                    unsigned int w, unsigned int h)
+void video_canvas_refresh(video_canvas_t *c, video_frame_buffer_t *f,
+                          unsigned int xs, unsigned int ys,
+                          unsigned int xi, unsigned int yi,
+                          unsigned int w, unsigned int h)
 {
     int window_index;
     unsigned int frame_buffer_x;
@@ -1143,7 +1148,7 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
     real_refresh(c, f, frame_buffer_x, frame_buffer_y, client_x, client_y, w, h);
 }
 
-static void real_refresh(canvas_t *c, video_frame_buffer_t *f,
+static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h)

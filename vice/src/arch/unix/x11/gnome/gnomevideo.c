@@ -40,7 +40,7 @@
 #include "utils.h"
 
 static log_t gnomevideo_log = LOG_ERR;
-canvas_t *dangling_canvas = NULL; /* remember canvas after freeing the FB */
+video_canvas_t *dangling_canvas = NULL; /* remember canvas after freeing the FB */
 
 void video_init_arch(void)
 {
@@ -54,7 +54,7 @@ inline void GDK_PUTIMAGE(Display *d, GdkPixmap *drawable, GdkGC *gc,
 			 GdkImage *image, int src_x, int src_y,
 			 int dest_x, int dest_y,
 			 unsigned int width, unsigned int height, int b,
-			 video_frame_buffer_t *fb, canvas_t *c)
+			 video_frame_buffer_t *fb, video_canvas_t *c)
 {
   gdk_draw_image(drawable, gc, fb->gdk_image, src_x, src_y,
 		 dest_x, dest_y, width, height);
@@ -138,18 +138,18 @@ void video_add_handlers(ui_window_t w)
 }
 
 /* Make the canvas visible. */
-void canvas_map(canvas_t *s)
+void video_canvas_map(video_canvas_t *s)
 {
     fprintf(stderr, "**Function `canvas_map' not implemented.\n");
 }
 
 /* Make the canvas not visible. */
-void canvas_unmap(canvas_t *s)
+void video_canvas_unmap(video_canvas_t *s)
 {
     fprintf(stderr, "**Function `canvas_unmap' not implemented.\n");
 }
 
-void ui_finish_canvas(canvas_t *c)
+void ui_finish_canvas(video_canvas_t *c)
 {
     int depth;
 

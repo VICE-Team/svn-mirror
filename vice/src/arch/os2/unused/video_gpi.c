@@ -164,7 +164,7 @@ APIRET rc;
 
 void EXPENTRY wmPaint(HWND hwnd)
 {
-    canvas_t c=(canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
+    video_canvas_t c=(video_canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
     HPS    hps=WinGetPS(hwnd);                   // Handle to Presentation Space
 
     // next time call cavas_refresh, refresh the whole canvas
@@ -266,7 +266,7 @@ void PM_mainloop(VOID *arg)
     HMQ   hmq;  // Handle to Msg Queue
     HDC   hdc;  // Handle to Device (Window-Screen)
     QMSG  qmsg; // Msg Queue Event
-    canvas_t *ptr=(canvas_t*)arg;
+    video_canvas_t *ptr=(video_canvas_t*)arg;
 
     hab = WinInitialize(0);            // Initialize PM
     hmq = WinCreateMsgQueue(hab, 0);   // Create Msg Queue
@@ -321,29 +321,29 @@ void PM_mainloop(VOID *arg)
 
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
-/* Create a `canvas_t' with tile `win_name', of widht `*width' x `*height'
+/* Create a `video_canvas_t' with tile `win_name', of widht `*width' x `*height'
    pixels, exposure handler callback `exposure_handler' and palette
    `palette'.  If specified width/height is not possible, return an
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
 
-canvas_t canvas_create(const char *title, UINT *width,
-                       UINT *height, int mapped,
-                       canvas_redraw_t exposure_handler,
-                       const palette_t *palette, PIXEL *pixel_return)
+video_canvas_t canvas_create(const char *title, UINT *width,
+                             UINT *height, int mapped,
+                             canvas_redraw_t exposure_handler,
+                             const palette_t *palette, PIXEL *pixel_return)
 {
-    canvas_t canvas_new;
+    video_canvas_t canvas_new;
 
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
 
     if (palette->num_entries > 255) {
        log_error(video_log, "Too many colors requested.");
-       return (canvas_t) NULL;
+       return (video_canvas_t) NULL;
     }
 
     vidlog("canvas alloc",1);
-    canvas_new = (canvas_t)xcalloc(1,sizeof(struct _canvas));
-    if (!canvas_new) return (canvas_t) NULL;
+    canvas_new = (video_canvas_t)xcalloc(1,sizeof(struct _canvas));
+    if (!canvas_new) return (video_canvas_t) NULL;
 
     canvas_new->init_ready       =  FALSE;  // canvas_new not yet initialized
     canvas_new->width            = *width;
@@ -355,32 +355,32 @@ canvas_t canvas_create(const char *title, UINT *width,
     _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
 
     while (!canvas_new->pbmi_initialized) DosSleep(1);
-    canvas_set_palette(canvas_new, palette, pixel_return);
+    video_canvas_set_palette(canvas_new, palette, pixel_return);
 
     canvas_new->exposure_handler = exposure_handler;
     return canvas_new;
 }
 
-//void canvas_destroy(canvas_t c)
+//void video_canvas_destroy(video_canvas_t c)
 //{   /* Destroy `s'.  */
 //    if (!c) return;
 //}
 
-void canvas_map(canvas_t c)
+void video_canvas_map(video_canvas_t c)
 {   /* Make `s' visible.  */
 }
 
-void canvas_unmap(canvas_t c)
+void video_canvas_unmap(video_canvas_t c)
 {   /* Make `s' unvisible.  */
 }
 
-void canvas_resize(canvas_t c, UINT width, UINT height)
+void video_canvas_resize(video_canvas_t c, UINT width, UINT height)
 {
 }
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
+int video_canvas_set_palette(video_canvas_t c, const palette_t *p, PIXEL *pixel_return)
 {
     int i;
     //    if (!(c->pbmi_initialized)) return;
@@ -394,8 +394,8 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 }
 
 /* ------------------------------------------------------------------------ */
-void canvas_refresh(canvas_t c, video_frame_buffer_t f,
-                    int xs, int ys, int xi, int yi, int w, int h)
+void video_canvas_refresh(video_canvas_t c, video_frame_buffer_t f,
+                          int xs, int ys, int xi, int yi, int w, int h)
 {
     int H=c->height-yi; // Change coordinate system (up<->down)
     POINTL pointl[]={

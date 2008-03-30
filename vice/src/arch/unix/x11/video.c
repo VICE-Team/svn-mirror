@@ -438,6 +438,10 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
     if (!i)
         return;
 
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+	return;
+#endif
     display = ui_get_display_ptr();
 
 #ifdef USE_MITSHM
@@ -470,7 +474,7 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
 #endif
     {
 #ifdef USE_GNOMEUI
-        extern canvas_t *dangling_canvas;
+        extern video_canvas_t *dangling_canvas;
         dangling_canvas = i->canvas;
 #endif
     }
@@ -507,7 +511,7 @@ void video_register_raster(raster_t *raster)
 /* ------------------------------------------------------------------------- */
 /* Create a canvas.  In the X11 implementation, this is just (guess what?) a
    window. */
-canvas_t *canvas_create(const char *win_name, unsigned int *width,
+video_canvas_t *canvas_create(const char *win_name, unsigned int *width,
                         unsigned int *height, int mapped,
                         void_t exposure_handler,
                         const palette_t *palette, PIXEL *pixel_return
@@ -516,12 +520,12 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
 #endif
                        )
 {
-    canvas_t *c;
+    video_canvas_t *c;
     ui_window_t w;
     XGCValues gc_values;
 
-    c = (canvas_t *)xmalloc(sizeof(struct canvas_s));
-    memset(c, 0, sizeof(struct canvas_s));
+    c = (video_canvas_t *)xmalloc(sizeof(struct video_canvas_s));
+    memset(c, 0, sizeof(struct video_canvas_s));
     w = ui_open_canvas_window(c, win_name, *width, *height, 1,
                               (canvas_redraw_t)exposure_handler, palette,
                               pixel_return);
@@ -531,7 +535,7 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
 
     if (!w) {
         free(c);
-        return (canvas_t *)NULL;
+        return (video_canvas_t *)NULL;
     }
 
     c->emuwindow = w;
@@ -551,24 +555,31 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
     return c;
 }
 
-void canvas_destroy(canvas_t *c)
+void video_canvas_destroy(video_canvas_t *c)
 {
         /* FIXME: Just a dummy so far */
 }
 
 
-int canvas_set_palette(canvas_t *c, const palette_t *palette,
-                       PIXEL *pixel_return)
+int video_canvas_set_palette(video_canvas_t *c, const palette_t *palette,
+                             PIXEL *pixel_return)
 {
     return ui_canvas_set_palette(c, c->emuwindow, palette, pixel_return);
 }
 
 /* Change the size of the canvas. */
-void canvas_resize(canvas_t *s, unsigned int width, unsigned int height)
+void video_canvas_resize(video_canvas_t *s, unsigned int width,
+                         unsigned int height)
 {
     if (console_mode || vsid_mode) {
         return;
     }
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    /* printf("%s: w = %d, h = %d\n", __FUNCTION__, width, height); */
+    if (fullscreen_is_enabled)
+	return;
+    fullscreen_resize(width, height);
+#endif
 
     ui_resize_canvas_window(s->emuwindow, width, height);
     s->width = width;
@@ -594,12 +605,14 @@ void video_refresh_func(void (*rfunc)(void))
 /* ------------------------------------------------------------------------- */
 
 /* Refresh a canvas.  */
-void canvas_refresh(canvas_t *canvas, video_frame_buffer_t *frame_buffer,
-                    unsigned int xs, unsigned int ys,
-                    unsigned int xi, unsigned int yi,
-                    unsigned int w, unsigned int h)
+void video_canvas_refresh(video_canvas_t *canvas,
+                          video_frame_buffer_t *frame_buffer,
+                          unsigned int xs, unsigned int ys,
+                          unsigned int xi, unsigned int yi,
+                          unsigned int w, unsigned int h)
 {
     Display *display;
+
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
     {

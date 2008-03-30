@@ -127,20 +127,20 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
 
-canvas_t *canvas_create(const char *title, unsigned int *width,
-                        unsigned int *height, int mapped,
-                        void_t exposure_handler,
-                        const palette_t *palette, PIXEL *pixel_return)
+video_canvas_t *canvas_create(const char *title, unsigned int *width,
+                              unsigned int *height, int mapped,
+                              void_t exposure_handler,
+                              const palette_t *palette, PIXEL *pixel_return)
 {
-    canvas_t *new_canvas;
+    video_canvas_t *new_canvas;
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
 
-    new_canvas = (canvas_t *)xmalloc(sizeof(struct canvas_s));
+    new_canvas = (video_canvas_t *)xmalloc(sizeof(struct video_canvas_s));
     if (!new_canvas)
-	return (canvas_t *) NULL;
+	return (video_canvas_t *) NULL;
 
     new_canvas->title = stralloc(title);
-    canvas_set_palette(new_canvas, palette, pixel_return);
+    video_canvas_set_palette(new_canvas, palette, pixel_return);
 
     new_canvas->width = *width;
     new_canvas->height = *height;
@@ -157,7 +157,7 @@ canvas_t *canvas_create(const char *title, unsigned int *width,
 }
 
 /* Destroy `s'.  */
-void canvas_destroy(canvas_t *c)
+void video_canvas_destroy(video_canvas_t *c)
 {
 	if (c == NULL)
 		return;
@@ -168,27 +168,28 @@ void canvas_destroy(canvas_t *c)
 }
 
 /* Make `s' visible.  */
-void canvas_map(canvas_t *c)
+void video_canvas_map(video_canvas_t *c)
 {
 }
 
 /* Make `s' unvisible.  */
-void canvas_unmap(canvas_t *c)
+void video_canvas_unmap(video_canvas_t *c)
 {
 }
 
 /* Change the size of `s' to `width' * `height' pixels.  */
-void canvas_resize(canvas_t *c, unsigned int width, unsigned int height)
+void video_canvas_resize(video_canvas_t *c, unsigned int width,
+                         unsigned int height)
 {
 	c->vicewindow->Resize(width,height);
 	c->width = width;
 	c->height = height;
-	DEBUG(("canvas_resize to %d x %d",width,height));
+	DEBUG(("video_canvas_resize to %d x %d",width,height));
 }
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
+int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 {
 	int i;
 	DEBUG(("Allocating colors"));
@@ -204,10 +205,10 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 }
 
 /* ------------------------------------------------------------------------ */
-void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
-                    unsigned int xs, unsigned int ys,
-                    unsigned int xi, unsigned int yi,
-                    unsigned int w, unsigned int h)
+void video_canvas_refresh(video_canvas_t *c, video_frame_buffer_t *f,
+                          unsigned int xs, unsigned int ys,
+                          unsigned int xi, unsigned int yi,
+                          unsigned int w, unsigned int h)
 {
 	c->vicewindow->DrawBitmap(f->bitmap,xs,ys,xi,yi,w,h);
 	/* we need a connection from the canvas to his framebuffer for window update */ 

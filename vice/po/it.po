@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-11-15 19:32+0100\n"
+"POT-Creation-Date: 2001-11-17 00:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -33,87 +33,87 @@ msgstr "Disattiva la modalità turbo"
 msgid "Your machine is too slow for current settings!"
 msgstr "La tua macchina è troppo lenta per questa configurazione!"
 
-#: src/arch/unix/uicommands.c:103
+#: src/arch/unix/uicommands.c:104
 #, c-format
 msgid "Attach Disk Image as unit #%d"
 msgstr "Seleziona l'immagine del disco per l'unità #%d"
 
-#: src/arch/unix/uicommands.c:118 src/arch/unix/uicommands.c:155
+#: src/arch/unix/uicommands.c:119 src/arch/unix/uicommands.c:156
 msgid "Invalid Disk Image"
 msgstr "Immagine del disco non valida"
 
-#: src/arch/unix/uicommands.c:126
+#: src/arch/unix/uicommands.c:127
 msgid "Invalid Disk Image or Filename"
 msgstr "Immagine del disco o nome del file non valido"
 
-#: src/arch/unix/uicommands.c:196
+#: src/arch/unix/uicommands.c:197
 msgid "Attach a tape image"
 msgstr "Seleziona l'immagine di una cassetta"
 
-#: src/arch/unix/uicommands.c:203 src/arch/unix/uicommands.c:211
+#: src/arch/unix/uicommands.c:204 src/arch/unix/uicommands.c:212
 msgid "Invalid Tape Image"
 msgstr "Immagine della cassetta non valida"
 
-#: src/arch/unix/uicommands.c:249
+#: src/arch/unix/uicommands.c:250
 msgid "Smart-attach a file"
 msgstr "Selezione intelligente di un file"
 
-#: src/arch/unix/uicommands.c:257 src/arch/unix/uicommands.c:266
+#: src/arch/unix/uicommands.c:258 src/arch/unix/uicommands.c:267
 msgid "Unknown image type"
 msgstr "Tipo di immagine sconosciuto"
 
-#: src/arch/unix/uicommands.c:288 src/arch/unix/uisettings.c:329
+#: src/arch/unix/uicommands.c:289 src/arch/unix/uisettings.c:329
 msgid "VICE setting"
 msgstr "Configurazione di VICE"
 
-#: src/arch/unix/uicommands.c:289
+#: src/arch/unix/uicommands.c:290
 msgid "Change current working directory"
 msgstr "Cambia la directory di lavoro"
 
-#: src/arch/unix/uicommands.c:292
+#: src/arch/unix/uicommands.c:293
 msgid "Directory not found"
 msgstr "Directory non trovata"
 
-#: src/arch/unix/uicommands.c:326
+#: src/arch/unix/uicommands.c:327
 msgid "Couldn't run /bin/sh???"
 msgstr "Non è possibile eseguire /bin/sh???"
 
-#: src/arch/unix/uicommands.c:329
+#: src/arch/unix/uicommands.c:330
 msgid "Couldn't run xterm"
 msgstr "Non è possibile eseguire xterm"
 
-#: src/arch/unix/uicommands.c:334
+#: src/arch/unix/uicommands.c:335
 msgid "Unknown error while running c1541"
 msgstr "Errore sconosciuto durante l'esecuzione di c1541"
 
-#: src/arch/unix/uicommands.c:358
+#: src/arch/unix/uicommands.c:359
 msgid "No HTML browser is defined."
 msgstr "Non è stato definito nessun browser HTML."
 
-#: src/arch/unix/uicommands.c:377 src/arch/unix/uicommands.c:391
-#: src/arch/unix/uicommands.c:404
+#: src/arch/unix/uicommands.c:378 src/arch/unix/uicommands.c:392
+#: src/arch/unix/uicommands.c:405
 msgid "Browser command too long."
 msgstr "Il comando inviato al browser è troppo lungo."
 
-#: src/arch/unix/uicommands.c:417
+#: src/arch/unix/uicommands.c:418
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Esecuzione di `%s'..."
 
-#: src/arch/unix/uicommands.c:419
+#: src/arch/unix/uicommands.c:420
 msgid "Cannot run HTML browser."
 msgstr "Non è possibile eseguire il browser HTML."
 
-#: src/arch/unix/uicommands.c:457
+#: src/arch/unix/uicommands.c:458
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Caricamento veloce del file %s."
 
-#: src/arch/unix/uicommands.c:460
+#: src/arch/unix/uicommands.c:461
 msgid "Load snapshot"
 msgstr "Carica snapshot"
 
-#: src/arch/unix/uicommands.c:473
+#: src/arch/unix/uicommands.c:474
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -123,12 +123,12 @@ msgstr ""
 "`%s'"
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:503
+#: src/arch/unix/uicommands.c:504
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Salvataggio veloce del file %s."
 
-#: src/arch/unix/uicommands.c:505 src/arch/unix/x11/gnome/uisnapshot.c:125
+#: src/arch/unix/uicommands.c:506 src/arch/unix/x11/gnome/uisnapshot.c:125
 #: src/arch/unix/x11/xaw/uisnapshot.c:113
 #, c-format
 msgid ""
@@ -138,176 +138,176 @@ msgstr ""
 "Non è possibile scrivere il file di snapshot\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:617
+#: src/arch/unix/uicommands.c:618
 #, c-format
 msgid "Attach #%d"
 msgstr "Seleziona #%d"
 
-#: src/arch/unix/uicommands.c:624
+#: src/arch/unix/uicommands.c:625
 #, c-format
 msgid "Detach #%d"
 msgstr "Rimuovi #%d"
 
-#: src/arch/unix/uicommands.c:666
+#: src/arch/unix/uicommands.c:667
 msgid "Next: "
 msgstr "Prossimo: "
 
-#: src/arch/unix/uicommands.c:666 src/arch/unix/uicommands.c:681
+#: src/arch/unix/uicommands.c:667 src/arch/unix/uicommands.c:682
 #: src/arch/unix/x11/gnome/ui.c:758 src/arch/unix/x11/gnome/ui.c:768
 #: src/arch/unix/x11/gnome/ui.c:1432
 msgid "<empty>"
 msgstr "<vuoto>"
 
-#: src/arch/unix/uicommands.c:681
+#: src/arch/unix/uicommands.c:682
 msgid "Previous: "
 msgstr "Precedente: "
 
-#: src/arch/unix/uicommands.c:696
+#: src/arch/unix/uicommands.c:697
 msgid "Add: "
 msgstr "Aggiungi: "
 
-#: src/arch/unix/uicommands.c:711
+#: src/arch/unix/uicommands.c:712
 msgid "Remove: "
 msgstr "Rimuovi: "
 
-#: src/arch/unix/uicommands.c:802 src/arch/unix/uicommands.c:814
+#: src/arch/unix/uicommands.c:803 src/arch/unix/uicommands.c:815
 msgid "Unit #8..."
 msgstr "Unità #8..."
 
-#: src/arch/unix/uicommands.c:804 src/arch/unix/uicommands.c:817
+#: src/arch/unix/uicommands.c:805 src/arch/unix/uicommands.c:818
 msgid "Unit #9..."
 msgstr "Unità #9..."
 
-#: src/arch/unix/uicommands.c:806 src/arch/unix/uicommands.c:820
+#: src/arch/unix/uicommands.c:807 src/arch/unix/uicommands.c:821
 msgid "Unit #10..."
 msgstr "Unità #10..."
 
-#: src/arch/unix/uicommands.c:808 src/arch/unix/uicommands.c:823
+#: src/arch/unix/uicommands.c:809 src/arch/unix/uicommands.c:824
 msgid "Unit #11..."
 msgstr "Unità #11..."
 
-#: src/arch/unix/uicommands.c:830
+#: src/arch/unix/uicommands.c:831
 msgid "Unit #8"
 msgstr "Unità #8"
 
-#: src/arch/unix/uicommands.c:832
+#: src/arch/unix/uicommands.c:833
 msgid "Unit #9"
 msgstr "Unità #9"
 
-#: src/arch/unix/uicommands.c:834
+#: src/arch/unix/uicommands.c:835
 msgid "Unit #10"
 msgstr "Unità #10"
 
-#: src/arch/unix/uicommands.c:836
+#: src/arch/unix/uicommands.c:837
 msgid "Unit #11"
 msgstr "Unità #11"
 
-#: src/arch/unix/uicommands.c:839
+#: src/arch/unix/uicommands.c:840
 msgid "All"
 msgstr "Tutti"
 
-#: src/arch/unix/uicommands.c:845
+#: src/arch/unix/uicommands.c:846
 msgid "Soft"
 msgstr "Soft"
 
-#: src/arch/unix/uicommands.c:848
+#: src/arch/unix/uicommands.c:849
 msgid "Hard"
 msgstr "Hard"
 
-#: src/arch/unix/uicommands.c:855
+#: src/arch/unix/uicommands.c:856
 msgid "Add current image"
 msgstr "Aggiungi l'immagine attuale"
 
-#: src/arch/unix/uicommands.c:858
+#: src/arch/unix/uicommands.c:859
 msgid "Remove current image"
 msgstr "Rimuovi l'immagine attuale"
 
-#: src/arch/unix/uicommands.c:861
+#: src/arch/unix/uicommands.c:862
 msgid "Attach next image"
 msgstr "Seleziona la prossima immagine"
 
-#: src/arch/unix/uicommands.c:864
+#: src/arch/unix/uicommands.c:865
 msgid "Attach previous image"
 msgstr "Seleziona l'immagine precedente"
 
-#: src/arch/unix/uicommands.c:871
+#: src/arch/unix/uicommands.c:872
 msgid "Attach a disk image"
 msgstr "Seleziona l'immagine di un disco"
 
-#: src/arch/unix/uicommands.c:873
+#: src/arch/unix/uicommands.c:874
 msgid "Create and attach an empty disk"
 msgstr "Crea e seleziona un disco vuoto"
 
-#: src/arch/unix/uicommands.c:875
+#: src/arch/unix/uicommands.c:876
 msgid "Detach disk image"
 msgstr "Rimuovi l'immagine di un disco"
 
-#: src/arch/unix/uicommands.c:877
+#: src/arch/unix/uicommands.c:878
 msgid "Fliplist for drive #8"
 msgstr "Fliplist per il drive #8"
 
-#: src/arch/unix/uicommands.c:883
+#: src/arch/unix/uicommands.c:884
 msgid "Attach a tape image..."
 msgstr "Seleziona l'immagine di una cassetta..."
 
-#: src/arch/unix/uicommands.c:886
+#: src/arch/unix/uicommands.c:887
 msgid "Detach tape image"
 msgstr "Rimuovi l'immagine della cassetta"
 
-#: src/arch/unix/uicommands.c:892
+#: src/arch/unix/uicommands.c:893
 msgid "Smart-attach disk/tape..."
 msgstr "Selezione intelligente..."
 
-#: src/arch/unix/uicommands.c:899
+#: src/arch/unix/uicommands.c:900
 msgid "Change working directory..."
 msgstr "Cambia la directory di lavoro..."
 
-#: src/arch/unix/uicommands.c:905
+#: src/arch/unix/uicommands.c:906
 msgid "Load snapshot..."
 msgstr "Carica snapshot..."
 
-#: src/arch/unix/uicommands.c:908
+#: src/arch/unix/uicommands.c:909
 msgid "Save snapshot..."
 msgstr "Salva snapshot..."
 
-#: src/arch/unix/uicommands.c:912
+#: src/arch/unix/uicommands.c:913
 msgid "Quickload snapshot"
 msgstr "Caricamento veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:915
+#: src/arch/unix/uicommands.c:916
 msgid "Quicksave snapshot"
 msgstr "Salvataggio veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:922
+#: src/arch/unix/uicommands.c:923
 msgid "Snapshot commands"
 msgstr "Comandi snapshot"
 
-#: src/arch/unix/uicommands.c:928
+#: src/arch/unix/uicommands.c:929
 msgid "Activate monitor"
 msgstr "Attiva il monitor"
 
-#: src/arch/unix/uicommands.c:930
+#: src/arch/unix/uicommands.c:931
 msgid "Run C1541"
 msgstr "Esegui C1541"
 
-#: src/arch/unix/uicommands.c:938
+#: src/arch/unix/uicommands.c:939
 msgid "Browse manuals"
 msgstr "Sfoglia i manuali"
 
-#: src/arch/unix/uicommands.c:940
+#: src/arch/unix/uicommands.c:941
 msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
-#: src/arch/unix/uicommands.c:946 src/arch/unix/uidatasette.c:101
+#: src/arch/unix/uicommands.c:947 src/arch/unix/uidatasette.c:101
 #: src/arch/unix/x11/gnome/ui.c:1782
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:948
+#: src/arch/unix/uicommands.c:949
 msgid "*Pause"
 msgstr "*Pausa"
 
-#: src/arch/unix/uicommands.c:955
+#: src/arch/unix/uicommands.c:956
 msgid "Exit emulator"
 msgstr "Esci dall'emulatore"
 
@@ -2175,7 +2175,7 @@ msgstr "Le estensioni MITSHM non sono supportate su questo display."
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rilevate le estensioni MITSHM versione %d.%d."
 
-#: src/arch/unix/x11/video.c:449
+#: src/arch/unix/x11/video.c:453
 msgid "Cannot release shared memory!"
 msgstr "Non è possibile rilasciare la memoria condivisa!"
 

@@ -1,5 +1,5 @@
 /*
- * video-color.h - Video implementation of YUV, YCbCr and RGB colors
+ * video-color.c - Video implementation of YUV, YCbCr and RGB colors
  *
  * Written by
  *  John Selck <graham@cruise.de>
@@ -183,22 +183,25 @@ extern BYTE gammatable[1024+256+1024];
 static void video_calc_gammatable(void)
 {
 	int i;
-	float sat,bri,con,gam,v;
+	float bri,con,gam,v;
 	double factor;
 
-	sat=((float)(video_resources.color_saturation     ))/1000.0f;
 	bri=((float)(video_resources.color_brightness-1000))*(128.0f/1000.0f);
 	con=((float)(video_resources.color_contrast       ))/1000.0f;
 	gam=((float)(video_resources.color_gamma          ))/1000.0f;
 
 	factor=pow(255.0f,1.0f-gam);
-	for (i=0;i<1024+256+1024;i++)
+	for (i=0;i<(256+256+256);i++)
 	{
-		v=(float)(i-1024);
-		v=(v + bri) * con;
-		v=(float)(factor * pow(v, gam));
-		if (v <   0.0f) v =   0.0f;
-		if (v > 255.0f) v = 255.0f;
+		v=(((float)(i-256)) + bri) * con;
+
+		if (v < 0.0f) v=0.0f;
+		else
+		{
+			v=(float)(factor * pow(v, gam));
+			if (v <   0.0f) v =   0.0f;		/* security */
+			if (v > 255.0f) v = 255.0f;
+		}
 		gammatable[i]=(int)v;
 	}
 }
@@ -312,6 +315,7 @@ int video_color_update_palette(void)
 	else palette=video_calc_palette(video_current_palette);
 
 	if (palette != NULL)
-            return raster_set_palette(video_current_raster,palette);
+           return raster_set_palette(video_current_raster,palette);
+
 	return -1;
 }

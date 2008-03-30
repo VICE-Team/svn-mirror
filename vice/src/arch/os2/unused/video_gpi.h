@@ -31,7 +31,7 @@ typedef struct _canvas {
     BOOL  pbmi_initialized; // don't use pbmi before initialized
     PBITMAPINFO2 pbmi;       // information structure about bitmap format
     canvas_redraw_t exposure_handler;
-} *canvas_t;
+} *video_canvas_t;
 
 /* ------------------------------------------------------------------------ */
 
@@ -44,16 +44,16 @@ extern int  frame_buffer_alloc(video_frame_buffer_t *i, UINT width,
 extern void frame_buffer_free(video_frame_buffer_t *i);
 extern void frame_buffer_clear(video_frame_buffer_t *i, BYTE value);
 
-extern canvas_t canvas_create(const char *win_name, UINT *width, UINT *height,
+extern video_canvas_t canvas_create(const char *win_name, UINT *width, UINT *height,
                               int mapped, canvas_redraw_t exposure_handler,
                               const palette_t *palette, PIXEL *pixel_return);
-extern void canvas_map(canvas_t s);
-extern void canvas_unmap(canvas_t s);
-extern void canvas_resize(canvas_t s, UINT width, UINT height);
-extern int  canvas_set_palette(canvas_t c, const palette_t *p,
+extern void video_canvas_map(video_canvas_t s);
+extern void video_canvas_unmap(video_canvas_t s);
+extern void video_canvas_resize(video_canvas_t s, UINT width, UINT height);
+extern int  video_canvas_set_palette(video_canvas_t c, const palette_t *p,
                               PIXEL *pixel_return);
 
-extern void canvas_refresh(canvas_t c, video_frame_buffer_t f,
+extern void video_canvas_refresh(video_canvas_t c, video_frame_buffer_t f,
                            int xs, int ys, int xi, int yi, int w, int h);
 
 void wmCreate();

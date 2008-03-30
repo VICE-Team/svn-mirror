@@ -44,7 +44,7 @@ extern void video_frame_buffer_free(struct video_frame_buffer_s *i);
 extern void video_frame_buffer_clear(struct video_frame_buffer_s *i,
                                      PIXEL value);
 
-extern struct canvas_s *canvas_create(const char *win_name, unsigned int *width,
+extern struct video_canvas_s *canvas_create(const char *win_name, unsigned int *width,
                                       unsigned int *height, int mapped,
                                       void_t exposure_handler,
                                       const struct palette_s *palette,
@@ -53,19 +53,19 @@ extern struct canvas_s *canvas_create(const char *win_name, unsigned int *width,
                                       , struct video_frame_buffer_s *fb
 #endif
                                       );
-extern void canvas_refresh(struct canvas_s *canvas,
-                           struct video_frame_buffer_s *frame_buffer,
-                           unsigned int xs, unsigned int ys,
-                           unsigned int xi, unsigned int yi,
-                           unsigned int w, unsigned int h);
-extern int canvas_set_palette(struct canvas_s *c,
-                              const struct palette_s *palette,
-                              PIXEL *pixel_return);
-extern void canvas_destroy(struct canvas_s *s);
-extern void canvas_map(struct canvas_s *s);
-extern void canvas_unmap(struct canvas_s *s);
-extern void canvas_resize(struct canvas_s *s, unsigned int width,
-                          unsigned int height);
+extern void video_canvas_refresh(struct video_canvas_s *canvas,
+                                 struct video_frame_buffer_s *frame_buffer,
+                                 unsigned int xs, unsigned int ys,
+                                 unsigned int xi, unsigned int yi,
+                                 unsigned int w, unsigned int h);
+extern int video_canvas_set_palette(struct video_canvas_s *c,
+                                    const struct palette_s *palette,
+                                    PIXEL *pixel_return);
+extern void video_canvas_destroy(struct video_canvas_s *s);
+extern void video_canvas_map(struct video_canvas_s *s);
+extern void video_canvas_unmap(struct video_canvas_s *s);
+extern void video_canvas_resize(struct video_canvas_s *s, unsigned int width,
+                                unsigned int height);
 
 
 extern int video_resources_init(void);
