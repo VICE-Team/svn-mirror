@@ -489,8 +489,8 @@ static BYTE SZP[256] = {
       LOCAL_SET_NADDSUB(0);                                                \
       LOCAL_SET_CARRY(tmp & 0x10000);                                      \
       LOCAL_SET_HALFCARRY(((tmp >> 8) ^ reg_valh ^ reg_dsth) & H_FLAG);    \
-      reg_h = (BYTE)(tmp >> 8);                                            \
-      reg_l = (BYTE)(tmp & 0xff);                                          \
+      reg_dsth = (BYTE)(tmp >> 8);                                         \
+      reg_dstl = (BYTE)(tmp & 0xff);                                       \
       CLK += clk_inc;                                                      \
       INC_PC(pc_inc);                                                      \
   } while (0)
@@ -503,8 +503,8 @@ static BYTE SZP[256] = {
       LOCAL_SET_NADDSUB(0);                                                   \
       LOCAL_SET_CARRY(tmp & 0x10000);                                         \
       LOCAL_SET_HALFCARRY(((tmp >> 8) ^ (reg_sp >> 8) ^ reg_dsth) & H_FLAG);  \
-      reg_h = (BYTE)(tmp >> 8);                                               \
-      reg_l = (BYTE)(tmp & 0xff);                                             \
+      reg_dsth = (BYTE)(tmp >> 8);                                            \
+      reg_dstl = (BYTE)(tmp & 0xff);                                          \
       CLK += clk_inc;                                                         \
       INC_PC(pc_inc);                                                         \
   } while (0)
@@ -864,10 +864,10 @@ static BYTE SZP[256] = {
       }                                           \
   } while (0)
 
-#define LDAI()                             \
+#define LDAIR(reg_val)                     \
   do {                                     \
       CLK += 6;                            \
-      reg_a = reg_i;                       \
+      reg_a = reg_val;                     \
       reg_f = SZP[reg_a] | LOCAL_CARRY();  \
       LOCAL_SET_PARITY(reg_iff & 1);       \
       CLK += 3;                            \
@@ -3817,6 +3817,9 @@ inline void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0x4d: /* RETI */
         RETNI();
         break;
+      case 0x4f: /* LD R A FIXME: Not emulated.  */
+        NOP(8, 2);
+        break;
       case 0x50: /* IN D BC */
         INBC(reg_d, 4, 8, 2);
         break;
@@ -3833,7 +3836,7 @@ inline void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         IM(2);
         break;
       case 0x57: /* LD A I */
-        LDAI();
+        LDAIR(reg_i);
         break;
       case 0x58: /* IN E BC */
         INBC(reg_e, 4, 8, 2);
@@ -3849,6 +3852,9 @@ inline void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         break;
       case 0x5e: /* IM2 */
         IM(4);
+        break;
+      case 0x5f: /* LD A R */
+        LDAIR((CLK & 0xff));
         break;
       case 0x60: /* IN H BC */
         INBC(reg_h, 4, 8, 2);
