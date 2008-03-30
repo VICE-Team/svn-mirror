@@ -39,10 +39,11 @@
 #define FSDEV_EXT_SEP_CHR      '.'
 
 /* Modes for fopen().  */
-#define MODE_READ       "rb"
-#define MODE_READ_WRITE "r+b"
-#define MODE_WRITE      "wb"
-#define MODE_APPEND     "wb"
+#define MODE_READ              "rb"
+#define MODE_READ_WRITE        "r+b"
+#define MODE_WRITE             "wb"
+#define MODE_APPEND            "wb"
+#define MODE_APPEND_READ_WRITE "a+b"
 
 #endif
 

@@ -41,10 +41,11 @@
 #define FSDEV_EXT_SEP_CHR      '.'
 
 /* Modes for fopen().  */
-#define MODE_READ       "r"
-#define MODE_READ_WRITE "r+"
-#define MODE_WRITE      "w"
-#define MODE_APPEND     "w+"
+#define MODE_READ              "r"
+#define MODE_READ_WRITE        "r+"
+#define MODE_WRITE             "w"
+#define MODE_APPEND            "w+"
+#define MODE_APPEND_READ_WRITE "a+"
 
 /* Define the default system directory (where the ROMs are).  */
 #define LIBDIR          PREFIX "/lib/vice"
