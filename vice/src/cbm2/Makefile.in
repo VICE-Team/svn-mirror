@@ -303,6 +303,7 @@ c610iec.o: c610iec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/iecdrive.h
 c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/autostart.h ../../src/arch/unix/types.h c610acia.h \
 	c610cia.h c610mem.h c610tpi.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/crtc/crtc-mem.h \

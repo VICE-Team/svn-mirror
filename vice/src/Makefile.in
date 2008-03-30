@@ -604,8 +604,8 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	arch/unix/x11/xaw/uiarch.h arch/unix/x11/xaw/../videoarch.h \
 	interrupt.h 6510core.h arch/unix/joystick.h arch/unix/kbd.h \
 	kbdbuf.h keyboard.h machine.h maincpu.h arch/unix/main_exit.h \
-	sysfile.h screenshot.h tape.h utils.h vdrive/vdrive.h version.h \
-	video.h arch/unix/mouse.h
+	palette.h sysfile.h screenshot.h tape.h utils.h vdrive/vdrive.h \
+	version.h video.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h clkguard.h interrupt.h log.h machine.h maincpu.h mem.h \
 	monitor/mon.h mos6510.h snapshot.h traps.h arch/unix/ui.h \

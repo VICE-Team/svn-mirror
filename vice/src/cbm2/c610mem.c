@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "autostart.h"
 #include "c610acia.h"
 #include "c610cia.h"
@@ -68,7 +69,7 @@ void cia1_set_extended_keyboard_rows_mask(BYTE foo) {}
 /* ------------------------------------------------------------------------- */
 /* The CBM-II memory. */
 
-BYTE ram[C610_RAM_SIZE];  		/* 1M, banks 0-14 plus extension RAM 
+BYTE ram[C610_RAM_SIZE];  		/* 1M, banks 0-14 plus extension RAM
 					   in bank 15 */
 BYTE rom[C610_ROM_SIZE];		/* complete bank 15 ROM + video RAM */
 BYTE chargen_rom[C610_CHARGEN_ROM_SIZE];
@@ -126,21 +127,14 @@ static log_t c610_mem_log = LOG_ERR;
 /* prototype */
 static void initialize_memory_bank(int i);
 
-#ifdef __riscos
-#define CBM2_CHARGEN600 "chargen/600"
-#define CBM2_CHARGEN700 "chargen/700"
-#define CBM2_BASIC128   "basic/128"
-#define CBM2_BASIC256   "basic/256"
-#else
-#define CBM2_CHARGEN500 "chargen.500"
-#define CBM2_CHARGEN600 "chargen.600"
-#define CBM2_CHARGEN700 "chargen.700"
-#define CBM2_BASIC128   "basic.128"
-#define CBM2_BASIC256   "basic.256"
-#define CBM2_BASIC500   "basic.500"
+#define CBM2_CHARGEN500 "chargen" FSDEV_EXT_SEP_STR "500"
+#define CBM2_CHARGEN600 "chargen" FSDEV_EXT_SEP_STR "600"
+#define CBM2_CHARGEN700 "chargen" FSDEV_EXT_SEP_STR "700"
+#define CBM2_BASIC128   "basic" FSDEV_EXT_SEP_STR "128"
+#define CBM2_BASIC256   "basic" FSDEV_EXT_SEP_STR "256"
+#define CBM2_BASIC500   "basic" FSDEV_EXT_SEP_STR "500"
 #define CBM2_KERNAL     "kernal"
-#define CBM2_KERNAL500  "kernal.500"
-#endif
+#define CBM2_KERNAL500  "kernal" FSDEV_EXT_SEP_STR "500"
 
 /* ------------------------------------------------------------------------- */
 
@@ -234,9 +228,9 @@ void cbm2_set_tpi1cb(int a) {
 /* ------------------------------------------------------------------------- */
 
 const char *mem_romset_resources_list[] = {
-    "KernalName", "ChargenName", "BasicName", 
+    "KernalName", "ChargenName", "BasicName",
     "Cart1Name", "Cart2Name", "Cart4Name", "Cart6Name",
-    "DosName2031", "DosName1001", 
+    "DosName2031", "DosName1001",
     "DosName1541", "DosName1571", "DosName1581", "DosName1541ii",
     NULL
 };
@@ -335,7 +329,9 @@ static int set_use_vicii(resource_value_t v, void *param)
 	if (isC500 < 1) {
 	    isC500 = use_vicii;
 	}
+        return 0;
     }
+    return -1;
 }
 
 static int set_chargen_rom_name(resource_value_t v, void *param)
@@ -673,7 +669,7 @@ void set_bank_exec(int val) {
 	    } else {
 	    	/* disable fast opcode fetch when bank_base is null, i.e.
 		   set all limits to 0 when no RAM available.
-		   This might also happen when jumping to open mem in 
+		   This might also happen when jumping to open mem in
 		   bank 15, though. */
     	        mem_read_limit_tab_ptr = mem_read_limit_tab[2];
 	    }
@@ -1065,36 +1061,36 @@ void initialize_memory(void)
 	} else
 	if(i<0x08) {	/* system RAM */
 	    mem_read_limit_tab[1][i] = 0x07fd;
-	} else 
+	} else
 	if(i<0x10) {	/* ROM/RAM 0800-0FFF */
-	    mem_read_limit_tab[1][i] = 0x0ffd;	
-	} else 
+	    mem_read_limit_tab[1][i] = 0x0ffd;
+	} else
 	if(i<0x20) {	/* ROM/RAM 1000-1FFF */
-	    mem_read_limit_tab[1][i] = 0x1ffd;	
-	} else 
+	    mem_read_limit_tab[1][i] = 0x1ffd;
+	} else
 	if(i<0x40) {	/* ROM/RAM 2000-3FFF */
-	    mem_read_limit_tab[1][i] = 0x3ffd;	
-	} else 
+	    mem_read_limit_tab[1][i] = 0x3ffd;
+	} else
 	if(i<0x60) {	/* ROM/RAM 4000-5FFF */
-	    mem_read_limit_tab[1][i] = 0x5ffd;	
-	} else 
+	    mem_read_limit_tab[1][i] = 0x5ffd;
+	} else
 	if(i<0x80) {	/* ROM/RAM 6000-7FFF */
-	    mem_read_limit_tab[1][i] = 0x7ffd;	
-	} else 
+	    mem_read_limit_tab[1][i] = 0x7ffd;
+	} else
 	if(i<0xc0) {	/* ROM 8000-BFFF */
-	    mem_read_limit_tab[1][i] = 0xbffd;	
-	} else 
+	    mem_read_limit_tab[1][i] = 0xbffd;
+	} else
 	if(i<0xd0) {	/* C000-CFFF */
 	    if (isC500) { /* charrom */
-	        mem_read_limit_tab[1][i] = 0xcffd;	
+	        mem_read_limit_tab[1][i] = 0xcffd;
 	    } else {	/* open(?) */
 	        mem_read_limit_tab[1][i] = 0;
 	    }
-	} else 
+	} else
 	if(i<0xe0) {	/* I/O D000-DFFF */
-	    mem_read_limit_tab[1][i] = 0;	
+	    mem_read_limit_tab[1][i] = 0;
 	} else {	/* ROM E000-FFFF */
-	    mem_read_limit_tab[1][i] = 0xfffd;	
+	    mem_read_limit_tab[1][i] = 0xfffd;
 	}
     }
 
@@ -1314,7 +1310,7 @@ void mem_powerup(void)
  * Called from mem_load() and from setting the resources.
  */
 
-static int mem_load_chargen(void) 
+static int mem_load_chargen(void)
 {
     int i;
 
@@ -1367,7 +1363,7 @@ static int mem_checksum(void)
     return 0;
 }
 
-static int mem_load_kernal(void) 
+static int mem_load_kernal(void)
 {
     if(!rom_loaded) return 0;  /* init not far enough */
 
@@ -1376,7 +1372,7 @@ static int mem_load_kernal(void)
     kbd_buf_init(0, 0, 0, 0);
     autostart_init(0, 0, 0, 0, 0, 0);
     tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
- 
+
     /* Load Kernal ROM.  */
     if (!IS_NULL(kernal_rom_name)) {
         if (sysfile_load(kernal_rom_name, rom + 0xe000, 0x2000, 0x2000) < 0) {
@@ -1389,7 +1385,7 @@ static int mem_load_kernal(void)
 }
 
 
-static int mem_load_basic(void) 
+static int mem_load_basic(void)
 {
     if(!rom_loaded) return 0;  /* init not far enough */
 
@@ -1407,7 +1403,7 @@ static int mem_load_basic(void)
     return 0;
 }
 
-static int mem_load_cart_1(void) 
+static int mem_load_cart_1(void)
 {
     if(!rom_loaded) return 0;  /* init not far enough */
 
@@ -1422,7 +1418,7 @@ static int mem_load_cart_1(void)
     return 0;
 }
 
-static int mem_load_cart_2(void) 
+static int mem_load_cart_2(void)
 {
     if(!rom_loaded) return 0;  /* init not far enough */
 
@@ -1437,7 +1433,7 @@ static int mem_load_cart_2(void)
     return 0;
 }
 
-static int mem_load_cart_4(void) 
+static int mem_load_cart_4(void)
 {
     if(!rom_loaded) return 0;  /* init not far enough */
 
@@ -1452,7 +1448,7 @@ static int mem_load_cart_4(void)
     return 0;
 }
 
-static int mem_load_cart_6(void) 
+static int mem_load_cart_6(void)
 {
     if(!rom_loaded) return 0;  /* init not far enough */
 
@@ -1465,7 +1461,7 @@ static int mem_load_cart_6(void)
     }
     return 0;
 }
- 
+
 /* Load memory image files. */
 int mem_load(void)
 {
@@ -1729,7 +1725,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     effective_start = 0x10000;
     if (isC500 && ramsize < 512) {
 	effective_ramsize += 64;
-    } 
+    }
     if (isC500 || ramsize >= 512) {
 	effective_start = 0;
     }
@@ -1740,7 +1736,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
 		| (cart2_ram ? 4 : 0)
 		| (cart4_ram ? 8 : 0)
 		| (cart6_ram ? 16 : 0)
-		| (cartC_ram ? 32 : 0) 
+		| (cartC_ram ? 32 : 0)
 		| (isC500 ? 64 : 0)
 	;
 
@@ -1755,7 +1751,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte_array(m, rom + 0xd000, 0x0800);
 
     /* main memory array */
-    snapshot_module_write_byte_array(m, ram + effective_start, 
+    snapshot_module_write_byte_array(m, ram + effective_start,
 						((int)memsize) << 17);
 
     if(memsize < 4) {	/* if 1M memory, bank 15 is included */
@@ -1828,7 +1824,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     }
     if (bank0 && effective_ramsize < 512) {
 	effective_ramsize -= 64;
-    } 
+    }
 
     snapshot_module_read_byte_array(m, ram + effective_start, memsize << 17);
 
@@ -1917,7 +1913,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     config = (  (cart_1_name ? 2 : 0)
 		| (cart_2_name ? 4 : 0)
 		| (cart_4_name ? 8 : 0)
-		| (cart_6_name ? 16 : 0) 
+		| (cart_6_name ? 16 : 0)
 		| (isC500 ? 32 : 0)
 	);
 
@@ -1925,7 +1921,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     /* snapshot_module_write_byte(m, save_roms & 3 ); */
     snapshot_module_write_byte(m, config);
 
-    {	
+    {
 	/* kernal */
         snapshot_module_write_byte_array(m, rom + 0xe000, 0x2000);
 	/* basic */

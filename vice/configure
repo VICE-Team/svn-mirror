@@ -721,7 +721,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.6.4
+VERSION=1.6.5
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -5089,7 +5089,7 @@ done
 fi
 
 if [ x"$is_win32" = "xyes" ] ; then
-    SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o"
+    SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o soundwmm.o"
 fi
 
 if [ x"$is_beos" = "xyes" ] ; then
