@@ -47,6 +47,8 @@
 #include "video.h"
 #include "vsync.h"
 
+static int drive_led_status;
+
 /* ------------------------------------------------------------------------- */
 
 static void ui_exit(void)
@@ -167,6 +169,7 @@ void ui_display_drive_track(double track_number)
 
 void ui_display_drive_led(int status)
 {
+    drive_led_status = status;
 }
 
 int ui_extend_image_dialog(void)
