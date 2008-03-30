@@ -352,10 +352,12 @@ void via1d2031_setup_context(drive_context_t *ctxptr)
     via->rmw_flag = &(ctxptr->cpu.rmw_flag);
     via->clk_ptr = ctxptr->clk_ptr;
 
-    sprintf(via->myname, "Drive%dVia1", via1p->number);
-    sprintf(via->my_module_name, "VIA1D%d", via1p->number);
+    sprintf(via->myname, "2031Drive%dVia1", ctxptr->mynumber);
+    sprintf(via->my_module_name, "2031VIA1D%d", ctxptr->mynumber);
 
     viacore_setup_context(via);
+
+    sprintf(via->my_module_name_alt1, "VIA1D%d", ctxptr->mynumber);
 
     via->irq_line = IK_IRQ;
 
