@@ -108,6 +108,170 @@ static void init_drawing_tables(void)
     }
 }
 
+/*-----------------------------------------------------------------------*/
+
+inline static BYTE get_attr_char_data(BYTE c, BYTE a, int l, BYTE *char_mem,
+                                      int bytes_per_char, int blink,
+                                      int revers, int curpos, int index)
+{
+    BYTE data;
+
+    if (a & VDC_ALTCHARSET_ATTR)
+        char_mem += 0x1000;
+
+    data = (char_mem[((c) * bytes_per_char) + l]
+           ^ (((a) & VDC_REVERSE_ATTR || (((a) & VDC_FLASH_ATTR) && blink))
+           ? revers : (revers ^ 0xff)));
+
+    if (curpos == index)
+        data ^= 0xff;
+
+    return data;
+}
+
+inline static int cache_data_fill_attr_text(BYTE *dest,
+                                            const BYTE *src,
+                                            BYTE *attr,
+                                            BYTE *char_mem,
+                                            int bytes_per_char,
+                                            int length,
+                                            int l,
+                                            int *xs, int *xe,
+                                            int no_check,
+                                            int blink,
+                                            int revers,
+                                            int curpos)
+{
+    if (no_check) {
+        int i;
+
+        *xs = 0;
+        *xe = length - 1;
+        for (i = 0; i < length; i++, src++, attr++)
+            dest[i] = get_attr_char_data(src[0], attr[0], l, char_mem,
+                                         bytes_per_char, blink, revers,
+                                         curpos, i);
+        return 1;
+    } else {
+        BYTE b;
+        int i;
+
+        for (i = 0; i < length; i++, src++, attr++) {
+            if (dest[i] != get_attr_char_data(src[0], attr[0], l, char_mem,
+                bytes_per_char, blink, revers, curpos, i))
+                break;
+        }
+        if (i < length) {
+            *xs = *xe = i;
+
+            for (; i < length; i++, src++, attr++) {
+                b = get_attr_char_data(src[0], attr[0], l, char_mem,
+                                       bytes_per_char, blink, revers,
+                                       curpos, i);
+                if (dest[i] != b) {
+                    dest[i] = b;
+                    *xe = i;
+                }
+            }
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+}
+
+inline static int cache_data_fill_attr_text_const(BYTE *dest,
+                                                  const BYTE *src,
+                                                  BYTE attr,
+                                                  BYTE *char_mem,
+                                                  int bytes_per_char,
+                                                  int length,
+                                                  int l,
+                                                  int *xs, int *xe,
+                                                  int no_check,
+                                                  int blink,
+                                                  int revers,
+                                                  int curpos)
+{
+    if (no_check) {
+        int i;
+
+        *xs = 0;
+        *xe = length - 1;
+        for (i = 0; i < length; i++, src++)
+            dest[i] = get_attr_char_data(src[0], attr, l, char_mem,
+                                         bytes_per_char, blink, revers,
+                                         curpos, i);
+        return 1;
+    } else {
+        BYTE b;
+        int i;
+
+        for (i = 0; i < length; i++, src++) {
+            if (dest[i] != get_attr_char_data(src[0], attr, l, char_mem,
+                bytes_per_char, blink, revers, curpos, i))
+                break;
+        }
+        if (i < length) {
+            *xs = *xe = i;
+
+            for (; i < length; i++, src++) {
+                b = get_attr_char_data(src[0], attr, l, char_mem,
+                                       bytes_per_char, blink, revers,
+                                       curpos, i);
+                if (dest[i] != b) {
+                    dest[i] = b;
+                    *xe = i;
+                }
+            }
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+}
+
+inline static int cache_data_fill(BYTE *dest,
+                                  const BYTE *src,
+                                  int length,
+                                  int src_step,
+                                  int *xs,
+                                  int *xe,
+                                  int no_check,
+                                  int reverse)
+{
+    if (no_check) {
+        int i;
+
+        *xs = 0;
+        *xe = length - 1;
+        for (i = 0; i < length; i++, src += src_step)
+            dest[i] = src[0] ^ reverse;
+        return 1;
+    } else {
+        int i;
+
+        for (i = 0; i < length && dest[i] == (src[0] ^ reverse);
+            i++, src += src_step)
+          /* do nothing */ ;
+
+        if (i < length) {
+            *xs = *xe = i;
+
+            for (; i < length; i++, src += src_step) {
+                if (dest[i] != (src[0] ^ reverse)) {
+                    dest[i] = src[0] ^ reverse;
+                    *xe = i;
+                }
+            }
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+}
+
+/*-----------------------------------------------------------------------*/
 
 static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
@@ -119,24 +283,32 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 
        c) the attribute RAM
      */
-    int r;
+    int r, cursor_pos = -1;
     *xs = 0;
     *xe = vdc.screen_text_cols;
 
+    if (vdc.cursor_visible) {
+        int crsrpos = vdc.crsrpos - vdc.mem_counter;
+
+        if (crsrpos >= 0 && crsrpos < vdc.screen_text_cols
+            && (int)vdc.raster.ycounter >= (int)(vdc.regs[10] & 0x1f)
+            && (int)vdc.raster.ycounter < (int)(vdc.regs[11] & 0x1f))
+            cursor_pos = crsrpos;
+    }
+
     if (vdc.regs[25] & 0x40) {
-        r = raster_cache_data_fill_attr_text(cache->foreground_data,
+        r = cache_data_fill_attr_text(cache->foreground_data,
                                 vdc.ram + vdc.screen_adr + vdc.mem_counter,
                                 vdc.ram + vdc.attribute_adr + vdc.mem_counter,
                                 vdc.ram + vdc.chargen_adr,
                                 vdc.bytes_per_char,
                                 vdc.screen_text_cols,
-                                (vdc.raster.ycounter
-                                / vdc.raster_ycounter_divide),
+                                vdc.raster.ycounter,
                                 xs, xe,
                                 rr,
                                 vdc.text_blink_visible,
-                                (vdc.regs[24] & 0x40) ? 0x0 : 0xff,
-                                0);
+                                (vdc.regs[24] & VDC_REVERSE_ATTR) ? 0x0 : 0xff,
+                                cursor_pos);
         r |= raster_cache_data_fill(cache->color_data_1,
                                 vdc.ram + vdc.attribute_adr + vdc.mem_counter,
                                 vdc.screen_text_cols,
@@ -144,36 +316,24 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 xs, xe,
                                 rr);
     } else {
-        r = raster_cache_data_fill_attr_text_const(cache->foreground_data,
+        r = cache_data_fill_attr_text_const(cache->foreground_data,
                                 vdc.ram + vdc.screen_adr + vdc.mem_counter,
                                 vdc.regs[26] & 0x0f,
                                 vdc.ram + vdc.chargen_adr,
                                 vdc.bytes_per_char,
                                 vdc.screen_text_cols,
-                                (vdc.raster.ycounter
-                                / vdc.raster_ycounter_divide),
+                                vdc.raster.ycounter,
                                 xs, xe,
                                 rr,
                                 vdc.text_blink_visible,
-                                (vdc.regs[24] & 0x40) ? 0x0 : 0xff,
-                                0);
+                                (vdc.regs[24] & VDC_REVERSE_ATTR) ? 0x0 : 0xff,
+                                cursor_pos);
         r |= raster_cache_data_fill_const(cache->color_data_1,
                                 vdc.regs[26] >> 4,
                                 vdc.screen_text_cols,
                                 1,
                                 xs, xe,
                                 rr);
-    }
-
-    if (vdc.cursor_visible) {
-        int crsrpos = vdc.crsrpos - vdc.mem_counter;
-
-        if (crsrpos >= 0 && crsrpos < vdc.screen_text_cols
-            && (int)(vdc.raster.ycounter / vdc.raster_ycounter_divide)
-            >= (int)(vdc.regs[10] & 0x1f)
-            && (int)(vdc.raster.ycounter / vdc.raster_ycounter_divide)
-            < (int)(vdc.regs[11] & 0x1f))
-            cache->foreground_data[crsrpos] ^= 0xff;
     }
 
     return r;
@@ -227,10 +387,8 @@ static void draw_std_text(void)
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
 
         if (crsrpos >= 0 && crsrpos < vdc.screen_text_cols
-            && (int)(vdc.raster.ycounter / vdc.raster_ycounter_divide)
-            >= (int)(vdc.regs[10] & 0x1f)
-            && (int)(vdc.raster.ycounter / vdc.raster_ycounter_divide)
-            < (int)(vdc.regs[11] & 0x1f))
+            && (int)(vdc.raster.ycounter) >= (int)(vdc.regs[10] & 0x1f)
+            && (int)(vdc.raster.ycounter) < (int)(vdc.regs[11] & 0x1f))
             cpos = crsrpos;
     }
 
@@ -240,8 +398,7 @@ static void draw_std_text(void)
 
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
     screen_ptr = vdc.ram + vdc.screen_adr + vdc.mem_counter;
-    char_ptr = vdc.ram + vdc.chargen_adr
-               + (vdc.raster.ycounter / vdc.raster_ycounter_divide);
+    char_ptr = vdc.ram + vdc.chargen_adr + vdc.raster.ycounter;
 
     for (i = 0; i < vdc.screen_text_cols; i++, p += 8) {
         PIXEL4 *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
@@ -255,6 +412,9 @@ static void draw_std_text(void)
             d ^= 0xff;
 
         if (cpos == i)
+            d ^= 0xff;
+
+        if (vdc.regs[24] & VDC_REVERSE_ATTR)
             d ^= 0xff;
 
         *((PIXEL4 *)p) = *(ptr + (d >> 4));
@@ -278,12 +438,13 @@ static int get_std_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
     *xs = 0;
     *xe = vdc.screen_text_cols;
 
-    r = raster_cache_data_fill(cache->foreground_data,
-                               vdc.ram + vdc.screen_adr + vdc.bitmap_counter,
-                               vdc.screen_text_cols,
-                               1,
-                               xs, xe,
-                               rr);
+    r = cache_data_fill(cache->foreground_data,
+                        vdc.ram + vdc.screen_adr + vdc.bitmap_counter,
+                        vdc.screen_text_cols,
+                        1,
+                        xs, xe,
+                        rr,
+                        (vdc.regs[24] & VDC_REVERSE_ATTR) ? 0xff : 0x0);
 
     if (vdc.regs[25] & 0x40)
         r |= raster_cache_data_fill(cache->color_data_1,
@@ -372,6 +533,9 @@ static void draw_std_bitmap(void)
         }
 
         d = *(bitmap_ptr + i);
+
+        if (vdc.regs[24] & VDC_REVERSE_ATTR)
+            d ^= 0xff;
 
         *((PIXEL4 *)p) = *(ptr + (d >> 4));
         *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
