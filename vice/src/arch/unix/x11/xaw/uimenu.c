@@ -41,6 +41,7 @@
 #include "checkmark.xbm"
 #include "right_arrow.xbm"
 
+#include "fullscreen.h"
 #include "machine.h"
 #include "resources.h"
 #include "uimenu.h"
@@ -203,7 +204,7 @@ static void popdown_submenus_action(Widget w, XEvent * event,
     top_menu = NULL;
 
 #ifdef USE_VIDMODE_EXTENSION
-    ui_set_mouse_timeout();
+    fullscreen_set_mouse_timeout();
 #endif
     menu_popup = 0;
 }
