@@ -1025,7 +1025,7 @@ void video_canvas_redraw_core(video_canvas_t *canvas, video_redraw_desc_t *vrd)
 
 
 
-int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette)
+int video_canvas_set_palette(video_canvas_t *canvas, palette_t *palette)
 {
   video_frame_buffer_t *fb;
   palette_entry_t *p;
@@ -1114,7 +1114,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
   wlsprite_plot_init(&(canvas->fb.palplot));
 }
 
-video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped, const palette_t *palette)
+video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped)
 {
   canvas_list_t *newCanvas;
 
@@ -1128,7 +1128,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
   if (canvas->videoconfig->doublesizey)
     canvas->height *= 2;
 
-  canvas->num_colours = (palette == NULL) ? 16 : palette->num_entries;
+  canvas->num_colours = (canvas->palette == NULL) ? 16 : canvas->palette->num_entries;
   canvas->current_palette = NULL;
   canvas->shiftx = 0; canvas->shifty = 0; canvas->scale = 1;
   canvas->redraw_wimp = NULL;
@@ -1138,7 +1138,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
   video_init_pal_videoconfig(canvas->videoconfig);
 
-  video_canvas_set_palette(canvas, palette);
+  video_canvas_set_palette(canvas, canvas->palette);
 
   if ((newCanvas = (canvas_list_t*)lib_malloc(sizeof(canvas_list_t))) == NULL)
   {

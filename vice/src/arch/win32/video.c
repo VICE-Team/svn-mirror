@@ -653,8 +653,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 /* Create a video canvas.  If specified width/height is not possible,
    return an alternative in `*width' and `*height'.  */
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
-                                    unsigned int *height, int mapped,
-                                    const struct palette_s *palette)
+                                    unsigned int *height, int mapped)
 {
 /*    HRESULT result;*/
     HRESULT ddresult;
@@ -675,7 +674,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     if (canvas->videoconfig->doublesizey)
         canvas->height *= 2;
 
-    canvas->palette = palette;
     canvas->hwnd = ui_open_canvas_window(canvas->viewport->title,
                                          canvas->width, canvas->height,
                                          IsFullscreenEnabled());
@@ -880,10 +878,7 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     }
 }
 
-/* Set the palette of `c' to `p', and return the pixel values in
-   `pixel_return[].  */
-
-int video_canvas_set_palette(struct video_canvas_s *canvas, const palette_t *p)
+int video_canvas_set_palette(struct video_canvas_s *canvas, palette_t *p)
 {
     /* Always OK.  */
     canvas->palette = p;
@@ -892,7 +887,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, const palette_t *p)
         PALETTEENTRY ape[256];
         HRESULT result;
 
-		init_palette(canvas->palette, ape);
+        init_palette(canvas->palette, ape);
 
         result = IDirectDraw2_CreatePalette(canvas->dd_object2, DDPCAPS_8BIT,
                                             ape, &canvas->dd_palette, NULL);

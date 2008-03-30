@@ -443,7 +443,7 @@ void crtc_reset(void)
 /* WARNING: This does not change the resource value.  External modules are
    expected to set the resource value to change the CRTC palette instead of
    calling this function directly.  */
-int crtc_load_palette (const char *name)
+int crtc_load_palette(const char *name)
 {
     static const char *color_names[CRTC_NUM_COLORS] = {
       "Background", "Foreground"
@@ -459,7 +459,7 @@ int crtc_load_palette (const char *name)
         return -1;
     }
 
-    return raster_set_palette(&crtc.raster, palette);
+    return video_canvas_palette_set(crtc.raster.canvas, palette);
 }
 
 

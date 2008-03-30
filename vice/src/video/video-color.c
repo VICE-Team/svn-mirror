@@ -32,9 +32,11 @@
 
 #include "machine.h"
 #include "palette.h"
+#include "video-canvas.h"
 #include "video-color.h"
 #include "video-resources.h"
 #include "video.h"
+
 
 SDWORD ytable[128];
 SDWORD cbtable[128];
@@ -52,16 +54,13 @@ DWORD color_red[256];
 DWORD color_grn[256];
 DWORD color_blu[256];
 
+
 void video_render_setrawrgb(unsigned int index, DWORD r, DWORD g, DWORD b)
 {
     color_red[index] = r;
     color_grn[index] = g;
     color_blu[index] = b;
 }
-
-/* FIXME: Video layer should not call raster layer.  */
-extern int raster_set_palette(struct raster_s *raster,
-                              struct palette_s *palette);
 
 /*
 
@@ -102,16 +101,16 @@ typedef struct video_ycbcr_color_s {
 /* variables needed for generating and activating a palette */
 
 static video_cbm_palette_t *video_current_palette = NULL;
-static struct raster_s *video_current_raster = NULL;
+static struct video_canvas_s *video_current_canvas = NULL;
 
 void video_color_set_palette(video_cbm_palette_t *palette)
 {
     video_current_palette = palette;
 }
 
-void video_color_set_raster(struct raster_s *raster)
+void video_color_set_canvas(struct video_canvas_s *canvas)
 {
-    video_current_raster = raster;
+    video_current_canvas = canvas;
 }
 
 /* conversion of VIC/VIC-II/TED colors to YCbCr */
@@ -270,8 +269,7 @@ static void video_calc_ycbcrtable(const video_cbm_palette_t *p)
     }
 }
 
-/* calculate a RGB palette out of VIC/VIC-II/TED colors */
-
+/* Calculate a RGB palette out of VIC/VIC-II/TED colors.  */
 static palette_t *video_calc_palette(const video_cbm_palette_t *p)
 {
     palette_t *prgb;
@@ -325,8 +323,7 @@ static palette_t *video_calc_palette(const video_cbm_palette_t *p)
     return prgb;
 }
 
-/* load RGB palette */
-
+/* Load RGB palette.  */
 static palette_t *video_load_palette(const video_cbm_palette_t *p,
                                      const char *name)
 {
@@ -344,15 +341,14 @@ static palette_t *video_load_palette(const video_cbm_palette_t *p,
     return palette;
 }
 
-/* calculate or load a palette, depending on configuration */
-
+/* Calculate or load a palette, depending on configuration.  */
 int video_color_update_palette(void)
 {
     palette_t *palette;
 
     if (video_current_palette == NULL)
         return 0;
-    if (video_current_raster == NULL)
+    if (video_current_canvas == NULL)
         return 0;
 
     video_calc_gammatable();
@@ -365,9 +361,14 @@ int video_color_update_palette(void)
         palette = video_calc_palette(video_current_palette);
 
     if (palette != NULL)
-       return raster_set_palette(video_current_raster, palette);
+        return video_canvas_palette_set(video_current_canvas, palette);
 
     return -1;
+}
+
+void video_color_palette_free(struct palette_s *palette)
+{
+    palette_free(palette);
 }
 
 void video_render_initraw()

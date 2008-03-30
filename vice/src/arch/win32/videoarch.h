@@ -45,6 +45,7 @@ struct video_draw_buffer_callback_s;
 
 typedef struct video_canvas_s {
     unsigned int initialized;
+    unsigned int created;
     char *title;
     int width, height;
     int mapped;
@@ -54,7 +55,7 @@ typedef struct video_canvas_s {
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
     struct geometry_s *geometry;
-    const struct palette_s *palette;
+    struct palette_s *palette;
     BYTE *pixels;
     HWND hwnd;
     LPDIRECTDRAW        dd_object;

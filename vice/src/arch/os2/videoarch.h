@@ -30,11 +30,12 @@ struct palette_s;
 typedef struct video_canvas_s
 {
     unsigned int initialized;
+    unsigned int created;
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s         *draw_buffer;
     struct viewport_s            *viewport;
     struct geometry_s            *geometry;
-    const struct palette_s       *palette;
+    struct palette_s             *palette;
     HWND   hwndFrame;        // Handle to Frame of Window = WinQueryWindow(hwndClient, QW_PARENT)
     HWND   hwndClient;       // Handle to Paint Area of Window
     HWND   hwndMenu;         // Handle to menu bar

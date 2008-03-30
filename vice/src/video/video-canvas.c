@@ -29,9 +29,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "machine.h"
 #include "lib.h"
+#include "machine.h"
 #include "types.h"
+#include "video-canvas.h"
+#include "video-color.h"
 #include "video-render.h"
 #include "video.h"
 #include "videoarch.h"
@@ -127,5 +129,36 @@ void video_canvas_redraw_size(video_canvas_t *canvas, unsigned int width,
         video_viewport_resize(canvas);
     }
     video_canvas_refresh_all(canvas);
+}
+
+int video_canvas_palette_set(struct video_canvas_s *canvas,
+                             struct palette_s *palette)
+{
+    struct palette_s *old_palette;
+
+    if (palette == NULL)
+        return 0;
+
+    old_palette = canvas->palette;
+
+    if (canvas->created) {
+        if (video_canvas_set_palette(canvas, palette) < 0)
+            return -1;
+    } else {
+        canvas->palette = palette;
+    }
+
+    if (old_palette != NULL)
+        video_color_palette_free(old_palette);
+
+    if (canvas->created)
+        video_canvas_refresh_all(canvas);
+
+    return 0;
+}
+
+void video_canvas_create_set(struct video_canvas_s *canvas)
+{
+    canvas->created = 1;
 }
 

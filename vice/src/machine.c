@@ -36,6 +36,7 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "console.h"
+#include "diskimage.h"
 #include "drive.h"
 #include "event.h"
 #include "fsdevice.h"

@@ -34,7 +34,6 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "palette.h"
 #include "raster-cache.h"
 #include "raster-canvas.h"
 #include "raster-modes.h"
@@ -142,13 +141,14 @@ static int realize_canvas(raster_t *raster)
     if (!console_mode && !vsid_mode) {
         new_canvas = video_canvas_create(raster->canvas,
                      &raster->canvas->draw_buffer->canvas_width,
-                     &raster->canvas->draw_buffer->canvas_height,
-                     1, raster->palette);
+                     &raster->canvas->draw_buffer->canvas_height, 1);
 
         if (new_canvas == NULL)
             return -1;
 
         raster->canvas = new_canvas;
+
+        video_canvas_create_set(raster->canvas);
     }
 
     if (raster_realize_frame_buffer(raster) < 0)
@@ -162,8 +162,9 @@ static int realize_canvas(raster_t *raster)
 
 static int perform_mode_change(raster_t *raster)
 {
-    if (raster->palette != NULL) {
-        if (video_canvas_set_palette(raster->canvas, raster->palette) < 0)
+    if (raster->canvas && raster->canvas->palette != NULL) {
+        if (video_canvas_set_palette(raster->canvas,
+            raster->canvas->palette) < 0)
             return -1;
     }
 
@@ -206,8 +207,6 @@ int raster_init(raster_t *raster,
     raster_modes_init(raster->modes, num_modes);
 
     raster_reset(raster);
-
-    raster->palette = NULL;
 
     raster->display_xstart = raster->display_xstop = 0;
     raster->display_ystart = raster->display_ystop = 0;
@@ -419,23 +418,6 @@ void raster_force_repaint(raster_t *raster)
     raster->num_cached_lines = 0;
 }
 
-int raster_set_palette(raster_t *raster, struct palette_s *palette)
-{
-    if (raster->intialized) {
-        if (video_canvas_set_palette(raster->canvas, palette) < 0)
-            return -1;
-    }
-
-    if (raster->palette != NULL)
-        palette_free(raster->palette);
-
-    raster->palette = palette;
-
-    raster_force_repaint(raster);
-
-    return 0;
-}
-
 void raster_set_title(raster_t *raster, const char *title)
 {
     video_viewport_title_set(raster->canvas, title);
@@ -459,7 +441,7 @@ void raster_set_canvas_refresh(raster_t *raster, int enable)
 
 void raster_screenshot(raster_t *raster, screenshot_t *screenshot)
 {
-    screenshot->palette = raster->palette;
+    screenshot->palette = raster->canvas->palette;
     screenshot->max_width = raster->geometry->screen_size.width;
     screenshot->max_height = raster->geometry->screen_size.height;
     screenshot->x_offset = raster->geometry->extra_offscreen_border_left;
@@ -512,7 +494,7 @@ void raster_shutdown(raster_t *raster)
 
     video_canvas_destroy(raster->canvas);
 
-    palette_free(raster->palette);
+    video_color_palette_free(raster->canvas->palette);
     raster_destroy_raster(raster);
 }
 

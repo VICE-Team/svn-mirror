@@ -66,6 +66,7 @@ typedef void video_redraw_core_func(struct video_canvas_s *canvas, struct video_
 
 struct video_canvas_s {
   unsigned int initialized;
+  unsigned int created;
   char *name;
   unsigned int width, height;
   unsigned int scale;
@@ -82,7 +83,7 @@ struct video_canvas_s {
   struct viewport_s *viewport;
   struct geometry_s *geometry;
   struct video_draw_buffer_callback_s *video_draw_buffer_callback;
-  const struct palette_s *palette;
+  struct palette_s *palette;
 };
 
 typedef struct video_canvas_s video_canvas_t;

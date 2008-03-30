@@ -1819,8 +1819,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
  return the pixel values for the requested palette in `pixel_return[]'.
 */
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width,
-                                    UINT *height, int mapped,
-                                    const struct palette_s *palette)
+                                    UINT *height, int mapped)
 {
     canvas_init_t canvini;
 
@@ -1868,7 +1867,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width,
                 canvas->viewport->title, *width, *height,
                 canvini.canvas->hwndClient);
 
-    video_canvas_set_palette(canvini.canvas, palette);
+    video_canvas_set_palette(canvini.canvas, canvas->palette);
 
     canvini.canvas->initialized = 1;
 
@@ -2154,7 +2153,7 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, R
 }
 
 /* Set the palette of `c' to `p'.  */
-int video_canvas_set_palette(video_canvas_t *c, const palette_t *p)
+int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
 {
     int i;
 

@@ -145,8 +145,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 
 video_canvas_t *video_canvas_create(struct video_canvas_s *canvas,
                                     unsigned int *width,
-                                    unsigned int *height, int mapped,
-                                    const struct palette_s *palette)
+                                    unsigned int *height, int mapped)
 {
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
 
@@ -163,11 +162,10 @@ video_canvas_t *video_canvas_create(struct video_canvas_s *canvas,
 		default:
 			canvas->depth = 32;
 	}
-    video_canvas_set_palette(canvas, palette);
+    video_canvas_set_palette(canvas, canvas->palette);
 
     canvas->width = *width;
     canvas->height = *height;
-    canvas->palette = palette;
 
     if (canvas->videoconfig->doublesizex)
         canvas->width *= 2;
@@ -232,9 +230,7 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
 	DEBUG(("video_canvas_resize to %d x %d",width,height));
 }
 
-/* Set the palette of `c' to `p', and return the pixel values in
-   `pixel_return[].  */
-int video_canvas_set_palette(video_canvas_t *c, const palette_t *p)
+int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
 {
 	int i;
     int rshift = 0;

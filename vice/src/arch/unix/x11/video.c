@@ -401,15 +401,13 @@ xv_settings[] = {
 #endif
 
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
-                                    unsigned int *height, int mapped,
-                                    const struct palette_s *palette)
+                                    unsigned int *height, int mapped)
 {
     int res;
     unsigned int new_width, new_height;
     XGCValues gc_values;
 
     canvas->depth = x11ui_get_display_depth();
-    canvas->palette = palette;
 
     new_width = *width;
     new_height = *height;
@@ -456,7 +454,8 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         Display *dpy = x11ui_get_display_ptr();
         XvAttribute *attr = XvQueryPortAttributes(dpy, canvas->xv_port,
                                                   &numattr);
-        for (i = 0; i < sizeof(xv_settings)/sizeof(xv_settings[0]); i++) {
+        for (i = 0; i < (int)(sizeof(xv_settings)/sizeof(xv_settings[0]));
+            i++) {
             xv_settings[i].atom = 0;
 
             for (j = 0; j < numattr; j++) {
@@ -475,7 +474,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         }
 
         /* Apply color settings to XVideo. */
-        video_canvas_set_palette(canvas, palette);
+        video_canvas_set_palette(canvas, canvas->palette);
     }
 #endif
 
@@ -495,8 +494,7 @@ void video_canvas_destroy(video_canvas_t *canvas)
 }
 
 
-int video_canvas_set_palette(video_canvas_t *c,
-                             const struct palette_s *palette)
+int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
 {
 #ifdef HAVE_XVIDEO
     /* Apply color settings to XVideo. */
@@ -505,7 +503,8 @@ int video_canvas_set_palette(video_canvas_t *c,
 
         Display *dpy = x11ui_get_display_ptr();
 
-        for (i = 0; i < sizeof(xv_settings) / sizeof(xv_settings[0]); i++) {
+        for (i = 0; i < (int)(sizeof(xv_settings) / sizeof(xv_settings[0]));
+            i++) {
             /* Map from VICE [0,2000] to XVideo [xv_min, xv_max]. */
             int v_min = 0, v_max = 2000;
             int v_zero = (v_min + v_max) / 2;

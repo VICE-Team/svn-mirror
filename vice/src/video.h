@@ -130,7 +130,7 @@ extern void video_shutdown(void);
 
 extern struct video_canvas_s *video_canvas_create(struct video_canvas_s *canvas,
                                  unsigned int *width, unsigned int *height,
-                                 int mapped, const struct palette_s *palette);
+                                 int mapped);
 extern void video_arch_canvas_init(struct video_canvas_s *canvas);
 extern void video_canvas_shutdown(struct video_canvas_s *canvas);
 extern struct video_canvas_s *video_canvas_init(void);
@@ -139,7 +139,11 @@ extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  unsigned int xi, unsigned int yi,
                                  unsigned int w, unsigned int h);
 extern int video_canvas_set_palette(struct video_canvas_s *canvas,
-                                    const struct palette_s *palette);
+                                    struct palette_s *palette);
+/* This will go away.  */
+extern int video_canvas_palette_set(struct video_canvas_s *canvas,
+                                    struct palette_s *palette);
+extern void video_canvas_create_set(struct video_canvas_s *canvas);
 extern void video_canvas_destroy(struct video_canvas_s *canvas);
 extern void video_canvas_map(struct video_canvas_s *canvas);
 extern void video_canvas_unmap(struct video_canvas_s *canvas);
@@ -199,11 +203,10 @@ typedef struct video_cbm_palette_s {
     float phase;      /* color phase (will be added to all color angles) */
 } video_cbm_palette_t;
 
-struct raster_s;
-
 extern void video_color_set_palette(video_cbm_palette_t *palette);
 extern int video_color_update_palette(void);
-extern void video_color_set_raster(struct raster_s *raster);
+extern void video_color_palette_free(struct palette_s *palette);
+extern void video_color_set_canvas(struct video_canvas_s *canvas);
 extern int video_render_get_fake_pal_state(void);
 
 #endif

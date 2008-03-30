@@ -443,7 +443,7 @@ int vdc_load_palette(const char *name)
         return -1;
     }
 
-    raster_set_palette(&vdc.raster, palette);
+    video_canvas_palette_set(vdc.raster.canvas, palette);
     return 0;
 }
 
