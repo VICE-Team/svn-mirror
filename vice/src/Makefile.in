@@ -22,9 +22,11 @@ TOPDIR	        = $(BASEDIR)/..
 SRCDIR	        = $(BASEDIR)
 UNIXDIR		= $(SRCDIR)/arch/unix
 UNIXODIR	= ./arch/unix
+UNIXAWDIR	= $(UNIXDIR)/xaw
+UNIXAWDIR	= $(UNIXODIR)/xaw
 READLINEDIR     = $(UNIXDIR)/readline
-WIDGETDIR	= $(UNIXDIR)/widgets
 READLINEODIR    = $(UNIXODIR)/readline
+WIDGETDIR	= $(UNIXDIR)/widgets
 WIDGETODIR      = $(UNIXODIR)/widgets
 MSDOSDIR	= $(SRCDIR)/arch/msdos
 MSDOSODIR	= ./arch/msdos
@@ -163,12 +165,11 @@ VICEDIST = $(VICEMISC) $(VICESRC) $(VICEHDR) $(C64SRC) $(VICSRC) $(PETSRC)
 
 # Unix-specific sources.
 
-UNIXSRC =  $(UNIXDIR)/joystick.c $(UNIXDIR)/kbd.c $(UNIXDIR)/ui_xaw.c \
-	$(UNIXDIR)/video.c $(UNIXDIR)/vsync.c $(UNIXDIR)/xdebug.c
+UNIXSRC =  $(UNIXDIR)/joystick.c $(UNIXDIR)/kbd.c $(UNIXDIR)/video.c \
+	$(UNIXDIR)/vsync.c
 
 UNIXHDR = $(UNIXDIR)/joystick.h $(UNIXDIR)/kbd.h $(UNIXDIR)/kbdef.h \
-	$(UNIXDIR)/menu.h $(UNIXDIR)/ui_xaw.h $(UNIXDIR)/ui.h \
-	$(UNIXDIR)/video.h $(UNIXDIR)/vsync.h $(UNIXDIR)/xdebug.h
+	$(UNIXDIR)/ui.h $(UNIXDIR)/video.h $(UNIXDIR)/vsync.h
 
 UNIXMISC = $(UNIXDIR)/x64_icon.xpm $(UNIXDIR)/checkmark.xbm \
 	$(UNIXDIR)/xpet_icon.xpm $(UNIXDIR)/right_arrow.xbm \
@@ -176,6 +177,11 @@ UNIXMISC = $(UNIXDIR)/x64_icon.xpm $(UNIXDIR)/checkmark.xbm \
 
 UNIXDIST = $(UNIXSRC) $(UNIXHDR) $(UNIXMISC)
 
+UNIXAWSRC = $(UNIXAWDIR)/xdebug.c $(UNIXAWDIR)/ui.c
+
+UNIXAWHDR = $(UNIXAWDIR)/ui.h $(UNIXAWDIR)/menu.h $(UNIXAWDIR)/xdebug.h
+
+UNIXAWDIST = $(UNIXAWSRC) $(UNIXAWHDR)
 
 # MS-DOS-specific sources.
 
@@ -609,6 +615,7 @@ clean:
 	(cd $(READLINEODIR); $(MAKE) clean)
 	(cd $(WIDGETODIR); $(MAKE) clean)
 	$(RM) -f *~ *.bak TAGS *.o
+	(cd $(UNIXAWODIR); $(RM) -f *~ *.bak TAGS *.o)
 	(cd $(UNIXODIR); $(RM) -f *~ *.bak TAGS *.o)
 	(cd $(MSDOSODIR); $(RM) -f *~ *.bak TAGS *.o)
 	(cd $(C64ODIR); $(RM) -f *~ *.bak TAGS *.o)
@@ -646,6 +653,8 @@ dist: catpages VERSION configure $(C64ROMS) $(VIC20ROMS) $(PETROMS)
 	   ln $(VICEHDR) $$DISTNAME/src/include;	  	\
            mkdir -p $$DISTNAME/src/arch/unix;		  	\
 	   ln $(UNIXDIST) $$DISTNAME/src/arch/unix;	  	\
+           mkdir -p $$DISTNAME/src/arch/unix/xaw;		\
+           ln $(UNIXAWDIST) $$DISTNAME/src/arch/unix/xaw;	\
 	   mkdir $$DISTNAME/src/arch/unix/widgets;	  	\
 	   ln $(WIDGETDIST) $$DISTNAME/src/arch/unix/widgets;	\
 	   mkdir $$DISTNAME/src/arch/unix/readline;		\
