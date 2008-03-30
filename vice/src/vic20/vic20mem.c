@@ -456,13 +456,20 @@ BYTE REGPARM1 read_via(ADDRESS addr)
 
 static BYTE REGPARM1 read_emuid(ADDRESS addr)
 {
-    if (emu_id_enabled && addr >= 0x9fa0) {
-	addr &= 0xff;
-	if (addr == 0xff)
-	    emulator_id[addr - 0xa0] ^= 0xff;
+    addr &= 0xff;
+    if (emu_id_enabled && addr >= 0xa0) {
 	return emulator_id[addr - 0xa0];
     }
     return 0xff;
+}
+
+static void REGPARM2 store_emuid(ADDRESS addr, BYTE value)
+{
+    addr &= 0xff;
+    if(emu_id_enabled && (addr == 0xff)) {
+	emulator_id[addr - 0xa0] ^= 0xff;
+    }
+    return;
 }
 
 static BYTE REGPARM1 read_dummy(ADDRESS addr)
@@ -662,7 +669,7 @@ void initialize_memory(void)
 
     /* Setup emulator ID at $9F** */
     set_mem(0x9f, 0x9f,
-	    read_emuid, store_dummy,
+	    read_emuid, store_emuid,
 	    NULL, 0);
 
     /* Setup BASIC ROM at $C000-$DFFF. */
