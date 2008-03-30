@@ -2,8 +2,6 @@
  * mon_assemble.h - The VICE built-in monitor, assembler module.
  *
  * Written by
- *  Daniel Sladic <sladic@eecg.toronto.edu>
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -29,10 +27,10 @@
 #ifndef _MON_ASSEMBLE_H
 #define _MON_ASSEMBLE_H
 
-#include "mon.h"
+struct monitor_cpu_type_s;
 
-extern void mon_start_assemble_mode(MON_ADDR addr, char *asm_line);
-extern int mon_assemble_instr(char *opcode_name, unsigned operand);
+void mon_assemble6502_init(struct monitor_cpu_type_s *monitor_cpu_type);
+void mon_assemblez80_init(struct monitor_cpu_type_s *monitor_cpu_type);
 
 #endif
 
