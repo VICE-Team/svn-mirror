@@ -107,7 +107,7 @@ static trap_t c64_serial_traps[] = {
         "SerialListen",
         0xED24,
         0xEDAB,
-        {0x20, 0x97, 0xEE},
+        { 0x20, 0x97, 0xEE },
         serialattention,
         rom_read,
         rom_store
@@ -116,7 +116,7 @@ static trap_t c64_serial_traps[] = {
         "SerialSaListen",
         0xED36,
         0xEDAB,
-        {0x78, 0x20, 0x8E},
+        { 0x78, 0x20, 0x8E },
         serialattention,
         rom_read,
         rom_store
@@ -125,7 +125,7 @@ static trap_t c64_serial_traps[] = {
         "SerialSendByte",
         0xED40,
         0xEDAB,
-        {0x78, 0x20, 0x97},
+        { 0x78, 0x20, 0x97 },
         serialsendbyte,
         rom_read,
         rom_store
@@ -134,7 +134,7 @@ static trap_t c64_serial_traps[] = {
         "SerialReceiveByte",
         0xEE13,
         0xEDAB,
-        {0x78, 0xA9, 0x00},
+        { 0x78, 0xA9, 0x00 },
         serialreceivebyte,
         rom_read,
         rom_store
@@ -143,17 +143,16 @@ static trap_t c64_serial_traps[] = {
         "SerialReady",
         0xEEA9,
         0xEDAB,
-        {0xAD, 0x00, 0xDD},
+        { 0xAD, 0x00, 0xDD },
         trap_serial_ready,
         rom_read,
         rom_store
     },
-
     {
         NULL,
         0,
         0,
-        {0, 0, 0},
+        { 0, 0, 0 },
         NULL,
         NULL,
         NULL
@@ -203,29 +202,27 @@ static double rfsh_per_sec = C64_PAL_RFSH_PER_SEC;
    the machine itself with `machine_init()'.  */
 int machine_init_resources(void)
 {
-    if (traps_init_resources() < 0
-        || vsync_init_resources() < 0
+    if (traps_resources_init() < 0
+        || vsync_resources_init() < 0
         || video_resources_init() < 0
-        || c64_init_resources() < 0
-        || reu_init_resources() < 0
-        || vic_ii_init_resources() < 0
-        || sound_init_resources() < 0
-        || sid_init_resources() < 0
+        || c64_resources_init() < 0
+        || reu_resources_init() < 0
+        || vic_ii_resources_init() < 0
+        || sound_resources_init() < 0
+        || sid_resources_init() < 0
 #ifdef HAVE_RS232
-        || acia1_init_resources() < 0
-        || rs232_init_resources() < 0
-        || rsuser_init_resources() < 0
+        || acia1_resources_init() < 0
+        || rs232_resources_init() < 0
+        || rsuser_resources_init() < 0
 #endif
-        || printer_init_resources() < 0
-        /* FIXME: This is done already in main.c
-         #ifdef HAVE_MOUSE
-         || mouse_init_resources() < 0
-         #endif
-         */
-        || kbd_init_resources() < 0
-        || drive_init_resources() < 0
-        || datasette_init_resources() < 0
-        || cartridge_init_resources() < 0
+        || printer_resources_init() < 0
+#ifdef HAVE_MOUSE
+        || mouse_resources_init() < 0
+#endif
+        || kbd_resources_init() < 0
+        || drive_resources_init() < 0
+        || datasette_resources_init() < 0
+        || cartridge_resources_init() < 0
         )
         return -1;
 
@@ -239,8 +236,8 @@ int machine_init_resources(void)
 int machine_init_cmdline_options(void)
 {
     if (vsid_mode) {
-        if (sound_init_cmdline_options() < 0
-            || sid_init_cmdline_options() < 0
+        if (sound_cmdline_options_init() < 0
+            || sid_cmdline_options_init() < 0
             || psid_init_cmdline_options() < 0
             )
             return -1;
@@ -248,29 +245,27 @@ int machine_init_cmdline_options(void)
         return 0;
     }
 
-    if (traps_init_cmdline_options() < 0
-        || vsync_init_cmdline_options() < 0
+    if (traps_cmdline_options_init() < 0
+        || vsync_cmdline_options_init() < 0
         || video_init_cmdline_options() < 0
-        || c64_init_cmdline_options() < 0
-        || reu_init_cmdline_options() < 0
-        || vic_ii_init_cmdline_options() < 0
-        || sound_init_cmdline_options() < 0
-        || sid_init_cmdline_options() < 0
+        || c64_cmdline_options_init() < 0
+        || reu_cmdline_options_init() < 0
+        || vic_ii_cmdline_options_init() < 0
+        || sound_cmdline_options_init() < 0
+        || sid_cmdline_options_init() < 0
 #ifdef HAVE_RS232
-        || acia1_init_cmdline_options() < 0
-        || rs232_init_cmdline_options() < 0
-        || rsuser_init_cmdline_options() < 0
+        || acia1_cmdline_options_init() < 0
+        || rs232_cmdline_options_init() < 0
+        || rsuser_cmdline_options_init() < 0
 #endif
-        || printer_init_cmdline_options() < 0
-        /* FIXME: This is done already in main.c
-        #ifdef HAVE_MOUSE
-        || mouse_init_cmdline_options() < 0
-        #endif
-         */
-        || kbd_init_cmdline_options() < 0
-        || drive_init_cmdline_options() < 0
-        || datasette_init_cmdline_options() < 0
-        || cartridge_init_cmdline_options() < 0
+        || printer_cmdline_options_init() < 0
+#ifdef HAVE_MOUSE
+        || mouse_cmdline_options_init() < 0
+#endif
+        || kbd_cmdline_options_init() < 0
+        || drive_cmdline_options_init() < 0
+        || datasette_cmdline_options_init() < 0
+        || cartridge_cmdline_options_init() < 0
         )
         return -1;
 
