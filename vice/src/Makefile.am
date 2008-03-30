@@ -2,12 +2,6 @@
 # $(CXX) instead of $(CC) when compiling with reSID.
 LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
-if HAVE_REALDRIVE
-cbm4linux_ldadd = realdrive.o
-else
-cbm4linux_ldadd =
-endif
-
 ARCH_LIBS = @ARCH_LIBS@
 
 SUBDIRS = \
@@ -17,6 +11,7 @@ SUBDIRS = \
 	vdrive \
 	fsdevice \
 	diskimage \
+	serial \
 	tape \
 	imagecontents \
 	video \
@@ -167,7 +162,6 @@ base_sources = \
 	resources.c \
 	romset.c \
 	screenshot.c \
-	serial.c \
 	snapshot.c \
 	sound.c \
 	sysfile.c \
@@ -183,10 +177,6 @@ cpucore_sources = \
 maincpu_sources = \
 	maincpu.c
 
-realdrive_sources = \
-	realdrive.c \
-	realdrive.h
-
 EXTRA_DIST = \
 	6510core.c \
 	ChangeLog \
@@ -199,8 +189,7 @@ EXTRA_DIST = \
 	piacore.c \
 	riotcore.c \
 	tpicore.c \
-	viacore.c \
-	$(realdrive_sources)
+	viacore.c
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
@@ -218,6 +207,7 @@ plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
+serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
@@ -228,7 +218,7 @@ vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = $(cbm4linux_ldadd) @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
 driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib)
 
@@ -250,6 +240,7 @@ x64_libs =  \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(serial_lib) \
 	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
@@ -278,6 +269,7 @@ x64-all: \
 	libarch \
 	libmonitor \
 	libdiskimage \
+	libserial \
 	libfsdevice \
 	libtape \
 	libimagecontents \
@@ -299,6 +291,7 @@ x128_libs =  \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(serial_lib) \
 	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
@@ -328,6 +321,7 @@ x128-all: \
 	libvideo \
 	libmonitor \
 	libdiskimage \
+	libserial \
 	libfsdevice \
 	libtape \
 	libimagecontents \
@@ -345,6 +339,7 @@ xvic_libs =  \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(serial_lib) \
 	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
@@ -369,6 +364,7 @@ xvic-all: \
 	libarch \
 	libmonitor \
 	libdiskimage \
+	libserial \
 	libfsdevice \
 	libtape \
 	libimagecontents \
@@ -386,6 +382,7 @@ xpet_libs =  \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(serial_lib) \
 	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
@@ -411,6 +408,7 @@ xpet-all: \
 	libarch \
 	libmonitor \
 	libdiskimage \
+	libserial \
 	libfsdevice \
 	libtape \
 	libimagecontents \
@@ -427,6 +425,7 @@ xplus4_libs =  \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(serial_lib) \
 	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
@@ -451,6 +450,7 @@ xplus4-all: \
         libarch \
         libmonitor \
 	libdiskimage \
+	libserial \
 	libfsdevice \
 	libtape \
 	libimagecontents \
@@ -470,6 +470,7 @@ xcbm2_libs = \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(serial_lib) \
 	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
@@ -498,6 +499,7 @@ xcbm2-all: \
 	libvideo \
 	libmonitor \
 	libdiskimage \
+	libserial \
 	libfsdevice \
 	libtape \
 	libimagecontents \
@@ -553,7 +555,7 @@ petcat_LDADD = \
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libvdc libsid libcrtc
-	libvideo @RESID_DEP@
+	libvideo libserial @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -593,6 +595,8 @@ libraster:
 	(cd raster && $(MAKE))
 libresid:
 	(cd resid && $(MAKE))
+libserial:
+	(cd serial && $(MAKE))
 libsid:
 	(cd sid && $(MAKE))
 libsounddrv:

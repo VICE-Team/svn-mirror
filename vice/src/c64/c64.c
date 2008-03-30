@@ -41,6 +41,7 @@
 #include "c64acia.h"
 #include "c64cart.h"
 #include "c64cia.h"
+#include "c64iec.h"
 #include "c64keyboard.h"
 #include "c64mem.h"
 #include "c64rsuser.h"
@@ -92,10 +93,6 @@
 
 #ifdef HAVE_MOUSE
 #include "mouse.h"
-#endif
-
-#if HAVE_CBM4LINUX || HAVE_OPENCBM
-#include "realdrive.h"
 #endif
 
 #define NUM_KEYBOARD_MAPPINGS 2
@@ -171,66 +168,6 @@ static trap_t c64_serial_traps[] = {
         NULL
     }
 };
-
-#if HAVE_CBM4LINUX || HAVE_OPENCBM
-static trap_t c64_realdrive_traps[] = {
-    {
-        "RealdriveReceiveByte",
-        0xEE13,
-        0xEDAB,
-        {0x78, 0xA9, 0x00},
-        realdrive_receive,
-        rom_read,
-        rom_store
-    },
-    {
-        "RealdriveSendByte",
-        0xED40,
-        0xEDAB,
-        {0x78, 0x20, 0x97},
-        realdrive_send,
-        rom_read,
-        rom_store
-    },
-    {
-        "RealdriveSaListen",
-        0xED36,
-        0xEDAB,
-        {0x78, 0x20, 0x8E},
-        realdrive_attention,
-        rom_read,
-        rom_store
-    },
-    {
-        "RealdriveListen",
-        0xED24,
-        0xEDAB,
-        {0x20, 0x97, 0xEE},
-        realdrive_attention,
-        rom_read,
-        rom_store
-    },
-    {
-        "SerialReady",
-        0xEEA9,
-        0xEDAB,
-        {0xAD, 0x00, 0xDD},
-        trap_serial_ready,
-        rom_read,
-        rom_store
-    },
-            
-    {
-        NULL,
-        0,
-        0,
-        {0, 0, 0},
-        NULL,
-        NULL,
-        NULL
-    }
-};
-#endif
 
 /* Tape traps.  */
 static trap_t c64_tape_traps[] = {
@@ -396,10 +333,6 @@ int machine_init(void)
         if (serial_init(c64_serial_traps, 0xa4) < 0)
             return -1;
 
-#if HAVE_CBM4LINUX || HAVE_OPENCBM
-        realdrive_init(c64_realdrive_traps);
-#endif
-  
         /* Initialize drives. */
         file_system_init();
 
@@ -481,7 +414,7 @@ int machine_init(void)
         mouse_init();
 #endif
 
-        iec_init();
+        c64iec_init();
 
         cartridge_init();
     }

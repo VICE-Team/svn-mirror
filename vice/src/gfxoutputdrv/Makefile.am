@@ -19,7 +19,6 @@ libgfxoutputdrv_a_SOURCES = \
 	gfxoutput.c
 
 libgfxoutputdrv_a_DEPENDENCIES = @GFXOUTPUT_DRIVERS@
-
 libgfxoutputdrv_a_LIBADD = @GFXOUTPUT_DRIVERS@
 
 EXTRA_DIST =
