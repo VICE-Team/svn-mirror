@@ -689,7 +689,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         /* this won't work so far for Xaw, because the checkmarks
            aren't updated when a menu is destroyed, as the flipmenu is
            dynamically regenerated; The Gnome code is already fixed. */
-        memcpy(&flipmenu[drive][i], (const char *)ui_drive_settings_menu,
+        memcpy(&flipmenu[drive][i], (const char *)ui_drive_options_submenu,
                sizeof(ui_menu_entry_t));
         i++;
         /* Write protext UI controll */

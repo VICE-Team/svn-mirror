@@ -1,3 +1,74 @@
+2003-01-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.40.
+
+	* arch/unix/uicommands.c (ui_update_flip_menus): Use
+	`ui_drive_options_submenu'.
+
+2003-01-02  Dag Lem  <resid@nimrod.no>
+
+	* resid/filter.cc (Filter::Filter): Initialize variables in
+	correct order.
+
+	* video/video-render.c: Replaced YUVimage with image_t.
+
+	* video/renderyuv.c: Replaced YUVimage with image_t.
+	(display_yuv_image): Added aspect_ratio parameter.
+
+	* video/renderyuv.h: Likewise.
+
+	* arch/unix/x11/videoarch.h: Replaced YUVimage with image_t.
+
+	* arch/unix/x11/video.c: Added AspectRatio resource and
+	-aspect command line setting for XVideo.
+
+2003-01-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/kbd.c, arch/msdos/joy.c, arch/msdos/kbd.c,
+	arch/msdos/mouse.c, arch/win32/kbd.c, arch/win32/mouse.dsp:
+	Removed unused code and switched to common joystick API.
+
+	* arch/win32/base.dsp, drive.dsp, iec.dsp, ieee.dsp, tcbm.dsp:
+	Updated.
+
+	* arch/win32/res.h, arch/win32/ui.c: Implemented temporary
+	UI for event recording and playback.
+
+2003-01-01  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc): Copy XvImage into generic YUV
+	image.
+
+	* arch/unix/x11/xaw/x11video.c
+	(video_arch_frame_buffer_alloc): Likewise.
+
+	* arch/unix/x11/renderxv.c: Moved generic YUV rendering to
+	video/video-render.c and video/renderyuv.c
+
+	* arch/unix/x11/renderxv.h: Moved generic YUV interface to
+	video/renderyuv.h.
+
+	* arch/unix/x11/videoarch.h (video_canvas_s): Added generic
+	YUV image for architecture independent rendering.
+
+	* arch/unix/x11/video.c (video_canvas_refresh): Pass generic
+	YUV image to render_yuv_image().
+
+	* resid/Makefile.am: Don't install header files (patch from
+	Thomas Klausner).
+
+	* video/Makefile.am: Added renderyuv.c and renderyuv.h.
+
+	* video/renderyuv.c: Generic YUV rendering from
+	arch/unix/x11/renderxv.c
+
+	* video/renderyuv.h: Generic YUV interface from
+	arch/unix/x11/renderxv.h
+
+	* video/video-render.c: Moved render_yuv_image() from
+	arch/unix/x11/renderxv.c
+
 2003-01-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.39.
