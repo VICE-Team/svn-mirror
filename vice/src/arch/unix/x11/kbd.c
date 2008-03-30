@@ -62,36 +62,33 @@
 /* #define DEBUG_JOY */
 
 /* Restore key.  */
-static KeySym key_ctrl_restore1 = XK_Prior;
+KeySym key_ctrl_restore1 = XK_Prior;
 #ifdef XK_Page_Up
-static KeySym key_ctrl_restore2 = XK_Page_Up;
+KeySym key_ctrl_restore2 = XK_Page_Up;
 #else
-static KeySym key_ctrl_restore2 = NoSymbol;
+KeySym key_ctrl_restore2 = NoSymbol;
 #endif
 
 /* 40/80 column key.  */
-static KeySym key_ctrl_column4080 = NoSymbol;
-static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+KeySym key_ctrl_column4080 = NoSymbol;
+key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
 /* Joystick status */
 BYTE joystick_value[3] = { 0, 0, 0 };
 static keyconv joykeys  [2][10];
-static int joypad_status[2][10];
+int joypad_status[2][10];
+
+keyconv *keyconvmap = NULL;
 
 /* Shift status */
-static short kbd_lshiftrow = 0;
-static short kbd_lshiftcol = 0;
-static short kbd_rshiftrow = 0;
-static short kbd_rshiftcol = 0;
-
-/* Meta status (used to filter out keypresses when meta is pressed).  */
-static int meta_count = 0;
+short kbd_lshiftrow = 0;
+short kbd_lshiftcol = 0;
+short kbd_rshiftrow = 0;
+short kbd_rshiftcol = 0;
 
 static int joypad_bits[10] = {
     0x10, 0x06, 0x02, 0x0a, 0x04, 0x00, 0x08, 0x05, 0x01, 0x09
 };
-
-static int left_shift_down, right_shift_down, virtual_shift_down;
 
 /* ------------------------------------------------------------------------- */
 
@@ -169,7 +166,7 @@ int joyreleaseval(int column, int *status)
     return ~val;
 }
 
-static int check_set_joykeys(KeySym key, int joynum)
+int check_set_joykeys(KeySym key, int joynum)
 {
     int column, joyport;
 
@@ -202,7 +199,7 @@ static int check_set_joykeys(KeySym key, int joynum)
     return 0;
 }
 
-static int check_clr_joykeys(KeySym key, int joynum)
+int check_clr_joykeys(KeySym key, int joynum)
 {
     int column, joyport;
 
@@ -226,191 +223,6 @@ static int check_clr_joykeys(KeySym key, int joynum)
     return 0;
 }
 
-void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
-                       Boolean *ctd)
-{
-    static char buffer[20];
-    KeySym key;
-    XComposeStatus compose;
-    int count, i;
-
-    count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
-
-    if (psid_mode) {
-        return;
-    }
-
-    if (key != NoSymbol
-        && ((key == key_ctrl_restore1)
-        || (key == key_ctrl_restore2))) {   /* Restore */
-        int retfl = 0;
-        if (report->type == KeyPress) {
-            retfl = machine_set_restore_key(1);
-        } else if (report->type == KeyRelease) {
-            retfl = machine_set_restore_key(0);
-        }
-        if (retfl)
-            return;
-    }
-
-    switch (report->type) {
-
-      case KeyPress:
-
-#ifdef DEBUG_KBD
-        log_debug("KeyPress `%s'.", XKeysymToString(key));
-#endif
-
-        if (key == XK_Meta_R
-            || key == XK_Meta_L
-#ifdef ALT_AS_META
-            || key == XK_Alt_R
-            || key == XK_Alt_L
-#endif
-#ifdef MODE_SWITCH_AS_META
-            || key == XK_Mode_switch
-#endif
-            )
-            meta_count++;
-
-        if (key != NoSymbol && key == key_ctrl_column4080) {
-            if (key_ctrl_column4080_func != NULL)
-                key_ctrl_column4080_func();
-            break;
-        }
-
-        if (meta_count != 0)
-            break;
-
-        if (check_set_joykeys(key, 1))
-            break;
-        if (check_set_joykeys(key, 2))
-            break;
-
-        if (keyconvmap) {
-            for (i = 0; keyconvmap[i].sym != 0; ++i) {
-                if (key == keyconvmap[i].sym) {
-                    int row = keyconvmap[i].row;
-                    int column = keyconvmap[i].column;
-
-                    if (row >= 0) {
-                        keyboard_set_keyarr(row, column, 1);
-
-                        if (keyconvmap[i].shift == NO_SHIFT) {
-                            keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol,
-                                                0);
-                            keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol,
-                                                0);
-                        } else {
-                            if (keyconvmap[i].shift & VIRTUAL_SHIFT)
-                                virtual_shift_down++;
-                            if (keyconvmap[i].shift & LEFT_SHIFT)
-                                left_shift_down++;
-                            if (left_shift_down + virtual_shift_down > 0)
-                                keyboard_set_keyarr(kbd_lshiftrow,
-                                                    kbd_lshiftcol, 1);
-                            if (keyconvmap[i].shift & RIGHT_SHIFT)
-                                right_shift_down++;
-                            if (right_shift_down > 0)
-                                keyboard_set_keyarr(kbd_rshiftrow,
-                                                    kbd_rshiftcol, 1);
-                        }
-                        break;
-                    }
-                }
-            }
-	}
-	break;			/* KeyPress */
-
-      case KeyRelease:
-
-#ifdef DEBUG_KBD
-        log_debug("KeyRelease `%s'.", XKeysymToString(key));
-#endif
-
-	if (IsModifierKey(key)) {
-	    /* FIXME: This is a dirty kludge.  X11 can sometimes give the
-               KeyPress event with the shifted KeySym, and the KeyRelease one
-               with the same KeySym unshifted, so we loose control of what
-               has been pressed and what has been released (all KeySyms are
-               handled independently here).  For example, if the user does
-               <Press Shift> <Press 1> <Release Shift> <Release 1>, we get
-               <KeyPress Shift>, <KeyPress !>, <KeyRelease Shift>,
-               <KeyRelease 1>.  To avoid disasters, we reset all the keyboard
-               when a modifier has been released, but this heavily simplifies
-               the behavior of multiple keys.  Does anybody know a way to
-               avoid this X11 oddity?  */
-            keyboard_clear_keymatrix();
-            virtual_shift_down = 0;
-	    /* TODO: do we have to cleanup joypads here too? */
-	}
-
-        if (meta_count > 0
-            && (key == XK_Meta_R
-                || key == XK_Meta_L
-#ifdef ALT_AS_META
-                || key == XK_Alt_R
-                || key == XK_Alt_L
-#endif
-#ifdef MODE_SWITCH_AS_META
-                || key == XK_Mode_switch
-#endif
-                ))
-            meta_count--;
-
-        if (meta_count != 0)
-            break;
-
-	if (check_clr_joykeys(key, 1))
-            break;
-	if (check_clr_joykeys(key, 2))
-            break;
-
-	if (keyconvmap) {
-            for (i = 0; keyconvmap[i].sym != 0; i++) {
-                if (key == keyconvmap[i].sym) {
-                    int row = keyconvmap[i].row;
-                    int column = keyconvmap[i].column;
-
-                    if (row >= 0) {
-                        keyboard_set_keyarr(row, column, 0);
-                        if (keyconvmap[i].shift & VIRTUAL_SHIFT)
-                            virtual_shift_down--;
-                        if (keyconvmap[i].shift & LEFT_SHIFT)
-                            left_shift_down--;
-                        if (keyconvmap[i].shift & RIGHT_SHIFT)
-                            right_shift_down--;
-                    }
-                }
-            }
-	}
-
-	/* Map shift keys. */
-	if (right_shift_down > 0)
-	    keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
-	else
-	    keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
-	if (left_shift_down + virtual_shift_down > 0)
-	    keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
-	else
-	    keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
-	break;			/* KeyRelease */
-
-      case EnterNotify:
-      case LeaveNotify:
-	/* Clean up. */
-        keyboard_clear_keymatrix();
-	memset(joystick_value, 0, sizeof(joystick_value));
-	virtual_shift_down = left_shift_down = right_shift_down = 0;
-	memset(joypad_status, 0, sizeof(joypad_status));
-        meta_count = 0;
-	break;			/* LeaveNotify */
-
-      default:
-	break;
-
-    }				/* switch */
-}
 
 /* ------------------------------------------------------------------------ */
 

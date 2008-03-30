@@ -16,4 +16,13 @@ libgnomeui_a_SOURCES = \
 	dummies.c \
 	ui.c \
 	ui.h \
-	videoarch.h
+	videoarch.h \
+	uihotkey.c \
+	uihotkey.h \
+	uimenu.c \
+	uimenu.h \
+	uisettings.c \
+	uisettings.h \
+	gnomekbd.c \
+	gnomevideo.c
+

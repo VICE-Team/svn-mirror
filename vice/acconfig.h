@@ -28,7 +28,7 @@
 /* Are we using the `readline' library or one replacement?  */
 #undef HAVE_READLINE
 
-/* Are we using the gnomui  */
+/* Are we using the gnomeui  */
 #undef USE_GNOMEUI
 
 /* Do we want to enable RS232 support via ACIA emulation?  */

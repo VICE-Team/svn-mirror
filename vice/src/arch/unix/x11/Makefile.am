@@ -15,7 +15,9 @@ noinst_LIBRARIES = libx11ui.a
 
 libx11ui_a_SOURCES = \
 	kbd.c \
-	kbdef.h
+	kbdef.h \
+	video.c \
+	videoarch.h
 
 .PHONY: xaw gnome
 xaw:

@@ -602,6 +602,29 @@ keyconv pet40map[] =
 
 #endif /*******************************************************************/
 
-static keyconv *keyconvmap = NULL;
+extern keyconv *keyconvmap;
+
+/* Restore key.  */
+extern KeySym key_ctrl_restore1;
+#ifdef XK_Page_Up
+extern KeySym key_ctrl_restore2;
+#else
+extern KeySym key_ctrl_restore2;
+#endif
+/* Shift status */
+extern short kbd_lshiftrow;
+extern short kbd_lshiftcol;
+extern short kbd_rshiftrow;
+extern short kbd_rshiftcol;
+
+/* 40/80 column key.  */
+extern KeySym key_ctrl_column4080;
+extern key_ctrl_column4080_func_t key_ctrl_column4080_func;
+
+extern int joypad_status[2][10];
+
+/* Prototypes */
+int check_set_joykeys(KeySym key, int joynum);
+int check_clr_joykeys(KeySym key, int joynum);
 
 #endif /* !_KBDEF_X_H */
