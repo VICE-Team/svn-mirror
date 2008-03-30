@@ -63,11 +63,14 @@ BYTE *sid_get_siddata(unsigned int channel)
     return siddata[channel];
 }
 
-BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
+static BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
 {
     int	val;
+
     addr &= 0x1f;
+
     machine_handle_pending_alarms(0);
+
 #ifdef HAVE_MOUSE
     if (addr == 0x19 && _mouse_enabled)
         val = mouse_get_x();
@@ -75,6 +78,7 @@ BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
         val = mouse_get_y();
     else
 #endif
+
     /* Account for that read functions in VICE are called _before_
        incrementing the clock. */
     maincpu_clk++;
@@ -87,7 +91,7 @@ BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
 	    val = 0xff;
 	else {
 	    if (addr == 0x1b || addr == 0x1c)
-		val = rand();
+		val = maincpu_clk % 256;
 	    else
 		val = 0;
 	}
@@ -98,17 +102,20 @@ BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
 }
 
 /* write register value to sid */
-void REGPARM3 sid_store_chip(ADDRESS addr, BYTE byte, int chipno)
+static void REGPARM3 sid_store_chip(ADDRESS addr, BYTE byte, int chipno)
 {
     addr &= 0x1f;
+
     siddata[chipno][addr] = byte;
 
     machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+
     if (maincpu_rmw_flag) {
 	maincpu_clk--;
 	sound_store(addr, lastsidread, chipno);
 	maincpu_clk++;
     }
+
     sound_store(addr, byte, chipno);
 }
 
@@ -162,6 +169,7 @@ sound_t *sound_machine_open(int chipno)
 {
 #ifdef HAVE_RESID
     useresid = 0;
+
     if (resources_get_value("SidUseResid", (resource_value_t *)&useresid) < 0)
         return NULL;
 
@@ -170,6 +178,7 @@ sound_t *sound_machine_open(int chipno)
     else
 #endif
         sid_engine = fastsid_hooks;
+
     return sid_engine.open(siddata[chipno]);
 }
 
@@ -222,7 +231,7 @@ int sound_machine_cycle_based(void)
 int sound_machine_channels(void)
 {
     int stereo = 0;
-    resources_get_value("SidStereo", (resource_value_t*)&stereo);
+    resources_get_value("SidStereo", (resource_value_t *)&stereo);
     return stereo ? 2 : 1;
 }
 
