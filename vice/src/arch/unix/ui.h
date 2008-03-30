@@ -30,7 +30,6 @@
 #include "vice.h"
 
 #include "types.h"
-#include "palette.h"
 #include "uiapi.h"
 #ifdef USE_GNOMEUI
 #include "x11/gnome/uiarch.h"
@@ -72,16 +71,19 @@ extern _ui_resources_t _ui_resources;
 
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
+
+struct palette_s;
+
 extern int ui_proc_read_msg(char* msg, size_t size, int block);
 extern ui_window_t ui_open_canvas_window(const char *title, int width,
                                          int height, int no_autorepeat,
                                          ui_exposure_handler_t exposure_proc,
-                                         const palette_t *p,
+                                         const struct palette_s *p,
                                          PIXEL pixel_return[]);
 extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
 extern void ui_map_canvas_window(ui_window_t w);
 extern void ui_unmap_canvas_window(ui_window_t w);
-extern int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
+extern int ui_canvas_set_palette(ui_window_t w, const struct palette_s *palette,
                                  PIXEL *pixel_return);
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);

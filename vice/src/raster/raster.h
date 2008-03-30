@@ -31,10 +31,7 @@
 
 #include <string.h>
 
-#include "raster-cache.h"
 #include "raster-changes.h"
-#include "raster-modes.h"
-#include "raster-sprite-status.h"
 #include "types.h"
 #include "video.h"
 
@@ -57,23 +54,23 @@ struct palette_s;
 
 
 /* A simple convenience type for defining rectangular areas.  */
-struct _raster_rectangle
+struct raster_rectangle_s
  {
     unsigned int width;
     unsigned int height;
   };
-typedef struct _raster_rectangle raster_rectangle_t;
+typedef struct raster_rectangle_s raster_rectangle_t;
 
 /* A simple convenience type for defining screen positions.  */
-struct _raster_position
+struct raster_position_s
   {
     unsigned int x;
     unsigned int y;
   };
-typedef struct _raster_position raster_position_t;
+typedef struct raster_position_s raster_position_t;
 
 /* A simple convenience type for defining a rectangular area on the screen.  */
-struct _raster_area
+struct raster_area_s
   {
     unsigned int xs;
     unsigned int ys;
@@ -81,9 +78,9 @@ struct _raster_area
     unsigned int ye;
     int is_null;
   };
-typedef struct _raster_area raster_area_t;
+typedef struct raster_area_s raster_area_t;
 
-struct _raster_viewport
+struct raster_viewport_s
   {
     /* Output canvas.  */
     canvas_t canvas;
@@ -114,9 +111,9 @@ struct _raster_viewport
     /* Only display canvas if this flag is set.  */
     int update_canvas;
   };
-typedef struct _raster_viewport raster_viewport_t;
+typedef struct raster_viewport_s raster_viewport_t;
 
-struct _raster_geometry
+struct raster_geometry_s
   {
     /* Total size of the screen, including borders and unused areas.
        (SCREEN_WIDTH, SCREEN_HEIGHT)  */
@@ -142,17 +139,21 @@ struct _raster_geometry
 
     unsigned int extra_offscreen_border;
   };
-typedef struct _raster_geometry raster_geometry_t;
+typedef struct raster_geometry_s raster_geometry_t;
 
-struct _raster
+struct raster_cache_s;
+struct raster_modes_s;
+struct raster_sprite_status_s;
+
+struct raster_s
   {
     raster_viewport_t viewport;
 
     raster_geometry_t geometry;
 
-    raster_modes_t modes;
+    struct raster_modes_s *modes;
 
-    raster_sprite_status_t sprite_status;
+    struct raster_sprite_status_s *sprite_status;
 
     struct
       {
@@ -239,7 +240,7 @@ struct _raster
     int video_mode;
 
     /* Cache.  */
-    raster_cache_t *cache;
+    struct raster_cache_s *cache;
     int cache_enabled;          /* FIXME: Method to toggle it. */
 
     /* This is != 0 if we cannot use the values in the cache anymore.  */
@@ -259,7 +260,7 @@ struct _raster
        mode change. E.g. vicii::init_drawing_tables(). NULL allowed */
     void (*refresh_tables)(void);
   };
-typedef struct _raster raster_t;
+typedef struct raster_s raster_t;
 
 #define RASTER_PIXEL(raster, c) (raster)->pixel_table.sing[(c)]
 
@@ -299,7 +300,7 @@ extern void raster_set_pixel_size (raster_t *raster, unsigned int width,
                                    unsigned int height);
 extern void raster_emulate_line (raster_t *raster);
 extern void raster_force_repaint (raster_t *raster);
-extern void raster_set_palette (raster_t *raster, palette_t *palette);
+extern void raster_set_palette (raster_t *raster, struct palette_s *palette);
 extern void raster_set_title (raster_t *raster, const char *title);
 extern void raster_skip_frame (raster_t *raster, int skip);
 extern void raster_enable_cache (raster_t *raster, int enable);
@@ -423,141 +424,6 @@ raster_add_int_change_border (raster_t *raster,
     }
   else
     raster_add_int_change_next_line (raster, ptr, new_value);
-}
-
-
-
-inline static int
-raster_fill_sprite_cache (raster_t *raster,
-                          raster_cache_t *cache,
-                          int *xs, int *xe)
-{
-  raster_sprite_t *sprite;
-  raster_sprite_cache_t *sprite_cache;
-  raster_sprite_status_t *sprite_status;
-  int xs_return;
-  int xe_return;
-  int rr, r, sxe, sxs, sxe1, sxs1, n, msk;
-  unsigned int i;
-  unsigned int num_sprites;
-
-  xs_return = raster->geometry.screen_size.width;
-  xe_return = 0;
-
-  rr = 0;
-
-  sprite_status = &raster->sprite_status;
-  num_sprites = sprite_status->num_sprites;
-
-  cache->numsprites = num_sprites;
-  cache->sprmask = 0;
-
-  for (msk = 1, i = 0; i < num_sprites; i++, msk <<= 1)
-    {
-      sprite = sprite_status->sprites + i;
-      sprite_cache = cache->sprites + i;
-      r = 0;
-
-      if (sprite_status->dma_msk & msk)
-        {
-          DWORD data;
-
-          data = sprite_status->sprite_data[i];
-
-          cache->sprmask |= msk;
-          sxe = sprite->x + (sprite->x_expanded ? 48 : 24);
-          sxs = sprite->x;
-
-          if (sprite->x != sprite_cache->x)
-            {
-              if (sprite_cache->visible)
-                {
-                  sxe1 = (sprite_cache->x
-                          + (sprite_cache->x_expanded ? 48 : 24));
-                  sxs1 = sprite_cache->x;
-                  n++;
-                  if (sxs1 < sxs)
-                    sxs = sxs1;
-                  if (sxe1 > sxe)
-                    sxe = sxe1;
-                }
-              sprite_cache->x = sprite->x;
-              r = 1;
-            }
-
-          if (!sprite_cache->visible)
-            {
-              sprite_cache->visible = 1;
-              r = 1;
-            }
-
-          if (sprite->x_expanded != sprite_cache->x_expanded)
-            {
-              sprite_cache->x_expanded = sprite->x_expanded;
-              r = 1;
-            }
-
-          if (sprite->multicolor != sprite_cache->multicolor)
-            {
-              sprite_cache->multicolor = sprite->multicolor;
-              r = 1;
-            }
-
-          if (sprite_status->mc_sprite_color_1 != sprite_cache->c1)
-            {
-              sprite_cache->c1 = sprite_status->mc_sprite_color_1;
-              r = 1;
-            }
-
-          if (sprite_status->mc_sprite_color_2 != sprite_cache->c2)
-            {
-              sprite_cache->c2 = sprite_status->mc_sprite_color_2;
-              r = 1;
-            }
-
-          if (sprite->color != sprite_cache->c3)
-            {
-              sprite_cache->c3 = sprite->color;
-              r = 1;
-            }
-
-          if (sprite->in_background != sprite_cache->in_background)
-            {
-              sprite_cache->in_background = sprite->in_background;
-              r = 1;
-            }
-
-          if (sprite_cache->data != data)
-            {
-              sprite_cache->data = data;
-              r = 1;
-            }
-
-          if (r)
-            {
-              xs_return = MIN (xs_return, sxs);
-              xe_return = MAX (xe_return, sxe);
-              rr = 1;
-            }
-        }
-      else if (sprite_cache->visible)
-        {
-          sprite_cache->visible = 0;
-          sxe = sprite_cache->x + (sprite_cache->x_expanded ? 24 : 48);
-          xs_return = MIN (xs_return, sprite_cache->x);
-          xe_return = MAX (xe_return, sxe);
-          rr = 1;
-        }
-
-    }
-
-  if (xe_return >= (int) raster->geometry.screen_size.width)
-    *xe = raster->geometry.screen_size.width - 1;
-  else
-    *xe = xe_return;
-  *xs = xs_return;
-
-  return rr;
 }
 
 

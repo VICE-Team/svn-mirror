@@ -63,12 +63,13 @@
 #include <stdlib.h>
 #include <sys/utsname.h>
 
-#include "ui.h"
+#include "cmdline.h"
 #include "kbd.h"
 #include "log.h"
-#include "cmdline.h"
+#include "palette.h"
 #include "resources.h"
 #include "types.h"
+#include "ui.h"
 #include "utils.h"
 #include "video.h"
 #include "videoarch.h"

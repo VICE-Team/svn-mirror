@@ -35,6 +35,7 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "console.h"
+#include "crtc-mem.h"
 #include "crtc.h"
 #include "datasette.h"
 #include "drive-cmdline-options.h"

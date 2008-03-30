@@ -75,6 +75,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mouse.h"
+#include "palette.h"
 #include "psid.h"
 #include "vsidproc.h"
 #include "resources.h"

@@ -30,6 +30,8 @@
 #include "types.h"
 #include "videoarch.h"
 
+struct palette_s;
+
 extern int video_init_resources(void);
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
@@ -43,7 +45,8 @@ extern void video_frame_buffer_clear(frame_buffer_t *i, PIXEL value);
 extern canvas_t canvas_create(const char *win_name, unsigned int *width,
                               unsigned int *height, int mapped,
                               canvas_redraw_t exposure_handler,
-                              const palette_t *palette, PIXEL *pixel_return
+                              const struct palette_s *palette,
+                              PIXEL *pixel_return
 #ifdef USE_GNOMEUI
 			      ,frame_buffer_t *fb
 #endif
@@ -52,7 +55,7 @@ extern void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
                            unsigned int xs, unsigned int ys,
                            unsigned int xi, unsigned int yi,
                            unsigned int w, unsigned int h);
-extern int canvas_set_palette(canvas_t c, const palette_t *palette,
+extern int canvas_set_palette(canvas_t c, const struct palette_s *palette,
                               PIXEL *pixel_return);
 extern void canvas_destroy(canvas_t s);
 extern void canvas_map(canvas_t s);

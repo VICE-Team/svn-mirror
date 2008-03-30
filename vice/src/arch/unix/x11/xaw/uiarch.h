@@ -34,7 +34,6 @@
 #include "vice.h"
 
 #include "types.h"
-#include "palette.h"
 #include "uiapi.h"
 
 /* If this is #defined, `Mode_switch' is handled the same as `Meta'.  */

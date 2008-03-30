@@ -29,6 +29,8 @@
 
 #include "interrupt.h"
 #include "mem.h"
+#include "raster-sprite-status.h"
+#include "raster-sprite.h"
 #include "snapshot.h"
 #include "types.h"
 #include "vicii-snapshot.h"
@@ -111,7 +113,7 @@ vic_ii_snapshot_write_module (snapshot_t *s)
       || snapshot_module_write_byte (m, (BYTE) vic_ii.light_pen.x) < 0  /* LPX */
       || snapshot_module_write_byte (m, (BYTE) vic_ii.light_pen.y) < 0  /* LPY */
       || snapshot_module_write_byte_array (m, vic_ii.vbuf, 40) < 0      /* MatrixBuf */
-      || snapshot_module_write_byte (m, vic_ii.raster.sprite_status.new_dma_msk) < 0    /* NewSpriteDmaMask */
+      || snapshot_module_write_byte (m, vic_ii.raster.sprite_status->new_dma_msk) < 0    /* NewSpriteDmaMask */
       || snapshot_module_write_dword (m, (DWORD) (vic_ii.ram_base - ram)) < 0   /* RamBase */
       || snapshot_module_write_byte (m, (BYTE) VIC_II_RASTER_CYCLE (clk)) < 0   /* RasterCycle */
       || snapshot_module_write_word (m, (WORD) VIC_II_RASTER_Y (clk)) < 0       /* RasterLine */
@@ -124,7 +126,7 @@ vic_ii_snapshot_write_module (snapshot_t *s)
 
   if (0
       || snapshot_module_write_byte (m, (BYTE) vic_ii.sprite_background_collisions) < 0         /* SbCollMask */
-      || snapshot_module_write_byte (m, (BYTE) vic_ii.raster.sprite_status.dma_msk) < 0         /* SpriteDmaMask */
+      || snapshot_module_write_byte (m, (BYTE) vic_ii.raster.sprite_status->dma_msk) < 0         /* SpriteDmaMask */
       || snapshot_module_write_byte (m, (BYTE) vic_ii.sprite_sprite_collisions) < 0     /* SsCollMask */
       || snapshot_module_write_word (m, (WORD) vic_ii.vbank) < 0        /* VBank */
       || snapshot_module_write_word (m, (WORD) vic_ii.mem_counter) < 0  /* Vc */
@@ -137,9 +139,9 @@ vic_ii_snapshot_write_module (snapshot_t *s)
   for (i = 0; i < 8; i++)
     {
       if (0
-          || snapshot_module_write_byte (m, (BYTE) vic_ii.raster.sprite_status.sprites[i].memptr) < 0   /* SpriteXMemPtr */
-          || snapshot_module_write_byte (m, (BYTE) vic_ii.raster.sprite_status.sprites[i].memptr_inc) < 0       /* SpriteXMemPtrInc */
-          || snapshot_module_write_byte (m, (BYTE) vic_ii.raster.sprite_status.sprites[i].exp_flag) < 0         /* SpriteXExpFlipFlop */
+          || snapshot_module_write_byte (m, (BYTE) vic_ii.raster.sprite_status->sprites[i].memptr) < 0   /* SpriteXMemPtr */
+          || snapshot_module_write_byte (m, (BYTE) vic_ii.raster.sprite_status->sprites[i].memptr_inc) < 0       /* SpriteXMemPtrInc */
+          || snapshot_module_write_byte (m, (BYTE) vic_ii.raster.sprite_status->sprites[i].exp_flag) < 0         /* SpriteXExpFlipFlop */
         )
         goto fail;
     }
@@ -218,7 +220,7 @@ vic_ii_snapshot_read_module (snapshot_t *s)
       || read_byte_into_int (m, &vic_ii.light_pen.x) < 0 /* LPX */
       || read_byte_into_int (m, &vic_ii.light_pen.y) < 0 /* LPY */
       || snapshot_module_read_byte_array (m, vic_ii.vbuf, 40) < 0 /* MatrixBuf */
-      || snapshot_module_read_byte (m, &vic_ii.raster.sprite_status.new_dma_msk) < 0    /* NewSpriteDmaMask */
+      || snapshot_module_read_byte (m, &vic_ii.raster.sprite_status->new_dma_msk) < 0    /* NewSpriteDmaMask */
     )
     goto fail;
 
@@ -263,7 +265,7 @@ vic_ii_snapshot_read_module (snapshot_t *s)
 
   if (0
       || snapshot_module_read_byte (m, &vic_ii.sprite_background_collisions) < 0 /* SbCollMask */
-      || snapshot_module_read_byte (m, &vic_ii.raster.sprite_status.dma_msk) < 0 /* SpriteDmaMask */
+      || snapshot_module_read_byte (m, &vic_ii.raster.sprite_status->dma_msk) < 0 /* SpriteDmaMask */
       || snapshot_module_read_byte (m, &vic_ii.sprite_sprite_collisions) < 0 /* SsCollMask */
       || read_word_into_int (m, &vic_ii.vbank) < 0 /* VBank */
       || read_word_into_int (m, &vic_ii.mem_counter) < 0 /* Vc */
@@ -276,9 +278,9 @@ vic_ii_snapshot_read_module (snapshot_t *s)
   for (i = 0; i < 8; i++)
     {
       if (0
-          || read_byte_into_int (m, &vic_ii.raster.sprite_status.sprites[i].memptr) < 0         /* SpriteXMemPtr */
-          || read_byte_into_int (m, &vic_ii.raster.sprite_status.sprites[i].memptr_inc) < 0     /* SpriteXMemPtrInc */
-          || read_byte_into_int (m, &vic_ii.raster.sprite_status.sprites[i].exp_flag) < 0       /* SpriteXExpFlipFlop */
+          || read_byte_into_int (m, &vic_ii.raster.sprite_status->sprites[i].memptr) < 0         /* SpriteXMemPtr */
+          || read_byte_into_int (m, &vic_ii.raster.sprite_status->sprites[i].memptr_inc) < 0     /* SpriteXMemPtrInc */
+          || read_byte_into_int (m, &vic_ii.raster.sprite_status->sprites[i].exp_flag) < 0       /* SpriteXExpFlipFlop */
         )
         goto fail;
     }
@@ -299,7 +301,7 @@ vic_ii_snapshot_read_module (snapshot_t *s)
         raster_sprite_t *sprite;
         int tmp;
 
-        sprite = vic_ii.raster.sprite_status.sprites + i;
+        sprite = vic_ii.raster.sprite_status->sprites + i;
 
         /* X/Y coordinates.  */
         tmp = vic_ii.regs[i * 2] + ((vic_ii.regs[0x10] & msk) ? 0x100 : 0);
@@ -313,18 +315,18 @@ vic_ii_snapshot_read_module (snapshot_t *s)
         sprite->multicolor = (int) (vic_ii.regs[0x1c] & msk);
         sprite->in_background = (int) (vic_ii.regs[0x1b] & msk);
         sprite->color = (int) vic_ii.regs[0x27 + i] & 0xf;
-        sprite->dma_flag = (int) (vic_ii.raster.sprite_status.new_dma_msk
+        sprite->dma_flag = (int) (vic_ii.raster.sprite_status->new_dma_msk
                                   & msk);
       }
   }
 
-  vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status.new_dma_msk;
+  vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status->new_dma_msk;
 
   vic_ii.raster.xsmooth = vic_ii.regs[0x16] & 0x7;
   vic_ii.raster.ysmooth = vic_ii.regs[0x11] & 0x7;
   vic_ii.raster.current_line = VIC_II_RASTER_Y (clk);     /* FIXME? */
 
-  vic_ii.raster.sprite_status.visible_msk = vic_ii.regs[0x15];
+  vic_ii.raster.sprite_status->visible_msk = vic_ii.regs[0x15];
 
   /* Update colors.  */
   vic_ii.raster.border_color = vic_ii.regs[0x20] & 0xf;
@@ -332,8 +334,8 @@ vic_ii_snapshot_read_module (snapshot_t *s)
   vic_ii.ext_background_color[0] = vic_ii.regs[0x22] & 0xf;
   vic_ii.ext_background_color[1] = vic_ii.regs[0x23] & 0xf;
   vic_ii.ext_background_color[2] = vic_ii.regs[0x24] & 0xf;
-  vic_ii.raster.sprite_status.mc_sprite_color_1 = vic_ii.regs[0x25] & 0xf;
-  vic_ii.raster.sprite_status.mc_sprite_color_2 = vic_ii.regs[0x26] & 0xf;
+  vic_ii.raster.sprite_status->mc_sprite_color_1 = vic_ii.regs[0x25] & 0xf;
+  vic_ii.raster.sprite_status->mc_sprite_color_2 = vic_ii.regs[0x26] & 0xf;
 
   vic_ii.raster.blank = !(vic_ii.regs[0x11] & 0x10);
 

@@ -37,8 +37,6 @@
 #include <sys/shm.h>
 #endif
 
-#include "palette.h"
-#include "resources.h"
 #include "types.h"
 #include "ui.h"
 

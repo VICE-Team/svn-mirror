@@ -1,3 +1,99 @@
+2000-01-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.21.
+
+	* cbm2/crtc610.c: Removed.
+
+	* pet/petiec.c: Use logging instead of printf().
+
+	* arch/os2/unused/Makefile.am: Fixed makefile.
+
+	* arch/win32/c64ui.c: Removed unused variables.
+
+	* palette.c, snapshot.c, romset.c, log.c, sysfile.c, t64.c,
+	autostart.c, utils.c, zfile.c, drive/drive-snapshot.c,
+	c64/psid.c: Use arch modes to open files.
+
+	* datasette.c, datasette.h, vicii/vicii.h, c64/c64mem.c,
+	c128/c128mem.c, tap.h, c128/z80mem.c, crtc/crtc.h,
+	pet/petmem.c, cbm2/c610mem.c, raster/raster-sprite-status.h,
+	raster/raster-sprite.h, raster/raster-sprite-status.c,
+	raster/raster.c, raster/raster.h, vicii/vicii-mem.c,
+	vicii/vicii-snapshot.c, vicii/vicii-sprites.c, vicii/vicii.c,
+	raster/raster-modes.h, raster/raster-sprite-cache.h,
+	vicii/vicii-draw.c, vdc/vdc-draw.c, vdc/vdc.c, arch/unix/ui.h,
+	arch/unix/x11/videoarch.h, arch/unix/x11/xaw/uiarch.h,
+	arch/unix/x11/xaw/ui.c: Changed structures, fixed includes.
+
+2000-01-15  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: added test for ctrl+c and ctrl+break;
+	when one is pressed, process_break() is called.
+	ESCAPE key is handled likewise.
+
+2000-01-13  Tibor Biczo  <crown@matavnet.hu>
+
+	* arch/win32/c1541.dsp, arch/win32/monitor.dsp,
+	arch/win32/petcat.dsp, arch/win32/vice.dsp,
+	arch/win32/x128.dsp, arch/win32/x64.dsp, arch/win32/vice.dsp,
+	arch/win32/x128.dsp, arch/win32/x64.dsp, arch/win32/xcbm2.dsp,
+	arch/win32/xpet.dsp, arch/win32/xpet.dsp: Changed compilation
+	flags for Debug target, so there should be no warning about
+	unknown flags when compiling with MSVC5.
+
+	* arch/win32/cbm2.dsp: Removed crtc.c.
+
+	* arch/win32/ui.c: (status_hwnd) changed into array.
+	(window_canvas_xsize, window_canvas_ysize): New variables.
+	Updated every instance of using status_hwnd.
+	(ui_resize_canvas_window): Handle case when window is maximized.
+	(SetStatusWindowParts): Updated to handle multiple status
+	windows.  Updated evey instance of SetStatusWindowParts.
+	(ui_display_drive_track) (ui_display_drive_led)
+	(ui_set_tape_status) (ui_display_tape_motor_status)
+	(ui_display_tape_control_status) (ui_display_tape_counter):
+	Handle multiple Status windows.
+	(window_proc): Removed exposure_handler calls...
+
+	* arch/win32/video.c (canvas_update): Added canvas centering.
+	(canvas_refresh): Renamed function to real_refresh.
+	canvas_refresh function now translates the window's client
+	coordinate system to the canvas's coordinate system, including
+	canvas centering on the window, then it calls real_refresh.
+
+1999-01-12  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* crtc/crt-cmdline-options.c: REMOVED CHARACTER 0x0C from
+	SRC-CODE!
+
+	* pet/petmem.c: small enhancement of the 'couldnt load
+	character rom' statement
+ 
+	* arch/os2/archdep.c: added ifndef __C1541__ statements
+
+	* arch/os2/dialogs.rc: Head added
+
+	* arch/os2/kbd.c: made 4080col-key work
+
+	* arch/os2/kbd/kbd-c610.c, c610ui.[ch]: added
+
+	* arch/os2/kbd/kbd-vic20.c, vic20ui.[ch]: added
+
+	* arch/os2/contentsdlg.[ch] --> unused/contentsdlg.[ch]
+
+	* arch/os2/video_gpi.[ch] --> unused/video_gpi.[ch]
+
+	* arch/os2/vsync_old.[ch] --> unused/vsync.[ch]
+
+	* arch/os2/dlg-emulator.c: XVIC and XCBM support added
+
+	* arch/os2/install.cmd: Pet, Xvic, C=1541 added
+
+	* arch/os2/incl/*.icc added
+
+	* arch/os2/vac++/* files includes incl/* know like real
+	libraries
+
 2000-01-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.20.
@@ -256,7 +352,7 @@
 	* gcr.c, gcr.h (gcr_write_sector): Rewritten to work without
 	GCR cache too.
 
-	* drive/drive.c (drive_gcr_data_writeback): Calcualte track
+	* drive/drive.c (drive_gcr_data_writeback): Calculate track
 	size.
 
 	* drive/drive.h: Changed drive struct to eliminate the

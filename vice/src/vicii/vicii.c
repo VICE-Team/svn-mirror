@@ -66,6 +66,9 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "palette.h"
+#include "raster-modes.h"
+#include "raster-sprite-status.h"
+#include "raster-sprite.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -206,7 +209,7 @@ init_raster (void)
   raster = &vic_ii.raster;
 
   raster_init (raster, VIC_II_NUM_VMODES, VIC_II_NUM_SPRITES);
-  raster_modes_set_idle_mode (&raster->modes, VIC_II_IDLE_MODE);
+  raster_modes_set_idle_mode (raster->modes, VIC_II_IDLE_MODE);
   raster_set_exposure_handler (raster, vic_ii_exposure_handler);
   raster_enable_cache (raster, vic_ii_resources.video_cache_enabled);
 #ifdef VIC_II_NEED_2X
@@ -312,7 +315,7 @@ turn_sprite_dma_on (unsigned int num)
   raster_sprite_status_t *sprite_status;
   raster_sprite_t *sprite;
 
-  sprite_status = &vic_ii.raster.sprite_status;
+  sprite_status = vic_ii.raster.sprite_status;
   sprite = sprite_status->sprites + num;
 
   sprite_status->new_dma_msk |= 1 << num;
@@ -329,7 +332,7 @@ check_sprite_dma (void)
   raster_sprite_status_t *sprite_status;
   int i, b;
 
-  sprite_status = &vic_ii.raster.sprite_status;
+  sprite_status = vic_ii.raster.sprite_status;
 
   if (! sprite_status->visible_msk && ! sprite_status->dma_msk)
     return;
@@ -745,7 +748,7 @@ vic_ii_update_memory_ptrs (unsigned int cycle)
       old_chargen_ptr = vic_ii.chargen_ptr = char_base;
       old_vbank = vic_ii.vbank;
       vic_ii.vbank_ptr = vic_ii.ram_base + vic_ii.vbank;
-      vic_ii.raster.sprite_status.ptr_base = screen_base + 0x3f8;
+      vic_ii.raster.sprite_status->ptr_base = screen_base + 0x3f8;
     }
   else if (tmp < VIC_II_SCREEN_TEXTCOLS)
     {
@@ -755,7 +758,7 @@ vic_ii_update_memory_ptrs (unsigned int cycle)
                                             (void **) &vic_ii.screen_ptr,
                                             (void *) screen_base);
           raster_add_ptr_change_foreground (&vic_ii.raster, tmp,
-                            (void **) &vic_ii.raster.sprite_status.ptr_base,
+                            (void **) &vic_ii.raster.sprite_status->ptr_base,
                                             (void *) (screen_base + 0x3f8));
           old_screen_ptr = screen_base;
         }
@@ -797,7 +800,7 @@ vic_ii_update_memory_ptrs (unsigned int cycle)
                                            (void **) &vic_ii.screen_ptr,
                                            (void *) screen_base);
           raster_add_ptr_change_next_line (&vic_ii.raster,
-                            (void **) &vic_ii.raster.sprite_status.ptr_base,
+                            (void **) &vic_ii.raster.sprite_status->ptr_base,
                                            (void *) (screen_base + 0x3f8));
           old_screen_ptr = screen_base;
         }
@@ -999,7 +1002,7 @@ vic_ii_raster_draw_alarm_handler (CLOCK offset)
      (i.e. the first time the collision register becomes non-zero) actually
      triggers an interrupt.  */
   if (vic_ii_resources.sprite_sprite_collisions_enabled
-      && vic_ii.raster.sprite_status.sprite_sprite_collisions != 0
+      && vic_ii.raster.sprite_status->sprite_sprite_collisions != 0
       && !prev_sprite_sprite_collisions)
     {
       vic_ii.irq_status |= 0x4;
@@ -1011,7 +1014,7 @@ vic_ii_raster_draw_alarm_handler (CLOCK offset)
     }
 
   if (vic_ii_resources.sprite_background_collisions_enabled
-      && vic_ii.raster.sprite_status.sprite_background_collisions
+      && vic_ii.raster.sprite_status->sprite_background_collisions
       && !prev_sprite_background_collisions)
     {
       vic_ii.irq_status |= 0x2;
@@ -1059,7 +1062,7 @@ handle_fetch_matrix(long offset,
   *write_offset = 0;
 
   raster = &vic_ii.raster;
-  sprite_status = &raster->sprite_status;
+  sprite_status = raster->sprite_status;
 
   if (sprite_status->visible_msk == 0 && sprite_status->dma_msk == 0)
     {
@@ -1122,7 +1125,7 @@ swap_sprite_data_buffers (void)
   raster_sprite_status_t *sprite_status;
 
   /* Swap sprite data buffers.  */
-  sprite_status = &vic_ii.raster.sprite_status;
+  sprite_status = vic_ii.raster.sprite_status;
   tmp = sprite_status->sprite_data;
   sprite_status->sprite_data = sprite_status->new_sprite_data;
   sprite_status->new_sprite_data = tmp;
@@ -1139,7 +1142,7 @@ handle_check_sprite_dma (long offset,
   /* FIXME?  Slow!  */
   vic_ii.sprite_fetch_clk = (VIC_II_LINE_START_CLK (clk)
                              + vic_ii.sprite_fetch_cycle);
-  vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status.new_dma_msk;
+  vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status->new_dma_msk;
 
   if (vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][0].cycle == -1)
     {
@@ -1195,7 +1198,7 @@ handle_fetch_sprite (long offset,
       raster_sprite_status_t *sprite_status;
       BYTE *bank, *spr_base;
 
-      sprite_status = &vic_ii.raster.sprite_status;
+      sprite_status = vic_ii.raster.sprite_status;
       bank = vic_ii.ram_base + vic_ii.vbank;
       spr_base = (bank + 0x3f8 + ((vic_ii.regs[0x18] & 0xf0) << 6)
                   + sf->first);

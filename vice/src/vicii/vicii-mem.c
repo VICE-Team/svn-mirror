@@ -30,6 +30,8 @@
 
 #include "c64cia.h"
 #include "interrupt.h"
+#include "raster-sprite-status.h"
+#include "raster-sprite.h"
 #include "types.h"
 #include "vicii-resources.h"
 #include "vicii-sprites.h"
@@ -184,7 +186,7 @@ store_sprite_y_position (ADDRESS addr, BYTE value)
       alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
     }
 
-  vic_ii.raster.sprite_status.sprites[addr >> 1].y = value;
+  vic_ii.raster.sprite_status->sprites[addr >> 1].y = value;
   vic_ii.regs[addr] = value;
 }
 
@@ -544,8 +546,8 @@ store_d015 (ADDRESS addr, BYTE value)
     }
 
   /* Sprites are turned on: force a DMA check.  */
-  if (vic_ii.raster.sprite_status.visible_msk == 0
-      && vic_ii.raster.sprite_status.dma_msk == 0
+  if (vic_ii.raster.sprite_status->visible_msk == 0
+      && vic_ii.raster.sprite_status->dma_msk == 0
       && value != 0)
     {
       if ((vic_ii.fetch_idx == VIC_II_FETCH_MATRIX
@@ -570,7 +572,7 @@ store_d015 (ADDRESS addr, BYTE value)
 	}
     }
 
-  vic_ii.regs[addr] = vic_ii.raster.sprite_status.visible_msk = value;
+  vic_ii.regs[addr] = vic_ii.raster.sprite_status->visible_msk = value;
 }
 
 inline static void
@@ -671,7 +673,7 @@ store_d017 (ADDRESS addr, BYTE value)
     return;
 
   cycle = VIC_II_RASTER_CYCLE (clk);
-  sprite_status = &vic_ii.raster.sprite_status;
+  sprite_status = vic_ii.raster.sprite_status;
 
   for (i = 0, b = 0x01; i < 8; b <<= 1, i++)
     {
@@ -769,7 +771,7 @@ store_d01b (ADDRESS addr, BYTE value)
     {
       raster_sprite_t *sprite;
 
-      sprite = vic_ii.raster.sprite_status.sprites + i;
+      sprite = vic_ii.raster.sprite_status->sprites + i;
 
       if (sprite->x < raster_x)
 	raster_add_int_change_next_line (&vic_ii.raster,
@@ -803,7 +805,7 @@ store_d01c (ADDRESS addr, BYTE value)
     {
       raster_sprite_t *sprite;
 
-      sprite = vic_ii.raster.sprite_status.sprites + i;
+      sprite = vic_ii.raster.sprite_status->sprites + i;
       if (sprite->x < raster_x)
 	raster_add_int_change_next_line (&vic_ii.raster,
 					 &sprite->multicolor,
@@ -832,7 +834,7 @@ store_d01d (ADDRESS addr, BYTE value)
     {
       raster_sprite_t *sprite;
 
-      sprite = vic_ii.raster.sprite_status.sprites + i;
+      sprite = vic_ii.raster.sprite_status->sprites + i;
 
       if (1 || raster_x < sprite->x)
         sprite->x_expanded = value & b ? 1 : 0;
@@ -930,7 +932,7 @@ store_d025 (ADDRESS addr, BYTE value)
   if (vic_ii.regs[addr] == value)
     return;
 
-  sprite_status = &vic_ii.raster.sprite_status;
+  sprite_status = vic_ii.raster.sprite_status;
 
   /* FIXME: this is approximated.  */
   if (VIC_II_RASTER_CYCLE (clk) > vic_ii.cycles_per_line / 2)
@@ -955,7 +957,7 @@ store_d026 (ADDRESS addr, BYTE value)
   if (vic_ii.regs[addr] == value)
     return;
 
-  sprite_status = &vic_ii.raster.sprite_status;
+  sprite_status = vic_ii.raster.sprite_status;
 
   /* FIXME: this is approximated.  */
   if (VIC_II_RASTER_CYCLE (clk) > vic_ii.cycles_per_line / 2)
@@ -984,7 +986,7 @@ store_sprite_color (ADDRESS addr, BYTE value)
 
   n = addr - 0x27;
 
-  sprite = vic_ii.raster.sprite_status.sprites + n;
+  sprite = vic_ii.raster.sprite_status->sprites + n;
 
   if (sprite->x < VIC_II_RASTER_X (VIC_II_RASTER_CYCLE (clk)))
     raster_add_int_change_next_line (&vic_ii.raster,
