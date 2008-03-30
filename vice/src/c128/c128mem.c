@@ -350,17 +350,11 @@ static store_func_ptr_t (*mem_write_tab)[NUM_CONFIGS][0x101];
 static read_func_ptr_t (*mem_read_tab)[0x101];
 static BYTE *(*mem_read_base_tab)[0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
-
-static store_func_ptr_t *mem_write_tab_watch;
-static read_func_ptr_t *mem_read_tab_watch;
 #else
 static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
-
-static store_func_ptr_t mem_write_tab_watch[0x101];
-static read_func_ptr_t mem_read_tab_watch[0x101];
 #endif
 
 /* Fake BIOS initialization.  This is required because the real C128 is
@@ -994,7 +988,7 @@ void initialize_memory(void)
 {
     int i, j, k;
 
-    int limit_tab[11][NUM_CONFIGS] = {
+    int limit_tab[13][NUM_CONFIGS] = {
     /* 0000-01ff */
     {     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
           -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
@@ -1017,24 +1011,30 @@ void initialize_memory(void)
     { 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
       0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd },
     /* c000-cfff */
-    {     -1,     -1,     -1,     -1, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
+    { 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
           -1,     -1,     -1,     -1, 0xcffd, 0xcffd, 0xcffd, 0xcffd },
     /* d000-dfff */
     {     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
           -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* e000-feff */
-    {     -1,     -1,     -1,     -1, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
+    /* e000-efff */
+    { 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
+          -1,     -1,     -1,     -1, 0xeffd, 0xeffd, 0xeffd, 0xeffd },
+    /* f000-fbff */
+    { 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
+          -1,     -1,     -1,     -1, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd },
+    /* fc00-feff */
+    { 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
           -1,     -1,     -1,     -1, 0xfefd, 0xfefd, 0xfefd, 0xfefd },
     /* ff00-ffff */
     {     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
           -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 } };
 
     for (i = 0; i < NUM_CONFIGS; i++) {
-        int mstart[11] = { 0x00, 0x02, 0x04, 0x10, 0x20, 0x40, 0x80, 0xc0,
-                           0xd0, 0xe0, 0xff };
-        int mend[11]   = { 0x01, 0x03, 0x0f, 0x1f, 0x3f, 0x7f, 0xbf, 0xcf,
-                           0xdf, 0xfe, 0xff};
-        for (j = 0; j < 11; j++) {
+        int mstart[13] = { 0x00, 0x02, 0x04, 0x10, 0x20, 0x40, 0x80, 0xc0,
+                           0xd0, 0xe0, 0xf0, 0xfc, 0xff };
+        int mend[13]   = { 0x01, 0x03, 0x0f, 0x1f, 0x3f, 0x7f, 0xbf, 0xcf,
+                           0xdf, 0xef, 0xfb, 0xfe, 0xff};
+        for (j = 0; j < 13; j++) {
             for (k = mstart[j]; k <= mend[j]; k++) {
                 mem_read_limit_tab[i][k] = limit_tab[j][i];
             }
@@ -1211,10 +1211,10 @@ void initialize_memory(void)
         mem_read_tab[j][i] = read_editor;
         mem_write_tab[j][i] = store_editor;
 
-        mem_read_tab[0][i] = read_top_shared;
-        mem_read_tab[1][i] = read_top_shared;
-        mem_read_tab[2][i] = read_top_shared;
-        mem_read_tab[3][i] = read_top_shared;
+        mem_read_tab[0][i] = read_ram;
+        mem_read_tab[1][i] = read_ram;
+        mem_read_tab[2][i] = read_ram;
+        mem_read_tab[3][i] = read_ram;
         mem_read_tab[4][i] = read_editor;
         mem_read_tab[5][i] = read_editor;
         mem_read_tab[6][i] = read_editor;
@@ -1227,10 +1227,10 @@ void initialize_memory(void)
         mem_read_tab[13][i] = read_editor;
         mem_read_tab[14][i] = read_editor;
         mem_read_tab[15][i] = read_editor;
-        mem_write_tab[0][i] = store_top_shared;
-        mem_write_tab[1][i] = store_top_shared;
-        mem_write_tab[2][i] = store_top_shared;
-        mem_write_tab[3][i] = store_top_shared;
+        mem_write_tab[0][i] = store_ram;
+        mem_write_tab[1][i] = store_ram;
+        mem_write_tab[2][i] = store_ram;
+        mem_write_tab[3][i] = store_ram;
         mem_write_tab[4][i] = store_editor;
         mem_write_tab[5][i] = store_editor;
         mem_write_tab[6][i] = store_editor;
@@ -1243,10 +1243,10 @@ void initialize_memory(void)
         mem_write_tab[13][i] = store_editor;
         mem_write_tab[14][i] = store_editor;
         mem_write_tab[15][i] = store_editor;
-        mem_read_base_tab[0][i] = NULL;
-        mem_read_base_tab[1][i] = NULL;
-        mem_read_base_tab[2][i] = NULL;
-        mem_read_base_tab[3][i] = NULL;
+        mem_read_base_tab[0][i] = ram + (i << 8);
+        mem_read_base_tab[1][i] = ram + (i << 8);
+        mem_read_base_tab[2][i] = ram + (i << 8);
+        mem_read_base_tab[3][i] = ram + (i << 8);
         mem_read_base_tab[4][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
         mem_read_base_tab[5][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
         mem_read_base_tab[6][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
@@ -1295,10 +1295,10 @@ void initialize_memory(void)
     }
 
     for (i = 0xe0; i <= 0xfe; i++) {
-        mem_read_tab[0][i] = read_top_shared;
-        mem_read_tab[1][i] = read_top_shared;
-        mem_read_tab[2][i] = read_top_shared;
-        mem_read_tab[3][i] = read_top_shared;
+        mem_read_tab[0][i] = read_ram;
+        mem_read_tab[1][i] = read_ram;
+        mem_read_tab[2][i] = read_ram;
+        mem_read_tab[3][i] = read_ram;
         mem_read_tab[4][i] = read_hi;
         mem_read_tab[5][i] = read_hi;
         mem_read_tab[6][i] = read_hi;
@@ -1311,10 +1311,10 @@ void initialize_memory(void)
         mem_read_tab[13][i] = read_hi;
         mem_read_tab[14][i] = read_hi;
         mem_read_tab[15][i] = read_hi;
-        mem_write_tab[0][i] = store_top_shared;
-        mem_write_tab[1][i] = store_top_shared;
-        mem_write_tab[2][i] = store_top_shared;
-        mem_write_tab[3][i] = store_top_shared;
+        mem_write_tab[0][i] = store_ram;
+        mem_write_tab[1][i] = store_ram;
+        mem_write_tab[2][i] = store_ram;
+        mem_write_tab[3][i] = store_ram;
         mem_write_tab[4][i] = store_hi;
         mem_write_tab[5][i] = store_hi;
         mem_write_tab[6][i] = store_hi;
@@ -1327,10 +1327,10 @@ void initialize_memory(void)
         mem_write_tab[13][i] = store_hi;
         mem_write_tab[14][i] = store_hi;
         mem_write_tab[15][i] = store_hi;
-        mem_read_base_tab[0][i] = NULL;
-        mem_read_base_tab[1][i] = NULL;
-        mem_read_base_tab[2][i] = NULL;
-        mem_read_base_tab[3][i] = NULL;
+        mem_read_base_tab[0][i] = ram + (i << 8);
+        mem_read_base_tab[1][i] = ram + (i << 8);
+        mem_read_base_tab[2][i] = ram + (i << 8);
+        mem_read_base_tab[3][i] = ram + (i << 8);
         mem_read_base_tab[4][i] = kernal_rom + ((i & 0x1f) << 8);
         mem_read_base_tab[5][i] = kernal_rom + ((i & 0x1f) << 8);
         mem_read_base_tab[6][i] = kernal_rom + ((i & 0x1f) << 8);
@@ -1352,6 +1352,8 @@ void initialize_memory(void)
         mem_read_tab[j][0x100] = mem_read_tab[j][0x0];
         mem_write_tab[j][0x100] = mem_write_tab[j][0x0];
 
+        mem_read_base_tab[j][0x100] = NULL;
+        mem_read_limit_tab[j][0x100] = -1;
     }
 
     /* FIXME?  Is this the real configuration?  */
