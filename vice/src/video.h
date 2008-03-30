@@ -32,7 +32,6 @@
 typedef void (*void_t)(void);
 
 struct palette_s;
-struct video_frame_buffer_s;
 
 /* these constants are used to configure the video output */
 
@@ -66,24 +65,16 @@ extern int video_init_cmdline_options(void);
 extern int video_init(void);
 extern void video_free(void);
 
-extern int video_frame_buffer_alloc(struct video_frame_buffer_s **i,
-                                    unsigned int width, unsigned int height);
-extern void video_frame_buffer_free(struct video_frame_buffer_s *i);
-extern void video_frame_buffer_clear(struct video_frame_buffer_s *i,
-                                     PIXEL value);
-
 extern struct video_canvas_s *video_canvas_create(const char *win_name,
                                             unsigned int *width,
                                             unsigned int *height, int mapped,
                                             void_t exposure_handler,
                                             const struct palette_s *palette,
-                                            BYTE *pixel_return,
-                                            struct video_frame_buffer_s *fb);
+                                            BYTE *pixel_return);
 
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  BYTE *draw_buffer,
                                  unsigned int draw_buffer_line_size,
-                                 struct video_frame_buffer_s *frame_buffer,
                                  unsigned int xs, unsigned int ys,
                                  unsigned int xi, unsigned int yi,
                                  unsigned int w, unsigned int h);

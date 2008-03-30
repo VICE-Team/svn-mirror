@@ -38,10 +38,6 @@
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
-typedef struct video_frame_buffer_s {
-    BYTE dummy;
-} video_frame_buffer_t;
-
 typedef void (*canvas_redraw_t)(unsigned int width, unsigned int height);
 
 struct palette_s;
@@ -78,9 +74,6 @@ extern int set_physical_colors(video_canvas_t *c);
 extern video_canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd);
 
 extern void canvas_set_border_color(video_canvas_t *canvas, BYTE color);
-
-extern void canvas_render(video_canvas_t *c, video_frame_buffer_t *f,
-                         int xs, int ys, int xi, int yi, int w, int h);
 
 extern void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w,
                           int h);

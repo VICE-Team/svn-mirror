@@ -38,11 +38,6 @@
 
 #define NUM_AVAILABLE_COLORS	0x100
 
-typedef struct video_frame_buffer_s
-{
-} video_frame_buffer_t;
-
-
 typedef void (*canvas_redraw_t)();
 
 struct video_canvas_s {

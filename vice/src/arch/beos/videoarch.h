@@ -55,11 +55,6 @@ typedef struct video_canvas_s video_canvas_t;
 
 /* ------------------------------------------------------------------------- */
 
-typedef struct video_frame_buffer_s {
-} video_frame_buffer_t;
-
-/* ------------------------------------------------------------------------- */
-
 struct _color_def {
     unsigned short red;
     unsigned short green;
