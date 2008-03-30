@@ -1,5 +1,6 @@
 source type(c)
     "vicii-badline.c",
+    "vicii-clock-stretch.c",
     "vicii-cmdline-options.c",
     "vicii-color.c",
     "vicii-draw.c",

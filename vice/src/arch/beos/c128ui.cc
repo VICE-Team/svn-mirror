@@ -128,11 +128,19 @@ ui_res_possible_values c128DigimaxBase[] = {
         {-1, 0}
 };
 
+ui_res_possible_values c128viciiBorders[] = {
+        {0, MENU_VICII_BORDERS_NORMAL},
+        {1, MENU_VICII_BORDERS_FULL},
+        {2, MENU_VICII_BORDERS_DEBUG),
+        {-1, 0}
+};
+
 ui_res_value_list c128_ui_res_values[] = {
     {"REUsize", c128ReuSize},
     {"GeoRAMsize", c128GeoRAMSize},
     {"RAMCARTsize", c128RamCartSize},
     {"DIGIMAXbase", c128DigimaxBase},
+    {"VICIIBorderMode", c128viciiBorders},
     {NULL,NULL}
 };
 

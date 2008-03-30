@@ -81,5 +81,7 @@ extern void vicii_set_chargen_addr_options(WORD mask, WORD value);
 extern void vicii_set_phi1_chargen_addr_options(WORD mask, WORD value);
 extern void vicii_set_phi2_chargen_addr_options(WORD mask, WORD value);
 
+extern CLOCK vicii_clock_add(CLOCK clock, int amount);
+
 #endif
 

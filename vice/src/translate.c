@@ -3651,7 +3651,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_SET_BORDER_MODE_FR, ""}, /* fuzzy */
 /* hu */ {IDCLS_SET_BORDER_MODE_HU, ""}, /* fuzzy */
 /* it */ {IDCLS_SET_BORDER_MODE_IT, ""}, /* fuzzy */
-/* nl */ {IDCLS_SET_BORDER_MODE_NL, ""}, /* fuzzy */
+/* nl */ {IDCLS_SET_BORDER_MODE_NL, "Zet VIC-II border weergave modus (0: normaal, 1: volledig, 2: debug)"},
 /* pl */ {IDCLS_SET_BORDER_MODE_PL, ""}, /* fuzzy */
 /* sv */ {IDCLS_SET_BORDER_MODE_SV, ""}, /* fuzzy */
 

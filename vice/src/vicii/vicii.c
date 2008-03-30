@@ -324,6 +324,8 @@ static int init_raster(void)
 raster_t *vicii_init(unsigned int flag)
 {
     vicii.viciie = flag;
+    vicii.fastmode = 0;
+    vicii.half_cycles = 0;
 
     if (vicii.viciie == VICII_EXTENDED)
         vicii.log = log_open("VIC-IIe");

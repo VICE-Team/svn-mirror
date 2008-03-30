@@ -4661,6 +4661,42 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_SOUND_RECORD_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_SOUND_RECORD_SETTINGS_SV, ""},  /* fuzzy */
 
+/* en */ {IDS_BORDER_MODE,    "Border mode"},
+/* de */ {IDS_BORDER_MODE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_BORDER_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_BORDER_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDS_BORDER_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_BORDER_MODE_NL, "Border modus"},
+/* pl */ {IDS_BORDER_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_BORDER_MODE_SV, ""},  /* fuzzy */
+
+/* en */ {IDMS_NORMAL,    "Normal"},
+/* de */ {IDMS_NORMAL_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_NORMAL_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_NORMAL_HU, ""},  /* fuzzy */
+/* it */ {IDMS_NORMAL_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_NORMAL_NL, "Normaal"},
+/* pl */ {IDMS_NORMAL_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_NORMAL_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_FULL,    "Full"},
+/* de */ {IDS_FULL_DE, ""},  /* fuzzy */
+/* fr */ {IDS_FULL_FR, ""},  /* fuzzy */
+/* hu */ {IDS_FULL_HU, ""},  /* fuzzy */
+/* it */ {IDS_FULL_IT, ""},  /* fuzzy */
+/* nl */ {IDS_FULL_NL, "Volledig"},
+/* pl */ {IDS_FULL_PL, ""},  /* fuzzy */
+/* sv */ {IDS_FULL_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_DEBUG,    "Debug"},
+/* de */ {IDS_DEBUG_DE, ""},  /* fuzzy */
+/* fr */ {IDS_DEBUG_FR, ""},  /* fuzzy */
+/* hu */ {IDS_DEBUG_HU, ""},  /* fuzzy */
+/* it */ {IDS_DEBUG_IT, ""},  /* fuzzy */
+/* nl */ {IDS_DEBUG_NL, "Debug"},
+/* pl */ {IDS_DEBUG_PL, ""},  /* fuzzy */
+/* sv */ {IDS_DEBUG_SV, ""},  /* fuzzy */
+
 };
 
 #include "intl_table.h"

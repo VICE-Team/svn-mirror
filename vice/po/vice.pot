@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-01 18:01+0200\n"
+"POT-Creation-Date: 2007-04-09 21:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7474,7 +7474,7 @@ msgstr ""
 msgid "NMI"
 msgstr ""
 
-#: src/arch/win32/resacia.rc.po.c:39
+#: src/arch/win32/resacia.rc.po.c:39 src/arch/amigaos/intl.c.po.c:4646
 msgid "Normal"
 msgstr ""
 
@@ -11105,4 +11105,16 @@ msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:4628
 msgid "Sound Record Settings"
+msgstr ""
+
+#: src/arch/amigaos/intl.c.po.c:4637
+msgid "Border mode"
+msgstr ""
+
+#: src/arch/amigaos/intl.c.po.c:4655
+msgid "Full"
+msgstr ""
+
+#: src/arch/amigaos/intl.c.po.c:4664
+msgid "Debug"
 msgstr ""

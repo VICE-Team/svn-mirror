@@ -2540,6 +2540,9 @@ Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)", 23
   {"Select Sound Record File", 2466},
   {"Sound Record File", 2467},
   {"Sound Record Settings", 2468},
+  {"Border mode", 2469},
+  {"Full", 2470},
+  {"Debug", 2471},
 };
 
-int _msg_tbl_length = 2468;
+int _msg_tbl_length = 2471;

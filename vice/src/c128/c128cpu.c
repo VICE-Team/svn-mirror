@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include "mem.h"
+#include "vicii.h"
 #include "z80.h"
 
 /* ------------------------------------------------------------------------- */
@@ -61,6 +62,7 @@
 extern read_func_ptr_t _mem_read_tab[];
 extern store_func_ptr_t _mem_write_tab[];
 
+
 #define PAGE_ZERO mem_page_zero
 
 #define PAGE_ONE mem_page_one
@@ -75,9 +77,10 @@ extern store_func_ptr_t _mem_write_tab[];
                 IMPORT_REGISTERS();                \
                 JUMP(LOAD_ADDR(0xfffc));
 
+#define CLK_ADD(clock, amount) clock=vicii_clock_add(clock, amount)
+
 extern void vicii_delay_clk(void);
 
 #define CPU_DELAY_CLK vicii_delay_clk();
 
 #include "../maincpu.c"
-

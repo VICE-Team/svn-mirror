@@ -1060,7 +1060,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* fr */  IDS_FRAME_NUMBER_FR,    /* fuzzy */
 /* hu */  IDS_FRAME_NUMBER_HU,    /* fuzzy */
 /* it */  IDS_FRAME_NUMBER_IT,    /* fuzzy */
-/* nl */  IDS_FRAME_NUMBER_NL,    /* fuzzy */
+/* nl */  IDS_FRAME_NUMBER_NL,
 /* pl */  IDS_FRAME_NUMBER_PL,    /* fuzzy */
 /* sv */  IDS_FRAME_NUMBER_SV},   /* fuzzy */
 

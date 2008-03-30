@@ -338,6 +338,9 @@ struct vicii_s {
     /* VIC-IIe clock mode.  */
     unsigned int fastmode;
 
+    /* C128 2mhz cycle counter */
+    int half_cycles;
+
     /* Last value read from VICII (used for RMW access).  */
     BYTE last_read;
 

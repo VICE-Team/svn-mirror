@@ -86,6 +86,10 @@ SOURCE="..\..\vicii\vicii-badline.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\vicii\vicii-clock-stretch.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\vicii\vicii-cmdline-options.c"
 # End Source File
 # Begin Source File

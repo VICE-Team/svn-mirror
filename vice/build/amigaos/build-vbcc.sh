@@ -373,9 +373,10 @@ ar_file raster
 #vicii lib
 cd $srcdir/vicii
 STDINCFLAGS="-I../ -I../arch/amigaos -I../raster -I../c64"
-for i in vicii-badline.c vicii-cmdline-options.c vicii-color.c vicii-draw.c \
-         vicii-fetch.c vicii-irq.c vicii-mem.c vicii-phi1.c vicii-resources.c \
-         vicii-snapshot.c vicii-sprites.c vicii-timing.c vicii.c
+for i in vicii-badline.c vicii-clock-stretch.c vicii-cmdline-options.c \
+         vicii-color.c vicii-draw.c vicii-fetch.c vicii-irq.c vicii-mem.c \
+         vicii-phi1.c vicii-resources.c vicii-snapshot.c vicii-sprites.c \
+         vicii-timing.c vicii.c
 do
   compile_file $i
 done

@@ -89,7 +89,8 @@ inline static void line_becomes_bad(const int cycle)
         num_chars = VICII_SCREEN_TEXTCOLS - xpos;
 
         /* Take over the bus until the memory fetch is done.  */
-        dma_maincpu_steal_cycles(maincpu_clk, num_chars, 0);
+        if (vicii.fastmode == 0)
+            dma_maincpu_steal_cycles(maincpu_clk, num_chars, 0);
 
         if (num_chars <= VICII_SCREEN_TEXTCOLS) {
             /* Matrix fetches starts immediately, but the VICII needs

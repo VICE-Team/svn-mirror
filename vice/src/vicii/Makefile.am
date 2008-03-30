@@ -10,6 +10,7 @@ noinst_LIBRARIES = libvicii.a
 libvicii_a_SOURCES = \
 	vicii-badline.c \
 	vicii-badline.h \
+	vicii-clock-stretch.c \
 	vicii-cmdline-options.c \
 	vicii-cmdline-options.h \
 	vicii-color.c \

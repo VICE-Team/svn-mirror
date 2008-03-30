@@ -153,6 +153,13 @@ ui_res_possible_values MMC64Revision[] = {
         {-1, 0}
 };
 
+ui_res_possible_values c64viciiBorders[] = {
+        {0, MENU_VICII_BORDERS_NORMAL},
+        {1, MENU_VICII_BORDERS_FULL},
+        {2, MENU_VICII_BORDERS_DEBUG),
+        {-1, 0}
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     {"REUsize", ReuSize},
     {"GeoRAMsize", GeoRAMSize},
@@ -161,6 +168,7 @@ ui_res_value_list c64_ui_res_values[] = {
     {"C64_256Kbase", C64_256KBase},
     {"DIGIMAXbase", DigimaxBase},
     {"MMC64_revision", MMC64Revision},
+    {"VICIIBorderMode", c64viciiBorders},
     {NULL,NULL}
 };
 

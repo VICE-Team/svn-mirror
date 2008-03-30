@@ -874,6 +874,8 @@ inline static void d030_store(BYTE value)
     if (vicii.viciie) {
         VICII_DEBUG_REGISTER(("Store $D030: $%02X", value));
         vicii.regs[0x30] = value | 0xfc;
+        vicii.fastmode = value & 1;
+        vicii.half_cycles = 0;
     } else {
         VICII_DEBUG_REGISTER(("(unused)"));
     }

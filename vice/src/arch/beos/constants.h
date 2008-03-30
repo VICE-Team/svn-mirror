@@ -275,6 +275,10 @@ const uint32 MENU_SIDCART_ADDRESS_2					= 'M093';
 const uint32 MENU_SIDCART_CLOCK_C64					= 'M094';
 const uint32 MENU_SIDCART_CLOCK_NATIVE				= 'M095';
 
+const uint32 MENU_VICII_BORDERS_NORMAL				= 'M096';
+const uint32 MENU_VICII_BORDERS_FULL				= 'M097';
+const uint32 MENU_VICII_BORDERS_DEBUG				= 'M098';
+
 const uint32 MENU_ABOUT							= 'M901';
 const uint32 MENU_CONTRIBUTORS					= 'M902';
 const uint32 MENU_LICENSE						= 'M904';
