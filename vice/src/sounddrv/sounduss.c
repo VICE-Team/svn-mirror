@@ -63,7 +63,18 @@ static int uss_init(const char *param, int *speed,
 {
     int			 st, tmp, orig;
     if (!param)
+      {
+	struct stat buf;
+	if(!stat("/dev/dsp", &buf))
 	param = "/dev/dsp";
+	else if(!stat("/dev/sound/dsp", &buf))
+	  param="/dev/sound/dsp";
+      }
+    if(!param)
+      {
+        log_message(LOG_DEFAULT, "Did not find any uss device");
+	return 1;
+      }
     uss_fd = open(param, O_WRONLY, 0777);
     if (uss_fd < 0) {
         log_message(LOG_DEFAULT, "Cannot open '%s' for writing", param);

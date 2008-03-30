@@ -1615,26 +1615,125 @@ long CALLBACK dis_window_proc(HWND hwnd,
 			HDC         hdc;
             RECT        rect;
             int         nHeightToPrint;
+            COLORREF    crOldTextColor;
+            COLORREF    crOldBkColor;
+            HPEN        hpenOld;
+            HBRUSH      hbrushOld;
 
-            int         i;
+            int i;
+
+            typedef enum LINETYPE_S { 
+                LT_NORMAL,     
+                LT_EXECUTE, 
+                LT_EXECUTE_BREAKPOINT,
+                LT_EXECUTE_BREAKPOINT_INACTIVE,
+                LT_BREAKPOINT, 
+                LT_BREAKPOINT_INACTIVE,
+                LT_LAST } LINETYPE; 
+
+            const COLORREF crTextLineType[LT_LAST] = 
+                { RGB( 0x00, 0x00, 0x00 ), // LT_NORMAL
+                  RGB( 0xFF, 0xFF, 0xFF ), // LT_EXECUTE
+                  RGB( 0xFF, 0xFF, 0xFF ), // LT_EXECUTE_BREAKPOINT
+                  RGB( 0xFF, 0xFF, 0xFF ), // LT_EXECUTE_BREAKPOINT_INACTIVE
+                  RGB( 0x00, 0x00, 0x00 ), // LT_BREAKPOINT
+                  RGB( 0x00, 0x00, 0x00 )  // LT_BREAKPOINT_INACTIVE
+            };
+
+            const COLORREF crBackLineType[LT_LAST] = 
+                { RGB( 0xFF, 0xFF, 0xFF ), // LT_NORMAL
+                  RGB( 0x00, 0x00, 0xFF ), // LT_EXECUTE
+                  RGB( 0x00, 0x80, 0x80 ), // LT_EXECUTE_BREAKPOINT
+                  RGB( 0x00, 0x00, 0xFF ), // LT_EXECUTE_BREAKPOINT_INACTIVE
+                  RGB( 0xFF, 0x00, 0x00 ), // LT_BREAKPOINT
+                  RGB( 0xFF, 0xFF, 0x00 )  // LT_BREAKPOINT_INACTIVE
+            };
+
+            HBRUSH hbrushBack[LT_LAST];
+            HPEN   hpenBack  [LT_LAST];
 
             GetClientRect(hwnd,&rect);
             nHeightToPrint = (rect.bottom - rect.top) / pdp->charheight + 1;
 
 			hdc = BeginPaint(hwnd,&ps);
 
-            md_contents = mon_disassembly_get_lines( pdp->pmdp, nHeightToPrint );
+            for (i=0; i<LT_LAST; i++)
+            {
+                hbrushBack[i] = CreateSolidBrush( crBackLineType[i] );
+                hpenBack[i]   = CreatePen( PS_SOLID, 1, crBackLineType[i] );
+            }
+
+            crOldTextColor = SetTextColor( hdc, RGB(0xFF,0xFF,0xFF) );
+            crOldBkColor   = SetBkColor  ( hdc, RGB(0,0,0) );
+            hpenOld        = SelectObject( hdc, GetStockObject( BLACK_PEN   ) );
+            hbrushOld      = SelectObject( hdc, GetStockObject( BLACK_BRUSH ) );
+
+            md_contents = mon_disassembly_get_lines( pdp->pmdp, nHeightToPrint, nHeightToPrint-1 );
 
             for (i=0; i<nHeightToPrint; i++)
             {
                 struct mon_disassembly *next = md_contents->next;
 
-                SetTextColor(hdc,RGB(md_contents->flags.active_line ? 0xFF:0,0,0));
+                LINETYPE    lt;
+
+                COLORREF crText;
+                COLORREF crBack;
+
+                if (md_contents->flags.active_line)
+                {
+                    if (md_contents->flags.is_breakpoint)
+                    {
+                        if (md_contents->flags.breakpoint_active)
+                            lt = LT_EXECUTE_BREAKPOINT;
+                        else
+                            lt = LT_EXECUTE_BREAKPOINT_INACTIVE;
+                    }
+                    else
+                        lt = LT_EXECUTE;
+                }
+                else
+                {
+                    if (md_contents->flags.is_breakpoint)
+                    {
+                        if (md_contents->flags.breakpoint_active)
+                            lt = LT_BREAKPOINT;
+                        else
+                            lt = LT_BREAKPOINT_INACTIVE;
+                    }
+                    else
+                        lt = LT_NORMAL;
+                }
+
+                crText = crTextLineType[lt];
+                crBack = crBackLineType[lt];
+
+                SetTextColor( hdc, crText );
+                SetBkColor  ( hdc, crBack );
+
                 TextOut( hdc, 0, i*pdp->charheight, md_contents->content, md_contents->length );
+
+                /* make sure we clear all that is right from the text */
+                SelectObject( hdc, hbrushBack[lt] );
+                SelectObject( hdc, hpenBack[lt]   );
+                Rectangle( hdc, md_contents->length*pdp->charwidth, i*pdp->charheight, rect.right+1, (i+1)*pdp->charheight );
+
                 free(md_contents->content);
                 free(md_contents);
                 md_contents = next;
             }
+
+            /* restore old settings */
+            SelectObject( hdc, hpenOld        );
+            SelectObject( hdc, hbrushOld      );
+            SetTextColor( hdc, crOldTextColor );
+            SetBkColor  ( hdc, crOldBkColor   );
+
+            for (i=0; i<LT_LAST; i++)
+            {
+                DeleteObject( hbrushBack[i] );
+                DeleteObject( hpenBack[i]   );
+            }
+
 			EndPaint(hwnd,&ps);
         }
 	}

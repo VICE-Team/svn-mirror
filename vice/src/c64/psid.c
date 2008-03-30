@@ -507,9 +507,9 @@ void psid_init_driver(void)
   ram_store(addr++, (BYTE)(psid->init_addr >> 8));
   ram_store(addr++, (BYTE)(psid->play_addr & 0xff));
   ram_store(addr++, (BYTE)(psid->play_addr >> 8));
-  ram_store(addr++, (BYTE)(psid->speed & 0x0f));
-  ram_store(addr++, (BYTE)((psid->speed >> 8) & 0x0f));
-  ram_store(addr++, (BYTE)((psid->speed >> 16) & 0x0f));
+  ram_store(addr++, (BYTE)(psid->speed & 0xff));
+  ram_store(addr++, (BYTE)((psid->speed >> 8) & 0xff));
+  ram_store(addr++, (BYTE)((psid->speed >> 16) & 0xff));
   ram_store(addr++, (BYTE)(psid->speed >> 24));
   ram_store(addr++, (BYTE)(sync == DRIVE_SYNC_PAL ? 1 : 0));
 }

@@ -59,7 +59,7 @@ enum MON_SCROLL_TYPE_TAG
 struct mon_disassembly_private * mon_disassembly_init     ( void );
 void                             mon_disassembly_deinit   ( struct mon_disassembly_private * );
 void                             mon_disassembly_update   ( struct mon_disassembly_private * );
-struct mon_disassembly *         mon_disassembly_get_lines( struct mon_disassembly_private *, int lines );
+struct mon_disassembly *         mon_disassembly_get_lines( struct mon_disassembly_private *, int lines_visible, int lines_full_visible );
 
 void                             mon_disassembly_set_memspace( struct mon_disassembly_private *, MEMSPACE );
 MEMSPACE                         mon_disassembly_get_memspace( struct mon_disassembly_private * );
