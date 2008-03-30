@@ -1,3 +1,34 @@
+1999-09-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.7.
+
+	* c128/z80mem.c (z80mem_initialize): Fixed banking.
+
+	* c128/z80.c: Reordered some opcodes.
+
+	* findpath.c, fsdevice.c, snapshot.c, utils.c, zfile.c: Fixed
+	inclusion of `dirent.h', `direct.h' and `io.h' for non-OS2
+	systems.
+
+	* arch/os2/Makefile.am: Added `Snippets' to subdirs.
+
+	* arch/os2/Snippets/Dirport.H: Renamed to `dirport.h'.
+
+        * arch/os2/Snippets/Dirport.C: Renamed to `dirport.c'.
+
+1999-09-17  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* Some explicite castings in many files
+	* fopen(*,"r") -> fopen(*,"rb")
+	* fixed a minor bug in imagecontents.c (please have a look at it)
+	* cmdline.c: cmdline_show_help --> arch\xxx\uicmdline.c
+	* some changes so that the project compiles with VAC++ 4.0
+	* added sound-support for Vice/2 (mmos2)
+	* added joystick-support
+	* added some hot-keys and information-windows
+	* added dive-support (direct video)
+	* new outfit for the percentage bar
+
 1999-09-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.6.

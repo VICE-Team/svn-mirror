@@ -10,7 +10,7 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# Makefile.am for `libsounddrv.a'.
+# Makefile.am for the OS2 version of `libpm.a'.
 
 
 SHELL = @SHELL@
@@ -40,7 +40,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../..
+top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -110,40 +110,27 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@         -I$(top_builddir)/src 	-I$(top_srcdir)/src
+INCLUDES =  	@ARCH_INCLUDES@ 
 
 
-noinst_LIBRARIES = libsounddrv.a
+noinst_LIBRARIES = libpm.a
 
-# These sources are linked only under certain circumstances.
-EXTRA_libsounddrv_a_SOURCES =  	soundaix.c 	soundacorn.c 	soundallegro.c         soundmmos2.c         sounddx.c 	soundhpux.c 	soundmidas.c 	soundsb.c 	soundsdl.c 	soundsgi.c 	soundsun.c 	sounduss.c
+libpm_a_SOURCES =  	dirport.c 	dirport.h 
 
-
-# These sources are always built.
-libsounddrv_a_SOURCES =  	sounddummy.c 	sounddump.c 	soundfs.c 	soundspeed.c 	soundwav.c
-
-
-libsounddrv_a_DEPENDENCIES =  	@SOUND_DRIVERS@ 	sounddummy.o 	sounddump.o 	soundfs.o 	soundspeed.o 	soundwav.c
-
-
-libsounddrv_a_LIBADD =  	@SOUND_DRIVERS@
-
-
-EXTRA_DIST = 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../src/config.h
+CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libsounddrv_a_OBJECTS =  sounddummy.o sounddump.o soundfs.o soundspeed.o \
-soundwav.o
+libpm_a_LIBADD = 
+libpm_a_OBJECTS =  dirport.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -155,14 +142,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libsounddrv_a_SOURCES) $(EXTRA_libsounddrv_a_SOURCES)
-OBJECTS = $(libsounddrv_a_OBJECTS)
+SOURCES = $(libpm_a_SOURCES)
+OBJECTS = $(libpm_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/sounddrv/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/os2/Snippets/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -197,10 +184,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libsounddrv.a: $(libsounddrv_a_OBJECTS) $(libsounddrv_a_DEPENDENCIES)
-	-rm -f libsounddrv.a
-	$(AR) cru libsounddrv.a $(libsounddrv_a_OBJECTS) $(libsounddrv_a_LIBADD)
-	$(RANLIB) libsounddrv.a
+libpm.a: $(libpm_a_OBJECTS) $(libpm_a_DEPENDENCIES)
+	-rm -f libpm.a
+	$(AR) cru libpm.a $(libpm_a_OBJECTS) $(libpm_a_LIBADD)
+	$(RANLIB) libpm.a
 
 tags: TAGS
 
@@ -233,7 +220,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/sounddrv
+subdir = src/arch/os2/Snippets
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -246,21 +233,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-sounddummy.o: sounddummy.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h
-sounddump.o: sounddump.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
-	../../src/utils.h
-soundfs.o: soundfs.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
-	../../src/utils.h
-soundspeed.o: soundspeed.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h
-sounduss.o: sounduss.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h
-soundwav.o: soundwav.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
-	../../src/utils.h
 
 info-am:
 info: info-am

@@ -117,7 +117,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	kbdef.h 	kmap.c 	mouse.c 	mouse.h 	petkmap.c 	print.c 	rs232.c 	types.h 	ui.h 	video.c 	video.h 	vsync.c 	vsync.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	kbdef.h 	kmap.c 	mouse.c 	mouse.h 	petkmap.c 	print.c 	rs232.c 	types.h 	ui.h         uicmdline.c         uicmdline.h 	video.c 	video.h 	vsync.c 	vsync.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -133,7 +133,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o coproc.o joystick.o kbd.o kmap.o mouse.o \
-petkmap.o print.o rs232.o video.o vsync.o
+petkmap.o print.o rs232.o uicmdline.o video.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -340,6 +340,7 @@ rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/log.h ../../../src/resources.h \
 	../../../src/cmdline.h ../../../src/rs232.h \
 	../../../src/utils.h coproc.h
+uicmdline.o: uicmdline.c ../../../src/cmdline.h ../../../src/resources.h
 video.o: video.c ../../../src/vice.h ../../../src/config.h video.h \
 	../../../src/palette.h types.h ui.h xaw/ui.h \
 	../../../src/uiapi.h ../../../src/resources.h kbd.h \

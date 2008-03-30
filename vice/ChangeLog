@@ -1,3 +1,9 @@
+1999-09-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.7.
+
+	* configure.in: Create Makefile for `arch/os2/Snippets'.
+
 1999-09-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.6.

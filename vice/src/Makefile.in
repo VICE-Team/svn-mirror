@@ -552,8 +552,8 @@ ciatimer.o: ciatimer.c vice.h config.h arch/unix/types.h alarm.h log.h \
 	interrupt.h 6510core.h mem.h snapshot.h ciatimer.h
 clkguard.o: clkguard.c vice.h config.h clkguard.h arch/unix/types.h \
 	utils.h
-cmdline.o: cmdline.c vice.h config.h arch/unix/types.h utils.h cmdline.h \
-	resources.h
+cmdline.o: cmdline.c vice.h config.h arch/unix/uicmdline.h cmdline.h \
+	resources.h arch/unix/types.h utils.h
 datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h log.h \
 	clkguard.h datasette.h tap.h maincpu.h 6510core.h mem.h \
 	snapshot.h mon.h mos6510.h interrupt.h

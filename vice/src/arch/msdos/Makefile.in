@@ -115,7 +115,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c610kbd.c 	c64kbd.c 	c64ui.c 	c64ui.h 	cbmcharsets.c 	cbmcharsets.h 	grabkey.c 	grabkey.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	mouse.c 	mouse.h 	menudefs.c 	menudefs.h 	petkbd.c 	petui.c 	petui.h 	sidui.c 	sidui.h 	tui.c 	tui.h 	tui_backend.c 	tui_backend.h 	tuicharset.c 	tuicharset.h 	tuiimagebrowser.c 	tuiimagebrowser.h 	tuifs.c 	tuifs.h 	tuimenu.c 	tuimenu.h 	tuiview.c 	tuiview.h 	types.h 	ui.c 	ui.h 	uisnapshot.c 	uisnapshot.h 	vic20kbd.c 	vic20ui.c 	vic20ui.h 	video.c 	video.h 	vsync.c 	vsync.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c610kbd.c 	c64kbd.c 	c64ui.c 	c64ui.h 	cbmcharsets.c 	cbmcharsets.h 	grabkey.c 	grabkey.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	mouse.c 	mouse.h 	menudefs.c 	menudefs.h 	petkbd.c 	petui.c 	petui.h 	sidui.c 	sidui.h 	tui.c 	tui.h 	tui_backend.c 	tui_backend.h 	tuicharset.c 	tuicharset.h 	tuiimagebrowser.c 	tuiimagebrowser.h 	tuifs.c 	tuifs.h 	tuimenu.c 	tuimenu.h 	tuiview.c 	tuiview.h 	types.h 	ui.c 	ui.h         uicmdline.c         uicmdline.h 	uisnapshot.c 	uisnapshot.h 	vic20kbd.c 	vic20ui.c 	vic20ui.h 	video.c 	video.h 	vsync.c 	vsync.h
 
 
 EXTRA_DIST =  	vicesb.c 	vicesb.h 	vmidas.c 	vmidas.h
@@ -137,8 +137,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610ui.o c610kbd.o \
 c64kbd.o c64ui.o cbmcharsets.o grabkey.o joystick.o kbd.o mouse.o \
 menudefs.o petkbd.o petui.o sidui.o tui.o tui_backend.o tuicharset.o \
-tuiimagebrowser.o tuifs.o tuimenu.o tuiview.o ui.o uisnapshot.o \
-vic20kbd.o vic20ui.o video.o vsync.o
+tuiimagebrowser.o tuifs.o tuimenu.o tuiview.o ui.o uicmdline.o \
+uisnapshot.o vic20kbd.o vic20ui.o video.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
