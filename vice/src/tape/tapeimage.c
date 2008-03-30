@@ -79,6 +79,12 @@ int tape_image_open(tape_image_t *tape_image)
 
     return -1;
 }
+/* ------------------------------------------------------------------------- */
+
+int tape_image_create(const char *name, unsigned int type)
+{
+    return tap_create(name);
+}
 
 /* ------------------------------------------------------------------------- */
 

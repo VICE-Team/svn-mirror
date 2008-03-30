@@ -96,6 +96,7 @@ typedef struct tap_s {
 extern void tap_init(const struct tape_init_s *init);
 extern tap_t *tap_open(const char *name, unsigned int *read_only);
 extern int tap_close(tap_t *tap);
+extern int tap_create(const char *name);
 
 extern int tap_seek_start(tap_t *tap);
 extern int tap_seek_to_file(tap_t *tap, unsigned int file_number);
