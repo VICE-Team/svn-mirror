@@ -126,7 +126,7 @@ inline static void line_becomes_bad(int cycle)
 
         /* Force the DMA.  */
         if (num_chars > 0)
-            vic_ii_fetch_matrix(pos, num_chars, num_0xff_fetches);
+            vicii_fetch_matrix(pos, num_chars, num_0xff_fetches);
 
         /* Set the value by which `vic_ii.mem_counter' is incremented on
            this line.  */

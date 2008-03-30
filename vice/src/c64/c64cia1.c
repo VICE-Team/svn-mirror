@@ -108,13 +108,13 @@ static inline void pulse_ciapc(CLOCK rclk)
 }
 
 #define PRE_STORE_CIA   \
-    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
+    vicii_handle_pending_alarms_external(maincpu_num_write_cycles());
 
 #define PRE_READ_CIA    \
-    vic_ii_handle_pending_alarms_external(0);
+    vicii_handle_pending_alarms_external(0);
 
 #define PRE_PEEK_CIA    \
-    vic_ii_handle_pending_alarms_external(0);
+    vicii_handle_pending_alarms_external(0);
 
 static inline void do_reset_cia(void)
 {
@@ -142,11 +142,9 @@ static inline void store_sdr(BYTE byte)
 
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
-    {
-        /* Handle software-triggered light pen.  */
-        if ( (byte ^ oldpb) & 0x10) {
-            vic_ii_trigger_light_pen(rclk);
-        }
+    /* Handle software-triggered light pen.  */
+    if ((byte ^ oldpb) & 0x10) {
+        vicii_trigger_light_pen(rclk);
     }
 }
 

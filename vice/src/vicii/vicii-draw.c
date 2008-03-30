@@ -40,7 +40,6 @@
 #include "raster.h"
 #include "types.h"
 #include "vicii-draw.h"
-#include "vicii.h"
 #include "viciitypes.h"
 
 
@@ -1379,7 +1378,7 @@ static void init_drawing_tables(void)
     }
 }
 
-void vic_ii_draw_init(void)
+void vicii_draw_init(void)
 {
     init_drawing_tables();
 

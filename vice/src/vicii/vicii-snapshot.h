@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef _VIC_II_SNAPSHOT_H
-#define _VIC_II_SNAPSHOT_H
+#ifndef _VICII_SNAPSHOT_H
+#define _VICII_SNAPSHOT_H
 
 struct snapshot_s;
 
-int vic_ii_snapshot_write_module (struct snapshot_s *s);
-int vic_ii_snapshot_read_module (struct snapshot_s *s);
+extern int vicii_snapshot_write_module(struct snapshot_s *s);
+extern int vicii_snapshot_read_module(struct snapshot_s *s);
 
 #endif
 

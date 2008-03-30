@@ -123,13 +123,13 @@ static inline void do_reset_cia(void)
 
 
 #define PRE_STORE_CIA \
-    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
+    vicii_handle_pending_alarms_external(maincpu_num_write_cycles());
 
 #define PRE_READ_CIA \
-    vic_ii_handle_pending_alarms_external(0);
+    vicii_handle_pending_alarms_external(0);
 
 #define PRE_PEEK_CIA \
-    vic_ii_handle_pending_alarms_external(0);
+    vicii_handle_pending_alarms_external(0);
 
 static inline void store_ciapa(CLOCK rclk, BYTE byte)
 {

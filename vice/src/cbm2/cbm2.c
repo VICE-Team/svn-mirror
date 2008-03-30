@@ -101,15 +101,16 @@ int machine_class = VICE_MACHINE_CBM2;
 
 static void machine_vsync_hook(void);
 
-#define C500_POWERLINE_CYCLES_PER_IRQ   (C500_PAL_CYCLES_PER_RFSH)
+#define C500_POWERLINE_CYCLES_PER_IRQ (C500_PAL_CYCLES_PER_RFSH)
 
+/*
 static long cbm2_cycles_per_sec = C610_PAL_CYCLES_PER_SEC;
 static double cbm2_rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
 static long cbm2_cycles_per_rfsh = C610_PAL_CYCLES_PER_RFSH;
+*/
 
 static log_t cbm2_log = LOG_ERR;
-
-extern BYTE rom[];
+static machine_timing_t machine_timing;
 
 int cbm2_isC500 = 0;
 
@@ -120,7 +121,7 @@ static int c500_snapshot_read_module(snapshot_t *p);
 
 /* ------------------------------------------------------------------------- */
 
-int cbm2_is_c500 (void)
+int cbm2_is_c500(void)
 {
     return cbm2_isC500;
 }
@@ -136,7 +137,7 @@ int machine_resources_init(void)
         || video_resources_init(VIDEO_RESOURCES_PAL) < 0
         || cbm2_resources_init() < 0
         || crtc_resources_init() < 0
-        || vic_ii_resources_init() < 0
+        || vicii_resources_init() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
         || drive_resources_init() < 0
@@ -162,7 +163,7 @@ int machine_cmdline_options_init(void)
         || video_init_cmdline_options() < 0
         || cbm2_cmdline_options_init() < 0
         || crtc_cmdline_options_init() < 0
-        || vic_ii_cmdline_options_init() < 0
+        || vicii_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sid_cmdline_options_init() < 0
         || drive_cmdline_options_init() < 0
@@ -194,7 +195,7 @@ int machine_cmdline_options_init(void)
 static alarm_t c500_powerline_clk_alarm;
 static CLOCK c500_powerline_clk = 0;
 
-void c500_powerline_clk_alarm_handler (CLOCK offset) {
+void c500_powerline_clk_alarm_handler(CLOCK offset) {
 
     c500_powerline_clk += C500_POWERLINE_CYCLES_PER_IRQ;
 
@@ -272,10 +273,10 @@ int machine_init(void)
             return -1;
         crtc_set_retrace_callback(cbm2_crtc_signal);
         crtc_set_retrace_type(0);
-        crtc_set_hw_options( 1, 0x7ff, 0x1000, 512, -0x2000);
+        crtc_set_hw_options(1, 0x7ff, 0x1000, 512, -0x2000);
     } else {
         /* Initialize the VIC-II emulation.  */
-        if (vic_ii_init(VICII_STANDARD) == NULL)
+        if (vicii_init(VICII_STANDARD) == NULL)
             return -1;
 
         /*
@@ -287,10 +288,9 @@ int machine_init(void)
                    "C500PowerlineClk", c500_powerline_clk_alarm_handler);
         clk_guard_add_callback(&maincpu_clk_guard,
                                 c500_powerline_clk_overflow_callback, NULL);
-
-        cbm2_cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
-        cbm2_rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
-        cbm2_cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
+        machine_timing.cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
+        machine_timing.rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
+        machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
     }
 
     ciat_init_table();
@@ -309,23 +309,23 @@ int machine_init(void)
     datasette_init();
 
     /* Fire up the hardware-level 1541 emulation.  */
-    drive_init(cbm2_cycles_per_sec, C610_NTSC_CYCLES_PER_SEC);
+    drive_init(machine_timing.cycles_per_sec, C610_NTSC_CYCLES_PER_SEC);
 
     cbm2_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(machine_vsync_hook);
-    vsync_set_machine_parameter(cbm2_rfsh_per_sec, cbm2_cycles_per_sec);
+    vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
+                                machine_timing.cycles_per_sec);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(cbm2_cycles_per_sec, cbm2_cycles_per_rfsh);
+    sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize the CBM-II-specific part of the UI.  */
     cbm2_ui_init();
 
     iec_init();
-
 
     return 0;
 }
@@ -347,7 +347,7 @@ void machine_specific_reset(void)
     } else {
         c500_powerline_clk = maincpu_clk + C500_POWERLINE_CYCLES_PER_IRQ;
         alarm_set(&c500_powerline_clk_alarm, c500_powerline_clk);
-        vic_ii_reset();
+        vicii_reset();
     }
     printer_reset();
 
@@ -379,7 +379,7 @@ void machine_shutdown(void)
 
     /* close the video chip(s) */
     if (cbm2_isC500) {
-        vic_ii_free();
+        vicii_free();
     } else {
         crtc_free();
     }
@@ -419,22 +419,42 @@ int machine_set_restore_key(int v)
 
 long machine_get_cycles_per_second(void)
 {
-    return cbm2_cycles_per_sec;
+    return machine_timing.cycles_per_sec;
 }
 
 void machine_change_timing(int timeval)
 {
-    debug_set_machine_parameter(C610_PAL_CYCLES_PER_LINE,
-                                C610_PAL_SCREEN_LINES);
+    if (cbm2_isC500) {
+        machine_timing.cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
+        machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
+        machine_timing.rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
+        machine_timing.cycles_per_line = C500_PAL_CYCLES_PER_LINE;
+        machine_timing.screen_lines = C500_PAL_SCREEN_LINES;
+    } else {
+        machine_timing.cycles_per_sec = C610_PAL_CYCLES_PER_SEC;
+        machine_timing.cycles_per_rfsh = C610_PAL_CYCLES_PER_RFSH;
+        machine_timing.rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
+        machine_timing.cycles_per_line = C610_PAL_CYCLES_PER_LINE;
+        machine_timing.screen_lines = C610_PAL_SCREEN_LINES;
+    }
+
+    debug_set_machine_parameter(machine_timing.cycles_per_line,
+                                machine_timing.screen_lines);
+
+    clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
+
+    vicii_change_timing(&machine_timing);
 }
 
 /* Set the screen refresh rate, as this is variable in the CRTC */
 void machine_set_cycles_per_frame(long cpf) {
 
-    cbm2_cycles_per_rfsh = cpf;
-    cbm2_rfsh_per_sec = ((double) cbm2_cycles_per_sec) / ((double) cpf);
+    machine_timing.cycles_per_rfsh = cpf;
+    machine_timing.rfsh_per_sec = ((double)machine_timing.cycles_per_sec)
+                                  / ((double)cpf);
 
-    vsync_set_machine_parameter(cbm2_rfsh_per_sec, cbm2_cycles_per_sec);
+    vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
+                                machine_timing.cycles_per_sec);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -460,7 +480,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || acia1_snapshot_write_module(s) < 0
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
-        || (cbm2_isC500 && vic_ii_snapshot_write_module(s) < 0)
+        || (cbm2_isC500 && vicii_snapshot_write_module(s) < 0)
         || (cbm2_isC500 && c500_snapshot_write_module(s) < 0)
         ) {
         snapshot_close(s);
@@ -490,12 +510,12 @@ int machine_read_snapshot(const char *name)
     }
 
     if (cbm2_isC500) {
-        vic_ii_prepare_for_snapshot();
+        vicii_prepare_for_snapshot();
     }
 
     if (maincpu_snapshot_read_module(s) < 0
         || ((!cbm2_isC500) && crtc_snapshot_read_module(s) < 0)
-        || (cbm2_isC500 && vic_ii_snapshot_read_module(s) < 0)
+        || (cbm2_isC500 && vicii_snapshot_read_module(s) < 0)
         || (cbm2_isC500 && c500_snapshot_read_module(s) < 0)
         || cbm2_snapshot_read_module(s) < 0
         || cia1_snapshot_read_module(s) < 0
@@ -534,7 +554,7 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
         crtc_screenshot(screenshot);
         return 0;
       case 1:
-        vic_ii_screenshot(screenshot);
+        vicii_screenshot(screenshot);
         return 0;
     }
     return -1;
@@ -543,8 +563,8 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 int machine_canvas_screenshot(screenshot_t *screenshot,
                               struct video_canvas_s *canvas)
 {
-    if (canvas == vic_ii_get_canvas()) {
-        vic_ii_screenshot(screenshot);
+    if (canvas == vicii_get_canvas()) {
+        vicii_screenshot(screenshot);
         return 0;
     }
     if (canvas == crtc_get_canvas()) {
@@ -557,8 +577,8 @@ int machine_canvas_screenshot(screenshot_t *screenshot,
 int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
                                  struct video_canvas_s *canvas)
 {
-    if (canvas == vic_ii_get_canvas()) {
-        vic_ii_async_refresh(refresh);
+    if (canvas == vicii_get_canvas()) {
+        vicii_async_refresh(refresh);
         return 0;
     }
     if (canvas == crtc_get_canvas()) {

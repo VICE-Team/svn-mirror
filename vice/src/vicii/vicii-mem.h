@@ -25,14 +25,14 @@
  *
  */
 
-#ifndef _VIC_II_MEM_H
-#define _VIC_II_MEM_H
+#ifndef _VICII_MEM_H
+#define _VICII_MEM_H
 
 #include "types.h"
 
-extern void REGPARM2 vic_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 vic_read(ADDRESS addr);
-extern BYTE REGPARM1 vic_peek(ADDRESS addr);
+extern void REGPARM2 vicii_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 vicii_read(ADDRESS addr);
+extern BYTE REGPARM1 vicii_peek(ADDRESS addr);
 extern BYTE REGPARM1 colorram_read(ADDRESS addr);
 extern void REGPARM2 colorram_store(ADDRESS addr, BYTE value);
 extern void REGPARM2 vicii_mem_vbank_store(ADDRESS addr, BYTE value);

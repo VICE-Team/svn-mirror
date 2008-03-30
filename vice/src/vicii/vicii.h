@@ -31,6 +31,7 @@
 #include "types.h"
 
 struct canvas_refresh_s;
+struct machine_timing_s;
 struct raster_s;
 struct screenshot_s;
 struct snapshot_s;
@@ -38,39 +39,39 @@ struct snapshot_s;
 #define VICII_STANDARD 0
 #define VICII_EXTENDED 1
 
-extern int vic_ii_resources_init(void);
-extern int vic_ii_cmdline_options_init(void);
-extern struct raster_s *vic_ii_init(unsigned int flag);
-extern struct video_canvas_s *vic_ii_get_canvas(void);
+extern int vicii_resources_init(void);
+extern int vicii_cmdline_options_init(void);
+extern struct raster_s *vicii_init(unsigned int flag);
+extern struct video_canvas_s *vicii_get_canvas(void);
 
-extern void vic_ii_reset(void);
-extern void vic_ii_trigger_light_pen(CLOCK mclk);
-extern void vic_ii_set_vbank(int new_vbank);
-extern void vic_ii_set_ram_base(BYTE *base);
-extern void vic_ii_prepare_for_snapshot(void);
-extern void vic_ii_powerup(void);
-extern void vic_ii_set_canvas_refresh(int enable);
-extern void vic_ii_reset_registers(void);
-extern void vic_ii_update_memory_ptrs_external(void);
-extern void vic_ii_handle_pending_alarms_external(int num_write_cycles);
-extern void vic_ii_screenshot(struct screenshot_s *screenshot);
-extern void vic_ii_free(void);
-extern void vic_ii_change_timing(void);
+extern void vicii_reset(void);
+extern void vicii_trigger_light_pen(CLOCK mclk);
+extern void vicii_set_vbank(int new_vbank);
+extern void vicii_set_ram_base(BYTE *base);
+extern void vicii_prepare_for_snapshot(void);
+extern void vicii_powerup(void);
+extern void vicii_set_canvas_refresh(int enable);
+extern void vicii_reset_registers(void);
+extern void vicii_update_memory_ptrs_external(void);
+extern void vicii_handle_pending_alarms_external(int num_write_cycles);
+extern void vicii_screenshot(struct screenshot_s *screenshot);
+extern void vicii_free(void);
+extern void vicii_change_timing(struct machine_timing_s *machine_timing);
 
-extern int vic_ii_snapshot_write_module(struct snapshot_s *s);
-extern int vic_ii_snapshot_read_module(struct snapshot_s *s);
+extern int vicii_snapshot_write_module(struct snapshot_s *s);
+extern int vicii_snapshot_read_module(struct snapshot_s *s);
 
-extern void vic_ii_async_refresh(struct canvas_refresh_s *r);
+extern void vicii_async_refresh(struct canvas_refresh_s *r);
 
-extern void vic_ii_set_phi1_vbank(int num_vbank);
-extern void vic_ii_set_phi2_vbank(int num_vbank);
-extern void vic_ii_set_phi1_ram_base(BYTE *base);
-extern void vic_ii_set_phi2_ram_base(BYTE *base);
-extern void vic_ii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset);
-extern void vic_ii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset);
-extern void vic_ii_set_chargen_addr_options(ADDRESS mask, ADDRESS value);
-extern void vic_ii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value);
-extern void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value);
+extern void vicii_set_phi1_vbank(int num_vbank);
+extern void vicii_set_phi2_vbank(int num_vbank);
+extern void vicii_set_phi1_ram_base(BYTE *base);
+extern void vicii_set_phi2_ram_base(BYTE *base);
+extern void vicii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset);
+extern void vicii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset);
+extern void vicii_set_chargen_addr_options(ADDRESS mask, ADDRESS value);
+extern void vicii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value);
+extern void vicii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value);
 
 #endif
 

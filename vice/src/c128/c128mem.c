@@ -198,7 +198,7 @@ void mem_update_config(int config)
     if (config >= 0x80) {
         mem_color_ram_cpu = mem_color_ram;
         mem_color_ram_vicii = mem_color_ram;
-        vic_ii_set_chargen_addr_options(0x7000, 0x1000);
+        vicii_set_chargen_addr_options(0x7000, 0x1000);
     } else {
         if (pport.data_read & 1)
             mem_color_ram_cpu = mem_color_ram;
@@ -209,9 +209,9 @@ void mem_update_config(int config)
         else
             mem_color_ram_vicii = &mem_color_ram[0x400];
         if (pport.data_read & 4)
-            vic_ii_set_chargen_addr_options(0xffff, 0xffff);
+            vicii_set_chargen_addr_options(0xffff, 0xffff);
         else
-            vic_ii_set_chargen_addr_options(0x3000, 0x1000);
+            vicii_set_chargen_addr_options(0x3000, 0x1000);
     }
 }
 
@@ -226,7 +226,7 @@ void mem_set_ram_config(BYTE value)
     int shared_size;
 
     /* XXX: We only support 128K here.  */
-    vic_ii_set_ram_base(mem_ram + ((value & 0x40) << 10));
+    vicii_set_ram_base(mem_ram + ((value & 0x40) << 10));
 
     DEBUG_PRINT(("MMU: Store RCR = $%02x\n", value));
     DEBUG_PRINT(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
@@ -1652,8 +1652,8 @@ void mem_initialize_memory(void)
 
     for (j = 64; j < 128; j++) {
         for (i = 0xd0; i <= 0xd3; i++) {
-            mem_read_tab[j][i] = vic_read;
-            mem_write_tab[j][i] = vic_store;
+            mem_read_tab[j][i] = vicii_read;
+            mem_write_tab[j][i] = vicii_store;
         }
 
         mem_read_tab[j][0xd4] = sid_read;
@@ -1943,8 +1943,8 @@ void mem_initialize_memory(void)
 
         if (io_config[j]) {
             for (i = 0xd0; i <= 0xd3; i++) {
-                mem_read_tab[128+j][i] = vic_read;
-                mem_write_tab[128+j][i] = vic_store;
+                mem_read_tab[128+j][i] = vicii_read;
+                mem_write_tab[128+j][i] = vicii_store;
             }
 
                 mem_read_tab[128+j][0xd4] = sid_read;
@@ -2143,7 +2143,7 @@ void mem_powerup(void)
 void mem_set_vbank(int new_vbank)
 {
     vbank = new_vbank;
-    vic_ii_set_vbank(new_vbank);
+    vicii_set_vbank(new_vbank);
 }
 
 void mem_toggle_watchpoints(int flag)
@@ -2220,7 +2220,7 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        vic_store(addr, byte);
+        vicii_store(addr, byte);
         break;
       case 0xd400:
         sid_store(addr, byte);
@@ -2263,7 +2263,7 @@ static BYTE read_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return vic_read(addr);
+        return vicii_read(addr);
       case 0xd400:
         return sid_read(addr);
       case 0xd500:
@@ -2296,7 +2296,7 @@ static BYTE peek_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return vic_peek(addr);
+        return vicii_peek(addr);
       case 0xd400:
         return sid_read(addr); /* FIXME */
       case 0xd500:
@@ -2513,7 +2513,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void)
 
 void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
 {
-    *base = ((vic_peek(0xd018) & 0xf0) << 6)
+    *base = ((vicii_peek(0xd018) & 0xf0) << 6)
             | ((~cia2_peek(0xdd00) & 0x03) << 14);
     *rows = 25;
     *columns = 40;

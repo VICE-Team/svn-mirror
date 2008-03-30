@@ -67,7 +67,7 @@ static cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-int vic_ii_cmdline_options_init(void)
+int vicii_cmdline_options_init(void)
 {
     if (raster_cmdline_options_chip_init("VICII", vic_ii.video_chip_cap) < 0)
         return -1;

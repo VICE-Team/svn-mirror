@@ -130,7 +130,7 @@ BYTE vicii_read_phi1(void)
     BYTE value = 0x40;
     unsigned int cycle;
 
-    vic_ii_handle_pending_alarms(0);
+    vicii_handle_pending_alarms(0);
 
     cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
 

@@ -26,10 +26,10 @@
  *
  */
 
-#ifndef _VIC_II_CMDLINE_OPTIONS_H
-#define _VIC_II_CMDLINE_OPTIONS_H
+#ifndef _VICII_CMDLINE_OPTIONS_H
+#define _VICII_CMDLINE_OPTIONS_H
 
-extern int vic_ii_cmdline_options_init(void);
+extern int vicii_cmdline_options_init(void);
 
 #endif
 

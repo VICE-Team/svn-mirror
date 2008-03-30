@@ -25,10 +25,10 @@
  *
  */
 
-#ifndef _VIC_II_DRAW_H
-#define _VIC_II_DRAW_H
+#ifndef _VICII_DRAW_H
+#define _VICII_DRAW_H
 
-extern void vic_ii_draw_init(void);
+extern void vicii_draw_init(void);
 
 #endif
 

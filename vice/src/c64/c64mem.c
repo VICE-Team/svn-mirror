@@ -467,8 +467,8 @@ void mem_initialize_memory(void)
     for (j = 0; j < NUM_CONFIGS; j++) {
         if (io_config[j]) {
             for (i = 0xd0; i <= 0xd3; i++) {
-                mem_read_tab[j][i] = vic_read;
-                set_write_hook(j, i, vic_store);
+                mem_read_tab[j][i] = vicii_read;
+                set_write_hook(j, i, vicii_store);
             }
             for (i = 0xd4; i <= 0xd5; i++) {
                 mem_read_tab[j][i] = sid_read;
@@ -663,7 +663,7 @@ void mem_set_vbank(int new_vbank)
 {
     vbank = new_vbank;
     _mem_write_tab_ptr = mem_write_tab[new_vbank][mem_config];
-    vic_ii_set_vbank(new_vbank);
+    vicii_set_vbank(new_vbank);
 }
 
 /* Set the tape sense status.  */
@@ -751,7 +751,7 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        vic_store(addr, byte);
+        vicii_store(addr, byte);
         break;
       case 0xd400:
       case 0xd500:
@@ -790,7 +790,7 @@ static BYTE read_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return vic_read(addr);
+        return vicii_read(addr);
       case 0xd400:
       case 0xd500:
       case 0xd600:
@@ -820,7 +820,7 @@ static BYTE peek_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return vic_peek(addr);
+        return vicii_peek(addr);
       case 0xd400:
       case 0xd500:
       case 0xd600:
@@ -980,7 +980,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void)
 
 void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
 {
-    *base = ((vic_peek(0xd018) & 0xf0) << 6)
+    *base = ((vicii_peek(0xd018) & 0xf0) << 6)
             | ((~cia2_peek(0xdd00) & 0x03) << 14);
     *rows = 25;
     *columns = 40;

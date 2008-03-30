@@ -222,10 +222,7 @@ static tape_init_t tapeinit = {
 };
 
 static log_t c64_log = LOG_ERR;
-
-static long cycles_per_sec = C64_PAL_CYCLES_PER_SEC;
-static long cycles_per_rfsh = C64_PAL_CYCLES_PER_RFSH;
-static double rfsh_per_sec = C64_PAL_RFSH_PER_SEC;
+static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */
 
@@ -238,7 +235,7 @@ int machine_resources_init(void)
         || video_resources_init(VIDEO_RESOURCES_PAL) < 0
         || c64_resources_init() < 0
         || reu_resources_init() < 0
-        || vic_ii_resources_init() < 0
+        || vicii_resources_init() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
 #ifdef HAVE_RS232
@@ -283,7 +280,7 @@ int machine_cmdline_options_init(void)
         || video_init_cmdline_options() < 0
         || c64_cmdline_options_init() < 0
         || reu_cmdline_options_init() < 0
-        || vic_ii_cmdline_options_init() < 0
+        || vicii_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sid_cmdline_options_init() < 0
 #ifdef HAVE_RS232
@@ -364,12 +361,13 @@ int machine_init(void)
         drive_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
 
         /* Initialize autostart.  */
-        autostart_init((CLOCK)(3 * rfsh_per_sec * cycles_per_rfsh),
+        autostart_init((CLOCK)(3 * C64_PAL_RFSH_PER_SEC
+                       * C64_PAL_CYCLES_PER_RFSH),
                        1, 0xcc, 0xd1, 0xd3, 0xd5);
     }
 
     /* Initialize the VIC-II emulation. */
-    if (!vic_ii_init(VICII_STANDARD) && !console_mode && !vsid_mode)
+    if (!vicii_init(VICII_STANDARD) && !console_mode && !vsid_mode)
         return -1;
 
     cia1_enable_extended_keyboard_rows(0);
@@ -396,15 +394,16 @@ int machine_init(void)
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(machine_vsync_hook);
-    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
+    vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
+                                machine_timing.cycles_per_sec);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(cycles_per_sec, cycles_per_rfsh);
+    sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(631, 198, 10,
-                 (CLOCK)(rfsh_per_sec * cycles_per_rfsh));
+    kbd_buf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec
+                 * machine_timing.cycles_per_rfsh));
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {
@@ -458,7 +457,7 @@ void machine_specific_reset(void)
     }
 
     /* The VIC-II must be the *last* to be reset.  */
-    vic_ii_reset();
+    vicii_reset();
 
     if (vsid_mode) {
         psid_init_tune();
@@ -478,7 +477,7 @@ void machine_powerup(void)
     }
 
     mem_powerup();
-    vic_ii_reset_registers();
+    vicii_reset_registers();
     maincpu_trigger_reset();
 }
 
@@ -498,7 +497,7 @@ void machine_shutdown(void)
     console_close_all();
 
     /* close the video chip(s) */
-    vic_ii_free();
+    vicii_free();
 
     reu_shutdown();
 
@@ -509,7 +508,7 @@ void machine_shutdown(void)
 
 void machine_handle_pending_alarms(int num_write_cycles)
 {
-    vic_ii_handle_pending_alarms_external(num_write_cycles);
+    vicii_handle_pending_alarms_external(num_write_cycles);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -523,10 +522,11 @@ static void machine_vsync_hook(void)
         unsigned int playtime;
         static unsigned int time=0;
 
-        playtime = (psid_increment_frames() * cycles_per_rfsh) / cycles_per_sec;        if (playtime!=time)
-        {
+        playtime = (psid_increment_frames() * machine_timing.cycles_per_rfsh)
+                   / machine_timing.cycles_per_sec;
+        if (playtime != time) {
             vsid_ui_display_time(playtime);
-            time=playtime;
+            time = playtime;
         }
         clk_guard_prevent_overflow(&maincpu_clk_guard);
         return;
@@ -555,45 +555,48 @@ int machine_set_restore_key(int v)
 
 long machine_get_cycles_per_second(void)
 {
-    return cycles_per_sec;
+    return machine_timing.cycles_per_sec;
 }
 
 void machine_change_timing(int timeval)
 {
-    unsigned int cycles_per_line = 0, screen_lines = 0;
-
     maincpu_trigger_reset();
 
     switch (timeval) {
       case MACHINE_SYNC_PAL:
-        cycles_per_sec = C64_PAL_CYCLES_PER_SEC;
-        cycles_per_rfsh = C64_PAL_CYCLES_PER_RFSH;
-        rfsh_per_sec = C64_PAL_RFSH_PER_SEC;
-        cycles_per_line = C64_PAL_CYCLES_PER_LINE;
-        screen_lines = C64_PAL_SCREEN_LINES;
+        machine_timing.cycles_per_sec = C64_PAL_CYCLES_PER_SEC;
+        machine_timing.cycles_per_rfsh = C64_PAL_CYCLES_PER_RFSH;
+        machine_timing.rfsh_per_sec = C64_PAL_RFSH_PER_SEC;
+        machine_timing.cycles_per_line = C64_PAL_CYCLES_PER_LINE;
+        machine_timing.screen_lines = C64_PAL_SCREEN_LINES;
         break;
       case MACHINE_SYNC_NTSC:
-        cycles_per_sec = C64_NTSC_CYCLES_PER_SEC;
-        cycles_per_rfsh = C64_NTSC_CYCLES_PER_RFSH;
-        rfsh_per_sec = C64_NTSC_RFSH_PER_SEC;
-        cycles_per_line = C64_NTSC_CYCLES_PER_LINE;
-        screen_lines = C64_NTSC_SCREEN_LINES;
+        machine_timing.cycles_per_sec = C64_NTSC_CYCLES_PER_SEC;
+        machine_timing.cycles_per_rfsh = C64_NTSC_CYCLES_PER_RFSH;
+        machine_timing.rfsh_per_sec = C64_NTSC_RFSH_PER_SEC;
+        machine_timing.cycles_per_line = C64_NTSC_CYCLES_PER_LINE;
+        machine_timing.screen_lines = C64_NTSC_SCREEN_LINES;
         break;
       case MACHINE_SYNC_NTSCOLD:
-        cycles_per_sec = C64_NTSCOLD_CYCLES_PER_SEC;
-        cycles_per_rfsh = C64_NTSCOLD_CYCLES_PER_RFSH;
-        rfsh_per_sec = C64_NTSCOLD_RFSH_PER_SEC;
-        cycles_per_line = C64_NTSCOLD_CYCLES_PER_LINE;
-        screen_lines = C64_NTSCOLD_SCREEN_LINES;
+        machine_timing.cycles_per_sec = C64_NTSCOLD_CYCLES_PER_SEC;
+        machine_timing.cycles_per_rfsh = C64_NTSCOLD_CYCLES_PER_RFSH;
+        machine_timing.rfsh_per_sec = C64_NTSCOLD_RFSH_PER_SEC;
+        machine_timing.cycles_per_line = C64_NTSCOLD_CYCLES_PER_LINE;
+        machine_timing.screen_lines = C64_NTSCOLD_SCREEN_LINES;
         break;
       default:
         log_error(c64_log, "Unknown machine timing.");
     }
 
-    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
-    sound_set_machine_parameter(cycles_per_sec, cycles_per_rfsh);
-    debug_set_machine_parameter(cycles_per_line, screen_lines);
-    vic_ii_change_timing();
+    vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
+                                machine_timing.cycles_per_sec);
+    sound_set_machine_parameter(machine_timing.cycles_per_sec,
+                                machine_timing.cycles_per_rfsh);
+    debug_set_machine_parameter(machine_timing.cycles_per_line,
+                                machine_timing.screen_lines);
+    clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
+
+    vicii_change_timing(&machine_timing);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -622,7 +625,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || cia2_snapshot_write_module(s) < 0
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
-        || vic_ii_snapshot_write_module(s) < 0) {
+        || vicii_snapshot_write_module(s) < 0) {
         snapshot_close(s);
         ioutil_remove(name);
         return -1;
@@ -648,7 +651,7 @@ int machine_read_snapshot(const char *name)
         goto fail;
     }
 
-    vic_ii_prepare_for_snapshot();
+    vicii_prepare_for_snapshot();
 
     if (maincpu_snapshot_read_module(s) < 0
         || c64_snapshot_read_module(s) < 0
@@ -656,7 +659,7 @@ int machine_read_snapshot(const char *name)
         || cia2_snapshot_read_module(s) < 0
         || sid_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0
-        || vic_ii_snapshot_read_module(s) < 0)
+        || vicii_snapshot_read_module(s) < 0)
         goto fail;
 
     snapshot_close(s);
@@ -691,33 +694,33 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
     if (wn != 0)
         return -1;
 
-    vic_ii_screenshot(screenshot);
+    vicii_screenshot(screenshot);
     return 0;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot,
                               struct video_canvas_s *canvas)
 {
-    if (canvas != vic_ii_get_canvas())
+    if (canvas != vicii_get_canvas())
         return -1;
 
-    vic_ii_screenshot(screenshot);
+    vicii_screenshot(screenshot);
     return 0;
 }
 
 int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
                                  struct video_canvas_s *canvas)
 {
-    if (canvas != vic_ii_get_canvas())
+    if (canvas != vicii_get_canvas())
         return -1;
 
-    vic_ii_async_refresh(refresh);
+    vicii_async_refresh(refresh);
     return 0;
 }
 
 void machine_update_memory_ptrs(void)
 {
-    vic_ii_update_memory_ptrs_external();
+    vicii_update_memory_ptrs_external();
 }
 
 int machine_sid2_check_range(unsigned int sid2_adr)

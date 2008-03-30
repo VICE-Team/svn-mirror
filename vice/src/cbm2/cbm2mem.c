@@ -131,20 +131,20 @@ void c500_set_phi2_bank(int b) {
 
     if (b) {    /* bank 15 */
         /* video memory at $c000/d000 depending on d818 */
-        vic_ii_set_phi2_addr_options(0x13ff, 0xc000);
+        vicii_set_phi2_addr_options(0x13ff, 0xc000);
         /* no chargen mapping */
-        vic_ii_set_phi2_chargen_addr_options(0, 1);
+        vicii_set_phi2_chargen_addr_options(0, 1);
         /* memory mapping */
-        vic_ii_set_phi2_vbank(3);       /* necessary? */
-        vic_ii_set_phi2_ram_base(mem_rom);
+        vicii_set_phi2_vbank(3);       /* necessary? */
+        vicii_set_phi2_ram_base(mem_rom);
     } else {
         /* video memory in bank 0 */
-        vic_ii_set_phi2_addr_options(0xffff, 0x0000);
+        vicii_set_phi2_addr_options(0xffff, 0x0000);
         /* no chargen mapping */
-        vic_ii_set_phi2_chargen_addr_options(0, 1);
+        vicii_set_phi2_chargen_addr_options(0, 1);
         /* memory mapping */
-        vic_ii_set_phi2_vbank(c500_vbank);
-        vic_ii_set_phi2_ram_base(mem_ram);
+        vicii_set_phi2_vbank(c500_vbank);
+        vicii_set_phi2_ram_base(mem_ram);
     }
 
     c500_statvid = b;
@@ -156,20 +156,20 @@ void c500_set_phi1_bank(int b) {
 
     if (b) {    /* bank 15 */
         /* video memory at $c000/c800 depending on d818 */
-        vic_ii_set_phi1_addr_options(0x0fff, 0xc000);
+        vicii_set_phi1_addr_options(0x0fff, 0xc000);
         /* no chargen mapping */
-        vic_ii_set_phi1_chargen_addr_options(0xc000, 0xc000);
+        vicii_set_phi1_chargen_addr_options(0xc000, 0xc000);
         /* memory mapping */
-        vic_ii_set_phi1_vbank(3);       /* necessary? */
-        vic_ii_set_phi1_ram_base(mem_rom);
+        vicii_set_phi1_vbank(3);       /* necessary? */
+        vicii_set_phi1_ram_base(mem_rom);
     } else {
         /* video memory in bank 0 */
-        vic_ii_set_phi1_addr_options(0xffff, 0x0000);
+        vicii_set_phi1_addr_options(0xffff, 0x0000);
         /* no chargen mapping */
-        vic_ii_set_phi1_chargen_addr_options(0, 1);
+        vicii_set_phi1_chargen_addr_options(0, 1);
         /* memory mapping */
-        vic_ii_set_phi1_vbank(c500_vbank);
-        vic_ii_set_phi1_ram_base(mem_ram);
+        vicii_set_phi1_vbank(c500_vbank);
+        vicii_set_phi1_ram_base(mem_ram);
     }
 
     c500_vicdotsel = b;
@@ -181,10 +181,10 @@ void cbm2_set_tpi2pc(BYTE b) {
 
     if (cbm2_isC500) {
         if (!c500_vicdotsel) {
-            vic_ii_set_phi1_vbank(vbank);
+            vicii_set_phi1_vbank(vbank);
         }
         if (!c500_statvid) {
-            vic_ii_set_phi2_vbank(vbank);
+            vicii_set_phi2_vbank(vbank);
         }
     }
 }
@@ -586,7 +586,7 @@ void REGPARM2 store_io(ADDRESS addr, BYTE value)
         switch(addr & 0xff00) {
           case 0xd800:
             if (cbm2_isC500) {
-                vic_store(addr, value);
+                vicii_store(addr, value);
             } else {
                 crtc_store(addr, value);
             }
@@ -633,7 +633,7 @@ BYTE REGPARM1 read_io(ADDRESS addr)
         switch (addr & 0xff00) {
           case 0xd800:
             if (cbm2_isC500) {
-                return vic_read(addr);
+                return vicii_read(addr);
             } else {
                 return crtc_read(addr);
             }
@@ -1016,7 +1016,7 @@ static BYTE peek_bank_io(ADDRESS addr)
         switch (addr & 0xff00) {
           case 0xd800:
             if (cbm2_isC500) {
-                return vic_peek(addr);
+                return vicii_peek(addr);
             } else {
                 return crtc_read(addr);
             }

@@ -78,9 +78,9 @@ extern store_func_ptr_t _mem_write_tab[];
                 IMPORT_REGISTERS();                \
                 JUMP(LOAD_ADDR(0xfffc));
 
-extern void vic_ii_delay_clk(void);
+extern void vicii_delay_clk(void);
 
-#define CPU_DELAY_CLK vic_ii_delay_clk();
+#define CPU_DELAY_CLK vicii_delay_clk();
 
 #include "../maincpu.c"
 

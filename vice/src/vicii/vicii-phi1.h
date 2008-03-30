@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIC_II_PHI1_H
-#define _VIC_II_PHI1_H
+#ifndef _VICII_PHI1_H
+#define _VICII_PHI1_H
 
 #include "types.h"
 
