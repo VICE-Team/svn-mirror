@@ -1,3 +1,16 @@
+1999-02-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.24.
+
+	* c128cpu.c: Removed `NO_INSTRUCTION_FETCH_HACK', `JUMP', `STORE',
+	`DO_NOT_INCLUDE_MEM_READ_BASE', `LOAD' defines.
+
+	* c128/c128mem.c: Introduced memory config tables for read, write,
+	base and limit.  (initialize_memory, store_mmu): Changed for new
+	banking.
+
+	* c64/c64mem.c: Removed some obsolete debugging messages.
+
 1999-02-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.23.
