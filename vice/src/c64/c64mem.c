@@ -286,8 +286,8 @@ static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 
-static store_func_ptr_t mem_write_tab_watch[NUM_VBANKS][NUM_CONFIGS][0x101];
-static read_func_ptr_t mem_read_tab_watch[NUM_CONFIGS][0x101];
+static store_func_ptr_t mem_write_tab_watch[0x101];
+static read_func_ptr_t mem_read_tab_watch[0x101];
 
 /* Processor port.  */
 static struct {
@@ -329,167 +329,24 @@ static int tape_sense = 0;
 BYTE roml_banks[0x8000], romh_banks[0x8000];
 
 /* Exansion port RAM images.  */
-BYTE export_ram0[0x1fff];
+BYTE export_ram0[0x2000];
 
 /* Expansion port ROML/ROMH/RAM banking.  */
 static int roml_bank, romh_bank, export_ram;
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_zero_watch(ADDRESS addr)
+BYTE REGPARM1 read_watch(ADDRESS addr)
 {
-    watch_push_load_addr(addr,e_comp_space);
-    return read_zero(addr);
+    mon_watch_push_load_addr(addr,e_comp_space);
+    return mem_read_tab[mem_config][addr>>8](addr);
 }
 
-BYTE REGPARM1 read_ram_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_ram(addr);
-}
 
-BYTE REGPARM1 read_basic_watch(ADDRESS addr)
+void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 {
-    watch_push_load_addr(addr,e_comp_space);
-    return read_basic(addr);
-}
-
-BYTE REGPARM1 read_chargen_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_chargen(addr);
-}
-
-BYTE REGPARM1 read_io2_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_io2(addr);
-}
-
-BYTE REGPARM1 read_io1_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_io1(addr);
-}
-
-BYTE REGPARM1 read_kernal_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_kernal(addr);
-}
-
-BYTE REGPARM1 read_sid_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_sid(addr);
-}
-
-BYTE REGPARM1 read_vic_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_vic(addr);
-}
-
-BYTE REGPARM1 read_colorram_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_colorram(addr);
-}
-
-BYTE REGPARM1 read_cia1_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_cia1(addr);
-}
-
-BYTE REGPARM1 read_cia2_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_cia2(addr);
-}
-
-void REGPARM2 store_zero_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_zero(addr, value);
-}
-
-void REGPARM2 store_ram_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_ram(addr, value);
-}
-
-void REGPARM2 store_ram_hi_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_ram_hi(addr, value);
-}
-
-void REGPARM2 store_io2_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_io2(addr, value);
-}
-
-void REGPARM2 store_io1_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_io1(addr, value);
-}
-
-void REGPARM2 store_sid_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_sid(addr, value);
-}
-
-void REGPARM2 store_vbank_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_vbank(addr, value);
-}
-
-void REGPARM2 store_vbank_39xx_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_vbank_39xx(addr, value);
-}
-
-void REGPARM2 store_vbank_3fxx_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_vbank_3fxx(addr, value);
-}
-
-void REGPARM2 store_vic_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_vic(addr, value);
-}
-
-void REGPARM2 store_colorram_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_colorram(addr, value);
-}
-
-void REGPARM2 store_cia1_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_cia1(addr, value);
-}
-
-void REGPARM2 store_cia2_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_cia2(addr, value);
-}
-
-void REGPARM2 store_roml_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_roml(addr, value);
+    mon_watch_push_store_addr(addr,e_comp_space);
+    mem_write_tab[vbank][mem_config][addr>>8](addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -507,10 +364,9 @@ static inline void pla_config_changed(void)
 
     ram[0] = pport.dir;
 
-    if (any_watchpoints_load(e_comp_space)
-	|| any_watchpoints_store(e_comp_space)) {
-       _mem_read_tab_ptr = mem_read_tab_watch[mem_config];
-       _mem_write_tab_ptr = mem_write_tab_watch[vbank][mem_config];
+    if (any_watchpoints(e_comp_space)) {
+       _mem_read_tab_ptr = mem_read_tab_watch;
+       _mem_write_tab_ptr = mem_write_tab_watch;
     } else {
        _mem_read_tab_ptr = mem_read_tab[mem_config];
        _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
@@ -522,8 +378,8 @@ static inline void pla_config_changed(void)
 void mem_toggle_watchpoints(int flag)
 {
     if (flag) {
-        _mem_read_tab_ptr = mem_read_tab_watch[mem_config];
-        _mem_write_tab_ptr = mem_write_tab_watch[vbank][mem_config];
+        _mem_read_tab_ptr = mem_read_tab_watch;
+        _mem_write_tab_ptr = mem_write_tab_watch;
     } else {
         _mem_read_tab_ptr = mem_read_tab[mem_config];
         _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
@@ -741,14 +597,12 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-static void set_write_hook(int config, int page, store_func_t *f,
-                           store_func_t *f2)
+static void set_write_hook(int config, int page, store_func_t *f)
 {
     int i;
 
     for (i = 0; i < NUM_VBANKS; i++) {
 	mem_write_tab[i][config][page] = f;
-	mem_write_tab_watch[i][config][page] = f2;
     }
 }
 
@@ -772,45 +626,43 @@ void initialize_memory(void)
                              0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0,
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
     /* Default is RAM. */
+    for (i = 0; i <= 0xff; i++) {
+       mem_read_tab_watch[i] = read_watch;
+       mem_write_tab_watch[i] = store_watch;
+    }
+
     for (i = 0; i < NUM_CONFIGS; i++) {
-	set_write_hook(i, 0, store_zero, store_zero_watch);
+	set_write_hook(i, 0, store_zero);
 	mem_read_tab[i][0] = read_zero;
-	mem_read_tab_watch[i][0] = read_zero_watch;
 	mem_read_base_tab[i][0] = ram;
 	for (j = 1; j <= 0xfe; j++) {
 	    mem_read_tab[i][j] = read_ram;
-	    mem_read_tab_watch[i][j] = read_ram_watch;
 	    mem_read_base_tab[i][j] = ram + (j << 8);
 	    for (k = 0; k < NUM_VBANKS; k++) {
 		if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3fff) {
                       case 0x39:
                         mem_write_tab[k][i][j] = store_vbank_39xx;
-                        mem_write_tab_watch[k][i][j] = store_vbank_39xx_watch;
                         break;
                       case 0x3f:
                         mem_write_tab[k][i][j] = store_vbank_3fxx;
-                        mem_write_tab_watch[k][i][j] = store_vbank_3fxx_watch;
                         break;
                       default:
                         mem_write_tab[k][i][j] = store_vbank;
-                        mem_write_tab_watch[k][i][j] = store_vbank_watch;
                     }
 		} else {
 		    mem_write_tab[k][i][j] = store_ram;
-		    mem_write_tab_watch[k][i][j] = store_ram_watch;
                 }
 	    }
 	}
 	mem_read_tab[i][0xff] = read_ram;
-	mem_read_tab_watch[i][0xff] = read_ram_watch;
 	mem_read_base_tab[i][0xff] = ram + 0xff00;
 
 	/* FIXME: we do not care about vbank writes here, but we probably
            should.  Anyway, the $FFxx addresses are not so likely to contain
            sprites or other stuff that really needs the special handling, and
            it's much easier this way. */
-	set_write_hook(i, 0xff, store_ram_hi, store_ram_hi_watch);
+	set_write_hook(i, 0xff, store_ram_hi);
     }
 
     /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7, 11, 15). */
@@ -819,10 +671,6 @@ void initialize_memory(void)
 	mem_read_tab[7][i] = read_basic;
 	mem_read_tab[11][i] = read_basic;
 	mem_read_tab[15][i] = read_basic;
-	mem_read_tab_watch[3][i] = read_basic_watch;
-	mem_read_tab_watch[7][i] = read_basic_watch;
-	mem_read_tab_watch[11][i] = read_basic_watch;
-	mem_read_tab_watch[15][i] = read_basic_watch;
 	mem_read_base_tab[3][i] = basic_rom + ((i & 0x1f) << 8);
 	mem_read_base_tab[7][i] = basic_rom + ((i & 0x1f) << 8);
 	mem_read_base_tab[11][i] = basic_rom + ((i & 0x1f) << 8);
@@ -841,15 +689,6 @@ void initialize_memory(void)
 	mem_read_tab[25][i] = read_chargen;
 	mem_read_tab[26][i] = read_chargen;
 	mem_read_tab[27][i] = read_chargen;
-	mem_read_tab_watch[1][i] = read_chargen_watch;
-	mem_read_tab_watch[2][i] = read_chargen_watch;
-	mem_read_tab_watch[3][i] = read_chargen_watch;
-	mem_read_tab_watch[9][i] = read_chargen_watch;
-	mem_read_tab_watch[10][i] = read_chargen_watch;
-	mem_read_tab_watch[11][i] = read_chargen_watch;
-	mem_read_tab_watch[25][i] = read_chargen_watch;
-	mem_read_tab_watch[26][i] = read_chargen_watch;
-	mem_read_tab_watch[27][i] = read_chargen_watch;
 	mem_read_base_tab[1][i] = chargen_rom + ((i & 0x0f) << 8);
 	mem_read_base_tab[2][i] = chargen_rom + ((i & 0x0f) << 8);
 	mem_read_base_tab[3][i] = chargen_rom + ((i & 0x0f) << 8);
@@ -866,33 +705,26 @@ void initialize_memory(void)
 	if (io_config[j]) {
 	    for (i = 0xd0; i <= 0xd3; i++) {
 		mem_read_tab[j][i] = read_vic;
-		mem_read_tab_watch[j][i] = read_vic_watch;
-		set_write_hook(j, i, store_vic, store_vic_watch);
+		set_write_hook(j, i, store_vic);
 	    }
 	    for (i = 0xd4; i <= 0xd7; i++) {
 		mem_read_tab[j][i] = read_sid;
-		mem_read_tab_watch[j][i] = read_sid_watch;
-		set_write_hook(j, i, store_sid, store_sid_watch);
+		set_write_hook(j, i, store_sid);
 	    }
 	    for (i = 0xd8; i <= 0xdb; i++) {
 		mem_read_tab[j][i] = read_colorram;
-		mem_read_tab_watch[j][i] = read_colorram_watch;
-		set_write_hook(j, i, store_colorram, store_colorram_watch);
+		set_write_hook(j, i, store_colorram);
 	    }
 
 	    mem_read_tab[j][0xdc] = read_cia1;
-	    mem_read_tab_watch[j][0xdc] = read_cia1_watch;
-	    set_write_hook(j, 0xdc, store_cia1, store_cia1_watch);
+	    set_write_hook(j, 0xdc, store_cia1);
 	    mem_read_tab[j][0xdd] = read_cia2;
-	    mem_read_tab_watch[j][0xdd] = read_cia2_watch;
-	    set_write_hook(j, 0xdd, store_cia2, store_cia2_watch);
+	    set_write_hook(j, 0xdd, store_cia2);
 
 	    mem_read_tab[j][0xde] = read_io1;
-	    mem_read_tab_watch[j][0xde] = read_io1_watch;
-	    set_write_hook(j, 0xde, store_io1, store_io1_watch);
+	    set_write_hook(j, 0xde, store_io1);
 	    mem_read_tab[j][0xdf] = read_io2;
-	    mem_read_tab_watch[j][0xdf] = read_io2_watch;
-	    set_write_hook(j, 0xdf, store_io2, store_io2_watch);
+	    set_write_hook(j, 0xdf, store_io2);
 
 	    for (i = 0xd0; i <= 0xdf; i++)
 		mem_read_base_tab[j][i] = NULL;
@@ -914,18 +746,6 @@ void initialize_memory(void)
 	mem_read_tab[27][i] = read_kernal;
 	mem_read_tab[30][i] = read_kernal;
 	mem_read_tab[31][i] = read_kernal;
-	mem_read_tab_watch[2][i] = read_kernal_watch;
-	mem_read_tab_watch[3][i] = read_kernal_watch;
-	mem_read_tab_watch[6][i] = read_kernal_watch;
-	mem_read_tab_watch[7][i] = read_kernal_watch;
-	mem_read_tab_watch[10][i] = read_kernal_watch;
-	mem_read_tab_watch[11][i] = read_kernal_watch;
-	mem_read_tab_watch[14][i] = read_kernal_watch;
-	mem_read_tab_watch[15][i] = read_kernal_watch;
-	mem_read_tab_watch[26][i] = read_kernal_watch;
-	mem_read_tab_watch[27][i] = read_kernal_watch;
-	mem_read_tab_watch[30][i] = read_kernal_watch;
-	mem_read_tab_watch[31][i] = read_kernal_watch;
 	mem_read_base_tab[2][i] = kernal_rom + ((i & 0x1f) << 8);
 	mem_read_base_tab[3][i] = kernal_rom + ((i & 0x1f) << 8);
 	mem_read_base_tab[6][i] = kernal_rom + ((i & 0x1f) << 8);
@@ -951,7 +771,7 @@ void initialize_memory(void)
     }
     for (j = 16; j < 24; j++)
 	for (i = 0x80; i <= 0x9f; i++)
-	    set_write_hook(j, i, store_roml, store_roml_watch);
+	    set_write_hook(j, i, store_roml);
 
     /* Setup ROMH at $A000-$BFFF and $E000-$FFFF.  */
     for (j = 0; j < NUM_CONFIGS; j++) {
@@ -965,10 +785,8 @@ void initialize_memory(void)
 
     for (i = 0; i < NUM_CONFIGS; i++) {
 	mem_read_tab[i][0x100] = mem_read_tab[i][0];
-	mem_read_tab_watch[i][0x100] = mem_read_tab_watch[i][0];
 	for (j = 0; j < NUM_VBANKS; j++) {
 	    mem_write_tab[j][i][0x100] = mem_write_tab[j][i][0];
-	    mem_write_tab_watch[j][i][0x100] = mem_write_tab_watch[j][i][0];
         }
 	mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
     }

@@ -628,7 +628,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #if defined(HAVE_DMEDIA_AUDIO_H)
     sound_init_sgi_device();
 #endif
-#if defined(HAVE_AUDIOIO_H)
+#if defined(HAVE_SYS_AUDIOIO_H)
     sound_init_sun_device();
 #endif
 #if defined(HAVE_SYS_AUDIO_H)
