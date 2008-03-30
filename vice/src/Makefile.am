@@ -267,10 +267,10 @@ x64_libs =  \
 	@X64_WINRES@ \
 	$(c64_lib) \
 	$(c64cart_lib) \
-	$(drive_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(drive_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -291,10 +291,10 @@ x64-all: \
 	@RESID_DEP@ \
 	libc64 \
 	libc64cart \
-	libdrive \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
+	libdrive \
 	libparallel \
 	libvdrive \
 	libraster \
@@ -323,11 +323,11 @@ x128_libs =  \
 	$(c128_lib) \
 	$(c64c128_lib) \
 	$(c64cart_lib) \
-	$(drive_lib) \
 	$(driveiec_lib) \
 	$(driveiec128dcr_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(drive_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -353,11 +353,11 @@ x128-all: \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
-	libdrive \
 	libdriveiec \
 	libdriveiec128dcr \
 	libdriveiecieee \
 	libdriveieee \
+	libdrive \
 	libparallel \
 	libvdrive \
 	libarch \
@@ -382,10 +382,10 @@ x128-all: \
 xvic_libs =  \
 	@XVIC_WINRES@ \
 	$(vic20_lib) \
-	$(drive_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(drive_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -401,10 +401,10 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 
 .PHONY: xvic-all
 xvic-all: \
-	libdrive \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
+	libdrive \
 	libparallel \
 	libvdrive \
 	libraster \
@@ -430,9 +430,9 @@ xvic-all: \
 xpet_libs =  \
 	@XPET_WINRES@ \
 	$(pet_lib) \
-	$(drive_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(drive_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
@@ -448,9 +448,9 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 
 .PHONY: xpet-all
 xpet-all: \
-	libdrive \
 	libdriveiecieee \
 	libdriveieee \
+	libdrive \
 	libparallel \
 	libvdrive \
 	libraster \
@@ -476,10 +476,10 @@ xpet-all: \
 xplus4_libs =  \
 	@XPLUS4_WINRES@ \
 	$(plus4_lib) \
-	$(drive_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(drivetcbm_lib) \
+	$(drive_lib) \
 	$(iecbus_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
@@ -494,10 +494,10 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
 .PHONY: xplus4-all
 xplus4-all: \
-	libdrive \
 	libdriveiec \
 	libdriveiecieee \
 	libdrivetcbm \
+	libdrive \
 	libvdrive \
 	libraster \
 	libsounddrv \
@@ -522,9 +522,9 @@ xplus4-all: \
 xcbm2_libs = \
 	@XCBM2_WINRES@ \
 	$(xcbm2_lib) \
-	$(drive_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(drive_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
@@ -550,9 +550,9 @@ xcbm2-all: \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
-	libdrive \
 	libdriveiecieee \
 	libdriveieee \
+	libdrive \
 	libparallel \
 	libvdrive \
 	libraster \

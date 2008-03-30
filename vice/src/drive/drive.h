@@ -257,11 +257,11 @@ extern void drive_update_ui_status(void);
 extern void drive_gcr_data_writeback(struct drive_s *drive);
 extern void drive_gcr_data_writeback_all(void);
 extern void drive_set_active_led_color(unsigned int type, unsigned int dnr);
-extern BYTE drive_write_protect_sense(drive_t *dptr);
 extern int drive_set_disk_drive_type(unsigned int drive_type,
                                      struct drive_context_s *drv);
 
 extern void drive_set_half_track(int num, drive_t *dptr);
+extern void drive_current_track_size_set(drive_t *dptr);
 extern void drive_set_machine_parameter(long cycles_per_sec);
 extern void drive_set_disk_memory(BYTE *id, unsigned int track,
                                   unsigned int sector,

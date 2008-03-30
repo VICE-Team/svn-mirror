@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 
+#include "drive-writeprotect.h"
 #include "drive.h"
 #include "drivetypes.h"
 #include "interrupt.h"
@@ -246,7 +247,7 @@ inline static BYTE read_prb(via_context_t *via_context)
         rotation_rotate_disk(via2p->drive);
 
     byte = ((rotation_sync_found(via2p->drive)
-           | drive_write_protect_sense(via2p->drive))
+           | drive_writeprotect_sense(via2p->drive))
            & ~(via_context->via[VIA_DDRB]))
            | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
 

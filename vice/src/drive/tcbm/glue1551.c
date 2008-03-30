@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "alarm.h"
+#include "drive-writeprotect.h"
 #include "drive.h"
 #include "drivetypes.h"
 #include "glue1551.h"
@@ -81,7 +82,7 @@ static void glue_pport_update(drive_context_t *drv)
     if (drv->drive->byte_ready_active == 0x06)
         rotation_rotate_disk(drv->drive);
 
-    input = drive_write_protect_sense(drv->drive)
+    input = drive_writeprotect_sense(drv->drive)
             | (drv->drive->byte_ready_level ? 0x80 : 0);
 
     drv->cpud->drive_ram[1] = output & (input | ~0x90);

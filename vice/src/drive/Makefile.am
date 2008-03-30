@@ -24,6 +24,8 @@ libdrive_a_SOURCES = \
 	drive-resources.h \
 	drive-snapshot.c \
 	drive-snapshot.h \
+	drive-writeprotect.c \
+	drive-writeprotect.h \
 	drive.c \
 	drive.h \
 	drivecpu.c \

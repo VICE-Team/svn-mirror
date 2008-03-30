@@ -102,6 +102,10 @@ SOURCE="..\..\drive\drive-snapshot.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\drive\drive-writeprotect.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\drive.c
 # End Source File
 # Begin Source File

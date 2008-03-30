@@ -433,9 +433,11 @@ void drive_reset(void)
         drive_cpu_reset(drive_context[dnr]);
 }
 
-/*-------------------------------------------------------------------------- */
-
-/* The following functions are time critical.  */
+void drive_current_track_size_set(drive_t *dptr)
+{
+    dptr->GCR_current_track_size =
+        dptr->gcr->track_size[dptr->current_half_track / 2 - 1];
+}
 
 /* Move the head to half track `num'.  */
 void drive_set_half_track(int num, drive_t *dptr)
@@ -468,45 +470,9 @@ void drive_set_half_track(int num, drive_t *dptr)
     else
         dptr->GCR_head_offset = 0;
 
-    dptr->GCR_current_track_size =
-        dptr->gcr->track_size[dptr->current_half_track / 2 - 1];
+    drive_current_track_size_set(dptr);
 }
 
-/* Return the write protect sense status. */
-inline BYTE drive_write_protect_sense(drive_t *dptr)
-{
-    /* Clear the write protection bit for the time the disk is pulled out on
-       detach.  */
-    if (dptr->detach_clk != (CLOCK)0) {
-        if (*(dptr->clk) - dptr->detach_clk < DRIVE_DETACH_DELAY)
-            return 0x0;
-        dptr->detach_clk = (CLOCK)0;
-    }
-    /* Set the write protection bit for the minimum time until a new disk
-       can be inserted.  */
-    if (dptr->attach_detach_clk != (CLOCK)0) {
-        if (*(dptr->clk) - dptr->attach_detach_clk
-            < DRIVE_ATTACH_DETACH_DELAY)
-            return 0x10;
-        dptr->attach_detach_clk = (CLOCK)0;
-    }
-    /* Clear the write protection bit for the time the disk is put in on
-       attach.  */
-    if (dptr->attach_clk != (CLOCK)0) {
-        if (*(dptr->clk) - dptr->attach_clk < DRIVE_ATTACH_DELAY)
-            return 0x0;
-        dptr->attach_clk = (CLOCK)0;
-    }
-
-    if (dptr->GCR_image_loaded == 0) {
-        /* No disk in drive, write protection is off. */
-        return 0x10;
-    } else {
-        return dptr->read_only ? 0x0 : 0x10;
-    }
-}
-
-/* End of time critical functions.  */
 /*-------------------------------------------------------------------------- */
 
 /* Increment the head position by `step' half-tracks. Valid values
