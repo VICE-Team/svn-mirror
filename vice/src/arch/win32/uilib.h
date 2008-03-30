@@ -31,6 +31,7 @@
 
 #include <windows.h>
 
+
 /*  Parameter structure for ui_attach_cartridge */
 typedef struct {
     WPARAM wparam;
@@ -39,14 +40,10 @@ typedef struct {
     DWORD filter;
 } ui_cartridge_params;
 
-char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist, int style, int *autostart);
-void ui_set_res_num(char *res, int value, int num);
 
-/*
-char *read_disk_image_contents(const char *name);
-char *read_tape_image_contents(const char *name);
-char *read_disk_or_tape_image_contents(const char *name);
-*/
+extern char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
+                            int style, int *autostart);
+extern void ui_set_res_num(char *res, int value, int num);
 
 extern void ui_show_text(HWND hParent, const char *szCaption,
                          const char *szHeader, const char *szText);
@@ -70,7 +67,6 @@ extern void ui_show_text(HWND hParent, const char *szCaption,
 #define UI_LIB_FILTER_BIN                   128
 
 #define UI_LIB_MAX_FILTER_LENGTH        1024
-
 
 extern int ui_messagebox(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
 

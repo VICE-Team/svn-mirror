@@ -1,3 +1,68 @@
+2002-11-18  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.24.
+
+	* arch/unix/uicommands.c, arch/unix/x11/xaw/x11ui.c,
+	arch/unix/ui.h, arch/unix/x11/xaw/uicartridge.c,
+	arch/unix/x11/xaw/uiedisk.c, arch/unix/x11/xaw/uiscreenshot.c,
+	arch/unix/x11/xaw/uisnapshot.c, arch/unix/c128ui.c,
+	arch/unix/uic64cart.c, arch/unix/uipalette.c,
+	arch/unix/uirs232.c, arch/unix/uisettings.c,
+	arch/unix/vic20ui.c, arch/unix/vsidui.c (ui_select_file):
+	Added parameter `unit'.
+
+	* c128/c128mem.c: Do not include "ui.h".
+
+	* imagecontents/diskcontents.h, imagecontents/tapecontents.h:
+	New files.
+
+	* imagecontents/Makefile.am: Updated.
+
+	* imagecontents.h, imagecontents/imagecontents.c,
+	imagecontents/diskcontents.c, imagecontents/tapecontents.c,
+	vdrive/vdrive.c, vdrive/vdrive.h:
+
+	* arch/unix/uicommands.c, arch/unix/x11/gnome/x11ui.c,
+	arch/win32/uilib.c, arch/msdos/menudefs.c,
+	arch/msdos/uiattach.c, arch/riscos/uiimage.c,
+	arch/os2/dialogs/dlg-fileio.c, arch/beos/ui_file.cc,
+	autostart.c: Adopted to new image contents API.
+
+	* diskimage.h, diskimage/diskimage.c, diskimage/fsimage.c,
+        diskimage/fsimage.h, diskimage/rawimage.c,
+	diskimage/rawimage.h, diskimage/realimage.c,
+	diskimage/realimage.h, attach.c, c1541.c, vdrive/vdrive.c,
+	vdrive/vdrive-command.c: do not use direct access to device
+	specific fields of struct `disk_image_s' anymore.
+
+	* diskimage/fsimage-gcr.c, diskimage/fsimage-probe.c: #include
+	"fsimage.h"
+
+	* diskimage/createdisk.c, diskimage/createdisk.h: Renamed.
+
+	* vdrive/vdrive-internal.c, vdrive/vdrive-internal.h: New
+	files.
+
+	* diskimage/Makefile.am, vdrive/Makefile.am: Updated.
+
+	* vdrive/vdrive.c, vdrive/vdrive.h, arch/win32/uilib.c,
+	imagecontents/diskcontents.c, arch/unix/x11/gnome/uiedisk.c,
+	arch/unix/x11/xaw/uiedisk.c, arch/msdos/uiattach.c,
+	arch/riscos/ui.c, arch/os2/dialogs/dlg-create.c: Moved
+	internal vdrive code to separate file.
+
+	* attach.c, attach.h (file_system_get_fsimage_state): New
+	function.
+
+	* arch/msdos/tuiimagebrowser.c, arch/msdos/tuiimagebrowser.h,
+	arch/msdos/menudefs.c, arch/msdos/tuifs.c, arch/msdos/tuifs.h,
+	arch/msdos/uiattach.c, arch/msdos/c128ui.c,
+	arch/msdos/c64ui.c, arch/msdos/cbm2ui.c, arch/msdos/petui.c,
+	arch/msdos/plus4ui.c, arch/msdos/uisnapshot.c,
+	arch/msdos/vic20ui.c: Adopted to new image contents API.
+
+	* arch/win32/uilib.c, arch/win32/uilib.h: Likewise.
+
 2002-11-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.23.
