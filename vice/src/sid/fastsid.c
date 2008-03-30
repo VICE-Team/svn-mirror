@@ -191,41 +191,41 @@ typedef struct voice_s
 struct sound_s
 {
     /* number of voices */
-    voice_t		 v[3];
+    voice_t              v[3];
     /* SID registers */
-    BYTE		 d[32];
+    BYTE                 d[32];
     /* is voice 3 enabled? */
-    BYTE		 has3;
+    BYTE                 has3;
     /* 4-bit volume value */
-    BYTE		 vol;
+    BYTE                 vol;
 
     /* ADSR counter step values for each adsr values */
-    SDWORD		 adrs[16];
+    SDWORD               adrs[16];
     /* sustain values compared to 31-bit ADSR counter */
-    DWORD		 sz[16];
+    DWORD                sz[16];
 
     /* internal constant used for sample rate dependent calculations */
-    DWORD		 speed1;
+    DWORD                speed1;
 
     /* does this structure need updating before next sample? */
-    BYTE		 update;
+    BYTE                 update;
 #ifdef WAVETABLES
     /* do we have a new sid or an old one? */
-    BYTE		 newsid;
+    BYTE                 newsid;
 #endif
     /* constants needed to implement write-only register reads */
-    BYTE		 laststore;
-    BYTE		 laststorebit;
-    CLOCK		 laststoreclk;
+    BYTE                 laststore;
+    BYTE                 laststorebit;
+    CLOCK                laststoreclk;
     /* do we want to use filters? */
-    BYTE		 emulatefilter;
+    int                  emulatefilter;
 
     /* filter variables */
-    vreal_t		 filterDy;
-    vreal_t		 filterResDy;
-    BYTE		 filterType;
-    BYTE		 filterCurType;
-    WORD		 filterValue;
+    vreal_t              filterDy;
+    vreal_t              filterResDy;
+    BYTE                 filterType;
+    BYTE                 filterCurType;
+    WORD                 filterValue;
 };
 
 /* XXX: check these */
@@ -816,7 +816,7 @@ static int fastsid_init(sound_t *psid, int speed, int cycles_per_sec)
     }
     psid->update = 1;
 
-    if (resources_get_value("SidFilters", (void *)&(psid->emulatefilter)) < 0)
+    if (resources_get_int("SidFilters", &(psid->emulatefilter)) < 0)
         return 0;
 
     init_filter(psid, speed);
@@ -835,7 +835,7 @@ static int fastsid_init(sound_t *psid, int speed, int cycles_per_sec)
         setup_voice(&psid->v[i]);
     }
 #ifdef WAVETABLES
-    if (resources_get_value("SidModel", (void *)&sid_model) < 0) {
+    if (resources_get_int("SidModel", &sid_model) < 0) {
         return 0;
     }
 
