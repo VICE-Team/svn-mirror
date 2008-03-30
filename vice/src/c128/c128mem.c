@@ -39,12 +39,12 @@
 #include <stdio.h>
 
 #include "c128mem.h"
-#include "../c64/c64cart.h"
+#include "c128mmu.h"
+#include "c64cart.h"
 #include "c64cia.h"
 #include "c64tpi.h"
 #include "cmdline.h"
 #include "emuid.h"
-#include "kbd.h"
 #include "maincpu.h"
 #include "mon.h"
 #include "parallel.h"
@@ -308,14 +308,6 @@ int ram_size = C128_RAM_SIZE;
 /* Currently selected RAM bank.  */
 static BYTE *ram_bank;
 
-/* Memory configuration.  */
-static int chargen_in;
-static int basic_lo_in;
-static int basic_hi_in;
-static int kernal_in;
-static int editor_in;
-static int io_in;
-
 /* Shared memory.  */
 static ADDRESS top_shared_limit, bottom_shared_limit;
 
@@ -324,8 +316,6 @@ static int tape_sense = 0;
 
 /* Pointers to pages 0 and 1 (which can be physically placed anywhere).  */
 BYTE *page_zero, *page_one;
-
-static BYTE mmu[11];
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 static int rom_loaded = 0;
@@ -381,130 +371,23 @@ int ultimax = 0;
 /* Logging goes here.  */
 static log_t c128_mem_log = LOG_ERR;
 
-/* State of the 40/80 column key.  */
-static BYTE mmu_column4080_key = 0x80;
+extern BYTE mmu[11];
 
 /* ------------------------------------------------------------------------- */
 
-/* MMU Implementation.  */
-
-BYTE REGPARM1 read_mmu(ADDRESS addr)
+void mem_update_config(int config)
 {
-    addr &= 0xff;
+    _mem_read_tab_ptr = mem_read_tab[config];
+    _mem_write_tab_ptr = mem_write_tab[config];
+    _mem_read_base_tab_ptr = mem_read_base_tab[config];
+    mem_read_limit_tab_ptr = mem_read_limit_tab[config];
 
-    if (addr < 0xb) {
-        if (addr == 5) {
-            /* 0x80 = 40/80 key released.  */
-            return (mmu[5] & 0x7f) | mmu_column4080_key;
-        } else {
-            return mmu[addr];
-        }
-    } else {
-        return 0xf;
-    }
-}
-
-void REGPARM2 store_mmu(ADDRESS address, BYTE value)
-{
-    address &= 0xff;
-
-    if (address < 0xb) {
-        mmu[address] = value;
-
-        switch (address) {
-          case 0:
-            /* Configuration register (CR).  */
-            {
-                io_in = !(value & 0x1);
-                basic_lo_in = !(value & 0x2);
-                basic_hi_in = !(value & 0xc);
-                kernal_in = chargen_in = editor_in = !(value & 0x30);
-                /* (We handle only 128K here.)  */
-                ram_bank = ram + (((long) value & 0x40) << 10);
-                DEBUG(("MMU: Store CR = $%02x, PC = $%04X\n", value, reg_pc));
-                DEBUG(("MMU: RAM bank at $%05X\n", ram_bank - ram));
-            }
-            break;
-
-          case 6:
-            /* RAM configuration register (RCR).  */
-            {
-                int shared_size;
-
-                /* XXX: We only support 128K here.  */
-                vic_ii_set_ram_base(ram + ((value & 0x40) << 10));
-
-                DEBUG(("MMU: Store RCR = $%02x\n", value));
-                DEBUG(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
-
-                if ((value & 0x3) == 0)
-                    shared_size = 1024;
-                else
-                    shared_size = 0x1000 << ((value & 0x3) - 1);
-
-                /* Share high memory?  */
-                if (value & 0x8) {
-                    top_shared_limit = 0xffff - shared_size;
-                    DEBUG(("MMU: Sharing high RAM from $%04X\n",
-                           top_shared_limit + 1));
-                } else {
-                    top_shared_limit = 0xffff;
-                    DEBUG(("MMU: No high shared RAM\n"));
-                }
-
-                /* Share low memory?  */
-                if (value & 0x4) {
-                    bottom_shared_limit = shared_size;
-                    DEBUG(("MMU: Sharing low RAM up to $%04X\n",
-                           bottom_shared_limit - 1));
-                } else {
-                    bottom_shared_limit = 0;
-                    DEBUG(("MMU: No low shared RAM\n"));
-                }
-            }
-            break;
-
-          case 5:
-            value = (value & 0x7f) | 0x30;
-            if ((value & 0x41) != 0x01)
-                log_error(c128_mem_log,
-                          "MMU: Attempted accessing unimplemented mode: $D505 <- $%02X.",
-                          value);
-            break;
-
-          case 7:
-          case 8:
-          case 9:
-          case 10:
-            page_zero = (ram + (mmu[0x8] & 0x1 ? 0x10000 : 0x00000)
-                         + (mmu[0x7] << 8));
-            page_one = (ram + (mmu[0xa] & 0x1 ? 0x10000 : 0x00000)
-                        + (mmu[0x9] << 8));
-            DEBUG(("MMU: Page Zero at $%05X, Page One at $%05X\n",
-                   page_zero - ram, page_one - ram));
-            break;
-        }
-
-        {
-            int n;
-
-            n = ((basic_lo_in) ? 1 : 0) | ((basic_hi_in) ? 2 : 0)
-                | ((kernal_in) ? 4 : 0) | ((mmu[0] & 0x40) ? 8 : 0)
-                | ((io_in) ? 16 : 0);
-
-            _mem_read_tab_ptr = mem_read_tab[n];
-            _mem_write_tab_ptr = mem_write_tab[n];
-            _mem_read_base_tab_ptr = mem_read_base_tab[n];
-            mem_read_limit_tab_ptr = mem_read_limit_tab[n];
-        }
-
-        if (bank_limit != NULL) {
-            *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8];
-            if (*bank_base != 0)
-                *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8]
-                             - (old_reg_pc & 0xff00);
-            *bank_limit = mem_read_limit_tab_ptr[old_reg_pc >> 8];
-        }
+    if (bank_limit != NULL) {
+        *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8];
+        if (*bank_base != 0)
+            *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8]
+                         - (old_reg_pc & 0xff00);
+        *bank_limit = mem_read_limit_tab_ptr[old_reg_pc >> 8];
     }
 }
 
@@ -514,11 +397,48 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
     bank_limit = limit;
 }
 
-void mmu_toggle_column4080_key(void)
+void mem_set_ram_bank(BYTE value)
 {
-    mmu_column4080_key ^= 0x80;
-    log_message(LOG_DEFAULT, "40/80 column key %s.",
-                (mmu_column4080_key) ? "released" : "pressed");
+    /* (We handle only 128K here.)  */
+    ram_bank = ram + (((long) value & 0x40) << 10);
+    DEBUG(("MMU: Store CR = $%02x, PC = $%04X\n", value, reg_pc));
+    DEBUG(("MMU: RAM bank at $%05X\n", ram_bank - ram));
+}
+
+void mem_set_ram_config(BYTE value)
+{
+    int shared_size;
+
+    /* XXX: We only support 128K here.  */
+    vic_ii_set_ram_base(ram + ((value & 0x40) << 10));
+
+    DEBUG(("MMU: Store RCR = $%02x\n", value));
+    DEBUG(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
+
+    if ((value & 0x3) == 0)
+        shared_size = 1024;
+    else
+        shared_size = 0x1000 << ((value & 0x3) - 1);
+
+    /* Share high memory?  */
+    if (value & 0x8) {
+        top_shared_limit = 0xffff - shared_size;
+        DEBUG(("MMU: Sharing high RAM from $%04X\n",
+              top_shared_limit + 1));
+    } else {
+        top_shared_limit = 0xffff;
+        DEBUG(("MMU: No high shared RAM\n"));
+    }
+
+    /* Share low memory?  */
+    if (value & 0x4) {
+        bottom_shared_limit = shared_size;
+        DEBUG(("MMU: Sharing low RAM up to $%04X\n",
+              bottom_shared_limit - 1));
+    } else {
+        bottom_shared_limit = 0;
+        DEBUG(("MMU: No low shared RAM\n"));
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -742,36 +662,14 @@ static void REGPARM2 store_hi(ADDRESS addr, BYTE value)
     STORE_TOP_SHARED(addr, value);
 }
 
-static BYTE REGPARM1 read_top_shared(ADDRESS addr)
+BYTE REGPARM1 read_top_shared(ADDRESS addr)
 {
     return READ_TOP_SHARED(addr);
 }
 
-static void REGPARM2 store_top_shared(ADDRESS addr, BYTE value)
+void REGPARM2 store_top_shared(ADDRESS addr, BYTE value)
 {
     STORE_TOP_SHARED(addr, value);
-}
-
-
-/* $FF00 - $FFFF: RAM or Kernal, with MMU at $FF00 - $FF04.  */
-static BYTE REGPARM1 read_ffxx(ADDRESS addr)
-{
-    if (addr == 0xff00)
-        return mmu[0];
-    else if (kernal_in)
-        return kernal_rom[addr & 0x1fff];
-    else
-        return READ_TOP_SHARED(addr);
-}
-
-static void REGPARM2 store_ffxx(ADDRESS addr, BYTE value)
-{
-    if (addr == 0xff00)
-        store_mmu(0, value);
-    else if (addr <= 0xff04)
-        store_mmu(0, mmu[addr & 0xf]);
-    else
-        STORE_TOP_SHARED(addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1186,8 +1084,8 @@ void initialize_memory(void)
 
         mem_read_tab[j][0xd4] = read_sid;
         mem_write_tab[j][0xd4] = store_sid;
-        mem_read_tab[j][0xd5] = read_mmu;
-        mem_write_tab[j][0xd5] = store_mmu;
+        mem_read_tab[j][0xd5] = mmu_read;
+        mem_write_tab[j][0xd5] = mmu_store;
         mem_read_tab[j][0xd6] = read_vdc;
         mem_write_tab[j][0xd6] = store_vdc;
 
@@ -1265,8 +1163,8 @@ void initialize_memory(void)
     }
 
     for (j = 0; j < NUM_CONFIGS; j++) {
-        mem_read_tab[j][0xff] = read_ffxx;
-        mem_write_tab[j][0xff] = store_ffxx;
+        mem_read_tab[j][0xff] = mmu_ffxx_read;
+        mem_write_tab[j][0xff] = mmu_ffxx_store;
 
         mem_read_tab[j][0x100] = mem_read_tab[j][0x0];
         mem_write_tab[j][0x100] = mem_write_tab[j][0x0];
@@ -1275,10 +1173,8 @@ void initialize_memory(void)
         mem_read_limit_tab[j][0x100] = -1;
     }
 
-    /* FIXME?  Is this the real configuration?  */
-    basic_lo_in = basic_hi_in = kernal_in = editor_in = 1;
-    io_in = 1;
-    chargen_in = 0;
+    mmu_reset();
+
     top_shared_limit = 0xffff;
     bottom_shared_limit = 0x0000;
     ram_bank = ram;
@@ -1289,8 +1185,6 @@ void initialize_memory(void)
     _mem_write_tab_ptr = mem_write_tab[7];
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
-
-    kbd_register_column4080_key(mmu_toggle_column4080_key);
 }
 
 #ifdef _MSC_VER
@@ -1541,7 +1435,7 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
         store_sid(addr, byte);
         break;
       case 0xd500:
-        store_mmu(addr, byte);
+        mmu_store(addr, byte);
         break;
       case 0xd600:
         store_vdc(addr, byte);
@@ -1582,7 +1476,7 @@ static BYTE read_bank_io(ADDRESS addr)
       case 0xd400:
         return read_sid(addr);
       case 0xd500:
-        return read_mmu(addr);
+        return mmu_read(addr);
       case 0xd600:
         return read_vdc(addr);
       case 0xd700:
@@ -1615,7 +1509,7 @@ static BYTE peek_bank_io(ADDRESS addr)
       case 0xd400:
         return read_sid(addr); /* FIXME */
       case 0xd500:
-        return read_mmu(addr); /* FIXME */
+        return mmu_read(addr); /* FIXME */
       case 0xd600:
         return read_vdc(addr); /* FIXME */
       case 0xd700:
@@ -1875,7 +1769,7 @@ int mem_write_snapshot_module(snapshot_t *s, int save_roms)
 
     /* Assuming no side-effects.  */
     for (i=0; i<11; i++) {
-	if ( snapshot_module_write_byte(m, read_mmu(i)) < 0)
+	if ( snapshot_module_write_byte(m, mmu_read(i)) < 0)
 	    goto fail;
     }
 
@@ -1935,7 +1829,7 @@ int mem_read_snapshot_module(snapshot_t *s)
     for (i=0; i<11; i++) {
 	if ( snapshot_module_read_byte(m, &byte) < 0)
 	    goto fail;
-	store_mmu(i, byte);	/* Assuming no side-effects */
+        mmu_store(i, byte);	/* Assuming no side-effects */
     }
 
     if (0
