@@ -1,5 +1,5 @@
 /*
- * video.h - RISC OS graphics routines.
+ * videoarch.h - RISC OS graphics routines.
  *
  * Written by
  *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
@@ -28,8 +28,10 @@
 #define _VIDEOARCH_H
 
 
-#include "palette.h"
 #include "vice.h"
+
+#include "palette.h"
+#include "types.h"
 #include "ui.h"
 
 
@@ -75,12 +77,6 @@ extern void canvas_mode_change(void);
 extern canvas_t canvas_for_handle(int handle);
 extern void canvas_next_active(int moveCaret);
 extern int canvas_get_number(void);
-
-extern void text_enable(void);
-extern void text_disable(void);
-extern int num_text_lines(void);
-extern void enable_text(void);
-extern void disable_text(void);
 
 extern int video_full_screen_on(int *sprites);
 extern int video_full_screen_off(void);

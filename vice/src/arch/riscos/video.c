@@ -531,34 +531,6 @@ int canvas_get_number(void)
 }
 
 
-
-void text_enable(void)
-{
-}
-
-
-void text_disable(void)
-{
-}
-
-
-int num_text_lines(void)
-{
-  return 0;
-}
-
-
-void enable_text(void)
-{
-}
-
-
-void disable_text(void)
-{
-}
-
-
-
 void video_full_screen_colours(void)
 {
   char *sdata, *limit;
