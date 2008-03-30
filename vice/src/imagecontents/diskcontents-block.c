@@ -43,9 +43,6 @@
 #include "vdrive.h"
 
 
-/* Argh!  Really ugly!  FIXME!  */
-extern char const *slot_type[];
-
 /* This code is used to check whether the directory is circular.  It should
    be replaced by a more simple check that just stops if the number of
    entries is bigger than expected, but this needs some support in `vdrive.c'
@@ -163,7 +160,7 @@ image_contents_t *diskcontents_block_read(const char *file_name,
 
                 sprintf((char *)new_list->type, "%c%s%c",
                         (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_CLOSED ? ' ' : '*'),
-                        slot_type[p[SLOT_TYPE_OFFSET] & 0x07],
+                        cbmdos_filetype_get(p[SLOT_TYPE_OFFSET] & 0x07),
                         (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_LOCKED ? '<' : ' '));
 
                 new_list->next = NULL;

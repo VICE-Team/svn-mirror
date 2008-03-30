@@ -63,11 +63,6 @@
 
 static log_t vdrive_log = LOG_ERR;
 
-/* PC64 files need this too */
-char const *slot_type[] = {
-    "DEL", "SEQ", "PRG", "USR", "REL", "CBM", "DJJ", "FAB"
-};
-
 static void vdrive_set_disk_geometry(vdrive_t *vdrive);
 
 

@@ -81,6 +81,10 @@ static const cbmdos_errortext_t cbmdos_error_messages[] =
     { 255, NULL }
 };
 
+static const char *cbmdos_ft[] = {
+    "DEL", "SEQ", "PRG", "USR", "REL", "CBM"
+};
+
 
 const char *cbmdos_errortext(unsigned int code)
 {
@@ -94,6 +98,14 @@ const char *cbmdos_errortext(unsigned int code)
         return cbmdos_error_messages[count].text;
 
     return "UNKNOWN ERROR NUMBER";
+}
+
+const char *cbmdos_filetype_get(unsigned int filetype)
+{
+   if (filetype > 5)
+       return NULL;
+
+   return cbmdos_ft[filetype];
 }
 
 unsigned int cbmdos_parse_wildcard_check(const char *name, unsigned int len)

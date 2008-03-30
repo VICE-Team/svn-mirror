@@ -52,8 +52,6 @@
 
 static log_t vdrive_dir_log = LOG_ERR;
 
-extern char *slot_type[]; /* FIXME: Away with this!  */
-
 
 void vdrive_dir_init(void)
 {
@@ -477,7 +475,7 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
 
             sprintf((char *)l, "%c%s%c%c",
                     (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_CLOSED ? ' ' : '*'),
-                    slot_type[p[SLOT_TYPE_OFFSET] & 0x07],
+                    cbmdos_filetype_get(p[SLOT_TYPE_OFFSET] & 0x07),
                     (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_LOCKED ? '<' : ' '),
                     0);
             l += 5;
