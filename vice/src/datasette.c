@@ -226,7 +226,7 @@ void datasette_reset_counter(void)
                                (sqrt((current_image->cycle_counter
                                / (datasette_cycles_per_second / 8.0)
                                * ds_c1) + ds_c2)- ds_c3))) % 1000;
-                               datasette_update_ui_counter();
+    datasette_update_ui_counter();
 }
 
 
