@@ -106,7 +106,7 @@ static int set_system_path(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "Directory", RES_STRING, (resource_value_t)"$$",
-      (resource_value_t *) &system_path, set_system_path, NULL },
+      (resource_value_t *)&system_path, set_system_path, NULL },
     { NULL },
 };
 
@@ -137,6 +137,11 @@ void sysfile_shutdown(void)
 int sysfile_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void sysfile_resources_shutdown(void)
+{
+    lib_free(system_path);
 }
 
 int sysfile_cmdline_options_init(void)
