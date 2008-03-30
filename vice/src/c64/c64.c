@@ -94,7 +94,7 @@
 
 const char machine_name[] = "C64";
 
-static void vsync_hook(void);
+static void machine_vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
@@ -220,12 +220,12 @@ int machine_init_cmdline_options(void)
 {
     if (vsid_mode) {
         if (sound_init_cmdline_options() < 0
-	    || sid_init_cmdline_options() < 0
-	    || psid_init_cmdline_options() < 0
-	    )
-	    return -1;
+            || sid_init_cmdline_options() < 0
+            || psid_init_cmdline_options() < 0
+            )
+            return -1;
 
-	return 0;
+        return 0;
     }
 
     if (traps_init_cmdline_options() < 0
@@ -252,7 +252,7 @@ int machine_init_cmdline_options(void)
         || drive_init_cmdline_options() < 0
         || datasette_init_cmdline_options() < 0
         || cartridge_init_cmdline_options() < 0
-	)
+        )
         return -1;
 
     return 0;
@@ -267,7 +267,7 @@ void c64_monitor_init(void)
 
     asmarray[0] = &asm6502;
     asmarray[1] = NULL;
-    
+
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
                  drive1_monitor_interface_ptr, asmarray);
@@ -283,15 +283,15 @@ int machine_init(void)
 
     if (vsid_mode)
     {
-	mem_powerup();
+        mem_powerup();
 
-	psid_init_driver();
+        psid_init_driver();
 
-	/* Initialize the VIC-II emulation.  */
-	/*
-	if (vic_ii_init() == NULL)
-	    return -1;
-	*/
+        /* Initialize the VIC-II emulation.  */
+        /*
+        if (vic_ii_init() == NULL)
+            return -1;
+        */
     }
 
     if (!vsid_mode)
@@ -361,7 +361,7 @@ int machine_init(void)
 
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
-    vsync_init(vsync_hook);
+    vsync_init(machine_vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
@@ -429,8 +429,8 @@ void machine_specific_reset(void)
     if (vsid_mode)
     {
         psid_init_driver();
-	psid_init_tune();
-	return;
+        psid_init_tune();
+        return;
     }
 
     autostart_reset();
@@ -469,7 +469,7 @@ void machine_handle_pending_alarms(int num_write_cycles)
 /* ------------------------------------------------------------------------- */
 
 /* This hook is called at the end of every frame.  */
-static void vsync_hook(void)
+static void machine_vsync_hook(void)
 {
     CLOCK sub;
 
@@ -477,14 +477,13 @@ static void vsync_hook(void)
         unsigned int playtime;
         static unsigned int time=0;
 
-        playtime = (psid_increment_frames() * cycles_per_rfsh) / cycles_per_sec;
-        if (playtime!=time)
+        playtime = (psid_increment_frames() * cycles_per_rfsh) / cycles_per_sec;        if (playtime!=time)
         {
             vsid_ui_display_time(playtime);
             time=playtime;
         }
         clk_guard_prevent_overflow(&maincpu_clk_guard);
-	return;
+        return;
     }
 
     drive_vsync_hook();
@@ -530,7 +529,7 @@ void machine_change_timing(int timeval)
         break;
       case DRIVE_SYNC_NTSCOLD:
         cycles_per_sec = C64_NTSCOLD_CYCLES_PER_SEC;
-	cycles_per_rfsh = C64_NTSCOLD_CYCLES_PER_RFSH;
+        cycles_per_rfsh = C64_NTSCOLD_CYCLES_PER_RFSH;
         rfsh_per_sec = C64_NTSCOLD_RFSH_PER_SEC;
         break;
       default:
@@ -617,34 +616,34 @@ fail:
     return -1;
 }
 
-
 /* ------------------------------------------------------------------------- */
+
 int machine_autodetect_psid(const char *name)
 {
-  if (name == NULL) {
-      return -1;
-  }
+    if (name == NULL) {
+        return -1;
+    }
 
-  return psid_load_file(name);
+    return psid_load_file(name);
 }
 
 void machine_play_psid(int tune)
 {
-  psid_set_tune(tune);
+    psid_set_tune(tune);
 }
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
-  if (wn == 0)
-      return vic_ii_screenshot(screenshot);
-  return -1;
+    if (wn == 0)
+        return vic_ii_screenshot(screenshot);
+    return -1;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
 {
-  if (canvas == vic_ii_get_canvas())
-      return vic_ii_screenshot(screenshot);
-  return -1;
+    if (canvas == vic_ii_get_canvas())
+        return vic_ii_screenshot(screenshot);
+    return -1;
 }
 
 void machine_video_refresh(void)

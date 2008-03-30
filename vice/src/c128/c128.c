@@ -92,7 +92,7 @@
 #include "mouse.h"
 #endif
 
-static void vsync_hook(void);
+static void machine_vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
@@ -102,46 +102,46 @@ int machine_class = VICE_MACHINE_C128;
 
 static trap_t c128_serial_traps[] = {
     {
-	"SerialListen",
-	0xE355,
-	0xE5BA,
-	{0x20, 0x73, 0xE5},
-	serialattention
+        "SerialListen",
+        0xE355,
+        0xE5BA,
+        {0x20, 0x73, 0xE5},
+        serialattention
     },
     {
-	"SerialSaListen",
-	0xE37C,
-	0xE5BA,
-	{0x20, 0x73, 0xE5},
-	serialattention
+        "SerialSaListen",
+        0xE37C,
+        0xE5BA,
+        {0x20, 0x73, 0xE5},
+        serialattention
     },
     {
-	"SerialSendByte",
-	0xE38C,
-	0xE5BA,
-	{0x20, 0x73, 0xE5},
-	serialsendbyte
+        "SerialSendByte",
+        0xE38C,
+        0xE5BA,
+        {0x20, 0x73, 0xE5},
+        serialsendbyte
     },
     {
-	"SerialReceiveByte",
-	0xE43E,
-	0xE5BA,
-	{0x20, 0x73, 0xE5},
-	serialreceivebyte
+        "SerialReceiveByte",
+        0xE43E,
+        0xE5BA,
+        {0x20, 0x73, 0xE5},
+        serialreceivebyte
     },
     {
-	"Serial ready",
-	0xE569,
-	0xE572,
-	{0xAD, 0x00, 0xDD},
-	trap_serial_ready
+        "Serial ready",
+        0xE569,
+        0xE572,
+        {0xAD, 0x00, 0xDD},
+        trap_serial_ready
     },
     {
-	"Serial ready",
-	0xE4F5,
-	0xE572,
-	{0xAD, 0x00, 0xDD},
-	trap_serial_ready
+        "Serial ready",
+        0xE4F5,
+        0xE572,
+        {0xAD, 0x00, 0xDD},
+        trap_serial_ready
     },
 
     { NULL }
@@ -277,7 +277,7 @@ int machine_init(void)
     maincpu_init();
 
     if (mem_load() < 0)
-	return -1;
+        return -1;
 
     if (z80mem_load() < 0)
         return -1;
@@ -344,7 +344,7 @@ int machine_init(void)
 
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
-    vsync_init(vsync_hook);
+    vsync_init(machine_vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
@@ -420,7 +420,7 @@ void machine_shutdown(void)
     tape_detach_image();
 
     console_close_all();
-    
+
     /* close the video chip(s) */
     vic_ii_free();
     vdc_free();
@@ -434,7 +434,7 @@ void machine_handle_pending_alarms(int num_write_cycles)
 /* ------------------------------------------------------------------------- */
 
 /* This hook is called at the end of every frame.  */
-static void vsync_hook(void)
+static void machine_vsync_hook(void)
 {
     CLOCK sub;
 
@@ -556,11 +556,11 @@ fail:
     return -1;
 }
 
-
 /* ------------------------------------------------------------------------- */
+
 int machine_autodetect_psid(const char *name)
 {
-  return -1;
+    return -1;
 }
 
 void machine_play_psid(int tune)
@@ -569,11 +569,11 @@ void machine_play_psid(int tune)
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
-  if (wn == 0)
-      return vdc_screenshot(screenshot);
-  if (wn == 1)
-      return vic_ii_screenshot(screenshot);
-  return -1;
+    if (wn == 0)
+        return vdc_screenshot(screenshot);
+    if (wn == 1)
+        return vic_ii_screenshot(screenshot);
+    return -1;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)

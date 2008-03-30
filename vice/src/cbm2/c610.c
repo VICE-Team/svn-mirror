@@ -79,9 +79,9 @@
 #include "rs232.h"
 #endif
 
-#define C500_POWERLINE_CYCLES_PER_IRQ	(C500_PAL_CYCLES_PER_RFSH)
+#define C500_POWERLINE_CYCLES_PER_IRQ   (C500_PAL_CYCLES_PER_RFSH)
 
-static void vsync_hook(void);
+static void machine_vsync_hook(void);
 
 static long cbm2_cycles_per_sec = C610_PAL_CYCLES_PER_SEC;
 static double cbm2_rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
@@ -116,7 +116,7 @@ int cbm2_is_c500 (void)
 int machine_init_resources(void)
 {
     if (traps_init_resources() < 0
-	|| vsync_init_resources() < 0
+        || vsync_init_resources() < 0
         || video_init_resources() < 0
         || c610_mem_init_resources() < 0
         || crtc_init_resources() < 0
@@ -133,7 +133,7 @@ int machine_init_resources(void)
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
         || pet_kbd_init_resources() < 0
-	)
+        )
         return -1;
     return 0;
 }
@@ -142,7 +142,7 @@ int machine_init_resources(void)
 int machine_init_cmdline_options(void)
 {
     if (traps_init_cmdline_options() < 0
-	|| vsync_init_cmdline_options() < 0
+        || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
         || c610_mem_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
@@ -159,7 +159,7 @@ int machine_init_cmdline_options(void)
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
         || pet_kbd_init_cmdline_options() < 0
-	)
+        )
         return -1;
 
     return 0;
@@ -200,9 +200,9 @@ static void c500_powerline_clk_overflow_callback(CLOCK sub, void *data)
 
 static void cbm2_crtc_signal(unsigned int signal) {
     if (signal) {
-	SIGNAL_VERT_BLANK_ON
+        SIGNAL_VERT_BLANK_ON
     } else {
-	SIGNAL_VERT_BLANK_OFF
+        SIGNAL_VERT_BLANK_OFF
     }
 }
 
@@ -262,21 +262,21 @@ int machine_init(void)
     } else {
         /* Initialize the VIC-II emulation.  */
         if (vic_ii_init() == NULL)
-	    return -1;
+            return -1;
 
-	/*
-	c500_set_phi1_bank(15);
-	c500_set_phi2_bank(15);
-	*/
+        /*
+        c500_set_phi1_bank(15);
+        c500_set_phi2_bank(15);
+        */
 
         alarm_init (&c500_powerline_clk_alarm, &maincpu_alarm_context,
                 "C500PowerlineClk", c500_powerline_clk_alarm_handler);
         clk_guard_add_callback(&maincpu_clk_guard,
-				c500_powerline_clk_overflow_callback, NULL);
+                                c500_powerline_clk_overflow_callback, NULL);
 
- 	cbm2_cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
-	cbm2_rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
-	cbm2_cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
+        cbm2_cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
+        cbm2_rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
+        cbm2_cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
     }
 
     ciat_init_table();
@@ -299,7 +299,7 @@ int machine_init(void)
 
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(cbm2_rfsh_per_sec, cbm2_cycles_per_sec);
-    vsync_init(vsync_hook);
+    vsync_init(machine_vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
@@ -330,7 +330,7 @@ void machine_specific_reset(void)
         crtc_reset();
     } else {
         c500_powerline_clk = clk + C500_POWERLINE_CYCLES_PER_IRQ;
-	alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
+        alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
         vic_ii_reset();
     }
     print_reset();
@@ -374,11 +374,10 @@ void machine_handle_pending_alarms(int num_write_cycles)
 {
 }
 
-
 /* ------------------------------------------------------------------------- */
 
 /* This hook is called at the end of every frame.  */
-static void vsync_hook(void)
+static void machine_vsync_hook(void)
 {
     CLOCK sub;
 
@@ -398,7 +397,7 @@ static void vsync_hook(void)
 /* Dummy - no restore key.  */
 int machine_set_restore_key(int v)
 {
-    return 0;	/* key not used -> lookup in keymap */
+    return 0;   /* key not used -> lookup in keymap */
 }
 
 /* ------------------------------------------------------------------------- */
@@ -448,7 +447,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || drive_write_snapshot_module(s, save_disks, save_roms) < 0
         || (isC500 && vic_ii_write_snapshot_module(s) < 0)
         || (isC500 && c500_write_snapshot_module(s) < 0)
-	) {
+        ) {
         snapshot_close(s);
         util_remove_file(name);
         return -1;
@@ -488,9 +487,9 @@ int machine_read_snapshot(const char *name)
         || tpi1_read_snapshot_module(s) < 0
         || tpi2_read_snapshot_module(s) < 0
         || acia1_read_snapshot_module(s) < 0
-	|| sid_read_snapshot_module(s) < 0
+        || sid_read_snapshot_module(s) < 0
         || drive_read_snapshot_module(s) < 0
-	)
+        )
         goto fail;
 
     return 0;
@@ -502,11 +501,11 @@ fail:
     return -1;
 }
 
-
 /* ------------------------------------------------------------------------- */
+
 int machine_autodetect_psid(const char *name)
 {
-  return -1;
+    return -1;
 }
 
 void machine_play_psid(int tune)
@@ -515,20 +514,20 @@ void machine_play_psid(int tune)
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
-  if (wn == 0)
-      return crtc_screenshot(screenshot);
-  if (wn == 1)
-      return vic_ii_screenshot(screenshot);
-  return -1;
+    if (wn == 0)
+        return crtc_screenshot(screenshot);
+    if (wn == 1)
+        return vic_ii_screenshot(screenshot);
+    return -1;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
 {
-  if (canvas == vic_ii_get_canvas())
-      return vic_ii_screenshot(screenshot);
-  if (canvas == crtc_get_canvas())
-      return crtc_screenshot(screenshot);
-  return -1;
+    if (canvas == vic_ii_get_canvas())
+        return vic_ii_screenshot(screenshot);
+    if (canvas == crtc_get_canvas())
+        return crtc_screenshot(screenshot);
+    return -1;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -591,7 +590,7 @@ void machine_video_refresh(void)
     if (isC500) {
         vic_ii_video_refresh();
     } else {
-	crtc_video_refresh();
+        crtc_video_refresh();
     }
 }
 

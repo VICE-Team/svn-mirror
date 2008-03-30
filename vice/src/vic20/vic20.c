@@ -78,7 +78,7 @@
 #include "vic20rsuser.h"
 #endif
 
-static void vsync_hook(void);
+static void machine_vsync_hook(void);
 
 const char machine_name[] = "VIC20";
 
@@ -89,39 +89,39 @@ int machine_class = VICE_MACHINE_VIC20;
 /* VIC20 Traps */
 static trap_t vic20_serial_traps[] = {
     {
-	"SerialListen",
-	0xEE2E,
+        "SerialListen",
+        0xEE2E,
         0xEEB2,
-	{0x20, 0xA0, 0xE4},
-	serialattention
+        {0x20, 0xA0, 0xE4},
+        serialattention
     },
     {
-	"SerialSaListen",
-	0xEE40,
+        "SerialSaListen",
+        0xEE40,
         0xEEB2,
-	{0x20, 0x8D, 0xEF},
-	serialattention
+        {0x20, 0x8D, 0xEF},
+        serialattention
     },
     {
-	"SerialSendByte",
-	0xEE49,
+        "SerialSendByte",
+        0xEE49,
         0xEEB2,
-	{0x78, 0x20, 0xA0},
-	serialsendbyte
+        {0x78, 0x20, 0xA0},
+        serialsendbyte
     },
     {
-	"SerialReceiveByte",
-	0xEF19,
+        "SerialReceiveByte",
+        0xEF19,
         0xEEB2,
-	{0x78, 0xA9, 0x00},
-	serialreceivebyte
+        {0x78, 0xA9, 0x00},
+        serialreceivebyte
     },
     {
-	"SerialReady",
-	0xE4B2,
+        "SerialReady",
+        0xE4B2,
         0xEEB2,
-	{0xAD, 0x1F, 0x91},
-	trap_serial_ready
+        {0xAD, 0x1F, 0x91},
+        trap_serial_ready
     },
     {
         NULL,
@@ -294,7 +294,7 @@ int machine_init(void)
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(VIC20_PAL_RFSH_PER_SEC,
                                 VIC20_PAL_CYCLES_PER_SEC);
-    vsync_init(vsync_hook);
+    vsync_init(machine_vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
@@ -364,7 +364,7 @@ int rom_trap_allowed(ADDRESS addr)
 /* ------------------------------------------------------------------------- */
 
 /* This hook is called at the end of every frame.  */
-static void vsync_hook(void)
+static void machine_vsync_hook(void)
 {
     CLOCK sub;
 
@@ -386,7 +386,6 @@ int machine_set_restore_key(int v)
     via2_signal(VIA_SIG_CA1, v ? VIA_SIG_FALL : VIA_SIG_RISE);
     return 1;
 }
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -432,12 +431,12 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 
     resources_get_value("IEEE488", (resource_value_t*) &ieee488);
     if (ieee488) {
-	if (ieeevia1_write_snapshot_module(s) < 0
-	    || ieeevia2_write_snapshot_module(s) < 0) {
-	    snapshot_close(s);
-	    util_remove_file(name);
-	    return 1;
-	}
+        if (ieeevia1_write_snapshot_module(s) < 0
+            || ieeevia2_write_snapshot_module(s) < 0) {
+            snapshot_close(s);
+            util_remove_file(name);
+            return 1;
+        }
     }
 
     snapshot_close(s);
@@ -470,11 +469,11 @@ int machine_read_snapshot(const char *name)
         goto fail;
 
     if (ieeevia1_read_snapshot_module(s) < 0
-	|| ieeevia2_read_snapshot_module(s) < 0) {
-	/* IEEE488 module not undumped */
-	resources_set_value("IEEE488", (resource_value_t) 0);
+        || ieeevia2_read_snapshot_module(s) < 0) {
+        /* IEEE488 module not undumped */
+        resources_set_value("IEEE488", (resource_value_t) 0);
     } else {
-	resources_set_value("IEEE488", (resource_value_t) 1);
+        resources_set_value("IEEE488", (resource_value_t) 1);
     }
 
     snapshot_close(s);
@@ -491,7 +490,7 @@ fail:
 /* ------------------------------------------------------------------------- */
 int machine_autodetect_psid(const char *name)
 {
-  return -1;
+    return -1;
 }
 
 void machine_play_psid(int tune)
@@ -500,19 +499,20 @@ void machine_play_psid(int tune)
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
-  if (wn == 0)
-      return vic_screenshot(screenshot);
-  return -1;
+    if (wn == 0)
+        return vic_screenshot(screenshot);
+    return -1;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
 {
-  if (canvas == vic_get_canvas())
-      return vic_screenshot(screenshot);
-  return -1;
+    if (canvas == vic_get_canvas())
+        return vic_screenshot(screenshot);
+    return -1;
 }
 
-void machine_video_refresh(void) {
+void machine_video_refresh(void)
+{
      vic_video_refresh();
 }
 

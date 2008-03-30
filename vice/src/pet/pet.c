@@ -81,10 +81,10 @@
 #include "rs232.h"
 #endif
 
-static void vsync_hook(void);
+static void machine_vsync_hook(void);
 
-static long 	pet_cycles_per_rfsh 	= PET_PAL_CYCLES_PER_RFSH;
-static double	pet_rfsh_per_sec 	= PET_PAL_RFSH_PER_SEC;
+static long     pet_cycles_per_rfsh     = PET_PAL_CYCLES_PER_RFSH;
+static double   pet_rfsh_per_sec        = PET_PAL_RFSH_PER_SEC;
 
 static log_t pet_log = LOG_ERR;
 
@@ -142,7 +142,7 @@ int machine_init_resources(void)
 #endif
 
     if (traps_init_resources() < 0
-	|| vsync_init_resources() < 0
+        || vsync_init_resources() < 0
         || video_init_resources() < 0
         || pet_mem_init_resources() < 0
         || crtc_init_resources() < 0
@@ -152,13 +152,13 @@ int machine_init_resources(void)
         || datasette_init_resources() < 0
         || acia1_init_resources() < 0
 #ifdef HAVE_RS232
-	|| rs232_init_resources() < 0
+        || rs232_init_resources() < 0
 #endif
         || print_init_resources() < 0
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
         || pet_kbd_init_resources() < 0
-	)
+        )
         return -1;
 
     return 0;
@@ -173,7 +173,7 @@ int machine_init_cmdline_options(void)
 #endif
 
     if (traps_init_cmdline_options() < 0
-	|| vsync_init_cmdline_options() < 0
+        || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
         || pet_mem_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
@@ -183,13 +183,13 @@ int machine_init_cmdline_options(void)
         || datasette_init_cmdline_options() < 0
         || acia1_init_cmdline_options() < 0
 #ifdef HAVE_RS232
-	|| rs232_init_cmdline_options() < 0
+        || rs232_init_cmdline_options() < 0
 #endif
         || print_init_cmdline_options() < 0
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
         || pet_kbd_init_cmdline_options() < 0
-	)
+        )
         return -1;
 
     return 0;
@@ -203,9 +203,9 @@ int machine_init_cmdline_options(void)
 
 static void pet_crtc_signal(unsigned int signal) {
     if (signal) {
-	SIGNAL_VERT_BLANK_ON
+        SIGNAL_VERT_BLANK_ON
     } else {
-	SIGNAL_VERT_BLANK_OFF
+        SIGNAL_VERT_BLANK_OFF
     }
 }
 
@@ -232,7 +232,7 @@ int machine_init(void)
     if (pet_log == LOG_ERR)
         pet_log = log_open("PET");
 
-    pet_init_ok = 1;	/* used in pet_set_model() */
+    pet_init_ok = 1;    /* used in pet_set_model() */
 
     maincpu_init();
 
@@ -288,7 +288,7 @@ int machine_init(void)
 
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC);
-    vsync_init(vsync_hook);
+    vsync_init(machine_vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
@@ -351,7 +351,7 @@ void machine_shutdown(void)
 /* ------------------------------------------------------------------------- */
 
 /* This hook is called at the end of every frame.  */
-static void vsync_hook(void)
+static void machine_vsync_hook(void)
 {
     CLOCK sub;
 
@@ -371,7 +371,7 @@ static void vsync_hook(void)
 /* Dummy - no restore key.  */
 int machine_set_restore_key(int v)
 {
-    return 0;	/* key not used -> lookup in keymap */
+    return 0;   /* key not used -> lookup in keymap */
 }
 
 /* ------------------------------------------------------------------------- */
@@ -394,7 +394,7 @@ void machine_set_cycles_per_frame(long cpf) {
     pet_rfsh_per_sec = ((double) PET_PAL_CYCLES_PER_SEC) / ((double) cpf);
 
     log_message(pet_log, "cycles per frame set to %ld, refresh to %f",
-		cpf, pet_rfsh_per_sec);
+                cpf, pet_rfsh_per_sec);
 
     vsync_set_machine_parameter(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC);
 
@@ -427,12 +427,12 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || pia2_write_snapshot_module(s) < 0
         || via_write_snapshot_module(s) < 0
         || drive_write_snapshot_module(s, save_disks, save_roms) < 0
-	) {
-	ef = -1;
+        ) {
+        ef = -1;
     }
 
     if ((!ef) && petres.superpet) {
-	ef = acia1_write_snapshot_module(s);
+        ef = acia1_write_snapshot_module(s);
     }
 
     snapshot_close(s);
@@ -462,19 +462,19 @@ int machine_read_snapshot(const char *name)
     }
 
     if (ef
-	|| maincpu_read_snapshot_module(s) < 0
+        || maincpu_read_snapshot_module(s) < 0
         || mem_read_snapshot_module(s) < 0
         || crtc_read_snapshot_module(s) < 0
         || pia1_read_snapshot_module(s) < 0
         || pia2_read_snapshot_module(s) < 0
         || via_read_snapshot_module(s) < 0
         || drive_read_snapshot_module(s) < 0
-	) {
-	ef = -1;
+        ) {
+        ef = -1;
     }
 
     if (!ef) {
-	acia1_read_snapshot_module(s);	/* optional, so no error check */
+        acia1_read_snapshot_module(s);  /* optional, so no error check */
     }
 
     snapshot_close(s);
@@ -490,7 +490,7 @@ int machine_read_snapshot(const char *name)
 
 int machine_autodetect_psid(const char *name)
 {
-  return -1;
+    return -1;
 }
 
 void machine_play_psid(int tune)
@@ -522,7 +522,7 @@ void pet_crtc_set_screen(void)
     if(cols == 40) vmask = 0x3ff;
 /*
     log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)",
-		vmask, cols, petres.crtc);
+                vmask, cols, petres.crtc);
 */
 /*
     crtc_set_screen_mode(ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
@@ -534,33 +534,33 @@ void pet_crtc_set_screen(void)
 
     /* No CRTC -> assume 40 columns */
     if(!petres.crtc) {
-	crtc_store(0,13); crtc_store(1,0);
-	crtc_store(0,12); crtc_store(1,0x10);
-	crtc_store(0,9); crtc_store(1,7);
-	crtc_store(0,8); crtc_store(1,0);
-	crtc_store(0,7); crtc_store(1,29);
-	crtc_store(0,6); crtc_store(1,25);
-	crtc_store(0,5); crtc_store(1,16);
-	crtc_store(0,4); crtc_store(1,32);
-	crtc_store(0,3); crtc_store(1,8);
-	crtc_store(0,2); crtc_store(1,50);
-	crtc_store(0,1); crtc_store(1,40);
-	crtc_store(0,0); crtc_store(1,63);
+        crtc_store(0,13); crtc_store(1,0);
+        crtc_store(0,12); crtc_store(1,0x10);
+        crtc_store(0,9); crtc_store(1,7);
+        crtc_store(0,8); crtc_store(1,0);
+        crtc_store(0,7); crtc_store(1,29);
+        crtc_store(0,6); crtc_store(1,25);
+        crtc_store(0,5); crtc_store(1,16);
+        crtc_store(0,4); crtc_store(1,32);
+        crtc_store(0,3); crtc_store(1,8);
+        crtc_store(0,2); crtc_store(1,50);
+        crtc_store(0,1); crtc_store(1,40);
+        crtc_store(0,0); crtc_store(1,63);
     }
 }
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
-  if (wn == 0)
-      return crtc_screenshot(screenshot);
-  return -1;
+    if (wn == 0)
+        return crtc_screenshot(screenshot);
+    return -1;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
 {
-  if (canvas == crtc_get_canvas())
-      return crtc_screenshot(screenshot);
-  return -1;
+    if (canvas == crtc_get_canvas())
+        return crtc_screenshot(screenshot);
+    return -1;
 }
 
 void machine_video_refresh(void)
