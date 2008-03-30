@@ -18,15 +18,18 @@ libpet_a_SOURCES = \
 	petacia1.def \
 	petmem.c \
 	petmem.h \
+	petpia.h \
+	petpia1.c \
+	petpia1.def \
+	petpia2.c \
+	petpia2.def \
 	pets.c \
 	pets.h \
 	petsound.c \
 	petsound.h \
 	petvia.c \
 	petvia.def \
-	petvia.h \
-	pia.c \
-	pia.h
+	petvia.h
 
 BUILT_SOURCES = petvia.c petacia1.c crtc.c
 
@@ -38,6 +41,22 @@ petvia.c: petvia.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	           $(top_srcdir)/src/via-tmpl.c \
 	           $(petdir)/petvia.def $(petdir)/petvia.c; \
+	   fi )
+
+petpia1.c: petpia1.def $(top_srcdir)/src/pia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`petpia1.c'..."; \
+	   if [ -s $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/pia-tmpl.c \
+	           $(petdir)/petpia1.def $(petdir)/petpia1.c; \
+	   fi )
+
+petpia2.c: petpia2.def $(top_srcdir)/src/pia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`petpia2.c'..."; \
+	   if [ -s $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/pia-tmpl.c \
+	           $(petdir)/petpia2.def $(petdir)/petpia2.c; \
 	   fi )
 
 petacia1.c: petacia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio

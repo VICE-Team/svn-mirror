@@ -361,6 +361,8 @@ int pet_ui_init(void)
                                     ui_menu_separator,
                                     ui_directory_commands_menu,
                                     ui_menu_separator,
+                                    ui_snapshot_commands_menu,
+                                    ui_menu_separator,
                                     ui_tool_commands_menu,
                                     ui_menu_separator,
                                     ui_help_commands_menu,

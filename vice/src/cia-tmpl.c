@@ -83,9 +83,10 @@
 #include "resources.h"
 #include "snapshot.h"
 
+#include "interrupt.h"
+
 INCLUDES
 
-#include "interrupt.h"
 
 #undef MYCIA_TIMER_DEBUG
 #undef MYCIA_IO_DEBUG
@@ -1363,9 +1364,6 @@ printf("MYCIA: write myciaint=%02x, myciaier=%02x\n", myciaint, myciaier);
     snapshot_module_write_dword(m, (mycpu_int_status.alarm_clk[A_MYCIATOD]
                                     - myclk));
 
-    snapshot_module_write_byte(m, (get_int(&mycpu_int_status, I_MYCIAFL)
-                                   ? 0xff : 0x00));
-
     snapshot_module_close(m);
 
     return 0;
@@ -1381,14 +1379,6 @@ int mycia_read_snapshot_module(snapshot_t *p)
     CLOCK rclk = myclk;
     snapshot_module_t *m;
 
-    /* stop timers, just in case */
-    mycia_tas = CIAT_STOPPED;
-    mycia_tau = 0;
-    my_unset_tai();
-    mycia_tbs = CIAT_STOPPED;
-    mycia_tbu = 0;
-    my_unset_tbi();
-
     m = snapshot_module_open(p, "MYCIA", &vmajor, &vminor);
     if (m == NULL)
         return -1;
@@ -1397,6 +1387,15 @@ int mycia_read_snapshot_module(snapshot_t *p)
         snapshot_module_close(m);
         return -1;
     }
+
+    /* stop timers, just in case */
+    mycia_tas = CIAT_STOPPED;
+    mycia_tau = 0;
+    my_unset_tai();
+    mycia_tbs = CIAT_STOPPED;
+    mycia_tbu = 0;
+    my_unset_tbi();
+    mycpu_unset_alarm(A_MYCIATOD);
 
     {
         snapshot_module_read_byte(m, &mycia[CIA_PRA]);
@@ -1515,8 +1514,7 @@ printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",mycia_tai, mycia_tau, mycia_tac, m
 printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, mycia_tbl);
 #endif
 
-    snapshot_module_read_byte(m, &byte);
-    if (byte) {
+    if (mycia[CIA_ICR] & 0x80) {
         set_int_noclk(&mycpu_int_status, I_MYCIAFL, MYCIA_INT);
     } else {
         set_int_noclk(&mycpu_int_status, I_MYCIAFL, 0);

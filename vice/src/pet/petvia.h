@@ -37,4 +37,7 @@ int int_viat1(long offset);
 int int_viat2(long offset);
 void via_prevent_clk_overflow(CLOCK sub);
 
+extern int via_read_snapshot_module(snapshot_t *);
+extern int via_write_snapshot_module(snapshot_t *);
+
 #endif

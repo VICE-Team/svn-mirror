@@ -36,7 +36,7 @@
 #include "types.h"
 #include "memutils.h"
 #include "snapshot.h"
-#include "pia.h"
+#include "petpia.h"
 #include "pet.h"
 #include "petvia.h"
 #include "petacia.h"
@@ -1279,7 +1279,7 @@ int mem_write_snapshot_module(snapshot_t *p)
     snapshot_module_t *m;
     BYTE config, memsize, conf8x96, superpet;
 
-    memsize = pet.ramSize >> 10;
+    memsize = pet.ramSize;
     if(memsize > 32) {
 	memsize = 32;
     }

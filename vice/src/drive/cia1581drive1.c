@@ -89,12 +89,13 @@
 #include "resources.h"
 #include "snapshot.h"
 
+#include "interrupt.h"
+
 
 #include "drive.h"
 #include "iecdrive.h"
 #include "ciad.h"
 
-#include "interrupt.h"
 
 #undef CIA1581D1_TIMER_DEBUG
 #undef CIA1581D1_IO_DEBUG
@@ -1400,9 +1401,6 @@ printf("CIA1581D1: write cia1581d1int=%02x, cia1581d1ier=%02x\n", cia1581d1int, 
     snapshot_module_write_dword(m, (drive1_int_status.alarm_clk[A_CIA1581D1TOD]
                                     - drive_clk[1]));
 
-    snapshot_module_write_byte(m, (get_int(&drive1_int_status, I_CIA1581D1FL)
-                                   ? 0xff : 0x00));
-
     snapshot_module_close(m);
 
     return 0;
@@ -1418,14 +1416,6 @@ int cia1581d1_read_snapshot_module(snapshot_t *p)
     CLOCK rclk = drive_clk[1];
     snapshot_module_t *m;
 
-    /* stop timers, just in case */
-    cia1581d1_tas = CIAT_STOPPED;
-    cia1581d1_tau = 0;
-    my_unset_tai();
-    cia1581d1_tbs = CIAT_STOPPED;
-    cia1581d1_tbu = 0;
-    my_unset_tbi();
-
     m = snapshot_module_open(p, "CIA1581D1", &vmajor, &vminor);
     if (m == NULL)
         return -1;
@@ -1434,6 +1424,15 @@ int cia1581d1_read_snapshot_module(snapshot_t *p)
         snapshot_module_close(m);
         return -1;
     }
+
+    /* stop timers, just in case */
+    cia1581d1_tas = CIAT_STOPPED;
+    cia1581d1_tau = 0;
+    my_unset_tai();
+    cia1581d1_tbs = CIAT_STOPPED;
+    cia1581d1_tbu = 0;
+    my_unset_tbi();
+    drive1_unset_alarm(A_CIA1581D1TOD);
 
     {
         snapshot_module_read_byte(m, &cia1581d1[CIA_PRA]);
@@ -1554,8 +1553,7 @@ printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1581d1_tai, cia1581d1_tau, cia1
 printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1581d1_tbi, cia1581d1_tbu, cia1581d1_tbc, cia1581d1_tbl);
 #endif
 
-    snapshot_module_read_byte(m, &byte);
-    if (byte) {
+    if (cia1581d1[CIA_ICR] & 0x80) {
         set_int_noclk(&drive1_int_status, I_CIA1581D1FL, IK_IRQ);
     } else {
         set_int_noclk(&drive1_int_status, I_CIA1581D1FL, 0);

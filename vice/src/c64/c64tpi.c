@@ -36,13 +36,14 @@
 #include "types.h"
 #include "tpi.h"
 #include "interrupt.h"
+#include "snapshot.h"
 
 
 #include "parallel.h"
 #include "tpi.h"
 
-#define	mycpu_set_int(a,b)
-#define	mycpu_restore_int(a,b)
+#define	mycpu_set_int(a,b)		do {} while(0)
+#define	mycpu_restore_int(a,b)		do {} while(0)
 
 #define	TPI_SET_CA(a)
 #define	TPI_SET_CB(a)
@@ -230,7 +231,7 @@ void store_tpi ( ADDRESS addr, BYTE byte ) {
 		    }
 	        }
 	    } else {
-	        byte = tpi[TPI_PC] | tpi[TPI_DDPC];
+	        byte = tpi[TPI_PC] | ~tpi[TPI_DDPC];
 	        
 		oldpc = byte;
 	    }
@@ -286,19 +287,11 @@ BYTE read_tpi ( ADDRESS addr ) {
 		}
 	    }
 	    return byte;
-/*
-	    return ((byte & (tpi[TPI_DDPA]^255))
-				     | (tpi[TPI_PA] & tpi[TPI_DDPA]));
-*/
 	case TPI_PB:
 
 	byte = par_bus;
 	byte = (byte & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
 	    return byte;
-/*
-	    return ((byte & (tpi[TPI_DDPB]^255))
-				     | (tpi[TPI_PB] & tpi[TPI_DDPB]));
-*/
 	case TPI_PC:
 	    if(irq_mode) {
 		return (irq_latches & 0x1f) | (irq_active ? 0x20 : 0) | 0xc0;
@@ -306,10 +299,6 @@ BYTE read_tpi ( ADDRESS addr ) {
 
 	byte = (0xff & ~tpi[TPI_DDPC]) | (tpi[TPI_PC] & tpi[TPI_DDPC]);
 		return byte;
-/*
-	        return  ((byte & (tpi[TPI_DDPC]^255))
-				     | (tpi[TPI_PC] & tpi[TPI_DDPC]));
-*/
 	    }
 	case TPI_AIR:
 	    return push_irq_state();
@@ -367,6 +356,19 @@ void tpi_set_int(int bit, int state)
     }
 }
 
+void tpi_restore_int(int bit, int state)
+{
+    if(bit>=5) return;
+
+    bit = pow2[bit];
+
+    if (state) {
+	irq_previous |= bit;
+    } else {
+	irq_previous &= ~bit;
+    }
+}
+
 
 /* -------------------------------------------------------------------------- */
 
@@ -393,8 +395,9 @@ void tpi_set_int(int bit, int state)
  *
  * UBYTE	STACK	irq sources saved on stack
  * UBYTE	CABSTATE state of CA and CB pins
- * UBYTE	IPREV	previously set interrupt sources
  */
+
+static const char module_name[] = "TPI";
 
 /* FIXME!!!  Error check.  */
 int tpi_write_snapshot_module(snapshot_t *p)
@@ -402,7 +405,7 @@ int tpi_write_snapshot_module(snapshot_t *p)
     snapshot_module_t *m;
     int byte;
 
-    m = snapshot_module_create(p, "TPI",
+    m = snapshot_module_create(p, module_name,
                                TPI_DUMP_VER_MAJOR, TPI_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
@@ -421,8 +424,6 @@ int tpi_write_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, 
 			(ca_state ? 0x80 : 0) | (cb_state ? 0x40 : 0) );
 
-    snapshot_module_write_byte(m, irq_previous);
-
     snapshot_module_close(m);
 
     return 0;
@@ -430,16 +431,17 @@ int tpi_write_snapshot_module(snapshot_t *p)
 
 int tpi_read_snapshot_module(snapshot_t *p)
 {
-    char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
     BYTE byte;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    mycpu_restore_int(I_TPI, 0);  	/* just in case */
+
+    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
-    if (strcmp(name, "TPI") || vmajor != TPI_DUMP_VER_MAJOR) {
+    if (vmajor != TPI_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
         return -1;
     }
@@ -458,10 +460,33 @@ int tpi_read_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte(m, &byte);
     ca_state = byte & 0x80;
     cb_state = byte & 0x40;
+
+    {
+        byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
+
+	{ BYTE tmp = ~byte;
+	    par_set_atn( tmp & 0x08 );
+	    par_set_dav( tmp & 0x10 );
+	    par_set_eoi( tmp & 0x20 );
+	    par_set_ndac( tmp & 0x40 );
+	    par_set_nrfd( tmp & 0x80 );
+	}
+        oldpa = byte;
+
+        byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
+
+	par_set_bus( ~byte );
+        oldpb = byte;
+
+	if (!irq_mode) {
+            byte = tpi[TPI_PC] | ~tpi[TPI_DDPC];
+            
+            oldpc = byte;
+	}
+    }
+
     TPI_SET_CA( ca_state );
     TPI_SET_CA( cb_state );
-
-    snapshot_module_read_byte(m, &irq_previous);
 
     mycpu_restore_int(I_TPI, irq_active ? MYIRQ : 0); 
 

@@ -1,4 +1,4 @@
-/*
+/* -*- C -*-
  * c64tpi.def - IEEE488 interface for the C64.
  *
  * Written by
@@ -33,8 +33,8 @@ INCLUDES()
 #include "parallel.h"
 #include "tpi.h"
 
-#define	mycpu_set_int(a,b)
-#define	mycpu_restore_int(a,b)
+#define	mycpu_set_int(a,b)		do {} while(0)
+#define	mycpu_restore_int(a,b)		do {} while(0)
 
 #define	TPI_SET_CA(a)
 #define	TPI_SET_CB(a)
@@ -84,6 +84,7 @@ UNDUMP_PB()
 }
 
 #define	STORE_PC
+#define	UNDUMP_PC
 
 READ_PA()
 {

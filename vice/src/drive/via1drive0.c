@@ -749,10 +749,9 @@ void via1d0_prevent_clk_overflow(CLOCK sub)
  * The version of this dump description is 0/0
  */
 
+static char snap_module_name[] = "VIA1D0";
 #define VIA_DUMP_VER_MAJOR      0
 #define VIA_DUMP_VER_MINOR      0
-
-static char snap_module_name[] = "VIA1D0";
 
 /*
  * The dump data:
@@ -810,7 +809,7 @@ int via1d0_write_snapshot_module(snapshot_t * p)
 
 						/* FIXME! */
     snapshot_module_write_byte(m, (((via1d0pb7 ^ via1d0pb7x) | via1d0pb7o) ? 0x80 : 0));
-    snapshot_module_write_byte(m, 0);			/* SRHBITS */
+    snapshot_module_write_byte(m, 0);		/* SRHBITS */
 
     snapshot_module_close(m);
 

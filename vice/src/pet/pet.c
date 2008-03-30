@@ -46,7 +46,7 @@
 #include "petui.h"
 #include "petvia.h"
 #include "petacia.h"
-#include "pia.h"
+#include "petpia.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "sound.h"
@@ -130,7 +130,7 @@ int machine_init_resources(void)
         || pet_mem_init_resources() < 0
         || pet_init_resources() < 0
         || crtc_init_resources() < 0
-        || pia_init_resources() < 0
+        || pia1_init_resources() < 0
         || sound_init_resources() < 0
         || acia1_init_resources() < 0
 #ifdef HAVE_RS232
@@ -165,7 +165,7 @@ int machine_init_cmdline_options(void)
         || pet_mem_init_cmdline_options() < 0
         || pet_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
-        || pia_init_cmdline_options() < 0
+        || pia1_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
         || acia1_init_cmdline_options() < 0
 #ifdef HAVE_RS232
@@ -382,12 +382,81 @@ int pet_undump(FILE *p)
 
 /* ------------------------------------------------------------------------- */
 
+#define SNAP_MACHINE_NAME   "PET"
+#define SNAP_MAJOR          0
+#define SNAP_MINOR          0
+
 int machine_write_snapshot(const char *name)
 {
-    return 0;
+    snapshot_t *s;
+    int ef = 0;
+
+    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
+    if (s == NULL) {
+        perror(name);
+        return -1;
+    }
+    if (maincpu_write_snapshot_module(s) < 0
+        || mem_write_snapshot_module(s) < 0
+        || crtc_write_snapshot_module(s) < 0
+        || pia1_write_snapshot_module(s) < 0
+        || pia2_write_snapshot_module(s) < 0
+        || via_write_snapshot_module(s) < 0
+	) {
+	ef = -1;
+    }
+
+    if ((!ef) && pet.superpet) {
+	ef = acia1_write_snapshot_module(s);
+    }
+
+    snapshot_close(s);
+
+    if (ef) {
+	unlink(name);
+    }
+    return ef;
 }
 
 int machine_read_snapshot(const char *name)
 {
-    return 0;
+    snapshot_t *s;
+    BYTE minor, major;
+    int ef = 0;
+
+    s = snapshot_open(name, &major, &minor, SNAP_MACHINE_NAME);
+    if (s == NULL) {
+        return -1;
+    }
+
+    if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
+        printf("Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
+               major, minor, SNAP_MAJOR, SNAP_MINOR);
+        ef = -1;
+    }
+
+    if (ef
+	|| maincpu_read_snapshot_module(s) < 0
+        || mem_read_snapshot_module(s) < 0
+        || crtc_read_snapshot_module(s) < 0
+        || pia1_read_snapshot_module(s) < 0
+        || pia2_read_snapshot_module(s) < 0
+        || via_read_snapshot_module(s) < 0
+	) {
+	ef = -1;
+    }
+
+    if (!ef) {
+	if (acia1_read_snapshot_module(s) < 0) {
+	    reset_acia1();	/* clear interrupts */
+	}
+    }
+
+    snapshot_close(s);
+
+    if (ef) {
+        maincpu_trigger_reset();
+    }
+    return ef;
 }
+

@@ -34,7 +34,6 @@
 
 #include "types.h"
 #include "memutils.h"
-#include "crtc.h"
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "autostart.h"
@@ -45,6 +44,8 @@
 #include "maincpu.h"
 #include "emuid.h"
 #include "utils.h"
+#include "snapshot.h"
+#include "crtc.h"
 #include "c610mem.h"
 #include "c610tpi.h"
 #include "c610acia.h"
@@ -108,7 +109,10 @@ static int set_ramsize(resource_value_t v)
     int rs = (int) v;
     if(rs==128 || rs==256 || rs==512 || rs==1024) {
 	ramsize = rs;
+	suspend_speed_eval();
 	initialize_memory();
+	mem_powerup();
+	maincpu_trigger_reset();
         return 0;
     }
     return -1;
@@ -140,10 +144,12 @@ static char *basic_rom_name = NULL;
 static char *cart_2_name = NULL;
 static char *cart_4_name = NULL;
 static char *cart_6_name = NULL;
+static int cart08_ram = 0;
 static int cart1_ram = 0;
 static int cart2_ram = 0;
 static int cart4_ram = 0;
 static int cart6_ram = 0;
+static int cartC_ram = 0;
 
 /* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
@@ -227,6 +233,13 @@ static int set_cart6_rom_name(resource_value_t v)
     return 0;
 }
 
+static int set_cart08_ram(resource_value_t v)
+{
+    cart08_ram = (int) v;
+    initialize_memory();
+    return 0;
+}
+
 static int set_cart1_ram(resource_value_t v)
 {
     cart1_ram = (int) v;
@@ -255,6 +268,13 @@ static int set_cart6_ram(resource_value_t v)
     return 0;
 }
 
+static int set_cartC_ram(resource_value_t v)
+{
+    cartC_ram = (int) v;
+    initialize_memory();
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static resource_t resources[] = {
@@ -273,6 +293,8 @@ static resource_t resources[] = {
     { "Cart6Name", RES_STRING, (resource_value_t) NULL,
      (resource_value_t *) &cart_6_name, set_cart6_rom_name },
 
+    { "Ram08", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &cart08_ram, set_cart08_ram },
     { "Ram1", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &cart1_ram, set_cart1_ram },
     { "Ram2", RES_INTEGER, (resource_value_t) 0,
@@ -281,6 +303,8 @@ static resource_t resources[] = {
       (resource_value_t *) &cart4_ram, set_cart4_ram },
     { "Ram6", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &cart6_ram, set_cart6_ram },
+    { "RamC", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &cartC_ram, set_cartC_ram },
 
     { "EmuID", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
@@ -312,6 +336,10 @@ static cmdline_option_t cmdline_options[] = {
     { "-cart6", SET_RESOURCE, 1, NULL, NULL, "Cart2Name", NULL,
       "<name>", "Specify name of cartridge ROM image for $6000" },
 
+    { "-ram08", SET_RESOURCE, 0, NULL, NULL, "Ram08", (resource_value_t) 1,
+      NULL, "Enable RAM mapping in $0800-$0FFF" },
+    { "+ram08", SET_RESOURCE, 0, NULL, NULL, "Ram08", (resource_value_t) 0,
+      NULL, "Disable RAM mapping in $0800-$0FFF" },
     { "-ram1", SET_RESOURCE, 0, NULL, NULL, "Ram1", (resource_value_t) 1,
       NULL, "Enable RAM mapping in $1000-$1FFF" },
     { "+ram1", SET_RESOURCE, 0, NULL, NULL, "Ram1", (resource_value_t) 0,
@@ -328,6 +356,10 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Enable RAM mapping in $6000-$7FFF" },
     { "+ram6", SET_RESOURCE, 0, NULL, NULL, "Ram6", (resource_value_t) 0,
       NULL, "Disable RAM mapping in $6000-$7FFF" },
+    { "-ramC", SET_RESOURCE, 0, NULL, NULL, "RamC", (resource_value_t) 1,
+      NULL, "Enable RAM mapping in $C000-$CFFF" },
+    { "+ramC", SET_RESOURCE, 0, NULL, NULL, "RamC", (resource_value_t) 0,
+      NULL, "Disable RAM mapping in $C000-$CFFF" },
 
     { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 1,
       NULL, "Enable emulator identification" },
@@ -617,9 +649,6 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 void REGPARM2 store_io(ADDRESS addr, BYTE value)
 {
     switch(addr & 0xf800) {
-    case 0xc000:
-    case 0xc800:
-	return;				/* unused */
     case 0xd000:
 	store_rom(addr, value);		/* video RAM mapped here... */
 	return;
@@ -667,9 +696,6 @@ BYTE REGPARM1 read_io(ADDRESS addr)
 */
 
     switch (addr & 0xf800) {
-    case 0xc000:
-    case 0xc800:
-	return read_unused(addr);
     case 0xd000:
 	return read_rom(addr);
     case 0xd800:
@@ -785,7 +811,7 @@ void initialize_memory(void)
 	    _mem_write_tab[i][0] = store_zeroX;
 	    break;
 	case 15:
-	    for (j=0;j<0x10;j++) {
+	    for (j=0;j<0x08;j++) {
 		_mem_read_tab[i][j] = read_ram_F;
 		_mem_write_tab[i][j] = store_ram_F;
 		_mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
@@ -794,6 +820,11 @@ void initialize_memory(void)
 		_mem_read_tab[i][j] = read_rom;
 		_mem_write_tab[i][j] = store_dummy;
 		_mem_read_base_tab[i][j] = rom + (j << 8);
+	    }
+	    for (;j<0xd0;j++) {
+		_mem_read_tab[i][j] = read_unused;
+		_mem_write_tab[i][j] = store_dummy;
+		_mem_read_base_tab[i][j] = NULL;
 	    }
 	    for (;j<0xe0;j++) {
 		_mem_read_tab[i][j] = read_io;
@@ -806,6 +837,13 @@ void initialize_memory(void)
 		_mem_read_base_tab[i][j] = rom + (j << 8);
 	    }
 
+	    if(cart08_ram) {
+	        for (j=0x08;j<0x10;j++) {
+		    _mem_read_tab[i][j] = read_ram_F;
+		    _mem_write_tab[i][j] = store_ram_F;
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
+	        }
+	    }
 	    if(cart1_ram) {
 	        for (j=0x10;j<0x20;j++) {
 		    _mem_read_tab[i][j] = read_ram_F;
@@ -829,6 +867,13 @@ void initialize_memory(void)
 	    }
 	    if(cart6_ram) {
 	        for (j=0x60;j<0x80;j++) {
+		    _mem_read_tab[i][j] = read_ram_F;
+		    _mem_write_tab[i][j] = store_ram_F;
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
+	        }
+	    }
+	    if(cartC_ram) {
+	        for (j=0xc0;j<0xd0;j++) {
 		    _mem_read_tab[i][j] = read_ram_F;
 		    _mem_write_tab[i][j] = store_ram_F;
 		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
@@ -1096,7 +1141,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
       case 17:                  /* current */
 	  return mem_read(addr);
       case 16:                   /* romio */
-	  if(addr>=0xc000 && addr <0xe000) return read_io(addr);
+	  if(addr>=0xd000 && addr <0xe000) return read_io(addr);
 	  return _mem_read_tab[15][addr >> 8](addr);
       default:
 	  if(bank >=0 && bank <15) {
@@ -1123,7 +1168,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
         mem_store(addr, byte);
         return;
       case 16:
-	if(addr >= 0xc000 && addr <=0xdfff) {
+	if(addr >= 0xd000 && addr <=0xdfff) {
 	    store_io(addr, byte);
 	    return;
 	}
@@ -1152,53 +1197,81 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 #define CBM2MEM_DUMP_VER_MINOR   0
 
 /*
- * UBYTE        MEMSIZE         size in 128k (1=128, 2=256, 3=512, 4=1024)
- * UBYTE	CONFIG		Bit 0: cart1_ram
- *				    1: cart2_ram
- *				    2: cart4_ram
- *				    3: cart6_ram
+ * UBYTE        MEMSIZE         size in 128k (1=128, 2=256, 4=512, 8=1024)
+ * UBYTE	CONFIG		Bit 0: cart08_ram
+ *                                  1: cart1_ram
+ *				    2: cart2_ram
+ *				    3: cart4_ram
+ *				    4: cart6_ram
+ *				    5: cartC_ram
+ *
+ * UBYTE        HCONFIG         Bit 0: 
+ *
+ * UBYTE	EXECBANK	CPU exec bank register
+ * UBYTE	INDBANK		CPU indirect bank register
+ * ARRAY	SYSRAM		2k system RAM, Bank15 $0000-$07ff
+ * ARRAY	VIDEO		2k video RAM, Bank15 $d000-$d7ff
  * ARRAY	RAM		size according to MEMSIZE
+ * ARRAY	RAM08		(only if memsize < 1M) 2k for cart08_ram
  * ARRAY	RAM1		(only if memsize < 1M) 4k for cart1_ram
  * ARRAY	RAM2		(only if memsize < 1M) 8k for cart2_ram
  * ARRAY	RAM4		(only if memsize < 1M) 8k for cart4_ram
  * ARRAY	RAM6		(only if memsize < 1M) 8k for cart6_ram
+ * ARRAY	RAMC		(only if memsize < 1M) 4k for cartC_ram
  */
+
+static const char module_name[] = "CBM2MEM";
 
 int mem_write_snapshot_module(snapshot_t *p)
 {
     snapshot_module_t *m;
     BYTE config, memsize;
 
-    m = snapshot_module_create(p, "CBM2MEM",
+    m = snapshot_module_create(p, module_name,
                                CBM2MEM_DUMP_VER_MAJOR, CBM2MEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
 
     memsize = ramsize >> 17;
 
-    config = (cart1_ram ? 1 : 0)
-		| (cart2_ram ? 2 : 0)
-		| (cart4_ram ? 4 : 0)
-		| (cart6_ram ? 6 : 0) ;
+    config = (cart08_ram ? 1 : 0)
+		| (cart1_ram ? 2 : 0)
+		| (cart2_ram ? 4 : 0)
+		| (cart4_ram ? 8 : 0)
+		| (cart6_ram ? 16 : 0) 
+		| (cartC_ram ? 32 : 0) ;
 
     snapshot_module_write_byte(m, memsize);
     snapshot_module_write_byte(m, config);
+    snapshot_module_write_byte(m, 0 /* hwconfig */);
+
+    snapshot_module_write_byte(m, bank_exec);
+    snapshot_module_write_byte(m, bank_ind);
+
+    snapshot_module_write_byte_array(m, ram, 0x0800);
+    snapshot_module_write_byte_array(m, rom + 0xfd000, 0x0800);
 
     snapshot_module_write_byte_array(m, ram, memsize << 17);
 
     if(memsize < 4) {	/* if 1M memory, bank 15 is included */
 	if(config & 1) {
-    	    snapshot_module_write_byte_array(m, ram + 0xf1000, 0x1000);
+    	    snapshot_module_write_byte_array(m, ram + 0xf0800, 0x0800);
 	}
 	if(config & 2) {
-    	    snapshot_module_write_byte_array(m, ram + 0xf2000, 0x2000);
+    	    snapshot_module_write_byte_array(m, ram + 0xf1000, 0x1000);
 	}
 	if(config & 4) {
-    	    snapshot_module_write_byte_array(m, ram + 0xf4000, 0x2000);
+    	    snapshot_module_write_byte_array(m, ram + 0xf2000, 0x2000);
 	}
 	if(config & 8) {
+    	    snapshot_module_write_byte_array(m, ram + 0xf4000, 0x2000);
+	}
+	if(config & 16) {
     	    snapshot_module_write_byte_array(m, ram + 0xf6000, 0x2000);
 	}
+	if(config & 32) {
+    	    snapshot_module_write_byte_array(m, ram + 0xfc000, 0x1000);
+	}    
     }
 
     snapshot_module_close(m);
@@ -1208,40 +1281,63 @@ int mem_write_snapshot_module(snapshot_t *p)
 
 int mem_read_snapshot_module(snapshot_t *p)
 {
-    char name[SNAPSHOT_MODULE_NAME_LEN];
-    BYTE vmajor, vminor;
+    BYTE byte, vmajor, vminor;
     snapshot_module_t *m;
-    BYTE config, memsize;
+    BYTE config, hwconfig, memsize;
 
-    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
-    if (strcmp(name, "CBM2MEM") || vmajor != CBM2MEM_DUMP_VER_MAJOR)
+    if (vmajor != CBM2MEM_DUMP_VER_MAJOR)
         return -1;
 
     snapshot_module_read_byte(m, &memsize);
     snapshot_module_read_byte(m, &config);
 
-    /* TODO: warning if memsize does not match */
+    /* FIXME - should that go here or as CRTC/VIC-II module load? */
+    snapshot_module_read_byte(m, &hwconfig);
 
-    /* TODO: warning if config does not match */
+    snapshot_module_read_byte(m, &byte);
+    set_bank_exec(byte);
+    snapshot_module_read_byte(m, &byte);
+    set_bank_ind(byte);
+
+    snapshot_module_read_byte_array(m, ram, 0x0800);
+    snapshot_module_read_byte_array(m, rom + 0xfd000, 0x0800);
+
+    ramsize = memsize << 17;
+
+    cart08_ram = config & 1;
+    cart1_ram = config & 2;
+    cart2_ram = config & 4;
+    cart4_ram = config & 8;
+    cart6_ram = config & 16;
+    cartC_ram = config & 32;
 
     snapshot_module_read_byte_array(m, ram, memsize << 17);
 
     if(memsize < 4) {	/* if 1M memory, bank 15 is included */
 	if(config & 1) {
-    	    snapshot_module_read_byte_array(m, ram + 0xf1000, 0x1000);
+    	    snapshot_module_read_byte_array(m, ram + 0xf0800, 0x0800);
 	}
 	if(config & 2) {
-    	    snapshot_module_read_byte_array(m, ram + 0xf2000, 0x2000);
+    	    snapshot_module_read_byte_array(m, ram + 0xf1000, 0x1000);
 	}
 	if(config & 4) {
-    	    snapshot_module_read_byte_array(m, ram + 0xf4000, 0x2000);
+    	    snapshot_module_read_byte_array(m, ram + 0xf2000, 0x2000);
 	}
 	if(config & 8) {
+    	    snapshot_module_read_byte_array(m, ram + 0xf4000, 0x2000);
+	}
+	if(config & 16) {
     	    snapshot_module_read_byte_array(m, ram + 0xf6000, 0x2000);
 	}
+	if(config & 32) {
+    	    snapshot_module_read_byte_array(m, ram + 0xfc000, 0x1000);
+	}
     }
+
+    initialize_memory();
 
     snapshot_module_close(m);
 

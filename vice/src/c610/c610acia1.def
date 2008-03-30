@@ -30,7 +30,11 @@ INCLUDES()
 #include "c610tpi.h"
 
 #undef maincpu_set_int
-#define        maincpu_set_int(b,a)    tpi1_set_int(4,(a))
+#define maincpu_set_int(b,a)         tpi1_set_int(4,(a))
+
+#undef set_int_noclk
+#define set_int_noclk(a,b,c)         tpi1_restore_int(4,(c))
+
 }
 
 #define mycpu maincpu

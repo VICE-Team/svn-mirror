@@ -33,6 +33,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "snapshot.h"
 #include "c610acia.h"
 #include "c610cia.h"
 #include "c610mem.h"
@@ -47,7 +48,6 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "sid.h"
-#include "snapshot.h"
 #include "sound.h"
 #include "traps.h"
 #include "utils.h"
@@ -277,7 +277,7 @@ int machine_set_restore_key(int v)
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MACHINE_NAME   "C64"
+#define SNAP_MACHINE_NAME   "C610"
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
 
@@ -291,11 +291,13 @@ int machine_write_snapshot(const char *name)
         return -1;
     }
     if (maincpu_write_snapshot_module(s) < 0
-/*
         || mem_write_snapshot_module(s) < 0
-        || vic_ii_write_snapshot_module(s) < 0
+        || crtc_write_snapshot_module(s) < 0
         || cia1_write_snapshot_module(s) < 0
-        || cia2_write_snapshot_module(s) < 0 */ ) {
+        || tpi1_write_snapshot_module(s) < 0
+        || tpi2_write_snapshot_module(s) < 0
+        || acia1_write_snapshot_module(s) < 0
+	) {
         snapshot_close(s);
         unlink(name);
         return -1;
@@ -309,11 +311,9 @@ int machine_read_snapshot(const char *name)
 {
     snapshot_t *s;
     BYTE minor, major;
-    char machine_name[SNAPSHOT_MACHINE_NAME_LEN];
 
-    s = snapshot_open(name, &major, &minor, machine_name);
+    s = snapshot_open(name, &major, &minor, SNAP_MACHINE_NAME);
     if (s == NULL) {
-        perror(name);
         return -1;
     }
 
@@ -324,11 +324,13 @@ int machine_read_snapshot(const char *name)
     }
 
     if (maincpu_read_snapshot_module(s) < 0
-/*
-        || mem_read_snapshot_module(f) < 0
-        || vic_ii_read_snapshot_module(f) < 0
-        || cia1_read_snapshot_module(f) < 0
-        || cia2_read_snapshot_module(f) < 0 */ )
+        || mem_read_snapshot_module(s) < 0
+        || crtc_read_snapshot_module(s) < 0
+        || cia1_read_snapshot_module(s) < 0
+        || tpi1_read_snapshot_module(s) < 0
+        || tpi2_read_snapshot_module(s) < 0
+        || acia1_read_snapshot_module(s) < 0
+	)
         goto fail;
 
     return 0;
@@ -336,6 +338,7 @@ int machine_read_snapshot(const char *name)
 fail:
     if (s != NULL)
         snapshot_close(s);
+    maincpu_trigger_reset();
     return -1;
 }
 

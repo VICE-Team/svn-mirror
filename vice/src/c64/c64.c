@@ -416,6 +416,8 @@ int machine_set_restore_key(int v)
 int machine_write_snapshot(const char *name)
 {
     snapshot_t *s;
+    resource_value_t rval;
+    int ef = 0;
 
     s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
     if (s == NULL)
@@ -426,7 +428,8 @@ int machine_write_snapshot(const char *name)
         || vic_ii_write_snapshot_module(s) < 0
         || cia1_write_snapshot_module(s) < 0
         || cia2_write_snapshot_module(s) < 0
-        || sid_write_snapshot_module(s) < 0) {
+        || sid_write_snapshot_module(s) < 0
+        || drive_write_snapshot_module(s) < 0) {
         snapshot_close(s);
         unlink(name);
         return -1;
@@ -456,8 +459,11 @@ int machine_read_snapshot(const char *name)
         || vic_ii_read_snapshot_module(s) < 0
         || cia1_read_snapshot_module(s) < 0
         || cia2_read_snapshot_module(s) < 0
-        || sid_read_snapshot_module(s) < 0)
+        || sid_read_snapshot_module(s) < 0
+        || drive_read_snapshot_module(s) < 0)
         goto fail;
+
+    snapshot_close(s);
 
     return 0;
 

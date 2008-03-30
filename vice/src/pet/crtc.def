@@ -29,7 +29,7 @@
 
 INCLUDES()
 {
-#include "pia.h"
+#include "petpia.h"
 }
 
 MEMORY_PTRS()

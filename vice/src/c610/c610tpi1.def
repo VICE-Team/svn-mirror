@@ -78,11 +78,33 @@ STORE_PA()
 	}
 }
 
-STORE_PB()
+UNDUMP_PA()
 {
+	{
+	    BYTE tmp = ~byte;
+	    cia1_set_ieee_dir(byte & 2);
+	    if (byte & 2) {
+		par_set_ndac(0);
+		par_set_nrfd(0);
+                par_set_atn( tmp & 0x08 );
+                par_set_dav( tmp & 0x10 );
+                par_set_eoi( tmp & 0x20 );
+	    } else {
+		/* order is important */
+                par_set_nrfd( tmp & 0x80 );
+                par_set_ndac( tmp & 0x40 );
+		par_set_atn(0);
+		par_set_dav(0);
+		par_set_eoi(0);
+	    }
+	}
 }
 
+#define	STORE_PB
 #define	STORE_PC
+
+#define	UNDUMP_PB
+#define	UNDUMP_PC
 
 READ_PA()
 {

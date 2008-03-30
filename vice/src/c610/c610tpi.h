@@ -32,11 +32,17 @@ extern void store_tpi1(ADDRESS addr, BYTE byte);
 extern BYTE read_tpi1(ADDRESS addr);
 extern BYTE peek_tpi1(ADDRESS addr);
 extern void tpi1_set_int(int bit, int state);
+extern void tpi1_restore_int(int bit, int state);
+extern int tpi1_write_snapshot_module(snapshot_t *p);
+extern int tpi1_read_snapshot_module(snapshot_t *p);
 
 extern void reset_tpi2(void);
 extern void store_tpi2(ADDRESS addr, BYTE byte);
 extern BYTE read_tpi2(ADDRESS addr);
 extern BYTE peek_tpi2(ADDRESS addr);
 extern void tpi2_set_int(int bit, int state);
+extern void tpi2_restore_int(int bit, int state);
+extern int tpi2_write_snapshot_module(snapshot_t *p);
+extern int tpi2_read_snapshot_module(snapshot_t *p);
 
 #endif /* _C610TPI_H */

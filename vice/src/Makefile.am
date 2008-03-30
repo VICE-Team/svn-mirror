@@ -146,6 +146,7 @@ EXTRA_DIST = \
 	cpu-tmpl.c \
 	crtc-tmpl.c \
 	convio \
+	pia-tmpl.c \
 	raster.c \
 	tpi-tmpl.c \
 	via-tmpl.c \

@@ -1,0 +1,110 @@
+/*
+ * petpia2.def -- PIA 2 chip emulation.
+ *
+ * Written by
+ *  Jouko Valta (jopi@stekt.oulu.fi)
+ *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#define mypia   pia2
+#define MYPIA   PIA2
+
+INCLUDES()
+{
+#include "parallel.h"
+#include "petpia.h"
+
+#define my_set_int(a)                                                   \
+        maincpu_set_irq(I_PIA1, (a)? IK_IRQ : IK_NONE)
+
+#define my_restore_int(a)                                               \
+        set_int_noclk(&maincpu_int_status, I_PIA1, (a) ? IK_IRQ : IK_NONE)
+
+}
+
+/* ------------------------------------------------------------------------- */
+
+PIA_PRE_FUNCS()
+{
+
+#define PIA_SET_CA2(a)  do {                                            \
+                            par_set_ndac((a)?0:1);                      \
+                        } while(0)
+
+#define PIA_SET_CB2(a)  do {						\
+			    par_set_dav((a)?0:1);			\
+			} while(0)
+
+}       /* end PIA_PRE_FUNCS */
+
+PIA_RESET()
+{
+    par_set_bus(0xff);	/* all data lines high, because of input mode */
+}
+
+/* ------------------------------------------------------------------------- */
+
+/*
+E820	PORT A	    Input buffer for IEEE data lines
+E821	CA2	    IEEE NDAC out
+	CA1	    IEEE ATN in
+E822	PORT B	    Output buffer for IEEE data lines
+E823	CB2	    IEEE DAV out
+	CB1	    IEEE SRQ in
+*/
+
+#define	STORE_PA()
+#define	UNDUMP_PA()
+
+STORE_PB()
+{
+    par_set_bus(byte^255);
+}
+
+UNDUMP_PB()
+{
+    par_set_bus(byte^255);
+}
+
+READ_PA()
+{
+
+	    if (pardebug)
+		printf("read pia2 port A %x, par_bus=%x, gives %x\n",
+			pia2.port_a, par_bus,
+			(par_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a));
+
+	    byte = (par_bus & ~pia2.ddr_a) | (pia2.port_a & pia2.ddr_a);
+}
+
+READ_PB()
+{
+
+	    if (pardebug)
+		printf("read pia2 port B %x, par_bus=%x, gives %x\n",
+			pia2.port_b, par_bus,
+			(~(par_bus|pia2.ddr_b)) |(pia2.port_b & pia2.ddr_b));
+
+	    byte = (~pia2.ddr_b) |(pia2.port_b & pia2.ddr_b);
+}
+
+
