@@ -6,7 +6,7 @@
  *  Jouko Valta    (jopi@stekt.oulu.fi)
  *
  * Patches by
- *  Marko Makela   (msmakela@nic.funet.fi)
+ *  Marko Mäkelä   (msmakela@nic.funet.fi)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
