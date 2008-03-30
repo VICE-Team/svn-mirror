@@ -26,6 +26,10 @@ list of all the changes in the code.
 
 - Fixed a CIA timer emulation bug.
 
+- Frankie goes to Hollywood may work now.
+
+- The REU is emulated cycle exact now.
+
 ** C128 changes
 ---------------
 
@@ -45,7 +49,7 @@ list of all the changes in the code.
 - Added VIC-II reengineered palette.
 
 - Added also command line switches for:
-  Brightness, Contrast, Saturation, Gamma
+  brightness, contrast, saturation, gamma
 
 - New style luminance signals
 
@@ -67,6 +71,8 @@ list of all the changes in the code.
 
 - The filter settings of the file selector boxes are persistent now.
 
+- Support for drag & drop.
+
 ** OS/2 changes
 ---------------
 
@@ -76,25 +82,25 @@ list of all the changes in the code.
 
 - fixed a bug in the compilation of c1541
 
-- renamed c1541 to x1541
+- Renamed c1541 to x1541
 
-- added stereo support
+- Added stereo support
 
-- added support for 'Fast PAL Emu'
+- Added support for 'Fast PAL Emu'
 
-- added a color dialog (like a TV set)
+- Added a color dialog (like a TV set)
 
-- added support for cartridges in x128
+- Added support for cartridges in x128
 
-- changed the video/dive support internally (in case of problems please
+- Changed the video/dive support internally (in case of problems please
   report!)
 
-- added support for Double Size / Double Scan
+- Added support for Double Size / Double Scan
 
-- fixed a bug which made the emulator crash if you press '1' in the
+- Fixed a bug which made the emulator crash if you press '1' in the
   file pop-up menu
 
-- fixed a bug in the asynchronous update of the xvic window
+- Fixed a bug in the asynchronous update of the xvic window
 
 ** Unix changes
 ---------------
@@ -107,6 +113,8 @@ list of all the changes in the code.
   privileges needed)
   DGA2 XImage rendering currently not supported.
   Fullscreen is still in beta status. 
+
+- Fixed compilation bug if `allegro.h' is present.
 
 ** Miscellaneous changes
 ------------------------
