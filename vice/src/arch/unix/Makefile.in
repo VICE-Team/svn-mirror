@@ -320,6 +320,8 @@ libarch_a_SOURCES = \
 	uiprinterieee.h \
 	uireu.c \
 	uireu.h \
+	uiromset.c \
+	uiromset.h \
 	uirs232.c \
 	uirs232.h \
 	uiscreenshot.h \
@@ -375,11 +377,12 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uipalemu.$(OBJEXT) uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
 	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
 	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
-	uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) uirs232.$(OBJEXT) \
-	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
-	uited.$(OBJEXT) uitfe.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
-	uivicii.$(OBJEXT) unixmain.$(OBJEXT) vic20ui.$(OBJEXT) \
-	vsyncarch.$(OBJEXT) vsidui.$(OBJEXT)
+	uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) uiromset.$(OBJEXT) \
+	uirs232.$(OBJEXT) uisettings.$(OBJEXT) uisid.$(OBJEXT) \
+	uisound.$(OBJEXT) uited.$(OBJEXT) uitfe.$(OBJEXT) \
+	uivdc.$(OBJEXT) uivic.$(OBJEXT) uivicii.$(OBJEXT) \
+	unixmain.$(OBJEXT) vic20ui.$(OBJEXT) vsyncarch.$(OBJEXT) \
+	vsidui.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 SCRIPTS = $(bin_SCRIPTS)
 
@@ -415,13 +418,13 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinter.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinteriec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinterieee.Po ./$(DEPDIR)/uireu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uirs232.Po ./$(DEPDIR)/uisettings.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisound.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uited.Po ./$(DEPDIR)/uitfe.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uivdc.Po ./$(DEPDIR)/uivic.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uivicii.Po ./$(DEPDIR)/unixmain.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/vsidui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsyncarch.Po
+@AMDEP_TRUE@	./$(DEPDIR)/uiromset.Po ./$(DEPDIR)/uirs232.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uisettings.Po ./$(DEPDIR)/uisid.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uisound.Po ./$(DEPDIR)/uited.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uitfe.Po ./$(DEPDIR)/uivdc.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uivic.Po ./$(DEPDIR)/uivicii.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/unixmain.Po ./$(DEPDIR)/vic20ui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsyncarch.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -524,6 +527,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinteriec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinterieee.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiromset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisettings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
