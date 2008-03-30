@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -80,6 +81,7 @@ static ui_menu_entry_t sid_model_submenu[] = {
     { "*8580 (new)",
       (ui_callback_t) radio_SidModel, (ui_callback_data_t) 1, NULL },
 #ifdef HAVE_RESID
+    { "--" },
     { "*6581 (old) reSID emulation",
       (ui_callback_t) radio_SidModel, (ui_callback_data_t) 2, NULL },
 #endif
@@ -95,170 +97,6 @@ static ui_menu_entry_t sid_submenu[] = {
       NULL, NULL, sid_model_submenu },
     { NULL },
 };
-
-/* ------------------------------------------------------------------------- */
-
-#if 0
-
-UI_MENU_DEFINE_RADIO(RsUserDev)
-
-static ui_menu_entry_t rsuser_device_submenu[] = {
-    { "*Serial 1",
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 0, NULL },
-    { "*Serial 2",
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 1, NULL },
-    { "*Dump to file",
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 2, NULL },
-    { "*Exec process",
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 3, NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(Acia1Dev)
-
-static ui_menu_entry_t acia1_device_submenu[] = {
-    { "*Serial 1",
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 0, NULL },
-    { "*Serial 2",
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 1, NULL },
-    { "*Dump to file",
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 2, NULL },
-    { "*Exec process",
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 3, NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(Acia2Dev)
-
-static ui_menu_entry_t acia2_device_submenu[] = {
-    { "*Serial 1",
-      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 0, NULL },
-    { "*Serial 2",
-      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 1, NULL },
-    { "*Dump to file",
-      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 2, NULL },
-    { "*Exec process",
-      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 3, NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(RsDevice1Baud)
-
-static ui_menu_entry_t ser1_baud_submenu[] = {
-  { "*300",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)   300, NULL },
-  { "*1200",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  1200, NULL },
-  { "*2400",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  2400, NULL },
-  { "*9600",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  9600, NULL },
-  { "*19200",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t) 19200, NULL },
-  { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(RsDevice2Baud)
-
-static ui_menu_entry_t ser2_baud_submenu[] = {
-  { "*300",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)   300, NULL },
-  { "*1200",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  1200, NULL },
-  { "*2400",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  2400, NULL },
-  { "*9600",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  9600, NULL },
-  { "*19200",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t) 19200, NULL },
-  { NULL }
-};
-
-static UI_CALLBACK(set_rs232_device_file)
-{
-    char *resource = (char*) client_data;
-    char *filename;
-    ui_button_t button;
-
-    suspend_speed_eval();
-
-    filename = ui_select_file("Select RS232 device or dump file",
-                              NULL, False, &button);
-    switch (button) {
-      case UI_BUTTON_OK:
-        resources_set_value(resource, (resource_value_t) filename);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
-    }
-}
-
-static UI_CALLBACK(set_rs232_exec_file)
-{
-    char *resname = (char*) client_data;
-    char title[1024];
-
-    suspend_speed_eval();
-    sprintf(title, "Command to execute for RS232 (preceed with '|')");
-    {
-        char *value;
-        char *new_value;
-        int len;
-
-        resources_get_value(resname, (resource_value_t *) &value);
-        len = strlen(value) * 2;
-        if (len < 255)
-            len = 255;
-        new_value = alloca(len + 1);
-        strcpy(new_value, value);
-
-        if (ui_input_string(title, "Command:", new_value, len) != UI_BUTTON_OK)
-            return;
-
-        resources_set_value(resname, (resource_value_t) new_value);
-    }
-}
-
-UI_MENU_DEFINE_TOGGLE(AciaDE)
-UI_MENU_DEFINE_TOGGLE(AciaD6)
-UI_MENU_DEFINE_TOGGLE(RsUser)
-
-ui_menu_entry_t rs232_submenu[] = {
-    { "*ACIA $DExx RS232 interface emulation",
-      (ui_callback_t) toggle_AciaDE, NULL, NULL },
-    { "ACIA $DExx device",
-      NULL, NULL, acia1_device_submenu },
-    { "--" },
-    { "*ACIA $D6xx RS232 interface emulation",
-      (ui_callback_t) toggle_AciaD6, NULL, NULL },
-    { "ACIA $D6** device",
-      NULL, NULL, acia2_device_submenu },
-    { "--" },
-    { "*Userport 9600 baud RS232 emulation",
-      (ui_callback_t) toggle_RsUser, NULL, NULL },
-    { "Userport RS232 device",
-      NULL, NULL, rsuser_device_submenu },
-    { "--" },
-    { "Serial 1 device...", (ui_callback_t) set_rs232_device_file,
-      (ui_callback_data_t) "RsDevice1", NULL },
-    { "Serial 1 baudrate",
-      NULL, NULL, ser1_baud_submenu },
-    { "--" },
-    { "Serial 2 device...", (ui_callback_t) set_rs232_device_file,
-      (ui_callback_data_t) "RsDevice2", NULL },
-    { "Serial 2 baudrate",
-      NULL, NULL, ser2_baud_submenu },
-    { "--" },
-    { "Dump filename...", (ui_callback_t) set_rs232_device_file,
-      (ui_callback_data_t) "RsDevice3", NULL },
-    { "--" },
-    { "Programm name to exec...", (ui_callback_t) set_rs232_exec_file,
-      (ui_callback_data_t) "RsDevice4", NULL },
-    { NULL }
-};
-
-#endif
 
 /* ------------------------------------------------------------------------- */
 

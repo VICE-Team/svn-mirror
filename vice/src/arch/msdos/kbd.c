@@ -72,12 +72,7 @@ static struct {
 static keyconv *keyconvmap;
 
 /* What is the location of the virtual shift key in the keyboard matrix?  */
-#if 0
-static int virtual_shift_column = 0;
-static int virtual_shift_row = 6;
-#else
 static int virtual_shift_column, virtual_shift_row;
-#endif
 
 #ifdef DEBUG_KBD
 #define DEBUG(x)					\
