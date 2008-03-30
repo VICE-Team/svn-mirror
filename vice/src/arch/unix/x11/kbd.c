@@ -35,12 +35,12 @@
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 
-#include <sys/time.h>
 #include <signal.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
+#include <unistd.h>
 
 #include "cmdline.h"
 #include "interrupt.h"
@@ -76,10 +76,10 @@ key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
 /* Joystick status */
 BYTE joystick_value[3] = { 0, 0, 0 };
-static keyconv joykeys  [2][10];
+static keyconv_t joykeys[2][10];
 int joypad_status[2][10];
 
-keyconv *keyconvmap = NULL;
+keyconv_t *keyconvmap = NULL;
 
 /* Shift status */
 short kbd_lshiftrow = 0;
@@ -232,9 +232,9 @@ int check_clr_joykeys(KeySym key, int joynum)
 /* list with resource names for different keymap filenames */
 const char **keymap_res_name_list;
 
-/* Memory size of array in sizeof(keyconv), 0 = static.  */
+/* Memory size of array in sizeof(keyconv_t), 0 = static.  */
 static int keyc_mem = 0;
-/* Number of convs used in sizeof(keyconv).  */
+/* Number of convs used in sizeof(keyconv_t).  */
 static int keyc_num = 0;
 
 int kbd_init(void)
@@ -343,7 +343,7 @@ static void kbd_parse_entry(char *buffer)
     KeySym sym;
     int row, col, i;
     int shift = 0;
-    keyconv *kp;
+    keyconv_t *kp;
 
     key = strtok(buffer, " \t:");
     sym = XStringToKeysym(key);
@@ -376,7 +376,7 @@ static void kbd_parse_entry(char *buffer)
                             if (keyc_num>=keyc_mem) {
                                 i = keyc_mem * 1.5;
                                 kp = xrealloc(keyconvmap,
-                                              (i + 1) * sizeof(keyconv));
+                                              (i + 1) * sizeof(keyconv_t));
                                 keyconvmap = kp;
                                 keyc_mem = i;
                             }
@@ -456,7 +456,7 @@ static int kbd_parse_keymap(const char *filename)
 
 int kbd_load_keymap(const char *filename)
 {
-    keyconv *p;
+    keyconv_t *p;
 
     if (filename == NULL) {
 	return -1;
@@ -465,12 +465,12 @@ int kbd_load_keymap(const char *filename)
     /* Dynamicalize keymap table.  */
     if (!keyc_mem) {
         if (keyconvmap) {
-            p = xmalloc((keyc_num+1) * sizeof(keyconv));
-            memcpy(p, keyconvmap, (keyc_num + 1) * sizeof(keyconv));
+            p = xmalloc((keyc_num+1) * sizeof(keyconv_t));
+            memcpy(p, keyconvmap, (keyc_num + 1) * sizeof(keyconv_t));
             keyc_mem = keyc_num;
             keyconvmap = p;
         } else {
-            keyconvmap = xmalloc(151 * sizeof(keyconv));
+            keyconvmap = xmalloc(151 * sizeof(keyconv_t));
             keyc_num = 0;
             keyc_mem = 150;
             keyconvmap[0].sym = 0;
