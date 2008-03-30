@@ -44,12 +44,6 @@ struct mon_cmds {
    const char *description;
 };
 
-enum CPU_TYPE_s {
-    CPU_6502,
-    CPU_Z80
-};
-typedef enum CPU_TYPE_s CPU_TYPE_t;
-
 enum mon_int {
     MI_NONE = 0,
     MI_BREAK = 1 << 0,
@@ -254,10 +248,12 @@ extern BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
 extern BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
 
 /* Function declarations */
+struct monitor_cpu_type_s;
 
 extern void monitor_init(monitor_interface_t *maincpu_interface,
                          monitor_interface_t *drive8_interface_init,
-                         monitor_interface_t *drive9_interface_init);
+                         monitor_interface_t *drive9_interface_init,
+                         struct monitor_cpu_type_s **asmarray);
 extern bool mon_force_import(MEMSPACE mem);
 extern void mon_check_icount(ADDRESS a);
 extern void mon_check_icount_interrupt(void);
