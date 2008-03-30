@@ -803,7 +803,7 @@ static int copy_cmd(int nargs, char **args)
 {
     char *p;
     char *dest_name_ascii, *dest_name_petscii;
-    int dest_unit, src_unit;
+    unsigned int dest_unit, src_unit;
     int i;
 
     p = extract_unit_from_file_name(args[nargs - 1], &dest_unit);
@@ -864,7 +864,7 @@ static int copy_cmd(int nargs, char **args)
         src_name_petscii = lib_stralloc(src_name_ascii);
         charset_petconvstring((BYTE *)src_name_petscii, 0);
 
-        if (vdrive_iec_open(drives[src_unit], src_name_petscii,
+        if (vdrive_iec_open(drives[src_unit], (BYTE *)src_name_petscii,
                         (int)strlen(src_name_petscii), 0)) {
             fprintf(stderr, "Cannot read `%s'.\n", src_name_ascii);
             if (dest_name_ascii != NULL) {
@@ -878,7 +878,7 @@ static int copy_cmd(int nargs, char **args)
         }
 
         if (dest_name_ascii != NULL) {
-            if (vdrive_iec_open(drives[dest_unit], dest_name_petscii,
+            if (vdrive_iec_open(drives[dest_unit], (BYTE *)dest_name_petscii,
                             (int)strlen(dest_name_petscii), 1)) {
                 fprintf(stderr, "Cannot write `%s'.\n", dest_name_petscii);
                 vdrive_iec_close(drives[src_unit], 0);
@@ -889,7 +889,7 @@ static int copy_cmd(int nargs, char **args)
                 return FD_OK;
             }
         } else {
-            if (vdrive_iec_open(drives[dest_unit], src_name_petscii,
+            if (vdrive_iec_open(drives[dest_unit], (BYTE *)src_name_petscii,
                             (int)strlen(src_name_petscii), 1)) {
                 fprintf(stderr, "Cannot write `%s'.\n", src_name_petscii);
                 vdrive_iec_close(drives[src_unit], 0);
@@ -932,7 +932,7 @@ static int delete_cmd(int nargs, char **args)
         return FD_NOTREADY;
 
     for (i = 1; i < nargs; i++) {
-        int dnr;
+        unsigned int dnr;
         char *p, *name;
         char *command;
 
@@ -1002,7 +1002,7 @@ static int extract_cmd(int nargs, char **args)
 
     floppy = drives[dnr & 3];
 
-    if (vdrive_iec_open(floppy, "#", 1, channel)) {
+    if (vdrive_iec_open(floppy, (const BYTE *)"#", 1, channel)) {
         fprintf(stderr, "Cannot open buffer #%d in unit %d.\n", channel,
                 dnr + 8);
         return FD_RDERR;
@@ -1050,7 +1050,7 @@ static int extract_cmd(int nargs, char **args)
                 charset_petconvstring((BYTE *)name, 1);
                 printf("%s\n", name);
                 unix_filename((char *)name); /* For now, convert '/' to '_'. */
-                if (vdrive_iec_open(floppy, (char *)cbm_name, len, 0)) {
+                if (vdrive_iec_open(floppy, cbm_name, len, 0)) {
                     fprintf(stderr,
                             "Cannot open `%s' on unit %d.\n", name, dnr + 8);
                     continue;
@@ -1249,29 +1249,29 @@ static int info_cmd(int nargs, char **args)
 static int list_cmd(int nargs, char **args)
 {
     char *listing, *pattern, *name;
-    int drv;
+    unsigned int dnr;
     vdrive_t *vdrive;
 
     if (nargs > 1) {
         /* list <pattern> */
-        pattern = extract_unit_from_file_name(args[1], &drv);
+        pattern = extract_unit_from_file_name(args[1], &dnr);
         if (pattern == NULL)
-            drv = drive_number;
+            dnr = drive_number;
         else if (*pattern == 0)
             pattern = NULL;
     } else {
         /* list */
         pattern = NULL;
-        drv = drive_number;
+        dnr = drive_number;
     }
 
-    if (check_drive(drv, CHK_RDY) < 0)
+    if (check_drive(dnr, CHK_RDY) < 0)
         return FD_NOTREADY;
 
-    vdrive = drives[drv & 3];
+    vdrive = drives[dnr & 3];
     name = disk_image_name_get(vdrive->image);
 
-    listing = image_contents_read_string(IMAGE_CONTENTS_DISK, name, drv + 8,
+    listing = image_contents_read_string(IMAGE_CONTENTS_DISK, name, dnr + 8,
                                          IMAGE_CONTENTS_STRING_ASCII);
 
     if (listing != NULL) {
@@ -1344,7 +1344,7 @@ static int read_cmd(int nargs, char **args)
     char *dest_name_ascii;
     char *actual_name;
     char *p;
-    int dnr;
+    unsigned int dnr;
     FILE *outf = NULL;
     fileio_info_t *finfo = NULL;
     unsigned int format = FILEIO_FORMAT_RAW;
@@ -1375,7 +1375,7 @@ static int read_cmd(int nargs, char **args)
     src_name_petscii = lib_stralloc(src_name_ascii);
     charset_petconvstring((BYTE *)src_name_petscii, 0);
 
-    if (vdrive_iec_open(drives[dnr], src_name_petscii,
+    if (vdrive_iec_open(drives[dnr], (BYTE *)src_name_petscii,
         (int)strlen(src_name_petscii), 0)) {
         fprintf(stderr,
                 "Cannot read `%s' on unit %d.\n", src_name_ascii, dnr + 8);
@@ -1671,9 +1671,9 @@ static int read_geos_cmd(int nargs, char **args)
     char *dest_name_ascii;
     char *actual_name;
     char *p;
-    int unit;
+    unsigned int unit;
     FILE *outf;
-        int err_code;
+    int err_code;
 
     p = extract_unit_from_file_name(args[1], &unit);
     if (p == NULL)
@@ -1697,7 +1697,7 @@ static int read_geos_cmd(int nargs, char **args)
     src_name_petscii = lib_stralloc(src_name_ascii);
     charset_petconvstring((BYTE *)src_name_petscii, 0);
 
-    if (vdrive_iec_open(drives[unit], src_name_petscii,
+    if (vdrive_iec_open(drives[unit], (BYTE *)src_name_petscii,
         (int)strlen(src_name_petscii), 0)) {
         fprintf(stderr,
                 "Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
@@ -2037,7 +2037,7 @@ static int write_geos_cmd(int nargs, char **args)
     dest_name_petscii = lib_stralloc(dest_name_ascii);
     charset_petconvstring((BYTE *)dest_name_petscii, 0);
 
-    if (vdrive_iec_open(drives[unit], dest_name_petscii,
+    if (vdrive_iec_open(drives[unit], (BYTE *)dest_name_petscii,
         (int)strlen(dest_name_petscii), 1)) {
         fprintf(stderr, "Cannot open `%s' for writing on image.\n",
                 dest_name_ascii);
@@ -2099,7 +2099,7 @@ static int write_geos_cmd(int nargs, char **args)
 static int rename_cmd(int nargs, char **args)
 {
     char *src_name, *dest_name;
-    int src_unit, dest_unit;
+    unsigned int src_unit, dest_unit;
     char *command;
     char *p;
 
@@ -2239,14 +2239,15 @@ static int tape_cmd(int nargs, char **args)
                     continue;
             }
 
-            if( rec->type==1 || rec->type==3 )
-              {
-                if (vdrive_iec_open(drive, dest_name_petscii, (int)name_len, 1)) {
-                  fprintf(stderr, "Cannot open `%s' for writing on drive %d.\n",
-                          dest_name_ascii, drive_number + 8);
-                  lib_free(dest_name_petscii);
-                  lib_free(dest_name_ascii);
-                  continue;
+            if (rec->type == 1 || rec->type == 3) {
+                if (vdrive_iec_open(drive, (BYTE *)dest_name_petscii,
+                    (int)name_len, 1)) {
+                    fprintf(stderr,
+                            "Cannot open `%s' for writing on drive %d.\n",
+                            dest_name_ascii, drive_number + 8);
+                    lib_free(dest_name_petscii);
+                    lib_free(dest_name_ascii);
+                    continue;
                 }
                 
                 fprintf(stderr, "Writing `%s' ($%04X - $%04X) to drive %d.\n",
@@ -2267,57 +2268,52 @@ static int tape_cmd(int nargs, char **args)
                           "Unexpected end of tape: file may be truncated.\n");
 
                 for (i = 0; i < file_size; i++)
-                  if (vdrive_iec_write(drives[drive_number],
-                                       ((BYTE)(buf[i])), 1)) {
-                    tape_internal_close_tape_image(tape_image);
-                    lib_free(dest_name_petscii);
-                    lib_free(dest_name_ascii);
-                    lib_free(buf);
-                    return FD_WRTERR;
-                  }
+                    if (vdrive_iec_write(drives[drive_number],
+                                         ((BYTE)(buf[i])), 1)) {
+                      tape_internal_close_tape_image(tape_image);
+                      lib_free(dest_name_petscii);
+                      lib_free(dest_name_ascii);
+                      lib_free(buf);
+                      return FD_WRTERR;
+                    }
 
                 lib_free(buf);
-              }
-            else if( rec->type==4 )
-              {
+            } else if (rec->type == 4) {
                 BYTE b;
                 char *dest_name_plustype;
-                dest_name_plustype = util_concat(dest_name_petscii, ",S,W", NULL);
-                retval = vdrive_iec_open(drive, dest_name_plustype, 
-                                         (int) name_len+4, 2);
+                dest_name_plustype = util_concat(dest_name_petscii, ",S,W",
+                                                 NULL);
+                retval = vdrive_iec_open(drive, (BYTE *)dest_name_plustype, 
+                                         (int)name_len + 4, 2);
                 lib_free(dest_name_plustype);
 
-                if( retval ) {
-                  fprintf(stderr, "Cannot open `%s' for writing on drive %d.\n",
-                          dest_name_ascii, drive_number + 8);
-                  lib_free(dest_name_petscii);
-                  lib_free(dest_name_ascii);
-                  continue;
+                if (retval) {
+                    fprintf(stderr,
+                            "Cannot open `%s' for writing on drive %d.\n",
+                            dest_name_ascii, drive_number + 8);
+                    lib_free(dest_name_petscii);
+                    lib_free(dest_name_ascii);
+                    continue;
                 }
                 
                 fprintf(stderr, "Writing SEQ file `%s' to drive %d.\n",
                         dest_name_ascii, drive_number + 8);
                
-                do
-                  {
+                do {
                     retval = tape_read(tape_image, &b, 1);
 
-                    if( retval<0 )
-                      {
+                    if (retval < 0) {
                         fprintf(stderr,
                                 "Unexpected end of tape: file may be truncated.\n");
                         break;
-                      }
-                    else if (vdrive_iec_write(drives[drive_number], b, 2)) 
-                      {
+                    } else if (vdrive_iec_write(drives[drive_number], b, 2)) {
                         tape_internal_close_tape_image(tape_image);
                         lib_free(dest_name_petscii);
                         lib_free(dest_name_ascii);
                         return FD_WRTERR;
-                      }
-                  }
-                while( retval==1 );
-              }
+                    }
+                } while(retval == 1);
+            }
 
             vdrive_iec_close(drive, 1);
             lib_free(dest_name_petscii);
@@ -2570,7 +2566,7 @@ static int write_cmd(int nargs, char **args)
                 dest_name = NULL;
         }
         if (dest_name != NULL)
-            charset_petconvstring(dest_name, 0);
+            charset_petconvstring((BYTE *)dest_name, 0);
     } else {
         /* write <source> */
         dest_name = NULL;
@@ -2591,13 +2587,13 @@ static int write_cmd(int nargs, char **args)
     }
 
     if (dest_name == NULL) {
-        dest_name = lib_stralloc(finfo->name);
+        dest_name = lib_stralloc((char *)(finfo->name));
         dest_len = finfo->length;
     } else {
         dest_len = strlen(dest_name);
     }
 
-    if (vdrive_iec_open(drives[dnr], dest_name, (int)dest_len, 1)) {
+    if (vdrive_iec_open(drives[dnr], (BYTE *)dest_name, (int)dest_len, 1)) {
         fprintf(stderr, "Cannot open `%s' for writing on image.\n",
                 finfo->name);
         fileio_close(finfo);
