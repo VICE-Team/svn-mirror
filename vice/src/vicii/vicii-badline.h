@@ -29,8 +29,9 @@
 
 #include "types.h"
 
-extern void vicii_badline_check_state(BYTE value, int cycle, unsigned int line,
-                                      int old_allow_bad_lines);
+extern void vicii_badline_check_state(BYTE value, const int cycle,
+                                      const unsigned int line,
+                                      const int old_allow_bad_lines);
 
 #endif
 

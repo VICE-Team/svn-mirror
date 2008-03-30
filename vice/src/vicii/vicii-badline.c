@@ -36,7 +36,7 @@
 #include "viciitypes.h"
 
 
-inline static void switch_to_display_state(int cycle)
+inline static void switch_to_display_state(const int cycle)
 {
     raster_add_int_change_foreground(&vic_ii.raster, VIC_II_RASTER_CHAR(cycle),
                                      &vic_ii.raster.draw_idle_state, 0);
@@ -46,7 +46,7 @@ inline static void switch_to_display_state(int cycle)
     vic_ii.idle_data_location = IDLE_NONE;
 }
 
-inline static void line_becomes_good(int cycle)
+inline static void line_becomes_good(const int cycle)
 {
     if (cycle < VIC_II_FETCH_CYCLE)
         vic_ii.bad_line = 0;
@@ -67,7 +67,7 @@ inline static void line_becomes_good(int cycle)
     }
 }
 
-inline static void line_becomes_bad(int cycle)
+inline static void line_becomes_bad(const int cycle)
 {
     if (cycle >= VIC_II_FETCH_CYCLE
         && cycle < VIC_II_FETCH_CYCLE + VIC_II_SCREEN_TEXTCOLS + 3) {
@@ -159,8 +159,9 @@ inline static void line_becomes_bad(int cycle)
     }
 }
 
-void vicii_badline_check_state(BYTE value, int cycle, unsigned int line,
-                               int old_allow_bad_lines)
+void vicii_badline_check_state(BYTE value, const int cycle,
+                               const unsigned int line,
+                               const int old_allow_bad_lines)
 {
     int was_bad_line, now_bad_line;
 
