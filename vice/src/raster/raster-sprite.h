@@ -37,6 +37,12 @@ struct raster_sprite_s
     /* Expansion flags. */
     int x_expanded, y_expanded;
 
+    /* for change of x-expansion within the sprite */
+    int x_shift;
+
+    /* this one is set directly by store_d01d */
+    int x_shift_sum;
+
     /* Multicolor mode flag. */
     int multicolor;
 

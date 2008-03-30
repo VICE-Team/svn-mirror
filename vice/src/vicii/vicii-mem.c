@@ -635,7 +635,8 @@ inline static void store_d01d(BYTE value)
     if (value == vic_ii.regs[0x1d])
         return;
 
-    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk));
+    /* FIXME: The offset of 6 was calibrated with the GULP demo and CCS */
+    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 6;
 
     /* FIXME: how is this handled in the middle of one line?  */
     for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
@@ -643,12 +644,40 @@ inline static void store_d01d(BYTE value)
 
         sprite = vic_ii.raster.sprite_status->sprites + i;
 
+#if 0
         if (raster_x < sprite->x)
             sprite->x_expanded = value & b ? 1 : 0;
         else
             raster_add_int_change_next_line(&vic_ii.raster,
                                             &sprite->x_expanded,
                                             value & b ? 1 : 0);
+#else
+        if ((value & b) != (vic_ii.regs[0x1d] & b))
+        {
+            raster_add_int_change_sprites
+                (&vic_ii.raster,
+                raster_x,
+                &sprite->x_expanded, value & b ? 1 : 0);
+
+            /* We have to shift the sprite virtually for the drawing code */
+            if (raster_x > sprite->x)
+            {
+                int actual_shift;
+                if (value & b)
+                    actual_shift = sprite->x - raster_x;
+                else
+                    actual_shift = (raster_x - sprite->x) / 2;
+
+                sprite->x_shift_sum += actual_shift;
+                
+                raster_add_int_change_sprites
+                    (&vic_ii.raster,
+                    raster_x,
+                    &sprite->x_shift, sprite->x_shift_sum);
+            }
+        }
+
+#endif
     }
 
     vic_ii.regs[0x1d] = value;
@@ -804,13 +833,20 @@ inline static void store_sprite_color(ADDRESS addr, BYTE value)
 
     sprite = vic_ii.raster.sprite_status->sprites + n;
 
+#if 0
     if (sprite->x < VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)))
         raster_add_int_change_next_line(&vic_ii.raster,
                                         (int *)&sprite->color,
                                         (int)value);
     else
         sprite->color = value;
-
+#else
+        raster_add_int_change_sprites
+            (&vic_ii.raster,
+            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
+            &sprite->color, value);
+#endif
+        
     vic_ii.regs[addr] = value;
 }
 

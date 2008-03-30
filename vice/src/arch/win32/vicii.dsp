@@ -102,6 +102,10 @@ SOURCE="..\..\vicii\vicii-fetch.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\vicii\vicii-irq.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\vicii\vicii-mem.c"
 # End Source File
 # Begin Source File

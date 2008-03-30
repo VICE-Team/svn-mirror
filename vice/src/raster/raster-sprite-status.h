@@ -36,6 +36,9 @@ typedef void (*raster_sprite_status_draw_function_t)(BYTE *line_ptr,
                                                      BYTE *gfx_msk_ptr);
 typedef void (*raster_sprite_status_cache_function_t)(struct raster_cache_s
                                                       *cache);
+typedef void (*raster_sprite_status_draw_partial_function_t)(BYTE *line_ptr,
+                                                     BYTE *gfx_msk_ptr,
+                                                     int xs, int xe);
 
 struct raster_sprite_s;
 
@@ -46,6 +49,7 @@ struct raster_sprite_status_s {
 
     raster_sprite_status_draw_function_t draw_function;
     raster_sprite_status_cache_function_t cache_function;
+    raster_sprite_status_draw_partial_function_t draw_partial_function;
 
     /* Bit mask for the sprites that are activated.  */
     BYTE visible_msk;
@@ -86,6 +90,8 @@ void raster_sprite_status_set_draw_function(raster_sprite_status_t *status,
                              raster_sprite_status_draw_function_t function);
 void raster_sprite_status_set_cache_function(raster_sprite_status_t *status,
                              raster_sprite_status_cache_function_t function);
+void raster_sprite_status_set_draw_partial_function(raster_sprite_status_t *status,
+                             raster_sprite_status_draw_partial_function_t function);
 
 #endif
 

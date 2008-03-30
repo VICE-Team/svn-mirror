@@ -104,6 +104,8 @@ inline static void handle_blank_line(raster_t *raster)
 
         raster_changes_apply_all(&raster->changes.background);
         raster_changes_apply_all(&raster->changes.foreground);
+        /* FIXME: We probably need to care for sprite drawing here */
+        raster_changes_apply_all(&raster->changes.sprites);
 
         border_changes = &raster->changes.border;
 
@@ -292,6 +294,13 @@ inline static void draw_sprites(raster_t *raster)
     if (raster->sprite_status->draw_function != NULL)
         raster->sprite_status->draw_function(raster->draw_buffer_ptr,
                                              raster->gfx_msk);
+}
+
+inline static void draw_sprites_partial(raster_t *raster, int xs, int xe)
+{
+    if (raster->sprite_status->draw_partial_function != NULL)
+        raster->sprite_status->draw_partial_function(raster->draw_buffer_ptr,
+                                             raster->gfx_msk, xs, xe);
 }
 
 inline static void draw_borders(raster_t *raster)
@@ -724,7 +733,23 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
                                      geometry->text_size.width - 1);
 
     raster->xsmooth_shift_left = 0;
+
+    /* Draw the sprites.  */
+#if 0
     draw_sprites(raster);
+#else
+    for (xs = -104,i = 0; i < raster->changes.sprites.count; i++) {
+        int xe = raster->changes.sprites.actions[i].where;
+
+        if (xs < xe) {
+            draw_sprites_partial(raster, xs, xe - 1);
+            xs = xe;
+        }
+        raster_changes_apply(&raster->changes.sprites, i);
+    }
+    if (xs <= (int)400 - 1)
+        draw_sprites_partial(raster, xs, 400 - 1);
+#endif
 
     /* Draw left border.  */
     xstop = raster->display_xstart - 1;
@@ -780,6 +805,7 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
     raster_changes_remove_all(&raster->changes.foreground);
     raster_changes_remove_all(&raster->changes.background);
     raster_changes_remove_all(&raster->changes.border);
+    raster_changes_remove_all(&raster->changes.sprites);
     raster->changes.have_on_this_line = 0;
 
     /* Do not cache this line at all.  */
@@ -838,6 +864,7 @@ void raster_line_emulate(raster_t *raster)
             raster_changes_apply_all(&raster->changes.background);
             raster_changes_apply_all(&raster->changes.foreground);
             raster_changes_apply_all(&raster->changes.border);
+            raster_changes_apply_all(&raster->changes.sprites);
             raster->changes.have_on_this_line = 0;
         }
     }

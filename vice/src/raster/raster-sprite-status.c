@@ -91,3 +91,8 @@ void raster_sprite_status_set_cache_function(raster_sprite_status_t *status,
     status->cache_function = function;
 }
 
+void raster_sprite_status_set_draw_partial_function(raster_sprite_status_t *status,
+                                raster_sprite_status_draw_partial_function_t function)
+{
+    status->draw_partial_function = function;
+}

@@ -990,7 +990,8 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
         int n;
 
         for (n = 0; n < 8; n++) {
-            sprite_offset = sprite_status->sprites[n].x;
+            sprite_offset = sprite_status->sprites[n].x
+                               + sprite_status->sprites[n].x_shift;
 
             sprite_xs = xs - sprite_offset;
             sprite_xe = xe - sprite_offset;
@@ -1017,10 +1018,6 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
 
 static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
 {
-    memset(sprline, 0, sizeof(sprline));
-    vic_ii.raster.sprite_status->sprite_sprite_collisions = 0;
-    vic_ii.raster.sprite_status->sprite_background_collisions = 0;
-
 #if 0
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr, VIC_II_RASTER_X(0), -1);
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 0, 95);
@@ -1050,6 +1047,9 @@ void vicii_sprites_init(void)
 
     raster_sprite_status_set_cache_function(vic_ii.raster.sprite_status,
                                             update_cached_sprite_collisions);
+
+    raster_sprite_status_set_draw_partial_function(vic_ii.raster.sprite_status,
+                                           draw_all_sprites_partial);
     return;
 }
 
@@ -1086,3 +1086,18 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
     }
 }
 
+void vic_ii_sprites_reset_line(void)
+{
+    int n;
+
+    for (n = 0; n < 8; n++)
+    {
+        vic_ii.raster.sprite_status->sprites[n].x_shift = 0;
+        vic_ii.raster.sprite_status->sprites[n].x_shift_sum = 0;
+    }
+
+    memset(sprline, 0, sizeof(sprline));
+    vic_ii.raster.sprite_status->sprite_sprite_collisions = 0;
+    vic_ii.raster.sprite_status->sprite_background_collisions = 0;
+
+}

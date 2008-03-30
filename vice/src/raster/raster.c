@@ -247,6 +247,7 @@ void raster_reset(raster_t *raster)
     raster_changes_remove_all(&raster->changes.background);
     raster_changes_remove_all(&raster->changes.foreground);
     raster_changes_remove_all(&raster->changes.border);
+    raster_changes_remove_all(&raster->changes.sprites);
     raster_changes_remove_all(&raster->changes.next_line);
     raster->changes.have_on_this_line = 0;
 

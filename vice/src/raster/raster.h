@@ -80,6 +80,7 @@ struct raster_s {
         raster_changes_t background;
         raster_changes_t foreground;
         raster_changes_t border;
+        raster_changes_t sprites;
         raster_changes_t next_line;
         int have_on_this_line;
     } changes;
@@ -325,5 +326,14 @@ inline static void raster_add_int_change_border(raster_t *raster,
     }
 }
 
+inline static void raster_add_int_change_sprites(raster_t *raster,
+                                                    int raster_x,
+                                                    int *ptr,
+                                                    int new_value)
+{
+    raster_changes_add_int(&raster->changes.sprites,
+                               raster_x, ptr, new_value);
+    raster->changes.have_on_this_line = 1;
+}
 #endif
 

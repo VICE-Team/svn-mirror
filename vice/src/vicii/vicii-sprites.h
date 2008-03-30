@@ -45,6 +45,7 @@ extern const int vicii_sprites_crunch_table[64];
 extern void vicii_sprites_init(void);
 extern void vicii_sprites_set_x_position(unsigned int num,
                                          int new_x, int raster_x);
+extern void vic_ii_sprites_reset_line(void);
 
 #endif
 
