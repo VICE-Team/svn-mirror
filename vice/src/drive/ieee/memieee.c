@@ -123,8 +123,8 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
 
         /* Setup 2031 VIAs.  */
         for (i = 0x18; i < 0x1c; i++) {
-            drv->cpud.read_func_nowatch[i] = via1d_read;
-            drv->cpud.store_func_nowatch[i] = via1d_store;
+            drv->cpud.read_func_nowatch[i] = via1d2031_read;
+            drv->cpud.store_func_nowatch[i] = via1d2031_store;
         }
         for (i = 0x1c; i < 0x20; i++) {
             drv->cpud.read_func_nowatch[i] = via2d_read;

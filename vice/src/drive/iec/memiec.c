@@ -175,8 +175,8 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II) {
         for (j = 0; j < 0x80; j += 0x20) {
             for (i = 0x18 + j; i < 0x1c + j; i++) {
-                drv->cpud.read_func_nowatch[i] = via1d_read;
-                drv->cpud.store_func_nowatch[i] = via1d_store;
+                drv->cpud.read_func_nowatch[i] = via1d1541_read;
+                drv->cpud.store_func_nowatch[i] = via1d1541_store;
             }
             for (i = 0x1c + j; i < 0x20 + j; i++) {
                 drv->cpud.read_func_nowatch[i] = via2d_read;
@@ -188,8 +188,8 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
     /* Setup 1571 VIA1, VIA2, WD1770 and CIA.  */
     if (type == DRIVE_TYPE_1571) {
         for (i = 0x18; i < 0x1c; i++) {
-            drv->cpud.read_func_nowatch[i] = via1d_read;
-            drv->cpud.store_func_nowatch[i] = via1d_store;
+            drv->cpud.read_func_nowatch[i] = via1d1541_read;
+            drv->cpud.store_func_nowatch[i] = via1d1541_store;
         }
         for (i = 0x1c; i < 0x20; i++) {
             drv->cpud.read_func_nowatch[i] = via2d_read;
