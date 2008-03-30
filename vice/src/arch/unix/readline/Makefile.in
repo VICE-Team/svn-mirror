@@ -236,6 +236,15 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+complete.o: complete.c editline.h ../../../../src/vice.h \
+	../../../../src/config.h unix.h
+editline.o: editline.c editline.h ../../../../src/vice.h \
+	../../../../src/config.h unix.h
+editline2.o: editline2.c editline.h ../../../../src/vice.h \
+	../../../../src/config.h unix.h
+sysunix.o: sysunix.c editline.h ../../../../src/vice.h \
+	../../../../src/config.h unix.h
+version.o: version.c
 
 info-am:
 info: info-am

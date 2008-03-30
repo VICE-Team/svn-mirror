@@ -109,15 +109,19 @@ x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
-@NEED_READLINE_TRUE@SUBDIRS = xaw
-@NEED_READLINE_FALSE@SUBDIRS = xaw readline
+
+@GNOMEUI_TRUE@UI = gnome
+@GNOMEUI_FALSE@UI = xaw
+
+@NEED_READLINE_TRUE@SUBDIRS = $(UI) readline
+@NEED_READLINE_FALSE@SUBDIRS = $(UI)
 
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	kbdef.h 	kmap.c 	main_exit.c         main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	print.c 	rs232.c 	types.h 	ui.h         uicmdline.c         uicmdline.h 	video.c 	video.h 	vsync.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	kbdef.h 	kmap.c 	main_exit.c         main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	print.c 	rs232.c 	types.h 	ui.h         uicmdline.c         uicmdline.h 	vsync.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -133,8 +137,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o coproc.o joystick.o kbd.o kmap.o \
-main_exit.o mouse.o petkmap.o print.o rs232.o uicmdline.o video.o \
-vsync.o
+main_exit.o mouse.o petkmap.o print.o rs232.o uicmdline.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -146,7 +149,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DIST_SUBDIRS =  xaw xaw readline
+DIST_SUBDIRS =  gnome xaw readline gnome xaw
 SOURCES = $(libarch_a_SOURCES)
 OBJECTS = $(libarch_a_OBJECTS)
 
@@ -346,10 +349,6 @@ rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/cmdline.h ../../../src/rs232.h \
 	../../../src/utils.h coproc.h
 uicmdline.o: uicmdline.c ../../../src/cmdline.h ../../../src/resources.h
-video.o: video.c ../../../src/vice.h ../../../src/config.h kbd.h types.h \
-	../../../src/log.h ../../../src/cmdline.h \
-	../../../src/resources.h ../../../src/utils.h video.h \
-	../../../src/palette.h ui.h xaw/ui.h ../../../src/uiapi.h
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h types.h ../../../src/cmdline.h \
 	../../../src/resources.h ../../../src/interrupt.h \
@@ -436,9 +435,16 @@ installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
+#	video.c \
+#	video.h \
+
 .PHONY: xaw
 xaw:
 	(cd xaw; $(MAKE))
+
+.PHONY: gnome
+gnome:
+	(cd gnome; $(MAKE))
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

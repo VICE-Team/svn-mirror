@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../..
+top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -108,39 +108,27 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUFFIXES = .rc
-
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet 	-I$(top_srcdir)/src/cbm2 	-I$(top_srcdir)/src/raster
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet 	-I$(top_srcdir)/src/cbm2
 
 
-noinst_LIBRARIES = libarch.a
+noinst_LIBRARIES = libgnomeui.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610kbd.c 	c610ui.c 	c610ui.h 	c64kbd.c 	c64ui.c 	c64ui.h 	dirent.c 	dirent.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	lose32.h 	main_exit.c         main_exit.h 	mouse.c 	mouse.h 	petkbd.c 	petui.c 	petui.h 	print.c 	res.h 	res.rc 	resc128.rc 	resc64.rc 	rescbm2.rc 	respet.rc 	resvic.rc 	types.h 	ui.c 	ui.h 	uiattach.c 	uiattach.h 	uicbm2set.c 	uicbm2set.h 	uicmdline.c 	uicmdline.h 	uidatasette.c 	uidatasette.h 	uidrive.c 	uidrive.h 	uijoystick.c 	uijoystick.h 	uilib.c 	uilib.h 	uipetset.c 	uipetset.h 	uisnapshot.h 	uisnapshot.c 	uisound.c 	uisound.h 	uivicii.h 	uivicii.c 	vic20kbd.c 	vic20ui.c 	vic20ui.h 	video.c 	video.h 	vsync.c 	winhack.h 	winmain.c 	winmain.h
-
-
-libarch_a_DEPENDENCIES =  	resc128.o resc64.o rescbm2.o respet.o resvic.o
-
-
-EXTRA_DIST =  	msvc/config.h 	arch.dsp 	c128.dsp 	c1541.dsp 	c64.dsp 	c64c128.dsp 	cbm2.dsp 	crtc.dsp 	drive.dsp 	pet.dsp 	petcat.dsp 	raster.dsp 	resid.dsp 	sid.dsp 	sounddrv.dsp 	vdc.dsp 	vdrive.dsp 	vic20.dsp 	vice.dsp 	vicii.dsp 	x128.dsp 	x64.dsp 	xcbm2.dsp 	xpet.dsp 	xvic.dsp 	vice.dsw         c64.ico 
+libgnomeui_a_SOURCES = ui.c 	ui.h 	dummies.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../src/config.h
+CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libarch_a_LIBADD = 
-libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610kbd.o c610ui.o \
-c64kbd.o c64ui.o dirent.o joystick.o kbd.o main_exit.o mouse.o petkbd.o \
-petui.o print.o ui.o uiattach.o uicbm2set.o uicmdline.o uidatasette.o \
-uidrive.o uijoystick.o uilib.o uipetset.o uisnapshot.o uisound.o \
-uivicii.o vic20kbd.o vic20ui.o video.o vsync.o winmain.o
+libgnomeui_a_LIBADD = 
+libgnomeui_a_OBJECTS =  ui.o dummies.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -152,14 +140,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libarch_a_SOURCES)
-OBJECTS = $(libarch_a_OBJECTS)
+SOURCES = $(libgnomeui_a_SOURCES)
+OBJECTS = $(libgnomeui_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .rc .s
+.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/win32/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/gnome/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -194,10 +182,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
-	-rm -f libarch.a
-	$(AR) cru libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
-	$(RANLIB) libarch.a
+libgnomeui.a: $(libgnomeui_a_OBJECTS) $(libgnomeui_a_DEPENDENCIES)
+	-rm -f libgnomeui.a
+	$(AR) cru libgnomeui.a $(libgnomeui_a_OBJECTS) $(libgnomeui_a_LIBADD)
+	$(RANLIB) libgnomeui.a
 
 tags: TAGS
 
@@ -230,10 +218,9 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/win32
+subdir = src/arch/unix/gnome
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/msvc
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -244,6 +231,9 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+dummies.o: dummies.c
+ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h ui.h \
+	../../../../src/resources.h
 
 info-am:
 info: info-am
@@ -314,22 +304,6 @@ all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
-
-resc128.o : resc128.rc res.rc res.h
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.rc res.rc res.h
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
-rescbm2.o : rescbm2.rc res.rc res.h
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
-respet.o : respet.rc res.rc res.h
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
-resvic.o : resvic.rc res.rc res.h
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -115,7 +115,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libxawui.a
 
-libxawui_a_SOURCES =  	c128icon.xpm 	c128ui.c 	c128ui.h 	c610icon.xpm 	c610ui.c 	c610ui.h 	c64icon.xpm 	c64ui.c 	c64ui.h 	checkmark.xbm 	peticon.xpm 	petui.c 	petui.h 	right_arrow.xbm 	ui.c 	ui.h 	uicommands.c 	uicommands.h 	uiedisk.c 	uiedisk.h 	uihotkey.c 	uihotkey.h 	uimenu.c 	uimenu.h 	uisettings.c 	uisettings.h 	uisnapshot.c 	uisnapshot.h 	vic20icon.xpm 	vic20ui.c 	vic20ui.h 	vsidui.c 	vsidui.h
+libxawui_a_SOURCES =  	c128icon.xpm 	c128ui.c 	c128ui.h 	c610icon.xpm 	c610ui.c 	c610ui.h 	c64icon.xpm 	c64ui.c 	c64ui.h 	checkmark.xbm 	peticon.xpm 	petui.c 	petui.h 	right_arrow.xbm 	ui.c 	ui.h 	uicommands.c 	uicommands.h 	uiedisk.c 	uiedisk.h 	uihotkey.c 	uihotkey.h 	uimenu.c 	uimenu.h 	uisettings.c 	uisettings.h 	uisnapshot.c 	uisnapshot.h 	vic20icon.xpm 	vic20ui.c 	vic20ui.h 	vsidui.c 	vsidui.h 	video.h 	video.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
@@ -132,7 +132,7 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libxawui_a_LIBADD = 
 libxawui_a_OBJECTS =  c128ui.o c610ui.o c64ui.o petui.o ui.o \
 uicommands.o uiedisk.o uihotkey.o uimenu.o uisettings.o uisnapshot.o \
-vic20ui.o vsidui.o
+vic20ui.o vsidui.o video.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -408,6 +408,12 @@ vic20ui.o: vic20ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/resources.h uicommands.h ui.h \
 	../../../../src/palette.h ../../../../src/uiapi.h uimenu.h \
 	uihotkey.h uisettings.h ../../../../src/vsync.h vic20icon.xpm
+video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
+	../../../../src/arch/unix/kbd.h \
+	../../../../src/arch/unix/types.h ../../../../src/log.h \
+	../../../../src/cmdline.h ../../../../src/resources.h \
+	../../../../src/utils.h video.h ../../../../src/palette.h ui.h \
+	../../../../src/uiapi.h
 vsidui.o: vsidui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/attach.h ../../../../src/snapshot.h \
 	../../../../src/arch/unix/types.h ../../../../src/machine.h \
