@@ -152,6 +152,7 @@ int datasette_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
+
 /*---------------------------------------------------------------------*/
 
 /* constants to make the counter-calculation a little faster */
@@ -166,6 +167,7 @@ static void datasette_update_ui_counter(void)
 {
     if (current_image == NULL)
         return;
+
     current_image->counter = (1000 - datasette_counter_offset +
                              (int) (DS_G *
                              (sqrt((current_image->cycle_counter
@@ -180,6 +182,7 @@ void datasette_reset_counter(void)
 {
     if (current_image == NULL)
         return;
+
     datasette_counter_offset = (1000 + (int) (DS_G *
                                (sqrt((current_image->cycle_counter
                                / (datasette_cycles_per_second / 8.0)
@@ -229,86 +232,117 @@ inline static int datasette_move_buffer_back(int offset)
     return 1;
 }
 
+inline static int fetch_gap(CLOCK *gap, int *direction, long read_tap)
+{
+    if ((read_tap >= last_tap) || (read_tap < 0))
+        return -1;
+
+    *gap = tap_buffer[read_tap];
+
+    if ((current_image->version == 0) || *gap) {
+        *gap = (*gap ? (CLOCK)(*gap * 8) : (CLOCK)datasette_zero_gap_delay)
+        + datasette_speed_tuning;
+    } else {
+        if (read_tap >= last_tap - 3) {
+            return -1;
+        }
+        *direction *= 4;
+        *gap = tap_buffer[read_tap + 1]
+             + (tap_buffer[read_tap + 2] << 8)
+             + (tap_buffer[read_tap + 3] << 16);
+        if (!(*gap))
+            *gap = datasette_zero_gap_delay;
+    }
+
+    return 0;
+}
+
+inline static void read_gap_forward(long *read_tap)
+{
+    *read_tap = next_tap;
+}
+
+inline static void read_gap_backward_v0(long *read_tap)
+{
+    *read_tap = next_tap - 1;
+}
+
+inline static int read_gap_backward_v1(long *read_tap)
+{
+    /* examine, if previous gap was long
+       by rewinding until 3 non-zero-values
+       in a row found, then reading forward (FIXME???)
+    */
+    int non_zeros_in_a_row = 0;
+    long remember_file_seek_position;
+
+    remember_file_seek_position = current_image->current_file_seek_position;
+
+    current_image->current_file_seek_position -= 4;
+    next_tap -= 4;
+
+    while ((non_zeros_in_a_row < 3)
+        && current_image->current_file_seek_position) {
+        if (!datasette_move_buffer_back(-1))
+            return 1;
+        current_image->current_file_seek_position--;
+        next_tap--;
+        if (tap_buffer[next_tap])
+            non_zeros_in_a_row++;
+        else
+            non_zeros_in_a_row = 0;
+    }
+
+    /* now forward */
+    while (current_image->current_file_seek_position
+        < remember_file_seek_position - 4) {
+        if (!datasette_move_buffer_forward(1))
+            return -1;
+        if (tap_buffer[next_tap]) {
+            current_image->current_file_seek_position++;
+            next_tap++;
+        } else {
+            current_image->current_file_seek_position += 4;
+            next_tap += 4;
+        }
+    }
+    if (!datasette_move_buffer_forward(4))
+        return -1;
+
+    *read_tap = next_tap;
+    next_tap += (remember_file_seek_position
+                - current_image->current_file_seek_position);
+    current_image->current_file_seek_position = remember_file_seek_position;
+
+    return 0;
+}
+
 static CLOCK datasette_read_gap(int direction)
 {
     /* direction 1: forward, -1: rewind */
-    long read_tap;
+    long read_tap = 0;
     CLOCK gap = 0;
 
-    if (current_image->system != 2 || current_image->version != 1 || !fullwave) {
-
+    if (current_image->system != 2 || current_image->version != 1
+        || !fullwave) {
         if ((direction < 0) && !datasette_move_buffer_back(direction * 4))
             return 0;
         if ((direction > 0 ) && !datasette_move_buffer_forward(direction * 4))
             return 0;
 
         if (direction > 0) {
-            read_tap = next_tap;
+            read_gap_forward(&read_tap);
         } else {
             if ((current_image->version == 0) || (next_tap < 4)
                 || tap_buffer[next_tap-4]) {
-                read_tap = next_tap - 1;
+                read_gap_backward_v0(&read_tap);
             } else {
-                /* examine, if previous gap was long
-                   by rewinding until 3 non-zero-values
-                   in a row found, then reading forward (FIXME???)
-                */
-                int non_zeros_in_a_row = 0;
-                long remember_file_seek_position = current_image->current_file_seek_position;
-                current_image->current_file_seek_position -= 4;
-                next_tap -= 4;
-                while ((non_zeros_in_a_row < 3)
-                    && current_image->current_file_seek_position) {
-                    if (!datasette_move_buffer_back(-1))
-                        return 0;
-                    current_image->current_file_seek_position--;
-                    next_tap--;
-                    if (tap_buffer[next_tap])
-                        non_zeros_in_a_row++;
-                    else
-                        non_zeros_in_a_row = 0;
-                }
-                /* now forward */
-                while (current_image->current_file_seek_position
-                    < remember_file_seek_position - 4) {
-                    if (!datasette_move_buffer_forward(1))
-                        return 0;
-                    if (tap_buffer[next_tap]) {
-                        current_image->current_file_seek_position++;
-                        next_tap++;
-                    } else {
-                        current_image->current_file_seek_position += 4;
-                        next_tap += 4;
-                    }
-                }
-                if (!datasette_move_buffer_forward(4))
+                if (read_gap_backward_v1(&read_tap) < 0)
                     return 0;
-                read_tap = next_tap;
-                next_tap += (remember_file_seek_position
-                            - current_image->current_file_seek_position);
-                current_image->current_file_seek_position = remember_file_seek_position;
             }
         }
-
-        if ((read_tap >= last_tap) || (read_tap < 0))
+        if (fetch_gap(&gap, &direction, read_tap) < 0)
             return 0;
-
-        gap = tap_buffer[read_tap];
-
-        if ((current_image->version == 0) || gap) {
-            gap = (gap ? (CLOCK)gap * 8 : (CLOCK)datasette_zero_gap_delay)
-            + datasette_speed_tuning;
-        } else {
-            if (read_tap >= last_tap - 3) {
-                return 0;
-            }
-            direction *= 4;
-            gap = tap_buffer[read_tap + 1]
-                + (tap_buffer[read_tap + 2] << 8)
-                + (tap_buffer[read_tap + 3] << 16);
-            if (!gap)
-                gap = datasette_zero_gap_delay;
-        }
     }
 
     if (current_image->system == 2 && current_image->version == 1) {
@@ -584,12 +618,10 @@ void datasette_control(int command)
 void datasette_set_motor(int flag)
 {
     if (current_image != NULL) {
-        if (flag && !datasette_motor)
-        {
+        if (flag && !datasette_motor) {
             datasette_start_motor();
         }
-        if (!flag && datasette_motor)
-        {
+        if (!flag && datasette_motor) {
             alarm_unset(&datasette_alarm);
             datasette_alarm_pending = 0;
             last_write_clk = (CLOCK)0;
@@ -599,6 +631,55 @@ void datasette_set_motor(int flag)
     datasette_motor = flag;
 }
 
+inline static void bit_write(void)
+{
+    CLOCK write_time;
+    BYTE write_gap;
+
+    write_time = clk - last_write_clk;
+    last_write_clk = clk;
+
+    if (write_time < (CLOCK)7)
+        return;
+
+    if (write_time < (CLOCK)(255 * 8 + 7)) {
+        write_gap = (BYTE)(write_time / (CLOCK)8);
+        if (fwrite(&write_gap, 1, 1, current_image->fd) < 1) {
+            datasette_control(DATASETTE_CONTROL_STOP);
+            return;
+        }
+        current_image->current_file_seek_position++;
+    } else {
+        write_gap = 0;
+        fwrite(&write_gap, 1, 1, current_image->fd);
+        current_image->current_file_seek_position++;
+        if (current_image->version >= 1) {
+            BYTE long_gap[3];
+            int bytes_written;
+            long_gap[0] = (BYTE)(write_time & 0xff);
+            long_gap[1] = (BYTE)((write_time >> 8) & 0xff);
+            long_gap[2] = (BYTE)((write_time >> 16) & 0xff);
+            write_time &= 0xffffff;
+            bytes_written = fwrite(long_gap, 1, 3, current_image->fd);
+            current_image->current_file_seek_position += bytes_written;
+            if (bytes_written < 3) {
+                datasette_control(DATASETTE_CONTROL_STOP);
+                return;
+            }
+        }
+    }
+    if (current_image->size < current_image->current_file_seek_position)
+        current_image->size = current_image->current_file_seek_position;
+
+    current_image->cycle_counter += write_time / 8;
+
+    if (current_image->cycle_counter_total
+        < current_image->cycle_counter)
+        current_image->cycle_counter_total = current_image->cycle_counter;
+        current_image->has_changed = 1;
+        datasette_update_ui_counter();
+}
+
 void datasette_toggle_write_bit(int write_bit)
 {
     if (current_image != NULL && datasette_motor && write_bit
@@ -606,44 +687,7 @@ void datasette_toggle_write_bit(int write_bit)
         if (last_write_clk == (CLOCK)0) {
             last_write_clk = clk;
         } else {
-            CLOCK write_time;
-            BYTE write_gap;
-            write_time = clk - last_write_clk;
-            last_write_clk = clk;
-            if (write_time < (CLOCK)7)
-                return;
-            if (write_time < (CLOCK)(255 * 8 + 7)) {
-                write_gap = (BYTE)(write_time / (CLOCK)8);
-                if (fwrite(&write_gap, 1, 1, current_image->fd) < 1) {
-                    datasette_control(DATASETTE_CONTROL_STOP);
-                    return;
-                }
-                current_image->current_file_seek_position++;
-            } else {
-                write_gap = 0;
-                fwrite(&write_gap, 1, 1, current_image->fd);
-                current_image->current_file_seek_position++;
-                if (current_image->version >= 1) {
-                    BYTE long_gap[3];
-                    int bytes_written;
-                    long_gap[0] = (BYTE)(write_time & 0xff);
-                    long_gap[1] = (BYTE)((write_time >> 8) & 0xff);
-                    long_gap[2] = (BYTE)((write_time >> 16) & 0xff);
-                    write_time = write_time & 0xffffff;
-                    bytes_written = fwrite(long_gap, 1, 3, current_image->fd);
-                    current_image->current_file_seek_position += bytes_written;
-                    if (bytes_written < 3) {
-                        datasette_control(DATASETTE_CONTROL_STOP);
-                        return;
-                    }
-                }
-            }
-            if (current_image->size < current_image->current_file_seek_position)                current_image->size = current_image->current_file_seek_position;                        current_image->cycle_counter += write_time/8;
-            if (current_image->cycle_counter_total
-                < current_image->cycle_counter)
-                current_image->cycle_counter_total = current_image->cycle_counter;
-                current_image->has_changed = 1;
-                datasette_update_ui_counter();
+            bit_write();
         }
     }
 }
