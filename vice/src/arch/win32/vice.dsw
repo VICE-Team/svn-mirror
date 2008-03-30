@@ -165,6 +165,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "iecieee"=".\iecieee.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "ieee"=".\ieee.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -495,6 +507,9 @@ Package=<4>
     Project_Dep_Name iec
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name iecieee
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name ieee
     End Project Dependency
     Begin Project Dependency
@@ -585,6 +600,9 @@ Package=<4>
     Project_Dep_Name iec
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name iecieee
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name ieee
     End Project Dependency
     Begin Project Dependency
@@ -663,6 +681,9 @@ Package=<4>
     Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name iecieee
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name ieee
     End Project Dependency
     Begin Project Dependency
@@ -738,6 +759,9 @@ Package=<4>
     Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name iecieee
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name ieee
     End Project Dependency
     Begin Project Dependency
@@ -810,6 +834,9 @@ Package=<4>
     Project_Dep_Name iec
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name iecieee
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name plus4
     End Project Dependency
     Begin Project Dependency
@@ -877,6 +904,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name iecieee
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name ieee

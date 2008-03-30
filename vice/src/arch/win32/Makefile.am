@@ -8,7 +8,6 @@ INCLUDES = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/vdrive \
-	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
@@ -124,6 +123,7 @@ EXTRA_DIST = \
 	diskimage.dsp \
 	drive.dsp \
 	iec.dsp \
+	iecieee.dsp \
 	ieee.dsp \
 	fsdevice.dsp \
 	gfxoutputdrv.dsp \
