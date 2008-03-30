@@ -257,6 +257,17 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk)
     int n, m;
     ciat_tstate_t t = state->state;
 
+#if 0
+    if (cclk > clk && cclk - clk > 0x10000) {
+        printf("ciat_update(%s: myclk=%d, cclk=%d)\n", state->name, clk, cclk);
+    }
+    if (cclk < state->clk) {
+	/* should never happen! */
+        printf("clock handling f*cked up, timer %s, tclk=%d, cpuclk=%d\n", 
+		state->name, state->clk, cclk);
+    }
+#endif
+
     n = 0;
 
     CIAT_LOGIN(("%s update: cclk=%d, latch=%d", 

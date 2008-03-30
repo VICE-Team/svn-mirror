@@ -115,3 +115,4 @@ CLOCK clk_guard_prevent_overflow (clk_guard_t *guard)
         return sub;
     }
 }
+

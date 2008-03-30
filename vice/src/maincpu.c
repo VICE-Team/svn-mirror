@@ -392,10 +392,11 @@ static void reset(void)
     if (preserve_monitor)
         monitor_trap_on(&maincpu_int_status);
 
+    clk = 6;			/* # of clock cycles needed for RESET.  */
+
     /* Do machine-specific initialization.  */
     machine_reset();
 
-    clk = 6;			/* # of clock cycles needed for RESET.  */
 
     initialize_memory();
 }

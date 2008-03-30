@@ -205,8 +205,9 @@ _CIA_FUNC void cia_do_set_int(CLOCK rclk)
 
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
-    cia_update_ta(myclk);
-    cia_update_tb(myclk);
+    /* we assume that sub has already been substracted from myclk */
+    cia_update_ta(myclk + sub);
+    cia_update_tb(myclk + sub);
 
     ciat_prevent_clock_overflow(&ciata, sub);
     ciat_prevent_clock_overflow(&ciatb, sub);
@@ -256,6 +257,7 @@ void reset_mycia(void)
 
     ciardi = 0;
     ciasr_bits = 0;
+    cia_read_clk = 0;
 
     ciat_reset(&ciata, myclk);
     ciat_reset(&ciatb, myclk);

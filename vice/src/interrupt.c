@@ -63,12 +63,21 @@ void cpu_int_status_time_warp(cpu_int_status_t *cs, CLOCK warp_amount,
         cs->nmi_clk += warp_amount;
         cs->last_stolen_cycles_clk += warp_amount;
     } else {
-        cs->irq_clk -= warp_amount;
-        cs->nmi_clk -= warp_amount;
-        if (cs->last_stolen_cycles_clk > warp_amount)
+	if (cs->irq_clk > warp_amount) {
+            cs->irq_clk -= warp_amount;
+	} else {
+            cs->irq_clk = (CLOCK) 0;
+	}
+	if (cs->nmi_clk > warp_amount) {
+            cs->nmi_clk -= warp_amount;
+	} else {
+            cs->nmi_clk = (CLOCK) 0;
+	}
+        if (cs->last_stolen_cycles_clk > warp_amount) {
             cs->last_stolen_cycles_clk -= warp_amount;
-        else
+        } else {
             cs->last_stolen_cycles_clk = (CLOCK) 0;
+	}
     }
 }
 
