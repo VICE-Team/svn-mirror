@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libvicii.a
 
-libvicii_a_SOURCES =  	vicii-cmdline-options.c 	vicii-cmdline-options.h 	vicii-color.c 	vicii-color.h 	vicii-draw.c 	vicii-draw.h 	vicii-mem.c 	vicii-mem.h 	vicii-phi1.c 	vicii-phi1.h 	vicii-resources.c 	vicii-resources.h 	vicii-snapshot.c 	vicii-snapshot.h 	vicii-sprites.c 	vicii-sprites.h 	vicii.c 	vicii.h 	viciitypes.h
+libvicii_a_SOURCES =  	vicii-cmdline-options.c 	vicii-cmdline-options.h 	vicii-color.c 	vicii-color.h 	vicii-draw.c 	vicii-draw.h 	vicii-fetch.c 	vicii-fetch.h 	vicii-mem.c 	vicii-mem.h 	vicii-phi1.c 	vicii-phi1.h 	vicii-resources.c 	vicii-resources.h 	vicii-snapshot.c 	vicii-snapshot.h 	vicii-sprites.c 	vicii-sprites.h 	vicii.c 	vicii.h 	viciitypes.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -151,8 +151,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libvicii_a_LIBADD = 
 libvicii_a_OBJECTS =  vicii-cmdline-options.o vicii-color.o vicii-draw.o \
-vicii-mem.o vicii-phi1.o vicii-resources.o vicii-snapshot.o \
-vicii-sprites.o vicii.o
+vicii-fetch.o vicii-mem.o vicii-phi1.o vicii-resources.o \
+vicii-snapshot.o vicii-sprites.o vicii.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -271,15 +271,23 @@ vicii-draw.o: vicii-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/raster/raster-modes.h \
 	vicii-draw.h vicii.h viciitypes.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h
+vicii-fetch.o: vicii-fetch.c ../../src/vice.h ../../src/config.h \
+	../../src/alarm.h ../../src/arch/unix/types.h \
+	../../src/c64/c64cart.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/raster/raster-sprite-status.h \
+	../../src/raster/raster-sprite.h vicii-fetch.h vicii-sprites.h \
+	viciitypes.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h
 vicii-mem.o: vicii-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/c64/c64cia.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/maincpu.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h vicii-resources.h viciitypes.h \
-	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h vicii-sprites.h vicii-mem.h \
-	vicii.h
+	../../src/raster/raster-sprite.h vicii-fetch.h \
+	vicii-resources.h viciitypes.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	vicii-sprites.h vicii-mem.h vicii.h
 vicii-phi1.o: vicii-phi1.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/arch/unix/types.h vicii-phi1.h \
 	viciitypes.h ../../src/log.h ../../src/raster/raster.h \
@@ -314,10 +322,11 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/resources.h \
 	../../src/screenshot.h ../../src/snapshot.h ../../src/utils.h \
-	vicii-cmdline-options.h vicii-color.h vicii-draw.h vicii-mem.h \
-	vicii-sprites.h vicii-resources.h viciitypes.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	vicii-snapshot.h vicii.h ../../src/vsync.h ../../src/video.h
+	vicii-cmdline-options.h vicii-color.h vicii-draw.h \
+	vicii-fetch.h vicii-mem.h vicii-sprites.h vicii-resources.h \
+	viciitypes.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h vicii-snapshot.h vicii.h \
+	../../src/vsync.h ../../src/video.h
 
 info-am:
 info: info-am

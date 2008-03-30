@@ -1,3 +1,51 @@
+2002-06-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.34.
+
+	* vicii-draw.c (draw_std_background): Do not fill more pixel
+	than necessary.
+
+	* vicii/vicii-fetch.c, vicii/vicii-fetch.h, plus4/ted-fetch.c,
+	plus4/ted-fetch.h: New files.
+
+	* vicii/vicii.c: Moved fetch specific code.
+	* plus4/ted.c: Likewise.
+
+	* vicii/Makefile.am, plus4/Makefile.am: Updated.
+
+	* vicii/vicii-fetch.c (handle_fetch_sprite): Only fetch
+	sprites which are actually enabled.
+
+	* vicii/vicii-sprites.c, vicii/vicii-sprites.h, vicii/vicii.c,
+	vicii/vicii-draw.c, vicii/vicii-draw.h
+	(vic_ii_sprites_set_double_size, vic_ii_draw_set_double_size):
+	Removed.
+
+	* plus4/ted-draw.c, plus4/ted-draw.h, plus4/ted.c
+	(ted_draw_set_double_size): Removed.
+
+	* crtc/crtc-draw.c, crtc/crtc-draw.h, crtc/crtc.c
+	(crtc_draw_set_double_size): Removed.
+
+	* vdc/vdc-draw.c, vdc/vdc-draw.h, vdc/vdc.c
+	(vdc_draw_set_double_size): Removed.
+
+	* vic20/vic-draw.c, vic20/vic-draw.h, vic20/vic.c
+	(vic_draw_set_double_size): Removed.
+
+	* raster/raster.c, vicii/vicii.c, plus4/ted.c, crtc/crtc.c,
+	vdc/vdc.c, vic20/vic.c (raster_enable_double_size): Removed as
+	functionallity is in `raster_set_pixel_size()' now.
+
+	* raster/raster.c, raster/raster.h [do_double_scan]: Removed.
+
+	* vicii/vicii-sprites.c: Pass `sprite_status' down the
+	functions.
+
+2002-06-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/video.cc: Removed pixel_return stuff.
+
 2002-06-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.33.
