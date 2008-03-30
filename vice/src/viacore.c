@@ -71,6 +71,14 @@ static int int_myviat1(long offset);
 static int int_myviat2(long offset);
 
 /*
+ * local variables
+ */
+
+static CLOCK via_read_clk = 0;
+static int via_read_offset = 0;
+static BYTE via_last_read = 0;  /* the byte read the last time (for RMW) */
+
+/*
  * local functions
  */
 
@@ -198,6 +206,9 @@ inline static void update_myviatbl(void)
 
 void myvia_init(void)
 {
+    if (myvia_log == LOG_ERR)
+        myvia_log = log_open(snap_module_name);
+
     alarm_init(&myvia_t1_alarm, &mycpu_alarm_context,
                MYVIA_NAME "T1", int_myviat1);
     alarm_init(&myvia_t2_alarm, &mycpu_alarm_context,
@@ -213,9 +224,6 @@ void reset_myvia(void)
 {
     int i;
 
-    if (myvia_log == LOG_ERR)
-        myvia_log = log_open("MYVIA");
-
     /* clear registers */
     for (i = 0; i < 4; i++)
 	myvia[i] = 0;
@@ -228,6 +236,8 @@ void reset_myvia(void)
     myviatbl = 0;
     myviatau = myclk;
     myviatbu = myclk;
+
+    via_read_clk = 0;
 
     myviaier = 0;
     myviaifr = 0;
@@ -302,7 +312,16 @@ void myvia_signal(int line, int edge)
 
 void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
 {
-    CLOCK rclk = myclk - 1;	/* stores have a one-cylce offset */
+    CLOCK rclk;
+
+    if (mycpu_rmw_flag) {
+        myclk --;
+        mycpu_rmw_flag = 0;
+        store_myvia(addr, via_last_read);
+        myclk ++;
+    }
+
+    rclk = myclk - 1;	/* stores have a one-cylce offset */
 
     addr &= 0xf;
 
@@ -544,9 +563,18 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
 {
 #endif
     BYTE byte = 0xff;
-    CLOCK rclk = myclk;
+    CLOCK rclk;
 
     addr &= 0xf;
+
+    /* Hack for opcode fetch, where the clock does not change */
+    if (myclk <= via_read_clk) {
+        rclk = via_read_clk + (++via_read_offset);
+    } else {
+        via_read_clk = myclk;
+        via_read_offset = 0;
+        rclk = myclk;
+    }
 
     if (addr >= VIA_T1CL && addr <= VIA_IER) { 
         if (myviatai && (myviatai <= myclk))
@@ -587,6 +615,7 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
         byte = read_pra(addr);
 #endif
 	myvia_ila = byte;
+	via_last_read = byte;
 	return byte;
 
       case VIA_PRB:		/* port B */
@@ -614,6 +643,7 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
             update_myviatal(rclk);
             byte = (byte & 0x7f) | (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0);
         }
+	via_last_read = byte;
         return byte;
 
         /* Timers */
@@ -621,21 +651,26 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
       case VIA_T1CL /*TIMER_AL */ :	/* timer A low */
         myviaifr &= ~VIA_IM_T1;
         update_myviairq();
-        return myviata() & 0xff;
+        via_last_read = myviata() & 0xff;
+	return via_last_read;
 
       case VIA_T1CH /*TIMER_AH */ :	/* timer A high */
-        return (myviata() >> 8) & 0xff;
+        via_last_read = (myviata() >> 8) & 0xff;
+	return via_last_read;
 
       case VIA_T2CL /*TIMER_BL */ :	/* timer B low */
         myviaifr &= ~VIA_IM_T2;
         update_myviairq();
-        return myviatb() & 0xff;
+        via_last_read = myviatb() & 0xff;
+	return via_last_read;
 
       case VIA_T2CH /*TIMER_BH */ :	/* timer B high */
-        return (myviatb() >> 8) & 0xff;
+        via_last_read = (myviatb() >> 8) & 0xff;
+	return via_last_read;
 
       case VIA_SR:		/* Serial Port Shift Register */
-        return (myvia[addr]);
+        via_last_read = (myvia[addr]);
+	return via_last_read;
 
         /* Interrupts */
 
@@ -644,14 +679,17 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
             BYTE t = myviaifr;
             if (myviaifr & myviaier /*[VIA_IER] */ )
                 t |= 0x80;
+	    via_last_read = t;
             return (t);
         }
 
       case VIA_IER:		/* 6522 Interrupt Control Register */
-        return (myviaier /*[VIA_IER] */  | 0x80);
+        via_last_read = (myviaier /*[VIA_IER] */  | 0x80);
+	return via_last_read;
 
     }				/* switch */
 
+    via_last_read = myvia[addr];
     return (myvia[addr]);
 }
 
@@ -762,6 +800,10 @@ static void clk_overflow_callback(CLOCK sub, void *data)
     myviatbu = myclk + t;
     if (myviatai)
 	myviatai -= sub;
+    if (via_read_clk > sub)
+        via_read_clk -= sub;
+    else
+        via_read_clk = 0;
 }
 
 /*------------------------------------------------------------------------*/

@@ -880,6 +880,33 @@ int floppy_free_block_count(DRIVE *floppy)
                     floppy->bam[BAM_BIT_MAP_1581 + 256 + 6 * (i - 1)] :
                     floppy->bam[BAM_BIT_MAP_1581 + 512 + 6 * (i - 1
                     - NUM_TRACKS_1581 / 2)];
+	    break;
+	  case 8050:
+	    if (i != floppy->Dir_Track) {
+	        int j;
+	        for (j = 1; j < 3; j++) {
+		    if (i >= floppy->bam[(j * 0x100) + 4] 
+			    && i < floppy->bam[(j * 0x100) + 5]) {
+		        blocks += floppy->bam[(j * 0x100) + BAM_BIT_MAP_8050 
+				+ 5 * (i - floppy->bam[(j * 0x100) + 4]) ];
+		        break;
+		    }
+	        }
+	    }
+	    break;
+	  case 8250:
+	    if (i != floppy->Dir_Track) {
+	        int j;
+	        for (j = 1; j < 5; j++) {
+		    if (i >= floppy->bam[(j * 0x100) + 4] 
+			    && i < floppy->bam[(j * 0x100) + 5]) {
+		        blocks += floppy->bam[(j * 0x100) + BAM_BIT_MAP_8050 
+				+ 5 * (i - floppy->bam[(j * 0x100) + 4]) ];
+		        break;
+		    }
+	        }
+	    }
+	    break;
         }
     }
 
@@ -1072,14 +1099,17 @@ static int vdrive_bam_allocate_chain(DRIVE *floppy, int t, int s)
 int vdrive_command_validate(DRIVE *floppy)
 {
     int t, s, status;
-    BYTE *b, oldbam[3 * 256];
+    /* FIXME: size of BAM define */
+    BYTE *b, oldbam[5 * 256];
 
     status = vdrive_command_initialize(floppy);
     if (status != IPE_OK)
         return status;
     if (floppy->ReadOnly)
         return IPE_WRITE_PROTECT_ON;
-    memcpy(oldbam, floppy->bam, 3 * 256);
+
+    /* FIXME: size of BAM define */
+    memcpy(oldbam, floppy->bam, 5 * 256);
 
     vdrive_bam_clear_all(floppy->ImageFormat, floppy->bam);
     for (t = 1; t <= floppy->NumTracks; t++) {
@@ -1093,7 +1123,8 @@ int vdrive_command_validate(DRIVE *floppy)
     status = vdrive_bam_allocate_chain(floppy, floppy->Bam_Track,
                                        floppy->Bam_Sector);
     if (status != IPE_OK) {
-        memcpy(floppy->bam, oldbam, 3 * 256);
+	/* FIXME: size of BAM define */
+        memcpy(floppy->bam, oldbam, 5 * 256);
         return status;
     }
 
@@ -1177,17 +1208,20 @@ static int vdrive_command_format(DRIVE *floppy, char *name, BYTE *id,
                        floppy->D64_Header, floppy->GCR_Header, floppy->unit);
 
     /* Create Disk Format for 1541/1571/1581 disks.  */
-    memset(floppy->bam, 0, 3 * 256);
-    floppy->bam[0] = floppy->Dir_Track;
-    floppy->bam[1] = floppy->Dir_Sector;
-    floppy->bam[2] = (floppy->ImageFormat == 1581) ? 68 : 65;
-    if (floppy->ImageFormat == 1571)
-        floppy->bam[3] = 0x80;
+    /* FIXME: use a define for the length? */
+    memset(floppy->bam, 0, 5 * 256);
+    if (floppy->ImageFormat != 8050 && floppy->ImageFormat != 8250) {
+        floppy->bam[0] = floppy->Dir_Track;
+        floppy->bam[1] = floppy->Dir_Sector;
+        floppy->bam[2] = (floppy->ImageFormat == 1581) ? 68 : 65;
+        if (floppy->ImageFormat == 1571)
+            floppy->bam[3] = 0x80;
 
-    memset(floppy->bam + floppy->bam_name, 0xa0, 
+        memset(floppy->bam + floppy->bam_name, 0xa0, 
            (floppy->ImageFormat == 1581) ? 25 : 27);
-    mystrncpy(floppy->bam + floppy->bam_name, (BYTE *)name + 1, 16);
-    mystrncpy(floppy->bam + floppy->bam_id, id, 2);
+        mystrncpy(floppy->bam + floppy->bam_name, (BYTE *)name + 1, 16);
+        mystrncpy(floppy->bam + floppy->bam_id, id, 2);
+    }
     switch (floppy->ImageFormat) {
       case 1541:
       case 1571:
@@ -1214,6 +1248,60 @@ static int vdrive_command_format(DRIVE *floppy, char *name, BYTE *id,
         floppy->bam[0x200 + 5] = id[1];
         floppy->bam[0x200 + 6] = 0xc0;
         break;
+      case 8050:
+      case 8250:
+	/* the first BAM block with the disk name is at 39/0, but it
+	   points to the first bitmap BAM block at 38/0 ... 
+	   Only the last BAM block at 38/3 resp. 38/9 points to the 
+	   first dir block at 39/1 */
+        floppy->bam[0] = 38;
+        floppy->bam[1] = 0;
+        floppy->bam[2] = 67;
+	/* byte 3-5 unused */
+	/* bytes 6- disk name + id + version */
+        memset(floppy->bam + floppy->bam_name, 0xa0, 27);
+        mystrncpy(floppy->bam + floppy->bam_name, (BYTE *)name + 1, 16);
+        mystrncpy(floppy->bam + floppy->bam_id, id, 2);	
+        floppy->bam[BAM_VERSION_8050] = 50;
+        floppy->bam[BAM_VERSION_8050 + 1] = 67;	
+	/* rest of first block unused */
+
+	/* first bitmap block at 38/0 */
+	floppy->bam[0x100]     = 38;
+	floppy->bam[0x100 + 1] = 3;
+	floppy->bam[0x100 + 2] = 67;
+	floppy->bam[0x100 + 4] = 1;	/* In this block from track ... */
+	floppy->bam[0x100 + 5] = 51;	/* till including track ... */
+
+	if (floppy->ImageFormat == 8050) {
+	    /* second bitmap block at 38/3 */
+	    floppy->bam[0x200]     = 39;
+	    floppy->bam[0x200 + 1] = 1;
+	    floppy->bam[0x200 + 2] = 67;
+	    floppy->bam[0x200 + 4] = 51;    /* In this block from track ... */
+	    floppy->bam[0x200 + 5] = 78;    /* till excluding track ... */
+	} else 
+	if (floppy->ImageFormat == 8050) {
+	    /* second bitmap block at 38/3 */
+	    floppy->bam[0x200]     = 38;
+	    floppy->bam[0x200 + 1] = 6;
+	    floppy->bam[0x200 + 2] = 67;
+	    floppy->bam[0x200 + 4] = 51;    /* In this block from track ... */
+	    floppy->bam[0x200 + 5] = 100;   /* till including track ... */
+	    /* third bitmap block at 38/6 */
+	    floppy->bam[0x300]     = 38;
+	    floppy->bam[0x300 + 1] = 9;
+	    floppy->bam[0x300 + 2] = 67;
+	    floppy->bam[0x300 + 4] = 101;   /* In this block from track ... */
+	    floppy->bam[0x300 + 5] = 150;   /* till including track ... */
+	    /* fourth bitmap block at 38/9 */
+	    floppy->bam[0x400]     = 39;
+	    floppy->bam[0x400 + 1] = 1;
+	    floppy->bam[0x400 + 2] = 67;
+	    floppy->bam[0x400 + 4] = 151;    /* In this block from track ... */
+	    floppy->bam[0x400 + 5] = 155;   /* till excluding track ... */
+	}
+	break;
     }
 
     vdrive_bam_write_bam(floppy);
@@ -1617,6 +1705,17 @@ BYTE *vdrive_dir_find_next_slot(DRIVE *floppy)
                     return dirbuf;
             }
             break;
+          case 8050:
+          case 8250:
+            for (sector = 1; sector < pet_sector_map[DIR_TRACK_8050]; 
+                sector++) {
+                BYTE *dirbuf;
+                dirbuf = find_next_directory_sector(floppy, DIR_TRACK_8050,
+                                                    sector);
+                if (dirbuf != NULL)
+                    return dirbuf;
+            }
+            break;
           default:
             log_error(vdrive_log, "Unknown disk type.");
             break;
@@ -1710,6 +1809,9 @@ static int vdrive_calculate_disk_half(int type)
         return 17;
       case 1581:
         return 40;
+      case 8050:
+      case 8250:
+	return 39;
     }
     return -1;
 }
@@ -1723,6 +1825,14 @@ static int vdrive_get_max_sectors(int type, int track)
         return sector_map_1571[track];
       case 1581:
         return 40;
+      case 8050:
+        return pet_sector_map[track];
+      case 8250:
+	if (track < NUM_TRACKS_8250 / 2) {
+            return pet_sector_map[track];
+	} else {
+            return pet_sector_map[track - (NUM_TRACKS_8250 / 2)];
+	}
     }
     return -1;
 }
@@ -1782,6 +1892,7 @@ int vdrive_bam_alloc_first_free_sector(DRIVE *floppy, BYTE *bam, int *track,
  * This algorithm is used to select a continuation sector.
  * track and sector must be given.
  * XXX the interleave is not taken into account yet.
+ * FIXME: does this handle double-sided formats? 
  */
 int vdrive_bam_alloc_next_free_sector(DRIVE *floppy, BYTE *bam, int *track,
                                       int *sector)
@@ -1865,6 +1976,32 @@ BYTE *vdrive_bam_calculate_track(int type, BYTE *bam, int track)
                &bam[0x200 + BAM_BIT_MAP_1581 + 6 * 
                (track - BAM_TRACK_1581 - 1)];
         break;
+      case 8050:
+	{
+	    int i;
+	    for (i = 1; i < 3; i++) {
+		if (track >= bam[(i * 0x100) + 4] 
+			&& track < bam[(i * 0x100) + 5]) {
+		    bamp = &bam[(i * 0x100) + BAM_BIT_MAP_8050 
+				+ 5 * (track - bam[(i * 0x100) + 4]) ];
+		    break;
+		}
+	    }
+	}
+	break;
+      case 8250:
+	{
+	    int i;
+	    for (i = 1; i < 5; i++) {
+		if (track >= bam[(i * 0x100) + 4] 
+			&& track < bam[(i * 0x100) + 5]) {
+		    bamp = &bam[(i * 0x100) + BAM_BIT_MAP_8050 
+				+ 5 * (track - bam[(i * 0x100) + 4]) ];
+		    break;
+		}
+	    }
+	}
+        break;
     }
     return bamp;
 }
@@ -1874,6 +2011,8 @@ void vdrive_bam_sector_free(int type, BYTE *bamp, BYTE *bam, int track, int add)
     switch (type) {
       case 1541:
       case 1581:
+      case 8050:
+      case 8250:
         *bamp += add;
         break;
       case 1571:
@@ -1927,6 +2066,16 @@ static void vdrive_bam_clear_all(int type, BYTE *bam)
         memset(bam + 0x100 + BAM_BIT_MAP_1581, 0, 6 * NUM_TRACKS_1581 / 2);
         memset(bam + 0x200 + BAM_BIT_MAP_1581, 0, 6 * NUM_TRACKS_1581 / 2);
         break;
+      case 8050:
+        memset(bam + 0x100 + BAM_BIT_MAP_8050, 0, 0x100 - BAM_BIT_MAP_8050);
+        memset(bam + 0x200 + BAM_BIT_MAP_8050, 0, 0x100 - BAM_BIT_MAP_8050);
+	break;
+      case 8250:
+        memset(bam + 0x100 + BAM_BIT_MAP_8250, 0, 0x100 - BAM_BIT_MAP_8250);
+        memset(bam + 0x200 + BAM_BIT_MAP_8250, 0, 0x100 - BAM_BIT_MAP_8250);
+        memset(bam + 0x300 + BAM_BIT_MAP_8250, 0, 0x100 - BAM_BIT_MAP_8250);
+        memset(bam + 0x400 + BAM_BIT_MAP_8250, 0, 0x100 - BAM_BIT_MAP_8250);
+        break;
     }
 }
 
@@ -1936,7 +2085,7 @@ static void vdrive_bam_clear_all(int type, BYTE *bam)
  * Load/Store BAM Image.
  */
 
-
+/* probably we should make a list with BAM blocks for each drive type... (AF)*/
 int vdrive_bam_read_bam(DRIVE *floppy)
 {
     int err = 0;
@@ -1971,6 +2120,33 @@ int vdrive_bam_read_bam(DRIVE *floppy)
                                  floppy->bam+512, BAM_TRACK_1581,
                                  BAM_SECTOR_1581+2, floppy->D64_Header,
                                  floppy->GCR_Header, floppy->unit);
+        break;
+      case 8050:
+      case 8250:
+        err = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                 floppy->bam, BAM_TRACK_8050,
+                                 BAM_SECTOR_8050, floppy->D64_Header,
+                                 floppy->GCR_Header, floppy->unit);
+        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                  floppy->bam+256, BAM_TRACK_8050 - 1,
+                                  BAM_SECTOR_8050, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
+        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                  floppy->bam+512, BAM_TRACK_8050 - 1,
+                                  BAM_SECTOR_8050 + 3, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
+
+        if (floppy->ImageFormat == 8050) 
+	    break;
+	
+        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                  floppy->bam+768, BAM_TRACK_8050 - 1,
+                                  BAM_SECTOR_8050 + 6, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
+        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                  floppy->bam+1024, BAM_TRACK_8050 - 1,
+                                  BAM_SECTOR_8050 + 9, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
         break;
       default:
         err = -1;
@@ -2012,6 +2188,33 @@ int vdrive_bam_write_bam(DRIVE *floppy)
         err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                   floppy->bam+512, BAM_TRACK_1581,
                                   BAM_SECTOR_1581+2, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
+        break;
+      case 8050:
+      case 8250:
+        err = floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+                                 floppy->bam, BAM_TRACK_8050,
+                                 BAM_SECTOR_8050, floppy->D64_Header,
+                                 floppy->GCR_Header, floppy->unit);
+        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+                                  floppy->bam+256, BAM_TRACK_8050 - 1,
+                                  BAM_SECTOR_8050, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
+        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+                                  floppy->bam+512, BAM_TRACK_8050 - 1,
+                                  BAM_SECTOR_8050 + 3, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
+
+        if (floppy->ImageFormat == 8050) 
+	    break;
+	
+        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+                                  floppy->bam+768, BAM_TRACK_8050 - 1,
+                                  BAM_SECTOR_8050 + 6, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
+        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+                                  floppy->bam+1024, BAM_TRACK_8050 - 1,
+                                  BAM_SECTOR_8050 + 9, floppy->D64_Header,
                                   floppy->GCR_Header, floppy->unit);
         break;
       default:
@@ -2117,7 +2320,7 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
         floppy->NumTracks  = hdr.tracks;
         floppy->NumBlocks  = num_blocks (DType, hdr.tracks);
         floppy->ErrFlg     = hdr.errblk;
-        floppy->D64_Header = hdr.d64 | hdr.d71 | hdr.d81;
+        floppy->D64_Header = hdr.d64 | hdr.d71 | hdr.d81 | hdr.d80 | hdr.d82;
         floppy->GCR_Header = hdr.gcr;
 
         if (floppy->attach_func != NULL) {
@@ -2152,12 +2355,20 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
             log_message(vdrive_log, "Unit %d: D81 disk image attached: %s%s.",
                         floppy->unit, name,
                         floppy->ReadOnly ? " (read only)" : "");
+        if (hdr.d80)
+            log_message(vdrive_log, "Unit %d: D80 disk image attached: %s%s.",
+                        floppy->unit, name,
+                        floppy->ReadOnly ? " (read only)" : "");
+        if (hdr.d82)
+            log_message(vdrive_log, "Unit %d: D82 disk image attached: %s%s.",
+                        floppy->unit, name,
+                        floppy->ReadOnly ? " (read only)" : "");
         if (hdr.gcr)
             log_message(vdrive_log, "Unit %d: GCR disk image attached: %s%s.",
                         floppy->unit, name,
                         floppy->ReadOnly ? " (read only)" : "");
 
-        if (!(hdr.d64 | hdr.d71 | hdr.d81 | hdr.gcr))
+        if (!(hdr.d64 | hdr.d71 | hdr.d81 | hdr.d80 | hdr.d82 | hdr.gcr))
             log_message(vdrive_log,
                         "Unit %d: VICE disk image version %d.%02d "
                         "attached (CBM%d format%s): `%s'.",
@@ -2362,6 +2573,117 @@ int get_std81_header(file_desc_t fd, BYTE *header)
     return(0);
 }
 
+int get_std80_header(file_desc_t fd, BYTE *header)
+{
+    int devtype = DT_8050;
+    int tracks = NUM_TRACKS_8050;
+    int blk = NUM_BLOCKS_8050-1;
+    int len, errblk;
+    char block[256];
+
+    memset(header, 0, HEADER_LENGTH);
+
+    /* Check values */
+
+    if (vdrive_check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
+        exit (-1);
+
+    header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
+    header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
+    header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
+    header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
+
+    header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
+    header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
+
+    header[HEADER_FLAGS_OFFSET + 0] = devtype;
+    header[HEADER_FLAGS_OFFSET + 1] = tracks;
+
+    if (lseek(fd, 256*blk, SEEK_SET)<0)
+        return FD_BADIMAGE;
+    while ((len = read(fd, block, 256)) == 256) {
+        if (++blk > NUM_BLOCKS_8050 + 6) {
+            log_message(vdrive_log, "Nice try.");
+            break;
+        }
+    }
+    if (blk <  NUM_BLOCKS_8050) {
+            log_message(vdrive_log, "Cannot read block %d.", blk);
+            return (FD_NOTRD);
+    }
+    switch (blk) {
+      case NUM_BLOCKS_8050:
+        tracks = NUM_TRACKS_8050;
+        errblk = 0;
+        break;
+      default:
+        return (FD_BADIMAGE);
+
+    }
+    header[HEADER_FLAGS_OFFSET+0] = DT_8050;
+    header[HEADER_FLAGS_OFFSET+1] = tracks;
+    header[HEADER_FLAGS_OFFSET+2] = 1;	/* should this be 0 for one-sided? */
+    header[HEADER_FLAGS_OFFSET+3] = errblk;
+
+    return(0);
+}
+
+int get_std82_header(file_desc_t fd, BYTE *header)
+{
+    int devtype = DT_8250;
+    int tracks = NUM_TRACKS_8250;
+    int blk = NUM_BLOCKS_8250-1;
+    int len, errblk;
+    char block[256];
+
+    memset(header, 0, HEADER_LENGTH);
+
+    /* Check values */
+
+    if (vdrive_check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
+        exit (-1);
+
+    header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
+    header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
+    header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
+    header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
+
+    header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
+    header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
+
+    header[HEADER_FLAGS_OFFSET + 0] = devtype;
+    header[HEADER_FLAGS_OFFSET + 1] = tracks;
+
+    if (lseek(fd, 256*blk, SEEK_SET)<0)
+        return FD_BADIMAGE;
+    while ((len = read(fd, block, 256)) == 256) {
+        if (++blk > NUM_BLOCKS_8250 + 6) {
+            log_message(vdrive_log, "Nice try.");
+            break;
+        }
+    }
+    if (blk <  NUM_BLOCKS_8250) {
+            log_message(vdrive_log, "Cannot read block %d.", blk);
+            return (FD_NOTRD);
+    }
+    switch (blk) {
+      case NUM_BLOCKS_8250:
+        tracks = NUM_TRACKS_8250;
+        errblk = 0;
+        break;
+      default:
+        return (FD_BADIMAGE);
+
+    }
+    header[HEADER_FLAGS_OFFSET+0] = DT_8250;
+    header[HEADER_FLAGS_OFFSET+1] = tracks;
+    header[HEADER_FLAGS_OFFSET+2] = 1;
+    header[HEADER_FLAGS_OFFSET+3] = errblk;
+
+    return(0);
+}
+
+
 int check_header(file_desc_t fd, hdrinfo *hdr)
 {
     BYTE header[HEADER_LENGTH];
@@ -2377,6 +2699,8 @@ int check_header(file_desc_t fd, hdrinfo *hdr)
     hdr->d64 = 0;
     hdr->d71 = 0;
     hdr->d81 = 0;
+    hdr->d80 = 0;
+    hdr->d82 = 0;
     hdr->gcr = 0;
 
     if (header[HEADER_MAGIC_OFFSET + 0] != HEADER_MAGIC_1 ||
@@ -2414,6 +2738,14 @@ int check_header(file_desc_t fd, hdrinfo *hdr)
             if (get_std81_header(fd, header))
                 return FD_BADIMAGE;
             hdr->d81 = 1;
+        } else if (IS_D80_LEN(image_size)) {
+            if (get_std80_header(fd, header))
+                return FD_BADIMAGE;
+            hdr->d80 = 1;
+        } else if (IS_D82_LEN(image_size)) {
+            if (get_std82_header(fd, header))
+                return FD_BADIMAGE;
+            hdr->d82 = 1;
         } else {
             if (import_GCR_image(header, hdr))
                 return FD_OK;
@@ -2620,6 +2952,21 @@ void set_disk_geometry(DRIVE *floppy, int type)
         floppy->bam_id     = BAM_ID_1581;
         floppy->Dir_Track  = DIR_TRACK_1581;
         floppy->Dir_Sector = DIR_SECTOR_1581;
+      case 8050:
+        floppy->Bam_Track  = BAM_TRACK_8050;
+        floppy->Bam_Sector = BAM_SECTOR_8050;
+        floppy->bam_name   = BAM_NAME_8050;
+        floppy->bam_id     = BAM_ID_8050;
+        floppy->Dir_Track  = DIR_TRACK_8050;
+        floppy->Dir_Sector = DIR_SECTOR_8050;
+        break;
+      case 8250:
+        floppy->Bam_Track  = BAM_TRACK_8250;
+        floppy->Bam_Sector = BAM_SECTOR_8250;
+        floppy->bam_name   = BAM_NAME_8250;
+        floppy->bam_id     = BAM_ID_8250;
+        floppy->Dir_Track  = DIR_TRACK_8250;
+        floppy->Dir_Sector = DIR_SECTOR_8250;
         break;
     }
 }

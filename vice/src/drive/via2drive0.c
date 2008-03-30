@@ -29,7 +29,6 @@
 
 #define mycpu drive0
 #define myclk drive_clk[0]
-#define myrmwf drive0_rmw_flag
 #define myvia via2d0
 #define myvia_init via2d0_init
 
@@ -37,6 +36,7 @@
 #define MYVIA_INT VIA2D0_INT
 #define MYVIA_NAME "Drive0Via2"
 
+#define mycpu_rmw_flag drive0_rmw_flag
 #define mycpu_int_status drive0_int_status
 #define mycpu_alarm_context drive0_alarm_context
 #define mycpu_clk_guard drive0_clk_guard

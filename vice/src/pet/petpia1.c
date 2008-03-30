@@ -1,11 +1,5 @@
-
 /*
- * ../../src/pet/petpia1.c
- * This file is generated from ../../src/pia-tmpl.c and ../../src/pet/petpia1.def,
- * Do not edit!
- */
-/*
- * pia-tmpl.c -- PIA chip emulation.
+ * petpia1.c -- PIA#1 chip emulation.
  *
  * Written by
  *  Jouko Valta (jopi@stekt.oulu.fi)
@@ -32,20 +26,13 @@
  */
 
 #include "vice.h"
-
-#include <stdio.h>
-#include <time.h>
-
 #include "types.h"
 
+#include "piacore.h"
+
 #include "cmdline.h"
-#include "mem.h"
-#include "interrupt.h"
-#include "log.h"
-#include "parallel.h"
 #include "resources.h"
 #include "vmachine.h"
-
 
 #include "crtc.h"
 #include "kbd.h"
@@ -54,6 +41,26 @@
 #include "pets.h"
 #include "petmem.h"
 #include "petpia.h"
+#include "maincpu.h"
+
+/* ------------------------------------------------------------------------- */
+/* Renaming exported functions */
+
+#define	MYPIA_NAME	"PIA1"
+
+#define mypia_init pia1_init
+#define reset_mypia reset_pia1
+#define store_mypia store_pia1
+#define read_mypia read_pia1
+#define peek_mypia peek_pia1
+#define mypia_write_snapshot_module pia1_write_snapshot_module
+#define mypia_read_snapshot_module pia1_read_snapshot_module
+#define	signal_mypia signal_pia1
+
+static piareg mypia;
+
+/* ------------------------------------------------------------------------- */
+/* CPU binding */
 
 #define	my_set_int(a)							\
 	maincpu_set_irq(I_PIA1, (a)? IK_IRQ : IK_NONE)
@@ -61,11 +68,10 @@
 #define	my_restore_int(a)						\
 	set_int_noclk(&maincpu_int_status, I_PIA1, (a) ? IK_IRQ : IK_NONE)
 
+#define mycpu_rmw_flag  rmw_flag
+#define myclk           clk
 
 /* ------------------------------------------------------------------------- */
-
-
-
 /* PIA resources.  */
 
 /* Flag: is the diagnostic pin enabled?  */
@@ -88,7 +94,6 @@ int pia1_init_resources(void)
     return resources_register(resources);
 }
 
-/* ------------------------------------------------------------------------- */
 
 static cmdline_option_t cmdline_options[] = {
     { "-diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t) 1,
@@ -110,232 +115,75 @@ void mem_set_tape_sense(int v)
     tape1_sense = v;
 }
 
-#define	PIA_SET_CA2(a)	do { 						\
-			    parallel_cpu_set_eoi((a)?0:1); 		\
-			    if(petres.pet2k) 				\
-				crtc_screen_enable((a)?1:0);		\
-			} while(0)
-
-#define	PIA_SET_CB2(a)	do {} while(0)
-
-
 /* ------------------------------------------------------------------------- */
+/* I/O */
 
-#define	IS_CA2_HANDSHAKE()	((pia1.ctrl_a & 0x30) == 0x20)
-#define	IS_CA2_PULSE_MODE()	((pia1.ctrl_a & 0x38) == 0x28)
-#define	IS_CA2_TOGGLE_MODE()	((pia1.ctrl_a & 0x38) == 0x20)
+_PIA_FUNC void pia_set_ca2(int a)
+{
+    parallel_cpu_set_eoi((a)?0:1); 
+    if(petres.pet2k) 
+	crtc_screen_enable((a)?1:0);
+}
 
-#define	IS_CB2_HANDSHAKE()	((pia1.ctrl_b & 0x30) == 0x20)
-#define	IS_CB2_PULSE_MODE()	((pia1.ctrl_b & 0x38) == 0x28)
-#define	IS_CB2_TOGGLE_MODE()	((pia1.ctrl_b & 0x38) == 0x20)
+_PIA_FUNC void pia_set_cb2(a)
+{
+}
 
-#define P_PORT_A	0
-#define P_CTRL_A	1
-#define P_PORT_B	2
-#define P_CTRL_B	3
-
-typedef struct {
-    BYTE  port_a;	/* output register, i.e. what has been written by
-			   the CPU. input is assembled at read time */
-    BYTE  ddr_a;	/* PIA Port A DDR */
-    BYTE  ctrl_a;
-
-    BYTE  port_b;
-    BYTE  ddr_b;	/* PIA Port B DDR */
-    BYTE  ctrl_b;
-
-    int ca_state;
-    int cb_state;
-} piareg;
+_PIA_FUNC void pia_reset(void)
+{
+}
 
 
 /*
- * Local variables
- */
+E810	PORT A	7   Diagnostic sense (pin 5 on the user port)
+		6   IEEE EOI in
+		5   Cassette sense #2
+		4   Cassette sense #1
+		3-0 Keyboard row select (through 4->10 decoder)
+E811	CA2	    output to blank the screen (old PETs only)
+		    IEEE EOI out
+	CA1	    cassette #1 read line
+E812	PORT B	7-0 Contents of keyboard row
+		    Usually all or all but one bits set.
+E813	CB2	    output to cassette #1 motor: 0=on, 1=off
+	CB1	    screen retrace detection in
 
-static piareg  pia1;
-static int is_peek_access = 0;
 
-static log_t pia1_log = LOG_ERR;
+	 Control
 
-/* ------------------------------------------------------------------------- */
+ 7    CA1 active transition flag. 1= 0->1, 0= 1->0
+ 6    CA2 active transition flag. 1= 0->1, 0= 1->0
+ 5    CA2 direction	      1 = out	     | 0 = in
+                    ------------+------------+---------------------
+ 4    CA2 control   Handshake=0 | Manual=1   | Active: High=1 Low=0
+ 3    CA2 control   On Read=0	| CA2 High=1 | IRQ on=1, IRQ off=0
+		    Pulse  =1	| CA2 Low=0  |
 
-void    reset_pia1(void)
+ 2    Port A control: DDRA = 0, IORA = 1
+ 1    CA1 control: Active High = 1, Low = 0
+ 0    CA1 control: IRQ on=1, off = 0
+*/
+
+_PIA_FUNC void store_pa(BYTE byte)
 {
-   if (pia1_log == LOG_ERR)
-       pia1_log = log_open("PIA1");
-
-   /* clear _all_ internal registers */
-
-   pia1.ctrl_a = 0;	/* PIA 1 Port A Control */
-   pia1.ctrl_b = 0;	/* PIA 1 Port B Control */
-   pia1.ddr_a = 0;	/* PIA 1 Port A DDR */
-   pia1.ddr_b = 0;	/* PIA 1 Port B DDR */
-   pia1.port_a = 255;	/* PIA 1 Port A input; nothing to read from keyboard */
-   pia1.port_b = 255;	/* PIA 1 Port B input; nothing to read from keyboard */
-
-
-
-   PIA_SET_CA2(1);
-   pia1.ca_state = 1;
-   PIA_SET_CB2(1);
-   pia1.cb_state = 1;
-
-   is_peek_access = 0;
-
-   my_set_int(0);
 }
 
-static void pia1_update_irq(void) {
-    if( 0 
-	    || ((pia1.ctrl_a & 0x81) == 0x81)
-	    || ((pia1.ctrl_a & 0x68) == 0x48)
-	    || ((pia1.ctrl_b & 0x81) == 0x81)
-	    || ((pia1.ctrl_b & 0x68) == 0x48)
-	) {
-        my_set_int(1);
-    } else {
-        my_set_int(0);
-    }
-}
-
-
-/* control line flag support. Used for PET IRQ input.
- * this currently relies on each edge being called only once,
- * otherwise multiple IRQs could occur. */
-
-void signal_pia1(int line, int edge) {
-    switch(line) {
-    case PIA_SIG_CA1:
-	if ( ((pia1.ctrl_a & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
-	    pia1.ctrl_a |= 0x80;
-	    pia1_update_irq();
-	    if (IS_CA2_TOGGLE_MODE()) {
-		PIA_SET_CA2(1);
-		pia1.ca_state = 1;
-	    }
-	}
-    case PIA_SIG_CB1:
-	if ( ((pia1.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
-	    pia1.ctrl_b |= 0x80;
-	    pia1_update_irq();
-	    if (IS_CB2_TOGGLE_MODE()) {
-		PIA_SET_CB2(1);
-		pia1.cb_state = 1;
-	    }
-	}
-	break;
-    }
-}
-
-
-/* ------------------------------------------------------------------------- */
-/* PIA */
-
-void REGPARM2 store_pia1(ADDRESS addr, BYTE byte)
+_PIA_FUNC void store_pb(BYTE byte)
 {
+}
 
-    addr &= 3;
+_PIA_FUNC void undump_pa(BYTE byte)
+{
+}
 
-    switch (addr) {
-
-      case P_PORT_A: /* port A */
-	if (pia1.ctrl_a & 4) {
-	    pia1.port_a = byte;
-	} else {
-	    pia1.ddr_a = byte;
-	}
-        byte = pia1.port_a | ~pia1.ddr_a;
-	
-	break;
-
-      case P_PORT_B: /* port B */
-	if (pia1.ctrl_b & 4) {
-	    pia1.port_b = byte;
-	} else {
-	    pia1.ddr_b = byte;
-	}
-        byte = pia1.port_b | ~pia1.ddr_b;
-	
-	if (IS_CB2_HANDSHAKE()) {
-	    PIA_SET_CB2(0);
-	    pia1.cb_state = 0;
-	    if (IS_CB2_PULSE_MODE()) {
-	        PIA_SET_CB2(1);
-	        pia1.cb_state = 1;
-	    }
-	}
-	break;
-
-	/* Control */
-
-      case P_CTRL_A: /* Control A */
-	if ((byte & 0x38) == 0x30 ) {	/* set output low */
-	    PIA_SET_CA2(0);
-	    pia1.ca_state = 0;
-	} else 
-	if ((byte & 0x38) == 0x38) {	/* set output high */
-	    PIA_SET_CA2(1);
-	    pia1.ca_state = 1;
-	} else 				/* change to toggle/pulse */
-	if ((pia1.ctrl_a & 0x30) == 0x30) {
-	    PIA_SET_CA2(1);
-	    pia1.ca_state = 1;
-	} 
-
-	pia1.ctrl_a = (pia1.ctrl_a & 0xc0) | (byte & 0x3f);
-
-	if(pia1.ctrl_a & 0x20) pia1.ctrl_a &= 0xbf;
-
-	pia1_update_irq();
-
-	break;
-
-      case P_CTRL_B: /* Control B */
-	if ((byte & 0x38) == 0x30 ) {	/* set output low */
-	    PIA_SET_CB2(0);
-	    pia1.cb_state = 0;
-	} else 
-	if ((byte & 0x38) == 0x38) {	/* set output high */
-	    PIA_SET_CB2(1);
-	    pia1.cb_state = 1;
-	} else 				/* change to toggle/pulse */
-	if ((pia1.ctrl_b & 0x30) == 0x30) {
-	    PIA_SET_CB2(1);
-	    pia1.cb_state = 1;
-	} 
-
-	pia1.ctrl_b = (pia1.ctrl_b & 0xc0) | (byte & 0x3f);
-
-	if(pia1.ctrl_b & 0x20) pia1.ctrl_b &= 0xbf;
-
-	pia1_update_irq();
-
-	break;
-    }  /* switch */
+_PIA_FUNC void undump_pb(BYTE byte)
+{
 }
 
 
-/* ------------------------------------------------------------------------- */
-
-BYTE REGPARM1 read_pia1(ADDRESS addr)
+_PIA_FUNC BYTE read_pa(void)
 {
-    static BYTE byte = 0xff;
-
-    addr &= 3;
-
-    switch (addr) {
-
-      case P_PORT_A: /* port A */
-	if (pia1.ctrl_a & 4) {
-
-	    if(!is_peek_access) {
-	        pia1.ctrl_a &= 0x3f;		/* Clear CA1,CA2 IRQ */
-	        pia1_update_irq();
-	    }
-	    /* WARNING: this pin reads the voltage of the output pins, not 
-	       the ORA value as the other port. Value read might be different
-	       from what is expected due to excessive load. */
+    BYTE byte;
 
     if (drive[0].enable)
         drive0_cpu_execute(clk);
@@ -346,172 +194,33 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
 	- (tape1_sense ? 16 : 0)
 	- (parallel_eoi ? 64 : 0)
 	- ((diagnostic_pin_enabled || superpet_diag()) ? 128 : 0);
-    byte = ((byte & ~pia1.ddr_a) | (pia1.port_a & pia1.ddr_a));
-	    return byte;
-	}
-	return (pia1.ddr_a);
+    byte = ((byte & ~mypia.ddr_a) | (mypia.port_a & mypia.ddr_a));
 
-      case P_PORT_B: /* port B */
-	if (pia1.ctrl_b & 4) {
+    return byte;
+}
 
-	    if(!is_peek_access) {
-	        pia1.ctrl_b &= 0x3f;		/* Clear CB1,CB2 IRQ */
-	        pia1_update_irq();
-	    }
 
-	    /* WARNING: this pin reads the ORA for output pins, not 
-	       the voltage on the pins as the other port. */
+_PIA_FUNC BYTE read_pb(void)
+{
+    int     row;
+    BYTE    j = 0xFF;
 
-	{
-	    int     row;
-	    BYTE    j = 0xFF;
+    row = mypia.port_a & 15;
 
-	    row = pia1.port_a & 15;
-
-	    if (row < KBD_ROWS)
-		j = ~keyarr[row];
+    if (row < KBD_ROWS)
+	j = ~keyarr[row];
 
 #if (defined(DEBUG_PIA) || defined(KBDBUG))
-	    if (j < 255)
-                log_message(pia1_log,
-                            "%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x",
-                            keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
-                            keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
-                            row, j);
+    if (j < 255)
+        log_message(mypia_log,
+         "%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x",
+         keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
+         keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
+         row, j);
 #endif
 
-            byte = j;
-
-	}
-	    return (byte & ~pia1.ddr_b) | (pia1.port_b & pia1.ddr_b);
-	}
-	return (pia1.ddr_a);
-
-	/* Control */
-
-      case P_CTRL_A: /* Control A */
-	return (pia1.ctrl_a);
-
-      case P_CTRL_B: /* Control B */
-	return (pia1.ctrl_b);
-	break;
-
-    }  /* switch */
-
-    return (0xFF);
+    return j;
 }
 
-
-BYTE REGPARM1 peek_pia1(ADDRESS addr)
-{
-    BYTE t;
-    is_peek_access = 1;
-    t = read_pia1(addr);
-    is_peek_access = 0;
-    return t;
-}
-
-
-/*------------------------------------------------------------------------*/
-
-/* The dump format has a module header and the data generated by the
- * chip...
- *
- * The version of this dump description is 0/0
- */
-
-#define PIA_DUMP_VER_MAJOR      1
-#define PIA_DUMP_VER_MINOR      0
-
-static char snap_module_name[] = "PIA1";
-
-/*
- * The dump data:
- *
- * UBYTE        ORA
- * UBYTE        DDRA
- * UBYTE	CTRLA
- * UBYTE        ORB
- * UBYTE	DDRB
- * UBYTE	CTRLB
- * UBYTE	CABSTATE	Bit 7 = state of CA2, Bit 6 = state of CB2
- *
- */
-
-/* FIXME!!!  Error check.  */
-
-int pia1_write_snapshot_module(snapshot_t * p)
-{
-    snapshot_module_t *m;
-
-    m = snapshot_module_create(p, snap_module_name,
-                               PIA_DUMP_VER_MAJOR, PIA_DUMP_VER_MINOR);
-    if (m == NULL)
-        return -1;
-
-    snapshot_module_write_byte(m, pia1.port_a);
-    snapshot_module_write_byte(m, pia1.ddr_a);
-    snapshot_module_write_byte(m, pia1.ctrl_a);
-
-    snapshot_module_write_byte(m, pia1.port_b);
-    snapshot_module_write_byte(m, pia1.ddr_b);
-    snapshot_module_write_byte(m, pia1.ctrl_b);
-
-    snapshot_module_write_byte(m, (pia1.ca_state ? 0x80 : 0)
-					| (pia1.cb_state ? 0x40 : 0) );
-
-    snapshot_module_close(m);
-
-    return 0;
-}
-
-int pia1_read_snapshot_module(snapshot_t * p)
-{
-    BYTE vmajor, vminor;
-    BYTE byte;
-    snapshot_module_t *m;
-
-    my_restore_int(0);		/* just in case */
-
-    m = snapshot_module_open(p, snap_module_name, &vmajor, &vminor);
-    if (m == NULL)
-        return -1;
-
-    if (vmajor != PIA_DUMP_VER_MAJOR) {
-        snapshot_module_close(m);
-        return -1;
-    }
-
-    snapshot_module_read_byte(m, &pia1.port_a);
-    snapshot_module_read_byte(m, &pia1.ddr_a);
-    snapshot_module_read_byte(m, &pia1.ctrl_a);
-
-    snapshot_module_read_byte(m, &pia1.port_b);
-    snapshot_module_read_byte(m, &pia1.ddr_b);
-    snapshot_module_read_byte(m, &pia1.ctrl_b);
-
-    snapshot_module_read_byte(m, &byte);
-    pia1.ca_state = (byte & 0x80) ? 1 : 0;
-    pia1.cb_state = (byte & 0x80) ? 1 : 0;
-
-    PIA_SET_CA2(pia1.ca_state);
-    PIA_SET_CB2(pia1.cb_state);
-
-    byte = pia1.port_a | ~pia1.ddr_a;
-    
-
-    byte = pia1.port_b | ~pia1.ddr_b;
-    
-
-    if( 0
-            || ((pia1.ctrl_a & 0x81) == 0x81)
-            || ((pia1.ctrl_a & 0x68) == 0x48)
-            || ((pia1.ctrl_b & 0x81) == 0x81)
-            || ((pia1.ctrl_b & 0x68) == 0x48)
-        ) {
-        my_restore_int(1);
-    }
-
-    return snapshot_module_close(m);
-}
+#include "piacore.c"
 

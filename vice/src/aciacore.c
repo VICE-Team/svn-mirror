@@ -61,6 +61,8 @@ static int alarm_active = 0;	/* if alarm is set or not */
 static log_t acia_log = LOG_ERR;
 
 static int int_acia(long offset);
+
+static BYTE acia_last_read = 0;  /* the byte read the last time (for RMW) */
     
 /******************************************************************/
 
@@ -329,6 +331,13 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 	log_message(acia_log, "store_myacia(%04x,%02x)",a,b);
 #endif
 
+        if (mycpu_rmw_flag) {
+            myclk --;
+            mycpu_rmw_flag = 0;
+            store_myacia(a, acia_last_read);
+            myclk ++;
+        }
+
 	switch(a & 3) {
 	case ACIA_DR:
 		txdata = b;
@@ -398,19 +407,24 @@ BYTE read_myacia_(ADDRESS a) {
 	switch(a & 3) {
 	case ACIA_DR:
 		status &= ~8;
+		acia_last_read = rxdata;
 		return rxdata;
 	case ACIA_SR:
 		{
 		  BYTE c = status | (irq?0x80:0);
 		  mycpu_set_int(I_MYACIA, 0);
 		  irq = 0;
+		  acia_last_read = c;
 		  return c;
 		}
 	case ACIA_CTRL:
+		acia_last_read = ctrl;
 		return ctrl;
 	case ACIA_CMD:
+		acia_last_read = cmd;
 		return cmd;
 	}
+	/* should never happen */
 	return 0;
 }
 

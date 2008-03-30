@@ -4,9 +4,6 @@ else
 acia_libadd =
 endif
 
-
-SUFFIXES = .def
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -35,7 +32,6 @@ libc64_a_SOURCES = \
 	reu.c \
 	reu.h \
 	c64tpi.c \
-	c64tpi.def \
 	c64tpi.h
 
 libc64c128_a_SOURCES = \
@@ -45,11 +41,7 @@ libc64c128_a_SOURCES = \
 	patchrom.c \
 	patchrom.h \
 	c64tpi.c \
-	c64tpi.def \
 	c64tpi.h
-
-BUILT_SOURCES = \
-	c64tpi.c
 
 EXTRA_libc64_a_SOURCES = \
 	c64acia.h \
@@ -67,15 +59,5 @@ EXTRA_DIST = c64.dsp c64c128.dsp
 
 libc64_a_LIBADD = $(acia_libadd)
 libc64c128_a_LIBADD = $(acia_libadd)
-
-c64dir = $(top_srcdir)/src/c64
-
-c64tpi.c: c64tpi.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c64tpi.c'..."; \
-           if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	       	   $(top_srcdir)/src/tpi-tmpl.c \
-	       	   $(c64dir)/c64tpi.def $(c64dir)/c64tpi.c; \
-           fi )
 
 

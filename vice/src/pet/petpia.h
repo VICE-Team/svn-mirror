@@ -43,6 +43,7 @@
 extern int pia1_init_resources(void);
 extern int pia1_init_cmdline_options(void);
 
+extern void pia1_init(void);
 extern void reset_pia1(void);
 extern void signal_pia1(int line, int edge);
 extern void REGPARM2 store_pia1(ADDRESS addr, BYTE value);
@@ -52,6 +53,7 @@ extern BYTE REGPARM1 peek_pia1(ADDRESS addr);
 extern int pia1_read_snapshot_module(snapshot_t *);
 extern int pia1_write_snapshot_module(snapshot_t *);
 
+extern void pia2_init(void);
 extern void reset_pia2(void);
 extern void signal_pia2(int line, int edge);
 extern void REGPARM2 store_pia2(ADDRESS addr, BYTE value);

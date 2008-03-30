@@ -280,6 +280,7 @@ int machine_init(void)
     ciat_init_table();
     cia1_init();
     cia2_init();
+    tpi_init();
 #ifdef HAVE_RS232
     acia1_init();
 #endif

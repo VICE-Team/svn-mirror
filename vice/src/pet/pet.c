@@ -237,6 +237,8 @@ int machine_init(void)
     crtc_init();
 
     via_init();
+    pia1_init();
+    pia2_init();
     acia1_init();
 
     /* Initialize the keyboard.  */

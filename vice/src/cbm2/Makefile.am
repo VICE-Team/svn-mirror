@@ -1,4 +1,3 @@
-SUFFIXES = .def
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -24,29 +23,7 @@ libcbm2_a_SOURCES = \
 	c610mem.h \
 	c610tpi.h \
 	c610tpi1.c \
-	c610tpi1.def \
-	c610tpi2.c \
-	c610tpi2.def
-
-BUILT_SOURCES = c610tpi1.c c610tpi2.c 
+	c610tpi2.c 
 
 EXTRA_DIST = cbm2.dsp
-
-c610dir = $(top_srcdir)/src/cbm2
-
-c610tpi1.c: c610tpi1.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c610tpi1.c'..."; \
-	   if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/tpi-tmpl.c \
-	           $(c610dir)/c610tpi1.def $(c610dir)/c610tpi1.c; \
-	   fi )
-
-c610tpi2.c: c610tpi2.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c610tpi2.c'..."; \
-	   if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/tpi-tmpl.c \
-	           $(c610dir)/c610tpi2.def $(c610dir)/c610tpi2.c; \
-	   fi )
 

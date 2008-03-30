@@ -230,6 +230,9 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 
 void mycia_init(void)
 {
+    if (cia_log == LOG_ERR)
+        cia_log = log_open(MYCIA_NAME);
+
     alarm_init(&cia_ta_alarm, &mycpu_alarm_context, MYCIA_NAME "_TA",
                int_ciata);
     alarm_init(&cia_tb_alarm, &mycpu_alarm_context, MYCIA_NAME "_TB",
@@ -246,9 +249,6 @@ void mycia_init(void)
 void reset_mycia(void)
 {
     int i;
-
-    if (cia_log == LOG_ERR)
-        cia_log = log_open(MYCIA_NAME);
 
     ciatodticks = CYCLES_PER_SEC / 10;  /* cycles per tenth of a second */
 
@@ -548,8 +548,6 @@ BYTE read_cia_(ADDRESS addr)
 
     addr &= 0xf;
 
-    PRE_READ_CIA
-
     /* Hack for opcode fetch, where the clock does not change */
     if (myclk <= cia_read_clk) {
 	rclk = cia_read_clk + (++cia_read_offset) - READ_OFFSET;
@@ -558,6 +556,8 @@ BYTE read_cia_(ADDRESS addr)
 	cia_read_offset = 0;
         rclk = myclk - READ_OFFSET;
     }
+
+    PRE_READ_CIA
 
     switch (addr) {
 

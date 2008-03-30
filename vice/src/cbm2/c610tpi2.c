@@ -1,11 +1,5 @@
-
 /*
- * ../../src/cbm2/c610tpi2.c
- * This file is generated from ../../src/tpi-tmpl.c and ../../src/cbm2/c610tpi2.def,
- * Do not edit!
- */
-/*
- * tpi-tmpl.c - TPI 6525 template
+ * c610tpi2.c - TPI 2 for CBM-II
  *
  * Written by
  *   André Fachat (a.fachat@physik.tu-chemnitz.de)
@@ -30,479 +24,115 @@
  *
  */
 
-#include "vice.h"
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#endif
-
-#include "interrupt.h"
-#include "log.h"
-#include "snapshot.h"
-#include "tpi.h"
-#include "types.h"
-
+#include "tpicore.h"
 
 #include "kbd.h"
+#include "maincpu.h"
+
+/*----------------------------------------------------------------------*/
+/* renaming of exported functions */
+
+#define mytpi_init tpi2_init
+#define reset_mytpi reset_tpi2
+#define store_mytpi store_tpi2
+#define read_mytpi read_tpi2
+#define peek_mytpi peek_tpi2
+#define mytpi_set_int tpi2_set_int
+#define mytpi_restore_int tpi2_restore_int
+#define mytpi_write_snapshot_module tpi2_write_snapshot_module
+#define mytpi_read_snapshot_module tpi2_read_snapshot_module
+
+#define MYTPI_NAME      "TPI2"
+
+/*----------------------------------------------------------------------*/
+/* CPU binding */
 
 #define mycpu_set_int(a,b)		do {} while(0)
 #define mycpu_restore_int(a,b)		do {} while(0)
 
-#define TPI_SET_CA(a)
-#define TPI_SET_CB(a)
+#define mycpu_rmw_flag  rmw_flag
+#define myclk           clk
 
-    static BYTE cbm2_model_port_mask = 0xc0;
+/*----------------------------------------------------------------------*/
+/* I/O */
 
-    void set_cbm2_model_port_mask(BYTE val) 
-    {
-        cbm2_model_port_mask = val & 0xc0;
-    }
+static BYTE cbm2_model_port_mask = 0xc0;
 
-
-int tpi2_debug = 0;
-
-static BYTE pow2[] = { 1, 2, 4, 8, 16 };
-
-static BYTE irq_previous;
-static BYTE irq_stack;
-
-#define	irq_active	tpi[TPI_AIR]
-#define	irq_latches	tpi[TPI_PC]
-#define	irq_mask	tpi[TPI_DDPC]
-#define	irq_mode	(tpi[TPI_CREG] & 1)
-#define	irq_priority	(tpi[TPI_CREG] & 2)
-
-#define	IS_CA_MODE()		((tpi[TPI_CREG] & 0x20) == 0x00)
-#define	IS_CA_PULSE_MODE()	((tpi[TPI_CREG] & 0x30) == 0x10)
-#define	IS_CA_TOGGLE_MODE()	((tpi[TPI_CREG] & 0x30) == 0x00)
-#define	IS_CB_MODE()		((tpi[TPI_CREG] & 0x80) == 0x00)
-#define	IS_CB_PULSE_MODE()	((tpi[TPI_CREG] & 0xc0) == 0x40)
-#define	IS_CB_TOGGLE_MODE()	((tpi[TPI_CREG] & 0xc0) == 0x00)
-
-static BYTE tpi[8];
-
-static BYTE oldpa;
-static BYTE oldpb;
-static BYTE oldpc;
-
-static BYTE ca_state;
-static BYTE cb_state;
-
-static log_t tpi2_log = LOG_ERR;
-
-/*------------------------------------------------------------------------*/
-/* Handle irq stack etc */
-
-static void set_latch_bit(int bit) {
-    
-    if(tpi2_debug && !(bit & irq_latches)) {
-	log_message(tpi2_log, "set_latch_bit(%02x, mask=%02x)",
-                    bit, irq_mask);
-    }
-
-    irq_latches |= bit;
-
-    if(!(irq_mask & bit)) return;
-
-    /* if one IRQ is already active put on stack, if not, trigger CPU int */
-    if(irq_priority) {
-	if(bit > (irq_latches & ~bit)) {
-	    irq_active = bit;
-       	    mycpu_set_int(I_TPI1, MYIRQ);
-	}
-    } else {
-        if(!irq_active) {
-	    irq_active = bit;
-            mycpu_set_int(I_TPI1, MYIRQ);
-	}
-    }
-    irq_stack |= bit;
+void set_cbm2_model_port_mask(BYTE val) 
+{
+    cbm2_model_port_mask = val & 0xc0;
 }
 
-static void pop_irq_state(void) {
-    if(tpi2_debug) {
-        log_message(tpi2_log, "pop_irq_state(latches=%02x, stack=%02x, active=%02x)",
-                (int)irq_latches, (int)irq_stack, (int)irq_active);
-    }
-    if(irq_priority) {
-   	if(irq_stack) {
-	    int i;
-	    for(i=4;i>=0;i--) {
-		if(irq_stack & pow2[i]) {
-		    irq_active = pow2[i];
-		    break;
-		}
-	    }
-	}
-    }
-    mycpu_set_int(I_TPI2, irq_active ? MYIRQ : 0);
+_TPI_FUNC void tpi_set_ca(int a)
+{
 }
 
-static BYTE push_irq_state(void) {
-    int old_active;
-
-    old_active = irq_active;
-
-    if(tpi2_debug) {
-        log_message(tpi2_log,
-                    "push_irq_state(latches=%02x, act=%02x, stack=%02x mask=%02x).",
-                    (int)irq_latches, (int)irq_active,
-                    (int)irq_stack, (int)irq_mask);
-    }
-
-    irq_latches &= ~irq_active;
-    irq_stack &= ~irq_active;
-    irq_active = 0;
-
-    if(!irq_priority) {
-	irq_active = irq_stack;
-	irq_stack = 0;
-    }
-    mycpu_set_int(I_TPI1, irq_active ? MYIRQ : 0);
-    return old_active;
+_TPI_FUNC void tpi_set_cb(int a)
+{
 }
 
-/*------------------------------------------------------------------------*/
-
-void reset_tpi2 ( void ) {
-	int i;
-
-        if (tpi2_log == LOG_ERR)
-            tpi2_log = log_open("TPI2");
-
-	for(i=0;i<8;i++) {
-	  tpi[0] = 0;
-	}
-
-	irq_mask = 0;
-	irq_latches = 0;
-	irq_previous = 0xff;
-	irq_stack = 0;
-	irq_active = 0;
-        mycpu_set_int(I_TPI2, 0);
-
-	oldpa = 0xff;
-	oldpb = 0xff;
-	oldpc = 0xff;
-
-	TPI_SET_CA(0);
-	TPI_SET_CB(0);
-	ca_state = 0;
-	cb_state = 0;
-
-
+_TPI_FUNC void tpi_reset(void)
+{
 }
 
-void store_tpi2 ( ADDRESS addr, BYTE byte ) {
-
-	addr &= 0x07;
-
-
-	switch ( addr ) {
-	case TPI_PA:
-	case TPI_DDPA:
-	    tpi[addr] = byte;
-	    byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
-	    
-	    oldpa = byte;
-	    return;
-	case TPI_PB:
-	case TPI_DDPB:
-	    tpi[addr] = byte;
-	    byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
-	    
-	    oldpb = byte;
-	    if(IS_CB_MODE()) {
-		cb_state = 0;
-		TPI_SET_CB(0);
-		if(IS_CB_PULSE_MODE()) {
-		    cb_state = 1;
-		    TPI_SET_CB(1);
-		}
-	    }
-	    return;
-	case TPI_PC:
-	case TPI_DDPC:
-	    tpi[addr] = byte;
-	    if (irq_mode) {
-	        if(addr == TPI_PC) {
-	            irq_latches &= byte;
-		} else {
-		    int i;
-		    for(i=4;i>=0;i--) {
-                        if(irq_mask & irq_latches & pow2[i]) {
-                            set_latch_bit(pow2[i]);
-			}
-		    }
-	        }
-	    } else {
-	        byte = tpi[TPI_PC] | ~tpi[TPI_DDPC];
-	        
-		oldpc = byte;
-	    }
-	    return;
-	case TPI_CREG:
-	    tpi[addr] = byte;
-	    if(tpi2_debug) {
-		log_message(tpi2_log, "write %02x to CREG",byte);
-	    }
-	    if(tpi[TPI_CREG] & 0x20) {
-		ca_state = (tpi[TPI_CREG] & 0x10);
-		TPI_SET_CA( ca_state );
-	    } else
-	    if(tpi[TPI_CREG] & 0x10) {
-		ca_state = 1;
-		TPI_SET_CA( 1 );
-	    }
-	    if(tpi[TPI_CREG] & 0x80) {
-		cb_state = (tpi[TPI_CREG] & 0x40);
-		TPI_SET_CB( cb_state );
-	    } else
-	    if(tpi[TPI_CREG] & 0x40) {
-		cb_state = 1;
-		TPI_SET_CB( 1 );
-	    }
-	    return;
-	case TPI_AIR:
-	    pop_irq_state();
-	    return;
-	}
-	tpi[addr] = byte;
+_TPI_FUNC void store_pa(BYTE byte)
+{
 }
 
-BYTE read_tpi2 ( ADDRESS addr ) {
-	BYTE byte = 0xff;
-    	switch ( addr ) {
-	case TPI_PA:
+_TPI_FUNC void store_pb(BYTE byte)
+{
+}
 
-        byte = (0xff & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
-	    if(IS_CA_MODE()) {
-		ca_state = 0;
-		TPI_SET_CA(0);
-		if(IS_CA_PULSE_MODE()) {
-		    ca_state = 1;
-		    TPI_SET_CA(1);
-		}
-	    }
-	    return byte;
-	case TPI_PB:
+_TPI_FUNC void store_pc(BYTE byte)
+{
+}
 
-        byte = (0xff & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
-	    return byte;
-	case TPI_PC:
-	    if(irq_mode) {
-		return (irq_latches & 0x1f) | (irq_active ? 0x20 : 0) | 0xc0;
-	    } else {
+_TPI_FUNC void undump_pa(BYTE byte)
+{
+}
 
-        {
-            BYTE val = ~tpi[TPI_DDPC] | 0xc0;
-            int msk = (oldpa & 0xff) | ((oldpb << 8) & 0xff00);
-            int m;
-            int i;
+_TPI_FUNC void undump_pb(BYTE byte)
+{
+}
 
-            for (m = 0x1, i = 0; i < 16; m <<= 1, i++)
-                if (!(msk & m))
-                    val &= ~keyarr[i];
+_TPI_FUNC void undump_pc(BYTE byte)
+{
+}
+
+_TPI_FUNC BYTE read_pa(void)
+{
+    BYTE byte;
+    byte = (0xff & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
+    return byte;
+}
+
+_TPI_FUNC BYTE read_pb(void)
+{
+    BYTE byte;
+    byte = (0xff & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
+    return byte;
+}
+
+_TPI_FUNC BYTE read_pc(void)
+{
+    BYTE byte;
+    BYTE val = ~tpi[TPI_DDPC] | 0xc0;
+    int msk = (oldpa & 0xff) | ((oldpb << 8) & 0xff00);
+    int m;
+    int i;
+
+    for (m = 0x1, i = 0; i < 16; m <<= 1, i++)
+        if (!(msk & m))
+            val &= ~keyarr[i];
 /*
 if(val) printf("mask=%04x, val=%02x (pa=%02x/%02x, pb=%02x/%02x)\n",
 		msk, b, tpi[TPI_PA], tpi[TPI_DDPA], tpi[TPI_PB], tpi[TPI_DDPB]);
 */
-            byte = (val & 0x3f) | cbm2_model_port_mask;
-        }
-		return byte;
-	    }
-	case TPI_AIR:
-	    return push_irq_state();
-	default:
-	    return tpi[addr];
-	}
+    byte = (val & 0x3f) | cbm2_model_port_mask;
+
+    return byte;
 }
 
-BYTE peek_tpi2 (ADDRESS addr) {
-	BYTE b = read_tpi2(addr);
-	return b;
-}
-
-
-/* Port C can be setup as interrupt input - this collects connected IRQ states
- * and sets IRQ if necessary 
- * Beware: An IRQ line is active low, but for active irqs we here get
- * a state parameter != 0 */
-void tpi2_set_int(int bit, int state)
-{
-    if(bit>=5) return;
-
-    bit = pow2[bit];
-
-    state = !state;
-
-    /* check low-high transition */
-    if(state && !(irq_previous & bit)) {
-        /* on those two lines the transition can be selected. */
-	if((bit & 0x18) && ((bit>>1) & tpi[TPI_CREG])) {
-	    set_latch_bit(bit);
-	    if((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
-		ca_state = 1;
-		TPI_SET_CA(1);
-	    }
-	    if((bit & 0x10) && IS_CB_TOGGLE_MODE()) {
-		cb_state = 1;
-		TPI_SET_CB(1);
-	    }
-	}
-	irq_previous |= bit;
-    } else
-    /* check high-low transition */
-    if((!state) && (irq_previous & bit)) {
-        /* on those two lines the transition can be selected. */
-	if((bit & 0x18) && !((bit>>1) & tpi[TPI_CREG])) {
-	    set_latch_bit(bit);
-	    if((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
-		ca_state = 1;
-		TPI_SET_CA(1);
-	    }
-	    if((bit & 0x10) && IS_CB_TOGGLE_MODE()) {
-		cb_state = 1;
-		TPI_SET_CB(1);
-	    }
-	}
-        /* those three always trigger at high-low */
-	if(bit & 0x07) {
-	    set_latch_bit(bit);
-	}
-	irq_previous &= ~bit;
-    }
-}
-
-void tpi2_restore_int(int bit, int state)
-{
-    if(bit>=5) return;
-
-    bit = pow2[bit];
-
-    if (state) {
-	irq_previous |= bit;
-    } else {
-	irq_previous &= ~bit;
-    }
-}
-
-
-/* -------------------------------------------------------------------------- */
-
-/* The dump format has a module header and the data generated by the
- * chip...
- *
- * The version of this dump description is 0/0
- */
-
-#define TPI_DUMP_VER_MAJOR      1
-#define TPI_DUMP_VER_MINOR      0
-
-/*
- * The dump data:
- *
- * UBYTE	PRA	port A output register
- * UBYTE	PRB
- * UBYTE	PRC
- * UBYTE	DDRA	data register A
- * UBYTE	DDRB
- * UBYTE	DDRC
- * UBYTE	CR
- * UBYTE	AIR
- *
- * UBYTE	STACK	irq sources saved on stack
- * UBYTE	CABSTATE state of CA and CB pins
- */
-
-static const char module_name[] = "TPI2";
-
-/* FIXME!!!  Error check.  */
-int tpi2_write_snapshot_module(snapshot_t *p)
-{
-    snapshot_module_t *m;
-
-    m = snapshot_module_create(p, module_name,
-                               TPI_DUMP_VER_MAJOR, TPI_DUMP_VER_MINOR);
-    if (m == NULL)
-        return -1;
-
-    snapshot_module_write_byte(m, tpi[TPI_PA]);
-    snapshot_module_write_byte(m, tpi[TPI_PB]);
-    snapshot_module_write_byte(m, tpi[TPI_PC]);
-    snapshot_module_write_byte(m, tpi[TPI_DDPA]);
-    snapshot_module_write_byte(m, tpi[TPI_DDPB]);
-    snapshot_module_write_byte(m, tpi[TPI_DDPC]);
-    snapshot_module_write_byte(m, tpi[TPI_CREG]);
-    snapshot_module_write_byte(m, tpi[TPI_AIR]);
-
-    snapshot_module_write_byte(m, irq_stack);
-
-    snapshot_module_write_byte(m, 
-			(ca_state ? 0x80 : 0) | (cb_state ? 0x40 : 0) );
-
-    snapshot_module_close(m);
-
-    return 0;
-}
-
-int tpi2_read_snapshot_module(snapshot_t *p)
-{
-    BYTE vmajor, vminor;
-    BYTE byte;
-    snapshot_module_t *m;
-
-    mycpu_restore_int(I_TPI2, 0);  	/* just in case */
-
-    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
-    if (m == NULL)
-        return -1;
-
-    if (vmajor != TPI_DUMP_VER_MAJOR) {
-        snapshot_module_close(m);
-        return -1;
-    }
-
-    snapshot_module_read_byte(m, &tpi[TPI_PA]);
-    snapshot_module_read_byte(m, &tpi[TPI_PB]);
-    snapshot_module_read_byte(m, &tpi[TPI_PC]);
-    snapshot_module_read_byte(m, &tpi[TPI_DDPA]);
-    snapshot_module_read_byte(m, &tpi[TPI_DDPB]);
-    snapshot_module_read_byte(m, &tpi[TPI_DDPC]);
-    snapshot_module_read_byte(m, &tpi[TPI_CREG]);
-    snapshot_module_read_byte(m, &tpi[TPI_AIR]);
-
-    snapshot_module_read_byte(m, &irq_stack);
-
-    snapshot_module_read_byte(m, &byte);
-    ca_state = byte & 0x80;
-    cb_state = byte & 0x40;
-
-    {
-        byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
-        
-        oldpa = byte;
-
-        byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
-        
-        oldpb = byte;
-
-	if (!irq_mode) {
-            byte = tpi[TPI_PC] | ~tpi[TPI_DDPC];
-            
-            oldpc = byte;
-	}
-    }
-
-    TPI_SET_CA( ca_state );
-    TPI_SET_CB( cb_state );
-
-    mycpu_restore_int(I_TPI2, irq_active ? MYIRQ : 0); 
-
-    if (snapshot_module_close(m) < 0)
-        return -1;
-
-    return 0;
-}
-
+#include "tpicore.c"
 

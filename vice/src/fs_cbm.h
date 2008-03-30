@@ -74,10 +74,15 @@
 #define BAM_FIRST_TRACK         0
 #define BAM_FIRST_SECTOR        1
 #define BAM_FORMAT_TYPE         2
-#define BAM_BIT_MAP             4
+#define BAM_BIT_MAP             4	/* start of bitmap in each BAM blk */
 #define BAM_BIT_MAP_1581        16
-#define BAM_VERSION_1541        165
+#define BAM_BIT_MAP_8050        6
+#define BAM_BIT_MAP_8250        BAM_BIT_MAP_8050
+#define BAM_VERSION_1541        165	/* position of DOS version (2A/2C) 
+					   in BAM blk */
 #define BAM_VERSION_1581        25
+#define BAM_VERSION_8050        27
+#define BAM_VERSION_8250        BAM_VERSION_8050
 
 /*
  * At the beginning of each image is header that makes sure
@@ -173,14 +178,26 @@ struct FormatData {
 #define BAM_ID_1581            22
 
 #define NUM_TRACKS_8050	       77
-#define NUM_BLOCKS_8050	       2088	/* 2052 free */
+#define NUM_BLOCKS_8050	       2083	/* 2052 free */
 #define MAX_TRACKS_8050	       77
-#define MAX_BLOCKS_8050	       2088
+#define MAX_BLOCKS_8050	       2083
+#define	BAM_TRACK_8050         39
+#define	BAM_SECTOR_8050        0
+#define	BAM_NAME_8050          6	/* pos. of disk name in 1st BAM blk */
+#define	BAM_ID_8050            24	/* pos. of disk id in 1st BAM blk */
+#define	DIR_TRACK_8050         39
+#define	DIR_SECTOR_8050        1
 
-#define NUM_TRACKS_8250	       144
+#define NUM_TRACKS_8250	       154
 #define NUM_BLOCKS_8250	       4166	/* 4133 free */
-#define MAX_TRACKS_8250	       144
+#define MAX_TRACKS_8250	       154
 #define MAX_BLOCKS_8250	       4166
+#define	BAM_TRACK_8250         39
+#define	BAM_SECTOR_8250        0
+#define	BAM_NAME_8250          6	/* pos. of disk name in 1st BAM blk */
+#define	BAM_ID_8250            24	/* pos. of disk id in 1st BAM blk */
+#define	DIR_TRACK_8250         39
+#define	DIR_SECTOR_8250        1
 
 #define MAX_TRACKS_ANY         MAX_TRACKS_8250
 #define MAX_BLOCKS_ANY         MAX_BLOCKS_8250
@@ -199,6 +216,8 @@ typedef struct {
     int  d64;
     int  d71;
     int  d81;
+    int  d80;	/* 8050 */
+    int  d82;	/* 8250 */
     int  gcr;
     char description[HEADER_LABEL_LEN+1];
 } hdrinfo;

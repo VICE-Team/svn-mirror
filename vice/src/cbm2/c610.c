@@ -204,6 +204,8 @@ int machine_init(void)
     ciat_init_table();
     cia1_init();
     acia1_init();
+    tpi1_init();
+    tpi2_init();
 
     /* Initialize the keyboard.  */
     if (c610_kbd_init() < 0)

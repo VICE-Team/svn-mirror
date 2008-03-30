@@ -138,7 +138,8 @@ struct _DRIVE {
 
     BYTE *dosrom;
     BYTE *dosram;
-    BYTE bam[3*256];    /* The 1581 uses 3 sectors as BAM.  */
+    /* FIXME: bam sizeof define */
+    BYTE bam[5*256];    /* The 1581 uses 3 secs as BAM - but the 8250 uses 5. */
     bufferinfo_t buffers[16];
 
 
@@ -190,16 +191,22 @@ struct _DRIVE {
 #define D64_FILE_SIZE_40E 197376        /* D64 image, 40 tracks with errors */
 #define D71_FILE_SIZE     349696        /* D71 image, 70 tracks */
 #define D81_FILE_SIZE     819200        /* D81 image, 80 tracks */
+#define	D80_FILE_SIZE     533248	/* D80 image, 77 tracks */
+#define	D82_FILE_SIZE    1066496	/* D82 image, 77 tracks */
 
 #define IS_D64_LEN(x) ((x) == D64_FILE_SIZE_35 || (x) == D64_FILE_SIZE_35E || \
 		       (x) == D64_FILE_SIZE_40 || (x) == D64_FILE_SIZE_40E)
 #define IS_D71_LEN(x) ((x) == D71_FILE_SIZE)
 #define IS_D81_LEN(x) ((x) == D81_FILE_SIZE)
+#define IS_D80_LEN(x) ((x) == D80_FILE_SIZE)
+#define IS_D82_LEN(x) ((x) == D82_FILE_SIZE)
 
 #define DISK_IMAGE_TYPE_X64 0
 #define DISK_IMAGE_TYPE_D64 1
 #define DISK_IMAGE_TYPE_D71 2
 #define DISK_IMAGE_TYPE_D81 3
+#define DISK_IMAGE_TYPE_D80 4
+#define DISK_IMAGE_TYPE_D82 5
 
 /*
  * Input Processor Error Codes

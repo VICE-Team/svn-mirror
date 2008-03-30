@@ -26,7 +26,6 @@
 
 #define mycpu maincpu
 #define myclk clk
-#define myrmwf rmw_flag
 #define myvia via
 #define myvia_init via_init
 
@@ -34,6 +33,7 @@
 #define MYVIA_INT VIA_INT
 #define	MYVIA_NAME "Via"
 
+#define mycpu_rmw_flag rmw_flag
 #define mycpu_int_status maincpu_int_status
 #define	mycpu_alarm_context maincpu_alarm_context
 #define mycpu_clk_guard maincpu_clk_guard

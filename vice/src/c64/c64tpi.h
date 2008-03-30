@@ -27,6 +27,7 @@
 #ifndef _C64TPI_H
 #define _C64TPI_H
 
+extern void tpi_init(void);
 extern void reset_tpi(void);
 extern void store_tpi(ADDRESS addr, BYTE byte);
 extern BYTE read_tpi(ADDRESS addr);
