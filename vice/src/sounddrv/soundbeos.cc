@@ -60,14 +60,6 @@ static unsigned int buffer_len;
 /* Size of fragment (bytes).  */
 static unsigned int fragment_size;
 
-/* Flag: have we been suspended?  */
-static int been_suspended;
-
-/* Number of samples already written; if this value is greater than the
-   buffer size, it's equal to the buffer size.  This is a hack for the first
-   few writes.  */
-static int written_samples;
-
 /* ------------------------------------------------------------------------- */
 
 static int beos_init(const char *param, int *speed,
@@ -120,10 +112,6 @@ static int beos_write(SWORD *pbuf, size_t nr)
 			write_position = 0;
 	}
 	
-    written_samples += nr;
-    if (written_samples > bufferlength)
-        written_samples = bufferlength;
-
 	return 0;
 }
 
@@ -137,8 +125,6 @@ static int beos_bufferspace(void)
 		ret += bufferlength;
 
 	ret /= 2;
-    if (ret > written_samples)
-        ret = written_samples;
 
 	return ret;			
 }
@@ -152,7 +138,6 @@ static int beos_suspend(void)
 {
     game_sound->StopPlaying();
     game_sound->UnlockCyclic();
-    been_suspended = 1;
     return 0;
 }
 
@@ -165,7 +150,6 @@ static int beos_resume(void)
 	}
 	memset(soundbuffer, 0, bufferlength);
 	game_sound->StartPlaying();
-    written_samples = 0;
     return 0;
 }
 

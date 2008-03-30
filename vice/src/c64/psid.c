@@ -381,26 +381,16 @@ void psid_init_tune(void)
   }
 
   if (console_mode) {
-    log_message(LOG_DEFAULT,
-		"Name: %s\n"
-		"Author: %s\n"
-		"Copyright: %s\n"
-		"Using %s sync\n"
-		"Using %s emulation\n"
-		"Using %s interrupt\n"
-		"Playing tune: %d\n"
-		"Default tune: %d\n"
-		"Number of tunes: %d",
-		(char *)(psid->name),
-		(char *)(psid->author),
-		(char *)(psid->copyright),
-                (int)sync == DRIVE_SYNC_PAL ? "PAL" : "NTSC",
-		(int)sid_model == 0 ? "MOS6581" : "MOS8580",
-		irq_str,
-		start_song,
-		psid->start_song,
-		psid->songs
-		);
+      log_message(LOG_DEFAULT, "Name: %s",      (char *)(psid->name));
+      log_message(LOG_DEFAULT, "Author: %s",    (char *)(psid->author));
+      log_message(LOG_DEFAULT, "Copyright: %s", (char *)(psid->copyright));
+      log_message(LOG_DEFAULT, "Using %s sync",
+                  (int)sync == DRIVE_SYNC_PAL ? "PAL" : "NTSC");
+      log_message(LOG_DEFAULT, "Using %s emulation",
+                  sid_model ? "MOS8580" : "MOS6581");
+      log_message(LOG_DEFAULT, "Using %s interrupt", irq_str);
+      log_message(LOG_DEFAULT, "Playing tune %d out of %d (defualt=%d)",
+                  start_song, psid->songs, psid->start_song);
   }
   else {
     vsid_ui_display_name((char *)(psid->name));

@@ -57,58 +57,75 @@ static UINT pos  = 0; // this is the position to which buffer we have to write
 static HMTX hmtxSnd;
 static HMTX hmtxOC;  // Open, Close  // not _really_ necessary
 
-#define MUTE_OFF   0
-#define MUTE_ON    1
+// --------------------------------------------------------------------------
 
-void mute(int state);
-int  get_volume(void);
-void set_volume(int vol);
+#define MUTE_OFF   MCI_SET_ON
+#define MUTE_ON    MCI_SET_OFF
 
-static void dart_close()
+static int volume = 50;
+
+int get_volume()
 {
-    MCI_GENERIC_PARMS GenericParms = {0};
-    ULONG             rc;
+    return volume;
+}
 
-    // prevent sound from clicking
-    mute(MUTE_ON);
+void set_volume(int vol)
+{
+    ULONG rc;
 
     if ((rc=DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT)))
     {
-        log_debug("sounddart.c: dart_close, DosRequestMutexSem rc=%i", rc);
+        log_debug("sounddart.c: set_volume, DosRequestMutexSem rc=%i", rc);
         return;
     }
+    if (usDeviceID)
+    {
+        MCI_SET_PARMS  MciSetParms;
 
-    //DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT);
-    for (rc=0; rc<BufferParms.ulNumBuffers; rc++)
-        buffers[rc].ulFlags = MIX_BUFFER_EOS;
+        memset(&MciSetParms, 0, sizeof(MCI_SET_PARMS));
 
-    rc = mciSendCommand(usDeviceID, MCI_STOP, MCI_WAIT,
-                        (PVOID) &GenericParms, 0);
-    if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_CLOSE_MIXER");
+        MciSetParms.ulLevel = vol;
+        MciSetParms.ulAudio = MCI_SET_AUDIO_ALL;
 
-    //log_message(LOG_DEFAULT, "sounddrv.c: Sound stopped.");
-
-    rc = mciSendCommand(usDeviceID, MCI_BUFFER, MCI_WAIT|MCI_DEALLOCATE_MEMORY,
-                        (PVOID) &BufferParms, 0);
-    if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_DEALLOC_BUFFER");
-
-    //log_message(LOG_DEFAULT, "sounddrv.c: Buffer deallocated.");
-    /*    rc = mciSendCommand(usDeviceID, MCI_MIXSETUP, MCI_WAIT|MCI_MIXSETUP_DEINIT,
-     (PVOID) &MixSetupParms, 0);
-     if (rc != MCIERR_SUCCESS) return sound_err(rc, "DART_ERR_MIXSETUP_DEINIT");*/
-
-    rc = mciSendCommand(usDeviceID, MCI_CLOSE, MCI_WAIT,
-                        (PVOID) &GenericParms, 0);
-    if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_CLOSE_MIXER");
-
-    usDeviceID = 0;
-    log_message(LOG_DEFAULT, "Dart: Sound closed.");
-
-    free(buffers);
-    //log_message(LOG_DEFAULT, "sounddrv.c: Buffer freed.");
-
+        rc = mciSendCommand(usDeviceID, MCI_SET, MCI_WAIT|
+                            MCI_SET_VOLUME|MCI_SET_AUDIO,
+                            (PVOID) &MciSetParms, 0);
+        if (rc != MCIERR_SUCCESS)
+            sound_err(rc, "Error setting up Volume (MCI_SET).");
+    }
+    volume=vol;
     DosReleaseMutexSem(hmtxOC);
 }
+
+void mute(int state)
+{
+    ULONG rc;
+
+    if ((rc=DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT)))
+    {
+        log_debug("sounddart.c: mute, DosRequestMutexSem rc=%i", rc);
+        return;
+    }
+    if (usDeviceID)
+    {
+        MCI_SET_PARMS MciSetParms;
+
+        memset(&MciSetParms, 0, sizeof(MCI_SET_PARMS));
+
+        MciSetParms.ulAudio = MCI_SET_AUDIO_ALL;
+        rc = mciSendCommand(usDeviceID, MCI_SET, MCI_WAIT|state|MCI_SET_AUDIO,
+                            (PVOID) &MciSetParms, 0);
+
+        if (rc != MCIERR_SUCCESS)
+            sound_err(rc, "Error setting mute state (MCI_SET_ON/OFF).");
+    }
+    DosReleaseMutexSem(hmtxOC);
+
+    if (state==MCI_SET_ON)
+        set_volume(volume);
+}
+
+// --------------------------------------------------------------------------
 
 LONG APIENTRY DARTEvent (ULONG ulStatus, PMCI_MIX_BUFFER pBuffer, ULONG ulFlags)
 {
@@ -167,69 +184,6 @@ LONG APIENTRY DARTEvent (ULONG ulStatus, PMCI_MIX_BUFFER pBuffer, ULONG ulFlags)
         return TRUE;
     }
     return TRUE;
-}
-
-static int volume = 50;
-
-int get_volume()
-{
-    return volume;
-}
-
-void set_volume(int vol)
-{
-    ULONG          rc;
-    MCI_SET_PARMS  MciSetParms;
-
-    if ((rc=DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT)))
-    {
-        log_debug("sounddart.c: set_volume, DosRequestMutexSem rc=%i", rc);
-        return;
-    }
-    if (usDeviceID)
-    {
-        memset(&MciSetParms, 0, sizeof(MCI_SET_PARMS));
-
-        MciSetParms.ulLevel = vol;
-        MciSetParms.ulAudio = MCI_SET_AUDIO_ALL;
-
-        rc = mciSendCommand(usDeviceID, MCI_SET, MCI_WAIT|
-                            MCI_SET_VOLUME|MCI_SET_AUDIO,
-                            (PVOID) &MciSetParms, 0);
-        if (rc != MCIERR_SUCCESS)
-        {
-            sound_err(rc, "Error setting up Volume (MCI_SET).");
-            return;
-        }
-    }
-    volume=vol;
-    DosReleaseMutexSem(hmtxOC);
-}
-
-void mute(int state)
-{
-    // MCI_STOP, MCI_PAUSE, and MCI_RESUME are used to stop, pause, or resume
-    // the audio device, respectively. MCI_STOP and MCI_PAUSE can only be sent
-    // to the mixer device after mixRead and mixWrite have been called.
-    // MCI_RESUME will only work after MCI_PAUSE has been sent.
-    //
-    // MCI_GENERIC_PARMS GenericParms = {0};
-    // ULONG             rc;
-    //
-    static int save_vol;
-    if (state)
-    {
-        save_vol=volume;
-        set_volume(0);
-        // rc = mciSendCommand(usDeviceID, MCI_PAUSE, MCI_WAIT,
-        //                     (PVOID) &GenericParms, 0);
-    }
-    else
-    {
-        set_volume(volume?volume:save_vol);
-        // rc = mciSendCommand(usDeviceID, MCI_RESUME, MCI_WAIT,
-        //                     (PVOID) &GenericParms, 0);
-    }
 }
 
 static float mmtime;  // [1000 samples / s]
@@ -339,7 +293,8 @@ static int dart_init(const char *param, int *speed,
     rc = mciSendCommand(usDeviceID, MCI_BUFFER, MCI_WAIT|MCI_ALLOCATE_MEMORY,
                         (PVOID) &BufferParms, 0);
 
-    if (rc != MCIERR_SUCCESS) return sound_err(rc, "Error allocating Memory (MCI_ALLOCATE_MEMORY).");
+    if (rc != MCIERR_SUCCESS)
+        return sound_err(rc, "Error allocating Memory (MCI_ALLOCATE_MEMORY).");
 
     // MCI driver will return the number of buffers it
     // was able to allocate
@@ -378,6 +333,52 @@ static int dart_init(const char *param, int *speed,
     mute(MUTE_OFF);
 
     return 0;
+}
+
+static void dart_close()
+{
+    MCI_GENERIC_PARMS GenericParms = {0};
+    ULONG             rc;
+
+    // prevent sound from clicking
+    mute(MUTE_ON);
+
+    if ((rc=DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT)))
+    {
+        log_debug("sounddart.c: dart_close, DosRequestMutexSem rc=%i", rc);
+        return;
+    }
+
+    //DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT);
+    for (rc=0; rc<BufferParms.ulNumBuffers; rc++)
+        buffers[rc].ulFlags = MIX_BUFFER_EOS;
+
+    rc = mciSendCommand(usDeviceID, MCI_STOP, MCI_WAIT,
+                        (PVOID) &GenericParms, 0);
+    if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_CLOSE_MIXER");
+
+    //log_message(LOG_DEFAULT, "sounddrv.c: Sound stopped.");
+
+    rc = mciSendCommand(usDeviceID, MCI_BUFFER, MCI_WAIT|MCI_DEALLOCATE_MEMORY,
+                        (PVOID) &BufferParms, 0);
+    if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_DEALLOC_BUFFER");
+
+    //log_message(LOG_DEFAULT, "sounddrv.c: Buffer deallocated.");
+    /*    rc = mciSendCommand(usDeviceID, MCI_MIXSETUP, MCI_WAIT|MCI_MIXSETUP_DEINIT,
+     (PVOID) &MixSetupParms, 0);
+     if (rc != MCIERR_SUCCESS) return sound_err(rc, "DART_ERR_MIXSETUP_DEINIT");*/
+
+    rc = mciSendCommand(usDeviceID, MCI_CLOSE, MCI_WAIT,
+                        (PVOID) &GenericParms, 0);
+    if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_CLOSE_MIXER");
+
+    usDeviceID = 0;
+    log_message(LOG_DEFAULT, "Dart: Sound closed.");
+
+    free(buffers);
+    //log_message(LOG_DEFAULT, "sounddrv.c: Buffer freed.");
+
+    DosReleaseMutexSem(hmtxOC);
 }
 
 /*
