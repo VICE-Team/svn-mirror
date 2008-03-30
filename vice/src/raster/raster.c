@@ -216,7 +216,7 @@ static int realize_canvas (raster_t *raster)
                                         raster->palette,
                                         raster->pixel_table.sing
 #ifdef USE_GNOMEUI
-					,&(raster->frame_buffer)
+					,raster->frame_buffer
 #endif
 					);
 
@@ -245,10 +245,12 @@ static int realize_frame_buffer (raster_t *raster)
 #if 0
   /* Boooh...  Amazingly broken API.  FIXME.  */
   if (raster->frame_buffer != NULL)
-    video_frame_buffer_free (&raster->frame_buffer);
+    video_frame_buffer_free (raster->frame_buffer);
 #else
-  if (!console_mode && !vsid_mode)
-    video_frame_buffer_free (&raster->frame_buffer);
+  if (!console_mode && !vsid_mode) {
+    video_frame_buffer_free (raster->frame_buffer);
+    raster->frame_buffer = NULL;
+  }
 #endif
 
   fb_width = ((raster->geometry.screen_size.width
@@ -266,7 +268,7 @@ static int realize_frame_buffer (raster_t *raster)
       return -1;
 
   if (!console_mode && !vsid_mode)
-    video_frame_buffer_clear (&raster->frame_buffer, RASTER_PIXEL (raster, 0));
+    video_frame_buffer_clear (raster->frame_buffer, RASTER_PIXEL (raster, 0));
 
   if (raster->fake_frame_buffer_line != NULL)
     free (raster->fake_frame_buffer_line);
@@ -512,7 +514,7 @@ inline static void add_line_and_double_scan (raster_t *raster,
 
   pixel_width = raster->viewport.pixel_size.width;
 
-  vid_memcpy ((FRAME_BUFFER_LINE_START (raster->frame_buffer,
+  vid_memcpy ((VIDEO_FRAME_BUFFER_LINE_START(raster->frame_buffer,
                                         2 * raster->current_line + 1)
                + raster->geometry.extra_offscreen_border
                + start * pixel_width),
@@ -596,7 +598,7 @@ inline static void handle_blank_line (raster_t *raster)
         {
           /* We do not use `add_line_and_double_scan()' because drawing the
              same line twice is faster.  */
-          vid_memset ((FRAME_BUFFER_LINE_START (raster->frame_buffer,
+          vid_memset ((VIDEO_FRAME_BUFFER_LINE_START(raster->frame_buffer,
                                                 2 * raster->current_line + 1)
                        + raster->geometry.extra_offscreen_border),
                       RASTER_PIXEL (raster, raster->border_color),
@@ -1187,7 +1189,7 @@ inline static void handle_visible_line (raster_t *raster)
 inline static void handle_end_of_frame (raster_t *raster)
 {
   /* FIXME for SCREEN_MAX_SPRITE_WIDTH */
-  raster->frame_buffer_ptr = (FRAME_BUFFER_START (raster->frame_buffer)
+  raster->frame_buffer_ptr = (VIDEO_FRAME_BUFFER_START(raster->frame_buffer)
                               + raster->geometry.extra_offscreen_border);
 
   raster->current_line = 0;
@@ -1289,7 +1291,7 @@ int raster_init (raster_t *raster,
     memset (raster->gfx_msk, 0, RASTER_GFX_MSK_SIZE);
     memset (raster->zero_gfx_msk, 0, RASTER_GFX_MSK_SIZE);
 
-  return 0;
+    return 0;
 }
 
 void raster_reset (raster_t *raster)
@@ -1300,8 +1302,9 @@ void raster_reset (raster_t *raster)
   raster_changes_remove_all (&raster->changes.next_line);
   raster->changes.have_on_this_line = 0;
 
-  raster->frame_buffer_ptr = (FRAME_BUFFER_START (raster->frame_buffer)
+  raster->frame_buffer_ptr = (VIDEO_FRAME_BUFFER_START(raster->frame_buffer)
                               + 2 * raster->geometry.extra_offscreen_border);
+ 
   raster->current_line = 0;
 
   raster->xsmooth = raster->ysmooth = 0;
@@ -1597,7 +1600,7 @@ void raster_emulate_line (raster_t *raster)
 
       raster->current_line++;
       raster->frame_buffer_ptr
-        = (FRAME_BUFFER_LINE_START (raster->frame_buffer,
+        = (VIDEO_FRAME_BUFFER_LINE_START(raster->frame_buffer,
                                     (raster->current_line
                                      * viewport->pixel_size.height))
            + raster->geometry.extra_offscreen_border);
@@ -1621,7 +1624,7 @@ void raster_emulate_line (raster_t *raster)
         handle_end_of_frame (raster);
       else
         raster->frame_buffer_ptr
-          = (FRAME_BUFFER_LINE_START (raster->frame_buffer,
+          = (VIDEO_FRAME_BUFFER_LINE_START(raster->frame_buffer,
                                       (raster->current_line
                                        * viewport->pixel_size.height))
              + raster->geometry.extra_offscreen_border);
@@ -1645,7 +1648,7 @@ void raster_force_repaint (raster_t *raster)
   raster->num_cached_lines = 0;
 
   if (!console_mode && !vsid_mode)
-      video_frame_buffer_clear (&raster->frame_buffer,
+      video_frame_buffer_clear (raster->frame_buffer,
                                 RASTER_PIXEL (raster, 0));
 }
 
@@ -1715,7 +1718,7 @@ void raster_set_canvas_refresh (raster_t *raster,
 
 int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
 {
-    screenshot->frame_buffer = &raster->frame_buffer;
+    screenshot->frame_buffer = raster->frame_buffer;
     screenshot->width = raster->viewport.width;
     screenshot->height = raster->viewport.height;
     return 0;

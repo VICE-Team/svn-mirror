@@ -207,7 +207,6 @@ static int init_raster (void)
 
     if (raster_init(raster, VIC_II_NUM_VMODES, VIC_II_NUM_SPRITES) < 0)
         return -1;
-
     raster_modes_set_idle_mode (raster->modes, VIC_II_IDLE_MODE);
     raster_set_exposure_handler (raster, vic_ii_exposure_handler);
     raster_enable_cache (raster, vic_ii_resources.video_cache_enabled);
@@ -1437,7 +1436,8 @@ void video_setfullscreen (int v, int width, int height)
 /* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
 void video_free (void)
 {
-    video_frame_buffer_free (&vic_ii.raster.frame_buffer);
+    video_frame_buffer_free (vic_ii.raster.frame_buffer);
+    vic_ii.raster.frame_buffer = NULL;
 }
 
 int vic_ii_screenshot(screenshot_t *screenshot)
