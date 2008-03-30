@@ -1172,13 +1172,12 @@ static ui_menu_entry_t printer_settings_menu[] = {
     { N_("Userport printer device"),
       NULL, NULL, pruser_device_submenu  },
     { "--" },
-    { N_("Printer device 1..."), (ui_callback_t) /* set_printer_dump_file */
-					     set_printer_exec_file,
-      (ui_callback_data_t) "PrDevice1", NULL },
+    { N_("Printer device 1..."), (ui_callback_t) set_printer_exec_file,
+      (ui_callback_data_t) "PrinterDevice1", NULL },
     { N_("Printer device 2..."), (ui_callback_t) set_printer_exec_file,
-      (ui_callback_data_t) "PrDevice2", NULL },
+      (ui_callback_data_t) "PrinterDevice2", NULL },
     { N_("Printer device 3..."), (ui_callback_t) set_printer_exec_file,
-      (ui_callback_data_t) "PrDevice3", NULL },
+      (ui_callback_data_t) "PrinterDevice3", NULL },
     { NULL }
 };
 
