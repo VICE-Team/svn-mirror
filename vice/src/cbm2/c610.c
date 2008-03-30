@@ -66,7 +66,7 @@
 #include "rs232.h"
 #endif
 
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
 #include "c610kbd.h"
 #endif
 
@@ -124,7 +124,7 @@ int machine_init_resources(void)
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
 #endif
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
         || kbd_init_resources() < 0
 #else
         || pet_kbd_init_resources() < 0
@@ -154,7 +154,7 @@ int machine_init_cmdline_options(void)
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
 #endif
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
         || kbd_init_cmdline_options() < 0
 #else
         || pet_kbd_init_cmdline_options() < 0
@@ -196,7 +196,7 @@ int machine_init(void)
     crtc_init();
 
     /* Initialize the keyboard.  */
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
     if (c610_kbd_init() < 0)
         return -1;
 #else
@@ -320,7 +320,7 @@ void machine_set_cycles_per_frame(long cpf) {
     cbm2_cycles_per_rfsh = cpf;
     cbm2_rfsh_per_sec = ((double) C610_PAL_CYCLES_PER_SEC) / ((double) cpf);
 
-    printf("machine_set_cycles: cycl/frame=%ld, freq=%e\n", cpf, 
+    printf("machine_set_cycles: cycl/frame=%ld, freq=%e\n", cpf,
 						cbm2_rfsh_per_sec);
 
     vsync_init(cbm2_rfsh_per_sec, C610_PAL_CYCLES_PER_SEC, vsync_hook);
@@ -350,8 +350,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || tpi1_write_snapshot_module(s) < 0
         || tpi2_write_snapshot_module(s) < 0
         || acia1_write_snapshot_module(s) < 0
-	|| sid_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s, save_roms) < 0
+        || sid_write_snapshot_module(s) < 0
+        || drive_write_snapshot_module(s, save_disks, save_roms) < 0
 	) {
         snapshot_close(s);
         unlink(name);
@@ -398,4 +398,3 @@ fail:
     maincpu_trigger_reset();
     return -1;
 }
-

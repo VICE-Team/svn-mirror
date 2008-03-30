@@ -292,6 +292,8 @@ typedef struct drive_s {
     selected this flag gets cleared.  */
     int ask_extend_disk_image;
 
+    /* Pointer to the drive clock.  */
+    CLOCK *clk;
 } drive_t;
 
 extern drive_t drive[2];
@@ -304,24 +306,21 @@ extern BYTE serial_bus_drive_read(void);
 extern void drive0_mem_init(int type);
 extern void drive1_mem_init(int type);
 extern void drive_move_head(int step, int dnr);
-extern void drive_rotate_disk(int dnr);
-extern BYTE drive_read_disk_byte(int dnr);
-extern void drive_write_gcr(BYTE val, int dnr);
+extern void drive_rotate_disk(drive_t *dptr);
 extern void drive_reset(void);
 extern int drive_attach_floppy(DRIVE *floppy);
 extern int drive_detach_floppy(DRIVE *floppy);
-extern void drive_update_zone_bits(int zone, int dnr);
-extern void drive_update_viad2_pcr(int pcrval, int dnr);
-extern BYTE drive_read_viad2_prb(int dnr);
+extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);
+extern BYTE drive_read_viad2_prb(drive_t *dptr);
 extern void drive_prevent_clk_overflow(CLOCK sub, int dnr);
-extern void drive_motor_control(int flag, int dnr);
 extern void drive_vsync_hook(void);
 extern void drive_set_1571_sync_factor(int sync, int dnr);
 extern void drive_set_1571_side(int side, int dnr);
 extern void drive_update_ui_status(void);
 extern void drive_cpu_execute(void);
 
-extern int drive_write_snapshot_module(snapshot_t *s, int save_disks);
+extern int drive_write_snapshot_module(snapshot_t *s, int save_disks, 
+                                       int save_roms);
 extern int drive_read_snapshot_module(snapshot_t *s);
 
 #ifdef AVOID_STATIC_ARRAYS

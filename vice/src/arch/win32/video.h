@@ -2,7 +2,7 @@
  * video.h - Video implementation for Win32, using DirectDraw.
  *
  * Written by
- *  Ettore Perazzoli	(ettore@comm2000.it)
+ *  Ettore Perazzoli    (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +27,11 @@
 #ifndef _VIDEO_H
 #define _VIDEO_H
 
+/*  Nasty patch to avoid defining BYTE, WORD, DWORD more than once.  */
+
+#undef BYTE
+#undef WORD
+#undef DWORD
 #include <ddraw.h>
 
 #include "types.h"
@@ -85,13 +90,13 @@ extern int video_init_resources(void);
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
 extern int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
-			      unsigned int height);
+                              unsigned int height);
 extern void frame_buffer_free(frame_buffer_t * i);
 extern void frame_buffer_clear(frame_buffer_t * i, BYTE value);
 extern canvas_t canvas_create(const char *win_name, unsigned int *width,
-			      unsigned int *height, int mapped,
-			      canvas_redraw_t exposure_handler,
-			      const palette_t *palette, PIXEL *pixel_return);
+                              unsigned int *height, int mapped,
+                              canvas_redraw_t exposure_handler,
+                              const palette_t *palette, PIXEL *pixel_return);
 extern void canvas_destroy(canvas_t s);
 extern void canvas_map(canvas_t s);
 extern void canvas_unmap(canvas_t s);

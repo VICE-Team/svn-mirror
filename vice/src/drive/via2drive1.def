@@ -61,7 +61,9 @@ PRE_VIA_FUNCS()
 
 STORE_PRA()
 {
-	drive_write_gcr(byte, 1);
+    if (drive[1].byte_ready_active == 0x06)
+        drive_rotate_disk(&drive[1]);
+    drive[1].GCR_write_value = byte;
 }
 
 UNDUMP_PRA()
@@ -71,29 +73,27 @@ UNDUMP_PRA()
 
 STORE_PRB()
 {
-	{
-	  drive[1].led_status = byte & 8;
-
-	  if (((oldpb ^ byte) & 0x3) && (byte & 0x4))  /* Stepper motor */
-	  {
-	    if ((oldpb & 0x3) == ((byte + 1) & 0x3))
-              drive_move_head(-1, 1);
-            else if ((oldpb & 0x3) == ((byte - 1) & 0x3))
-              drive_move_head(+1, 1);
-	  }
-	  if ((oldpb ^ byte) & 0x60)     /* Zone bits */
-	      drive_update_zone_bits((byte >> 5) & 0x3, 1);
-
-	  if ((oldpb ^ byte) & 0x04)     /* Motor on/off */
-	      drive_motor_control(byte & 0x04, 1);
-	}
+    drive[1].led_status = byte & 8;
+    if (((oldpb ^ byte) & 0x3) && (byte & 0x4)) {
+        /* Stepper motor */
+        if ((oldpb & 0x3) == ((byte + 1) & 0x3))
+            drive_move_head(-1, 1);
+        else if ((oldpb & 0x3) == ((byte - 1) & 0x3))
+            drive_move_head(+1, 1);
+    }
+    if ((oldpb ^ byte) & 0x60)     /* Zone bits */
+        drive[1].rotation_table_ptr = drive[1].rotation_table[(byte >> 5) & 0x3];
+    if ((oldpb ^ byte) & 0x04)     /* Motor on/off */
+        drive[1].byte_ready_active = (drive[1].byte_ready_active & ~0x04)
+                                     | (byte & 0x04);
 }
 
 UNDUMP_PRB()
 {
     drive[1].led_status = byte & 8;
-    drive_update_zone_bits((byte >> 5) & 0x3, 1);
-    drive_motor_control(byte & 0x04, 1);
+    drive[1].rotation_table_ptr = drive[1].rotation_table[(byte >> 5) & 0x3];
+    drive[1].byte_ready_active = (drive[1].byte_ready_active & ~0x04)
+                                 | (byte & 0x04);
 }
 
 STORE_PCR()
@@ -109,10 +109,10 @@ STORE_PCR()
         /* insert_your_favourite_drive_function_here(tmp);
         bit 5 is the write output to the analog circuitry:
         0 = writing, 0x20 = reading */
-        drive_update_viad2_pcr(tmp, 1);
+        drive_update_viad2_pcr(tmp, &drive[1]);
         if ((byte & 0x20) != (via2d1[addr] & 0x20)) {
             if (drive[1].byte_ready_active == 0x06)
-                drive_rotate_disk(1);
+                drive_rotate_disk(&drive[1]);
             drive[1].finish_byte = 1;
         }
         byte = tmp;
@@ -121,10 +121,11 @@ STORE_PCR()
 
 UNDUMP_PCR()
 {
-    drive_update_viad2_pcr(byte, 1);
+    drive_update_viad2_pcr(byte, &drive[1]);
 }
 
 #define	STORE_ACR
+#define	UNDUMP_ACR
 #define	STORE_SR
 #define	STORE_T2L
 
@@ -136,18 +137,24 @@ RESET_VIA()
 
 READ_PRA()
 {
-    {
-        byte = ((drive_read_disk_byte(1) & ~via2d1[VIA_DDRA])
-            | (via2d1[VIA_PRA] & via2d1[VIA_DDRA] ));
-        if (drive[1].type == DRIVE_TYPE_1571)
-            if (drive[1].byte_ready)
-                drive[1].byte_ready = 0;
+    if (drive[1].attach_clk != (CLOCK)0) {
+        if (drive_clk[1] - drive[1].attach_clk < DRIVE_ATTACH_DELAY)
+            drive[1].GCR_read = 0;
+        drive[1].attach_clk = (CLOCK)0;
+    } else {
+        if (drive[1].byte_ready_active == 0x06)
+            drive_rotate_disk(&drive[1]);
     }
+    byte = ((drive[1].GCR_read & ~via2d1[VIA_DDRA])
+        | (via2d1[VIA_PRA] & via2d1[VIA_DDRA] ));
+    if (drive[1].type == DRIVE_TYPE_1571)
+        if (drive[1].byte_ready)
+            drive[1].byte_ready = 0;
 }
 
 READ_PRB()
 {
-	byte = (drive_read_viad2_prb(1) & ~via2d1[VIA_DDRB])
+	byte = (drive_read_viad2_prb(&drive[1]) & ~via2d1[VIA_DDRB])
 			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB] );
 }
 

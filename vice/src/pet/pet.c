@@ -68,7 +68,7 @@
 #include "pruser.h"
 #endif
 
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
 #include "petkbd.h"
 #endif
 
@@ -146,7 +146,7 @@ int machine_init_resources(void)
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
 #endif
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
         || kbd_init_resources() < 0)
 #else
         || pet_kbd_init_resources() < 0)
@@ -182,7 +182,7 @@ int machine_init_cmdline_options(void)
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
 #endif
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
         || kbd_init_cmdline_options() < 0)
 #else
         || pet_kbd_init_cmdline_options() < 0)
@@ -228,7 +228,7 @@ int machine_init(void)
     crtc_init();
 
     /* Initialize the keyboard.  */
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
     if (pet_kbd_init() < 0)
         return -1;
 #else
@@ -340,7 +340,7 @@ void machine_set_cycles_per_frame(long cpf) {
     pet_cycles_per_rfsh = cpf;
     pet_rfsh_per_sec = ((double) PET_PAL_CYCLES_PER_SEC) / ((double) cpf);
 
-    printf("machine_set_cycles: cycl/frame=%ld, freq=%e\n", cpf, 
+    printf("machine_set_cycles: cycl/frame=%ld, freq=%e\n", cpf,
 							pet_rfsh_per_sec);
 
     vsync_init(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC, vsync_hook);
@@ -373,7 +373,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || pia1_write_snapshot_module(s) < 0
         || pia2_write_snapshot_module(s) < 0
         || via_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s, save_disks) < 0
+        || drive_write_snapshot_module(s, save_disks, save_roms) < 0
 	) {
 	ef = -1;
     }
@@ -432,4 +432,3 @@ int machine_read_snapshot(const char *name)
     }
     return ef;
 }
-

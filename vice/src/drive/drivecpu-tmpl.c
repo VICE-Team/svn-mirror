@@ -543,7 +543,7 @@ void mydrive_cpu_execute(void)
 #define _drive_set_byte_ready(value) drive[mynumber].byte_ready = value
 
 #define _drive_byte_ready() ((drive[mynumber].byte_ready_active == 0x6)	\
-                                ? drive_rotate_disk(mynumber),		\
+                                ? drive_rotate_disk(&drive[mynumber]),	\
                                 drive[mynumber].byte_ready : 0)		\
 
 #include "6510core.c"

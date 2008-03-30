@@ -78,7 +78,8 @@ int sysfile_init(const char *boot_path, const char *emu_id)
 #if defined __MSDOS__ || defined WIN32
     /* On MS-DOS and Windows, always search in the directory in which the
        binary is stored. */
-    default_path = concat(boot_path, "/", emu_id, NULL);
+    default_path = concat(boot_path, "/", emu_id, FINDPATH_SEPARATOR_STRING,
+                          boot_path, "/DRIVES", NULL);
 #else
     /* On Unix, first search in the `LIBDIR' and then in the `boot_path'.  */
     default_path = concat(LIBDIR, "/", emu_id, FINDPATH_SEPARATOR_STRING,

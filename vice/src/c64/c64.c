@@ -62,7 +62,7 @@
 #include "vsync.h"
 #include "resources.h"
 
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
 #include "c64kbd.h"
 #endif
 
@@ -280,7 +280,7 @@ int machine_init(void)
     cia1_enable_extended_keyboard_rows(0);
 
     /* Initialize the keyboard.  */
-#ifndef __MSDOS__
+#if !defined __MSDOS__ && !defined WIN32
     if (kbd_init() < 0)
         return -1;
 #else
@@ -445,7 +445,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || cia1_write_snapshot_module(s) < 0
         || cia2_write_snapshot_module(s) < 0
         || sid_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s, save_disks) < 0
+        || drive_write_snapshot_module(s, save_disks, save_roms) < 0
         || vic_ii_write_snapshot_module(s) < 0) {
         snapshot_close(s);
         unlink(name);

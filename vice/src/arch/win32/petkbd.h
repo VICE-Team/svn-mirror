@@ -1,8 +1,8 @@
 /*
- * joystick.c - Joystick support for Windows.
+ * petkbd.h -- PET keyboard.
  *
  * Written by
- *  Ettore Perazzoli    (ettore@comm2000.it)
+ *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,30 +24,9 @@
  *
  */
 
-#include "vice.h"
+#ifndef _PETKBD_H
+#define _PETKBD_H
 
-#include "joystick.h"
+extern int pet_kbd_init(void);
 
-/* ------------------------------------------------------------------------ */
-
-int joystick_init_resources(void)
-{
-    return 0;
-}
-
-int joystick_init_cmdline_options(void)
-{
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-int joystick_init(void)
-{
-    return 0;
-}
-
-int joystick_close(void)
-{
-    return 0;
-}
+#endif

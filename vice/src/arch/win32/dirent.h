@@ -2,7 +2,7 @@
  * dirent.h - Fake implementation of dirent stuff for Windows.
  *
  * Written by
- *  Ettore Perazzoli	(ettore@comm2000.it)
+ *  Ettore Perazzoli    (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,7 +30,7 @@
 typedef struct _vice_dir DIR;
 
 struct dirent {
-    const char *d_name;
+    char *d_name;
     int d_namlen;
 };
 

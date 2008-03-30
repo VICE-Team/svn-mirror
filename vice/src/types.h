@@ -34,6 +34,17 @@
 
 #include <limits.h>
 
+#ifdef WIN32
+
+#define BYTE unsigned char
+#define WORD unsigned short
+#define DWORD unsigned int
+
+typedef signed char SIGNED_CHAR;
+typedef signed short SWORD;
+typedef signed int SDWORD;
+
+#else
 typedef signed char SIGNED_CHAR;
 typedef unsigned char BYTE;
 
@@ -51,8 +62,6 @@ typedef signed int SWORD;
 #error Cannot find a proper 16-bit type!
 #endif
 
-typedef WORD ADDRESS;
-
 #if SIZEOF_UNSIGNED_INT == 4
 #ifndef WINCE
 typedef unsigned int DWORD;
@@ -66,6 +75,10 @@ typedef signed long SWORD;
 #else
 #error Cannot find a proper 32-bit type!
 #endif
+
+#endif /* WIN 32 */
+
+typedef WORD ADDRESS;
 
 typedef DWORD CLOCK;
 

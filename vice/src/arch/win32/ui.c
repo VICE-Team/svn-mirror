@@ -185,18 +185,18 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
     return main_hwnd;
 }
 
-/* Reisize `w' so that the client rectangle is of the requested size.  */
+/* Resize `w' so that the client rectangle is of the requested size.  */
 void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
 {
     RECT wrect;
 
     GetClientRect(w, &wrect);
-    ClientToScreen(main_hwnd, (LPPOINT) &wrect);
-    ClientToScreen(main_hwnd, (LPPOINT) &wrect + 1);
+    ClientToScreen(w, (LPPOINT) &wrect);
+    ClientToScreen(w, ((LPPOINT) &wrect) + 1);
     wrect.right = wrect.left + width;
     wrect.bottom = wrect.top + height;
     AdjustWindowRect(&wrect, WS_OVERLAPPEDWINDOW, TRUE);
-    MoveWindow(main_hwnd,
+    MoveWindow(w,
                wrect.left,
                wrect.top,
                wrect.right - wrect.left,
@@ -224,13 +224,13 @@ void ui_update_menus(void)
 /* Report an error to the user (`printf()' style).  */
 void ui_error(const char *format,...)
 {
-	char tmp[1024];
-	va_list args;
+        char tmp[1024];
+        va_list args;
 
-	va_start(args, format);
-	vsprintf(tmp, format, args);
-	va_end(args);
-	MessageBox(main_hwnd, tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
+        va_start(args, format);
+        vsprintf(tmp, format, args);
+        va_end(args);
+        MessageBox(main_hwnd, tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
 }
 
 /* Handle the "CPU JAM" case.  */
@@ -263,18 +263,22 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     SetWindowText(main_hwnd, buf);
 }
 
+void ui_enable_drive_status(ui_drive_enable_t enable)
+{
+}
+
 /* Toggle displaying of the drive status.  */
 void ui_toggle_drive_status(int state)
 {
 }
 
 /* Toggle displaying of the drive track.  */
-void ui_display_drive_track(double track_number)
+void ui_display_drive_track(int drivenum, double track_number)
 {
 }
 
 /* Toggle displaying of the drive LED.  */
-void ui_display_drive_led(int status)
+void ui_display_drive_led(int drivenum, int status)
 {
 }
 
@@ -282,6 +286,12 @@ void ui_display_drive_led(int status)
 void ui_display_paused(int flag)
 {
 }
+
+ui_button_t ui_ask_confirmation(const char *title, const char *text)
+{
+    return UI_BUTTON_NONE;
+}
+
 
 /* ------------------------------------------------------------------------ */
 

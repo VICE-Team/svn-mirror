@@ -1,5 +1,5 @@
 /*
- * c64kbd.c -- C64 keyboard.
+ * vic20kbd.c -- VIC20 keyboard.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -28,27 +28,27 @@
 
 #include <stdio.h>
 
-#include "c64kbd.h"
+#include "vic20kbd.h"
 #include "kbd.h"
 
-static keyconv c64_keyboard[256] = {
+static keyconv vic20_keyboard[256] = {
     { -1, -1, 0 },              /*           (no key)           */
     { -1, -1, 0 },              /*          ESC -> (no key)     */
-    { 7, 0, 0 },                /*            1 -> 1            */
-    { 7, 3, 0 },                /*            2 -> 2            */
+    { 0, 0, 0 },                /*            1 -> 1            */
+    { 0, 7, 0 },                /*            2 -> 2            */
     { 1, 0, 0 },                /*            3 -> 3            */
-    { 1, 3, 0 },                /*            4 -> 4            */
+    { 1, 7, 0 },                /*            4 -> 4            */
     { 2, 0, 0 },                /*            5 -> 5            */
-    { 2, 3, 0 },                /*            6 -> 6            */
+    { 2, 7, 0 },                /*            6 -> 6            */
     { 3, 0, 0 },                /*            7 -> 7            */
-    { 3, 3, 0 },                /*            8 -> 8            */
+    { 3, 7, 0 },                /*            8 -> 8            */
     { 4, 0, 0 },                /*            9 -> 9            */
-    { 4, 3, 0 },                /*            0 -> 0            */
+    { 4, 7, 0 },                /*            0 -> 0            */
     { 5, 0, 0 },                /*        Minus -> Plus         */
-    { 5, 3, 0 },                /*        Equal -> Minus        */
-    { 0, 0, 0 },                /*    Backspace -> Del          */
-    { 7, 2, 0 },                /*          TAB -> Ctrl         */
-    { 7, 6, 0 },                /*            Q -> Q            */
+    { 5, 7, 0 },                /*        Equal -> Minus        */
+    { 7, 0, 0 },                /*    Backspace -> Del          */
+    { 0, 2, 0 },                /*          TAB -> Ctrl         */
+    { 0, 6, 0 },                /*            Q -> Q            */
     { 1, 1, 0 },                /*            W -> W            */
     { 1, 6, 0 },                /*            E -> E            */
     { 2, 1, 0 },                /*            R -> R            */
@@ -60,8 +60,8 @@ static keyconv c64_keyboard[256] = {
     { 5, 1, 0 },                /*            p -> P            */
     { 5, 6, 0 },                /*            [ -> @            */
     { 6, 1, 0 },                /*            ] -> *            */
-    { 0, 1, 0 },                /*       Return -> Return       */
-    { 7, 5, 0 },                /*    Left Ctrl -> CBM          */
+    { 7, 1, 0 },                /*       Return -> Return       */
+    { 0, 5, 0 },                /*    Left Ctrl -> CBM          */
     { 1, 2, 0 },                /*            A -> A            */
     { 1, 5, 0 },                /*            S -> S            */
     { 2, 2, 0 },                /*            D -> D            */
@@ -73,32 +73,32 @@ static keyconv c64_keyboard[256] = {
     { 5, 2, 0 },                /*            L -> L            */
     { 5, 5, 0 },                /*            ; -> :            */
     { 6, 2, 0 },                /*            ' -> ;            */
-    { 7, 1, 0 },                /*            ` -> Left Arrow   */
-    { 1, 7, 1 },                /*   Left Shift -> Left Shift   */
+    { 0, 1, 0 },                /*            ` -> Left Arrow   */
+    { 1, 3, 1 },                /*   Left Shift -> Left Shift   */
     { 6, 5, 0 },                /*            \ -> =            */
     { 1, 4, 0 },                /*            Z -> Z            */
-    { 2, 7, 0 },                /*            X -> X            */
+    { 2, 3, 0 },                /*            X -> X            */
     { 2, 4, 0 },                /*            C -> C            */
-    { 3, 7, 0 },                /*            V -> V            */
+    { 3, 3, 0 },                /*            V -> V            */
     { 3, 4, 0 },                /*            B -> B            */
-    { 4, 7, 0 },                /*            N -> N            */
+    { 4, 3, 0 },                /*            N -> N            */
     { 4, 4, 0 },                /*            M -> M            */
-    { 5, 7, 0 },                /*            , -> ,            */
+    { 5, 3, 0 },                /*            , -> ,            */
     { 5, 4, 0 },                /*            . -> .            */
-    { 6, 7, 0 },                /*            / -> /            */
+    { 6, 3, 0 },                /*            / -> /            */
     { 6, 4, 0 },                /*  Right Shift -> Right Shift  */
     { 6, 1, 0 },                /*       Grey * -> *            */
     { -1, -1, 0 },              /*     Left Alt -> (no key)     */
-    { 7, 4, 0 },                /*        Space -> Space        */
-    { 7, 7, 0 },                /*    Caps Lock -> Run/Stop     */
-    { 0, 4, 0 },                /*           F1 -> F1           */
-    { 0, 4, 1 },                /*           F2 -> F2           */
-    { 0, 5, 0 },                /*           F3 -> F3           */
-    { 0, 5, 1 },                /*           F4 -> F4           */
-    { 0, 6, 0 },                /*           F5 -> F5           */
-    { 0, 6, 1 },                /*           F6 -> F6           */
-    { 0, 3, 0 },                /*           F7 -> F7           */
-    { 0, 3, 1 },                /*           F8 -> F8           */
+    { 0, 4, 0 },                /*        Space -> Space        */
+    { 0, 3, 0 },                /*    Caps Lock -> Run/Stop     */
+    { 7, 4, 0 },                /*           F1 -> F1           */
+    { 7, 4, 1 },                /*           F2 -> F2           */
+    { 7, 5, 0 },                /*           F3 -> F3           */
+    { 7, 5, 1 },                /*           F4 -> F4           */
+    { 7, 6, 0 },                /*           F5 -> F5           */
+    { 7, 6, 1 },                /*           F6 -> F6           */
+    { 7, 7, 0 },                /*           F7 -> F7           */
+    { 7, 7, 1 },                /*           F8 -> F8           */
     { -1, -1, 0 },              /*           F9 -> (no key)     */
     { -1, -1, 0 },              /*          F10 -> (no key)     */
     { -1, -1, 0 },              /*     Num Lock -> (no key)     */
@@ -121,13 +121,13 @@ static keyconv c64_keyboard[256] = {
     { -1, -1, 0 },              /*           86 -> (no key)     */
     { -1, -1, 0 },              /*          F11 -> (no key)     */
     { -1, -1, 0 },              /*          F12 -> (no key)     */
-    { 6, 3, 0 },                /*         Home -> CLR/HOME     */
-    { 0, 7, 1 },                /*           Up -> CRSR UP      */
+    { 6, 7, 0 },                /*         Home -> CLR/HOME     */
+    { 7, 3, 1 },                /*           Up -> CRSR UP      */
     { -1, -1, 0 },              /*         PgUp -> (no key)     */
-    { 0, 2, 1 },                /*         Left -> CRSR LEFT    */
-    { 0, 2, 0 },                /*        Right -> CRSR RIGHT   */
+    { 7, 2, 1 },                /*         Left -> CRSR LEFT    */
+    { 7, 2, 0 },                /*        Right -> CRSR RIGHT   */
     { -1, -1, 0 },              /*          End -> (no key)     */
-    { 0, 7, 0 },                /*         Down -> CRSR DOWN    */
+    { 7, 3, 0 },                /*         Down -> CRSR DOWN    */
     { -1, -1, 0 },              /*       PgDown -> (no key)     */
     { 6, 0, 0 },                /*          Ins -> Pound        */
     { 6, 6, 0 },                /*          Del -> Up Arrow     */
@@ -139,11 +139,11 @@ static keyconv c64_keyboard[256] = {
     { -1, -1, 0 },              /*    Right Alt -> (no key)     */
     { -1, -1, 0 },              /*        Break -> (no key)     */
     { -1, -1, 0 },              /*   Left Win95 -> (no key)     */
-    { -1, -1, 0 },              /*  Right Win95 -> (no key)     */
+    { -1, -1, 0 }               /*  Right Win95 -> (no key)     */
 };
 
-int c64_kbd_init(void)
+int vic20_kbd_init(void)
 {
     return kbd_init(1,
-                    1, 7, c64_keyboard, sizeof(c64_keyboard));
+                    1, 3, vic20_keyboard, sizeof(vic20_keyboard));
 }

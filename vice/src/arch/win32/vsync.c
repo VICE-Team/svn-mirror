@@ -2,7 +2,7 @@
  * vsync.c - Display synchronization for Win32.
  *
  * Written by
- *  Ettore Perazzoli	(ettore@comm2000.it)
+ *  Ettore Perazzoli    (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -55,13 +55,13 @@
 #ifdef DEBUG_VSYNC
 static void vsync_debug(const char *format, ...)
 {
-	char tmp[1024];
-	va_list args;
+        char tmp[1024];
+        va_list args;
 
-	va_start(args, format);
-	vsprintf(tmp, format, args);
-	va_end(args);
-	OutputDebugString(tmp);
+        va_start(args, format);
+        vsprintf(tmp, format, args);
+        va_end(args);
+        OutputDebugString(tmp);
 }
 #define DEBUG(x) vsync_debug x
 #else
@@ -145,7 +145,7 @@ static UINT timer_tolerance;
 
 /* Maximum number of frames we can skip consecutively when adjusting the
    refresh rate dynamically.  */
-#define MAX_SKIPPED_FRAMES	10
+#define MAX_SKIPPED_FRAMES      10
 
 /* Number of frames per second on the real machine.  */
 static double refresh_frequency;
@@ -202,15 +202,15 @@ struct {
 void CALLBACK timer_callback(UINT timer_id, UINT msg,
                              DWORD user, DWORD dw1, DWORD dw2)
 {
-	static int count;
-	static DWORD start_time;
+        static int count;
+        static DWORD start_time;
 
-	count++;
-	if (count == 50) {
-		DEBUG(("timer_callback %d msec.\n", timeGetTime() - start_time));
-		start_time = timeGetTime();
-		count = 0;
-	}
+        count++;
+        if (count == 50) {
+                DEBUG(("timer_callback %d msec.\n", timeGetTime() - start_time));
+                start_time = timeGetTime();
+                count = 0;
+        }
     EnterCriticalSection(&timer_stuff.critical_section);
     DEBUG(("Callback! %d -> %d\n",
            timer_stuff.frame_counter, timer_stuff.frame_counter + 1));

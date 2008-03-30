@@ -1,8 +1,8 @@
 /*
- * joystick.c - Joystick support for Windows.
+ * vic20ui.c - VIC20-specific user interface.
  *
  * Written by
- *  Ettore Perazzoli    (ettore@comm2000.it)
+ *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,28 +26,9 @@
 
 #include "vice.h"
 
-#include "joystick.h"
+#include "vic20ui.h"
 
-/* ------------------------------------------------------------------------ */
-
-int joystick_init_resources(void)
-{
-    return 0;
-}
-
-int joystick_init_cmdline_options(void)
-{
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-int joystick_init(void)
-{
-    return 0;
-}
-
-int joystick_close(void)
+int vic20_ui_init(void)
 {
     return 0;
 }

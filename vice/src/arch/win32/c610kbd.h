@@ -1,8 +1,8 @@
 /*
- * joystick.c - Joystick support for Windows.
+ * c610kbd.h - C610 keyboard implementation.
  *
  * Written by
- *  Ettore Perazzoli    (ettore@comm2000.it)
+ *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,30 +24,9 @@
  *
  */
 
-#include "vice.h"
+#ifndef C610KBD_H
+#define C610KBD_H
 
-#include "joystick.h"
+int c610_kbd_init(void);
 
-/* ------------------------------------------------------------------------ */
-
-int joystick_init_resources(void)
-{
-    return 0;
-}
-
-int joystick_init_cmdline_options(void)
-{
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-int joystick_init(void)
-{
-    return 0;
-}
-
-int joystick_close(void)
-{
-    return 0;
-}
+#endif

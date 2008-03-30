@@ -2,7 +2,7 @@
  * video.c - Video implementation for Win32, using DirectDraw.
  *
  * Written by
- *  Ettore Perazzoli	(ettore@comm2000.it)
+ *  Ettore Perazzoli    (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -51,13 +51,13 @@ LPDIRECTDRAW dd;
 #ifdef DEBUG_VIDEO
 static void video_debug(const char *format, ...)
 {
-	char tmp[1024];
-	va_list args;
+        char tmp[1024];
+        va_list args;
 
-	va_start(args, format);
-	vsprintf(tmp, format, args);
-	va_end(args);
-	OutputDebugString(tmp);
+        va_start(args, format);
+        vsprintf(tmp, format, args);
+        va_end(args);
+        OutputDebugString(tmp);
 }
 #define DEBUG(x) video_debug x
 #else
@@ -113,114 +113,114 @@ static const char *dd_error(HRESULT ddrval)
       case DDERR_NOCOOPERATIVELEVELSET:
         return "No cooperative level set";
       case DDERR_ALREADYINITIALIZED:
-	return "This object is already initialized.";
+        return "This object is already initialized.";
       case DDERR_BLTFASTCANTCLIP:
-	return "Cannot use BLTFAST with Clipper attached to surface.";
+        return "Cannot use BLTFAST with Clipper attached to surface.";
       case DDERR_CANNOTATTACHSURFACE:
-	return "Cannot attach surface.";
+        return "Cannot attach surface.";
       case DDERR_CANNOTDETACHSURFACE:
-	return "Cannot detach surface.";
+        return "Cannot detach surface.";
       case DDERR_CANTCREATEDC:
-	return "Cannot create DC Device Context.";
+        return "Cannot create DC Device Context.";
       case DDERR_CANTDUPLICATE:
-	return "Cannot duplicate.";
+        return "Cannot duplicate.";
       case DDERR_CANTLOCKSURFACE:
-	return "Access to surface refused (no DCI provider).";
+        return "Access to surface refused (no DCI provider).";
       case DDERR_CANTPAGELOCK:
-	return "PageLock failure.";
+        return "PageLock failure.";
       case DDERR_CANTPAGEUNLOCK:
-	return "PageUnlock failure.";
+        return "PageUnlock failure.";
       case DDERR_CLIPPERISUSINGHWND:
-	return "Can't set a clip-list for a Clipper which is attached to an HWND.";
+        return "Can't set a clip-list for a Clipper which is attached to an HWND.";
       case DDERR_COLORKEYNOTSET:
-	return "No source colour-key provided.";
+        return "No source colour-key provided.";
       case DDERR_CURRENTLYNOTAVAIL:
-	return "Support unavailable.";
+        return "Support unavailable.";
       case DDERR_DCALREADYCREATED:
-	return "Surface already has a Device Context.";
+        return "Surface already has a Device Context.";
       case DDERR_DIRECTDRAWALREADYCREATED:
-	return "DirectDraw already bound to this process.";
+        return "DirectDraw already bound to this process.";
       case DDERR_EXCEPTION:
-	return "Unexpected exception.";
+        return "Unexpected exception.";
       case DDERR_EXCLUSIVEMODEALREADYSET:
-	return "Already in exclusive mode.";
+        return "Already in exclusive mode.";
       case DDERR_GENERIC:
-	return "Undefined";
+        return "Undefined";
       case DDERR_HEIGHTALIGN:
-	return "Height needs to be aligned.";
+        return "Height needs to be aligned.";
       case DDERR_HWNDALREADYSET:
-	return "HWND already set for cooperative level.";
+        return "HWND already set for cooperative level.";
       case DDERR_HWNDSUBCLASSED:
-	return "HWND has been subclassed.";
+        return "HWND has been subclassed.";
       case DDERR_IMPLICITLYCREATED:
-	return "Can't restore an implicitly created surface.";
+        return "Can't restore an implicitly created surface.";
       case DDERR_INCOMPATIBLEPRIMARY:
-	return "New params doesn't match existing primary surface.";
+        return "New params doesn't match existing primary surface.";
       case DDERR_INVALIDCAPS:
-	return "Device doesn't have requested capabilities.";
+        return "Device doesn't have requested capabilities.";
       case DDERR_INVALIDCLIPLIST:
-	return "Provided clip-list not supported.";
+        return "Provided clip-list not supported.";
       case DDERR_INVALIDDIRECTDRAWGUID:
-	return "Invalid GUID.";
+        return "Invalid GUID.";
       case DDERR_INVALIDMODE:
-	return "Mode not supported.";
+        return "Mode not supported.";
       case DDERR_INVALIDOBJECT:
-	return "Invalid object.";
+        return "Invalid object.";
       case DDERR_INVALIDPARAMS:
-	return "Invalid params.";
+        return "Invalid params.";
       case DDERR_INVALIDPIXELFORMAT:
-	return "Device doesn't support requested pixel format.";
+        return "Device doesn't support requested pixel format.";
       case DDERR_INVALIDPOSITION:
-	return "Overlay position illegal.";
+        return "Overlay position illegal.";
       case DDERR_INVALIDRECT:
-	return "Invalid RECT.";
+        return "Invalid RECT.";
       case DDERR_INVALIDSURFACETYPE:
-	return "Wrong type of surface.";
+        return "Wrong type of surface.";
       case DDERR_LOCKEDSURFACES:
-	return "Surface locked.";
+        return "Surface locked.";
       case DDERR_NO3D:
-	return "No 3d capabilities.";
+        return "No 3d capabilities.";
       case DDERR_NOALPHAHW:
-	return "No alpha h/w.";
+        return "No alpha h/w.";
       case DDERR_NOBLTHW:
-	return "No blit h/w.";
+        return "No blit h/w.";
       case DDERR_NOCLIPLIST:
-	return "No clip-list.";
+        return "No clip-list.";
       case DDERR_NOCLIPPERATTACHED:
-	return "No Clipper attached.";
+        return "No Clipper attached.";
       case DDERR_NOCOLORCONVHW:
-	return "No colour-conversion h/w.";
+        return "No colour-conversion h/w.";
       case DDERR_NOCOLORKEY:
-	return "No colour-key.";
+        return "No colour-key.";
       case DDERR_NOTLOCKED:
-	return "Not locked.";
+        return "Not locked.";
       case DDERR_NOTPAGELOCKED:
-	return "Not page-locked.";
+        return "Not page-locked.";
       case DDERR_NOTPALETTIZED:
-	return "Not palette-based.";
+        return "Not palette-based.";
       case DDERR_OUTOFCAPS:
-	return "out of caps";
+        return "out of caps";
       case DDERR_OUTOFMEMORY:
-	return "Out of memory.";
+        return "Out of memory.";
       case DDERR_OUTOFVIDEOMEMORY:
-	return "out of video memory.";
+        return "out of video memory.";
       case DDERR_PALETTEBUSY:
-	return "Palette busy.";
+        return "Palette busy.";
       case DDERR_PRIMARYSURFACEALREADYEXISTS:
-	return "Already a primary surface.";
+        return "Already a primary surface.";
       case DDERR_SURFACEBUSY:
-	return "Surface busy.";
-	/*case DDERR_SURFACEOBSCURED:     return "Surface is obscured."; */
+        return "Surface busy.";
+        /*case DDERR_SURFACEOBSCURED:     return "Surface is obscured."; */
       case DDERR_SURFACELOST:
-	return "Surface lost.";
+        return "Surface lost.";
       case DDERR_UNSUPPORTED:
-	return "Unsupported.";
+        return "Unsupported.";
       case DDERR_UNSUPPORTEDMODE:
-	return "Unsupported mode.";
+        return "Unsupported mode.";
       case DDERR_UNSUPPORTEDFORMAT:
-	return "Unsupported format.";
+        return "Unsupported format.";
       case DDERR_WASSTILLDRAWING:
-	return "Was still drawing.";
+        return "Was still drawing.";
     }
     return "???";
 }
@@ -240,9 +240,9 @@ int video_init(void)
     /* FIXME: We have to change this afterwards.  */
     ddresult = IDirectDraw_SetCooperativeLevel(dd, ui_get_main_hwnd(), DDSCL_NORMAL);
     if (ddresult != DD_OK) {
-	ui_error("Cannot set DirectDraw cooperative level:\n%s",
-		 dd_error(ddresult));
-	return -1;
+        ui_error("Cannot set DirectDraw cooperative level:\n%s",
+                 dd_error(ddresult));
+        return -1;
     }
 
     DEBUG(("DirectDraw successfully initialized.\n"));
@@ -369,11 +369,11 @@ void frame_buffer_clear(frame_buffer_t *f, BYTE value)
         /* FIXME: Surface lost errors?  */
         result = IDirectDrawSurface_SetPalette(c->primary_surface,
                                                c->dd_palette);
-	if (result == DDERR_SURFACELOST) {
-	    IDirectDrawSurface_Restore(c->primary_surface);
+        if (result == DDERR_SURFACELOST) {
+            IDirectDrawSurface_Restore(c->primary_surface);
             result = IDirectDrawSurface_SetPalette(c->primary_surface,
                                                    c->dd_palette);
-	}
+        }
         if (result != DD_OK) {
             ui_error("Cannot set palette on primary DirectDraw surface:\n%s",
                      dd_error(result));
@@ -383,11 +383,11 @@ void frame_buffer_clear(frame_buffer_t *f, BYTE value)
 #if 0
         result = IDirectDrawSurface_SetPalette(c->temporary_surface,
                                                c->dd_palette);
-	if (result == DDERR_SURFACELOST) {
-	    IDirectDrawSurface_Restore(c->temporary_surface);
+        if (result == DDERR_SURFACELOST) {
+            IDirectDrawSurface_Restore(c->temporary_surface);
             result = IDirectDrawSurface_SetPalette(c->temporary_surface,
                                                    c->dd_palette);
-	}
+        }
         if (result != DD_OK) {
             DEBUG(("Cannot set palette on temporary surface: %s\n",
                    dd_error(result)));
@@ -397,11 +397,11 @@ void frame_buffer_clear(frame_buffer_t *f, BYTE value)
         if (c->back_surface != NULL) {
             result = IDirectDrawSurface_SetPalette(c->back_surface,
                                                    c->dd_palette);
-	    if (result == DDERR_SURFACELOST) {
-	        IDirectDrawSurface_Restore(c->back_surface);
+            if (result == DDERR_SURFACELOST) {
+                IDirectDrawSurface_Restore(c->back_surface);
                 result = IDirectDrawSurface_SetPalette(c->back_surface,
                                                        c->dd_palette);
-	    }
+            }
             if (result != DD_OK) {
                 DEBUG(("Cannot set palette on back surface: %s\n",
                        dd_error(result)));
@@ -429,11 +429,11 @@ static int set_physical_colors(canvas_t c)
                c->palette->entries[i].name));
         result = IDirectDrawSurface_GetDC(c->temporary_surface,
                                           &hdc);
-	if (result == DDERR_SURFACELOST) {
-	    IDirectDrawSurface_Restore(c->temporary_surface);
+        if (result == DDERR_SURFACELOST) {
+            IDirectDrawSurface_Restore(c->temporary_surface);
             result = IDirectDrawSurface_GetDC(c->temporary_surface,
                                               &hdc);
-	}
+        }
         if (result != DD_OK) {
             ui_error("Cannot get DC on DirectDraw surface while allocating colors:\n%s",
                      dd_error(result));
@@ -451,12 +451,12 @@ static int set_physical_colors(canvas_t c)
                                           NULL))
                == DDERR_WASSTILLDRAWING)
             ;
-	if (result == DDERR_SURFACELOST) {
-	    IDirectDrawSurface_Restore(c->temporary_surface);
-	    result = IDirectDrawSurface_Lock(c->temporary_surface,
+        if (result == DDERR_SURFACELOST) {
+            IDirectDrawSurface_Restore(c->temporary_surface);
+            result = IDirectDrawSurface_Lock(c->temporary_surface,
                                              NULL, &ddsd, 0,
                                              NULL);
-	}
+        }
         if (result != DD_OK) {
             ui_error("Cannot lock temporary surface:\n%s",
                      dd_error(result));
@@ -471,10 +471,10 @@ static int set_physical_colors(canvas_t c)
             c->pixels[i] = i;
         DEBUG(("Pixel return %d 0x%02X\n", i, c->pixels[i]));
         if (IDirectDrawSurface_Unlock(c->temporary_surface, NULL)
-	    == DDERR_SURFACELOST) {
-	    IDirectDrawSurface_Restore(c->temporary_surface);
+            == DDERR_SURFACELOST) {
+            IDirectDrawSurface_Restore(c->temporary_surface);
             IDirectDrawSurface_Unlock(c->temporary_surface, NULL);
-	}
+        }
     }
 }
 
@@ -548,18 +548,18 @@ canvas_t canvas_create(const char *title, unsigned int *width,
     desc.dwHeight = GetSystemMetrics(SM_CYSCREEN);
     result = IDirectDraw_CreateSurface(dd, &desc, &c->temporary_surface, NULL);
     if (result != DD_OK) {
-	ui_error("Cannot create temporary DirectDraw surface:\n%s",
-	         dd_error(result));
+        ui_error("Cannot create temporary DirectDraw surface:\n%s",
+                 dd_error(result));
         goto error;
     }
 
     IDirectDrawSurface_GetCaps(c->temporary_surface, &desc.ddsCaps);
     DEBUG(("Allocated working surface in %s memory successfully.\n",
-	   (desc.ddsCaps.dwCaps & DDSCAPS_SYSTEMMEMORY
-	    ? "system"
-	    : (desc.ddsCaps.dwCaps & DDSCAPS_VIDEOMEMORY
-	       ? "video"
-	       : "unknown"))));
+           (desc.ddsCaps.dwCaps & DDSCAPS_SYSTEMMEMORY
+            ? "system"
+            : (desc.ddsCaps.dwCaps & DDSCAPS_VIDEOMEMORY
+               ? "video"
+               : "unknown"))));
 
     /* Find the color depth.  */
     {
@@ -708,11 +708,11 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
         extern int syscolorchanged, displaychanged, querynewpalette, palettechanged;
 
         if (syscolorchanged) {
-	    ui_error("System colors changed!\n(not implemented yet)");
+            ui_error("System colors changed!\n(not implemented yet)");
             syscolorchanged = 0;
         }
         if (displaychanged) {
-    	    ui_error("Display changed!\n(not implemented yet)");
+            ui_error("Display changed!\n(not implemented yet)");
             displaychanged = 0;
         }
 #if 0
@@ -725,7 +725,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
         }
 #endif
         if (palettechanged) {
-	    ui_error("Palette changed!\n(not implemented yet)");
+            ui_error("Palette changed!\n(not implemented yet)");
             palettechanged = 0;
             set_physical_colors(c);
             video_resize();
@@ -747,18 +747,18 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     rect.bottom = rect.top + h;
 
     {
-	int tmp;
+        int tmp;
 
-	tmp = GetSystemMetrics(SM_CXSCREEN);
-	if (rect.right > tmp) {
-	    w -= rect.right - tmp;
-	    rect.right = tmp;
-	}
-	tmp = GetSystemMetrics(SM_CYSCREEN);
-	if (rect.bottom > tmp) {
-	    h -= rect.bottom - tmp;
-	    rect.bottom = tmp;
-	}
+        tmp = GetSystemMetrics(SM_CXSCREEN);
+        if (rect.right > tmp) {
+            w -= rect.right - tmp;
+            rect.right = tmp;
+        }
+        tmp = GetSystemMetrics(SM_CYSCREEN);
+        if (rect.bottom > tmp) {
+            h -= rect.bottom - tmp;
+            rect.bottom = tmp;
+        }
     }
 
     if (c->back_surface != NULL) {
@@ -792,19 +792,19 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
         } while (result == DDERR_SURFACELOST);
         if (result == DD_OK)
             surface = c->primary_surface;
-		else {
-			static int no_primary_lock_reported;
+                else {
+                        static int no_primary_lock_reported;
 
-			if (!no_primary_lock_reported && result == DDERR_CANTLOCKSURFACE) {
-				ui_error("Your DirectDraw driver does not let me lock\n"
-					 "the primary DirectDraw surface.\n\n"
-					 "Performance will be poor!");
-				no_primary_lock_reported = 1;
-			}
+                        if (!no_primary_lock_reported && result == DDERR_CANTLOCKSURFACE) {
+                                ui_error("Your DirectDraw driver does not let me lock\n"
+                                         "the primary DirectDraw surface.\n\n"
+                                         "Performance will be poor!");
+                                no_primary_lock_reported = 1;
+                        }
 #if 0
             DEBUG(("Cannot lock primary surface: %s\n", dd_error(result)));
 #endif
-		}
+                }
     }
 
     if (surface == NULL) {
@@ -828,7 +828,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 
     if (surface == NULL) {
         ui_error("Cannot lock any surface: Giving up!\n"
-	         "(This is weird, tell Ettore!)");
+                 "(This is weird, tell Ettore!)");
         return;
     }
 
@@ -852,18 +852,18 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 #elif 0
             /* This alternative and the next one cannot work, because
                DirectDraw wants us to always write on aligned boundaries.  */
-	    {
+            {
                 int j;
 
                 for (j = 0; j < w >> 2; j++, sp++, p++)
                     *p = *sp;
                 for (j = 0; j < w & 0x3; j++)
                     *((BYTE *)p + j) = *((BYTE *)sp + j);
-	    }
+            }
 #else
             memcpy((BYTE *) p, (BYTE *) sp, w);
 #endif
-	    /*DEBUG(("Done blitting\n"));*/
+            /*DEBUG(("Done blitting\n"));*/
         }
         break;
       case 16:
@@ -909,8 +909,8 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     }
 
     if (IDirectDrawSurface_Unlock(surface, NULL) == DDERR_SURFACELOST) {
-	IDirectDrawSurface_Restore(surface);
-	IDirectDrawSurface_Unlock(surface, NULL);
+        IDirectDrawSurface_Restore(surface);
+        IDirectDrawSurface_Unlock(surface, NULL);
     }
 
     if (surface == c->back_surface) {
@@ -947,12 +947,12 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
             } else if (result == DDERR_SURFACELOST) {
                 result = IDirectDrawSurface_Restore(c->primary_surface);
                 if (result != DD_OK) {
-		    ui_error("Cannot restore primary DirectDraw surface!");
+                    ui_error("Cannot restore primary DirectDraw surface!");
                     break;
                 }
             } else {
-		    ui_error("Cannot update emulation window:\n%s",
-		             dd_error(result));
+                    ui_error("Cannot update emulation window:\n%s",
+                             dd_error(result));
             }
         }
     }

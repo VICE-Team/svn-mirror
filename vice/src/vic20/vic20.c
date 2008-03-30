@@ -63,7 +63,7 @@
 #include "vic20rsuser.h"
 #endif
 
-#ifdef __MSDOS__
+#if defined __MSDOS__ || defined WIN32
 #include "vic20kbd.h"
 #endif
 
@@ -252,7 +252,7 @@ int machine_init(void)
     vic_init();
 
     /* Load the default keymap file.  */
-#ifndef __MSDOS__
+#if !defined __MSDOS__ && !defined WIN32
     if (kbd_init() < 0)
         return -1;
 #else
@@ -399,7 +399,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || mem_write_snapshot_module(s, save_roms) < 0
         || vic_write_snapshot_module(s) < 0
         || via1_write_snapshot_module(s) < 0
-        || via2_write_snapshot_module(s) < 0) {
+        || via2_write_snapshot_module(s) < 0
+        || drive_write_snapshot_module(s, save_disks, save_roms) < 0) {
         snapshot_close(s);
         unlink(name);
         return -1;

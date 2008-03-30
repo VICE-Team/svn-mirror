@@ -29,8 +29,8 @@
 
 #include "types.h"
 
-#define KBD_COLS	8
-#define KBD_ROWS	11
+#define KBD_COLS        8
+#define KBD_ROWS        16
 
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
@@ -58,7 +58,7 @@ enum doskbd_codes {
     K_PAUSE, K_PRTSCR, K_KPDIV, K_RIGHTALT, K_BREAK, K_LEFTW95, K_RIGHTW95
 };
 
-extern int kbd_init(void);
+extern int kbd_init(int num, ...);
 extern int kbd_init_resources(void);
 extern int kbd_init_cmdline_options(void);
 extern int kbd_handle_keydown(DWORD virtual_key, DWORD key_data);
