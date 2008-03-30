@@ -4,11 +4,14 @@ vic20dir = $(prefix)/lib/vice/VIC20
 vic20_DATA = \
 	basic \
 	chargen \
-        os2.vkm \
-	default.vkm \
 	default.vpl \
+	default.vrs \
+	dos_pos.vkm \
+	dos_sym.vkm \
 	kernal \
-	position.vkm \
-	default.vrs
+	os2.vkm \
+	x11_pos.vkm \
+	x11_sym.vkm
 
 EXTRA_DIST = $(vic20_DATA)
+
