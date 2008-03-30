@@ -51,14 +51,6 @@
 /* MMU register.  */
 static BYTE mmu[12];
 
-/* Memory configuration.  */
-static int chargen_in;
-static int basic_lo_in;
-static int basic_hi_in;
-static int kernal_in;
-static int editor_in;
-static int io_in;
-
 /* State of the 40/80 column key.  */
 static int mmu_column4080_key = 1;
 
@@ -212,28 +204,24 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
         mmu[address] = value;
 
         switch (address) {
-          case 0:
-            /* Configuration register (CR).  */
-            io_in = !(value & 0x1);
-            basic_lo_in = !(value & 0x2);
-            basic_hi_in = !(value & 0xc);
-            kernal_in = chargen_in = editor_in = !(value & 0x30);
+          case 0: /* Configuration register (CR).  */
             mmu_set_ram_bank(value);
 #ifdef MMU_DEBUG
             log_message(mmu_log,
                         "IO: %s BASLO: %s BASHI: %s KERNAL %s FUNCLO %s.",
-                        io_in ? "on" : "off", basic_lo_in ? "on" : "off",
-                        basic_hi_in ? "on" : "off", kernal_in ? "on" : "off",
+                        !(value & 0x1) ? "on" : "off",
+                        !(value & 0x2) ? "on" : "off",
+                        !(value & 0xc) ? "on" : "off",
+                        !(value & 0x30) ? "on" : "off",
                         ((value & 0xc) == 0x4) ? "on" : "off");
 #endif
             break;
-          case 5:
+          case 5: /* Mode configuration register (MCR).  */
             value = (value & 0x7f) | 0x30;
             if ((value & 1) ^ (oldvalue & 1))
                 mmu_switch_cpu(value & 1);
             break;
-          case 6:
-            /* RAM configuration register (RCR).  */
+          case 6: /* RAM configuration register (RCR).  */
             mem_set_ram_config(value);
             break;
           case 7:
@@ -298,13 +286,12 @@ void REGPARM2 mmu_ffxx_store(ADDRESS addr, BYTE value)
 
 void mmu_init(void)
 {
-    if (mmu_log == LOG_ERR)
-        mmu_log = log_open("MMU");
+    mmu_log = log_open("MMU");
 
     set_column4080_key((resource_value_t)mmu_column4080_key, NULL);
 
     mmu[5] = 0;
-    mmu[11] = (C128_RAM_SIZE >> 12) /* # of 64k banks */ | 2 /* MMU revision */;
+    mmu[11] = C128_RAM_SIZE >> 12; /* # of 64k banks */
 }
 
 void mmu_reset(void)
