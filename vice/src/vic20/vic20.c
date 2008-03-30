@@ -51,6 +51,7 @@
 #include "machine-drive.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "monitor.h"
 #include "printer.h"
 #include "resources.h"
@@ -267,7 +268,7 @@ int machine_cmdline_options_init(void)
     return 0;
 }
 
-void vic20_monitor_init(void)
+static void vic20_monitor_init(void)
 {
     monitor_cpu_type_t asm6502;
     monitor_cpu_type_t *asmarray[2];
@@ -402,12 +403,6 @@ void machine_specific_shutdown(void)
 
     /* close the video chip(s) */
     vic_shutdown();
-}
-
-/* Return nonzero if `addr' is in the trappable address space.  */
-int rom_trap_allowed(WORD addr)
-{
-    return 1; /* FIXME */
 }
 
 /* ------------------------------------------------------------------------- */

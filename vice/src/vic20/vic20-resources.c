@@ -38,6 +38,7 @@
 #include "resources.h"
 #include "ui.h"
 #include "utils.h"
+#include "vic20-resources.h"
 #include "vic20mem.h"
 #include "vic20rom.h"
 
@@ -138,11 +139,13 @@ static int set_ieee488_enabled(resource_value_t v, void *param)
     return 0;
 }
 
+#if 0
 /* Enable/disable the Emulator ID.  */
 void mem_toggle_emu_id(int flag)
 {
     emu_id_enabled = flag;
 }
+#endif
 
 static int set_sync_factor(resource_value_t v, void *param)
 {

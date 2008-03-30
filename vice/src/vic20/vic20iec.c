@@ -39,6 +39,7 @@
 #include "types.h"
 #include "viad.h"
 #include "via.h"
+#include "vic20iec.h"
 
 
 #define NOT(x) ((x)^1)
@@ -56,7 +57,7 @@ void vic20iec_init(void)
     cpu_clock = 1;
 }
 
-inline void resolve_bus_signals(void)
+static inline void resolve_bus_signals(void)
 {
     bus_atn = NOT(cpu_atn);
     bus_clock = NOT(cpu_clock) & (drive[0].enable ? NOT(drive_clock) : 0x01)
@@ -66,13 +67,13 @@ inline void resolve_bus_signals(void)
                  & (drive[1].enable
                      ? NOT(drive2_data) & NOT(drive2_data_modifier) : 0x01)
                  & NOT(cpu_data);
-#if BUS_DBG
+#ifdef BUS_DBG
     fprintf(logfile, "SB: [%ld]  data:%d clock:%d atn:%d\n",
            drive_clk[0], bus_data, bus_clock, bus_atn);
 #endif
 }
 
-void iec_update_ports(void)
+static void iec_update_ports(void)
 {
     /* Not used for now.  */
 }

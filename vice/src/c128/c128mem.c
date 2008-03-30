@@ -109,7 +109,7 @@ BYTE *mem_color_ram_cpu, *mem_color_ram_vicii;
 BYTE *mem_chargen_rom_ptr;
 
 /* Size of RAM...  */
-int ram_size = C128_RAM_SIZE;
+static int ram_size = C128_RAM_SIZE;
 
 /* Currently selected RAM bank.  */
 BYTE *ram_bank;
@@ -162,14 +162,14 @@ static int caps_sense = 1;
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 watch_read(WORD addr)
+static BYTE REGPARM1 watch_read(WORD addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
 
-void REGPARM2 watch_store(WORD addr, BYTE value)
+static void REGPARM2 watch_store(WORD addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[mem_config][addr >> 8](addr, value);
@@ -551,12 +551,12 @@ void REGPARM2 editor_store(WORD addr, BYTE value)
     STORE_TOP_SHARED(addr, value);
 }
 
-BYTE REGPARM1 d5xx_read(WORD addr)
+static BYTE REGPARM1 d5xx_read(WORD addr)
 {
     return vicii_read_phi1();
 }
 
-void REGPARM2 d5xx_store(WORD addr, BYTE value)
+static void REGPARM2 d5xx_store(WORD addr, BYTE value)
 {
 }
 
@@ -763,6 +763,7 @@ void mem_toggle_reu(int flag)
 }
 */
 
+#if 0
 /* Enable/disable the IEEE488 interface.  */
 void mem_toggle_ieee488(int flag)
 {
@@ -774,6 +775,7 @@ void mem_toggle_emu_id(int flag)
 {
     emu_id_enabled = flag;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
