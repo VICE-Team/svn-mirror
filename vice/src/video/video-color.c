@@ -215,6 +215,9 @@ extern SDWORD  ytable[128];
 extern SDWORD cbtable[128];
 extern SDWORD crtable[128];
 
+/* YUV table for YV12 rendering: (Y << 16) | (U << 8) | V */
+DWORD yuv_table[128];
+
 static void video_calc_ycbcrtable(video_cbm_palette_t *p)
 {
 	video_ycbcr_color_t primary;
@@ -228,6 +231,11 @@ static void video_calc_ycbcrtable(video_cbm_palette_t *p)
 		 ytable[i] = (SDWORD)(primary.y  * 256.0f);
 		cbtable[i] = (SDWORD)(primary.cb * sat);
 		crtable[i] = (SDWORD)(primary.cr * sat);
+
+		/* YCbCr to YUV, scale [0, 256] to [0, 255] */
+		yuv_table[i] = ((BYTE)(primary.y*255/256 + 0.5) << 16)
+		  | ((BYTE)(0.493111*primary.cb*255/256 + 128.5) << 8)
+		  | (BYTE)(0.877283*primary.cr*255/256 + 128.5);
 	}
 }
 
