@@ -3,6 +3,7 @@
  *
  * Written by
  *  Martin Pottendorfer <pottendo@utanet.at>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,19 +25,17 @@
  *
  */
 
-#ifndef __vidmode_h__
-#define __vidmode_h__
-
-#include <X11/Xlib.h>
+#ifndef _VIDMODE_H
+#define _VIDMODE_H
 
 extern int vm_selected_videomode;
 extern int vm_is_enabled;
 
-int vidmode_init(Display *display, int screen);
-int vidmode_set_bestmode(void *v, void *p);
-int vidmode_set_mode(void *v, void *p);
-int vidmode_available(void);
-void vidmode_create_menus(void);
+extern int vidmode_init(void);
+extern int vidmode_set_bestmode(void *v, void *p);
+extern int vidmode_set_mode(void *v, void *p);
+extern int vidmode_available(void);
+extern void vidmode_create_menus(void);
 
-#endif /* __vidmode_h__ */
+#endif
 
