@@ -523,7 +523,6 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 	*data = p->buffer[p->bufptr];
 	p->bufptr++;
 	break;
-
       case BUFFER_COMMAND_CHANNEL:
 	if (p->bufptr > p->length) {
 	    vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
@@ -536,6 +535,15 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 	*data = p->buffer[p->bufptr];
 	p->bufptr++;
 	break;
+      case BUFFER_RELATIVE:
+        if (p->bufptr > p->length) {
+            vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
+            *data = 0xc7;
+            return SERIAL_EOF;
+        }
+        *data = p->buffer[p->bufptr];
+        p->bufptr++;
+        break;
 
       default:
 	log_error(vdrive_iec_log, "Fatal: unknown buffermode on floppy-read.");
