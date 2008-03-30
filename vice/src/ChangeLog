@@ -1,3 +1,24 @@
+2004-09-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.4.
+
+	* rs232drv/rsuser.c, arch/unix/uirs232c64c128.c,
+	arch/unix/uirs232user.c, arch/unix/uirs232user.h,
+	arch/unix/vic20ui.c: Changed resource code.
+
+	* arch/win32/resrs232user.rc, arch/win32/uirs232user.c,
+	arch/win32/uirs232user.h: New files.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Added new
+	files.
+
+	* arch/win32/res.h, arch/win32/resc64.rc,
+	arch/win32/resc128.rc, arch/win32/resvic20.rc,
+	arch/win32/c64ui.c, arch/win32/c128ui.c, arch/win32/vic20ui.c:
+	Added RS232 userport UI.
+
+	* arch/win32/uiacia.c (enable_acia_controls): Fixed some bug.
+
 2004-09-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.3.
