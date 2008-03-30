@@ -39,6 +39,9 @@
 #include "utils.h"
 #include "videoarch.h"
 #include "video.h"
+#ifdef HAVE_XVIDEO
+#include "renderXv.h"
+#endif
 
 static log_t x11video_log = LOG_ERR;
 
@@ -52,44 +55,60 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
                                   unsigned int height)
 {
     int sizeofpixel = sizeof(BYTE);
-    int depth;
     Display *display;
 #ifdef USE_MITSHM
     int (*olderrorhandler)(Display*,XErrorEvent*);
     int dummy;
 #endif
 
-    /* FIXME!!! */
-    width *= 2;
-    height *= 2;
-
 #ifdef USE_MITSHM
     canvas->using_mitshm = use_mitshm;
 #endif
 
-    depth = ui_get_display_depth();
     display = ui_get_display_ptr();
 
-    /* Round up to 32-bit boundary. */
-    width = (width + 3) & ~0x3;
+    if (!use_xvideo) {
+        /* FIXME!!! */
+        width *= 2;
+        height *= 2;
 
-#if VIDEO_DISPLAY_DEPTH == 0
+        /* Round up to 32-bit boundary. */
+        width = (width + 3) & ~0x3;
+    }
+
     /* sizeof(PIXEL) is not always what we are using. I guess this should
        be checked from the XImage but I'm lazy... */
-    if (depth > 8)
+    if (canvas->depth > 8)
         sizeofpixel *= 2;
-    if (depth > 16)
+    if (canvas->depth > 16)
         sizeofpixel *= 2;
-#endif
 
+#ifdef HAVE_XVIDEO
+    if (use_xvideo) {
+        XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
+
+	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format)) {
+	  return -1;
+	}
+
+	if (!(canvas->xv_image = create_yuv_image(display, canvas->xv_port, canvas->xv_format, width, height, shminfo))) {
+	  return -1;
+	}
+
+	log_message(x11video_log,
+		    _("Successfully initialized using X Video."));
+
+	return 0;
+    }
+#endif
 #ifdef USE_MITSHM
 tryagain:
     if (canvas->using_mitshm) {
         DEBUG_MITSHM(("frame_buffer_alloc(): allocating XImage with MITSHM, "
                       "%d x %d pixels...", width, height));
-        canvas->x_image = XShmCreateImage(display, visual, depth, ZPixmap,
-                                          NULL, &(canvas->xshm_info), width,
-                                          height);
+        canvas->x_image = XShmCreateImage(display, visual, canvas->depth,
+                                          ZPixmap, NULL, &(canvas->xshm_info),
+                                          width, height);
         if (!canvas->x_image) {
             log_warning(x11video_log,
                         _("Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."));
@@ -167,8 +186,8 @@ tryagain:
         if (data == NULL)
             return -1;
 
-        canvas->x_image = XCreateImage(display, visual, depth, ZPixmap, 0,
-                                       (char *)data, width, height, 32, 0);
+        canvas->x_image = XCreateImage(display, visual, canvas->depth, ZPixmap,
+                                       0, (char *)data, width, height, 32, 0);
         if (!canvas->x_image)
             return -1;
 
@@ -186,7 +205,7 @@ tryagain:
                 _("Successfully initialized without shared memory."));
 #endif
 
-    if (video_convert_func(canvas, depth, width, height) < 0)
+    if (video_convert_func(canvas, width, height) < 0)
         return -1;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS

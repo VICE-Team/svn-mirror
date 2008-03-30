@@ -67,25 +67,20 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 {
     int sizeofpixel = sizeof(BYTE);
     GdkImageType typ;
-    int depth;
 
     /* FIXME!!! */
     width *= 2;
     height *= 2;
 
-    depth = ui_get_display_depth();
-
     /* Round up to 32-bit boundary. */
     width = (width + 3) & ~0x3;
 
-#if VIDEO_DISPLAY_DEPTH == 0
     /* sizeof(PIXEL) is not always what we are using. I guess this should
        be checked from the XImage but I'm lazy... */
-    if (depth > 8)
+    if (canvas->depth > 8)
 	sizeofpixel *= 2;
-    if (depth > 16)
+    if (canvas->depth > 16)
 	sizeofpixel *= 2;
-#endif
 
     typ = GDK_IMAGE_FASTEST;
     canvas->gdk_image = gdk_image_new(typ, visual, width, height);
@@ -98,7 +93,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
  
     video_refresh_func((void (*)(void))GDK_PUTIMAGE);
 
-    if (video_convert_func(canvas, depth, width, height) < 0)
+    if (video_convert_func(canvas, width, height) < 0)
         return -1;
 
     log_message(gnomevideo_log,
