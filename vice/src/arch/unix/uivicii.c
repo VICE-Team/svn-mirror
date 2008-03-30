@@ -59,20 +59,32 @@ static ui_menu_entry_t palette_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(CheckSsColl)
 UI_MENU_DEFINE_TOGGLE(CheckSbColl)
+UI_MENU_DEFINE_TOGGLE(ExternalPalette)
+#if VIDEO_DISPLAY_DEPTH == 0
+UI_MENU_DEFINE_TOGGLE(DelayLoopEmulation)
+UI_MENU_DEFINE_TOGGLE(PALEmulation)
+#endif
 
 ui_menu_entry_t vic_submenu[] = {
     { N_("Video standard"),
       NULL, NULL, set_video_standard_submenu },
-    { "--",
-      NULL, NULL, NULL },
+    { "--" },
     { N_("*Sprite-sprite collisions"),
       (ui_callback_t)toggle_CheckSsColl, NULL, NULL },
     { N_("*Sprite-background collisions"),
       (ui_callback_t)toggle_CheckSbColl, NULL, NULL },
-    { "--",
-      NULL, NULL, NULL },
+    { "--" },
+    { N_("*External color set"),
+      (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
     { N_("Color set"),
       NULL, NULL, palette_submenu },
+#if VIDEO_DISPLAY_DEPTH == 0
+    { "--" },
+    { N_("*Fast PAL emulation"),
+      (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
+    { N_("*PAL emulation"),
+      (ui_callback_t)toggle_PALEmulation, NULL, NULL },
+#endif
     { NULL }
 };
 

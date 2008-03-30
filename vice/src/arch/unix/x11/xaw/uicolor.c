@@ -28,6 +28,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <X11/Xlib.h>
 
@@ -101,8 +102,8 @@ int uicolor_alloc_colors(video_canvas_t *c, const palette_t *palette,
     return 0;
 }
 
-int ui_canvas_set_palette(struct video_canvas_s *c, ui_window_t w,
-                          const palette_t *palette, PIXEL *pixel_return)
+int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette,
+                        PIXEL *pixel_return)
 {
     return color_alloc_colors(c, palette, pixel_return, NULL);
 }
