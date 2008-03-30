@@ -37,7 +37,7 @@
 #include "uicmdline.h"
 #include "utils.h"
 
-static int num_options, num_allocated_options;
+static unsigned int num_options, num_allocated_options;
 static cmdline_option_t *options;
 
 int cmdline_init(void)
