@@ -1,7 +1,6 @@
 source type(c)
     "fsdrive.c",
     "iecbus.c",
-    "realdevice.c",
     "serial-device.c",
     "serial-iec-lib.c",
     "serial-iec.c",

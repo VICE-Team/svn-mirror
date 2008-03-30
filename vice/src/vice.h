@@ -81,7 +81,7 @@
 #endif
 
 /* Which OS is using those ugly scale source coordinates.  */
-#if defined(__MSDOS__) || defined(__OS2__)
+#if defined(__MSDOS__)
 #define VIDEO_SCALE_SOURCE
 #endif
 

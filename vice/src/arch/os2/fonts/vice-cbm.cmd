@@ -34,6 +34,6 @@ rc -n vice2.rc vice2.dll
 REM /*                        */
 REM /* 'Rename' font-dll      */
 REM /*                        */
-move vice2.dll vice2.fon > NUL
+move vice2.dll ..\..\..\..\data\vice2.fon > NUL
 
 del chargen*.fnt *.res *.obj *.map > NUL

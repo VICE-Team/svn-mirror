@@ -207,9 +207,10 @@ static int set_stretch_factor(resource_value_t v, void *param)
             //
             // resize canvas
             //
-            /* FIXME: The width and height parameters are not scaled anymore
-                      by the pixel size. This call may needs to be adjusted. */
-            video_canvas_resize(c, c->width, c->height);
+            const int dsx = c->videoconfig->doublesizex + 1;
+            const int dsy = c->videoconfig->doublesizey + 1;
+
+            video_canvas_resize(c, c->width/dsx, c->height/dsy);
 
             DosReleaseMutexSem(c->hmtx);
         }
@@ -280,6 +281,7 @@ static UINT statusbar_height(void)
 
     return fntht + 2*bdry + 2 + offset + 3;
 }
+
 /*
 static HWND AddStatusFrame(HWND hwnd, UINT x, UINT width, int frame)
 {
@@ -983,32 +985,23 @@ void VideoCanvasBlit(video_canvas_t *c,
     const int dsx = c->videoconfig->doublesizex + 1;
     const int dsy = c->videoconfig->doublesizey + 1;
 
-    //BYTE *buf    = c->draw_buffer->draw_buffer;
-    UINT  linesz = c->draw_buffer->draw_buffer_width;
-    UINT  bufh   = c->draw_buffer->draw_buffer_height;
+    const UINT  linesz = dsx*c->draw_buffer->draw_buffer_width;
+    const UINT  bufh   = dsy*c->draw_buffer->draw_buffer_height;
 
     //
     // xs, xy is double sized
-    // w, h   is double sized
+    // w,  h  is double sized
     // xi, yi is double sized
     //
-
-    //
-    // switching back from double size
-    // fbuf read x: 120 + 768 > 624 * 1
-    // fbuf read y: 16  + 544 > 312 * 1
-    // scr write x x2: 0 + 1008 > 768
-    // scr write y x2: 0 + 592 > 544
-    //
-    if (xs+w > linesz*dsx)
+    if (xs+w > linesz)
     {
-        log_message(vidlog, "Debug - fbuf read x: %d + %d > %d * %d, c->width=%d", xs, w, linesz, dsx, c->width);
-        w = dsx*linesz-xs;
+        log_message(vidlog, "Debug - fbuf read x: %d + %d > %d, c->width=%d", xs, w, linesz, c->width);
+        w = linesz-xs;
     }
-    if (ys+h > bufh*dsy)
+    if (ys+h > bufh)
     {
-        log_message(vidlog, "Debug - fbuf read y: %d + %d > %d * %d, c->height=%d", ys, h, bufh, dsy, c->height);
-        h = dsy*bufh-ys;
+        log_message(vidlog, "Debug - fbuf read y: %d + %d > %d, c->height=%d", ys, h, bufh, c->height);
+        h = bufh-ys;
     }
     if (xs<0)
     {
@@ -1099,7 +1092,7 @@ void VideoCanvasBlit(video_canvas_t *c,
     video_canvas_render(c,
                         targetbuffer,      // c->bitmaptrg,        // bitmap target (screen/dive)
                         w, h,              // f->width, f->height, // bitmap width, height (2copy)
-                        xs, ys,            // 0, 0,                // top, left source
+                        xs/dsx, ys/dsy,    // 0, 0,                // top, left source
                         xi, yi,            // 0, 0,                // top, left target
                         scanlinesize,      // fccColorEncoding,    // c->width,            // line size target
                         c->bDepth);
@@ -1153,7 +1146,7 @@ void VideoCanvasBlit(video_canvas_t *c,
     video_canvas_render(c,
                         c->pVram,
                         w, h,
-                        xs, ys,
+                        xs/dsx, ys/dsy,
                         c->divesetup.lScreenPosX+xi,
                         c->divesetup.lScreenPosY+yi,
                         divecaps.ulScanLineBytes,
@@ -2118,20 +2111,6 @@ void video_canvas_refresh(video_canvas_t *c,
     if (DosRequestMutexSem(c->hmtx, SEM_INDEFINITE_WAIT))
         return;
 
-    if (c->videoconfig->doublesizex)
-    {
-        xs *= 2;
-        xi *= 2;
-        w  *= 2;
-    }
-
-    if (c->videoconfig->doublesizey)
-    {
-        ys *= 2;
-        yi *= 2;
-        h  *= 2;
-    }
-
     DEBUG("CANVAS REFRESH 0");
 
     //
@@ -2139,7 +2118,22 @@ void video_canvas_refresh(video_canvas_t *c,
     // changed, but it doesn't speed up anything
     //
     if (c->vrenabled)
+    {
+        if (c->videoconfig->doublesizex)
+        {
+            xs *= 2;
+            xi *= 2;
+            w  *= 2;
+        }
+
+        if (c->videoconfig->doublesizey)
+        {
+            ys *= 2;
+            yi *= 2;
+            h  *= 2;
+        }
         VideoCanvasBlit(c, xs, ys, xi, yi, w, h);
+    }
     //else log_debug("drawing skipped");
 
     DosReleaseMutexSem(c->hmtx);

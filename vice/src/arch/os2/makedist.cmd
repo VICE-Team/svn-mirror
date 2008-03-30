@@ -25,6 +25,7 @@ copy icons\vsid.ico    Vice2\Icons
 
 md Vice2\C64
 copy ..\..\..\data\C64\basic        Vice2\C64
+copy ..\..\..\data\C64\c64mem.sym   Vice2\C64
 copy ..\..\..\data\C64\c64s.vpl     Vice2\C64
 copy ..\..\..\data\C64\ccs64.vpl    Vice2\C64
 copy ..\..\..\data\C64\chargen      Vice2\C64
@@ -37,7 +38,6 @@ copy ..\..\..\data\C64\os2.vkm      Vice2\C64
 copy ..\..\..\data\C64\os2_sym.vkm  Vice2\C64
 copy ..\..\..\data\C64\pc64.vpl     Vice2\C64
 copy ..\..\..\data\C64\vice.vpl     Vice2\C64
-copy ..\..\..\data\C64\c64mem.sym   Vice2\C64
 
 md Vice2\C128
 copy ..\..\..\data\C128\basic        Vice2\C128
@@ -141,7 +141,10 @@ copy ..\..\..\data\DRIVES\dos3040       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos4040       Vice2\DRIVES
 
 md Vice2\PRINTER
+copy ..\..\..\data\PRINTER\cbm1526      Vice2\PRINTER
+copy ..\..\..\data\PRINTER\mps801       Vice2\PRINTER
 copy ..\..\..\data\PRINTER\mps803       Vice2\PRINTER
+copy ..\..\..\data\PRINTER\mps803.vpl   Vice2\PRINTER
 
 md Vice2\doc
 copy "vac++\vice2.inf"         Vice2\doc

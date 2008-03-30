@@ -9,6 +9,11 @@ option ProjectOptions = /*link(linkwithmultithreadlib, "yes"),*/
     define("HAVE_CONFIG_H", ),
     incl(searchpath, ".."),
     incl(searchpath, "..\\..\\.."),
+    incl(searchpath, "..\\..\\..\\diskimage"),
+    incl(searchpath, "..\\..\\..\\drive"),
+    incl(searchpath, "..\\..\\..\\imagecontents"),
+    incl(searchpath, "..\\..\\..\\serial"),
+    incl(searchpath, "..\\..\\..\\tape"),
     incl(searchpath, "..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\..\\zlib"),
     incl(searchpathfirst, "yes"),
@@ -20,20 +25,37 @@ target type(exe) "..\\..\\..\\..\\data\\x1541.exe"
 {
       source type (rc)  "dialogs/c1541.rc"
       source type (lib) "..\\..\\..\\..\\data\\vice2.lib"
+
       source type(c)    "c1541.c",
                         "charset.c",
-                        "diskimage.c",
                         "gcr.c",
                         "info.c",
+                        "ioutil.c",
                         "log.c",
                         "p00.c",
                         "resources.c",
-                        "t64.c",
                         "utils.c",
                         "zfile.c",
                         "zipcode.c"
-      source type(c)    "archdep.c"
-      include "incl/vdrive.icc"
+
+      source type(c)    "archdep.c",
+                        "blockdev.c"
+
+      source type(c)    "tapeimage.c",
+                        "tap.c",
+                        "t64.c",
+                        "tape-internal.c"
+
+      source type(c)    "fsdrive.c",
+                        "iecbus.c",
+                        "serial-device.c",
+                        "serial-iec-lib.c",
+                        "serial-iec.c",
+                        "serial-realdevice.c"
+
+      include  "incl/imagecontents.icc"
+      include  "incl/diskimage.icc"
+      include  "incl/vdrive.icc"
 }
 }
 

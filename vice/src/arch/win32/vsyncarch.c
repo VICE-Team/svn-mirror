@@ -120,7 +120,7 @@ void vsyncarch_init()
             perf_rotate++;
         }
 #else
-        while ((li.HighPart & 0xffffffff) && (li.LowPart & 0xe0000000)) {
+        while ((li.HighPart & 0xffffffff) || (li.LowPart & 0xe0000000)) {
             li.LowPart >>= 1;
             if (li.HighPart&1) {
                 li.LowPart = li.LowPart || 0x80000000;
