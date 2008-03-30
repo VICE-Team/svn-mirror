@@ -57,6 +57,7 @@
 
 #include "attach.h"
 #include "ciad.h"
+#include "clkguard.h"
 #include "cmdline.h"
 #include "drive.h"
 #include "gcr.h"
@@ -581,6 +582,8 @@ static int drive_write_image_snapshot_module(snapshot_t *s, int dnr);
 static int drive_read_image_snapshot_module(snapshot_t *s, int dnr);
 static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr);
 static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr);
+static void drive0_clk_overflow_callback(CLOCK sub, void *data);
+static void drive1_clk_overflow_callback(CLOCK sub, void *data);
 
 /* ------------------------------------------------------------------------- */
 
@@ -960,7 +963,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     int track, i;
 
     if (rom_loaded)
-	return 0;
+        return 0;
 
     pal_cycles_per_sec = pal_hz;
     ntsc_cycles_per_sec = ntsc_hz;
@@ -1003,30 +1006,36 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive_setup_rom_image(0);
     drive_setup_rom_image(1);
 
+    clk_guard_add_callback(&drive0_clk_guard, drive0_clk_overflow_callback,
+                           NULL);
+    clk_guard_add_callback(&drive1_clk_guard, drive1_clk_overflow_callback,
+                           NULL);
+
     for (i = 0; i < 2; i++) {
-	drive[i].byte_ready = 1;
-	drive[i].GCR_dirty_track = 0;
-	drive[i].GCR_write_value = 0x55;
-	drive[i].GCR_track_start_ptr = drive[i].GCR_data;
-	drive[i].attach_clk = (CLOCK)0;
-	drive[i].detach_clk = (CLOCK)0;
-	drive[i].attach_detach_clk = (CLOCK)0;
-	drive[i].bits_moved = drive[i].accum = 0;
-	drive[i].finish_byte = 0;
-	drive[i].last_mode = 1;
-	drive[i].rotation_last_clk = 0L;
-	drive[i].have_new_disk = 0;
-	drive[i].rotation_table_ptr = drive[i].rotation_table[0];
-	drive[i].old_led_status = 0;
-	drive[i].old_half_track = 0;
-	drive[i].side = 0;
-	drive[i].GCR_image_loaded = 0;
-	drive[i].read_only = 0;
-	drive[i].clock_frequency = 1;
-	for (track = 0; track < MAX_TRACKS_1541; track++)
-	    drive[i].GCR_track_size[track] = raw_track_size[speed_map_1541[track]];
-	/* Position the R/W head on the directory track.  */
-	drive_set_half_track(36, &drive[i]);
+        drive[i].byte_ready = 1;
+        drive[i].GCR_dirty_track = 0;
+        drive[i].GCR_write_value = 0x55;
+        drive[i].GCR_track_start_ptr = drive[i].GCR_data;
+        drive[i].attach_clk = (CLOCK)0;
+        drive[i].detach_clk = (CLOCK)0;
+        drive[i].attach_detach_clk = (CLOCK)0;
+        drive[i].bits_moved = drive[i].accum = 0;
+        drive[i].finish_byte = 0;
+        drive[i].last_mode = 1;
+        drive[i].rotation_last_clk = 0L;
+        drive[i].have_new_disk = 0;
+        drive[i].rotation_table_ptr = drive[i].rotation_table[0];
+        drive[i].old_led_status = 0;
+        drive[i].old_half_track = 0;
+        drive[i].side = 0;
+        drive[i].GCR_image_loaded = 0;
+        drive[i].read_only = 0;
+        drive[i].clock_frequency = 1;
+        for (track = 0; track < MAX_TRACKS_1541; track++)
+            drive[i].GCR_track_size[track] =
+                raw_track_size[speed_map_1541[track]];
+        /* Position the R/W head on the directory track.  */
+        drive_set_half_track(36, &drive[i]);
         drive_led_color[i] = DRIVE_ACTIVE_RED;
     }
 
@@ -1044,9 +1053,9 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 
     /* Make sure the traps are moved as needed.  */
     if (drive[0].enable)
-	drive_enable(0);
+        drive_enable(0);
     if (drive[1].enable)
-	drive_enable(1);
+        drive_enable(1);
 
     return 0;
 }
@@ -1544,18 +1553,32 @@ void drive_prevent_clk_overflow(CLOCK sub, int dnr)
         sub = drive0_cpu_prevent_clk_overflow(sub);
     if (dnr == 1)
         sub = drive1_cpu_prevent_clk_overflow(sub);
+}
 
-    if (sub > 0) {
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
-        drive[dnr].rotation_last_clk -= sub;
-        if (drive[dnr].attach_clk > (CLOCK) 0)
-            drive[dnr].attach_clk -= sub;
-        if (drive[dnr].detach_clk > (CLOCK) 0)
-            drive[dnr].detach_clk -= sub;
-        if (drive[dnr].attach_detach_clk > (CLOCK) 0)
-            drive[dnr].attach_detach_clk -= sub;
-    }
+static void drive0_clk_overflow_callback(CLOCK sub, void *data)
+{
+    if (drive[0].byte_ready_active == 0x06)
+        drive_rotate_disk(&drive[0]);
+    drive[0].rotation_last_clk -= sub;
+    if (drive[0].attach_clk > (CLOCK) 0)
+        drive[0].attach_clk -= sub;
+    if (drive[0].detach_clk > (CLOCK) 0)
+        drive[0].detach_clk -= sub;
+    if (drive[0].attach_detach_clk > (CLOCK) 0)
+        drive[0].attach_detach_clk -= sub;
+}
+
+static void drive1_clk_overflow_callback(CLOCK sub, void *data)
+{
+    if (drive[1].byte_ready_active == 0x06)
+        drive_rotate_disk(&drive[1]);
+    drive[1].rotation_last_clk -= sub;
+    if (drive[1].attach_clk > (CLOCK) 0)
+        drive[1].attach_clk -= sub;
+    if (drive[1].detach_clk > (CLOCK) 0)
+        drive[1].detach_clk -= sub;
+    if (drive[1].attach_detach_clk > (CLOCK) 0)
+        drive[1].attach_detach_clk -= sub;
 }
 
 /*-------------------------------------------------------------------------- */

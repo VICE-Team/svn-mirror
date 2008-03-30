@@ -310,7 +310,7 @@ sid.o: sid.c ../../src/vice.h ../../src/config.h sid.h ../../src/sound.h \
 	../../src/mem.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
 	../../src/vmachine.h ../../src/utils.h resid.h \
-	../../src/arch/msdos/mouse.h ../../src/fixpoint.h wave6581.h \
+	../../src/arch/unix/mouse.h ../../src/fixpoint.h wave6581.h \
 	wave8580.h
 
 info: info-recursive

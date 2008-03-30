@@ -1,5 +1,48 @@
 1999-04-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.52.
+
+	* viacore.c, viacore.h, vic20/vic20via1.c, vic20/vic20via2.c,
+	drive/via1drive0.c, drive/via2drive0.c, drive/via1drive1.c.
+	drive/via2drive1.c, pet/petvia.c: Adapted to new overflow
+	handling.
+
+	* drive/wd1770.c, drive/wd1770.h, drive/drivecpucore.c,
+	drive/drivecpu.0, drive/drivecpu1.c: Likewise.
+
+	* drive/drive.c: Likewise.
+
+1999-04-03  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/ui.c (ui_set_bestmode): Removed.
+	(vidmode_available): Removed debugging messages about available
+	video modes.
+
+	* ciacore.c (clk_overflow_callback): Removed debugging message.
+
+	* arch/unix/vsync.c (vsync_prevent_clk_overflow): Removed.
+	(clk_overflow_callback): New function.
+	(vsync_init): Install it in `maincpu_clk_guard'.
+
+	* vicii/vicii.c (store_vbank): Calculate `mclk' at every cycle of
+	the `do...while()' loop as `clk' might change.
+
+	* maincpu.c (maincpu_init): Temporarily use a hardcoded value
+	instead of `PREVENT_CLK_OVERFLOW_TICK'.
+	* drive/drivecpucore.c (mydrive_cpu_init): Likewise.
+
+	* interrupt.h: Removed `PREVENT_CLK_OVERFLOW_TICK' #define.
+
+	* interrupt.h: Removed `CLOCK_MAX' #define.
+	* types.h: Moved here.
+
+	* maincpu.c (clk_overflow_callback): Warp the `cpu_int_status'
+	time.
+
+	* interrupt.c (cpu_int_status_time_warp): New function.
+
+1999-04-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.51.
 
 	* arch/unix/xaw/uicommand.c (attach_disk): Removed calls to
@@ -218,10 +261,6 @@
 
 	* drive/drivecpucore.c: New variable `mydrive_clk_guard'.
 	(mydrive_cpu_init): Initialize clk guard.
-
-	* arch/unix/vsync.c (vsync_prevent_clk_overflow): Removed.
-	(clk_overflow_callback): New function.
-	(vsync_init): Install it in `maincpu_clk_guard'.
 
 	* c64/c64cia1.c: No longer #define `mycia_prevent_clk_overflow'.
 	#Define `mycpu_clk_guard' instead.

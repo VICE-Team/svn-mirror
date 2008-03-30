@@ -337,13 +337,15 @@ video.o: video.c ../../../src/vice.h ../../../src/config.h video.h \
 	../../../src/resources.h kbd.h ../../../src/log.h \
 	../../../src/cmdline.h ../../../src/utils.h
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h vsync.h \
-	../../../src/types.h ui.h xaw/ui.h ../../../src/palette.h \
+	../../../src/types.h ../../../src/clkguard.h \
+	../../../src/cmdline.h ../../../src/resources.h \
 	../../../src/interrupt.h ../../../src/vmachine.h \
 	../../../src/6510core.h ../../../src/mem.h \
-	../../../src/snapshot.h ../../../src/log.h video.h \
-	../../../src/resources.h ../../../src/kbdbuf.h \
-	../../../src/sound.h ../../../src/warn.h ../../../src/cmdline.h \
-	joystick.h
+	../../../src/snapshot.h ../../../src/kbdbuf.h \
+	../../../src/log.h ../../../src/maincpu.h ../../../src/alarm.h \
+	../../../src/mon.h ../../../src/mos6510.h ../../../src/sound.h \
+	../../../src/warn.h ui.h xaw/ui.h ../../../src/palette.h \
+	video.h joystick.h
 
 info: info-recursive
 dvi: dvi-recursive
