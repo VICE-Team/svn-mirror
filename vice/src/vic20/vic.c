@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * 16/24bpp support added by
  *  Steven Tieu <stieu@physics.ubc.ca>
@@ -75,20 +76,47 @@ static void vic_exposure_handler (unsigned int width, unsigned int height)
 
 void vic_raster_draw_alarm_handler (CLOCK offset)
 {
+    static int pending_mem_offset;
+    static int possible_mem_offset;
     int blank_this_line;
-    int cols_in_this_line;
 
-    alarm_set (&vic.raster_draw_alarm, clk + VIC_CYCLES_PER_LINE - offset);
-
+    /* check if first visible line is reached */
     if (vic.area == 0 && vic.raster.current_line >= vic.raster.display_ystart)
         vic.area = 1;
 
+    /* remember if this line stays blank */
     blank_this_line = vic.raster.blank_this_line;
     if (blank_this_line)
         vic.raster.display_ystop++;
 
-    cols_in_this_line = vic.text_cols;
+    /* check if row step is pending */
+    if (vic.row_increase_line == vic.raster.ycounter
+        || 2 * vic.row_increase_line == vic.raster.ycounter)
+    {
+        vic.row_counter++;
+        
+        vic.raster.ycounter = 0;
+        
+        vic.raster.display_ystop = vic.raster.current_line 
+            + (vic.text_lines - vic.row_counter) * vic.char_height;
 
+        /* if XPOS is 0 VIC displays one more rasterline */
+        if (vic.raster.display_xstart == 0)
+            vic.raster.display_ystop++;
+
+        pending_mem_offset = possible_mem_offset;
+    }
+
+    /*  update memptr */
+    if (vic.area == 1)
+        vic.memptr += pending_mem_offset;
+    
+    pending_mem_offset = 0;
+
+    /* max offset for next row */
+    possible_mem_offset = vic.text_cols;
+    
+    /* emulate the line */
     raster_emulate_line (&vic.raster);
 
     /* xstart may have changed; recalculate xstop */
@@ -96,41 +124,24 @@ void vic_raster_draw_alarm_handler (CLOCK offset)
 	if (vic.raster.display_xstop >= VIC_SCREEN_WIDTH)
 		vic.raster.display_xstop = VIC_SCREEN_WIDTH - 1;
 
-    if (vic.area == 1)
+    /* increment ycounter and set offset for memptr */
+    if (vic.area == 1 && !blank_this_line)
     {
-        int increase_row = 
-            ((unsigned int)vic.raster.ycounter > vic.row_increase_line - 1
-            || ((unsigned int)vic.raster.ycounter == vic.row_increase_line - 1
-                && !blank_this_line));
+        vic.raster.ycounter++;
 
-        if (increase_row)
+        if (vic.row_offset != 0 || vic.raster.ycounter == vic.row_increase_line)
         {
-            vic.row_counter++;
-            vic.raster.ycounter = 0;
-            vic.memptr += cols_in_this_line;
-
-            vic.raster.display_ystop = vic.raster.current_line
-                + (vic.text_lines - vic.row_counter) * vic.char_height;
-
-            /* if XPOS is 0 VIC displays one more rasterline */
-            if (vic.raster.display_xstart == 0)
-                vic.raster.display_ystop++;
-        
-        } else if (!blank_this_line) {
-            vic.raster.ycounter++;
-
-            if (vic.row_offset > 0)
-            {
-                /* this only happens if char_height changes from 8 to 16 within line 7 */
-                vic.memptr += vic.row_offset;
-                vic.row_offset = -1;
-            }
-
-            if (vic.raster.current_line >= vic.raster.display_ystop)
-                vic.area = 2;
+            /* this only happens if char_height changes between 8 and 16 within line 7 */
+            pending_mem_offset = 
+                (vic.row_offset > 0 ? vic.row_offset : possible_mem_offset);
+            vic.row_offset = 0;
         }
+
+        if (vic.raster.current_line >= vic.raster.display_ystop)
+            vic.area = 2;
     }
 
+    /* handle start of frame */
     if (vic.raster.current_line == 0)
     {
         raster_skip_frame (&vic.raster, vsync_do_vsync(vic.raster.skip_frame));
@@ -238,6 +249,14 @@ static int init_raster(void)
     return 0;
 }
 
+
+static void clk_overflow_callback(CLOCK sub, void *data)
+{
+    if (vic.last_emulate_line_clk > (CLOCK)0)
+        vic.last_emulate_line_clk -= sub;
+}
+
+
 /* Initialization. */
 raster_t *vic_init(void)
 {
@@ -245,6 +264,8 @@ raster_t *vic_init(void)
 
   alarm_init (&vic.raster_draw_alarm, &maincpu_alarm_context,
               "VicIRasterDraw", vic_raster_draw_alarm_handler);
+
+  clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
   if (init_raster() < 0)
     return NULL;

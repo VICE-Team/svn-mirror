@@ -87,7 +87,7 @@ fill_cache (raster_cache_t *cache,
                                    vic.chargen_ptr,
                                    vic.char_height,
                                    vic.text_cols,
-                                   vic.raster.ycounter,
+                                   vic.raster.ycounter & ((vic.char_height >> 1) | 7),
                                    xs, xe,
                                    r);
 
@@ -112,7 +112,7 @@ fill_cache (raster_cache_t *cache,
     *((VIC_PIXEL2 *)(p) + (x)) = (c)[drawing_table[(d)][(b)][(x)]]
 
 #define GET_CHAR_DATA(code, row) \
-  *(vic.chargen_ptr + ((code) * vic.char_height) + (row))
+  *(vic.chargen_ptr + ((code) * vic.char_height) + (row & ((vic.char_height >> 1) | 7)))
 
 inline static void
 draw (PIXEL *p,

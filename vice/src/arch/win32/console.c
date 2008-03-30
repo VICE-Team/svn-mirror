@@ -2,9 +2,6 @@
  * console.c - Console access interface.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
- *
- * Totally rewritten for using an own window by
  *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -123,6 +120,16 @@ typedef struct console_private_s
 	unsigned	 posInputBuffer;
 	BOOLEAN		 bInsertMode;
 
+    BOOLEAN      bMarkMode;
+    BOOLEAN      bMarkModeBlock; /* if true, mark a rectangular block; else, mark as in an editor */
+    BOOLEAN      bIsMarked;
+    int          xMarkOrigin;
+    int          yMarkOrigin;
+    int          xMarkStart;
+    int          yMarkStart;
+    int          xMarkEnd;
+    int          yMarkEnd;
+
     FILE        *fileOutput;    /* file handle for outputting */
 
 } console_private_t;
@@ -152,10 +159,6 @@ static void FileOut( console_private_t *pcp, const char * const pstr )
 */
 static console_private_t *first_window;
 
-
-static void process_break( void )
-{
-}
 
 static void add_to_history( console_private_t *pcp, const char *entry )
 {
@@ -189,6 +192,99 @@ static const char *get_history_entry( console_private_t *pcp )
 */
 #define CALC_POS(xxx, yyy) (pcp->xMax * (yyy) + (xxx))
 
+static void mark_window_i(console_private_t *pcp, BOOLEAN bMark)
+{
+    static BOOLEAN bIsMarked = FALSE;
+    static int     xMinOld, yMinOld, xMaxOld, yMaxOld;
+
+    int xMin, yMin, xMax, yMax;
+    RECT rect;
+
+    if (bMark)
+    {
+        xMinOld = xMin = pcp->xMarkStart                           / pcp->xCharDimension;
+        yMinOld = yMin = pcp->yMarkStart                           / pcp->yCharDimension;
+        xMaxOld = xMax = (pcp->xMarkEnd   + pcp->xCharDimension-1) / pcp->xCharDimension;
+        yMaxOld = yMax = (pcp->yMarkEnd   + pcp->yCharDimension-1) / pcp->yCharDimension;
+
+        bIsMarked = TRUE;
+    }
+    else
+    {
+        if (!bIsMarked)
+            return;
+
+        xMin = xMinOld;
+        yMin = yMinOld;
+        xMax = xMaxOld;
+        yMax = yMaxOld;
+        bIsMarked = FALSE;
+    }
+
+    if (pcp->bMarkModeBlock)
+    {
+        rect.left   = xMin * pcp->xCharDimension;
+        rect.top    = yMin * pcp->yCharDimension;
+        rect.right  = xMax * pcp->xCharDimension;
+        rect.bottom = yMax * pcp->yCharDimension;
+        
+        InvertRect( pcp->hdc, &rect );
+    }
+    else
+    {
+        if (yMin+1 == yMax)
+        {
+            /* we have just one line */
+            rect.left   = xMin * pcp->xCharDimension;
+            rect.top    = yMin * pcp->yCharDimension;
+            rect.right  = xMax * pcp->xCharDimension;
+            rect.bottom = yMax * pcp->yCharDimension;
+        
+            InvertRect( pcp->hdc, &rect );
+        }
+        else
+        {
+            /* handle first line */
+            rect.left   = xMin * pcp->xCharDimension;
+            rect.top    = yMin * pcp->yCharDimension;
+            rect.right  = pcp->xMax * pcp->xCharDimension;
+            rect.bottom = (yMin+1) * pcp->yCharDimension;
+
+            InvertRect( pcp->hdc, &rect );
+
+            /* handle intermediate lines */
+            rect.left   = 0;
+            rect.top    = (yMin+1) * pcp->yCharDimension;
+            rect.right  = pcp->xMax * pcp->xCharDimension;
+            rect.bottom = (yMax-1) * pcp->yCharDimension;
+
+            InvertRect( pcp->hdc, &rect );
+
+            /* handle last line */
+            rect.left   = 0;
+            rect.top    = (yMax-1) * pcp->yCharDimension;
+            rect.right  = xMax * pcp->xCharDimension;
+            rect.bottom = yMax * pcp->yCharDimension;
+
+            InvertRect( pcp->hdc, &rect );
+        }
+    }
+}
+
+static void unmark_window(console_private_t *pcp)
+{
+    mark_window_i( pcp, FALSE );
+}
+
+static void mark_window(console_private_t *pcp)
+{
+    unmark_window( pcp );
+
+    if (pcp->bIsMarked)
+        mark_window_i( pcp, TRUE );
+}
+
+
 static void redraw_window(console_private_t *pcp, LPPAINTSTRUCT pps)
 {
 	unsigned row;
@@ -199,9 +295,12 @@ static void redraw_window(console_private_t *pcp, LPPAINTSTRUCT pps)
 	unsigned xMin = 0;
 	unsigned xMax = pcp->pConsole->console_xres;
 
+    unmark_window( pcp );
+
+#if 0
 	if (pps)
 	{
-		/* we have an update region, so only update necessary parts */
+		/* we have an update region, so update only necessary parts */
 		xMin = pps->rcPaint.left   / pcp->xCharDimension;
 		yMin = pps->rcPaint.top    / pcp->yCharDimension;
 
@@ -211,6 +310,7 @@ static void redraw_window(console_private_t *pcp, LPPAINTSTRUCT pps)
 		xMax = (pps->rcPaint.right  + pcp->xCharDimension-1) / pcp->xCharDimension;
 		yMax = (pps->rcPaint.bottom + pcp->yCharDimension-1) / pcp->yCharDimension;
 	}
+#endif 
 
 	for (row = yMin; row < yMax; row++)
 	{
@@ -222,8 +322,9 @@ static void redraw_window(console_private_t *pcp, LPPAINTSTRUCT pps)
 			xMax
 			);
 	}
-}
 
+    mark_window( pcp );
+}
 
 
 static void move_upwards( console_private_t *pcp )
@@ -491,6 +592,15 @@ static void paint_cursor( console_private_t *pcp )
 
 static void console_out_character(console_private_t *pcp, const unsigned char ch)
 {
+    if (!pcp->bMarkMode)
+    {
+        if (pcp->bIsMarked)
+        {
+            unmark_window(pcp);
+            pcp->bIsMarked = FALSE;
+        }
+    }
+
 	if (ch>=32)
 	{
 		pcp->pchWindowBuffer[CALC_POS(pcp->xPos, pcp->yPos)] = ch;
@@ -691,7 +801,7 @@ static void external_resize_window( console_private_t *pcp, int nWidth, int nHei
 	pcp->pConsole->console_xres = xDim;
 	pcp->pConsole->console_yres = yDim;
 
-	/* make sure the cursor is inside the visible area */
+    /* make sure the cursor is inside the visible area */
 	while (pcp->yPos >= yDim)
 	{
 		scroll_up( pcp );
@@ -703,8 +813,211 @@ static void external_resize_window( console_private_t *pcp, int nWidth, int nHei
     }
 }
 
+static
+void WriteInClipboard( HWND hwnd, const char *buffer )
+{
+    HGLOBAL hgm = GlobalAlloc( GMEM_MOVEABLE, strlen(buffer)+1 );
+    LPVOID  lp  = GlobalLock(hgm);
+    lstrcpy( lp, buffer );
+
+    OpenClipboard( hwnd );
+    EmptyClipboard();
+    SetClipboardData( CF_TEXT, hgm );
+    CloseClipboard();
+}
+
+static
+void MarkModeInClipboard( console_private_t *pcp )
+{
+    if (pcp->bIsMarked)
+    {
+        char *buffer = xmalloc( (pcp->xMax+2)*pcp->yMax + 1);
+        char *p      = buffer;
+
+        int xMin, yMin, xMax, yMax;
+
+        int row;
+
+        xMin = pcp->xMarkStart                           / pcp->xCharDimension;
+        yMin = pcp->yMarkStart                           / pcp->yCharDimension;
+        xMax = (pcp->xMarkEnd   + pcp->xCharDimension-1) / pcp->xCharDimension;
+        yMax = (pcp->yMarkEnd   + pcp->yCharDimension-1) / pcp->yCharDimension;
+
+
+        if (pcp->bMarkModeBlock)
+        {
+            for (row = yMin; row < yMax; row++)
+            {
+                memcpy( p, &pcp->pchWindowBuffer[CALC_POS(xMin,row)], xMax-xMin );
+                p += xMax-xMin;
+
+                /* delete trailing spaces */
+                while (p[-1] == ' ')
+                    --p;
+
+                *p++ = 13; *p++ = 10;
+            }
+        }
+        else
+        {
+            if (yMin+1 == yMax)
+            {
+                /* we have just one line */
+                memcpy( p, &pcp->pchWindowBuffer[CALC_POS(xMin,yMin)], xMax-xMin );
+                p += xMax-xMin;
+
+                /* delete trailing spaces */
+                while (p[-1] == ' ')
+                    --p;
+            }
+            else
+            {
+                /* handle first line */
+                memcpy( p, &pcp->pchWindowBuffer[CALC_POS(xMin,yMin)], pcp->xMax-xMin );
+                p += pcp->xMax-xMin;
+
+                /* delete trailing spaces */
+                while (p[-1] == ' ')
+                    --p;
+
+                *p++ = 13; *p++ = 10;
+
+                /* handle intermediate lines */
+                for (row = yMin+1; row < yMax-1; row++)
+                {
+                    memcpy( p, &pcp->pchWindowBuffer[CALC_POS(0,row)], pcp->xMax );
+                    p += pcp->xMax;
+
+                    /* delete trailing spaces */
+                    while (p[-1] == ' ')
+                        --p;
+
+                    *p++ = 13; *p++ = 10;
+                }
+
+                /* handle last line */
+                memcpy( p, &pcp->pchWindowBuffer[CALC_POS(0,yMax-1)], xMax );
+                p += xMax;
+
+                /* delete trailing spaces */
+                while (p[-1] == ' ')
+                    --p;
+            }
+        }
+
+        *p = 0;
+
+        WriteInClipboard( pcp->hwndConsole, buffer );
+        free(buffer);
+    }
+}
+
+static 
+BOOLEAN MarkModeStart( console_private_t *pcp, int fwKeys, short xPos, short yPos, BOOLEAN bMarkModeBlock )
+{
+    if (pcp->bMarkMode)
+        return FALSE;
+
+    unmark_window(pcp);
+    pcp->bMarkModeBlock = bMarkModeBlock;
+
+    pcp->bIsMarked   =
+    pcp->bMarkMode   = TRUE;
+    pcp->xMarkEnd    =
+    pcp->xMarkStart  = 
+    pcp->xMarkOrigin = xPos;
+    pcp->yMarkEnd    =
+    pcp->yMarkStart  =
+    pcp->yMarkOrigin = yPos;
+
+    SetCapture(pcp->hwndConsole);
+
+    mark_window(pcp);
+
+    return TRUE;
+}
+
+static 
+BOOLEAN MarkModeMove( console_private_t *pcp, int fwKeys, short xPos, short yPos )
+{
+    RECT rect;
+
+    if (!pcp->bMarkMode)
+        return FALSE;
+
+    /* since we capture the mouse, make sure the values are within the visible area */
+    GetClientRect( pcp->hwndConsole, &rect );
+    if (xPos < rect.left)   xPos = rect.left;
+    if (yPos < rect.top)    yPos = rect.top;
+    if (xPos > rect.right)  xPos = rect.right;
+    if (yPos > rect.bottom) yPos = rect.bottom;
+
+    if (pcp->bMarkModeBlock)
+    {
+        if (xPos > pcp->xMarkOrigin)
+        {
+            pcp->xMarkStart = pcp->xMarkOrigin;
+            pcp->xMarkEnd   = xPos;
+        }
+        else
+        {
+            pcp->xMarkStart = xPos;
+            pcp->xMarkEnd   = pcp->xMarkOrigin;
+        }
+
+        if (yPos > pcp->yMarkOrigin)
+        {
+            pcp->yMarkStart = pcp->yMarkOrigin;
+            pcp->yMarkEnd   = yPos;
+        }
+        else
+        {
+            pcp->yMarkStart = yPos;
+            pcp->yMarkEnd   = pcp->yMarkOrigin;
+        }
+    }
+    else
+    {
+        if (yPos > pcp->yMarkOrigin)
+        {
+            pcp->xMarkStart = pcp->xMarkOrigin;
+            pcp->xMarkEnd   = xPos;
+            pcp->yMarkStart = pcp->yMarkOrigin;
+            pcp->yMarkEnd   = yPos;
+        }
+        else
+        {
+            pcp->xMarkStart = xPos;
+            pcp->xMarkEnd   = pcp->xMarkOrigin;
+            pcp->yMarkStart = yPos;
+            pcp->yMarkEnd   = pcp->yMarkOrigin;
+        }
+    }
+
+    mark_window( pcp );
+
+    return TRUE;
+}
+
+static 
+BOOLEAN MarkModeEnd( console_private_t *pcp, int fwKeys, short xPos, short yPos )
+{
+    if (!pcp->bMarkMode)
+        return FALSE;
+
+    /* update the marking */
+    MarkModeMove( pcp, fwKeys, xPos, yPos );
+
+    pcp->bMarkMode = FALSE;
+
+    ReleaseCapture();
+
+    return TRUE;
+}
+
 
 static BOOLEAN  bIsMdiChild = FALSE;
+
 
 /* window procedure */
 static long CALLBACK console_window_proc(HWND hwnd, 
@@ -803,11 +1116,6 @@ static long CALLBACK console_window_proc(HWND hwnd,
 
 			switch (nVirtKey)
 			{
-            case VK_ESCAPE:
-                /* treat ESCAPE key as CTRL+BREAK */
-                process_break();
-                return 0;
-
 			case VK_UP:
 				if (pcp->nCurrentSelectHistory < MAX_HISTORY)
 				{
@@ -1023,8 +1331,8 @@ static long CALLBACK console_window_proc(HWND hwnd,
 
             if (chCharCode == 3) /* 3 is ASCII for CTRL+C */
             {
-                /* it's a CTRL+C or CTRL+BREAK */
-                process_break();
+                /* it's a CTRL+C: Copy to clipboard */
+                MarkModeInClipboard(pcp); 
                 return 0;
             }
 
@@ -1060,6 +1368,34 @@ static long CALLBACK console_window_proc(HWND hwnd,
 				FileOpen ( pcp );
 		}
 		break;
+
+    case WM_LBUTTONDOWN:
+        /* the user wants to mark a region */
+        if (MarkModeStart( pcp, wParam, LOWORD(lParam), HIWORD(lParam), FALSE ))
+            return 0;
+        break;
+
+    case WM_RBUTTONDOWN:
+        /* the user wants to mark a region */
+        if (MarkModeStart( pcp, wParam, LOWORD(lParam), HIWORD(lParam), TRUE ))
+            return 0;
+        break;
+
+    case WM_LBUTTONUP:
+        /* FALL THROUGH */
+
+    case WM_RBUTTONUP:
+        /* the user wants to mark a region */
+        /* StartMarkMode( fwKeys, xPos, yPos ); */
+        if (MarkModeEnd( pcp, wParam, LOWORD(lParam), HIWORD(lParam) ))
+            return 0;
+        break;
+
+    case WM_MOUSEMOVE:
+        /* the user wants to mark a region */
+        if (MarkModeMove( pcp, wParam, LOWORD(lParam), HIWORD(lParam) ))
+            return 0;
+        break;
 
 	case WM_PAINT:
 		{
@@ -1155,6 +1491,9 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
     bIsMdiChild        =
     pcp->bIsMdiChild   = hwndMdiClient ? TRUE : FALSE;
     pcp->hwndMdiClient = hwndMdiClient;
+
+    pcp->bIsMarked      =
+    pcp->bMarkMode      = FALSE;
 
     if (pcp->bIsMdiChild)
     {

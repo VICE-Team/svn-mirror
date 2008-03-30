@@ -94,6 +94,14 @@ SOURCE=..\..\monitor\mon.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\monitor\mon_assemble.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_disassemble.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\monitor\mon_lex.c
 # End Source File
 # Begin Source File

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -61,6 +62,7 @@ vic_store(ADDRESS addr, BYTE value)
             value &= 0x7f;
 
             xstart = value * 4;
+            
             xstop = xstart + vic.text_cols * 8;
             if (xstop >= VIC_SCREEN_WIDTH)
                 xstop = VIC_SCREEN_WIDTH - 1; /* FIXME: SCREEN-MIXUP not handled */
@@ -71,12 +73,16 @@ vic_store(ADDRESS addr, BYTE value)
                 /* the line has already started */
                 raster_add_int_change_next_line (&vic.raster,
                     &vic.raster.display_xstart, xstart);
+            
                 raster_add_int_change_next_line (&vic.raster,
                     (int *)(&vic.raster.geometry.gfx_position.x), xstart);
             } else {
                 vic.raster.display_xstart = xstart;
+                
                 vic.raster.display_xstop = xstop;
+                
                 vic.raster.geometry.gfx_position.x = xstart;
+                
                 /* the line may not start, if new xstart is already passed */
                 vic.raster.blank_this_line = (value < VIC_RASTER_CYCLE(clk));
             }
@@ -108,12 +114,20 @@ vic_store(ADDRESS addr, BYTE value)
                 {
                     /* the frame starts later */
                     vic.raster.display_ystart = ystart;
+
+                    vic.raster.display_ystop = ystart
+                        + vic.text_lines * vic.char_height;
+                    
                     vic.raster.geometry.gfx_position.y = ystart - VIC_FIRST_DISPLAYED_LINE;
                 }
                 else
                 {
                     /* the frame starts somewhere here */
                     vic.raster.display_ystart = VIC_RASTER_Y(clk);
+                    
+                    vic.raster.display_ystop = vic.raster.display_ystart
+                        + vic.text_lines * vic.char_height;
+                    
                     vic.raster.geometry.gfx_position.y = VIC_RASTER_Y(clk)
                         - VIC_FIRST_DISPLAYED_LINE;
 
@@ -130,6 +144,7 @@ vic_store(ADDRESS addr, BYTE value)
     case 2:                     /* $9002  Columns Displayed. */
         {
             int new_text_cols = MIN(value & 0x7f, VIC_SCREEN_MAX_TEXT_COLS);
+            
             int new_xstop = MIN(vic.raster.display_xstart + new_text_cols * 8, 
                 VIC_SCREEN_WIDTH - 1);
             
@@ -137,18 +152,24 @@ vic_store(ADDRESS addr, BYTE value)
             {
                 /* changes up to cycle 1 are visible in the current line */
                 vic.text_cols = new_text_cols;
+                
                 vic.raster.display_xstop = new_xstop;
+                
                 vic.raster.geometry.gfx_size.width = new_text_cols * 8;
+                
                 vic.raster.geometry.text_size.width = new_text_cols;
             } else {
                 /* later changes are visible in the next line */
                 raster_add_int_change_next_line (&vic.raster,
                     (int *)(&vic.text_cols), new_text_cols);
+                
                 raster_add_int_change_next_line (&vic.raster,
                     &vic.raster.display_xstop, new_xstop);
+                
                 raster_add_int_change_next_line (&vic.raster,
                     (int *)(&vic.raster.geometry.gfx_size.width),
                     new_text_cols * 8);
+                
                 raster_add_int_change_next_line (&vic.raster,
                     (int *)(&vic.raster.geometry.text_size.width),
                     new_text_cols);
@@ -161,14 +182,19 @@ vic_store(ADDRESS addr, BYTE value)
 
     case 3:                     /* $9003  Rows Displayed, Character size . */
         {
+            static int old_char_height = -1;
+
             int new_text_lines = MIN((value & 0x7e) >> 1, VIC_SCREEN_MAX_TEXT_LINES);
+            
             int new_char_height = (value & 0x1) ? 16 : 8;
 
             if (VIC_RASTER_Y(clk) == 0 && VIC_RASTER_CYCLE(clk) <= 1)
             {
                 /* changes up to cycle 1 of rasterline 0 are visible in current frame */
                 vic.text_lines = new_text_lines;
+            
                 vic.raster.geometry.gfx_size.height = new_text_lines * 8;
+                
                 vic.raster.geometry.text_size.height = new_text_lines;
 
             } else {
@@ -177,24 +203,34 @@ vic_store(ADDRESS addr, BYTE value)
             }
 
 
-            if (VIC_RASTER_CYCLE(clk) >= 1)
+            if (old_char_height != new_char_height)
             {
-                raster_add_int_change_next_line (&vic.raster,
-                    (int *)(&vic.row_increase_line), new_char_height);
-            } else {
-                vic.row_increase_line = new_char_height;
-            }
+                if (VIC_RASTER_CYCLE(clk) >= 1)
+                {
+                    raster_add_int_change_next_line (&vic.raster,
+                        (int *)(&vic.row_increase_line), new_char_height);
+                } else {
+                    vic.row_increase_line = new_char_height;
+                }
 
-            /* this is quite strange */
-            if (vic.char_height == 8 && new_char_height == 16
-                && vic.raster.ycounter == 7 && !vic.raster.blank_this_line)
-            {
-                vic.row_offset =
-                    (VIC_RASTER_CYCLE(clk) - vic.raster.display_xstart / 4 - 3) / 2;
-            } else {
-                vic.row_offset = -1; /* use vic.text_cols for offset */
+                /* this is quite strange */
+                if (vic.raster.ycounter == 7 && !vic.raster.blank_this_line)
+                {
+                    if (old_char_height == 8 && new_char_height == 16)
+                    {
+                        vic.row_offset =
+                            (VIC_RASTER_CYCLE(clk) - vic.raster.display_xstart / 4 - 3) / 2;
+                    } else {
+                        vic.row_offset = -1; /* use vic.text_cols for offset */
+                    }
+                }
+                raster_add_int_change_foreground (&vic.raster,
+                    VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk) + 2),
+                    &vic.char_height,
+                    new_char_height);
+
+                old_char_height = new_char_height;
             }
-            vic.char_height = new_char_height;
         }
 
       return;
