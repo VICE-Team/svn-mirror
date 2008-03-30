@@ -30,6 +30,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+#include "vice.h"
+
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR   "."
 #define FSDEV_DIR_SEP_STR      "/"

@@ -117,6 +117,12 @@
 /* Version number.  */
 #define VERSION ""
 
+/* Define if this version is unstable.  */
+#define UNSTABLE
+
+/* Where do we want to install the executable?  */
+#undef PREFIX
+
 /* The number of bytes in a unsigned int.  */
 #undef SIZEOF_UNSIGNED_INT
 

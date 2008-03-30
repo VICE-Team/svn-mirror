@@ -24,8 +24,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive \
-	-DPREFIX=\"@prefix@\"
+	-I$(top_srcdir)/src/drive
 
 YFLAGS = -dt
 
@@ -69,6 +68,7 @@ noinst_HEADERS = \
 	p00.h \
 	palette.h \
 	parallel.h \
+	piacore.h \
 	print.h \
 	raster.h \
 	resources.h \
@@ -82,6 +82,7 @@ noinst_HEADERS = \
 	tap.h \
 	tape.h \
 	tpi.h \
+	tpicore.h \
 	traps.h \
 	types.h \
 	usleep.h \
@@ -167,9 +168,9 @@ EXTRA_DIST = \
 	crtccore.c \
 	convio \
 	fixpoint.c \
-	pia-tmpl.c \
+	piacore.c \
 	raster.c \
-	tpi-tmpl.c \
+	tpicore.c \
 	viacore.c \
 	c1541.dsp \
 	petcat.dsp \
