@@ -27,19 +27,6 @@
 #ifndef _FSDEVICETYPES_H
 #define _FSDEVICETYPES_H
 
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
-
-#ifndef PATH_MAX
-#  ifdef MAX_PATH
-#    define PATH_MAX MAX_PATH
-#  else
-#    define PATH_MAX 1024
-#  endif
-#endif
-
-#include "tape.h"
 #include "types.h"
 
 enum fsmode {
@@ -48,14 +35,15 @@ enum fsmode {
 
 struct fileio_info_s;
 struct ioutil_dir_s;
+struct tape_image_s;
 
 struct fs_buffer_info_s {
     struct fileio_info_s *info;
     struct ioutil_dir_s *ioutil_dir;
-    tape_image_t tape;
+    struct tape_image_s *tape;
     enum fsmode mode;
-    char dir[PATH_MAX];
-    BYTE name[PATH_MAX];
+    char *dir;
+    BYTE *name;
     int buflen;
     BYTE *bufp;
     int eof;
@@ -64,7 +52,7 @@ struct fs_buffer_info_s {
     BYTE buffered;  /* Buffered Byte: Added to buffer reads to remove buffering from iec code */
     int isbuffered; /* TRUE is a byte exists in the buffer above */
     int iseof;      /* TRUE if an EOF is detected on a buffered read */
-    char fs_dirmask[PATH_MAX];
+    char *fs_dirmask;
 };
 typedef struct fs_buffer_info_s fs_buffer_info_t;
 
