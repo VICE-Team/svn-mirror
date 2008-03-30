@@ -40,6 +40,7 @@
 #include "vsync.h"
 #include "sid.h"
 #include "vic20mem.h"
+#include "attach.h"
 
 static void vsync_hook(void);
 
@@ -153,13 +154,7 @@ int machine_init(void)
     initialize_serial(vic20_serial_traps);
 
     /* Initialize drives.  Only drive #8 allows true 1541 emulation.  */
-    initialize_1541(8, DT_DISK | DT_1541,
-                    true1541_attach_floppy, true1541_detach_floppy);
-    initialize_1541(9, DT_DISK | DT_1541, NULL, NULL);
-    initialize_1541(10, DT_DISK | DT_1541, NULL, NULL);
-
-    /* Initialize FS-based emulation for drive #11.  */
-    initialize_1541(11, DT_FS | DT_1541, NULL, NULL);
+    initialize_drives();
 
     /* Fire up the hardware-level 1541 emulation. */
     initialize_true1541();

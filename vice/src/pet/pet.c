@@ -39,6 +39,7 @@
 #include "crtc.h"
 #include "vsync.h"
 #include "sid.h"
+#include "attach.h"
 
 static void vsync_hook(void);
 
@@ -106,12 +107,7 @@ int machine_init(void)
 #endif
 
     /* Initialize drives.  */
-    initialize_1541(8, DT_DISK | DT_1541, NULL, NULL);
-    initialize_1541(9, DT_DISK | DT_1541, NULL, NULL);
-    initialize_1541(10, DT_DISK | DT_1541, NULL, NULL);
-
-    /* Initialize FS-based emulation for drive #11.  */
-    initialize_1541(11, DT_FS | DT_1541, NULL, NULL);
+    initialize_drives();
 
     /* Initialize the CRTC emulation.  */
     crtc_init();

@@ -135,6 +135,7 @@ extern int attach_serial_device(int device, char *var, char *name,
 				int (*openf)(void *, char *, int, int),
 				int (*closef)(void *, int),
 				void (*flushf)(void *, int));
+extern serial_t *get_serial_device(int device);
 extern int serial_select_file(int type, int number, const char *file);
 extern int remove_serial(int number);
 extern char *image_file_name(int number);

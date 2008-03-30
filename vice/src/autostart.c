@@ -31,7 +31,7 @@
 #include <stdlib.h>
 
 #include "vmachine.h"
-#include "c64mem.h"
+#include "mem.h"
 #include "serial.h"
 #include "warn.h"
 #include "resources.h"

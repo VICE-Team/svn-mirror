@@ -39,6 +39,8 @@ MenuEntry AttachDiskImageSubmenu[] = {
       (UiMenuCallback) UiAttachDisk, (UiCallbackDataPtr) 9, NULL },
     { "Unit #10...",
       (UiMenuCallback) UiAttachDisk, (UiCallbackDataPtr) 10, NULL },
+    { "Unit #11...",
+      (UiMenuCallback) UiAttachDisk, (UiCallbackDataPtr) 11, NULL },
     { NULL }
 };
 
@@ -49,6 +51,8 @@ MenuEntry DetachDiskImageSubmenu[] = {
       (UiMenuCallback) UiDetachDisk, (UiCallbackDataPtr) 9, NULL },
     { "Unit #10",
       (UiMenuCallback) UiDetachDisk, (UiCallbackDataPtr) 10, NULL },
+    { "Unit #11",
+      (UiMenuCallback) UiDetachDisk, (UiCallbackDataPtr) 11, NULL },
     { "All",
       (UiMenuCallback) UiDetachDisk, (UiCallbackDataPtr) -1, NULL },
     { NULL }
@@ -235,6 +239,14 @@ MenuEntry Change1541IdleMethodSubmenu[] = {
     { NULL }
 };
 
+MenuEntry ChangeFileSystemDeviceSubmenu[] = {
+    { "*#8", (UiMenuCallback) UiToggleFileSystemDevice8, NULL, NULL },
+    { "*#9", (UiMenuCallback) UiToggleFileSystemDevice9, NULL, NULL },
+    { "*#10", (UiMenuCallback) UiToggleFileSystemDevice10, NULL, NULL },
+    { "*#11", (UiMenuCallback) UiToggleFileSystemDevice11, NULL, NULL },
+    { NULL }
+};
+
 #endif
 
 #ifdef SOUND
@@ -400,6 +412,9 @@ MenuEntry True1541Submenu[] = {
     { "--" },
     { "40-track image support",
       NULL, NULL, Change1541ExtendImageSubmenu },
+    { "--" },
+    { "File system device",
+      NULL, NULL, ChangeFileSystemDeviceSubmenu },
     { NULL }
 };
 #endif

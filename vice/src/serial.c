@@ -737,6 +737,10 @@ int  remove_serial(int number)
     return (0);
 }
 
+serial_t *get_serial_device(int device)
+{
+    return &serialdevices[device];
+}
 
 /* Return the name of the image attached at unit `number', NULL if none.  */
 char *image_file_name(int number)
