@@ -155,6 +155,7 @@ EXTRA_DIST = \
 	diskimage.dsp \
 	drive.dsp \
 	iec.dsp \
+	iec128dcr.dsp \
 	iecbus.dsp \
 	iecieee.dsp \
 	ieee.dsp \

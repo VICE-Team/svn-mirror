@@ -29,19 +29,24 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "cmdline.h"
 #include "debug.h"
 #include "drive.h"
+#include "event.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "types.h"
+#include "ui.h"
 #include "util.h"
 
 
 debug_t debug;
 
+
+inline static debug_history_step(const char *st);
 
 static int set_do_core_dumps(resource_value_t v, void *param)
 {
@@ -62,9 +67,9 @@ static int set_drive_traceflg(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_trace_small(resource_value_t v, void *param)
+static int set_trace_mode(resource_value_t v, void *param)
 {
-    debug.trace_small = (int)v;
+    debug.trace_mode = (int)v;
     return 0;
 }
 
@@ -89,8 +94,8 @@ static const resource_t resources[] = {
     { "Drive3CPU_TRACE", RES_INTEGER, (resource_value_t)0,
       (void *)&debug.drivecpu_traceflg[3], set_drive_traceflg, (void *)3 },
 #endif
-    { "TraceSmall", RES_INTEGER, (resource_value_t)0,
-      (void *)&debug.trace_small, set_trace_small, NULL },
+    { "TraceMode", RES_INTEGER, (resource_value_t)0,
+      (void *)&debug.trace_mode, set_trace_mode, NULL },
 #endif
     { NULL }
 };
@@ -167,7 +172,9 @@ void debug_set_machine_parameter(unsigned int cycles, unsigned int lines)
 void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
                    BYTE reg_x, BYTE reg_y, BYTE reg_sp)
 {
-    if (debug.trace_small) {
+    switch (debug.trace_mode) {
+      case DEBUG_SMALL:
+      {
         char small_dis[7];
 
         small_dis[0] = dis[0];
@@ -186,14 +193,31 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
                 small_dis[6] = '\0';
             }  
         }
-
+        
         log_debug("%04X %ld %02X%02X%02X %s", (unsigned int)reg_pc,
                   (long)mclk, reg_a, reg_x, reg_y, small_dis);
-    } else {
+        break;
+      }
+      case DEBUG_HISTORY:
+      {
+        char st[DEBUG_MAXLINELEN];
+
+        sprintf(st, ".%04X %02X %02X %8lX %-20s "
+                  "%02X%02X%02X%02X", (unsigned int)reg_pc,
+                  RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+                  reg_a, reg_x, reg_y, reg_sp);
+        debug_history_step(st);
+        break;
+      }
+      case DEBUG_NORMAL:
         log_debug(".%04X %03i %03i %10ld  %-20s "
                   "A=$%02X X=$%02X Y=$%02X SP=$%02X", (unsigned int)reg_pc,
                   RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
                   reg_a, reg_x, reg_y, reg_sp);
+        break;
+      default:
+        log_debug("Unknown debug format.");
+
     }
 }
 
@@ -204,8 +228,10 @@ void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a)
 }
 
 void debug_text(const char *text)
-{
-    log_debug(text);
+{    if (debug.trace_mode == DEBUG_HISTORY)
+        debug_history_step(text);
+    else
+        log_debug(text);
 }
 
 static void debug_int(interrupt_cpu_status_t *cs, const char *name,
@@ -224,7 +250,11 @@ static void debug_int(interrupt_cpu_status_t *cs, const char *name,
         }
     }
 
-    log_debug(textout);
+    if (debug.trace_mode == DEBUG_HISTORY)
+        debug_history_step(textout);
+    else
+        log_debug(textout);
+
     lib_free(textout);
 }
 
@@ -237,5 +267,133 @@ void debug_nmi(interrupt_cpu_status_t *cs)
 {
     debug_int(cs, "*** NMI", IK_NMI);
 }
+
+/*------------------------------------------------------------------------*/
+
+static FILE *debug_file = NULL;
+static char *debug_buffer;
+static int debug_buffer_ptr;
+static int debug_buffer_size;
+static int debug_file_current;
+static int debug_file_line;
+static int debug_file_milestone;
+
+static void debug_close_file(void)
+{
+    if (debug_file != NULL) {
+        fwrite(debug_buffer, sizeof(char), debug_buffer_ptr, debug_file);
+        fclose(debug_file);
+        debug_file = NULL;
+        debug_buffer_ptr = 0;
+        debug_file_current++;
+    }
+}
+
+static void debug_create_new_file(void)
+{
+    char *filename, *directory;
+    char st[256];
+
+    debug_close_file();
+
+    resources_get_value("EventSnapshotDir", (void *)&directory);
+    sprintf(st, "debug%06d", debug_file_current);
+    filename = util_concat(directory, st, FSDEV_EXT_SEP_STR, "log", NULL);
+    debug_file = fopen(filename, MODE_WRITE_TEXT);
+    lib_free(filename);
+}
+
+static debug_open_new_file(void)
+{
+    char *filename, *directory;
+    char st[256];
+
+    if (debug_file != NULL)
+        fclose(debug_file);
+
+    resources_get_value("EventSnapshotDir", (void *)&directory);
+    sprintf(st, "debug%06d", debug_file_current);
+    filename = util_concat(directory, st, FSDEV_EXT_SEP_STR, "log", NULL);
+    debug_file = fopen(filename, MODE_READ_TEXT);
+    if (debug_file != NULL) {
+        debug_buffer_size = fread(debug_buffer, sizeof(char), 
+                                    DEBUG_HISTORY_MAXFILESIZE, debug_file);
+        debug_buffer_ptr = 0;
+        debug_file_current++;
+    } else {
+        debug_buffer_size = 0;
+    }
+
+    debug_file_line = 0;
+
+    lib_free(filename);
+
+}
+
+inline static debug_history_step(const char *st)
+{
+    if (event_record_active()) {
+        
+        if (debug_buffer_ptr + DEBUG_MAXLINELEN >= DEBUG_HISTORY_MAXFILESIZE) {
+            debug_create_new_file();
+        }
+        
+        debug_buffer_ptr += 
+            sprintf(debug_buffer + debug_buffer_ptr, "%s\n", st);
+    }
+
+    if (event_playback_active()) {
+
+        char tempstr[DEBUG_MAXLINELEN];
+        int line_len = sprintf(tempstr, "%s\n", st);
+
+        if (debug_buffer_ptr >= debug_buffer_size)
+            debug_open_new_file();
+
+        debug_file_line++;
+
+        if (strncmp(st, debug_buffer + debug_buffer_ptr, strlen(st)) != 0) {
+            event_playback_stop();
+            ui_error("Playback error: %s different from line %d of file "
+                     "debug%06d", st, debug_file_line, debug_file_current - 1);
+        }
+
+        debug_buffer_ptr += line_len;
+    }
+}
+
+void debug_start_recording(void)
+{
+    debug_file_current = 0;
+    debug_file_milestone = 0;
+    debug_buffer_ptr = 0;
+    debug_buffer = lib_malloc(DEBUG_HISTORY_MAXFILESIZE);
+    debug_create_new_file();
+}
+
+void debug_stop_recording(void)
+{
+    debug_close_file();
+    lib_free(debug_buffer);
+}
+
+void debug_start_playback(void)
+{
+    debug_file_current = 0;
+    debug_file_milestone = 0;
+    debug_buffer_ptr = 0;
+    debug_buffer = lib_malloc(DEBUG_HISTORY_MAXFILESIZE);
+    debug_open_new_file();
+}
+
+void debug_stop_playback(void)
+{
+    if (debug_file != NULL) {
+        fclose(debug_file);
+        debug_file = NULL;
+    }
+    lib_free(debug_buffer);
+}
+
 #endif
 

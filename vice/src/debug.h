@@ -30,13 +30,20 @@
 #include "types.h"
 
 /* This enables debugging.  Attention: It makes things a bit slower.  */
-/*#define DEBUG*/
+#define DEBUG
+
+#define DEBUG_NORMAL    0
+#define DEBUG_SMALL     1
+#define DEBUG_HISTORY   2
+
+#define DEBUG_HISTORY_MAXFILESIZE   4000000
+#define DEBUG_MAXLINELEN             128
 
 typedef struct debug_s {
 #ifdef DEBUG
     int maincpu_traceflg;
     int drivecpu_traceflg[4];
-    int trace_small;
+    int trace_mode;
 #endif
     int do_core_dumps;
 } debug_t;
@@ -56,6 +63,10 @@ extern void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a);
 extern void debug_irq(struct interrupt_cpu_status_s *cs);
 extern void debug_nmi(struct interrupt_cpu_status_s *cs);
 extern void debug_text(const char *text);
+extern void debug_start_recording(void);
+extern void debug_stop_recording(void);
+extern void debug_start_playback(void);
+extern void debug_stop_playback(void);
 
 #endif
 

@@ -36,6 +36,7 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
+#include "debug.h"
 #include "event.h"
 #include "interrupt.h"
 #include "joystick.h"
@@ -290,6 +291,10 @@ static void event_record_start_trap(WORD addr, void *data)
         log_error(event_log, "Unknown event start mode %i", event_start_mode); 
         return;
     }
+
+#ifdef  DEBUG
+    debug_start_recording();
+#endif
 }
 
 int event_record_start(void)
@@ -315,6 +320,10 @@ static void event_record_stop_trap(WORD addr, void *data)
         return;
     }
     record_active = 0;
+
+#ifdef  DEBUG
+    debug_stop_recording();
+#endif
 }
 
 int event_record_stop(void)
@@ -407,6 +416,10 @@ static void event_playback_start_trap(WORD addr, void *data)
     }
 
     playback_active = 1;
+
+#ifdef  DEBUG
+    debug_start_playback();
+#endif
 }
 
 
@@ -435,6 +448,10 @@ int event_playback_stop(void)
     alarm_unset(event_alarm);
 
     ui_display_playback(0);
+
+#ifdef  DEBUG
+    debug_stop_playback();
+#endif
 
     return 0;
 }
