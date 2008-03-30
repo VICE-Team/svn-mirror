@@ -47,7 +47,6 @@
 #include "resources.h"
 #include "uiarch.h"
 #include "uimenu.h"
-#include "vsync.h"
 #include "x11menu.h"
 
 

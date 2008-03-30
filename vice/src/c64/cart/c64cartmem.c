@@ -42,7 +42,6 @@
 #include "expert.h"
 #include "final.h"
 #include "generic.h"
-#include "interrupt.h"
 #include "kcs.h"
 #include "log.h"
 #include "machine.h"

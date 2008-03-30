@@ -37,7 +37,6 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
-#include "vsync.h"
 #include "x11menu.h"
 #include "uimenu.h"
 

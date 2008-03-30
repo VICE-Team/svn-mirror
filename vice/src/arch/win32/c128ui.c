@@ -49,7 +49,6 @@
 #include "uitfe.h"
 #include "uivicii.h"
 #include "uivideo.h"
-#include "vsync.h"
 #include "uisnapshot.h"
 #include "uilib.h"
 

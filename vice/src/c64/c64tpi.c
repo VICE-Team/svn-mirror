@@ -37,7 +37,6 @@
 #include "lib.h"
 #include "log.h"
 #include "parallel.h"
-#include "interrupt.h"
 #include "maincpu.h"
 #include "tpi.h"
 #include "types.h"

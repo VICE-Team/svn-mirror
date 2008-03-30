@@ -36,7 +36,6 @@
 
 #include "cartridge.h"
 #include "emuid.h"
-#include "interrupt.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -46,7 +45,6 @@
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 #include "vic-mem.h"
 #include "vic20-resources.h"
 #include "vic20ieeevia.h"

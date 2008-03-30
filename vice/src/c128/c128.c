@@ -60,7 +60,6 @@
 #include "functionrom.h"
 #include "iecdrive.h"
 #include "imagecontents.h"
-#include "interrupt.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -350,6 +349,7 @@ void machine_resources_shutdown(void)
     printer_resources_shutdown();
     drive_resources_shutdown();
     cartridge_resources_shutdown();
+    functionrom_resources_shutdown();
 }
 
 /* C128-specific command-line option initialization.  */

@@ -122,7 +122,7 @@ static void mmu_switch_cpu(int value)
 #ifdef MMU_DEBUG
         log_message(mmu_log, "Switching to Z80 CPU.");
 #endif
-        maincpu_trigger_dma();
+        interrupt_trigger_dma(maincpu_int_status, maincpu_clk);
     }
 }
 

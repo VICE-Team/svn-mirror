@@ -36,7 +36,6 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
-#include "interrupt.h"
 #include "log.h"
 #include "types.h"
 #include "wd1770.h"

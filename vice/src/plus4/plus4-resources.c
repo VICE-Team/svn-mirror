@@ -38,7 +38,6 @@
 #include "plus4rom.h"
 #include "resources.h"
 #include "utils.h"
-#include "interrupt.h"
 #include "vsync.h"
 
 

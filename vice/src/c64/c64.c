@@ -56,7 +56,6 @@
 #include "drivecpu.h"
 #include "iecdrive.h"
 #include "imagecontents.h"
-#include "interrupt.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"

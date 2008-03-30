@@ -30,7 +30,6 @@
 
 #include "alarm.h"
 #include "ciatimer.h"
-#include "interrupt.h"
 #include "snapshot.h"
 #include "types.h"
 

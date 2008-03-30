@@ -45,7 +45,7 @@
 #include "archdep.h"
 #include "cartridge.h"
 #include "cmdline.h"
-#include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
@@ -150,6 +150,20 @@ static const resource_t resources[] =
 int cartridge_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void cartridge_resources_shutdown(void)
+{
+    lib_free(cartridge_file_2);
+    lib_free(cartridge_file_4);
+    lib_free(cartridge_file_6);
+    lib_free(cartridge_file_A);
+    lib_free(cartridge_file_B);
+    lib_free(cartfile2);
+    lib_free(cartfile4);
+    lib_free(cartfile6);
+    lib_free(cartfileA);
+    lib_free(cartfileB);
 }
 
 static int attach_cartB(const char *param, void *extra_param)

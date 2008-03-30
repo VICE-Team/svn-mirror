@@ -37,7 +37,6 @@
 #include "drivecpu.h"
 #include "drivetypes.h"
 #include "fdc.h"
-#include "interrupt.h"
 #include "log.h"
 #include "snapshot.h"
 #include "types.h"

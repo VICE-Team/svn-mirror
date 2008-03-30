@@ -294,8 +294,6 @@ extern CLOCK drive_clk[2];
     interrupt_set_int(maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_trigger_reset() \
     interrupt_trigger_reset(maincpu_int_status, maincpu_clk)
-#define maincpu_trigger_dma() \
-    interrupt_trigger_dma(maincpu_int_status, maincpu_clk)
 
 #define drive0_set_irq(int_num, value) \
     interrupt_set_irq(drive0_int_status_ptr, (int_num), (value), drive_clk[0])

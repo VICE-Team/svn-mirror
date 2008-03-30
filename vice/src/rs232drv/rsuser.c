@@ -38,7 +38,6 @@
 #include "alarm.h"
 #include "clkguard.h"
 #include "cmdline.h"
-#include "interrupt.h"
 #include "log.h"
 #include "maincpu.h"
 #include "resources.h"

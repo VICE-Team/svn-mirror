@@ -48,7 +48,6 @@
 #include "uitfe.h"
 #include "uivicii.h"
 #include "uivideo.h"
-#include "vsync.h"
 #include "winmain.h"
 
 

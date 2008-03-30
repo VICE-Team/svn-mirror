@@ -33,7 +33,6 @@
 #include "archdep.h"
 #include "c64mem.h"
 #include "cmdline.h"
-#include "interrupt.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"

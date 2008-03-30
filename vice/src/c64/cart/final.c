@@ -35,9 +35,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "final.h"
-#include "interrupt.h"
 #include "types.h"
-#include "utils.h"
 
 
 BYTE REGPARM1 final_v1_io1_read(WORD addr)

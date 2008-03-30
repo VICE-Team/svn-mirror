@@ -48,7 +48,6 @@
 #include "fullscreen.h"
 #include "init.h"
 #include "initcmdline.h"
-#include "interrupt.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -58,7 +57,6 @@
 #include "sysfile.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 #include "version.h"
 #include "video.h"
 
@@ -100,7 +98,7 @@ int main_program(int argc, char **argv)
     textdomain(PACKAGE);
 #endif
 
-    archdep_startup(&argc, argv);
+    archdep_init(&argc, argv);
 
 #ifndef __riscos
     if (atexit(main_exit) < 0) {
