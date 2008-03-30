@@ -421,13 +421,6 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 #endif
 }
 
-void video_register_raster(struct raster_s *raster)
-{
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_set_raster(raster);
-#endif
-}
-
 /* ------------------------------------------------------------------------- */
 
 void video_arch_canvas_init(struct video_canvas_s *canvas)
@@ -452,9 +445,8 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 #endif
 }
 
-int video_canvas_create(video_canvas_t *canvas, const char *win_name,
-                        unsigned int *width, unsigned int *height, int mapped,
-                        void_t exposure_handler,
+int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
+                        unsigned int *height, int mapped,
                         const struct palette_s *palette)
 {
     int res;
@@ -475,8 +467,10 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name,
         return -1;
     }
 
-    res = x11ui_open_canvas_window(canvas, win_name, new_width, new_height, 1,
-                                   (canvas_redraw_t)exposure_handler, palette);
+    res = x11ui_open_canvas_window(canvas, canvas->viewport->title,
+                                   new_width, new_height, 1,
+                                   (canvas_redraw_t)canvas->viewport->exposure_handler,
+                                   palette);
 
     if (!_video_gc)
         _video_gc = video_get_gc(&gc_values);

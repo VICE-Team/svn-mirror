@@ -1719,23 +1719,24 @@ video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
 
-int video_canvas_create(video_canvas_t *canvas, const char *title,
-                        UINT *width, UINT *height, int mapped,
-                        void_t exposure_handler,
+int video_canvas_create(video_canvas_t *canvas, UINT *width,
+                        UINT *height, int mapped,
                         const struct palette_s *palette);
 {
     canvas_init_t canvini;
 
     log_message(vidlog, "Creation of '%s' (%ix%i) requested%s.",
-                title, *width, *height, vsid_mode?" (vsid mode)":"");
+                canvas->viewport->title, *width, *height,
+                vsid_mode ? " (vsid mode)" : "");
 
-    *strrchr(title, ' ')=0; // FIXME?
+    *strrchr(canvas->viewport->title, ' ') = 0; // FIXME?
 
-    canvini.title   =  concat(szTitleBarText, " - ", title+6, NULL);
+    canvini.title   =  concat(szTitleBarText, " - ",
+                       canvas->viewport->title + 6, NULL);
     canvini.width   = *width;
     canvini.height  = *height;
     canvini.stretch =  stretch;
-    canvini.expose  = (canvas_redraw_t)exposure_handler;
+    canvini.expose  = (canvas_redraw_t)canvas->viewport->exposure_handler;
     canvini.canvas  =  NULL;
 
     if (canvas->videoconfig->doublesizex)
@@ -1761,7 +1762,8 @@ int video_canvas_create(video_canvas_t *canvas, const char *title,
         return NULL;
 
     log_message(vidlog, "Canvas '%s' (%ix%i) created: hwnd=0x%x.",
-                title, *width, *height, canvini.canvas->hwndClient);
+                canvas->viewport->title, *width, *height,
+                canvini.canvas->hwndClient);
 
     video_canvas_set_palette(canvini.canvas, palette);
 

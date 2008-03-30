@@ -136,14 +136,13 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     canvas->video_draw_buffer_callback = NULL;
 }
 
-int video_canvas_create(struct video_canvas_s *canvas, const char *title,
-                        unsigned int *width, unsigned int *height, int mapped,
-                        void_t exposure_handler,
+int video_canvas_create(struct video_canvas_s *canvas, unsigned int *width,
+                        unsigned int *height, int mapped,
                         const struct palette_s *palette)
 {
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
 
-	canvas->title = stralloc(title);
+	canvas->title = stralloc(canvas->viewport->title);
     switch (BScreen().ColorSpace()) {
     	case B_CMAP8:
     		canvas->depth = 8;
@@ -168,11 +167,12 @@ int video_canvas_create(struct video_canvas_s *canvas, const char *title,
     if (canvas->videoconfig->doublesizey)
         canvas->height *= 2;
 
-    canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
+    canvas->exposure_handler
+        = (canvas_redraw_t)canvas->viewport->exposure_handler;
 	
 	canvas->vicewindow = 
 		new ViceWindow(BRect(0, 0, canvas->width - 1,
-                               canvas->height - 1), title);
+                               canvas->height - 1), canvas->viewport->title);
 		
 	canvas->vicewindow->canvas = canvas;
 		

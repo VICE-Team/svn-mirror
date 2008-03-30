@@ -39,7 +39,6 @@
 #include "log.h"
 #include "fullscreen.h"
 #include "palette.h"
-#include "raster.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -49,7 +48,6 @@
 #include "statusbar.h"
 
 void video_resize(void);
-raster_t *video_find_raster_for_canvas(video_canvas_t *canvas);
 
 #ifndef HAVE_GUIDLIB
 extern const GUID IID_IDirectDraw2;
@@ -473,14 +471,10 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     canvas->video_draw_buffer_callback = NULL;
 }
 
-/* Create a `video_canvas_t' with tile `win_name', of widht `*width' x `*height'
-   pixels, exposure handler callback `exposure_handler' and palette
-   `palette'.  If specified width/height is not possible, return an
-   alternative in `*width' and `*height'.  */
-#define CANVAS_ERROR ((video_canvas_t *) -1)
-int video_canvas_create(video_canvas_t *canvas, const char *title,
-                        unsigned int *width, unsigned int *height, int mapped,
-                        void_t exposure_handler,
+/* Create a video canvas.  If specified width/height is not possible,
+   return an alternative in `*width' and `*height'.  */
+int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
+                        unsigned int *height, int mapped,
                         const struct palette_s *palette)
 {
     HRESULT result;
@@ -493,7 +487,7 @@ int video_canvas_create(video_canvas_t *canvas, const char *title,
     fullscreen_transition = 1;
 
     /* "Normal" window stuff.  */
-    canvas->title = stralloc(title);
+    canvas->title = stralloc(canvas->viewport->title);
     canvas->width = *width;
     canvas->height = *height;
 
@@ -503,10 +497,13 @@ int video_canvas_create(video_canvas_t *canvas, const char *title,
     if (canvas->videoconfig->doublesizey)
         canvas->height *= 2;
 
-    canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
+    canvas->exposure_handler
+        = (canvas_redraw_t)canvas->viewport->exposure_handler;
+
     canvas->palette = palette;
-    canvas->hwnd = ui_open_canvas_window(title, canvas->width, canvas->height,
-                                         (void *)exposure_handler,
+    canvas->hwnd = ui_open_canvas_window(canvas->viewport->title,
+                                         canvas->width, canvas->height,
+                                         (void *)canvas->viewport->exposure_handler,
                                          IsFullscreenEnabled());
 
     /*  Create the DirectDraw object */
@@ -792,36 +789,6 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, const palette_t *p)
 
 char Region[2048];
 
-static raster_t *raster_cache[2];
-static int number_of_rasters;
-
-void video_register_raster(raster_t *raster)
-{
-    int i;
-    //  First check if already registered
-    for (i = 0; i < number_of_rasters; i++) {
-        if (raster_cache[i] == raster)
-            return;
-    }
-    if (number_of_rasters == 2) {
-        log_debug("PANIC: too much rasters...");
-        exit(0);
-    }
-    raster_cache[number_of_rasters++] = raster;
-}
-
-raster_t *video_find_raster_for_canvas(video_canvas_t *canvas)
-{
-    int i;
-
-    for (i = 0; i < number_of_rasters; i++) {
-        if (raster_cache[i]->viewport.canvas == canvas) {
-            return raster_cache[i];
-        }
-    }
-    return 0;
-}
-
 video_canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd)
 {
     int i;
@@ -864,7 +831,6 @@ extern int window_canvas_ysize[2];
 void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 {
     video_canvas_t *c;
-    raster_t *r;
     int xs;   //  upperleft x in framebuffer
     int ys;   //  upperleft y in framebuffer
     int xi;   //  upperleft x in client space
@@ -878,11 +844,6 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     c = canvas_find_canvas_for_hwnd(hwnd);
 
     if (c == NULL)
-        return;
-
-    r = video_find_raster_for_canvas(c);
-
-    if (r == NULL)
         return;
 
     pixel_width = c->videoconfig->doublesizex ? 2 : 1;
@@ -910,23 +871,23 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 
     //  Calculate upperleft point's framebuffer coords
     xs = xclient - ((rect.right - window_canvas_xsize[window_index]) / 2)
-         + (r->viewport.first_x - r->viewport.x_offset
-         + r->geometry.extra_offscreen_border_left) * pixel_width;
+         + (c->viewport->first_x - c->viewport->x_offset
+         + c->viewport->extra_offscreen_border_left) * pixel_width;
     ys = yclient - ((rect.bottom - statusbar_get_status_height()
          - window_canvas_ysize[window_index]) / 2)
-         + (r->viewport.first_line - r->viewport.y_offset) * pixel_height;
+         + (c->viewport->first_line - c->viewport->y_offset) * pixel_height;
     //  Cut off areas outside of framebuffer and clear them
     xi = xclient;
     yi = yclient;
 
-    safex = (r->viewport.first_x - r->viewport.x_offset
-            + r->geometry.extra_offscreen_border_left) * pixel_width;
-    safey = (r->viewport.first_line - r->viewport.y_offset) * pixel_height;
-    safey2 = (r->viewport.last_line - r->viewport.y_offset) * pixel_height;
+    safex = (c->viewport->first_x - c->viewport->x_offset
+            + c->viewport->extra_offscreen_border_left) * pixel_width;
+    safey = (c->viewport->first_line - c->viewport->y_offset) * pixel_height;
+    safey2 = (c->viewport->last_line - c->viewport->y_offset) * pixel_height;
 
     if (c->draw_buffer->draw_buffer) {
-        cut_rightline = safex + r->viewport.width * pixel_width;
-        cut_bottomline = safey + r->viewport.height * pixel_height;
+        cut_rightline = safex + c->viewport->screen_width * pixel_width;
+        cut_bottomline = safey + c->viewport->screen_height * pixel_height;
         if (cut_rightline > c->draw_buffer->draw_buffer_width * pixel_width) {
             cut_rightline = c->draw_buffer->draw_buffer_width * pixel_width;
         }

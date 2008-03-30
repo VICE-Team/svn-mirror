@@ -73,11 +73,41 @@ extern void video_render_setphysicalcolor(video_render_config_t *config,
 extern void video_render_setrawrgb(int index, DWORD r, DWORD g, DWORD b);
 extern void video_render_initraw(void);
 
+struct viewport_s {
+    /* Title for the viewport.  FIXME: Duplicated info from the canvas?  */
+    char *title;
+
+    /* Offset of the screen on the window.  */
+    unsigned int x_offset, y_offset;
+
+    /* First and last lines shown in the output window.  */
+    unsigned int first_line, last_line;
+
+    /* First pixel in one line of the frame buffer to be shown on the output
+       window.  */
+    unsigned int first_x;
+
+    /* Exposure handler.  */
+    void *exposure_handler;
+
+    /* Only display canvas if this flag is set.  */
+    int update_canvas;
+
+    /* Total size of the screen.  */
+    unsigned int screen_width, screen_height;
+
+    unsigned int extra_offscreen_border_left;
+    unsigned int extra_offscreen_border_right;
+};
+typedef struct viewport_s viewport_t;
+
 struct draw_buffer_s {
     BYTE *draw_buffer;
     unsigned int draw_buffer_width;
     unsigned int draw_buffer_height;
     unsigned int draw_buffer_pitch;
+    unsigned int canvas_width;
+    unsigned int canvas_height;
 };
 typedef struct draw_buffer_s draw_buffer_t;
 
@@ -89,10 +119,8 @@ extern int video_init_cmdline_options(void);
 extern int video_init(void);
 
 extern int video_canvas_create(struct video_canvas_s *canvas,
-                               const char *win_name, unsigned int *width,
-                               unsigned int *height, int mapped,
-                               void_t exposure_handler,
-                               const struct palette_s *palette);
+                               unsigned int *width, unsigned int *height,
+                               int mapped, const struct palette_s *palette);
 extern void video_arch_canvas_init(struct video_canvas_s *canvas);
 extern struct video_canvas_s *video_canvas_init(video_render_config_t
                                                 *videoconfig);

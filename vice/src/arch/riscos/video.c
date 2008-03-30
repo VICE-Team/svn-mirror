@@ -1096,11 +1096,11 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
   wlsprite_plot_init(&(canvas->fb.palplot));
 }
 
-int video_canvas_create(video_canvas_t *canvas, const char *win_name, unsigned int *width, unsigned int *height, int mapped, void_t exposure_handler, const palette_t *palette)
+int video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped, const palette_t *palette)
 {
   canvas_list_t *newCanvas;
 
-  canvas->name = stralloc(win_name);
+  canvas->name = stralloc(canvas->viewport->title);
 
   canvas->width = *width; canvas->height = *height;
 
