@@ -94,7 +94,7 @@ DEFINE_SET_KEYSET(2, SW)
 DEFINE_SET_KEYSET(2, W)
 DEFINE_SET_KEYSET(2, FIRE)
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "JoyDevice1", RES_INTEGER, (resource_value_t)JOYDEV_NONE,
       (resource_value_t *)&joystick_device_1,
       set_joystick_device_1, NULL },

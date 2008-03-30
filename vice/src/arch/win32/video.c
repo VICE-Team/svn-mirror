@@ -85,7 +85,7 @@ static void video_debug(const char *format, ...)
 /* Flag: are we in fullscreen mode?  */
 int fullscreen_enabled;
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { NULL }
 };
 
@@ -261,29 +261,27 @@ void init_palette(const palette_t *p, PALETTEENTRY *ape)
     unsigned int i;
 
     /* Default to a 332 palette.  */
-	for (i=0;i<256;i++)
-	{
+    for (i = 0; i <2 56; i++) {
         ape[i].peRed   = (BYTE)(((i >> 5) & 0x07) * 255 / 7);
         ape[i].peGreen = (BYTE)(((i >> 2) & 0x07) * 255 / 7);
         ape[i].peBlue  = (BYTE)(((i >> 0) & 0x03) * 255 / 3);
         ape[i].peFlags = (BYTE)0;
-	}
+    }
 
-	/* Initialise some colors to windows system pens */
+    /* Initialise some colors to windows system pens */
 /*
-	k = 16;
-	for (i=0;i<256;i++)
-	{
-		color = GetSysColor(i);
-		if (color != 0)
-		{
-			ape[k].peRed	= GetRValue(color);
-			ape[k].peGreen	= GetGValue(color);
-			ape[k].peBlue	= GetBValue(color);
-			k++;
-			if (k > 256) break;
-		}
-	}
+    k = 16;
+    for (i = 0; i < 256; i++) {
+        color = GetSysColor(i);
+        if (color != 0) {
+            ape[k].peRed    = GetRValue(color);
+            ape[k].peGreen  = GetGValue(color);
+            ape[k].peBlue   = GetBValue(color);
+            k++;
+            if (k > 256)
+                break;
+        }
+    }
 */
 
     /* Overwrite first colors with the palette ones.  */
@@ -1299,7 +1297,7 @@ float video_refresh_rate(video_canvas_t *c)
         if (m == 0)
             return 0.0f;
 
-        frequency = (double) frq;
+        frequency = (double)frq;
         time = (double)old;
         mult = (double)m;
 

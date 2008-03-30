@@ -243,7 +243,7 @@ static int set_initial_dir(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "FullscreenDevice", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&ui_resources.fullscreendevice,
       set_fullscreen_device, NULL },
@@ -333,20 +333,20 @@ int ui_cmdline_options_init(void)
     { FVIRTKEY | FALT | FNOINVERT, '0', IDM_ATTACH_10 },                \
     { FVIRTKEY | FALT | FNOINVERT, '1', IDM_ATTACH_11 },                \
     { FVIRTKEY | FALT | FNOINVERT, 'T', IDM_ATTACH_TAPE },              \
-    { FVIRTKEY | FALT | FNOINVERT, 'L',IDM_LOADQUICK },      \
-    { FVIRTKEY | FALT | FNOINVERT, 'S',IDM_SAVEQUICK },      \
+    { FVIRTKEY | FALT | FNOINVERT, 'L', IDM_LOADQUICK },                \
+    { FVIRTKEY | FALT | FNOINVERT, 'S', IDM_SAVEQUICK },                \
     { FVIRTKEY | FALT | FNOINVERT, 'M', IDM_MONITOR },                  \
     { FVIRTKEY | FALT | FNOINVERT, 'X', IDM_EXIT },                     \
     { FVIRTKEY | FALT | FNOINVERT, 'W', IDM_TOGGLE_WARP_MODE },         \
     { FVIRTKEY | FALT | FNOINVERT, 'I', IDM_FLIP_ADD },                 \
     { FVIRTKEY | FALT | FNOINVERT, 'K', IDM_FLIP_REMOVE },              \
     { FVIRTKEY | FALT | FNOINVERT, 'N', IDM_FLIP_NEXT },                \
-    { FVIRTKEY | FALT | FNOINVERT, 'B', IDM_FLIP_PREVIOUS }, \
+    { FVIRTKEY | FALT | FNOINVERT, 'B', IDM_FLIP_PREVIOUS },            \
     { FVIRTKEY | FALT | FNOINVERT, 'J', IDM_SWAP_JOYSTICK },            \
     { FVIRTKEY | FALT | FNOINVERT, 'C', IDM_SCREENSHOT },               \
     { FVIRTKEY | FALT | FNOINVERT, 'U', IDM_SOUNDSHOT },                \
     { FVIRTKEY | FALT | FNOINVERT, 'D', IDM_TOGGLE_FULLSCREEN },        \
-    { FVIRTKEY | FALT | FNOINVERT, VK_RETURN, IDM_TOGGLE_FULLSCREEN },       \
+    { FVIRTKEY | FALT | FNOINVERT, VK_RETURN, IDM_TOGGLE_FULLSCREEN },  \
     { FVIRTKEY | FALT | FNOINVERT, VK_PAUSE, IDM_PAUSE }
 
 static ACCEL c64_accel[] = {
@@ -459,7 +459,9 @@ int ui_init(int *argc, char **argv)
 #if 1
     main_hwnd = CreateWindow(APPLICATION_CLASS_MAIN,
                              "No title", /* (for now) */
-                             WS_OVERLAPPED|WS_CLIPCHILDREN|WS_BORDER|WS_DLGFRAME|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX,
+                             WS_OVERLAPPED | WS_CLIPCHILDREN | WS_BORDER
+                             | WS_DLGFRAME| WS_SYSMENU | WS_MINIMIZEBOX
+                             | WS_MAXIMIZEBOX,
                              CW_USEDEFAULT,
                              CW_USEDEFAULT,
                              CW_USEDEFAULT,
@@ -552,7 +554,7 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
 
     if (!fullscreen) {
         statusbar_create(hwnd);
-//        status_hwnd[number_of_windows]=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",hwnd,IDM_STATUS_WINDOW);
+//        status_hwnd[number_of_windows] = CreateStatusWindow(WS_CHILD | WS_VISIBLE, "", hwnd, IDM_STATUS_WINDOW);
 //        GetClientRect(status_hwnd[number_of_windows], &rect);
 //        status_height = rect.bottom-rect.top;
     }
@@ -1149,7 +1151,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_DEVICEMANAGER:
         ui_attach_dialog(hwnd);
         break;
-      case IDM_EXIT|0x00010000:
+      case IDM_EXIT | 0x00010000:
       case IDM_EXIT:
         PostMessage(hwnd, WM_CLOSE, wparam, lparam);
         break;
