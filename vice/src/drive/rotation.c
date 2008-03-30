@@ -332,6 +332,7 @@ inline static unsigned int count_sync_from_right(BYTE gcr_byte)
     return num;
 }
 #else
+#if 0
 inline static unsigned int is_one(DWORD gcr_data, unsigned int off)
 {
     return ((gcr_data >> off) & 1);
@@ -361,6 +362,27 @@ inline static void add_head_bitoff(drive_t *dptr, unsigned int inc)
         dptr->GCR_head_offset = head_next_offset(dptr);
     }
 }
+#else
+inline static unsigned int count_sync_from_left(BYTE gcr_byte)
+{
+    unsigned int num;
+
+    for (num = 0; (gcr_byte & 0x80) != 0; gcr_byte <<= 1)
+        num++;
+
+    return num;
+}
+
+inline static unsigned int count_sync_from_right(BYTE gcr_byte)
+{
+    unsigned int num;
+
+    for (num = 0; (gcr_byte & 0x01) != 0; gcr_byte >>= 1)
+        num++;
+
+    return num;
+}
+#endif
 #endif
 
 /* Return non-zero if the Sync mark is found.  It is required to
@@ -404,6 +426,7 @@ BYTE rotation_sync_found(drive_t *dptr)
        writes, do not change `drive[].bits_moved'!  */
     /* dptr->bits_moved = 0; */
 #else
+#if 0
     unsigned int dnr;
     DWORD val;
     unsigned int offset;
@@ -425,6 +448,38 @@ BYTE rotation_sync_found(drive_t *dptr)
     }
 
     return 0x80;
+#else
+    unsigned int dnr;
+    BYTE val;
+    unsigned int sync_bits;
+    unsigned int num;
+
+    dnr = dptr->mynumber;
+
+    if (rotation[dnr].last_mode == 0 || dptr->attach_clk != (CLOCK)0)
+        return 0x80;
+
+    val = peek_current(dptr);
+
+    sync_bits = count_sync_from_right(peek_previous(dptr))
+                + count_sync_from_left(val);
+
+    if (sync_bits >= 10)
+        return 0; /* found! */
+
+    if (val != 0xff) /* need to count sync bits from the right */
+        sync_bits = count_sync_from_right(val);
+
+    num = count_sync_from_left(peek_next(dptr));
+
+    sync_bits += (num < rotation[dnr].shifter) ? num : rotation[dnr].shifter;
+
+    return (sync_bits >= 10) ? 0 : 0x80;
+
+    /* As the current rotation code cannot cope with non byte aligned
+       writes, do not change `drive[].bits_moved'!  */
+    /* dptr->bits_moved = 0; */
+#endif
 #endif
 }
 

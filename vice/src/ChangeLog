@@ -1,3 +1,44 @@
+2006-11-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.16.
+
+	* drive/rotation.c (rotation_sync_found): Changed back to old
+	sync code.
+
+2006-11-03  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* c64/tfe.c: set correct init state of ethernet chip.
+
+2006-10-31  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/gui/uicommands.c: Got rid of a unneeded_()
+	element.
+
+2006-10-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/resc64_256k.rc,
+	arch/win32/rescbm2.rc, arch/win32/resdrivec128.rc,
+	arch/win32/resdrivec64vic20.rc, arch/win32/resdrivepetcbm2.rc,
+	arch/win32/resdriveplus4.rc, arch/win32/resgeoram.rc,
+	arch/win32/reside64.rc, arch/win32/respet.rc,
+	arch/win32/respetreu.rc, arch/win32/resplus256k.rc,
+	arch/win32/resplus4.rc, arch/win32/resplus60k.rc,
+	arch/win32/resramcart.rc, arch/win32/resreu.rc,
+	arch/win32/resrs232user.rc, arch/win32/ressid.rc,
+	arch/win32/restfe.rc, arch/win32/resvic20.rc,
+	arch/win32/resvicii.rc, translate.c: Updated.
+
+2006-10-27  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* c64/tfe.c: fixed rr-net toggle. ensure correct setup of the
+	ethernet device.
+
+2006-10-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c: updated.
+
 2006-10-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.15.
