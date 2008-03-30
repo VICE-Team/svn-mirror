@@ -295,6 +295,7 @@ static int init_raster(void)
     video_color_set_raster(raster);
 
     raster_sprite_status_new(raster, VICII_NUM_SPRITES);
+    raster_line_changes_sprite_init(raster);
 
     if (raster_init(raster, VICII_NUM_VMODES) < 0)
         return -1;

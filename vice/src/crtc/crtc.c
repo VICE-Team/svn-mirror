@@ -338,6 +338,8 @@ raster_t *crtc_init(void)
     raster = &crtc.raster;
 
     raster->sprite_status = NULL;
+    raster_line_changes_init(raster);
+
     if (raster_init(raster, CRTC_NUM_VMODES) < 0)
         return NULL;
 

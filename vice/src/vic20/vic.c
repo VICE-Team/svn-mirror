@@ -273,6 +273,8 @@ static int init_raster(void)
     video_color_set_raster(raster);
 
     raster->sprite_status = NULL;
+    raster_line_changes_init(raster);
+
     if (raster_init(raster, VIC_NUM_VMODES) < 0)
         return -1;
 

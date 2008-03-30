@@ -133,6 +133,8 @@ static int init_raster(void)
     raster = &vdc.raster;
 
     raster->sprite_status = NULL;
+    raster_line_changes_init(raster);
+
     if (raster_init(raster, VDC_NUM_VMODES) < 0)
         return -1;
 
