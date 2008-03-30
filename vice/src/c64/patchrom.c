@@ -262,7 +262,7 @@ int  patch_rom(const char *str)
         rev = atoi (str);
     }
 
-    curr = read_rom(0xff80);
+    curr = rom_read(0xff80);
 
     if (rev == curr) {
 	log_warning(LOG_DEFAULT, "ROM not patched: Already revision #%d.",
@@ -308,7 +308,7 @@ int  patch_rom(const char *str)
 
 	i += (bytes * rev);	/* select patch */
 	for(n = bytes; n--;)
-	    store_rom(a++, (BYTE)patch_bytes[i++]);
+	    rom_store(a++, (BYTE)patch_bytes[i++]);
 
 	i += (bytes * (PATCH_VERSIONS - rev));	/* skip patch */
     }

@@ -131,7 +131,7 @@ static int install_trap(const trap_t *t)
     int i;
 
     for (i = 0; i < 3; i++) {
-	if (read_rom(t->address + i) != t->check[i]) {
+	if (rom_read(t->address + i) != t->check[i]) {
 	    log_error(traps_log,
                       "Incorrect checkbyte for trap `%s'.  Not installed.",
                       t->name);
@@ -142,7 +142,7 @@ static int install_trap(const trap_t *t)
 	t->name, t->address); */
 
     /* BRK (0x00) is trap-opcode.  */
-    store_rom(t->address, 0x00);
+    rom_store(t->address, 0x00);
 
     return 0;
 }
@@ -164,14 +164,14 @@ int traps_add(const trap_t *t)
 
 static int remove_trap(const trap_t *t)
 {
-    if (read_rom(t->address) != 0x00) {
+    if (rom_read(t->address) != 0x00) {
 	log_error(traps_log, "No trap `%s' installed?", t->name);
         return -1;
     }
     /* log_warning(traps_log, "Deinstalling trap `%s' from %04x.", 
 	t->name, t->address); */
 
-    store_rom(t->address, t->check[0]);
+    rom_store(t->address, t->check[0]);
     return 0;
 }
 
