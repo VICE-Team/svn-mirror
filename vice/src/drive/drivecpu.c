@@ -658,6 +658,9 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
             goto fail;
     }
 
+    if (interrupt_write_new_snapshot(drv->cpu.int_status, m) < 0)
+        goto fail;
+
     return snapshot_module_close(m);
 
 fail:
@@ -709,7 +712,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     machine_drive_reset(drv);
 
-    if (interrupt_read_snapshot(drv->cpu.int_status, m, major, minor) < 0)
+    if (interrupt_read_snapshot(drv->cpu.int_status, m) < 0)
         goto fail;
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1541
@@ -733,6 +736,8 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     /* Update `*bank_base'.  */
     JUMP(reg_pc);
+
+    interrupt_read_new_snapshot(drv->cpu.int_status, m);
 
     return snapshot_module_close(m);
 

@@ -311,8 +311,15 @@ int interrupt_write_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
     if (SMW_DW(m, cs->irq_clk) < 0
         || SMW_DW(m, cs->nmi_clk) < 0
         || SMW_DW(m, (DWORD)cs->num_last_stolen_cycles) < 0
-        || SMW_DW(m, cs->last_stolen_cycles_clk) < 0
-        || SMW_DW(m, cs->nirq) < 0
+        || SMW_DW(m, cs->last_stolen_cycles_clk) < 0)
+        return -1;
+
+    return 0;
+}
+
+int interrupt_write_new_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
+{
+    if (SMW_DW(m, cs->nirq) < 0
         || SMW_DW(m, cs->nnmi) < 0
         || SMW_DW(m, cs->global_pending_int) < 0)
         return -1;
@@ -320,8 +327,7 @@ int interrupt_write_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
     return 0;
 }
 
-int interrupt_read_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m,
-                            BYTE major, BYTE minor)
+int interrupt_read_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
 {
     unsigned int i;
     DWORD dw;
@@ -343,25 +349,31 @@ int interrupt_read_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m,
         return -1;
     cs->last_stolen_cycles_clk = dw;
 
-    /* only new snapshots contain the global interrupt settings */
-    if (major < 1 || major == 1 && minor < 1) {
-        cs->needs_global_restore = 1;
-        return 0;
-    }
+    /* old-style snapshot need restore of the global interrupt settings */
+    cs->needs_global_restore = 1;
+
+    return 0;
+}
+
+int interrupt_read_new_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
+{
+    DWORD dw;
 
     if (SMR_DW(m, &dw) < 0)
-        return -1;
+        return 0;
     cs->nirq = dw;
 
     if (SMR_DW(m, &dw) < 0)
-        return -1;
+        return 0;
     cs->nnmi = dw;
 
     if (SMR_DW(m, &dw) < 0)
-        return -1;
+        return 0;
     cs->global_pending_int = dw;
 
+    /* new-style snapshot need no restore of the global interrupt settings */
     cs->needs_global_restore = 0;
+
     return 0;
 }
 

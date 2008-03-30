@@ -954,8 +954,7 @@ static inline void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
         }
     }
 
-    if (sprite_offset < vicii.sprite_wrap_x
-        && data_ptr != NULL) {
+    if (data_ptr != NULL) {
         BYTE *msk_ptr, *ptr, *sptr;
         int lshift;
 
@@ -992,30 +991,34 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
         int n;
 
         for (n = 0; n < 8; n++) {
-            sprite_offset = sprite_status->sprites[n].x
-                               + sprite_status->sprites[n].x_shift;
+            if (sprite_status->sprites[n].x < vicii.sprite_wrap_x) {
 
-            sprite_xs = xs - sprite_offset;
-            sprite_xe = xe - sprite_offset;
+                sprite_offset = sprite_status->sprites[n].x
+                                   + sprite_status->sprites[n].x_shift;
 
-            /* Test if the sprite is inside the area.                  */
-            /* Sprite can be seven pixels wider with repeating pixels. */
-            if (sprite_xe >= 0
-                && sprite_xs < (sprite_status->sprites[n].x_expanded ? 55 : 31))
-                draw_sprite_partial(line_ptr, gfx_msk_ptr, sprite_xs, sprite_xe,
-                    sprite_status, n, sprite_offset);
+                sprite_xs = xs - sprite_offset;
+                sprite_xe = xe - sprite_offset;
 
-            /* Now shift the interval one screen left */
-            /* to draw the wrapped part of the sprite */
-            sprite_xs += vicii.sprite_wrap_x;
-            sprite_xe += vicii.sprite_wrap_x;
-            sprite_offset -= vicii.sprite_wrap_x;
+                /* Test if the sprite is inside the area.                  */
+                /* Sprite can be seven pixels wider with repeating pixels. */
+                if (sprite_xe >= 0
+                    && sprite_xs < 
+                        (sprite_status->sprites[n].x_expanded ? 55 : 31))
+                    draw_sprite_partial(line_ptr, gfx_msk_ptr,
+                        sprite_xs, sprite_xe, sprite_status, n, sprite_offset);
 
-            if (sprite_xe >= 0
-                && sprite_xs < (sprite_status->sprites[n].x_expanded ? 55 : 31))
-                draw_sprite_partial(line_ptr, gfx_msk_ptr, sprite_xs, sprite_xe,
-                    sprite_status, n, sprite_offset);
+                /* Now shift the interval one screen left */
+                /* to draw the wrapped part of the sprite */
+                sprite_xs += vicii.sprite_wrap_x;
+                sprite_xe += vicii.sprite_wrap_x;
+                sprite_offset -= vicii.sprite_wrap_x;
 
+                if (sprite_xe >= 0
+                    && sprite_xs < 
+                        (sprite_status->sprites[n].x_expanded ? 55 : 31))
+                    draw_sprite_partial(line_ptr, gfx_msk_ptr,
+                        sprite_xs, sprite_xe, sprite_status, n, sprite_offset);
+            }
         }
 
         vicii.sprite_sprite_collisions

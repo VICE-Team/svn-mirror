@@ -136,16 +136,10 @@
 #define TAUOFFSET       (-1)
 
 
-#if 0
-#define via_restore_int(a)                                        \
-    (via_context->set_int)(via_context, via_context->int_num, (a) \
-    ? via_context->irq_line : 0)
-#else
 static void via_restore_int(via_context_t *via_context, int value)
 {
     (via_context->restore_int)(via_context, via_context->int_num, value);
 }
-#endif
 
 inline static void update_myviairq(via_context_t *via_context)
 {

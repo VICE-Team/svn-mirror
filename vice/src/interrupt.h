@@ -252,9 +252,12 @@ extern void interrupt_cpu_status_time_warp(interrupt_cpu_status_t *cs,
                                            int warp_direction);
 
 extern int interrupt_read_snapshot(interrupt_cpu_status_t *cs,
-                                   struct snapshot_module_s *m,
-                                   BYTE major, BYTE minor);
+                                   struct snapshot_module_s *m);
+extern int interrupt_read_new_snapshot(interrupt_cpu_status_t *cs,
+                                   struct snapshot_module_s *m);
 extern int interrupt_write_snapshot(interrupt_cpu_status_t *cs,
+                                    struct snapshot_module_s *m);
+extern int interrupt_write_new_snapshot(interrupt_cpu_status_t *cs,
                                     struct snapshot_module_s *m);
 
 extern void interrupt_restore_irq(interrupt_cpu_status_t *cs, int int_num,
