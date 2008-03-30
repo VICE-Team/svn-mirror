@@ -2034,9 +2034,9 @@ static void ui_select_contents_cb(GtkWidget *w, int row, int col,
 /* File browser. */
 char *ui_select_file(const char *title,
                      char *(*read_contents_func)(const char *),
-                     int allow_autostart, const char *default_dir,
+                     unsigned int allow_autostart, const char *default_dir,
                      const char *default_pattern, ui_button_t *button_return,
-		     int show_preview)
+		     unsigned int show_preview)
 {  
     static ui_button_t button;
     static GtkWidget* file_selector = NULL;
