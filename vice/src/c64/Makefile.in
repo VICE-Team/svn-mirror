@@ -127,6 +127,8 @@ x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
+
+SUBDIRS = cart
 @HAVE_RS232_TRUE@acia_libadd = c64acia1.o c64rsuser.o
 @HAVE_RS232_FALSE@acia_libadd = 
 
@@ -135,10 +137,10 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc64.a libc64c128.a
 
-libc64_a_SOURCES =  	c64-cmdline-options.c 	c64-cmdline-options.h 	c64-resources.c 	c64-resources.h 	c64.c 	c64.h 	c64cart.h 	c64cartridge.c 	c64cartmem.c 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64iec.c 	c64iec.h 	c64mem.c 	c64mem.h 	c64memlimit.c 	c64memlimit.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	c64tpi.c 	c64tpi.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h 	reloc65.c
+libc64_a_SOURCES =  	c64-cmdline-options.c 	c64-cmdline-options.h 	c64-resources.c 	c64-resources.h 	c64.c 	c64.h 	c64cart.h 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64iec.c 	c64iec.h 	c64io.c 	c64io.h 	c64mem.c 	c64mem.h 	c64memlimit.c 	c64memlimit.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	c64tpi.c 	c64tpi.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h 	reloc65.c
 
 
-libc64c128_a_SOURCES =  	c64cart.h 	c64cartridge.c 	c64cartmem.c 	c64cia.h 	c64cia2.c 	c64datasette.c 	patchrom.c 	patchrom.h 	c64tpi.c 	c64tpi.h 	reu.c 	reu.h
+libc64c128_a_SOURCES =  	c64cart.h 	c64cia.h 	c64cia2.c 	c64datasette.c 	patchrom.c 	patchrom.h 	c64tpi.c 	c64tpi.h 	reu.c 	reu.h
 
 
 EXTRA_libc64_a_SOURCES =  	c64acia.h 	c64acia1.c 	c64rsuser.c 	c64rsuser.h
@@ -170,12 +172,12 @@ X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RS232_FALSE@libc64_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
 libc64_a_OBJECTS =  c64-cmdline-options.o c64-resources.o c64.o \
-c64cartridge.o c64cartmem.o c64cia1.o c64cia2.o c64datasette.o c64iec.o \
-c64mem.o c64memlimit.o patchrom.o reu.o c64tpi.o psid.o reloc65.o
+c64cia1.o c64cia2.o c64datasette.o c64iec.o c64io.o c64mem.o \
+c64memlimit.o patchrom.o reu.o c64tpi.o psid.o reloc65.o
 @HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
-libc64c128_a_OBJECTS =  c64cartridge.o c64cartmem.o c64cia2.o \
-c64datasette.o patchrom.o c64tpi.o reu.o
+libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o patchrom.o c64tpi.o \
+reu.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -239,6 +241,61 @@ libc64c128.a: $(libc64c128_a_OBJECTS) $(libc64c128_a_DEPENDENCIES)
 	$(AR) cru libc64c128.a $(libc64c128_a_OBJECTS) $(libc64c128_a_LIBADD)
 	$(RANLIB) libc64c128.a
 
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run `make' without going through this Makefile.
+# To change the values of `make' variables: instead of editing Makefiles,
+# (1) if the variable is set in `config.status', edit `config.status'
+#     (which will cause the Makefiles to be regenerated when you run `make');
+# (2) otherwise, pass the desired values on the `make' command line.
+
+@SET_MAKE@
+
+all-recursive install-data-recursive install-exec-recursive \
+installdirs-recursive install-recursive uninstall-recursive  \
+check-recursive installcheck-recursive info-recursive dvi-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
+
+mostlyclean-recursive clean-recursive distclean-recursive \
+maintainer-clean-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	  rev="$$subdir $$rev"; \
+	  test "$$subdir" = "." && dot_seen=yes; \
+	done; \
+	test "$$dot_seen" = "no" && rev=". $$rev"; \
+	target=`echo $@ | sed s/-recursive//`; \
+	for subdir in $$rev; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done && test -z "$$fail"
+tags-recursive:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
+	done
+
 tags: TAGS
 
 ID: $(HEADERS) $(SOURCES) $(LISP)
@@ -249,9 +306,14 @@ ID: $(HEADERS) $(SOURCES) $(LISP)
 	here=`pwd` && cd $(srcdir) \
 	  && mkid -f$$here/ID $$unique $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	tags=; \
 	here=`pwd`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+   if test "$$subdir" = .; then :; else \
+	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+   fi; \
+	done; \
 	list='$(SOURCES) $(HEADERS)'; \
 	unique=`for i in $$list; do echo $$i; done | \
 	  awk '    { files[$$0] = 1; } \
@@ -281,6 +343,16 @@ distdir: $(DISTFILES)
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
+	done
+	for subdir in $(SUBDIRS); do \
+	  if test "$$subdir" = .; then :; else \
+	    test -d $(distdir)/$$subdir \
+	    || mkdir $(distdir)/$$subdir \
+	    || exit 1; \
+	    chmod 777 $(distdir)/$$subdir; \
+	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	      || exit 1; \
 	  fi; \
 	done
 c64-cmdline-options.o: c64-cmdline-options.c ../../src/vice.h \
@@ -352,17 +424,21 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/drive/drivecpu.h ../../src/maincpu.h \
 	../../src/6510core.h ../../src/iecdrive.h ../../src/via.h \
 	../../src/drive/viad.h
+c64io.o: c64io.c ../../src/vice.h ../../src/config.h c64-resources.h \
+	c64acia.h ../../src/arch/unix/types.h c64cart.h c64io.h \
+	../../src/cartridge.h ../../src/emuid.h reu.h \
+	../../src/sid/sid-resources.h ../../src/sid/sid.h \
+	../../src/sound.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	c64-resources.h c64cart.h ../../src/arch/unix/types.h c64cia.h \
-	c64mem.h ../../src/mem.h c64memlimit.h ../../src/cartridge.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/datasette.h \
-	../../src/emuid.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/log.h ../../src/maincpu.h ../../src/monitor/mon.h \
-	../../src/parallel.h patchrom.h reu.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/sid/sid-resources.h \
-	../../src/snapshot.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	c64io.h c64mem.h ../../src/mem.h c64memlimit.h \
+	../../src/cartridge.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/datasette.h ../../src/emuid.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
+	../../src/monitor/mon.h ../../src/parallel.h patchrom.h reu.h \
+	../../src/sid/sid.h ../../src/sound.h ../../src/snapshot.h \
+	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h c64acia.h
 c64memlimit.o: c64memlimit.c ../../src/vice.h ../../src/config.h \
@@ -395,29 +471,30 @@ reu.o: reu.c ../../src/vice.h ../../src/config.h c64cart.h \
 	../../src/mem.h reu.h ../../src/snapshot.h ../../src/utils.h
 
 info-am:
-info: info-am
+info: info-recursive
 dvi-am:
-dvi: dvi-am
+dvi: dvi-recursive
 check-am: all-am
-check: check-am
+check: check-recursive
 installcheck-am:
-installcheck: installcheck-am
+installcheck: installcheck-recursive
 install-exec-am:
-install-exec: install-exec-am
+install-exec: install-exec-recursive
 
 install-data-am:
-install-data: install-data-am
+install-data: install-data-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
-install: install-am
+install: install-recursive
 uninstall-am:
-uninstall: uninstall-am
+uninstall: uninstall-recursive
 all-am: Makefile $(LIBRARIES)
-all-redirect: all-am
+all-redirect: all-recursive
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
-installdirs:
+installdirs: installdirs-recursive
+installdirs-am:
 
 
 mostlyclean-generic:
@@ -433,17 +510,17 @@ maintainer-clean-generic:
 mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
 		mostlyclean-tags mostlyclean-generic
 
-mostlyclean: mostlyclean-am
+mostlyclean: mostlyclean-recursive
 
 clean-am:  clean-noinstLIBRARIES clean-compile clean-tags clean-generic \
 		mostlyclean-am
 
-clean: clean-am
+clean: clean-recursive
 
 distclean-am:  distclean-noinstLIBRARIES distclean-compile \
 		distclean-tags distclean-generic clean-am
 
-distclean: distclean-am
+distclean: distclean-recursive
 
 maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
 		maintainer-clean-compile maintainer-clean-tags \
@@ -451,23 +528,32 @@ maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
-maintainer-clean: maintainer-clean-am
+maintainer-clean: maintainer-clean-recursive
 
 .PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
 clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
-check-am installcheck-am installcheck install-exec-am install-exec \
-install-data-am install-data install-am install uninstall-am uninstall \
-all-redirect all-am all installdirs mostlyclean-generic \
-distclean-generic clean-generic maintainer-clean-generic clean \
-mostlyclean distclean maintainer-clean
+maintainer-clean-compile install-data-recursive \
+uninstall-data-recursive install-exec-recursive \
+uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
+all-recursive check-recursive installcheck-recursive info-recursive \
+dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
+maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
+distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
+dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
+install-exec install-data-am install-data install-am install \
+uninstall-am uninstall all-redirect all-am all installdirs-am \
+installdirs mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 %.h : %.a65
 	xa -R -G $< -o $(srcdir)/$*.o65
 	od -v -An -w8 -tx1 $(srcdir)/$*.o65 | sed 's/\w\w/0x&,/g' > $(srcdir)/$@
+
+.PHONY: cart
+cart:
+	(cd cart; $(MAKE))
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

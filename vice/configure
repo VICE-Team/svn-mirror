@@ -721,7 +721,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.7.13
+VERSION=1.7.14
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -8513,6 +8513,7 @@ if false ; then
     mkdir -p arch/win32
     mkdir -p c128
     mkdir -p c64
+    mkdir -p c64/cart
     mkdir -p cbm2
     mkdir -p crtc
     mkdir -p drive
@@ -8676,6 +8677,7 @@ trap 'rm -fr `echo "Makefile
            src/arch/win32/Makefile
            src/c128/Makefile
            src/c64/Makefile
+           src/c64/cart/Makefile
            src/cbm2/Makefile
            src/crtc/Makefile
            src/drive/Makefile
@@ -8910,6 +8912,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/arch/win32/Makefile
            src/c128/Makefile
            src/c64/Makefile
+           src/c64/cart/Makefile
            src/cbm2/Makefile
            src/crtc/Makefile
            src/drive/Makefile
