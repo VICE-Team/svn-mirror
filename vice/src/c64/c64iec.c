@@ -249,12 +249,12 @@ void iec_cpu_undump(BYTE data)
 BYTE iec_cpu_read(void)
 {
     if (!drive[0].enable && !drive[1].enable)
-	return (iec_info.iec_fast_1541 & 0x30) << 2;
+        return (iec_info.iec_fast_1541 & 0x30) << 2;
 
     if (drive[0].enable)
-	drive0_cpu_execute(maincpu_clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-	drive1_cpu_execute(maincpu_clk);
+        drive1_cpu_execute(maincpu_clk);
     return iec_info.cpu_port;
 }
 #endif
@@ -281,7 +281,7 @@ void parallel_cable_drive1_write(BYTE data, int handshake)
 BYTE parallel_cable_drive_read(int handshake)
 {
     if (handshake)
-	cia2_set_flag();
+        cia2_set_flag();
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
@@ -292,9 +292,9 @@ void parallel_cable_cpu_write(BYTE data)
         return;
 
     if (drive[0].enable)
-	drive0_cpu_execute(maincpu_clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-	drive1_cpu_execute(maincpu_clk);
+        drive1_cpu_execute(maincpu_clk);
 
     parallel_cable_cpu_value = data;
 }
@@ -318,9 +318,9 @@ void parallel_cable_cpu_pulse(void)
         return;
 
     if (drive[0].enable)
-	drive0_cpu_execute(maincpu_clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-	drive1_cpu_execute(maincpu_clk);
+        drive1_cpu_execute(maincpu_clk);
 
     via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
     via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);

@@ -60,7 +60,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
 
     /* Main memory module.  */
 
-    m = snapshot_module_create(s, snap_rom_module_name, 
+    m = snapshot_module_create(s, snap_rom_module_name,
                                SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
     if (m == NULL)
         return -1;
@@ -137,8 +137,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
         || SMR_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0)
         goto fail;
 
-    log_warning(c128_snapshot_log,"Dumped Romset files and saved settings will "
-                "represent\nthe state before loading the snapshot!");
+    log_warning(c128_snapshot_log,"Dumped Romset files and saved settings will "                "represent\nthe state before loading the snapshot!");
 
     c128rom_basic_checksum();
     c128rom_kernal_checksum();
@@ -237,7 +236,7 @@ int c128_snapshot_read_module(snapshot_t *s)
     for (i = 0; i < 11; i++) {
         if (SMR_B(m, &byte) < 0)
             goto fail;
-        mmu_store(i, byte);	/* Assuming no side-effects */
+        mmu_store(i, byte);     /* Assuming no side-effects */
     }
 
     if (0
@@ -251,7 +250,7 @@ int c128_snapshot_read_module(snapshot_t *s)
     m = NULL;
 
     if (mem_read_rom_snapshot_module(s) < 0)
-	goto fail;
+        goto fail;
 
     /* REU module: FIXME.  */
 

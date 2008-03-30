@@ -57,7 +57,7 @@ struct sid_engine_s {
     void (*store)(struct sound_s *psid, WORD addr, BYTE val);
     void (*reset)(struct sound_s *psid, CLOCK cpu_clk);
     int (*calculate_samples)(struct sound_s *psid, SWORD *pbuf, int nr,
-			     int interleave, int *delta_t);
+                             int interleave, int *delta_t);
     void (*prevent_clk_overflow)(struct sound_s *psid, CLOCK sub);
     char *(*dump_state)(struct sound_s *psid);
     void (*state_read)(struct sound_s *psid,

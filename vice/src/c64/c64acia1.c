@@ -1,5 +1,5 @@
 /*
- * c64acia.def - Definitions for a 6551 ACIA interface
+ * c64acia1.c - Definitions for a 6551 ACIA interface
  *
  * Written by
  *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
@@ -24,17 +24,17 @@
  *
  */
 
-#define mycpu 		maincpu
-#define myclk 		maincpu_clk
-#define mycpu_rmw_flag	maincpu_rmw_flag
-#define	mycpu_clk_guard	maincpu_clk_guard
+#define mycpu           maincpu
+#define myclk           maincpu_clk
+#define mycpu_rmw_flag  maincpu_rmw_flag
+#define mycpu_clk_guard maincpu_clk_guard
 
 #define myacia acia1
 
 /* resource defaults */
-#define	MYACIA		"Acia1"
-#define	MyDevice	0
-#define	MyIrq		IK_IRQ
+#define MYACIA          "Acia1"
+#define MyDevice        0
+#define MyIrq           IK_IRQ
 
 #define myaciadev       acia1dev
 
@@ -50,9 +50,9 @@
 
 #include "maincpu.h"
 
-#define	mycpu_alarm_context maincpu_alarm_context
-#define	mycpu_set_int maincpu_set_irq
-#define	mycpu_set_int_noclk maincpu_set_int
+#define mycpu_alarm_context maincpu_alarm_context
+#define mycpu_set_int maincpu_set_irq
+#define mycpu_set_int_noclk maincpu_set_int
 
 #include "aciacore.c"
 

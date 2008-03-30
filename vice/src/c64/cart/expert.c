@@ -50,17 +50,17 @@ static int ack_reset = 0;
 /* De-assert ~GAME */
 /* Assert ~EXROM */
 /* Disable export_ram */
-#define	EXPERT_PRG	((0 << 0) | (0 << 1))
+#define EXPERT_PRG      ((0 << 0) | (0 << 1))
 
 /* De-assert ~GAME */
 /* De-assert ~EXROM */
 /* Disable export_ram */
-#define	EXPERT_OFF ((0 << 0) | (1 << 1))
+#define EXPERT_OFF ((0 << 0) | (1 << 1))
 
 /* Enable ~GAME */
 /* Disable ~EXROM */
 /* Disable export_ram */
-#define	EXPERT_ON	((1 << 0) | (1 << 1))
+#define EXPERT_ON       ((1 << 0) | (1 << 1))
 
 BYTE REGPARM1 expert_io1_read(WORD addr)
 {
@@ -143,7 +143,7 @@ void expert_config_init(void)
 
 void expert_config_setup(BYTE *rawcart)
 {
-	/* Clear Expert RAM */
+        /* Clear Expert RAM */
     memcpy(roml_banks, rawcart, 0x2000);
 }
 
