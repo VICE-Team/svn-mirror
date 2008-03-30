@@ -58,6 +58,9 @@ struct interrupt_cpu_status_s {
        (IK_IRQ, IK_NMI, IK_RESET and IK_TRAP) or not (IK_NONE).  */
     unsigned int *pending_int;
 
+    /* Name for each interrupt source */
+    char **int_name;
+
     /* Number of active IRQ lines.  */
     int nirq;
 
@@ -232,7 +235,8 @@ extern void interrupt_cpu_status_init(interrupt_cpu_status_t *cs,
 extern void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs);
 
 extern void interrupt_trigger_reset(interrupt_cpu_status_t *cs, CLOCK cpu_clk);
-extern unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs);
+extern unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs,
+                                                 const char *name);
 extern void interrupt_ack_reset(interrupt_cpu_status_t *cs);
 extern void interrupt_set_reset_trap_func(interrupt_cpu_status_t *cs,
                                         void (*reset_trap_func)(void));
