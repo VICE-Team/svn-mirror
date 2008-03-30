@@ -1,3 +1,11 @@
+1999-07-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.41.
+
+1999-07-02  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Removed -lpthread for UNIX.
+
 1999-06-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.40.
