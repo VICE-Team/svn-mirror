@@ -715,7 +715,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.2.14
+VERSION=1.2.15
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -7273,6 +7273,7 @@ if false ; then
     mkdir -p cbm2
     mkdir -p crtc
     mkdir -p drive
+    mkdir -p monitor
     mkdir -p pet
     mkdir -p resid
     mkdir -p sid
@@ -7431,6 +7432,7 @@ trap 'rm -fr `echo "Makefile
            src/cbm2/Makefile
            src/crtc/Makefile
            src/drive/Makefile
+           src/monitor/Makefile
            src/pet/Makefile
            src/raster/Makefile
            src/sid/Makefile
@@ -7638,6 +7640,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/cbm2/Makefile
            src/crtc/Makefile
            src/drive/Makefile
+           src/monitor/Makefile
            src/pet/Makefile
            src/raster/Makefile
            src/sid/Makefile
