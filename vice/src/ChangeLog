@@ -1,3 +1,82 @@
+2004-05-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.23.
+
+2004-05-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ui.c (handle_wm_command): Fixed memory leak.
+
+	* arch/win32/uifliplist.c: Include util.h.
+	(uifliplist_save_dialog). Append default file extension.
+
+	* arch/win32/uilib.c: Fixed memory leak.
+
+	* c128/c128.c, c64/c64.c, cbm2/cbm2.c, pet/pet.c,
+	plus4/plus4.c, vic20/vic20.c, tape/tape.c, tape.h: Made
+	tape_image_detach_internal public and use it to avoid memory
+	leaks when playing back history file.
+
+	* datasette.c (datasette_read_snaphot): Call
+	datasette_set_tape_sense depending on image->mode.
+
+	* fliplist.c, resources.c, tape-snapshot.c, zfile.c: Fixed
+	more memory leaks.
+
+2004-05-06  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c:
+	- fixed archdep_default_fliplist_file_name
+	- fixed IsDir check
+
+	* arch/os2/config.h:
+	- do not define HAVE_TFE by default
+
+	* arch/os2/dialogs/dlg-color.c, arch/os2/dialogs/dlg-color.h
+	arch/os2/dialogs/dlg-color.rc:
+	- added PALScanLineShade and PALBlur
+
+	* arch/os2/dialogs/dlg-fileio.c:
+	- fixed names of PaletteFile
+
+	* arch/os2/dialogs/menubar.[h,c,rc]:
+	- fixed Pal mode access
+	- added tfe stuff
+
+	* arch/os2/mousedrv.c:
+	- fixed a strange crash when startup
+	- fixed resource handling
+
+	* arch/os2/vac++/incl/*.icc, arch/os2/vac++/incl/*/*.icc:
+	- fixed
+
+	* arch/os2/vac++/incl/monitor.icc:
+	- set correct options for mon_parse.c
+
+	* arch/os2/vac++/incl/raster.icc:
+	- do not optimize raster-line.c (COMPILER BUG?)
+
+	* arch/os2/video.c:
+	- fixed and simplified initialisation of canvas
+	- fixed correct resizing and double-scan
+
+	* ioutil.c:
+	fixed for OS/2
+
+2004-05-05  Dag Lem  <resid@nimrod.no>
+
+	* resid/: reSID 0.16 - faster resampling.
+
+	* arch/unix/x11/gnome/uiscreenshot.c (uiscreenshot_shutdown):
+	free of buttons variable instead of nonexisting
+	driver_buttons variable.
+
+2004-05-04  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/uiscreenshot.c (uiscreenshot_shutdown):
+	Fixed `driver_buttons' -> `buttons'.
+
+	* info.c: Added `Paul Dubé' to the credits list.
+
 2004-05-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.22.
@@ -16,6 +95,44 @@
 	* arch/unix/ui.c, arch/unix/uiscreenshot.h,
 	arch/unix/x11/xaw/uiscreenshot.c,
 	arch/unix/x11/gnome/uiscreenshot.c: Fixed memory leak.
+
+2004-05-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/archdep_shutdown: Free some string variables.
+
+	* arch/win32/fullscrn.c, fullscrn.h: New function
+	ui_fullscreen_shutdown to free the device and mode lists.
+
+	* arch/win32/ui-resources.c: Implemented function
+	ui_resources_shutdown.
+
+	* arch/win32/ui.c (ui_exit): Free the hwnd_title strings and
+	call ui_fullscreen_shutdown and uilib_shutdown.
+
+	* arch/win32/uilib.c: Free contents buffer after usage, added
+	new function uilib_shutdown.
+
+	* arch/win32/fullscrn.c, arch/win32/joy.c, tape/tap.c,
+	screenshot.c: Replaced generic memory allocation with the
+	lib_* functions.
+
+	* c64/c64.c, c128/c128.c (machine_specific_shutdown): Call
+	tfe_shutdown.
+
+	* c64/tfe.c (tfe_shutdown): Free tfe_interface string.
+
+	* event.c (event_image_append): Allocate a new string for
+	mapped_name.
+	(event_playback_attach_image): Free filename after usage.
+
+	* fliplist.c, fliplist.h: New function
+	fliplist_resources_shutdown.
+
+	* romst.c, romset.h: New function romset_resources_shutdown.
+
+	* machine.c: Include romset.h.
+	(machine_shutdown): Call fliplist_resources_shutdown and
+	romset_resources_shutdown.
 
 2004-05-01  Andreas Matthies  <andreas.matthies@gmx.net>
 
