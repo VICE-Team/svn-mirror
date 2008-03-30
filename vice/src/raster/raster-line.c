@@ -173,13 +173,14 @@ inline static void draw_sprites_when_cache_enabled(raster_t *raster,
 
 inline static int raster_fill_sprite_cache(raster_t *raster,
                                            raster_cache_t *cache,
-                                           int *xs, int *xe)
+                                           unsigned int *xs, unsigned int *xe)
 {
     raster_sprite_t *sprite;
     raster_sprite_cache_t *sprite_cache;
     raster_sprite_status_t *sprite_status;
-    int xs_return, xe_return;
-    int rr, r, sxe, sxs, sxe1, sxs1, msk;
+    unsigned int xs_return, xe_return;
+    unsigned int sxe, sxs, sxe1, sxs1;
+    int rr, r, msk;
     unsigned int i;
     unsigned int num_sprites;
 
@@ -325,7 +326,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
 {
     raster_cache_t *cache;
     unsigned int video_mode;
-    int sprite_changed_start, sprite_changed_end;
+    unsigned int sprite_changed_start, sprite_changed_end;
     unsigned int changed_start_char, changed_end_char;
     int sprites_need_update;
     int needs_update;

@@ -88,7 +88,7 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
 
     screencode_ptr = image_contents_screencode;
 
-    sprintf(rawline, "0 \"%s\" %s", contents->name, contents->id);
+    sprintf((char *)rawline, "0 \"%s\" %s", contents->name, contents->id);
     charset_petcii_to_screencode_line(rawline, &buf, &len);
     screencode_ptr->line = buf;
     screencode_ptr->length = len;
@@ -101,7 +101,7 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
      */
 #ifndef __OS2__
     if (contents->file_list == NULL) {
-        charset_petcii_to_screencode_line("(eMPTY IMAGE.)", &buf, &len);
+        charset_petcii_to_screencode_line((BYTE *)"(eMPTY IMAGE.)", &buf, &len);
         screencode_ptr->next = (image_contents_screencode_t *)xmalloc
                                (sizeof(image_contents_screencode_t));
         screencode_ptr = screencode_ptr->next;
@@ -140,7 +140,7 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
     }
 
     if (contents->blocks_free >= 0) {
-        sprintf(rawline, "%d BLOCKS FREE.", contents->blocks_free);
+        sprintf((char *)rawline, "%d BLOCKS FREE.", contents->blocks_free);
         charset_petcii_to_screencode_line(rawline, &buf, &len);
 
         screencode_ptr->next = (image_contents_screencode_t *)xmalloc
@@ -162,21 +162,22 @@ char *image_contents_to_string(image_contents_t *contents,
     static char filler[IMAGE_CONTENTS_FILE_NAME_LEN+1] = "                ";
     image_contents_file_list_t *p;
     char line_buf[256];
-    char *buf;
+    BYTE *buf;
     int buf_size;
     size_t max_buf_size;
     int len;
 
-#define BUFCAT(s, n) util_bufcat(buf, &buf_size, &max_buf_size, (s), (n))
+#define BUFCAT(s, n) \
+    util_bufcat(buf, &buf_size, &max_buf_size, ((BYTE *)s), (n))
 
     max_buf_size = 4096;
-    buf = (char*)xmalloc(max_buf_size);
+    buf = (BYTE *)xmalloc(max_buf_size);
     buf_size = 0;
 
     buf = BUFCAT("0 \"", 3);
-    buf = BUFCAT((char *)contents->name, strlen((char *)contents->name));
+    buf = BUFCAT(contents->name, strlen((char *)contents->name));
     buf = BUFCAT("\" ", 2);
-    buf = BUFCAT((char *)contents->id, strlen((char *)contents->id));
+    buf = BUFCAT(contents->id, strlen((char *)contents->id));
 
     if (contents->file_list == NULL) {
         const char *s;
@@ -225,7 +226,7 @@ char *image_contents_to_string(image_contents_t *contents,
     if (conversion_rule == IMAGE_CONTENTS_STRING_ASCII)
         charset_petconvstring(buf, 1);
 
-    return buf;
+    return (char *)buf;
 }
 
 image_contents_t *image_contents_read(unsigned int type, const char *filename,

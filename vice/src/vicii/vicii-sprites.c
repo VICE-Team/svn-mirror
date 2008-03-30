@@ -999,7 +999,7 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
             /* Test if the sprite is inside the area.                  */
             /* Sprite can be seven pixels wider with repeating pixels. */
             if (sprite_xe >= 0
-                && sprite_xs <  (sprite_status->sprites[n].x_expanded ? 55 : 31))
+                && sprite_xs < (sprite_status->sprites[n].x_expanded ? 55 : 31))
                 draw_sprite_partial(line_ptr, gfx_msk_ptr, sprite_xs, sprite_xe,
                     sprite_status, n, sprite_offset);
 
@@ -1010,7 +1010,7 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
             sprite_offset -= vic_ii.sprite_wrap_x;
 
             if (sprite_xe >= 0
-                && sprite_xs <  (sprite_status->sprites[n].x_expanded ? 55 : 31))
+                && sprite_xs < (sprite_status->sprites[n].x_expanded ? 55 : 31))
                 draw_sprite_partial(line_ptr, gfx_msk_ptr, sprite_xs, sprite_xe,
                     sprite_status, n, sprite_offset);
 
@@ -1097,8 +1097,7 @@ void vic_ii_sprites_reset_xshift(void)
 {
     int n;
 
-    for (n = 0; n < 8; n++)
-    {
+    for (n = 0; n < 8; n++) {
         vic_ii.raster.sprite_status->sprites[n].x_shift = 0;
         vic_ii.raster.sprite_status->sprites[n].x_shift_sum = 0;
     }
@@ -1112,3 +1111,4 @@ void vic_ii_sprites_reset_sprline(void)
 {
     memset(sprline, 0, sizeof(sprline));
 }
+

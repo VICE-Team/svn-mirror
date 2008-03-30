@@ -266,7 +266,7 @@ static void convert_8to8n(video_canvas_t *canvas,
 			  int sx, int sy, int tx, int ty,
 			  int w, int h)
 {
-    video_canvas_render(canvas, canvas->x_image->data,
+    video_canvas_render(canvas, (BYTE *)canvas->x_image->data,
                         w, h, sx, sy, tx, ty,
                         canvas->x_image->bytes_per_line,
                         canvas->x_image->bits_per_pixel);

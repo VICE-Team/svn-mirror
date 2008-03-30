@@ -153,16 +153,16 @@ char *concat(const char *s, ...)
    malloc'ed block of `max_buf_size' bytes of which only the first `buf_size'
    ones are used.  If the `buf' is not large enough, realloc it.  Return a
    pointer to the new block.  */
-char *util_bufcat(char *buf, int *buf_size, size_t *max_buf_size,
-                  const char *src, int src_size)
+BYTE *util_bufcat(BYTE *buf, int *buf_size, size_t *max_buf_size,
+                  const BYTE *src, int src_size)
 {
 #define BUFCAT_GRANULARITY 0x1000
     if (*buf_size + src_size > (int)(*max_buf_size)) {
-        char *new_buf;
+        BYTE *new_buf;
 
         *max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
                         * BUFCAT_GRANULARITY);
-        new_buf = (char *)xrealloc(buf, *max_buf_size);
+        new_buf = (BYTE *)xrealloc(buf, *max_buf_size);
         buf = new_buf;
     }
 

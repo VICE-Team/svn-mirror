@@ -110,8 +110,8 @@ static void ui_display_drive_current_image2(void);
 
 void ui_check_mouse_cursor()
 {
-    int window_doublesize;
 #ifdef USE_XF86_EXTENSIONS
+    int window_doublesize;
     if (fullscreen_is_enabled)
         return;
 #endif
