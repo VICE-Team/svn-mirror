@@ -1,3 +1,23 @@
+1999-08-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.59.
+
+	* drive/drive.c: Name of 1541-II firmware is `d1541II'.
+
+	* sounddrv/Makefile.am, drive/Makefile.am, vdrive/Makefile.am,
+	raster/Makefile.am, vicii/Makefile.am, vdc/Makefile.am,
+	crtc/Makefile.am, sid/Makefile.am, c64/Makefile.am,
+	c128/Makefile.am, vic20/Makefile.am, pet/Makefile.am,
+	cbm2/Makefile.am, arch/unix/xaw/widgets/Makefile.am,
+	arch/unix/readline/Makefile.am, arch/win32/Makefile.am,
+	arch/msdos/Makefile.am, arch/riscos/Makefile.am,
+	arch/os2/pm/Makefile.am: Define `SUBDIRS'.
+
+1999-08-10  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/res.rc (IDD_OPEN_TEMPLATE): Added workaround for Windres
+	bug.
+
 1999-08-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.58.

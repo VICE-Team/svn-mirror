@@ -79,3 +79,5 @@ EXTRA_DIST = \
 	vicesb.h \
 	vmidas.c \
 	vmidas.h
+
+SUBDIRS = .

@@ -26,3 +26,4 @@ libpet_a_SOURCES = \
 	petvia.c \
 	petvia.h
 
+SUBDIRS = .

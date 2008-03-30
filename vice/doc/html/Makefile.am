@@ -25,3 +25,5 @@ EXTRA_DIST = $(doc_DATA) \
 vice_toc.html: $(top_srcdir)/doc/vice.texi
 	(cd $(srcdir); \
          $(PERL) texi2html -number -space_itemize -space_table -foreground 00000 -background ffffff -split_chapter -acc ../vice.texi)
+
+SUBDIRS = .

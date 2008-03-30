@@ -53,3 +53,4 @@ libarch_a_SOURCES = \
 EXTRA_DIST = \
 	ReadMeRO
 
+SUBDIRS = .

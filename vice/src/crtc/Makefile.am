@@ -21,3 +21,4 @@ libcrtc_a_SOURCES = \
 
 EXTRA_DIST =
 
+SUBDIRS = .

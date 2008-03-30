@@ -33,3 +33,5 @@ libwidgets_a_SOURCES = \
 	TextFieldP.h \
 	TextWidth.c \
 	strnchr.c
+
+SUBDIRS = .

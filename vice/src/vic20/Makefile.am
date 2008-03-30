@@ -47,3 +47,4 @@ libvic20_a_SOURCES = \
 
 libvic20_a_LIBADD = $(rs232_libadd)
 
+SUBDIRS = .

@@ -124,3 +124,5 @@ respet.o : respet.rc res.rc res.h
 resvic.o : resvic.rc res.rc res.h
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
+
+SUBDIRS = .

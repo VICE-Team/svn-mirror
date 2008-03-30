@@ -16,3 +16,5 @@ c128_DATA = \
 	position.vkm 
 
 EXTRA_DIST = $(c128_DATA)
+
+SUBDIRS = .

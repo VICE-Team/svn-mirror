@@ -22,3 +22,4 @@ libc128_a_SOURCES = \
 	c128mmu.c \
 	c128mmu.h
 
+SUBDIRS = .

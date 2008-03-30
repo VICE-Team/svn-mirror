@@ -30,3 +30,4 @@ libsid_a_LIBADD = $(resid_libadd)
 
 siddir = $(top_srcdir)/src/sid
 
+SUBDIRS = .

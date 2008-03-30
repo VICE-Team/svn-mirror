@@ -16,3 +16,5 @@ cbm2_DATA = \
 	rom256h.vrs
 
 EXTRA_DIST = $(cbm2_DATA)
+
+SUBDIRS = .

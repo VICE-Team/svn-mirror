@@ -9,3 +9,5 @@ drv_DATA = \
 	dos1001
 
 EXTRA_DIST = $(drv_DATA)
+
+SUBDIRS = .
