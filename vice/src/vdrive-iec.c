@@ -90,7 +90,7 @@ void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
  * if successful, -1 if the directory is not valid.
  */
 
-static int floppy_create_directory(DRIVE *floppy, char *name,
+static int floppy_create_directory(DRIVE *floppy, const char *name,
                                    int length, int filetype, int secondary,
                                    BYTE *outputptr)
 {

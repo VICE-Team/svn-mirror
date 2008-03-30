@@ -1486,7 +1486,7 @@ static int name_cmd(int nargs, char **args)
 {
     char *id;
     char *name;
-    char *dst;
+    BYTE *dst;
     int i;
     int unit;
     DRIVE *floppy;
@@ -1512,12 +1512,12 @@ static int name_cmd(int nargs, char **args)
     if (id)
        *id++ = '\0';
 
-    dst = floppy->bam + floppy->bam_name;
+    dst = &floppy->bam[floppy->bam_name];
     for (i = 0; i < 16; i++)
        *dst++ = *name ? *name++ : 0xa0;
 
     if (id) {
-       dst = floppy->bam + floppy->bam_id;
+       dst = &floppy->bam[floppy->bam_id];
        for (i = 0; i < 5 && *id; i++)
            *dst++ = *id++;
     }
