@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Tibor Biczo <crown@mail.matav.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -342,3 +343,66 @@ image_contents_t *image_contents_read_tape(const char *file_name)
     t64_close(t64);
     return new;
 }
+
+char *image_contents_disk_filename_by_number(const char *filename,
+                                             unsigned int index)
+{
+    image_contents_t *contents;
+    image_contents_file_list_t *current;
+    char *s;
+
+    contents = image_contents_read_disk(filename);
+    if (contents == NULL) {
+        return NULL;
+    }
+
+    s = NULL;
+
+    if (index != 0) {
+        current = contents->file_list;
+        index--;
+        while ((index != 0) && (current != NULL)) {
+            current=current->next;
+            index--;
+        }
+        if (current != NULL) {
+            s=stralloc(current->name);
+        }
+    }
+
+    image_contents_destroy(contents);
+
+    return s;
+}
+
+char *image_contents_tape_filename_by_number(const char *filename,
+                                             unsigned int index)
+{
+    image_contents_t *contents;
+    image_contents_file_list_t *current;
+    char *s;
+
+    contents = image_contents_read_tape(filename);
+    if (contents == NULL) {
+        return NULL;
+    }
+
+    s = NULL;
+
+    if (index != 0) {
+        current=contents->file_list;
+        index--;
+        while ((index != 0) && (current != NULL)) {
+            current=current->next;
+            index--;
+        }
+        if (current != NULL) {
+            s=stralloc(current->name);
+        }
+    }
+
+    image_contents_destroy(contents);
+
+    return s;
+}
+
