@@ -31,6 +31,10 @@
 /* Do we want to enable the ReSID code support?  */
 #undef HAVE_RESID
 
+/* Do you want to use MIDAS Sound System instead of Allegro for sound
+   playback?  */
+#undef USE_MIDAS_SOUND
+
 /* Package name.  */
 #define PACKAGE ""
 
