@@ -288,8 +288,8 @@ int machine_init(void)
     pet_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
-    vsync_set_machine_parameter(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC);
     vsync_init(machine_vsync_hook);
+    vsync_set_machine_parameter(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */

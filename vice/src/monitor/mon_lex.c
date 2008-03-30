@@ -10,6 +10,9 @@
 
 #include <stdio.h>
 
+#ifdef __IBMC__
+#include <io.h>
+#endif
 
 /* cfront 1.2 defines "c_plusplus" instead of "__cplusplus" */
 #ifdef c_plusplus
@@ -32,7 +35,7 @@
 
 #else	/* ! __cplusplus */
 
-#if __STDC__
+#if defined __STDC__ || defined __IBMC__
 
 #define YY_USE_PROTOS
 #define YY_USE_CONST
@@ -1062,7 +1065,7 @@ YY_RULE_SETUP
                          opt_asm = 1;
                       return yylval.i;
                    }
-                 } 
+                 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP

@@ -54,7 +54,7 @@ BEGIN
         CONTROL "",             CBS_REFRATE,     70,  5, 33, 48, WC_COMBOBOX, CBS_DROPDOWNLIST|STY_STD
                 
 	CONTROL "Max.Speed", ID_NONE,       14, 29, 50,  9, STY_TEXT
-        CONTROL "0%",        ID_SPEEDDISP, 105, 29, 35,  9, STY_TEXT | DT_CENTER
+        CONTROL "---%",      ID_SPEEDDISP, 105, 29, 35,  9, STY_TEXT | DT_CENTER
 
         CONTROL "100%",      PB_SPEED100,  141, 28, 33, 12, STY_PUSHBUTTON
         CONTROL "",          SPB_SPEED,     70, 29, 33, 12, STY_SPINBUTTON

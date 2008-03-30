@@ -20,7 +20,8 @@ copy ..\..\..\data\c64mem.sym Vice2
 md "Vice2\Icons"
 copy icons\folder1.ico Vice2\Icons
 copy icons\folder2.ico Vice2\Icons
-copy icons\c1541.ico   Vice2
+copy icons\c1541.ico   Vice2\Icons
+copy icons\vsid.ico    Vice2\Icons
 
 md Vice2\C64
 copy ..\..\..\data\C64\basic        Vice2\C64

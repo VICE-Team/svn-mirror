@@ -41,17 +41,23 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type(c)
             "rs232.c",
             "c128ui.c",
+            "c128memlimit.c",
             "kbd\\kbd-c128.c"
         source type(c)
             "reu.c",
             "c64tpi.c",
             "c64cia2.c",
-            "c64datasette.c"
+            "c64cartmem.c",
+            "c64datasette.c",
+            "c64cartridge.c"/*,
+            "patchrom.c",
+            "c64mem.c"*/
 
         include "incl/resources.icc"
         include "incl/mainsrc.icc"
         include "incl/archdep.icc"
         include "incl/monitor.icc"
+        include "incl/monz80.icc"
         include "incl/dialogs.icc"
         include "incl/c128.icc"
         include "incl/kbd.icc"

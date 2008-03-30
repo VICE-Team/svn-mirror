@@ -88,11 +88,24 @@
 #define IDM_VDC16K       0x140
 #define IDM_VDC64K       0x141
 
-#define IDM_PAL          0x142
-#define IDM_NTSC         0x143
-#define IDM_NTSCOLD      0x144
+#define IDM_FUNCROM      0x142
+#define IDM_INTFUNCROM   0x143
+#define IDM_EXTFUNCROM   0x144
 
-#define IDM_REU          0x145
+#define IDM_PAL          0x145
+#define IDM_NTSC         0x146
+#define IDM_NTSCOLD      0x147
+
+#define IDM_REU          0x148
+#define IDM_REUSIZE      0x149
+#define IDM_REU128       0x601
+#define IDM_REU256       0x602
+#define IDM_REU512       0x604
+#define IDM_REU1024      0x608
+#define IDM_REU2048      0x610
+#define IDM_REU4096      0x620
+#define IDM_REU8192      0x640
+#define IDM_REU16384     0x680
 
 #define IDM_MOUSE        0x150
 #define IDM_HIDEMOUSE    0x151
@@ -100,6 +113,7 @@
 #define IDM_VCACHE       0x153
 #define IDM_SBCOLL       0x154
 #define IDM_SSCOLL       0x155
+#define IDM_VDCVCACHE    0x156
 #define IDM_REFRATEAUTO  0x160
 #define IDM_REFRATE1     0x161
 #define IDM_REFRATE2     0x162

@@ -125,16 +125,14 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
         switch (usVK)
         {
 #ifdef __X128__
+        case VK_F10: // press/release caps key
+            if (key_ctrl_caps_func)
+                key_ctrl_caps_func();
+            return;
         case VK_F11: // press/release 40/80-key
             if (key_ctrl_column4080_func)
                 key_ctrl_column4080_func();
             return;
-#if 0 /* FIXME!!! */
-        case ?which_key?: // press/release caps key 
-            if (key_ctrl_caps_func)
-                key_ctrl_caps_func();
-            return;
-#endif
 #endif
         case VK_F12:      // restore key pressed
             machine_set_restore_key(release);

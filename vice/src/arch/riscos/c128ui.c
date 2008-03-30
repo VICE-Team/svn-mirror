@@ -51,13 +51,3 @@ int c128_kbd_init(void)
   kbd_load_keymap(NULL, 0);
   return kbd_init();
 }
-
-
-
-void cartridge_detach_image(void)
-{
-}
-
-void cartridge_trigger_freeze(void)
-{
-}

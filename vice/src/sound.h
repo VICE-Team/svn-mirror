@@ -69,7 +69,7 @@ typedef struct sound_device_s
 					CLOCK clks);
     /* flush-routine to be called every frame */
     int (*flush)(char *state);
-    /* return number of free samples in the kernel buffer at the moment */
+    /* return number of samples unplayed in the kernel buffer at the moment */
     int (*bufferspace)(void);
     /* close and cleanup device */
     void (*close)(void);

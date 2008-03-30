@@ -121,6 +121,9 @@ BEGIN
    SUBMENU "Set~up",                   IDM_SETUP,        MIS_TEXT
    BEGIN
       MENUITEM "Video ~Cache",         IDM_VCACHE,       MIS_TEXT
+#ifdef __X128__      
+      MENUITEM "VDC Video Cache",      IDM_VDCVCACHE,    MIS_TEXT
+#endif      
       SUBMENU "~Refresh Rate Ratio",   IDM_REFRATE,      MIS_TEXT
       BEGIN
          MENUITEM "1/~1",              IDM_REFRATE1,     MIS_TEXT
@@ -147,7 +150,7 @@ BEGIN
       BEGIN
          MENUITEM "~16kB",             IDM_VDC16K,       MIS_TEXT
          MENUITEM "~64kB",             IDM_VDC64K,       MIS_TEXT
-       END
+      END
 #endif
 #if defined __X64__ || defined __X128__
       SUBMENU "~Video Frequency Standard", IDM_VIDEOSTD, MIS_TEXT
@@ -175,30 +178,35 @@ BEGIN
 #endif // __X64__ || __X128__
       MENUITEM SEPARATOR
 #ifdef HAVE_MOUSE
-      MENUITEM "~Mouse 1531 Emulation",            IDM_MOUSE,     MIS_TEXT
-      MENUITEM "~Hide Mouse Pointer in Window",    IDM_HIDEMOUSE, MIS_TEXT
+      MENUITEM "~Mouse 1531 Emulation",            IDM_MOUSE,      MIS_TEXT
+      MENUITEM "~Hide Mouse Pointer in Window",    IDM_HIDEMOUSE,  MIS_TEXT
       MENUITEM SEPARATOR
 #endif // HAVE_MOUSE
-      MENUITEM "I~EC Device #4 Printer Emulation", IDM_PRTIEC,    MIS_TEXT
-      MENUITEM "~User Port Printer Emulation",     IDM_PRTUPORT,  MIS_TEXT
+      MENUITEM "I~EC Device #4 Printer Emulation", IDM_PRTIEC,     MIS_TEXT
+      MENUITEM "~User Port Printer Emulation",     IDM_PRTUPORT,   MIS_TEXT
       MENUITEM SEPARATOR
 #if defined __XVIC__ || defined __X128__
 #ifdef __XVIC__
-      MENUITEM "VIC-1112 IEEE~488 Interface",      IDM_IEEE,      MIS_TEXT
+      MENUITEM "VIC-1112 IEEE~488 Interface",      IDM_IEEE,       MIS_TEXT
 #else
-      MENUITEM "I~EEE488 Interface",               IDM_IEEE,      MIS_TEXT
+      SUBMENU "Enable F~unction ROM",              IDM_FUNCROM,    MIS_TEXT
+      BEGIN                                                       
+         MENUITEM "~Internal",                     IDM_INTFUNCROM, MIS_TEXT
+         MENUITEM "~External",                     IDM_EXTFUNCROM, MIS_TEXT
+      END
+      MENUITEM "I~EEE488 Interface",               IDM_IEEE,       MIS_TEXT
 #endif
 #endif // __X128__ || __XVIC__      
 #ifdef __XCBM__
-      SUBMENU "Model",          IDM_MODEL,      MIS_TEXT
+      SUBMENU "Model",           IDM_MODEL,      MIS_TEXT
       BEGIN
-        MENUITEM "CBM 510",     IDM_CBM510,     MIS_TEXT
-        MENUITEM "CBM 610",     IDM_CBM610,     MIS_TEXT
-        MENUITEM "CBM 620",     IDM_CBM620,     MIS_TEXT
-        MENUITEM "CBM 620+",    IDM_CBM620P,    MIS_TEXT
-        MENUITEM "CBM 710",     IDM_CBM710,     MIS_TEXT
-        MENUITEM "CBM 720",     IDM_CBM720,     MIS_TEXT
-        MENUITEM "CBM 720+",    IDM_CBM720P,    MIS_TEXT
+        MENUITEM "CBM 510",      IDM_CBM510,     MIS_TEXT
+        MENUITEM "CBM 610",      IDM_CBM610,     MIS_TEXT
+        MENUITEM "CBM 620",      IDM_CBM620,     MIS_TEXT
+        MENUITEM "CBM 620+",     IDM_CBM620P,    MIS_TEXT
+        MENUITEM "CBM 710",      IDM_CBM710,     MIS_TEXT
+        MENUITEM "CBM 720",      IDM_CBM720,     MIS_TEXT
+        MENUITEM "CBM 720+",     IDM_CBM720P,    MIS_TEXT
       END
       SUBMENU "Model ~Line",     IDM_MODELLINE,  MIS_TEXT
       BEGIN
@@ -275,7 +283,18 @@ BEGIN
 #endif
       MENUITEM "Emulator ~Identification",      IDM_EMUID,     MIS_TEXT
 #if defined __X64__ || defined __X128__
-      MENUITEM "R~EU - 512kB Memory Extension", IDM_REU,       MIS_TEXT
+      MENUITEM "R~EU - Memory Extension", IDM_REU,       MIS_TEXT
+      SUBMENU  "REU Memory Size",         IDM_REUSIZE,   MIS_TEXT
+      BEGIN
+        MENUITEM "~128kB",                IDM_REU128,    MIS_TEXT
+        MENUITEM "~256kB",                IDM_REU256,    MIS_TEXT
+        MENUITEM "~512kB",                IDM_REU512,    MIS_TEXT
+        MENUITEM "102~4kB",               IDM_REU1024,   MIS_TEXT
+        MENUITEM "204~8kB",               IDM_REU2048,   MIS_TEXT
+        MENUITEM "409~6kB",               IDM_REU4096,   MIS_TEXT
+        MENUITEM "81~92kB",               IDM_REU8192,   MIS_TEXT
+        MENUITEM "16~384kB",              IDM_REU16384,  MIS_TEXT
+      END
 #endif // __X64__ || __X128__
       MENUITEM SEPARATOR
       MENUITEM "Show Menu ~Bar\tAlt-B",    IDM_MENUBAR,   MIS_TEXT
@@ -398,16 +417,19 @@ BEGIN
    "c",          IDM_DATASETTE,   ALT
    "d",          IDM_DRIVE,       ALT
    "e",          IDM_EMULATOR,    ALT
-   "f",          IDM_FLIPNEXT8,   ALT
 #ifdef HAS_JOYSTICK
    "j",          IDM_JOYSTICK,    ALT
 #endif
    "l",          IDM_LOGWIN,      ALT
    "m",          IDM_MONITOR,     ALT
+   "n",          IDM_FLIPNEXT8,   ALT
    "p",          IDM_PAUSE,       ALT
    "q",          IDM_HARDRESET,   ALT
    "r",          IDM_SOFTRESET,   ALT
+//   "s",          IDM_SOUND,       ALT
    "t",          IDM_TRUEDRIVE,   ALT
+//   "u",          IDM_SETUP,       ALT
+//   "v",          IDM_VIEW,        ALT
    "w",          IDM_WRITECONFIG, ALT
 END
 

@@ -56,13 +56,14 @@ end
 
 say 'Creating Program objects...'
 
-CALL createProgram "C=64",   'x64.exe',   '', '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
-CALL createProgram "C=128",  'x128.exe',  '', '*.d71,*.d71.gz,*.d81,*.d81.gz'
-CALL createProgram "VIC 20", 'xvic.exe',  '', ''
-CALL createProgram "PET",    'xpet.exe',  '', '*.d80,*.d80.gz,*.d80.zip,*.d82,*.d82.gz,*.d82.zip'
-CALL createProgram "CBM/2",  'xcbm2.exe', '', '*.d80,*.d80.gz,*.d80.zip,*.d82,*.d82.gz,*.d82.zip'
-CALL createProgram "C=1541", 'c1541.exe', '', ''
-CALL createProgram "reSID Player", 'x64.exe', '-vsid %*', '*.sid'
+CALL createProgram "C=64",   'x64.exe',   '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
+CALL createProgram "C=128",  'x128.exe',  '*.d71,*.d71.gz,*.d81,*.d81.gz'
+CALL createProgram "VIC 20", 'xvic.exe',  ''
+CALL createProgram "PET",    'xpet.exe',  '*.d80,*.d80.gz,*.d80.zip,*.d82,*.d82.gz,*.d82.zip'
+CALL createProgram "CBM/2",  'xcbm2.exe', '*.d80,*.d80.gz,*.d80.zip,*.d82,*.d82.gz,*.d82.zip'
+
+CALL createProgramIcon "C=1541", 'c1541.exe', 'c1541.ico', '', ''
+CALL createProgramIcon "reSID Player", 'x64.exe', 'vsid.ico', '-vsid %*', '*.sid'
 
 setupstring='EXENAME=e.exe;PARAMETERS='curdir'\vice2.log'
 if SysCreateObject("WPProgram","log-File","<VICE2>",setupstring,"update")<>1 then
@@ -177,7 +178,18 @@ exit
 
 createProgram:
     /* STARTUPDIR needed for Drag&Drop */
-    setupstring='EXENAME='curdir'\'ARG(2)';PARAMETERS='ARG(3)';STARTUPDIR='curdir';ASSOCFILTER='ARG(4)
+    setupstring='EXENAME='curdir'\'ARG(2)';STARTUPDIR='curdir';ASSOCFILTER='ARG(3)
+    /*    say 'Creating an object for 'ARG(2)'...'*/
+    if SysCreateObject("WPProgram",ARG(1),"<VICE2>",setupstring,"update")<>1 then
+    do
+        say '!!! Can''t create a program object for 'ARG(1)
+        say ''
+    end
+    RETURN
+    
+createProgramIcon:
+    /* STARTUPDIR needed for Drag&Drop */
+    setupstring='EXENAME='curdir'\'ARG(2)';ICONFILE='curdir'\icons\'ARG(3)';PARAMETERS='ARG(4)';STARTUPDIR='curdir';ASSOCFILTER='ARG(5)
     /*    say 'Creating an object for 'ARG(2)'...'*/
     if SysCreateObject("WPProgram",ARG(1),"<VICE2>",setupstring,"update")<>1 then
     do

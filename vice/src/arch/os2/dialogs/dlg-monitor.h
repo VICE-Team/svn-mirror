@@ -25,11 +25,6 @@
  */
 
 // Monitor Dialog
-#define DLG_MONITOR       0x10b0
-
-#define LB_MONOUT         0x1
-#define EF_MONIN          0x2
-
 #define DID_STEPOVER      0x10
 #define DID_STEPINTO      0x11
 #define DID_MONRETURN     0x12
@@ -59,6 +54,9 @@
 #define IDM_CPU6502       0x21
 #define IDM_CPUZ80        0x22
 
+#define LB_MONOUT         0x30
+#define EF_MONIN          0x31
+
 // dialogs.h: #define WM_INSERT      WM_USER+0x1
 #define WM_INPUT       WM_USER+0x2
 #define WM_PROMPT      WM_USER+0x3
@@ -69,26 +67,24 @@
 #define kCLOSE ((MPARAM)FALSE)
 
 // Monitor Registers dialog
-#define DLG_MONREG     0x10b1
-#define ID_REGN        0x1
-#define ID_REGV        0x2
-#define ID_REGM        0x3
-#define ID_REGB        0x4
-#define ID_REGD        0x5
-#define ID_REGI        0x6
-#define ID_REGZ        0x7
-#define ID_REGC        0x8
+#define ID_REGN        0x11
+#define ID_REGV        0x12
+#define ID_REGM        0x13
+#define ID_REGB        0x14
+#define ID_REGD        0x15
+#define ID_REGI        0x16
+#define ID_REGZ        0x17
+#define ID_REGC        0x18
 
-#define ID_REGA        0x9
-#define ID_REGAC       0xa
-#define ID_REGX        0xb
-#define ID_REGY        0xc
-#define ID_REGSP       0xd
-#define ID_REG01       0xe
+#define ID_REGA        0x19
+#define ID_REGAC       0x1a
+#define ID_REGX        0x1b
+#define ID_REGY        0x1c
+#define ID_REGSP       0x1d
+#define ID_REG01       0x1e
 
 // Monitor Disassembly
-#define DLG_MONDIS     0x10b2
-#define LB_MONDIS      0x1
+#define LB_MONDIS      0x10
 
 //
 // ---------------- dialog definitions ------------------

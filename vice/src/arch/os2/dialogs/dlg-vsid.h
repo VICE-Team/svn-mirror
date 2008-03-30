@@ -25,17 +25,16 @@
  */
 
 // Vsid Dialog
-#define DLG_VSID       0x10f0
-#define ID_TUNENO      0x10f1
-#define ID_TUNES       0x10f2
-#define SPB_SETTUNE    0x10f3
-#define PB_DEFTUNE     0x10f4
-#define ID_TIME        0x10f5
-#define ID_TNAME       0x10f6
-#define ID_TAUTHOR     0x10f7
-#define ID_TCOPYRIGHT  0x10f8
-#define ID_TSYNC       0x10f9
-#define ID_OPTIONS     0x10fa
+#define ID_TUNENO      0x10
+#define ID_TUNES       0x11
+#define SPB_SETTUNE    0x12
+#define PB_DEFTUNE     0x13
+#define ID_TIME        0x14
+#define ID_TNAME       0x15
+#define ID_TAUTHOR     0x16
+#define ID_TCOPYRIGHT  0x17
+#define ID_TSYNC       0x18
+#define ID_TIRQ        0x19
 
 extern HWND hwndVsid;
 

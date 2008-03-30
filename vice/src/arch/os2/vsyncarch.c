@@ -60,13 +60,9 @@ extern void video_close(void);
 // 0 if Emulator is paused
 static int emulator_paused=FALSE;
 
-static ULONG ulTmrFreq = 0;  // Hertz (almost 1.2MHz at my PC) FIXME!!!
-
-PULONG pms = 0;
-
 signed long vsyncarch_frequency()
 {
-    static ULONG ulTmrFreq=0;
+    static ULONG ulTmrFreq=0; // Hertz (almost 1.2MHz at my PC)
 
     if (!ulTmrFreq)
         DosTmrQueryFreq(&ulTmrFreq);
@@ -78,7 +74,7 @@ unsigned long vsyncarch_gettime()
 {
     QWORD qwTmrTime;
     DosTmrQueryTime(&qwTmrTime);
-    return qwTmrTime.ulLo; // pms?*pms:0;
+    return qwTmrTime.ulLo;
 }
 
 static HEV hevTimer = 0; // Event semaphore handle

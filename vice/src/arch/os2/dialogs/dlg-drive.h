@@ -25,7 +25,6 @@
  */
 
 // Drive Dialog
-#define DLG_DRIVE      0x1019
 #define RB_DRIVE8      0x1020
 #define RB_DRIVE9      0x1021
 #define RB_DRIVE10     0x1022

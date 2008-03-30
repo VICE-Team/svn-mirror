@@ -33,16 +33,16 @@ Alt-A:      Open about-dialog
 Alt-C:      Open datasette-control-dialog
 Alt-D:      Open drive-dialog
 Alt-E:      Open emulator-dialog
-Alt-F:      Flip Drive #8 to next image of fliplist
 Alt-H:      Open hardware-dialog
 Alt-J:      Open joystick-dialog
 Alt-M:      Open monitor
-Alt-N:      Save Snapshot (setup name in the emulator dialog)
+Alt-N:      Flip Drive #8 to next image of fliplist
 Alt-Q:      Do hard-reset (switch machine off and on)
 Alt-R:      Do soft-reset (press reset)
 Alt-S:      Open sound-dialog
 Alt-T:      Switch true drive emulation on/off
-Alt-V, F11: Switch VDC-Key on/off (x128 only)
+       F10: Switch CAPS-Key on/off (x128 only)
+Alt-V, F11: Switch VDC-Key on/off  (x128 only)
 Alt-W:      Write actual configuration to file
 Alt-PrtScr: Write screenshot to file (setup file-type and 
             -name in the emulator dialog)
@@ -67,7 +67,6 @@ Alt-PrtScr: Write screenshot to file (setup file-type and
    problem of the graphic card driver. The use of SciTech
    Display Doctor instead of the drivers solves the problem. It 
    is available from the IBM Device Driver Pack
-
 
   To Do
 ---------

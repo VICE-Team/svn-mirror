@@ -196,21 +196,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 toggle_drive_res("Drive%dRAMA000", drive);
                 break;
             case CB_READONLY:
-                {
-                    const char *name;
-                    toggle_drive_res("AttachDevice%dReadonly", drive);
-
-                    name = file_system_get_disk_name(drive+8);
-
-                    if (!name)
-                        break;
-
-                    file_system_detach_disk(drive+8);
-                    if (file_system_attach_disk(drive+8, name))
-                        WinMessageBox(HWND_DESKTOP, hwnd,
-                                      "Cannot reattach disk image",
-                                      "VICE/2 Error", 0, MB_OK);
-                }
+                toggle_drive_res("AttachDevice%dReadonly", drive);
                 break;
             case CB_PARALLEL:
                 if (drive==0 || drive==1)

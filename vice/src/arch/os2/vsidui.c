@@ -2,10 +2,7 @@
  * vsidui.c - Implementation of the VSID UI.
  *
  * Written by
- *  Dag Lem <resid@nimrod.no>
- * based on c64ui.c written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Thomas Bretz <tbretz@ph.tum.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,7 +22,6 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
-
  */
 
 #define INCL_DOSPROCESS // DosSetPriority
@@ -38,6 +34,7 @@
 
 #include "dialogs.h"
 #include "dlg-vsid.h"
+#include "dlg-emulator.h" // hwndEmulator
 
 #include "log.h"
 #include "utils.h"
@@ -63,6 +60,9 @@ void vsid_mainloop(VOID *arg)
     // open dialog
     //
     hwnd = vsid_dialog();
+
+    // FIXME !
+    hwndEmulator = hwnd;
 
     if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, +1, 0))
         log_message(LOG_DEFAULT, "vsidui.c: Error DosSetPriority (rc=%li)", rc);
@@ -108,6 +108,13 @@ int vsid_ui_init(void)
     return 0;
 }
 
+void vsid_ui_display_irqtype(const char *irq)
+{
+    char *txt = xmsprintf("using %s interrupt", irq);
+    WinSetDlgItemText(hwnd, ID_TIRQ, txt);
+    free(txt);
+}
+
 void vsid_ui_display_name(const char *name)
 {
     WinSetDlgItemText(hwnd, ID_TNAME, (char*)name);
@@ -125,7 +132,18 @@ void vsid_ui_display_copyright(const char *copyright)
 
 void vsid_ui_display_sync(int sync)
 {
-    WinSetDlgItemText(hwnd, ID_TSYNC, sync==DRIVE_SYNC_PAL?"using PAL":"using NTSC");
+    switch (sync)
+    {
+    case DRIVE_SYNC_PAL:
+        WinSetDlgItemText(hwnd, ID_TSYNC, "using PAL synchronization");
+        return;
+    case DRIVE_SYNC_NTSC:
+        WinSetDlgItemText(hwnd, ID_TSYNC, "using NTSC synchronization");
+        return;
+    case DRIVE_SYNC_NTSCOLD:
+        WinSetDlgItemText(hwnd, ID_TSYNC, "using old NTSC synchronization");
+        return;
+    }
 }
 
 void vsid_ui_set_default_tune(int nr)

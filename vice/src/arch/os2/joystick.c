@@ -134,7 +134,7 @@ static int set_keyset(resource_value_t v, void *param)
 {
     const int i = (int)param;
     keyset[i>>5][i&0xf] = (int) v;
-    log_debug("%x setting keyset %d, direction %d --> %d", i, i>>1, i&1, (int)v);
+    //log_debug("%x setting keyset %d, direction %d --> %d", i, i>>1, i&1, (int)v);
     return 0;
 }
 

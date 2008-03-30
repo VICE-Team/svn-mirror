@@ -30,13 +30,14 @@
 
 #include "sound.h"
 #include "utils.h"
+#include "archdep.h"
 
 static FILE *fs_fd = NULL;
 
 static int fs_init(const char *param, int *speed,
 		   int *fragsize, int *fragnr, double bufsize)
 {
-    fs_fd = fopen(param?param:"vicesnd.raw", "w");
+    fs_fd = fopen(param?param:"vicesnd.raw", MODE_WRITE);
     return !fs_fd;
 }
 

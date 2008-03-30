@@ -28,6 +28,8 @@
 
 #include "vice.h"
 
+#include <string.h>
+
 #include "log.h"
 #include "mon_register.h"
 #include "montypes.h"

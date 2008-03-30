@@ -22,6 +22,7 @@ EXTRA_DIST = \
         incl/drive.icc \
         incl/mainsrc.icc \
         incl/monitor.icc\
+        incl/monz80.icc\
         incl/pet.icc \
         incl/kbd.icc \
         incl/raster.icc \

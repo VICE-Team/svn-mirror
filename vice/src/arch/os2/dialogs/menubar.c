@@ -263,6 +263,13 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_VDC64K:
         resources_set_value("VDC_64KB", (resource_value_t*)(idm&1));
         return;
+
+    case IDM_INTFUNCROM:
+        toggle("InternalFunctionROM");
+        return;
+    case IDM_EXTFUNCROM:
+        toggle("ExternalFunctionROM");
+        return;
 #endif
 
 #if defined __X64__ || defined __X128__
@@ -301,11 +308,23 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
                             (resource_value_t*) DRIVE_SYNC_NTSCOLD);
         return;
 #endif // __X64__
-#endif // __X64__ || __X128__
 
     case IDM_REU:
         toggle("REU");
         return;
+
+    case IDM_REU128:
+    case IDM_REU256:
+    case IDM_REU512:
+    case IDM_REU1024:
+    case IDM_REU2048:
+    case IDM_REU4096:
+    case IDM_REU8192:
+    case IDM_REU16384:
+        resources_set_value("REUSize",
+                            (resource_value_t*)((idm&0xff)<<7));
+        return;
+#endif // __X64__ || __X128__
 
     case IDM_MOUSE:
         toggle("Mouse");
@@ -338,6 +357,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle(VIDEO_CACHE);
 #endif
         return;
+#ifdef __X128__
+    case IDM_VDCVCACHE:
+        toggle("VDC_VideoCache");
+        return;
+#endif
 
     case IDM_EMUID:
         toggle("EmuID");
@@ -546,23 +570,18 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_RAM08:
         toggle("Ram08");
         return;
-
     case IDM_RAM10:
         toggle("Ram1");
         return;
-
     case IDM_RAM20:
         toggle("Ram2");
         return;
-
     case IDM_RAM40:
         toggle("Ram4");
         return;
-
     case IDM_RAM60:
         toggle("Ram6");
         return;
-
     case IDM_RAMC0:
         toggle("RamC");
         return;
@@ -607,7 +626,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_MAP9:
         toggle("Ram9");
         return;
-
     case IDM_MAPA:
         toggle("RamA");
         return;
@@ -624,7 +642,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_IOMEM256:
         resources_set_value("IOSize", (resource_value_t)0x100);
         return;
-
     case IDM_IOMEM2K:
         resources_set_value("IOSize", (resource_value_t)0x800);
         return;
@@ -636,11 +653,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_VSDETECT:
         resources_set_value("VideoSize", (resource_value_t)0);
         return;
-
     case IDM_VS40:
         resources_set_value("VideoSize", (resource_value_t)40);
         return;
-
     case IDM_VS80:
         resources_set_value("VideoSize", (resource_value_t)80);
         return;
@@ -654,14 +669,17 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 
     case IDM_TRUEDRIVE: // Switch True Drive Emulatin on/off
-        {
-            char str[35];
-            sprintf(str, "True drive emulation switched %s",
-                    toggle("DriveTrueEmulation")?"ON.":"OFF.");
-            WinMessageBox(HWND_DESKTOP, hwnd,
-                          str, "Drive Emulation", 0, MB_OK);
-        }
+        toggle("DriveTrueEmulation");
         return;
+
+        //{ log output to logwindow by system
+        //    char str[35];
+        //    sprintf(str, "True drive emulation switched %s",
+        //            toggle("DriveTrueEmulation")?"ON.":"OFF.");
+        //    WinMessageBox(HWND_DESKTOP, hwnd,
+        //                  str, "Drive Emulation", 0, MB_OK);
+        //}
+        //return;
 
 #ifdef HAS_JOYSTICK
     case IDM_JOYSTICK:
@@ -787,6 +805,9 @@ void menu_select(HWND hwnd, USHORT item)
 #else
         WinCheckRes(hwnd, IDM_VCACHE,    VIDEO_CACHE);
 #endif
+#ifdef __X128__
+        WinCheckRes(hwnd, IDM_VDCVCACHE, "VDC_VideoCache");
+#endif
         WinCheckMenuItem(hwnd, IDM_PAUSE, isEmulatorPaused());
         WinCheckRes(hwnd, IDM_MENUBAR,   "Menubar");
         // WinCheckRes(hwnd, IDM_MENUBAR,   "Statusbar");
@@ -794,7 +815,9 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_IEEE,      "IEEE488");
 #endif // __X128__ || __XVIC__
 #if defined __X64__ || defined __X128__
-        WinCheckRes(hwnd, IDM_REU,       "REU");
+        resources_get_value("REU", (resource_value_t*)&val);
+        WinCheckMenuItem(hwnd,  IDM_REU,     val);
+        WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
 #endif
 #ifdef __XPET__
         WinCheckRes(hwnd, IDM_CHARSET,  "Basic1Chars");
@@ -805,6 +828,20 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_CRTC,     "Crtc");
 #endif // __XPET__
         return;
+
+#if defined __X64__ || defined __X128__
+    case IDM_REUSIZE:
+        resources_get_value("REUSize", (resource_value_t*)&val);
+        WinCheckMenuItem(hwnd, IDM_REU128,   val==128);
+        WinCheckMenuItem(hwnd, IDM_REU256,   val==256);
+        WinCheckMenuItem(hwnd, IDM_REU512,   val==512);
+        WinCheckMenuItem(hwnd, IDM_REU1024,  val==1024);
+        WinCheckMenuItem(hwnd, IDM_REU2048,  val==2048);
+        WinCheckMenuItem(hwnd, IDM_REU4096,  val==4096);
+        WinCheckMenuItem(hwnd, IDM_REU8192,  val==8192);
+        WinCheckMenuItem(hwnd, IDM_REU16384, val==16384);
+        return;
+#endif
 
     case IDM_COLLISION:
         WinCheckRes(hwnd, IDM_SBCOLL, "CheckSbColl");
@@ -823,7 +860,9 @@ void menu_select(HWND hwnd, USHORT item)
         {
             char *dev;
             resources_get_value("SoundDeviceName", (resource_value_t*)&dev);
-            WinCheckMenuItem(hwnd, IDM_DEVDART, !strcasecmp(dev, "dart") || !dev[0]);
+            if (!dev || !dev[0])
+                dev = "dart";
+            WinCheckMenuItem(hwnd, IDM_DEVDART, !strcasecmp(dev, "dart"));
             WinCheckMenuItem(hwnd, IDM_DEVSID,  !strcasecmp(dev, "dump"));
             WinCheckMenuItem(hwnd, IDM_DEVWAV,  !strcasecmp(dev, "wav"));
             WinCheckMenuItem(hwnd, IDM_DEVRAW,  !strcasecmp(dev, "fs"));
@@ -920,6 +959,11 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_value("VDC_64KB", (resource_value_t*)&val);
         WinCheckMenuItem(hwnd, IDM_VDC16K, val==0);
         WinCheckMenuItem(hwnd, IDM_VDC64K, val==1);
+        return;
+
+    case IDM_FUNCROM:
+        WinCheckRes(hwnd, IDM_INTFUNCROM, "InternalFunctionROM");
+        WinCheckRes(hwnd, IDM_EXTFUNCROM, "ExternalFunctionROM");
         return;
 #endif // __X128__
 

@@ -10,5 +10,7 @@ source type(c)
     "c64rsuser.c",
     "c64tpi.c",
     "c64cartridge.c",
+    "c64-resources.c",
+    "c64-cmdline-options.c",
     "patchrom.c",
     "reu.c"

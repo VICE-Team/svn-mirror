@@ -271,6 +271,7 @@ static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
 static int DoCoreDump = 0;
 static int DatasetteCounter = -1;
+static int RegularProgramExit = 0;
 static int WimpBlock[64];
 
 static int SnapshotPending = 0;
@@ -2050,6 +2051,8 @@ static int ui_make_snapshot(const char *name)
   int save_roms, save_disks, status;
   int block[10];
 
+  vsync_suspend_speed_eval();
+
   wimp_window_get_icon_state(SnapshotWindow, Icon_Snap_ROM, block);
   save_roms = ((block[6] & IFlg_Slct) == 0) ? 0 : 1;
   wimp_window_get_icon_state(SnapshotWindow, Icon_Snap_Disk, block);
@@ -2391,6 +2394,10 @@ static void ui_safe_exit(void)
       fclose(fp);
     }
   }
+
+  if (RegularProgramExit == 0)
+    sound_close();
+
   archdep_closedown();
 }
 
@@ -4647,6 +4654,8 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
 {
   int status;
 
+  vsync_suspend_speed_eval();
+
   /* See true drive emulation */
   ui_temp_suspend_sound();
 
@@ -4731,6 +4740,8 @@ static void ui_user_msg_mode_change(int *b)
   canvas_list_t *clist = CanvasList;
   int block[WindowB_WFlags+1];
   RO_Window *win;
+
+  vsync_suspend_speed_eval();
 
   wimp_read_screen_mode(&ScreenMode);
   /* Extremely annoying mode change code */
@@ -5393,6 +5404,8 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
   RO_Caret activeCaret;
   short mbBox[5];
 
+  vsync_suspend_speed_eval();
+
   va_start(ap, format);
 
   vsprintf(str, format, ap);
@@ -5538,6 +5551,8 @@ void ui_show_text(const char *title, const char *text, int width, int height)
 
 void ui_exit(void)
 {
+  RegularProgramExit = 1;
+
   /* for some reason VSID won't shut down properly */
   if (vsid_mode)
     sound_close();

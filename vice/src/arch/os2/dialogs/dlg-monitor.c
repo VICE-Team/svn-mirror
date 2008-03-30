@@ -91,6 +91,11 @@ static const char *mon_dis(MEMSPACE mem, ADDRESS loc, unsigned int *size)
     return mon_disassemble_to_string_ex(mem, loc, loc, op, p1, p2, 1, size);
 }
 
+int mon_get_reg_val(int i, int j)
+{
+    return 0;
+}
+
 static void UpdateDisassembly(HWND hwnd)
 {
     const MEMSPACE mem = (MEMSPACE)WinQueryWindowPtr(hwnd, QWL_USER);

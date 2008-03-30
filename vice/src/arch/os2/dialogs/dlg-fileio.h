@@ -34,7 +34,6 @@
 #define FDS_ENABLEFILELB  0x800
 #endif
 
-#define DLG_FILEIO       0x2000
 #define DID_CONTENTS_LB  0x2001
 #define DID_CONTENTS_CB  0x2003
 #define DID_CBMFONT_CB   0x2004

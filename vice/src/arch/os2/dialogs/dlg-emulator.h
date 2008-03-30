@@ -25,7 +25,6 @@
  */
 
 // Emulator Dialog
-#define DLG_EMULATOR     0x1090
 #define SPB_SPEED        0x1091
 #define PB_SPEED100      0x1092
 #define CBS_REFRATE      0x1093

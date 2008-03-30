@@ -54,14 +54,13 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
                        (void*)ui_status.lastTapeCtrlStat,
                        (void*)ui_status.lastTapeStatus);
             WinShowDlg(hwnd, SS_SPIN,
-                       (ui_status.lastTapeMotor && ui_status.lastTapeStatus)
-                       ?1:0);
+                       ui_status.lastTapeMotor && ui_status.lastTapeStatus);
 
             resources_get_value("DatasetteResetWithCPU", (resource_value_t *) &val);
             WinCheckButton(hwnd, CB_RESETWCPU, val);
             resources_get_value("DatasetteZeroGapDelay", (resource_value_t *) &val);
             WinSetDlgSpinVal(hwnd, SPB_DELAY, (val/100));
-            resources_get_value("DatasetteSpeedTuning", (resource_value_t *) &val);
+            resources_get_value("DatasetteSpeedTuning",  (resource_value_t *) &val);
             WinSetDlgSpinVal(hwnd, SPB_GAP, val);
         }
         break;
@@ -71,14 +70,14 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         return FALSE;
 
     case WM_TAPESTAT:
-        WinEnableControl(hwnd, PB_RECORD,   (int)mp2?((int)mp1!=DATASETTE_CONTROL_RECORD):0);
-        WinEnableControl(hwnd, PB_REWIND,   (int)mp2?((int)mp1!=DATASETTE_CONTROL_REWIND):0);
-        WinEnableControl(hwnd, PB_STOP,     (int)mp2?((int)mp1!=DATASETTE_CONTROL_STOP):0);
-        WinEnableControl(hwnd, PB_START,    (int)mp2?((int)mp1!=DATASETTE_CONTROL_START):0);
-        WinEnableControl(hwnd, PB_FORWARD,  (int)mp2?((int)mp1!=DATASETTE_CONTROL_FORWARD):0);
-        WinEnableControl(hwnd, PB_RESET,    (int)mp2?1:0);
-        WinEnableControl(hwnd, PB_RESETCNT, (int)mp2?1:0);
-        WinEnableControl(hwnd, SPB_COUNT,   (int)mp2?1:0);
+        WinEnableControl(hwnd, PB_RECORD,   mp2 && (int)mp1!=DATASETTE_CONTROL_RECORD);
+        WinEnableControl(hwnd, PB_REWIND,   mp2 && (int)mp1!=DATASETTE_CONTROL_REWIND);
+        WinEnableControl(hwnd, PB_STOP,     mp2 && (int)mp1!=DATASETTE_CONTROL_STOP);
+        WinEnableControl(hwnd, PB_START,    mp2 && (int)mp1!=DATASETTE_CONTROL_START);
+        WinEnableControl(hwnd, PB_FORWARD,  mp2 && (int)mp1!=DATASETTE_CONTROL_FORWARD);
+        WinEnableControl(hwnd, PB_RESET,    mp2!=0);
+        WinEnableControl(hwnd, PB_RESETCNT, mp2!=0);
+        WinEnableControl(hwnd, SPB_COUNT,   mp2!=0);
 
         if (!mp2)
             WinShowDlg(hwnd, SS_SPIN, 0);
@@ -86,7 +85,7 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         return FALSE;
 
     case WM_SPINNING:
-        WinShowDlg(hwnd, SS_SPIN, (int)(mp2 && mp1)?1:0);
+        WinShowDlg(hwnd, SS_SPIN, mp1 && mp2);
         return FALSE;
  
     case WM_COMMAND:

@@ -24,7 +24,7 @@
  *
  */
 
-#define DLG_JOYSTICK   0x1400
+// Joystick Dialog
 #define CB_JOY11       0x1101
 #define CB_JOY12       0x1201
 #define CB_JOY21       0x1102
@@ -44,7 +44,6 @@
 #define WM_SETDLGS     WM_USER+0x2
 
 // Calibrate Dialog
-#define DLG_CALIBRATE  0x1405
 #define RB_JOY1        0x1406
 #define RB_JOY2        0x1407
 #define SPB_UP         0x1408
@@ -60,7 +59,6 @@
 #define WM_ENABLECTRL  WM_USER+0x6
 
 // Keyset Dialog
-#define DLG_KEYSET     0x140f
 #define RB_SET1        0x1410
 #define RB_SET2        0x1411
 #define SPB_N          0x1412

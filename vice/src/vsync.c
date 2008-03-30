@@ -156,8 +156,6 @@ static int set_timer_speed(int speed)
 {
     speed_eval_suspended = 1;
 
-    vsyncarch_freq = vsyncarch_frequency();
-
     if (speed > 0 && refresh_frequency > 0) {
         timer_speed = speed;
         frame_ticks = vsyncarch_freq/refresh_frequency*100/speed;
@@ -215,6 +213,8 @@ void vsync_init(void (*hook)(void))
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
     vsyncarch_init();
+
+    vsyncarch_freq = vsyncarch_frequency();
 }
 
 /* FIXME: This function is not needed here anymore, however it is

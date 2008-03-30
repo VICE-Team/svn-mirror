@@ -57,20 +57,31 @@ EXTRA_DIST = \
 	unused/vsync.c \
 	unused/vsync.h \
 	unused/ui_status.c \
+	icons/c1541.ico \
+	icons/check.ico \
+	icons/dirup.bmp \
+	icons/exit.bmp \
+	icons/ffwd.bmp \
 	icons/folder.pal \
 	icons/folder1.ico \
 	icons/folder2.ico \
-	icons/x64.ico \
-	icons/xpet.ico \
-        icons/xvic.ico \
-	icons/x128.ico \
-	icons/xcbm2.ico \
-	icons/c1541.ico \
-	icons/check.ico \
 	icons/info.ico \
- 	icons/note.ico \
-        icons/skull.ico \
-        icons/dirup.bmp \
+	icons/note.ico \
+	icons/pause.bmp \
+	icons/playback.bmp \
+	icons/record.bmp \
+	icons/return.bmp \
+	icons/skull.ico \
+	icons/stepinto.bmp \
+	icons/stepover.bmp \
+	icons/stop.bmp \
+	icons/vsid.ico \
+	icons/x128.ico \
+	icons/x64.ico \
+	icons/xcbm2.ico \
+	icons/xpet.ico \
+	icons/xvic.ico \
+	icons/xvic2.ico \
 	texi2ipf/readme \
 	texi2ipf/texi2ipf.exe \
 	texi2ipf/texi2ipf.INF \

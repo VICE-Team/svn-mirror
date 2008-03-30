@@ -381,8 +381,8 @@ int machine_init(void)
     c64_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
-    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
     vsync_init(machine_vsync_hook);
+    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */

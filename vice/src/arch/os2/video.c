@@ -409,7 +409,7 @@ static resource_t resources[] = {
     { "PMBorderType", RES_INTEGER, (resource_value_t) 2,
       (resource_value_t *) &border, set_border_type, NULL },
     { "Menubar", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &logwin, set_menu, NULL },
+      (resource_value_t *) &menu, set_menu, NULL },
     { "Logwin", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &logwin, set_logging, NULL },
 /*
@@ -915,6 +915,7 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
          WinQueryWindowPos(WinQueryWindow(hwnd, QW_PARENT), &pos);
          break;
          */
+
     }
     return WinDefWindowProc (hwnd, msg, mp1, mp2);
 }
@@ -1304,7 +1305,7 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
     if (rc)
         log_message(LOG_DEFAULT,"video.c: Error DiveSetSourcePalette (rc=0x%x).",rc);
     else
-        log_message(LOG_DEFAULT,"video.c: Palette realized.",rc);
+        log_message(LOG_DEFAULT,"video.c: Palette realized.");
 
     free(palette);
 

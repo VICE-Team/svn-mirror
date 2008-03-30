@@ -982,7 +982,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
 
 void mon_change_dir(const char *path)
 {
-    if (chdir(path) < 0)
+    if (chdir((char*)path) < 0)
         uimon_out("Cannot change to directory `%s':\n", path);
 
     uimon_out("Changing to directory: `%s'\n", path);

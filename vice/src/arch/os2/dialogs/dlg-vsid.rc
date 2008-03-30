@@ -29,23 +29,29 @@
 
 DLGTEMPLATE DLG_VSID 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Vice/2 SID Player", DLG_VSID, 162, 122, 170, 88, STY_DIALOG | 
+    DIALOG "Vice/2 SID Player", DLG_VSID, 162, 122, 170, 97, STY_DIALOG | 
                                 FCF_SYSMENU | FCF_TASKLIST | FCF_MENU |
                                 FCF_AUTOICON | FCF_MINBUTTON | FCF_CLOSEBUTTON
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
-	CONTROL "Tune:",     ID_NONE,        10, 75,  25,  9, STY_TEXT
-	CONTROL "0",         ID_TUNENO,      35, 75,  12,  9, STY_TEXT | DT_RIGHT
-	CONTROL "of",        ID_NONE,        49, 75,  12,  9, STY_TEXT | DT_CENTER
-	CONTROL "0",         ID_TUNES,       61, 75,  12,  9, STY_TEXT
-        CONTROL "",          SPB_SETTUNE,    77, 75,  23, 12, STY_SPINBUTTON
+	CONTROL "Tune:",     ID_NONE,        10, 84,  25,  9, STY_TEXT
+	CONTROL "0",         ID_TUNENO,      35, 84,  12,  9, STY_TEXT | DT_RIGHT
+	CONTROL "of",        ID_NONE,        49, 84,  12,  9, STY_TEXT | DT_CENTER
+	CONTROL "0",         ID_TUNES,       61, 84,  12,  9, STY_TEXT
+        CONTROL "",          SPB_SETTUNE,    77, 84,  23, 12, STY_SPINBUTTON
                 CTLDATA 24, 0, 2, 0, 1, 0, 99, 0, 0, 0, 0, 0
-	CONTROL "Time:",     ID_NONE,       115, 75,  25,  9, STY_TEXT
-	CONTROL "00:00",     ID_TIME,       140, 75,  30,  9, STY_TEXT
-        CONTROL "Name",      ID_TNAME,       10, 48, 160,  9, STY_TEXT
-        CONTROL "Author",    ID_TAUTHOR,     10, 39, 160,  9, STY_TEXT
-        CONTROL "Copyright", ID_TCOPYRIGHT,  10, 30, 160,  9, STY_TEXT
-        CONTROL "",          ID_TSYNC,       10, 21, 160,  9, STY_TEXT
+	CONTROL "Time:",     ID_NONE,       115, 84,  25,  9, STY_TEXT
+	CONTROL "00:00",     ID_TIME,       140, 84,  30,  9, STY_TEXT
+
+        CONTROL "Playing:",  ID_NONE,         5, 24, 158, 60, STY_GROUPBOX
+
+        CONTROL "Name",      ID_TNAME,       10, 63, 150,  9, STY_TEXT
+        CONTROL "Author",    ID_TAUTHOR,     10, 54, 150,  9, STY_TEXT
+        CONTROL "Copyright", ID_TCOPYRIGHT,  10, 45, 150,  9, STY_TEXT
+        CONTROL "",          ID_TSYNC,       10, 36, 150,  9, STY_TEXT
+        CONTROL "",          ID_TIRQ,        10, 27, 150,  9, STY_TEXT
+	CONTROL "Speed:",    ID_NONE,       105,  6,  30,  9, STY_TEXT
+        CONTROL "---%",      ID_SPEEDDISP,  135,  6,  25,  9, STY_TEXT | DT_CENTER
         CONTROL "Close",     DID_CLOSE,       7,  5,  38, 12, STY_CLOSEBUTTON | WS_GROUP 
     END
 END

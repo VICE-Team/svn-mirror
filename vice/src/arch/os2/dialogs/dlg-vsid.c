@@ -36,6 +36,7 @@
 
 #include "dialogs.h"
 #include "dlg-vsid.h"
+#include "dlg-emulator.h" // WM_DISPLAY
 #include "menubar.h"
 
 #include "psid.h"
@@ -53,7 +54,7 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         {
             HWND hmenu;
 
-            HPOINTER hicon=WinLoadPointer(HWND_DESKTOP, NULLHANDLE, IDM_VICE2);
+            HPOINTER hicon=WinLoadPointer(HWND_DESKTOP, NULLHANDLE, DLG_VSID);
             if (hicon)
                 WinSendMsg(hwnd, WM_SETICON, MPFROMLONG(hicon), MPVOID);
 
@@ -107,7 +108,14 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             resources_set_value("PSIDTune", (resource_value_t)val);
         }
         break;
-
+    case WM_DISPLAY:
+        {
+            char txt[8]="---%";
+            if ((int)mp1<100000)
+                sprintf(txt, "%5d%%", mp1);
+            WinSetDlgItemText(hwnd, ID_SPEEDDISP, txt);
+        }
+        return FALSE;
     }
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }

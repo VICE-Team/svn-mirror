@@ -299,8 +299,8 @@ int machine_init(void)
     c610_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
-    vsync_set_machine_parameter(cbm2_rfsh_per_sec, cbm2_cycles_per_sec);
     vsync_init(machine_vsync_hook);
+    vsync_set_machine_parameter(cbm2_rfsh_per_sec, cbm2_cycles_per_sec);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */

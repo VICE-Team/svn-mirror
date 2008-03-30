@@ -305,6 +305,75 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
 
+static const char *GetDirection(USHORT id)
+{
+    switch (id)
+    {
+    case SPB_N:
+        return "North";
+    case SPB_NE:
+        return "NorthEast";
+    case SPB_E:
+        return "East";
+    case SPB_SE:
+        return "SouthEast";
+    case SPB_S:
+        return "South";
+    case SPB_SW:
+        return "SouthWest";
+    case SPB_W:
+        return "West";
+    case SPB_NW:
+        return "NorthWest";
+    case SPB_FIRE:
+        return "Fire";
+    }
+    return "";
+}
+
+static int ResGetKeyVal(int num, USHORT id)
+{
+    int val;
+
+    char *res=xmsprintf("KeySet%d%s", num?1:2, GetDirection(id));
+    resources_get_value(res, (resource_value_t*) &val);
+    free (res);
+
+    return val;
+}
+
+static void ResSetKeyVal(int num, USHORT id, int val)
+{
+    char *res=xmsprintf("KeySet%d%s", num?1:2, GetDirection(id));
+    resources_set_value(res, (resource_value_t) val);
+    free (res);
+}
+
+static void UpdateKeyVal(HWND hwnd, USHORT id, int num)
+{
+    int   val;
+    char *msg;
+
+    val = ResGetKeyVal(num, id);
+
+    msg = xmsprintf("%03d", val);
+    WinSendDlgMsg(hwnd, id, SPBM_SETARRAY, &msg, 1);
+    WinSetDlgSpinVal(hwnd, id, 0);
+    free(msg);
+}
+
+static void SetKeyVal(HWND hwnd, USHORT id, int num, int val)
+{
+    char *msg;
+
+    ResSetKeyVal(num, id, val);
+
+    msg = xmsprintf("%03d", val);
+    WinSendDlgMsg(hwnd, id, SPBM_SETARRAY, &msg, 1);
+    WinSetDlgSpinVal(hwnd, id, 0);
+    free(msg);
+}
+
 static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     static int set1 = TRUE;
@@ -322,8 +391,6 @@ static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             WinSendMsg(hwnd, WM_KPROCESS,
                        (void*)!!((j1|j2)&JOYDEV_KEYSET1),
                        (void*)!!((j1|j2)&JOYDEV_KEYSET2));
-
-            log_debug("Keyset: %x", hwnd);
         }
         break;
 
@@ -367,66 +434,16 @@ static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         WinSendMsg(hwnd, WM_KENABLECTRL, (void*)(!mp1 && !mp2), NULL);
         WinSendMsg(hwnd, WM_KFILLSPB, 0, 0);
         break;
-    case WM_TRANSLATEACCEL:
-        {
-            if (SHORT1FROMMP(((QMSG*)mp1)->mp1)&KC_ALT)
-                break;
-            else
-                return FALSE;
-        }
-    case WM_CHAR:
-        {
-            char *out;
-            CHAR usScancode = CHAR4FROMMP(mp1);   //fsFlags&KC_SCANCODE
-            //USHORT fsFlags    = SHORT1FROMMP(mp1);
-            //CHAR   usKeycode  = SHORT1FROMMP(mp2);  //fsFlags&KC_CHAR
-            //CHAR   usVK       = SHORT2FROMMP(mp2);  //fsFlags&KC_VIRTUALKEY VK_TAB/LEFT/RIGHT/UP/DOWN
 
-            switch (id)
-            {
-            case SPB_N:
-                resources_set_value(set1?"KeySet1North":"KeySet2North",
-                                    (resource_value_t) usScancode);
-                break;
-            case SPB_NE:
-                resources_set_value(set1?"KeySet1NorthEast":"KeySet2NorthEast",
-                                    (resource_value_t) usScancode);
-                break;
-            case SPB_E:
-                resources_set_value(set1?"KeySet1East":"KeySet2East",
-                                    (resource_value_t) usScancode);
-                break;
-           case SPB_SE:
-                resources_set_value(set1?"KeySet1SouthEast":"KeySet2SouthEast",
-                                    (resource_value_t) usScancode);
-                break;
-            case SPB_S:
-                resources_set_value(set1?"KeySet1South":"KeySet2South",
-                                    (resource_value_t) usScancode);
-                break;
-            case SPB_SW:
-                resources_set_value(set1?"KeySet1SouthWest":"KeySet2SouthWest",
-                                    (resource_value_t) usScancode);
-                break;
-            case SPB_W:
-                resources_set_value(set1?"KeySet1West":"KeySet2West",
-                                    (resource_value_t) usScancode);
-                break;
-            case SPB_NW:
-                resources_set_value(set1?"KeySet1NorthWest":"KeySet2NorthWest",
-                                    (resource_value_t) usScancode);
-                break;
-            case SPB_FIRE:
-                resources_set_value(set1?"KeySet1Fire":"KeySet2Fire",
-                                    (resource_value_t) usScancode);
-                break;
-            default:
-                return FALSE;
-            }
-            out = xmsprintf("#%d", usScancode);
-            WinSendDlgMsg(hwnd, id, SPBM_SETARRAY, &out, 1);
-            WinSetDlgSpinVal(hwnd, id, 0);
-            free(out);
+    case WM_TRANSLATEACCEL:
+        if (id>=SPB_N && id<= SPB_FIRE)
+        {
+            //
+            // Returning FALSE and using WM_CHAR doesn't work
+            // for all keys - I don't know why
+            //
+            SetKeyVal(hwnd, id, set1, CHAR4FROMMP(((QMSG*)mp1)->mp1));
+            return FALSE;
         }
         break;
 
@@ -442,76 +459,27 @@ static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         break;
 
     case WM_KENABLECTRL:
-        WinEnableControl(hwnd, SPB_N,  mp1?0:1);
-        WinEnableControl(hwnd, SPB_NE, mp1?0:1);
-        WinEnableControl(hwnd, SPB_E,  mp1?0:1);
-        WinEnableControl(hwnd, SPB_SE, mp1?0:1);
-        WinEnableControl(hwnd, SPB_S,  mp1?0:1);
-        WinEnableControl(hwnd, SPB_SW, mp1?0:1);
-        WinEnableControl(hwnd, SPB_W,  mp1?0:1);
-        WinEnableControl(hwnd, SPB_NW, mp1?0:1);
+        WinEnableControl(hwnd, SPB_N,    mp1?0:1);
+        WinEnableControl(hwnd, SPB_E,    mp1?0:1);
+        WinEnableControl(hwnd, SPB_S,    mp1?0:1);
+        WinEnableControl(hwnd, SPB_W,    mp1?0:1);
+        WinEnableControl(hwnd, SPB_NE,   mp1?0:1);
+        WinEnableControl(hwnd, SPB_SE,   mp1?0:1);
+        WinEnableControl(hwnd, SPB_SW,   mp1?0:1);
+        WinEnableControl(hwnd, SPB_NW,   mp1?0:1);
         WinEnableControl(hwnd, SPB_FIRE, mp1?0:1);
         return FALSE;
 
     case WM_KFILLSPB:
-        {
-            int val;
-            char *msg;
-            resources_get_value(set1?"KeySet1North":"KeySet2North",
-                                (resource_value_t*) &val);
-            msg=xmsprintf("#%d", val);
-            WinSendDlgMsg(hwnd, SPB_N, SPBM_SETARRAY, &msg, 1);
-            WinSetDlgSpinVal(hwnd, SPB_N, 0);
-            free(msg);
-            resources_get_value(set1?"KeySet1NorthEast":"KeySet2NorthEast",
-                                (resource_value_t*) &val);
-            msg=xmsprintf("#%d", val);
-            WinSendDlgMsg(hwnd, SPB_NE, SPBM_SETARRAY, &msg, 1);
-            WinSetDlgSpinVal(hwnd, SPB_NE, 0);
-            free(msg);
-            resources_get_value(set1?"KeySet1East":"KeySet2East",
-                                (resource_value_t*) &val);
-            msg=xmsprintf("#%d", val);
-            WinSendDlgMsg(hwnd, SPB_E, SPBM_SETARRAY, &msg, 1);
-            WinSetDlgSpinVal(hwnd, SPB_E, 0);
-            free(msg);
-            resources_get_value(set1?"KeySet1SouthEast":"KeySet2SouthEast",
-                                (resource_value_t*) &val);
-            msg=xmsprintf("#%d", val);
-            WinSendDlgMsg(hwnd, SPB_SE, SPBM_SETARRAY, &msg, 1);
-            WinSetDlgSpinVal(hwnd, SPB_SE, 0);
-            free(msg);
-            resources_get_value(set1?"KeySet1South":"KeySet2South",
-                                (resource_value_t*) &val);
-            msg=xmsprintf("#%d", val);
-            WinSendDlgMsg(hwnd, SPB_S, SPBM_SETARRAY, &msg, 1);
-            WinSetDlgSpinVal(hwnd, SPB_S, 0);
-            free(msg);
-            resources_get_value(set1?"KeySet1SouthWest":"KeySet2SouthWest",
-                                (resource_value_t*) &val);
-            msg=xmsprintf("#%d", val);
-            WinSendDlgMsg(hwnd, SPB_SW, SPBM_SETARRAY, &msg, 1);
-            WinSetDlgSpinVal(hwnd, SPB_SW, 0);
-            free(msg);
-            resources_get_value(set1?"KeySet1West":"KeySet2West",
-                                (resource_value_t*) &val);
-            msg=xmsprintf("#%d", val);
-            WinSendDlgMsg(hwnd, SPB_W, SPBM_SETARRAY, &msg, 1);
-            WinSetDlgSpinVal(hwnd, SPB_W, 0);
-            free(msg);
-            resources_get_value(set1?"KeySet1NorthWest":"KeySet2NorthWest",
-                                (resource_value_t*) &val);
-            msg=xmsprintf("#%d", val);
-            WinSendDlgMsg(hwnd, SPB_NW, SPBM_SETARRAY, &msg, 1);
-            WinSetDlgSpinVal(hwnd, SPB_NW, 0);
-            free(msg);
-            resources_get_value(set1?"KeySet1Fire":"KeySet2Fire",
-                                (resource_value_t*) &val);
-            msg=xmsprintf("#%d", val);
-            WinSendDlgMsg(hwnd, SPB_FIRE, SPBM_SETARRAY, &msg, 1);
-            WinSetDlgSpinVal(hwnd, SPB_FIRE, 0);
-            free(msg);
-        }
+        UpdateKeyVal(hwnd, SPB_N,    set1);
+        UpdateKeyVal(hwnd, SPB_E,    set1);
+        UpdateKeyVal(hwnd, SPB_S,    set1);
+        UpdateKeyVal(hwnd, SPB_W,    set1);
+        UpdateKeyVal(hwnd, SPB_NE,   set1);
+        UpdateKeyVal(hwnd, SPB_SE,   set1);
+        UpdateKeyVal(hwnd, SPB_SW,   set1);
+        UpdateKeyVal(hwnd, SPB_NW,   set1);
+        UpdateKeyVal(hwnd, SPB_FIRE, set1);
         return FALSE;
     }
     return WinDefDlgProc (hwnd, msg, mp1, mp2);

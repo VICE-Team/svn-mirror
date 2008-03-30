@@ -161,7 +161,6 @@ static subaction_t SubFlip[] = {
 };
 
 static subaction_t SubTape[]   = {{ "as Tape to Datasette",    FilterTape }, {NULL}};
-static subaction_t SubPal[]    = {{ "as new color palette",    FilterPal },  {NULL}};
 static subaction_t SubKbd[]    = {{ "as new keyboard mapping", FilterKbd },  {NULL}};
 static subaction_t SubCfg[]    = {{ "as new configuration",    FilterCfg },  {NULL}};
 static subaction_t SubCart2[]  = {{ "as cartridge image",      FilterCart }, {NULL}};
@@ -171,6 +170,14 @@ static subaction_t SubRomSet[] = {{ "as Vice/2 rom set",       FilterRomSet},{NU
 static subaction_t SubScr[] = {
     { "as Portable Network Graphic (PiNG)", FilterPng },
     { "as Native Bitmap (BMP)",             FilterBmp },
+    {NULL}
+};
+
+static subaction_t SubPal[] = {
+    { "as new color palette",    FilterPal },
+#ifdef __X128__
+    { "as new VDC palette",      FilterPal },
+#endif
     {NULL}
 };
 
@@ -206,21 +213,33 @@ static subaction_t SubCbmCart[] = {
     { NULL }
 };
 #endif
+#ifdef __X128__
+static subaction_t SubFuncRom[] = {
+    { "internal", FilterCart },
+    { "external", FilterCart },
+    { NULL }
+};
+#endif
 
 static subaction_t SubRom[] = {
-    { "as Kernal ROM",    FilterKernal  },
-    { "as Basic ROM",     FilterBasic   },
-    { "as Character ROM", FilterChargen },
-    { "as Z80 BIOS",      FilterZ80     },
-    { "as 1541 ROM",      Filter1541    },
-    { "as 1541-II ROM",   Filter15412   },
-    { "as 1571 ROM",      Filter1571    },
-    { "as 1581 ROM",      Filter1581    },
-    { "as 2031 ROM",      Filter2031    },
-    { "as 1001 ROM",      Filter1001    },
-    { "as 2040 ROM",      Filter2040    },
-    { "as 3040 ROM",      Filter3040    },
-    { "as 4040 ROM",      Filter4040    },
+    { "as Kernal ROM",        FilterKernal  },
+    { "as Basic ROM",         FilterBasic   },
+    { "as Character ROM",     FilterChargen },
+    { "as 1541 ROM",          Filter1541    },
+    { "as 1541-II ROM",       Filter15412   },
+    { "as 1571 ROM",          Filter1571    },
+    { "as 1581 ROM",          Filter1581    },
+    { "as 2031 ROM",          Filter2031    },
+    { "as 1001 ROM",          Filter1001    },
+    { "as 2040 ROM",          Filter2040    },
+    { "as 3040 ROM",          Filter3040    },
+    { "as 4040 ROM",          Filter4040    },
+#ifdef __X128__
+    { "as Z80 BIOS",          FilterZ80     },
+    { "as C64 Kernal ROM",    FilterKernal  },
+    { "as C64 Basic ROM",     FilterBasic   },
+    { "as C64 Character ROM", FilterChargen },
+#endif
     { NULL }
 };
 
@@ -309,7 +328,11 @@ static action_t LoadAction[] = {
     { "Load Fliplist",             SubFlip,    TRUE  },
     { "Load and Attach Fliplist",  SubFlip,    TRUE  },
     { "Load Snapshot",             SubVsf,     FALSE },
+#ifdef __X128__
+    { "Load Color Palette",        SubPal,     TRUE  },
+#else
     { "Load Color Palette",        SubPal,     FALSE },
+#endif
     { "Load Keyboard Map",         SubKbd,     FALSE },
     { "Load ROM Image",            SubRom,     TRUE  },
     { "Load ROM Set",              SubRomSet,  FALSE },
@@ -322,6 +345,9 @@ static action_t LoadAction[] = {
 #endif
 #ifdef __XCBM__
     { "Load 4kB Cartridge image",  SubCbmCart, TRUE },
+#endif
+#ifdef __X128__
+    { "Load Function ROM Image",   SubFuncRom, TRUE },
 #endif
     { NULL }
 };
@@ -341,38 +367,53 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
     case 4:
         return trap(hwnd, load_snapshot, szpath);
     case 5:
-        return resources_set_value(VIDEO_PALETTE, (resource_value_t)szpath);
+        switch (sact)
+        {
+        case 0:
+            return resources_set_value(VIDEO_PALETTE, (resource_value_t)szpath);
+#ifdef __X128__
+        case 1:
+            return resources_set_value("VDC_PaletteFile", (resource_value_t)szpath);
+#endif
+        }
+        return -1;
     case 6: // rom img
         return resources_set_value("KeymapFile", (resource_value_t)szpath);
     case 7:
         switch (sact)
         {
         case 0:
-            return resources_set_value("KernalName",   (resource_value_t)szpath);
+            return resources_set_value("KernalName",    (resource_value_t)szpath);
         case 1:
-            return resources_set_value("BasicName",    (resource_value_t)szpath);
+            return resources_set_value("BasicName",     (resource_value_t)szpath);
         case 2:
-            return resources_set_value("ChargenName",  (resource_value_t)szpath);
+            return resources_set_value("ChargenName",   (resource_value_t)szpath);
         case 3:
-            return resources_set_value("Z80BiosName",  (resource_value_t)szpath);
+            return resources_set_value("DosName1541",   (resource_value_t)szpath);
         case 4:
-            return resources_set_value("DosName1541",  (resource_value_t)szpath);
+            return resources_set_value("DosName154ii",  (resource_value_t)szpath);
         case 5:
-            return resources_set_value("DosName154ii", (resource_value_t)szpath);
+            return resources_set_value("DosName1571",   (resource_value_t)szpath);
         case 6:
-            return resources_set_value("DosName1571",  (resource_value_t)szpath);
+            return resources_set_value("DosName1581",   (resource_value_t)szpath);
         case 7:
-            return resources_set_value("DosName1581",  (resource_value_t)szpath);
+            return resources_set_value("DosName2031",   (resource_value_t)szpath);
         case 8:
-            return resources_set_value("DosName2031",  (resource_value_t)szpath);
+            return resources_set_value("DosName1001",   (resource_value_t)szpath);
         case 9:
-            return resources_set_value("DosName1001",  (resource_value_t)szpath);
+            return resources_set_value("DosName2040",   (resource_value_t)szpath);
         case 10:
-            return resources_set_value("DosName2040",  (resource_value_t)szpath);
+            return resources_set_value("DosName3040",   (resource_value_t)szpath);
         case 11:
-            return resources_set_value("DosName3040",  (resource_value_t)szpath);
+            return resources_set_value("DosName4040",   (resource_value_t)szpath);
         case 12:
-            return resources_set_value("DosName4040",  (resource_value_t)szpath);
+            return resources_set_value("Z80BiosName",   (resource_value_t)szpath);
+        case 13:
+            return resources_set_value("Kernal64Name",  (resource_value_t)szpath);
+        case 14:
+            return resources_set_value("Basic64Name",   (resource_value_t)szpath);
+        case 15:
+            return resources_set_value("Chargen64Name", (resource_value_t)szpath);
         }
         return -1;
     case 8:
@@ -429,6 +470,17 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
             return resources_set_value("Cart4Name", (resource_value_t)szpath);
         case 3:
             return resources_set_value("Cart6Name", (resource_value_t)szpath);
+        }
+        return -1;
+#endif
+#ifdef __X128__
+    case 9:
+        switch (sact)
+        {
+        case 0:
+            return resources_set_value("InternalFunctionName", (resource_value_t)szpath);
+        case 1:
+            return resources_set_value("ExternalFunctionName", (resource_value_t)szpath);
         }
         return -1;
 #endif
@@ -947,12 +999,16 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
             const FILEDLG *fdlg = (FILEDLG*)WinQueryWindowPtr(hwnd, QWL_USER);
 
+            char *szpath = (char*)mp1;
+
             int rc;
 
+            char *slash;
+
             if (fdlg->fl&FDS_OPEN_DIALOG)
-                rc = FdmDoLoadAction(hwnd, (char*)mp1, act, sact);
+                rc = FdmDoLoadAction(hwnd, szpath, act, sact);
             else
-                rc = FdmDoSaveAction(hwnd, (char*)mp1, act, sact);
+                rc = FdmDoSaveAction(hwnd, szpath, act, sact);
 
             if (rc<0)
             {
@@ -970,6 +1026,15 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 free(txt);
                 return FALSE;
             }
+
+            //
+            // FIXME! Better solution?
+            //
+            slash = strrchr(szpath, '\\');
+            if (slash)
+                *slash = '\0';
+
+            chdir(szpath);
         }
         return (MRESULT)TRUE;
 
