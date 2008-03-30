@@ -251,6 +251,8 @@ void convert_8toall(frame_buffer_t * p, int sx, int sy, int w, int h)
 
 #endif
 
+extern GC video_get_gc(void *not_used);
+
 int video_init(void)
 {
     XGCValues gc_values;
@@ -351,6 +353,8 @@ void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
 }
 
 /* ------------------------------------------------------------------------- */
+
+extern void video_add_handlers(Widget w);
 
 /* Create a canvas.  In the X11 implementation, this is just (guess what?) a
    window. */
