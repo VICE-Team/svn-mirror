@@ -49,7 +49,7 @@
 #include "resources.h"
 #include "sid.h"
 #include "snapshot.h"
-#include "tapeunit.h"
+#include "tape.h"
 #include "types.h"
 #include "utils.h"
 #include "vmachine.h"
@@ -1008,7 +1008,7 @@ int mem_load(void)
        reloading the ROM the traps are installed in.  */
     kbd_buf_init(0, 0, 0, 0);
     autostart_init(0, 0, 0, 0, 0, 0);
-    tape_init(0, 0, 0, 0, 0, 0, 0, NULL, 0, 0);
+    tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
 
     /* Load chargen ROM
      * we load 4k of 16-byte-per-char Charrom. 
