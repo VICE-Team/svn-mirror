@@ -1,3 +1,37 @@
+2004-06-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.29.
+
+	* sid/sid-snapshot.c (sid_snapshot_write_module_extended,
+	sid_snapshot_read_module_extended): Fixed forward and
+	backward compatibility.
+
+	* info.c: Updated.
+
+2004-06-11  Dag Lem  <resid@nimrod.no>
+
+	* resid/: Actually read sustain value in SID::read_state.
+	Final reSID 0.16. Finally.
+
+2004-06-08  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/{beos|msdos|riscos|unix|win32}/uimon.c,
+	monitor/mon_util.c: fixed a vulnerability: calls to
+	uimon_out() and console_out did not specify a format string,
+	thus, any input with "%" could cause errors to VICE; even
+	arbitrary code execution on the host machine was possible!
+
+	* arch/win32/{x128|x64|xcbm2|xpet|xplus4|xvic}.dsp: Added
+	wsock32.lib as library to make MSVC compile again.
+
+2004-06-08  Dag Lem  <resid@nimrod.no>
+
+	* resid/: Added fields to SID::State - final reSID 0.16?
+
+	* sid/sid-snapshot.c, sid/sid-snapshot.h: Added
+	rate_counter_period and exponential_counter_period to extended
+	snapshot. Increased SNAP_MINOR_EXTENDED to 1.
+
 2004-06-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.28.
