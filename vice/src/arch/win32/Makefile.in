@@ -393,7 +393,7 @@ ui.o: ui.c ../../../src/vice.h ../../../src/config.h lose32.h ui.h \
 	../../../src/attach.h ../../../src/vdrive.h \
 	../../../src/fs_cbm.h ../../../src/serial.h \
 	../../../src/traps.h ../../../src/log.h ../../../src/snapshot.h \
-	../../../src/autostart.h ../../../src/cmdline.h \
+	../../../src/autostart.h archdep.h ../../../src/cmdline.h \
 	../../../src/resources.h ../../../src/drive/drive.h \
 	../../../src/drive/drivecpu.h ../../../src/alarm.h \
 	../../../src/mos6510.h ../../../src/mon.h ../../../src/mem.h \

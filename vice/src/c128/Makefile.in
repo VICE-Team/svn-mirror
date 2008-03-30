@@ -309,6 +309,55 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h ../../src/c64/vicii.h \
 	../../src/arch/win32/video.h ../../src/palette.h \
 	../../src/arch/win32/vsync.h ../../src/arch/win32/c128kbd.h
+c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/cia.h ../../src/types.h \
+	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/mem.h ../../src/c64/vicii.h ../../src/maincpu.h \
+	../../src/alarm.h ../../src/mon.h ../../src/mos6510.h \
+	../../src/arch/win32/video.h ../../src/palette.h \
+	../../src/arch/win32/kbd.h ../../src/c64/c64cia.h \
+	../../src/iecdrive.h ../../src/drive/drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/drive/drivecpu.h
+c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/mem.h ../../src/types.h \
+	../../src/snapshot.h ../maincpu.c ../vice.h ../maincpu.h \
+	../config.h ../6510core.h ../mem.h ../types.h ../alarm.h \
+	../mon.h ../mos6510.h ../interrupt.h ../vmachine.h \
+	../snapshot.h ../log.h ../machine.h ../resources.h ../traps.h \
+	../../src/arch/win32/ui.h ../../src/arch/win32/video.h \
+	../../src/palette.h ../vdrive.h ../fs_cbm.h ../serial.h \
+	../6510core.c
+c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/c64/c64cia.h \
+	../../src/types.h ../../src/cia.h ../../src/snapshot.h \
+	../../src/c64/c64iec.h ../../src/iecdrive.h \
+	../../src/drive/ciad.h ../../src/drive/drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/log.h ../../src/drive/drivecpu.h \
+	../../src/alarm.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/resources.h \
+	../../src/drive/viad.h ../../src/via.h
+c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h c128mem.h ../../src/types.h \
+	../../src/c64/c64cia.h ../../src/cia.h ../../src/snapshot.h \
+	../../src/c64/c64tpi.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/drive/drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/log.h ../../src/drive/drivecpu.h \
+	../../src/alarm.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/emuid.h ../../src/maincpu.h \
+	../../src/memutils.h ../../src/parallel.h ../../src/rs232.h \
+	../../src/sid/sid.h ../../src/sound.h ../../src/warn.h \
+	../../src/tape.h ../../src/arch/win32/ui.h \
+	../../src/arch/win32/video.h ../../src/palette.h \
+	../../src/utils.h vdc.h ../c64/c64cart.h ../c64/vicii.h
+vdc.o: vdc.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/mem.h ../../src/types.h \
+	../../src/snapshot.h
 
 info: info-recursive
 dvi: dvi-recursive

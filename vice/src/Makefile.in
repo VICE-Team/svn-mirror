@@ -246,9 +246,9 @@ EXTRA_DIST = \
 	ChangeLog \
 	ChangeLog.1 \
 	ChangeLog.2 \
-	acia-tmpl.c \
+	aciacore.c \
 	cia-tmpl.c \
-	crtc-tmpl.c \
+	crtccore.c \
 	convio \
 	fixpoint.c \
 	pia-tmpl.c \
@@ -633,6 +633,10 @@ autostart.o: autostart.c vice.h config.h arch/win32/lose32.h autostart.h \
 	snapshot.h interrupt.h vmachine.h 6510core.h mem.h kbdbuf.h \
 	resources.h arch/win32/ui.h arch/win32/video.h palette.h \
 	utils.h machine.h tape.h warn.h zfile.h charsets.h
+c1541.o: c1541.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h charsets.h types.h file.h gcr.h info.h \
+	p00.h serial.h traps.h t64.h utils.h vdrive-iec.h vdrive.h \
+	fs_cbm.h log.h zipcode.h
 charsets.o: charsets.c vice.h config.h arch/win32/lose32.h charsets.h \
 	types.h
 cmdline.o: cmdline.c vice.h config.h arch/win32/lose32.h types.h utils.h \
@@ -690,6 +694,8 @@ parallel.o: parallel.c vice.h config.h arch/win32/lose32.h types.h \
 	parallel.h serial.h traps.h drive/drive.h vdrive.h fs_cbm.h \
 	log.h drive/drivecpu.h alarm.h mos6510.h mon.h mem.h snapshot.h \
 	interrupt.h vmachine.h 6510core.h
+petcat.o: petcat.c vice.h config.h arch/win32/lose32.h charsets.h \
+	types.h p00.h
 prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h vdrive.h \
 	types.h fs_cbm.h serial.h traps.h log.h file.h charsets.h \
 	utils.h prdevice.h print.h

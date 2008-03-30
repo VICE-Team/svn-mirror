@@ -165,7 +165,6 @@ libc64c128_a_SOURCES = \
 	vicii.h
 
 BUILT_SOURCES = \
-	c64acia1.c \
 	c64cia1.c \
 	c64cia2.c \
 	c64tpi.c
@@ -173,15 +172,14 @@ BUILT_SOURCES = \
 EXTRA_libc64_a_SOURCES = \
 	c64acia.h \
 	c64acia1.c \
-	c64acia1.def \
 	c64rsuser.c \
 	c64rsuser.h
 
 EXTRA_libc64c128_a_SOURCES = \
 	c64acia.h \
 	c64acia1.c \
-	c64acia1.def \
-	c64rsuser.c
+	c64rsuser.c \
+	c64rsuser.h
 
 libc64_a_LIBADD = $(acia_libadd)
 libc64c128_a_LIBADD = $(acia_libadd)
@@ -369,12 +367,12 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h vicii.h ../../src/arch/win32/video.h \
 	../../src/palette.h ../../src/arch/win32/vsync.h \
 	../../src/resources.h ../../src/arch/win32/c64kbd.h
-c64acia1.o: c64acia1.c ../../src/vice.h ../../src/config.h \
-	../../src/alarm.h ../../src/types.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/interrupt.h \
-	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/log.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/mon.h ../../src/mos6510.h \
+c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/config.h \
+	../../src/6510core.h ../../src/mem.h ../../src/types.h \
+	../../src/snapshot.h ../../src/alarm.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/aciacore.c ../../src/vice.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/log.h ../../src/machine.h \
 	../../src/rs232.h ../../src/acia.h
 c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/win32/lose32.h ../../src/cia.h ../../src/types.h \
@@ -545,14 +543,6 @@ c64cia2.c: c64cia2.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	       	   $(top_srcdir)/src/cia-tmpl.c \
 	       	   $(c64dir)/c64cia2.def $(c64dir)/c64cia2.c; \
-           fi )
-
-c64acia1.c: c64acia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c64acia1.c'..."; \
-           if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	       	   $(top_srcdir)/src/acia-tmpl.c \
-	       	   $(c64dir)/c64acia1.def $(c64dir)/c64acia1.c; \
            fi )
 
 c64tpi.c: c64tpi.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
