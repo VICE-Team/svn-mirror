@@ -1459,6 +1459,10 @@ void ui_set_topmenu()
 {
 }
 
+void ui_set_speedmenu(Widget w)
+{
+}
+
 void ui_set_tape_menu(Widget w)
 {
 }

@@ -372,11 +372,13 @@ static ui_menu_entry_t vic20_io_submenu[] = {
     { NULL }
 };
 
+/*
 static ui_menu_entry_t vic20_io_settings_menu[] = {
     { "I/O settings",
       NULL, NULL, vic20_io_submenu },
     { NULL }
 };
+*/
 
 /*------------------------------------------------------------*/
 
@@ -434,6 +436,9 @@ int vic20_ui_init(void)
                                     datasette_control_submenu, 
 				    NULL));
     ui_set_topmenu();
+    ui_set_speedmenu(ui_menu_create("SpeedMenu",
+				    ui_performance_settings_menu, 
+				    NULL));
     ui_update_menus();
 
     return 0;

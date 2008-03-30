@@ -1,3 +1,68 @@
+2000-02-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.32.
+
+	* info.c: Updated.
+
+	* c64/reu.c: Removed comment inside comment.
+
+	* arch/unix/x11/xaw/ui.c (ui_set_speedmenu): Fixed prototype.
+
+	* arch/unix/vic20ui.c: Commented out unused code.
+
+2000-02-22  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/x11/gnome/uimenu.c: 
+	(all): Reworked checkmark code to be able
+	to remove menus (used for dynamic generated popup menus,
+	e.g. fliplists). GNOME_MENUS code won't build anymore, and will be
+	discarded soon.
+
+	* arch/unix/x11/gnome/uiarch.h: New prototype.
+	* arch/unix/x11/xaw/uiarch.h: ditto.
+	* arch/unix/x11/xaw/ui.c (ui_set_speedmenu): Added dummy for
+	`ui_set_speedmenu(). 
+
+	* arch/unix/x11/gnome/ui.c: 
+	(fliplist_popup_cb): update menu before popping up the flipmenus.
+	(speed_popup_cb): New Function.
+	(ui_set_speedmenu): New Function.
+	(ui_create_status_bar): Added speed popup menu to speedlabel.
+
+	* arch/unix/uicommands.c (ui_update_flip_menus): Removed HASH_MENU
+	code. Added menu item `Drive Settings' to popup menu.
+
+	* arch/unix/c64ui.c (c64_ui_init): Initialize speedmenu.
+	* arch/unix/c610ui.c (c610_ui_init): ditto.
+	* arch/unix/petui.c (pet_ui_init): ditto.
+	* arch/unix/c128ui.c (c128_ui_init): ditto.
+	* arch/unix/vic20ui.c (vic20_ui_init): ditto.
+
+2000-02-20  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* imagecontents.c 
+	(image_contents_to_string): Changed all literal strings to
+	uppercase in case we build for Gnome. Don't convert the strings to
+	petscii, since the Gnome port now support CBM fonts for image
+	preview.
+
+	* arch/unix/x11/gnome/uiarch.h 
+	(ui_unblock_shells): New prototype.
+	(ui_block_shells): ditto.
+
+	* arch/unix/x11/gnome/ui.c: 
+	Started CBM font handling.
+	(ui_init_finish): Check wether CBM font can be loaded, otherwhise
+	use a fixed font as a fallback.
+	(ui_fill_preview): In case we don't have a CBM font convert the
+	strings into ascii.
+	(ui_unblock_shells): Made function global (was static).
+	(ui_block_shells): ditto.
+	(build_show_text): Reworked to use scrolled window for textwidget.
+
+	* arch/unix/x11/gnome/about.c 
+	(ui_about): Reworked to be more GTK/Gnome sane.
+
 2000-02-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.31.

@@ -389,7 +389,7 @@ void reu_dma(int immed)
 
         reu[7] = len & 0xff;
         reu[8] = (len >> 8) & 0xff;
-/**/
+*/
     }
 
     reu[1] &= 0x7f;
