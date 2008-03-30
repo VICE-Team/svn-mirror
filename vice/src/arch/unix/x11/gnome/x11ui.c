@@ -407,6 +407,11 @@ int ui_init(int *argc, char **argv)
     return 0;
 }
 
+void ui_shutdown(void)
+{
+    ui_hotkey_shutdown();
+}
+
 typedef struct {
     char *name;
     GdkVisualType class;

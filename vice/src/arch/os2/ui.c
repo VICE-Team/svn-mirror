@@ -112,6 +112,11 @@ int ui_init(int *argc, char **argv)
     return 0;
 }
 
+void ui_shutdown(void)
+{
+
+}
+
 int ui_init_finish(void)
 {
     DATETIME DT = {0}; // Date and time information

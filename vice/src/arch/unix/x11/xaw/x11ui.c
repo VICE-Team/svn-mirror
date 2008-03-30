@@ -426,6 +426,11 @@ int ui_init(int *argc, char **argv)
     return 0;
 }
 
+void ui_shutdown(void)
+{
+    ui_hotkey_shutdown();
+}
+
 typedef struct {
     char *name;
     int class;
@@ -900,7 +905,7 @@ void ui_destroy_drive9_menu(void)
     }
 }
 
-void ui_set_drive8_menu (Widget w)
+void ui_set_drive8_menu(Widget w)
 {
     char *translation_table;
     char *name = XtName(w);

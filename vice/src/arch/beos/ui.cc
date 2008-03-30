@@ -735,6 +735,11 @@ int ui_init(int *argc, char **argv)
     return 0;
 }
 
+void ui_shutdown(void)
+{
+
+}
+
 /* Initialize the UI after setting all the resource values.  */
 int ui_init_finish(void)
 {
