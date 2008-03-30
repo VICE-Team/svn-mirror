@@ -252,6 +252,96 @@ int resources_register(const resource_t *r)
     return 0;
 }
 
+int resources_register_int(const resource_int_t *r)
+{
+    const resource_int_t *sp;
+    resource_ram_t *dp;
+
+    sp = r;
+    dp = resources + num_resources;
+    while (sp->name != NULL) {
+
+        unsigned int hashkey;
+
+        if (sp->value_ptr == NULL || sp->set_func == NULL) {
+            archdep_startup_log_error(
+                "Inconsistent resource declaration '%s'.\n", sp->name);
+            return -1;
+        }
+
+        if (num_allocated_resources <= num_resources) {
+            num_allocated_resources *= 2;
+            resources = lib_realloc(resources, num_allocated_resources
+                                    * sizeof(resource_ram_t));
+            dp = resources + num_resources;
+        }
+
+        dp->name = lib_stralloc(sp->name);
+        dp->type = RES_INTEGER;
+        dp->factory_value = (resource_value_t)(sp->factory_value);
+        dp->value_ptr = (void *)(sp->value_ptr);
+        dp->event_relevant = sp->event_relevant;
+        dp->event_strict_value = sp->event_strict_value;
+        dp->set_func = sp->set_func;
+        dp->param = sp->param;
+        dp->callback = NULL;
+
+        hashkey = resources_calc_hash_key(sp->name);
+        dp->hash_next = hashTable[hashkey];
+        hashTable[hashkey] = (dp - resources);
+
+        num_resources++, sp++, dp++;
+    }
+
+    return 0;
+}
+
+int resources_register_string(const resource_string_t *r)
+{
+    const resource_string_t *sp;
+    resource_ram_t *dp;
+
+    sp = r;
+    dp = resources + num_resources;
+    while (sp->name != NULL) {
+
+        unsigned int hashkey;
+
+        if (sp->factory_value == NULL
+            || sp->value_ptr == NULL || sp->set_func == NULL) {
+            archdep_startup_log_error(
+                "Inconsistent resource declaration '%s'.\n", sp->name);
+            return -1;
+        }
+
+        if (num_allocated_resources <= num_resources) {
+            num_allocated_resources *= 2;
+            resources = lib_realloc(resources, num_allocated_resources
+                                    * sizeof(resource_ram_t));
+            dp = resources + num_resources;
+        }
+
+        dp->name = lib_stralloc(sp->name);
+        dp->type = RES_STRING;
+        dp->factory_value = (resource_value_t)(sp->factory_value);
+        dp->value_ptr = (void *)(sp->value_ptr);
+        dp->event_relevant = sp->event_relevant;
+        dp->event_strict_value = sp->event_strict_value;
+        dp->set_func = sp->set_func;
+        dp->param = sp->param;
+        dp->callback = NULL;
+
+        hashkey = resources_calc_hash_key(sp->name);
+        dp->hash_next = hashTable[hashkey];
+        hashTable[hashkey] = (dp - resources);
+
+        num_resources++, sp++, dp++;
+    }
+
+    return 0;
+}
+
+
 static void resources_free(void)
 {
     unsigned int i;
