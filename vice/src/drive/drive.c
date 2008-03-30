@@ -164,6 +164,7 @@ static void drive_read_image_d64_d71(unsigned int dnr)
     /* Since the D64/D71 format does not provide the actual track sizes or
        speed zones, we set them to standard values.  */
     if ((drive[dnr].image->type == DISK_IMAGE_TYPE_D64
+	|| drive[dnr].image->type == DISK_IMAGE_TYPE_D67
         || drive[dnr].image->type == DISK_IMAGE_TYPE_X64)
         && (drive[dnr].type == DRIVE_TYPE_1541
         || drive[dnr].type == DRIVE_TYPE_1541II
@@ -245,6 +246,17 @@ static int setID(unsigned int dnr)
     }
 
     return rc;
+}
+
+void drive_set_disk_id_memory(unsigned int dnr, BYTE *id)
+{
+   if (dnr == 0) {
+       drive0_context.cpud.drive_ram[0x12] = id[0];
+       drive0_context.cpud.drive_ram[0x13] = id[1];
+   } else {
+       drive1_context.cpud.drive_ram[0x12] = id[0];
+       drive1_context.cpud.drive_ram[0x13] = id[1];
+   }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -970,8 +982,18 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
             && drive[dnr].type != DRIVE_TYPE_1571
             && drive[dnr].type != DRIVE_TYPE_2031
             && drive[dnr].type != DRIVE_TYPE_2040 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_3040 /* FIXME: only read compat */
+            && drive[dnr].type != DRIVE_TYPE_3040
             && drive[dnr].type != DRIVE_TYPE_4040)
+            return -1;
+        break;
+      case DISK_IMAGE_TYPE_D67:
+        if (drive[dnr].type != DRIVE_TYPE_1541 /* FIXME: only read compat */
+            && drive[dnr].type != DRIVE_TYPE_1541II /* FIXME: only read compat */
+            && drive[dnr].type != DRIVE_TYPE_1571 /* FIXME: only read compat */
+            && drive[dnr].type != DRIVE_TYPE_2031 /* FIXME: only read compat */
+            && drive[dnr].type != DRIVE_TYPE_2040
+            && drive[dnr].type != DRIVE_TYPE_3040 /* FIXME: only read compat */
+            && drive[dnr].type != DRIVE_TYPE_4040) /* FIXME: only read compat */
             return -1;
         break;
       case DISK_IMAGE_TYPE_D71:
@@ -1018,6 +1040,10 @@ int drive_attach_image(disk_image_t *image, unsigned int unit)
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
         log_message(drive_log, "Unit %d: D64 disk image attached: %s.",
+                    unit, image->name);
+        break;
+      case DISK_IMAGE_TYPE_D67:
+        log_message(drive_log, "Unit %d: D67 disk image attached: %s.",
                     unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D71:
@@ -1071,6 +1097,10 @@ int drive_detach_image(disk_image_t *image, unsigned int unit)
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
             log_message(drive_log, "Unit %d: D64 disk image detached: %s.",
+                        unit, image->name);
+            break;
+          case DISK_IMAGE_TYPE_D67:
+            log_message(drive_log, "Unit %d: D67 disk image detached: %s.",
                         unit, image->name);
             break;
           case DISK_IMAGE_TYPE_D71:

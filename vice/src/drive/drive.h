@@ -410,6 +410,7 @@ extern int drive_check_type(unsigned int drive_type, unsigned int dnr);
 extern int drive_num_leds(unsigned int dnr);
 
 extern void drive_setup_context(void);
+extern void drive_set_disk_id_memory(unsigned int dnr, BYTE *id);
 
 #endif
 
