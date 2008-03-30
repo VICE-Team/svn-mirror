@@ -247,30 +247,31 @@ void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
 {
     unsigned int num_cycles_left = 0, num_dma;
 
-#if 1
+/*
     {
         unsigned int i;
         log_debug("INTREQ %ld", (long)cpu_clk);
         for (i = 0; i < cs->num_dma_per_opcode; i++)
-            log_debug("%iCYLEFT %i", i, cs->num_cycles_left[i]);
+            log_debug("%iCYLEFT %i STCLK %i", i, cs->num_cycles_left[i],
+                      cs->dma_start_clk[i]);
     }
-#endif
+*/
 
     num_dma = cs->num_dma_per_opcode;
     while (num_dma != 0) {
         num_dma--;
         num_cycles_left = cs->num_cycles_left[num_dma];
-        if (cs->dma_start_clk[num_dma] <= cpu_clk)
+        if ((cs->dma_start_clk[num_dma] - 1) <= cpu_clk)
             break;
     }
 
-#if 1
-    log_debug("TAKENLEFT %i", num_cycles_left);
-#endif
+    /*log_debug("TAKENLEFT %i", num_cycles_left);*/
 
     *int_clk = cs->last_stolen_cycles_clk;
-    if (num_cycles_left >= INTERRUPT_DELAY)
+    if (num_cycles_left >= 1)
         *int_clk -= INTERRUPT_DELAY;
+
+    /*log_debug("INTCLK %i", *int_clk);*/
 }
 
 /* ------------------------------------------------------------------------- */
