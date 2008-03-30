@@ -41,7 +41,7 @@
 #endif
 
 #define NUM_OF_REU_SIZE 8
-static int ui_reu_size[]={
+static const int ui_reu_size[] = {
     128, 256, 512, 1024, 2048, 4096, 8192, 16384
 };
 
@@ -49,18 +49,19 @@ static int ui_reu_size[]={
 
 static void init_reu_dialog(HWND hwnd)
 {
-HWND    temp_hwnd;
-int     res_value;
-const char *reufile;
-int     res_value_loop;
-int     active_value;
+    HWND temp_hwnd;
+    int res_value;
+    const char *reufile;
+    int res_value_loop;
+    int active_value;
 
     resources_get_value("REU", (resource_value_t *)&res_value);
     CheckDlgButton(hwnd, IDC_REU_ENABLE, 
         res_value ? BST_CHECKED : BST_UNCHECKED);
     
     temp_hwnd=GetDlgItem(hwnd,IDC_REU_SIZE);
-    for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE; res_value_loop++) {
+    for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE;
+        res_value_loop++) {
         char st[10];
         itoa(ui_reu_size[res_value_loop],st,10);
         strcat(st, " kB");
@@ -68,7 +69,8 @@ int     active_value;
     }
     resources_get_value("REUsize", (resource_value_t *)&res_value);
     active_value = 0; /* default */
-    for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE; res_value_loop++) {
+    for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE;
+        res_value_loop++) {
         if (ui_reu_size[res_value_loop] == res_value)
             active_value = res_value_loop;
     }
@@ -80,71 +82,72 @@ int     active_value;
 
 
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                 LPARAM lparam)
 {
     int command;
     char s[MAX_PATH];
 
     switch (msg) {
-        case WM_COMMAND:
-            command=LOWORD(wparam);
-            switch (command) {
-                case IDC_REU_BROWSE:
-                    {
-                        char name[1024] = "";
-                        OPENFILENAME ofn;
+      case WM_COMMAND:
+        command=LOWORD(wparam);
+        switch (command) {
+          case IDC_REU_BROWSE:
+            {
+                char name[1024] = "";
+                OPENFILENAME ofn;
 
-                        memset(&ofn, 0, sizeof(ofn));
-                        ofn.lStructSize = sizeof(ofn);
-                        ofn.hwndOwner = hwnd;
-                        ofn.hInstance = winmain_instance;
-                        ofn.lpstrFilter = "All files (*.*)\0*.*\0";
-                        ofn.lpstrCustomFilter = NULL;
-                        ofn.nMaxCustFilter = 0;
-                        ofn.nFilterIndex = 1;
-                        ofn.lpstrFile = name;
-                        ofn.nMaxFile = sizeof(name);
-                        ofn.lpstrFileTitle = NULL;
-                        ofn.nMaxFileTitle = 0;
-                        ofn.lpstrInitialDir = NULL;
-                        ofn.lpstrTitle = "Select File for REU";
-                        ofn.Flags = (OFN_EXPLORER
-                            | OFN_HIDEREADONLY
-                            | OFN_NOTESTFILECREATE
-                            | OFN_FILEMUSTEXIST
-                            | OFN_SHAREAWARE
-                            | OFN_ENABLESIZING);
-                        ofn.nFileOffset = 0;
-                        ofn.nFileExtension = 0;
-                        ofn.lpstrDefExt = NULL;
+                memset(&ofn, 0, sizeof(ofn));
+                ofn.lStructSize = sizeof(ofn);
+                ofn.hwndOwner = hwnd;
+                ofn.hInstance = winmain_instance;
+                ofn.lpstrFilter = "All files (*.*)\0*.*\0";
+                ofn.lpstrCustomFilter = NULL;
+                ofn.nMaxCustFilter = 0;
+                ofn.nFilterIndex = 1;
+                ofn.lpstrFile = name;
+                ofn.nMaxFile = sizeof(name);
+                ofn.lpstrFileTitle = NULL;
+                ofn.nMaxFileTitle = 0;
+                ofn.lpstrInitialDir = NULL;
+                ofn.lpstrTitle = "Select File for REU";
+                ofn.Flags = (OFN_EXPLORER
+                    | OFN_HIDEREADONLY
+                    | OFN_NOTESTFILECREATE
+                    | OFN_FILEMUSTEXIST
+                    | OFN_SHAREAWARE
+                    | OFN_ENABLESIZING);
+                ofn.nFileOffset = 0;
+                ofn.nFileExtension = 0;
+                ofn.lpstrDefExt = NULL;
 
-                        if (GetSaveFileName(&ofn))
-                            SetDlgItemText(hwnd, IDC_REU_FILE, name);
-                    }
-                    break;
+                if (GetSaveFileName(&ofn))
+                    SetDlgItemText(hwnd, IDC_REU_FILE, name);
+                }
+                break;
 
-                case IDOK:
-                    resources_set_value("REU", (resource_value_t)
-                        (IsDlgButtonChecked
-                            (hwnd,IDC_REU_ENABLE)==BST_CHECKED ?
-                            1 : 0 ));
-                    resources_set_value("REUsize",(resource_value_t)
-                        ui_reu_size[SendMessage(GetDlgItem(
-                            hwnd,IDC_REU_SIZE),CB_GETCURSEL,0,0)]);
-                    
-                    GetDlgItemText(hwnd, IDC_REU_FILE, s, MAX_PATH);
-                    resources_set_value("REUfilename",(resource_value_t) s);
-                case IDCANCEL:
-                    EndDialog(hwnd,0);
-                    return TRUE;
-            }
-            return FALSE;
-        case WM_CLOSE:
+          case IDOK:
+            resources_set_value("REU", (resource_value_t)
+                (IsDlgButtonChecked
+                (hwnd, IDC_REU_ENABLE) == BST_CHECKED ?
+                1 : 0 ));
+            resources_set_value("REUsize",(resource_value_t)
+                ui_reu_size[SendMessage(GetDlgItem(
+                hwnd, IDC_REU_SIZE), CB_GETCURSEL, 0, 0)]);
+                  
+            GetDlgItemText(hwnd, IDC_REU_FILE, s, MAX_PATH);
+            resources_set_value("REUfilename", (resource_value_t)s);
+          case IDCANCEL:
             EndDialog(hwnd,0);
             return TRUE;
-        case WM_INITDIALOG:
-            init_reu_dialog(hwnd);
-            return TRUE;
+        }
+        return FALSE;
+      case WM_CLOSE:
+        EndDialog(hwnd,0);
+        return TRUE;
+      case WM_INITDIALOG:
+        init_reu_dialog(hwnd);
+        return TRUE;
     }
     return FALSE;
 }
@@ -152,6 +155,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
 
 void ui_reu_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance,(LPCTSTR)IDD_REU_SETTINGS_DIALOG,hwnd,dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)IDD_REU_SETTINGS_DIALOG, hwnd,
+              dialog_proc);
 }
 
