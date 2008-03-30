@@ -1,3 +1,34 @@
+1999-01-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.2
+
+	* findpath.c (findpath): Commented out "path detection fix".
+
+	* c64/c64mem.c: Removed 2nd #include <stdio.h>.
+	(mem_romset_loader): Install ROM traps after loading new kernal.
+
+1999-01-14  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* arch/unix/xaw/ui.c (set_fullscreen):
+	Forbid videomode-switching in fullscreen. Restore
+	the pre-fullscreen videomode.
+
+	* arch/unix/xaw/ui.c: Replaced all `printf' with
+	`log_error' or `log_message'
+
+	* arch/unix/xaw/c64ui.c: Added `RomSets'-menu.
+	
+	* c64/c64mem.c. c64/c64mem.h (mem_get_romsets,
+	mem_get_numromsets, mem_load_romset_file,
+	mem_load_romset, me_romset_loader):
+ 	New function for selectable `RomSets'.
+
+	* drive/drive.c, drive/drive.h (reload_rom_1541): 
+	New function for selectable `RomSets'.
+	
+	* findpath.c (findpath): Fixed error in relative/absolute
+	path detection.	
+
 1999-01-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.1
@@ -10,7 +41,7 @@
 	* via1drive0.c, via1drive1.c, via2drive0.c, via2drive1.c: Removed
 	automatic built source.  Move code from `via*.def' files here and
 	changed to use functions instead of macros.
-
+	
 1999-01-13  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
 
 	* arch/unix/xaw/c610ui.c, arch/unix/xaw/petui.c,
