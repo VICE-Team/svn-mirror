@@ -167,7 +167,7 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, unsigned int length)
         {
             BYTE *slot;
             char *realname = name;
-            int reallength = 0, filetype = 0, readmode = 0;
+            unsigned int reallength = 0, filetype = 0, readmode = 0;
 
             /* XXX
              * Wrong name parser - s0:file1,file2 means scratch
@@ -530,8 +530,10 @@ static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
 {
     char *src;
     char dest_name[256], src_name[256];
-    int dest_reallength, dest_readmode = FAM_READ, dest_filetype, dest_rl;
-    int	src_reallength, src_readmode = FAM_READ, src_filetype, src_rl;
+    unsigned int dest_reallength, dest_readmode = FAM_READ;
+    unsigned int dest_filetype, dest_rl;
+    unsigned int src_reallength, src_readmode = FAM_READ;
+    unsigned int src_filetype, src_rl;
     BYTE *slot;
 
     if (!dest || !(src = (char*)memchr(dest, '=', length)) )

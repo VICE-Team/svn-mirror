@@ -118,9 +118,9 @@ int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit)
  * be checked elsewhere
  */
 
-int vdrive_parse_name(const char *name, int length, char *ptr,
-                      int *reallength, int *readmode, int *filetype,
-                      int *rl)
+int vdrive_parse_name(const char *name, unsigned int length, char *ptr,
+                      unsigned int *reallength, unsigned int *readmode,
+                      unsigned int *filetype, unsigned int *rl)
 {
     const char *p;
     char *c;
@@ -235,7 +235,7 @@ int vdrive_parse_name(const char *name, int length, char *ptr,
 
 void vdrive_close_all_channels(vdrive_t *vdrive)
 {
-    int i;
+    unsigned int i;
     bufferinfo_t *p;
 
     for (i = 0; i <= 15; i++) {
@@ -511,8 +511,7 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive)
 static int compare_filename (char *name, char *pattern)
 {
     char *p, *q;
-    int   literal = 0;
-
+    int literal = 0;
 
     p = pattern;
     q = name;

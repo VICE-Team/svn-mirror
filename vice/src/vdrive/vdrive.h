@@ -247,9 +247,10 @@ extern int vdrive_attach_image(disk_image_t *image, unsigned int unit,
 extern void vdrive_detach_image(disk_image_t *image, unsigned int unit,
                                 vdrive_t *vdrive);
 extern int vdrive_calc_num_blocks(int format, int tracks);
-extern int vdrive_parse_name(const char *name, int length, char *realname,
-                             int *reallength, int *readmode,
-                             int *filetype, int *rl);
+extern int vdrive_parse_name(const char *name, unsigned int length,
+                             char *realname, unsigned int *reallength,
+                             unsigned int *readmode, unsigned int *filetype,
+                             unsigned int *rl);
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
 extern int vdrive_calculate_disk_half(unsigned int type);
 extern int vdrive_get_max_sectors(unsigned int type, unsigned int track);

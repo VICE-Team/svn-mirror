@@ -153,12 +153,12 @@ static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
  * directory slot.
  */
 
-int vdrive_open(void *flp, const char *name, int length, int secondary)
+int vdrive_open(void *flp, const char *name, int length, unsigned int secondary)
 {
     vdrive_t *vdrive = (vdrive_t *)flp;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     char realname[256];
-    int reallength, readmode, filetype, rl;
+    unsigned int reallength, readmode, filetype, rl;
     int track, sector;
     BYTE *slot; /* Current directory entry */
 
@@ -405,7 +405,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 }
 
 
-int vdrive_close(void *flp, int secondary)
+int vdrive_close(void *flp, unsigned int secondary)
 {
     vdrive_t *vdrive = (vdrive_t *)flp;
     BYTE *e;
@@ -489,7 +489,7 @@ int vdrive_close(void *flp, int secondary)
 }
 
 
-int vdrive_read(void *flp, BYTE *data, int secondary)
+int vdrive_read(void *flp, BYTE *data, unsigned int secondary)
 {
     vdrive_t *vdrive = (vdrive_t *)flp;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
@@ -531,8 +531,8 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 	 */
 	if (p->buffer[0]) {
 	    if (p->bufptr >= 256) {
-		disk_image_read_sector(vdrive->image, p->buffer, (int) p->buffer[0],
-				  (int) p->buffer[1]);
+		disk_image_read_sector(vdrive->image, p->buffer,
+                (int)p->buffer[0], (int)p->buffer[1]);
 		p->bufptr = 2;
 	    }
 	} else {
@@ -568,7 +568,7 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 }
 
 
-int vdrive_write(void *flp, BYTE data, int secondary)
+int vdrive_write(void *flp, BYTE data, unsigned int secondary)
 {
     vdrive_t *vdrive = (vdrive_t *)flp;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
@@ -626,7 +626,7 @@ int vdrive_write(void *flp, BYTE data, int secondary)
     return SERIAL_OK;
 }
 
-void vdrive_flush(void *flp, int secondary)
+void vdrive_flush(void *flp, unsigned int secondary)
 {
     vdrive_t *vdrive = (vdrive_t *)flp;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
@@ -659,7 +659,7 @@ void vdrive_flush(void *flp, int secondary)
     }
 }
 
-int vdrive_iec_attach(int unit, const char *name)
+int vdrive_iec_attach(unsigned int unit, const char *name)
 {
     return serial_attach_device(unit, "1541 Disk Drive",
                                 vdrive_read, vdrive_write,
