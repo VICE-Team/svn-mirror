@@ -52,6 +52,8 @@
 #include "vsync.h"
 #include "vsidui.h"
 #include "vsiduiunix.h"
+#include "x11/x11ui.h"
+
 
 static log_t vsid_log = LOG_ERR;
 static void vsid_create_menus(void);
@@ -223,10 +225,10 @@ static void vsid_create_menus(void)
     num_checkmark_menu_items = 0;
 
     if (wl) {
-        ui_destroy_widget(wl);
+        x11ui_destroy_widget(wl);
     }
     if (wr) {
-        ui_destroy_widget(wr);
+        x11ui_destroy_widget(wr);
     }
 
     ui_set_left_menu(wl = ui_menu_create("LeftMenu",
@@ -277,12 +279,16 @@ static void vsid_create_menus(void)
 
 int vsid_ui_init(void)
 {
-    ui_window_t w;
+    int res;
+    video_canvas_t canvas;
+
+    res = x11ui_open_canvas_window(&canvas, _("VSID: The SID Emulator"), 300, 
+                                   100, 0, NULL, NULL, 0);
+    if (res < 0)
+        return -1;
     
-    w = ui_open_canvas_window(NULL, _("VSID: The SID Emulator"), 300, 
-			      100, 0, NULL, NULL, 0);
-    video_add_handlers(w);
-    
+    video_add_handlers(&canvas);
+
     /* FIXME: There might be a separte vsid icon.  */
     ui_set_application_icon(c64_icon_data);
 
